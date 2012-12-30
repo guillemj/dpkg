@@ -27,8 +27,8 @@ $#ARGV == 1 || die ("usage: mkcurkeys.pl <filename> <curses.h>");
 
 my (%over, %base, %name);
 
-open(OV, '<', $ARGV[0]) || die $!;
-while (<OV>) {
+open(my $override_fh, '<', $ARGV[0]) || die $!;
+while (<$override_fh>) {
     chomp;
     /^#/ && next;		# skip comments
     /\S/ || next;		# ignore blank lines
@@ -36,7 +36,7 @@ while (<OV>) {
     $over{$1}= $2;
     $base{$1}= '';
 }
-close(OV);
+close($override_fh);
 
 for (my $i = 1, my $let = 'A'; $i <= 26; $i++, $let++) {
     $name{$i}= "^$let";
@@ -45,8 +45,8 @@ for (my $i = 1, my $let = 'A'; $i <= 26; $i++, $let++) {
 
 our ($k, $v);
 
-open(NCH, '<', $ARGV[1]) || die $!;
-while (<NCH>) {
+open(my $header_fh, '<', $ARGV[1]) || die $!;
+while (<$header_fh>) {
     s/\s+$//;
     m/#define KEY_(\w+)\s+\d+\s+/ || next;
     my $rhs = $';
@@ -64,7 +64,7 @@ while (<NCH>) {
     capit();
     $name{$k}= $_;
 }
-close(NCH);
+close($header_fh);
 
 printf(<<'END') || die $!;
 /*

@@ -48,21 +48,21 @@ sub cleanup {
 
 sub install_diversions {
     my ($txt) = @_;
-    open(O, '>', "$admindir/diversions");
-    print O $txt;
-    close(O);
+    open(my $db_fh, '>', "$admindir/diversions");
+    print $db_fh $txt;
+    close($db_fh);
 }
 
 sub install_filelist {
     my ($pkg, $arch, @files) = @_;
-    open(L, '>', "$admindir/info/$pkg.list");
+    open(my $fileslist_fh, '>', "$admindir/info/$pkg.list");
     for my $file (@files) {
-        print L "$file\n";
+        print $fileslist_fh "$file\n";
     }
-    close(L);
+    close($fileslist_fh);
     # Only installed packages have their files list considered.
-    open(S, '>>', "$admindir/status");
-    print S <<"EOF";
+    open(my $status_fh, '>>', "$admindir/status");
+    print $status_fh <<"EOF";
 Package: $pkg
 Status: install ok installed
 Version: 0
@@ -71,7 +71,7 @@ Maintainer: dummy
 Description: dummy
 
 EOF
-    close(S);
+    close($status_fh);
 }
 
 sub call {
@@ -134,9 +134,9 @@ sub diversions_pack {
 
 sub diversions_eq {
     my (@expected) = split /^/, shift;
-    open(O, '<', "$admindir/diversions");
-    my (@contents) = <O>;
-    close(O);
+    open(my $db_fh, '<', "$admindir/diversions");
+    my (@contents) = <$db_fh>;
+    close($db_fh);
 
     my (@expected_pack) = diversions_pack(@expected);
     my (@contents_pack) = diversions_pack(@contents);

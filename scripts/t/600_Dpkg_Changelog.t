@@ -50,9 +50,9 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
     my $changes = Dpkg::Changelog::Debian->new(verbose => 0);
     $changes->load($file);
 
-    open(CLOG, "<", "$file") || die "Can't open $file\n";
-    my $content = join("", <CLOG>);
-    close(CLOG);
+    open(my $clog_fh, "<", "$file") || die "Can't open $file\n";
+    my $content = join("", <$clog_fh>);
+    close($clog_fh);
     cmp_ok($content, 'eq', "$changes", "string output of Dpkg::Changelog on $file");
 
     my $errors = $changes->get_parse_errors();

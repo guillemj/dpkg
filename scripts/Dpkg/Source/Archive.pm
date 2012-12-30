@@ -141,9 +141,9 @@ sub extract {
     return if $opts{"in_place"};
 
     # Rename extracted directory
-    opendir(D, $tmp) || syserr(_g("cannot opendir %s"), $tmp);
-    my @entries = grep { $_ ne "." && $_ ne ".." } readdir(D);
-    closedir(D);
+    opendir(my $dir_dh, $tmp) || syserr(_g("cannot opendir %s"), $tmp);
+    my @entries = grep { $_ ne "." && $_ ne ".." } readdir($dir_dh);
+    closedir($dir_dh);
     my $done = 0;
     erasedir($dest);
     if (scalar(@entries) == 1 && ! -l "$tmp/$entries[0]" && -d _) {

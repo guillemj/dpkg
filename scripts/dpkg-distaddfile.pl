@@ -83,19 +83,21 @@ sysopen($lockfh, "debian/control", O_WRONLY) ||
 file_lock($lockfh, "debian/control");
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
-open(Y, '>', "$fileslistfile.new") || syserr(_g("open new files list file"));
-if (open(X, '<', $fileslistfile)) {
-    while (<X>) {
+open(my $fileslistnew_fh, '>', "$fileslistfile.new") ||
+    syserr(_g("open new files list file"));
+if (open(my $fileslist_fh, '<', $fileslistfile)) {
+    while (<$fileslist_fh>) {
         s/\n$//;
         next if m/^(\S+) / && $1 eq $file;
-        print(Y "$_\n") || syserr(_g("copy old entry to new files list file"));
+        print($fileslistnew_fh "$_\n") ||
+            syserr(_g("copy old entry to new files list file"));
     }
 } elsif ($! != ENOENT) {
     syserr(_g("read old files list file"));
 }
-print(Y "$file $section $priority\n")
+print($fileslistnew_fh "$file $section $priority\n")
     || syserr(_g("write new entry to new files list file"));
-close(Y) || syserr(_g("close new files list file"));
+close($fileslistnew_fh) || syserr(_g("close new files list file"));
 rename("$fileslistfile.new", $fileslistfile) ||
     syserr(_g("install new files list file"));
 

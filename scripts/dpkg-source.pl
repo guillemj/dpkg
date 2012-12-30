@@ -351,13 +351,13 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
     # Select the format to use
     if (not defined $build_format) {
 	if (-e "$dir/debian/source/format") {
-	    open(FORMAT, "<", "$dir/debian/source/format") ||
+	    open(my $format_fh, "<", "$dir/debian/source/format") ||
 		syserr(_g("cannot read %s"), "$dir/debian/source/format");
-	    $build_format = <FORMAT>;
+	    $build_format = <$format_fh>;
 	    chomp($build_format) if defined $build_format;
 	    error(_g("%s is empty"), "$dir/debian/source/format")
 		unless defined $build_format and length $build_format;
-	    close(FORMAT);
+	    close($format_fh);
 	} else {
 	    warning(_g("no source format specified in %s, " .
 	               "see dpkg-source(1)"), "debian/source/format")

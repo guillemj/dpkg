@@ -116,11 +116,11 @@ sub do_build {
     if (-e ".git/info/exclude") {
         push @ignores, "--exclude-from=.git/info/exclude";
     }
-    open(GIT_LS_FILES, '-|', "git", "ls-files", "--modified", "--deleted",
+    open(my $git_ls_files_fh, '-|', "git", "ls-files", "--modified", "--deleted",
          "-z", "--others", @ignores) || subprocerr("git ls-files");
     my @files;
     { local $/ = "\0";
-      while (<GIT_LS_FILES>) {
+      while (<$git_ls_files_fh>) {
           chomp;
           if (! length $diff_ignore_regexp ||
               ! m/$diff_ignore_regexp/o) {
@@ -128,7 +128,7 @@ sub do_build {
           }
       }
     }
-    close(GIT_LS_FILES) || syserr(_g("git ls-files exited nonzero"));
+    close($git_ls_files_fh) || syserr(_g("git ls-files exited nonzero"));
     if (@files) {
         error(_g("uncommitted, not-ignored changes in working directory: %s"),
               join(" ", @files));

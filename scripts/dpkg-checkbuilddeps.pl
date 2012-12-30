@@ -123,8 +123,9 @@ sub parse_status {
 	
 	my $facts = Dpkg::Deps::KnownFacts->new();
 	local $/ = '';
-	open(STATUS, '<', $status) || syserr(_g("cannot open %s"), $status);
-	while (<STATUS>) {
+	open(my $status_fh, '<', $status) ||
+		syserr(_g("cannot open %s"), $status);
+	while (<$status_fh>) {
 		next unless /^Status: .*ok installed$/m;
 	
 		my ($package) = /^Package: (.*)$/m;
@@ -146,7 +147,7 @@ sub parse_status {
 			}
 		}
 	}
-	close STATUS;
+	close $status_fh;
 
 	return $facts;
 }

@@ -200,14 +200,14 @@ sub get_patches {
     my $pd = "$dir/debian/patches";
     my $auto_patch = $self->get_autopatch_name();
     if (-d $pd) {
-        opendir(DIR, $pd) || syserr(_g("cannot opendir %s"), $pd);
-        foreach my $patch (sort readdir(DIR)) {
+        opendir(my $dir_dh, $pd) || syserr(_g("cannot opendir %s"), $pd);
+        foreach my $patch (sort readdir($dir_dh)) {
             # patches match same rules as run-parts
             next unless $patch =~ /^[\w-]+$/ and -f "$pd/$patch";
             next if $opts{"skip_auto"} and $patch eq $auto_patch;
             push @patches, $patch;
         }
-        closedir(DIR);
+        closedir($dir_dh);
     }
     return @patches;
 }
@@ -218,8 +218,9 @@ sub apply_patches {
     my @patches = $self->get_patches($dir, %opts);
     return unless scalar(@patches);
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
-    open(APPLIED, '>', $applied) || syserr(_g("cannot write %s"), $applied);
-    print APPLIED "# During $opts{'usage'}\n";
+    open(my $applied_fh, '>', $applied) ||
+        syserr(_g("cannot write %s"), $applied);
+    print $applied_fh "# During $opts{'usage'}\n";
     my $timestamp = fs_time($applied);
     foreach my $patch ($self->get_patches($dir, %opts)) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
@@ -228,9 +229,9 @@ sub apply_patches {
         $patch_obj->apply($dir, force_timestamp => 1,
                           timestamp => $timestamp,
                           add_options => [ '-E' ]);
-        print APPLIED "$patch\n";
+        print $applied_fh "$patch\n";
     }
-    close(APPLIED);
+    close($applied_fh);
 }
 
 sub unapply_patches {
@@ -278,9 +279,10 @@ sub after_build {
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
     my $reason = "";
     if (-e $applied) {
-        open(APPLIED, "<", $applied) || syserr(_g("cannot read %s"), $applied);
-        $reason = <APPLIED>;
-        close(APPLIED);
+        open(my $applied_fh, "<", $applied) ||
+            syserr(_g("cannot read %s"), $applied);
+        $reason = <$applied_fh>;
+        close($applied_fh);
     }
     my $opt_unapply = $self->{'options'}{'unapply_patches'};
     if (($opt_unapply eq "auto" and $reason =~ /^# During preparation/) or
@@ -546,9 +548,9 @@ sub get_patch_header {
     }
     my $text;
     if (-f $ph) {
-        open(PH, "<", $ph) || syserr(_g("cannot read %s"), $ph);
-        $text = join("", <PH>);
-        close(PH);
+        open(my $ph_fh, "<", $ph) || syserr(_g("cannot read %s"), $ph);
+        $text = join("", <$ph_fh>);
+        close($ph_fh);
         return $text;
     }
     my $ch_info = changelog_parse(offset => 0, count => 1,
@@ -590,9 +592,10 @@ sub register_patch {
         chmod(0666 & ~ umask(), $patch) ||
                 syserr(_g("unable to change permission of `%s'"), $patch);
         my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
-        open(APPLIED, '>>', $applied) || syserr(_g("cannot write %s"), $applied);
-        print APPLIED "$patch\n";
-        close(APPLIED) || syserr(_g("cannot close %s"), $applied);
+        open(my $applied_fh, '>>', $applied) ||
+            syserr(_g("cannot write %s"), $applied);
+        print $applied_fh "$patch\n";
+        close($applied_fh) || syserr(_g("cannot close %s"), $applied);
     } elsif (-e $patch) {
         unlink($patch) || syserr(_g("cannot remove %s"), $patch);
     }
@@ -690,13 +693,14 @@ sub load_allowed_binaries {
     my ($self) = @_;
     my $incbin_file = $self->{'include_binaries_path'};
     if (-f $incbin_file) {
-        open(INC, "<", $incbin_file) || syserr(_g("cannot read %s"), $incbin_file);
-        while(defined($_ = <INC>)) {
+        open(my $incbin_fh, "<", $incbin_file) ||
+            syserr(_g("cannot read %s"), $incbin_file);
+        while (defined($_ = <$incbin_fh>)) {
             chomp; s/^\s*//; s/\s*$//;
             next if /^#/ or /^$/;
             $self->{'allowed_binaries'}{$_} = 1;
         }
-        close(INC);
+        close($incbin_fh);
     }
 }
 
@@ -714,13 +718,14 @@ sub update_debian_source_include_binaries {
 
     my $incbin_file = $self->{'include_binaries_path'};
     mkpath(File::Spec->catdir($self->{'dir'}, "debian", "source"));
-    open(INC, ">>", $incbin_file) || syserr(_g("cannot write %s"), $incbin_file);
+    open(my $incbin_fh, ">>", $incbin_file) ||
+        syserr(_g("cannot write %s"), $incbin_file);
     foreach my $binary (@unknown_binaries) {
-        print INC "$binary\n";
+        print $incbin_fh "$binary\n";
         info(_g("adding %s to %s"), $binary, "debian/source/include-binaries");
         $self->{'allowed_binaries'}{$binary} = 1;
     }
-    close(INC);
+    close($incbin_fh);
 }
 
 sub get_unknown_binaries {

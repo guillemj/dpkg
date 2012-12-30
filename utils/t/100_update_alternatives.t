@@ -257,9 +257,9 @@ check_choice(0, "auto", "initial install 3");
 # verify that the administrative file is sorted properly
 {
     local $/ = undef;
-    open(FILE, "<", "$admindir/generic-test") or die $!;
-    my $content = <FILE>;
-    close(FILE);
+    open(my $db_fh, "<", "$admindir/generic-test") or die $!;
+    my $content = <$db_fh>;
+    close($db_fh);
 
     my $expected =
 "auto

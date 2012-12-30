@@ -99,11 +99,11 @@ sub changelog_parse {
 
     # Extract the format from the changelog file if possible
     unless($force or ($changelogfile eq "-")) {
-	open(P, "-|", "tail", "-n", "40", $changelogfile);
-	while(<P>) {
+	open(my $format_fh, "-|", "tail", "-n", "40", $changelogfile);
+	while (<$format_fh>) {
 	    $format = $1 if m/\schangelog-format:\s+([0-9a-z]+)\W/;
 	}
-	close(P) or subprocerr(_g("tail of %s"), $changelogfile);
+	close($format_fh) or subprocerr(_g("tail of %s"), $changelogfile);
     }
 
     # Find the right changelog parser
@@ -134,7 +134,7 @@ sub changelog_parse {
     }
 
     # Fork and call the parser
-    my $pid = open(P, "-|");
+    my $pid = open(my $parser_fh, "-|");
     syserr(_g("cannot fork for %s"), $parser) unless defined $pid;
     if (not $pid) {
 	if ($changelogfile ne "-") {
@@ -148,10 +148,10 @@ sub changelog_parse {
     my (@res, $fields);
     while (1) {
         $fields = Dpkg::Control::Changelog->new();
-        last unless $fields->parse(\*P, _g("output of changelog parser"));
+        last unless $fields->parse($parser_fh, _g("output of changelog parser"));
 	push @res, $fields;
     }
-    close(P) or subprocerr(_g("changelog parser %s"), $parser);
+    close($parser_fh) or subprocerr(_g("changelog parser %s"), $parser);
     if (wantarray) {
 	return @res;
     } else {

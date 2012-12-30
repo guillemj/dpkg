@@ -309,9 +309,9 @@ sub main {
     load_src_override $Src_override, $override;
     load_override_extra $Extra_override_file if defined $Extra_override_file;
 
-    open FIND, '-|', "find -L \Q$dir\E -name '*.dsc' -print"
+    open my $find_fh, '-|', "find -L \Q$dir\E -name '*.dsc' -print"
         or syserr(_g("cannot fork for %s"), "find");
-    while (<FIND>) {
+    while (<$find_fh>) {
     	chomp;
 	s-^\./+--;
 
@@ -334,7 +334,7 @@ sub main {
             push @out, $fields;
 	}
     }
-    close FIND or error(close_msg, 'find');
+    close $find_fh or error(close_msg, 'find');
 
     if (@out) {
         map {

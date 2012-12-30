@@ -41,11 +41,11 @@ sub read_config {
   my ($code, $conf);
 
   local($/);
-  open(VARS, '<', $vars) ||
+  open(my $vars_fh, '<', $vars) ||
     die "Couldn't open $vars : $!\n" .
         "Try to relaunch the 'Access' step in dselect, thanks.\n";
-  $code = <VARS>;
-  close VARS;
+  $code = <$vars_fh>;
+  close $vars_fh;
 
   my $VAR1;
   $conf = eval $code;
@@ -68,9 +68,10 @@ sub store_config {
   # Check that config is completed
   return if not $config{'done'};
 
-  open(VARS, '>', $vars) || die "Couldn't open $vars in write mode : $!\n";
-  print VARS Dumper(\%config);
-  close VARS;
+  open(my $vars_fh, '>', $vars) ||
+    die "Couldn't open $vars in write mode : $!\n";
+  print $vars_fh Dumper(\%config);
+  close $vars_fh;
 }
 
 sub view_mirrors {

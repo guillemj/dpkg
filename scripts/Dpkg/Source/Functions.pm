@@ -75,8 +75,8 @@ sub fs_time($) {
     my ($file) = @_;
     my $is_temp = 0;
     if (not -e $file) {
-	open(TEMP, ">", $file) or syserr(_g("cannot write %s"));
-	close(TEMP);
+	open(my $temp_fh, ">", $file) or syserr(_g("cannot write %s"));
+	close($temp_fh);
 	$is_temp = 1;
     } else {
 	utime(undef, undef, $file) or

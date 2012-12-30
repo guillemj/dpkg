@@ -25,13 +25,14 @@ $/ = undef;
 
 my ($tmp1_fh, $tmp1_name) = tempfile;
 my ($tmp2_fh, $tmp2_name) = tempfile;
+my $tmp_fh;
 
 my $string1 = "foo\nbar\n";
 my $string2;
 
-open TMP, '>', $tmp1_name;
-print TMP $string1;
-close TMP;
+open $tmp_fh, '>', $tmp1_name;
+print $tmp_fh $string1;
+close $tmp_fh;
 
 my $pid = spawn(exec => "cat",
 		from_string => \$string1,
@@ -49,9 +50,9 @@ ok($pid);
 
 wait_child($pid);
 
-open TMP, '<', $tmp2_name;
-$string2 = <TMP>;
-close TMP;
+open $tmp_fh, '<', $tmp2_name;
+$string2 = <$tmp_fh>;
+close $tmp_fh;
 
 is($string2, $string1, "{from,to}_handle");
 
@@ -63,9 +64,9 @@ $pid = spawn(exec => "cat",
 
 ok($pid);
 
-open TMP, '<', $tmp2_name;
-$string2 = <TMP>;
-close TMP;
+open $tmp_fh, '<', $tmp2_name;
+$string2 = <$tmp_fh>;
+close $tmp_fh;
 
 is($string2, $string1, "{from,to}_file");
 

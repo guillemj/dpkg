@@ -119,12 +119,12 @@ sub has_object {
 
 sub is_elf {
     my ($file) = @_;
-    open(FILE, "<", $file) || syserr(_g("cannot read %s"), $file);
+    open(my $file_fh, "<", $file) || syserr(_g("cannot read %s"), $file);
     my ($header, $result) = ("", 0);
-    if (read(FILE, $header, 4) == 4) {
+    if (read($file_fh, $header, 4) == 4) {
 	$result = 1 if ($header =~ /^\177ELF$/);
     }
-    close(FILE);
+    close($file_fh);
     return $result;
 }
 

@@ -190,14 +190,14 @@ sub initialize {
     $self->{'filename'} = $fn;
 
     # Check if it contains a signature
-    open(DSC, "<", $filename) || syserr(_g("cannot open %s"), $filename);
+    open(my $dsc_fh, "<", $filename) || syserr(_g("cannot open %s"), $filename);
     $self->{'is_signed'} = 0;
-    while (<DSC>) {
+    while (<$dsc_fh>) {
         next if /^\s*$/o;
         $self->{'is_signed'} = 1 if /^-----BEGIN PGP SIGNED MESSAGE-----\s*$/o;
         last;
     }
-    close(DSC);
+    close($dsc_fh);
     # Read the fields
     my $fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
     $fields->load($filename);
@@ -305,14 +305,14 @@ sub find_original_tarballs {
     my @tar;
     foreach my $dir (".", $self->{'basedir'}, $self->{'options'}{'origtardir'}) {
         next unless defined($dir) and -d $dir;
-        opendir(DIR, $dir) || syserr(_g("cannot opendir %s"), $dir);
+        opendir(my $dir_dh, $dir) || syserr(_g("cannot opendir %s"), $dir);
         push @tar, map { "$dir/$_" } grep {
 		($opts{include_main} and
 		 /^\Q$basename\E\.orig\.tar\.$opts{extension}$/) or
 		($opts{include_supplementary} and
 		 /^\Q$basename\E\.orig-[[:alnum:]-]+\.tar\.$opts{extension}$/)
-	    } readdir(DIR);
-        closedir(DIR);
+	    } readdir($dir_dh);
+        closedir($dir_dh);
     }
     return @tar;
 }
@@ -445,9 +445,10 @@ sub extract {
         my $format_file = File::Spec->catfile($srcdir, "format");
 	unless (-e $format_file) {
 	    mkdir($srcdir) unless -e $srcdir;
-	    open(FORMAT, ">", $format_file) || syserr(_g("cannot write %s"), $format_file);
-	    print FORMAT $self->{'fields'}{'Format'} . "\n";
-	    close(FORMAT);
+	    open(my $format_fh, ">", $format_file) ||
+	        syserr(_g("cannot write %s"), $format_file);
+	    print $format_fh $self->{'fields'}{'Format'} . "\n";
+	    close($format_fh);
 	}
     }
 
@@ -557,10 +558,10 @@ sub write_dsc {
     unless (defined $filename) {
         $filename = $self->get_basename(1) . ".dsc";
     }
-    open(DSC, ">", $filename) || syserr(_g("cannot write %s"), $filename);
+    open(my $dsc_fh, ">", $filename) || syserr(_g("cannot write %s"), $filename);
     $fields->apply_substvars($opts{'substvars'});
-    $fields->output(\*DSC);
-    close(DSC);
+    $fields->output($dsc_fh);
+    close($dsc_fh);
 }
 
 =back

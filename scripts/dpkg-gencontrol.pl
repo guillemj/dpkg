@@ -318,7 +318,8 @@ if ($oppackage ne $sourcepackage || $verdiff) {
 }
 
 if (!defined($substvars->get('Installed-Size'))) {
-    defined(my $c = open(DU, "-|")) || syserr(_g("cannot fork for %s"), "du");
+    my $du_fh;
+    defined(my $c = open($du_fh, "-|")) || syserr(_g("cannot fork for %s"), "du");
     if (!$c) {
         chdir("$packagebuilddir") ||
             syserr(_g("chdir for du to \`%s'"), $packagebuilddir);
@@ -326,10 +327,10 @@ if (!defined($substvars->get('Installed-Size'))) {
             syserr(_g("unable to execute %s"), "du");
     }
     my $duo = '';
-    while (<DU>) {
+    while (<$du_fh>) {
 	$duo .= $_;
     }
-    close(DU);
+    close($du_fh);
     $? && subprocerr(_g("du in \`%s'"), $packagebuilddir);
     $duo =~ m/^(\d+)\s+\.$/ ||
         error(_g("du gave unexpected output \`%s'"), $duo);
@@ -358,20 +359,22 @@ sysopen($lockfh, "debian/control", O_WRONLY) ||
 file_lock($lockfh, "debian/control");
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
-open(Y, ">", "$fileslistfile.new") || syserr(_g("open new files list file"));
-binmode(Y);
-if (open(X, "<", $fileslistfile)) {
-    binmode(X);
-    while (<X>) {
+open(my $fileslistnew_fh, ">", "$fileslistfile.new") ||
+    syserr(_g("open new files list file"));
+binmode($fileslistnew_fh);
+if (open(my $fileslist_fh, "<", $fileslistfile)) {
+    binmode($fileslist_fh);
+    while (<$fileslist_fh>) {
         chomp;
         next if m/^([-+0-9a-z.]+)_[^_]+_([\w-]+)\.(a-z+) /
                 && ($1 eq $oppackage)
 	        && ($3 eq $pkg_type)
 	        && (debarch_eq($2, $fields->{'Architecture'} || "")
 		    || debarch_eq($2, 'all'));
-        print(Y "$_\n") || syserr(_g("copy old entry to new files list file"));
+        print($fileslistnew_fh "$_\n") ||
+            syserr(_g("copy old entry to new files list file"));
     }
-    close(X) || syserr(_g("close old files list file"));
+    close($fileslist_fh) || syserr(_g("close old files list file"));
 } elsif ($! != ENOENT) {
     syserr(_g("read old files list file"));
 }
@@ -380,11 +383,12 @@ $sversion =~ s/^\d+://;
 $forcefilename = sprintf("%s_%s_%s.%s", $oppackage, $sversion,
                          $fields->{'Architecture'} || "", $pkg_type)
 	   unless ($forcefilename);
-print(Y $substvars->substvars(sprintf("%s %s %s\n", $forcefilename,
-				      $fields->{'Section'} || '-',
-				      $fields->{'Priority'} || '-')))
+print($fileslistnew_fh $substvars->substvars(sprintf("%s %s %s\n",
+                                             $forcefilename,
+                                             $fields->{'Section'} || '-',
+                                             $fields->{'Priority'} || '-')))
     || syserr(_g("write new entry to new files list file"));
-close(Y) || syserr(_g("close new files list file"));
+close($fileslistnew_fh) || syserr(_g("close new files list file"));
 rename("$fileslistfile.new", $fileslistfile) || syserr(_g("install new files list file"));
 
 # Release the lock

@@ -446,14 +446,14 @@ if (defined($desc)) { push @changes_opts, "-C$desc" }
 
 my $chg = "../$pva.changes";
 print STDERR " dpkg-genchanges @changes_opts >$chg\n";
-open CHANGES, '-|', 'dpkg-genchanges', @changes_opts
+open my $changes_fh, '-|', 'dpkg-genchanges', @changes_opts
     or subprocerr('dpkg-genchanges');
 
-open OUT, '>', $chg or syserr(_g('write changes file'));
+open my $out_fh, '>', $chg or syserr(_g('write changes file'));
 
 my $infiles = my $files = '';
-while ($_ = <CHANGES>) {
-    print OUT $_ or syserr(_g('write changes file'));
+while ($_ = <$changes_fh>) {
+    print $out_fh $_ or syserr(_g('write changes file'));
     chomp;
 
     if (/^Files:/i) {
@@ -465,8 +465,8 @@ while ($_ = <CHANGES>) {
     }
 }
 
-close CHANGES or subprocerr(_g('dpkg-genchanges'));
-close OUT or syserr(_g('write changes file'));
+close $changes_fh or subprocerr(_g('dpkg-genchanges'));
+close $out_fh or syserr(_g('write changes file'));
 
 my $srcmsg;
 sub fileomitted($) { return $files !~ /$_[0]/ }

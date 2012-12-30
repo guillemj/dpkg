@@ -450,19 +450,19 @@ my $fh;
 if ($stdout) {
     $fh = \*STDOUT;
 } else {
-    open(NEW, ">", "$varlistfile.new") ||
+    open(my $new_fh, ">", "$varlistfile.new") ||
 	syserr(_g("open new substvars file \`%s'"), "$varlistfile.new");
     if (-e $varlistfile) {
-	open(OLD, "<", $varlistfile) ||
+	open(my $old_fh, "<", $varlistfile) ||
 	    syserr(_g("open old varlist file \`%s' for reading"), $varlistfile);
-	foreach my $entry (grep { not m/^\Q$varnameprefix\E:/ } (<OLD>)) {
-	    print(NEW $entry) ||
+	foreach my $entry (grep { not m/^\Q$varnameprefix\E:/ } (<$old_fh>)) {
+	    print($new_fh $entry) ||
 	        syserr(_g("copy old entry to new varlist file \`%s'"),
 	               "$varlistfile.new");
 	}
-	close(OLD);
+	close($old_fh);
     }
-    $fh = \*NEW;
+    $fh = $new_fh;
 }
 
 # Write out the shlibs substvars
@@ -682,10 +682,10 @@ sub extract_from_shlibs {
     }
     # Open shlibs file
     $shlibfile = "./$shlibfile" if $shlibfile =~ m/^\s/;
-    open(SHLIBS, "<", $shlibfile) ||
+    open(my $shlibs_fh, "<", $shlibfile) ||
         syserr(_g("unable to open shared libs info file \`%s'"), $shlibfile);
     my $dep;
-    while (<SHLIBS>) {
+    while (<$shlibs_fh>) {
 	s/\s*\n$//;
 	next if m/^\#/;
 	if (!m/^\s*(?:(\S+):\s+)?(\S+)\s+(\S+)(?:\s+(\S.*\S))?\s*$/) {
@@ -709,7 +709,7 @@ sub extract_from_shlibs {
 	    }
 	}
     }
-    close(SHLIBS);
+    close($shlibs_fh);
     return $dep;
 }
 
@@ -747,16 +747,16 @@ sub symfile_has_soname {
         return $symfile_has_soname_cache{$file}{$soname};
     }
 
-    open(SYM_FILE, "<", $file) ||
+    open(my $symfile_fh, "<", $file) ||
         syserr(_g("cannot open file %s"), $file);
     my $result = 0;
-    while (<SYM_FILE>) {
+    while (<$symfile_fh>) {
 	if (/^\Q$soname\E /) {
 	    $result = 1;
 	    last;
 	}
     }
-    close(SYM_FILE);
+    close($symfile_fh);
     $symfile_has_soname_cache{$file}{$soname} = $result;
     return $result;
 }
@@ -834,7 +834,7 @@ sub find_packages {
     }
     return $pkgmatch unless scalar(@files);
 
-    my $pid = open(DPKG, "-|");
+    my $pid = open(my $dpkg_fh, "-|");
     syserr(_g("cannot fork for %s"), "dpkg --search") unless defined($pid);
     if (!$pid) {
 	# Child process running dpkg --search and discarding errors
@@ -844,7 +844,7 @@ sub find_packages {
 	exec("dpkg", "--search", "--", @files)
 	    || syserr(_g("unable to execute %s"), "dpkg");
     }
-    while(defined($_ = <DPKG>)) {
+    while (defined($_ = <$dpkg_fh>)) {
 	chomp($_);
 	if (m/^local diversion |^diversion by/) {
 	    warning(_g("diversions involved - output may be incorrect"));
@@ -856,6 +856,6 @@ sub find_packages {
 	    warning(_g("unknown output from dpkg --search: '%s'"), $_);
 	}
     }
-    close(DPKG);
+    close($dpkg_fh);
     return $pkgmatch;
 }

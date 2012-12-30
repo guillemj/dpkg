@@ -123,9 +123,9 @@ sub apply_patches {
         # We're applying the patches in --before-build, remember to unapply
         # them afterwards in --after-build
         my $pc_unapply = $quilt->get_db_file(".dpkg-source-unapply");
-        open(UNAPPLY, ">", $pc_unapply) ||
+        open(my $unapply_fh, ">", $pc_unapply) ||
             syserr(_g("cannot write %s"), $pc_unapply);
-        close(UNAPPLY);
+        close($unapply_fh);
     }
 
     # Apply patches
@@ -219,19 +219,19 @@ sub register_patch {
 
     sub add_line {
         my ($file, $line) = @_;
-        open(FILE, ">>", $file) || syserr(_g("cannot write %s"), $file);
-        print FILE "$line\n";
-        close(FILE);
+        open(my $file_fh, ">>", $file) || syserr(_g("cannot write %s"), $file);
+        print $file_fh "$line\n";
+        close($file_fh);
     }
 
     sub drop_line {
         my ($file, $re) = @_;
-        open(FILE, "<", $file) || syserr(_g("cannot read %s"), $file);
-        my @lines = <FILE>;
-        close(FILE);
-        open(FILE, ">", $file) || syserr(_g("cannot write %s"), $file);
-        print(FILE $_) foreach grep { not /^\Q$re\E\s*$/ } @lines;
-        close(FILE);
+        open(my $file_fh, "<", $file) || syserr(_g("cannot read %s"), $file);
+        my @lines = <$file_fh>;
+        close($file_fh);
+        open($file_fh, ">", $file) || syserr(_g("cannot write %s"), $file);
+        print($file_fh $_) foreach grep { not /^\Q$re\E\s*$/ } @lines;
+        close($file_fh);
     }
 
     my $quilt = $self->build_quilt_object($dir);

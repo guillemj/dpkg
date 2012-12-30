@@ -48,6 +48,7 @@ my @policies = qw(
     ControlStructures::ProhibitLabelsWithSpecialBlockNames
     ControlStructures::ProhibitUntilBlocks
     Documentation::RequirePackageMatchesPodName
+    InputOutput::ProhibitBarewordFileHandles
     InputOutput::ProhibitInteractiveTest
     InputOutput::ProhibitOneArgSelect
     InputOutput::ProhibitTwoArgOpen

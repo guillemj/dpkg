@@ -227,8 +227,9 @@ if (defined($prev_changelog) and
 }
 
 if (not is_sourceonly) {
-    open(FL, "<", $fileslistfile) || syserr(_g("cannot read files list file"));
-    while(<FL>) {
+    open(my $fileslist_fh, "<", $fileslistfile) ||
+        syserr(_g("cannot read files list file"));
+    while(<$fileslist_fh>) {
 	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
 	    defined($p2f{"$2 $4"}) &&
 		warning(_g("duplicate files list entry for package %s (line %d)"),
@@ -262,7 +263,7 @@ if (not is_sourceonly) {
 	    error(_g("badly formed line in files list file, line %d"), $.);
 	}
     }
-    close(FL);
+    close($fileslist_fh);
 }
 
 # Scan control info of source package
@@ -344,9 +345,10 @@ foreach $_ (keys %{$changelog}) {
 }
 
 if ($changesdescription) {
-    open(X, "<", $changesdescription) || syserr(_g("read changesdescription"));
-    $fields->{'Changes'} = "\n" . join("", <X>);
-    close(X);
+    open(my $changes_fh, "<", $changesdescription) ||
+        syserr(_g("read changesdescription"));
+    $fields->{'Changes'} = "\n" . join("", <$changes_fh>);
+    close($changes_fh);
 }
 
 for my $pa (keys %pa2f) {

@@ -146,9 +146,9 @@ sub read_cputable
     local $_;
     local $/ = "\n";
 
-    open CPUTABLE, '<', "$pkgdatadir/cputable"
+    open my $cputable_fh, '<', "$pkgdatadir/cputable"
 	or syserr(_g("cannot open %s"), "cputable");
-    while (<CPUTABLE>) {
+    while (<$cputable_fh>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/) {
 	    $cputable{$1} = $2;
 	    $cputable_re{$1} = $3;
@@ -157,7 +157,7 @@ sub read_cputable
 	    push @cpu, $1;
 	}
     }
-    close CPUTABLE;
+    close $cputable_fh;
 
     $cputable_loaded = 1;
 }
@@ -170,16 +170,16 @@ sub read_ostable
     local $_;
     local $/ = "\n";
 
-    open OSTABLE, '<', "$pkgdatadir/ostable"
+    open my $ostable_fh, '<', "$pkgdatadir/ostable"
 	or syserr(_g("cannot open %s"), "ostable");
-    while (<OSTABLE>) {
+    while (<$ostable_fh>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
 	    $ostable{$1} = $2;
 	    $ostable_re{$1} = $3;
 	    push @os, $1;
 	}
     }
-    close OSTABLE;
+    close $ostable_fh;
 
     $ostable_loaded = 1;
 }
@@ -196,13 +196,13 @@ sub abitable_load()
     # it does not exist, as that will only mean the other tables do not have
     # an entry needing to be overridden. This way we do not require a newer
     # dpkg by libdpkg-perl.
-    if (open ABITABLE, '<', "$pkgdatadir/abitable") {
-        while (<ABITABLE>) {
+    if (open my $abitable_fh, '<', "$pkgdatadir/abitable") {
+        while (<$abitable_fh>) {
             if (m/^(?!\#)(\S+)\s+(\S+)/) {
                 $abibits{$1} = $2;
             }
         }
-        close ABITABLE;
+        close $abitable_fh;
     } elsif ($! != ENOENT) {
         syserr(_g("cannot open %s"), "abitable");
     }
@@ -220,9 +220,9 @@ sub read_triplettable()
     local $_;
     local $/ = "\n";
 
-    open TRIPLETTABLE, '<', "$pkgdatadir/triplettable"
+    open my $triplettable_fh, '<', "$pkgdatadir/triplettable"
 	or syserr(_g("cannot open %s"), "triplettable");
-    while (<TRIPLETTABLE>) {
+    while (<$triplettable_fh>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)/) {
 	    my $debtriplet = $1;
 	    my $debarch = $2;
@@ -241,7 +241,7 @@ sub read_triplettable()
 	    }
 	}
     }
-    close TRIPLETTABLE;
+    close $triplettable_fh;
 
     $triplettable_loaded = 1;
 }

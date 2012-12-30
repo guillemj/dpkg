@@ -114,10 +114,10 @@ sub do_build {
     # Check for uncommitted files.
     # To support dpkg-source -i, remove any ignored files from the
     # output of bzr status.
-    open(BZR_STATUS, '-|', "bzr", "status") ||
+    open(my $bzr_status_fh, '-|', "bzr", "status") ||
             subprocerr("bzr status");
     my @files;
-    while (<BZR_STATUS>) {
+    while (<$bzr_status_fh>) {
         chomp;
         next unless s/^ +//;
         if (! length $diff_ignore_regexp ||
@@ -125,7 +125,7 @@ sub do_build {
             push @files, $_;
         }
     }
-    close(BZR_STATUS) || syserr(_g("bzr status exited nonzero"));
+    close($bzr_status_fh) || syserr(_g("bzr status exited nonzero"));
     if (@files) {
         error(_g("uncommitted, not-ignored changes in working directory: %s"),
               join(" ", @files));

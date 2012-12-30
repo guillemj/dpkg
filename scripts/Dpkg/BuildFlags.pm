@@ -298,8 +298,8 @@ $source is the origin recorded for any build flag set or modified.
 sub update_from_conffile {
     my ($self, $file, $src) = @_;
     return unless -e $file;
-    open(CNF, "<", $file) or syserr(_g("cannot read %s"), $file);
-    while(<CNF>) {
+    open(my $conf_fh, "<", $file) or syserr(_g("cannot read %s"), $file);
+    while (<$conf_fh>) {
         chomp;
         next if /^\s*#/; # Skip comments
         next if /^\s*$/; # Skip empty lines
@@ -322,7 +322,7 @@ sub update_from_conffile {
             warning(_g("line %d of %s is invalid, it has been ignored"), $., $file);
         }
     }
-    close(CNF);
+    close($conf_fh);
 }
 
 =item $bf->get($flag)

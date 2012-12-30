@@ -193,13 +193,13 @@ if (not scalar @files) {
                not check_files_are_the_same($packagebuilddir, $updir)) {
             next PATH if -l $updir;
         }
-	opendir(DIR, "$libdir") ||
+	opendir(my $libdir_dh, "$libdir") ||
 	    syserr(_g("Can't read directory %s: %s"), $libdir, $!);
 	push @files, grep {
 	    /(\.so\.|\.so$)/ && -f $_ &&
 	    Dpkg::Shlibs::Objdump::is_elf($_);
-	} map { "$libdir/$_" } readdir(DIR);
-	close(DIR);
+	} map { "$libdir/$_" } readdir($libdir_dh);
+	close($libdir_dh);
     }
 }
 

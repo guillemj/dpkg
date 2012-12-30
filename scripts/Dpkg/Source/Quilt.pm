@@ -55,26 +55,26 @@ sub setup_db {
     }
     my $file = $self->get_db_file(".version");
     if (not -e $file) {
-        open(VERSION, ">", $file) or syserr(_g("cannot write %s"), $file);
-        print VERSION "2\n";
-        close(VERSION);
+        open(my $version_fh, ">", $file) or syserr(_g("cannot write %s"), $file);
+        print $version_fh "2\n";
+        close($version_fh);
     }
     # The files below are used by quilt to know where patches are stored
     # and what file contains the patch list (supported by quilt >= 0.48-5
     # in Debian).
     $file = $self->get_db_file(".quilt_patches");
     if (not -e $file) {
-        open(QPATCH, ">", $file) or syserr(_g("cannot write %s"), $file);
-        print QPATCH "debian/patches\n";
-        close(QPATCH);
+        open(my $qpatch_fh, ">", $file) or syserr(_g("cannot write %s"), $file);
+        print $qpatch_fh "debian/patches\n";
+        close($qpatch_fh);
     }
     $file = $self->get_db_file(".quilt_series");
     if (not -e $file) {
-        open(QSERIES, ">", $file) or syserr(_g("cannot write %s"), $file);
+        open(my $qseries_fh, ">", $file) or syserr(_g("cannot write %s"), $file);
         my $series = $self->get_series_file();
         $series = (File::Spec->splitpath($series))[2];
-        print QSERIES "$series\n";
-        close(QSERIES);
+        print $qseries_fh "$series\n";
+        close($qseries_fh);
     }
 }
 
@@ -90,11 +90,12 @@ sub write_db {
 
     $self->setup_db();
     my $pc_applied = $self->get_db_file("applied-patches");
-    open(APPLIED, ">", $pc_applied) or syserr(_g("cannot write %s"), $pc_applied);
+    open(my $applied_fh, ">", $pc_applied) or
+        syserr(_g("cannot write %s"), $pc_applied);
     foreach my $patch (@{$self->{'applied-patches'}}) {
-        print APPLIED "$patch\n";
+        print $applied_fh "$patch\n";
     }
-    close(APPLIED);
+    close($applied_fh);
 }
 
 sub load_series {
@@ -196,10 +197,10 @@ sub get_db_version {
     my ($self) = @_;
     my $pc_ver = $self->get_db_file(".version");
     if (-f $pc_ver) {
-        open(VER, "<", $pc_ver) || syserr(_g("cannot read %s"), $pc_ver);
-        my $version = <VER>;
+        open(my $ver_fh, "<", $pc_ver) || syserr(_g("cannot read %s"), $pc_ver);
+        my $version = <$ver_fh>;
         chomp $version;
-        close(VER);
+        close($ver_fh);
         return $version;
     }
     return;
@@ -255,8 +256,8 @@ sub read_patch_list {
     return () if not defined $file or not -f $file;
     $opts{"warn_options"} = 0 unless defined($opts{"warn_options"});
     my @patches;
-    open(SERIES, "<" , $file) || syserr(_g("cannot read %s"), $file);
-    while(defined($_ = <SERIES>)) {
+    open(my $series_fh, "<" , $file) || syserr(_g("cannot read %s"), $file);
+    while (defined($_ = <$series_fh>)) {
         chomp; s/^\s+//; s/\s+$//; # Strip leading/trailing spaces
         s/(^|\s+)#.*$//; # Strip comment
         next unless $_;
@@ -272,7 +273,7 @@ sub read_patch_list {
         error(_g("%s contains an insecure path: %s"), $file, $_) if m{(^|/)\.\./};
         CORE::push @patches, $_;
     }
-    close(SERIES);
+    close($series_fh);
     return @patches;
 }
 

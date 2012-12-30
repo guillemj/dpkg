@@ -52,17 +52,17 @@ sub test_write {
 
 sub check_uncompressed {
     my ($filename, $method) = @_;
-    open(READ, "<", $filename) or die "cannot read $filename";
-    my @read = <READ>;
-    close READ or die "cannot close";
+    open(my $read_fh, "<", $filename) or die "cannot read $filename";
+    my @read = <$read_fh>;
+    close $read_fh or die "cannot close";
     is_deeply(\@lines, \@read, "$filename correctly written ($method)");
 }
 
 sub check_compressed {
     my ($filename, $method) = @_;
-    open(READ, "-|", "zcat $tmpdir/myfile.gz") or die "cannot fork zcat";
-    my @read = <READ>;
-    close READ or die "cannot close";
+    open(my $read_fh, "-|", "zcat $tmpdir/myfile.gz") or die "cannot fork zcat";
+    my @read = <$read_fh>;
+    close $read_fh or die "cannot close";
     is_deeply(\@lines, \@read, "$filename correctly written ($method)");
 }
 
