@@ -63,6 +63,8 @@ my @policies = qw(
     Subroutines::ProhibitExplicitReturnUndef
     TestingAndDebugging::ProhibitNoStrict
     TestingAndDebugging::ProhibitNoWarnings
+    TestingAndDebugging::RequireUseStrict
+    TestingAndDebugging::RequireUseWarnings
     ValuesAndExpressions::ProhibitComplexVersion
     ValuesAndExpressions::ProhibitLongChainsOfMethodCalls
     ValuesAndExpressions::ProhibitQuotesAsQuotelikeOperatorDelimiters
