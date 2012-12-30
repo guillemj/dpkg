@@ -80,7 +80,7 @@ while (@ARGV) {
 usageerr(_g("need an action option")) unless defined($action);
 
 # Uses $ENV{DEB_VENDOR} if set
-$vendor = get_current_vendor() unless defined($vendor);
+$vendor //= get_current_vendor();
 
 my $info = get_vendor_info($vendor);
 unless (defined($info)) {

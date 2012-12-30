@@ -93,7 +93,7 @@ while (@ARGV) {
     }
 }
 
-$action = "dump" unless defined($action);
+$action //= "dump";
 
 my $build_flags = Dpkg::BuildFlags->new();
 

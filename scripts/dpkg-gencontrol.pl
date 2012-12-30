@@ -380,9 +380,9 @@ if (open(my $fileslist_fh, "<", $fileslistfile)) {
 }
 my $sversion = $fields->{'Version'};
 $sversion =~ s/^\d+://;
-$forcefilename = sprintf("%s_%s_%s.%s", $oppackage, $sversion,
-                         $fields->{'Architecture'} || "", $pkg_type)
-	   unless ($forcefilename);
+$forcefilename //= sprintf("%s_%s_%s.%s", $oppackage, $sversion,
+                           $fields->{'Architecture'} || "", $pkg_type);
+
 print($fileslistnew_fh $substvars->substvars(sprintf("%s %s %s\n",
                                              $forcefilename,
                                              $fields->{'Section'} || '-',

@@ -132,8 +132,8 @@ sub next {
 
 sub push {
     my ($self, %opts) = @_;
-    $opts{"verbose"} = 0 unless defined($opts{"verbose"});
-    $opts{"timestamp"} = fs_time($self->{'dir'}) unless defined($opts{"timestamp"});
+    $opts{"verbose"} //= 0;
+    $opts{"timestamp"} //= fs_time($self->{'dir'});
 
     my $patch = $self->next();
     return unless defined $patch;
@@ -164,9 +164,9 @@ sub push {
 
 sub pop {
     my ($self, %opts) = @_;
-    $opts{"verbose"} = 0 unless defined($opts{"verbose"});
-    $opts{"timestamp"} = fs_time($self->{'dir'}) unless defined($opts{"timestamp"});
-    $opts{"reverse_apply"} = 0 unless defined($opts{"reverse_apply"});
+    $opts{"verbose"} //= 0;
+    $opts{"timestamp"} //= fs_time($self->{'dir'});
+    $opts{"reverse_apply"} //= 0;
 
     my $patch = $self->top();
     return unless defined $patch;
@@ -254,7 +254,7 @@ sub get_patch_dir {
 sub read_patch_list {
     my ($self, $file, %opts) = @_;
     return () if not defined $file or not -f $file;
-    $opts{"warn_options"} = 0 unless defined($opts{"warn_options"});
+    $opts{"warn_options"} //= 0;
     my @patches;
     open(my $series_fh, "<" , $file) || syserr(_g("cannot read %s"), $file);
     while (defined($_ = <$series_fh>)) {

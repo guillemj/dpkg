@@ -371,7 +371,7 @@ sub _intuit_file_patched {
 sub analyze {
     my ($self, $destdir, %opts) = @_;
 
-    $opts{"verbose"} = 1 if not defined $opts{"verbose"};
+    $opts{"verbose"} //= 1;
     my $diff = $self->get_filename();
     my %filepatched;
     my %dirtocreate;

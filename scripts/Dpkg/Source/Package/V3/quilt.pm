@@ -144,7 +144,7 @@ sub unapply_patches {
 
     my $quilt = $self->build_quilt_object($dir);
 
-    $opts{'verbose'} = 1 unless defined $opts{'verbose'};
+    $opts{'verbose'} //= 1;
 
     my $pc_applied = $quilt->get_db_file("applied-patches");
     my @applied = $quilt->applied();

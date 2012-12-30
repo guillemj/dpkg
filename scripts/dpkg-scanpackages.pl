@@ -170,7 +170,7 @@ my ($binarydir, $override, $pathprefix) = @ARGV;
 defined($override) and (-e $override or
     error(_g("Override file %s not found"), $override));
 
-$pathprefix = '' if not defined $pathprefix;
+$pathprefix //= '';
 
 my $find_h = new IO::Handle;
 open($find_h, '-|', 'find', '-L', "$binarydir/", @find_args, '-print')

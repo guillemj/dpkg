@@ -440,7 +440,7 @@ added to $to otherwise.
 
 sub field_transfer_single($$;$) {
     my ($from, $to, $field) = @_;
-    $field = $_ unless defined $field;
+    $field //= $_;
     my ($from_type, $to_type) = ($from->get_type(), $to->get_type());
     $field = field_capitalize($field);
 

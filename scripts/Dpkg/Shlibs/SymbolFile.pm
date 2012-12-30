@@ -85,7 +85,7 @@ sub new {
     my $class = ref($this) || $this;
     my $self = \%opts;
     bless $self, $class;
-    $self->{arch} = get_host_arch() unless defined $self->{arch};
+    $self->{arch} //= get_host_arch();
     $self->clear();
     if (exists $self->{file}) {
 	$self->load($self->{file}) if -e $self->{file};
@@ -333,7 +333,7 @@ sub output {
 # Returns a pattern which matches (if any).
 sub find_matching_pattern {
     my ($self, $refsym, $sonames, $inc_deprecated) = @_;
-    $inc_deprecated = 0 unless defined $inc_deprecated;
+    $inc_deprecated //= 0;
     my $name = (ref $refsym) ? $refsym->get_symbolname() : $refsym;
 
     my $pattern_ok = sub {
@@ -472,19 +472,19 @@ sub create_object {
 
 sub get_dependency {
     my ($self, $soname, $dep_id) = @_;
-    $dep_id = 0 unless defined($dep_id);
+    $dep_id //= 0;
     return $self->get_object($soname)->{deps}[$dep_id];
 }
 
 sub get_smallest_version {
     my ($self, $soname, $dep_id) = @_;
-    $dep_id = 0 unless defined($dep_id);
+    $dep_id //= 0;
     my $so_object = $self->get_object($soname);
     return $so_object->{minver_cache}[$dep_id] if(defined($so_object->{minver_cache}[$dep_id]));
     my $minver;
     foreach my $sym ($self->get_symbols($so_object)) {
         next if $dep_id != $sym->{dep_id};
-        $minver = $sym->{minver} unless defined($minver);
+        $minver //= $sym->{minver};
         if (version_compare($minver, $sym->{minver}) > 0) {
             $minver = $sym->{minver};
         }
@@ -512,7 +512,7 @@ sub get_field {
 # $refsym may also be a symbol name.
 sub lookup_symbol {
     my ($self, $refsym, $sonames, $inc_deprecated) = @_;
-    $inc_deprecated = 0 unless defined($inc_deprecated);
+    $inc_deprecated //= 0;
     my $name = (ref $refsym) ? $refsym->get_symbolname() : $refsym;
 
     foreach my $so ((ref($sonames) eq 'ARRAY') ? @$sonames : $sonames) {
@@ -532,7 +532,7 @@ sub lookup_symbol {
 # $refpat may also be a pattern spec.
 sub lookup_pattern {
     my ($self, $refpat, $sonames, $inc_deprecated) = @_;
-    $inc_deprecated = 0 unless defined($inc_deprecated);
+    $inc_deprecated //= 0;
     # If $refsym is a string, we need to create a dummy ref symbol.
     $refpat = $self->create_symbol($refpat, dummy => 1) if ! ref($refpat);
 

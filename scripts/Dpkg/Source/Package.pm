@@ -216,7 +216,7 @@ sub initialize {
 
 sub upgrade_object_type {
     my ($self, $update_format) = @_;
-    $update_format = 1 unless defined $update_format;
+    $update_format //= 1;
     $self->{'fields'}{'Format'} = '1.0'
         unless exists $self->{'fields'}{'Format'};
     my $format = $self->{'fields'}{'Format'};
@@ -227,7 +227,7 @@ sub upgrade_object_type {
         my $module = "Dpkg::Source::Package::V$major";
         $module .= "::$variant" if defined $variant;
         eval "require $module; \$minor = \$${module}::CURRENT_MINOR_VERSION;";
-        $minor = 0 unless defined $minor;
+        $minor //= 0;
         if ($update_format) {
             $self->{'fields'}{'Format'} = "$major.$minor";
             $self->{'fields'}{'Format'} .= " ($variant)" if defined $variant;

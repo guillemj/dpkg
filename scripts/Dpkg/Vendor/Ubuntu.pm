@@ -111,8 +111,7 @@ sub run_hook {
 	my $build_opts = Dpkg::BuildOptions->new();
 	my $hardening;
 	if ($build_opts->has("hardening")) {
-	    $hardening = $build_opts->get("hardening");
-	    $hardening = 1 unless defined $hardening;
+	    $hardening = $build_opts->get("hardening") // 1;
 	}
 	if ($build_opts->has("nohardening")) {
 	    $hardening = 0;

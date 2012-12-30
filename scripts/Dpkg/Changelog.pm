@@ -326,7 +326,7 @@ sub __sanity_check_range {
 
 sub get_range {
     my ($self, $range) = @_;
-    $range = {} unless defined $range;
+    $range //= {};
     my $res = $self->_data_range($range);
     if (defined $res) {
 	return @$res if wantarray;
@@ -523,8 +523,7 @@ sub dpkg {
     my $f = Dpkg::Control::Changelog->new();
     $f->{Urgency} = $entry->get_urgency() || "unknown";
     $f->{Source} = $entry->get_source() || "unknown";
-    $f->{Version} = $entry->get_version();
-    $f->{Version} = "unknown" unless defined $f->{Version};
+    $f->{Version} = $entry->get_version() // "unknown";
     $f->{Distribution} = join(" ", $entry->get_distributions());
     $f->{Maintainer} = $entry->get_maintainer() || '';
     $f->{Date} = $entry->get_timestamp() || '';
@@ -589,8 +588,7 @@ sub rfc822 {
 	my $f = Dpkg::Control::Changelog->new();
 	$f->{Urgency} = $entry->get_urgency() || "unknown";
 	$f->{Source} = $entry->get_source() || "unknown";
-	$f->{Version} = $entry->get_version();
-	$f->{Version} = "unknown" unless defined $f->{Version};
+	$f->{Version} = $entry->get_version() // "unknown";
 	$f->{Distribution} = join(" ", $entry->get_distributions());
 	$f->{Maintainer} = $entry->get_maintainer() || "";
 	$f->{Date} = $entry->get_timestamp() || "";

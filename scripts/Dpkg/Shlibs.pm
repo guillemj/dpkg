@@ -105,7 +105,7 @@ sub parse_ldso_conf {
 # find_library ($soname, \@rpath, $format, $root)
 sub find_library {
     my ($lib, $rpath, $format, $root) = @_;
-    $root = "" if not defined($root);
+    $root //= "";
     $root =~ s{/+$}{};
     my @rpath = @{$rpath};
     foreach my $dir (@rpath, @librarypaths) {

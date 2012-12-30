@@ -141,7 +141,7 @@ if (defined($options{'opmode'}) &&
 while (@options) {
     $_ = shift(@options);
     if (m/^--format=(.*)$/) {
-	$build_format = $1 unless defined $build_format;
+	$build_format //= $1;
     } elsif (m/^-(?:Z|-compression=)(.*)$/) {
 	my $compression = $1;
 	$options{'compression'} = $compression;

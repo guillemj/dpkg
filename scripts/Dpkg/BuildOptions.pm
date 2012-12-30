@@ -120,7 +120,7 @@ sub set {
     if ($key =~ /^(noopt|nostrip|nocheck)$/ && defined($value)) {
 	$value = undef;
     } elsif ($key eq 'parallel')  {
-	$value = "" if not defined($value);
+	$value //= "";
 	return 0 if $value !~ /^\d*$/;
     }
 

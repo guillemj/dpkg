@@ -195,7 +195,7 @@ sub get_autopatch_name {
 
 sub get_patches {
     my ($self, $dir, %opts) = @_;
-    $opts{"skip_auto"} = 0 unless defined($opts{"skip_auto"});
+    $opts{"skip_auto"} //= 0;
     my @patches;
     my $pd = "$dir/debian/patches";
     my $auto_patch = $self->get_autopatch_name();
@@ -214,7 +214,7 @@ sub get_patches {
 
 sub apply_patches {
     my ($self, $dir, %opts) = @_;
-    $opts{"skip_auto"} = 0 unless defined($opts{"skip_auto"});
+    $opts{"skip_auto"} //= 0;
     my @patches = $self->get_patches($dir, %opts);
     return unless scalar(@patches);
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");

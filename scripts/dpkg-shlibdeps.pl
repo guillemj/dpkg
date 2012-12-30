@@ -705,7 +705,7 @@ sub extract_from_shlibs {
 		    last;
 		}
 	    } else {
-		$dep = $depread unless defined $dep;
+		$dep //= $depread;
 	    }
 	}
     }

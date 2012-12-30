@@ -235,7 +235,7 @@ sub join_lines($) {
 # - a - => a
 sub merge_block($$$;&) {
     my ($o, $a, $b, $preprocess) = @_;
-    $preprocess = \&join_lines unless defined $preprocess;
+    $preprocess //= \&join_lines;
     $o = &$preprocess($o) if defined($o);
     $a = &$preprocess($a) if defined($a);
     $b = &$preprocess($b) if defined($b);
