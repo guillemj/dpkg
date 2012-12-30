@@ -84,8 +84,8 @@ sysopen($lockfh, "debian/control", O_WRONLY) ||
 file_lock($lockfh, "debian/control");
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
-open(Y, "> $fileslistfile.new") || syserr(_g("open new files list file"));
-if (open(X,"< $fileslistfile")) {
+open(Y, '>', "$fileslistfile.new") || syserr(_g("open new files list file"));
+if (open(X, '<', $fileslistfile)) {
     while (<X>) {
         s/\n$//;
         next if m/^(\S+) / && $1 eq $file;

@@ -309,7 +309,7 @@ sub main {
     load_src_override $Src_override, $override;
     load_override_extra $Extra_override_file if defined $Extra_override_file;
 
-    open FIND, "find -L \Q$dir\E -name '*.dsc' -print |"
+    open FIND, '-|', "find -L \Q$dir\E -name '*.dsc' -print"
         or syserr(_g("cannot fork for %s"), "find");
     while (<FIND>) {
     	chomp;

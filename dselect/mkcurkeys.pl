@@ -27,7 +27,7 @@ $#ARGV == 1 || die ("usage: mkcurkeys.pl <filename> <curses.h>");
 
 my (%over, %base, %name);
 
-open(OV,"<$ARGV[0]") || die $!;
+open(OV, '<', $ARGV[0]) || die $!;
 while (<OV>) {
     chomp;
     /^#/ && next;		# skip comments
@@ -45,7 +45,7 @@ for (my $i = 1, my $let = 'A'; $i <= 26; $i++, $let++) {
 
 our ($k, $v);
 
-open(NCH,"<$ARGV[1]") || die $!;
+open(NCH, '<', $ARGV[1]) || die $!;
 while (<NCH>) {
     s/\s+$//;
     m/#define KEY_(\w+)\s+\d+\s+/ || next;

@@ -48,20 +48,20 @@ sub cleanup {
 
 sub install_diversions {
     my ($txt) = @_;
-    open(O, "> $admindir/diversions");
+    open(O, '>', "$admindir/diversions");
     print O $txt;
     close(O);
 }
 
 sub install_filelist {
     my ($pkg, $arch, @files) = @_;
-    open(L, "> $admindir/info/$pkg.list");
+    open(L, '>', "$admindir/info/$pkg.list");
     for my $file (@files) {
         print L "$file\n";
     }
     close(L);
     # Only installed packages have their files list considered.
-    open(S, ">> $admindir/status");
+    open(S, '>>', "$admindir/status");
     print S <<"EOF";
 Package: $pkg
 Status: install ok installed
@@ -134,7 +134,7 @@ sub diversions_pack {
 
 sub diversions_eq {
     my (@expected) = split /^/, shift;
-    open(O, "$admindir/diversions");
+    open(O, '<', "$admindir/diversions");
     my (@contents) = <O>;
     close(O);
 

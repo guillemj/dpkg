@@ -41,7 +41,9 @@ sub read_config {
   my ($code, $conf);
 
   local($/);
-  open(VARS, $vars) || die "Couldn't open $vars : $!\nTry to relaunch the 'Access' step in dselect, thanks.\n";
+  open(VARS, '<', $vars) ||
+    die "Couldn't open $vars : $!\n" .
+        "Try to relaunch the 'Access' step in dselect, thanks.\n";
   $code = <VARS>;
   close VARS;
 
@@ -66,7 +68,7 @@ sub store_config {
   # Check that config is completed
   return if not $config{'done'};
 
-  open(VARS, ">$vars") || die "Couldn't open $vars in write mode : $!\n";
+  open(VARS, '>', $vars) || die "Couldn't open $vars in write mode : $!\n";
   print VARS Dumper(\%config);
   close VARS;
 }

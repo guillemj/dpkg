@@ -50,6 +50,7 @@ my @policies = qw(
     Documentation::RequirePackageMatchesPodName
     InputOutput::ProhibitInteractiveTest
     InputOutput::ProhibitOneArgSelect
+    InputOutput::ProhibitTwoArgOpen
     InputOutput::RequireEncodingWithUTF8Layer
     Miscellanea::ProhibitFormats
     Miscellanea::ProhibitUnrestrictedNoCritic

@@ -61,7 +61,7 @@ mkpath(["$methdir/$config{'dldir'}"], 0, 0755);
 my %md5sums;
 if (-f "$methdir/md5sums") {
   local $/;
-  open(MD5SUMS, "$methdir/md5sums") ||
+  open(MD5SUMS, '<', "$methdir/md5sums") ||
     die "Couldn't read file $methdir/md5sums";
   my $code = <MD5SUMS>;
   close MD5SUMS;
@@ -114,7 +114,7 @@ print "Processing status file...\n";
 my %curpkgs;
 sub procstatus {
     my (%flds, $fld);
-    open (STATUS, "$vardir/status") or die "Could not open status file";
+    open (STATUS, '<', "$vardir/status") or die "Could not open status file";
     while (%flds = getblk(\*STATUS), %flds) {
 	if($flds{'status'} =~ /^install ok/) {
 	    my $cs = (split(/ /, $flds{'status'}))[2];
@@ -156,7 +156,7 @@ sub procpkgfile {
     my $dist = shift;
     my(@files,@sizes,@md5sums,$pkg,$ver,$fl,$nfs,$fld);
     my(%flds);
-    open(PKGFILE, "$fn") or die "Could not open package file $fn";
+    open(PKGFILE, '<', $fn) or die "Could not open package file $fn";
     while(%flds = getblk(\*PKGFILE), %flds) {
 	$pkg = $flds{'package'};
 	$ver = $curpkgs{$pkg};
@@ -466,7 +466,7 @@ sub getdebinfo($) {
     my $type = chkdeb($fn);
     my ($pkg, $ver);
     if($type == 1) {
-	open(PKGFILE, "dpkg-deb --field $fn |");
+	open(PKGFILE, '-|', "dpkg-deb --field $fn");
 	my %fields = getblk(\*PKGFILE);
 	close(PKGFILE);
 	$pkg = $fields{'package'};
@@ -474,7 +474,7 @@ sub getdebinfo($) {
 	if($fields{'package_revision'}) { $ver .= '-' . $fields{'package_revision'}; }
 	return $pkg, $ver;
     } elsif ( $type == 2) {
-	open(PKGFILE, "dpkg-split --info $fn|");
+	open(PKGFILE, '-|', "dpkg-split --info $fn");
 	while(<PKGFILE>) {
 	    /Part of package:\s*(\S+)/ and $pkg = $+;
 	    /\.\.\. version:\s*(\S+)/ and $ver = $+;
@@ -623,7 +623,7 @@ foreach (keys %md5sums) {
   next if (-f $_);
   delete $md5sums{$_};
 }
-open(MD5SUMS, ">$methdir/md5sums") ||
+open(MD5SUMS, '>', "$methdir/md5sums") ||
   die "Can't open $methdir/md5sums in write mode : $!\n";
 print MD5SUMS Dumper(\%md5sums);
 close MD5SUMS;

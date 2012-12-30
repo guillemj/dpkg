@@ -146,7 +146,7 @@ sub read_cputable
     local $_;
     local $/ = "\n";
 
-    open CPUTABLE, "$pkgdatadir/cputable"
+    open CPUTABLE, '<', "$pkgdatadir/cputable"
 	or syserr(_g("cannot open %s"), "cputable");
     while (<CPUTABLE>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/) {
@@ -170,7 +170,7 @@ sub read_ostable
     local $_;
     local $/ = "\n";
 
-    open OSTABLE, "$pkgdatadir/ostable"
+    open OSTABLE, '<', "$pkgdatadir/ostable"
 	or syserr(_g("cannot open %s"), "ostable");
     while (<OSTABLE>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
@@ -196,7 +196,7 @@ sub abitable_load()
     # it does not exist, as that will only mean the other tables do not have
     # an entry needing to be overridden. This way we do not require a newer
     # dpkg by libdpkg-perl.
-    if (open ABITABLE, "$pkgdatadir/abitable") {
+    if (open ABITABLE, '<', "$pkgdatadir/abitable") {
         while (<ABITABLE>) {
             if (m/^(?!\#)(\S+)\s+(\S+)/) {
                 $abibits{$1} = $2;
@@ -220,7 +220,7 @@ sub read_triplettable()
     local $_;
     local $/ = "\n";
 
-    open TRIPLETTABLE, "$pkgdatadir/triplettable"
+    open TRIPLETTABLE, '<', "$pkgdatadir/triplettable"
 	or syserr(_g("cannot open %s"), "triplettable");
     while (<TRIPLETTABLE>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)/) {
