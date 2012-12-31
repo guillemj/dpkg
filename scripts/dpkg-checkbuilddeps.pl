@@ -31,7 +31,7 @@ use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Deps;
 use Dpkg::Control::Info;
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 sub version()
 {
@@ -41,9 +41,9 @@ sub version()
 
 sub usage {
 	printf _g(
-"Usage: %s [<option>...] [<control-file>]")
+'Usage: %s [<option>...] [<control-file>]')
 	. "\n\n" . _g(
-"Options:
+'Options:
   -A             ignore Build-Depends-Arch and Build-Conflicts-Arch.
   -B             ignore Build-Depends-Indep and Build-Conflicts-Indep.
   -d build-deps  use given string as build dependencies instead of
@@ -54,9 +54,9 @@ sub usage {
   --admindir=<directory>
                  change the administrative directory.
   -?, --help     show this help message.
-      --version  show the version.")
+      --version  show the version.')
 	. "\n\n" . _g(
-"<control-file> is the control file to process (default: debian/control).")
+'<control-file> is the control file to process (default: debian/control).')
 	. "\n", $progname;
 }
 
@@ -76,7 +76,7 @@ if (!GetOptions('A' => \$ignore_bd_arch,
 	exit(2);
 }
 
-my $controlfile = shift || "debian/control";
+my $controlfile = shift || 'debian/control';
 
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = $control->get_source();
@@ -84,14 +84,14 @@ my $fields = $control->get_source();
 my $facts = parse_status("$admindir/status");
 
 unless (defined($bd_value) or defined($bc_value)) {
-    my @bd_list = ('build-essential:native', $fields->{"Build-Depends"});
-    push @bd_list, $fields->{"Build-Depends-Arch"} if not $ignore_bd_arch;
-    push @bd_list, $fields->{"Build-Depends-Indep"} if not $ignore_bd_indep;
+    my @bd_list = ('build-essential:native', $fields->{'Build-Depends'});
+    push @bd_list, $fields->{'Build-Depends-Arch'} if not $ignore_bd_arch;
+    push @bd_list, $fields->{'Build-Depends-Indep'} if not $ignore_bd_indep;
     $bd_value = deps_concat(@bd_list);
 
-    my @bc_list = ($fields->{"Build-Conflicts"});
-    push @bc_list, $fields->{"Build-Conflicts-Arch"} if not $ignore_bd_arch;
-    push @bc_list, $fields->{"Build-Conflicts-Indep"} if not $ignore_bd_indep;
+    my @bc_list = ($fields->{'Build-Conflicts'});
+    push @bc_list, $fields->{'Build-Conflicts-Arch'} if not $ignore_bd_arch;
+    push @bc_list, $fields->{'Build-Conflicts-Indep'} if not $ignore_bd_indep;
     $bc_value = deps_concat(@bc_list);
 }
 my (@unmet, @conflicts);
@@ -108,12 +108,12 @@ if ($bc_value) {
 }
 
 if (@unmet) {
-	printf STDERR _g("%s: Unmet build dependencies: "), $progname;
-	print STDERR join(" ", map { $_->output() } @unmet), "\n";
+	printf STDERR _g('%s: Unmet build dependencies: '), $progname;
+	print STDERR join(' ', map { $_->output() } @unmet), "\n";
 }
 if (@conflicts) {
-	printf STDERR _g("%s: Build conflicts: "), $progname;
-	print STDERR join(" ", map { $_->output() } @conflicts), "\n";
+	printf STDERR _g('%s: Build conflicts: '), $progname;
+	print STDERR join(' ', map { $_->output() } @conflicts), "\n";
 }
 exit 1 if @unmet || @conflicts;
 
@@ -124,7 +124,7 @@ sub parse_status {
 	my $facts = Dpkg::Deps::KnownFacts->new();
 	local $/ = '';
 	open(my $status_fh, '<', $status) ||
-		syserr(_g("cannot open %s"), $status);
+		syserr(_g('cannot open %s'), $status);
 	while (<$status_fh>) {
 		next unless /^Status: .*ok installed$/m;
 	
@@ -189,7 +189,7 @@ sub check_line {
 	my @unmet=();
 
 	unless(defined($dep_list)) {
-	    error(_g("error occurred while parsing %s"), $fieldname);
+	    error(_g('error occurred while parsing %s'), $fieldname);
 	}
 
 	if ($build_depends) {

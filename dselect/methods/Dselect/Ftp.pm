@@ -27,11 +27,11 @@ our %config;
 sub nb {
   my $nb = shift;
   if ($nb > 1024**2) {
-    return sprintf("%.2fM", $nb / 1024**2);
+    return sprintf('%.2fM', $nb / 1024**2);
   } elsif ($nb > 1024) {
-    return sprintf("%.2fk", $nb / 1024);
+    return sprintf('%.2fk', $nb / 1024);
   } else {
-    return sprintf("%.2fb", $nb);
+    return sprintf('%.2fb', $nb);
   }
 
 }
@@ -97,7 +97,7 @@ sub edit_config {
       $i++;
     }
     print "\nEnter a command (a=add e=edit d=delete q=quit m=mirror list) \n";
-    print "eventually followed by a site number : ";
+    print 'eventually followed by a site number : ';
     chomp($_ = <STDIN>);
     /q/i && last;
     /a/i && add_site();
@@ -113,8 +113,8 @@ sub edit_config {
   }
 
   print "\n";
-  $config{use_auth_proxy} = yesno($config{use_auth_proxy} ? "y" : "n",
-                                      "Go through an authenticated proxy");
+  $config{use_auth_proxy} = yesno($config{use_auth_proxy} ? 'y' : 'n',
+                                  'Go through an authenticated proxy');
 
   if ($config{use_auth_proxy}) {
     print "\nEnter proxy hostname [$config{proxyhost}] : ";
@@ -144,16 +144,16 @@ sub edit_config {
 
 sub add_site {
   my $pas = 1;
-  my $user = "anonymous";
+  my $user = 'anonymous';
   my $email = `whoami`;
   chomp $email;
   $email .= '@' . `cat /etc/mailname || dnsdomainname`;
   chomp $email;
-  my $dir = "/debian";
+  my $dir = '/debian';
 
-  push (@{$config{site}}, [ "", $dir, [ "dists/stable/main",
-                                          "dists/stable/contrib",
-					  "dists/stable/non-free" ],
+  push (@{$config{site}}, [ '', $dir, [ 'dists/stable/main',
+                                        'dists/stable/contrib',
+                                        'dists/stable/non-free' ],
                                $pas, $user, $email ]);
   edit_site($config{site}[@{$config{site}} - 1]);
 }
@@ -167,7 +167,7 @@ sub edit_site {
   chomp($_ = <STDIN>);
   $site->[0] = $_ || $site->[0];
 
-  print "\nUse passive mode [" . ($site->[3] ? "y" : "n") ."] : ";
+  print "\nUse passive mode [" . ($site->[3] ? 'y' : 'n') . '] : ';
   chomp($_ = <STDIN>);
   $site->[3] = (/y/i ? 1 : 0) if ($_);
 
@@ -202,9 +202,9 @@ sub yesno($$) {
 
   my ($res, $r);
   $r = -1;
-  $r = 0 if $d eq "n";
-  $r = 1 if $d eq "y";
-  die "Incorrect usage of yesno, stopped" if $r == -1;
+  $r = 0 if $d eq 'n';
+  $r = 1 if $d eq 'y';
+  die 'Incorrect usage of yesno, stopped' if $r == -1;
   while (1) {
     print $msg, " [$d]: ";
     $res = <STDIN>;
@@ -229,7 +229,7 @@ sub do_connect {
 
 	if ($useproxy) {
 	    $remotehost = $proxyhost;
-	    $remoteuser = $username . "@" . $ftpsite;
+	    $remoteuser = $username . '@' . $ftpsite;
 	} else {
 	    $remotehost = $ftpsite;
 	    $remoteuser = $username;
@@ -248,13 +248,13 @@ sub do_connect {
 		$ftp->_PASS($proxypassword);
 	    }
 	    print "Login as $username...\n";
-	    if ($pass eq "?") {
-		    print "Enter password for ftp: ";
-		    system("stty", "-echo");
+	    if ($pass eq '?') {
+		    print 'Enter password for ftp: ';
+		    system('stty', '-echo');
 		    $rpass = <STDIN>;
 		    chomp $rpass;
 		    print "\n";
-		    system("stty", "echo");
+		    system('stty', 'echo');
 	    } else {
 		    $rpass = $pass;
 	    }
@@ -271,17 +271,17 @@ sub do_connect {
 	}
 
 	if ($exit) {
-	    if (yesno ("y", "Retry connection at once")) {
+	    if (yesno ('y', 'Retry connection at once')) {
 		next TRY_CONNECT;
 	    } else {
-		die "error";
+		die 'error';
 	    }
 	}
 
 	last TRY_CONNECT;
     }
 
-#    if(!$ftp->pasv()) { print $ftp->message . "\n"; die "error"; }
+#    if(!$ftp->pasv()) { print $ftp->message . "\n"; die 'error'; }
 
     return $ftp;
 }
@@ -334,7 +334,7 @@ sub do_mdtm {
 
 #	print "[$#files]";
 
-	# get the date components from the output of "ls -l"
+	# get the date components from the output of 'ls -l'
 	if ($files[0] =~
 	    /([^ ]+ *){5}[^ ]+ ([A-Z][a-z]{2}) ([ 0-9][0-9]) ([0-9 ][0-9][:0-9][0-9]{2})/) {
 
@@ -364,13 +364,13 @@ sub do_mdtm {
 		$hours = 0; $minutes = 0;
 		$year = $yearOrTime - 1900;
 	    } else {
-		die "Cannot parse year-or-time";
+		die 'Cannot parse year-or-time';
 	    }
 
 	    # build a system time
 	    $time = timegm (0, $minutes, $hours, $day, $month, $year);
 	} else {
-	    die "Regexp match failed on LIST output";
+	    die 'Regexp match failed on LIST output';
 	}
     }
 

@@ -33,7 +33,7 @@ my $testdir = File::Spec->rel2abs("$tmpdir/testdir");
 my @dd = ("$builddir/../src/dpkg-divert");
 
 if (! -x "@dd") {
-    plan skip_all => "dpkg-divert not available";
+    plan skip_all => 'dpkg-divert not available';
     exit(0);
 }
 
@@ -142,14 +142,14 @@ sub diversions_eq {
     my (@expected_pack) = diversions_pack(@expected);
     my (@contents_pack) = diversions_pack(@contents);
 
-    is_deeply(\@contents_pack, \@expected_pack, "diversions contents");
+    is_deeply(\@contents_pack, \@expected_pack, 'diversions contents');
 }
 
 ### Tests
 
 cleanup();
 
-note("Command line parsing testing");
+note('Command line parsing testing');
 
 my $usagere = qr/.*Usage.*dpkg-divert.*Commands.*Options.*/s;
 
@@ -166,7 +166,7 @@ call_divert(['--version'], expect_stdout_like => qr/.*dpkg-divert.*free software
 call_divert_badusage(['--jachsmitbju'], qr/unknown option/);
 call_divert_badusage(['--add', '--remove'], qr/(conflicting|two).*remove.*add.*/s);
 call_divert_badusage(['--divert'], qr/(takes a value|needs.*argument)/);
-call_divert_badusage(['--divert', "foo"], qr/absolute/);
+call_divert_badusage(['--divert', 'foo'], qr/absolute/);
 call_divert_badusage(['--divert', "/foo\nbar"], qr/newline/);
 call_divert_badusage(['--package'], qr/(takes a value|needs.*argument)/);
 call_divert_badusage(['--package', "foo\nbar"], qr/newline/);
@@ -177,7 +177,7 @@ call_divert_badusage(['--add',], qr/needs a single argument/);
 call_divert_badusage(['--add', 'foo'], qr/absolute/);
 call_divert_badusage(['--add', "/foo\nbar"], qr/newline/);
 call_divert_badusage(['--add', "$testdir"], qr/director(y|ies)/);
-call_divert_badusage(['--add', "--divert", "bar", "/foo/bar"], qr/absolute/);
+call_divert_badusage(['--add', '--divert', 'bar', '/foo/bar'], qr/absolute/);
 call_divert_badusage(['--remove'], qr/needs a single argument/);
 call_divert_badusage(['--remove', 'foo'], qr/absolute/);
 call_divert_badusage(['--remove', "/foo\nbar"], qr/newline/);
@@ -192,7 +192,7 @@ call([@dd, '--admindir'], [],
 
 cleanup();
 
-note("Querying information from diverts db (empty one)");
+note('Querying information from diverts db (empty one)');
 
 install_diversions('');
 
@@ -202,7 +202,7 @@ call_divert_sort(['--list', 'baz'], expect_stdout => '', expect_stderr => '');
 
 cleanup();
 
-note("Querying information from diverts db (1)");
+note('Querying information from diverts db (1)');
 
 install_diversions(<<'EOF');
 /bin/sh
@@ -238,7 +238,7 @@ call_divert_sort(['--list', '/bin/sh', '/usr/share/man/man1/sh.1.gz'], expect_st
 
 cleanup();
 
-note("Querying information from diverts db (2)");
+note('Querying information from diverts db (2)');
 
 install_diversions(<<'EOF');
 /bin/sh
@@ -260,7 +260,7 @@ call_divert(['--truename', '/bin/something'], expect_stdout => "/bin/something\n
 
 cleanup();
 
-note("Adding diversion");
+note('Adding diversion');
 
 my $diversions_added_foo_local = <<"EOF";
 $testdir/foo
@@ -274,13 +274,13 @@ system("touch $testdir/foo");
 call_divert(['--rename', '--add', "$testdir/foo"],
             expect_stdout_like => qr,Adding.*local.*diversion.*\Q$testdir\E/foo.*\Q$testdir\E/foo.distrib,,
             expect_stderr => '');
-ok(-e "$testdir/foo.distrib", "foo diverted");
-ok(!-e "$testdir/foo", "foo diverted");
+ok(-e "$testdir/foo.distrib", 'foo diverted');
+ok(!-e "$testdir/foo", 'foo diverted');
 diversions_eq($diversions_added_foo_local);
 
 cleanup();
 
-note("Adding diversion (2)");
+note('Adding diversion (2)');
 
 install_diversions('');
 
@@ -288,61 +288,61 @@ system("touch $testdir/foo");
 call_divert(['--add', "$testdir/foo"],
             expect_stdout_like => qr,Adding.*local.*diversion.*\Q$testdir\E/foo.*\Q$testdir\E/foo.distrib,,
             expect_stderr => '');
-ok(!-e "$testdir/foo.distrib", "foo diverted");
-ok(-e "$testdir/foo", "foo diverted");
+ok(!-e "$testdir/foo.distrib", 'foo diverted');
+ok(-e "$testdir/foo", 'foo diverted');
 diversions_eq($diversions_added_foo_local);
 
 cleanup();
 
-note("Adding diversion (3)");
+note('Adding diversion (3)');
 
 install_diversions('');
 
 system("touch $testdir/foo");
 call_divert(['--quiet', '--rename', '--add', "$testdir/foo"],
             expect_stdout => '', expect_stderr => '');
-ok(-e "$testdir/foo.distrib", "foo diverted");
-ok(!-e "$testdir/foo", "foo diverted");
+ok(-e "$testdir/foo.distrib", 'foo diverted');
+ok(!-e "$testdir/foo", 'foo diverted');
 diversions_eq($diversions_added_foo_local);
 
 cleanup();
 
-note("Adding diversion (4)");
+note('Adding diversion (4)');
 
 install_diversions('');
 system("touch $testdir/foo");
 call_divert(['--quiet', '--rename', '--test', "$testdir/foo"],
             expect_stdout => '', expect_stderr => '');
-ok(-e "$testdir/foo", "foo not diverted");
-ok(!-e "$testdir/foo.distrib", "foo diverted");
+ok(-e "$testdir/foo", 'foo not diverted');
+ok(!-e "$testdir/foo.distrib", 'foo diverted');
 diversions_eq('');
 
 cleanup();
 
-note("Adding diversion (5)");
+note('Adding diversion (5)');
 
 install_diversions('');
 call_divert(['--quiet', '--rename', "$testdir/foo"],
             expect_stdout => '', expect_stderr => '');
-ok(!-e "$testdir/foo", "foo does not exist");
-ok(!-e "$testdir/foo.distrib", "foo was not created out of thin air");
+ok(!-e "$testdir/foo", 'foo does not exist');
+ok(!-e "$testdir/foo.distrib", 'foo was not created out of thin air');
 
 cleanup();
 
-note("Adding diversion (6)");
+note('Adding diversion (6)');
 
 install_diversions('');
 system("touch $testdir/foo");
 call_divert(['--quiet', '--local', '--rename', "$testdir/foo"],
             expect_stdout => '', expect_stderr => '');
 
-ok(-e "$testdir/foo.distrib", "foo diverted");
-ok(!-e "$testdir/foo", "foo diverted");
+ok(-e "$testdir/foo.distrib", 'foo diverted');
+ok(!-e "$testdir/foo", 'foo diverted');
 diversions_eq($diversions_added_foo_local);
 
 cleanup();
 
-note("Adding diversion (7)");
+note('Adding diversion (7)');
 
 install_diversions('');
 call_divert(['--quiet', '--rename', '--package', 'bash', "$testdir/foo"],
@@ -353,28 +353,28 @@ $testdir/foo.distrib
 bash
 EOF
 
-note("Adding diversion (8)");
+note('Adding diversion (8)');
 
 install_diversions('');
 system("touch $testdir/foo; ln $testdir/foo $testdir/foo.distrib");
-call_divert(["--rename", "$testdir/foo"]);
+call_divert(['--rename', "$testdir/foo"]);
 diversions_eq($diversions_added_foo_local);
-ok(!-e "$testdir/foo", "foo diverted");
-ok(-e "$testdir/foo.distrib", "foo diverted");
+ok(!-e "$testdir/foo", 'foo diverted');
+ok(-e "$testdir/foo.distrib", 'foo diverted');
 
 cleanup();
 
-note("Adding diversion (9)");
+note('Adding diversion (9)');
 
 install_diversions('');
 system("touch $testdir/foo $testdir/foo.distrib");
-call_divert(["--rename", "$testdir/foo"], expect_failure => 1,
+call_divert(['--rename', "$testdir/foo"], expect_failure => 1,
             expect_stderr_like => qr/overwriting/);
 diversions_eq('');
 
 cleanup();
 
-note("Adding second diversion");
+note('Adding second diversion');
 
 install_diversions('');
 call_divert(["$testdir/foo"]);
@@ -394,7 +394,7 @@ call_divert(['--divert', "$testdir/foo", "$testdir/bar"],
 
 cleanup();
 
-note("Adding third diversion");
+note('Adding third diversion');
 
 install_diversions('');
 call_divert(["$testdir/foo"]);
@@ -406,7 +406,7 @@ call_divert(['--package', 'foobar', "$testdir/bar"], expect_failure => 1,
 
 cleanup();
 
-note("Adding diversion in non-existing directory");
+note('Adding diversion in non-existing directory');
 
 install_diversions('');
 
@@ -420,16 +420,16 @@ EOF
 
 cleanup();
 
-note("Adding diversion of file owned by --package");
+note('Adding diversion of file owned by --package');
 
-install_filelist("coreutils", "i386", "$testdir/foo");
+install_filelist('coreutils', 'i386', "$testdir/foo");
 install_diversions('');
 system("touch $testdir/foo");
 
 call_divert(['--quiet', '--rename', '--add', '--package', 'coreutils', "$testdir/foo"],
             expect_stderr => '', expect_stdout => '');
-ok(-e "$testdir/foo", "foo not renamed");
-ok(!-e "$testdir/foo.distrib", "foo renamed");
+ok(-e "$testdir/foo", 'foo not renamed');
+ok(!-e "$testdir/foo.distrib", 'foo renamed');
 diversions_eq(<<"EOF");
 $testdir/foo
 $testdir/foo.distrib
@@ -438,7 +438,7 @@ EOF
 
 cleanup();
 
-note("Remove diversions");
+note('Remove diversions');
 
 install_diversions('');
 
@@ -447,21 +447,21 @@ call_divert(['--remove', '--quiet', '/bin/sh'], expect_stdout => '', expect_stde
 
 cleanup();
 
-note("Remove diversion (2)");
+note('Remove diversion (2)');
 
 install_diversions('');
 call_divert(["$testdir/foo"]);
 call_divert(["$testdir/bar"]);
 call_divert(["$testdir/baz"]);
 
-call_divert(["--divert", "$testdir/foo.my", "--remove", "$testdir/foo"],
+call_divert(['--divert', "$testdir/foo.my", '--remove', "$testdir/foo"],
            expect_failure => 1, expect_stderr_like => qr/mismatch on divert-to/);
-call_divert(["--package", "baz", "--remove", "$testdir/foo"],
+call_divert(['--package', 'baz', '--remove', "$testdir/foo"],
             expect_failure => 1, expect_stderr_like => qr/mismatch on package/);
-call_divert(["--package", "baz", "--divert", "$testdir/foo.my", "--remove", "$testdir/foo"],
+call_divert(['--package', 'baz', '--divert', "$testdir/foo.my", '--remove', "$testdir/foo"],
             expect_failure => 1, expect_stderr_like =>qr/mismatch on (package|divert-to)/);
 
-call_divert(["--divert", "$testdir/foo.distrib", "--remove", "$testdir/foo"],
+call_divert(['--divert', "$testdir/foo.distrib", '--remove', "$testdir/foo"],
             expect_stdout_like => qr,Removing.*\Q$testdir\E/foo,);
 diversions_eq(<<"EOF");
 $testdir/bar
@@ -474,7 +474,7 @@ EOF
 
 cleanup();
 
-note("Remove diversion (3)");
+note('Remove diversion (3)');
 
 install_diversions('');
 
@@ -482,7 +482,7 @@ call_divert(["$testdir/foo"]);
 call_divert(["$testdir/bar"]);
 call_divert(["$testdir/baz"]);
 
-call_divert(["--remove", "$testdir/bar"],
+call_divert(['--remove', "$testdir/bar"],
             expect_stdout_like => qr,Removing.*\Q$testdir\E/bar,);
 diversions_eq(<<"EOF");
 $testdir/foo
@@ -495,15 +495,15 @@ EOF
 
 cleanup();
 
-note("Remove diversion (4)");
+note('Remove diversion (4)');
 
 install_diversions('');
 
 call_divert(["$testdir/foo"]);
 call_divert(["$testdir/bar"]);
-call_divert(["--package", "bash", "$testdir/baz"]);
+call_divert(['--package', 'bash', "$testdir/baz"]);
 
-call_divert(["--quiet", "--package", "bash", "--remove", "$testdir/baz"],
+call_divert(['--quiet', '--package', 'bash', '--remove', "$testdir/baz"],
             expect_stdout => '', expect_stderr => '');
 diversions_eq(<<"EOF");
 $testdir/foo
@@ -516,19 +516,19 @@ EOF
 
 cleanup();
 
-note("Remove diversion(5)");
+note('Remove diversion(5)');
 
 install_diversions('');
 system("touch $testdir/foo");
-call_divert(["--rename", "$testdir/foo"]);
+call_divert(['--rename', "$testdir/foo"]);
 
-call_divert(["--test", "--rename", "--remove", "$testdir/foo"],
+call_divert(['--test', '--rename', '--remove', "$testdir/foo"],
             expect_stdout_like => qr,Removing.*\Q$testdir\E/foo,, expect_stderr => '');
 ok(-e "$testdir/foo.distrib");
 ok(!-e "$testdir/foo");
 diversions_eq($diversions_added_foo_local);
 
-call_divert(["--quiet", "--rename", "--remove", "$testdir/foo"],
+call_divert(['--quiet', '--rename', '--remove', "$testdir/foo"],
             expect_stdout => '', expect_stderr => '');
 ok(-e "$testdir/foo");
 ok(!-e "$testdir/foo.distrib");
@@ -536,10 +536,10 @@ diversions_eq('');
 
 cleanup();
 
-note("Corrupted divertions db handling");
+note('Corrupted divertions db handling');
 
 SKIP: {
-    skip "running as root or similar", 3, if (defined($ENV{FAKEROOTKEY}) or $> == 0);
+    skip 'running as root or similar', 3, if (defined($ENV{FAKEROOTKEY}) or $> == 0);
 
     # An inexistent diversions db file should not be considered a failure,
     # but a failure to open it should be.
@@ -568,9 +568,9 @@ call_divert_sort(['--list'], expect_failure => 1,
 cleanup();
 
 SKIP: {
-    skip "running as root or similar", 10, if (defined($ENV{FAKEROOTKEY}) or $> == 0);
+    skip 'running as root or similar', 10, if (defined($ENV{FAKEROOTKEY}) or $> == 0);
 
-    note("R/O directory");
+    note('R/O directory');
 
     install_diversions('');
     system("mkdir $testdir/rodir && touch $testdir/rodir/foo $testdir/bar && chmod 500 $testdir/rodir");
@@ -583,7 +583,7 @@ SKIP: {
     system("chmod 755 $testdir/rodir");
     cleanup();
 
-    note("Unavailable file");
+    note('Unavailable file');
 
     install_diversions('');
     system("mkdir $testdir/nadir && chmod 000 $testdir/nadir");
@@ -597,12 +597,12 @@ SKIP: {
     cleanup();
 }
 
-note("Errors during saving diversions db");
+note('Errors during saving diversions db');
 
 install_diversions('');
 
 SKIP: {
-    skip "running as root or similar", 4, if (defined($ENV{FAKEROOTKEY}) or $> == 0);
+    skip 'running as root or similar', 4, if (defined($ENV{FAKEROOTKEY}) or $> == 0);
 
     system("chmod 500 $admindir");
     call_divert(["$testdir/foo"], expect_failure => 1, expect_stderr_like => qr/create.*new/);

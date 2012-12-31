@@ -18,7 +18,7 @@ package Dpkg::Shlibs;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use base qw(Exporter);
 our @EXPORT_OK = qw(@librarypaths find_library);
@@ -75,12 +75,12 @@ if ($ENV{LD_LIBRARY_PATH}) {
 }
 
 # Update library paths with ld.so config
-parse_ldso_conf("/etc/ld.so.conf") if -e "/etc/ld.so.conf";
+parse_ldso_conf('/etc/ld.so.conf') if -e '/etc/ld.so.conf';
 
 my %visited;
 sub parse_ldso_conf {
     my $file = shift;
-    open my $fh, "<", $file or syserr(_g("cannot open %s"), $file);
+    open my $fh, '<', $file or syserr(_g('cannot open %s'), $file);
     $visited{$file}++;
     while (<$fh>) {
 	next if /^\s*$/;
@@ -105,7 +105,7 @@ sub parse_ldso_conf {
 # find_library ($soname, \@rpath, $format, $root)
 sub find_library {
     my ($lib, $rpath, $format, $root) = @_;
-    $root //= "";
+    $root //= '';
     $root =~ s{/+$}{};
     my @rpath = @{$rpath};
     foreach my $dir (@rpath, @librarypaths) {

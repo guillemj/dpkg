@@ -26,7 +26,7 @@ package Dpkg::Gettext;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 BEGIN {
 	eval 'use Locale::gettext';

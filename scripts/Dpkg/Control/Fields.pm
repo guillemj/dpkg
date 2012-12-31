@@ -18,7 +18,7 @@ package Dpkg::Control::Fields;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use base qw(Exporter);
 use Dpkg::Gettext;
@@ -288,7 +288,7 @@ our %FIELDS = (
 );
 
 my @checksum_fields = map { &field_capitalize("Checksums-$_") } checksums_get_list();
-my @sum_fields = map { $_ eq "md5" ? "MD5sum" : &field_capitalize($_) }
+my @sum_fields = map { $_ eq 'md5' ? 'MD5sum' : &field_capitalize($_) }
                  checksums_get_list();
 &field_register($_, CTRL_PKG_SRC | CTRL_FILE_CHANGES) foreach @checksum_fields;
 &field_register($_, CTRL_INDEX_PKG) foreach @sum_fields;
@@ -330,20 +330,20 @@ $FIELD_ORDER{CTRL_INDEX_PKG()} = [ @{$FIELD_ORDER{CTRL_PKG_DEB()}} ];
 &field_insert_before(CTRL_INDEX_PKG, 'Section', 'Filename', 'Size', @sum_fields);
 # Order for CTRL_INDEX_SRC is derived from CTRL_PKG_SRC
 $FIELD_ORDER{CTRL_INDEX_SRC()} = [ @{$FIELD_ORDER{CTRL_PKG_SRC()}} ];
-@{$FIELD_ORDER{CTRL_INDEX_SRC()}} = map { $_ eq "Source" ? "Package" : $_ }
+@{$FIELD_ORDER{CTRL_INDEX_SRC()}} = map { $_ eq 'Source' ? 'Package' : $_ }
                                   @{$FIELD_ORDER{CTRL_PKG_SRC()}};
-&field_insert_after(CTRL_INDEX_SRC, "Version", "Priority", "Section");
-&field_insert_before(CTRL_INDEX_SRC, "Checksums-Md5", "Directory");
+&field_insert_after(CTRL_INDEX_SRC, 'Version', 'Priority', 'Section');
+&field_insert_before(CTRL_INDEX_SRC, 'Checksums-Md5', 'Directory');
 
 # Register vendor specifics fields
-foreach my $op (run_vendor_hook("register-custom-fields")) {
+foreach my $op (run_vendor_hook('register-custom-fields')) {
     next if not (defined $op and ref $op); # Skip when not implemented by vendor
     my $func = shift @$op;
-    if ($func eq "register") {
+    if ($func eq 'register') {
         &field_register(@$op);
-    } elsif ($func eq "insert_before") {
+    } elsif ($func eq 'insert_before') {
         &field_insert_before(@$op);
-    } elsif ($func eq "insert_after") {
+    } elsif ($func eq 'insert_after') {
         &field_insert_after(@$op);
     } else {
         error("vendor hook register-custom-fields sent bad data: @$op");
@@ -376,7 +376,7 @@ except the first of each word (words are separated by a dash in field names).
 sub field_capitalize($) {
     my $field = lc(shift);
     # Some special cases due to history
-    return "MD5sum" if $field eq "md5sum";
+    return 'MD5sum' if $field eq 'md5sum';
     return uc($field) if checksums_is_supported($field);
     # Generic case
     return join '-', map { ucfirst } split /-/, $field;
@@ -466,7 +466,7 @@ sub field_transfer_single($$;$) {
 	}
     } elsif (not field_is_allowed_in($field, $from_type)) {
         warning(_g("unknown information field '%s' in input data in %s"),
-                $field, $from->get_option("name") || _g("control information"));
+                $field, $from->get_option('name') || _g('control information'));
     }
     return;
 }

@@ -27,7 +27,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Changelog::Parse;
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 my %options;
 my $fieldname;
@@ -35,23 +35,23 @@ my $fieldname;
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
-    printf _g("
+    printf _g('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
-");
+');
 }
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...]")
+'Usage: %s [<option>...]')
     . "\n\n" . _g(
-"Options:
+'Options:
   -l<changelog-file>       get per-version info from this file.
   -F<changelog-format>     force changelog format.
   -L<libdir>               look for changelog parsers in <libdir>.
   -S, --show-field <field> show the values for <field>.
   -?, --help               show this help message.
-      --version            show the version.")
+      --version            show the version.')
     . "\n\n" . _g(
 "Parser options:
     --format <output-format>    see man page for list of available
@@ -88,17 +88,17 @@ while (@ARGV) {
     } elsif (m/^--$/) {
 	last;
     } elsif (m/^-([cfnostuv])(.*)$/) {
-	if (($1 eq "c") or ($1 eq "n")) {
+	if (($1 eq 'c') or ($1 eq 'n')) {
 	    $options{count} = $2;
-	} elsif ($1 eq "f") {
+	} elsif ($1 eq 'f') {
 	    $options{from} = $2;
-	} elsif ($1 eq "o") {
+	} elsif ($1 eq 'o') {
 	    $options{offset} = $2;
-	} elsif (($1 eq "s") or ($1 eq "v")) {
+	} elsif (($1 eq 's') or ($1 eq 'v')) {
 	    $options{since} = $2;
-	} elsif ($1 eq "t") {
+	} elsif ($1 eq 't') {
 	    $options{to} = $2;
-	} elsif ($1 eq "u") {
+	} elsif ($1 eq 'u') {
 	    ## no critic (ControlStructures::ProhibitUntilBlocks)
 	    $options{until} = $2;
 	    ## use critic
@@ -120,7 +120,7 @@ while (@ARGV) {
     }
 }
 
-@ARGV && usageerr(_g("takes no non-option arguments"));
+@ARGV && usageerr(_g('takes no non-option arguments'));
 
 my $count = 0;
 my @fields = changelog_parse(%options);

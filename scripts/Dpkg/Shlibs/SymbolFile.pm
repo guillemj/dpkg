@@ -19,7 +19,7 @@ package Dpkg::Shlibs::SymbolFile;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -215,7 +215,7 @@ sub parse {
 
 	if (/^(?:\s+|#(?:DEPRECATED|MISSING): ([^#]+)#\s*)(.*)/) {
 	    if (not defined ($$obj_ref)) {
-		error(_g("symbol information must be preceded by a header (file %s, line %s)"), $file, $.);
+		error(_g('symbol information must be preceded by a header (file %s, line %s)'), $file, $.);
 	    }
 	    # Symbol specification
 	    my $deprecated = ($1) ? $1 : 0;
@@ -223,7 +223,7 @@ sub parse {
 	    if ($self->create_symbol($2, base => $sym)) {
 		$self->add_symbol($sym, $$obj_ref);
 	    } else {
-		warning(_g("Failed to parse line in %s: %s"), $file, $_);
+		warning(_g('Failed to parse line in %s: %s'), $file, $_);
 	    }
 	} elsif (/^(\(.*\))?#include\s+"([^"]+)"/) {
 	    my $tagspec = $1;
@@ -255,7 +255,7 @@ sub parse {
 		$self->create_object($$obj_ref, "$2");
 	    }
 	} else {
-	    warning(_g("Failed to parse a line in %s: %s"), $file, $_);
+	    warning(_g('Failed to parse a line in %s: %s'), $file, $_);
 	}
     }
     delete $seen->{$file};
@@ -268,7 +268,7 @@ sub merge_object_from_symfile {
     if (not $self->has_object($objid)) {
         $self->{objects}{$objid} = $src->get_object($objid);
     } else {
-        warning(_g("tried to merge the same object (%s) twice in a symfile"), $objid);
+        warning(_g('tried to merge the same object (%s) twice in a symfile'), $objid);
     }
 }
 
@@ -277,7 +277,7 @@ sub output {
     $opts{template_mode} = 0 unless exists $opts{template_mode};
     $opts{with_deprecated} = 1 unless exists $opts{with_deprecated};
     $opts{with_pattern_matches} = 0 unless exists $opts{with_pattern_matches};
-    my $res = "";
+    my $res = '';
     foreach my $soname (sort $self->get_sonames()) {
 	my @deps = $self->get_dependencies($soname);
 	my $dep = shift @deps;
@@ -320,8 +320,8 @@ sub output {
 		for my $match (sort { $a->get_symboltempl() cmp
 		                      $b->get_symboltempl() } $sym->get_pattern_matches())
 		{
-		    print $fh "#MATCH:", $match->get_symbolspec(0), "\n" if defined $fh;
-		    $res .= "#MATCH:" . $match->get_symbolspec(0) . "\n" if defined wantarray;
+		    print $fh '#MATCH:', $match->get_symbolspec(0), "\n" if defined $fh;
+		    $res .= '#MATCH:' . $match->get_symbolspec(0) . "\n" if defined wantarray;
 		}
 	    }
 	}
@@ -385,14 +385,14 @@ sub find_matching_pattern {
 # machinery
 sub merge_symbols {
     my ($self, $object, $minver) = @_;
-    my $soname = $object->{SONAME} || error(_g("cannot merge symbols from objects without SONAME"));
+    my $soname = $object->{SONAME} || error(_g('cannot merge symbols from objects without SONAME'));
     my %dynsyms;
     foreach my $sym ($object->get_exported_dynamic_symbols()) {
         my $name = $sym->{name} . '@' .
-                   ($sym->{version} ? $sym->{version} : "Base");
+                   ($sym->{version} ? $sym->{version} : 'Base');
         my $symobj = $self->lookup_symbol($name, $soname);
         if (exists $blacklist{$sym->{name}}) {
-            next unless (defined $symobj and $symobj->has_tag("ignore-blacklist"));
+            next unless (defined $symobj and $symobj->has_tag('ignore-blacklist'));
         }
         $dynsyms{$name} = $sym;
     }
@@ -544,7 +544,7 @@ sub lookup_pattern {
 		    if (exists $obj->{patterns}{aliases}{$type}) {
 			$pat = $obj->{patterns}{aliases}{$type}{$refpat->get_symbolname()};
 		    }
-		} elsif ($refpat->get_pattern_type() eq "generic") {
+		} elsif ($refpat->get_pattern_type() eq 'generic') {
 		    for my $p (@{$obj->{patterns}{generic}}) {
 			if (($inc_deprecated || !$p->{deprecated}) &&
 			    $p->equals($refpat, versioning => 0))

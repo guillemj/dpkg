@@ -18,7 +18,7 @@ use Test::More tests => 124;
 use strict;
 use warnings;
 
-use_ok("Dpkg::Shlibs::Cppfilt");
+use_ok('Dpkg::Shlibs::Cppfilt');
 
 # Simple C++ demangling tests
 is ( cppfilt_demangle_cpp('_ZNSt10istrstreamC1EPKcl'),
@@ -80,6 +80,6 @@ END
 for (my $try = 1; $try <= 7; $try++) {
     for (my $i = 0; $i <= $#mangledtext; $i++) {
 	my $demangled = cppfilt_demangle_cpp($mangledtext[$i]) || $mangledtext[$i];
-	is( $demangled, $demangledtext[$i], "mass c++ demangling (${try}x".(${i}+1).")");
+	is($demangled, $demangledtext[$i], "mass c++ demangling (${try}x" . (${i} + 1) . ')');
     }
 }

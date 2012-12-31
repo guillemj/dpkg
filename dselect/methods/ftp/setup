@@ -32,7 +32,7 @@ my $vardir = $ARGV[0];
 my $method = $ARGV[1];
 my $option = $ARGV[2];
 
-if ($option eq "manual") {
+if ($option eq 'manual') {
     print "Manual package installation.\n";
     exit 0;
 }
@@ -48,11 +48,11 @@ chomp $logname;
 my $host = `cat /etc/mailname || dnsdomainname`;
 chomp $host;
 
-$config{dldir} = "debian";
+$config{dldir} = 'debian';
 $config{use_auth_proxy} = 0;
-$config{proxyhost} = "";
+$config{proxyhost} = '';
 $config{proxylogname} = $logname;
-$config{proxypassword} = "";
+$config{proxypassword} = '';
 
 my $methdir = "$vardir/methods/ftp";
 my $exit = 0;
@@ -63,8 +63,8 @@ if (-f "$methdir/vars") {
 }
 
 chdir "$methdir";
-if (! -d "debian") {
-    mkdir "debian", 0755;
+if (! -d 'debian') {
+    mkdir 'debian', 0755;
 }
 # get info from user
 
@@ -102,7 +102,7 @@ Eg:  use auth proxy: y
 EOM
 
 if (! $config{done}) {
-  view_mirrors() if (yesno("y", "Would you like to see a list of ftp mirrors"));
+  view_mirrors() if (yesno('y', 'Would you like to see a list of ftp mirrors'));
   add_site();
 }
 edit_config($methdir);
@@ -127,10 +127,10 @@ sub download() {
     foreach $dist (@dists) {
 	my $dir = "$dist/binary-$arch";
 	print "Checking $dir...\n";
-#	if(!$ftp->pasv()) { print $ftp->message . "\n"; die "error"; }
+#	if (!$ftp->pasv()) { print $ftp->message . "\n"; die 'error'; }
 	my @dirlst = $ftp->ls("$dir/");
 	my $got_pkgfile = 0;
-	my $line = "";
+	my $line = '';
 	foreach $line (@dirlst) {
 	    if($line =~ /Packages/) {
 		$got_pkgfile=1;
@@ -157,8 +157,8 @@ eval {
 };
 if($@) {
     $ftp->quit();
-    print "FTP ERROR - ";
-    if ($@ eq "connect") {
+    print 'FTP ERROR - ';
+    if ($@ eq 'connect') {
 	print "config was untested\n";
     } else {
 	print "$@\n";

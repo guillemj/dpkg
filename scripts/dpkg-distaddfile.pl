@@ -27,7 +27,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::File;
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 my $fileslistfile = 'debian/files';
 
@@ -35,21 +35,21 @@ my $fileslistfile = 'debian/files';
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
-    printf _g("
+    printf _g('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
-");
+');
 }
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...] <filename> <section> <priority>
+'Usage: %s [<option>...] <filename> <section> <priority>
 
 Options:
   -f<files-list-file>      write files here instead of debian/files.
   -?, --help               show this help message.
       --version            show the version.
-"), $progname;
+'), $progname;
 }
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {
@@ -69,38 +69,38 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     }
 }
 
-@ARGV == 3 || usageerr(_g("need exactly a filename, section and priority"));
+@ARGV == 3 || usageerr(_g('need exactly a filename, section and priority'));
 my ($file, $section, $priority) = @ARGV;
 
 ($file =~ m/\s/ || $section =~ m/\s/ || $priority =~ m/\s/) &&
-    error(_g("filename, section and priority may contain no whitespace"));
+    error(_g('filename, section and priority may contain no whitespace'));
 
 # Obtain a lock on debian/control to avoid simultaneous updates
 # of debian/files when parallel building is in use
 my $lockfh;
-sysopen($lockfh, "debian/control", O_WRONLY) ||
-    syserr(_g("cannot write %s"), "debian/control");
-file_lock($lockfh, "debian/control");
+sysopen($lockfh, 'debian/control', O_WRONLY) ||
+    syserr(_g('cannot write %s'), 'debian/control');
+file_lock($lockfh, 'debian/control');
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(my $fileslistnew_fh, '>', "$fileslistfile.new") ||
-    syserr(_g("open new files list file"));
+    syserr(_g('open new files list file'));
 if (open(my $fileslist_fh, '<', $fileslistfile)) {
     while (<$fileslist_fh>) {
         s/\n$//;
         next if m/^(\S+) / && $1 eq $file;
         print($fileslistnew_fh "$_\n") ||
-            syserr(_g("copy old entry to new files list file"));
+            syserr(_g('copy old entry to new files list file'));
     }
     close $fileslist_fh or syserr(_g('cannot close %s'), $fileslistfile);
 } elsif ($! != ENOENT) {
-    syserr(_g("read old files list file"));
+    syserr(_g('read old files list file'));
 }
 print($fileslistnew_fh "$file $section $priority\n")
-    || syserr(_g("write new entry to new files list file"));
-close($fileslistnew_fh) || syserr(_g("close new files list file"));
+    || syserr(_g('write new entry to new files list file'));
+close($fileslistnew_fh) || syserr(_g('close new files list file'));
 rename("$fileslistfile.new", $fileslistfile) ||
-    syserr(_g("install new files list file"));
+    syserr(_g('install new files list file'));
 
 # Release the lock
-close($lockfh) || syserr(_g("cannot close %s"), "debian/control");
+close($lockfh) || syserr(_g('cannot close %s'), 'debian/control');

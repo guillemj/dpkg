@@ -34,7 +34,7 @@ package Dpkg::Changelog::Parse;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg; # for $dpkglibdir
 use Dpkg::Gettext;
@@ -74,11 +74,11 @@ it's passed as the parameter that follows.
 
 sub changelog_parse {
     my (%options) = @_;
-    my @parserpath = ("/usr/local/lib/dpkg/parsechangelog",
+    my @parserpath = ('/usr/local/lib/dpkg/parsechangelog',
                       "$dpkglibdir/parsechangelog",
-                      "/usr/lib/dpkg/parsechangelog");
-    my $format = "debian";
-    my $changelogfile = "debian/changelog";
+                      '/usr/lib/dpkg/parsechangelog');
+    my $format = 'debian';
+    my $changelogfile = 'debian/changelog';
     my $force = 0;
 
     # Extract and remove options that do not concern the changelog parser
@@ -98,12 +98,12 @@ sub changelog_parse {
     }
 
     # Extract the format from the changelog file if possible
-    unless($force or ($changelogfile eq "-")) {
-	open(my $format_fh, "-|", "tail", "-n", "40", $changelogfile);
+    unless($force or ($changelogfile eq '-')) {
+	open(my $format_fh, '-|', 'tail', '-n', '40', $changelogfile);
 	while (<$format_fh>) {
 	    $format = $1 if m/\schangelog-format:\s+([0-9a-z]+)\W/;
 	}
-	close($format_fh) or subprocerr(_g("tail of %s"), $changelogfile);
+	close($format_fh) or subprocerr(_g('tail of %s'), $changelogfile);
     }
 
     # Find the right changelog parser
@@ -115,10 +115,10 @@ sub changelog_parse {
 	    $parser = $candidate;
 	    last;
 	} else {
-	    warning(_g("format parser %s not executable"), $candidate);
+	    warning(_g('format parser %s not executable'), $candidate);
 	}
     }
-    error(_g("changelog format %s is unknown"), $format) if not defined $parser;
+    error(_g('changelog format %s is unknown'), $format) if not defined $parser;
 
     # Create the arguments for the changelog parser
     my @exec = ($parser, "-l$changelogfile");
@@ -134,24 +134,24 @@ sub changelog_parse {
     }
 
     # Fork and call the parser
-    my $pid = open(my $parser_fh, "-|");
-    syserr(_g("cannot fork for %s"), $parser) unless defined $pid;
+    my $pid = open(my $parser_fh, '-|');
+    syserr(_g('cannot fork for %s'), $parser) unless defined $pid;
     if (not $pid) {
-	if ($changelogfile ne "-") {
-	    open(STDIN, "<", $changelogfile) or
-		syserr(_g("cannot open %s"), $changelogfile);
+	if ($changelogfile ne '-') {
+	    open(STDIN, '<', $changelogfile) or
+		syserr(_g('cannot open %s'), $changelogfile);
 	}
-	exec(@exec) || syserr(_g("cannot exec format parser: %s"), $parser);
+	exec(@exec) || syserr(_g('cannot exec format parser: %s'), $parser);
     }
 
     # Get the output into several Dpkg::Control objects
     my (@res, $fields);
     while (1) {
         $fields = Dpkg::Control::Changelog->new();
-        last unless $fields->parse($parser_fh, _g("output of changelog parser"));
+        last unless $fields->parse($parser_fh, _g('output of changelog parser'));
 	push @res, $fields;
     }
-    close($parser_fh) or subprocerr(_g("changelog parser %s"), $parser);
+    close($parser_fh) or subprocerr(_g('changelog parser %s'), $parser);
     if (wantarray) {
 	return @res;
     } else {

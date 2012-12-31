@@ -18,7 +18,7 @@ package Dpkg::Vendor::Default;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 # If you use this file as template to create a new vendor object, please
 # uncomment the following lines
@@ -111,17 +111,17 @@ Dpkg::BuildFlags object.
 sub run_hook {
     my ($self, $hook, @params) = @_;
 
-    if ($hook eq "before-source-build") {
+    if ($hook eq 'before-source-build') {
         my $srcpkg = shift @params;
-    } elsif ($hook eq "keyrings") {
+    } elsif ($hook eq 'keyrings') {
         return ();
-    } elsif ($hook eq "register-custom-fields") {
+    } elsif ($hook eq 'register-custom-fields') {
         return ();
-    } elsif ($hook eq "post-process-changelog-entry") {
+    } elsif ($hook eq 'post-process-changelog-entry') {
         my $fields = shift @params;
-    } elsif ($hook eq "extend-patch-header") {
+    } elsif ($hook eq 'extend-patch-header') {
 	my ($textref, $ch_info) = @params;
-    } elsif ($hook eq "update-buildflags") {
+    } elsif ($hook eq 'update-buildflags') {
 	my $flags = shift @params;
     }
 

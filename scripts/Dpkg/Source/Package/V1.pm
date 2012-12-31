@@ -18,7 +18,7 @@ package Dpkg::Source::Package::V1;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use base 'Dpkg::Source::Package';
 
@@ -38,7 +38,7 @@ use File::Basename;
 use File::Temp qw(tempfile);
 use File::Spec;
 
-our $CURRENT_MINOR_VERSION = "0";
+our $CURRENT_MINOR_VERSION = '0';
 
 sub init_options {
     my ($self) = @_;
@@ -49,8 +49,8 @@ sub init_options {
     } else {
 	$self->{options}{diff_ignore_regexp} = '(?:^|/)debian/source/local-.*$';
     }
-    push @{$self->{options}{tar_ignore}}, "debian/source/local-options",
-         "debian/source/local-patch-header";
+    push @{$self->{options}{tar_ignore}}, 'debian/source/local-options',
+         'debian/source/local-patch-header';
     $self->{options}{sourcestyle} ||= 'X';
     $self->{options}{skip_debianization} ||= 0;
     $self->{options}{abort_on_upstream_changes} ||= 0;
@@ -60,7 +60,7 @@ sub parse_cmdline_option {
     my ($self, $opt) = @_;
     my $o = $self->{options};
     if ($opt =~ m/^-s([akpursnAKPUR])$/) {
-        warning(_g("-s%s option overrides earlier -s%s option"), $1,
+        warning(_g('-s%s option overrides earlier -s%s option'), $1,
                 $o->{sourcestyle}) if $o->{sourcestyle} ne 'X';
         $o->{sourcestyle} = $1;
         $o->{copy_orig_tarballs} = 0 if $1 eq 'n'; # Extract option -sn
@@ -82,7 +82,7 @@ sub do_extract {
 
     $sourcestyle =~ y/X/p/;
     $sourcestyle =~ m/[pun]/ ||
-	usageerr(_g("source handling style -s%s not allowed with -x"),
+	usageerr(_g('source handling style -s%s not allowed with -x'),
 	         $sourcestyle);
 
     my $dscdir = $self->{basedir};
@@ -94,20 +94,20 @@ sub do_extract {
     my ($tarfile, $difffile);
     foreach my $file ($self->get_files()) {
 	if ($file =~ /^(?:\Q$basename\E\.orig|\Q$basenamerev\E)\.tar\.gz$/) {
-            error(_g("multiple tarfiles in v1.0 source package")) if $tarfile;
+            error(_g('multiple tarfiles in v1.0 source package')) if $tarfile;
             $tarfile = $file;
 	} elsif ($file =~ /^\Q$basenamerev\E\.diff\.gz$/) {
 	    $difffile = $file;
 	} else {
-	    error(_g("unrecognized file for a %s source package: %s"),
-                  "v1.0", $file);
+	    error(_g('unrecognized file for a %s source package: %s'),
+                  'v1.0', $file);
 	}
     }
 
-    error(_g("no tarfile in Files field")) unless $tarfile;
+    error(_g('no tarfile in Files field')) unless $tarfile;
     my $native = $difffile ? 0 : 1;
     if ($native and ($tarfile =~ /\.orig\.tar\.gz$/)) {
-        warning(_g("native package with .orig.tar"));
+        warning(_g('native package with .orig.tar'));
         $native = 0; # V3::native doesn't handle orig.tar
     }
 
@@ -124,39 +124,39 @@ sub do_extract {
                            "$newdirectory.tmp-keep");
         }
 
-        info(_g("unpacking %s"), $tarfile);
+        info(_g('unpacking %s'), $tarfile);
         my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
         $tar->extract($expectprefix);
 
         if ($sourcestyle =~ /u/) {
             # -su: keep .orig directory unpacked
             if (-e "$newdirectory.tmp-keep") {
-                error(_g("unable to keep orig directory (already exists)"));
+                error(_g('unable to keep orig directory (already exists)'));
             }
             system('cp', '-ar', '--', $expectprefix, "$newdirectory.tmp-keep");
             subprocerr("cp $expectprefix to $newdirectory.tmp-keep") if $?;
         }
 
 	rename($expectprefix, $newdirectory) ||
-	    syserr(_g("failed to rename newly-extracted %s to %s"),
+	    syserr(_g('failed to rename newly-extracted %s to %s'),
 	           $expectprefix, $newdirectory);
 
 	# rename the copied .orig directory
 	if (-e "$newdirectory.tmp-keep") {
 	    rename("$newdirectory.tmp-keep", $expectprefix) ||
-                    syserr(_g("failed to rename saved %s to %s"),
+                    syserr(_g('failed to rename saved %s to %s'),
 	                   "$newdirectory.tmp-keep", $expectprefix);
         }
     }
 
     if ($difffile and not $self->{options}{skip_debianization}) {
         my $patch = "$dscdir$difffile";
-	info(_g("applying %s"), $difffile);
+	info(_g('applying %s'), $difffile);
 	my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
 	my $analysis = $patch_obj->apply($newdirectory, force_timestamp => 1);
 	my @files = grep { ! m{^\Q$newdirectory\E/debian/} }
 		    sort keys %{$analysis->{filepatched}};
-	info(_g("upstream files that have been modified: %s"),
+	info(_g('upstream files that have been modified: %s'),
 	     "\n " . join("\n ", @files)) if scalar @files;
     }
 }
@@ -165,8 +165,8 @@ sub can_build {
     my ($self, $dir) = @_;
     # As long as we can use gzip, we can do it as we have
     # native packages as fallback
-    return ($self->{options}{compression} eq "gzip",
-            _g("only supports gzip compression"));
+    return ($self->{options}{compression} eq 'gzip',
+            _g('only supports gzip compression'));
 }
 
 sub do_build {
@@ -177,13 +177,13 @@ sub do_build {
     my $diff_ignore_regexp = $self->{options}{diff_ignore_regexp};
 
     if (scalar(@argv) > 1) {
-        usageerr(_g("-b takes at most a directory and an orig source ".
-                    "argument (with v1.0 source package)"));
+        usageerr(_g('-b takes at most a directory and an orig source ' .
+                    'argument (with v1.0 source package)'));
     }
 
     $sourcestyle =~ y/X/A/;
     unless ($sourcestyle =~ m/[akpursnAKPUR]/) {
-        usageerr(_g("source handling style -s%s not allowed with -b"),
+        usageerr(_g('source handling style -s%s not allowed with -b'),
                  $sourcestyle);
     }
 
@@ -195,7 +195,7 @@ sub do_build {
 
     # Try to find a .orig tarball for the package
     my $origdir = "$dir.orig";
-    my $origtargz = $self->get_basename() . ".orig.tar.gz";
+    my $origtargz = $self->get_basename() . '.orig.tar.gz';
     if (-e $origtargz) {
         unless (-f $origtargz) {
             error(_g("packed orig `%s' exists but is not a plain file"), $origtargz);
@@ -210,33 +210,33 @@ sub do_build {
         my $origarg = shift(@argv);
         if (length($origarg)) {
             stat($origarg) ||
-                syserr(_g("cannot stat orig argument %s"), $origarg);
+                syserr(_g('cannot stat orig argument %s'), $origarg);
             if (-d _) {
                 $origdir = File::Spec->catdir($origarg);
 
                 $sourcestyle =~ y/aA/rR/;
                 unless ($sourcestyle =~ m/[ursURS]/) {
-                    error(_g("orig argument is unpacked but source handling " .
-                             "style -s%s calls for packed (.orig.tar.<ext>)"),
+                    error(_g('orig argument is unpacked but source handling ' .
+                             'style -s%s calls for packed (.orig.tar.<ext>)'),
                           $sourcestyle);
                 }
             } elsif (-f _) {
                 $origtargz = $origarg;
                 $sourcestyle =~ y/aA/pP/;
                 unless ($sourcestyle =~ m/[kpsKPS]/) {
-                    error(_g("orig argument is packed but source handling " .
-                             "style -s%s calls for unpacked (.orig/)"),
+                    error(_g('orig argument is packed but source handling ' .
+                             'style -s%s calls for unpacked (.orig/)'),
                           $sourcestyle);
                 }
             } else {
-                error(_g("orig argument %s is not a plain file or directory"),
+                error(_g('orig argument %s is not a plain file or directory'),
                       $origarg);
             }
         } else {
             $sourcestyle =~ y/aA/nn/;
             $sourcestyle =~ m/n/ ||
-                error(_g("orig argument is empty (means no orig, no diff) " .
-                         "but source handling style -s%s wants something"),
+                error(_g('orig argument is empty (means no orig, no diff) ' .
+                         'but source handling style -s%s wants something'),
                       $sourcestyle);
         }
     } elsif ($sourcestyle =~ m/[aA]/) {
@@ -271,8 +271,8 @@ sub do_build {
 	my ($origdirname, $origdirbase) = fileparse($origdir);
 
         if ($origdirname ne "$basedirname.orig") {
-            warning(_g(".orig directory name %s is not <package>" .
-	               "-<upstreamversion> (wanted %s)"),
+            warning(_g('.orig directory name %s is not <package>' .
+	               '-<upstreamversion> (wanted %s)'),
 	            $origdirname, "$basedirname.orig");
         }
         $tardirbase = $origdirbase;
@@ -280,26 +280,26 @@ sub do_build {
 
 	$tarname = $origtargz || "$basename.orig.tar.gz";
 	unless ($tarname =~ /\Q$basename\E\.orig\.tar\.gz/) {
-	    warning(_g(".orig.tar name %s is not <package>_<upstreamversion>" .
-	               ".orig.tar (wanted %s)"),
+	    warning(_g('.orig.tar name %s is not <package>_<upstreamversion>' .
+	               '.orig.tar (wanted %s)'),
 	            $tarname, "$basename.orig.tar.gz");
 	}
     }
 
-    if ($sourcestyle eq "n") {
+    if ($sourcestyle eq 'n') {
         $self->{options}{ARGV} = []; # ensure we have no error
         Dpkg::Source::Package::V3::native::do_build($self, $dir);
     } elsif ($sourcestyle =~ m/[nurUR]/) {
         if (stat($tarname)) {
             unless ($sourcestyle =~ m/[nUR]/) {
 		error(_g("tarfile `%s' already exists, not overwriting, " .
-		         "giving up; use -sU or -sR to override"), $tarname);
+		         'giving up; use -sU or -sR to override'), $tarname);
             }
         } elsif ($! != ENOENT) {
 	    syserr(_g("unable to check for existence of `%s'"), $tarname);
         }
 
-	info(_g("building %s in %s"),
+	info(_g('building %s in %s'),
 	     $sourcepackage, $tarname);
 
 	my ($ntfh, $newtar) = tempfile("$tarname.new.XXXXXX",
@@ -316,7 +316,7 @@ sub do_build {
 	chmod(0666 &~ umask(), $tarname) ||
 	    syserr(_g("unable to change permission of `%s'"), $tarname);
     } else {
-	info(_g("building %s using existing %s"),
+	info(_g('building %s using existing %s'),
 	     $sourcepackage, $tarname);
     }
 
@@ -326,7 +326,7 @@ sub do_build {
         if (stat($origdir)) {
             unless ($sourcestyle =~ m/[KP]/) {
                 error(_g("orig dir `%s' already exists, not overwriting, ".
-                         "giving up; use -sA, -sK or -sP to override"),
+                         'giving up; use -sA, -sK or -sP to override'),
                       $origdir);
             }
 	    push @Dpkg::Exit::handlers, sub { erasedir($origdir) };
@@ -344,13 +344,13 @@ sub do_build {
     my $ur; # Unrepresentable changes
     if ($sourcestyle =~ m/[kpursKPUR]/) {
 	my $diffname = "$basenamerev.diff.gz";
-	info(_g("building %s in %s"),
+	info(_g('building %s in %s'),
 	     $sourcepackage, $diffname);
 	my ($ndfh, $newdiffgz) = tempfile("$diffname.new.XXXXXX",
 					DIR => getcwd(), UNLINK => 0);
         push @Dpkg::Exit::handlers, sub { unlink($newdiffgz) };
         my $diff = Dpkg::Source::Patch->new(filename => $newdiffgz,
-                                            compression => "gzip");
+                                            compression => 'gzip');
         $diff->create();
         $diff->add_diff_directory($origdir, $dir,
                 basedirname => $basedirname,
@@ -364,11 +364,11 @@ sub do_build {
 	my @files = grep { ! m{^debian/} } map { s{^[^/]+/+}{}; $_ }
 		    sort keys %{$analysis->{filepatched}};
 	if (scalar @files) {
-	    warning(_g("the diff modifies the following upstream files: %s"),
+	    warning(_g('the diff modifies the following upstream files: %s'),
 	            "\n " . join("\n ", @files));
 	    info(_g("use the '3.0 (quilt)' format to have separate and " .
-	            "documented changes to upstream files, see dpkg-source(1)"));
-	    error(_g("aborting due to --abort-on-upstream-changes"))
+	            'documented changes to upstream files, see dpkg-source(1)'));
+	    error(_g('aborting due to --abort-on-upstream-changes'))
 		if $self->{options}{abort_on_upstream_changes};
 	}
 
@@ -386,7 +386,7 @@ sub do_build {
     }
 
     if ($ur) {
-        printf(STDERR _g("%s: unrepresentable changes to source")."\n",
+        printf(STDERR _g('%s: unrepresentable changes to source') . "\n",
                $progname);
         exit(1);
     }

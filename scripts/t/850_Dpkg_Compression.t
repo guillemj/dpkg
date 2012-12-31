@@ -21,7 +21,7 @@ use warnings;
 use_ok('Dpkg::Compression');
 use_ok('Dpkg::Compression::FileHandle');
 
-my $tmpdir = "t.tmp/850_Dpkg_Compression";
+my $tmpdir = 't.tmp/850_Dpkg_Compression';
 mkdir $tmpdir;
 my @lines = ("One\n", "Two\n", "Three\n");
 my $fh;
@@ -30,39 +30,39 @@ sub test_write {
     my ($filename, $check_result) = @_;
 
     $fh = Dpkg::Compression::FileHandle->new();
-    open $fh, ">", $filename or die "open failed";
+    open $fh, '>', $filename or die 'open failed';
     print $fh $lines[0];
     syswrite($fh, $lines[1]);
-    printf $fh "%s", $lines[2];
-    close $fh or die "close failed";
+    printf $fh '%s', $lines[2];
+    close $fh or die 'close failed';
 
-    &$check_result($filename, "std functions");
+    &$check_result($filename, 'std functions');
 
     unlink $filename or die "cannot unlink $filename";
 
     $fh = Dpkg::Compression::FileHandle->new();
-    $fh->open($filename, "w");
+    $fh->open($filename, 'w');
     $fh->print($lines[0]);
     $fh->write($lines[1], length($lines[1]));
-    $fh->printf("%s", $lines[2]);
-    $fh->close() or die "close failed";
+    $fh->printf('%s', $lines[2]);
+    $fh->close() or die 'close failed';
 
-    &$check_result($filename, "IO::Handle methods");
+    &$check_result($filename, 'IO::Handle methods');
 }
 
 sub check_uncompressed {
     my ($filename, $method) = @_;
-    open(my $read_fh, "<", $filename) or die "cannot read $filename";
+    open(my $read_fh, '<', $filename) or die "cannot read $filename";
     my @read = <$read_fh>;
-    close $read_fh or die "cannot close";
+    close $read_fh or die 'cannot close';
     is_deeply(\@lines, \@read, "$filename correctly written ($method)");
 }
 
 sub check_compressed {
     my ($filename, $method) = @_;
-    open(my $read_fh, "-|", "zcat $tmpdir/myfile.gz") or die "cannot fork zcat";
+    open(my $read_fh, '-|', "zcat $tmpdir/myfile.gz") or die 'cannot fork zcat';
     my @read = <$read_fh>;
-    close $read_fh or die "cannot close";
+    close $read_fh or die 'cannot close';
     is_deeply(\@lines, \@read, "$filename correctly written ($method)");
 }
 
@@ -70,17 +70,17 @@ sub test_read {
     my ($filename) = @_;
 
     $fh = Dpkg::Compression::FileHandle->new();
-    open($fh, "<", $filename) or die "open failed";
+    open($fh, '<', $filename) or die 'open failed';
     my @read = <$fh>;
-    close $fh or die "close failed";
+    close $fh or die 'close failed';
 
     is_deeply(\@lines, \@read, "$filename correctly read (std functions)");
 
     @read = ();
     $fh = Dpkg::Compression::FileHandle->new();
-    $fh->open($filename, "r") or die "open failed";
+    $fh->open($filename, 'r') or die 'open failed';
     @read = $fh->getlines();
-    $fh->close() or die "close failed";
+    $fh->close() or die 'close failed';
 
     is_deeply(\@lines, \@read, "$filename correctly read (IO::Handle methods)");
 }
@@ -88,11 +88,11 @@ sub test_read {
 # Test changing the default compression levels
 my $old_level = compression_get_default_level();
 compression_set_default_level(1);
-is(compression_get_default_level(), 1, "change default compression level");
+is(compression_get_default_level(), 1, 'change default compression level');
 compression_set_default_level(5);
-is(compression_get_default_level(), 5, "change default compression level");
+is(compression_get_default_level(), 5, 'change default compression level');
 compression_set_default_level(undef);
-is(compression_get_default_level(), $old_level, "reset default compression level");
+is(compression_get_default_level(), $old_level, 'reset default compression level');
 
 # Test write on uncompressed file
 test_write("$tmpdir/myfile", \&check_uncompressed);

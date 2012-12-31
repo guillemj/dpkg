@@ -37,22 +37,22 @@ use Dpkg::Changelog::Parse;
 use Dpkg::Path qw(find_command);
 use Dpkg::IPC;
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 sub showversion {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
-    print _g("
+    print _g('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
-");
+');
 }
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...]")
+'Usage: %s [<option>...]')
     . "\n\n" . _g(
-"Options:
+'Options:
   -F (default)   normal full build (binaries and sources).
   -b             binary-only, do not build source.
   -B             binary-only, no arch-indep files.
@@ -79,13 +79,13 @@ sub usage {
       --admindir=<directory>
                  change the administrative directory.
   -?, --help     show this help message.
-      --version  show the version.")
+      --version  show the version.')
     . "\n\n" . _g(
-"Options passed to dpkg-architecture:
+'Options passed to dpkg-architecture:
   -a<arch>       Debian architecture we build for.
-  -t<system>     set GNU system type.")
+  -t<system>     set GNU system type.')
     . "\n\n" . _g(
-"Options passed to dpkg-genchanges:
+'Options passed to dpkg-genchanges:
   -si (default)  source includes orig if new upstream.
   -sa            uploaded source always includes orig.
   -sd            uploaded source is diff and .dsc only.
@@ -94,9 +94,9 @@ sub usage {
   -e<maint>      maintainer for release is <maint>.
   -C<descfile>   changes are described in <descfile>.
       --changes-option=<opt>
-                 pass option <opt> to dpkg-genchanges.")
+                 pass option <opt> to dpkg-genchanges.')
     . "\n\n" . _g(
-"Options passed to dpkg-source:
+'Options passed to dpkg-source:
   -sn            force Debian native source format.
   -s[sAkurKUR]   see dpkg-source for explanation.
   -z<level>      compression level to use for source.
@@ -105,10 +105,10 @@ sub usage {
   -I[<pattern>]  filter out files when building tarballs.
       --source-option=<opt>
                  pass option <opt> to dpkg-source.
-"), $progname;
+'), $progname;
 }
 
-my @debian_rules = ("debian/rules");
+my @debian_rules = ('debian/rules');
 my @rootcommand = ();
 my $signcommand;
 my ($admindir, $signkey, $usepause, $noclean,
@@ -175,7 +175,7 @@ while (@ARGV) {
 	$checkbuilddep = ($1 eq 'D');
     } elsif (/^-s(gpg|pgp)$/) {
 	# Deprecated option
-	warning(_g("-s%s is deprecated; always using gpg style interface"), $1);
+	warning(_g('-s%s is deprecated; always using gpg style interface'), $1);
     } elsif (/^--force-sign$/) {
 	$signforce = 1;
     } elsif (/^-us$/) {
@@ -203,33 +203,33 @@ while (@ARGV) {
     } elsif (/^-nc$/) {
 	$noclean = 1;
     } elsif (/^-b$/) {
-	build_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
+	build_sourceonly && usageerr(_g('cannot combine %s and %s'), $_, '-S');
 	$include = BUILD_BINARY;
 	push @changes_opts, '-b';
 	@checkbuilddep_opts = ();
 	$buildtarget = 'build';
 	$binarytarget = 'binary';
     } elsif (/^-B$/) {
-	build_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
+	build_sourceonly && usageerr(_g('cannot combine %s and %s'), $_, '-S');
 	$include = BUILD_ARCH_DEP;
 	push @changes_opts, '-B';
 	@checkbuilddep_opts = ('-B');
 	$buildtarget = 'build-arch';
 	$binarytarget = 'binary-arch';
     } elsif (/^-A$/) {
-	build_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
+	build_sourceonly && usageerr(_g('cannot combine %s and %s'), $_, '-S');
 	$include = BUILD_ARCH_INDEP;
 	push @changes_opts, '-A';
 	@checkbuilddep_opts = ('-A');
 	$buildtarget = 'build-indep';
 	$binarytarget = 'binary-indep';
     } elsif (/^-S$/) {
-	build_binaryonly && usageerr(_g("cannot combine %s and %s"), build_opt, "-S");
+	build_binaryonly && usageerr(_g('cannot combine %s and %s'), build_opt, '-S');
 	$include = BUILD_SOURCE;
 	push @changes_opts, '-S';
 	@checkbuilddep_opts = ('-A', '-B');
     } elsif (/^-F$/) {
-	!build_normal && usageerr(_g("cannot combine %s and %s"), $_, build_opt);
+	!build_normal && usageerr(_g('cannot combine %s and %s'), $_, build_opt);
 	$include = BUILD_ALL;
 	@checkbuilddep_opts = ();
     } elsif (/^-v(.*)$/) {
@@ -242,11 +242,11 @@ while (@ARGV) {
 	$desc = $1;
     } elsif (m/^-[EW]$/) {
 	# Deprecated option
-	warning(_g("-E and -W are deprecated, they are without effect"));
+	warning(_g('-E and -W are deprecated, they are without effect'));
     } elsif (/^-R(.*)$/) {
 	@debian_rules = split /\s+/, $1;
     } else {
-	usageerr(_g("unknown option or argument %s"), $_);
+	usageerr(_g('unknown option or argument %s'), $_);
     }
 }
 
@@ -256,15 +256,15 @@ if ($noclean) {
 }
 
 if ($< == 0) {
-    warning(_g("using a gain-root-command while being root")) if (@rootcommand);
+    warning(_g('using a gain-root-command while being root')) if (@rootcommand);
 } else {
-    push @rootcommand, "fakeroot" unless @rootcommand;
+    push @rootcommand, 'fakeroot' unless @rootcommand;
 
     if (!find_command($rootcommand[0])) {
 	if ($rootcommand[0] eq 'fakeroot') {
 	    error(_g("fakeroot not found, either install the fakeroot\n" .
-	             "package, specify a command with the -r option, " .
-	             "or run this as root"));
+	             'package, specify a command with the -r option, ' .
+	             'or run this as root'));
 	} else {
 	    error(_g("gain-root-commmand '%s' not found"), $rootcommand[0]);
 	}
@@ -273,10 +273,10 @@ if ($< == 0) {
 
 my $build_opts = Dpkg::BuildOptions->new();
 if (defined $parallel) {
-    $parallel = $build_opts->get("parallel") if $build_opts->has("parallel");
+    $parallel = $build_opts->get('parallel') if $build_opts->has('parallel');
     $ENV{MAKEFLAGS} ||= '';
     $ENV{MAKEFLAGS} .= " -j$parallel";
-    $build_opts->set("parallel", $parallel);
+    $build_opts->set('parallel', $parallel);
     $build_opts->export();
 }
 
@@ -349,9 +349,9 @@ if (not $signcommand) {
 my $pv = "${pkg}_$sversion";
 my $pva = "${pkg}_${sversion}_$arch";
 
-if (not -x "debian/rules") {
-    warning(_g("debian/rules is not executable; fixing that"));
-    chmod(0755, "debian/rules"); # No checks of failures, non fatal
+if (not -x 'debian/rules') {
+    warning(_g('debian/rules is not executable; fixing that'));
+    chmod(0755, 'debian/rules'); # No checks of failures, non fatal
 }
 
 unless ($call_target) {
@@ -369,12 +369,12 @@ if ($checkbuilddep) {
     if (not WIFEXITED($?)) {
         subprocerr('dpkg-checkbuilddeps');
     } elsif (WEXITSTATUS($?)) {
-	warning(_g("build dependencies/conflicts unsatisfied; aborting"));
-	warning(_g("(Use -d flag to override.)"));
+	warning(_g('build dependencies/conflicts unsatisfied; aborting'));
+	warning(_g('(Use -d flag to override.)'));
 
 	if (build_sourceonly) {
-	    warning(_g("this is currently a non-fatal warning with -S, but " .
-	               "will probably become fatal in the future"));
+	    warning(_g('this is currently a non-fatal warning with -S, but ' .
+	               'will probably become fatal in the future'));
 	} else {
 	    exit 3;
 	}
@@ -396,19 +396,19 @@ unless ($noclean) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
 unless (build_binaryonly) {
-    warning(_g("building a source package without cleaning up as you asked; " .
-               "it might contain undesired files")) if $noclean;
+    warning(_g('building a source package without cleaning up as you asked; ' .
+               'it might contain undesired files')) if $noclean;
     chdir('..') or syserr('chdir ..');
     withecho('dpkg-source', @source_opts, '-b', $dir);
     chdir($dir) or syserr("chdir $dir");
 }
 
-unless ($buildtarget eq "build" or scalar(@debian_rules) > 1) {
+unless ($buildtarget eq 'build' or scalar(@debian_rules) > 1) {
     # Verify that build-{arch,indep} are supported. If not, fallback to build.
     # This is a temporary measure to not break too many packages on a flag day.
-    my $pid = spawn(exec => [ "make", "-f", @debian_rules, "-qn", $buildtarget ],
-                    from_file => "/dev/null", to_file => "/dev/null",
-                    error_to_file => "/dev/null");
+    my $pid = spawn(exec => [ 'make', '-f', @debian_rules, '-qn', $buildtarget ],
+                    from_file => '/dev/null', to_file => '/dev/null',
+                    error_to_file => '/dev/null');
     my $cmdline = "make -f @debian_rules -qn $buildtarget";
     wait_child($pid, nocheck => 1, cmdline => $cmdline);
     my $exitcode = WEXITSTATUS($?);
@@ -416,8 +416,8 @@ unless ($buildtarget eq "build" or scalar(@debian_rules) > 1) {
     if ($exitcode == 2) {
         warning(_g("%s must be updated to support the 'build-arch' and " .
                    "'build-indep' targets (at least '%s' seems to be " .
-                   "missing)"), "@debian_rules", $buildtarget);
-        $buildtarget = "build";
+                   'missing)'), "@debian_rules", $buildtarget);
+        $buildtarget = 'build';
     }
 }
 
@@ -434,7 +434,7 @@ if ($usepause &&
 my $signerrors;
 unless (build_binaryonly) {
     if ($signsource && signfile("$pv.dsc")) {
-	$signerrors = _g("Failed to sign .dsc and .changes file");
+	$signerrors = _g('Failed to sign .dsc and .changes file');
 	$signchanges = 0;
     }
 }
@@ -494,7 +494,7 @@ if (fileomitted '\.deb') {
 }
 
 if ($signchanges && signfile("$pva.changes")) {
-    $signerrors = _g("Failed to sign .changes file");
+    $signerrors = _g('Failed to sign .changes file');
 }
 
 if ($cleansource) {
@@ -516,7 +516,7 @@ if ($signerrors) {
 sub mustsetvar {
     my ($var, $text) = @_;
 
-    error(_g("unable to determine %s"), $text)
+    error(_g('unable to determine %s'), $text)
 	unless defined($var);
 
     print "$progname: $text $var\n";

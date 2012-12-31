@@ -18,7 +18,7 @@ package Dpkg::Control::Hash;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -183,7 +183,7 @@ sub parse {
 	    $parabody = 1;
 	    if (exists $self->{$1}) {
 		unless ($$self->{allow_duplicate}) {
-		    syntaxerr($desc, sprintf(_g("duplicate field %s found"), $1));
+		    syntaxerr($desc, sprintf(_g('duplicate field %s found'), $1));
 		}
 	    }
 	    $self->{$1} = $2;
@@ -191,7 +191,7 @@ sub parse {
 	} elsif (m/^\s(\s*\S.*)$/) {
 	    my $line = $1;
 	    unless (defined($cf)) {
-                syntaxerr($desc, _g("continued value line not in field"));
+                syntaxerr($desc, _g('continued value line not in field'));
             }
 	    if ($line =~ /^\.+$/) {
 		$line = substr $line, 1;
@@ -205,18 +205,18 @@ sub parse {
 		    last if m/^\s*$/;
 		}
 	    } else {
-		syntaxerr($desc, _g("PGP signature not allowed here"));
+		syntaxerr($desc, _g('PGP signature not allowed here'));
 	    }
 	} elsif (m/^$/ || ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----$/)) {
 	    if ($expect_pgp_sig) {
 		# Skip empty lines
 		$_ = <$fh> while defined($_) && $_ =~ /^\s*$/;
 		length($_) ||
-                    syntaxerr($desc, _g("expected PGP signature, found EOF " .
-                                        "after blank line"));
+                    syntaxerr($desc, _g('expected PGP signature, found EOF ' .
+                                        'after blank line'));
 		s/\s*\n$//;
 		unless (m/^-----BEGIN PGP SIGNATURE-----$/) {
-		    syntaxerr($desc, sprintf(_g("expected PGP signature, " .
+		    syntaxerr($desc, sprintf(_g('expected PGP signature, ' .
                                                 "found something else \`%s'"), $_));
                 }
 		# Skip PGP signature
@@ -225,7 +225,7 @@ sub parse {
 		    last if m/^-----END PGP SIGNATURE-----$/;
 		}
 		unless (defined($_)) {
-                    syntaxerr($desc, _g("unfinished PGP signature"));
+                    syntaxerr($desc, _g('unfinished PGP signature'));
                 }
 		# This does not mean the signature is correct, that needs to
 		# be verified by gnupg.
@@ -234,12 +234,12 @@ sub parse {
 	    last; # Finished parsing one block
 	} else {
 	    syntaxerr($desc,
-                      _g("line with unknown format (not field-colon-value)"));
+                      _g('line with unknown format (not field-colon-value)'));
 	}
     }
 
     if ($expect_pgp_sig and not $pgp_signed) {
-        syntaxerr($desc, _g("unfinished PGP signature"));
+        syntaxerr($desc, _g('unfinished PGP signature'));
     }
 
     return defined($cf);
@@ -296,7 +296,7 @@ filehandle.
 
 sub output {
     my ($self, $fh) = @_;
-    my $str = "";
+    my $str = '';
     my @keys;
     if (@{$$self->{out_order}}) {
         my $i = 1;
@@ -324,7 +324,7 @@ sub output {
             next if $$self->{drop_empty} and $value !~ m/\S/;
 	    # Escape data to follow control file syntax
 	    my @lines = split(/\n/, $value);
-	    $value = (scalar @lines) ? shift @lines : "";
+	    $value = (scalar @lines) ? shift @lines : '';
 	    foreach (@lines) {
 		s/\s+$//;
 		if (/^$/ or /^\.+$/) {
@@ -336,7 +336,7 @@ sub output {
 	    # Print it out
             if ($fh) {
 	        print $fh "$key: $value\n" ||
-                    syserr(_g("write error on control data"));
+                    syserr(_g('write error on control data'));
             }
 	    $str .= "$key: $value\n" if defined wantarray;
 	}
@@ -407,7 +407,7 @@ use base qw(Tie::ExtraHash);
 sub field_capitalize($) {
     my $field = lc(shift);
     # Some special cases due to history
-    return "MD5sum" if $field eq "md5sum";
+    return 'MD5sum' if $field eq 'md5sum';
     return uc($field) if checksums_is_supported($field);
     # Generic case
     return join '-', map { ucfirst } split /-/, $field;
@@ -433,8 +433,8 @@ sub new {
 
 sub TIEHASH  {
     my ($class, $parent) = @_;
-    die "Parent object must be Dpkg::Control::Hash"
-        if not $parent->isa("Dpkg::Control::Hash");
+    die 'Parent object must be Dpkg::Control::Hash'
+        if not $parent->isa('Dpkg::Control::Hash');
     return bless [ {}, $$parent ], $class;
 }
 

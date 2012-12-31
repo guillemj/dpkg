@@ -36,7 +36,7 @@ package Dpkg::Changelog;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg;
 use Dpkg::Gettext;
@@ -165,12 +165,12 @@ sub get_parse_errors {
     if (wantarray) {
 	return @{$self->{parse_errors}};
     } else {
-	my $res = "";
+	my $res = '';
 	foreach my $e (@{$self->{parse_errors}}) {
 	    if ($e->[3]) {
 		$res .= report(_g('warning'),_g("%s(l%s): %s\nLINE: %s"), @$e );
 	    } else {
-		$res .= report(_g('warning'),_g("%s(l%s): %s"), @$e );
+		$res .= report(_g('warning'), _g('%s(l%s): %s'), @$e);
 	    }
 	}
 	return $res;
@@ -228,7 +228,7 @@ sub __sanity_check_range {
 	 defined($r->{to}) || defined($r->{until})))
     {
 	warning(_g("you can't combine 'count' or 'offset' with any other " .
-		   "range option")) if $self->{verbose};
+		   'range option')) if $self->{verbose};
 	delete $r->{from};
 	delete $r->{since};
 	delete $r->{to};
@@ -252,8 +252,8 @@ sub __sanity_check_range {
         push @versions, $entry->get_version()->as_string();
     }
     if ((defined($r->{since}) and not exists $versions{$r->{since}})) {
-        warning(_g("'%s' option specifies non-existing version"), "since");
-        warning(_g("use newest entry that is earlier than the one specified"));
+        warning(_g("'%s' option specifies non-existing version"), 'since');
+        warning(_g('use newest entry that is earlier than the one specified'));
         foreach my $v (@versions) {
             if (version_compare_relation($v, REL_LT, $r->{since})) {
                 $r->{since} = $v;
@@ -262,14 +262,14 @@ sub __sanity_check_range {
         }
         if (not exists $versions{$r->{since}}) {
             # No version was earlier, include all
-            warning(_g("none found, starting from the oldest entry"));
+            warning(_g('none found, starting from the oldest entry'));
             delete $r->{since};
             $r->{from} = $versions[-1];
         }
     }
     if ((defined($r->{from}) and not exists $versions{$r->{from}})) {
-        warning(_g("'%s' option specifies non-existing version"), "from");
-        warning(_g("use oldest entry that is later than the one specified"));
+        warning(_g("'%s' option specifies non-existing version"), 'from');
+        warning(_g('use oldest entry that is later than the one specified'));
         my $oldest;
         foreach my $v (@versions) {
             if (version_compare_relation($v, REL_GT, $r->{from})) {
@@ -279,13 +279,13 @@ sub __sanity_check_range {
         if (defined($oldest)) {
             $r->{from} = $oldest;
         } else {
-            warning(_g("no such entry found, ignoring '%s' parameter"), "from");
+            warning(_g("no such entry found, ignoring '%s' parameter"), 'from');
             delete $r->{from}; # No version was oldest
         }
     }
     if (defined($r->{until}) and not exists $versions{$r->{until}}) {
-        warning(_g("'%s' option specifies non-existing version"), "until");
-        warning(_g("use oldest entry that is later than the one specified"));
+        warning(_g("'%s' option specifies non-existing version"), 'until');
+        warning(_g('use oldest entry that is later than the one specified'));
         my $oldest;
         foreach my $v (@versions) {
             if (version_compare_relation($v, REL_GT, $r->{until})) {
@@ -295,13 +295,13 @@ sub __sanity_check_range {
         if (defined($oldest)) {
             $r->{until} = $oldest;
         } else {
-            warning(_g("no such entry found, ignoring '%s' parameter"), "until");
+            warning(_g("no such entry found, ignoring '%s' parameter"), 'until');
             delete $r->{until}; # No version was oldest
         }
     }
     if (defined($r->{to}) and not exists $versions{$r->{to}}) {
-        warning(_g("'%s' option specifies non-existing version"), "to");
-        warning(_g("use newest entry that is earlier than the one specified"));
+        warning(_g("'%s' option specifies non-existing version"), 'to');
+        warning(_g('use newest entry that is earlier than the one specified'));
         foreach my $v (@versions) {
             if (version_compare_relation($v, REL_LT, $r->{to})) {
                 $r->{to} = $v;
@@ -310,7 +310,7 @@ sub __sanity_check_range {
         }
         if (not exists $versions{$r->{to}}) {
             # No version was earlier
-            warning(_g("no such entry found, ignoring '%s' parameter"), "to");
+            warning(_g("no such entry found, ignoring '%s' parameter"), 'to');
             delete $r->{to};
         }
     }
@@ -451,7 +451,7 @@ Output the changelog to the given filehandle.
 
 sub output {
     my ($self, $fh) = @_;
-    my $str = "";
+    my $str = '';
     foreach my $entry (@{$self}) {
 	my $text = $entry->output();
 	print $fh $text if defined $fh;
@@ -525,10 +525,10 @@ sub dpkg {
     my $entry = shift @data;
 
     my $f = Dpkg::Control::Changelog->new();
-    $f->{Urgency} = $entry->get_urgency() || "unknown";
-    $f->{Source} = $entry->get_source() || "unknown";
-    $f->{Version} = $entry->get_version() // "unknown";
-    $f->{Distribution} = join(" ", $entry->get_distributions());
+    $f->{Urgency} = $entry->get_urgency() || 'unknown';
+    $f->{Source} = $entry->get_source() || 'unknown';
+    $f->{Version} = $entry->get_version() // 'unknown';
+    $f->{Distribution} = join(' ', $entry->get_distributions());
     $f->{Maintainer} = $entry->get_maintainer() || '';
     $f->{Date} = $entry->get_timestamp() || '';
     $f->{Changes} = $entry->get_dpkg_changes();
@@ -565,9 +565,9 @@ sub dpkg {
     }
 
     if (scalar keys %closes) {
-	$f->{Closes} = join " ", sort { $a <=> $b } keys %closes;
+	$f->{Closes} = join ' ', sort { $a <=> $b } keys %closes;
     }
-    run_vendor_hook("post-process-changelog-entry", $f);
+    run_vendor_hook('post-process-changelog-entry', $f);
 
     return $f;
 }
@@ -590,12 +590,12 @@ sub rfc822 {
 
     foreach my $entry (@data) {
 	my $f = Dpkg::Control::Changelog->new();
-	$f->{Urgency} = $entry->get_urgency() || "unknown";
-	$f->{Source} = $entry->get_source() || "unknown";
-	$f->{Version} = $entry->get_version() // "unknown";
-	$f->{Distribution} = join(" ", $entry->get_distributions());
-	$f->{Maintainer} = $entry->get_maintainer() || "";
-	$f->{Date} = $entry->get_timestamp() || "";
+	$f->{Urgency} = $entry->get_urgency() || 'unknown';
+	$f->{Source} = $entry->get_source() || 'unknown';
+	$f->{Version} = $entry->get_version() // 'unknown';
+	$f->{Distribution} = join(' ', $entry->get_distributions());
+	$f->{Maintainer} = $entry->get_maintainer() || '';
+	$f->{Date} = $entry->get_timestamp() || '';
 	$f->{Changes} = $entry->get_dpkg_changes();
 
 	# handle optional fields
@@ -604,7 +604,7 @@ sub rfc822 {
 	    field_transfer_single($opts, $f) unless exists $f->{$_};
 	}
 
-        run_vendor_hook("post-process-changelog-entry", $f);
+        run_vendor_hook('post-process-changelog-entry', $f);
 
 	$index->add($f);
     }

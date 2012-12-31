@@ -30,7 +30,7 @@ use Dpkg::Checksums;
 use Dpkg::Compression::FileHandle;
 use Dpkg::Compression;
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 # Errors with a single package are warned about but don't affect the
 # exit code. Only errors which affect everything cause a non-zero exit.
@@ -118,18 +118,18 @@ sub load_override {
 
 	my @data = split ' ', $_, 4;
 	unless (@data == 3 || @data == 4) {
-	    warning(_g("invalid override entry at line %d (%d fields)"),
+	    warning(_g('invalid override entry at line %d (%d fields)'),
 	            $., 0 + @data);
 	    next;
 	}
 	my ($package, $priority, $section, $maintainer) = @data;
 	if (exists $Override{$package}) {
-	    warning(_g("ignoring duplicate override entry for %s at line %d"),
+	    warning(_g('ignoring duplicate override entry for %s at line %d'),
 	            $package, $.);
 	    next;
 	}
 	if (!$Priority{$priority}) {
-	    warning(_g("ignoring override entry for %s, invalid priority %s"),
+	    warning(_g('ignoring override entry for %s, invalid priority %s'),
 	            $package, $priority);
 	    next;
 	}
@@ -163,7 +163,7 @@ sub load_src_override {
         my $comp = compression_guess_from_filename($regular_file);
         if (defined($comp)) {
 	    $file = $regular_file;
-	    my $ext = compression_get_property($comp, "file_ext");
+	    my $ext = compression_get_property($comp, 'file_ext');
             $file =~ s/\.$ext$/.src.$ext/;
         } else {
 	    $file = "$regular_file.src";
@@ -183,7 +183,7 @@ sub load_src_override {
 
 	my @data = split ' ', $_;
 	unless (@data == 2) {
-	    warning(_g("invalid source override entry at line %d (%d fields)"),
+	    warning(_g('invalid source override entry at line %d (%d fields)'),
 	            $., 0 + @data);
 	    next;
 	}
@@ -191,7 +191,7 @@ sub load_src_override {
 	my ($package, $section) = @data;
 	my $key = "source/$package";
 	if (exists $Override{$key}) {
-	    warning(_g("ignoring duplicate source override entry for %s at line %d"),
+	    warning(_g('ignoring duplicate source override entry for %s at line %d'),
 	            $package, $.);
 	    next;
 	}
@@ -241,7 +241,7 @@ sub process_dsc {
     my $source = $fields->{Source};
     my @binary = split /\s*,\s*/, $fields->{Binary};
 
-    error(_g("no binary packages specified in %s"), $file) unless (@binary);
+    error(_g('no binary packages specified in %s'), $file) unless (@binary);
 
     # Rename the source field to package.
     $fields->{Package} = $fields->{Source};
@@ -299,7 +299,7 @@ sub main {
     my (@out);
 
     GetOptions(@Option_spec) or usage;
-    @ARGV >= 1 && @ARGV <= 3 or usageerr(_g("one to three arguments expected"));
+    @ARGV >= 1 && @ARGV <= 3 or usageerr(_g('one to three arguments expected'));
 
     push @ARGV, undef		if @ARGV < 2;
     push @ARGV, ''		if @ARGV < 3;
@@ -310,7 +310,7 @@ sub main {
     load_override_extra $Extra_override_file if defined $Extra_override_file;
 
     open my $find_fh, '-|', "find -L \Q$dir\E -name '*.dsc' -print"
-        or syserr(_g("cannot fork for %s"), "find");
+        or syserr(_g('cannot fork for %s'), 'find');
     while (<$find_fh>) {
     	chomp;
 	s-^\./+--;

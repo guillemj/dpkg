@@ -18,7 +18,7 @@ package Dpkg::Conf;
 use strict;
 use warnings;
 
-our $VERSION = "1.01";
+our $VERSION = '1.01';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -102,7 +102,7 @@ sub parse {
 	s/\s+/=/ unless m/=/; # First spaces becomes = if no =
 	next if /^#/ or /^$/; # Skip empty lines and comments
 	if (/^-[^-]/ and not $self->{allow_short}) {
-	    warning(_g("short option not allowed in %s, line %d"), $desc, $.);
+	    warning(_g('short option not allowed in %s, line %d'), $desc, $.);
 	    next;
 	}
 	if (/^([^=]+)(?:=(.*))?$/) {
@@ -116,7 +116,7 @@ sub parse {
 	    }
 	    $count++;
 	} else {
-	    warning(_g("invalid syntax for option in %s, line %d"), $desc, $.);
+	    warning(_g('invalid syntax for option in %s, line %d'), $desc, $.);
 	}
     }
     return $count;
@@ -160,7 +160,7 @@ Save the options in a file.
 
 sub output {
     my ($self, $fh) = @_;
-    my $ret = "";
+    my $ret = '';
     foreach my $opt ($self->get_options()) {
 	$opt =~ s/^--//;
 	if ($opt =~ s/^([^=]+)=/$1 = "/) {

@@ -30,11 +30,11 @@ use Dpkg::ErrorHandling;
 use Dpkg::Control;
 use Dpkg::Arch qw(get_host_arch);
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 my %options = (
     subdir => 0,
-    destdir => "",
+    destdir => '',
     createdir => 0,
     overwrite => 0,
     symlink => 0,
@@ -92,10 +92,10 @@ sub getfields($)
     my ($filename) = @_;
 
     # Read the fields
-    open(my $cdata_fh, '-|', "dpkg-deb", "-f", "--", $filename) ||
-        syserr(_g("cannot open %s"), $filename);
+    open(my $cdata_fh, '-|', 'dpkg-deb', '-f', '--', $filename) ||
+        syserr(_g('cannot open %s'), $filename);
     my $fields = Dpkg::Control->new(type => CTRL_PKG_DEB);
-    $fields->parse($cdata_fh, sprintf(_g("binary control file %s"), $filename));
+    $fields->parse($cdata_fh, sprintf(_g('binary control file %s'), $filename));
     close($cdata_fh);
 
     return $fields;
@@ -145,12 +145,12 @@ sub getdir($$$)
         if ($options{subdir}) {
             my $section = $fields->{Section};
             if (!$section) {
-                $section = "no-section";
+                $section = 'no-section';
                 warning(_g("assuming section '%s' for '%s'"), $section,
                         $filename);
             }
-            if ($section ne "non-free" and $section ne "contrib" and
-                $section ne "no-section") {
+            if ($section ne 'non-free' and $section ne 'contrib' and
+                $section ne 'no-section') {
                 $dir = "unstable/binary-$arch/$section";
             } else {
                 $dir = "$section/binary-$arch";
@@ -198,9 +198,9 @@ sub move($)
 
         my @command;
         if ($options{symlink}) {
-            @command = ("ln", "-s", "--");
+            @command = ('ln', '-s', '--');
         } else {
-            @command = ("mv", "--");
+            @command = ('mv', '--');
         }
 
         if (filesame($newname, $filename)) {
@@ -210,12 +210,12 @@ sub move($)
         } elsif (system(@command, $filename, $newname) == 0) {
             info(_g("moved '%s' to '%s'"), basename($filename), $newname);
         } else {
-            error(_g("mkdir can be used to create directory"));
+            error(_g('mkdir can be used to create directory'));
         }
     }
 }
 
-@ARGV || usageerr(_g("need at least a filename"));
+@ARGV || usageerr(_g('need at least a filename'));
 
 while (@ARGV) {
     $_ = shift(@ARGV);

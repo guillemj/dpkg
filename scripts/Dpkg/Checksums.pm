@@ -19,7 +19,7 @@ package Dpkg::Checksums;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg;
 use Dpkg::Gettext;
@@ -50,15 +50,15 @@ about supported checksums.
 
 my $CHECKSUMS = {
     md5 => {
-	program => [ "md5sum" ],
+	program => [ 'md5sum' ],
 	regex => qr/[0-9a-f]{32}/,
     },
     sha1 => {
-	program => [ "sha1sum" ],
+	program => [ 'sha1sum' ],
 	regex => qr/[0-9a-f]{40}/,
     },
     sha256 => {
-	program => [ "sha256sum" ],
+	program => [ 'sha256sum' ],
 	regex => qr/[0-9a-f]{64}/,
     },
 };
@@ -168,9 +168,9 @@ sub add_from_file {
     }
 
     push @{$self->{files}}, $key unless exists $self->{size}{$key};
-    (my @s = stat($file)) || syserr(_g("cannot fstat file %s"), $file);
+    (my @s = stat($file)) || syserr(_g('cannot fstat file %s'), $file);
     if (exists $self->{size}{$key} and $self->{size}{$key} != $s[7]) {
-	error(_g("File %s has size %u instead of expected %u"),
+	error(_g('File %s has size %u instead of expected %u'),
 	      $file, $s[7], $self->{size}{$key});
     }
     $self->{size}{$key} = $s[7];
@@ -184,7 +184,7 @@ sub add_from_file {
 	    my $newsum = $1;
 	    if (exists $self->{checksums}{$key}{$alg} and
 		$self->{checksums}{$key}{$alg} ne $newsum) {
-		error(_g("File %s has checksum %s instead of expected %s (algorithm %s)"),
+		error(_g('File %s has checksum %s instead of expected %s (algorithm %s)'),
 		      $file, $newsum, $self->{checksums}{$key}{$alg}, $alg);
 	    }
 	    $self->{checksums}{$key}{$alg} = $newsum;
@@ -211,13 +211,13 @@ sub add_from_string {
     my ($self, $alg, $fieldtext) = @_;
     $alg = lc($alg);
     my $rx_fname = qr/[0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+/;
-    my $regex = checksums_get_property($alg, "regex");
+    my $regex = checksums_get_property($alg, 'regex');
     my $checksums = $self->{checksums};
 
     for my $checksum (split /\n */, $fieldtext) {
 	next if $checksum eq '';
 	unless ($checksum =~ m/^($regex)\s+(\d+)\s+($rx_fname)$/) {
-	    error(_g("invalid line in %s checksums string: %s"),
+	    error(_g('invalid line in %s checksums string: %s'),
 		  $alg, $checksum);
 	}
 	my ($sum, $size, $file) = ($1, $2, $3);
@@ -253,7 +253,7 @@ sub add_from_control {
     $opts{use_files_for_md5} = 0 unless exists $opts{use_files_for_md5};
     foreach my $alg (checksums_get_list()) {
 	my $key = "Checksums-$alg";
-	$key = "Files" if ($opts{use_files_for_md5} and $alg eq "md5");
+	$key = 'Files' if ($opts{use_files_for_md5} and $alg eq 'md5');
 	if (exists $control->{$key}) {
 	    $self->add_from_string($alg, $control->{$key});
 	}
@@ -340,7 +340,7 @@ object.
 
 sub export_to_string {
     my ($self, $alg, %opts) = @_;
-    my $res = "";
+    my $res = '';
     foreach my $file ($self->get_files()) {
 	my $sum = $self->get_checksum($file, $alg);
 	my $size = $self->get_size($file);
@@ -362,7 +362,7 @@ sub export_to_control {
     $opts{use_files_for_md5} = 0 unless exists $opts{use_files_for_md5};
     foreach my $alg (checksums_get_list()) {
 	my $key = "Checksums-$alg";
-	$key = "Files" if ($opts{use_files_for_md5} and $alg eq "md5");
+	$key = 'Files' if ($opts{use_files_for_md5} and $alg eq 'md5');
 	$control->{$key} = $self->export_to_string($alg, %opts);
     }
 }

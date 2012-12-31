@@ -29,17 +29,17 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Changelog::Debian;
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 $progname = "parsechangelog/$progname";
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
-    printf _g("
+    printf _g('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
-");
+');
 }
 
 sub usage {
@@ -89,19 +89,20 @@ sub set_format {
     $format = $val;
 }
 
-GetOptions( "file=s" => \$file,
-	    "label|l=s" => \$label,
-	    "since|v=s" => \$since,
-	    "until|u=s" => \$until,
-	    "from|f=s" => \$from,
-	    "to|t=s" => \$to,
-	    "count|c|n=i" => \$count,
-	    "offset|o=i" => \$offset,
-	    "help|?" => sub{ usage(); exit(0) },
-	    "version|V" => sub{version();exit(0)},
-	    "format=s" => \&set_format,
-	    "all|a" => \$all,
-	    )
+GetOptions(
+    'file=s' => \$file,
+    'label|l=s' => \$label,
+    'since|v=s' => \$since,
+    'until|u=s' => \$until,
+    'from|f=s' => \$from,
+    'to|t=s' => \$to,
+    'count|c|n=i' => \$count,
+    'offset|o=i' => \$offset,
+    'help|?' => sub{ usage(); exit(0) },
+    'version|V' => sub{version();exit(0)},
+    'format=s' => \&set_format,
+    'all|a' => \$all,
+)
     or do { usage(); exit(2) };
 
 usageerr('too many arguments') if @ARGV > 1;
@@ -132,7 +133,7 @@ my $range = {
 my $changes = Dpkg::Changelog::Debian->new(reportfile => $label, range => $range);
 
 if ($file eq '-') {
-    $changes->parse(\*STDIN, _g("<standard input>"))
+    $changes->parse(\*STDIN, _g('<standard input>'))
 	or error(_g('fatal error occurred while parsing input'));
 } else {
     $changes->load($file)
@@ -144,5 +145,5 @@ eval qq{
     print \$output if defined \$output;
 };
 if ($@) {
-    error("%s", $@);
+    error('%s', $@);
 }

@@ -49,7 +49,7 @@ All the deps_* functions are exported by default.
 use strict;
 use warnings;
 
-our $VERSION = "1.02";
+our $VERSION = '1.02';
 
 use Dpkg::Version;
 use Dpkg::Arch qw(get_host_arch get_build_arch);
@@ -134,17 +134,17 @@ sub _arch_is_superset {
 
 sub _arch_qualifier_allows_implication {
     my ($p, $q) = @_;
-    if (defined $p and $p eq "any") {
-	return 1 if defined $q and $q eq "any";
+    if (defined $p and $p eq 'any') {
+	return 1 if defined $q and $q eq 'any';
 	return 0;
-    } elsif (defined $p and $p eq "native") {
-	return 1 if defined $q and ($q eq "any" or $q eq "native");
+    } elsif (defined $p and $p eq 'native') {
+	return 1 if defined $q and ($q eq 'any' or $q eq 'native');
 	return 0;
     } elsif (defined $p) {
-	return 1 if defined $q and ($p eq $q or $q eq "any");
+	return 1 if defined $q and ($p eq $q or $q eq 'any');
 	return 0;
     } else {
-	return 0 if defined $q and $q ne "any" and $q ne "native";
+	return 0 if defined $q and $q ne 'any' and $q ne 'native';
 	return 1;
     }
 }
@@ -342,8 +342,8 @@ sub deps_parse {
 	$dep_and = Dpkg::Deps::AND->new();
     }
     foreach my $dep (@dep_list) {
-        if ($options{union} and not $dep->isa("Dpkg::Deps::Simple")) {
-            warning(_g("an union dependency can only contain simple dependencies"));
+        if ($options{union} and not $dep->isa('Dpkg::Deps::Simple')) {
+            warning(_g('an union dependency can only contain simple dependencies'));
             return;
         }
         $dep_and->add($dep);
@@ -383,8 +383,8 @@ sub deps_compare {
 	my @deps = $b->get_deps();
 	$b = $deps[0];
     }
-    my $ar = defined($a->{relation}) ? $a->{relation} : "undef";
-    my $br = defined($b->{relation}) ? $b->{relation} : "undef";
+    my $ar = defined($a->{relation}) ? $a->{relation} : 'undef';
+    my $br = defined($b->{relation}) ? $b->{relation} : 'undef';
     return (($a->{package} cmp $b->{package}) ||
 	    ($relation_ordering{$ar} <=> $relation_ordering{$br}) ||
 	    ($a->{version} cmp $b->{version}));
@@ -529,7 +529,7 @@ In the dependency "python:any (>= 2.6)", the arch qualifier is "any".
 
 =over 4
 
-=item $simple_dep->parse_string("dpkg-dev (>= 1.14.8) [!hurd-i386]")
+=item $simple_dep->parse_string('dpkg-dev (>= 1.14.8) [!hurd-i386]')
 
 Parses the dependency and modifies internal properties to match the parsed
 dependency.
@@ -605,7 +605,7 @@ sub parse_string {
 	      \s*$			    # trailing spaces at end
             /x;
     if (defined($2)) {
-	return if $2 eq "native" and not $self->{build_dep};
+	return if $2 eq 'native' and not $self->{build_dep};
 	$self->{archqual} = $2;
     }
     $self->{package} = $1;
@@ -622,13 +622,13 @@ sub output {
     my ($self, $fh) = @_;
     my $res = $self->{package};
     if (defined($self->{archqual})) {
-	$res .= ":" . $self->{archqual};
+	$res .= ':' . $self->{archqual};
     }
     if (defined($self->{relation})) {
-	$res .= " (" . $self->{relation} . " " . $self->{version} .  ")";
+	$res .= ' (' . $self->{relation} . ' ' . $self->{version} .  ')';
     }
     if (defined($self->{arches})) {
-	$res .= " [" . join(" ", @{$self->{arches}}) . "]";
+	$res .= ' [' . join(' ', @{$self->{arches}}) . ']';
     }
     if (defined($fh)) {
 	print $fh $res;
@@ -901,7 +901,7 @@ sub is_empty {
 }
 
 sub merge_union {
-    internerr("The method merge_union() is only valid for Dpkg::Deps::Simple");
+    internerr('The method merge_union() is only valid for Dpkg::Deps::Simple');
 }
 
 package Dpkg::Deps::AND;
@@ -928,7 +928,7 @@ use base qw(Dpkg::Deps::Multiple);
 
 sub output {
     my ($self, $fh) = @_;
-    my $res = join(", ", map { $_->output() } grep { not $_->is_empty() } $self->get_deps());
+    my $res = join(', ', map { $_->output() } grep { not $_->is_empty() } $self->get_deps());
     if (defined($fh)) {
 	print $fh $res;
     }
@@ -1033,7 +1033,7 @@ use base qw(Dpkg::Deps::Multiple);
 
 sub output {
     my ($self, $fh) = @_;
-    my $res = join(" | ", map { $_->output() } grep { not $_->is_empty() } $self->get_deps());
+    my $res = join(' | ', map { $_->output() } grep { not $_->is_empty() } $self->get_deps());
     if (defined($fh)) {
 	print $fh $res;
     }
@@ -1141,7 +1141,7 @@ use base qw(Dpkg::Deps::Multiple);
 
 sub output {
     my ($self, $fh) = @_;
-    my $res = join(", ", map { $_->output() } grep { not $_->is_empty() } $self->get_deps());
+    my $res = join(', ', map { $_->output() } grep { not $_->is_empty() } $self->get_deps());
     if (defined($fh)) {
 	print $fh $res;
     }
@@ -1222,7 +1222,7 @@ sub add_installed_package {
 	package => $pkg,
 	version => $ver,
 	architecture => $arch,
-	multiarch => $multiarch || "no",
+	multiarch => $multiarch || 'no',
     };
     $self->{pkg}{"$pkg:$arch"} = $p if defined $arch;
     push @{$self->{pkg}{$pkg}}, $p;
@@ -1286,12 +1286,12 @@ sub _find_package {
 	    next;
 	}
 	if (not defined $archqual) {
-	    return $p if $ma eq "foreign";
-	    return $p if $a eq $host_arch or $a eq "all";
-	} elsif ($archqual eq "any") {
-	    return $p if $ma eq "allowed";
-	} elsif ($archqual eq "native") {
-	    return $p if $a eq $build_arch and $ma ne "foreign";
+	    return $p if $ma eq 'foreign';
+	    return $p if $a eq $host_arch or $a eq 'all';
+	} elsif ($archqual eq 'any') {
+	    return $p if $ma eq 'allowed';
+	} elsif ($archqual eq 'native') {
+	    return $p if $a eq $build_arch and $ma ne 'foreign';
 	} else {
 	    return $p if $a eq $archqual;
 	}

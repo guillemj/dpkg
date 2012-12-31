@@ -16,7 +16,7 @@ package Dpkg::ErrorHandling;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use Dpkg;
 use Dpkg::Gettext;
@@ -51,33 +51,33 @@ sub report(@)
 
 sub info($;@)
 {
-    print $info_fh report(_g("info"), @_) if (!$quiet_warnings);
+    print $info_fh report(_g('info'), @_) if (!$quiet_warnings);
 }
 
 sub warning($;@)
 {
-    warn report(_g("warning"), @_) if (!$quiet_warnings);
+    warn report(_g('warning'), @_) if (!$quiet_warnings);
 }
 
 sub syserr($;@)
 {
     my $msg = shift;
-    die report(_g("error"), "$msg: $!", @_);
+    die report(_g('error'), "$msg: $!", @_);
 }
 
 sub error($;@)
 {
-    die report(_g("error"), @_);
+    die report(_g('error'), @_);
 }
 
 sub errormsg($;@)
 {
-    print STDERR report(_g("error"), @_);
+    print STDERR report(_g('error'), @_);
 }
 
 sub internerr($;@)
 {
-    die report(_g("internal error"), @_);
+    die report(_g('internal error'), @_);
 }
 
 sub subprocerr(@)
@@ -89,11 +89,11 @@ sub subprocerr(@)
     require POSIX;
 
     if (POSIX::WIFEXITED($?)) {
-	error(_g("%s gave error exit status %s"), $p, POSIX::WEXITSTATUS($?));
+	error(_g('%s gave error exit status %s'), $p, POSIX::WEXITSTATUS($?));
     } elsif (POSIX::WIFSIGNALED($?)) {
-	error(_g("%s died from signal %s"), $p, POSIX::WTERMSIG($?));
+	error(_g('%s died from signal %s'), $p, POSIX::WTERMSIG($?));
     } else {
-	error(_g("%s failed with unknown exit code %d"), $p, $?);
+	error(_g('%s failed with unknown exit code %d'), $p, $?);
     }
 }
 
@@ -112,7 +112,7 @@ sub syntaxerr {
     my ($file, $msg) = (shift, shift);
 
     $msg = sprintf($msg, @_) if (@_);
-    error(_g("syntax error in %s at line %d: %s"), $file, $., $msg);
+    error(_g('syntax error in %s at line %d: %s'), $file, $., $msg);
 }
 
 1;

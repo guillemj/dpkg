@@ -18,7 +18,7 @@ package Dpkg::Control::Info;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg::Control;
 use Dpkg::ErrorHandling;
@@ -62,7 +62,7 @@ sub new {
     if ($arg) {
 	$self->load($arg);
     } else {
-	$self->load("debian/control");
+	$self->load('debian/control');
     }
     return $self;
 }
@@ -100,17 +100,17 @@ sub parse {
     return if not $cdata->parse($fh, $desc);
     $self->{source} = $cdata;
     unless (exists $cdata->{Source}) {
-	syntaxerr($desc, _g("first block lacks a source field"));
+	syntaxerr($desc, _g('first block lacks a source field'));
     }
     while (1) {
 	$cdata = Dpkg::Control->new(type => CTRL_INFO_PKG);
         last if not $cdata->parse($fh, $desc);
 	push @{$self->{packages}}, $cdata;
 	unless (exists $cdata->{Package}) {
-	    syntaxerr($desc, _g("block lacks the '%s' field"), "Package");
+	    syntaxerr($desc, _g("block lacks the '%s' field"), 'Package');
 	}
 	unless (exists $cdata->{Architecture}) {
-	    syntaxerr($desc, _g("block lacks the '%s' field"), "Architecture");
+	    syntaxerr($desc, _g("block lacks the '%s' field"), 'Architecture');
 	}
 
     }

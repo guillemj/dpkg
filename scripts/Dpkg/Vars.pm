@@ -19,7 +19,7 @@ package Dpkg::Vars;
 use strict;
 use warnings;
 
-our $VERSION = "0.02";
+our $VERSION = '0.02';
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -37,7 +37,7 @@ sub set_source_package {
 
     if (defined($sourcepackage)) {
         $v eq $sourcepackage ||
-            error(_g("source package has two conflicting values - %s and %s"),
+            error(_g('source package has two conflicting values - %s and %s'),
                   $sourcepackage, $v);
     } else {
         $sourcepackage = $v;

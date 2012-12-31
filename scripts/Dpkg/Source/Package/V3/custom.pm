@@ -18,7 +18,7 @@ package Dpkg::Source::Package::V3::custom;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use base 'Dpkg::Source::Package';
 
@@ -26,7 +26,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
-our $CURRENT_MINOR_VERSION = "0";
+our $CURRENT_MINOR_VERSION = '0';
 
 sub parse_cmdline_option {
     my ($self, $opt) = @_;
@@ -43,14 +43,14 @@ sub do_extract {
 sub can_build {
     my ($self, $dir) = @_;
     return (scalar(@{$self->{options}{ARGV}}),
-            _g("no files indicated on command line"));
+            _g('no files indicated on command line'));
 }
 
 sub do_build {
     my ($self, $dir) = @_;
     # Update real target format
     my $format = $self->{options}{target_format};
-    error(_g("--target-format option is missing")) unless $format;
+    error(_g('--target-format option is missing')) unless $format;
     $self->{fields}{'Format'} = $format;
     # Add all files
     foreach my $file (@{$self->{options}{ARGV}}) {

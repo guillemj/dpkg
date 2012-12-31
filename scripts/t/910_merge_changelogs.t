@@ -32,7 +32,7 @@ sub test_merge {
     my ($expected_file, @options) = @_;
     my ($fh, $filename) = tempfile();
     spawn(exec => ["$srcdir/dpkg-mergechangelogs.pl", @options],
-	  to_handle => $fh, error_to_file => "/dev/null",
+	  to_handle => $fh, error_to_file => '/dev/null',
 	  wait_child => 1, nocheck => 1);
     my $res = compare($expected_file, $filename);
     if ($res) {
@@ -51,10 +51,10 @@ if ($@) {
 my @input = ("$datadir/ch-old", "$datadir/ch-a", "$datadir/ch-b");
 if ($has_alg_merge) {
     test_merge("$datadir/ch-merged", @input);
-    test_merge("$datadir/ch-merged-pr", "-m", @input);
+    test_merge("$datadir/ch-merged-pr", '-m', @input);
 } else {
     test_merge("$datadir/ch-merged-basic", @input);
-    test_merge("$datadir/ch-merged-pr-basic", "-m", @input);
+    test_merge("$datadir/ch-merged-pr-basic", '-m', @input);
 }
 test_merge("$datadir/ch-badver-merged",  ("$datadir/ch-badver-old",
     "$datadir/ch-badver-a", "$datadir/ch-badver-b"));

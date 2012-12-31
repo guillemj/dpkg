@@ -33,28 +33,28 @@ mkdir "$tmpdir/debian";
 mkdir "$tmpdir/debian/a";
 mkdir "$tmpdir/debian/a/b";
 mkdir "$tmpdir/debian/a/b/c";
-symlink "a/b/c", "$tmpdir/cbis";
-symlink "/this/does/not/exist", "$tmpdir/tmp";
-symlink ".", "$tmpdir/here";
+symlink 'a/b/c', "$tmpdir/cbis";
+symlink '/this/does/not/exist', "$tmpdir/tmp";
+symlink '.', "$tmpdir/here";
 
-is(canonpath("$tmpdir/./a///b/c"), "$tmpdir/a/b/c", "canonpath basic test");
-is(canonpath("$tmpdir/a/b/../../a/b/c"), "$tmpdir/a/b/c", "canonpath and ..");
-is(canonpath("$tmpdir/a/b/c/../../"), "$tmpdir/a", "canonpath .. at end");
-is(canonpath("$tmpdir/cbis/../"), "$tmpdir/cbis/..", "canonpath .. after symlink");
+is(canonpath("$tmpdir/./a///b/c"), "$tmpdir/a/b/c", 'canonpath basic test');
+is(canonpath("$tmpdir/a/b/../../a/b/c"), "$tmpdir/a/b/c", 'canonpath and ..');
+is(canonpath("$tmpdir/a/b/c/../../"), "$tmpdir/a", 'canonpath .. at end');
+is(canonpath("$tmpdir/cbis/../"), "$tmpdir/cbis/..", 'canonpath .. after symlink');
 
-is(resolve_symlink("$tmpdir/here/cbis"), "$tmpdir/here/a/b/c", "resolve_symlink");
-is(resolve_symlink("$tmpdir/tmp"), "/this/does/not/exist", "resolve_symlink absolute");
-is(resolve_symlink("$tmpdir/here"), $tmpdir, "resolve_symlink .");
+is(resolve_symlink("$tmpdir/here/cbis"), "$tmpdir/here/a/b/c", 'resolve_symlink');
+is(resolve_symlink("$tmpdir/tmp"), '/this/does/not/exist', 'resolve_symlink absolute');
+is(resolve_symlink("$tmpdir/here"), $tmpdir, 'resolve_symlink .');
 
-ok(!check_files_are_the_same("$tmpdir/here", $tmpdir), "Symlink is not the same!");
-ok(check_files_are_the_same("$tmpdir/here/a", "$tmpdir/a"), "Same directory");
+ok(!check_files_are_the_same("$tmpdir/here", $tmpdir), 'Symlink is not the same!');
+ok(check_files_are_the_same("$tmpdir/here/a", "$tmpdir/a"), 'Same directory');
 
-is(get_pkg_root_dir("$tmpdir/a/b/c"), "$tmpdir/a", "get_pkg_root_dir");
-is(guess_pkg_root_dir("$tmpdir/a/b/c"), "$tmpdir/a", "guess_pkg_root_dir");
-is(relative_to_pkg_root("$tmpdir/a/b/c"), "b/c", "relative_to_pkg_root");
+is(get_pkg_root_dir("$tmpdir/a/b/c"), "$tmpdir/a", 'get_pkg_root_dir');
+is(guess_pkg_root_dir("$tmpdir/a/b/c"), "$tmpdir/a", 'guess_pkg_root_dir');
+is(relative_to_pkg_root("$tmpdir/a/b/c"), 'b/c', 'relative_to_pkg_root');
 
 chdir($tmpdir);
 
-ok(!defined(get_pkg_root_dir("debian/a/b/c")), "get_pkg_root_dir undef");
-ok(!defined(relative_to_pkg_root("debian/a/b/c")), "relative_to_pkg_root");
-is(guess_pkg_root_dir("debian/a/b/c"), "debian/a", "guess_pkg_root_dir fallback");
+ok(!defined(get_pkg_root_dir('debian/a/b/c')), 'get_pkg_root_dir undef');
+ok(!defined(relative_to_pkg_root('debian/a/b/c')), 'relative_to_pkg_root');
+is(guess_pkg_root_dir('debian/a/b/c'), 'debian/a', 'guess_pkg_root_dir fallback');

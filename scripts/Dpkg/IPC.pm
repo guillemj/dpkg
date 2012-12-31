@@ -19,7 +19,7 @@ package Dpkg::IPC;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -133,7 +133,7 @@ listed in the array before calling exec.
 sub _sanity_check_opts {
     my (%opts) = @_;
 
-    internerr("exec parameter is mandatory in spawn()")
+    internerr('exec parameter is mandatory in spawn()')
 	unless $opts{exec};
 
     my $to = my $error_to = my $from = 0;
@@ -142,11 +142,11 @@ sub _sanity_check_opts {
 	$error_to++ if $opts{"error_to_$_"};
 	$from++ if $opts{"from_$_"};
     }
-    internerr("not more than one of to_* parameters is allowed")
+    internerr('not more than one of to_* parameters is allowed')
 	if $to > 1;
-    internerr("not more than one of error_to_* parameters is allowed")
+    internerr('not more than one of error_to_* parameters is allowed')
 	if $error_to > 1;
-    internerr("not more than one of from_* parameters is allowed")
+    internerr('not more than one of from_* parameters is allowed')
 	if $from > 1;
 
     foreach (qw(to_string error_to_string from_string)) {
@@ -159,22 +159,22 @@ sub _sanity_check_opts {
     foreach (qw(to_pipe error_to_pipe from_pipe)) {
 	if (exists $opts{$_} and
 	    (!ref($opts{$_}) or (ref($opts{$_}) ne 'SCALAR' and
-				 not $opts{$_}->isa("IO::Handle")))) {
+				 not $opts{$_}->isa('IO::Handle')))) {
 	    internerr("parameter $_ must be a scalar reference or an IO::Handle object");
 	}
     }
 
     if (exists $opts{timeout} and defined($opts{timeout}) and
         $opts{timeout} !~ /^\d+$/) {
-	internerr("parameter timeout must be an integer");
+	internerr('parameter timeout must be an integer');
     }
 
     if (exists $opts{env} and ref($opts{env}) ne 'HASH') {
-	internerr("parameter env must be a hash reference");
+	internerr('parameter env must be a hash reference');
     }
 
     if (exists $opts{delete_env} and ref($opts{delete_env}) ne 'ARRAY') {
-	internerr("parameter delete_env must be an array reference");
+	internerr('parameter delete_env must be an array reference');
     }
 
     return %opts;
@@ -189,7 +189,7 @@ sub spawn {
     } elsif (not ref($opts{exec})) {
 	push @prog, $opts{exec};
     } else {
-	internerr("invalid exec parameter in spawn()");
+	internerr('invalid exec parameter in spawn()');
     }
     my ($from_string_pipe, $to_string_pipe, $error_to_string_pipe);
     if ($opts{to_string}) {
@@ -207,25 +207,25 @@ sub spawn {
     my ($input_pipe, $output_pipe, $error_pipe);
     if ($opts{from_pipe}) {
 	pipe($opts{from_handle}, $input_pipe) ||
-		syserr(_g("pipe for %s"), "@prog");
+		syserr(_g('pipe for %s'), "@prog");
 	${$opts{from_pipe}} = $input_pipe;
 	push @{$opts{close_in_child}}, $input_pipe;
     }
     if ($opts{to_pipe}) {
 	pipe($output_pipe, $opts{to_handle}) ||
-		syserr(_g("pipe for %s"), "@prog");
+		syserr(_g('pipe for %s'), "@prog");
 	${$opts{to_pipe}} = $output_pipe;
 	push @{$opts{close_in_child}}, $output_pipe;
     }
     if ($opts{error_to_pipe}) {
 	pipe($error_pipe, $opts{error_to_handle}) ||
-		syserr(_g("pipe for %s"), "@prog");
+		syserr(_g('pipe for %s'), "@prog");
 	${$opts{error_to_pipe}} = $error_pipe;
 	push @{$opts{close_in_child}}, $error_pipe;
     }
     # Fork and exec
     my $pid = fork();
-    syserr(_g("cannot fork for %s"), "@prog") unless defined $pid;
+    syserr(_g('cannot fork for %s'), "@prog") unless defined $pid;
     if (not $pid) {
 	# Define environment variables
 	if ($opts{env}) {
@@ -238,36 +238,36 @@ sub spawn {
 	}
 	# Change the current directory
 	if ($opts{chdir}) {
-	    chdir($opts{chdir}) || syserr(_g("chdir to %s"), $opts{chdir});
+	    chdir($opts{chdir}) || syserr(_g('chdir to %s'), $opts{chdir});
 	}
 	# Redirect STDIN if needed
 	if ($opts{from_file}) {
-	    open(STDIN, "<", $opts{from_file}) ||
-		syserr(_g("cannot open %s"), $opts{from_file});
+	    open(STDIN, '<', $opts{from_file}) ||
+		syserr(_g('cannot open %s'), $opts{from_file});
 	} elsif ($opts{from_handle}) {
-	    open(STDIN, "<&", $opts{from_handle}) || syserr(_g("reopen stdin"));
+	    open(STDIN, '<&', $opts{from_handle}) || syserr(_g('reopen stdin'));
 	    close($opts{from_handle}); # has been duped, can be closed
 	}
 	# Redirect STDOUT if needed
 	if ($opts{to_file}) {
-	    open(STDOUT, ">", $opts{to_file}) ||
-		syserr(_g("cannot write %s"), $opts{to_file});
+	    open(STDOUT, '>', $opts{to_file}) ||
+		syserr(_g('cannot write %s'), $opts{to_file});
 	} elsif ($opts{to_handle}) {
-	    open(STDOUT, ">&", $opts{to_handle}) || syserr(_g("reopen stdout"));
+	    open(STDOUT, '>&', $opts{to_handle}) || syserr(_g('reopen stdout'));
 	    close($opts{to_handle}); # has been duped, can be closed
 	}
 	# Redirect STDERR if needed
 	if ($opts{error_to_file}) {
-	    open(STDERR, ">", $opts{error_to_file}) ||
-		syserr(_g("cannot write %s"), $opts{error_to_file});
+	    open(STDERR, '>', $opts{error_to_file}) ||
+		syserr(_g('cannot write %s'), $opts{error_to_file});
 	} elsif ($opts{error_to_handle}) {
-	    open(STDERR, ">&", $opts{error_to_handle}) || syserr(_g("reopen stdout"));
+	    open(STDERR, '>&', $opts{error_to_handle}) || syserr(_g('reopen stdout'));
 	    close($opts{error_to_handle}); # has been duped, can be closed
 	}
 	# Close some inherited filehandles
 	close($_) foreach (@{$opts{close_in_child}});
 	# Execute the program
-	exec({ $prog[0] } @prog) or syserr(_g("unable to execute %s"), "@prog");
+	exec({ $prog[0] } @prog) or syserr(_g('unable to execute %s'), "@prog");
     }
     # Close handle that we can't use any more
     close($opts{from_handle}) if exists $opts{from_handle};
@@ -335,12 +335,12 @@ with an error message.
 
 sub wait_child {
     my ($pid, %opts) = @_;
-    $opts{cmdline} ||= _g("child process");
-    internerr("no PID set, cannot wait end of process") unless $pid;
+    $opts{cmdline} ||= _g('child process');
+    internerr('no PID set, cannot wait end of process') unless $pid;
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" };
         alarm($opts{timeout}) if defined($opts{timeout});
-        $pid == waitpid($pid, 0) or syserr(_g("wait for %s"), $opts{cmdline});
+        $pid == waitpid($pid, 0) or syserr(_g('wait for %s'), $opts{cmdline});
         alarm(0) if defined($opts{timeout});
     };
     if ($@) {

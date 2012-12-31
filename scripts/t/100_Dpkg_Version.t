@@ -22,11 +22,11 @@ use warnings;
 report_options(quiet_warnings => 1);
 
 my @tests = <DATA>;
-my @ops = ("<", "<<", "lt",
-	   "<=", "le",
-	   "=", "eq",
-	   ">=", "ge",
-	   ">", ">>", "gt");
+my @ops = ('<', '<<', 'lt',
+	   '<=', 'le',
+	   '=', 'eq',
+	   '>=', 'ge',
+	   '>', '>>', 'gt');
 
 plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 13;
 
@@ -37,70 +37,70 @@ sub dpkg_vercmp {
 
 sub obj_vercmp {
      my ($a, $cmp, $b) = @_;
-     return $a < $b  if $cmp eq "<<";
-     return $a lt $b if $cmp eq "lt";
-     return $a <= $b if $cmp eq "<=" or $cmp eq "<";
-     return $a le $b if $cmp eq "le";
-     return $a == $b if $cmp eq "=";
-     return $a eq $b if $cmp eq "eq";
-     return $a >= $b if $cmp eq ">=" or $cmp eq ">";
-     return $a ge $b if $cmp eq "ge";
-     return $a > $b  if $cmp eq ">>";
-     return $a gt $b if $cmp eq "gt";
+     return $a < $b  if $cmp eq '<<';
+     return $a lt $b if $cmp eq 'lt';
+     return $a <= $b if $cmp eq '<=' or $cmp eq '<';
+     return $a le $b if $cmp eq 'le';
+     return $a == $b if $cmp eq '=';
+     return $a eq $b if $cmp eq 'eq';
+     return $a >= $b if $cmp eq '>=' or $cmp eq '>';
+     return $a ge $b if $cmp eq 'ge';
+     return $a > $b  if $cmp eq '>>';
+     return $a gt $b if $cmp eq 'gt';
 }
 
 use_ok('Dpkg::Version');
 
 my $truth = {
-    "-1" => {
-	"<<" => 1, "lt" => 1,
-	"<=" => 1, "le" => 1, "<" => 1,
-	"=" => 0, "eq" => 0,
-	">=" => 0, "ge" => 0, ">" => 0,
-	">>" => 0, "gt" => 0,
+    '-1' => {
+	'<<' => 1, 'lt' => 1,
+	'<=' => 1, 'le' => 1, '<' => 1,
+	'=' => 0, 'eq' => 0,
+	'>=' => 0, 'ge' => 0, '>' => 0,
+	'>>' => 0, 'gt' => 0,
     },
-    "0" => {
-	"<<" => 0, "lt" => 0,
-	"<=" => 1, "le" => 1, "<" => 1,
-	"=" => 1, "eq" => 1,
-	">=" => 1, "ge" => 1, ">" => 1,
-	">>" => 0, "gt" => 0,
+    '0' => {
+	'<<' => 0, 'lt' => 0,
+	'<=' => 1, 'le' => 1, '<' => 1,
+	'=' => 1, 'eq' => 1,
+	'>=' => 1, 'ge' => 1, '>' => 1,
+	'>>' => 0, 'gt' => 0,
     },
-    "1" => {
-	"<<" => 0, "lt" => 0,
-	"<=" => 0, "le" => 0, "<" => 0,
-	"=" => 0, "eq" => 0,
-	">=" => 1, "ge" => 1, ">" => 1,
-	">>" => 1, "gt" => 1,
+    '1' => {
+	'<<' => 0, 'lt' => 0,
+	'<=' => 0, 'le' => 0, '<' => 0,
+	'=' => 0, 'eq' => 0,
+	'>=' => 1, 'ge' => 1, '>' => 1,
+	'>>' => 1, 'gt' => 1,
     },
 };
 
 # Handling of empty/invalid versions
-my $empty = Dpkg::Version->new("");
-ok($empty eq "", "Dpkg::Version->new('') eq ''");
-ok($empty->as_string() eq "", "Dpkg::Version->new('')->as_string() eq ''");
-ok(!$empty->is_valid(), "empty version is invalid");
-my $ver = Dpkg::Version->new("10a:5.2");
-ok(!$ver->is_valid(), "bad epoch is invalid");
-ok(!$ver, "bool eval of invalid leads to false");
-ok($ver eq '10a:5.2', "invalid still same string 1/2");
+my $empty = Dpkg::Version->new('');
+ok($empty eq '', "Dpkg::Version->new('') eq ''");
+ok($empty->as_string() eq '', "Dpkg::Version->new('')->as_string() eq ''");
+ok(!$empty->is_valid(), 'empty version is invalid');
+my $ver = Dpkg::Version->new('10a:5.2');
+ok(!$ver->is_valid(), 'bad epoch is invalid');
+ok(!$ver, 'bool eval of invalid leads to false');
+ok($ver eq '10a:5.2', 'invalid still same string 1/2');
 $ver = Dpkg::Version->new('5.2@3-2');
-ok($ver eq '5.2@3-2', "invalid still same string 2/2");
-ok(!$ver->is_valid(), "illegal character is invalid");
+ok($ver eq '5.2@3-2', 'invalid still same string 2/2');
+ok(!$ver->is_valid(), 'illegal character is invalid');
 $ver = Dpkg::Version->new('foo5.2');
-ok(!$ver->is_valid(), "version does not start with digit 1/2");
+ok(!$ver->is_valid(), 'version does not start with digit 1/2');
 $ver = Dpkg::Version->new('0:foo5.2');
-ok(!$ver->is_valid(), "version does not start with digit 2/2");
+ok(!$ver->is_valid(), 'version does not start with digit 2/2');
 
 # Other tests
 $ver = Dpkg::Version->new('1.2.3-4');
-is($ver || 'default', '1.2.3-4', "bool eval returns string representation");
+is($ver || 'default', '1.2.3-4', 'bool eval returns string representation');
 $ver = Dpkg::Version->new('0');
-is($ver || 'default', 'default', "bool eval of version 0 is still false...");
+is($ver || 'default', 'default', 'bool eval of version 0 is still false...');
 
 # Comparisons
 foreach my $case (@tests) {
-    my ($a, $b, $res) = split " ", $case;
+    my ($a, $b, $res) = split ' ', $case;
     my $va = Dpkg::Version->new($a, check => 1);
     my $vb = Dpkg::Version->new($b, check => 1);
 

@@ -18,7 +18,7 @@ package Dpkg::Index;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -100,18 +100,18 @@ sub set_options {
 	    $self->{get_key_func} = sub { return $_[0]->{Source}; };
         } elsif ($t == CTRL_CHANGELOG) {
 	    $self->{get_key_func} = sub {
-		return $_[0]->{Source} . "_" . $_[0]->{Version};
+		return $_[0]->{Source} . '_' . $_[0]->{Version};
 	    };
         } elsif ($t == CTRL_FILE_CHANGES) {
 	    $self->{get_key_func} = sub {
-		return $_[0]->{Source} . "_" . $_[0]->{Version} . "_" .
+		return $_[0]->{Source} . '_' . $_[0]->{Version} . '_' .
 		       $_[0]->{Architecture};
 	    };
         } elsif ($t == CTRL_FILE_VENDOR) {
 	    $self->{get_key_func} = sub { return $_[0]->{Vendor}; };
         } elsif ($t == CTRL_FILE_STATUS) {
 	    $self->{get_key_func} = sub {
-		return $_[0]->{Package} . "_" . $_[0]->{Architecture};
+		return $_[0]->{Package} . '_' . $_[0]->{Architecture};
 	    };
         }
     }
@@ -219,11 +219,11 @@ sub get_keys {
     my ($self, %crit) = @_;
     my @selected = @{$self->{order}};
     foreach my $s_crit (keys %crit) { # search criteria
-	if (ref($crit{$s_crit}) eq "Regexp") {
+	if (ref($crit{$s_crit}) eq 'Regexp') {
 	    @selected = grep {
 		$self->{items}{$_}{$s_crit} =~ $crit{$s_crit}
 	    } @selected;
-	} elsif (ref($crit{$s_crit}) eq "CODE") {
+	} elsif (ref($crit{$s_crit}) eq 'CODE') {
 	    @selected = grep {
 		&{$crit{$s_crit}}($self->{items}{$_}{$s_crit});
 	    } @selected;
@@ -330,7 +330,7 @@ Print the string representation of the index to a filehandle.
 
 sub output {
     my ($self, $fh) = @_;
-    my $str = "";
+    my $str = '';
     foreach my $key ($self->get_keys()) {
 	if (defined $fh) {
 	    print $fh $self->get_by_key($key) . "\n";

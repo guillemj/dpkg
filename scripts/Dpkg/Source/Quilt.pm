@@ -18,7 +18,7 @@ package Dpkg::Source::Quilt;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -51,26 +51,26 @@ sub setup_db {
     my ($self) = @_;
     my $db_dir = $self->get_db_file();
     if (not -d $db_dir) {
-        mkdir $db_dir or syserr(_g("cannot mkdir %s"), $db_dir);
+        mkdir $db_dir or syserr(_g('cannot mkdir %s'), $db_dir);
     }
-    my $file = $self->get_db_file(".version");
+    my $file = $self->get_db_file('.version');
     if (not -e $file) {
-        open(my $version_fh, ">", $file) or syserr(_g("cannot write %s"), $file);
+        open(my $version_fh, '>', $file) or syserr(_g('cannot write %s'), $file);
         print $version_fh "2\n";
         close($version_fh);
     }
     # The files below are used by quilt to know where patches are stored
     # and what file contains the patch list (supported by quilt >= 0.48-5
     # in Debian).
-    $file = $self->get_db_file(".quilt_patches");
+    $file = $self->get_db_file('.quilt_patches');
     if (not -e $file) {
-        open(my $qpatch_fh, ">", $file) or syserr(_g("cannot write %s"), $file);
+        open(my $qpatch_fh, '>', $file) or syserr(_g('cannot write %s'), $file);
         print $qpatch_fh "debian/patches\n";
         close($qpatch_fh);
     }
-    $file = $self->get_db_file(".quilt_series");
+    $file = $self->get_db_file('.quilt_series');
     if (not -e $file) {
-        open(my $qseries_fh, ">", $file) or syserr(_g("cannot write %s"), $file);
+        open(my $qseries_fh, '>', $file) or syserr(_g('cannot write %s'), $file);
         my $series = $self->get_series_file();
         $series = (File::Spec->splitpath($series))[2];
         print $qseries_fh "$series\n";
@@ -81,7 +81,7 @@ sub setup_db {
 sub load_db {
     my ($self) = @_;
 
-    my $pc_applied = $self->get_db_file("applied-patches");
+    my $pc_applied = $self->get_db_file('applied-patches');
     $self->{applied_patches} = [ $self->read_patch_list($pc_applied) ];
 }
 
@@ -89,9 +89,9 @@ sub write_db {
     my ($self) = @_;
 
     $self->setup_db();
-    my $pc_applied = $self->get_db_file("applied-patches");
-    open(my $applied_fh, ">", $pc_applied) or
-        syserr(_g("cannot write %s"), $pc_applied);
+    my $pc_applied = $self->get_db_file('applied-patches');
+    open(my $applied_fh, '>', $pc_applied) or
+        syserr(_g('cannot write %s'), $pc_applied);
     foreach my $patch (@{$self->{applied_patches}}) {
         print $applied_fh "$patch\n";
     }
@@ -141,7 +141,7 @@ sub push {
     my $path = $self->get_patch_file($patch);
     my $obj = Dpkg::Source::Patch->new(filename => $path);
 
-    info(_g("applying %s"), $patch) if $opts{verbose};
+    info(_g('applying %s'), $patch) if $opts{verbose};
     eval {
         $obj->apply($self->{dir}, timestamp => $opts{timestamp},
                     verbose => $opts{verbose},
@@ -151,9 +151,9 @@ sub push {
                                  '-B', ".pc/$patch/", '--reject-file=-' ]);
     };
     if ($@) {
-        info(_g("fuzz is not allowed when applying patches"));
+        info(_g('fuzz is not allowed when applying patches'));
         info(_g("if patch '%s' is correctly applied by quilt, use '%s' to update it"),
-             $patch, "quilt refresh");
+             $patch, 'quilt refresh');
         $self->restore_quilt_backup_files($patch, %opts);
         erasedir($self->get_db_file($patch));
         die $@;
@@ -171,7 +171,7 @@ sub pop {
     my $patch = $self->top();
     return unless defined $patch;
 
-    info(_g("unapplying %s"), $patch) if $opts{verbose};
+    info(_g('unapplying %s'), $patch) if $opts{verbose};
     my $backup_dir = $self->get_db_file($patch);
     if (-d $backup_dir and not $opts{reverse_apply}) {
         # Use the backup copies to restore
@@ -195,9 +195,9 @@ sub pop {
 
 sub get_db_version {
     my ($self) = @_;
-    my $pc_ver = $self->get_db_file(".version");
+    my $pc_ver = $self->get_db_file('.version');
     if (-f $pc_ver) {
-        open(my $ver_fh, "<", $pc_ver) || syserr(_g("cannot read %s"), $pc_ver);
+        open(my $ver_fh, '<', $pc_ver) || syserr(_g('cannot read %s'), $pc_ver);
         my $version = <$ver_fh>;
         chomp $version;
         close($ver_fh);
@@ -210,20 +210,20 @@ sub find_problems {
     my ($self) = @_;
     my $patch_dir = $self->get_patch_file();
     if (-e $patch_dir and not -d _) {
-        return sprintf(_g("%s should be a directory or non-existing"), $patch_dir);
+        return sprintf(_g('%s should be a directory or non-existing'), $patch_dir);
     }
     my $series = $self->get_series_file();
     if (-e $series and not -f _) {
-        return sprintf(_g("%s should be a file or non-existing"), $series);
+        return sprintf(_g('%s should be a file or non-existing'), $series);
     }
     return;
 }
 
 sub get_series_file {
     my ($self) = @_;
-    my $vendor = lc(get_current_vendor() || "debian");
+    my $vendor = lc(get_current_vendor() || 'debian');
     # Series files are stored alongside patches
-    my $default_series = $self->get_patch_file("series");
+    my $default_series = $self->get_patch_file('series');
     my $vendor_series = $self->get_patch_file("$vendor.series");
     return $vendor_series if -e $vendor_series;
     return $default_series;
@@ -231,7 +231,7 @@ sub get_series_file {
 
 sub get_db_file {
     my $self = shift;
-    return File::Spec->catfile($self->{dir}, ".pc", @_);
+    return File::Spec->catfile($self->{dir}, '.pc', @_);
 }
 
 sub get_db_dir {
@@ -241,7 +241,7 @@ sub get_db_dir {
 
 sub get_patch_file {
     my $self = shift;
-    return File::Spec->catfile($self->{dir}, "debian", "patches", @_);
+    return File::Spec->catfile($self->{dir}, 'debian', 'patches', @_);
 }
 
 sub get_patch_dir {
@@ -256,7 +256,7 @@ sub read_patch_list {
     return () if not defined $file or not -f $file;
     $opts{warn_options} //= 0;
     my @patches;
-    open(my $series_fh, "<" , $file) || syserr(_g("cannot read %s"), $file);
+    open(my $series_fh, '<' , $file) || syserr(_g('cannot read %s'), $file);
     while (defined($_ = <$series_fh>)) {
         chomp; s/^\s+//; s/\s+$//; # Strip leading/trailing spaces
         s/(^|\s+)#.*$//; # Strip comment
@@ -264,13 +264,13 @@ sub read_patch_list {
         if (/^(\S+)\s+(.*)$/) {
             $_ = $1;
             if ($2 ne '-p1') {
-                warning(_g("the series file (%s) contains unsupported " .
+                warning(_g('the series file (%s) contains unsupported ' .
                            "options ('%s', line %s); dpkg-source might " .
-                           "fail when applying patches"),
+                           'fail when applying patches'),
                         $file, $2, $.) if $opts{warn_options};
             }
         }
-        error(_g("%s contains an insecure path: %s"), $file, $_) if m{(^|/)\.\./};
+        error(_g('%s contains an insecure path: %s'), $file, $_) if m{(^|/)\.\./};
         CORE::push @patches, $_;
     }
     close($series_fh);
@@ -281,7 +281,7 @@ sub restore_quilt_backup_files {
     my ($self, $patch, %opts) = @_;
     my $patch_dir = $self->get_db_file($patch);
     return unless -d $patch_dir;
-    info(_g("restoring quilt backup files for %s"), $patch) if $opts{verbose};
+    info(_g('restoring quilt backup files for %s'), $patch) if $opts{verbose};
     find({
         no_chdir => 1,
         wanted => sub {
@@ -293,7 +293,7 @@ sub restore_quilt_backup_files {
                 make_path(dirname($target));
                 unless (link($_, $target)) {
                     copy($_, $target) ||
-                        syserr(_g("failed to copy %s to %s"), $_, $target);
+                        syserr(_g('failed to copy %s to %s'), $_, $target);
                     chmod($target, (stat(_))[2]) ||
                         syserr(_g("unable to change permission of `%s'"), $target);
                 }

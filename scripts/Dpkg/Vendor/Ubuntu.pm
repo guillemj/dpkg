@@ -22,7 +22,7 @@ package Dpkg::Vendor::Ubuntu;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -49,7 +49,7 @@ to check that Maintainers have been modified if necessary.
 sub run_hook {
     my ($self, $hook, @params) = @_;
 
-    if ($hook eq "before-source-build") {
+    if ($hook eq 'before-source-build') {
         my $src = shift @params;
         my $fields = $src->{fields};
 
@@ -69,31 +69,31 @@ sub run_hook {
            }
         }
 
-    } elsif ($hook eq "keyrings") {
+    } elsif ($hook eq 'keyrings') {
         my @keyrings = $self->SUPER::run_hook($hook);
 
         push(@keyrings, '/usr/share/keyrings/ubuntu-archive-keyring.gpg');
         return @keyrings;
 
-    } elsif ($hook eq "register-custom-fields") {
+    } elsif ($hook eq 'register-custom-fields') {
         my @field_ops = $self->SUPER::run_hook($hook);
         push @field_ops,
-            [ "register", "Launchpad-Bugs-Fixed",
+            [ 'register', 'Launchpad-Bugs-Fixed',
               CTRL_FILE_CHANGES | CTRL_CHANGELOG  ],
-            [ "insert_after", CTRL_FILE_CHANGES, "Closes", "Launchpad-Bugs-Fixed" ],
-            [ "insert_after", CTRL_CHANGELOG, "Closes", "Launchpad-Bugs-Fixed" ];
+            [ 'insert_after', CTRL_FILE_CHANGES, 'Closes', 'Launchpad-Bugs-Fixed' ],
+            [ 'insert_after', CTRL_CHANGELOG, 'Closes', 'Launchpad-Bugs-Fixed' ];
         return @field_ops;
 
-    } elsif ($hook eq "post-process-changelog-entry") {
+    } elsif ($hook eq 'post-process-changelog-entry') {
         my $fields = shift @params;
 
         # Add Launchpad-Bugs-Fixed field
-        my $bugs = find_launchpad_closes($fields->{"Changes"} || "");
+        my $bugs = find_launchpad_closes($fields->{'Changes'} || '');
         if (scalar(@$bugs)) {
-            $fields->{"Launchpad-Bugs-Fixed"} = join(" ", @$bugs);
+            $fields->{'Launchpad-Bugs-Fixed'} = join(' ', @$bugs);
         }
 
-    } elsif ($hook eq "update-buildflags") {
+    } elsif ($hook eq 'update-buildflags') {
 	my $flags = shift @params;
 
 	if (debarch_eq(get_host_arch(), 'ppc64')) {
@@ -110,19 +110,19 @@ sub run_hook {
 	# Allow control of hardening-wrapper via dpkg-buildpackage DEB_BUILD_OPTIONS
 	my $build_opts = Dpkg::BuildOptions->new();
 	my $hardening;
-	if ($build_opts->has("hardening")) {
-	    $hardening = $build_opts->get("hardening") // 1;
+	if ($build_opts->has('hardening')) {
+	    $hardening = $build_opts->get('hardening') // 1;
 	}
-	if ($build_opts->has("nohardening")) {
+	if ($build_opts->has('nohardening')) {
 	    $hardening = 0;
 	}
 	if (defined $hardening) {
 	    my $flag = 'DEB_BUILD_HARDENING';
-	    if ($hardening ne "0") {
+	    if ($hardening ne '0') {
 		if (!find_command('hardened-cc')) {
 		    syserr(_g("'hardening' flag found but 'hardening-wrapper' not installed"));
 		}
-		if ($hardening ne "1") {
+		if ($hardening ne '1') {
 		    my @options = split(/,\s*/, $hardening);
 		    $hardening = 1;
 
@@ -132,14 +132,15 @@ sub run_hook {
 			my $upitem = uc($item);
 			foreach my $option (@options) {
 			    if ($option =~ /^(no)?$item$/) {
-				$flags->set($flag.'_'.$upitem, not defined $1 or $1 eq "", 'env');
+				$flags->set($flag . '_' . $upitem,
+				            not defined $1 or $1 eq '', 'env');
 			    }
 			}
 		    }
 		}
 	    }
 	    if (defined $ENV{$flag}) {
-		info(_g("overriding %s in environment: %s"), $flag, $hardening);
+		info(_g('overriding %s in environment: %s'), $flag, $hardening);
 	    }
 	    $flags->set($flag, $hardening, 'env');
 	}

@@ -69,6 +69,7 @@ my @policies = qw(
     TestingAndDebugging::RequireUseStrict
     TestingAndDebugging::RequireUseWarnings
     ValuesAndExpressions::ProhibitComplexVersion
+    ValuesAndExpressions::ProhibitInterpolationOfLiterals
     ValuesAndExpressions::ProhibitLongChainsOfMethodCalls
     ValuesAndExpressions::ProhibitQuotesAsQuotelikeOperatorDelimiters
     ValuesAndExpressions::ProhibitSpecialLiteralHeredocTerminator

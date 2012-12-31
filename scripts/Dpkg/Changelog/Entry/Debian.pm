@@ -18,7 +18,7 @@ package Dpkg::Changelog::Entry::Debian;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Exporter;
 use Dpkg::Changelog::Entry;
@@ -77,7 +77,7 @@ following line necessarily starts a new item).
 sub get_change_items {
     my ($self) = @_;
     my (@items, @blanks, $item);
-    foreach my $line (@{$self->get_part("changes")}) {
+    foreach my $line (@{$self->get_part('changes')}) {
 	if ($line =~ /^\s*\*/) {
 	    push @items, $item if defined $item;
 	    $item = "$line\n";
@@ -125,18 +125,18 @@ sub check_header {
 	    }
 	    my ($k, $v) = (field_capitalize($1), $2);
 	    if ($optdone{$k}) {
-		push @errors, sprintf(_g("repeated key-value %s"), $k);
+		push @errors, sprintf(_g('repeated key-value %s'), $k);
 	    }
 	    $optdone{$k} = 1;
 	    if ($k eq 'Urgency') {
-		push @errors, sprintf(_g("badly formatted urgency value: %s"), $v)
+		push @errors, sprintf(_g('badly formatted urgency value: %s'), $v)
 		    unless ($v =~ m/^([-0-9a-z]+)((\s+.*)?)$/i);
 	    } elsif ($k eq 'Binary-Only') {
-		push @errors, sprintf(_g("bad binary-only value: %s"), $v)
-		    unless ($v eq "yes");
+		push @errors, sprintf(_g('bad binary-only value: %s'), $v)
+		    unless ($v eq 'yes');
 	    } elsif ($k =~ m/^X[BCS]+-/i) {
 	    } else {
-		push @errors, sprintf(_g("unknown key-value %s"), $k);
+		push @errors, sprintf(_g('unknown key-value %s'), $k);
 	    }
 	}
 	my ($ok, $msg) = version_check($version);
@@ -154,7 +154,7 @@ sub check_trailer {
     my @errors;
     if (defined($self->{trailer}) and $self->{trailer} =~ $regex_trailer) {
 	if ($3 ne '  ') {
-	    push @errors, _g("badly formatted trailer line");
+	    push @errors, _g('badly formatted trailer line');
 	}
 	unless (defined str2time($4)) {
 	    push @errors, sprintf(_g("couldn't parse date %s"), $4);
@@ -220,7 +220,7 @@ sub get_optional_fields {
     }
     my @closes = find_closes(join("\n", @{$self->{changes}}));
     if (@closes) {
-	$f->{Closes} = join(" ", @closes);
+	$f->{Closes} = join(' ', @closes);
     }
     return $f;
 }

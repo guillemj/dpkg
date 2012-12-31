@@ -23,7 +23,7 @@ use warnings;
 
 use Scalar::Util qw(looks_like_number);
 
-$#ARGV == 1 || die ("usage: mkcurkeys.pl <filename> <curses.h>");
+$#ARGV == 1 || die('usage: mkcurkeys.pl <filename> <curses.h>');
 
 my (%over, %base, %name);
 
@@ -80,7 +80,7 @@ my ($comma);
 
 for (my $i = 33; $i <= 126; $i++) {
     $k= $i;
-    $v= pack("C",$i);
+    $v = pack('C', $i);
     if ($v eq ',') { $comma=$k; next; }
     p();
 }

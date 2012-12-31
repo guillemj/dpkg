@@ -33,17 +33,17 @@ my $vardir = $ARGV[0];
 my $method = $ARGV[1];
 my $option = $ARGV[2];
 
-if ($option eq "manual") {
+if ($option eq 'manual') {
     print "Enter package file names or a blank line to finish\n";
     while(1) {
-	print "Enter package file name:";
+	print 'Enter package file name:';
 	my $fn = <STDIN>;
 	chomp $fn;
-	if ( $fn == "") {
+	if ($fn == '') {
 	    exit 0;
 	}
 	if ( -f $fn ) {
-	    system ("dpkg", "--merge-avail", $fn);
+	    system('dpkg', '--merge-avail', $fn);
 	} else {
 	    print "Could not find $fn, try again\n";
 	}
@@ -134,36 +134,36 @@ foreach (@{$config{site}}) {
 	}
 
 	if ($must_get) {
-	    -f "Packages.gz" and unlink "Packages.gz";
-	    -f "Packages" and unlink "Packages";
+	    -f 'Packages.gz' and unlink 'Packages.gz';
+	    -f 'Packages' and unlink 'Packages';
 	    my $size = 0;
 
 	  TRY_GET_PACKAGES:
 	    while (1) {
 		if ($size) {
-		    print " Continuing ";
+		    print ' Continuing ';
 		} else {
-		    print " Getting ";
+		    print ' Getting ';
 		}
 		print "Packages file from $dir...\n";
 		eval {
-		    if ($ftp->get("$dir/Packages.gz", "Packages.gz", $size)) {
-			if (system("gunzip", "Packages.gz")) {
+		    if ($ftp->get("$dir/Packages.gz", 'Packages.gz', $size)) {
+			if (system('gunzip', 'Packages.gz')) {
 			    print "  Couldn't gunzip Packages.gz, stopped";
-			    die "error";
+			    die 'error';
 			}
 		    } else {
 			print "  Couldn't get Packages.gz from $dir !!! Stopped.";
-			die "error";
+			die 'error';
 		    }
 		};
 		if ($@) {
-		    $size = -s "Packages.gz";
+		    $size = -s 'Packages.gz';
 		    if (ref($ftp)) {
 		      $ftp->abort();
 		      $ftp->quit();
 		    };
-		    if (yesno ("y", "Transfer failed at $size: retry at once")) {
+		    if (yesno ('y', "Transfer failed at $size: retry at once")) {
                          $ftp = do_connect ($site->[0], # Ftp server
                            $site->[4], # username
                            $site->[5], # password
@@ -180,15 +180,15 @@ foreach (@{$config{site}}) {
 			}
 			next TRY_GET_PACKAGES;
 		    } else {
-			die "error";
+			die 'error';
 		    }
 		}
 		last TRY_GET_PACKAGES;
 	    }
 
-	    if(!rename "Packages", "Packages.$site->[0].$dist") {
+	    if (!rename 'Packages', "Packages.$site->[0].$dist") {
 		print "  Couldn't rename Packages to Packages.$site->[0].$dist";
-		die "error";
+		die 'error';
 	    } else {
 		# set local Packages file to same date as the one it mirrors
 		# to allow comparison to work.
@@ -228,11 +228,11 @@ However if you have only downloaded a Package files from non-main
 distributions you might not want to do this.
 
 EOM
-    if (yesno ("y", "Do you want to clear available list")) {
+    if (yesno ('y', 'Do you want to clear available list')) {
 	print "Clearing...\n";
-	if(system("dpkg", "--clear-avail")) {
-	    print "dpkg --clear-avail failed.";
-	    die "error";
+	if (system('dpkg', '--clear-avail')) {
+	    print 'dpkg --clear-avail failed.';
+	    die 'error';
 	}
     }
 }
@@ -243,7 +243,7 @@ if (!$packages_modified) {
     my $file;
 
     foreach $file (@pkgfiles) {
-	if(system ("dpkg", "--merge-avail", $file)) {
+	if (system('dpkg', '--merge-avail', $file)) {
 	    print "Dpkg merge available failed on $file";
 	    $exit = 1;
 	}

@@ -18,7 +18,7 @@ package Dpkg::Vendor;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -29,7 +29,7 @@ use base qw(Exporter);
 our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file
                     get_vendor_object run_vendor_hook);
 
-my $origins = "/etc/dpkg/origins";
+my $origins = '/etc/dpkg/origins';
 $origins = $ENV{DPKG_ORIGINS_DIR} if $ENV{DPKG_ORIGINS_DIR};
 
 =encoding utf8
@@ -70,11 +70,11 @@ if there's no file for the given vendor.
 =cut
 
 sub get_vendor_info(;$) {
-    my $vendor = shift || "default";
+    my $vendor = shift || 'default';
     my $file = get_vendor_file($vendor);
     return unless $file;
     my $fields = Dpkg::Control::Hash->new();
-    $fields->load($file) || error(_g("%s is empty"), $file);
+    $fields->load($file) || error(_g('%s is empty'), $file);
     return $fields;
 }
 
@@ -86,7 +86,7 @@ name.
 =cut
 
 sub get_vendor_file(;$) {
-    my $vendor = shift || "default";
+    my $vendor = shift || 'default';
     my $file;
     my @tries = ($vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor)));
     if ($vendor =~ s/\s+/-/) {
@@ -128,14 +128,14 @@ object.
 
 my %OBJECT_CACHE;
 sub get_vendor_object {
-    my $vendor = shift || get_current_vendor() || "Default";
+    my $vendor = shift || get_current_vendor() || 'Default';
     return $OBJECT_CACHE{$vendor} if exists $OBJECT_CACHE{$vendor};
 
     my ($obj, @names);
-    if ($vendor ne "Default") {
+    if ($vendor ne 'Default') {
         push @names, $vendor, lc($vendor), ucfirst($vendor), ucfirst(lc($vendor));
     }
-    foreach my $name (@names, "Default") {
+    foreach my $name (@names, 'Default') {
         eval qq{
             require Dpkg::Vendor::$name;
             \$obj = Dpkg::Vendor::$name->new();

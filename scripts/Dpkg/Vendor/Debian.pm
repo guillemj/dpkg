@@ -22,7 +22,7 @@ package Dpkg::Vendor::Debian;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use base qw(Dpkg::Vendor::Default);
 
@@ -48,11 +48,11 @@ for Debian specific actions.
 sub run_hook {
     my ($self, $hook, @params) = @_;
 
-    if ($hook eq "keyrings") {
+    if ($hook eq 'keyrings') {
         return ('/usr/share/keyrings/debian-keyring.gpg',
                 '/usr/share/keyrings/debian-maintainers.gpg');
-    } elsif ($hook eq "register-custom-fields") {
-    } elsif ($hook eq "extend-patch-header") {
+    } elsif ($hook eq 'register-custom-fields') {
+    } elsif ($hook eq 'extend-patch-header') {
         my ($textref, $ch_info) = @params;
 	if ($ch_info->{'Closes'}) {
 	    foreach my $bug (split(/\s+/, $ch_info->{'Closes'})) {
@@ -66,7 +66,7 @@ sub run_hook {
 	foreach my $bug (@$b) {
 	    $$textref .= "Bug-Ubuntu: https://bugs.launchpad.net/bugs/$bug\n";
 	}
-    } elsif ($hook eq "update-buildflags") {
+    } elsif ($hook eq 'update-buildflags') {
 	$self->add_hardening_flags(@params);
     } else {
         return $self->SUPER::run_hook($hook, @params);
@@ -80,7 +80,7 @@ sub add_hardening_flags {
 
     unless (defined $abi and defined $os and defined $cpu) {
         warning(_g("unknown host architecture '%s'"), $arch);
-        ($abi, $os, $cpu) = ("", "", "");
+        ($abi, $os, $cpu) = ('', '', '');
     }
 
     # Features enabled by default for all builds.
@@ -94,23 +94,23 @@ sub add_hardening_flags {
     );
 
     # Adjust features based on Maintainer's desires.
-    my $opts = Dpkg::BuildOptions->new(envvar => "DEB_BUILD_MAINT_OPTIONS");
-    foreach my $feature (split(",", $opts->get("hardening") // "")) {
+    my $opts = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_MAINT_OPTIONS');
+    foreach my $feature (split(',', $opts->get('hardening') // '')) {
 	$feature = lc($feature);
 	if ($feature =~ s/^([+-])//) {
-	    my $value = ($1 eq "+") ? 1 : 0;
-	    if ($feature eq "all") {
+	    my $value = ($1 eq '+') ? 1 : 0;
+	    if ($feature eq 'all') {
 		$use_feature{$_} = $value foreach keys %use_feature;
 	    } else {
 		if (exists $use_feature{$feature}) {
 		    $use_feature{$feature} = $value;
 		} else {
-		    warning(_g("unknown hardening feature: %s"), $feature);
+		    warning(_g('unknown hardening feature: %s'), $feature);
 		}
 	    }
 	} else {
-	    warning(_g("incorrect value in hardening option of " .
-	               "DEB_BUILD_MAINT_OPTIONS: %s"), $feature);
+	    warning(_g('incorrect value in hardening option of ' .
+	               'DEB_BUILD_MAINT_OPTIONS: %s'), $feature);
 	}
     }
 
@@ -122,7 +122,7 @@ sub add_hardening_flags {
 	#  (#574716).
 	$use_feature{pie} = 0;
     }
-    if ($cpu =~ /^(ia64|alpha|mips|mipsel|hppa)$/ or $arch eq "arm") {
+    if ($cpu =~ /^(ia64|alpha|mips|mipsel|hppa)$/ or $arch eq 'arm') {
 	# Stack protector disabled on ia64, alpha, mips, mipsel, hppa.
 	#   "warning: -fstack-protector not supported for this target"
 	# Stack protector disabled on arm (ok on armel).
@@ -149,41 +149,41 @@ sub add_hardening_flags {
 
     # PIE
     if ($use_feature{pie}) {
-	$flags->append("CFLAGS", "-fPIE");
-	$flags->append("CXXFLAGS", "-fPIE");
-	$flags->append("LDFLAGS", "-fPIE -pie");
+	$flags->append('CFLAGS', '-fPIE');
+	$flags->append('CXXFLAGS', '-fPIE');
+	$flags->append('LDFLAGS', '-fPIE -pie');
     }
 
     # Stack protector
     if ($use_feature{stackprotector}) {
-	$flags->append("CFLAGS", "-fstack-protector --param=ssp-buffer-size=4");
-	$flags->append("CXXFLAGS", "-fstack-protector --param=ssp-buffer-size=4");
+	$flags->append('CFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
+	$flags->append('CXXFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
     }
 
     # Fortify Source
     if ($use_feature{fortify}) {
-	$flags->append("CPPFLAGS", "-D_FORTIFY_SOURCE=2");
+	$flags->append('CPPFLAGS', '-D_FORTIFY_SOURCE=2');
     }
 
     # Format Security
     if ($use_feature{format}) {
-	$flags->append("CFLAGS", "-Wformat -Werror=format-security");
-	$flags->append("CXXFLAGS", "-Wformat -Werror=format-security");
+	$flags->append('CFLAGS', '-Wformat -Werror=format-security');
+	$flags->append('CXXFLAGS', '-Wformat -Werror=format-security');
     }
 
     # Read-only Relocations
     if ($use_feature{relro}) {
-	$flags->append("LDFLAGS", "-Wl,-z,relro");
+	$flags->append('LDFLAGS', '-Wl,-z,relro');
     }
 
     # Bindnow
     if ($use_feature{bindnow}) {
-	$flags->append("LDFLAGS", "-Wl,-z,now");
+	$flags->append('LDFLAGS', '-Wl,-z,now');
     }
 
     # Store the feature usage.
     while (my ($feature, $enabled) = each %use_feature) {
-	$flags->set_feature("hardening", $feature, $enabled);
+	$flags->set_feature('hardening', $feature, $enabled);
     }
 }
 

@@ -16,7 +16,7 @@ package Dpkg;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use base qw(Exporter);
 our @EXPORT = qw($version $progname $admindir $dpkglibdir $pkgdatadir);
@@ -24,10 +24,10 @@ our @EXPORT = qw($version $progname $admindir $dpkglibdir $pkgdatadir);
 our ($progname) = $0 =~ m#(?:.*/)?([^/]*)#;
 
 # The following lines are automatically fixed at install time
-our $version = "1.17.x";
-our $admindir = "/var/lib/dpkg";
-our $dpkglibdir = ".";
-our $pkgdatadir = "..";
+our $version = '1.17.x';
+our $admindir = '/var/lib/dpkg';
+our $dpkglibdir = '.';
+our $pkgdatadir = '..';
 $pkgdatadir = $ENV{DPKG_DATADIR} if defined $ENV{DPKG_DATADIR};
 
 1;

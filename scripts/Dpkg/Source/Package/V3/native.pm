@@ -18,7 +18,7 @@ package Dpkg::Source::Package::V3::native;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use base 'Dpkg::Source::Package';
 
@@ -34,7 +34,7 @@ use Cwd;
 use File::Basename;
 use File::Temp qw(tempfile);
 
-our $CURRENT_MINOR_VERSION = "0";
+our $CURRENT_MINOR_VERSION = '0';
 
 sub do_extract {
     my ($self, $newdirectory) = @_;
@@ -48,17 +48,17 @@ sub do_extract {
     my $tarfile;
     foreach my $file ($self->get_files()) {
 	if ($file =~ /^\Q$basenamerev\E\.tar\.$compression_re_file_ext$/) {
-            error(_g("multiple tarfiles in v1.0 source package")) if $tarfile;
+            error(_g('multiple tarfiles in v1.0 source package')) if $tarfile;
             $tarfile = $file;
 	} else {
-	    error(_g("unrecognized file for a native source package: %s"), $file);
+	    error(_g('unrecognized file for a native source package: %s'), $file);
 	}
     }
 
-    error(_g("no tarfile in Files field")) unless $tarfile;
+    error(_g('no tarfile in Files field')) unless $tarfile;
 
     erasedir($newdirectory);
-    info(_g("unpacking %s"), $tarfile);
+    info(_g('unpacking %s'), $tarfile);
     my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
     $tar->extract($newdirectory);
 }
@@ -81,7 +81,7 @@ sub do_build {
     my $basenamerev = $self->get_basename(1);
     my $tarname = "$basenamerev.tar." . $self->{options}{comp_ext};
 
-    info(_g("building %s in %s"), $sourcepackage, $tarname);
+    info(_g('building %s in %s'), $sourcepackage, $tarname);
 
     my ($ntfh, $newtar) = tempfile("$tarname.new.XXXXXX",
                                    DIR => getcwd(), UNLINK => 0);

@@ -33,7 +33,7 @@ use Dpkg::Checksums;
 use Dpkg::Compression::FileHandle;
 use Dpkg::IPC;
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 # Do not pollute STDOUT with info messages
 report_options(info_fh => \*STDERR);
@@ -103,7 +103,7 @@ sub load_override
 		    my $debmaint = $$package{Maintainer};
 		    if (!grep($debmaint eq $_, split(m:\s*//\s*:, $oldmaint))) {
 			push(@changedmaint,
-			     sprintf(_g("  %s (package says %s, not %s)"),
+			     sprintf(_g('  %s (package says %s, not %s)'),
 			             $p, $$package{Maintainer}, $oldmaint));
 		    } else {
 			$$package{Maintainer} = $newmaint;
@@ -111,7 +111,7 @@ sub load_override
 		} elsif ($$package{Maintainer} eq $maintainer) {
 		    push(@samemaint, "  $p ($maintainer)");
 		} else {
-		    warning(_g("Unconditional maintainer override for %s"), $p);
+		    warning(_g('Unconditional maintainer override for %s'), $p);
 		    $$package{Maintainer} = $maintainer;
 		}
 	    }
@@ -149,7 +149,7 @@ sub load_override_extra
 usage() and exit 1 if not $result;
 
 if (not @ARGV >= 1 && @ARGV <= 3) {
-    usageerr(_g("one to three arguments expected"));
+    usageerr(_g('one to three arguments expected'));
 }
 
 my $type = defined($options{type}) ? $options{type} : 'deb';
@@ -166,9 +166,9 @@ else {
 
 my ($binarydir, $override, $pathprefix) = @ARGV;
 
--d $binarydir or error(_g("Binary dir %s not found"), $binarydir);
+-d $binarydir or error(_g('Binary dir %s not found'), $binarydir);
 defined($override) and (-e $override or
-    error(_g("Override file %s not found"), $override));
+    error(_g('Override file %s not found'), $override));
 
 $pathprefix //= '';
 
@@ -180,7 +180,7 @@ FILE:
 	chomp;
 	my $fn = $_;
 	my $output;
-	my $pid = spawn(exec => [ "dpkg-deb", "-I", $fn, "control" ],
+	my $pid = spawn(exec => [ 'dpkg-deb', '-I', $fn, 'control' ],
 	                to_pipe => \$output);
 	my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
 	$fields->parse($output, $fn)
@@ -193,7 +193,7 @@ FILE:
 	}
 	
 	defined($fields->{'Package'})
-	    or error(_g("No Package field in control file of %s"), $fn);
+	    or error(_g('No Package field in control file of %s'), $fn);
 	my $p = $fields->{'Package'};
 	
 	if (defined($packages{$p}) and not $options{multiversion}) {
@@ -201,20 +201,20 @@ FILE:
 		if (version_compare_relation($fields->{'Version'}, REL_GT,
 					     $_->{'Version'}))
                 {
-		    warning(_g("Package %s (filename %s) is repeat but newer version;"),
+		    warning(_g('Package %s (filename %s) is repeat but newer version;'),
 		            $p, $fn);
-		    warning(_g("used that one and ignored data from %s!"),
+		    warning(_g('used that one and ignored data from %s!'),
 		            $_->{Filename});
 		    $packages{$p} = [];
 		} else {
-		    warning(_g("Package %s (filename %s) is repeat;"), $p, $fn);
-		    warning(_g("ignored that one and using data from %s!"),
+		    warning(_g('Package %s (filename %s) is repeat;'), $p, $fn);
+		    warning(_g('ignored that one and using data from %s!'),
 		            $_->{Filename});
 		    next FILE;
 		}
 	    }
 	}
-	warning(_g("Package %s (filename %s) has Filename field!"), $p, $fn)
+	warning(_g('Package %s (filename %s) has Filename field!'), $p, $fn)
 	    if defined($fields->{'Filename'});
 	
 	$fields->{'Filename'} = "$pathprefix$fn";
@@ -222,7 +222,7 @@ FILE:
         my $sums = Dpkg::Checksums->new();
 	$sums->add_from_file($fn);
         foreach my $alg (checksums_get_list()) {
-            if ($alg eq "md5") {
+            if ($alg eq 'md5') {
 	        $fields->{'MD5sum'} = $sums->get_checksum($fn, $alg);
             } else {
                 $fields->{$alg} = $sums->get_checksum($fn, $alg);
@@ -246,27 +246,27 @@ for my $p (sort keys %packages) {
         push(@missingover,$p);
     }
     for my $package (@{$packages{$p}}) {
-	 print(STDOUT "$package\n") or syserr(_g("Failed when writing stdout"));
+	 print(STDOUT "$package\n") or syserr(_g('Failed when writing stdout'));
          $records_written++;
     }
 }
 close(STDOUT) or syserr(_g("Couldn't close stdout"));
 
 if (@changedmaint) {
-    warning(_g("Packages in override file with incorrect old maintainer value:"));
+    warning(_g('Packages in override file with incorrect old maintainer value:'));
     warning($_) foreach (@changedmaint);
 }
 if (@samemaint) {
-    warning(_g("Packages specifying same maintainer as override file:"));
+    warning(_g('Packages specifying same maintainer as override file:'));
     warning($_) foreach (@samemaint);
 }
 if (@missingover) {
-    warning(_g("Packages in archive but missing from override file:"));
-    warning("  %s", join(' ', @missingover));
+    warning(_g('Packages in archive but missing from override file:'));
+    warning('  %s', join(' ', @missingover));
 }
 if (@spuriousover) {
-    warning(_g("Packages in override file but not in archive:"));
-    warning("  %s", join(' ', @spuriousover));
+    warning(_g('Packages in override file but not in archive:'));
+    warning('  %s', join(' ', @spuriousover));
 }
 
-info(_g("Wrote %s entries to output Packages file."), $records_written);
+info(_g('Wrote %s entries to output Packages file.'), $records_written);

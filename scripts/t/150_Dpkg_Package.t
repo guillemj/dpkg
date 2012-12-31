@@ -21,9 +21,9 @@ use warnings;
 use_ok('Dpkg::Package');
 
 ok(pkg_name_is_illegal(undef));
-ok(pkg_name_is_illegal(""));
-ok(pkg_name_is_illegal("%_&"));
-ok(pkg_name_is_illegal("ABC"));
-ok(pkg_name_is_illegal("-abc"));
+ok(pkg_name_is_illegal(''));
+ok(pkg_name_is_illegal('%_&'));
+ok(pkg_name_is_illegal('ABC'));
+ok(pkg_name_is_illegal('-abc'));
 
 1;

@@ -18,7 +18,7 @@ package Dpkg::Source::Patch;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use Dpkg;
 use Dpkg::Gettext;
@@ -40,12 +40,12 @@ use base 'Dpkg::Compression::FileHandle';
 
 sub create {
     my ($self, %opts) = @_;
-    $self->ensure_open("w"); # Creates the file
+    $self->ensure_open('w'); # Creates the file
     *$self->{errors} = 0;
     *$self->{empty} = 1;
     if ($opts{old} and $opts{new}) {
-        $opts{old} = "/dev/null" unless -e $opts{old};
-        $opts{new} = "/dev/null" unless -e $opts{new};
+        $opts{old} = '/dev/null' unless -e $opts{old};
+        $opts{new} = '/dev/null' unless -e $opts{new};
         if (-d $opts{old} and -d $opts{new}) {
             $self->add_diff_directory($opts{old}, $opts{new}, %opts);
         } elsif (-f $opts{old} and -f $opts{new}) {
@@ -67,7 +67,7 @@ sub add_diff_file {
     $opts{include_timestamp} = 0 unless exists $opts{include_timestamp};
     my $handle_binary = $opts{handle_binary_func} || sub {
         my ($self, $old, $new) = @_;
-        $self->_fail_with_msg($new, _g("binary file contents changed"));
+        $self->_fail_with_msg($new, _g('binary file contents changed'));
     };
     # Optimization to avoid forking diff if unnecessary
     return 1 if compare($old, $new, 4096) == 0;
@@ -82,11 +82,11 @@ sub add_diff_file {
     if ($opts{label_old} and $opts{label_new}) {
 	if ($opts{include_timestamp}) {
 	    my $ts = (stat($old))[9];
-	    my $t = POSIX::strftime("%Y-%m-%d %H:%M:%S", gmtime($ts));
+	    my $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime($ts));
 	    $opts{label_old} .= sprintf("\t%s.%09d +0000", $t,
 					    ($ts-int($ts))*1000000000);
 	    $ts = (stat($new))[9];
-	    $t = POSIX::strftime("%Y-%m-%d %H:%M:%S", gmtime($ts));
+	    $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime($ts));
 	    $opts{label_new} .= sprintf("\t%s.%09d +0000", $t,
 					    ($ts-int($ts))*1000000000);
 	} else {
@@ -94,8 +94,8 @@ sub add_diff_file {
 	    $opts{label_old} .= "\t" if $opts{label_old} =~ / /;
 	    $opts{label_new} .= "\t" if $opts{label_new} =~ / /;
 	}
-        push @options, "-L", $opts{label_old},
-                       "-L", $opts{label_new};
+        push @options, '-L', $opts{label_old},
+                       '-L', $opts{label_new};
     }
     # Generate diff
     my $diffgen;
@@ -115,19 +115,19 @@ sub add_diff_file {
         } elsif (m/^[-+\@ ]/) {
             $difflinefound++;
         } elsif (m/^\\ /) {
-            warning(_g("file %s has no final newline (either " .
-                       "original or modified version)"), $new);
+            warning(_g('file %s has no final newline (either ' .
+                       'original or modified version)'), $new);
         } else {
             chomp;
             error(_g("unknown line from diff -u on %s: `%s'"), $new, $_);
         }
 	if (*$self->{empty} and defined(*$self->{header})) {
-	    $self->print(*$self->{header}) or syserr(_g("failed to write"));
+	    $self->print(*$self->{header}) or syserr(_g('failed to write'));
 	    *$self->{empty} = 0;
 	}
-        print $self $_ || syserr(_g("failed to write"));
+        print $self $_ || syserr(_g('failed to write'));
     }
-    close($diffgen) or syserr("close on diff pipe");
+    close($diffgen) or syserr('close on diff pipe');
     wait_child($diff_pid, nocheck => 1,
                cmdline => "diff -u @options -- $old $new");
     # Verify diff process ended successfully
@@ -135,7 +135,7 @@ sub add_diff_file {
     # Ignore error if binary content detected
     my $exit = WEXITSTATUS($?);
     unless (WIFEXITED($?) && ($exit == 0 || $exit == 1 || $binary)) {
-        subprocerr(_g("diff on %s"), $new);
+        subprocerr(_g('diff on %s'), $new);
     }
     return ($exit == 0 || $exit == 1);
 }
@@ -161,7 +161,7 @@ sub add_diff_directory {
         my $fn = (length > length($new)) ? substr($_, length($new) + 1) : '.';
         return if &$diff_ignore($fn);
         $files_in_new{$fn} = 1;
-        lstat("$new/$fn") || syserr(_g("cannot stat file %s"), "$new/$fn");
+        lstat("$new/$fn") || syserr(_g('cannot stat file %s'), "$new/$fn");
         my $mode = S_IMODE((lstat(_))[2]);
         my $size = (lstat(_))[7];
         if (-l _) {
@@ -170,9 +170,9 @@ sub add_diff_directory {
                 return;
             }
             defined(my $n = readlink("$new/$fn")) ||
-                syserr(_g("cannot read link %s"), "$new/$fn");
+                syserr(_g('cannot read link %s'), "$new/$fn");
             defined(my $n2 = readlink("$old/$fn")) ||
-                syserr(_g("cannot read link %s"), "$old/$fn");
+                syserr(_g('cannot read link %s'), "$old/$fn");
             unless ($n eq $n2) {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn");
             }
@@ -180,7 +180,7 @@ sub add_diff_directory {
             my $old_file = "$old/$fn";
             if (not lstat("$old/$fn")) {
                 $! == ENOENT ||
-                    syserr(_g("cannot stat file %s"), "$old/$fn");
+                    syserr(_g('cannot stat file %s'), "$old/$fn");
                 $old_file = '/dev/null';
             } elsif (not -f _) {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn");
@@ -199,34 +199,34 @@ sub add_diff_directory {
             }
         } elsif (-b _ || -c _ || -S _) {
             $self->_fail_with_msg("$new/$fn",
-                _g("device or socket is not allowed"));
+                _g('device or socket is not allowed'));
         } elsif (-d _) {
             if (not lstat("$old/$fn")) {
                 $! == ENOENT ||
-                    syserr(_g("cannot stat file %s"), "$old/$fn");
+                    syserr(_g('cannot stat file %s'), "$old/$fn");
             } elsif (not -d _) {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn");
             }
         } else {
-            $self->_fail_with_msg("$new/$fn", _g("unknown file type"));
+            $self->_fail_with_msg("$new/$fn", _g('unknown file type'));
         }
     };
     my $scan_old = sub {
         my $fn = (length > length($old)) ? substr($_, length($old) + 1) : '.';
         return if &$diff_ignore($fn);
         return if $files_in_new{$fn};
-        lstat("$old/$fn") || syserr(_g("cannot stat file %s"), "$old/$fn");
+        lstat("$old/$fn") || syserr(_g('cannot stat file %s'), "$old/$fn");
         if (-f _) {
             if ($inc_removal) {
-                push @diff_files, [$fn, 0, 0, "$old/$fn", "/dev/null",
-                                   "$basedir.orig/$fn", "/dev/null"];
+                push @diff_files, [$fn, 0, 0, "$old/$fn", '/dev/null',
+                                   "$basedir.orig/$fn", '/dev/null'];
             } else {
-                warning(_g("ignoring deletion of file %s"), $fn);
+                warning(_g('ignoring deletion of file %s'), $fn);
             }
         } elsif (-d _) {
-            warning(_g("ignoring deletion of directory %s"), $fn);
+            warning(_g('ignoring deletion of directory %s'), $fn);
         } elsif (-l _) {
-            warning(_g("ignoring deletion of symlink %s"), $fn);
+            warning(_g('ignoring deletion of symlink %s'), $fn);
         } else {
             $self->_fail_not_same_type("$old/$fn", "$new/$fn");
         }
@@ -266,19 +266,19 @@ sub add_diff_directory {
                                            label_old => $label_old,
                                            label_new => $label_new, %opts);
         if ($success and
-            $old_file eq "/dev/null" and $new_file ne "/dev/null") {
+            $old_file eq '/dev/null' and $new_file ne '/dev/null') {
             if (not $size) {
                 warning(_g("newly created empty file '%s' will not " .
-                           "be represented in diff"), $fn);
+                           'be represented in diff'), $fn);
             } else {
                 if ($mode & (S_IXUSR | S_IXGRP | S_IXOTH)) {
                     warning(_g("executable mode %04o of '%s' will " .
-                               "not be represented in diff"), $mode, $fn)
+                               'not be represented in diff'), $mode, $fn)
                         unless $fn eq 'debian/rules';
                 }
                 if ($mode & (S_ISUID | S_ISGID | S_ISVTX)) {
                     warning(_g("special mode %04o of '%s' will not " .
-                               "be represented in diff"), $mode, $fn);
+                               'be represented in diff'), $mode, $fn);
                 }
             }
         }
@@ -287,7 +287,7 @@ sub add_diff_directory {
 
 sub finish {
     my ($self) = @_;
-    close($self) || syserr(_g("cannot close %s"), $self->get_filename());
+    close($self) || syserr(_g('cannot close %s'), $self->get_filename());
     return not *$self->{errors};
 }
 
@@ -297,16 +297,16 @@ sub register_error {
 }
 sub _fail_with_msg {
     my ($self, $file, $msg) = @_;
-    errormsg(_g("cannot represent change to %s: %s"), $file, $msg);
+    errormsg(_g('cannot represent change to %s: %s'), $file, $msg);
     $self->register_error();
 }
 sub _fail_not_same_type {
     my ($self, $old, $new) = @_;
     my $old_type = get_type($old);
     my $new_type = get_type($new);
-    errormsg(_g("cannot represent change to %s:"), $new);
-    errormsg(_g("  new version is %s"), $new_type);
-    errormsg(_g("  old version is %s"), $old_type);
+    errormsg(_g('cannot represent change to %s:'), $new);
+    errormsg(_g('  new version is %s'), $new_type);
+    errormsg(_g('  old version is %s'), $old_type);
     $self->register_error();
 }
 
@@ -419,15 +419,15 @@ sub analyze {
 	}
 
 	# Safety checks on both filenames that patch could use
-	foreach my $key ("old", "new") {
+	foreach my $key ('old', 'new') {
 	    next unless defined $fn{$key};
 	    if ($path{$key} =~ m{/\.\./}) {
-		error(_g("%s contains an insecure path: %s"), $diff, $path{$key});
+		error(_g('%s contains an insecure path: %s'), $diff, $path{$key});
 	    }
 	    my $path = $fn{$key};
 	    while (1) {
 		if (-l $path) {
-		    error(_g("diff %s modifies file %s through a symlink: %s"),
+		    error(_g('diff %s modifies file %s through a symlink: %s'),
 			  $diff, $fn{$key}, $path);
 		}
 		last unless $path =~ s{/+[^/]*$}{};
@@ -442,7 +442,7 @@ sub analyze {
             error(_g("file removal without proper filename in diff `%s' (line %d)"),
                   $diff, $. - 1) unless defined $fn{old};
             if ($opts{verbose}) {
-                warning(_g("diff %s removes a non-existing file %s (line %d)"),
+                warning(_g('diff %s removes a non-existing file %s (line %d)'),
                         $diff, $fn{old}, $.) unless -e $fn{old};
             }
         }
@@ -516,7 +516,7 @@ sub prepare_apply {
     if ($opts{create_dirs}) {
 	foreach my $dir (keys %{$analysis->{dirtocreate}}) {
 	    eval { mkpath($dir, 0, 0777); };
-	    syserr(_g("cannot create directory %s"), $dir) if $@;
+	    syserr(_g('cannot create directory %s'), $dir) if $@;
 	}
     }
 }
@@ -535,7 +535,7 @@ sub apply {
     my $analysis = $self->analyze($destdir, %opts);
     $self->prepare_apply($analysis, %opts);
     # Apply the patch
-    $self->ensure_open("r");
+    $self->ensure_open('r');
     my ($stdout, $stderr) = ('', '');
     spawn(
 	exec => [ 'patch', @{$opts{options}} ],
@@ -551,8 +551,8 @@ sub apply {
     if ($?) {
 	print STDOUT $stdout;
 	print STDERR $stderr;
-	subprocerr("LC_ALL=C patch " . join(" ", @{$opts{options}}) .
-	           " < " . $self->get_filename());
+	subprocerr('LC_ALL=C patch ' . join(' ', @{$opts{options}}) .
+	           ' < ' . $self->get_filename());
     }
     $self->close();
     # Reset the timestamp of all the patched files
@@ -563,11 +563,11 @@ sub apply {
     foreach my $fn (@files) {
 	if ($opts{force_timestamp}) {
 	    utime($now, $now, $fn) || $! == ENOENT ||
-		syserr(_g("cannot change timestamp for %s"), $fn);
+		syserr(_g('cannot change timestamp for %s'), $fn);
 	}
 	if ($opts{remove_backup}) {
-	    $fn .= ".dpkg-orig";
-	    unlink($fn) || syserr(_g("remove patch backup file %s"), $fn);
+	    $fn .= '.dpkg-orig';
+	    unlink($fn) || syserr(_g('remove patch backup file %s'), $fn);
 	}
     }
     return $analysis;
@@ -586,7 +586,7 @@ sub check_apply {
     my $analysis = $self->analyze($destdir, %opts);
     $self->prepare_apply($analysis, %opts);
     # Apply the patch
-    $self->ensure_open("r");
+    $self->ensure_open('r');
     my $error;
     my $patch_pid = spawn(
 	exec => [ 'patch', @{$opts{options}} ],
@@ -599,7 +599,7 @@ sub check_apply {
     );
     wait_child($patch_pid, nocheck => 1);
     my $exit = WEXITSTATUS($?);
-    subprocerr("patch --dry-run") unless WIFEXITED($?);
+    subprocerr('patch --dry-run') unless WIFEXITED($?);
     $self->close();
     return ($exit == 0);
 }
@@ -608,16 +608,16 @@ sub check_apply {
 sub get_type {
     my $file = shift;
     if (not lstat($file)) {
-        return _g("nonexistent") if $! == ENOENT;
-        syserr(_g("cannot stat %s"), $file);
+        return _g('nonexistent') if $! == ENOENT;
+        syserr(_g('cannot stat %s'), $file);
     } else {
-        -f _ && return _g("plain file");
-        -d _ && return _g("directory");
-        -l _ && return sprintf(_g("symlink to %s"), readlink($file));
-        -b _ && return _g("block device");
-        -c _ && return _g("character device");
-        -p _ && return _g("named pipe");
-        -S _ && return _g("named socket");
+        -f _ && return _g('plain file');
+        -d _ && return _g('directory');
+        -l _ && return sprintf(_g('symlink to %s'), readlink($file));
+        -b _ && return _g('block device');
+        -c _ && return _g('character device');
+        -p _ && return _g('named pipe');
+        -S _ && return _g('named socket');
     }
 }
 

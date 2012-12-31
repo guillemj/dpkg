@@ -19,7 +19,7 @@ package Dpkg::Path;
 use strict;
 use warnings;
 
-our $VERSION = "1.02";
+our $VERSION = '1.02';
 
 use base qw(Exporter);
 use File::Spec;
@@ -79,7 +79,7 @@ sub relative_to_pkg_root($) {
     my $file = shift;
     my $pkg_root = get_pkg_root_dir($file);
     if (defined $pkg_root) {
-	$pkg_root .= "/";
+	$pkg_root .= '/';
 	return $file if ($file =~ s/^\Q$pkg_root\E//);
     }
     return;
@@ -108,7 +108,7 @@ sub guess_pkg_root_dir($) {
     while ($file) {
 	$parent =~ s{/+[^/]+$}{};
 	last if not -d $parent;
-	return $file if check_files_are_the_same("debian", $parent);
+	return $file if check_files_are_the_same('debian', $parent);
 	$file = $parent;
 	last if $file !~ m{/};
     }
@@ -156,8 +156,8 @@ sub canonpath($) {
     my @new;
     foreach my $d (@dirs) {
 	if ($d eq '..') {
-	    if (scalar(@new) > 0 and $new[-1] ne "..") {
-		next if $new[-1] eq ""; # Root directory has no parent
+	    if (scalar(@new) > 0 and $new[-1] ne '..') {
+		next if $new[-1] eq ''; # Root directory has no parent
 		my $parent = File::Spec->catpath($v,
 			File::Spec->catdir(@new), '');
 		if (not -l $parent) {
@@ -191,7 +191,7 @@ sub resolve_symlink($) {
     } else {
 	my ($link_v, $link_d, $link_f) = File::Spec->splitpath($symlink);
 	my ($cont_v, $cont_d, $cont_f) = File::Spec->splitpath($content);
-	my $new = File::Spec->catpath($link_v, $link_d . "/" . $cont_d, $cont_f);
+	my $new = File::Spec->catpath($link_v, $link_d . '/' . $cont_d, $cont_f);
 	return canonpath($new);
     }
 }
@@ -231,15 +231,15 @@ Return the path of all available control files for the given package.
 sub get_control_path($;$) {
     my ($pkg, $filetype) = @_;
     my $control_file;
-    my @exec = ("dpkg-query", "--control-path", $pkg);
+    my @exec = ('dpkg-query', '--control-path', $pkg);
     push @exec, $filetype if defined $filetype;
     spawn(exec => \@exec, wait_child => 1, to_string => \$control_file);
     chomp($control_file);
     if (defined $filetype) {
-	return if $control_file eq "";
+	return if $control_file eq '';
 	return $control_file;
     }
-    return () if $control_file eq "";
+    return () if $control_file eq '';
     return split(/\n/, $control_file);
 }
 

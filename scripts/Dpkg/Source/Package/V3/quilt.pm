@@ -18,7 +18,7 @@ package Dpkg::Source::Package::V3::quilt;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 # Based on wig&pen implementation
 use base 'Dpkg::Source::Package::V2';
@@ -34,7 +34,7 @@ use Dpkg::Exit;
 use File::Spec;
 use File::Copy;
 
-our $CURRENT_MINOR_VERSION = "0";
+our $CURRENT_MINOR_VERSION = '0';
 
 sub init_options {
     my ($self) = @_;
@@ -75,15 +75,15 @@ sub can_build {
     my $quilt = $self->build_quilt_object($dir);
     $msg = $quilt->find_problems();
     return (0, $msg) if $msg;
-    return (1, "");
+    return (1, '');
 }
 
 sub get_autopatch_name {
     my ($self) = @_;
     if ($self->{options}{single_debian_patch}) {
-        return "debian-changes";
+        return 'debian-changes';
     } else {
-        return "debian-changes-" . $self->{fields}{'Version'};
+        return 'debian-changes-' . $self->{fields}{'Version'};
     }
 }
 
@@ -107,8 +107,8 @@ sub apply_patches {
     # Update debian/patches/series symlink if needed to allow quilt usage
     my $series = $quilt->get_series_file();
     my $basename = (File::Spec->splitpath($series))[2];
-    if ($basename ne "series") {
-        my $dest = $quilt->get_patch_file("series");
+    if ($basename ne 'series') {
+        my $dest = $quilt->get_patch_file('series');
         unlink($dest) if -l $dest;
         unless (-f _) { # Don't overwrite real files
             symlink($basename, $dest) ||
@@ -118,18 +118,18 @@ sub apply_patches {
 
     return unless scalar($quilt->series());
 
-    if ($opts{usage} eq "preparation" and
+    if ($opts{usage} eq 'preparation' and
         $self->{options}{unapply_patches} eq 'auto') {
         # We're applying the patches in --before-build, remember to unapply
         # them afterwards in --after-build
-        my $pc_unapply = $quilt->get_db_file(".dpkg-source-unapply");
-        open(my $unapply_fh, ">", $pc_unapply) ||
-            syserr(_g("cannot write %s"), $pc_unapply);
+        my $pc_unapply = $quilt->get_db_file('.dpkg-source-unapply');
+        open(my $unapply_fh, '>', $pc_unapply) ||
+            syserr(_g('cannot write %s'), $pc_unapply);
         close($unapply_fh);
     }
 
     # Apply patches
-    my $pc_applied = $quilt->get_db_file("applied-patches");
+    my $pc_applied = $quilt->get_db_file('applied-patches');
     $opts{timestamp} = fs_time($pc_applied);
     if ($opts{skip_auto}) {
         my $auto_patch = $self->get_autopatch_name();
@@ -146,7 +146,7 @@ sub unapply_patches {
 
     $opts{verbose} //= 1;
 
-    my $pc_applied = $quilt->get_db_file("applied-patches");
+    my $pc_applied = $quilt->get_db_file('applied-patches');
     my @applied = $quilt->applied();
     $opts{timestamp} = fs_time($pc_applied) if @applied;
 
@@ -180,9 +180,9 @@ sub do_build {
         if (scalar grep { $version eq $_ }
             @{$self->{options}{allow_version_of_quilt_db}})
         {
-            warning(_g("unsupported version of the quilt metadata: %s"), $version);
+            warning(_g('unsupported version of the quilt metadata: %s'), $version);
         } else {
-            error(_g("unsupported version of the quilt metadata: %s"), $version);
+            error(_g('unsupported version of the quilt metadata: %s'), $version);
         }
     }
 
@@ -192,9 +192,9 @@ sub do_build {
 sub after_build {
     my ($self, $dir) = @_;
     my $quilt = $self->build_quilt_object($dir);
-    my $pc_unapply = $quilt->get_db_file(".dpkg-source-unapply");
+    my $pc_unapply = $quilt->get_db_file('.dpkg-source-unapply');
     my $opt_unapply = $self->{options}{unapply_patches};
-    if (($opt_unapply eq "auto" and -e $pc_unapply) or $opt_unapply eq "yes") {
+    if (($opt_unapply eq 'auto' and -e $pc_unapply) or $opt_unapply eq 'yes') {
         unlink($pc_unapply);
         $self->unapply_patches($dir);
     }
@@ -207,7 +207,7 @@ sub check_patches_applied {
     my $next = $quilt->next();
     return if not defined $next;
 
-    my $first_patch = File::Spec->catfile($dir, "debian", "patches", $next);
+    my $first_patch = File::Spec->catfile($dir, 'debian', 'patches', $next);
     my $patch_obj = Dpkg::Source::Patch->new(filename => $first_patch);
     return unless $patch_obj->check_apply($dir);
 
@@ -217,7 +217,7 @@ sub check_patches_applied {
 sub _add_line {
     my ($file, $line) = @_;
 
-    open(my $file_fh, ">>", $file) || syserr(_g("cannot write %s"), $file);
+    open(my $file_fh, '>>', $file) || syserr(_g('cannot write %s'), $file);
     print $file_fh "$line\n";
     close($file_fh);
 }
@@ -225,10 +225,10 @@ sub _add_line {
 sub _drop_line {
     my ($file, $re) = @_;
 
-    open(my $file_fh, "<", $file) || syserr(_g("cannot read %s"), $file);
+    open(my $file_fh, '<', $file) || syserr(_g('cannot read %s'), $file);
     my @lines = <$file_fh>;
     close($file_fh);
-    open($file_fh, ">", $file) || syserr(_g("cannot write %s"), $file);
+    open($file_fh, '>', $file) || syserr(_g('cannot write %s'), $file);
     print($file_fh $_) foreach grep { not /^\Q$re\E\s*$/ } @lines;
     close($file_fh);
 }
@@ -241,16 +241,16 @@ sub register_patch {
     my @patches = $quilt->series();
     my $has_patch = (grep { $_ eq $patch_name } @patches) ? 1 : 0;
     my $series = $quilt->get_series_file();
-    my $applied = $quilt->get_db_file("applied-patches");
+    my $applied = $quilt->get_db_file('applied-patches');
     my $patch = $quilt->get_patch_file($patch_name);
 
     if (-s $tmpdiff) {
         copy($tmpdiff, $patch) ||
-            syserr(_g("failed to copy %s to %s"), $tmpdiff, $patch);
+            syserr(_g('failed to copy %s to %s'), $tmpdiff, $patch);
         chmod(0666 & ~ umask(), $patch) ||
             syserr(_g("unable to change permission of `%s'"), $patch);
     } elsif (-e $patch) {
-        unlink($patch) || syserr(_g("cannot remove %s"), $patch);
+        unlink($patch) || syserr(_g('cannot remove %s'), $patch);
     }
 
     if (-e $patch) {

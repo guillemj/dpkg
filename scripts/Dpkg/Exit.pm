@@ -18,7 +18,7 @@ package Dpkg::Exit;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 our @handlers = ();
 sub exit_handler {

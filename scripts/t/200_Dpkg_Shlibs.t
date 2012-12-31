@@ -37,13 +37,13 @@ my $datadir = $srcdir . '/t/200_Dpkg_Shlibs';
 # XXX: An alternative would be to make parse_ldso_conf relative path aware.
 my $cwd = cwd();
 chdir($srcdir);
-Dpkg::Shlibs::parse_ldso_conf("t/200_Dpkg_Shlibs/ld.so.conf");
+Dpkg::Shlibs::parse_ldso_conf('t/200_Dpkg_Shlibs/ld.so.conf');
 chdir($cwd);
 
 use Data::Dumper;
 is_deeply([qw(/nonexistant32 /nonexistant/lib64
 	     /usr/local/lib /nonexistant/lib128 )],
-	  \@Dpkg::Shlibs::librarypaths, "parsed library paths");
+	  \@Dpkg::Shlibs::librarypaths, 'parsed library paths');
 
 use_ok('Dpkg::Shlibs::Objdump');
 
@@ -131,12 +131,12 @@ my $sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbol_file.tmp")
 my $sym_file_dup = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbol_file.tmp");
 my $sym_file_old = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbol_file.tmp");
 
-$sym_file->merge_symbols($obj_old, "2.3.6.ds1-13");
-$sym_file_old->merge_symbols($obj_old, "2.3.6.ds1-13");
+$sym_file->merge_symbols($obj_old, '2.3.6.ds1-13');
+$sym_file_old->merge_symbols($obj_old, '2.3.6.ds1-13');
 
 ok( $sym_file->has_object('libc.so.6'), 'SONAME in sym file' );
 
-$sym_file->merge_symbols($obj, "2.6-1");
+$sym_file->merge_symbols($obj, '2.6-1');
 
 ok( $sym_file->get_new_symbols($sym_file_old), 'has new symbols' );
 ok( $sym_file_old->get_lost_symbols($sym_file), 'has lost symbols' );
@@ -154,7 +154,7 @@ is_deeply(\%tmp, { symbol => Dpkg::Shlibs::Symbol->new(symbol => '_errno@GLIBC_2
 # Wildcard test
 my $pat = $sym_file_old->create_symbol('*@GLIBC_PRIVATE 2.3.6.wildcard');
 $sym_file_old->add_symbol($pat, 'libc.so.6');
-$sym_file_old->merge_symbols($obj, "2.6-1");
+$sym_file_old->merge_symbols($obj, '2.6-1');
 $sym = $sym_file_old->lookup_symbol('__nss_services_lookup@GLIBC_PRIVATE', 'libc.so.6');
 is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => '__nss_services_lookup@GLIBC_PRIVATE',
 		  minver => '2.3.6.wildcard', dep_id => 0, deprecated => 0,
@@ -179,7 +179,7 @@ sub save_load_test {
     is_deeply($dup, $symfile, $comment);
     if (-f $symfile->{file}) {
 	is( system(sprintf("diff -u '%s' '%s' >&2", $symfile->{file}, $save_file->filename)), 0,
-	    basename($symfile->{file}) . " dumped identical" );
+	    basename($symfile->{file}) . ' dumped identical');
     }
 }
 
@@ -208,7 +208,7 @@ is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol3_fake1@Base',
 		  minver => '0', dep_id => 0, deprecated => 0),
 	    'overrides order with #include');
 
-is($sym_file->get_smallest_version('libfake.so.1'), "0",
+is($sym_file->get_smallest_version('libfake.so.1'), '0',
    'get_smallest_version with null version');
 
 $sym = $sym_file->lookup_symbol('symbol_in_libdivert@Base', ['libdivert.so.1']);
@@ -223,12 +223,12 @@ is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol1_fake2@Base',
 		  minver => '1.0', dep_id => 1, deprecated => 0),
 	    'overrides order with circular #include');
 
-is($sym_file->get_smallest_version('libfake.so.1'), "1.0",
+is($sym_file->get_smallest_version('libfake.so.1'), '1.0',
    'get_smallest_version');
 
 # Check dump output
 my $io = IO::String->new();
-$sym_file->output($io, package => "libfake1");
+$sym_file->output($io, package => 'libfake1');
 is(${$io->string_ref()},
 'libfake.so.1 libfake1 #MINVER#
 | libvirtualfake
@@ -274,7 +274,7 @@ is(${$io->string_ref()},
  symbol21_amd64@Base 2.1
  symbol31_randomtag@Base 3.1
  symbol51_untagged@Base 5.1
-', "template vs. non-template on amd64" );
+', 'template vs. non-template on amd64');
 
 # Dumping in non-template mode (i386) (test for arch tags)
 $io = IO::String->new();
@@ -289,10 +289,10 @@ is(${$io->string_ref()},
  symbol31_randomtag@Base 3.1
  symbol41_i386_and_optional@Base 4.1
  symbol51_untagged@Base 5.1
-', "template vs. non-template on i386" );
+', 'template vs. non-template on i386');
 
 ok (defined $sym_file->{objects}{'libbasictags.so.1'}{syms}{'symbol21_amd64@Base'},
-    "syms keys are symbol names without quotes");
+   'syms keys are symbol names without quotes');
 
 # Preload objdumps
 my $tags_obj_i386 = Dpkg::Shlibs::Objdump::Object->new();
@@ -301,7 +301,7 @@ open $objdump, '<', "$datadir/objdump.basictags-i386"
 $tags_obj_i386->parse_objdump_output($objdump);
 close $objdump;
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
-is_deeply($sym_file, $sym_file_dup, "is objdump.basictags-i386 and basictags.symbols in sync");
+is_deeply($sym_file, $sym_file_dup, 'is objdump.basictags-i386 and basictags.symbols in sync');
 
 my $tags_obj_amd64 = Dpkg::Shlibs::Objdump::Object->new();
 open $objdump, '<', "$datadir/objdump.basictags-amd64"
@@ -330,7 +330,7 @@ is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol11_optional@Base',
 		  tags => { optional => undef }, tagorder => [ 'optional' ]),
 	    'deprecated text of MISSING optional symbol gets rebumped each merge');
 
-is( scalar($sym_file->get_lost_symbols($sym_file_dup)), 0, "missing optional symbol is not LOST");
+is( scalar($sym_file->get_lost_symbols($sym_file_dup)), 0, 'missing optional symbol is not LOST');
 
 # - reappeared (undeprecate, minver should be 1.1, not 100.MISSED)
 $tags_obj_i386->add_dynamic_symbol($symbol11);
@@ -342,7 +342,7 @@ is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol11_optional@Base',
 		  tags => { optional => undef }, tagorder => [ 'optional' ]),
 	    'reappered optional symbol gets undeprecated + minver');
 is( scalar($sym_file->get_lost_symbols($sym_file_dup) +
-           $sym_file->get_new_symbols($sym_file_dup)), 0, "reappeared optional symbol: neither NEW nor LOST");
+           $sym_file->get_new_symbols($sym_file_dup)), 0, 'reappeared optional symbol: neither NEW nor LOST');
 
 # Merge/get_{new,lost} tests for arch tag:
 # - arch specific appears on wrong arch: 'arch' tag should be removed
@@ -355,7 +355,7 @@ is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol21_amd64@Base',
 		  minver => '2.1', dep_id => 0, deprecated => 0),
 	    'symbol appears on foreign arch, arch tag should be removed');
 @tmp = map { $_->{symbol}->get_symbolname() } $sym_file->get_new_symbols($sym_file_dup);
-is_deeply( \@tmp, [ 'symbol21_amd64@Base' ], "symbol from foreign arch is NEW");
+is_deeply( \@tmp, [ 'symbol21_amd64@Base' ], 'symbol from foreign arch is NEW');
 is( $sym->get_symbolspec(1), ' symbol21_amd64@Base 2.1', 'no tags => no quotes in the symbol name' );
 
 # - arch specific symbol disappears
@@ -434,24 +434,24 @@ load_patterns_symbols();
 save_load_test($sym_file, 'save -> load test of patterns template', template_mode => 1);
 
 isnt( $sym_file->get_patterns('libpatterns.so.1') , 0,
-    "patterns.symbols has patterns" );
+    'patterns.symbols has patterns');
 
 $sym_file->merge_symbols($obj, '100.MISSING');
 
 @tmp = map { $_->get_symbolname() } $sym_file->get_lost_symbols($sym_file_dup);
-is_deeply( \@tmp, [], "no LOST symbols if all patterns matched." );
+is_deeply(\@tmp, [], 'no LOST symbols if all patterns matched.');
 @tmp = map { $_->get_symbolname() } $sym_file->get_new_symbols($sym_file_dup);
-is_deeply( \@tmp, [], "no NEW symbols if all patterns matched." );
+is_deeply(\@tmp, [], 'no NEW symbols if all patterns matched.');
 
 # Pattern resolution order: aliases (c++, symver), generic
 $sym = $sym_file->lookup_symbol('SYMVER_1@SYMVER_1','libpatterns.so.1');
-is ( $sym->{minver}, '1', "specific SYMVER_1 symbol" );
+is($sym->{minver}, '1', 'specific SYMVER_1 symbol');
 
 $sym = $sym_file->lookup_symbol('_ZN3NSB6Symver14symver_method1Ev@SYMVER_1', 'libpatterns.so.1');
-is ( $sym->{minver}, '1.method1', "specific symbol preferred over pattern" );
+is($sym->{minver}, '1.method1', 'specific symbol preferred over pattern');
 
 $sym = $sym_file->lookup_symbol('_ZN3NSB6Symver14symver_method2Ev@SYMVER_1', 'libpatterns.so.1');
-is ( $sym->{minver}, '1.method2', "c++ alias pattern preferred over generic pattern" );
+is($sym->{minver}, '1.method2', 'c++ alias pattern preferred over generic pattern');
 is ( $sym->get_pattern()->get_symbolname(), 'NSB::Symver::symver_method2()@SYMVER_1' );
 
 $sym = $sym_file->lookup_symbol('_ZN3NSB6SymverD1Ev@SYMVER_1', 'libpatterns.so.1');
@@ -461,13 +461,13 @@ ok ( $sym->get_pattern()->equals($sym_file->create_symbol('(c++|symver)SYMVER_1 
 # Test old style wildcard support
 load_patterns_symbols();
 $sym = $sym_file->create_symbol('*@SYMVEROPT_2 2');
-ok ( $sym->is_optional(), "Old style wildcard is optional");
-is ( $sym->get_alias_type(), "symver", "old style wildcard is a symver pattern" );
-is ( $sym->get_symbolname(), 'SYMVEROPT_2', "wildcard pattern got renamed" );
+ok($sym->is_optional(), 'Old style wildcard is optional');
+is($sym->get_alias_type(), 'symver', 'old style wildcard is a symver pattern');
+is($sym->get_symbolname(), 'SYMVEROPT_2', 'wildcard pattern got renamed');
 
 $pat = $sym_file->lookup_pattern('(symver|optional)SYMVEROPT_2', 'libpatterns.so.1');
 $sym->{symbol_templ} = $pat->{symbol_templ};
-is_deeply( $pat, $sym, "old style wildcard is the same as (symver|optional)" );
+is_deeply($pat, $sym, 'old style wildcard is the same as (symver|optional)');
 
 # Get rid of all SymverOptional symbols
 foreach my $tmp (keys %{$obj->{dynsyms}}) {
@@ -475,10 +475,10 @@ foreach my $tmp (keys %{$obj->{dynsyms}}) {
 }
 $sym_file->merge_symbols($obj, '100.MISSING');
 is_deeply ( [ map { $_->get_symbolname() } $pat->get_pattern_matches() ],
-    [], "old style wildcard matches nothing.");
-is ( $pat->{deprecated}, '100.MISSING', "old style wildcard gets deprecated." );
+    [], 'old style wildcard matches nothing.');
+is($pat->{deprecated}, '100.MISSING', 'old style wildcard gets deprecated.');
 @tmp = map { $_->{symbol}->get_symbolname() } $sym_file->get_lost_symbols($sym_file_dup);
-is_deeply( \@tmp, [], "but old style wildcard is not LOST." );
+is_deeply(\@tmp, [], 'but old style wildcard is not LOST.');
 
 # 'Internal' pattern covers all internal symbols
 load_patterns_obj();
@@ -486,7 +486,7 @@ load_patterns_obj();
 $sym = $sym_file->create_symbol('(regex|c++)^_Z(T[ISV])?N3NSA6ClassA8Internal.*@Base$ 1.internal'),
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1');
 is_deeply ([ sort $pat->get_pattern_matches() ], [ sort @tmp ],
-    "Pattern covers all internal symbols");
+    'Pattern covers all internal symbols');
 is ( $tmp[0]->{minver}, '1.internal' );
 
 # Lookup private pattern
@@ -506,11 +506,11 @@ $sym = $sym_file->create_symbol('(c++|regex|optional)NSA::ClassA::Private(::.*)?
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1');
 isnt( $pat, undef, 'pattern for private class has been found' );
 is_deeply( [ sort map { $_->get_symbolname() } $pat->get_pattern_matches() ],
-    \@private_symnames, "private pattern matched expected symbols" );
+    \@private_symnames, 'private pattern matched expected symbols');
 ok( ($pat->get_pattern_matches())[0]->is_optional(),
-    "private symbol is optional like its pattern" );
+   'private symbol is optional like its pattern');
 ok( $sym_file->lookup_symbol(($pat->get_pattern_matches())[0], 'libpatterns.so.1'),
-    "lookup_symbol() finds symbols matched by pattern (after merge)"),
+   'lookup_symbol() finds symbols matched by pattern (after merge)'),
 
 # Get rid of a private symbol, it should not be lost
 delete $obj->{dynsyms}{$private_symnames[0]};
@@ -519,8 +519,8 @@ $sym_file->merge_symbols($obj, '100.MISSING');
 
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1');
 @tmp = map { $_->{symbol}->get_symbolname() } $sym_file->get_lost_symbols($sym_file_dup);
-is_deeply( \@tmp, [], "no LOST symbols when got rid of patterned optional symbol." );
-ok( ! $pat->{deprecated} , "there are still matches, pattern is not deprecated." );
+is_deeply(\@tmp, [], 'no LOST symbols when got rid of patterned optional symbol.');
+ok(!$pat->{deprecated}, 'there are still matches, pattern is not deprecated.');
 
 # Get rid of all private symbols, the pattern should be deprecated.
 foreach my $tmp (@private_symnames) {
@@ -532,16 +532,16 @@ $sym_file->merge_symbols($obj, '100.MISSING');
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1', 1);
 @tmp = $sym_file->get_lost_symbols($sym_file_dup);
 is_deeply( \@tmp, [ ],
-    "All private symbols gone, but pattern is not LOST because it is optional." );
+   'All private symbols gone, but pattern is not LOST because it is optional.');
 is( $pat->{deprecated}, '100.MISSING',
-    "All private symbols gone - pattern deprecated." );
+   'All private symbols gone - pattern deprecated.');
 
 # Internal symbols. All covered by the pattern?
 @tmp = grep { $_->get_symbolname() =~ /Internal/ } values %{$sym_file->{objects}{'libpatterns.so.1'}{syms}};
 $sym = $sym_file->create_symbol('(regex|c++)^_Z(T[ISV])?N3NSA6ClassA8Internal.*@Base$ 1.internal'),
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1');
 is_deeply ([ sort $pat->get_pattern_matches() ], [ sort @tmp ],
-    "Pattern covers all internal symbols");
+    'Pattern covers all internal symbols');
 is ( $tmp[0]->{minver}, '1.internal' );
 
 # Delete matches of the non-optional pattern
@@ -549,7 +549,7 @@ $sym = $sym_file->create_symbol('(c++)"non-virtual thunk to NSB::ClassD::generat
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1');
 isnt( $pat, undef, 'lookup_pattern() finds alias-based pattern' );
 
-is( scalar($pat->get_pattern_matches()), 2, "two matches for the generate_vt pattern" );
+is(scalar($pat->get_pattern_matches()), 2, 'two matches for the generate_vt pattern');
 foreach my $tmp ($pat->get_pattern_matches()) {
     delete $obj->{dynsyms}{$tmp->get_symbolname()};
 }
@@ -559,9 +559,9 @@ $sym_file->merge_symbols($obj, '100.MISSING');
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1', 1);
 @tmp = map { scalar $sym_file->lookup_pattern($_->{symbol}, 'libpatterns.so.1', 1) }
              $sym_file->get_lost_symbols($sym_file_dup);
-is_deeply( \@tmp, [ $pat ], "No matches - generate_vt() pattern is LOST." );
+is_deeply(\@tmp, [ $pat ], 'No matches - generate_vt() pattern is LOST.');
 is( $pat->{deprecated}, '100.MISSING',
-    "No matches - generate_vt() pattern is deprecated." );
+   'No matches - generate_vt() pattern is deprecated.');
 
 # Pattern undeprecation when matches are discovered
 load_patterns_obj();
@@ -574,13 +574,13 @@ $pat->{deprecated} = '0.1-1';
 
 $sym_file->merge_symbols($obj, '100.FOUND');
 ok( ! $pat->{deprecated},
-    "Previously deprecated pattern with matches got undeprecated" );
+   'Previously deprecated pattern with matches got undeprecated');
 is( $pat->{minver}, '100.FOUND',
-    "Previously deprecated pattern with matches got minver bumped" );
+   'Previously deprecated pattern with matches got minver bumped');
 @tmp = map { $_->{symbol}->get_symbolspec(1) } $sym_file->get_new_symbols($sym_file_dup);
 is_deeply( \@tmp, [ $pat->get_symbolspec(1) ],
-    "Previously deprecated pattern with matches is NEW. Matches themselves are not NEW." );
+    'Previously deprecated pattern with matches is NEW. Matches themselves are not NEW.');
 foreach my $sym ($pat->get_pattern_matches()) {
-    ok( ! $sym->{deprecated}, $sym->get_symbolname().": not deprecated" );
-    is( $sym->{minver}, '100.FOUND', $sym->get_symbolname().": version bumped" );
+    ok(!$sym->{deprecated}, $sym->get_symbolname() . ': not deprecated');
+    is($sym->{minver}, '100.FOUND', $sym->get_symbolname() . ': version bumped');
 }

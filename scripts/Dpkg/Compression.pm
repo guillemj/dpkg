@@ -18,7 +18,7 @@ package Dpkg::Compression;
 use strict;
 use warnings;
 
-our $VERSION = "1.01";
+our $VERSION = '1.01';
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -51,32 +51,32 @@ interact with the set of supported compression methods.
 
 my $COMP = {
     gzip => {
-	file_ext => "gz",
-	comp_prog => [ "gzip", "--no-name", "--rsyncable" ],
-	decomp_prog => [ "gunzip" ],
+	file_ext => 'gz',
+	comp_prog => [ 'gzip', '--no-name', '--rsyncable' ],
+	decomp_prog => [ 'gunzip' ],
 	default_level => 9,
     },
     bzip2 => {
-	file_ext => "bz2",
-	comp_prog => [ "bzip2" ],
-	decomp_prog => [ "bunzip2" ],
+	file_ext => 'bz2',
+	comp_prog => [ 'bzip2' ],
+	decomp_prog => [ 'bunzip2' ],
 	default_level => 9,
     },
     lzma => {
-	file_ext => "lzma",
+	file_ext => 'lzma',
 	comp_prog => [ 'xz', '--format=lzma' ],
 	decomp_prog => [ 'unxz', '--format=lzma' ],
 	default_level => 6,
     },
     xz => {
-	file_ext => "xz",
-	comp_prog => [ "xz" ],
-	decomp_prog => [ "unxz" ],
+	file_ext => 'xz',
+	comp_prog => [ 'xz' ],
+	decomp_prog => [ 'unxz' ],
 	default_level => 6,
     },
 };
 
-our $default_compression = "gzip";
+our $default_compression = 'gzip';
 our $default_compression_level = undef;
 
 =item $compression_re_file_ext
@@ -88,7 +88,7 @@ supported compression methods.
 
 =cut
 
-my $regex = join "|", map { $_->{file_ext} } values %$COMP;
+my $regex = join '|', map { $_->{file_ext} } values %$COMP;
 our $compression_re_file_ext = qr/(?:$regex)/;
 
 =head1 EXPORTED FUNCTIONS
@@ -145,7 +145,7 @@ filename based on its file extension.
 sub compression_guess_from_filename {
     my $filename = shift;
     foreach my $comp (compression_get_list()) {
-	my $ext = compression_get_property($comp, "file_ext");
+	my $ext = compression_get_property($comp, 'file_ext');
         if ($filename =~ /^(.*)\.\Q$ext\E$/) {
 	    return $comp;
         }
@@ -171,7 +171,7 @@ sub compression_get_default {
 
 sub compression_set_default {
     my ($method) = @_;
-    error(_g("%s is not a supported compression"), $method)
+    error(_g('%s is not a supported compression'), $method)
             unless compression_is_supported($method);
     $default_compression = $method;
 }
@@ -194,13 +194,13 @@ sub compression_get_default_level {
     if (defined $default_compression_level) {
         return $default_compression_level;
     } else {
-        return compression_get_property($default_compression, "default_level");
+        return compression_get_property($default_compression, 'default_level');
     }
 }
 
 sub compression_set_default_level {
     my ($level) = @_;
-    error(_g("%s is not a compression level"), $level)
+    error(_g('%s is not a compression level'), $level)
             unless !defined($level) or compression_is_valid_level($level);
     $default_compression_level = $level;
 }

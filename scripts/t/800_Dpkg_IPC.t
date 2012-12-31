@@ -34,15 +34,15 @@ open $tmp_fh, '>', $tmp1_name;
 print $tmp_fh $string1;
 close $tmp_fh;
 
-my $pid = spawn(exec => "cat",
+my $pid = spawn(exec => 'cat',
 		from_string => \$string1,
 		to_string => \$string2);
 
 ok($pid);
 
-is($string2, $string1, "{from,to}_string");
+is($string2, $string1, '{from,to}_string');
 
-$pid = spawn(exec => "cat",
+$pid = spawn(exec => 'cat',
 	     from_handle => $tmp1_fh,
 	     to_handle => $tmp2_fh);
 
@@ -54,9 +54,9 @@ open $tmp_fh, '<', $tmp2_name;
 $string2 = <$tmp_fh>;
 close $tmp_fh;
 
-is($string2, $string1, "{from,to}_handle");
+is($string2, $string1, '{from,to}_handle');
 
-$pid = spawn(exec => "cat",
+$pid = spawn(exec => 'cat',
 	     from_file => $tmp1_name,
 	     to_file => $tmp2_name,
 	     wait_child => 1,
@@ -68,14 +68,14 @@ open $tmp_fh, '<', $tmp2_name;
 $string2 = <$tmp_fh>;
 close $tmp_fh;
 
-is($string2, $string1, "{from,to}_file");
+is($string2, $string1, '{from,to}_file');
 
 eval {
-    $pid = spawn(exec => ["sleep", "10"],
+    $pid = spawn(exec => ['sleep', '10'],
 	         wait_child => 1,
 	         timeout => 5);
 };
-ok($@, "fails on timeout");
+ok($@, 'fails on timeout');
 
 unlink($tmp1_name);
 unlink($tmp2_name);

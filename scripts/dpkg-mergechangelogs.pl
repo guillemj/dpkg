@@ -28,7 +28,7 @@ use Dpkg::Version;
 use Getopt::Long qw(:config posix_default bundling no_ignorecase);
 use Scalar::Util qw(blessed);
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 sub merge_entries($$$);
 sub merge_block($$$;&);
@@ -54,9 +54,9 @@ sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf "\n" . _g(
-"This is free software; see the GNU General Public License version 2 or
+'This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
-");
+');
 }
 
 sub usage {
@@ -124,10 +124,10 @@ while (1) {
     }
 }
 
-if (defined($out_file) and $out_file ne "-") {
-    open(my $out_fh, ">", $out_file) || syserr(_g("cannot write %s"), $out_file);
+if (defined($out_file) and $out_file ne '-') {
+    open(my $out_fh, '>', $out_file) || syserr(_g('cannot write %s'), $out_file);
     print $out_fh ((blessed $_) ? "$_" : "$_\n") foreach @result;
-    close($out_fh) || syserr(_g("cannot write %s"), $out_file);
+    close($out_fh) || syserr(_g('cannot write %s'), $out_file);
 } else {
     print ((blessed $_) ? "$_" : "$_\n") foreach @result;
 }
@@ -169,8 +169,8 @@ sub compare_versions {
     return 0 if not defined $a and not defined $b;
     return 1 if not defined $b;
     return -1 if not defined $a;
-    $a = $a->get_version() if ref($a) and $a->isa("Dpkg::Changelog::Entry");
-    $b = $b->get_version() if ref($b) and $b->isa("Dpkg::Changelog::Entry");
+    $a = $a->get_version() if ref($a) and $a->isa('Dpkg::Changelog::Entry');
+    $b = $b->get_version() if ref($b) and $b->isa('Dpkg::Changelog::Entry');
     # Backport and volatile are not real prereleases
     $a =~ s/~(bpo|vola)/+$1/;
     $b =~ s/~(bpo|vola)/+$1/;
@@ -190,16 +190,16 @@ sub merge_entries($$$) {
     # NOTE: Only $o can be undef
 
     # Merge the trailer line
-    unless (merge_entry_item("blank_after_trailer", $o, $a, $b)) {
-	unshift @result, "";
+    unless (merge_entry_item('blank_after_trailer', $o, $a, $b)) {
+	unshift @result, '';
     }
-    unless (merge_entry_item("trailer", $o, $a, $b)) {
+    unless (merge_entry_item('trailer', $o, $a, $b)) {
 	merge_conflict($a->get_part('trailer'), $b->get_part('trailer'));
     }
 
     # Merge the changes
-    unless (merge_entry_item("blank_after_changes", $o, $a, $b)) {
-	unshift @result, "";
+    unless (merge_entry_item('blank_after_changes', $o, $a, $b)) {
+	unshift @result, '';
     }
     my @merged = merge(defined $o ? $o->get_part('changes') : [],
 		       $a->get_part('changes'), $b->get_part('changes'),
@@ -212,17 +212,17 @@ sub merge_entries($$$) {
     unshift @result, @merged;
 
     # Merge the header line
-    unless (merge_entry_item("blank_after_header", $o, $a, $b)) {
-	unshift @result, "";
+    unless (merge_entry_item('blank_after_header', $o, $a, $b)) {
+	unshift @result, '';
     }
-    unless (merge_entry_item("header", $o, $a, $b)) {
+    unless (merge_entry_item('header', $o, $a, $b)) {
 	merge_conflict($a->get_part('header'), $b->get_part('header'));
     }
 }
 
 sub join_lines($) {
     my $array = shift;
-    return join("\n", @$array) if ref($array) eq "ARRAY";
+    return join("\n", @$array) if ref($array) eq 'ARRAY';
     return $array;
 }
 
@@ -285,7 +285,7 @@ sub get_conflict_block($$) {
     my (@a, @b);
     push @a, $a if defined $a;
     push @b, $b if defined $b;
-    @a = @{$a} if ref($a) eq "ARRAY";
-    @b = @{$b} if ref($b) eq "ARRAY";
-    return ("<<<<<<<", @a, "=======", @b, ">>>>>>>");
+    @a = @{$a} if ref($a) eq 'ARRAY';
+    @b = @{$b} if ref($b) eq 'ARRAY';
+    return ('<<<<<<<', @a, '=======', @b, '>>>>>>>');
 }

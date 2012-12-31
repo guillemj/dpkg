@@ -18,7 +18,7 @@ package Dpkg::BuildFlags;
 use strict;
 use warnings;
 
-our $VERSION = "1.03";
+our $VERSION = '1.03';
 
 use Dpkg::Gettext;
 use Dpkg::BuildEnv;
@@ -72,7 +72,7 @@ sub load_vendor_defaults {
     $self->{features} = {};
     my $build_opts = Dpkg::BuildOptions->new();
     $self->{build_options} = $build_opts;
-    my $default_flags = $build_opts->has("noopt") ? "-g -O0" : "-g -O2";
+    my $default_flags = $build_opts->has('noopt') ? '-g -O0' : '-g -O2';
     $self->{flags} = {
 	CPPFLAGS => '',
 	CFLAGS   => $default_flags,
@@ -95,7 +95,7 @@ sub load_vendor_defaults {
 	LDFLAGS  => 0,
     };
     # The Debian vendor hook will add hardening build flags
-    run_vendor_hook("update-buildflags", $self);
+    run_vendor_hook('update-buildflags', $self);
 }
 
 =item $bf->load_system_config()
@@ -106,7 +106,7 @@ Update flags from the system configuration.
 
 sub load_system_config {
     my ($self) = @_;
-    $self->update_from_conffile("/etc/dpkg/buildflags.conf", "system");
+    $self->update_from_conffile('/etc/dpkg/buildflags.conf', 'system');
 }
 
 =item $bf->load_user_config()
@@ -118,9 +118,9 @@ Update flags from the user configuration.
 sub load_user_config {
     my ($self) = @_;
     my $confdir = $ENV{XDG_CONFIG_HOME};
-    $confdir ||= $ENV{HOME} . "/.config" if defined $ENV{HOME};
+    $confdir ||= $ENV{HOME} . '/.config' if defined $ENV{HOME};
     if (defined $confdir) {
-        $self->update_from_conffile("$confdir/dpkg/buildflags.conf", "user");
+        $self->update_from_conffile("$confdir/dpkg/buildflags.conf", 'user');
     }
 }
 
@@ -134,21 +134,21 @@ dpkg-buildflags(1) for details.
 sub load_environment_config {
     my ($self) = @_;
     foreach my $flag (keys %{$self->{flags}}) {
-	my $envvar = "DEB_" . $flag . "_SET";
+	my $envvar = 'DEB_' . $flag . '_SET';
 	if (Dpkg::BuildEnv::has($envvar)) {
-	    $self->set($flag, Dpkg::BuildEnv::get($envvar), "env");
+	    $self->set($flag, Dpkg::BuildEnv::get($envvar), 'env');
 	}
-	$envvar = "DEB_" . $flag . "_STRIP";
+	$envvar = 'DEB_' . $flag . '_STRIP';
 	if (Dpkg::BuildEnv::has($envvar)) {
-	    $self->strip($flag, Dpkg::BuildEnv::get($envvar), "env");
+	    $self->strip($flag, Dpkg::BuildEnv::get($envvar), 'env');
 	}
-	$envvar = "DEB_" . $flag . "_APPEND";
+	$envvar = 'DEB_' . $flag . '_APPEND';
 	if (Dpkg::BuildEnv::has($envvar)) {
-	    $self->append($flag, Dpkg::BuildEnv::get($envvar), "env");
+	    $self->append($flag, Dpkg::BuildEnv::get($envvar), 'env');
 	}
-	$envvar = "DEB_" . $flag . "_PREPEND";
+	$envvar = 'DEB_' . $flag . '_PREPEND';
 	if (Dpkg::BuildEnv::has($envvar)) {
-	    $self->prepend($flag, Dpkg::BuildEnv::get($envvar), "env");
+	    $self->prepend($flag, Dpkg::BuildEnv::get($envvar), 'env');
 	}
     }
 }
@@ -163,19 +163,19 @@ dpkg-buildflags(1) for details.
 sub load_maintainer_config {
     my ($self) = @_;
     foreach my $flag (keys %{$self->{flags}}) {
-	my $envvar = "DEB_" . $flag . "_MAINT_SET";
+	my $envvar = 'DEB_' . $flag . '_MAINT_SET';
 	if (Dpkg::BuildEnv::has($envvar)) {
 	    $self->set($flag, Dpkg::BuildEnv::get($envvar), undef, 1);
 	}
-	$envvar = "DEB_" . $flag . "_MAINT_STRIP";
+	$envvar = 'DEB_' . $flag . '_MAINT_STRIP';
 	if (Dpkg::BuildEnv::has($envvar)) {
 	    $self->strip($flag, Dpkg::BuildEnv::get($envvar), undef, 1);
 	}
-	$envvar = "DEB_" . $flag . "_MAINT_APPEND";
+	$envvar = 'DEB_' . $flag . '_MAINT_APPEND';
 	if (Dpkg::BuildEnv::has($envvar)) {
 	    $self->append($flag, Dpkg::BuildEnv::get($envvar), undef, 1);
 	}
-	$envvar = "DEB_" . $flag . "_MAINT_PREPEND";
+	$envvar = 'DEB_' . $flag . '_MAINT_PREPEND';
 	if (Dpkg::BuildEnv::has($envvar)) {
 	    $self->prepend($flag, Dpkg::BuildEnv::get($envvar), undef, 1);
 	}
@@ -298,7 +298,7 @@ $source is the origin recorded for any build flag set or modified.
 sub update_from_conffile {
     my ($self, $file, $src) = @_;
     return unless -e $file;
-    open(my $conf_fh, "<", $file) or syserr(_g("cannot read %s"), $file);
+    open(my $conf_fh, '<', $file) or syserr(_g('cannot read %s'), $file);
     while (<$conf_fh>) {
         chomp;
         next if /^\s*#/; # Skip comments
@@ -306,20 +306,20 @@ sub update_from_conffile {
         if (/^(append|prepend|set|strip)\s+(\S+)\s+(\S.*\S)\s*$/i) {
             my ($op, $flag, $value) = ($1, $2, $3);
             unless (exists $self->{flags}->{$flag}) {
-                warning(_g("line %d of %s mentions unknown flag %s"), $., $file, $flag);
-                $self->{flags}->{$flag} = "";
+                warning(_g('line %d of %s mentions unknown flag %s'), $., $file, $flag);
+                $self->{flags}->{$flag} = '';
             }
-            if (lc($op) eq "set") {
+            if (lc($op) eq 'set') {
                 $self->set($flag, $value, $src);
-            } elsif (lc($op) eq "strip") {
+            } elsif (lc($op) eq 'strip') {
                 $self->strip($flag, $value, $src);
-            } elsif (lc($op) eq "append") {
+            } elsif (lc($op) eq 'append') {
                 $self->append($flag, $value, $src);
-            } elsif (lc($op) eq "prepend") {
+            } elsif (lc($op) eq 'prepend') {
                 $self->prepend($flag, $value, $src);
             }
         } else {
-            warning(_g("line %d of %s is invalid, it has been ignored"), $., $file);
+            warning(_g('line %d of %s is invalid, it has been ignored'), $., $file);
         }
     }
     close($conf_fh);

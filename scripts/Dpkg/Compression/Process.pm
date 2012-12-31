@@ -18,7 +18,7 @@ package Dpkg::Compression::Process;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg::Compression;
 use Dpkg::ErrorHandling;
@@ -68,7 +68,7 @@ B<Dpkg::Compression>).
 
 sub set_compression {
     my ($self, $method) = @_;
-    error(_g("%s is not a supported compression method"), $method)
+    error(_g('%s is not a supported compression method'), $method)
 	    unless compression_is_supported($method);
     $self->{compression} = $method;
 }
@@ -83,7 +83,7 @@ B<Dpkg::Compression>).
 
 sub set_compression_level {
     my ($self, $level) = @_;
-    error(_g("%s is not a compression level"), $level)
+    error(_g('%s is not a compression level'), $level)
 	    unless compression_is_valid_level($level);
     $self->{compression_level} = $level;
 }
@@ -103,9 +103,9 @@ and its standard output.
 
 sub get_compress_cmdline {
     my ($self) = @_;
-    my @prog = (@{compression_get_property($self->{compression}, "comp_prog")});
-    my $level = "-" . $self->{compression_level};
-    $level = "--" . $self->{compression_level}
+    my @prog = (@{compression_get_property($self->{compression}, 'comp_prog')});
+    my $level = '-' . $self->{compression_level};
+    $level = '--' . $self->{compression_level}
 	    if $self->{compression_level} !~ m/^[1-9]$/;
     push @prog, $level;
     return @prog;
@@ -113,13 +113,13 @@ sub get_compress_cmdline {
 
 sub get_uncompress_cmdline {
     my ($self) = @_;
-    return (@{compression_get_property($self->{compression}, "decomp_prog")});
+    return (@{compression_get_property($self->{compression}, 'decomp_prog')});
 }
 
 sub _sanity_check {
     my ($self, %opts) = @_;
     # Check for proper cleaning before new start
-    error(_g("Dpkg::Compression::Process can only start one subprocess at a time"))
+    error(_g('Dpkg::Compression::Process can only start one subprocess at a time'))
 	    if $self->{pid};
     # Check options
     my $to = my $from = 0;
@@ -127,8 +127,8 @@ sub _sanity_check {
         $to++ if $opts{"to_$_"};
         $from++ if $opts{"from_$_"};
     }
-    internerr("exactly one to_* parameter is needed") if $to != 1;
-    internerr("exactly one from_* parameter is needed") if $from != 1;
+    internerr('exactly one to_* parameter is needed') if $to != 1;
+    internerr('exactly one from_* parameter is needed') if $from != 1;
     return %opts;
 }
 

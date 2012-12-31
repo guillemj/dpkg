@@ -19,7 +19,7 @@ package Dpkg::Substvars;
 use strict;
 use warnings;
 
-our $VERSION = "1.02";
+our $VERSION = '1.02';
 
 use Dpkg qw($version);
 use Dpkg::Arch qw(get_host_arch);
@@ -67,14 +67,14 @@ sub new {
     my $class = ref($this) || $this;
     my $self = {
         vars => {
-            "Newline" => "\n",
-            "Space" => " ",
-            "Tab" => "\t",
-            "dpkg:Version" => $version,
-            "dpkg:Upstream-Version" => $version,
+            'Newline' => "\n",
+            'Space' => ' ',
+            'Tab' => "\t",
+            'dpkg:Version' => $version,
+            'dpkg:Upstream-Version' => $version,
             },
         used => {},
-	msg_prefix => "",
+	msg_prefix => '',
     };
     $self->{vars}{'dpkg:Upstream-Version'} =~ s/-[^-]+$//;
     bless $self, $class;
@@ -152,7 +152,7 @@ Obsolete function, use mark_as_used() instead.
 
 sub no_warn {
     my ($self, $key) = @_;
-    carp "obsolete no_warn() function, use mark_as_used() instead";
+    carp 'obsolete no_warn() function, use mark_as_used() instead';
     $self->mark_as_used($key);
 }
 
@@ -174,7 +174,7 @@ sub parse {
 	next if m/^\s*\#/ || !m/\S/;
 	s/\s*\n$//;
 	m/^(\w[-:0-9A-Za-z]*)\=(.*)$/ ||
-	    error(_g("bad line in substvars file %s at line %d"),
+	    error(_g('bad line in substvars file %s at line %d'),
 		  $varlistfile, $.);
 	$self->{vars}{$1} = $2;
     }
@@ -253,7 +253,7 @@ sub substvars {
             $self->mark_as_used($vn);
             $count++;
         } else {
-            warning($opts{msg_prefix} . _g("unknown substitution variable \${%s}"),
+            warning($opts{msg_prefix} . _g('unknown substitution variable ${%s}'),
 	            $vn) unless $opts{no_warn};
             $v = $lhs . $rhs;
         }
@@ -276,8 +276,9 @@ sub warn_about_unused {
         # Empty substitutions variables are ignored on the basis
         # that they are not required in the current situation
         # (example: debhelper's misc:Depends in many cases)
-        next if $self->{vars}{$vn} eq "";
-        warning($opts{msg_prefix} . _g("unused substitution variable \${%s}"), $vn);
+        next if $self->{vars}{$vn} eq '';
+        warning($opts{msg_prefix} . _g('unused substitution variable ${%s}'),
+                $vn);
     }
 }
 
@@ -312,7 +313,7 @@ filehandle and return the content written.
 
 sub output {
     my ($self, $fh) = @_;
-    my $str = "";
+    my $str = '';
     # Store all non-automatic substitutions only
     foreach my $vn (sort keys %{$self->{vars}}) {
 	next if /^(?:(?:dpkg|source|binary):(?:Source-)?Version|Space|Tab|Newline|Arch|Source-Version|F:.+)$/;

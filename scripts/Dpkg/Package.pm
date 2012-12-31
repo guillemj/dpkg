@@ -19,7 +19,7 @@ package Dpkg::Package;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use Dpkg::Gettext;
 
@@ -30,11 +30,11 @@ sub pkg_name_is_illegal($) {
     my $name = shift || '';
 
     $name eq '' &&
-        return _g("may not be empty string");
+        return _g('may not be empty string');
     $name =~ m/[^-+.0-9a-z]/o &&
         return sprintf(_g("character '%s' not allowed"), $&);
     $name =~ m/^[0-9a-z]/o ||
-        return _g("must start with an alphanumeric character");
+        return _g('must start with an alphanumeric character');
 
     return;
 }

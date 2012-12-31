@@ -21,7 +21,7 @@ package Dpkg::Version;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -155,7 +155,7 @@ its string representation is a version number.
 
 sub comparison {
     my ($a, $b, $inverted) = @_;
-    if (not ref($b) or not $b->isa("Dpkg::Version")) {
+    if (not ref($b) or not $b->isa('Dpkg::Version')) {
         $b = Dpkg::Version->new($b);
     }
     ($a, $b) = ($b, $a) if $inverted;
@@ -174,10 +174,10 @@ Returns the string representation of the version number.
 
 sub as_string {
     my ($self) = @_;
-    my $str = "";
-    $str .= $self->{epoch} . ":" unless $self->{no_epoch};
+    my $str = '';
+    $str .= $self->{epoch} . ':' unless $self->{no_epoch};
     $str .= $self->{version};
-    $str .= "-" . $self->{revision} unless $self->{no_revision};
+    $str .= '-' . $self->{revision} unless $self->{no_revision};
     return $str;
 }
 
@@ -201,9 +201,9 @@ If $a or $b are not valid version numbers, it dies with an error.
 sub version_compare($$) {
     my ($a, $b) = @_;
     my $va = Dpkg::Version->new($a, check => 1);
-    defined($va) || error(_g("%s is not a valid version"), "$a");
+    defined($va) || error(_g('%s is not a valid version'), "$a");
     my $vb = Dpkg::Version->new($b, check => 1);
-    defined($vb) || error(_g("%s is not a valid version"), "$b");
+    defined($vb) || error(_g('%s is not a valid version'), "$b");
     return $va <=> $vb;
 }
 
@@ -250,7 +250,7 @@ they are obsolete aliases of ">=" and "<=".
 sub version_normalize_relation($) {
     my $op = shift;
 
-    warning("relation %s is deprecated: use %s or %s",
+    warning('relation %s is deprecated: use %s or %s',
             $op, "$op$op", "$op=") if ($op eq '>' or $op eq '<');
 
     if ($op eq '>>' or $op eq 'gt') {
@@ -369,12 +369,12 @@ sub version_check($) {
         $version = Dpkg::Version->new($str) unless ref($version);
     }
     if (not defined($str) or not length($str)) {
-        my $msg = _g("version number cannot be empty");
+        my $msg = _g('version number cannot be empty');
         return (0, $msg) if wantarray;
         return 0;
     }
     if ($version->version() =~ m/^[^\d]/) {
-        my $msg = _g("version number does not start with digit");
+        my $msg = _g('version number does not start with digit');
         return (0, $msg) if wantarray;
         return 0;
     }
@@ -384,12 +384,12 @@ sub version_check($) {
         return 0;
     }
     if ($version->epoch() !~ /^\d*$/) {
-        my $msg = sprintf(_g("epoch part of the version number " .
+        my $msg = sprintf(_g('epoch part of the version number ' .
                              "is not a number: '%s'"), $version->epoch());
         return (0, $msg) if wantarray;
         return 0;
     }
-    return (1, "") if wantarray;
+    return (1, '') if wantarray;
     return 1;
 }
 

@@ -35,7 +35,7 @@ is the one that supports the extraction of the source package.
 use strict;
 use warnings;
 
-our $VERSION = "1.0";
+our $VERSION = '1.0';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -175,8 +175,8 @@ sub init_options {
     } else {
         $self->{options}{tar_ignore} = [ @tar_ignore_default_pattern ];
     }
-    push @{$self->{options}{tar_ignore}}, "debian/source/local-options",
-         "debian/source/local-patch-header";
+    push @{$self->{options}{tar_ignore}}, 'debian/source/local-options',
+         'debian/source/local-patch-header';
     # Skip debianization while specific to some formats has an impact
     # on code common to all formats
     $self->{options}{skip_debianization} ||= 0;
@@ -185,12 +185,12 @@ sub init_options {
 sub initialize {
     my ($self, $filename) = @_;
     my ($fn, $dir) = fileparse($filename);
-    error(_g("%s is not the name of a file"), $filename) unless $fn;
-    $self->{basedir} = $dir || "./";
+    error(_g('%s is not the name of a file'), $filename) unless $fn;
+    $self->{basedir} = $dir || './';
     $self->{filename} = $fn;
 
     # Check if it contains a signature
-    open(my $dsc_fh, "<", $filename) || syserr(_g("cannot open %s"), $filename);
+    open(my $dsc_fh, '<', $filename) || syserr(_g('cannot open %s'), $filename);
     $self->{is_signed} = 0;
     while (<$dsc_fh>) {
         next if /^\s*$/o;
@@ -205,7 +205,7 @@ sub initialize {
 
     foreach my $f (qw(Source Version Files)) {
         unless (defined($fields->{$f})) {
-            error(_g("missing critical source control field %s"), $f);
+            error(_g('missing critical source control field %s'), $f);
         }
     }
 
@@ -286,12 +286,12 @@ sub get_basename {
     my ($self, $with_revision) = @_;
     my $f = $self->{fields};
     unless (exists $f->{'Source'} and exists $f->{'Version'}) {
-        error(_g("source and version are required to compute the source basename"));
+        error(_g('source and version are required to compute the source basename'));
     }
     my $v = Dpkg::Version->new($f->{'Version'});
-    my $basename = $f->{'Source'} . "_" . $v->version();
+    my $basename = $f->{'Source'} . '_' . $v->version();
     if ($with_revision and $f->{'Version'} =~ /-/) {
-        $basename .= "-" . $v->revision();
+        $basename .= '-' . $v->revision();
     }
     return $basename;
 }
@@ -303,9 +303,9 @@ sub find_original_tarballs {
     $opts{include_supplementary} = 1 unless exists $opts{include_supplementary};
     my $basename = $self->get_basename();
     my @tar;
-    foreach my $dir (".", $self->{basedir}, $self->{options}{origtardir}) {
+    foreach my $dir ('.', $self->{basedir}, $self->{options}{origtardir}) {
         next unless defined($dir) and -d $dir;
-        opendir(my $dir_dh, $dir) || syserr(_g("cannot opendir %s"), $dir);
+        opendir(my $dir_dh, $dir) || syserr(_g('cannot opendir %s'), $dir);
         push @tar, map { "$dir/$_" } grep {
 		($opts{include_main} and
 		 /^\Q$basename\E\.orig\.tar\.$opts{extension}$/) or
@@ -344,17 +344,17 @@ sub check_signature {
     my $dsc = $self->get_filename();
     my @exec;
     if (find_command('gpgv')) {
-        push @exec, "gpgv";
+        push @exec, 'gpgv';
     } elsif (find_command('gpg')) {
-        push @exec, "gpg", "--no-default-keyring", "-q", "--verify";
+        push @exec, 'gpg', '--no-default-keyring', '-q', '--verify';
     }
     if (scalar(@exec)) {
         if (defined $ENV{HOME} and -r "$ENV{HOME}/.gnupg/trustedkeys.gpg") {
-            push @exec, "--keyring", "$ENV{HOME}/.gnupg/trustedkeys.gpg";
+            push @exec, '--keyring', "$ENV{HOME}/.gnupg/trustedkeys.gpg";
         }
         foreach my $vendor_keyring (run_vendor_hook('keyrings')) {
             if (-r $vendor_keyring) {
-                push @exec, "--keyring", $vendor_keyring;
+                push @exec, '--keyring', $vendor_keyring;
             }
         }
         push @exec, $dsc;
@@ -369,9 +369,9 @@ sub check_signature {
             if ($gpg_status == 1 or ($gpg_status &&
                 $self->{options}{require_valid_signature}))
             {
-                error(_g("failed to verify signature on %s"), $dsc);
+                error(_g('failed to verify signature on %s'), $dsc);
             } elsif ($gpg_status) {
-                warning(_g("failed to verify signature on %s"), $dsc);
+                warning(_g('failed to verify signature on %s'), $dsc);
             }
         } else {
             subprocerr("@exec");
@@ -389,7 +389,7 @@ sub parse_cmdline_options {
     my ($self, @opts) = @_;
     foreach (@opts) {
         if (not $self->parse_cmdline_option($_)) {
-            warning(_g("%s is not a valid option for %s"), $_, ref($self));
+            warning(_g('%s is not a valid option for %s'), $_, ref($self));
         }
     }
 }
@@ -416,7 +416,7 @@ sub extract {
     if ($self->{options}{copy_orig_tarballs}) {
         my $basename = $self->get_basename();
         my ($dirname, $destdir) = fileparse($newdirectory);
-        $destdir ||= "./";
+        $destdir ||= './';
 	my $ext = $compression_re_file_ext;
         foreach my $orig (grep { /^\Q$basename\E\.orig(-[[:alnum:]-]+)?\.tar\.$ext$/ }
                           $self->get_files())
@@ -438,40 +438,40 @@ sub extract {
     }
 
     # Store format if non-standard so that next build keeps the same format
-    if ($self->{fields}{'Format'} ne "1.0" and
+    if ($self->{fields}{'Format'} ne '1.0' and
         not $self->{options}{skip_debianization})
     {
-        my $srcdir = File::Spec->catdir($newdirectory, "debian", "source");
-        my $format_file = File::Spec->catfile($srcdir, "format");
+        my $srcdir = File::Spec->catdir($newdirectory, 'debian', 'source');
+        my $format_file = File::Spec->catfile($srcdir, 'format');
 	unless (-e $format_file) {
 	    mkdir($srcdir) unless -e $srcdir;
-	    open(my $format_fh, ">", $format_file) ||
-	        syserr(_g("cannot write %s"), $format_file);
+	    open(my $format_fh, '>', $format_file) ||
+	        syserr(_g('cannot write %s'), $format_file);
 	    print $format_fh $self->{fields}{'Format'} . "\n";
 	    close($format_fh);
 	}
     }
 
     # Make sure debian/rules is executable
-    my $rules = File::Spec->catfile($newdirectory, "debian", "rules");
+    my $rules = File::Spec->catfile($newdirectory, 'debian', 'rules');
     my @s = lstat($rules);
     if (not scalar(@s)) {
         unless ($! == ENOENT) {
-            syserr(_g("cannot stat %s"), $rules);
+            syserr(_g('cannot stat %s'), $rules);
         }
-        warning(_g("%s does not exist"), $rules)
+        warning(_g('%s does not exist'), $rules)
             unless $self->{options}{skip_debianization};
     } elsif (-f _) {
         chmod($s[2] | 0111, $rules) ||
-            syserr(_g("cannot make %s executable"), $rules);
+            syserr(_g('cannot make %s executable'), $rules);
     } else {
-        warning(_g("%s is not a plain file"), $rules);
+        warning(_g('%s is not a plain file'), $rules);
     }
 }
 
 sub do_extract {
     internerr("Dpkg::Source::Package doesn't know how to unpack a " .
-              "source package. Use one of the subclasses.");
+              'source package. Use one of the subclasses.');
 }
 
 # Function used specifically during creation of a source package
@@ -495,12 +495,12 @@ sub after_build {
 
 sub do_build {
     internerr("Dpkg::Source::Package doesn't know how to build a " .
-              "source package. Use one of the subclasses.");
+              'source package. Use one of the subclasses.');
 }
 
 sub can_build {
     my ($self, $dir) = @_;
-    return (0, "can_build() has not been overriden");
+    return (0, 'can_build() has not been overriden');
 }
 
 sub add_file {
@@ -526,7 +526,7 @@ sub commit {
 sub do_commit {
     my ($self, $dir) = @_;
     info(_g("'%s' is not supported by the source format '%s'"),
-         "dpkg-source --commit", $self->{fields}{'Format'});
+         'dpkg-source --commit', $self->{fields}{'Format'});
 }
 
 sub write_dsc {
@@ -540,12 +540,12 @@ sub write_dsc {
     unless($opts{nocheck}) {
         foreach my $f (qw(Source Version)) {
             unless (defined($fields->{$f})) {
-                error(_g("missing information for critical output field %s"), $f);
+                error(_g('missing information for critical output field %s'), $f);
             }
         }
         foreach my $f (qw(Maintainer Architecture Standards-Version)) {
             unless (defined($fields->{$f})) {
-                warning(_g("missing information for output field %s"), $f);
+                warning(_g('missing information for output field %s'), $f);
             }
         }
     }
@@ -556,9 +556,9 @@ sub write_dsc {
 
     my $filename = $opts{filename};
     unless (defined $filename) {
-        $filename = $self->get_basename(1) . ".dsc";
+        $filename = $self->get_basename(1) . '.dsc';
     }
-    open(my $dsc_fh, ">", $filename) || syserr(_g("cannot write %s"), $filename);
+    open(my $dsc_fh, '>', $filename) || syserr(_g('cannot write %s'), $filename);
     $fields->apply_substvars($opts{substvars});
     $fields->output($dsc_fh);
     close($dsc_fh);

@@ -24,7 +24,7 @@ package Dpkg::Source::Package::V3::bzr;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use base 'Dpkg::Source::Package';
 
@@ -41,7 +41,7 @@ use Dpkg::Source::Archive;
 use Dpkg::Exit;
 use Dpkg::Source::Functions qw(erasedir);
 
-our $CURRENT_MINOR_VERSION = "0";
+our $CURRENT_MINOR_VERSION = '0';
 
 sub import {
     foreach my $dir (split(/:/, $ENV{PATH})) {
@@ -49,28 +49,28 @@ sub import {
             return 1;
         }
     }
-    error(_g("cannot unpack bzr-format source package because " .
-             "bzr is not in the PATH"));
+    error(_g('cannot unpack bzr-format source package because ' .
+             'bzr is not in the PATH'));
 }
 
 sub sanity_check {
     my $srcdir = shift;
 
     if (! -d "$srcdir/.bzr") {
-        error(_g("source directory is not the top directory of a bzr repository (%s/.bzr not present), but Format bzr was specified"),
+        error(_g('source directory is not the top directory of a bzr repository (%s/.bzr not present), but Format bzr was specified'),
               $srcdir);
     }
 
     # Symlinks from .bzr to outside could cause unpack failures, or
     # point to files they shouldn't, so check for and don't allow.
     if (-l "$srcdir/.bzr") {
-        error(_g("%s is a symlink"), "$srcdir/.bzr");
+        error(_g('%s is a symlink'), "$srcdir/.bzr");
     }
     my $abs_srcdir = Cwd::abs_path($srcdir);
     find(sub {
         if (-l $_) {
             if (Cwd::abs_path(readlink($_)) !~ /^\Q$abs_srcdir\E(\/|$)/) {
-                error(_g("%s is a symlink to outside %s"),
+                error(_g('%s is a symlink to outside %s'),
                       $File::Find::name, $srcdir);
             }
         }
@@ -114,8 +114,8 @@ sub do_build {
     # Check for uncommitted files.
     # To support dpkg-source -i, remove any ignored files from the
     # output of bzr status.
-    open(my $bzr_status_fh, '-|', "bzr", "status") ||
-            subprocerr("bzr status");
+    open(my $bzr_status_fh, '-|', 'bzr', 'status') ||
+            subprocerr('bzr status');
     my @files;
     while (<$bzr_status_fh>) {
         chomp;
@@ -125,10 +125,10 @@ sub do_build {
             push @files, $_;
         }
     }
-    close($bzr_status_fh) || syserr(_g("bzr status exited nonzero"));
+    close($bzr_status_fh) || syserr(_g('bzr status exited nonzero'));
     if (@files) {
-        error(_g("uncommitted, not-ignored changes in working directory: %s"),
-              join(" ", @files));
+        error(_g('uncommitted, not-ignored changes in working directory: %s'),
+              join(' ', @files));
     }
 
     chdir($old_cwd) ||
@@ -138,11 +138,11 @@ sub do_build {
     push @Dpkg::Exit::handlers, sub { erasedir($tmp) };
     my $tardir = "$tmp/$dirname";
 
-    system("bzr", "branch", $dir, $tardir);
+    system('bzr', 'branch', $dir, $tardir);
     $? && subprocerr("bzr branch $dir $tardir");
 
     # Remove the working tree.
-    system("bzr", "remove-tree", $tardir);
+    system('bzr', 'remove-tree', $tardir);
 
     # Some branch metadata files are unhelpful.
     unlink("$tardir/.bzr/branch/branch-name",
@@ -150,7 +150,7 @@ sub do_build {
 
     # Create the tar file
     my $debianfile = "$basenamerev.bzr.tar." . $self->{options}{comp_ext};
-    info(_g("building %s in %s"),
+    info(_g('building %s in %s'),
          $sourcepackage, $debianfile);
     my $tar = Dpkg::Source::Archive->new(filename => $debianfile,
                                          compression => $self->{options}{compression},
@@ -177,18 +177,18 @@ sub do_extract {
 
     my @files = $self->get_files();
     if (@files > 1) {
-        error(_g("format v3.0 uses only one source file"));
+        error(_g('format v3.0 uses only one source file'));
     }
     my $tarfile = $files[0];
     if ($tarfile !~ /^\Q$basenamerev\E\.bzr\.tar\.$compression_re_file_ext$/) {
-        error(_g("expected %s, got %s"),
+        error(_g('expected %s, got %s'),
               "$basenamerev.bzr.tar.$compression_re_file_ext", $tarfile);
     }
 
     erasedir($newdirectory);
 
     # Extract main tarball
-    info(_g("unpacking %s"), $tarfile);
+    info(_g('unpacking %s'), $tarfile);
     my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
     $tar->extract($newdirectory);
 
@@ -199,7 +199,7 @@ sub do_extract {
             syserr(_g("unable to chdir to `%s'"), $newdirectory);
 
     # Reconstitute the working tree.
-    system("bzr", "checkout");
+    system('bzr', 'checkout');
 
     chdir($old_cwd) ||
             syserr(_g("unable to chdir to `%s'"), $old_cwd);

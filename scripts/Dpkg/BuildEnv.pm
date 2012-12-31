@@ -18,7 +18,7 @@ package Dpkg::BuildEnv;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 my %env_modified = ();
 my %env_accessed = ();

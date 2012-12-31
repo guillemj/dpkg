@@ -18,7 +18,7 @@ package Dpkg::Compression::FileHandle;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg::Compression;
 use Dpkg::Compression::Process;
@@ -42,31 +42,31 @@ Dpkg::Compression::FileHandle - object dealing transparently with file compressi
 
     use Dpkg::Compression::FileHandle;
 
-    $fh = Dpkg::Compression::FileHandle->new(filename=>"sample.gz");
+    $fh = Dpkg::Compression::FileHandle->new(filename => 'sample.gz');
     print $fh "Something\n";
     close $fh;
 
     $fh = Dpkg::Compression::FileHandle->new();
-    open($fh, ">", "sample.bz2");
+    open($fh, '>', 'sample.bz2');
     print $fh "Something\n";
     close $fh;
 
     $fh = Dpkg::Compression::FileHandle->new();
-    $fh->open("sample.xz", "w");
+    $fh->open('sample.xz', 'w');
     $fh->print("Something\n");
     $fh->close();
 
-    $fh = Dpkg::Compression::FileHandle->new(filename=>"sample.gz");
+    $fh = Dpkg::Compression::FileHandle->new(filename => 'sample.gz');
     my @lines = <$fh>;
     close $fh;
 
     $fh = Dpkg::Compression::FileHandle->new();
-    open($fh, "<", "sample.bz2");
+    open($fh, '<', 'sample.bz2');
     my @lines = <$fh>;
     close $fh;
 
     $fh = Dpkg::Compression::FileHandle->new();
-    $fh->open("sample.xz", "r");
+    $fh->open('sample.xz', 'r');
     my @lines = $fh->getlines();
     $fh->close();
 
@@ -127,7 +127,7 @@ sub new {
     tie *$self, $class, $self;
     bless $self, $class;
     # Initializations
-    *$self->{compression} = "auto";
+    *$self->{compression} = 'auto';
     *$self->{compressor} = Dpkg::Compression::Process->new();
     *$self->{add_comp_ext} = $args{add_compression_extension} ||
 	    $args{add_comp_ext} || 0;
@@ -158,9 +158,9 @@ sub ensure_open {
 	return if *$self->{mode} eq $mode;
 	internerr("ensure_open requested incompatible mode: $mode");
     } else {
-	if ($mode eq "w") {
+	if ($mode eq 'w') {
 	    $self->open_for_write();
-	} elsif ($mode eq "r") {
+	} elsif ($mode eq 'r') {
 	    $self->open_for_read();
 	} else {
 	    internerr("invalid mode in ensure_open: $mode");
@@ -178,19 +178,19 @@ sub TIEHANDLE {
 
 sub WRITE {
     my ($self, $scalar, $length, $offset) = @_;
-    $self->ensure_open("w");
+    $self->ensure_open('w');
     return *$self->{file}->write($scalar, $length, $offset);
 }
 
 sub READ {
     my ($self, $scalar, $length, $offset) = @_;
-    $self->ensure_open("r");
+    $self->ensure_open('r');
     return *$self->{file}->read($scalar, $length, $offset);
 }
 
 sub READLINE {
     my ($self) = shift;
-    $self->ensure_open("r");
+    $self->ensure_open('r');
     return *$self->{file}->getlines() if wantarray;
     return *$self->{file}->getline();
 }
@@ -200,15 +200,15 @@ sub OPEN {
     if (scalar(@_) == 2) {
 	my ($mode, $filename) = @_;
 	$self->set_filename($filename);
-	if ($mode eq ">") {
+	if ($mode eq '>') {
 	    $self->open_for_write();
-	} elsif ($mode eq "<") {
+	} elsif ($mode eq '<') {
 	    $self->open_for_read();
 	} else {
 	    internerr("Unsupported open mode on Dpkg::Compression::FileHandle: $mode");
 	}
     } else {
-	internerr("Dpkg::Compression::FileHandle only supports open() with 3 parameters");
+	internerr('Dpkg::Compression::FileHandle only supports open() with 3 parameters');
     }
     return 1; # Always works (otherwise errors out)
 }
@@ -272,7 +272,7 @@ on the filename extension used.
 
 sub set_compression {
     my ($self, $method) = @_;
-    if ($method ne "none" and $method ne "auto") {
+    if ($method ne 'none' and $method ne 'auto') {
 	*$self->{compressor}->set_compression($method);
     }
     *$self->{compression} = $method;
@@ -307,8 +307,8 @@ sub set_filename {
 	*$self->{add_comp_ext} = $add_comp_ext;
     }
     if (*$self->{add_comp_ext} and $filename =~ /\.$compression_re_file_ext$/) {
-	warning("filename %s already has an extension of a compressed file " .
-	        "and add_comp_ext is active", $filename);
+	warning('filename %s already has an extension of a compressed file ' .
+	        'and add_comp_ext is active', $filename);
     }
 }
 
@@ -326,14 +326,14 @@ sub get_filename {
     my $self = shift;
     my $comp = *$self->{compression};
     if (*$self->{add_comp_ext}) {
-	if ($comp eq "auto") {
-	    internerr("automatic detection of compression is " .
-	              "incompatible with add_comp_ext");
-	} elsif ($comp eq "none") {
+	if ($comp eq 'auto') {
+	    internerr('automatic detection of compression is ' .
+	              'incompatible with add_comp_ext');
+	} elsif ($comp eq 'none') {
 	    return *$self->{filename};
 	} else {
-	    return *$self->{filename} . "." .
-	           compression_get_property($comp, "file_ext");
+	    return *$self->{filename} . '.' .
+	           compression_get_property($comp, 'file_ext');
 	}
     } else {
 	return *$self->{filename};
@@ -352,9 +352,9 @@ method.
 sub use_compression {
     my ($self) = @_;
     my $comp = *$self->{compression};
-    if ($comp eq "none") {
+    if ($comp eq 'none') {
 	return 0;
-    } elsif ($comp eq "auto") {
+    } elsif ($comp eq 'auto') {
 	$comp = compression_guess_from_filename($self->get_filename());
 	*$self->{compressor}->set_compression($comp) if $comp;
     }
@@ -383,10 +383,10 @@ sub open_for_write {
 	*$self->{compressor}->compress(from_pipe => \$filehandle,
 		to_file => $self->get_filename());
     } else {
-	CORE::open($filehandle, ">", $self->get_filename) ||
-		syserr(_g("cannot write %s"), $self->get_filename());
+	CORE::open($filehandle, '>', $self->get_filename) ||
+		syserr(_g('cannot write %s'), $self->get_filename());
     }
-    *$self->{mode} = "w";
+    *$self->{mode} = 'w';
     *$self->{file} = $filehandle;
 }
 
@@ -399,16 +399,16 @@ sub open_for_read {
 		from_file => $self->get_filename());
         *$self->{allow_sigpipe} = 1;
     } else {
-	CORE::open($filehandle, "<", $self->get_filename) ||
-		syserr(_g("cannot read %s"), $self->get_filename());
+	CORE::open($filehandle, '<', $self->get_filename) ||
+		syserr(_g('cannot read %s'), $self->get_filename());
     }
-    *$self->{mode} = "r";
+    *$self->{mode} = 'r';
     *$self->{file} = $filehandle;
 }
 
 sub cleanup {
     my ($self) = @_;
-    my $cmdline = *$self->{compressor}{cmdline} || "";
+    my $cmdline = *$self->{compressor}{cmdline} || '';
     *$self->{compressor}->wait_end_process(nocheck => *$self->{allow_sigpipe});
     if (*$self->{allow_sigpipe}) {
         unless (($? == 0) || (WIFSIGNALED($?) && (WTERMSIG($?) == SIGPIPE))) {

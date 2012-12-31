@@ -16,7 +16,7 @@ package Dpkg::Source::Functions;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use base qw(Exporter);
 our @EXPORT_OK = qw(erasedir fixperms fs_time is_binary);
@@ -31,7 +31,7 @@ sub erasedir {
     my ($dir) = @_;
     if (not lstat($dir)) {
         return if $! == ENOENT;
-        syserr(_g("cannot stat directory %s (before removal)"), $dir);
+        syserr(_g('cannot stat directory %s (before removal)'), $dir);
     }
     system 'rm','-rf','--',$dir;
     subprocerr("rm -rf $dir") if $?;
@@ -75,14 +75,14 @@ sub fs_time($) {
     my ($file) = @_;
     my $is_temp = 0;
     if (not -e $file) {
-	open(my $temp_fh, ">", $file) or syserr(_g("cannot write %s"));
+	open(my $temp_fh, '>', $file) or syserr(_g('cannot write %s'));
 	close($temp_fh);
 	$is_temp = 1;
     } else {
 	utime(undef, undef, $file) or
-	    syserr(_g("cannot change timestamp for %s"), $file);
+	    syserr(_g('cannot change timestamp for %s'), $file);
     }
-    stat($file) or syserr(_g("cannot read timestamp from %s"), $file);
+    stat($file) or syserr(_g('cannot read timestamp from %s'), $file);
     my $mtime = (stat(_))[9];
     unlink($file) if $is_temp;
     return $mtime;
@@ -112,7 +112,7 @@ sub is_binary($) {
             last;
         }
     }
-    close($diffgen) or syserr("close on diff pipe");
+    close($diffgen) or syserr('close on diff pipe');
     wait_child($diff_pid, nocheck => 1, cmdline => "diff -u -- /dev/null $file");
     return $result;
 }

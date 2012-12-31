@@ -42,7 +42,7 @@ my $vardir = $ARGV[0];
 my $method = $ARGV[1];
 my $option = $ARGV[2];
 
-if ($option eq "manual" ) {
+if ($option eq 'manual') {
   print "manual mode not supported yet\n";
   exit 1;
 }
@@ -115,14 +115,14 @@ my %curpkgs;
 sub procstatus {
     my (%flds, $fld);
     open(my $status_fh, '<', "$vardir/status") or
-        die "Could not open status file";
+        die 'Could not open status file';
     while (%flds = getblk($status_fh), %flds) {
 	if($flds{'status'} =~ /^install ok/) {
 	    my $cs = (split(/ /, $flds{'status'}))[2];
-	    if(($cs eq "not-installed") ||
-	       ($cs eq "half-installed") ||
-	       ($cs eq "config-files")) {
-		$curpkgs{$flds{'package'}} = "";
+	    if (($cs eq 'not-installed') ||
+	        ($cs eq 'half-installed') ||
+	        ($cs eq 'config-files')) {
+		$curpkgs{$flds{'package'}} = '';
 	    } else {
 		$curpkgs{$flds{'package'}} = $flds{'version'};
 	    }
@@ -135,7 +135,7 @@ procstatus();
 sub dcmpvers {
     my($a, $p, $b) = @_;
     my ($r);
-    $r = system("dpkg", "--compare-versions", "$a", "$p", "$b");
+    $r = system('dpkg', '--compare-versions', "$a", "$p", "$b");
     $r = $r/256;
     if ($r == 0) {
 	return 1;
@@ -164,7 +164,7 @@ sub procpkgfile {
 	@files = split(/[\s\n]+/, $flds{'filename'});
 	@sizes = split(/[\s\n]+/, $flds{'size'});
 	@md5sums = split(/[\s\n]+/, $flds{'md5sum'});
-	if ( defined($ver) && ( ($ver eq "") || dcmpvers( $ver, "lt", $flds{'version'} ) )) {
+	if (defined($ver) && (($ver eq '') || dcmpvers($ver, 'lt', $flds{'version'}))) {
 	    $pkgs{$pkg} = [ $flds{'version'}, [ @files ], $site ];
 	    $curpkgs{$pkg} = $flds{'version'};
 	}
@@ -207,7 +207,7 @@ my $dldir = $config{dldir};
 sub md5sum($) {
     my $fn = shift;
     my $m = `md5sum $fn`;
-    $m = (split(" ", $m))[0];
+    $m = (split(' ', $m))[0];
     $md5sums{"$dldir/$fn"} = $m;
     return $m;
 }
@@ -236,8 +236,8 @@ foreach $pkg (keys(%pkgs)) {
 	    $size = -s "$dldir/$fn";
 	    if($info[1] > $size) {
 		# partial download
-		if(yesno("y", "continue file: $fn (" . nb($size) ."/" .
-		              nb($info[1]). ")")) {
+		if (yesno('y', "continue file: $fn (" . nb($size) . '/' .
+		               nb($info[1]) . ')')) {
 		    $downloads{$fn} = $size;
 		    $totsize += $csize - int($size/1024);
 		} else {
@@ -259,7 +259,7 @@ foreach $pkg (keys(%pkgs)) {
 	} else {
 	    my $ffn = $fn;
 	    $ffn =~ s/binary-[^\/]+/.../;
-	    print "want: " .
+	    print 'want: ' .
 	          $config{site}[$pkgfiles{$fn}[2]][0] . " $ffn (${csize}k)\n";
 	    $downloads{$fn} = 0;
 	    $totsize += $csize;
@@ -277,18 +277,19 @@ print "Available space in $dldir: ${avsp}k\n";
 #chomp $avsp;
 
 if($totsize == 0) {
-    print "Nothing to get.";
+    print 'Nothing to get.';
 } else {
     if($totsize > $avsp) {
 	print "Space required is greater than available space,\n";
 	print "you will need to select which items to get.\n";
     }
 # ask user which files to get
-    if(($totsize > $avsp) || yesno("n", "Do you want to select the files to get")) {
+    if (($totsize > $avsp) ||
+        yesno('n', 'Do you want to select the files to get')) {
 	$totsize = 0;
 	my @files = sort(keys(%downloads));
 	my $fn;
-	my $def = "y";
+	my $def = 'y';
 	foreach $fn (@files) {
 	    my @info = @{$pkgfiles{$fn}};
 	    my $csize = int($info[1] / 1024) + 1;
@@ -300,10 +301,10 @@ if($totsize == 0) {
 		if(yesno($def, $downloads{$fn}
 			 ? "download: $fn ${rsize}k/${csize}k (total = ${totsize}k)"
 			 : "download: $fn ${rsize}k (total = ${totsize}k)")) {
-		    $def = "y";
+		    $def = 'y';
 		    $totsize += $rsize;
 		} else {
-		    $def = "n";
+		    $def = 'n';
 		    delete $downloads{$fn};
 		}
 	    }
@@ -326,7 +327,7 @@ sub download() {
     $cp = -1;
     foreach (@{$site->[2]}) {
       $cp++;
-      $pre_dist[$cp] = "";
+      $pre_dist[$cp] = '';
       $n = (s#\.\./#../#g);
       next if (! $n);
       if (m#^((?:\.\./){$n}(?:[^/]+/){$n})#) {
@@ -351,10 +352,10 @@ sub download() {
 
     my ($fn,$rsize,$res,$pre);
     foreach $fn (@getfiles) {
-        $pre = $pre_dist[$pkgfiles{$fn}[3]] || "";
+        $pre = $pre_dist[$pkgfiles{$fn}[3]] || '';
 	if ($downloads{$fn}) {
 	    $rsize = ${pkgfiles{$fn}}[1] - $downloads{$fn};
-	    print "getting: $pre$fn (". nb($rsize) . "/" .
+	    print "getting: $pre$fn (" . nb($rsize) . '/' .
 	          nb($pkgfiles{$fn}[1]) . ")\n";
 	} else {
 	    print "getting: $pre$fn (". nb($pkgfiles{$fn}[1]) . ")\n";
@@ -399,11 +400,12 @@ sub download() {
 
 # download stuff (protect from ^C)
 if($totsize != 0) {
-    if(yesno("y", "\nDo you want to download the required files")) {
+    if (yesno('y', "\nDo you want to download the required files")) {
       DOWNLOAD_TRY: while (1) {
 	  print "Downloading files... use ^C to stop\n";
 	  eval {
-	      if ((download() == 1) && yesno("y", "\nDo you want to retry downloading at once")) {
+	      if ((download() == 1) &&
+	          yesno('y', "\nDo you want to retry downloading at once")) {
 		  next DOWNLOAD_TRY;
 	      }
 	  };
@@ -415,7 +417,7 @@ if($totsize != 0) {
 	        undef $::ftp;
 	      }
 	      print "FTP ERROR\n";
-              if (yesno("y", "\nDo you want to retry downloading at once")) {
+              if (yesno('y', "\nDo you want to retry downloading at once")) {
 		  # get the first $fn that foreach would give:
 		  # this is the one that got interrupted.
 		my $ffn;
@@ -425,7 +427,7 @@ if($totsize != 0) {
 		}
 	        my $size = -s "$dldir/$fn";
 		# partial download
-		if(yesno("y", "continue file: $fn (at $size)")) {
+		if (yesno('y', "continue file: $fn (at $size)")) {
 		    $downloads{$fn} = $size;
 		} else {
 		    $downloads{$fn} = 0;
@@ -497,9 +499,9 @@ sub prcdeb($$) {
 	return 0;
     }
     if($vers{$pkg}) {
-	if(dcmpvers($vers{$pkg}, "eq", $ver)) {
+	if (dcmpvers($vers{$pkg}, 'eq', $ver)) {
 	    $files{$pkg . $ver} = [ $files{$pkg . $ver }, "$dir/$fn" ];
-	} elsif (dcmpvers($vers{$pkg}, "gt", $ver)) {
+	} elsif (dcmpvers($vers{$pkg}, 'gt', $ver)) {
 	    print "old version\n";
 	    unlink $fn;
 	} else { # else $ver is gt current version
@@ -520,7 +522,7 @@ sub prcdeb($$) {
 sub prcfile() {
     my ($fn) = $_;
     if (-f $fn and $fn ne '.') {
-        my $dir = ".";
+        my $dir = '.';
 	if (length($File::Find::dir) > length($dldir)) {
             $dir = substr($File::Find::dir, length($dldir)+1);
 	}
@@ -558,7 +560,7 @@ sub prcfile() {
 find(\&prcfile, "$dldir/");
 
 # install .debs
-if(yesno("y", "\nDo you want to install the files fetched")) {
+if (yesno('y', "\nDo you want to install the files fetched")) {
     print "Installing files...\n";
     #Installing pre-dependent package before !
     my (@flds, $package, @filename, $r);
@@ -574,7 +576,7 @@ if(yesno("y", "\nDo you want to install the files fetched")) {
       if ($r) { print "DPKG ERROR\n"; $exit = 1; }
     }
     #Installing other packages after
-    $r = system("dpkg", "-iGREOB", $dldir);
+    $r = system('dpkg', '-iGREOB', $dldir);
     if($r) {
 	print "DPKG ERROR\n";
 	$exit = 1;
@@ -584,7 +586,7 @@ if(yesno("y", "\nDo you want to install the files fetched")) {
 sub removeinstalled {
     my $fn = $_;
     if (-f $fn and $fn ne '.') {
-        my $dir = ".";
+        my $dir = '.';
 	if (length($File::Find::dir) > length($dldir)) {
             $dir = substr($File::Find::dir, length($dldir)+1);
 	}
@@ -593,7 +595,7 @@ sub removeinstalled {
 	    if(!defined($pkg) || !defined($ver)) {
 		print "Could not get info for: $dir/$fn\n";
 	    } else {
-		if($curpkgs{$pkg} and dcmpvers($ver, "le", $curpkgs{$pkg})) {
+		if ($curpkgs{$pkg} and dcmpvers($ver, 'le', $curpkgs{$pkg})) {
 		    print "deleting: $dir/$fn\n";
 		    unlink $fn;
 		} else {
@@ -608,7 +610,7 @@ sub removeinstalled {
 
 # remove .debs that have been installed (query user)
 # first need to reprocess status file
-if(yesno("y", "\nDo you wish to delete the installed package (.deb) files?")) {
+if (yesno('y', "\nDo you wish to delete the installed package (.deb) files?")) {
     print "Removing installed files...\n";
     %curpkgs = ();
     procstatus();
@@ -616,7 +618,7 @@ if(yesno("y", "\nDo you wish to delete the installed package (.deb) files?")) {
 }
 
 # remove whole ./debian directory if user wants to
-if(yesno("n", "\nDo you want to remove $dldir directory?")) {
+if (yesno('n', "\nDo you want to remove $dldir directory?")) {
     rmtree("$dldir");
 }
 

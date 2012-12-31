@@ -19,7 +19,7 @@ package Dpkg::File;
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 use Fcntl qw(:flock);
 use Dpkg::Gettext;
@@ -37,14 +37,14 @@ sub file_lock($$) {
     # be installed alongside.
     eval 'use File::FcntlLock';
     if ($@) {
-        warning(_g("File::FcntlLock not available; using flock which is not NFS-safe"));
+        warning(_g('File::FcntlLock not available; using flock which is not NFS-safe'));
         flock($fh, LOCK_EX) ||
-            syserr(_("failed to get a write lock on %s"), $filename);
+            syserr(_('failed to get a write lock on %s'), $filename);
     } else {
         eval q{
             my $fs = File::FcntlLock->new(l_type => F_WRLCK);
             $fs->lock($fh, F_SETLKW) ||
-                syserr(_("failed to get a write lock on %s"), $filename);
+                syserr(_('failed to get a write lock on %s'), $filename);
         }
     }
 }

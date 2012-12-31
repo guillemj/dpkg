@@ -24,12 +24,12 @@ use Dpkg::Path qw(find_command);
 use Dpkg::Arch qw(debarch_to_gnutriplet get_build_arch get_host_arch);
 use Dpkg::IPC;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 # Decide which objdump to call
-our $OBJDUMP = "objdump";
+our $OBJDUMP = 'objdump';
 if (get_build_arch() ne get_host_arch()) {
-    my $od = debarch_to_gnutriplet(get_host_arch()) . "-objdump";
+    my $od = debarch_to_gnutriplet(get_host_arch()) . '-objdump';
     $OBJDUMP = $od if find_command($od);
 }
 
@@ -91,11 +91,11 @@ sub has_object {
 	    return $format{$file};
 	} else {
 	    my ($output, %opts, $pid, $res);
-	    if ($OBJDUMP ne "objdump") {
-		$opts{error_to_file} = "/dev/null";
+	    if ($OBJDUMP ne 'objdump') {
+		$opts{error_to_file} = '/dev/null';
 	    }
-	    $pid = spawn(exec => [ $OBJDUMP, "-a", "--", $file ],
-			 env => { LC_ALL => "C" },
+	    $pid = spawn(exec => [ $OBJDUMP, '-a', '--', $file ],
+			 env => { LC_ALL => 'C' },
 			 to_pipe => \$output, %opts);
 	    while (<$output>) {
 		chomp;
@@ -108,8 +108,8 @@ sub has_object {
 	    close($output);
 	    wait_child($pid, nocheck => 1);
 	    if ($?) {
-		subprocerr("objdump") if $OBJDUMP eq "objdump";
-		local $OBJDUMP = "objdump";
+		subprocerr('objdump') if $OBJDUMP eq 'objdump';
+		local $OBJDUMP = 'objdump';
 		$res = get_format($file);
 	    }
 	    return $res;
@@ -119,8 +119,8 @@ sub has_object {
 
 sub is_elf {
     my ($file) = @_;
-    open(my $file_fh, "<", $file) || syserr(_g("cannot read %s"), $file);
-    my ($header, $result) = ("", 0);
+    open(my $file_fh, '<', $file) || syserr(_g('cannot read %s'), $file);
+    my ($header, $result) = ('', 0);
     if (read($file_fh, $header, 4) == 4) {
 	$result = 1 if ($header =~ /^\177ELF$/);
     }
@@ -177,8 +177,8 @@ sub analyze {
     $self->{file} = $file;
 
     local $ENV{LC_ALL} = 'C';
-    open(my $objdump, "-|", $OBJDUMP, "-w", "-f", "-p", "-T", "-R", $file)
-	|| syserr(_g("cannot fork for %s"), $OBJDUMP);
+    open(my $objdump, '-|', $OBJDUMP, '-w', '-f', '-p', '-T', '-R', $file)
+	|| syserr(_g('cannot fork for %s'), $OBJDUMP);
     my $ret = $self->parse_objdump_output($objdump);
     close($objdump);
     return $ret;
@@ -187,41 +187,41 @@ sub analyze {
 sub parse_objdump_output {
     my ($self, $fh) = @_;
 
-    my $section = "none";
+    my $section = 'none';
     while (defined($_ = <$fh>)) {
 	chomp;
 	next if /^\s*$/;
 
 	if (/^DYNAMIC SYMBOL TABLE:/) {
-	    $section = "dynsym";
+	    $section = 'dynsym';
 	    next;
 	} elsif (/^DYNAMIC RELOCATION RECORDS/) {
-	    $section = "dynreloc";
+	    $section = 'dynreloc';
 	    $_ = <$fh>; # Skip header
 	    next;
 	} elsif (/^Dynamic Section:/) {
-	    $section = "dyninfo";
+	    $section = 'dyninfo';
 	    next;
 	} elsif (/^Program Header:/) {
-	    $section = "header";
+	    $section = 'header';
 	    next;
 	} elsif (/^Version definitions:/) {
-	    $section = "verdef";
+	    $section = 'verdef';
 	    next;
 	} elsif (/^Version References:/) {
-	    $section = "verref";
+	    $section = 'verref';
 	    next;
 	}
 
-	if ($section eq "dynsym") {
+	if ($section eq 'dynsym') {
 	    $self->parse_dynamic_symbol($_);
-	} elsif ($section eq "dynreloc") {
+	} elsif ($section eq 'dynreloc') {
 	    if (/^\S+\s+(\S+)\s+(\S+)\s*$/) {
 		$self->{dynrelocs}{$2} = $1;
 	    } else {
 		warning(_g("Couldn't parse dynamic relocation record: %s"), $_);
 	    }
-	} elsif ($section eq "dyninfo") {
+	} elsif ($section eq 'dyninfo') {
 	    if (/^\s*NEEDED\s+(\S+)/) {
 		push @{$self->{NEEDED}}, $1;
 	    } elsif (/^\s*SONAME\s+(\S+)/) {
@@ -240,7 +240,7 @@ sub parse_objdump_output {
                     $self->{RPATH} = [ split (/:/, $1) ];
                 }
 	    }
-	} elsif ($section eq "none") {
+	} elsif ($section eq 'none') {
 	    if (/^\s*.+:\s*file\s+format\s+(\S+)\s*$/) {
 		$self->{format} = $1;
 	    } elsif (/^architecture:\s*\S+,\s*flags\s*\S+:\s*$/) {
@@ -258,7 +258,7 @@ sub parse_objdump_output {
     # been parsed after the symbols...
     $self->apply_relocations();
 
-    return $section ne "none";
+    return $section ne 'none';
 }
 
 # Output format of objdump -w -T
@@ -310,12 +310,12 @@ sub parse_dynamic_symbol {
 		name => $name,
 		version => defined($ver) ? $ver : '',
 		section => $sect,
-		dynamic => substr($flags, 5, 1) eq "D",
-		debug => substr($flags, 5, 1) eq "d",
+		dynamic => substr($flags, 5, 1) eq 'D',
+		debug => substr($flags, 5, 1) eq 'd',
 		type => substr($flags, 6, 1),
-		weak => substr($flags, 1, 1) eq "w",
-		local => substr($flags, 0, 1) eq "l",
-		global => substr($flags, 0, 1) eq "g",
+		weak => substr($flags, 1, 1) eq 'w',
+		local => substr($flags, 0, 1) eq 'l',
+		global => substr($flags, 0, 1) eq 'g',
 		visibility => defined($vis) ? $vis : '',
 		hidden => '',
 		defined => $sect ne '*UND*'

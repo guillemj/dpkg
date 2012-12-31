@@ -18,7 +18,7 @@ package Dpkg::Changelog::Entry;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -110,7 +110,7 @@ lines) corresponding to the requested part. $part can be
 
 sub get_part {
     my ($self, $part) = @_;
-    internerr("invalid part of changelog entry: %s") unless exists $self->{$part};
+    internerr('invalid part of changelog entry: %s') unless exists $self->{$part};
     return $self->{$part};
 }
 
@@ -123,7 +123,7 @@ or an array ref.
 
 sub set_part {
     my ($self, $part, $value) = @_;
-    internerr("invalid part of changelog entry: %s") unless exists $self->{$part};
+    internerr('invalid part of changelog entry: %s') unless exists $self->{$part};
     if (ref($self->{$part})) {
 	if (ref($value)) {
 	    $self->{$part} = $value;
@@ -145,7 +145,7 @@ concatenated at the end of the current line.
 
 sub extend_part {
     my ($self, $part, $value, @rest) = @_;
-    internerr("invalid part of changelog entry: %s") unless exists $self->{$part};
+    internerr('invalid part of changelog entry: %s') unless exists $self->{$part};
     if (ref($self->{$part})) {
 	if (ref($value)) {
 	    push @{$self->{$part}}, @$value;
@@ -288,9 +288,9 @@ in the output format of C<dpkg-parsechangelog>.
 
 sub get_dpkg_changes {
     my ($self) = @_;
-    my $header = $self->get_part("header") || "";
+    my $header = $self->get_part('header') || '';
     $header =~ s/\s+$//;
-    return "\n$header\n\n" . join("\n", @{$self->get_part("changes")});
+    return "\n$header\n\n" . join("\n", @{$self->get_part('changes')});
 }
 
 =back

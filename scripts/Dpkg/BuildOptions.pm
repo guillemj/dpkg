@@ -19,7 +19,7 @@ package Dpkg::BuildOptions;
 use strict;
 use warnings;
 
-our $VERSION = "1.01";
+our $VERSION = '1.01';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -56,7 +56,7 @@ sub new {
     my $self = {
         options => {},
 	source => {},
-	envvar => $opts{envvar} // "DEB_BUILD_OPTIONS",
+	envvar => $opts{envvar} // 'DEB_BUILD_OPTIONS',
     };
     bless $self, $class;
     $self->merge(Dpkg::BuildEnv::get($self->{envvar}), $self->{envvar});
@@ -92,7 +92,7 @@ sub merge {
     my $count = 0;
     foreach (split(/\s+/, $content)) {
 	unless (/^([a-z][a-z0-9_-]*)(?:=(\S*))?$/) {
-            warning(_g("invalid flag in %s: %s"), $source, $_);
+            warning(_g('invalid flag in %s: %s'), $source, $_);
             next;
         }
 	$count += $self->set($1, $2, $source);
@@ -120,7 +120,7 @@ sub set {
     if ($key =~ /^(noopt|nostrip|nocheck)$/ && defined($value)) {
 	$value = undef;
     } elsif ($key eq 'parallel')  {
-	$value //= "";
+	$value //= '';
 	return 0 if $value !~ /^\d*$/;
     }
 
@@ -165,7 +165,7 @@ the given filehandle.
 sub output {
     my ($self, $fh) = @_;
     my $o = $self->{options};
-    my $res = join(" ", map { defined($o->{$_}) ? $_ . "=" . $o->{$_} : $_ } sort keys %$o);
+    my $res = join(' ', map { defined($o->{$_}) ? $_ . '=' . $o->{$_} : $_ } sort keys %$o);
     print $fh $res if defined $fh;
     return $res;
 }

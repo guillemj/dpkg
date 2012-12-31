@@ -31,28 +31,28 @@ use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_gcc_host_gnu_type
                   debarch_to_gnutriplet gnutriplet_to_debarch
                   debarch_to_multiarch);
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
-    printf _g("
+    printf _g('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
-");
+');
 }
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...] [<command>]")
+'Usage: %s [<option>...] [<command>]')
     . "\n\n" . _g(
-"Options:
+'Options:
   -a<debian-arch>    set current Debian architecture.
   -t<gnu-system>     set current GNU system type.
   -L                 list valid architectures.
-  -f                 force flag (override variables set in environment).")
+  -f                 force flag (override variables set in environment).')
     . "\n\n" . _g(
-"Commands:
+'Commands:
   -l                 list variables (default).
   -e<debian-arch>    compare with current Debian architecture.
   -i<arch-alias>     check if current Debian architecture is <arch-alias>.
@@ -62,7 +62,7 @@ sub usage {
   -c <command>       set environment and run the command in it.
   -?, --help         show this help message.
       --version      show the version.
-"), $progname;
+'), $progname;
 }
 
 sub list_arches()
@@ -144,7 +144,7 @@ while (@ARGV) {
         $force=1;
     } elsif (m/^-q/) {
 	my $varname = "$'";
-	error(_g("%s is not a supported variable name"), $varname)
+	error(_g('%s is not a supported variable name'), $varname)
 	    unless (exists $arch_vars{$varname});
 	$req_variable_to_print = "$varname";
 	$req_vars = $arch_vars{$varname};
@@ -196,25 +196,25 @@ if (action_needs(DEB_BUILD | DEB_GNU_INFO)) {
 
 if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
     $req_host_gnu_type = debarch_to_gnutriplet($req_host_arch);
-    error(_g("unknown Debian architecture %s, you must specify " .
-             "GNU system type, too"), $req_host_arch)
+    error(_g('unknown Debian architecture %s, you must specify ' .
+             'GNU system type, too'), $req_host_arch)
         unless defined $req_host_gnu_type;
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch eq '') {
     $req_host_arch = gnutriplet_to_debarch($req_host_gnu_type);
-    error(_g("unknown GNU system type %s, you must specify " .
-             "Debian architecture, too"), $req_host_gnu_type)
+    error(_g('unknown GNU system type %s, you must specify ' .
+             'Debian architecture, too'), $req_host_gnu_type)
         unless defined $req_host_arch;
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
     my $dfl_host_gnu_type = debarch_to_gnutriplet($req_host_arch);
-    error(_g("unknown default GNU system type for Debian architecture %s"),
+    error(_g('unknown default GNU system type for Debian architecture %s'),
           $req_host_arch)
 	unless defined $dfl_host_gnu_type;
-    warning(_g("default GNU system type %s for Debian arch %s does not " .
-               "match specified GNU system type %s"), $dfl_host_gnu_type,
+    warning(_g('default GNU system type %s for Debian arch %s does not ' .
+               'match specified GNU system type %s'), $dfl_host_gnu_type,
             $req_host_arch, $req_host_gnu_type)
         if $dfl_host_gnu_type ne $req_host_gnu_type;
 }
@@ -246,8 +246,8 @@ if (action_needs(DEB_HOST | DEB_GNU_INFO)) {
 
     my $gcc = get_gcc_host_gnu_type();
 
-    warning(_g("specified GNU system type %s does not match gcc system " .
-               "type %s, try setting a correct CC environment variable"),
+    warning(_g('specified GNU system type %s does not match gcc system ' .
+               'type %s, try setting a correct CC environment variable'),
             $v{DEB_HOST_GNU_TYPE}, $gcc)
         if ($gcc ne '') && ($gcc ne $v{DEB_HOST_GNU_TYPE});
 }
@@ -265,9 +265,9 @@ if ($action eq 'l') {
     foreach my $k (sort keys %arch_vars) {
 	print "$k=$v{$k}; ";
     }
-    print "export " . join(" ", sort keys %arch_vars) . "\n";
+    print 'export ' . join(' ', sort keys %arch_vars) . "\n";
 } elsif ($action eq 'u') {
-    print "unset " . join(" ", sort keys %arch_vars) . "\n";
+    print 'unset ' . join(' ', sort keys %arch_vars) . "\n";
 } elsif ($action eq 'e') {
     exit !debarch_eq($v{DEB_HOST_ARCH}, $req_eq_arch);
 } elsif ($action eq 'i') {

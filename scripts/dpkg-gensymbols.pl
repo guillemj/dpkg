@@ -33,7 +33,7 @@ use Dpkg::Control::Info;
 use Dpkg::Changelog::Parse;
 use Dpkg::Path qw(check_files_are_the_same find_command);
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 my $packagebuilddir = 'debian/tmp';
 
@@ -52,17 +52,17 @@ my $host_arch = get_host_arch();
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
-    printf _g("
+    printf _g('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
-");
+');
 }
 
 sub usage {
     printf _g(
-"Usage: %s [<option>...]")
+'Usage: %s [<option>...]')
     . "\n\n" . _g(
-"Options:
+'Options:
   -p<package>              generate symbols file for package.
   -P<package-build-dir>    temporary build dir instead of debian/tmp.
   -e<library>              explicitly list libraries to scan.
@@ -88,7 +88,7 @@ sub usage {
   -d                       display debug information during work.
   -?, --help               show this help message.
       --version            show the version.
-"), $progname;
+'), $progname;
 }
 
 my @files;
@@ -150,15 +150,15 @@ if (exists $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL}) {
 
 if (not defined($sourceversion)) {
     my $changelog = changelog_parse();
-    $sourceversion = $changelog->{"Version"};
+    $sourceversion = $changelog->{'Version'};
 }
 if (not defined($oppackage)) {
     my $control = Dpkg::Control::Info->new();
     my @packages = map { $_->{'Package'} } $control->get_packages();
     if (@packages == 0) {
-	error(_g("no package stanza found in control info"));
+	error(_g('no package stanza found in control info'));
     } elsif (@packages > 1) {
-	error(_g("must specify package since control info has many (%s)"),
+	error(_g('must specify package since control info has many (%s)'),
 	      "@packages");
     }
     $oppackage = $packages[0];
@@ -169,7 +169,7 @@ my $ref_symfile = Dpkg::Shlibs::SymbolFile->new(arch => $host_arch);
 # Load source-provided symbol information
 foreach my $file ($input, $output, "debian/$oppackage.symbols.$host_arch",
     "debian/symbols.$host_arch", "debian/$oppackage.symbols",
-    "debian/symbols")
+    'debian/symbols')
 {
     if (defined $file and -e $file) {
 	print "Using references symbols from $file\n" if $debug;
@@ -227,7 +227,7 @@ $symfile->clear_except(keys %{$od->{objects}});
 
 # Write out symbols files
 if ($stdout) {
-    $output = _g("<standard output>");
+    $output = _g('<standard output>');
     $symfile->output(\*STDOUT, package => $oppackage,
                      template_mode => $template_mode,
                      with_pattern_matches => $verbose_output,
@@ -255,23 +255,23 @@ my $exitcode = 0;
 if ($compare || ! $quiet) {
     # Compare
     if (my @libs = $symfile->get_new_libs($ref_symfile)) {
-	warning(_g("new libraries appeared in the symbols file: %s"), "@libs")
+	warning(_g('new libraries appeared in the symbols file: %s'), "@libs")
 	    unless $quiet;
 	$exitcode = 4 if ($compare >= 4);
     }
     if (my @libs = $symfile->get_lost_libs($ref_symfile)) {
-	warning(_g("some libraries disappeared in the symbols file: %s"), "@libs")
+	warning(_g('some libraries disappeared in the symbols file: %s'), "@libs")
 	    unless $quiet;
 	$exitcode = 3 if ($compare >= 3);
     }
     if ($symfile->get_new_symbols($ref_symfile)) {
-	warning(_g("some new symbols appeared in the symbols file: %s"),
-		_g("see diff output below")) unless $quiet;
+	warning(_g('some new symbols appeared in the symbols file: %s'),
+		_g('see diff output below')) unless $quiet;
 	$exitcode = 2 if ($compare >= 2);
     }
     if ($symfile->get_lost_symbols($ref_symfile)) {
-	warning(_g("some symbols or patterns disappeared in the symbols file: %s"),
-	        _g("see diff output below")) unless $quiet;
+	warning(_g('some symbols or patterns disappeared in the symbols file: %s'),
+	        _g('see diff output below')) unless $quiet;
 	$exitcode = 1 if ($compare >= 1);
     }
 }
@@ -291,19 +291,19 @@ unless ($quiet) {
     # Output diffs between symbols files if any
     if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
 	if (not defined($output)) {
-	    warning(_g("the generated symbols file is empty"));
+	    warning(_g('the generated symbols file is empty'));
 	} elsif (defined($ref_symfile->{file})) {
 	    warning(_g("%s doesn't match completely %s"),
 		    $output, $ref_symfile->{file});
 	} else {
-	    warning(_g("no debian/symbols file used as basis for generating %s"),
+	    warning(_g('no debian/symbols file used as basis for generating %s'),
 		    $output);
 	}
 	my ($a, $b) = ($before->filename, $after->filename);
-	my $diff_label = sprintf("%s (%s_%s_%s)",
-	($ref_symfile->{file}) ? $ref_symfile->{file} : "new_symbol_file",
+	my $diff_label = sprintf('%s (%s_%s_%s)',
+	($ref_symfile->{file}) ? $ref_symfile->{file} : 'new_symbol_file',
 	$oppackage, $sourceversion, $host_arch);
-	system("diff", "-u", "-L", $diff_label, $a, $b) if find_command("diff");
+	system('diff', '-u', '-L', $diff_label, $a, $b) if find_command('diff');
     }
 }
 exit($exitcode);

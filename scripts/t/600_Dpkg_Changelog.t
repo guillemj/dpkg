@@ -50,8 +50,8 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
     my $changes = Dpkg::Changelog::Debian->new(verbose => 0);
     $changes->load($file);
 
-    open(my $clog_fh, "<", "$file") || die "Can't open $file\n";
-    my $content = join("", <$clog_fh>);
+    open(my $clog_fh, '<', "$file") || die "Can't open $file\n";
+    my $content = join('', <$clog_fh>);
     close($clog_fh);
     cmp_ok($content, 'eq', "$changes", "string output of Dpkg::Changelog on $file");
 
@@ -60,12 +60,12 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
     is($errors, '', "Parse example changelog $file without errors" );
 
     my @data = @$changes;
-    ok(@data, "data is not empty");
+    ok(@data, 'data is not empty');
 
     my $str;
     if ($file eq "$datadir/countme") {
 	# test range options
-	cmp_ok( @data, '==', 7, "no options -> count" );
+	cmp_ok(@data, '==', 7, 'no options -> count');
 	my $all_versions = join( '/', map { $_->get_version() } @data);
 
 	sub check_options {
@@ -78,7 +78,7 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
 		is_deeply( \@cnt, $data, "$check_name -> returns all" );
 
 	    } else {
-		is( join( "/", map { $_->get_version() } @cnt),
+		is( join( '/', map { $_->get_version() } @cnt),
 		    $versions, "$check_name -> versions" );
 	    }
 	}
@@ -214,7 +214,7 @@ Xc-Userfield: foobar
 	if ($vendor eq 'Ubuntu') {
 	    $expected =~ s/^(Closes:.*)/$1\nLaunchpad-Bugs-Fixed: 12345 54321 424242 2424242/m;
 	}
-	cmp_ok($str,'eq',$expected,"fields handling");
+	cmp_ok($str, 'eq', $expected, 'fields handling');
 
 	$str = $changes->dpkg({ offset => 1, count => 2 });
 	$expected = 'Source: fields
@@ -245,7 +245,7 @@ Xc-Userfield: foobar
 	if ($vendor eq 'Ubuntu') {
 	    $expected =~ s/^(Closes:.*)/$1\nLaunchpad-Bugs-Fixed: 12345 424242/m;
 	}
-	cmp_ok($str,'eq',$expected,"fields handling 2");
+	cmp_ok($str, 'eq', $expected, 'fields handling 2');
 
 	$str = $changes->rfc822({ offset => 2, count => 2 });
 	$expected = 'Source: fields
@@ -274,36 +274,36 @@ Changes:
 Xb-Userfield2: foobar
 
 ';
-	cmp_ok($str, 'eq', $expected, "fields handling 3");
+	cmp_ok($str, 'eq', $expected, 'fields handling 3');
 
 	# Test Dpkg::Changelog::Entry methods
-	is($data[1]->get_version(), "2.0-1", "get_version");
-	is($data[1]->get_source(), "fields", "get_source");
-	is(scalar $data[1]->get_distributions(), "unstable", "get_distribution");
-	is(join("|", $data[1]->get_distributions()), "unstable|frozen",
-	    "get_distributions");
+	is($data[1]->get_version(), '2.0-1', 'get_version');
+	is($data[1]->get_source(), 'fields', 'get_source');
+	is(scalar $data[1]->get_distributions(), 'unstable', 'get_distribution');
+	is(join('|', $data[1]->get_distributions()), 'unstable|frozen',
+	    'get_distributions');
 	is($data[3]->get_optional_fields(),
 	    "Urgency: high\nCloses: 1000000\nXb-Userfield2: foobar\n",
-	    "get_optional_fields");
+	    'get_optional_fields');
 	is($data[1]->get_maintainer(), 'Frank Lichtenheld <djpig@debian.org>',
-	    "get_maintainer");
+	    'get_maintainer');
 	is($data[1]->get_timestamp(), 'Sun, 12 Jan 2008 15:49:19 +0100',
-	    "get_timestamp");
+	    'get_timestamp');
 	my @items = $data[1]->get_change_items();
-	is($items[0], "  [ Frank Lichtenheld ]\n", "change items 1");
-	is($items[4], "  * New upstream release.
+	is($items[0], "  [ Frank Lichtenheld ]\n", 'change items 1');
+	is($items[4], '  * New upstream release.
     - implements a
     - implements b
-", "change items 2");
-	is($items[5], "  * Update S-V.\n", "change items 3");
+', 'change items 2');
+	is($items[5], "  * Update S-V.\n", 'change items 3');
     }
     if ($file eq "$datadir/regressions") {
 	my $f = $changes->dpkg();
-	is("$f->{Version}", "0", "version 0 correctly parsed");
+	is("$f->{Version}", '0', 'version 0 correctly parsed');
     }
 
     SKIP: {
-	skip("avoid spurious warning with only one entry", 2)
+	skip('avoid spurious warning with only one entry', 2)
 	    if @data == 1;
 
 	my $oldest_version = $data[-1]->{Version};
