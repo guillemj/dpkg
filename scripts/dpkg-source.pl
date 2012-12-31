@@ -303,9 +303,9 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
         # If we encounter one 'any' then the other arches become insignificant
         # except for 'all' that must also be kept
         if (grep($_ eq 'all', @sourcearch)) {
-            @sourcearch = ('any', 'all');
+            @sourcearch = qw(any all);
         } else {
-            @sourcearch = ('any');
+            @sourcearch = qw(any);
         }
     } else {
         # Minimize arch list, by removing arches already covered by wildcards

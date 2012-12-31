@@ -126,8 +126,7 @@ sub run_hook {
 		    my @options = split(/,\s*/, $hardening);
 		    $hardening = 1;
 
-		    my @hardopts = ('format', 'fortify', 'stackprotector',
-				    'pie', 'relro');
+		    my @hardopts = qw(format fortify stackprotector pie relro);
 		    foreach my $item (@hardopts) {
 			my $upitem = uc($item);
 			foreach my $option (@options) {

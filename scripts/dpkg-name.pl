@@ -198,9 +198,9 @@ sub move($)
 
         my @command;
         if ($options{symlink}) {
-            @command = ('ln', '-s', '--');
+            @command = qw(ln -s --);
         } else {
-            @command = ('mv', '--');
+            @command = qw(mv --);
         }
 
         if (filesame($newname, $filename)) {
