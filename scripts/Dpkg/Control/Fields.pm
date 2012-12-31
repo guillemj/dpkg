@@ -346,7 +346,7 @@ foreach my $op (run_vendor_hook('register-custom-fields')) {
     } elsif ($func eq 'insert_after') {
         &field_insert_after(@$op);
     } else {
-        error("vendor hook register-custom-fields sent bad data: @$op");
+        internerr("vendor hook register-custom-fields sent bad data: @$op");
     }
 }
 
