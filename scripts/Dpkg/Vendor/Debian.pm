@@ -95,7 +95,7 @@ sub add_hardening_flags {
 
     # Adjust features based on Maintainer's desires.
     my $opts = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_MAINT_OPTIONS');
-    foreach my $feature (split(',', $opts->get('hardening') // '')) {
+    foreach my $feature (split(/,/, $opts->get('hardening') // '')) {
 	$feature = lc($feature);
 	if ($feature =~ s/^([+-])//) {
 	    my $value = ($1 eq '+') ? 1 : 0;

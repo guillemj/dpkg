@@ -37,6 +37,7 @@ my @policies = qw(
     BuiltinFunctions::ProhibitLvalueSubstr
     BuiltinFunctions::ProhibitReverseSortBlock
     BuiltinFunctions::ProhibitSleepViaSelect
+    BuiltinFunctions::ProhibitStringySplit
     BuiltinFunctions::ProhibitUniversalCan
     BuiltinFunctions::ProhibitUniversalIsa
     BuiltinFunctions::RequireGlobFunction
