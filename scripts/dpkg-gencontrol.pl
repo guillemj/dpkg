@@ -204,7 +204,7 @@ foreach (keys %{$pkg}) {
 	    $fields->{$_} = $v;
 	} else {
 	    my @archlist = split(/\s+/, $v);
-	    my @invalid_archs = grep m/[^\w-]/, @archlist;
+	    my @invalid_archs = grep { m/[^\w-]/ } @archlist;
 	    warning(ngettext("`%s' is not a legal architecture string.",
 			     "`%s' are not legal architecture strings.",
 			     scalar(@invalid_archs)),

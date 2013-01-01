@@ -430,7 +430,7 @@ if (!is_binaryonly) {
 	any { m/\.(debian\.tar|diff)\.$ext$/ } $checksums->get_files())
     {
 	$origsrcmsg= _g('not including original source code in upload');
-	foreach my $f (grep m/\.orig(-.+)?\.tar\.$ext$/, $checksums->get_files()) {
+	foreach my $f (grep { m/\.orig(-.+)?\.tar\.$ext$/ } $checksums->get_files()) {
 	    $checksums->remove_file($f);
 	}
     } else {

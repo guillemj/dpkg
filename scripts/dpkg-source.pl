@@ -310,7 +310,7 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
         }
     } else {
         # Minimize arch list, by removing arches already covered by wildcards
-        my @arch_wildcards = grep(debarch_is_wildcard($_), @sourcearch);
+        my @arch_wildcards = grep { debarch_is_wildcard($_) } @sourcearch;
         my @mini_sourcearch = @arch_wildcards;
         foreach my $arch (@sourcearch) {
             if (none { debarch_is($arch, $_) } @arch_wildcards) {
