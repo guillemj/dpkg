@@ -145,7 +145,6 @@ error(_('error occurred while parsing %s'), 'Build-Depends/Build-Depends-Arch')
     unless defined $build_deps;
 
 my %dependencies;
-my %shlibs;
 
 # Statictics on soname seen in the whole run (with multiple analysis of
 # binaries)

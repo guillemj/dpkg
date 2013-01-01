@@ -587,7 +587,6 @@ sub check_apply {
     $self->prepare_apply($analysis, %opts);
     # Apply the patch
     $self->ensure_open('r');
-    my $error;
     my $patch_pid = spawn(
 	exec => [ 'patch', @{$opts{options}} ],
 	chdir => $destdir,

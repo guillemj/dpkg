@@ -65,7 +65,7 @@ if (-f "$methdir/md5sums") {
     die "Couldn't read file $methdir/md5sums";
   my $code = <$md5sums_fh>;
   close $md5sums_fh;
-  my $VAR1;
+  my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
   my $res = eval $code;
   if ($@) {
     die "Couldn't eval $methdir/md5sums content: $@\n";

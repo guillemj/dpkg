@@ -86,7 +86,7 @@ unless (defined $old and defined $new_a and defined $new_b and
     exit(2);
 }
 
-my ($cho, $cha, $chb, $res);
+my ($cho, $cha, $chb);
 $cho = Dpkg::Changelog::Debian->new();
 $cho->load($old);
 $cha = Dpkg::Changelog::Debian->new();

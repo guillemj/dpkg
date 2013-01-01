@@ -266,7 +266,7 @@ sub do_build {
 	           "-<upstreamversion> '%s'"), $dir, $basedirname);
     }
 
-    my ($tarname, $tardirname, $tardirbase, $origdirname);
+    my ($tarname, $tardirname, $tardirbase);
     if ($sourcestyle ne 'n') {
 	my ($origdirname, $origdirbase) = fileparse($origdir);
 

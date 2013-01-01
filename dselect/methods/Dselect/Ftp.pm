@@ -47,7 +47,7 @@ sub read_config {
   $code = <$vars_fh>;
   close $vars_fh;
 
-  my $VAR1;
+  my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
   $conf = eval $code;
   die "Couldn't eval $vars content : $@\n" if ($@);
   if (ref($conf) =~ /HASH/) {

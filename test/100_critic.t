@@ -80,6 +80,7 @@ my @policies = qw(
     ValuesAndExpressions::RequireUpperCaseHeredocTerminator
     Variables::ProhibitAugmentedAssignmentInDeclaration
     Variables::ProhibitPerl4PackageNames
+    Variables::ProhibitUnusedVariables
     Variables::ProtectPrivateVars
     Variables::RequireNegativeIndices
 );
