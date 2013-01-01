@@ -29,7 +29,7 @@ use Storable qw();
 use Dpkg::Shlibs::Cppfilt;
 
 # Supported alias types in the order of matching preference
-use constant 'ALIAS_TYPES' => qw(c++ symver);
+use constant ALIAS_TYPES => qw(c++ symver);
 
 sub new {
     my $this = shift;
