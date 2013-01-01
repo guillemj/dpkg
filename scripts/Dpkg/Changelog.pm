@@ -338,16 +338,25 @@ sub get_range {
     }
 }
 
+sub _is_full_range {
+    my ($self, $range) = @_;
+
+    return 1 if $range->{all};
+
+    # If no range delimiter is specified, we want everything.
+    foreach (qw(since until from to count offset)) {
+        return 0 if exists $range->{$_};
+    }
+
+    return 1;
+}
+
 sub _data_range {
     my ($self, $range) = @_;
 
     my $data = $self->{data} or return;
 
-    return [ @$data ] if $range->{all};
-
-    unless (grep { m/^(since|until|from|to|count|offset)$/ } keys %$range) {
-	return [ @$data ];
-    }
+    return [ @$data ] if $self->_is_full_range($range);
 
     $self->__sanity_check_range($range);
 
@@ -410,8 +419,7 @@ sub abort_early {
     my $count = $r->{count} || 0;
     my $offset = $r->{offset} || 0;
 
-    return if $r->{all};
-    return unless grep { m/^(since|until|from|to|count|offset)$/ } keys %$r;
+    return if $self->_is_full_range($r);
     return if $offset < 0 or $count < 0;
     if (defined($r->{count})) {
 	if ($offset > 0) {
