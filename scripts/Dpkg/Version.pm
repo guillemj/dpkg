@@ -326,8 +326,8 @@ sub _version_order {
 }
 
 sub version_compare_string($$) {
-    my @a = map(_version_order($_), split(//, shift));
-    my @b = map(_version_order($_), split(//, shift));
+    my @a = map { _version_order($_) } split(//, shift);
+    my @b = map { _version_order($_) } split(//, shift);
     while (1) {
         my ($a, $b) = (shift @a, shift @b);
         return 0 if not defined($a) and not defined($b);
