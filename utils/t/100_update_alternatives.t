@@ -175,7 +175,7 @@ sub get_slaves_status {
     my %slaves;
     # None of the slaves are installed
     foreach my $alt (@choices) {
-	for(my $i = 0; $i < @{$alt->{slaves}}; $i++) {
+	for my $i (0 .. @{$alt->{slaves}} - 1) {
 	    $slaves{$alt->{slaves}[$i]{name}} = $alt->{slaves}[$i];
 	    $slaves{$alt->{slaves}[$i]{name}}{installed} = 0;
 	}
@@ -183,7 +183,7 @@ sub get_slaves_status {
     # except those of the current alternative (minus optional slaves)
     if (defined($id)) {
 	my $alt = $choices[$id];
-	for(my $i = 0; $i < @{$alt->{slaves}}; $i++) {
+	for my $i (0 .. @{$alt->{slaves}} - 1) {
 	    $slaves{$alt->{slaves}[$i]{name}} = $alt->{slaves}[$i];
 	    if (-e $alt->{slaves}[$i]{path}) {
 		$slaves{$alt->{slaves}[$i]{name}}{installed} = 1;

@@ -60,7 +60,7 @@ my %blacklist = (
     _SDA_BASE_ => 1,			# powerpc
 );
 
-for (my $i = 14; $i <= 31; $i++) {
+for my $i (14 .. 31) {
     # Many powerpc specific symbols
     $blacklist{"_restfpr_$i"} = 1;
     $blacklist{"_restfpr_$i\_x"} = 1;

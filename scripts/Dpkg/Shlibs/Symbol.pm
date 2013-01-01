@@ -265,7 +265,7 @@ sub equals {
     if ($opts{tags}) {
 	return 0 if scalar(@{$self->{tagorder}}) != scalar(@{$other->{tagorder}});
 
-	for (my $i = 0; $i < scalar(@{$self->{tagorder}}); $i++) {
+	for my $i (0 .. scalar(@{$self->{tagorder}}) - 1) {
 	    my $tag = $self->{tagorder}->[$i];
 	    return 0 if $tag ne $other->{tagorder}->[$i];
 	    if (defined $self->{tags}{$tag} && defined $other->{tags}{$tag}) {

@@ -77,8 +77,8 @@ my @demangledtext = split(/\n+/s, <<'END');
 00000000002f6160  w   DO .data.rel.ro   0000000000000050  VTT for std::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >@GLIBCXX_3.4
 END
 
-for (my $try = 1; $try <= 7; $try++) {
-    for (my $i = 0; $i <= $#mangledtext; $i++) {
+for my $try (1 .. 7) {
+    for my $i (0 .. $#mangledtext) {
 	my $demangled = cppfilt_demangle_cpp($mangledtext[$i]) || $mangledtext[$i];
 	is($demangled, $demangledtext[$i], "mass c++ demangling (${try}x" . (${i} + 1) . ')');
     }

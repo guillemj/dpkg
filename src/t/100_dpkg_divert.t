@@ -125,9 +125,11 @@ sub diversions_pack {
     my (@data) = @_;
     my @data_packed;
 
+    ## no critic (ControlStructures::ProhibitCStyleForLoops)
     for (my ($i) = 0; $i < $#data; $i += 3) {
         push @data_packed, [ @data[$i .. $i + 2] ];
     }
+    ## use critic
     my @list = sort { $a->[0] cmp $b->[0] } @data_packed;
 
     return @list;

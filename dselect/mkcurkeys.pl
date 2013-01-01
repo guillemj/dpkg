@@ -38,9 +38,11 @@ while (<$override_fh>) {
 }
 close($override_fh);
 
-for (my $i = 1, my $let = 'A'; $i <= 26; $i++, $let++) {
+my $let = 'A';
+for my $i (1 .. 26) {
     $name{$i}= "^$let";
     $base{$i}= '';
+    $let++;
 }
 
 our ($k, $v);
@@ -78,7 +80,7 @@ END
 
 my ($comma);
 
-for (my $i = 33; $i <= 126; $i++) {
+for my $i (33 .. 126) {
     $k= $i;
     $v = pack('C', $i);
     if ($v eq ',') { $comma=$k; next; }
@@ -100,7 +102,7 @@ for $k (sort {
     p();
 }
 
-for (my $i = 1; $i < 64; $i++) {
+for my $i (1 .. 63) {
     $k= "KEY_F($i)"; $v= "F$i";
     p();
 }

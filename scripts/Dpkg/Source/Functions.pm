@@ -44,7 +44,7 @@ sub erasedir {
 
 sub fixperms {
     my ($dir) = @_;
-    my ($mode, $modes_set, $i, $j);
+    my ($mode, $modes_set);
     # Unfortunately tar insists on applying our umask _to the original
     # permissions_ rather than mostly-ignoring the original
     # permissions.  We fix it up with chmod -R (which saves us some
@@ -52,11 +52,11 @@ sub fixperms {
     # of a palaver.  (Numeric doesn't work because we need [ugo]+X
     # and [ugo]=<stuff> doesn't work because that unsets sgid on dirs.)
     $mode = 0777 & ~umask;
-    for ($i = 0; $i < 9; $i += 3) {
+    for my $i (0 .. 2) {
         $modes_set .= ',' if $i;
-        $modes_set .= qw(u g o)[$i/3];
-        for ($j = 0; $j < 3; $j++) {
-            $modes_set .= $mode & (0400 >> ($i+$j)) ? '+' : '-';
+        $modes_set .= qw(u g o)[$i];
+        for my $j (0 .. 2) {
+            $modes_set .= $mode & (0400 >> ($i * 3 + $j)) ? '+' : '-';
             $modes_set .= qw(r w X)[$j];
         }
     }
