@@ -60,7 +60,7 @@ my %debarch_to_debtriplet;
 	# dpkg-architecture itself, by avoiding computing the DEB_BUILD_
 	# variables when they are not requested.
 
-	my $build_arch = `dpkg --print-architecture`;
+	$build_arch = `dpkg --print-architecture`;
 	syserr('dpkg --print-architecture failed') if $? >> 8;
 
 	chomp $build_arch;
@@ -76,7 +76,7 @@ my %debarch_to_debtriplet;
     {
 	return $gcc_host_gnu_type if defined $gcc_host_gnu_type;
 
-	my $gcc_host_gnu_type = `\${CC:-gcc} -dumpmachine`;
+	$gcc_host_gnu_type = `\${CC:-gcc} -dumpmachine`;
 	if ($? >> 8) {
 	    $gcc_host_gnu_type = '';
 	} else {
