@@ -24,17 +24,17 @@ use warnings;
 
 use Getopt::Long qw(:config posix_default bundling no_ignorecase);
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Changelog::Debian;
 
 textdomain('dpkg-dev');
 
-$progname = "parsechangelog/$progname";
+$Dpkg::PROGNAME = "parsechangelog/$Dpkg::PROGNAME";
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
     printf _g('
 This is free software; see the GNU General Public License version 2 or
@@ -68,7 +68,7 @@ Options:
                                 counted from the top (or the tail if
                                 <number> is lower than 0)
     --all                       include all changes
-"), $progname;
+"), $Dpkg::PROGNAME;
 }
 
 my ( $since, $until, $from, $to, $all, $count, $offset, $file, $label );

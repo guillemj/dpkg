@@ -18,7 +18,7 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 
 use base qw(Exporter);
@@ -46,7 +46,7 @@ sub report(@)
     my ($type, $msg) = (shift, shift);
 
     $msg = sprintf($msg, @_) if (@_);
-    return "$progname: $type: $msg\n";
+    return "$Dpkg::PROGNAME: $type: $msg\n";
 }
 
 sub info($;@)
@@ -102,7 +102,7 @@ sub usageerr(@)
     my ($msg) = (shift);
 
     $msg = sprintf($msg, @_) if (@_);
-    warn "$progname: $msg\n\n";
+    warn "$Dpkg::PROGNAME: $msg\n\n";
     # XXX: access to main namespace
     main::usage();
     exit(2);

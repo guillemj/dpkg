@@ -24,7 +24,7 @@ use strict;
 use File::Basename;
 use File::Path;
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
@@ -43,12 +43,12 @@ my %options = (
 
 sub version()
 {
-    printf(_g("Debian %s version %s.\n"), $progname, $version);
+    printf(_g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION);
 }
 
 sub usage()
 {
-    printf(_g("Usage: %s [<option>...] <file>...\n"), $progname);
+    printf(_g("Usage: %s [<option>...] <file>...\n"), $Dpkg::PROGNAME);
 
     print(_g("
 Options:

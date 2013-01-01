@@ -24,7 +24,7 @@ use warnings;
 
 use Encode;
 use POSIX qw(:errno_h);
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::File;
 use Dpkg::Checksums;
@@ -97,7 +97,7 @@ sub binary_opt() { return (($include == BIN) ? '-b' :
 }
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
     printf _g('
 This is free software; see the GNU General Public License version 2 or
@@ -133,7 +133,7 @@ sub usage {
   -U<field>                remove a field.
   -?, --help               show this help message.
       --version            show the version.
-"), $progname;
+"), $Dpkg::PROGNAME;
 }
 
 
@@ -145,11 +145,11 @@ while (@ARGV) {
     } elsif (m/^-B$/) {
 	is_sourceonly && usageerr(_g('cannot combine %s and %s'), $_, '-S');
 	$include = ARCH_DEP;
-	printf STDERR _g('%s: arch-specific upload - not including arch-independent packages') . "\n", $progname;
+	printf STDERR _g('%s: arch-specific upload - not including arch-independent packages') . "\n", $Dpkg::PROGNAME;
     } elsif (m/^-A$/) {
 	is_sourceonly && usageerr(_g('cannot combine %s and %s'), $_, '-S');
 	$include = ARCH_INDEP;
-	printf STDERR _g('%s: arch-indep upload - not including arch-specific packages') . "\n", $progname;
+	printf STDERR _g('%s: arch-indep upload - not including arch-specific packages') . "\n", $Dpkg::PROGNAME;
     } elsif (m/^-S$/) {
 	is_binaryonly && usageerr(_g('cannot combine %s and %s'), binary_opt, '-S');
 	$include = SOURCE;
@@ -443,7 +443,7 @@ if (!is_binaryonly) {
     $origsrcmsg= _g('binary-only upload - not including any source code');
 }
 
-print(STDERR "$progname: $origsrcmsg\n") ||
+print(STDERR "$Dpkg::PROGNAME: $origsrcmsg\n") ||
     syserr(_g('write original source message')) unless $quiet;
 
 $fields->{'Format'} = $substvars->get('Format');

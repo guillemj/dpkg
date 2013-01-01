@@ -31,7 +31,7 @@ our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch
                     gnutriplet_to_multiarch debarch_to_multiarch);
 
 use POSIX qw(:errno_h);
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::BuildEnv;
@@ -146,7 +146,7 @@ sub read_cputable
     local $_;
     local $/ = "\n";
 
-    open my $cputable_fh, '<', "$pkgdatadir/cputable"
+    open my $cputable_fh, '<', "$Dpkg::DATADIR/cputable"
 	or syserr(_g('cannot open %s'), 'cputable');
     while (<$cputable_fh>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/) {
@@ -170,7 +170,7 @@ sub read_ostable
     local $_;
     local $/ = "\n";
 
-    open my $ostable_fh, '<', "$pkgdatadir/ostable"
+    open my $ostable_fh, '<', "$Dpkg::DATADIR/ostable"
 	or syserr(_g('cannot open %s'), 'ostable');
     while (<$ostable_fh>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
@@ -196,7 +196,7 @@ sub abitable_load()
     # it does not exist, as that will only mean the other tables do not have
     # an entry needing to be overridden. This way we do not require a newer
     # dpkg by libdpkg-perl.
-    if (open my $abitable_fh, '<', "$pkgdatadir/abitable") {
+    if (open my $abitable_fh, '<', "$Dpkg::DATADIR/abitable") {
         while (<$abitable_fh>) {
             if (m/^(?!\#)(\S+)\s+(\S+)/) {
                 $abibits{$1} = $2;
@@ -220,7 +220,7 @@ sub read_triplettable()
     local $_;
     local $/ = "\n";
 
-    open my $triplettable_fh, '<', "$pkgdatadir/triplettable"
+    open my $triplettable_fh, '<', "$Dpkg::DATADIR/triplettable"
 	or syserr(_g('cannot open %s'), 'triplettable');
     while (<$triplettable_fh>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)/) {

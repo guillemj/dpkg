@@ -28,7 +28,7 @@
 use strict;
 use warnings;
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(debarch_eq debarch_is debarch_is_wildcard);
@@ -464,7 +464,7 @@ sub setopmode {
 }
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
     print _g('
 This is free software; see the GNU General Public License version 2 or
@@ -514,7 +514,7 @@ sub usage {
     . "\n\n" . _g(
 'More options are available but they depend on the source package format.
 See dpkg-source(1) for more info.') . "\n",
-    $progname,
+    $Dpkg::PROGNAME,
     $Dpkg::Source::Package::diff_ignore_default_regexp,
     join(' ', map { "-I$_" } @Dpkg::Source::Package::tar_ignore_default_pattern),
     compression_get_default(),

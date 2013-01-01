@@ -23,7 +23,7 @@ use strict;
 use warnings;
 
 use POSIX qw(:errno_h :fcntl_h);
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::File;
@@ -59,7 +59,7 @@ my $substvars_loaded = 0;
 
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
     printf _g('
 This is free software; see the GNU General Public License version 2 or
@@ -88,7 +88,7 @@ sub usage {
   -T<substvars-file>       read variables here, not debian/substvars.
   -?, --help               show this help message.
       --version            show the version.
-'), $progname;
+'), $Dpkg::PROGNAME;
 }
 
 while (@ARGV) {

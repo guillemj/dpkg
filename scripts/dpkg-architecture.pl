@@ -22,7 +22,7 @@
 use strict;
 use warnings;
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_gcc_host_gnu_type
@@ -34,7 +34,7 @@ use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_gcc_host_gnu_type
 textdomain('dpkg-dev');
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
     printf _g('
 This is free software; see the GNU General Public License version 2 or
@@ -62,7 +62,7 @@ sub usage {
   -c <command>       set environment and run the command in it.
   -?, --help         show this help message.
       --version      show the version.
-'), $progname;
+'), $Dpkg::PROGNAME;
 }
 
 sub list_arches()

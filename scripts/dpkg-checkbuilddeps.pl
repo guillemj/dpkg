@@ -24,7 +24,7 @@ use warnings;
 
 use Getopt::Long qw(:config posix_default bundling no_ignorecase);
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch);
@@ -35,7 +35,7 @@ textdomain('dpkg-dev');
 
 sub version()
 {
-	printf(_g("Debian %s version %s.\n"), $progname, $version);
+	printf(_g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION);
 	exit(0);
 }
 
@@ -57,13 +57,14 @@ sub usage {
       --version  show the version.')
 	. "\n\n" . _g(
 '<control-file> is the control file to process (default: debian/control).')
-	. "\n", $progname;
+	. "\n", $Dpkg::PROGNAME;
 }
 
 my $ignore_bd_arch = 0;
 my $ignore_bd_indep = 0;
 my ($bd_value, $bc_value);
 my $host_arch = get_host_arch();
+my $admindir = $Dpkg::ADMINDIR;
 if (!GetOptions('A' => \$ignore_bd_arch,
                 'B' => \$ignore_bd_indep,
                 'help|?' => sub { usage(); exit(0); },
@@ -108,11 +109,11 @@ if ($bc_value) {
 }
 
 if (@unmet) {
-	printf STDERR _g('%s: Unmet build dependencies: '), $progname;
+	printf STDERR _g('%s: Unmet build dependencies: '), $Dpkg::PROGNAME;
 	print STDERR join(' ', map { $_->output() } @unmet), "\n";
 }
 if (@conflicts) {
-	printf STDERR _g('%s: Build conflicts: '), $progname;
+	printf STDERR _g('%s: Build conflicts: '), $Dpkg::PROGNAME;
 	print STDERR join(' ', map { $_->output() } @conflicts), "\n";
 }
 exit 1 if @unmet || @conflicts;

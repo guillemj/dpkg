@@ -93,7 +93,7 @@ Corresponds to a vendor file in $Dpkg::CONFDIR/origins/.
 
 =item CTRL_FILE_STATUS
 
-Corresponds to an entry in dpkg's status file (/var/lib/dpkg/status).
+Corresponds to an entry in dpkg's status file ($Dpkg::ADMINDIR/status).
 
 =item CTRL_CHANGELOG
 

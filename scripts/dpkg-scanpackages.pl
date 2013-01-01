@@ -24,7 +24,7 @@ use IO::Handle;
 use IO::File;
 use Getopt::Long qw(:config posix_default bundling no_ignorecase);
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
@@ -58,7 +58,7 @@ my $result = GetOptions(\%options,
                         'medium|M=s');
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
     exit;
 }
 
@@ -75,7 +75,7 @@ Options:
   -M, --medium <medium>    add X-Medium field for dselect multicd access method
   -?, --help               show this help message.
       --version            show the version.
-"), $progname;
+"), $Dpkg::PROGNAME;
 }
 
 sub load_override

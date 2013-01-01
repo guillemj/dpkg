@@ -22,7 +22,7 @@ use warnings;
 
 use Getopt::Long qw(:config posix_default bundling no_ignorecase);
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
@@ -75,7 +75,7 @@ sub debug {
 }
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
     exit;
 }
 
@@ -95,7 +95,7 @@ Options:
       --version            show the version.
 
 See the man page for the full documentation.
-"), $progname;
+"), $Dpkg::PROGNAME;
 
     exit;
 }

@@ -19,7 +19,7 @@
 use warnings;
 use strict;
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Changelog::Debian;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -51,7 +51,7 @@ BEGIN {
 }
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
     printf "\n" . _g(
 'This is free software; see the GNU General Public License version 2 or
@@ -68,7 +68,7 @@ Options:
                            after the last '~' in the version.
   -?, --help               show this help message.
       --version            show the version.
-"), $progname);
+"), $Dpkg::PROGNAME);
 }
 
 my $merge_prereleases;

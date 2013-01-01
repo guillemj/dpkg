@@ -22,7 +22,7 @@ our $VERSION = '0.01';
 
 use base 'Dpkg::Source::Package';
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Compression;
@@ -387,7 +387,7 @@ sub do_build {
 
     if ($ur) {
         printf(STDERR _g('%s: unrepresentable changes to source') . "\n",
-               $progname);
+               $Dpkg::PROGNAME);
         exit(1);
     }
 }

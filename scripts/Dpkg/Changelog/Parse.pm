@@ -36,7 +36,7 @@ use warnings;
 
 our $VERSION = '1.00';
 
-use Dpkg; # for $dpkglibdir
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Changelog;
@@ -75,7 +75,7 @@ it's passed as the parameter that follows.
 sub changelog_parse {
     my (%options) = @_;
     my @parserpath = ('/usr/local/lib/dpkg/parsechangelog',
-                      "$dpkglibdir/parsechangelog",
+                      "$Dpkg::LIBDIR/parsechangelog",
                       '/usr/lib/dpkg/parsechangelog');
     my $format = 'debian';
     my $changelogfile = 'debian/changelog';

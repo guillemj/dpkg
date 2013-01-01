@@ -22,7 +22,7 @@
 use strict;
 use warnings;
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Changelog::Parse;
@@ -33,7 +33,7 @@ my %options;
 my $fieldname;
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
     printf _g('
 This is free software; see the GNU General Public License version 2 or
@@ -71,7 +71,7 @@ sub usage {
       -o<number>                counted from the top (or the tail if
                                 <number> is lower than 0)
     --all                       include all changes
-"), $progname;
+"), $Dpkg::PROGNAME;
 }
 
 while (@ARGV) {

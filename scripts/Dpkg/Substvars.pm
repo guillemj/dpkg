@@ -21,7 +21,7 @@ use warnings;
 
 our $VERSION = '1.02';
 
-use Dpkg qw($version);
+use Dpkg qw();
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -70,8 +70,8 @@ sub new {
             'Newline' => "\n",
             'Space' => ' ',
             'Tab' => "\t",
-            'dpkg:Version' => $version,
-            'dpkg:Upstream-Version' => $version,
+            'dpkg:Version' => $Dpkg::PROGVERSION,
+            'dpkg:Upstream-Version' => $Dpkg::PROGVERSION,
             },
         used => {},
 	msg_prefix => '',

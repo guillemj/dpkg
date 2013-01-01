@@ -18,7 +18,7 @@ use Test::More tests => 32;
 use strict;
 use warnings;
 
-use Dpkg qw($version);
+use Dpkg qw();
 use Dpkg::Arch qw(get_host_arch);
 
 use_ok('Dpkg::Substvars');
@@ -48,7 +48,7 @@ is($s->get('var3'), undef, 'var3 deleted');
 is($s->get('Newline'), "\n", 'newline');
 is($s->get('Space'), ' ', 'space');
 is($s->get('Tab'), "\t", 'tab');
-is($s->get('dpkg:Version'), $version, 'dpkg version 1');
+is($s->get('dpkg:Version'), $Dpkg::PROGVERSION, 'dpkg version 1');
 
 # special variables
 is($s->get('Arch'), undef, 'no arch');

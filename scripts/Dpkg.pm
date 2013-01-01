@@ -16,20 +16,28 @@ package Dpkg;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use base qw(Exporter);
-our @EXPORT_OK = qw($CONFDIR);
+our @EXPORT_OK = qw($PROGNAME $PROGVERSION $CONFDIR $ADMINDIR $LIBDIR $DATADIR);
 our @EXPORT = qw($version $progname $admindir $dpkglibdir $pkgdatadir);
 
-our ($progname) = $0 =~ m{(?:.*/)?([^/]*)};
+our ($PROGNAME) = $0 =~ m{(?:.*/)?([^/]*)};
 
 # The following lines are automatically fixed at install time
-our $version = '1.17.x';
+our $PROGVERSION = '1.17.x';
 our $CONFDIR = '/etc/dpkg';
-our $admindir = '/var/lib/dpkg';
-our $dpkglibdir = '.';
-our $pkgdatadir = '..';
-$pkgdatadir = $ENV{DPKG_DATADIR} if defined $ENV{DPKG_DATADIR};
+our $ADMINDIR = '/var/lib/dpkg';
+our $LIBDIR = '.';
+our $DATADIR = '..';
+$DATADIR = $ENV{DPKG_DATADIR} if defined $ENV{DPKG_DATADIR};
+
+# XXX: Backwards compatibility, to be removed on VERSION 2.00.
+## no critic (Variables::ProhibitPackageVars)
+our $version = $PROGVERSION;
+our $admindir = $ADMINDIR;
+our $dpkglibdir = $LIBDIR;
+our $pkgdatadir = $DATADIR;
+## use critic
 
 1;

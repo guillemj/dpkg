@@ -28,7 +28,7 @@ use POSIX qw(:errno_h);
 use Cwd qw(realpath);
 use File::Basename qw(dirname);
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
@@ -55,6 +55,7 @@ my $i = 0; my %depstrength = map { $_ => $i++ } @depfields;
 
 textdomain('dpkg-dev');
 
+my $admindir = $Dpkg::ADMINDIR;
 my $shlibsoverride = "$Dpkg::CONFDIR/shlibs.override";
 my $shlibsdefault = "$Dpkg::CONFDIR/shlibs.default";
 my $shlibslocal = 'debian/shlibs.local';
@@ -539,7 +540,7 @@ if (!$stdout) {
 ##
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
     printf _g('
 This is free software; see the GNU General Public License version 2 or
@@ -574,7 +575,7 @@ sub usage {
     . "\n\n" . _g(
 'Dependency fields recognized are:
   %s
-'), $progname, join('/', @depfields);
+'), $Dpkg::PROGNAME, join('/', @depfields);
 }
 
 sub get_min_version_from_deps {

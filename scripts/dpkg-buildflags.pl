@@ -21,7 +21,7 @@
 use strict;
 use warnings;
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(:DEFAULT report);
 use Dpkg::BuildFlags;
@@ -30,7 +30,7 @@ use Dpkg::Vendor qw(get_current_vendor);
 textdomain('dpkg-dev');
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
     printf _g('
 This is free software; see the GNU General Public License version 2 or
@@ -58,7 +58,7 @@ sub usage {
                      and their origin.
   --help             show this help message.
   --version          show the version.
-'), $progname;
+'), $Dpkg::PROGNAME;
 }
 
 my ($param, $action);

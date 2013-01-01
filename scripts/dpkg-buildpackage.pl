@@ -27,7 +27,7 @@ use Cwd;
 use File::Basename;
 use POSIX qw(:sys_wait_h);
 
-use Dpkg;
+use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::BuildOptions;
@@ -40,7 +40,7 @@ use Dpkg::IPC;
 textdomain('dpkg-dev');
 
 sub showversion {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
     print _g('
 This is free software; see the GNU General Public License version 2 or
@@ -105,7 +105,7 @@ sub usage {
   -I[<pattern>]  filter out files when building tarballs.
       --source-option=<opt>
                  pass option <opt> to dpkg-source.
-'), $progname;
+'), $Dpkg::PROGNAME;
 }
 
 my @debian_rules = ('debian/rules');
@@ -507,7 +507,7 @@ chdir($dir) or syserr("chdir $dir");
 if (not $signreleased) {
     warning(_g('not signing UNRELEASED build; use --force-sign to override'));
 }
-print "$progname: $srcmsg\n";
+print "$Dpkg::PROGNAME: $srcmsg\n";
 if ($signerrors) {
     warning($signerrors);
     exit 1;
@@ -519,7 +519,7 @@ sub mustsetvar {
     error(_g('unable to determine %s'), $text)
 	unless defined($var);
 
-    print "$progname: $text $var\n";
+    print "$Dpkg::PROGNAME: $text $var\n";
     return $var;
 }
 
