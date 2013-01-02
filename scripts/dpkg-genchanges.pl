@@ -26,6 +26,7 @@ use Encode;
 use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::File;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
@@ -347,7 +348,7 @@ foreach $_ (keys %{$changelog}) {
 if ($changesdescription) {
     open(my $changes_fh, '<', $changesdescription) ||
         syserr(_g('read changesdescription'));
-    $fields->{'Changes'} = "\n" . join('', <$changes_fh>);
+    $fields->{'Changes'} = "\n" . file_slurp($changes_fh);
     close($changes_fh);
 }
 

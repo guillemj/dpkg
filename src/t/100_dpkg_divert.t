@@ -15,6 +15,7 @@
 
 use Test::More;
 use File::Spec;
+use Dpkg::File;
 use Dpkg::IPC;
 
 use strict;
@@ -97,13 +98,13 @@ sub call {
         is(join('', @output), join('', @expect), "@$args stdout");
     }
     if (defined $opts{expect_stdout_like}) {
-        like(join('', <$output>), $opts{expect_stdout_like}, "@$args stdout");
+        like(file_slurp($output), $opts{expect_stdout_like}, "@$args stdout");
     }
     if (defined $opts{expect_stderr}) {
-        is(join('', <$error>), $opts{expect_stderr}, "@$args stderr");
+        is(file_slurp($error), $opts{expect_stderr}, "@$args stderr");
     }
     if (defined $opts{expect_stderr_like}) {
-        like(join('', <$error>), $opts{expect_stderr_like}, "@$args stderr");
+        like(file_slurp($error), $opts{expect_stderr_like}, "@$args stderr");
     }
 
     close($output);

@@ -26,7 +26,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
 use base qw(Exporter);
-our @EXPORT = qw(file_lock);
+our @EXPORT = qw(file_lock file_slurp);
 
 sub file_lock($$) {
     my ($fh, $filename) = @_;
@@ -47,6 +47,14 @@ sub file_lock($$) {
                 syserr(_('failed to get a write lock on %s'), $filename);
         }
     }
+}
+
+sub file_slurp {
+    my ($fh) = @_;
+
+    local $/;
+    my $data = <$fh>;
+    return $data;
 }
 
 1;

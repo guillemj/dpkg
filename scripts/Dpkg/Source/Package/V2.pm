@@ -25,6 +25,7 @@ use base 'Dpkg::Source::Package';
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::File;
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
@@ -549,7 +550,7 @@ sub get_patch_header {
     my $text;
     if (-f $ph) {
         open(my $ph_fh, '<', $ph) || syserr(_g('cannot read %s'), $ph);
-        $text = join('', <$ph_fh>);
+        $text = file_slurp($ph_fh);
         close($ph_fh);
         return $text;
     }

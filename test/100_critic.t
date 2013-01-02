@@ -53,6 +53,7 @@ my @policies = qw(
     Documentation::RequirePackageMatchesPodName
     InputOutput::ProhibitBarewordFileHandles
     InputOutput::ProhibitInteractiveTest
+    InputOutput::ProhibitJoinedReadline
     InputOutput::ProhibitOneArgSelect
     InputOutput::ProhibitTwoArgOpen
     InputOutput::RequireEncodingWithUTF8Layer

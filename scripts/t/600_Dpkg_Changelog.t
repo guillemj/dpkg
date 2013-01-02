@@ -17,6 +17,7 @@ use strict;
 use warnings;
 
 use File::Basename;
+use Dpkg::File;
 
 BEGIN {
     my $no_examples = 4;
@@ -51,7 +52,7 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
     $changes->load($file);
 
     open(my $clog_fh, '<', "$file") || die "Can't open $file\n";
-    my $content = join('', <$clog_fh>);
+    my $content = file_slurp($clog_fh);
     close($clog_fh);
     cmp_ok($content, 'eq', "$changes", "string output of Dpkg::Changelog on $file");
 

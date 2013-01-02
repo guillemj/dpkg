@@ -46,6 +46,7 @@ use warnings;
 our $VERSION = '1.00';
 
 use Dpkg::Gettext;
+use Dpkg::File;
 use Dpkg::Changelog qw(:util);
 use base qw(Dpkg::Changelog);
 use Dpkg::Changelog::Entry::Debian qw($regex_header $regex_trailer);
@@ -121,7 +122,7 @@ sub parse {
 	    # save entries on old changelog format verbatim
 	    # we assume the rest of the file will be in old format once we
 	    # hit it for the first time
-	    $self->set_unparsed_tail("$_\n" . join('', <$fh>));
+	    $self->set_unparsed_tail("$_\n" . file_slurp($fh));
 	} elsif (m/^\S/) {
 	    $self->parse_error($file, $., _g('badly formatted heading line'), "$_");
 	} elsif ($_ =~ $regex_trailer) {
