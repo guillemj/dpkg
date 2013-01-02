@@ -71,7 +71,7 @@ sub build_quilt_object {
 sub can_build {
     my ($self, $dir) = @_;
     my ($code, $msg) = $self->SUPER::can_build($dir);
-    return ($code, $msg) if $code eq 0;
+    return ($code, $msg) if $code == 0;
     my $quilt = $self->build_quilt_object($dir);
     $msg = $quilt->find_problems();
     return (0, $msg) if $msg;
