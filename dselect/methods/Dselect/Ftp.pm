@@ -338,19 +338,19 @@ sub do_mdtm {
 	if ($files[0] =~
 	    /([^ ]+ *){5}[^ ]+ ([A-Z][a-z]{2}) ([ 0-9][0-9]) ([0-9 ][0-9][:0-9][0-9]{2})/) {
 
-            my($month_name, $day, $yearOrTime, $month, $hours, $minutes,
+            my($month_name, $day, $year_or_time, $month, $hours, $minutes,
 	       $year);
 
 	    # what we can read
 	    $month_name = $2;
 	    $day = 0 + $3;
-	    $yearOrTime = $4;
+	    $year_or_time = $4;
 
 	    # translate the month name into number
 	    $month = $months{$month_name};
 
 	    # recognize time or year, and compute missing one
-	    if ($yearOrTime =~ /([0-9]{2}):([0-9]{2})/) {
+	    if ($year_or_time =~ /([0-9]{2}):([0-9]{2})/) {
 		$hours = 0 + $1; $minutes = 0 + $2;
 		my @this_date = gmtime(time());
 		my $this_month = $this_date[4];
@@ -360,9 +360,9 @@ sub do_mdtm {
 		} else {
 		    $year = $this_year;
 		}
-	    } elsif ($yearOrTime =~ / [0-9]{4}/) {
+	    } elsif ($year_or_time =~ / [0-9]{4}/) {
 		$hours = 0; $minutes = 0;
-		$year = $yearOrTime - 1900;
+		$year = $year_or_time - 1900;
 	    } else {
 		die 'Cannot parse year-or-time';
 	    }

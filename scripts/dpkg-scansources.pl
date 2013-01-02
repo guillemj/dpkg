@@ -34,19 +34,19 @@ textdomain('dpkg-dev');
 
 # Errors with a single package are warned about but don't affect the
 # exit code. Only errors which affect everything cause a non-zero exit.
-my $Exit = 0;
+my $exit = 0;
 
-# %Override is a hash of lists.  The subs following describe what's in
+# %override is a hash of lists.  The subs following describe what's in
 # the lists.
 
-my %Override;
+my %override;
 sub O_PRIORITY		() { 0 }
 sub O_SECTION		() { 1 }
 sub O_MAINT_FROM	() { 2 } # undef for non-specific, else listref
 sub O_MAINT_TO		() { 3 } # undef if there's no maint override
-my %Extra_Override;
+my %extra_override;
 
-my %Priority = (
+my %priority = (
      'extra'		=> 1,
      'optional'		=> 2,
      'standard'		=> 3,
@@ -56,22 +56,22 @@ my %Priority = (
 
 # Switches
 
-my $Debug	= 0;
-my $No_sort	= 0;
-my $Src_override = undef;
-my $Extra_override_file = undef;
+my $debug	= 0;
+my $no_sort	= 0;
+my $src_override = undef;
+my $extra_override_file = undef;
 
-my @Option_spec = (
-    'debug!'		=> \$Debug,
+my @option_spec = (
+    'debug!'		=> \$debug,
     'help|?'		=> \&usage,
-    'no-sort|n'		=> \$No_sort,
-    'source-override|s=s' => \$Src_override,
-    'extra-override|e=s' => \$Extra_override_file,
+    'no-sort|n'		=> \$no_sort,
+    'source-override|s=s' => \$src_override,
+    'extra-override|e=s' => \$extra_override_file,
     'version'		=> \&version,
 );
 
 sub debug {
-    print @_, "\n" if $Debug;
+    print @_, "\n" if $debug;
 }
 
 sub version {
@@ -123,29 +123,29 @@ sub load_override {
 	    next;
 	}
 	my ($package, $priority, $section, $maintainer) = @data;
-	if (exists $Override{$package}) {
+	if (exists $override{$package}) {
 	    warning(_g('ignoring duplicate override entry for %s at line %d'),
 	            $package, $.);
 	    next;
 	}
-	if (!$Priority{$priority}) {
+	if (!$priority{$priority}) {
 	    warning(_g('ignoring override entry for %s, invalid priority %s'),
 	            $package, $priority);
 	    next;
 	}
 
-	$Override{$package} = [];
-	$Override{$package}[O_PRIORITY] = $priority;
-	$Override{$package}[O_SECTION] = $section;
+	$override{$package} = [];
+	$override{$package}[O_PRIORITY] = $priority;
+	$override{$package}[O_SECTION] = $section;
 	if (!defined $maintainer) {
 	    # do nothing
 	}
 	elsif ($maintainer =~ /^(.*\S)\s*=>\s*(.*)$/) {
-	    $Override{$package}[O_MAINT_FROM] = [split m{\s*//\s*}, $1];
-	    $Override{$package}[O_MAINT_TO] = $2;
+	    $override{$package}[O_MAINT_FROM] = [split m{\s*//\s*}, $1];
+	    $override{$package}[O_MAINT_TO] = $2;
 	}
 	else {
-	    $Override{$package}[O_MAINT_TO] = $maintainer;
+	    $override{$package}[O_MAINT_TO] = $maintainer;
 	}
     }
     close($comp_file);
@@ -190,13 +190,13 @@ sub load_src_override {
 
 	my ($package, $section) = @data;
 	my $key = "source/$package";
-	if (exists $Override{$key}) {
+	if (exists $override{$key}) {
 	    warning(_g('ignoring duplicate source override entry for %s at line %d'),
 	            $package, $.);
 	    next;
 	}
-	$Override{$key} = [];
-	$Override{$key}[O_SECTION] = $section;
+	$override{$key} = [];
+	$override{$key}[O_SECTION] = $section;
     }
     close($comp_file);
 }
@@ -212,7 +212,7 @@ sub load_override_extra
 	next unless $_;
 
 	my ($p, $field, $value) = split(/\s+/, $_, 3);
-        $Extra_Override{$p}{$field} = $value;
+        $extra_override{$p}{$field} = $value;
     }
     close($comp_file);
 }
@@ -250,11 +250,11 @@ sub process_dsc {
     # The priority for the source package is the highest priority of the
     # binary packages it produces.
     my @binary_by_priority = sort {
-	    ($Override{$a} ? $Priority{$Override{$a}[O_PRIORITY]} : 0)
+	    ($override{$a} ? $priority{$override{$a}[O_PRIORITY]} : 0)
 		<=>
-	    ($Override{$b} ? $Priority{$Override{$b}[O_PRIORITY]} : 0)
+	    ($override{$b} ? $priority{$override{$b}[O_PRIORITY]} : 0)
 	} @binary;
-    my $priority_override = $Override{$binary_by_priority[-1]};
+    my $priority_override = $override{$binary_by_priority[-1]};
     my $priority = $priority_override
 			? $priority_override->[O_PRIORITY]
 			: undef;
@@ -262,7 +262,7 @@ sub process_dsc {
 
     # For the section override, first check for a record from the source
     # override file, else use the regular override file.
-    my $section_override = $Override{"source/$source"} || $Override{$source};
+    my $section_override = $override{"source/$source"} || $override{$source};
     my $section = $section_override
 			? $section_override->[O_SECTION]
 			: undef;
@@ -270,7 +270,7 @@ sub process_dsc {
 
     # For the maintainer override, use the override record for the first
     # binary. Modify the maintainer if necessary.
-    my $maintainer_override = $Override{$binary[0]};
+    my $maintainer_override = $override{$binary[0]};
     if ($maintainer_override && defined $maintainer_override->[O_MAINT_TO]) {
         if (!defined $maintainer_override->[O_MAINT_FROM] ||
             grep { $fields->{Maintainer} eq $_ }
@@ -280,9 +280,9 @@ sub process_dsc {
     }
 
     # Process extra override
-    if (exists $Extra_Override{$source}) {
+    if (exists $extra_override{$source}) {
         my ($field, $value);
-        while(($field, $value) = each %{$Extra_Override{$source}}) {
+        while(($field, $value) = each %{$extra_override{$source}}) {
             $fields->{$field} = $value;
         }
     }
@@ -298,7 +298,7 @@ sub process_dsc {
 sub main {
     my (@out);
 
-    GetOptions(@Option_spec) or usage;
+    GetOptions(@option_spec) or usage;
     @ARGV >= 1 && @ARGV <= 3 or usageerr(_g('one to three arguments expected'));
 
     push @ARGV, undef		if @ARGV < 2;
@@ -306,8 +306,8 @@ sub main {
     my ($dir, $override, $prefix) = @ARGV;
 
     load_override $override if defined $override;
-    load_src_override $Src_override, $override;
-    load_override_extra $Extra_override_file if defined $Extra_override_file;
+    load_src_override $src_override, $override;
+    load_override_extra $extra_override_file if defined $extra_override_file;
 
     open my $find_fh, '-|', "find -L \Q$dir\E -name '*.dsc' -print"
         or syserr(_g('cannot fork for %s'), 'find');
@@ -326,7 +326,7 @@ sub main {
             next;
         }
 
-	if ($No_sort) {
+	if ($no_sort) {
             $fields->output(\*STDOUT);
             print "\n";
 	}
@@ -348,6 +348,6 @@ sub main {
     return 0;
 }
 
-$Exit = main || $Exit;
-$Exit = 1 if $Exit and not $Exit % 256;
-exit $Exit;
+$exit = main || $exit;
+$exit = 1 if $exit and not $exit % 256;
+exit $exit;
