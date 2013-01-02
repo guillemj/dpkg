@@ -23,26 +23,26 @@ use_ok('Dpkg::IPC');
 
 $/ = undef;
 
-my ($tmp_fh, $tmp_name) = tempfile;
+my ($tmp1_fh, $tmp1_name) = tempfile;
 my ($tmp2_fh, $tmp2_name) = tempfile;
 
-my $string = "foo\nbar\n";
+my $string1 = "foo\nbar\n";
 my $string2;
 
-open TMP, '>', $tmp_name;
-print TMP $string;
+open TMP, '>', $tmp1_name;
+print TMP $string1;
 close TMP;
 
 my $pid = spawn(exec => "cat",
-		from_string => \$string,
+		from_string => \$string1,
 		to_string => \$string2);
 
 ok($pid);
 
-is($string2, $string, "{from,to}_string");
+is($string2, $string1, "{from,to}_string");
 
 $pid = spawn(exec => "cat",
-	     from_handle => $tmp_fh,
+	     from_handle => $tmp1_fh,
 	     to_handle => $tmp2_fh);
 
 ok($pid);
@@ -53,10 +53,10 @@ open TMP, '<', $tmp2_name;
 $string2 = <TMP>;
 close TMP;
 
-is($string2, $string, "{from,to}_handle");
+is($string2, $string1, "{from,to}_handle");
 
 $pid = spawn(exec => "cat",
-	     from_file => $tmp_name,
+	     from_file => $tmp1_name,
 	     to_file => $tmp2_name,
 	     wait_child => 1,
 	     timeout => 5);
@@ -67,7 +67,7 @@ open TMP, '<', $tmp2_name;
 $string2 = <TMP>;
 close TMP;
 
-is($string2, $string, "{from,to}_file");
+is($string2, $string1, "{from,to}_file");
 
 eval {
     $pid = spawn(exec => ["sleep", "10"],
@@ -76,5 +76,5 @@ eval {
 };
 ok($@, "fails on timeout");
 
-unlink($tmp_name);
+unlink($tmp1_name);
 unlink($tmp2_name);
