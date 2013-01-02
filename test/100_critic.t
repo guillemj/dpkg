@@ -66,6 +66,7 @@ my @policies = qw(
     Modules::RequireEndWithOne
     Modules::RequireExplicitPackage
     Modules::RequireFilenameMatchesPackage
+    Objects::ProhibitIndirectSyntax
     Subroutines::ProhibitExplicitReturnUndef
     Subroutines::ProhibitNestedSubs
     Subroutines::ProhibitReturnSort

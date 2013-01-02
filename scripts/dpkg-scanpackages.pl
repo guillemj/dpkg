@@ -172,7 +172,7 @@ defined($override) and (-e $override or
 
 $pathprefix //= '';
 
-my $find_h = new IO::Handle;
+my $find_h = IO::Handle->new();
 open($find_h, '-|', 'find', '-L', "$binarydir/", @find_args, '-print')
      or syserr(_g("Couldn't open %s for reading"), $binarydir);
 FILE:
