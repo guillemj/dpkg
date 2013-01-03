@@ -483,7 +483,7 @@ is_deeply(\@tmp, [], 'but old style wildcard is not LOST.');
 # 'Internal' pattern covers all internal symbols
 load_patterns_obj();
 @tmp = grep { $_->get_symbolname() =~ /Internal/ } $sym_file->get_symbols('libpatterns.so.1');
-$sym = $sym_file->create_symbol('(regex|c++)^_Z(T[ISV])?N3NSA6ClassA8Internal.*@Base$ 1.internal'),
+$sym = $sym_file->create_symbol('(regex|c++)^_Z(T[ISV])?N3NSA6ClassA8Internal.*@Base$ 1.internal');
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1');
 is_deeply ([ sort $pat->get_pattern_matches() ], [ sort @tmp ],
     'Pattern covers all internal symbols');
@@ -510,7 +510,7 @@ is_deeply( [ sort map { $_->get_symbolname() } $pat->get_pattern_matches() ],
 ok( ($pat->get_pattern_matches())[0]->is_optional(),
    'private symbol is optional like its pattern');
 ok( $sym_file->lookup_symbol(($pat->get_pattern_matches())[0], 'libpatterns.so.1'),
-   'lookup_symbol() finds symbols matched by pattern (after merge)'),
+   'lookup_symbol() finds symbols matched by pattern (after merge)');
 
 # Get rid of a private symbol, it should not be lost
 delete $obj->{dynsyms}{$private_symnames[0]};
@@ -538,7 +538,7 @@ is( $pat->{deprecated}, '100.MISSING',
 
 # Internal symbols. All covered by the pattern?
 @tmp = grep { $_->get_symbolname() =~ /Internal/ } values %{$sym_file->{objects}{'libpatterns.so.1'}{syms}};
-$sym = $sym_file->create_symbol('(regex|c++)^_Z(T[ISV])?N3NSA6ClassA8Internal.*@Base$ 1.internal'),
+$sym = $sym_file->create_symbol('(regex|c++)^_Z(T[ISV])?N3NSA6ClassA8Internal.*@Base$ 1.internal');
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1');
 is_deeply ([ sort $pat->get_pattern_matches() ], [ sort @tmp ],
     'Pattern covers all internal symbols');

@@ -74,6 +74,7 @@ my @policies = qw(
     TestingAndDebugging::ProhibitNoWarnings
     TestingAndDebugging::RequireUseStrict
     TestingAndDebugging::RequireUseWarnings
+    ValuesAndExpressions::ProhibitCommaSeparatedStatements
     ValuesAndExpressions::ProhibitComplexVersion
     ValuesAndExpressions::ProhibitInterpolationOfLiterals
     ValuesAndExpressions::ProhibitLongChainsOfMethodCalls
