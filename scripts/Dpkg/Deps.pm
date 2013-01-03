@@ -585,7 +585,7 @@ sub parse {
 sub parse_string {
     my ($self, $dep) = @_;
     return if not $dep =~
-            /^\s*                           # skip leading whitespace
+           m{^\s*                           # skip leading whitespace
               ([a-zA-Z0-9][a-zA-Z0-9+.-]*)  # package name
               (?:                           # start of optional part
                 :                           # colon for architecture
@@ -603,7 +603,7 @@ sub parse_string {
                 \s* \]                      # closing bracket
               )?                            # end of optional architecture
 	      \s*$			    # trailing spaces at end
-            /x;
+            }x;
     if (defined($2)) {
 	return if $2 eq 'native' and not $self->{build_dep};
 	$self->{archqual} = $2;
