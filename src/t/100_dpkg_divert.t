@@ -275,7 +275,7 @@ install_diversions('');
 
 system("touch $testdir/foo");
 call_divert(['--rename', '--add', "$testdir/foo"],
-            expect_stdout_like => qr,Adding.*local.*diversion.*\Q$testdir\E/foo.*\Q$testdir\E/foo.distrib,,
+            expect_stdout_like => qr{Adding.*local.*diversion.*\Q$testdir\E/foo.*\Q$testdir\E/foo.distrib},
             expect_stderr => '');
 ok(-e "$testdir/foo.distrib", 'foo diverted');
 ok(!-e "$testdir/foo", 'foo diverted');
@@ -289,7 +289,7 @@ install_diversions('');
 
 system("touch $testdir/foo");
 call_divert(['--add', "$testdir/foo"],
-            expect_stdout_like => qr,Adding.*local.*diversion.*\Q$testdir\E/foo.*\Q$testdir\E/foo.distrib,,
+            expect_stdout_like => qr{Adding.*local.*diversion.*\Q$testdir\E/foo.*\Q$testdir\E/foo.distrib},
             expect_stderr => '');
 ok(!-e "$testdir/foo.distrib", 'foo diverted');
 ok(-e "$testdir/foo", 'foo diverted');
@@ -465,7 +465,7 @@ call_divert(['--package', 'baz', '--divert', "$testdir/foo.my", '--remove', "$te
             expect_failure => 1, expect_stderr_like =>qr/mismatch on (package|divert-to)/);
 
 call_divert(['--divert', "$testdir/foo.distrib", '--remove', "$testdir/foo"],
-            expect_stdout_like => qr,Removing.*\Q$testdir\E/foo,);
+            expect_stdout_like => qr{Removing.*\Q$testdir\E/foo});
 diversions_eq(<<"EOF");
 $testdir/bar
 $testdir/bar.distrib
@@ -486,7 +486,7 @@ call_divert(["$testdir/bar"]);
 call_divert(["$testdir/baz"]);
 
 call_divert(['--remove', "$testdir/bar"],
-            expect_stdout_like => qr,Removing.*\Q$testdir\E/bar,);
+            expect_stdout_like => qr{Removing.*\Q$testdir\E/bar});
 diversions_eq(<<"EOF");
 $testdir/foo
 $testdir/foo.distrib
@@ -526,7 +526,7 @@ system("touch $testdir/foo");
 call_divert(['--rename', "$testdir/foo"]);
 
 call_divert(['--test', '--rename', '--remove', "$testdir/foo"],
-            expect_stdout_like => qr,Removing.*\Q$testdir\E/foo,, expect_stderr => '');
+            expect_stdout_like => qr{Removing.*\Q$testdir\E/foo}, expect_stderr => '');
 ok(-e "$testdir/foo.distrib");
 ok(!-e "$testdir/foo");
 diversions_eq($diversions_added_foo_local);

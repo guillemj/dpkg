@@ -59,7 +59,7 @@ while (<$header_fh>) {
     $_= $rhs;
     s/(\w)[\(\)]/$1/g;
     s/\w+ \((\w+)\)/$1/;
-    next unless m|^/\* (\w[\w ]+\w) \*/$|;
+    next unless m{^/\* (\w[\w ]+\w) \*/$};
     $_= $1;
     s/ key$//;
     next if s/^shifted /shift / ? m/ .* .* / : m/ .* /;

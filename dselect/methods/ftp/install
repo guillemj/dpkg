@@ -328,9 +328,9 @@ sub download() {
     foreach (@{$site->[2]}) {
       $cp++;
       $pre_dist[$cp] = '';
-      $n = (s#\.\./#../#g);
+      $n = (s{\.\./}{../}g);
       next if (! $n);
-      if (m#^((?:\.\./){$n}(?:[^/]+/){$n})#) {
+      if (m<^((?:\.\./){$n}(?:[^/]+/){$n})>) {
         $pre_dist[$cp] = $1;
       }
     }
@@ -369,7 +369,7 @@ sub download() {
 	    } else {
               #Try to find another file or this package
 	      print "Looking for another version of the package...\n";
-	      my ($dir,$package) = ($fn =~ m#^(.*)/([^/]+)_[^/]+.deb$#);
+	      my ($dir, $package) = ($fn =~ m{^(.*)/([^/]+)_[^/]+.deb$});
 	      my $protected = $package;
 	      $protected =~ s/\+/\\\+/g;
 	      my $list = $ftp->ls("$pre$dir");

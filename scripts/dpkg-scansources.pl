@@ -141,7 +141,7 @@ sub load_override {
 	    # do nothing
 	}
 	elsif ($maintainer =~ /^(.*\S)\s*=>\s*(.*)$/) {
-	    $Override{$package}[O_MAINT_FROM] = [split m-\s*//\s*-, $1];
+	    $Override{$package}[O_MAINT_FROM] = [split m{\s*//\s*}, $1];
 	    $Override{$package}[O_MAINT_TO] = $2;
 	}
 	else {
@@ -225,7 +225,7 @@ sub process_dsc {
     my $basename = $file;
     my $dir = ($basename =~ s{^(.*)/}{}) ? $1 : '';
     $dir = "$prefix$dir";
-    $dir =~ s-/+$--;
+    $dir =~ s{/+$}{};
     $dir = '.' if $dir eq '';
 
     # Parse ‘.dsc’ file.
@@ -313,7 +313,7 @@ sub main {
         or syserr(_g('cannot fork for %s'), 'find');
     while (<$find_fh>) {
     	chomp;
-	s-^\./+--;
+	s{^\./+}{};
 
         my $fields;
 

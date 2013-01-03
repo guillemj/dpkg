@@ -109,7 +109,7 @@ sub edit_config {
     do {
          edit_site($config{site}[$1 - 1]) if ($1 <= @{$config{site}});
          next; };
-    m#m#i && view_mirrors();
+    /m/i && view_mirrors();
   }
 
   print "\n";

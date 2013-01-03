@@ -109,7 +109,7 @@ sub parse {
 	    next; # skip stuff that look like a CVS keyword
 	} elsif (m/^\# /o) {
 	    next; # skip comments, even that's not supported
-	} elsif (m,^/\*.*\*/,o) {
+	} elsif (m{^/\*.*\*/}o) {
 	    next; # more comments
 	} elsif (m/^(\w+\s+\w+\s+\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}\s+[\w\s]*\d{4})\s+(.*)\s+(<|\()(.*)(\)|>)/o
 		 || m/^(\w+\s+\w+\s+\d{1,2},?\s*\d{4})\s+(.*)\s+(<|\()(.*)(\)|>)/o
