@@ -489,7 +489,7 @@ sub analyze {
 	while (defined($_ = _getline($self))) {
 	    # read hunk header (@@)
 	    next if /^\\ /;
-	    last unless (/^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@( .*)?$/);
+	    last unless (/^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@(?: .*)?$/);
 	    my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
 	    # read hunk
 	    while ($olines || $nlines) {

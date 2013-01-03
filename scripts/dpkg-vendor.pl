@@ -66,7 +66,7 @@ while (@ARGV) {
         $action = $1;
         $param = shift(@ARGV);
         usageerr(_g('%s needs a parameter'), $_) unless defined $param;
-    } elsif (m/^-(\?|-help)$/) {
+    } elsif (m/^-(?:\?|-help)$/) {
         usage();
         exit 0;
     } elsif (m/^--version$/) {

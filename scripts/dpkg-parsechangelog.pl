@@ -113,7 +113,7 @@ while (@ARGV) {
 	}
     } elsif (m/^--all$/) {
 	$options{all} = undef;
-    } elsif (m/^-(\?|-help)$/) {
+    } elsif (m/^-(?:\?|-help)$/) {
 	usage(); exit(0);
     } elsif (m/^--version$/) {
 	version(); exit(0);

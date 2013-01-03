@@ -130,7 +130,7 @@ while (@ARGV) {
 	$substvars_loaded = 1;
     } elsif (m/^-n/p) {
         $forcefilename = ${^POSTMATCH};
-    } elsif (m/^-(\?|-help)$/) {
+    } elsif (m/^-(?:\?|-help)$/) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {

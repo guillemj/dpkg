@@ -84,7 +84,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         setopmode('-b');
     } elsif (m/^-x$/) {
         setopmode('-x');
-    } elsif (m/^--(before|after)-build$/) {
+    } elsif (m/^--(?:before|after)-build$/) {
         setopmode($_);
     } elsif (m/^--commit$/) {
         setopmode($_);
@@ -190,7 +190,7 @@ while (@options) {
         $substvars->set($1, $2);
     } elsif (m/^-T(.*)$/) {
 	$substvars->load($1) if -e $1;
-    } elsif (m/^-(\?|-help)$/) {
+    } elsif (m/^-(?:\?|-help)$/) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {
@@ -245,7 +245,7 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
 	    $fields->{$_} = $v;
 	} elsif (m/^Uploaders$/i) {
 	    ($fields->{$_} = $v) =~ s/\s*[\r\n]\s*/ /g; # Merge in a single-line
-	} elsif (m/^Build-(Depends|Conflicts)(-Arch|-Indep)?$/i) {
+	} elsif (m/^Build-(?:Depends|Conflicts)(?:-Arch|-Indep)?$/i) {
 	    my $dep;
 	    my $type = field_get_dep_type($_);
 	    $dep = deps_parse($v, build_dep => 1, union => $type eq 'union');

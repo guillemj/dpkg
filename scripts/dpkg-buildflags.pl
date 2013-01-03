@@ -82,7 +82,7 @@ while (@ARGV) {
         usageerr(_g('two commands specified: --%s and --%s'), $1, $action)
             if defined($action);
         $action = $1;
-    } elsif (m/^-(\?|-help)$/) {
+    } elsif (m/^-(?:\?|-help)$/) {
         usage();
         exit 0;
     } elsif (m/^--version$/) {

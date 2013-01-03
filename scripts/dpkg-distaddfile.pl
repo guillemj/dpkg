@@ -57,7 +57,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
     if (m/^-f/p) {
         $fileslistfile = ${^POSTMATCH};
-    } elsif (m/^-(\?|-help)$/) {
+    } elsif (m/^-(?:\?|-help)$/) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {

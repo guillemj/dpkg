@@ -259,7 +259,7 @@ sub read_patch_list {
     open(my $series_fh, '<' , $file) or syserr(_g('cannot read %s'), $file);
     while (defined($_ = <$series_fh>)) {
         chomp; s/^\s+//; s/\s+$//; # Strip leading/trailing spaces
-        s/(^|\s+)#.*$//; # Strip comment
+        s/(?:^|\s+)#.*$//; # Strip comment
         next unless $_;
         if (/^(\S+)\s+(.*)$/) {
             $_ = $1;

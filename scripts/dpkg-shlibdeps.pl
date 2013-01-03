@@ -95,7 +95,7 @@ foreach (@ARGV) {
 	$stdout = 1;
     } elsif (m/^-O(.+)$/) {
 	$varlistfile = $1;
-    } elsif (m/^-(\?|-help)$/) {
+    } elsif (m/^-(?:\?|-help)$/) {
 	usage(); exit(0);
     } elsif (m/^--version$/) {
 	version(); exit(0);

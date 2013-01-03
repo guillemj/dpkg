@@ -155,7 +155,7 @@ while (@ARGV) {
     } elsif (m/^-L$/) {
         list_arches();
         exit unless @ARGV;
-    } elsif (m/^-(\?|-help)$/) {
+    } elsif (m/^-(?:\?|-help)$/) {
         usage();
        exit 0;
     } elsif (m/^--version$/) {

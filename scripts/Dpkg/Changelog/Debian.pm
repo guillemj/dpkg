@@ -102,7 +102,7 @@ sub parse {
 	    }
 	    $expect= START_CHANGES;
 	    @blanklines = ();
-	} elsif (m/^(;;\s*)?Local variables:/io) {
+	} elsif (m/^(?:;;\s*)?Local variables:/io) {
 	    last; # skip Emacs variables at end of file
 	} elsif (m/^vim:/io) {
 	    last; # skip vim variables at end of file
@@ -112,11 +112,11 @@ sub parse {
 	    next; # skip comments, even that's not supported
 	} elsif (m{^/\*.*\*/}o) {
 	    next; # more comments
-	} elsif (m/^(\w+\s+\w+\s+\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}\s+[\w\s]*\d{4})\s+(.*)\s+[<\(](.*)[\)>]/o
-		 || m/^(\w+\s+\w+\s+\d{1,2},?\s*\d{4})\s+(.*)\s+[<\(](.*)[\)>]/o
-		 || m/^(\w[-+0-9a-z.]*) \(([^\(\) \t]+)\)\;?/io
-		 || m/^([\w.+-]+)[- ](\S+) Debian (\S+)/io
-		 || m/^Changes from version (.*) to (.*):/io
+	} elsif (m/^(?:\w+\s+\w+\s+\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}\s+[\w\s]*\d{4})\s+(?:.*)\s+[<\(](?:.*)[\)>]/o
+		 || m/^(?:\w+\s+\w+\s+\d{1,2},?\s*\d{4})\s+(?:.*)\s+[<\(](?:.*)[\)>]/o
+		 || m/^(?:\w[-+0-9a-z.]*) \((?:[^\(\) \t]+)\)\;?/io
+		 || m/^(?:[\w.+-]+)[- ](?:\S+) Debian (?:\S+)/io
+		 || m/^Changes from version (?:.*) to (?:.*):/io
 		 || m/^Changes for [\w.+-]+-[\w.+-]+:?\s*$/io
 		 || m/^Old Changelog:\s*$/io
 		 || m/^(?:\d+:)?\w[\w.+~-]*:?\s*$/o) {
@@ -140,7 +140,7 @@ sub parse {
 	    $expect = NEXT_OR_EOF;
 	} elsif (m/^ \-\-/) {
 	    $self->parse_error($file, $., _g('badly formatted trailer line'), "$_");
-	} elsif (m/^\s{2,}(\S)/) {
+	} elsif (m/^\s{2,}(?:\S)/) {
 	    unless ($expect eq START_CHANGES or $expect eq CHANGES_OR_TRAILER) {
 		$self->parse_error($file, $., sprintf(_g('found change data' .
 		    ' where expected %s'), $expect), "$_");

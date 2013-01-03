@@ -130,7 +130,7 @@ while (@ARGV) {
 	$verbose_output = 1;
     } elsif (m/^-a(.+)$/) {
 	$host_arch = $1;
-    } elsif (m/^-(\?|-help)$/) {
+    } elsif (m/^-(?:\?|-help)$/) {
 	usage();
 	exit(0);
     } elsif (m/^--version$/) {

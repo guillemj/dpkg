@@ -69,7 +69,7 @@ sub sanity_check {
     my $abs_srcdir = Cwd::abs_path($srcdir);
     find(sub {
         if (-l $_) {
-            if (Cwd::abs_path(readlink($_)) !~ /^\Q$abs_srcdir\E(\/|$)/) {
+            if (Cwd::abs_path(readlink($_)) !~ /^\Q$abs_srcdir\E(?:\/|$)/) {
                 error(_g('%s is a symlink to outside %s'),
                       $File::Find::name, $srcdir);
             }

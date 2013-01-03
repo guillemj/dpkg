@@ -193,7 +193,7 @@ if ($build_opts->has('nocheck')) {
 while (@ARGV) {
     $_ = shift @ARGV;
 
-    if (/^(--help|-\?)$/) {
+    if (/^(?:--help|-\?)$/) {
 	usage;
 	exit 0;
     } elsif (/^--version$/) {
@@ -251,10 +251,10 @@ while (@ARGV) {
 	$cleansource = 1;
     } elsif (/^-t(.*)$/) {
 	$targetgnusystem = $1; # Order DOES matter!
-    } elsif (/^(--target|-T)$/) {
+    } elsif (/^(?:--target|-T)$/) {
         $call_target = shift @ARGV;
-    } elsif (/^(--target=|-T)(.+)$/) {
-        $call_target = $2;
+    } elsif (/^(?:--target=|-T)(.+)$/) {
+        $call_target = $1;
     } elsif (/^--as-root$/) {
         $call_target_as_root = 1;
     } elsif (/^-nc$/) {

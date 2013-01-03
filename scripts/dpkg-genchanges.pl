@@ -194,7 +194,7 @@ while (@ARGV) {
         $remove{$1} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {
 	$substvars->set($1, $2);
-    } elsif (m/^-(\?|-help)$/) {
+    } elsif (m/^-(?:\?|-help)$/) {
 	usage();
 	exit(0);
     } elsif (m/^--version$/) {
@@ -418,7 +418,7 @@ if (!is_binaryonly) {
     my $ext = compression_get_file_extension_regex();
     if ((($sourcestyle =~ m/i/ && !$include_tarball) ||
 	 $sourcestyle =~ m/d/) &&
-	any { m/\.(debian\.tar|diff)\.$ext$/ } $checksums->get_files())
+	any { m/\.(?:debian\.tar|diff)\.$ext$/ } $checksums->get_files())
     {
 	$origsrcmsg= _g('not including original source code in upload');
 	foreach my $f (grep { m/\.orig(-.+)?\.tar\.$ext$/ } $checksums->get_files()) {
@@ -426,7 +426,7 @@ if (!is_binaryonly) {
 	}
     } else {
 	if ($sourcestyle =~ m/d/ &&
-	    none { m/\.(debian\.tar|diff)\.$ext$/ } $checksums->get_files()) {
+	    none { m/\.(?:debian\.tar|diff)\.$ext$/ } $checksums->get_files()) {
 	    warning(_g('ignoring -sd option for native Debian package'));
 	}
         $origsrcmsg= _g('including full source code in upload');
