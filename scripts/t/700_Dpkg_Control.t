@@ -75,7 +75,7 @@ is($value, $expected, "Dump of $datadir/control-1");
 my $src = $c->get_source();
 is($src, $c->[0], 'array representation of Dpkg::Control::Info 1/2');
 is($src->{'my-field-one'}, 'myvalue1', 'Access field through badly capitalized field name');
-is($src->{'long-field'}, 
+is($src->{'long-field'},
 'line1
 line 2 line 2 line 2
 

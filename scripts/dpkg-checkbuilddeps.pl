@@ -120,21 +120,21 @@ exit 1 if @unmet || @conflicts;
 # Silly little status file parser that returns a Dpkg::Deps::KnownFacts
 sub parse_status {
 	my $status = shift;
-	
+
 	my $facts = Dpkg::Deps::KnownFacts->new();
 	local $/ = '';
 	open(my $status_fh, '<', $status) ||
 		syserr(_g('cannot open %s'), $status);
 	while (<$status_fh>) {
 		next unless /^Status: .*ok installed$/m;
-	
+
 		my ($package) = /^Package: (.*)$/m;
 		my ($version) = /^Version: (.*)$/m;
 		my ($arch) = /^Architecture: (.*)$/m;
 		my ($multiarch) = /^Multi-Arch: (.*)$/m;
 		$facts->add_installed_package($package, $version, $arch,
 		                              $multiarch);
-	
+
 		if (/^Provides: (.*)$/m) {
 			my $provides = deps_parse($1, reduce_arch => 1, union => 1);
 			next if not defined $provides;
@@ -158,7 +158,7 @@ sub parse_status {
 #
 # Additional parameters that must be passed:
 # * A reference to a hash of all "ok installed" the packages on the system,
-#   with the hash key being the package name, and the value being the 
+#   with the hash key being the package name, and the value being the
 #   installed version.
 # * A reference to a hash, where the keys are package names, and the
 #   value is a true value iff some package installed on the system provides

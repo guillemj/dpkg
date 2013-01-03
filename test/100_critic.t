@@ -46,6 +46,7 @@ my @policies = qw(
     ClassHierarchies::ProhibitExplicitISA
     ClassHierarchies::ProhibitOneArgBless
     CodeLayout::ProhibitQuotedWordLists
+    CodeLayout::ProhibitTrailingWhitespace
     CodeLayout::RequireConsistentNewlines
     ControlStructures::ProhibitCStyleForLoops
     ControlStructures::ProhibitLabelsWithSpecialBlockNames

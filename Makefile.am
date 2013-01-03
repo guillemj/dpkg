@@ -102,7 +102,7 @@ LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
 coverage: all
 	$(RM) -f *.lcov
 	find -name '*.gcda' -o -name '*.gcov' | xargs $(RM) -f
-	
+
 	$(LCOV) $(LCOV_CAPTURE_OPTS) -c -o dpkg_base.lcov -i
 	$(MAKE) -C lib/dpkg check
 	$(MAKE) -C src check
@@ -115,7 +115,7 @@ coverage: all
 	  --html-prolog $(top_srcdir)/doc/lcov-prolog \
 	  --html-epilog $(top_srcdir)/doc/lcov-epilog \
 	  -o doc/coverage dpkg.lcov
-	
+
 	$(MAKE) -C scripts $@
 
 coverage-clean:

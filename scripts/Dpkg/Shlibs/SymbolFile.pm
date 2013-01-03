@@ -412,7 +412,7 @@ sub merge_symbols {
 	    # If the symbol is already listed in the file
 	    $sym->mark_found_in_library($minver, $self->get_arch());
 	} else {
-	    # The exact symbol is not present in the file, but it might match a 
+	    # The exact symbol is not present in the file, but it might match a
 	    # pattern.
 	    my $pattern = $self->find_matching_pattern($name, $obj, 1);
 	    if (defined $pattern) {

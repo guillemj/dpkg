@@ -191,11 +191,11 @@ FILE:
 	            $fn, $?);
 	    next;
 	}
-	
+
 	defined($fields->{'Package'})
 	    or error(_g('No Package field in control file of %s'), $fn);
 	my $p = $fields->{'Package'};
-	
+
 	if (defined($packages{$p}) and not $options{multiversion}) {
 	    foreach (@{$packages{$p}}) {
 		if (version_compare_relation($fields->{'Version'}, REL_GT,
@@ -216,9 +216,9 @@ FILE:
 	}
 	warning(_g('Package %s (filename %s) has Filename field!'), $p, $fn)
 	    if defined($fields->{'Filename'});
-	
+
 	$fields->{'Filename'} = "$pathprefix$fn";
-	
+
         my $sums = Dpkg::Checksums->new();
 	$sums->add_from_file($fn);
         foreach my $alg (checksums_get_list()) {
@@ -230,7 +230,7 @@ FILE:
         }
 	$fields->{'Size'} = $sums->get_size($fn);
         $fields->{'X-Medium'} = $options{medium} if defined $options{medium};
-	
+
 	push @{$packages{$p}}, $fields;
     }
 close($find_h);

@@ -219,7 +219,7 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
 
     $changelogfile ||= "$dir/debian/changelog";
     $controlfile ||= "$dir/debian/control";
-    
+
     my %ch_options = (file => $changelogfile);
     $ch_options{changelogformat} = $changelogformat if $changelogformat;
     my $changelog = changelog_parse(%ch_options);
@@ -341,7 +341,7 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
             field_transfer_single($changelog, $fields);
 	}
     }
-    
+
     $fields->{'Binary'} = join(', ', @binarypackages);
     # Avoid overly long line by splitting over multiple lines
     if (length($fields->{'Binary'}) > 980) {
