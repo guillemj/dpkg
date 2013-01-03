@@ -277,8 +277,8 @@ if ($compare || ! $quiet) {
 }
 
 unless ($quiet) {
-    use File::Temp;
-    use Digest::MD5;
+    require File::Temp;
+    require Digest::MD5;
     # Compare template symbols files before and after
     my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
     my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');

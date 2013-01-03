@@ -322,7 +322,7 @@ sub do_mdtm {
     #}
 
     if (! $has_mdtm) {
-	use Time::Local;
+	require Time::Local;
 
 	my @files = $ftp->dir($file);
 	if (($#files == -1) || ($ftp->code == 550)) { # No such file or directory
@@ -368,7 +368,7 @@ sub do_mdtm {
 	    }
 
 	    # build a system time
-	    $time = timegm (0, $minutes, $hours, $day, $month, $year);
+	    $time = Time::Local::timegm(0, $minutes, $hours, $day, $month, $year);
 	} else {
 	    die 'Regexp match failed on LIST output';
 	}

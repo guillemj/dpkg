@@ -62,6 +62,7 @@ my @policies = qw(
     Miscellanea::ProhibitFormats
     Miscellanea::ProhibitUnrestrictedNoCritic
     Miscellanea::ProhibitUselessNoCritic
+    Modules::ProhibitConditionalUseStatements
     Modules::ProhibitEvilModules
     Modules::RequireBarewordIncludes
     Modules::RequireEndWithOne
