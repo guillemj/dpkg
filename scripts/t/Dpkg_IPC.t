@@ -39,7 +39,7 @@ my $pid = spawn(exec => 'cat',
 		from_string => \$string1,
 		to_string => \$string2);
 
-ok($pid);
+ok($pid, 'execute cat program, I/O to variables');
 
 is($string2, $string1, '{from,to}_string');
 
@@ -47,7 +47,7 @@ $pid = spawn(exec => 'cat',
 	     from_handle => $tmp1_fh,
 	     to_handle => $tmp2_fh);
 
-ok($pid);
+ok($pid, 'execute cat program, I/O to filehandles');
 
 wait_child($pid);
 
@@ -64,7 +64,7 @@ $pid = spawn(exec => 'cat',
 	     wait_child => 1,
 	     timeout => 5);
 
-ok($pid);
+ok($pid, 'execute cat program, I/O to filenames, wait and timeout');
 
 open $tmp_fh, '<', $tmp2_name
     or die "cannot open $tmp2_name: $!";

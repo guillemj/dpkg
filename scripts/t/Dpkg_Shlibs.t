@@ -535,11 +535,13 @@ is($sym->{minver}, '1.method1', 'specific symbol preferred over pattern');
 
 $sym = $sym_file->lookup_symbol('_ZN3NSB6Symver14symver_method2Ev@SYMVER_1', 'libpatterns.so.1');
 is($sym->{minver}, '1.method2', 'c++ alias pattern preferred over generic pattern');
-is ( $sym->get_pattern()->get_symbolname(), 'NSB::Symver::symver_method2()@SYMVER_1' );
+is($sym->get_pattern()->get_symbolname(), 'NSB::Symver::symver_method2()@SYMVER_1',
+   'c++ alias pattern preferred over generic pattern, on demangled name');
 
 $sym = $sym_file->lookup_symbol('_ZN3NSB6SymverD1Ev@SYMVER_1', 'libpatterns.so.1');
 is ( $sym->{minver}, '1.generic', 'generic (c++ & symver) pattern covers the rest (destructor)' );
-ok ( $sym->get_pattern()->equals($sym_file->create_symbol('(c++|symver)SYMVER_1 1.generic')) );
+ok($sym->get_pattern()->equals($sym_file->create_symbol('(c++|symver)SYMVER_1 1.generic')),
+   'generic (c++ & symver) pattern covers the rest (destructor), compared');
 
 # Test old style wildcard support
 load_patterns_symbols();
@@ -570,7 +572,7 @@ $sym = $sym_file->create_symbol('(regex|c++)^_Z(T[ISV])?N3NSA6ClassA8Internal.*@
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1');
 is_deeply ([ sort $pat->get_pattern_matches() ], [ sort @tmp ],
     'Pattern covers all internal symbols');
-is ( $tmp[0]->{minver}, '1.internal' );
+is($tmp[0]->{minver}, '1.internal', 'internal pattern covers first symbol');
 
 # Lookup private pattern
 my @private_symnames = sort qw(
@@ -625,7 +627,7 @@ $sym = $sym_file->create_symbol('(regex|c++)^_Z(T[ISV])?N3NSA6ClassA8Internal.*@
 $pat = $sym_file->lookup_pattern($sym, 'libpatterns.so.1');
 is_deeply ([ sort $pat->get_pattern_matches() ], [ sort @tmp ],
     'Pattern covers all internal symbols');
-is ( $tmp[0]->{minver}, '1.internal' );
+is($tmp[0]->{minver}, '1.internal', 'internal pattern covers first symbol');
 
 # Delete matches of the non-optional pattern
 $sym = $sym_file->create_symbol('(c++)"non-virtual thunk to NSB::ClassD::generate_vt(char const*) const@Base" 1');

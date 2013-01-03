@@ -301,11 +301,11 @@ Xb-Userfield2: foobar
 
 	$str = $changes->rfc822();
 
-	ok( 1 );
+	ok(1, 'TODO check rfc822 output');
 
 	$str = $changes->rfc822({ since => $oldest_version });
 
-	ok( 1 );
+	ok(1, 'TODO check rfc822 output with ranges');
     }
 }
 

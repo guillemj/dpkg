@@ -88,6 +88,7 @@ my @policies = qw(
     Subroutines::ProtectPrivateSubs
     TestingAndDebugging::ProhibitNoStrict
     TestingAndDebugging::ProhibitNoWarnings
+    TestingAndDebugging::RequireTestLabels
     TestingAndDebugging::RequireUseStrict
     TestingAndDebugging::RequireUseWarnings
     ValuesAndExpressions::ProhibitCommaSeparatedStatements

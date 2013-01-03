@@ -531,14 +531,14 @@ call_divert(['--rename', "$testdir/foo"]);
 
 call_divert(['--test', '--rename', '--remove', "$testdir/foo"],
             expect_stdout_like => qr{Removing.*\Q$testdir\E/foo}, expect_stderr => '');
-ok(-e "$testdir/foo.distrib");
-ok(!-e "$testdir/foo");
+ok(-e "$testdir/foo.distrib", 'foo diversion not removed');
+ok(!-e "$testdir/foo", 'foo diversion not removed');
 diversions_eq($diversions_added_foo_local);
 
 call_divert(['--quiet', '--rename', '--remove', "$testdir/foo"],
             expect_stdout => '', expect_stderr => '');
-ok(-e "$testdir/foo");
-ok(!-e "$testdir/foo.distrib");
+ok(-e "$testdir/foo", 'foo diversion removed');
+ok(!-e "$testdir/foo.distrib", 'foo diversion removed');
 diversions_eq('');
 
 cleanup();

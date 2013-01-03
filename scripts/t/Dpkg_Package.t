@@ -20,10 +20,10 @@ use Test::More tests => 6;
 
 use_ok('Dpkg::Package');
 
-ok(pkg_name_is_illegal(undef));
-ok(pkg_name_is_illegal(''));
-ok(pkg_name_is_illegal('%_&'));
-ok(pkg_name_is_illegal('ABC'));
-ok(pkg_name_is_illegal('-abc'));
+ok(pkg_name_is_illegal(undef), 'package name is undef');
+ok(pkg_name_is_illegal(''), 'package name is empty');
+ok(pkg_name_is_illegal('%_&'), 'package name has invalid chars');
+ok(pkg_name_is_illegal('ABC'), 'package name has uppercase chars');
+ok(pkg_name_is_illegal('-abc'), 'package name has a dash');
 
 1;
