@@ -473,10 +473,12 @@ $fields->{'Files'} = '';
 my %filedone;
 
 for my $f ($checksums->get_files(), @fileslistfiles) {
-    my $arch_all = debarch_eq('all', $p2arch{$f2p{$f}}) if defined($f2p{$f});
+    if (defined $f2p{$f}) {
+        my $arch_all = debarch_eq('all', $p2arch{$f2p{$f}});
 
-    next if (defined($arch_all) && ($include == ARCH_DEP and $arch_all));
-    next if (defined($arch_all) && ($include == ARCH_INDEP and not $arch_all));
+        next if ($include == ARCH_DEP and $arch_all);
+        next if ($include == ARCH_INDEP and not $arch_all);
+    }
     next if $filedone{$f}++;
     my $uf = "$uploadfilesdir/$f";
     $checksums->add_from_file($uf, key => $f);
