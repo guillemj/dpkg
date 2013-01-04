@@ -183,7 +183,7 @@ $substvars->set_msg_prefix(sprintf(_g('package %s: '), $pkg->{Package}));
 
 # Scan source package
 my $src_fields = $control->get_source();
-foreach $_ (keys %{$src_fields}) {
+foreach (keys %{$src_fields}) {
     if (m/^Source$/) {
 	set_source_package($src_fields->{$_});
     } else {
@@ -192,7 +192,7 @@ foreach $_ (keys %{$src_fields}) {
 }
 
 # Scan binary package
-foreach $_ (keys %{$pkg}) {
+foreach (keys %{$pkg}) {
     my $v = $pkg->{$_};
     if (field_get_dep_type($_)) {
 	# Delay the parsing until later
@@ -221,7 +221,7 @@ foreach $_ (keys %{$pkg}) {
 }
 
 # Scan fields of dpkg-parsechangelog
-foreach $_ (keys %{$changelog}) {
+foreach (keys %{$changelog}) {
     my $v = $changelog->{$_};
 
     if (m/^Source$/) {

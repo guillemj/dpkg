@@ -269,7 +269,7 @@ if (not is_sourceonly) {
 
 # Scan control info of source package
 my $src_fields = $control->get_source();
-foreach $_ (keys %{$src_fields}) {
+foreach (keys %{$src_fields}) {
     my $v = $src_fields->{$_};
     if (m/^Source$/) {
 	set_source_package($v);
@@ -310,7 +310,7 @@ foreach my $pkg ($control->get_packages()) {
 
     $p2arch{$p} = $a;
 
-    foreach $_ (keys %{$pkg}) {
+    foreach (keys %{$pkg}) {
 	my $v = $pkg->{$_};
 
 	if (m/^Section$/) {
@@ -334,7 +334,7 @@ foreach my $pkg ($control->get_packages()) {
 }
 
 # Scan fields of dpkg-parsechangelog
-foreach $_ (keys %{$changelog}) {
+foreach (keys %{$changelog}) {
     my $v = $changelog->{$_};
     if (m/^Source$/i) {
 	set_source_package($v);

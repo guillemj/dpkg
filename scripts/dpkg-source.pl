@@ -238,7 +238,7 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
           $controlfile) unless defined $src_fields;
     my $src_sect = $src_fields->{'Section'} || 'unknown';
     my $src_prio = $src_fields->{'Priority'} || 'unknown';
-    foreach $_ (keys %{$src_fields}) {
+    foreach (keys %{$src_fields}) {
 	my $v = $src_fields->{$_};
 	if (m/^Source$/i) {
 	    set_source_package($v);
@@ -269,7 +269,7 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
 	        $pkg->get_custom_field('Package-Type') || 'deb';
 	push @pkglist, sprintf('%s %s %s %s', $p, $type, $sect, $prio);
 	push(@binarypackages,$p);
-	foreach $_ (keys %{$pkg}) {
+	foreach (keys %{$pkg}) {
 	    my $v = $pkg->{$_};
             if (m/^Architecture$/) {
                 # Gather all binary architectures in one set. 'any' and 'all'
@@ -322,7 +322,7 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
     $fields->{'Package-List'} = "\n" . join("\n", sort @pkglist);
 
     # Scan fields of dpkg-parsechangelog
-    foreach $_ (keys %{$changelog}) {
+    foreach (keys %{$changelog}) {
         my $v = $changelog->{$_};
 
 	if (m/^Source$/) {
