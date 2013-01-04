@@ -201,7 +201,7 @@ sub compression_get_default_level {
 sub compression_set_default_level {
     my ($level) = @_;
     error(_g('%s is not a compression level'), $level)
-            unless !defined($level) or compression_is_valid_level($level);
+        if defined($level) and not compression_is_valid_level($level);
     $default_compression_level = $level;
 }
 

@@ -50,6 +50,7 @@ my @policies = qw(
     CodeLayout::RequireConsistentNewlines
     ControlStructures::ProhibitCStyleForLoops
     ControlStructures::ProhibitLabelsWithSpecialBlockNames
+    ControlStructures::ProhibitNegativeExpressionsInUnlessAndUntilConditions
     ControlStructures::ProhibitUntilBlocks
     Documentation::RequirePackageMatchesPodName
     InputOutput::ProhibitBarewordFileHandles

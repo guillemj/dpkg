@@ -79,7 +79,8 @@ sub add_directory {
     if (*$self->{chdir}) {
         $testfile = File::Spec->catdir(*$self->{chdir}, $file);
     }
-    internerr('add_directory() only handles directories') unless not -l $testfile and -d _;
+    internerr('add_directory() only handles directories')
+        if -l $testfile or not -d _;
     $self->_add_entry($file);
 }
 

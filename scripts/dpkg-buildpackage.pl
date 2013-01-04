@@ -399,7 +399,7 @@ unless (build_binaryonly) {
     chdir($dir) or syserr("chdir $dir");
 }
 
-unless ($buildtarget eq 'build' or scalar(@debian_rules) > 1) {
+if ($buildtarget ne 'build' and scalar(@debian_rules) == 1) {
     # Verify that build-{arch,indep} are supported. If not, fallback to build.
     # This is a temporary measure to not break too many packages on a flag day.
     my $pid = spawn(exec => [ 'make', '-f', @debian_rules, '-qn', $buildtarget ],

@@ -245,13 +245,13 @@ if (not is_sourceonly) {
 			$1, $.);
 	    $f2sec{$1}= $5;
 	    $f2pri{$1}= $6;
-	    push(@archvalues,$4) unless !$4 || $archadded{$4}++;
+	    push(@archvalues, $4) if $4 and not $archadded{$4}++;
 	    push(@fileslistfiles,$1);
 	} elsif (m/^([-+.0-9a-z]+_[^_]+_([-\w]+)\.[a-z0-9.]+) (\S+) (\S+)$/) {
 	    # A non-deb package
 	    $f2sec{$1}= $3;
 	    $f2pri{$1}= $4;
-	    push(@archvalues,$2) unless !$2 || $archadded{$2}++;
+	    push(@archvalues, $2) if $2 and not $archadded{$2}++;
 	    push(@fileslistfiles,$1);
 	} elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
 	    defined($f2sec{$1}) &&
@@ -324,7 +324,7 @@ foreach my $pkg ($control->get_packages()) {
 	    } elsif (!debarch_eq('all', $v)) {
 		$v = '';
 	    }
-	    push(@archvalues,$v) unless !$v || $archadded{$v}++;
+	    push(@archvalues, $v) if $v and not $archadded{$v}++;
         } elsif (m/^Description$/) {
             # Description in changes is computed, do not copy this field
 	} else {
