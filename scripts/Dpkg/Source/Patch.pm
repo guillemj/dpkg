@@ -84,11 +84,11 @@ sub add_diff_file {
 	    my $ts = (stat($old))[9];
 	    my $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime($ts));
 	    $opts{label_old} .= sprintf("\t%s.%09d +0000", $t,
-					    ($ts-int($ts))*1000000000);
+	                                ($ts - int($ts)) * 1_000_000_000);
 	    $ts = (stat($new))[9];
 	    $t = POSIX::strftime('%Y-%m-%d %H:%M:%S', gmtime($ts));
 	    $opts{label_new} .= sprintf("\t%s.%09d +0000", $t,
-					    ($ts-int($ts))*1000000000);
+	                                ($ts - int($ts)) * 1_000_000_000);
 	} else {
 	    # Space in filenames need special treatment
 	    $opts{label_old} .= "\t" if $opts{label_old} =~ / /;

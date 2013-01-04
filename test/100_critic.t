@@ -87,6 +87,7 @@ my @policies = qw(
     ValuesAndExpressions::ProhibitSpecialLiteralHeredocTerminator
     ValuesAndExpressions::ProhibitVersionStrings
     ValuesAndExpressions::RequireConstantVersion
+    ValuesAndExpressions::RequireNumberSeparators
     ValuesAndExpressions::RequireQuotedHeredocTerminator
     ValuesAndExpressions::RequireUpperCaseHeredocTerminator
     Variables::ProhibitAugmentedAssignmentInDeclaration
