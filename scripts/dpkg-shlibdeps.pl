@@ -454,7 +454,8 @@ if ($stdout) {
     if (-e $varlistfile) {
 	open(my $old_fh, '<', $varlistfile) ||
 	    syserr(_g("open old varlist file \`%s' for reading"), $varlistfile);
-	foreach my $entry (grep { not m/^\Q$varnameprefix\E:/ } (<$old_fh>)) {
+	while (my $entry = <$old_fh>) {
+	    next if $entry =~ m/^\Q$varnameprefix\E:/;
 	    print($new_fh $entry) ||
 	        syserr(_g("copy old entry to new varlist file \`%s'"),
 	               "$varlistfile.new");

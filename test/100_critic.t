@@ -55,6 +55,7 @@ my @policies = qw(
     InputOutput::ProhibitInteractiveTest
     InputOutput::ProhibitJoinedReadline
     InputOutput::ProhibitOneArgSelect
+    InputOutput::ProhibitReadlineInForLoop
     InputOutput::ProhibitTwoArgOpen
     InputOutput::RequireEncodingWithUTF8Layer
     Miscellanea::ProhibitFormats
