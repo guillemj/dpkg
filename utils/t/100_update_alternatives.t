@@ -51,22 +51,22 @@ my @choices = (
 	priority => 20,
 	slaves => [
 	    {
-		"link" => "$bindir/slave2",
+		link => "$bindir/slave2",
 		name => "slave2",
 		path => $paths{cat},
 	    },
 	    {
-		"link" => "$bindir/slave3",
+		link => "$bindir/slave3",
 		name => "slave3",
 		path => $paths{cat},
 	    },
 	    {
-		"link" => "$bindir/slave1",
+		link => "$bindir/slave1",
 		name => "slave1",
 		path => $paths{yes},
 	    },
 	    {
-		"link" => "$bindir/slave4",
+		link => "$bindir/slave4",
 		name => "slave4",
 		path => $paths{cat},
 	    },
@@ -77,7 +77,7 @@ my @choices = (
         priority => 10,
         slaves => [
 	    {
-		"link" => "$bindir/slave1",
+		link => "$bindir/slave1",
 		name => "slave1",
 		path => $paths{date},
 	    },
@@ -100,7 +100,7 @@ sub cleanup {
 
 sub call_ua {
     my ($params, %opts) = @_;
-    spawn("exec" => [ @ua, @$params ], nocheck => 1,
+    spawn(exec => [ @ua, @$params ], nocheck => 1,
 	  wait_child => 1, env => { LC_ALL => "C" }, %opts);
     my $test_id = "";
     $test_id = "$opts{test_id}: " if defined $opts{test_id};

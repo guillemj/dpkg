@@ -155,7 +155,7 @@ sub do_build {
     my $tar = Dpkg::Source::Archive->new(filename => $debianfile,
                                          compression => $self->{'options'}{'compression'},
                                          compression_level => $self->{'options'}{'comp_level'});
-    $tar->create('chdir' => $tmp);
+    $tar->create(chdir => $tmp);
     $tar->add_directory($dirname);
     $tar->finish();
 

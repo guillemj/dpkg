@@ -95,9 +95,9 @@ sub terminate_cppfilts {
 	next if not defined $cppfilts{$_}{pid};
 	close $cppfilts{$_}{from};
 	close $cppfilts{$_}{to};
-	wait_child($cppfilts{$_}{pid}, "cmdline" => "c++filt",
-	                               "nocheck" => 1,
-	                               "timeout" => 5);
+	wait_child($cppfilts{$_}{pid}, cmdline => "c++filt",
+	                               nocheck => 1,
+	                               timeout => 5);
 	delete $cppfilts{$_};
     }
 }

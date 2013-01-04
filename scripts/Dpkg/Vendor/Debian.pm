@@ -85,12 +85,12 @@ sub add_hardening_flags {
 
     # Features enabled by default for all builds.
     my %use_feature = (
-	"pie" => 0,
-	"stackprotector" => 1,
-	"fortify" => 1,
-	"format" => 1,
-	"relro" => 1,
-	"bindnow" => 0
+	pie => 0,
+	stackprotector => 1,
+	fortify => 1,
+	format => 1,
+	relro => 1,
+	bindnow => 0,
     );
 
     # Adjust features based on Maintainer's desires.

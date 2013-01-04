@@ -50,29 +50,29 @@ interact with the set of supported compression methods.
 =cut
 
 my $COMP = {
-    "gzip" => {
-	"file_ext" => "gz",
-	"comp_prog" => [ "gzip", "--no-name", "--rsyncable" ],
-	"decomp_prog" => [ "gunzip" ],
-	"default_level" => 9,
+    gzip => {
+	file_ext => "gz",
+	comp_prog => [ "gzip", "--no-name", "--rsyncable" ],
+	decomp_prog => [ "gunzip" ],
+	default_level => 9,
     },
-    "bzip2" => {
-	"file_ext" => "bz2",
-	"comp_prog" => [ "bzip2" ],
-	"decomp_prog" => [ "bunzip2" ],
-	"default_level" => 9,
+    bzip2 => {
+	file_ext => "bz2",
+	comp_prog => [ "bzip2" ],
+	decomp_prog => [ "bunzip2" ],
+	default_level => 9,
     },
-    "lzma" => {
-	"file_ext" => "lzma",
-	"comp_prog" => [ 'xz', '--format=lzma' ],
-	"decomp_prog" => [ 'unxz', '--format=lzma' ],
-	"default_level" => 6,
+    lzma => {
+	file_ext => "lzma",
+	comp_prog => [ 'xz', '--format=lzma' ],
+	decomp_prog => [ 'unxz', '--format=lzma' ],
+	default_level => 6,
     },
-    "xz" => {
-	"file_ext" => "xz",
-	"comp_prog" => [ "xz" ],
-	"decomp_prog" => [ "unxz" ],
-	"default_level" => 6,
+    xz => {
+	file_ext => "xz",
+	comp_prog => [ "xz" ],
+	decomp_prog => [ "unxz" ],
+	default_level => 6,
     },
 };
 

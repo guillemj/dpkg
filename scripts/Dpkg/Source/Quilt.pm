@@ -37,7 +37,7 @@ sub new {
     my $class = ref($this) || $this;
 
     my $self = {
-        'dir' => $dir,
+        dir => $dir,
     };
     bless $self, $class;
 

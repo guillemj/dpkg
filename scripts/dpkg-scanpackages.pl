@@ -180,8 +180,8 @@ FILE:
 	chomp;
 	my $fn = $_;
 	my $output;
-	my $pid = spawn('exec' => [ "dpkg-deb", "-I", $fn, "control" ],
-			'to_pipe' => \$output);
+	my $pid = spawn(exec => [ "dpkg-deb", "-I", $fn, "control" ],
+	                to_pipe => \$output);
 	my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
 	$fields->parse($output, $fn)
 	    or error(_g("couldn't parse control information from %s"), $fn);

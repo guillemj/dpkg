@@ -361,7 +361,7 @@ This function is mainly used to implement the sort() method.
 =cut
 
 our %relation_ordering = (
-	'undef' => 0,
+	undef => 0,
 	REL_GE() => 1,
 	REL_GT() => 2,
 	REL_EQ() => 3,
@@ -839,7 +839,7 @@ use base qw(Dpkg::Interface::Storable);
 sub new {
     my $this = shift;
     my $class = ref($this) || $this;
-    my $self = { 'list' => [ @_ ] };
+    my $self = { list => [ @_ ] };
     bless $self, $class;
     return $self;
 }
@@ -1196,7 +1196,10 @@ use Dpkg::Version;
 sub new {
     my $this = shift;
     my $class = ref($this) || $this;
-    my $self = { 'pkg' => {}, 'virtualpkg' => {} };
+    my $self = {
+	pkg => {},
+	virtualpkg => {},
+    };
     bless $self, $class;
     return $self;
 }
@@ -1216,10 +1219,10 @@ Note that $multiarch is only used if $arch is provided.
 sub add_installed_package {
     my ($self, $pkg, $ver, $arch, $multiarch) = @_;
     my $p = {
-	"package" => $pkg,
-	"version" => $ver,
-	"architecture" => $arch,
-	"multiarch" => $multiarch || "no",
+	package => $pkg,
+	version => $ver,
+	architecture => $arch,
+	multiarch => $multiarch || "no",
     };
     $self->{pkg}{"$pkg:$arch"} = $p if defined $arch;
     push @{$self->{pkg}{$pkg}}, $p;

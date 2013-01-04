@@ -530,7 +530,7 @@ sub do_build {
     my $debianfile = "$basenamerev.debian.tar." . $self->{'options'}{'comp_ext'};
     info(_g("building %s in %s"), $sourcepackage, $debianfile);
     my $tar = Dpkg::Source::Archive->new(filename => $debianfile);
-    $tar->create(options => \@tar_ignore, 'chdir' => $dir);
+    $tar->create(options => \@tar_ignore, chdir => $dir);
     $tar->add_directory("debian");
     foreach my $binary ($binaryfiles->get_seen_binaries()) {
         $tar->add_file($binary) unless $binary =~ m{^debian/};

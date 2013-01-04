@@ -148,9 +148,9 @@ sub new {
     my ($this, %args) = @_;
     my $class = ref($this) || $this;
     my $self = {
-        'fields' => Dpkg::Control->new(type => CTRL_PKG_SRC),
-        'options' => {},
-	'checksums' => Dpkg::Checksums->new(),
+        fields => Dpkg::Control->new(type => CTRL_PKG_SRC),
+        options => {},
+        checksums => Dpkg::Checksums->new(),
     };
     bless $self, $class;
     if (exists $args{'options'}) {
@@ -360,7 +360,7 @@ sub check_signature {
         push @exec, $dsc;
 
         my ($stdout, $stderr);
-        spawn('exec' => \@exec, wait_child => 1, nocheck => 1,
+        spawn(exec => \@exec, wait_child => 1, nocheck => 1,
               to_string => \$stdout, error_to_string => \$stderr,
               timeout => 10);
         if (WIFEXITED($?)) {

@@ -103,11 +103,11 @@ sub new {
     # Object is a scalar reference and not a hash ref to avoid
     # infinite recursion due to overloading hash-derefencing
     my $self = \{
-        'in_order' => [],
-        'out_order' => [],
-        'allow_pgp' => 0,
-        'allow_duplicate' => 0,
-        'drop_empty' => 0,
+        in_order => [],
+        out_order => [],
+        allow_pgp => 0,
+        allow_duplicate => 0,
+        drop_empty => 0,
     };
     bless $self, $class;
 

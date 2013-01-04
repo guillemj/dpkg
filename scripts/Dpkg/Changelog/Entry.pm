@@ -57,12 +57,12 @@ sub new {
     my $class = ref($this) || $this;
 
     my $self = {
-	'header' => undef,
-	'changes' => [],
-	'trailer' => undef,
-	'blank_after_header' => [],
-	'blank_after_changes' => [],
-	'blank_after_trailer' => [],
+	header => undef,
+	changes => [],
+	trailer => undef,
+	blank_after_header => [],
+	blank_after_changes => [],
+	blank_after_trailer => [],
     };
     bless $self, $class;
     return $self;

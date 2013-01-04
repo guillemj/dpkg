@@ -55,8 +55,8 @@ sub new {
     my ($this, $arg) = @_;
     my $class = ref($this) || $this;
     my $self = {
-	'source' => undef,
-	'packages' => [],
+	source => undef,
+	packages => [],
     };
     bless $self, $class;
     if ($arg) {

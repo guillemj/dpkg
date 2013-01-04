@@ -49,17 +49,17 @@ about supported checksums.
 =cut
 
 my $CHECKSUMS = {
-    "md5" => {
-	"program" => [ "md5sum" ],
-	"regex" => qr/[0-9a-f]{32}/,
+    md5 => {
+	program => [ "md5sum" ],
+	regex => qr/[0-9a-f]{32}/,
     },
-    "sha1" => {
-	"program" => [ "sha1sum" ],
-	"regex" => qr/[0-9a-f]{40}/,
+    sha1 => {
+	program => [ "sha1sum" ],
+	regex => qr/[0-9a-f]{40}/,
     },
-    "sha256" => {
-	"program" => [ "sha256sum" ],
-	"regex" => qr/[0-9a-f]{64}/,
+    sha256 => {
+	program => [ "sha256sum" ],
+	regex => qr/[0-9a-f]{64}/,
     },
 };
 
@@ -179,7 +179,7 @@ sub add_from_file {
 	my @exec = (@{$CHECKSUMS->{$alg}{"program"}}, $file);
 	my $regex = $CHECKSUMS->{$alg}{"regex"};
 	my $output;
-	spawn('exec' => \@exec, to_string => \$output);
+	spawn(exec => \@exec, to_string => \$output);
 	if ($output =~ /^($regex)(\s|$)/m) {
 	    my $newsum = $1;
 	    if (exists $self->{checksums}{$key}{$alg} and

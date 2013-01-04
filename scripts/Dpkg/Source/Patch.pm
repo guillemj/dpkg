@@ -100,9 +100,9 @@ sub add_diff_file {
     # Generate diff
     my $diffgen;
     my $diff_pid = spawn(
-        'exec' => [ 'diff', '-u', @options, '--', $old, $new ],
-        'env' => { LC_ALL => 'C', LANG => 'C', TZ => 'UTC0' },
-        'to_pipe' => \$diffgen
+        exec => [ 'diff', '-u', @options, '--', $old, $new ],
+        env => { LC_ALL => 'C', LANG => 'C', TZ => 'UTC0' },
+        to_pipe => \$diffgen,
     );
     # Check diff and write it in patch file
     my $difflinefound = 0;
@@ -538,15 +538,15 @@ sub apply {
     $self->ensure_open("r");
     my ($stdout, $stderr) = ('', '');
     spawn(
-	'exec' => [ 'patch', @{$opts{"options"}} ],
-	'chdir' => $destdir,
-	'env' => { LC_ALL => 'C', LANG => 'C' },
-	'delete_env' => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
-	'wait_child' => 1,
-	'nocheck' => 1,
-	'from_handle' => $self->get_filehandle(),
-	'to_string' => \$stdout,
-	'error_to_string' => \$stderr,
+	exec => [ 'patch', @{$opts{"options"}} ],
+	chdir => $destdir,
+	env => { LC_ALL => 'C', LANG => 'C' },
+	delete_env => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
+	wait_child => 1,
+	nocheck => 1,
+	from_handle => $self->get_filehandle(),
+	to_string => \$stdout,
+	error_to_string => \$stderr,
     );
     if ($?) {
 	print STDOUT $stdout;
@@ -589,13 +589,13 @@ sub check_apply {
     $self->ensure_open("r");
     my $error;
     my $patch_pid = spawn(
-	'exec' => [ 'patch', @{$opts{"options"}} ],
-	'chdir' => $destdir,
-	'env' => { LC_ALL => 'C', LANG => 'C' },
-	'delete_env' => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
-	'from_handle' => $self->get_filehandle(),
-        'to_file' => '/dev/null',
-        'error_to_file' => '/dev/null',
+	exec => [ 'patch', @{$opts{"options"}} ],
+	chdir => $destdir,
+	env => { LC_ALL => 'C', LANG => 'C' },
+	delete_env => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
+	from_handle => $self->get_filehandle(),
+	to_file => '/dev/null',
+	error_to_file => '/dev/null',
     );
     wait_child($patch_pid, nocheck => 1);
     my $exit = WEXITSTATUS($?);

@@ -37,7 +37,7 @@ if (get_build_arch() ne get_host_arch()) {
 sub new {
     my $this = shift;
     my $class = ref($this) || $this;
-    my $self = { 'objects' => {} };
+    my $self = { objects => {} };
     bless $self, $class;
     return $self;
 }
@@ -95,7 +95,7 @@ sub has_object {
 		$opts{"error_to_file"} = "/dev/null";
 	    }
 	    $pid = spawn(exec => [ $OBJDUMP, "-a", "--", $file ],
-			 env => { "LC_ALL" => "C" },
+			 env => { LC_ALL => "C" },
 			 to_pipe => \$output, %opts);
 	    while (<$output>) {
 		chomp;

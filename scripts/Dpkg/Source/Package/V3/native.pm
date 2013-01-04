@@ -91,7 +91,7 @@ sub do_build {
     my $tar = Dpkg::Source::Archive->new(filename => $newtar,
                 compression => compression_guess_from_filename($tarname),
                 compression_level => $self->{'options'}{'comp_level'});
-    $tar->create(options => \@tar_ignore, 'chdir' => $dirbase);
+    $tar->create(options => \@tar_ignore, chdir => $dirbase);
     $tar->add_directory($dirname);
     $tar->finish();
     rename($newtar, $tarname) ||
