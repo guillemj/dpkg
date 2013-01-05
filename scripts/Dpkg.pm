@@ -18,7 +18,7 @@ use warnings;
 
 our $VERSION = '1.01';
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT_OK = qw($PROGNAME $PROGVERSION $CONFDIR $ADMINDIR $LIBDIR $DATADIR);
 our @EXPORT = qw($version $progname $admindir $dpkglibdir $pkgdatadir);
 

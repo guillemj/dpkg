@@ -60,7 +60,7 @@ BEGIN {
 	}
 }
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT=qw(_g P_ textdomain ngettext);
 
 1;

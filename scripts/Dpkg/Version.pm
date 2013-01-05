@@ -26,7 +26,7 @@ our $VERSION = '1.00';
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT = qw(version_compare version_compare_relation
                  version_normalize_relation version_compare_string
                  version_compare_part version_split_digits version_check

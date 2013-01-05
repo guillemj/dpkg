@@ -24,7 +24,7 @@ our $VERSION = '1.00';
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT = qw(spawn wait_child);
 
 =encoding utf8

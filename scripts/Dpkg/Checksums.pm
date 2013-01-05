@@ -26,7 +26,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT = qw(checksums_get_list checksums_is_supported
 		 checksums_get_property);
 

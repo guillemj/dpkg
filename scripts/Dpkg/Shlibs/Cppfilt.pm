@@ -20,7 +20,7 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use base 'Exporter';
+use Exporter qw(import);
 
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;

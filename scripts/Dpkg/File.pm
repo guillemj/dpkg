@@ -25,7 +25,7 @@ use Fcntl qw(:flock);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT = qw(file_lock file_slurp);
 
 sub file_lock($$) {

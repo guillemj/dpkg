@@ -56,7 +56,7 @@ use Dpkg::Arch qw(get_host_arch get_build_arch);
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT = qw(deps_concat deps_parse deps_eval_implication deps_compare);
 
 # Some factorized function

@@ -20,7 +20,7 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT_OK = qw(@librarypaths find_library);
 
 use File::Spec;

@@ -20,7 +20,7 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch
                     get_build_arch get_host_arch get_gcc_host_gnu_type
                     get_valid_arches debarch_eq debarch_is debarch_is_wildcard

@@ -26,7 +26,7 @@ use Dpkg::Gettext;
 use Dpkg::BuildEnv;
 use Dpkg::Control::Hash;
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file
                     get_vendor_dir get_vendor_object run_vendor_hook);
 

@@ -20,9 +20,9 @@ use warnings;
 
 our $VERSION = '1.00';
 
-use Exporter;
+use Exporter qw(import);
 use Dpkg::Changelog::Entry;
-use base qw(Exporter Dpkg::Changelog::Entry);
+use base qw(Dpkg::Changelog::Entry);
 our @EXPORT_OK = qw($regex_header $regex_trailer find_closes);
 
 use Date::Parse;

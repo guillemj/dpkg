@@ -21,7 +21,7 @@ use warnings;
 
 our $VERSION = '1.02';
 
-use base qw(Exporter);
+use Exporter qw(import);
 use File::Spec;
 use Cwd qw(realpath);
 

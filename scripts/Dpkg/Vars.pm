@@ -25,7 +25,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Package;
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT = qw($sourcepackage set_source_package);
 
 our $sourcepackage;

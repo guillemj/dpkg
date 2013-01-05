@@ -21,7 +21,7 @@ our $VERSION = '0.01';
 use Dpkg qw();
 use Dpkg::Gettext;
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT = qw(report_options info warning error errormsg
                  syserr internerr subprocerr usageerr syntaxerr);
 our @EXPORT_OK = qw(report);

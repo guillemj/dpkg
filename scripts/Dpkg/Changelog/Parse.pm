@@ -41,7 +41,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Changelog;
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT = qw(changelog_parse);
 
 =head3 my $fields = changelog_parse(%opt)

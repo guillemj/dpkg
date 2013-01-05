@@ -23,7 +23,7 @@ our $VERSION = '0.01';
 
 use Dpkg::Gettext;
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT = qw(pkg_name_is_illegal);
 
 sub pkg_name_is_illegal($) {

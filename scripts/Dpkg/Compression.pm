@@ -23,7 +23,7 @@ our $VERSION = '1.01';
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-use base qw(Exporter);
+use Exporter qw(import);
 our @EXPORT = qw($compression_re_file_ext compression_get_list
 		 compression_is_supported compression_get_property
 		 compression_guess_from_filename
