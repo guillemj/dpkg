@@ -48,7 +48,7 @@ our $VERSION = '1.00';
 use Dpkg::Gettext;
 use Dpkg::File;
 use Dpkg::Changelog qw(:util);
-use base qw(Dpkg::Changelog);
+use parent qw(Dpkg::Changelog);
 use Dpkg::Changelog::Entry::Debian qw($regex_header $regex_trailer);
 
 use constant {

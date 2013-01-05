@@ -28,7 +28,7 @@ use Dpkg::ErrorHandling;
 # Dpkg::Control::Fields itself (Dpkg::Vendor)
 # That's why field_capitalize is duplicated
 
-use base qw(Dpkg::Interface::Storable);
+use parent qw(Dpkg::Interface::Storable);
 
 use overload
     '%{}' => sub { ${$_[0]}->{fields} },
@@ -401,7 +401,7 @@ package Dpkg::Control::Hash::Tie;
 use Dpkg::Checksums;
 
 use Tie::Hash;
-use base qw(Tie::ExtraHash);
+use parent -norequire, qw(Tie::ExtraHash);
 
 sub field_capitalize($) {
     my $field = lc(shift);

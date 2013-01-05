@@ -21,7 +21,7 @@ use warnings;
 our $VERSION = '0.01';
 
 # Based on wig&pen implementation
-use base 'Dpkg::Source::Package::V2';
+use parent qw(Dpkg::Source::Package::V2);
 
 use Dpkg;
 use Dpkg::Gettext;

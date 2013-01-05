@@ -24,7 +24,7 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use base qw(Dpkg::Vendor::Default);
+use parent qw(Dpkg::Vendor::Default);
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

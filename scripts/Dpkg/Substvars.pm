@@ -29,7 +29,7 @@ use Dpkg::Gettext;
 use Carp;
 use POSIX qw(:errno_h);
 
-use base qw(Dpkg::Interface::Storable);
+use parent qw(Dpkg::Interface::Storable);
 
 my $maxsubsts = 50;
 

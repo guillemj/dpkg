@@ -36,7 +36,7 @@ use Fcntl ':mode';
 #XXX: Needed for sub-second timestamps, require recent perl
 #use Time::HiRes qw(stat);
 
-use base 'Dpkg::Compression::FileHandle';
+use parent qw(Dpkg::Compression::FileHandle);
 
 sub create {
     my ($self, %opts) = @_;

@@ -23,7 +23,7 @@ our $VERSION = '1.01';
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
-use base qw(Dpkg::Interface::Storable);
+use parent qw(Dpkg::Interface::Storable);
 
 use overload
     '@{}' => sub { return [ $_[0]->get_options() ] },

@@ -24,7 +24,7 @@ use Dpkg::Control;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-use base qw(Dpkg::Interface::Storable);
+use parent qw(Dpkg::Interface::Storable);
 
 use overload
     '@{}' => sub { return [ $_[0]->{source}, @{$_[0]->{packages}} ] };

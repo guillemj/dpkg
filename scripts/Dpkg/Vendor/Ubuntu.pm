@@ -31,7 +31,7 @@ use Dpkg::Control::Types;
 use Dpkg::BuildOptions;
 use Dpkg::Arch qw(debarch_eq get_host_arch);
 
-use base 'Dpkg::Vendor::Debian';
+use parent qw(Dpkg::Vendor::Debian);
 
 =encoding utf8
 

@@ -24,7 +24,7 @@ use warnings;
 
 our $VERSION = '0.02';
 
-use base 'Dpkg::Source::Package';
+use parent qw(Dpkg::Source::Package);
 
 use Cwd qw(abs_path getcwd);
 use File::Basename;

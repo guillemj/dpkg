@@ -26,7 +26,7 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use base 'Dpkg::Source::Package';
+use parent qw(Dpkg::Source::Package);
 
 use Cwd;
 use File::Basename;

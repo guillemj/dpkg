@@ -28,7 +28,7 @@ use Dpkg::Control::Fields;
 
 use Exporter qw(import);
 
-use base qw(Dpkg::Control::Hash);
+use parent qw(Dpkg::Control::Hash);
 
 our @EXPORT = qw(CTRL_UNKNOWN CTRL_INFO_SRC CTRL_INFO_PKG CTRL_INDEX_SRC
                  CTRL_INDEX_PKG CTRL_PKG_SRC CTRL_PKG_DEB CTRL_FILE_CHANGES

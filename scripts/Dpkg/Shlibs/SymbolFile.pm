@@ -28,7 +28,7 @@ use Dpkg::Control::Fields;
 use Dpkg::Shlibs::Symbol;
 use Dpkg::Arch qw(get_host_arch);
 
-use base qw(Dpkg::Interface::Storable);
+use parent qw(Dpkg::Interface::Storable);
 
 my %blacklist = (
     __bss_end__ => 1,			# arm

@@ -22,7 +22,7 @@ our $VERSION = '1.00';
 
 use Exporter qw(import);
 use Dpkg::Changelog::Entry;
-use base qw(Dpkg::Changelog::Entry);
+use parent qw(Dpkg::Changelog::Entry);
 our @EXPORT_OK = qw($regex_header $regex_trailer find_closes);
 
 use Date::Parse;

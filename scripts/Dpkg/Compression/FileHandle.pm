@@ -26,7 +26,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use POSIX qw(:signal_h :sys_wait_h);
 
-use base qw(FileHandle Tie::Handle);
+use parent qw(FileHandle Tie::Handle);
 
 # Useful reference to understand some kludges required to
 # have the object behave like a filehandle

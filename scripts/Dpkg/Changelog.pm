@@ -48,7 +48,7 @@ use Dpkg::Index;
 use Dpkg::Version;
 use Dpkg::Vendor qw(run_vendor_hook);
 
-use base qw(Dpkg::Interface::Storable);
+use parent qw(Dpkg::Interface::Storable);
 
 use overload
     '@{}' => sub { return $_[0]->{data} };

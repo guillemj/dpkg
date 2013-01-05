@@ -551,7 +551,7 @@ use Dpkg::Version;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-use base qw(Dpkg::Interface::Storable);
+use parent qw(Dpkg::Interface::Storable);
 
 sub new {
     my ($this, $arg, %opts) = @_;
@@ -834,7 +834,7 @@ use warnings;
 
 use Dpkg::ErrorHandling;
 
-use base qw(Dpkg::Interface::Storable);
+use parent qw(Dpkg::Interface::Storable);
 
 sub new {
     my $this = shift;
@@ -924,7 +924,7 @@ The output method uses ", " to join the list of sub-dependencies.
 use strict;
 use warnings;
 
-use base qw(Dpkg::Deps::Multiple);
+use parent -norequire, qw(Dpkg::Deps::Multiple);
 
 sub output {
     my ($self, $fh) = @_;
@@ -1029,7 +1029,7 @@ The output method uses " | " to join the list of sub-dependencies.
 use strict;
 use warnings;
 
-use base qw(Dpkg::Deps::Multiple);
+use parent -norequire, qw(Dpkg::Deps::Multiple);
 
 sub output {
     my ($self, $fh) = @_;
@@ -1137,7 +1137,7 @@ It uses $simple_dep->merge_union($other_dep) to get its job done.
 use strict;
 use warnings;
 
-use base qw(Dpkg::Deps::Multiple);
+use parent -norequire, qw(Dpkg::Deps::Multiple);
 
 sub output {
     my ($self, $fh) = @_;
