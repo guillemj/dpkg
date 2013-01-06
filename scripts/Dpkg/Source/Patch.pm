@@ -384,7 +384,7 @@ sub analyze {
     $_ = _getline($self);
 
   HUNK:
-    while (defined($_) || not eof($self)) {
+    while (defined($_) or not eof($self)) {
 	my (%path, %fn);
 	# skip comments leading up to patch (if any)
 	while (1) {
@@ -451,7 +451,7 @@ sub analyze {
 	my $fn = _intuit_file_patched($fn{old}, $fn{new});
 
 	my $dirname = $fn;
-	if ($dirname =~ s{/[^/]+$}{} && not -d $dirname) {
+	if ($dirname =~ s{/[^/]+$}{} and not -d $dirname) {
 	    $dirtocreate{$dirname} = 1;
 	}
 
@@ -561,7 +561,7 @@ sub apply {
     # and remove .dpkg-orig files
     my @files = keys %{$analysis->{filepatched}};
     my $now = $opts{timestamp};
-    $now ||= fs_time($files[0]) if $opts{force_timestamp} and scalar @files;
+    $now ||= fs_time($files[0]) if $opts{force_timestamp} && scalar @files;
     foreach my $fn (@files) {
 	if ($opts{force_timestamp}) {
 	    utime($now, $now, $fn) || $! == ENOENT ||

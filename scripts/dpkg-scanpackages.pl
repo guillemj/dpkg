@@ -156,7 +156,7 @@ sub load_override_extra
     GetOptions(\%options, @options_spec);
 }
 
-if (not @ARGV >= 1 && @ARGV <= 3) {
+if (not (@ARGV >= 1 and @ARGV <= 3)) {
     usageerr(_g('one to three arguments expected'));
 }
 

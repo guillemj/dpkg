@@ -106,7 +106,7 @@ sub getarch($$)
     my ($filename, $fields) = @_;
 
     my $arch = $fields->{Architecture};
-    if (!$fields->{Architecture} and $options{architecture}) {
+    if (not $fields->{Architecture} and $options{architecture}) {
         $arch = get_host_arch();
         warning(_g("assuming architecture '%s' for '%s'"), $arch, $filename);
     }
@@ -205,7 +205,7 @@ sub move($)
 
         if (filesame($newname, $filename)) {
             warning(_g("skipping '%s'"), $filename);
-        } elsif (-f $newname and !$options{overwrite}) {
+        } elsif (-f $newname and not $options{overwrite}) {
             warning(_g("cannot move '%s' to existing file"), $filename);
         } elsif (system(@command, $filename, $newname) == 0) {
             info(_g("moved '%s' to '%s'"), basename($filename), $newname);

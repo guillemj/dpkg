@@ -358,7 +358,7 @@ foreach my $file (keys %exec) {
 		    $print_name =~ s/\@Base$//;
 		    unless ($sym->{weak}) {
 			if ($debug or ($in_public_dir and $nb_warnings < 10)
-                            or (!$in_public_dir and $nb_warnings < 1))
+                            or (not $in_public_dir and $nb_warnings < 1))
                         {
                             if ($in_public_dir) {
 			        warning(_g('symbol %s used by %s found in none of the ' .

@@ -85,6 +85,7 @@ my @policies = qw(
     ValuesAndExpressions::ProhibitInterpolationOfLiterals
     ValuesAndExpressions::ProhibitLongChainsOfMethodCalls
     ValuesAndExpressions::ProhibitMismatchedOperators
+    ValuesAndExpressions::ProhibitMixedBooleanOperators
     ValuesAndExpressions::ProhibitQuotesAsQuotelikeOperatorDelimiters
     ValuesAndExpressions::ProhibitSpecialLiteralHeredocTerminator
     ValuesAndExpressions::ProhibitVersionStrings

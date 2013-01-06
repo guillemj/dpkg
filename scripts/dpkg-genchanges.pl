@@ -424,7 +424,7 @@ if (!is_binaryonly) {
     }
 
     my $ext = $compression_re_file_ext;
-    if ((($sourcestyle =~ m/i/ && not($include_tarball)) ||
+    if ((($sourcestyle =~ m/i/ && !$include_tarball) ||
 	 $sourcestyle =~ m/d/) &&
 	grep(m/\.(debian\.tar|diff)\.$ext$/, $checksums->get_files()))
     {

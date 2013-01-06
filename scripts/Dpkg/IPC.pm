@@ -151,14 +151,14 @@ sub _sanity_check_opts {
 
     foreach (qw(to_string error_to_string from_string)) {
 	if (exists $opts{$_} and
-	    (!ref($opts{$_}) or ref($opts{$_}) ne 'SCALAR')) {
+	    (not ref($opts{$_}) or ref($opts{$_}) ne 'SCALAR')) {
 	    internerr("parameter $_ must be a scalar reference");
 	}
     }
 
     foreach (qw(to_pipe error_to_pipe from_pipe)) {
 	if (exists $opts{$_} and
-	    (!ref($opts{$_}) or (ref($opts{$_}) ne 'SCALAR' and
+	    (not ref($opts{$_}) or (ref($opts{$_}) ne 'SCALAR' and
 				 not $opts{$_}->isa('IO::Handle')))) {
 	    internerr("parameter $_ must be a scalar reference or an IO::Handle object");
 	}
