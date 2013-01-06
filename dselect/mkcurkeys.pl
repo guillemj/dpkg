@@ -85,12 +85,14 @@ for (my $i = 33; $i <= 126; $i++) {
     p();
 }
 
+## no critic (BuiltinFunctions::ProhibitReverseSortBlock)
 for $k (sort {
     looks_like_number($a) ?
         looks_like_number($b) ? $a <=> $b : -1
             : looks_like_number($b) ? 1 :
                 $a cmp $b
                 } keys %base) {
+    ## use critic
     $v= $base{$k};
     $v= $name{$k} if defined($name{$k});
     $v= $over{$k} if defined($over{$k});

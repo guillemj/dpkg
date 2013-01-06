@@ -166,10 +166,12 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
 		       { to => '1:2.0~rc2-1sarge2' }, 3,
 		       '1:2.0~rc2-1sarge2/1:2.0~rc2-1sarge1/1.5-1',
 		       'to => "1:2.0~rc2-1sarge2"' );
+	## no critic (ControlStructures::ProhibitUntilBlocks)
 	check_options( $changes, \@data,
 		       { until => '1:2.0~rc2-1sarge2' }, 2,
 		       '1:2.0~rc2-1sarge1/1.5-1',
 		       'until => "1:2.0~rc2-1sarge2"' );
+	## use critic
 	#TODO: test combinations
     }
     if ($file eq "$datadir/fields") {

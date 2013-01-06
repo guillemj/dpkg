@@ -131,9 +131,11 @@ endif
 
 test_cases = \
 	test/000_pod.t \
+	test/100_critic.t \
 	$(nil)
 
 test_data = \
+	test/100_critic/perlcriticrc \
 	$(nil)
 
 include $(top_srcdir)/Makecheck.am

@@ -71,7 +71,7 @@ our $diff_ignore_default_regexp = '
 # Take out comments and newlines
 $diff_ignore_default_regexp =~ s/^#.*$//mg;
 $diff_ignore_default_regexp =~ s/\n//sg;
-no warnings 'qw';
+no warnings 'qw'; ## no critic (TestingAndDebugging::ProhibitNoWarnings)
 our @tar_ignore_default_pattern = qw(
 *.a
 *.la

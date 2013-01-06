@@ -1,0 +1,69 @@
+# Perl Critic configuration file
+severity = 1
+verbose = %f %l:%c (Severity: %s)\n  %P (%s)\n  near '%r'\n%d\n
+
+#[RegularExpressions::RequireExtendedFormatting]
+#minimum_regex_length_to_complain_about = 60
+
+# Complex is not always bad.
+[-BuiltinFunctions::ProhibitComplexMappings]
+# Needed when generating code.
+[-BuiltinFunctions::ProhibitStringyEval]
+# FIXME: Bogus check.
+[-Documentation::PodSpelling]
+# While this might be good for performance, it is bad for keeping docs updated.
+[-Documentation::RequirePodAtEnd]
+# FIXME: Bogus check.
+[-Documentation::RequirePodLinksIncludeText]
+# TODO: Standardize sections, but the ones from this are not usable.
+[-Documentation::RequirePodSections]
+# Too many false positives.
+[-CodeLayout::RequireTidyCode]
+# Forcing this just turns into noise (depending on the context, it makes sense).
+[-CodeLayout::RequireTrailingCommas]
+# These are fine.
+[-ControlStructures::ProhibitCascadingIfElse]
+# These are fine, too many in the code base anyway.
+[-ControlStructures::ProhibitPostfixControls]
+# These are fine, usually as long as they are not double negations.
+[-ControlStructures::ProhibitUnlessBlocks]
+# FIXME: Too many false positives.
+[-ControlStructures::ProhibitUnreachableCode]
+# TODO: Check it out, add new Dpkg::Program module?
+[-InputOutput::ProhibitBacktickOperators]
+# Needed, using <>/<@ARGV> is not correct, Prompt is not a core module.
+[-InputOutput::ProhibitExplicitStdin]
+# TODO: Maybe, some of these are part of the public/current API.
+[-Modules::ProhibitAutomaticExportation]
+# Complex is not always bad.
+[-Modules::ProhibitExcessMainComplexity]
+# FIXME: Too many false positives; non-modules all trigger.
+[-Modules::RequireVersionVar]
+# These are fine.
+[-NamingConventions::ProhibitAmbiguousNames]
+# When . is used in the code it means what it does.
+[-RegularExpressions::RequireDotMatchAnything]
+# When ^ or $ are used in the code they mean what they do.
+[-RegularExpressions::RequireLineBoundaryMatching]
+# TODO: While valid, these are part of the public/current API.
+[-Subroutines::ProhibitBuiltinHomonyms]
+# Needed.
+[-Subroutines::ProhibitSubroutinePrototypes]
+# Adding these seems like more noise.
+[-Subroutines::RequireFinalReturn]
+# Readers need to know perl, English module is worse.
+[-Variables::ProhibitPunctuationVars]
+# Readers need to know perl.
+[-Variables::RequireInitializationForLocalVars]
+# FIXME: Too many false positives; on ::main and for $ENV, $SIG, $?, $a, $b.
+[-Variables::RequireLocalizedPunctuationVars]
+# Readonly is not a core module.
+[-ValuesAndExpressions::ProhibitConstantPragma]
+# TODO: Check it out, using other quotes might be less readable and uniform.
+[-ValuesAndExpressions::ProhibitEmptyQuotes]
+# Used for help output.
+[-ValuesAndExpressions::ProhibitImplicitNewlines]
+# Octals are fine.
+[-ValuesAndExpressions::ProhibitLeadingZeros]
+# TODO: Check it out, some magic numbers are fine, octals for example.
+[-ValuesAndExpressions::ProhibitMagicNumbers]
