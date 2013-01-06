@@ -13,15 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+use strict;
+use warnings;
+
 use Test::More tests => 3;
 
 use Dpkg::IPC;
 use File::Spec;
 use File::Compare;
 use File::Temp qw(tempfile);
-
-use strict;
-use warnings;
 
 my $srcdir = $ENV{srcdir} || '.';
 my $datadir = "$srcdir/t/910_merge_changelogs";

@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More;
-
 use strict;
 use warnings;
+
+use Test::More;
 
 eval 'use Test::Pod 1.00';
 plan skip_all => 'Test::Pod 1.00 required for testing POD' if $@;

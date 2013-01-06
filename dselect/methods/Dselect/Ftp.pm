@@ -12,13 +12,13 @@
 
 package Dselect::Ftp;
 
-use Net::FTP;
-use Data::Dumper;
-
 use strict;
 use warnings;
 
 use Exporter qw(import);
+
+use Net::FTP;
+use Data::Dumper;
 
 our @EXPORT = qw(%config yesno do_connect do_mdtm add_site edit_site
                  edit_config read_config store_config view_mirrors nb);

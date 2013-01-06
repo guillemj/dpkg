@@ -13,11 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 24;
-use Dpkg::ErrorHandling;
-
 use strict;
 use warnings;
+
+use Test::More tests => 24;
+use Dpkg::ErrorHandling;
 
 use_ok('Dpkg::BuildOptions');
 

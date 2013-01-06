@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 16;
-
 use strict;
 use warnings;
+
+use Test::More tests => 16;
 
 use_ok('Dpkg::Path', 'canonpath', 'resolve_symlink',
        'check_files_are_the_same', 'get_pkg_root_dir',

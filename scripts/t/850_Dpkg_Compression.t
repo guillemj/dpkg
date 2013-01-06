@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 13;
-
 use strict;
 use warnings;
+
+use Test::More tests => 13;
 
 use_ok('Dpkg::Compression');
 use_ok('Dpkg::Compression::FileHandle');

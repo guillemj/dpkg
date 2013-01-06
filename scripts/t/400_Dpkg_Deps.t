@@ -13,12 +13,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 20;
-
 use strict;
 use warnings;
 
+use Test::More tests => 20;
 use Dpkg::Arch qw(get_host_arch);
+
 use_ok('Dpkg::Deps');
 
 my $field_multiline = ' , , libgtk2.0-common (= 2.10.13-1)  , libatk1.0-0 (>=

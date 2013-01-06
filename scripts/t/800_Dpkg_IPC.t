@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 8;
-
 use strict;
 use warnings;
+
+use Test::More tests => 8;
 use File::Temp qw(tempfile);
 
 use_ok('Dpkg::IPC');
