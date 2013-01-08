@@ -273,6 +273,11 @@ Set to 0 to completely ignore that information.
 Define the host architecture. By default it uses
 Dpkg::Arch::get_host_arch() to identify the proper architecture.
 
+=item build_arch (defaults to the current architecture)
+
+Define the build architecture. By default it uses
+Dpkg::Arch::get_build_arch() to identify the proper architecture.
+
 =item reduce_arch (defaults to 0)
 
 If set to 1, ignore dependencies that do not concern the current host
@@ -300,6 +305,7 @@ sub deps_parse {
     $options{use_arch} = 1 if not exists $options{use_arch};
     $options{reduce_arch} = 0 if not exists $options{reduce_arch};
     $options{host_arch} = get_host_arch() if not exists $options{host_arch};
+    $options{build_arch} = get_build_arch() if not exists $options{build_arch};
     $options{union} = 0 if not exists $options{union};
     $options{build_dep} = 0 if not exists $options{build_dep};
 
@@ -313,6 +319,8 @@ sub deps_parse {
         foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
 	    my $dep_simple = Dpkg::Deps::Simple->new($dep_or, host_arch =>
 	                                             $options{host_arch},
+	                                             build_arch =>
+	                                             $options{build_arch},
 	                                             build_dep =>
 	                                             $options{build_dep});
 	    if (not defined $dep_simple->{package}) {
