@@ -309,7 +309,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
             @sourcearch = ('any');
         }
     } else {
-        # Minimize arch list, by remoing arches already covered by wildcards
+        # Minimize arch list, by removing arches already covered by wildcards
         my @arch_wildcards = grep(debarch_is_wildcard($_), @sourcearch);
         my @mini_sourcearch = @arch_wildcards;
         foreach my $arch (@sourcearch) {
