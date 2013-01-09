@@ -209,10 +209,11 @@ foreach (keys %{$pkg}) {
 			     scalar(@invalid_archs)),
 		    join("' `", @invalid_archs))
 		if @invalid_archs >= 1;
-	    grep(debarch_is($host_arch, $_), @archlist) ||
+	    if (! grep(debarch_is($host_arch, $_), @archlist)) {
 		error(_g("current host architecture '%s' does not " .
 			 "appear in package's architecture list (%s)"),
 		      $host_arch, "@archlist");
+	    }
 	    $fields->{$_} = $host_arch;
 	}
     } else {

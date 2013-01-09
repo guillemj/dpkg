@@ -40,6 +40,7 @@ my @policies = qw(
     BuiltinFunctions::ProhibitStringySplit
     BuiltinFunctions::ProhibitUniversalCan
     BuiltinFunctions::ProhibitUniversalIsa
+    BuiltinFunctions::ProhibitVoidGrep
     BuiltinFunctions::RequireGlobFunction
     BuiltinFunctions::RequireSimpleSortBlock
     ClassHierarchies::ProhibitAutoloading
