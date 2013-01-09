@@ -24,6 +24,7 @@ our $VERSION = '0.01';
 use Dpkg::Gettext;
 use Dpkg::Deps;
 use Dpkg::ErrorHandling;
+use Dpkg::Util qw(:list);
 use Dpkg::Version;
 use Storable qw();
 use Dpkg::Shlibs::Cppfilt;
@@ -485,7 +486,7 @@ sub matches_rawname {
     if ($self->is_pattern()) {
 	# Process pattern tags in the order they were specified.
 	for my $tag (@{$self->{tagorder}}) {
-	    if (grep { $tag eq $_ } ALIAS_TYPES) {
+	    if (any { $tag eq $_ } ALIAS_TYPES) {
 		$ok = not not ($target = $self->convert_to_alias($target, $tag));
 	    } elsif ($tag eq 'regex') {
 		# Symbol name is a regex. Match it against the target

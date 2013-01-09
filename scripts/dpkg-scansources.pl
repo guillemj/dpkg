@@ -25,6 +25,7 @@ use Getopt::Long qw(:config posix_default bundling no_ignorecase);
 use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Util qw(:list);
 use Dpkg::Control;
 use Dpkg::Checksums;
 use Dpkg::Compression::FileHandle;
@@ -271,7 +272,7 @@ sub process_dsc {
     my $maintainer_override = $override{$binary[0]};
     if ($maintainer_override && defined $maintainer_override->[O_MAINT_TO]) {
         if (!defined $maintainer_override->[O_MAINT_FROM] ||
-            grep { $fields->{Maintainer} eq $_ }
+            any { $fields->{Maintainer} eq $_ }
                 @{ $maintainer_override->[O_MAINT_FROM] }) {
             $fields->{Maintainer} = $maintainer_override->[O_MAINT_TO];
         }

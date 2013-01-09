@@ -26,6 +26,7 @@ use parent qw(Dpkg::Source::Package::V2);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Util qw(:list);
 use Dpkg::Version;
 use Dpkg::Source::Patch;
 use Dpkg::Source::Functions qw(erasedir fs_time);
@@ -182,7 +183,7 @@ sub do_build {
     my $version = $quilt->get_db_version();
 
     if (defined($version) and $version != 2) {
-        if (scalar grep { $version eq $_ }
+        if (any { $version eq $_ }
             @{$self->{options}{allow_version_of_quilt_db}})
         {
             warning(_g('unsupported version of the quilt metadata: %s'), $version);

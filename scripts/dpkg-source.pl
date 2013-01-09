@@ -31,6 +31,7 @@ use warnings;
 use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Util qw(:list);
 use Dpkg::Arch qw(debarch_eq debarch_is debarch_is_wildcard);
 use Dpkg::Deps;
 use Dpkg::Compression;
@@ -299,10 +300,10 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
     unless (scalar(@pkglist)) {
 	error(_g("%s doesn't list any binary package"), $controlfile);
     }
-    if (grep($_ eq 'any', @sourcearch)) {
+    if (any { $_ eq 'any' } @sourcearch) {
         # If we encounter one 'any' then the other arches become insignificant
         # except for 'all' that must also be kept
-        if (grep($_ eq 'all', @sourcearch)) {
+        if (any { $_ eq 'all' } @sourcearch) {
             @sourcearch = qw(any all);
         } else {
             @sourcearch = qw(any);
@@ -312,7 +313,7 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
         my @arch_wildcards = grep(debarch_is_wildcard($_), @sourcearch);
         my @mini_sourcearch = @arch_wildcards;
         foreach my $arch (@sourcearch) {
-            if (!grep(debarch_is($arch, $_), @arch_wildcards)) {
+            if (none { debarch_is($arch, $_) } @arch_wildcards) {
                 push @mini_sourcearch, $arch;
             }
         }

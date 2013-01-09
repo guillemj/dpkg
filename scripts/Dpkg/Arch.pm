@@ -34,6 +34,7 @@ use POSIX qw(:errno_h);
 use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Util qw(:list);
 use Dpkg::BuildEnv;
 
 my (@cpu, @os);
@@ -436,7 +437,7 @@ sub debarch_is_wildcard($)
     my @triplet = debwildcard_to_debtriplet($arch);
 
     return 0 if scalar @triplet != 3;
-    return 1 if (grep { $_ eq 'any' } @triplet);
+    return 1 if any { $_ eq 'any' } @triplet;
     return 0;
 }
 

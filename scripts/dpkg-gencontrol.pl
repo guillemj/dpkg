@@ -26,6 +26,7 @@ use POSIX qw(:errno_h :fcntl_h);
 use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Util qw(:list);
 use Dpkg::File;
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Package;
@@ -209,7 +210,7 @@ foreach (keys %{$pkg}) {
 			     scalar(@invalid_archs)),
 		    join("' `", @invalid_archs))
 		if @invalid_archs >= 1;
-	    if (! grep(debarch_is($host_arch, $_), @archlist)) {
+	    if (none { debarch_is($host_arch, $_) } @archlist) {
 		error(_g("current host architecture '%s' does not " .
 			 "appear in package's architecture list (%s)"),
 		      $host_arch, "@archlist");

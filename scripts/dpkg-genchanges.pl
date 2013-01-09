@@ -26,6 +26,7 @@ use Encode;
 use POSIX qw(:errno_h);
 use Dpkg qw();
 use Dpkg::Gettext;
+use Dpkg::Util qw(:list);
 use Dpkg::File;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
@@ -300,7 +301,7 @@ foreach my $pkg ($control->get_packages()) {
     if (not defined($p2f{$p})) {
 	# No files for this package... warn if it's unexpected
 	if ((debarch_eq('all', $a) and ($include & ARCH_INDEP)) ||
-	    (grep(debarch_is($host_arch, $_), split(/\s+/, $a))
+	    ((any { debarch_is($host_arch, $_) } split /\s+/, $a)
 		  and ($include & ARCH_DEP))) {
 	    warning(_g('package %s in control file but not in files list'),
 		    $p);
@@ -318,7 +319,7 @@ foreach my $pkg ($control->get_packages()) {
 	} elsif (m/^Priority$/) {
 	    $f2pricf{$_} = $v foreach (@f);
 	} elsif (m/^Architecture$/) {
-	    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))
+	    if ((any { debarch_is($host_arch, $_) } split /\s+/, $v)
 		and ($include & ARCH_DEP)) {
 		$v = $host_arch;
 	    } elsif (!debarch_eq('all', $v)) {
@@ -426,7 +427,7 @@ if (!is_binaryonly) {
     my $ext = $compression_re_file_ext;
     if ((($sourcestyle =~ m/i/ && !$include_tarball) ||
 	 $sourcestyle =~ m/d/) &&
-	grep(m/\.(debian\.tar|diff)\.$ext$/, $checksums->get_files()))
+	any { m/\.(debian\.tar|diff)\.$ext$/ } $checksums->get_files())
     {
 	$origsrcmsg= _g('not including original source code in upload');
 	foreach my $f (grep m/\.orig(-.+)?\.tar\.$ext$/, $checksums->get_files()) {
@@ -434,7 +435,7 @@ if (!is_binaryonly) {
 	}
     } else {
 	if ($sourcestyle =~ m/d/ &&
-	    !grep(m/\.(debian\.tar|diff)\.$ext$/, $checksums->get_files())) {
+	    none { m/\.(debian\.tar|diff)\.$ext$/ } $checksums->get_files()) {
 	    warning(_g('ignoring -sd option for native Debian package'));
 	}
         $origsrcmsg= _g('including full source code in upload');

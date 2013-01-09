@@ -27,6 +27,7 @@ use Getopt::Long qw(:config posix_default bundling no_ignorecase);
 use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Util qw(:list);
 use Dpkg::Control;
 use Dpkg::Version;
 use Dpkg::Checksums;
@@ -106,7 +107,7 @@ sub load_override
 		    my $oldmaint = $1;
 		    my $newmaint = $2;
 		    my $debmaint = $$package{Maintainer};
-		    if (!grep($debmaint eq $_, split(m{\s*//\s*}, $oldmaint))) {
+		    if (none { $debmaint eq $_ } split m{\s*//\s*}, $oldmaint) {
 			push(@changedmaint,
 			     sprintf(_g('  %s (package says %s, not %s)'),
 			             $p, $$package{Maintainer}, $oldmaint));

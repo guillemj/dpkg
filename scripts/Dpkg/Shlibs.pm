@@ -28,6 +28,7 @@ use File::Spec;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Shlibs::Objdump;
+use Dpkg::Util qw(:list);
 use Dpkg::Path qw(resolve_symlink canonpath);
 use Dpkg::Arch qw(debarch_to_gnutriplet get_build_arch get_host_arch
                   gnutriplet_to_multiarch debarch_to_multiarch);
@@ -94,7 +95,7 @@ sub parse_ldso_conf {
 	} elsif (m{^\s*/}) {
 	    s/^\s+//;
 	    my $libdir = $_;
-	    unless (scalar grep { $_ eq $libdir } @librarypaths) {
+	    if (none { $_ eq $libdir } @librarypaths) {
 		push @librarypaths, $libdir;
 	    }
 	}
@@ -116,7 +117,7 @@ sub find_library {
 	# is /usr/lib64 -> /usr/lib on amd64.
 	if (-l $checkdir) {
 	    my $newdir = resolve_symlink($checkdir);
-	    if (grep { "$root$_" eq "$newdir" } (@rpath, @librarypaths)) {
+	    if (any { "$root$_" eq "$newdir" } (@rpath, @librarypaths)) {
 		$checkdir = $newdir;
 	    }
 	}

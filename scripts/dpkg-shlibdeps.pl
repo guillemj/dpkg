@@ -31,6 +31,7 @@ use File::Basename qw(dirname);
 use Dpkg qw();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Util qw(:list);
 use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
 		  check_files_are_the_same get_control_path);
 use Dpkg::Version;
@@ -202,7 +203,8 @@ foreach my $file (keys %exec) {
     my @soname_wo_symfile;
     foreach my $lib (keys %libfiles) {
 	my $soname = $libfiles{$lib};
-	if (not scalar(grep { $_ ne '' } @{$file2pkg->{$lib}})) {
+
+	if (none { $_ ne '' } @{$file2pkg->{$lib}}) {
 	    # The path of the library as calculated is not the
 	    # official path of a packaged file, try to fallback on
 	    # on the realpath() first, maybe this one is part of a package
@@ -211,7 +213,7 @@ foreach my $file (keys %exec) {
 		$file2pkg->{$lib} = $file2pkg->{$reallib};
 	    }
 	}
-	if (not scalar(grep { $_ ne '' } @{$file2pkg->{$lib}})) {
+	if (none { $_ ne '' } @{$file2pkg->{$lib}}) {
 	    # If the library is really not available in an installed package,
 	    # it's because it's in the process of being built
 	    # Empty package name will lead to consideration of symbols
@@ -316,7 +318,7 @@ foreach my $file (keys %exec) {
     my $in_public_dir = 1;
     if (my $relname = relative_to_pkg_root($file)) {
         my $parent_dir = '/' . dirname($relname);
-        $in_public_dir = (grep { $parent_dir eq $_ } @librarypaths) ? 1 : 0;
+        $in_public_dir = any { $parent_dir eq $_ } @librarypaths;
     } else {
         warning(_g('binaries to analyze should already be ' .
                    "installed in their package's directory"));
@@ -411,7 +413,7 @@ foreach my $file (keys %exec) {
 	unless ($soname_notfound{$soname} or $soname_used{$soname}) {
 	    # Ignore warning for libm.so.6 if also linked against libstdc++
 	    next if ($soname =~ /^libm\.so\.\d+$/ and
-		     scalar grep(/^libstdc\+\+\.so\.\d+/, @sonames));
+	             any { m/^libstdc\+\+\.so\.\d+/ } @sonames);
             next unless ($warnings & WARN_NOT_NEEDED);
 	    warning(_g('%s should not be linked against %s (it uses none of ' .
 	               "the library's symbols)"), $file, $soname);
@@ -423,8 +425,8 @@ foreach my $file (keys %exec) {
 # binaries that we have inspected)
 foreach my $soname (keys %global_soname_needed) {
     unless ($global_soname_notfound{$soname} or $global_soname_used{$soname}) {
-        next if ($soname =~ /^libm\.so\.\d+$/ and scalar(
-                 grep(/^libstdc\+\+\.so\.\d+/, keys %global_soname_needed)));
+        next if ($soname =~ /^libm\.so\.\d+$/ and
+                 any { m/^libstdc\+\+\.so\.\d+/ } keys %global_soname_needed);
         next unless ($warnings & WARN_DEP_AVOIDABLE);
         warning(P_('package could avoid a useless dependency if %s was not ' .
                    "linked against %s (it uses none of the library's symbols)",
