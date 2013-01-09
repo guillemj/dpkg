@@ -846,7 +846,8 @@ sub find_packages {
     if (!$pid) {
 	# Child process running dpkg --search and discarding errors
 	close STDERR;
-	open STDERR, '>', '/dev/null';
+	open STDERR, '>', '/dev/null'
+	    or syserr(_g('cannot open file %s'), '/dev/null');
 	$ENV{LC_ALL} = 'C';
 	exec('dpkg', '--search', '--', @files)
 	    || syserr(_g('unable to execute %s'), 'dpkg');

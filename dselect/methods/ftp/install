@@ -468,7 +468,8 @@ sub getdebinfo($) {
     my $type = chkdeb($fn);
     my ($pkg, $ver);
     if($type == 1) {
-	open(my $pkgfile_fh, '-|', "dpkg-deb --field $fn");
+	open(my $pkgfile_fh, '-|', "dpkg-deb --field $fn")
+	    or die "cannot create pipe for 'dpkg-deb --field $fn'";
 	my %fields = getblk($pkgfile_fh);
 	close($pkgfile_fh);
 	$pkg = $fields{'package'};
@@ -476,7 +477,8 @@ sub getdebinfo($) {
 	if($fields{'package_revision'}) { $ver .= '-' . $fields{'package_revision'}; }
 	return $pkg, $ver;
     } elsif ( $type == 2) {
-	open(my $pkgfile_fh, '-|', "dpkg-split --info $fn");
+	open(my $pkgfile_fh, '-|', "dpkg-split --info $fn")
+	    or die "cannot create pipe for 'dpkg-split --info $fn'";
 	while (<$pkgfile_fh>) {
 	    /Part of package:\s*(\S+)/ and $pkg = $+;
 	    /\.\.\. version:\s*(\S+)/ and $ver = $+;

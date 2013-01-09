@@ -30,7 +30,8 @@ my $tmp_fh;
 my $string1 = "foo\nbar\n";
 my $string2;
 
-open $tmp_fh, '>', $tmp1_name;
+open $tmp_fh, '>', $tmp1_name
+    or die "cannot open $tmp1_name: $!";
 print $tmp_fh $string1;
 close $tmp_fh;
 
@@ -50,7 +51,8 @@ ok($pid);
 
 wait_child($pid);
 
-open $tmp_fh, '<', $tmp2_name;
+open $tmp_fh, '<', $tmp2_name
+    or die "cannot open $tmp2_name: $!";
 $string2 = <$tmp_fh>;
 close $tmp_fh;
 
@@ -64,7 +66,8 @@ $pid = spawn(exec => 'cat',
 
 ok($pid);
 
-open $tmp_fh, '<', $tmp2_name;
+open $tmp_fh, '<', $tmp2_name
+    or die "cannot open $tmp2_name: $!";
 $string2 = <$tmp_fh>;
 close $tmp_fh;
 

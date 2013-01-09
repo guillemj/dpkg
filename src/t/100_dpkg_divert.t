@@ -49,20 +49,23 @@ sub cleanup {
 
 sub install_diversions {
     my ($txt) = @_;
-    open(my $db_fh, '>', "$admindir/diversions");
+    open(my $db_fh, '>', "$admindir/diversions")
+        or die "cannot create $admindir/diversions";
     print $db_fh $txt;
     close($db_fh);
 }
 
 sub install_filelist {
     my ($pkg, $arch, @files) = @_;
-    open(my $fileslist_fh, '>', "$admindir/info/$pkg.list");
+    open(my $fileslist_fh, '>', "$admindir/info/$pkg.list")
+        or die "cannot create $admindir/info/$pkg.list";
     for my $file (@files) {
         print $fileslist_fh "$file\n";
     }
     close($fileslist_fh);
     # Only installed packages have their files list considered.
-    open(my $status_fh, '>>', "$admindir/status");
+    open(my $status_fh, '>>', "$admindir/status")
+        or die "cannot append to $admindir/status";
     print $status_fh <<"EOF";
 Package: $pkg
 Status: install ok installed
@@ -138,7 +141,8 @@ sub diversions_pack {
 
 sub diversions_eq {
     my (@expected) = split /^/, shift;
-    open(my $db_fh, '<', "$admindir/diversions");
+    open(my $db_fh, '<', "$admindir/diversions")
+        or die "cannot open $admindir/diversions";
     my (@contents) = <$db_fh>;
     close($db_fh);
 
