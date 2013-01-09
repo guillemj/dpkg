@@ -34,6 +34,7 @@ if (not eval { require Perl::Critic::Utils }) {
 }
 
 my @policies = qw(
+    BuiltinFunctions::ProhibitBooleanGrep
     BuiltinFunctions::ProhibitLvalueSubstr
     BuiltinFunctions::ProhibitReverseSortBlock
     BuiltinFunctions::ProhibitSleepViaSelect

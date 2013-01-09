@@ -286,7 +286,7 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
                         error(_g('architecture %s only allowed on its ' .
                                  "own (list for package %s is `%s')"),
                               $a, $p, $a)
-                            if grep($a eq $_, 'any', 'all');
+                            if $a eq 'any' or $a eq 'all';
                         push(@sourcearch, $a) unless $archadded{$a}++;
                     }
                 }
