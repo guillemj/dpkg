@@ -338,12 +338,10 @@ sub main {
     close $find_fh or error(close_msg, 'find');
 
     if (@out) {
-        map {
-            $_->output(\*STDOUT);
+        foreach my $dsc (sort { $a->{Package} cmp $b->{Package} } @out) {
+            $dsc->output(\*STDOUT);
             print "\n";
-        } sort {
-            $a->{Package} cmp $b->{Package}
-        } @out;
+        }
     }
 
     return 0;

@@ -41,6 +41,7 @@ my @policies = qw(
     BuiltinFunctions::ProhibitUniversalCan
     BuiltinFunctions::ProhibitUniversalIsa
     BuiltinFunctions::ProhibitVoidGrep
+    BuiltinFunctions::ProhibitVoidMap
     BuiltinFunctions::RequireGlobFunction
     BuiltinFunctions::RequireSimpleSortBlock
     ClassHierarchies::ProhibitAutoloading
