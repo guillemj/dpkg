@@ -30,7 +30,7 @@ use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
 use Dpkg::Exit;
 use Dpkg::Source::Functions qw(erasedir);
-use Dpkg::Source::Package::V3::native;
+use Dpkg::Source::Package::V3::Native;
 
 use POSIX qw(:errno_h);
 use Cwd;
@@ -108,11 +108,11 @@ sub do_extract {
     my $native = $difffile ? 0 : 1;
     if ($native and ($tarfile =~ /\.orig\.tar\.gz$/)) {
         warning(_g('native package with .orig.tar'));
-        $native = 0; # V3::native doesn't handle orig.tar
+        $native = 0; # V3::Native doesn't handle orig.tar
     }
 
     if ($native) {
-        Dpkg::Source::Package::V3::native::do_extract($self, $newdirectory);
+        Dpkg::Source::Package::V3::Native::do_extract($self, $newdirectory);
     } else {
         my $expectprefix = $newdirectory;
         $expectprefix .= '.orig';
@@ -288,7 +288,7 @@ sub do_build {
 
     if ($sourcestyle eq 'n') {
         $self->{options}{ARGV} = []; # ensure we have no error
-        Dpkg::Source::Package::V3::native::do_build($self, $dir);
+        Dpkg::Source::Package::V3::Native::do_build($self, $dir);
     } elsif ($sourcestyle =~ m/[nurUR]/) {
         if (stat($tarname)) {
             unless ($sourcestyle =~ m/[nUR]/) {

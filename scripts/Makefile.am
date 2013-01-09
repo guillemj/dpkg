@@ -94,11 +94,11 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Source/Package.pm \
 	Dpkg/Source/Package/V1.pm \
 	Dpkg/Source/Package/V2.pm \
-	Dpkg/Source/Package/V3/bzr.pm \
-	Dpkg/Source/Package/V3/custom.pm \
-	Dpkg/Source/Package/V3/native.pm \
-	Dpkg/Source/Package/V3/git.pm \
-	Dpkg/Source/Package/V3/quilt.pm \
+	Dpkg/Source/Package/V3/Bzr.pm \
+	Dpkg/Source/Package/V3/Custom.pm \
+	Dpkg/Source/Package/V3/Native.pm \
+	Dpkg/Source/Package/V3/Git.pm \
+	Dpkg/Source/Package/V3/Quilt.pm \
 	Dpkg/Source/Patch.pm \
 	Dpkg/Source/Quilt.pm \
 	Dpkg/Substvars.pm \

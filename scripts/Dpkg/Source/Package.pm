@@ -223,9 +223,15 @@ sub upgrade_object_type {
 
     if ($format =~ /^([\d\.]+)(?:\s+\((.*)\))?$/) {
         my ($version, $variant, $major, $minor) = ($1, $2, $1, undef);
+
+        if (defined $variant and $variant ne lc $variant) {
+            error(_g("source package format '%s' is not supported: %s"),
+                  $format, _g('format variant must be in lowercase'));
+        }
+
         $major =~ s/\.[\d\.]+$//;
         my $module = "Dpkg::Source::Package::V$major";
-        $module .= "::$variant" if defined $variant;
+        $module .= '::' . ucfirst $variant if defined $variant;
         eval "require $module; \$minor = \$${module}::CURRENT_MINOR_VERSION;";
         $minor //= 0;
         if ($update_format) {
