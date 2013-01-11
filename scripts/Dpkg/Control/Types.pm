@@ -16,6 +16,8 @@ package Dpkg::Control::Types;
 use strict;
 use warnings;
 
+our $VERSION = '0.01';
+
 use Exporter qw(import);
 our @EXPORT = qw(CTRL_UNKNOWN CTRL_INFO_SRC CTRL_INFO_PKG CTRL_INDEX_SRC
                  CTRL_INDEX_PKG CTRL_PKG_SRC CTRL_PKG_DEB CTRL_FILE_CHANGES
