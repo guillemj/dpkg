@@ -88,7 +88,7 @@ for my $i (33 .. 126) {
 }
 
 ## no critic (BuiltinFunctions::ProhibitReverseSortBlock)
-for $k (sort {
+for my $k (sort {
     looks_like_number($a) ?
         looks_like_number($b) ? $a <=> $b : -1
             : looks_like_number($b) ? 1 :

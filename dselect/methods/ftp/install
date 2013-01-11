@@ -155,7 +155,7 @@ sub procpkgfile {
     my $fn = shift;
     my $site = shift;
     my $dist = shift;
-    my(@files,@sizes,@md5sums,$pkg,$ver,$fl,$nfs,$fld);
+    my (@files, @sizes, @md5sums, $pkg, $ver, $nfs, $fld);
     my(%flds);
     open(my $pkgfile_fh, '<', $fn) or die "Could not open package file $fn";
     while (%flds = getblk($pkgfile_fh), %flds) {
@@ -173,7 +173,7 @@ sub procpkgfile {
 	    print "Different number of filenames, sizes and md5sums for $flds{'package'}\n";
 	} else {
 	    my $i = 0;
-	    foreach $fl (@files) {
+	    foreach my $fl (@files) {
 		$pkgfiles{$fl} = [ $md5sums[$i], $sizes[$i], $site, $dist ];
 		$i++;
 	    }
@@ -183,11 +183,11 @@ sub procpkgfile {
 }
 
 print "\nProcessing Package files...\n";
-my ($dist,$site,$fn,$i,$j);
+my ($fn, $i, $j);
 $i = 0;
-foreach $site (@{$config{site}}) {
+foreach my $site (@{$config{site}}) {
   $j = 0;
-  foreach $dist (@{$site->[2]}) {
+  foreach my $dist (@{$site->[2]}) {
     $fn = $dist;
     $fn =~ tr#/#_#;
     $fn = "Packages.$site->[0].$fn";
@@ -217,11 +217,11 @@ sub md5sum($) {
 # query user for each paritial file
 print "\nConstructing list of files to get...\n";
 my %downloads;
-my ($pkg, $dir, @info, @files, $csize, $size);
+my ($dir, @info, @files, $csize, $size);
 my $totsize = 0;
-foreach $pkg (keys(%pkgs)) {
+foreach my $pkg (keys(%pkgs)) {
     @files = @{$pkgs{$pkg}[1]};
-    foreach $fn (@files) {
+    foreach my $fn (@files) {
         #Look for a partial file
 	if (-f "$dldir/$fn.partial") {
 	  rename "$dldir/$fn.partial", "$dldir/$fn";
@@ -288,9 +288,8 @@ if($totsize == 0) {
         yesno('n', 'Do you want to select the files to get')) {
 	$totsize = 0;
 	my @files = sort(keys(%downloads));
-	my $fn;
 	my $def = 'y';
-	foreach $fn (@files) {
+	foreach my $fn (@files) {
 	    my @info = @{$pkgfiles{$fn}};
 	    my $csize = int($info[1] / 1024) + 1;
 	    my $rsize = int(($info[1] - $downloads{$fn}) / 1024) + 1;
@@ -315,9 +314,9 @@ if($totsize == 0) {
 sub download() {
 
  my $i = 0;
- my ($site, $ftp);
+ my $ftp;
 
- foreach $site (@{$config{site}}) {
+ foreach my $site (@{$config{site}}) {
 
     my @getfiles = grep { $pkgfiles{$_}[2] == $i } keys %downloads;
     my @pre_dist = (); # Directory to add before $fn
@@ -350,8 +349,8 @@ sub download() {
     $::ftp = $ftp;
     local $SIG{INT} = sub { die "Interrupted !\n"; };
 
-    my ($fn,$rsize,$res,$pre);
-    foreach $fn (@getfiles) {
+    my ($rsize, $res, $pre);
+    foreach my $fn (@getfiles) {
         $pre = $pre_dist[$pkgfiles{$fn}[3]] || '';
 	if ($downloads{$fn}) {
 	    $rsize = ${pkgfiles{$fn}}[1] - $downloads{$fn};
@@ -420,8 +419,7 @@ if($totsize != 0) {
               if (yesno('y', "\nDo you want to retry downloading at once")) {
 		  # get the first $fn that foreach would give:
 		  # this is the one that got interrupted.
-		my $ffn;
-		MY_ITER: foreach $ffn (keys(%downloads)) {
+		MY_ITER: foreach my $ffn (keys(%downloads)) {
 		    $fn = $ffn;
 		    last MY_ITER;
 		}
@@ -505,8 +503,7 @@ sub prcdeb($$) {
 	    print "old version\n";
 	    unlink $fn;
 	} else { # else $ver is gt current version
-	    my ($c);
-	    foreach $c (@{$files{$pkg . $vers{$pkg}}}) {
+	    foreach my $c (@{$files{$pkg . $vers{$pkg}}}) {
 		print "replaces: $c\n";
 		unlink "$vardir/methods/ftp/$dldir/$c";
 	    }

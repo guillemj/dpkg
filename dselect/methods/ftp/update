@@ -84,9 +84,8 @@ foreach (@{$config{site}}) {
                            $config{proxypassword});
 
     my @dists = @{$_->[2]};
-    my $dist;
     PACKAGE:
-    foreach $dist (@dists) {
+    foreach my $dist (@dists) {
 	my $dir = "$dist/binary-$arch";
 	my $must_get = 0;
 	my $newest_pack_date;
@@ -238,9 +237,7 @@ EOM
 if (!$packages_modified) {
     print "No Packages files was updated.\n";
 } else {
-    my $file;
-
-    foreach $file (@pkgfiles) {
+    foreach my $file (@pkgfiles) {
 	if (system('dpkg', '--merge-avail', $file)) {
 	    print "Dpkg merge available failed on $file";
 	    $exit = 1;

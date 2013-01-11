@@ -530,19 +530,19 @@ sub dpkg {
     my ($self, $range) = @_;
 
     my @data = $self->get_range($range) or return;
-    my $entry = shift @data;
+    my $src = shift @data;
 
     my $f = Dpkg::Control::Changelog->new();
-    $f->{Urgency} = $entry->get_urgency() || 'unknown';
-    $f->{Source} = $entry->get_source() || 'unknown';
-    $f->{Version} = $entry->get_version() // 'unknown';
-    $f->{Distribution} = join(' ', $entry->get_distributions());
-    $f->{Maintainer} = $entry->get_maintainer() || '';
-    $f->{Date} = $entry->get_timestamp() || '';
-    $f->{Changes} = $entry->get_dpkg_changes();
+    $f->{Urgency} = $src->get_urgency() || 'unknown';
+    $f->{Source} = $src->get_source() || 'unknown';
+    $f->{Version} = $src->get_version() // 'unknown';
+    $f->{Distribution} = join(' ', $src->get_distributions());
+    $f->{Maintainer} = $src->get_maintainer() || '';
+    $f->{Date} = $src->get_timestamp() || '';
+    $f->{Changes} = $src->get_dpkg_changes();
 
     # handle optional fields
-    my $opts = $entry->get_optional_fields();
+    my $opts = $src->get_optional_fields();
     my %closes;
     foreach (keys %$opts) {
 	if (/^Urgency$/i) { # Already dealt
@@ -553,16 +553,16 @@ sub dpkg {
 	}
     }
 
-    foreach $entry (@data) {
+    foreach my $bin (@data) {
 	my $oldurg = $f->{Urgency} || '';
 	my $oldurgn = $URGENCIES{$f->{Urgency}} || -1;
-	my $newurg = $entry->get_urgency() || '';
+	my $newurg = $bin->get_urgency() || '';
 	my $newurgn = $URGENCIES{$newurg} || -1;
 	$f->{Urgency} = ($newurgn > $oldurgn) ? $newurg : $oldurg;
-	$f->{Changes} .= "\n" . $entry->get_dpkg_changes();
+	$f->{Changes} .= "\n" . $bin->get_dpkg_changes();
 
 	# handle optional fields
-	$opts = $entry->get_optional_fields();
+	$opts = $bin->get_optional_fields();
 	foreach (keys %$opts) {
 	    if (/^Closes$/i) {
 		$closes{$_} = 1 foreach (split(/\s+/, $opts->{Closes}));

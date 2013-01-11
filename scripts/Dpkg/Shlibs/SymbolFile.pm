@@ -280,15 +280,15 @@ sub output {
     my $res = '';
     foreach my $soname (sort $self->get_sonames()) {
 	my @deps = $self->get_dependencies($soname);
-	my $dep = shift @deps;
-	$dep =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
-	print $fh "$soname $dep\n" if defined $fh;
-	$res .= "$soname $dep\n" if defined wantarray;
+	my $dep_first = shift @deps;
+	$dep_first =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
+	print $fh "$soname $dep_first\n" if defined $fh;
+	$res .= "$soname $dep_first\n" if defined wantarray;
 
-	foreach $dep (@deps) {
-	    $dep =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
-	    print $fh "| $dep\n" if defined $fh;
-	    $res .= "| $dep\n" if defined wantarray;
+	foreach my $dep_next (@deps) {
+	    $dep_next =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
+	    print $fh "| $dep_next\n" if defined $fh;
+	    $res .= "| $dep_next\n" if defined wantarray;
 	}
 	my $f = $self->{objects}{$soname}{fields};
 	foreach my $field (sort keys %{$f}) {

@@ -123,15 +123,14 @@ sub download() {
 
     my @dists = @{$_->[2]};
 
-    my $dist;
-    foreach $dist (@dists) {
+    foreach my $dist (@dists) {
 	my $dir = "$dist/binary-$arch";
 	print "Checking $dir...\n";
 #	if (!$ftp->pasv()) { print $ftp->message . "\n"; die 'error'; }
 	my @dirlst = $ftp->ls("$dir/");
 	my $got_pkgfile = 0;
-	my $line = '';
-	foreach $line (@dirlst) {
+
+	foreach my $line (@dirlst) {
 	    if($line =~ /Packages/) {
 		$got_pkgfile=1;
 	    }
