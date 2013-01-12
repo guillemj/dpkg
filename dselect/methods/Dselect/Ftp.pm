@@ -19,6 +19,7 @@ our $VERSION = '0.02';
 
 use Exporter qw(import);
 
+use Carp;
 use Net::FTP;
 use Data::Dumper;
 
@@ -207,7 +208,7 @@ sub yesno($$) {
   $r = -1;
   $r = 0 if $d eq 'n';
   $r = 1 if $d eq 'y';
-  die 'incorrect usage of yesno, stopped' if $r == -1;
+  croak 'incorrect usage of yesno, stopped' if $r == -1;
   while (1) {
     print $msg, " [$d]: ";
     $res = <STDIN>;

@@ -425,6 +425,7 @@ package Dpkg::Control::HashCore::Tie;
 use Dpkg::Checksums;
 use Dpkg::Control::FieldsCore;
 
+use Carp;
 use Tie::Hash;
 use parent -norequire, qw(Tie::ExtraHash);
 
@@ -448,7 +449,7 @@ sub new {
 
 sub TIEHASH  {
     my ($class, $parent) = @_;
-    die 'Parent object must be Dpkg::Control::Hash'
+    croak 'parent object must be Dpkg::Control::Hash'
         if not $parent->isa('Dpkg::Control::HashCore') and
            not $parent->isa('Dpkg::Control::Hash');
     return bless [ {}, $$parent ], $class;
