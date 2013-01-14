@@ -1,8 +1,8 @@
 #!/bin/sh
 #
+# Copyright © 2007,2011-2012 Guillem Jover <guillem@debian.org>
 # Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
 # Copyright © 2008 Joey Hess <joeyh@debian.org>
-# Copyright © 2007 Guillem Jover (modifications on wiki.debian.org)
 # Copyright © 2005 Scott James Remnant (original implementation on www.dpkg.org)
 #
 # This program is free software; you can redistribute it and/or modify
@@ -47,9 +47,9 @@ rm_conffile() {
 	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
 		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
 
-	debug "Executing $0 rm_conffile in $DPKG_MAINTSCRIPT_NAME "\
+	debug "Executing $0 rm_conffile in $DPKG_MAINTSCRIPT_NAME" \
 	      "of $DPKG_MAINTSCRIPT_PACKAGE"
-	debug "CONFFILE=$CONFFILE PACKAGE=$PACKAGE "\
+	debug "CONFFILE=$CONFFILE PACKAGE=$PACKAGE" \
 	      "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
 	case "$DPKG_MAINTSCRIPT_NAME" in
 	preinst)
@@ -150,9 +150,9 @@ mv_conffile() {
 	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
 		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
 
-	debug "Executing $0 mv_conffile in $DPKG_MAINTSCRIPT_NAME "\
+	debug "Executing $0 mv_conffile in $DPKG_MAINTSCRIPT_NAME" \
 	      "of $DPKG_MAINTSCRIPT_PACKAGE"
-	debug "CONFFILE=$OLDCONFFILE -> $NEWCONFFILE PACKAGE=$PACKAGE "\
+	debug "CONFFILE=$OLDCONFFILE -> $NEWCONFFILE PACKAGE=$PACKAGE" \
 	      "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
 	case "$DPKG_MAINTSCRIPT_NAME" in
 	preinst)
@@ -219,7 +219,7 @@ abort_mv_conffile() {
 # Common functions
 debug() {
 	if [ -n "$DPKG_DEBUG" ]; then
-		echo "DEBUG: $PROGNAME: $1" >&2
+		echo "DEBUG: $PROGNAME: $*" >&2
 	fi
 }
 
@@ -289,17 +289,12 @@ rm_conffile)
 mv_conffile)
 	mv_conffile "$@"
 	;;
---help|help|-?|-h)
+--help|help|-?)
 	usage
 	;;
 --version)
 	cat <<-END
 	Debian $PROGNAME version $version.
-
-	Copyright (C) 2010 Raphaël Hertzog <hertzog@debian.org>
-	Copyright (C) 2008 Joey Hess <joeyh@debian.org>
-	Copyright (C) 2007 Guillem Jover <guillem@debian.org>
-	Copyright (C) 2005 Scott James Remnant
 
 	This is free software; see the GNU General Public License version 2 or
 	later for copying conditions. There is NO warranty.

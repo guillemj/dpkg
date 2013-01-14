@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * command.c - command execution support
  *
- * Copyright © 2010-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2010-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/i18n.h>
+#include <dpkg/string.h>
 #include <dpkg/path.h>
 #include <dpkg/command.h>
 
@@ -178,6 +179,27 @@ command_exec(struct command *cmd)
 	ohshite(_("unable to execute %s (%s)"), cmd->name, cmd->filename);
 }
 
+
+/**
+ * Get a suitable pager.
+ *
+ * @return A string representing a pager.
+ */
+const char *
+command_get_pager(void)
+{
+	const char *pager;
+
+	if (!isatty(1))
+		return CAT;
+
+	pager = getenv("PAGER");
+	if (str_is_unset(pager))
+		pager = DEFAULTPAGER;
+
+	return pager;
+}
+
 /**
  * Execute a shell with a possible command.
  *
@@ -192,7 +214,7 @@ command_shell(const char *cmd, const char *name)
 	const char *mode;
 
 	shell = getenv("SHELL");
-	if (shell == NULL || shell[0] == '\0')
+	if (str_is_unset(shell))
 		shell = DEFAULTSHELL;
 
 	if (cmd == NULL)

@@ -26,13 +26,19 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup trigdeferred Trigger deferred file handling
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 enum trigdef_updateflags {
-	tduf_nolockok =           001,
-	tduf_write =              002,
-	tduf_nolock =             003,
-	/* Should not be set unless _write is. */
-	tduf_writeifempty =       010,
-	tduf_writeifenoent =      020,
+	tduf_nolockok		= DPKG_BIT(0),
+	tduf_write		= DPKG_BIT(1),
+	tduf_nolock		= tduf_nolockok | tduf_write,
+	/** Should not be set unless _write is. */
+	tduf_writeifempty	= DPKG_BIT(3),
+	tduf_writeifenoent	= DPKG_BIT(4),
 };
 
 enum trigdef_update_status {
@@ -55,6 +61,8 @@ enum trigdef_update_status trigdef_update_start(enum trigdef_updateflags uf);
 void trigdef_update_printf(const char *format, ...) DPKG_ATTR_PRINTF(1);
 int trigdef_parse(void);
 void trigdef_process_done(void);
+
+/** @} */
 
 DPKG_END_DECLS
 

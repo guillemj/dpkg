@@ -1,5 +1,26 @@
-.\" Authors: Ian Jackson, Raphaël Hertzog
-.TH dpkg\-source 1 "2011-08-14" "Debian Project" "dpkg utilities"
+.\" dpkg manual page - dpkg-source(1)
+.\"
+.\" Copyright © 1995-1996 Ian Jackson <ian@chiark.chu.cam.ac.uk>
+.\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2006-2007 Frank Lichtenheld <djpig@debian.org>
+.\" Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
+.\" Copyright © 2010 Joey Hess <joeyh@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.
+.TH dpkg\-source 1 "2012-05-04" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-source \- Debian source package (.dsc) manipulation tool
 .
@@ -94,7 +115,7 @@ command can take supplementary parameters depending on the source format.
 It will error out for formats where this operation doesn't mean anything.
 
 .TP
-.BR \-h ", " \-\-help
+.BR \-? ", " \-\-help
 Show the usage message and exit.
 .TP
 .BR \-\-version
@@ -102,24 +123,23 @@ Show the version and exit.
 .
 .SH GENERIC BUILD OPTIONS
 .TP
-.BI \-c controlfile
+.BI \-c control-file
 Specifies the main source control file to read information from. The
 default is
 .BR debian/control .
 If given with relative pathname this is interpreted starting at
 the source tree's top level directory.
 .TP
-.BI \-l changelogfile
-Specifies the change log file to read information from. The
+.BI \-l changelog-file
+Specifies the changelog file to read information from. The
 default is
 .BR debian/changelog .
 If given with relative pathname this is interpreted starting at
 the source tree's top level directory.
 .TP
-.BI \-F changelogformat
-Specifies the format of the changelog. By default the format is read
-from a special line near the bottom of the changelog or failing that
-defaults to the debian standard format.
+.BI \-F changelog-format
+Specifies the format of the changelog. See \fBdpkg\-parsechangelog\fP(1)
+for information about alternative formats.
 .TP
 .BI \-\-format= value
 Use the given format for building the source package. It does
@@ -129,9 +149,9 @@ override any format given in \fBdebian/source/format\fP.
 Set an output substitution variable.
 See \fBdeb\-substvars\fP(5) for a discussion of output substitution.
 .TP
-.BI \-T substvarsfile
+.BI \-T substvars-file
 Read substitution variables in
-.IR substvarsfile ;
+.IR substvars-file ;
 the default is to not read any file. This option can be used multiple
 times to read substitution variables from multiple files.
 .TP
@@ -430,6 +450,11 @@ options and always expect patches that can be applied with the \fB\-p1\fP
 option of \fBpatch\fP. It will thus emit a warning when it encounters
 such options, and the build is likely to fail.
 .PP
+Contrary to quilt's default behaviour, patches are expected to apply
+without any fuzz. When that is not the case, you should refresh such
+patches with quilt, or dpkg-source will error out while trying to apply
+them.
+.PP
 Similarly to quilt's default behaviour, the patches can remove files too.
 .PP
 The file \fB.pc/applied\-patches\fP is created if some
@@ -483,11 +508,20 @@ Generates a patch corresponding to the local changes that are not managed
 by the quilt patch system and integrates it in the patch system under
 the name \fIpatch-name\fP. If the name is missing, it will be asked
 interactively. If \fIpatch-file\fP is given, it is used as the patch
-corresponding to the local changes to integrate. This is mainly useful
-after a build failure that pre-generated this file. Once integrated, an
+corresponding to the local changes to integrate. Once integrated, an
 editor is launched so that you can edit the meta-information in the patch
 header.
 
+Passing \fIpatch-file\fP is mainly useful after a build failure that
+pre-generated this file, and on this ground the given file is removed
+after integration. Note also that the changes contained in the patch file
+must already be applied on the tree and that the files modified by the
+patch must not have supplementary unrecorded changes.
+
+If the patch generation detects modified binary files, they will be
+automatically added to \fBdebian/source/include\-binaries\fP so that
+they end up in the debian tarball (exactly like \fBdpkg-source
+\-\-include\-binaries \-b\fP would do).
 .PP
 .B Build options
 .TP
@@ -532,12 +566,13 @@ and if there are supplementary original tarballs. This option is meant to
 be used when the source package is just a bundle of multiple upstream
 software and where there's no "main" software.
 .TP
-.B \-\-unapply\-patches
-Unapply the patches in the \fB\-\-after\-build\fP hook. You usually don't
-need this option as dpkg\-source will automatically unapply the patches
-if it did apply them during \fB\-\-before\-build\fP. This
-option is only allowed in \fBdebian/source/local\-options\fP so that all
-generated source packages have the same behavior by default.
+.B \-\-no\-unapply\-patches, \-\-unapply\-patches
+By default, dpkg\-source will automatically unapply the patches in the
+\fB\-\-after\-build\fP hook if it did apply them during
+\fB\-\-before\-build\fP. Those options allow you to forcefully disable
+or enable the patch unapplication process. Those options are only allowed
+in \fBdebian/source/local\-options\fP so that all generated source
+packages have the same behavior by default.
 .TP
 .B \-\-abort\-on\-upstream\-changes
 The process fails if an automatic patch has been generated. This option
@@ -726,13 +761,3 @@ standard output field settings is rather confused.
 .BR dpkg\-deb (1),
 .BR dpkg (1),
 .BR dselect (1).
-.
-.SH AUTHORS
-Copyright \(co 1995-1996 Ian Jackson
-.br
-Copyright \(co 2000 Wichert Akkerman
-.br
-Copyright \(co 2008-2011 Rapha\[:e]l Hertzog
-.sp
-This is free software; see the GNU General Public Licence version 2 or later
-for copying conditions. There is NO WARRANTY.

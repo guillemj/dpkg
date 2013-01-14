@@ -26,6 +26,7 @@
 #include <linux/fiemap.h>
 #include <linux/fs.h>
 #include <sys/ioctl.h>
+#include <sys/vfs.h>
 #endif
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -49,47 +50,8 @@
 #include <dpkg/progress.h>
 
 #include "filesdb.h"
+#include "infodb.h"
 #include "main.h"
-
-/*** Package control information database directory routines. ***/
-
-/*
- * XXX: Strictly speaking these functions do not exactly belong here, and
- * they should be eventually moved back to a unified on-disk database
- * handling module in libdpkg. For now this is good enough, as it avoids
- * pulling unneeded code into the resulting binaries, because all its
- * users require filesdb anyway.
- */
-
-static char *infodir;
-
-static void
-pkgadmindir_init(void)
-{
-  infodir = dpkg_db_get_path(INFODIR);
-}
-
-const char *
-pkgadmindir(void)
-{
-  return infodir;
-}
-
-const char *
-pkgadminfile(struct pkginfo *pkg, const char *filetype)
-{
-  static struct varbuf vb;
-
-  varbuf_reset(&vb);
-  varbuf_add_str(&vb, infodir);
-  varbuf_add_char(&vb, '/');
-  varbuf_add_str(&vb, pkg->name);
-  varbuf_add_char(&vb, '.');
-  varbuf_add_str(&vb, filetype);
-  varbuf_end_str(&vb);
-
-  return vb.buf;
-}
 
 /*** filepackages support for tracking packages owning a file. ***/
 
@@ -161,6 +123,7 @@ ensure_package_clientdata(struct pkginfo *pkg)
   pkg->clientdata->color = white;
   pkg->clientdata->fileslistvalid = false;
   pkg->clientdata->files = NULL;
+  pkg->clientdata->replacingfilesandsaid = 0;
   pkg->clientdata->listfile_phys_offs = 0;
   pkg->clientdata->trigprocdeferred = NULL;
 }
@@ -223,8 +186,8 @@ pkg_files_blank(struct pkginfo *pkg)
 }
 
 static struct fileinlist **
-pkg_files_add_file(struct pkginfo *pkg, const char *filename,
-                   enum fnnflags flags, struct fileinlist **file_tail)
+pkg_files_add_file(struct pkginfo *pkg, struct filenamenode *namenode,
+                   struct fileinlist **file_tail)
 {
   struct fileinlist *newent;
   struct filepackages *packageslump;
@@ -242,7 +205,7 @@ pkg_files_add_file(struct pkginfo *pkg, const char *filename,
 
   /* Create a new node. */
   newent = nfmalloc(sizeof(struct fileinlist));
-  newent->namenode = findnamenode(filename, flags);
+  newent->namenode = namenode;
   newent->next = NULL;
   *file_tail = newent;
   file_tail = &newent->next;
@@ -296,7 +259,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
     return;
   }
 
-  filelistfile= pkgadminfile(pkg,LISTFILE);
+  filelistfile = pkg_infodb_get_file(pkg, &pkg->installed, LISTFILE);
 
   onerr_abort++;
 
@@ -304,12 +267,14 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
   if (fd==-1) {
     if (errno != ENOENT)
-      ohshite(_("unable to open files list file for package `%.250s'"),pkg->name);
+      ohshite(_("unable to open files list file for package `%.250s'"),
+              pkg_name(pkg, pnaw_nonambig));
     onerr_abort--;
-    if (pkg->status != stat_configfiles) {
-      if (saidread == 1) putc('\n',stderr);
-      warning(_("files list file for package `%.250s' missing, assuming "
-                "package has no files currently installed."), pkg->name);
+    if (pkg->status != stat_configfiles &&
+        dpkg_version_is_informative(&pkg->configversion)) {
+      warning(_("files list file for package '%.250s' missing; assuming "
+                "package has no files currently installed"),
+              pkg_name(pkg, pnaw_nonambig));
     }
     pkg->clientdata->files = NULL;
     pkg->clientdata->fileslistvalid = true;
@@ -318,38 +283,49 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
   push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
 
-   if(fstat(fd, &stat_buf))
-     ohshite(_("unable to stat files list file for package '%.250s'"),
-             pkg->name);
+  if (fstat(fd, &stat_buf))
+    ohshite(_("unable to stat files list file for package '%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
 
-   if (stat_buf.st_size) {
-     loaded_list = nfmalloc(stat_buf.st_size);
-     loaded_list_end = loaded_list + stat_buf.st_size;
+  if (!S_ISREG(stat_buf.st_mode))
+    ohshit(_("files list for package '%.250s' is not a regular file"),
+           pkg_name(pkg, pnaw_nonambig));
+
+  if (stat_buf.st_size) {
+    loaded_list = nfmalloc(stat_buf.st_size);
+    loaded_list_end = loaded_list + stat_buf.st_size;
 
     if (fd_read(fd, loaded_list, stat_buf.st_size) < 0)
-      ohshite(_("reading files list for package '%.250s'"), pkg->name);
+      ohshite(_("reading files list for package '%.250s'"),
+              pkg_name(pkg, pnaw_nonambig));
 
     lendp= &pkg->clientdata->files;
     thisline = loaded_list;
     while (thisline < loaded_list_end) {
+      struct filenamenode *namenode;
+
       if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline)))
         ohshit(_("files list file for package '%.250s' is missing final newline"),
-               pkg->name);
+               pkg_name(pkg, pnaw_nonambig));
       /* Where to start next time around. */
       nextline = ptr + 1;
       /* Strip trailing ‘/’. */
       if (ptr > thisline && ptr[-1] == '/') ptr--;
       /* Add the file to the list. */
       if (ptr == thisline)
-        ohshit(_("files list file for package `%.250s' contains empty filename"),pkg->name);
+        ohshit(_("files list file for package `%.250s' contains empty filename"),
+               pkg_name(pkg, pnaw_nonambig));
       *ptr = '\0';
-      lendp = pkg_files_add_file(pkg, thisline, fnn_nocopy, lendp);
+
+      namenode = findnamenode(thisline, fnn_nocopy);
+      lendp = pkg_files_add_file(pkg, namenode, lendp);
       thisline = nextline;
     }
   }
   pop_cleanup(ehflag_normaltidy); /* fd = open() */
   if (close(fd))
-    ohshite(_("error closing files list file for package `%.250s'"),pkg->name);
+    ohshite(_("error closing files list file for package `%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
 
   onerr_abort--;
 
@@ -374,8 +350,12 @@ pkg_sorter_by_listfile_phys_offs(const void *a, const void *b)
 static void
 pkg_files_optimize_load(struct pkg_array *array)
 {
+  struct statfs fs;
   int i;
-  int blocksize = 0;
+
+  /* Get the filesystem block size. */
+  if (statfs(pkg_infodb_get_dir(), &fs) < 0)
+    return;
 
   /* Sort packages by the physical location of their list files, so that
    * scanning them later will minimize disk drive head movements. */
@@ -396,18 +376,15 @@ pkg_files_optimize_load(struct pkg_array *array)
 
     pkg->clientdata->listfile_phys_offs = -1;
 
-    listfile = pkgadminfile(pkg, LISTFILE);
+    listfile = pkg_infodb_get_file(pkg, &pkg->installed, LISTFILE);
 
     fd = open(listfile, O_RDONLY);
     if (fd < 0)
       continue;
 
-    if (!blocksize && ioctl(fd, FIGETBSZ, &blocksize) < 0)
-      break;
-
     memset(&fm, 0, sizeof(fm));
     fm.fiemap.fm_start = 0;
-    fm.fiemap.fm_length = blocksize;
+    fm.fiemap.fm_length = fs.f_bsize;
     fm.fiemap.fm_flags = 0;
     fm.fiemap.fm_extent_count = 1;
 
@@ -432,7 +409,7 @@ pkg_files_optimize_load(struct pkg_array *array)
     const char *listfile;
     int fd;
 
-    listfile = pkgadminfile(pkg, LISTFILE);
+    listfile = pkg_infodb_get_file(pkg, &pkg->installed, LISTFILE);
 
     fd = open(listfile, O_RDONLY | O_NONBLOCK);
     if (fd != -1) {
@@ -456,7 +433,7 @@ void ensure_allinstfiles_available(void) {
 
   if (allpackagesdone) return;
   if (saidread<2) {
-    int max = pkg_db_count();
+    int max = pkg_db_count_pkg();
 
     saidread=1;
     progress_init(&progress, _("(Reading database ... "), max);
@@ -497,44 +474,31 @@ void ensure_allinstfiles_available_quiet(void) {
  * has any flag bits set in mask.
  */
 void
-write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
-                      enum fnnflags mask)
+write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                      struct fileinlist *list, enum fnnflags mask)
 {
-  static struct varbuf newvb;
+  struct atomic_file *file;
   const char *listfile;
-  FILE *file;
 
-  listfile = pkgadminfile(pkg, LISTFILE);
+  listfile = pkg_infodb_get_file(pkg, pkgbin, LISTFILE);
 
-  varbuf_reset(&newvb);
-  varbuf_add_str(&newvb, listfile);
-  varbuf_add_str(&newvb, NEWDBEXT);
-  varbuf_end_str(&newvb);
+  file = atomic_file_new(listfile, 0);
+  atomic_file_open(file);
 
-  file= fopen(newvb.buf,"w+");
-  if (!file)
-    ohshite(_("unable to create updated files list file for package %s"),pkg->name);
-  push_cleanup(cu_closestream, ehflag_bombout, NULL, 0, 1, (void *)file);
   while (list) {
     if (!(mask && (list->namenode->flags & mask))) {
-      fputs(list->namenode->name,file);
-      putc('\n',file);
+      fputs(list->namenode->name, file->fp);
+      putc('\n', file->fp);
     }
     list= list->next;
   }
-  if (ferror(file))
-    ohshite(_("failed to write to updated files list file for package %s"),pkg->name);
-  if (fflush(file))
-    ohshite(_("failed to flush updated files list file for package %s"),pkg->name);
-  if (fsync(fileno(file)))
-    ohshite(_("failed to sync updated files list file for package %s"),pkg->name);
-  pop_cleanup(ehflag_normaltidy); /* file = fopen() */
-  if (fclose(file))
-    ohshite(_("failed to close updated files list file for package %s"),pkg->name);
-  if (rename(newvb.buf, listfile))
-    ohshite(_("failed to install updated files list file for package %s"),pkg->name);
 
-  dir_sync_path(pkgadmindir());
+  atomic_file_sync(file);
+  atomic_file_close(file);
+  atomic_file_commit(file);
+  atomic_file_free(file);
+
+  dir_sync_path(pkg_infodb_get_dir());
 
   note_must_reread_files_inpackage(pkg);
 }
@@ -546,29 +510,32 @@ write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
  * building up a reverse list, and then peel it apart one
  * entry at a time.
  */
-void reversefilelist_init(struct reversefilelistiter *iterptr,
-                          struct fileinlist *files) {
+void
+reversefilelist_init(struct reversefilelistiter *iter, struct fileinlist *files)
+{
   struct fileinlist *newent;
 
-  iterptr->todo = NULL;
+  iter->todo = NULL;
   while (files) {
     newent= m_malloc(sizeof(struct fileinlist));
     newent->namenode= files->namenode;
-    newent->next= iterptr->todo;
-    iterptr->todo= newent;
+    newent->next = iter->todo;
+    iter->todo = newent;
     files= files->next;
   }
 }
 
-struct filenamenode *reversefilelist_next(struct reversefilelistiter *iterptr) {
+struct filenamenode *
+reversefilelist_next(struct reversefilelistiter *iter)
+{
   struct filenamenode *ret;
   struct fileinlist *todo;
 
-  todo= iterptr->todo;
+  todo = iter->todo;
   if (!todo)
     return NULL;
   ret= todo->namenode;
-  iterptr->todo= todo->next;
+  iter->todo = todo->next;
   free(todo);
   return ret;
 }
@@ -579,8 +546,10 @@ struct filenamenode *reversefilelist_next(struct reversefilelistiter *iterptr) {
  * Calling this function is not necessary if reversefilelist_next has
  * been called until it returned 0.
  */
-void reversefilelist_abort(struct reversefilelistiter *iterptr) {
-  while (reversefilelist_next(iterptr));
+void
+reversefilelist_abort(struct reversefilelistiter *iter)
+{
+  while (reversefilelist_next(iter));
 }
 
 struct fileiterator {
@@ -594,41 +563,49 @@ struct fileiterator {
 
 static struct filenamenode *bins[BINS];
 
-struct fileiterator *iterfilestart(void) {
-  struct fileiterator *i;
-  i= m_malloc(sizeof(struct fileiterator));
-  i->namenode = NULL;
-  i->nbinn= 0;
-  return i;
+struct fileiterator *
+files_db_iter_new(void)
+{
+  struct fileiterator *iter;
+
+  iter = m_malloc(sizeof(struct fileiterator));
+  iter->namenode = NULL;
+  iter->nbinn = 0;
+
+  return iter;
 }
 
-struct filenamenode *iterfilenext(struct fileiterator *i) {
+struct filenamenode *
+files_db_iter_next(struct fileiterator *iter)
+{
   struct filenamenode *r= NULL;
 
-  while (!i->namenode) {
-    if (i->nbinn >= BINS)
+  while (!iter->namenode) {
+    if (iter->nbinn >= BINS)
       return NULL;
-    i->namenode= bins[i->nbinn++];
+    iter->namenode = bins[iter->nbinn++];
   }
-  r= i->namenode;
-  i->namenode= r->next;
+  r = iter->namenode;
+  iter->namenode = r->next;
+
   return r;
 }
 
-void iterfileend(struct fileiterator *i) {
-  free(i);
+void
+files_db_iter_free(struct fileiterator *iter)
+{
+  free(iter);
 }
 
 void filesdbinit(void) {
   struct filenamenode *fnn;
   int i;
 
-  pkgadmindir_init();
-
   for (i=0; i<BINS; i++)
     for (fnn= bins[i]; fnn; fnn= fnn->next) {
       fnn->flags= 0;
       fnn->oldhash = NULL;
+      fnn->newhash = EMPTYHASHFLAG;
       fnn->filestat = NULL;
     }
 }
@@ -651,7 +628,8 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   while (*pointerp) {
     /* XXX: Why is the assert needed? It's checking already added entries. */
     assert((*pointerp)->name[0] == '/');
-    if (!strcmp((*pointerp)->name+1,name)) break;
+    if (strcmp((*pointerp)->name + 1, name) == 0)
+      break;
     pointerp= &(*pointerp)->next;
   }
   if (*pointerp) return *pointerp;
@@ -672,6 +650,7 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   newnode->next = NULL;
   newnode->divert = NULL;
   newnode->statoverride = NULL;
+  newnode->newhash = EMPTYHASHFLAG;
   newnode->filestat = NULL;
   newnode->trig_interested = NULL;
   *pointerp= newnode;

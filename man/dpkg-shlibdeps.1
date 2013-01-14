@@ -1,4 +1,25 @@
-.TH dpkg\-shlibdeps 1 "2011-08-14" "Debian Project" "dpkg utilities"
+.\" dpkg manual page - dpkg-deb(1)
+.\"
+.\" Copyright © 1995-1996 Ian Jackson <ian@chiark.chu.cam.ac.uk>
+.\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2006 Frank Lichtenheld <djpig@debian.org>
+.\" Copyright © 2007-2011 Raphaël Hertzog <hertzog@debian.org>
+.\" Copyright © 2012 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.
+.TH dpkg\-shlibdeps 1 "2012-05-04" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-shlibdeps \- generate shared library substvar dependencies
 .
@@ -13,9 +34,9 @@ arguments. The dependencies are added to the substitution
 variables file
 .B debian/substvars
 as variable names
-.BI shlibs: dependencyfield
+.BI shlibs: dependency-field
 where
-.I dependencyfield
+.I dependency-field
 is a dependency field name. Any other variables starting with
 .B shlibs:
 are removed from the file.
@@ -113,37 +134,37 @@ been supplied as
 Include dependencies appropriate for the shared libraries required by
 .IR executable .
 .TP
-.BI \-d dependencyfield
+.BI \-d dependency-field
 Add dependencies to be added to the control file dependency field
-.IR dependencyfield .
+.IR dependency-field .
 (The dependencies for this field are placed in the variable
-.BI shlibs: dependencyfield\fR.)
+.BI shlibs: dependency-field\fR.)
 
 The
-.BI \-d dependencyfield
+.BI \-d dependency-field
 option takes effect for all executables after the option, until the
 next
-.BI \-d dependencyfield\fR.
+.BI \-d dependency-field\fR.
 The default
-.I dependencyfield
+.I dependency-field
 is
 .BR Depends .
 
 If the same dependency entry (or set of alternatives) appears in more
-than one of the recognised dependency field names
+than one of the recognized dependency field names
 .BR Pre\-Depends ", " Depends ", " Recommends ", " Enhances " or " Suggests
 then
 .B dpkg\-shlibdeps
 will automatically remove the dependency from all fields except the
 one representing the most important dependencies.
 .TP
-.BI \-p varnameprefix
+.BI \-p varname-prefix
 Start substitution variables with
-.IB varnameprefix :
+.IB varname-prefix :
 instead of
 .BR shlibs: .
 Likewise, any existing substitution variables starting with
-.IB varnameprefix :
+.IB varname-prefix :
 (rather than
 .BR shlibs: )
 are removed from the the substitution variables file.
@@ -161,15 +182,15 @@ information. The default package type is "deb". Shared library dependency
 information is tagged for a given type by prefixing it with the name of the
 type, a colon, and whitespace.
 .TP
-.BI \-L localshlibsfile
+.BI \-L local-shlibs-file
 Read overriding shared library dependency information from
-.I localshlibsfile
+.I local-shlibs-file
 instead of
 .BR debian/shlibs.local .
 .TP
-.BI \-T substvarsfile
+.BI \-T substvars-file
 Write substitution variables in
-.IR substvarsfile ;
+.IR substvars-file ;
 the default is
 .BR debian/substvars .
 .TP
@@ -185,8 +206,8 @@ avoid self-dependencies for packages which provide ELF binaries
 package. This option can be used multiple times to exclude several
 packages.
 .TP
-.BI \-S pkgbuilddir
-Look into \fIpkgbuilddir\fP first when trying to find a library. This is
+.BI \-S package-build-dir
+Look into \fIpackage-build-dir\fP first when trying to find a library. This is
 useful when the source package builds multiple flavors of the same library
 and you want to ensure that you get the dependency from a given binary
 package. You can use this option multiple times: directories will be
@@ -203,8 +224,8 @@ even if they are not yet used by other packages.
 can be emitted by \fBdpkg\-shlibdeps\fP.
 Bit 0 (value=1) enables the warning "symbol \fIsym\fP used by \fIbinary\fP
 found in none of the libraries", bit 1 (value=2) enables the warning
-"dependency on \fIlibrary\fP could be avoided" and bit 2 (value=4)
-enables the warning "\fIbinary\fP shouldn't be linked with \fIlibrary\fP".
+"package could avoid a useless dependency" and bit 2 (value=4)
+enables the warning "\fIbinary\fP should not be linked against \fIlibrary\fP".
 The default \fIvalue\fP is 3: the first two warnings are active by
 default, the last one is not. Set \fIvalue\fP to 7 if you want all
 warnings to be active.
@@ -213,7 +234,7 @@ warnings to be active.
 Change the location of the \fBdpkg\fR database. The default location is
 \fI/var/lib/dpkg\fP.
 .TP
-.BR \-h ", " \-\-help
+.BR \-? ", " \-\-help
 Show the usage message and exit.
 .TP
 .BR \-\-version
@@ -247,13 +268,16 @@ that it's a real library and that programs linking to it are using an
 RPATH so that the dynamic loader finds it. In that case, the library is
 broken and needs to be fixed.
 .TP
-.BI "dependency on " library " could be avoided if " binaries " were not uselessly linked against it (they use none of its symbols)."
+.BI "package could avoid a useless dependency if " binary " was not linked against " library " (it uses none of the library's symbols)"
 None of the \fIbinaries\fP that are linked with \fPlibrary\fP use any of the
 symbols provided by the library. By fixing all the binaries, you would avoid
 the dependency associated to this library (unless the same dependency is
 also generated by another library that is really used).
 .TP
-.IB binary " shouldn't be linked with " library " (it uses none of its symbols)."
+.BI "package could avoid a useless dependency if " binaries " were not linked against " library " (they uses none of the library's symbols)"
+Exactly the same as the above warning, but for multiple binaries.
+.TP
+.IB binary " should not be linked against " library " (it uses none of the library's symbols)"
 The \fIbinary\fR is linked to a library that it doesn't need. It's not a
 problem but some small performance improvements in binary load time can be
 obtained by not linking this library to this binary. This warning checks
@@ -325,15 +349,3 @@ don't understand why it's giving you this error.
 .BR deb\-shlibs (5),
 .BR deb\-symbols (5),
 .BR dpkg\-gensymbols (1).
-.
-.SH AUTHORS
-Copyright \(co 1995-1996 Ian Jackson
-.br
-Copyright \(co 2000 Wichert Akkerman
-.br
-Copyright \(co 2006 Frank Lichtenheld
-.br
-Copyright \(co 2007-2008 Rapha\[:e]l Hertzog
-.sp
-This is free software; see the GNU General Public Licence version 2 or later
-for copying conditions. There is NO WARRANTY.

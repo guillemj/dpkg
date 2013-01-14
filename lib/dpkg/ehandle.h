@@ -30,12 +30,18 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup ehandle Error context handling
+ * @ingroup dpkg-public
+ * @{
+ */
+
 extern volatile int onerr_abort;
 
 enum {
-	ehflag_normaltidy = 01,
-	ehflag_bombout = 02,
-	ehflag_recursiveerror = 04
+	ehflag_normaltidy	= DPKG_BIT(0),
+	ehflag_bombout		= DPKG_BIT(1),
+	ehflag_recursiveerror	= DPKG_BIT(2),
 };
 
 typedef void error_handler(void);
@@ -57,18 +63,17 @@ void push_cleanup(void (*f1)(int argc, void **argv), int flagmask1,
 void push_checkpoint(int mask, int value);
 void pop_cleanup(int flagset);
 
-int warning_get_count(void);
-void warningv(const char *fmt, va_list args) DPKG_ATTR_VPRINTF(1);
-void warning(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
-
 void ohshitv(const char *fmt, va_list args)
 	DPKG_ATTR_NORET DPKG_ATTR_VPRINTF(1);
 void ohshit(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 void ohshite(const char *fmt, ...) DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1);
 
-void do_internerr(const char *file, int line, const char *fmt, ...)
-	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(3);
-#define internerr(...) do_internerr(__FILE__, __LINE__, __VA_ARGS__)
+void do_internerr(const char *file, int line, const char *func,
+                  const char *fmt, ...)
+	DPKG_ATTR_NORET DPKG_ATTR_PRINTF(4);
+#define internerr(...) do_internerr(__FILE__, __LINE__, __func__, __VA_ARGS__)
+
+/** @} */
 
 DPKG_END_DECLS
 

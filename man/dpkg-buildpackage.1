@@ -1,4 +1,25 @@
-.TH dpkg\-buildpackage 1 "2011-08-14" "Debian Project" "dpkg utilities"
+.\" dpkg manual page - dpkg-buildpackage(1)
+.\"
+.\" Copyright © 1995-1996 Ian Jackson
+.\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2007-2008 Frank Lichtenheld <djpig@debian.org>
+.\" Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2008-2012 Raphaël Hertzog <hertzog@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.
+.TH dpkg\-buildpackage 1 "2012-05-04" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-buildpackage \- build binary or source packages from sources
 .
@@ -27,12 +48,13 @@ It calls \fBdpkg\-source \-b\fP to generate the source package (unless
 a binary\-only build has been requested with \fB\-b\fP, \fB\-B\fP or
 \fB\-A\fP).
 .IP \fB5.\fP 3
-It calls \fBdebian/rules\fP \fBbuild\fP followed by
+It calls \fBdebian/rules\fP \fIbuild-target\fP followed by
 \fBfakeroot debian/rules\fP \fIbinary-target\fP (unless a source-only
-build has been requested with \fB\-S\fP). Note that \fIbinary-target\fR is
-either \fBbinary\fP (default case, or if \fB\-b\fP is specified)
-or \fBbinary\-arch\fP (if \fB\-B\fP is specified) or \fBbinary\-indep\fP
-(if \fB\-A\fP is specified).
+build has been requested with \fB\-S\fP). Note that \fIbuild-target\fR
+and \fIbinary-target\fP are either \fBbuild\fP and \fBbinary\fP (default
+case, or if \fB\-b\fP is specified), or \fBbuild\-arch\fP and
+\fBbinary\-arch\fP (if \fB\-B\fP is specified), or \fBbuild\-indep\fP and
+\fBbinary\-indep\fP (if \fB\-A\fP is specified).
 .IP \fB6.\fP 3
 It calls \fBgpg\fP to sign the \fB.dsc\fP file (if any, unless
 \fB\-us\fP is specified).
@@ -94,11 +116,11 @@ run with root rights.
 .br
 .BI \-v version
 .br
-.BI \-C changesdescription
+.BI \-C changes-description
 .br
-.BI \-m maintaineraddress
+.BI \-m maintainer-address
 .br
-.BI \-e maintaineraddress
+.BI \-e maintainer-address
 .RS
 Passed unchanged to \fBdpkg\-genchanges\fP. See its manual page.
 .RE
@@ -177,13 +199,11 @@ another make program (for example by using
 as \fIrules-file\fR).
 .TP
 .BI \-p sign-command
-When \fBdpkg\-buildpackage\fP needs to execute GPG or PGP to sign a source
+When \fBdpkg\-buildpackage\fP needs to execute GPG to sign a source
 control (\fB.dsc\fP) file or a \fB.changes\fP file it will run
 \fIsign-command\fP (searching the \fBPATH\fP if necessary) instead of
 \fBgpg\fP. \fIsign-command\fP will get all the arguments that
-\fBpgp\fP would have gotten. If \fIsign-command\fP
-takes its arguments in GPG rather than PGP style, you should give
-the \fB\-sgpg\fP option. \fIsign-command\fP
+\fBgpg\fP would have gotten. \fIsign-command\fP
 should not contain spaces or any other shell metacharacters.
 .TP
 .BI \-k key-id
@@ -221,7 +241,7 @@ Change the location of the \fBdpkg\fR database. The default location is
 \fI/var/lib/dpkg\fP.
 .RE
 .TP
-.BR \-h ", " \-\-help
+.BR \-? ", " \-\-help
 Show the usage message and exit.
 .TP
 .BR \-\-version
@@ -241,6 +261,13 @@ exported compiler flags (\fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBFFLAGS\fP,
 \fBCPPFLAGS\fP and \fBLDFLAGS\fP) with values as returned
 by \fBdpkg\-buildflags\fP. This is no longer the case.
 .
+.SH BACKWARD COMPATIBILITY
+\fBdpkg\-buildpackage\fP is using the \fBbuild\-arch\fP and
+\fBbuild\-indep\fP targets since version 1.16.2. Those targets are thus
+mandatory. But to avoid breakages of existing packages, and ease
+the transition, it will fallback to using the \fBbuild\fP target
+if \fBmake \-f debian/rules \-qn\fP \fIbuild-target\fP returns 2 as
+exit code.
 .SH BUGS
 It should be possible to specify spaces and shell metacharacters in
 and initial arguments for
@@ -253,15 +280,3 @@ and initial arguments for
 .BR dpkg\-genchanges (1),
 .BR fakeroot (1),
 .BR gpg (1).
-.
-.SH AUTHORS
-Copyright \(co 1995-1996 Ian Jackson
-.br
-Copyright \(co 2000 Wichert Akkerman
-.br
-Copyright \(co 2007 Frank Lichtenheld
-.br
-Copyright \(co 2008-2010 Rapha\[:e]l Hertzog
-.sp
-This is free software; see the GNU General Public Licence version 2 or later
-for copying conditions. There is NO WARRANTY.

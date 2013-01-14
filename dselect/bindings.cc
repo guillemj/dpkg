@@ -97,7 +97,7 @@ const char **keybindings::describenext() {
   for (;;) {
     if (!iterate->action) return 0;
     for (count=0, search=bindings; search; search=search->next)
-      if (!strcmp(search->interp->action,iterate->action))
+      if (strcmp(search->interp->action, iterate->action) == 0)
         count++;
     if (count) break;
     iterate++;
@@ -105,7 +105,7 @@ const char **keybindings::describenext() {
   const char **retarray= new const char *[count+2];
   retarray[0]= iterate->desc;
   for (count=1, search=bindings; search; search=search->next)
-    if (!strcmp(search->interp->action,iterate->action))
+    if (strcmp(search->interp->action, iterate->action) == 0)
       retarray[count++]= key2name(search->key);
   retarray[count]= 0;
   iterate++;
@@ -159,7 +159,7 @@ const keybindings::description keybindings::descriptions[]= {
   { "morespecific",    N_("Make highlight more specific")                        },
   { "lessspecific",    N_("Make highlight less specific")                        },
   { "search",          N_("Search for a package whose name contains a string")   },
-  { "searchagain",     N_("Repeat last search.")                                 },
+  { "searchagain",     N_("Repeat last search")                                 },
   { "swaporder",       N_("Swap sort order priority/section")                    },
   { "quitcheck",       N_("Quit, confirming, and checking dependencies")         },
   { "quitnocheck",     N_("Quit, confirming without check")                      },

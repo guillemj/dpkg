@@ -1,4 +1,29 @@
-.TH dpkg 1 "2011-08-14" "Debian Project" "dpkg suite"
+.\" dpkg manual page - dpkg(1)
+.\"
+.\" Copyright © 1996 Juho Vuori <javuori@cc.helsinki.fi>
+.\" Copyright © 1999 Jim Van Zandt <jrv@vanzandt.mv.com>
+.\" Copyright © 1999-2003 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2000-2003 Adam Heath <doogie@debian.org>
+.\" Copyright © 2002 Josip Rodin
+.\" Copyright © 2004-2005 Scott James Remnant <keybuk@debian.org>
+.\" Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2007-2008 Ian Jackson <ian@davenant.greenend.org.uk>
+.\" Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.
+.TH dpkg 1 "2012-06-05" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg \- package manager for Debian
 .
@@ -231,9 +256,26 @@ deinstall any packages not in list given to \-\-set\-selections.
 Searches for packages selected for installation, but which for some
 reason still haven't been installed.
 .TP
+.B \-\-add\-architecture \fIarchitecture\fP
+Add \fIarchitecture\fP to the list of architectures for which packages can
+be installed without using \fB\-\-force\-architecture\fP. The architecture
+\fBdpkg\fP is built for (i.e. the output of \fB\-\-print\-architecture\fP)
+is always part of that list.
+.TP
+.B \-\-remove\-architecture \fIarchitecture\fP
+Remove \fIarchitecture\fP from the list of architectures for which packages
+can be installed without using \fB\-\-force\-architecture\fP. If the
+architecture is currently in use in the database then the operation will
+be refused, except if \fB\-\-force\-architecture\fP is specified. The
+architecture \fBdpkg\fP is built for (i.e. the output of
+\fB\-\-print\-architecture\fP) can never be removed from that list.
 .TP
 .B \-\-print\-architecture
 Print architecture of packages \fBdpkg\fP installs (for example, "i386").
+.TP
+.B \-\-print\-foreign\-architectures
+Print a newline-separated list of the extra architectures \fBdpkg\fP is
+configured to allow packages to be installed for.
 .TP
 .B \-\-compare\-versions \fIver1 op ver2\fP
 Compare version numbers, where \fIop\fP is a binary operator. \fBdpkg\fP
@@ -245,13 +287,13 @@ version: \fBlt le eq ne ge gt\fP. These treat an empty version as later
 than any version: \fBlt\-nl le\-nl ge\-nl gt\-nl\fP. These are provided
 only for compatibility with control file syntax: \fB< << <= = >= >>
 >\fP.
+.\" .TP
+.\" .B \-\-command\-fd \fIn\fP
+.\" Accept a series of commands on input file descriptor \fIn\fP. Note:
+.\" additional options set on the command line, and through this file descriptor,
+.\" are not reset for subsequent commands executed during the same run.
 .TP
-.B \-\-command\-fd \fIn\fP
-Accept a series of commands on input file descriptor \fIn\fP. Note:
-additional options set on the command line, and through this file descriptor,
-are not reset for subsequent commands executed during the same run.
-.TP
-.B \-\-help
+.BR \-? ", " \-\-help
 Display a brief help message.
 .TP
 .B \-\-force\-help
@@ -309,7 +351,8 @@ See \fBdpkg\-query\fP(1) for more information about the following actions.
 .
 .SH OPTIONS
 All options can be specified both on the command line and in the \fBdpkg\fP
-configuration file \fI/etc/dpkg/dpkg.cfg\fP or the files on the configuration
+configuration file \fI/etc/dpkg/dpkg.cfg\fP or fragment files (with names
+matching this shell pattern \(aq[0-9a-zA-Z_-]*\(aq) on the configuration
 directory \fI/etc/dpkg/dpkg.cfg.d/\fP. Each line in the configuration
 file is either an option (exactly the same as the command line option but
 without leading dashes) or a comment (if it starts with a \fB#\fR).
@@ -400,25 +443,28 @@ Install, even if it conflicts with another package. This is dangerous,
 for it will usually cause overwriting of some files.
 
 \fBconfmiss\fP:
-Always install a missing conffile. This is dangerous,
-since it means not preserving a change (removing) made to the
-file.
+If a conffile is missing and the version in the package did change, always
+install the missing conffile without prompting. This is dangerous, since
+it means not preserving a change (removing) made to the file.
 
 \fBconfnew\fP:
-If a conffile has been modified always install the new version without
-prompting, unless the \fB\-\-force\-confdef\fP is also specified, in
-which case the default action is preferred.
+If a conffile has been modified and the version in the package did change,
+always install the new version without prompting, unless the
+\fB\-\-force\-confdef\fP is also specified, in which case the default
+action is preferred.
 
 \fBconfold\fP:
-If a conffile has been modified always keep the old version without
-prompting, unless the \fB\-\-force\-confdef\fP is also specified, in
-which case the default action is preferred.
+If a conffile has been modified and the version in the package did change,
+always keep the old version without prompting, unless the
+\fB\-\-force\-confdef\fP is also specified, in which case the default
+action is preferred.
 
 \fBconfdef\fP:
-If a conffile has been modified always choose the default action. If
-there is no default action it will stop to ask the user unless 
-\fB\-\-force\-confnew\fP or \fB\-\-force\-confold\fP is also been given, in
-which case it will use that to decide the final action.
+If a conffile has been modified and the version in the package did change,
+always choose the default action without prompting. If there is no default
+action it will stop to ask the user unless \fB\-\-force\-confnew\fP or
+\fB\-\-force\-confold\fP is also been given, in which case it will use
+that to decide the final action.
 
 \fBconfask\fP:
 If a conffile has been modified always offer to replace it with the
@@ -626,6 +672,9 @@ Cancels a previous \fB\-\-no\-triggers\fP.
 .
 .SH FILES
 .TP
+.I /etc/dpkg/dpkg.cfg.d/[0-9a-zA-Z_-]*
+Configuration fragment files.
+.TP
 .I /etc/dpkg/dpkg.cfg
 Configuration file with default options.
 .TP
@@ -712,7 +761,10 @@ Defined by \fBdpkg\fP on the maintainer script environment to the
 name of the script running (preinst, postinst, prerm, postrm).
 .
 .SH EXAMPLES
-To list packages related to the editor \fBvi\fP(1):
+To list installed packages related to the editor \fBvi\fP(1) (note that
+\fBdpkg\-query\fP does not load the available file anymore by default, and
+the \fBdpkg\-query\fP \fB\-\-load\-avail\fP option should be used instead
+for that):
 .br
 \fB     dpkg \-l \(aq*vi*\(aq\fP
 .br

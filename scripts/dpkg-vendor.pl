@@ -3,6 +3,7 @@
 # dpkg-vendor
 #
 # Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2009,2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,9 +32,6 @@ sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
-Copyright (C) 2009 Raphael Hertzog <hertzog\@debian.org>.");
-
-    printf _g("
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ");
@@ -41,12 +39,12 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...] [<action>]
-
-Options:
-  --vendor <vendor>       assume <vendor> is the current vendor
-
-Actions:
+"Usage: %s [<option>...] [<command>]")
+    . "\n\n" . _g(
+"Options:
+  --vendor <vendor>       assume <vendor> is the current vendor")
+    . "\n\n" . _g(
+"Commands:
   --is <vendor>           returns true if current vendor is <vendor>.
   --derives-from <vendor> returns true if current vendor derives from <vendor>.
   --query <field>         print the content of the vendor-specific field.
@@ -68,7 +66,7 @@ while (@ARGV) {
         $action = $1;
         $param = shift(@ARGV);
         usageerr(_g("%s needs a parameter"), $_) unless defined $param;
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
         usage();
         exit 0;
     } elsif (m/^--version$/) {

@@ -22,6 +22,7 @@ our $VERSION = "1.00";
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
+use Dpkg::BuildEnv;
 use Dpkg::Control::Hash;
 
 use base qw(Exporter);
@@ -46,6 +47,11 @@ this:
   Vendor: Debian
   Vendor-URL: http://www.debian.org/
   Bugs: debbugs://bugs.debian.org
+
+If the vendor derives from another vendor, the file should document
+the relationship by listing the base distribution in the Parent field:
+
+  Parent: Debian
 
 The file should be named according to the vendor name.
 
@@ -102,8 +108,8 @@ If that file doesn't exist, it returns undef.
 
 sub get_current_vendor() {
     my $f;
-    if ($ENV{'DEB_VENDOR'}) {
-        $f = get_vendor_info($ENV{'DEB_VENDOR'});
+    if (Dpkg::BuildEnv::has('DEB_VENDOR')) {
+        $f = get_vendor_info(Dpkg::BuildEnv::get('DEB_VENDOR'));
         return $f->{'Vendor'} if defined $f;
     }
     $f = get_vendor_info();

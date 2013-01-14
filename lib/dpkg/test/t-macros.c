@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * t-macros.c - test C support macros
  *
- * Copyright © 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009,2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,4 +36,9 @@ test(void)
 	test_pass(max(30, 10) == 30);
 	test_pass(max(0, 10) == 10);
 	test_pass(max(-10, 0) == 0);
+
+	test_pass(clamp(0, 0, 0) == 0);
+	test_pass(clamp(0, -10, 10) == 0);
+	test_pass(clamp(20, -10, 10) == 10);
+	test_pass(clamp(-20, -10, 10) == -10);
 }

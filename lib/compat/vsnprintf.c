@@ -2,7 +2,7 @@
  * libcompat - system compatibility library
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,15 +20,17 @@
 
 #include <config.h>
 
+#include <sys/types.h>
+
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdio.h>
 
-#ifndef HAVE_VSNPRINTF
 int
 vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args)
 {
 	static FILE *file = NULL;
+	static pid_t file_pid;
 
 	size_t want, nr;
 	int total;
@@ -36,10 +38,17 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args)
 	if (maxsize != 0 && buf == NULL)
 		return -1;
 
+	/* Avoid race conditions from children after a fork(2). */
+	if (file_pid > 0 && file_pid != getpid()) {
+		fclose(file);
+		file = NULL;
+	}
+
 	if (!file) {
 		file = tmpfile();
 		if (!file)
 			return -1;
+		file_pid = getpid();
 	} else {
 		if (fseek(file, 0, 0))
 			return -1;
@@ -68,4 +77,3 @@ vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args)
 
 	return total;
 }
-#endif

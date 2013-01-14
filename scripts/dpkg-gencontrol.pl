@@ -2,6 +2,10 @@
 #
 # dpkg-gencontrol
 #
+# Copyright © 1996 Ian Jackson
+# Copyright © 2000,2002 Wichert Akkerman
+# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -23,7 +27,9 @@ use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::File;
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
+use Dpkg::Package;
 use Dpkg::Deps;
 use Dpkg::Control;
 use Dpkg::Control::Info;
@@ -42,6 +48,7 @@ my $fileslistfile = 'debian/files';
 my $packagebuilddir = 'debian/tmp';
 
 my $sourceversion;
+my $binaryversion;
 my $forceversion;
 my $forcefilename;
 my $stdout;
@@ -56,10 +63,6 @@ sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
-Copyright (C) 1996 Ian Jackson.
-Copyright (C) 2000,2002 Wichert Akkerman.");
-
-    printf _g("
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ");
@@ -67,34 +70,34 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...]
-
-Options:
+"Usage: %s [<option>...]")
+    . "\n\n" . _g(
+"Options:
   -p<package>              print control file for package.
-  -c<controlfile>          get control info from this file.
-  -l<changelogfile>        get per-version info from this file.
-  -F<changelogformat>      force change log format.
-  -v<forceversion>         set version of binary package.
-  -f<fileslistfile>        write files here instead of debian/files.
-  -P<packagebuilddir>      temporary build dir instead of debian/tmp.
+  -c<control-file>         get control info from this file.
+  -l<changelog-file>       get per-version info from this file.
+  -F<changelog-format>     force changelog format.
+  -v<force-version>        set version of binary package.
+  -f<files-list-file>      write files here instead of debian/files.
+  -P<package-build-dir>    temporary build dir instead of debian/tmp.
   -n<filename>             assume the package filename will be <filename>.
   -O                       write to stdout, not .../DEBIAN/control.
   -is, -ip, -isp, -ips     deprecated, ignored for compatibility.
   -D<field>=<value>        override or add a field and value.
   -U<field>                remove a field.
   -V<name>=<value>         set a substitution variable.
-  -T<varlistfile>          read variables here, not debian/substvars.
-  -h, --help               show this help message.
+  -T<substvars-file>       read variables here, not debian/substvars.
+  -?, --help               show this help message.
       --version            show the version.
 "), $progname;
 }
 
 while (@ARGV) {
     $_=shift(@ARGV);
-    if (m/^-p([-+0-9a-z.]+)$/) {
-        $oppackage= $1;
-    } elsif (m/^-p(.*)/) {
-        error(_g("Illegal package name \`%s'"), $1);
+    if (m/^-p/) {
+        $oppackage = $';
+        my $err = pkg_name_is_illegal($oppackage);
+        error(_g("illegal package name '%s': %s"), $oppackage, $err) if $err;
     } elsif (m/^-c/) {
         $controlfile= $';
     } elsif (m/^-l/) {
@@ -116,14 +119,13 @@ while (@ARGV) {
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
-        $substvars->set($1, $');
-	$substvars->no_warn($1);
+        $substvars->set_as_used($1, $');
     } elsif (m/^-T(.*)$/) {
 	$substvars->load($1) if -e $1;
 	$substvars_loaded = 1;
     } elsif (m/^-n/) {
         $forcefilename= $';
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {
@@ -138,12 +140,30 @@ umask 0022; # ensure sane default permissions for created files
 my %options = (file => $changelogfile);
 $options{"changelogformat"} = $changelogformat if $changelogformat;
 my $changelog = changelog_parse(%options);
-$substvars->set_version_substvars($changelog->{"Version"});
+if ($changelog->{"Binary-Only"}) {
+    $options{"count"} = 1;
+    $options{"offset"} = 1;
+    my $prev_changelog = changelog_parse(%options);
+    $sourceversion = $prev_changelog->{"Version"};
+} else {
+    $sourceversion = $changelog->{"Version"};
+}
+
+if (defined $forceversion) {
+    $binaryversion = $forceversion;
+} else {
+    $binaryversion = $changelog->{"Version"};
+}
+
+$substvars->set_version_substvars($sourceversion, $binaryversion);
 $substvars->set_arch_substvars();
 $substvars->load("debian/substvars") if -e "debian/substvars" and not $substvars_loaded;
-$substvars->set("binary:Version", $forceversion) if defined $forceversion;
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_PKG_DEB);
+
+# Old-style bin-nmus change the source version submitted to
+# set_version_substvars()
+$sourceversion = $substvars->get("source:Version");
 
 my $pkg;
 
@@ -152,9 +172,12 @@ if (defined($oppackage)) {
     defined($pkg) || error(_g("package %s not in control info"), $oppackage);
 } else {
     my @packages = map { $_->{'Package'} } $control->get_packages();
-    @packages==1 ||
+    if (@packages == 0) {
+        error(_g("no package stanza found in control info"));
+    } elsif (@packages > 1) {
         error(_g("must specify package since control info has many (%s)"),
               "@packages");
+    }
     $pkg = $control->get_pkg_by_idx(1);
 }
 $substvars->set_msg_prefix(sprintf(_g("package %s: "), $pkg->{Package}));
@@ -205,8 +228,7 @@ foreach $_ (keys %{$changelog}) {
     if (m/^Source$/) {
 	set_source_package($v);
     } elsif (m/^Version$/) {
-	$sourceversion = $v;
-	$fields->{$_} = $v unless defined($forceversion);
+        # Already handled previously.
     } elsif (m/^Maintainer$/) {
         # That field must not be copied from changelog even if it's
         # allowed in the binary package control information
@@ -215,13 +237,14 @@ foreach $_ (keys %{$changelog}) {
     }
 }
 
-$fields->{'Version'} = $forceversion if defined($forceversion);
+$fields->{'Version'} = $binaryversion;
 
 # Process dependency fields in a second pass, now that substvars have been
 # initialized.
 
 my $facts = Dpkg::Deps::KnownFacts->new();
-$facts->add_installed_package($fields->{'Package'}, $fields->{'Version'});
+$facts->add_installed_package($fields->{'Package'}, $fields->{'Version'},
+                              $fields->{'Architecture'}, $fields->{'Multi-Arch'});
 if (exists $pkg->{"Provides"}) {
     my $provides = deps_parse($substvars->substvars($pkg->{"Provides"}, no_warn => 1),
                               reduce_arch => 1, union => 1);
@@ -289,11 +312,10 @@ if ($pkg_type eq 'udeb') {
     }
 }
 
-my $verdiff = $fields->{'Version'} ne $substvars->get('source:Version') ||
-              $fields->{'Version'} ne $sourceversion;
+my $verdiff = $binaryversion ne $sourceversion;
 if ($oppackage ne $sourcepackage || $verdiff) {
     $fields->{'Source'} = $sourcepackage;
-    $fields->{'Source'} .= " (" . $substvars->get('source:Version') . ")" if $verdiff;
+    $fields->{'Source'} .= " (" . $sourceversion . ")" if $verdiff;
 }
 
 if (!defined($substvars->get('Installed-Size'))) {
@@ -312,16 +334,15 @@ if (!defined($substvars->get('Installed-Size'))) {
     $? && subprocerr(_g("du in \`%s'"), $packagebuilddir);
     $duo =~ m/^(\d+)\s+\.$/ ||
         error(_g("du gave unexpected output \`%s'"), $duo);
-    $substvars->set('Installed-Size', $1);
+    $substvars->set_as_used('Installed-Size', $1);
 }
 if (defined($substvars->get('Extra-Size'))) {
     my $size = $substvars->get('Extra-Size') + $substvars->get('Installed-Size');
-    $substvars->set('Installed-Size', $size);
+    $substvars->set_as_used('Installed-Size', $size);
 }
 if (defined($substvars->get('Installed-Size'))) {
     $fields->{'Installed-Size'} = $substvars->get('Installed-Size');
 }
-$substvars->no_warn('Installed-Size');
 
 for my $f (keys %override) {
     $fields->{$f} = $override{$f};
@@ -329,6 +350,13 @@ for my $f (keys %override) {
 for my $f (keys %remove) {
     delete $fields->{$f};
 }
+
+# Obtain a lock on debian/control to avoid simultaneous updates
+# of debian/files when parallel building is in use
+my $lockfh;
+sysopen($lockfh, "debian/control", O_WRONLY) ||
+    syserr(_g("cannot write %s"), "debian/control");
+file_lock($lockfh, "debian/control");
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y, ">", "$fileslistfile.new") || syserr(_g("open new files list file"));
@@ -359,6 +387,9 @@ print(Y $substvars->substvars(sprintf("%s %s %s\n", $forcefilename,
     || syserr(_g("write new entry to new files list file"));
 close(Y) || syserr(_g("close new files list file"));
 rename("$fileslistfile.new", $fileslistfile) || syserr(_g("install new files list file"));
+
+# Release the lock
+close($lockfh) || syserr(_g("cannot close %s"), "debian/control");
 
 my $cf;
 my $fh_output;

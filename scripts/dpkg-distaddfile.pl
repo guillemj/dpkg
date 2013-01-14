@@ -2,6 +2,9 @@
 #
 # dpkg-distaddfile
 #
+# Copyright © 1996 Ian Jackson
+# Copyright © 2006-2008,2010,2012 Guillem Jover <guillem@debian.org>
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -23,6 +26,7 @@ use POSIX qw(:errno_h :signal_h);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::File;
 
 textdomain("dpkg-dev");
 
@@ -31,9 +35,6 @@ my $fileslistfile = 'debian/files';
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
-
-    printf _g("
-Copyright (C) 1996 Ian Jackson.");
 
     printf _g("
 This is free software; see the GNU General Public License version 2 or
@@ -46,8 +47,8 @@ sub usage {
 "Usage: %s [<option>...] <filename> <section> <priority>
 
 Options:
-  -f<fileslistfile>        write files here instead of debian/files.
-  -h, --help               show this help message.
+  -f<files-list-file>      write files here instead of debian/files.
+  -?, --help               show this help message.
       --version            show the version.
 "), $progname;
 }
@@ -56,7 +57,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
     if (m/^-f/) {
         $fileslistfile= $';
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {
@@ -75,6 +76,13 @@ my ($file, $section, $priority) = @ARGV;
 ($file =~ m/\s/ || $section =~ m/\s/ || $priority =~ m/\s/) &&
     error(_g("filename, section and priority may contain no whitespace"));
 
+# Obtain a lock on debian/control to avoid simultaneous updates
+# of debian/files when parallel building is in use
+my $lockfh;
+sysopen($lockfh, "debian/control", O_WRONLY) ||
+    syserr(_g("cannot write %s"), "debian/control");
+file_lock($lockfh, "debian/control");
+
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y, "> $fileslistfile.new") || syserr(_g("open new files list file"));
 if (open(X,"< $fileslistfile")) {
@@ -91,3 +99,6 @@ print(Y "$file $section $priority\n")
 close(Y) || syserr(_g("close new files list file"));
 rename("$fileslistfile.new", $fileslistfile) ||
     syserr(_g("install new files list file"));
+
+# Release the lock
+close($lockfh) || syserr(_g("cannot close %s"), "debian/control");

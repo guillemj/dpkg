@@ -2,6 +2,10 @@
 #
 # dpkg-genchanges
 #
+# Copyright © 1996 Ian Jackson
+# Copyright © 2000,2001 Wichert Akkerman
+# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -96,10 +100,6 @@ sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
-Copyright (C) 1996 Ian Jackson.
-Copyright (C) 2000,2001 Wichert Akkerman.");
-
-    printf _g("
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ");
@@ -107,31 +107,31 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...]
-
-Options:
+"Usage: %s [<option>...]")
+    . "\n\n" . _g(
+"Options:
   -b                       binary-only build - no source files.
   -B                       arch-specific - no source or arch-indep files.
   -A                       only arch-indep - no source or arch-specific files.
   -S                       source-only upload.
-  -c<controlfile>          get control info from this file.
-  -l<changelogfile>        get per-version info from this file.
-  -f<fileslistfile>        get .deb files list from this file.
-  -v<sinceversion>         include all changes later than version.
-  -C<changesdescription>   use change description from this file.
+  -c<control-file>         get control info from this file.
+  -l<changelog-file>       get per-version info from this file.
+  -f<files-list-file>      get .deb files list from this file.
+  -v<since-version>        include all changes later than version.
+  -C<changes-description>  use change description from this file.
   -m<maintainer>           override control's maintainer value.
   -e<maintainer>           override changelog's maintainer value.
-  -u<uploadfilesdir>       directory with files (default is \`..').
+  -u<upload-files-dir>     directory with files (default is '..').
   -si (default)            src includes orig if new upstream.
   -sa                      source includes orig src.
   -sd                      source is diff and .dsc only.
   -q                       quiet - no informational messages on stderr.
-  -F<changelogformat>      force change log format.
+  -F<changelog-format>     force changelog format.
   -V<name>=<value>         set a substitution variable.
-  -T<varlistfile>          read variables here, not debian/substvars.
+  -T<substvars-file>       read variables here, not debian/substvars.
   -D<field>=<value>        override or add a field and value.
   -U<field>                remove a field.
-  -h, --help               show this help message.
+  -?, --help               show this help message.
       --version            show the version.
 "), $progname;
 }
@@ -184,7 +184,7 @@ while (@ARGV) {
         $remove{$1} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {
 	$substvars->set($1, $2);
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
 	usage();
 	exit(0);
     } elsif (m/^--version$/) {
@@ -208,7 +208,12 @@ my $prev_changelog = changelog_parse(%options);
 # Other initializations
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
-$substvars->set_version_substvars($changelog->{"Version"});
+
+my $sourceversion = $changelog->{"Binary-Only"} ?
+                    $prev_changelog->{"Version"} : $changelog->{"Version"};
+my $binaryversion = $changelog->{"Version"};
+
+$substvars->set_version_substvars($sourceversion, $binaryversion);
 $substvars->set_arch_substvars();
 $substvars->load("debian/substvars") if -e "debian/substvars" and not $substvars_loaded;
 

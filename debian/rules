@@ -1,11 +1,15 @@
 #!/usr/bin/make -f
 # debian/rules for the dpkg suite.
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>
+# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
 
 WFLAGS := -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
 
 # Use the in-tree dpkg-buildflags
-dpkg_buildflags = DEB_CFLAGS_MAINT_APPEND="$(WFLAGS)" DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS)" PERL5LIB=$(CURDIR)/scripts DPKG_DATADIR=$(CURDIR) perl $(CURDIR)/scripts/dpkg-buildflags.pl
+dpkg_buildflags = \
+	DEB_CFLAGS_MAINT_APPEND="$(WFLAGS)" \
+	DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS)" \
+	$(CURDIR)/run-script perl $(CURDIR)/scripts/dpkg-buildflags.pl
 
 # These are used for cross-compiling and for saving the configure script
 # from having to guess our platform (since we know it already)
@@ -47,6 +51,7 @@ build-tree/config.status: configure
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--with-zlib \
+		--with-liblzma \
 		--with-bz2
 
 # Build the package in build-tree
@@ -79,6 +84,13 @@ ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 	        $(CURDIR)/debian/tmp/usr/share/dpkg/cputable
 endif
 
+define dpkg-installmanl10n
+for f in `sed -e 's:\*:*/*:' debian/$(1).manpages`; do \
+	test -e $$f && \
+	install -D $$f `echo $$f | sed -e 's:^debian/tmp:debian/$(1):'`; \
+done
+endef
+
 # Put together the dpkg-dev package
 binary-indep: install
 	dh_testdir -i
@@ -87,6 +99,8 @@ binary-indep: install
 	dh_installcron -i
 	dh_installchangelogs -i ChangeLog*
 	dh_installdocs -i
+	$(call dpkg-installmanl10n,dpkg-dev)
+	dh_installman -i
 	dh_link -i
 	dh_lintian -i
 	dh_strip -i

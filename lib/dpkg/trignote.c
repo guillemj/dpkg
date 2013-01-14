@@ -4,7 +4,7 @@
  *
  * Copyright © 2007 Canonical Ltd
  * Written by Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg.h>
 #include <dpkg/pkg-list.h>
 #include <dpkg/dlist.h>
 #include <dpkg/triglib.h>
@@ -40,7 +41,7 @@ trig_note_pend_core(struct pkginfo *pend, const char *trig)
 	struct trigpend *tp;
 
 	for (tp = pend->trigpend_head; tp; tp = tp->next)
-		if (!strcmp(tp->name, trig))
+		if (strcmp(tp->name, trig) == 0)
 			return false;
 
 	tp = nfmalloc(sizeof(*tp));
@@ -63,8 +64,10 @@ trig_note_pend(struct pkginfo *pend, const char *trig)
 	if (!trig_note_pend_core(pend, trig))
 		return false;
 
-	pend->status = pend->trigaw.head ? stat_triggersawaited :
-	               stat_triggerspending;
+	if (pend->trigaw.head)
+		pkg_set_status(pend, stat_triggersawaited);
+	else
+		pkg_set_status(pend, stat_triggerspending);
 
 	return true;
 }

@@ -3,6 +3,7 @@
  * dpkg-split.h - external definitions for this program
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +22,8 @@
 #ifndef DPKG_SPLIT_H
 #define DPKG_SPLIT_H
 
+#include <dpkg/deb-version.h>
+
 action_func do_split;
 action_func do_join;
 action_func do_info;
@@ -29,8 +32,8 @@ action_func do_queue;
 action_func do_discard;
 
 struct partinfo {
+  struct deb_version fmtversion;
   const char *filename;
-  const char *fmtversion;
   const char *package;
   const char *version;
   const char *arch;
@@ -40,7 +43,7 @@ struct partinfo {
   off_t maxpartlen;
   off_t thispartoffset;
   off_t thispartlen;
-  /* Size of header in part file. */
+  /** Size of header in part file. */
   off_t headerlen;
   off_t filesize;
 };
@@ -48,7 +51,7 @@ struct partinfo {
 struct partqueue {
   struct partqueue *nextinqueue;
 
-  /* Only fields filename, md5sum, maxpartlen, thispartn, maxpartn
+  /** Only fields filename, md5sum, maxpartlen, thispartn, maxpartn
    * are valid; the rest are NULL. If the file is not named correctly
    * to be a part file md5sum is NULL too and the numbers are zero. */
   struct partinfo info;

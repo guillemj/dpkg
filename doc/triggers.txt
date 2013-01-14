@@ -52,8 +52,8 @@ package is said to await the trigger processing.
 
 A package which has pending triggers, or which awaits triggers, is not
 considered properly installed.  There are two new dpkg status values,
-`triggers-pending' and `triggers-awaited', which lie between
-`config-failed' and `installed'.
+‘triggers-pending’ and ‘triggers-awaited’, which lie between
+‘config-failed’ and ‘installed’.
 
 
 Details - Overview table
@@ -82,21 +82,20 @@ processing is awaited by T.  Zero or more packages I may be added as a
 result of any particular trigger activation, depending on how many
 packages were interested.  (If T chooses, explicit trigger activation
 using dpkg-trigger of I by T need not make T become triggers-awaited
-in this way..)
+in this way.)
 
 A package which awaits trigger processing but would otherwise be
-`installed' or `triggers-pending' is considered to be in state
-`triggers-awaited'.  Packages in `triggers-awaited' do not satisfy
+‘installed’ or ‘triggers-pending’ is considered to be in state
+‘triggers-awaited’.  Packages in ‘triggers-awaited’ do not satisfy
 Depends dependencies.
 
 Every triggered package I in T's list of awaited packages either has a
-nonempty list of pending triggers, or is in `config-failed' or worse.
-When I enters `installed' (or `config-files' or `not-installed'), the
+nonempty list of pending triggers, or is in ‘config-failed’ or worse.
+When I enters ‘installed’ (or ‘config-files’ or ‘not-installed’), the
 entry in T's list of awaited packages is removed so that T may, if it
-no longer awaits any packages, become `installed' or
-`triggers-pending'.
+no longer awaits any packages, become ‘installed’ or ‘triggers-pending’.
 
-Packages in `config-files' or `not-installed' do not await triggers.
+Packages in ‘config-files’ or ‘not-installed’ do not await triggers.
 
 
 Details - triggered package
@@ -105,82 +104,81 @@ Details - triggered package
 When one of the triggers in which a package is interested is
 activated, the triggered package has the trigger added to its list of
 pending triggers.  Packages with a nonempty list of pending triggers
-which would otherwise be in state `installed' are in state
-`triggers-pending' instead, so if the package was previously
-`installed' it becomes `triggers-pending'.
+which would otherwise be in state ‘installed’ are in state
+‘triggers-pending’ instead, so if the package was previously
+‘installed’ it becomes ‘triggers-pending’.
 
 If a package has nonempty lists both of pending and awaited triggers,
-then it is in `triggers-awaited'.  Nevertheless efforts will still be
+then it is in ‘triggers-awaited’.  Nevertheless efforts will still be
 made to process its triggers so as to make the list of pending
 triggers empty.
 
-To restore a package in state `triggers-pending' to `installed', or to
+To restore a package in state ‘triggers-pending’ to ‘installed’, or to
 process pending triggers of a package with both pending and awaited
 triggers, dpkg will run the postinst script:
    postinst triggered "<trigger-name> <trigger-name> ..."
 
 This will be attempted for each relevant package at the end of each
 dpkg run; so, normally, in the same dpkg run as the event which made
-the package go to `triggers-pending'.  This leaves packages in
+the package go to ‘triggers-pending’.  This leaves packages in
 reasonable states by default.
 
-If the `postinst triggered' run fails the package goes to
-`config-failed', so that the trigger processing will not be attempted
+If the “postinst triggered” run fails the package goes to
+‘config-failed’, so that the trigger processing will not be attempted
 again until explicitly requested.
 
 
-             |
-             V
-       ,------------.
-       |  unpacked  |
-       `------------'
-             |
-             |
-  (automatic)|     ,----------.
-             |     | config-  |
-             |     |  failed  |
-             |     `----------'
-             |       |      ^
-             |       |      |
-             |,---<--'      |       ,------------------------------.
-             |  (user       |       |    triggers-pending          |
-    postinst |   request)   |       |            or                |
- "configure" |              |       | t.-awaited with some pending |
-             |              |       `------------------------------'
-             |              |                  |    ^
-             |`----->------'|                  |    |
-             |    error     |        postinst  |    |
-             |              |      "triggered" |    | trigger(s)
-             |              |      (automatic) |    |  activated
-             |              |                  |    |
-             |              `-----<-----------'|    |
-             |                  error          |    |
-             |                                 |    |
-             V                                 V    |
-       ,--------------------------------------------------.
-       |   installed  or  t.-awaited with none pending    |
-       `--------------------------------------------------'
+             │
+             v
+       ┌────────────┐
+       │  unpacked  │
+       └─────┬──────┘
+             │
+             │
+  (automatic)│      ┌───────────────┐
+             │      │ config-failed │
+             │      └─────┬─────────┘
+             │            │   ^
+             │            │   │
+             ├──────<─────┘   │     ┌──────────────────────────────────┐
+             │ (user request) │     │         triggers-pending         │
+  postinst   │                │     │                or                │
+ "configure" │                │     │ triggers-awaited w/ some pending │
+             │                │     └────────────┬─────────────────────┘
+             │                │                  │    ^
+             ├────────>───────┤       postinst   │    │
+             │      error     │      "triggered" │    │
+             │                │      (automatic) │    │
+             │                │                  │    │ trigger(s)
+             │                │                  │    │ activated
+             │                └────────<─────────┤    │
+             │                       error       │    │
+             │                                   │    │
+             v                                   v    │
+       ┌──────────────────────────────────────────────┴────┐
+       │   installed or triggers-awaited w/ none pending   │
+       └───────────────────────────────────────────────────┘
 
-Packages in `config-failed' or worse are never considered to have
+Packages in ‘config-failed’ or worse are never considered to have
 lists of pending triggers.  A package whose postinst is being run
 can however acquire pending triggers during that run (ie, a package
 can trigger itself).
 
 This means that if a triggering package T awaits trigger processing by
-an interested package I, and I goes to `config-failed' or worse (eg,
+an interested package I, and I goes to ‘config-failed’ or worse (eg,
 during unpack for upgrade), then when I is reconfigured (goes to
-`installed') or removed, T will no longer await processing by I, so
-that T may automatically go from `triggers-awaited' to `installed'.
+‘installed’) or removed, T will no longer await processing by I, so
+that T may automatically go from ‘triggers-awaited’ to ‘installed’.
 
 Or to put it another way, triggered actions are considered irrelevant
 if the interested package I is not configured.  When I's postinst is
-called with `configure', it must do whatever actions are necessary to
+called with ‘configure’, it must do whatever actions are necessary to
 deal with any trigger activations which might have occurred while it
 was not configured, just as if the package was being configured for
 the first time.
 
 Trigger processing should be idempotent.  The list of triggers being
-processed is provided to the postinst only so that it can optimise
+processed is provided to the postinst only so that it can optimize
 away redundant processing.
 
 In that case, where an interested package has more than one trigger
@@ -208,30 +206,30 @@ the status database, rather than that when dpkg --status is run.)
 
 A package is only guaranteed to become notified of a trigger
 activation if it is continuously interested in the trigger, and never
-in `config-failed' or worse, during the period from when the trigger
+in ‘config-failed’ or worse, during the period from when the trigger
 is activated until dpkg runs the package postinst (either due to
 --configure --pending, or at the end of the relevant run, as described
 above).  Subsequent to activation and before notification, the
-interested package will not be considered in state `installed', so
+interested package will not be considered in state ‘installed’, so
 long as the package remains interested, and the triggering package
-will not be considered `installed'.
+will not be considered ‘installed’.
 
-If the package is not in state `installed', `triggers-pending' or
-`triggers-awaited' then pending triggers are not accumulated.
-However, if such a package (between `half-installed' and
-`config-failed' inclusive) declares some trigger interests then the
+If the package is not in state ‘installed’, ‘triggers-pending’ or
+‘triggers-awaited’ then pending triggers are not accumulated.
+However, if such a package (between ‘half-installed’ and
+‘config-failed’ inclusive) declares some trigger interests then the
 triggering packages *will* await their configuration (which implies
 completion of any necessary trigger processing) or removal.
 
 It is not defined in what order triggers will run.  dpkg will make
-some effort to minimise redundant work in the case where many packages
+some effort to minimize redundant work in the case where many packages
 have postinst trigger processing activating another package's triggers
 (for example, by processing triggers in fifo order during a single
 dpkg run).  Cycles in the triggering graph are prohibited and will
 eventually, perhaps after some looping, be detected by dpkg and cause
 trigger processing to fail; when this happens one of the packages
-involved will be put in state `config-failed' so that the trigger loop
-will not be reattempted.  See `Cycle detection' below.
+involved will be put in state ‘config-failed’ so that the trigger loop
+will not be reattempted.  See “Cycle detection” below.
 
 
 Explicit triggers
@@ -307,9 +305,9 @@ dpkg-generated triggers is as follows: a package which is interested
 in any unsupported trigger kinds cannot be configured (since such a
 package cannot be guaranteed to have these triggers properly activated
 by dpkg).  Therefore no package can be interested in any unsupported
-trigger kinds and they can be freely activated (both by `activate' and
-by dpkg-trigger).  dpkg-deb will be changed to warn about unrecognised
-trigger names syntaxes and unrecognised trigger control directives.
+trigger kinds and they can be freely activated (both by ‘activate’ and
+by dpkg-trigger).  dpkg-deb will be changed to warn about unrecognized
+trigger names syntaxes and unrecognized trigger control directives.
 
 
 New command line interfaces to dpkg tools
@@ -349,18 +347,18 @@ needed, not the name of a file which would match the trigger.
 apt and aptitude
 ----------------
 
-These must be taught about the new `triggers-awaited' and
-`triggers-pending' states.  Packages in these states should be treated
-roughly like those in `unpacked': the remedy is to run dpkg
+These must be taught about the new ‘triggers-awaited’ and
+‘triggers-pending’ states.  Packages in these states should be treated
+roughly like those in ‘unpacked’: the remedy is to run dpkg
 --configure.
 
-Normally apt and aptitude will not see packages in `triggers-pending'
+Normally apt and aptitude will not see packages in ‘triggers-pending’
 since dpkg will generally attempt to run the triggers thus leaving the
-package in `config-failed' or `installed'.
+package in ‘config-failed’ or ‘installed’.
 
 Note that automatic package management tools which call dpkg (like apt
 and aptitude) should not attempt to configure individual packages in
-state `triggers-pending' (or indeed `triggers-awaited') with dpkg
+state ‘triggers-pending’ (or indeed ‘triggers-awaited’) with dpkg
 --triggers-only <package>... or dpkg --no-triggers --configure <package>...,
 or similar approaches. This might defeat dpkg's trigger cycle detection.
 
@@ -419,7 +417,7 @@ occurs at every relevant package installation, upgrade or removal.
 
 When triggers are available, this will work as follows:
 
- * gnome-foobar will ship its `omf' file in /usr/share/omf as
+ * gnome-foobar will ship its «omf» file in /usr/share/omf as
    normal, but will not contain any special machinery to invoke
    scrollkeeper.
 
@@ -459,7 +457,7 @@ Full implementation of the transition plan defined below, for
 scrollkeeper, goes like this:
 
  1. Update scrollkeeper:
-     - Add a `triggers' control archive file containing
+     - Add a ‘triggers’ control archive file containing
            interest /usr/share/omf
      - Make the postinst modifications as described above.
      - Rename scrollkeeper-update to scrollkeeper-update-now
@@ -471,7 +469,7 @@ scrollkeeper, goes like this:
 	   fi
 	   exec scrollkeeper-update-now "$@"
 
- 2. In gnome-policy chapter 2, `Use of scrollkeeper',
+ 2. In gnome-policy chapter 2, “Use of scrollkeeper”,
      - delete the requirement that the package must depend on
        scrollkeeper
      - delete the requirement that the package must invoke
@@ -485,7 +483,7 @@ scrollkeeper, goes like this:
 
          If an OMF file is placed, modified or removed other than as
          an file installed in the ordinary way by dpkg, the dpkg file
-         trigger `/usr/share/omf' should be activated; see the dpkg
+         trigger «/usr/share/omf» should be activated; see the dpkg
          triggers specification for details.
 
          Existing packages which Depend on scrollkeeper (>= 3.8)
@@ -549,9 +547,9 @@ pending and refuse.  (Since the new dpkg would be installed but then
 refuse to read the status file.)  In case this is necessary a separate
 tool will be provided which will:
   * Put all packages with any pending triggers into state
-    `config-failed' and remove the list of pending triggers.
+    ‘config-failed’ and remove the list of pending triggers.
   * Remove the list of awaited triggers from every package.  This
-    may cause packages to go from `triggers-awaited' to `installed'
+    may cause packages to go from ‘triggers-awaited’ to ‘installed’
     which is not 100% accurate but the best that can be done.
   * Remove /var/lib/dpkg/triggers (to put the situation to that which
     we would have seen if the trigger-supporting dpkg had never been
@@ -576,31 +574,31 @@ Transition hints for existing packages
 
 When a central (consumer) package defines a directory where other leaf
 (producer) packages may place files and/or directories, and currently
-the producer packages are required to run an `update-consumer' script
+the producer packages are required to run an «update-consumer» script
 in their postinst:
  1. In the relevant policy, define a trigger name which is the name of
     the directory where the individual files are placed by producer
     packages.
  2. Update the consumer package:
     * Declare an interest in the trigger.
-    * Edit update-consumer so that if it is called without --real
+    * Edit «update-consumer» so that if it is called without --real
       it does the following:
 	  if type dpkg-trigger >/dev/null 2>&1 && \
 	     dpkg-trigger name-of-trigger; then
 		exit 0
 	  fi
-      If this fails to cause update-consumer to exit, it should do
+      If this fails to cause «update-consumer» to exit, it should do
       its normal update processing.  Alternatively, if it is more
-      convenient, update-consumer could be renamed and supplanted with
+      convenient, «update-consumer» could be renamed and supplanted with
       a wrapper script which conditionally runs the real
-      update-consumer.
-    * In the postinst, arrange for the new `triggered' invocation to
-      run update-consumer --real.  The consumer package's postinst
-      will already run update-consumer during configuration, and this
+      «update-consumer».
+    * In the postinst, arrange for the new ‘triggered’ invocation to
+      run «update-consumer --real».  The consumer package's postinst
+      will already run «update-consumer» during configuration, and this
       should be retained and supplemented with the --real option (or
       changed to call the real script rather than the wrapper).
  3. Update the producer packages:
-    * In the postinst, remove the call to update-consumer
+    * In the postinst, remove the call to «update-consumer».
     * Change the dependency on consumer to be versioned, specifying a
       trigger-interested consumer.
     This can be done at our leisure.  Ideally for loosely coupled
@@ -608,11 +606,11 @@ in their postinst:
     containing the triggers-interested consumer, to facilitate partial
     upgrades and backports.
  4. After all producer packages have been updated according to step 3,
-    `update-consumer' has become an interface internal to the consumer
+    «update-consumer» has become an interface internal to the consumer
     and need no longer be kept stable.  If un-updated producers are
-    still of interest, incompatible changes to `update-consumer' imply
+    still of interest, incompatible changes to «update-consumer» imply
     a versioned Breaks against the old producers.
-(See also `Transition plan', below.)
+(See also “Transition plan”, below.)
 
 If there are several consumer packages all of which are interested in
 the features provided by producer packages, the current arrangements
@@ -627,7 +625,7 @@ emacsen-common).  In this case:
     consumers in step 3 (2nd bullet).
  3. Update the consumer packages:
     * Declare an interest in the trigger.
-    * In the postinst, arrange for the new `trigger' invocation to run
+    * In the postinst, arrange for the new ‘trigger’ invocation to run
       the compilation/registration process.  This may involve scanning
       for new or removed producers, and may involve new common
       functionality from the switchboard (in which case a versioned
@@ -716,7 +714,7 @@ a Triggers-Pending field which contains the space-separated names of
 the pending triggers.  For each package which awaits triggers the
 status file contains a Triggers-Awaited field which contains the
 *package* names of the packages whose trigger processing is awaited.
-See `Details - Overview table' above for the invariants which relate
+See “Details - Overview table” above for the invariants which relate
 Triggers-Pending, Triggers-Awaited, and Status.
 
 During dpkg's execution, /var/lib/dpkg/triggers/Unincorp is a list of
@@ -730,7 +728,7 @@ await the trigger.
 system.  Processes hang onto this lock only briefly: dpkg-trigger
 to add new activations, or dpkg to incorporate activations (and
 perhaps when it updates interests).  Therefore this lock is always
-acquired with F_GETLKW so as to serialise rather than fail on
+acquired with F_GETLKW so as to serialize rather than fail on
 contention.
 
 
@@ -756,11 +754,11 @@ be parsed and /var/lib/dpkg/triggers/* updated accordingly.
 Triggers are run as part of configuration.  dpkg will try to first
 configure all packages which do not depend on packages which are
 awaiting triggers, and then run triggers one package at a time in the
-hope of making useful progress.  (This will involve a new `dependtry'
+hope of making useful progress.  (This will involve a new ‘dependtry’
 level in configure.c's algorithm.)  The only constraint on the
 ordering of postinsts is only the normal Depends constraint, so the
-usual Depends cycle breaking will function properly.  See `Cycle
-detection' below regarding cycles in the `A triggers B' relation.
+usual Depends cycle breaking will function properly.  See “Cycle
+detection” below regarding cycles in the “A triggers B” relation.
 
 
 Processing - Transitional
@@ -770,9 +768,9 @@ The case where a triggers-supporting dpkg is run for the first time is
 detected by the absence of /var/lib/dpkg/triggers/Unincorp.  When the
 triggers-supporting dpkg starts up without this it will set each
 package's list of pending triggers equal to its interests (obviously
-only for packages which are in `installed' or `triggers-pending').
-This may result in a package going from `installed' to
-`triggers-pending' but it will not create the directory at this time.
+only for packages which are in ‘installed’ or ‘triggers-pending’).
+This may result in a package going from ‘installed’ to
+‘triggers-pending’ but it will not create the directory at this time.
 Packages marked as triggers-pending in this way will not be scheduled
 for trigger processing in this dpkg run.
 
@@ -794,7 +792,7 @@ Cycle detection
 
 In addition to dependency cycles, triggers raise the possibility of
 mutually triggering packages - a cycle detectable only dynamically,
-which we will call a `trigger cycle'.
+which we will call a “trigger cycle”.
 
 Trigger cycles are detected using the usual hare-and-tortoise
 approach.  Each time after dpkg runs a postinst for triggers, dpkg
@@ -811,6 +809,4 @@ all its (strict) subsets.  Trigger processing is supposed to
 monotonically decrease the set in this ordering.  (The set elements
 are <package, trigger name> tuples.)
 
-(See `Processing' above for discussion of dependency cycles.)
-
---
+(See “Processing” above for discussion of dependency cycles.)

@@ -92,6 +92,7 @@ static int ilist_select(const struct dirent *de) {
 static void
 info_spew(const char *debar, const char *dir, const char *const *argv)
 {
+  struct dpkg_error err;
   const char *component;
   struct varbuf controlfile = VARBUF_INIT;
   int fd;
@@ -103,12 +104,13 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
 
     fd = open(controlfile.buf, O_RDONLY);
     if (fd >= 0) {
-      fd_fd_copy(fd, 1, -1, _("control file '%s'"), controlfile.buf);
+      if (fd_fd_copy(fd, 1, -1, &err) < 0)
+        ohshit(_("cannot extract control file '%s' from '%s': %s"),
+               controlfile.buf, debar, err.str);
       close(fd);
     } else if (errno == ENOENT) {
-      fprintf(stderr,
-              _("dpkg-deb: `%.255s' contains no control component `%.255s'\n"),
-              debar, component);
+      notice(_("'%.255s' contains no control component '%.255s'"),
+             debar, component);
       re++;
     } else {
       ohshite(_("open component `%.255s' (in %.255s) failed in an unexpected way"),
@@ -240,7 +242,7 @@ info_field(const char *debar, const char *dir, const char *const *fields,
       *pf = '\0';
       doing= fnl >= MAXFIELDNAME || c=='\n' || c==EOF;
       for (fp=fields; !doing && *fp; fp++)
-        if (!strcasecmp(*fp, fieldname))
+        if (strcasecmp(*fp, fieldname) == 0)
           doing = true;
       if (showfieldname) {
         if (doing)
@@ -271,18 +273,20 @@ do_showinfo(const char *const *argv)
 {
   const char *debar, *dir;
   char *controlfile;
+  struct dpkg_error err;
   struct pkginfo *pkg;
-  struct pkg_format_node *fmt = pkg_format_parse(showformat);
+  struct pkg_format_node *fmt;
 
+  fmt = pkg_format_parse(showformat, &err);
   if (!fmt)
-    ohshit(_("Error in format"));
+    ohshit(_("error in show format: %s"), err.str);
 
   info_prepare(&argv, &debar, &dir, 1);
 
   m_asprintf(&controlfile, "%s/%s", dir, CONTROLFILE);
-  parsedb(controlfile,
-          pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles, &pkg);
+  parsedb(controlfile, pdb_parse_binary | pdb_ignorefiles, &pkg);
   pkg_format_show(fmt, pkg, &pkg->available);
+  pkg_format_free(fmt);
   free(controlfile);
 
   return 0;
@@ -323,9 +327,10 @@ do_field(const char *const *argv)
 int
 do_contents(const char *const *argv)
 {
-  const char *debar;
+  const char *debar = *argv++;
 
-  if (!(debar= *argv++) || *argv) badusage(_("--contents takes exactly one argument"));
+  if (debar == NULL || *argv)
+    badusage(_("--%s takes exactly one argument"), cipaction->olong);
   extracthalf(debar, NULL, "tv", 0);
 
   return 0;

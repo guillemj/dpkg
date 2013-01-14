@@ -38,12 +38,13 @@
 #include "infodb.h"
 
 bool
-pkg_infodb_has_file(struct pkginfo *pkg, const char *name)
+pkg_infodb_has_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                    const char *name)
 {
 	const char *filename;
 	struct stat stab;
 
-	filename = pkgadminfile(pkg, name);
+	filename = pkg_infodb_get_file(pkg, pkgbin, name);
 	if (lstat(filename, &stab) == 0)
 		return true;
 	else if (errno == ENOENT)
@@ -53,14 +54,26 @@ pkg_infodb_has_file(struct pkginfo *pkg, const char *name)
 }
 
 void
-pkg_infodb_foreach(struct pkginfo *pkg, pkg_infodb_file_func *func)
+pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                   pkg_infodb_file_func *func)
 {
 	DIR *db_dir;
 	struct dirent *db_de;
 	struct varbuf db_path = VARBUF_INIT;
+	const char *pkgname;
 	size_t db_path_len;
+	enum pkg_infodb_format db_format;
 
-	varbuf_add_str(&db_path, pkgadmindir());
+	/* Make sure to always read and verify the format version. */
+	db_format = pkg_infodb_get_format();
+
+	if (pkgbin->multiarch == multiarch_same &&
+	    db_format == pkg_infodb_format_multiarch)
+		pkgname = pkgbin_name(pkg, pkgbin, pnaw_always);
+	else
+		pkgname = pkgbin_name(pkg, pkgbin, pnaw_never);
+
+	varbuf_add_str(&db_path, pkg_infodb_get_dir());
 	varbuf_add_char(&db_path, '/');
 	db_path_len = db_path.used;
 	varbuf_add_char(&db_path, '\0');
@@ -86,8 +99,8 @@ pkg_infodb_foreach(struct pkginfo *pkg, pkg_infodb_file_func *func)
 			continue;
 
 		/* Ignore files from other packages. */
-		if (strlen(pkg->name) != (size_t)(dot - db_de->d_name) ||
-		    strncmp(db_de->d_name, pkg->name, dot - db_de->d_name))
+		if (strlen(pkgname) != (size_t)(dot - db_de->d_name) ||
+		    strncmp(db_de->d_name, pkgname, dot - db_de->d_name))
 			continue;
 
 		debug(dbg_stupidlyverbose, "infodb foreach file this pkg");

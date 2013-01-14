@@ -25,4 +25,4 @@ dpkg_split_LDADD = \
 	$(LIBINTL)
 
 install-data-local:
-	$(mkdir_p) $(DESTDIR)$(admindir)/parts
+	$(MKDIR_P) $(DESTDIR)$(admindir)/parts

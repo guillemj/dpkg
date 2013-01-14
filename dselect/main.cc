@@ -2,8 +2,9 @@
  * dselect - Debian package maintenance user interface
  * main.cc - main program
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994-1996 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +41,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// Solaris requires curses.h to be included before term.h
+#include "dselect-curses.h"
+
 #if defined(HAVE_NCURSESW_TERM_H)
 #include <ncursesw/term.h>
 #elif defined(HAVE_NCURSES_TERM_H)
@@ -59,7 +63,6 @@
 
 static const char printforhelp[] = N_("Type dselect --help for help.");
 
-modstatdb_rw readwrite;
 int expertmode= 0;
 
 static const char *admindir = ADMINDIR;
@@ -154,10 +157,6 @@ static const menuentry menuentries[]= {
 static const char programdesc[]=
       N_("Debian `%s' package handling frontend version %s.\n");
 
-static const char copyrightstring[]= N_(
-      "Copyright (C) 1994-1996 Ian Jackson.\n"
-      "Copyright (C) 2000,2001 Wichert Akkerman.\n");
-
 static const char licensestring[]= N_(
       "This is free software; see the GNU General Public License version 2 or\n"
       "later for copying conditions. There is NO warranty.\n");
@@ -166,8 +165,7 @@ static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
   printf(gettext(programdesc), DSELECT, DPKG_VERSION_ARCH);
-  printf("%s", gettext(copyrightstring));
-  printf(gettext(licensestring), DSELECT);
+  printf("%s", gettext(licensestring));
 
   m_output(stdout, _("<standard output>"));
 
@@ -188,7 +186,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --admindir <directory>     Use <directory> instead of %s.\n"
 "  --expert                   Turn on expert mode.\n"
 "  --debug <file> | -D<file>  Turn on debugging, sending output to <file>.\n"
-"  --colour | --color screenpart:[foreground],[background][:attr[+attr+..]]\n"
+"  --colour | --color screenpart:[foreground],[background][:attr[+attr+...]]\n"
 "                             Configure screen colours.\n"
 "\n"), ADMINDIR);
 
@@ -197,10 +195,10 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --version                  Show the version.\n"
 "\n"));
 
-  printf(_(
-"Actions:\n"
-"  access update select install config remove quit\n"
-"\n"));
+  printf(_("Actions:\n"));
+  for (i = 0; menuentries[i].command; i++)
+    printf("  %s", menuentries[i].command);
+  fputs("\n\n", stdout);
 
   printf(_("Screenparts:\n"));
   for (i=0; screenparttable[i].name; i++)
@@ -250,7 +248,7 @@ extern "C" {
       if (strcasecmp(item, table[i].name) == 0)
         return table[i].num;
 
-    ohshit(_("Invalid %s `%s'\n"), tablename, item);
+    ohshit(_("invalid %s '%s'"), tablename, item);
   }
 
   /*
@@ -273,7 +271,7 @@ extern "C" {
 
     if ((colours == NULL || ! strlen(colours)) &&
         (attributes == NULL || ! strlen(attributes))) {
-       ohshit(_("Null colour specification\n"));
+       ohshit(_("null colour specification"));
     }
 
     if (colours != NULL && strlen(colours)) {
@@ -309,7 +307,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "admindir",     0,   1,  0,  &admindir,  0               },
   { "debug",       'D',  1,  0,  0,          setdebug        },
   { "expert",      'E',  0,  0,  0,          setexpert       },
-  { "help",        'h',  0,  0,  0,          usage           },
+  { "help",        '?',  0,  0,  0,          usage           },
   { "version",      0,   0,  0,  0,          printversion    },
   { "color",        0,   1,  0,  0,          setcolor        }, /* US spelling */
   { "colour",       0,   1,  0,  0,          setcolor        }, /* UK spelling */
@@ -360,8 +358,15 @@ extern void operator delete(void *p) {
 }
 
 urqresult urq_list(void) {
-  readwrite = modstatdb_open((modstatdb_rw)(msdbrw_writeifposs |
-                                            msdbrw_available_readonly));
+  struct dpkg_arch *arch;
+
+  modstatdb_open((modstatdb_rw)(msdbrw_writeifposs |
+                                msdbrw_available_readonly));
+
+  // XXX: Multi-Arch is not supported, bail out.
+  for (arch = dpkg_arch_get_list(); arch; arch = arch->next)
+    if (arch->type == arch_foreign)
+      ohshit(_("foreign architectures enabled but multi-arch is not supported"));
 
   curseson();
 
@@ -419,9 +424,9 @@ refreshmenu(void)
          "Press <enter> to confirm selection.   ^L redraws screen.\n\n"));
 
   attrset(A_NORMAL);
-  addstr(gettext(copyrightstring));
-  sprintf(buf, gettext(licensestring), DSELECT);
-  addstr(buf);
+  addstr(_("Copyright (C) 1994-1996 Ian Jackson.\n"
+           "Copyright (C) 2000,2001 Wichert Akkerman.\n"));
+  addstr(gettext(licensestring));
 
   modstatdb_init();
   if (!modstatdb_can_lock())
@@ -458,7 +463,10 @@ urqresult urq_menu(void) {
       dme(cursor,0); cursor+= entries-1; cursor %= entries; dme(cursor,1);
     } else if (c=='\n' || c=='\r' || c==KEY_ENTER) {
       clear(); refresh();
-      switch (menuentries[cursor].fn()) { /* FIXME: trap errors in urq_... */
+
+      /* FIXME: trap errors in urq_... */
+      urqresult res = menuentries[cursor].fn();
+      switch (res) {
       case urqr_quitmenu:
         return urqr_quitmenu;
       case urqr_normal:
@@ -466,7 +474,7 @@ urqresult urq_menu(void) {
       case urqr_fail:
         break;
       default:
-        internerr("unknown menufn");
+        internerr("unknown menufn %d", res);
       }
       refreshmenu(); dme(cursor,1);
     } else if (c==C('l')) {

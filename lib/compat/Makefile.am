@@ -28,6 +28,10 @@ if !HAVE_STRNLEN
 libcompat_a_SOURCES += strnlen.c strnlen.h
 endif
 
+if !HAVE_STRNDUP
+libcompat_a_SOURCES += strndup.c
+endif
+
 if !HAVE_STRERROR
 libcompat_a_SOURCES += strerror.c
 endif

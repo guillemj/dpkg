@@ -2,6 +2,9 @@
 #
 # dpkg-gensymbols
 #
+# Copyright © 2007 Raphaël Hertzog
+# Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -20,6 +23,7 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Arch qw(get_host_arch);
+use Dpkg::Package;
 use Dpkg::Shlibs qw(@librarypaths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
@@ -27,7 +31,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Info;
 use Dpkg::Changelog::Parse;
-use Dpkg::Path qw(check_files_are_the_same);
+use Dpkg::Path qw(check_files_are_the_same find_command);
 
 textdomain("dpkg-dev");
 
@@ -49,10 +53,6 @@ sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
-Copyright (C) 2007 Raphael Hertzog.
-");
-
-    printf _g("
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ");
@@ -60,20 +60,18 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...]
-
-Options:
+"Usage: %s [<option>...]")
+    . "\n\n" . _g(
+"Options:
   -p<package>              generate symbols file for package.
-  -P<packagebuilddir>      temporary build dir instead of debian/tmp.
+  -P<package-build-dir>    temporary build dir instead of debian/tmp.
   -e<library>              explicitly list libraries to scan.
   -v<version>              version of the packages (defaults to
                            version extracted from debian/changelog).
-  -c<level>                compare generated symbols file with the
-                           reference template in the debian directory
-                           and fail if difference is too important
-                           (level goes from 0 for no check, to 4
-                           for all checks). By default checks at
-                           level 1.
+  -c<level>                compare generated symbols file with the reference
+                           template in the debian directory and fail if
+                           difference is too important; level goes from 0 for
+                           no check, to 4 for all checks (default level is 1).
   -q                       keep quiet and never emit any warnings or
                            generate a diff between generated symbols
                            file and the reference template.
@@ -83,13 +81,12 @@ Options:
   -O                       write to stdout, not .../DEBIAN/symbols.
   -t                       write in template mode (tags are not
                            processed and included in output).
-  -V                       verbose output. Write deprecated symbols and
-                           pattern matching symbols as comments
-                           (in template mode only).
+  -V                       verbose output; write deprecated symbols and pattern
+                           matching symbols as comments (in template mode only).
   -a<arch>                 assume <arch> as host architecture when processing
                            symbol files.
   -d                       display debug information during work.
-  -h, --help               show this help message.
+  -?, --help               show this help message.
       --version            show the version.
 "), $progname;
 }
@@ -97,8 +94,10 @@ Options:
 my @files;
 while (@ARGV) {
     $_ = shift(@ARGV);
-    if (m/^-p([-+0-9a-z.]+)$/) {
-	$oppackage = $1;
+    if (m/^-p/) {
+	$oppackage = $';
+	my $err = pkg_name_is_illegal($oppackage);
+	error(_g("illegal package name '%s': %s"), $oppackage, $err) if $err;
     } elsif (m/^-c(\d)?$/) {
 	$compare = defined($1) ? $1 : 1;
     } elsif (m/^-q$/) {
@@ -112,10 +111,11 @@ while (@ARGV) {
 	if (-e $file) {
 	    push @files, $file;
 	} else {
-	    push @files, glob($file);
+	    my @to_add = glob($file);
+	    push @files, @to_add;
+	    warning(_g("pattern '%s' did not match any file"), $file)
+		unless scalar(@to_add);
 	}
-    } elsif (m/^-p(.*)/) {
-	error(_g("Illegal package name \`%s'"), $1);
     } elsif (m/^-P(.+)$/) {
 	$packagebuilddir = $1;
 	$packagebuilddir =~ s{/+$}{};
@@ -131,7 +131,7 @@ while (@ARGV) {
 	$verbose_output = 1;
     } elsif (m/^-a(.+)$/) {
 	$host_arch = $1;
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
 	usage();
 	exit(0);
     } elsif (m/^--version$/) {
@@ -155,9 +155,12 @@ if (not defined($sourceversion)) {
 if (not defined($oppackage)) {
     my $control = Dpkg::Control::Info->new();
     my @packages = map { $_->{'Package'} } $control->get_packages();
-    @packages == 1 ||
+    if (@packages == 0) {
+	error(_g("no package stanza found in control info"));
+    } elsif (@packages > 1) {
 	error(_g("must specify package since control info has many (%s)"),
 	      "@packages");
+    }
     $oppackage = $packages[0];
 }
 
@@ -300,7 +303,7 @@ unless ($quiet) {
 	my $diff_label = sprintf("%s (%s_%s_%s)",
 	($ref_symfile->{file}) ? $ref_symfile->{file} : "new_symbol_file",
 	$oppackage, $sourceversion, $host_arch);
-	system("diff", "-u", "-L", $diff_label, $a, $b) if -x "/usr/bin/diff";
+	system("diff", "-u", "-L", $diff_label, $a, $b) if find_command("diff");
     }
 }
 exit($exitcode);

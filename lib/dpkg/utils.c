@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * utils.c - Helper functions for dpkg
+ * utils.c - helper functions for dpkg
  *
  * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
  *

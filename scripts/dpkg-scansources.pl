@@ -2,7 +2,7 @@
 #
 # Copyright © 1999 Roderick Schertler
 # Copyright © 2002 Wichert Akkerman <wakkerma@debian.org>
-# Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2009,2011-2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ my $Extra_override_file = undef;
 
 my @Option_spec = (
     'debug!'		=> \$Debug,
-    'help!'		=> \&usage,
+    'help|?'		=> \&usage,
     'no-sort|n'		=> \$No_sort,
     'source-override|s=s' => \$Src_override,
     'extra-override|e=s' => \$Extra_override_file,
@@ -81,7 +81,7 @@ sub version {
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > Sources
+"Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Sources
 
 Options:
   -n, --no-sort            don't sort by package before outputting.
@@ -91,7 +91,7 @@ Options:
                            use file for additional source overrides, default
                            is regular override file with .src appended.
       --debug              turn debugging on.
-      --help               show this help message.
+  -?, --help               show this help message.
       --version            show the version.
 
 See the man page for the full documentation.

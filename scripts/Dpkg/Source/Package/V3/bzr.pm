@@ -49,7 +49,8 @@ sub import {
             return 1;
         }
     }
-    error(_g("This source package can only be manipulated using bzr, which is not in the PATH."));
+    error(_g("cannot unpack bzr-format source package because " .
+             "bzr is not in the PATH"));
 }
 
 sub sanity_check {

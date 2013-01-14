@@ -74,6 +74,12 @@ dpkg_ar_member_get_size(const char *ar_name, struct ar_hdr *arh)
 	return size;
 }
 
+bool
+dpkg_ar_member_is_illegal(struct ar_hdr *arh)
+{
+	return memcmp(arh->ar_fmag, ARFMAG, sizeof(arh->ar_fmag)) != 0;
+}
+
 void
 dpkg_ar_put_magic(const char *ar_name, int ar_fd)
 {
@@ -87,6 +93,11 @@ dpkg_ar_member_put_header(const char *ar_name, int ar_fd,
 {
 	char header[sizeof(struct ar_hdr) + 1];
 	int n;
+
+	if (strlen(name) > 15)
+		ohshit(_("ar member name '%s' length too long"), name);
+	if (size > 9999999999L)
+		ohshit(_("ar member size %jd too large"), size);
 
 	n = sprintf(header, "%-16s%-12lu0     0     100644  %-10jd`\n",
 	            name, time(NULL), (intmax_t)size);
@@ -116,6 +127,8 @@ void
 dpkg_ar_member_put_file(const char *ar_name, int ar_fd,
                         const char *name, int fd, off_t size)
 {
+	struct dpkg_error err;
+
 	if (size <= 0) {
 		struct stat st;
 
@@ -127,7 +140,9 @@ dpkg_ar_member_put_file(const char *ar_name, int ar_fd,
 	dpkg_ar_member_put_header(ar_name, ar_fd, name, size);
 
 	/* Copy data contents. */
-	fd_fd_copy(fd, ar_fd, size, _("ar member file (%s)"), name);
+	if (fd_fd_copy(fd, ar_fd, size, &err) < 0)
+		ohshit(_("cannot append ar member file (%s) to '%s': %s"),
+		       name, ar_name, err.str);
 
 	if (size & 1)
 		if (fd_write(ar_fd, "\n", 1) < 0)

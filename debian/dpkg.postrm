@@ -32,6 +32,18 @@ remove_logfile() {
     rm -f /var/log/dpkg.log /var/log/dpkg.log.* 2>/dev/null
 }
 
+# Cleanup multiarch infodb leftovers
+cleanup_multiarch_infodb()
+{
+    admindir=${DPKG_ADMINDIR:-/var/lib/dpkg}
+    pkgadmindir=$admindir/info
+
+    echo "Cleaning up the multiarch dpkg control files database ..."
+    ls $pkgadmindir | grep : | while read oldfile; do
+        rm "$pkgadmindir/$oldfile"
+    done
+    rm -f $pkgadmindir/format
+}
 
 case "$1" in
     remove)
@@ -41,7 +53,14 @@ case "$1" in
 	remove_logfile
 	;;
 
-    upgrade|failed-upgrade|disappear|abort-install|abort-upgrade)
+    upgrade)
+	# Downgrade the multiarch db to a “monoarch” db layout
+	if dpkg --compare-versions "$2" lt 1.16.2; then
+	    cleanup_multiarch_infodb
+	fi
+	;;
+
+    failed-upgrade|disappear|abort-install|abort-upgrade)
 	;;
 
 

@@ -4,7 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000, 2001 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,18 +48,19 @@ static char *statoverridename;
 uid_t
 statdb_parse_uid(const char *str)
 {
-	char* endptr;
+	char *endptr;
 	uid_t uid;
 
 	if (str[0] == '#') {
 		long int value;
 
+		errno = 0;
 		value = strtol(str + 1, &endptr, 10);
-		if (str + 1 == endptr || *endptr || value < 0)
+		if (str + 1 == endptr || *endptr || value < 0 || errno != 0)
 			ohshit(_("syntax error: invalid uid in statoverride file"));
 		uid = (uid_t)value;
 	} else {
-		struct passwd* pw = getpwnam(str);
+		struct passwd *pw = getpwnam(str);
 		if (pw == NULL)
 			ohshit(_("syntax error: unknown user '%s' in statoverride file"),
 			       str);
@@ -72,18 +73,19 @@ statdb_parse_uid(const char *str)
 gid_t
 statdb_parse_gid(const char *str)
 {
-	char* endptr;
+	char *endptr;
 	gid_t gid;
 
 	if (str[0] == '#') {
 		long int value;
 
+		errno = 0;
 		value = strtol(str + 1, &endptr, 10);
-		if (str + 1 == endptr || *endptr || value < 0)
+		if (str + 1 == endptr || *endptr || value < 0 || errno != 0)
 			ohshit(_("syntax error: invalid gid in statoverride file"));
 		gid = (gid_t)value;
 	} else {
-		struct group* gr = getgrnam(str);
+		struct group *gr = getgrnam(str);
 		if (gr == NULL)
 			ohshit(_("syntax error: unknown group '%s' in statoverride file"),
 			       str);
@@ -96,7 +98,7 @@ statdb_parse_gid(const char *str)
 mode_t
 statdb_parse_mode(const char *str)
 {
-	char* endptr;
+	char *endptr;
 	long int mode;
 
 	mode = strtol(str, &endptr, 8);
@@ -211,11 +213,11 @@ ensure_statoverrides(void)
 
 		fnn = findnamenode(thisline, 0);
 		if (fnn->statoverride)
-			ohshit(_("multiple statusoverrides present for file '%.250s'"),
+			ohshit(_("multiple statoverrides present for file '%.250s'"),
 			       thisline);
 		fnn->statoverride = fso;
 
-		/* Moving on.. */
+		/* Moving on... */
 		thisline = nextline;
 	}
 

@@ -1,0 +1,57 @@
+.\" dpkg manual page - deb-origin(5)
+.\"
+.\" Copyright © 2011 Matt Kraai <kraai@ftbfs.org>
+.\" Copyright © 2011 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.
+.TH deb\-origin 5 "2011-11-10" "Debian Project" "Debian"
+.SH NAME
+deb\-origin \- Vendor-specific information files
+.SH SYNOPSIS
+.BI /etc/dpkg/origins/ filename
+.SH DESCRIPTION
+The files in \fB/etc/dpkg/origins\fP can provide information about
+various vendors who are providing Debian packages. They contain a
+number of fields, or comments when the line starts with \fB'#'\fP.
+Each field begins with a tag, such as \fBVendor\fP or \fBParent\fP,
+followed by a colon and the body of the field. Fields are delimited
+only by field tags. In other words, field text may be multiple lines
+in length, but the tools will join lines when processing the body of
+the field.
+.SH REQUIRED FIELDS
+.TP
+.BI Vendor: " vendor-name"
+The value of this field determines the vendor name.
+.SH OPTIONAL FIELDS
+.TP
+.BI Vendor\-URL: " vendor-url"
+The value of this field determines the vendor URL.
+.TP
+.BI Bugs: " bug-url"
+The value of this field determines the type and address of the bug
+tracking system used by this vendor. It can be a mailto URL or a
+debbugs URL (e.g., debbugs://bugs.debian.org/).
+.TP
+.BI Parent: " vendor-name"
+The value of this field determines the vendor name of the vendor that
+this vendor derives from.
+.SH EXAMPLE
+.nf
+Vendor: Debian
+Vendor\-URL: http://www.debian.org/
+Bugs: debbugs://bugs.debian.org
+.fi
+.SH SEE ALSO
+.BR dpkg\-vendor (1)

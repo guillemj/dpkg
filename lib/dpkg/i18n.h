@@ -25,6 +25,12 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup i18n Internationalization support
+ * @ingroup dpkg-internal
+ * @{
+ */
+
 #include <gettext.h>
 
 /* We need to include this because pgettext() uses LC_MESSAGES, but libintl.h
@@ -35,6 +41,8 @@ DPKG_BEGIN_DECLS
 #define P_(str, str_plural, n) ngettext(str, str_plural, n)
 #define N_(str) gettext_noop(str)
 #define C_(ctxt, str) pgettext(ctxt, str)
+
+/** @} */
 
 DPKG_END_DECLS
 

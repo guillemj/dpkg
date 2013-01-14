@@ -1,7 +1,9 @@
+.\" dpkg manual page - deb-shlibs(5)
+.\"
 .\" Copyright © 1996 Michael Shields <shields@crosslink.net>
 .\" Copyright © 2008 Zack Weinberg <zackw@panix.com>
 .\" 
-.\" This is free software; you may redistribute it and/or modify
+.\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
 .\" the Free Software Foundation; either version 2 of the License, or
 .\" (at your option) any later version.
@@ -13,7 +15,8 @@
 .\"
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
-.TH deb\-shlibs 5 "2008-02-17" "Debian Project" "dpkg utilities"
+.
+.TH deb\-shlibs 5 "2012-02-08" "Debian Project" "dpkg utilities"
 .SH NAME
 deb\-shlibs \- Debian shared library information file
 .
@@ -36,7 +39,9 @@ The \fIlibrary\fP and \fIversion\fP fields are whitespace-delimited,
 but the \fIdependencies\fP field extends to the end of the line.  The
 \fItype\fP field is optional and normally not needed.
 .PP
-See the Debian Policy Manual for further details.
+The \fIdependencies\fP field has the same syntax as the \fBDepends\fP
+field in a binary control file, see \fBdeb\-control\fP(5).
+See also the Debian Policy Manual for further details.
 .
 .SH EXAMPLES
 .PP
@@ -59,5 +64,6 @@ This is not the only reason the dependencies might need to be
 tightened; again, see the Debian Policy Manual for details.
 .
 .SH SEE ALSO
+.BR deb\-control (5),
 .BR dpkg\-shlibdeps (1),
 .BR deb\-symbols (5).

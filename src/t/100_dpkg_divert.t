@@ -20,6 +20,10 @@ use Dpkg::IPC;
 use strict;
 use warnings;
 
+# Cleanup environment from variables that pollute the test runs.
+delete $ENV{DPKG_MAINTSCRIPT_PACKAGE};
+delete $ENV{DPKG_MAINTSCRIPT_ARCH};
+
 my $srcdir = $ENV{srcdir} || '.';
 my $builddir = $ENV{builddir} || '.';
 my $tmpdir = 't.tmp/950_dpkg_divert';
@@ -33,10 +37,13 @@ if (! -x "@dd") {
     exit(0);
 }
 
-plan tests => 235;
+plan tests => 257;
 
 sub cleanup {
-    system("rm -rf $tmpdir && mkdir -p $testdir && mkdir -p $admindir");
+    system("rm -rf $tmpdir && mkdir -p $testdir");
+    system("mkdir -p $admindir/updates");
+    system("rm -f $admindir/status && touch $admindir/status");
+    system("rm -rf $admindir/info && mkdir -p $admindir/info");
 }
 
 sub install_diversions {
@@ -44,6 +51,27 @@ sub install_diversions {
     open(O, "> $admindir/diversions");
     print O $txt;
     close(O);
+}
+
+sub install_filelist {
+    my ($pkg, $arch, @files) = @_;
+    open(L, "> $admindir/info/$pkg.list");
+    for my $file (@files) {
+        print L "$file\n";
+    }
+    close(L);
+    # Only installed packages have their files list considered.
+    open(S, ">> $admindir/status");
+    print S <<EOF;
+Package: $pkg
+Status: install ok installed
+Version: 0
+Architecture: $arch
+Maintainer: dummy
+Description: dummy
+
+EOF
+    close(S);
 }
 
 sub call {
@@ -131,13 +159,14 @@ sub call_divert_badusage {
 
 call_divert(['--help'], expect_stdout_like => $usagere,
             expect_stderr => '');
-call_divert(['--version'], expect_stdout_like => qr/.*dpkg-divert.*Copyright.*free software.*/s,
+call_divert(['--version'], expect_stdout_like => qr/.*dpkg-divert.*free software.*/s,
             expect_stderr => '');
 
 call_divert_badusage(['--jachsmitbju'], qr/unknown option/);
 call_divert_badusage(['--add', '--remove'], qr/(conflicting|two).*remove.*add.*/s);
 call_divert_badusage(['--divert'], qr/(takes a value|needs.*argument)/);
-call_divert_badusage(['--divert', "foo\nbar"], qr/newline/);
+call_divert_badusage(['--divert', "foo"], qr/absolute/);
+call_divert_badusage(['--divert', "/foo\nbar"], qr/newline/);
 call_divert_badusage(['--package'], qr/(takes a value|needs.*argument)/);
 call_divert_badusage(['--package', "foo\nbar"], qr/newline/);
 
@@ -146,9 +175,17 @@ install_diversions('');
 call_divert_badusage(['--add',], qr/needs a single argument/);
 call_divert_badusage(['--add', 'foo'], qr/absolute/);
 call_divert_badusage(['--add', "/foo\nbar"], qr/newline/);
-call_divert_badusage(['--add', "/etc"], qr/director(y|ies)/);
+call_divert_badusage(['--add', "$testdir"], qr/director(y|ies)/);
 call_divert_badusage(['--add', "--divert", "bar", "/foo/bar"], qr/absolute/);
 call_divert_badusage(['--remove'], qr/needs a single argument/);
+call_divert_badusage(['--remove', 'foo'], qr/absolute/);
+call_divert_badusage(['--remove', "/foo\nbar"], qr/newline/);
+call_divert_badusage(['--listpackage'], qr/needs a single argument/);
+call_divert_badusage(['--listpackage', 'foo'], qr/absolute/);
+call_divert_badusage(['--listpackage', "/foo\nbar"], qr/newline/);
+call_divert_badusage(['--truename'], qr/needs a single argument/);
+call_divert_badusage(['--truename', 'foo'], qr/absolute/);
+call_divert_badusage(['--truename', "/foo\nbar"], qr/newline/);
 call([@dd, '--admindir'], [],
      expect_failure => 1, expect_stderr_like => qr/(takes a value|needs.*argument)/);
 
@@ -211,13 +248,11 @@ dash
 :
 EOF
 
-call_divert(['--listpackage'], expect_failure => 1);
 call_divert(['--listpackage', 'foo', 'bar'], expect_failure => 1);
 call_divert(['--listpackage', '/bin/sh'], expect_stdout => "dash\n", expect_stderr => '');
 call_divert(['--listpackage', '/bin/true'], expect_stdout => "LOCAL\n", expect_stderr => '');
 call_divert(['--listpackage', '/bin/false'], expect_stdout => '', expect_stderr => '');
 
-call_divert(['--truename'], expect_failure => 1);
 call_divert(['--truename', '/bin/sh'], expect_stdout => "/bin/sh.distrib\n", expect_stderr => '');
 call_divert(['--truename', '/bin/sh.distrib'], expect_stdout => "/bin/sh.distrib\n", expect_stderr => '');
 call_divert(['--truename', '/bin/something'], expect_stdout => "/bin/something\n", expect_stderr => '');
@@ -380,6 +415,24 @@ diversions_eq(<<EOF);
 $testdir/zoo/foo
 $testdir/zoo/foo.distrib
 :
+EOF
+
+cleanup();
+
+note("Adding diversion of file owned by --package");
+
+install_filelist("coreutils", "i386", "$testdir/foo");
+install_diversions('');
+system("touch $testdir/foo");
+
+call_divert(['--quiet', '--rename', '--add', '--package', 'coreutils', "$testdir/foo"],
+            expect_stderr => '', expect_stdout => '');
+ok(-e "$testdir/foo", "foo not renamed");
+ok(!-e "$testdir/foo.distrib", "foo renamed");
+diversions_eq(<<EOF);
+$testdir/foo
+$testdir/foo.distrib
+coreutils
 EOF
 
 cleanup();

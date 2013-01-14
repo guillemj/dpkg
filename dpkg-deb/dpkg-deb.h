@@ -38,19 +38,13 @@ extern int debugflag, nocheckflag, oldformatflag;
 void extracthalf(const char *debar, const char *dir,
                  const char *taroption, int admininfo);
 
-extern const char* showformat;
-extern struct compressor *compressor;
-extern int compress_level;
+extern const char *showformat;
+extern struct compress_params compress_params;
 
 #define ARCHIVEVERSION		"2.0"
 
 #define BUILDCONTROLDIR		"DEBIAN"
 #define EXTRACTCONTROLDIR	BUILDCONTROLDIR
-
-/* Set BUILDOLDPKGFORMAT to 1 to build old-format archives by default. */
-#ifndef BUILDOLDPKGFORMAT
-#define BUILDOLDPKGFORMAT 0
-#endif
 
 #define OLDARCHIVEVERSION	"0.939000"
 

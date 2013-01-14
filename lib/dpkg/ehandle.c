@@ -375,36 +375,8 @@ void ohshite(const char *fmt, ...) {
   run_error_handler();
 }
 
-static int warn_count = 0;
-
-int
-warning_get_count(void)
-{
-  return warn_count;
-}
-
 void
-warningv(const char *fmt, va_list args)
-{
-  char buf[1024];
-
-  warn_count++;
-  vsnprintf(buf, sizeof(buf), fmt, args);
-  fprintf(stderr, _("%s: warning: %s\n"), dpkg_get_progname(), buf);
-}
-
-void
-warning(const char *fmt, ...)
-{
-  va_list args;
-
-  va_start(args, fmt);
-  warningv(fmt, args);
-  va_end(args);
-}
-
-void
-do_internerr(const char *file, int line, const char *fmt, ...)
+do_internerr(const char *file, int line, const char *func, const char *fmt, ...)
 {
   va_list args;
   char buf[1024];
@@ -413,8 +385,8 @@ do_internerr(const char *file, int line, const char *fmt, ...)
   vsnprintf(buf, sizeof(buf), fmt, args);
   va_end(args);
 
-  fprintf(stderr, _("%s:%s:%d: internal error: %s\n"),
-          dpkg_get_progname(), file, line, buf);
+  fprintf(stderr, _("%s:%s:%d:%s: internal error: %s\n"),
+          dpkg_get_progname(), file, line, func, buf);
 
   abort();
 }

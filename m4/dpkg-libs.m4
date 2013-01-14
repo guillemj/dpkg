@@ -42,6 +42,13 @@ AC_DEFUN([DPKG_LIB_ZLIB], [
   DPKG_WITH_COMPRESS_LIB([zlib], [zlib.h], [gzdopen], [z])
 ])# DPKG_LIB_ZLIB
 
+# DPKG_LIB_LZMA
+# -------------
+# Check for lzma library.
+AC_DEFUN([DPKG_LIB_LZMA], [
+  DPKG_WITH_COMPRESS_LIB([liblzma], [lzma.h], [lzma_alone_decoder], [lzma])
+])# DPKG_LIB_LZMA
+
 # DPKG_LIB_BZ2
 # ------------
 # Check for bz2 library.
@@ -54,6 +61,7 @@ AC_DEFUN([DPKG_LIB_BZ2], [
 # Check for selinux library.
 AC_DEFUN([DPKG_LIB_SELINUX], [
 AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+m4_ifndef([PKG_PROG_PKG_CONFIG], [m4_fatal([missing pkg-config macros])])
 AC_ARG_VAR([SELINUX_LIBS], [linker flags for selinux library])dnl
 AC_ARG_WITH(selinux,
 	AS_HELP_STRING([--with-selinux],

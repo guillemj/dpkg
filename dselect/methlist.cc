@@ -60,14 +60,9 @@ void methodlist::setwidths() {
   debug(dbg_general, "methodlist[%p]::setwidths()", this);
 
   status_width= 1;
-  gap_width= 1;
   name_width= 14;
   name_column= status_width + gap_width;
   description_column= name_column + name_width + gap_width;
-
-  total_width= TOTAL_LIST_WIDTH;
-  if (total_width < COLS)
-    total_width= COLS;
   description_width= total_width - description_column;
 }
 
@@ -93,10 +88,10 @@ void methodlist::redraw1itemsel(int index, int selected) {
   int i;
   const char *p;
 
-  wattrset(listpad, selected ? listsel_attr : list_attr);
+  wattrset(listpad, part_attr[selected ? listsel : list]);
   mvwaddch(listpad,index,0,
            table[index] == coption ? '*' : ' ');
-  wattrset(listpad, selected ? listsel_attr : list_attr);
+  wattrset(listpad, part_attr[selected ? listsel : list]);
   mvwprintw(listpad,index,name_column-1, " %-*.*s ",
             name_width, name_width, table[index]->name);
 
@@ -114,7 +109,7 @@ void methodlist::redraw1itemsel(int index, int selected) {
 
 void methodlist::redrawcolheads() {
   if (colheads_height) {
-    wattrset(colheadspad,colheads_attr);
+    wattrset(colheadspad, part_attr[colheads]);
     mywerase(colheadspad);
     mvwaddstr(colheadspad,0,0, "  ");
     mvwaddnstr(colheadspad,0,name_column, _("Abbrev."), name_width);
@@ -187,11 +182,11 @@ quitaction methodlist::display() {
 void methodlist::itd_description() {
   whatinfovb(_("Explanation"));
 
-  wattrset(infopad,info_headattr);
+  wattrset(infopad, part_attr[info_head]);
   waddstr(infopad, table[cursorline]->name);
   waddstr(infopad," - ");
   waddstr(infopad, table[cursorline]->summary);
-  wattrset(infopad,info_attr);
+  wattrset(infopad, part_attr[info]);
 
   const char *m= table[cursorline]->description;
   if (!m || !*m) m= _("No explanation available.");

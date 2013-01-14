@@ -29,6 +29,8 @@ struct tarcontext {
   int backendpipe;
   struct pkginfo *pkg;
   struct fileinlist **newfilesp;
+  /** Are all “Multi-arch: same” instances about to be in sync? */
+  bool pkgset_getting_in_sync;
 };
 
 struct pkg_deconf_list {
@@ -43,7 +45,9 @@ extern struct varbuf fnametmpvb;
 extern struct varbuf fnamenewvb;
 extern struct pkg_deconf_list *deconfigure;
 
-void push_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm);
+void clear_deconfigure_queue(void);
+void enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal);
+void enqueue_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm);
 
 void cu_pathname(int argc, void **argv);
 void cu_cidir(int argc, void **argv);

@@ -17,8 +17,8 @@ Installation methods for multiple binary CDs
 Acquiring package data
 ---------------------
 
- Since this method is derived from the `mounted' method the user is
- able to access up to five binary directories within `dists/stable':
+ Since this method is derived from the 'mounted' method the user is
+ able to access up to five binary directories within 'dists/stable':
 
   . main
   . contrib
@@ -26,7 +26,7 @@ Acquiring package data
   . non-US
   . local
 
- The selected method will try to read the `Packages.cd' file from each
+ The selected method will try to read the 'Packages.cd' file from each
  of these directories if it is available.
 
 Identifying the CD-ROM
@@ -40,7 +40,7 @@ Identifying the CD-ROM
 Installing the files
 --------------------
 
- At the beginning of the installation the `multicd' package will sort
+ At the beginning of the installation the 'multicd' package will sort
  the list of to-be-installed packages and install them CD by CD.  If a
  different CD-ROM is required the user will be prompted to exchange
  the CD-ROM.
@@ -48,26 +48,26 @@ Installing the files
 Preparing multiple binary CD-ROMs
 ---------------------------------
 
- Since the `multicd' methods need to know which packages are on which
- CD-ROMs one cannot use regular `Packages' files.  An additional data
+ Since the 'multicd' methods need to know which packages are on which
+ CD-ROMs one cannot use regular 'Packages' files.  An additional data
  field "X-Medium:" is required.  The first CD-ROM from the set should
- contain all `Packages.cd' files.  To be more convenient you should
- include the `Packages.cd' files on all CD-ROMs.  This ensures that
+ contain all 'Packages.cd' files.  To be more convenient you should
+ include the 'Packages.cd' files on all CD-ROMs.  This ensures that
  you don't have to start with the first CD-ROM all the time.
 
  Additionally the package needs to gain information which CD-ROM is
- currently used.  Thus each CD-ROM contains the file `.disk/info'
+ currently used.  Thus each CD-ROM contains the file '.disk/info'
  which contains the symbolic name for the CD-ROM as specified by
  "X-Medium:".
 
- In order to be able to create the modified `Packages.cd' files, you
- have to use the `-M medium' option of dpkg-scanpackages (supported
+ In order to be able to create the modified 'Packages.cd' files, you
+ have to use the '-M medium' option of dpkg-scanpackages (supported
  in dpkg-dev >= 1.15.5).
 
- To split the `main' distribution into two CD-ROMs you'll need to
- create a `Packages.cd' file for each `binary-$arch' directory.
+ To split the 'main' distribution into two CD-ROMs you'll need to
+ create a 'Packages.cd' file for each 'binary-$arch' directory.
  Afterwards you simply append the second one to the first one and
- put the resulting `Packages.cd' file into both `binary-$arch'
+ put the resulting 'Packages.cd' file into both 'binary-$arch'
  directories.
 
 Sample Layout
@@ -98,7 +98,7 @@ Sample Layout
                   non-US/binary-all/
 
  To re-generate the Packages file you have to chdir into
- `dists/stable/$part' and issue `dpkg-scanpackages' as follows.  It's
+ 'dists/stable/$part' and issue 'dpkg-scanpackages' as follows.  It's
  assumed that you use regular compressed overrides files in
  /pub/debian/indices.
 

@@ -10,7 +10,7 @@
 # Copyright © 2000-2003 Adam Heath <doogie@debian.org>
 # Copyright © 2005 Brendan O'Dea <bod@debian.org>
 # Copyright © 2006-2008 Frank Lichtenheld <djpig@debian.org>
-# Copyright © 2006-2009 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2009,2012 Guillem Jover <guillem@debian.org>
 # Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@ use warnings;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Arch qw(debarch_eq);
+use Dpkg::Arch qw(debarch_eq debarch_is debarch_is_wildcard);
 use Dpkg::Deps;
 use Dpkg::Compression;
 use Dpkg::Conf;
@@ -191,7 +191,7 @@ while (@options) {
         $substvars->set($1, $2);
     } elsif (m/^-T(.*)$/) {
 	$substvars->load($1) if -e $1;
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {
@@ -246,10 +246,10 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
 	    $fields->{$_} = $v;
 	} elsif (m/^Uploaders$/i) {
 	    ($fields->{$_} = $v) =~ s/\s*[\r\n]\s*/ /g; # Merge in a single-line
-	} elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
+	} elsif (m/^Build-(Depends|Conflicts)(-Arch|-Indep)?$/i) {
 	    my $dep;
 	    my $type = field_get_dep_type($_);
-	    $dep = deps_parse($v, union => $type eq 'union');
+	    $dep = deps_parse($v, build_dep => 1, union => $type eq 'union');
 	    error(_g("error occurred while parsing %s"), $_) unless defined $dep;
 	    my $facts = Dpkg::Deps::KnownFacts->new();
 	    $dep->simplify_deps($facts);
@@ -308,6 +308,16 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
         } else {
             @sourcearch = ('any');
         }
+    } else {
+        # Minimize arch list, by remoing arches already covered by wildcards
+        my @arch_wildcards = grep(debarch_is_wildcard($_), @sourcearch);
+        my @mini_sourcearch = @arch_wildcards;
+        foreach my $arch (@sourcearch) {
+            if (!grep(debarch_is($arch, $_), @arch_wildcards)) {
+                push @mini_sourcearch, $arch;
+            }
+        }
+        @sourcearch = @mini_sourcearch;
     }
     $fields->{'Architecture'} = join(' ', @sourcearch);
     $fields->{'Package-List'} = "\n" . join("\n", sort @pkglist);
@@ -323,6 +333,9 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
 	    my ($ok, $error) = version_check($v);
             error($error) unless $ok;
 	    $fields->{$_} = $v;
+	} elsif (m/^Binary-Only$/) {
+	    error(_g("building source for a binary-only release"))
+	        if $v eq "yes" and $options{'opmode'} eq "-b";
 	} elsif (m/^Maintainer$/i) {
             # Do not replace the field coming from the source entry
 	} else {
@@ -455,11 +468,6 @@ sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
     print _g("
-Copyright (C) 1996 Ian Jackson
-Copyright (C) 1997 Klee Dienes
-Copyright (C) 2008 Raphael Hertzog");
-
-    print _g("
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ");
@@ -467,9 +475,9 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...] <command>
-
-Commands:
+"Usage: %s [<option>...] <command>")
+    . "\n\n" . _g(
+"Commands:
   -x <filename>.dsc [<output-dir>]
                            extract source package.
   -b <dir>                 build source package.
@@ -479,11 +487,11 @@ Commands:
                            store upstream changes in a new patch.")
     . "\n\n" . _g(
 "Build options:
-  -c<controlfile>          get control info from this file.
-  -l<changelogfile>        get per-version info from this file.
-  -F<changelogformat>      force change log format.
+  -c<control-file>         get control info from this file.
+  -l<changelog-file>       get per-version info from this file.
+  -F<changelog-format>     force changelog format.
   -V<name>=<value>         set a substitution variable.
-  -T<varlistfile>          read variables here.
+  -T<substvars-file>       read variables here.
   -D<field>=<value>        override or add a .dsc field and value.
   -U<field>                remove a field.
   -q                       quiet mode.
@@ -502,7 +510,7 @@ Commands:
   --require-valid-signature abort if the package doesn't have a valid signature")
     . "\n\n" . _g(
 "General options:
-  -h, --help               show this help message.
+  -?, --help               show this help message.
       --version            show the version.")
     . "\n\n" . _g(
 "More options are available but they depend on the source package format.

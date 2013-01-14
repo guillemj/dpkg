@@ -38,7 +38,7 @@ Dpkg::Control::Info - parse files like debian/control
 =head1 DESCRIPTION
 
 It provides an object to access data of files that follow the same
-syntax than debian/control.
+syntax as debian/control.
 
 =head1 FUNCTIONS
 

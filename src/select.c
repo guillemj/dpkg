@@ -3,6 +3,9 @@
  * select.c - by-hand (rather than dselect-based) package selection
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006,2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011 Linaro Limited
+ * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,17 +34,26 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-array.h>
+#include <dpkg/pkg-show.h>
+#include <dpkg/pkg-spec.h>
 #include <dpkg/options.h>
 
 #include "filesdb.h"
+#include "infodb.h"
 #include "main.h"
 
 static void getsel1package(struct pkginfo *pkg) {
+  const char *pkgname;
   int l;
 
   if (pkg->want == want_unknown) return;
-  l= strlen(pkg->name); l >>= 3; l= 6-l; if (l<1) l=1;
-  printf("%s%.*s%s\n",pkg->name,l,"\t\t\t\t\t\t",wantinfos[pkg->want].name);
+  pkgname = pkg_name(pkg, pnaw_nonambig);
+  l = strlen(pkgname);
+  l >>= 3;
+  l = 6 - l;
+  if (l < 1)
+    l = 1;
+  printf("%s%.*s%s\n", pkgname, l, "\t\t\t\t\t\t", wantinfos[pkg->want].name);
 }
 
 int
@@ -55,7 +67,7 @@ getselections(const char *const *argv)
   modstatdb_open(msdbrw_readonly);
 
   pkg_array_init_from_db(&array);
-  pkg_array_sort(&array, pkg_sorter_by_name);
+  pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {
@@ -65,14 +77,22 @@ getselections(const char *const *argv)
     }
   } else {
     while ((thisarg= *argv++)) {
+      struct pkg_spec pkgspec;
+
       found= 0;
+      pkg_spec_init(&pkgspec, psf_patterns | psf_arch_def_wildcard);
+      pkg_spec_parse(&pkgspec, thisarg);
+
       for (i = 0; i < array.n_pkgs; i++) {
         pkg = array.pkgs[i];
-        if (fnmatch(thisarg,pkg->name,0)) continue;
+        if (!pkg_spec_match_pkg(&pkgspec, pkg, &pkg->installed))
+          continue;
         getsel1package(pkg); found++;
       }
       if (!found)
-        fprintf(stderr,_("No packages found matching %s.\n"),thisarg);
+        notice(_("no packages found matching %s"), thisarg);
+
+      pkg_spec_destroy(&pkgspec);
     }
   }
 
@@ -89,7 +109,6 @@ setselections(const char *const *argv)
 {
   const struct namevalue *nv;
   struct pkginfo *pkg;
-  const char *e;
   int c, lno;
   struct varbuf namevb = VARBUF_INIT;
   struct varbuf selvb = VARBUF_INIT;
@@ -98,9 +117,12 @@ setselections(const char *const *argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_open(msdbrw_write | msdbrw_available_readonly);
+  pkg_infodb_upgrade();
 
   lno= 1;
   for (;;) {
+    struct dpkg_error err;
+
     do { c= getchar(); if (c == '\n') lno++; } while (c != EOF && isspace(c));
     if (c == EOF) break;
     if (c == '#') {
@@ -135,14 +157,21 @@ setselections(const char *const *argv)
       if (!isspace(c))
         ohshit(_("unexpected data after package and selection at line %d"),lno);
     }
-    e = pkg_name_is_illegal(namevb.buf, NULL);
-    if (e) ohshit(_("illegal package name at line %d: %.250s"),lno,e);
+    pkg = pkg_spec_parse_pkg(namevb.buf, &err);
+    if (pkg == NULL)
+      ohshit(_("illegal package name at line %d: %.250s"), lno, err.str);
+
+    if (!pkg_is_informative(pkg, &pkg->installed) &&
+        !pkg_is_informative(pkg, &pkg->available)) {
+      warning(_("package not in database at line %d: %.250s"), lno, namevb.buf);
+      continue;
+    }
 
     nv = namevalue_find_by_name(wantinfos, selvb.buf);
     if (nv == NULL)
       ohshit(_("unknown wanted status at line %d: %.250s"), lno, selvb.buf);
-    pkg = pkg_db_find(namevb.buf);
-    pkg->want = nv->value;
+
+    pkg_set_want(pkg, nv->value);
     if (c == EOF) break;
     lno++;
   }
@@ -164,11 +193,12 @@ clearselections(const char *const *argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
   modstatdb_open(msdbrw_write);
+  pkg_infodb_upgrade();
 
   it = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next(it))) {
+  while ((pkg = pkg_db_iter_next_pkg(it))) {
     if (!pkg->installed.essential)
-      pkg->want = want_deinstall;
+      pkg_set_want(pkg, want_deinstall);
   }
   pkg_db_iter_free(it);
 

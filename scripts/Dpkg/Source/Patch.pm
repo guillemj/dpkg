@@ -319,6 +319,7 @@ sub analyze {
     my %filepatched;
     my %dirtocreate;
     my @patchorder;
+    my $patch_header = '';
     my $diff_count = 0;
 
     sub getline {
@@ -375,7 +376,12 @@ sub analyze {
     while (defined($_) || not eof($self)) {
 	my (%path, %fn);
 	# skip comments leading up to patch (if any)
-	until (/^--- /) {
+	while (1) {
+	    if (/^--- /) {
+		last;
+	    } else {
+		$patch_header .= "$_\n";
+	    }
 	    last HUNK if not defined($_ = getline($self));
 	}
 	$diff_count++;
@@ -492,6 +498,7 @@ sub analyze {
     *$self->{'analysis'}{$destdir}{"dirtocreate"} = \%dirtocreate;
     *$self->{'analysis'}{$destdir}{"filepatched"} = \%filepatched;
     *$self->{'analysis'}{$destdir}{"patchorder"} = \@patchorder;
+    *$self->{'analysis'}{$destdir}{"patchheader"} = $patch_header;
     return *$self->{'analysis'}{$destdir};
 }
 

@@ -38,8 +38,8 @@ nobase_dist_perllib_DATA = Debian/Dselect/Ftp.pm
 EXTRA_DIST = multicd/README.multicd
 
 install-data-local:
-	$(mkdir_p) $(DESTDIR)$(admindir)/methods/mnt
-	$(mkdir_p) $(DESTDIR)$(admindir)/methods/disk
-	$(mkdir_p) $(DESTDIR)$(admindir)/methods/floppy
-	$(mkdir_p) $(DESTDIR)$(admindir)/methods/ftp
-	$(mkdir_p) $(DESTDIR)$(admindir)/methods/multicd
+	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/mnt
+	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/disk
+	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/floppy
+	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/ftp
+	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/multicd

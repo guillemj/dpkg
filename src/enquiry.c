@@ -3,6 +3,9 @@
  * enquiry.c - status enquiry and listing options
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006,2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011 Linaro Limited
+ * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,75 +42,124 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/arch.h>
 #include <dpkg/pkg-show.h>
+#include <dpkg/string.h>
 #include <dpkg/options.h>
 
 #include "filesdb.h"
+#include "infodb.h"
 #include "main.h"
 
 struct badstatinfo {
   bool (*yesno)(struct pkginfo *, const struct badstatinfo *bsi);
-  int value;
+  union {
+    int number;
+    const char *string;
+  } value;
   const char *explanation;
 };
 
 static bool
 bsyn_reinstreq(struct pkginfo *pkg, const struct badstatinfo *bsi)
 {
-  return pkg->eflag &= eflag_reinstreq;
+  return pkg->eflag & eflag_reinstreq;
 }
 
 static bool
 bsyn_status(struct pkginfo *pkg, const struct badstatinfo *bsi)
 {
-  if (pkg->eflag &= eflag_reinstreq)
+  if (pkg->eflag & eflag_reinstreq)
     return false;
-  return (int)pkg->status == bsi->value;
+  return (int)pkg->status == bsi->value.number;
+}
+
+static bool
+bsyn_infofile(struct pkginfo *pkg, const struct badstatinfo *bsi)
+{
+  if (pkg->status < stat_halfinstalled)
+    return false;
+  return !pkg_infodb_has_file(pkg, &pkg->installed, bsi->value.string);
+}
+
+static bool
+bsyn_arch(struct pkginfo *pkg, const struct badstatinfo *bsi)
+{
+  if (pkg->status < stat_halfinstalled)
+    return false;
+  return pkg->installed.arch->type == (enum dpkg_arch_type)bsi->value.number;
 }
 
 static const struct badstatinfo badstatinfos[]= {
   {
     .yesno = bsyn_reinstreq,
-    .value = 0,
+    .value.number = 0,
     .explanation = N_(
     "The following packages are in a mess due to serious problems during\n"
     "installation.  They must be reinstalled for them (and any packages\n"
     "that depend on them) to function properly:\n")
   }, {
     .yesno = bsyn_status,
-    .value = stat_unpacked,
+    .value.number = stat_unpacked,
     .explanation = N_(
     "The following packages have been unpacked but not yet configured.\n"
     "They must be configured using dpkg --configure or the configure\n"
     "menu option in dselect for them to work:\n")
   }, {
     .yesno = bsyn_status,
-    .value = stat_halfconfigured,
+    .value.number = stat_halfconfigured,
     .explanation = N_(
     "The following packages are only half configured, probably due to problems\n"
     "configuring them the first time.  The configuration should be retried using\n"
     "dpkg --configure <package> or the configure menu option in dselect:\n")
   }, {
     .yesno = bsyn_status,
-    .value = stat_halfinstalled,
+    .value.number = stat_halfinstalled,
     .explanation = N_(
     "The following packages are only half installed, due to problems during\n"
     "installation.  The installation can probably be completed by retrying it;\n"
     "the packages can be removed using dselect or dpkg --remove:\n")
   }, {
     .yesno = bsyn_status,
-    .value = stat_triggersawaited,
+    .value.number = stat_triggersawaited,
     .explanation = N_(
     "The following packages are awaiting processing of triggers that they\n"
     "have activated in other packages.  This processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
   }, {
     .yesno = bsyn_status,
-    .value = stat_triggerspending,
+    .value.number = stat_triggerspending,
     .explanation = N_(
     "The following packages have been triggered, but the trigger processing\n"
     "has not yet been done.  Trigger processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
+  }, {
+    .yesno = bsyn_infofile,
+    .value.string = LISTFILE,
+    .explanation = N_(
+    "The following packages are missing the list control file in the\n"
+    "database, they need to be reinstalled:\n")
+  }, {
+    .yesno = bsyn_infofile,
+    .value.string = HASHFILE,
+    .explanation = N_(
+    "The following packages are missing the md5sums control file in the\n"
+    "database, they need to be reinstalled:\n")
+  }, {
+    .yesno = bsyn_arch,
+    .value.number = arch_none,
+    .explanation = N_("The following packages do not have an architecture:\n")
+  }, {
+    .yesno = bsyn_arch,
+    .value.number = arch_illegal,
+    .explanation = N_("The following packages have an illegal architecture:\n")
+  }, {
+    .yesno = bsyn_arch,
+    .value.number = arch_unknown,
+    .explanation = N_(
+    "The following packages have an unknown foreign architecture, which will\n"
+    "cause dependency issues on front-ends. This can be fixed by registering\n"
+    "the foreign architecture with dpkg --add-architecture:\n")
   }, {
     .yesno = NULL
   }
@@ -118,13 +170,13 @@ static void describebriefly(struct pkginfo *pkg) {
   const char *pdesc;
 
   maxl= 57;
-  l= strlen(pkg->name);
+  l= strlen(pkg->set->name);
   if (l>20) maxl -= (l-20);
 
-  pdesc = pkg_summary(pkg, &l);
+  pdesc = pkg_summary(pkg, &pkg->installed, &l);
   l = min(l, maxl);
 
-  printf(" %-20s %.*s\n",pkg->name,l,pdesc);
+  printf(" %-20s %.*s\n", pkg_name(pkg, pnaw_nonambig), l, pdesc);
 }
 
 int
@@ -144,7 +196,7 @@ audit(const char *const *argv)
     bool head = false;
 
     it = pkg_db_iter_new();
-    while ((pkg = pkg_db_iter_next(it))) {
+    while ((pkg = pkg_db_iter_next_pkg(it))) {
       if (!bsi->yesno(pkg,bsi)) continue;
       if (!head_running) {
         if (modstatdb_is_locked())
@@ -187,8 +239,8 @@ yettobeunpacked(struct pkginfo *pkg, const char **thissect)
     return false;
   case stat_notinstalled: case stat_halfinstalled: case stat_configfiles:
     if (thissect)
-      *thissect = pkg->section && *pkg->section ? pkg->section :
-                                                  C_("section", "<unknown>");
+      *thissect = str_is_set(pkg->section) ? pkg->section :
+                                             C_("section", "<unknown>");
     return true;
   default:
     internerr("unknown package status '%d'", pkg->status);
@@ -216,7 +268,7 @@ unpackchk(const char *const *argv)
   sectionentries = NULL;
   sects= 0;
   it = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next(it))) {
+  while ((pkg = pkg_db_iter_next_pkg(it))) {
     if (!yettobeunpacked(pkg, &thissect)) continue;
     for (se= sectionentries; se && strcasecmp(thissect,se->name); se= se->next);
     if (!se) {
@@ -239,7 +291,7 @@ unpackchk(const char *const *argv)
 
   if (totalcount <= 12) {
     it = pkg_db_iter_new();
-    while ((pkg = pkg_db_iter_next(it))) {
+    while ((pkg = pkg_db_iter_next_pkg(it))) {
       if (!yettobeunpacked(pkg, NULL))
         continue;
       describebriefly(pkg);
@@ -252,12 +304,16 @@ unpackchk(const char *const *argv)
       width= 70-strlen(se->name)-strlen(buf);
       while (width > 59) { putchar(' '); width--; }
       it = pkg_db_iter_new();
-      while ((pkg = pkg_db_iter_next(it))) {
+      while ((pkg = pkg_db_iter_next_pkg(it))) {
+        const char *pkgname;
+
         if (!yettobeunpacked(pkg,&thissect)) continue;
         if (strcasecmp(thissect,se->name)) continue;
-        width -= strlen(pkg->name); width--;
+        pkgname = pkg_name(pkg, pnaw_nonambig);
+        width -= strlen(pkgname);
+        width--;
         if (width < 4) { printf(" ..."); break; }
-        printf(" %s",pkg->name);
+        printf(" %s", pkgname);
       }
       pkg_db_iter_free(it);
       putchar('\n');
@@ -283,7 +339,7 @@ unpackchk(const char *const *argv)
 
 static int
 assert_version_support(const char *const *argv,
-                       struct versionrevision *version,
+                       struct dpkg_version *version,
                        const char *feature_name)
 {
   struct pkginfo *pkg;
@@ -293,14 +349,14 @@ assert_version_support(const char *const *argv,
 
   modstatdb_open(msdbrw_readonly);
 
-  pkg = pkg_db_find("dpkg");
+  pkg = pkg_db_find_singleton("dpkg");
   switch (pkg->status) {
   case stat_installed:
   case stat_triggerspending:
     return 0;
   case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
   case stat_triggersawaited:
-    if (versionsatisfied3(&pkg->configversion, version, dvr_laterequal))
+    if (dpkg_version_relate(&pkg->configversion, dpkg_relation_ge, version))
       return 0;
     printf(_("Version of dpkg with working %s support not yet configured.\n"
              " Please use 'dpkg --configure dpkg', and then try again.\n"),
@@ -316,7 +372,7 @@ assert_version_support(const char *const *argv,
 int
 assertpredep(const char *const *argv)
 {
-  struct versionrevision version = { 0, "1.1.0", NULL };
+  struct dpkg_version version = { 0, "1.1.0", NULL };
 
   return assert_version_support(argv, &version, _("Pre-Depends field"));
 }
@@ -324,7 +380,7 @@ assertpredep(const char *const *argv)
 int
 assertepoch(const char *const *argv)
 {
-  struct versionrevision version = { 0, "1.4.0.7", NULL };
+  struct dpkg_version version = { 0, "1.4.0.7", NULL };
 
   return assert_version_support(argv, &version, _("epoch"));
 }
@@ -332,7 +388,7 @@ assertepoch(const char *const *argv)
 int
 assertlongfilenames(const char *const *argv)
 {
-  struct versionrevision version = { 0, "1.4.1.17", NULL };
+  struct dpkg_version version = { 0, "1.4.1.17", NULL };
 
   return assert_version_support(argv, &version, _("long filenames"));
 }
@@ -340,10 +396,18 @@ assertlongfilenames(const char *const *argv)
 int
 assertmulticonrep(const char *const *argv)
 {
-  struct versionrevision version = { 0, "1.4.1.19", NULL };
+  struct dpkg_version version = { 0, "1.4.1.19", NULL };
 
   return assert_version_support(argv, &version,
                                 _("multiple Conflicts and Replaces"));
+}
+
+int
+assertmultiarch(const char *const *argv)
+{
+  struct dpkg_version version = { 0, "1.16.2", NULL };
+
+  return assert_version_support(argv, &version, _("multi-arch"));
 }
 
 /**
@@ -378,7 +442,7 @@ predeppackage(const char *const *argv)
 
   dep = NULL;
   it = pkg_db_iter_new();
-  while (!dep && (pkg = pkg_db_iter_next(it))) {
+  while (!dep && (pkg = pkg_db_iter_next_pkg(it))) {
     /* Ignore packages user doesn't want. */
     if (pkg->want != want_install)
       continue;
@@ -412,28 +476,41 @@ predeppackage(const char *const *argv)
     for (possi = dep->list, pkg = NULL;
          !pkg && possi;
          possi=possi->next) {
-      trypkg= possi->ed;
-      if (trypkg->files && versionsatisfied(&trypkg->available,possi)) {
-        if (trypkg->clientdata->istobe == itb_normal) { pkg= trypkg; break; }
-      }
-      if (possi->verrel != dvr_none) continue;
-      for (provider=possi->ed->available.depended;
-           !pkg && provider;
-           provider=provider->next) {
-        if (provider->up->type != dep_provides) continue;
-        trypkg= provider->up->up;
-        if (!trypkg->files)
+      struct deppossi_pkg_iterator *possi_iter;
+
+      possi_iter = deppossi_pkg_iter_new(possi, wpb_available);
+      while (!pkg && (trypkg = deppossi_pkg_iter_next(possi_iter))) {
+        if (trypkg->files && trypkg->clientdata->istobe == itb_normal &&
+            versionsatisfied(&trypkg->available, possi)) {
+          pkg = trypkg;
+          break;
+        }
+        if (possi->verrel != dpkg_relation_none)
           continue;
-        if (trypkg->clientdata->istobe == itb_normal) { pkg= trypkg; break; }
+        for (provider = possi->ed->depended.available;
+             !pkg && provider;
+             provider = provider->next) {
+          if (provider->up->type != dep_provides)
+            continue;
+          trypkg = provider->up->up;
+          if (!trypkg->files)
+            continue;
+          if (trypkg->clientdata->istobe == itb_normal) {
+            pkg = trypkg;
+            break;
+          }
+        }
       }
+      deppossi_pkg_iter_free(possi_iter);
     }
     if (!pkg) {
       varbuf_reset(&vb);
       describedepcon(&vb,dep);
       varbuf_end_str(&vb);
-      fprintf(stderr, _("dpkg: cannot see how to satisfy pre-dependency:\n %s\n"),vb.buf);
+      notice(_("cannot see how to satisfy pre-dependency:\n %s"), vb.buf);
       ohshit(_("cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"),
-             dep->up->name,startpkg->name);
+             pkgbin_name(dep->up, &dep->up->available, pnaw_nonambig),
+             pkgbin_name(startpkg, &startpkg->available, pnaw_nonambig));
     }
     pkg->clientdata->istobe= itb_preinstall;
     for (dep= pkg->available.depends; dep; dep= dep->next) {
@@ -459,7 +536,7 @@ printarch(const char *const *argv)
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  printf("%s\n", native_arch);
+  printf("%s\n", dpkg_arch_get(arch_native)->name);
 
   m_output(stdout, _("<standard output>"));
 
@@ -469,9 +546,31 @@ printarch(const char *const *argv)
 int
 printinstarch(const char *const *argv)
 {
-  warning(_("obsolete option '--%s', please use '--%s' instead."),
+  warning(_("obsolete option '--%s'; please use '--%s' instead"),
           "print-installation-architecture", "print-architecture");
   return printarch(argv);
+}
+
+int
+print_foreign_arches(const char *const *argv)
+{
+  struct dpkg_arch *arch;
+
+  if (*argv)
+    badusage(_("--%s takes no arguments"), cipaction->olong);
+
+  dpkg_arch_load_list();
+
+  for (arch = dpkg_arch_get_list(); arch; arch = arch->next) {
+    if (arch->type != arch_foreign)
+      continue;
+
+    printf("%s\n", arch->name);
+  }
+
+  m_output(stdout, _("<standard output>"));
+
+  return 0;
 }
 
 int
@@ -511,7 +610,7 @@ cmpversions(const char *const *argv)
   };
 
   const struct relationinfo *rip;
-  struct versionrevision a, b;
+  struct dpkg_version a, b;
   struct dpkg_error err;
   int r;
 
@@ -532,7 +631,7 @@ cmpversions(const char *const *argv)
       dpkg_error_destroy(&err);
     }
   } else {
-    blankversion(&a);
+    dpkg_version_blank(&a);
   }
   if (*argv[2] && strcmp(argv[2],"<unknown>")) {
     if (parseversion(&b, argv[2], &err) < 0) {
@@ -543,14 +642,17 @@ cmpversions(const char *const *argv)
       dpkg_error_destroy(&err);
     }
   } else {
-    blankversion(&b);
+    dpkg_version_blank(&b);
   }
-  if (!informativeversion(&a)) {
-    return informativeversion(&b) ? rip->if_none_a : rip->if_none_both;
-  } else if (!informativeversion(&b)) {
+  if (!dpkg_version_is_informative(&a)) {
+    if (dpkg_version_is_informative(&b))
+      return rip->if_none_a;
+    else
+      return rip->if_none_both;
+  } else if (!dpkg_version_is_informative(&b)) {
     return rip->if_none_b;
   }
-  r= versioncompare(&a,&b);
+  r = dpkg_version_compare(&a, &b);
   debug(dbg_general,"cmpversions a=`%s' b=`%s' r=%d",
         versiondescribe(&a,vdew_always),
         versiondescribe(&b,vdew_always),

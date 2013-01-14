@@ -3,7 +3,7 @@
  * tarfn.c - tar archive extraction functions
  *
  * Copyright © 1995 Bruce Perens
- * Copyright © 2007-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -77,23 +77,6 @@ OtoM(const char *s, int size)
 		n = (n * 010) + (*s++ - '0');
 
 	return n;
-}
-
-/**
- * Convert a string block to C NUL-terminated string.
- */
-static char *
-StoC(const char *s, int size)
-{
-	int len;
-	char *str;
-
-	len = strnlen(s, size);
-	str = m_malloc(len + 1);
-	memcpy(str, s, len);
-	str[len] = '\0';
-
-	return str;
 }
 
 static char *
@@ -193,8 +176,8 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 	if (d->format == tar_format_ustar && h->prefix[0] != '\0')
 		d->name = get_prefix_name(h);
 	else
-		d->name = StoC(h->name, sizeof(h->name));
-	d->linkname = StoC(h->linkname, sizeof(h->linkname));
+		d->name = m_strndup(h->name, sizeof(h->name));
+	d->linkname = m_strndup(h->linkname, sizeof(h->linkname));
 	d->stat.mode = get_unix_mode(h);
 	d->size = (off_t)OtoM(h->size, sizeof(h->size));
 	d->mtime = (time_t)OtoM(h->mtime, sizeof(h->mtime));
@@ -266,6 +249,13 @@ tar_gnu_long(void *ctx, const struct tar_operations *ops, struct tar_entry *te,
 	return status;
 }
 
+static void
+tar_entry_destroy(struct tar_entry *te)
+{
+	free(te->name);
+	free(te->linkname);
+}
+
 struct symlinkList {
 	struct symlinkList *next;
 	struct tar_entry h;
@@ -301,6 +291,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 				errno = 0;
 				status = -1;
 			}
+			tar_entry_destroy(&h);
 			break;
 		}
 		if (h.type != tar_filetype_gnu_longlink &&
@@ -319,6 +310,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 			/* Indicates broken tarfile: “Bad header data”. */
 			errno = 0;
 			status = -1;
+			tar_entry_destroy(&h);
 			break;
 		}
 
@@ -371,6 +363,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 			errno = 0;
 			status = -1;
 		}
+		tar_entry_destroy(&h);
 		if (status != 0)
 			/* Pass on status from coroutine. */
 			break;
@@ -380,13 +373,10 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 		symlink_node = symlink_head->next;
 		if (status == 0)
 			status = ops->symlink(ctx, &symlink_head->h);
-		free(symlink_head->h.name);
-		free(symlink_head->h.linkname);
+		tar_entry_destroy(&symlink_head->h);
 		free(symlink_head);
 		symlink_head = symlink_node;
 	}
-	free(h.name);
-	free(h.linkname);
 
 	if (status > 0) {
 		/* Indicates broken tarfile: “Read partial header record”. */

@@ -28,15 +28,17 @@
 %option nodefault
 %option perf-report
 %option warn
+%option noinput
 %option nounput
 
 %x midline
 
-%{
-
+%top {
 #include <config.h>
 #include <compat.h>
+}
 
+%{
 #include <sys/stat.h>
 #include <sys/fcntl.h>
 
@@ -48,7 +50,6 @@
 #include <dpkg/trigdeferred.h>
 #include <dpkg/triglib.h>
 
-#define YY_NO_INPUT
 #define YY_DECL int trigdef_parse(void)
 
 static struct varbuf fn, newfn;
@@ -67,7 +68,7 @@ static const struct trigdefmeths *trigdef;
 	}
 
 <midline>[ \t]	/* whitespace */
-<midline>[-0-9a-z][-+.0-9a-z]*	{
+<midline>[-0-9a-z][-:+.0-9a-z]*	{
 	if (trigdef_yytext[0] == '-' && trigdef_yytext[1])
 		ohshit(_("invalid package name `%.250s' in triggers deferred "
 		         "file `%.250s'"), trigdef_yytext, fn.buf);

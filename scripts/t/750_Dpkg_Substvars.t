@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 26;
+use Test::More tests => 32;
 
 use strict;
 use warnings;
@@ -56,6 +56,14 @@ $s->set_arch_substvars();
 is($s->get('Arch'), get_host_arch(),'arch');
 
 is($s->get($_), undef, 'no ' . $_) for qw/binary:Version source:Version source:Upstream-Version/;
+$s->set_version_substvars("1:2.3.4~5-6.7.8~nmu9", "1:2.3.4~5-6.7.8~nmu9+bin0");
+is($s->get("binary:Version"), "1:2.3.4~5-6.7.8~nmu9+bin0", "binary:Version");
+is($s->get("source:Version"), "1:2.3.4~5-6.7.8~nmu9", "source:Version");
+is($s->get("source:Upstream-Version"), "1:2.3.4~5", "source:Upstream-Version");
+$s->set_version_substvars("2.3.4~5-6.7.8~nmu9+b1", "1:2.3.4~5-6.7.8~nmu9+b1");
+is($s->get("binary:Version"), "1:2.3.4~5-6.7.8~nmu9+b1", "binary:Version");
+is($s->get("source:Version"), "2.3.4~5-6.7.8~nmu9", "source:Version");
+is($s->get("source:Upstream-Version"), "2.3.4~5", "source:Upstream-Version");
 $s->set_version_substvars("1:2.3.4~5-6.7.8~nmu9+b0");
 is($s->get("binary:Version"), "1:2.3.4~5-6.7.8~nmu9+b0", "binary:Version");
 is($s->get("source:Version"), "1:2.3.4~5-6.7.8~nmu9", "source:Version");
@@ -95,7 +103,7 @@ is($output, "750_Dpkg_Substvars.t: warning: unused substitution variable \${var2
           , 'unused variables warnings');
 
 # Disable warnings for a certain variable
-$s->no_warn('var2');
+$s->mark_as_used('var2');
 $output = '';
 $SIG{'__WARN__'} = sub { $output .= $_[0] };
 $s->warn_about_unused();

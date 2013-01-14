@@ -57,7 +57,7 @@ sub init_options {
         unless exists $self->{'options'}{'preparation'};
     $self->{'options'}{'skip_patches'} = 0
         unless exists $self->{'options'}{'skip_patches'};
-    $self->{'options'}{'unapply_patches'} = 0
+    $self->{'options'}{'unapply_patches'} = 'auto'
         unless exists $self->{'options'}{'unapply_patches'};
     $self->{'options'}{'skip_debianization'} = 0
         unless exists $self->{'options'}{'skip_debianization'};
@@ -85,7 +85,10 @@ sub parse_cmdline_option {
         $self->{'options'}{'skip_patches'} = 1;
         return 1;
     } elsif ($opt =~ /^--unapply-patches$/) {
-        $self->{'options'}{'unapply_patches'} = 1;
+        $self->{'options'}{'unapply_patches'} = 'yes';
+        return 1;
+    } elsif ($opt =~ /^--no-unapply-patches$/) {
+        $self->{'options'}{'unapply_patches'} = 'no';
         return 1;
     } elsif ($opt =~ /^--skip-debianization$/) {
         $self->{'options'}{'skip_debianization'} = 1;
@@ -278,8 +281,9 @@ sub after_build {
         $reason = <APPLIED>;
         close(APPLIED);
     }
-    if ($reason =~ /^# During preparation/ or
-        $self->{'options'}{'unapply_patches'}) {
+    my $opt_unapply = $self->{'options'}{'unapply_patches'};
+    if (($opt_unapply eq "auto" and $reason =~ /^# During preparation/) or
+        $opt_unapply eq "yes") {
         $self->unapply_patches($dir);
     }
 }
@@ -380,7 +384,14 @@ sub generate_patch {
     my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
                                         compression => "none");
     $diff->create();
-    $diff->set_header($self->get_patch_header($dir));
+    if ($opts{'header_from'} and -e $opts{'header_from'}) {
+        my $header_from = Dpkg::Source::Patch->new(
+            filename => $opts{'header_from'});
+        my $analysis = $header_from->analyze($dir, verbose => 0);
+        $diff->set_header($analysis->{'patchheader'});
+    } else {
+        $diff->set_header($self->get_patch_header($dir));
+    }
     $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
             %{$self->{'diff_options'}},
             handle_binary_func => $opts{'handle_binary'},
@@ -418,43 +429,14 @@ sub do_build {
     my $sourcepackage = $self->{'fields'}{'Source'};
     my $basenamerev = $self->get_basename(1);
 
-    # Prepare handling of binary files
-    my %auth_bin_files;
-    my $incbin_file = File::Spec->catfile($dir, "debian", "source", "include-binaries");
-    if (-f $incbin_file) {
-        open(INC, "<", $incbin_file) || syserr(_g("cannot read %s"), $incbin_file);
-        while(defined($_ = <INC>)) {
-            chomp; s/^\s*//; s/\s*$//;
-            next if /^#/ or /^$/;
-            $auth_bin_files{$_} = 1;
-        }
-        close(INC);
-    }
-    my @binary_files;
-    my $handle_binary = sub {
-        my ($self, $old, $new) = @_;
-        my $relfn = File::Spec->abs2rel($new, $dir);
-        # Include binaries if they are whitelisted or if
-        # --include-binaries has been given
-        if ($include_binaries or $auth_bin_files{$relfn}) {
-            push @binary_files, $relfn;
-        } else {
-            errormsg(_g("cannot represent change to %s: %s"), $new,
-                     _g("binary file contents changed"));
-            errormsg(_g("add %s in debian/source/include-binaries if you want" .
-                     " to store the modified binary in the debian tarball"),
-                     $relfn);
-            $self->register_error();
-        }
-    };
     # Check if the debian directory contains unwanted binary files
+    my $binaryfiles = Dpkg::Source::Package::V2::BinaryFiles->new($dir);
     my $unwanted_binaries = 0;
     my $check_binary = sub {
-        my $fn = File::Spec->abs2rel($_, $dir);
         if (-f $_ and is_binary($_)) {
-            if ($include_binaries or $auth_bin_files{$fn}) {
-                push @binary_files, $fn;
-            } else {
+            my $fn = File::Spec->abs2rel($_, $dir);
+            $binaryfiles->new_binary_found($fn);
+            unless ($include_binaries or $binaryfiles->binary_is_allowed($fn)) {
                 errormsg(_g("unwanted binary file: %s"), $fn);
                 $unwanted_binaries++;
             }
@@ -497,10 +479,26 @@ sub do_build {
              $unwanted_binaries), $unwanted_binaries)
          if $unwanted_binaries;
 
+    # Handle modified binary files detected by the auto-patch generation
+    my $handle_binary = sub {
+        my ($self, $old, $new) = @_;
+        my $relfn = File::Spec->abs2rel($new, $dir);
+        $binaryfiles->new_binary_found($relfn);
+        unless ($include_binaries or $binaryfiles->binary_is_allowed($relfn)) {
+            errormsg(_g("cannot represent change to %s: %s"), $relfn,
+                     _g("binary file contents changed"));
+            errormsg(_g("add %s in debian/source/include-binaries if you want" .
+                     " to store the modified binary in the debian tarball"),
+                     $relfn);
+            $self->register_error();
+        }
+    };
+
     # Create a patch
     my $autopatch = File::Spec->catfile($dir, "debian", "patches",
                                         $self->get_autopatch_name());
     my $tmpdiff = $self->generate_patch($dir, order_from => $autopatch,
+                                        header_from => $autopatch,
                                         handle_binary => $handle_binary,
                                         skip_auto => $self->{'options'}{'auto_commit'},
                                         usage => 'build');
@@ -511,6 +509,7 @@ sub do_build {
               $tmpdiff);
     }
     push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
+    $binaryfiles->update_debian_source_include_binaries() if $include_binaries;
 
     # Install the diff as the new autopatch
     if ($self->{'options'}{'auto_commit'}) {
@@ -524,25 +523,13 @@ sub do_build {
     unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
     pop @Dpkg::Exit::handlers;
 
-    # Update debian/source/include-binaries if needed
-    if (scalar(@binary_files) and $include_binaries) {
-        mkpath(File::Spec->catdir($dir, "debian", "source"));
-        open(INC, ">>", $incbin_file) || syserr(_g("cannot write %s"), $incbin_file);
-        foreach my $binary (@binary_files) {
-            unless ($auth_bin_files{$binary}) {
-                print INC "$binary\n";
-                info(_g("adding %s to %s"), $binary, "debian/source/include-binaries");
-            }
-        }
-        close(INC);
-    }
     # Create the debian.tar
     my $debianfile = "$basenamerev.debian.tar." . $self->{'options'}{'comp_ext'};
     info(_g("building %s in %s"), $sourcepackage, $debianfile);
     my $tar = Dpkg::Source::Archive->new(filename => $debianfile);
     $tar->create(options => \@tar_ignore, 'chdir' => $dir);
     $tar->add_directory("debian");
-    foreach my $binary (@binary_files) {
+    foreach my $binary ($binaryfiles->get_seen_binaries()) {
         $tar->add_file($binary) unless $binary =~ m{^debian/};
     }
     $tar->finish();
@@ -611,7 +598,7 @@ sub register_patch {
     return $patch;
 }
 
-sub commit {
+sub do_commit {
     my ($self, $dir) = @_;
     my ($patch_name, $tmpdiff) = @{$self->{'options'}{'ARGV'}};
 
@@ -629,8 +616,24 @@ sub commit {
 
     $self->prepare_build($dir);
 
-    unless ($tmpdiff && -e $tmpdiff) {
-        $tmpdiff = $self->generate_patch($dir, usage => "commit");
+    # Try to fix up a broken relative filename for the patch
+    if ($tmpdiff and not -e $tmpdiff) {
+        $tmpdiff = File::Spec->catfile($dir, $tmpdiff)
+            unless File::Spec->file_name_is_absolute($tmpdiff);
+        error(_g("patch file '%s' doesn't exist"), $tmpdiff) if not -e $tmpdiff;
+    }
+
+    my $binaryfiles = Dpkg::Source::Package::V2::BinaryFiles->new($dir);
+    my $handle_binary = sub {
+        my ($self, $old, $new) = @_;
+        my $fn = File::Spec->abs2rel($new, $dir);
+        $binaryfiles->new_binary_found($fn);
+    };
+
+    unless ($tmpdiff) {
+        $tmpdiff = $self->generate_patch($dir, handle_binary => $handle_binary,
+                                         usage => "commit");
+        $binaryfiles->update_debian_source_include_binaries();
     }
     push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
     unless (-s $tmpdiff) {
@@ -651,6 +654,82 @@ sub commit {
     unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
     pop @Dpkg::Exit::handlers;
     info(_g("local changes have been recorded in a new patch: %s"), $patch);
+}
+
+package Dpkg::Source::Package::V2::BinaryFiles;
+
+use Dpkg::ErrorHandling;
+use Dpkg::Gettext;
+
+use File::Path;
+
+sub new {
+    my ($this, $dir) = @_;
+    my $class = ref($this) || $this;
+
+    my $self = {
+        dir => $dir,
+        allowed_binaries => {},
+        seen_binaries => {},
+        include_binaries_path =>
+            File::Spec->catfile($dir, "debian", "source", "include-binaries"),
+    };
+    bless $self, $class;
+    $self->load_allowed_binaries();
+    return $self;
+}
+
+sub new_binary_found {
+    my ($self, $path) = @_;
+
+    $self->{'seen_binaries'}{$path} = 1;
+}
+
+sub load_allowed_binaries {
+    my ($self) = @_;
+    my $incbin_file = $self->{'include_binaries_path'};
+    if (-f $incbin_file) {
+        open(INC, "<", $incbin_file) || syserr(_g("cannot read %s"), $incbin_file);
+        while(defined($_ = <INC>)) {
+            chomp; s/^\s*//; s/\s*$//;
+            next if /^#/ or /^$/;
+            $self->{'allowed_binaries'}{$_} = 1;
+        }
+        close(INC);
+    }
+}
+
+sub binary_is_allowed {
+    my ($self, $path) = @_;
+    return 1 if exists $self->{'allowed_binaries'}{$path};
+    return 0;
+}
+
+sub update_debian_source_include_binaries {
+    my ($self) = @_;
+
+    my @unknown_binaries = $self->get_unknown_binaries();
+    return unless scalar(@unknown_binaries);
+
+    my $incbin_file = $self->{'include_binaries_path'};
+    mkpath(File::Spec->catdir($self->{'dir'}, "debian", "source"));
+    open(INC, ">>", $incbin_file) || syserr(_g("cannot write %s"), $incbin_file);
+    foreach my $binary (@unknown_binaries) {
+        print INC "$binary\n";
+        info(_g("adding %s to %s"), $binary, "debian/source/include-binaries");
+        $self->{'allowed_binaries'}{$binary} = 1;
+    }
+    close(INC);
+}
+
+sub get_unknown_binaries {
+    my ($self) = @_;
+    return grep { not $self->binary_is_allowed($_) } $self->get_seen_binaries();
+}
+
+sub get_seen_binaries {
+    my ($self) = @_;
+    return sort keys %{$self->{'seen_binaries'}};
 }
 
 # vim:et:sw=4:ts=8

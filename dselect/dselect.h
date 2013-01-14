@@ -45,6 +45,23 @@ struct helpmenuentry {
 
 struct keybindings;
 
+enum screenparts {
+	background,
+	list,
+	listsel,
+	title,
+	thisstate,
+	selstate,
+	selstatesel,
+	colheads,
+	query,
+	info,
+	info_head,
+	whatinfo,
+	helpscreen,
+	numscreenparts,
+};
+
 class baselist {
 protected:
   // Screen dimensions &c.
@@ -52,12 +69,10 @@ protected:
   int title_height, colheads_height, list_height;
   int thisstate_height, info_height, whatinfo_height;
   int colheads_row, thisstate_row, info_row, whatinfo_row, list_row;
-  int list_attr, listsel_attr, title_attr, colheads_attr, info_attr;
-  int info_headattr, whatinfo_attr;
-  int thisstate_attr, query_attr;
-  int selstate_attr, selstatesel_attr;
-  int helpscreen_attr;
 
+  int part_attr[numscreenparts];
+
+  int gap_width;
   int total_width;
 
   // (n)curses stuff
@@ -84,7 +99,7 @@ protected:
   void unsizes();
   void dosearch();
   void displayhelp(const struct helpmenuentry *menu, int key);
-  void displayerror(const char* str);
+  void displayerror(const char *str);
 
   void redrawall();
   void redrawitemsrange(int start /*inclusive*/, int end /*exclusive*/);
@@ -137,7 +152,7 @@ public:
   void startdisplay();
   void enddisplay();
 
-  baselist(keybindings*);
+  baselist(keybindings *);
   virtual ~baselist();
 };
 
@@ -149,23 +164,6 @@ void curseson();
 void cursesoff();
 
 extern int expertmode;
-
-enum screenparts {
-       background,
-       list,
-       listsel,
-       title,
-       thisstate,
-       selstate,
-       selstatesel,
-       colheads,
-       query,
-       info,
-       info_head,
-       whatinfo,
-       helpscreen,
-       numscreenparts,
-};
 
 struct colordata {
        int fore;

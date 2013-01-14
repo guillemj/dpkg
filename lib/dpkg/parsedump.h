@@ -4,6 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
+ * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +23,26 @@
 #ifndef LIBDPKG_PARSEDUMP_H
 #define LIBDPKG_PARSEDUMP_H
 
+/**
+ * @defgroup parsedump In-core package database parsing and reading
+ * @ingroup dpkg-public
+ * @{
+ */
+
 struct fieldinfo;
 
+/**
+ * Parse action.
+ */
+enum parsedbtype {
+	pdb_file_update,
+	pdb_file_status,
+	pdb_file_control,
+	pdb_file_available,
+};
+
 struct parsedb_state {
+	enum parsedbtype type;
 	enum parsedbflags flags;
 	struct pkginfo *pkg;
 	struct pkgbin *pkgbin;
@@ -59,22 +77,24 @@ bool parse_stanza(struct parsedb_state *ps, struct field_state *fs,
                   parse_field_func *parse_field, void *parse_obj);
 
 #define PKGIFPOFF(f) (offsetof(struct pkgbin, f))
-#define PKGPFIELD(pifp,of,type) (*(type*)((char*)(pifp)+(of)))
+#define PKGPFIELD(pkgbin, of, type) (*(type *)((char *)(pkgbin) + (of)))
 
 #define FILEFOFF(f) (offsetof(struct filedetails, f))
 #define FILEFFIELD(filedetail,of,type) (*(type*)((char*)(filedetail)+(of)))
 
-typedef void freadfunction(struct pkginfo *pigp, struct pkgbin *pifp,
+typedef void freadfunction(struct pkginfo *pkg, struct pkgbin *pkgbin,
                            struct parsedb_state *ps,
                            const char *value, const struct fieldinfo *fip);
 freadfunction f_name, f_charfield, f_priority, f_section, f_status, f_filecharf;
 freadfunction f_boolean, f_dependency, f_conffiles, f_version, f_revision;
 freadfunction f_configversion;
+freadfunction f_multiarch;
+freadfunction f_architecture;
 freadfunction f_trigpend, f_trigaw;
 
 enum fwriteflags {
-	/* Print field header and trailing newline. */
-	fw_printheader = 001,
+	/** Print field header and trailing newline. */
+	fw_printheader		= DPKG_BIT(0),
 };
 
 typedef void fwritefunction(struct varbuf*,
@@ -82,6 +102,8 @@ typedef void fwritefunction(struct varbuf*,
 			    enum fwriteflags flags, const struct fieldinfo*);
 fwritefunction w_name, w_charfield, w_priority, w_section, w_status, w_configversion;
 fwritefunction w_version, w_null, w_booleandefno, w_dependency, w_conffiles;
+fwritefunction w_multiarch;
+fwritefunction w_architecture;
 fwritefunction w_filecharf;
 fwritefunction w_trigpend, w_trigaw;
 
@@ -93,7 +115,7 @@ struct fieldinfo {
 };
 
 void parse_db_version(struct parsedb_state *ps,
-                      struct versionrevision *version, const char *value,
+                      struct dpkg_version *version, const char *value,
                       const char *fmt, ...) DPKG_ATTR_PRINTF(4);
 
 void parse_error(struct parsedb_state *ps, const char *fmt, ...)
@@ -113,5 +135,7 @@ struct nickname {
 };
 
 extern const struct fieldinfo fieldinfos[];
+
+/** @} */
 
 #endif /* LIBDPKG_PARSEDUMP_H */

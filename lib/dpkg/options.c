@@ -63,8 +63,10 @@ config_error(const char *file_name, int line_num, const char *fmt, ...)
   ohshit(_("configuration error: %s:%d: %s"), file_name, line_num, buf);
 }
 
-void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
-  FILE* file;
+void
+myfileopt(const char *fn, const struct cmdinfo *cmdinfos)
+{
+  FILE *file;
   int line_num = 0;
   char linebuf[MAX_CONFIG_LINE];
 
@@ -78,7 +80,7 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
   }
 
   while (fgets(linebuf, sizeof(linebuf), file)) {
-    char* opt;
+    char *opt;
     const struct cmdinfo *cip;
     int l;
 
@@ -104,10 +106,11 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
 
     for (cip=cmdinfos; cip->olong || cip->oshort; cip++) {
       if (!cip->olong) continue;
-      if (!strcmp(cip->olong,linebuf)) break;
+      if (strcmp(cip->olong, linebuf) == 0)
+        break;
       l=strlen(cip->olong);
       if ((cip->takesvalue==2) && (linebuf[l]=='-') &&
-	  !opt && !strncmp(linebuf,cip->olong,l)) {
+          !opt && strncmp(linebuf, cip->olong, l) == 0) {
 	opt=linebuf+l+1;
 	break;
       }
@@ -153,7 +156,7 @@ valid_config_filename(const struct dirent *dent)
 }
 
 static void
-load_config_dir(const char *prog, const struct cmdinfo* cmdinfos)
+load_config_dir(const char *prog, const struct cmdinfo *cmdinfos)
 {
   char *dirname;
   struct dirent **dlist;
@@ -184,7 +187,9 @@ load_config_dir(const char *prog, const struct cmdinfo* cmdinfos)
   free(dlist);
 }
 
-void loadcfgfile(const char *prog, const struct cmdinfo* cmdinfos) {
+void
+loadcfgfile(const char *prog, const struct cmdinfo *cmdinfos)
+{
   char *home, *file;
 
   load_config_dir(prog, cmdinfos);
@@ -213,16 +218,18 @@ myopt(const char *const **argvp, const struct cmdinfo *cmdinfos,
   ++(*argvp);
   while ((p= **argvp) && *p == '-') {
     ++(*argvp);
-    if (!strcmp(p,"--")) break;
+    if (strcmp(p, "--") == 0)
+      break;
     if (*++p == '-') {
       ++p; value=NULL;
       for (cip= cmdinfos;
            cip->olong || cip->oshort;
            cip++) {
         if (!cip->olong) continue;
-        if (!strcmp(p,cip->olong)) break;
+        if (strcmp(p, cip->olong) == 0)
+          break;
         l= strlen(cip->olong);
-        if (!strncmp(p,cip->olong,l) &&
+        if (strncmp(p, cip->olong, l) == 0 &&
             (p[l]== ((cip->takesvalue==2) ? '-' : '='))) { value=p+l+1; break; }
       }
       if (!cip->olong) badusage(_("unknown option --%s"),p);

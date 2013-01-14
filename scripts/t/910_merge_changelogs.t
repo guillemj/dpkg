@@ -22,7 +22,7 @@ use File::Temp qw(tempfile);
 use strict;
 use warnings;
 
-plan tests => 2;
+plan tests => 3;
 
 my $srcdir = $ENV{srcdir} || '.';
 my $datadir = "$srcdir/t/910_merge_changelogs";
@@ -32,7 +32,8 @@ sub test_merge {
     my ($expected_file, @options) = @_;
     my ($fh, $filename) = tempfile();
     spawn(exec => ["$srcdir/dpkg-mergechangelogs.pl", @options],
-	  to_handle => $fh, wait_child => 1, nocheck => 1);
+	  to_handle => $fh, error_to_file => "/dev/null",
+	  wait_child => 1, nocheck => 1);
     my $res = compare($expected_file, $filename);
     if ($res) {
 	system("diff -u $expected_file $filename >&2");
@@ -55,3 +56,5 @@ if ($has_alg_merge) {
     test_merge("$datadir/ch-merged-basic", @input);
     test_merge("$datadir/ch-merged-pr-basic", "-m", @input);
 }
+test_merge("$datadir/ch-badver-merged",  ("$datadir/ch-badver-old",
+    "$datadir/ch-badver-a", "$datadir/ch-badver-b"));

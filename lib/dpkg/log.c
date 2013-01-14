@@ -50,8 +50,8 @@ log_message(const char *fmt, ...)
 	if (!logfd) {
 		logfd = fopen(log_file, "a");
 		if (!logfd) {
-			fprintf(stderr, _("couldn't open log `%s': %s\n"),
-			        log_file, strerror(errno));
+			notice(_("could not open log '%s': %s"),
+			       log_file, strerror(errno));
 			log_file = NULL;
 			return;
 		}

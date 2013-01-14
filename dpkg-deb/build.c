@@ -57,8 +57,8 @@
  */
 struct file_info {
   struct file_info *next;
-  struct stat	st;
-  char*	fn;
+  struct stat st;
+  char *fn;
 };
 
 static struct file_info *
@@ -108,7 +108,7 @@ file_info_get(const char *root, int fd)
   root_len = varbuf_printf(&fn, "%s/", root);
 
   while (1) {
-    int	res;
+    int res;
 
     varbuf_grow(&fn, 1);
     res = fd_read(fd, (fn.buf + fn.used), 1);
@@ -332,10 +332,10 @@ check_new_pkg(const char *dir)
 
   /* Start by reading in the control file so we can check its contents. */
   m_asprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONTROLFILE);
-  parsedb(controlfile, pdb_recordavailable | pdb_rejectstatus, &pkg);
+  parsedb(controlfile, pdb_parse_binary, &pkg);
 
-  if (strspn(pkg->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
-      strlen(pkg->name))
+  if (strspn(pkg->set->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
+      strlen(pkg->set->name))
     ohshit(_("package name has characters that aren't lowercase alphanums or `-+.'"));
   if (pkg->priority == pri_other)
     warning(_("'%s' contains user-defined Priority value '%s'"),
@@ -374,9 +374,9 @@ pkg_get_pathname(const char *dir, struct pkginfo *pkg)
   const char *versionstring, *arch_sep;
 
   versionstring = versiondescribe(&pkg->available.version, vdew_never);
-  arch_sep = pkg->available.arch[0] == '\0' ? "" : "_";
-  m_asprintf(&path, "%s/%s_%s%s%s%s", dir, pkg->name, versionstring,
-             arch_sep, pkg->available.arch, DEBEXT);
+  arch_sep = pkg->available.arch->type == arch_none ? "" : "_";
+  m_asprintf(&path, "%s/%s_%s%s%s%s", dir, pkg->set->name, versionstring,
+             arch_sep, pkg->available.arch->name, DEBEXT);
 
   return path;
 }
@@ -387,6 +387,7 @@ pkg_get_pathname(const char *dir, struct pkginfo *pkg)
 int
 do_build(const char *const *argv)
 {
+  struct dpkg_error err;
   const char *debar, *dir;
   bool subdir;
   char *tfbuf;
@@ -406,7 +407,8 @@ do_build(const char *const *argv)
   if (debar != NULL) {
     struct stat debarstab;
 
-    if (*argv) badusage(_("--build takes at most two arguments"));
+    if (*argv)
+      badusage(_("--%s takes at most two arguments"), cipaction->olong);
 
     if (stat(debar, &debarstab)) {
       if (errno != ENOENT)
@@ -428,7 +430,7 @@ do_build(const char *const *argv)
   if (nocheckflag) {
     if (subdir)
       ohshit(_("target is directory - cannot skip control file check"));
-    warning(_("not checking contents of control area."));
+    warning(_("not checking contents of control area"));
     printf(_("dpkg-deb: building an unknown package in '%s'.\n"), debar);
   } else {
     struct pkginfo *pkg;
@@ -436,7 +438,8 @@ do_build(const char *const *argv)
     pkg = check_new_pkg(dir);
     if (subdir)
       debar = pkg_get_pathname(debar, pkg);
-    printf(_("dpkg-deb: building package `%s' in `%s'.\n"), pkg->name, debar);
+    printf(_("dpkg-deb: building package `%s' in `%s'.\n"),
+           pkg->set->name, debar);
   }
   m_output(stdout, _("<standard output>"));
 
@@ -474,7 +477,13 @@ do_build(const char *const *argv)
   /* And run gzip to compress our control archive. */
   c2 = subproc_fork();
   if (!c2) {
-    compress_filter(&compressor_gzip, p1[0], gzfd, 9, _("control member"));
+    struct compress_params params;
+
+    params.type = compressor_type_gzip;
+    params.strategy = compressor_strategy_none;
+    params.level = 9;
+
+    compress_filter(&params, p1[0], gzfd, _("compressing control member"));
     exit(0);
   }
   close(p1[0]);
@@ -496,7 +505,9 @@ do_build(const char *const *argv)
             (intmax_t)controlstab.st_size);
     if (fd_write(arfd, versionbuf, strlen(versionbuf)) < 0)
       ohshite(_("error writing `%s'"), debar);
-    fd_fd_copy(gzfd, arfd, -1, _("control member"));
+    if (fd_fd_copy(gzfd, arfd, -1, &err) < 0)
+      ohshit(_("cannot copy '%s' into archive '%s': %s"), _("control member"),
+             debar, err.str);
   } else {
     const char deb_magic[] = ARCHIVEVERSION "\n";
 
@@ -543,7 +554,7 @@ do_build(const char *const *argv)
   c2 = subproc_fork();
   if (!c2) {
     close(p1[1]);
-    compress_filter(compressor, p2[0], gzfd, compress_level, _("data member"));
+    compress_filter(&compress_params, p2[0], gzfd, _("compressing data member"));
     exit(0);
   }
   close(p2[0]);
@@ -587,7 +598,8 @@ do_build(const char *const *argv)
   if (!oldformatflag) {
     char datamember[16 + 1];
 
-    sprintf(datamember, "%s%s", DATAMEMBER, compressor->extension);
+    sprintf(datamember, "%s%s", DATAMEMBER,
+            compressor_get_extension(compress_params.type));
 
     if (lseek(gzfd, 0, SEEK_SET))
       ohshite(_("failed to rewind temporary file (%s)"), _("data member"));

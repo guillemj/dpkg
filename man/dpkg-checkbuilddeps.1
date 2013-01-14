@@ -1,4 +1,23 @@
-.TH dpkg\-checkbuilddeps 1 "2011-07-04" "Debian Project" "dpkg utilities"
+.\" dpkg manual page - dpkg-checkbuilddeps(1)
+.\"
+.\" Copyright © 2001 Joey Hess <joeyh@debian.org>
+.\" Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.
+.TH dpkg\-checkbuilddeps 1 "2012-05-22" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-checkbuilddeps \- check build dependencies and conflicts
 .
@@ -21,9 +40,15 @@ may be specified on the command line.
 Change the location of the \fBdpkg\fR database. The default location is
 \fI/var/lib/dpkg\fP.
 .TP
+.B \-A
+Ignore \fIBuild\-Depends\-Arch\fR and \fIBuild\-Conflicts\-Arch\fR
+lines. Use when only arch-indep packages will be built, or combine with
+\fB\-B\fP when only a source package is to be built.
+.TP
 .B \-B
-Ignore \fIBuild\-Depends\-Indep\fR lines. Use when no arch-indep packages will
-be built.
+Ignore \fIBuild\-Depends\-Indep\fR and \fIBuild\-Conflicts\-Indep\fR
+lines. Use when only arch-dep packages will be built, or combine with
+\fB\-A\fP when only a source package is to be built.
 .TP
 .BI "\-d " build-depends-string
 .TP
@@ -31,14 +56,13 @@ be built.
 Use the given build dependencies/conflicts instead of those contained in the
 \fIdebian/control\fP file.
 .TP
-.BR \-h ", " \-\-help
+.BI "\-a " arch
+Check build dependencies/conflicts assuming that the package described in
+the control file is to be built for the given host architecture instead of
+the architecture of the current system.
+.TP
+.BR \-? ", " \-\-help
 Show the usage message and exit.
 .TP
 .BR \-\-version
 Show the version and exit.
-.
-.SH AUTHOR
-Copyright \(co 2001 Joey Hess
-.sp
-This is free software; see the GNU General Public Licence version 2 or
-later for copying conditions. There is NO WARRANTY.

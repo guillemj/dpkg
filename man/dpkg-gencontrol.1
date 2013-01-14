@@ -1,4 +1,24 @@
-.TH dpkg\-gencontrol 1 "2011-08-14" "Debian Project" "dpkg utilities"
+.\" dpkg manual page - dpkg-gencontrol(1)
+.\"
+.\" Copyright © 1995-1996 Ian Jackson <ian@chiark.chu.cam.ac.uk>
+.\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2006, 2012 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2007-2008 Raphaël Hertzog <hertzog@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.
+.TH dpkg\-gencontrol 1 "2012-05-04" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-gencontrol \- generate Debian control files
 .
@@ -43,9 +63,9 @@ Sets the version number of the binary package which will be generated.
 Set an output substitution variable. See \fBdeb\-substvars\fP(5) for
 discussion of output substitution.
 .TP
-.BI \-T substvarsfile
+.BI \-T substvars-file
 Read substitution variables in
-.IR substvarsfile ;
+.IR substvars-file ;
 the default is
 .BR debian/substvars .
 This option can be used multiple times to read substitution variables from
@@ -57,24 +77,23 @@ Override or add an output control file field.
 .BI \-U field
 Remove an output control file field.
 .TP
-.BI \-c controlfile
+.BI \-c control-file
 Specifies the main source control file to read information from. The
 default is
 .BR debian/control .
 .TP
-.BI \-l changelogfile
-Specifies the change log file to read information from. The
+.BI \-l changelog-file
+Specifies the changelog file to read information from. The
 default is
 .BR debian/changelog .
 .TP
-.BI \-f fileslistfile
+.BI \-f files-list-file
 Read or write the list of files to be uploaded here, rather than using
 .BR debian/files .
 .TP
-.BI \-F changelogformat
-Specifies the format of the changelog. By default the format is read
-from a special line near the bottom of the changelog or failing that
-defaults to the debian standard format.
+.BI \-F changelog-format
+Specifies the format of the changelog. See \fBdpkg\-parsechangelog\fP(1)
+for information about alternative formats.
 .TP
 .BI \-p package
 Generate information for the binary package
@@ -97,11 +116,11 @@ get the old behaviour you can use the
 .B \-U
 option to delete the fields from the control file.
 .TP
-.BI \-P packagebuilddir
+.BI \-P package-build-dir
 Tells
 .B dpkg\-source
 that the package is being built in
-.I packagebuilddir
+.I package-build-dir
 instead of
 .BR debian/tmp .
 This value is used to find the default value of the
@@ -114,12 +133,12 @@ and for the default location of the output file.
 Print the control file to standard output, rather than to
 .B debian/tmp/DEBIAN/control
 (or
-.IB packagebuilddir /DEBIAN/control
+.IB package-build-dir /DEBIAN/control
 if
 .B \-P
 was used).
 .TP
-.BR \-h ", " \-\-help
+.BR \-? ", " \-\-help
 Show the usage message and exit.
 .TP
 .BR \-\-version
@@ -138,13 +157,3 @@ prepared.
 .B dpkg\-gencontrol
 adds the presumed filenames of binary packages whose control files it
 generates here.
-.
-.SH AUTHORS
-Copyright \(co 1995-1996 Ian Jackson
-.br
-Copyright \(co 2000 Wichert Akkerman
-.br
-Copyright \(co 2007-2008 Rapha\[:e]l Hertzog
-.sp
-This is free software; see the GNU General Public Licence version 2 or later
-for copying conditions. There is NO WARRANTY.

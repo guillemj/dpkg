@@ -1,4 +1,22 @@
-.TH dpkg\-buildflags 1 "2011-09-13" "Debian Project" "dpkg suite"
+.\" dpkg manual page - dpkg-buildflags(1)
+.\"
+.\" Copyright © 2010-2011 Raphaël Hertzog <hertzog@debian.org>
+.\" Copyright © 2011 Kees Cook <kees@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.
+.TH dpkg\-buildflags 1 "2012-04-03" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-buildflags \- returns build flags to use during package build
 .
@@ -54,6 +72,16 @@ Print the list of flags supported by the current vendor
 (one per line). See the \fBSUPPORTED FLAGS\fP section for more
 information about them.
 .TP
+.BI \-\-status
+Display any information that can be useful to explain the behaviour of
+\fBdpkg\-buildflags\fP: relevant environment variables, current vendor,
+state of all feature flags. Also print the resulting compiler flags with
+their origin.
+
+This is intended to be run from \fBdebian/rules\fP, so that the build log
+keeps a clear trace of the build flags used. This can be useful to diagnose
+problems related to them.
+.TP
 .BI \-\-export= format
 Print to standard output shell (if \fIformat\fP is \fBsh\fP) or make
 (if \fIformat\fP is \fBmake\fP) commands that can be used to export
@@ -86,6 +114,22 @@ the flag is set/modified by a user-specific configuration;
 .B env
 the flag is set/modified by an environment-specific configuration.
 .RE
+.TP
+.BI \-\-query\-features " area"
+Print the features enabled for a given area. The only currently recognized
+area is \fBhardening\fP. Exits with 0 if the area is known otherwise exits
+with 1.
+.IP
+The output format is RFC822 header-style, with one section per feature.
+For example:
+.IP
+.nf
+  Feature: pie
+  Enabled: no
+
+  Feature: stackprotector
+  Enabled: yes
+.fi
 .TP
 .B \-\-help
 Show the usage message and exit.
@@ -186,9 +230,9 @@ enabling only "format" and "fortify" can be achieved with:
 .TP
 .B format
 This setting (enabled by default) adds
-.B \-Wformat \-Wformat\-security \-Werror=format\-security
+.B \-Wformat \-Werror=format\-security
 to \fBCFLAGS\fP and \fBCXXFLAGS\fP. This will warn about improper format
-string uses, and will fail when format functions are used in a way that
+string uses, and will fail when format functions are used in a way
 that represent possible security problems. At present, this warns about
 calls to \fBprintf\fP and \fBscanf\fP functions where the format string is
 not a string literal and there are no format arguments, as in
@@ -231,7 +275,8 @@ This setting (enabled by default) adds
 to \fBLDFLAGS\fP.  During program load, several ELF memory sections need
 to be written to by the linker. This flags the loader to turn these
 sections read-only before turning over control to the program. Most
-notably this prevents GOT overwrite attacks.
+notably this prevents GOT overwrite attacks. If this option is disabled,
+\fBbindnow\fP will become disabled as well.
 .
 .TP
 .B bindnow
@@ -239,7 +284,7 @@ This setting (disabled by default) adds
 .B \-Wl,\-z,now
 to \fBLDFLAGS\fP. During program load, all dynamic symbols are resolved,
 allowing for the entire PLT to be marked read-only (due to \fBrelro\fP
-above).
+above). The option cannot become enabled if \fBrelro\fP is not enabled.
 .
 .TP
 .B pie
@@ -262,12 +307,3 @@ architectures (most notably i386) can see performance losses of up to
 15% in very text-segment-heavy application workloads; most workloads
 see less than 1%. Architectures with more general registers (e.g. amd64)
 do not see as high a worst-case penalty.
-.
-.SH AUTHOR
-Copyright \(co 2010-2011 Rapha\[:e]l Hertzog
-.sp
-Copyright \(co 2011 Kees Cook
-.sp
-This is free software; see the GNU General Public Licence version 2 or
-later for copying conditions. There is NO WARRANTY.
-

@@ -4,7 +4,7 @@
  *
  * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2004 Scott James Remnant <scott@netsplit.com>
- * Copyright © 2006-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,10 +26,14 @@
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 #ifdef WITH_ZLIB
 #include <zlib.h>
+#endif
+#ifdef WITH_LIBLZMA
+#include <lzma.h>
 #endif
 #ifdef WITH_BZ2
 #include <bzlib.h>
@@ -37,11 +41,13 @@
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
+#include <dpkg/error.h>
 #include <dpkg/varbuf.h>
 #include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 #include <dpkg/command.h>
 #include <dpkg/compress.h>
+#if !defined(WITH_ZLIB) || !defined(WITH_LIBLZMA) || !defined(WITH_BZ2)
 #include <dpkg/subproc.h>
 
 static void DPKG_ATTR_SENTINEL
@@ -72,27 +78,50 @@ fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
 	}
 	subproc_wait_check(pid, desc, 0);
 }
+#endif
+
+struct compressor {
+	const char *name;
+	const char *extension;
+	int default_level;
+	void (*fixup_params)(struct compress_params *params);
+	void (*compress)(int fd_in, int fd_out, struct compress_params *params,
+	                 const char *desc);
+	void (*decompress)(int fd_in, int fd_out, const char *desc);
+};
 
 /*
  * No compressor (pass-through).
  */
 
 static void
-decompress_none(int fd_in, int fd_out, const char *desc)
+fixup_none_params(struct compress_params *params)
 {
-	fd_fd_copy(fd_in, fd_out, -1, _("%s: decompression"), desc);
 }
 
 static void
-compress_none(int fd_in, int fd_out, int compress_level, const char *desc)
+decompress_none(int fd_in, int fd_out, const char *desc)
 {
-	fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), desc);
+	struct dpkg_error err;
+
+	if (fd_fd_copy(fd_in, fd_out, -1, &err) < 0)
+		ohshit(_("%s: pass-through copy error: %s"), desc, err.str);
 }
 
-struct compressor compressor_none = {
+static void
+compress_none(int fd_in, int fd_out, struct compress_params *params, const char *desc)
+{
+	struct dpkg_error err;
+
+	if (fd_fd_copy(fd_in, fd_out, -1, &err) < 0)
+		ohshit(_("%s: pass-through copy error: %s"), desc, err.str);
+}
+
+static const struct compressor compressor_none = {
 	.name = "none",
 	.extension = "",
 	.default_level = 0,
+	.fixup_params = fixup_none_params,
 	.compress = compress_none,
 	.decompress = decompress_none,
 };
@@ -100,6 +129,16 @@ struct compressor compressor_none = {
 /*
  * Gzip compressor.
  */
+
+#define GZIP		"gzip"
+
+static void
+fixup_gzip_params(struct compress_params *params)
+{
+	/* Normalize compression level. */
+	if (params->level == 0)
+		params->type = compressor_type_none;
+}
 
 #ifdef WITH_ZLIB
 static void
@@ -137,14 +176,14 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_gzip(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	char buffer[DPKG_BUFFER_SIZE];
 	char combuf[6];
 	int z_errnum;
 	gzFile gzfile;
 
-	snprintf(combuf, sizeof(combuf), "w%d", compress_level);
+	snprintf(combuf, sizeof(combuf), "w%d", params->level);
 	gzfile = gzdopen(fd_out, combuf);
 	if (gzfile == NULL)
 		ohshit(_("%s: error binding output to gzip stream"), desc);
@@ -188,19 +227,20 @@ decompress_gzip(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_gzip(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_gzip(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	char combuf[6];
 
-	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
+	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
 	fd_fd_filter(fd_in, fd_out, desc, GZIP, combuf, NULL);
 }
 #endif
 
-struct compressor compressor_gzip = {
+static const struct compressor compressor_gzip = {
 	.name = "gzip",
 	.extension = ".gz",
 	.default_level = 9,
+	.fixup_params = fixup_gzip_params,
 	.compress = compress_gzip,
 	.decompress = decompress_gzip,
 };
@@ -208,6 +248,16 @@ struct compressor compressor_gzip = {
 /*
  * Bzip2 compressor.
  */
+
+#define BZIP2		"bzip2"
+
+static void
+fixup_bzip2_params(struct compress_params *params)
+{
+	/* Normalize compression level. */
+	if (params->level == 0)
+		params->level = 1;
+}
 
 #ifdef WITH_BZ2
 static void
@@ -245,14 +295,14 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_bzip2(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	char buffer[DPKG_BUFFER_SIZE];
 	char combuf[6];
 	int bz_errnum;
 	BZFILE *bzfile;
 
-	snprintf(combuf, sizeof(combuf), "w%d", compress_level);
+	snprintf(combuf, sizeof(combuf), "w%d", params->level);
 	bzfile = BZ2_bzdopen(fd_out, combuf);
 	if (bzfile == NULL)
 		ohshit(_("%s: error binding output to bzip2 stream"), desc);
@@ -301,19 +351,20 @@ decompress_bzip2(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_bzip2(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_bzip2(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	char combuf[6];
 
-	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
+	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
 	fd_fd_filter(fd_in, fd_out, desc, BZIP2, combuf, NULL);
 }
 #endif
 
-struct compressor compressor_bzip2 = {
+static const struct compressor compressor_bzip2 = {
 	.name = "bzip2",
 	.extension = ".bz2",
 	.default_level = 9,
+	.fixup_params = fixup_bzip2_params,
 	.compress = compress_bzip2,
 	.decompress = decompress_bzip2,
 };
@@ -322,6 +373,196 @@ struct compressor compressor_bzip2 = {
  * Xz compressor.
  */
 
+#define XZ		"xz"
+
+#ifdef WITH_LIBLZMA
+enum dpkg_stream_status {
+	DPKG_STREAM_INIT	= DPKG_BIT(1),
+	DPKG_STREAM_RUN		= DPKG_BIT(2),
+	DPKG_STREAM_COMPRESS	= DPKG_BIT(3),
+	DPKG_STREAM_DECOMPRESS	= DPKG_BIT(4),
+	DPKG_STREAM_FILTER	= DPKG_STREAM_COMPRESS | DPKG_STREAM_DECOMPRESS,
+};
+
+/* XXX: liblzma does not expose error messages. */
+static const char *
+dpkg_lzma_strerror(lzma_ret code, enum dpkg_stream_status status)
+{
+	const char *const impossible = _("internal error (bug)");
+
+	switch (code) {
+	case LZMA_MEM_ERROR:
+		return strerror(ENOMEM);
+	case LZMA_MEMLIMIT_ERROR:
+		if (status & DPKG_STREAM_RUN)
+			return _("memory usage limit reached");
+		return impossible;
+	case LZMA_OPTIONS_ERROR:
+		if (status == (DPKG_STREAM_INIT | DPKG_STREAM_COMPRESS))
+			return _("unsupported compression preset");
+		if (status == (DPKG_STREAM_RUN | DPKG_STREAM_DECOMPRESS))
+			return _("unsupported options in file header");
+		return impossible;
+	case LZMA_DATA_ERROR:
+		if (status & DPKG_STREAM_RUN)
+			return _("compressed data is corrupt");
+		return impossible;
+	case LZMA_BUF_ERROR:
+		if (status & DPKG_STREAM_RUN)
+			return _("unexpected end of input");
+		return impossible;
+	case LZMA_FORMAT_ERROR:
+		if (status == (DPKG_STREAM_RUN | DPKG_STREAM_DECOMPRESS))
+			return _("file format not recognized");
+		return impossible;
+	case LZMA_UNSUPPORTED_CHECK:
+		if (status == (DPKG_STREAM_INIT | DPKG_STREAM_COMPRESS))
+			return _("unsupported type of integrity check");
+		return impossible;
+	default:
+		return impossible;
+	}
+}
+
+struct io_lzma {
+	const char *desc;
+
+	struct compress_params *params;
+	enum dpkg_stream_status status;
+	lzma_action action;
+
+	void (*init)(struct io_lzma *io, lzma_stream *s);
+	int (*code)(struct io_lzma *io, lzma_stream *s);
+	void (*done)(struct io_lzma *io, lzma_stream *s);
+};
+
+static void
+filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
+{
+	uint8_t buf_in[DPKG_BUFFER_SIZE];
+	uint8_t buf_out[DPKG_BUFFER_SIZE];
+	lzma_stream s = LZMA_STREAM_INIT;
+	lzma_ret ret;
+
+	s.next_out = buf_out;
+	s.avail_out = sizeof(buf_out);
+
+	io->action = LZMA_RUN;
+	io->status = DPKG_STREAM_INIT;
+	io->init(io, &s);
+	io->status = (io->status & DPKG_STREAM_FILTER) | DPKG_STREAM_RUN;
+
+	do {
+		ssize_t len;
+
+		if (s.avail_in == 0 && io->action != LZMA_FINISH) {
+			len = fd_read(fd_in, buf_in, sizeof(buf_in));
+			if (len < 0)
+				ohshite(_("%s: lzma read error"), io->desc);
+			if (len == 0)
+				io->action = LZMA_FINISH;
+			s.next_in = buf_in;
+			s.avail_in = len;
+		}
+
+		ret = io->code(io, &s);
+
+		if (s.avail_out == 0 || ret == LZMA_STREAM_END) {
+			len = fd_write(fd_out, buf_out, s.next_out - buf_out);
+			if (len < 0)
+				ohshite(_("%s: lzma write error"), io->desc);
+			s.next_out = buf_out;
+			s.avail_out = sizeof(buf_out);
+		}
+	} while (ret != LZMA_STREAM_END);
+
+	io->done(io, &s);
+
+	if (close(fd_out))
+		ohshite(_("%s: lzma close error"), io->desc);
+}
+
+static void
+filter_lzma_error(struct io_lzma *io, lzma_ret ret)
+{
+	ohshit(_("%s: lzma error: %s"), io->desc,
+	       dpkg_lzma_strerror(ret, io->status));
+}
+
+static void
+filter_unxz_init(struct io_lzma *io, lzma_stream *s)
+{
+	uint64_t memlimit = UINT64_MAX;
+	lzma_ret ret;
+
+	io->status |= DPKG_STREAM_DECOMPRESS;
+
+	ret = lzma_stream_decoder(s, memlimit, 0);
+	if (ret != LZMA_OK)
+		filter_lzma_error(io, ret);
+}
+
+static void
+filter_xz_init(struct io_lzma *io, lzma_stream *s)
+{
+	uint32_t preset;
+	lzma_ret ret;
+
+	io->status |= DPKG_STREAM_COMPRESS;
+
+	preset = io->params->level;
+	if (io->params->strategy == compressor_strategy_extreme)
+		preset |= LZMA_PRESET_EXTREME;
+	ret = lzma_easy_encoder(s, preset, LZMA_CHECK_CRC32);
+	if (ret != LZMA_OK)
+		filter_lzma_error(io, ret);
+}
+
+static int
+filter_lzma_code(struct io_lzma *io, lzma_stream *s)
+{
+	lzma_ret ret;
+
+	ret = lzma_code(s, io->action);
+	if (ret != LZMA_OK && ret != LZMA_STREAM_END)
+		filter_lzma_error(io, ret);
+
+	return ret;
+}
+
+static void
+filter_lzma_done(struct io_lzma *io, lzma_stream *s)
+{
+	lzma_end(s);
+}
+
+static void
+decompress_xz(int fd_in, int fd_out, const char *desc)
+{
+	struct io_lzma io;
+
+	io.init = filter_unxz_init;
+	io.code = filter_lzma_code;
+	io.done = filter_lzma_done;
+	io.desc = desc;
+
+	filter_lzma(&io, fd_in, fd_out);
+}
+
+static void
+compress_xz(int fd_in, int fd_out, struct compress_params *params, const char *desc)
+{
+	struct io_lzma io;
+
+	io.init = filter_xz_init;
+	io.code = filter_lzma_code;
+	io.done = filter_lzma_done;
+	io.desc = desc;
+	io.params = params;
+
+	filter_lzma(&io, fd_in, fd_out);
+}
+#else
 static void
 decompress_xz(int fd_in, int fd_out, const char *desc)
 {
@@ -329,18 +570,26 @@ decompress_xz(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_xz(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_xz(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	char combuf[6];
+	const char *strategy;
 
-	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
-	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, NULL);
+	if (params->strategy == compressor_strategy_extreme)
+		strategy = "-e";
+	else
+		strategy = NULL;
+
+	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
+	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, strategy, NULL);
 }
+#endif
 
-struct compressor compressor_xz = {
+static const struct compressor compressor_xz = {
 	.name = "xz",
 	.extension = ".xz",
 	.default_level = 6,
+	.fixup_params = fixup_none_params,
 	.compress = compress_xz,
 	.decompress = decompress_xz,
 };
@@ -349,6 +598,67 @@ struct compressor compressor_xz = {
  * Lzma compressor.
  */
 
+#ifdef WITH_LIBLZMA
+static void
+filter_unlzma_init(struct io_lzma *io, lzma_stream *s)
+{
+	uint64_t memlimit = UINT64_MAX;
+	lzma_ret ret;
+
+	io->status |= DPKG_STREAM_DECOMPRESS;
+
+	ret = lzma_alone_decoder(s, memlimit);
+	if (ret != LZMA_OK)
+		filter_lzma_error(io, ret);
+}
+
+static void
+filter_lzma_init(struct io_lzma *io, lzma_stream *s)
+{
+	uint32_t preset;
+	lzma_options_lzma options;
+	lzma_ret ret;
+
+	io->status |= DPKG_STREAM_COMPRESS;
+
+	preset = io->params->level;
+	if (io->params->strategy == compressor_strategy_extreme)
+		preset |= LZMA_PRESET_EXTREME;
+	if (lzma_lzma_preset(&options, preset))
+		filter_lzma_error(io, LZMA_OPTIONS_ERROR);
+
+	ret = lzma_alone_encoder(s, &options);
+	if (ret != LZMA_OK)
+		filter_lzma_error(io, ret);
+}
+
+static void
+decompress_lzma(int fd_in, int fd_out, const char *desc)
+{
+	struct io_lzma io;
+
+	io.init = filter_unlzma_init;
+	io.code = filter_lzma_code;
+	io.done = filter_lzma_done;
+	io.desc = desc;
+
+	filter_lzma(&io, fd_in, fd_out);
+}
+
+static void
+compress_lzma(int fd_in, int fd_out, struct compress_params *params, const char *desc)
+{
+	struct io_lzma io;
+
+	io.init = filter_lzma_init;
+	io.code = filter_lzma_code;
+	io.done = filter_lzma_done;
+	io.desc = desc;
+	io.params = params;
+
+	filter_lzma(&io, fd_in, fd_out);
+}
+#else
 static void
 decompress_lzma(int fd_in, int fd_out, const char *desc)
 {
@@ -356,18 +666,20 @@ decompress_lzma(int fd_in, int fd_out, const char *desc)
 }
 
 static void
-compress_lzma(int fd_in, int fd_out, int compress_level, const char *desc)
+compress_lzma(int fd_in, int fd_out, struct compress_params *params, const char *desc)
 {
 	char combuf[6];
 
-	snprintf(combuf, sizeof(combuf), "-c%d", compress_level);
+	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
 	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, "--format=lzma", NULL);
 }
+#endif
 
-struct compressor compressor_lzma = {
+static const struct compressor compressor_lzma = {
 	.name = "lzma",
 	.extension = ".lzma",
 	.default_level = 6,
+	.fixup_params = fixup_none_params,
 	.compress = compress_lzma,
 	.decompress = decompress_lzma,
 };
@@ -376,73 +688,115 @@ struct compressor compressor_lzma = {
  * Generic compressor filter.
  */
 
-static struct compressor *compressor_array[] = {
-	&compressor_none,
-	&compressor_gzip,
-	&compressor_xz,
-	&compressor_bzip2,
-	&compressor_lzma,
+static const struct compressor *compressor_array[] = {
+	[compressor_type_none] = &compressor_none,
+	[compressor_type_gzip] = &compressor_gzip,
+	[compressor_type_xz] = &compressor_xz,
+	[compressor_type_bzip2] = &compressor_bzip2,
+	[compressor_type_lzma] = &compressor_lzma,
 };
 
-struct compressor *
+static const struct compressor *
+compressor(enum compressor_type type)
+{
+	const enum compressor_type max_type = array_count(compressor_array);
+
+	if (type < 0 || type >= max_type)
+		internerr("compressor_type %d is out of range", type);
+
+	return compressor_array[type];
+}
+
+const char *
+compressor_get_extension(enum compressor_type type)
+{
+	return compressor(type)->extension;
+}
+
+enum compressor_type
 compressor_find_by_name(const char *name)
 {
 	size_t i;
 
 	for (i = 0; i < array_count(compressor_array); i++)
 		if (strcmp(compressor_array[i]->name, name) == 0)
-			return compressor_array[i];
+			return i;
 
-	return NULL;
+	return compressor_type_unknown;
 }
 
-struct compressor *
+enum compressor_type
 compressor_find_by_extension(const char *extension)
 {
 	size_t i;
 
 	for (i = 0; i < array_count(compressor_array); i++)
 		if (strcmp(compressor_array[i]->extension, extension) == 0)
-			return compressor_array[i];
+			return i;
 
-	return NULL;
+	return compressor_type_unknown;
+}
+
+enum compressor_strategy
+compressor_get_strategy(const char *name)
+{
+	if (strcmp(name, "none") == 0)
+		return compressor_strategy_none;
+	if (strcmp(name, "extreme") == 0)
+		return compressor_strategy_extreme;
+
+	return compressor_strategy_unknown;
+}
+
+bool
+compressor_check_params(struct compress_params *params, struct dpkg_error *err)
+{
+	if (params->strategy == compressor_strategy_none)
+		return true;
+
+	if (params->type == compressor_type_xz &&
+	    params->strategy == compressor_strategy_extreme)
+		return true;
+
+	dpkg_put_error(err, _("unknown compression strategy"));
+	return false;
+}
+
+static void
+compressor_fixup_params(struct compress_params *params)
+{
+	compressor(params->type)->fixup_params(params);
 }
 
 void
-decompress_filter(struct compressor *compressor, int fd_in, int fd_out,
+decompress_filter(enum compressor_type type, int fd_in, int fd_out,
                   const char *desc_fmt, ...)
 {
 	va_list args;
 	struct varbuf desc = VARBUF_INIT;
 
-	if (compressor == NULL)
-		internerr("no compressor specified");
-
 	va_start(args, desc_fmt);
 	varbuf_vprintf(&desc, desc_fmt, args);
 	va_end(args);
 
-	compressor->decompress(fd_in, fd_out, desc.buf);
+	compressor(type)->decompress(fd_in, fd_out, desc.buf);
 }
 
 void
-compress_filter(struct compressor *compressor, int fd_in, int fd_out,
-                int compress_level, const char *desc_fmt, ...)
+compress_filter(struct compress_params *params, int fd_in, int fd_out,
+                const char *desc_fmt, ...)
 {
 	va_list args;
 	struct varbuf desc = VARBUF_INIT;
 
-	if (compressor == NULL)
-		internerr("no compressor specified");
-
 	va_start(args, desc_fmt);
 	varbuf_vprintf(&desc, desc_fmt, args);
 	va_end(args);
 
-	if (compress_level < 0)
-		compress_level = compressor->default_level;
-	else if (compress_level == 0)
-		compressor = &compressor_none;
+	compressor_fixup_params(params);
 
-	compressor->compress(fd_in, fd_out, compress_level, desc.buf);
+	if (params->level < 0)
+		params->level = compressor(params->type)->default_level;
+
+	compressor(params->type)->compress(fd_in, fd_out, params, desc.buf);
 }

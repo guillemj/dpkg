@@ -22,4 +22,5 @@ dpkg_deb_LDADD = \
 	../lib/compat/libcompat.a \
 	$(LIBINTL) \
 	$(ZLIB_LIBS) \
+	$(LIBLZMA_LIBS) \
 	$(BZ2_LIBS)

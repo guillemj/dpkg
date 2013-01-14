@@ -1,11 +1,28 @@
-.\" update\-alternatives.8
-.\" This man page is copyright 1997 Charles Briscoe-Smith
-.\" This is free documentation; you can redistribute it and/or modify
-.\" it under the terms of the GNU General Public License as published
-.\" by the Free Software Foundation; either version 2 of the License, or
-.\" (at your option) any later version.  There is NO WARRANTY.  You can
-.\" find the GNU GPL in /usr/share/common-licenses/GPL on any Debian system.
-.TH update\-alternatives 8 "2011-08-14" "Debian Project" "dpkg utilities"
+.\" dpkg manual page - update-alternatives(8)
+.\"
+.\" Copyright © 1997-1998 Charles Briscoe-Smith
+.\" Copyright © 1999 Ben Collins <bcollins@debian.org>
+.\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2003 Adam Heath <doogie@debian.org>
+.\" Copyright © 2005 Scott James Remnant <scott@netsplit.com>
+.\" Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2008 Pierre Habouzit <madcoder@debian.org>
+.\" Copyright © 2009-2011 Raphaël Hertzog <hertzog@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.
+.TH update\-alternatives 8 "2012-07-31" "Debian Project" "dpkg utilities"
 .SH NAME
 update\-alternatives \- maintain symbolic links determining default commands
 .
@@ -70,7 +87,7 @@ is usually called from the
 .B prerm
 (install) scripts in Debian packages.
 .PP
-It is often useful for a number of alternatives to be synchronised,
+It is often useful for a number of alternatives to be synchronized,
 so that they are changed as a group; for example, when several versions
 of the
 .BR vi (1)
@@ -386,8 +403,17 @@ RFC822-like flat format. It's made of \fIn\fP + 1 blocks where \fIn\fP is
 the number of alternatives available in the queried link group. The first
 block contains the following fields:
 .TP
+.BI Name: " name"
+The alternative name in the alternative directory.
+.TP
 .BI Link: " link"
 The generic name of the alternative.
+.TP
+.BI Slaves: " list-of-slaves"
+When this field is present, the \fBnext\fR lines hold all slave links
+associated to the master link of the alternative. There is one slave per
+line. Each line contains one space, the generic name of the slave
+alternative, another space, and the path to the slave link.
 .TP
 .BI Status: " status"
 The status of the alternative (\fBauto\fR or \fBmanual\fR).
@@ -419,30 +445,31 @@ alternative, another space, and the path to the slave alternative.
 .BR Example
 .nf
 $ update\-alternatives \-\-query editor
-Link: editor
+Name: editor
+Link: /usr/bin/editor
+Slaves:
+ editor.1.gz /usr/share/man/man1/editor.1.gz
+ editor.fr.1.gz /usr/share/man/fr/man1/editor.1.gz
+ editor.it.1.gz /usr/share/man/it/man1/editor.1.gz
+ editor.pl.1.gz /usr/share/man/pl/man1/editor.1.gz
+ editor.ru.1.gz /usr/share/man/ru/man1/editor.1.gz
 Status: auto
-Best: /usr/bin/vim.gtk
-Value: /usr/bin/vim.gtk
+Best: /usr/bin/vim.basic
+Value: /usr/bin/vim.basic
 
 Alternative: /bin/ed
 Priority: \-100
 Slaves:
  editor.1.gz /usr/share/man/man1/ed.1.gz
 
-Alternative: /usr/bin/vim.gtk
+Alternative: /usr/bin/vim.basic
 Priority: 50
 Slaves:
  editor.1.gz /usr/share/man/man1/vim.1.gz
- editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz
- editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz
- editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz
- editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz
- editor.it.1.gz /usr/share/man/it/man1/vim.1.gz
- editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz
  editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz
- editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz
+ editor.it.1.gz /usr/share/man/it/man1/vim.1.gz
  editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz
- editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz
+ editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz
 .fi
 .
 .SH DIAGNOSTICS
@@ -490,20 +517,6 @@ If you find any discrepancy between the operation of
 .B update\-alternatives
 and this manual page, it is a bug,
 either in the implementation or the documentation; please report it.
-.
-.SH AUTHORS
-Copyright \(co 1995 Ian Jackson
-.br
-Copyright \(co 2009 Rapha\[:e]l Hertzog
-.sp
-This is free software; see the GNU General Public Licence version 2 or
-later for copying conditions. There is NO WARRANTY.
-.PP
-This manual page is copyright 1997,1998 Charles Briscoe-Smith and
-others.
-.sp
-This is free documentation; see the GNU General Public Licence version 2 or
-later for copying conditions. There is NO WARRANTY.
 .
 .SH "SEE ALSO"
 .BR ln (1),

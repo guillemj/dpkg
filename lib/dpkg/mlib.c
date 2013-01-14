@@ -32,17 +32,23 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 
+static inline void *
+must_alloc(void *ptr)
+{
+  if (ptr)
+    return ptr;
+
+  onerr_abort++;
+  ohshite(_("failed to allocate memory"));
+}
+
 void *m_malloc(size_t amount) {
 #ifdef MDEBUG
   unsigned short *r2, x;
 #endif
   void *r;
 
-  onerr_abort++;
-  r= malloc(amount);
-  if (r == NULL)
-    ohshite(_("malloc failed (%zu bytes)"), amount);
-  onerr_abort--;
+  r = must_alloc(malloc(amount));
 
 #ifdef MDEBUG
   r2= r; x= (unsigned short)amount ^ 0xf000;
@@ -51,28 +57,26 @@ void *m_malloc(size_t amount) {
   return r;
 }
 
-void *m_realloc(void *r, size_t amount) {
-  onerr_abort++;
-  r= realloc(r,amount);
-  if (r == NULL)
-    ohshite(_("realloc failed (%zu bytes)"), amount);
-  onerr_abort--;
+void *
+m_calloc(size_t size)
+{
+  return must_alloc(calloc(1, size));
+}
 
-  return r;
+void *m_realloc(void *r, size_t amount) {
+  return must_alloc(realloc(r, amount));
 }
 
 char *
 m_strdup(const char *str)
 {
-  char *new_str;
+  return must_alloc(strdup(str));
+}
 
-  onerr_abort++;
-  new_str = strdup(str);
-  if (!new_str)
-    ohshite(_("failed to allocate memory"));
-  onerr_abort--;
-
-  return new_str;
+char *
+m_strndup(const char *str, size_t n)
+{
+  return must_alloc(strndup(str, n));
 }
 
 int
@@ -117,7 +121,9 @@ m_output(FILE *f, const char *name)
     ohshite(_("error writing to '%s'"), name);
 }
 
-void setcloexec(int fd, const char* fn) {
+void
+setcloexec(int fd, const char *fn)
+{
   int f;
 
   if ((f=fcntl(fd, F_GETFD))==-1)

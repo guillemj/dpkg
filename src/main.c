@@ -3,7 +3,7 @@
  * main.c - main program
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  * Copyright © 2010 Canonical Ltd.
  *   written by Martin Pitt <martin.pitt@canonical.com>
  *
@@ -46,8 +46,10 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/arch.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
+#include <dpkg/pkg-spec.h>
 #include <dpkg/options.h>
 
 #include "main.h"
@@ -103,15 +105,18 @@ usage(const struct cmdinfo *ci, const char *value)
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "  -C|--audit                       Check for broken package(s).\n"
+"  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
+"  --remove-architecture <arch>     Remove <arch> from the list of architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
+"  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
 "\n"));
 
   printf(_(
-"  -h|--help                        Show this help message.\n"
-"  --version                        Show the version.\n"
+"  -?, --help                       Show this help message.\n"
+"      --version                    Show the version.\n"
 "\n"));
 
   printf(_(
@@ -121,7 +126,8 @@ usage(const struct cmdinfo *ci, const char *value)
 
   printf(_(
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep |\n"
+"  --assert-multi-arch.\n"
 "\n"));
 
   printf(_(
@@ -141,6 +147,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "                             Just say what we would do - don't do it.\n"
 "  -D|--debug=<octal>         Enable debugging (see -Dhelp or --debug=help).\n"
 "  --status-fd <n>            Send status change updates to file descriptor <n>.\n"
+"  --status-logger=<command>  Send status change updates to <command>'s stdin.\n"
 "  --log=<filename>           Log status changes and actions to <filename>.\n"
 "  --ignore-depends=<package>,...\n"
 "                             Ignore dependencies involving <package>.\n"
@@ -165,7 +172,6 @@ usage(const struct cmdinfo *ci, const char *value)
   exit(0);
 }
 
-const char native_arch[] = ARCHITECTURE;
 static const char printforhelp[] = N_(
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -205,7 +211,7 @@ forcetype_str(char type)
   case '!':
     return "[!]";
   default:
-    internerr("unknown force type %c", type);
+    internerr("unknown force type '%c'", type);
   }
 }
 
@@ -296,7 +302,7 @@ static const struct debuginfo {
 
 static void setdebug(const struct cmdinfo *cpi, const char *value) {
   char *endp;
-  unsigned long mask;
+  long mask;
   const struct debuginfo *dip;
 
   if (*value == 'h') {
@@ -315,8 +321,10 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
     exit(0);
   }
 
-  mask = strtoul(value, &endp, 8);
-  if (value == endp || *endp) badusage(_("--debug requires an octal argument"));
+  errno = 0;
+  mask = strtol(value, &endp, 8);
+  if (value == endp || *endp || mask < 0 || errno == ERANGE)
+    badusage(_("--%s requires a positive octal argument"), cpi->olong);
 
   debug_set_mask(mask);
 }
@@ -336,7 +344,6 @@ static void setroot(const struct cmdinfo *cip, const char *value) {
 
 static void ignoredepends(const struct cmdinfo *cip, const char *value) {
   char *copy, *p;
-  const char *pnerr;
 
   copy= m_malloc(strlen(value)+2);
   strcpy(copy,value);
@@ -345,16 +352,20 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
     if (*p != ',') continue;
     *p++ = '\0';
     if (!*p || *p==',' || p==copy+1)
-      badusage(_("null package name in --ignore-depends comma-separated list `%.250s'"),
-               value);
+      badusage(_("null package name in --%s comma-separated list '%.250s'"),
+               cip->olong, value);
   }
   p= copy;
   while (*p) {
-    pnerr = pkg_name_is_illegal(p, NULL);
-    if (pnerr) ohshite(_("--ignore-depends requires a legal package name. "
-                       "`%.250s' is not; %s"), p, pnerr);
+    struct dpkg_error err;
+    struct pkginfo *pkg;
 
-    pkg_list_prepend(&ignoredependss, pkg_db_find(p));
+    pkg = pkg_spec_parse_pkg(p, &err);
+    if (pkg == NULL)
+      ohshit(_("--%s needs a valid package name but '%.250s' is not: %s"),
+              cip->olong, p, err.str);
+
+    pkg_list_prepend(&ignoredependss, pkg);
 
     p+= strlen(p)+1;
   }
@@ -363,21 +374,23 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
 }
 
 static void setinteger(const struct cmdinfo *cip, const char *value) {
-  unsigned long v;
+  long v;
   char *ep;
 
-  v= strtoul(value,&ep,0);
-  if (value == ep || *ep || v > INT_MAX)
+  errno = 0;
+  v = strtol(value, &ep, 0);
+  if (value == ep || *ep || v < 0 || v > INT_MAX || errno != 0)
     badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
   *cip->iassignto= v;
 }
 
 static void setpipe(const struct cmdinfo *cip, const char *value) {
-  unsigned long v;
+  long v;
   char *ep;
 
-  v= strtoul(value,&ep,0);
-  if (value == ep || *ep || v > INT_MAX)
+  errno = 0;
+  v = strtol(value, &ep, 0);
+  if (value == ep || *ep || v < 0 || v > INT_MAX || errno != 0)
     badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
 
   statusfd_add(v);
@@ -470,12 +483,84 @@ run_status_loggers(struct invoke_hook *hook_head)
   }
 }
 
+static int
+arch_add(const char *const *argv)
+{
+  struct dpkg_arch *arch;
+  const char *archname = *argv++;
+
+  if (archname == NULL)
+    badusage(_("--%s takes one argument"), cipaction->olong);
+
+  dpkg_arch_load_list();
+
+  arch = dpkg_arch_add(archname);
+  switch (arch->type) {
+  case arch_native:
+  case arch_foreign:
+    break;
+  case arch_illegal:
+    ohshit(_("architecture '%s' is illegal: %s"), archname,
+           dpkg_arch_name_is_illegal(archname));
+  default:
+    ohshit(_("architecture '%s' is reserved and cannot be added"), archname);
+  }
+
+  dpkg_arch_save_list();
+
+  return 0;
+}
+
+static int
+arch_remove(const char *const *argv)
+{
+  const char *archname = *argv++;
+  struct dpkg_arch *arch;
+  struct pkgiterator *iter;
+  struct pkginfo *pkg;
+
+  if (archname == NULL)
+    badusage(_("--%s takes one argument"), cipaction->olong);
+
+  modstatdb_open(msdbrw_readonly);
+
+  arch = dpkg_arch_find(archname);
+  if (arch->type != arch_foreign) {
+    warning(_("cannot remove non-foreign architecture '%s'"), arch->name);
+    return 0;
+  }
+
+  /* Check if it's safe to remove the architecture from the db. */
+  iter = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next_pkg(iter))) {
+    if (pkg->status < stat_halfinstalled)
+      continue;
+    if (pkg->installed.arch == arch) {
+      if (fc_architecture)
+        warning(_("removing architecture '%s' currently in use by database"),
+                arch->name);
+      else
+        ohshit(_("cannot remove architecture '%s' currently in use by the database"),
+               arch->name);
+      break;
+    }
+  }
+  pkg_db_iter_free(iter);
+
+  dpkg_arch_unmark(arch);
+  dpkg_arch_save_list();
+
+  modstatdb_shutdown();
+
+  return 0;
+}
+
 static void setforce(const struct cmdinfo *cip, const char *value) {
   const char *comma;
   size_t l;
   const struct forceinfo *fip;
 
-  if (!strcmp(value,"help")) {
+  if (strcmp(value, "help") == 0) {
     printf(_(
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -498,7 +583,8 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
     comma= strchr(value,',');
     l = comma ? (size_t)(comma - value) : strlen(value);
     for (fip=forceinfos; fip->name; fip++)
-      if (!strncmp(fip->name,value,l) && strlen(fip->name)==l) break;
+      if (strncmp(fip->name, value, l) == 0 && strlen(fip->name) == l)
+        break;
 
     if (!fip->name) {
       badusage(_("unknown force/refuse option `%.*s'"),
@@ -553,8 +639,12 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "assert-working-epoch",            0,  act_assertepoch,          assertepoch     ),
   ACTION( "assert-long-filenames",           0,  act_assertlongfilenames,  assertlongfilenames ),
   ACTION( "assert-multi-conrep",             0,  act_assertmulticonrep,    assertmulticonrep ),
+  ACTION( "assert-multi-arch",               0,  act_assertmultiarch,      assertmultiarch ),
+  ACTION( "add-architecture",                0,  act_arch_add,             arch_add        ),
+  ACTION( "remove-architecture",             0,  act_arch_remove,          arch_remove     ),
   ACTION( "print-architecture",              0,  act_printarch,            printarch   ),
   ACTION( "print-installation-architecture", 0,  act_printinstarch,        printinstarch  ),
+  ACTION( "print-foreign-architectures",     0,  act_printforeignarches,   print_foreign_arches ),
   ACTION( "predep-package",                  0,  act_predeppackage,        predeppackage   ),
   ACTION( "compare-versions",                0,  act_cmpversions,          cmpversions     ),
 /*
@@ -592,7 +682,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "refuse",            0,   2, NULL,          NULL,      setforce,      0 },
   { "no-force",          0,   2, NULL,          NULL,      setforce,      0 },
   { "debug",             'D', 1, NULL,          NULL,      setdebug,      0 },
-  { "help",              'h', 0, NULL,          NULL,      usage,         0 },
+  { "help",              '?', 0, NULL,          NULL,      usage,         0 },
   { "version",           0,   0, NULL,          NULL,      printversion,  0 },
   ACTIONBACKEND( "build",		'b', BACKEND),
   ACTIONBACKEND( "contents",		'c', BACKEND),
@@ -633,20 +723,18 @@ commandfd(const char *const *argv)
   const char **newargs = NULL;
   char *ptr, *endptr;
   FILE *in;
-  unsigned long infd;
+  long infd;
   int ret = 0;
   int c, lno, i;
   bool skipchar;
 
   pipein = *argv++;
-  if (pipein == NULL)
-    badusage(_("--command-fd takes one argument, not zero"));
-  if (*argv)
-    badusage(_("--command-fd only takes one argument"));
+  if (pipein == NULL || *argv)
+    badusage(_("--%s takes exactly one argument"), cipaction->olong);
   errno = 0;
-  infd = strtoul(pipein, &endptr, 10);
-  if (pipein == endptr || *endptr || infd > INT_MAX)
-    ohshite(_("invalid integer for --%s: `%.250s'"), "command-fd", pipein);
+  infd = strtol(pipein, &endptr, 10);
+  if (pipein == endptr || *endptr || infd < 0 || infd > INT_MAX || errno != 0)
+    ohshit(_("invalid integer for --%s: `%.250s'"), cipaction->olong, pipein);
   if ((in= fdopen(infd, "r")) == NULL)
     ohshite(_("couldn't open `%i' for stream"), (int) infd);
 

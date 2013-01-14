@@ -24,7 +24,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#ifndef HAVE_SNPRINTF
 int
 snprintf(char *str, size_t n, char const *fmt, ...)
 {
@@ -37,4 +36,3 @@ snprintf(char *str, size_t n, char const *fmt, ...)
 
 	return i;
 }
-#endif

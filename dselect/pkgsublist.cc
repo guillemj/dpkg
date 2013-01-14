@@ -33,13 +33,14 @@
 #include "bindings.h"
 
 void packagelist::add(pkginfo *pkg) {
-  debug(dbg_general, "packagelist[%p]::add(pkginfo %s)", this, pkg->name);
+  debug(dbg_general, "packagelist[%p]::add(pkginfo %s)",
+        this, pkg_name(pkg, pnaw_always));
   if (!recursive ||  // never add things to top level
       !pkg->clientdata ||  // don't add pure virtual packages
       pkg->clientdata->uprec)  // don't add ones already in the recursive list
     return;
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s) adding",
-        this, pkg->name);
+        this, pkg_name(pkg, pnaw_always));
   perpackagestate *state= &datatable[nitems];
   state->pkg= pkg;
   state->direct= state->original= pkg->clientdata->selected;
@@ -54,21 +55,21 @@ void packagelist::add(pkginfo *pkg) {
 
 void packagelist::add(pkginfo *pkg, pkginfo::pkgwant nw) {
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s, %s)",
-        this, pkg->name, wantstrings[nw]);
+        this, pkg_name(pkg, pnaw_always), wantstrings[nw]);
   add(pkg);  if (!pkg->clientdata) return;
   pkg->clientdata->direct= nw;
   selpriority np;
   np= would_like_to_install(nw,pkg) ? sp_selecting : sp_deselecting;
   if (pkg->clientdata->spriority > np) return;
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s, %s) setting",
-        this, pkg->name, wantstrings[nw]);
+        this, pkg_name(pkg, pnaw_always), wantstrings[nw]);
   pkg->clientdata->suggested= pkg->clientdata->selected= nw;
   pkg->clientdata->spriority= np;
 }
 
 void packagelist::add(pkginfo *pkg, const char *extrainfo, showpriority showimp) {
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s, ..., showpriority %d)",
-        this, pkg->name, showimp);
+        this, pkg_name(pkg, pnaw_always), showimp);
   add(pkg);  if (!pkg->clientdata) return;
   if (pkg->clientdata->dpriority < showimp) pkg->clientdata->dpriority= showimp;
   pkg->clientdata->relations(extrainfo);
@@ -117,7 +118,7 @@ packagelist::add(dependency *depends, showpriority displayimportance)
 
   const char *comma= "";
   varbuf info;
-  info(depends->up->name);
+  info(depends->up->set->name);
   info(' ');
   info(gettext(relatestrings[depends->type]));
   info(' ');
@@ -127,14 +128,25 @@ packagelist::add(dependency *depends, showpriority displayimportance)
        possi=possi->next, comma=(possi && possi->next ? ", " : _(" or "))) {
     info(comma);
     info(possi->ed->name);
-    if (possi->verrel != dvr_none) {
+    if (possi->verrel != dpkg_relation_none) {
       switch (possi->verrel) {
-      case dvr_earlierequal:  info(" (<= "); break;
-      case dvr_laterequal:    info(" (>= "); break;
-      case dvr_earlierstrict: info(" (<< "); break;
-      case dvr_laterstrict:   info(" (>> "); break;
-      case dvr_exact:         info(" (= "); break;
-      default: internerr("unknown verrel");
+      case dpkg_relation_le:
+        info(" (<= ");
+        break;
+      case dpkg_relation_ge:
+        info(" (>= ");
+        break;
+      case dpkg_relation_lt:
+        info(" (<< ");
+        break;
+      case dpkg_relation_gt:
+        info(" (>> ");
+        break;
+      case dpkg_relation_eq:
+        info(" (= ");
+        break;
+      default:
+        internerr("unknown dpkg_relation %d", possi->verrel);
       }
       info(versiondescribe(&possi->version, vdew_nonambig));
       info(")");
@@ -143,12 +155,12 @@ packagelist::add(dependency *depends, showpriority displayimportance)
   info('\n');
   add(depends->up,info.string(),displayimportance);
   for (possi=depends->list; possi; possi=possi->next) {
-    add(possi->ed,info.string(),displayimportance);
-    if (possi->verrel == dvr_none && depends->type != dep_provides) {
+    add(&possi->ed->pkg, info.string(), displayimportance);
+    if (possi->verrel == dpkg_relation_none && depends->type != dep_provides) {
       // providers aren't relevant if a version was specified, or
       // if we're looking at a provider relationship already
       deppossi *provider;
-      for (provider = possi->ed->available.depended;
+      for (provider = possi->ed->depended.available;
            provider;
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;

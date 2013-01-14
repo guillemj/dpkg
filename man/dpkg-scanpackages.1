@@ -1,6 +1,11 @@
+.\" dpkg manual page - dpkg-scanpackages(1)
+.\"
 .\" Copyright © 1996 Michael Shields <shields@crosslink.net>
+.\" Copyright © 2006 Frank Lichtenheld <djpig@debian.org>
+.\" Copyright © 2007 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
 .\" 
-.\" This is free software; you may redistribute it and/or modify
+.\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
 .\" the Free Software Foundation; either version 2 of the License, or
 .\" (at your option) any later version.
@@ -12,7 +17,8 @@
 .\"
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
-.TH dpkg\-scanpackages 1 "2011-08-14" "Debian Project" "dpkg utilities"
+.
+.TH dpkg\-scanpackages 1 "2012-05-07" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-scanpackages \- create Packages index files
 .
@@ -49,19 +55,19 @@ files except on local access (i.e.
 .B file://
 sources).
 .PP
-.I binarydir
+.I binary-dir
 is the name of the tree of the binary packages to process (for example,
 .BR contrib/binary\-i386 ).
 It is best to make this relative to the root of the Debian archive,
 because every Filename field in the new Packages file will start with
 this string.
 .PP
-.I overridefile
+.I override-file
 is the name of a file to read which contains information about how the
 package fits into the distribution (it can be a compressed file); see
 .BR deb\-override (5).
 .PP
-.I pathprefix
+.I path-prefix
 is an optional string to be prepended to the Filename fields.
 .PP
 If more than one version of a package is found only the newest one
@@ -72,9 +78,6 @@ differ in architecture only the first one found is used.
 .TP
 .BR \-t ", " \-\-type " \fItype\fP"
 Scan for *.\fItype\fP packages, instead of *.deb.
-.TP
-.BR \-u ", " \-\-udeb
-\fBObsolete\fP alias for \fB\-tudeb\fP.
 .TP
 .BR \-e ", " \-\-extra\-override " \fIfile\fP"
 Scan \fIfile\fP to find supplementary overrides (the file can be
@@ -94,7 +97,7 @@ Add an X\-Medium field containing the value \fIid-string\fP. This field
 is required if you want to generate \fBPackages.cd\fP files for use
 by the multicd access method of dselect.
 .TP
-.BR \-h ", " \-\-help
+.BR \-? ", " \-\-help
 Show the usage message and exit.
 .TP
 .BR \-\-version

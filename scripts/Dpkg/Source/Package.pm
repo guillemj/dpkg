@@ -44,7 +44,7 @@ use Dpkg::Checksums;
 use Dpkg::Version;
 use Dpkg::Compression;
 use Dpkg::Exit;
-use Dpkg::Path qw(check_files_are_the_same);
+use Dpkg::Path qw(check_files_are_the_same find_command);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(run_vendor_hook);
 
@@ -233,7 +233,8 @@ sub upgrade_object_type {
             $self->{'fields'}{'Format'} .= " ($variant)" if defined $variant;
         }
         if ($@) {
-	    error(_g("source package format `%s' is not supported (Perl module %s is required)"), $format, $module);
+            error(_g("source package format '%s' is not supported: %s"),
+                  $format, $@);
         }
         bless $self, $module;
     } else {
@@ -342,13 +343,13 @@ sub check_signature {
     my ($self) = @_;
     my $dsc = $self->get_filename();
     my @exec;
-    if (-x '/usr/bin/gpgv') {
+    if (find_command('gpgv')) {
         push @exec, "gpgv";
-    } elsif (-x '/usr/bin/gpg') {
+    } elsif (find_command('gpg')) {
         push @exec, "gpg", "--no-default-keyring", "-q", "--verify";
     }
     if (scalar(@exec)) {
-        if (-r "$ENV{'HOME'}/.gnupg/trustedkeys.gpg") {
+        if (defined $ENV{'HOME'} and -r "$ENV{'HOME'}/.gnupg/trustedkeys.gpg") {
             push @exec, "--keyring", "$ENV{'HOME'}/.gnupg/trustedkeys.gpg";
         }
         foreach my $vendor_keyring (run_vendor_hook('keyrings')) {
@@ -513,6 +514,15 @@ sub add_file {
 }
 
 sub commit {
+    my $self = shift;
+    eval { $self->do_commit(@_) };
+    if ($@) {
+        &$_() foreach reverse @Dpkg::Exit::handlers;
+        die $@;
+    }
+}
+
+sub do_commit {
     my ($self, $dir) = @_;
     info(_g("'%s' is not supported by the source format '%s'"),
          "dpkg-source --commit", $self->{'fields'}{'Format'});

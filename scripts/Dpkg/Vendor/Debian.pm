@@ -83,7 +83,12 @@ sub add_hardening_flags {
     my $arch = get_host_arch();
     my ($abi, $os, $cpu) = debarch_to_debtriplet($arch);
 
-    # Decide what's enabled
+    unless (defined $abi and defined $os and defined $cpu) {
+        warning(_g("unknown host architecture '%s'"), $arch);
+        ($abi, $os, $cpu) = ("", "", "");
+    }
+
+    # Features enabled by default for all builds.
     my %use_feature = (
 	"pie" => 0,
 	"stackprotector" => 1,
@@ -92,6 +97,8 @@ sub add_hardening_flags {
 	"relro" => 1,
 	"bindnow" => 0
     );
+
+    # Adjust features based on Maintainer's desires.
     my $opts = Dpkg::BuildOptions->new(envvar => "DEB_BUILD_MAINT_OPTIONS");
     foreach my $feature (split(",", $opts->get("hardening") // "")) {
 	$feature = lc($feature);
@@ -112,46 +119,70 @@ sub add_hardening_flags {
 	}
     }
 
-    # PIE
-    if ($use_feature{"pie"} and
-	$os =~ /^(linux|knetbsd|hurd)$/ and
-	$cpu !~ /^(hppa|m68k|mips|mipsel|avr32)$/) {
-	# Only on linux/knetbsd/hurd (see #430455 and #586215)
-	# Disabled on hppa, m68k (#451192), mips/mipsel (#532821), avr32
-	# (#574716)
-	$flags->append("CFLAGS", "-fPIE");
-	$flags->append("CXXFLAGS", "-fPIE");
-	$flags->append("LDFLAGS", "-fPIE -pie");
+    # Mask features that are not available on certain architectures.
+    if ($os !~ /^(linux|knetbsd|hurd)$/ or
+	$cpu =~ /^(hppa|mips|mipsel|avr32)$/) {
+	# Disabled on non-linux/knetbsd/hurd (see #430455 and #586215).
+	# Disabled on hppa, mips/mipsel (#532821), avr32
+	#  (#574716).
+	$use_feature{"pie"} = 0;
     }
-    # Stack protector
-    if ($use_feature{"stackprotector"} and
-	$cpu !~ /^(ia64|alpha|mips|mipsel|hppa)$/ and $arch ne "arm") {
+    if ($cpu =~ /^(ia64|alpha|mips|mipsel|hppa)$/ or $arch eq "arm") {
 	# Stack protector disabled on ia64, alpha, mips, mipsel, hppa.
 	#   "warning: -fstack-protector not supported for this target"
 	# Stack protector disabled on arm (ok on armel).
 	#   compiler supports it incorrectly (leads to SEGV)
+	$use_feature{"stackprotector"} = 0;
+    }
+    if ($cpu =~ /^(ia64|hppa|avr32)$/) {
+	# relro not implemented on ia64, hppa, avr32.
+	$use_feature{"relro"} = 0;
+    }
+
+    # Handle logical feature interactions.
+    if ($use_feature{"relro"} == 0) {
+	# Disable bindnow if relro is not enabled, since it has no
+	# hardening ability without relro and may incur load penalties.
+	$use_feature{"bindnow"} = 0;
+    }
+
+    # PIE
+    if ($use_feature{"pie"}) {
+	$flags->append("CFLAGS", "-fPIE");
+	$flags->append("CXXFLAGS", "-fPIE");
+	$flags->append("LDFLAGS", "-fPIE -pie");
+    }
+
+    # Stack protector
+    if ($use_feature{"stackprotector"}) {
 	$flags->append("CFLAGS", "-fstack-protector --param=ssp-buffer-size=4");
 	$flags->append("CXXFLAGS", "-fstack-protector --param=ssp-buffer-size=4");
     }
-    # Fortify
+
+    # Fortify Source
     if ($use_feature{"fortify"}) {
 	$flags->append("CPPFLAGS", "-D_FORTIFY_SOURCE=2");
     }
-    # Format
+
+    # Format Security
     if ($use_feature{"format"}) {
-	$flags->append("CFLAGS", "-Wformat -Wformat-security -Werror=format-security");
-	$flags->append("CXXFLAGS", "-Wformat -Wformat-security -Werror=format-security");
+	$flags->append("CFLAGS", "-Wformat -Werror=format-security");
+	$flags->append("CXXFLAGS", "-Wformat -Werror=format-security");
     }
-    # Relro
-    if ($use_feature{"relro"} and $cpu !~ /^(ia64|hppa|avr32)$/) {
+
+    # Read-only Relocations
+    if ($use_feature{"relro"}) {
 	$flags->append("LDFLAGS", "-Wl,-z,relro");
-    } else {
-	# Disable full relro if relro is not enabled.
-	$use_feature{"bindnow"} = 0;
     }
+
     # Bindnow
     if ($use_feature{"bindnow"}) {
 	$flags->append("LDFLAGS", "-Wl,-z,now");
+    }
+
+    # Store the feature usage.
+    while (my ($feature, $enabled) = each %use_feature) {
+	$flags->set_feature("hardening", $feature, $enabled);
     }
 }
 

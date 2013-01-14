@@ -13,11 +13,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 18;
+use Test::More tests => 20;
 
 use strict;
 use warnings;
 
+use Dpkg::Arch qw(get_host_arch);
 use_ok('Dpkg::Deps');
 
 my $field_multiline = " , , libgtk2.0-common (= 2.10.13-1)  , libatk1.0-0 (>=
@@ -41,6 +42,14 @@ my $dep_or2 = deps_parse("x|y|a|b|c (<= 0.5)|c (>=1.5)|d|e");
 is($dep_or1->implies($dep_or2), 1, "Implication between OR 1/2");
 is($dep_or2->implies($dep_or1), undef, "Implication between OR 2/2");
 
+my $dep_ma_any = deps_parse("libcairo2:any");
+my $dep_ma_native = deps_parse("libcairo2");
+#my $dep_ma_native2 = deps_parse("libcairo2:native");
+is($dep_ma_native->implies($dep_ma_any), 1, "foo -> foo:any");
+#is($dep_ma_native2->implies($dep_ma_any), 1, "foo:native -> foo:any");
+is($dep_ma_any->implies($dep_ma_native), undef, "foo:any !-> foo");
+#is($dep_ma_any->implies($dep_ma_native2), undef, "foo:any !-> foo:native");
+
 my $field_arch = "libc6 (>= 2.5) [!alpha !hurd-i386], libc6.1 [alpha], libc0.1 [hurd-i386]";
 my $dep_i386 = deps_parse($field_arch, reduce_arch => 1, host_arch => 'i386');
 my $dep_alpha = deps_parse($field_arch, reduce_arch => 1, host_arch => 'alpha');
@@ -51,14 +60,21 @@ is($dep_hurd->output(), "libc0.1", "Arch reduce 3/3");
 
 
 my $facts = Dpkg::Deps::KnownFacts->new();
-$facts->add_installed_package("mypackage", "1.3.4-1");
+$facts->add_installed_package("mypackage", "1.3.4-1", get_host_arch(), "no");
+$facts->add_installed_package("mypackage2", "1.3.4-1", "somearch", "no");
+$facts->add_installed_package("pkg-ma-foreign", "1.3.4-1", "somearch", "foreign");
+$facts->add_installed_package("pkg-ma-foreign2", "1.3.4-1", get_host_arch(), "foreign");
+$facts->add_installed_package("pkg-ma-allowed", "1.3.4-1", "somearch", "allowed");
+$facts->add_installed_package("pkg-ma-allowed2", "1.3.4-1", "somearch", "allowed");
+$facts->add_installed_package("pkg-ma-allowed3", "1.3.4-1", get_host_arch(), "allowed");
 $facts->add_provided_package("myvirtual", undef, undef, "mypackage");
 
 my $field_duplicate = "libc6 (>= 2.3), libc6 (>= 2.6-1), mypackage (>=
-1.3), myvirtual | something, python (>= 2.5)";
+1.3), myvirtual | something, python (>= 2.5), mypackage2, pkg-ma-foreign,
+pkg-ma-foreign2, pkg-ma-allowed:any, pkg-ma-allowed2, pkg-ma-allowed3";
 my $dep_dup = deps_parse($field_duplicate);
 $dep_dup->simplify_deps($facts, $dep_opposite);
-is($dep_dup->output(), "libc6 (>= 2.6-1)", "Simplify deps");
+is($dep_dup->output(), "libc6 (>= 2.6-1), mypackage2, pkg-ma-allowed2", "Simplify deps");
 
 my $field_dup_union = "libc6 (>> 2.3), libc6 (>= 2.6-1), fake (<< 2.0),
 fake(>> 3.0), fake (= 2.5), python (<< 2.5), python (= 2.4)";

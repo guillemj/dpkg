@@ -78,7 +78,7 @@ static void cleanupdates(void) {
   struct dirent **cdlist;
   int cdn, i;
 
-  parsedb(statusfile, pdb_lax_parser | pdb_weakclassification, NULL);
+  parsedb(statusfile, pdb_parse_status, NULL);
 
   *updatefnrest = '\0';
   updateslength= -1;
@@ -88,8 +88,7 @@ static void cleanupdates(void) {
   if (cdn) {
     for (i=0; i<cdn; i++) {
       strcpy(updatefnrest, cdlist[i]->d_name);
-      parsedb(updatefnbuf, pdb_lax_parser | pdb_weakclassification,
-              NULL);
+      parsedb(updatefnbuf, pdb_parse_update, NULL);
       if (cstatus < msdbrw_write) free(cdlist[i]);
     }
 
@@ -276,12 +275,12 @@ modstatdb_open(enum modstatdb_rw readwritereq)
     internerr("unknown modstatdb_rw '%d'", readwritereq);
   }
 
+  dpkg_arch_load_list();
+
   if (cstatus != msdbrw_needsuperuserlockonly) {
     cleanupdates();
     if (cflags >= msdbrw_available_readonly)
-      parsedb(availablefile,
-              pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
-              NULL);
+      parsedb(availablefile, pdb_parse_available, NULL);
   }
 
   if (cstatus >= msdbrw_write) {
@@ -292,6 +291,12 @@ modstatdb_open(enum modstatdb_rw readwritereq)
   trig_fixup_awaiters(cstatus);
   trig_incorporate(cstatus);
 
+  return cstatus;
+}
+
+enum modstatdb_rw
+modstatdb_get_status(void)
+{
   return cstatus;
 }
 
@@ -344,18 +349,24 @@ modstatdb_note_core(struct pkginfo *pkg)
   varbufrecord(&uvb, pkg, &pkg->installed);
 
   if (fwrite(uvb.buf, 1, uvb.used, importanttmp) != uvb.used)
-    ohshite(_("unable to write updated status of `%.250s'"), pkg->name);
+    ohshite(_("unable to write updated status of `%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
   if (fflush(importanttmp))
-    ohshite(_("unable to flush updated status of `%.250s'"), pkg->name);
+    ohshite(_("unable to flush updated status of `%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
   if (ftruncate(fileno(importanttmp), uvb.used))
-    ohshite(_("unable to truncate for updated status of `%.250s'"), pkg->name);
+    ohshite(_("unable to truncate for updated status of `%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
   if (fsync(fileno(importanttmp)))
-    ohshite(_("unable to fsync updated status of `%.250s'"), pkg->name);
+    ohshite(_("unable to fsync updated status of `%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
   if (fclose(importanttmp))
-    ohshite(_("unable to close updated status of `%.250s'"), pkg->name);
+    ohshite(_("unable to close updated status of `%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
   sprintf(updatefnrest, IMPORTANTFMT, nextupdate);
   if (rename(importanttmpfile, updatefnbuf))
-    ohshite(_("unable to install updated status of `%.250s'"), pkg->name);
+    ohshite(_("unable to install updated status of `%.250s'"),
+            pkg_name(pkg, pnaw_nonambig));
 
   dir_sync_path(updatesdir);
 
@@ -396,9 +407,11 @@ void modstatdb_note(struct pkginfo *pkg) {
     pkg->trigaw.head = pkg->trigaw.tail = NULL;
   }
 
-  log_message("status %s %s %s", statusinfos[pkg->status].name, pkg->name,
+  log_message("status %s %s %s", statusinfos[pkg->status].name,
+              pkg_name(pkg, pnaw_always),
 	      versiondescribe(&pkg->installed.version, vdew_nonambig));
-  statusfd_send("status: %s: %s", pkg->name, statusinfos[pkg->status].name);
+  statusfd_send("status: %s: %s", pkg_name(pkg, pnaw_nonambig),
+                statusinfos[pkg->status].name);
 
   if (cstatus >= msdbrw_write)
     modstatdb_note_core(pkg);

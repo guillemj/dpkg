@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 # Copyright © 2009-2010 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2012 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +25,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Version;
 
-use Getopt::Long;
+use Getopt::Long qw(:config posix_default bundling no_ignorecase);
 use Scalar::Util qw(blessed);
 
 textdomain("dpkg-dev");
@@ -52,8 +53,6 @@ BEGIN {
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
-    printf "\n" . _g("Copyright (C) 2009-2010 Raphael Hertzog.");
-
     printf "\n" . _g(
 "This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
@@ -62,13 +61,13 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf(_g(
-"Usage: %s [<option> ...] <old> <new-a> <new-b> [<out>]
+"Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]
 
 Options:
-  --merge-prereleases, -m  merge pre-releases together, ignores everything
+  -m, --merge-prereleases  merge pre-releases together, ignores everything
                            after the last '~' in the version.
-  --help, -h, -?           show this help message.
-  --version                show the version.
+  -?, --help               show this help message.
+      --version            show the version.
 "), $progname);
 }
 
@@ -179,7 +178,9 @@ sub compare_versions {
 	$a =~ s/~[^~]*$//;
 	$b =~ s/~[^~]*$//;
     }
-    return version_compare($a, $b);
+    $a = Dpkg::Version->new($a);
+    $b = Dpkg::Version->new($b);
+    return $a <=> $b;
 }
 
 # Merge changelog entries smartly by merging individually the different

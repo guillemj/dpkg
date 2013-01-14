@@ -156,7 +156,6 @@ DYNAMIC SYMBOL TABLE:
 00000000      DF *UND*	00000054  GLIBC_2.0   strcmp
 00000000      DF *UND*	000000fa  GLIBC_2.0   exit
 00000000      DF *UND*	000004bc  ACL_1.0     acl_from_text
-00000000      DF *UND*	00000075 singlespace
 0805bc90 g    D  *ABS*	00000000  Base        _end
 0805b860 g    DO .bss	00000004  GLIBC_2.0   stdout
 0805b82c g    D  *ABS*	00000000  Base        _edata

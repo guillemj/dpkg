@@ -1,3 +1,4 @@
+# Copyright © 2006-2009,2012 Guillem Jover <guillem@debian.org>
 # Copyright © 2007-2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -18,13 +19,14 @@ package Dpkg::Substvars;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = "1.02";
 
 use Dpkg qw($version);
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
+use Carp;
 use POSIX qw(:errno_h);
 
 use base qw(Dpkg::Interface::Storable);
@@ -76,7 +78,7 @@ sub new {
     };
     $self->{'vars'}{'dpkg:Upstream-Version'} =~ s/-[^-]+$//;
     bless $self, $class;
-    $self->no_warn($_) foreach keys %{$self->{'vars'}};
+    $self->mark_as_used($_) foreach keys %{$self->{'vars'}};
     if ($arg) {
         $self->load($arg) if -e $arg;
     }
@@ -92,6 +94,19 @@ Add/replace a substitution.
 sub set {
     my ($self, $key, $value) = @_;
     $self->{'vars'}{$key} = $value;
+}
+
+=item $s->set_as_used($key, $value)
+
+Add/replace a substitution and mark it as used (no warnings will be produced
+even if unused).
+
+=cut
+
+sub set_as_used {
+    my ($self, $key, $value) = @_;
+    $self->set($key, $value);
+    $self->mark_as_used($key);
 }
 
 =item $s->get($key)
@@ -117,16 +132,28 @@ sub delete {
     return delete $self->{'vars'}{$key};
 }
 
-=item $s->no_warn($key)
+=item $s->mark_as_used($key)
 
 Prevents warnings about a unused substitution, for example if it is provided by
 default.
 
 =cut
 
-sub no_warn {
+sub mark_as_used {
     my ($self, $key) = @_;
     $self->{'used'}{$key}++;
+}
+
+=item $s->no_warn($key)
+
+Obsolete function, use mark_as_used() instead.
+
+=cut
+
+sub no_warn {
+    my ($self, $key) = @_;
+    carp "obsolete no_warn() function, use mark_as_used() instead";
+    $self->mark_as_used($key);
 }
 
 =item $s->load($file)
@@ -153,28 +180,34 @@ sub parse {
     }
 }
 
-=item $s->set_version_substvars($version)
+=item $s->set_version_substvars($sourceversion, $binaryversion)
 
 Defines ${binary:Version}, ${source:Version} and
-${source:Upstream-Version} based on the given version string.
+${source:Upstream-Version} based on the given version strings.
 
 These will never be warned about when unused.
 
 =cut
 
 sub set_version_substvars {
-    my ($self, $version) = @_;
+    my ($self, $sourceversion, $binaryversion) = @_;
 
-    $self->{'vars'}{'binary:Version'} = $version;
-    $self->{'vars'}{'source:Version'} = $version;
-    $self->{'vars'}{'source:Version'} =~ s/\+b[0-9]+$//;
-    $self->{'vars'}{'source:Upstream-Version'} = $version;
+    # Handle old function signature taking only one argument.
+    $binaryversion ||= $sourceversion;
+
+    # For backwards compatibility on binNMUs that do not use the Binary-Only
+    # field on the changelog, always fix up the source version.
+    $sourceversion =~ s/\+b[0-9]+$//;
+
+    $self->{'vars'}{'binary:Version'} = $binaryversion;
+    $self->{'vars'}{'source:Version'} = $sourceversion;
+    $self->{'vars'}{'source:Upstream-Version'} = $sourceversion;
     $self->{'vars'}{'source:Upstream-Version'} =~ s/-[^-]*$//;
 
     # XXX: Source-Version is now deprecated, remove in the future.
-    $self->{'vars'}{'Source-Version'} = $version;
+    $self->{'vars'}{'Source-Version'} = $binaryversion;
 
-    $self->no_warn($_) foreach qw/binary:Version source:Version source:Upstream-Version Source-Version/;
+    $self->mark_as_used($_) foreach qw/binary:Version source:Version source:Upstream-Version Source-Version/;
 }
 
 =item $s->set_arch_substvars()
@@ -188,8 +221,7 @@ This will never be warned about when unused.
 sub set_arch_substvars {
     my ($self) = @_;
 
-    $self->{'vars'}{'Arch'} = get_host_arch();
-    $self->no_warn('Arch');
+    $self->set_as_used('Arch', get_host_arch());
 }
 
 =item $newstring = $s->substvars($string)
@@ -218,7 +250,7 @@ sub substvars {
         $lhs = $1; $vn = $2; $rhs = $3;
         if (defined($self->{'vars'}{$vn})) {
             $v = $lhs . $self->{'vars'}{$vn} . $rhs;
-	    $self->no_warn($vn);
+            $self->mark_as_used($vn);
             $count++;
         } else {
             warning($opts{msg_prefix} . _g("unknown substitution variable \${%s}"),

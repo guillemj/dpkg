@@ -1,5 +1,22 @@
-.\" Author: Raphaël Hertzog
-.TH dpkg\-gensymbols 1 "2011-08-14" "Debian Project" "dpkg utilities"
+.\" dpkg manual page - dpkg-gensymbols(1)
+.\"
+.\" Copyright © 2007-2011 Raphaël Hertzog <hertzog@debian.org>
+.\" Copyright © 2009-2010 Modestas Vainius <modestas@vainius.eu>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.
+.TH dpkg\-gensymbols 1 "2012-04-22" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-gensymbols \- generate symbols files (shared library dependency information)
 .
@@ -10,12 +27,12 @@ dpkg\-gensymbols \- generate symbols files (shared library dependency informatio
 .SH DESCRIPTION
 .B dpkg\-gensymbols
 scans a temporary build tree (debian/tmp by default) looking for libraries
-and generate a \fIsymbols\fR file describing them. This file, if
+and generates a \fIsymbols\fR file describing them. This file, if
 non-empty, is then installed in the DEBIAN subdirectory of the build tree
 so that it ends up included in the control information of the package.
 .P
 When generating those files, it uses as input some symbols files
-provided by the maintainer. It looks for the following files (and use the
+provided by the maintainer. It looks for the following files (and uses the
 first that is found):
 .IP \(bu 4
 debian/\fIpackage\fR.symbols.\fIarch\fR
@@ -149,10 +166,12 @@ in template mode.
 The format of \fIarchitecture list\fR is the same as the one used in the
 \fIBuild\-Depends\fR field of \fIdebian/control\fR (except the enclosing
 square brackets []). For example, the first symbol from the list below
-will be considered only on alpha, amd64, kfreebsd\-amd64 and ia64 architectures
-while the second one anywhere except on armel.
+will be considered only on alpha, any\-amd64 and ia64 architectures,
+the second only on linux architectures, while the third one anywhere
+except on armel.
 
- (arch=alpha amd64 kfreebsd\-amd64 ia64)a_64bit_specific_symbol@Base 1.0
+ (arch=alpha any\-amd64 ia64)a_64bit_specific_symbol@Base 1.0
+ (arch=linux\-any)linux_specific_symbol@Base 1.0
  (arch=!armel)symbol_armel_does_not_have@Base 1.0
 .TP
 .B ignore\-blacklist
@@ -317,10 +336,10 @@ using an include directive like this:
 .IP \(bu
 The include directive may also be tagged like any symbol:
 
-(tag|..|tagN)#include "file-to-include"
+(tag|...|tagN)#include "file-to-include"
 
 As a result, all symbols included from \fIfile-to-include\fR will be considered
-to be tagged with \fItag\fR .. \fItagN\fR by default. You can use this feature
+to be tagged with \fItag\fR ... \fItagN\fR by default. You can use this feature
 to create a common \fIpackage\fR.symbols file which includes architecture
 specific symbol files:
 
@@ -381,7 +400,8 @@ debian/changelog. Required if called outside of a source package tree.
 .TP
 .BI \-e library-file
 Only analyze libraries explicitly listed instead of finding all public
-libraries. You can use a regular expression in \fIlibrary-file\fR to match
+libraries. You can use shell patterns used for pathname expansions (see
+the File::Glob manual page for details) in \fIlibrary-file\fR to match
 multiple libraries with a single argument (otherwise you need multiple
 \fB\-e\fR).
 .TP
@@ -441,7 +461,7 @@ symbols as comments. Furthermore in template mode, pattern symbols
 are followed by comments listing real symbols that have matched the
 pattern.
 .TP
-.BR \-h ", " \-\-help
+.BR \-? ", " \-\-help
 Show the usage message and exit.
 .TP
 .BR \-\-version
@@ -456,9 +476,3 @@ Show the version and exit.
 .br
 .BR deb\-symbols (5),
 .BR dpkg\-shlibdeps (1).
-.
-.SH AUTHORS
-Copyright \(co 2007-2009 Rapha\[:e]l Hertzog
-.sp
-This is free software; see the GNU General Public Licence version 2 or later
-for copying conditions. There is NO WARRANTY.

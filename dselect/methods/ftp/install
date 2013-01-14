@@ -131,7 +131,7 @@ procstatus();
 sub dcmpvers {
     my($a, $p, $b) = @_;
     my ($r);
-    $r = system("/usr/bin/dpkg", "--compare-versions", "$a", "$p", "$b");
+    $r = system("dpkg", "--compare-versions", "$a", "$p", "$b");
     $r = $r/256;
     if ($r == 0) {
 	return 1;

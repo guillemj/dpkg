@@ -312,9 +312,8 @@ Compare two corresponding sub-parts of a version number (either upstream
 version or debian revision).
 
 Each parameter is split by version_split_digits() and resulting items
-are compared together.in digits and non-digits items that are compared
-together. As soon as a difference happens, it returns -1 if $a is earlier
-than $b, 0 if they are equal and 1 if $a is later than $b.
+are compared together. As soon as a difference happens, it returns -1 if
+$a is earlier than $b, 0 if they are equal and 1 if $a is later than $b.
 
 =cut
 
@@ -398,7 +397,7 @@ sub version_check($) {
 
 Don Armstrong <don@donarmstrong.com>, Colin Watson
 <cjwatson@debian.org> and Raphaël Hertzog <hertzog@debian.org>, based on
-the implementation in C<dpkg/lib/vercmp.c> by Ian Jackson and others.
+the implementation in C<dpkg/lib/version.c> by Ian Jackson and others.
 
 =cut
 

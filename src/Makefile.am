@@ -25,6 +25,10 @@ bin_PROGRAMS = \
 	dpkg-statoverride \
 	dpkg-trigger
 
+noinst_HEADERS = \
+	filesdb.h \
+	infodb.h
+
 dpkg_SOURCES = \
 	archives.c archives.h \
 	cleanup.c \
@@ -32,9 +36,13 @@ dpkg_SOURCES = \
 	depcon.c \
 	enquiry.c \
 	errors.c \
-	filesdb.c filesdb.h \
+	filesdb.c \
+	filesdb-hash.c \
+	file-match.c file-match.h \
 	filters.c filters.h \
-	infodb.c infodb.h \
+	infodb-access.c \
+	infodb-format.c \
+	infodb-upgrade.c \
 	divertdb.c \
 	statdb.c \
 	help.c \
@@ -42,6 +50,7 @@ dpkg_SOURCES = \
 	packages.c \
 	processarc.c \
 	remove.c \
+	script.c \
 	select.c \
 	trigproc.c \
 	update.c
@@ -51,18 +60,21 @@ dpkg_LDADD = \
 	$(SELINUX_LIBS)
 
 dpkg_divert_SOURCES = \
-	filesdb.c filesdb.h \
+	filesdb.c \
+	infodb-format.c \
 	divertdb.c \
 	divertcmd.c
 
 dpkg_query_SOURCES = \
-	filesdb.c filesdb.h \
-	infodb.c infodb.h \
+	filesdb.c \
+	infodb-access.c \
+	infodb-format.c \
 	divertdb.c \
 	querycmd.c
 
 dpkg_statoverride_SOURCES = \
-	filesdb.c filesdb.h \
+	filesdb.c \
+	infodb-format.c \
 	statdb.c \
 	statcmd.c
 
@@ -70,9 +82,9 @@ dpkg_trigger_SOURCES = \
 	trigcmd.c
 
 install-data-local:
-	$(mkdir_p) $(DESTDIR)$(pkgconfdir)/dpkg.cfg.d
-	$(mkdir_p) $(DESTDIR)$(admindir)/info
-	$(mkdir_p) $(DESTDIR)$(admindir)/updates
+	$(MKDIR_P) $(DESTDIR)$(pkgconfdir)/dpkg.cfg.d
+	$(MKDIR_P) $(DESTDIR)$(admindir)/info
+	$(MKDIR_P) $(DESTDIR)$(admindir)/updates
 
 TEST_VERBOSE = 0
 

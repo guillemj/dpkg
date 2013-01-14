@@ -1,4 +1,24 @@
-.TH dpkg\-genchanges 1 "2011-08-14" "Debian Project" "dpkg utilities"
+.\" dpkg manual page - dpkg-genchanges(1)
+.\"
+.\" Copyright © 1995-1996 Ian Jackson <ian@chiark.chu.cam.ac.uk>
+.\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2008-2010 Raphaël Hertzog <hertzog@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.
+.TH dpkg\-genchanges 1 "2012-05-04" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-genchanges \- generate Debian .changes files
 .
@@ -52,21 +72,21 @@ Causes changelog information from all versions strictly later than
 .I version
 to be used.
 .TP
-.BI \-C changesdescription
+.BI \-C changes-description
 Read the description of the changes from the file
-.I changesdescription
+.I changes-description
 rather than using the information from the source tree's changelog
 file.
 .TP
-.BI \-m maintaineraddress
+.BI \-m maintainer-address
 Use
-.I maintaineraddress
+.I maintainer-address
 as the name and email address of the maintainer for this package,
 rather than using the information from the source tree's control file.
 .TP
-.BI \-e maintaineraddress
+.BI \-e maintainer-address
 Use
-.I maintaineraddress
+.I maintainer-address
 as the name and email address of the maintainer for this upload,
 rather than using the information from the source tree's changelog.
 .TP
@@ -74,9 +94,9 @@ rather than using the information from the source tree's changelog.
 Set an output substitution variable.
 See \fBdeb\-substvars\fP(5) for a discussion of output substitution.
 .TP
-.BI \-T substvarsfile
+.BI \-T substvars-file
 Read substitution variables in
-.IR substvarsfile ;
+.IR substvars-file ;
 the default is
 .BR debian/substvars .
 No variable substitution is done on any of the fields that are output,
@@ -96,23 +116,22 @@ Specifies the main source control file to read information from. The
 default is
 .BR debian/control .
 .TP
-.BI \-l changelogfile
-Specifies the change log file to read information from. The
+.BI \-l changelog-file
+Specifies the changelog file to read information from. The
 default is
 .BR debian/changelog .
 .TP
-.BI \-f fileslistfile
+.BI \-f files-list-file
 Read the list of files to be uploaded here, rather than using
 .BR debian/files .
 .TP
-.BI \-F changelogformat
-Specifies the format of the changelog. By default the format is read
-from a special line near the bottom of the changelog or failing that
-defaults to the debian standard format.
+.BI \-F changelog-format
+Specifies the format of the changelog. See \fBdpkg\-parsechangelog\fP(1)
+for information about alternative formats.
 .TP
-.BI \-u uploadfilesdir
+.BI \-u upload-files-dir
 Look for the files to be uploaded in
-.I uploadfilesdir
+.I upload-files-dir
 rather than
 .B ..
 .RB ( dpkg\-genchanges
@@ -129,7 +148,7 @@ how many of the package's source files are being uploaded.
 .B \-q
 suppresses these messages.
 .TP
-.BR \-h ", " \-\-help
+.BR \-? ", " \-\-help
 Show the usage message and exit.
 .TP
 .BR \-\-version
@@ -144,11 +163,3 @@ prepared.
 reads the data here when producing a
 .B .changes
 file.
-.
-.SH AUTHORS
-Copyright \(co 1995-1996 Ian Jackson
-.br
-Copyright \(co 2000 Wichert Akkerman
-.sp
-This is free software; see the GNU General Public Licence version 2 or later
-for copying conditions. There is NO WARRANTY.

@@ -30,16 +30,16 @@ extern "C" {
 #define offsetof(st, m) ((size_t)&((st *)NULL)->m)
 #endif
 
+#ifndef HAVE_O_NOFOLLOW
+#define O_NOFOLLOW 0
+#endif
+
 /*
  * Define WCOREDUMP if we don't have it already, coredumps won't be
  * detected, though.
  */
 #ifndef HAVE_WCOREDUMP
 #define WCOREDUMP(x) 0
-#endif
-
-#ifndef HAVE_STRTOUL
-#define strtoul strtol
 #endif
 
 #ifndef HAVE_VA_COPY
@@ -60,8 +60,15 @@ int vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args);
 #ifndef HAVE_ASPRINTF
 #include <stdarg.h>
 
-int asprintf(char *str, char const *fmt, ...);
-int vasprintf(char *str, const char *fmt, va_list args);
+int asprintf(char **str, char const *fmt, ...);
+int vasprintf(char **str, const char *fmt, va_list args);
+#endif
+
+#ifndef HAVE_STRNDUP
+#include <stddef.h>
+
+#undef strndup
+char *strndup(const char *s, size_t n);
 #endif
 
 #ifndef HAVE_STRERROR

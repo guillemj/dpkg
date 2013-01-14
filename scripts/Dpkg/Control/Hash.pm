@@ -119,6 +119,16 @@ sub new {
     return $self;
 }
 
+# There is naturally a circular reference between the tied hash and its
+# containing object. Happily, the extra layer of scalar reference can
+# be used to detect the destruction of the object and break the loop so
+# that everything gets garbage-collected.
+
+sub DESTROY {
+    my ($self) = @_;
+    delete $$self->{'fields'};
+}
+
 =item $c->set_options($option, %opts)
 
 Changes the value of one or more options.
@@ -345,8 +355,7 @@ sub apply_substvars {
 
     # Add substvars to refer to other fields
     foreach my $f (keys %$self) {
-        $substvars->set("F:$f", $self->{$f});
-        $substvars->no_warn("F:$f");
+        $substvars->set_as_used("F:$f", $self->{$f});
     }
 
     foreach my $f (keys %$self) {
@@ -392,9 +401,10 @@ sub field_capitalize($) {
 }
 
 # $self->[0] is the real hash
-# $self->[1] is an array containing the ordered list of keys
-# $self->[2] is an hash describing the relative importance of each field
-# (used to sort the output).
+# $self->[1] is a reference to the hash contained by the parent object.
+# This reference bypasses the top-level scalar reference of a
+# Dpkg::Control::Hash, hence ensuring that that reference gets DESTROYed
+# properly.
 
 # Dpkg::Control::Hash->new($parent)
 #
@@ -412,7 +422,7 @@ sub TIEHASH  {
     my ($class, $parent) = @_;
     die "Parent object must be Dpkg::Control::Hash"
         if not $parent->isa("Dpkg::Control::Hash");
-    return bless [ {}, $parent ], $class;
+    return bless [ {}, $$parent ], $class;
 }
 
 sub FETCH {
@@ -427,7 +437,7 @@ sub STORE {
     my $parent = $self->[1];
     $key = lc($key);
     if (not exists $self->[0]->{$key}) {
-	push @{$$parent->{'in_order'}}, field_capitalize($key);
+	push @{$parent->{'in_order'}}, field_capitalize($key);
     }
     $self->[0]->{$key} = $value;
 }
@@ -441,7 +451,7 @@ sub EXISTS {
 sub DELETE {
     my ($self, $key) = @_;
     my $parent = $self->[1];
-    my $in_order = $$parent->{'in_order'};
+    my $in_order = $parent->{'in_order'};
     $key = lc($key);
     if (exists $self->[0]->{$key}) {
 	delete $self->[0]->{$key};
@@ -455,7 +465,7 @@ sub DELETE {
 sub FIRSTKEY {
     my $self = shift;
     my $parent = $self->[1];
-    foreach (@{$$parent->{'in_order'}}) {
+    foreach (@{$parent->{'in_order'}}) {
 	return $_ if exists $self->[0]->{lc($_)};
     }
 }
@@ -464,7 +474,7 @@ sub NEXTKEY {
     my ($self, $last) = @_;
     my $parent = $self->[1];
     my $found = 0;
-    foreach (@{$$parent->{'in_order'}}) {
+    foreach (@{$parent->{'in_order'}}) {
 	if ($found) {
 	    return $_ if exists $self->[0]->{lc($_)};
 	} else {

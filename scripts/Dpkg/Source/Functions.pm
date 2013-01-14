@@ -102,6 +102,7 @@ sub is_binary($) {
         'to_pipe' => \$diffgen
     );
     my $result = 0;
+    local $_;
     while (<$diffgen>) {
         if (m/^(?:binary|[^-+\@ ].*\bdiffer\b)/i) {
             $result = 1;

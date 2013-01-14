@@ -2,6 +2,11 @@
 #
 # dpkg-buildpackage
 #
+# Copyright © 1996 Ian Jackson
+# Copyright © 2000 Wichert Akkerman
+# Copyright © 2006-2010,2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2007 Frank Lichtenheld
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -30,16 +35,12 @@ use Dpkg::Compression;
 use Dpkg::Version;
 use Dpkg::Changelog::Parse;
 use Dpkg::Path qw(find_command);
+use Dpkg::IPC;
 
 textdomain("dpkg-dev");
 
 sub showversion {
     printf _g("Debian %s version %s.\n"), $progname, $version;
-
-    print _g("
-Copyright (C) 1996 Ian Jackson.
-Copyright (C) 2000 Wichert Akkerman
-Copyright (C) 2007 Frank Lichtenheld");
 
     print _g("
 This is free software; see the GNU General Public License version 2 or
@@ -48,55 +49,60 @@ later for copying conditions. There is NO warranty.
 }
 
 sub usage {
-	printf _g("
-Usage: %s [<options> ...]
-
-Options:
-  -r<gain-root-command>
-                 command to gain root privileges (default is fakeroot).
-  -R<rules>      rules file to execute (default is debian/rules).
-  -p<sign-command>
-  -d             do not check build dependencies and conflicts.
-  -D             check build dependencies and conflicts.
-  -T<target>     call debian/rules <target> with the proper environment
-  --as-root      ensure -T calls the target with root rights
-  -j[<number>]   specify jobs to run simultaneously } passed to debian/rules
-  -k<keyid>      the key to use for signing.
-  -sgpg          the sign-command is called like GPG.
-  -spgp          the sign-command is called like PGP.
-  -us            unsigned source.
-  -uc            unsigned changes.
-  -a<arch>       Debian architecture we build for (implies -d).
-  -b             binary-only, do not build source.   } also passed to
-  -B             binary-only, no arch-indep files.   } dpkg-genchanges
-  -A             binary-only, only arch-indep files. }
-  -S             source only, no binary files.     }
-  -F             normal full build (binaries and sources).
-  -t<system>     set GNU system type.           } passed to dpkg-architecture
-  -v<version>    changes since version <version>.      }
-  -m<maint>      maintainer for package is <maint>.    }
-  -e<maint>      maintainer for release is <maint>.    } only passed
-  -C<descfile>   changes are described in <descfile>.  } to dpkg-genchanges
-  -si (default)  src includes orig if new upstream.    }
-  -sa            uploaded src always includes orig.    }
-  -sd            uploaded src is diff and .dsc only.   }
-  -sn            force Debian native source format.      }
-  -s[sAkurKUR]   see dpkg-source for explanation.        } only passed
-  -z<level>      compression level of source             } to dpkg-source
-  -Z<compressor> compression to use for source           }
+    printf _g(
+"Usage: %s [<option>...]")
+    . "\n\n" . _g(
+"Options:
+  -F (default)   normal full build (binaries and sources).
+  -b             binary-only, do not build source.
+  -B             binary-only, no arch-indep files.
+  -A             binary-only, only arch-indep files.
+  -S             source only, no binary files.
   -nc            do not clean source tree (implies -b).
   -tc            clean source tree when finished.
+  -D (default)   check build dependencies and conflicts.
+  -d             do not check build dependencies and conflicts.
+  -R<rules>      rules file to execute (default is debian/rules).
+  -T<target>     call debian/rules <target> with the proper environment.
+      --as-root  ensure -T calls the target with root rights.
+  -j[<number>]   specify jobs to run simultaneously (passed to <rules>).
+  -r<gain-root-command>
+                 command to gain root privileges (default is fakeroot).
+  -p<sign-command>
+                 command to sign .dsc and/or .changes files (default is gpg).
+  -k<keyid>      the key to use for signing.
   -ap            add pause before starting signature process.
-  -i[<regex>]    ignore diffs of files matching regex.    } only passed
-  -I[<pattern>]  filter out files when building tarballs. } to dpkg-source
-  --source-option=<opt>
-		 pass option <opt> to dpkg-source
-  --changes-option=<opt>
-		 pass option <opt> to dpkg-genchanges
-  --admindir=<directory>
+  -us            unsigned source package.
+  -uc            unsigned .changes file.
+      --admindir=<directory>
                  change the administrative directory.
-  -h, --help     show this help message.
-      --version  show the version.
+  -?, --help     show this help message.
+      --version  show the version.")
+    . "\n\n" . _g(
+"Options passed to dpkg-architecture:
+  -a<arch>       Debian architecture we build for.
+  -t<system>     set GNU system type.")
+    . "\n\n" . _g(
+"Options passed to dpkg-genchanges:
+  -si (default)  source includes orig if new upstream.
+  -sa            uploaded source always includes orig.
+  -sd            uploaded source is diff and .dsc only.
+  -v<version>    changes since version <version>.
+  -m<maint>      maintainer for package is <maint>.
+  -e<maint>      maintainer for release is <maint>.
+  -C<descfile>   changes are described in <descfile>.
+      --changes-option=<opt>
+                 pass option <opt> to dpkg-genchanges.")
+    . "\n\n" . _g(
+"Options passed to dpkg-source:
+  -sn            force Debian native source format.
+  -s[sAkurKUR]   see dpkg-source for explanation.
+  -z<level>      compression level to use for source.
+  -Z<compressor> compression to use for source (gz|xz|bzip2|lzma).
+  -i[<regex>]    ignore diffs of files matching regex.
+  -I[<pattern>]  filter out files when building tarballs.
+      --source-option=<opt>
+                 pass option <opt> to dpkg-source.
 "), $progname;
 }
 
@@ -107,16 +113,15 @@ if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
        || ($ENV{HOME} && -e "$ENV{HOME}/.gnupg") )
      && find_command('gpg')) {
 	 $signcommand = 'gpg';
-} elsif (find_command('pgp')) {
-	$signcommand = 'pgp'
 }
 
-my ($admindir, $signkey, $forcesigninterface, $usepause, $noclean,
+my ($admindir, $signkey, $usepause, $noclean,
     $cleansource, $since, $maint,
     $changedby, $desc, $parallel);
 my $checkbuilddep = 1;
 my $signsource = 1;
 my $signchanges = 1;
+my $buildtarget = 'build';
 my $binarytarget = 'binary';
 my $targetarch = my $targetgnusystem = '';
 my $call_target = '';
@@ -134,6 +139,7 @@ my $include = BUILD_ALL | BUILD_DEFAULT;
 sub build_normal() { return ($include & BUILD_ALL) == BUILD_ALL; }
 sub build_sourceonly() { return $include == BUILD_SOURCE; }
 sub build_binaryonly() { return !($include & BUILD_SOURCE); }
+sub build_binaryindep() { return ($include == BUILD_ARCH_INDEP); }
 sub build_opt() {
     return (($include == BUILD_BINARY) ? '-b' :
             (($include == BUILD_ARCH_DEP) ? '-B' :
@@ -145,7 +151,7 @@ sub build_opt() {
 while (@ARGV) {
     $_ = shift @ARGV;
 
-    if (/^(--help|-h)$/) {
+    if (/^(--help|-\?)$/) {
 	usage;
 	exit 0;
     } elsif (/^--version$/) {
@@ -170,7 +176,8 @@ while (@ARGV) {
     } elsif (/^-([dD])$/) {
 	$checkbuilddep = ($1 eq 'D');
     } elsif (/^-s(gpg|pgp)$/) {
-	$forcesigninterface = $1;
+	# Deprecated option
+	warning(_g("-s%s is deprecated; always using gpg style interface"), $1);
     } elsif (/^-us$/) {
 	$signsource = 0;
     } elsif (/^-uc$/) {
@@ -179,7 +186,6 @@ while (@ARGV) {
 	$usepause = 1;
     } elsif (/^-a(.*)$/) {
 	$targetarch = $1;
-	$checkbuilddep = 0;
     } elsif (/^-s[iad]$/) {
 	push @changes_opts, $_;
     } elsif (/^-(?:s[insAkurKUR]|[zZ].*|i.*|I.*)$/) {
@@ -201,24 +207,27 @@ while (@ARGV) {
 	$include = BUILD_BINARY;
 	push @changes_opts, '-b';
 	@checkbuilddep_opts = ();
+	$buildtarget = 'build';
 	$binarytarget = 'binary';
     } elsif (/^-B$/) {
 	build_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
 	$include = BUILD_ARCH_DEP;
 	push @changes_opts, '-B';
 	@checkbuilddep_opts = ('-B');
+	$buildtarget = 'build-arch';
 	$binarytarget = 'binary-arch';
     } elsif (/^-A$/) {
 	build_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
 	$include = BUILD_ARCH_INDEP;
 	push @changes_opts, '-A';
-	@checkbuilddep_opts = ();
+	@checkbuilddep_opts = ('-A');
+	$buildtarget = 'build-indep';
 	$binarytarget = 'binary-indep';
     } elsif (/^-S$/) {
 	build_binaryonly && usageerr(_g("cannot combine %s and %s"), build_opt, "-S");
 	$include = BUILD_SOURCE;
 	push @changes_opts, '-S';
-	@checkbuilddep_opts = ('-B');
+	@checkbuilddep_opts = ('-A', '-B');
     } elsif (/^-F$/) {
 	!build_normal && usageerr(_g("cannot combine %s and %s"), $_, build_opt);
 	$include = BUILD_ALL;
@@ -267,23 +276,6 @@ unless ($signcommand) {
     $signchanges = 0;
 }
 
-my $signinterface;
-if ($forcesigninterface) {
-    $signinterface = $forcesigninterface;
-} else {
-    $signinterface = $signcommand;
-}
-
-if ($signcommand) {
-    if ($signinterface !~ /^(gpg|pgp)$/) {
-	warning(_g("unknown sign command, assuming pgp style interface"));
-    } elsif ($signinterface eq 'pgp') {
-	if ($signsource or $signchanges) {
-	    warning(_g("PGP support is deprecated (see README.feature-removal-schedule)"));
-	}
-    }
-}
-
 my $build_opts = Dpkg::BuildOptions->new();
 if (defined $parallel) {
     $parallel = $build_opts->get("parallel") if $build_opts->has("parallel");
@@ -326,10 +318,12 @@ while ($_ = <$arch_env>) {
 close $arch_env or subprocerr('dpkg-architecture');
 
 my $arch;
-unless (build_sourceonly) {
-    $arch = mustsetvar($ENV{'DEB_HOST_ARCH'}, _g('host architecture'));
-} else {
+if (build_sourceonly) {
     $arch = 'source';
+} elsif (build_binaryindep) {
+    $arch = 'all';
+} else {
+    $arch = mustsetvar($ENV{'DEB_HOST_ARCH'}, _g('host architecture'));
 }
 
 # Preparation of environment stops here
@@ -340,7 +334,7 @@ my $pv = "${pkg}_$sversion";
 my $pva = "${pkg}_${sversion}_$arch";
 
 if (not -x "debian/rules") {
-    warning(_g("debian/rules is not executable: fixing that."));
+    warning(_g("debian/rules is not executable; fixing that"));
     chmod(0755, "debian/rules"); # No checks of failures, non fatal
 }
 
@@ -359,12 +353,12 @@ if ($checkbuilddep) {
     if (not WIFEXITED($?)) {
         subprocerr('dpkg-checkbuilddeps');
     } elsif (WEXITSTATUS($?)) {
-	warning(_g("Build dependencies/conflicts unsatisfied; aborting."));
+	warning(_g("build dependencies/conflicts unsatisfied; aborting"));
 	warning(_g("(Use -d flag to override.)"));
 
 	if (build_sourceonly) {
-	    warning(_g("This is currently a non-fatal warning with -S, but"));
-	    warning(_g("will probably become fatal in the future."));
+	    warning(_g("this is currently a non-fatal warning with -S, but " .
+	               "will probably become fatal in the future"));
 	} else {
 	    exit 3;
 	}
@@ -386,15 +380,33 @@ unless ($noclean) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
 unless (build_binaryonly) {
-    warning(_g("it is a bad idea to generate a source package " .
-               "without cleaning up first, it might contain undesired " .
-               "files.")) if $noclean;
+    warning(_g("building a source package without cleaning up as you asked; " .
+               "it might contain undesired files")) if $noclean;
     chdir('..') or syserr('chdir ..');
     withecho('dpkg-source', @source_opts, '-b', $dir);
     chdir($dir) or syserr("chdir $dir");
 }
+
+unless ($buildtarget eq "build" or scalar(@debian_rules) > 1) {
+    # Verify that build-{arch,indep} are supported. If not, fallback to build.
+    # This is a temporary measure to not break too many packages on a flag day.
+    my $pid = spawn(exec => [ "make", "-f", @debian_rules, "-qn", $buildtarget ],
+                    from_file => "/dev/null", to_file => "/dev/null",
+                    error_to_file => "/dev/null");
+    my $cmdline = "make -f @debian_rules -qn $buildtarget";
+    wait_child($pid, nocheck => 1, cmdline => $cmdline);
+    my $exitcode = WEXITSTATUS($?);
+    subprocerr($cmdline) unless WIFEXITED($?);
+    if ($exitcode == 2) {
+        warning(_g("%s must be updated to support the 'build-arch' and " .
+                   "'build-indep' targets (at least '%s' seems to be " .
+                   "missing)"), "@debian_rules", $buildtarget);
+        $buildtarget = "build";
+    }
+}
+
 unless (build_sourceonly) {
-    withecho(@debian_rules, 'build');
+    withecho(@debian_rules, $buildtarget);
     withecho(@rootcommand, @debian_rules, $binarytarget);
 }
 if ($usepause &&
@@ -504,15 +516,10 @@ sub signfile {
     print STDERR " signfile $file\n";
     my $qfile = quotemeta($file);
 
-    if ($signinterface eq 'gpg') {
-	system("(cat ../$qfile ; echo '') | ".
-	       "$signcommand --utf8-strings --local-user "
-	       .quotemeta($signkey||$maintainer).
-	       " --clearsign --armor --textmode  > ../$qfile.asc");
-    } else {
-	system("$signcommand -u ".quotemeta($signkey||$maintainer).
-	       " +clearsig=on -fast <../$qfile >../$qfile.asc");
-    }
+    system("(cat ../$qfile ; echo '') | " .
+           "$signcommand --utf8-strings --local-user " .
+           quotemeta($signkey || $maintainer) .
+           " --clearsign --armor --textmode  > ../$qfile.asc");
     my $status = $?;
     unless ($status) {
 	system('mv', '--', "../$file.asc", "../$file")

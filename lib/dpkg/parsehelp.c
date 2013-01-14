@@ -3,6 +3,7 @@
  * parsehelp.c - helpful routines for parsing and writing
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +22,9 @@
 #include <config.h>
 #include <compat.h>
 
+#include <errno.h>
 #include <ctype.h>
+#include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -41,9 +44,10 @@ parse_error_msg(struct parsedb_state *ps, const char *fmt)
 
   str_escape_fmt(filename, ps->filename, sizeof(filename));
 
-  if (ps->pkg && ps->pkg->name)
+  if (ps->pkg && ps->pkg->set->name)
     sprintf(msg, _("parsing file '%.255s' near line %d package '%.255s':\n"
-                   " %.255s"), filename, ps->lno, ps->pkg->name, fmt);
+                   " %.255s"), filename, ps->lno,
+                   pkgbin_name(ps->pkg, ps->pkgbin, pnaw_nonambig), fmt);
   else
     sprintf(msg, _("parsing file '%.255s' near line %d:\n"
                    " %.255s"), filename, ps->lno, fmt);
@@ -73,6 +77,14 @@ parse_warn(struct parsedb_state *ps, const char *fmt, ...)
 const struct namevalue booleaninfos[] = {
   NAMEVALUE_DEF("no",  false),
   NAMEVALUE_DEF("yes", true),
+  { .name = NULL }
+};
+
+const struct namevalue multiarchinfos[] = {
+  NAMEVALUE_DEF("no",      multiarch_no),
+  NAMEVALUE_DEF("same",    multiarch_same),
+  NAMEVALUE_DEF("allowed", multiarch_allowed),
+  NAMEVALUE_DEF("foreign", multiarch_foreign),
   { .name = NULL }
 };
 
@@ -115,7 +127,7 @@ const struct namevalue wantinfos[] = {
 };
 
 const char *
-pkg_name_is_illegal(const char *p, const char **ep)
+pkg_name_is_illegal(const char *p)
 {
   /* FIXME: _ is deprecated, remove sometime. */
   static const char alsoallowed[] = "-+._";
@@ -128,10 +140,7 @@ pkg_name_is_illegal(const char *p, const char **ep)
   while ((c = *p++) != '\0')
     if (!isalnum(c) && !strchr(alsoallowed,c)) break;
   if (!c) return NULL;
-  if (isspace(c) && ep) {
-    while (isspace(*p)) p++;
-    *ep= p; return NULL;
-  }
+
   snprintf(buf, sizeof(buf), _(
 	   "character `%c' not allowed (only letters, digits and characters `%s')"),
 	   c, alsoallowed);
@@ -140,7 +149,7 @@ pkg_name_is_illegal(const char *p, const char **ep)
 
 void varbufversion
 (struct varbuf *vb,
- const struct versionrevision *version,
+ const struct dpkg_version *version,
  enum versiondisplayepochwhen vdew)
 {
   switch (vdew) {
@@ -152,21 +161,21 @@ void varbufversion
         (!version->revision || !strchr(version->revision,':'))) break;
     /* Fall through. */
   case vdew_always:
-    varbuf_printf(vb, "%lu:", version->epoch);
+    varbuf_printf(vb, "%u:", version->epoch);
     break;
   default:
     internerr("unknown versiondisplayepochwhen '%d'", vdew);
   }
   if (version->version)
     varbuf_add_str(vb, version->version);
-  if (version->revision && *version->revision) {
+  if (str_is_set(version->revision)) {
     varbuf_add_char(vb, '-');
     varbuf_add_str(vb, version->revision);
   }
 }
 
 const char *versiondescribe
-(const struct versionrevision *version,
+(const struct dpkg_version *version,
  enum versiondisplayepochwhen vdew)
 {
   static struct varbuf bufs[10];
@@ -174,7 +183,7 @@ const char *versiondescribe
 
   struct varbuf *vb;
 
-  if (!informativeversion(version))
+  if (!dpkg_version_is_informative(version))
     return C_("version", "<none>");
 
   vb= &bufs[bufnum]; bufnum++; if (bufnum == 10) bufnum= 0;
@@ -198,12 +207,11 @@ const char *versiondescribe
  * @retval -1 On failure, and err is set accordingly.
  */
 int
-parseversion(struct versionrevision *rversion, const char *string,
+parseversion(struct dpkg_version *rversion, const char *string,
              struct dpkg_error *err)
 {
   char *hyphen, *colon, *eepochcolon;
   const char *end, *ptr;
-  unsigned long epoch;
 
   if (!*string)
     return dpkg_put_error(err, _("version string is empty"));
@@ -225,9 +233,16 @@ parseversion(struct versionrevision *rversion, const char *string,
 
   colon= strchr(string,':');
   if (colon) {
-    epoch= strtoul(string,&eepochcolon,10);
+    long epoch;
+
+    errno = 0;
+    epoch = strtol(string, &eepochcolon, 10);
     if (colon != eepochcolon)
       return dpkg_put_error(err, _("epoch in version is not number"));
+    if (epoch < 0)
+      return dpkg_put_error(err, _("epoch in version is negative"));
+    if (epoch > INT_MAX || errno == ERANGE)
+      return dpkg_put_error(err, _("epoch in version is too big"));
     if (!*++colon)
       return dpkg_put_error(err, _("nothing after colon in version number"));
     string= colon;
@@ -269,7 +284,7 @@ parseversion(struct versionrevision *rversion, const char *string,
  * @param fmt The error format string.
  */
 void
-parse_db_version(struct parsedb_state *ps, struct versionrevision *version,
+parse_db_version(struct parsedb_state *ps, struct dpkg_version *version,
                  const char *value, const char *fmt, ...)
 {
   struct dpkg_error err;
@@ -283,7 +298,7 @@ parse_db_version(struct parsedb_state *ps, struct versionrevision *version,
   vsnprintf(buf, sizeof(buf), fmt, args);
   va_end(args);
 
-  if (err.type == DPKG_MSG_WARN && (ps->flags & pdb_lax_parser))
+  if (err.type == DPKG_MSG_WARN && (ps->flags & pdb_lax_version_parser))
     parse_warn(ps, "%s: %.250s", buf, err.str);
   else
     parse_error(ps, "%s: %.250s", buf, err.str);

@@ -26,6 +26,12 @@
 DPKG_BEGIN_DECLS
 
 /**
+ * @defgroup command Command execution
+ * @ingroup dpkg-internal
+ * @{
+ */
+
+/**
  * Describe a command to execute.
  */
 struct command {
@@ -48,7 +54,10 @@ void command_add_args(struct command *cmd, ...) DPKG_ATTR_SENTINEL;
 
 void command_exec(struct command *cmd) DPKG_ATTR_NORET;
 
+const char *command_get_pager(void);
 void command_shell(const char *cmd, const char *name);
+
+/** @} */
 
 DPKG_END_DECLS
 

@@ -82,13 +82,10 @@ updateavailable(const char *const *argv)
   availfile = dpkg_db_get_path(AVAILFILE);
 
   if (cipaction->arg_int == act_avmerge)
-    parsedb(availfile, pdb_recordavailable | pdb_rejectstatus | pdb_lax_parser,
-            NULL);
+    parsedb(availfile, pdb_parse_available, NULL);
 
   if (cipaction->arg_int != act_avclear)
-    count += parsedb(sourcefile,
-		     pdb_recordavailable | pdb_rejectstatus | pdb_ignoreolder,
-                     NULL);
+    count += parsedb(sourcefile, pdb_parse_available | pdb_ignoreolder, NULL);
 
   if (!f_noact) {
     writedb(availfile, wdb_dump_available);
@@ -112,7 +109,7 @@ forgetold(const char *const *argv)
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  warning(_("obsolete '--%s' option, unavailable packages are automatically cleaned up."),
+  warning(_("obsolete '--%s' option; unavailable packages are automatically cleaned up"),
           cipaction->olong);
 
   return 0;

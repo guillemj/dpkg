@@ -38,6 +38,7 @@
 #include "dpkg-split.h"
 
 void reassemble(struct partinfo **partlist, const char *outputfile) {
+  struct dpkg_error err;
   int fd_out, fd_in;
   unsigned int i;
 
@@ -55,8 +56,12 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
     fd_in = open(pi->filename, O_RDONLY);
     if (fd_in < 0)
       ohshite(_("unable to (re)open input part file `%.250s'"), pi->filename);
-    fd_skip(fd_in, pi->headerlen, _("skipping split package header"));
-    fd_fd_copy(fd_in, fd_out, pi->thispartlen, _("split package part"));
+    if (fd_skip(fd_in, pi->headerlen, &err) < 0)
+      ohshit(_("cannot skip split package header for '%s': %s"), pi->filename,
+             err.str);
+    if (fd_fd_copy(fd_in, fd_out, pi->thispartlen, &err) < 0)
+      ohshit(_("cannot append split package part '%s' to '%s': %s"),
+             pi->filename, outputfile, err.str);
     close(fd_in);
 
     printf("%d ",i+1);

@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * macros.h - C language support macros
  *
- * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,12 @@
 
 #ifndef LIBDPKG_MACROS_H
 #define LIBDPKG_MACROS_H
+
+/**
+ * @defgroup macros C language support macros
+ * @ingroup dpkg-public
+ * @{
+ */
 
 #ifndef LIBDPKG_VOLATILE_API
 #error "The libdpkg API is to be considered volatile, please read 'README.api'."
@@ -65,6 +71,15 @@
 #define DPKG_ATTR_SENTINEL
 #endif
 
+/* For C++, define a __func__ fallback in case it's not natively supported. */
+#if defined(__cplusplus) && __cplusplus < 201103L
+# if DPKG_GCC_VERSION >= 0x0200
+#  define __func__ __PRETTY_FUNCTION__
+# else
+#  define __func__ __FUNCTION__
+# endif
+#endif
+
 #ifdef __cplusplus
 #define DPKG_BEGIN_DECLS	extern "C" {
 #define DPKG_END_DECLS		}
@@ -73,6 +88,18 @@
 #define DPKG_END_DECLS
 #endif
 
+/**
+ * @def DPKG_BIT
+ *
+ * Return the integer value of bit n.
+ */
+#define DPKG_BIT(n)	(1UL << (n))
+
+/**
+ * @def array_count
+ *
+ * Returns the amount of items in an array.
+ */
 #ifndef array_count
 #define array_count(a) (sizeof(a) / sizeof((a)[0]))
 #endif
@@ -87,5 +114,20 @@
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #endif
 #endif
+
+/**
+ * @def clamp
+ *
+ * Returns a normalized value within the low and high limits.
+ *
+ * @param v The value to clamp.
+ * @param l The low limit.
+ * @param h The high limit.
+ */
+#ifndef clamp
+#define clamp(v, l, h) ((v) > (h) ? (h) : ((v) < (l) ? (l) : (v)))
+#endif
+
+/** @} */
 
 #endif /* LIBDPKG_MACROS_H */

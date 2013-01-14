@@ -3,6 +3,8 @@
 # dpkg-checkbuilddeps
 #
 # Copyright © 2001 Joey Hess <joeyh@debian.org>
+# Copyright © 2006-2009,2011-2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2007-2011 Raphael Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,27 +44,33 @@ sub usage {
 "Usage: %s [<option>...] [<control-file>]")
 	. "\n\n" . _g(
 "Options:
-  -B             binary-only, ignore -Indep.
+  -A             ignore Build-Depends-Arch and Build-Conflicts-Arch.
+  -B             ignore Build-Depends-Indep and Build-Conflicts-Indep.
   -d build-deps  use given string as build dependencies instead of
                  retrieving them from control file
   -c build-conf  use given string for build conflicts instead of
                  retrieving them from control file
+  -a arch        assume given host architecture
   --admindir=<directory>
                  change the administrative directory.
-  -h, --help     show this help message.
+  -?, --help     show this help message.
       --version  show the version.")
 	. "\n\n" . _g(
 "<control-file> is the control file to process (default: debian/control).")
 	. "\n", $progname;
 }
 
-my $binary_only=0;
+my $ignore_bd_arch = 0;
+my $ignore_bd_indep = 0;
 my ($bd_value, $bc_value);
-if (!GetOptions('B' => \$binary_only,
-                'help|h' => sub { usage(); exit(0); },
+my $host_arch = get_host_arch();
+if (!GetOptions('A' => \$ignore_bd_arch,
+                'B' => \$ignore_bd_indep,
+                'help|?' => sub { usage(); exit(0); },
                 'version' => \&version,
                 'd=s' => \$bd_value,
                 'c=s' => \$bc_value,
+                'a=s' => \$host_arch,
                 'admindir=s' => \$admindir)) {
 	usage();
 	exit(2);
@@ -76,13 +84,23 @@ my $fields = $control->get_source();
 my $facts = parse_status("$admindir/status");
 
 unless (defined($bd_value) or defined($bc_value)) {
-    $bd_value = 'build-essential';
+    $bd_value = 'build-essential:native';
     $bd_value .= ", " . $fields->{"Build-Depends"} if defined $fields->{"Build-Depends"};
-    if (not $binary_only and defined $fields->{"Build-Depends-Indep"}) {
+    if (not $ignore_bd_arch and defined $fields->{"Build-Depends-Arch"}) {
+	$bd_value .= ", " . $fields->{"Build-Depends-Arch"};
+    }
+    if (not $ignore_bd_indep and defined $fields->{"Build-Depends-Indep"}) {
 	$bd_value .= ", " . $fields->{"Build-Depends-Indep"};
     }
     $bc_value = $fields->{"Build-Conflicts"} if defined $fields->{"Build-Conflicts"};
-    if (not $binary_only and defined $fields->{"Build-Conflicts-Indep"}) {
+    if (not $ignore_bd_arch and defined $fields->{"Build-Conflicts-Arch"}) {
+	if ($bc_value) {
+	    $bc_value .= ", " . $fields->{"Build-Conflicts-Arch"};
+	} else {
+	    $bc_value = $fields->{"Build-Conflicts-Arch"};
+	}
+    }
+    if (not $ignore_bd_indep and defined $fields->{"Build-Conflicts-Indep"}) {
 	if ($bc_value) {
 	    $bc_value .= ", " . $fields->{"Build-Conflicts-Indep"};
 	} else {
@@ -93,12 +111,14 @@ unless (defined($bd_value) or defined($bc_value)) {
 my (@unmet, @conflicts);
 
 if ($bd_value) {
-	push @unmet, build_depends('Build-Depends/Build-Depends-Indep)',
-		deps_parse($bd_value, reduce_arch => 1), $facts);
+	push @unmet, build_depends('Build-Depends/Build-Depends-Arch/Build-Depends-Indep',
+		deps_parse($bd_value, build_dep => 1, host_arch => $host_arch,
+			   reduce_arch => 1), $facts);
 }
 if ($bc_value) {
-	push @conflicts, build_conflicts('Build-Conflicts/Build-Conflicts-Indep',
-		deps_parse($bc_value, reduce_arch => 1, union => 1), $facts);
+	push @conflicts, build_conflicts('Build-Conflicts/Build-Conflicts-Arch/Build-Conflicts-Indep',
+		deps_parse($bc_value, build_dep => 1, host_arch => $host_arch,
+			   reduce_arch => 1, union => 1), $facts);
 }
 
 if (@unmet) {
@@ -117,13 +137,16 @@ sub parse_status {
 	
 	my $facts = Dpkg::Deps::KnownFacts->new();
 	local $/ = '';
-	open(STATUS, "<$status") || die "$status: $!\n";
+	open(STATUS, "<$status") || syserr(_g("cannot open %s"), $status);
 	while (<STATUS>) {
 		next unless /^Status: .*ok installed$/m;
 	
 		my ($package) = /^Package: (.*)$/m;
 		my ($version) = /^Version: (.*)$/m;
-		$facts->add_installed_package($package, $version);
+		my ($arch) = /^Architecture: (.*)$/m;
+		my ($multiarch) = /^Multi-Arch: (.*)$/m;
+		$facts->add_installed_package($package, $version, $arch,
+		                              $multiarch);
 	
 		if (/^Provides: (.*)$/m) {
 			my $provides = deps_parse($1, reduce_arch => 1, union => 1);
@@ -175,8 +198,6 @@ sub check_line {
 	my $fieldname=shift;
 	my $dep_list=shift;
 	my $facts=shift;
-	my $host_arch = shift || get_host_arch();
-	chomp $host_arch;
 
 	my @unmet=();
 

@@ -1,17 +1,23 @@
 # Copyright © 2005 Scott James Remnant <scott@netsplit.com>
 # Copyright © 2007 Frank Lichtenheld <djpig@debian.org>
-# Copyright © 2007, 2009 Guillem Jover <guillem@debian.org>
+# Copyright © 2007, 2009, 2011 Guillem Jover <guillem@debian.org>
 
 # DPKG_PROG_PERL
 # --------------
 # Locate perl interpreter in the path
 AC_DEFUN([DPKG_PROG_PERL],
 [AC_ARG_VAR([PERL], [Perl interpreter])dnl
-AC_PATH_PROG([PERL], [perl], [/usr/bin/perl])dnl
+AC_PATH_PROG([PERL], [perl], [no])
+if test "$PERL" = "no" || test ! -x "$PERL"; then
+  AC_MSG_ERROR([cannot find the Perl interpreter])
+fi
 AC_ARG_VAR([PERL_LIBDIR], [Perl library directory])dnl
+# Let the user override the variable.
+if test -z "$PERL_LIBDIR"; then
 PERL_LIBDIR=$($PERL -MConfig -e 'my $r = $Config{vendorlibexp};
                                  $r =~ s/$Config{vendorprefixexp}/\$(prefix)/;
-                                 print $r')dnl
+                                 print $r')
+fi
 ])# DPKG_PROG_PERL
 
 # DPKG_PROG_PO4A

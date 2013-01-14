@@ -3,6 +3,7 @@
  * queue.c - queue management
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +25,7 @@
 #include <sys/stat.h>
 
 #include <assert.h>
+#include <errno.h>
 #include <limits.h>
 #include <inttypes.h>
 #include <string.h>
@@ -66,16 +68,17 @@ decompose_filename(const char *filename, struct partqueue *pq)
   q[MD5HASHLEN] = '\0';
   pq->info.md5sum= q;
   p = filename + MD5HASHLEN + 1;
+  errno = 0;
   pq->info.maxpartlen = strtoimax(p, &q, 16);
-  if (q == p || *q++ != '.')
+  if (q == p || *q++ != '.' || errno != 0)
     return false;
   p = q;
   pq->info.thispartn = (int)strtol(p, &q, 16);
-  if (q == p || *q++ != '.')
+  if (q == p || *q++ != '.' || errno != 0)
     return false;
   p = q;
   pq->info.maxpartn = (int)strtol(p, &q, 16);
-  if (q == p || *q)
+  if (q == p || *q || errno != 0)
     return false;
   return true;
 }
@@ -94,7 +97,10 @@ void scandepot(void) {
 
     if (de->d_name[0] == '.') continue;
     pq= nfmalloc(sizeof(struct partqueue));
-    pq->info.fmtversion= pq->info.package= pq->info.version= NULL;
+    pq->info.fmtversion.major = 0;
+    pq->info.fmtversion.minor = 0;
+    pq->info.package = NULL;
+    pq->info.version = NULL;
     pq->info.arch = NULL;
     pq->info.orglength= pq->info.thispartoffset= pq->info.thispartlen= 0;
     pq->info.headerlen= 0;
@@ -115,7 +121,7 @@ static bool
 partmatches(struct partinfo *pi, struct partinfo *refi)
 {
   return (pi->md5sum &&
-          !strcmp(pi->md5sum,refi->md5sum) &&
+          strcmp(pi->md5sum, refi->md5sum) == 0 &&
           pi->maxpartn == refi->maxpartn &&
           pi->maxpartlen == refi->maxpartlen);
 }
@@ -166,6 +172,7 @@ do_auto(const char *const *argv)
   for (j=refi->maxpartn-1; j>=0 && partlist[j]; j--);
 
   if (j>=0) {
+    struct dpkg_error err;
     int fd_src, fd_dst;
     int ap;
     char *p, *q;
@@ -181,7 +188,9 @@ do_auto(const char *const *argv)
     if (fd_dst < 0)
       ohshite(_("unable to open new depot file `%.250s'"), p);
 
-    fd_fd_copy(fd_src, fd_dst, refi->filesize, _("extracting split part"));
+    if (fd_fd_copy(fd_src, fd_dst, refi->filesize, &err) < 0)
+      ohshit(_("cannot extract split package part '%s': %s"),
+             partfile, err.str);
 
     if (fsync(fd_dst))
       ohshite(_("unable to sync file '%s'"), p);

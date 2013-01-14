@@ -105,8 +105,9 @@ ensure_diversions(void)
 		oicontest->camefrom = NULL;
 
 		fgets_must(linebuf, sizeof(linebuf), file, diversionsname);
-		oicontest->pkg = oialtname->pkg = strcmp(linebuf, ":") ?
-		                                  pkg_db_find(linebuf) : NULL;
+		oicontest->pkgset = strcmp(linebuf, ":") ?
+		                    pkg_db_find_set(linebuf) : NULL;
+		oialtname->pkgset = oicontest->pkgset;
 
 		if (oialtname->camefrom->divert ||
 		    oicontest->useinstead->divert)

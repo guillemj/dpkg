@@ -3,6 +3,7 @@
  * main.c - main program
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +31,7 @@
 #if HAVE_LOCALE_H
 #include <locale.h>
 #endif
+#include <errno.h>
 #include <ctype.h>
 #include <string.h>
 #include <dirent.h>
@@ -46,7 +48,7 @@
 
 #include "dpkg-deb.h"
 
-const char* showformat	= "${Package}\t${Version}\n";
+const char *showformat = "${Package}\t${Version}\n";
 
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)
@@ -85,8 +87,8 @@ usage(const struct cmdinfo *cip, const char *value)
 "\n"));
 
   printf(_(
-"  -h|--help                        Show this help message.\n"
-"  --version                        Show the version.\n"
+"  -?, --help                       Show this help message.\n"
+"      --version                    Show the version.\n"
 "\n"));
 
   printf(_(
@@ -105,7 +107,9 @@ usage(const struct cmdinfo *cip, const char *value)
 "                                     packages).\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when building.\n"
-"                                     Allowed types: gzip, xz, bzip2, lzma, none.\n"
+"                                     Allowed types: gzip, xz, bzip2, none.\n"
+"  -S<strategy>                     Set the compression strategy when building.\n"
+"                                     Allowed values: none, extreme (xz).\n"
 "\n"));
 
   printf(_(
@@ -132,10 +136,15 @@ static const char printforhelp[] =
   N_("Type dpkg-deb --help for help about manipulating *.deb files;\n"
      "Type dpkg --help for help about installing and deinstalling packages.");
 
-int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
+int debugflag = 0;
+int nocheckflag = 0;
+int oldformatflag = 0;
 int opt_verbose = 0;
-struct compressor *compressor = &compressor_gzip;
-int compress_level = -1;
+struct compress_params compress_params = {
+  .type = compressor_type_gzip,
+  .strategy = compressor_strategy_none,
+  .level = -1,
+};
 
 static void
 set_compress_level(const struct cmdinfo *cip, const char *value)
@@ -143,22 +152,33 @@ set_compress_level(const struct cmdinfo *cip, const char *value)
   long level;
   char *end;
 
+  errno = 0;
   level = strtol(value, &end, 0);
-  if (value == end || *end || level > INT_MAX)
+  if (value == end || *end || errno != 0)
     badusage(_("invalid integer for -%c: '%.250s'"), cip->oshort, value);
 
   if (level < 0 || level > 9)
     badusage(_("invalid compression level for -%c: %ld'"), cip->oshort, level);
 
-  compress_level = level;
+  compress_params.level = level;
+}
+
+static void
+set_compress_strategy(const struct cmdinfo *cip, const char *value)
+{
+  compress_params.strategy = compressor_get_strategy(value);
+  if (compress_params.strategy == compressor_strategy_unknown)
+    ohshit(_("unknown compression strategy '%s'!"), value);
 }
 
 static void
 setcompresstype(const struct cmdinfo *cip, const char *value)
 {
-  compressor = compressor_find_by_name(value);
-  if (compressor == NULL)
+  compress_params.type = compressor_find_by_name(value);
+  if (compress_params.type == compressor_type_unknown)
     ohshit(_("unknown compression type `%s'!"), value);
+  if (compress_params.type == compressor_type_lzma)
+    warning(_("deprecated compression type '%s'; use xz instead"), value);
 }
 
 static const struct cmdinfo cmdinfos[]= {
@@ -178,15 +198,17 @@ static const struct cmdinfo cmdinfos[]= {
   { "debug",         'D', 0, &debugflag,     NULL,         NULL,          1 },
   { "verbose",       'v', 0, &opt_verbose,   NULL,         NULL,          1 },
   { "nocheck",       0,   0, &nocheckflag,   NULL,         NULL,          1 },
-  { "compression",   'z', 1, NULL,           NULL,         set_compress_level },
-  { "compress_type", 'Z', 1, NULL,           NULL,         setcompresstype  },
+  { NULL,            'z', 1, NULL,           NULL,         set_compress_level },
+  { NULL,            'Z', 1, NULL,           NULL,         setcompresstype  },
+  { NULL,            'S', 1, NULL,           NULL,         set_compress_strategy },
   { "showformat",    0,   1, NULL,           &showformat,  NULL             },
-  { "help",          'h', 0, NULL,           NULL,         usage            },
+  { "help",          '?', 0, NULL,           NULL,         usage            },
   { "version",       0,   0, NULL,           NULL,         printversion     },
   {  NULL,           0,   0, NULL,           NULL,         NULL             }
 };
 
 int main(int argc, const char *const *argv) {
+  struct dpkg_error err;
   int ret;
 
   setlocale(LC_NUMERIC, "POSIX");
@@ -199,6 +221,9 @@ int main(int argc, const char *const *argv) {
   myopt(&argv, cmdinfos, printforhelp);
 
   if (!cipaction) badusage(_("need an action option"));
+
+  if (!compressor_check_params(&compress_params, &err))
+    badusage(_("invalid compressor parameters: %s"), err.str);
 
   unsetenv("GZIP");
 

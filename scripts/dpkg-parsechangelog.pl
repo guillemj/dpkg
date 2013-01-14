@@ -2,6 +2,10 @@
 #
 # dpkg-parsechangelog
 #
+# Copyright © 1996 Ian Jackson
+# Copyright © 2001 Wichert Akkerman
+# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -31,10 +35,6 @@ sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
-Copyright (C) 1996 Ian Jackson.
-Copyright (C) 2001 Wichert Akkerman");
-
-    printf _g("
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ");
@@ -42,17 +42,17 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...]
-
-Options:
-  -l<changelogfile>        get per-version info from this file.
-  -F<changelogformat>      force change log format.
-  -L<libdir>               look for change log parsers in <libdir>.
-  -h, --help               show this help message.
-      --version            show the version.
-
-parser options:
-    --format <outputformat>     see man page for list of available
+"Usage: %s [<option>...]")
+    . "\n\n" . _g(
+"Options:
+  -l<changelog-file>       get per-version info from this file.
+  -F<changelog-format>     force changelog format.
+  -L<libdir>               look for changelog parsers in <libdir>.
+  -?, --help               show this help message.
+      --version            show the version.")
+    . "\n\n" . _g(
+"Parser options:
+    --format <output-format>    see man page for list of available
                                 output formats, defaults to 'dpkg'
                                 for compatibility with dpkg-dev
     --since <version>,          include all changes later than version
@@ -105,7 +105,7 @@ while (@ARGV) {
 	}
     } elsif (m/^--all$/) {
 	$options{"all"} = undef;
-    } elsif (m/^-(h|-help)$/) {
+    } elsif (m/^-(\?|-help)$/) {
 	usage(); exit(0);
     } elsif (m/^--version$/) {
 	version(); exit(0);

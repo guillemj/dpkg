@@ -33,14 +33,14 @@ struct perpackagestate {
     itb_normal, itb_remove, itb_installnew, itb_deconfigure, itb_preinstall
   } istobe;
 
-  /* Used during cycle detection. */
+  /** Used during cycle detection. */
   enum {
     white,
     gray,
     black,
   } color;
 
-  /*
+  /**
    * filelistvalid  files  Meaning
    * -------------  -----  -------
    * false          NULL   Not read yet, must do so if want them.
@@ -55,7 +55,7 @@ struct perpackagestate {
 
   off_t listfile_phys_offs;
 
-  /* Non-NULL iff in trigproc.c:deferred. */
+  /** Non-NULL iff in trigproc.c:deferred. */
   struct pkg_list *trigprocdeferred;
 };
 
@@ -75,16 +75,22 @@ enum action {
 	act_listfiles,
 	act_searchfiles,
 	act_controlpath,
+	act_controllist,
+	act_controlshow,
 
 	act_cmpversions,
 
+	act_arch_add,
+	act_arch_remove,
 	act_printarch,
 	act_printinstarch,
+	act_printforeignarches,
 
 	act_assertpredep,
 	act_assertepoch,
 	act_assertlongfilenames,
 	act_assertmulticonrep,
+	act_assertmultiarch,
 
 	act_audit,
 	act_unpackchk,
@@ -100,24 +106,6 @@ enum action {
 	act_avreplace,
 	act_avmerge,
 	act_forgetold,
-};
-
-enum conffopt {
-  cfof_prompt        =     001,
-  cfof_keep          =     002,
-  cfof_install       =     004,
-  cfof_backup        =   00100,
-  cfof_newconff      =   00200,
-  cfof_isnew         =   00400,
-  cfof_isold         =   01000,
-  cfof_userrmd       =   02000,
-  cfo_keep           =   cfof_keep,
-  cfo_prompt_keep    =   cfof_keep | cfof_prompt,
-  cfo_prompt         =               cfof_prompt,
-  cfo_prompt_install =               cfof_prompt | cfof_install,
-  cfo_install        =                             cfof_install,
-  cfo_newconff       =                             cfof_install | cfof_newconff,
-  cfo_identical      =   cfof_keep
 };
 
 extern const char *const statusstrings[];
@@ -139,7 +127,6 @@ extern bool abort_processing;
 extern int errabort;
 extern const char *instdir;
 extern struct pkg_list *ignoredependss;
-extern const char native_arch[];
 
 struct invoke_hook {
 	struct invoke_hook *next;
@@ -167,9 +154,11 @@ int assertepoch(const char *const *argv);
 int assertpredep(const char *const *argv);
 int assertlongfilenames(const char *const *argv);
 int assertmulticonrep(const char *const *argv);
+int assertmultiarch(const char *const *argv);
 int predeppackage(const char *const *argv);
 int printarch(const char *const *argv);
 int printinstarch(const char *const *argv);
+int print_foreign_arches(const char *const *argv);
 int cmpversions(const char *const *argv);
 
 /* from select.c */
@@ -180,6 +169,7 @@ int clearselections(const char *const *argv);
 
 /* from packages.c, remove.c and configure.c */
 
+void md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn);
 void add_to_queue(struct pkginfo *pkg);
 void process_queue(void);
 int packages(const char *const *argv);
@@ -220,13 +210,15 @@ bool ignore_depends(struct pkginfo *pkg);
 bool force_breaks(struct deppossi *possi);
 bool force_depends(struct deppossi *possi);
 bool force_conflicts(struct deppossi *possi);
+void conffile_mark_obsolete(struct pkginfo *pkg, struct filenamenode *namenode);
 void oldconffsetflags(const struct conffile *searchconff);
 void ensure_pathname_nonexisting(const char *pathname);
 int secure_unlink(const char *pathname);
 int secure_unlink_statted(const char *pathname, const struct stat *stab);
 void checkpath(void);
 
-struct filenamenode *namenodetouse(struct filenamenode*, struct pkginfo*);
+struct filenamenode *namenodetouse(struct filenamenode *namenode,
+                                   struct pkginfo *pkg, struct pkgbin *pkgbin);
 
 int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
                                 const char *desc, ...) DPKG_ATTR_SENTINEL;
@@ -253,7 +245,7 @@ bool dir_is_used_by_pkg(struct filenamenode *namenode, struct pkginfo *pkg,
                         struct fileinlist *list);
 bool dir_has_conffiles(struct filenamenode *namenode, struct pkginfo *pkg);
 
-void log_action(const char *action, struct pkginfo *pkg);
+void log_action(const char *action, struct pkginfo *pkg, struct pkgbin *pkgbin);
 
 /* from trigproc.c */
 
@@ -266,6 +258,21 @@ void trigproc(struct pkginfo *pkg);
 void trig_activate_packageprocessing(struct pkginfo *pkg);
 
 /* from depcon.c */
+
+enum which_pkgbin {
+  wpb_installed,
+  wpb_available,
+  wpb_by_istobe,
+};
+
+struct deppossi_pkg_iterator;
+
+struct deppossi_pkg_iterator *
+deppossi_pkg_iter_new(struct deppossi *possi, enum which_pkgbin wpb);
+struct pkginfo *
+deppossi_pkg_iter_next(struct deppossi_pkg_iterator *iter);
+void
+deppossi_pkg_iter_free(struct deppossi_pkg_iterator *iter);
 
 bool depisok(struct dependency *dep, struct varbuf *whynot,
              struct pkginfo **fixbyrm, struct pkginfo **fixbytrigaw,

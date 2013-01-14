@@ -25,10 +25,27 @@
 
 #include <dpkg/dpkg-db.h>
 
-bool pkg_infodb_has_file(struct pkginfo *pkg, const char *name);
+enum pkg_infodb_format {
+	pkg_infodb_format_unknown = -1,
+	pkg_infodb_format_legacy = 0,
+	pkg_infodb_format_multiarch = 1,
+	pkg_infodb_format_last,
+};
+
+enum pkg_infodb_format pkg_infodb_get_format(void);
+void pkg_infodb_set_format(enum pkg_infodb_format format);
+bool pkg_infodb_is_upgrading(void);
+void pkg_infodb_upgrade(void);
+
+const char *pkg_infodb_get_dir(void);
+const char *pkg_infodb_get_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                                const char *filetype);
+bool pkg_infodb_has_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                         const char *name);
 
 typedef void pkg_infodb_file_func(const char *filename, const char *filetype);
 
-void pkg_infodb_foreach(struct pkginfo *pkg, pkg_infodb_file_func *func);
+void pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                        pkg_infodb_file_func *func);
 
 #endif /* DPKG_INFODB_H */

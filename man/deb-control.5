@@ -1,5 +1,24 @@
-.\" Author: Raul Miller
-.\" Includes text from the debian Guidelines by Ian Jackson, Ian Murdock
+.\" dpkg manual page - deb-control(5)
+.\"
+.\" Copyright © 1995 Raul Miller, Ian Jackson, Ian Murdock
+.\" Copyright © 1999 Ben Collins <bcollins@debian.org>
+.\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2007-2011 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2008-2012 Raphaël Hertzog <hertzog@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.
 .TH deb\-control 5 "2011-08-14" "Debian Project" "Debian"
 .SH NAME
 deb\-control \- Debian packages' master control file format
@@ -107,9 +126,8 @@ of a different architecture from itself. The value \fBforeign\fP means that
 the package is not co-installable with itself, but should be allowed to
 satisfy the dependency of a package of a different arch from itself. The
 value \fBallowed\fP allows reverse-dependencies to indicate in their
-Depends field that they need a package from a foreign architecture, but
-has no effect otherwise. This field should not be present in packages
-with the \fBArchitecture: all\fP field.
+Depends field that they accept a package from a foreign architecture, but
+has no effect otherwise.
 .TP
 .BI Source: " source-name"
 The name of the source package that this binary package came from, if

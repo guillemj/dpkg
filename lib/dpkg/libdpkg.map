@@ -1,11 +1,15 @@
 LIBDPKG_0 {
 global:
+	# Error reporting
+	dpkg_error_destroy;
+
 	# Program name
 	dpkg_set_progname;
 	dpkg_get_progname;
 
 	# Ar support
 	dpkg_ar_normalize_name;
+	dpkg_ar_member_is_illegal;
 
 local:
 	*;
@@ -38,12 +42,13 @@ LIBDPKG_PRIVATE {
 
 	# Generic cleanup
 	cu_closepipe;
-	cu_closefile;
+	cu_closestream;
 	cu_closedir;
 	cu_closefd;
 
 	# ‘Must do’ functions
 	m_malloc;
+	m_calloc;
 	m_realloc;
 	m_strdup;
 	m_asprintf;
@@ -78,13 +83,24 @@ LIBDPKG_PRIVATE {
 	# Path, directory and file functions
 	path_skip_slash_dotslash;
 	path_trim_slash_slashdot;
+	path_basename;
 	path_make_temp_template;
 	path_quote_filename;
 
 	dir_sync_path;
+	dir_sync_path_parent;
 	dir_sync_contents;
 
 	file_copy_perms;
+	file_show;
+
+	atomic_file_new;
+	atomic_file_open;
+	atomic_file_sync;
+	atomic_file_close;
+	atomic_file_commit;
+	atomic_file_remove;
+	atomic_file_free;
 
 	glob_list_prepend;
 	glob_list_free;
@@ -96,6 +112,7 @@ LIBDPKG_PRIVATE {
 	fd_read;
 	fd_write;
 	buffer_hash;
+	buffer_skip_*;
 	buffer_copy_*;
 
 	# Subprocess and command handling
@@ -112,18 +129,18 @@ LIBDPKG_PRIVATE {
 	command_add_argv;
 	command_add_args;
 	command_exec;
+	command_get_pager;
 	command_shell;
 	command_destroy;
 
 	setcloexec;
 
 	# Compression support
-	compressor_gzip;	# XXX variable, do not export
-	compressor_xz;		# XXX variable, do not export
-	compressor_bzip2;	# XXX variable, do not export
-	compressor_lzma;	# XXX variable, do not export
 	compressor_find_by_name;
 	compressor_find_by_extension;
+	compressor_get_extension;
+	compressor_get_strategy;
+	compressor_check_params;
 	compress_filter;
 	decompress_filter;
 
@@ -133,6 +150,9 @@ LIBDPKG_PRIVATE {
 	dpkg_ar_member_put_file;
 	dpkg_ar_member_put_mem;
 	dpkg_ar_member_get_size;
+
+	# deb version support
+	deb_version_parse;
 
 	# Configuration and command line handling
 	loadcfgfile;
@@ -165,23 +185,46 @@ LIBDPKG_PRIVATE {
 	nffreeall;
 
 	# Version struct handling
-	blankversion;
-	informativeversion;
-	epochsdiffer;
-	versioncompare;
+	dpkg_version_blank;
+	dpkg_version_is_informative;
+	dpkg_version_compare;
+	dpkg_version_relate;
 	versiondescribe;
-	versionsatisfied;
-	versionsatisfied3;
 	parseversion;
 
+	# Architecture database
+	dpkg_arch_name_is_illegal;
+	dpkg_arch_find;
+	dpkg_arch_get;
+	dpkg_arch_get_list;
+	dpkg_arch_reset_list;
+	dpkg_arch_add;
+	dpkg_arch_unmark;
+	dpkg_arch_load_list;
+	dpkg_arch_save_list;
+
 	# Package struct handling
+	pkgset_installed_instances;
 	pkg_blank;
 	pkgbin_blank;
 	pkg_name_is_illegal;
+	pkg_set_status;
+	pkg_set_eflags;
+	pkg_clear_eflags;
+	pkg_reset_eflags;
+	pkg_copy_eflags;
+	pkg_set_want;
 	pkg_is_informative;
 	copy_dependency_links;
-	pkg_sorter_by_name;
+	pkg_sorter_by_nonambig_name_arch;
+	varbuf_add_pkgbin_name;
+	varbuf_add_archqual;
+	pkgbin_name;
+	pkg_name;
 	pkg_summary;
+	pkg_abbrev_want;
+	pkg_abbrev_status;
+	pkg_abbrev_eflag;
 
 	# Package list handling
 	pkg_list_new;
@@ -205,13 +248,35 @@ LIBDPKG_PRIVATE {
 	pkg_format_show;
 	pkg_format_free;
 
+	# Package specifiers
+	pkg_spec_is_illegal;
+	pkg_spec_init;
+	pkg_spec_destroy;
+	pkg_spec_set;
+	pkg_spec_parse;
+	pkg_spec_match_pkg;
+	pkg_spec_parse_pkg;
+	pkg_spec_find_pkg;
+	pkg_spec_iter_init;
+	pkg_spec_iter_next_pkg;
+	pkg_spec_iter_destroy;
+
 	# Package in-core database functions
-	pkg_db_find;
-	pkg_db_count;
+	pkg_db_find_set;
+	pkg_db_find_singleton;
+	pkg_db_find_pkg;
+	pkg_db_count_set;
+	pkg_db_count_pkg;
 	pkg_db_reset;
 	pkg_db_iter_new;
-	pkg_db_iter_next;
+	pkg_db_iter_next_set;
+	pkg_db_iter_next_pkg;
 	pkg_db_iter_free;
+
+	# Dependency and Conflict functions
+	deparchsatisfied;
+	archsatisfied;
+	versionsatisfied;
 
 	# Package on-disk database functions
 	statusinfos;		# XXX variable, do not export
@@ -233,6 +298,7 @@ LIBDPKG_PRIVATE {
 	modstatdb_lock;
 	modstatdb_unlock;
 	modstatdb_open;
+	modstatdb_get_status;
 	modstatdb_note;
 	modstatdb_note_ifwrite;
 	modstatdb_checkpoint;
@@ -249,6 +315,7 @@ LIBDPKG_PRIVATE {
 	trig_override_hooks;
 	trig_file_activate_byname;
 	trig_file_activate;
+	trig_path_activate;
 	trig_note_pend;
 	trig_note_aw;
 	trig_clear_awaiters;

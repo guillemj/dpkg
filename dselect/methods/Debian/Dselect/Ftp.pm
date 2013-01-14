@@ -58,7 +58,7 @@ sub store_config {
 
 sub view_mirrors {
   if (-f '/usr/lib/dpkg/methods/ftp/README.mirrors.txt') {
-    system('/usr/bin/pager', '/usr/lib/dpkg/methods/ftp/README.mirrors.txt');
+    system('pager', '/usr/lib/dpkg/methods/ftp/README.mirrors.txt');
   } elsif (-f '/usr/lib/dpkg/methods/ftp/README.mirrors.txt.gz') {
     system('gzip -dc /usr/lib/dpkg/methods/ftp/README.mirrors.txt.gz | pager');
   } else {
@@ -191,7 +191,7 @@ sub yesno($$) {
     $res =~ /^[Yy]/ and return 1;
     $res =~ /^[Nn]/ and return 0;
     $res =~ /^[ \t]*$/ and return $r;
-    print "Please enter one of the letters `y' or `n'\n";
+    print "Please enter one of the letters 'y' or 'n'\n";
   }
 }
 
@@ -246,7 +246,7 @@ sub do_connect {
 	    if(!$ftp->binary()) { print $ftp->message . "\n"; $exit=1; }
 	}
 	if (!$exit) {
-	    print "Cd to `$ftpdir'...\n";
+	    print "Cd to '$ftpdir'...\n";
 	    if(!$ftp->cwd($ftpdir)) { print $ftp->message . "\n"; $exit=1; }
 	}
 

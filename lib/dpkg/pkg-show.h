@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * pkg-show.h - primitives for pkg information display
  *
- * Copyright © 2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2010-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,21 @@
 
 DPKG_BEGIN_DECLS
 
-const char *pkg_summary(const struct pkginfo *pkg, int *len_ret);
+/**
+ * @defgroup pkg-show Package information display
+ * @ingroup dpkg-public
+ * @{
+ */
+
+int pkg_sorter_by_nonambig_name_arch(const void *a, const void *b);
+
+const char *pkg_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                        int *len_ret);
+int pkg_abbrev_want(const struct pkginfo *pkg);
+int pkg_abbrev_status(const struct pkginfo *pkg);
+int pkg_abbrev_eflag(const struct pkginfo *pkg);
+
+/** @} */
 
 DPKG_END_DECLS
 

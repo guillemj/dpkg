@@ -14,7 +14,7 @@ AM_CPPFLAGS = \
 
 
 EXTRA_DIST = \
-	libdpkg.Versions \
+	libdpkg.map \
 	libdpkg.pc.in
 
 pkgconfigdir = $(libdir)/pkgconfig
@@ -25,13 +25,17 @@ lib_LIBRARIES = libdpkg.a
 libdpkg_a_SOURCES = \
 	dlist.h \
 	ar.c \
+	arch.c \
+	atomic-file.c \
 	buffer.c \
 	cleanup.c \
 	command.c \
 	compress.c \
 	dbdir.c \
 	dbmodify.c \
+	deb-version.c \
 	debug.c \
+	depcon.c \
 	dir.c \
 	dump.c \
 	ehandle.c \
@@ -57,8 +61,10 @@ libdpkg_a_SOURCES = \
 	pkg-list.c \
 	pkg-queue.c \
 	pkg-show.c \
+	pkg-spec.c \
 	progname.c \
 	progress.c \
+	report.c \
 	string.c \
 	subproc.c \
 	tarfn.c \
@@ -69,14 +75,16 @@ libdpkg_a_SOURCES = \
 	trigdeferred.l \
 	utils.c \
 	varbuf.c \
-	vercmp.c \
 	version.c
 
 pkginclude_HEADERS = \
 	ar.h \
+	arch.h \
+	atomic-file.h \
 	buffer.h \
 	command.h \
 	compress.h \
+	deb-version.h \
 	debug.h \
 	dir.h \
 	dpkg.h \
@@ -97,8 +105,10 @@ pkginclude_HEADERS = \
 	pkg-list.h \
 	pkg-queue.h \
 	pkg-show.h \
+	pkg-spec.h \
 	progname.h \
 	progress.h \
+	report.h \
 	string.h \
 	subproc.h \
 	tarfn.h \

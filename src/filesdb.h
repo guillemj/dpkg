@@ -3,7 +3,7 @@
  * filesdb.h - management of database of files installed on system
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,12 +46,14 @@
 
 struct pkginfo;
 
-/* Flags to findnamenode(). */
+/**
+ * Flags to findnamenode().
+ */
 enum fnnflags {
-    /* Do not need to copy filename. */
-    fnn_nocopy = 000001,
-    /* findnamenode may return NULL. */
-    fnn_nonew = 000002,
+    /** Do not need to copy filename. */
+    fnn_nocopy			= DPKG_BIT(0),
+    /** findnamenode may return NULL. */
+    fnn_nonew			= DPKG_BIT(1),
 };
 
 struct filenamenode {
@@ -60,7 +62,7 @@ struct filenamenode {
   struct filepackages *packages;
   struct diversion *divert;
 
-  /* We allow the administrator to override the owner, group and mode of
+  /** We allow the administrator to override the owner, group and mode of
    * a file. If such an override is present we use that instead of the
    * stat information stored in the archive.
    *
@@ -72,30 +74,33 @@ struct filenamenode {
    * filesdbinit.
    */
 
-  /* Set to zero when a new node is created. */
+  /** Set to zero when a new node is created. */
   enum {
-    /* In the newconffiles list. */
-    fnnf_new_conff = 000001,
-    /* In the new filesystem archive. */
-    fnnf_new_inarchive = 000002,
-    /* In the old package's conffiles list. */
-    fnnf_old_conff = 000004,
-    /* Obsolete conffile. */
-    fnnf_obs_conff = 000100,
-    /* Must remove from other packages' lists. */
-    fnnf_elide_other_lists = 000010,
-    /* >= 1 instance is a dir, cannot rename over. */
-    fnnf_no_atomic_overwrite = 000020,
-    /* New file has been placed on the disk. */
-    fnnf_placed_on_disk = 000040,
-    fnnf_deferred_fsync = 000200,
-    fnnf_deferred_rename = 000400,
-    /* Path being filtered. */
-    fnnf_filtered = 001000,
+    /** In the newconffiles list. */
+    fnnf_new_conff		= DPKG_BIT(0),
+    /** In the new filesystem archive. */
+    fnnf_new_inarchive		= DPKG_BIT(1),
+    /** In the old package's conffiles list. */
+    fnnf_old_conff		= DPKG_BIT(2),
+    /** Obsolete conffile. */
+    fnnf_obs_conff		= DPKG_BIT(3),
+    /** Must remove from other packages' lists. */
+    fnnf_elide_other_lists	= DPKG_BIT(4),
+    /** >= 1 instance is a dir, cannot rename over. */
+    fnnf_no_atomic_overwrite	= DPKG_BIT(5),
+    /** New file has been placed on the disk. */
+    fnnf_placed_on_disk		= DPKG_BIT(6),
+    fnnf_deferred_fsync		= DPKG_BIT(7),
+    fnnf_deferred_rename	= DPKG_BIT(8),
+    /** Path being filtered. */
+    fnnf_filtered		= DPKG_BIT(9),
   } flags;
 
-  /* Valid iff this namenode is in the newconffiles list. */
+  /** Valid iff this namenode is in the newconffiles list. */
   const char *oldhash;
+
+  /** Valid iff the file was unpacked and hashed on this run. */
+  const char *newhash;
 
   struct stat *filestat;
   struct trigfileint *trig_interested;
@@ -106,7 +111,7 @@ struct fileinlist {
   struct filenamenode *namenode;
 };
 
-/*
+/**
  * When we deal with an ‘overridden’ file, every package except the
  * overriding one is considered to contain the other file instead. Both
  * files have entries in the filesdb database, and they refer to each other
@@ -126,26 +131,23 @@ struct fileinlist {
 struct diversion {
   struct filenamenode *useinstead;
   struct filenamenode *camefrom;
-  struct pkginfo *pkg;
+  struct pkgset *pkgset;
 
-  /* The ‘contested’ halves are in this list for easy cleanup. */
+  /** The ‘contested’ halves are in this list for easy cleanup. */
   struct diversion *next;
 };
 
-const char *pkgadmindir(void);
-const char *pkgadminfile(struct pkginfo *pkg, const char *filetype);
-
 struct filepackages_iterator;
 struct filepackages_iterator *filepackages_iter_new(struct filenamenode *fnn);
-struct pkginfo *filepackages_iter_next(struct filepackages_iterator *i);
-void filepackages_iter_free(struct filepackages_iterator *i);
+struct pkginfo *filepackages_iter_next(struct filepackages_iterator *iter);
+void filepackages_iter_free(struct filepackages_iterator *iter);
 
 void filesdbinit(void);
 
 struct fileiterator;
-struct fileiterator *iterfilestart(void);
-struct filenamenode *iterfilenext(struct fileiterator *i);
-void iterfileend(struct fileiterator *i);
+struct fileiterator *files_db_iter_new(void);
+struct filenamenode *files_db_iter_next(struct fileiterator *iter);
+void files_db_iter_free(struct fileiterator *iter);
 
 void ensure_package_clientdata(struct pkginfo *pkg);
 
@@ -157,14 +159,17 @@ mode_t statdb_parse_mode(const char *str);
 void ensure_statoverrides(void);
 
 #define LISTFILE           "list"
+#define HASHFILE           "md5sums"
 
 void ensure_packagefiles_available(struct pkginfo *pkg);
 void ensure_allinstfiles_available(void);
 void ensure_allinstfiles_available_quiet(void);
 void note_must_reread_files_inpackage(struct pkginfo *pkg);
 struct filenamenode *findnamenode(const char *filename, enum fnnflags flags);
-void write_filelist_except(struct pkginfo *pkg, struct fileinlist *list,
-                           enum fnnflags mask);
+void write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                           struct fileinlist *list, enum fnnflags mask);
+void write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
+                           struct fileinlist *list, enum fnnflags mask);
 
 struct reversefilelistiter { struct fileinlist *todo; };
 
