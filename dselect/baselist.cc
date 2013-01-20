@@ -4,6 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright © 2007-2013 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +27,7 @@
 #include <sys/termios.h>
 
 #include <assert.h>
+#include <errno.h>
 #include <ctype.h>
 #include <string.h>
 #include <unistd.h>
@@ -49,6 +51,7 @@ void mywerase(WINDOW *win) {
 
 baselist *baselist::signallist= 0;
 void baselist::sigwinchhandler(int) {
+  int save_errno = errno;
   struct winsize size;
   debug(dbg_general, "baselist::sigwinchhandler(), signallist=%p", signallist);
   baselist *p= signallist;
@@ -58,6 +61,7 @@ void baselist::sigwinchhandler(int) {
   resizeterm(size.ws_row, size.ws_col); wrefresh(curscr);
   p->startdisplay();
   if (doupdate() == ERR) ohshite(_("doupdate in SIGWINCH handler failed"));
+  errno = save_errno;
 }
 
 static void cu_sigwinch(int, void **argv) {
