@@ -100,17 +100,19 @@ sub parse {
     return if not $cdata->parse($fh, $desc);
     $self->{source} = $cdata;
     unless (exists $cdata->{Source}) {
-	syntaxerr($desc, _g('first block lacks a source field'));
+	$cdata->parse_error($desc, _g('first block lacks a source field'));
     }
     while (1) {
 	$cdata = Dpkg::Control->new(type => CTRL_INFO_PKG);
         last if not $cdata->parse($fh, $desc);
 	push @{$self->{packages}}, $cdata;
 	unless (exists $cdata->{Package}) {
-	    syntaxerr($desc, _g("block lacks the '%s' field"), 'Package');
+	    $cdata->parse_error($desc, _g("block lacks the '%s' field"),
+	                        'Package');
 	}
 	unless (exists $cdata->{Architecture}) {
-	    syntaxerr($desc, _g("block lacks the '%s' field"), 'Architecture');
+	    $cdata->parse_error($desc, _g("block lacks the '%s' field"),
+	                        'Architecture');
 	}
 
     }

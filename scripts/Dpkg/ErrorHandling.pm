@@ -16,14 +16,14 @@ package Dpkg::ErrorHandling;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Dpkg ();
 use Dpkg::Gettext;
 
 use Exporter qw(import);
 our @EXPORT = qw(report_options info warning error errormsg
-                 syserr internerr subprocerr usageerr syntaxerr);
+                 syserr internerr subprocerr usageerr);
 our @EXPORT_OK = qw(report);
 
 my $quiet_warnings = 0;
@@ -107,13 +107,6 @@ sub usageerr(@)
     warn "$Dpkg::PROGNAME: $msg\n\n";
     warn "$printforhelp\n";
     exit(2);
-}
-
-sub syntaxerr {
-    my ($file, $msg) = (shift, shift);
-
-    $msg = sprintf($msg, @_) if (@_);
-    error(_g('syntax error in %s at line %d: %s'), $file, $., $msg);
 }
 
 1;

@@ -18,7 +18,7 @@ package Dpkg::Control::HashCore;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -157,6 +157,19 @@ sub get_option {
 Parse the content of $file. Exits in case of errors. Returns true if some
 fields have been parsed.
 
+=item $c->parse_error($file, $fmt, ...)
+
+Prints an error message and dies on syntax parse errors.
+
+=cut
+
+sub parse_error {
+    my ($self, $file, $msg) = (shift, shift, shift);
+
+    $msg = sprintf($msg, @_) if (@_);
+    error(_g('syntax error in %s at line %d: %s'), $file, $., $msg);
+}
+
 =item $c->parse($fh, $description)
 
 Parse a control file from the given filehandle. Exits in case of errors.
@@ -183,7 +196,7 @@ sub parse {
 	    $parabody = 1;
 	    if (exists $self->{$1}) {
 		unless ($$self->{allow_duplicate}) {
-		    syntaxerr($desc, sprintf(_g('duplicate field %s found'), $1));
+		    $self->parse_error($desc, _g('duplicate field %s found'), $1);
 		}
 	    }
 	    $self->{$1} = $2;
@@ -191,7 +204,7 @@ sub parse {
 	} elsif (m/^\s(\s*\S.*)$/) {
 	    my $line = $1;
 	    unless (defined($cf)) {
-                syntaxerr($desc, _g('continued value line not in field'));
+		$self->parse_error($desc, _g('continued value line not in field'));
             }
 	    if ($line =~ /^\.+$/) {
 		$line = substr $line, 1;
@@ -205,19 +218,19 @@ sub parse {
 		    last if m/^\s*$/;
 		}
 	    } else {
-		syntaxerr($desc, _g('PGP signature not allowed here'));
+		$self->parse_error($desc, _g('PGP signature not allowed here'));
 	    }
 	} elsif (m/^$/ || ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----$/)) {
 	    if ($expect_pgp_sig) {
 		# Skip empty lines
 		$_ = <$fh> while defined($_) && $_ =~ /^\s*$/;
 		length($_) ||
-                    syntaxerr($desc, _g('expected PGP signature, found EOF ' .
-                                        'after blank line'));
+		    $self->parse_error($desc, _g('expected PGP signature, ' .
+		                                 'found EOF after blank line'));
 		s/\s*\n$//;
 		unless (m/^-----BEGIN PGP SIGNATURE-----$/) {
-		    syntaxerr($desc, sprintf(_g('expected PGP signature, ' .
-                                                "found something else \`%s'"), $_));
+		    $self->parse_error($desc, _g('expected PGP signature, ' .
+		                                 "found something else \`%s'"), $_);
                 }
 		# Skip PGP signature
 		while (<$fh>) {
@@ -225,7 +238,7 @@ sub parse {
 		    last if m/^-----END PGP SIGNATURE-----$/;
 		}
 		unless (defined($_)) {
-                    syntaxerr($desc, _g('unfinished PGP signature'));
+		    $self->parse_error($desc, _g('unfinished PGP signature'));
                 }
 		# This does not mean the signature is correct, that needs to
 		# be verified by gnupg.
@@ -233,13 +246,13 @@ sub parse {
 	    }
 	    last; # Finished parsing one block
 	} else {
-	    syntaxerr($desc,
-                      _g('line with unknown format (not field-colon-value)'));
+	    $self->parse_error($desc,
+	                       _g('line with unknown format (not field-colon-value)'));
 	}
     }
 
     if ($expect_pgp_sig and not $$self->{is_pgp_signed}) {
-        syntaxerr($desc, _g('unfinished PGP signature'));
+	$self->parse_error($desc, _g('unfinished PGP signature'));
     }
 
     return defined($cf);
@@ -502,6 +515,12 @@ sub NEXTKEY {
 1;
 
 =back
+
+=head1 CHANGES
+
+=head2 Version 1.01
+
+New method: parse_error().
 
 =head1 AUTHOR
 
