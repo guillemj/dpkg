@@ -20,6 +20,8 @@ use warnings;
 
 our $VERSION = '1.00';
 
+use Carp;
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Changelog;
@@ -110,7 +112,7 @@ lines) corresponding to the requested part. $part can be
 
 sub get_part {
     my ($self, $part) = @_;
-    internerr('invalid part of changelog entry: %s') unless exists $self->{$part};
+    croak "invalid part of changelog entry: $part" unless exists $self->{$part};
     return $self->{$part};
 }
 
@@ -123,7 +125,7 @@ or an array ref.
 
 sub set_part {
     my ($self, $part, $value) = @_;
-    internerr('invalid part of changelog entry: %s') unless exists $self->{$part};
+    croak "invalid part of changelog entry: $part" unless exists $self->{$part};
     if (ref($self->{$part})) {
 	if (ref($value)) {
 	    $self->{$part} = $value;
@@ -145,7 +147,7 @@ concatenated at the end of the current line.
 
 sub extend_part {
     my ($self, $part, $value, @rest) = @_;
-    internerr('invalid part of changelog entry: %s') unless exists $self->{$part};
+    croak "invalid part of changelog entry: $part" unless exists $self->{$part};
     if (ref($self->{$part})) {
 	if (ref($value)) {
 	    push @{$self->{$part}}, @$value;

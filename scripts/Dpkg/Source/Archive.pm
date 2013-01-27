@@ -25,6 +25,7 @@ use Dpkg::Gettext;
 use Dpkg::IPC;
 use Dpkg::ErrorHandling;
 
+use Carp;
 use File::Temp qw(tempdir);
 use File::Basename qw(basename);
 use File::Spec;
@@ -57,7 +58,7 @@ sub create {
 sub _add_entry {
     my ($self, $file) = @_;
     my $cwd = *$self->{cwd};
-    internerr('call create() first') unless *$self->{tar_input};
+    croak 'call create() first' unless *$self->{tar_input};
     $file = $2 if ($file =~ /^\Q$cwd\E\/(.+)$/); # Relative names
     print({ *$self->{tar_input} } "$file\0")
         or syserr(_g('write on tar input'));
@@ -69,7 +70,8 @@ sub add_file {
     if (*$self->{chdir}) {
         $testfile = File::Spec->catfile(*$self->{chdir}, $file);
     }
-    internerr("add_file() doesn't handle directories") if not -l $testfile and -d _;
+    croak 'add_file() does not handle directories'
+        if not -l $testfile and -d _;
     $self->_add_entry($file);
 }
 
@@ -79,7 +81,7 @@ sub add_directory {
     if (*$self->{chdir}) {
         $testfile = File::Spec->catdir(*$self->{chdir}, $file);
     }
-    internerr('add_directory() only handles directories')
+    croak 'add_directory() only handles directories'
         if -l $testfile or not -d _;
     $self->_add_entry($file);
 }

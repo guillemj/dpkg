@@ -20,7 +20,9 @@ use warnings;
 
 our $VERSION = '1.00';
 
+use Carp;
 use Exporter qw(import);
+
 use Dpkg::Control::FieldsCore;
 use Dpkg::Vendor qw(run_vendor_hook);
 
@@ -37,7 +39,7 @@ foreach my $op (run_vendor_hook('register-custom-fields')) {
     } elsif ($func eq 'insert_after') {
         &field_insert_after(@$op);
     } else {
-        internerr("vendor hook register-custom-fields sent bad data: @$op");
+        croak "vendor hook register-custom-fields sent bad data: @$op";
     }
 }
 

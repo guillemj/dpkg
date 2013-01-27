@@ -464,6 +464,8 @@ both dependencies. Otherwise returns false.
 use strict;
 use warnings;
 
+use Carp;
+
 use Dpkg::Arch qw(debarch_is);
 use Dpkg::Version;
 use Dpkg::ErrorHandling;
@@ -700,8 +702,8 @@ sub implies {
 	}
 	return $res;
     } else {
-	internerr("Dpkg::Deps::Simple can't evaluate implication with a %s!",
-	          ref($o));
+	croak 'Dpkg::Deps::Simple cannot evaluate implication with a ' .
+	      ref($o);
     }
 }
 
@@ -835,6 +837,8 @@ Adds a new dependency object at the end of the list.
 use strict;
 use warnings;
 
+use Carp;
+
 use Dpkg::ErrorHandling;
 
 use parent qw(Dpkg::Interface::Storable);
@@ -904,7 +908,7 @@ sub is_empty {
 }
 
 sub merge_union {
-    internerr('The method merge_union() is only valid for Dpkg::Deps::Simple');
+    croak 'method merge_union() is only valid for Dpkg::Deps::Simple';
 }
 
 package Dpkg::Deps::AND;

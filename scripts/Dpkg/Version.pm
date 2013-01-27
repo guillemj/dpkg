@@ -26,6 +26,7 @@ our $VERSION = '1.01';
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
+use Carp;
 use Exporter qw(import);
 our @EXPORT = qw(version_compare version_compare_relation
                  version_normalize_relation version_compare_string
@@ -263,7 +264,7 @@ sub version_compare_relation($$$) {
     } elsif ($op eq REL_LT) {
 	return $res < 0;
     } else {
-	internerr("unsupported relation for version_compare_relation(): '$op'");
+	croak "unsupported relation for version_compare_relation(): '$op'";
     }
 }
 
@@ -294,7 +295,7 @@ sub version_normalize_relation($) {
     } elsif ($op eq '<<' or $op eq 'lt') {
 	return REL_LT;
     } else {
-	internerr("bad relation '$op'");
+	croak "bad relation '$op'";
     }
 }
 

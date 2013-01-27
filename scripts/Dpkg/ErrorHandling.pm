@@ -23,7 +23,7 @@ use Dpkg::Gettext;
 
 use Exporter qw(import);
 our @EXPORT = qw(report_options info warning error errormsg
-                 syserr internerr subprocerr usageerr);
+                 syserr subprocerr usageerr);
 our @EXPORT_OK = qw(report);
 
 my $quiet_warnings = 0;
@@ -73,11 +73,6 @@ sub error($;@)
 sub errormsg($;@)
 {
     print STDERR report(_g('error'), @_);
-}
-
-sub internerr($;@)
-{
-    die report(_g('internal error'), @_);
 }
 
 sub subprocerr(@)

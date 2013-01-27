@@ -20,6 +20,8 @@ use warnings;
 
 our $VERSION = '1.00';
 
+use Carp;
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Compression::FileHandle;
@@ -76,7 +78,7 @@ standard input is read (no compression is allowed in that case).
 sub load {
     my ($self, $file, @options) = @_;
     unless ($self->can('parse')) {
-	internerr('%s cannot be loaded, it lacks the parse method', ref($self));
+	croak ref($self) . ' cannot be loaded, it lacks the parse method';
     }
     my ($desc, $fh) = ($file, undef);
     if ($file eq '-') {
@@ -105,7 +107,7 @@ standard output is used (data are written uncompressed in that case).
 sub save {
     my ($self, $file, @options) = @_;
     unless ($self->can('output')) {
-	internerr('%s cannot be saved, it lacks the output method', ref($self));
+	croak ref($self) . ' cannot be saved, it lacks the output method';
     }
     my $fh;
     if ($file eq '-') {
@@ -129,7 +131,7 @@ Return a string representation of the object.
 sub _stringify {
     my ($self) = @_;
     unless ($self->can('output')) {
-	internerr('%s cannot be stringified, it lacks the output method', ref($self));
+	croak ref($self) . ' cannot be stringified, it lacks the output method';
     }
     return $self->output();
 }

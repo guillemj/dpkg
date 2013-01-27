@@ -24,6 +24,8 @@ use Dpkg::Compression;
 use Dpkg::Compression::Process;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+
+use Carp;
 use POSIX qw(:signal_h :sys_wait_h);
 
 use parent qw(FileHandle Tie::Handle);
@@ -156,14 +158,14 @@ sub ensure_open {
     my ($self, $mode) = @_;
     if (exists *$self->{mode}) {
 	return if *$self->{mode} eq $mode;
-	internerr("ensure_open requested incompatible mode: $mode");
+	croak "ensure_open requested incompatible mode: $mode";
     } else {
 	if ($mode eq 'w') {
 	    $self->open_for_write();
 	} elsif ($mode eq 'r') {
 	    $self->open_for_read();
 	} else {
-	    internerr("invalid mode in ensure_open: $mode");
+	    croak "invalid mode in ensure_open: $mode";
 	}
     }
 }
@@ -205,10 +207,12 @@ sub OPEN {
 	} elsif ($mode eq '<') {
 	    $self->open_for_read();
 	} else {
-	    internerr("Unsupported open mode on Dpkg::Compression::FileHandle: $mode");
+	    croak 'Dpkg::Compression::FileHandle does not support ' .
+	          "open() mode $mode";
 	}
     } else {
-	internerr('Dpkg::Compression::FileHandle only supports open() with 3 parameters');
+	croak 'Dpkg::Compression::FileHandle only supports open() ' .
+	      'with 3 parameters';
     }
     return 1; # Always works (otherwise errors out)
 }
@@ -328,8 +332,8 @@ sub get_filename {
     my $comp = *$self->{compression};
     if (*$self->{add_comp_ext}) {
 	if ($comp eq 'auto') {
-	    internerr('automatic detection of compression is ' .
-	              'incompatible with add_comp_ext');
+	    croak 'automatic detection of compression is ' .
+	          'incompatible with add_comp_ext';
 	} elsif ($comp eq 'none') {
 	    return *$self->{filename};
 	} else {

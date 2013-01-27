@@ -20,6 +20,8 @@ use warnings;
 
 our $VERSION = '1.00';
 
+use Carp;
+
 use Dpkg::Compression;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -127,8 +129,8 @@ sub _sanity_check {
         $to++ if $opts{"to_$_"};
         $from++ if $opts{"from_$_"};
     }
-    internerr('exactly one to_* parameter is needed') if $to != 1;
-    internerr('exactly one from_* parameter is needed') if $from != 1;
+    croak 'exactly one to_* parameter is needed' if $to != 1;
+    croak 'exactly one from_* parameter is needed' if $from != 1;
     return %opts;
 }
 

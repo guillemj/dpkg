@@ -48,6 +48,7 @@ use Dpkg::Path qw(check_files_are_the_same find_command);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(run_vendor_hook);
 
+use Carp;
 use POSIX qw(:errno_h :sys_wait_h);
 use File::Basename;
 
@@ -496,8 +497,8 @@ sub extract {
 }
 
 sub do_extract {
-    internerr("Dpkg::Source::Package doesn't know how to unpack a " .
-              'source package. Use one of the subclasses.');
+    croak 'Dpkg::Source::Package does not know how to unpack a ' .
+          'source package; use one of the subclasses';
 }
 
 # Function used specifically during creation of a source package
@@ -520,8 +521,8 @@ sub after_build {
 }
 
 sub do_build {
-    internerr("Dpkg::Source::Package doesn't know how to build a " .
-              'source package. Use one of the subclasses.');
+    croak 'Dpkg::Source::Package does not know how to build a ' .
+          'source package; use one of the subclasses';
 }
 
 sub can_build {
@@ -533,7 +534,7 @@ sub add_file {
     my ($self, $filename) = @_;
     my ($fn, $dir) = fileparse($filename);
     if ($self->{checksums}->has_file($fn)) {
-        internerr("tried to add file '%s' twice", $fn);
+        croak "tried to add file '$fn' twice";
     }
     $self->{checksums}->add_from_file($filename, key => $fn);
     $self->{checksums}->export_to_control($self->{fields},

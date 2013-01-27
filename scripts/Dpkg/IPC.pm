@@ -24,6 +24,7 @@ our $VERSION = '1.00';
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
+use Carp;
 use Exporter qw(import);
 our @EXPORT = qw(spawn wait_child);
 
@@ -133,7 +134,7 @@ listed in the array before calling exec.
 sub _sanity_check_opts {
     my (%opts) = @_;
 
-    internerr('exec parameter is mandatory in spawn()')
+    croak 'exec parameter is mandatory in spawn()'
 	unless $opts{exec};
 
     my $to = my $error_to = my $from = 0;
@@ -142,17 +143,17 @@ sub _sanity_check_opts {
 	$error_to++ if $opts{"error_to_$_"};
 	$from++ if $opts{"from_$_"};
     }
-    internerr('not more than one of to_* parameters is allowed')
+    croak 'not more than one of to_* parameters is allowed'
 	if $to > 1;
-    internerr('not more than one of error_to_* parameters is allowed')
+    croak 'not more than one of error_to_* parameters is allowed'
 	if $error_to > 1;
-    internerr('not more than one of from_* parameters is allowed')
+    croak 'not more than one of from_* parameters is allowed'
 	if $from > 1;
 
     foreach (qw(to_string error_to_string from_string)) {
 	if (exists $opts{$_} and
 	    (not ref($opts{$_}) or ref($opts{$_}) ne 'SCALAR')) {
-	    internerr("parameter $_ must be a scalar reference");
+	    croak "parameter $_ must be a scalar reference";
 	}
     }
 
@@ -160,21 +161,22 @@ sub _sanity_check_opts {
 	if (exists $opts{$_} and
 	    (not ref($opts{$_}) or (ref($opts{$_}) ne 'SCALAR' and
 				 not $opts{$_}->isa('IO::Handle')))) {
-	    internerr("parameter $_ must be a scalar reference or an IO::Handle object");
+	    croak "parameter $_ must be a scalar reference or " .
+	          'an IO::Handle object';
 	}
     }
 
     if (exists $opts{timeout} and defined($opts{timeout}) and
         $opts{timeout} !~ /^\d+$/) {
-	internerr('parameter timeout must be an integer');
+	croak 'parameter timeout must be an integer';
     }
 
     if (exists $opts{env} and ref($opts{env}) ne 'HASH') {
-	internerr('parameter env must be a hash reference');
+	croak 'parameter env must be a hash reference';
     }
 
     if (exists $opts{delete_env} and ref($opts{delete_env}) ne 'ARRAY') {
-	internerr('parameter delete_env must be an array reference');
+	croak 'parameter delete_env must be an array reference';
     }
 
     return %opts;
@@ -189,7 +191,7 @@ sub spawn {
     } elsif (not ref($opts{exec})) {
 	push @prog, $opts{exec};
     } else {
-	internerr('invalid exec parameter in spawn()');
+	croak 'invalid exec parameter in spawn()';
     }
     my ($from_string_pipe, $to_string_pipe, $error_to_string_pipe);
     if ($opts{to_string}) {
@@ -339,7 +341,7 @@ with an error message.
 sub wait_child {
     my ($pid, %opts) = @_;
     $opts{cmdline} ||= _g('child process');
-    internerr('no PID set, cannot wait end of process') unless $pid;
+    croak 'no PID set, cannot wait end of process' unless $pid;
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" };
         alarm($opts{timeout}) if defined($opts{timeout});
