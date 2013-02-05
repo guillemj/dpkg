@@ -358,15 +358,8 @@ extern void operator delete(void *p) {
 }
 
 urqresult urq_list(void) {
-  struct dpkg_arch *arch;
-
   modstatdb_open((modstatdb_rw)(msdbrw_writeifposs |
                                 msdbrw_available_readonly));
-
-  // XXX: Multi-Arch is not supported, bail out.
-  for (arch = dpkg_arch_get_list(); arch; arch = arch->next)
-    if (arch->type == arch_foreign)
-      ohshit(_("foreign architectures enabled but multi-arch is not supported"));
 
   curseson();
 
