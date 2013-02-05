@@ -1197,12 +1197,10 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 		return false;
 	}
 
-	for (fs = a->choices; fs; fs = fs->next) {
-		if (strcmp(fs->master_file, master_file) == 0) {
-			free(master_file);
-			ctx->bad_format(ctx, _("duplicate path %s"),
-			                fs->master_file);
-		}
+	fs = alternative_get_fileset(a, master_file);
+	if (fs) {
+		free(master_file);
+		ctx->bad_format(ctx, _("duplicate path %s"), master_file);
 	}
 
 	if (stat(master_file, &st)) {
@@ -1600,12 +1598,11 @@ alternative_select_choice(struct alternative *a)
 			}
 		} else {
 			/* Look up by name */
-			for (fs = a->choices; fs; fs = fs->next) {
-				if (strcmp(fs->master_file, selection) == 0) {
-					alternative_set_status(a, ALT_ST_MANUAL);
-					free(current);
-					return xstrdup(selection);
-				}
+			fs = alternative_get_fileset(a, selection);
+			if (fs) {
+				alternative_set_status(a, ALT_ST_MANUAL);
+				free(current);
+				return xstrdup(selection);
 			}
 		}
 	}
