@@ -472,7 +472,7 @@ rename_mv(const char *src, const char *dst)
 		return false;
 
 	if (rename(src, dst) != 0) {
-		const char *args[3] = { src, dst, NULL };
+		const char *args[] = { src, dst, NULL };
 		int r;
 		r = spawn("mv", args);
 		if (WIFEXITED(r) && WEXITSTATUS(r) == 0)
