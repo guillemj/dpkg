@@ -1407,18 +1407,6 @@ alternative_save(struct alternative *a)
 	free(file);
 }
 
-static struct fileset *
-alternative_get_best(struct alternative *a)
-{
-	struct fileset *fs, *best;
-
-	for (best = fs = a->choices; fs; fs = fs->next)
-		if (fs->priority > best->priority)
-			best = fs;
-
-	return best;
-}
-
 static const char *
 alternative_set_current(struct alternative *a, char *new_choice)
 {
@@ -1451,6 +1439,18 @@ alternative_get_current(struct alternative *a)
 	free(curlink);
 
 	return alternative_set_current(a, file);
+}
+
+static struct fileset *
+alternative_get_best(struct alternative *a)
+{
+	struct fileset *fs, *best;
+
+	for (best = fs = a->choices; fs; fs = fs->next)
+		if (fs->priority > best->priority)
+			best = fs;
+
+	return best;
 }
 
 static void
