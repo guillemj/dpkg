@@ -401,29 +401,19 @@ log_msg(const char *fmt, ...)
 static int
 spawn(const char *prog, const char *args[])
 {
-	const char **cmd;
-	int i = 0;
 	pid_t pid, r;
 	int status;
-
-	while (args[i++]);
-	cmd = xmalloc(sizeof(char *) * (i + 2));
-	cmd[0] = prog;
-	for (i = 0; args[i]; i++)
-		cmd[i + 1] = args[i];
-	cmd[i + 1] = NULL;
 
 	pid = fork();
 	if (pid == -1)
 		error(_("fork failed"));
 	if (pid == 0) {
-		execvp(prog, (char *const *)cmd);
+		execvp(prog, (char *const *)args);
 		syserr(_("unable to execute %s (%s)"), prog, prog);
 	}
 	while ((r = waitpid(pid, &status, 0)) == -1 && errno == EINTR) ;
 	if (r != pid)
 		error(_("wait for subprocess %s failed"), prog);
-	free(cmd);
 
 	return status;
 }
@@ -443,8 +433,9 @@ subcall(const char *prog, ...)
 	va_end(args);
 
 	/* Prepare table for all parameters */
-	cmd = xmalloc(sizeof(*cmd) * (nb_opts + count + 1));
+	cmd = xmalloc(sizeof(*cmd) * (nb_opts + count + 2));
 	i = 0;
+	cmd[i++] = prog;
 	for (j = 0; j < nb_opts; j++)
 		cmd[i++] = pass_opts[j];
 	va_start(args, prog);
@@ -472,7 +463,7 @@ rename_mv(const char *src, const char *dst)
 		return false;
 
 	if (rename(src, dst) != 0) {
-		const char *args[] = { src, dst, NULL };
+		const char *args[] = { "mv", src, dst, NULL };
 		int r;
 		r = spawn("mv", args);
 		if (WIFEXITED(r) && WEXITSTATUS(r) == 0)
