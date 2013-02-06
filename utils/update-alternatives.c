@@ -650,6 +650,8 @@ struct commit_operation {
 struct alternative {
 	char *master_name;
 	char *master_link;
+	char *current;
+
 	enum alternative_status {
 		ALT_ST_UNKNOWN,
 		ALT_ST_AUTO,
@@ -663,6 +665,7 @@ struct alternative {
 
 	int ref_count;
 	bool modified;
+	bool known_current;
 };
 
 static void
@@ -689,11 +692,13 @@ alternative_new(const char *name)
 	alt = xmalloc(sizeof(*alt));
 	alt->master_name = xstrdup(name);
 	alt->master_link = NULL;
+	alt->current = NULL;
 	alt->status = ALT_ST_UNKNOWN;
 	alt->slaves = NULL;
 	alt->choices = NULL;
 	alt->commit_ops = NULL;
 	alt->modified = false;
+	alt->known_current = false;
 	alt->ref_count = 1;
 
 	return alt;
@@ -743,6 +748,8 @@ alternative_reset(struct alternative *alt)
 {
 	struct slave_link *slave;
 
+	free(alt->current);
+	alt->current = NULL;
 	free(alt->master_link);
 	alt->master_link = NULL;
 	while (alt->slaves) {
@@ -753,6 +760,7 @@ alternative_reset(struct alternative *alt)
 	alternative_choices_free(alt);
 	alternative_commit_operations_free(alt);
 	alt->modified = false;
+	alt->known_current = false;
 }
 
 static void
@@ -1411,18 +1419,30 @@ alternative_get_best(struct alternative *a)
 	return best;
 }
 
-static char *
+static const char *
+alternative_set_current(struct alternative *a, char *new_choice)
+{
+	a->known_current = true;
+	a->current = new_choice;
+
+	return new_choice;
+}
+
+static const char *
 alternative_get_current(struct alternative *a)
 {
 	struct stat st;
 	char *curlink;
 	char *file;
 
+	if (a->known_current)
+		return a->current;
+
 	xasprintf(&curlink, "%s/%s", altdir, a->master_name);
 	if (lstat(curlink, &st)) {
 		if (errno == ENOENT) {
 			free(curlink);
-			return NULL;
+			return alternative_set_current(a, NULL);
 		}
 		syserr(_("cannot stat file '%s'"), curlink);
 	}
@@ -1430,7 +1450,7 @@ alternative_get_current(struct alternative *a)
 	file = xreadlink(curlink);
 	free(curlink);
 
-	return file;
+	return alternative_set_current(a, file);
 }
 
 static void
@@ -1438,7 +1458,7 @@ alternative_display_query(struct alternative *a)
 {
 	struct fileset *best, *fs;
 	struct slave_link *sl;
-	char *current;
+	const char *current;
 
 	pr("Name: %s", a->master_name);
 	pr("Link: %s", a->master_link);
@@ -1453,7 +1473,6 @@ alternative_display_query(struct alternative *a)
 		pr("Best: %s", best->master_file);
 	current = alternative_get_current(a);
 	pr("Value: %s", current ? current : "none");
-	free(current);
 
 	for (fs = a->choices; fs; fs = fs->next) {
 		printf("\n");
@@ -1473,7 +1492,7 @@ alternative_display_query(struct alternative *a)
 static void
 alternative_display_user(struct alternative *a)
 {
-	char *current;
+	const char *current;
 	struct fileset *fs;
 	struct slave_link *sl;
 
@@ -1482,7 +1501,6 @@ alternative_display_user(struct alternative *a)
 	current = alternative_get_current(a);
 	if (current) {
 		pr(_("  link currently points to %s"), current);
-		free(current);
 	} else {
 		pr(_("  link currently absent"));
 	}
@@ -1515,7 +1533,8 @@ alternative_display_list(struct alternative *a)
 static const char *
 alternative_select_choice(struct alternative *a)
 {
-	char *current, *ret, selection[_POSIX_PATH_MAX];
+	const char *current;
+	char *ret, selection[_POSIX_PATH_MAX];
 	struct fileset *best, *fs;
 	int len, idx;
 
@@ -1562,7 +1581,6 @@ alternative_select_choice(struct alternative *a)
 		         "or type selection number: "));
 		ret = fgets(selection, sizeof(selection), stdin);
 		if (ret == NULL || strlen(selection) == 0) {
-			free(current);
 			return NULL;
 		}
 		selection[strlen(selection) - 1] = '\0';
@@ -1576,7 +1594,6 @@ alternative_select_choice(struct alternative *a)
 			/* Look up by index */
 			if (idx == 0) {
 				alternative_set_status(a, ALT_ST_AUTO);
-				free(current);
 				return xstrdup(best->master_file);
 			}
 			idx--;
@@ -1584,7 +1601,6 @@ alternative_select_choice(struct alternative *a)
 				fs = fs->next;
 			if (fs) {
 				alternative_set_status(a, ALT_ST_MANUAL);
-				free(current);
 				return xstrdup(fs->master_file);
 			}
 		} else {
@@ -1592,7 +1608,6 @@ alternative_select_choice(struct alternative *a)
 			fs = alternative_get_fileset(a, selection);
 			if (fs) {
 				alternative_set_status(a, ALT_ST_MANUAL);
-				free(current);
 				return xstrdup(selection);
 			}
 		}
@@ -1814,7 +1829,8 @@ alternative_remove(struct alternative *a)
 static bool
 alternative_is_broken(struct alternative *a)
 {
-	char *altlnk, *wanted, *current;
+	const char *current;
+	char *altlnk, *wanted;
 	struct fileset *fs;
 	struct slave_link *sl;
 
@@ -1836,12 +1852,10 @@ alternative_is_broken(struct alternative *a)
 	if (current == NULL)
 		return true;
 
-	if (!alternative_has_choice(a, current)) {
-		free(current);
+	if (!alternative_has_choice(a, current))
 		return false;
-	}
+
 	fs = alternative_get_fileset(a, current);
-	free(current);
 
 	/* Check slaves */
 	for (sl = a->slaves; sl; sl = sl->next) {
@@ -2030,13 +2044,12 @@ alternative_get_selections(void)
 	alternative_map_load_names(alt_map_obj);
 
 	for (am = alt_map_obj; am && am->item; am = am->next) {
-		char *current;
+		const char *current;
 
 		current = alternative_get_current(am->item);
 		printf("%-30s %-8s %s\n", am->key,
 		       alternative_status_string(am->item->status),
 		       current ? current : "");
-		free(current);
 	}
 
 	alternative_map_free(alt_map_obj);
@@ -2240,7 +2253,7 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 
 static void
 alternative_update(struct alternative *a,
-                   char *current_choice, const char *new_choice)
+                   const char *current_choice, const char *new_choice)
 {
 	/* No choice left, remove everything. */
 	if (!alternative_choices_count(a)) {
@@ -2424,7 +2437,8 @@ main(int argc, char **argv)
 	/* Set of files to install in the alternative. */
 	struct fileset *fileset = NULL;
 	/* Path of alternative we are offering. */
-	char *path = NULL, *current_choice = NULL;
+	char *path = NULL;
+	const char *current_choice = NULL;
 	const char *new_choice = NULL;
 	int i = 0;
 
