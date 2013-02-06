@@ -1445,8 +1445,18 @@ static struct fileset *
 alternative_get_best(struct alternative *a)
 {
 	struct fileset *fs, *best;
+	const char *current;
 
-	for (best = fs = a->choices; fs; fs = fs->next)
+	current = alternative_get_current(a);
+	if (current)
+		best = alternative_get_fileset(a, current);
+	else
+		best = NULL;
+
+	if (best == NULL)
+		best = a->choices;
+
+	for (fs = a->choices; fs; fs = fs->next)
 		if (fs->priority > best->priority)
 			best = fs;
 
