@@ -21,7 +21,7 @@ package Dpkg::Version;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -43,7 +43,7 @@ use constant {
 use overload
     '<=>' => \&comparison,
     'cmp' => \&comparison,
-    '""'  => \&as_string,
+    '""'  => sub { return $_[0]->as_string(); },
     'bool' => sub { return $_[0]->as_string() if $_[0]->is_valid(); },
     'fallback' => 1;
 
@@ -166,18 +166,37 @@ sub comparison {
     return version_compare_part($a->revision(), $b->revision());
 }
 
-=item "$v", $v->as_string()
+=item "$v", $v->as_string(), $v->as_string(%options)
+
+Accepts an optional option hash reference, affecting the string conversion.
+
+Options:
+
+=over 8
+
+=item omit_epoch (defaults to 0)
+
+Omit the epoch, if present, in the output string.
+
+=item omit_revision (defaults to 0)
+
+Omit the revision, if present, in the output string.
+
+=back
 
 Returns the string representation of the version number.
 
 =cut
 
 sub as_string {
-    my ($self) = @_;
+    my ($self, %opts) = @_;
+    my $no_epoch = $opts{omit_epoch} || $self->{no_epoch};
+    my $no_revision = $opts{omit_revision} || $self->{no_revision};
+
     my $str = '';
-    $str .= $self->{epoch} . ':' unless $self->{no_epoch};
+    $str .= $self->{epoch} . ':' unless $no_epoch;
     $str .= $self->{version};
-    $str .= '-' . $self->{revision} unless $self->{no_revision};
+    $str .= '-' . $self->{revision} unless $no_revision;
     return $str;
 }
 
@@ -394,6 +413,12 @@ sub version_check($) {
 }
 
 =back
+
+=head1 CHANGES
+
+=head2 Version 1.01
+
+New argument: Accept an options argument in $v->as_string().
 
 =head1 AUTHOR
 

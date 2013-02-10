@@ -295,11 +295,8 @@ sub get_basename {
         error(_g('source and version are required to compute the source basename'));
     }
     my $v = Dpkg::Version->new($f->{'Version'});
-    my $basename = $f->{'Source'} . '_' . $v->version();
-    if ($with_revision and $f->{'Version'} =~ /-/) {
-        $basename .= '-' . $v->revision();
-    }
-    return $basename;
+    my $vs = $v->as_string(omit_epoch => 1, omit_revision => !$with_revision);
+    return $f->{'Source'} . '_' . $vs;
 }
 
 sub find_original_tarballs {
