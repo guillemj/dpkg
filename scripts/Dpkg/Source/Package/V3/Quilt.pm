@@ -26,6 +26,7 @@ use parent qw(Dpkg::Source::Package::V2);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Version;
 use Dpkg::Source::Patch;
 use Dpkg::Source::Functions qw(erasedir fs_time);
 use Dpkg::Source::Quilt;
@@ -72,6 +73,10 @@ sub can_build {
     my ($self, $dir) = @_;
     my ($code, $msg) = $self->SUPER::can_build($dir);
     return ($code, $msg) if $code == 0;
+
+    my $v = Dpkg::Version->new($self->{fields}->{'Version'});
+    return (0, _g('version does not contain a revision')) if $v->is_native();
+
     my $quilt = $self->build_quilt_object($dir);
     $msg = $quilt->find_problems();
     return (0, $msg) if $msg;

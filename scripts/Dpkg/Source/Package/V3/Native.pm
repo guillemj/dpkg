@@ -27,6 +27,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Compression;
 use Dpkg::Exit;
+use Dpkg::Version;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Functions qw(erasedir);
 
@@ -64,6 +65,12 @@ sub do_extract {
 }
 
 sub can_build {
+    my ($self, $dir) = @_;
+
+    my $v = Dpkg::Version->new($self->{fields}->{'Version'});
+    return (0, _g('native package version may not have a revision'))
+        unless $v->is_native();
+
     return 1;
 }
 

@@ -145,6 +145,17 @@ sub revision {
     return $self->{revision};
 }
 
+=item $v->is_native()
+
+Returns true if the version is native, false if it has a revision.
+
+=cut
+
+sub is_native {
+    my $self = shift;
+    return $self->{no_revision};
+}
+
 =item $v1 <=> $v2, $v1 < $v2, $v1 <= $v2, $v1 > $v2, $v1 >= $v2
 
 Numerical comparison of various versions numbers. One of the two operands
@@ -419,6 +430,8 @@ sub version_check($) {
 =head2 Version 1.01
 
 New argument: Accept an options argument in $v->as_string().
+
+New method: $v->is_native().
 
 =head1 AUTHOR
 
