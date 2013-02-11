@@ -42,8 +42,10 @@ sub do_extract {
 
 sub can_build {
     my ($self, $dir) = @_;
-    return (scalar(@{$self->{options}{ARGV}}),
-            _g('no files indicated on command line'));
+
+    return (0, _g('no files indicated on command line'))
+        unless scalar(@{$self->{options}{ARGV}});
+    return 1;
 }
 
 sub do_build {

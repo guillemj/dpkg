@@ -81,7 +81,9 @@ sub sanity_check {
 
 sub can_build {
     my ($self, $dir) = @_;
-    return (-d "$dir/.bzr", _g("doesn't contain a bzr repository"));
+
+    return (0, _g("doesn't contain a bzr repository")) unless -d "$dir/.bzr";
+    return 1;
 }
 
 sub do_build {

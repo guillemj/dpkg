@@ -80,7 +80,7 @@ sub can_build {
     my $quilt = $self->build_quilt_object($dir);
     $msg = $quilt->find_problems();
     return (0, $msg) if $msg;
-    return (1, '');
+    return 1;
 }
 
 sub get_autopatch_name {

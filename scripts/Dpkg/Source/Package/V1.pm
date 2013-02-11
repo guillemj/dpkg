@@ -163,10 +163,12 @@ sub do_extract {
 
 sub can_build {
     my ($self, $dir) = @_;
+
     # As long as we can use gzip, we can do it as we have
     # native packages as fallback
-    return ($self->{options}{compression} eq 'gzip',
-            _g('only supports gzip compression'));
+    return (0, _g('only supports gzip compression'))
+        unless $self->{options}{compression} eq 'gzip';
+    return 1;
 }
 
 sub do_build {
