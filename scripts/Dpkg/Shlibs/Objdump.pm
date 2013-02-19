@@ -85,16 +85,18 @@ sub has_object {
 {
     my %format; # Cache of result
     sub get_format {
-	my ($file) = @_;
+	my ($file, $objdump) = @_;
+
+	$objdump //= $OBJDUMP;
 
 	if (exists $format{$file}) {
 	    return $format{$file};
 	} else {
 	    my ($output, %opts, $pid, $res);
-	    if ($OBJDUMP ne 'objdump') {
+	    if ($objdump ne 'objdump') {
 		$opts{error_to_file} = '/dev/null';
 	    }
-	    $pid = spawn(exec => [ $OBJDUMP, '-a', '--', $file ],
+	    $pid = spawn(exec => [ $objdump, '-a', '--', $file ],
 			 env => { LC_ALL => 'C' },
 			 to_pipe => \$output, %opts);
 	    while (<$output>) {
@@ -108,9 +110,8 @@ sub has_object {
 	    close($output);
 	    wait_child($pid, nocheck => 1);
 	    if ($?) {
-		subprocerr('objdump') if $OBJDUMP eq 'objdump';
-		local $OBJDUMP = 'objdump';
-		$res = get_format($file);
+		subprocerr('objdump') if $objdump eq 'objdump';
+		$res = get_format($file, 'objdump');
 	    }
 	    return $res;
 	}
