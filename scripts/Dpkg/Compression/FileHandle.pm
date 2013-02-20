@@ -24,7 +24,7 @@ use Dpkg::Compression;
 use Dpkg::Compression::Process;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use POSIX qw(WIFSIGNALED WTERMSIG SIGPIPE);
+use POSIX qw(:signal_h :sys_wait_h);
 
 use base qw(FileHandle Tie::Handle);
 
