@@ -23,7 +23,6 @@ use strict;
 use warnings;
 
 use Encode;
-use POSIX;
 use POSIX qw(:errno_h :signal_h);
 use Dpkg;
 use Dpkg::Gettext;

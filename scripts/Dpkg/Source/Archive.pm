@@ -25,7 +25,6 @@ use Dpkg::Gettext;
 use Dpkg::IPC;
 use Dpkg::ErrorHandling;
 
-use POSIX;
 use File::Temp qw(tempdir);
 use File::Basename qw(basename);
 use File::Spec;

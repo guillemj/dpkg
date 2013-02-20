@@ -23,7 +23,6 @@ use strict;
 use warnings;
 
 use Getopt::Long qw(:config posix_default bundling no_ignorecase);
-use POSIX;
 
 use Dpkg;
 use Dpkg::Gettext;
