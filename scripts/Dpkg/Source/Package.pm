@@ -48,7 +48,7 @@ use Dpkg::Path qw(check_files_are_the_same find_command);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(run_vendor_hook);
 
-use POSIX;
+use POSIX qw(:errno_h :sys_wait_h);
 use File::Basename;
 
 # Public variables

@@ -26,7 +26,7 @@ use Dpkg::IPC;
 use Dpkg::ErrorHandling;
 use Dpkg::Source::Functions qw(fs_time);
 
-use POSIX;
+use POSIX qw(:errno_h :sys_wait_h);
 use File::Find;
 use File::Basename;
 use File::Spec;

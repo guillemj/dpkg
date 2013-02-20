@@ -25,7 +25,7 @@ use warnings;
 
 use Cwd;
 use File::Basename;
-use POSIX;
+use POSIX qw(:sys_wait_h);
 
 use Dpkg;
 use Dpkg::Gettext;

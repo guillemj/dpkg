@@ -34,7 +34,7 @@ use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::Control;
 use Dpkg::Changelog::Parse;
 
-use POSIX qw(!getcwd);
+use POSIX qw(:errno_h);
 use Cwd;
 use File::Basename;
 use File::Temp qw(tempfile tempdir);

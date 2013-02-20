@@ -25,7 +25,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::IPC;
 
-use POSIX;
+use POSIX qw(:errno_h);
 
 sub erasedir {
     my ($dir) = @_;
