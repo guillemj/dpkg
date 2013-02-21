@@ -1038,8 +1038,8 @@ struct altdb_context {
 	char *filename;
 	enum altdb_flags flags;
 	bool modified;
-	void DPKG_ATTR_PRINTF(2) (*bad_format)(struct altdb_context *,
-	                                       const char *format, ...);
+	void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(2)
+	     (*bad_format)(struct altdb_context *, const char *format, ...);
 	jmp_buf on_error;
 };
 
