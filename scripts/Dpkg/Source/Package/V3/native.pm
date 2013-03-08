@@ -30,7 +30,7 @@ use Dpkg::Exit;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Functions qw(erasedir);
 
-use POSIX;
+use Cwd;
 use File::Basename;
 use File::Temp qw(tempfile);
 
