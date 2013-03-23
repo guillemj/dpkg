@@ -73,7 +73,8 @@ PO4A_V = $(PO4A_V_$(V))
 PO4A_V_ = $(PO4A_V_$(AM_DEFAULT_VERBOSITY))
 PO4A_V_0 = @echo "  PO4A   $@";
 
-PO4A_OPTS = --previous --srcdir $(srcdir) --destdir $(CURDIR) --no-backups
+PO4A_OPTS = --previous --srcdir $(srcdir) --destdir $(CURDIR) --no-backups \
+            --msgid-bugs-address $(PACKAGE_BUGREPORT)
 
 all-local: all-local-@USE_PO4A@
 
