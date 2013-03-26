@@ -49,7 +49,7 @@ corresponds to the first version of that package that provided the symbol,
 but it can be manually incremented by the maintainer if the ABI of the
 symbol is extended without breaking backwards compatibility. It's the
 responsibility of the maintainer to keep those files up-to-date and
-accurate, but \fBdpkg\-gensymbols\fR helps him.
+accurate, but \fBdpkg\-gensymbols\fR helps with that.
 .P
 When the generated symbols files differ from the maintainer supplied
 one, \fBdpkg\-gensymbols\fR will print a diff between the two versions.
@@ -60,8 +60,8 @@ option).
 The symbols files are really useful only if they reflect the evolution of
 the package through several releases. Thus the maintainer has to update
 them every time that a new symbol is added so that its associated minimal
-version matches reality. To do this properly he can use the diffs contained
-in the build logs. In most cases, the diff applies directly to his
+version matches reality. To do this properly the diffs contained in the
+build logs can be used. In most cases, the diff applies directly to the
 debian/\fIpackage\fR.symbols file. That said, further tweaks are usually
 needed: it's recommended for example to drop the Debian revision
 from the minimal version so that backports with a lower version number
