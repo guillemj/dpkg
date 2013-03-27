@@ -670,48 +670,6 @@ may leave packages in the improper \fBtriggers\-awaited\fP and
 \fB\-\-triggers\fP
 Cancels a previous \fB\-\-no\-triggers\fP.
 .
-.SH FILES
-.TP
-.I /etc/dpkg/dpkg.cfg.d/[0-9a-zA-Z_-]*
-Configuration fragment files.
-.TP
-.I /etc/dpkg/dpkg.cfg
-Configuration file with default options.
-.TP
-.I /var/log/dpkg.log
-Default log file (see \fI/etc/dpkg/dpkg.cfg\fP(5) and option
-\fB\-\-log\fP).
-.P
-The other files listed below are in their default directories, see option
-\fB\-\-admindir\fP to see how to change locations of these files.
-.TP
-.I /var/lib/dpkg/available
-List of available packages.
-.TP
-.I /var/lib/dpkg/status
-Statuses of available packages. This file contains information about
-whether a package is marked for removing or not, whether it is
-installed or not, etc. See section \fBINFORMATION ABOUT PACKAGES\fP
-for more info.
-
-The status file is backed up daily in \fI/var/backups\fP. It can be
-useful if it's lost or corrupted due to filesystems troubles.
-.P
-The following files are components of a binary package. See \fBdeb\fP(5)
-for more information about them:
-.TP
-.I control
-.TP
-.I conffiles
-.TP
-.I preinst
-.TP
-.I postinst
-.TP
-.I prerm
-.TP
-.I postrm
-.
 .SH ENVIRONMENT
 .TP
 .B HOME
@@ -759,6 +717,48 @@ architecture the package got built for.
 .B DPKG_MAINTSCRIPT_NAME
 Defined by \fBdpkg\fP on the maintainer script environment to the
 name of the script running (preinst, postinst, prerm, postrm).
+.
+.SH FILES
+.TP
+.I /etc/dpkg/dpkg.cfg.d/[0-9a-zA-Z_-]*
+Configuration fragment files.
+.TP
+.I /etc/dpkg/dpkg.cfg
+Configuration file with default options.
+.TP
+.I /var/log/dpkg.log
+Default log file (see \fI/etc/dpkg/dpkg.cfg\fP(5) and option
+\fB\-\-log\fP).
+.P
+The other files listed below are in their default directories, see option
+\fB\-\-admindir\fP to see how to change locations of these files.
+.TP
+.I /var/lib/dpkg/available
+List of available packages.
+.TP
+.I /var/lib/dpkg/status
+Statuses of available packages. This file contains information about
+whether a package is marked for removing or not, whether it is
+installed or not, etc. See section \fBINFORMATION ABOUT PACKAGES\fP
+for more info.
+
+The status file is backed up daily in \fI/var/backups\fP. It can be
+useful if it's lost or corrupted due to filesystems troubles.
+.P
+The following files are components of a binary package. See \fBdeb\fP(5)
+for more information about them:
+.TP
+.I control
+.TP
+.I conffiles
+.TP
+.I preinst
+.TP
+.I postinst
+.TP
+.I prerm
+.TP
+.I postrm
 .
 .SH BUGS
 \fB\-\-no\-act\fP usually gives less information than might be helpful.

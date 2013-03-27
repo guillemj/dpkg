@@ -162,51 +162,6 @@ and
 .B ,
 have to be stripped from these options). Default value: empty.
 .
-.SH FILES
-.TP
-.B /etc/dpkg/buildflags.conf
-System wide configuration file.
-.TP
-.BR $XDG_CONFIG_HOME/dpkg/buildflags.conf " or " $HOME/.config/dpkg/buildflags.conf
-User configuration file.
-.SH ENVIRONMENT
-There are 2 sets of environment variables doing the same operations, the
-first one (DEB_\fIflag\fP_\fIop\fP) should never be used within
-\fBdebian/rules\fP. It's meant for any user that wants to rebuild the
-source package with different build flags. The second set
-(DEB_\fIflag\fP_MAINT_\fIop\fP) should only be used in \fBdebian/rules\fP
-by package maintainers to change the resulting build flags.
-.TP
-.BI DEB_ flag _SET
-.TQ
-.BI DEB_ flag _MAINT_SET
-This variable can be used to force the value returned for the given
-\fIflag\fP.
-.TP
-.BI DEB_ flag _STRIP
-.TQ
-.BI DEB_ flag _MAINT_STRIP
-This variable can be used to provide a space separated list of options
-that will be stripped from the set of flags returned for the given
-\fIflag\fP.
-.TP
-.BI DEB_ flag _APPEND
-.TQ
-.BI DEB_ flag _MAINT_APPEND
-This variable can be used to append supplementary options to the value
-returned for the given \fIflag\fP.
-.TP
-.BI DEB_ flag _PREPEND
-.TQ
-.BI DEB_ flag _MAINT_PREPEND
-This variable can be used to prepend supplementary options to the value
-returned for the given \fIflag\fP.
-.TP
-.B DEB_BUILD_MAINT_OPTIONS
-This variable can be used to disable/enable various hardening build
-flags through the \fBhardening\fP option. See the \fBHARDENING\fP section
-for details.
-.
 .SH HARDENING
 Several compile-time options (detailed below) can be used to help harden
 a resulting binary against memory corruption attacks, or provide
@@ -307,3 +262,49 @@ architectures (most notably i386) can see performance losses of up to
 15% in very text-segment-heavy application workloads; most workloads
 see less than 1%. Architectures with more general registers (e.g. amd64)
 do not see as high a worst-case penalty.
+.
+.SH ENVIRONMENT
+There are 2 sets of environment variables doing the same operations, the
+first one (DEB_\fIflag\fP_\fIop\fP) should never be used within
+\fBdebian/rules\fP. It's meant for any user that wants to rebuild the
+source package with different build flags. The second set
+(DEB_\fIflag\fP_MAINT_\fIop\fP) should only be used in \fBdebian/rules\fP
+by package maintainers to change the resulting build flags.
+.TP
+.BI DEB_ flag _SET
+.TQ
+.BI DEB_ flag _MAINT_SET
+This variable can be used to force the value returned for the given
+\fIflag\fP.
+.TP
+.BI DEB_ flag _STRIP
+.TQ
+.BI DEB_ flag _MAINT_STRIP
+This variable can be used to provide a space separated list of options
+that will be stripped from the set of flags returned for the given
+\fIflag\fP.
+.TP
+.BI DEB_ flag _APPEND
+.TQ
+.BI DEB_ flag _MAINT_APPEND
+This variable can be used to append supplementary options to the value
+returned for the given \fIflag\fP.
+.TP
+.BI DEB_ flag _PREPEND
+.TQ
+.BI DEB_ flag _MAINT_PREPEND
+This variable can be used to prepend supplementary options to the value
+returned for the given \fIflag\fP.
+.TP
+.B DEB_BUILD_MAINT_OPTIONS
+This variable can be used to disable/enable various hardening build
+flags through the \fBhardening\fP option. See the \fBHARDENING\fP section
+for details.
+.
+.SH FILES
+.TP
+.B /etc/dpkg/buildflags.conf
+System wide configuration file.
+.TP
+.BR $XDG_CONFIG_HOME/dpkg/buildflags.conf " or " $HOME/.config/dpkg/buildflags.conf
+User configuration file.

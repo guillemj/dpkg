@@ -95,6 +95,26 @@ Show the usage message and exit.
 .B \-\-version
 Show the version and exit.
 .
+.SH ENVIRONMENT
+.TP
+.B DPKG_ADMINDIR
+If set and the \fB\-\-admindir\fP option has not been specified, it will
+be used as the dpkg data directory.
+.TP
+.B DPKG_MAINTSCRIPT_PACKAGE
+If set and the \fB\-\-local\fP and \fB\-\-package\fP options have not been
+specified, \fBdpkg\-divert\fP will use it as the package name.
+.
+.SH FILES
+.TP
+.I /var/lib/dpkg/diversions
+File which contains the current list of diversions of the system. It is
+located in the dpkg administration directory, along with other files
+important to dpkg, such as \fIstatus\fP or \fIavailable\fP.
+.br
+Note: \fBdpkg\-divert\fP preserves the old copy of this file, with extension
+\fI\-old\fP, before replacing it with the new one.
+.
 .SH NOTES
 When adding, default is \fB\-\-local\fP and \fB\-\-divert\fP
 \fIoriginal\fP\fB.distrib\fP. When removing, \fB\-\-package\fP or
@@ -128,26 +148,6 @@ dpkg\-divert \-\-package wibble \-\-divert /usr/bin/example.foo \-\-rename /usr/
 To remove that diversion:
 .HP
 dpkg\-divert \-\-package wibble \-\-rename \-\-remove /usr/bin/example
-.
-.SH ENVIRONMENT
-.TP
-.B DPKG_ADMINDIR
-If set and the \fB\-\-admindir\fP option has not been specified, it will
-be used as the dpkg data directory.
-.TP
-.B DPKG_MAINTSCRIPT_PACKAGE
-If set and the \fB\-\-local\fP and \fB\-\-package\fP options have not been
-specified, \fBdpkg\-divert\fP will use it as the package name.
-.
-.SH FILES
-.TP
-.I /var/lib/dpkg/diversions
-File which contains the current list of diversions of the system. It is
-located in the dpkg administration directory, along with other files
-important to dpkg, such as \fIstatus\fP or \fIavailable\fP.
-.br
-Note: \fBdpkg\-divert\fP preserves the old copy of this file, with extension
-\fI\-old\fP, before replacing it with the new one.
 .
 .SH SEE ALSO
 .BR dpkg (1).
