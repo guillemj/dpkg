@@ -75,6 +75,16 @@ Show the usage message and exit.
 .BR \-v ", " \-\-version
 Show the version and exit.
 .
+.SH BUGS
+Some packages don't follow the name structure
+.IB package _ version _ architecture .deb\fR.\fP
+Packages renamed by dpkg\-name
+will follow this structure. Generally this will have no impact on how
+packages are installed by
+.BR dselect (1)/ dpkg (1),
+but other installation tools
+might depend on this naming structure.
+.
 .SH EXAMPLES
 .TP
 .B dpkg\-name bar\-foo.deb
@@ -95,16 +105,6 @@ don't come with section information.
 .TP
 .B dpkg\-deb \-\-build debian\-tmp && dpkg\-name \-o \-s .. debian\-tmp.deb
 This can be used when building new packages.
-.
-.SH BUGS
-Some packages don't follow the name structure
-.IB package _ version _ architecture .deb\fR.\fP
-Packages renamed by dpkg\-name
-will follow this structure. Generally this will have no impact on how
-packages are installed by
-.BR dselect (1)/ dpkg (1),
-but other installation tools
-might depend on this naming structure.
 .
 .SH SEE ALSO
 .BR deb (5),
