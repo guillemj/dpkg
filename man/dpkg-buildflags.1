@@ -16,7 +16,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg\-buildflags 1 "2012-04-03" "Debian Project" "dpkg suite"
+.TH dpkg\-buildflags 1 "2013-03-28" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-buildflags \- returns build flags to use during package build
 .
@@ -117,8 +117,8 @@ the flag is set/modified by an environment-specific configuration.
 .TP
 .BI \-\-query\-features " area"
 Print the features enabled for a given area. The only currently recognized
-area is \fBhardening\fP. Exits with 0 if the area is known otherwise exits
-with 1.
+area is \fBhardening\fP, see the \fBFEATURE AREAS\fP section for more details.
+Exits with 0 if the area is known otherwise exits with 1.
 .IP
 The output is in RFC822 format, with one section per feature.
 For example:
@@ -162,7 +162,8 @@ and
 .B ,
 have to be stripped from these options). Default value: empty.
 .
-.SH HARDENING
+.SH FEATURE AREAS
+.SS Hardening
 Several compile-time options (detailed below) can be used to help harden
 a resulting binary against memory corruption attacks, or provide
 additional warning messages during compilation. Except as noted below,
@@ -298,7 +299,7 @@ returned for the given \fIflag\fP.
 .TP
 .B DEB_BUILD_MAINT_OPTIONS
 This variable can be used to disable/enable various hardening build
-flags through the \fBhardening\fP option. See the \fBHARDENING\fP section
+flags through the \fBhardening\fP option. See the \fBFEATURE AREAS\fP section
 for details.
 .
 .SH FILES
