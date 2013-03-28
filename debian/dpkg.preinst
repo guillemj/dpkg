@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 # This script can be called in the following ways:
 #
 # Before the package is installed:
@@ -13,6 +13,8 @@
 #
 # If postrm fails during upgrade or fails on failed upgrade:
 #	<old-preinst> abort-upgrade <new-version>
+
+set -e
 
 # Handle upgrades from pre-conffile dpkg.cfg
 upgrade_dpkg_non_conffile()

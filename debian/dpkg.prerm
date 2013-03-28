@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 # This script can be called in the following ways:
 #
 # Before the package is removed:
@@ -16,6 +16,8 @@
 #
 # Before the package is replaced due to conflict:
 #      <prerm> remove in-favour <new-package> <version>
+
+set -e
 
 ensure_no_triggers_noawait()
 {

@@ -462,7 +462,8 @@ scrollkeeper, goes like this:
      - Make the postinst modifications as described above.
      - Rename scrollkeeper-update to scrollkeeper-update-now
      - Provide a new wrapper script as scrollkeeper-update:
-	   #!/bin/sh -e
+	   #!/bin/sh
+	   set -e
 	   if type dpkg-trigger >/dev/null 2>&1 && \
 	      dpkg-trigger /usr/share/omf; then
 		 exit 0
