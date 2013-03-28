@@ -2,7 +2,7 @@
 .\"
 .\" Copyright © 2005 Marcus Brinkmann <brinkmd@debian.org>
 .\" Copyright © 2005 Scott James Remnant <scott@netsplit.com>
-.\" Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2006-2013 Guillem Jover <guillem@debian.org>
 .\" Copyright © 2009-2012 Raphaël Hertzog <hertzog@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg\-architecture 1 "2012-01-20" "Debian Project" "dpkg utilities"
+.TH dpkg\-architecture 1 "2013-03-28" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-architecture \- set and determine the architecture for package building
 .
@@ -50,16 +50,17 @@ Print the environment variables, one each line, in the format
 \fIVARIABLE=value\fP. This is the default action.
 .TP
 .BI \-e debian-architecture
-Check for equality of architecture. By default \fIdebian-architecture\fP
-is compared against the current Debian architecture, being the host.
-This action will not expand the architecture wildcards. Command finishes
-with an exit status of 0 if matched, 1 if not matched.
+Check for equality of architecture (since dpkg 1.13.13). By default
+\fIdebian-architecture\fP is compared against the current Debian architecture,
+being the host. This action will not expand the architecture wildcards.
+Command finishes with an exit status of 0 if matched, 1 if not matched.
+
 .TP
 .BI \-i architecture-wildcard
 Check for identity of architecture by expanding \fIarchitecture-wildcard\fP
 as an architecture wildcard and comparing against the current Debian
-architecture. Command finishes with an exit status of 0 if matched, 1 if
-not matched.
+architecture (since dpkg 1.13.13).
+Command finishes with an exit status of 0 if matched, 1 if not matched.
 .TP
 .BI \-q variable-name
 Print the value of a single variable.
@@ -121,13 +122,13 @@ The following variables are set by \fBdpkg\-architecture\fP:
 .IP "\s-1DEB_BUILD_ARCH\s0" 4
 The Debian architecture of the build machine.
 .IP "\s-1DEB_BUILD_ARCH_OS\s0" 4
-The Debian system name of the build machine.
+The Debian system name of the build machine (since dpkg 1.13.2).
 .IP "\s-1DEB_BUILD_ARCH_CPU\s0" 4
-The Debian cpu name of the build machine.
+The Debian cpu name of the build machine (since dpkg 1.13.2).
 .IP "\s-1DEB_BUILD_ARCH_BITS\s0" 4
-The pointer size of the build machine (in bits).
+The pointer size of the build machine (in bits; since dpkg 1.15.4).
 .IP "\s-1DEB_BUILD_ARCH_ENDIAN\s0" 4
-The endianness of the build machine (little / big).
+The endianness of the build machine (little / big; since dpkg 1.15.4).
 .IP "\s-1DEB_BUILD_GNU_CPU\s0" 4
 The \s-1CPU\s0 part of \s-1DEB_BUILD_GNU_TYPE\s0.
 .IP "\s-1DEB_BUILD_GNU_SYSTEM\s0" 4
@@ -140,13 +141,13 @@ paths.
 .IP "\s-1DEB_HOST_ARCH\s0" 4
 The Debian architecture of the host machine.
 .IP "\s-1DEB_HOST_ARCH_OS\s0" 4
-The Debian system name of the host machine.
+The Debian system name of the host machine (since dpkg 1.13.2).
 .IP "\s-1DEB_HOST_ARCH_CPU\s0" 4
-The Debian cpu name of the host machine.
+The Debian cpu name of the host machine (since dpkg 1.13.2).
 .IP "\s-1DEB_HOST_ARCH_BITS\s0" 4
-The pointer size of the host machine (in bits).
+The pointer size of the host machine (in bits; since dpkg 1.15.4).
 .IP "\s-1DEB_HOST_ARCH_ENDIAN\s0" 4
-The endianness of the host machine (little / big).
+The endianness of the host machine (little / big; since dpkg 1.15.4).
 .IP "\s-1DEB_HOST_GNU_CPU\s0" 4
 The \s-1CPU\s0 part of \s-1DEB_HOST_GNU_TYPE\s0.
 .IP "\s-1DEB_HOST_GNU_SYSTEM\s0" 4
@@ -158,6 +159,7 @@ The clarified \s-1GNU\s0 system type of the host machine, used for filesystem
 paths.
 .
 .SH FILES
+.SS Architecture tables
 All these files have to be present for \fBdpkg\-architecture\fP to
 work. Their location can be overridden at runtime with the environment
 variable \fBDPKG_DATADIR\fP.
@@ -171,6 +173,11 @@ Table of known operating system names and mapping to their GNU name.
 .I /usr/share/dpkg/triplettable
 Mapping between Debian architecture triplets and Debian architecture
 names.
+.SS Packaging support
+.TP
+.I /usr/share/dpkg/architecture.mk
+Makefile snippet that properly sets and exports all the variables that
+\fBdpkg\-architecture\fP outputs (since dpkg 1.16.1).
 .
 .SH DEBIAN/RULES
 The environment variables set by \fBdpkg\-architecture\fP are passed to
@@ -218,20 +225,6 @@ endif
 .PP
 In any case, you should never use \fBdpkg \-\-print\-architecture\fP to get
 architecture information during a package build.
-.
-.SH BACKWARD COMPATIBILITY
-The /usr/share/dpkg/architecture.mk Makefile snippet is provided by
-dpkg\-dev since version 1.16.1.
-.PP
-The DEB_*_ARCH_BITS and DEB_*_ARCH_ENDIAN variables were introduced
-in dpkg\-dev 1.15.4. Using them in \fIdebian/rules\fR thus requires a
-build-dependency on dpkg\-dev (>= 1.15.4).
-.PP
-The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were introduced
-in dpkg\-dev 1.13.2.
-.PP
-The \fB\-e\fP and \fB\-i\fP options were only introduced in relatively recent
-versions of \fBdpkg\-architecture\fR (since dpkg 1.13.13).
 .
 .SH EXAMPLES
 \fBdpkg\-buildpackage\fP accepts the \fB\-a\fR option and passes it to
