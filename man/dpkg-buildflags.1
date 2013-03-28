@@ -179,6 +179,9 @@ objects (if the linker is called directly, then
 and
 .B ,
 have to be stripped from these options). Default value: empty.
+.PP
+New flags might be added in the future if the need arises (for example
+to support other languages).
 .
 .SH FEATURE AREAS
 .SS Hardening
@@ -321,12 +324,18 @@ flags through the \fBhardening\fP option. See the \fBFEATURE AREAS\fP section
 for details.
 .
 .SH FILES
+.SS Configuration files
 .TP
 .B /etc/dpkg/buildflags.conf
 System wide configuration file.
 .TP
 .BR $XDG_CONFIG_HOME/dpkg/buildflags.conf " or " $HOME/.config/dpkg/buildflags.conf
 User configuration file.
+.SS Packaging support
+.TP
+.B /usr/share/dpkg/buildflags.mk
+Makefile snippet that will load (and optionally export) all flags
+supported by \fBdpkg-buildflags\fP into variables (since dpkg 1.16.1).
 .
 .SH EXAMPLES
 To pass build flags to a build command in a makefile:
@@ -354,5 +363,51 @@ or to set the positional parameters to pass to a command:
 .nf
 eval "set \-\- $(dpkg\-buildflags \-\-export=cmdline)"
 for dir in a b c; do (cd $dir && ./configure "$@" && make); done
+.fi
+.RE
+.
+.SS Usage in debian/rules
+You should call \fBdpkg\-buildflags\fP or include \fBbuildflags.mk\fP
+from the \fBdebian/rules\fP file to obtain the needed build flags to
+pass to the build system.
+Note that older versions of \fBdpkg\-buildpackage\fP (before dpkg 1.16.1)
+exported these flags automatically. However, you should not rely on this,
+since this breaks manual invocation of \fBdebian/rules\fP.
+.PP
+For packages with autoconf-like build systems, you can pass the relevant
+options to configure or \fBmake\fP(1) directly, as shown above.
+.PP
+For other build systems, or when you need more fine-grained control
+about which flags are passed where, you can use \fB\-\-get\fP. Or you
+can include \fBbuildflags.mk\fP instead, which takes care of calling
+\fBdpkg\-buildflags\fP and storing the build flags in make variables.
+.PP
+If you want to export all buildflags into the environment (where they
+can be picked up by your build system):
+.PP
+.RS 4
+.nf
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+.fi
+.RE
+.PP
+For some extra control over what is exported, you can manually export
+the variables (as none are exported by default):
+.PP
+.RS 4
+.nf
+include /usr/share/dpkg/buildflags.mk
+export CPPFLAGS CFLAGS LDFLAGS
+.fi
+.RE
+.PP
+And you can of course pass the flags to commands manually:
+.PP
+.RS 4
+.nf
+include /usr/share/dpkg/buildflags.mk
+build\-arch:
+\&	$(CC) \-o hello hello.c $(CPPFLAGS) $(CFLAGS) $(LDFLAGS)
 .fi
 .RE
