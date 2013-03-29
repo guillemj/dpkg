@@ -215,10 +215,17 @@ Retrieving the GNU system type and forwarding it to ./configure:
 .PP
 .RS 4
 .nf
-DEB_BUILD_GNU_TYPE := $(shell dpkg\-architecture \-qDEB_BUILD_GNU_TYPE)
-DEB_HOST_GNU_TYPE := $(shell dpkg\-architecture \-qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE ?= $(shell dpkg\-architecture \-qDEB_BUILD_GNU_TYPE)
+DEB_HOST_GNU_TYPE ?= $(shell dpkg\-architecture \-qDEB_HOST_GNU_TYPE)
 [...]
-configure \-\-build=$(DEB_BUILD_GNU_TYPE) \-\-host=$(DEB_HOST_GNU_TYPE)
+ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
+  confflags += \-\-build=$(DEB_HOST_GNU_TYPE)
+else
+  confflags += \-\-build=$(DEB_BUILD_GNU_TYPE) \\
+               \-\-host=$(DEB_HOST_GNU_TYPE)
+endif
+[...]
+\&./configure $(confflags)
 .fi
 .RE
 .PP
@@ -226,7 +233,7 @@ Doing something only for a specific architecture:
 .PP
 .RS 4
 .nf
-DEB_HOST_ARCH := $(shell dpkg\-architecture \-qDEB_HOST_ARCH)
+DEB_HOST_ARCH ?= $(shell dpkg\-architecture \-qDEB_HOST_ARCH)
 
 ifeq ($(DEB_HOST_ARCH),alpha)
   [...]
