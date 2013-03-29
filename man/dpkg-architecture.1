@@ -211,19 +211,20 @@ script. Instead, you should always initialize them using
 which also show how you can improve the cross compilation support in your
 package:
 .PP
-
 Retrieving the GNU system type and forwarding it to ./configure:
-.IP
+.PP
+.RS 4
 .nf
 DEB_BUILD_GNU_TYPE := $(shell dpkg\-architecture \-qDEB_BUILD_GNU_TYPE)
 DEB_HOST_GNU_TYPE := $(shell dpkg\-architecture \-qDEB_HOST_GNU_TYPE)
 [...]
 configure \-\-build=$(DEB_BUILD_GNU_TYPE) \-\-host=$(DEB_HOST_GNU_TYPE)
 .fi
+.RE
 .PP
-
 Doing something only for a specific architecture:
-.IP
+.PP
+.RS 4
 .nf
 DEB_HOST_ARCH := $(shell dpkg\-architecture \-qDEB_HOST_ARCH)
 
@@ -231,13 +232,15 @@ ifeq ($(DEB_HOST_ARCH),alpha)
   [...]
 endif
 .fi
+.RE
 .PP
 or if you only need to check the CPU or OS type, use the
 \fBDEB_HOST_ARCH_CPU\fP or \fBDEB_HOST_ARCH_OS\fP variables.
 .PP
 Note that you can also rely on an external Makefile snippet to properly
 set all the variables that \fBdpkg\-architecture\fP can provide:
-.IP
+.PP
+.RS 4
 .nf
 include /usr/share/dpkg/architecture.mk
 
@@ -245,6 +248,7 @@ ifeq ($(DEB_HOST_ARCH),alpha)
   [...]
 endif
 .fi
+.RE
 .PP
 In any case, you should never use \fBdpkg \-\-print\-architecture\fP to get
 architecture information during a package build.
