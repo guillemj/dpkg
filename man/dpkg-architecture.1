@@ -180,7 +180,29 @@ names.
 Makefile snippet that properly sets and exports all the variables that
 \fBdpkg\-architecture\fP outputs (since dpkg 1.16.1).
 .
-.SH DEBIAN/RULES
+.SH EXAMPLES
+\fBdpkg\-buildpackage\fP accepts the \fB\-a\fR option and passes it to
+\fBdpkg\-architecture\fP. Other examples:
+.IP
+CC=i386\-gnu\-gcc dpkg\-architecture \-c debian/rules build
+.IP
+eval \`dpkg\-architecture \-u\`
+.PP
+Check if an architecture is equal to the current architecture or a given
+one:
+.IP
+dpkg\-architecture \-elinux\-alpha
+.IP
+dpkg\-architecture \-amips \-elinux\-mips
+.PP
+Check if the current architecture or an architecture provided with \fB\-a\fP
+are Linux systems:
+.IP
+dpkg\-architecture \-ilinux\-any
+.IP
+dpkg\-architecture \-ai386 \-ilinux\-any
+.
+.SS Usage in debian/rules
 The environment variables set by \fBdpkg\-architecture\fP are passed to
 \fIdebian/rules\fP as make variables (see make documentation). However,
 you should not rely on them, as this breaks manual invocation of the
@@ -226,28 +248,6 @@ endif
 .PP
 In any case, you should never use \fBdpkg \-\-print\-architecture\fP to get
 architecture information during a package build.
-.
-.SH EXAMPLES
-\fBdpkg\-buildpackage\fP accepts the \fB\-a\fR option and passes it to
-\fBdpkg\-architecture\fP. Other examples:
-.IP
-CC=i386\-gnu\-gcc dpkg\-architecture \-c debian/rules build
-.IP
-eval \`dpkg\-architecture \-u\`
-.PP
-Check if an architecture is equal to the current architecture or a given
-one:
-.IP
-dpkg\-architecture \-elinux\-alpha
-.IP
-dpkg\-architecture \-amips \-elinux\-mips
-.PP
-Check if the current architecture or an architecture provided with \fB\-a\fP
-are Linux systems:
-.IP
-dpkg\-architecture \-ilinux\-any
-.IP
-dpkg\-architecture \-ai386 \-ilinux\-any
 .
 .SH SEE ALSO
 .BR dpkg\-buildpackage (1),
