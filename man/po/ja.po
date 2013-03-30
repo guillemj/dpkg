@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the dpkg package.
 # Copyright (C) 2006 Free Software Foundation, Inc.
 # KISE Hiroshi <kise@fuyuneko.jp>, 2006 - 2010.
-# TAKAHASHI Motonobu <monyo@monyo.com>, 2011.
+# TAKAHASHI Motonobu <monyo@monyo.com>, 2011 - 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
@@ -24,10 +24,9 @@ msgstr "deb"
 
 #. type: TH
 #: deb.5:21 deb-src-control.5:20
-#, fuzzy, no-wrap
-#| msgid "2011-11-10"
+#, no-wrap
 msgid "2012-06-16"
-msgstr "2011-11-10"
+msgstr "2012-06-16"
 
 #. type: TH
 #: deb.5:21 deb-control.5:22 deb-src-control.5:20 deb-split.5:18
@@ -150,6 +149,12 @@ msgid ""
 "limited to 10 ASCII decimal digits, allowing for up to approximately 9536.74 "
 "MiB member files."
 msgstr ""
+"このファイルは B<!E<lt>archE<gt>> というマジックナンバーを持つ B<ar> アーカイ"
+"ブである。一般的な B<ar> アーカイブ形式のみがサポートされているため長いファイ"
+"ル名はサポートされていないが、ファイル名が (本来許可されている 16 文字のう"
+"ち) 15 文字以内の場合、末尾にスラッシュを付けることができる。ファイルサイズ"
+"は、ASCII の 10 進数で 10 桁以内となっており、約 9536.74 MiB のメンバファイル"
+"を扱うことができる。"
 
 #. type: Plain text
 #: deb.5:52
@@ -253,7 +258,7 @@ msgid ""
 "increased."
 msgstr ""
 "安全に無視させることのできない、アンダースコア以外の文字で始まる名前のファイ"
-"ルが B<data.tar.gz> の前に追加されるかも知れないが、その場合は、(おそらく) メ"
+"ルが B<data.tar> の前に追加されるかも知れないが、その場合は、(おそらく) メ"
 "ジャーバージョンアップとなるだろう。"
 
 #. type: SH
@@ -550,18 +555,6 @@ msgstr "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>"
 
 #. type: Plain text
 #: deb-control.5:131
-#, fuzzy
-#| msgid ""
-#| "This field is used to indicate how this package should behave on a multi-"
-#| "arch installations. The value B<same> means that the package is co-"
-#| "installable with itself, but it must not be used to satisfy the "
-#| "dependency of any package of a different architecture from itself. The "
-#| "value B<foreign> means that the package is not co-installable with "
-#| "itself, but should be allowed to satisfy the dependency of a package of a "
-#| "different arch from itself. The value B<allowed> allows reverse-"
-#| "dependencies to indicate in their Depends field that they need a package "
-#| "from a foreign architecture, but has no effect otherwise. This field "
-#| "should not be present in packages with the B<Architecture: all> field."
 msgid ""
 "This field is used to indicate how this package should behave on a multi-"
 "arch installations. The value B<same> means that the package is co-"
@@ -574,15 +567,14 @@ msgid ""
 "but has no effect otherwise."
 msgstr ""
 "このフィールドは、multiarch インストールの際のパッケージの動作を定義するため"
-"に使用される。B<same> は、パッケージを多重インストール (co-install) 可能であ"
+"に使用される。B<same> は、パッケージが多重インストール (co-install) 可能であ"
 "る (訳注: あるパッケージに対して、別アーキテクチャの同一パッケージをインス"
-"トールできる) 一方、あるアーキテクチャのパッケージを、別アーキテクチャのパッ"
-"ケージの依存関係を満たすために使用してはならないことを意味する。B<foreign> "
-"は、パッケージを多重インストールできないが、別アーキテクチャのパッケージの依"
-"存関係を満たすことが可能であることを意味する。 B<allowed> は、別アーキテク"
-"チャのパッケージを必要とするような逆の依存関係を Depends フィールドに指定可能"
-"であることを示すだけで、それ以上の意味はない。B<Arcitecture: all> のパッケー"
-"ジに、このフィールドが存在すべきではない。"
+"トールできる) 一方、別アーキテクチャのいかなるパッケージとの依存関係を満たす"
+"ためにも使用してはいけないことを意味する。B<foreign> は、パッケージを多重イン"
+"ストールできないが、別アーキテクチャのパッケージの依存関係を満たすことが可能"
+"であることを意味する。 B<allowed> は、別アーキテクチャのパッケージを許容する"
+"ような逆の依存関係を Depends フィールドに指定可能であることを示すだけで、それ"
+"以上の意味はない。"
 
 #. type: TP
 #: deb-control.5:131
@@ -932,7 +924,7 @@ msgstr "deb-src-control"
 #: deb-src-control.5:23
 msgid "deb-src-control - Debian source packages' master control file format"
 msgstr ""
-"deb-src-control - Debian ソースパッケージのマスター制御ファイルのフォーマット"
+"deb-src-control - Debian ソースパッケージのマスタ制御ファイルのフォーマット"
 
 #. type: Plain text
 #: deb-src-control.5:45
@@ -1040,9 +1032,10 @@ msgstr ""
 
 #. type: TP
 #: deb-src-control.5:74
-#, no-wrap
+#, fuzzy, no-wrap
+#| msgid "B<Essential:> B<yes>|B<no>"
 msgid "B<DM-Upload-Allowed:> B<yes>|B<no>"
-msgstr "B<DM-Upload-Allowed:> B<yes>|B<no>"
+msgstr "B<Essential:> B<yes>|B<no>"
 
 #. type: Plain text
 #: deb-src-control.5:78
@@ -1051,9 +1044,6 @@ msgid ""
 "Maintainers appearing in the Maintainer or Uploaders field. The default "
 "value is \"no\"."
 msgstr ""
-"このフィールドは、パッケージが Maintainer もしくは Uploaders フィールドに名前"
-"のある Debian Maintainer によりアップロード可能であるかどうかを示す。デフォル"
-"ト値は \"no\" である。"
 
 #. type: Plain text
 #: deb-src-control.5:82
@@ -1150,21 +1140,19 @@ msgid ""
 "effect as including it in both B<Build-Depends-Arch> and B<Build-Depends-"
 "Indep>, with the additional effect of being used for source-only builds."
 msgstr ""
+"ソースパッケージをビルドするためにインストールと設定が必要なパッケージのリス"
+"ト。このリストで定義した依存関係は、B<Build-Depends-Arch> と B<Build-Depends-"
+"Indep> の両方で行った定義と同じ効力を持つだけでなく、ソースのみのビルドにおい"
+"ても効力を持つ。"
 
 #. type: TP
 #: deb-src-control.5:135
-#, fuzzy, no-wrap
-#| msgid "B<Build-Depends:>I< package-list>"
+#, no-wrap
 msgid "B<Build-Depends-Arch:>I< package list>"
-msgstr "B<Build-Depends:>I< パッケージのリスト>"
+msgstr "B<Build-Depends-Arch:>I< パッケージのリスト>"
 
 #. type: Plain text
 #: deb-src-control.5:142
-#, fuzzy
-#| msgid ""
-#| "Same as B<Build-Depends>, but they are only needed when building the "
-#| "architecture independent packages. The B<Build-Depends> are also "
-#| "installed in this case."
 msgid ""
 "Same as B<Build-Depends>, but they are only needed when building the "
 "architecture dependent packages. The B<Build-Depends> are also installed in "
@@ -1172,7 +1160,9 @@ msgid ""
 "build with older dpkg versions, B<Build-Depends> should be used instead."
 msgstr ""
 "B<Build-Depends> と同様だが、アーキテクチャ非依存なパッケージをビルドする場合"
-"にのみ必要とされるもの。B<Build-Depends> もインストールされる。"
+"にのみ必要とされるもの。B<Build-Depends> もインストールされる。このフィールド"
+"は dpkg バージョン 1.16.4 で導入された。古いバージョンの dpkg によるビルドを"
+"可能とするためには、B<Build-Depends> を代わりに用いるべきである。"
 
 #. type: TP
 #: deb-src-control.5:143
@@ -1192,8 +1182,7 @@ msgstr ""
 
 #. type: TP
 #: deb-src-control.5:149
-#, fuzzy, no-wrap
-#| msgid "B<Build-Conflicts:>I< package-list>"
+#, no-wrap
 msgid "B<Build-Conflicts:>I< package list>"
 msgstr "B<Build-Conflicts:>I< パッケージのリスト>"
 
@@ -1206,13 +1195,16 @@ msgid ""
 "Conflicts-Arch> and B<Build-Conflicts-Indep>, with the additional effect of "
 "being used for source-only builds."
 msgstr ""
+"ビルドシステムの動作に影響するなど、パッケージがビルドされる時にインストール"
+"されていることが好ましくないパッケージのリスト。このリストで定義した依存関係"
+"は、B<Build-Conflicts-Arch> と B<Build-Conflicts-Indep> の両方で行った定義と"
+"同じ効力を持つだけでなく、ソースのみのビルドにおいても効力を持つ。"
 
 #. type: TP
 #: deb-src-control.5:158
-#, fuzzy, no-wrap
-#| msgid "B<Build-Conflicts:>I< package-list>"
+#, no-wrap
 msgid "B<Build-Conflicts-Arch:>I< package list>"
-msgstr "B<Build-Conflicts:>I< パッケージのリスト>"
+msgstr "B<Build-Conflicts-Arch:>I< パッケージのリスト>"
 
 #. type: Plain text
 #: deb-src-control.5:164
@@ -1222,6 +1214,10 @@ msgid ""
 "order to build with older dpkg versions, B<Build-Conflicts> should be used "
 "instead."
 msgstr ""
+"B<Build-Conflicts> と同様だが、アーキテクチャ依存のパッケージをビルドする場合"
+"にのみ必要とされるもの。このフィールドは dpkg バージョン 1.16.4 で導入され"
+"た。古いバージョンの dpkg によるビルドを可能とするためには、B<Build-"
+"Conflicts> を代わりに用いるべきである。"
 
 #. type: TP
 #: deb-src-control.5:165
@@ -1240,15 +1236,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.5:182
-#, fuzzy
-#| msgid ""
-#| "The syntax of the B<Build-Depends> and B<Build-Depends-Indep> fields is a "
-#| "list of groups of alternative packages. Each group is a list of packages "
-#| "separated by vertical bar (or \"pipe\") symbols, \"|\". The groups are "
-#| "separated by commas. Commas are to be read as \"AND\", and pipes as \"OR"
-#| "\", with pipes binding more tightly. Each package name is optionally "
-#| "followed by a version number specification in parentheses and an "
-#| "architecture specification in square brackets."
 msgid ""
 "The syntax of the B<Build-Depends>, B<Build-Depends-Arch> and B<Build-"
 "Depends-Indep> fields is a list of groups of alternative packages. Each "
@@ -1258,23 +1245,16 @@ msgid ""
 "optionally followed by a version number specification in parentheses and an "
 "architecture specification in square brackets."
 msgstr ""
-"B<Build-Depends>, B<Build-Depends-Indep> フィールドは、代替パッケージグループ"
-"のリストを指定する。各代替パッケージグループは、互換性のあるパッケージを縦棒"
-"(`パイプ')記号 \"|\" で区切ったリストで表現する。代替パッケージグループ間はコ"
-"ンマで区切る。コンマは \"AND\"、パイプは \"OR\" で、パイプの優先度が高いとい"
-"う理解でよい。各パッケージ名の後に、括弧で囲んでバージョン番号の指定を行った"
-"り、角括弧で囲んでアーキテクチャの指定を行ったりすることもできる。"
+"B<Build-Depends>, B<Build-Depends-Arch>, B<Build-Depends-Indep> フィールドに"
+"は、代替パッケージグループのリストを指定する。各グループでは、互換性のある"
+"パッケージを縦棒(`パイプ')記号 \"|\" で区切ったリストで表現する。代替パッケー"
+"ジグループ間はコンマで区切る。コンマは \"AND\"、パイプは \"OR\" で、パイプの"
+"優先度が高いという理解でよい。各パッケージ名の後に、括弧で囲んでバージョン番"
+"号の指定を行ったり、角括弧で囲んでアーキテクチャの指定を行ったりすることもで"
+"きる。"
 
 #. type: Plain text
 #: deb-src-control.5:192
-#, fuzzy
-#| msgid ""
-#| "The syntax of the B<Build-Conflicts> and B<Build-Conflicts-Indep> fields "
-#| "is a list of comma-separated package names, where the comma is read as an "
-#| "\"AND\". Specifying alternative packages using a \"pipe\" is not "
-#| "supported.  Each package name is optionally followed by a version number "
-#| "specification in parentheses and an architecture specification in square "
-#| "brackets."
 msgid ""
 "The syntax of the B<Build-Conflicts>, B<Build-Conflicts-Arch> and B<Build-"
 "Conflicts-Indep> fields is a list of comma-separated package names, where "
@@ -1283,11 +1263,11 @@ msgid ""
 "version number specification in parentheses and an architecture "
 "specification in square brackets."
 msgstr ""
-"B<Build-Conflicts>, B<Build-Conflicts-Indep> フィールドには、パッケージ名をコ"
-"ンマで区切って列挙する。 コンマは \"AND\" という理解でよい。\"パイプ\" を用い"
-"て複数の代替パッケージを指定する記法はサポートされない。各パッケージ名の後"
-"に、括弧で囲んでバージョン番号の指定を行ったり、角括弧で囲んでアーキテクチャ"
-"の指定を行ったりすることもできる。"
+"B<Build-Conflicts>, B<Build-Conflicts-Arch>, B<Build-Conflicts-Indep> フィー"
+"ルドには、パッケージ名をコンマで区切って列挙する。 コンマは \"AND\" という理"
+"解でよい。\"パイプ\" を用いて複数の代替パッケージを指定する記法はサポートされ"
+"ない。各パッケージ名の後に、括弧で囲んでバージョン番号の指定を行ったり、角括"
+"弧で囲んでアーキテクチャの指定を行ったりすることもできる。"
 
 #. type: Plain text
 #: deb-src-control.5:198
@@ -1474,6 +1454,11 @@ msgid ""
 "fields with B<Private->, such as B<XB-Private-New-Field>, which as a side "
 "effect will make B<dpkg-deb> not warn on them as unknown fields."
 msgstr ""
+"こうしたユーザ定義のフィールドはグローバルな名前空間を使用するため、将来的に"
+"公式に定義されたフィールドと衝突する可能性がある点に注意。このような潜在的な"
+"可能性を避けるために、これらのフィールドを B<XB-Private-New-Field> のように "
+"B<Private-> から開始するとよい。これには、B<dpkg-deb> がこれらを不明なフィー"
+"ルドとして警告しなくなるという副次的効果もある。"
 
 #. type: Plain text
 #: deb-src-control.5:351
@@ -1562,10 +1547,9 @@ msgstr "deb-split"
 
 #. type: TH
 #: deb-split.5:18
-#, fuzzy, no-wrap
-#| msgid "2008-02-17"
+#, no-wrap
 msgid "2012-04-09"
-msgstr "2008-02-17"
+msgstr "2012-04-09"
 
 #. type: Plain text
 #: deb-split.5:21
@@ -1659,36 +1643,27 @@ msgstr "パッケージのアーキテクチャ (dpkg 1.16.1 以降)"
 # type: Plain text
 #. type: Plain text
 #: deb-split.5:54
-#, fuzzy
-#| msgid ""
-#| "Programs which read multi-part archives should be prepared for additional "
-#| "lines to be present, and should ignore these if this is the case."
 msgid ""
 "Programs which read multi-part archives should be prepared for the minor "
 "format version number to be increased and additional lines to be present, "
 "and should ignore these if this is the case."
 msgstr ""
-"マルチパート形式のアーカイブを読み込むプログラムは、これ以外の行の存在に対応"
-"すべきである。その際には、これらを無視すること。"
+"マルチパート形式のアーカイブを読み込むプログラムは、マイナーバージョン番号の"
+"増加や、新しい行の追加に対応すべきである。その際には、これらを無視すること。"
 
 #. type: Plain text
 #: deb-split.5:59
-#, fuzzy
-#| msgid ""
-#| "If the version number has changed, an incompatible change has been made "
-#| "and the program should stop. If it has not, then the program should be "
-#| "able to safely continue, unless it encounters an unexpected member in the "
-#| "archive (except at the end), as described below."
 msgid ""
 "If the major format version number has changed, an incompatible change has "
 "been made and the program should stop. If it has not, then the program "
 "should be able to safely continue, unless it encounters an unexpected member "
 "in the archive (except at the end), as described below."
 msgstr ""
-"バージョン番号が変更されている場合は、互換性のない変更がされているとみなし、"
-"プログラムは停止すべきである。メジャーバージョンが変更されていない場合は、以"
-"下で説明するように、アーカイブに予期しないファイルが含まれていない限り(アーカ"
-"イブ末尾に含まれる場合を除く)、プログラムは安全に実行を継続できる必要がある。"
+"メジャーバージョン番号が変更されている場合は、互換性のない変更がされていると"
+"みなし、プログラムは停止すべきである。メジャーバージョンが変更されていない場"
+"合は、以下で説明するように、アーカイブに予期しないファイルが含まれていない限"
+"り(アーカイブ末尾に含まれる場合を除く)、プログラムは安全に実行を継続できる必"
+"要がある。"
 
 #. type: Plain text
 #: deb-split.5:62
@@ -2140,7 +2115,7 @@ msgid ""
 "debbugs://bugs.debian.org/)."
 msgstr ""
 "このフィールドの値によって、このベンダが使用しているバグトラッキングシステム"
-"の種類やアドレスが決まる。これは、mailto URL や debubugs URL (例えば "
+"の種類やアドレスが決まる。これは、mailto URL や debbugs URL (例えば "
 "debbugs://bugs.debian.org/ など) といった値をとる。"
 
 #. type: TP
@@ -2354,10 +2329,9 @@ msgstr "deb-shlibs"
 
 #. type: TH
 #: deb-shlibs.5:19
-#, fuzzy, no-wrap
-#| msgid "2008-02-17"
+#, no-wrap
 msgid "2012-02-08"
-msgstr "2008-02-17"
+msgstr "2012-02-08"
 
 #. type: Plain text
 #: deb-shlibs.5:22
@@ -2402,6 +2376,9 @@ msgid ""
 "binary control file, see B<deb-control>(5).  See also the Debian Policy "
 "Manual for further details."
 msgstr ""
+"I<dependencies> フィールドは、バイナリ制御ファイルにおける B<Depends> フィー"
+"ルドと同じ文法である。B<deb-control>(5) を参照のこと。詳細は Debian Policy "
+"Manual も参照のこと。"
 
 #. type: SH
 #: deb-shlibs.5:46 deb-symbols.5:59 dpkg.1:763 dpkg-architecture.1:221
@@ -2441,10 +2418,8 @@ msgstr ""
 
 #. type: Plain text
 #: deb-shlibs.5:69
-#, fuzzy
-#| msgid "B<dpkg-shlibdeps>(1), B<deb-symbols>(5)."
 msgid "B<deb-control>(5), B<dpkg-shlibdeps>(1), B<deb-symbols>(5)."
-msgstr "B<dpkg-shlibdeps>(1), B<deb-symbols>(5)."
+msgstr "B<deb-control>(5), B<dpkg-shlibdeps>(1), B<deb-symbols>(5)."
 
 #. type: TH
 #: deb-substvars.5:20
@@ -2818,6 +2793,8 @@ msgid ""
 "The point at which field overriding occurs compared to certain standard "
 "output field settings is rather confused."
 msgstr ""
+"標準の出力フィールドの設定と比較すると、フィールドの上書きが発生する箇所は混"
+"乱を引き起こす。"
 
 #. type: Plain text
 #: deb-substvars.5:177
@@ -2860,35 +2837,28 @@ msgstr "I<library-soname main-dependency-template>"
 
 #. type: Plain text
 #: deb-symbols.5:32
-#, fuzzy
-#| msgid "[ | I<alternative-dependency-template> ]"
 msgid "[| I<alternative-dependency-template>]"
-msgstr "[ | I<alternative-dependency-template> ]"
+msgstr "[| I<alternative-dependency-template>]"
 
 #. type: Plain text
 #: deb-symbols.5:34
 msgid "[...]"
-msgstr ""
+msgstr "[...]"
 
 #. type: Plain text
 #: deb-symbols.5:36
-#, fuzzy
-#| msgid "[ * I<field-name>: I<field-value> ]"
 msgid "[* I<field-name>: I<field-value>]"
-msgstr "[ * I<field-name>: I<field-value> ]"
+msgstr "[* I<field-name>: I<field-value>]"
 
 #. type: Plain text
 #: deb-symbols.5:39
-#, fuzzy, no-wrap
-#| msgid ""
-#| "[ ... ]\n"
-#| " I<symbol> I<minimal-version>[ I<id-of-dependency-template> ]\n"
+#, no-wrap
 msgid ""
 "[...]\n"
 " I<symbol> I<minimal-version> [I<id-of-dependency-template>]\n"
 msgstr ""
-"[ ... ]\n"
-" I<symbol> I<minimal-version>[ I<id-of-dependency-template> ]\n"
+"[...]\n"
+" I<symbol> I<minimal-version> [I<id-of-dependency-template>]\n"
 
 #. type: Plain text
 #: deb-symbols.5:45
@@ -3144,10 +3114,9 @@ msgstr "dpkg"
 
 #. type: TH
 #: dpkg.1:26
-#, fuzzy, no-wrap
-#| msgid "2008-02-17"
+#, no-wrap
 msgid "2012-06-05"
-msgstr "2008-02-17"
+msgstr "2012-06-05"
 
 #. type: TH
 #: dpkg.1:26 dpkg.cfg.5:19 dpkg-buildflags.1:19 dpkg-deb.1:21
@@ -3566,7 +3535,7 @@ msgstr ""
 #. type: Plain text
 #: dpkg.1:170
 msgid "B<2.> Run I<postinst> script, if provided by the package."
-msgstr "B<2.> パッケージが提供している場合、postinst スクリプトを実行する。"
+msgstr "B<2.> パッケージが提供している場合、I<postinst> スクリプトを実行する。"
 
 #. type: TP
 #: dpkg.1:170
@@ -3812,44 +3781,31 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1:258
-#, fuzzy, no-wrap
-#| msgid "B<--foreign-architecture >I<architecture>"
+#, no-wrap
 msgid "B<--add-architecture >I<architecture>"
-msgstr "B<--foreign-architecture >I<architecture>"
+msgstr "B<--add-architecture >I<architecture>"
 
 #. type: Plain text
 #: dpkg.1:264
-#, fuzzy
-#| msgid ""
-#| "Add I<architecture> to the list of architectures for which packages can "
-#| "be installed without using B<--force-architecture>, in addition to the "
-#| "architecture B<dpkg> is built for (i.e.: the output of B<--print-"
-#| "architecture>)."
 msgid ""
 "Add I<architecture> to the list of architectures for which packages can be "
 "installed without using B<--force-architecture>. The architecture B<dpkg> is "
 "built for (i.e. the output of B<--print-architecture>)  is always part of "
 "that list."
 msgstr ""
-"I<architecture> を、B<dpkg> がビルドされたアーキテクチャに加えて B<--force-"
-"architecture> を使用せずにパッケージをインストールすることが可能となるアーキ"
-"テクチャのリスト (すなわち B<--print-architecture> の出力) に追加する。"
+"I<architecture> を、B<--force-architecture> を使用せずにパッケージをインス"
+"トールすることが可能となるアーキテクチャのリストに追加する。B<dpkg> がビルド"
+"されたアーキテクチャ (すなわち B<--print-architecture> の出力) は、常にリスト"
+"に含まれる。"
 
 #. type: TP
 #: dpkg.1:264
-#, fuzzy, no-wrap
-#| msgid "B<--foreign-architecture >I<architecture>"
+#, no-wrap
 msgid "B<--remove-architecture >I<architecture>"
-msgstr "B<--foreign-architecture >I<architecture>"
+msgstr "B<--remove-architecture >I<architecture>"
 
 #. type: Plain text
 #: dpkg.1:272
-#, fuzzy
-#| msgid ""
-#| "Add I<architecture> to the list of architectures for which packages can "
-#| "be installed without using B<--force-architecture>, in addition to the "
-#| "architecture B<dpkg> is built for (i.e.: the output of B<--print-"
-#| "architecture>)."
 msgid ""
 "Remove I<architecture> from the list of architectures for which packages can "
 "be installed without using B<--force-architecture>. If the architecture is "
@@ -3858,9 +3814,11 @@ msgid ""
 "for (i.e. the output of B<--print-architecture>) can never be removed from "
 "that list."
 msgstr ""
-"I<architecture> を、B<dpkg> がビルドされたアーキテクチャに加えて B<--force-"
-"architecture> を使用せずにパッケージをインストールすることが可能となるアーキ"
-"テクチャのリスト (すなわち B<--print-architecture> の出力) に追加する。"
+"I<architecture> を、B<--force-architecture> を使用せずにパッケージをインス"
+"トールすることが可能となるアーキテクチャのリストから削除する。アーキテクチャ"
+"が現在データベースで使用中だった場合、B<--force-architecture> が指定されてい"
+"ない限り、操作は拒否される。B<dpkg> がビルドされたアーキテクチャ (すなわち "
+"B<--print-architecture> の出力) を、リストから削除することは決してできない。"
 
 #. type: TP
 #: dpkg.1:272
@@ -3884,16 +3842,12 @@ msgstr "B<--print-foreign-architectures>"
 
 #. type: Plain text
 #: dpkg.1:279
-#, fuzzy
-#| msgid ""
-#| "Print a space-separated list of the extra architectures B<dpkg> is "
-#| "configured to allow packages to be installed for."
 msgid ""
 "Print a newline-separated list of the extra architectures B<dpkg> is "
 "configured to allow packages to be installed for."
 msgstr ""
-"B<dpkg> によるインストールを可能とする設定をされた、追加のアーキテクチャをス"
-"ペースで区切ったリストで表示する。"
+"B<dpkg> によるインストールを可能とする設定をされた、追加のアーキテクチャを改"
+"行で区切ったリストで表示する。"
 
 #. type: TP
 #: dpkg.1:279
@@ -3933,10 +3887,9 @@ msgstr ""
 #: dpkg-gensymbols.1:463 dpkg-name.1:71 dpkg-parsechangelog.1:55
 #: dpkg-query.1:140 dpkg-scanpackages.1:99 dpkg-shlibdeps.1:236
 #: dpkg-source.1:117 dpkg-split.1:143 dpkg-trigger.1:48
-#, fuzzy, no-wrap
-#| msgid "B<-h>, B<--help>"
+#, no-wrap
 msgid "B<-?>, B<--help>"
-msgstr "B<-h>, B<--help>"
+msgstr "B<-?>, B<--help>"
 
 #. type: Plain text
 #: dpkg.1:298
@@ -4029,7 +3982,7 @@ msgstr ""
 "    パッケージによってインストールされるファイルをすべて展開して表示する。\n"
 "B<-f>, B<--field>  I<archive> [I<control-field>...]\n"
 "    パッケージの制御ファイルの各フィールドを表示する。\n"
-"B<dpkg --fsys-tarfile> I<filename>\n"
+"B<--fsys-tarfile> I<archive>\n"
 "    Debian パッケージに含まれるインストールされるファイルが格納された\n"
 "    tar ファイルの内容を表示する。\n"
 "B<-I>, B<--info> I<archive> [I<control-file>...]\n"
@@ -4091,14 +4044,6 @@ msgstr "オプション"
 
 #. type: Plain text
 #: dpkg.1:359
-#, fuzzy
-#| msgid ""
-#| "All options can be specified both on the command line and in the B<dpkg> "
-#| "configuration file I</etc/dpkg/dpkg.cfg> or the files on the "
-#| "configuration directory I</etc/dpkg/dpkg.cfg.d/>. Each line in the "
-#| "configuration file is either an option (exactly the same as the command "
-#| "line option but without leading dashes) or a comment (if it starts with a "
-#| "B<#>)."
 msgid ""
 "All options can be specified both on the command line and in the B<dpkg> "
 "configuration file I</etc/dpkg/dpkg.cfg> or fragment files (with names "
@@ -4108,10 +4053,11 @@ msgid ""
 "leading dashes) or a comment (if it starts with a B<#>)."
 msgstr ""
 "すべてのオプションは、コマンドラインと B<dpkg> の設定ファイルI</etc/dpkg/"
-"dpkg.cfg> もしくは設定ディレクトリ I</etc/dpkg/dpkg.conf.d/> のいずれで指定し"
-"てもよい。設定ファイルの各行は、(先頭のダッシュを削除することを除き、コマンド"
-"ラインオプションとまったく同一の) オプションもしくは (行頭が B<#> からはじま"
-"る) コメントのいずれかを記述する。"
+"dpkg.cfg> もしくは設定ディレクトリ I</etc/dpkg/dpkg.cfg.d/> 内にあり、次の"
+"シェルパターン \\(aq[0-9a-zA-Z_-]*\\(aq) にマッチする名前の) フラグメントファ"
+"イルのいずれで指定してもよい。設定ファイルの各行は、(先頭のダッシュを削除する"
+"ことを除き、コマンドラインオプションとまったく同一の) オプションもしくは (行"
+"頭が B<#> からはじまる) コメントのいずれかを記述する。"
 
 #. type: TP
 #: dpkg.1:360
@@ -4318,61 +4264,42 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.1:449
-#, fuzzy
-#| msgid ""
-#| "B<confmiss>: Always install a missing conffile. This is dangerous, since "
-#| "it means not preserving a change (removing) made to the file."
 msgid ""
 "B<confmiss>: If a conffile is missing and the version in the package did "
 "change, always install the missing conffile without prompting. This is "
 "dangerous, since it means not preserving a change (removing) made to the "
 "file."
 msgstr ""
-"B<confmiss>: 存在しない設定ファイルを常にインストールする。これは、ファイルに"
-"対する変更 (ファイル削除) を保持しないことを意味するため、危険である。"
+"B<confmiss>: 設定ファイルが存在せず、パッケージ中のバージョンが変更された際"
+"に、存在しない設定ファイルを常にインストールする。これは、ファイルに対する変"
+"更 (ファイル削除) を保持しないことを意味するため、危険である。"
 
 #. type: Plain text
 #: dpkg.1:455
-#, fuzzy
-#| msgid ""
-#| "B<confnew>: If a conffile has been modified always install the new "
-#| "version without prompting, unless the B<--force-confdef> is also "
-#| "specified, in which case the default action is preferred."
 msgid ""
 "B<confnew>: If a conffile has been modified and the version in the package "
 "did change, always install the new version without prompting, unless the B<--"
 "force-confdef> is also specified, in which case the default action is "
 "preferred."
 msgstr ""
-"B<confnew>: 設定ファイルが変更されていた場合、確認なしに新しいバージョンをイ"
-"ンストールする。ただし、B<--force-confdef> が同時に指定されていた場合は、デ"
-"フォルトの動作が優先される。"
+"B<confnew>: 設定ファイルが変更されており、パッケージ中のバージョンも変更され"
+"ていた場合、確認なしに新しいバージョンをインストールする。ただし、B<--force-"
+"confdef> が同時に指定されていた場合は、デフォルトの動作が優先される。"
 
 #. type: Plain text
 #: dpkg.1:461
-#, fuzzy
-#| msgid ""
-#| "B<confold>: If a conffile has been modified always keep the old version "
-#| "without prompting, unless the B<--force-confdef> is also specified, in "
-#| "which case the default action is preferred."
 msgid ""
 "B<confold>: If a conffile has been modified and the version in the package "
 "did change, always keep the old version without prompting, unless the B<--"
 "force-confdef> is also specified, in which case the default action is "
 "preferred."
 msgstr ""
-"B<confold>: 設定ファイルが変更されていた場合、確認なしに古いバージョンを保持"
-"する。ただし、B<--force-confdef> が同時に指定されていた場合は、デフォルトの動"
-"作が優先される。"
+"B<confold>: 設定ファイルが変更されており、パッケージ中のバージョンも変更され"
+"ていた場合、確認なしに古いバージョンを保持する。ただし、B<--force-confdef> が"
+"同時に指定されていた場合は、デフォルトの動作が優先される。"
 
 #. type: Plain text
 #: dpkg.1:468
-#, fuzzy
-#| msgid ""
-#| "B<confdef>: If a conffile has been modified always choose the default "
-#| "action. If there is no default action it will stop to ask the user unless "
-#| "B<--force-confnew> or B<--force-confold> is also been given, in which "
-#| "case it will use that to decide the final action."
 msgid ""
 "B<confdef>: If a conffile has been modified and the version in the package "
 "did change, always choose the default action without prompting. If there is "
@@ -4380,10 +4307,11 @@ msgid ""
 "B<--force-confold> is also been given, in which case it will use that to "
 "decide the final action."
 msgstr ""
-"B<confdef>: conffile が変更されていた場合、デフォルトの動作を実行する。デフォ"
-"ルトの動作が未定義で、B<--force-confnew> と B<--force-confold> のいずれも設定"
-"されていなかった場合は、ユーザに確認を求めるため、処理を中断する。いずれかが"
-"設定されている場合は、それによって最終的な動作が決定される。"
+"B<confdef>: conffile が変更されており、パッケージ中のバージョンも変更されてい"
+"た場合、デフォルトの動作を実行する。デフォルトの動作が未定義で、B<--force-"
+"confnew> と B<--force-confold> のいずれも設定されていなかった場合は、ユーザに"
+"確認を求めるため、処理を中断する。いずれかが設定されている場合は、それによっ"
+"て最終的な動作が決定される。"
 
 #. type: Plain text
 #: dpkg.1:475
@@ -4886,11 +4814,11 @@ msgstr ""
 "状態の変更やアクションの記録先を、デフォルトの I</var/log/dpkg.log> から "
 "I<filename> に変更する。このオプションを複数回指定した場合は、最後に指定した"
 "ファイル名が使われる。ログメッセージの形式は次のとおり。状態の変更は、`YYYY-"
-"MM-DD HH:MM:SS I<status> I<pkg> I<installed-version>。アクションは、`YYYY-MM-"
-"DD HH:MM:SS I<action> I<pkg> I<installed-version> I<available-version> で、"
-"I<action> は、B<install>, B<upgrade>, B<remove>, B<purge> のいずれかである。"
-"設定ファイルの変更は、`YYYY-MM-DD HH:MM:SS conffile I<filename> I<decision>' "
-"で、I<decision> は B<install> か B<keep>のいずれかである。"
+"MM-DD HH:MM:SS status I<state> I<pkg> I<installed-version>。アクションは、"
+"`YYYY-MM-DD HH:MM:SS I<action> I<pkg> I<installed-version> I<available-"
+"version> で、I<action> は、B<install>, B<upgrade>, B<remove>, B<purge> のいず"
+"れかである。設定ファイルの変更は、`YYYY-MM-DD HH:MM:SS conffile I<filename> "
+"I<decision>' で、I<decision> は B<install> か B<keep>のいずれかである。"
 
 #. type: TP
 #: dpkg.1:657
@@ -4945,10 +4873,8 @@ msgstr "I</etc/dpkg/dpkg.cfg.d/[0-9a-zA-Z_-]*>"
 
 #. type: Plain text
 #: dpkg.1:677
-#, fuzzy
-#| msgid "User configuration file."
 msgid "Configuration fragment files."
-msgstr "ユーザ毎の設定ファイル"
+msgstr "フラグメントファイルの設定"
 
 #. type: Plain text
 #: dpkg.1:677 dpkg.cfg.5:34
@@ -5256,6 +5182,10 @@ msgid ""
 "query> does not load the available file anymore by default, and the B<dpkg-"
 "query> B<--load-avail> option should be used instead for that):"
 msgstr ""
+"B<vi>(1) エディタに関連するインストール済パッケージの一覧を表示する。(B<dpkg-"
+"query> は、デフォルトでは利用可能なファイルについて一切表示しないことに注意。"
+"これを行うには、代わりに B<dpkg-query> B<--load-avail> オプションを使用するこ"
+"と):"
 
 #. type: Plain text
 #: dpkg.1:770
@@ -5389,7 +5319,7 @@ msgid ""
 "B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5), and B<dpkg-reconfigure>(8)."
 msgstr ""
 "B<aptitude>(1), B<apt>(1), B<dselect>(1), B<dpkg-deb>(1), B<dpkg-query>(1), "
-"B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5), and B<dpkg-reconfigure>(8)."
+"B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5), B<dpkg-reconfigure>(8)."
 
 #. type: Plain text
 #: dpkg.1:834
@@ -5421,7 +5351,7 @@ msgstr "dpkg-architecture"
 #: dpkg-architecture.1:21
 #, no-wrap
 msgid "2012-01-20"
-msgstr ""
+msgstr "2012-01-20"
 
 #. type: Plain text
 #: dpkg-architecture.1:24
@@ -5981,14 +5911,11 @@ msgstr ""
 #. type: Plain text
 #: dpkg-architecture.1:171
 msgid "Retrieving the GNU system type and forwarding it to ./configure:"
-msgstr ""
+msgstr "GNU システムタイプを取得し、それを ./configure に引き渡す:"
 
 #. type: Plain text
 #: dpkg-architecture.1:177
-#, fuzzy, no-wrap
-#| msgid ""
-#| "\\&\\s-1DEB_BUILD_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)\n"
-#| "\\&\\s-1DEB_HOST_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)\n"
+#, no-wrap
 msgid ""
 "\\&\\s-1DEB_BUILD_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)\n"
 "\\&\\s-1DEB_HOST_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)\n"
@@ -5997,11 +5924,13 @@ msgid ""
 msgstr ""
 "\\&\\s-1DEB_BUILD_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)\n"
 "\\&\\s-1DEB_HOST_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)\n"
+"[...]\n"
+"configure --build=$(\\s-1DEB_BUILD_GNU_TYPE\\s0) --host=$(\\s-1DEB_HOST_GNU_TYPE\\s0)\n"
 
 #. type: Plain text
 #: dpkg-architecture.1:181
 msgid "Doing something only for a specific architecture:"
-msgstr ""
+msgstr "特定のアーキテクチャに特化した処理を行う:"
 
 #. type: Plain text
 #: dpkg-architecture.1:184
@@ -6011,18 +5940,14 @@ msgstr "\\&\\s-1DEB_HOST_ARCH\\s0 := $(shell dpkg-architecture -qDEB_HOST_ARCH)\
 
 #. type: Plain text
 #: dpkg-architecture.1:188 dpkg-architecture.1:202
-#, fuzzy, no-wrap
-#| msgid ""
-#| "ifeq ($(\\s-1DEB_HOST_ARCH\\s0),alpha)\n"
-#| "  ...\n"
-#| "endif\n"
+#, no-wrap
 msgid ""
 "ifeq ($(\\s-1DEB_HOST_ARCH\\s0),alpha)\n"
 "  [...]\n"
 "endif\n"
 msgstr ""
 "ifeq ($(\\s-1DEB_HOST_ARCH\\s0),alpha)\n"
-"  ...\n"
+"  [...]\n"
 "endif\n"
 
 #. type: Plain text
@@ -6040,12 +5965,14 @@ msgid ""
 "Note that you can also rely on an external Makefile snippet to properly set "
 "all the variables that B<dpkg-architecture> can provide:"
 msgstr ""
+"B<dpkg-architecture> が提供可能なすべての変数を適切に設定する目的で、外部の "
+"Makefile スニペットに依存することも可能である:"
 
 #. type: Plain text
 #: dpkg-architecture.1:198
 #, no-wrap
 msgid "include /usr/share/dpkg/architecture.mk\n"
-msgstr ""
+msgstr "include /usr/share/dpkg/architecture.mk\n"
 
 #. type: Plain text
 #: dpkg-architecture.1:206
@@ -6053,6 +5980,8 @@ msgid ""
 "In any case, you should never use B<dpkg --print-architecture> to get "
 "architecture information during a package build."
 msgstr ""
+"いかなる場合も、パッケージのビルド中にアーキテクチャ情報を取得する目的で、"
+"B<dpkg --print-architecture> を使用すべきではない。"
 
 #. type: SH
 #: dpkg-architecture.1:207 dpkg-buildpackage.1:264
@@ -6066,6 +5995,8 @@ msgid ""
 "The /usr/share/dpkg/architecture.mk Makefile snippet is provided by dpkg-dev "
 "since version 1.16.1."
 msgstr ""
+"/usr/share/dpkg/architecture.mk Makefile スニペットは、dpkg-dev 1.16.1 以降で"
+"提供されている。"
 
 #. type: Plain text
 #: dpkg-architecture.1:214
@@ -6084,6 +6015,8 @@ msgid ""
 "The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were introduced in dpkg-"
 "dev 1.13.2."
 msgstr ""
+"DEB_HOST_ARCH_CPU と DEB_HOST_ARCH_OS 変数は、dpkg-dev 1.13.2 から導入され"
+"た。"
 
 #. type: Plain text
 #: dpkg-architecture.1:220
@@ -6255,10 +6188,9 @@ msgstr "dpkg-buildflags"
 
 #. type: TH
 #: dpkg-buildflags.1:19 dpkg-query.1:21
-#, fuzzy, no-wrap
-#| msgid "2008-02-17"
+#, no-wrap
 msgid "2012-04-03"
-msgstr "2008-02-17"
+msgstr "2012-04-03"
 
 #. type: Plain text
 #: dpkg-buildflags.1:22
@@ -6292,7 +6224,7 @@ msgstr ""
 #: dpkg-buildflags.1:33
 #, no-wrap
 msgid "1."
-msgstr "1"
+msgstr "1."
 
 #. type: Plain text
 #: dpkg-buildflags.1:35
@@ -6303,7 +6235,7 @@ msgstr "システムワイドな B</etc/dpkg/buildflags.conf>"
 #: dpkg-buildflags.1:35
 #, no-wrap
 msgid "2."
-msgstr "2"
+msgstr "2."
 
 #. type: Plain text
 #: dpkg-buildflags.1:38
@@ -6318,7 +6250,7 @@ msgstr ""
 #: dpkg-buildflags.1:38
 #, no-wrap
 msgid "3."
-msgstr "3"
+msgstr "3."
 
 #. type: Plain text
 #: dpkg-buildflags.1:41
@@ -6333,7 +6265,7 @@ msgstr ""
 #: dpkg-buildflags.1:41
 #, no-wrap
 msgid "4."
-msgstr "4"
+msgstr "4."
 
 #. type: Plain text
 #: dpkg-buildflags.1:44
@@ -6450,10 +6382,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildflags.1:74
-#, fuzzy, no-wrap
-#| msgid "B<-T>, B<--status>"
+#, no-wrap
 msgid "B<--status>"
-msgstr "B<-T>, B<--status>"
+msgstr "B<--status>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:80
@@ -6462,6 +6393,9 @@ msgid ""
 "B<dpkg-buildflags>: relevant environment variables, current vendor, state of "
 "all feature flags. Also print the resulting compiler flags with their origin."
 msgstr ""
+"B<dpkg-buildflags> の動作を示すのに便利な情報を表示する。これには関連する環境"
+"変数、現在のベンダ、すべての機能フラグの状態が含まれる。加えて、最終的なコン"
+"パイラのフラグが、元々のフラグの状態とともに表示される。"
 
 #. type: Plain text
 #: dpkg-buildflags.1:84
@@ -6470,6 +6404,9 @@ msgid ""
 "a clear trace of the build flags used. This can be useful to diagnose "
 "problems related to them."
 msgstr ""
+"これは B<debian/rules> から実行されることを想定されており、結果として、ビルド"
+"のログを用いた、使用されているビルドフラグの明確なトレースが実現する。ビルド"
+"フラグに関連した問題を調査するのに有用である。"
 
 #. type: TP
 #: dpkg-buildflags.1:84
@@ -6571,31 +6508,33 @@ msgstr "環境固有の設定により設定、変更されたフラグ"
 
 #. type: TP
 #: dpkg-buildflags.1:117
-#, fuzzy, no-wrap
-#| msgid "B<--query> I<name>"
+#, no-wrap
 msgid "B<--query-features>I< area>"
-msgstr "B<--query> I<name>"
+msgstr "B<--query-features>I< area>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:122
-#, fuzzy
-#| msgid ""
-#| "Print the value of the flag on standard output. Exits with 0 if the flag "
-#| "is known otherwise exits with 1."
 msgid ""
 "Print the features enabled for a given area. The only currently recognized "
 "area is B<hardening>. Exits with 0 if the area is known otherwise exits with "
 "1."
 msgstr ""
-"指定されたフラグの値を標準出力に出力する。フラグが存在している場合は 0、それ"
-"以外の場合は 1 が返却される。"
+"指定された領域 (area) で有効化された機能 (Feature) を出力する。現在認識される"
+"領域は B<hardening> のみである。領域が認識されている場合は 0 を、それ以外の場"
+"合は 1 を返却し終了する。"
 
 #. type: Plain text
 #: dpkg-buildflags.1:125
+#, fuzzy
+#| msgid ""
+#| "The output is in RFC822 format, with one section per feature.  For "
+#| "example:"
 msgid ""
 "The output format is RFC822 header-style, with one section per feature.  For "
 "example:"
 msgstr ""
+"出力は、機能ごとに、1つのセクションが存在する RFC822 形式となる。以下に例を示"
+"す:"
 
 #. type: Plain text
 #: dpkg-buildflags.1:129
@@ -6604,6 +6543,8 @@ msgid ""
 "  Feature: pie\n"
 "  Enabled: no\n"
 msgstr ""
+"  Feature: pie\n"
+"  Enabled: no\n"
 
 #. type: Plain text
 #: dpkg-buildflags.1:132
@@ -6612,6 +6553,8 @@ msgid ""
 "  Feature: stackprotector\n"
 "  Enabled: yes\n"
 msgstr ""
+"  Feature: stackprotector\n"
+"  Enabled: yes\n"
 
 #. type: TP
 #: dpkg-buildflags.1:133 dpkg-mergechangelogs.1:55 dpkg-scansources.1:85
@@ -6664,7 +6607,7 @@ msgstr "B<CXXFLAGS>"
 #. type: Plain text
 #: dpkg-buildflags.1:153
 msgid "Options for the C++ compiler. Same as B<CFLAGS>."
-msgstr "C++ コンパイラのオプション。B<CFLAFS> と同等"
+msgstr "C++ コンパイラのオプション。B<CFLAGS> と同等"
 
 #. type: TP
 #: dpkg-buildflags.1:153
@@ -6675,7 +6618,7 @@ msgstr "B<FFLAGS>"
 #. type: Plain text
 #: dpkg-buildflags.1:156
 msgid "Options for the Fortran compiler. Same as B<CFLAGS>."
-msgstr "Fortran コンパイラのオプション。B<CFLAFS> と同等"
+msgstr "Fortran コンパイラのオプション。B<CFLAGS> と同等"
 
 #. type: TP
 #: dpkg-buildflags.1:156
@@ -6891,17 +6834,6 @@ msgstr "B<format>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:242
-#, fuzzy
-#| msgid ""
-#| "This setting (enabled by default) adds B<-Wformat -Wformat-security -"
-#| "Werror=format-security> to B<CFLAGS> and B<CXXFLAGS>. This will warn "
-#| "about improper format string uses, and will fail when format functions "
-#| "are used in a way that that represent possible security problems. At "
-#| "present, this warns about calls to B<printf> and B<scanf> functions where "
-#| "the format string is not a string literal and there are no format "
-#| "arguments, as in B<printf(foo);> instead of B<printf(\"%s\", foo);> This "
-#| "may be a security hole if the format string came from untrusted input and "
-#| "contains \"%n\"."
 msgid ""
 "This setting (enabled by default) adds B<-Wformat -Werror=format-security> "
 "to B<CFLAGS> and B<CXXFLAGS>. This will warn about improper format string "
@@ -6913,14 +6845,14 @@ msgid ""
 "untrusted input and contains \"%n\"."
 msgstr ""
 "この設定 (デフォルト有効) により、B<CFLAGS> および B<CXXFLAGS> に B<-Wformat "
-"-Wformat-security -Werror=format-security> が追加される。これにより、不適切な"
-"フォーマット文字列の使用に関する警告が行われ、フォーマット関数が潜在的にセ"
-"キュリティ問題を引き起こすような使用をされている場合に処理を失敗させる。現"
-"在、これは、B<printf> と B<scanf> 関数の呼び出しで、フォーマット文字列が文字"
-"列リテラル以外かつフォーマットに関する引数がないもの、例えば B<printf(\"%s"
-"\", foo);> ではなく B<printf(foo);> のようなものについて警告する。信頼できな"
-"い入力からもたらされたフォーマット文字列が \"%n\" を含んでいる場合、呼び出し"
-"はセキュリティホールとなりうる。"
+"-Werror=format-security> が追加される。これにより、不適切なフォーマット文字列"
+"の使用に関する警告が行われ、フォーマット関数が潜在的にセキュリティ問題を引き"
+"起こすような使用をされている場合に処理を失敗させる。現在、これは、B<printf> "
+"と B<scanf> 関数の呼び出しで、フォーマット文字列が文字列リテラル以外かつ"
+"フォーマットに関する引数がないもの、例えば B<printf(\"%s\", foo);> ではなく "
+"B<printf(foo);> のようなものについて警告する。信頼できない入力からもたらされ"
+"たフォーマット文字列が \"%n\" を含んでいる場合、呼び出しはセキュリティホール"
+"となりうる。"
 
 #. type: TP
 #: dpkg-buildflags.1:243
@@ -6930,16 +6862,6 @@ msgstr "B<fortify>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:254
-#, fuzzy
-#| msgid ""
-#| "This setting (enabled by default) adds B<-D_FORTIFY_SOURCE=2> to "
-#| "B<CFLAGS> and B<CXXFLAGS>. During code generation the compiler knows a "
-#| "great deal of information about buffer sizes (where possible), and "
-#| "attempts to replace insecure unlimited length buffer function calls with "
-#| "length-limited ones. This is especially useful for old, crufty code.  "
-#| "Additionally, format strings in writable memory that contain '%n' are "
-#| "blocked. If an application depends on such a format string, it will need "
-#| "to be worked around."
 msgid ""
 "This setting (enabled by default) adds B<-D_FORTIFY_SOURCE=2> to "
 "B<CPPFLAGS>. During code generation the compiler knows a great deal of "
@@ -6949,13 +6871,13 @@ msgid ""
 "strings in writable memory that contain '%n' are blocked. If an application "
 "depends on such a format string, it will need to be worked around."
 msgstr ""
-"この設定 (デフォルト有効) により、B<CFLAGS> および B<CXXFLAGS> に B<-"
-"D_FORTIFY_SOURCE=2> が追加される。コード生成の際に、コンパイラはバッファサイ"
-"ズに関して (可能な場所では) 多くの情報を収集し、安全でないバッファ長の制限の"
-"ない関数の呼び出しを、制限のある関数の呼び出しに置換する。これは、古い汚い"
-"コードには特に有用である。これに加え、書き込み可能なメモリ上にあるフォーマッ"
-"ト文字列で '%n' を含むものが抑止される。アプリケーションがこうしたフォーマッ"
-"ト文字列に依存している場合は、個別に対処する必要がある。"
+"この設定 (デフォルト有効) により、B<CPPFLAGS> に B<-D_FORTIFY_SOURCE=2> が追"
+"加される。コード生成の際に、コンパイラはバッファサイズに関して (可能な場所で"
+"は) 多くの情報を収集し、安全でないバッファ長の制限のない関数の呼び出しを、制"
+"限のある関数の呼び出しに置換する。これは、古い汚いコードには特に有用である。"
+"これに加え、書き込み可能なメモリ上にあるフォーマット文字列で '%n' を含むもの"
+"が抑止される。アプリケーションがこうしたフォーマット文字列に依存している場合"
+"は、個別に対処する必要がある。"
 
 #. type: Plain text
 #: dpkg-buildflags.1:257
@@ -7007,13 +6929,6 @@ msgstr "B<relro>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:280
-#, fuzzy
-#| msgid ""
-#| "This setting (enabled by default) adds B<-Wl,-z,relro> to B<LDFLAGS>.  "
-#| "During program load, several ELF memory sections need to be written to by "
-#| "the linker. This flags the loader to turn these sections read-only before "
-#| "turning over control to the program. Most notably this prevents GOT "
-#| "overwrite attacks."
 msgid ""
 "This setting (enabled by default) adds B<-Wl,-z,relro> to B<LDFLAGS>.  "
 "During program load, several ELF memory sections need to be written to by "
@@ -7026,7 +6941,7 @@ msgstr ""
 "グラムがロードされる際、ELF メモリセクションの幾つかは、リンカから書き込まれ"
 "る必要がある。この設定により、ローダはプログラムに制御を引き渡す前に、こうし"
 "たセクションを読み取り専用にする。これにより、GOT を上書きする攻撃の大半が抑"
-"止される。"
+"止される。このオプションが無効な場合、B<bindnow> も同様に無効となる。"
 
 #. type: TP
 #: dpkg-buildflags.1:281
@@ -7036,11 +6951,6 @@ msgstr "B<bindnow>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:288
-#, fuzzy
-#| msgid ""
-#| "This setting (disabled by default) adds B<-Wl,-z,now> to B<LDFLAGS>. "
-#| "During program load, all dynamic symbols are resolved, allowing for the "
-#| "entire PLT to be marked read-only (due to B<relro> above)."
 msgid ""
 "This setting (disabled by default) adds B<-Wl,-z,now> to B<LDFLAGS>. During "
 "program load, all dynamic symbols are resolved, allowing for the entire PLT "
@@ -7050,6 +6960,7 @@ msgstr ""
 "この設定 (デフォルト無効) は B<LDFLAGS> に B<-Wl,-z,now> を追加する。これによ"
 "り、プログラムがロードされる時点ですべての動的なシンボルが解決されるため、"
 "PLT 全体を読み取り専用とすることが可能となる (上の B<relro> を参照のこと)。"
+"B<relro> が有効でない場合、このオプションは有効化できない。"
 
 #. type: TP
 #: dpkg-buildflags.1:289
@@ -7110,21 +7021,20 @@ msgstr ""
 #: dpkg-buildpackage.1:22
 #, no-wrap
 msgid "dpkg-buildpackage"
-msgstr "dpkg-buildpackages"
+msgstr "dpkg-buildpackage"
 
 #. type: TH
 #: dpkg-buildpackage.1:22 dpkg-distaddfile.1:19 dpkg-genchanges.1:21
 #: dpkg-gencontrol.1:21 dpkg-maintscript-helper.1:18 dpkg-parsechangelog.1:22
 #: dpkg-shlibdeps.1:22 dpkg-source.1:23
-#, fuzzy, no-wrap
-#| msgid "2008-02-17"
+#, no-wrap
 msgid "2012-05-04"
-msgstr "2008-02-17"
+msgstr "2012-05-04"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:25
 msgid "dpkg-buildpackage - build binary or source packages from sources"
-msgstr "dpkg-buildpackages - バイナリパッケージおよびソースパッケージのビルド"
+msgstr "dpkg-buildpackage - バイナリパッケージおよびソースパッケージのビルド"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:29
@@ -7185,7 +7095,7 @@ msgid ""
 "it calls that target and stops here. Otherwise it calls B<fakeroot debian/"
 "rules clean> to clean the build-tree (unless B<-nc> is specified)."
 msgstr ""
-"B<-t> もしくは B<--target> オプションにより、ビルドのターゲットが指定されてい"
+"B<-T> もしくは B<--target> オプションにより、ビルドのターゲットが指定されてい"
 "る場合は、ターゲットを呼び出して、そこで実行を停止する。それ以外の場合は "
 "B<fakeroot debian/rules clean> を呼び出し、ビルドツリーをクリアする (B<-nc> "
 "が指定されていない限り)。"
@@ -7213,13 +7123,6 @@ msgstr "B<5.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:58
-#, fuzzy
-#| msgid ""
-#| "It calls B<debian/rules> B<build> followed by B<fakeroot debian/rules> "
-#| "I<binary-target> (unless a source-only build has been requested with B<-"
-#| "S>). Note that I<binary-target> is either B<binary> (default case, or if "
-#| "B<-b> is specified)  or B<binary-arch> (if B<-B> is specified) or "
-#| "B<binary-indep> (if B<-A> is specified)."
 msgid ""
 "It calls B<debian/rules> I<build-target> followed by B<fakeroot debian/"
 "rules> I<binary-target> (unless a source-only build has been requested with "
@@ -7228,11 +7131,12 @@ msgid ""
 "B<binary-arch> (if B<-B> is specified), or B<build-indep> and B<binary-"
 "indep> (if B<-A> is specified)."
 msgstr ""
-"B<fakeroot debian/rules> I<binary-target> に続き、B<debian/rules> B<build> を"
-"呼び出す (B<-S> によってソースパッケージのみのビルドが指定されていない限り)。"
-"I<binary-target> は B<binary> (デフォルト、もしくは B<-b> が指定されていた場"
-"合)、B<binary-arch> (B<-B> が指定されていた場合)、B<binary-indep> (B<-A> が指"
-"定されていた場合) のいずれかの値をとる。"
+"B<fakeroot debian/rules> I<binary-target> に続き、B<debian/rules> B<build-"
+"target> を呼び出す (B<-S> によってソースパッケージのみのビルドが指定されてい"
+"ない限り)。I<build-target> および I<binary-target> は B<build> および "
+"B<binary> (デフォルト、もしくは B<-b> が指定されていた場合)、B<build-arch> お"
+"よび B<binary-arch> (B<-B> が指定されていた場合)、B<build-indep> および "
+"B<binary-indep> (B<-A> が指定されていた場合) のいずれかの値をとる。"
 
 #. type: IP
 #: dpkg-buildpackage.1:58
@@ -7438,24 +7342,21 @@ msgstr "B<-v>I<version>"
 
 #. type: TP
 #: dpkg-buildpackage.1:120 dpkg-genchanges.1:74
-#, fuzzy, no-wrap
-#| msgid "B<-C>I<changesdescription>"
+#, no-wrap
 msgid "B<-C>I<changes-description>"
-msgstr "B<-C>I<changesdescription>"
+msgstr "B<-C>I<changes-description>"
 
 #. type: TP
 #: dpkg-buildpackage.1:122 dpkg-genchanges.1:80
-#, fuzzy, no-wrap
-#| msgid "B<-m>I<maintaineraddress>"
+#, no-wrap
 msgid "B<-m>I<maintainer-address>"
-msgstr "B<-m>I<maintaineraddress>"
+msgstr "B<-m>I<maintainer-address>"
 
 #. type: TP
 #: dpkg-buildpackage.1:124 dpkg-genchanges.1:86
-#, fuzzy, no-wrap
-#| msgid "B<-e>I<maintaineraddress>"
+#, no-wrap
 msgid "B<-e>I<maintainer-address>"
-msgstr "B<-e>I<maintaineraddress>"
+msgstr "B<-e>I<maintainer-address>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:126
@@ -7625,8 +7526,8 @@ msgstr ""
 "的な引数を付けて実行される。このオプションにより、パッケージのビルドの際に別"
 "のプログラムを使用することが可能となる (スペースで区切られた引数を含めること"
 "も可能である)。標準のルールファイルを別の make プログラムで実行する (例えば "
-"I<rules-file> の代わりに B<usr/local/bin/make -f debian/rules> を使用する) た"
-"めに使用することもできる。"
+"I<rules-file> の代わりに B</usr/local/bin/make -f debian/rules> を使用する) "
+"ために使用することもできる。"
 
 #. type: TP
 #: dpkg-buildpackage.1:200
@@ -7636,15 +7537,6 @@ msgstr "B<-p>I<sign-command>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:208
-#, fuzzy
-#| msgid ""
-#| "When B<dpkg-buildpackage> needs to execute GPG or PGP to sign a source "
-#| "control (B<.dsc>) file or a B<.changes> file it will run I<sign-command> "
-#| "(searching the B<PATH> if necessary) instead of B<gpg>. I<sign-command> "
-#| "will get all the arguments that B<pgp> would have gotten. If I<sign-"
-#| "command> takes its arguments in GPG rather than PGP style, you should "
-#| "give the B<-sgpg> option. I<sign-command> should not contain spaces or "
-#| "any other shell metacharacters."
 msgid ""
 "When B<dpkg-buildpackage> needs to execute GPG to sign a source control (B<."
 "dsc>) file or a B<.changes> file it will run I<sign-command> (searching the "
@@ -7653,11 +7545,10 @@ msgid ""
 "spaces or any other shell metacharacters."
 msgstr ""
 "B<dpkg-buildpackage> がソースコントロール (B<.dsc>) ファイルや B<.changes> "
-"ファイルに署名するために GPG や PGP を実行する必要がある場合、B<gpg> の代わり"
-"にI<sign-command> (必要に応じて B<PATH> を検索する。I<sign-command> には "
-"B<pgp> に引き渡されるすべての引数が引き渡される。I<sign-command> が、PGP 形式"
-"ではなく GPG 形式の引数をとる場合は、B<-sgpg> オプションを設定すること。"
-"I<sign-command> にはスペースやシェルのメタキャラクタを含めてはならない。"
+"ファイルに署名するために GPG を実行する必要がある場合、B<gpg> の代わりに"
+"I<sign-command> を実行する (必要に応じて B<PATH> を検索する) 。I<sign-"
+"command> には B<gpg> に引き渡されるすべての引数が引き渡される。I<sign-"
+"command> にはスペースやシェルのメタキャラクタを含めてはならない。"
 
 #. type: TP
 #: dpkg-buildpackage.1:208
@@ -7809,6 +7700,11 @@ msgid ""
 "using the B<build> target if B<make -f debian/rules -qn> I<build-target> "
 "returns 2 as exit code."
 msgstr ""
+"バージョン 1.16.2 以降の B<dpkg-buildpackage> は、B<build-arch> および "
+"B<build-indep> ターゲットを使用している。これらのターゲットは必須である。しか"
+"し、既存パッケージで問題が発生するのを回避し、円滑な移行を行うために、B<make "
+"-f debian/rules -qn> I<build-target> が戻り値として 2 を返却した場合は、"
+"B<build> ターゲットにフォールバックする。"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:275
@@ -7836,10 +7732,9 @@ msgstr "dpkg-checkbuilddeps"
 
 #. type: TH
 #: dpkg-checkbuilddeps.1:20
-#, fuzzy, no-wrap
-#| msgid "2008-02-17"
+#, no-wrap
 msgid "2012-05-22"
-msgstr "2008-02-17"
+msgstr "2012-05-22"
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:23
@@ -7873,31 +7768,25 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:47
-#, fuzzy
-#| msgid ""
-#| "Ignore I<Build-Depends-Indep> lines. Use when no arch-indep packages will "
-#| "be built."
 msgid ""
 "Ignore I<Build-Depends-Arch> and I<Build-Conflicts-Arch> lines. Use when "
 "only arch-indep packages will be built, or combine with B<-B> when only a "
 "source package is to be built."
 msgstr ""
-"I<Build-Depends-Indep> 行を無視する。アーキテクチャ非依存のパッケージがビルド"
-"されない時に利用する。"
+"I<Build-Depends-Arch> および  I<Build-Conflicts-Arch> 行を無視する。アーキテ"
+"クチャ依存のパッケージをビルドする時のみ利用すること。ソースパッケージのみビ"
+"ルドする時には、B<-B> を併せて指定すること。"
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:52
-#, fuzzy
-#| msgid ""
-#| "Ignore I<Build-Depends-Indep> lines. Use when no arch-indep packages will "
-#| "be built."
 msgid ""
 "Ignore I<Build-Depends-Indep> and I<Build-Conflicts-Indep> lines. Use when "
 "only arch-dep packages will be built, or combine with B<-A> when only a "
 "source package is to be built."
 msgstr ""
-"I<Build-Depends-Indep> 行を無視する。アーキテクチャ非依存のパッケージがビルド"
-"されない時に利用する。"
+"I<Build-Depends-Indep> および I<Build-Conflicts-Indep> 行を無視する。アーキテ"
+"クチャ依存のパッケージをビルドする時のみ利用すること。ソースパッケージのみビ"
+"ルドする時には、B<-A> を併せて指定すること。"
 
 #. type: TP
 #: dpkg-checkbuilddeps.1:52
@@ -7922,10 +7811,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-checkbuilddeps.1:58
-#, fuzzy, no-wrap
-#| msgid "B<-a>I<arch>"
+#, no-wrap
 msgid "B<-a >I<arch>"
-msgstr "B<-a>I<arch>"
+msgstr "B<-a >I<arch>"
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:63
@@ -7934,6 +7822,9 @@ msgid ""
 "the control file is to be built for the given host architecture instead of "
 "the architecture of the current system."
 msgstr ""
+"制御ファイルで指定されたパッケージが、現在のシステムのアーキテクチャではな"
+"く、指定されたホストのアーキテクチャでビルドされたものとして、ビルド時の依存"
+"関係と競合のチェックを行う。"
 
 #. type: TH
 #: dpkg-distaddfile.1:19
@@ -7979,10 +7870,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-distaddfile.1:46 dpkg-genchanges.1:123 dpkg-gencontrol.1:89
-#, fuzzy, no-wrap
-#| msgid "B<-f>I<fileslistfile>"
+#, no-wrap
 msgid "B<-f>I<files-list-file>"
-msgstr "B<-f>I<fileslistfile>"
+msgstr "B<-f>I<files-list-file>"
 
 #. type: Plain text
 #: dpkg-distaddfile.1:50 dpkg-gencontrol.1:93
@@ -8016,10 +7906,9 @@ msgstr "dpkg-deb"
 
 #. type: TH
 #: dpkg-deb.1:21
-#, fuzzy, no-wrap
-#| msgid "2008-02-17"
+#, no-wrap
 msgid "2012-05-27"
-msgstr "2008-02-17"
+msgstr "2012-05-27"
 
 #. type: Plain text
 #: dpkg-deb.1:24
@@ -8381,10 +8270,6 @@ msgstr "B<-z>I<compress-level>"
 
 #. type: Plain text
 #: dpkg-deb.1:223
-#, fuzzy
-#| msgid ""
-#| "Specify which compression level to use on the compressor backend, when "
-#| "building a package (default is 9 for gzip and bzip2, 6 for xz and lzma)."
 msgid ""
 "Specify which compression level to use on the compressor backend, when "
 "building a package (default is 9 for gzip and bzip2, 6 for xz and lzma).  "
@@ -8394,29 +8279,26 @@ msgid ""
 msgstr ""
 "パッケージのビルドの際に、圧縮を行うバックエンドのプログラムに引き渡す圧縮レ"
 "ベルを指定する (デフォルトは、gzip および bzip2 の場合 9、xz および lzma の場"
-"合 6)。"
+"合 6)。指定可能な値は 0-9 であり、gzip の場合 0 は非圧縮に対応するが、bzip2 "
+"の場合 0 は 1 とみなされる。dpkg 1.16.2 より前では、すべての圧縮プログラムに"
+"おいて、レベル 0 は非圧縮と等価となる。"
 
 #. type: TP
 #: dpkg-deb.1:223
-#, fuzzy, no-wrap
-#| msgid "B<-Z>I<compress-type>"
+#, no-wrap
 msgid "B<-S>I<compress-strategy>"
-msgstr "B<-Z>I<compress-type>"
+msgstr "B<-S>I<compress-strategy>"
 
 #. type: Plain text
 #: dpkg-deb.1:228
-#, fuzzy
-#| msgid ""
-#| "Specify which compression level to use on the compressor backend, when "
-#| "building a package (default is 9 for gzip and bzip2, 6 for xz and lzma)."
 msgid ""
 "Specify which compression strategy to use on the compressor backend, when "
 "building a package (since dpkg 1.16.2). Allowed values are I<none> (since "
 "dpkg 1.16.4) and I<extreme> for xz."
 msgstr ""
-"パッケージのビルドの際に、圧縮を行うバックエンドのプログラムに引き渡す圧縮レ"
-"ベルを指定する (デフォルトは、gzip および bzip2 の場合 9、xz および lzma の場"
-"合 6)。"
+"パッケージのビルドの際に、圧縮を行うバックエンドのプログラムに引き渡す圧縮ス"
+"トラテジーを指定する (dpkg 1.16.2 以降)。指定可能な値は、I<none> (dpkg "
+"1.16.4 以降) と、xz 用の I<extreme> である。"
 
 #. type: TP
 #: dpkg-deb.1:228
@@ -8807,7 +8689,7 @@ msgid ""
 "e. directs all packages providing I</usr/bin/example> to install it as I</"
 "usr/bin/example.foo>, performing the rename if required:"
 msgstr ""
-"I<usr/bin/example> となるファイルすべてを I</usr/bin/example.foo> に退避させ"
+"I</usr/bin/example> となるファイルすべてを I</usr/bin/example.foo> に退避させ"
 "る、つまり、I</usr/bin/example> を提供するすべてのパッケージが、該当ファイル"
 "を I</usr/bin/example.foo> にリネームしてインストールするようにさせる: "
 
@@ -8998,45 +8880,31 @@ msgstr "I<version> 以降のバージョンすべてから changelog 情報を�
 
 #. type: Plain text
 #: dpkg-genchanges.1:80
-#, fuzzy
-#| msgid ""
-#| "Read the description of the changes from the file I<changesdescription> "
-#| "rather than using the information from the source tree's changelog file."
 msgid ""
 "Read the description of the changes from the file I<changes-description> "
 "rather than using the information from the source tree's changelog file."
 msgstr ""
-"ソースツリーの changelog ファイルからの情報ではなく、I<changesdescription> "
+"ソースツリーの changelog ファイルからの情報ではなく、I<changes-description> "
 "ファイルにある変更点の情報を使用する。"
 
 #. type: Plain text
 #: dpkg-genchanges.1:86
-#, fuzzy
-#| msgid ""
-#| "Use I<maintaineraddress> as the name and email address of the maintainer "
-#| "for this package, rather than using the information from the source "
-#| "tree's control file."
 msgid ""
 "Use I<maintainer-address> as the name and email address of the maintainer "
 "for this package, rather than using the information from the source tree's "
 "control file."
 msgstr ""
-"ソースツリーの control ファイルからの情報ではなく、I<maintaineraddress> で指"
+"ソースツリーの control ファイルからの情報ではなく、I<maintainer-address> で指"
 "定した情報を、このパッケージのメンテナの名前とメールアドレスとして使用する。"
 
 #. type: Plain text
 #: dpkg-genchanges.1:92
-#, fuzzy
-#| msgid ""
-#| "Use I<maintaineraddress> as the name and email address of the maintainer "
-#| "for this upload, rather than using the information from the source tree's "
-#| "changelog."
 msgid ""
 "Use I<maintainer-address> as the name and email address of the maintainer "
 "for this upload, rather than using the information from the source tree's "
 "changelog."
 msgstr ""
-"ソースツリーの changelog ファイルからの情報ではなく、I<maintaineraddress> で"
+"ソースツリーの changelog ファイルからの情報ではなく、I<maintainer-address> で"
 "指定した情報を、今回のアップロードのメンテナの名前とメールアドレスとして使用"
 "する。"
 
@@ -9052,26 +8920,18 @@ msgid ""
 "Set an output substitution variable.  See B<deb-substvars>(5) for a "
 "discussion of output substitution."
 msgstr ""
-"変数を設定する。出力時の置換に関する詳細は、B<deb-substsvars>(5) を参照のこ"
+"変数を設定する。出力時の置換に関する詳細は、B<deb-substvars>(5) を参照のこ"
 "と。"
 
 #. type: TP
 #: dpkg-genchanges.1:96 dpkg-gencontrol.1:65 dpkg-shlibdeps.1:190
 #: dpkg-source.1:151
-#, fuzzy, no-wrap
-#| msgid "B<-T>I<substvarsfile>"
+#, no-wrap
 msgid "B<-T>I<substvars-file>"
-msgstr "B<-T>I<substvarsfile>"
+msgstr "B<-T>I<substvars-file>"
 
 #. type: Plain text
 #: dpkg-genchanges.1:106
-#, fuzzy
-#| msgid ""
-#| "Read substitution variables in I<substvarsfile>; the default is B<debian/"
-#| "substvars>.  No variable substitution is done on any of the fields that "
-#| "are output, however the special variable I<Format> will override the "
-#| "field of the same name. This option can be used multiple times to read "
-#| "substitution variables from multiple files."
 msgid ""
 "Read substitution variables in I<substvars-file>; the default is B<debian/"
 "substvars>.  No variable substitution is done on any of the fields that are "
@@ -9079,11 +8939,11 @@ msgid ""
 "the same name. This option can be used multiple times to read substitution "
 "variables from multiple files."
 msgstr ""
-"変数の設定を I<substvarsfile> から読み取る。デフォルトは B<debian/substvars> "
-"である。出力フィールドについては、変数置換は行われない。ただし、特別な変数で"
-"ある I<Format> については、同じな前のフィールドを上書きする。このオプションを"
-"複数回設定することで、複数のファイルから変数置換の設定を読み取ることができ"
-"る。"
+"変数の設定を I<substvars-file> から読み取る。デフォルトは B<debian/"
+"substvars> である。出力フィールドについては、変数置換は行われない。ただし、特"
+"別な変数である I<Format> については、同じ名称のフィールドを上書きする。このオ"
+"プションを複数回設定することで、複数のファイルから変数置換の設定を読み取るこ"
+"とができる。"
 
 #. type: TP
 #: dpkg-genchanges.1:107 dpkg-gencontrol.1:73 dpkg-source.1:157
@@ -9119,23 +8979,18 @@ msgid ""
 "Specifies the main source control file to read information from. The default "
 "is B<debian/control>."
 msgstr ""
-"情報の読み取り元となる主たるソース制御ファイルを指定する。デフォルトは "
+"情報の読み取り元となる主なソース制御ファイルを指定する。デフォルトは "
 "B<debian/control>。"
 
 #. type: TP
 #: dpkg-genchanges.1:118 dpkg-gencontrol.1:84 dpkg-parsechangelog.1:37
 #: dpkg-source.1:132
-#, fuzzy, no-wrap
-#| msgid "B<-l>I<changelogfile>"
+#, no-wrap
 msgid "B<-l>I<changelog-file>"
-msgstr "B<-l>I<changelogfile>"
+msgstr "B<-l>I<changelog-file>"
 
 #. type: Plain text
 #: dpkg-genchanges.1:123 dpkg-gencontrol.1:89 dpkg-parsechangelog.1:42
-#, fuzzy
-#| msgid ""
-#| "Specifies the change log file to read information from. The default is "
-#| "B<debian/changelog>."
 msgid ""
 "Specifies the changelog file to read information from. The default is "
 "B<debian/changelog>."
@@ -9155,10 +9010,9 @@ msgstr ""
 #. type: TP
 #: dpkg-genchanges.1:127 dpkg-gencontrol.1:93 dpkg-parsechangelog.1:42
 #: dpkg-source.1:139
-#, fuzzy, no-wrap
-#| msgid "B<-F>I<changelogformat>"
+#, no-wrap
 msgid "B<-F>I<changelog-format>"
-msgstr "B<-F>I<changelogformat>"
+msgstr "B<-F>I<changelog-format>"
 
 #. type: Plain text
 #: dpkg-genchanges.1:131 dpkg-gencontrol.1:97 dpkg-source.1:143
@@ -9166,29 +9020,25 @@ msgid ""
 "Specifies the format of the changelog. See B<dpkg-parsechangelog>(1)  for "
 "information about alternative formats."
 msgstr ""
+"changelog ファイルのフォーマットを指定する。指定可能なフォーマットについての"
+"情報は、B<dpkg-parsechangelog>(1) を参照のこと。"
 
 #. type: TP
 #: dpkg-genchanges.1:131
-#, fuzzy, no-wrap
-#| msgid "B<-u>I<uploadfilesdir>"
+#, no-wrap
 msgid "B<-u>I<upload-files-dir>"
-msgstr "B<-u>I<uploadfilesdir>"
+msgstr "B<-u>I<upload-files-dir>"
 
 #. type: Plain text
 #: dpkg-genchanges.1:142
-#, fuzzy
-#| msgid ""
-#| "Look for the files to be uploaded in I<uploadfilesdir> rather than B<..> "
-#| "(B<dpkg-genchanges> needs to find these files so that it can include "
-#| "their sizes and checksums in the B<.changes> file)."
 msgid ""
 "Look for the files to be uploaded in I<upload-files-dir> rather than B<..> "
 "(B<dpkg-genchanges> needs to find these files so that it can include their "
 "sizes and checksums in the B<.changes> file)."
 msgstr ""
-"アップロード対象となるファイルを、B<..> ではなく I<uploadfilesdir> から探し出"
-"す (B<dpkg-genchanges> は B<.changes> ファイルにファイルサイズとチェックサム"
-"を含めるため、対象となるファイルを確認する必要がある)。"
+"アップロード対象となるファイルを、B<..> ではなく I<upload-files-dir> から探し"
+"出す (B<dpkg-genchanges> は B<.changes> ファイルにファイルサイズとチェックサ"
+"ムを含めるため、対象となるファイルを確認する必要がある)。"
 
 #. type: TP
 #: dpkg-genchanges.1:142 dpkg-gensymbols.1:441
@@ -9220,7 +9070,7 @@ msgstr ""
 #: dpkg-gencontrol.1:21
 #, no-wrap
 msgid "dpkg-gencontrol"
-msgstr "deb-gencontrol"
+msgstr "dpkg-gencontrol"
 
 #. type: Plain text
 #: dpkg-gencontrol.1:24
@@ -9298,31 +9148,25 @@ msgid ""
 "Set an output substitution variable. See B<deb-substvars>(5) for discussion "
 "of output substitution."
 msgstr ""
-"変数を設定する。出力時の置換に関する詳細は、B<deb-substsvars>(5) を参照のこ"
+"変数を設定する。出力時の置換に関する詳細は、B<deb-substvars>(5) を参照のこ"
 "と。"
 
 #. type: Plain text
 #: dpkg-gencontrol.1:73
-#, fuzzy
-#| msgid ""
-#| "Read substitution variables in I<substvarsfile>; the default is B<debian/"
-#| "substvars>.  This option can be used multiple times to read substitution "
-#| "variables from multiple files."
 msgid ""
 "Read substitution variables in I<substvars-file>; the default is B<debian/"
 "substvars>.  This option can be used multiple times to read substitution "
 "variables from multiple files."
 msgstr ""
-"変数の設定を I<substvarsfile> から読み取る。デフォルトは B<debian/substvars> "
-"である。このオプションを複数回設定することで、複数のファイルから変数置換の設"
-"定を読み取ることができる。"
+"変数の設定を I<substvars-file> から読み取る。デフォルトは B<debian/"
+"substvars> である。このオプションを複数回設定することで、複数のファイルから変"
+"数置換の設定を読み取ることができる。"
 
 #. type: TP
 #: dpkg-gencontrol.1:79 dpkg-source.1:125
-#, fuzzy, no-wrap
-#| msgid "B<-c>I<controlfile>"
+#, no-wrap
 msgid "B<-c>I<control-file>"
-msgstr "B<-c>I<controlfile>"
+msgstr "B<-c>I<control-file>"
 
 #. type: TP
 #: dpkg-gencontrol.1:97 dpkg-gensymbols.1:392
@@ -9388,23 +9232,16 @@ msgstr "B<-P>I<package-build-dir>"
 
 #. type: Plain text
 #: dpkg-gencontrol.1:131
-#, fuzzy
-#| msgid ""
-#| "Tells B<dpkg-source> that the package is being built in "
-#| "I<packagebuilddir> instead of B<debian/tmp>.  This value is used to find "
-#| "the default value of the B<Installed-Size> substitution variable and "
-#| "control file field (using B<du>), and for the default location of the "
-#| "output file."
 msgid ""
 "Tells B<dpkg-source> that the package is being built in I<package-build-dir> "
 "instead of B<debian/tmp>.  This value is used to find the default value of "
 "the B<Installed-Size> substitution variable and control file field (using "
 "B<du>), and for the default location of the output file."
 msgstr ""
-"B<dpkg-source> に対して、パッケージを B<debian/tmp> ではなく "
-"I<packagebuilddir> 内でビルドするように設定する。この値は B<Installed-Size> "
-"変数や制御ファイルフィールドの値のデフォルト値を (B<du> を用いて) 算出する際"
-"に用いられる他、出力ファイルのデフォルトの場所としても用いられる。"
+"B<dpkg-source> に対して、パッケージを B<debian/tmp> ではなく I<package-build-"
+"dir> 内でビルドするように設定する。この値は B<Installed-Size> 変数や制御ファ"
+"イルフィールドの値のデフォルト値を (B<du> を用いて) 算出する際に用いられる"
+"他、出力ファイルのデフォルトの場所としても用いられる。"
 
 #. type: TP
 #: dpkg-gencontrol.1:131 dpkg-gensymbols.1:411 dpkg-shlibdeps.1:171
@@ -9414,18 +9251,13 @@ msgstr "B<-O>"
 
 #. type: Plain text
 #: dpkg-gencontrol.1:140
-#, fuzzy
-#| msgid ""
-#| "Print the control file to standard output, rather than to B<debian/tmp/"
-#| "DEBIAN/control> (or I<packagebuilddir>B</DEBIAN/control> if B<-P> was "
-#| "used)."
 msgid ""
 "Print the control file to standard output, rather than to B<debian/tmp/"
 "DEBIAN/control> (or I<package-build-dir>B</DEBIAN/control> if B<-P> was "
 "used)."
 msgstr ""
 "control ファイルの内容を B<debian/tmp/DEBIAN/control> (B<-P> が指定されている"
-"場合は、I<packagebuilddir>B</DEBIAN/control>) ではなく、標準出力に出力する。"
+"場合は、I<package-build-dir>B</DEBIAN/control>) ではなく標準出力に出力する。"
 
 #. type: TP
 #: dpkg-gencontrol.1:148
@@ -9461,10 +9293,9 @@ msgstr "dpkg-gensymbols"
 
 #. type: TH
 #: dpkg-gensymbols.1:19
-#, fuzzy, no-wrap
-#| msgid "2008-02-17"
+#, no-wrap
 msgid "2012-04-22"
-msgstr "2008-02-17"
+msgstr "2012-04-22"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:22
@@ -9825,13 +9656,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-gensymbols.1:172
-#, fuzzy
-#| msgid ""
-#| "The format of I<architecture list> is the same as the one used in the "
-#| "I<Build-Depends> field of I<debian/control> (except the enclosing square "
-#| "brackets []). For example, the first symbol from the list below will be "
-#| "considered only on alpha, amd64, kfreebsd-amd64 and ia64 architectures "
-#| "while the second one anywhere except on armel."
 msgid ""
 "The format of I<architecture list> is the same as the one used in the "
 "I<Build-Depends> field of I<debian/control> (except the enclosing square "
@@ -9841,21 +9665,19 @@ msgid ""
 msgstr ""
 "I<architecture list> の形式は、(ブラケット [] を除き) I<debian/control> にお"
 "ける I<Build-Depends> フィールドと同じ書式である。下の例における、最初のシン"
-"ボルは、alpha, amd64, kfreebsd-amd64, ia64 アーキテクチャのいずれかであること"
-"を示し、次のシンボルは armel 以外のすべてを示す。"
+"ボルは、alpha, any-amd64, ia64 アーキテクチャのいずれかであることを示し、2 番"
+"目は Linux アーキテクチャを、3 番目は armel 以外のすべてを示す。"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:176
-#, fuzzy, no-wrap
-#| msgid ""
-#| " (arch=alpha amd64 kfreebsd-amd64 ia64)a_64bit_specific_symbol@Base 1.0\n"
-#| " (arch=!armel)symbol_armel_does_not_have@Base 1.0\n"
+#, no-wrap
 msgid ""
 " (arch=alpha any-amd64 ia64)a_64bit_specific_symbol@Base 1.0\n"
 " (arch=linux-any)linux_specific_symbol@Base 1.0\n"
 " (arch=!armel)symbol_armel_does_not_have@Base 1.0\n"
 msgstr ""
-" (arch=alpha amd64 kfreebsd-amd64 ia64)a_64bit_specific_symbol@Base 1.0\n"
+" (arch=alpha any-amd64 ia64)a_64bit_specific_symbol@Base 1.0\n"
+" (arch=linux-any)linux_specific_symbol@Base 1.0\n"
 " (arch=!armel)symbol_armel_does_not_have@Base 1.0\n"
 
 #. type: TP
@@ -10007,7 +9829,7 @@ msgid ""
 "32bit architectures will probably be _ZThn16_N3NSB6ClassDD1Ev@Base on 64bit "
 "ones, it can be matched with a single I<c++> pattern:"
 msgstr ""
-"このパターンは I<c++> タグを示す。これは (B<c++file>(1) ユーティリティによっ"
+"このパターンは I<c++> タグを示す。これは (B<c++filt>(1) ユーティリティによっ"
 "て出力された) デコードされた (demangled) シンボル名による C++ シンボルにのみ"
 "マッチする。このパターンは、デコードされた名前は同一であるが、エンコードされ"
 "たシンボル名がアーキテクチャによってばらばらであるようなシンボルにマッチさせ"
@@ -10281,19 +10103,11 @@ msgstr "include ディレクティブには、他のシンボル同様タグを�
 
 #. type: Plain text
 #: dpkg-gensymbols.1:340
-#, fuzzy
-#| msgid "(tag|..|tagN)#include \"file-to-include\""
 msgid "(tag|...|tagN)#include \"file-to-include\""
 msgstr "(tag|..|tagN)#include \"file-to-include\""
 
 #. type: Plain text
 #: dpkg-gensymbols.1:345
-#, fuzzy
-#| msgid ""
-#| "As a result, all symbols included from I<file-to-include> will be "
-#| "considered to be tagged with I<tag> .. I<tagN> by default. You can use "
-#| "this feature to create a common I<package>.symbols file which includes "
-#| "architecture specific symbol files:"
 msgid ""
 "As a result, all symbols included from I<file-to-include> will be considered "
 "to be tagged with I<tag> ... I<tagN> by default. You can use this feature to "
@@ -10420,7 +10234,7 @@ msgstr ""
 #. type: Plain text
 #: dpkg-gensymbols.1:392
 msgid "Scan I<package-build-dir> instead of debian/tmp."
-msgstr "debian/tmp の代わりに I<[package-build-dir> 内を確認する。"
+msgstr "debian/tmp の代わりに I<package-build-dir> 内を確認する。"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:396
@@ -10450,12 +10264,6 @@ msgstr "B<-e>I<library-file>"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:407
-#, fuzzy
-#| msgid ""
-#| "Only analyze libraries explicitly listed instead of finding all public "
-#| "libraries. You can use a regular expression in I<library-file> to match "
-#| "multiple libraries with a single argument (otherwise you need multiple B<-"
-#| "e>)."
 msgid ""
 "Only analyze libraries explicitly listed instead of finding all public "
 "libraries. You can use shell patterns used for pathname expansions (see the "
@@ -10463,9 +10271,10 @@ msgid ""
 "libraries with a single argument (otherwise you need multiple B<-e>)."
 msgstr ""
 "すべての公開されているライブラリを探索する代わりに、明示的に指定されたライブ"
-"ラリのみを探索する。I<library-file> に正規表現を指定して、単一の設定で複数の"
-"ライブラリをマッチさせることもできる (もしくは B<-e> を複数回指定する必要があ"
-"る)。"
+"ラリのみを探索する。I<library-file> に、パス名の展開に使用されるシェルのパ"
+"ターンマッチングを指定することで (詳細は File::Glob マニュアルページを参照の"
+"こと) 、単一の設定で複数のライブラリをマッチさせることもできる (さもなくば "
+"B<-e> を複数回指定する必要がある)。"
 
 #. type: TP
 #: dpkg-gensymbols.1:407
@@ -10675,21 +10484,17 @@ msgstr "コマンドおよびパラメータ"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:29
-#, fuzzy
-#| msgid "B<rm_conffile> I<conffile> [I<lastversion> [I<package>]]"
 msgid "B<rm_conffile> I<conffile> [I<prior-version> [I<package>]]"
-msgstr "B<rm_conffile> I<conffile> [I<lastversion> [I<package>]]"
+msgstr "B<rm_conffile> I<conffile> [I<prior-version> [I<package>]]"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:31
-#, fuzzy
-#| msgid ""
-#| "B<mv_conffile> I<oldconffile> I<newconffile> [I<lastversion> [I<package>]]"
 msgid ""
 "B<mv_conffile> I<old-conffile> I<new-conffile> [I<prior-version> "
 "[I<package>]]"
 msgstr ""
-"B<mv_conffile> I<oldconffile> I<newconffile> [I<lastversion> [I<package>]]"
+"B<mv_conffile> I<old-conffile> I<new-conffile> [I<prior-version> "
+"[I<package>]]"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:37
@@ -10715,7 +10520,7 @@ msgstr ""
 "こうした作業の多くは、メンテナスクリプト (B<preinst>, B<postinst>, B<prerm>, "
 "B<postrm>) 間の連携した動作が求められる。ミスを避けるために、すべてのスクリプ"
 "トに対して単に同じ形式のスクリプト呼び出しを設定し、プログラム側で環境変数 "
-"B<DPKG_MAINSCRIPT_NAME> と二重ダッシュの後に設定して渡されるメンテナスクリプ"
+"B<DPKG_MAINTSCRIPT_NAME> と二重ダッシュの後に設定して渡されるメンテナスクリプ"
 "ト固有の引数とに基づいた挙動の調整を自動的に行うようにしている。"
 
 #. type: SH
@@ -10788,21 +10593,18 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:73
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    dpkg-maintscript-helper rm_conffile \\e\n"
-#| "        I<conffile> I<lastversion> I<package> -- \"$@\"\n"
+#, no-wrap
 msgid ""
 "    dpkg-maintscript-helper rm_conffile \\e\n"
 "        I<conffile> I<prior-version> I<package> -- \"$@\"\n"
 msgstr ""
 "    dpkg-maintscript-helper rm_conffile \\e\n"
-"        I<conffile> I<lastversion> I<package> -- \"$@\"\n"
+"        I<conffile> I<prior-version> I<package> -- \"$@\"\n"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:75
 msgid "I<conffile> is the filename of the conffile to remove."
-msgstr ""
+msgstr "I<conffile> は削除する conffile のファイル名である。"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:84
@@ -10815,6 +10617,13 @@ msgid ""
 "This will cause the conffile to be removed even if the user rebuilt the "
 "previous version B<1.0-1> as B<1.0-1local1>."
 msgstr ""
+"I<prior-version> は、アップグレードが削除の契機となる最新のパッケージのバー"
+"ジョンを定義する。ユーザがローカルなバージョンを用いてパッケージをリビルドし"
+"た際でも conffile を適切に削除するためには、適切な I<prior-version> を定義す"
+"ることが肝要である。例えば、あるパッケージのバージョン B<2.0-1> で削除される "
+"conffile は、I<prior-version> を B<2.0-1~> に設定する必要がある。これにより、"
+"ユーザが以前のバージョンである B<1.0-1> を B<1.0-1local1> としてリビルドした"
+"場合であっても、conffile が削除されることになる。"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:90
@@ -10824,6 +10633,10 @@ msgid ""
 "version> should be based on the version of the package that you are now "
 "preparing, not the first version of the package that lacked the conffile."
 msgstr ""
+"ある conffile が提供されていないまま、既に複数回のバージョンアップが行われて"
+"しまっている場合に、メンテナスクリプトを修正して不要となったファイルを削除し"
+"たいという場合、I<prior-version> は conffile が不要となった最初のパッケージの"
+"バージョンではなく、現在のバージョンを指定する必要がある。"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:93 dpkg-maintscript-helper.1:132
@@ -10831,6 +10644,8 @@ msgid ""
 "I<package> is the package name. If empty or omitted, the "
 "DPKG_MAINTSCRIPT_PACKAGE environment variable (as set by dpkg) will be used."
 msgstr ""
+"I<package> はパッケージ名を示す。空白もしくは省略された場合、環境変数 "
+"DPKG_MAINTSCRIPT_PACKAGE の値 (dpkg により設定される) が用いられる。"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:96 dpkg-maintscript-helper.1:135
@@ -10838,6 +10653,8 @@ msgid ""
 "All the parameters of the maintainer scripts have to be forwarded to the "
 "program after \"--\"."
 msgstr ""
+"メンテナスクリプトのパラメータはすべて、\"--\" 以降の部分をプログラムに引き渡"
+"す必要がある。"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:105
@@ -10890,16 +10707,13 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:120
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    dpkg-maintscript-helper mv_conffile \\e\n"
-#| "        I<oldconffile> I<newconffile> I<lastversion> I<package> -- \"$@\"\n"
+#, no-wrap
 msgid ""
 "    dpkg-maintscript-helper mv_conffile \\e\n"
 "        I<old-conffile> I<new-conffile> I<prior-version> I<package> -- \"$@\"\n"
 msgstr ""
 "    dpkg-maintscript-helper mv_conffile \\e\n"
-"        I<oldconffile> I<newconffile> I<lastversion> I<package> -- \"$@\"\n"
+"        I<old-conffile> I<new-conffile> I<prior-version> I<package> -- \"$@\"\n"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:123
@@ -10907,6 +10721,8 @@ msgid ""
 "I<old-conffile> and I<new-conffile> are the old and new name of the conffile "
 "to rename."
 msgstr ""
+"I<old-conffile> と I<new-conffile> は、リネームする conffile の変更前、変更後"
+"の名前である。"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:129
@@ -10917,18 +10733,14 @@ msgid ""
 "omitted, then the operation is tried on every upgrade (note: it's safer to "
 "give the version and have the operation tried only once)."
 msgstr ""
+"I<prior-version> は、バージョンアップにより conffile のリネームを行うパッケー"
+"ジの最新のバージョンを指定する (指定すべき適切な値については、B<rm_conffile> "
+"での注記を参照のこと) 。I<prior-version> が空白もしくは省略された場合、バー"
+"ジョンアップの度にリネームが試行される (バージョンを指定することで、リネーム"
+"の試行を一度に留めておく方が安全である)。"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:143
-#, fuzzy
-#| msgid ""
-#| "Current implementation: the B<preinst> checks if the conffile has been "
-#| "modified, if yes it's left on place otherwise it's renamed to "
-#| "I<oldconffile>B<.dpkg-remove>. On configuration, the B<postinst> removes "
-#| "I<oldconffile>B<.dpkg-remove> and renames I<oldconffile> to "
-#| "I<newconffile> if I<oldconffile> is still available. On abort-upgrade/"
-#| "abort-install, the B<postrm> renames I<oldconffile>B<.dpkg-remove> back "
-#| "to I<oldconffile> if required."
 msgid ""
 "Current implementation: the B<preinst> checks if the conffile has been "
 "modified, if yes it's left on place otherwise it's renamed to I<old-"
@@ -10939,12 +10751,11 @@ msgid ""
 "required."
 msgstr ""
 "現在の実装では、B<preinst> は conffile が変更されたかをチェックし、変更されて"
-"いる場合はそのままに、変更されていない場合は I<conffile>B<.dpkg-remove> にリ"
-"ネームする。設定の際に、B<postinst> は I<oldconffile>B<.dpkg-remove> を削除"
-"し、I<oldconffile> が存在している場合は、I<oldconffile> を I<newconffile> に"
-"リネームする。abort-upgrade や abort-install が行われた場合、B<postrm> は、必"
-"要に応じて I<oldconffile>B<.dpkg-remove> をリネームして I<oldconffile> に戻"
-"す。"
+"いる場合はそのままに、変更されていない場合は I<old-conffile>B<.dpkg-remove> "
+"にリネームする。設定の際に、B<postinst> は I<old-conffile>B<.dpkg-remove> を"
+"削除し、I<old-conffile> が存在している場合は、それを I<new-conffile> にリネー"
+"ムする。abort-upgrade や abort-install が行われた場合、B<postrm> は、必要に応"
+"じて I<old-conffile>B<.dpkg-remove> をリネームして I<old-conffile> に戻す。"
 
 #. type: SH
 #: dpkg-maintscript-helper.1:144
@@ -10960,7 +10771,7 @@ msgid ""
 "version of dpkg has been unpacked before. The required version depends on "
 "the command used, for B<rm_conffile> and B<mv_conffile> it is 1.15.7.2:"
 msgstr ""
-"B<dpkg-mainscript-helper> の使用が B<preinst> にて指定された場合は、必要な"
+"B<dpkg-maintscript-helper> の使用が B<preinst> にて指定された場合は、必要な"
 "バージョンの dpkg が事前に展開されていることを担保する事前依存関係が必須とな"
 "る。必要なバージョンは、使用するコマンドによって異なる。例えば、"
 "B<rm_conffile> や B<mv_conffile> の場合は 1.15.7.2 以上となる:"
@@ -11144,10 +10955,9 @@ msgstr "dpkg-name"
 
 #. type: TH
 #: dpkg-name.1:19
-#, fuzzy, no-wrap
-#| msgid "2011-11-10"
+#, no-wrap
 msgid "2012-04-15"
-msgstr "2011-11-10"
+msgstr "2012-04-15"
 
 #. type: Plain text
 #: dpkg-name.1:22
@@ -11315,10 +11125,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-name.1:95
-#, fuzzy, no-wrap
-#| msgid "B<dpkg --build debian-tmp && dpkg-name -o -s .. debian-tmp.deb>"
+#, no-wrap
 msgid "B<dpkg-deb --build debian-tmp && dpkg-name -o -s .. debian-tmp.deb>"
-msgstr "B<dpkg --build debian-tmp && dpkg-name -o -s .. debian-tmp.deb>"
+msgstr "B<dpkg-deb --build debian-tmp && dpkg-name -o -s .. debian-tmp.deb>"
 
 #. type: Plain text
 #: dpkg-name.1:98
@@ -11372,24 +11181,20 @@ msgid ""
 "source tree and outputs the information in it to standard output in a "
 "machine-readable form."
 msgstr ""
-"B<dpkg-parsechangelo> は、展開された Debian ソースツリーにある changelog ファ"
-"イルを読み取って解析し、その情報をコンピュータに適した形式で標準出力に出力す"
-"る。"
+"B<dpkg-parsechangelog> は、展開された Debian ソースツリーにある changelog "
+"ファイルを読み取って解析し、その情報をコンピュータに適した形式で標準出力に出"
+"力する。"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:48
-#, fuzzy
-#| msgid ""
-#| "Specifies the format of the changelog. By default the format is read from "
-#| "a special line near the bottom of the changelog or failing that defaults "
-#| "to the debian standard format."
 msgid ""
 "Specifies the format of the changelog. By default the format is read from a "
 "special line near the bottom of the changelog or failing that defaults to "
 "the I<debian> standard format. See also B<CHANGELOG FORMATS>."
 msgstr ""
 "changelog ファイルの形式を指定する。デフォルトでは、changelog の末尾の近辺に"
-"ある特別な行から読み取られるか、もしくは Debian 標準形式が用いられる。"
+"ある特別な行から読み取られるか、もしくは I<debian> 標準形式が用いられる。"
+"B<changelog のフォーマット> も参照のこと。"
 
 #. type: TP
 #: dpkg-parsechangelog.1:48
@@ -11428,20 +11233,12 @@ msgstr ""
 
 #. type: TP
 #: dpkg-parsechangelog.1:66
-#, fuzzy, no-wrap
-#| msgid "B<--format>I< outputformat>"
+#, no-wrap
 msgid "B<--format>I< output-format>"
-msgstr "B<--format>I< outputformat>"
+msgstr "B<--format>I< output-format>"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:75
-#, fuzzy
-#| msgid ""
-#| "Set the output format. Currently supported values are I<dpkg> and "
-#| "I<rfc822>.  I<dpkg> is the classic output format (from before this option "
-#| "existed) and the default. It consists of one paragraph in Debian control "
-#| "format (see B<deb-control>(5)). If more than one entry is requested, then "
-#| "most fields are taken from the latest entry, except otherwise stated:"
 msgid ""
 "Set the output format. Currently supported values are I<dpkg> and "
 "I<rfc822>.  I<dpkg> is the classic output format (from before this option "
@@ -11453,7 +11250,7 @@ msgstr ""
 "る。I<dpkg> は従来からの (このオプションが存在する前からの) 出力形式であり、"
 "デフォルトである。これには Debian 制御情報形式 (B<deb-control>(5) を参照) に"
 "則った段落 1 つからなる。複数のエントリが指定された場合、他に指示がない限り、"
-"ほとんどのフィールドは最後に指定したエントリに従って取得される。"
+"ほとんどのフィールドは最新のエントリに従って取得される:"
 
 #. type: TP
 #: dpkg-parsechangelog.1:76
@@ -11485,6 +11282,8 @@ msgid ""
 "The highest urgency of all included entries is used, followed by the "
 "concatenated (space-separated) comments from all the versions requested."
 msgstr ""
+"含まれているエントリの中で、最も高い urgency の値が用いられ、要求されたバー"
+"ジョンすべてのコメントを (スペースで区切って) 結合した文字列が続く。"
 
 #. type: TP
 #: dpkg-parsechangelog.1:86
@@ -11534,6 +11333,8 @@ msgid ""
 "The B<Version>, B<Distribution>, B<Urgency>, B<Maintainer> and B<Changes> "
 "fields are mandatory."
 msgstr ""
+"B<Version>, B<Distribution>, B<Urgency>, B<Maintainer>, B<Changes> フィールド"
+"は必須である。"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:106
@@ -11639,10 +11440,9 @@ msgstr ""
 
 #. type: SH
 #: dpkg-parsechangelog.1:135
-#, fuzzy, no-wrap
-#| msgid "FILE FORMATS"
+#, no-wrap
 msgid "CHANGELOG FORMATS"
-msgstr "ファイルフォーマット"
+msgstr "changelog のフォーマット"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:138
@@ -11650,6 +11450,8 @@ msgid ""
 "It is possible to use a different format to the standard one, by providing a "
 "parser for that alternative format."
 msgstr ""
+"標準的なフォーマットとは異なるフォーマットに対応したパーサがあれば、非標準の"
+"フォーマットを用いることもできる。"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:143
@@ -11659,17 +11461,21 @@ msgid ""
 "regular expression: \\(lqB<\\eschangelog-format:\\es+([0-9a-z]+)\\eW>\\(rq.  "
 "The part in parentheses should be the name of the format. For example:"
 msgstr ""
+"B<dpkg-parsechangelog> に新しいパーサを使用させるには、changelog ファイルの末"
+"尾 40 行以内に、次のような Perl の正規表現: \\(lqB<\\eschangelog-format:\\es"
+"+([0-9a-z]+)\\eW>\\(rq にマッチする行が含まれている必要がある。括弧内にフォー"
+"マットの名称を記載すること。以下に一例を示す:"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:145
 #, no-wrap
 msgid "       @@@ changelog-format: I<otherformat> @@@\n"
-msgstr ""
+msgstr "       @@@ changelog-format: I<otherformat> @@@\n"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:147
 msgid "Changelog format names are non-empty strings of alphanumerics."
-msgstr ""
+msgstr "changelog のフォーマット名は、英数字の文字列である必要がある。"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:154
@@ -11680,6 +11486,11 @@ msgid ""
 "not being an executable program.  The default changelog format is B<debian>, "
 "and a parser for it is provided by default."
 msgstr ""
+"こうした行があった場合、B<dpkg-parsechangelog> は、B</usr/lib/dpkg/"
+"parsechangelog/>I<otherformat> もしくは B</usr/local/lib/dpkg/parsechangelog/"
+">I<otherformat> という名称のパーサを検索する。これらが存在していなかったり、"
+"実行可能でなかったりする場合はエラーとなる。デフォルトの changelog のフォー"
+"マットは B<debian> であり、対応するパーサはデフォルトで提供されている。"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:160
@@ -11690,6 +11501,10 @@ msgid ""
 "standard output in the format specified by the B<--format> option.  It "
 "should accept all B<Parser Options>."
 msgstr ""
+"パーサは changelog ファイルの先頭を標準入力に設定された状態で起動され、ファイ"
+"ルを読み取って (必要に応じて検索して) 必要な情報を確定し、解析した情報を標準"
+"出力経由で、B<--format> オプションで指定されたフォーマットで返却する必要があ"
+"る。パーサは、すべての B<パーサ用オプション> を受け付けること。"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:164
@@ -11698,6 +11513,9 @@ msgid ""
 "a blank line between individual change notes, these blank lines should be "
 "stripped out, so as to make the resulting output compact."
 msgstr ""
+"解析されている changelog フォーマットにおいて、個々の変更点の記述の間の大半、"
+"もしくはすべてが空行となる場合、それらの空行は省略されるため、結果として出力"
+"がコンパクトになる。"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:168
@@ -11706,6 +11524,9 @@ msgid ""
 "this information should be omitted from the output. The parser should not "
 "attempt to synthesize it or find it from other sources."
 msgstr ""
+"changelog フォーマットに日付やパッケージ名の情報が含まれていない場合、これら"
+"の情報は出力から省かれる。パーサは、これらを生成したり、別の情報源から探して"
+"きたりしてはならない。"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:172
@@ -11714,11 +11535,14 @@ msgid ""
 "with a nonzero exit status, rather than trying to muddle through and "
 "possibly generating incorrect output."
 msgstr ""
+"changelog がパーサの期待するフォーマットになっていなかった場合、パーサは、実"
+"行を継続しておそらくは不正となるであろう出力を生成するよりは、0 以外の終了"
+"コードで終了すべきである。"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:174
 msgid "A changelog parser may not interact with the user at all."
-msgstr ""
+msgstr "changelog パーサは、ユーザと対話を行わなくともよい。"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1:180
@@ -11745,7 +11569,7 @@ msgid ""
 "changes made since a particular release, and the source version number "
 "itself."
 msgstr ""
-"chengelog ファイル、urgency やアップロードの distribution、あるリリース以降に"
+"changelog ファイル、urgency やアップロードの distribution、あるリリース以降に"
 "行われた変更点、ソースのバージョン番号自体といった、ソースパッケージに関する"
 "バージョン固有の情報を取得するために用いられる。"
 
@@ -11908,13 +11732,6 @@ msgstr "B<-W>, B<--show> [I<package-name-pattern>...]"
 
 #. type: Plain text
 #: dpkg-query.1:96
-#, fuzzy
-#| msgid ""
-#| "Just like the B<--list> option this will list all packages matching the "
-#| "given pattern. However the output can be customized using the B<--"
-#| "showformat> option.  The default output format gives one line per "
-#| "matching package, each line having the name and installed version of the "
-#| "package, separated by a tab."
 msgid ""
 "Just like the B<--list> option this will list all packages matching the "
 "given pattern. However the output can be customized using the B<--"
@@ -11926,7 +11743,8 @@ msgstr ""
 "B<--list> オプションと同様に、指定したパターンにマッチするすべてのパッケージ"
 "を表示する。このオプションの出力は、 B<--showformat> オプションによってカスタ"
 "マイズすることができる。デフォルトの出力形式は、マッチしたパッケージごとに、"
-"パッケージ名とバージョンがタブで区切られた 1 行で表示される。"
+"(I<Multi-Arch> が B<same> のパッケージ用のアーキテクチャ修飾子によって拡張さ"
+"れた) パッケージ名とバージョンがタブで区切られた 1 行で表示される。"
 
 #. type: TP
 #: dpkg-query.1:96
@@ -11936,11 +11754,6 @@ msgstr "B<-s>, B<--status> I<package-name>..."
 
 #. type: Plain text
 #: dpkg-query.1:102
-#, fuzzy
-#| msgid ""
-#| "Report status of specified package. This just displays the entry in the "
-#| "installed package status database. When multiple I<package-name> are "
-#| "listed, the requested status entries are separated by an empty line."
 msgid ""
 "Report status of specified package. This just displays the entry in the "
 "installed package status database. When multiple I<package-name> are listed, "
@@ -11949,7 +11762,8 @@ msgid ""
 msgstr ""
 "指定したパッケージの状況を表示する。実際は、インストールされたパッケージの状"
 "況データベースの内容が表示される。I<package-name> が複数指定された場合、各"
-"パッケージ間は空行で区切られる。"
+"パッケージは引数のリストで指定された順に、パッケージ間を空行で区切って表示さ"
+"れる。"
 
 #. type: TP
 #: dpkg-query.1:102
@@ -11959,12 +11773,6 @@ msgstr "B<-L>, B<--listfiles> I<package-name>..."
 
 #. type: Plain text
 #: dpkg-query.1:109
-#, fuzzy
-#| msgid ""
-#| "List files installed to your system from I<package-name>. When multiple "
-#| "I<package-name> are listed, the requested lists of files are separated by "
-#| "an empty line. However, note that files created by package-specific "
-#| "installation-scripts are not listed."
 msgid ""
 "List files installed to your system from I<package-name>. When multiple "
 "I<package-name> are listed, the requested lists of files are separated by an "
@@ -11972,16 +11780,16 @@ msgid ""
 "note that files created by package-specific installation-scripts are not "
 "listed."
 msgstr ""
-"B<package-name> によってインストールされたファイルを表示する。I<package-"
-"name> が複数指定された場合、各パッケージ間は空行で区切られる。パッケージ付属"
-"のインストールスクリプトによって作成されたファイルは含まれないことに注意。"
+"I<package-name> がインストールしたファイルを一覧する。I<package-name> が複数"
+"指定された場合、各パッケージは引数のリストで指定された順に、パッケージ間を空"
+"行で区切って表示される。パッケージ付属のインストールスクリプトによって作成さ"
+"れたファイルは含まれないことに注意。"
 
 #. type: TP
 #: dpkg-query.1:109
-#, fuzzy, no-wrap
-#| msgid "B<-L>, B<--listfiles> I<package-name>..."
+#, no-wrap
 msgid "B<--control-list> I<package-name>"
-msgstr "B<-L>, B<--listfiles> I<package-name>..."
+msgstr "B<--control-list> I<package-name>"
 
 #. type: Plain text
 #: dpkg-query.1:113
@@ -11989,13 +11797,14 @@ msgid ""
 "List control files installed to your system from I<package-name>.  These can "
 "be used as input arguments to B<--control-show>."
 msgstr ""
+"I<package-name> がシステムにインストールした制御ファイルを一覧する。これは、"
+"B<--control-show> の引数として用いることができる。"
 
 #. type: TP
 #: dpkg-query.1:113
-#, fuzzy, no-wrap
-#| msgid "B<-c>, B<--control-path> I<package-name> [I<control-file>]"
+#, no-wrap
 msgid "B<--control-show> I<package-name> I<control-file>"
-msgstr "B<-c>, B<--control-path> I<package-name> [I<control-file>]"
+msgstr "B<--control-show> I<package-name> I<control-file>"
 
 #. type: Plain text
 #: dpkg-query.1:117
@@ -12003,6 +11812,8 @@ msgid ""
 "Print the I<control-file> installed to your system from I<package-name> to "
 "the standard output."
 msgstr ""
+"I<package-name> がシステムにインストールした I<control-file> を標準出力に出力"
+"する。"
 
 #. type: TP
 #: dpkg-query.1:117
@@ -12012,26 +11823,16 @@ msgstr "B<-c>, B<--control-path> I<package-name> [I<control-file>]"
 
 #. type: Plain text
 #: dpkg-query.1:123
-#, fuzzy
-#| msgid ""
-#| "List paths for control files installed to your system from I<package-"
-#| "name>.  If I<control-file> is specified then only list the path for that "
-#| "control file if it is present. B<Warning>: this command is semi-public, "
-#| "it should be used only as a last resort solution, and if no other "
-#| "interface is available. It might get deprecated later on if better "
-#| "interfaces or the current architectural deficiencies have been solved."
 msgid ""
 "List paths for control files installed to your system from I<package-name>.  "
 "If I<control-file> is specified then only list the path for that control "
 "file if it is present. B<Warning>: this command is deprecated, please switch "
 "to use B<--control-list> and B<--control-show> instead."
 msgstr ""
-"I<package-name> からインストールされた制御ファイルのパスを表示する。"
-"I<control-file> が指定された場合は、該当制御ファイルが存在している場合に限"
-"り、その制御ファイルのパスのみが表示される。B<警告>: このコマンドは半ば非公開"
-"であり、他の方法がない場合に限り、最後の手段として使用すべきである。このコマ"
-"ンドは、より優れたインタフェースが出現して、現在のアーキテクチャ的な問題点が"
-"解決された暁には、廃止される可能性もある。"
+"I<package-name> がシステムにインストールした制御ファイルのパスを表示する。"
+"I<control-file> が指定された場合は、該当の制御ファイルが存在している場合に限"
+"り、その制御ファイルのパスだけを表示する。B<警告>: このコマンドは廃止予定であ"
+"る。B<--control-list> や B<--control-show> の使用に切り替えてほしい。"
 
 #. type: TP
 #: dpkg-query.1:123
@@ -12060,11 +11861,6 @@ msgstr "B<-p>, B<--print-avail> I<package-name>..."
 
 #. type: Plain text
 #: dpkg-query.1:135
-#, fuzzy
-#| msgid ""
-#| "Display details about I<package-name>, as found in I</var/lib/dpkg/"
-#| "available>. When multiple I<package-name> are listed, the requested "
-#| "I<available> entries are separated by an empty line."
 msgid ""
 "Display details about I<package-name>, as found in I</var/lib/dpkg/"
 "available>. When multiple I<package-name> are listed, the requested "
@@ -12072,7 +11868,8 @@ msgid ""
 "specified on the argument list."
 msgstr ""
 "I</var/lib/dpkg/available> にある I<package-name> の詳細を表示する。"
-"I<package-name> が複数指定された場合、各パッケージ間は空行で区切られる。"
+"I<package-name> が複数指定された場合、各 I<available> のエントリは、引数のリ"
+"ストで指定された順に、エントリ間を空行で区切って表示される。"
 
 #. type: Plain text
 #: dpkg-query.1:140
@@ -12087,10 +11884,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-query.1:152
-#, fuzzy, no-wrap
-#| msgid "B<--clear-avail>"
+#, no-wrap
 msgid "B<--load-avail>"
-msgstr "B<--clear-avail>"
+msgstr "B<--load-avail>"
 
 #. type: Plain text
 #: dpkg-query.1:156
@@ -12098,6 +11894,8 @@ msgid ""
 "Also load the available file when using the B<--show> and B<--list> "
 "commands, which now default to only querying the status file."
 msgstr ""
+"B<--show> および B<--list> コマンドを用いた際に利用可能なファイルもロードす"
+"る。これらのコマンドはデフォルトではステータスファイルのみを検索対象とする。"
 
 #. type: TP
 #: dpkg-query.1:156
@@ -12134,15 +11932,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-query.1:181
-#, fuzzy
-#| msgid ""
-#| "Package information can be included by inserting variable references to "
-#| "package fields using the syntax \\(lqB<${>I<field>[B<;>I<width>]B<}>"
-#| "\\(rq. Fields are printed right-aligned unless the width is negative in "
-#| "which case left alignment will be used. The following I<field>s are "
-#| "recognised but they are not necessarily available in the status file "
-#| "(only internal fields or fields stored in the binary package end up in "
-#| "it):"
 msgid ""
 "Package information can be included by inserting variable references to "
 "package fields using the syntax \\(lqB<${>I<field>[B<;>I<width>]B<}>\\(rq. "
@@ -12160,41 +11949,7 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-query.1:216
-#, fuzzy, no-wrap
-#| msgid ""
-#| "    B<Architecture>\n"
-#| "    B<Bugs>\n"
-#| "    B<Conffiles> (internal)\n"
-#| "    B<Config-Version> (internal)\n"
-#| "    B<Conflicts>\n"
-#| "    B<Breaks>\n"
-#| "    B<Depends>\n"
-#| "    B<Description>\n"
-#| "    B<Enhances>\n"
-#| "    B<Essential>\n"
-#| "    B<Filename> (internal, front-end related)\n"
-#| "    B<Homepage>\n"
-#| "    B<Installed-Size>\n"
-#| "    B<MD5sum> (internal, front-end related)\n"
-#| "    B<MSDOS-Filename> (internal, front-end related)\n"
-#| "    B<Maintainer>\n"
-#| "    B<Origin>\n"
-#| "    B<Package>\n"
-#| "    B<Pre-Depends>\n"
-#| "    B<Priority>\n"
-#| "    B<Provides>\n"
-#| "    B<Recommends>\n"
-#| "    B<Replaces>\n"
-#| "    B<Revision> (obsolete)\n"
-#| "    B<Section>\n"
-#| "    B<Size> (internal, front-end related)\n"
-#| "    B<Source>\n"
-#| "    B<Status> (internal)\n"
-#| "    B<Suggests>\n"
-#| "    B<Tag> (usually not in the .deb but in the repository Packages files)\n"
-#| "    B<Triggers-Awaited> (internal)\n"
-#| "    B<Triggers-Pending> (internal)\n"
-#| "    B<Version>\n"
+#, no-wrap
 msgid ""
 "    B<Architecture>\n"
 "    B<Bugs>\n"
@@ -12271,6 +12026,9 @@ msgid ""
 "from other fields (note that these do not use valid names for fields in "
 "control files):"
 msgstr ""
+"以下は B<dpkg-query> が別のフィールドの値から生成した仮想的なフィールドであ"
+"る (これらのフィールド名は、制御ファイルにおける適切な命名規則に従っていない"
+"点に留意)。"
 
 #. type: Plain text
 #: dpkg-query.1:228
@@ -12282,16 +12040,14 @@ msgid ""
 "    B<source:Package>\n"
 "    B<source:Version>\n"
 msgstr ""
+"    B<binary:Package>\n"
+"    B<binary:Summary>\n"
+"    B<db:Status-Abbrev>\n"
+"    B<source:Package>\n"
+"    B<source:Version>\n"
 
 #. type: Plain text
 #: dpkg-query.1:239
-#, fuzzy
-#| msgid ""
-#| "The default format string is \\(lqB<${Package}\\et${Version}\\en>\\(rq.  "
-#| "Actually, all other fields found in the status file (i.e. user defined "
-#| "fields) can be requested, too. They will be printed as-is, though, no "
-#| "conversion nor error checking is done on them.  To get the name of the "
-#| "dpkg maintainer and the installed version, you could run:"
 msgid ""
 "The default format string is \\(lqB<${binary:Package}\\et${Version}\\en>"
 "\\(rq.  Actually, all other fields found in the status file (i.e. user "
@@ -12302,18 +12058,20 @@ msgid ""
 "with a value of B<same>, and as such its name could be ambiguous.  To get "
 "the name of the dpkg maintainer and the installed version, you could run:"
 msgstr ""
-"デフォルトのフォーマット文字列は  \\(lqB<${Package}\\et${Version}\\en>\\(rq "
-"である。実際には、ステータスファイルに含まれる他のすべてのフィールド(つまり、"
-"ユーザ定義フィールド)も指定することができ、これらはそのまま表示される。変換や"
-"エラーチェックは行われない。例えば、dpkg のメンテナとインストールされている"
-"バージョンを取得するには、以下を実行する:"
+"デフォルトのフォーマット文字列は  \\(lqB<${binary:Package}\\et${Version}\\en>"
+"\\(rq である。実際には、ステータスファイルに含まれる他のすべてのフィールド "
+"(ユーザ定義フィールド) も指定することができ、これらはそのまま表示される。変換"
+"やエラーチェックは行われない。B<binary:Package> は、パッケージの I<Multi-"
+"Arch> フィールドが B<same> となっているため、名前だけでは曖昧になってしまう"
+"パッケージについて、パッケージ名をアーキテクチャ修飾子 (\"libc6:amd64\" のよ"
+"うな) 付きで表示する特殊なフィールドである。dpkg のメンテナとインストールされ"
+"ているバージョンを取得するには、以下を実行する:"
 
 #. type: Plain text
 #: dpkg-query.1:242
-#, fuzzy, no-wrap
-#| msgid "  B<dpkg-query -W -f=\\(aq${Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
+#, no-wrap
 msgid "  B<dpkg-query -W -f=\\(aq${binary:Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
-msgstr "  B<dpkg-query -W -f=\\(aq${Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
+msgstr "  B<dpkg-query -W -f=\\(aq${binary:Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
 
 #. type: SH
 #: dpkg-query.1:244 dpkg-split.1:196 start-stop-daemon.8:291
@@ -12365,10 +12123,9 @@ msgstr "dpkg-scanpackages"
 
 #. type: TH
 #: dpkg-scanpackages.1:21
-#, fuzzy, no-wrap
-#| msgid "2008-02-17"
+#, no-wrap
 msgid "2012-05-07"
-msgstr "2008-02-17"
+msgstr "2012-05-07"
 
 #. type: Plain text
 #: dpkg-scanpackages.1:24
@@ -12417,49 +12174,34 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-scanpackages.1:64
-#, fuzzy
-#| msgid ""
-#| "I<binarydir> is the name of the tree of the binary packages to process "
-#| "(for example, B<contrib/binary-i386>).  It is best to make this relative "
-#| "to the root of the Debian archive, because every Filename field in the "
-#| "new Packages file will start with this string."
 msgid ""
 "I<binary-dir> is the name of the tree of the binary packages to process (for "
 "example, B<contrib/binary-i386>).  It is best to make this relative to the "
 "root of the Debian archive, because every Filename field in the new Packages "
 "file will start with this string."
 msgstr ""
-"I<binarydir> は処理するバイナリパッケージツリーの名前である (例えば "
+"I<binary-dir> は処理するバイナリパッケージツリーの名前である (例えば "
 "B<contrib/binary-i386> など)。Debian アーカイブのルートに対する相対パスにして"
 "おくことが推奨される。これは、新規 Packages ファイルに含まれている各 "
 "Filename フィールドはこの文字列で始まるからである。"
 
 #. type: Plain text
 #: dpkg-scanpackages.1:69
-#, fuzzy
-#| msgid ""
-#| "I<overridefile> is the name of a file to read which contains information "
-#| "about how the package fits into the distribution (it can be a compressed "
-#| "file); see B<deb-override>(5)."
 msgid ""
 "I<override-file> is the name of a file to read which contains information "
 "about how the package fits into the distribution (it can be a compressed "
 "file); see B<deb-override>(5)."
 msgstr ""
-"I<overridefile> は、パッケージをディストリビューションに適合させるようにする"
+"I<override-file> は、パッケージをディストリビューションに適合させるようにする"
 "ための情報を含むファイルの名前である (圧縮ファイルの場合もある)。B<deb-"
 "override>(5) を参照のこと。"
 
 #. type: Plain text
 #: dpkg-scanpackages.1:72
-#, fuzzy
-#| msgid ""
-#| "I<pathprefix> is an optional string to be prepended to the Filename "
-#| "fields."
 msgid ""
 "I<path-prefix> is an optional string to be prepended to the Filename fields."
 msgstr ""
-"I<pathprefix> は Filename フィールドにおいて、パスの前に追加できるオプション"
+"I<path-prefix> は Filename フィールドにおいて、パスの前に追加できるオプション"
 "の文字列である。"
 
 #. type: Plain text
@@ -12728,13 +12470,6 @@ msgstr "B<dpkg-shlibdeps> [I<option>...] [B<-e>]I<executable> [I<option>...]"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:43
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-shlibdeps> calculates shared library dependencies for executables "
-#| "named in its arguments. The dependencies are added to the substitution "
-#| "variables file B<debian/substvars> as variable names B<shlibs:"
-#| ">I<dependencyfield> where I<dependencyfield> is a dependency field name. "
-#| "Any other variables starting with B<shlibs:> are removed from the file."
 msgid ""
 "B<dpkg-shlibdeps> calculates shared library dependencies for executables "
 "named in its arguments. The dependencies are added to the substitution "
@@ -12744,9 +12479,9 @@ msgid ""
 msgstr ""
 "B<dpkg-shlibdeps> は、引数として与えられた実行バイナリと共有ライブラリとの依"
 "存関係を算出する。依存関係は変数ファイル B<debian/substvars> に B<shlibs:"
-">I<dependencyfield> という名前の変数として追加される。I<dependencyfield> は依"
-"存関係にあるフィールド名であり、それ以外のB<shlibs:> からはじまる変数はファイ"
-"ルから削除される。"
+">I<dependency-field> という名前の変数として追加される。I<dependency-field> は"
+"依存関係にあるフィールド名であり、それ以外のB<shlibs:> からはじまる変数はファ"
+"イルから削除される。"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:66
@@ -12772,8 +12507,8 @@ msgstr ""
 "に、ライブラリのパッケージによって提供され、各々 /var/lib/dpkg/info/"
 "I<package>.I<symbols> および /var/lib/dpkg/info/I<package>.I<shlibs> に存在す"
 "る。パッケージ名は 2 段階で識別される。最初にシステムにあるライブラリが検索さ"
-"れ (B<ld.so> が使用するのと同じディレクトリが検索される)、ついで B<dpkg -"
-"S>I<library-file> を用いてライブラリを提供するパッケージが検索される。"
+"れ (B<ld.so> が使用するのと同じディレクトリが検索される)、ついで B<dpkg -S "
+">I<library-file> を用いてライブラリを提供するパッケージが検索される。"
 
 #. type: SS
 #: dpkg-shlibdeps.1:66
@@ -12942,10 +12677,10 @@ msgid ""
 "package's build tree. The shlibs file in that build tree takes precedence "
 "over shlibs files from other binary packages."
 msgstr ""
-"B<dpkg-gensymbols>(1) を実行している 現在のビルド処理によって生成された共有ラ"
-"イブラリの情報。これらはライブラリがパッケージのビルドツリー内で見つかった場"
-"合のみ使われる。ビルドツリー内の shlibs ファイルはその他のバイナリパッケージ"
-"の shlibs ファイルに優先する。"
+"B<dpkg-shlibdeps> を起動した現在のビルド処理によって生成された共有ライブラリ"
+"の情報。これらはライブラリがパッケージのビルドツリー内で見つかった場合のみ使"
+"われる。ビルドツリー内の shlibs ファイルはその他のバイナリパッケージの "
+"shlibs ファイルに優先する。"
 
 #. type: IP
 #: dpkg-shlibdeps.1:118
@@ -12998,52 +12733,34 @@ msgstr "I<executable> が必要とする共有ライブラリのための依存�
 
 #. type: TP
 #: dpkg-shlibdeps.1:136
-#, fuzzy, no-wrap
-#| msgid "B<-d>I<dependencyfield>"
+#, no-wrap
 msgid "B<-d>I<dependency-field>"
-msgstr "B<-d>I<dependencyfield>"
+msgstr "B<-d>I<dependency-field>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:142
-#, fuzzy
-#| msgid ""
-#| "Add dependencies to be added to the control file dependency field "
-#| "I<dependencyfield>.  (The dependencies for this field are placed in the "
-#| "variable B<shlibs:>I<dependencyfield>.)"
 msgid ""
 "Add dependencies to be added to the control file dependency field "
 "I<dependency-field>.  (The dependencies for this field are placed in the "
 "variable B<shlibs:>I<dependency-field>.)"
 msgstr ""
-"制御ファイルの依存関係のためのフィールド I<dependencyfield> に依存関係を追加"
-"する (このフィールドに記載した依存関係は B<shlibs:>I<dependencyfield> 変数に"
+"制御ファイルの依存関係のためのフィールド I<dependency-field> に依存関係を追加"
+"する (このフィールドに記載した依存関係は B<shlibs:>I<dependency-field> 変数に"
 "設定される。"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:152
-#, fuzzy
-#| msgid ""
-#| "The B<-d>I<dependencyfield> option takes effect for all executables after "
-#| "the option, until the next B<-d>I<dependencyfield>.  The default "
-#| "I<dependencyfield> is B<Depends>."
 msgid ""
 "The B<-d>I<dependency-field> option takes effect for all executables after "
 "the option, until the next B<-d>I<dependency-field>.  The default "
 "I<dependency-field> is B<Depends>."
 msgstr ""
-"B<-d>I<dependecyfield> オプションは、次の B<-d>I<dependencyfield> が現れるま"
-"で、このオプションに続くすべての実行ファイルに適用される。I<dependencyfield> "
-"のデフォルトは B<Depends> である。"
+"B<-d>I<dependency-field> オプションは、次の B<-d>I<dependency-field> が現れる"
+"まで、このオプションに続くすべての実行ファイルに適用される。I<dependency-"
+"field> のデフォルトは B<Depends> である。"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:160
-#, fuzzy
-#| msgid ""
-#| "If the same dependency entry (or set of alternatives) appears in more "
-#| "than one of the recognised dependency field names B<Pre-Depends>, "
-#| "B<Depends>, B<Recommends>, B<Enhances> or B<Suggests> then B<dpkg-"
-#| "shlibdeps> will automatically remove the dependency from all fields "
-#| "except the one representing the most important dependencies."
 msgid ""
 "If the same dependency entry (or set of alternatives) appears in more than "
 "one of the recognized dependency field names B<Pre-Depends>, B<Depends>, "
@@ -13058,27 +12775,20 @@ msgstr ""
 
 #. type: TP
 #: dpkg-shlibdeps.1:160
-#, fuzzy, no-wrap
-#| msgid "B<-p>I<varnameprefix>"
+#, no-wrap
 msgid "B<-p>I<varname-prefix>"
-msgstr "B<-p>I<varnameprefix>"
+msgstr "B<-p>I<varname-prefix>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:171
-#, fuzzy
-#| msgid ""
-#| "Start substitution variables with I<varnameprefix>B<:> instead of "
-#| "B<shlibs:>.  Likewise, any existing substitution variables starting with "
-#| "I<varnameprefix>B<:> (rather than B<shlibs:>)  are removed from the the "
-#| "substitution variables file."
 msgid ""
 "Start substitution variables with I<varname-prefix>B<:> instead of B<shlibs:"
 ">.  Likewise, any existing substitution variables starting with I<varname-"
 "prefix>B<:> (rather than B<shlibs:>)  are removed from the the substitution "
 "variables file."
 msgstr ""
-"変数名を B<shlibs:> から始まる代わりに I<varnameprefix>B<:> から始める。同様"
-"に、(B<shlibs:>ではなく) I<varnameprefix>B<:> から始まる既存の変数が変数ファ"
+"変数名を B<shlibs:> から始まる代わりに I<varname-prefix>B<:> から始める。同様"
+"に、(B<shlibs:>ではなく) I<varname-prefix>B<:> から始まる既存の変数が変数ファ"
 "イルから削除される。"
 
 #. type: Plain text
@@ -13113,35 +12823,27 @@ msgstr ""
 
 #. type: TP
 #: dpkg-shlibdeps.1:184
-#, fuzzy, no-wrap
-#| msgid "B<-L>I<localshlibsfile>"
+#, no-wrap
 msgid "B<-L>I<local-shlibs-file>"
-msgstr "B<-L>I<localshlibsfile>"
+msgstr "B<-L>I<local-shlibs-file>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:190
-#, fuzzy
-#| msgid ""
-#| "Read overriding shared library dependency information from "
-#| "I<localshlibsfile> instead of B<debian/shlibs.local>."
 msgid ""
 "Read overriding shared library dependency information from I<local-shlibs-"
 "file> instead of B<debian/shlibs.local>."
 msgstr ""
-"B<debian/shlibs.local> の代わりに I<localshlibsfile> から上書きする共有ライブ"
-"ラリの依存関係情報を読み取る。"
+"B<debian/shlibs.local> の代わりに I<local-shlibs-file> から上書きする共有ライ"
+"ブラリの依存関係情報を読み取る。"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:196
-#, fuzzy
-#| msgid ""
-#| "Write substitution variables in I<substvarsfile>; the default is B<debian/"
-#| "substvars>."
 msgid ""
 "Write substitution variables in I<substvars-file>; the default is B<debian/"
 "substvars>."
 msgstr ""
-"変数を I<substvarsfile> に書き込む。デフォルトは B<debian/substvars> である。"
+"変数を I<substvars-file> に書き込む。デフォルトは B<debian/substvars> であ"
+"る。"
 
 #. type: TP
 #: dpkg-shlibdeps.1:196
@@ -13180,20 +12882,12 @@ msgstr ""
 
 #. type: TP
 #: dpkg-shlibdeps.1:208
-#, fuzzy, no-wrap
-#| msgid "B<-P>I<package-build-dir>"
+#, no-wrap
 msgid "B<-S>I<package-build-dir>"
-msgstr "B<-P>I<package-build-dir>"
+msgstr "B<-S>I<package-build-dir>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:215
-#, fuzzy
-#| msgid ""
-#| "Look into I<pkgbuilddir> first when trying to find a library. This is "
-#| "useful when the source package builds multiple flavors of the same "
-#| "library and you want to ensure that you get the dependency from a given "
-#| "binary package. You can use this option multiple times: directories will "
-#| "be tried in the same order before directories of other binary packages."
 msgid ""
 "Look into I<package-build-dir> first when trying to find a library. This is "
 "useful when the source package builds multiple flavors of the same library "
@@ -13201,12 +12895,12 @@ msgid ""
 "package. You can use this option multiple times: directories will be tried "
 "in the same order before directories of other binary packages."
 msgstr ""
-"ライブラリを探索する際に、最初に I<pkgbuilddir> 内を探索する。これは、ソース"
-"パッケージが flavor を交えながら同じライブラリを何度もビルドする際に、指定さ"
-"れたバイナリパッケージからの依存関係を取得したいといった場合に有用である。こ"
-"のオプションは複数回設定することができる。その場合、ここで指定した以外のバイ"
-"ナリパッケージの格納されたディレクトリを探索する前に、指定された順にディレク"
-"トリが探索される。"
+"ライブラリを探索する際に、最初に I<package-build-dir> 内を探索する。これは、"
+"ソースパッケージが flavor を交えながら同じライブラリを何度もビルドする際に、"
+"指定されたバイナリパッケージからの依存関係を取得したいといった場合に有用であ"
+"る。このオプションは複数回設定することができる。その場合、ここで指定した以外"
+"のバイナリパッケージの格納されたディレクトリを探索する前に、指定された順に"
+"ディレクトリが探索される。"
 
 #. type: TP
 #: dpkg-shlibdeps.1:215
@@ -13235,16 +12929,6 @@ msgstr "B<--warnings=>I<value>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:232
-#, fuzzy
-#| msgid ""
-#| "I<value> is a bit field defining the set of warnings that can be emitted "
-#| "by B<dpkg-shlibdeps>.  Bit 0 (value=1) enables the warning \"symbol "
-#| "I<sym> used by I<binary> found in none of the libraries\", bit 1 "
-#| "(value=2) enables the warning \"dependency on I<library> could be avoided"
-#| "\" and bit 2 (value=4)  enables the warning \"I<binary> shouldn't be "
-#| "linked with I<library>\".  The default I<value> is 3: the first two "
-#| "warnings are active by default, the last one is not. Set I<value> to 7 if "
-#| "you want all warnings to be active."
 msgid ""
 "I<value> is a bit field defining the set of warnings that can be emitted by "
 "B<dpkg-shlibdeps>.  Bit 0 (value=1) enables the warning \"symbol I<sym> used "
@@ -13257,11 +12941,11 @@ msgstr ""
 "I<value> は B<dpkg-shlibdeps> によって出力される一連の警告をビットフィールド"
 "として定義したものである。ビット 0 (value=1) は \"symbol I<sym> used by "
 "I<binary> found in none of the libraries\" という警告を、ビット 1 (value=2) "
-"は \"dependency on I<library> could be avoided\" という警告を、ビット 2 "
-"(value=4) は \"I<binary> shouldn't be linked with I<library>\" という警告を有"
-"効にする。デフォルトの I<value> は 3 であり、最初の 2 つの警告がデフォルトで"
-"有効になり、最後の 1 つは無効となる。I<value> を 7 にすることで、すべての警告"
-"を有効にできる。"
+"は \"package could avoid a useless dependency\" という警告を、ビット 2 "
+"(value=4) は \"I<binary> should not be linked against I<library>\" という警告"
+"を有効にする。デフォルトの I<value> は 3 であり、最初の 2 つの警告がデフォル"
+"トで有効になり、最後の 1 つは無効となる。I<value> を 7 にすることで、すべての"
+"警告を有効にできる。"
 
 #. type: SH
 #: dpkg-shlibdeps.1:243
@@ -13335,10 +13019,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-shlibdeps.1:270
-#, fuzzy, no-wrap
-#| msgid "I<binary>B< shouldn't be linked with >I<library>B< (it uses none of its symbols).>"
+#, no-wrap
 msgid "B<package could avoid a useless dependency if >I<binary>B< was not linked against >I<library>B< (it uses none of the library's symbols)>"
-msgstr "I<binary>B< shouldn't be linked with >I<library>B< (it uses none of its symbols).>"
+msgstr "B<package could avoid a useless dependency if >I<binary>B< was not linked against >I<library>B< (it uses none of the library's symbols)>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:276
@@ -13355,22 +13038,20 @@ msgstr ""
 
 #. type: TP
 #: dpkg-shlibdeps.1:276
-#, fuzzy, no-wrap
-#| msgid "B<dependency on >I<library>B< could be avoided if >I<binaries>B< were not uselessly linked against it (they use none of its symbols).>"
+#, no-wrap
 msgid "B<package could avoid a useless dependency if >I<binaries>B< were not linked against >I<library>B< (they uses none of the library's symbols)>"
-msgstr "B<dependency on >I<library>B< could be avoided if >I<binaries>B< were not uselessly linked against it (they use none of its symbols).>"
+msgstr "B<package could avoid a useless dependency if >I<binaries>B< were not linked against >I<library>B< (they uses none of the library's symbols)>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:279
 msgid "Exactly the same as the above warning, but for multiple binaries."
-msgstr ""
+msgstr "前述の警告と同一であるが、複数のバイナリが対象となっている。"
 
 #. type: TP
 #: dpkg-shlibdeps.1:279
-#, fuzzy, no-wrap
-#| msgid "I<binary>B< shouldn't be linked with >I<library>B< (it uses none of its symbols).>"
+#, no-wrap
 msgid "I<binary>B< should not be linked against >I<library>B< (it uses none of the library's symbols)>"
-msgstr "I<binary>B< shouldn't be linked with >I<library>B< (it uses none of its symbols).>"
+msgstr "I<binary>B< should not be linked against >I<library>B< (it uses none of the library's symbols)>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1:286
@@ -13747,17 +13428,12 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:139
-#, fuzzy
-#| msgid ""
-#| "Specifies the change log file to read information from. The default is "
-#| "B<debian/changelog>.  If given with relative pathname this is interpreted "
-#| "starting at the source tree's top level directory."
 msgid ""
 "Specifies the changelog file to read information from. The default is "
 "B<debian/changelog>.  If given with relative pathname this is interpreted "
 "starting at the source tree's top level directory."
 msgstr ""
-"情報の読み取り元となるchengelog ファイルを指定する。デフォルトは B<debian/"
+"情報の読み取り元となる changelog ファイルを指定する。デフォルトは B<debian/"
 "changelog> である。相対パス名で指定された場合は、ソースツリーのトップのディレ"
 "クトリを起点として解釈される。"
 
@@ -13778,19 +13454,14 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:157
-#, fuzzy
-#| msgid ""
-#| "Read substitution variables in I<substvarsfile>; the default is to not "
-#| "read any file. This option can be used multiple times to read "
-#| "substitution variables from multiple files."
 msgid ""
 "Read substitution variables in I<substvars-file>; the default is to not read "
 "any file. This option can be used multiple times to read substitution "
 "variables from multiple files."
 msgstr ""
-"I<substvarsfile> にある変数を読み込む。デフォルトではいかなるファイルも読み込"
-"まれない。このオプションは複数のファイルから変数を読み取るために複数回指定す"
-"ることができる。"
+"I<substvars-file> にある変数を読み込む。デフォルトではいかなるファイルも読み"
+"込まれない。このオプションは複数のファイルから変数を読み取るために複数回指定"
+"することができる。"
 
 #. type: TP
 #: dpkg-source.1:163
@@ -14027,7 +13698,7 @@ msgid ""
 msgstr ""
 "使用しているソース形式が分からない場合は、\"3.0 (quilt)\" もしくは \"3.0 "
 "(native)\" のいずれかであろう。Debian においてこれらの形式を使用するための情"
-"報については、http://wiki.debian.org/Projects/ の DebSrc3.0 を参照のこと。"
+"報については、http://wiki.debian.org/Projects/DebSrc3.0 を参照のこと。"
 
 #. type: SS
 #: dpkg-source.1:257
@@ -14140,10 +13811,10 @@ msgid ""
 "I<directory>B<.orig> for the generation of the diff."
 msgstr ""
 "オリジナルのソースが、デフォルトでは I<package>B<_>I<upstream-version>B<."
-"orig.tar.gz.>I<extension> という名前の tar ファイルであることを指示する。この"
-"オリジナルのソースは適切な場所にtar ファイルのまま残され、カレントディレクト"
-"リに存在していない場合はそこにコピーされる。tar ファイルは diff を生成するた"
-"めに、I<directory>B<.orig> に展開される。"
+"orig.tar.>I<extension> という名前の tar ファイルであることを指示する。このオ"
+"リジナルのソースは適切な場所にtar ファイルのまま残され、カレントディレクトリ"
+"に存在していない場合はそこにコピーされる。tar ファイルは diff を生成するため"
+"に、I<directory>B<.orig> に展開される。"
 
 #. type: TP
 #: dpkg-source.1:310 dpkg-source.1:379
@@ -14427,7 +14098,7 @@ msgstr ""
 "に展開される (既存のディレクトリがあった場合、上書きされる)。debian tar アー"
 "カイブは、既存の B<debian> ディレクトリの削除後、ソースディレクトリのトップに"
 "展開される。debian tar アーカイブには、B<debian> サブディレクトリが必要だが、"
-"ディレクトリ外にバイナリファイルを含めることもできる (B<--include->binaries) "
+"ディレクトリ外にバイナリファイルを含めることもできる (B<--include-binaries)> "
 "オプションを参照のこと)。"
 
 #. type: Plain text
@@ -14462,6 +14133,9 @@ msgid ""
 "any fuzz. When that is not the case, you should refresh such patches with "
 "quilt, or dpkg-source will error out while trying to apply them."
 msgstr ""
+"quilt のデフォルトの動作とは相反するが、パッチは fuzz なしで適用されることが"
+"期待される。さもなくば、これらのパッチを quilt で更新しない限り、dpkg-source "
+"によるパッチ適用時にエラーとなる。"
 
 #. type: Plain text
 #: dpkg-source.1:459
@@ -14501,7 +14175,7 @@ msgstr ""
 "B<debian-changes->I<version> もしくは B<debian-changes>) を除くすべてのパッチ"
 "が適用される。一時ディレクトリはソースパッケージのディレクトリと比較される。"
 "diff が空でない場合、B<--single-debian-patch> もしくは B<--auto-commit> が指"
-"定され、diff が自動パッチの中に保存されていない限り、ビルドは失敗す。る。自動"
+"定され、diff が自動パッチの中に保存されていない限り、ビルドは失敗する。自動"
 "パッチが作成/削除される場合は、series ファイルと quilt のメタデータからも追"
 "加/削除される。"
 
@@ -14541,7 +14215,7 @@ msgid ""
 "quilt is ignored during generation of the automatic patch."
 msgstr ""
 "自動的に生成された diff には、多くの一時ファイル (デフォルト値は B<--help> 出"
-"力の B<-I> オプションを参照のこと) やバージョン管理システム固有のファイルや"
+"力の B<-i> オプションを参照のこと) やバージョン管理システム固有のファイルや"
 "ディレクトリは含まれない。特に quilt が使用する B<.pc> ディレクトリは、自動"
 "パッチの生成時には無視される。"
 
@@ -14576,16 +14250,6 @@ msgstr "B<--commit> [I<directory>] [I<patch-name>] [I<patch-file>]"
 
 #. type: Plain text
 #: dpkg-source.1:514
-#, fuzzy
-#| msgid ""
-#| "Generates a patch corresponding to the local changes that are not managed "
-#| "by the quilt patch system and integrates it in the patch system under the "
-#| "name I<patch-name>. If the name is missing, it will be asked "
-#| "interactively. If I<patch-file> is given, it is used as the patch "
-#| "corresponding to the local changes to integrate. This is mainly useful "
-#| "after a build failure that pre-generated this file. Once integrated, an "
-#| "editor is launched so that you can edit the meta-information in the patch "
-#| "header."
 msgid ""
 "Generates a patch corresponding to the local changes that are not managed by "
 "the quilt patch system and integrates it in the patch system under the name "
@@ -14597,10 +14261,9 @@ msgstr ""
 "quilt パッチシステムによって管理されていないローカルな変更に対応するパッチを"
 "生成し、I<patch-name> というファイル名でパッチシステムに統合する。I<patch-"
 "name> を指定しなかった場合は、対話的に確認される。I<patch-file> が指定された"
-"場合は、統合されるローカルな変更に対応するパッチファイル名として用いられる。"
-"このオプションは、パッチを作成する契機となったビルド失敗の後で使用するのが有"
-"用である。パッチ統合の際にはエディタが起動され、パッチのヘッダにおけるメタ情"
-"報を編集することができる。"
+"場合は、統合されるローカルな変更に関連するパッチファイル名として用いられる。"
+"パッチ統合の際にはエディタが起動され、パッチのヘッダにおけるメタ情報を編集す"
+"ることができる。"
 
 #. type: Plain text
 #: dpkg-source.1:520
@@ -14611,6 +14274,11 @@ msgid ""
 "already be applied on the tree and that the files modified by the patch must "
 "not have supplementary unrecorded changes."
 msgstr ""
+"I<patch-file> の指定は、予め生成されたパッチファイルを用いたビルドに失敗した"
+"際に有用であり、そのため、指定されたファイルは統合後に削除される。パッチファ"
+"イルに含まれている変更点は、ツリーに予め適用されている必要があり、パッチに"
+"よって修正されるファイルは、その他の記録されていない変更が行われていてはなら"
+"ない点にも留意すること。"
 
 #. type: Plain text
 #: dpkg-source.1:525
@@ -14620,6 +14288,10 @@ msgid ""
 "in the debian tarball (exactly like B<dpkg-source --include-binaries -b> "
 "would do)."
 msgstr ""
+"パッチの生成により、バイナリファイルの変更が必要と認識された場合、それらは自"
+"動的に B<debian/source/include-binaries> に追加されるため、最終的に debian "
+"tar アーカイブに追加される (B<dpkg-source --include-binaries -b> と似た動作と"
+"なる)。"
 
 #. type: Plain text
 #: dpkg-source.1:527 dpkg-source.1:602 dpkg-source.1:641
@@ -14752,20 +14424,12 @@ msgstr ""
 
 #. type: TP
 #: dpkg-source.1:568
-#, fuzzy, no-wrap
-#| msgid "B<--unapply-patches>"
+#, no-wrap
 msgid "B<--no-unapply-patches, --unapply-patches>"
-msgstr "B<--unapply-patches>"
+msgstr "B<--no-unapply-patches, --unapply-patches>"
 
 #. type: Plain text
 #: dpkg-source.1:576
-#, fuzzy
-#| msgid ""
-#| "Unapply the patches in the B<--after-build> hook. You usually don't need "
-#| "this option as dpkg-source will automatically unapply the patches if it "
-#| "did apply them during B<--before-build>. This option is only allowed in "
-#| "B<debian/source/local-options> so that all generated source packages have "
-#| "the same behavior by default."
 msgid ""
 "By default, dpkg-source will automatically unapply the patches in the B<--"
 "after-build> hook if it did apply them during B<--before-build>. Those "
@@ -14773,11 +14437,11 @@ msgid ""
 "process. Those options are only allowed in B<debian/source/local-options> so "
 "that all generated source packages have the same behavior by default."
 msgstr ""
-"B<--after-build> フックにおいてパッチを適用しない。dpkg-source は、 B<--"
-"before-build> の際に適用したパッチの適用を自動的に避けるため、通常このオプ"
-"ションを指定する必要はない。このオプションは、 B<debian/source/local-"
-"options> 以外で設定することはできないため、生成されたすべてのソースパッケージ"
-"がデフォルトで同じ挙動を示す。"
+"dpkg-source のデフォルトでは、B<--before-build> フックでパッチが適用された場"
+"合、B<--after-build> フックにおいてパッチを自動適用はしない。これらのオプショ"
+"ンにより、パッチ適用の処理を強制的に有効化、無効化することができる。これらの"
+"オプションは B<debian/source/local-options> においてのみ有効であるため、生成"
+"されたすべてのソースパッケージがデフォルトでは同じ挙動を示す。"
 
 #. type: Plain text
 #: dpkg-source.1:583
@@ -14933,7 +14597,7 @@ msgid ""
 "B<git-bundle>(1) is used to generate a bundle of the git repository.  By "
 "default, all branches and tags in the repository are included in the bundle."
 msgstr ""
-"git リポジトリの bundle を生成する際には B<git-buldle>(1) が使用される。デ"
+"git リポジトリの bundle を生成する際には B<git-bundle>(1) が使用される。デ"
 "フォルトで、リポジトリ内のすべてのブランチとタグが bundle に含められる。"
 
 #. type: TP
@@ -15046,7 +14710,7 @@ msgid ""
 "and put \"1.0\" in B<debian/source/format>."
 msgstr ""
 "\"1.0\" 形式は既に推奨される形式から外れており、新しい形式 (\"3.0 (quilt)\", "
-"\"3.0 (native)\" のいずれかを使用すべきであるが、B<dpkg-source> は、これを自"
+"\"3.0 (native)\") のいずれかを使用すべきであるが、B<dpkg-source> は、これを自"
 "動的には行わない。古い形式の使用を継続する場合、B<debian/source/format> 中で "
 "\"1.0\" を明示すべきである。"
 
@@ -15977,11 +15641,8 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-trigger.1:40
-#, fuzzy
-#| msgid "Unrecognised trigger name syntaxes are an error for B<dpkg-trigger>."
 msgid "Unrecognized trigger name syntaxes are an error for B<dpkg-trigger>."
-msgstr ""
-"トリガ名の文法が認識されなかった場合、B<dpkg-trigeger> はエラーとなる。"
+msgstr "トリガ名の文法が認識されなかった場合、B<dpkg-trigger> はエラーとなる。"
 
 #. type: TP
 #: dpkg-trigger.1:42
@@ -16036,7 +15697,7 @@ msgid ""
 "be considered installed even though I may not yet have processed the trigger."
 msgstr ""
 "このオプションは、呼び出し側のパッケージ T (もしあれば) が、このトリガの処理"
-"を待機する必要がないように設定する。これは、関連パッケージ S が T のトリガ処"
+"を待機する必要がないように設定する。これは、関連パッケージ I が T のトリガ処"
 "理待ちリストに追加されず、T のステータスも変更されないことを意味する。I のト"
 "リガ処理が完了していない場合であっても、T はインストールされたと見なされる。"
 
@@ -16173,10 +15834,9 @@ msgstr "dselect"
 
 #. type: TH
 #: dselect.1:22
-#, fuzzy, no-wrap
-#| msgid "2008-02-17"
+#, no-wrap
 msgid "2012-04-07"
-msgstr "2008-02-17"
+msgstr "2012-04-07"
 
 #. type: Plain text
 #: dselect.1:25
@@ -16295,10 +15955,9 @@ msgstr "エキスパートモードを有効にする。つまり、煩雑なヘ
 
 #. type: TP
 #: dselect.1:77
-#, fuzzy, no-wrap
-#| msgid "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:attr>[I<+attr+..>]]"
+#, no-wrap
 msgid "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:attr>[I<+attr+...>]]"
-msgstr "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:attr>[I<+attr+..>]]"
+msgstr "B<--colour>|B<--color> I<screenpart:>[I<foreground>],[I<background>][I<:attr>[I<+attr+...>]]"
 
 #. type: Plain text
 #: dselect.1:84
@@ -17187,7 +16846,7 @@ msgid ""
 "B<enter> by accident."
 msgstr ""
 "誤って選択を確定させてしまったが、現在システムにインストールされている選択に"
-"完全に戻したいという場合は、B<'C> キーを押すこと。これはすべてのパッケージに"
+"完全に戻したいという場合は、B<'C'> キーを押すこと。これはすべてのパッケージに"
 "対して保留解除を行ってしまった場合と同様であるが、ユーザが事故で B<enter> を"
 "押してしまった場合についての明確なパニックボタンを提供するものである。"
 
@@ -17309,10 +16968,9 @@ msgstr "start-stop-daemon"
 
 #. type: TH
 #: start-stop-daemon.8:23
-#, fuzzy, no-wrap
-#| msgid "2011-11-10"
+#, no-wrap
 msgid "2012-06-17"
-msgstr "2011-11-10"
+msgstr "2012-06-17"
 
 #. type: Plain text
 #: start-stop-daemon.8:26
@@ -17458,6 +17116,10 @@ msgid ""
 "matching option alone might cause unintended processes to be acted on, if "
 "the old process terminated without being able to remove the I<pid-file>."
 msgstr ""
+"プロセスが I<pid-file> を作成したかどうかをチェックする。このオプションを単体"
+"で使用した場合、以前のプロセスが I<pid-file> を削除できないまま終了してしまっ"
+"た際に、意図しないプロセスが動作中であると判断される場合があるため留意するこ"
+"と。"
 
 #. type: TP
 #: start-stop-daemon.8:109
@@ -17474,6 +17136,11 @@ msgid ""
 "the interpreter. Take into account processes running from inside a chroot "
 "will also be matched, so other match restrictions might be needed."
 msgstr ""
+"プロセスが指定した I<executable> のインスタンスであるかどうかをチェックする。"
+"I<executable> 引数は絶対パス名であること。インタプリタ型のスクリプトに対して"
+"指定した場合、executable はインタプリタ自体を指してしまうため、期待する動作と"
+"ならない点に留意すること。chroot 内で動作しているプロセスもマッチしてしまうた"
+"め、これ以外の制約との組み合わせが必要となる点に注意すること。"
 
 #. type: TP
 #: start-stop-daemon.8:116
@@ -17490,6 +17157,11 @@ msgid ""
 "comm name from the kernel, which tends to have a relatively short length "
 "limit (assuming more than 15 characters is non-portable)."
 msgstr ""
+"プロセスが I<process-name> であるかどうかをチェックする。I<process-name> は通"
+"常プロセスのファイル名であるが、プロセス自身によって変更することも可能であ"
+"る。大半のシステムにおいて、この情報はカーネル内の process comm name から取得"
+"されるため、比較的短い名称である必要がある (15 文字を超える名称は移植性がない"
+"と判断される)点に留意すること。"
 
 #. type: TP
 #: start-stop-daemon.8:123
@@ -17504,6 +17176,9 @@ msgid ""
 "Note: using this matching option alone will cause all processes matching the "
 "user to be acted on."
 msgstr ""
+"プロセスが I<username> もしくは I<uid> で指定されたユーザの所有となっているか"
+"をチェックする。このオプションを単体で用いた場合、指定されたユーザの所有する"
+"すべてのプロセスが合致するかをチェックする点に留意すること。"
 
 #. type: TP
 #: start-stop-daemon.8:130
@@ -17729,10 +17404,9 @@ msgstr ""
 
 #. type: TP
 #: start-stop-daemon.8:247
-#, fuzzy, no-wrap
-#| msgid "B<-n>, B<--no-sort>"
+#, no-wrap
 msgid "B<-C>, B<--no-close>"
-msgstr "B<-n>, B<--no-sort>"
+msgstr "B<-C>, B<--no-close>"
 
 #. type: Plain text
 #: start-stop-daemon.8:253
@@ -17742,6 +17416,10 @@ msgid ""
 "redirect file descriptors to log the process output.  Only relevant when "
 "using B<--background>."
 msgstr ""
+"デーモンにバックグラウンドでの動作を強制する際に、ファイルディスクリプタのク"
+"ローズを一切行わない。プロセスの出力を参照する、ファイルディスクリプタの出力"
+"をプロセスの出力をロギングするためにリダイレクトするといったデバッグ目的で使"
+"用される。B<--background> を指定した際にのみ有効である。"
 
 #. type: TP
 #: start-stop-daemon.8:253
@@ -17916,13 +17594,15 @@ msgstr ""
 
 #. type: Plain text
 #: start-stop-daemon.8:342
-#, fuzzy, no-wrap
-#| msgid "start-stop-daemon --start --oknodo --user food --name food --pidfile /var/run/food.pid --startas /usr/sbin/food --chuid food -- --daemon\n"
+#, no-wrap
 msgid ""
 "start-stop-daemon --start --oknodo --user food --name food \\e\n"
 "\t--pidfile /run/food.pid --startas /usr/sbin/food \\e\n"
 "\t--chuid food -- --daemon\n"
-msgstr "start-stop-daemon --start --oknodo --user food --name food --pidfile /var/run/food.pid --startas /usr/sbin/food --chuid food -- --daemon\n"
+msgstr ""
+"start-stop-daemon --start --oknodo --user food --name food \\e\n"
+"\t--pidfile /run/food.pid --startas /usr/sbin/food \\e\n"
+"\t--chuid food -- --daemon\n"
 
 #. type: Plain text
 #: start-stop-daemon.8:345
@@ -17931,12 +17611,13 @@ msgstr "B<food> に B<SIGTERM> を送信し、停止するまで 5 秒間待機�
 
 #. type: Plain text
 #: start-stop-daemon.8:349
-#, fuzzy, no-wrap
-#| msgid "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry 5\n"
+#, no-wrap
 msgid ""
 "start-stop-daemon --stop --oknodo --user food --name food \\e\n"
 "\t--pidfile /run/food.pid --retry 5\n"
-msgstr "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry 5\n"
+msgstr ""
+"start-stop-daemon --stop --oknodo --user food --name food \\e\n"
+"\t--pidfile /run/food.pid --retry 5\n"
 
 #. type: Plain text
 #: start-stop-daemon.8:352
@@ -17945,12 +17626,13 @@ msgstr "B<food> 停止のためのカスタムスケジュールのデモ:"
 
 #. type: Plain text
 #: start-stop-daemon.8:356
-#, fuzzy, no-wrap
-#| msgid "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry=TERM/30/KILL/5\n"
+#, no-wrap
 msgid ""
 "start-stop-daemon --stop --oknodo --user food --name food \\e\n"
 "\t--pidfile /run/food.pid --retry=TERM/30/KILL/5\n"
-msgstr "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry=TERM/30/KILL/5\n"
+msgstr ""
+"start-stop-daemon --stop --oknodo --user food --name food \\e\n"
+"\t--pidfile /run/food.pid --retry=TERM/30/KILL/5\n"
 
 #. type: TH
 #: update-alternatives.8:25
@@ -17960,10 +17642,9 @@ msgstr "update-alternatives"
 
 #. type: TH
 #: update-alternatives.8:25
-#, fuzzy, no-wrap
-#| msgid "2011-11-10"
+#, no-wrap
 msgid "2012-07-31"
-msgstr "2011-11-10"
+msgstr "2012-07-31"
 
 #. type: Plain text
 #: update-alternatives.8:28
@@ -18061,16 +17742,6 @@ msgstr ""
 
 #. type: Plain text
 #: update-alternatives.8:108
-#, fuzzy
-#| msgid ""
-#| "It is often useful for a number of alternatives to be synchronised, so "
-#| "that they are changed as a group; for example, when several versions of "
-#| "the B<vi>(1)  editor are installed, the man page referenced by I</usr/"
-#| "share/man/man1/vi.1> should correspond to the executable referenced by I</"
-#| "usr/bin/vi>.  B<update-alternatives> handles this by means of I<master> "
-#| "and I<slave> links; when the master is changed, any associated slaves are "
-#| "changed too.  A master link and its associated slaves make up a I<link> "
-#| "I<group>."
 msgid ""
 "It is often useful for a number of alternatives to be synchronized, so that "
 "they are changed as a group; for example, when several versions of the B<vi>"
@@ -18434,7 +18105,7 @@ msgid ""
 "a name in the alternatives directory."
 msgstr ""
 "すべての選択肢と、それに関連するすべての slave リンクを削除する。 I<name> "
-"は、alternative ディレクトリ内の名前である。"
+"は、alternatives ディレクトリ内の名前である。"
 
 #. type: Plain text
 #: update-alternatives.8:292
@@ -18464,10 +18135,10 @@ msgid ""
 "In the process, the master symlink and its slaves are updated to point to "
 "the highest priority installed alternatives."
 msgstr ""
-"I<name> で指定される選択肢のリンクグループを、を automatic モードに変更する。"
-"この処理を行う際に、master のシンボリックリンクと対応する各 slave は、現在イ"
-"ンストールされている選択肢のうち、もっとも priority の高いものを参照するよう"
-"に更新される。"
+"I<name> で指定される選択肢のリンクグループを、automatic モードに変更する。こ"
+"の処理を行う際に、master のシンボリックリンクと対応する各 slave は、現在イン"
+"ストールされている選択肢のうち、もっとも priority の高いものを参照するように"
+"更新される。"
 
 #. type: TP
 #: update-alternatives.8:299
@@ -18711,17 +18382,14 @@ msgstr ""
 
 #. type: TP
 #: update-alternatives.8:405
-#, fuzzy, no-wrap
-#| msgid "B<Date:>I< date>"
+#, no-wrap
 msgid "B<Name:>I< name>"
-msgstr "B<Date:>I< date>"
+msgstr "B<Name:>I< name>"
 
 #. type: Plain text
 #: update-alternatives.8:408
-#, fuzzy
-#| msgid "The name of a symbolic link in the alternatives directory."
 msgid "The alternative name in the alternative directory."
-msgstr "alternatives ディレクトリに存在するシンボリックリンク名"
+msgstr "alternative ディレクトリに存在する選択肢の名前"
 
 #. type: TP
 #: update-alternatives.8:408
@@ -18742,12 +18410,6 @@ msgstr "B<Slaves:>I< list-of-slaves>"
 
 #. type: Plain text
 #: update-alternatives.8:417
-#, fuzzy
-#| msgid ""
-#| "When this header is present, the B<next> lines hold all slave "
-#| "alternatives associated to the master link of the alternative. There is "
-#| "one slave per line. Each line contains one space, the generic name of the "
-#| "slave alternative, another space, and the path to the slave alternative."
 msgid ""
 "When this field is present, the B<next> lines hold all slave links "
 "associated to the master link of the alternative. There is one slave per "
@@ -18755,9 +18417,9 @@ msgid ""
 "alternative, another space, and the path to the slave link."
 msgstr ""
 "このヘッダが存在している場合、B<以降の> 行には、この選択肢の master リンクに"
-"対応するすべての slave の選択肢が記述される。これは、slave 毎に 1 行ずつ記述"
-"され、各行は、1 文字のスペースに続き、slave の選択肢の一般名、スペース、"
-"slave の選択肢のパスが記述される。"
+"対応するすべての slave リンクが記述される。これは、slave 毎に 1 行ずつ記述さ"
+"れ、各行は、1 文字のスペースに続き、slave の選択肢の一般名、スペース、slave "
+"リンクのパスが記述される。"
 
 #. type: TP
 #: update-alternatives.8:417
@@ -18830,6 +18492,12 @@ msgstr "この選択肢の priority の値。"
 
 #. type: Plain text
 #: update-alternatives.8:443
+#, fuzzy
+#| msgid ""
+#| "When this field is present, the B<next> lines hold all slave alternatives "
+#| "associated to the master link of the alternative. There is one slave per "
+#| "line. Each line contains one space, the generic name of the slave "
+#| "alternative, another space, and the path to the slave alternative."
 msgid ""
 "When this header is present, the B<next> lines hold all slave alternatives "
 "associated to the master link of the alternative. There is one slave per "
@@ -18946,7 +18614,7 @@ msgid ""
 "To display the available packages which provide B<vi> and the current "
 "setting for it, use the B<--display> action:"
 msgstr ""
-"B<vi> を提供するパッケージとその現在の設定を表示するには、 I<--display> アク"
+"B<vi> を提供するパッケージとその現在の設定を表示するには、B<--display> アク"
 "ションを使用する:"
 
 #. type: Plain text
@@ -19003,482 +18671,5 @@ msgstr ""
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 
-#~ msgid "B<--command-fd >I<n>"
-#~ msgstr "B<--command-fd >I<n>"
-
-#~ msgid ""
-#~ "Accept a series of commands on input file descriptor I<n>. Note: "
-#~ "additional options set on the command line, and through this file "
-#~ "descriptor, are not reset for subsequent commands executed during the "
-#~ "same run."
-#~ msgstr ""
-#~ "ファイル記述子 I<n> から一連のコマンドを入力する。これ以外のオプションは、"
-#~ "コマンドラインとファイル記述子の両方で指定できる。これらは、後続のコマンド"
-#~ "実行に際しても有効である。"
-
-#~ msgid ""
-#~ "$ update-alternatives --query editor\n"
-#~ "Link: editor\n"
-#~ "Status: auto\n"
-#~ "Best: /usr/bin/vim.gtk\n"
-#~ "Value: /usr/bin/vim.gtk\n"
-#~ msgstr ""
-#~ "$ update-alternatives --query editor\n"
-#~ "Link: editor\n"
-#~ "Status: auto\n"
-#~ "Best: /usr/bin/vim.gtk\n"
-#~ "Value: /usr/bin/vim.gtk\n"
-
-#~ msgid ""
-#~ "Alternative: /usr/bin/vim.gtk\n"
-#~ "Priority: 50\n"
-#~ "Slaves:\n"
-#~ " editor.1.gz /usr/share/man/man1/vim.1.gz\n"
-#~ " editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
-#~ " editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz\n"
-#~ " editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz\n"
-#~ " editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz\n"
-#~ " editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
-#~ " editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz\n"
-#~ " editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz\n"
-#~ " editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz\n"
-#~ " editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz\n"
-#~ " editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz\n"
-#~ msgstr ""
-#~ "Alternative: /usr/bin/vim.gtk\n"
-#~ "Priority: 50\n"
-#~ "Slaves:\n"
-#~ " editor.1.gz /usr/share/man/man1/vim.1.gz\n"
-#~ " editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz\n"
-#~ " editor.pl.ISO8859-2.1.gz /usr/share/man/pl.ISO8859-2/man1/vim.1.gz\n"
-#~ " editor.it.ISO8859-1.1.gz /usr/share/man/it.ISO8859-1/man1/vim.1.gz\n"
-#~ " editor.pl.UTF-8.1.gz /usr/share/man/pl.UTF-8/man1/vim.1.gz\n"
-#~ " editor.it.1.gz /usr/share/man/it/man1/vim.1.gz\n"
-#~ " editor.fr.UTF-8.1.gz /usr/share/man/fr.UTF-8/man1/vim.1.gz\n"
-#~ " editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz\n"
-#~ " editor.it.UTF-8.1.gz /usr/share/man/it.UTF-8/man1/vim.1.gz\n"
-#~ " editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz\n"
-#~ " editor.fr.ISO8859-1.1.gz /usr/share/man/fr.ISO8859-1/man1/vim.1.gz\n"
-
-#~ msgid ""
-#~ "The file is an B<ar> archive with a magic value of B<!E<lt>archE<gt>>.  "
-#~ "The file names might contain a trailing slash."
-#~ msgstr ""
-#~ "このファイルは B<!E<lt>archE<gt>> というマジックナンバーを持つ B<ar> アー"
-#~ "カイブである。ファイル名はスラッシュで終わる場合がある。"
-
-#~ msgid ""
-#~ "A list of packages that need to be installed and configured to be able to "
-#~ "build the source package."
-#~ msgstr ""
-#~ "ソースパッケージをビルドするためにインストールと設定が必要なパッケージのリ"
-#~ "スト。"
-
-#~ msgid ""
-#~ "A list of packages that should not be installed when the package is "
-#~ "build, for example because they interfere with the used build system."
-#~ msgstr ""
-#~ "ビルドシステムの動作に影響するなど、パッケージがビルドされる時にインストー"
-#~ "ルされていることが好ましくないパッケージのリスト。"
-
-#, fuzzy
-#~| msgid "2011-11-10"
-#~ msgid "2011-11-27"
-#~ msgstr "2011-11-10"
-
-#~ msgid "To list packages related to the editor B<vi>(1):"
-#~ msgstr "B<vi>(1) エディタに関連するパッケージの一覧を表示する。"
-
-#, fuzzy
-#~| msgid "2011-11-10"
-#~ msgid "2011-11-22"
-#~ msgstr "2011-11-10"
-
-#~ msgid "B<-P>I<packagebuilddir>"
-#~ msgstr "B<-P>I<packagebuilddir>"
-
-#~ msgid "The highest urgency of all included entries is used."
-#~ msgstr "含まれるすべてのエントリの中でもっとも高い urgency が用いられる。"
-
-#~ msgid "B<-u>, B<--udeb>"
-#~ msgstr "B<-u>, B<--udeb>"
-
-#~ msgid "B<Obsolete> alias for B<-tudeb>."
-#~ msgstr "B<廃止済の> B<-tudeb> のエイリアスである。"
-
-#~ msgid "B<-S>I<pkgbuilddir>"
-#~ msgstr "B<-S>I<pkgbuilddir>"
-
-#~ msgid ""
-#~ "B<dpkg-architecture> and this man page were initially written by Marcus "
-#~ "Brinkmann E<lt>brinkmd@debian.orgE<gt>."
-#~ msgstr ""
-#~ "B<dpkg-architecture> およびそのマニュアルページを初めて執筆したのは、"
-#~ "Marcus Brinkmann E<lt>brinkmd@debian.orgE<gt> である。"
-
-#~ msgid "2011-09-13"
-#~ msgstr "2011-09-13"
-
-#~ msgid "Copyright \\(co 2001 Joey Hess"
-#~ msgstr "Copyright \\(co 2001 Joey Hess"
-
-#~ msgid ""
-#~ "This is free software; see the GNU General Public Licence version 2 or "
-#~ "later for copying conditions. There is NO WARRANTY."
-#~ msgstr ""
-#~ "This is free software; see the GNU General Public Licence version 2 or "
-#~ "later for copying conditions. There is NO warranty."
-
-#~ msgid "Copyright \\(co 1995 Ian Jackson"
-#~ msgstr "Copyright \\(co 1995 Ian Jackson"
-
-#~ msgid "Copyright \\(co 1996,1997,1998 Ian Jackson and Christian Schwarz"
-#~ msgstr "Copyright \\(co 1996,1997,1998 Ian Jackson and Christian Schwarz"
-
-#~ msgid "Copyright \\(co 2007 Frank Lichtenheld"
-#~ msgstr "Copyright \\(co 2007 Frank Lichtenheld"
-
-#~ msgid "See the Debian Policy Manual for further details."
-#~ msgstr "詳細は Debian Policy Manual を参照のこと。"
-
-#~ msgid "Copyright \\(co 1995-1996 Ian Jackson"
-#~ msgstr "Copyright \\(co 1995-1996 Ian Jackson"
-
-#~ msgid "Copyright \\(co 2000 Wichert Akkerman"
-#~ msgstr "Copyright \\(co 2000 Wichert Akkerman"
-
-#~ msgid "[ ... ]"
-#~ msgstr "[ ... ]"
-
-#~ msgid "Instead of:"
-#~ msgstr "以下の設定の代わりに:"
-
-#~ msgid ""
-#~ "ARCH=\\`dpkg --print-architecture\\`\n"
-#~ "configure $(\\s-1ARCH\\s0)-linux\n"
-#~ msgstr ""
-#~ "ARCH=\\`dpkg --print-architecture\\`\n"
-#~ "configure $(\\s-1ARCH\\s0)-linux\n"
-
-#~ msgid "please use the following:"
-#~ msgstr "以下の設定を使用する:"
-
-#~ msgid ""
-#~ "configure --build=$(\\s-1DEB_BUILD_GNU_TYPE\\s0) --host="
-#~ "$(\\s-1DEB_HOST_GNU_TYPE\\s0)\n"
-#~ msgstr ""
-#~ "configure --build=$(\\s-1DEB_BUILD_GNU_TYPE\\s0) --host="
-#~ "$(\\s-1DEB_HOST_GNU_TYPE\\s0)\n"
-
-#~ msgid ""
-#~ "ARCH=\\`dpkg --print-architecture\\`\n"
-#~ "ifeq ($(\\s-1ARCH\\s0),alpha)\n"
-#~ "  ...\n"
-#~ "endif\n"
-#~ msgstr ""
-#~ "ARCH=\\`dpkg --print-architecture\\`\n"
-#~ "ifeq ($(\\s-1ARCH\\s0),alpha)\n"
-#~ "  ...\n"
-#~ "endif\n"
-
-#~ msgid "please use:"
-#~ msgstr "以下の設定を使用する:"
-
-#~ msgid ""
-#~ "In general, calling dpkg in the rules file to get architecture "
-#~ "information is deprecated (unless you want to provide backward "
-#~ "compatibility, see below).  Especially the --print-architecture option is "
-#~ "unreliable since we have Debian architectures which don't equal a "
-#~ "processor name."
-#~ msgstr ""
-#~ "一般的に、アーキテクチャ情報を取得するために rules ファイルの中で dpkg を"
-#~ "呼び出す方法は廃止予定である (次で説明する後方互換性を維持したい場合は、こ"
-#~ "の限りではない)。Debian アーキテクチャが CPU 名と同一ではなくなっているた"
-#~ "め、特に --print-architecture オプションは信頼できない。"
-
-#~ msgid ""
-#~ "The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were introduced in "
-#~ "dpkg-dev 1.13.2. Before this I<debian/rules> files tended to check the "
-#~ "values of the DEB_HOST_GNU_CPU or DEB_HOST_GNU_TYPE variables which have "
-#~ "been subject to change."
-#~ msgstr ""
-#~ "DEB_HOST_ARCH_CPU と DEB_HOST_ARCH_OS 変数は、dpkg-dev 1.13.2 から導入され"
-#~ "た。それ以前において I<debian/rules> ファイルは DEB_HOST_GNU_CPU や "
-#~ "DEB_HOST_GNU_TYPE 変数といった、値の変更が発生しがちな変数の値をチェックす"
-#~ "ることが多かった。"
-
-#~ msgid ""
-#~ "Where I<debian/rules> files check these variables to decide how or what "
-#~ "to compile, this should be updated to use the new variables and values.  "
-#~ "You may wish to retain backwards compatibility with older version of dpkg-"
-#~ "dev by using the following code:"
-#~ msgstr ""
-#~ "I<debian/rules> ファイルにおいて、コンパイルの方法や対象を確認するために、"
-#~ "これらの変数をチェックするような箇所では、新しい変数の値を使用するように更"
-#~ "新を行っていくべきである。dpkg-dev の古いバージョンとの後方互換性を維持し"
-#~ "たい場合は、以下のようなコードを使用すること:"
-
-#~ msgid ""
-#~ "DEB_HOST_ARCH_CPU := $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU 2E<gt>/"
-#~ "dev/null)\n"
-#~ "DEB_HOST_ARCH_OS := $(shell dpkg-architecture -qDEB_HOST_ARCH_OS 2E<gt>/"
-#~ "dev/null)\n"
-#~ msgstr ""
-#~ "DEB_HOST_ARCH_CPU := $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU 2E<gt>/"
-#~ "dev/null)\n"
-#~ "DEB_HOST_ARCH_OS := $(shell dpkg-architecture -qDEB_HOST_ARCH_OS 2E<gt>/"
-#~ "dev/null)\n"
-
-#~ msgid ""
-#~ "# Take account of old dpkg-architecture output.\n"
-#~ "ifeq ($(DEB_HOST_ARCH_CPU),)\n"
-#~ "  DEB_HOST_ARCH_CPU := $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)\n"
-#~ "  ifeq ($(DEB_HOST_ARCH_CPU),x86_64)\n"
-#~ "    DEB_HOST_ARCH_CPU := amd64\n"
-#~ "  endif\n"
-#~ "endif\n"
-#~ "ifeq ($(DEB_HOST_ARCH_OS),)\n"
-#~ "  DEB_HOST_ARCH_OS := $(subst -gnu,,$(shell dpkg-architecture -"
-#~ "qDEB_HOST_GNU_SYSTEM))\n"
-#~ "  ifeq ($(DEB_HOST_ARCH_OS),gnu)\n"
-#~ "    DEB_HOST_ARCH_OS := hurd\n"
-#~ "  endif\n"
-#~ "endif\n"
-#~ msgstr ""
-#~ "# Take account of old dpkg-architecture output.\n"
-#~ "ifeq ($(DEB_HOST_ARCH_CPU),)\n"
-#~ "  DEB_HOST_ARCH_CPU := $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)\n"
-#~ "  ifeq ($(DEB_HOST_ARCH_CPU),x86_64)\n"
-#~ "    DEB_HOST_ARCH_CPU := amd64\n"
-#~ "  endif\n"
-#~ "endif\n"
-#~ "ifeq ($(DEB_HOST_ARCH_OS),)\n"
-#~ "  DEB_HOST_ARCH_OS := $(subst -gnu,,$(shell dpkg-architecture -"
-#~ "qDEB_HOST_GNU_SYSTEM))\n"
-#~ "  ifeq ($(DEB_HOST_ARCH_OS),gnu)\n"
-#~ "    DEB_HOST_ARCH_OS := hurd\n"
-#~ "  endif\n"
-#~ "endif\n"
-
-#~ msgid "And similarly for DEB_BUILD_ARCH_CPU and DEB_BUILD_ARCH_OS."
-#~ msgstr "DEB_BUILD_ARCH_CPU と DEB_BUILD_ARCH_OS についても同様である。"
-
-#~ msgid ""
-#~ "If you still wish to support versions of dpkg-dev that did not include "
-#~ "B<dpkg-architecture>, the following does the job:"
-#~ msgstr ""
-#~ "B<dpkg-architecture> を含んでいないバージョンの dpkg-dev もまだサポートし"
-#~ "たい場合は、以下のようなコードを使用すること:"
-
-#~ msgid ""
-#~ "\\&\\s-1DEB_BUILD_ARCH\\s0 := $(shell dpkg --print-architecture)\n"
-#~ "\\&\\s-1DEB_BUILD_GNU_CPU\\s0 := $(patsubst hurd-%,%,$(\\s-1DEB_BUILD_ARCH"
-#~ "\\s0))\n"
-#~ "ifeq ($(filter-out hurd-%,$(\\s-1DEB_BUILD_ARCH\\s0)),)\n"
-#~ "  \\s-1DEB_BUILD_GNU_SYSTEM\\s0 := gnu\n"
-#~ "else\n"
-#~ "  \\s-1DEB_BUILD_GNU_SYSTEM\\s0 := linux-gnu\n"
-#~ "endif\n"
-#~ "DEB_BUILD_GNU_TYPE=$(\\s-1DEB_BUILD_GNU_CPU\\s0)-"
-#~ "$(\\s-1DEB_BUILD_GNU_SYSTEM\\s0)\n"
-#~ msgstr ""
-#~ "\\&\\s-1DEB_BUILD_ARCH\\s0 := $(shell dpkg --print-architecture)\n"
-#~ "\\&\\s-1DEB_BUILD_GNU_CPU\\s0 := $(patsubst hurd-%,%,$(\\s-1DEB_BUILD_ARCH"
-#~ "\\s0))\n"
-#~ "ifeq ($(filter-out hurd-%,$(\\s-1DEB_BUILD_ARCH\\s0)),)\n"
-#~ "  \\s-1DEB_BUILD_GNU_SYSTEM\\s0 := gnu\n"
-#~ "else\n"
-#~ "  \\s-1DEB_BUILD_GNU_SYSTEM\\s0 := linux-gnu\n"
-#~ "endif\n"
-#~ "DEB_BUILD_GNU_TYPE=$(\\s-1DEB_BUILD_GNU_CPU\\s0)-"
-#~ "$(\\s-1DEB_BUILD_GNU_SYSTEM\\s0)\n"
-
-#~ msgid ""
-#~ "\\&\\s-1DEB_HOST_ARCH\\s0 := $(\\s-1DEB_BUILD_ARCH\\s0)\n"
-#~ "\\&\\s-1DEB_HOST_GNU_CPU\\s0 := $(\\s-1DEB_BUILD_GNU_CPU\\s0)\n"
-#~ "\\&\\s-1DEB_HOST_GNU_SYSTEM\\s0 := $(\\s-1DEB_BUILD_GNU_SYSTEM\\s0)\n"
-#~ "\\&\\s-1DEB_HOST_GNU_TYPE\\s0 := $(\\s-1DEB_BUILD_GNU_TYPE\\s0)\n"
-#~ msgstr ""
-#~ "\\&\\s-1DEB_HOST_ARCH\\s0 := $(\\s-1DEB_BUILD_ARCH\\s0)\n"
-#~ "\\&\\s-1DEB_HOST_GNU_CPU\\s0 := $(\\s-1DEB_BUILD_GNU_CPU\\s0)\n"
-#~ "\\&\\s-1DEB_HOST_GNU_SYSTEM\\s0 := $(\\s-1DEB_BUILD_GNU_SYSTEM\\s0)\n"
-#~ "\\&\\s-1DEB_HOST_GNU_TYPE\\s0 := $(\\s-1DEB_BUILD_GNU_TYPE\\s0)\n"
-
-#~ msgid ""
-#~ "Put a subset of these lines at the top of your debian/rules file; these "
-#~ "default values will be overwritten if dpkg-architecture is used."
-#~ msgstr ""
-#~ "debian/rules ファイルの先頭に、これらの行の一部を記載しておくこと。dpkg-"
-#~ "architecture が用いられた場合、これらのデフォルト値は上書きされる。"
-
-#~ msgid ""
-#~ "You don't need the full set. Choose a consistent set which contains the "
-#~ "values you use in the rules file. For example, if you only need the host "
-#~ "Debian architecture, `DEB_HOST_ARCH=\\`dpkg --print-architecture\\`' is "
-#~ "sufficient (this is indeed the Debian architecture of the build machine, "
-#~ "but remember that we are only trying to be backward compatible with "
-#~ "native compilation)."
-#~ msgstr ""
-#~ "すべての変数が必要だとは限らない。実際に rules ファイルで使用する値を含む"
-#~ "一連の変数を、整合性を保ちながら選別すればよい。例えば、ホストの Debian "
-#~ "アーキテクチャだけが必要な場合は、`DEB_HOST_ARCH=\\`dpkg --print-"
-#~ "architecture\\`' だけで充分である (これは、実際にはビルドマシンの Debian "
-#~ "アーキテクチャを意味する。あくまで、ここでは本来の環境でのコンパイルとの後"
-#~ "方互換性を維持しようとしているだけなのである。"
-
-#~ msgid "Copyright \\(co 2010-2011 Rapha\\[:e]l Hertzog"
-#~ msgstr "Copyright \\(co 2010-2011 Rapha\\[:e]l Hertzog"
-
-#~ msgid "Copyright \\(co 2011 Kees Cook"
-#~ msgstr "Copyright \\(co 2011 Kees Cook"
-
-#~ msgid "Copyright \\(co 2008-2010 Rapha\\[:e]l Hertzog"
-#~ msgstr "Copyright \\(co 2008-2010 Rapha\\[:e]l Hertzog"
-
-#~ msgid "Copyright \\(co 2007-2008 Rapha\\[:e]l Hertzog"
-#~ msgstr "Copyright \\(co 2007-2008 Rapha\\[:e]l Hertzog"
-
-#~ msgid "Copyright \\(co 2007-2009 Rapha\\[:e]l Hertzog"
-#~ msgstr "Copyright \\(co 2007-2009 Rapha\\[:e]l Hertzog"
-
-#~ msgid ""
-#~ "I<conffile> is the filename of the conffile to remove.  I<lastversion> is "
-#~ "the last version of the package that contained the conffile (or the last "
-#~ "version of the package that did not take care to remove the obsolete "
-#~ "conffile if this was not immediately implemented).  If I<lastversion> is "
-#~ "empty or omitted, then the operation is tried on every upgrade. "
-#~ "I<package> is the package name, it's optional as it will default to "
-#~ "$DPKG_MAINTSCRIPT_PACKAGE (this variable is set by dpkg to the name of "
-#~ "the package acted upon). All the parameters of the maintainer scripts "
-#~ "have to be forwarded to the program after \"--\"."
-#~ msgstr ""
-#~ "I<conffile> は削除対象の conffile のファイル名であり、I<lastversion> は対"
-#~ "象の conffile が含まれていたパッケージの最後の (最新の) バージョン (不要と"
-#~ "なった conffile が不要となった時点で削除処理されていなかった場合は、 "
-#~ "conffile を削除対象としていなかった最後のバージョン) である。"
-#~ "I<lastversion> が空もしくは省略されていた場合、この処理はアップグレードの"
-#~ "たびに行われる。I<package> はパッケージ名である。これは任意であり、デフォ"
-#~ "ルト値として $DPKG_MAINTSCRIPT_PACKAGE (この変数には、dpkg によって現在処"
-#~ "理対象となっているパッケージ名が設定される) の値が用いられる。メンテナスク"
-#~ "リプトのすべてのパラメータは、\"--\" の後に指定することで、プログラムに引"
-#~ "き渡される。"
-
-#~ msgid ""
-#~ "I<oldconffile> and I<newconffile> are the old and new name of the "
-#~ "conffile to rename. I<lastversion> is the last version of the package "
-#~ "that contained the conffile with the old name. If I<lastversion> is empty "
-#~ "or omitted, then the operation is tried on every upgrade (note: it's "
-#~ "safer to give the version and have the operation tried only once). "
-#~ "I<package> is the package name, it's optional as it will default to "
-#~ "$DPKG_MAINTSCRIPT_PACKAGE (this variable is set by dpkg to the name of "
-#~ "the package acted upon). All the parameters of the maintainer scripts "
-#~ "have to be forwarded to the program after \"--\"."
-#~ msgstr ""
-#~ "I<oldconffile> と I<newconffile> はリネーム対象の conffile の古い名前と新"
-#~ "しい名前になる。I<lastversion> は古い名前の conffile を含むパッケージの最"
-#~ "終バージョンとなる。I<lastversion> が空か省略された場合、この処理はアップ"
-#~ "グレードのたびに行われる (参考: バージョンを指定して、処理が行われるのを一"
-#~ "度限りにする方が安全である)。I<package> はパッケージ名である。これは任意で"
-#~ "あり、デフォルト値として $DPKG_MAINTSCRIPT_PACKAGE (この変数には、dpkg に"
-#~ "よって現在処理対象となっているパッケージ名が設定される) の値が用いられる。"
-#~ "メンテナスクリプトのすべてのパラメータは、プログラムに続く \"--\" の後ろに"
-#~ "設定する必要がある。"
-
-#~ msgid "Copyright \\(co 2010 Rapha\\[:e]l Hertzog"
-#~ msgstr "Copyright \\(co 2010 Rapha\\[:e]l Hertzog"
-
-#~ msgid "Copyright \\(co 2008 Joey Hess"
-#~ msgstr "Copyright \\(co 2008 Joey Hess"
-
-#~ msgid "Copyright \\(co 2007 Guillem Jover"
-#~ msgstr "Copyright \\(co 2007 Guillem Jover"
-
-#~ msgid "Copyright \\(co 2005 Scott James Remnant"
-#~ msgstr "Copyright \\(co 2005 Scott James Remnant"
-
-#~ msgid "Copyright \\(co 2009-2010 Rapha\\[:e]l Hertzog"
-#~ msgstr "Copyright \\(co 2009-2010 Rapha\\[:e]l Hertzog"
-
-#~ msgid "Copyright \\(co 1995,1996 Erick Branderhorst"
-#~ msgstr "Copyright \\(co 1995,1996 Erick Branderhorst"
-
-#~ msgid "Copyright \\(co 2007, 2008 Frank Lichtenheld"
-#~ msgstr "Copyright \\(co 2007, 2008 Frank Lichtenheld"
-
-#~ msgid "Copyright \\(co 2001 Wichert Akkerman"
-#~ msgstr "Copyright \\(co 2001 Wichert Akkerman"
-
-#~ msgid "Roderick Schertler E<lt>roderick@argon.orgE<gt>"
-#~ msgstr "Roderick Schertler E<lt>roderick@argon.orgE<gt>"
-
-#~ msgid "Copyright \\(co 2006 Frank Lichtenheld"
-#~ msgstr "Copyright \\(co 2006 Frank Lichtenheld"
-
-#~ msgid "Copyright \\(co 2008-2011 Rapha\\[:e]l Hertzog"
-#~ msgstr "Copyright \\(co 2008-2011 Rapha\\[:e]l Hertzog"
-
-#~ msgid "Copyright \\(co 2009 Rapha\\[:e]l Hertzog"
-#~ msgstr "Copyright \\(co 2009 Rapha\\[:e]l Hertzog"
-
-#~ msgid ""
-#~ "B<dselect> was written by Ian Jackson (ijackson@gnu.ai.mit.edu). Full "
-#~ "list of contributors may be found in 'dselect --version'."
-#~ msgstr ""
-#~ "B<dselect> は、Ian Jackson (ijackson@gnu.ai.mit.edu) によって執筆された。"
-#~ "貢献者全員のリストは `dselect --version' で参照できる。"
-
-#~ msgid ""
-#~ "This manual page was written by Juho Vuori E<lt>javuori@cc.helsinki."
-#~ "fiE<gt>, Josip Rodin and Joost kooij."
-#~ msgstr ""
-#~ "このマニュアルは Juho Vuori E<lt>javuori@cc.helsinki.fiE<gt>, Josip "
-#~ "Rodin, Joost kooij によって執筆された。"
-
-#~ msgid "Check whether a process has created the file I<pid-file>."
-#~ msgstr "プロセスが I<pid-file> ファイルを生成したかどうかを確認する。"
-
-#~ msgid ""
-#~ "Check for processes that are instances of this executable (according to "
-#~ "B</proc/>I<pid>B</exe>)."
-#~ msgstr ""
-#~ "プロセスが、executable のインスタンスかどうかを (B</proc/>I<pid>B</exe> に"
-#~ "より) 確認する。"
-
-#~ msgid ""
-#~ "Check for processes with the name I<process-name> (according to B</proc/"
-#~ ">I<pid>B</stat>)."
-#~ msgstr ""
-#~ "(B</proc/>I<pid>B</stat> により) I<process-name> という名称のプロセスを確"
-#~ "認する。"
-
-#~ msgid ""
-#~ "Check for processes owned by the user specified by I<username> or I<uid>."
-#~ msgstr ""
-#~ "I<username> または I<uid> で指定されたユーザが所有するプロセスを確認する。"
-
-#~ msgid ""
-#~ "Marek Michalkiewicz E<lt>marekm@i17linuxb.ists.pwr.wroc.plE<gt> based on "
-#~ "a previous version by Ian Jackson E<lt>ian@chiark.greenend.org.ukE<gt>."
-#~ msgstr ""
-#~ "Marek Michalkiewicz E<lt>marekm@i17linuxb.ists.pwr.wroc.plE<gt> が Ian "
-#~ "Jackson E<lt>ian@chiark.greenend.org.ukE<gt> による以前のバージョンを元に"
-#~ "作成。"
-
-#~ msgid ""
-#~ "Manual page by Klee Dienes E<lt>klee@mit.eduE<gt>, partially reformatted "
-#~ "by Ian Jackson."
-#~ msgstr ""
-#~ "このマニュアルは Klee Dienes E<lt>klee@mit.eduE<gt> によって書かれた。Ian "
-#~ "Jackson が部分的に整形した。"
-
-#~ msgid ""
-#~ "This manual page is copyright 1997,1998 Charles Briscoe-Smith and others."
-#~ msgstr ""
-#~ "This manual page is copyright 1997,1998 Charles Briscoe-Smith and others."
-
-#~ msgid ""
-#~ "This is free documentation; see the GNU General Public Licence version 2 "
-#~ "or later for copying conditions. There is NO WARRANTY."
-#~ msgstr ""
-#~ "This is free software; see the GNU General Public Licence version 2 or "
-#~ "later for copying conditions. There is NO warranty."
+#~ msgid "2012-09-22"
+#~ msgstr "2012-09-22"
