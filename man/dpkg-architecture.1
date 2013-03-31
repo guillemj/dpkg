@@ -37,7 +37,7 @@ The build architecture is always determined by an external call to
 You can specify the host architecture by providing one or both of the options
 \fB\-a\fR and \fB\-t\fR. The default is determined by an external call to
 .BR gcc (1),
-or the same as the build architecture if \s-1CC\s0 or gcc are both not
+or the same as the build architecture if \fBCC\fP or gcc are both not
 available. One out of \fB\-a\fR and \fB\-t\fR is sufficient, the value of the
 other will be set to a usable default. Indeed, it is often better to only
 specify one, because \fBdpkg\-architecture\fP will warn you if your choice
@@ -107,55 +107,55 @@ The machine the package is built on.
 The machine the package is built for.
 .IP "Debian architecture" 4
 The Debian architecture string, which specifies the binary tree in the
-\s-1FTP\s0 archive. Examples: i386, sparc, hurd\-i386.
+FTP archive. Examples: i386, sparc, hurd\-i386.
 .IP "architecture wildcard" 4
 An architecture wildcard is a special architecture string that will match
 any real architecture being part of it. The general form is <kernel>\-<cpu>.
 Examples: linux\-any, any\-i386, hurd\-any.
-.IP "\s-1GNU\s0 system type" 4
+.IP "GNU system type" 4
 An architecture specification string consisting of two parts separated by
 a dash: cpu and system. Examples: i386\-linux\-gnu, sparc\-linux\-gnu,
 i386\-gnu, x86_64\-netbsd.
 .
 .SH VARIABLES
 The following variables are set by \fBdpkg\-architecture\fP:
-.IP "\s-1DEB_BUILD_ARCH\s0" 4
+.IP "\fBDEB_BUILD_ARCH\fP" 4
 The Debian architecture of the build machine.
-.IP "\s-1DEB_BUILD_ARCH_OS\s0" 4
+.IP "\fBDEB_BUILD_ARCH_OS\fP" 4
 The Debian system name of the build machine (since dpkg 1.13.2).
-.IP "\s-1DEB_BUILD_ARCH_CPU\s0" 4
+.IP "\fBDEB_BUILD_ARCH_CPU\fP" 4
 The Debian cpu name of the build machine (since dpkg 1.13.2).
-.IP "\s-1DEB_BUILD_ARCH_BITS\s0" 4
+.IP "\fBDEB_BUILD_ARCH_BITS\fP" 4
 The pointer size of the build machine (in bits; since dpkg 1.15.4).
-.IP "\s-1DEB_BUILD_ARCH_ENDIAN\s0" 4
+.IP "\fBDEB_BUILD_ARCH_ENDIAN\fP" 4
 The endianness of the build machine (little / big; since dpkg 1.15.4).
-.IP "\s-1DEB_BUILD_GNU_CPU\s0" 4
-The \s-1CPU\s0 part of \s-1DEB_BUILD_GNU_TYPE\s0.
-.IP "\s-1DEB_BUILD_GNU_SYSTEM\s0" 4
-The System part of \s-1DEB_BUILD_GNU_TYPE\s0.
-.IP "\s-1DEB_BUILD_GNU_TYPE\s0" 4
-The \s-1GNU\s0 system type of the build machine.
-.IP "\s-1DEB_BUILD_MULTIARCH\s0" 4
-The clarified \s-1GNU\s0 system type of the build machine, used for filesystem
+.IP "\fBDEB_BUILD_GNU_CPU\fP" 4
+The CPU part of \fBDEB_BUILD_GNU_TYPE\fP.
+.IP "\fBDEB_BUILD_GNU_SYSTEM\fP" 4
+The System part of \fBDEB_BUILD_GNU_TYPE\fP.
+.IP "\fBDEB_BUILD_GNU_TYPE\fP" 4
+The GNU system type of the build machine.
+.IP "\fBDEB_BUILD_MULTIARCH\fP" 4
+The clarified GNU system type of the build machine, used for filesystem
 paths (since dpkg 1.16.0).
-.IP "\s-1DEB_HOST_ARCH\s0" 4
+.IP "\fBDEB_HOST_ARCH\fP" 4
 The Debian architecture of the host machine.
-.IP "\s-1DEB_HOST_ARCH_OS\s0" 4
+.IP "\fBDEB_HOST_ARCH_OS\fP" 4
 The Debian system name of the host machine (since dpkg 1.13.2).
-.IP "\s-1DEB_HOST_ARCH_CPU\s0" 4
+.IP "\fBDEB_HOST_ARCH_CPU\fP" 4
 The Debian cpu name of the host machine (since dpkg 1.13.2).
-.IP "\s-1DEB_HOST_ARCH_BITS\s0" 4
+.IP "\fBDEB_HOST_ARCH_BITS\fP" 4
 The pointer size of the host machine (in bits; since dpkg 1.15.4).
-.IP "\s-1DEB_HOST_ARCH_ENDIAN\s0" 4
+.IP "\fBDEB_HOST_ARCH_ENDIAN\fP" 4
 The endianness of the host machine (little / big; since dpkg 1.15.4).
-.IP "\s-1DEB_HOST_GNU_CPU\s0" 4
-The \s-1CPU\s0 part of \s-1DEB_HOST_GNU_TYPE\s0.
-.IP "\s-1DEB_HOST_GNU_SYSTEM\s0" 4
-The System part of \s-1DEB_HOST_GNU_TYPE\s0.
-.IP "\s-1DEB_HOST_GNU_TYPE\s0" 4
-The \s-1GNU\s0 system type of the host machine.
-.IP "\s-1DEB_HOST_MULTIARCH\s0" 4
-The clarified \s-1GNU\s0 system type of the host machine, used for filesystem
+.IP "\fBDEB_HOST_GNU_CPU\fP" 4
+The CPU part of \fBDEB_HOST_GNU_TYPE\fP.
+.IP "\fBDEB_HOST_GNU_SYSTEM\fP" 4
+The System part of \fBDEB_HOST_GNU_TYPE\fP.
+.IP "\fBDEB_HOST_GNU_TYPE\fP" 4
+The GNU system type of the host machine.
+.IP "\fBDEB_HOST_MULTIARCH\fP" 4
+The clarified GNU system type of the host machine, used for filesystem
 paths (since dpkg 1.16.0).
 .
 .SH FILES
@@ -192,19 +192,19 @@ package:
 Retrieving the GNU system type and forwarding it to ./configure:
 .IP
 .nf
-\&\s-1DEB_BUILD_GNU_TYPE\s0 := $(shell dpkg\-architecture \-qDEB_BUILD_GNU_TYPE)
-\&\s-1DEB_HOST_GNU_TYPE\s0 := $(shell dpkg\-architecture \-qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE := $(shell dpkg\-architecture \-qDEB_BUILD_GNU_TYPE)
+DEB_HOST_GNU_TYPE := $(shell dpkg\-architecture \-qDEB_HOST_GNU_TYPE)
 [...]
-configure \-\-build=$(\s-1DEB_BUILD_GNU_TYPE\s0) \-\-host=$(\s-1DEB_HOST_GNU_TYPE\s0)
+configure \-\-build=$(DEB_BUILD_GNU_TYPE) \-\-host=$(DEB_HOST_GNU_TYPE)
 .fi
 .PP
 
 Doing something only for a specific architecture:
 .IP
 .nf
-\&\s-1DEB_HOST_ARCH\s0 := $(shell dpkg\-architecture \-qDEB_HOST_ARCH)
+DEB_HOST_ARCH := $(shell dpkg\-architecture \-qDEB_HOST_ARCH)
 
-ifeq ($(\s-1DEB_HOST_ARCH\s0),alpha)
+ifeq ($(DEB_HOST_ARCH),alpha)
   [...]
 endif
 .fi
@@ -218,7 +218,7 @@ set all the variables that \fBdpkg\-architecture\fP can provide:
 .nf
 include /usr/share/dpkg/architecture.mk
 
-ifeq ($(\s-1DEB_HOST_ARCH\s0),alpha)
+ifeq ($(DEB_HOST_ARCH),alpha)
   [...]
 endif
 .fi
