@@ -208,13 +208,13 @@ some auto-generated files from the automatic patch generation.
 .BR \-I "[\fIfile-pattern\fP], " \-\-tar\-ignore [=\fIfile-pattern\fP]
 If this option is specified, the pattern will be passed to
 .BR tar (1)'s
-\-\-exclude
+.B \-\-exclude
 option when it is called to generate a .orig.tar or .tar file. For
-example, \-ICVS will make tar skip over CVS directories when generating
+example, \fB\-I\fPCVS will make tar skip over CVS directories when generating
 a .tar.gz file. The option may be repeated multiple times to list multiple
 patterns to exclude.
 
-\fB\-I\fP by itself adds default \-\-exclude options that will
+\fB\-I\fP by itself adds default \fB\-\-exclude\fP options that will
 filter out control files and directories of the most common revision
 control systems, backup and swap files and Libtool build output
 directories.
@@ -227,7 +227,7 @@ the full relative path of each file. \fB\-I\fP can specified
 multiple times and takes a filename pattern with shell wildcards.
 The pattern is applied to the full relative path but also
 to each part of the path individually. The exact semantic of tar's
-\-\-exclude option is somewhat complicated, see
+\fB\-\-exclude\fP option is somewhat complicated, see
 http://www.gnu.org/software/tar/manual/tar.html#wildcards for a full
 documentation.
 
@@ -329,8 +329,8 @@ but will remove that directory after it has been used.
 .TP
 .B \-ss
 Specifies that the original source is available both as a directory
-and as a tarfile. dpkg\-source will use the directory to create the diff, but
-the tarfile to create the
+and as a tarfile. \fBdpkg\-source\fP will use the directory to create
+the diff, but the tarfile to create the
 .BR .dsc .
 This option must be used with care - if the directory and tarfile do
 not match a bad source archive will be generated.
@@ -443,7 +443,7 @@ All patches listed in \fBdebian/patches/debian.series\fP or
 \fBdebian/patches/series\fP are then applied.
 If the former file is used and the latter one doesn't exist (or is a
 symlink), then the latter is replaced with a symlink to the former. This
-is meant to simplify usage of quilt to manage the set of patches. Note
+is meant to simplify usage of \fBquilt\fP to manage the set of patches. Note
 however that while \fBdpkg\-source\fP parses correctly series files with
 explicit options used for patch application (stored on each line
 after the patch filename and one or more spaces), it does ignore those
@@ -451,12 +451,13 @@ options and always expect patches that can be applied with the \fB\-p1\fP
 option of \fBpatch\fP. It will thus emit a warning when it encounters
 such options, and the build is likely to fail.
 .PP
-Contrary to quilt's default behaviour, patches are expected to apply
+Contrary to \fBquilt\fP's default behaviour, patches are expected to apply
 without any fuzz. When that is not the case, you should refresh such
-patches with quilt, or dpkg-source will error out while trying to apply
-them.
+patches with \fBquilt\fP, or \fBdpkg\-source\fP will error out while
+trying to apply them.
 .PP
-Similarly to quilt's default behaviour, the patches can remove files too.
+Similarly to \fBquilt\fP's default behaviour, the patches can remove
+files too.
 .PP
 The file \fB.pc/applied\-patches\fP is created if some
 patches have been applied during the extraction.
@@ -473,7 +474,7 @@ directory. When the diff is non-empty, the build fails unless
 \fB\-\-single\-debian\-patch\fP or \fB\-\-auto\-commit\fP
 has been used, in which case the diff is stored in the automatic patch.
 If the automatic patch is created/deleted, it's added/removed from the
-series file and from the quilt metadata.
+series file and from the \fBquilt\fP metadata.
 
 Any change
 on a binary file is not representable in a diff and will thus lead to a
@@ -489,7 +490,7 @@ used to generate the debian tarball.
 The automatically generated diff doesn't include changes on VCS specific
 files as well as many temporary files (see default value associated to
 \fB\-i\fP option in the \fB\-\-help\fP output). In particular, the
-\fB.pc\fP directory used by quilt is ignored during generation of the
+\fB.pc\fP directory used by \fBquilt\fP is ignored during generation of the
 automatic patch.
 
 Note: \fBdpkg\-source\fP \fB\-\-before\-build\fP (and \fB\-b\fP) will
@@ -506,7 +507,7 @@ behavior.
 .TP
 .RI "\fB\-\-commit\fP [" directory "] [" patch-name "] [" patch-file ]
 Generates a patch corresponding to the local changes that are not managed
-by the quilt patch system and integrates it in the patch system under
+by the \fBquilt\fP patch system and integrates it in the patch system under
 the name \fIpatch-name\fP. If the name is missing, it will be asked
 interactively. If \fIpatch-file\fP is given, it is used as the patch
 corresponding to the local changes to integrate. Once integrated, an
@@ -528,10 +529,10 @@ they end up in the debian tarball (exactly like \fBdpkg-source
 .TP
 .BI \-\-allow\-version\-of\-quilt\-db= version
 Allow \fBdpkg\-source\fP to build the source package if the version of
-the quilt metadata is the one specified, even if \fBdpkg\-source\fP
+the \fBquilt\fP metadata is the one specified, even if \fBdpkg\-source\fP
 doesn't know about it. Effectively this says that the given version of the
-quilt metadata is compatible with the version 2 that \fBdpkg\-source\fP
-currently supports. The version of the quilt metadata is stored in
+\fBquilt\fP metadata is compatible with the version 2 that \fBdpkg\-source\fP
+currently supports. The version of the \fBquilt\fP metadata is stored in
 \fB.pc/.version\fP.
 .TP
 .B \-\-include\-removal
@@ -568,7 +569,7 @@ be used when the source package is just a bundle of multiple upstream
 software and where there's no "main" software.
 .TP
 .B \-\-no\-unapply\-patches, \-\-unapply\-patches
-By default, dpkg\-source will automatically unapply the patches in the
+By default, \fBdpkg\-source\fP will automatically unapply the patches in the
 \fB\-\-after\-build\fP hook if it did apply them during
 \fB\-\-before\-build\fP. Those options allow you to forcefully disable
 or enable the patch unapplication process. Those options are only allowed
@@ -578,13 +579,13 @@ packages have the same behavior by default.
 .B \-\-abort\-on\-upstream\-changes
 The process fails if an automatic patch has been generated. This option
 can be used to ensure that all changes were properly recorded in separate
-quilt patches prior to the source package build. This option is not
+\fBquilt\fP patches prior to the source package build. This option is not
 allowed in \fBdebian/source/options\fP but can be used in
 \fBdebian/source/local\-options\fP.
 .TP
 .B \-\-auto\-commit
 The process doesn't fail if an automatic patch has been generated, instead
-it's immediately recorded in the quilt series.
+it's immediately recorded in the \fBquilt\fP series.
 
 .PP
 .B Extract options
@@ -607,7 +608,7 @@ in the current directory. At least one file must be given.
 .TP
 .BI \-\-target\-format= value
 \fBRequired\fP. Defines the real format of the generated source package.
-The generated .dsc file will contain this value in its \fIFormat\fP field
+The generated .dsc file will contain this value in its \fBFormat\fP field
 and not "3.0 (custom)".
 .
 .SS Format: 3.0 (git)
@@ -646,9 +647,9 @@ the default behavior of including all branches and tags. May be specified
 multiple times. The \fIref\fP can be the name of a branch or tag to
 include. It may also be any parameter that can be passed to
 \fBgit\-rev\-list\fP(1). For example, to include only
-the master branch, use \-\-git\-ref=master. To include all tags and
-branches, except for the private branch, use \-\-git\-ref=\-\-all
-\-\-git\-ref=^private
+the master branch, use \fB\-\-git\-ref=\fPmaster. To include all tags and
+branches, except for the private branch, use \fB\-\-git\-ref=\fP\-\-all
+\fB\-\-git\-ref=\fP^private
 .TP
 .BI \-\-git\-depth= number
 Creates a shallow clone with a history truncated to the specified number of
@@ -675,8 +676,8 @@ various cleanup are done to save space.
 The file \fBdebian/source/format\fP should always exist and indicate the
 desired source format. For backwards compatibility, format "1.0" is
 assumed when the file doesn't exist but you should not rely on this:
-at some point in the future dpkg\-source will be modified to fail when that
-file doesn't exist.
+at some point in the future \fBdpkg\-source\fP will be modified to fail
+when that file doesn't exist.
 
 The rationale is that format "1.0" is no longer the recommended format,
 you should usually pick one of the newer formats ("3.0 (quilt)", "3.0
@@ -752,7 +753,7 @@ on top of the upstream source package. Leading and trailing spaces are
 stripped. Lines starting with "#" are comments and are skipped. Empty
 lines are ignored. Remaining lines start with a patch filename (relative
 to the \fBdebian/patches/\fP directory) up to the first space character or
-the end of line. Optional quilt options can follow up to the end of line
+the end of line. Optional \fBquilt\fP options can follow up to the end of line
 or the first "#" preceded by one or more spaces (which marks the start of
 a comment up to the end of line).
 .SH BUGS

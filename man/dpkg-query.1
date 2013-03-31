@@ -91,7 +91,7 @@ the given pattern. However the output can be customized using the
 \fB\-\-showformat\fP option.
 The default output format gives one line per matching package, each line
 having the name (extended with the architecture qualifier for
-\fIMulti\-Arch\fP \fBsame\fP packages) and installed version of the package,
+\fBMulti\-Arch\fP \fBsame\fP packages) and installed version of the package,
 separated by a tab.
 .TP
 .BR \-s ", " \-\-status " \fIpackage-name\fP..."
@@ -232,10 +232,10 @@ Actually, all other fields found in the status file (i.e. user defined
 fields) can be requested, too. They will be printed as-is, though, no
 conversion nor error checking is done on them. \fBbinary:Package\fP is
 a special field that will print the package name with an architecture
-qualifier (like "libc6:amd64") if the package has a \fIMulti\-Arch\fP
+qualifier (like "libc6:amd64") if the package has a \fBMulti\-Arch\fP
 field with a value of \fBsame\fP, and as such its name could be ambiguous.
-To get the name of the dpkg maintainer and the installed version, you could
-run:
+To get the name of the \fBdpkg\fP maintainer and the installed version,
+you could run:
 
 .nf
   \fBdpkg\-query \-W \-f=\(aq${binary:Package} ${Version}\\t${Maintainer}\\n\(aq dpkg\fP
@@ -248,13 +248,14 @@ The requested query was successfully performed.
 .TP
 .B 1
 Problems were encountered while parsing the command line or performing the
-query, including no file or package being found (except for \-\-control\-path).
+query, including no file or package being found (except for
+\fB\-\-control\-path\fP).
 .
 .SH ENVIRONMENT
 .TP
 .B DPKG_ADMINDIR
 If set and the \fB\-\-admindir\fP option has not been specified, it will
-be used as the dpkg data directory.
+be used as the \fBdpkg\fP data directory.
 .TP
 \fBCOLUMNS\fP
 This setting influences the output of the \fB\-\-list\fP option by changing

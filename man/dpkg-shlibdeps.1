@@ -83,7 +83,8 @@ Per-system overriding shared library dependency information.
 .BR "dpkg\-architecture \-qDEB_HOST_ARCH" ).
 .IP "Output from \(lq\fBdpkg\-query \-\-control\-path\fR \fIpackage\fR symbols\(rq"
 Package-provided shared library dependency information.
-Unless overridden by \-\-admindir, those files are located in /var/lib/dpkg.
+Unless overridden by \fB\-\-admindir\fP, those files are located in
+/var/lib/dpkg.
 .P 
 While scanning the symbols used by all binaries,
 .B dpkg\-shlibdeps
@@ -93,10 +94,10 @@ library used (provided that the information of the \fIsymbols\fR files are
 accurate).
 .P
 As a safe-guard measure, a symbols file can provide a
-\fIBuild\-Depends\-Package\fR meta-information field and
+\fBBuild\-Depends\-Package\fP meta-information field and
 .B dpkg\-shlibdeps
 will extract the minimal version required by the corresponding package in
-the Build\-Depends field and use this version if it's higher than the
+the \fBBuild\-Depends\fP field and use this version if it's higher than the
 minimal version computed by scanning symbols.
 .SS Shlibs files
 Shlibs files associate directly a library to a dependency (without looking
@@ -117,7 +118,8 @@ shlibs file in that build tree takes precedence over shlibs files from
 other binary packages.
 .IP "Output from \(lq\fBdpkg\-query \-\-control\-path\fP \fIpackage\fR shlibs\(rq"
 Package-provided shared library dependency information.
-Unless overridden by \-\-admindir, those files are located in /var/lib/dpkg.
+Unless overridden by \fB\-\-admindir\fP, those files are located in
+/var/lib/dpkg.
 .IP /etc/dpkg/shlibs.default
 Per-system default shared library dependency information.
 .P
@@ -299,19 +301,19 @@ has been unable to find the library.
 .B dpkg\-shlibdeps
 creates a list of directories to check as following: directories listed in
 the RPATH of the binary, directories listed in /etc/ld.so.conf,
-directories listed in the LD_LIBRARY_PATH environment variable, and
+directories listed in the \fBLD_LIBRARY_PATH\fP environment variable, and
 standard public directories (/lib, /usr/lib, /lib32, /usr/lib32, /lib64,
 /usr/lib64). Then it checks those directories in the package's build tree
 of the binary being analyzed, in the packages' build trees indicated with
-the \-S command-line option, in other packages' build trees that contains
+the \fB\-S\fP command-line option, in other packages' build trees that contains
 a DEBIAN/shlibs or DEBIAN/symbols file and finally in the root directory.
 If the library is not found in any of those directories, then you get this
 error.
 
 If the library not found is in a private directory of the same package,
-then you want to add the directory to LD_LIBRARY_PATH. If it's in another
+then you want to add the directory to \fBLD_LIBRARY_PATH\fP. If it's in another
 binary package being built, you want to make sure that the shlibs/symbols
-file of this package is already created and that LD_LIBRARY_PATH
+file of this package is already created and that \fBLD_LIBRARY_PATH\fP
 contains the appropriate directory if it also is in a private directory.
 .TP
 .BI "no dependency information found for " library-file " (used by " binary ")."
@@ -343,7 +345,7 @@ of the binary to avoid problems.
 
 Calling
 .B dpkg\-shlibdeps
-in verbose mode (\-v) will provide much more information about where it
+in verbose mode (\fB\-v\fP) will provide much more information about where it
 tried to find the dependency information. This might be useful if you
 don't understand why it's giving you this error.
 .SH SEE ALSO

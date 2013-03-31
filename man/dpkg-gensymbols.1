@@ -116,15 +116,15 @@ that has no value. The second symbol named \fItagged_unquoted_symbol\fR is
 only tagged with the tag named \fIoptional\fR. The last symbol is an
 example of the normal untagged symbol.
 .P
-Since symbol tags are an extension of the \fIdeb\-symbols(5)\fR format, they
+Since symbol tags are an extension of the \fBdeb\-symbols\fP(5) format, they
 can only be part of the symbols files used in source packages (those files
 should then be seen as templates used to build the symbols files that are
 embedded in binary packages). When
-\fBdpkg\-gensymbols\fR is called without the \fI\-t\fR option, it will
-output symbols files compatible to the \fIdeb\-symbols(5)\fR format:
+\fBdpkg\-gensymbols\fR is called without the \fB\-t\fP option, it will
+output symbols files compatible to the \fBdeb\-symbols\fP(5) format:
 it fully processes symbols according to the requirements of their standard tags
 and strips all tags from the output. On the contrary, in template mode
-(\fI\-t\fR) all symbols and their tags (both standard and unknown ones)
+(\fB\-t\fP) all symbols and their tags (both standard and unknown ones)
 are kept in the output and are written in their original form as they were
 loaded.
 .SS Standard symbol tags
@@ -164,7 +164,7 @@ from foreign arches) are always written to the symbol file when operating
 in template mode.
 
 The format of \fIarchitecture list\fR is the same as the one used in the
-\fIBuild\-Depends\fR field of \fIdebian/control\fR (except the enclosing
+\fBBuild\-Depends\fP field of \fIdebian/control\fR (except the enclosing
 square brackets []). For example, the first symbol from the list below
 will be considered only on alpha, any\-amd64 and ia64 architectures,
 the second only on linux architectures, while the third one anywhere
@@ -203,14 +203,14 @@ found, all its tags and properties will be used as a basis specification of the
 symbol. If none of the patterns matches, the symbol will be considered as new.
 
 A pattern is considered lost if it does not match any symbol in the library. By
-default this will trigger a \fBdpkg\-gensymbols\fR failure under \fI\-c1\fR or
+default this will trigger a \fBdpkg\-gensymbols\fP failure under \fB\-c1\fP or
 higher level. However, if the failure is undesired, the pattern may be marked
 with the \fIoptional\fR tag. Then if the pattern does not match anything, it
 will only appear in the diff as MISSING. Moreover, like any symbol, the pattern
 may be limited to the specific architectures with the \fIarch\fR tag. Please
 refer to \fBStandard symbol tags\fR subsection above for more information.
 
-Patterns are an extension of the \fIdeb\-symbols(5)\fR format hence they are
+Patterns are an extension of the \fBdeb\-symbols\fP(5) format hence they are
 only valid in symbol file templates. Pattern specification syntax is not any
 different from the one of a specific symbol. However, symbol name part of the
 specification serves as an expression to be matched against \fIname@version\fR
@@ -421,11 +421,11 @@ newer upstream version of your library.
 .TP
 .BI \-t
 Write the symbol file in template mode rather than the format compatible with
-\fIdeb\-symbols(5)\fR. The main difference is that in the template mode symbol
+\fBdeb\-symbols\fP(5). The main difference is that in the template mode symbol
 names and tags are written in their original form contrary to the
 post-processed symbol names with tags stripped in the compatibility mode.
 Moreover, some symbols might be omitted when writing a standard
-\fIdeb\-symbols(5)\fR file (according to the tag processing rules) while all
+\fBdeb\-symbols\fP(5) file (according to the tag processing rules) while all
 symbols are always written to the symbol file template.
 .TP
 .BI \-c [0-4]
@@ -437,13 +437,13 @@ new symbols have been introduced. Level 3 fails if some libraries have
 disappeared. Level 4 fails if some libraries have been introduced.
 
 This value can be overridden by the environment variable
-DPKG_GENSYMBOLS_CHECK_LEVEL.
+.BR DPKG_GENSYMBOLS_CHECK_LEVEL .
 .TP
 .BI \-q
 Keep quiet and never generate a diff between generated symbols file and the
 template file used as starting point or show any warnings about new/lost
 libraries or new/lost symbols. This option only disables informational output
-but not the checks themselves (see \fI\-c\fR option).
+but not the checks themselves (see \fB\-c\fP option).
 .TP
 .BI \-a arch
 Assume \fIarch\fR as host architecture when processing symbol files. Use this

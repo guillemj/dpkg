@@ -29,7 +29,8 @@ dpkg\-statoverride \- override ownership and mode of files
 .BR dpkg (1)
 to use a different owner
 or mode for a file when a package is installed. (note: I use the word
-`file' here, but in reality this can be any filesystem object that dpkg
+`file' here, but in reality this can be any filesystem object that
+.B dpkg
 handles, including directories, devices, etc.). This can be used to
 force programs that are normally setuid to be install without a setuid
 flag, or only executable by a certain group.
@@ -48,7 +49,7 @@ or \fBnobody\fR), or by their number by prepending the number with a
 `\fB#\fR' (for example \fB#0\fR or \fB#65534\fR). The \fImode\fR needs
 to be specified in octal.
 
-If \-\-update is specified and \fIfile\fP exists, it is immediately
+If \fB\-\-update\fP is specified and \fIfile\fP exists, it is immediately
 set to the new owner and mode.
 .TP
 .BI \-\-remove " file"
@@ -69,8 +70,8 @@ Show the version and exit.
 .SH OPTIONS
 .TP
 .BI \-\-admindir " directory"
-Change the \fIdirectory\fP of the dpkg database where the statoverride file is
-also stored. Defaults to \fI/var/lib/dpkg\fP.
+Change the \fIdirectory\fP of the \fBdpkg\fP database where the statoverride
+file is also stored. Defaults to \fI/var/lib/dpkg\fP.
 .TP
 .B \-\-force
 Force an action, even if a sanity check would otherwise prohibit it.
@@ -87,14 +88,14 @@ Be less verbose about what we do.
 .TP
 .B DPKG_ADMINDIR
 If set and the \fB\-\-admindir\fP option has not been specified, it will
-be used as the dpkg data directory.
+be used as the \fBdpkg\fP data directory.
 .
 .SH FILES
 .TP
 .I /var/lib/dpkg/statoverride
 File which contains the current list of stat overrides of the system. It
-is located in the dpkg administration directory, along with other files
-important to dpkg, such as `status' or `available'.
+is located in the \fBdpkg\fP administration directory, along with other files
+important to \fBdpkg\fP, such as `status' or `available'.
 .br
 Note: \fBdpkg\-statoverride\fP preserves the old copy of this file, with
 extension "\-old", before replacing it with the new one.

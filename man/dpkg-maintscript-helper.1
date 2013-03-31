@@ -32,8 +32,8 @@ dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer s
 .SH DESCRIPTION
 .P
 This program is designed to be run within maintainer scripts to achieve
-some tasks that dpkg can't (yet) handle natively either because of design
-decisions or due to current limitations.
+some tasks that \fBdpkg\fP can't (yet) handle natively either because of
+design decisions or due to current limitations.
 .P
 Many of those tasks require coordinated actions from several maintainer
 scripts (\fBpreinst\fP, \fBpostinst\fP, \fBprerm\fP, \fBpostrm\fP). To
@@ -44,9 +44,9 @@ that you have to forward after a double dash.
 .
 .SH CONFFILE RELATED TASKS
 .P
-When upgrading a package, dpkg will not automatically remove a conffile (a
-configuration file for which dpkg should preserve user changes) if it is
-not present in the newer version. There are two principal reasons for
+When upgrading a package, \fBdpkg\fP will not automatically remove a conffile
+(a configuration file for which \fBdpkg\fP should preserve user changes) if
+it is not present in the newer version. There are two principal reasons for
 this; the first is that the conffile could've been dropped by accident and
 the next version could restore it, users wouldn't want their changes
 thrown away. The second is to allow packages to transition files from a
@@ -89,10 +89,11 @@ now preparing, not the first version of the package that lacked the
 conffile.
 .P
 \fIpackage\fP is the package name. If empty or omitted, the
-DPKG_MAINTSCRIPT_PACKAGE environment variable (as set by dpkg) will be used.
+\fBDPKG_MAINTSCRIPT_PACKAGE\fP environment variable (as set by \fBdpkg\fP)
+will be used.
 .P
 All the parameters of the maintainer scripts have to be forwarded to the
-program after "\-\-".
+program after \fB\-\-\fP.
 .P
 Current implementation: in the \fBpreinst\fP, it checks if the conffile
 was modified and renames it either to \fIconffile\fP\fB.dpkg\-remove\fP (if not
@@ -108,8 +109,8 @@ original conffile. During purge, the \fBpostrm\fP will also delete the
 If a conffile is moved from one location to another, you need to make sure
 you move across any changes the user has made. This may seem a simple
 change to the \fBpreinst\fP script at first, however that will result in
-the user being prompted by dpkg to approve the conffile edits even though
-they are not responsible of them.
+the user being prompted by \fBdpkg\fP to approve the conffile edits even
+though they are not responsible of them.
 .P
 Graceful renaming can be implemented by putting the following shell
 snippet in the \fBpreinst\fP, \fBpostinst\fP and \fBpostrm\fP maintainer
@@ -128,10 +129,11 @@ is empty or omitted, then the operation is tried on every upgrade (note: it's
 safer to give the version and have the operation tried only once).
 .P
 \fIpackage\fP is the package name. If empty or omitted, the
-DPKG_MAINTSCRIPT_PACKAGE environment variable (as set by dpkg) will be used.
+\fBDPKG_MAINTSCRIPT_PACKAGE\fP environment variable (as set by \fBdpkg\fP)
+will be used.
 .P
 All the parameters of the maintainer scripts have to be forwarded to the
-program after "\-\-".
+program after \fB\-\-\fP.
 .P
 Current implementation: the \fBpreinst\fP checks if the conffile has been
 modified, if yes it's left on place otherwise it's renamed to
@@ -145,7 +147,7 @@ abort\-upgrade/abort\-install, the \fBpostrm\fP renames
 .P
 Given that \fBdpkg\-maintscript\-helper\fP is used in the \fBpreinst\fP,
 using it unconditionally requires a pre-dependency to ensure that the
-required version of dpkg has been unpacked before. The required version
+required version of \fBdpkg\fP has been unpacked before. The required version
 depends on the command used, for \fBrm_conffile\fP and \fBmv_conffile\fP
 it is 1.15.7.2:
 .P
@@ -154,7 +156,7 @@ it is 1.15.7.2:
 But in many cases the operation done by the program is not critical for
 the package, and instead of using a pre-dependency we can call the
 program only if we know that the required command is supported by
-the currently installed dpkg:
+the currently installed \fBdpkg\fP:
 .P
     if dpkg\-maintscript\-helper supports \fIcommand\fP; then
         dpkg\-maintscript\-helper \fIcommand\fP ...

@@ -38,7 +38,7 @@ location, but to a \fIdiverted\fP location. Diversions can be used through the
 Debian package scripts to move a file away when it causes a conflict. System
 administrators can also use it to override some package's configuration
 file, or whenever some files (which aren't marked as 'conffiles') need to be
-preserved by dpkg, when installing a newer version of a package which
+preserved by \fBdpkg\fP, when installing a newer version of a package which
 contains those files.
 .sp
 .SH COMMANDS
@@ -62,7 +62,8 @@ Print the real name for a diverted file.
 .SH OPTIONS
 .TP
 .BI \-\-admindir " directory"
-Set the dpkg data directory to \fIdirectory\fP (default: \fI/var/lib/dpkg\fP).
+Set the \fBdpkg\fP data directory to \fIdirectory\fP (default:
+\fI/var/lib/dpkg\fP).
 .TP
 .BI \-\-divert " divert-to"
 \fIdivert-to\fP is the location where the versions of \fIfile\fP, as
@@ -99,7 +100,7 @@ Show the version and exit.
 .TP
 .B DPKG_ADMINDIR
 If set and the \fB\-\-admindir\fP option has not been specified, it will
-be used as the dpkg data directory.
+be used as the \fBdpkg\fP data directory.
 .TP
 .B DPKG_MAINTSCRIPT_PACKAGE
 If set and the \fB\-\-local\fP and \fB\-\-package\fP options have not been
@@ -109,8 +110,8 @@ specified, \fBdpkg\-divert\fP will use it as the package name.
 .TP
 .I /var/lib/dpkg/diversions
 File which contains the current list of diversions of the system. It is
-located in the dpkg administration directory, along with other files
-important to dpkg, such as \fIstatus\fP or \fIavailable\fP.
+located in the \fBdpkg\fP administration directory, along with other files
+important to \fBdpkg\fP, such as \fIstatus\fP or \fIavailable\fP.
 .br
 Note: \fBdpkg\-divert\fP preserves the old copy of this file, with extension
 \fI\-old\fP, before replacing it with the new one.
@@ -124,9 +125,9 @@ Directories can't be diverted with \fBdpkg\-divert\fP.
 
 Care should be taken when diverting shared libraries, \fBldconfig\fP(8)
 creates a symbolic link based on the DT_SONAME field embedded in the library.
-Because ldconfig doesn't honour diverts (only dpkg does), the symlink may
-end up pointing at the diverted library, if a diverted library has the
-same SONAME as the undiverted one.
+Because \fBldconfig\fP doesn't honour diverts (only \fBdpkg\fP does),
+the symlink may end up pointing at the diverted library, if a diverted
+library has the same SONAME as the undiverted one.
 .
 .SH EXAMPLES
 To divert all copies of a \fI/usr/bin/example\fR to \fI/usr/bin/example.foo\fR,
