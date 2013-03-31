@@ -4,7 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000 Wichert Akkerman
-# Copyright © 2006-2010,2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2010,2012-2013 Guillem Jover <guillem@debian.org>
 # Copyright © 2007 Frank Lichtenheld
 #
 # This program is free software; you can redistribute it and/or modify
@@ -74,6 +74,8 @@ sub usage {
   -ap            add pause before starting signature process.
   -us            unsigned source package.
   -uc            unsigned .changes file.
+      --force-sign
+                 force signing the resulting files.
       --admindir=<directory>
                  change the administrative directory.
   -?, --help     show this help message.
@@ -113,6 +115,7 @@ my ($admindir, $signkey, $usepause, $noclean,
     $cleansource, $since, $maint,
     $changedby, $desc, $parallel);
 my $checkbuilddep = 1;
+my $signforce = 0;
 my $signsource = 1;
 my $signchanges = 1;
 my $buildtarget = 'build';
@@ -172,6 +175,8 @@ while (@ARGV) {
     } elsif (/^-s(gpg|pgp)$/) {
 	# Deprecated option
 	warning(_g("-s%s is deprecated; always using gpg style interface"), $1);
+    } elsif (/^--force-sign$/) {
+	$signforce = 1;
     } elsif (/^-us$/) {
 	$signsource = 0;
     } elsif (/^-uc$/) {
@@ -325,6 +330,9 @@ if (!defined $signcommand &&
 if (not $signcommand) {
     $signsource = 0;
     $signchanges = 0;
+} elsif ($signforce) {
+    $signsource = 1;
+    $signchanges = 1;
 }
 
 # Preparation of environment stops here
