@@ -75,16 +75,16 @@ usage(const struct cmdinfo *cip, const char *value)
 
 	printf(_(
 "Commands:\n"
-"  --add <owner> <group> <mode> <file>\n"
-"                           add a new entry into the database.\n"
-"  --remove <file>          remove file from the database.\n"
+"  --add <owner> <group> <mode> <path>\n"
+"                           add a new <path> entry into the database.\n"
+"  --remove <path>          remove <path> from the database.\n"
 "  --list [<glob-pattern>]  list current overrides in the database.\n"
 "\n"));
 
 	printf(_(
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
-"  --update                 immediately update file permissions.\n"
+"  --update                 immediately update <path> permissions.\n"
 "  --force                  force an action even if a sanity check fails.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
@@ -227,7 +227,7 @@ statoverride_add(const char *const *argv)
 		badusage(_("--%s needs four arguments"), cipaction->olong);
 
 	if (strchr(path, '\n'))
-		badusage(_("file may not contain newlines"));
+		badusage(_("path may not contain newlines"));
 
 	filename = path_cleanup(path);
 

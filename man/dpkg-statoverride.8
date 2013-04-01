@@ -1,7 +1,7 @@
 .\" dpkg manual page - dpkg-statoverride(8)
 .\"
 .\" Copyright © 2000-2001 Wichert Akkerman <wakkerma@debian.org>
-.\" Copyright © 2009-2011 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2009-2011, 2013 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg\-statoverride 8 "2011-07-04" "Debian project" "dpkg utilities"
+.TH dpkg\-statoverride 8 "2013-04-01" "Debian project" "dpkg utilities"
 .SH NAME
 dpkg\-statoverride \- override ownership and mode of files
 .
@@ -28,8 +28,8 @@ dpkg\-statoverride \- override ownership and mode of files
 `\fBstat overrides\fR' are a way to tell
 .BR dpkg (1)
 to use a different owner
-or mode for a file when a package is installed. (note: I use the word
-`file' here, but in reality this can be any filesystem object that
+or mode for a path when a package is installed (this applies to any
+filesystem object that
 .B dpkg
 handles, including directories, devices, etc.). This can be used to
 force programs that are normally setuid to be install without a setuid
@@ -41,19 +41,19 @@ overrides.
 .
 .SH COMMANDS
 .TP
-.BI \-\-add " user group mode file"
-Add an override for \fIfile\fP. \fIfile\fP does not need to exist
+.BI \-\-add " user group mode path"
+Add an override for \fIpath\fP. \fIpath\fP does not need to exist
 when this command is used; the override will be stored and used later.
 Users and groups can be specified by their name (for example \fBroot\fR
 or \fBnobody\fR), or by their number by prepending the number with a
 `\fB#\fR' (for example \fB#0\fR or \fB#65534\fR). The \fImode\fR needs
 to be specified in octal.
 
-If \fB\-\-update\fP is specified and \fIfile\fP exists, it is immediately
+If \fB\-\-update\fP is specified and \fIpath\fP exists, it is immediately
 set to the new owner and mode.
 .TP
-.BI \-\-remove " file"
-Remove an override for \fIfile\fP, the status of \fIfile\fP is left
+.BI \-\-remove " path"
+Remove an override for \fIpath\fP, the status of \fIpath\fP is left
 unchanged by this command.
 .TP
 .BR \-\-list " [\fIglob-pattern\fP]"
@@ -78,7 +78,7 @@ Force an action, even if a sanity check would otherwise prohibit it.
 This is necessary to override an existing override.
 .TP
 .B \-\-update
-Immediately try to change the file to the new owner and mode if it
+Immediately try to change the \fIpath\fP to the new owner and mode if it
 exists.
 .TP
 .B \-\-quiet
