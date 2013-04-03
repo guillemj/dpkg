@@ -108,13 +108,7 @@ sub usage {
 
 my @debian_rules = ("debian/rules");
 my @rootcommand = ();
-my $signcommand = '';
-if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
-       || ($ENV{HOME} && -e "$ENV{HOME}/.gnupg") )
-     && find_command('gpg')) {
-	 $signcommand = 'gpg';
-}
-
+my $signcommand;
 my ($admindir, $signkey, $usepause, $noclean,
     $cleansource, $since, $maint,
     $changedby, $desc, $parallel);
@@ -271,11 +265,6 @@ if ($< == 0) {
     }
 }
 
-unless ($signcommand) {
-    $signsource = 0;
-    $signchanges = 0;
-}
-
 my $build_opts = Dpkg::BuildOptions->new();
 if (defined $parallel) {
     $parallel = $build_opts->get("parallel") if $build_opts->has("parallel");
@@ -324,6 +313,18 @@ if (build_sourceonly) {
     $arch = 'all';
 } else {
     $arch = mustsetvar($ENV{'DEB_HOST_ARCH'}, _g('host architecture'));
+}
+
+if (!defined $signcommand &&
+    (($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) ||
+     ($ENV{HOME} && -e "$ENV{HOME}/.gnupg")) &&
+    find_command('gpg')) {
+    $signcommand = 'gpg';
+}
+
+if (not $signcommand) {
+    $signsource = 0;
+    $signchanges = 0;
 }
 
 # Preparation of environment stops here
