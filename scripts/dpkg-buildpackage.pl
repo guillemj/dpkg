@@ -302,15 +302,11 @@ if ($changedby) {
 }
 
 open my $arch_env, '-|', 'dpkg-architecture', "-a$targetarch",
-    "-t$targetgnusystem", '-s', '-f' or subprocerr('dpkg-architecture');
+    "-t$targetgnusystem", '-f' or subprocerr('dpkg-architecture');
 while ($_ = <$arch_env>) {
     chomp;
-    my @cmds = split /\s*;\s*/;
-    foreach (@cmds) {
-	/^\s*(\w+)=([\w-]*)\s*$/ && do {
-	    $ENV{$1} = $2;
-	};
-    }
+    my ($key, $value) = split /=/, $_, 2;
+    $ENV{$key} = $value;
 }
 close $arch_env or subprocerr('dpkg-architecture');
 
