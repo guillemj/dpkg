@@ -3,7 +3,7 @@
  * script.c - maintainer script routines
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2013 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,6 +60,7 @@ post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
 		pkg_set_status(pkg, stat_triggerspending);
 	else
 		pkg_set_status(pkg, stat_installed);
+	modstatdb_note(pkg);
 
 	post_postinst_tasks_core(pkg);
 }
@@ -67,8 +68,6 @@ post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
 void
 post_postinst_tasks_core(struct pkginfo *pkg)
 {
-	modstatdb_note(pkg);
-
 	if (!f_noact) {
 		debug(dbg_triggersdetail,
 		      "post_postinst_tasks_core - trig_incorporate");

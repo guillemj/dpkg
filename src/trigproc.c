@@ -4,7 +4,7 @@
  *
  * Copyright © 2007 Canonical Ltd
  * written by Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2013 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -353,6 +353,7 @@ trigproc(struct pkginfo *pkg)
 			pkg_set_status(pkg, stat_triggerspending);
 		else
 			pkg_set_status(pkg, stat_installed);
+		modstatdb_note(pkg);
 
 		post_postinst_tasks_core(pkg);
 	} else {
