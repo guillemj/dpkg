@@ -218,7 +218,8 @@ f_status(struct pkginfo *pkg, struct pkgbin *pkgbin,
 {
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
-                _("value for 'Status' field not allowed in this context"));
+                _("value for '%s' field not allowed in this context"),
+                "Status");
   if (ps->flags & pdb_recordavailable)
     return;
 
@@ -236,7 +237,8 @@ f_version(struct pkginfo *pkg, struct pkgbin *pkgbin,
           const char *value, const struct fieldinfo *fip)
 {
   parse_db_version(ps, &pkgbin->version, value,
-                   _("error in Version string '%.250s'"), value);
+                   _("error in '%s' field string '%.250s'"),
+                   "Version", value);
 }
 
 void
@@ -247,7 +249,8 @@ f_revision(struct pkginfo *pkg, struct pkgbin *pkgbin,
   char *newversion;
 
   parse_warn(ps,
-             _("obsolete `Revision' or `Package-Revision' field used"));
+             _("obsolete '%s' or '%s' field used"),
+             "Revision", "Package-Revision");
   if (!*value) return;
   if (str_is_set(pkgbin->version.revision)) {
     newversion = nfmalloc(strlen(pkgbin->version.version) +
@@ -266,12 +269,14 @@ f_configversion(struct pkginfo *pkg, struct pkgbin *pkgbin,
 {
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
-                _("value for 'Config-Version' field not allowed in this context"));
+                _("value for '%s' field not allowed in this context"),
+                "Config-Version");
   if (ps->flags & pdb_recordavailable)
     return;
 
   parse_db_version(ps, &pkg->configversion, value,
-                   _("error in Config-Version string '%.250s'"), value);
+                   _("error in '%s' field string '%.250s'"),
+                   "Config-Version", value);
 
 }
 
@@ -297,8 +302,8 @@ static void conffvalue_lastword(const char *value, const char *from,
 
 malformed:
   parse_error(ps,
-              _("value for 'Conffiles' field has malformatted line '%.*s'"),
-              (int)min(endent - value, 250), value);
+              _("value for '%s' field has malformatted line '%.*s'"),
+              "Conffiles", (int)min(endent - value, 250), value);
 }
 
 void
@@ -319,8 +324,8 @@ f_conffiles(struct pkginfo *pkg, struct pkgbin *pkgbin,
     if (c == '\n') continue;
     if (c != ' ')
       parse_error(ps,
-                  _("value for 'Conffiles' has line starting with non-space '%c'"),
-                  c);
+                  _("value for '%s' has line starting with non-space '%c'"),
+                  "Conffiles", c);
     for (endent = value; (c = *endent) != '\0' && c != '\n'; endent++) ;
     conffvalue_lastword(value, endent, endent,
 			&hashstart, &hashlen, &endfn,
@@ -507,7 +512,8 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
         }
         if ((dop->verrel != dpkg_relation_eq) && (fip->integer == dep_provides))
           parse_warn(ps,
-                     _("Only exact versions may be used for Provides"));
+                     _("Only exact versions may be used for '%s' field"),
+                     "Provides");
 
         if (!isspace(*p) && !isalnum(*p)) {
           parse_warn(ps,
@@ -613,8 +619,8 @@ f_trigpend(struct pkginfo *pend, struct pkgbin *pkgbin,
 
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
-                _("value for 'Triggers-Pending' field not allowed in "
-                  "this context"));
+                _("value for '%s' field not allowed in this context"),
+                "Triggers-Pending");
 
   while ((word = scan_word(&value))) {
     emsg = trig_name_is_illegal(word);
@@ -638,8 +644,8 @@ f_trigaw(struct pkginfo *aw, struct pkgbin *pkgbin,
 
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
-                _("value for 'Triggers-Awaited' field not allowed in "
-                  "this context"));
+                _("value for '%s' field not allowed in this context"),
+                "Triggers-Awaited");
 
   while ((word = scan_word(&value))) {
     struct dpkg_error err;
