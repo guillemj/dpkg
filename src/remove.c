@@ -90,6 +90,16 @@ void deferred_remove(struct pkginfo *pkg) {
   debug(dbg_general, "deferred_remove package %s",
         pkg_name(pkg, pnaw_always));
 
+  if (!f_pending && pkg->want != want_unknown) {
+    if (cipaction->arg_int == act_purge)
+      pkg_set_want(pkg, want_purge);
+    else
+      pkg_set_want(pkg, want_deinstall);
+
+    if (!f_noact)
+      modstatdb_note(pkg);
+  }
+
   if (pkg->status == stat_notinstalled) {
     warning(_("ignoring request to remove %.250s which isn't installed"),
             pkg_name(pkg, pnaw_nonambig));
@@ -108,16 +118,6 @@ void deferred_remove(struct pkginfo *pkg) {
   if (pkg->installed.essential && pkg->status != stat_configfiles)
     forcibleerr(fc_removeessential, _("This is an essential package -"
                 " it should not be removed."));
-
-  if (!f_pending) {
-    if (cipaction->arg_int == act_purge)
-      pkg_set_want(pkg, want_purge);
-    else
-      pkg_set_want(pkg, want_deinstall);
-
-    if (!f_noact)
-      modstatdb_note(pkg);
-  }
 
   debug(dbg_general, "checking dependencies for remove '%s'",
         pkg_name(pkg, pnaw_always));
