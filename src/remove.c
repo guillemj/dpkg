@@ -3,7 +3,7 @@
  * remove.c - functionality for removing packages
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2013 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -114,8 +114,10 @@ void deferred_remove(struct pkginfo *pkg) {
       pkg_set_want(pkg, want_purge);
     else
       pkg_set_want(pkg, want_deinstall);
+
+    if (!f_noact)
+      modstatdb_note(pkg);
   }
-  if (!f_noact) modstatdb_note(pkg);
 
   debug(dbg_general, "checking dependencies for remove '%s'",
         pkg_name(pkg, pnaw_always));
