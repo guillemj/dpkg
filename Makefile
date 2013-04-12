@@ -82,7 +82,7 @@ endif
 
 
 # By default do nothing
-all::
+all help::
 	@echo "Run 'make test' to run all the tests"
 	@echo "Run 'make <test-id>-test' to run a specifict test"
 	@echo "Run 'make clean' to remove all intermediary files"
