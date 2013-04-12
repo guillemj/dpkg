@@ -20,7 +20,7 @@ DPKG_OPTIONS += -D77777
 endif
 
 # Always use a local db (requires at least dpkg 1.16.0)
-DPKG_ADMINDIR = ../dpkgdb
+DPKG_ADMINDIR = $(CURDIR)/../dpkgdb
 DPKG_COMMON_OPTIONS = --admindir=$(DPKG_ADMINDIR)
 
 DPKG = dpkg $(DPKG_COMMON_OPTIONS) $(DPKG_OPTIONS)
