@@ -37,7 +37,6 @@ EXTRA_DIST = \
 	doc/lcov-epilog \
 	doc/lcov-prolog \
 	doc/triggers.txt \
-	debian/archtable \
 	debian/changelog \
 	debian/compat \
 	debian/control \
