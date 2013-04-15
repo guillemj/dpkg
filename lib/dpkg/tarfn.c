@@ -3,7 +3,7 @@
  * tarfn.c - tar archive extraction functions
  *
  * Copyright © 1995 Bruce Perens
- * Copyright © 2007-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2011,2013 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -129,16 +129,13 @@ get_unix_mode(struct tar_header *h)
 	return mode;
 }
 
-static bool
+static long
 tar_header_checksum(struct tar_header *h)
 {
 	unsigned char *s = (unsigned char *)h;
 	unsigned int i;
 	const size_t checksum_offset = offsetof(struct tar_header, checksum);
-	long checksum;
 	long sum;
-
-	checksum = OtoM(h->checksum, sizeof(h->checksum));
 
 	/* Treat checksum field as all blank. */
 	sum = ' ' * sizeof(h->checksum);
@@ -152,7 +149,7 @@ tar_header_checksum(struct tar_header *h)
 	for (i = TARBLKSZ - checksum_offset - sizeof(h->checksum); i > 0; i--)
 		sum += *s++;
 
-	return (sum == checksum);
+	return sum;
 }
 
 static int
@@ -160,6 +157,7 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 {
 	struct passwd *passwd = NULL;
 	struct group *group = NULL;
+	long checksum;
 
 	if (memcmp(h->magic, TAR_MAGIC_GNU, 6) == 0)
 		d->format = tar_format_gnu;
@@ -198,7 +196,9 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 	else
 		d->stat.gid = (gid_t)OtoM(h->gid, sizeof(h->gid));
 
-	return tar_header_checksum(h);
+	checksum = OtoM(h->checksum, sizeof(h->checksum));
+
+	return tar_header_checksum(h) == checksum;
 }
 
 /**
