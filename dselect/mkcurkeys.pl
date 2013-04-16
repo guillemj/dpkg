@@ -43,7 +43,7 @@ while (<NCH>) {
     $rhs= $';
     $k= "KEY_$1";
     $_= $1;
-    &capit;
+    capit();
     $base{$k}= $_;
     $_= $rhs;
     s/(\w)[\(\)]/$1/g;
@@ -52,7 +52,7 @@ while (<NCH>) {
     $_= $1;
     s/ key$//;
     next if s/^shifted /shift / ? m/ .* .* / : m/ .* /;
-    &capit;
+    capit();
     $name{$k}= $_;
 }
 close(NCH);
@@ -71,7 +71,7 @@ for ($i=33; $i<=126; $i++) {
     $k= $i;
     $v= pack("C",$i);
     if ($v eq ',') { $comma=$k; next; }
-    &p;
+    p();
 }
 
 for $k (sort {
@@ -84,15 +84,17 @@ for $k (sort {
     $v= $name{$k} if defined($name{$k});
     $v= $over{$k} if defined($over{$k});
     next if $v eq '[elide]';
-    &p;
+    p();
 }
 
 for ($i=1; $i<64; $i++) {
     $k= "KEY_F($i)"; $v= "F$i";
-    &p;
+    p();
 }
 
-$k=$comma; $v=','; &p;
+$k = $comma;
+$v = ',';
+p();
 
 print(<<'END') || die $!;
   { -1,              0                    }
