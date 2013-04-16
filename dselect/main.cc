@@ -431,7 +431,6 @@ refreshmenu(void)
 }
 
 urqresult urq_menu(void) {
-#define C(x) ((x)-'a'+1)
   int entries, c;
   entries= refreshmenu();
   int cursor=0;
@@ -449,9 +448,9 @@ urqresult urq_menu(void) {
       }
     }
 
-    if (c==C('n') || c==KEY_DOWN || c==' ' || c=='j') {
+    if (c == CTRL('n') || c == KEY_DOWN || c == ' ' || c == 'j') {
       dme(cursor,0); cursor++; cursor %= entries; dme(cursor,1);
-    } else if (c==C('p') || c==KEY_UP || c==C('h') ||
+    } else if (c == CTRL('p') || c == KEY_UP || c == CTRL('h') ||
                c==KEY_BACKSPACE || c==KEY_DC || c=='k') {
       dme(cursor,0); cursor+= entries-1; cursor %= entries; dme(cursor,1);
     } else if (c=='\n' || c=='\r' || c==KEY_ENTER) {
@@ -470,7 +469,7 @@ urqresult urq_menu(void) {
         internerr("unknown menufn %d", res);
       }
       refreshmenu(); dme(cursor,1);
-    } else if (c==C('l')) {
+    } else if (c == CTRL('l')) {
       clearok(stdscr,TRUE); clear(); refreshmenu(); dme(cursor,1);
     } else if (isdigit(c)) {
       char buf[2]; buf[0]=c; buf[1]=0; c=atoi(buf);

@@ -69,8 +69,6 @@ const keybindings::interpretation packagelist_kinterps[] = {
   {  0,                 0,  0,                                qa_noquit           }
 };
 
-#define C(x) ((x)-'a'+1)
-
 const keybindings::orgbinding packagelist_korgbindings[]= {
   { 'j',            "down"             }, // vi style
   { KEY_DOWN,       "down"             },
@@ -85,9 +83,9 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
   { KEY_PPAGE,      "scrollback"       },
   { KEY_BACKSPACE,  "scrollback"       },
   { 0177,           "scrollback"       }, // ASCII DEL
-  { C('h'),         "scrollback"       },
-  { C('n'),         "scrollon1"        },
-  { C('p'),         "scrollback1"      },
+  { CTRL('h'),      "scrollback"       },
+  { CTRL('n'),      "scrollon1"        },
+  { CTRL('p'),      "scrollback1"      },
 
   { 't',            "top"              },
   { KEY_HOME,       "top"              },
@@ -97,15 +95,15 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
 
   { 'u',            "iscrollback"      },
   { 'd',            "iscrollon"        },
-  { C('u'),         "iscrollback1"     },
-  { C('d'),         "iscrollon1"       },
+  { CTRL('u'),      "iscrollback1"     },
+  { CTRL('d'),      "iscrollon1"       },
 
   { 'B',            "panback"          },
   { KEY_LEFT,       "panback"          },
   { 'F',            "panon"            },
   { KEY_RIGHT,      "panon"            },
-  { C('b'),         "panback1"         },
-  { C('f'),         "panon1"           },
+  { CTRL('b'),      "panback1"         },
+  { CTRL('f'),      "panon1"           },
 
   { '+',            "install"          },
   { KEY_IC,         "install"          },
@@ -125,7 +123,7 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
   { 'O',            "swapstatorder"    },
   { 'v',            "verbose"          },
   { 'V',            "versiondisplay"   },
-  { C('l'),         "redraw"           },
+  { CTRL('l'),      "redraw"           },
   { '/',            "search"           },
   { 'n',            "searchagain"      },
   { '\\',           "searchagain"      },

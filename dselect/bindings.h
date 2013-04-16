@@ -89,4 +89,8 @@ extern const keybindings::orgbinding packagelist_korgbindings[];
 extern const keybindings::interpretation methodlist_kinterps[];
 extern const keybindings::orgbinding methodlist_korgbindings[];
 
+#ifndef CTRL
+#define CTRL(x) ((x) - 'a' + 1)
+#endif
+
 #endif /* BINDINGS_H */

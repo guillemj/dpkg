@@ -52,8 +52,6 @@ const keybindings::interpretation methodlist_kinterps[] = {
   {  0,                0,                             0,    qa_noquit           }
 };
 
-#define C(x) ((x)-'a'+1)
-
 const keybindings::orgbinding methodlist_korgbindings[]= {
   { 'j',            "down"           }, // vi style
 //{ 'n',            "down"           }, // no style
@@ -62,18 +60,18 @@ const keybindings::orgbinding methodlist_korgbindings[]= {
 //{ 'p',            "up"             }, // no style
   { KEY_UP,         "up"             },
 
-  { C('f'),         "scrollon"       }, // vi style
+  { CTRL('f'),      "scrollon"       }, // vi style
   { 'N',            "scrollon"       },
   { KEY_NPAGE,      "scrollon"       },
   { ' ',            "scrollon"       },
-  { C('b'),         "scrollback"     }, // vi style
+  { CTRL('b'),      "scrollback"     }, // vi style
   { 'P',            "scrollback"     },
   { KEY_PPAGE,      "scrollback"     },
   { KEY_BACKSPACE,  "scrollback"     },
   { 0177,/*DEL*/    "scrollback"     },
-  { C('h'),         "scrollback"     },
-  { C('n'),         "scrollon1"      },
-  { C('p'),         "scrollback1"    },
+  { CTRL('h'),      "scrollback"     },
+  { CTRL('n'),      "scrollon1"      },
+  { CTRL('p'),      "scrollback1"    },
 
   { 't',            "top"            },
   { KEY_HOME,       "top"            },
@@ -83,15 +81,15 @@ const keybindings::orgbinding methodlist_korgbindings[]= {
 
   { 'u',            "iscrollback"    },
   { 'd',            "iscrollon"      },
-  { C('u'),         "iscrollback1"   },
-  { C('d'),         "iscrollon1"     },
+  { CTRL('u'),      "iscrollback1"   },
+  { CTRL('d'),      "iscrollon1"     },
 
   { 'B',            "panback"        },
   { KEY_LEFT,       "panback"        },
   { 'F',            "panon"          },
   { KEY_RIGHT,      "panon"          },
-  { C('b'),         "panback1"       },
-  { C('f'),         "panon1"         },
+  { CTRL('b'),      "panback1"       },
+  { CTRL('f'),      "panon1"         },
 
   { '?',            "help"             },
   { KEY_HELP,       "help"             },
@@ -99,7 +97,7 @@ const keybindings::orgbinding methodlist_korgbindings[]= {
   { '/',            "search"           },
   { 'n',            "searchagain"      },
   { '\\',           "searchagain"      },
-  { C('l'),         "redraw"           },
+  { CTRL('l'),      "redraw"           },
 
   { KEY_ENTER,      "select-and-quit"  },
   { '\r',           "select-and-quit"  },
