@@ -169,7 +169,7 @@ sub edit_site {
   chomp($_ = <STDIN>);
   $site->[4] = $_ || $site->[4];
 
-  print <<EOF;
+  print <<'EOF';
 
 If you're using anonymous ftp to retrieve files, enter your email
 address for use as a password. Otherwise enter your password,

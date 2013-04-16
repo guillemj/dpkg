@@ -62,7 +62,7 @@ sub install_filelist {
     close(L);
     # Only installed packages have their files list considered.
     open(S, ">> $admindir/status");
-    print S <<EOF;
+    print S <<"EOF";
 Package: $pkg
 Status: install ok installed
 Version: 0
@@ -203,7 +203,7 @@ cleanup();
 
 note("Querying information from diverts db (1)");
 
-install_diversions(<<EOF);
+install_diversions(<<'EOF');
 /bin/sh
 /bin/sh.distrib
 dash
@@ -239,7 +239,7 @@ cleanup();
 
 note("Querying information from diverts db (2)");
 
-install_diversions(<<EOF);
+install_diversions(<<'EOF');
 /bin/sh
 /bin/sh.distrib
 dash
@@ -261,7 +261,7 @@ cleanup();
 
 note("Adding diversion");
 
-my $diversions_added_foo_local = <<EOF;
+my $diversions_added_foo_local = <<"EOF";
 $testdir/foo
 $testdir/foo.distrib
 :
@@ -346,7 +346,7 @@ note("Adding diversion (7)");
 install_diversions('');
 call_divert(['--quiet', '--rename', '--package', 'bash', "$testdir/foo"],
             expect_stdout => '', expect_stderr => '');
-diversions_eq(<<EOF);
+diversions_eq(<<"EOF");
 $testdir/foo
 $testdir/foo.distrib
 bash
@@ -411,7 +411,7 @@ install_diversions('');
 
 call_divert(['--quiet', '--rename', '--add', "$testdir/zoo/foo"],
             expect_stderr => '', expect_stdout => '');
-diversions_eq(<<EOF);
+diversions_eq(<<"EOF");
 $testdir/zoo/foo
 $testdir/zoo/foo.distrib
 :
@@ -429,7 +429,7 @@ call_divert(['--quiet', '--rename', '--add', '--package', 'coreutils', "$testdir
             expect_stderr => '', expect_stdout => '');
 ok(-e "$testdir/foo", "foo not renamed");
 ok(!-e "$testdir/foo.distrib", "foo renamed");
-diversions_eq(<<EOF);
+diversions_eq(<<"EOF");
 $testdir/foo
 $testdir/foo.distrib
 coreutils
@@ -462,7 +462,7 @@ call_divert(["--package", "baz", "--divert", "$testdir/foo.my", "--remove", "$te
 
 call_divert(["--divert", "$testdir/foo.distrib", "--remove", "$testdir/foo"],
             expect_stdout_like => qr,Removing.*\Q$testdir\E/foo,);
-diversions_eq(<<EOF);
+diversions_eq(<<"EOF");
 $testdir/bar
 $testdir/bar.distrib
 :
@@ -483,7 +483,7 @@ call_divert(["$testdir/baz"]);
 
 call_divert(["--remove", "$testdir/bar"],
             expect_stdout_like => qr,Removing.*\Q$testdir\E/bar,);
-diversions_eq(<<EOF);
+diversions_eq(<<"EOF");
 $testdir/foo
 $testdir/foo.distrib
 :
@@ -504,7 +504,7 @@ call_divert(["--package", "bash", "$testdir/baz"]);
 
 call_divert(["--quiet", "--package", "bash", "--remove", "$testdir/baz"],
             expect_stdout => '', expect_stderr => '');
-diversions_eq(<<EOF);
+diversions_eq(<<"EOF");
 $testdir/foo
 $testdir/foo.distrib
 :
@@ -549,14 +549,14 @@ SKIP: {
     system("chmod 644 $admindir/diversions");
 }
 
-install_diversions(<<EOF);
+install_diversions(<<'EOF');
 /bin/sh
 EOF
 
 call_divert_sort(['--list'], expect_failure => 1,
             expect_stderr_like => qr/(corrupt|unexpected eof)/, expect_stdout => '');
 
-install_diversions(<<EOF);
+install_diversions(<<'EOF');
 /bin/sh
 bash
 EOF
