@@ -1,4 +1,4 @@
-/* -*- c++ -*-
+/*
  * dselect - Debian package maintenance user interface
  * dselect-curses.h - curses header wrapper
  *

@@ -104,5 +104,4 @@ sub do_build {
     $self->add_file($tarname);
 }
 
-# vim: set et sw=4 ts=8
 1;

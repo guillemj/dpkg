@@ -273,6 +273,3 @@ int main(int argc, const char *const *argv) {
 
   return ret;
 }
-
-/* vi: sw=2
- */

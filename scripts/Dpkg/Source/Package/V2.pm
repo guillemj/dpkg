@@ -732,5 +732,4 @@ sub get_seen_binaries {
     return sort keys %{$self->{'seen_binaries'}};
 }
 
-# vim:et:sw=4:ts=8
 1;

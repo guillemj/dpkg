@@ -335,5 +335,3 @@ do_contents(const char *const *argv)
 
   return 0;
 }
-/* vi: sw=2
- */

@@ -1,4 +1,4 @@
-/* -*- c++ -*-
+/*
  * dselect - Debian package maintenance user interface
  * pkglist.h - external definitions for package list handling
  *

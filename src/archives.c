@@ -1750,6 +1750,3 @@ struct fileinlist *newconff_append(struct fileinlist ***newconffileslastp_io,
   *newconffileslastp_io= &newconff->next;
   return newconff;
 }
-
-/* vi: ts=8 sw=2
- */

@@ -1,4 +1,4 @@
-/* -*- c++ -*-
+/*
  * dselect - Debian package maintenance user interface
  * method.h - access method handling declarations
  *

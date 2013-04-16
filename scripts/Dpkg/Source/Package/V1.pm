@@ -391,5 +391,4 @@ sub do_build {
     }
 }
 
-# vim: set et sw=4 ts=8
 1;

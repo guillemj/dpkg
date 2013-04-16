@@ -280,5 +280,4 @@ sub register_patch {
     return $patch;
 }
 
-# vim:et:sw=4:ts=8
 1;

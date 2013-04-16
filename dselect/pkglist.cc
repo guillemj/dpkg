@@ -620,6 +620,3 @@ pkginfo **packagelist::display() {
     return 0;
   }
 }
-
-/* vi: sw=2 ts=8
- */

@@ -660,6 +660,3 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
 
   return newnode;
 }
-
-/* vi: ts=8 sw=2
- */

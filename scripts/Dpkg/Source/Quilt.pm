@@ -304,5 +304,4 @@ sub restore_quilt_backup_files {
     }, $patch_dir);
 }
 
-# vim:et:sw=4:ts=8
 1;

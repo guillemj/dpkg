@@ -613,4 +613,3 @@ sub get_type {
 }
 
 1;
-# vim: set et sw=4 ts=8

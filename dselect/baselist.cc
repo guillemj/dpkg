@@ -368,6 +368,3 @@ void baselist::wordwrapinfo(int offset, const char *m) {
 }
 
 baselist::~baselist() { }
-
-/* vi: sw=2 ts=8
- */

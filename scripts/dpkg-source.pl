@@ -1,5 +1,4 @@
 #! /usr/bin/perl
-# vim: set et sw=4 ts=8
 #
 # dpkg-source
 #

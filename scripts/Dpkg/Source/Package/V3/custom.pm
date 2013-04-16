@@ -58,5 +58,4 @@ sub do_build {
     }
 }
 
-# vim:et:sw=4:ts=8
 1;

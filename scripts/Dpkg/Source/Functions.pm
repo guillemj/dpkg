@@ -117,5 +117,4 @@ sub is_binary($) {
     return $result;
 }
 
-# vim: set et sw=4 ts=8
 1;
