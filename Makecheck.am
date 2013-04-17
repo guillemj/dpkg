@@ -10,10 +10,10 @@
 TEST_VERBOSE ?= 0
 
 check-clean:
-	rm -fr $(test_tmpdir)
+	[ -z "$(test_tmpdir)" ] || rm -fr $(test_tmpdir)
 
 check-local: $(test_data) $(test_cases)
-	$(MKDIR_P) $(test_tmpdir)
+	[ -z "$(test_tmpdir)" ] || $(MKDIR_P) $(test_tmpdir)
 	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(top_builddir)/utils:$(PATH)" \
 	  LC_ALL=C \
 	  $(TEST_ENV_VARS) \
