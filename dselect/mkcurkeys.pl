@@ -18,6 +18,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+use Scalar::Util qw(looks_like_number);
+
 $#ARGV == 1 || die ("usage: mkcurkeys.pl <filename> <curses.h>");
 
 open(OV,"<$ARGV[0]") || die $!;
@@ -75,9 +77,9 @@ for ($i=33; $i<=126; $i++) {
 }
 
 for $k (sort {
-    $a+0 eq $a ?
-        $b+0 eq $b ? $a <=> $b : -1
-            : $b+0 eq $b ? 1 :
+    looks_like_number($a) ?
+        looks_like_number($b) ? $a <=> $b : -1
+            : looks_like_number($b) ? 1 :
                 $a cmp $b
                 } keys %base) {
     $v= $base{$k};
