@@ -75,7 +75,10 @@ EXTRA_DIST = \
 	debian/usertags \
 	debian/rules \
 	debian/shlibs.default \
-	debian/shlibs.override
+	debian/shlibs.override \
+	$(test_cases) \
+	$(test_data) \
+	$(nil)
 
 .PHONY: doc
 
@@ -126,6 +129,15 @@ coverage:
 coverage-clean:
 endif
 
+test_cases = \
+	test/000_pod.t \
+	$(nil)
+
+test_data = \
+	$(nil)
+
+include $(top_srcdir)/Makecheck.am
+
 .PHONY: update-po
 
 update-po:
@@ -153,4 +165,4 @@ dist-hook:
 		done ; \
 	fi
 
-clean-local: doc-clean coverage-clean
+clean-local: doc-clean coverage-clean check-clean

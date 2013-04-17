@@ -180,7 +180,6 @@ TEST_COVERAGE = $(PERL_COVERAGE)
 test_tmpdir = t.tmp
 
 test_cases = \
-	t/000_pod.t \
 	t/100_Dpkg_Version.t \
 	t/150_Dpkg_Package.t \
 	t/190_Dpkg_Shlibs_Cppfilt.t \
