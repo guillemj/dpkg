@@ -18,6 +18,8 @@ use Exporter;
 use Data::Dumper;
 
 use strict;
+use warnings;
+
 use vars qw(@EXPORT %config $VAR1);
 
 @EXPORT = qw(yesno do_connect do_mdtm add_site edit_site

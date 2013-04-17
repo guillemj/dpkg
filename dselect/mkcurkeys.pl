@@ -18,6 +18,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+use strict;
+use warnings;
+
 use Scalar::Util qw(looks_like_number);
 
 $#ARGV == 1 || die ("usage: mkcurkeys.pl <filename> <curses.h>");
