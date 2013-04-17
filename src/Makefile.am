@@ -86,8 +86,6 @@ install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(admindir)/info
 	$(MKDIR_P) $(DESTDIR)$(admindir)/updates
 
-TEST_VERBOSE = 0
-
 test_tmpdir = t.tmp
 
 test_cases = \

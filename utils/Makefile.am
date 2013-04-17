@@ -66,7 +66,6 @@ if BUILD_INSTALL_INFO
 	rm -f $(DESTDIR)$(sbindir)/install-info
 endif
 
-TEST_VERBOSE = 0
 TEST_ENV_VARS = DPKG_DATADIR=$(top_srcdir)
 
 test_tmpdir = t.tmp

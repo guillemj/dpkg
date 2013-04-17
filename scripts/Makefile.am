@@ -172,7 +172,6 @@ coverage: check
 coverage-clean:
 	rm -rf cover_db
 
-TEST_VERBOSE= 0
 TEST_ENV_VARS = \
 	DPKG_DATADIR=$(srcdir)/.. \
 	DPKG_ORIGINS_DIR=$(srcdir)/t/origins
