@@ -22,6 +22,8 @@ use Scalar::Util qw(looks_like_number);
 
 $#ARGV == 1 || die ("usage: mkcurkeys.pl <filename> <curses.h>");
 
+my (%over, %base, %name);
+
 open(OV,"<$ARGV[0]") || die $!;
 while (<OV>) {
     chomp;
@@ -33,16 +35,18 @@ while (<OV>) {
 }
 close(OV);
 
-for ($i=1, $let='A'; $i<=26; $i++, $let++) {
+for (my $i = 1, my $let = 'A'; $i <= 26; $i++, $let++) {
     $name{$i}= "^$let";
     $base{$i}= '';
 }
+
+our ($k, $v);
 
 open(NCH,"<$ARGV[1]") || die $!;
 while (<NCH>) {
     s/\s+$//;
     m/#define KEY_(\w+)\s+\d+\s+/ || next;
-    $rhs= $';
+    my $rhs = $';
     $k= "KEY_$1";
     $_= $1;
     capit();
@@ -69,7 +73,9 @@ printf(<<'END') || die $!;
 
 END
 
-for ($i=33; $i<=126; $i++) {
+my ($comma);
+
+for (my $i = 33; $i <= 126; $i++) {
     $k= $i;
     $v= pack("C",$i);
     if ($v eq ',') { $comma=$k; next; }
@@ -89,7 +95,7 @@ for $k (sort {
     p();
 }
 
-for ($i=1; $i<64; $i++) {
+for (my $i = 1; $i < 64; $i++) {
     $k= "KEY_F($i)"; $v= "F$i";
     p();
 }
@@ -106,7 +112,9 @@ close(STDOUT) || die $!;
 exit(0);
 
 sub capit {
-    $o= ''; y/A-Z/a-z/; $_= " $_";
+    my $o = '';
+    y/A-Z/a-z/;
+    $_ = " $_";
     while (m/ (\w)/) {
         $o .= $`.' ';
         $_ = $1;
