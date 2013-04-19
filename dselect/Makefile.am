@@ -59,7 +59,7 @@ curkeys.h: $(srcdir)/keyoverride $(srcdir)/mkcurkeys.pl
 	if [ "$$cursesfile" = "" ]; then \
 		echo "can't find curses file"; exit 1; \
 	fi; \
-	perl $(srcdir)/mkcurkeys.pl $< $$cursesfile >$@
+	$(PERL) $(srcdir)/mkcurkeys.pl $< $$cursesfile >$@
 
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(pkgconfdir)/dselect.cfg.d
