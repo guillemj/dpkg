@@ -89,7 +89,13 @@ void checkpath(void) {
     TAR,
     FIND,
     BACKEND,
+    /* Mac OS X uses dyld (Mach-O) instead of ld.so (ELF), and does not have
+     * an ldconfig. */
+#if defined(__APPLE__) && defined(__MACH__)
+    "update_dyld_shared_cache",
+#else
     "ldconfig",
+#endif
 #if BUILD_START_STOP_DAEMON
     "start-stop-daemon",
 #endif
