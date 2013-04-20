@@ -33,7 +33,7 @@ nobase_dist_methods_SCRIPTS = \
 	multicd/install
 
 perllibdir = $(PERL_LIBDIR)
-nobase_dist_perllib_DATA = Debian/Dselect/Ftp.pm
+nobase_dist_perllib_DATA = Dselect/Ftp.pm
 
 EXTRA_DIST = multicd/README.multicd
 
