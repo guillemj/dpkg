@@ -97,10 +97,10 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 }
 
 my $dir;
-if (defined($options{'opmode'}) &&
-    $options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/) {
+if (defined($options{opmode}) &&
+    $options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/) {
     if (not scalar(@ARGV)) {
-	usageerr(_g("%s needs a directory"), $options{'opmode'})
+	usageerr(_g("%s needs a directory"), $options{opmode})
 	    unless $1 eq "--commit";
 	$dir = ".";
     } else {
@@ -132,7 +132,7 @@ if (defined($options{'opmode'}) &&
 	$conf->filter(remove => sub { $_[0] =~ $forbidden_opts_re->{$filename} });
 	if (@$conf) {
 	    info(_g("using options from %s: %s"), $optfile, join(" ", @$conf))
-		unless $options{'opmode'} eq "--print-format";
+		unless $options{opmode} eq "--print-format";
 	    unshift @options, @$conf;
 	}
     }
@@ -144,14 +144,14 @@ while (@options) {
 	$build_format //= $1;
     } elsif (m/^-(?:Z|-compression=)(.*)$/) {
 	my $compression = $1;
-	$options{'compression'} = $compression;
-	$options{'comp_ext'} = compression_get_property($compression, "file_ext");
+	$options{compression} = $compression;
+	$options{comp_ext} = compression_get_property($compression, "file_ext");
 	usageerr(_g("%s is not a supported compression"), $compression)
 	    unless compression_is_supported($compression);
 	compression_set_default($compression);
     } elsif (m/^-(?:z|-compression-level=)(.*)$/) {
 	my $comp_level = $1;
-	$options{'comp_level'} = $comp_level;
+	$options{comp_level} = $comp_level;
 	usageerr(_g("%s is not a compression level"), $comp_level)
 	    unless compression_is_valid_level($comp_level);
 	compression_set_default_level($comp_level);
@@ -166,26 +166,26 @@ while (@options) {
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1} = 1;
     } elsif (m/^-(?:i|-diff-ignore(?:$|=))(.*)$/) {
-        $options{'diff_ignore_regexp'} = $1 ? $1 : $Dpkg::Source::Package::diff_ignore_default_regexp;
+        $options{diff_ignore_regexp} = $1 ? $1 : $Dpkg::Source::Package::diff_ignore_default_regexp;
     } elsif (m/^--extend-diff-ignore=(.+)$/) {
 	$Dpkg::Source::Package::diff_ignore_default_regexp .= "|$1";
-	if ($options{'diff_ignore_regexp'}) {
-	    $options{'diff_ignore_regexp'} .= "|$1";
+	if ($options{diff_ignore_regexp}) {
+	    $options{diff_ignore_regexp} .= "|$1";
 	}
     } elsif (m/^-(?:I|-tar-ignore=)(.+)$/) {
-        push @{$options{'tar_ignore'}}, $1;
+        push @{$options{tar_ignore}}, $1;
     } elsif (m/^-(?:I|-tar-ignore)$/) {
         unless ($tar_ignore_default_pattern_done) {
-            push @{$options{'tar_ignore'}}, @Dpkg::Source::Package::tar_ignore_default_pattern;
+            push @{$options{tar_ignore}}, @Dpkg::Source::Package::tar_ignore_default_pattern;
             # Prevent adding multiple times
             $tar_ignore_default_pattern_done = 1;
         }
     } elsif (m/^--no-copy$/) {
-        $options{'copy_orig_tarballs'} = 0;
+        $options{copy_orig_tarballs} = 0;
     } elsif (m/^--no-check$/) {
-        $options{'no_check'} = 1;
+        $options{no_check} = 1;
     } elsif (m/^--require-valid-signature$/) {
-        $options{'require_valid_signature'} = 1;
+        $options{require_valid_signature} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {
         $substvars->set($1, $2);
     } elsif (m/^-T(.*)$/) {
@@ -201,7 +201,7 @@ while (@options) {
         warning(_g("-E and -W are deprecated, they are without effect"));
     } elsif (m/^-q$/) {
         report_options(quiet_warnings => 1);
-        $options{'quiet'} = 1;
+        $options{quiet} = 1;
     } elsif (m/^--$/) {
         last;
     } else {
@@ -209,24 +209,24 @@ while (@options) {
     }
 }
 
-unless (defined($options{'opmode'})) {
+unless (defined($options{opmode})) {
     usageerr(_g("need a command (-x, -b, --before-build, --after-build, --print-format, --commit)"));
 }
 
-if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/) {
+if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/) {
 
-    $options{'ARGV'} = \@ARGV;
+    $options{ARGV} = \@ARGV;
 
     $changelogfile ||= "$dir/debian/changelog";
     $controlfile ||= "$dir/debian/control";
     
     my %ch_options = (file => $changelogfile);
-    $ch_options{"changelogformat"} = $changelogformat if $changelogformat;
+    $ch_options{changelogformat} = $changelogformat if $changelogformat;
     my $changelog = changelog_parse(%ch_options);
     my $control = Dpkg::Control::Info->new($controlfile);
 
     my $srcpkg = Dpkg::Source::Package->new(options => \%options);
-    my $fields = $srcpkg->{'fields'};
+    my $fields = $srcpkg->{fields};
 
     my @sourcearch;
     my %archadded;
@@ -334,7 +334,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
 	    $fields->{$_} = $v;
 	} elsif (m/^Binary-Only$/) {
 	    error(_g("building source for a binary-only release"))
-	        if $v eq "yes" and $options{'opmode'} eq "-b";
+	        if $v eq "yes" and $options{opmode} eq "-b";
 	} elsif (m/^Maintainer$/i) {
             # Do not replace the field coming from the source entry
 	} else {
@@ -361,7 +361,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
 	} else {
 	    warning(_g("no source format specified in %s, " .
 	               "see dpkg-source(1)"), "debian/source/format")
-		if $options{'opmode'} eq "-b";
+		if $options{opmode} eq "-b";
 	    $build_format = "1.0";
 	}
     }
@@ -371,16 +371,16 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
     $srcpkg->init_options();
     $srcpkg->parse_cmdline_options(@cmdline_options);
 
-    if ($options{'opmode'} eq "--print-format") {
+    if ($options{opmode} eq "--print-format") {
 	print $fields->{'Format'} . "\n";
 	exit(0);
-    } elsif ($options{'opmode'} eq "--before-build") {
+    } elsif ($options{opmode} eq "--before-build") {
 	$srcpkg->before_build($dir);
 	exit(0);
-    } elsif ($options{'opmode'} eq "--after-build") {
+    } elsif ($options{opmode} eq "--after-build") {
 	$srcpkg->after_build($dir);
 	exit(0);
-    } elsif ($options{'opmode'} eq "--commit") {
+    } elsif ($options{opmode} eq "--commit") {
 	$srcpkg->commit($dir);
 	exit(0);
     }
@@ -404,7 +404,7 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
 		       substvars => $substvars);
     exit(0);
 
-} elsif ($options{'opmode'} eq '-x') {
+} elsif ($options{opmode} eq '-x') {
 
     # Check command line
     unless (scalar(@ARGV)) {
@@ -436,11 +436,11 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
     }
 
     # Various checks before unpacking
-    unless ($options{'no_check'}) {
+    unless ($options{no_check}) {
         if ($srcpkg->is_signed()) {
             $srcpkg->check_signature();
         } else {
-            if ($options{'require_valid_signature'}) {
+            if ($options{require_valid_signature}) {
                 error(_g("%s doesn't contain a valid OpenPGP signature"), $dsc);
             } else {
                 warning(_g("extracting unsigned source package (%s)"), $dsc);
@@ -450,17 +450,17 @@ if ($options{'opmode'} =~ /^(-b|--print-format|--(before|after)-build|--commit)$
     }
 
     # Unpack the source package (delegated to Dpkg::Source::Package::*)
-    info(_g("extracting %s in %s"), $srcpkg->{'fields'}{'Source'}, $newdirectory);
+    info(_g("extracting %s in %s"), $srcpkg->{fields}{'Source'}, $newdirectory);
     $srcpkg->extract($newdirectory);
 
     exit(0);
 }
 
 sub setopmode {
-    if (defined($options{'opmode'})) {
+    if (defined($options{opmode})) {
 	usageerr(_g("only one of -x, -b or --print-format allowed, and only once"));
     }
-    $options{'opmode'} = $_[0];
+    $options{opmode} = $_[0];
 }
 
 sub version {

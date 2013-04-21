@@ -67,11 +67,11 @@ Reset the flags stored to the default set provided by the vendor.
 
 sub load_vendor_defaults {
     my ($self) = @_;
-    $self->{'options'} = {};
-    $self->{'source'} = {};
-    $self->{'features'} = {};
+    $self->{options} = {};
+    $self->{source} = {};
+    $self->{features} = {};
     my $build_opts = Dpkg::BuildOptions->new();
-    $self->{'build_options'} = $build_opts;
+    $self->{build_options} = $build_opts;
     my $default_flags = $build_opts->has("noopt") ? "-g -O0" : "-g -O2";
     $self->{flags} = {
 	CPPFLAGS => '',
@@ -117,8 +117,8 @@ Update flags from the user configuration.
 
 sub load_user_config {
     my ($self) = @_;
-    my $confdir = $ENV{'XDG_CONFIG_HOME'};
-    $confdir ||= $ENV{'HOME'} . "/.config" if defined $ENV{'HOME'};
+    my $confdir = $ENV{XDG_CONFIG_HOME};
+    $confdir ||= $ENV{HOME} . "/.config" if defined $ENV{HOME};
     if (defined $confdir) {
         $self->update_from_conffile("$confdir/dpkg/buildflags.conf", "user");
     }
@@ -224,7 +224,7 @@ feature area has been enabled. The only currently known feature area is
 
 sub set_feature {
     my ($self, $area, $feature, $enabled) = @_;
-    $self->{'features'}{$area}{$feature} = $enabled;
+    $self->{features}{$area}{$feature} = $enabled;
 }
 
 =item $bf->strip($flag, $value, $source, $maint)
@@ -334,7 +334,7 @@ flag doesn't exist.
 
 sub get {
     my ($self, $key) = @_;
-    return $self->{'flags'}{$key};
+    return $self->{flags}{$key};
 }
 
 =item $bf->get_feature_areas()
@@ -346,7 +346,7 @@ true for).
 
 sub get_feature_areas {
     my ($self) = @_;
-    return keys %{$self->{'features'}};
+    return keys %{$self->{features}};
 }
 
 =item $bf->get_features($area)
@@ -358,7 +358,7 @@ as booleans indicating whether the feature is enabled or not.
 
 sub get_features {
     my ($self, $area) = @_;
-    return %{$self->{'features'}{$area}};
+    return %{$self->{features}{$area}};
 }
 
 =item $bf->get_origin($flag)
@@ -370,7 +370,7 @@ flag doesn't exist.
 
 sub get_origin {
     my ($self, $key) = @_;
-    return $self->{'origin'}{$key};
+    return $self->{origin}{$key};
 }
 
 =item $bf->is_maintainer_modified($flag)
@@ -381,7 +381,7 @@ Return true if the flag is modified by the maintainer.
 
 sub is_maintainer_modified {
     my ($self, $key) = @_;
-    return $self->{'maintainer'}{$key};
+    return $self->{maintainer}{$key};
 }
 
 =item $bf->has_features($area)
@@ -393,7 +393,7 @@ The only currently recognized area is "hardening".
 
 sub has_features {
     my ($self, $area) = @_;
-    return exists $self->{'features'}{$area};
+    return exists $self->{features}{$area};
 }
 
 =item $bf->has($option)
@@ -404,7 +404,7 @@ Returns a boolean indicating whether the flags exists in the object.
 
 sub has {
     my ($self, $key) = @_;
-    return exists $self->{'flags'}{$key};
+    return exists $self->{flags}{$key};
 }
 
 =item my @flags = $bf->list()
@@ -415,7 +415,7 @@ Returns the list of flags stored in the object.
 
 sub list {
     my ($self) = @_;
-    my @list = sort keys %{$self->{'flags'}};
+    my @list = sort keys %{$self->{flags}};
     return @list;
 }
 

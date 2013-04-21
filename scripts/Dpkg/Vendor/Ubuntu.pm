@@ -51,14 +51,14 @@ sub run_hook {
 
     if ($hook eq "before-source-build") {
         my $src = shift @params;
-        my $fields = $src->{'fields'};
+        my $fields = $src->{fields};
 
         # check that Maintainer/XSBC-Original-Maintainer comply to
         # https://wiki.ubuntu.com/DebianMaintainerField
         if (defined($fields->{'Version'}) and defined($fields->{'Maintainer'}) and
            $fields->{'Version'} =~ /ubuntu/) {
            if ($fields->{'Maintainer'} !~ /ubuntu/i) {
-               if (defined ($ENV{'DEBEMAIL'}) and $ENV{'DEBEMAIL'} =~ /\@ubuntu\.com/) {
+               if (defined ($ENV{DEBEMAIL}) and $ENV{DEBEMAIL} =~ /\@ubuntu\.com/) {
                    error(_g('Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu address'));
                } else {
                    warning(_g('Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu address'));

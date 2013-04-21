@@ -66,7 +66,7 @@ ok($obj->is_executable(), 'ls is an executable');
 
 my $sym = $obj->get_symbol('optarg@GLIBC_2.0');
 ok($sym, 'optarg@GLIBC_2.0 exists');
-ok(!$sym->{'defined'}, 'R_*_COPY relocations are taken into account');
+ok(!$sym->{defined}, 'R_*_COPY relocations are taken into account');
 
 open $objdump, '<', "$datadir/objdump.space"
   or die "$datadir/objdump.space: $!";

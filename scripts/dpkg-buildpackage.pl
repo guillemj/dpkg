@@ -320,7 +320,7 @@ if (build_sourceonly) {
 } elsif (build_binaryindep) {
     $arch = 'all';
 } else {
-    $arch = mustsetvar($ENV{'DEB_HOST_ARCH'}, _g('host architecture'));
+    $arch = mustsetvar($ENV{DEB_HOST_ARCH}, _g('host architecture'));
 }
 
 if (!defined $signcommand &&

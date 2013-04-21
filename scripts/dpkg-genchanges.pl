@@ -196,13 +196,13 @@ while (@ARGV) {
 
 # Retrieve info from the current changelog entry
 my %options = (file => $changelogfile);
-$options{"changelogformat"} = $changelogformat if $changelogformat;
-$options{"since"} = $since if defined($since);
+$options{changelogformat} = $changelogformat if $changelogformat;
+$options{since} = $since if defined($since);
 my $changelog = changelog_parse(%options);
 # Change options to retrieve info of the former changelog entry
-delete $options{"since"};
-$options{"count"} = 1;
-$options{"offset"} = 1;
+delete $options{since};
+$options{count} = 1;
+$options{offset} = 1;
 my $prev_changelog = changelog_parse(%options);
 # Other initializations
 my $control = Dpkg::Control::Info->new($controlfile);

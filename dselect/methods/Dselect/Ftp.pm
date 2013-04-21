@@ -66,7 +66,7 @@ sub store_config {
   my $vars = shift;
 
   # Check that config is completed
-  return if not $config{'done'};
+  return if not $config{done};
 
   open(my $vars_fh, '>', $vars) ||
     die "Couldn't open $vars in write mode : $!\n";
@@ -92,7 +92,7 @@ sub edit_config {
   while(1) {
     $i = 1;
     print "\n\nList of selected ftp sites :\n";
-    foreach (@{$config{'site'}}) {
+    foreach (@{$config{site}}) {
       print "$i. ftp://$_->[0]$_->[1] @{$_->[2]}\n";
       $i++;
     }
@@ -102,41 +102,43 @@ sub edit_config {
     /q/i && last;
     /a/i && add_site();
     /d\s*(\d+)/i &&
-    do { splice(@{$config{'site'}}, $1-1, 1) if ($1 <= @{$config{'site'}});
+    do {
+         splice(@{$config{site}}, $1 - 1, 1) if ($1 <= @{$config{site}});
          next;};
     /e\s*(\d+)/i &&
-    do { edit_site($config{'site'}[$1-1]) if ($1 <= @{$config{'site'}});
+    do {
+         edit_site($config{site}[$1 - 1]) if ($1 <= @{$config{site}});
          next; };
     m#m#i && view_mirrors();
   }
 
   print "\n";
-  $config{'use_auth_proxy'} = yesno($config{'use_auth_proxy'} ? "y" : "n",
+  $config{use_auth_proxy} = yesno($config{use_auth_proxy} ? "y" : "n",
                                       "Go through an authenticated proxy");
 
-  if ($config{'use_auth_proxy'}) {
-    print "\nEnter proxy hostname [$config{'proxyhost'}] : ";
+  if ($config{use_auth_proxy}) {
+    print "\nEnter proxy hostname [$config{proxyhost}] : ";
     chomp($_ = <STDIN>);
-    $config{'proxyhost'} = $_ || $config{'proxyhost'};
+    $config{proxyhost} = $_ || $config{proxyhost};
 
-    print "\nEnter proxy log name [$config{'proxylogname'}] : ";
+    print "\nEnter proxy log name [$config{proxylogname}] : ";
     chomp($_ = <STDIN>);
-    $config{'proxylogname'} = $_ || $config{'proxylogname'};
+    $config{proxylogname} = $_ || $config{proxylogname};
 
-    print "\nEnter proxy password [$config{'proxypassword'}] : ";
+    print "\nEnter proxy password [$config{proxypassword}] : ";
     chomp ($_ = <STDIN>);
-    $config{'proxypassword'} = $_ || $config{'proxypassword'};
+    $config{proxypassword} = $_ || $config{proxypassword};
   }
 
   print "\nEnter directory to download binary package files to\n";
   print "(relative to $methdir)\n";
   while(1) {
-    print "[$config{'dldir'}] : ";
+    print "[$config{dldir}] : ";
     chomp($_ = <STDIN>);
     s{/$}{};
-    $config{'dldir'} = $_ if ($_);
-    last if -d "$methdir/$config{'dldir'}";
-    print "$methdir/$config{'dldir'} is not a directory !\n";
+    $config{dldir} = $_ if ($_);
+    last if -d "$methdir/$config{dldir}";
+    print "$methdir/$config{dldir} is not a directory !\n";
   }
 }
 
@@ -149,11 +151,11 @@ sub add_site {
   chomp $email;
   my $dir = "/debian";
 
-  push (@{$config{'site'}}, [ "", $dir, [ "dists/stable/main",
+  push (@{$config{site}}, [ "", $dir, [ "dists/stable/main",
                                           "dists/stable/contrib",
 					  "dists/stable/non-free" ],
                                $pas, $user, $email ]);
-  edit_site($config{'site'}[@{$config{'site'}} - 1]);
+  edit_site($config{site}[@{$config{site}} - 1]);
 }
 
 sub edit_site {

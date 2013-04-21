@@ -97,7 +97,7 @@ is($dep_empty1->output(), "", "Empty dependency");
 my $dep_empty2 = deps_parse(" , , ", union => 1);
 is($dep_empty2->output(), "", "' , , ' is also an empty dependency");
 
-$SIG{'__WARN__'} = sub {};
+$SIG{__WARN__} = sub {};
 my $dep_bad_multiline = deps_parse("a, foo\nbar, c");
 ok(!defined($dep_bad_multiline), "invalid dependency split over multiple line");
-delete $SIG{'__WARN__'};
+delete $SIG{__WARN__};

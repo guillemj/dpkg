@@ -81,29 +81,29 @@ sub call {
     spawn(exec => [@$prog, @$args], wait_child => 1, nocheck => 1,
           to_pipe => \$output, error_to_pipe => \$error, %opts);
 
-    if ($opts{'expect_failure'}) {
+    if ($opts{expect_failure}) {
         ok($? != 0, "@$args should fail");
     } else  {
         ok($? == 0, "@$args should not fail");
     }
 
-    if (defined $opts{'expect_stdout'}) {
+    if (defined $opts{expect_stdout}) {
         my (@output) = <$output>;
-        my (@expect) = split(/^/, $opts{'expect_stdout'});
-        if (defined $opts{'expect_sorted_stdout'}) {
+        my (@expect) = split(/^/, $opts{expect_stdout});
+        if (defined $opts{expect_sorted_stdout}) {
             @output = sort @output;
             @expect = sort @expect;
         }
         is(join('', @output), join('', @expect), "@$args stdout");
     }
-    if (defined $opts{'expect_stdout_like'}) {
-        like(join('', <$output>), $opts{'expect_stdout_like'}, "@$args stdout");
+    if (defined $opts{expect_stdout_like}) {
+        like(join('', <$output>), $opts{expect_stdout_like}, "@$args stdout");
     }
-    if (defined $opts{'expect_stderr'}) {
-        is(join('', <$error>), $opts{'expect_stderr'}, "@$args stderr");
+    if (defined $opts{expect_stderr}) {
+        is(join('', <$error>), $opts{expect_stderr}, "@$args stderr");
     }
-    if (defined $opts{'expect_stderr_like'}) {
-        like(join('', <$error>), $opts{'expect_stderr_like'}, "@$args stderr");
+    if (defined $opts{expect_stderr_like}) {
+        like(join('', <$error>), $opts{expect_stderr_like}, "@$args stderr");
     }
 
     close($output);

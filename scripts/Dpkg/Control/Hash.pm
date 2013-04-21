@@ -31,7 +31,7 @@ use Dpkg::ErrorHandling;
 use base qw(Dpkg::Interface::Storable);
 
 use overload
-    '%{}' => sub { ${$_[0]}->{'fields'} },
+    '%{}' => sub { ${$_[0]}->{fields} },
     'eq' => sub { "$_[0]" eq "$_[1]" };
 
 =encoding utf8
@@ -111,7 +111,7 @@ sub new {
     };
     bless $self, $class;
 
-    $$self->{'fields'} = Dpkg::Control::Hash::Tie->new($self);
+    $$self->{fields} = Dpkg::Control::Hash::Tie->new($self);
 
     # Options set by the user override default values
     $$self->{$_} = $opts{$_} foreach keys %opts;
@@ -126,7 +126,7 @@ sub new {
 
 sub DESTROY {
     my ($self) = @_;
-    delete $$self->{'fields'};
+    delete $$self->{fields};
 }
 
 =item $c->set_options($option, %opts)
@@ -182,7 +182,7 @@ sub parse {
 	if (m/^(\S+?)\s*:\s*(.*)$/) {
 	    $parabody = 1;
 	    if (exists $self->{$1}) {
-		unless ($$self->{'allow_duplicate'}) {
+		unless ($$self->{allow_duplicate}) {
 		    syntaxerr($desc, sprintf(_g("duplicate field %s found"), $1));
 		}
 	    }
@@ -199,7 +199,7 @@ sub parse {
 	    $self->{$cf} .= "\n$line";
 	} elsif (m/^-----BEGIN PGP SIGNED MESSAGE-----$/) {
 	    $expect_pgp_sig = 1;
-	    if ($$self->{'allow_pgp'} and not $parabody) {
+	    if ($$self->{allow_pgp} and not $parabody) {
 		# Skip PGP headers
 		while (<$fh>) {
 		    last if m/^\s*$/;
@@ -298,10 +298,10 @@ sub output {
     my ($self, $fh) = @_;
     my $str = "";
     my @keys;
-    if (@{$$self->{'out_order'}}) {
+    if (@{$$self->{out_order}}) {
         my $i = 1;
         my $imp = {};
-        $imp->{$_} = $i++ foreach @{$$self->{'out_order'}};
+        $imp->{$_} = $i++ foreach @{$$self->{out_order}};
         @keys = sort {
             if (defined $imp->{$a} && defined $imp->{$b}) {
                 $imp->{$a} <=> $imp->{$b};
@@ -314,14 +314,14 @@ sub output {
             }
         } keys %$self;
     } else {
-        @keys = @{$$self->{'in_order'}};
+        @keys = @{$$self->{in_order}};
     }
 
     foreach my $key (@keys) {
 	if (exists $self->{$key}) {
 	    my $value = $self->{$key};
             # Skip whitespace-only fields
-            next if $$self->{'drop_empty'} and $value !~ m/\S/;
+            next if $$self->{drop_empty} and $value !~ m/\S/;
 	    # Escape data to follow control file syntax
 	    my @lines = split(/\n/, $value);
 	    $value = (scalar @lines) ? shift @lines : "";
@@ -353,7 +353,7 @@ Define the order in which fields will be displayed in the output() method.
 sub set_output_order {
     my ($self, @fields) = @_;
 
-    $$self->{'out_order'} = [@fields];
+    $$self->{out_order} = [@fields];
 }
 
 =item $c->apply_substvars($substvars)
@@ -450,7 +450,7 @@ sub STORE {
     my $parent = $self->[1];
     $key = lc($key);
     if (not exists $self->[0]->{$key}) {
-	push @{$parent->{'in_order'}}, field_capitalize($key);
+	push @{$parent->{in_order}}, field_capitalize($key);
     }
     $self->[0]->{$key} = $value;
 }
@@ -464,7 +464,7 @@ sub EXISTS {
 sub DELETE {
     my ($self, $key) = @_;
     my $parent = $self->[1];
-    my $in_order = $parent->{'in_order'};
+    my $in_order = $parent->{in_order};
     $key = lc($key);
     if (exists $self->[0]->{$key}) {
 	delete $self->[0]->{$key};
@@ -478,7 +478,7 @@ sub DELETE {
 sub FIRSTKEY {
     my $self = shift;
     my $parent = $self->[1];
-    foreach (@{$parent->{'in_order'}}) {
+    foreach (@{$parent->{in_order}}) {
 	return $_ if exists $self->[0]->{lc($_)};
     }
 }
@@ -487,7 +487,7 @@ sub NEXTKEY {
     my ($self, $last) = @_;
     my $parent = $self->[1];
     my $found = 0;
-    foreach (@{$parent->{'in_order'}}) {
+    foreach (@{$parent->{in_order}}) {
 	if ($found) {
 	    return $_ if exists $self->[0]->{lc($_)};
 	} else {

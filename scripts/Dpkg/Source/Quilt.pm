@@ -82,7 +82,7 @@ sub load_db {
     my ($self) = @_;
 
     my $pc_applied = $self->get_db_file("applied-patches");
-    $self->{'applied_patches'} = [ $self->read_patch_list($pc_applied) ];
+    $self->{applied_patches} = [ $self->read_patch_list($pc_applied) ];
 }
 
 sub write_db {
@@ -92,7 +92,7 @@ sub write_db {
     my $pc_applied = $self->get_db_file("applied-patches");
     open(my $applied_fh, ">", $pc_applied) or
         syserr(_g("cannot write %s"), $pc_applied);
-    foreach my $patch (@{$self->{'applied_patches'}}) {
+    foreach my $patch (@{$self->{applied_patches}}) {
         print $applied_fh "$patch\n";
     }
     close($applied_fh);
@@ -102,38 +102,38 @@ sub load_series {
     my ($self, %opts) = @_;
 
     my $series = $self->get_series_file();
-    $self->{'series'} = [ $self->read_patch_list($series, %opts) ];
+    $self->{series} = [ $self->read_patch_list($series, %opts) ];
 }
 
 sub series {
     my ($self) = @_;
-    return @{$self->{'series'}};
+    return @{$self->{series}};
 }
 
 sub applied {
     my ($self) = @_;
-    return @{$self->{'applied_patches'}};
+    return @{$self->{applied_patches}};
 }
 
 sub top {
     my ($self) = @_;
-    my $count = scalar @{$self->{'applied_patches'}};
-    return $self->{'applied_patches'}[$count - 1] if $count;
+    my $count = scalar @{$self->{applied_patches}};
+    return $self->{applied_patches}[$count - 1] if $count;
     return;
 }
 
 sub next {
     my ($self) = @_;
-    my $count_applied = scalar @{$self->{'applied_patches'}};
-    my $count_series = scalar @{$self->{'series'}};
-    return $self->{'series'}[$count_applied] if ($count_series > $count_applied);
+    my $count_applied = scalar @{$self->{applied_patches}};
+    my $count_series = scalar @{$self->{series}};
+    return $self->{series}[$count_applied] if ($count_series > $count_applied);
     return;
 }
 
 sub push {
     my ($self, %opts) = @_;
-    $opts{"verbose"} //= 0;
-    $opts{"timestamp"} //= fs_time($self->{'dir'});
+    $opts{verbose} //= 0;
+    $opts{timestamp} //= fs_time($self->{dir});
 
     my $patch = $self->next();
     return unless defined $patch;
@@ -141,10 +141,10 @@ sub push {
     my $path = $self->get_patch_file($patch);
     my $obj = Dpkg::Source::Patch->new(filename => $path);
 
-    info(_g("applying %s"), $patch) if $opts{"verbose"};
+    info(_g("applying %s"), $patch) if $opts{verbose};
     eval {
-        $obj->apply($self->{'dir'}, timestamp => $opts{"timestamp"},
-                    verbose => $opts{"verbose"},
+        $obj->apply($self->{dir}, timestamp => $opts{timestamp},
+                    verbose => $opts{verbose},
                     force_timestamp => 1, create_dirs => 1, remove_backup => 0,
                     options => [ '-t', '-F', '0', '-N', '-p1', '-u',
                                  '-V', 'never', '-g0', '-E', '-b',
@@ -158,22 +158,22 @@ sub push {
         erasedir($self->get_db_file($patch));
         die $@;
     }
-    CORE::push @{$self->{'applied_patches'}}, $patch;
+    CORE::push @{$self->{applied_patches}}, $patch;
     $self->write_db();
 }
 
 sub pop {
     my ($self, %opts) = @_;
-    $opts{"verbose"} //= 0;
-    $opts{"timestamp"} //= fs_time($self->{'dir'});
-    $opts{"reverse_apply"} //= 0;
+    $opts{verbose} //= 0;
+    $opts{timestamp} //= fs_time($self->{dir});
+    $opts{reverse_apply} //= 0;
 
     my $patch = $self->top();
     return unless defined $patch;
 
-    info(_g("unapplying %s"), $patch) if $opts{"verbose"};
+    info(_g("unapplying %s"), $patch) if $opts{verbose};
     my $backup_dir = $self->get_db_file($patch);
-    if (-d $backup_dir and not $opts{"reverse_apply"}) {
+    if (-d $backup_dir and not $opts{reverse_apply}) {
         # Use the backup copies to restore
         $self->restore_quilt_backup_files($patch);
     } else {
@@ -181,7 +181,7 @@ sub pop {
         my $path = $self->get_patch_file($patch);
         my $obj = Dpkg::Source::Patch->new(filename => $path);
 
-        $obj->apply($self->{'dir'}, timestamp => $opts{"timestamp"},
+        $obj->apply($self->{dir}, timestamp => $opts{timestamp},
                     verbose => 0, force_timestamp => 1, remove_backup => 0,
                     options => [ '-R', '-t', '-N', '-p1',
                                  '-u', '-V', 'never', '-g0', '-E',
@@ -189,7 +189,7 @@ sub pop {
     }
 
     erasedir($backup_dir);
-    pop @{$self->{'applied_patches'}};
+    pop @{$self->{applied_patches}};
     $self->write_db();
 }
 
@@ -231,7 +231,7 @@ sub get_series_file {
 
 sub get_db_file {
     my $self = shift;
-    return File::Spec->catfile($self->{'dir'}, ".pc", @_);
+    return File::Spec->catfile($self->{dir}, ".pc", @_);
 }
 
 sub get_db_dir {
@@ -241,7 +241,7 @@ sub get_db_dir {
 
 sub get_patch_file {
     my $self = shift;
-    return File::Spec->catfile($self->{'dir'}, "debian", "patches", @_);
+    return File::Spec->catfile($self->{dir}, "debian", "patches", @_);
 }
 
 sub get_patch_dir {
@@ -254,7 +254,7 @@ sub get_patch_dir {
 sub read_patch_list {
     my ($self, $file, %opts) = @_;
     return () if not defined $file or not -f $file;
-    $opts{"warn_options"} //= 0;
+    $opts{warn_options} //= 0;
     my @patches;
     open(my $series_fh, "<" , $file) || syserr(_g("cannot read %s"), $file);
     while (defined($_ = <$series_fh>)) {
@@ -267,7 +267,7 @@ sub read_patch_list {
                 warning(_g("the series file (%s) contains unsupported " .
                            "options ('%s', line %s); dpkg-source might " .
                            "fail when applying patches"),
-                        $file, $2, $.) if $opts{"warn_options"};
+                        $file, $2, $.) if $opts{warn_options};
             }
         }
         error(_g("%s contains an insecure path: %s"), $file, $_) if m{(^|/)\.\./};
@@ -281,13 +281,13 @@ sub restore_quilt_backup_files {
     my ($self, $patch, %opts) = @_;
     my $patch_dir = $self->get_db_file($patch);
     return unless -d $patch_dir;
-    info(_g("restoring quilt backup files for %s"), $patch) if $opts{'verbose'};
+    info(_g("restoring quilt backup files for %s"), $patch) if $opts{verbose};
     find({
         no_chdir => 1,
         wanted => sub {
             return if -d $_;
             my $relpath_in_srcpkg = File::Spec->abs2rel($_, $patch_dir);
-            my $target = File::Spec->catfile($self->{'dir'}, $relpath_in_srcpkg);
+            my $target = File::Spec->catfile($self->{dir}, $relpath_in_srcpkg);
             if (-s $_) {
                 unlink($target);
                 make_path(dirname($target));

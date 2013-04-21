@@ -142,32 +142,32 @@ Dpkg::Control::Fields::field_ordered_list($type).
 
 sub set_options {
     my ($self, %opts) = @_;
-    if (exists $opts{'type'}) {
-        my $t = $opts{'type'};
-        $$self->{'allow_pgp'} = ($t & (CTRL_PKG_SRC | CTRL_FILE_CHANGES)) ? 1 : 0;
-        $$self->{'drop_empty'} = ($t & (CTRL_INFO_PKG | CTRL_INFO_SRC)) ?  0 : 1;
+    if (exists $opts{type}) {
+        my $t = $opts{type};
+        $$self->{allow_pgp} = ($t & (CTRL_PKG_SRC | CTRL_FILE_CHANGES)) ? 1 : 0;
+        $$self->{drop_empty} = ($t & (CTRL_INFO_PKG | CTRL_INFO_SRC)) ?  0 : 1;
         if ($t == CTRL_INFO_SRC) {
-            $$self->{'name'} = _g("general section of control info file");
+            $$self->{name} = _g("general section of control info file");
         } elsif ($t == CTRL_INFO_PKG) {
-            $$self->{'name'} = _g("package's section of control info file");
+            $$self->{name} = _g("package's section of control info file");
         } elsif ($t == CTRL_CHANGELOG) {
-            $$self->{'name'} = _g("parsed version of changelog");
+            $$self->{name} = _g("parsed version of changelog");
         } elsif ($t == CTRL_INDEX_SRC) {
-            $$self->{'name'} = sprintf(_g("entry in repository's %s file"), "Sources");
+            $$self->{name} = sprintf(_g("entry in repository's %s file"), "Sources");
         } elsif ($t == CTRL_INDEX_PKG) {
-            $$self->{'name'} = sprintf(_g("entry in repository's %s file"), "Packages");
+            $$self->{name} = sprintf(_g("entry in repository's %s file"), "Packages");
         } elsif ($t == CTRL_PKG_SRC) {
-            $$self->{'name'} = sprintf(_g("%s file"), ".dsc");
+            $$self->{name} = sprintf(_g("%s file"), ".dsc");
         } elsif ($t == CTRL_PKG_DEB) {
-            $$self->{'name'} = _g("control info of a .deb package");
+            $$self->{name} = _g("control info of a .deb package");
         } elsif ($t == CTRL_FILE_CHANGES) {
-            $$self->{'name'} = sprintf(_g("%s file"), ".changes");
+            $$self->{name} = sprintf(_g("%s file"), ".changes");
         } elsif ($t == CTRL_FILE_VENDOR) {
-            $$self->{'name'} = _g("vendor file");
+            $$self->{name} = _g("vendor file");
         } elsif ($t == CTRL_FILE_STATUS) {
-            $$self->{'name'} = _g("entry in dpkg's status file");
+            $$self->{name} = _g("entry in dpkg's status file");
         }
-        $self->set_output_order(field_ordered_list($opts{'type'}));
+        $self->set_output_order(field_ordered_list($opts{type}));
     }
 
     # Options set by the user override default values
@@ -183,7 +183,7 @@ set during new().
 
 sub get_type {
     my ($self) = @_;
-    return $$self->{'type'};
+    return $$self->{type};
 }
 
 =back

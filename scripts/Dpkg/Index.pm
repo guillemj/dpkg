@@ -28,7 +28,7 @@ use Dpkg::Compression::FileHandle;
 use base qw(Dpkg::Interface::Storable);
 
 use overload
-    '@{}' => sub { return $_[0]->{'order'} },
+    '@{}' => sub { return $_[0]->{order} },
     fallback => 1;
 
 =encoding utf8
@@ -63,8 +63,8 @@ sub new {
     };
     bless $self, $class;
     $self->set_options(%opts);
-    if (exists $opts{'load'}) {
-	$self->load($opts{'load'});
+    if (exists $opts{load}) {
+	$self->load($opts{load});
     }
 
     return $self;
@@ -91,8 +91,8 @@ sub set_options {
     my ($self, %opts) = @_;
 
     # Default values based on type
-    if (exists $opts{'type'}) {
-        my $t = $opts{'type'};
+    if (exists $opts{type}) {
+        my $t = $opts{type};
         if ($t == CTRL_INFO_PKG or $t == CTRL_INDEX_SRC or
 	         $t == CTRL_INDEX_PKG or $t == CTRL_PKG_DEB) {
 	    $self->{get_key_func} = sub { return $_[0]->{Package}; };
@@ -129,7 +129,7 @@ set during new().
 
 sub get_type {
     my ($self) = @_;
-    return $self->{'type'};
+    return $self->{type};
 }
 
 =item $index->add($item, [$key])
@@ -143,12 +143,12 @@ details).
 sub add {
     my ($self, $item, $key) = @_;
     unless (defined $key) {
-	$key = $self->{'get_key_func'}($item);
+	$key = $self->{get_key_func}($item);
     }
-    if (not exists $self->{'items'}{$key}) {
-	push @{$self->{'order'}}, $key;
+    if (not exists $self->{items}{$key}) {
+	push @{$self->{order}}, $key;
     }
-    $self->{'items'}{$key} = $item;
+    $self->{items}{$key} = $item;
 }
 
 =item $index->load($file)
@@ -190,7 +190,7 @@ object.
 
 sub new_item {
     my ($self) = @_;
-    return Dpkg::Control->new(type => $self->{'type'});
+    return Dpkg::Control->new(type => $self->{type});
 }
 
 =item my $item = $index->get_by_key($key)
@@ -201,7 +201,7 @@ Returns the item identified by $key or undef.
 
 sub get_by_key {
     my ($self, $key) = @_;
-    return $self->{'items'}{$key} if exists $self->{'items'}{$key};
+    return $self->{items}{$key} if exists $self->{items}{$key};
     return;
 }
 
@@ -221,15 +221,15 @@ sub get_keys {
     foreach my $s_crit (keys %crit) { # search criteria
 	if (ref($crit{$s_crit}) eq "Regexp") {
 	    @selected = grep {
-		$self->{'items'}{$_}{$s_crit} =~ $crit{$s_crit}
+		$self->{items}{$_}{$s_crit} =~ $crit{$s_crit}
 	    } @selected;
 	} elsif (ref($crit{$s_crit}) eq "CODE") {
 	    @selected = grep {
-		&{$crit{$s_crit}}($self->{'items'}{$_}{$s_crit});
+		&{$crit{$s_crit}}($self->{items}{$_}{$s_crit});
 	    } @selected;
 	} else {
 	    @selected = grep {
-		$self->{'items'}{$_}{$s_crit} eq $crit{$s_crit}
+		$self->{items}{$_}{$s_crit} eq $crit{$s_crit}
 	    } @selected;
 	}
     }
@@ -244,7 +244,7 @@ Returns all the items that matches all the criteria.
 
 sub get {
     my ($self, %crit) = @_;
-    return map { $self->{'items'}{$_} } $self->get_keys(%crit);
+    return map { $self->{items}{$_} } $self->get_keys(%crit);
 }
 
 =item $index->remove_by_key($key)
@@ -255,8 +255,8 @@ Remove the item identified by the given key.
 
 sub remove_by_key {
     my ($self, $key) = @_;
-    @{$self->{'order'}} = grep { $_ ne $key } @{$self->{'order'}};
-    return delete $self->{'items'}{$key};
+    @{$self->{order}} = grep { $_ ne $key } @{$self->{order}};
+    return delete $self->{items}{$key};
 }
 
 =item my @items = $index->remove(%criteria)
@@ -271,10 +271,10 @@ sub remove {
     my (%keys, @ret);
     foreach my $key (@keys) {
 	$keys{$key} = 1;
-	push @ret, $self->{'items'}{$key} if defined wantarray;
-	delete $self->{'items'}{$key};
+	push @ret, $self->{items}{$key} if defined wantarray;
+	delete $self->{items}{$key};
     }
-    @{$self->{'order'}} = grep { not exists $keys{$_} } @{$self->{'order'}};
+    @{$self->{order}} = grep { not exists $keys{$_} } @{$self->{order}};
     return @ret;
 }
 
@@ -289,9 +289,9 @@ computed with the same function.
 
 sub merge {
     my ($self, $other, %opts) = @_;
-    $opts{'keep_keys'} = 1 unless exists $opts{'keep_keys'};
+    $opts{keep_keys} = 1 unless exists $opts{keep_keys};
     foreach my $key ($other->get_keys()) {
-	$self->add($other->get_by_key($key), $opts{'keep_keys'} ? $key : undef);
+	$self->add($other->get_by_key($key), $opts{keep_keys} ? $key : undef);
     }
 }
 
@@ -306,11 +306,11 @@ items themselves as parameters and not the keys.
 sub sort {
     my ($self, $func) = @_;
     if (defined $func) {
-	@{$self->{'order'}} = sort {
-	    &$func($self->{'items'}{$a}, $self->{'items'}{$b})
-	} @{$self->{'order'}};
+	@{$self->{order}} = sort {
+	    &$func($self->{items}{$a}, $self->{items}{$b})
+	} @{$self->{order}};
     } else {
-	@{$self->{'order'}} = sort @{$self->{'order'}};
+	@{$self->{order}} = sort @{$self->{order}};
     }
 }
 

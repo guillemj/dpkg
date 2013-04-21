@@ -83,17 +83,17 @@ sub changelog_parse {
 
     # Extract and remove options that do not concern the changelog parser
     # itself (and that we shouldn't forward)
-    if (exists $options{"libdir"}) {
-	unshift @parserpath, $options{"libdir"};
-	delete $options{"libdir"};
+    if (exists $options{libdir}) {
+	unshift @parserpath, $options{libdir};
+	delete $options{libdir};
     }
-    if (exists $options{"file"}) {
-	$changelogfile = $options{"file"};
-	delete $options{"file"};
+    if (exists $options{file}) {
+	$changelogfile = $options{file};
+	delete $options{file};
     }
-    if (exists $options{"changelogformat"}) {
-	$format = $options{"changelogformat"};
-	delete $options{"changelogformat"};
+    if (exists $options{changelogformat}) {
+	$format = $options{changelogformat};
+	delete $options{changelogformat};
 	$force = 1;
     }
 

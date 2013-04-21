@@ -86,20 +86,20 @@ sub can_build {
 
 sub do_build {
     my ($self, $dir) = @_;
-    my @argv = @{$self->{'options'}{'ARGV'}};
+    my @argv = @{$self->{options}{ARGV}};
     # TODO: warn here?
-    #my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
-    my $diff_ignore_regexp = $self->{'options'}{'diff_ignore_regexp'};
+    #my @tar_ignore = map { "--exclude=$_" } @{$self->{options}{tar_ignore}};
+    my $diff_ignore_regexp = $self->{options}{diff_ignore_regexp};
 
     $dir =~ s{/+$}{}; # Strip trailing /
     my ($dirname, $updir) = fileparse($dir);
 
     if (scalar(@argv)) {
         usageerr(_g("-b takes only one parameter with format `%s'"),
-                 $self->{'fields'}{'Format'});
+                 $self->{fields}{'Format'});
     }
 
-    my $sourcepackage = $self->{'fields'}{'Source'};
+    my $sourcepackage = $self->{fields}{'Source'};
     my $basenamerev = $self->get_basename(1);
     my $basename = $self->get_basename();
     my $basedirname = $basename;
@@ -149,12 +149,12 @@ sub do_build {
            "$tardir/.bzr/branch/parent");
 
     # Create the tar file
-    my $debianfile = "$basenamerev.bzr.tar." . $self->{'options'}{'comp_ext'};
+    my $debianfile = "$basenamerev.bzr.tar." . $self->{options}{comp_ext};
     info(_g("building %s in %s"),
          $sourcepackage, $debianfile);
     my $tar = Dpkg::Source::Archive->new(filename => $debianfile,
-                                         compression => $self->{'options'}{'compression'},
-                                         compression_level => $self->{'options'}{'comp_level'});
+                                         compression => $self->{options}{compression},
+                                         compression_level => $self->{options}{comp_level});
     $tar->create(chdir => $tmp);
     $tar->add_directory($dirname);
     $tar->finish();
@@ -168,9 +168,9 @@ sub do_build {
 # Called after a tarball is unpacked, to check out the working copy.
 sub do_extract {
     my ($self, $newdirectory) = @_;
-    my $fields = $self->{'fields'};
+    my $fields = $self->{fields};
 
-    my $dscdir = $self->{'basedir'};
+    my $dscdir = $self->{basedir};
 
     my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);

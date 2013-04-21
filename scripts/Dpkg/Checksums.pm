@@ -176,8 +176,8 @@ sub add_from_file {
     $self->{size}{$key} = $s[7];
 
     foreach my $alg (@alg) {
-	my @exec = (@{$CHECKSUMS->{$alg}{"program"}}, $file);
-	my $regex = $CHECKSUMS->{$alg}{"regex"};
+	my @exec = (@{$CHECKSUMS->{$alg}{program}}, $file);
+	my $regex = $CHECKSUMS->{$alg}{regex};
 	my $output;
 	spawn(exec => \@exec, to_string => \$output);
 	if ($output =~ /^($regex)(\s|$)/m) {
@@ -292,9 +292,9 @@ Remove all checksums of the given file.
 sub remove_file {
     my ($self, $file) = @_;
     return unless $self->has_file($file);
-    delete $self->{'checksums'}{$file};
-    delete $self->{'size'}{$file};
-    @{$self->{'files'}} = grep { $_ ne $file } $self->get_files();
+    delete $self->{checksums}{$file};
+    delete $self->{size}{$file};
+    @{$self->{files}} = grep { $_ ne $file } $self->get_files();
 }
 
 =item $checksum = $ck->get_checksum($file, $alg)

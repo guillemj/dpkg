@@ -38,10 +38,10 @@ our $CURRENT_MINOR_VERSION = "0";
 
 sub do_extract {
     my ($self, $newdirectory) = @_;
-    my $sourcestyle = $self->{'options'}{'sourcestyle'};
-    my $fields = $self->{'fields'};
+    my $sourcestyle = $self->{options}{sourcestyle};
+    my $fields = $self->{fields};
 
-    my $dscdir = $self->{'basedir'};
+    my $dscdir = $self->{basedir};
     my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);
 
@@ -69,17 +69,17 @@ sub can_build {
 
 sub do_build {
     my ($self, $dir) = @_;
-    my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
-    my @argv = @{$self->{'options'}{'ARGV'}};
+    my @tar_ignore = map { "--exclude=$_" } @{$self->{options}{tar_ignore}};
+    my @argv = @{$self->{options}{ARGV}};
 
     if (scalar(@argv)) {
         usageerr(_g("-b takes only one parameter with format `%s'"),
-                 $self->{'fields'}{'Format'});
+                 $self->{fields}{'Format'});
     }
 
-    my $sourcepackage = $self->{'fields'}{'Source'};
+    my $sourcepackage = $self->{fields}{'Source'};
     my $basenamerev = $self->get_basename(1);
-    my $tarname = "$basenamerev.tar." . $self->{'options'}{'comp_ext'};
+    my $tarname = "$basenamerev.tar." . $self->{options}{comp_ext};
 
     info(_g("building %s in %s"), $sourcepackage, $tarname);
 
@@ -90,7 +90,7 @@ sub do_build {
     my ($dirname, $dirbase) = fileparse($dir);
     my $tar = Dpkg::Source::Archive->new(filename => $newtar,
                 compression => compression_guess_from_filename($tarname),
-                compression_level => $self->{'options'}{'comp_level'});
+                compression_level => $self->{options}{comp_level});
     $tar->create(options => \@tar_ignore, chdir => $dirbase);
     $tar->add_directory($dirname);
     $tar->finish();

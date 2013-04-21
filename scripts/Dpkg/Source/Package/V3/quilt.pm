@@ -38,10 +38,10 @@ our $CURRENT_MINOR_VERSION = "0";
 
 sub init_options {
     my ($self) = @_;
-    $self->{'options'}{'single_debian_patch'} = 0
-        unless exists $self->{'options'}{'single_debian_patch'};
-    $self->{'options'}{'allow_version_of_quilt_db'} = []
-        unless exists $self->{'options'}{'allow_version_of_quilt_db'};
+    $self->{options}{single_debian_patch} = 0
+        unless exists $self->{options}{single_debian_patch};
+    $self->{options}{allow_version_of_quilt_db} = []
+        unless exists $self->{options}{allow_version_of_quilt_db};
 
     $self->SUPER::init_options();
 }
@@ -50,12 +50,12 @@ sub parse_cmdline_option {
     my ($self, $opt) = @_;
     return 1 if $self->SUPER::parse_cmdline_option($opt);
     if ($opt =~ /^--single-debian-patch$/) {
-        $self->{'options'}{'single_debian_patch'} = 1;
+        $self->{options}{single_debian_patch} = 1;
         # For backwards compatibility.
-        $self->{'options'}{'auto_commit'} = 1;
+        $self->{options}{auto_commit} = 1;
         return 1;
     } elsif ($opt =~ /^--allow-version-of-quilt-db=(.*)$/) {
-        push @{$self->{'options'}{'allow_version_of_quilt_db'}}, $1;
+        push @{$self->{options}{allow_version_of_quilt_db}}, $1;
         return 1;
     }
     return 0;
@@ -63,9 +63,9 @@ sub parse_cmdline_option {
 
 sub build_quilt_object {
     my ($self, $dir) = @_;
-    return $self->{'quilt'}{$dir} if exists $self->{'quilt'}{$dir};
-    $self->{'quilt'}{$dir} = Dpkg::Source::Quilt->new($dir);
-    return $self->{'quilt'}{$dir};
+    return $self->{quilt}{$dir} if exists $self->{quilt}{$dir};
+    $self->{quilt}{$dir} = Dpkg::Source::Quilt->new($dir);
+    return $self->{quilt}{$dir};
 }
 
 sub can_build {
@@ -80,25 +80,25 @@ sub can_build {
 
 sub get_autopatch_name {
     my ($self) = @_;
-    if ($self->{'options'}{'single_debian_patch'}) {
+    if ($self->{options}{single_debian_patch}) {
         return "debian-changes";
     } else {
-        return "debian-changes-" . $self->{'fields'}{'Version'};
+        return "debian-changes-" . $self->{fields}{'Version'};
     }
 }
 
 sub apply_patches {
     my ($self, $dir, %opts) = @_;
 
-    if ($opts{'usage'} eq 'unpack') {
-        $opts{'verbose'} = 1;
-    } elsif ($opts{'usage'} eq 'build') {
-        $opts{'warn_options'} = 1;
-        $opts{'verbose'} = 0;
+    if ($opts{usage} eq 'unpack') {
+        $opts{verbose} = 1;
+    } elsif ($opts{usage} eq 'build') {
+        $opts{warn_options} = 1;
+        $opts{verbose} = 0;
     }
 
     my $quilt = $self->build_quilt_object($dir);
-    $quilt->load_series(%opts) if $opts{'warn_options'}; # Trigger warnings
+    $quilt->load_series(%opts) if $opts{warn_options}; # Trigger warnings
 
     # Always create the quilt db so that if the maintainer calls quilt to
     # create a patch, it's stored in the right directory
@@ -118,8 +118,8 @@ sub apply_patches {
 
     return unless scalar($quilt->series());
 
-    if ($opts{'usage'} eq "preparation" and
-        $self->{'options'}{'unapply_patches'} eq 'auto') {
+    if ($opts{usage} eq "preparation" and
+        $self->{options}{unapply_patches} eq 'auto') {
         # We're applying the patches in --before-build, remember to unapply
         # them afterwards in --after-build
         my $pc_unapply = $quilt->get_db_file(".dpkg-source-unapply");
@@ -130,8 +130,8 @@ sub apply_patches {
 
     # Apply patches
     my $pc_applied = $quilt->get_db_file("applied-patches");
-    $opts{"timestamp"} = fs_time($pc_applied);
-    if ($opts{"skip_auto"}) {
+    $opts{timestamp} = fs_time($pc_applied);
+    if ($opts{skip_auto}) {
         my $auto_patch = $self->get_autopatch_name();
         $quilt->push(%opts) while ($quilt->next() and $quilt->next() ne $auto_patch);
     } else {
@@ -144,11 +144,11 @@ sub unapply_patches {
 
     my $quilt = $self->build_quilt_object($dir);
 
-    $opts{'verbose'} //= 1;
+    $opts{verbose} //= 1;
 
     my $pc_applied = $quilt->get_db_file("applied-patches");
     my @applied = $quilt->applied();
-    $opts{"timestamp"} = fs_time($pc_applied) if @applied;
+    $opts{timestamp} = fs_time($pc_applied) if @applied;
 
     $quilt->pop(%opts) while $quilt->top();
 
@@ -164,10 +164,10 @@ sub prepare_build {
     my $func = sub {
         return 1 if $_[0] =~ m{^debian/patches/series$} and -l $_[0];
         return 1 if $_[0] =~ /^\.pc(\/|$)/;
-        return 1 if $_[0] =~ /$self->{'options'}{'diff_ignore_regexp'}/;
+        return 1 if $_[0] =~ /$self->{options}{diff_ignore_regexp}/;
         return 0;
     };
-    $self->{'diff_options'}{'diff_ignore_func'} = $func;
+    $self->{diff_options}{diff_ignore_func} = $func;
 }
 
 sub do_build {
@@ -178,7 +178,7 @@ sub do_build {
 
     if (defined($version) and $version != 2) {
         if (scalar grep { $version eq $_ }
-            @{$self->{'options'}{'allow_version_of_quilt_db'}})
+            @{$self->{options}{allow_version_of_quilt_db}})
         {
             warning(_g("unsupported version of the quilt metadata: %s"), $version);
         } else {
@@ -193,7 +193,7 @@ sub after_build {
     my ($self, $dir) = @_;
     my $quilt = $self->build_quilt_object($dir);
     my $pc_unapply = $quilt->get_db_file(".dpkg-source-unapply");
-    my $opt_unapply = $self->{'options'}{'unapply_patches'};
+    my $opt_unapply = $self->{options}{unapply_patches};
     if (($opt_unapply eq "auto" and -e $pc_unapply) or $opt_unapply eq "yes") {
         unlink($pc_unapply);
         $self->unapply_patches($dir);

@@ -157,11 +157,11 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
 		       { since => '1:2.0~rc2-1sarge3' }, 3,
 		       '2:2.0-1/1:2.0~rc2-3/1:2.0~rc2-2',
 		       'since => "1:2.0~rc2-1sarge3"' );
-        $SIG{'__WARN__'} = sub {};
+        $SIG{__WARN__} = sub {};
         check_options( $changes, \@data,
                        { since => 0 }, 7, '',
                        'since => 0 returns all');
-        delete $SIG{'__WARN__'};
+        delete $SIG{__WARN__};
 	check_options( $changes, \@data,
 		       { to => '1:2.0~rc2-1sarge2' }, 3,
 		       '1:2.0~rc2-1sarge2/1:2.0~rc2-1sarge1/1.5-1',

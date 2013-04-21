@@ -122,7 +122,7 @@ getblockdev () {
 			set -e
 			proposeddevice="$tryblockdevice" perl -ne '
 next unless /^ *Device +Boot +Begin +Start +End +Blocks +Id +System *$/i .. !/\S/;
-next unless s:^/\S+:: && $& eq $ENV{"proposeddevice"};
+next unless s:^/\S+:: && $& eq $ENV{proposeddevice};
 next unless s/^ +(\* +)?\d+ +\d+ +\d+ +\d+\+? +//;
 next unless m/^([0-9a-f]{1,2}) /i;
 %types= ( "1","msdos", "4","msdos", "6","msdos", "7","hpfs", "80","minix",

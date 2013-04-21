@@ -88,7 +88,7 @@ supported compression methods.
 
 =cut
 
-my $regex = join "|", map { $_->{"file_ext"} } values %$COMP;
+my $regex = join "|", map { $_->{file_ext} } values %$COMP;
 our $compression_re_file_ext = qr/(?:$regex)/;
 
 =head1 EXPORTED FUNCTIONS

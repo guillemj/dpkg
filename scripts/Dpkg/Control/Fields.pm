@@ -413,7 +413,7 @@ sub field_is_allowed_in($@) {
     return 0 if not scalar(@types);
     foreach my $type (@types) {
         next if $type == CTRL_UNKNOWN; # Always allowed
-        return 0 unless $FIELDS{$field}{'allowed'} & $type;
+        return 0 unless $FIELDS{$field}{allowed} & $type;
     }
     return 1;
 }
@@ -513,10 +513,10 @@ Debian package.
 
 sub field_list_src_dep() {
     my @list = sort {
-        $FIELDS{$a}{'dep_order'} <=> $FIELDS{$b}{'dep_order'}
+        $FIELDS{$a}{dep_order} <=> $FIELDS{$b}{dep_order}
     } grep {
         field_is_allowed_in($_, CTRL_PKG_SRC) and
-        exists $FIELDS{$_}{'dependency'}
+        exists $FIELDS{$_}{dependency}
     } keys %FIELDS;
     return @list;
 }
@@ -532,10 +532,10 @@ the stronger to the weaker.
 sub field_list_pkg_dep() {
     my @keys = keys %FIELDS;
     my @list = sort {
-        $FIELDS{$a}{'dep_order'} <=> $FIELDS{$b}{'dep_order'}
+        $FIELDS{$a}{dep_order} <=> $FIELDS{$b}{dep_order}
     } grep {
         field_is_allowed_in($_, CTRL_PKG_DEB) and
-        exists $FIELDS{$_}{'dependency'}
+        exists $FIELDS{$_}{dependency}
     } @keys;
     return @list;
 }
@@ -552,7 +552,7 @@ Breaks, ...). Returns undef for fields which are not dependencies.
 sub field_get_dep_type($) {
     my $field = field_capitalize($_[0]);
     return unless field_is_official($field);
-    return $FIELDS{$field}{'dependency'} if exists $FIELDS{$field}{'dependency'};
+    return $FIELDS{$field}{dependency} if exists $FIELDS{$field}{dependency};
     return;
 }
 

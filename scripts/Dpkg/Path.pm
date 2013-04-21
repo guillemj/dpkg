@@ -210,7 +210,7 @@ sub find_command($) {
     if ($cmd =~ m{/}) {
 	return "$cmd" if -x "$cmd";
     } else {
-	foreach my $dir (split(/:/, $ENV{'PATH'})) {
+	foreach my $dir (split(/:/, $ENV{PATH})) {
 	    return "$dir/$cmd" if -x "$dir/$cmd";
 	}
     }

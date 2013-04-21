@@ -26,8 +26,8 @@ sub exit_handler {
     exit(127);
 }
 
-$SIG{'INT'} = \&exit_handler;
-$SIG{'HUP'} = \&exit_handler;
-$SIG{'QUIT'} = \&exit_handler;
+$SIG{INT} = \&exit_handler;
+$SIG{HUP} = \&exit_handler;
+$SIG{QUIT} = \&exit_handler;
 
 1;

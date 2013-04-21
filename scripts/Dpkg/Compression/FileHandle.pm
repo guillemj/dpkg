@@ -127,19 +127,19 @@ sub new {
     tie *$self, $class, $self;
     bless $self, $class;
     # Initializations
-    *$self->{"compression"} = "auto";
-    *$self->{"compressor"} = Dpkg::Compression::Process->new();
-    *$self->{"add_comp_ext"} = $args{"add_compression_extension"} ||
-	    $args{"add_comp_ext"} || 0;
-    *$self->{"allow_sigpipe"} = 0;
-    if (exists $args{"filename"}) {
-	$self->set_filename($args{"filename"});
+    *$self->{compression} = "auto";
+    *$self->{compressor} = Dpkg::Compression::Process->new();
+    *$self->{add_comp_ext} = $args{add_compression_extension} ||
+	    $args{add_comp_ext} || 0;
+    *$self->{allow_sigpipe} = 0;
+    if (exists $args{filename}) {
+	$self->set_filename($args{filename});
     }
-    if (exists $args{"compression"}) {
-	$self->set_compression($args{"compression"});
+    if (exists $args{compression}) {
+	$self->set_compression($args{compression});
     }
-    if (exists $args{"compression_level"}) {
-	$self->set_compression_level($args{"compression_level"});
+    if (exists $args{compression_level}) {
+	$self->set_compression_level($args{compression_level});
     }
     return $self;
 }
@@ -154,8 +154,8 @@ is already open but not in the requested mode, then it errors out.
 
 sub ensure_open {
     my ($self, $mode) = @_;
-    if (exists *$self->{"mode"}) {
-	return if *$self->{"mode"} eq $mode;
+    if (exists *$self->{mode}) {
+	return if *$self->{mode} eq $mode;
 	internerr("ensure_open requested incompatible mode: $mode");
     } else {
 	if ($mode eq "w") {
@@ -179,20 +179,20 @@ sub TIEHANDLE {
 sub WRITE {
     my ($self, $scalar, $length, $offset) = @_;
     $self->ensure_open("w");
-    return *$self->{'file'}->write($scalar, $length, $offset);
+    return *$self->{file}->write($scalar, $length, $offset);
 }
 
 sub READ {
     my ($self, $scalar, $length, $offset) = @_;
     $self->ensure_open("r");
-    return *$self->{'file'}->read($scalar, $length, $offset);
+    return *$self->{file}->read($scalar, $length, $offset);
 }
 
 sub READLINE {
     my ($self) = shift;
     $self->ensure_open("r");
-    return *$self->{"file"}->getlines() if wantarray;
-    return *$self->{"file"}->getline();
+    return *$self->{file}->getlines() if wantarray;
+    return *$self->{file}->getline();
 }
 
 sub OPEN {
@@ -216,8 +216,8 @@ sub OPEN {
 sub CLOSE {
     my ($self) = shift;
     my $ret = 1;
-    if (defined *$self->{'file'}) {
-	$ret = *$self->{'file'}->close(@_) if *$self->{'file'}->opened();
+    if (defined *$self->{file}) {
+	$ret = *$self->{file}->close(@_) if *$self->{file}->opened();
     } else {
 	$ret = 0;
     }
@@ -227,7 +227,7 @@ sub CLOSE {
 
 sub FILENO {
     my ($self) = shift;
-    return *$self->{"file"}->fileno(@_) if defined *$self->{"file"};
+    return *$self->{file}->fileno(@_) if defined *$self->{file};
     return;
 }
 
@@ -235,25 +235,25 @@ sub EOF {
     # Since perl 5.12, an integer parameter is passed describing how the
     # function got called, just ignore it.
     my ($self, $param) = (shift, shift);
-    return *$self->{"file"}->eof(@_) if defined *$self->{"file"};
+    return *$self->{file}->eof(@_) if defined *$self->{file};
     return 1;
 }
 
 sub SEEK {
     my ($self) = shift;
-    return *$self->{"file"}->seek(@_) if defined *$self->{"file"};
+    return *$self->{file}->seek(@_) if defined *$self->{file};
     return 0;
 }
 
 sub TELL {
     my ($self) = shift;
-    return *$self->{"file"}->tell(@_) if defined *$self->{"file"};
+    return *$self->{file}->tell(@_) if defined *$self->{file};
     return -1;
 }
 
 sub BINMODE {
     my ($self) = shift;
-    return *$self->{"file"}->binmode(@_) if defined *$self->{"file"};
+    return *$self->{file}->binmode(@_) if defined *$self->{file};
     return;
 }
 
@@ -273,9 +273,9 @@ on the filename extension used.
 sub set_compression {
     my ($self, $method) = @_;
     if ($method ne "none" and $method ne "auto") {
-	*$self->{"compressor"}->set_compression($method);
+	*$self->{compressor}->set_compression($method);
     }
-    *$self->{"compression"} = $method;
+    *$self->{compression} = $method;
 }
 
 =item $fh->set_compression_level($level)
@@ -287,7 +287,7 @@ by the function C<compression_is_valid_level> of B<Dpkg::Compression>.
 
 sub set_compression_level {
     my ($self, $level) = @_;
-    *$self->{"compressor"}->set_compression_level($level);
+    *$self->{compressor}->set_compression_level($level);
 }
 
 =item $fh->set_filename($name, [$add_comp_ext])
@@ -301,12 +301,12 @@ of the compression method must be automatically added to the filename
 
 sub set_filename {
     my ($self, $filename, $add_comp_ext) = @_;
-    *$self->{"filename"} = $filename;
+    *$self->{filename} = $filename;
     # Automatically add compression extension to filename
     if (defined($add_comp_ext)) {
-	*$self->{"add_comp_ext"} = $add_comp_ext;
+	*$self->{add_comp_ext} = $add_comp_ext;
     }
-    if (*$self->{"add_comp_ext"} and $filename =~ /\.$compression_re_file_ext$/) {
+    if (*$self->{add_comp_ext} and $filename =~ /\.$compression_re_file_ext$/) {
 	warning("filename %s already has an extension of a compressed file " .
 	        "and add_comp_ext is active", $filename);
     }
@@ -324,19 +324,19 @@ method if "add_comp_ext" is enabled.
 
 sub get_filename {
     my $self = shift;
-    my $comp = *$self->{"compression"};
-    if (*$self->{'add_comp_ext'}) {
+    my $comp = *$self->{compression};
+    if (*$self->{add_comp_ext}) {
 	if ($comp eq "auto") {
 	    internerr("automatic detection of compression is " .
 	              "incompatible with add_comp_ext");
 	} elsif ($comp eq "none") {
-	    return *$self->{"filename"};
+	    return *$self->{filename};
 	} else {
-	    return *$self->{"filename"} . "." .
+	    return *$self->{filename} . "." .
 	           compression_get_property($comp, "file_ext");
 	}
     } else {
-	return *$self->{"filename"};
+	return *$self->{filename};
     }
 }
 
@@ -351,12 +351,12 @@ method.
 
 sub use_compression {
     my ($self) = @_;
-    my $comp = *$self->{"compression"};
+    my $comp = *$self->{compression};
     if ($comp eq "none") {
 	return 0;
     } elsif ($comp eq "auto") {
 	$comp = compression_guess_from_filename($self->get_filename());
-	*$self->{"compressor"}->set_compression($comp) if $comp;
+	*$self->{compressor}->set_compression($comp) if $comp;
     }
     return $comp;
 }
@@ -370,54 +370,54 @@ along in a derived object.
 
 sub get_filehandle {
     my ($self) = @_;
-    return *$self->{"file"} if exists *$self->{"file"};
+    return *$self->{file} if exists *$self->{file};
 }
 
 ## INTERNAL METHODS
 
 sub open_for_write {
     my ($self) = @_;
-    error("Can't reopen an already opened compressed file") if exists *$self->{"mode"};
+    error("Can't reopen an already opened compressed file") if exists *$self->{mode};
     my $filehandle;
     if ($self->use_compression()) {
-	*$self->{'compressor'}->compress(from_pipe => \$filehandle,
+	*$self->{compressor}->compress(from_pipe => \$filehandle,
 		to_file => $self->get_filename());
     } else {
 	CORE::open($filehandle, ">", $self->get_filename) ||
 		syserr(_g("cannot write %s"), $self->get_filename());
     }
-    *$self->{"mode"} = "w";
-    *$self->{"file"} = $filehandle;
+    *$self->{mode} = "w";
+    *$self->{file} = $filehandle;
 }
 
 sub open_for_read {
     my ($self) = @_;
-    error("Can't reopen an already opened compressed file") if exists *$self->{"mode"};
+    error("Can't reopen an already opened compressed file") if exists *$self->{mode};
     my $filehandle;
     if ($self->use_compression()) {
-	*$self->{'compressor'}->uncompress(to_pipe => \$filehandle,
+	*$self->{compressor}->uncompress(to_pipe => \$filehandle,
 		from_file => $self->get_filename());
-        *$self->{'allow_sigpipe'} = 1;
+        *$self->{allow_sigpipe} = 1;
     } else {
 	CORE::open($filehandle, "<", $self->get_filename) ||
 		syserr(_g("cannot read %s"), $self->get_filename());
     }
-    *$self->{"mode"} = "r";
-    *$self->{"file"} = $filehandle;
+    *$self->{mode} = "r";
+    *$self->{file} = $filehandle;
 }
 
 sub cleanup {
     my ($self) = @_;
-    my $cmdline = *$self->{"compressor"}{"cmdline"} || "";
-    *$self->{"compressor"}->wait_end_process(nocheck => *$self->{'allow_sigpipe'});
-    if (*$self->{'allow_sigpipe'}) {
+    my $cmdline = *$self->{compressor}{cmdline} || "";
+    *$self->{compressor}->wait_end_process(nocheck => *$self->{allow_sigpipe});
+    if (*$self->{allow_sigpipe}) {
         unless (($? == 0) || (WIFSIGNALED($?) && (WTERMSIG($?) == SIGPIPE))) {
             subprocerr($cmdline);
         }
-	*$self->{'allow_sigpipe'} = 0;
+	*$self->{allow_sigpipe} = 0;
     }
-    delete *$self->{"mode"};
-    delete *$self->{"file"};
+    delete *$self->{mode};
+    delete *$self->{file};
 }
 
 =back
@@ -434,7 +434,7 @@ C<*$self->{...}> to access the associated hash like in the example below:
 
     sub set_option {
 	my ($self, $value) = @_;
-	*$self->{"option"} = $value;
+	*$self->{option} = $value;
     }
 
 

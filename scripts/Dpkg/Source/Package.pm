@@ -153,11 +153,11 @@ sub new {
         checksums => Dpkg::Checksums->new(),
     };
     bless $self, $class;
-    if (exists $args{'options'}) {
-        $self->{'options'} = $args{'options'};
+    if (exists $args{options}) {
+        $self->{options} = $args{options};
     }
-    if (exists $args{"filename"}) {
-        $self->initialize($args{"filename"});
+    if (exists $args{filename}) {
+        $self->initialize($args{filename});
         $self->init_options();
     }
     return $self;
@@ -167,41 +167,41 @@ sub init_options {
     my ($self) = @_;
     # Use full ignore list by default
     # note: this function is not called by V1 packages
-    $self->{'options'}{'diff_ignore_regexp'} ||= $diff_ignore_default_regexp;
-    $self->{'options'}{'diff_ignore_regexp'} .= '|(?:^|/)debian/source/local-.*$';
-    if (defined $self->{'options'}{'tar_ignore'}) {
-        $self->{'options'}{'tar_ignore'} = [ @tar_ignore_default_pattern ]
-            unless @{$self->{'options'}{'tar_ignore'}};
+    $self->{options}{diff_ignore_regexp} ||= $diff_ignore_default_regexp;
+    $self->{options}{diff_ignore_regexp} .= '|(?:^|/)debian/source/local-.*$';
+    if (defined $self->{options}{tar_ignore}) {
+        $self->{options}{tar_ignore} = [ @tar_ignore_default_pattern ]
+            unless @{$self->{options}{tar_ignore}};
     } else {
-        $self->{'options'}{'tar_ignore'} = [ @tar_ignore_default_pattern ];
+        $self->{options}{tar_ignore} = [ @tar_ignore_default_pattern ];
     }
-    push @{$self->{'options'}{'tar_ignore'}}, "debian/source/local-options",
+    push @{$self->{options}{tar_ignore}}, "debian/source/local-options",
          "debian/source/local-patch-header";
     # Skip debianization while specific to some formats has an impact
     # on code common to all formats
-    $self->{'options'}{'skip_debianization'} ||= 0;
+    $self->{options}{skip_debianization} ||= 0;
 }
 
 sub initialize {
     my ($self, $filename) = @_;
     my ($fn, $dir) = fileparse($filename);
     error(_g("%s is not the name of a file"), $filename) unless $fn;
-    $self->{'basedir'} = $dir || "./";
-    $self->{'filename'} = $fn;
+    $self->{basedir} = $dir || "./";
+    $self->{filename} = $fn;
 
     # Check if it contains a signature
     open(my $dsc_fh, "<", $filename) || syserr(_g("cannot open %s"), $filename);
-    $self->{'is_signed'} = 0;
+    $self->{is_signed} = 0;
     while (<$dsc_fh>) {
         next if /^\s*$/o;
-        $self->{'is_signed'} = 1 if /^-----BEGIN PGP SIGNED MESSAGE-----\s*$/o;
+        $self->{is_signed} = 1 if /^-----BEGIN PGP SIGNED MESSAGE-----\s*$/o;
         last;
     }
     close($dsc_fh);
     # Read the fields
     my $fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
     $fields->load($filename);
-    $self->{'fields'} = $fields;
+    $self->{fields} = $fields;
 
     foreach my $f (qw(Source Version Files)) {
         unless (defined($fields->{$f})) {
@@ -209,7 +209,7 @@ sub initialize {
         }
     }
 
-    $self->{'checksums'}->add_from_control($fields, use_files_for_md5 => 1);
+    $self->{checksums}->add_from_control($fields, use_files_for_md5 => 1);
 
     $self->upgrade_object_type(0);
 }
@@ -217,9 +217,9 @@ sub initialize {
 sub upgrade_object_type {
     my ($self, $update_format) = @_;
     $update_format //= 1;
-    $self->{'fields'}{'Format'} = '1.0'
-        unless exists $self->{'fields'}{'Format'};
-    my $format = $self->{'fields'}{'Format'};
+    $self->{fields}{'Format'} = '1.0'
+        unless exists $self->{fields}{'Format'};
+    my $format = $self->{fields}{'Format'};
 
     if ($format =~ /^([\d\.]+)(?:\s+\((.*)\))?$/) {
         my ($version, $variant, $major, $minor) = ($1, $2, $1, undef);
@@ -229,8 +229,8 @@ sub upgrade_object_type {
         eval "require $module; \$minor = \$${module}::CURRENT_MINOR_VERSION;";
         $minor //= 0;
         if ($update_format) {
-            $self->{'fields'}{'Format'} = "$major.$minor";
-            $self->{'fields'}{'Format'} .= " ($variant)" if defined $variant;
+            $self->{fields}{'Format'} = "$major.$minor";
+            $self->{fields}{'Format'} .= " ($variant)" if defined $variant;
         }
         if ($@) {
             error(_g("source package format '%s' is not supported: %s"),
@@ -250,7 +250,7 @@ Returns the filename of the DSC file.
 
 sub get_filename {
     my ($self) = @_;
-    return $self->{'basedir'} . $self->{'filename'};
+    return $self->{basedir} . $self->{filename};
 }
 
 =item $p->get_files()
@@ -262,7 +262,7 @@ usually do not have any path information.
 
 sub get_files {
     my ($self) = @_;
-    return $self->{'checksums'}->get_files();
+    return $self->{checksums}->get_files();
 }
 
 =item $p->check_checksums()
@@ -275,16 +275,16 @@ discovered, it immediately errors out.
 
 sub check_checksums {
     my ($self) = @_;
-    my $checksums = $self->{'checksums'};
+    my $checksums = $self->{checksums};
     # add_from_file verify the checksums if they are already existing
     foreach my $file ($checksums->get_files()) {
-	$checksums->add_from_file($self->{'basedir'} . $file, key => $file);
+	$checksums->add_from_file($self->{basedir} . $file, key => $file);
     }
 }
 
 sub get_basename {
     my ($self, $with_revision) = @_;
-    my $f = $self->{'fields'};
+    my $f = $self->{fields};
     unless (exists $f->{'Source'} and exists $f->{'Version'}) {
         error(_g("source and version are required to compute the source basename"));
     }
@@ -303,7 +303,7 @@ sub find_original_tarballs {
     $opts{include_supplementary} = 1 unless exists $opts{include_supplementary};
     my $basename = $self->get_basename();
     my @tar;
-    foreach my $dir (".", $self->{'basedir'}, $self->{'options'}{'origtardir'}) {
+    foreach my $dir (".", $self->{basedir}, $self->{options}{origtardir}) {
         next unless defined($dir) and -d $dir;
         opendir(my $dir_dh, $dir) || syserr(_g("cannot opendir %s"), $dir);
         push @tar, map { "$dir/$_" } grep {
@@ -326,7 +326,7 @@ Otherwise returns 0.
 
 sub is_signed {
     my $self = shift;
-    return $self->{'is_signed'};
+    return $self->{is_signed};
 }
 
 =item $p->check_signature()
@@ -349,8 +349,8 @@ sub check_signature {
         push @exec, "gpg", "--no-default-keyring", "-q", "--verify";
     }
     if (scalar(@exec)) {
-        if (defined $ENV{'HOME'} and -r "$ENV{'HOME'}/.gnupg/trustedkeys.gpg") {
-            push @exec, "--keyring", "$ENV{'HOME'}/.gnupg/trustedkeys.gpg";
+        if (defined $ENV{HOME} and -r "$ENV{HOME}/.gnupg/trustedkeys.gpg") {
+            push @exec, "--keyring", "$ENV{HOME}/.gnupg/trustedkeys.gpg";
         }
         foreach my $vendor_keyring (run_vendor_hook('keyrings')) {
             if (-r $vendor_keyring) {
@@ -367,7 +367,7 @@ sub check_signature {
             my $gpg_status = WEXITSTATUS($?);
             print STDERR "$stdout$stderr" if $gpg_status;
             if ($gpg_status == 1 or ($gpg_status &&
-                $self->{'options'}{'require_valid_signature'}))
+                $self->{options}{require_valid_signature}))
             {
                 error(_g("failed to verify signature on %s"), $dsc);
             } elsif ($gpg_status) {
@@ -377,7 +377,7 @@ sub check_signature {
             subprocerr("@exec");
         }
     } else {
-        if ($self->{'options'}{'require_valid_signature'}) {
+        if ($self->{options}{require_valid_signature}) {
             error(_g("could not verify signature on %s since gpg isn't installed"), $dsc);
         } else {
             warning(_g("could not verify signature on %s since gpg isn't installed"), $dsc);
@@ -409,11 +409,11 @@ sub extract {
     my $self = shift;
     my $newdirectory = $_[0];
 
-    my ($ok, $error) = version_check($self->{'fields'}{'Version'});
+    my ($ok, $error) = version_check($self->{fields}{'Version'});
     error($error) unless $ok;
 
     # Copy orig tarballs
-    if ($self->{'options'}{'copy_orig_tarballs'}) {
+    if ($self->{options}{copy_orig_tarballs}) {
         my $basename = $self->get_basename();
         my ($dirname, $destdir) = fileparse($newdirectory);
         $destdir ||= "./";
@@ -421,7 +421,7 @@ sub extract {
         foreach my $orig (grep { /^\Q$basename\E\.orig(-[[:alnum:]-]+)?\.tar\.$ext$/ }
                           $self->get_files())
         {
-            my $src = File::Spec->catfile($self->{'basedir'}, $orig);
+            my $src = File::Spec->catfile($self->{basedir}, $orig);
             my $dst = File::Spec->catfile($destdir, $orig);
             if (not check_files_are_the_same($src, $dst, 1)) {
                 system('cp', '--', $src, $dst);
@@ -438,8 +438,8 @@ sub extract {
     }
 
     # Store format if non-standard so that next build keeps the same format
-    if ($self->{'fields'}{'Format'} ne "1.0" and
-        not $self->{'options'}{'skip_debianization'})
+    if ($self->{fields}{'Format'} ne "1.0" and
+        not $self->{options}{skip_debianization})
     {
         my $srcdir = File::Spec->catdir($newdirectory, "debian", "source");
         my $format_file = File::Spec->catfile($srcdir, "format");
@@ -447,7 +447,7 @@ sub extract {
 	    mkdir($srcdir) unless -e $srcdir;
 	    open(my $format_fh, ">", $format_file) ||
 	        syserr(_g("cannot write %s"), $format_file);
-	    print $format_fh $self->{'fields'}{'Format'} . "\n";
+	    print $format_fh $self->{fields}{'Format'} . "\n";
 	    close($format_fh);
 	}
     }
@@ -460,7 +460,7 @@ sub extract {
             syserr(_g("cannot stat %s"), $rules);
         }
         warning(_g("%s does not exist"), $rules)
-            unless $self->{'options'}{'skip_debianization'};
+            unless $self->{options}{skip_debianization};
     } elsif (-f _) {
         chmod($s[2] | 0111, $rules) ||
             syserr(_g("cannot make %s executable"), $rules);
@@ -506,11 +506,11 @@ sub can_build {
 sub add_file {
     my ($self, $filename) = @_;
     my ($fn, $dir) = fileparse($filename);
-    if ($self->{'checksums'}->has_file($fn)) {
+    if ($self->{checksums}->has_file($fn)) {
         internerr("tried to add file '%s' twice", $fn);
     }
-    $self->{'checksums'}->add_from_file($filename, key => $fn);
-    $self->{'checksums'}->export_to_control($self->{'fields'},
+    $self->{checksums}->add_from_file($filename, key => $fn);
+    $self->{checksums}->export_to_control($self->{fields},
 					    use_files_for_md5 => 1);
 }
 
@@ -526,18 +526,18 @@ sub commit {
 sub do_commit {
     my ($self, $dir) = @_;
     info(_g("'%s' is not supported by the source format '%s'"),
-         "dpkg-source --commit", $self->{'fields'}{'Format'});
+         "dpkg-source --commit", $self->{fields}{'Format'});
 }
 
 sub write_dsc {
     my ($self, %opts) = @_;
-    my $fields = $self->{'fields'};
+    my $fields = $self->{fields};
 
-    foreach my $f (keys %{$opts{'override'}}) {
-	$fields->{$f} = $opts{'override'}{$f};
+    foreach my $f (keys %{$opts{override}}) {
+	$fields->{$f} = $opts{override}{$f};
     }
 
-    unless($opts{'nocheck'}) {
+    unless($opts{nocheck}) {
         foreach my $f (qw(Source Version)) {
             unless (defined($fields->{$f})) {
                 error(_g("missing information for critical output field %s"), $f);
@@ -550,16 +550,16 @@ sub write_dsc {
         }
     }
 
-    foreach my $f (keys %{$opts{'remove'}}) {
+    foreach my $f (keys %{$opts{remove}}) {
 	delete $fields->{$f};
     }
 
-    my $filename = $opts{'filename'};
+    my $filename = $opts{filename};
     unless (defined $filename) {
         $filename = $self->get_basename(1) . ".dsc";
     }
     open(my $dsc_fh, ">", $filename) || syserr(_g("cannot write %s"), $filename);
-    $fields->apply_substvars($opts{'substvars'});
+    $fields->apply_substvars($opts{substvars});
     $fields->output($dsc_fh);
     close($dsc_fh);
 }

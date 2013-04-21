@@ -83,25 +83,25 @@ sub new {
     my $class = ref($this) || $this;
     $ver = "$ver" if ref($ver); # Try to stringify objects
 
-    if ($opts{'check'}) {
+    if ($opts{check}) {
 	return unless version_check($ver);
     }
 
     my $self = {};
     if ($ver =~ /^([^:]*):(.+)$/) {
-	$self->{'epoch'} = $1;
+	$self->{epoch} = $1;
 	$ver = $2;
     } else {
-	$self->{'epoch'} = 0;
-	$self->{'no_epoch'} = 1;
+	$self->{epoch} = 0;
+	$self->{no_epoch} = 1;
     }
     if ($ver =~ /(.*)-(.*)$/) {
-	$self->{'version'} = $1;
-	$self->{'revision'} = $2;
+	$self->{version} = $1;
+	$self->{revision} = $2;
     } else {
-	$self->{'version'} = $ver;
-	$self->{'revision'} = 0;
-	$self->{'no_revision'} = 1;
+	$self->{version} = $ver;
+	$self->{revision} = 0;
+	$self->{no_revision} = 1;
     }
 
     return bless $self, $class;
@@ -132,17 +132,17 @@ Returns the corresponding part of the full version string.
 
 sub epoch {
     my $self = shift;
-    return $self->{'epoch'};
+    return $self->{epoch};
 }
 
 sub version {
     my $self = shift;
-    return $self->{'version'};
+    return $self->{version};
 }
 
 sub revision {
     my $self = shift;
-    return $self->{'revision'};
+    return $self->{revision};
 }
 
 =item $v1 <=> $v2, $v1 < $v2, $v1 <= $v2, $v1 > $v2, $v1 >= $v2

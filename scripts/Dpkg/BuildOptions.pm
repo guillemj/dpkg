@@ -44,7 +44,7 @@ DEB_BUILD_MAINT_OPTIONS.
 =item my $bo = Dpkg::BuildOptions->new(%opts)
 
 Create a new Dpkg::BuildOptions object. It will be initialized based
-on the value of the environment variable named $opts{'envvar'} (or
+on the value of the environment variable named $opts{envvar} (or
 DEB_BUILD_OPTIONS if that option is not set).
 
 =cut
@@ -56,10 +56,10 @@ sub new {
     my $self = {
         options => {},
 	source => {},
-	envvar => $opts{'envvar'} // "DEB_BUILD_OPTIONS",
+	envvar => $opts{envvar} // "DEB_BUILD_OPTIONS",
     };
     bless $self, $class;
-    $self->merge(Dpkg::BuildEnv::get($self->{'envvar'}), $self->{'envvar'});
+    $self->merge(Dpkg::BuildEnv::get($self->{envvar}), $self->{envvar});
     return $self;
 }
 
@@ -71,8 +71,8 @@ Reset the object to not have any option (it's empty).
 
 sub reset {
     my ($self) = @_;
-    $self->{'options'} = {};
-    $self->{'source'} = {};
+    $self->{options} = {};
+    $self->{source} = {};
 }
 
 =item $bo->merge($content, $source)
@@ -124,8 +124,8 @@ sub set {
 	return 0 if $value !~ /^\d*$/;
     }
 
-    $self->{'options'}{$key} = $value;
-    $self->{'source'}{$key} = $source;
+    $self->{options}{$key} = $value;
+    $self->{source}{$key} = $source;
 
     return 1;
 }
@@ -140,7 +140,7 @@ the option is stored in the object.
 
 sub get {
     my ($self, $key) = @_;
-    return $self->{'options'}{$key};
+    return $self->{options}{$key};
 }
 
 =item $bo->has($option)
@@ -151,7 +151,7 @@ Returns a boolean indicating whether the option is stored in the object.
 
 sub has {
     my ($self, $key) = @_;
-    return exists $self->{'options'}{$key};
+    return exists $self->{options}{$key};
 }
 
 =item $string = $bo->output($fh)
@@ -164,7 +164,7 @@ the given filehandle.
 
 sub output {
     my ($self, $fh) = @_;
-    my $o = $self->{'options'};
+    my $o = $self->{options};
     my $res = join(" ", map { defined($o->{$_}) ? $_ . "=" . $o->{$_} : $_ } sort keys %$o);
     print $fh $res if defined $fh;
     return $res;
@@ -180,7 +180,7 @@ set to the variable is also returned.
 
 sub export {
     my ($self, $var) = @_;
-    $var = $self->{'envvar'} unless defined $var;
+    $var = $self->{envvar} unless defined $var;
     my $content = $self->output();
     Dpkg::BuildEnv::set($var, $content);
     return $content;

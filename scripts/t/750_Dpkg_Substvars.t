@@ -75,11 +75,11 @@ is($s->substvars('This is a string ${var1} with variables ${binary:Version}'),
 		 "substvars simple");
 
 my $output;
-$SIG{'__WARN__'} = sub { $output .= $_[0] };
+$SIG{__WARN__} = sub { $output .= $_[0] };
 is($s->substvars('This is a string with unknown variable ${blubb}'),
                  "This is a string with unknown variable ",
 		 "substvars missing");
-delete $SIG{'__WARN__'};
+delete $SIG{__WARN__};
 is($output, '750_Dpkg_Substvars.t: warning: unknown substitution variable ${blubb}'."\n"
           , 'missing variables warning');
 
@@ -96,16 +96,16 @@ is($s->substvars('Nothing to $ ${substitute  here}, is it ${}?, it ${is'),
 
 # Warnings about unused variables
 $output = '';
-$SIG{'__WARN__'} = sub { $output .= $_[0] };
+$SIG{__WARN__} = sub { $output .= $_[0] };
 $s->warn_about_unused();
-delete $SIG{'__WARN__'};
+delete $SIG{__WARN__};
 is($output, "750_Dpkg_Substvars.t: warning: unused substitution variable \${var2}\n",
           , 'unused variables warnings');
 
 # Disable warnings for a certain variable
 $s->mark_as_used('var2');
 $output = '';
-$SIG{'__WARN__'} = sub { $output .= $_[0] };
+$SIG{__WARN__} = sub { $output .= $_[0] };
 $s->warn_about_unused();
-delete $SIG{'__WARN__'};
+delete $SIG{__WARN__};
 is($output, '', 'disabled unused variables warnings');

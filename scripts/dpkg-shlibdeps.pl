@@ -97,7 +97,7 @@ foreach (@ARGV) {
 	$admindir = $1;
 	-d $admindir ||
 	    error(_g("administrative directory '%s' does not exist"), $admindir);
-	$ENV{'DPKG_ADMINDIR'} = $admindir;
+	$ENV{DPKG_ADMINDIR} = $admindir;
     } elsif (m/^-d(.*)$/) {
 	$dependencyfield = field_capitalize($1);
 	defined($depstrength{$dependencyfield}) ||

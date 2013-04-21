@@ -48,60 +48,60 @@ our $CURRENT_MINOR_VERSION = "0";
 sub init_options {
     my ($self) = @_;
     $self->SUPER::init_options();
-    $self->{'options'}{'include_removal'} = 0
-        unless exists $self->{'options'}{'include_removal'};
-    $self->{'options'}{'include_timestamp'} = 0
-        unless exists $self->{'options'}{'include_timestamp'};
-    $self->{'options'}{'include_binaries'} = 0
-        unless exists $self->{'options'}{'include_binaries'};
-    $self->{'options'}{'preparation'} = 1
-        unless exists $self->{'options'}{'preparation'};
-    $self->{'options'}{'skip_patches'} = 0
-        unless exists $self->{'options'}{'skip_patches'};
-    $self->{'options'}{'unapply_patches'} = 'auto'
-        unless exists $self->{'options'}{'unapply_patches'};
-    $self->{'options'}{'skip_debianization'} = 0
-        unless exists $self->{'options'}{'skip_debianization'};
-    $self->{'options'}{'create_empty_orig'} = 0
-        unless exists $self->{'options'}{'create_empty_orig'};
-    $self->{'options'}{'auto_commit'} = 0
-        unless exists $self->{'options'}{'auto_commit'};
+    $self->{options}{include_removal} = 0
+        unless exists $self->{options}{include_removal};
+    $self->{options}{include_timestamp} = 0
+        unless exists $self->{options}{include_timestamp};
+    $self->{options}{include_binaries} = 0
+        unless exists $self->{options}{include_binaries};
+    $self->{options}{preparation} = 1
+        unless exists $self->{options}{preparation};
+    $self->{options}{skip_patches} = 0
+        unless exists $self->{options}{skip_patches};
+    $self->{options}{unapply_patches} = 'auto'
+        unless exists $self->{options}{unapply_patches};
+    $self->{options}{skip_debianization} = 0
+        unless exists $self->{options}{skip_debianization};
+    $self->{options}{create_empty_orig} = 0
+        unless exists $self->{options}{create_empty_orig};
+    $self->{options}{auto_commit} = 0
+        unless exists $self->{options}{auto_commit};
 }
 
 sub parse_cmdline_option {
     my ($self, $opt) = @_;
     if ($opt =~ /^--include-removal$/) {
-        $self->{'options'}{'include_removal'} = 1;
+        $self->{options}{include_removal} = 1;
         return 1;
     } elsif ($opt =~ /^--include-timestamp$/) {
-        $self->{'options'}{'include_timestamp'} = 1;
+        $self->{options}{include_timestamp} = 1;
         return 1;
     } elsif ($opt =~ /^--include-binaries$/) {
-        $self->{'options'}{'include_binaries'} = 1;
+        $self->{options}{include_binaries} = 1;
         return 1;
     } elsif ($opt =~ /^--no-preparation$/) {
-        $self->{'options'}{'preparation'} = 0;
+        $self->{options}{preparation} = 0;
         return 1;
     } elsif ($opt =~ /^--skip-patches$/) {
-        $self->{'options'}{'skip_patches'} = 1;
+        $self->{options}{skip_patches} = 1;
         return 1;
     } elsif ($opt =~ /^--unapply-patches$/) {
-        $self->{'options'}{'unapply_patches'} = 'yes';
+        $self->{options}{unapply_patches} = 'yes';
         return 1;
     } elsif ($opt =~ /^--no-unapply-patches$/) {
-        $self->{'options'}{'unapply_patches'} = 'no';
+        $self->{options}{unapply_patches} = 'no';
         return 1;
     } elsif ($opt =~ /^--skip-debianization$/) {
-        $self->{'options'}{'skip_debianization'} = 1;
+        $self->{options}{skip_debianization} = 1;
         return 1;
     } elsif ($opt =~ /^--create-empty-orig$/) {
-        $self->{'options'}{'create_empty_orig'} = 1;
+        $self->{options}{create_empty_orig} = 1;
         return 1;
     } elsif ($opt =~ /^--abort-on-upstream-changes$/) {
-        $self->{'options'}{'auto_commit'} = 0;
+        $self->{options}{auto_commit} = 0;
         return 1;
     } elsif ($opt =~ /^--auto-commit$/) {
-        $self->{'options'}{'auto_commit'} = 1;
+        $self->{options}{auto_commit} = 1;
         return 1;
     }
     return 0;
@@ -109,9 +109,9 @@ sub parse_cmdline_option {
 
 sub do_extract {
     my ($self, $newdirectory) = @_;
-    my $fields = $self->{'fields'};
+    my $fields = $self->{fields};
 
-    my $dscdir = $self->{'basedir'};
+    my $dscdir = $self->{basedir};
 
     my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);
@@ -164,7 +164,7 @@ sub do_extract {
     }
 
     # Stop here if debianization is not wanted
-    return if $self->{'options'}{'skip_debianization'};
+    return if $self->{options}{skip_debianization};
 
     # Extract debian tarball after removing the debian directory
     info(_g("unpacking %s"), $debianfile);
@@ -186,7 +186,7 @@ sub do_extract {
 
     # Apply patches (in a separate method as it might be overriden)
     $self->apply_patches($newdirectory, usage => 'unpack')
-        unless $self->{'options'}{'skip_patches'};
+        unless $self->{options}{skip_patches};
 }
 
 sub get_autopatch_name {
@@ -195,7 +195,7 @@ sub get_autopatch_name {
 
 sub get_patches {
     my ($self, $dir, %opts) = @_;
-    $opts{"skip_auto"} //= 0;
+    $opts{skip_auto} //= 0;
     my @patches;
     my $pd = "$dir/debian/patches";
     my $auto_patch = $self->get_autopatch_name();
@@ -204,7 +204,7 @@ sub get_patches {
         foreach my $patch (sort readdir($dir_dh)) {
             # patches match same rules as run-parts
             next unless $patch =~ /^[\w-]+$/ and -f "$pd/$patch";
-            next if $opts{"skip_auto"} and $patch eq $auto_patch;
+            next if $opts{skip_auto} and $patch eq $auto_patch;
             push @patches, $patch;
         }
         closedir($dir_dh);
@@ -214,17 +214,17 @@ sub get_patches {
 
 sub apply_patches {
     my ($self, $dir, %opts) = @_;
-    $opts{"skip_auto"} //= 0;
+    $opts{skip_auto} //= 0;
     my @patches = $self->get_patches($dir, %opts);
     return unless scalar(@patches);
     my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
     open(my $applied_fh, '>', $applied) ||
         syserr(_g("cannot write %s"), $applied);
-    print $applied_fh "# During $opts{'usage'}\n";
+    print $applied_fh "# During $opts{usage}\n";
     my $timestamp = fs_time($applied);
     foreach my $patch ($self->get_patches($dir, %opts)) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
-        info(_g("applying %s"), $patch) unless $opts{"skip_auto"};
+        info(_g("applying %s"), $patch) unless $opts{skip_auto};
         my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
         $patch_obj->apply($dir, force_timestamp => 1,
                           timestamp => $timestamp,
@@ -242,7 +242,7 @@ sub unapply_patches {
     my $timestamp = fs_time($applied);
     foreach my $patch (@patches) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
-        info(_g("unapplying %s"), $patch) unless $opts{"quiet"};
+        info(_g("unapplying %s"), $patch) unless $opts{quiet};
         my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
         $patch_obj->apply($dir, force_timestamp => 1, verbose => 0,
                           timestamp => $timestamp,
@@ -263,7 +263,7 @@ sub upstream_tarball_template {
 sub can_build {
     my ($self, $dir) = @_;
     return 1 if $self->find_original_tarballs(include_supplementary => 0);
-    return 1 if $self->{'options'}{'create_empty_orig'} and
+    return 1 if $self->{options}{create_empty_orig} and
                 $self->find_original_tarballs(include_main => 0);
     return (0, sprintf(_g("no upstream tarball found at %s"),
                        $self->upstream_tarball_template()));
@@ -271,7 +271,7 @@ sub can_build {
 
 sub before_build {
     my ($self, $dir) = @_;
-    $self->check_patches_applied($dir) if $self->{'options'}{'preparation'};
+    $self->check_patches_applied($dir) if $self->{options}{preparation};
 }
 
 sub after_build {
@@ -284,7 +284,7 @@ sub after_build {
         $reason = <$applied_fh>;
         close($applied_fh);
     }
-    my $opt_unapply = $self->{'options'}{'unapply_patches'};
+    my $opt_unapply = $self->{options}{unapply_patches};
     if (($opt_unapply eq "auto" and $reason =~ /^# During preparation/) or
         $opt_unapply eq "yes") {
         $self->unapply_patches($dir);
@@ -293,21 +293,21 @@ sub after_build {
 
 sub prepare_build {
     my ($self, $dir) = @_;
-    $self->{'diff_options'} = {
-        diff_ignore_regexp => $self->{'options'}{'diff_ignore_regexp'} .
+    $self->{diff_options} = {
+        diff_ignore_regexp => $self->{options}{diff_ignore_regexp} .
                               '|(^|/)debian/patches/.dpkg-source-applied$',
-        include_removal => $self->{'options'}{'include_removal'},
-        include_timestamp => $self->{'options'}{'include_timestamp'},
+        include_removal => $self->{options}{include_removal},
+        include_timestamp => $self->{options}{include_timestamp},
         use_dev_null => 1,
     };
-    push @{$self->{'options'}{'tar_ignore'}}, "debian/patches/.dpkg-source-applied";
-    $self->check_patches_applied($dir) if $self->{'options'}{'preparation'};
-    if ($self->{'options'}{'create_empty_orig'} and
+    push @{$self->{options}{tar_ignore}}, "debian/patches/.dpkg-source-applied";
+    $self->check_patches_applied($dir) if $self->{options}{preparation};
+    if ($self->{options}{create_empty_orig} and
         not $self->find_original_tarballs(include_supplementary => 0))
     {
         # No main orig.tar, create a dummy one
         my $filename = $self->get_basename() . ".orig.tar." .
-                       $self->{'options'}{'comp_ext'};
+                       $self->{options}{comp_ext};
         my $tar = Dpkg::Source::Archive->new(filename => $filename);
         $tar->create();
         $tar->finish();
@@ -351,9 +351,9 @@ sub generate_patch {
     error(_g("no upstream tarball found at %s"),
           $self->upstream_tarball_template()) unless $tarfile;
 
-    if ($opts{'usage'} eq "build") {
+    if ($opts{usage} eq "build") {
         info(_g("building %s using existing %s"),
-             $self->{'fields'}{'Source'}, "@origtarballs");
+             $self->{fields}{'Source'}, "@origtarballs");
     }
 
     # Unpack a second copy for comparison
@@ -377,8 +377,8 @@ sub generate_patch {
     subprocerr(_g("copy of the debian directory")) if $?;
 
     # Apply all patches except the last automatic one
-    $opts{'skip_auto'} //= 0;
-    $self->apply_patches($tmp, skip_auto => $opts{'skip_auto'}, usage => 'build');
+    $opts{skip_auto} //= 0;
+    $self->apply_patches($tmp, skip_auto => $opts{skip_auto}, usage => 'build');
 
     # Create a patch
     my ($difffh, $tmpdiff) = tempfile($self->get_basename(1) . ".diff.XXXXXX",
@@ -387,24 +387,24 @@ sub generate_patch {
     my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
                                         compression => "none");
     $diff->create();
-    if ($opts{'header_from'} and -e $opts{'header_from'}) {
+    if ($opts{header_from} and -e $opts{header_from}) {
         my $header_from = Dpkg::Source::Patch->new(
-            filename => $opts{'header_from'});
+            filename => $opts{header_from});
         my $analysis = $header_from->analyze($dir, verbose => 0);
-        $diff->set_header($analysis->{'patchheader'});
+        $diff->set_header($analysis->{patchheader});
     } else {
         $diff->set_header($self->get_patch_header($dir));
     }
     $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
-            %{$self->{'diff_options'}},
-            handle_binary_func => $opts{'handle_binary'},
-            order_from => $opts{'order_from'});
+            %{$self->{diff_options}},
+            handle_binary_func => $opts{handle_binary},
+            order_from => $opts{order_from});
     error(_g("unrepresentable changes to source")) if not $diff->finish();
 
     if (-s $tmpdiff) {
         info(_g("local changes detected, the modified files are:"));
         my $analysis = $diff->analyze($dir, verbose => 0);
-        foreach my $fn (sort keys %{$analysis->{'filepatched'}}) {
+        foreach my $fn (sort keys %{$analysis->{filepatched}}) {
             print " $fn\n";
         }
     }
@@ -419,17 +419,17 @@ sub generate_patch {
 
 sub do_build {
     my ($self, $dir) = @_;
-    my @argv = @{$self->{'options'}{'ARGV'}};
+    my @argv = @{$self->{options}{ARGV}};
     if (scalar(@argv)) {
         usageerr(_g("-b takes only one parameter with format `%s'"),
-                 $self->{'fields'}{'Format'});
+                 $self->{fields}{'Format'});
     }
     $self->prepare_build($dir);
 
-    my $include_binaries = $self->{'options'}{'include_binaries'};
-    my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
+    my $include_binaries = $self->{options}{include_binaries};
+    my @tar_ignore = map { "--exclude=$_" } @{$self->{options}{tar_ignore}};
 
-    my $sourcepackage = $self->{'fields'}{'Source'};
+    my $sourcepackage = $self->{fields}{'Source'};
     my $basenamerev = $self->get_basename(1);
 
     # Check if the debian directory contains unwanted binary files
@@ -450,7 +450,7 @@ sub do_build {
             my $copy = $_;
             $copy =~ s/,/\\,/g;
             $copy;
-        } @{$self->{'options'}{'tar_ignore'}}) . "}";
+        } @{$self->{options}{tar_ignore}}) . "}";
     my $filter_ignore = sub {
         # Filter out files that are not going to be included in the debian
         # tarball due to ignores.
@@ -503,9 +503,9 @@ sub do_build {
     my $tmpdiff = $self->generate_patch($dir, order_from => $autopatch,
                                         header_from => $autopatch,
                                         handle_binary => $handle_binary,
-                                        skip_auto => $self->{'options'}{'auto_commit'},
+                                        skip_auto => $self->{options}{auto_commit},
                                         usage => 'build');
-    unless (-z $tmpdiff or $self->{'options'}{'auto_commit'}) {
+    unless (-z $tmpdiff or $self->{options}{auto_commit}) {
         info(_g("you can integrate the local changes with %s"),
              "dpkg-source --commit");
         error(_g("aborting due to unexpected upstream changes, see %s"),
@@ -515,7 +515,7 @@ sub do_build {
     $binaryfiles->update_debian_source_include_binaries() if $include_binaries;
 
     # Install the diff as the new autopatch
-    if ($self->{'options'}{'auto_commit'}) {
+    if ($self->{options}{auto_commit}) {
         mkpath(File::Spec->catdir($dir, "debian", "patches"));
         $autopatch = $self->register_patch($dir, $tmpdiff,
                                            $self->get_autopatch_name());
@@ -527,7 +527,7 @@ sub do_build {
     pop @Dpkg::Exit::handlers;
 
     # Create the debian.tar
-    my $debianfile = "$basenamerev.debian.tar." . $self->{'options'}{'comp_ext'};
+    my $debianfile = "$basenamerev.debian.tar." . $self->{options}{comp_ext};
     info(_g("building %s in %s"), $sourcepackage, $debianfile);
     my $tar = Dpkg::Source::Archive->new(filename => $debianfile);
     $tar->create(options => \@tar_ignore, chdir => $dir);
@@ -619,7 +619,7 @@ sub _is_bad_patch_name {
 
 sub do_commit {
     my ($self, $dir) = @_;
-    my ($patch_name, $tmpdiff) = @{$self->{'options'}{'ARGV'}};
+    my ($patch_name, $tmpdiff) = @{$self->{options}{ARGV}};
 
     $self->prepare_build($dir);
 
@@ -689,19 +689,19 @@ sub new {
 sub new_binary_found {
     my ($self, $path) = @_;
 
-    $self->{'seen_binaries'}{$path} = 1;
+    $self->{seen_binaries}{$path} = 1;
 }
 
 sub load_allowed_binaries {
     my ($self) = @_;
-    my $incbin_file = $self->{'include_binaries_path'};
+    my $incbin_file = $self->{include_binaries_path};
     if (-f $incbin_file) {
         open(my $incbin_fh, "<", $incbin_file) ||
             syserr(_g("cannot read %s"), $incbin_file);
         while (defined($_ = <$incbin_fh>)) {
             chomp; s/^\s*//; s/\s*$//;
             next if /^#/ or /^$/;
-            $self->{'allowed_binaries'}{$_} = 1;
+            $self->{allowed_binaries}{$_} = 1;
         }
         close($incbin_fh);
     }
@@ -709,7 +709,7 @@ sub load_allowed_binaries {
 
 sub binary_is_allowed {
     my ($self, $path) = @_;
-    return 1 if exists $self->{'allowed_binaries'}{$path};
+    return 1 if exists $self->{allowed_binaries}{$path};
     return 0;
 }
 
@@ -719,14 +719,14 @@ sub update_debian_source_include_binaries {
     my @unknown_binaries = $self->get_unknown_binaries();
     return unless scalar(@unknown_binaries);
 
-    my $incbin_file = $self->{'include_binaries_path'};
-    mkpath(File::Spec->catdir($self->{'dir'}, "debian", "source"));
+    my $incbin_file = $self->{include_binaries_path};
+    mkpath(File::Spec->catdir($self->{dir}, "debian", "source"));
     open(my $incbin_fh, ">>", $incbin_file) ||
         syserr(_g("cannot write %s"), $incbin_file);
     foreach my $binary (@unknown_binaries) {
         print $incbin_fh "$binary\n";
         info(_g("adding %s to %s"), $binary, "debian/source/include-binaries");
-        $self->{'allowed_binaries'}{$binary} = 1;
+        $self->{allowed_binaries}{$binary} = 1;
     }
     close($incbin_fh);
 }
@@ -738,7 +738,7 @@ sub get_unknown_binaries {
 
 sub get_seen_binaries {
     my ($self) = @_;
-    my @seen = sort keys %{$self->{'seen_binaries'}};
+    my @seen = sort keys %{$self->{seen_binaries}};
     return @seen;
 }
 

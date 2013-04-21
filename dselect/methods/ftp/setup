@@ -48,11 +48,11 @@ chomp $logname;
 my $host = `cat /etc/mailname || dnsdomainname`;
 chomp $host;
 
-$config{'dldir'} = "debian";
-$config{'use_auth_proxy'} = 0;
-$config{'proxyhost'} = "";
-$config{'proxylogname'} = $logname;
-$config{'proxypassword'} = "";
+$config{dldir} = "debian";
+$config{use_auth_proxy} = 0;
+$config{proxyhost} = "";
+$config{proxylogname} = $logname;
+$config{proxypassword} = "";
 
 my $methdir = "$vardir/methods/ftp";
 my $exit = 0;
@@ -97,11 +97,11 @@ FTP site:
 
 Eg:  use auth proxy: y
               proxy: proxy.isp.com
-      proxy account: $config{'proxylogname'}
+      proxy account: $config{proxylogname}
      proxy password: ?
 EOM
 
-if (! $config{'done'}) {
+if (! $config{done}) {
   view_mirrors() if (yesno("y", "Would you like to see a list of ftp mirrors"));
   add_site();
 }
@@ -109,17 +109,17 @@ edit_config($methdir);
 
 my $ftp;
 sub download() {
- foreach (@{$config{'site'}}) {
+ foreach (@{$config{site}}) {
 
     $ftp = do_connect ($_->[0], # Ftp server
                        $_->[4], # username
 		       $_->[5], # password
 		       $_->[1], # ftp dir
 		       $_->[3], # passive
-		       $config{'use_auth_proxy'},
-		       $config{'proxyhost'},
-		       $config{'proxylogname'},
-		       $config{'proxypassword'});
+		       $config{use_auth_proxy},
+		       $config{proxyhost},
+		       $config{proxylogname},
+		       $config{proxypassword});
 
     my @dists = @{$_->[2]};
 
@@ -167,7 +167,7 @@ if($@) {
 };
 
 # output new vars file
-$config{'done'} = 1;
+$config{done} = 1;
 store_config("$methdir/vars");
 chmod  0600, "$methdir/vars";
 

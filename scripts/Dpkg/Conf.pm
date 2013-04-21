@@ -79,7 +79,7 @@ Returns the list of options that can be parsed like @ARGV.
 
 sub get_options {
     my ($self) = @_;
-    return @{$self->{'options'}};
+    return @{$self->{options}};
 }
 
 =item $conf->load($file)
@@ -101,7 +101,7 @@ sub parse {
 	s/\s+=\s+/=/;         # Remove spaces around the first =
 	s/\s+/=/ unless m/=/; # First spaces becomes = if no =
 	next if /^#/ or /^$/; # Skip empty lines and comments
-	if (/^-[^-]/ and not $self->{'allow_short'}) {
+	if (/^-[^-]/ and not $self->{allow_short}) {
 	    warning(_g("short option not allowed in %s, line %d"), $desc, $.);
 	    next;
 	}
@@ -110,9 +110,9 @@ sub parse {
 	    $name = "--$name" unless $name =~ /^-/;
 	    if (defined $value) {
 		$value =~ s/^"(.*)"$/$1/ or $value =~ s/^'(.*)'$/$1/;
-		push @{$self->{'options'}}, "$name=$value";
+		push @{$self->{options}}, "$name=$value";
 	    } else {
-		push @{$self->{'options'}}, $name;
+		push @{$self->{options}}, $name;
 	    }
 	    $count++;
 	} else {
@@ -133,13 +133,13 @@ return true when &$rmfunc($option) or &keepfunc($option) is called.
 
 sub filter {
     my ($self, %opts) = @_;
-    if (defined($opts{'remove'})) {
-	@{$self->{'options'}} = grep { not &{$opts{'remove'}}($_) }
-				     @{$self->{'options'}};
+    if (defined($opts{remove})) {
+	@{$self->{options}} = grep { not &{$opts{remove}}($_) }
+				     @{$self->{options}};
     }
-    if (defined($opts{'keep'})) {
-	@{$self->{'options'}} = grep { &{$opts{'keep'}}($_) }
-				     @{$self->{'options'}};
+    if (defined($opts{keep})) {
+	@{$self->{options}} = grep { &{$opts{keep}}($_) }
+				     @{$self->{options}};
     }
 }
 

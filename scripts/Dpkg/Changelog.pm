@@ -86,7 +86,7 @@ whether parse errors are displayed as warnings by default. "reportfile"
 is a string to use instead of the name of the file parsed, in particular
 in error messages. "range" defines the range of entries that we want to
 parse, the parser will stop as soon as it has parsed enough data to
-satisfy $c->get_range($opts{'range'}).
+satisfy $c->get_range($opts{range}).
 
 =cut
 
@@ -191,12 +191,12 @@ entries. Returns undef if there's no such thing.
 
 sub set_unparsed_tail {
     my ($self, $tail) = @_;
-    $self->{'unparsed_tail'} = $tail;
+    $self->{unparsed_tail} = $tail;
 }
 
 sub get_unparsed_tail {
     my ($self) = @_;
-    return $self->{'unparsed_tail'};
+    return $self->{unparsed_tail};
 }
 
 =item @{$c}
@@ -222,23 +222,24 @@ sub __sanity_check_range {
 	delete $r->{offset};
     }
 
+    ## no critic (ControlStructures::ProhibitUntilBlocks)
     if ((defined($r->{count}) || defined($r->{offset})) &&
         (defined($r->{from}) || defined($r->{since}) ||
-	 defined($r->{to}) || defined($r->{'until'})))
+	 defined($r->{to}) || defined($r->{until})))
     {
 	warning(_g("you can't combine 'count' or 'offset' with any other " .
 		   "range option")) if $self->{verbose};
 	delete $r->{from};
 	delete $r->{since};
 	delete $r->{to};
-	delete $r->{'until'};
+	delete $r->{until};
     }
     if (defined($r->{from}) && defined($r->{since})) {
 	warning(_g("you can only specify one of 'from' and 'since', using " .
 		   "'since'")) if $self->{verbose};
 	delete $r->{from};
     }
-    if (defined($r->{to}) && defined($r->{'until'})) {
+    if (defined($r->{to}) && defined($r->{until})) {
 	warning(_g("you can only specify one of 'to' and 'until', using " .
 		   "'until'")) if $self->{verbose};
 	delete $r->{to};
@@ -282,20 +283,20 @@ sub __sanity_check_range {
             delete $r->{from}; # No version was oldest
         }
     }
-    if (defined($r->{'until'}) and not exists $versions{$r->{'until'}}) {
+    if (defined($r->{until}) and not exists $versions{$r->{until}}) {
         warning(_g("'%s' option specifies non-existing version"), "until");
         warning(_g("use oldest entry that is later than the one specified"));
         my $oldest;
         foreach my $v (@versions) {
-            if (version_compare_relation($v, REL_GT, $r->{'until'})) {
+            if (version_compare_relation($v, REL_GT, $r->{until})) {
                 $oldest = $v;
             }
         }
         if (defined($oldest)) {
-            $r->{'until'} = $oldest;
+            $r->{until} = $oldest;
         } else {
             warning(_g("no such entry found, ignoring '%s' parameter"), "until");
-            delete $r->{'until'}; # No version was oldest
+            delete $r->{until}; # No version was oldest
         }
     }
     if (defined($r->{to}) and not exists $versions{$r->{to}}) {
@@ -318,10 +319,11 @@ sub __sanity_check_range {
 	warning(_g("'since' option specifies most recent version, ignoring"));
 	delete $r->{since};
     }
-    if (defined($r->{'until'}) and $data->[-1]->get_version() eq $r->{'until'}) {
+    if (defined($r->{until}) and $data->[-1]->get_version() eq $r->{until}) {
 	warning(_g("'until' option specifies oldest version, ignoring"));
-	delete $r->{'until'};
+	delete $r->{until};
     }
+    ## use critic
 }
 
 sub get_range {
@@ -373,9 +375,10 @@ sub _data_range {
 	return [ @{$data}[$start .. $end] ];
     }
 
+    ## no critic (ControlStructures::ProhibitUntilBlocks)
     my @result;
     my $include = 1;
-    $include = 0 if defined($range->{to}) or defined($range->{'until'});
+    $include = 0 if defined($range->{to}) or defined($range->{until});
     foreach (@$data) {
 	my $v = $_->get_version();
 	$include = 1 if defined($range->{to}) and $v eq $range->{to};
@@ -383,9 +386,10 @@ sub _data_range {
 
 	push @result, $_ if $include;
 
-	$include = 1 if defined($range->{'until'}) and $v eq $range->{'until'};
+	$include = 1 if defined($range->{until}) and $v eq $range->{until};
 	last if defined($range->{from}) and $v eq $range->{from};
     }
+    ## use critic
 
     return \@result if scalar(@result);
     return;

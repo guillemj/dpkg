@@ -31,7 +31,7 @@ our $CURRENT_MINOR_VERSION = "0";
 sub parse_cmdline_option {
     my ($self, $opt) = @_;
     if ($opt =~ /^--target-format=(.*)$/) {
-        $self->{'options'}{'target_format'} = $1;
+        $self->{options}{target_format} = $1;
         return 1;
     }
     return 0;
@@ -42,18 +42,18 @@ sub do_extract {
 
 sub can_build {
     my ($self, $dir) = @_;
-    return (scalar(@{$self->{'options'}{'ARGV'}}),
+    return (scalar(@{$self->{options}{ARGV}}),
             _g("no files indicated on command line"));
 }
 
 sub do_build {
     my ($self, $dir) = @_;
     # Update real target format
-    my $format = $self->{'options'}{'target_format'};
+    my $format = $self->{options}{target_format};
     error(_g("--target-format option is missing")) unless $format;
-    $self->{'fields'}{'Format'} = $format;
+    $self->{fields}{'Format'} = $format;
     # Add all files
-    foreach my $file (@{$self->{'options'}{'ARGV'}}) {
+    foreach my $file (@{$self->{options}{ARGV}}) {
         $self->add_file($file);
     }
 }

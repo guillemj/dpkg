@@ -92,7 +92,7 @@ sub has_object {
 	} else {
 	    my ($output, %opts, $pid, $res);
 	    if ($OBJDUMP ne "objdump") {
-		$opts{"error_to_file"} = "/dev/null";
+		$opts{error_to_file} = "/dev/null";
 	    }
 	    $pid = spawn(exec => [ $OBJDUMP, "-a", "--", $file ],
 			 env => { LC_ALL => "C" },
@@ -345,10 +345,10 @@ sub apply_relocations {
     foreach my $sym (values %{$self->{dynsyms}}) {
 	# We want to mark as undefined symbols those which are currently
 	# defined but that depend on a copy relocation
-	next if not $sym->{'defined'};
+	next if not $sym->{defined};
 	next if not exists $self->{dynrelocs}{$sym->{name}};
 	if ($self->{dynrelocs}{$sym->{name}} =~ /^R_.*_COPY$/) {
-	    $sym->{'defined'} = 0;
+	    $sym->{defined} = 0;
 	}
     }
 }

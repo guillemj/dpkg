@@ -76,10 +76,10 @@ sub parse_cmdline_option {
     my ($self, $opt) = @_;
     return 1 if $self->SUPER::parse_cmdline_option($opt);
     if ($opt =~ /^--git-ref=(.*)$/) {
-        push @{$self->{'options'}{'git_ref'}}, $1;
+        push @{$self->{options}{git_ref}}, $1;
         return 1;
     } elsif ($opt =~ /^--git-depth=(\d+)$/) {
-        $self->{'options'}{'git_depth'} = $1;
+        $self->{options}{git_depth} = $1;
         return 1;
     }
     return 0;
@@ -92,7 +92,7 @@ sub can_build {
 
 sub do_build {
     my ($self, $dir) = @_;
-    my $diff_ignore_regexp = $self->{'options'}{'diff_ignore_regexp'};
+    my $diff_ignore_regexp = $self->{options}{diff_ignore_regexp};
 
     $dir =~ s{/+$}{}; # Strip trailing /
     my ($dirname, $updir) = fileparse($dir);
@@ -138,7 +138,7 @@ sub do_build {
     # bundle that.
     my $tmp;
     my $shallowfile;
-    if ($self->{'options'}{'git_depth'}) {
+    if ($self->{options}{git_depth}) {
         chdir($old_cwd) ||
                 syserr(_g("unable to chdir to `%s'"), $old_cwd);
         $tmp = tempdir("$dirname.git.XXXXXX", DIR => $updir);
@@ -147,8 +147,8 @@ sub do_build {
         # file:// is needed to avoid local cloning, which does not
         # create a shallow clone.
         info(_g("creating shallow clone with depth %s"),
-                $self->{'options'}{'git_depth'});
-        system("git", "clone", "--depth=" . $self->{'options'}{'git_depth'},
+                $self->{options}{git_depth});
+        system("git", "clone", "--depth=" . $self->{options}{git_depth},
                 "--quiet", "--bare", "file://" . abs_path($dir), $clone_dir);
         $? && subprocerr("git clone");
         chdir($clone_dir) ||
@@ -160,8 +160,8 @@ sub do_build {
 
     # Create the git bundle.
     my $bundlefile = "$basenamerev.git";
-    my @bundle_arg = $self->{'options'}{'git_ref'} ?
-        (@{$self->{'options'}{'git_ref'}}) : "--all";
+    my @bundle_arg = $self->{options}{git_ref} ?
+        (@{$self->{options}{git_ref}}) : "--all";
     info(_g("bundling: %s"), join(" ", @bundle_arg));
     system("git", "bundle", "create", "$old_cwd/$bundlefile",
            @bundle_arg,
@@ -186,9 +186,9 @@ sub do_build {
 
 sub do_extract {
     my ($self, $newdirectory) = @_;
-    my $fields = $self->{'fields'};
+    my $fields = $self->{fields};
 
-    my $dscdir = $self->{'basedir'};
+    my $dscdir = $self->{basedir};
     my $basenamerev = $self->get_basename(1);
 
     my @files = $self->get_files();

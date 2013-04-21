@@ -78,28 +78,30 @@ while (@ARGV) {
     last unless $ARGV[0] =~ m/^-/;
     $_ = shift(@ARGV);
     if (m/^-L(.+)$/) {
-	$options{"libdir"} = $1;
+	$options{libdir} = $1;
     } elsif (m/^-F([0-9a-z]+)$/) {
-	$options{"changelogformat"} = $1;
+	$options{changelogformat} = $1;
     } elsif (m/^-l(.+)$/) {
-	$options{"file"} = $1;
+	$options{file} = $1;
     } elsif (m/^-(?:S|-show-field)(?:=(.+))?$/) {
 	$fieldname = $1 // shift(@ARGV);
     } elsif (m/^--$/) {
 	last;
     } elsif (m/^-([cfnostuv])(.*)$/) {
 	if (($1 eq "c") or ($1 eq "n")) {
-	    $options{"count"} = $2;
+	    $options{count} = $2;
 	} elsif ($1 eq "f") {
-	    $options{"from"} = $2;
+	    $options{from} = $2;
 	} elsif ($1 eq "o") {
-	    $options{"offset"} = $2;
+	    $options{offset} = $2;
 	} elsif (($1 eq "s") or ($1 eq "v")) {
-	    $options{"since"} = $2;
+	    $options{since} = $2;
 	} elsif ($1 eq "t") {
-	    $options{"to"} = $2;
+	    $options{to} = $2;
 	} elsif ($1 eq "u") {
-	    $options{"until"} = $2;
+	    ## no critic (ControlStructures::ProhibitUntilBlocks)
+	    $options{until} = $2;
+	    ## use critic
 	}
     } elsif (m/^--(count|file|format|from|offset|since|to|until)(.*)$/) {
 	if ($2) {
@@ -108,7 +110,7 @@ while (@ARGV) {
 	    $options{$1} = shift(@ARGV);
 	}
     } elsif (m/^--all$/) {
-	$options{"all"} = undef;
+	$options{all} = undef;
     } elsif (m/^-(\?|-help)$/) {
 	usage(); exit(0);
     } elsif (m/^--version$/) {

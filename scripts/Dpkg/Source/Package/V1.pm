@@ -44,32 +44,32 @@ sub init_options {
     my ($self) = @_;
     # Don't call $self->SUPER::init_options() on purpose, V1.0 has no
     # ignore by default
-    if ($self->{'options'}{'diff_ignore_regexp'}) {
-	$self->{'options'}{'diff_ignore_regexp'} .= '|(?:^|/)debian/source/local-.*$';
+    if ($self->{options}{diff_ignore_regexp}) {
+	$self->{options}{diff_ignore_regexp} .= '|(?:^|/)debian/source/local-.*$';
     } else {
-	$self->{'options'}{'diff_ignore_regexp'} = '(?:^|/)debian/source/local-.*$';
+	$self->{options}{diff_ignore_regexp} = '(?:^|/)debian/source/local-.*$';
     }
-    push @{$self->{'options'}{'tar_ignore'}}, "debian/source/local-options",
+    push @{$self->{options}{tar_ignore}}, "debian/source/local-options",
          "debian/source/local-patch-header";
-    $self->{'options'}{'sourcestyle'} ||= 'X';
-    $self->{'options'}{'skip_debianization'} ||= 0;
-    $self->{'options'}{'abort_on_upstream_changes'} ||= 0;
+    $self->{options}{sourcestyle} ||= 'X';
+    $self->{options}{skip_debianization} ||= 0;
+    $self->{options}{abort_on_upstream_changes} ||= 0;
 }
 
 sub parse_cmdline_option {
     my ($self, $opt) = @_;
-    my $o = $self->{'options'};
+    my $o = $self->{options};
     if ($opt =~ m/^-s([akpursnAKPUR])$/) {
         warning(_g("-s%s option overrides earlier -s%s option"), $1,
-                $o->{'sourcestyle'}) if $o->{'sourcestyle'} ne 'X';
-        $o->{'sourcestyle'} = $1;
-        $o->{'copy_orig_tarballs'} = 0 if $1 eq 'n'; # Extract option -sn
+                $o->{sourcestyle}) if $o->{sourcestyle} ne 'X';
+        $o->{sourcestyle} = $1;
+        $o->{copy_orig_tarballs} = 0 if $1 eq 'n'; # Extract option -sn
         return 1;
     } elsif ($opt =~ m/^--skip-debianization$/) {
-        $o->{'skip_debianization'} = 1;
+        $o->{skip_debianization} = 1;
         return 1;
     } elsif ($opt =~ m/^--abort-on-upstream-changes$/) {
-        $o->{'abort_on_upstream_changes'} = 1;
+        $o->{abort_on_upstream_changes} = 1;
         return 1;
     }
     return 0;
@@ -77,15 +77,15 @@ sub parse_cmdline_option {
 
 sub do_extract {
     my ($self, $newdirectory) = @_;
-    my $sourcestyle = $self->{'options'}{'sourcestyle'};
-    my $fields = $self->{'fields'};
+    my $sourcestyle = $self->{options}{sourcestyle};
+    my $fields = $self->{fields};
 
     $sourcestyle =~ y/X/p/;
     $sourcestyle =~ m/[pun]/ ||
 	usageerr(_g("source handling style -s%s not allowed with -x"),
 	         $sourcestyle);
 
-    my $dscdir = $self->{'basedir'};
+    my $dscdir = $self->{basedir};
 
     my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);
@@ -149,13 +149,13 @@ sub do_extract {
         }
     }
 
-    if ($difffile and not $self->{'options'}{'skip_debianization'}) {
+    if ($difffile and not $self->{options}{skip_debianization}) {
         my $patch = "$dscdir$difffile";
 	info(_g("applying %s"), $difffile);
 	my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
 	my $analysis = $patch_obj->apply($newdirectory, force_timestamp => 1);
 	my @files = grep { ! m{^\Q$newdirectory\E/debian/} }
-		    sort keys %{$analysis->{'filepatched'}};
+		    sort keys %{$analysis->{filepatched}};
 	info(_g("upstream files that have been modified: %s"),
 	     "\n " . join("\n ", @files)) if scalar @files;
     }
@@ -165,16 +165,16 @@ sub can_build {
     my ($self, $dir) = @_;
     # As long as we can use gzip, we can do it as we have
     # native packages as fallback
-    return ($self->{'options'}{'compression'} eq "gzip",
+    return ($self->{options}{compression} eq "gzip",
             _g("only supports gzip compression"));
 }
 
 sub do_build {
     my ($self, $dir) = @_;
-    my $sourcestyle = $self->{'options'}{'sourcestyle'};
-    my @argv = @{$self->{'options'}{'ARGV'}};
-    my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
-    my $diff_ignore_regexp = $self->{'options'}{'diff_ignore_regexp'};
+    my $sourcestyle = $self->{options}{sourcestyle};
+    my @argv = @{$self->{options}{ARGV}};
+    my @tar_ignore = map { "--exclude=$_" } @{$self->{options}{tar_ignore}};
+    my $diff_ignore_regexp = $self->{options}{diff_ignore_regexp};
 
     if (scalar(@argv) > 1) {
         usageerr(_g("-b takes at most a directory and an orig source ".
@@ -187,7 +187,7 @@ sub do_build {
                  $sourcestyle);
     }
 
-    my $sourcepackage = $self->{'fields'}{'Source'};
+    my $sourcepackage = $self->{fields}{'Source'};
     my $basenamerev = $self->get_basename(1);
     my $basename = $self->get_basename();
     my $basedirname = $basename;
@@ -287,7 +287,7 @@ sub do_build {
     }
 
     if ($sourcestyle eq "n") {
-        $self->{'options'}{'ARGV'} = []; # ensure we have no error
+        $self->{options}{ARGV} = []; # ensure we have no error
         Dpkg::Source::Package::V3::native::do_build($self, $dir);
     } elsif ($sourcestyle =~ m/[nurUR]/) {
         if (stat($tarname)) {
@@ -306,7 +306,7 @@ sub do_build {
 				       DIR => getcwd(), UNLINK => 0);
 	my $tar = Dpkg::Source::Archive->new(filename => $newtar,
 		    compression => compression_guess_from_filename($tarname),
-		    compression_level => $self->{'options'}{'comp_level'});
+		    compression_level => $self->{options}{comp_level});
 	$tar->create(options => \@tar_ignore, chdir => $tardirbase);
 	$tar->add_directory($tardirname);
 	$tar->finish();
@@ -362,14 +362,14 @@ sub do_build {
 
 	my $analysis = $diff->analyze($origdir);
 	my @files = grep { ! m{^debian/} } map { s{^[^/]+/+}{}; $_ }
-		    sort keys %{$analysis->{'filepatched'}};
+		    sort keys %{$analysis->{filepatched}};
 	if (scalar @files) {
 	    warning(_g("the diff modifies the following upstream files: %s"),
 	            "\n " . join("\n ", @files));
 	    info(_g("use the '3.0 (quilt)' format to have separate and " .
 	            "documented changes to upstream files, see dpkg-source(1)"));
 	    error(_g("aborting due to --abort-on-upstream-changes"))
-		if $self->{'options'}{'abort_on_upstream_changes'};
+		if $self->{options}{abort_on_upstream_changes};
 	}
 
 	rename($newdiffgz, $diffname) ||

@@ -104,7 +104,7 @@ sub call_ua {
 	  wait_child => 1, env => { LC_ALL => "C" }, %opts);
     my $test_id = "";
     $test_id = "$opts{test_id}: " if defined $opts{test_id};
-    if ($opts{"expect_failure"}) {
+    if ($opts{expect_failure}) {
 	ok($? != 0, "${test_id}update-alternatives @$params should fail.") or
 	    diag("Did not fail as expected: @ua @$params");
     } else {
@@ -121,7 +121,7 @@ sub install_choice {
     push @params, "--install", "$main_link", "$main_name",
 		  $alt->{path}, $alt->{priority};
     foreach my $slave (@{ $alt->{slaves} }) {
-	push @params, "--slave", $slave->{"link"}, $slave->{"name"}, $slave->{"path"};
+	push @params, "--slave", $slave->{link}, $slave->{name}, $slave->{path};
     }
     call_ua(\@params, %opts);
 }
@@ -177,7 +177,7 @@ sub get_slaves_status {
     foreach my $alt (@choices) {
 	for(my $i = 0; $i < @{$alt->{slaves}}; $i++) {
 	    $slaves{$alt->{slaves}[$i]{name}} = $alt->{slaves}[$i];
-	    $slaves{$alt->{slaves}[$i]{name}}{"installed"} = 0;
+	    $slaves{$alt->{slaves}[$i]{name}}{installed} = 0;
 	}
     }
     # except those of the current alternative (minus optional slaves)
@@ -186,7 +186,7 @@ sub get_slaves_status {
 	for(my $i = 0; $i < @{$alt->{slaves}}; $i++) {
 	    $slaves{$alt->{slaves}[$i]{name}} = $alt->{slaves}[$i];
 	    if (-e $alt->{slaves}[$i]{path}) {
-		$slaves{$alt->{slaves}[$i]{name}}{"installed"} = 1;
+		$slaves{$alt->{slaves}[$i]{name}}{installed} = 1;
 	    }
 	}
     }
@@ -212,10 +212,10 @@ sub check_slaves {
     foreach my $slave (get_slaves_status($id)) {
 	if ($slave->{installed}) {
 	    check_link("$altdir/$slave->{name}", $slave->{path}, $msg);
-	    check_link($slave->{"link"}, "$altdir/$slave->{name}", $msg);
+	    check_link($slave->{link}, "$altdir/$slave->{name}", $msg);
 	} else {
 	    check_no_link("$altdir/$slave->{name}", $msg);
-	    check_no_link($slave->{"link"}, $msg);
+	    check_no_link($slave->{link}, $msg);
 	}
     }
 }
@@ -356,9 +356,9 @@ check_choice(0, "auto", "config auto");
 
 # test rename of links
 install_choice(0);
-my $old_slave = $choices[0]{"slaves"}[0]{"link"};
+my $old_slave = $choices[0]{slaves}[0]{link};
 my $old_link = $main_link;
-$choices[0]{"slaves"}[0]{"link"} = "$bindir/more/generic-slave";
+$choices[0]{slaves}[0]{link} = "$bindir/more/generic-slave";
 $main_link = "$bindir/more/mytest";
 install_choice(0);
 check_choice(0, "auto", "test rename of links");
@@ -372,8 +372,8 @@ check_choice(0, "auto", "rename link");
 check_no_link($old_link, "rename link");
 # rename with lost file
 unlink($old_slave);
-$old_slave = $choices[0]{"slaves"}[0]{"link"};
-$choices[0]{"slaves"}[0]{"link"} = "$bindir/generic-slave-bis";
+$old_slave = $choices[0]{slaves}[0]{link};
+$choices[0]{slaves}[0]{link} = "$bindir/generic-slave-bis";
 install_choice(0);
 check_choice(0, "auto", "rename lost file");
 check_no_link($old_slave, "rename lost file");
@@ -381,7 +381,7 @@ check_no_link($old_slave, "rename lost file");
 # and the link of the renamed slave exists while it should not
 set_choice(1);
 symlink("$paths{cat}", "$bindir/generic-slave-bis");
-$choices[0]{"slaves"}[0]{"link"} = "$bindir/slave2";
+$choices[0]{slaves}[0]{link} = "$bindir/slave2";
 install_choice(0, test_id => "update with non-installed slaves");
 check_no_link("$bindir/generic-slave-bis",
               "drop renamed symlink that should not be installed");
@@ -445,10 +445,10 @@ call_ua(["--install", "$bindir/testmaster", "testmaster", "$paths{date}", "10",
 	expect_failure => 1, to_file => "/dev/null", error_to_file => "/dev/null");
 
 # non-existing alternative path in slave is not a failure
-my $old_path = $choices[0]{"slaves"}[0]{"path"};
-$old_slave = $choices[0]{"slaves"}[0]{"link"};
-$choices[0]{"slaves"}[0]{"path"} = "$bindir/doesntexist";
-$choices[0]{"slaves"}[0]{"link"} = "$bindir/baddir/slave2";
+my $old_path = $choices[0]{slaves}[0]{path};
+$old_slave = $choices[0]{slaves}[0]{link};
+$choices[0]{slaves}[0]{path} = "$bindir/doesntexist";
+$choices[0]{slaves}[0]{link} = "$bindir/baddir/slave2";
 # test rename of slave link that existed but that doesn't anymore
 # and link is moved into non-existing dir at the same time
 install_choice(0);
@@ -457,12 +457,12 @@ check_choice(0, "auto", "optional renamed slave2 in non-existing dir");
 cleanup();
 install_choice(0);
 check_choice(0, "auto", "optional slave2 in non-existing dir");
-$choices[0]{"slaves"}[0]{"link"} = $old_slave;
+$choices[0]{slaves}[0]{link} = $old_slave;
 # test fresh install with a non-existing slave file
 cleanup();
 install_choice(0);
 check_choice(0, "auto", "optional slave2");
-$choices[0]{"slaves"}[0]{"path"} = $old_path;
+$choices[0]{slaves}[0]{path} = $old_path;
 
 # test management of pre-existing files
 cleanup();

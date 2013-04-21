@@ -568,11 +568,11 @@ sub new {
 
 sub reset {
     my ($self) = @_;
-    $self->{'package'} = undef;
-    $self->{'relation'} = undef;
-    $self->{'version'} = undef;
-    $self->{'arches'} = undef;
-    $self->{'archqual'} = undef;
+    $self->{package} = undef;
+    $self->{relation} = undef;
+    $self->{version} = undef;
+    $self->{arches} = undef;
+    $self->{archqual} = undef;
 }
 
 sub parse {
@@ -627,7 +627,7 @@ sub output {
     if (defined($self->{relation})) {
 	$res .= " (" . $self->{relation} . " " . $self->{version} .  ")";
     }
-    if (defined($self->{'arches'})) {
+    if (defined($self->{arches})) {
 	$res .= " [" . join(" ", @{$self->{arches}}) . "]";
     }
     if (defined($fh)) {
@@ -846,7 +846,7 @@ sub new {
 
 sub reset {
     my ($self) = @_;
-    $self->{'list'} = [];
+    $self->{list} = [];
 }
 
 sub add {
@@ -1279,8 +1279,8 @@ sub _find_package {
     my $host_arch = $dep->{host_arch};
     my $build_arch = $dep->{build_arch};
     foreach my $p (@{$self->{pkg}{$pkg}}) {
-	my $a = $p->{"architecture"};
-	my $ma = $p->{"multiarch"};
+	my $a = $p->{architecture};
+	my $ma = $p->{multiarch};
 	if (not defined $a) {
 	    $$lackinfos = 1;
 	    next;
