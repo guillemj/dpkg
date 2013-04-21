@@ -82,7 +82,7 @@ sub load_db {
     my ($self) = @_;
 
     my $pc_applied = $self->get_db_file("applied-patches");
-    $self->{'applied-patches'} = [ $self->read_patch_list($pc_applied) ];
+    $self->{'applied_patches'} = [ $self->read_patch_list($pc_applied) ];
 }
 
 sub write_db {
@@ -92,7 +92,7 @@ sub write_db {
     my $pc_applied = $self->get_db_file("applied-patches");
     open(my $applied_fh, ">", $pc_applied) or
         syserr(_g("cannot write %s"), $pc_applied);
-    foreach my $patch (@{$self->{'applied-patches'}}) {
+    foreach my $patch (@{$self->{'applied_patches'}}) {
         print $applied_fh "$patch\n";
     }
     close($applied_fh);
@@ -112,19 +112,19 @@ sub series {
 
 sub applied {
     my ($self) = @_;
-    return @{$self->{'applied-patches'}};
+    return @{$self->{'applied_patches'}};
 }
 
 sub top {
     my ($self) = @_;
-    my $count = scalar @{$self->{'applied-patches'}};
-    return $self->{'applied-patches'}[$count - 1] if $count;
+    my $count = scalar @{$self->{'applied_patches'}};
+    return $self->{'applied_patches'}[$count - 1] if $count;
     return;
 }
 
 sub next {
     my ($self) = @_;
-    my $count_applied = scalar @{$self->{'applied-patches'}};
+    my $count_applied = scalar @{$self->{'applied_patches'}};
     my $count_series = scalar @{$self->{'series'}};
     return $self->{'series'}[$count_applied] if ($count_series > $count_applied);
     return;
@@ -158,7 +158,7 @@ sub push {
         erasedir($self->get_db_file($patch));
         die $@;
     }
-    CORE::push @{$self->{'applied-patches'}}, $patch;
+    CORE::push @{$self->{'applied_patches'}}, $patch;
     $self->write_db();
 }
 
@@ -189,7 +189,7 @@ sub pop {
     }
 
     erasedir($backup_dir);
-    pop @{$self->{'applied-patches'}};
+    pop @{$self->{'applied_patches'}};
     $self->write_db();
 }
 

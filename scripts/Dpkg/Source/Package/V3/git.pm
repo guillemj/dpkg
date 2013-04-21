@@ -76,10 +76,10 @@ sub parse_cmdline_option {
     my ($self, $opt) = @_;
     return 1 if $self->SUPER::parse_cmdline_option($opt);
     if ($opt =~ /^--git-ref=(.*)$/) {
-        push @{$self->{'options'}{'git-ref'}}, $1;
+        push @{$self->{'options'}{'git_ref'}}, $1;
         return 1;
     } elsif ($opt =~ /^--git-depth=(\d+)$/) {
-        $self->{'options'}{'git-depth'} = $1;
+        $self->{'options'}{'git_depth'} = $1;
         return 1;
     }
     return 0;
@@ -138,7 +138,7 @@ sub do_build {
     # bundle that.
     my $tmp;
     my $shallowfile;
-    if ($self->{'options'}{'git-depth'}) {
+    if ($self->{'options'}{'git_depth'}) {
         chdir($old_cwd) ||
                 syserr(_g("unable to chdir to `%s'"), $old_cwd);
         $tmp = tempdir("$dirname.git.XXXXXX", DIR => $updir);
@@ -147,8 +147,8 @@ sub do_build {
         # file:// is needed to avoid local cloning, which does not
         # create a shallow clone.
         info(_g("creating shallow clone with depth %s"),
-                $self->{'options'}{'git-depth'});
-        system("git", "clone", "--depth=".$self->{'options'}{'git-depth'},
+                $self->{'options'}{'git_depth'});
+        system("git", "clone", "--depth=" . $self->{'options'}{'git_depth'},
                 "--quiet", "--bare", "file://" . abs_path($dir), $clone_dir);
         $? && subprocerr("git clone");
         chdir($clone_dir) ||
@@ -160,8 +160,8 @@ sub do_build {
 
     # Create the git bundle.
     my $bundlefile = "$basenamerev.git";
-    my @bundle_arg=$self->{'options'}{'git-ref'} ?
-        (@{$self->{'options'}{'git-ref'}}) : "--all";
+    my @bundle_arg = $self->{'options'}{'git_ref'} ?
+        (@{$self->{'options'}{'git_ref'}}) : "--all";
     info(_g("bundling: %s"), join(" ", @bundle_arg));
     system("git", "bundle", "create", "$old_cwd/$bundlefile",
            @bundle_arg,

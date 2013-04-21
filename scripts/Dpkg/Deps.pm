@@ -1219,7 +1219,7 @@ sub add_installed_package {
 	"package" => $pkg,
 	"version" => $ver,
 	"architecture" => $arch,
-	"multi-arch" => $multiarch || "no",
+	"multiarch" => $multiarch || "no",
     };
     $self->{pkg}{"$pkg:$arch"} = $p if defined $arch;
     push @{$self->{pkg}{$pkg}}, $p;
@@ -1277,7 +1277,7 @@ sub _find_package {
     my $build_arch = $dep->{build_arch};
     foreach my $p (@{$self->{pkg}{$pkg}}) {
 	my $a = $p->{"architecture"};
-	my $ma = $p->{"multi-arch"};
+	my $ma = $p->{"multiarch"};
 	if (not defined $a) {
 	    $$lackinfos = 1;
 	    next;

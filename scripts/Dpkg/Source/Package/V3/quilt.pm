@@ -38,10 +38,10 @@ our $CURRENT_MINOR_VERSION = "0";
 
 sub init_options {
     my ($self) = @_;
-    $self->{'options'}{'single-debian-patch'} = 0
-        unless exists $self->{'options'}{'single-debian-patch'};
-    $self->{'options'}{'allow-version-of-quilt-db'} = []
-        unless exists $self->{'options'}{'allow-version-of-quilt-db'};
+    $self->{'options'}{'single_debian_patch'} = 0
+        unless exists $self->{'options'}{'single_debian_patch'};
+    $self->{'options'}{'allow_version_of_quilt_db'} = []
+        unless exists $self->{'options'}{'allow_version_of_quilt_db'};
 
     $self->SUPER::init_options();
 }
@@ -50,12 +50,12 @@ sub parse_cmdline_option {
     my ($self, $opt) = @_;
     return 1 if $self->SUPER::parse_cmdline_option($opt);
     if ($opt =~ /^--single-debian-patch$/) {
-        $self->{'options'}{'single-debian-patch'} = 1;
+        $self->{'options'}{'single_debian_patch'} = 1;
         # For backwards compatibility.
         $self->{'options'}{'auto_commit'} = 1;
         return 1;
     } elsif ($opt =~ /^--allow-version-of-quilt-db=(.*)$/) {
-        push @{$self->{'options'}{'allow-version-of-quilt-db'}}, $1;
+        push @{$self->{'options'}{'allow_version_of_quilt_db'}}, $1;
         return 1;
     }
     return 0;
@@ -80,7 +80,7 @@ sub can_build {
 
 sub get_autopatch_name {
     my ($self) = @_;
-    if ($self->{'options'}{'single-debian-patch'}) {
+    if ($self->{'options'}{'single_debian_patch'}) {
         return "debian-changes";
     } else {
         return "debian-changes-" . $self->{'fields'}{'Version'};
@@ -178,7 +178,7 @@ sub do_build {
 
     if (defined($version) and $version != 2) {
         if (scalar grep { $version eq $_ }
-            @{$self->{'options'}{'allow-version-of-quilt-db'}})
+            @{$self->{'options'}{'allow_version_of_quilt_db'}})
         {
             warning(_g("unsupported version of the quilt metadata: %s"), $version);
         } else {

@@ -135,7 +135,7 @@ sub add_hardening_flags {
     }
 
     # Mask features that might be influenced by other flags.
-    if ($flags->{'build-options'}->has('noopt')) {
+    if ($flags->{'build_options'}->has('noopt')) {
       # glibc 2.16 and later warn when using -O0 and _FORTIFY_SOURCE.
       $use_feature{'fortify'} = 0;
     }
