@@ -181,6 +181,7 @@ test_tmpdir = t.tmp
 
 test_cases = \
 	t/100_Dpkg_Version.t \
+	t/110_Dpkg_Arch.t \
 	t/150_Dpkg_Package.t \
 	t/190_Dpkg_Shlibs_Cppfilt.t \
 	t/200_Dpkg_Shlibs.t \
