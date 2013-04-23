@@ -13,11 +13,12 @@
 package Dselect::Ftp;
 
 use Net::FTP;
-use Exporter;
 use Data::Dumper;
 
 use strict;
 use warnings;
+
+use Exporter qw(import);
 
 use vars qw(@EXPORT %config $VAR1);
 
