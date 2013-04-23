@@ -112,6 +112,7 @@ setselections(const char *const *argv)
   int c, lno;
   struct varbuf namevb = VARBUF_INIT;
   struct varbuf selvb = VARBUF_INIT;
+  bool db_possibly_outdated = false;
 
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
@@ -163,6 +164,7 @@ setselections(const char *const *argv)
 
     if (!pkg_is_informative(pkg, &pkg->installed) &&
         !pkg_is_informative(pkg, &pkg->available)) {
+      db_possibly_outdated = true;
       warning(_("package not in database at line %d: %.250s"), lno, namevb.buf);
       continue;
     }
@@ -179,6 +181,10 @@ setselections(const char *const *argv)
   modstatdb_shutdown();
   varbuf_destroy(&namevb);
   varbuf_destroy(&selvb);
+
+  if (db_possibly_outdated)
+    warning(_("found unknown packages; this might mean the available database\n"
+              "is outdated, and needs to be updated through a frontend method"));
 
   return 0;
 }
