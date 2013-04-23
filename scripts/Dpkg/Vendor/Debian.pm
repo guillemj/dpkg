@@ -29,7 +29,6 @@ use base qw(Dpkg::Vendor::Default);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Types;
-use Dpkg::Vendor::Ubuntu;
 use Dpkg::BuildOptions;
 use Dpkg::Arch qw(get_host_arch debarch_to_debtriplet);
 
@@ -61,6 +60,8 @@ sub run_hook {
 	    }
 	}
 
+	# XXX: Layer violation...
+	require Dpkg::Vendor::Ubuntu;
 	my $b = Dpkg::Vendor::Ubuntu::find_launchpad_closes($ch_info->{'Changes'});
 	foreach my $bug (@$b) {
 	    $$textref .= "Bug-Ubuntu: https://bugs.launchpad.net/bugs/$bug\n";
