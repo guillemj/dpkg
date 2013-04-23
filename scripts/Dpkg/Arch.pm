@@ -1,4 +1,4 @@
-# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2013 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -399,7 +399,7 @@ sub debarch_eq($$)
     my @a = debarch_to_debtriplet($a);
     my @b = debarch_to_debtriplet($b);
 
-    return 0 if grep(!defined, (@a, @b)) or !scalar(@a) or !scalar(@b);
+    return 0 if scalar @a != 3 or scalar @b != 3;
 
     return ($a[0] eq $b[0] && $a[1] eq $b[1] && $a[2] eq $b[2]);
 }
@@ -413,7 +413,7 @@ sub debarch_is($$)
     my @real = debarch_to_debtriplet($real);
     my @alias = debwildcard_to_debtriplet($alias);
 
-    return 0 if grep(!defined, (@real, @alias)) or !scalar(@real) or !scalar(@alias);
+    return 0 if scalar @real != 3 or scalar @alias != 3;
 
     if (($alias[0] eq $real[0] || $alias[0] eq 'any') &&
         ($alias[1] eq $real[1] || $alias[1] eq 'any') &&
@@ -432,7 +432,7 @@ sub debarch_is_wildcard($)
 
     my @triplet = debwildcard_to_debtriplet($arch);
 
-    return 0 unless defined $triplet[0];
+    return 0 if scalar @triplet != 3;
     return 1 if (grep { $_ eq 'any' } @triplet);
     return 0;
 }
