@@ -399,7 +399,7 @@ sub debarch_eq($$)
     my @a = debarch_to_debtriplet($a);
     my @b = debarch_to_debtriplet($b);
 
-    return 0 if grep(!defined, (@a, @b));
+    return 0 if grep(!defined, (@a, @b)) or !scalar(@a) or !scalar(@b);
 
     return ($a[0] eq $b[0] && $a[1] eq $b[1] && $a[2] eq $b[2]);
 }
@@ -413,7 +413,7 @@ sub debarch_is($$)
     my @real = debarch_to_debtriplet($real);
     my @alias = debwildcard_to_debtriplet($alias);
 
-    return 0 if grep(!defined, (@real, @alias));
+    return 0 if grep(!defined, (@real, @alias)) or !scalar(@real) or !scalar(@alias);
 
     if (($alias[0] eq $real[0] || $alias[0] eq 'any') &&
         ($alias[1] eq $real[1] || $alias[1] eq 'any') &&
