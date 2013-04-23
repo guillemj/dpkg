@@ -20,10 +20,9 @@ use warnings;
 
 use Exporter qw(import);
 
-use vars qw(@EXPORT %config $VAR1);
-
-@EXPORT = qw(yesno do_connect do_mdtm add_site edit_site
-             edit_config read_config store_config view_mirrors nb);
+our @EXPORT = qw(%config yesno do_connect do_mdtm add_site edit_site
+                 edit_config read_config store_config view_mirrors nb);
+our %config;
 
 sub nb {
   my $nb = shift;
@@ -46,6 +45,7 @@ sub read_config {
   $code = <VARS>;
   close VARS;
 
+  my $VAR1;
   $conf = eval $code;
   die "Couldn't eval $vars content : $@\n" if ($@);
   if (ref($conf) =~ /HASH/) {

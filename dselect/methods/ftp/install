@@ -19,8 +19,6 @@
 use strict;
 use warnings;
 
-use vars qw(%config $ftp);
-
 eval q{
     use Net::FTP;
     use File::Path;
@@ -67,7 +65,7 @@ if (-f "$methdir/md5sums") {
     die "Couldn't read file $methdir/md5sums";
   my $code = <MD5SUMS>;
   close MD5SUMS;
-  use vars qw($VAL1);
+  my $VAR1;
   my $res = eval $code;
   if ($@) {
     die "Couldn't eval $methdir/md5sums content: $@\n";
