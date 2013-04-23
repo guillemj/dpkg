@@ -365,18 +365,19 @@ sub gnutriplet_to_debarch($)
 
 sub debwildcard_to_debtriplet($)
 {
-    local ($_) = @_;
+    my ($arch) = @_;
+    my @tuple = split /-/, $arch, 3;
 
-    if (/any/) {
-	if (/^([^-]*)-([^-]*)-(.*)/) {
-	    return ($1, $2, $3);
-	} elsif (/^([^-]*)-([^-]*)$/) {
-	    return ('any', $1, $2);
+    if (any { $_ eq 'any' } @tuple) {
+	if (scalar @tuple == 3) {
+	    return @tuple;
+	} elsif (scalar @tuple == 2) {
+	    return ('any', @tuple);
 	} else {
-	    return ($_, $_, $_);
+	    return ('any', 'any', 'any');
 	}
     } else {
-	return debarch_to_debtriplet($_);
+	return debarch_to_debtriplet($arch);
     }
 }
 
