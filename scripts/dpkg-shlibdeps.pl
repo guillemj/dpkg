@@ -24,7 +24,7 @@
 use strict;
 use warnings;
 
-use POSIX qw(:errno_h :signal_h);
+use POSIX qw(:errno_h);
 use Cwd qw(realpath);
 use File::Basename qw(dirname);
 

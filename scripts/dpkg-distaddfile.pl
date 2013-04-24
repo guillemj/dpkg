@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use POSIX;
-use POSIX qw(:errno_h :signal_h);
+use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
