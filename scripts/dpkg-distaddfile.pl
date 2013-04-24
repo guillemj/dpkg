@@ -92,6 +92,7 @@ if (open(my $fileslist_fh, '<', $fileslistfile)) {
         print($fileslistnew_fh "$_\n") ||
             syserr(_g("copy old entry to new files list file"));
     }
+    close $fileslist_fh or syserr(_g('cannot close %s'), $fileslistfile);
 } elsif ($! != ENOENT) {
     syserr(_g("read old files list file"));
 }
