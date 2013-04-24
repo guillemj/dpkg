@@ -199,7 +199,7 @@ if (not scalar @files) {
 	    /(\.so\.|\.so$)/ && -f $_ &&
 	    Dpkg::Shlibs::Objdump::is_elf($_);
 	} map { "$libdir/$_" } readdir($libdir_dh);
-	close($libdir_dh);
+	closedir $libdir_dh;
     }
 }
 
