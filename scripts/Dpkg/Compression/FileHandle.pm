@@ -232,7 +232,9 @@ sub FILENO {
 }
 
 sub EOF {
-    my ($self) = shift;
+    # Since perl 5.12, an integer parameter is passed describing how the
+    # function got called, just ignore it.
+    my ($self, $param) = (shift, shift);
     return *$self->{"file"}->eof(@_) if defined *$self->{"file"};
     return 1;
 }
