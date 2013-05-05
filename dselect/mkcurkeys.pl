@@ -45,7 +45,7 @@ for my $i (1 .. 26) {
     $let++;
 }
 
-our ($k, $v);
+my ($k, $v);
 
 open(my $header_fh, '<', $ARGV[1]) || die $!;
 while (<$header_fh>) {
@@ -84,7 +84,7 @@ for my $i (33 .. 126) {
     $k= $i;
     $v = pack('C', $i);
     if ($v eq ',') { $comma=$k; next; }
-    p();
+    p($k, $v);
 }
 
 ## no critic (BuiltinFunctions::ProhibitReverseSortBlock)
@@ -99,17 +99,14 @@ for $k (sort {
     $v= $name{$k} if defined($name{$k});
     $v= $over{$k} if defined($over{$k});
     next if $v eq '[elide]';
-    p();
+    p($k, $v);
 }
 
 for my $i (1 .. 63) {
-    $k= "KEY_F($i)"; $v= "F$i";
-    p();
+    p("KEY_F($i)", "F$i");
 }
 
-$k = $comma;
-$v = ',';
-p();
+p($comma, ',');
 
 print(<<'END') || die $!;
   { -1,              0                    }
@@ -133,6 +130,8 @@ sub capit {
 }
 
 sub p {
+    my ($k, $v) = @_;
+
     $v =~ s/["\\]/\\$&/g;
     printf("  { %-15s \"%-20s },\n",
            $k.',',
