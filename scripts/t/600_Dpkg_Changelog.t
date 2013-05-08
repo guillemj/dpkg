@@ -16,22 +16,11 @@
 use strict;
 use warnings;
 
+use Test::More tests => 84;
+
 use File::Basename;
 use Dpkg::File;
 
-BEGIN {
-    my $no_examples = 4;
-    my $no_err_examples = 1;
-    my $no_tests = $no_examples * 5
-	+ $no_err_examples * 2
-	+ 26 # countme
-	+ 13 # fields
-	+ 1  # regressions
-	+ 22;
-
-    require Test::More;
-    import Test::More tests => $no_tests;
-}
 BEGIN {
     use_ok('Dpkg::Changelog');
     use_ok('Dpkg::Changelog::Debian');
