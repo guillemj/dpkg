@@ -24,7 +24,6 @@ DPKG_DIST_CHECK([test "$GMSGFMT" = ":" && test "$USE_NLS" = "yes"],
 DPKG_BUILD_PROG([dselect])
 DPKG_BUILD_PROG([start-stop-daemon])
 DPKG_BUILD_PROG([update-alternatives])
-DPKG_BUILD_PROG([install-info])
 
 # Allow alternate directories
 DPKG_WITH_DIR([admindir], [${localstatedir}/lib/${PACKAGE_NAME}],
