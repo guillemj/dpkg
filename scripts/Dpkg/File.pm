@@ -39,12 +39,12 @@ sub file_lock($$) {
     if ($@) {
         warning(_g("File::FcntlLock not available; using flock which is not NFS-safe"));
         flock($fh, LOCK_EX) ||
-            syserr(_("failed to get a write lock on %s"), $filename);
+            syserr(_g("failed to get a write lock on %s"), $filename);
     } else {
         eval q{
             my $fs = File::FcntlLock->new(l_type => F_WRLCK);
             $fs->lock($fh, F_SETLKW) ||
-                syserr(_("failed to get a write lock on %s"), $filename);
+                syserr(_g("failed to get a write lock on %s"), $filename);
         }
     }
 }
