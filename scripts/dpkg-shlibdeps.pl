@@ -143,7 +143,7 @@ my $control = Dpkg::Control::Info->new();
 my $fields = $control->get_source();
 my $bd_value = deps_concat($fields->{'Build-Depends'}, $fields->{'Build-Depends-Arch'});
 my $build_deps = deps_parse($bd_value, build_dep => 1, reduce_arch => 1);
-error(_('error occurred while parsing %s'), 'Build-Depends/Build-Depends-Arch')
+error(_g('error occurred while parsing %s'), 'Build-Depends/Build-Depends-Arch')
     unless defined $build_deps;
 
 my %dependencies;
