@@ -148,12 +148,6 @@ update-po:
 	$(MAKE) -C dselect/po update-po
 	$(MAKE) -C man update-po
 
-.PHONY: ChangeLog
-DISTCLEANFILES = ChangeLog
-
-ChangeLog:
-	git log -C --stat 1.15.0.. >$@
-
 # If we create the dist tarball from the git repository, make sure
 # that we're not forgetting some files...
 dist-hook:
@@ -165,6 +159,7 @@ dist-hook:
 				exit 1 ; \
 			fi ; \
 		done ; \
+		git log -C --stat 1.15.0.. >$(distdir)/ChangeLog; \
 	fi
 
 clean-local: doc-clean coverage-clean check-clean
