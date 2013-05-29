@@ -293,7 +293,7 @@ sub restore_quilt_backup_files {
                 unless (link($_, $target)) {
                     copy($_, $target) ||
                         syserr(_g("failed to copy %s to %s"), $_, $target);
-                    chmod($target, (stat(_))[2]) ||
+                    chmod((stat(_))[2], $target) ||
                         syserr(_g("unable to change permission of `%s'"), $target);
                 }
             } else {
