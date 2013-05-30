@@ -15,7 +15,7 @@ AM_INIT_AUTOMAKE([1.8 foreign nostdinc no-dist-gzip dist-xz])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])],
                             [AC_SUBST([AM_DEFAULT_VERBOSITY], [1])])
 
-AM_GNU_GETTEXT_VERSION([0.18])
+AM_GNU_GETTEXT_VERSION([0.18.2])
 AM_GNU_GETTEXT([external])
 DPKG_DIST_CHECK([test "$GMSGFMT" = ":" && test "$USE_NLS" = "yes"],
                 [gettext required when NLS support enabled])

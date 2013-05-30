@@ -11,8 +11,6 @@ top_builddir = ..
 XGETTEXT_OPTIONS = --from-code=UTF-8 --keyword=_ --keyword=N_ \
                    --keyword=P_:1,2 --keyword=C_:1c,2
 
-MSGMERGE_OPTIONS = --previous
-
 # This is the copyright holder that gets inserted into the header of the
 # $(DOMAIN).pot file.  Set this to the copyright holder of the surrounding
 # package.  (Note that the msgstr strings, extracted from the package's
@@ -42,5 +40,17 @@ MSGID_BUGS_ADDRESS = $(PACKAGE_BUGREPORT)
 # This is the list of locale categories, beyond LC_MESSAGES, for which the
 # message catalogs shall be used.  It is usually empty.
 EXTRA_LOCALE_CATEGORIES =
+
+# This tells whether the $(DOMAIN).pot file contains messages with an 'msgctxt'
+# context.  Possible values are "yes" and "no".  Set this to yes if the
+# package uses functions taking also a message context, like pgettext(), or
+# if in $(XGETTEXT_OPTIONS) you define keywords with a context argument.
+USE_MSGCTXT = yes
+
+# These options get passed to msgmerge.
+# Useful options are in particular:
+#   --previous            to keep previous msgids of translated messages,
+#   --quiet               to reduce the verbosity.
+MSGMERGE_OPTIONS = --previous
 
 DISTFILES.extra1 = ChangeLog.old
