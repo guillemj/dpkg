@@ -65,469 +65,570 @@ use constant {
 # Note that fields used only in dpkg's available file are not listed
 # Deprecated fields of dpkg's status file are also not listed
 our %FIELDS = (
-    'Architecture' => {
+    'architecture' => {
+        name => 'Architecture',
         allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES) & (~CTRL_INFO_SRC),
         separator => FIELD_SEP_SPACE,
     },
-    'Architectures' => {
+    'architectures' => {
+        name => 'Architectures',
         allowed => CTRL_REPO_RELEASE,
         separator => FIELD_SEP_SPACE,
     },
-    'Auto-Built-Package' => {
+    'auto-built-package' => {
+        name => 'Auto-Built-Package',
         allowed => ALL_PKG & ~CTRL_INFO_PKG,
         separator => FIELD_SEP_SPACE,
     },
-    'Binary' => {
+    'binary' => {
+        name => 'Binary',
         allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES,
         # XXX: This field values are separated either by space or comma
         # depending on the context.
         separator => FIELD_SEP_SPACE | FIELD_SEP_COMMA,
     },
-    'Binary-Only' => {
+    'binary-only' => {
+        name => 'Binary-Only',
         allowed => ALL_CHANGES,
     },
-    'Binary-Only-Changes' => {
+    'binary-only-changes' => {
+        name => 'Binary-Only-Changes',
         allowed => CTRL_FILE_BUILDINFO,
     },
-    'Breaks' => {
+    'breaks' => {
+        name => 'Breaks',
         allowed => ALL_PKG,
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 7,
     },
-    'Bugs' => {
+    'bugs' => {
+        name => 'Bugs',
         allowed => (ALL_PKG | CTRL_INFO_SRC | CTRL_FILE_VENDOR) & (~CTRL_INFO_PKG),
     },
-    'Build-Architecture' => {
+    'build-architecture' => {
+        name => 'Build-Architecture',
         allowed => CTRL_FILE_BUILDINFO,
     },
-    'Build-Conflicts' => {
+    'build-conflicts' => {
+        name => 'Build-Conflicts',
         allowed => ALL_SRC,
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 4,
     },
-    'Build-Conflicts-Arch' => {
+    'build-conflicts-arch' => {
+        name => 'Build-Conflicts-Arch',
         allowed => ALL_SRC,
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 5,
     },
-    'Build-Conflicts-Indep' => {
+    'build-conflicts-indep' => {
+        name => 'Build-Conflicts-Indep',
         allowed => ALL_SRC,
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 6,
     },
-    'Build-Date' => {
+    'build-date' => {
+        name => 'Build-Date',
         allowed => CTRL_FILE_BUILDINFO,
     },
-    'Build-Depends' => {
+    'build-depends' => {
+        name => 'Build-Depends',
         allowed => ALL_SRC,
         separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 1,
     },
-    'Build-Depends-Arch' => {
+    'build-depends-arch' => {
+        name => 'Build-Depends-Arch',
         allowed => ALL_SRC,
         separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 2,
     },
-    'Build-Depends-Indep' => {
+    'build-depends-indep' => {
+        name => 'Build-Depends-Indep',
         allowed => ALL_SRC,
         separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 3,
     },
-    'Build-Essential' => {
+    'build-essential' => {
+        name => 'Build-Essential',
         allowed => ALL_PKG,
     },
-    'Build-Origin' => {
+    'build-origin' => {
+        name => 'Build-Origin',
         allowed => CTRL_FILE_BUILDINFO,
     },
-    'Build-Path' => {
+    'build-path' => {
+        name => 'Build-Path',
         allowed => CTRL_FILE_BUILDINFO,
     },
-    'Build-Profiles' => {
+    'build-profiles' => {
+        name => 'Build-Profiles',
         allowed => CTRL_INFO_PKG,
         separator => FIELD_SEP_SPACE,
     },
-    'Built-For-Profiles' => {
+    'built-for-profiles' => {
+        name => 'Built-For-Profiles',
         allowed => ALL_PKG | CTRL_FILE_CHANGES,
         separator => FIELD_SEP_SPACE,
     },
-    'Built-Using' => {
+    'built-using' => {
+        name => 'Built-Using',
         allowed => ALL_PKG,
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 10,
     },
-    'Changed-By' => {
+    'changed-by' => {
+        name => 'Changed-By',
         allowed => CTRL_FILE_CHANGES,
     },
-    'Changelogs' => {
+    'changelogs' => {
+        name => 'Changelogs',
         allowed => CTRL_REPO_RELEASE,
     },
-    'Changes' => {
+    'changes' => {
+        name => 'Changes',
         allowed => ALL_CHANGES,
     },
-    'Classes' => {
+    'classes' => {
+        name => 'Classes',
         allowed => CTRL_TESTS,
         separator => FIELD_SEP_COMMA,
     },
-    'Closes' => {
+    'closes' => {
+        name => 'Closes',
         allowed => ALL_CHANGES,
         separator => FIELD_SEP_SPACE,
     },
-    'Codename' => {
+    'codename' => {
+        name => 'Codename',
         allowed => CTRL_REPO_RELEASE,
     },
-    'Comment' => {
+    'comment' => {
+        name => 'Comment',
         allowed => ALL_COPYRIGHT,
     },
-    'Components' => {
+    'components' => {
+        name => 'Components',
         allowed => CTRL_REPO_RELEASE,
         separator => FIELD_SEP_SPACE,
     },
-    'Conffiles' => {
+    'conffiles' => {
+        name => 'Conffiles',
         allowed => CTRL_FILE_STATUS,
         separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
-    'Config-Version' => {
+    'config-version' => {
+        name => 'Config-Version',
         allowed => CTRL_FILE_STATUS,
     },
-    'Conflicts' => {
+    'conflicts' => {
+        name => 'Conflicts',
         allowed => ALL_PKG,
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 6,
     },
-    'Copyright' => {
+    'copyright' => {
+        name => 'Copyright',
         allowed => CTRL_COPYRIGHT_HEADER | CTRL_COPYRIGHT_FILES,
     },
-    'Date' => {
+    'date' => {
+        name => 'Date',
         allowed => ALL_CHANGES | CTRL_REPO_RELEASE,
     },
-    'Depends' => {
+    'depends' => {
+        name => 'Depends',
         allowed => ALL_PKG | CTRL_TESTS,
         separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 2,
     },
-    'Description' => {
+    'description' => {
+        name => 'Description',
         allowed => ALL_PKG | CTRL_FILE_CHANGES | CTRL_REPO_RELEASE,
     },
-    'Disclaimer' => {
+    'disclaimer' => {
+        name => 'Disclaimer',
         allowed => CTRL_COPYRIGHT_HEADER,
     },
-    'Directory' => {
+    'directory' => {
+        name => 'Directory',
         allowed => CTRL_INDEX_SRC,
     },
-    'Distribution' => {
+    'distribution' => {
+        name => 'Distribution',
         allowed => ALL_CHANGES,
     },
-    'Enhances' => {
+    'enhances' => {
+        name => 'Enhances',
         allowed => ALL_PKG,
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 5,
     },
-    'Environment' => {
+    'environment' => {
+        name => 'Environment',
         allowed => CTRL_FILE_BUILDINFO,
         separator => FIELD_SEP_LINE,
     },
-    'Essential' => {
+    'essential' => {
+        name => 'Essential',
         allowed => ALL_PKG,
     },
-    'Features' => {
+    'features' => {
+        name => 'Features',
         allowed => CTRL_TESTS,
         separator => FIELD_SEP_SPACE,
     },
-    'Filename' => {
+    'filename' => {
+        name => 'Filename',
         allowed => CTRL_INDEX_PKG,
         separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
-    'Files' => {
+    'files' => {
+        name => 'Files',
         allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_COPYRIGHT_FILES,
         separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
-    'Format' => {
+    'format' => {
+        name => 'Format',
         allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_COPYRIGHT_HEADER | CTRL_FILE_BUILDINFO,
     },
-    'Homepage' => {
+    'homepage' => {
+        name => 'Homepage',
         allowed => ALL_SRC | ALL_PKG,
     },
-    'Installed-Build-Depends' => {
+    'installed-build-depends' => {
+        name => 'Installed-Build-Depends',
         allowed => CTRL_FILE_BUILDINFO,
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 11,
     },
-    'Installed-Size' => {
+    'installed-size' => {
+        name => 'Installed-Size',
         allowed => ALL_PKG & ~CTRL_INFO_PKG,
     },
-    'Installer-Menu-Item' => {
+    'installer-menu-item' => {
+        name => 'Installer-Menu-Item',
         allowed => ALL_PKG,
     },
-    'Kernel-Version' => {
+    'kernel-version' => {
+        name => 'Kernel-Version',
         allowed => ALL_PKG,
     },
-    'Label' => {
+    'label' => {
+        name => 'Label',
         allowed => CTRL_REPO_RELEASE,
     },
-    'License' => {
+    'license' => {
+        name => 'License',
         allowed => ALL_COPYRIGHT,
     },
-    'Origin' => {
+    'origin' => {
+        name => 'Origin',
         allowed => (ALL_PKG | ALL_SRC | CTRL_REPO_RELEASE) & (~CTRL_INFO_PKG),
     },
-    'Maintainer' => {
+    'maintainer' => {
+        name => 'Maintainer',
         allowed => CTRL_PKG_DEB| CTRL_INDEX_PKG | CTRL_FILE_STATUS | ALL_SRC  | ALL_CHANGES,
     },
-    'Multi-Arch' => {
+    'multi-arch' => {
+        name => 'Multi-Arch',
         allowed => ALL_PKG,
     },
-    'Package' => {
+    'package' => {
+        name => 'Package',
         allowed => ALL_PKG | CTRL_INDEX_SRC,
     },
-    'Package-List' => {
+    'package-list' => {
+        name => 'Package-List',
         allowed => ALL_SRC & ~CTRL_INFO_SRC,
         separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
-    'Package-Type' => {
+    'package-type' => {
+        name => 'Package-Type',
         allowed => ALL_PKG,
     },
-    'Parent' => {
+    'parent' => {
+        name => 'Parent',
         allowed => CTRL_FILE_VENDOR,
     },
-    'Pre-Depends' => {
+    'pre-depends' => {
+        name => 'Pre-Depends',
         allowed => ALL_PKG,
         separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 1,
     },
-    'Priority' => {
+    'priority' => {
+        name => 'Priority',
         allowed => CTRL_INFO_SRC | CTRL_INDEX_SRC | ALL_PKG,
     },
-    'Provides' => {
+    'provides' => {
+        name => 'Provides',
         allowed => ALL_PKG,
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 9,
     },
-    'Recommends' => {
+    'recommends' => {
+        name => 'Recommends',
         allowed => ALL_PKG,
         separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 3,
     },
-    'Replaces' => {
+    'replaces' => {
+        name => 'Replaces',
         allowed => ALL_PKG,
         separator => FIELD_SEP_COMMA,
         dependency => 'union',
         dep_order => 8,
     },
-    'Restrictions' => {
+    'restrictions' => {
+        name => 'Restrictions',
         allowed => CTRL_TESTS,
         separator => FIELD_SEP_SPACE,
     },
-    'Section' => {
+    'section' => {
+        name => 'Section',
         allowed => CTRL_INFO_SRC | CTRL_INDEX_SRC | ALL_PKG,
     },
-    'Size' => {
+    'size' => {
+        name => 'Size',
         allowed => CTRL_INDEX_PKG,
         separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
-    'Source' => {
+    'source' => {
+        name => 'Source',
         allowed => (ALL_PKG | ALL_SRC | ALL_CHANGES | CTRL_COPYRIGHT_HEADER | CTRL_FILE_BUILDINFO) &
                    (~(CTRL_INDEX_SRC | CTRL_INFO_PKG)),
     },
-    'Standards-Version' => {
+    'standards-version' => {
+        name => 'Standards-Version',
         allowed => ALL_SRC,
     },
-    'Status' => {
+    'status' => {
+        name => 'Status',
         allowed => CTRL_FILE_STATUS,
         separator => FIELD_SEP_SPACE,
     },
-    'Subarchitecture' => {
+    'subarchitecture' => {
+        name => 'Subarchitecture',
         allowed => ALL_PKG,
     },
-    'Suite' => {
+    'suite' => {
+        name => 'Suite',
         allowed => CTRL_REPO_RELEASE,
     },
-    'Suggests' => {
+    'suggests' => {
+        name => 'Suggests',
         allowed => ALL_PKG,
         separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 4,
     },
-    'Tag' => {
+    'tag' => {
+        name => 'Tag',
         allowed => ALL_PKG,
         separator => FIELD_SEP_COMMA,
     },
-    'Task' => {
+    'task' => {
+        name => 'Task',
         allowed => ALL_PKG,
     },
-    'Test-Command' => {
+    'test-command' => {
+        name => 'Test-Command',
         allowed => CTRL_TESTS,
     },
-    'Tests' => {
+    'tests' => {
+        name => 'Tests',
         allowed => CTRL_TESTS,
         separator => FIELD_SEP_SPACE,
     },
-    'Tests-Directory' => {
+    'tests-directory' => {
+        name => 'Tests-Directory',
         allowed => CTRL_TESTS,
     },
-    'Testsuite' => {
+    'testsuite' => {
+        name => 'Testsuite',
         allowed => ALL_SRC,
         separator => FIELD_SEP_COMMA,
     },
-    'Testsuite-Triggers' => {
+    'testsuite-triggers' => {
+        name => 'Testsuite-Triggers',
         allowed => ALL_SRC,
         separator => FIELD_SEP_COMMA,
     },
-    'Timestamp' => {
+    'timestamp' => {
+        name => 'Timestamp',
         allowed => CTRL_CHANGELOG,
     },
-    'Triggers-Awaited' => {
+    'triggers-awaited' => {
+        name => 'Triggers-Awaited',
         allowed => CTRL_FILE_STATUS,
         separator => FIELD_SEP_SPACE,
     },
-    'Triggers-Pending' => {
+    'triggers-pending' => {
+        name => 'Triggers-Pending',
         allowed => CTRL_FILE_STATUS,
         separator => FIELD_SEP_SPACE,
     },
-    'Uploaders' => {
+    'uploaders' => {
+        name => 'Uploaders',
         allowed => ALL_SRC,
         separator => FIELD_SEP_COMMA,
     },
-    'Upstream-Name' => {
+    'upstream-name' => {
+        name => 'Upstream-Name',
         allowed => CTRL_COPYRIGHT_HEADER,
     },
-    'Upstream-Contact' => {
+    'upstream-contact' => {
+        name => 'Upstream-Contact',
         allowed => CTRL_COPYRIGHT_HEADER,
     },
-    'Urgency' => {
+    'urgency' => {
+        name => 'Urgency',
         allowed => ALL_CHANGES,
     },
-    'Valid-Until' => {
+    'valid-until' => {
+        name => 'Valid-Until',
         allowed => CTRL_REPO_RELEASE,
     },
-    'Vcs-Browser' => {
+    'vcs-browser' => {
+        name => 'Vcs-Browser',
         allowed => ALL_SRC,
     },
-    'Vcs-Arch' => {
+    'vcs-arch' => {
+        name => 'Vcs-Arch',
         allowed => ALL_SRC,
     },
-    'Vcs-Bzr' => {
+    'vcs-bzr' => {
+        name => 'Vcs-Bzr',
         allowed => ALL_SRC,
     },
-    'Vcs-Cvs' => {
+    'vcs-cvs' => {
+        name => 'Vcs-Cvs',
         allowed => ALL_SRC,
     },
-    'Vcs-Darcs' => {
+    'vcs-darcs' => {
+        name => 'Vcs-Darcs',
         allowed => ALL_SRC,
     },
-    'Vcs-Git' => {
+    'vcs-git' => {
+        name => 'Vcs-Git',
         allowed => ALL_SRC,
     },
-    'Vcs-Hg' => {
+    'vcs-hg' => {
+        name => 'Vcs-Hg',
         allowed => ALL_SRC,
     },
-    'Vcs-Mtn' => {
+    'vcs-mtn' => {
+        name => 'Vcs-Mtn',
         allowed => ALL_SRC,
     },
-    'Vcs-Svn' => {
+    'vcs-svn' => {
+        name => 'Vcs-Svn',
         allowed => ALL_SRC,
     },
-    'Vendor' => {
+    'vendor' => {
+        name => 'Vendor',
         allowed => CTRL_FILE_VENDOR,
     },
-    'Vendor-Url' => {
+    'vendor-url' => {
+        name => 'Vendor-Url',
         allowed => CTRL_FILE_VENDOR,
     },
-    'Version' => {
+    'version' => {
+        name => 'Version',
         allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | ALL_CHANGES) &
                     (~(CTRL_INFO_SRC | CTRL_INFO_PKG)),
     },
 );
 
-my @checksum_fields = map { &field_capitalize("Checksums-$_") } checksums_get_list();
-my @sum_fields = map { $_ eq 'md5' ? 'MD5sum' : &field_capitalize($_) }
-                 checksums_get_list();
+my @checksum_fields = map { lc "checksums-$_" } checksums_get_list();
+my @sum_fields = map { $_ eq 'md5' ? 'md5sum' : lc } checksums_get_list();
 &field_register($_, CTRL_INDEX_SRC | CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO) foreach @checksum_fields;
 &field_register($_, CTRL_INDEX_PKG | CTRL_REPO_RELEASE,
                 separator => FIELD_SEP_LINE | FIELD_SEP_SPACE) foreach @sum_fields;
 
 our %FIELD_ORDER = (
     CTRL_PKG_DEB() => [
-        qw(Package Package-Type Source Version Built-Using Kernel-Version
-        Built-For-Profiles Auto-Built-Package Architecture Subarchitecture
-        Installer-Menu-Item Build-Essential Essential Origin Bugs
-        Maintainer Installed-Size), &field_list_pkg_dep(),
-        qw(Section Priority Multi-Arch Homepage Description Tag Task)
+        qw(package package-type source version built-using kernel-version
+        built-for-profiles auto-built-package architecture subarchitecture
+        installer-menu-item build-essential essential origin bugs
+        maintainer installed-size), map { lc } &field_list_pkg_dep(),
+        qw(section priority multi-arch homepage description tag task)
     ],
     CTRL_PKG_SRC() => [
-        qw(Format Source Binary Architecture Version Origin Maintainer
-        Uploaders Homepage Standards-Version Vcs-Browser
-        Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn
-        Vcs-Svn Testsuite Testsuite-Triggers), &field_list_src_dep(),
-        qw(Package-List), @checksum_fields, qw(Files)
+        qw(format source binary architecture version origin maintainer
+        uploaders homepage standards-version vcs-browser
+        vcs-arch vcs-bzr vcs-cvs vcs-darcs vcs-git vcs-hg vcs-mtn
+        vcs-svn testsuite testsuite-triggers), map { lc } &field_list_src_dep(),
+        qw(package-list), @checksum_fields, qw(files)
     ],
     CTRL_FILE_BUILDINFO() => [
-        qw(Format Source Binary Architecture Version
-        Binary-Only-Changes),
+        qw(format source binary architecture version
+        binary-only-changes),
         @checksum_fields,
-        qw(Build-Origin Build-Architecture Build-Date Build-Path
-           Installed-Build-Depends Environment),
+        qw(build-origin build-architecture build-date build-path
+           installed-build-depends environment),
     ],
     CTRL_FILE_CHANGES() => [
-        qw(Format Date Source Binary Binary-Only Built-For-Profiles Architecture
-        Version Distribution Urgency Maintainer Changed-By Description
-        Closes Changes),
-        @checksum_fields, qw(Files)
+        qw(format date source binary binary-only built-for-profiles architecture
+        version distribution urgency maintainer changed-by description
+        closes changes),
+        @checksum_fields, qw(files)
     ],
     CTRL_CHANGELOG() => [
-        qw(Source Binary-Only Version Distribution Urgency Maintainer
-        Timestamp Date Closes Changes)
+        qw(source binary-only version distribution urgency maintainer
+        timestamp date closes changes)
     ],
     CTRL_FILE_STATUS() => [
         # Same as fieldinfos in lib/dpkg/parse.c
-        qw(Package Essential Status Priority Section Installed-Size Origin
-        Maintainer Bugs Architecture Multi-Arch Source Version Config-Version
-        Replaces Provides Depends Pre-Depends Recommends Suggests Breaks
-        Conflicts Enhances Conffiles Description Triggers-Pending
-        Triggers-Awaited),
+        qw(package essential status priority section installed-size origin
+        maintainer bugs architecture multi-arch source version config-version
+        replaces provides depends pre-depends recommends suggests breaks
+        conflicts enhances conffiles description triggers-pending
+        triggers-awaited),
         # These are allowed here, but not tracked by lib/dpkg/parse.c.
-        qw(Auto-Built-Package Build-Essential Built-For-Profiles Built-Using
-        Homepage Installer-Menu-Item Kernel-Version Package-Type
-        Subarchitecture Tag Task)
+        qw(auto-built-package build-essential built-for-profiles built-using
+        homepage installer-menu-item kernel-version package-type
+        subarchitecture tag task)
     ],
     CTRL_REPO_RELEASE() => [
-        qw(Origin Label Suite Codename Changelogs Date Valid-Until
-        Architectures Components Description), @sum_fields
+        qw(origin label suite codename changelogs date valid-until
+        architectures components description), @sum_fields
     ],
     CTRL_COPYRIGHT_HEADER() => [
-        qw(Format Upstream-Name Upstream-Contact Source Disclaimer Comment
-        License Copyright)
+        qw(format upstream-name upstream-contact source disclaimer comment
+        license copyright)
     ],
     CTRL_COPYRIGHT_FILES() => [
-        qw(Files Copyright License Comment)
+        qw(files copyright license comment)
     ],
     CTRL_COPYRIGHT_LICENSE() => [
-        qw(License Comment)
+        qw(license comment)
     ],
 );
 # Order for CTRL_INDEX_PKG is derived from CTRL_PKG_DEB
 $FIELD_ORDER{CTRL_INDEX_PKG()} = [ @{$FIELD_ORDER{CTRL_PKG_DEB()}} ];
-&field_insert_before(CTRL_INDEX_PKG, 'Section', 'Filename', 'Size', @sum_fields);
+&field_insert_before(CTRL_INDEX_PKG, 'section', 'filename', 'size', @sum_fields);
 # Order for CTRL_INDEX_SRC is derived from CTRL_PKG_SRC
 $FIELD_ORDER{CTRL_INDEX_SRC()} = [ @{$FIELD_ORDER{CTRL_PKG_SRC()}} ];
-@{$FIELD_ORDER{CTRL_INDEX_SRC()}} = map { $_ eq 'Source' ? 'Package' : $_ }
+@{$FIELD_ORDER{CTRL_INDEX_SRC()}} = map { $_ eq 'source' ? 'package' : $_ }
                                   @{$FIELD_ORDER{CTRL_PKG_SRC()}};
-&field_insert_after(CTRL_INDEX_SRC, 'Version', 'Priority', 'Section');
-&field_insert_before(CTRL_INDEX_SRC, 'Checksums-Md5', 'Directory');
+&field_insert_after(CTRL_INDEX_SRC, 'version', 'priority', 'section');
+&field_insert_before(CTRL_INDEX_SRC, 'checksums-md5', 'directory');
 
 =encoding utf8
 
@@ -554,9 +655,14 @@ except the first of each word (words are separated by a hyphen in field names).
 
 sub field_capitalize($) {
     my $field = lc(shift);
+
+    # Use known fields first.
+    return $FIELDS{$field}{name} if exists $FIELDS{$field};
+
     # Some special cases due to history
     return 'MD5sum' if $field eq 'md5sum';
     return uc($field) if checksums_is_supported($field);
+
     # Generic case
     return join '-', map { ucfirst } split /-/, $field;
 }
@@ -568,7 +674,7 @@ Returns true if the field is official and known.
 =cut
 
 sub field_is_official($) {
-    my $field = field_capitalize(shift);
+    my $field = lc shift;
 
     return exists $FIELDS{$field};
 }
@@ -588,8 +694,9 @@ Undef is returned for non-official fields.
 
 sub field_is_allowed_in($@) {
     my ($field, @types) = @_;
-    $field = field_capitalize($field);
-    return unless field_is_official($field);
+    $field = lc $field;
+
+    return unless exists $FIELDS{$field};
 
     return 0 if not scalar(@types);
     foreach my $type (@types) {
@@ -681,7 +788,10 @@ The list might be empty for types where the order does not matter much.
 
 sub field_ordered_list($) {
     my $type = shift;
-    return @{$FIELD_ORDER{$type}} if exists $FIELD_ORDER{$type};
+
+    if (exists $FIELD_ORDER{$type}) {
+        return map { $FIELDS{$_}{name} } @{$FIELD_ORDER{$type}};
+    }
     return ();
 }
 
@@ -693,7 +803,9 @@ Debian package.
 =cut
 
 sub field_list_src_dep() {
-    my @list = sort {
+    my @list = map {
+        $FIELDS{$_}{name}
+    } sort {
         $FIELDS{$a}{dep_order} <=> $FIELDS{$b}{dep_order}
     } grep {
         field_is_allowed_in($_, CTRL_PKG_SRC) and
@@ -711,13 +823,14 @@ the stronger to the weaker.
 =cut
 
 sub field_list_pkg_dep() {
-    my @keys = keys %FIELDS;
-    my @list = sort {
+    my @list = map {
+        $FIELDS{$_}{name}
+    } sort {
         $FIELDS{$a}{dep_order} <=> $FIELDS{$b}{dep_order}
     } grep {
         field_is_allowed_in($_, CTRL_PKG_DEB) and
         exists $FIELDS{$_}{dependency}
-    } @keys;
+    } keys %FIELDS;
     return @list;
 }
 
@@ -731,9 +844,9 @@ Breaks, ...). Returns undef for fields which are not dependencies.
 =cut
 
 sub field_get_dep_type($) {
-    my $field = field_capitalize(shift);
+    my $field = lc shift;
 
-    return unless field_is_official($field);
+    return unless exists $FIELDS{$field};
     return $FIELDS{$field}{dependency} if exists $FIELDS{$field}{dependency};
     return;
 }
@@ -746,7 +859,7 @@ FIELD_SEP_SPACE, FIELD_SEP_COMMA or FIELD_SEP_LINE.
 =cut
 
 sub field_get_sep_type($) {
-    my $field = field_capitalize(shift);
+    my $field = lc shift;
 
     return $FIELDS{$field}{separator} if exists $FIELDS{$field}{separator};
     return FIELD_SEP_UNKNOWN;
@@ -761,8 +874,9 @@ types. %opts is optional
 
 sub field_register($$;@) {
     my ($field, $types, %opts) = @_;
-    $field = field_capitalize($field);
+    $field = lc $field;
     $FIELDS{$field} = {
+        name => field_capitalize($field),
         allowed => $types,
         %opts
     };
@@ -777,7 +891,7 @@ type $type.
 sub field_insert_after($$@) {
     my ($type, $field, @fields) = @_;
     return 0 if not exists $FIELD_ORDER{$type};
-    ($field, @fields) = map { field_capitalize($_) } ($field, @fields);
+    ($field, @fields) = map { lc } ($field, @fields);
     @{$FIELD_ORDER{$type}} = map {
         ($_ eq $field) ? ($_, @fields) : $_
     } @{$FIELD_ORDER{$type}};
@@ -793,7 +907,7 @@ type $type.
 sub field_insert_before($$@) {
     my ($type, $field, @fields) = @_;
     return 0 if not exists $FIELD_ORDER{$type};
-    ($field, @fields) = map { field_capitalize($_) } ($field, @fields);
+    ($field, @fields) = map { lc } ($field, @fields);
     @{$FIELD_ORDER{$type}} = map {
         ($_ eq $field) ? (@fields, $_) : $_
     } @{$FIELD_ORDER{$type}};
