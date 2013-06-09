@@ -11,6 +11,9 @@ dpkg (1.16.11) UNRELEASED; urgency=low
   [ Guillem Jover ]
   * Fix chmod() arguments order in Dpkg::Source::Quilt. Closes: #710265
     Thanks to Pablo Oliveira <pablo@sifflez.org>.
+  * Only ignore older packages if the existing version is informative. This
+    allows any program using libdpkg to parse the available file to see again
+    packages with versions lesser than 0-0 (like 0~0-0). Closes: #676664
 
   [ Updated programs translations ]
   * Vietnamese (Trần Ngọc Quân). Closes: #715334

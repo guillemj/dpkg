@@ -742,6 +742,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       db_pkgbin = &db_pkg->installed;
 
     if (((flags & pdb_ignoreolder) || ps.type == pdb_file_available) &&
+        dpkg_version_is_informative(&db_pkgbin->version) &&
         dpkg_version_compare(&new_pkgbin->version, &db_pkgbin->version) < 0)
       continue;
 
