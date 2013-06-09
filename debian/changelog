@@ -79,6 +79,9 @@ dpkg (1.17.0) UNRELEASED; urgency=low
   * Remove update-alternatives, dpkg-divert and dpkg-statoverride
     compatibility symlinks under /usr/sbin/.
   * Remove install-info wrapper.
+  * Only ignore older packages if the existing version is informative. This
+    allows any program using libdpkg to parse the available file to see again
+    packages with versions lesser than 0-0 (like 0~0-0). Closes: #676664
 
   [ Updated manpages translations ]
   * Fix incorrect translation of "fortify" in French manpage for dpkg-buildflags
