@@ -78,6 +78,7 @@ sub load_vendor_defaults {
 	CPPFLAGS => '',
 	CFLAGS   => $default_flags,
 	CXXFLAGS => $default_flags,
+	GCJFLAGS => $default_flags,
 	FFLAGS   => $default_flags,
 	LDFLAGS  => '',
     };
@@ -85,6 +86,7 @@ sub load_vendor_defaults {
 	CPPFLAGS => 'vendor',
 	CFLAGS   => 'vendor',
 	CXXFLAGS => 'vendor',
+	GCJFLAGS => 'vendor',
 	FFLAGS   => 'vendor',
 	LDFLAGS  => 'vendor',
     };
@@ -92,6 +94,7 @@ sub load_vendor_defaults {
 	CPPFLAGS => 0,
 	CFLAGS   => 0,
 	CXXFLAGS => 0,
+	GCJFLAGS => 0,
 	FFLAGS   => 0,
 	LDFLAGS  => 0,
     };

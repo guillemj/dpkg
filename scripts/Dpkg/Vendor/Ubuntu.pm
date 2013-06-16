@@ -97,7 +97,7 @@ sub run_hook {
 	my $flags = shift @params;
 
 	if (debarch_eq(get_host_arch(), 'ppc64')) {
-	    for my $flag (qw(CFLAGS CXXFLAGS FFLAGS)) {
+	    for my $flag (qw(CFLAGS CXXFLAGS GCJFLAGS FFLAGS)) {
 		$flags->set($flag, '-g -O3', 'vendor');
 	    }
 	}

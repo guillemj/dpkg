@@ -3,6 +3,7 @@
 # CFLAGS: flags for the C compiler
 # CPPFLAGS: flags for the C preprocessor
 # CXXFLAGS: flags for the C++ compiler
+# GCJFLAGS: flags for the GNU Java compiler
 # FFLAGS: flags for the Fortran compiler
 # LDFLAGS: flags for the linker
 #
@@ -14,7 +15,7 @@
 
 dpkg_late_eval ?= $(or $(value DPKG_CACHE_$(1)),$(eval DPKG_CACHE_$(1) := $(shell $(2)))$(value DPKG_CACHE_$(1)))
 
-DPKG_BUILDFLAGS_LIST = CFLAGS CPPFLAGS CXXFLAGS FFLAGS LDFLAGS
+DPKG_BUILDFLAGS_LIST = CFLAGS CPPFLAGS CXXFLAGS GCJFLAGS FFLAGS LDFLAGS
 
 define dpkg_buildflags_export_envvar
 ifdef $(1)
