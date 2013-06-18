@@ -280,9 +280,8 @@ extracting the original tarball in a separate ".orig" directory and
 regenerating the \fB.diff.gz\fP by comparing the source package
 \fIdirectory\fP with the .orig directory.
 
-.TP
 .B Build options (with \-b):
-.PP
+
 If a second non-option argument is supplied it should be the name of the
 original source directory or tarfile or the empty string if the package is
 a Debian-specific one and so has no Debianisation diffs. If no second
@@ -299,6 +298,7 @@ will not overwrite existing tarfiles or directories. If this is
 desired then
 .BR \-sA ", " \-sP ", " \-sK ", " \-sU " and " \-sR
 should be used instead.
+.PP
 .TP
 .BR \-sk
 Specifies to expect the original source as a tarfile, by default
@@ -373,9 +373,8 @@ outside of the debian sub-directory. This option is not allowed in
 \fBdebian/source/options\fP but can be used in
 \fBdebian/source/local\-options\fP.
 
-.TP
 .B Extract options (with \-x):
-.PP
+
 In all cases any existing original source tree will be removed.
 .TP
 .B \-sp
@@ -701,6 +700,9 @@ directory), you will get this error message.
 Empty files can't be created with patch files. Thus this change is not
 recorded in the source package and you are warned about it.
 .SS executable mode \fIperms\fB of \fIfile\fB will not be represented in diff
+Patch files do not record permissions of files and thus executable
+permissions are not stored in the source package. This warning reminds you
+of that fact.
 .SS special mode \fIperms\fB of \fIfile\fB will not be represented in diff
 Patch files do not record permissions of files and thus modified
 permissions are not stored in the source package. This warning reminds you
@@ -742,8 +744,7 @@ Exactly like \fBdebian/source/options\fP except that the file is not
 included in the generated source package. It can be useful to store
 a preference tied to the maintainer or to the VCS repository where
 the source package is maintained.
-.SS debian/source/local\-patch\-header
-.SS debian/source/patch\-header
+.SS debian/source/local\-patch\-header and debian/source/patch\-header
 Free form text that is put on top of the automatic patch generated
 in formats "2.0" or "3.0 (quilt)". \fBlocal\-patch\-header\fP is not
 included in the generated source package while \fBpatch\-header\fP is.
