@@ -27,7 +27,7 @@ dist_pkgdata_DATA = \
 EXTRA_DIST = \
 	.mailmap \
 	ChangeLog.old \
-	README.translators \
+	README.l10n \
 	get-version \
 	run-script \
 	doc/README.api \
