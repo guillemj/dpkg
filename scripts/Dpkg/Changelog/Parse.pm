@@ -54,7 +54,7 @@ failed, it will die.
 
 The parsing itself is done by an external program (searched in the
 following list of directories: $opt{libdir},
-/usr/local/lib/dpkg/parsechangelog, /usr/lib/dpkg/parsechangelog) That
+F</usr/local/lib/dpkg/parsechangelog>, F</usr/lib/dpkg/parsechangelog>) That
 program is named according to the format that it's able to parse. By
 default it's either "debian" or the format name lookep up in the 40 last
 lines of the changelog itself (extracted with this perl regular expression
@@ -62,7 +62,7 @@ lines of the changelog itself (extracted with this perl regular expression
 with $opt{changelogformat}. The program expects the content of the
 changelog file on its standard input.
 
-The changelog file that is parsed is debian/changelog by default but it
+The changelog file that is parsed is F<debian/changelog> by default but it
 can be overridden with $opt{file}.
 
 All the other keys in %opt are forwarded as parameter to the external

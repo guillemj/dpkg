@@ -38,7 +38,7 @@ Dpkg::Control::Info - parse files like debian/control
 =head1 DESCRIPTION
 
 It provides an object to access data of files that follow the same
-syntax as debian/control.
+syntax as F<debian/control>.
 
 =head1 FUNCTIONS
 
@@ -47,7 +47,7 @@ syntax as debian/control.
 =item $c = Dpkg::Control::Info->new($file)
 
 Create a new Dpkg::Control::Info object for $file. If $file is omitted, it
-loads debian/control. If file is "-", it parses the standard input.
+loads F<debian/control>. If file is "-", it parses the standard input.
 
 =cut
 

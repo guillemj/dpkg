@@ -399,7 +399,7 @@ sub version_check($) {
 
 Don Armstrong <don@donarmstrong.com>, Colin Watson
 <cjwatson@debian.org> and Raphaël Hertzog <hertzog@debian.org>, based on
-the implementation in C<dpkg/lib/version.c> by Ian Jackson and others.
+the implementation in F<dpkg/lib/version.c> by Ian Jackson and others.
 
 =cut
 
