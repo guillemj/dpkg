@@ -76,9 +76,9 @@ my @options_spec = (
     'admindir=s' => \$admindir,
 );
 
-if (!GetOptions(@options_spec)) {
-	usage();
-	exit(2);
+{
+    local $SIG{__WARN__} = sub { usageerr($_[0]) };
+    GetOptions(@options_spec);
 }
 
 my $controlfile = shift || 'debian/control';

@@ -104,8 +104,10 @@ my @options_spec = (
     'all|a' => \$all,
 );
 
-GetOptions(@options_spec)
-    or do { usage(); exit(2) };
+{
+    local $SIG{__WARN__} = sub { usageerr($_[0]) };
+    GetOptions(@options_spec);
+}
 
 usageerr('too many arguments') if @ARGV > 1;
 

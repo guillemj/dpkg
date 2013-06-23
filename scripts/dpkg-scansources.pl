@@ -298,7 +298,10 @@ sub process_dsc {
 sub main {
     my (@out);
 
-    GetOptions(@option_spec) or usage;
+    {
+        local $SIG{__WARN__} = sub { usageerr($_[0]) };
+        GetOptions(@option_spec);
+    }
     @ARGV >= 1 && @ARGV <= 3 or usageerr(_g('one to three arguments expected'));
 
     push @ARGV, undef		if @ARGV < 2;

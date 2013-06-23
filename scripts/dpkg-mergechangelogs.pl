@@ -79,10 +79,11 @@ my @options_spec = (
     'merge-prereleases|m' => \$merge_prereleases,
 );
 
-unless (GetOptions(@options_spec)) {
-    usage();
-    exit(2);
+{
+    local $SIG{__WARN__} = sub { usageerr($_[0]) };
+    GetOptions(@options_spec);
 }
+
 my ($old, $new_a, $new_b, $out_file) = @ARGV;
 unless (defined $old and defined $new_a and defined $new_b and
         -e $old and -e $new_a and -e $new_b)

@@ -62,8 +62,6 @@ my @options_spec = (
     'medium|M=s',
 );
 
-my $result = GetOptions(\%options, @options_spec);
-
 sub version {
     printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
     exit;
@@ -153,7 +151,10 @@ sub load_override_extra
     close($comp_file);
 }
 
-usage() and exit 1 if not $result;
+{
+    local $SIG{__WARN__} = sub { usageerr($_[0]) };
+    GetOptions(\%options, @options_spec);
+}
 
 if (not @ARGV >= 1 && @ARGV <= 3) {
     usageerr(_g('one to three arguments expected'));
