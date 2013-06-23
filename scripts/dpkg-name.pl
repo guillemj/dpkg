@@ -3,7 +3,7 @@
 # dpkg-name
 #
 # Copyright © 1995,1996 Erick Branderhorst <branderh@debian.org>.
-# Copyright © 2006-2010,2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2010,2012-2013 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -215,7 +215,7 @@ sub move($)
     }
 }
 
-@ARGV || usageerr(_g('need at least a filename'));
+my @files;
 
 while (@ARGV) {
     $_ = shift(@ARGV);
@@ -239,15 +239,19 @@ while (@ARGV) {
     } elsif (m/^-a|--no-architecture$/) {
         $options{architecture} = 0;
     } elsif (m/^--$/) {
-        foreach (@ARGV) {
-            move($_);
-        }
-        exit 0;
+        push @files, @ARGV;
+        last;
     } elsif (m/^-/) {
         usageerr(_g("unknown option \`%s'"), $_);
     } else {
-        move($_);
+        push @files, $_;
     }
+}
+
+@files or usageerr(_g('need at least a filename'));
+
+foreach my $file (@files) {
+    move($file);
 }
 
 0;
