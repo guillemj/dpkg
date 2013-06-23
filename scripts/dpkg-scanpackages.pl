@@ -52,10 +52,17 @@ my %options = (help            => sub { usage(); exit 0; },
                medium          => undef,
 	      );
 
-my $result = GetOptions(\%options,
-                        'help|?', 'version', 'type|t=s',
-                        'arch|a=s', 'multiversion|m!', 'extra-override|e=s',
-                        'medium|M=s');
+my @options_spec = (
+    'help|?',
+    'version',
+    'type|t=s',
+    'arch|a=s',
+    'multiversion|m!',
+    'extra-override|e=s',
+    'medium|M=s',
+);
+
+my $result = GetOptions(\%options, @options_spec);
 
 sub version {
     printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;

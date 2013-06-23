@@ -89,7 +89,7 @@ sub set_format {
     $format = $val;
 }
 
-GetOptions(
+my @options_spec = (
     'file=s' => \$file,
     'label|l=s' => \$label,
     'since|v=s' => \$since,
@@ -102,7 +102,9 @@ GetOptions(
     'version|V' => sub{version();exit(0)},
     'format=s' => \&set_format,
     'all|a' => \$all,
-)
+);
+
+GetOptions(@options_spec)
     or do { usage(); exit(2) };
 
 usageerr('too many arguments') if @ARGV > 1;

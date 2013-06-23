@@ -72,9 +72,14 @@ Options:
 }
 
 my $merge_prereleases;
-unless (GetOptions('help|?' => sub { usage(); exit(0) },
-		   'merge-prereleases|m' => \$merge_prereleases,
-		   'version' => sub { version(); exit(0) })) {
+
+my @options_spec = (
+    'help|?' => sub { usage(); exit(0) },
+    'version' => sub { version(); exit(0) },
+    'merge-prereleases|m' => \$merge_prereleases,
+);
+
+unless (GetOptions(@options_spec)) {
     usage();
     exit(2);
 }

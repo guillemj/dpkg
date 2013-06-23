@@ -65,14 +65,18 @@ my $ignore_bd_indep = 0;
 my ($bd_value, $bc_value);
 my $host_arch = get_host_arch();
 my $admindir = $Dpkg::ADMINDIR;
-if (!GetOptions('A' => \$ignore_bd_arch,
-                'B' => \$ignore_bd_indep,
-                'help|?' => sub { usage(); exit(0); },
-                'version' => \&version,
-                'd=s' => \$bd_value,
-                'c=s' => \$bc_value,
-                'a=s' => \$host_arch,
-                'admindir=s' => \$admindir)) {
+my @options_spec = (
+    'help|?' => sub { usage(); exit(0); },
+    'version' => \&version,
+    'A' => \$ignore_bd_arch,
+    'B' => \$ignore_bd_indep,
+    'd=s' => \$bd_value,
+    'c=s' => \$bc_value,
+    'a=s' => \$host_arch,
+    'admindir=s' => \$admindir,
+);
+
+if (!GetOptions(@options_spec)) {
 	usage();
 	exit(2);
 }
