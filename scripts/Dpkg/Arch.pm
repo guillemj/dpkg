@@ -232,6 +232,9 @@ sub read_triplettable()
 		    (my $dt = $debtriplet) =~ s/<cpu>/$_cpu/;
 		    (my $da = $debarch) =~ s/<cpu>/$_cpu/;
 
+		    next if exists $debarch_to_debtriplet{$da}
+		         or exists $debtriplet_to_debarch{$dt};
+
 		    $debarch_to_debtriplet{$da} = $dt;
 		    $debtriplet_to_debarch{$dt} = $da;
 		}
