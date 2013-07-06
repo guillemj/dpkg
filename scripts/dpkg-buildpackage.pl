@@ -332,7 +332,7 @@ if (not $signcommand) {
 } elsif ($signforce) {
     $signsource = 1;
     $signchanges = 1;
-} elsif ($distribution eq 'UNRELEASED') {
+} elsif (($signsource or $signchanges) and $distribution eq 'UNRELEASED') {
     $signreleased = 0;
     $signsource = 0;
     $signchanges = 0;
