@@ -102,6 +102,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Source/Patch.pm \
 	Dpkg/Source/Quilt.pm \
 	Dpkg/Substvars.pm \
+	Dpkg/Util.pm \
 	Dpkg/Vars.pm \
 	Dpkg/Vendor.pm \
 	Dpkg/Vendor/Debian.pm \
@@ -189,6 +190,7 @@ test_cases = \
 	t/300_Dpkg_BuildOptions.t \
 	t/400_Dpkg_Deps.t \
 	t/500_Dpkg_Path.t \
+	t/550_Dpkg_Util.t \
 	t/600_Dpkg_Changelog.t \
 	t/600_Dpkg_Changelog_Ubuntu.t \
 	t/700_Dpkg_Control.t \
