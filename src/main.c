@@ -165,7 +165,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "\n"));
 
   printf(_(
-"Use `dselect' or `aptitude' for user-friendly package management.\n"));
+"Use 'apt' or 'aptitude' for user-friendly package management.\n"));
 
   m_output(stdout, _("<standard output>"));
 
@@ -174,12 +174,12 @@ usage(const struct cmdinfo *ci, const char *value)
 
 static const char printforhelp[] = N_(
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
-"Use `dselect' or `aptitude' for user-friendly package management;\n"
+"Use 'apt' or 'aptitude' for user-friendly package management;\n"
 "Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
 "Type dpkg --force-help for a list of forcing options;\n"
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "\n"
-"Options marked [*] produce a lot of output - pipe it through `less' or `more' !");
+"Options marked [*] produce a lot of output - pipe it through 'less' or 'more' !");
 
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
 int f_autodeconf=0, f_nodebsig=0;

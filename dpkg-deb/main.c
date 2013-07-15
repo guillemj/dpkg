@@ -127,9 +127,9 @@ usage(const struct cmdinfo *cip, const char *value)
 
   printf(_(
 "\n"
-"Use `dpkg' to install and remove packages from your system, or\n"
-"`dselect' or `aptitude' for user-friendly package management.  Packages\n"
-"unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"));
+"Use 'dpkg' to install and remove packages from your system, or\n"
+"'apt' or 'aptitude' for user-friendly package management. Packages\n"
+"unpacked using 'dpkg-deb --extract' will be incorrectly installed !\n"));
 
   m_output(stdout, _("<standard output>"));
 
