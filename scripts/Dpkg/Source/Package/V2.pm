@@ -29,7 +29,7 @@ use Dpkg::File;
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
-use Dpkg::Exit;
+use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
 use Dpkg::Source::Functions qw(erasedir is_binary fs_time);
 use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::Control;
@@ -360,7 +360,7 @@ sub generate_patch {
 
     # Unpack a second copy for comparison
     my $tmp = tempdir("$dirname.orig.XXXXXX", DIR => $updir);
-    push @Dpkg::Exit::handlers, sub { erasedir($tmp) };
+    push_exit_handler(sub { erasedir($tmp) });
 
     # Extract main tarball
     my $tar = Dpkg::Source::Archive->new(filename => $tarfile);
@@ -385,7 +385,7 @@ sub generate_patch {
     # Create a patch
     my ($difffh, $tmpdiff) = tempfile($self->get_basename(1) . '.diff.XXXXXX',
                                       DIR => File::Spec->tmpdir(), UNLINK => 0);
-    push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
+    push_exit_handler(sub { unlink($tmpdiff) });
     my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
                                         compression => 'none');
     $diff->create();
@@ -413,8 +413,8 @@ sub generate_patch {
 
     # Remove the temporary directory
     erasedir($tmp);
-    pop @Dpkg::Exit::handlers;
-    pop @Dpkg::Exit::handlers;
+    pop_exit_handler();
+    pop_exit_handler();
 
     return $tmpdiff;
 }
@@ -513,7 +513,7 @@ sub do_build {
         error(_g('aborting due to unexpected upstream changes, see %s'),
               $tmpdiff);
     }
-    push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
+    push_exit_handler(sub { unlink($tmpdiff) });
     $binaryfiles->update_debian_source_include_binaries() if $include_binaries;
 
     # Install the diff as the new autopatch
@@ -526,7 +526,7 @@ sub do_build {
         rmdir(File::Spec->catdir($dir, 'debian', 'patches')); # No check on purpose
     }
     unlink($tmpdiff) || syserr(_g('cannot remove %s'), $tmpdiff);
-    pop @Dpkg::Exit::handlers;
+    pop_exit_handler();
 
     # Create the debian.tar
     my $debianfile = "$basenamerev.debian.tar." . $self->{options}{comp_ext};
@@ -644,7 +644,7 @@ sub do_commit {
                                          usage => 'commit');
         $binaryfiles->update_debian_source_include_binaries();
     }
-    push @Dpkg::Exit::handlers, sub { unlink($tmpdiff) };
+    push_exit_handler(sub { unlink($tmpdiff) });
     unless (-s $tmpdiff) {
         unlink($tmpdiff) || syserr(_g('cannot remove %s'), $tmpdiff);
         info(_g('there are no local changes to record'));
@@ -662,7 +662,7 @@ sub do_commit {
     system('sensible-editor', $patch);
     subprocerr('sensible-editor') if $?;
     unlink($tmpdiff) || syserr(_g('cannot remove %s'), $tmpdiff);
-    pop @Dpkg::Exit::handlers;
+    pop_exit_handler();
     info(_g('local changes have been recorded in a new patch: %s'), $patch);
 }
 

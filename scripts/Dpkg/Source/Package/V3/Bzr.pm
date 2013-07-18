@@ -38,7 +38,7 @@ use Dpkg::Gettext;
 use Dpkg::Compression;
 use Dpkg::ErrorHandling;
 use Dpkg::Source::Archive;
-use Dpkg::Exit;
+use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
 use Dpkg::Source::Functions qw(erasedir);
 
 our $CURRENT_MINOR_VERSION = '0';
@@ -137,7 +137,7 @@ sub do_build {
             syserr(_g("unable to chdir to `%s'"), $old_cwd);
 
     my $tmp = tempdir("$dirname.bzr.XXXXXX", DIR => $updir);
-    push @Dpkg::Exit::handlers, sub { erasedir($tmp) };
+    push_exit_handler(sub { erasedir($tmp) });
     my $tardir = "$tmp/$dirname";
 
     system('bzr', 'branch', $dir, $tardir);
@@ -163,7 +163,7 @@ sub do_build {
     $tar->finish();
 
     erasedir($tmp);
-    pop @Dpkg::Exit::handlers;
+    pop_exit_handler();
 
     $self->add_file($debianfile);
 }

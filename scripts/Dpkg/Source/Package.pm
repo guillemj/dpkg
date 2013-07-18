@@ -43,7 +43,7 @@ use Dpkg::Control;
 use Dpkg::Checksums;
 use Dpkg::Version;
 use Dpkg::Compression;
-use Dpkg::Exit;
+use Dpkg::Exit qw(run_exit_handlers);
 use Dpkg::Path qw(check_files_are_the_same find_command);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(run_vendor_hook);
@@ -429,7 +429,7 @@ sub extract {
     # Try extract
     eval { $self->do_extract(@_) };
     if ($@) {
-        &$_() foreach reverse @Dpkg::Exit::handlers;
+        run_exit_handlers();
         die $@;
     }
 
@@ -480,7 +480,7 @@ sub build {
     my $self = shift;
     eval { $self->do_build(@_) };
     if ($@) {
-        &$_() foreach reverse @Dpkg::Exit::handlers;
+        run_exit_handlers();
         die $@;
     }
 }
@@ -514,7 +514,7 @@ sub commit {
     my $self = shift;
     eval { $self->do_commit(@_) };
     if ($@) {
-        &$_() foreach reverse @Dpkg::Exit::handlers;
+        run_exit_handlers();
         die $@;
     }
 }

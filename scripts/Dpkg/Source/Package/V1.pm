@@ -28,7 +28,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
-use Dpkg::Exit;
+use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
 use Dpkg::Source::Functions qw(erasedir);
 use Dpkg::Source::Package::V3::Native;
 
@@ -331,9 +331,9 @@ sub do_build {
                          'giving up; use -sA, -sK or -sP to override'),
                       $origdir);
             }
-	    push @Dpkg::Exit::handlers, sub { erasedir($origdir) };
+            push_exit_handler(sub { erasedir($origdir) });
             erasedir($origdir);
-	    pop @Dpkg::Exit::handlers;
+            pop_exit_handler();
         } elsif ($! != ENOENT) {
             syserr(_g("unable to check for existence of orig dir `%s'"),
                     $origdir);
@@ -350,7 +350,7 @@ sub do_build {
 	     $sourcepackage, $diffname);
 	my ($ndfh, $newdiffgz) = tempfile("$diffname.new.XXXXXX",
 					DIR => getcwd(), UNLINK => 0);
-        push @Dpkg::Exit::handlers, sub { unlink($newdiffgz) };
+        push_exit_handler(sub { unlink($newdiffgz) });
         my $diff = Dpkg::Source::Patch->new(filename => $newdiffgz,
                                             compression => 'gzip');
         $diff->create();
@@ -360,7 +360,7 @@ sub do_build {
                 options => []); # Force empty set of options to drop the
                                 # default -p option
         $diff->finish() || $ur++;
-        pop @Dpkg::Exit::handlers;
+        pop_exit_handler();
 
 	my $analysis = $diff->analyze($origdir);
 	my @files = grep { ! m{^debian/} } map { s{^[^/]+/+}{}; $_ }

@@ -33,7 +33,7 @@ use File::Temp qw(tempdir);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Exit;
+use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
 use Dpkg::Source::Functions qw(erasedir);
 
 our $CURRENT_MINOR_VERSION = '0';
@@ -144,7 +144,7 @@ sub do_build {
         chdir($old_cwd) ||
                 syserr(_g("unable to chdir to `%s'"), $old_cwd);
         $tmp = tempdir("$dirname.git.XXXXXX", DIR => $updir);
-        push @Dpkg::Exit::handlers, sub { erasedir($tmp) };
+        push_exit_handler(sub { erasedir($tmp) });
         my $clone_dir = "$tmp/repo.git";
         # file:// is needed to avoid local cloning, which does not
         # create a shallow clone.
@@ -177,7 +177,7 @@ sub do_build {
 
     if (defined $tmp) {
         erasedir($tmp);
-        pop @Dpkg::Exit::handlers;
+        pop_exit_handler();
     }
 
     $self->add_file($bundlefile);
