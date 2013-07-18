@@ -467,7 +467,7 @@ close $out_fh or syserr(_g('write changes file'));
 
 my $srcmsg;
 sub fileomitted($) { return $files !~ /$_[0]/ }
-my $ext = $compression_re_file_ext;
+my $ext = compression_get_file_extension_regex();
 if (fileomitted '\.deb') {
     # source only upload
     if (fileomitted "\.diff\.$ext" and fileomitted "\.debian\.tar\.$ext") {

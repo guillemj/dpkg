@@ -183,9 +183,10 @@ sub do_extract {
         error(_g('format v3.0 uses only one source file'));
     }
     my $tarfile = $files[0];
-    if ($tarfile !~ /^\Q$basenamerev\E\.bzr\.tar\.$compression_re_file_ext$/) {
+    my $comp_ext_regex = compression_get_file_extension_regex();
+    if ($tarfile !~ /^\Q$basenamerev\E\.bzr\.tar\.$comp_ext_regex$/) {
         error(_g('expected %s, got %s'),
-              "$basenamerev.bzr.tar.$compression_re_file_ext", $tarfile);
+              "$basenamerev.bzr.tar.$comp_ext_regex", $tarfile);
     }
 
     erasedir($newdirectory);

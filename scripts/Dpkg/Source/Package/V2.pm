@@ -118,7 +118,7 @@ sub do_extract {
     my $basenamerev = $self->get_basename(1);
 
     my ($tarfile, $debianfile, %origtar, %seen);
-    my $re_ext = $compression_re_file_ext;
+    my $re_ext = compression_get_file_extension_regex();
     foreach my $file ($self->get_files()) {
         (my $uncompressed = $file) =~ s/\.$re_ext$//;
         error(_g('duplicate files in %s source package: %s.*'), 'v2.0',
@@ -332,9 +332,10 @@ sub generate_patch {
 
     # Identify original tarballs
     my ($tarfile, %origtar);
+    my $comp_ext_regex = compression_get_file_extension_regex();
     my @origtarballs;
     foreach (sort $self->find_original_tarballs()) {
-        if (/\.orig\.tar\.$compression_re_file_ext$/) {
+        if (/\.orig\.tar\.$comp_ext_regex$/) {
             if (defined($tarfile)) {
                 error(_g('several orig.tar files found (%s and %s) but only ' .
                          'one is allowed'), $tarfile, $_);
@@ -342,7 +343,7 @@ sub generate_patch {
             $tarfile = $_;
             push @origtarballs, $_;
             $self->add_file($_);
-        } elsif (/\.orig-([[:alnum:]-]+)\.tar\.$compression_re_file_ext$/) {
+        } elsif (/\.orig-([[:alnum:]-]+)\.tar\.$comp_ext_regex$/) {
             $origtar{$1} = $_;
             push @origtarballs, $_;
             $self->add_file($_);

@@ -306,7 +306,8 @@ sub set_filename {
     if (defined($add_comp_ext)) {
 	*$self->{add_comp_ext} = $add_comp_ext;
     }
-    if (*$self->{add_comp_ext} and $filename =~ /\.$compression_re_file_ext$/) {
+    my $comp_ext_regex = compression_get_file_extension_regex();
+    if (*$self->{add_comp_ext} and $filename =~ /\.$comp_ext_regex$/) {
 	warning('filename %s already has an extension of a compressed file ' .
 	        'and add_comp_ext is active', $filename);
     }

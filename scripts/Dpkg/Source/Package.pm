@@ -293,7 +293,8 @@ sub get_basename {
 
 sub find_original_tarballs {
     my ($self, %opts) = @_;
-    $opts{extension} = $compression_re_file_ext unless exists $opts{extension};
+    $opts{extension} = compression_get_file_extension_regex()
+        unless exists $opts{extension};
     $opts{include_main} = 1 unless exists $opts{include_main};
     $opts{include_supplementary} = 1 unless exists $opts{include_supplementary};
     my $basename = $self->get_basename();
@@ -412,7 +413,7 @@ sub extract {
         my $basename = $self->get_basename();
         my ($dirname, $destdir) = fileparse($newdirectory);
         $destdir ||= './';
-	my $ext = $compression_re_file_ext;
+	my $ext = compression_get_file_extension_regex();
         foreach my $orig (grep { /^\Q$basename\E\.orig(-[[:alnum:]-]+)?\.tar\.$ext$/ }
                           $self->get_files())
         {

@@ -47,8 +47,9 @@ sub do_extract {
     my $basenamerev = $self->get_basename(1);
 
     my $tarfile;
+    my $comp_ext_regex = compression_get_file_extension_regex();
     foreach my $file ($self->get_files()) {
-	if ($file =~ /^\Q$basenamerev\E\.tar\.$compression_re_file_ext$/) {
+	if ($file =~ /^\Q$basenamerev\E\.tar\.$comp_ext_regex$/) {
             error(_g('multiple tarfiles in v1.0 source package')) if $tarfile;
             $tarfile = $file;
 	} else {

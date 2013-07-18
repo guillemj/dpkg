@@ -1,4 +1,5 @@
 # Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2010-2013 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,6 +28,7 @@ use Exporter qw(import);
 our @EXPORT = qw($compression_re_file_ext compression_get_list
 		 compression_is_supported compression_get_property
 		 compression_guess_from_filename
+		 compression_get_file_extension_regex
 		 compression_get_default compression_set_default
 		 compression_get_default_level
 		 compression_set_default_level
@@ -42,10 +44,6 @@ Dpkg::Compression - simple database of available compression methods
 
 This modules provides a few public funcions and a public regex to
 interact with the set of supported compression methods.
-
-=head1 EXPORTED VARIABLES
-
-=over 4
 
 =cut
 
@@ -80,19 +78,10 @@ my $COMP = {
 ## no critic (Variables::ProhibitPackageVars)
 our $default_compression = 'gzip';
 our $default_compression_level = undef;
-## use critic
-
-=item $compression_re_file_ext
-
-A regex that matches a file extension of a file compressed with one of the
-supported compression methods.
-
-=back
-
-=cut
 
 my $regex = join '|', map { $_->{file_ext} } values %$COMP;
 our $compression_re_file_ext = qr/(?:$regex)/;
+## use critic
 
 =head1 EXPORTED FUNCTIONS
 
@@ -154,6 +143,17 @@ sub compression_guess_from_filename {
         }
     }
     return;
+}
+
+=item my $regex = compression_get_file_extension_regex()
+
+Returns a regex that matches a file extension of a file compressed with
+one of the supported compression methods.
+
+=cut
+
+sub compression_get_file_extension_regex {
+    return $compression_re_file_ext;
 }
 
 =item my $comp = compression_get_default()
@@ -226,7 +226,10 @@ sub compression_is_valid_level {
 
 =head2 Version 1.02
 
+New function: compression_get_file_extension_regex()
+
 Deprecated variables: $default_compression, $default_compression_level
+and $compression_re_file_ext
 
 =head2 Version 1.01
 
