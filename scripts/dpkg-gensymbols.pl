@@ -24,7 +24,7 @@ use warnings;
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Package;
-use Dpkg::Shlibs qw(@librarypaths);
+use Dpkg::Shlibs qw(get_library_paths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Gettext;
@@ -180,7 +180,7 @@ foreach my $file ($input, $output, "debian/$oppackage.symbols.$host_arch",
 
 # Scan package build dir looking for libraries
 if (not scalar @files) {
-    PATH: foreach my $path (@librarypaths) {
+    PATH: foreach my $path (get_library_paths()) {
 	my $libdir = "$packagebuilddir$path";
 	$libdir =~ s{/+}{/}g;
 	lstat $libdir;

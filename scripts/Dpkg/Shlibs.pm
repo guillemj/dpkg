@@ -18,10 +18,12 @@ package Dpkg::Shlibs;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(@librarypaths find_library add_library_dir);
+our @EXPORT_OK = qw(add_library_dir get_library_paths reset_library_paths
+                    find_library);
+
 
 use File::Spec;
 
@@ -65,7 +67,7 @@ if ($crossprefix) {
             "/$crossprefix/lib64", "/usr/$crossprefix/lib64";
 }
 
-our @librarypaths = (DEFAULT_LIBRARY_PATH, @crosslibrarypaths);
+my @librarypaths = (DEFAULT_LIBRARY_PATH, @crosslibrarypaths);
 
 # XXX: Deprecated. Update library paths with LD_LIBRARY_PATH
 if ($ENV{LD_LIBRARY_PATH}) {
@@ -106,6 +108,14 @@ sub parse_ldso_conf {
 sub add_library_dir {
     my ($dir) = @_;
     unshift @librarypaths, $dir;
+}
+
+sub get_library_paths {
+    return @librarypaths;
+}
+
+sub reset_library_paths {
+    @librarypaths = ();
 }
 
 # find_library ($soname, \@rpath, $format, $root)

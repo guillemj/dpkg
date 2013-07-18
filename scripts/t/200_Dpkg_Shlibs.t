@@ -26,8 +26,8 @@ my $tmp;
 my @tmp;
 my %tmp;
 
-my @save_paths = @Dpkg::Shlibs::librarypaths;
-@Dpkg::Shlibs::librarypaths = ();
+my @save_paths = Dpkg::Shlibs::get_library_paths();
+Dpkg::Shlibs::reset_library_paths();
 
 my $srcdir = $ENV{srcdir} || '.';
 my $datadir = $srcdir . '/t/200_Dpkg_Shlibs';
@@ -41,9 +41,11 @@ Dpkg::Shlibs::parse_ldso_conf('t/200_Dpkg_Shlibs/ld.so.conf');
 chdir($cwd);
 
 use Data::Dumper;
+
+my @librarypaths = Dpkg::Shlibs::get_library_paths();
 is_deeply([qw(/nonexistant32 /nonexistant/lib64
 	     /usr/local/lib /nonexistant/lib128 )],
-	  \@Dpkg::Shlibs::librarypaths, 'parsed library paths');
+	  \@librarypaths, 'parsed library paths');
 
 use_ok('Dpkg::Shlibs::Objdump');
 

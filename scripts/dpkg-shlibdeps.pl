@@ -35,7 +35,7 @@ use Dpkg::Util qw(:list);
 use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
 		  check_files_are_the_same get_control_path);
 use Dpkg::Version;
-use Dpkg::Shlibs qw(find_library @librarypaths);
+use Dpkg::Shlibs qw(find_library get_library_paths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Arch qw(get_host_arch);
@@ -322,7 +322,7 @@ foreach my $file (keys %exec) {
     my $in_public_dir = 1;
     if (my $relname = relative_to_pkg_root($file)) {
         my $parent_dir = '/' . dirname($relname);
-        $in_public_dir = any { $parent_dir eq $_ } @librarypaths;
+        $in_public_dir = any { $parent_dir eq $_ } get_library_paths();
     } else {
         warning(_g('binaries to analyze should already be ' .
                    "installed in their package's directory"));
