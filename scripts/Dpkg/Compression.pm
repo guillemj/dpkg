@@ -18,7 +18,7 @@ package Dpkg::Compression;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -76,8 +76,11 @@ my $COMP = {
     },
 };
 
+# XXX: Backwards compatibility, stop exporting on VERSION 2.00.
+## no critic (Variables::ProhibitPackageVars)
 our $default_compression = 'gzip';
 our $default_compression_level = undef;
+## use critic
 
 =item $compression_re_file_ext
 
@@ -218,6 +221,16 @@ sub compression_is_valid_level {
 }
 
 =back
+
+=head1 CHANGES
+
+=head2 Version 1.02
+
+Deprecated variables: $default_compression, $default_compression_level
+
+=head2 Version 1.01
+
+Default compression level is not global any more, it is per compressor type.
 
 =head1 AUTHOR
 
