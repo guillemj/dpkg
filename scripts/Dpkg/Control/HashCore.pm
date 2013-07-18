@@ -23,10 +23,9 @@ our $VERSION = '1.00';
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
-# This module must absolutely not use Dpkg::Control::Fields
-# it's used by other modules that are required to compile
-# Dpkg::Control::Fields itself (Dpkg::Vendor)
-# That's why field_capitalize is duplicated
+# This module cannot use Dpkg::Control::Fields, because that one makes use
+# of Dpkg::Vendor which at the same time uses this module, which would turn
+# into a compilation error. We can use Dpkg::Control::FieldsCore instead.
 
 use parent qw(Dpkg::Interface::Storable);
 
@@ -399,18 +398,10 @@ package Dpkg::Control::HashCore::Tie;
 # type Dpkg::Control.
 
 use Dpkg::Checksums;
+use Dpkg::Control::FieldsCore;
 
 use Tie::Hash;
 use parent -norequire, qw(Tie::ExtraHash);
-
-sub field_capitalize($) {
-    my $field = lc(shift);
-    # Some special cases due to history
-    return 'MD5sum' if $field eq 'md5sum';
-    return uc($field) if checksums_is_supported($field);
-    # Generic case
-    return join '-', map { ucfirst } split /-/, $field;
-}
 
 # $self->[0] is the real hash
 # $self->[1] is a reference to the hash contained by the parent object.
