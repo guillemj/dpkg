@@ -24,7 +24,7 @@ use Dpkg ();
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::BuildEnv;
-use Dpkg::Control::Hash;
+use Dpkg::Control::HashCore;
 
 use Exporter qw(import);
 our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file
@@ -85,7 +85,7 @@ sub get_vendor_info(;$) {
     my $vendor = shift || 'default';
     my $file = get_vendor_file($vendor);
     return unless $file;
-    my $fields = Dpkg::Control::Hash->new();
+    my $fields = Dpkg::Control::HashCore->new();
     $fields->load($file) || error(_g('%s is empty'), $file);
     return $fields;
 }

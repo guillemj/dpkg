@@ -70,8 +70,10 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Conf.pm \
 	Dpkg/Control.pm \
 	Dpkg/Control/Changelog.pm \
+	Dpkg/Control/FieldsCore.pm \
 	Dpkg/Control/Fields.pm \
 	Dpkg/Control/Info.pm \
+	Dpkg/Control/HashCore.pm \
 	Dpkg/Control/Hash.pm \
 	Dpkg/Control/Types.pm \
 	Dpkg/Deps.pm \
