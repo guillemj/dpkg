@@ -21,7 +21,7 @@ use warnings;
 our $VERSION = '0.01';
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(@librarypaths find_library);
+our @EXPORT_OK = qw(@librarypaths find_library add_library_dir);
 
 use File::Spec;
 
@@ -67,11 +67,11 @@ if ($crossprefix) {
 
 our @librarypaths = (DEFAULT_LIBRARY_PATH, @crosslibrarypaths);
 
-# Update library paths with LD_LIBRARY_PATH
+# XXX: Deprecated. Update library paths with LD_LIBRARY_PATH
 if ($ENV{LD_LIBRARY_PATH}) {
     foreach my $path (reverse split( /:/, $ENV{LD_LIBRARY_PATH} )) {
 	$path =~ s{/+$}{};
-	unshift @librarypaths, $path;
+	add_library_dir($path);
     }
 }
 
@@ -101,6 +101,11 @@ sub parse_ldso_conf {
 	}
     }
     close $fh;
+}
+
+sub add_library_dir {
+    my ($dir) = @_;
+    unshift @librarypaths, $dir;
 }
 
 # find_library ($soname, \@rpath, $format, $root)

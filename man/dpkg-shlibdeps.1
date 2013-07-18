@@ -4,7 +4,7 @@
 .\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
 .\" Copyright © 2006 Frank Lichtenheld <djpig@debian.org>
 .\" Copyright © 2007-2011 Raphaël Hertzog <hertzog@debian.org>
-.\" Copyright © 2012 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2012-2013 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -135,6 +135,17 @@ been supplied as
 .BI \-e executable
 Include dependencies appropriate for the shared libraries required by
 .IR executable .
+.TP
+.BI \-l directory
+Add
+.I directory
+to the list of directories to search for private shared libraries
+(since dpkg 1.17.0). This option can be used multiple times.
+
+Note: Use this option instead of setting \fBLD_LIBRARY_PATH\fP,
+as that environment variable is used to control the run-time linker
+and abusing it to set the shared library paths at build-time can be
+problematic when cross-compiling for example.
 .TP
 .BI \-d dependency-field
 Add dependencies to be added to the control file dependency field
@@ -301,6 +312,7 @@ has been unable to find the library.
 .B dpkg\-shlibdeps
 creates a list of directories to check as following: directories listed in
 the RPATH of the binary, directories listed in /etc/ld.so.conf,
+directories added by the \fB\-l\fP option,
 directories listed in the \fBLD_LIBRARY_PATH\fP environment variable, and
 standard public directories (/lib, /usr/lib, /lib32, /usr/lib32, /lib64,
 /usr/lib64). Then it checks those directories in the package's build tree
@@ -311,9 +323,9 @@ If the library is not found in any of those directories, then you get this
 error.
 
 If the library not found is in a private directory of the same package,
-then you want to add the directory to \fBLD_LIBRARY_PATH\fP. If it's in another
+then you want to add the directory with \fB\-l\fP. If it's in another
 binary package being built, you want to make sure that the shlibs/symbols
-file of this package is already created and that \fBLD_LIBRARY_PATH\fP
+file of this package is already created and that \fB\-l\fP
 contains the appropriate directory if it also is in a private directory.
 .TP
 .BI "no dependency information found for " library-file " (used by " binary ")."

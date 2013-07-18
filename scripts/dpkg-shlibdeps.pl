@@ -87,6 +87,8 @@ foreach (@ARGV) {
 	$varnameprefix = $1;
     } elsif (m/^-L(.*)$/) {
 	$shlibslocal = $1;
+    } elsif (m/^-l(.*)$/) {
+	Dpkg::Shlibs::add_library_dir($1);
     } elsif (m/^-S(.*)$/) {
 	push @pkg_dir_to_search, $1;
     } elsif (m/^-O$/) {
@@ -441,7 +443,7 @@ foreach my $soname (keys %global_soname_needed) {
 if ($error_count >= 1) {
     my $note = _g('Note: libraries are not searched in other binary packages ' .
 	"that do not have any shlibs or symbols file.\nTo help dpkg-shlibdeps " .
-	'find private libraries, you might need to set LD_LIBRARY_PATH.');
+	'find private libraries, you might need to use -l.');
     error(P_('cannot continue due to the error above',
              'cannot continue due to the errors listed above',
              $error_count) . "\n" . $note);
@@ -560,6 +562,7 @@ sub usage {
   -d<dependency-field>     next executable(s) set shlibs:<dependency-field>.")
     . "\n\n" . _g(
 "Options:
+  -l<library-dir>          add directory to private shared library search list.
   -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.
   -O                       print variable settings to stdout.
   -L<local-shlibs-file>    shlibs override file, not debian/shlibs.local.
