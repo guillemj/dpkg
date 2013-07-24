@@ -26,7 +26,7 @@ use Dpkg::Deps;
 use Dpkg::ErrorHandling;
 use Dpkg::Util qw(:list);
 use Dpkg::Version;
-use Storable qw();
+use Storable ();
 use Dpkg::Shlibs::Cppfilt;
 
 # Supported alias types in the order of matching preference

@@ -18,7 +18,7 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 
 use Exporter qw(import);

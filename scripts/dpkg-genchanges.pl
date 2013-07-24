@@ -24,7 +24,7 @@ use warnings;
 
 use Encode;
 use POSIX qw(:errno_h);
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::Util qw(:list);
 use Dpkg::File;

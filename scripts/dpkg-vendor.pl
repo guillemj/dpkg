@@ -21,7 +21,7 @@
 use strict;
 use warnings;
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Vendor qw(get_vendor_dir get_vendor_info get_current_vendor);

@@ -27,7 +27,7 @@ use Cwd;
 use File::Basename;
 use POSIX qw(:sys_wait_h);
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::BuildOptions;

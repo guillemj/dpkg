@@ -36,7 +36,7 @@ use warnings;
 
 our $VERSION = '1.00';
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Changelog;

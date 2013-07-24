@@ -31,7 +31,7 @@ our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch
                     gnutriplet_to_multiarch debarch_to_multiarch);
 
 use POSIX qw(:errno_h);
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Util qw(:list);

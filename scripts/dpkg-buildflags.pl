@@ -21,7 +21,7 @@
 use strict;
 use warnings;
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(:DEFAULT report);
 use Dpkg::BuildFlags;

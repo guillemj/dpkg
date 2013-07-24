@@ -19,7 +19,7 @@
 use warnings;
 use strict;
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Changelog::Debian;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;

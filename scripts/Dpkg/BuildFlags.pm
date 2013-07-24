@@ -20,7 +20,7 @@ use warnings;
 
 our $VERSION = '1.03';
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::BuildEnv;
 use Dpkg::BuildOptions;

@@ -21,7 +21,7 @@
 use strict;
 use warnings;
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Package;
 use Dpkg::Shlibs qw(@librarypaths);

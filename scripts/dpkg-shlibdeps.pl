@@ -28,7 +28,7 @@ use POSIX qw(:errno_h);
 use Cwd qw(realpath);
 use File::Basename qw(dirname);
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Util qw(:list);

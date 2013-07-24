@@ -22,7 +22,7 @@ our $VERSION = '0.01';
 
 use parent qw(Dpkg::Source::Package);
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Compression;

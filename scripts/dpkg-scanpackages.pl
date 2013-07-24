@@ -24,7 +24,7 @@ use IO::Handle;
 use IO::File;
 use Getopt::Long qw(:config posix_default bundling no_ignorecase);
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Util qw(:list);

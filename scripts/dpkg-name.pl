@@ -24,7 +24,7 @@ use strict;
 use File::Basename;
 use File::Path;
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;

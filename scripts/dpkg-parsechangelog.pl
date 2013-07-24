@@ -22,7 +22,7 @@
 use strict;
 use warnings;
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Changelog::Parse;

@@ -18,7 +18,7 @@ use Test::More tests => 32;
 use strict;
 use warnings;
 
-use Dpkg qw();
+use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
 
 use_ok('Dpkg::Substvars');
