@@ -101,6 +101,7 @@ binary-arch: install
 
 	install -d debian/dpkg/sbin
 	mv debian/dpkg/usr/sbin/start-stop-daemon debian/dpkg/sbin
+	rmdir --ignore-fail-on-non-empty debian/dpkg/usr/sbin
 
 	dh_installchangelogs -a ChangeLog*
 	dh_installdocs -a
