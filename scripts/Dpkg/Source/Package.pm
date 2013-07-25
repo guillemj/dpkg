@@ -189,19 +189,11 @@ sub initialize {
     $self->{basedir} = $dir || './';
     $self->{filename} = $fn;
 
-    # Check if it contains a signature
-    open(my $dsc_fh, '<', $filename) || syserr(_g('cannot open %s'), $filename);
-    $self->{is_signed} = 0;
-    while (<$dsc_fh>) {
-        next if /^\s*$/o;
-        $self->{is_signed} = 1 if /^-----BEGIN PGP SIGNED MESSAGE-----\s*$/o;
-        last;
-    }
-    close($dsc_fh);
     # Read the fields
     my $fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
     $fields->load($filename);
     $self->{fields} = $fields;
+    $self->{is_signed} = $fields->get_option('is_pgp_signed');
 
     foreach my $f (qw(Source Version Files)) {
         unless (defined($fields->{$f})) {

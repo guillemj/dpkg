@@ -105,6 +105,7 @@ sub new {
     my $self = \{
         in_order => [],
         out_order => [],
+        is_pgp_signed => 0,
         allow_pgp => 0,
         allow_duplicate => 0,
         drop_empty => 0,
@@ -172,7 +173,6 @@ sub parse {
     my $parabody = 0;
     my $cf; # Current field
     my $expect_pgp_sig = 0;
-    my $pgp_signed = 0;
 
     while (<$fh>) {
 	s/\s*\n$//;
@@ -229,7 +229,7 @@ sub parse {
                 }
 		# This does not mean the signature is correct, that needs to
 		# be verified by gnupg.
-		$pgp_signed = 1;
+		$$self->{is_pgp_signed} = 1;
 	    }
 	    last; # Finished parsing one block
 	} else {
@@ -238,7 +238,7 @@ sub parse {
 	}
     }
 
-    if ($expect_pgp_sig and not $pgp_signed) {
+    if ($expect_pgp_sig and not $$self->{is_pgp_signed}) {
         syntaxerr($desc, _g('unfinished PGP signature'));
     }
 
