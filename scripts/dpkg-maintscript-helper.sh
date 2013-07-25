@@ -32,10 +32,10 @@ rm_conffile() {
 	local PACKAGE="$3"
 	if [ "$LASTVERSION" = "--" ]; then
 		LASTVERSION=""
-		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE"
+		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
 	fi
 	if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
-		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE"
+		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
 	fi
 	# Skip remaining parameters up to --
 	while [ "$1" != "--" -a $# -gt 0 ]; do shift; done
@@ -139,10 +139,10 @@ mv_conffile() {
 	local PACKAGE="$4"
 	if [ "$LASTVERSION" = "--" ]; then
 		LASTVERSION=""
-		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE"
+		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
 	fi
 	if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
-		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE"
+		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
 	fi
 	# Skip remaining parameters up to --
 	while [ "$1" != "--" -a $# -gt 0 ]; do shift; done
