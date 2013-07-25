@@ -61,7 +61,7 @@ rm_conffile() {
 	postinst)
 		if [ "$1" = "configure" ] && [ -n "$2" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
-			finish_rm_conffile $CONFFILE
+			finish_rm_conffile "$CONFFILE"
 		fi
 		;;
 	postrm)
@@ -72,7 +72,7 @@ rm_conffile() {
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
 		   [ -n "$2" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
-			abort_rm_conffile "$CONFFILE"
+			abort_rm_conffile "$CONFFILE" "$PACKAGE"
 		fi
 		;;
 	*)
@@ -86,6 +86,7 @@ prepare_rm_conffile() {
 	local PACKAGE="$2"
 
 	[ -e "$CONFFILE" ] || return 0
+	ensure_package_owns_conffile "$PACKAGE" "$CONFFILE" || return 0
 
 	local md5sum="$(md5sum $CONFFILE | sed -e 's/ .*//')"
 	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' $PACKAGE | \
@@ -114,6 +115,9 @@ finish_rm_conffile() {
 
 abort_rm_conffile() {
 	local CONFFILE="$1"
+	local PACKAGE="$2"
+
+	ensure_package_owns_conffile "$PACKAGE" "$CONFFILE" || return 0
 
 	if [ -e "$CONFFILE.dpkg-remove" ]; then
 		echo "Reinstalling $CONFFILE that was moved away"
@@ -164,14 +168,14 @@ mv_conffile() {
 	postinst)
 		if [ "$1" = "configure" ] && [ -n "$2" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
-			finish_mv_conffile "$OLDCONFFILE" "$NEWCONFFILE"
+			finish_mv_conffile "$OLDCONFFILE" "$NEWCONFFILE" "$PACKAGE"
 		fi
 		;;
 	postrm)
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
 		   [ -n "$2" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
-			abort_mv_conffile "$OLDCONFFILE"
+			abort_mv_conffile "$OLDCONFFILE" "$PACKAGE"
 		fi
 		;;
 	*)
@@ -186,6 +190,8 @@ prepare_mv_conffile() {
 
 	[ -e "$CONFFILE" ] || return 0
 
+	ensure_package_owns_conffile "$PACKAGE" "$CONFFILE" || return 0
+
 	local md5sum="$(md5sum $CONFFILE | sed -e 's/ .*//')"
 	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' $PACKAGE | \
 		sed -n -e "\' $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
@@ -197,10 +203,12 @@ prepare_mv_conffile() {
 finish_mv_conffile() {
 	local OLDCONFFILE="$1"
 	local NEWCONFFILE="$2"
+	local PACKAGE="$3"
 
 	rm -f $OLDCONFFILE.dpkg-remove
 
 	[ -e "$OLDCONFFILE" ] || return 0
+	ensure_package_owns_conffile "$PACKAGE" "$OLDCONFFILE" || return 0
 
 	echo "Preserving user changes to $NEWCONFFILE (renamed from $OLDCONFFILE)..."
 	mv -f "$NEWCONFFILE" "$NEWCONFFILE.dpkg-new"
@@ -209,6 +217,9 @@ finish_mv_conffile() {
 
 abort_mv_conffile() {
 	local CONFFILE="$1"
+	local PACKAGE="$2"
+
+	ensure_package_owns_conffile "$PACKAGE" "$CONFFILE" || return 0
 
 	if [ -e "$CONFFILE.dpkg-remove" ]; then
 		echo "Reinstalling $CONFFILE that was moved away"
@@ -217,6 +228,18 @@ abort_mv_conffile() {
 }
 
 # Common functions
+ensure_package_owns_conffile() {
+	local PACKAGE="$1"
+	local CONFFILE="$2"
+
+	if ! dpkg-query -L "$PACKAGE" | grep -q -x "$CONFFILE"; then
+		debug "Conffile '$CONFFILE' not owned by package " \
+		      "'$PACKAGE', skipping $command"
+		return 1
+	fi
+	return 0
+}
+
 debug() {
 	if [ -n "$DPKG_DEBUG" ]; then
 		echo "DEBUG: $PROGNAME: $*" >&2
