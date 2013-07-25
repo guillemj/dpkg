@@ -83,7 +83,9 @@ while (@ARGV) {
 	$options{changelogformat} = $1;
     } elsif (m/^-l(.+)$/) {
 	$options{file} = $1;
-    } elsif (m/^-(?:S|-show-field)(?:=(.+))?$/) {
+    } elsif (m/^-S(.+)$/) {
+	$fieldname = $1;
+    } elsif (m/^--show-field(?:=(.+))?$/) {
 	$fieldname = $1 // shift(@ARGV);
     } elsif (m/^--$/) {
 	last;
