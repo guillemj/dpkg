@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2013-03-08 03:46+0000\n"
+"POT-Creation-Date: 2013-07-27 03:54+0200\n"
 "PO-Revision-Date: 2013-01-27 10:45-0300\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <debian-l10n-esperanto@lists.debian.org>\n"
@@ -23,7 +23,7 @@ msgid "invalid character '%c' in archive '%.250s' member '%.16s' size"
 msgstr "malvalida signo '%c' en arkivo '%.250s' membro '%.16s' grando"
 
 #: lib/dpkg/ar.c:87 lib/dpkg/ar.c:108 lib/dpkg/ar.c:119 lib/dpkg/ar.c:123
-#: lib/dpkg/ar.c:149 utils/update-alternatives.c:1145
+#: lib/dpkg/ar.c:149 utils/update-alternatives.c:1146
 #, c-format
 msgid "unable to write file '%s'"
 msgstr "ne eblas skribi dosieron '%s'"
@@ -66,7 +66,20 @@ msgstr "devas komenciĝi per alfanumera signo"
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr "signo '%c' ne estas permesate (nur literoj, ciferoj kaj signoj '%s')"
 
-#: lib/dpkg/arch.c:312
+#: lib/dpkg/arch.c:236
+#, fuzzy
+#| msgctxt "version"
+#| msgid "<none>"
+msgctxt "architecture"
+msgid "<none>"
+msgstr "<nenio>"
+
+#: lib/dpkg/arch.c:238
+msgctxt "architecture"
+msgid "<empty>"
+msgstr ""
+
+#: lib/dpkg/arch.c:326
 msgid "error writing to architecture list"
 msgstr "eraro dum skribado al arkitektura listo"
 
@@ -107,7 +120,7 @@ msgstr "eraro dum kreo de nova sekurkopia dosiero '%s'"
 
 #: lib/dpkg/atomic-file.c:103 lib/dpkg/atomic-file.c:105
 #: lib/dpkg/triglib.c:447 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
-#: src/infodb-upgrade.c:200 src/remove.c:337 src/remove.c:428
+#: src/infodb-upgrade.c:200 src/remove.c:340 src/remove.c:432
 #, c-format
 msgid "cannot remove `%.250s'"
 msgstr "ne eblas forigi '%.250s'"
@@ -133,11 +146,10 @@ msgstr "neatendita fino de dosiero aŭ fluo"
 msgid "failed to seek"
 msgstr "malsukcesis uzi 'seek'"
 
-#: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:385
-#: src/processarc.c:102 src/processarc.c:142 src/processarc.c:472
-#: src/processarc.c:909 dpkg-deb/build.c:462 dpkg-deb/build.c:549
-#: dpkg-deb/build.c:572 dpkg-deb/extract.c:323 dpkg-deb/info.c:65
-#: dpkg-split/split.c:70 utils/update-alternatives.c:421
+#: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:391
+#: src/unpack.c:102 src/unpack.c:142 src/unpack.c:472 src/unpack.c:911
+#: dpkg-deb/build.c:463 dpkg-deb/build.c:550 dpkg-deb/build.c:573
+#: dpkg-deb/info.c:65 dpkg-split/split.c:70 utils/update-alternatives.c:414
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "ne eblas lanĉi %s (%s)"
@@ -162,113 +174,113 @@ msgstr "%s: interna leg-eraro de gzip: '%s'"
 msgid "%s: internal gzip write error"
 msgstr "%s: interna skrib-eraro de gzip"
 
-#: lib/dpkg/compress.c:189
+#: lib/dpkg/compress.c:201
 #, c-format
 msgid "%s: error binding output to gzip stream"
 msgstr "%s: eraro dum kunligado de eligo al gzip-fluo"
 
-#: lib/dpkg/compress.c:196
+#: lib/dpkg/compress.c:208
 #, c-format
 msgid "%s: internal gzip read error"
 msgstr "%s: interna leg-eraro de gzip"
 
-#: lib/dpkg/compress.c:206
+#: lib/dpkg/compress.c:218
 #, c-format
 msgid "%s: internal gzip write error: '%s'"
 msgstr "%s: interna skrib-eraro de gzip: '%s'"
 
-#: lib/dpkg/compress.c:219
+#: lib/dpkg/compress.c:231
 #, c-format
 msgid "%s: internal gzip write error: %s"
 msgstr "%s: interna skrib-eraro de gzip: %s"
 
-#: lib/dpkg/compress.c:270
+#: lib/dpkg/compress.c:282
 #, c-format
 msgid "%s: error binding input to bzip2 stream"
 msgstr "%s: eraro dum kunligado de enigo al bzip2-fluo"
 
-#: lib/dpkg/compress.c:282
+#: lib/dpkg/compress.c:294
 #, c-format
 msgid "%s: internal bzip2 read error: '%s'"
 msgstr "%s: interna leg-eraro de bzip2: '%s'"
 
-#: lib/dpkg/compress.c:290 lib/dpkg/compress.c:294 lib/dpkg/compress.c:344
+#: lib/dpkg/compress.c:302 lib/dpkg/compress.c:306 lib/dpkg/compress.c:356
 #, c-format
 msgid "%s: internal bzip2 write error"
 msgstr "%s: interna skrib-eraro de bzip2"
 
-#: lib/dpkg/compress.c:308
+#: lib/dpkg/compress.c:320
 #, c-format
 msgid "%s: error binding output to bzip2 stream"
 msgstr "%s: eraro dum kunligado de eligo al bzip2-fluo"
 
-#: lib/dpkg/compress.c:315
+#: lib/dpkg/compress.c:327
 #, c-format
 msgid "%s: internal bzip2 read error"
 msgstr "%s: interna leg-eraro de bzip2"
 
-#: lib/dpkg/compress.c:325 lib/dpkg/compress.c:336
+#: lib/dpkg/compress.c:337 lib/dpkg/compress.c:348
 #, c-format
 msgid "%s: internal bzip2 write error: '%s'"
 msgstr "%s: interna skrib-eraro de bzip2: '%s'"
 
-#: lib/dpkg/compress.c:332
+#: lib/dpkg/compress.c:344
 msgid "unexpected bzip2 error"
 msgstr "neatendita eraro de bzip2"
 
-#: lib/dpkg/compress.c:391
+#: lib/dpkg/compress.c:403
 msgid "internal error (bug)"
 msgstr "interna eraro (miso)"
 
-#: lib/dpkg/compress.c:398
+#: lib/dpkg/compress.c:410
 msgid "memory usage limit reached"
 msgstr "memor-uzada limo estis atingata"
 
-#: lib/dpkg/compress.c:402
+#: lib/dpkg/compress.c:414
 msgid "unsupported compression preset"
 msgstr "nesubtenata kompaktiga antaŭagordo"
 
-#: lib/dpkg/compress.c:404
+#: lib/dpkg/compress.c:416
 msgid "unsupported options in file header"
 msgstr "nesubtenataj elektebloj en dosierkapo"
 
-#: lib/dpkg/compress.c:408
+#: lib/dpkg/compress.c:420
 msgid "compressed data is corrupt"
 msgstr "kompaktita datumaro estas difektita"
 
-#: lib/dpkg/compress.c:412
+#: lib/dpkg/compress.c:424
 msgid "unexpected end of input"
 msgstr "neatendita fino de dosiero"
 
-#: lib/dpkg/compress.c:416
+#: lib/dpkg/compress.c:428
 msgid "file format not recognized"
 msgstr "dosierformo ne estis rekonata"
 
-#: lib/dpkg/compress.c:420
+#: lib/dpkg/compress.c:432
 msgid "unsupported type of integrity check"
 msgstr "nesubtenata tipo de integreca kontrolo"
 
-#: lib/dpkg/compress.c:461
+#: lib/dpkg/compress.c:473
 #, c-format
 msgid "%s: lzma read error"
 msgstr "%s: leg-eraro de lzma"
 
-#: lib/dpkg/compress.c:473
+#: lib/dpkg/compress.c:485
 #, c-format
 msgid "%s: lzma write error"
 msgstr "%s: skrib-eraro de lzma"
 
-#: lib/dpkg/compress.c:482
+#: lib/dpkg/compress.c:494
 #, c-format
 msgid "%s: lzma close error"
 msgstr "%s: ferm-eraro de lzma"
 
-#: lib/dpkg/compress.c:488
+#: lib/dpkg/compress.c:500
 #, c-format
 msgid "%s: lzma error: %s"
 msgstr "%s: eraro de lzma: %s"
 
-#: lib/dpkg/compress.c:761
+#: lib/dpkg/compress.c:788
 msgid "unknown compression strategy"
 msgstr "nekonata kompaktiga strategio"
 
@@ -299,7 +311,7 @@ msgstr "ne eblas skani la ĝisdatigan dosierujon '%.255s'"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "malsukcesis forigi enkorpigitan ĝisdatigan dosieron %.255s"
 
-#: lib/dpkg/dbmodify.c:120 dpkg-deb/build.c:450
+#: lib/dpkg/dbmodify.c:120 dpkg-deb/build.c:451
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "ne eblas krei '%.255s'"
@@ -383,19 +395,19 @@ msgstr "ne eblas fermi la ĝisdatigitan staton de '%.250s'"
 msgid "unable to install updated status of `%.250s'"
 msgstr "ne eblas instali la ĝisdatigitan staton de '%.250s'"
 
-#: lib/dpkg/deb-version.c:42
+#: lib/dpkg/deb-version.c:55
 msgid "format version with empty major component"
 msgstr "formo-versio kun malplena maĵora komponanto"
 
-#: lib/dpkg/deb-version.c:44
+#: lib/dpkg/deb-version.c:57
 msgid "format version has no dot"
 msgstr "formo-versio ne havas punkton"
 
-#: lib/dpkg/deb-version.c:50
+#: lib/dpkg/deb-version.c:63
 msgid "format version with empty minor component"
 msgstr "formo-versio kun malplena minora komponanto"
 
-#: lib/dpkg/deb-version.c:52
+#: lib/dpkg/deb-version.c:65
 msgid "format version followed by junk"
 msgstr "formo-versio sekvata de rubaĵo"
 
@@ -415,36 +427,36 @@ msgid "unable to open directory '%s'"
 msgstr "ne eblas malfermi la dosierujon '%s'"
 
 #: lib/dpkg/dir.c:109 src/divertcmd.c:217 dpkg-split/split.c:208
-#: utils/update-alternatives.c:1289
+#: utils/update-alternatives.c:1288
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "ne eblas malfermi la dosieron '%s'"
 
-#: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:610
-#: dpkg-split/join.c:70 dpkg-split/queue.c:196
-#: utils/update-alternatives.c:1402
+#: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:611
+#: dpkg-split/join.c:70 dpkg-split/queue.c:197
+#: utils/update-alternatives.c:1401
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "ne eblas sinkronigi dosieron '%s'"
 
-#: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:612
-#: dpkg-split/join.c:72 dpkg-split/queue.c:198
-#: utils/update-alternatives.c:1310 utils/update-alternatives.c:1404
+#: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:613
+#: dpkg-split/join.c:72 dpkg-split/queue.c:199
+#: utils/update-alternatives.c:1309 utils/update-alternatives.c:1403
 #, c-format
 msgid "unable to close file '%s'"
 msgstr "ne eblas fermi dosieron '%s'"
 
-#: lib/dpkg/dump.c:465
+#: lib/dpkg/dump.c:466
 #, c-format
 msgid "failed to write details of `%.50s' to `%.250s'"
 msgstr "malsukcesis skribi la detalojn de '%.50s' al '%.250s'"
 
-#: lib/dpkg/dump.c:489
+#: lib/dpkg/dump.c:490
 #, c-format
 msgid "unable to set buffering on %s database file"
 msgstr "ne eblas ŝalti bufradon por datumbaza dosiero %s"
 
-#: lib/dpkg/dump.c:501
+#: lib/dpkg/dump.c:502
 #, c-format
 msgid "failed to write %s database record about '%.50s' to '%.250s'"
 msgstr "malsukcesis skribi datumbazan registron %s je '%.50s' al '%.250s'"
@@ -786,8 +798,8 @@ msgstr "<pak-stato kaj progresa dosier-priskribilo>"
 msgid "unable to write to status fd %d"
 msgstr "ne eblas skribi al stata fd %d"
 
-#: lib/dpkg/mlib.c:42 lib/dpkg/mlib.c:94 utils/update-alternatives.c:272
-#: utils/update-alternatives.c:329 utils/update-alternatives.c:1098
+#: lib/dpkg/mlib.c:42 lib/dpkg/mlib.c:94 utils/update-alternatives.c:274
+#: utils/update-alternatives.c:331 utils/update-alternatives.c:1099
 msgid "failed to allocate memory"
 msgstr "malsukceso dum provo rezervi memoron"
 
@@ -810,12 +822,12 @@ msgstr "malsukceso dum kreo de dukto"
 msgid "error writing to '%s'"
 msgstr "eraro dum skribado al '%s'"
 
-#: lib/dpkg/mlib.c:130
+#: lib/dpkg/mlib.c:131
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "ne eblas legi dosier-priskribajn (fd) flagojn por %.250s"
 
-#: lib/dpkg/mlib.c:132
+#: lib/dpkg/mlib.c:133
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "ne eblas ŝalti flagojn 'close-on-exec' (fermi-je-plenumo) por %.250s"
@@ -865,42 +877,42 @@ msgstr "eraro dum fermo de agordo-dosiero '%.255s'"
 msgid "error opening configuration directory '%s'"
 msgstr "eraro dum malfermo de agordo-dosierujo '%s'"
 
-#: lib/dpkg/options.c:235
+#: lib/dpkg/options.c:236
 #, c-format
 msgid "unknown option --%s"
 msgstr "nekonata elekteblo --%s"
 
-#: lib/dpkg/options.c:239
+#: lib/dpkg/options.c:240
 #, c-format
 msgid "--%s option takes a value"
 msgstr "elekteblo --%s postulas valoron"
 
-#: lib/dpkg/options.c:244
+#: lib/dpkg/options.c:245
 #, c-format
 msgid "--%s option does not take a value"
 msgstr "elekteblo --%s ne akceptas valoron"
 
-#: lib/dpkg/options.c:252
+#: lib/dpkg/options.c:253
 #, c-format
 msgid "unknown option -%c"
 msgstr "nekonata elekteblo -%c"
 
-#: lib/dpkg/options.c:257
+#: lib/dpkg/options.c:258
 #, c-format
 msgid "-%c option takes a value"
 msgstr "elekteblo -%c postulas valoron"
 
-#: lib/dpkg/options.c:265
+#: lib/dpkg/options.c:266
 #, c-format
 msgid "-%c option does not take a value"
 msgstr "elekteblo -%c ne akceptas valoron"
 
-#: lib/dpkg/options.c:278
+#: lib/dpkg/options.c:279
 #, c-format
 msgid "obsolete option '--%s'\n"
 msgstr "malaktuala elekteblo '--%s'\n"
 
-#: lib/dpkg/options.c:294
+#: lib/dpkg/options.c:295
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "konfliktantaj agoj -%c (--%s) kaj -%c (--%s)"
@@ -1061,7 +1073,7 @@ msgstr "EOF en valoro de kampo '%.*s' (mankas lini-fina signo)"
 msgid "several package info entries found, only one allowed"
 msgstr "pluraj pak-informaj enmetaĵoj estis trovitaj, nur unu estas permesate"
 
-#: lib/dpkg/parse.c:760
+#: lib/dpkg/parse.c:761
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "neniu pak-infomo en '%.255s'"
@@ -1181,7 +1193,7 @@ msgstr "eraro dum malkaptado de la signalo %s: %s\n"
 msgid "%s (subprocess): %s\n"
 msgstr "%s (subprocezo): %s\n"
 
-#: lib/dpkg/subproc.c:89 utils/update-alternatives.c:418
+#: lib/dpkg/subproc.c:89 utils/update-alternatives.c:411
 msgid "fork failed"
 msgstr "disbranĉigo malsukcesis"
 
@@ -1209,7 +1221,7 @@ msgstr ", nekropsiita"
 msgid "subprocess %s failed with wait status code %d"
 msgstr "la subprocezo %s malsukcesis kun atenda stato-kodo %d"
 
-#: lib/dpkg/subproc.c:151 utils/update-alternatives.c:425
+#: lib/dpkg/subproc.c:151 utils/update-alternatives.c:418
 #, c-format
 msgid "wait for subprocess %s failed"
 msgstr "atendo je subprocezo %s malsukcesis"
@@ -1395,97 +1407,111 @@ msgstr "neatendata dosierfino dum legado de '%.250s'"
 msgid "error formatting string into varbuf variable"
 msgstr "eraro dum formado de ĉeno enen de variablo varbuf"
 
-#: src/archives.c:242
+#: src/archives.c:244
 msgid "error reading from dpkg-deb pipe"
 msgstr "eraro dum legado el dukto de dpkg-deb"
 
-#: src/archives.c:257
+#: src/archives.c:259
 #, c-format
 msgid "cannot skip padding for file '%.255s': %s"
 msgstr "ne eblas preterpasi ŝtopadon por dosiero '%.255s': %s"
 
-#: src/archives.c:270
+#: src/archives.c:272
 #, c-format
 msgid "cannot skip file '%.255s' (replaced or excluded?) from pipe: %s"
 msgstr ""
 "ne eblas preterpasi dosieron '%.255s' (anstataŭite aŭ forigite?) el dukto: %s"
 
-#: src/archives.c:332
+#: src/archives.c:334
 #, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr "ne eblas krei '%.255s' (dum procezado de '%.255s')"
 
-#: src/archives.c:340
+#: src/archives.c:342
 #, c-format
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr "ne eblas kopii eltiritan datumaron por '%.255s' al '%.255s': %s"
 
-#: src/archives.c:356 src/archives.c:473 src/statcmd.c:159
+#: src/archives.c:358 src/archives.c:475 src/statcmd.c:159
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "eraro dum difino de posedo de '%.255s'"
 
-#: src/archives.c:358 src/archives.c:475 src/statcmd.c:161
+#: src/archives.c:360 src/archives.c:477 src/statcmd.c:161
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "eraro dum difino de permesoj de '%.255s'"
 
-#: src/archives.c:366 src/archives.c:1153 src/archives.c:1194
+#: src/archives.c:368 src/archives.c:1207 src/archives.c:1248
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "eraro dum fermo/skribo de '%.255s'"
 
-#: src/archives.c:370
+#: src/archives.c:372
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "eraro dum kreo de dukto '%.255s'"
 
-#: src/archives.c:375 src/archives.c:380
+#: src/archives.c:377 src/archives.c:382
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "eraro dum kreo de aparato '%.255s'"
 
-#: src/archives.c:394 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
+#: src/archives.c:396 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "eraro dum kreo de rekta ligilo '%.255s'"
 
-#: src/archives.c:401 utils/update-alternatives.c:490
+#: src/archives.c:403 utils/update-alternatives.c:483
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "eraro dum kreo de simbola ligilo '%.255s'"
 
-#: src/archives.c:407
+#: src/archives.c:409
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "eraro dum kreo de la dosierujo '%.255s'"
 
-#: src/archives.c:426
+#: src/archives.c:428
 #, c-format
 msgid "cannot compute MD5 hash for tar file '%.255s': %s"
 msgstr "ne eblas komputi haketadon MD5 por dosiero tar '%.255s': %s"
 
-#: src/archives.c:454 src/archives.c:458
+#: src/archives.c:456 src/archives.c:460
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "eraro dum difino de horstampoj de '%.255s'"
 
-#: src/archives.c:470
+#: src/archives.c:472
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "eraro dum difino de posedo de simbola ligilo '%.255s'"
 
-#: src/archives.c:547 src/archives.c:1077 utils/update-alternatives.c:317
+#: src/archives.c:509
+msgid "cannot open security status notification channel"
+msgstr ""
+
+#: src/archives.c:524
+msgid "cannot get security labeling handle"
+msgstr ""
+
+#: src/archives.c:572
+#, fuzzy, c-format
+#| msgid "cannot extract control file '%s' from '%s': %s"
+msgid "cannot set security context for file object '%s'"
+msgstr "ne eblas elpreni regadan dosieron '%s' el '%s': %s"
+
+#: src/archives.c:601 src/archives.c:1131 utils/update-alternatives.c:319
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "ne eblas legi ligilon '%.255s'"
 
-#: src/archives.c:549 src/archives.c:1079 src/configure.c:529
+#: src/archives.c:603 src/archives.c:1133 src/configure.c:529
 #, c-format
 msgid "symbolic link '%.250s' size has changed from %jd to %zd"
 msgstr "grando de simbola ligo '%.250s' ŝanĝis de %jd al %zd"
 
-#: src/archives.c:586
+#: src/archives.c:640
 #, c-format
 msgid ""
 "trying to overwrite shared '%.250s', which is different from other instances "
@@ -1494,12 +1520,12 @@ msgstr ""
 "provo anstataŭigi kunhavatan '%.250s', kiu estas malsama ol aliaj specimenoj "
 "de la pako %.250s"
 
-#: src/archives.c:676
+#: src/archives.c:730
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr "malsukcesis legi staton (dereference) de ekzistanta symlink '%.250s'"
 
-#: src/archives.c:698
+#: src/archives.c:752
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
@@ -1508,7 +1534,7 @@ msgstr ""
 "malsukcesis legi staton (dereference) de proponita nova celo de symlink "
 "'%.250s' por symlink '%.250s'"
 
-#: src/archives.c:756
+#: src/archives.c:810
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
@@ -1517,17 +1543,17 @@ msgstr ""
 "provo anstataŭigi '%.250s', kiu estas la deturnita versio de '%.250s' (pako: "
 "%.100s)"
 
-#: src/archives.c:762
+#: src/archives.c:816
 #, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr "provo anstataŭigi '%.250s', kiu estas la deturnita versio de '%.250s'"
 
-#: src/archives.c:792
+#: src/archives.c:846
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr "ne eblas legi staton de '%.255s' (kiun estis instalota)"
 
-#: src/archives.c:800
+#: src/archives.c:854
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -1535,38 +1561,38 @@ msgid ""
 msgstr ""
 "ne eblas purigi malordon ĉirkaŭ '%.255s' antaŭ ol instali alian version"
 
-#: src/archives.c:806
+#: src/archives.c:860
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 "ne eblas legi staton de la restarigita '%.255s' antaŭ ol instali alian "
 "version"
 
-#: src/archives.c:842
+#: src/archives.c:896
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "arkivo enhavis objekton '%.255s' el nekonata tipo 0x%x"
 
-#: src/archives.c:924 src/divertcmd.c:148 utils/update-alternatives.c:632
-#: utils/update-alternatives.c:1212 utils/update-alternatives.c:1280
-#: utils/update-alternatives.c:1438 utils/update-alternatives.c:1685
-#: utils/update-alternatives.c:2169 utils/update-alternatives.c:2235
-#: utils/update-alternatives.c:2374
+#: src/archives.c:978 src/divertcmd.c:148 utils/update-alternatives.c:625
+#: utils/update-alternatives.c:1211 utils/update-alternatives.c:1279
+#: utils/update-alternatives.c:1437 utils/update-alternatives.c:1700
+#: utils/update-alternatives.c:2182 utils/update-alternatives.c:2248
+#: utils/update-alternatives.c:2387
 #, c-format
 msgid "cannot stat file '%s'"
 msgstr "ne eblas 'stat' dosieron '%s'"
 
-#: src/archives.c:939
+#: src/archives.c:993
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Anstataŭigo de dosieroj en la malnova pako %s ...\n"
 
-#: src/archives.c:944
+#: src/archives.c:998
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "Anstataŭigite per dosieroj en la instalita pako %s ...\n"
 
-#: src/archives.c:953
+#: src/archives.c:1007
 #, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
@@ -1575,48 +1601,48 @@ msgstr ""
 "provo anstataŭigi la dosierujon '%.250s' en la pako %.250s %.250s kun ne-"
 "dosierujo"
 
-#: src/archives.c:960
+#: src/archives.c:1014
 #, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr "provo anstataŭigi '%.250s', kiu ankaŭ estas en la pako %.250s %.250s"
 
-#: src/archives.c:1067
+#: src/archives.c:1121
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "ne eblas puŝi aparte '%.255s' por instali novan version"
 
-#: src/archives.c:1084
+#: src/archives.c:1138
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "ne eblas fari sekurkopian simbolan ligilon por '%.255s'"
 
-#: src/archives.c:1086
+#: src/archives.c:1140
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr "ne eblas uzi 'chwon' je sekurkopia simbola ligilo por '%.255s'"
 
-#: src/archives.c:1091
+#: src/archives.c:1145
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "ne eblas fari sekurkopian ligilon de '%.255s' antaŭ ol instali novan version"
 
-#: src/archives.c:1108 src/archives.c:1202
+#: src/archives.c:1162 src/archives.c:1256
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "ne eblas instali novan version de '%.255s'"
 
-#: src/archives.c:1147 src/archives.c:1190
+#: src/archives.c:1201 src/archives.c:1244
 #, c-format
 msgid "unable to open '%.255s'"
 msgstr "ne eblas malfermi '%.255s'"
 
-#: src/archives.c:1192
+#: src/archives.c:1246
 #, c-format
 msgid "unable to sync file '%.255s'"
 msgstr "ne eblas sinkronigi dosieron '%.255s'"
 
-#: src/archives.c:1269
+#: src/archives.c:1323
 #, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1625,7 +1651,7 @@ msgstr ""
 "ni preteratentas dependecan problemon kun %s:\n"
 "%s"
 
-#: src/archives.c:1274
+#: src/archives.c:1328
 #, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1634,7 +1660,7 @@ msgstr ""
 "ni konsideras malakomodadon de la esenca\n"
 " pako %s, por ebligi %s"
 
-#: src/archives.c:1278
+#: src/archives.c:1332
 #, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
@@ -1643,7 +1669,7 @@ msgstr ""
 "ne, %s estas esenca, ĝi ne estos malakomodata\n"
 " por ebligi %s"
 
-#: src/archives.c:1287
+#: src/archives.c:1341
 #, c-format
 msgid ""
 "no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1652,27 +1678,27 @@ msgstr ""
 "ne, ne eblas daŭrigi kun %s (--auto-deconfigure helpos):\n"
 "%s"
 
-#: src/archives.c:1297
+#: src/archives.c:1351
 #, c-format
 msgid "removal of %.250s"
 msgstr "forigo de %.250s"
 
-#: src/archives.c:1322
+#: src/archives.c:1376
 #, c-format
 msgid "installation of %.250s"
 msgstr "instalo de %.250s"
 
-#: src/archives.c:1324
+#: src/archives.c:1378
 #, c-format
 msgid "considering deconfiguration of %s, which would be broken by %s ..."
 msgstr "ni konsideras malakomodadon de %s, kiu estus rompita de %s ..."
 
-#: src/archives.c:1330
+#: src/archives.c:1384
 #, c-format
 msgid "yes, will deconfigure %s (broken by %s)"
 msgstr "jes, ni malakomodos %s (rompita de %s)"
 
-#: src/archives.c:1335 src/archives.c:1456
+#: src/archives.c:1389 src/archives.c:1510
 #, c-format
 msgid ""
 "regarding %s containing %s:\n"
@@ -1681,11 +1707,11 @@ msgstr ""
 "prizorgo de %s enhavanta %s:\n"
 "%s"
 
-#: src/archives.c:1343
+#: src/archives.c:1397
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "ni preteratentas rompaĵon, eblas daŭrigi tamen!"
 
-#: src/archives.c:1348
+#: src/archives.c:1402
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
@@ -1694,129 +1720,129 @@ msgstr ""
 "instalado de %.250s povus rompi %.250s, kaj\n"
 " malakomodado ne estas permesata (--auto-deconfigure povus helpi)"
 
-#: src/archives.c:1353
+#: src/archives.c:1407
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr "instalado de %.250s rompus ekzistantan programaron"
 
-#: src/archives.c:1383
+#: src/archives.c:1437
 #, c-format
 msgid "considering removing %s in favour of %s ..."
 msgstr "ni konsideras forigi %s favore al %s ..."
 
-#: src/archives.c:1389
+#: src/archives.c:1443
 #, c-format
 msgid "%s is not properly installed; ignoring any dependencies on it"
 msgstr ""
 "%s ne estas korekte instalita; ni preteratentas iun ajn dependecon je ĝi"
 
-#: src/archives.c:1418
+#: src/archives.c:1472
 #, c-format
 msgid "may have trouble removing %s, as it provides %s ..."
 msgstr "eble okazos problemo forigante %s, ĉar ĝi provizas %s ..."
 
-#: src/archives.c:1433
+#: src/archives.c:1487
 #, c-format
 msgid ""
 "package %s requires reinstallation, but will remove anyway as you requested"
 msgstr ""
 "la pako %s postulas reinstalon, sed eĉ tiel ni forigos ĝin laŭ via peto"
 
-#: src/archives.c:1437
+#: src/archives.c:1491
 #, c-format
 msgid "package %s requires reinstallation, will not remove"
 msgstr "la pako %s postulas reinstalon, ni ne forigos ĝin"
 
-#: src/archives.c:1446
+#: src/archives.c:1500
 #, c-format
 msgid "yes, will remove %s in favour of %s"
 msgstr "jes, ni forigos %s favore al %s"
 
-#: src/archives.c:1459
+#: src/archives.c:1513
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "konfliktantaj pakoj - ni ne instalos %.250s"
 
-#: src/archives.c:1461
+#: src/archives.c:1515
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "ni preteratentas konflikton, eblas daŭrigi tamen!"
 
-#: src/archives.c:1507
+#: src/archives.c:1561
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive bezonas minimume unu voj-parametro"
 
-#: src/archives.c:1517
+#: src/archives.c:1571
 msgid "find for dpkg --recursive"
 msgstr "'find' por dpkg --recursive"
 
-#: src/archives.c:1538
+#: src/archives.c:1592
 msgid "failed to fdopen find's pipe"
 msgstr "malsukceso por uzi 'fdopen' je dukto de 'find'"
 
-#: src/archives.c:1544
+#: src/archives.c:1598
 msgid "error reading find's pipe"
 msgstr "eraro dum legado de dukto de 'find'"
 
-#: src/archives.c:1545
+#: src/archives.c:1599
 msgid "error closing find's pipe"
 msgstr "eraro dum fermo de dukto de 'find'"
 
-#: src/archives.c:1548
+#: src/archives.c:1602
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "'find' por --recursive liveris netraktitan eraron %i"
 
-#: src/archives.c:1551
+#: src/archives.c:1605
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "ni serĉis, sed trovis neniun pakon (dosierojn kongruantajn al *.deb)"
 
-#: src/archives.c:1562
+#: src/archives.c:1616
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s bezonas minimume unu pakan arkivan dosieran argumenton"
 
-#: src/archives.c:1597 src/divertcmd.c:76 src/divertcmd.c:116
+#: src/archives.c:1653 src/divertcmd.c:76 src/divertcmd.c:116
 #: src/enquiry.c:218 src/enquiry.c:335 src/enquiry.c:526 src/enquiry.c:528
 #: src/enquiry.c:541 src/enquiry.c:571 src/main.c:68 src/main.c:170
-#: src/main.c:320 src/main.c:578 src/packages.c:266 src/querycmd.c:291
-#: src/querycmd.c:393 src/querycmd.c:440 src/querycmd.c:449 src/querycmd.c:495
-#: src/querycmd.c:578 src/querycmd.c:766 src/querycmd.c:814 src/select.c:99
+#: src/main.c:320 src/main.c:578 src/packages.c:266 src/querycmd.c:297
+#: src/querycmd.c:399 src/querycmd.c:446 src/querycmd.c:455 src/querycmd.c:501
+#: src/querycmd.c:584 src/querycmd.c:772 src/querycmd.c:820 src/select.c:99
 #: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:60 src/trigcmd.c:92
-#: dpkg-deb/build.c:444 dpkg-deb/extract.c:218 dpkg-deb/extract.c:254
+#: dpkg-deb/build.c:445 dpkg-deb/extract.c:218 dpkg-deb/extract.c:254
 #: dpkg-deb/info.c:205 dpkg-deb/info.c:267 dpkg-deb/main.c:62
-#: dpkg-deb/main.c:130 dpkg-split/info.c:266 dpkg-split/main.c:56
-#: dpkg-split/main.c:100 dpkg-split/queue.c:150 dpkg-split/queue.c:289
+#: dpkg-deb/main.c:134 dpkg-split/info.c:266 dpkg-split/main.c:56
+#: dpkg-split/main.c:100 dpkg-split/queue.c:151 dpkg-split/queue.c:290
 msgid "<standard output>"
 msgstr "<norma eligo>"
 
-#: src/archives.c:1598 src/packages.c:267 src/querycmd.c:292
-#: src/querycmd.c:391 src/querycmd.c:501 src/querycmd.c:579 src/select.c:100
-#: dpkg-split/main.c:177 dpkg-split/queue.c:227
+#: src/archives.c:1654 src/packages.c:267 src/querycmd.c:298
+#: src/querycmd.c:397 src/querycmd.c:507 src/querycmd.c:585 src/select.c:100
+#: dpkg-split/main.c:177 dpkg-split/queue.c:228
 msgid "<standard error>"
 msgstr "<norma eraro>"
 
-#: src/archives.c:1639
+#: src/archives.c:1697
 #, c-format
 msgid "Selecting previously unselected package %s.\n"
 msgstr "Elektado de la antaŭe neelektita pako %s.\n"
 
-#: src/archives.c:1644
+#: src/archives.c:1701
 #, c-format
 msgid "Skipping unselected package %s.\n"
 msgstr "Preterpaso de neelektita pako %s.\n"
 
-#: src/archives.c:1661
+#: src/archives.c:1718
 #, c-format
 msgid "version %.250s of %.250s already installed, skipping"
 msgstr "versio %.250s de %.250s jam estas instalita, ni preterpasas"
 
-#: src/archives.c:1670
+#: src/archives.c:1727
 #, c-format
 msgid "downgrading %.250s from %.250s to %.250s"
 msgstr "ni retroigas %.250s de %.250s al %.250s"
 
-#: src/archives.c:1676
+#: src/archives.c:1733
 #, c-format
 msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
 msgstr "Ni ne retroigos %.250s de %.250s al %.250s, ni preterpasas"
@@ -1906,7 +1932,7 @@ msgstr "%s:malsukceso dum ligigo de '%.250s' al '%.250s': %s"
 msgid "Installing new version of config file %s ...\n"
 msgstr "Instalado de nova versio de akomoda dosiero %s ...\n"
 
-#: src/configure.c:280 utils/update-alternatives.c:497
+#: src/configure.c:280 utils/update-alternatives.c:490
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "ne eblas instali '%.250s' kiel '%.250s'"
@@ -2298,7 +2324,7 @@ msgstr "Uzu --help por helpo pri deturnaj pakoj."
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s versio %s.\n"
 
-#: src/divertcmd.c:73 src/main.c:65 src/querycmd.c:763 src/statcmd.c:61
+#: src/divertcmd.c:73 src/main.c:65 src/querycmd.c:769 src/statcmd.c:61
 #: src/trigcmd.c:57 dpkg-deb/main.c:59 dpkg-split/main.c:53
 #: utils/update-alternatives.c:84
 #, c-format
@@ -2310,7 +2336,7 @@ msgstr ""
 "versio 2 aŭ\n"
 "posta por kopi-kondiĉoj. Estas NENIU garantio.\n"
 
-#: src/divertcmd.c:85 src/main.c:83 src/querycmd.c:775 src/statcmd.c:73
+#: src/divertcmd.c:85 src/main.c:83 src/querycmd.c:781 src/statcmd.c:73
 #: dpkg-deb/main.c:71 dpkg-split/main.c:65 utils/update-alternatives.c:92
 #, c-format
 msgid ""
@@ -2397,7 +2423,7 @@ msgstr ""
 "renomigo implicas anstataŭigon de '%s' per\n"
 "  malsama dosiero '%s', ne permesite"
 
-#: src/divertcmd.c:222 utils/update-alternatives.c:1369
+#: src/divertcmd.c:222 utils/update-alternatives.c:1368
 #, c-format
 msgid "unable to create file '%s'"
 msgstr "ne eblas krei dosieron '%s'"
@@ -2412,98 +2438,98 @@ msgstr "ne eblas kopii '%s' al '%s': %s"
 msgid "cannot rename '%s' to '%s'"
 msgstr "ne eblas renomigi '%s' al '%s'"
 
-#: src/divertcmd.c:252
+#: src/divertcmd.c:254
 #, c-format
 msgid "rename: remove duplicate old link '%s'"
 msgstr "renomigi: forigi duobligitan malnovan ligon '%s'"
 
-#: src/divertcmd.c:262
+#: src/divertcmd.c:264
 #, c-format
 msgid "unable to remove copied source file '%s'"
 msgstr "ne eblas forigi kopiitan kodumo-dosieron '%s'"
 
-#: src/divertcmd.c:271 src/divertcmd.c:735
+#: src/divertcmd.c:273 src/divertcmd.c:737
 #, c-format
 msgid "filename \"%s\" is not absolute"
 msgstr "la dosiernomo \"%s\" ne estas absoluta"
 
-#: src/divertcmd.c:273 src/statcmd.c:230
+#: src/divertcmd.c:275
 msgid "file may not contain newlines"
 msgstr "dosiero ne povas enhavi novlini-signojn"
 
-#: src/divertcmd.c:293
+#: src/divertcmd.c:295
 #, c-format
 msgid "local diversion of %s"
 msgstr "loka deturno de: %s"
 
-#: src/divertcmd.c:295
+#: src/divertcmd.c:297
 #, c-format
 msgid "local diversion of %s to %s"
 msgstr "loka deturno de: %s al %s"
 
-#: src/divertcmd.c:299
+#: src/divertcmd.c:301
 #, c-format
 msgid "diversion of %s by %s"
 msgstr "deturno de %s pro %s"
 
-#: src/divertcmd.c:302
+#: src/divertcmd.c:304
 #, c-format
 msgid "diversion of %s to %s by %s"
 msgstr "deturno de %s al %s pro %s"
 
-#: src/divertcmd.c:318
+#: src/divertcmd.c:320
 #, c-format
 msgid "any diversion of %s"
 msgstr "iu ajn deturno de %s"
 
-#: src/divertcmd.c:320
+#: src/divertcmd.c:322
 #, c-format
 msgid "any diversion of %s to %s"
 msgstr "iu ajn deturno de %s al %s"
 
-#: src/divertcmd.c:425 src/divertcmd.c:557 src/divertcmd.c:675
-#: src/divertcmd.c:697 src/statcmd.c:271
+#: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
+#: src/divertcmd.c:699 src/statcmd.c:271
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s bezonas unuopan argumenton"
 
-#: src/divertcmd.c:434
+#: src/divertcmd.c:436
 msgid "Cannot divert directories"
 msgstr "Ne eblas deturni dosierujojn"
 
-#: src/divertcmd.c:447
+#: src/divertcmd.c:449
 #, c-format
 msgid "cannot divert file '%s' to itself"
 msgstr "Ne eblas deturni dosieron '%s' al si mem"
 
-#: src/divertcmd.c:467
+#: src/divertcmd.c:469
 #, c-format
 msgid "Leaving '%s'\n"
 msgstr "Ni lasas '%s'\n"
 
-#: src/divertcmd.c:472
+#: src/divertcmd.c:474
 #, c-format
 msgid "`%s' clashes with `%s'"
 msgstr "'%s' kolizias kun '%s'"
 
-#: src/divertcmd.c:495
+#: src/divertcmd.c:497
 #, c-format
 msgid "Adding '%s'\n"
 msgstr "Aldonado de '%s'\n"
 
-#: src/divertcmd.c:501
+#: src/divertcmd.c:503
 #, c-format
 msgid "Ignoring request to rename file '%s' owned by diverting package '%s'\n"
 msgstr ""
 "ni preteratentas peton renomigi dosieron '%s', posedata de deturna pako "
 "'%s'\n"
 
-#: src/divertcmd.c:566
+#: src/divertcmd.c:568
 #, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "Neniu deturno '%s', neniu forigita.\n"
 
-#: src/divertcmd.c:581
+#: src/divertcmd.c:583
 #, c-format
 msgid ""
 "mismatch on divert-to\n"
@@ -2514,7 +2540,7 @@ msgstr ""
 "  dum forigo de '%s'\n"
 "  trovite '%s'"
 
-#: src/divertcmd.c:588
+#: src/divertcmd.c:590
 #, c-format
 msgid ""
 "mismatch on package\n"
@@ -2525,21 +2551,21 @@ msgstr ""
 "  dum forigo de '%s'\n"
 "  trovite '%s'"
 
-#: src/divertcmd.c:598
+#: src/divertcmd.c:600
 #, c-format
 msgid "Ignoring request to remove shared diversion '%s'.\n"
 msgstr "Ni preteratentas peton forigi kunhavatan deturnon '%s'.\n"
 
-#: src/divertcmd.c:604
+#: src/divertcmd.c:606
 #, c-format
 msgid "Removing '%s'\n"
 msgstr "Forigado de '%s'\n"
 
-#: src/divertcmd.c:726
+#: src/divertcmd.c:728
 msgid "package may not contain newlines"
 msgstr "pako ne povas enhavi novlini-signojn"
 
-#: src/divertcmd.c:737
+#: src/divertcmd.c:739
 msgid "divert-to may not contain newlines"
 msgstr "deturni-al ne povas enhavi novlini-signojn"
 
@@ -2655,8 +2681,8 @@ msgstr ""
 "per registro de frenda arkitekuro kun dpkg --add-architecture:\n"
 
 #: src/enquiry.c:189 src/enquiry.c:263 src/enquiry.c:348 src/enquiry.c:437
-#: src/enquiry.c:537 src/enquiry.c:560 src/select.c:117 src/select.c:193
-#: src/trigcmd.c:228 src/update.c:48 src/update.c:110 dpkg-split/queue.c:241
+#: src/enquiry.c:537 src/enquiry.c:560 src/select.c:118 src/select.c:199
+#: src/trigcmd.c:228 src/update.c:48 src/update.c:110 dpkg-split/queue.c:242
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s postulas neniun argumenton"
@@ -2735,7 +2761,7 @@ msgstr ""
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "ne eblas plenumi antaŭdependecoj por %.250s (postulate pro %.250s)"
 
-#: src/enquiry.c:549
+#: src/enquiry.c:549 dpkg-deb/main.c:170 dpkg-deb/main.c:179
 #, c-format
 msgid "obsolete option '--%s'; please use '--%s' instead"
 msgstr "malaktuala elekteblo '--%s'; bonvolu uzi '--%s' anstataŭe"
@@ -2829,27 +2855,27 @@ msgstr "dosier-listo por la pako '%.250s' ne estas ordinara dosiero"
 msgid "reading files list for package '%.250s'"
 msgstr "legado de dosier-listo por pako '%.250s'"
 
-#: src/filesdb.c:308
+#: src/filesdb.c:309
 #, c-format
 msgid "files list file for package '%.250s' is missing final newline"
 msgstr "dosier-lista dosiero por la pako '%.250s' malhavas lastan linifinaĵon"
 
-#: src/filesdb.c:316
+#: src/filesdb.c:317
 #, c-format
 msgid "files list file for package `%.250s' contains empty filename"
 msgstr ""
 "dosier-lista dosiero por la pako '%.250s' enhavas malplenan dosiernomon"
 
-#: src/filesdb.c:327
+#: src/filesdb.c:328
 #, c-format
 msgid "error closing files list file for package `%.250s'"
 msgstr "eraro dum fermo de dosier-lista dosiero por la pako '%.250s'"
 
-#: src/filesdb.c:439
+#: src/filesdb.c:440
 msgid "(Reading database ... "
 msgstr "(Legado de datumbazo ... "
 
-#: src/filesdb.c:460
+#: src/filesdb.c:461
 #, c-format
 msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
@@ -2888,16 +2914,16 @@ msgstr "ekigita"
 msgid "installed"
 msgstr "instalita"
 
-#: src/help.c:106
+#: src/help.c:112
 msgid "PATH is not set"
 msgstr "PATH ne estas difinita"
 
-#: src/help.c:128
+#: src/help.c:134
 #, c-format
 msgid "'%s' not found in PATH or not executable"
 msgstr "'%s' ne estis trovata en PATH aŭ ne estas lanĉebla"
 
-#: src/help.c:137
+#: src/help.c:143
 #, c-format
 msgid ""
 "%d expected program not found in PATH or not executable\n"
@@ -2912,19 +2938,19 @@ msgstr[1] ""
 "%d atenditaj programoj ne estis trovataj en PATH aŭ ne estas lanĉeblaj\n"
 "%s"
 
-#: src/help.c:140
+#: src/help.c:146
 msgid ""
 "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
 msgstr ""
 "Rim.: PATH por la ĉefuzanto ordinare devas enhavi /usr/local/sbin, /usr/sbin "
 "kaj /sbin"
 
-#: src/help.c:380
+#: src/help.c:386
 #, c-format
 msgid "unable to securely remove '%.255s'"
 msgstr "ne eblas sekure forigi '%.255s'"
 
-#: src/help.c:385 dpkg-deb/info.c:65 dpkg-deb/info.c:67
+#: src/help.c:391 dpkg-deb/info.c:65 dpkg-deb/info.c:67
 msgid "rm command for cleanup"
 msgstr "komando rm por purigado"
 
@@ -2937,7 +2963,7 @@ msgstr "ne eblas kontroli ekziston de '%.250s'"
 msgid "cannot read info directory"
 msgstr "ne povas legi informan dosierujon"
 
-#: src/infodb-format.c:52 src/processarc.c:697
+#: src/infodb-format.c:52 src/unpack.c:699
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "eraro dum provo malfermi %.250s"
@@ -3021,11 +3047,11 @@ msgstr ""
 "pakojn.\n"
 "  -s|--status <pako> ...           Montrigi detalojn pri pak-stato.\n"
 "  -p|--print-avail <pako> ...      Montrigi detalojn pri disponebla versio.\n"
-"  -L|--listfiles <ŝablono> ...     Listigi dosierojn 'posedatajn' de la pako"
-"(j).\n"
+"  -L|--listfiles <ŝablono> ...     Listigi dosierojn 'posedatajn' de la "
+"pako(j).\n"
 "  -l|--list [<ŝablono> ...]        Listigi pakojn resume.\n"
-"  -S|--search <ŝablono> ...        Trovi pako(j)n posedanta(j)n dosiero(j)"
-"n.\n"
+"  -S|--search <ŝablono> ...        Trovi pako(j)n posedanta(j)n "
+"dosiero(j)n.\n"
 "  -C|--audit                       Kontroli rompita(j)n pako(j)n.\n"
 "  --add-architecture <ark>         Aldoni <ark> al la listo de "
 "arkitekturoj.\n"
@@ -3040,7 +3066,7 @@ msgstr ""
 "  -Dh|--debug=help                 Montri helpon pri rafinigo.\n"
 "\n"
 
-#: src/main.c:118 src/querycmd.c:794 src/trigcmd.c:79 dpkg-deb/main.c:90
+#: src/main.c:118 src/querycmd.c:800 src/trigcmd.c:79 dpkg-deb/main.c:90
 #: dpkg-split/main.c:79
 #, c-format
 msgid ""
@@ -3172,20 +3198,32 @@ msgstr ""
 "\n"
 
 #: src/main.c:168
-#, c-format
-msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
+#, fuzzy, c-format
+#| msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
+msgid "Use 'apt' or 'aptitude' for user-friendly package management.\n"
 msgstr "Uzu 'deselect' aŭ 'aptitude' por uzant-faciliga pak-administrado.\n"
 
 #: src/main.c:176
+#, fuzzy
+#| msgid ""
+#| "Type dpkg --help for help about installing and deinstalling packages "
+#| "[*];\n"
+#| "Use `dselect' or `aptitude' for user-friendly package management;\n"
+#| "Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
+#| "Type dpkg --force-help for a list of forcing options;\n"
+#| "Type dpkg-deb --help for help about manipulating *.deb files;\n"
+#| "\n"
+#| "Options marked [*] produce a lot of output - pipe it through `less' or "
+#| "`more' !"
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
-"Use `dselect' or `aptitude' for user-friendly package management;\n"
+"Use 'apt' or 'aptitude' for user-friendly package management;\n"
 "Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
 "Type dpkg --force-help for a list of forcing options;\n"
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "\n"
-"Options marked [*] produce a lot of output - pipe it through `less' or "
-"`more' !"
+"Options marked [*] produce a lot of output - pipe it through 'less' or "
+"'more' !"
 msgstr ""
 "Tajpu dpkg --help por helpo pri instalado kaj malinstalado de pakoj [*];\n"
 "Uzu `dselect' aŭ `aptitude' por uzant-faciliga administrado de pakoj;\n"
@@ -3387,8 +3425,8 @@ msgstr "--%s postulas pozitivan okuman argumenton"
 msgid "null package name in --%s comma-separated list '%.250s'"
 msgstr "nula pak-nomo en --%s komo-apartita listo '%.250s'"
 
-#: src/main.c:365 src/packages.c:114 src/querycmd.c:425 src/querycmd.c:670
-#: src/querycmd.c:702 src/querycmd.c:739
+#: src/main.c:365 src/packages.c:114 src/querycmd.c:431 src/querycmd.c:676
+#: src/querycmd.c:708 src/querycmd.c:745
 #, c-format
 msgid "--%s needs a valid package name but '%.250s' is not: %s"
 msgstr "--%s postulas validan pak-nomon sed '%.250s' ne estas: %s"
@@ -3477,22 +3515,22 @@ msgstr "malaktuala perforta/rifuza elekteblo '%s'\n"
 msgid "--%s takes exactly one argument"
 msgstr "--%s prenas precize unu argumenton"
 
-#: src/main.c:739
+#: src/main.c:740
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "ne eblis malfermi '%i' por elsendfluo"
 
-#: src/main.c:764
+#: src/main.c:765
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "ne atendita dosierfino antaŭ ol fino de linio %d"
 
-#: src/main.c:807 src/main.c:829 src/querycmd.c:859 src/statcmd.c:360
-#: dpkg-deb/main.c:223 dpkg-split/main.c:171
+#: src/main.c:808 src/main.c:830 src/querycmd.c:865 src/statcmd.c:360
+#: dpkg-deb/main.c:264 dpkg-split/main.c:171
 msgid "need an action option"
 msgstr "bezonas agan elekteblon"
 
-#: src/main.c:835 src/script.c:112
+#: src/main.c:836 src/script.c:117
 msgid "unable to setenv for subprocesses"
 msgstr "ne eblas uzi 'setenv' por subprocezoj"
 
@@ -3509,7 +3547,7 @@ msgstr ""
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending prenas neniun ne-elektecan argumenton"
 
-#: src/packages.c:149 src/querycmd.c:413 src/querycmd.c:656
+#: src/packages.c:149 src/querycmd.c:419 src/querycmd.c:662
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s bezonas minimume unu argumenton por pak-nomo"
@@ -3610,254 +3648,13 @@ msgstr " dependas je "
 msgid "; however:\n"
 msgstr "; tamen:\n"
 
-#: src/processarc.c:75
-#, c-format
-msgid ".../%s"
-msgstr ".../%s"
-
-#: src/processarc.c:95
-#, c-format
-msgid "error ensuring `%.250s' doesn't exist"
-msgstr "eraro dum certigo ke '%.250s' ne ekzistas"
-
-#: src/processarc.c:103
-msgid "split package reassembly"
-msgstr "remunto de disigita pako"
-
-#: src/processarc.c:112
-msgid "reassembled package file"
-msgstr "re-kunmetita pak-dosiero"
-
-#: src/processarc.c:137
-#, c-format
-msgid "Authenticating %s ...\n"
-msgstr "Aŭtentikigado de %s ...\n"
-
-#: src/processarc.c:143
-msgid "package signature verification"
-msgstr "kontrolo de pak-subskribo"
-
-#: src/processarc.c:150
-#, c-format
-msgid "verification on package %s failed!"
-msgstr "kontrolado je pako %s malsukcesis!"
-
-#: src/processarc.c:152
-#, c-format
-msgid ""
-"verification on package %s failed; but installing anyway as you requested"
-msgstr ""
-"kontrolado je pako %s malsukcesis; sed ni instalas eĉ tiel, laŭ via peto"
-
-#: src/processarc.c:155
-#, c-format
-msgid "passed\n"
-msgstr "pasis\n"
-
-#: src/processarc.c:168 dpkg-deb/info.c:81
-msgid "unable to create temporary directory"
-msgstr "malsukceso dum kreo de provizora dosierujo"
-
-#: src/processarc.c:208
-#, c-format
-msgid "package %s has too many Conflicts/Replaces pairs"
-msgstr "la pako %s havas tro multajn parojn Konfliktoj/Anstataŭoj"
-
-#: src/processarc.c:218 src/remove.c:207
-#, c-format
-msgid "unable to delete control info file `%.250s'"
-msgstr "ne eblas forigi la reg-informan dosieron '%.250s'"
-
-#: src/processarc.c:229
-#, c-format
-msgid "old version of package has overly-long info file name starting `%.250s'"
-msgstr ""
-"malnova versio de pako havas tro longan informan dosiernomon kiu startas je "
-"'%.250s'"
-
-#: src/processarc.c:267
-#, c-format
-msgid "unable to remove obsolete info file `%.250s'"
-msgstr "ne eblas forigi malaktualan inform-dosieron '%.250s'"
-
-#: src/processarc.c:272
-#, c-format
-msgid "unable to install (supposed) new info file `%.250s'"
-msgstr "ne eblas instali la (supoze) novan inform-dosieron '%.250s'"
-
-#: src/processarc.c:282
-msgid "unable to open temp control directory"
-msgstr "ne eblas malfermi provizoran reg-dosierujon"
-
-#: src/processarc.c:293
-#, c-format
-msgid "package contains overly-long control info file name (starting `%.50s')"
-msgstr ""
-"la pako enhavas tro longan reg-informan dosiernomon (kiu startas je '%.50s')"
-
-#: src/processarc.c:300
-#, c-format
-msgid "package control info contained directory `%.250s'"
-msgstr "la pak-rega informo enhavis la dosierujon '%.250s'"
-
-#: src/processarc.c:302
-#, c-format
-msgid "package control info rmdir of `%.250s' didn't say not a dir"
-msgstr "rmdir de '%.250s' per pak-rega informo ne diris ke ne estas dosierujo"
-
-#: src/processarc.c:312
-#, c-format
-msgid "package %s contained list as info file"
-msgstr "la pako %s enhavis liston kiel inform-dosieron"
-
-#: src/processarc.c:320
-#, c-format
-msgid "unable to install new info file `%.250s' as `%.250s'"
-msgstr "ne eblas instali novan inform-dosieron '%.250s' kiel '%.250s'"
-
-#: src/processarc.c:345
-#, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(Ni rimarkas malaperon de %s, kiu estas entute anstataŭita.)\n"
-
-#: src/processarc.c:451
-msgid "cannot access archive"
-msgstr "ne povas atingi arkivon"
-
-#: src/processarc.c:473
-msgid "package control information extraction"
-msgstr "eltirado de informo pri reg-informaro"
-
-#: src/processarc.c:508
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "Registrita informo pri %s el %s.\n"
-
-#: src/processarc.c:518
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "la pak-arkitekturo (%s) ne kongruas al la sistemo (%s)"
-
-#: src/processarc.c:579
-#, c-format
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"pri %s, kiu enhavas %s, antaŭdependeca problemo:\n"
-"%s"
-
-#: src/processarc.c:583
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "antaŭdependeca problemo - ni ne instalos %.250s"
-
-#: src/processarc.c:585
-msgid "ignoring pre-dependency problem!"
-msgstr "preteratento de dependeca problemo!"
-
-#: src/processarc.c:601
-#, c-format
-msgid "Preparing to replace %s %s (using %s) ...\n"
-msgstr "Ni prepariĝas por anstataŭigi %s %s (uzante %s) ...\n"
-
-#: src/processarc.c:607
-#, c-format
-msgid "Unpacking %s (from %s) ...\n"
-msgstr "Elpakado de %s (el %s) ...\n"
-
-#: src/processarc.c:639
-#, c-format
-msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
-msgstr ""
-"nomo de conffile (komencante per '%.250s') estas tro longa (>%d signoj)"
-
-#: src/processarc.c:693 utils/update-alternatives.c:2105
-#, c-format
-msgid "read error in %.250s"
-msgstr "leg-eraro en %.250s"
-
-#: src/processarc.c:695
-#, c-format
-msgid "error closing %.250s"
-msgstr "eraro dum fermo de %.250s"
-
-#: src/processarc.c:739
-#, c-format
-msgid "De-configuring %s, to allow removal of %s ...\n"
-msgstr "Malakomodado de %s, por ebligi forigon de %s ...\n"
-
-#: src/processarc.c:743
-#, c-format
-msgid "De-configuring %s ...\n"
-msgstr "Malakomodado de %s ...\n"
-
-#: src/processarc.c:824
-#, c-format
-msgid "Unpacking replacement %.250s ...\n"
-msgstr "Elpakado de anstataŭanto %.250s ...\n"
-
-#: src/processarc.c:910
-msgid "package filesystem archive extraction"
-msgstr "eltirado de paka dosiersistema arkivo"
-
-#: src/processarc.c:925
-msgid "error reading dpkg-deb tar output"
-msgstr "eraro dum legado de eligo de dpkg-deb tar"
-
-#: src/processarc.c:927
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "misrompita dosiersistema tar-dosiero - misrompita pak-arkivo"
-
-#: src/processarc.c:931
-#, c-format
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "ne eblas forigi eblajn vostajn nulojn el dpkg-deb: %s"
-
-#: src/processarc.c:991
-#, c-format
-msgid "could not stat old file '%.250s' so not deleting it: %s"
-msgstr ""
-"ne eblis legi la staton de la malnova dosiero '%.250s', do ni forigas ĝin: %s"
-
-#: src/processarc.c:997
-#, c-format
-msgid "unable to delete old directory '%.250s': %s"
-msgstr "ne eblas forigi la malnovan dosierujon '%.250s': %s"
-
-#: src/processarc.c:1000
-#, c-format
-msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
-msgstr ""
-"la malnova conffile '%.250s' estis malplena dosierujo (kaj nun estas "
-"forigita)"
-
-#: src/processarc.c:1047
-#, c-format
-msgid "unable to stat other new file `%.250s'"
-msgstr "ne eblas legi staton de alia nova dosiero '%.250s'"
-
-#: src/processarc.c:1058
-#, c-format
-msgid ""
-"old file '%.250s' is the same as several new files! (both '%.250s' and "
-"'%.250s')"
-msgstr ""
-"la malnova dosiero '%.250s' estas la sama ol pluraj novaj dosieroj! (kaj "
-"'%.250s' kaj '%.250s')"
-
-#: src/processarc.c:1097
-#, c-format
-msgid "unable to securely remove old file '%.250s': %s"
-msgstr "ne eblas sekure forigi la malnovan dosieron '%.250s': %s"
-
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
 #. * the first three columns, which should ideally match the English one
 #. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
 #. * translated message can use additional lines if needed.
-#: src/querycmd.c:173
+#: src/querycmd.c:179
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
@@ -3869,92 +3666,92 @@ msgstr ""
 "atend/T-ekigil-traktote\n"
 "|/ Err?=(nenio)/Reinst-postulate (Stato,Err: majuskle=malbone)\n"
 
-#: src/querycmd.c:177
+#: src/querycmd.c:183
 msgid "Name"
 msgstr "Nomo"
 
-#: src/querycmd.c:177
+#: src/querycmd.c:183
 msgid "Version"
 msgstr "Versio"
 
-#: src/querycmd.c:178
+#: src/querycmd.c:184
 msgid "Architecture"
 msgstr "Arkitekturo"
 
-#: src/querycmd.c:178
+#: src/querycmd.c:184
 msgid "Description"
 msgstr "Priskribo"
 
-#: src/querycmd.c:281 src/querycmd.c:568 src/select.c:93
+#: src/querycmd.c:287 src/querycmd.c:574 src/select.c:93
 #, c-format
 msgid "no packages found matching %s"
 msgstr "neniu pako kongruanta al %s estis trovata"
 
-#: src/querycmd.c:312
+#: src/querycmd.c:318
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "deturno de %s el: %s\n"
 
-#: src/querycmd.c:314
+#: src/querycmd.c:320
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "deturno de %s al: %s\n"
 
-#: src/querycmd.c:317
+#: src/querycmd.c:323
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "loka deturno el: %s\n"
 
-#: src/querycmd.c:318
+#: src/querycmd.c:324
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "loka deturno al: %s\n"
 
-#: src/querycmd.c:348
+#: src/querycmd.c:354
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search bezonas minimume unu modelon de dosiernomo kiel argumenton"
 
-#: src/querycmd.c:389
+#: src/querycmd.c:395
 #, c-format
 msgid "no path found matching pattern %s"
 msgstr "neniu pako kongruanta al la ŝablono %s"
 
-#: src/querycmd.c:436
+#: src/querycmd.c:442
 #, c-format
 msgid "package '%s' is not installed and no information is available"
 msgstr "la pako '%s' ne estas instalita kaj neniu informo disponeblas"
 
-#: src/querycmd.c:445
+#: src/querycmd.c:451
 #, c-format
 msgid "package '%s' is not available"
 msgstr "la pako '%s' ne disponeblas"
 
-#: src/querycmd.c:455 src/querycmd.c:674 src/querycmd.c:706 src/querycmd.c:743
+#: src/querycmd.c:461 src/querycmd.c:680 src/querycmd.c:712 src/querycmd.c:749
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "la pako '%s' ne estas instalita"
 
-#: src/querycmd.c:464
+#: src/querycmd.c:470
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "La pako '%s' ne enhavas iun ajn dosieron (!)\n"
 
-#: src/querycmd.c:472
+#: src/querycmd.c:478
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "loke deturnite al: %s\n"
 
-#: src/querycmd.c:475
+#: src/querycmd.c:481
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "la pako deturnas aliajn al: %s\n"
 
-#: src/querycmd.c:478
+#: src/querycmd.c:484
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "deturnita de %s al: %s\n"
 
-#: src/querycmd.c:499
+#: src/querycmd.c:505
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3962,42 +3759,42 @@ msgstr ""
 "Uzu dpkg --info (= dpkg-deb --info) por ekzameni arkivajn dosierojn,\n"
 "kaj dpkg --contents (= dpkg-deb --contents) por listigi iliajn enhavojn.\n"
 
-#: src/querycmd.c:520 dpkg-deb/info.c:282
+#: src/querycmd.c:526 dpkg-deb/info.c:282
 #, c-format
 msgid "error in show format: %s"
 msgstr "eraro en la montro-formo: %s"
 
-#: src/querycmd.c:610
+#: src/querycmd.c:616
 #, c-format
 msgid "control file contains %c"
 msgstr "reg-dosiero enhavas %c"
 
-#: src/querycmd.c:661 dpkg-deb/build.c:411
+#: src/querycmd.c:667 dpkg-deb/build.c:412
 #, c-format
 msgid "--%s takes at most two arguments"
 msgstr "--%s prenas maksimume du argumentojn"
 
-#: src/querycmd.c:696
+#: src/querycmd.c:702
 #, c-format
 msgid "--%s takes one package name argument"
 msgstr "--%s prenas unu argumenton de pak-nomo"
 
-#: src/querycmd.c:726 src/querycmd.c:731
+#: src/querycmd.c:732 src/querycmd.c:737
 #, c-format
 msgid "--%s takes exactly two arguments"
 msgstr "--%s prenas precize du argumentojn"
 
-#: src/querycmd.c:748
+#: src/querycmd.c:754
 #, c-format
 msgid "control file '%s' does not exist"
 msgstr "la reg-dosiero '%s' ne ekzistas"
 
-#: src/querycmd.c:760
+#: src/querycmd.c:766
 #, c-format
 msgid "Debian %s package management program query tool version %s.\n"
 msgstr "Debiana %s petilo de pak-administra programo, versio %s.\n"
 
-#: src/querycmd.c:779
+#: src/querycmd.c:785
 #, c-format
 msgid ""
 "Commands:\n"
@@ -4028,7 +3825,7 @@ msgstr ""
 "                                Printi vojon por pak-regdosiero.\n"
 "\n"
 
-#: src/querycmd.c:799
+#: src/querycmd.c:805
 #, c-format
 msgid ""
 "Options:\n"
@@ -4044,7 +3841,7 @@ msgstr ""
 "  -f|--showformat=<formo>         Uzi alternativan formon por --show.\n"
 "\n"
 
-#: src/querycmd.c:806 dpkg-deb/main.c:116
+#: src/querycmd.c:812 dpkg-deb/main.c:120
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -4062,22 +3859,22 @@ msgstr ""
 "  povas inkluzivi la ordinarajn eskap-sekvojn \\n (novlinio), \\r (lini-\n"
 "  retroiro) aŭ \\\\ (simpla retroklinaĵo). Pak-informo povas esti "
 "inkluzivata\n"
-"  per enmeto de varieblaj referencoj al pak-kampoj uzante la sintakson ${var"
-"[;width]}\n"
+"  per enmeto de varieblaj referencoj al pak-kampoj uzante la sintakson "
+"${var[;width]}\n"
 "  Kampoj estos dekstrigataj, krom se la larĝeco estos negativa: tiakondiĉe "
 "estos\n"
 "  uzata maldekstrigo.\n"
 
-#: src/querycmd.c:820
+#: src/querycmd.c:826
 msgid "Use --help for help about querying packages."
 msgstr "Uzu --help por helpo pri postulantaj pakoj."
 
-#: src/remove.c:94
+#: src/remove.c:104
 #, c-format
 msgid "ignoring request to remove %.250s which isn't installed"
 msgstr "ni preteratentas peton forigi %.250s, kiu ne estas instalita"
 
-#: src/remove.c:101
+#: src/remove.c:111
 #, c-format
 msgid ""
 "ignoring request to remove %.250s, only the config\n"
@@ -4086,11 +3883,11 @@ msgstr ""
 "ni preteratentas peton forigi %.250s, nur kies akomodaj\n"
 " dosieroj estas en la sistemo; uzu --purge por forigi ankaŭ ilin"
 
-#: src/remove.c:109
+#: src/remove.c:119
 msgid "This is an essential package - it should not be removed."
 msgstr "Tio ĉi estas esenca pako - ĝi ne devos esti forigita."
 
-#: src/remove.c:138
+#: src/remove.c:140
 #, c-format
 msgid ""
 "dependency problems prevent removal of %s:\n"
@@ -4099,11 +3896,11 @@ msgstr ""
 "dependecaj problemoj malebligas forigon de %s:\n"
 "%s"
 
-#: src/remove.c:140
+#: src/remove.c:142
 msgid "dependency problems - not removing"
 msgstr "dependecaj problemoj - ni ne forigas"
 
-#: src/remove.c:143
+#: src/remove.c:145
 #, c-format
 msgid ""
 "%s: dependency problems, but removing anyway as you requested:\n"
@@ -4112,7 +3909,7 @@ msgstr ""
 "%s: dependecaj problemoj, tamen ni forigas eĉ tiel, laŭ via peto:\n"
 "%s"
 
-#: src/remove.c:151
+#: src/remove.c:153
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting a removal."
@@ -4120,17 +3917,22 @@ msgstr ""
 "La pako estas en tre malbona nekohera stato - vi devos\n"
 " reinstali ĝin antaŭ ol provi forigon."
 
-#: src/remove.c:158
+#: src/remove.c:160
 #, c-format
 msgid "Would remove or purge %s ...\n"
 msgstr "Forigus aŭ purigus %s ...\n"
 
-#: src/remove.c:166
+#: src/remove.c:168
 #, c-format
 msgid "Removing %s ...\n"
 msgstr "Forigado de %s ...\n"
 
-#: src/remove.c:326 src/remove.c:417
+#: src/remove.c:209 src/unpack.c:218
+#, c-format
+msgid "unable to delete control info file `%.250s'"
+msgstr "ne eblas forigi la reg-informan dosieron '%.250s'"
+
+#: src/remove.c:329 src/remove.c:421
 #, c-format
 msgid ""
 "while removing %.250s, unable to remove directory '%.250s': %s - directory "
@@ -4139,167 +3941,186 @@ msgstr ""
 "dum forigo de %.250s, maleblis forigi la dosierujon '%.250s': %s - ĉu la "
 "dosierujo povus esti munt-punkto?"
 
-#: src/remove.c:340
+#: src/remove.c:343
 #, c-format
 msgid "unable to securely remove '%.250s'"
 msgstr "ne eblas sekure forigi '%.250s'"
 
-#: src/remove.c:412
+#: src/remove.c:416
 #, c-format
 msgid "while removing %.250s, directory '%.250s' not empty so not removed"
 msgstr "dum forigo de %.250s, la dosierujo '%.250s' ne malplenis, do ĝi restis"
 
-#: src/remove.c:434
+#: src/remove.c:438
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "ne eblas forigi '%.250s'"
 
-#: src/remove.c:460
+#: src/remove.c:464
 #, c-format
 msgid "Purging configuration files for %s ...\n"
 msgstr "Purigado de akomodaj dosieroj por %s ...\n"
 
-#: src/remove.c:513
+#: src/remove.c:517
 #, c-format
 msgid "cannot remove old config file `%.250s' (= `%.250s')"
 msgstr "ne eblas forigi la malnovan akomodan dosieron '%.250s' (= '%.250s')"
 
-#: src/remove.c:528
+#: src/remove.c:532
 #, c-format
 msgid "cannot read config file dir `%.250s' (from `%.250s')"
 msgstr "ne eblas legi la ujon de akomodo-dosiero '%.250s' (el '%.250s')"
 
-#: src/remove.c:565
+#: src/remove.c:569
 #, c-format
 msgid "cannot remove old backup config file `%.250s' (of `%.250s')"
 msgstr ""
 "ne eblas forigi la malnovan sekurkopian akomodo-dosieron '%.250s' (de "
 "'%.250s')"
 
-#: src/remove.c:624
+#: src/remove.c:628
 msgid "cannot remove old files list"
 msgstr "ne eblas forigi malnovan dosier-liston"
 
-#: src/remove.c:630
+#: src/remove.c:634
 msgid "can't remove old postrm script"
 msgstr "ne eblas forigi malnovan skripton postrm"
 
-#: src/script.c:96
+#: src/script.c:101
 #, c-format
 msgid "unable to set execute permissions on `%.250s'"
 msgstr "ne eblas difini plenum-permesojn por '%.250s'"
 
-#: src/script.c:110
+#: src/script.c:115
 msgid "admindir must be inside instdir for dpkg to work properly"
 msgstr "'admindir' devas esti ene de 'instdir' por ke dpkg funkciu ĝuste"
 
-#: src/script.c:115
+#: src/script.c:120
 #, c-format
 msgid "failed to chroot to `%.250s'"
 msgstr "malsukceso por apliki 'chroot' al '%.250s'"
 
-#: src/script.c:117 dpkg-deb/build.c:458 dpkg-deb/build.c:460
-#: dpkg-deb/build.c:547 dpkg-deb/build.c:569
+#: src/script.c:125 dpkg-deb/build.c:459 dpkg-deb/build.c:461
+#: dpkg-deb/build.c:548 dpkg-deb/build.c:570
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "malsukcesis per chdir al: '%.255s'"
 
-#: src/script.c:156
+#: src/script.c:223
 msgid "unable to setenv for maintainer script"
 msgstr "ne eblas uzi 'setenv' por la skripto de pakzorganto"
 
-#: src/script.c:180
+#: src/script.c:228
+#, fuzzy
+#| msgid "unable to setenv for maintainer script"
+msgid "cannot set security execution context for maintainer script"
+msgstr "ne eblas uzi 'setenv' por la skripto de pakzorganto"
+
+#: src/script.c:252
 #, c-format
 msgid "installed %s script"
 msgstr "instalis skripton %s"
 
-#: src/script.c:194 src/script.c:268 src/script.c:330
+#: src/script.c:266 src/script.c:340 src/script.c:402
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr "ne eblas legi staton de %s '%.250s'"
 
-#: src/script.c:252 src/script.c:317
+#: src/script.c:324 src/script.c:389
 #, c-format
 msgid "new %s script"
 msgstr "nova skripto %s"
 
-#: src/script.c:290
+#: src/script.c:362
 #, c-format
 msgid "old %s script"
 msgstr "malnova skripto %s"
 
-#: src/script.c:305
+#: src/script.c:377
 #, c-format
 msgid "unable to stat %s '%.250s': %s"
 msgstr "ne eblas legi staton de %s '%.250s': %s"
 
-#: src/script.c:314
+#: src/script.c:386
 msgid "trying script from the new package instead ..."
 msgstr "ni provas skripton el la nova pako anstataŭe ..."
 
-#: src/script.c:328
+#: src/script.c:400
 msgid "there is no script in the new version of the package - giving up"
 msgstr "estas neniu skripto en la nova versio de la pako - ni rezignas"
 
-#: src/script.c:334
+#: src/script.c:406
 msgid "... it looks like that went OK"
 msgstr "... ŝajne ĉio sukcesis"
 
-#: src/select.c:137
+#: src/select.c:138
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "neatendata dosierfino en pak-nomo ĉe linio %d"
 
-#: src/select.c:138
+#: src/select.c:139
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "neatendata linifino en pak-nomo ĉe linio %d"
 
-#: src/select.c:144
+#: src/select.c:145
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "neatendata dosierfino post pak-nomo ĉe linio %d"
 
-#: src/select.c:145
+#: src/select.c:146
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "neatendata linifino post pak-nomo ĉe linio %d"
 
-#: src/select.c:158
+#: src/select.c:159
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "neatendata datumaro post pako kaj elekto ĉe linio %d"
 
-#: src/select.c:162
+#: src/select.c:163
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "malvalida pak-nomo ĉe linio %d: %.250s"
 
-#: src/select.c:166
+#: src/select.c:168
 #, c-format
 msgid "package not in database at line %d: %.250s"
 msgstr "pako for de datumbazo ĉe la linio %d: %.250s"
 
-#: src/select.c:172
+#: src/select.c:174
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "nekonata stato de dezirataĵo ĉe linio %d: %.250s"
 
-#: src/select.c:178
+#: src/select.c:180
 msgid "read error on standard input"
 msgstr "leg-eraro en la norma enigo"
+
+#: src/select.c:186
+msgid ""
+"found unknown packages; this might mean the available database\n"
+"is outdated, and needs to be updated through a frontend method"
+msgstr ""
 
 #: src/statcmd.c:52
 msgid "Use --help for help about overriding file stat information."
 msgstr "Uzu --help por helpo pri preterpaso de dosier-stata informaro."
 
 #: src/statcmd.c:77
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  --add <owner> <group> <mode> <file>\n"
+#| "                           add a new entry into the database.\n"
+#| "  --remove <file>          remove file from the database.\n"
+#| "  --list [<glob-pattern>]  list current overrides in the database.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
-"  --add <owner> <group> <mode> <file>\n"
-"                           add a new entry into the database.\n"
-"  --remove <file>          remove file from the database.\n"
+"  --add <owner> <group> <mode> <path>\n"
+"                           add a new <path> entry into the database.\n"
+"  --remove <path>          remove <path> from the database.\n"
 "  --list [<glob-pattern>]  list current overrides in the database.\n"
 "\n"
 msgstr ""
@@ -4311,11 +4132,20 @@ msgstr ""
 "\n"
 
 #: src/statcmd.c:85
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir <directory>   set the directory with the statoverride file.\n"
+#| "  --update                 immediately update file permissions.\n"
+#| "  --force                  force an action even if a sanity check fails.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
-"  --update                 immediately update file permissions.\n"
+"  --update                 immediately update <path> permissions.\n"
 "  --force                  force an action even if a sanity check fails.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
@@ -4340,6 +4170,12 @@ msgstr "apartigado de vosta /"
 #, c-format
 msgid "--%s needs four arguments"
 msgstr "--%s bezonas kvar argumentojn"
+
+#: src/statcmd.c:230
+#, fuzzy
+#| msgid "package may not contain newlines"
+msgid "path may not contain newlines"
+msgstr "pako ne povas enhavi novlini-signojn"
 
 #: src/statcmd.c:237
 #, c-format
@@ -4406,23 +4242,23 @@ msgstr "malsukcesis uzi fstat je antaŭa dosiero 'statoverride'"
 msgid "reading statoverride file '%.250s'"
 msgstr "legado de dosiero 'statoverride' '%.250s'"
 
-#: src/statdb.c:171
+#: src/statdb.c:172
 msgid "statoverride file is missing final newline"
 msgstr "dosiero 'statoverride' malhavas lastan linifinaĵon"
 
-#: src/statdb.c:175
+#: src/statdb.c:176
 msgid "statoverride file contains empty line"
 msgstr "dosiero 'statoverride' enhavas malplenan linion"
 
-#: src/statdb.c:180 src/statdb.c:192 src/statdb.c:204
+#: src/statdb.c:182 src/statdb.c:195 src/statdb.c:208
 msgid "syntax error in statoverride file"
 msgstr "sintaks-eraro en dosiero 'statoverride'"
 
-#: src/statdb.c:188 src/statdb.c:200 src/statdb.c:212
+#: src/statdb.c:190 src/statdb.c:203 src/statdb.c:216
 msgid "unexpected end of line in statoverride file"
 msgstr "neatendata linifinon en dosiero 'statoverride'"
 
-#: src/statdb.c:216
+#: src/statdb.c:220
 #, c-format
 msgid "multiple statoverrides present for file '%.250s'"
 msgstr "multoblaj 'statoverride' ĉeestas por la dosiero '%.250s'"
@@ -4509,7 +4345,7 @@ msgstr "malvalida atendata pak-nomo '%.250s': %.250s"
 msgid "invalid trigger name `%.250s': %.250s"
 msgstr "malvalida ekigila nomo '%.250s': %.250s"
 
-#: src/trigproc.c:262
+#: src/trigproc.c:271
 msgid ""
 "cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:"
@@ -4517,7 +4353,7 @@ msgstr ""
 "ciklo estis trovata dum procezado de ekigiloj:\n"
 " ĉeno da pakoj kies ekigiloj estas aŭ povas esti respondecaj:"
 
-#: src/trigproc.c:270
+#: src/trigproc.c:279
 #, c-format
 msgid ""
 "\n"
@@ -4526,14 +4362,250 @@ msgstr ""
 "\n"
 " traktotaj ekigiloj de pakoj kiuj estas aŭ povas esti nesolveblaj:\n"
 
-#: src/trigproc.c:295
+#: src/trigproc.c:304
 msgid "triggers looping, abandoned"
 msgstr "ekigiloj iteraciadas, ni forlasas"
 
-#: src/trigproc.c:327
+#: src/trigproc.c:336
 #, c-format
 msgid "Processing triggers for %s ...\n"
 msgstr "Procezado de ekigiloj por %s ...\n"
+
+#: src/unpack.c:75
+#, c-format
+msgid ".../%s"
+msgstr ".../%s"
+
+#: src/unpack.c:95
+#, c-format
+msgid "error ensuring `%.250s' doesn't exist"
+msgstr "eraro dum certigo ke '%.250s' ne ekzistas"
+
+#: src/unpack.c:103
+msgid "split package reassembly"
+msgstr "remunto de disigita pako"
+
+#: src/unpack.c:112
+msgid "reassembled package file"
+msgstr "re-kunmetita pak-dosiero"
+
+#: src/unpack.c:137
+#, c-format
+msgid "Authenticating %s ...\n"
+msgstr "Aŭtentikigado de %s ...\n"
+
+#: src/unpack.c:143
+msgid "package signature verification"
+msgstr "kontrolo de pak-subskribo"
+
+#: src/unpack.c:150
+#, c-format
+msgid "verification on package %s failed!"
+msgstr "kontrolado je pako %s malsukcesis!"
+
+#: src/unpack.c:152
+#, c-format
+msgid ""
+"verification on package %s failed; but installing anyway as you requested"
+msgstr ""
+"kontrolado je pako %s malsukcesis; sed ni instalas eĉ tiel, laŭ via peto"
+
+#: src/unpack.c:155
+#, c-format
+msgid "passed\n"
+msgstr "pasis\n"
+
+#: src/unpack.c:168 dpkg-deb/info.c:81
+msgid "unable to create temporary directory"
+msgstr "malsukceso dum kreo de provizora dosierujo"
+
+#: src/unpack.c:208
+#, c-format
+msgid "package %s has too many Conflicts/Replaces pairs"
+msgstr "la pako %s havas tro multajn parojn Konfliktoj/Anstataŭoj"
+
+#: src/unpack.c:229
+#, c-format
+msgid "old version of package has overly-long info file name starting `%.250s'"
+msgstr ""
+"malnova versio de pako havas tro longan informan dosiernomon kiu startas je "
+"'%.250s'"
+
+#: src/unpack.c:267
+#, c-format
+msgid "unable to remove obsolete info file `%.250s'"
+msgstr "ne eblas forigi malaktualan inform-dosieron '%.250s'"
+
+#: src/unpack.c:272
+#, c-format
+msgid "unable to install (supposed) new info file `%.250s'"
+msgstr "ne eblas instali la (supoze) novan inform-dosieron '%.250s'"
+
+#: src/unpack.c:282
+msgid "unable to open temp control directory"
+msgstr "ne eblas malfermi provizoran reg-dosierujon"
+
+#: src/unpack.c:293
+#, c-format
+msgid "package contains overly-long control info file name (starting `%.50s')"
+msgstr ""
+"la pako enhavas tro longan reg-informan dosiernomon (kiu startas je '%.50s')"
+
+#: src/unpack.c:300
+#, c-format
+msgid "package control info contained directory `%.250s'"
+msgstr "la pak-rega informo enhavis la dosierujon '%.250s'"
+
+#: src/unpack.c:302
+#, c-format
+msgid "package control info rmdir of `%.250s' didn't say not a dir"
+msgstr "rmdir de '%.250s' per pak-rega informo ne diris ke ne estas dosierujo"
+
+#: src/unpack.c:312
+#, c-format
+msgid "package %s contained list as info file"
+msgstr "la pako %s enhavis liston kiel inform-dosieron"
+
+#: src/unpack.c:320
+#, c-format
+msgid "unable to install new info file `%.250s' as `%.250s'"
+msgstr "ne eblas instali novan inform-dosieron '%.250s' kiel '%.250s'"
+
+#: src/unpack.c:345
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(Ni rimarkas malaperon de %s, kiu estas entute anstataŭita.)\n"
+
+#: src/unpack.c:451
+msgid "cannot access archive"
+msgstr "ne povas atingi arkivon"
+
+#: src/unpack.c:473
+msgid "package control information extraction"
+msgstr "eltirado de informo pri reg-informaro"
+
+#: src/unpack.c:508
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "Registrita informo pri %s el %s.\n"
+
+#: src/unpack.c:518
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "la pak-arkitekturo (%s) ne kongruas al la sistemo (%s)"
+
+#: src/unpack.c:581
+#, c-format
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"pri %s, kiu enhavas %s, antaŭdependeca problemo:\n"
+"%s"
+
+#: src/unpack.c:585
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "antaŭdependeca problemo - ni ne instalos %.250s"
+
+#: src/unpack.c:587
+msgid "ignoring pre-dependency problem!"
+msgstr "preteratento de dependeca problemo!"
+
+#: src/unpack.c:603
+#, c-format
+msgid "Preparing to replace %s %s (using %s) ...\n"
+msgstr "Ni prepariĝas por anstataŭigi %s %s (uzante %s) ...\n"
+
+#: src/unpack.c:609
+#, c-format
+msgid "Unpacking %s (from %s) ...\n"
+msgstr "Elpakado de %s (el %s) ...\n"
+
+#: src/unpack.c:641
+#, c-format
+msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
+msgstr ""
+"nomo de conffile (komencante per '%.250s') estas tro longa (>%d signoj)"
+
+#: src/unpack.c:695 utils/update-alternatives.c:2118
+#, c-format
+msgid "read error in %.250s"
+msgstr "leg-eraro en %.250s"
+
+#: src/unpack.c:697
+#, c-format
+msgid "error closing %.250s"
+msgstr "eraro dum fermo de %.250s"
+
+#: src/unpack.c:741
+#, c-format
+msgid "De-configuring %s, to allow removal of %s ...\n"
+msgstr "Malakomodado de %s, por ebligi forigon de %s ...\n"
+
+#: src/unpack.c:745
+#, c-format
+msgid "De-configuring %s ...\n"
+msgstr "Malakomodado de %s ...\n"
+
+#: src/unpack.c:826
+#, c-format
+msgid "Unpacking replacement %.250s ...\n"
+msgstr "Elpakado de anstataŭanto %.250s ...\n"
+
+#: src/unpack.c:912
+msgid "package filesystem archive extraction"
+msgstr "eltirado de paka dosiersistema arkivo"
+
+#: src/unpack.c:927
+msgid "error reading dpkg-deb tar output"
+msgstr "eraro dum legado de eligo de dpkg-deb tar"
+
+#: src/unpack.c:929
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr "misrompita dosiersistema tar-dosiero - misrompita pak-arkivo"
+
+#: src/unpack.c:933
+#, c-format
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "ne eblas forigi eblajn vostajn nulojn el dpkg-deb: %s"
+
+#: src/unpack.c:993
+#, c-format
+msgid "could not stat old file '%.250s' so not deleting it: %s"
+msgstr ""
+"ne eblis legi la staton de la malnova dosiero '%.250s', do ni forigas ĝin: %s"
+
+#: src/unpack.c:999
+#, c-format
+msgid "unable to delete old directory '%.250s': %s"
+msgstr "ne eblas forigi la malnovan dosierujon '%.250s': %s"
+
+#: src/unpack.c:1002
+#, c-format
+msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
+msgstr ""
+"la malnova conffile '%.250s' estis malplena dosierujo (kaj nun estas "
+"forigita)"
+
+#: src/unpack.c:1049
+#, c-format
+msgid "unable to stat other new file `%.250s'"
+msgstr "ne eblas legi staton de alia nova dosiero '%.250s'"
+
+#: src/unpack.c:1060
+#, c-format
+msgid ""
+"old file '%.250s' is the same as several new files! (both '%.250s' and "
+"'%.250s')"
+msgstr ""
+"la malnova dosiero '%.250s' estas la sama ol pluraj novaj dosieroj! (kaj "
+"'%.250s' kaj '%.250s')"
+
+#: src/unpack.c:1099
+#, c-format
+msgid "unable to securely remove old file '%.250s': %s"
+msgstr "ne eblas sekure forigi la malnovan dosieron '%.250s': %s"
 
 #: src/update.c:52
 #, c-format
@@ -4573,37 +4645,37 @@ msgid ""
 msgstr ""
 "malaktuala elekteblo '--%s'; ne disponeblaj pakoj estas aŭtomate forviŝataj"
 
-#: dpkg-deb/build.c:124
+#: dpkg-deb/build.c:125
 #, c-format
 msgid "file name '%.50s...' is too long"
 msgstr "la dosiernomo '%.50s...' estas tro longa"
 
-#: dpkg-deb/build.c:129
+#: dpkg-deb/build.c:130
 #, c-format
 msgid "unable to stat file name '%.250s'"
 msgstr "ne eblas 'stat' dosier-nomon '%.250s'"
 
-#: dpkg-deb/build.c:189
+#: dpkg-deb/build.c:190
 msgid "unable to stat control directory"
 msgstr "ne eblas legi staton de reg-dosierujo"
 
-#: dpkg-deb/build.c:191
+#: dpkg-deb/build.c:192
 msgid "control directory is not a directory"
 msgstr "reg-dosierujo ne estas dosierujo"
 
-#: dpkg-deb/build.c:193
+#: dpkg-deb/build.c:194
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "reg-dosierujo havas malĝustajn permesojn %03lo (devas esti >=0755 kaj <=0775)"
 
-#: dpkg-deb/build.c:204
+#: dpkg-deb/build.c:205
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr ""
 "la pakzorgant-skripto '%.50s' ne estas ordinara dosiero aŭ simbola ligo"
 
-#: dpkg-deb/build.c:207
+#: dpkg-deb/build.c:208
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -4612,159 +4684,159 @@ msgstr ""
 "la pakzorgant-skripto '%.50s' havas malĝustajn permesojn %03lo (devas esti "
 ">=0555 kaj <=0775)"
 
-#: dpkg-deb/build.c:211
+#: dpkg-deb/build.c:212
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "la pakzorgant-skripto '%.50s' ne estas 'stat'-legebla"
 
-#: dpkg-deb/build.c:237
+#: dpkg-deb/build.c:238
 msgid "error opening conffiles file"
 msgstr "Eraro dum malfermado de dosiero conffiles"
 
-#: dpkg-deb/build.c:246
+#: dpkg-deb/build.c:247
 msgid "empty string from fgets reading conffiles"
 msgstr "malplenaj ĉenoj el fgets dum legado de dosieroj conffile"
 
-#: dpkg-deb/build.c:251
+#: dpkg-deb/build.c:252
 #, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgstr ""
 "la nomo de conffile '%.50s...' estas tro longa, aŭ malhavas finan novlinion"
 
-#: dpkg-deb/build.c:264
+#: dpkg-deb/build.c:265
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "la nomo de conffile '%s' enhavas vostajn blankajn spacojn"
 
-#: dpkg-deb/build.c:266
+#: dpkg-deb/build.c:267
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "conffile '%.250s' ne aperas en la pako"
 
-#: dpkg-deb/build.c:268
+#: dpkg-deb/build.c:269
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "conffile '%.250s' ne stat-legeblas"
 
-#: dpkg-deb/build.c:270
+#: dpkg-deb/build.c:271
 #, c-format
 msgid "conffile '%s' is not a plain file"
 msgstr "conffile '%s' ne estas ordinara dosiero"
 
-#: dpkg-deb/build.c:274
+#: dpkg-deb/build.c:275
 #, c-format
 msgid "conffile name '%s' is duplicated"
 msgstr "nomo de conffile '%s' estas duobligita"
 
-#: dpkg-deb/build.c:287
+#: dpkg-deb/build.c:288
 msgid "error reading conffiles file"
 msgstr "eraro dum legado de dosiero conffiles"
 
-#: dpkg-deb/build.c:339
+#: dpkg-deb/build.c:340
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "pak-nomo havas signojn kiuj ne estas minusklaj alfanumeroj aŭ '-+.'"
 
-#: dpkg-deb/build.c:341
+#: dpkg-deb/build.c:342
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "'%s' enhavas tiun valoron Priority difinitan de uzanto: '%s'"
 
-#: dpkg-deb/build.c:347
+#: dpkg-deb/build.c:348
 #, c-format
 msgid "'%s' contains user-defined field '%s'"
 msgstr "'%s' enhavas kampon '%s' difinitan de uzanto"
 
-#: dpkg-deb/build.c:358
+#: dpkg-deb/build.c:359
 #, c-format
 msgid "ignoring %d warning about the control file(s)\n"
 msgid_plural "ignoring %d warnings about the control file(s)\n"
 msgstr[0] "preteratentas %d averton pri la reg-dosiero(j)\n"
 msgstr[1] "preteratentas %d avertojn pri la reg-dosiero(j)\n"
 
-#: dpkg-deb/build.c:404 utils/update-alternatives.c:2579
-#: utils/update-alternatives.c:2586
+#: dpkg-deb/build.c:405 utils/update-alternatives.c:2588
+#: utils/update-alternatives.c:2595
 #, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s bezonas argumenton <dosierujo>"
 
-#: dpkg-deb/build.c:415
+#: dpkg-deb/build.c:416
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "ne eblas kontroli ekziston de la arkivo '%.250s'"
 
-#: dpkg-deb/build.c:432
+#: dpkg-deb/build.c:433
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "la celo estas dosierujo - ni ne povas preterpasi reg-dosieran kontrolon"
 
-#: dpkg-deb/build.c:433
+#: dpkg-deb/build.c:434
 msgid "not checking contents of control area"
 msgstr "ni ne kontrolas la enhavon de regada areo"
 
-#: dpkg-deb/build.c:434
+#: dpkg-deb/build.c:435
 #, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: ni konstruas nekonatan pakon en '%s'.\n"
 
-#: dpkg-deb/build.c:441
+#: dpkg-deb/build.c:442
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: konstruado de la pako '%s' en '%s'.\n"
 
-#: dpkg-deb/build.c:470 dpkg-deb/build.c:532
+#: dpkg-deb/build.c:471 dpkg-deb/build.c:533
 #, c-format
 msgid "failed to make temporary file (%s)"
 msgstr "malsukceso dum kreo de provizora dosiero (%s)"
 
-#: dpkg-deb/build.c:470 dpkg-deb/build.c:473 dpkg-deb/build.c:494
-#: dpkg-deb/build.c:503 dpkg-deb/build.c:509
+#: dpkg-deb/build.c:471 dpkg-deb/build.c:474 dpkg-deb/build.c:495
+#: dpkg-deb/build.c:504 dpkg-deb/build.c:510
 msgid "control member"
 msgstr "regada membro"
 
-#: dpkg-deb/build.c:473 dpkg-deb/build.c:535
+#: dpkg-deb/build.c:474 dpkg-deb/build.c:536
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "malsukceso dum forligo de provizora dosiero (%s), %s"
 
-#: dpkg-deb/build.c:486
+#: dpkg-deb/build.c:487
 msgid "compressing control member"
 msgstr "kompaktigo de regada membro"
 
-#: dpkg-deb/build.c:494 dpkg-deb/build.c:605
+#: dpkg-deb/build.c:495 dpkg-deb/build.c:606
 #, c-format
 msgid "failed to rewind temporary file (%s)"
 msgstr "malsukceso dum retroigo de provizora dosiero (%s)"
 
-#: dpkg-deb/build.c:503
+#: dpkg-deb/build.c:504
 #, c-format
 msgid "failed to stat temporary file (%s)"
 msgstr "malsukcesis apliki fstat al provizora dosiero (%s)"
 
-#: dpkg-deb/build.c:507
+#: dpkg-deb/build.c:508
 #, c-format
 msgid "error writing `%s'"
 msgstr "eraro dum skribo de '%s'"
 
-#: dpkg-deb/build.c:509
+#: dpkg-deb/build.c:510
 #, c-format
 msgid "cannot copy '%s' into archive '%s': %s"
 msgstr "ne eblas kopii '%s' al la arkivo '%s': %s"
 
-#: dpkg-deb/build.c:532 dpkg-deb/build.c:535 dpkg-deb/build.c:583
-#: dpkg-deb/build.c:591 dpkg-deb/build.c:605
+#: dpkg-deb/build.c:533 dpkg-deb/build.c:536 dpkg-deb/build.c:584
+#: dpkg-deb/build.c:592 dpkg-deb/build.c:606
 msgid "data member"
 msgstr "datumara membro"
 
-#: dpkg-deb/build.c:557
+#: dpkg-deb/build.c:558
 msgid "compressing data member"
 msgstr "kompaktigo de datumara membro"
 
-#: dpkg-deb/build.c:582 dpkg-deb/build.c:591
+#: dpkg-deb/build.c:583 dpkg-deb/build.c:592
 #, c-format
 msgid "failed to write filename to tar pipe (%s)"
 msgstr "malsukceso dum skribo de dosiernomo al dukto de tar (%s)"
 
-#: dpkg-deb/build.c:595
+#: dpkg-deb/build.c:596
 msgid "<compress> from tar -cf"
 msgstr "<kompakti> el tar -cf"
 
@@ -4902,33 +4974,33 @@ msgstr "ne eblas fermi malkompaktilan dukton"
 msgid "decompressing archive member"
 msgstr "malkompaktado de arkiva membro"
 
-#: dpkg-deb/extract.c:313
+#: dpkg-deb/extract.c:331
 msgid "failed to chdir to directory"
 msgstr "malsukceso dum atingo al dosierujo"
 
-#: dpkg-deb/extract.c:316
+#: dpkg-deb/extract.c:334
 msgid "failed to create directory"
 msgstr "malsukceso dum kreo de dosierujo"
 
-#: dpkg-deb/extract.c:318
+#: dpkg-deb/extract.c:336
 msgid "failed to chdir to directory after creating it"
 msgstr "malsukceso dum atingo al dosierujo post krei ĝin"
 
-#: dpkg-deb/extract.c:329
+#: dpkg-deb/extract.c:346
 msgid "<decompress>"
 msgstr "<malkompaktigo>"
 
-#: dpkg-deb/extract.c:331
+#: dpkg-deb/extract.c:348
 msgid "paste"
 msgstr "alglui"
 
-#: dpkg-deb/extract.c:353 dpkg-deb/extract.c:374 dpkg-deb/extract.c:413
+#: dpkg-deb/extract.c:371 dpkg-deb/extract.c:393 dpkg-deb/extract.c:435
 #: dpkg-deb/info.c:77
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s bezonas argumenton kun dosiernomo .deb"
 
-#: dpkg-deb/extract.c:358 dpkg-deb/extract.c:417
+#: dpkg-deb/extract.c:376 dpkg-deb/extract.c:439
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -4937,12 +5009,12 @@ msgstr ""
 "--%s bezonas celatan dosierujon.\n"
 "Eble vi devus uzi dpkg --install ?"
 
-#: dpkg-deb/extract.c:361 dpkg-deb/extract.c:421
+#: dpkg-deb/extract.c:379 dpkg-deb/extract.c:443
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s prenas maksimume du argumentojn (.deb kaj dosierujon)"
 
-#: dpkg-deb/extract.c:376
+#: dpkg-deb/extract.c:395
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s prenas nur unu argumenton (dosiernomo .deb)"
@@ -4973,7 +5045,7 @@ msgid_plural "%d requested control components are missing"
 msgstr[0] "%d petita reg-elemento mankas"
 msgstr[1] "%d petitaj reg-elementoj mankas"
 
-#: dpkg-deb/info.c:141 utils/update-alternatives.c:1066
+#: dpkg-deb/info.c:141 utils/update-alternatives.c:1067
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "ne povas skani la dosierujon '%.255s'"
@@ -5070,13 +5142,37 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c:101
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --showformat=<format>            Use alternative format for --show.\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D                               Enable debugging output.\n"
+#| "  --old, --new                     Select archive format.\n"
+#| "  --nocheck                        Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, bzip2, "
+#| "none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none, extreme (xz).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
 "  -v, --verbose                    Enable verbose output.\n"
-"  -D                               Enable debugging output.\n"
-"  --old, --new                     Select archive format.\n"
+"  -D, --debug                      Enable debugging output.\n"
+"      --deb-format=<format>        Select archive format.\n"
+"                                     Allowed values: 0.939000, 2.0 "
+"(default).\n"
+"      --old                        Legacy alias for '--deb-"
+"format=0.939000'.\n"
+"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "  --nocheck                        Suppress control file check (build bad\n"
 "                                     packages).\n"
 "  -z#                              Set the compression level when building.\n"
@@ -5085,7 +5181,8 @@ msgid ""
 "                                     Allowed types: gzip, xz, bzip2, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
-"                                     Allowed values: none, extreme (xz).\n"
+"                                     Allowed values: none; extreme (xz);\n"
+"                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
 msgstr ""
 "Elektebloj:\n"
@@ -5107,20 +5204,25 @@ msgstr ""
 "(xz).\n"
 "\n"
 
-#: dpkg-deb/main.c:125
-#, c-format
+#: dpkg-deb/main.c:129
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Use `dpkg' to install and remove packages from your system, or\n"
+#| "`dselect' or `aptitude' for user-friendly package management.  Packages\n"
+#| "unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"
 msgid ""
 "\n"
-"Use `dpkg' to install and remove packages from your system, or\n"
-"`dselect' or `aptitude' for user-friendly package management.  Packages\n"
-"unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"
+"Use 'dpkg' to install and remove packages from your system, or\n"
+"'apt' or 'aptitude' for user-friendly package management. Packages\n"
+"unpacked using 'dpkg-deb --extract' will be incorrectly installed !\n"
 msgstr ""
 "\n"
 "Uzu `dpkg' por instali kaj forigi pakojn el via sistemo, aŭ\n"
 "'dselect' aŭ 'aptitude' por uzant-faciliga pak-administrado. Pakoj\n"
 "elpakitaj uzante 'dpkg-deb --extract' estos malkorekte instalitaj !\n"
 
-#: dpkg-deb/main.c:136
+#: dpkg-deb/main.c:140
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -5128,32 +5230,44 @@ msgstr ""
 "Tajpu dpkg-deb --help por helpo pri traktado de dosieroj *.deb;\n"
 "Tajpu dpkg --help por helpo pri instalo kaj malinstalo de pakoj."
 
-#: dpkg-deb/main.c:158
+#: dpkg-deb/main.c:156
+#, fuzzy, c-format
+#| msgid "archive has invalid format version: %s"
+msgid "invalid deb format version: %s"
+msgstr "la arkivo havas nevalidan formo-version: %s"
+
+#: dpkg-deb/main.c:162
+#, fuzzy, c-format
+#| msgid "unknown option '%s'"
+msgid "unknown deb format version: %s"
+msgstr "nekonata elekteblo '%s'"
+
+#: dpkg-deb/main.c:198
 #, c-format
 msgid "invalid integer for -%c: '%.250s'"
 msgstr "malvalida entjero por -%c: '%.250s'"
 
-#: dpkg-deb/main.c:161
+#: dpkg-deb/main.c:201
 #, c-format
 msgid "invalid compression level for -%c: %ld'"
 msgstr "malvalida kompaktig-nivelo por -%c: %ld'"
 
-#: dpkg-deb/main.c:171
+#: dpkg-deb/main.c:211
 #, c-format
 msgid "unknown compression strategy '%s'!"
 msgstr "nekonata kompaktig-strategio '%s'!"
 
-#: dpkg-deb/main.c:179
+#: dpkg-deb/main.c:219
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "nekonata kompaktig-tipo '%s'!"
 
-#: dpkg-deb/main.c:181
+#: dpkg-deb/main.c:221
 #, c-format
 msgid "deprecated compression type '%s'; use xz instead"
 msgstr "malrekomendinda kompaktiga tipo '%s'; uzu xz anstataŭe"
 
-#: dpkg-deb/main.c:226
+#: dpkg-deb/main.c:267
 #, c-format
 msgid "invalid compressor parameters: %s"
 msgstr "malvalida kompaktilaj atributoj: %s"
@@ -5503,98 +5617,98 @@ msgstr "ne eblas legi la proviz-dosierujon '%.250s'"
 msgid "--auto requires the use of the --output option"
 msgstr "--auto postulas uzon de la elekteblo --output"
 
-#: dpkg-split/queue.c:142
+#: dpkg-split/queue.c:143
 msgid "--auto requires exactly one part file argument"
 msgstr "--auto postulas precize unu part-dosieran argumenton"
 
-#: dpkg-split/queue.c:146
+#: dpkg-split/queue.c:147
 #, c-format
 msgid "unable to read part file `%.250s'"
 msgstr "ne eblas legi la part-dosieron '%.250s'"
 
-#: dpkg-split/queue.c:149
+#: dpkg-split/queue.c:150
 #, c-format
 msgid "File `%.250s' is not part of a multipart archive.\n"
 msgstr "La dosiero '%.250s' ne estas parto el plurparta arkivo.\n"
 
-#: dpkg-split/queue.c:186
+#: dpkg-split/queue.c:187
 #, c-format
 msgid "unable to reopen part file `%.250s'"
 msgstr "ne eblas remalfermi la part-dosieron '%.250s'"
 
-#: dpkg-split/queue.c:189
+#: dpkg-split/queue.c:190
 #, c-format
 msgid "unable to open new depot file `%.250s'"
 msgstr "ne eblas malfermi novan proviz-dosieron '%.250s'"
 
-#: dpkg-split/queue.c:192
+#: dpkg-split/queue.c:193
 #, c-format
 msgid "cannot extract split package part '%s': %s"
 msgstr "ne eblas elpreni disigitan pak-parton '%s': %s"
 
-#: dpkg-split/queue.c:201
+#: dpkg-split/queue.c:202
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
 msgstr "ne eblas renomigi la novan proviz-dosieron '%.250s' al '%.250s'"
 
-#: dpkg-split/queue.c:205
+#: dpkg-split/queue.c:206
 #, c-format
 msgid "Part %d of package %s filed (still want "
 msgstr "La parto %d de la pako %s malsukcesis (ankoraŭ volas "
 
-#: dpkg-split/queue.c:209
+#: dpkg-split/queue.c:210
 msgid " and "
 msgstr " kaj "
 
-#: dpkg-split/queue.c:223
+#: dpkg-split/queue.c:224
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
 msgstr "ne eblas forigi la eluzitan proviz-dosieron '%.250s'"
 
-#: dpkg-split/queue.c:244
+#: dpkg-split/queue.c:245
 msgid "Junk files left around in the depot directory:\n"
 msgstr "Senutilaj dosieroj restis en la proviz-dosierujo:\n"
 
-#: dpkg-split/queue.c:249 dpkg-split/queue.c:278
+#: dpkg-split/queue.c:250 dpkg-split/queue.c:279
 #, c-format
 msgid "unable to stat `%.250s'"
 msgstr "ne eblas legi staton de '%.250s'"
 
-#: dpkg-split/queue.c:252
+#: dpkg-split/queue.c:253
 #, c-format
 msgid " %s (%jd bytes)\n"
 msgstr " %s (%jd bajtoj)\n"
 
-#: dpkg-split/queue.c:254
+#: dpkg-split/queue.c:255
 #, c-format
 msgid " %s (not a plain file)\n"
 msgstr " %s (ne estas ordinara dosiero)\n"
 
-#: dpkg-split/queue.c:259
+#: dpkg-split/queue.c:260
 msgid "Packages not yet reassembled:\n"
 msgstr "Pakoj ankoraŭ ne remuntitaj:\n"
 
-#: dpkg-split/queue.c:267
+#: dpkg-split/queue.c:268
 #, c-format
 msgid " Package %s: part(s) "
 msgstr " Pako %s: parto(j) "
 
-#: dpkg-split/queue.c:280
+#: dpkg-split/queue.c:281
 #, c-format
 msgid "part file `%.250s' is not a plain file"
 msgstr "la part-dosiero '%.250s' ne estas ordinara dosiero"
 
-#: dpkg-split/queue.c:287
+#: dpkg-split/queue.c:288
 #, c-format
 msgid "(total %jd bytes)\n"
 msgstr "(entute %jd bajtoj)\n"
 
-#: dpkg-split/queue.c:313
+#: dpkg-split/queue.c:314
 #, c-format
 msgid "unable to discard `%.250s'"
 msgstr "ne eblas forĵeti '%.250s'"
 
-#: dpkg-split/queue.c:314
+#: dpkg-split/queue.c:315
 #, c-format
 msgid "Deleted %s.\n"
 msgstr "Ni forigis %s.\n"
@@ -5750,88 +5864,94 @@ msgstr ""
 msgid "error"
 msgstr "eraro"
 
-#: utils/update-alternatives.c:188
+#: utils/update-alternatives.c:176
+#, fuzzy, c-format
+#| msgid "Use --help for help about overriding file stat information."
+msgid "Use '%s --help' for program usage information."
+msgstr "Uzu --help por helpo pri preterpaso de dosier-stata informaro."
+
+#: utils/update-alternatives.c:190
 msgid "warning"
 msgstr "averto"
 
-#: utils/update-alternatives.c:257
+#: utils/update-alternatives.c:259
 #, c-format
 msgid "malloc failed (%zu bytes)"
 msgstr "malloc malsukcesis (%zu bajtoj)"
 
-#: utils/update-alternatives.c:351
+#: utils/update-alternatives.c:353
 #, c-format
 msgid "two commands specified: --%s and --%s"
 msgstr "du komandoj specifitaj: --%s kaj --%s"
 
-#: utils/update-alternatives.c:383
+#: utils/update-alternatives.c:385
 #, c-format
 msgid "cannot append to '%s'"
 msgstr "ne eblas postmeti al '%s'"
 
-#: utils/update-alternatives.c:507
+#: utils/update-alternatives.c:500
 #, c-format
 msgid "unable to remove '%s'"
 msgstr "ne eblas forigi '%s'"
 
-#: utils/update-alternatives.c:1102
+#: utils/update-alternatives.c:1103
 #, c-format
 msgid "unexpected end of file while trying to read %s"
 msgstr "neatendita dosierfino dum provo legi %s"
 
-#: utils/update-alternatives.c:1104
+#: utils/update-alternatives.c:1105
 #, c-format
 msgid "while reading %s: %s"
 msgstr "dum legado de %s: %s"
 
-#: utils/update-alternatives.c:1110
+#: utils/update-alternatives.c:1111
 #, c-format
 msgid "line not terminated while trying to read %s"
 msgstr "linio ne finigita dum provo legi %s"
 
-#: utils/update-alternatives.c:1128
+#: utils/update-alternatives.c:1129
 #, c-format
 msgid "%s corrupt: %s"
 msgstr "%s misrompita: %s"
 
-#: utils/update-alternatives.c:1141
+#: utils/update-alternatives.c:1142
 #, c-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "novlinioj malpermesite en dosieroj update-alternatives (%s)"
 
-#: utils/update-alternatives.c:1154
+#: utils/update-alternatives.c:1155
 msgid "slave name"
 msgstr "sklava nomo"
 
-#: utils/update-alternatives.c:1162 utils/update-alternatives.c:2555
+#: utils/update-alternatives.c:1163 utils/update-alternatives.c:2564
 #, c-format
 msgid "duplicate slave name %s"
 msgstr "duobligita sklav-nomo %s"
 
-#: utils/update-alternatives.c:1165
+#: utils/update-alternatives.c:1166
 msgid "slave link"
 msgstr "sklava ligo"
 
-#: utils/update-alternatives.c:1169
+#: utils/update-alternatives.c:1170
 #, c-format
 msgid "slave link same as main link %s"
 msgstr "sklava ligo samas ol la ĉefa ligo %s"
 
-#: utils/update-alternatives.c:1176 utils/update-alternatives.c:2562
+#: utils/update-alternatives.c:1177 utils/update-alternatives.c:2571
 #, c-format
 msgid "duplicate slave link %s"
 msgstr "duobligita sklav-ligo %s"
 
-#: utils/update-alternatives.c:1194
+#: utils/update-alternatives.c:1195
 msgid "master file"
 msgstr "mastra dosiero"
 
-#: utils/update-alternatives.c:1203
+#: utils/update-alternatives.c:1204
 #, c-format
 msgid "duplicate path %s"
 msgstr "duobligita vojo %s"
 
-#: utils/update-alternatives.c:1216
+#: utils/update-alternatives.c:1215
 #, c-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist; removing from list of "
@@ -5840,125 +5960,125 @@ msgstr ""
 "la alternativo %s (parto de ligo-grupo %s) ne ekzistas; ni forigas el la "
 "listo de alternativoj"
 
-#: utils/update-alternatives.c:1219 utils/update-alternatives.c:1230
+#: utils/update-alternatives.c:1218 utils/update-alternatives.c:1229
 msgid "priority"
 msgstr "prioritato"
 
-#: utils/update-alternatives.c:1222 utils/update-alternatives.c:1244
+#: utils/update-alternatives.c:1221 utils/update-alternatives.c:1243
 msgid "slave file"
 msgstr "sklava dosiero"
 
-#: utils/update-alternatives.c:1235
+#: utils/update-alternatives.c:1234
 #, c-format
 msgid "priority of %s: %s"
 msgstr "prioritato de %s: %s"
 
-#: utils/update-alternatives.c:1239
+#: utils/update-alternatives.c:1238
 #, c-format
 msgid "priority of %s is out of range: %s"
 msgstr "prioritato de %s estas for de intervalo: %s"
 
-#: utils/update-alternatives.c:1293
+#: utils/update-alternatives.c:1292
 msgid "status"
 msgstr "stato"
 
-#: utils/update-alternatives.c:1295
+#: utils/update-alternatives.c:1294
 msgid "invalid status"
 msgstr "malvalida stato"
 
-#: utils/update-alternatives.c:1300
+#: utils/update-alternatives.c:1299
 msgid "master link"
 msgstr "mastra ligo"
 
-#: utils/update-alternatives.c:1344
+#: utils/update-alternatives.c:1343
 #, c-format
 msgid "discarding obsolete slave link %s (%s)"
 msgstr "forlaso de la malaktuala sklav-ligo %s (%s)"
 
-#: utils/update-alternatives.c:1400
+#: utils/update-alternatives.c:1399
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "ne eblas elbufrigi dosieron '%s'"
 
-#: utils/update-alternatives.c:1492 utils/update-alternatives.c:1559
-#: utils/update-alternatives.c:2271
+#: utils/update-alternatives.c:1512 utils/update-alternatives.c:1579
+#: utils/update-alternatives.c:2284
 msgid "auto mode"
 msgstr "aŭtomata reĝimo"
 
-#: utils/update-alternatives.c:1492 utils/update-alternatives.c:1568
-#: utils/update-alternatives.c:2272
+#: utils/update-alternatives.c:1512 utils/update-alternatives.c:1588
+#: utils/update-alternatives.c:2285
 msgid "manual mode"
 msgstr "permana reĝimo"
 
-#: utils/update-alternatives.c:1495
+#: utils/update-alternatives.c:1515
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  ligo nune kondukas al %s"
 
-#: utils/update-alternatives.c:1498
+#: utils/update-alternatives.c:1517
 msgid "  link currently absent"
 msgstr "  ligo nune malĉeestas"
 
-#: utils/update-alternatives.c:1502
+#: utils/update-alternatives.c:1521
 #, c-format
 msgid "%s - priority %d"
 msgstr "%s - prioritato %d"
 
-#: utils/update-alternatives.c:1505
+#: utils/update-alternatives.c:1524
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  sklavo %s: %s"
 
-#: utils/update-alternatives.c:1512
+#: utils/update-alternatives.c:1531
 #, c-format
 msgid "Current 'best' version is '%s'."
 msgstr "Nune 'plejbona' versio estas '%s'."
 
-#: utils/update-alternatives.c:1514
+#: utils/update-alternatives.c:1533
 msgid "No versions available."
 msgstr "Neniu versio disponeblas."
 
-#: utils/update-alternatives.c:1543
+#: utils/update-alternatives.c:1563
 #, c-format
 msgid "There is %d choice for the alternative %s (providing %s)."
 msgid_plural "There are %d choices for the alternative %s (providing %s)."
 msgstr[0] "Estas %d elekto por la alternativo %s (provizanta %s)."
 msgstr[1] "Estas %d elektoj por la alternativo %s (provizanta %s)."
 
-#: utils/update-alternatives.c:1550
+#: utils/update-alternatives.c:1570
 msgid "Selection"
 msgstr "Elekto"
 
-#: utils/update-alternatives.c:1551
+#: utils/update-alternatives.c:1571
 msgid "Path"
 msgstr "Vojo"
 
-#: utils/update-alternatives.c:1551
+#: utils/update-alternatives.c:1571
 msgid "Priority"
 msgstr "Prioritato"
 
-#: utils/update-alternatives.c:1551
+#: utils/update-alternatives.c:1571
 msgid "Status"
 msgstr "Stato"
 
-#: utils/update-alternatives.c:1572
+#: utils/update-alternatives.c:1592
 #, c-format
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr ""
 "Premu la enigklavon por teni la nunan elekton[*], aŭ tajpu al elekto-"
 "numeron: "
 
-#: utils/update-alternatives.c:1726
+#: utils/update-alternatives.c:1741
 #, c-format
 msgid "not replacing %s with a link"
 msgstr "ni ne anstataŭigas %s per ligo"
 
-#: utils/update-alternatives.c:1767
+#: utils/update-alternatives.c:1782
 #, c-format
 msgid "can't install unknown choice %s"
 msgstr "ni ne povas instali la nekonatan elekton %s"
 
-#: utils/update-alternatives.c:1785
+#: utils/update-alternatives.c:1800
 #, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
@@ -5967,43 +6087,43 @@ msgstr ""
 "preterpasi kreon de %s ĉar la koncerna dosiero %s (de ligo-grupo %s) ne "
 "ekzistas"
 
-#: utils/update-alternatives.c:1795
+#: utils/update-alternatives.c:1810
 #, c-format
 msgid "not removing %s since it's not a symlink"
 msgstr "ni ne anstataŭigas %s ĉar ĝi ne estas simbola ligo"
 
-#: utils/update-alternatives.c:2070 utils/update-alternatives.c:2076
+#: utils/update-alternatives.c:2083 utils/update-alternatives.c:2089
 #, c-format
 msgid "Call %s."
 msgstr "Voki %s."
 
-#: utils/update-alternatives.c:2080
+#: utils/update-alternatives.c:2093
 #, c-format
 msgid "Alternative %s unchanged because choice %s is not available."
 msgstr "Alternativo %s neŝanĝita ĉar elekto %s ne disponeblas."
 
-#: utils/update-alternatives.c:2084
+#: utils/update-alternatives.c:2097
 #, c-format
 msgid "Skip unknown alternative %s."
 msgstr "Preterpasi nekonatan alternativon %s."
 
-#: utils/update-alternatives.c:2111
+#: utils/update-alternatives.c:2124
 #, c-format
 msgid "line too long or not terminated while trying to read %s"
 msgstr "linio tro longa aŭ ne finigita dum provo legi %s"
 
-#: utils/update-alternatives.c:2124 utils/update-alternatives.c:2137
-#: utils/update-alternatives.c:2147
+#: utils/update-alternatives.c:2137 utils/update-alternatives.c:2150
+#: utils/update-alternatives.c:2160
 #, c-format
 msgid "Skip invalid line: %s"
 msgstr "Ni preterlasas malvalidan linion: %s"
 
-#: utils/update-alternatives.c:2172
+#: utils/update-alternatives.c:2185
 #, c-format
 msgid "%s/%s is dangling; it will be updated with best choice"
 msgstr "%s/%s \"ŝancelas\"; ĝi estos ĝisdatigata per plejbona elekto"
 
-#: utils/update-alternatives.c:2176
+#: utils/update-alternatives.c:2189
 #, c-format
 msgid ""
 "%s/%s has been changed (manually or by a script); switching to manual "
@@ -6012,145 +6132,146 @@ msgstr ""
 "%s/%s estas ŝanĝita (permane aŭ perskripte); ni ŝaltas al nur permanaj "
 "ĝisdatigoj"
 
-#: utils/update-alternatives.c:2184
+#: utils/update-alternatives.c:2197
 #, c-format
 msgid "setting up automatic selection of %s"
 msgstr "preparado de aŭtomata elekto de %s"
 
-#: utils/update-alternatives.c:2200
+#: utils/update-alternatives.c:2213
 #, c-format
 msgid "renaming %s link from %s to %s"
 msgstr "renomigo de la ligo %s de %s al %s"
 
-#: utils/update-alternatives.c:2241
+#: utils/update-alternatives.c:2254
 #, c-format
 msgid "renaming %s slave link from %s to %s"
 msgstr "renomigo de la sklav-ligo %s de %s al %s"
 
-#: utils/update-alternatives.c:2269
+#: utils/update-alternatives.c:2282
 #, c-format
 msgid "using %s to provide %s (%s) in %s"
 msgstr "ni uzas %s por provizi %s (%s) en %s"
 
-#: utils/update-alternatives.c:2277
+#: utils/update-alternatives.c:2290
 #, c-format
 msgid ""
 "forcing reinstallation of alternative %s because link group %s is broken"
 msgstr ""
 "ni devigas reinstalon de la alternativo %s ĉar la ligo-grupo %s estas rompita"
 
-#: utils/update-alternatives.c:2284
+#: utils/update-alternatives.c:2297
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr "nuna alternativo %s estas nekonata, ni ŝanĝas al %s por ligo-grupo %s"
 
-#: utils/update-alternatives.c:2310
+#: utils/update-alternatives.c:2323
 #, c-format
 msgid "alternative name (%s) must not contain '/' and spaces"
 msgstr "alternativa nomo (%s) ne devas enhavi '/' kaj spacojn"
 
-#: utils/update-alternatives.c:2318
+#: utils/update-alternatives.c:2331
 #, c-format
 msgid "alternative link is not absolute as it should be: %s"
 msgstr "la alternativa ligo ne estas absoluta kiel ĝi devus esti: %s"
 
-#: utils/update-alternatives.c:2326
+#: utils/update-alternatives.c:2339
 #, c-format
 msgid "alternative path is not absolute as it should be: %s"
 msgstr "la alternativa vojo ne estas absoluta kiel ĝi devus esti: %s"
 
-#: utils/update-alternatives.c:2357
+#: utils/update-alternatives.c:2370
 #, c-format
 msgid "alternative %s can't be master: it is a slave of %s"
 msgstr "la alternativo %s ne povas esti mastra: ĝi estas sklavo de %s"
 
-#: utils/update-alternatives.c:2365 utils/update-alternatives.c:2401
+#: utils/update-alternatives.c:2378 utils/update-alternatives.c:2414
 #, c-format
 msgid "alternative link %s is already managed by %s"
 msgstr "la alternativa ligo %s jam estas zorgata de %s"
 
-#: utils/update-alternatives.c:2371
+#: utils/update-alternatives.c:2384
 #, c-format
 msgid "alternative path %s doesn't exist"
 msgstr "la alternativa vojo %s ne ekzistas"
 
-#: utils/update-alternatives.c:2388
+#: utils/update-alternatives.c:2401
 #, c-format
 msgid "alternative %s can't be slave of %s: it is a master alternative"
 msgstr ""
 "la alternativo %s ne povas esti sklavo de %s: ĝi estas mastra alternativo"
 
-#: utils/update-alternatives.c:2392
+#: utils/update-alternatives.c:2405
 #, c-format
 msgid "alternative %s can't be slave of %s: it is a slave of %s"
 msgstr "la alternativo %s ne povas esti sklavo de %s: ĝi estas sklavo de %s"
 
-#: utils/update-alternatives.c:2412
+#: utils/update-alternatives.c:2425
 #, c-format
 msgid "alternative link %s is already managed by %s (slave of %s)"
 msgstr "la alternativa ligo %s jam estas zorgata de %s (sklavo de %s)"
 
-#: utils/update-alternatives.c:2456
+#: utils/update-alternatives.c:2470
 #, c-format
 msgid "unknown argument `%s'"
 msgstr "nekonata argumento '%s'"
 
-#: utils/update-alternatives.c:2475
+#: utils/update-alternatives.c:2489
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install bezonas <ligo> <nomo> <vojo> <prioritato>"
 
-#: utils/update-alternatives.c:2481 utils/update-alternatives.c:2547
+#: utils/update-alternatives.c:2495 utils/update-alternatives.c:2556
 msgid "<link> and <path> can't be the same"
 msgstr "<ligo> kaj <vojo> ne povas esti samaj"
 
-#: utils/update-alternatives.c:2485
+#: utils/update-alternatives.c:2499
 msgid "priority must be an integer"
 msgstr "prioritato devas esti entjero"
 
-#: utils/update-alternatives.c:2489
-#, c-format
-msgid "priority is out of range: %s clamped to %ld"
-msgstr "prioritato estas for de intervalo: %s limigita al %ld"
+#: utils/update-alternatives.c:2501
+#, fuzzy
+#| msgid "priority of %s is out of range: %s"
+msgid "priority is out of range"
+msgstr "prioritato de %s estas for de intervalo: %s"
 
-#: utils/update-alternatives.c:2505
+#: utils/update-alternatives.c:2514
 #, c-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s bezonas <nomo> <vojo>"
 
-#: utils/update-alternatives.c:2522
+#: utils/update-alternatives.c:2531
 #, c-format
 msgid "--%s needs <name>"
 msgstr "--%s bezonas <nomo>"
 
-#: utils/update-alternatives.c:2538
+#: utils/update-alternatives.c:2547
 msgid "--slave only allowed with --install"
 msgstr "--slave nur permesite kun --install"
 
-#: utils/update-alternatives.c:2540
+#: utils/update-alternatives.c:2549
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave bezonas <ligo> <nomo> <vojo>"
 
-#: utils/update-alternatives.c:2549
+#: utils/update-alternatives.c:2558
 #, c-format
 msgid "name %s is both primary and slave"
 msgstr "la nomo %s estas kaj mastra kaj sklava"
 
-#: utils/update-alternatives.c:2552
+#: utils/update-alternatives.c:2561
 #, c-format
 msgid "link %s is both primary and slave"
 msgstr "la ligo %s estas kaj mastra kaj sklava"
 
-#: utils/update-alternatives.c:2572
+#: utils/update-alternatives.c:2581
 #, c-format
 msgid "--%s needs a <file> argument"
 msgstr "--%s bezonas argumenton <dosiero>"
 
-#: utils/update-alternatives.c:2598
+#: utils/update-alternatives.c:2607
 #, c-format
 msgid "unknown option `%s'"
 msgstr "nekonata elekteblo '%s'"
 
-#: utils/update-alternatives.c:2603
+#: utils/update-alternatives.c:2612
 msgid ""
 "need --display, --query, --list, --get-selections, --config, --set, --set-"
 "selections, --install, --remove, --all, --remove-all or --auto"
@@ -6158,51 +6279,54 @@ msgstr ""
 "bezonas --display, --query, --list, --get-selections, --config, --set, --set-"
 "selections, --install, --remove, --all, --remove-all aŭ --auto"
 
-#: utils/update-alternatives.c:2619 utils/update-alternatives.c:2625
+#: utils/update-alternatives.c:2628 utils/update-alternatives.c:2634
 #, c-format
 msgid "no alternatives for %s"
 msgstr "neniu alternativo por %s"
 
-#: utils/update-alternatives.c:2642
+#: utils/update-alternatives.c:2651
 msgid "<standard input>"
 msgstr "<norma enigo>"
 
-#: utils/update-alternatives.c:2664
+#: utils/update-alternatives.c:2673
 #, c-format
 msgid "alternative %s for %s not registered; not setting"
 msgstr "la alternativo %s por %s ne estas registrita; ni ne difinas ĝin"
 
-#: utils/update-alternatives.c:2670 utils/update-alternatives.c:2676
+#: utils/update-alternatives.c:2679 utils/update-alternatives.c:2685
 #, c-format
 msgid "There is no program which provides %s."
 msgstr "Estas neniu programo kiu provizas %s."
 
-#: utils/update-alternatives.c:2678 utils/update-alternatives.c:2686
+#: utils/update-alternatives.c:2687 utils/update-alternatives.c:2695
 msgid "Nothing to configure."
 msgstr "Nenio por akomodi."
 
-#: utils/update-alternatives.c:2684
+#: utils/update-alternatives.c:2693
 #, c-format
 msgid "There is only one alternative in link group %s (providing %s): %s"
 msgstr "Estas nur unu alternativo en la ligo-grupo %s (provizanta %s): %s"
 
-#: utils/update-alternatives.c:2694
+#: utils/update-alternatives.c:2703
 #, c-format
 msgid "alternative %s for %s not registered; not removing"
 msgstr "la alternativo %s por %s ne estas registrita; ni ne forigas"
 
-#: utils/update-alternatives.c:2702
+#: utils/update-alternatives.c:2711
 #, c-format
 msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr ""
 "permana forigado de elektita alternativo - ni ŝaltas %s al aŭtomata reĝimo"
 
-#: utils/update-alternatives.c:2727
+#: utils/update-alternatives.c:2736
 #, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "aŭtomataj ĝisdatigoj de %s/%s estas malaktivitaj; ni lasas ĝin sola"
 
-#: utils/update-alternatives.c:2729
+#: utils/update-alternatives.c:2738
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "por retroiri al aŭtomataj ĝisdatigoj, uzu '%s --auto %s'"
+
+#~ msgid "priority is out of range: %s clamped to %ld"
+#~ msgstr "prioritato estas for de intervalo: %s limigita al %ld"

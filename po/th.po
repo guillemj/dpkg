@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2013-03-08 03:46+0000\n"
+"POT-Creation-Date: 2013-07-27 03:54+0200\n"
 "PO-Revision-Date: 2012-10-16 17:33+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -23,7 +23,7 @@ msgid "invalid character '%c' in archive '%.250s' member '%.16s' size"
 msgstr "อักขระ '%c' ผิดข้อกำหนดในแฟ้มจัดเก็บ '%.250s' ที่สมาชิกขนาดของ '%.16s'"
 
 #: lib/dpkg/ar.c:87 lib/dpkg/ar.c:108 lib/dpkg/ar.c:119 lib/dpkg/ar.c:123
-#: lib/dpkg/ar.c:149 utils/update-alternatives.c:1145
+#: lib/dpkg/ar.c:149 utils/update-alternatives.c:1146
 #, c-format
 msgid "unable to write file '%s'"
 msgstr "ไม่สามารถเขียนแฟ้ม '%s'"
@@ -66,7 +66,20 @@ msgstr "ต้องขึ้นต้นด้วยอักษรหรือ
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr "ห้ามใช้อักขระ `%c' (ใช้ตัวอักษร ตัวเลข และอักขระ `%s' ได้เท่านั้น)"
 
-#: lib/dpkg/arch.c:312
+#: lib/dpkg/arch.c:236
+#, fuzzy
+#| msgctxt "version"
+#| msgid "<none>"
+msgctxt "architecture"
+msgid "<none>"
+msgstr "<ไม่ปรากฏ>"
+
+#: lib/dpkg/arch.c:238
+msgctxt "architecture"
+msgid "<empty>"
+msgstr ""
+
+#: lib/dpkg/arch.c:326
 msgid "error writing to architecture list"
 msgstr "เกิดข้อผิดพลาดขณะเขียนลงในรายชื่อสถาปัตยกรรม"
 
@@ -107,7 +120,7 @@ msgstr "เกิดข้อผิดพลาดขณะสร้างแฟ
 
 #: lib/dpkg/atomic-file.c:103 lib/dpkg/atomic-file.c:105
 #: lib/dpkg/triglib.c:447 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
-#: src/infodb-upgrade.c:200 src/remove.c:337 src/remove.c:428
+#: src/infodb-upgrade.c:200 src/remove.c:340 src/remove.c:432
 #, c-format
 msgid "cannot remove `%.250s'"
 msgstr "ไม่สามารถลบ `%.250s'"
@@ -133,11 +146,10 @@ msgstr "พบจุดจบแฟ้มหรือสตรีมก่อน
 msgid "failed to seek"
 msgstr "เลื่อนตำแหน่งไม่สำเร็จ"
 
-#: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:385
-#: src/processarc.c:102 src/processarc.c:142 src/processarc.c:472
-#: src/processarc.c:909 dpkg-deb/build.c:462 dpkg-deb/build.c:549
-#: dpkg-deb/build.c:572 dpkg-deb/extract.c:323 dpkg-deb/info.c:65
-#: dpkg-split/split.c:70 utils/update-alternatives.c:421
+#: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:391
+#: src/unpack.c:102 src/unpack.c:142 src/unpack.c:472 src/unpack.c:911
+#: dpkg-deb/build.c:463 dpkg-deb/build.c:550 dpkg-deb/build.c:573
+#: dpkg-deb/info.c:65 dpkg-split/split.c:70 utils/update-alternatives.c:414
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "ไม่สามารถเรียกทำงาน %s (%s)"
@@ -162,113 +174,113 @@ msgstr "%s: เกิดข้อผิดพลาดภายในของ g
 msgid "%s: internal gzip write error"
 msgstr "%s: เกิดข้อผิดพลาดภายในของ gzip เกี่ยวกับการเขียน"
 
-#: lib/dpkg/compress.c:189
+#: lib/dpkg/compress.c:201
 #, c-format
 msgid "%s: error binding output to gzip stream"
 msgstr "%s: เกิดข้อผิดพลาดขณะเชื่อมแฟ้มขาออกเข้ากับกระแสข้อมูล gzip"
 
-#: lib/dpkg/compress.c:196
+#: lib/dpkg/compress.c:208
 #, c-format
 msgid "%s: internal gzip read error"
 msgstr "%s: เกิดข้อผิดพลาดภายในของ gzip เกี่ยวกับการอ่าน"
 
-#: lib/dpkg/compress.c:206
+#: lib/dpkg/compress.c:218
 #, c-format
 msgid "%s: internal gzip write error: '%s'"
 msgstr "%s: เกิดข้อผิดพลาดภายในของ gzip เกี่ยวกับการเขียน: '%s'"
 
-#: lib/dpkg/compress.c:219
+#: lib/dpkg/compress.c:231
 #, c-format
 msgid "%s: internal gzip write error: %s"
 msgstr "%s: เกิดข้อผิดพลาดภายในของ gzip เกี่ยวกับการเขียน: %s"
 
-#: lib/dpkg/compress.c:270
+#: lib/dpkg/compress.c:282
 #, c-format
 msgid "%s: error binding input to bzip2 stream"
 msgstr "%s: เกิดข้อผิดพลาดขณะเชื่อมแฟ้มขาเข้าเข้ากับกระแสข้อมูล bzip2"
 
-#: lib/dpkg/compress.c:282
+#: lib/dpkg/compress.c:294
 #, c-format
 msgid "%s: internal bzip2 read error: '%s'"
 msgstr "%s: เกิดข้อผิดพลาดภายในของ bzip2 เกี่ยวกับการอ่าน: '%s'"
 
-#: lib/dpkg/compress.c:290 lib/dpkg/compress.c:294 lib/dpkg/compress.c:344
+#: lib/dpkg/compress.c:302 lib/dpkg/compress.c:306 lib/dpkg/compress.c:356
 #, c-format
 msgid "%s: internal bzip2 write error"
 msgstr "%s: เกิดข้อผิดพลาดภายในของ bzip2 เกี่ยวกับการเขียน"
 
-#: lib/dpkg/compress.c:308
+#: lib/dpkg/compress.c:320
 #, c-format
 msgid "%s: error binding output to bzip2 stream"
 msgstr "%s: เกิดข้อผิดพลาดขณะเชื่อมแฟ้มขาออกเข้ากับกระแสข้อมูล bzip2"
 
-#: lib/dpkg/compress.c:315
+#: lib/dpkg/compress.c:327
 #, c-format
 msgid "%s: internal bzip2 read error"
 msgstr "%s: เกิดข้อผิดพลาดภายในของ bzip2 เกี่ยวกับการอ่าน"
 
-#: lib/dpkg/compress.c:325 lib/dpkg/compress.c:336
+#: lib/dpkg/compress.c:337 lib/dpkg/compress.c:348
 #, c-format
 msgid "%s: internal bzip2 write error: '%s'"
 msgstr "%s: เกิดข้อผิดพลาดภายในของ bzip2 เกี่ยวกับการเขียน: '%s'"
 
-#: lib/dpkg/compress.c:332
+#: lib/dpkg/compress.c:344
 msgid "unexpected bzip2 error"
 msgstr "เกิดข้อผิดพลาดที่ไม่คาดหมายของ bzip2"
 
-#: lib/dpkg/compress.c:391
+#: lib/dpkg/compress.c:403
 msgid "internal error (bug)"
 msgstr "ข้อผิดพลาดภายใน (บั๊ก)"
 
-#: lib/dpkg/compress.c:398
+#: lib/dpkg/compress.c:410
 msgid "memory usage limit reached"
 msgstr "ใช้หน่วยความจำเต็มขีดจำกัดแล้ว"
 
-#: lib/dpkg/compress.c:402
+#: lib/dpkg/compress.c:414
 msgid "unsupported compression preset"
 msgstr "พบค่าตั้งเริ่มแรกของการบีบอัดที่ไม่รองรับ"
 
-#: lib/dpkg/compress.c:404
+#: lib/dpkg/compress.c:416
 msgid "unsupported options in file header"
 msgstr "พบตัวเลือกที่ไม่รองรับในส่วนหัวของแฟ้ม"
 
-#: lib/dpkg/compress.c:408
+#: lib/dpkg/compress.c:420
 msgid "compressed data is corrupt"
 msgstr "ข้อมูลบีบอัดเสียหาย"
 
-#: lib/dpkg/compress.c:412
+#: lib/dpkg/compress.c:424
 msgid "unexpected end of input"
 msgstr "พบจุดจบของข้อมูลเข้าก่อนกำหนด"
 
-#: lib/dpkg/compress.c:416
+#: lib/dpkg/compress.c:428
 msgid "file format not recognized"
 msgstr "พบฟอร์แมตแฟ้มที่ไม่รู้จัก"
 
-#: lib/dpkg/compress.c:420
+#: lib/dpkg/compress.c:432
 msgid "unsupported type of integrity check"
 msgstr "พบชนิดของการตรวจสอบความครบถ้วนที่ไม่รองรับ"
 
-#: lib/dpkg/compress.c:461
+#: lib/dpkg/compress.c:473
 #, c-format
 msgid "%s: lzma read error"
 msgstr "%s: lzma เกิดข้อผิดพลาดในการอ่าน"
 
-#: lib/dpkg/compress.c:473
+#: lib/dpkg/compress.c:485
 #, c-format
 msgid "%s: lzma write error"
 msgstr "%s: lzma เกิดข้อผิดพลาดในการเขียน"
 
-#: lib/dpkg/compress.c:482
+#: lib/dpkg/compress.c:494
 #, c-format
 msgid "%s: lzma close error"
 msgstr "%s: lzma เกิดข้อผิดพลาดในการปิด"
 
-#: lib/dpkg/compress.c:488
+#: lib/dpkg/compress.c:500
 #, c-format
 msgid "%s: lzma error: %s"
 msgstr "%s: ข้อผิดพลาดของ lzma: %s"
 
-#: lib/dpkg/compress.c:761
+#: lib/dpkg/compress.c:788
 msgid "unknown compression strategy"
 msgstr "พบนโยบายการบีบอัดที่ไม่รู้จัก"
 
@@ -295,7 +307,7 @@ msgstr "ไม่สามารถตรวจข้อมูลไดเรก
 msgid "failed to remove incorporated update file %.255s"
 msgstr "ไม่สามารถลบแฟ้มปรับข้อมูล %.255s ที่รวมอยู่"
 
-#: lib/dpkg/dbmodify.c:120 dpkg-deb/build.c:450
+#: lib/dpkg/dbmodify.c:120 dpkg-deb/build.c:451
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "ไม่สามารถสร้าง `%.255s'"
@@ -379,19 +391,19 @@ msgstr "ไม่สามารถปิดสถานะใหม่ของ
 msgid "unable to install updated status of `%.250s'"
 msgstr "ไม่สามารถติดตั้งสถานะใหม่ของ `%.250s'"
 
-#: lib/dpkg/deb-version.c:42
+#: lib/dpkg/deb-version.c:55
 msgid "format version with empty major component"
 msgstr "เลขรุ่นของรูปแบบแพกเกจไม่มีเลขรุ่นหลัก"
 
-#: lib/dpkg/deb-version.c:44
+#: lib/dpkg/deb-version.c:57
 msgid "format version has no dot"
 msgstr "เลขรุ่นของรูปแบบแพกเกจไม่มีจุด"
 
-#: lib/dpkg/deb-version.c:50
+#: lib/dpkg/deb-version.c:63
 msgid "format version with empty minor component"
 msgstr "เลขรุ่นของรูปแบบแพกเกจไม่มีเลขรุ่นรอง"
 
-#: lib/dpkg/deb-version.c:52
+#: lib/dpkg/deb-version.c:65
 msgid "format version followed by junk"
 msgstr "เลขรุ่นของรูปแบบแพกเกจมีค่าขยะต่อท้าย"
 
@@ -411,36 +423,36 @@ msgid "unable to open directory '%s'"
 msgstr "ไม่สามารถเปิดไดเรกทอรี '%s'"
 
 #: lib/dpkg/dir.c:109 src/divertcmd.c:217 dpkg-split/split.c:208
-#: utils/update-alternatives.c:1289
+#: utils/update-alternatives.c:1288
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "ไม่สามารถเปิดแฟ้ม '%s'"
 
-#: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:610
-#: dpkg-split/join.c:70 dpkg-split/queue.c:196
-#: utils/update-alternatives.c:1402
+#: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:611
+#: dpkg-split/join.c:70 dpkg-split/queue.c:197
+#: utils/update-alternatives.c:1401
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "ไม่สามารถ sync แฟ้ม '%s'"
 
-#: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:612
-#: dpkg-split/join.c:72 dpkg-split/queue.c:198
-#: utils/update-alternatives.c:1310 utils/update-alternatives.c:1404
+#: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:613
+#: dpkg-split/join.c:72 dpkg-split/queue.c:199
+#: utils/update-alternatives.c:1309 utils/update-alternatives.c:1403
 #, c-format
 msgid "unable to close file '%s'"
 msgstr "ไม่สามารถปิดแฟ้ม '%s'"
 
-#: lib/dpkg/dump.c:465
+#: lib/dpkg/dump.c:466
 #, c-format
 msgid "failed to write details of `%.50s' to `%.250s'"
 msgstr "ไม่สามารถเขียนรายละเอียดของ `%.50s' ลงใน `%.250s'"
 
-#: lib/dpkg/dump.c:489
+#: lib/dpkg/dump.c:490
 #, c-format
 msgid "unable to set buffering on %s database file"
 msgstr "ไม่สามารถกำหนดบัฟเฟอร์สำหรับแฟ้มฐานข้อมูล %s"
 
-#: lib/dpkg/dump.c:501
+#: lib/dpkg/dump.c:502
 #, c-format
 msgid "failed to write %s database record about '%.50s' to '%.250s'"
 msgstr "ไม่สามารถเขียนระเบียนฐานข้อมูล %s เกี่ยวกับ '%.50s' ลงใน '%.250s'"
@@ -775,8 +787,8 @@ msgstr "<file descriptor ของแฟ้มสถานะและควา�
 msgid "unable to write to status fd %d"
 msgstr "ไม่สามารถเขียนลงใน fd %d สำหรับสถานะ"
 
-#: lib/dpkg/mlib.c:42 lib/dpkg/mlib.c:94 utils/update-alternatives.c:272
-#: utils/update-alternatives.c:329 utils/update-alternatives.c:1098
+#: lib/dpkg/mlib.c:42 lib/dpkg/mlib.c:94 utils/update-alternatives.c:274
+#: utils/update-alternatives.c:331 utils/update-alternatives.c:1099
 msgid "failed to allocate memory"
 msgstr "จองหน่วยความจำไม่สำเร็จ"
 
@@ -799,12 +811,12 @@ msgstr "สร้างไปป์ไม่สำเร็จ"
 msgid "error writing to '%s'"
 msgstr "เกิดข้อผิดพลาดขณะเขียนลงใน '%s'"
 
-#: lib/dpkg/mlib.c:130
+#: lib/dpkg/mlib.c:131
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
 msgstr "ไม่สามารถอ่านแฟล็กของ file descriptor สำหรับ %.250s"
 
-#: lib/dpkg/mlib.c:132
+#: lib/dpkg/mlib.c:133
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "ไม่สามารถกำหนดแฟล็ก close-on-exec สำหรับ %.250s"
@@ -854,42 +866,42 @@ msgstr "เกิดข้อผิดพลาดขณะปิดแฟ้ม
 msgid "error opening configuration directory '%s'"
 msgstr "เกิดข้อผิดพลาดขณะเปิดไดเรกทอรีค่าตั้ง '%s'"
 
-#: lib/dpkg/options.c:235
+#: lib/dpkg/options.c:236
 #, c-format
 msgid "unknown option --%s"
 msgstr "ไม่รู้จักตัวเลือก --%s"
 
-#: lib/dpkg/options.c:239
+#: lib/dpkg/options.c:240
 #, c-format
 msgid "--%s option takes a value"
 msgstr "ตัวเลือก --%s ต้องระบุค่าด้วย"
 
-#: lib/dpkg/options.c:244
+#: lib/dpkg/options.c:245
 #, c-format
 msgid "--%s option does not take a value"
 msgstr "ตัวเลือก --%s ไม่รับค่า"
 
-#: lib/dpkg/options.c:252
+#: lib/dpkg/options.c:253
 #, c-format
 msgid "unknown option -%c"
 msgstr "ไม่รู้จักตัวเลือก -%c"
 
-#: lib/dpkg/options.c:257
+#: lib/dpkg/options.c:258
 #, c-format
 msgid "-%c option takes a value"
 msgstr "ตัวเลือก -%c ต้องระบุค่าด้วย"
 
-#: lib/dpkg/options.c:265
+#: lib/dpkg/options.c:266
 #, c-format
 msgid "-%c option does not take a value"
 msgstr "ตัวเลือก -%c ไม่รับค่า"
 
-#: lib/dpkg/options.c:278
+#: lib/dpkg/options.c:279
 #, c-format
 msgid "obsolete option '--%s'\n"
 msgstr "ตัวเลือก '--%s' เลิกใช้แล้ว\n"
 
-#: lib/dpkg/options.c:294
+#: lib/dpkg/options.c:295
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "การกระทำขัดแย้งกันระหว่าง -%c (--%s) และ -%c (--%s)"
@@ -1047,7 +1059,7 @@ msgstr "พบ EOF ระหว่างกลางค่าของเขต�
 msgid "several package info entries found, only one allowed"
 msgstr "พบข้อมูลแพกเกจหลายชุด ซึ่งต้องมีเพียงชุดเดียวเท่านั้น"
 
-#: lib/dpkg/parse.c:760
+#: lib/dpkg/parse.c:761
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "ไม่มีข้อมูลแพกเกจใน `%.255s'"
@@ -1167,7 +1179,7 @@ msgstr "เกิดข้อผิดพลาดขณะเลิกดัก
 msgid "%s (subprocess): %s\n"
 msgstr "%s (โพรเซสย่อย): %s\n"
 
-#: lib/dpkg/subproc.c:89 utils/update-alternatives.c:418
+#: lib/dpkg/subproc.c:89 utils/update-alternatives.c:411
 msgid "fork failed"
 msgstr "fork ไม่สำเร็จ"
 
@@ -1195,7 +1207,7 @@ msgstr ", มีการดัมป์หน่วยความจำ"
 msgid "subprocess %s failed with wait status code %d"
 msgstr "โพรเซสย่อย %s ล้มเหลวด้วยรหัสสถานะ %d"
 
-#: lib/dpkg/subproc.c:151 utils/update-alternatives.c:425
+#: lib/dpkg/subproc.c:151 utils/update-alternatives.c:418
 #, c-format
 msgid "wait for subprocess %s failed"
 msgstr "คอยโพรเซสย่อย %s ไม่สำเร็จ"
@@ -1374,108 +1386,122 @@ msgstr "พบจุดจบแฟ้มก่อนกำหนดขณะอ
 msgid "error formatting string into varbuf variable"
 msgstr "เกิดข้อผิดพลาดขณะจัดรูปแบบข้อความลงในตัวแปร varbuf"
 
-#: src/archives.c:242
+#: src/archives.c:244
 msgid "error reading from dpkg-deb pipe"
 msgstr "เกิดข้อผิดพลาดขณะอ่านจากไปป์ของ dpkg-deb"
 
-#: src/archives.c:257
+#: src/archives.c:259
 #, c-format
 msgid "cannot skip padding for file '%.255s': %s"
 msgstr "ไม่สามารถข้ามอักขระเติมช่องว่างในแฟ้ม '%.255s': %s"
 
-#: src/archives.c:270
+#: src/archives.c:272
 #, c-format
 msgid "cannot skip file '%.255s' (replaced or excluded?) from pipe: %s"
 msgstr "ไม่สามารถข้ามแฟ้ม '%.255s' (ถูกแทนที่หรือไม่นับรวมหรือไม่?) จากไปป์: %s"
 
-#: src/archives.c:332
+#: src/archives.c:334
 #, c-format
 msgid "unable to create `%.255s' (while processing `%.255s')"
 msgstr "สร้าง `%.255s' ไม่สำเร็จ (ระหว่างดำเนินการ `%.255s')"
 
-#: src/archives.c:340
+#: src/archives.c:342
 #, c-format
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr "ไม่สามารถคัดลอกข้อมูลที่แตกออกมาจาก '%.250s' ไปยัง '%.250s': %s"
 
-#: src/archives.c:356 src/archives.c:473 src/statcmd.c:159
+#: src/archives.c:358 src/archives.c:475 src/statcmd.c:159
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "เกิดข้อผิดพลาดขณะกำหนดเจ้าของของ `%.255s'"
 
-#: src/archives.c:358 src/archives.c:475 src/statcmd.c:161
+#: src/archives.c:360 src/archives.c:477 src/statcmd.c:161
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "เกิดข้อผิดพลาดขณะกำหนดการอนุญาตสิทธิ์ของ `%.255s'"
 
-#: src/archives.c:366 src/archives.c:1153 src/archives.c:1194
+#: src/archives.c:368 src/archives.c:1207 src/archives.c:1248
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "เกิดข้อผิดพลาดขณะปิด/เขียน `%.255s'"
 
-#: src/archives.c:370
+#: src/archives.c:372
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "เกิดข้อผิดพลาดขณะสร้างไปป์ `%.255s'"
 
-#: src/archives.c:375 src/archives.c:380
+#: src/archives.c:377 src/archives.c:382
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "เกิดข้อผิดพลาดขณะสร้างอุปกรณ์ `%.255s'"
 
-#: src/archives.c:394 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
+#: src/archives.c:396 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "เกิดข้อผิดพลาดขณะสร้าง hard link `%.255s'"
 
-#: src/archives.c:401 utils/update-alternatives.c:490
+#: src/archives.c:403 utils/update-alternatives.c:483
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "เกิดข้อผิดพลาดขณะสร้าง symbolic link `%.255s'"
 
-#: src/archives.c:407
+#: src/archives.c:409
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "เกิดข้อผิดพลาดขณะสร้างไดเรกทอรี `%.255s'"
 
-#: src/archives.c:426
+#: src/archives.c:428
 #, c-format
 msgid "cannot compute MD5 hash for tar file '%.255s': %s"
 msgstr "ไม่สามารถคำนวณแฮช MD5 ของแฟ้ม tar '%.255s': %s"
 
-#: src/archives.c:454 src/archives.c:458
+#: src/archives.c:456 src/archives.c:460
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "เกิดข้อผิดพลาดขณะลงเวลาของ `%.255s'"
 
-#: src/archives.c:470
+#: src/archives.c:472
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "เกิดข้อผิดพลาดขณะกำหนดเจ้าของของ symlink `%.255s'"
 
-#: src/archives.c:547 src/archives.c:1077 utils/update-alternatives.c:317
+#: src/archives.c:509
+msgid "cannot open security status notification channel"
+msgstr ""
+
+#: src/archives.c:524
+msgid "cannot get security labeling handle"
+msgstr ""
+
+#: src/archives.c:572
+#, fuzzy, c-format
+#| msgid "cannot extract control file '%s' from '%s': %s"
+msgid "cannot set security context for file object '%s'"
+msgstr "ไม่สามารถแตกแฟ้มควบคุม '%s' จาก '%s': %s"
+
+#: src/archives.c:601 src/archives.c:1131 utils/update-alternatives.c:319
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "ไม่สามารถอ่านลิงก์ `%.255s'"
 
-#: src/archives.c:549 src/archives.c:1079 src/configure.c:529
+#: src/archives.c:603 src/archives.c:1133 src/configure.c:529
 #, c-format
 msgid "symbolic link '%.250s' size has changed from %jd to %zd"
 msgstr "ขนาดของ symbolic link '%.250s' ได้เปลี่ยนจาก %jd ไปเป็น %zd"
 
-#: src/archives.c:586
+#: src/archives.c:640
 #, c-format
 msgid ""
 "trying to overwrite shared '%.250s', which is different from other instances "
 "of package %.250s"
 msgstr "กำลังพยายามเขียนทับ '%.250s' ที่ใช้ร่วมกัน ซึ่งต่างจากอีกฉบับของแพกเกจ %.250s"
 
-#: src/archives.c:676
+#: src/archives.c:730
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr "ไม่สามารถ stat (ชี้ตามลิงก์) symlink `%.250s' ที่มีอยู่"
 
-#: src/archives.c:698
+#: src/archives.c:752
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
@@ -1483,60 +1509,60 @@ msgid ""
 msgstr ""
 "ไม่สามารถ stat (ชี้ตามลิงก์) ปลายทาง symlink ใหม่ `%.250s' สำหรับ symlink `%.250s'"
 
-#: src/archives.c:756
+#: src/archives.c:810
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
 "%.250s' (package: %.100s)"
 msgstr "กำลังพยายามเขียนทับ `%.250s' ซึ่งเป็นฉบับเบนของ `%.250s' (แพกเกจ: %.100s)"
 
-#: src/archives.c:762
+#: src/archives.c:816
 #, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr "กำลังพยายามเขียนทับ `%.250s' ซึ่งเป็นฉบับเบนของ `%.250s'"
 
-#: src/archives.c:792
+#: src/archives.c:846
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr "ไม่สามารถ stat `%.255s' (ซึ่งกำลังจะติดตั้ง)"
 
-#: src/archives.c:800
+#: src/archives.c:854
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
 "version"
 msgstr "ไม่สามารถเก็บกวาดสิ่งตกค้างเกี่ยวกับ `%.255s' ก่อนที่จะติดตั้งอีกรุ่นได้"
 
-#: src/archives.c:806
+#: src/archives.c:860
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr "ไม่สามารถ stat แฟ้ม `%.255s' ที่เพิ่งฟื้นคืน ก่อนที่จะติดตั้งอีกรุ่นได้"
 
-#: src/archives.c:842
+#: src/archives.c:896
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "แพกเกจมีออบเจกต์ `%.255s' เป็นชนิด 0x%x ซึ่งไม่รู้จัก"
 
-#: src/archives.c:924 src/divertcmd.c:148 utils/update-alternatives.c:632
-#: utils/update-alternatives.c:1212 utils/update-alternatives.c:1280
-#: utils/update-alternatives.c:1438 utils/update-alternatives.c:1685
-#: utils/update-alternatives.c:2169 utils/update-alternatives.c:2235
-#: utils/update-alternatives.c:2374
+#: src/archives.c:978 src/divertcmd.c:148 utils/update-alternatives.c:625
+#: utils/update-alternatives.c:1211 utils/update-alternatives.c:1279
+#: utils/update-alternatives.c:1437 utils/update-alternatives.c:1700
+#: utils/update-alternatives.c:2182 utils/update-alternatives.c:2248
+#: utils/update-alternatives.c:2387
 #, c-format
 msgid "cannot stat file '%s'"
 msgstr "ไม่สามารถ stat แฟ้ม '%s'"
 
-#: src/archives.c:939
+#: src/archives.c:993
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "กำลังแทนที่แฟ้มในแพกเกจเก่าของ %s ...\n"
 
-#: src/archives.c:944
+#: src/archives.c:998
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "ถูกแทนที่โดยแฟ้มในแพกเกจติดตั้งใหม่ของ %s ...\n"
 
-#: src/archives.c:953
+#: src/archives.c:1007
 #, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
@@ -1544,47 +1570,47 @@ msgid ""
 msgstr ""
 "กำลังพยายามเขียนทับไดเรกทอรี '%.250s' ในแพกเกจ %.250s %.250s ด้วยสิ่งที่ไม่ใช่ไดเรกทอรี"
 
-#: src/archives.c:960
+#: src/archives.c:1014
 #, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr "กำลังพยายามเขียนทับ '%.250s' ซึ่งอยู่ในแพกเกจ %.250s %.250s เช่นกัน"
 
-#: src/archives.c:1067
+#: src/archives.c:1121
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "ไม่สามารถเปลี่ยนชื่อแฟ้ม `%.255s' ชั่วคราวเพื่อติดตั้งรุ่นใหม่ได้"
 
-#: src/archives.c:1084
+#: src/archives.c:1138
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "ไม่สามารถสร้าง symlink สำรองสำหรับ `%.255s'"
 
-#: src/archives.c:1086
+#: src/archives.c:1140
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr "ไม่สามารถกำหนดเจ้าของของ symlink สำรองสำหรับ `%.255s'"
 
-#: src/archives.c:1091
+#: src/archives.c:1145
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr "ไม่สามารถสร้างลิงก์สำรองของ `%.255s' ก่อนติดตั้งรุ่นใหม่ได้"
 
-#: src/archives.c:1108 src/archives.c:1202
+#: src/archives.c:1162 src/archives.c:1256
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "ไม่สามารถติดตั้งรุ่นใหม่ของ `%.255s'"
 
-#: src/archives.c:1147 src/archives.c:1190
+#: src/archives.c:1201 src/archives.c:1244
 #, c-format
 msgid "unable to open '%.255s'"
 msgstr "ไม่สามารถเปิด '%.255s'"
 
-#: src/archives.c:1192
+#: src/archives.c:1246
 #, c-format
 msgid "unable to sync file '%.255s'"
 msgstr "ไม่สามารถ sync แฟ้ม '%.250s'"
 
-#: src/archives.c:1269
+#: src/archives.c:1323
 #, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1593,7 +1619,7 @@ msgstr ""
 "จะละเลยปัญหาความขึ้นต่อกันของแพกเกจในการ%s:\n"
 "%s"
 
-#: src/archives.c:1274
+#: src/archives.c:1328
 #, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1602,7 +1628,7 @@ msgstr ""
 "จะพิจารณาถอนคืนค่าตั้งของแพกเกจจำเป็น\n"
 " %s เพื่อให้สามารถ%s"
 
-#: src/archives.c:1278
+#: src/archives.c:1332
 #, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
@@ -1611,7 +1637,7 @@ msgstr ""
 "ไม่ได้ %s เป็นแพกเกจจำเป็น จะไม่ถอนคืนค่าตั้ง\n"
 " เพื่อให้สามารถ%s"
 
-#: src/archives.c:1287
+#: src/archives.c:1341
 #, c-format
 msgid ""
 "no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1620,27 +1646,27 @@ msgstr ""
 "ไม่ได้ ไม่สามารถดำเนินการ%s ต่อ (--auto-deconfigure ช่วยได้):\n"
 "%s"
 
-#: src/archives.c:1297
+#: src/archives.c:1351
 #, c-format
 msgid "removal of %.250s"
 msgstr "ถอดถอน %.250s"
 
-#: src/archives.c:1322
+#: src/archives.c:1376
 #, c-format
 msgid "installation of %.250s"
 msgstr "ติดตั้ง %.250s"
 
-#: src/archives.c:1324
+#: src/archives.c:1378
 #, c-format
 msgid "considering deconfiguration of %s, which would be broken by %s ..."
 msgstr "จะพิจารณาถอนคืนค่าตั้งของ %s ซึ่งจะมีปัญหาเพราะการ%s ..."
 
-#: src/archives.c:1330
+#: src/archives.c:1384
 #, c-format
 msgid "yes, will deconfigure %s (broken by %s)"
 msgstr "ได้ จะถอนคืนค่าตั้งของ %s (มีปัญหาเพราะ %s)"
 
-#: src/archives.c:1335 src/archives.c:1456
+#: src/archives.c:1389 src/archives.c:1510
 #, c-format
 msgid ""
 "regarding %s containing %s:\n"
@@ -1649,11 +1675,11 @@ msgstr ""
 "เกี่ยวกับ %s ซึ่งบรรจุ %s:\n"
 "%s"
 
-#: src/archives.c:1343
+#: src/archives.c:1397
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "จะละเลยการพังของแพกเกจ อาจดำเนินการต่อได้!"
 
-#: src/archives.c:1348
+#: src/archives.c:1402
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
@@ -1662,127 +1688,127 @@ msgstr ""
 "การติดตั้ง %.250s จะทำให้ %.250s พัง และ\n"
 " ไม่ได้อนุญาตให้มีการถอนคืนค่าตั้ง (--auto-deconfigure ช่วยได้)"
 
-#: src/archives.c:1353
+#: src/archives.c:1407
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr "การติดตั้ง %.250s จะทำให้ซอฟต์แวร์ที่มีอยู่พังได้"
 
-#: src/archives.c:1383
+#: src/archives.c:1437
 #, c-format
 msgid "considering removing %s in favour of %s ..."
 msgstr "จะพิจารณาลบ %s เพื่อใช้ %s แทน ..."
 
-#: src/archives.c:1389
+#: src/archives.c:1443
 #, c-format
 msgid "%s is not properly installed; ignoring any dependencies on it"
 msgstr "%s ไม่ได้ติดตั้งอย่างถูกต้อง จะละเลยแพกเกจที่ต้องใช้แพกเกจดังกล่าว"
 
-#: src/archives.c:1418
+#: src/archives.c:1472
 #, c-format
 msgid "may have trouble removing %s, as it provides %s ..."
 msgstr "อาจมีปัญหาในการถอดถอน %s เพราะแพกเกจดังกล่าวจัดเตรียม %s ..."
 
-#: src/archives.c:1433
+#: src/archives.c:1487
 #, c-format
 msgid ""
 "package %s requires reinstallation, but will remove anyway as you requested"
 msgstr "แพกเกจ %s ต้องติดตั้งซ้ำ แต่จะถอดถอนตามที่คุณสั่ง"
 
-#: src/archives.c:1437
+#: src/archives.c:1491
 #, c-format
 msgid "package %s requires reinstallation, will not remove"
 msgstr "แพกเกจ %s ต้องติดตั้งซ้ำ จะไม่ถอดถอน"
 
-#: src/archives.c:1446
+#: src/archives.c:1500
 #, c-format
 msgid "yes, will remove %s in favour of %s"
 msgstr "ได้ จะถอดถอน %s เพื่อใช้ %s แทน"
 
-#: src/archives.c:1459
+#: src/archives.c:1513
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "แพกเกจขัดแย้งกัน - จะไม่ติดตั้ง %.250s"
 
-#: src/archives.c:1461
+#: src/archives.c:1515
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "จะละเลยความขัดแย้งระหว่างแพกเกจ อาจดำเนินการต่อได้!"
 
-#: src/archives.c:1507
+#: src/archives.c:1561
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive ต้องมีอาร์กิวเมนต์เป็นพาธอย่างน้อยหนึ่งพาธ"
 
-#: src/archives.c:1517
+#: src/archives.c:1571
 msgid "find for dpkg --recursive"
 msgstr "find สำหรับ dpkg --recursive"
 
-#: src/archives.c:1538
+#: src/archives.c:1592
 msgid "failed to fdopen find's pipe"
 msgstr "fdopen ไปป์ของ find ไม่สำเร็จ"
 
-#: src/archives.c:1544
+#: src/archives.c:1598
 msgid "error reading find's pipe"
 msgstr "เกิดข้อผิดพลาดขณะอ่านไปป์ของ find"
 
-#: src/archives.c:1545
+#: src/archives.c:1599
 msgid "error closing find's pipe"
 msgstr "เกิดข้อผิดพลาดขณะปิดไปป์ของ find"
 
-#: src/archives.c:1548
+#: src/archives.c:1602
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "find สำหรับ --recursive คืนค่าข้อผิดพลาด %i ซึ่งยังไม่จัดการ"
 
-#: src/archives.c:1551
+#: src/archives.c:1605
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "ค้นหาแล้ว แต่ไม่พบแพกเกจ (แฟ้มซึ่งตรงกับรูปแบบ *.deb)"
 
-#: src/archives.c:1562
+#: src/archives.c:1616
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s ต้องการอาร์กิวเมนต์เป็นแฟ้มแพกเกจอย่างน้อยหนึ่งแฟ้ม"
 
-#: src/archives.c:1597 src/divertcmd.c:76 src/divertcmd.c:116
+#: src/archives.c:1653 src/divertcmd.c:76 src/divertcmd.c:116
 #: src/enquiry.c:218 src/enquiry.c:335 src/enquiry.c:526 src/enquiry.c:528
 #: src/enquiry.c:541 src/enquiry.c:571 src/main.c:68 src/main.c:170
-#: src/main.c:320 src/main.c:578 src/packages.c:266 src/querycmd.c:291
-#: src/querycmd.c:393 src/querycmd.c:440 src/querycmd.c:449 src/querycmd.c:495
-#: src/querycmd.c:578 src/querycmd.c:766 src/querycmd.c:814 src/select.c:99
+#: src/main.c:320 src/main.c:578 src/packages.c:266 src/querycmd.c:297
+#: src/querycmd.c:399 src/querycmd.c:446 src/querycmd.c:455 src/querycmd.c:501
+#: src/querycmd.c:584 src/querycmd.c:772 src/querycmd.c:820 src/select.c:99
 #: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:60 src/trigcmd.c:92
-#: dpkg-deb/build.c:444 dpkg-deb/extract.c:218 dpkg-deb/extract.c:254
+#: dpkg-deb/build.c:445 dpkg-deb/extract.c:218 dpkg-deb/extract.c:254
 #: dpkg-deb/info.c:205 dpkg-deb/info.c:267 dpkg-deb/main.c:62
-#: dpkg-deb/main.c:130 dpkg-split/info.c:266 dpkg-split/main.c:56
-#: dpkg-split/main.c:100 dpkg-split/queue.c:150 dpkg-split/queue.c:289
+#: dpkg-deb/main.c:134 dpkg-split/info.c:266 dpkg-split/main.c:56
+#: dpkg-split/main.c:100 dpkg-split/queue.c:151 dpkg-split/queue.c:290
 msgid "<standard output>"
 msgstr "<เอาต์พุตมาตรฐาน>"
 
-#: src/archives.c:1598 src/packages.c:267 src/querycmd.c:292
-#: src/querycmd.c:391 src/querycmd.c:501 src/querycmd.c:579 src/select.c:100
-#: dpkg-split/main.c:177 dpkg-split/queue.c:227
+#: src/archives.c:1654 src/packages.c:267 src/querycmd.c:298
+#: src/querycmd.c:397 src/querycmd.c:507 src/querycmd.c:585 src/select.c:100
+#: dpkg-split/main.c:177 dpkg-split/queue.c:228
 msgid "<standard error>"
 msgstr "<ช่องแสดงข้อผิดพลาดมาตรฐาน>"
 
-#: src/archives.c:1639
+#: src/archives.c:1697
 #, c-format
 msgid "Selecting previously unselected package %s.\n"
 msgstr "กำลังเลือกแพกเกจ %s ที่เดิมไม่ได้เลือก\n"
 
-#: src/archives.c:1644
+#: src/archives.c:1701
 #, c-format
 msgid "Skipping unselected package %s.\n"
 msgstr "กำลังข้ามแพกเกจ %s ที่ไม่ได้เลือก\n"
 
-#: src/archives.c:1661
+#: src/archives.c:1718
 #, c-format
 msgid "version %.250s of %.250s already installed, skipping"
 msgstr "รุ่น %.250s ของ %.250s ถูกติดตั้งไว้แล้ว ขอข้าม"
 
-#: src/archives.c:1670
+#: src/archives.c:1727
 #, c-format
 msgid "downgrading %.250s from %.250s to %.250s"
 msgstr "จะปรับรุ่น %.250s ลง จาก %.250s เป็น %.250s"
 
-#: src/archives.c:1676
+#: src/archives.c:1733
 #, c-format
 msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
 msgstr "จะไม่ปรับรุ่น %.250s ลง จากรุ่น %.250s เป็น %.250s ขอข้าม"
@@ -1870,7 +1896,7 @@ msgstr "%s: ไม่สามารถเชื่อมโยง '%.250s' ไ�
 msgid "Installing new version of config file %s ...\n"
 msgstr "กำลังติดตั้งรุ่นใหม่ของแฟ้มค่าตั้ง %s ...\n"
 
-#: src/configure.c:280 utils/update-alternatives.c:497
+#: src/configure.c:280 utils/update-alternatives.c:490
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "ไม่สามารถติดตั้ง `%.250s' ในชื่อ `%.250s'"
@@ -2259,7 +2285,7 @@ msgstr "ใช้ --help เพื่อดูวิธีเบนแฟ้ม"
 msgid "Debian %s version %s.\n"
 msgstr "%s ของเดเบียน รุ่น %s\n"
 
-#: src/divertcmd.c:73 src/main.c:65 src/querycmd.c:763 src/statcmd.c:61
+#: src/divertcmd.c:73 src/main.c:65 src/querycmd.c:769 src/statcmd.c:61
 #: src/trigcmd.c:57 dpkg-deb/main.c:59 dpkg-split/main.c:53
 #: utils/update-alternatives.c:84
 #, c-format
@@ -2270,7 +2296,7 @@ msgstr ""
 "นี่เป็นซอฟต์แวร์เสรี กรุณาอ่านเงื่อนไขการแจกจ่ายได้จาก GNU General Public License\n"
 "รุ่น 2 หรือใหม่กว่า ซอฟต์แวร์นี้ *ไม่มี* การรับประกันใดๆ\n"
 
-#: src/divertcmd.c:85 src/main.c:83 src/querycmd.c:775 src/statcmd.c:73
+#: src/divertcmd.c:85 src/main.c:83 src/querycmd.c:781 src/statcmd.c:73
 #: dpkg-deb/main.c:71 dpkg-split/main.c:65 utils/update-alternatives.c:92
 #, c-format
 msgid ""
@@ -2354,7 +2380,7 @@ msgstr ""
 "การเปลี่ยนชื่อทำให้ต้องเขียนทับ `%s' ด้วย\n"
 "  แฟ้ม `%s' ที่เป็นคนละแฟ้ม ซึ่งไม่อนุญาต"
 
-#: src/divertcmd.c:222 utils/update-alternatives.c:1369
+#: src/divertcmd.c:222 utils/update-alternatives.c:1368
 #, c-format
 msgid "unable to create file '%s'"
 msgstr "ไม่สามารถสร้างแฟ้ม '%s'"
@@ -2369,96 +2395,96 @@ msgstr "ไม่สามารถคัดลอก '%s' ไปยัง '%s':
 msgid "cannot rename '%s' to '%s'"
 msgstr "ไม่สามารถเปลี่ยนชื่อ '%s' เป็น '%s'"
 
-#: src/divertcmd.c:252
+#: src/divertcmd.c:254
 #, c-format
 msgid "rename: remove duplicate old link '%s'"
 msgstr "rename: ลบลิงก์เดิม '%s' ซึ่งซ้ำกัน"
 
-#: src/divertcmd.c:262
+#: src/divertcmd.c:264
 #, c-format
 msgid "unable to remove copied source file '%s'"
 msgstr "ไม่สามารถลบแฟ้มต้นฉบับ '%s' หลังจากคัดลอกแล้ว"
 
-#: src/divertcmd.c:271 src/divertcmd.c:735
+#: src/divertcmd.c:273 src/divertcmd.c:737
 #, c-format
 msgid "filename \"%s\" is not absolute"
 msgstr "ชื่อแฟ้ม \"%s\" ไม่ใช่พาธเต็ม"
 
-#: src/divertcmd.c:273 src/statcmd.c:230
+#: src/divertcmd.c:275
 msgid "file may not contain newlines"
 msgstr "ชื่อแฟ้มห้ามมีอักขระขึ้นบรรทัดใหม่"
 
-#: src/divertcmd.c:293
+#: src/divertcmd.c:295
 #, c-format
 msgid "local diversion of %s"
 msgstr "การเบนแฟ้มเป็นการภายในของ %s"
 
-#: src/divertcmd.c:295
+#: src/divertcmd.c:297
 #, c-format
 msgid "local diversion of %s to %s"
 msgstr "การเบนแฟ้มเป็นการภายในของ %s ไปยัง %s"
 
-#: src/divertcmd.c:299
+#: src/divertcmd.c:301
 #, c-format
 msgid "diversion of %s by %s"
 msgstr "การเบนแฟ้ม %s โดย %s"
 
-#: src/divertcmd.c:302
+#: src/divertcmd.c:304
 #, c-format
 msgid "diversion of %s to %s by %s"
 msgstr "การเบนแฟ้ม %s ไปยัง %s โดย %s"
 
-#: src/divertcmd.c:318
+#: src/divertcmd.c:320
 #, c-format
 msgid "any diversion of %s"
 msgstr "การเบนแฟ้มใดๆ ของ %s"
 
-#: src/divertcmd.c:320
+#: src/divertcmd.c:322
 #, c-format
 msgid "any diversion of %s to %s"
 msgstr "การเบนแฟ้มใดๆ ของ %s ไปยัง %s"
 
-#: src/divertcmd.c:425 src/divertcmd.c:557 src/divertcmd.c:675
-#: src/divertcmd.c:697 src/statcmd.c:271
+#: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
+#: src/divertcmd.c:699 src/statcmd.c:271
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s ต้องการอาร์กิวเมนต์แค่รายการเดียว"
 
-#: src/divertcmd.c:434
+#: src/divertcmd.c:436
 msgid "Cannot divert directories"
 msgstr "ไม่สามารถเบนไดเรกทอรี"
 
-#: src/divertcmd.c:447
+#: src/divertcmd.c:449
 #, c-format
 msgid "cannot divert file '%s' to itself"
 msgstr "ไม่สามารถเบนแฟ้ม '%s' เข้าหาตัวเองได้"
 
-#: src/divertcmd.c:467
+#: src/divertcmd.c:469
 #, c-format
 msgid "Leaving '%s'\n"
 msgstr "จะคง '%s' ไว้\n"
 
-#: src/divertcmd.c:472
+#: src/divertcmd.c:474
 #, c-format
 msgid "`%s' clashes with `%s'"
 msgstr "`%s' ชนกับ `%s'"
 
-#: src/divertcmd.c:495
+#: src/divertcmd.c:497
 #, c-format
 msgid "Adding '%s'\n"
 msgstr "กำลังเพิ่ม '%s'\n"
 
-#: src/divertcmd.c:501
+#: src/divertcmd.c:503
 #, c-format
 msgid "Ignoring request to rename file '%s' owned by diverting package '%s'\n"
 msgstr "จะข้ามคำสั่งเปลี่ยนชื่อแฟ้ม '%s' ซึ่งเป็นของแพกเกจ '%s' ที่มีการเบนแฟ้ม\n"
 
-#: src/divertcmd.c:566
+#: src/divertcmd.c:568
 #, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "ไม่มีการเบน '%s' จึงไม่มีการลบรายการใด\n"
 
-#: src/divertcmd.c:581
+#: src/divertcmd.c:583
 #, c-format
 msgid ""
 "mismatch on divert-to\n"
@@ -2469,7 +2495,7 @@ msgstr ""
 "  ขณะลบ `%s'\n"
 "  พบ `%s'"
 
-#: src/divertcmd.c:588
+#: src/divertcmd.c:590
 #, c-format
 msgid ""
 "mismatch on package\n"
@@ -2480,21 +2506,21 @@ msgstr ""
 "  ขณะลบ `%s'\n"
 "  พบ `%s'"
 
-#: src/divertcmd.c:598
+#: src/divertcmd.c:600
 #, c-format
 msgid "Ignoring request to remove shared diversion '%s'.\n"
 msgstr "จะข้ามคำสั่งลบรายการเบนแฟ้ม '%s' ที่ยังมีแพกเกจอื่นใช้ร่วมกันอยู่\n"
 
-#: src/divertcmd.c:604
+#: src/divertcmd.c:606
 #, c-format
 msgid "Removing '%s'\n"
 msgstr "กำลังลบ '%s'\n"
 
-#: src/divertcmd.c:726
+#: src/divertcmd.c:728
 msgid "package may not contain newlines"
 msgstr "ชื่อแพกเกจห้ามมีอักขระขึ้นบรรทัดใหม่"
 
-#: src/divertcmd.c:737
+#: src/divertcmd.c:739
 msgid "divert-to may not contain newlines"
 msgstr "divert-to ห้ามมีอักขระขึ้นบรรทัดใหม่"
 
@@ -2609,8 +2635,8 @@ msgstr ""
 "ด้วยคำสั่ง dpkg --add-architecture:\n"
 
 #: src/enquiry.c:189 src/enquiry.c:263 src/enquiry.c:348 src/enquiry.c:437
-#: src/enquiry.c:537 src/enquiry.c:560 src/select.c:117 src/select.c:193
-#: src/trigcmd.c:228 src/update.c:48 src/update.c:110 dpkg-split/queue.c:241
+#: src/enquiry.c:537 src/enquiry.c:560 src/select.c:118 src/select.c:199
+#: src/trigcmd.c:228 src/update.c:48 src/update.c:110 dpkg-split/queue.c:242
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s ไม่รับอาร์กิวเมนต์"
@@ -2691,7 +2717,7 @@ msgstr ""
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "ไม่สามารถติดตั้งสิ่งที่ต้องใช้ขณะติดตั้ง %.250s (ต้องการเพราะ %.250s)"
 
-#: src/enquiry.c:549
+#: src/enquiry.c:549 dpkg-deb/main.c:170 dpkg-deb/main.c:179
 #, c-format
 msgid "obsolete option '--%s'; please use '--%s' instead"
 msgstr "ตัวเลือก '--%s' เลิกใช้แล้ว กรุณาใช้ '--%s' แทน"
@@ -2780,26 +2806,26 @@ msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ
 msgid "reading files list for package '%.250s'"
 msgstr "เกิดปัญหาขณะอ่านรายชื่อแฟ้มของแพกเกจ '%.250s'"
 
-#: src/filesdb.c:308
+#: src/filesdb.c:309
 #, c-format
 msgid "files list file for package '%.250s' is missing final newline"
 msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s' ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
 
-#: src/filesdb.c:316
+#: src/filesdb.c:317
 #, c-format
 msgid "files list file for package `%.250s' contains empty filename"
 msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s' มีชื่อแฟ้มว่างเปล่า"
 
-#: src/filesdb.c:327
+#: src/filesdb.c:328
 #, c-format
 msgid "error closing files list file for package `%.250s'"
 msgstr "เกิดข้อผิดพลาดขณะปิดแฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s'"
 
-#: src/filesdb.c:439
+#: src/filesdb.c:440
 msgid "(Reading database ... "
 msgstr "(กำลังอ่านฐานข้อมูล ... "
 
-#: src/filesdb.c:460
+#: src/filesdb.c:461
 #, c-format
 msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
@@ -2837,16 +2863,16 @@ msgstr "ถูกสะกิดอยู่"
 msgid "installed"
 msgstr "ติดตั้งอยู่"
 
-#: src/help.c:106
+#: src/help.c:112
 msgid "PATH is not set"
 msgstr "ไม่ได้ตั้งค่า PATH"
 
-#: src/help.c:128
+#: src/help.c:134
 #, c-format
 msgid "'%s' not found in PATH or not executable"
 msgstr "ไม่พบ '%s' ใน PATH หรือไม่สามารถเรียกทำงานได้"
 
-#: src/help.c:137
+#: src/help.c:143
 #, c-format
 msgid ""
 "%d expected program not found in PATH or not executable\n"
@@ -2858,17 +2884,17 @@ msgstr[0] ""
 "โปรแกรม %d โปรแกรมที่ต้องใช้ไม่มีใน PATH หรือไม่สามารถเรียกทำงานได้\n"
 "%s"
 
-#: src/help.c:140
+#: src/help.c:146
 msgid ""
 "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
 msgstr "สังเกต: PATH ของ root ควรมี /usr/local/sbin, /usr/sbin และ /sbin ด้วย"
 
-#: src/help.c:380
+#: src/help.c:386
 #, c-format
 msgid "unable to securely remove '%.255s'"
 msgstr "ไม่สามารถลบ '%.255s' อย่างปลอดภัยได้"
 
-#: src/help.c:385 dpkg-deb/info.c:65 dpkg-deb/info.c:67
+#: src/help.c:391 dpkg-deb/info.c:65 dpkg-deb/info.c:67
 msgid "rm command for cleanup"
 msgstr "คำสั่ง rm เพื่อทำความสะอาด"
 
@@ -2881,7 +2907,7 @@ msgstr "ไม่สามารถตรวจสอบการมีอยู
 msgid "cannot read info directory"
 msgstr "ไม่สามารถอ่านไดเรกทอรีสารสนเทศ"
 
-#: src/infodb-format.c:52 src/processarc.c:697
+#: src/infodb-format.c:52 src/unpack.c:699
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "เกิดข้อผิดพลาดขณะพยายามเปิด %.250s"
@@ -2976,7 +3002,7 @@ msgstr ""
 "  -Dh|--debug=help                 แสดงวิธีใช้ตัวเลือกสำหรับการดีบั๊กทั้งหลาย\n"
 "\n"
 
-#: src/main.c:118 src/querycmd.c:794 src/trigcmd.c:79 dpkg-deb/main.c:90
+#: src/main.c:118 src/querycmd.c:800 src/trigcmd.c:79 dpkg-deb/main.c:90
 #: dpkg-split/main.c:79
 #, c-format
 msgid ""
@@ -3098,20 +3124,32 @@ msgstr ""
 "\n"
 
 #: src/main.c:168
-#, c-format
-msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
+#, fuzzy, c-format
+#| msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
+msgid "Use 'apt' or 'aptitude' for user-friendly package management.\n"
 msgstr "ใช้ `dselect' หรือ `aptitude' หากต้องการการจัดการแพกเกจแบบสะดวกผู้ใช้\n"
 
 #: src/main.c:176
+#, fuzzy
+#| msgid ""
+#| "Type dpkg --help for help about installing and deinstalling packages "
+#| "[*];\n"
+#| "Use `dselect' or `aptitude' for user-friendly package management;\n"
+#| "Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
+#| "Type dpkg --force-help for a list of forcing options;\n"
+#| "Type dpkg-deb --help for help about manipulating *.deb files;\n"
+#| "\n"
+#| "Options marked [*] produce a lot of output - pipe it through `less' or "
+#| "`more' !"
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
-"Use `dselect' or `aptitude' for user-friendly package management;\n"
+"Use 'apt' or 'aptitude' for user-friendly package management;\n"
 "Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
 "Type dpkg --force-help for a list of forcing options;\n"
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "\n"
-"Options marked [*] produce a lot of output - pipe it through `less' or "
-"`more' !"
+"Options marked [*] produce a lot of output - pipe it through 'less' or "
+"'more' !"
 msgstr ""
 "พิมพ์ dpkg --help เพื่อดูวิธีการติดตั้งและถอดถอนแพกเกจ [*]\n"
 "ใช้ `dselect' หรือ `aptitude' หากต้องการการจัดการแพกเกจแบบสะดวกผู้ใช้\n"
@@ -3309,8 +3347,8 @@ msgstr "--%s ต้องมีอาร์กิวเมนต์เป็น�
 msgid "null package name in --%s comma-separated list '%.250s'"
 msgstr "ชื่อแพกเกจว่างเปล่าในรายการคั่นด้วยจุลภาคของตัวเลือก --%s '%.250s'"
 
-#: src/main.c:365 src/packages.c:114 src/querycmd.c:425 src/querycmd.c:670
-#: src/querycmd.c:702 src/querycmd.c:739
+#: src/main.c:365 src/packages.c:114 src/querycmd.c:431 src/querycmd.c:676
+#: src/querycmd.c:708 src/querycmd.c:745
 #, c-format
 msgid "--%s needs a valid package name but '%.250s' is not: %s"
 msgstr "--%s ต้องการชื่อแพกเกจที่ถูกต้อง แต่ '%.250s' ไม่ใช่: %s"
@@ -3399,22 +3437,22 @@ msgstr "ตัวเลือก force/refuse '%s' เลิกใช้แล�
 msgid "--%s takes exactly one argument"
 msgstr "--%s รับอาร์กิวเมนต์ตัวเดียว"
 
-#: src/main.c:739
+#: src/main.c:740
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "ไม่สามารถเปิด `%i' สำหรับสตรีม"
 
-#: src/main.c:764
+#: src/main.c:765
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "แฟ้มจบก่อนที่จะจบบรรทัดที่บรรทัด %d"
 
-#: src/main.c:807 src/main.c:829 src/querycmd.c:859 src/statcmd.c:360
-#: dpkg-deb/main.c:223 dpkg-split/main.c:171
+#: src/main.c:808 src/main.c:830 src/querycmd.c:865 src/statcmd.c:360
+#: dpkg-deb/main.c:264 dpkg-split/main.c:171
 msgid "need an action option"
 msgstr "ต้องมีตัวเลือกระบุการกระทำด้วย"
 
-#: src/main.c:835 src/script.c:112
+#: src/main.c:836 src/script.c:117
 msgid "unable to setenv for subprocesses"
 msgstr "ไม่สามารถ setenv สำหรับโพรเซสย่อย"
 
@@ -3429,7 +3467,7 @@ msgstr "คุณต้องระบุแพกเกจด้วยชื่
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending ไม่รับอาร์กิวเมนต์ที่ไม่ใช่ตัวเลือก"
 
-#: src/packages.c:149 src/querycmd.c:413 src/querycmd.c:656
+#: src/packages.c:149 src/querycmd.c:419 src/querycmd.c:662
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s ต้องการอาร์กิวเมนต์ที่เป็นชื่อแพกเกจอย่างน้อยหนึ่งตัว"
@@ -3530,244 +3568,13 @@ msgstr " ต้องใช้ "
 msgid "; however:\n"
 msgstr "; แต่ว่า:\n"
 
-#: src/processarc.c:75
-#, c-format
-msgid ".../%s"
-msgstr ".../%s"
-
-#: src/processarc.c:95
-#, c-format
-msgid "error ensuring `%.250s' doesn't exist"
-msgstr "เกิดข้อผิดพลาดขณะพยายามทำให้แน่ใจว่า `%.250s' ไม่มีอยู่"
-
-#: src/processarc.c:103
-msgid "split package reassembly"
-msgstr "ประกอบรวมแพกเกจที่ตัดแบ่ง"
-
-#: src/processarc.c:112
-msgid "reassembled package file"
-msgstr "แฟ้มแพกเกจที่ประกอบรวมแล้ว"
-
-#: src/processarc.c:137
-#, c-format
-msgid "Authenticating %s ...\n"
-msgstr "กำลังยืนยันแหล่งต้นตอของ %s ...\n"
-
-#: src/processarc.c:143
-msgid "package signature verification"
-msgstr "การตรวจสอบลายเซ็นในแพกเกจ"
-
-#: src/processarc.c:150
-#, c-format
-msgid "verification on package %s failed!"
-msgstr "การตรวจสอบลายเซ็นแพกเกจ %s ล้มเหลว!"
-
-#: src/processarc.c:152
-#, c-format
-msgid ""
-"verification on package %s failed; but installing anyway as you requested"
-msgstr "การตรวจสอบลายเซ็นแพกเกจ %s ล้มเหลว แต่จะติดตั้งต่อไปตามที่คุณสั่ง"
-
-#: src/processarc.c:155
-#, c-format
-msgid "passed\n"
-msgstr "ผ่าน\n"
-
-#: src/processarc.c:168 dpkg-deb/info.c:81
-msgid "unable to create temporary directory"
-msgstr "ไม่สามารถสร้างไดเรกทอรีชั่วคราว"
-
-#: src/processarc.c:208
-#, c-format
-msgid "package %s has too many Conflicts/Replaces pairs"
-msgstr "แพกเกจ %s มีคู่แพกเกจขัดแย้ง/แทนที่มากเกินไป"
-
-#: src/processarc.c:218 src/remove.c:207
-#, c-format
-msgid "unable to delete control info file `%.250s'"
-msgstr "ไม่สามารถลบแฟ้มควบคุม `%.250s'"
-
-#: src/processarc.c:229
-#, c-format
-msgid "old version of package has overly-long info file name starting `%.250s'"
-msgstr "แพกเกจรุ่นเก่ามีแฟ้ม info ชื่อยาวเกินไป ซึ่งขึ้นต้นด้วย `%.250s'"
-
-#: src/processarc.c:267
-#, c-format
-msgid "unable to remove obsolete info file `%.250s'"
-msgstr "ไม่สามารถลบแฟ้ม info `%.250s' ที่เลิกใช้แล้ว"
-
-#: src/processarc.c:272
-#, c-format
-msgid "unable to install (supposed) new info file `%.250s'"
-msgstr "ไม่สามารถติดตั้งแฟ้ม info `%.250s' (ที่น่าจะเป็น) ฉบับใหม่"
-
-#: src/processarc.c:282
-msgid "unable to open temp control directory"
-msgstr "ไม่สามารถเปิดไดเรกทอรีควบคุมชั่วคราว"
-
-#: src/processarc.c:293
-#, c-format
-msgid "package contains overly-long control info file name (starting `%.50s')"
-msgstr "แพกเกจมีแฟ้มข้อมูลควบคุมชื่อยาวเกินไป (ขึ้นต้นด้วย `%.250s')"
-
-#: src/processarc.c:300
-#, c-format
-msgid "package control info contained directory `%.250s'"
-msgstr "ข้อมูลควบคุมของแพกเกจมีไดเรกทอรี `%.250s'"
-
-#: src/processarc.c:302
-#, c-format
-msgid "package control info rmdir of `%.250s' didn't say not a dir"
-msgstr "การสั่ง rmdir กับ `%.250s' ในข้อมูลควบคุมของแพกเกจ ไม่ได้ตอบว่าไม่ใช่ไดเรกทอรี"
-
-#: src/processarc.c:312
-#, c-format
-msgid "package %s contained list as info file"
-msgstr "แพกเกจ %s มีแฟ้ม list เป็นข้อมูลควบคุม"
-
-#: src/processarc.c:320
-#, c-format
-msgid "unable to install new info file `%.250s' as `%.250s'"
-msgstr "ไม่สามารถติดตั้งแฟ้มควบคุมใหม่ `%.250s' เป็น `%.250s'"
-
-#: src/processarc.c:345
-#, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(สังเกตการหายไปของ %s ซึ่งถูกแทนที่อย่างสมบูรณ์)\n"
-
-#: src/processarc.c:451
-msgid "cannot access archive"
-msgstr "ไม่สามารถเข้าใช้แฟ้มแพกเกจ"
-
-#: src/processarc.c:473
-msgid "package control information extraction"
-msgstr "การแตกข้อมูลควบคุมของแพกเกจ"
-
-#: src/processarc.c:508
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "บันทึกข้อมูลเกี่ยวกับ %s จาก %s\n"
-
-#: src/processarc.c:518
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "สถาปัตยกรรมของแพกเกจ (%s) ไม่ตรงกับของระบบ (%s)"
-
-#: src/processarc.c:579
-#, c-format
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"เกี่ยวกับ %s ที่บรรจุ %s: มีปัญหาของสิ่งที่ต้องใช้ขณะติดตั้ง:\n"
-"%s"
-
-#: src/processarc.c:583
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "มีปัญหาของสิ่งที่ต้องใช้ขณะติดตั้ง - จะไม่ติดตั้ง %.250s"
-
-#: src/processarc.c:585
-msgid "ignoring pre-dependency problem!"
-msgstr "จะละเลยปัญหาของสิ่งที่ต้องใช้ขณะติดตั้ง!"
-
-#: src/processarc.c:601
-#, c-format
-msgid "Preparing to replace %s %s (using %s) ...\n"
-msgstr "กำลังเตรียมแทนที่ %s %s (ด้วย %s) ...\n"
-
-#: src/processarc.c:607
-#, c-format
-msgid "Unpacking %s (from %s) ...\n"
-msgstr "กำลังแตก %s (จาก %s) ...\n"
-
-#: src/processarc.c:639
-#, c-format
-msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
-msgstr "ชื่อของแฟ้มค่าตั้ง (ขึ้นต้นด้วย `%.250s') ยาวเกินไป (>%d ตัวอักษร)"
-
-#: src/processarc.c:693 utils/update-alternatives.c:2105
-#, c-format
-msgid "read error in %.250s"
-msgstr "เกิดข้อผิดพลาดขณะอ่าน %.250s"
-
-#: src/processarc.c:695
-#, c-format
-msgid "error closing %.250s"
-msgstr "เกิดข้อผิดพลาดขณะปิด %.250s"
-
-#: src/processarc.c:739
-#, c-format
-msgid "De-configuring %s, to allow removal of %s ...\n"
-msgstr "กำลังถอนคืนค่าตั้งของ %s เพื่อให้สามารถถอดถอน %s ได้ ...\n"
-
-#: src/processarc.c:743
-#, c-format
-msgid "De-configuring %s ...\n"
-msgstr "กำลังถอนคืนค่าตั้งของ %s ...\n"
-
-#: src/processarc.c:824
-#, c-format
-msgid "Unpacking replacement %.250s ...\n"
-msgstr "กำลังแตกแพกเกจแทนที่ %.250s ...\n"
-
-#: src/processarc.c:910
-msgid "package filesystem archive extraction"
-msgstr "การแตกส่วนระบบแฟ้มของแพกเกจ"
-
-#: src/processarc.c:925
-msgid "error reading dpkg-deb tar output"
-msgstr "เกิดข้อผิดพลาดขณะอ่านผลลัพธ์ของ tar จาก dpkg-deb"
-
-#: src/processarc.c:927
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "แฟ้ม tar สำหรับแฟ้มที่จะติดตั้งในระบบแฟ้มเสียหาย - แฟ้มแพกเกจเสียหาย"
-
-#: src/processarc.c:931
-#, c-format
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "ไม่สามารถตัดไบต์ศูนย์ทั้งหลายข้างท้ายที่อาจจะมีจาก dpkg-deb: %s"
-
-#: src/processarc.c:991
-#, c-format
-msgid "could not stat old file '%.250s' so not deleting it: %s"
-msgstr "ไม่สามารถ stat แฟ้มเก่า '%.250s' จึงจะไม่มีการลบแฟ้มดังกล่าว: %s"
-
-#: src/processarc.c:997
-#, c-format
-msgid "unable to delete old directory '%.250s': %s"
-msgstr "ไม่สามารถลบไดเรกทอรีเก่า '%.250s': %s"
-
-#: src/processarc.c:1000
-#, c-format
-msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
-msgstr "แฟ้มค่าตั้งเดิม '%.250s' เป็นไดเรกทอรีว่างเปล่า (และตอนนี้ถูกลบไปแล้ว)"
-
-#: src/processarc.c:1047
-#, c-format
-msgid "unable to stat other new file `%.250s'"
-msgstr "ไม่สามารถ stat แฟ้มใหม่ `%.250s'"
-
-#: src/processarc.c:1058
-#, c-format
-msgid ""
-"old file '%.250s' is the same as several new files! (both '%.250s' and "
-"'%.250s')"
-msgstr "แฟ้มเก่า '%.250s' เป็นแฟ้มเดียวกับแฟ้มใหม่หลายแฟ้ม! (ทั้ง '%.250s' และ '%.250s')"
-
-#: src/processarc.c:1097
-#, c-format
-msgid "unable to securely remove old file '%.250s': %s"
-msgstr "ไม่สามารถลบแฟ้มเก่า '%.250s' อย่างปลอดภัยได้: %s"
-
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
 #. * the first three columns, which should ideally match the English one
 #. * (e.g. Remove → supRimeix), see dpkg-query(1) for further details. The
 #. * translated message can use additional lines if needed.
-#: src/querycmd.c:173
+#: src/querycmd.c:179
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-"
@@ -3779,92 +3586,92 @@ msgstr ""
 "pend\n"
 "|/ ปัญหา?=(ไม่มี)/Reinst-required (สถานะ,ปัญหา: พิมพ์ใหญ่=แย่)\n"
 
-#: src/querycmd.c:177
+#: src/querycmd.c:183
 msgid "Name"
 msgstr "ชื่อ"
 
-#: src/querycmd.c:177
+#: src/querycmd.c:183
 msgid "Version"
 msgstr "รุ่น"
 
-#: src/querycmd.c:178
+#: src/querycmd.c:184
 msgid "Architecture"
 msgstr "สถาปัตยกรรม"
 
-#: src/querycmd.c:178
+#: src/querycmd.c:184
 msgid "Description"
 msgstr "คำบรรยาย"
 
-#: src/querycmd.c:281 src/querycmd.c:568 src/select.c:93
+#: src/querycmd.c:287 src/querycmd.c:574 src/select.c:93
 #, c-format
 msgid "no packages found matching %s"
 msgstr "ไม่พบแพกเกจที่ตรงกับ %s"
 
-#: src/querycmd.c:312
+#: src/querycmd.c:318
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "การเบนแฟ้มโดย %s จาก: %s\n"
 
-#: src/querycmd.c:314
+#: src/querycmd.c:320
 #, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "การเบนแฟ้มโดย %s ไปยัง: %s\n"
 
-#: src/querycmd.c:317
+#: src/querycmd.c:323
 #, c-format
 msgid "local diversion from: %s\n"
 msgstr "การเบนแฟ้มเป็นการภายในจาก: %s\n"
 
-#: src/querycmd.c:318
+#: src/querycmd.c:324
 #, c-format
 msgid "local diversion to: %s\n"
 msgstr "การเบนแฟ้มเป็นการภายในไปยัง: %s\n"
 
-#: src/querycmd.c:348
+#: src/querycmd.c:354
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search ต้องระบุอาร์กิวเมนต์เป็นแพตเทิร์นของชื่อแฟ้มอย่างน้อยหนึ่งรายการด้วย"
 
-#: src/querycmd.c:389
+#: src/querycmd.c:395
 #, c-format
 msgid "no path found matching pattern %s"
 msgstr "ไม่พบพาธที่ตรงกับแพตเทิร์น %s"
 
-#: src/querycmd.c:436
+#: src/querycmd.c:442
 #, c-format
 msgid "package '%s' is not installed and no information is available"
 msgstr "แพกเกจ `%s' ไม่ได้ติดตั้งไว้ และไม่มีข้อมูลสำหรับแพกเกจนี้"
 
-#: src/querycmd.c:445
+#: src/querycmd.c:451
 #, c-format
 msgid "package '%s' is not available"
 msgstr "ไม่มีแพกเกจ '%s'"
 
-#: src/querycmd.c:455 src/querycmd.c:674 src/querycmd.c:706 src/querycmd.c:743
+#: src/querycmd.c:461 src/querycmd.c:680 src/querycmd.c:712 src/querycmd.c:749
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "แพกเกจ '%s' ไม่ได้ติดตั้งไว้"
 
-#: src/querycmd.c:464
+#: src/querycmd.c:470
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "แพกเกจ `%s' ไม่มีแฟ้มใดเลย (!)\n"
 
-#: src/querycmd.c:472
+#: src/querycmd.c:478
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "ถูกเบนแฟ้มเป็นการภายในไปยัง: %s\n"
 
-#: src/querycmd.c:475
+#: src/querycmd.c:481
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "แพกเกจเบนแฟ้มของแพกเกจอื่นไปยัง: %s\n"
 
-#: src/querycmd.c:478
+#: src/querycmd.c:484
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "ถูกเบนแฟ้มโดย %s ไปยัง: %s\n"
 
-#: src/querycmd.c:499
+#: src/querycmd.c:505
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3872,42 +3679,42 @@ msgstr ""
 "ใช้ dpkg --info (= dpkg-deb --info) ถ้าจะดูข้อมูลของแฟ้มแพกเกจ\n"
 "และ dpkg --contents (= dpkg-deb --contents) ถ้าจะดูเนื้อหาภายใน\n"
 
-#: src/querycmd.c:520 dpkg-deb/info.c:282
+#: src/querycmd.c:526 dpkg-deb/info.c:282
 #, c-format
 msgid "error in show format: %s"
 msgstr "มีข้อผิดพลาดในรูปแบบการแสดง: %s"
 
-#: src/querycmd.c:610
+#: src/querycmd.c:616
 #, c-format
 msgid "control file contains %c"
 msgstr "แฟ้มควบคุมมีอักขระ %c"
 
-#: src/querycmd.c:661 dpkg-deb/build.c:411
+#: src/querycmd.c:667 dpkg-deb/build.c:412
 #, c-format
 msgid "--%s takes at most two arguments"
 msgstr "--%s ต้องการอาร์กิวเมนต์ไม่เกินสองตัว"
 
-#: src/querycmd.c:696
+#: src/querycmd.c:702
 #, c-format
 msgid "--%s takes one package name argument"
 msgstr "--%s ต้องการอาร์กิวเมนต์หนึ่งตัว เป็นชื่อแพกเกจ"
 
-#: src/querycmd.c:726 src/querycmd.c:731
+#: src/querycmd.c:732 src/querycmd.c:737
 #, c-format
 msgid "--%s takes exactly two arguments"
 msgstr "--%s ต้องการอาร์กิวเมนต์สองตัว"
 
-#: src/querycmd.c:748
+#: src/querycmd.c:754
 #, c-format
 msgid "control file '%s' does not exist"
 msgstr "ไม่มีแฟ้มควบคุม '%s' อยู่"
 
-#: src/querycmd.c:760
+#: src/querycmd.c:766
 #, c-format
 msgid "Debian %s package management program query tool version %s.\n"
 msgstr "เครื่องมือสอบถามข้อมูล %s ในชุดโปรแกรมจัดการแพกเกจของเดเบียน รุ่น %s\n"
 
-#: src/querycmd.c:779
+#: src/querycmd.c:785
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3938,7 +3745,7 @@ msgstr ""
 "                                   แสดงพาธของแฟ้มควบคุมของแพกเกจ\n"
 "\n"
 
-#: src/querycmd.c:799
+#: src/querycmd.c:805
 #, c-format
 msgid ""
 "Options:\n"
@@ -3953,7 +3760,7 @@ msgstr ""
 "  -f|--showformat=<รูปแบบ>          ใช้รูปแบบอื่นสำหรับ --show\n"
 "\n"
 
-#: src/querycmd.c:806 dpkg-deb/main.c:116
+#: src/querycmd.c:812 dpkg-deb/main.c:120
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3973,16 +3780,16 @@ msgstr ""
 "  การแสดงเขตข้อมูลจะเรียงชิดขวาเสมอ นอกจากจะใช้ความกว้างเป็นลบ จึงจะเรียง\n"
 "  ชิดซ้าย\n"
 
-#: src/querycmd.c:820
+#: src/querycmd.c:826
 msgid "Use --help for help about querying packages."
 msgstr "ใช้ --help เพื่อดูวิธีสอบถามข้อมูลแพกเกจ"
 
-#: src/remove.c:94
+#: src/remove.c:104
 #, c-format
 msgid "ignoring request to remove %.250s which isn't installed"
 msgstr "จะข้ามคำสั่งถอดถอน %.250s ซึ่งไม่ได้ติดตั้งไว้"
 
-#: src/remove.c:101
+#: src/remove.c:111
 #, c-format
 msgid ""
 "ignoring request to remove %.250s, only the config\n"
@@ -3991,11 +3798,11 @@ msgstr ""
 "จะข้ามคำสั่งถอดถอน %.250s ซึ่งเหลือแต่แฟ้มค่าตั้งอยู่ในระบบ\n"
 " ใช้ --purge ถ้าต้องการลบแฟ้มค่าตั้งด้วย"
 
-#: src/remove.c:109
+#: src/remove.c:119
 msgid "This is an essential package - it should not be removed."
 msgstr "นี่เป็นแพกเกจจำเป็น - ไม่ควรถอดถอน"
 
-#: src/remove.c:138
+#: src/remove.c:140
 #, c-format
 msgid ""
 "dependency problems prevent removal of %s:\n"
@@ -4004,11 +3811,11 @@ msgstr ""
 "มีปัญหาความขึ้นต่อกันของแพกเกจทำให้ไม่สามารถถอดถอน %s ได้:\n"
 "%s"
 
-#: src/remove.c:140
+#: src/remove.c:142
 msgid "dependency problems - not removing"
 msgstr "มีปัญหาความขึ้นต่อกันของแพกเกจ - จะไม่ถอดถอน"
 
-#: src/remove.c:143
+#: src/remove.c:145
 #, c-format
 msgid ""
 "%s: dependency problems, but removing anyway as you requested:\n"
@@ -4017,7 +3824,7 @@ msgstr ""
 "%s: มีปัญหาความขึ้นต่อกันของแพกเกจ แต่จะถอดถอนตามที่คุณสั่ง:\n"
 "%s"
 
-#: src/remove.c:151
+#: src/remove.c:153
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting a removal."
@@ -4025,17 +3832,22 @@ msgstr ""
 "แพกเกจอยู่ในสถานะไม่สมบูรณ์อย่างมาก - คุณควรติดตั้งแพกเกจซ้ำ\n"
 " ก่อนที่จะพยายามถอดถอน"
 
-#: src/remove.c:158
+#: src/remove.c:160
 #, c-format
 msgid "Would remove or purge %s ...\n"
 msgstr "จะถอดถอน %s หรือถอดถอนอย่างสมบูรณ์ ...\n"
 
-#: src/remove.c:166
+#: src/remove.c:168
 #, c-format
 msgid "Removing %s ...\n"
 msgstr "กำลังถอดถอน %s ...\n"
 
-#: src/remove.c:326 src/remove.c:417
+#: src/remove.c:209 src/unpack.c:218
+#, c-format
+msgid "unable to delete control info file `%.250s'"
+msgstr "ไม่สามารถลบแฟ้มควบคุม `%.250s'"
+
+#: src/remove.c:329 src/remove.c:421
 #, c-format
 msgid ""
 "while removing %.250s, unable to remove directory '%.250s': %s - directory "
@@ -4044,165 +3856,184 @@ msgstr ""
 "ขณะถอดถอน %.250s ปรากฏว่าไม่สามารถลบไดเรกทอรี '%.250s': %s - "
 "ไดเรกทอรีอาจเป็นจุดเมานท์หรือไม่?"
 
-#: src/remove.c:340
+#: src/remove.c:343
 #, c-format
 msgid "unable to securely remove '%.250s'"
 msgstr "ไม่สามารถลบ '%.250s' อย่างปลอดภัยได้"
 
-#: src/remove.c:412
+#: src/remove.c:416
 #, c-format
 msgid "while removing %.250s, directory '%.250s' not empty so not removed"
 msgstr "ขณะถอดถอน %.250s ปรากฏว่าไดเรกทอรี '%.250s' มีข้อมูลเหลืออยู่ จึงไม่ลบไดเรกทอรีนี้"
 
-#: src/remove.c:434
+#: src/remove.c:438
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "ไม่สามารถลบ '%.250s'"
 
-#: src/remove.c:460
+#: src/remove.c:464
 #, c-format
 msgid "Purging configuration files for %s ...\n"
 msgstr "กำลังลบแฟ้มค่าตั้งของ %s ...\n"
 
-#: src/remove.c:513
+#: src/remove.c:517
 #, c-format
 msgid "cannot remove old config file `%.250s' (= `%.250s')"
 msgstr "ไม่สามารถลบแฟ้มค่าตั้งเก่า `%.250s' (= `%.250s')"
 
-#: src/remove.c:528
+#: src/remove.c:532
 #, c-format
 msgid "cannot read config file dir `%.250s' (from `%.250s')"
 msgstr "ไม่สามารถอ่านไดเรกทอรีแฟ้มค่าตั้ง `%.250s' (จาก `%.250s')"
 
-#: src/remove.c:565
+#: src/remove.c:569
 #, c-format
 msgid "cannot remove old backup config file `%.250s' (of `%.250s')"
 msgstr "ไม่สามารถลบแฟ้มค่าตั้งสำรองเก่า `%.250s' (ของ `%.250s')"
 
-#: src/remove.c:624
+#: src/remove.c:628
 msgid "cannot remove old files list"
 msgstr "ไม่สามารถลบรายชื่อแฟ้มเก่า"
 
-#: src/remove.c:630
+#: src/remove.c:634
 msgid "can't remove old postrm script"
 msgstr "ไม่สามารถลบสคริปต์ postrm เก่า"
 
-#: src/script.c:96
+#: src/script.c:101
 #, c-format
 msgid "unable to set execute permissions on `%.250s'"
 msgstr "ไม่สามารถกำหนดสิทธิ์การเรียกทำงานให้กับ `%.250s'"
 
-#: src/script.c:110
+#: src/script.c:115
 msgid "admindir must be inside instdir for dpkg to work properly"
 msgstr "admindir ต้องอยู่ภายใต้ instdir เพื่อที่ dpkg จะทำงานได้อย่างถูกต้อง"
 
-#: src/script.c:115
+#: src/script.c:120
 #, c-format
 msgid "failed to chroot to `%.250s'"
 msgstr "ไม่สามารถ chroot ไปยัง `%.250s'"
 
-#: src/script.c:117 dpkg-deb/build.c:458 dpkg-deb/build.c:460
-#: dpkg-deb/build.c:547 dpkg-deb/build.c:569
+#: src/script.c:125 dpkg-deb/build.c:459 dpkg-deb/build.c:461
+#: dpkg-deb/build.c:548 dpkg-deb/build.c:570
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "เปลี่ยนไดเรกทอรีไปยัง `%.255s' ไม่สำเร็จ"
 
-#: src/script.c:156
+#: src/script.c:223
 msgid "unable to setenv for maintainer script"
 msgstr "ไม่สามารถ setenv สำหรับสคริปต์ผู้ดูแลแพกเกจ"
 
-#: src/script.c:180
+#: src/script.c:228
+#, fuzzy
+#| msgid "unable to setenv for maintainer script"
+msgid "cannot set security execution context for maintainer script"
+msgstr "ไม่สามารถ setenv สำหรับสคริปต์ผู้ดูแลแพกเกจ"
+
+#: src/script.c:252
 #, c-format
 msgid "installed %s script"
 msgstr "สคริปต์ %s ที่ติดตั้งไว้"
 
-#: src/script.c:194 src/script.c:268 src/script.c:330
+#: src/script.c:266 src/script.c:340 src/script.c:402
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr "ไม่สามารถ stat %s `%.250s'"
 
-#: src/script.c:252 src/script.c:317
+#: src/script.c:324 src/script.c:389
 #, c-format
 msgid "new %s script"
 msgstr "สคริปต์ %s อันใหม่"
 
-#: src/script.c:290
+#: src/script.c:362
 #, c-format
 msgid "old %s script"
 msgstr "สคริปต์ %s อันเก่า"
 
-#: src/script.c:305
+#: src/script.c:377
 #, c-format
 msgid "unable to stat %s '%.250s': %s"
 msgstr "ไม่สามารถ stat %s '%.250s': %s"
 
-#: src/script.c:314
+#: src/script.c:386
 msgid "trying script from the new package instead ..."
 msgstr "จะลองใช้สคริปต์จากแพกเกจใหม่แทน ..."
 
-#: src/script.c:328
+#: src/script.c:400
 msgid "there is no script in the new version of the package - giving up"
 msgstr "ไม่มีสคริปต์ในแพกเกจรุ่นใหม่ - ขอเลิกล้ม"
 
-#: src/script.c:334
+#: src/script.c:406
 msgid "... it looks like that went OK"
 msgstr "... ทุกอย่างดูจะเรียบร้อยดี"
 
-#: src/select.c:137
+#: src/select.c:138
 #, c-format
 msgid "unexpected eof in package name at line %d"
 msgstr "พบจุดจบแฟ้มก่อนกำหนดในชื่อแพกเกจที่บรรทัด %d"
 
-#: src/select.c:138
+#: src/select.c:139
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr "พบจุดจบบรรทัดก่อนกำหนดในชื่อแพกเกจที่บรรทัด %d"
 
-#: src/select.c:144
+#: src/select.c:145
 #, c-format
 msgid "unexpected eof after package name at line %d"
 msgstr "พบจุดจบแฟ้มก่อนกำหนดหลังชื่อแพกเกจที่บรรทัด %d"
 
-#: src/select.c:145
+#: src/select.c:146
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr "พบจุดจบบรรทัดก่อนกำหนดหลังชื่อแพกเกจที่บรรทัด %d"
 
-#: src/select.c:158
+#: src/select.c:159
 #, c-format
 msgid "unexpected data after package and selection at line %d"
 msgstr "มีข้อมูลที่ไม่ต้องการหลังชื่อแพกเกจและการเลือกรุ่นที่บรรทัด %d"
 
-#: src/select.c:162
+#: src/select.c:163
 #, c-format
 msgid "illegal package name at line %d: %.250s"
 msgstr "ชื่อแพกเกจผิดรูปแบบที่บรรทัด %d: %.250s"
 
-#: src/select.c:166
+#: src/select.c:168
 #, c-format
 msgid "package not in database at line %d: %.250s"
 msgstr "พบแพกเกจที่ไม่อยู่ในฐานข้อมูลที่บรรทัด %d: %.250s"
 
-#: src/select.c:172
+#: src/select.c:174
 #, c-format
 msgid "unknown wanted status at line %d: %.250s"
 msgstr "ไม่รู้จักสถานะที่ต้องการที่บรรทัด %d: %.250s"
 
-#: src/select.c:178
+#: src/select.c:180
 msgid "read error on standard input"
 msgstr "การอ่านข้อมูลผิดพลาดที่อินพุตมาตรฐาน"
+
+#: src/select.c:186
+msgid ""
+"found unknown packages; this might mean the available database\n"
+"is outdated, and needs to be updated through a frontend method"
+msgstr ""
 
 #: src/statcmd.c:52
 msgid "Use --help for help about overriding file stat information."
 msgstr "ใช้ --help เพื่อดูวิธีบังคับค่า stat ของแฟ้ม"
 
 #: src/statcmd.c:77
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  --add <owner> <group> <mode> <file>\n"
+#| "                           add a new entry into the database.\n"
+#| "  --remove <file>          remove file from the database.\n"
+#| "  --list [<glob-pattern>]  list current overrides in the database.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
-"  --add <owner> <group> <mode> <file>\n"
-"                           add a new entry into the database.\n"
-"  --remove <file>          remove file from the database.\n"
+"  --add <owner> <group> <mode> <path>\n"
+"                           add a new <path> entry into the database.\n"
+"  --remove <path>          remove <path> from the database.\n"
 "  --list [<glob-pattern>]  list current overrides in the database.\n"
 "\n"
 msgstr ""
@@ -4214,11 +4045,20 @@ msgstr ""
 "\n"
 
 #: src/statcmd.c:85
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir <directory>   set the directory with the statoverride file.\n"
+#| "  --update                 immediately update file permissions.\n"
+#| "  --force                  force an action even if a sanity check fails.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
-"  --update                 immediately update file permissions.\n"
+"  --update                 immediately update <path> permissions.\n"
 "  --force                  force an action even if a sanity check fails.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
@@ -4242,6 +4082,12 @@ msgstr "จะตัด / ที่ท้ายชื่อ"
 #, c-format
 msgid "--%s needs four arguments"
 msgstr "--%s ต้องการอาร์กิวเมนต์สี่ตัว"
+
+#: src/statcmd.c:230
+#, fuzzy
+#| msgid "package may not contain newlines"
+msgid "path may not contain newlines"
+msgstr "ชื่อแพกเกจห้ามมีอักขระขึ้นบรรทัดใหม่"
 
 #: src/statcmd.c:237
 #, c-format
@@ -4307,23 +4153,23 @@ msgstr "ไม่สามารถ fstat แฟ้ม statoverride เดิม
 msgid "reading statoverride file '%.250s'"
 msgstr "เกิดข้อผิดพลาดขณะอ่านแฟ้ม statoverride '%.250s'"
 
-#: src/statdb.c:171
+#: src/statdb.c:172
 msgid "statoverride file is missing final newline"
 msgstr "แฟ้ม statoverride ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
 
-#: src/statdb.c:175
+#: src/statdb.c:176
 msgid "statoverride file contains empty line"
 msgstr "แฟ้ม statoverride มีบรรทัดว่างเปล่า"
 
-#: src/statdb.c:180 src/statdb.c:192 src/statdb.c:204
+#: src/statdb.c:182 src/statdb.c:195 src/statdb.c:208
 msgid "syntax error in statoverride file"
 msgstr "พบรูปแบบผิดพลาดในแฟ้ม statoverride"
 
-#: src/statdb.c:188 src/statdb.c:200 src/statdb.c:212
+#: src/statdb.c:190 src/statdb.c:203 src/statdb.c:216
 msgid "unexpected end of line in statoverride file"
 msgstr "พบจุดจบบรรทัดก่อนกำหนดในแฟ้ม statoverride"
 
-#: src/statdb.c:216
+#: src/statdb.c:220
 #, c-format
 msgid "multiple statoverrides present for file '%.250s'"
 msgstr "มีรายการ statoverride หลายรายการสำหรับ '%.250s'"
@@ -4406,7 +4252,7 @@ msgstr "ชื่อแพกเกจที่รอคอย '%.255s' ไม�
 msgid "invalid trigger name `%.250s': %.250s"
 msgstr "ชื่อการสะกิด `%.255s' ไม่ถูกต้อง: %.250s"
 
-#: src/trigproc.c:262
+#: src/trigproc.c:271
 msgid ""
 "cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:"
@@ -4414,7 +4260,7 @@ msgstr ""
 "พบวงวนขณะประมวลผลการสะกิด:\n"
 " สายของแพกเกจที่การสะกิดเป็นหรืออาจเป็นตัวการ:"
 
-#: src/trigproc.c:270
+#: src/trigproc.c:279
 #, c-format
 msgid ""
 "\n"
@@ -4423,14 +4269,240 @@ msgstr ""
 "\n"
 " การสะกิดที่คั่งค้างของแพกเกจที่อาจไม่สามารถจัดลำดับการทำงานได้:\n"
 
-#: src/trigproc.c:295
+#: src/trigproc.c:304
 msgid "triggers looping, abandoned"
 msgstr "มีการสะกิดเป็นวงวน ขอยกเลิก"
 
-#: src/trigproc.c:327
+#: src/trigproc.c:336
 #, c-format
 msgid "Processing triggers for %s ...\n"
 msgstr "กำลังประมวลผลการสะกิดสำหรับ %s ...\n"
+
+#: src/unpack.c:75
+#, c-format
+msgid ".../%s"
+msgstr ".../%s"
+
+#: src/unpack.c:95
+#, c-format
+msgid "error ensuring `%.250s' doesn't exist"
+msgstr "เกิดข้อผิดพลาดขณะพยายามทำให้แน่ใจว่า `%.250s' ไม่มีอยู่"
+
+#: src/unpack.c:103
+msgid "split package reassembly"
+msgstr "ประกอบรวมแพกเกจที่ตัดแบ่ง"
+
+#: src/unpack.c:112
+msgid "reassembled package file"
+msgstr "แฟ้มแพกเกจที่ประกอบรวมแล้ว"
+
+#: src/unpack.c:137
+#, c-format
+msgid "Authenticating %s ...\n"
+msgstr "กำลังยืนยันแหล่งต้นตอของ %s ...\n"
+
+#: src/unpack.c:143
+msgid "package signature verification"
+msgstr "การตรวจสอบลายเซ็นในแพกเกจ"
+
+#: src/unpack.c:150
+#, c-format
+msgid "verification on package %s failed!"
+msgstr "การตรวจสอบลายเซ็นแพกเกจ %s ล้มเหลว!"
+
+#: src/unpack.c:152
+#, c-format
+msgid ""
+"verification on package %s failed; but installing anyway as you requested"
+msgstr "การตรวจสอบลายเซ็นแพกเกจ %s ล้มเหลว แต่จะติดตั้งต่อไปตามที่คุณสั่ง"
+
+#: src/unpack.c:155
+#, c-format
+msgid "passed\n"
+msgstr "ผ่าน\n"
+
+#: src/unpack.c:168 dpkg-deb/info.c:81
+msgid "unable to create temporary directory"
+msgstr "ไม่สามารถสร้างไดเรกทอรีชั่วคราว"
+
+#: src/unpack.c:208
+#, c-format
+msgid "package %s has too many Conflicts/Replaces pairs"
+msgstr "แพกเกจ %s มีคู่แพกเกจขัดแย้ง/แทนที่มากเกินไป"
+
+#: src/unpack.c:229
+#, c-format
+msgid "old version of package has overly-long info file name starting `%.250s'"
+msgstr "แพกเกจรุ่นเก่ามีแฟ้ม info ชื่อยาวเกินไป ซึ่งขึ้นต้นด้วย `%.250s'"
+
+#: src/unpack.c:267
+#, c-format
+msgid "unable to remove obsolete info file `%.250s'"
+msgstr "ไม่สามารถลบแฟ้ม info `%.250s' ที่เลิกใช้แล้ว"
+
+#: src/unpack.c:272
+#, c-format
+msgid "unable to install (supposed) new info file `%.250s'"
+msgstr "ไม่สามารถติดตั้งแฟ้ม info `%.250s' (ที่น่าจะเป็น) ฉบับใหม่"
+
+#: src/unpack.c:282
+msgid "unable to open temp control directory"
+msgstr "ไม่สามารถเปิดไดเรกทอรีควบคุมชั่วคราว"
+
+#: src/unpack.c:293
+#, c-format
+msgid "package contains overly-long control info file name (starting `%.50s')"
+msgstr "แพกเกจมีแฟ้มข้อมูลควบคุมชื่อยาวเกินไป (ขึ้นต้นด้วย `%.250s')"
+
+#: src/unpack.c:300
+#, c-format
+msgid "package control info contained directory `%.250s'"
+msgstr "ข้อมูลควบคุมของแพกเกจมีไดเรกทอรี `%.250s'"
+
+#: src/unpack.c:302
+#, c-format
+msgid "package control info rmdir of `%.250s' didn't say not a dir"
+msgstr "การสั่ง rmdir กับ `%.250s' ในข้อมูลควบคุมของแพกเกจ ไม่ได้ตอบว่าไม่ใช่ไดเรกทอรี"
+
+#: src/unpack.c:312
+#, c-format
+msgid "package %s contained list as info file"
+msgstr "แพกเกจ %s มีแฟ้ม list เป็นข้อมูลควบคุม"
+
+#: src/unpack.c:320
+#, c-format
+msgid "unable to install new info file `%.250s' as `%.250s'"
+msgstr "ไม่สามารถติดตั้งแฟ้มควบคุมใหม่ `%.250s' เป็น `%.250s'"
+
+#: src/unpack.c:345
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(สังเกตการหายไปของ %s ซึ่งถูกแทนที่อย่างสมบูรณ์)\n"
+
+#: src/unpack.c:451
+msgid "cannot access archive"
+msgstr "ไม่สามารถเข้าใช้แฟ้มแพกเกจ"
+
+#: src/unpack.c:473
+msgid "package control information extraction"
+msgstr "การแตกข้อมูลควบคุมของแพกเกจ"
+
+#: src/unpack.c:508
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "บันทึกข้อมูลเกี่ยวกับ %s จาก %s\n"
+
+#: src/unpack.c:518
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "สถาปัตยกรรมของแพกเกจ (%s) ไม่ตรงกับของระบบ (%s)"
+
+#: src/unpack.c:581
+#, c-format
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"เกี่ยวกับ %s ที่บรรจุ %s: มีปัญหาของสิ่งที่ต้องใช้ขณะติดตั้ง:\n"
+"%s"
+
+#: src/unpack.c:585
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "มีปัญหาของสิ่งที่ต้องใช้ขณะติดตั้ง - จะไม่ติดตั้ง %.250s"
+
+#: src/unpack.c:587
+msgid "ignoring pre-dependency problem!"
+msgstr "จะละเลยปัญหาของสิ่งที่ต้องใช้ขณะติดตั้ง!"
+
+#: src/unpack.c:603
+#, c-format
+msgid "Preparing to replace %s %s (using %s) ...\n"
+msgstr "กำลังเตรียมแทนที่ %s %s (ด้วย %s) ...\n"
+
+#: src/unpack.c:609
+#, c-format
+msgid "Unpacking %s (from %s) ...\n"
+msgstr "กำลังแตก %s (จาก %s) ...\n"
+
+#: src/unpack.c:641
+#, c-format
+msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
+msgstr "ชื่อของแฟ้มค่าตั้ง (ขึ้นต้นด้วย `%.250s') ยาวเกินไป (>%d ตัวอักษร)"
+
+#: src/unpack.c:695 utils/update-alternatives.c:2118
+#, c-format
+msgid "read error in %.250s"
+msgstr "เกิดข้อผิดพลาดขณะอ่าน %.250s"
+
+#: src/unpack.c:697
+#, c-format
+msgid "error closing %.250s"
+msgstr "เกิดข้อผิดพลาดขณะปิด %.250s"
+
+#: src/unpack.c:741
+#, c-format
+msgid "De-configuring %s, to allow removal of %s ...\n"
+msgstr "กำลังถอนคืนค่าตั้งของ %s เพื่อให้สามารถถอดถอน %s ได้ ...\n"
+
+#: src/unpack.c:745
+#, c-format
+msgid "De-configuring %s ...\n"
+msgstr "กำลังถอนคืนค่าตั้งของ %s ...\n"
+
+#: src/unpack.c:826
+#, c-format
+msgid "Unpacking replacement %.250s ...\n"
+msgstr "กำลังแตกแพกเกจแทนที่ %.250s ...\n"
+
+#: src/unpack.c:912
+msgid "package filesystem archive extraction"
+msgstr "การแตกส่วนระบบแฟ้มของแพกเกจ"
+
+#: src/unpack.c:927
+msgid "error reading dpkg-deb tar output"
+msgstr "เกิดข้อผิดพลาดขณะอ่านผลลัพธ์ของ tar จาก dpkg-deb"
+
+#: src/unpack.c:929
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr "แฟ้ม tar สำหรับแฟ้มที่จะติดตั้งในระบบแฟ้มเสียหาย - แฟ้มแพกเกจเสียหาย"
+
+#: src/unpack.c:933
+#, c-format
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "ไม่สามารถตัดไบต์ศูนย์ทั้งหลายข้างท้ายที่อาจจะมีจาก dpkg-deb: %s"
+
+#: src/unpack.c:993
+#, c-format
+msgid "could not stat old file '%.250s' so not deleting it: %s"
+msgstr "ไม่สามารถ stat แฟ้มเก่า '%.250s' จึงจะไม่มีการลบแฟ้มดังกล่าว: %s"
+
+#: src/unpack.c:999
+#, c-format
+msgid "unable to delete old directory '%.250s': %s"
+msgstr "ไม่สามารถลบไดเรกทอรีเก่า '%.250s': %s"
+
+#: src/unpack.c:1002
+#, c-format
+msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
+msgstr "แฟ้มค่าตั้งเดิม '%.250s' เป็นไดเรกทอรีว่างเปล่า (และตอนนี้ถูกลบไปแล้ว)"
+
+#: src/unpack.c:1049
+#, c-format
+msgid "unable to stat other new file `%.250s'"
+msgstr "ไม่สามารถ stat แฟ้มใหม่ `%.250s'"
+
+#: src/unpack.c:1060
+#, c-format
+msgid ""
+"old file '%.250s' is the same as several new files! (both '%.250s' and "
+"'%.250s')"
+msgstr "แฟ้มเก่า '%.250s' เป็นแฟ้มเดียวกับแฟ้มใหม่หลายแฟ้ม! (ทั้ง '%.250s' และ '%.250s')"
+
+#: src/unpack.c:1099
+#, c-format
+msgid "unable to securely remove old file '%.250s': %s"
+msgstr "ไม่สามารถลบแฟ้มเก่า '%.250s' อย่างปลอดภัยได้: %s"
 
 #: src/update.c:52
 #, c-format
@@ -4467,35 +4539,35 @@ msgid ""
 "obsolete '--%s' option; unavailable packages are automatically cleaned up"
 msgstr "ตัวเลือก '--%s' เลิกใช้แล้ว แพกเกจที่ไม่มีในระบบแล้วจะถูกเก็บกวาดทิ้งโดยอัตโนมัติ"
 
-#: dpkg-deb/build.c:124
+#: dpkg-deb/build.c:125
 #, c-format
 msgid "file name '%.50s...' is too long"
 msgstr "ชื่อแฟ้ม '%.50s...' ยาวเกินไป"
 
-#: dpkg-deb/build.c:129
+#: dpkg-deb/build.c:130
 #, c-format
 msgid "unable to stat file name '%.250s'"
 msgstr "ไม่สามารถ stat ชื่อแฟ้ม '%.250s'"
 
-#: dpkg-deb/build.c:189
+#: dpkg-deb/build.c:190
 msgid "unable to stat control directory"
 msgstr "ไม่สามารถ stat ไดเรกทอรีควบคุม"
 
-#: dpkg-deb/build.c:191
+#: dpkg-deb/build.c:192
 msgid "control directory is not a directory"
 msgstr "ไดเรกทอรีควบคุมไม่ได้เป็นไดเรกทอรี"
 
-#: dpkg-deb/build.c:193
+#: dpkg-deb/build.c:194
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr "ไดเรกทอรีควบคุมมีการกำหนดสิทธิ์ %03lo ซึ่งไม่ถูกต้อง (ต้องมีค่า >=0755 และ <=0775)"
 
-#: dpkg-deb/build.c:204
+#: dpkg-deb/build.c:205
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr "สคริปต์ผู้ดูแลแพกเกจ `%.50s' ไม่ใช่แฟ้มธรรมดาหรือ symlink"
 
-#: dpkg-deb/build.c:207
+#: dpkg-deb/build.c:208
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -4504,156 +4576,156 @@ msgstr ""
 "สคริปต์ผู้ดูแลแพกเกจ `%.50s' มีการกำหนดสิทธิ์ %03lo ซึ่งไม่ถูกต้อง (ต้องมีค่า >=0555 และ "
 "<=0775)"
 
-#: dpkg-deb/build.c:211
+#: dpkg-deb/build.c:212
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "สคริปต์ผู้ดูแลแพกเกจ `%.50s' ไม่สามารถ stat ได้"
 
-#: dpkg-deb/build.c:237
+#: dpkg-deb/build.c:238
 msgid "error opening conffiles file"
 msgstr "เกิดข้อผิดพลาดขณะเปิดแฟ้ม conffiles"
 
-#: dpkg-deb/build.c:246
+#: dpkg-deb/build.c:247
 msgid "empty string from fgets reading conffiles"
 msgstr "ได้รับข้อความเปล่าจาก fgets ขณะอ่าน conffiles"
 
-#: dpkg-deb/build.c:251
+#: dpkg-deb/build.c:252
 #, c-format
 msgid "conffile name '%.50s...' is too long, or missing final newline"
 msgstr "ชื่อแฟ้มค่าตั้ง '%.50s...' ยาวเกินไป หรือไม่มีอักขระขึ้นบรรทัดใหม่ปิดท้าย"
 
-#: dpkg-deb/build.c:264
+#: dpkg-deb/build.c:265
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "ชื่อแฟ้มค่าตั้ง '%s' มีช่องว่างท้ายบรรทัด"
 
-#: dpkg-deb/build.c:266
+#: dpkg-deb/build.c:267
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "ไม่พบแฟ้มค่าตั้ง `%.250s' ในแพกเกจ"
 
-#: dpkg-deb/build.c:268
+#: dpkg-deb/build.c:269
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "แฟ้มค่าตั้ง `%.250s' ไม่สามารถ stat ได้"
 
-#: dpkg-deb/build.c:270
+#: dpkg-deb/build.c:271
 #, c-format
 msgid "conffile '%s' is not a plain file"
 msgstr "แฟ้มค่าตั้ง '%s' ไม่ใช่แฟ้มปกติ"
 
-#: dpkg-deb/build.c:274
+#: dpkg-deb/build.c:275
 #, c-format
 msgid "conffile name '%s' is duplicated"
 msgstr "ชื่อแฟ้มค่าตั้ง '%s' ซ้ำกัน"
 
-#: dpkg-deb/build.c:287
+#: dpkg-deb/build.c:288
 msgid "error reading conffiles file"
 msgstr "เกิดข้อผิดพลาดขณะอ่านแฟ้ม conffiles"
 
-#: dpkg-deb/build.c:339
+#: dpkg-deb/build.c:340
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "ชื่อแพกเกจมีอักขระที่ไม่ใช่ตัวอักษรพิมพ์เล็ก ตัวเลข หรือ `-+.'"
 
-#: dpkg-deb/build.c:341
+#: dpkg-deb/build.c:342
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "'%s' มีค่า Priority '%s' ที่ผู้ใช้กำหนดเอง"
 
-#: dpkg-deb/build.c:347
+#: dpkg-deb/build.c:348
 #, c-format
 msgid "'%s' contains user-defined field '%s'"
 msgstr "'%s' มีเขตข้อมูล '%s' ที่ผู้ใช้กำหนดเอง"
 
-#: dpkg-deb/build.c:358
+#: dpkg-deb/build.c:359
 #, c-format
 msgid "ignoring %d warning about the control file(s)\n"
 msgid_plural "ignoring %d warnings about the control file(s)\n"
 msgstr[0] "จะละเลยคำเตือน %d รายการเกี่ยวกับแฟ้มควบคุม\n"
 
-#: dpkg-deb/build.c:404 utils/update-alternatives.c:2579
-#: utils/update-alternatives.c:2586
+#: dpkg-deb/build.c:405 utils/update-alternatives.c:2588
+#: utils/update-alternatives.c:2595
 #, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s ต้องการอาร์กิวเมนต์ <ไดเรกทอรี>"
 
-#: dpkg-deb/build.c:415
+#: dpkg-deb/build.c:416
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "ไม่สามารถตรวจสอบการมีอยู่ของแพกเกจ `%.250s'"
 
-#: dpkg-deb/build.c:432
+#: dpkg-deb/build.c:433
 msgid "target is directory - cannot skip control file check"
 msgstr "เป้าหมายเป็นไดเรกทอรี - ไม่สามารถข้ามการตรวจสอบแฟ้มควบคุม"
 
-#: dpkg-deb/build.c:433
+#: dpkg-deb/build.c:434
 msgid "not checking contents of control area"
 msgstr "จะไม่ตรวจสอบเนื้อหาของพื้นที่ควบคุม"
 
-#: dpkg-deb/build.c:434
+#: dpkg-deb/build.c:435
 #, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: กำลังสร้างแพกเกจไม่ทราบชื่อใน '%s'\n"
 
-#: dpkg-deb/build.c:441
+#: dpkg-deb/build.c:442
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: กำลังสร้างแพกเกจ `%s' ใน `%s'\n"
 
-#: dpkg-deb/build.c:470 dpkg-deb/build.c:532
+#: dpkg-deb/build.c:471 dpkg-deb/build.c:533
 #, c-format
 msgid "failed to make temporary file (%s)"
 msgstr "สร้างแฟ้มชั่วคราว (%s) ไม่สำเร็จ"
 
-#: dpkg-deb/build.c:470 dpkg-deb/build.c:473 dpkg-deb/build.c:494
-#: dpkg-deb/build.c:503 dpkg-deb/build.c:509
+#: dpkg-deb/build.c:471 dpkg-deb/build.c:474 dpkg-deb/build.c:495
+#: dpkg-deb/build.c:504 dpkg-deb/build.c:510
 msgid "control member"
 msgstr "สมาชิกส่วนควบคุม"
 
-#: dpkg-deb/build.c:473 dpkg-deb/build.c:535
+#: dpkg-deb/build.c:474 dpkg-deb/build.c:536
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "ลบแฟ้มชั่วคราว (%s) ไม่สำเร็จ: %s"
 
-#: dpkg-deb/build.c:486
+#: dpkg-deb/build.c:487
 msgid "compressing control member"
 msgstr "การบีบอัดสมาชิกส่วนควบคุม"
 
-#: dpkg-deb/build.c:494 dpkg-deb/build.c:605
+#: dpkg-deb/build.c:495 dpkg-deb/build.c:606
 #, c-format
 msgid "failed to rewind temporary file (%s)"
 msgstr "กรอแฟ้มชั่วคราว (%s) กลับไม่สำเร็จ"
 
-#: dpkg-deb/build.c:503
+#: dpkg-deb/build.c:504
 #, c-format
 msgid "failed to stat temporary file (%s)"
 msgstr "ไม่สามารถ stat แฟ้มชั่วคราว (%s)"
 
-#: dpkg-deb/build.c:507
+#: dpkg-deb/build.c:508
 #, c-format
 msgid "error writing `%s'"
 msgstr "เกิดข้อผิดพลาดขณะเขียน `%s'"
 
-#: dpkg-deb/build.c:509
+#: dpkg-deb/build.c:510
 #, c-format
 msgid "cannot copy '%s' into archive '%s': %s"
 msgstr "ไม่สามารถคัดลอก '%s' เข้าในแพกเกจ '%s': %s"
 
-#: dpkg-deb/build.c:532 dpkg-deb/build.c:535 dpkg-deb/build.c:583
-#: dpkg-deb/build.c:591 dpkg-deb/build.c:605
+#: dpkg-deb/build.c:533 dpkg-deb/build.c:536 dpkg-deb/build.c:584
+#: dpkg-deb/build.c:592 dpkg-deb/build.c:606
 msgid "data member"
 msgstr "สมาชิกส่วนข้อมูล"
 
-#: dpkg-deb/build.c:557
+#: dpkg-deb/build.c:558
 msgid "compressing data member"
 msgstr "การบีบอัดสมาชิกส่วนข้อมูล"
 
-#: dpkg-deb/build.c:582 dpkg-deb/build.c:591
+#: dpkg-deb/build.c:583 dpkg-deb/build.c:592
 #, c-format
 msgid "failed to write filename to tar pipe (%s)"
 msgstr "เขียนชื่อแฟ้มลงไปป์ไปยัง tar ไม่สำเร็จ (%s)"
 
-#: dpkg-deb/build.c:595
+#: dpkg-deb/build.c:596
 msgid "<compress> from tar -cf"
 msgstr "<บีบอัด> จาก tar -cf"
 
@@ -4789,33 +4861,33 @@ msgstr "ไม่สามารถปิดไปป์ของเครื่
 msgid "decompressing archive member"
 msgstr "การคลายบีบอัดสมาชิกแพกเกจ"
 
-#: dpkg-deb/extract.c:313
+#: dpkg-deb/extract.c:331
 msgid "failed to chdir to directory"
 msgstr "เปลี่ยนเข้าไดเรกทอรีไม่สำเร็จ"
 
-#: dpkg-deb/extract.c:316
+#: dpkg-deb/extract.c:334
 msgid "failed to create directory"
 msgstr "สร้างไดเรกทอรีไม่สำเร็จ"
 
-#: dpkg-deb/extract.c:318
+#: dpkg-deb/extract.c:336
 msgid "failed to chdir to directory after creating it"
 msgstr "เปลี่ยนเข้าไดเรกทอรีหลังจากสร้างแล้วไม่สำเร็จ"
 
-#: dpkg-deb/extract.c:329
+#: dpkg-deb/extract.c:346
 msgid "<decompress>"
 msgstr "<คลายบีบอัด>"
 
-#: dpkg-deb/extract.c:331
+#: dpkg-deb/extract.c:348
 msgid "paste"
 msgstr "แปะ"
 
-#: dpkg-deb/extract.c:353 dpkg-deb/extract.c:374 dpkg-deb/extract.c:413
+#: dpkg-deb/extract.c:371 dpkg-deb/extract.c:393 dpkg-deb/extract.c:435
 #: dpkg-deb/info.c:77
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s ต้องมีอาร์กิวเมนต์เป็นชื่อแฟ้ม .deb ด้วย"
 
-#: dpkg-deb/extract.c:358 dpkg-deb/extract.c:417
+#: dpkg-deb/extract.c:376 dpkg-deb/extract.c:439
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -4824,12 +4896,12 @@ msgstr ""
 "--%s ต้องระบุไดเรกทอรีปลายทางด้วย\n"
 "บางที คุณควรใช้ dpkg --install ไหม?"
 
-#: dpkg-deb/extract.c:361 dpkg-deb/extract.c:421
+#: dpkg-deb/extract.c:379 dpkg-deb/extract.c:443
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s รับอาร์กิวเมนต์ไม่เกินสองตัว (.deb และไดเรกทอรี)"
 
-#: dpkg-deb/extract.c:376
+#: dpkg-deb/extract.c:395
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s รับอาร์กิวเมนต์แค่ตัวเดียว (ชื่อแฟ้ม .deb)"
@@ -4859,7 +4931,7 @@ msgid "%d requested control component is missing"
 msgid_plural "%d requested control components are missing"
 msgstr[0] "องค์ประกอบส่วนควบคุมขาดหายไป %d รายการ"
 
-#: dpkg-deb/info.c:141 utils/update-alternatives.c:1066
+#: dpkg-deb/info.c:141 utils/update-alternatives.c:1067
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "ไม่สามารถตรวจข้อมูลไดเรกทอรี `%.255s'"
@@ -4956,13 +5028,37 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c:101
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --showformat=<format>            Use alternative format for --show.\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D                               Enable debugging output.\n"
+#| "  --old, --new                     Select archive format.\n"
+#| "  --nocheck                        Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, bzip2, "
+#| "none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none, extreme (xz).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
 "  -v, --verbose                    Enable verbose output.\n"
-"  -D                               Enable debugging output.\n"
-"  --old, --new                     Select archive format.\n"
+"  -D, --debug                      Enable debugging output.\n"
+"      --deb-format=<format>        Select archive format.\n"
+"                                     Allowed values: 0.939000, 2.0 "
+"(default).\n"
+"      --old                        Legacy alias for '--deb-"
+"format=0.939000'.\n"
+"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "  --nocheck                        Suppress control file check (build bad\n"
 "                                     packages).\n"
 "  -z#                              Set the compression level when building.\n"
@@ -4971,7 +5067,8 @@ msgid ""
 "                                     Allowed types: gzip, xz, bzip2, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
-"                                     Allowed values: none, extreme (xz).\n"
+"                                     Allowed values: none; extreme (xz);\n"
+"                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
 msgstr ""
 "ตัวเลือก:\n"
@@ -4988,20 +5085,25 @@ msgstr ""
 "                                     ค่าที่ใช้ได้: none, extreme (xz)\n"
 "\n"
 
-#: dpkg-deb/main.c:125
-#, c-format
+#: dpkg-deb/main.c:129
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Use `dpkg' to install and remove packages from your system, or\n"
+#| "`dselect' or `aptitude' for user-friendly package management.  Packages\n"
+#| "unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"
 msgid ""
 "\n"
-"Use `dpkg' to install and remove packages from your system, or\n"
-"`dselect' or `aptitude' for user-friendly package management.  Packages\n"
-"unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"
+"Use 'dpkg' to install and remove packages from your system, or\n"
+"'apt' or 'aptitude' for user-friendly package management. Packages\n"
+"unpacked using 'dpkg-deb --extract' will be incorrectly installed !\n"
 msgstr ""
 "\n"
 "ใช้ `dpkg' เพื่อติดตั้งหรือถอดถอนแพกเกจในระบบของคุณ หรือใช้\n"
 "`dselect' หรือ `aptitude' ถ้าต้องการการจัดการแพกเกจแบบเป็นมิตรกับผู้ใช้\n"
 "แพกเกจที่แตกด้วยคำสั่ง `dpkg-deb --extract' จะติดตั้งไม่ถูกต้อง !\n"
 
-#: dpkg-deb/main.c:136
+#: dpkg-deb/main.c:140
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -5009,32 +5111,44 @@ msgstr ""
 "พิมพ์ dpkg-deb --help เพื่อดูวิธีจัดการแฟ้ม *.deb;\n"
 "พิมพ์ dpkg --help เพื่อดูวิธีติดตั้งและถอดถอนแพกเกจ"
 
-#: dpkg-deb/main.c:158
+#: dpkg-deb/main.c:156
+#, fuzzy, c-format
+#| msgid "archive has invalid format version: %s"
+msgid "invalid deb format version: %s"
+msgstr "แพกเกจมีเลขรุ่นของรูปแบบไม่ถูกต้อง: %s"
+
+#: dpkg-deb/main.c:162
+#, fuzzy, c-format
+#| msgid "unknown option '%s'"
+msgid "unknown deb format version: %s"
+msgstr "ไม่รู้จักตัวเลือก '%s'"
+
+#: dpkg-deb/main.c:198
 #, c-format
 msgid "invalid integer for -%c: '%.250s'"
 msgstr "ค่าจำนวนเต็มผิดพลาดสำหรับ -%c: '%.250s'"
 
-#: dpkg-deb/main.c:161
+#: dpkg-deb/main.c:201
 #, c-format
 msgid "invalid compression level for -%c: %ld'"
 msgstr "ค่าระดับการบีบอัดผิดพลาดสำหรับ -%c: %ld"
 
-#: dpkg-deb/main.c:171
+#: dpkg-deb/main.c:211
 #, c-format
 msgid "unknown compression strategy '%s'!"
 msgstr "ไม่รู้จักนโยบายของการบีบอัด '%s'!"
 
-#: dpkg-deb/main.c:179
+#: dpkg-deb/main.c:219
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "ไม่รู้จักชนิดของการบีบอัด `%s'!"
 
-#: dpkg-deb/main.c:181
+#: dpkg-deb/main.c:221
 #, c-format
 msgid "deprecated compression type '%s'; use xz instead"
 msgstr "ไม่แนะนำให้ใช้การบีบอัดชนิด '%s' แล้ว ควรใช้ xz แทน"
 
-#: dpkg-deb/main.c:226
+#: dpkg-deb/main.c:267
 #, c-format
 msgid "invalid compressor parameters: %s"
 msgstr "พารามิเตอร์ของการบีบอัดผิดพลาด: %s"
@@ -5368,98 +5482,98 @@ msgstr "ไม่สามารถอ่านไดเรกทอรีสะ
 msgid "--auto requires the use of the --output option"
 msgstr "--auto ต้องใช้ตัวเลือก --output ด้วย"
 
-#: dpkg-split/queue.c:142
+#: dpkg-split/queue.c:143
 msgid "--auto requires exactly one part file argument"
 msgstr "--auto ต้องการอาร์กิวเมนต์ที่เป็นแฟ้มส่วนย่อยรายการเดียว"
 
-#: dpkg-split/queue.c:146
+#: dpkg-split/queue.c:147
 #, c-format
 msgid "unable to read part file `%.250s'"
 msgstr "ไม่สามารถอ่านแฟ้มส่วนย่อย `%.250s'"
 
-#: dpkg-split/queue.c:149
+#: dpkg-split/queue.c:150
 #, c-format
 msgid "File `%.250s' is not part of a multipart archive.\n"
 msgstr "แฟ้ม `%.250s' ไม่ใช่ส่วนย่อยของแพกเกจแบ่งส่วน\n"
 
-#: dpkg-split/queue.c:186
+#: dpkg-split/queue.c:187
 #, c-format
 msgid "unable to reopen part file `%.250s'"
 msgstr "ไม่สามารถเปิดแฟ้มส่วนย่อย `%.250s' ซ้ำ"
 
-#: dpkg-split/queue.c:189
+#: dpkg-split/queue.c:190
 #, c-format
 msgid "unable to open new depot file `%.250s'"
 msgstr "ไม่สามารถเปิดแฟ้มสะสมส่วนย่อยใหม่ `%.250s'"
 
-#: dpkg-split/queue.c:192
+#: dpkg-split/queue.c:193
 #, c-format
 msgid "cannot extract split package part '%s': %s"
 msgstr "ไม่สามารถแตกส่วนย่อย '%s' ของแพกเกจตัดแบ่ง: %s"
 
-#: dpkg-split/queue.c:201
+#: dpkg-split/queue.c:202
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
 msgstr "ไม่สามารถเปลี่ยนชื่อแฟ้มสะสมใหม่ `%.250s' ไปเป็น `%.250s'"
 
-#: dpkg-split/queue.c:205
+#: dpkg-split/queue.c:206
 #, c-format
 msgid "Part %d of package %s filed (still want "
 msgstr "เก็บส่วนย่อย %d ของแพกเกจ %s แล้ว (ยังต้องการอีก "
 
-#: dpkg-split/queue.c:209
+#: dpkg-split/queue.c:210
 msgid " and "
 msgstr " และ "
 
-#: dpkg-split/queue.c:223
+#: dpkg-split/queue.c:224
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
 msgstr "ไม่สามารถลบแฟ้มสะสมส่วนย่อย `%.250s' ที่ใช้แล้ว"
 
-#: dpkg-split/queue.c:244
+#: dpkg-split/queue.c:245
 msgid "Junk files left around in the depot directory:\n"
 msgstr "มีแฟ้มขยะหลงเหลืออยู่ในไดเรกทอรีสะสมส่วนย่อย:\n"
 
-#: dpkg-split/queue.c:249 dpkg-split/queue.c:278
+#: dpkg-split/queue.c:250 dpkg-split/queue.c:279
 #, c-format
 msgid "unable to stat `%.250s'"
 msgstr "ไม่สามารถ stat `%.250s'"
 
-#: dpkg-split/queue.c:252
+#: dpkg-split/queue.c:253
 #, c-format
 msgid " %s (%jd bytes)\n"
 msgstr " %s (%jd ไบต์)\n"
 
-#: dpkg-split/queue.c:254
+#: dpkg-split/queue.c:255
 #, c-format
 msgid " %s (not a plain file)\n"
 msgstr " %s (ไม่ใช่แฟ้มปกติ)\n"
 
-#: dpkg-split/queue.c:259
+#: dpkg-split/queue.c:260
 msgid "Packages not yet reassembled:\n"
 msgstr "แพกเกจที่ยังประกอบรวมไม่เสร็จ:\n"
 
-#: dpkg-split/queue.c:267
+#: dpkg-split/queue.c:268
 #, c-format
 msgid " Package %s: part(s) "
 msgstr " แพกเกจ %s: ส่วนย่อย "
 
-#: dpkg-split/queue.c:280
+#: dpkg-split/queue.c:281
 #, c-format
 msgid "part file `%.250s' is not a plain file"
 msgstr "แฟ้มส่วนย่อย `%.250s' ไม่ใช่แฟ้มปกติ"
 
-#: dpkg-split/queue.c:287
+#: dpkg-split/queue.c:288
 #, c-format
 msgid "(total %jd bytes)\n"
 msgstr "(รวม %jd ไบต์)\n"
 
-#: dpkg-split/queue.c:313
+#: dpkg-split/queue.c:314
 #, c-format
 msgid "unable to discard `%.250s'"
 msgstr "ไม่สามารถล้าง `%.250s' ทิ้ง"
 
-#: dpkg-split/queue.c:314
+#: dpkg-split/queue.c:315
 #, c-format
 msgid "Deleted %s.\n"
 msgstr "ลบ %s แล้ว\n"
@@ -5607,253 +5721,259 @@ msgstr ""
 msgid "error"
 msgstr "ข้อผิดพลาด"
 
-#: utils/update-alternatives.c:188
+#: utils/update-alternatives.c:176
+#, fuzzy, c-format
+#| msgid "Use --help for help about overriding file stat information."
+msgid "Use '%s --help' for program usage information."
+msgstr "ใช้ --help เพื่อดูวิธีบังคับค่า stat ของแฟ้ม"
+
+#: utils/update-alternatives.c:190
 msgid "warning"
 msgstr "คำเตือน"
 
-#: utils/update-alternatives.c:257
+#: utils/update-alternatives.c:259
 #, c-format
 msgid "malloc failed (%zu bytes)"
 msgstr "malloc ไม่สำเร็จ (%zu ไบต์)"
 
-#: utils/update-alternatives.c:351
+#: utils/update-alternatives.c:353
 #, c-format
 msgid "two commands specified: --%s and --%s"
 msgstr "มีการระบุคำสั่งสองคำสั่ง: --%s และ --%s"
 
-#: utils/update-alternatives.c:383
+#: utils/update-alternatives.c:385
 #, c-format
 msgid "cannot append to '%s'"
 msgstr "ไม่สามารถเขียนต่อท้าย '%s'"
 
-#: utils/update-alternatives.c:507
+#: utils/update-alternatives.c:500
 #, c-format
 msgid "unable to remove '%s'"
 msgstr "ไม่สามารถลบ '%s'"
 
-#: utils/update-alternatives.c:1102
+#: utils/update-alternatives.c:1103
 #, c-format
 msgid "unexpected end of file while trying to read %s"
 msgstr "พบจุดจบแฟ้มก่อนกำหนดขณะพยายามอ่าน %s"
 
-#: utils/update-alternatives.c:1104
+#: utils/update-alternatives.c:1105
 #, c-format
 msgid "while reading %s: %s"
 msgstr "ขณะอ่าน %s: %s"
 
-#: utils/update-alternatives.c:1110
+#: utils/update-alternatives.c:1111
 #, c-format
 msgid "line not terminated while trying to read %s"
 msgstr "พบบรรทัดที่ไม่ได้ปิดท้ายขณะพยายามอ่าน %s"
 
-#: utils/update-alternatives.c:1128
+#: utils/update-alternatives.c:1129
 #, c-format
 msgid "%s corrupt: %s"
 msgstr "%s เสียหาย: %s"
 
-#: utils/update-alternatives.c:1141
+#: utils/update-alternatives.c:1142
 #, c-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "ห้ามใช้อักขระขึ้นบรรทัดใหม่ในแฟ้มสำหรับ update-alternatives (%s)"
 
-#: utils/update-alternatives.c:1154
+#: utils/update-alternatives.c:1155
 msgid "slave name"
 msgstr "ชื่อรายการลูก"
 
-#: utils/update-alternatives.c:1162 utils/update-alternatives.c:2555
+#: utils/update-alternatives.c:1163 utils/update-alternatives.c:2564
 #, c-format
 msgid "duplicate slave name %s"
 msgstr "ชื่อรายการลูก %s ซ้ำ"
 
-#: utils/update-alternatives.c:1165
+#: utils/update-alternatives.c:1166
 msgid "slave link"
 msgstr "ลิงก์ลูก"
 
-#: utils/update-alternatives.c:1169
+#: utils/update-alternatives.c:1170
 #, c-format
 msgid "slave link same as main link %s"
 msgstr "ลิงก์ลูกซ้ำกับลิงก์หลัก %s"
 
-#: utils/update-alternatives.c:1176 utils/update-alternatives.c:2562
+#: utils/update-alternatives.c:1177 utils/update-alternatives.c:2571
 #, c-format
 msgid "duplicate slave link %s"
 msgstr "ลิงก์ลูก %s ซ้ำ"
 
-#: utils/update-alternatives.c:1194
+#: utils/update-alternatives.c:1195
 msgid "master file"
 msgstr "แฟ้มหลัก"
 
-#: utils/update-alternatives.c:1203
+#: utils/update-alternatives.c:1204
 #, c-format
 msgid "duplicate path %s"
 msgstr "พาธ %s ซ้ำ"
 
-#: utils/update-alternatives.c:1216
+#: utils/update-alternatives.c:1215
 #, c-format
 msgid ""
 "alternative %s (part of link group %s) doesn't exist; removing from list of "
 "alternatives"
 msgstr "ทางเลือก %s (ซึ่งเป็นส่วนหนึ่งของกลุ่มลิงก์ %s) ไม่มีอยู่ จะลบออกจากรายชื่อแฟ้มทางเลือก"
 
-#: utils/update-alternatives.c:1219 utils/update-alternatives.c:1230
+#: utils/update-alternatives.c:1218 utils/update-alternatives.c:1229
 msgid "priority"
 msgstr "ลำดับความสำคัญ"
 
-#: utils/update-alternatives.c:1222 utils/update-alternatives.c:1244
+#: utils/update-alternatives.c:1221 utils/update-alternatives.c:1243
 msgid "slave file"
 msgstr "แฟ้มลูก"
 
-#: utils/update-alternatives.c:1235
+#: utils/update-alternatives.c:1234
 #, c-format
 msgid "priority of %s: %s"
 msgstr "ลำดับความสำคัญของ %s: %s"
 
-#: utils/update-alternatives.c:1239
+#: utils/update-alternatives.c:1238
 #, c-format
 msgid "priority of %s is out of range: %s"
 msgstr "ลำดับความสำคัญของ %s ออกนอกช่วงใช้งาน: %s"
 
-#: utils/update-alternatives.c:1293
+#: utils/update-alternatives.c:1292
 msgid "status"
 msgstr "สถานะ"
 
-#: utils/update-alternatives.c:1295
+#: utils/update-alternatives.c:1294
 msgid "invalid status"
 msgstr "สถานะผิดพลาด"
 
-#: utils/update-alternatives.c:1300
+#: utils/update-alternatives.c:1299
 msgid "master link"
 msgstr "ลิงก์หลัก"
 
-#: utils/update-alternatives.c:1344
+#: utils/update-alternatives.c:1343
 #, c-format
 msgid "discarding obsolete slave link %s (%s)"
 msgstr "จะทิ้งลิงก์ลูกที่เลิกใช้แล้ว %s (%s)"
 
-#: utils/update-alternatives.c:1400
+#: utils/update-alternatives.c:1399
 #, c-format
 msgid "unable to flush file '%s'"
 msgstr "ไม่สามารถ flush แฟ้ม '%s'"
 
-#: utils/update-alternatives.c:1492 utils/update-alternatives.c:1559
-#: utils/update-alternatives.c:2271
+#: utils/update-alternatives.c:1512 utils/update-alternatives.c:1579
+#: utils/update-alternatives.c:2284
 msgid "auto mode"
 msgstr "โหมดอัตโนมัติ"
 
-#: utils/update-alternatives.c:1492 utils/update-alternatives.c:1568
-#: utils/update-alternatives.c:2272
+#: utils/update-alternatives.c:1512 utils/update-alternatives.c:1588
+#: utils/update-alternatives.c:2285
 msgid "manual mode"
 msgstr "โหมดสั่งเอง"
 
-#: utils/update-alternatives.c:1495
+#: utils/update-alternatives.c:1515
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  ลิงก์ขณะนี้ชี้ไปยัง %s"
 
-#: utils/update-alternatives.c:1498
+#: utils/update-alternatives.c:1517
 msgid "  link currently absent"
 msgstr "  ลิงก์ขาดหายอยู่"
 
-#: utils/update-alternatives.c:1502
+#: utils/update-alternatives.c:1521
 #, c-format
 msgid "%s - priority %d"
 msgstr "%s - ความสำคัญ %d"
 
-#: utils/update-alternatives.c:1505
+#: utils/update-alternatives.c:1524
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  รายการลูก %s: %s"
 
-#: utils/update-alternatives.c:1512
+#: utils/update-alternatives.c:1531
 #, c-format
 msgid "Current 'best' version is '%s'."
 msgstr "ทางเลือกที่ 'ดีที่สุด' ในขณะนี้คือ '%s'"
 
-#: utils/update-alternatives.c:1514
+#: utils/update-alternatives.c:1533
 msgid "No versions available."
 msgstr "ไม่มีทางเลือกอยู่"
 
-#: utils/update-alternatives.c:1543
+#: utils/update-alternatives.c:1563
 #, c-format
 msgid "There is %d choice for the alternative %s (providing %s)."
 msgid_plural "There are %d choices for the alternative %s (providing %s)."
 msgstr[0] "มีตัวเลือก %d ตัวสำหรับทางเลือก %s (ซึ่งจัดเตรียม %s)"
 
-#: utils/update-alternatives.c:1550
+#: utils/update-alternatives.c:1570
 msgid "Selection"
 msgstr "การเลือก"
 
-#: utils/update-alternatives.c:1551
+#: utils/update-alternatives.c:1571
 msgid "Path"
 msgstr "พาธ"
 
-#: utils/update-alternatives.c:1551
+#: utils/update-alternatives.c:1571
 msgid "Priority"
 msgstr "ความสำคัญ"
 
-#: utils/update-alternatives.c:1551
+#: utils/update-alternatives.c:1571
 msgid "Status"
 msgstr "สถานะ"
 
-#: utils/update-alternatives.c:1572
+#: utils/update-alternatives.c:1592
 #, c-format
 msgid "Press enter to keep the current choice[*], or type selection number: "
 msgstr "กด enter เพื่อคงค่าปัจจุบัน[*] หรือพิมพ์หมายเลขของตัวเลือก: "
 
-#: utils/update-alternatives.c:1726
+#: utils/update-alternatives.c:1741
 #, c-format
 msgid "not replacing %s with a link"
 msgstr "จะไม่แทนที่ %s ด้วยลิงก์"
 
-#: utils/update-alternatives.c:1767
+#: utils/update-alternatives.c:1782
 #, c-format
 msgid "can't install unknown choice %s"
 msgstr "ไม่สามารถติดตั้งตัวเลือก %s ที่ไม่รู้จัก"
 
-#: utils/update-alternatives.c:1785
+#: utils/update-alternatives.c:1800
 #, c-format
 msgid ""
 "skip creation of %s because associated file %s (of link group %s) doesn't "
 "exist"
 msgstr "ข้ามการสร้าง %s เพราะแฟ้ม %s (ซึ่งอยู่ในกลุ่มลิงก์ %s) ที่เชื่อมโยงอยู่ไม่มีอยู่"
 
-#: utils/update-alternatives.c:1795
+#: utils/update-alternatives.c:1810
 #, c-format
 msgid "not removing %s since it's not a symlink"
 msgstr "จะไม่ลบ %s เนื่องจากไม่ใช่ symlink"
 
-#: utils/update-alternatives.c:2070 utils/update-alternatives.c:2076
+#: utils/update-alternatives.c:2083 utils/update-alternatives.c:2089
 #, c-format
 msgid "Call %s."
 msgstr "เรียก %s"
 
-#: utils/update-alternatives.c:2080
+#: utils/update-alternatives.c:2093
 #, c-format
 msgid "Alternative %s unchanged because choice %s is not available."
 msgstr "ทางเลือก %s ไม่มีการเปลี่ยนแปลง เพราะตัวเลือก %s ไม่มีอยู่"
 
-#: utils/update-alternatives.c:2084
+#: utils/update-alternatives.c:2097
 #, c-format
 msgid "Skip unknown alternative %s."
 msgstr "ข้ามทางเลือก %s ที่ไม่รู้จัก"
 
-#: utils/update-alternatives.c:2111
+#: utils/update-alternatives.c:2124
 #, c-format
 msgid "line too long or not terminated while trying to read %s"
 msgstr "พบบรรทัดที่ยาวเกินไปหรือไม่ได้ปิดท้ายขณะพยายามอ่าน %s"
 
-#: utils/update-alternatives.c:2124 utils/update-alternatives.c:2137
-#: utils/update-alternatives.c:2147
+#: utils/update-alternatives.c:2137 utils/update-alternatives.c:2150
+#: utils/update-alternatives.c:2160
 #, c-format
 msgid "Skip invalid line: %s"
 msgstr "ข้ามบรรทัดที่ไม่ถูกต้อง: %s"
 
-#: utils/update-alternatives.c:2172
+#: utils/update-alternatives.c:2185
 #, c-format
 msgid "%s/%s is dangling; it will be updated with best choice"
 msgstr "ลิงก์ %s/%s เป็นลิงก์ขาด จะปรับให้เป็นตัวเลือกที่ดีที่สุด"
 
-#: utils/update-alternatives.c:2176
+#: utils/update-alternatives.c:2189
 #, c-format
 msgid ""
 "%s/%s has been changed (manually or by a script); switching to manual "
@@ -5861,143 +5981,144 @@ msgid ""
 msgstr ""
 "%s/%s ได้ถูกเปลี่ยนแปลง (ด้วยการสั่งเองหรือผ่านสคริปต์) จะเปลี่ยนสู่การปรับแบบสั่งเองเท่านั้น"
 
-#: utils/update-alternatives.c:2184
+#: utils/update-alternatives.c:2197
 #, c-format
 msgid "setting up automatic selection of %s"
 msgstr "กำลังกำหนดทางเลือกแบบอัตโนมัติสำหรับ %s"
 
-#: utils/update-alternatives.c:2200
+#: utils/update-alternatives.c:2213
 #, c-format
 msgid "renaming %s link from %s to %s"
 msgstr "กำลังเปลี่ยนชื่อลิงก์ %s จาก %s เป็น %s"
 
-#: utils/update-alternatives.c:2241
+#: utils/update-alternatives.c:2254
 #, c-format
 msgid "renaming %s slave link from %s to %s"
 msgstr "กำลังเปลี่ยนชื่อลิงก์ลูก %s จาก %s เป็น %s"
 
-#: utils/update-alternatives.c:2269
+#: utils/update-alternatives.c:2282
 #, c-format
 msgid "using %s to provide %s (%s) in %s"
 msgstr "จะใช้ %s เพื่อจัดเตรียม %s (%s) ใน%s"
 
-#: utils/update-alternatives.c:2277
+#: utils/update-alternatives.c:2290
 #, c-format
 msgid ""
 "forcing reinstallation of alternative %s because link group %s is broken"
 msgstr "จะบังคับติดตั้งทางเลือก %s ซ้ำใหม่ เพราะกลุ่มลิงก์ %s เสียอยู่"
 
-#: utils/update-alternatives.c:2284
+#: utils/update-alternatives.c:2297
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr "ไม่รู้จักทางเลือกปัจจุบัน %s จะเปลี่ยนไปใช้ %s สำหรับกลุ่มลิงก์ %s"
 
-#: utils/update-alternatives.c:2310
+#: utils/update-alternatives.c:2323
 #, c-format
 msgid "alternative name (%s) must not contain '/' and spaces"
 msgstr "ชื่อทางเลือก (%s) จะมี '/' หรือช่องว่างไม่ได้"
 
-#: utils/update-alternatives.c:2318
+#: utils/update-alternatives.c:2331
 #, c-format
 msgid "alternative link is not absolute as it should be: %s"
 msgstr "ลิงก์ทางเลือกไม่ได้เป็นลิงก์สัมบูรณ์อย่างที่ควรจะเป็น: %s"
 
-#: utils/update-alternatives.c:2326
+#: utils/update-alternatives.c:2339
 #, c-format
 msgid "alternative path is not absolute as it should be: %s"
 msgstr "พาธทางเลือกไม่ได้เป็นพาธสัมบูรณ์อย่างที่ควรจะเป็น: %s"
 
-#: utils/update-alternatives.c:2357
+#: utils/update-alternatives.c:2370
 #, c-format
 msgid "alternative %s can't be master: it is a slave of %s"
 msgstr "ทางเลือก %s ไม่สามารถเป็นรายการหลัก: เป็นรายการลูกของ %s อยู่"
 
-#: utils/update-alternatives.c:2365 utils/update-alternatives.c:2401
+#: utils/update-alternatives.c:2378 utils/update-alternatives.c:2414
 #, c-format
 msgid "alternative link %s is already managed by %s"
 msgstr "ลิงก์ทางเลือก %s ถูกจัดการโดย %s อยู่แล้ว"
 
-#: utils/update-alternatives.c:2371
+#: utils/update-alternatives.c:2384
 #, c-format
 msgid "alternative path %s doesn't exist"
 msgstr "พาธทางเลือก %s ไม่มีอยู่"
 
-#: utils/update-alternatives.c:2388
+#: utils/update-alternatives.c:2401
 #, c-format
 msgid "alternative %s can't be slave of %s: it is a master alternative"
 msgstr "ทางเลือก %s ไม่สามารถเป็นรายการลูกของ %s: เป็นทางเลือกหลักอยู่"
 
-#: utils/update-alternatives.c:2392
+#: utils/update-alternatives.c:2405
 #, c-format
 msgid "alternative %s can't be slave of %s: it is a slave of %s"
 msgstr "ทางเลือก %s ไม่สามารถเป็นรายการลูกของ %s: เป็นรายการลูกของ %s อยู่"
 
-#: utils/update-alternatives.c:2412
+#: utils/update-alternatives.c:2425
 #, c-format
 msgid "alternative link %s is already managed by %s (slave of %s)"
 msgstr "ลิงก์ทางเลือก %s ถูกจัดการโดย %s (รายการลูกของ %s) อยู่แล้ว"
 
-#: utils/update-alternatives.c:2456
+#: utils/update-alternatives.c:2470
 #, c-format
 msgid "unknown argument `%s'"
 msgstr "ไม่รู้จักอาร์กิวเมนต์ `%s'"
 
-#: utils/update-alternatives.c:2475
+#: utils/update-alternatives.c:2489
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install ต้องการ <ลิงก์> <ชื่อ> <พาธ> <ความสำคัญ>"
 
-#: utils/update-alternatives.c:2481 utils/update-alternatives.c:2547
+#: utils/update-alternatives.c:2495 utils/update-alternatives.c:2556
 msgid "<link> and <path> can't be the same"
 msgstr "<ลิงก์> กับ <พาธ> จะเหมือนกันไม่ได้"
 
-#: utils/update-alternatives.c:2485
+#: utils/update-alternatives.c:2499
 msgid "priority must be an integer"
 msgstr "ความสำคัญต้องเป็นตัวเลข"
 
-#: utils/update-alternatives.c:2489
-#, c-format
-msgid "priority is out of range: %s clamped to %ld"
-msgstr "ลำดับความสำคัญออกนอกช่วงใช้งาน: %s จะถูกบีบเป็น %ld"
+#: utils/update-alternatives.c:2501
+#, fuzzy
+#| msgid "priority of %s is out of range: %s"
+msgid "priority is out of range"
+msgstr "ลำดับความสำคัญของ %s ออกนอกช่วงใช้งาน: %s"
 
-#: utils/update-alternatives.c:2505
+#: utils/update-alternatives.c:2514
 #, c-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s ต้องการ <ชื่อ> <พาธ>"
 
-#: utils/update-alternatives.c:2522
+#: utils/update-alternatives.c:2531
 #, c-format
 msgid "--%s needs <name>"
 msgstr "--%s ต้องการ <ชื่อ>"
 
-#: utils/update-alternatives.c:2538
+#: utils/update-alternatives.c:2547
 msgid "--slave only allowed with --install"
 msgstr "--slave ใช้ได้กับ --install เท่านั้น"
 
-#: utils/update-alternatives.c:2540
+#: utils/update-alternatives.c:2549
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave ต้องการ <ลิงก์> <ชื่อ> <พาธ>"
 
-#: utils/update-alternatives.c:2549
+#: utils/update-alternatives.c:2558
 #, c-format
 msgid "name %s is both primary and slave"
 msgstr "ชื่อ %s เป็นทั้งรายการหลักและรายการลูก"
 
-#: utils/update-alternatives.c:2552
+#: utils/update-alternatives.c:2561
 #, c-format
 msgid "link %s is both primary and slave"
 msgstr "ลิงก์ %s เป็นทั้งลิงก์หลักและลิงก์ลูก"
 
-#: utils/update-alternatives.c:2572
+#: utils/update-alternatives.c:2581
 #, c-format
 msgid "--%s needs a <file> argument"
 msgstr "--%s ต้องการอาร์กิวเมนต์ <แฟ้ม>"
 
-#: utils/update-alternatives.c:2598
+#: utils/update-alternatives.c:2607
 #, c-format
 msgid "unknown option `%s'"
 msgstr "ไม่รู้จักตัวเลือก `%s'"
 
-#: utils/update-alternatives.c:2603
+#: utils/update-alternatives.c:2612
 msgid ""
 "need --display, --query, --list, --get-selections, --config, --set, --set-"
 "selections, --install, --remove, --all, --remove-all or --auto"
@@ -6005,53 +6126,56 @@ msgstr ""
 "ต้องการ --display, --query, --list, --get-selections, --config, --set, --set-"
 "selections, --install, --remove, --all, --remove-all หรือ --auto"
 
-#: utils/update-alternatives.c:2619 utils/update-alternatives.c:2625
+#: utils/update-alternatives.c:2628 utils/update-alternatives.c:2634
 #, c-format
 msgid "no alternatives for %s"
 msgstr "ไม่มีทางเลือกสำหรับ %s"
 
-#: utils/update-alternatives.c:2642
+#: utils/update-alternatives.c:2651
 msgid "<standard input>"
 msgstr "<อินพุตมาตรฐาน>"
 
-#: utils/update-alternatives.c:2664
+#: utils/update-alternatives.c:2673
 #, c-format
 msgid "alternative %s for %s not registered; not setting"
 msgstr "ทางเลือก %s สำหรับ %s ไม่ได้ลงทะเบียนไว้ จะไม่กำหนดค่า"
 
-#: utils/update-alternatives.c:2670 utils/update-alternatives.c:2676
+#: utils/update-alternatives.c:2679 utils/update-alternatives.c:2685
 #, c-format
 msgid "There is no program which provides %s."
 msgstr "ไม่มีโปรแกรมที่จัดเตรียม %s"
 
-#: utils/update-alternatives.c:2678 utils/update-alternatives.c:2686
+#: utils/update-alternatives.c:2687 utils/update-alternatives.c:2695
 msgid "Nothing to configure."
 msgstr "ไม่มีอะไรจะตั้งค่า"
 
-#: utils/update-alternatives.c:2684
+#: utils/update-alternatives.c:2693
 #, c-format
 msgid "There is only one alternative in link group %s (providing %s): %s"
 msgstr "มีทางเลือกเพียงทางเดียวในกลุ่มลิงก์ %s (ซึ่งจัดเตรียม %s): %s"
 
-#: utils/update-alternatives.c:2694
+#: utils/update-alternatives.c:2703
 #, c-format
 msgid "alternative %s for %s not registered; not removing"
 msgstr "ทางเลือก %s สำหรับ %s ไม่ได้ลงทะเบียนไว้ จะไม่ลบ"
 
-#: utils/update-alternatives.c:2702
+#: utils/update-alternatives.c:2711
 #, c-format
 msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr "กำลังลบทางเลือกที่เลือกแบบสั่งเอง - จะเปลี่ยน %s เข้าสู่โหมดอัตโนมัติ"
 
-#: utils/update-alternatives.c:2727
+#: utils/update-alternatives.c:2736
 #, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "การปรับข้อมูลแบบอัตโนมัติของ %s/%s ถูกปิดไว้ จะไม่แตะต้อง"
 
-#: utils/update-alternatives.c:2729
+#: utils/update-alternatives.c:2738
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "หากต้องการกลับสู่การปรับข้อมูลแบบอัตโนมัติ ใช้คำสั่ง '%s --auto %s'"
+
+#~ msgid "priority is out of range: %s clamped to %ld"
+#~ msgstr "ลำดับความสำคัญออกนอกช่วงใช้งาน: %s จะถูกบีบเป็น %ld"
 
 #~ msgid "failed to read on buffer copy for %s"
 #~ msgstr "อ่านไม่สำเร็จขณะสำเนาบัฟเฟอร์สำหรับ %s"
