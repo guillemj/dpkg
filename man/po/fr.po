@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2013-07-27 03:55+0300\n"
+"POT-Creation-Date: 2013-07-28 13:30+0300\n"
 "PO-Revision-Date: 2012-10-14 10:04+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -285,10 +285,10 @@ msgstr ""
 #: deb.5:103 deb-control.5:286 deb-src-control.5:351 deb-split.5:67
 #: deb-version.5:131 deb-old.5:70 deb-origin.5:56 deb-override.5:66
 #: deb-extra-override.5:54 deb-shlibs.5:66 deb-substvars.5:168
-#: deb-symbols.5:77 deb-triggers.5:85 dpkg.1:823 dpkg-architecture.1:263
+#: deb-symbols.5:77 deb-triggers.5:85 dpkg.1:831 dpkg-architecture.1:263
 #: dpkg.cfg.5:41 dpkg-buildpackage.1:272 dpkg-deb.1:292 dpkg-divert.8:153
 #: dpkg-gensymbols.1:470 dpkg-name.1:109 dpkg-query.1:264
-#: dpkg-scanpackages.1:113 dpkg-scansources.1:90 dpkg-shlibdeps.1:363
+#: dpkg-scanpackages.1:113 dpkg-scansources.1:90 dpkg-shlibdeps.1:364
 #: dpkg-source.1:763 dpkg-split.1:234 dpkg-statoverride.8:103
 #: dpkg-trigger.1:83 dpkg-vendor.1:65 dselect.1:466 dselect.cfg.5:41
 #: update-alternatives.8:513
@@ -3236,9 +3236,9 @@ msgstr "dpkg"
 #. type: TH
 #: dpkg.1:26
 #, fuzzy, no-wrap
-#| msgid "2012-04-09"
-msgid "2013-04-05"
-msgstr "09-04-2012"
+#| msgid "2008-03-25"
+msgid "2013-07-28"
+msgstr "25-03-2008"
 
 #. type: TH
 #: dpkg.1:26 dpkg.cfg.5:19 dpkg-buildflags.1:20 dpkg-deb.1:21
@@ -4037,7 +4037,7 @@ msgstr ""
 #: dpkg-checkbuilddeps.1:63 dpkg-distaddfile.1:50 dpkg-deb.1:192
 #: dpkg-divert.8:92 dpkg-genchanges.1:150 dpkg-gencontrol.1:140
 #: dpkg-gensymbols.1:463 dpkg-name.1:71 dpkg-parsechangelog.1:60
-#: dpkg-query.1:140 dpkg-scanpackages.1:99 dpkg-shlibdeps.1:249
+#: dpkg-query.1:140 dpkg-scanpackages.1:99 dpkg-shlibdeps.1:250
 #: dpkg-source.1:117 dpkg-split.1:143 dpkg-trigger.1:48
 #, no-wrap
 msgid "B<-?>, B<--help>"
@@ -4076,7 +4076,7 @@ msgstr "Donne des renseignements sur les options de débogage."
 #: dpkg-deb.1:195 dpkg-divert.8:95 dpkg-genchanges.1:153 dpkg-gencontrol.1:143
 #: dpkg-gensymbols.1:466 dpkg-mergechangelogs.1:58 dpkg-parsechangelog.1:63
 #: dpkg-query.1:143 dpkg-scanpackages.1:102 dpkg-scansources.1:87
-#: dpkg-shlibdeps.1:252 dpkg-source.1:120 dpkg-split.1:146
+#: dpkg-shlibdeps.1:253 dpkg-source.1:120 dpkg-split.1:146
 #: dpkg-statoverride.8:66 dpkg-trigger.1:51 dpkg-vendor.1:48 dselect.1:137
 #: update-alternatives.8:336
 #, no-wrap
@@ -4682,7 +4682,7 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1:546 dpkg-buildpackage.1:232 dpkg-checkbuilddeps.1:38
-#: dpkg-query.1:148 dpkg-shlibdeps.1:245 dpkg-trigger.1:56
+#: dpkg-query.1:148 dpkg-shlibdeps.1:246 dpkg-trigger.1:56
 #, no-wrap
 msgid "B<--admindir=>I<dir>"
 msgstr "B<--admindir>=I<dir>"
@@ -5468,15 +5468,30 @@ msgid "     B<dpkg --get-selections E<gt>myselections>\n"
 msgstr "    B<dpkg --get-selections E<gt>myselections>\n"
 
 #. type: Plain text
-#: dpkg.1:805
+#: dpkg.1:806
 msgid ""
-"You might transfer this file to another computer, and install it there with:"
+"You might transfer this file to another computer, and after having updated "
+"the available database there with your package manager frontend of choice "
+"(see https://wiki.debian.org/Teams/Dpkg/FAQ for more details), for example:"
 msgstr ""
-"Vous pourriez transférer ce fichier sur un autre ordinateur et l'installer "
-"de cette manière :"
 
 #. type: Plain text
-#: dpkg.1:808
+#: dpkg.1:811
+#, no-wrap
+msgid ""
+"     B<avail=`mktemp`>\n"
+"     B<apt-cache dumpavail E<gt>\"$avail\">\n"
+"     B<dpkg --merge-avail \"$avail\">\n"
+"     B<rm \"$avail\">\n"
+msgstr ""
+
+#. type: Plain text
+#: dpkg.1:813
+msgid "you can install it with:"
+msgstr ""
+
+#. type: Plain text
+#: dpkg.1:816
 #, no-wrap
 msgid ""
 "     B<dpkg --clear-selections>\n"
@@ -5486,7 +5501,7 @@ msgstr ""
 "    B<dpkg --set-selections E<lt>myselections>\n"
 
 #. type: Plain text
-#: dpkg.1:814
+#: dpkg.1:822
 msgid ""
 "Note that this will not actually install or remove anything, but just set "
 "the selection state on the requested packages. You will need some other "
@@ -5499,7 +5514,7 @@ msgstr ""
 "exemple, exécutez B<apt-get dselect-upgrade>."
 
 #. type: Plain text
-#: dpkg.1:817
+#: dpkg.1:825
 msgid ""
 "Ordinarily, you will find that B<dselect>(1) provides a more convenient way "
 "to modify the package selection states."
@@ -5508,13 +5523,13 @@ msgstr ""
 "aisée de modifier les états de sélection des paquets."
 
 #. type: SH
-#: dpkg.1:819
+#: dpkg.1:827
 #, no-wrap
 msgid "ADDITIONAL FUNCTIONALITY"
 msgstr "FONCTIONNALITÉS SUPPLÉMENTAIRES"
 
 #. type: Plain text
-#: dpkg.1:822
+#: dpkg.1:830
 msgid ""
 "Additional functionality can be gained by installing any of the following "
 "packages: B<apt>, B<aptitude> and B<debsums>."
@@ -5523,7 +5538,7 @@ msgstr ""
 "B<apt>, B<aptitude> et B<debsums>."
 
 #. type: Plain text
-#: dpkg.1:836
+#: dpkg.1:844
 msgid ""
 "B<aptitude>(1), B<apt>(1), B<dselect>(1), B<dpkg-deb>(1), B<dpkg-query>(1), "
 "B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5), and B<dpkg-reconfigure>(8)."
@@ -5532,13 +5547,13 @@ msgstr ""
 "B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5) et B<dpkg-reconfigure>(8)."
 
 #. type: SH
-#: dpkg.1:837
+#: dpkg.1:845
 #, no-wrap
 msgid "AUTHORS"
 msgstr "AUTEURS"
 
 #. type: Plain text
-#: dpkg.1:839 dpkg.cfg.5:40
+#: dpkg.1:847 dpkg.cfg.5:40
 msgid ""
 "See I</usr/share/doc/dpkg/THANKS> for the list of people who have "
 "contributed to B<dpkg>."
@@ -5768,7 +5783,7 @@ msgstr "Affiche une liste des architectures valables."
 #: dpkg-divert.8:95 dpkg-genchanges.1:153 dpkg-gencontrol.1:143
 #: dpkg-gensymbols.1:466 dpkg-mergechangelogs.1:58 dpkg-name.1:74
 #: dpkg-parsechangelog.1:63 dpkg-query.1:143 dpkg-scanpackages.1:102
-#: dpkg-scansources.1:87 dpkg-shlibdeps.1:252 dpkg-source.1:120
+#: dpkg-scansources.1:87 dpkg-shlibdeps.1:253 dpkg-source.1:120
 #: dpkg-split.1:146 dpkg-statoverride.8:66 dpkg-trigger.1:51 dpkg-vendor.1:48
 #: update-alternatives.8:336
 msgid "Show the usage message and exit."
@@ -5780,7 +5795,7 @@ msgstr "Affiche un message d'aide puis quitte."
 #: dpkg-divert.8:98 dpkg-genchanges.1:156 dpkg-gencontrol.1:146
 #: dpkg-gensymbols.1:469 dpkg-mergechangelogs.1:61 dpkg-name.1:77
 #: dpkg-parsechangelog.1:66 dpkg-query.1:146 dpkg-scanpackages.1:105
-#: dpkg-scansources.1:89 dpkg-shlibdeps.1:255 dpkg-source.1:123
+#: dpkg-scansources.1:89 dpkg-shlibdeps.1:256 dpkg-source.1:123
 #: dpkg-split.1:149 dpkg-statoverride.8:69 dpkg-trigger.1:54 dpkg-vendor.1:51
 #: update-alternatives.8:339
 msgid "Show the version and exit."
@@ -8278,7 +8293,7 @@ msgstr "B<--admindir >I<rép>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:238 dpkg-checkbuilddeps.1:42 dpkg-query.1:152
-#: dpkg-shlibdeps.1:249 dpkg-trigger.1:60
+#: dpkg-shlibdeps.1:250 dpkg-trigger.1:60
 msgid ""
 "Change the location of the B<dpkg> database. The default location is I</var/"
 "lib/dpkg>."
@@ -9684,7 +9699,7 @@ msgstr ""
 "pour une discussion sur la valeur de substitution."
 
 #. type: TP
-#: dpkg-genchanges.1:96 dpkg-gencontrol.1:65 dpkg-shlibdeps.1:203
+#: dpkg-genchanges.1:96 dpkg-gencontrol.1:65 dpkg-shlibdeps.1:204
 #: dpkg-source.1:152
 #, no-wrap
 msgid "B<-T>I<substvars-file>"
@@ -10040,7 +10055,7 @@ msgstr ""
 "défaut pour le fichier de sortie."
 
 #. type: TP
-#: dpkg-gencontrol.1:131 dpkg-gensymbols.1:411 dpkg-shlibdeps.1:184
+#: dpkg-gencontrol.1:131 dpkg-gensymbols.1:411 dpkg-shlibdeps.1:185
 #, no-wrap
 msgid "B<-O>"
 msgstr "B<-O>"
@@ -13465,7 +13480,7 @@ msgstr ""
 "utilisés avec la méthode multicd de dselect."
 
 #. type: SH
-#: dpkg-scanpackages.1:106 dpkg-shlibdeps.1:256 dpkg-source.1:673
+#: dpkg-scanpackages.1:106 dpkg-shlibdeps.1:257 dpkg-source.1:673
 #: update-alternatives.8:475
 #, no-wrap
 msgid "DIAGNOSTICS"
@@ -13951,30 +13966,34 @@ msgid "B<-e>I<executable>"
 msgstr "B<-e>I<exécutable>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:138
+#: dpkg-shlibdeps.1:139
+#, fuzzy
+#| msgid ""
+#| "Include dependencies appropriate for the shared libraries required by "
+#| "I<executable>."
 msgid ""
 "Include dependencies appropriate for the shared libraries required by "
-"I<executable>."
+"I<executable>.  This option can be used multiple times."
 msgstr ""
 "Cette option inclut les bonnes dépendances envers les bibliothèques "
 "partagées que demande I<exécutable>."
 
 #. type: TP
-#: dpkg-shlibdeps.1:138
+#: dpkg-shlibdeps.1:139
 #, fuzzy, no-wrap
 #| msgid "B<--altdir>I< directory>"
 msgid "B<-l>I<directory>"
 msgstr "B<--altdir>I< répertoire>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:144
+#: dpkg-shlibdeps.1:145
 msgid ""
 "Add I<directory> to the list of directories to search for private shared "
 "libraries (since dpkg 1.17.0). This option can be used multiple times."
 msgstr ""
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:149
+#: dpkg-shlibdeps.1:150
 msgid ""
 "Note: Use this option instead of setting B<LD_LIBRARY_PATH>, as that "
 "environment variable is used to control the run-time linker and abusing it "
@@ -13983,13 +14002,13 @@ msgid ""
 msgstr ""
 
 #. type: TP
-#: dpkg-shlibdeps.1:149
+#: dpkg-shlibdeps.1:150
 #, no-wrap
 msgid "B<-d>I<dependency-field>"
 msgstr "B<-d>I<champ-dépendance>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:155
+#: dpkg-shlibdeps.1:156
 msgid ""
 "Add dependencies to be added to the control file dependency field "
 "I<dependency-field>.  (The dependencies for this field are placed in the "
@@ -14000,7 +14019,7 @@ msgstr ""
 "dans la variable B<shlibs:>I<champ-dépendance>.)"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:165
+#: dpkg-shlibdeps.1:166
 msgid ""
 "The B<-d>I<dependency-field> option takes effect for all executables after "
 "the option, until the next B<-d>I<dependency-field>.  The default "
@@ -14011,7 +14030,7 @@ msgstr ""
 "I<champ-dépendance> vaut B<Depends>."
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:173
+#: dpkg-shlibdeps.1:174
 msgid ""
 "If the same dependency entry (or set of alternatives) appears in more than "
 "one of the recognized dependency field names B<Pre-Depends>, B<Depends>, "
@@ -14026,13 +14045,13 @@ msgstr ""
 "sauf celui qui représente les dépendances les plus importantes."
 
 #. type: TP
-#: dpkg-shlibdeps.1:173
+#: dpkg-shlibdeps.1:174
 #, no-wrap
 msgid "B<-p>I<varname-prefix>"
 msgstr "B<-p>I<préfixe-pour-le-nom-des-variables>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:184
+#: dpkg-shlibdeps.1:185
 msgid ""
 "Start substitution variables with I<varname-prefix>B<:> instead of B<shlibs:"
 ">.  Likewise, any existing substitution variables starting with I<varname-"
@@ -14045,7 +14064,7 @@ msgstr ""
 "lieu de B<shlibs:>) est enlevée du fichier de substitution des variables."
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:190
+#: dpkg-shlibdeps.1:191
 msgid ""
 "Print substitution variable settings to standard output, rather than being "
 "added to the substitution variables file (B<debian/substvars> by default)."
@@ -14055,13 +14074,13 @@ msgstr ""
 "variables qui est par défaut debian/substvars."
 
 #. type: TP
-#: dpkg-shlibdeps.1:190
+#: dpkg-shlibdeps.1:191
 #, no-wrap
 msgid "B<-t>I<type>"
 msgstr "B<-t>I<type>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:197
+#: dpkg-shlibdeps.1:198
 msgid ""
 "Prefer shared library dependency information tagged for the given package "
 "type. If no tagged information is available, falls back to untagged "
@@ -14076,13 +14095,13 @@ msgstr ""
 "préfixant par le nom du type, un deux-points et une espace."
 
 #. type: TP
-#: dpkg-shlibdeps.1:197
+#: dpkg-shlibdeps.1:198
 #, no-wrap
 msgid "B<-L>I<local-shlibs-file>"
 msgstr "B<-L>I<fichier-local-shlibs>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:203
+#: dpkg-shlibdeps.1:204
 msgid ""
 "Read overriding shared library dependency information from I<local-shlibs-"
 "file> instead of B<debian/shlibs.local>."
@@ -14092,7 +14111,7 @@ msgstr ""
 "shlibs.local>."
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:209
+#: dpkg-shlibdeps.1:210
 msgid ""
 "Write substitution variables in I<substvars-file>; the default is B<debian/"
 "substvars>."
@@ -14101,13 +14120,13 @@ msgstr ""
 "par défaut est B<debian/substvars>."
 
 #. type: TP
-#: dpkg-shlibdeps.1:209
+#: dpkg-shlibdeps.1:210
 #, no-wrap
 msgid "B<-v>"
 msgstr "B<-v>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:214
+#: dpkg-shlibdeps.1:215
 msgid ""
 "Enable verbose mode. Numerous messages are displayed to explain what B<dpkg-"
 "shlibdeps> does."
@@ -14116,13 +14135,13 @@ msgstr ""
 "que B<dpkg-shlibdeps> fait."
 
 #. type: TP
-#: dpkg-shlibdeps.1:214
+#: dpkg-shlibdeps.1:215
 #, no-wrap
 msgid "B<-x>I<package>"
 msgstr "B<-x>I<package>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:221
+#: dpkg-shlibdeps.1:222
 msgid ""
 "Exclude the package from the generated dependencies. This is useful to avoid "
 "self-dependencies for packages which provide ELF binaries (executables or "
@@ -14136,13 +14155,13 @@ msgstr ""
 "plusieurs paquets."
 
 #. type: TP
-#: dpkg-shlibdeps.1:221
+#: dpkg-shlibdeps.1:222
 #, no-wrap
 msgid "B<-S>I<package-build-dir>"
 msgstr "B<-S>I<répertoire-construction-paquet>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:228
+#: dpkg-shlibdeps.1:229
 msgid ""
 "Look into I<package-build-dir> first when trying to find a library. This is "
 "useful when the source package builds multiple flavors of the same library "
@@ -14158,13 +14177,13 @@ msgstr ""
 "même ordre avant les répertoires d'autres paquets binaires."
 
 #. type: TP
-#: dpkg-shlibdeps.1:228
+#: dpkg-shlibdeps.1:229
 #, no-wrap
 msgid "B<--ignore-missing-info>"
 msgstr "B<--ignore-missing-info>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:234
+#: dpkg-shlibdeps.1:235
 msgid ""
 "Do not fail if dependency information can't be found for a shared library.  "
 "Usage of this option is discouraged, all libraries should provide dependency "
@@ -14178,13 +14197,13 @@ msgstr ""
 "si elles ne sont pas encore utilisées par d'autres paquets."
 
 #. type: TP
-#: dpkg-shlibdeps.1:234
+#: dpkg-shlibdeps.1:235
 #, no-wrap
 msgid "B<--warnings=>I<value>"
 msgstr "B<--warnings=>I<valeur>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:245
+#: dpkg-shlibdeps.1:246
 msgid ""
 "I<value> is a bit field defining the set of warnings that can be emitted by "
 "B<dpkg-shlibdeps>.  Bit 0 (value=1) enables the warning \"symbol I<sym> used "
@@ -14205,13 +14224,13 @@ msgstr ""
 "I<valeur> à 7 si vous souhaitez que tous les avertissements soient actifs."
 
 #. type: SS
-#: dpkg-shlibdeps.1:257
+#: dpkg-shlibdeps.1:258
 #, no-wrap
 msgid "Warnings"
 msgstr ""
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:265
+#: dpkg-shlibdeps.1:266
 msgid ""
 "Since B<dpkg-shlibdeps> analyzes the set of symbols used by each binary of "
 "the generated package, it is able to emit warnings in several cases. They "
@@ -14227,13 +14246,13 @@ msgstr ""
 "décroissant, voici les différents avertissements que vous pouvez rencontrer :"
 
 #. type: TP
-#: dpkg-shlibdeps.1:265
+#: dpkg-shlibdeps.1:266
 #, no-wrap
 msgid "B<symbol>I< sym>B< used by >I<binary>B< found in none of the libraries.>"
 msgstr "B<symbole>I< sym>B< utilisé par >I<binaire>B< trouvé dans aucune des bibliothèques.>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:271
+#: dpkg-shlibdeps.1:272
 msgid ""
 "The indicated symbol has not been found in the libraries linked with the "
 "binary. The I<binary> is most likely a library and it needs to be linked "
@@ -14246,13 +14265,13 @@ msgstr ""
 "construction (l'option B<-l>I<bibliothèque> de l'éditeur de liens)."
 
 #. type: TP
-#: dpkg-shlibdeps.1:271
+#: dpkg-shlibdeps.1:272
 #, no-wrap
 msgid "I<binary>B< contains an unresolvable reference to symbol >I<sym>B<: it's probably a plugin>"
 msgstr "I<binary>B< contient une référence non résolue au symbole >I<sym>B<: il s'agit probablement d'un greffon (plugin)>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:284
+#: dpkg-shlibdeps.1:285
 msgid ""
 "The indicated symbol has not been found in the libraries linked with the "
 "binary. The I<binary> is most likely a plugin and the symbol is probably "
@@ -14279,13 +14298,13 @@ msgstr ""
 "être corrigée."
 
 #. type: TP
-#: dpkg-shlibdeps.1:284
+#: dpkg-shlibdeps.1:285
 #, no-wrap
 msgid "B<package could avoid a useless dependency if >I<binary>B< was not linked against >I<library>B< (it uses none of the library's symbols)>"
 msgstr "B<paquet pourrait éviter une dépendance inutile si >I<le binaire>B< n'était pas lié avec >I<bibliothèque>B< (il ne fait usage d'aucun de ses symboles)>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:290
+#: dpkg-shlibdeps.1:291
 msgid ""
 "None of the I<binaries> that are linked with I<library> use any of the "
 "symbols provided by the library. By fixing all the binaries, you would avoid "
@@ -14298,24 +14317,24 @@ msgstr ""
 "liée à une autre bibliothèque qui est elle réellement utilisée)."
 
 #. type: TP
-#: dpkg-shlibdeps.1:290
+#: dpkg-shlibdeps.1:291
 #, no-wrap
 msgid "B<package could avoid a useless dependency if >I<binaries>B< were not linked against >I<library>B< (they uses none of the library's symbols)>"
 msgstr "B<paquet pourrait éviter une dépendance inutile si >I<les binaires>B< n'étaient pas liés avec >I<bibliothèque>B< (ils ne font usage d'aucun de ses symboles)>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:293
+#: dpkg-shlibdeps.1:294
 msgid "Exactly the same as the above warning, but for multiple binaries."
 msgstr "Identique à l'avertissement précédent, pour des binaires multiples."
 
 #. type: TP
-#: dpkg-shlibdeps.1:293
+#: dpkg-shlibdeps.1:294
 #, no-wrap
 msgid "I<binary>B< should not be linked against >I<library>B< (it uses none of the library's symbols)>"
 msgstr "I<le binaire>B< ne devrait pas être lié avec la >I<bibliothèque>B< (il ne fait usage d'aucun de ses symboles)>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:300
+#: dpkg-shlibdeps.1:301
 msgid ""
 "The I<binary> is linked to a library that it doesn't need. It's not a "
 "problem but some small performance improvements in binary load time can be "
@@ -14331,14 +14350,14 @@ msgstr ""
 "contrôle qu'au niveau global sur tous les binaires analysés."
 
 #. type: SS
-#: dpkg-shlibdeps.1:300
+#: dpkg-shlibdeps.1:301
 #, fuzzy, no-wrap
 #| msgid "Error flags:"
 msgid "Errors"
 msgstr "Drapeaux d'erreur :"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:307
+#: dpkg-shlibdeps.1:308
 msgid ""
 "B<dpkg-shlibdeps> will fail if it can't find a public library used by a "
 "binary or if this library has no associated dependency information (either "
@@ -14355,13 +14374,13 @@ msgstr ""
 "version."
 
 #. type: TP
-#: dpkg-shlibdeps.1:307
+#: dpkg-shlibdeps.1:308
 #, no-wrap
 msgid "B<couldn't find library >I<library-soname>B< needed by >I<binary>B< (its RPATH is '>I<rpath>B<')>"
 msgstr "B<impossible de trouver la bibliothèque >I<library-soname> B<demandée par le> I<binaire> B<(son RPATH est '>I<rpath>B<')>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:324
+#: dpkg-shlibdeps.1:325
 #, fuzzy
 #| msgid ""
 #| "The I<binary> uses a library called I<library-soname> but B<dpkg-"
@@ -14405,7 +14424,7 @@ msgstr ""
 "alors ce message d'erreur est obtenu."
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:330
+#: dpkg-shlibdeps.1:331
 #, fuzzy
 #| msgid ""
 #| "If the library not found is in a private directory of the same package, "
@@ -14428,13 +14447,13 @@ msgstr ""
 "c'est aussi un répertoire privé."
 
 #. type: TP
-#: dpkg-shlibdeps.1:330
+#: dpkg-shlibdeps.1:331
 #, no-wrap
 msgid "B<no dependency information found for >I<library-file>B< (used by >I<binary>B<).>"
 msgstr "B<aucune information de dépendance trouvée pour> I<la bibliothèque> B<(utilisée par le> I<binaire>B<).>"
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:343
+#: dpkg-shlibdeps.1:344
 msgid ""
 "The library needed by I<binary> has been found by B<dpkg-shlibdeps> in "
 "I<library-file> but B<dpkg-shlibdeps> has been unable to find any dependency "
@@ -14452,7 +14471,7 @@ msgstr ""
 "différents arbres des paquets construits (debian/*/DEBIAN/)."
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:357
+#: dpkg-shlibdeps.1:358
 msgid ""
 "This failure can be caused by a bad or missing shlibs or symbols file in the "
 "package of the library. It might also happen if the library is built within "
@@ -14479,7 +14498,7 @@ msgstr ""
 "problèmes."
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:363
+#: dpkg-shlibdeps.1:364
 #, fuzzy
 #| msgid ""
 #| "Calling B<dpkg-shlibdeps> in verbose mode (-v) will provide much more "
@@ -14496,7 +14515,7 @@ msgstr ""
 "obtenez cette erreur."
 
 #. type: Plain text
-#: dpkg-shlibdeps.1:366
+#: dpkg-shlibdeps.1:367
 msgid "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
 msgstr "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
 
@@ -20400,6 +20419,18 @@ msgstr "B<update-alternatives --auto vi>"
 #: update-alternatives.8:515
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS, le standard pour l'organisation du système de fichiers."
+
+#, fuzzy
+#~| msgid "2012-04-09"
+#~ msgid "2013-04-05"
+#~ msgstr "09-04-2012"
+
+#~ msgid ""
+#~ "You might transfer this file to another computer, and install it there "
+#~ "with:"
+#~ msgstr ""
+#~ "Vous pourriez transférer ce fichier sur un autre ordinateur et "
+#~ "l'installer de cette manière :"
 
 #~ msgid "2012-06-16"
 #~ msgstr "16-06-2012"
