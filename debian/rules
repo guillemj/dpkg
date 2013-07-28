@@ -49,6 +49,7 @@ build-tree/config.status: configure
 		--mandir=\$${datadir}/man \
 		--infodir=\$${datadir}/info \
 		--sysconfdir=/etc \
+		--sbindir=/sbin \
 		--localstatedir=/var \
 		--with-zlib \
 		--with-liblzma \
@@ -98,11 +99,6 @@ binary-arch: install
 	dh_install --sourcedir=debian/tmp -a
 	dh_installcron -a
 	dh_installlogrotate -a
-
-	install -d debian/dpkg/sbin
-	mv debian/dpkg/usr/sbin/start-stop-daemon debian/dpkg/sbin
-	rmdir --ignore-fail-on-non-empty debian/dpkg/usr/sbin
-
 	dh_installchangelogs -a ChangeLog*
 	dh_installdocs -a
 	$(call dpkg-installmanl10n,dpkg)
