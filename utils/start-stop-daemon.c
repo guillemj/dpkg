@@ -738,8 +738,8 @@ parse_schedule(const char *schedule_str)
 		schedule[0].value = signal_nr;
 		parse_schedule_item(schedule_str, &schedule[1]);
 		if (schedule[1].type != sched_timeout) {
-			badusage ("--retry takes timeout, or schedule list"
-			          " of at least two items");
+			badusage("--retry takes timeout, or schedule list"
+			         " of at least two items");
 		}
 		schedule[2].type = sched_signal;
 		schedule[2].value = SIGKILL;
