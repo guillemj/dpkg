@@ -23,7 +23,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg 1 "2013-04-05" "Debian Project" "dpkg suite"
+.TH dpkg 1 "2013-07-28" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg \- package manager for Debian
 .
@@ -800,8 +800,16 @@ To make a local copy of the package selection states:
 \fB     dpkg \-\-get\-selections >myselections\fP
 .br
 
-You might transfer this file to another computer, and install it there
-with:
+You might transfer this file to another computer, and after having updated
+the available database there with your package manager frontend of choice
+(see https://wiki.debian.org/Teams/Dpkg/FAQ for more details), for example:
+.br
+\fB     avail=`mktemp`\fP
+\fB     apt\-cache dumpavail >"$avail"\fP
+\fB     dpkg \-\-merge\-avail "$avail"\fP
+\fB     rm "$avail"\fP
+.br
+you can install it with:
 .br
 \fB     dpkg \-\-clear\-selections\fP
 \fB     dpkg \-\-set\-selections <myselections\fP
