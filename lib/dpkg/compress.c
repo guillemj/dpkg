@@ -779,9 +779,20 @@ compressor_get_strategy(const char *name)
 	return compressor_strategy_unknown;
 }
 
+static void
+compressor_fixup_params(struct compress_params *params)
+{
+	compressor(params->type)->fixup_params(params);
+
+	if (params->level < 0)
+		params->level = compressor(params->type)->default_level;
+}
+
 bool
 compressor_check_params(struct compress_params *params, struct dpkg_error *err)
 {
+	compressor_fixup_params(params);
+
 	if (params->strategy == compressor_strategy_none)
 		return true;
 
@@ -798,12 +809,6 @@ compressor_check_params(struct compress_params *params, struct dpkg_error *err)
 
 	dpkg_put_error(err, _("unknown compression strategy"));
 	return false;
-}
-
-static void
-compressor_fixup_params(struct compress_params *params)
-{
-	compressor(params->type)->fixup_params(params);
 }
 
 void
@@ -830,11 +835,6 @@ compress_filter(struct compress_params *params, int fd_in, int fd_out,
 	va_start(args, desc_fmt);
 	varbuf_vprintf(&desc, desc_fmt, args);
 	va_end(args);
-
-	compressor_fixup_params(params);
-
-	if (params->level < 0)
-		params->level = compressor(params->type)->default_level;
 
 	compressor(params->type)->compress(fd_in, fd_out, params, desc.buf);
 }

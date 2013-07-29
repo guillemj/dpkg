@@ -40,6 +40,9 @@ dpkg (1.17.6) UNRELEASED; urgency=low
   * Change default source package compressor for new formats (>= 2.0) to xz.
   * Ignore the same packages in «dpkg-query --list» when computing the
     column width as when printing the entries. Closes: #734114
+  * Do not produce .deb archives with uncompressed gzip members on
+    «dpkg-deb -Zgzip -z0», instead create them as non-compressed members,
+    as if -Znone had been passed, as documented. Closes: #718295
 
   [ Updated dpkg translations ]
   * Swedish (Peter Krefting).
