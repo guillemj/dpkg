@@ -216,7 +216,12 @@ do_script(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 	pid = subproc_fork();
 	if (pid == 0) {
+		char *pkg_count;
+
+		m_asprintf(&pkg_count, "%d", pkgset_installed_instances(pkg->set));
+
 		if (setenv("DPKG_MAINTSCRIPT_PACKAGE", pkg->set->name, 1) ||
+		    setenv("DPKG_MAINTSCRIPT_PACKAGE_REFCOUNT", pkg_count, 1) ||
 		    setenv("DPKG_MAINTSCRIPT_ARCH", pkgbin->arch->name, 1) ||
 		    setenv("DPKG_MAINTSCRIPT_NAME", cmd->argv[0], 1) ||
 		    setenv("DPKG_RUNNING_VERSION", PACKAGE_VERSION, 1))
