@@ -3,7 +3,7 @@
 # dpkg-distaddfile
 #
 # Copyright © 1996 Ian Jackson
-# Copyright © 2006-2008,2010,2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2008,2010,2012-2013 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -78,9 +78,10 @@ my ($file, $section, $priority) = @ARGV;
 # Obtain a lock on debian/control to avoid simultaneous updates
 # of debian/files when parallel building is in use
 my $lockfh;
-sysopen($lockfh, 'debian/control', O_WRONLY) ||
-    syserr(_g('cannot write %s'), 'debian/control');
-file_lock($lockfh, 'debian/control');
+my $lockfile = 'debian/control';
+sysopen($lockfh, $lockfile, O_WRONLY) ||
+    syserr(_g('cannot write %s'), $lockfile);
+file_lock($lockfh, $lockfile);
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(my $fileslistnew_fh, '>', "$fileslistfile.new") ||
@@ -103,4 +104,4 @@ rename("$fileslistfile.new", $fileslistfile) ||
     syserr(_g('install new files list file'));
 
 # Release the lock
-close($lockfh) || syserr(_g('cannot close %s'), 'debian/control');
+close($lockfh) || syserr(_g('cannot close %s'), $lockfile);
