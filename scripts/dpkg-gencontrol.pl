@@ -357,6 +357,8 @@ for my $f (keys %remove) {
 # of debian/files when parallel building is in use
 my $lockfh;
 my $lockfile = 'debian/control';
+$lockfile = $controlfile if not -e $lockfile;
+
 sysopen($lockfh, $lockfile, O_WRONLY) ||
     syserr(_g('cannot write %s'), $lockfile);
 file_lock($lockfh, $lockfile);
