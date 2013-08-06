@@ -120,7 +120,7 @@ extracthalf(const char *debar, const char *dir,
   int arfd;
   struct stat stab;
   char nlc;
-  int adminmember;
+  int adminmember = -1;
   bool header_done;
   enum compressor_type decompressor = compressor_type_gzip;
 
@@ -181,6 +181,11 @@ extracthalf(const char *debar, const char *dir,
 	if (strncmp(arh.ar_name, ADMINMEMBER, sizeof(arh.ar_name)) == 0)
 	  adminmember = 1;
 	else {
+          if (adminmember != 1)
+            ohshit(_("archive '%s' has premature member '%.*s' before '%s', "
+                     "giving up"),
+                   debar, (int)sizeof(arh.ar_name), arh.ar_name, ADMINMEMBER);
+
 	  if (strncmp(arh.ar_name, DATAMEMBER, strlen(DATAMEMBER)) == 0) {
 	    const char *extension = arh.ar_name + strlen(DATAMEMBER);
 
