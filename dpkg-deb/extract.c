@@ -380,8 +380,10 @@ controlextractvextract(int admin, enum dpkg_tar_options taroptions,
   if (!dir) {
     if (admin)
       dir = EXTRACTCONTROLDIR;
-    else ohshit(_("--%s needs a target directory.\n"
-                "Perhaps you should be using dpkg --install ?"),cipaction->olong);
+    else
+      badusage(_("--%s needs a target directory.\n"
+                 "Perhaps you should be using dpkg --install ?"),
+               cipaction->olong);
   } else if (*argv) {
     badusage(_("--%s takes at most two arguments (.deb and directory)"),cipaction->olong);
   }
