@@ -367,31 +367,6 @@ extracthalf(const char *debar, const char *dir,
   }
 }
 
-static int
-controlextractvextract(int admin, enum dpkg_tar_options taroptions,
-                       const char *const *argv)
-{
-  const char *debar, *dir;
-
-  debar = *argv++;
-  if (debar == NULL)
-    badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
-  dir = *argv++;
-  if (!dir) {
-    if (admin)
-      dir = EXTRACTCONTROLDIR;
-    else
-      badusage(_("--%s needs a target directory.\n"
-                 "Perhaps you should be using dpkg --install ?"),
-               cipaction->olong);
-  } else if (*argv) {
-    badusage(_("--%s takes at most two arguments (.deb and directory)"),cipaction->olong);
-  }
-  extracthalf(debar, dir, taroptions, admin);
-
-  return 0;
-}
-
 int
 do_fsystarfile(const char *const *argv)
 {
@@ -410,18 +385,49 @@ do_fsystarfile(const char *const *argv)
 int
 do_control(const char *const *argv)
 {
-  return controlextractvextract(1, DPKG_TAR_EXTRACT, argv);
+  const char *debar, *dir;
+
+  debar = *argv++;
+  if (debar == NULL)
+    badusage(_("--%s needs a .deb filename argument"), cipaction->olong);
+
+  dir = *argv++;
+  if (dir == NULL)
+    dir = EXTRACTCONTROLDIR;
+  else if (*argv)
+    badusage(_("--%s takes at most two arguments (.deb and directory)"),
+             cipaction->olong);
+
+  extracthalf(debar, dir, DPKG_TAR_EXTRACT, 1);
+
+  return 0;
 }
 
 int
 do_extract(const char *const *argv)
 {
+  const char *debar, *dir;
   enum dpkg_tar_options options = DPKG_TAR_EXTRACT | DPKG_TAR_PERMS;
 
   if (opt_verbose)
     options |= DPKG_TAR_LIST;
 
-  return controlextractvextract(0, options, argv);
+  debar = *argv++;
+  if (debar == NULL)
+    badusage(_("--%s needs a .deb filename argument"), cipaction->olong);
+
+  dir = *argv++;
+  if (dir == NULL)
+    badusage(_("--%s needs a target directory.\n"
+               "Perhaps you should be using dpkg --install ?"),
+             cipaction->olong);
+  else if (*argv)
+    badusage(_("--%s takes at most two arguments (.deb and directory)"),
+             cipaction->olong);
+
+  extracthalf(debar, dir, options, 0);
+
+  return 0;
 }
 
 int
