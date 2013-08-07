@@ -414,7 +414,8 @@ do_extract(const char *const *argv)
 
   debar = *argv++;
   if (debar == NULL)
-    badusage(_("--%s needs a .deb filename argument"), cipaction->olong);
+    badusage(_("--%s needs .deb filename and directory arguments"),
+             cipaction->olong);
 
   dir = *argv++;
   if (dir == NULL)
@@ -447,7 +448,8 @@ do_raw_extract(const char *const *argv)
 
   debar = *argv++;
   if (debar == NULL)
-    badusage(_("--%s needs a .deb filename argument"), cipaction->olong);
+    badusage(_("--%s needs .deb filename and directory arguments"),
+             cipaction->olong);
 
   dir = *argv++;
   if (dir == NULL)
