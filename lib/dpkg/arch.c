@@ -289,15 +289,16 @@ dpkg_arch_load_list(void)
 
 	archfile = dpkg_db_get_path(DPKG_DB_ARCH_FILE);
 	fp = fopen(archfile, "r");
-	free(archfile);
 	if (fp == NULL) {
 		arch_list_dirty = true;
+		free(archfile);
 		return;
 	}
 
 	while (fgets_checked(archname, sizeof(archname), fp, archfile) >= 0)
 		dpkg_arch_add(archname);
 
+	free(archfile);
 	fclose(fp);
 }
 
