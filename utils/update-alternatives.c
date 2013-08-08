@@ -1199,10 +1199,8 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 	}
 
 	fs = alternative_get_fileset(a, master_file);
-	if (fs) {
-		free(master_file);
+	if (fs)
 		ctx->bad_format(ctx, _("duplicate path %s"), master_file);
-	}
 
 	if (stat(master_file, &st)) {
 		char *junk;
