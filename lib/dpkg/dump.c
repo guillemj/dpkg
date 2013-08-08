@@ -46,6 +46,13 @@
 #include <dpkg/dir.h>
 #include <dpkg/parsedump.h>
 
+static inline void
+varbuf_add_fieldname(struct varbuf *vb, const struct fieldinfo *fip)
+{
+  varbuf_add_str(vb, fip->name);
+  varbuf_add_str(vb, ": ");
+}
+
 void
 w_name(struct varbuf *vb,
        const struct pkginfo *pkg, const struct pkgbin *pkgbin,
@@ -125,10 +132,8 @@ w_charfield(struct varbuf *vb,
 
   if (str_is_unset(value))
     return;
-  if (flags&fw_printheader) {
-    varbuf_add_str(vb, fip->name);
-    varbuf_add_str(vb, ": ");
-  }
+  if (flags & fw_printheader)
+    varbuf_add_fieldname(vb, fip);
   varbuf_add_str(vb, value);
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
@@ -172,10 +177,8 @@ w_booleandefno(struct varbuf *vb,
   if ((flags & fw_printheader) && !value)
     return;
 
-  if (flags & fw_printheader) {
-    varbuf_add_str(vb, fip->name);
-    varbuf_add_str(vb, ": ");
-  }
+  if (flags & fw_printheader)
+    varbuf_add_fieldname(vb, fip);
 
   varbuf_add_str(vb, value ? "yes" : "no");
 
@@ -193,10 +196,8 @@ w_multiarch(struct varbuf *vb,
   if ((flags & fw_printheader) && !value)
     return;
 
-  if (flags & fw_printheader) {
-    varbuf_add_str(vb, fip->name);
-    varbuf_add_str(vb, ": ");
-  }
+  if (flags & fw_printheader)
+    varbuf_add_fieldname(vb, fip);
 
   varbuf_add_str(vb, multiarchinfos[value].name);
 
@@ -216,10 +217,8 @@ w_architecture(struct varbuf *vb,
   if (pkgbin->arch->type == arch_empty)
     return;
 
-  if (flags & fw_printheader) {
-    varbuf_add_str(vb, fip->name);
-    varbuf_add_str(vb, ": ");
-  }
+  if (flags & fw_printheader)
+    varbuf_add_fieldname(vb, fip);
   varbuf_add_str(vb, pkgbin->arch->name);
   if (flags & fw_printheader)
     varbuf_add_char(vb, '\n');
