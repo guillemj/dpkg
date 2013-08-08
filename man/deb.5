@@ -18,7 +18,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH deb 5 "2013-04-02" "Debian Project" "Debian"
+.TH deb 5 "2013-08-08" "Debian Project" "Debian"
 .SH NAME
 deb \- Debian binary package format
 .SH SYNOPSIS
@@ -89,7 +89,11 @@ should ignore any additional members after
 .BR data.tar .
 Further members may be defined in the future, and (if possible) will be
 placed after these three. Any additional members that may need to be
-inserted before
+inserted after
+.B debian\-binary
+and before
+.B control.tar.gz
+or
 .B data.tar
 and which should be safely ignored by older programs, will have names
 starting with an underscore,
