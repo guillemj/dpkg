@@ -337,24 +337,23 @@ w_dependency(struct varbuf *vb,
              const struct pkginfo *pkg, const struct pkgbin *pkgbin,
              enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  char fnbuf[50];
-  const char *depdel;
   struct dependency *dyp;
+  bool dep_found = false;
 
-  if (flags&fw_printheader)
-    sprintf(fnbuf,"%s: ",fip->name);
-  else
-    fnbuf[0] = '\0';
-
-  depdel= fnbuf;
   for (dyp = pkgbin->depends; dyp; dyp = dyp->next) {
     if (dyp->type != fip->integer) continue;
     assert(dyp->up == pkg);
-    varbuf_add_str(vb, depdel);
-    depdel = ", ";
+
+    if (dep_found) {
+      varbuf_add_str(vb, ", ");
+    } else {
+      if (flags & fw_printheader)
+        varbuf_add_fieldname(vb, fip);
+      dep_found = true;
+    }
     varbufdependency(vb,dyp);
   }
-  if ((flags&fw_printheader) && (depdel!=fnbuf))
+  if ((flags & fw_printheader) && dep_found)
     varbuf_add_char(vb, '\n');
 }
 
