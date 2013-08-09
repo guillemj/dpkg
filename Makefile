@@ -21,6 +21,7 @@ TESTS_PASS :=
 TESTS_PASS += t-db
 TESTS_PASS += t-normal
 TESTS_PASS += t-field-priority
+TESTS_PASS += t-deb-format
 TESTS_PASS += t-deb-split
 TESTS_PASS += t-option-dry-run
 TESTS_PASS += t-option-recursive
