@@ -181,18 +181,20 @@ extracthalf(const char *debar, const char *dir,
 	if (strncmp(arh.ar_name, ADMINMEMBER, sizeof(arh.ar_name)) == 0)
 	  adminmember = 1;
 	else {
-	  adminmember = -1;
-
 	  if (strncmp(arh.ar_name, DATAMEMBER, strlen(DATAMEMBER)) == 0) {
 	    const char *extension = arh.ar_name + strlen(DATAMEMBER);
 
 	    adminmember= 0;
 	    decompressor = compressor_find_by_extension(extension);
-	  }
-
-          if (adminmember == -1 || decompressor == compressor_type_unknown)
-            ohshit(_("archive '%.250s' contains not understood data member %.*s, giving up"),
-                   debar, (int)sizeof(arh.ar_name), arh.ar_name);
+            if (decompressor == compressor_type_unknown)
+              ohshit(_("archive '%s' uses unknown compression for member '%.*s', "
+                       "giving up"),
+                     debar, (int)sizeof(arh.ar_name), arh.ar_name);
+          } else {
+            ohshit(_("archive '%s' has premature member '%.*s' before '%s', "
+                     "giving up"),
+                   debar, (int)sizeof(arh.ar_name), arh.ar_name, DATAMEMBER);
+          }
         }
         if (adminmember == 1) {
           if (ctrllennum != 0)
