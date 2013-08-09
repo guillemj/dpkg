@@ -1,13 +1,13 @@
 #
 # Dpkg functional testsuite (kind of)
 #
-# Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2008-2013 Guillem Jover <guillem@debian.org>
 #
 
 -include .pkg-tests.conf
 
 TESTS_MANUAL :=
-TESTS_MANUAL += t-lfs
+TESTS_MANUAL += t-deb-lfs
 TESTS_MANUAL += t-conffile-prompt
 
 TESTS_FAIL :=
