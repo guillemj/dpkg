@@ -14,13 +14,13 @@
 # dpkg 用の日本語メッセージ (Linux/GNU Debian).
 # Copyright (C) 1998 Masato Taruishi <taru@debian.or.jp>
 # Copyright (C) 1999-2004 Keita Maehara <maehara@debian.org>
-# Copyright (C) 2004-2012 Kenshi Muto <kmuto@debian.org>
+# Copyright (C) 2004-2013 Kenshi Muto <kmuto@debian.org>
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.17.0\n"
+"Project-Id-Version: dpkg 1.17.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2013-07-27 03:54+0200\n"
-"PO-Revision-Date: 2012-10-14 17:33+0900\n"
+"PO-Revision-Date: 2013-08-10 10:04+0900\n"
 "Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
 "Language: ja\n"
@@ -81,9 +81,6 @@ msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr "文字 `%c' は許可されていません (文字、数値と '%s' のみ使用可能です)"
 
 #: lib/dpkg/arch.c:236
-#, fuzzy
-#| msgctxt "version"
-#| msgid "<none>"
 msgctxt "architecture"
 msgid "<none>"
 msgstr "<なし>"
@@ -91,7 +88,7 @@ msgstr "<なし>"
 #: lib/dpkg/arch.c:238
 msgctxt "architecture"
 msgid "<empty>"
-msgstr ""
+msgstr "<空>"
 
 #: lib/dpkg/arch.c:326
 msgid "error writing to architecture list"
@@ -1514,17 +1511,16 @@ msgstr "シンボリックリンク `%.255s' の所有者設定中にエラー�
 
 #: src/archives.c:509
 msgid "cannot open security status notification channel"
-msgstr ""
+msgstr "セキュリティ状態通知チャンネルを開けません"
 
 #: src/archives.c:524
 msgid "cannot get security labeling handle"
-msgstr ""
+msgstr "セキュリティラベルのハンドルを得られません"
 
 #: src/archives.c:572
-#, fuzzy, c-format
-#| msgid "cannot extract control file '%s' from '%s': %s"
+#, c-format
 msgid "cannot set security context for file object '%s'"
-msgstr "コントロールファイル '%s' を '%s' から展開できません: %s"
+msgstr "ファイルオブジェクト '%s' のセキュリティコンテキストをセットできません"
 
 #: src/archives.c:601 src/archives.c:1131 utils/update-alternatives.c:319
 #, c-format
@@ -3240,25 +3236,11 @@ msgstr ""
 "\n"
 
 #: src/main.c:168
-#, fuzzy, c-format
-#| msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
+#, c-format
 msgid "Use 'apt' or 'aptitude' for user-friendly package management.\n"
-msgstr ""
-"ユーザ向けパッケージ管理ツールである `dselect' または `aptitude' を使いましょ"
-"う。\n"
+msgstr "ユーザ向けパッケージ管理ツールである `apt' または `aptitude' を使いましょう。\n"
 
 #: src/main.c:176
-#, fuzzy
-#| msgid ""
-#| "Type dpkg --help for help about installing and deinstalling packages "
-#| "[*];\n"
-#| "Use `dselect' or `aptitude' for user-friendly package management;\n"
-#| "Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
-#| "Type dpkg --force-help for a list of forcing options;\n"
-#| "Type dpkg-deb --help for help about manipulating *.deb files;\n"
-#| "\n"
-#| "Options marked [*] produce a lot of output - pipe it through `less' or "
-#| "`more' !"
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use 'apt' or 'aptitude' for user-friendly package management;\n"
@@ -3269,16 +3251,13 @@ msgid ""
 "Options marked [*] produce a lot of output - pipe it through 'less' or "
 "'more' !"
 msgstr ""
-"パッケージのインストールおよびアンストールについての情報は dpkg --help で参"
-"照 [*];\n"
-"ユーザ向けパッケージ管理ツールである `dselect' または `aptitude' を使いましょ"
-"う;\n"
+"パッケージのインストールおよびアンストールについての情報は dpkg --help で参照 [*];\n"
+"ユーザ向けパッケージ管理ツールである `apt' または `aptitude' を使いましょう;\n"
 "デバッグフラグの一覧は dpkg -Dhelp で参照;\n"
 "強制オプションの一覧は dpkg --force-help で参照;\n"
 "*.deb ファイル操作のヘルプは dpkg-deb --help で参照;\n"
 "\n"
-"[*] のあるものは大量の情報が出力されます。`less' や `more' にパイプするように"
-"してください!"
+"[*] のあるものは大量の情報が出力されます。`less' や `more' にパイプするようにしてください!"
 
 #: src/main.c:225
 msgid "Set all force options"
@@ -4065,10 +4044,8 @@ msgid "unable to setenv for maintainer script"
 msgstr "メンテナスクリプトで setenv できません"
 
 #: src/script.c:228
-#, fuzzy
-#| msgid "unable to setenv for maintainer script"
 msgid "cannot set security execution context for maintainer script"
-msgstr "メンテナスクリプトで setenv できません"
+msgstr "メンテナスクリプトのセキュリティ実行コンテキストをセットできません"
 
 #: src/script.c:252
 #, c-format
@@ -4156,6 +4133,8 @@ msgid ""
 "found unknown packages; this might mean the available database\n"
 "is outdated, and needs to be updated through a frontend method"
 msgstr ""
+"未知のパッケージが見つかりました。利用可能なデータベースが古く\n"
+"なっていてフロントエンドメソッド経由で更新する必要があります。"
 
 #: src/statcmd.c:52
 msgid "Use --help for help about overriding file stat information."
@@ -4164,14 +4143,7 @@ msgstr ""
 "さい。"
 
 #: src/statcmd.c:77
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  --add <owner> <group> <mode> <file>\n"
-#| "                           add a new entry into the database.\n"
-#| "  --remove <file>          remove file from the database.\n"
-#| "  --list [<glob-pattern>]  list current overrides in the database.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  --add <owner> <group> <mode> <path>\n"
@@ -4181,24 +4153,14 @@ msgid ""
 "\n"
 msgstr ""
 "コマンド:\n"
-"  --add <所有者> <グループ> <モード> <ファイル>\n"
-"                           新しいエントリをデータベースに追加する\n"
-"  --remove <ファイル>       データベースからファイルを削除する\n"
-"  --list [<グロブパターン>] データベース内の現在の overrides の一覧を表示す"
-"る\n"
+"  --add <所有者> <グループ> <モード> <ファイル> <パス>\n"
+"                           新しい <パス> エントリをデータベースに追加する\n"
+"  --remove <ファイル>       データベースから <パス> を削除する\n"
+"  --list [<グロブパターン>] データベース内の現在の overrides の一覧を表示する\n"
 "\n"
 
 #: src/statcmd.c:85
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir <directory>   set the directory with the statoverride file.\n"
-#| "  --update                 immediately update file permissions.\n"
-#| "  --force                  force an action even if a sanity check fails.\n"
-#| "  --quiet                  quiet operation, minimal output.\n"
-#| "  --help                   show this help message.\n"
-#| "  --version                show the version.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
@@ -4211,7 +4173,7 @@ msgid ""
 msgstr ""
 "オプション:\n"
 "  --admindir <ディレクトリ>  statoverride ファイルのディレクトリを設定する\n"
-"  --update                   今すぐファイルパーミッションを更新する\n"
+"  --update                   今すぐ <パス> のパーミッションを更新する\n"
 "  --force                    正常状態チェックが失敗しても強制的に行う\n"
 "  --quiet                    静かな操作として、最小限の出力にする\n"
 "  --help                     このヘルプを表示する\n"
@@ -4227,10 +4189,8 @@ msgid "--%s needs four arguments"
 msgstr "--%s は 4 つの引数が必要です"
 
 #: src/statcmd.c:230
-#, fuzzy
-#| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
-msgstr "パッケージは改行を含んではなりません"
+msgstr "パスは改行を含んではなりません"
 
 #: src/statcmd.c:237
 #, c-format
@@ -5208,26 +5168,7 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c:101
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --showformat=<format>            Use alternative format for --show.\n"
-#| "  -v, --verbose                    Enable verbose output.\n"
-#| "  -D                               Enable debugging output.\n"
-#| "  --old, --new                     Select archive format.\n"
-#| "  --nocheck                        Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "  -z#                              Set the compression level when "
-#| "building.\n"
-#| "  -Z<type>                         Set the compression type used when "
-#| "building.\n"
-#| "                                     Allowed types: gzip, xz, bzip2, "
-#| "none.\n"
-#| "  -S<strategy>                     Set the compression strategy when "
-#| "building.\n"
-#| "                                     Allowed values: none, extreme (xz).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
@@ -5252,26 +5193,25 @@ msgid ""
 "\n"
 msgstr ""
 "オプション:\n"
-"  --showformat=<フォーマット>  --show に別のフォーマットを使用する\n"
+"  --showformat=<形式>          --show に別の形式を使用する\n"
 "  -v, --verbose                冗長出力にする\n"
-"  -D                           デバッグ情報を出力する\n"
-"  --old, --new                 アーカイブの形式を制御する\n"
+"  -D, --debug                  デバッグ情報を出力する\n"
+"      --deb-format=<形式>      アーカイブ形式を選択する\n"
+"                               可能な値: 0.939000, 2.0 (デフォルト)\n"
+"      --old                    古い表記 '--deb-format=0.939000' の別名\n"
+"      --new                    古い表記 '--deb-format=2.0' の別名\n"
 "  --nocheck                    コントロールファイルのチェックを抑制する\n"
 "                               (不良パッケージが作成される)\n"
 "  -z#                          構築時の圧縮レベルを設定する\n"
 "  -Z<形式>                     構築時の圧縮形式を設定する\n"
 "                                 可能な値: gzip, xz, bzip2, none\n"
 "  -S<戦略>                     構築時の圧縮戦略を設定する\n"
-"                                 可能な値: none, extreme (xzの場合)\n"
+"                                 可能な値: none, extreme (xzの場合),\n"
+"                                 filtered, huffman, rle, fixed (gzipの場合)\n"
 "\n"
 
 #: dpkg-deb/main.c:129
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Use `dpkg' to install and remove packages from your system, or\n"
-#| "`dselect' or `aptitude' for user-friendly package management.  Packages\n"
-#| "unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"
+#, c-format
 msgid ""
 "\n"
 "Use 'dpkg' to install and remove packages from your system, or\n"
@@ -5279,9 +5219,8 @@ msgid ""
 "unpacked using 'dpkg-deb --extract' will be incorrectly installed !\n"
 msgstr ""
 "\n"
-"システムにパッケージのインストールや削除を行う場合は `dpkg' またはよりユー"
-"ザ\n"
-"向けな `dselect' または `aptitude' を使用してください。`dpkg-deb --extract'\n"
+"システムにパッケージのインストールや削除を行う場合は `dpkg' またはよりユーザ\n"
+"向けの `apt' または `aptitude' を使用してください。`dpkg-deb --extract'\n"
 "を使って展開されたパッケージは正しくインストールされません!\n"
 
 #: dpkg-deb/main.c:140
@@ -5293,16 +5232,14 @@ msgstr ""
 "パッケージのインストール、削除については dpkg --help を参照。"
 
 #: dpkg-deb/main.c:156
-#, fuzzy, c-format
-#| msgid "archive has invalid format version: %s"
+#, c-format
 msgid "invalid deb format version: %s"
-msgstr "アーカイブは無効なフォーマットバージョンです: %s"
+msgstr "無効な deb フォーマットバージョン: %s"
 
 #: dpkg-deb/main.c:162
-#, fuzzy, c-format
-#| msgid "unknown option '%s'"
+#, c-format
 msgid "unknown deb format version: %s"
-msgstr "不明なオプション '%s'"
+msgstr "不明な deb フォーマットバージョン: %s"
 
 #: dpkg-deb/main.c:198
 #, c-format
@@ -5925,12 +5862,9 @@ msgid "error"
 msgstr "エラー"
 
 #: utils/update-alternatives.c:176
-#, fuzzy, c-format
-#| msgid "Use --help for help about overriding file stat information."
+#, c-format
 msgid "Use '%s --help' for program usage information."
-msgstr ""
-"ファイルの状態情報を上書きすることについてのヘルプには、--help を使用してくだ"
-"さい。"
+msgstr "プログラムの使い方についてのヘルプには、'%s --help' を使用してください。"
 
 #: utils/update-alternatives.c:190
 msgid "warning"
@@ -6297,10 +6231,8 @@ msgid "priority must be an integer"
 msgstr "優先度は整数でなければなりません"
 
 #: utils/update-alternatives.c:2501
-#, fuzzy
-#| msgid "priority of %s is out of range: %s"
 msgid "priority is out of range"
-msgstr "%s の優先度は範囲外です: %s"
+msgstr "優先度が範囲外です"
 
 #: utils/update-alternatives.c:2514
 #, c-format
@@ -6398,6 +6330,3 @@ msgstr "%s/%s の自動更新は無効になっています。そのままにし
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "自動更新に戻るには、'%s --auto %s' を使ってください"
-
-#~ msgid "priority is out of range: %s clamped to %ld"
-#~ msgstr "優先度が範囲外です: %s は %ld に固定されました"
