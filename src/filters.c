@@ -48,7 +48,7 @@ filter_add(const char *pattern, bool include)
 {
 	struct filter_node *filter;
 
-	debug(dbg_general, "adding %s filter for '%s'\n",
+	debug(dbg_general, "adding %s filter for '%s'",
 	      include ? "include" : "exclude", pattern);
 
 	filter = m_malloc(sizeof(*filter));
