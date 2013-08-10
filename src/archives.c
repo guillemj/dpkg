@@ -4,7 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2013 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -1044,6 +1044,8 @@ tarobject(void *ctx, struct tar_entry *ti)
   /* Compute the hash of the previous object, before we might replace it
    * with the new version on forced overwrites. */
   if (refcounting) {
+    debug(dbg_eachfiledetail, "tarobject hashing on-disk file '%s', refcounting",
+          fnamevb.buf);
     if (nifd->namenode->flags & fnnf_new_conff) {
       md5hash_prev_conffile(tc->pkg, oldhash, fnamenewvb.buf, nifd->namenode);
     } else if (S_ISREG(stab.st_mode)) {
