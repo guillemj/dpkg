@@ -316,7 +316,7 @@ sub set_filename {
 
 Returns the filename that would be used when the filehandle must
 be opened (both in read and write mode). This function errors out
-if "add_comp_ext" is enableactivated while the compression method is set
+if "add_comp_ext" is enabled while the compression method is set
 to "auto". The returned filename includes the extension of the compression
 method if "add_comp_ext" is enabled.
 
