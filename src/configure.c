@@ -326,7 +326,7 @@ deferred_configure(struct pkginfo *pkg)
 	struct varbuf aemsgs = VARBUF_INIT;
 	struct conffile *conff;
 	struct pkginfo *otherpkg;
-	int ok;
+	enum dep_check ok;
 
 	if (pkg->status == stat_notinstalled)
 		ohshit(_("no package named `%s' is installed, cannot configure"),

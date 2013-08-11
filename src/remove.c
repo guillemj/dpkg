@@ -51,10 +51,12 @@
  */
 static void checkforremoval(struct pkginfo *pkgtoremove,
                             struct pkgset *pkgdepcheck,
-                            int *rokp, struct varbuf *raemsgs) {
+                            enum dep_check *rokp, struct varbuf *raemsgs)
+{
   struct deppossi *possi;
   struct pkginfo *depender;
-  int before, ok;
+  enum dep_check ok;
+  int before;
 
   for (possi = pkgdepcheck->depended.installed; possi; possi = possi->rev_next) {
     if (possi->up->type != dep_depends && possi->up->type != dep_predepends) continue;
@@ -84,8 +86,8 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
 
 void deferred_remove(struct pkginfo *pkg) {
   struct varbuf raemsgs = VARBUF_INIT;
-  int rok;
   struct dependency *dep;
+  enum dep_check rok;
 
   debug(dbg_general, "deferred_remove package %s",
         pkg_name(pkg, pnaw_always));
@@ -121,7 +123,7 @@ void deferred_remove(struct pkginfo *pkg) {
 
   debug(dbg_general, "checking dependencies for remove '%s'",
         pkg_name(pkg, pnaw_always));
-  rok= 2;
+  rok = dep_check_ok;
   checkforremoval(pkg, pkg->set, &rok, &raemsgs);
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
     if (dep->type != dep_provides) continue;
@@ -129,12 +131,12 @@ void deferred_remove(struct pkginfo *pkg) {
     checkforremoval(pkg, dep->list->ed, &rok, &raemsgs);
   }
 
-  if (rok == 1) {
+  if (rok == dep_check_defer) {
     varbuf_destroy(&raemsgs);
     pkg->clientdata->istobe= itb_remove;
     add_to_queue(pkg);
     return;
-  } else if (rok == 0) {
+  } else if (rok == dep_check_halt) {
     sincenothing= 0;
     varbuf_end_str(&raemsgs);
     notice(_("dependency problems prevent removal of %s:\n%s"),
