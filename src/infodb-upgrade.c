@@ -120,7 +120,7 @@ pkg_infodb_link_multiarch_files(void)
 			if (pkg->status != stat_notinstalled)
 				break;
 		if (!pkg) {
-			warning(_("Info file %s/%s not associated to any package"),
+			warning(_("info file %s/%s not associated to any package"),
 			        pkg_infodb_get_dir(), db_de->d_name);
 			continue;
 		}

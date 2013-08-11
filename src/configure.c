@@ -405,8 +405,8 @@ deferred_configure(struct pkginfo *pkg)
 
 	if (pkg->eflag & eflag_reinstreq)
 		forcibleerr(fc_removereinstreq,
-		            _("Package is in a very bad inconsistent state - you should\n"
-		              " reinstall it before attempting configuration."));
+		            _("package is in a very bad inconsistent state; you should\n"
+		              " reinstall it before attempting configuration"));
 
 	printf(_("Setting up %s (%s) ...\n"), pkg_name(pkg, pnaw_nonambig),
 	       versiondescribe(&pkg->installed.version, vdew_nonambig));

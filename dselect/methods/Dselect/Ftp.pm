@@ -44,14 +44,14 @@ sub read_config {
 
   local($/);
   open(my $vars_fh, '<', $vars) ||
-    die "Couldn't open $vars : $!\n" .
+    die "couldn't open '$vars': $!\n" .
         "Try to relaunch the 'Access' step in dselect, thanks.\n";
   $code = <$vars_fh>;
   close $vars_fh;
 
   my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
   $conf = eval $code;
-  die "Couldn't eval $vars content : $@\n" if ($@);
+  die "couldn't eval $vars content: $@\n" if ($@);
   if (ref($conf) =~ /HASH/) {
     foreach (keys %{$conf}) {
       $config{$_} = $conf->{$_};
@@ -71,7 +71,7 @@ sub store_config {
   return if not $config{done};
 
   open(my $vars_fh, '>', $vars) ||
-    die "Couldn't open $vars in write mode : $!\n";
+    die "couldn't open $vars in write mode: $!\n";
   print $vars_fh Dumper(\%config);
   close $vars_fh;
 }
@@ -206,7 +206,7 @@ sub yesno($$) {
   $r = -1;
   $r = 0 if $d eq 'n';
   $r = 1 if $d eq 'y';
-  die 'Incorrect usage of yesno, stopped' if $r == -1;
+  die 'incorrect usage of yesno, stopped' if $r == -1;
   while (1) {
     print $msg, " [$d]: ";
     $res = <STDIN>;
@@ -366,13 +366,13 @@ sub do_mdtm {
 		$hours = 0; $minutes = 0;
 		$year = $year_or_time - 1900;
 	    } else {
-		die 'Cannot parse year-or-time';
+		die 'cannot parse year-or-time';
 	    }
 
 	    # build a system time
 	    $time = Time::Local::timegm(0, $minutes, $hours, $day, $month, $year);
 	} else {
-	    die 'Regexp match failed on LIST output';
+	    die 'regexp match failed on LIST output';
 	}
     }
 

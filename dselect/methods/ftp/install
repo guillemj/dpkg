@@ -62,13 +62,13 @@ my %md5sums;
 if (-f "$methdir/md5sums") {
   local $/;
   open(my $md5sums_fh, '<', "$methdir/md5sums") ||
-    die "Couldn't read file $methdir/md5sums";
+    die "couldn't read file $methdir/md5sums";
   my $code = <$md5sums_fh>;
   close $md5sums_fh;
   my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
   my $res = eval $code;
   if ($@) {
-    die "Couldn't eval $methdir/md5sums content: $@\n";
+    die "couldn't eval $methdir/md5sums content: $@\n";
   }
   if (ref($res)) { %md5sums = %{$res} }
 }
@@ -99,7 +99,7 @@ sub getblk {
 		    }
 		    return %flds;
 		} else {
-		    die "Expected a start of field line, but got:\n$_";
+		    die "expected a start of field line, but got:\n$_";
 		}
 	    }
 	}
@@ -157,7 +157,7 @@ sub procpkgfile {
     my $dist = shift;
     my (@files, @sizes, @md5sums, $pkg, $ver, $nfs, $fld);
     my(%flds);
-    open(my $pkgfile_fh, '<', $fn) or die "Could not open package file $fn";
+    open(my $pkgfile_fh, '<', $fn) or die "could not open package file $fn";
     while (%flds = getblk($pkgfile_fh), %flds) {
 	$pkg = $flds{'package'};
 	$ver = $curpkgs{$pkg};
@@ -625,7 +625,7 @@ foreach (keys %md5sums) {
   delete $md5sums{$_};
 }
 open(my $md5sums_fh, '>', "$methdir/md5sums") ||
-  die "Can't open $methdir/md5sums in write mode : $!\n";
+  die "can't open $methdir/md5sums in write mode: $!\n";
 print $md5sums_fh Dumper(\%md5sums);
 close $md5sums_fh;
 

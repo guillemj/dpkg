@@ -93,7 +93,7 @@ my %debarch_to_debtriplet;
 	$gcc_host_gnu_type = get_gcc_host_gnu_type();
 
 	if ($gcc_host_gnu_type eq '') {
-	    warning(_g("Couldn't determine gcc system type, falling back to " .
+	    warning(_g("couldn't determine gcc system type, falling back to " .
 	               'default (native compilation)'));
 	} else {
 	    my (@host_archtriplet) = gnutriplet_to_debtriplet($gcc_host_gnu_type);
@@ -102,7 +102,7 @@ my %debarch_to_debtriplet;
 	    if (defined $host_arch) {
 		$gcc_host_gnu_type = debtriplet_to_gnutriplet(@host_archtriplet);
 	    } else {
-		warning(_g('Unknown gcc system type %s, falling back to ' .
+		warning(_g('unknown gcc system type %s, falling back to ' .
 		           'default (native compilation)'), $gcc_host_gnu_type);
 		$gcc_host_gnu_type = '';
 	    }

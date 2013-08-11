@@ -512,7 +512,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
         }
         if ((dop->verrel != dpkg_relation_eq) && (fip->integer == dep_provides))
           parse_warn(ps,
-                     _("Only exact versions may be used for '%s' field"),
+                     _("only exact versions may be used for '%s' field"),
                      "Provides");
 
         if (!isspace(*p) && !isalnum(*p)) {

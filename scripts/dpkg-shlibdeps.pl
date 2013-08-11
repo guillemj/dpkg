@@ -682,7 +682,7 @@ sub extract_from_shlibs {
     # Split soname in name/version
     my ($libname, $libversion) = split_soname($soname);
     unless (defined $libname) {
-	warning(_g("Can't extract name and version from library name \`%s'"),
+	warning(_g("can't extract name and version from library name '%s'"),
 	        $soname);
 	return;
     }

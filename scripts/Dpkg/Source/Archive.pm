@@ -149,11 +149,11 @@ sub extract {
     erasedir($dest);
     if (scalar(@entries) == 1 && ! -l "$tmp/$entries[0]" && -d _) {
 	rename("$tmp/$entries[0]", $dest) ||
-		syserr(_g('Unable to rename %s to %s'),
+		syserr(_g('unable to rename %s to %s'),
 		       "$tmp/$entries[0]", $dest);
     } else {
 	rename($tmp, $dest) ||
-		syserr(_g('Unable to rename %s to %s'), $tmp, $dest);
+		syserr(_g('unable to rename %s to %s'), $tmp, $dest);
     }
     erasedir($tmp);
 }

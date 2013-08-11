@@ -430,7 +430,7 @@ if ($usepause &&
 my $signerrors;
 unless (build_binaryonly) {
     if ($signsource && signfile("$pv.dsc")) {
-	$signerrors = _g('Failed to sign .dsc and .changes file');
+	$signerrors = _g('failed to sign .dsc and .changes file');
 	$signchanges = 0;
     }
 }
@@ -490,7 +490,7 @@ if (fileomitted '\.deb') {
 }
 
 if ($signchanges && signfile("$pva.changes")) {
-    $signerrors = _g('Failed to sign .changes file');
+    $signerrors = _g('failed to sign .changes file');
 }
 
 if ($cleansource) {

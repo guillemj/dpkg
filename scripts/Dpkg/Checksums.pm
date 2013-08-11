@@ -170,7 +170,7 @@ sub add_from_file {
     push @{$self->{files}}, $key unless exists $self->{size}{$key};
     (my @s = stat($file)) || syserr(_g('cannot fstat file %s'), $file);
     if (exists $self->{size}{$key} and $self->{size}{$key} != $s[7]) {
-	error(_g('File %s has size %u instead of expected %u'),
+	error(_g('file %s has size %u instead of expected %u'),
 	      $file, $s[7], $self->{size}{$key});
     }
     $self->{size}{$key} = $s[7];
@@ -184,7 +184,7 @@ sub add_from_file {
 	    my $newsum = $1;
 	    if (exists $self->{checksums}{$key}{$alg} and
 		$self->{checksums}{$key}{$alg} ne $newsum) {
-		error(_g('File %s has checksum %s instead of expected %s (algorithm %s)'),
+		error(_g('file %s has checksum %s instead of expected %s (algorithm %s)'),
 		      $file, $newsum, $self->{checksums}{$key}{$alg}, $alg);
 	    }
 	    $self->{checksums}{$key}{$alg} = $newsum;
@@ -223,11 +223,11 @@ sub add_from_string {
 	my ($sum, $size, $file) = ($1, $2, $3);
 	if (exists($checksums->{$file}{$alg})
 	    and $checksums->{$file}{$alg} ne $sum) {
-	    error(_g("Conflicting checksums \`%s\' and \`%s' for file \`%s'"),
+	    error(_g("conflicting checksums '%s' and '%s' for file '%s'"),
 		  $checksums->{$file}{$alg}, $sum, $file);
 	}
 	if (exists $self->{size}{$file} and $self->{size}{$file} != $size) {
-	    error(_g("Conflicting file sizes \`%u\' and \`%u' for file \`%s'"),
+	    error(_g("conflicting file sizes '%u' and '%u' for file '%s'"),
 		  $self->{size}{$file}, $size, $file);
 	}
 	push @{$self->{files}}, $file unless exists $self->{size}{$file};

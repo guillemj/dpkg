@@ -117,7 +117,7 @@ sub load_override
 		} elsif ($$package{Maintainer} eq $maintainer) {
 		    push(@samemaint, "  $p ($maintainer)");
 		} else {
-		    warning(_g('Unconditional maintainer override for %s'), $p);
+		    warning(_g('unconditional maintainer override for %s'), $p);
 		    $$package{Maintainer} = $maintainer;
 		}
 	    }
@@ -175,15 +175,15 @@ else {
 
 my ($binarydir, $override, $pathprefix) = @ARGV;
 
--d $binarydir or error(_g('Binary dir %s not found'), $binarydir);
+-d $binarydir or error(_g('binary dir %s not found'), $binarydir);
 defined($override) and (-e $override or
-    error(_g('Override file %s not found'), $override));
+    error(_g('override file %s not found'), $override));
 
 $pathprefix //= '';
 
 my $find_h = IO::Handle->new();
 open($find_h, '-|', 'find', '-L', "$binarydir/", @find_args, '-print')
-     or syserr(_g("Couldn't open %s for reading"), $binarydir);
+     or syserr(_g("couldn't open %s for reading"), $binarydir);
 FILE:
     while (<$find_h>) {
 	chomp;
@@ -202,7 +202,7 @@ FILE:
 	}
 
 	defined($fields->{'Package'})
-	    or error(_g('No Package field in control file of %s'), $fn);
+	    or error(_g('no Package field in control file of %s'), $fn);
 	my $p = $fields->{'Package'};
 
 	if (defined($packages{$p}) and not $options{multiversion}) {
@@ -210,20 +210,20 @@ FILE:
 		if (version_compare_relation($fields->{'Version'}, REL_GT,
 					     $_->{'Version'}))
                 {
-		    warning(_g('Package %s (filename %s) is repeat but newer version;'),
+		    warning(_g('package %s (filename %s) is repeat but newer version;'),
 		            $p, $fn);
 		    warning(_g('used that one and ignored data from %s!'),
 		            $_->{Filename});
 		    $packages{$p} = [];
 		} else {
-		    warning(_g('Package %s (filename %s) is repeat;'), $p, $fn);
+		    warning(_g('package %s (filename %s) is repeat;'), $p, $fn);
 		    warning(_g('ignored that one and using data from %s!'),
 		            $_->{Filename});
 		    next FILE;
 		}
 	    }
 	}
-	warning(_g('Package %s (filename %s) has Filename field!'), $p, $fn)
+	warning(_g('package %s (filename %s) has Filename field!'), $p, $fn)
 	    if defined($fields->{'Filename'});
 
 	$fields->{'Filename'} = "$pathprefix$fn";
@@ -255,11 +255,11 @@ for my $p (sort keys %packages) {
         push(@missingover,$p);
     }
     for my $package (@{$packages{$p}}) {
-	 print(STDOUT "$package\n") or syserr(_g('Failed when writing stdout'));
+	 print(STDOUT "$package\n") or syserr(_g('failed when writing stdout'));
          $records_written++;
     }
 }
-close(STDOUT) or syserr(_g("Couldn't close stdout"));
+close(STDOUT) or syserr(_g("couldn't close stdout"));
 
 if (@changedmaint) {
     warning(_g('Packages in override file with incorrect old maintainer value:'));

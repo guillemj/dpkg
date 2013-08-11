@@ -194,7 +194,7 @@ if (not scalar @files) {
             next PATH if -l $updir;
         }
 	opendir(my $libdir_dh, "$libdir") ||
-	    syserr(_g("Can't read directory %s: %s"), $libdir, $!);
+	    syserr(_g("can't read directory %s: %s"), $libdir, $!);
 	push @files, grep {
 	    /(\.so\.|\.so$)/ && -f $_ &&
 	    Dpkg::Shlibs::Objdump::is_elf($_);
@@ -209,7 +209,7 @@ foreach my $file (@files) {
     print "Scanning $file for symbol information\n" if $debug;
     my $objid = $od->analyze($file);
     unless (defined($objid) && $objid) {
-	warning(_g("Objdump couldn't parse %s\n"), $file);
+	warning(_g("Dpkg::Shlibs::Objdump couldn't parse %s\n"), $file);
 	next;
     }
     my $object = $od->get_object($objid);
