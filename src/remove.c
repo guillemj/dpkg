@@ -103,6 +103,7 @@ void deferred_remove(struct pkginfo *pkg) {
   }
 
   if (pkg->status == stat_notinstalled) {
+    sincenothing = 0;
     warning(_("ignoring request to remove %.250s which isn't installed"),
             pkg_name(pkg, pnaw_nonambig));
     pkg->clientdata->istobe= itb_normal;
@@ -110,6 +111,7 @@ void deferred_remove(struct pkginfo *pkg) {
   } else if (!f_pending &&
              pkg->status == stat_configfiles &&
              cipaction->arg_int != act_purge) {
+    sincenothing = 0;
     warning(_("ignoring request to remove %.250s, only the config\n"
               " files of which are on the system; use --purge to remove them too"),
             pkg_name(pkg, pnaw_nonambig));
