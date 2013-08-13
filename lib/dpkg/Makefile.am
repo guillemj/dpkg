@@ -65,6 +65,7 @@ libdpkg_a_SOURCES = \
 	progress.c \
 	report.c \
 	string.c \
+	strwide.c \
 	subproc.c \
 	tarfn.c \
 	test.h \

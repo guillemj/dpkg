@@ -118,10 +118,10 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
     for (i = 0; i < array->n_pkgs; i++) {
       int plen, vlen, alen, dlen;
 
-      plen = strlen(pkg_name(array->pkgs[i], pnaw_nonambig));
-      vlen = strlen(versiondescribe(&array->pkgs[i]->installed.version,
-                                    vdew_nonambig));
-      alen = strlen(dpkg_arch_describe(array->pkgs[i]->installed.arch));
+      plen = str_width(pkg_name(array->pkgs[i], pnaw_nonambig));
+      vlen = str_width(versiondescribe(&array->pkgs[i]->installed.version,
+                                       vdew_nonambig));
+      alen = str_width(dpkg_arch_describe(array->pkgs[i]->installed.arch));
       pkg_summary(array->pkgs[i], &array->pkgs[i]->installed, &dlen);
 
       if (plen > fmt->nw)
@@ -157,9 +157,18 @@ list_format_print(struct list_format *fmt,
                   const char *name, const char *version, const char *arch,
                   const char *desc, int desc_len)
 {
+  struct str_crop_info ns, vs, as, ds;
+
+  str_gen_crop(name, fmt->nw, &ns);
+  str_gen_crop(version, fmt->vw, &vs);
+  str_gen_crop(arch, fmt->aw, &as);
+  str_gen_crop(desc, desc_len, &ds);
+
   printf("%c%c%c %-*.*s %-*.*s %-*.*s %.*s\n", c_want, c_status, c_eflag,
-         fmt->nw, fmt->nw, name, fmt->vw, fmt->vw, version,
-         fmt->aw, fmt->aw, arch, desc_len, desc);
+         ns.max_bytes, ns.str_bytes, name,
+         vs.max_bytes, vs.str_bytes, version,
+         as.max_bytes, as.str_bytes, arch,
+         ds.str_bytes, desc);
 }
 
 static void
