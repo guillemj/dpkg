@@ -181,7 +181,7 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
 | Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n\
 |/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n"), stdout);
   list_format_print(fmt, '|', '|', '/', _("Name"), _("Version"),
-                    _("Architecture"), _("Description"), 33);
+                    _("Architecture"), _("Description"), fmt->dw);
 
   /* Status */
   printf("+++-");
