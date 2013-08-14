@@ -829,7 +829,7 @@ parse_options(int argc, char * const *argv)
 
 	for (;;) {
 		c = getopt_long(argc, argv,
-		                "HKSVTa:n:op:qr:s:tu:vx:c:N:P:I:k:bmR:g:d:",
+		                "HKSVTa:n:op:qr:s:tu:vx:c:N:P:I:k:bCmR:g:d:",
 		                longopts, NULL);
 		if (c == -1)
 			break;
