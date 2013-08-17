@@ -734,12 +734,15 @@ void process_archive(const char *filename) {
     struct pkginfo *removing = deconpil->pkg_removal;
 
     if (removing)
-      printf(_("De-configuring %s, to allow removal of %s ...\n"),
+      printf(_("De-configuring %s (%s), to allow removal of %s (%s) ...\n"),
              pkg_name(deconpil->pkg, pnaw_nonambig),
-             pkg_name(removing, pnaw_nonambig));
+             versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig),
+             pkg_name(removing, pnaw_nonambig),
+             versiondescribe(&removing->installed.version, vdew_nonambig));
     else
-      printf(_("De-configuring %s ...\n"),
-             pkg_name(deconpil->pkg, pnaw_nonambig));
+      printf(_("De-configuring %s (%s) ...\n"),
+             pkg_name(deconpil->pkg, pnaw_nonambig),
+             versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig));
 
     trig_activate_packageprocessing(deconpil->pkg);
     pkg_set_status(deconpil->pkg, stat_halfconfigured);

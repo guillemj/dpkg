@@ -333,8 +333,9 @@ trigproc(struct pkginfo *pkg)
 		if (gaveup == pkg)
 			return;
 
-		printf(_("Processing triggers for %s ...\n"),
-		       pkg_name(pkg, pnaw_nonambig));
+		printf(_("Processing triggers for %s (%s) ...\n"),
+		       pkg_name(pkg, pnaw_nonambig),
+		       versiondescribe(&pkg->installed.version, vdew_nonambig));
 		log_action("trigproc", pkg, &pkg->installed);
 
 		varbuf_reset(&namesarg);

@@ -990,13 +990,15 @@ tarobject(void *ctx, struct tar_entry *ti)
 
       if (does_replace(tc->pkg, &tc->pkg->available,
                        otherpkg, &otherpkg->installed)) {
-        printf(_("Replacing files in old package %s ...\n"),
-               pkg_name(otherpkg, pnaw_nonambig));
+        printf(_("Replacing files in old package %s (%s) ...\n"),
+               pkg_name(otherpkg, pnaw_nonambig),
+               versiondescribe(&otherpkg->installed.version, vdew_nonambig));
         otherpkg->clientdata->replacingfilesandsaid = 1;
       } else if (does_replace(otherpkg, &otherpkg->installed,
                               tc->pkg, &tc->pkg->available)) {
-        printf(_("Replaced by files in installed package %s ...\n"),
-               pkg_name(otherpkg, pnaw_nonambig));
+        printf(_("Replaced by files in installed package %s (%s) ...\n"),
+               pkg_name(otherpkg, pnaw_nonambig),
+               versiondescribe(&otherpkg->installed.version, vdew_nonambig));
         otherpkg->clientdata->replacingfilesandsaid = 2;
         nifd->namenode->flags &= ~fnnf_new_inarchive;
         keepexisting = true;

@@ -161,7 +161,9 @@ void deferred_remove(struct pkginfo *pkg) {
   filesdbinit();
 
   if (f_noact) {
-    printf(_("Would remove or purge %s ...\n"), pkg_name(pkg, pnaw_nonambig));
+    printf(_("Would remove or purge %s (%s) ...\n"),
+           pkg_name(pkg, pnaw_nonambig),
+           versiondescribe(&pkg->installed.version, vdew_nonambig));
     pkg_set_status(pkg, stat_notinstalled);
     pkg->clientdata->istobe= itb_normal;
     return;
@@ -169,7 +171,8 @@ void deferred_remove(struct pkginfo *pkg) {
 
   oldconffsetflags(pkg->installed.conffiles);
 
-  printf(_("Removing %s ...\n"), pkg_name(pkg, pnaw_nonambig));
+  printf(_("Removing %s (%s) ...\n"), pkg_name(pkg, pnaw_nonambig),
+         versiondescribe(&pkg->installed.version, vdew_nonambig));
   log_action("remove", pkg, &pkg->installed);
   trig_activate_packageprocessing(pkg);
   if (pkg->status >= stat_halfconfigured) {
@@ -465,8 +468,9 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
   char *p;
   const char *const *ext;
 
-    printf(_("Purging configuration files for %s ...\n"),
-           pkg_name(pkg, pnaw_nonambig));
+    printf(_("Purging configuration files for %s (%s) ...\n"),
+           pkg_name(pkg, pnaw_nonambig),
+           versiondescribe(&pkg->installed.version, vdew_nonambig));
     log_action("purge", pkg, &pkg->installed);
     trig_activate_packageprocessing(pkg);
 
