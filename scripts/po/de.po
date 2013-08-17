@@ -1,13 +1,13 @@
 # German translation of the scripts in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2012.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-dev 1.17.0\n"
+"Project-Id-Version: dpkg-dev 1.17.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2013-07-27 03:54+0200\n"
-"PO-Revision-Date: 2012-06-30 17:28+0200\n"
+"PO-Revision-Date: 2013-08-17 18:37+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -144,27 +144,6 @@ msgid "Usage: %s [<command>]"
 msgstr "Aufruf: %s [<Befehl>]"
 
 #: scripts/dpkg-buildflags.pl:45
-#, fuzzy
-#| msgid ""
-#| "Commands:\n"
-#| "  --get <flag>       output the requested flag to stdout.\n"
-#| "  --origin <flag>    output the origin of the flag to stdout:\n"
-#| "                     value is one of vendor, system, user, env.\n"
-#| "  --query-features <area>\n"
-#| "                     output the status of features for the given area.\n"
-#| "  --list             output a list of the flags supported by the current "
-#| "vendor.\n"
-#| "  --export=(sh|make|configure)\n"
-#| "                     output something convenient to import the\n"
-#| "                     compilation flags in a shell script, in make,\n"
-#| "                     or on a ./configure command line.\n"
-#| "  --dump             output all compilation flags with their values\n"
-#| "  --status           print a synopsis with all parameters affecting the\n"
-#| "                     behaviour of dpkg-buildflags and the resulting "
-#| "flags\n"
-#| "                     and their origin.\n"
-#| "  --help             show this help message.\n"
-#| "  --version          show the version.\n"
 msgid ""
 "Commands:\n"
 "  --get <flag>       output the requested flag to stdout.\n"
@@ -197,7 +176,7 @@ msgstr ""
 "  --export=(sh|make|configure)\n"
 "                      etwas praktisches ausgeben, um die Kompilierschalter\n"
 "                      in einem Shell-Skript, in Make oder auf der\n"
-"                      Kommandozeile für ./configure zu importieren\n"
+"                      Kommandozeile zu importieren\n"
 "  --dump              alle Kompilierschalter mit ihren Werten ausgeben\n"
 " --status             eine Zusammenfassung aller Parameter ausgeben, die "
 "das\n"
@@ -225,35 +204,6 @@ msgid "Usage: %s [<option>...]"
 msgstr "Aufruf: %s [<Option>...]"
 
 #: scripts/dpkg-buildpackage.pl:55
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -F (default)   normal full build (binaries and sources).\n"
-#| "  -b             binary-only, do not build source.\n"
-#| "  -B             binary-only, no arch-indep files.\n"
-#| "  -A             binary-only, only arch-indep files.\n"
-#| "  -S             source only, no binary files.\n"
-#| "  -nc            do not clean source tree (implies -b).\n"
-#| "  -tc            clean source tree when finished.\n"
-#| "  -D (default)   check build dependencies and conflicts.\n"
-#| "  -d             do not check build dependencies and conflicts.\n"
-#| "  -R<rules>      rules file to execute (default is debian/rules).\n"
-#| "  -T<target>     call debian/rules <target> with the proper environment.\n"
-#| "      --as-root  ensure -T calls the target with root rights.\n"
-#| "  -j[<number>]   specify jobs to run simultaneously (passed to <rules>).\n"
-#| "  -r<gain-root-command>\n"
-#| "                 command to gain root privileges (default is fakeroot).\n"
-#| "  -p<sign-command>\n"
-#| "                 command to sign .dsc and/or .changes files (default is "
-#| "gpg).\n"
-#| "  -k<keyid>      the key to use for signing.\n"
-#| "  -ap            add pause before starting signature process.\n"
-#| "  -us            unsigned source package.\n"
-#| "  -uc            unsigned .changes file.\n"
-#| "      --admindir=<directory>\n"
-#| "                 change the administrative directory.\n"
-#| "  -?, --help     show this help message.\n"
-#| "      --version  show the version."
 msgid ""
 "Options:\n"
 "  -F (default)   normal full build (binaries and sources).\n"
@@ -310,6 +260,8 @@ msgstr ""
 "  -ap            Pause vor Beginn des Signaturprozesses einfügen.\n"
 "  -us            unsigniertes Quellpaket.\n"
 "  -uc            unsignierte .changes-Datei.\n"
+"      --force-sign\n"
+"                 Erzwingen des Signierens der entstehenden Dateien.\n"
 "  --admindir=<Verz>\n"
 "                 das administrative Verzeichnis ändern.\n"
 "  -?, --help     diese Hilfemeldung anzeigen.\n"
@@ -349,7 +301,6 @@ msgstr ""
 "      --changes-option=<Opt>\n"
 "                 <Opt> an Dpkg-Genchanges weitergeben."
 
-# FIXME s/use fo/use for/
 #: scripts/dpkg-buildpackage.pl:99
 msgid ""
 "Options passed to dpkg-source:\n"
@@ -421,10 +372,8 @@ msgid "source version"
 msgstr "Quellversion"
 
 #: scripts/dpkg-buildpackage.pl:293
-#, fuzzy
-#| msgid "source version"
 msgid "source distribution"
-msgstr "Quellversion"
+msgstr "Quelldistribution"
 
 #: scripts/dpkg-buildpackage.pl:301
 msgid "source changed by"
@@ -522,7 +471,7 @@ msgstr "Signieren der .changes-Datei fehlgeschlagen"
 
 #: scripts/dpkg-buildpackage.pl:504
 msgid "not signing UNRELEASED build; use --force-sign to override"
-msgstr ""
+msgstr "UNRELEASED-Bau nicht signiert; verwenden Sie --force-sign zum Übersteuern"
 
 #: scripts/dpkg-buildpackage.pl:515
 #, perl-format
@@ -1149,14 +1098,12 @@ msgstr ""
 "      --version            die Version anzeigen.\n"
 
 #: scripts/dpkg-mergechangelogs.pl:90
-#, fuzzy
-#| msgid "-x needs at least one argument, the .dsc"
 msgid "needs at least three arguments"
-msgstr "-x benötigt mindestens ein Argument, die .dsc"
+msgstr "benötigt mindestens drei Argumente"
 
 #: scripts/dpkg-mergechangelogs.pl:94
 msgid "file arguments need to exist"
-msgstr ""
+msgstr "Datei-Argument muss vorhanden sein"
 
 #: scripts/dpkg-name.pl:51
 #, perl-format
@@ -1263,14 +1210,6 @@ msgid "need at least a filename"
 msgstr "mindestens ein Dateiname wird benötigt"
 
 #: scripts/dpkg-parsechangelog.pl:48
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -l<changelog-file>       get per-version info from this file.\n"
-#| "  -F<changelog-format>     force changelog format.\n"
-#| "  -L<libdir>               look for changelog parsers in <libdir>.\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version."
 msgid ""
 "Options:\n"
 "  -l<changelog-file>       get per-version info from this file.\n"
@@ -1285,6 +1224,7 @@ msgstr ""
 "                           beziehen.\n"
 "  -F<Changelog-Format>     Changelog-Format erzwingen.\n"
 "  -L<Lib-Verz>             nach Changelog-Parsern in <Lib-Verz> suchen.\n"
+"  -S, --show-field <Feld>  die Werte für <Feld> anzeigen.\n"
 "  -?, --help               diese Hilfemeldung anzeigen.\n"
 "      --version            die Version anzeigen."
 
@@ -1626,12 +1566,6 @@ msgstr[1] ""
 "%s gelinkt wären (sie verwenden keine der Symbole der Bibliothek)."
 
 #: scripts/dpkg-shlibdeps.pl:444
-#, fuzzy
-#| msgid ""
-#| "Note: libraries are not searched in other binary packages that do not "
-#| "have any shlibs or symbols file.\n"
-#| "To help dpkg-shlibdeps find private libraries, you might need to set "
-#| "LD_LIBRARY_PATH."
 msgid ""
 "Note: libraries are not searched in other binary packages that do not have "
 "any shlibs or symbols file.\n"
@@ -1640,7 +1574,7 @@ msgstr ""
 "Hinweis: Bibliotheken werden nicht in anderen Binärpaketen, die keine Shlibs-"
 "oder Symboldatei haben, gesucht.\n"
 "Um dpkg-shlibdeps dabei zu helfen, private Bibliotheken zu finden, könnte es "
-"notwendig sein, LD_LIBRARY_PATH zu setzen."
+"notwendig sein, -l zu verwenden."
 
 #: scripts/dpkg-shlibdeps.pl:447
 msgid "cannot continue due to the error above"
@@ -1692,28 +1626,6 @@ msgstr ""
 "                           shlibs:<Abängigkeitsfeld>."
 
 #: scripts/dpkg-shlibdeps.pl:564
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.\n"
-#| "  -O                       print variable settings to stdout.\n"
-#| "  -L<local-shlibs-file>    shlibs override file, not debian/shlibs."
-#| "local.\n"
-#| "  -T<substvars-file>       update variables here, not debian/substvars.\n"
-#| "  -t<type>                 set package type (default is deb).\n"
-#| "  -x<package>              exclude package from the generated "
-#| "dependencies.\n"
-#| "  -S<package-build-dir>    search needed libraries in the given\n"
-#| "                           package build directory first.\n"
-#| "  -v                       enable verbose mode (can be used multiple "
-#| "times).\n"
-#| "  --ignore-missing-info    don't fail if dependency information can't be "
-#| "found.\n"
-#| "  --warnings=<value>       define set of active warnings (see manual "
-#| "page).\n"
-#| "  --admindir=<directory>   change the administrative directory.\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version."
 msgid ""
 "Options:\n"
 "  -l<library-dir>          add directory to private shared library search "
@@ -1736,6 +1648,8 @@ msgid ""
 "      --version            show the version."
 msgstr ""
 "Optionen:\n"
+"  -l<Bibl-Verz>            Verzeichnis zur privaten Suchliste für gemeinsam "
+"benutzte Bibliotheken hinzufügen.\n"
 "  -p<Varnamepräfix>        <Varnamepräfix>:* setzen statt shlibs:*.\n"
 "  -O                       Variableneinstellungen nach Stdout ausgeben.\n"
 "  -L<lokaleshlibsdatei>    shlibs-Überschreibe-Datei, nicht\n"
@@ -2548,7 +2462,7 @@ msgstr "%s fehlgeschlagen mit unbekanntem Exit-Code %d"
 
 #: scripts/Dpkg/ErrorHandling.pm:100
 msgid "Use --help for program usage information."
-msgstr ""
+msgstr "Verwenden Sie --help für Programmbenutzungsinformationen"
 
 #: scripts/Dpkg/ErrorHandling.pm:116
 #, perl-format
@@ -2940,7 +2854,7 @@ msgstr "Quellpaketformat »%s« wird nicht unterstützt: %s"
 
 #: scripts/Dpkg/Source/Package.pm:221
 msgid "format variant must be in lowercase"
-msgstr ""
+msgstr "Formatvariante muss Kleinbuchstaben verwenden"
 
 #: scripts/Dpkg/Source/Package.pm:239
 #, perl-format
@@ -3419,7 +3333,7 @@ msgstr "unerkannte Datei für natives Quellpaket: %s"
 
 #: scripts/Dpkg/Source/Package/V3/Native.pm:71
 msgid "native package version may not have a revision"
-msgstr ""
+msgstr "native Paketversion darf keine Revision haben"
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm:55
 msgid "cannot unpack git-format source package because git is not in the PATH"
@@ -3486,10 +3400,8 @@ msgid "setting up shallow clone"
 msgstr "ein seichter Klon wird eingerichtet"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm:79
-#, fuzzy
-#| msgid "doesn't contain a bzr repository"
 msgid "version does not contain a revision"
-msgstr "kein bzr-Depot enthalten"
+msgstr "Version enthält keine Revision"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm:121
 #, perl-format
