@@ -264,8 +264,6 @@ int main(int argc, const char *const *argv) {
   if (!compressor_check_params(&compress_params, &err))
     badusage(_("invalid compressor parameters: %s"), err.str);
 
-  unsetenv("GZIP");
-
   ret = cipaction->action(argv);
 
   dpkg_program_done();

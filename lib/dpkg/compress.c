@@ -51,11 +51,13 @@
 #include <dpkg/subproc.h>
 
 static void DPKG_ATTR_SENTINEL
-fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
+fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *delenv[],
+             const char *file, ...)
 {
 	va_list args;
 	struct command cmd;
 	pid_t pid;
+	int i;
 
 	pid = subproc_fork();
 	if (pid == 0) {
@@ -67,6 +69,9 @@ fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *file, ...)
 			m_dup2(fd_out, 1);
 			close(fd_out);
 		}
+
+		for (i = 0; delenv[i]; i++)
+			unsetenv(delenv[i]);
 
 		command_init(&cmd, file, desc);
 		command_add_arg(&cmd, file);
@@ -232,10 +237,12 @@ compress_gzip(int fd_in, int fd_out, struct compress_params *params, const char 
 	}
 }
 #else
+static const char *env_gzip[] = { "GZIP", NULL };
+
 static void
 decompress_gzip(int fd_in, int fd_out, const char *desc)
 {
-	fd_fd_filter(fd_in, fd_out, desc, GZIP, "-dc", NULL);
+	fd_fd_filter(fd_in, fd_out, desc, env_gzip, GZIP, "-dc", NULL);
 }
 
 static void
@@ -244,7 +251,7 @@ compress_gzip(int fd_in, int fd_out, struct compress_params *params, const char 
 	char combuf[6];
 
 	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
-	fd_fd_filter(fd_in, fd_out, desc, GZIP, "-n", combuf, NULL);
+	fd_fd_filter(fd_in, fd_out, desc, env_gzip, GZIP, "-n", combuf, NULL);
 }
 #endif
 
@@ -356,10 +363,12 @@ compress_bzip2(int fd_in, int fd_out, struct compress_params *params, const char
 		ohshite(_("%s: internal bzip2 write error"), desc);
 }
 #else
+static const char *env_bzip2[] = { "BZIP", "BZIP2", NULL };
+
 static void
 decompress_bzip2(int fd_in, int fd_out, const char *desc)
 {
-	fd_fd_filter(fd_in, fd_out, desc, BZIP2, "-dc", NULL);
+	fd_fd_filter(fd_in, fd_out, desc, env_bzip2, BZIP2, "-dc", NULL);
 }
 
 static void
@@ -368,7 +377,7 @@ compress_bzip2(int fd_in, int fd_out, struct compress_params *params, const char
 	char combuf[6];
 
 	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
-	fd_fd_filter(fd_in, fd_out, desc, BZIP2, combuf, NULL);
+	fd_fd_filter(fd_in, fd_out, desc, env_bzip2, BZIP2, combuf, NULL);
 }
 #endif
 
@@ -575,10 +584,12 @@ compress_xz(int fd_in, int fd_out, struct compress_params *params, const char *d
 	filter_lzma(&io, fd_in, fd_out);
 }
 #else
+static const char *env_xz[] = { "XZ_DEFAULTS", "XZ_OPT", NULL };
+
 static void
 decompress_xz(int fd_in, int fd_out, const char *desc)
 {
-	fd_fd_filter(fd_in, fd_out, desc, XZ, "-dc", NULL);
+	fd_fd_filter(fd_in, fd_out, desc, env_xz, XZ, "-dc", NULL);
 }
 
 static void
@@ -593,7 +604,7 @@ compress_xz(int fd_in, int fd_out, struct compress_params *params, const char *d
 		strategy = NULL;
 
 	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
-	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, strategy, NULL);
+	fd_fd_filter(fd_in, fd_out, desc, env_xz, XZ, combuf, strategy, NULL);
 }
 #endif
 
@@ -674,7 +685,7 @@ compress_lzma(int fd_in, int fd_out, struct compress_params *params, const char 
 static void
 decompress_lzma(int fd_in, int fd_out, const char *desc)
 {
-	fd_fd_filter(fd_in, fd_out, desc, XZ, "-dc", "--format=lzma", NULL);
+	fd_fd_filter(fd_in, fd_out, desc, env_xz, XZ, "-dc", "--format=lzma", NULL);
 }
 
 static void
@@ -683,7 +694,7 @@ compress_lzma(int fd_in, int fd_out, struct compress_params *params, const char 
 	char combuf[6];
 
 	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
-	fd_fd_filter(fd_in, fd_out, desc, XZ, combuf, "--format=lzma", NULL);
+	fd_fd_filter(fd_in, fd_out, desc, env_xz, XZ, combuf, "--format=lzma", NULL);
 }
 #endif
 
