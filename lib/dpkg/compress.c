@@ -244,7 +244,7 @@ compress_gzip(int fd_in, int fd_out, struct compress_params *params, const char 
 	char combuf[6];
 
 	snprintf(combuf, sizeof(combuf), "-c%d", params->level);
-	fd_fd_filter(fd_in, fd_out, desc, GZIP, combuf, NULL);
+	fd_fd_filter(fd_in, fd_out, desc, GZIP, "-n", combuf, NULL);
 }
 #endif
 
