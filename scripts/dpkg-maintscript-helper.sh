@@ -227,6 +227,74 @@ abort_mv_conffile() {
 	fi
 }
 
+##
+## Functions to replace a symlink with a directory
+##
+symlink_to_dir() {
+	local SYMLINK="$1"
+	local SYMLINK_TARGET="$2"
+	local LASTVERSION="$3"
+	local PACKAGE="$4"
+
+	if [ "$LASTVERSION" = "--" ]; then
+		LASTVERSION=""
+		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
+	fi
+	if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
+		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
+	fi
+
+	# Skip remaining parameters up to --
+	while [ "$1" != "--" -a $# -gt 0 ]; do shift; done
+	[ $# -gt 0 ] || badusage "missing arguments after --"
+	shift
+
+	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
+		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
+	[ -n "$PACKAGE" ] || error "cannot identify the package"
+	[ -n "$SYMLINK" ] || error "symlink parameter is missing"
+	[ -n "$SYMLINK_TARGET" ] || error "original symlink target is missing"
+	[ -n "$LASTVERSION" ] || error "last version is missing"
+	[ -n "$1" ] || error "maintainer script parameters are missing"
+
+	debug "Executing $0 symlink_to_dir in $DPKG_MAINTSCRIPT_NAME" \
+	      "of $DPKG_MAINTSCRIPT_PACKAGE"
+	debug "SYMLINK=$SYMLINK -> $SYMLINK_TARGET PACKAGE=$PACKAGE" \
+	      "LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
+
+	case "$DPKG_MAINTSCRIPT_NAME" in
+	preinst)
+		if [ "$1" = "install" -o "$1" = "upgrade" ] &&
+		   [ -n "$2" ] && [ -h "$SYMLINK" ] &&
+		   [ "$(readlink -f $SYMLINK)" = "$SYMLINK_TARGET" ] &&
+		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+			mv -f "$SYMLINK" "${SYMLINK}.dpkg-backup"
+		fi
+		;;
+	postinst)
+		if [ "$1" = "configure" ] && [ -h "${SYMLINK}.dpkg-backup" ] &&
+		    dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+			rm -f "${SYMLINK}.dpkg-backup"
+		fi
+		;;
+	postrm)
+		if [ "$1" = "purge" ] && [ -h "${SYMLINK}.dpkg-backup" ]; then
+		    rm -f "${SYMLINK}.dpkg-backup"
+		fi
+		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
+		   [ -n "$2" ] &&
+		   [ -h "${SYMLINK}.dpkg-backup" ] && [ ! -e "$SYMLINK" ] &&
+		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+			echo "Restoring backup of $SYMLINK ..."
+			mv "${SYMLINK}.dpkg-backup" "$SYMLINK"
+		fi
+		;;
+	*)
+		debug "$0 symlink_to_dir not required in $DPKG_MAINTSCRIPT_NAME"
+		;;
+	esac
+}
+
 # Common functions
 ensure_package_owns_file() {
 	local PACKAGE="$1"
@@ -267,6 +335,9 @@ Commands:
 	postrm.
   mv_conffile <old-conf> <new-conf> [<last-version> [<package>]]
 	Rename a conffile. Must be called in preinst, postinst and postrm.
+  symlink_to_dir <pathname> <old-symlink-target> [<last-version> [<package>]]
+	Replace a symlink with a directory. Must be called in preinst,
+	postinst and postrm.
   help
 	Display this usage information.
 END
@@ -291,7 +362,7 @@ shift
 case "$command" in
 supports)
 	case "$1" in
-	rm_conffile|mv_conffile)
+	rm_conffile|mv_conffile|symlink_to_dir)
 		code=0
 		;;
 	*)
@@ -313,6 +384,9 @@ rm_conffile)
 	;;
 mv_conffile)
 	mv_conffile "$@"
+	;;
+symlink_to_dir)
+	symlink_to_dir "$@"
 	;;
 --help|help|-?)
 	usage
