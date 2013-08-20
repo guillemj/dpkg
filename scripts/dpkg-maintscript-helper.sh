@@ -86,7 +86,7 @@ prepare_rm_conffile() {
 	local PACKAGE="$2"
 
 	[ -e "$CONFFILE" ] || return 0
-	ensure_package_owns_conffile "$PACKAGE" "$CONFFILE" || return 0
+	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
 	local md5sum="$(md5sum $CONFFILE | sed -e 's/ .*//')"
 	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' $PACKAGE | \
@@ -117,7 +117,7 @@ abort_rm_conffile() {
 	local CONFFILE="$1"
 	local PACKAGE="$2"
 
-	ensure_package_owns_conffile "$PACKAGE" "$CONFFILE" || return 0
+	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
 	if [ -e "$CONFFILE.dpkg-remove" ]; then
 		echo "Reinstalling $CONFFILE that was moved away"
@@ -190,7 +190,7 @@ prepare_mv_conffile() {
 
 	[ -e "$CONFFILE" ] || return 0
 
-	ensure_package_owns_conffile "$PACKAGE" "$CONFFILE" || return 0
+	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
 	local md5sum="$(md5sum $CONFFILE | sed -e 's/ .*//')"
 	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' $PACKAGE | \
@@ -208,7 +208,7 @@ finish_mv_conffile() {
 	rm -f $OLDCONFFILE.dpkg-remove
 
 	[ -e "$OLDCONFFILE" ] || return 0
-	ensure_package_owns_conffile "$PACKAGE" "$OLDCONFFILE" || return 0
+	ensure_package_owns_file "$PACKAGE" "$OLDCONFFILE" || return 0
 
 	echo "Preserving user changes to $NEWCONFFILE (renamed from $OLDCONFFILE)..."
 	mv -f "$NEWCONFFILE" "$NEWCONFFILE.dpkg-new"
@@ -219,7 +219,7 @@ abort_mv_conffile() {
 	local CONFFILE="$1"
 	local PACKAGE="$2"
 
-	ensure_package_owns_conffile "$PACKAGE" "$CONFFILE" || return 0
+	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
 	if [ -e "$CONFFILE.dpkg-remove" ]; then
 		echo "Reinstalling $CONFFILE that was moved away"
@@ -228,12 +228,12 @@ abort_mv_conffile() {
 }
 
 # Common functions
-ensure_package_owns_conffile() {
+ensure_package_owns_file() {
 	local PACKAGE="$1"
-	local CONFFILE="$2"
+	local FILE="$2"
 
-	if ! dpkg-query -L "$PACKAGE" | grep -q -x "$CONFFILE"; then
-		debug "Conffile '$CONFFILE' not owned by package " \
+	if ! dpkg-query -L "$PACKAGE" | grep -q -x "$FILE"; then
+		debug "File '$FILE' not owned by package " \
 		      "'$PACKAGE', skipping $command"
 		return 1
 	fi
