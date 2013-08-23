@@ -516,4 +516,6 @@ for my $f (keys %remove) {
     delete $fields->{$f};
 }
 
-$fields->output(\*STDOUT); # Note: no substitution of variables
+# Note: do not perform substitution of variables, one of the reasons is that
+# they could interfere with field values, for example the Changes field.
+$fields->output(\*STDOUT);
