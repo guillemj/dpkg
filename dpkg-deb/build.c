@@ -167,6 +167,55 @@ file_info_list_free(struct file_info *fi)
   }
 }
 
+static void
+file_treewalk_feed(const char *dir, int fd_out)
+{
+  int pipefd[2];
+  pid_t pid;
+  struct file_info *fi;
+  struct file_info *symlist = NULL;
+  struct file_info *symlist_end = NULL;
+
+  m_pipe(pipefd);
+
+  pid = subproc_fork();
+  if (pid == 0) {
+    m_dup2(pipefd[1], 1);
+    close(pipefd[0]);
+    close(pipefd[1]);
+
+    if (chdir(dir))
+      ohshite(_("failed to chdir to `%.255s'"), dir);
+
+    execlp(FIND, "find", ".", "-path", "./" BUILDCONTROLDIR, "-prune", "-o",
+           "-print0", NULL);
+    ohshite(_("unable to execute %s (%s)"), "find", FIND);
+  }
+  close(pipefd[1]);
+
+  /* We need to reorder the files so we can make sure that symlinks
+   * will not appear before their target. */
+  while ((fi = file_info_get(dir, pipefd[0])) != NULL) {
+    if (S_ISLNK(fi->st.st_mode)) {
+      file_info_list_append(&symlist, &symlist_end, fi);
+    } else {
+      if (fd_write(fd_out, fi->fn, strlen(fi->fn) + 1) < 0)
+        ohshite(_("failed to write filename to tar pipe (%s)"),
+                _("data member"));
+      file_info_free(fi);
+    }
+  }
+
+  close(pipefd[0]);
+  subproc_wait_check(pid, "find", 0);
+
+  for (fi = symlist; fi; fi = fi->next)
+    if (fd_write(fd_out, fi->fn, strlen(fi->fn) + 1) < 0)
+      ohshite(_("failed to write filename to tar pipe (%s)"), _("data member"));
+
+  file_info_list_free(symlist);
+}
+
 static const char *const maintainerscripts[] = {
   PREINSTFILE,
   POSTINSTFILE,
@@ -393,11 +442,8 @@ do_build(const char *const *argv)
   bool subdir;
   char *tfbuf;
   int arfd;
-  int p1[2], p2[2], p3[2], gzfd;
-  pid_t c1,c2,c3;
-  struct file_info *fi;
-  struct file_info *symlist = NULL;
-  struct file_info *symlist_end = NULL;
+  int p1[2], p2[2], gzfd;
+  pid_t c1, c2;
 
   /* Decode our arguments. */
   dir = *argv++;
@@ -565,39 +611,12 @@ do_build(const char *const *argv)
   }
   close(p2[0]);
 
-  /* All the pipes are set, now lets run find, and start feeding
+  /* All the pipes are set, now lets walk the tree, and start feeding
    * filenames to tar. */
-  m_pipe(p3);
-  c3 = subproc_fork();
-  if (!c3) {
-    m_dup2(p3[1],1); close(p3[0]); close(p3[1]);
-    if (chdir(dir))
-      ohshite(_("failed to chdir to `%.255s'"), dir);
-    execlp(FIND, "find", ".", "-path", "./" BUILDCONTROLDIR, "-prune", "-o",
-           "-print0", NULL);
-    ohshite(_("unable to execute %s (%s)"), "find", FIND);
-  }
-  close(p3[1]);
-  /* We need to reorder the files so we can make sure that symlinks
-   * will not appear before their target. */
-  while ((fi = file_info_get(dir, p3[0])) != NULL)
-    if (S_ISLNK(fi->st.st_mode))
-      file_info_list_append(&symlist, &symlist_end, fi);
-    else {
-      if (fd_write(p1[1], fi->fn, strlen(fi->fn) + 1) < 0)
-        ohshite(_("failed to write filename to tar pipe (%s)"),
-                _("data member"));
-      file_info_free(fi);
-    }
-  close(p3[0]);
-  subproc_wait_check(c3, "find", 0);
+  file_treewalk_feed(dir, p1[1]);
 
-  for (fi= symlist;fi;fi= fi->next)
-    if (fd_write(p1[1], fi->fn, strlen(fi->fn) + 1) < 0)
-      ohshite(_("failed to write filename to tar pipe (%s)"), _("data member"));
   /* All done, clean up wait for tar and gzip to finish their job. */
   close(p1[1]);
-  file_info_list_free(symlist);
   subproc_wait_check(c2, _("<compress> from tar -cf"), 0);
   subproc_wait_check(c1, "tar -cf", 0);
   /* Okay, we have data.tar as well now, add it to the ar wrapper. */
