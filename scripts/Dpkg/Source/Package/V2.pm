@@ -659,6 +659,7 @@ sub do_commit {
     mkpath(File::Spec->catdir($dir, 'debian', 'patches'));
     my $patch = $self->register_patch($dir, $tmpdiff, $patch_name);
     system('sensible-editor', $patch);
+    subprocerr('sensible-editor') if $?;
     unlink($tmpdiff) || syserr(_g('cannot remove %s'), $tmpdiff);
     pop @Dpkg::Exit::handlers;
     info(_g('local changes have been recorded in a new patch: %s'), $patch);

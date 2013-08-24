@@ -145,6 +145,7 @@ sub do_build {
 
     # Remove the working tree.
     system('bzr', 'remove-tree', $tardir);
+    subprocerr("bzr remove-tree $tardir") if $?;
 
     # Some branch metadata files are unhelpful.
     unlink("$tardir/.bzr/branch/branch-name",
@@ -202,6 +203,7 @@ sub do_extract {
 
     # Reconstitute the working tree.
     system('bzr', 'checkout');
+    subprocerr('bzr checkout') if $?;
 
     chdir($old_cwd) ||
             syserr(_g("unable to chdir to `%s'"), $old_cwd);
