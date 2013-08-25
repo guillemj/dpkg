@@ -634,6 +634,7 @@ struct slave_link {
 	struct slave_link *next;
 	char *name;
 	char *link;
+	bool updated;
 };
 
 struct commit_operation {
@@ -647,6 +648,12 @@ struct commit_operation {
 
 	char *arg_a;
 	char *arg_b;
+};
+
+enum alternative_update_reason {
+	ALT_UPDATE_NO,
+	ALT_UPDATE_SLAVE_CHANGED,
+	ALT_UPDATE_LINK_BROKEN,
 };
 
 struct alternative {
@@ -945,7 +952,7 @@ alternative_add_choice(struct alternative *a, struct fileset *fs)
 }
 
 /* slave_name and slave_link must be allocated with malloc */
-static void
+static struct slave_link *
 alternative_add_slave(struct alternative *a, char *slave_name,
                       char *slave_link)
 {
@@ -956,7 +963,7 @@ alternative_add_slave(struct alternative *a, char *slave_name,
 		if (strcmp(sl->name, slave_name) == 0) {
 			free(sl->link);
 			sl->link = xstrdup(slave_link);
-			return;
+			return sl;
 		}
 		if (sl->next == NULL)
 			break;
@@ -966,17 +973,23 @@ alternative_add_slave(struct alternative *a, char *slave_name,
 	new = xmalloc(sizeof(*new));
 	new->name = slave_name;
 	new->link = slave_link;
+	new->updated = false;
 	new->next = NULL;
 	if (sl)
 		sl->next = new;
 	else
 		a->slaves = new;
+
+	return sl;
 }
 
 static void
 alternative_copy_slave(struct alternative *a, struct slave_link *sl)
 {
-	alternative_add_slave(a, xstrdup(sl->name), xstrdup(sl->link));
+	struct slave_link *sl_new;
+
+	sl_new = alternative_add_slave(a, xstrdup(sl->name), xstrdup(sl->link));
+	sl_new->updated = sl->updated;
 }
 
 static const char *
@@ -1887,9 +1900,10 @@ alternative_has_broken_slave(struct slave_link *sl, struct fileset *fs)
 	return false;
 }
 
-static bool
-alternative_is_broken(struct alternative *a)
+static enum alternative_update_reason
+alternative_needs_update(struct alternative *a)
 {
+	enum alternative_update_reason reason = ALT_UPDATE_NO;
 	const char *current;
 	char *altlnk, *wanted;
 	struct fileset *fs;
@@ -1898,12 +1912,12 @@ alternative_is_broken(struct alternative *a)
 	/* Check master link */
 	altlnk = areadlink(a->master_link);
 	if (!altlnk)
-		return true;
+		return ALT_UPDATE_LINK_BROKEN;
 	xasprintf(&wanted, "%s/%s", altdir, a->master_name);
 	if (strcmp(altlnk, wanted) != 0) {
 		free(wanted);
 		free(altlnk);
-		return true;
+		return ALT_UPDATE_LINK_BROKEN;
 	}
 	free(wanted);
 	free(altlnk);
@@ -1911,20 +1925,24 @@ alternative_is_broken(struct alternative *a)
 	/* Stop if we have an unmanaged alternative */
 	current = alternative_get_current(a);
 	if (current == NULL)
-		return true;
+		return ALT_UPDATE_LINK_BROKEN;
 
 	if (!alternative_has_choice(a, current))
-		return false;
+		return ALT_UPDATE_NO;
 
 	fs = alternative_get_fileset(a, current);
 
 	/* Check slaves */
 	for (sl = a->slaves; sl; sl = sl->next) {
-		if (alternative_has_broken_slave(sl, fs))
-			return true;
+		if (alternative_has_broken_slave(sl, fs)) {
+			if (sl->updated)
+				reason = ALT_UPDATE_SLAVE_CHANGED;
+			else
+				return ALT_UPDATE_LINK_BROKEN;
+		}
 	}
 
-	return false;
+	return reason;
 }
 
 struct alternative_map {
@@ -2253,6 +2271,8 @@ alternative_evolve_slave(struct alternative *a, const char *cur_choice,
 		} else {
 			checked_rm(old);
 		}
+
+		sl->updated = true;
 	}
 	free(new_file);
 }
@@ -2277,6 +2297,9 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 	for (sl = b->slaves; sl; sl = sl->next) {
 		if (alternative_has_slave(a, sl->name))
 			alternative_evolve_slave(a, cur_choice, sl, fs);
+		else
+			sl->updated = true;
+
 		alternative_copy_slave(a, sl);
 	}
 }
@@ -2285,6 +2308,8 @@ static void
 alternative_update(struct alternative *a,
                    const char *current_choice, const char *new_choice)
 {
+	enum alternative_update_reason reason;
+
 	/* No choice left, remove everything. */
 	if (!alternative_choices_count(a)) {
 		log_msg("link group %s fully removed", a->master_name);
@@ -2303,11 +2328,19 @@ alternative_update(struct alternative *a,
 		                                  _("manual mode"));
 		debug("prepare_install(%s)", new_choice);
 		alternative_prepare_install(a, new_choice);
-	} else if (alternative_is_broken(a)) {
-		log_msg("auto-repair link group %s", a->master_name);
-		warning(_("forcing reinstallation of alternative %s because "
-		          "link group %s is broken"), current_choice,
-		        a->master_name);
+	} else if ((reason = alternative_needs_update(a))) {
+		if (reason == ALT_UPDATE_SLAVE_CHANGED) {
+			log_msg("link group %s updated with changed slaves",
+			        a->master_name);
+			info(_("updating alternative %s "
+			       "because link group %s has changed slave links"),
+			     current_choice, a->master_name);
+		} else {
+			log_msg("auto-repair link group %s", a->master_name);
+			warning(_("forcing reinstallation of alternative %s "
+			          "because link group %s is broken"),
+			        current_choice, a->master_name);
+		}
 
 		if (current_choice && !alternative_has_choice(a, current_choice)) {
 			struct fileset *best = alternative_get_best(a);
