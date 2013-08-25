@@ -973,6 +973,12 @@ alternative_add_slave(struct alternative *a, char *slave_name,
 		a->slaves = new;
 }
 
+static void
+alternative_copy_slave(struct alternative *a, struct slave_link *sl)
+{
+	alternative_add_slave(a, xstrdup(sl->name), xstrdup(sl->link));
+}
+
 static const char *
 alternative_status_string(enum alternative_status status)
 {
@@ -2271,7 +2277,7 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 	for (sl = b->slaves; sl; sl = sl->next) {
 		if (alternative_has_slave(a, sl->name))
 			alternative_evolve_slave(a, cur_choice, sl, fs);
-		alternative_add_slave(a, xstrdup(sl->name), xstrdup(sl->link));
+		alternative_copy_slave(a, sl);
 	}
 }
 
