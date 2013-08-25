@@ -2199,11 +2199,53 @@ alternative_select_mode(struct alternative *a, const char *current_choice)
 }
 
 static void
+alternative_evolve_slave(struct alternative *a, const char *cur_choice,
+                         struct slave_link *sl, struct fileset *fs)
+{
+	struct stat st;
+	char *new_file = NULL;
+	const char *old, *new;
+
+	old = alternative_get_slave(a, sl->name)->link;
+	new = sl->link;
+
+	if (cur_choice && strcmp(cur_choice, fs->master_file) == 0) {
+		new_file = xstrdup(fileset_get_slave(fs, sl->name));
+	} else {
+		char *lnk;
+
+		xasprintf(&lnk, "%s/%s", altdir, sl->name);
+		new_file = areadlink(lnk);
+		free(lnk);
+	}
+	if (strcmp(old, new) != 0 &&
+	    alternative_path_classify(old) == ALT_PATH_SYMLINK) {
+		bool rename_link = false;
+
+		if (new_file) {
+			errno = 0;
+			if (stat(new_file, &st) == -1 && errno != ENOENT)
+				syserr(_("cannot stat file '%s'"),
+				       new_file);
+			rename_link = (errno == 0);
+		}
+
+		if (rename_link) {
+			info(_("renaming %s slave link from %s to %s"),
+			     sl->name, old, new);
+			checked_mv(old, new);
+		} else {
+			checked_rm(old);
+		}
+	}
+	free(new_file);
+}
+
+static void
 alternative_evolve(struct alternative *a, struct alternative *b,
                    const char *cur_choice, struct fileset *fs)
 {
 	struct slave_link *sl;
-	struct stat st;
 	bool is_link;
 
 	is_link = alternative_path_classify(a->master_link) == ALT_PATH_SYMLINK;
@@ -2217,46 +2259,8 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 	/* Check if new slaves have been added, or existing
 	 * ones renamed. */
 	for (sl = b->slaves; sl; sl = sl->next) {
-		char *new_file = NULL;
-		const char *old, *new;
-
-		if (!alternative_has_slave(a, sl->name)) {
-			alternative_add_slave(a, xstrdup(sl->name),
-			                      xstrdup(sl->link));
-			continue;
-		}
-		old = alternative_get_slave(a, sl->name)->link;
-		new = sl->link;
-		if (cur_choice && strcmp(cur_choice, fs->master_file) == 0) {
-			new_file = xstrdup(fileset_get_slave(fs, sl->name));
-		} else {
-			char *lnk;
-
-			xasprintf(&lnk, "%s/%s", altdir, sl->name);
-			new_file = areadlink(lnk);
-			free(lnk);
-		}
-		if (strcmp(old, new) != 0 &&
-		    alternative_path_classify(old) == ALT_PATH_SYMLINK) {
-			bool rename_link = false;
-
-			if (new_file) {
-				errno = 0;
-				if (stat(new_file, &st) == -1 && errno != ENOENT)
-					syserr(_("cannot stat file '%s'"),
-					       new_file);
-				rename_link = (errno == 0);
-			}
-
-			if (rename_link) {
-				info(_("renaming %s slave link from %s to %s"),
-				     sl->name, old, new);
-				checked_mv(old, new);
-			} else {
-				checked_rm(old);
-			}
-		}
-		free(new_file);
+		if (alternative_has_slave(a, sl->name))
+			alternative_evolve_slave(a, cur_choice, sl, fs);
 		alternative_add_slave(a, xstrdup(sl->name), xstrdup(sl->link));
 	}
 }
