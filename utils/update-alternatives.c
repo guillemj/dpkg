@@ -1837,6 +1837,51 @@ alternative_remove(struct alternative *a)
 }
 
 static bool
+alternative_has_broken_slave(struct slave_link *sl, struct fileset *fs)
+{
+	if (fileset_can_install_slave(fs, sl->name)) {
+		char *wanted;
+		char *sl_altlnk, *sl_current;
+
+		/* Verify link -> /etc/alternatives/foo */
+		sl_altlnk = areadlink(sl->link);
+		if (!sl_altlnk)
+			return true;
+		xasprintf(&wanted, "%s/%s", altdir, sl->name);
+		if (strcmp(sl_altlnk, wanted) != 0) {
+			free(wanted);
+			free(sl_altlnk);
+			return true;
+		}
+		free(sl_altlnk);
+		/* Verify /etc/alternatives/foo -> file */
+		sl_current = areadlink(wanted);
+		free(wanted);
+		if (!sl_current)
+			return true;
+		if (strcmp(sl_current, fileset_get_slave(fs, sl->name)) != 0) {
+			free(sl_current);
+			return true;
+		}
+		free(sl_current);
+	} else {
+		char *sl_altlnk;
+
+		/* Slave link must not exist. */
+		if (alternative_path_classify(sl->link) != ALT_PATH_MISSING)
+			return true;
+		xasprintf(&sl_altlnk, "%s/%s", altdir, sl->name);
+		if (alternative_path_classify(sl_altlnk) != ALT_PATH_MISSING) {
+			free(sl_altlnk);
+			return true;
+		}
+		free(sl_altlnk);
+	}
+
+	return false;
+}
+
+static bool
 alternative_is_broken(struct alternative *a)
 {
 	const char *current;
@@ -1869,43 +1914,8 @@ alternative_is_broken(struct alternative *a)
 
 	/* Check slaves */
 	for (sl = a->slaves; sl; sl = sl->next) {
-		if (fileset_can_install_slave(fs, sl->name)) {
-			char *sl_altlnk, *sl_current;
-
-			/* Verify link -> /etc/alternatives/foo */
-			sl_altlnk = areadlink(sl->link);
-			if (!sl_altlnk)
-				return true;
-			xasprintf(&wanted, "%s/%s", altdir, sl->name);
-			if (strcmp(sl_altlnk, wanted) != 0) {
-				free(wanted);
-				free(sl_altlnk);
-				return true;
-			}
-			free(sl_altlnk);
-			/* Verify /etc/alternatives/foo -> file */
-			sl_current = areadlink(wanted);
-			free(wanted);
-			if (!sl_current)
-				return true;
-			if (strcmp(sl_current, fileset_get_slave(fs, sl->name)) != 0) {
-				free(sl_current);
-				return true;
-			}
-			free(sl_current);
-		} else {
-			char *sl_altlnk;
-
-			/* Slave link must not exist. */
-			if (alternative_path_classify(sl->link) != ALT_PATH_MISSING)
-				return true;
-			xasprintf(&sl_altlnk, "%s/%s", altdir, sl->name);
-			if (alternative_path_classify(sl_altlnk) != ALT_PATH_MISSING) {
-				free(sl_altlnk);
-				return true;
-			}
-			free(sl_altlnk);
-		}
+		if (alternative_has_broken_slave(sl, fs))
+			return true;
 	}
 
 	return false;
