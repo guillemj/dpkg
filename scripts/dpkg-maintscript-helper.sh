@@ -295,6 +295,115 @@ symlink_to_dir() {
 	esac
 }
 
+##
+## Functions to replace a directory with a symlink
+##
+dir_to_symlink() {
+	local PATHNAME="$1"
+	local SYMLINK_TARGET="$2"
+	local LASTVERSION="$3"
+	local PACKAGE="$4"
+
+	if [ "$LASTVERSION" = "--" ]; then
+		LASTVERSION=""
+		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
+	fi
+	if [ "$PACKAGE" = "--" -o -z "$PACKAGE" ]; then
+		PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE${DPKG_MAINTSCRIPT_ARCH:+:$DPKG_MAINTSCRIPT_ARCH}"
+	fi
+
+	# Skip remaining parameters up to --
+	while [ "$1" != "--" -a $# -gt 0 ]; do shift; done
+	[ $# -gt 0 ] || badusage "missing arguments after --"
+	shift
+
+	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
+		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
+	[ -n "$PACKAGE" ] || error "cannot identify the package"
+	[ -n "$PATHNAME" ] || error "directory parameter is missing"
+	[ -n "$SYMLINK_TARGET" ] || error "new symlink target is missing"
+	[ -n "$LASTVERSION" ] || error "last version is missing"
+	[ -n "$1" ] || error "maintainer script parameters are missing"
+
+	debug "Executing $0 dir_to_symlink in $DPKG_MAINTSCRIPT_NAME" \
+	      "of $DPKG_MAINTSCRIPT_PACKAGE"
+	debug "PATHNAME=$PATHNAME SYMLINK_TARGET=$SYMLINK_TARGET" \
+	      "PACKAGE=$PACKAGE LASTVERSION=$LASTVERSION ACTION=$1 PARAM=$2"
+
+	case "$DPKG_MAINTSCRIPT_NAME" in
+	preinst)
+		if [ "$1" = "install" -o "$1" = "upgrade" ] &&
+		   [ -n "$2" ] && [ -d "$PATHNAME" ] &&
+		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+			prepare_dir_to_symlink "$PACKAGE" "$PATHNAME"
+		fi
+		;;
+	postinst)
+		if [ "$1" = "configure" ] &&
+		   [ -d "${PATHNAME}.dpkg-backup" ] && [ -h "$PATHNAME" ] &&
+		   [ "$(readlink -f $PATHNAME)" = "$SYMLINK_TARGET" ] &&
+		    dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+			# By now, dpkg will have updated the symlink to point
+			# to the new location, but we are left behind the old
+			# files owned by this package in the backup directory,
+			# just remove it.
+			rm -rf "${PATHNAME}.dpkg-backup"
+		fi
+		;;
+	postrm)
+		if [ "$1" = "purge" ] && [ -d "${PATHNAME}.dpkg-backup" ]; then
+		    rm -rf "${PATHNAME}.dpkg-backup"
+		fi
+		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
+		   [ -n "$2" ] &&
+		   [ -d "${PATHNAME}.dpkg-backup" ] && [ -h "$PATHNAME" ] &&
+		   [ "$(readlink -f $PATHNAME)" = "$SYMLINK_TARGET" ] &&
+		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+			echo "Restoring backup of $PATHNAME ..."
+			rm -f "$PATHNAME"
+			mv "${PATHNAME}.dpkg-backup" "$PATHNAME"
+		fi
+		;;
+	*)
+		debug "$0 dir_to_symlink not required in $DPKG_MAINTSCRIPT_NAME"
+		;;
+	esac
+}
+
+prepare_dir_to_symlink()
+{
+	local PACKAGE="$1"
+	local PATHNAME="$2"
+
+	# If there are conffiles we should not perform the switch.
+	if dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
+	   grep -q "$PATHNAME/."; then
+		error "directory '$PATHNAME' contains conffiles," \
+		      "cannot switch to symlink"
+	fi
+
+	# If there are locally created files or files owned by another package
+	# we should not perform the switch.
+	find "$PATHNAME" -print0 | xargs -0 -n1 sh -c '
+		package="$1"
+		file="$2"
+		if ! dpkg-query -L "$package" | grep -q -x "$file"; then
+			return 1
+		fi
+		return 0
+	' subcommand "$PACKAGE" || \
+		error "directory '$PATHNAME' contains files not owned by" \
+		      "package $PACKAGE, cannot switch to symlink"
+
+	# Move the directory aside and make a temporary symlink to reduce the
+	# time the contents are not available. dpkg will not be able to remove
+	# the old files from the backup directory after unpack, because it
+	# will have updated the symlink to point to the new location already,
+	# we'll remove them ourselves later on.
+	mv -f "$PATHNAME" "${PATHNAME}.dpkg-backup"
+	ln -s "${PATHNAME}.dpkg-backup" "$PATHNAME"
+}
+
 # Common functions
 ensure_package_owns_file() {
 	local PACKAGE="$1"
@@ -338,6 +447,9 @@ Commands:
   symlink_to_dir <pathname> <old-symlink-target> [<last-version> [<package>]]
 	Replace a symlink with a directory. Must be called in preinst,
 	postinst and postrm.
+  dir_to_symlink <pathname> <new-symlink-target> [<last-version> [<package>]]
+	Replace a directory with a symlink. Must be called in preinst,
+	postinst and postrm.
   help
 	Display this usage information.
 END
@@ -362,7 +474,7 @@ shift
 case "$command" in
 supports)
 	case "$1" in
-	rm_conffile|mv_conffile|symlink_to_dir)
+	rm_conffile|mv_conffile|symlink_to_dir|dir_to_symlink)
 		code=0
 		;;
 	*)
@@ -387,6 +499,9 @@ mv_conffile)
 	;;
 symlink_to_dir)
 	symlink_to_dir "$@"
+	;;
+dir_to_symlink)
+	dir_to_symlink "$@"
 	;;
 --help|help|-?)
 	usage

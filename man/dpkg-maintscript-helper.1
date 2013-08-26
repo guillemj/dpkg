@@ -30,6 +30,8 @@ dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer s
 \fBmv_conffile\fP \fIold-conffile\fP \fInew-conffile\fP [\fIprior-version\fP [\fIpackage\fP]]
 .P
 \fBsymlink_to_dir\fP \fIpathname\fP \fIold-target\fP [\fIprior-version\fP [\fIpackage\fP]]
+.P
+\fBdir_to_symlink\fP \fIpathname\fP \fInew-target\fP [\fIprior-version\fP [\fIpackage\fP]]
 .
 .SH DESCRIPTION
 .P
@@ -172,13 +174,43 @@ the \fBpostinst\fP removes \fIpathname\fP\fB.dpkg\-backup\fP if
 abort\-upgrade/abort\-install, the \fBpostrm\fP renames
 \fIpathname\fP\fB.dpkg\-backup\fP back to \fIpathname\fP if required.
 .
+.SS Switching a directory to symlink
+.
+If a real directory is converted to a symlink, you need to make sure
+before unpacking that the directory is removed. This may seem a simple
+change to the \fBpreinst\fP script at first, however that will result
+in some problems in case the directory contains conffiles, pathnames
+owned by other packages, locally created pathnames, or when downgrading
+the package.
+.P
+Graceful switching can be implemented by putting the following shell
+snippet in the \fBpreinst\fP, \fBpostinst\fP and \fBpostrm\fP maintainer
+scripts:
+.P
+    dpkg\-maintscript\-helper dir_to_symlink \\
+        \fIpathname\fP \fInew-target\fP \fIprior-version\fP \fIpackage\fP \-\- "$@"
+.P
+\fIpathname\fP is the name of the of the old directory (the path will be a
+symlink at the end of the installation) and \fInew-target\fP is the target
+of the new symlink at \fIpathname\fP.
+.P
+Current implementation: the \fBpreinst\fP checks if the directory
+exists, does not contain conffiles, pathnames owned by other packages,
+or locally created pathnames, if not then it's left in place, otherwise
+it's renamed to \fIpathname\fP\fB.dpkg\-backup\fP. On configuration,
+the \fBpostinst\fP removes \fIpathname\fP\fB.dpkg\-backup\fP if
+\fIpathname\fP\fB.dpkg\-backup\fP is still a directory. On
+abort\-upgrade/abort\-install, the \fBpostrm\fP renames
+\fIpathname\fP\fB.dpkg\-backup\fP back to \fIpathname\fP if required.
+.
 .SH INTEGRATION IN PACKAGES
 .P
 Given that \fBdpkg\-maintscript\-helper\fP is used in the \fBpreinst\fP,
 using it unconditionally requires a pre-dependency to ensure that the
 required version of \fBdpkg\fP has been unpacked before. The required version
 depends on the command used, for \fBrm_conffile\fP and \fBmv_conffile\fP
-it is 1.15.7.2, for \fBsymlink_to_dir\fP it is 1.17.2:
+it is 1.15.7.2, for \fBsymlink_to_dir\fP and \fBdir_to_symlink\fP
+it is 1.17.2:
 .P
     \fBPre\-Depends:\fP dpkg (>= 1.17.2)
 .P
