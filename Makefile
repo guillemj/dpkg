@@ -71,6 +71,7 @@ TESTS_PASS += t-conffile-rename
 TESTS_PASS += t-package-type
 TESTS_PASS += t-symlink-dir
 TESTS_PASS += t-switch-symlink-to-dir
+TESTS_PASS += t-switch-dir-to-symlink
 TESTS_PASS += t-substvars
 TESTS_PASS += t-failinst-failrm
 TESTS_PASS += t-dir-extension-check
