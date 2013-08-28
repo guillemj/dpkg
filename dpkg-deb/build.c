@@ -509,13 +509,16 @@ do_build(const char *const *argv)
     if (fd_fd_copy(gzfd, arfd, -1, &err) < 0)
       ohshit(_("cannot copy '%s' into archive '%s': %s"), _("control member"),
              debar, err.str);
-  } else {
+  } else if (deb_format.major == 2) {
     const char deb_magic[] = ARCHIVEVERSION "\n";
 
     dpkg_ar_put_magic(debar, arfd);
     dpkg_ar_member_put_mem(debar, arfd, DEBMAGIC, deb_magic, strlen(deb_magic));
     dpkg_ar_member_put_file(debar, arfd, ADMINMEMBER, gzfd, -1);
+  } else {
+    internerr("unknown deb format version %d.%d", deb_format.major, deb_format.minor);
   }
+
   close(gzfd);
 
   /* Control is done, now we need to archive the data. */
@@ -524,7 +527,7 @@ do_build(const char *const *argv)
      * control member, so we do not need a temporary file and can use
      * the compression file descriptor. */
     gzfd = arfd;
-  } else {
+  } else if (deb_format.major == 2) {
     /* Start by creating a new temporary file. Immediately unlink the
      * temporary file so others can't mess with it. */
     tfbuf = path_make_temp_template("dpkg-deb");
@@ -536,6 +539,8 @@ do_build(const char *const *argv)
       ohshit(_("failed to unlink temporary file (%s), %s"), _("data member"),
              tfbuf);
     free(tfbuf);
+  } else {
+    internerr("unknown deb format version %d.%d", deb_format.major, deb_format.minor);
   }
   /* Fork off a tar. We will feed it a list of filenames on stdin later. */
   m_pipe(p1);
