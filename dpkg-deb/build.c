@@ -606,6 +606,8 @@ do_build(const char *const *argv)
       ohshite(_("failed to rewind temporary file (%s)"), _("data member"));
 
     dpkg_ar_member_put_file(debar, arfd, datamember, gzfd, -1);
+
+    close(gzfd);
   }
   if (fsync(arfd))
     ohshite(_("unable to sync file '%s'"), debar);
