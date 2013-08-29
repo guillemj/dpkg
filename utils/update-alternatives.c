@@ -998,6 +998,12 @@ alternative_status_string(enum alternative_status status)
 	return (status == ALT_ST_AUTO) ? "auto" : "manual";
 }
 
+static const char *
+alternative_status_describe(enum alternative_status status)
+{
+	return (status == ALT_ST_AUTO) ? _("auto mode") : _("manual mode");
+}
+
 static void
 alternative_set_status(struct alternative *a, enum alternative_status status)
 {
@@ -1525,8 +1531,7 @@ alternative_display_user(struct alternative *a)
 	struct fileset *fs;
 	struct slave_link *sl;
 
-	pr("%s - %s", a->master_name,
-	   (a->status == ALT_ST_AUTO) ? _("auto mode") : _("manual mode"));
+	pr("%s - %s", a->master_name, alternative_status_describe(a->status));
 	current = alternative_get_current(a);
 	if (current) {
 		pr(_("  link currently points to %s"), current);
@@ -1593,7 +1598,7 @@ alternative_select_choice(struct alternative *a)
 		else
 			mark = " ";
 		pr("%s %-12d %-*s % -10d %s", mark, 0, len, best->master_file,
-		   best->priority, _("auto mode"));
+		   best->priority, alternative_status_describe(ALT_ST_AUTO));
 		idx = 1;
 		for (fs = a->choices; fs; fs = fs->next) {
 			if (a->status == ALT_ST_MANUAL && current &&
@@ -1602,7 +1607,8 @@ alternative_select_choice(struct alternative *a)
 			else
 				mark = " ";
 			pr("%s %-12d %-*s % -10d %s", mark, idx, len,
-			   fs->master_file, fs->priority, _("manual mode"));
+			   fs->master_file, fs->priority,
+			   alternative_status_describe(ALT_ST_MANUAL));
 			idx++;
 		}
 		printf("\n");
@@ -2324,8 +2330,7 @@ alternative_update(struct alternative *a,
 		        new_choice);
 		info(_("using %s to provide %s (%s) in %s"), new_choice,
 		     a->master_link, a->master_name,
-		     (a->status == ALT_ST_AUTO) ? _("auto mode") :
-		                                  _("manual mode"));
+		     alternative_status_describe(a->status));
 		debug("prepare_install(%s)", new_choice);
 		alternative_prepare_install(a, new_choice);
 	} else if ((reason = alternative_needs_update(a))) {
