@@ -68,7 +68,7 @@ static int opt_force = 0;
 static char *pass_opts[MAX_OPTS];
 static int nb_opts = 0;
 
-#define DPKG_TMP_EXT ".dpkg-tmp"
+#define ALT_TMP_EXT ".dpkg-tmp"
 
 /*
  * Functions.
@@ -1075,9 +1075,9 @@ altdb_filter_namelist(const struct dirent *entry)
 {
 	if (strcmp(entry->d_name, ".") == 0 ||
 	    strcmp(entry->d_name, "..") == 0 ||
-	    (strlen(entry->d_name) > strlen(DPKG_TMP_EXT) &&
+	    (strlen(entry->d_name) > strlen(ALT_TMP_EXT) &&
 	     strcmp(entry->d_name + strlen(entry->d_name) -
-	            strlen(DPKG_TMP_EXT), DPKG_TMP_EXT) == 0))
+	            strlen(ALT_TMP_EXT), ALT_TMP_EXT) == 0))
 		return 0;
 	return 1;
 }
@@ -1383,7 +1383,7 @@ alternative_save(struct alternative *a)
 
 	/* Write admin file. */
 	xasprintf(&file, "%s/%s", admdir, a->master_name);
-	xasprintf(&filenew, "%s" DPKG_TMP_EXT, file);
+	xasprintf(&filenew, "%s" ALT_TMP_EXT, file);
 
 	ctx.filename = filenew;
 	ctx.fh = fopen(ctx.filename, "w");
@@ -1776,7 +1776,7 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 	char *fntmp, *fn;
 
 	/* Create link in /etc/alternatives. */
-	xasprintf(&fntmp, "%s/%s" DPKG_TMP_EXT, altdir, name);
+	xasprintf(&fntmp, "%s/%s" ALT_TMP_EXT, altdir, name);
 	xasprintf(&fn, "%s/%s", altdir, name);
 	checked_rm(fntmp);
 	checked_symlink(file, fntmp);
@@ -1785,7 +1785,7 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 
 	if (alternative_path_needs_update(linkname, fn)) {
 		/* Create alternative link. */
-		xasprintf(&fntmp, "%s" DPKG_TMP_EXT, linkname);
+		xasprintf(&fntmp, "%s" ALT_TMP_EXT, linkname);
 		checked_rm(fntmp);
 		checked_symlink(fn, fntmp);
 		alternative_add_commit_op(a, opcode_mv, fntmp, linkname);
@@ -1842,19 +1842,19 @@ alternative_remove(struct alternative *a)
 {
 	struct slave_link *sl;
 
-	checked_rm_args("%s" DPKG_TMP_EXT, a->master_link);
+	checked_rm_args("%s" ALT_TMP_EXT, a->master_link);
 	if (alternative_path_can_remove(a->master_link))
 		checked_rm(a->master_link);
 
-	checked_rm_args("%s/%s" DPKG_TMP_EXT, altdir, a->master_name);
+	checked_rm_args("%s/%s" ALT_TMP_EXT, altdir, a->master_name);
 	checked_rm_args("%s/%s", altdir, a->master_name);
 
 	for (sl = a->slaves; sl; sl = sl->next) {
-		checked_rm_args("%s" DPKG_TMP_EXT, sl->link);
+		checked_rm_args("%s" ALT_TMP_EXT, sl->link);
 		if (alternative_path_can_remove(sl->link))
 			checked_rm(sl->link);
 
-		checked_rm_args("%s/%s" DPKG_TMP_EXT, altdir, sl->name);
+		checked_rm_args("%s/%s" ALT_TMP_EXT, altdir, sl->name);
 		checked_rm_args("%s/%s", altdir, sl->name);
 	}
 	/* Drop admin file */
