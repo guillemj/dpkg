@@ -24,6 +24,7 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include <dpkg/macros.h>
 #include <dpkg/i18n.h>
@@ -33,7 +34,10 @@
 void
 dpkg_set_report_buffer(FILE *fp)
 {
-	setvbuf(fp, NULL, _IONBF, 0);
+	if (isatty(STDOUT_FILENO))
+		setvbuf(fp, NULL, _IONBF, 0);
+	else
+		setvbuf(fp, NULL, _IOFBF, 0);
 }
 
 static int warn_count = 0;
