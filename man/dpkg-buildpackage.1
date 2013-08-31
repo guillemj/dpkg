@@ -19,7 +19,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg\-buildpackage 1 "2013-04-02" "Debian Project" "dpkg utilities"
+.TH dpkg\-buildpackage 1 "2013-08-31" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-buildpackage \- build binary or source packages from sources
 .
@@ -243,6 +243,12 @@ Show the usage message and exit.
 Show the version and exit.
 .
 .SH ENVIRONMENT
+.TP
+.B DEB_SIGN_KEYID
+If set, it will be used to sign the \fB.changes\fP and \fB.dsc\fP files.
+Overridden by the \fB\-k\fP option.
+
+.SS Reliance on exported environment flags
 Even if \fBdpkg\-buildpackage\fP exports some variables, \fBdebian/rules\fP
 should not rely on their presence and should instead use the
 respective interface to retrieve the needed values.

@@ -111,10 +111,11 @@ sub usage {
 my @debian_rules = ('debian/rules');
 my @rootcommand = ();
 my $signcommand;
-my ($admindir, $signkey, $usepause, $noclean,
+my ($admindir, $usepause, $noclean,
     $cleansource, $since, $maint,
     $changedby, $desc, $parallel);
 my $checkbuilddep = 1;
+my $signkey = defined $ENV{DEB_SIGN_KEYID} ? $ENV{DEB_SIGN_KEYID} : undef;
 my $signforce = 0;
 my $signreleased = 1;
 my $signsource = 1;
