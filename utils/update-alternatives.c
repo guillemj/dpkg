@@ -1569,15 +1569,15 @@ alternative_print_choice(struct alternative *a, enum alternative_status status,
                          struct fileset *fs, int idx, int len)
 {
 	const char *current = alternative_get_current(a);
-	const char *mark;
+	int mark;
 
 	if (a->status == status &&
 	    current && strcmp(current, fs->master_file) == 0)
-		mark = "*";
+		mark = '*';
 	else
-		mark = " ";
+		mark = ' ';
 
-	pr("%s %-12d %-*s % -10d %s", mark, idx, len,
+	pr("%c %-12d %-*s % -10d %s", mark, idx, len,
 	   fs->master_file, fs->priority, alternative_status_describe(status));
 }
 
