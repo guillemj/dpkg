@@ -1564,6 +1564,23 @@ alternative_display_list(struct alternative *a)
 		pr("%s", fs->master_file);
 }
 
+static void
+alternative_print_choice(struct alternative *a, enum alternative_status status,
+                         struct fileset *fs, int idx, int len)
+{
+	const char *current = alternative_get_current(a);
+	const char *mark;
+
+	if (a->status == status &&
+	    current && strcmp(current, fs->master_file) == 0)
+		mark = "*";
+	else
+		mark = " ";
+
+	pr("%s %-12d %-*s % -10d %s", mark, idx, len,
+	   fs->master_file, fs->priority, alternative_status_describe(status));
+}
+
 static const char *
 alternative_select_choice(struct alternative *a)
 {
@@ -1583,8 +1600,6 @@ alternative_select_choice(struct alternative *a)
 		len = max(len, (int)strlen(fs->master_file) + 1);
 
 	for (;;) {
-		const char *mark;
-
 		pr(P_("There is %d choice for the alternative %s (providing %s).",
 		      "There are %d choices for the alternative %s (providing %s).",
 		      n_choices), n_choices, a->master_name, a->master_link);
@@ -1593,23 +1608,10 @@ alternative_select_choice(struct alternative *a)
 		pr("  %-12.12s %-*.*s %-10.10s %s", _("Selection"), len, len,
 		   _("Path"), _("Priority"), _("Status"));
 		pr("------------------------------------------------------------");
-		if (a->status == ALT_ST_AUTO && current &&
-		    strcmp(current, best->master_file) == 0)
-			mark = "*";
-		else
-			mark = " ";
-		pr("%s %-12d %-*s % -10d %s", mark, 0, len, best->master_file,
-		   best->priority, alternative_status_describe(ALT_ST_AUTO));
+		alternative_print_choice(a, ALT_ST_AUTO, best, 0, len);
 		idx = 1;
 		for (fs = a->choices; fs; fs = fs->next) {
-			if (a->status == ALT_ST_MANUAL && current &&
-			    strcmp(current, fs->master_file) == 0)
-				mark = "*";
-			else
-				mark = " ";
-			pr("%s %-12d %-*s % -10d %s", mark, idx, len,
-			   fs->master_file, fs->priority,
-			   alternative_status_describe(ALT_ST_MANUAL));
+			alternative_print_choice(a, ALT_ST_MANUAL, fs, idx, len);
 			idx++;
 		}
 		printf("\n");
