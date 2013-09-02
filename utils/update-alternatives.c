@@ -1570,25 +1570,26 @@ alternative_select_choice(struct alternative *a)
 	const char *current;
 	char *ret, selection[_POSIX_PATH_MAX];
 	struct fileset *best, *fs;
+	int n_choices;
 	int len, idx;
 
+	n_choices = alternative_choices_count(a);
 	current = alternative_get_current(a);
 	best = alternative_get_best(a);
 	assert(best);
 
+	len = 15;
+	for (fs = a->choices; fs; fs = fs->next)
+		len = max(len, (int)strlen(fs->master_file) + 1);
+
 	for (;;) {
 		const char *mark;
-		int n_choices;
-
-		n_choices = alternative_choices_count(a);
 
 		pr(P_("There is %d choice for the alternative %s (providing %s).",
 		      "There are %d choices for the alternative %s (providing %s).",
 		      n_choices), n_choices, a->master_name, a->master_link);
 		printf("\n");
-		len = 15;
-		for (fs = a->choices; fs; fs = fs->next)
-			len = max(len, (int)strlen(fs->master_file) + 1);
+
 		pr("  %-12.12s %-*.*s %-10.10s %s", _("Selection"), len, len,
 		   _("Path"), _("Priority"), _("Status"));
 		pr("------------------------------------------------------------");
