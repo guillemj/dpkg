@@ -1608,12 +1608,10 @@ alternative_select_choice(struct alternative *a)
 		pr("  %-12.12s %-*.*s %-10.10s %s", _("Selection"), len, len,
 		   _("Path"), _("Priority"), _("Status"));
 		pr("------------------------------------------------------------");
-		alternative_print_choice(a, ALT_ST_AUTO, best, 0, len);
-		idx = 1;
-		for (fs = a->choices; fs; fs = fs->next) {
+		idx = 0;
+		alternative_print_choice(a, ALT_ST_AUTO, best, idx++, len);
+		for (fs = a->choices; fs; fs = fs->next, idx++)
 			alternative_print_choice(a, ALT_ST_MANUAL, fs, idx, len);
-			idx++;
-		}
 		printf("\n");
 		printf(_("Press enter to keep the current choice[*], "
 		         "or type selection number: "));
