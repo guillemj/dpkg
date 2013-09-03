@@ -69,8 +69,8 @@ LINGUAS_DIST = `sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cf
 LINGUAS ?= $(LINGUAS_DIST)
 
 
-PO4A_V = $(PO4A_V_$(V))
-PO4A_V_ = $(PO4A_V_$(AM_DEFAULT_VERBOSITY))
+PO4A_V = $(PO4A_V_@AM_V@)
+PO4A_V_ = $(PO4A_V_@AM_DEFAULT_V@)
 PO4A_V_0 = @echo "  PO4A   $@";
 
 PO4A_OPTS = --previous --srcdir $(srcdir) --destdir $(CURDIR) --no-backups \
