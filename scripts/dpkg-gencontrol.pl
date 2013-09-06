@@ -46,6 +46,7 @@ my $changelogfile = 'debian/changelog';
 my $changelogformat;
 my $fileslistfile = 'debian/files';
 my $packagebuilddir = 'debian/tmp';
+my $outputfile;
 
 my $sourceversion;
 my $binaryversion;
@@ -81,7 +82,7 @@ sub usage {
   -f<files-list-file>      write files here instead of debian/files.
   -P<package-build-dir>    temporary build dir instead of debian/tmp.
   -n<filename>             assume the package filename will be <filename>.
-  -O                       write to stdout, not .../DEBIAN/control.
+  -O[<file>]               write to stdout (or <file>), not .../DEBIAN/control.
   -is, -ip, -isp, -ips     deprecated, ignored for compatibility.
   -D<field>=<value>        override or add a field and value.
   -U<field>                remove a field.
@@ -110,6 +111,8 @@ while (@ARGV) {
         $forceversion= $1;
     } elsif (m/^-O$/) {
         $stdout= 1;
+    } elsif (m/^-O(.+)$/) {
+        $outputfile = $1;
     } elsif (m/^-i[sp][sp]?$/) {
 	# ignored for backwards compatibility
     } elsif (m/^-F([0-9a-z]+)$/) {
@@ -401,7 +404,7 @@ close($lockfh) || syserr(_g('cannot close %s'), $lockfile);
 my $cf;
 my $fh_output;
 if (!$stdout) {
-    $cf= "$packagebuilddir/DEBIAN/control";
+    $cf = $outputfile // "$packagebuilddir/DEBIAN/control";
     open($fh_output, '>', "$cf.new") ||
         syserr(_g("cannot open new output control file \`%s'"), "$cf.new");
 } else {

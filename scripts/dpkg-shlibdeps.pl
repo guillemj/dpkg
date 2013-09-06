@@ -5,7 +5,7 @@
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000 Wichert Akkerman
 # Copyright © 2006 Frank Lichtenheld
-# Copyright © 2006-2010,2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2010,2012-2013 Guillem Jover <guillem@debian.org>
 # Copyright © 2007 Raphaël Hertzog
 #
 # This program is free software; you can redistribute it and/or modify
@@ -93,6 +93,8 @@ foreach (@ARGV) {
 	push @pkg_dir_to_search, $1;
     } elsif (m/^-O$/) {
 	$stdout = 1;
+    } elsif (m/^-O(.+)$/) {
+	$varlistfile = $1;
     } elsif (m/^-(\?|-help)$/) {
 	usage(); exit(0);
     } elsif (m/^--version$/) {
@@ -564,7 +566,7 @@ sub usage {
 "Options:
   -l<library-dir>          add directory to private shared library search list.
   -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.
-  -O                       print variable settings to stdout.
+  -O[<file>]               write variable settings to stdout (or <file>).
   -L<local-shlibs-file>    shlibs override file, not debian/shlibs.local.
   -T<substvars-file>       update variables here, not debian/substvars.
   -t<type>                 set package type (default is deb).

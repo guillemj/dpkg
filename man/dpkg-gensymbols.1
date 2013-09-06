@@ -2,6 +2,7 @@
 .\"
 .\" Copyright © 2007-2011 Raphaël Hertzog <hertzog@debian.org>
 .\" Copyright © 2009-2010 Modestas Vainius <modestas@vainius.eu>
+.\" Copyright © 2012-2013 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -16,7 +17,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg\-gensymbols 1 "2012-04-22" "Debian Project" "dpkg utilities"
+.TH dpkg\-gensymbols 1 "2013-09-06" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-gensymbols \- generate symbols files (shared library dependency information)
 .
@@ -409,13 +410,16 @@ multiple libraries with a single argument (otherwise you need multiple
 Use \fIfilename\fR as reference file to generate the symbols file
 that is integrated in the package itself.
 .TP
-.B \-O
-Print the generated symbols file to standard output, rather than being
-stored in the package build tree.
-.TP
-.BI \-O filename
-Store the generated symbols file as \fIfilename\fR. If \fIfilename\fR is
-pre-existing, its content is used as basis for the generated symbols file.
+.BR \-O [\fIfilename\fP]
+Print the generated symbols file to standard output or to \fIfilename\fR
+if specified, rather than to
+.B debian/tmp/DEBIAN/symbols
+(or
+.IB package-build-dir /DEBIAN/symbols
+if
+.B \-P
+was used). If \fIfilename\fR is pre-existing, its contents are used as
+basis for the generated symbols file.
 You can use this feature to update a symbols file so that it matches a
 newer upstream version of your library.
 .TP

@@ -3,7 +3,7 @@
 # dpkg-gensymbols
 #
 # Copyright © 2007 Raphaël Hertzog
-# Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2007-2013 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -77,8 +77,7 @@ sub usage {
                            file and the reference template.
   -I<file>                 force usage of <file> as reference symbols
                            file instead of the default file.
-  -O<file>                 write to <file>, not .../DEBIAN/symbols.
-  -O                       write to stdout, not .../DEBIAN/symbols.
+  -O[<file>]               write to stdout (or <file>), not .../DEBIAN/symbols.
   -t                       write in template mode (tags are not
                            processed and included in output).
   -V                       verbose output; write deprecated symbols and pattern
