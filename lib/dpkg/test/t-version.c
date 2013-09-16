@@ -197,7 +197,7 @@ test_version_parse(void)
 	test_pass(parseversion(&a, "5:1", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
-	/* Test multiple dashes. */
+	/* Test multiple hyphens. */
 	b = version(0, "0-0", "0");
 	test_pass(parseversion(&a, "0:0-0-0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
@@ -215,7 +215,7 @@ test_version_parse(void)
 	test_pass(parseversion(&a, "0:0:0:0-0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
-	/* Test multiple dashes and colons. */
+	/* Test multiple hyphens and colons. */
 	b = version(0, "0:0-0", "0");
 	test_pass(parseversion(&a, "0:0:0-0-0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);

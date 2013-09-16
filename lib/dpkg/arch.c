@@ -47,7 +47,7 @@
  * Returns NULL if the architecture name is valid. Otherwise it returns a
  * string describing why it's not valid. Currently it ensures the name
  * starts with an alphanumeric and is then composed of a combinations of
- * dashes and alphanumerics.
+ * hyphens and alphanumerics.
  *
  * The function will abort if you pass it a NULL pointer.
  *

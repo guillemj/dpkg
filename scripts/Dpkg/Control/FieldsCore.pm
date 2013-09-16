@@ -395,7 +395,7 @@ CTRL_* constants exported by Dpkg::Control.
 =item my $f = field_capitalize($field_name)
 
 Returns the field name properly capitalized. All characters are lowercase,
-except the first of each word (words are separated by a dash in field names).
+except the first of each word (words are separated by a hyphen in field names).
 
 =cut
 

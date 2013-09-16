@@ -49,7 +49,7 @@ file. It can exports an array that can then be parsed exactly like @ARGV.
 Create a new Dpkg::Conf object. Some options can be set through %opts:
 if allow_short evaluates to true (it defaults to false), then short
 options are allowed in the configuration file, they should be prepended
-with a single dash.
+with a single hyphen.
 
 =cut
 
