@@ -194,6 +194,9 @@ sub parse {
 	$paraborder = 0;
 	if (m/^(\S+?)\s*:\s*(.*)$/) {
 	    $parabody = 1;
+	    if ($1 =~ m/^-/) {
+		$self->parse_error($desc, _g('field cannot start with a hyphen'));
+	    }
 	    if (exists $self->{$1}) {
 		unless ($$self->{allow_duplicate}) {
 		    $self->parse_error($desc, _g('duplicate field %s found'), $1);

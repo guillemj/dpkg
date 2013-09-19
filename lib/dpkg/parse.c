@@ -583,6 +583,9 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
     fs->fieldlen = ps->dataptr - fs->fieldstart - 1;
     if (fs->fieldlen == 0)
       parse_error(ps,  _("empty field name"));
+    if (fs->fieldstart[0] == '-')
+      parse_error(ps,  _("field name '%.*s' cannot start with hyphen"),
+                  fs->fieldlen, fs->fieldstart);
 
     /* Skip spaces before ‘:’. */
     while (!parse_EOF(ps) && c != '\n' && isspace(c))
