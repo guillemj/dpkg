@@ -589,6 +589,8 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
     while (!parse_EOF(ps) && !isspace(c) && c != ':' && c != MSDOS_EOF_CHAR)
       c = parse_getc(ps);
     fs->fieldlen = ps->dataptr - fs->fieldstart - 1;
+    if (fs->fieldlen == 0)
+      parse_error(ps,  _("empty field name"));
 
     /* Skip spaces before ‘:’. */
     while (!parse_EOF(ps) && c != '\n' && isspace(c))
