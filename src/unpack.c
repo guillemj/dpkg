@@ -975,7 +975,6 @@ void process_archive(const char *filename) {
       continue;
 
     usenode = namenodetouse(namenode, pkg, &pkg->installed);
-    trig_file_activate(usenode, pkg);
 
     varbuf_trunc(&fnamevb, fnameidlu);
     varbuf_add_str(&fnamevb, usenode->name);
@@ -995,6 +994,8 @@ void process_archive(const char *filename) {
       continue;
     }
     if (S_ISDIR(oldfs.st_mode)) {
+      trig_path_activate(usenode, pkg);
+
       if (rmdir(fnamevb.buf)) {
 	warning(_("unable to delete old directory '%.250s': %s"),
 	        namenode->name, strerror(errno));
@@ -1094,6 +1095,8 @@ void process_archive(const char *filename) {
 
       if (sameas)
 	continue;
+
+      trig_path_activate(usenode, pkg);
 
       if (secure_unlink_statted(fnamevb.buf, &oldfs)) {
         warning(_("unable to securely remove old file '%.250s': %s"),
