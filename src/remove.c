@@ -304,7 +304,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
           continue;
       }
 
-      trig_file_activate(usenode, pkg);
+      trig_path_activate(usenode, pkg);
 
       varbuf_trunc(&fnvb, before);
       varbuf_add_str(&fnvb, DPKGTEMPEXT);
@@ -412,7 +412,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
         continue;
     }
 
-    trig_file_activate(usenode, pkg);
+    trig_path_activate(usenode, pkg);
 
     debug(dbg_eachfiledetail, "removal_bulk removing '%s'", fnvb.buf);
     if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
