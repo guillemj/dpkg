@@ -154,8 +154,6 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 		last_partsize = partsize;
 	nparts = (st.st_size + partsize - 1) / partsize;
 
-	setvbuf(stdout, NULL, _IONBF, 0);
-
 	printf(P_("Splitting package %s into %d part: ",
 	          "Splitting package %s into %d parts: ", nparts),
 	       package, nparts);
