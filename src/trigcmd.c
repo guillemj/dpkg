@@ -216,12 +216,11 @@ main(int argc, const char *const *argv)
 	textdomain(PACKAGE);
 
 	dpkg_set_progname("dpkg-trigger");
+	dpkg_set_report_buffer(stdout);
 	standard_startup();
 	myopt(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
-
-	setvbuf(stdout, NULL, _IONBF, 0);
 
 	if (f_check) {
 		if (*argv)

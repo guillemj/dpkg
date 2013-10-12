@@ -842,6 +842,7 @@ int main(int argc, const char *const *argv) {
   textdomain(PACKAGE);
 
   dpkg_set_progname("dpkg");
+  dpkg_set_report_buffer(stdout);
   standard_startup();
   loadcfgfile(DPKG, cmdinfos);
   myopt(&argv, cmdinfos, printforhelp);
@@ -856,8 +857,6 @@ int main(int argc, const char *const *argv) {
 
   if (!f_triggers)
     f_triggers = (cipaction->arg_int == act_triggers && *argv) ? -1 : 1;
-
-  setvbuf(stdout, NULL, _IONBF, 0);
 
   if (is_invoke_action(cipaction->arg_int)) {
     run_invoke_hooks(cipaction->olong, pre_invoke_hooks);

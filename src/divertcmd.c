@@ -772,6 +772,7 @@ main(int argc, const char * const *argv)
 	textdomain(PACKAGE);
 
 	dpkg_set_progname("dpkg-divert");
+	dpkg_set_report_buffer(stdout);
 	standard_startup();
 	myopt(&argv, cmdinfos, printforhelp);
 
@@ -783,8 +784,6 @@ main(int argc, const char * const *argv)
 
 	if (!cipaction)
 		setaction(&cmdinfo_add, NULL);
-
-	setvbuf(stdout, NULL, _IONBF, 0);
 
 	modstatdb_open(msdbrw_readonly);
 	filesdbinit();

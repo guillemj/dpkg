@@ -351,6 +351,7 @@ main(int argc, const char *const *argv)
 	textdomain(PACKAGE);
 
 	dpkg_set_progname("dpkg-statoverride");
+	dpkg_set_report_buffer(stdout);
 	standard_startup();
 	myopt(&argv, cmdinfos, printforhelp);
 
@@ -358,8 +359,6 @@ main(int argc, const char *const *argv)
 
 	if (!cipaction)
 		badusage(_("need an action option"));
-
-	setvbuf(stdout, NULL, _IONBF, 0);
 
 	filesdbinit();
 	ensure_statoverrides();

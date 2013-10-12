@@ -161,6 +161,7 @@ int main(int argc, const char *const *argv) {
   textdomain(PACKAGE);
 
   dpkg_set_progname(SPLITTER);
+  dpkg_set_report_buffer(stdout);
   standard_startup();
   myopt(&argv, cmdinfos, printforhelp);
 
@@ -169,8 +170,6 @@ int main(int argc, const char *const *argv) {
     opt_depotdir = dpkg_db_get_path(PARTSDIR);
 
   if (!cipaction) badusage(_("need an action option"));
-
-  setvbuf(stdout,NULL,_IONBF,0);
 
   ret = cipaction->action(argv);
 

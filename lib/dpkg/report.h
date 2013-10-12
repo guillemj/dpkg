@@ -23,6 +23,7 @@
 #define LIBDPKG_REPORT_H
 
 #include <stdarg.h>
+#include <stdio.h>
 
 #include <dpkg/macros.h>
 
@@ -33,6 +34,8 @@ DPKG_BEGIN_DECLS
  * @ingroup dpkg-internal
  * @{
  */
+
+void dpkg_set_report_buffer(FILE *fp);
 
 int warning_get_count(void);
 void warningv(const char *fmt, va_list args) DPKG_ATTR_VPRINTF(1);

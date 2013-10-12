@@ -866,6 +866,7 @@ int main(int argc, const char *const *argv) {
   textdomain(PACKAGE);
 
   dpkg_set_progname("dpkg-query");
+  dpkg_set_report_buffer(stdout);
   standard_startup();
   myopt(&argv, cmdinfos, printforhelp);
 
@@ -873,7 +874,6 @@ int main(int argc, const char *const *argv) {
 
   if (!cipaction) badusage(_("need an action option"));
 
-  setvbuf(stdout, NULL, _IONBF, 0);
   filesdbinit();
 
   ret = cipaction->action(argv);

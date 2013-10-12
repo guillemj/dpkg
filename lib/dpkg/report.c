@@ -3,7 +3,7 @@
  * reoport.c - message reporting
  *
  * Copyright © 2004-2005 Scott James Remnant <scott@netsplit.com>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2013 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,12 @@
 #include <dpkg/i18n.h>
 #include <dpkg/progname.h>
 #include <dpkg/report.h>
+
+void
+dpkg_set_report_buffer(FILE *fp)
+{
+	setvbuf(fp, NULL, _IONBF, 0);
+}
 
 static int warn_count = 0;
 
