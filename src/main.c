@@ -822,7 +822,7 @@ commandfd(const char *const *argv)
         newargs[i] = m_strdup(newargs[i]);
 
     setaction(NULL, NULL);
-    myopt((const char *const **)&newargs, cmdinfos, printforhelp);
+    dpkg_options_parse((const char *const **)&newargs, cmdinfos, printforhelp);
     if (!cipaction) badusage(_("need an action option"));
 
     ret |= cipaction->action(newargs);
@@ -841,8 +841,8 @@ int main(int argc, const char *const *argv) {
   textdomain(PACKAGE);
 
   dpkg_program_init("dpkg");
-  loadcfgfile(DPKG, cmdinfos);
-  myopt(&argv, cmdinfos, printforhelp);
+  dpkg_options_load(DPKG, cmdinfos);
+  dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
   if (!cipaction) badusage(_("need an action option"));
 

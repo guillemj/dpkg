@@ -516,8 +516,8 @@ main(int, const char *const *argv)
 
   push_error_context_func(dselect_catch_fatal_error, print_fatal_error, 0);
 
-  loadcfgfile(DSELECT, cmdinfos);
-  myopt(&argv, cmdinfos, printforhelp);
+  dpkg_options_load(DSELECT, cmdinfos);
+  dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
   admindir = dpkg_db_set_dir(admindir);
 

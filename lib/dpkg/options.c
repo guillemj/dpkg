@@ -63,8 +63,8 @@ config_error(const char *file_name, int line_num, const char *fmt, ...)
   ohshit(_("configuration error: %s:%d: %s"), file_name, line_num, buf);
 }
 
-void
-myfileopt(const char *fn, const struct cmdinfo *cmdinfos)
+static void
+dpkg_options_load_file(const char *fn, const struct cmdinfo *cmdinfos)
 {
   FILE *file;
   int line_num = 0;
@@ -156,7 +156,7 @@ valid_config_filename(const struct dirent *dent)
 }
 
 static void
-load_config_dir(const char *prog, const struct cmdinfo *cmdinfos)
+dpkg_options_load_dir(const char *prog, const struct cmdinfo *cmdinfos)
 {
   char *dirname;
   struct dirent **dlist;
@@ -177,7 +177,7 @@ load_config_dir(const char *prog, const struct cmdinfo *cmdinfos)
     char *filename;
 
     m_asprintf(&filename, "%s/%s", dirname, dlist[i]->d_name);
-    myfileopt(filename, cmdinfos);
+    dpkg_options_load_file(filename, cmdinfos);
 
     free(dlist[i]);
     free(filename);
@@ -188,27 +188,27 @@ load_config_dir(const char *prog, const struct cmdinfo *cmdinfos)
 }
 
 void
-loadcfgfile(const char *prog, const struct cmdinfo *cmdinfos)
+dpkg_options_load(const char *prog, const struct cmdinfo *cmdinfos)
 {
   char *home, *file;
 
-  load_config_dir(prog, cmdinfos);
+  dpkg_options_load_dir(prog, cmdinfos);
 
   m_asprintf(&file, "%s/%s.cfg", CONFIGDIR, prog);
-  myfileopt(file, cmdinfos);
+  dpkg_options_load_file(file, cmdinfos);
   free(file);
 
   home = getenv("HOME");
   if (home != NULL) {
     m_asprintf(&file, "%s/.%s.cfg", home, prog);
-    myfileopt(file, cmdinfos);
+    dpkg_options_load_file(file, cmdinfos);
     free(file);
   }
 }
 
 void
-myopt(const char *const **argvp, const struct cmdinfo *cmdinfos,
-      const char *help_str)
+dpkg_options_parse(const char *const **argvp, const struct cmdinfo *cmdinfos,
+                   const char *help_str)
 {
   const struct cmdinfo *cip;
   const char *p, *value;

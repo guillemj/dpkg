@@ -772,7 +772,7 @@ main(int argc, const char * const *argv)
 	textdomain(PACKAGE);
 
 	dpkg_program_init("dpkg-divert");
-	myopt(&argv, cmdinfos, printforhelp);
+	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
 
