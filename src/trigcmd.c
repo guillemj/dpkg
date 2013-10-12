@@ -23,8 +23,6 @@
 #include <compat.h>
 
 #include <sys/types.h>
-#include <sys/ioctl.h>
-#include <sys/termios.h>
 
 #include <fcntl.h>
 #if HAVE_LOCALE_H
