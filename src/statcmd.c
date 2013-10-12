@@ -350,9 +350,7 @@ main(int argc, const char *const *argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	dpkg_set_progname("dpkg-statoverride");
-	dpkg_set_report_buffer(stdout);
-	standard_startup();
+	dpkg_program_init("dpkg-statoverride");
 	myopt(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
@@ -365,7 +363,7 @@ main(int argc, const char *const *argv)
 
 	ret = cipaction->action(argv);
 
-	standard_shutdown();
+	dpkg_program_done();
 
 	return ret;
 }

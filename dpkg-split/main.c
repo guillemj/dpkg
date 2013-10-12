@@ -22,7 +22,6 @@
 #include <compat.h>
 
 #include <sys/types.h>
-#include <sys/stat.h>
 
 #include <assert.h>
 #include <errno.h>
@@ -160,9 +159,7 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
-  dpkg_set_progname(SPLITTER);
-  dpkg_set_report_buffer(stdout);
-  standard_startup();
+  dpkg_program_init(SPLITTER);
   myopt(&argv, cmdinfos, printforhelp);
 
   admindir = dpkg_db_set_dir(admindir);
@@ -175,7 +172,7 @@ int main(int argc, const char *const *argv) {
 
   m_output(stderr, _("<standard error>"));
 
-  standard_shutdown();
+  dpkg_program_done();
 
   return ret;
 }

@@ -25,7 +25,6 @@
 #include <compat.h>
 
 #include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/wait.h>
 
 #include <errno.h>
@@ -841,9 +840,7 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
-  dpkg_set_progname("dpkg");
-  dpkg_set_report_buffer(stdout);
-  standard_startup();
+  dpkg_program_init("dpkg");
   loadcfgfile(DPKG, cmdinfos);
   myopt(&argv, cmdinfos, printforhelp);
 
@@ -870,7 +867,7 @@ int main(int argc, const char *const *argv) {
   if (is_invoke_action(cipaction->arg_int))
     run_invoke_hooks(cipaction->olong, post_invoke_hooks);
 
-  standard_shutdown();
+  dpkg_program_done();
 
   return reportbroken_retexitstatus(ret);
 }

@@ -62,6 +62,7 @@ libdpkg_a_SOURCES = \
 	pkg-show.c \
 	pkg-spec.c \
 	progname.c \
+	program.c \
 	progress.c \
 	report.c \
 	string.c \
@@ -107,6 +108,7 @@ pkginclude_HEADERS = \
 	pkg-show.h \
 	pkg-spec.h \
 	progname.h \
+	program.h \
 	progress.h \
 	report.h \
 	string.h \

@@ -24,7 +24,6 @@
 #include <compat.h>
 
 #include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/wait.h>
 
 #include <assert.h>
@@ -536,6 +535,7 @@ main(int, const char *const *argv)
   }
 
   cursesoff();
-  standard_shutdown();
+  dpkg_program_done();
+
   return(0);
 }

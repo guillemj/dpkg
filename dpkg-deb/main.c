@@ -23,7 +23,6 @@
 #include <compat.h>
 
 #include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/wait.h>
 
 #include <assert.h>
@@ -257,8 +256,7 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
-  dpkg_set_progname(BACKEND);
-  standard_startup();
+  dpkg_program_init(BACKEND);
   myopt(&argv, cmdinfos, printforhelp);
 
   if (!cipaction) badusage(_("need an action option"));
@@ -270,7 +268,7 @@ int main(int argc, const char *const *argv) {
 
   ret = cipaction->action(argv);
 
-  standard_shutdown();
+  dpkg_program_done();
 
   return ret;
 }

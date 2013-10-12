@@ -865,9 +865,7 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
-  dpkg_set_progname("dpkg-query");
-  dpkg_set_report_buffer(stdout);
-  standard_startup();
+  dpkg_program_init("dpkg-query");
   myopt(&argv, cmdinfos, printforhelp);
 
   admindir = dpkg_db_set_dir(admindir);
@@ -878,7 +876,7 @@ int main(int argc, const char *const *argv) {
 
   ret = cipaction->action(argv);
 
-  standard_shutdown();
+  dpkg_program_done();
 
   return !!ret;
 }

@@ -119,18 +119,7 @@ DPKG_BEGIN_DECLS
 #include <dpkg/progname.h>
 #include <dpkg/ehandle.h>
 #include <dpkg/report.h>
-
-/*** from startup.c ***/
-
-#define standard_startup() do { \
-  push_error_context(); \
-  /* Make sure all our status databases are readable. */ \
-  umask(022); \
-} while (0)
-
-#define standard_shutdown() do { \
-  pop_error_context(ehflag_normaltidy); \
-} while (0)
+#include <dpkg/program.h>
 
 /*** log.c ***/
 

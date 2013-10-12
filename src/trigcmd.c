@@ -24,7 +24,6 @@
 
 #include <sys/types.h>
 #include <sys/ioctl.h>
-#include <sys/stat.h>
 #include <sys/termios.h>
 
 #include <fcntl.h>
@@ -215,9 +214,7 @@ main(int argc, const char *const *argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	dpkg_set_progname("dpkg-trigger");
-	dpkg_set_report_buffer(stdout);
-	standard_startup();
+	dpkg_program_init("dpkg-trigger");
 	myopt(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
@@ -256,7 +253,7 @@ main(int argc, const char *const *argv)
 		trigdef_process_done();
 	}
 
-	standard_shutdown();
+	dpkg_program_done();
 
 	return 0;
 }
