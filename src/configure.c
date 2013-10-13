@@ -28,7 +28,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include <sys/termios.h>
 
 #include <assert.h>
 #include <errno.h>
@@ -37,6 +36,7 @@
 #include <time.h>
 #include <fcntl.h>
 #include <dirent.h>
+#include <termios.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>

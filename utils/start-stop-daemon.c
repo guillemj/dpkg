@@ -75,7 +75,6 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
-#include <sys/termios.h>
 
 #include <assert.h>
 #include <errno.h>
@@ -87,6 +86,7 @@
 #include <pwd.h>
 #include <grp.h>
 #include <signal.h>
+#include <termios.h>
 #include <unistd.h>
 #ifdef HAVE_STDDEF_H
 #include <stddef.h>

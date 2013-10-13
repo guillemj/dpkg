@@ -24,12 +24,12 @@
 #include <compat.h>
 
 #include <sys/ioctl.h>
-#include <sys/termios.h>
 
 #include <assert.h>
 #include <errno.h>
 #include <ctype.h>
 #include <string.h>
+#include <termios.h>
 #include <unistd.h>
 #include <stdio.h>
 

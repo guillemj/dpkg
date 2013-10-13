@@ -28,7 +28,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
-#include <sys/termios.h>
 
 #if HAVE_LOCALE_H
 #include <locale.h>
@@ -37,6 +36,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <fnmatch.h>
+#include <termios.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
