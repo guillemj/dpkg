@@ -152,13 +152,14 @@ parsestring(struct pkg_format_node *node, const char *fmt, const char *fmtend,
 void
 pkg_format_free(struct pkg_format_node *head)
 {
-	struct pkg_format_node *next;
+	struct pkg_format_node *node;
 
 	while (head) {
-		next = head->next;
-		free(head->data);
-		free(head);
-		head = next;
+		node = head;
+		head = node->next;
+
+		free(node->data);
+		free(node);
 	}
 }
 
@@ -318,30 +319,31 @@ void
 pkg_format_show(const struct pkg_format_node *head,
                 struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
+	const struct pkg_format_node *node;
 	struct varbuf vb = VARBUF_INIT, fb = VARBUF_INIT, wb = VARBUF_INIT;
 
-	while (head) {
+	for (node = head; node; node = node->next) {
 		bool ok;
 		char fmt[16];
 
 		ok = false;
 
-		if (head->width > 0)
+		if (node->width > 0)
 			snprintf(fmt, 16, "%%%s%zus",
-			         ((head->pad) ? "-" : ""), head->width);
+			         ((node->pad) ? "-" : ""), node->width);
 		else
 			strcpy(fmt, "%s");
 
-		if (head->type == PKG_FORMAT_STRING) {
-			varbuf_printf(&fb, fmt, head->data);
+		if (node->type == PKG_FORMAT_STRING) {
+			varbuf_printf(&fb, fmt, node->data);
 			ok = true;
-		} else if (head->type == PKG_FORMAT_FIELD) {
+		} else if (node->type == PKG_FORMAT_FIELD) {
 			const struct fieldinfo *fip;
 
-			fip = find_field_info(fieldinfos, head);
+			fip = find_field_info(fieldinfos, node);
 
 			if (fip->name == NULL)
-				fip = find_field_info(virtinfos, head);
+				fip = find_field_info(virtinfos, node);
 
 			if (fip->name) {
 				fip->wcall(&wb, pkg, pkgbin, 0, fip);
@@ -354,7 +356,7 @@ pkg_format_show(const struct pkg_format_node *head,
 				const struct arbitraryfield *afp;
 
 				for (afp = pkgbin->arbs; afp; afp = afp->next)
-					if (strcasecmp(head->data, afp->name) == 0) {
+					if (strcasecmp(node->data, afp->name) == 0) {
 						varbuf_printf(&fb, fmt, afp->value);
 						ok = true;
 						break;
@@ -364,13 +366,12 @@ pkg_format_show(const struct pkg_format_node *head,
 
 		if (ok) {
 			size_t len = strlen(fb.buf);
-			if ((head->width > 0) && (len > head->width))
-				len = head->width;
+			if ((node->width > 0) && (len > node->width))
+				len = node->width;
 			varbuf_add_buf(&vb, fb.buf, len);
 		}
 
 		varbuf_reset(&fb);
-		head = head->next;
 	}
 
 	if (vb.buf) {
