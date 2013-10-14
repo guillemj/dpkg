@@ -67,7 +67,7 @@ pkg_format_node_new(void)
 }
 
 static bool
-parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend,
+parsefield(struct pkg_format_node *node, const char *fmt, const char *fmtend,
            struct dpkg_error *err)
 {
 	int len;
@@ -94,24 +94,24 @@ parsefield(struct pkg_format_node *cur, const char *fmt, const char *fmtend,
 		}
 
 		if (w < 0) {
-			cur->pad = 1;
-			cur->width = (size_t)-w;
+			node->pad = 1;
+			node->width = (size_t)-w;
 		} else
-			cur->width = (size_t)w;
+			node->width = (size_t)w;
 
 		len = ws - fmt;
 	}
 
-	cur->type = PKG_FORMAT_FIELD;
-	cur->data = m_malloc(len + 1);
-	memcpy(cur->data, fmt, len);
-	cur->data[len] = '\0';
+	node->type = PKG_FORMAT_FIELD;
+	node->data = m_malloc(len + 1);
+	memcpy(node->data, fmt, len);
+	node->data[len] = '\0';
 
 	return true;
 }
 
 static bool
-parsestring(struct pkg_format_node *cur, const char *fmt, const char *fmtend,
+parsestring(struct pkg_format_node *node, const char *fmt, const char *fmtend,
             struct dpkg_error *err)
 {
 	int len;
@@ -119,8 +119,8 @@ parsestring(struct pkg_format_node *cur, const char *fmt, const char *fmtend,
 
 	len = fmtend - fmt + 1;
 
-	cur->type = PKG_FORMAT_STRING;
-	write = cur->data = m_malloc(len + 1);
+	node->type = PKG_FORMAT_STRING;
+	node->data = write = m_malloc(len + 1);
 	while (fmt <= fmtend) {
 		if (*fmt == '\\') {
 			fmt++;
@@ -165,17 +165,16 @@ pkg_format_free(struct pkg_format_node *head)
 struct pkg_format_node *
 pkg_format_parse(const char *fmt, struct dpkg_error *err)
 {
-	struct pkg_format_node *head;
-	struct pkg_format_node *cur;
+	struct pkg_format_node *head, *node;
 	const char *fmtend;
 
-	head = cur = NULL;
+	head = node = NULL;
 
 	while (*fmt) {
-		if (cur)
-			cur = cur->next = pkg_format_node_new();
+		if (node)
+			node = node->next = pkg_format_node_new();
 		else
-			head = cur = pkg_format_node_new();
+			head = node = pkg_format_node_new();
 
 		if (fmt[0] == '$' && fmt[1] == '{') {
 			fmtend = strchr(fmt, '}');
@@ -185,7 +184,7 @@ pkg_format_parse(const char *fmt, struct dpkg_error *err)
 				return NULL;
 			}
 
-			if (!parsefield(cur, fmt + 2, fmtend - 1, err)) {
+			if (!parsefield(node, fmt + 2, fmtend - 1, err)) {
 				pkg_format_free(head);
 				return NULL;
 			}
@@ -200,7 +199,7 @@ pkg_format_parse(const char *fmt, struct dpkg_error *err)
 			if (!fmtend)
 				fmtend = fmt + strlen(fmt);
 
-			if (!parsestring(cur, fmt, fmtend - 1, err)) {
+			if (!parsestring(node, fmt, fmtend - 1, err)) {
 				pkg_format_free(head);
 				return NULL;
 			}
