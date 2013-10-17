@@ -21,7 +21,6 @@ endif
 
 # Always use a local db (requires at least dpkg 1.16.0)
 DPKG_ADMINDIR = $(CURDIR)/../dpkgdb
-DPKG_REQUIRED_DIRS = $(DPKG_ADMINDIR)/updates $(DPKG_ADMINDIR)/info
 DPKG_COMMON_OPTIONS = --admindir=$(DPKG_ADMINDIR)
 
 DPKG = dpkg $(DPKG_COMMON_OPTIONS) $(DPKG_OPTIONS)
@@ -65,14 +64,10 @@ TEST_CASES :=
 
 build: build-hook $(DEB) $(DSC)
 
-test: build dpkg-setup test-case test-clean
+test: build test-case test-clean
 
 clean: clean-hook
 	$(RM) $(DEB) $(DSC) *.diff.gz *.tar.gz
 
-dpkg-setup: $(DPKG_REQUIRED_DIRS)
-$(DPKG_REQUIRED_DIRS):
-	mkdir -p $@
-
-.PHONY: dpkg-setup build-hook build test test-case test-clean clean-hook clean
+.PHONY: build-hook build test test-case test-clean clean-hook clean
 
