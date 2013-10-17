@@ -6,11 +6,15 @@
 
 -include ../.pkg-tests.conf
 
+ifneq (,$(filter debug,$(DPKG_TESTSUITE_OPTIONS)))
+DPKG_MAINTSCRIPT_DEBUG = DPKG_DEBUG=1
+endif
+
 ifdef DPKG_BUILDTREE
 PATH := $(DPKG_BUILDTREE)/dpkg-deb:$(DPKG_BUILDTREE)/dpkg-split:$(DPKG_BUILDTREE)/src:$(DPKG_BUILDTREE)/utils:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-BEROOT := sudo env PATH=$(PATH)
+BEROOT := sudo env PATH=$(PATH) $(DPKG_MAINTSCRIPT_DEBUG)
 else
-BEROOT := sudo
+BEROOT := sudo env $(DPKG_MAINTSCRIPT_DEBUG)
 endif
 
 DPKG_OPTIONS = --force-unsafe-io --no-debsig
