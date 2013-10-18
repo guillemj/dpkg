@@ -60,6 +60,9 @@ dpkg (1.17.2) UNRELEASED; urgency=low
   * Reset environment variables affecting compressor commands when not using
     the shared library implementations. Namely XZ_DEFAULTS, XZ_OPT, BZIP and
     BZIP2.
+  * Use a simple list to track packages owning a file, instead of using a
+    list of arrays of pointers which waste 10 pointers per non-shared file,
+    instead of 1. This significantly reduces dpkg memory usage.
 
   [ Updated programs translations ]
   * German (Sven Joachim).

@@ -55,19 +55,8 @@
 
 /*** filepackages support for tracking packages owning a file. ***/
 
-#define PERFILEPACKAGESLUMP 10
-
-struct filepackages {
-  struct filepackages *more;
-
-  /* pkgs is a NULL-pointer-terminated list; anything after the first NULL
-   * is garbage. */
-  struct pkginfo *pkgs[PERFILEPACKAGESLUMP];
-};
-
 struct filepackages_iterator {
-  struct filepackages *pkg_lump;
-  int pkg_idx;
+  struct pkg_list *pkg_node;
 };
 
 struct filepackages_iterator *
@@ -76,8 +65,7 @@ filepackages_iter_new(struct filenamenode *fnn)
   struct filepackages_iterator *iter;
 
   iter = m_malloc(sizeof(*iter));
-  iter->pkg_lump  = fnn->packages;
-  iter->pkg_idx = 0;
+  iter->pkg_node = fnn->packages;
 
   return iter;
 }
@@ -85,21 +73,15 @@ filepackages_iter_new(struct filenamenode *fnn)
 struct pkginfo *
 filepackages_iter_next(struct filepackages_iterator *iter)
 {
-  struct pkginfo *pkg;
+  struct pkg_list *pkg_node;
 
-  while (iter->pkg_lump) {
-    pkg = iter->pkg_lump->pkgs[iter->pkg_idx];
+  if (iter->pkg_node == NULL)
+    return NULL;
 
-    if (iter->pkg_idx < PERFILEPACKAGESLUMP && pkg) {
-      iter->pkg_idx++;
-      return pkg;
-    } else {
-      iter->pkg_lump = iter->pkg_lump->more;
-      iter->pkg_idx = 0;
-    }
-  }
+  pkg_node = iter->pkg_node;
+  iter->pkg_node = pkg_node->next;
 
-  return NULL;
+  return pkg_node->pkg;
 }
 
 void
@@ -149,8 +131,7 @@ static void
 pkg_files_blank(struct pkginfo *pkg)
 {
   struct fileinlist *current;
-  struct filepackages *packageslump;
-  int search, findlast;
+  struct pkg_list *pkg_node, *pkg_prev = NULL;
 
   /* Anything to empty? */
   if (!pkg->clientdata)
@@ -162,31 +143,21 @@ pkg_files_blank(struct pkginfo *pkg)
     /* For each file that used to be in the package,
      * go through looking for this package's entry in the list
      * of packages containing this file, and blank it out. */
-    for (packageslump= current->namenode->packages;
-         packageslump;
-         packageslump= packageslump->more)
-      for (search= 0;
-           search < PERFILEPACKAGESLUMP && packageslump->pkgs[search];
-           search++)
-        if (packageslump->pkgs[search] == pkg) {
-          /* Hah!  Found it. */
-          for (findlast= search+1;
-               findlast < PERFILEPACKAGESLUMP && packageslump->pkgs[findlast];
-               findlast++);
-          findlast--;
-          /* findlast is now the last occupied entry, which may be the same as
-           * search. We blank out the entry for this package. We also
-           * have to copy the last entry into the empty slot, because
-           * the list is NULL-pointer-terminated. */
-          packageslump->pkgs[search]= packageslump->pkgs[findlast];
-          packageslump->pkgs[findlast] = NULL;
-          /* This may result in an empty link in the list. This is OK. */
-          goto xit_search_to_delete_from_perfilenodelist;
-        }
-  xit_search_to_delete_from_perfilenodelist:
-    ;
-    /* The actual filelist links were allocated using nfmalloc, so
-     * we shouldn't free them. */
+    for (pkg_node = current->namenode->packages;
+         pkg_node;
+         pkg_node = pkg_node->next) {
+      if (pkg_node->pkg == pkg) {
+        if (pkg_prev)
+          pkg_prev->next = pkg_node->next;
+        else
+          current->namenode->packages = pkg_node->next;
+
+        /* The actual filelist links were allocated using nfmalloc, so
+         * we shouldn't free them. */
+        break;
+      }
+      pkg_prev = pkg_node;
+    }
   }
   pkg->clientdata->files = NULL;
 }
@@ -196,8 +167,7 @@ pkg_files_add_file(struct pkginfo *pkg, struct filenamenode *namenode,
                    struct fileinlist **file_tail)
 {
   struct fileinlist *newent;
-  struct filepackages *packageslump;
-  int putat = 0;
+  struct pkg_list *pkg_node;
 
   ensure_package_clientdata(pkg);
 
@@ -217,23 +187,10 @@ pkg_files_add_file(struct pkginfo *pkg, struct filenamenode *namenode,
   file_tail = &newent->next;
 
   /* Add pkg to newent's package list. */
-  packageslump = newent->namenode->packages;
-  putat = 0;
-  if (packageslump) {
-    while (putat < PERFILEPACKAGESLUMP && packageslump->pkgs[putat])
-       putat++;
-    if (putat >= PERFILEPACKAGESLUMP)
-      packageslump = NULL;
-  }
-  if (!packageslump) {
-    packageslump = nfmalloc(sizeof(struct filepackages));
-    packageslump->more = newent->namenode->packages;
-    newent->namenode->packages = packageslump;
-    putat = 0;
-  }
-  packageslump->pkgs[putat]= pkg;
-  if (++putat < PERFILEPACKAGESLUMP)
-    packageslump->pkgs[putat] = NULL;
+  pkg_node = nfmalloc(sizeof(*pkg_node));
+  pkg_node->pkg = pkg;
+  pkg_node->next = newent->namenode->packages;
+  newent->namenode->packages = pkg_node;
 
   /* Return the position for the next guy. */
   return file_tail;

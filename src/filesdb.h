@@ -59,7 +59,7 @@ enum fnnflags {
 struct filenamenode {
   struct filenamenode *next;
   const char *name;
-  struct filepackages *packages;
+  struct pkg_list *packages;
   struct diversion *divert;
 
   /** We allow the administrator to override the owner, group and mode of
