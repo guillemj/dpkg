@@ -310,9 +310,9 @@ find_field_info(const struct fieldinfo *fields_head,
 
 	for (fip = fields_head; fip->name; fip++)
 		if (strcasecmp(fmt_node->data, fip->name) == 0)
-			break;
+			return fip;
 
-	return fip;
+	return NULL;
 }
 
 void
@@ -341,11 +341,10 @@ pkg_format_show(const struct pkg_format_node *head,
 			const struct fieldinfo *fip;
 
 			fip = find_field_info(fieldinfos, node);
-
-			if (fip->name == NULL)
+			if (fip == NULL)
 				fip = find_field_info(virtinfos, node);
 
-			if (fip->name) {
+			if (fip) {
 				fip->wcall(&wb, pkg, pkgbin, 0, fip);
 
 				varbuf_end_str(&wb);
