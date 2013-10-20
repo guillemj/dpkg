@@ -150,6 +150,7 @@ sub add_hardening_flags {
     # PIE
     if ($use_feature{pie}) {
 	$flags->append('CFLAGS', '-fPIE');
+	$flags->append('FFLAGS', '-fPIE');
 	$flags->append('CXXFLAGS', '-fPIE');
 	$flags->append('GCJFLAGS', '-fPIE');
 	$flags->append('LDFLAGS', '-fPIE -pie');
@@ -158,6 +159,7 @@ sub add_hardening_flags {
     # Stack protector
     if ($use_feature{stackprotector}) {
 	$flags->append('CFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
+	$flags->append('FFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
 	$flags->append('CXXFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
 	$flags->append('GCJFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
     }
