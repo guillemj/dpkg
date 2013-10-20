@@ -55,9 +55,16 @@ str_width(const char *str)
 	memset(&state, 0, sizeof(state));
 
 	res = mbsrtowcs(wcs, &mbs, len, &state);
-	if (res == (size_t)-1)
+	if (res == (size_t)-1) {
+#ifdef DPKG_UNIFORM_ENCODING
 		ohshit(_("cannot convert multibyte string '%s' "
 		         "to a wide-character string"), str);
+#else
+		/* Cannot convert, fallback to ASCII method. */
+		free(wcs);
+		return strlen(str);
+#endif
+	}
 
 	width = wcswidth(wcs, res);
 
@@ -101,9 +108,16 @@ str_gen_crop(const char *str, int max_width, struct str_crop_info *crop)
 		size_t mb_bytes;
 
 		mb_bytes = mbrtowc(&wc, str, str_bytes, &state);
-		if (mb_bytes == (size_t)-1 || mb_bytes == (size_t)-2)
+		if (mb_bytes == (size_t)-1 || mb_bytes == (size_t)-2) {
+#ifdef DPKG_UNIFORM_ENCODING
 			ohshit(_("cannot convert multibyte sequence '%s' "
 			         "to a wide character"), str);
+#else
+			/* Cannot convert, fallback to ASCII method. */
+			crop->str_bytes = crop->max_bytes = max_width;
+			return;
+#endif
+		}
 		if (mb_bytes == 0)
 			break;
 
