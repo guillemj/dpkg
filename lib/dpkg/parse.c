@@ -638,7 +638,6 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
           break;
 
         parse_ungetc(c, ps);
-        c = '\n';
         blank_line = true;
       } else if (blank_line && !isspace(c)) {
         blank_line = false;

@@ -185,7 +185,6 @@ maintscript_set_exec_context(struct command *cmd, const char *fallback)
 		newcon = strdup(context_str(tmpcon));
 		if (newcon == NULL)
 			goto out;
-		rc = 0;
 	}
 
 	rc = setexeccon(newcon);
