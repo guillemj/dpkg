@@ -89,7 +89,6 @@ static void cleanupdates(void) {
     for (i=0; i<cdn; i++) {
       strcpy(updatefnrest, cdlist[i]->d_name);
       parsedb(updatefnbuf, pdb_parse_update, NULL);
-      if (cstatus < msdbrw_write) free(cdlist[i]);
     }
 
     if (cstatus >= msdbrw_write) {
@@ -99,11 +98,13 @@ static void cleanupdates(void) {
         strcpy(updatefnrest, cdlist[i]->d_name);
         if (unlink(updatefnbuf))
           ohshite(_("failed to remove incorporated update file %.255s"),updatefnbuf);
-        free(cdlist[i]);
       }
 
       dir_sync_path(updatesdir);
     }
+
+    for (i = 0; i < cdn; i++)
+      free(cdlist[i]);
   }
   free(cdlist);
 
