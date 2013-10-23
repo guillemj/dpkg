@@ -576,7 +576,7 @@ print_forceinfo(const struct forceinfo *fi)
   desc = m_strdup(gettext(fi->desc));
 
   line = strtok(desc, "\n");
-  print_forceinfo_line(fi->type, fi->name, desc);
+  print_forceinfo_line(fi->type, fi->name, line);
   while ((line = strtok(NULL, "\n")))
     print_forceinfo_line(' ', "", line);
 
