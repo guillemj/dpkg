@@ -13,11 +13,11 @@ AC_DEFUN([DPKG_COMPILER_WARNINGS],
 
 WFLAGS="-Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers \
 	 -Wmissing-declarations -Wmissing-format-attribute \
-	 -Wformat-security -Wpointer-arith \
+	 -Wformat-security -Wpointer-arith -Wlogical-op \
 	 -Wvla -Winit-self -Wwrite-strings -Wcast-align -Wshadow"
 WCFLAGS="-Wdeclaration-after-statement -Wnested-externs -Wbad-function-cast \
 	 -Wstrict-prototypes -Wmissing-prototypes -Wold-style-definition"
-WCXXFLAGS=""
+WCXXFLAGS="-Wc++11-compat"
 if test "x$enable_compiler_warnings" = "xyes"; then
 	if test "x$GCC" = "xyes"; then
 		CFLAGS="$WFLAGS $WCFLAGS $CFLAGS"
