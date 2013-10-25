@@ -117,9 +117,8 @@ ensure_statoverrides(void)
 	struct file_stat *fso;
 	struct filenamenode *fnn;
 
-	if (statoverridename != NULL)
-		free(statoverridename);
-	statoverridename = dpkg_db_get_path(STATOVERRIDEFILE);
+	if (statoverridename == NULL)
+		statoverridename = dpkg_db_get_path(STATOVERRIDEFILE);
 
 	onerr_abort++;
 

@@ -52,9 +52,8 @@ ensure_diversions(void)
 	FILE *file;
 	struct diversion *ov, *oicontest, *oialtname;
 
-	if (diversionsname != NULL)
-		free(diversionsname);
-	diversionsname = dpkg_db_get_path(DIVERSIONSFILE);
+	if (diversionsname == NULL)
+		diversionsname = dpkg_db_get_path(DIVERSIONSFILE);
 
 	onerr_abort++;
 
