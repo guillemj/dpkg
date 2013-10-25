@@ -47,7 +47,8 @@ static char *diversionsname;
 void
 ensure_diversions(void)
 {
-	struct stat stab1, stab2;
+	struct stat sb_prev;
+	struct stat sb_next;
 	char linebuf[MAXDIVERTFILENAME];
 	FILE *file;
 	struct diversion *ov, *oicontest, *oialtname;
@@ -66,12 +67,12 @@ ensure_diversions(void)
 			return;
 		}
 	} else if (diversionsfile) {
-		if (fstat(fileno(diversionsfile), &stab1))
+		if (fstat(fileno(diversionsfile), &sb_prev))
 			ohshite(_("failed to fstat previous diversions file"));
-		if (fstat(fileno(file), &stab2))
+		if (fstat(fileno(file), &sb_next))
 			ohshite(_("failed to fstat diversions file"));
-		if (stab1.st_dev == stab2.st_dev &&
-		    stab1.st_ino == stab2.st_ino) {
+		if (sb_prev.st_dev == sb_next.st_dev &&
+		    sb_prev.st_ino == sb_next.st_ino) {
 			fclose(file);
 			onerr_abort--;
 			return;

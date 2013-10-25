@@ -111,7 +111,8 @@ statdb_parse_mode(const char *str)
 void
 ensure_statoverrides(void)
 {
-	struct stat stab1, stab2;
+	struct stat sb_prev;
+	struct stat sb_next;
 	FILE *file;
 	char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
 	struct file_stat *fso;
@@ -131,13 +132,13 @@ ensure_statoverrides(void)
 			return;
 		}
 	} else {
-		if (fstat(fileno(file), &stab2))
+		if (fstat(fileno(file), &sb_next))
 			ohshite(_("failed to fstat statoverride file"));
 		if (statoverridefile) {
-			if (fstat(fileno(statoverridefile), &stab1))
+			if (fstat(fileno(statoverridefile), &sb_prev))
 				ohshite(_("failed to fstat previous statoverride file"));
-			if (stab1.st_dev == stab2.st_dev &&
-			    stab1.st_ino == stab2.st_ino) {
+			if (sb_prev.st_dev == sb_next.st_dev &&
+			    sb_prev.st_ino == sb_next.st_ino) {
 				fclose(file);
 				onerr_abort--;
 				return;
@@ -151,15 +152,15 @@ ensure_statoverrides(void)
 
 	/* If the statoverride list is empty we don't need to bother
 	 * reading it. */
-	if (!stab2.st_size) {
+	if (!sb_next.st_size) {
 		onerr_abort--;
 		return;
 	}
 
-	loaded_list = nfmalloc(stab2.st_size);
-	loaded_list_end = loaded_list + stab2.st_size;
+	loaded_list = nfmalloc(sb_next.st_size);
+	loaded_list_end = loaded_list + sb_next.st_size;
 
-	if (fd_read(fileno(file), loaded_list, stab2.st_size) < 0)
+	if (fd_read(fileno(file), loaded_list, sb_next.st_size) < 0)
 		ohshite(_("reading statoverride file '%.250s'"), statoverridename);
 
 	thisline = loaded_list;
