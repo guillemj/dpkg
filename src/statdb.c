@@ -42,7 +42,6 @@
 #include "filesdb.h"
 #include "main.h"
 
-static FILE *statoverridefile = NULL;
 static char *statoverridename;
 
 uid_t
@@ -111,7 +110,7 @@ statdb_parse_mode(const char *str)
 void
 ensure_statoverrides(void)
 {
-	struct stat sb_prev;
+	static struct stat sb_prev;
 	struct stat sb_next;
 	FILE *file;
 	char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
@@ -127,28 +126,18 @@ ensure_statoverrides(void)
 	if (!file) {
 		if (errno != ENOENT)
 			ohshite(_("failed to open statoverride file"));
-		if (!statoverridefile) {
-			onerr_abort--;
-			return;
-		}
 	} else {
 		if (fstat(fileno(file), &sb_next))
 			ohshite(_("failed to fstat statoverride file"));
-		if (statoverridefile) {
-			if (fstat(fileno(statoverridefile), &sb_prev))
-				ohshite(_("failed to fstat previous statoverride file"));
-			if (sb_prev.st_dev == sb_next.st_dev &&
-			    sb_prev.st_ino == sb_next.st_ino) {
-				fclose(file);
-				onerr_abort--;
-				return;
-			}
+
+		if (sb_prev.st_dev == sb_next.st_dev &&
+		    sb_prev.st_ino == sb_next.st_ino) {
+			fclose(file);
+			onerr_abort--;
+			return;
 		}
+		sb_prev = sb_next;
 	}
-	if (statoverridefile)
-		fclose(statoverridefile);
-	statoverridefile = file;
-	setcloexec(fileno(statoverridefile), statoverridename);
 
 	if (!file) {
 		onerr_abort--;
@@ -158,6 +147,7 @@ ensure_statoverrides(void)
 	/* If the statoverride list is empty we don't need to bother
 	 * reading it. */
 	if (!sb_next.st_size) {
+		fclose(file);
 		onerr_abort--;
 		return;
 	}
@@ -230,5 +220,6 @@ ensure_statoverrides(void)
 		thisline = nextline;
 	}
 
+	fclose(file);
 	onerr_abort--;
 }

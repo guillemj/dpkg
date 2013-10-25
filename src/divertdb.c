@@ -41,13 +41,12 @@
 #include "main.h"
 
 static struct diversion *diversions = NULL;
-static FILE *diversionsfile = NULL;
 static char *diversionsname;
 
 void
 ensure_diversions(void)
 {
-	struct stat sb_prev;
+	static struct stat sb_prev;
 	struct stat sb_next;
 	char linebuf[MAXDIVERTFILENAME];
 	FILE *file;
@@ -62,26 +61,18 @@ ensure_diversions(void)
 	if (!file) {
 		if (errno != ENOENT)
 			ohshite(_("failed to open diversions file"));
-		if (!diversionsfile) {
-			onerr_abort--;
-			return;
-		}
-	} else if (diversionsfile) {
-		if (fstat(fileno(diversionsfile), &sb_prev))
-			ohshite(_("failed to fstat previous diversions file"));
+	} else {
 		if (fstat(fileno(file), &sb_next))
 			ohshite(_("failed to fstat diversions file"));
+
 		if (sb_prev.st_dev == sb_next.st_dev &&
 		    sb_prev.st_ino == sb_next.st_ino) {
 			fclose(file);
 			onerr_abort--;
 			return;
 		}
+		sb_prev = sb_next;
 	}
-	if (diversionsfile)
-		fclose(diversionsfile);
-	diversionsfile = file;
-	setcloexec(fileno(diversionsfile), diversionsname);
 
 	for (ov = diversions; ov; ov = ov->next) {
 		ov->useinstead->divert->camefrom->divert = NULL;
@@ -121,5 +112,6 @@ ensure_diversions(void)
 		diversions = oicontest;
 	}
 
+	fclose(file);
 	onerr_abort--;
 }
