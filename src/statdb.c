@@ -150,6 +150,11 @@ ensure_statoverrides(void)
 	statoverridefile = file;
 	setcloexec(fileno(statoverridefile), statoverridename);
 
+	if (!file) {
+		onerr_abort--;
+		return;
+	}
+
 	/* If the statoverride list is empty we don't need to bother
 	 * reading it. */
 	if (!sb_next.st_size) {

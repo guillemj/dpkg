@@ -77,6 +77,8 @@ dpkg (1.17.2) UNRELEASED; urgency=low
     documentation and code comments.
   * Do not NULL-terminate the list in the compat scandir(), as this might
     cause a segfault in case the function returns 0 entries.
+  * Always return from ensure_statoverrides() if file is NULL, otherwise
+    we might get us to read garbage from memory or segfault.
 
   [ Updated programs translations ]
   * German (Sven Joachim).
