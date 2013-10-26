@@ -687,7 +687,6 @@ sub extract_from_shlibs {
 	return;
     }
     # Open shlibs file
-    $shlibfile = "./$shlibfile" if $shlibfile =~ m/^\s/;
     open(my $shlibs_fh, '<', $shlibfile) ||
         syserr(_g("unable to open shared libs info file \`%s'"), $shlibfile);
     my $dep;

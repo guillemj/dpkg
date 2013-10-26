@@ -363,7 +363,6 @@ sysopen($lockfh, $lockfile, O_WRONLY) ||
     syserr(_g('cannot write %s'), $lockfile);
 file_lock($lockfh, $lockfile);
 
-$fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(my $fileslistnew_fh, '>', "$fileslistfile.new") ||
     syserr(_g('open new files list file'));
 binmode($fileslistnew_fh);
@@ -403,7 +402,6 @@ my $cf;
 my $fh_output;
 if (!$stdout) {
     $cf= "$packagebuilddir/DEBIAN/control";
-    $cf= "./$cf" if $cf =~ m/^\s/;
     open($fh_output, '>', "$cf.new") ||
         syserr(_g("cannot open new output control file \`%s'"), "$cf.new");
 } else {

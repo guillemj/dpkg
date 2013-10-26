@@ -83,7 +83,6 @@ sysopen($lockfh, $lockfile, O_WRONLY) ||
     syserr(_g('cannot write %s'), $lockfile);
 file_lock($lockfh, $lockfile);
 
-$fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(my $fileslistnew_fh, '>', "$fileslistfile.new") ||
     syserr(_g('open new files list file'));
 if (open(my $fileslist_fh, '<', $fileslistfile)) {
