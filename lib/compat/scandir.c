@@ -85,7 +85,6 @@ scandir(const char *dir, struct dirent ***namelist,
 		list[used] = m;
 		used++;
 	}
-	list[used] = NULL;
 
 	closedir(d);
 
