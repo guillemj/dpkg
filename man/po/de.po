@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2013-10-27 18:26+0100\n"
-"PO-Revision-Date: 2013-10-27 19:49+0100\n"
+"POT-Creation-Date: 2013-11-01 11:06+0100\n"
+"PO-Revision-Date: 2013-11-01 12:05+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -104,7 +104,7 @@ msgstr "I<Dateiname>B<.deb>"
 #: deb-triggers.5:26 dpkg.1:44 dpkg-architecture.1:30 dpkg.cfg.5:23
 #: dpkg-buildflags.1:28 dpkg-buildpackage.1:30 dpkg-checkbuilddeps.1:29
 #: dpkg-distaddfile.1:27 dpkg-deb.1:29 dpkg-divert.8:30 dpkg-genchanges.1:30
-#: dpkg-gencontrol.1:29 dpkg-gensymbols.1:28 dpkg-maintscript-helper.1:32
+#: dpkg-gencontrol.1:29 dpkg-gensymbols.1:28 dpkg-maintscript-helper.1:36
 #: dpkg-mergechangelogs.1:26 dpkg-name.1:29 dpkg-parsechangelog.1:30
 #: dpkg-query.1:29 dpkg-scanpackages.1:33 dpkg-scansources.1:32
 #: dpkg-shlibdeps.1:30 dpkg-source.1:31 dpkg-split.1:27 dpkg-statoverride.8:27
@@ -6419,9 +6419,9 @@ msgid ""
 msgstr ""
 "Diese Datei enthält Standardoptionen für dpkg. Jede Zeile enthält eine "
 "einzelne Option, die exakt die gleiche wie für die normalen Kommandozeilen-"
-"Option von dpkg sind, abgesehen von den einleitenden Bindestrichen, die "
-"hier nicht verwendet werden. Anführungszeichen (»Quotes«) um Optionswerte "
-"werden entfernt. Kommentare sind durch Einleiten einer Zeile mit einem "
+"Option von dpkg sind, abgesehen von den einleitenden Bindestrichen, die hier "
+"nicht verwendet werden. Anführungszeichen (»Quotes«) um Optionswerte werden "
+"entfernt. Kommentare sind durch Einleiten einer Zeile mit einem "
 "Rautenzeichen (\"B<#>\") erlaubt."
 
 #. type: Plain text
@@ -8248,8 +8248,8 @@ msgstr ""
 msgid "Reliance on exported environment flags"
 msgstr "Vertrauen auf exportierte Umgebungsvariablen"
 
-#. type: Plain text
 # FIXME: Korrektur in alter Version
+#. type: Plain text
 #: dpkg-buildpackage.1:255
 msgid ""
 "Even if B<dpkg-buildpackage> exports some variables, B<debian/rules> should "
@@ -9933,9 +9933,8 @@ msgid ""
 "DEBIAN/control> if B<-P> was used)."
 msgstr ""
 "Die Steuerdatei in die Standardausgabe (oder I<Dateiname> falls angegeben) "
-"statt nach B<debian/tmp/DEBIAN/"
-"control> (oder I<Paketbauverzeichnis>B</DEBIAN/control> falls B<-P> "
-"verwendet worden ist) ausgeben."
+"statt nach B<debian/tmp/DEBIAN/control> (oder I<Paketbauverzeichnis>B</"
+"DEBIAN/control> falls B<-P> verwendet worden ist) ausgeben."
 
 #. type: TP
 #: dpkg-gencontrol.1:149
@@ -11028,11 +11027,10 @@ msgid ""
 msgstr ""
 "Die erstellte Symbols-Datei auf die Standardausgabe oder nach I<Dateiname>, "
 "falls angegeben, ausgeben statt in B<debian/tmp/DEBIAN/symbols> (oder "
-"I<Paket-Bauverzeichnis>B</DEBIAN/symbols> falls B<-P> verwandt wurde). "
-"Falls I<Dateiname> "
-"bereits existiert, wird deren Inhalt als Grundlage für die erstellte "
-"Symboldatei verwandt. Sie können diese Funktionalität benutzen, um eine "
-"Symboldatei zu aktualisieren, so dass sie zu einer neueren Version der "
+"I<Paket-Bauverzeichnis>B</DEBIAN/symbols> falls B<-P> verwandt wurde). Falls "
+"I<Dateiname> bereits existiert, wird deren Inhalt als Grundlage für die "
+"erstellte Symboldatei verwandt. Sie können diese Funktionalität benutzen, um "
+"eine Symboldatei zu aktualisieren, so dass sie zu einer neueren Version der "
 "Originalautoren Ihrer Bibliothek passt."
 
 #. type: TP
@@ -11220,7 +11218,23 @@ msgstr ""
 "[I<Paket>]]"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:37
+#: dpkg-maintscript-helper.1:33
+msgid ""
+"B<symlink_to_dir> I<pathname> I<old-target> [I<prior-version> [I<package>]]"
+msgstr ""
+"B<symlink_to_dir> I<Pfadname> I<altes_Ziel> [I<vorhergehende_Version> "
+"[I<Paket>]]"
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:35
+msgid ""
+"B<dir_to_symlink> I<pathname> I<new-target> [I<prior-version> [I<package>]]"
+msgstr ""
+"B<dir_to_symlink> I<Pfadname> I<neues_Ziel> [I<vorhergehende_Version> "
+"[I<Paket>]]"
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:41
 msgid ""
 "This program is designed to be run within maintainer scripts to achieve some "
 "tasks that B<dpkg> can't (yet) handle natively either because of design "
@@ -11231,9 +11245,9 @@ msgstr ""
 "selbst erledigen kann, entweder aufgrund von Design-Entscheidungen oder "
 "aufgrund aktueller Einschränkungen."
 
-#. type: Plain text
 # FIXME (alten) Dpkg: Schrägstrich → Bindestrich
-#: dpkg-maintscript-helper.1:44
+#. type: Plain text
+#: dpkg-maintscript-helper.1:48
 msgid ""
 "Many of those tasks require coordinated actions from several maintainer "
 "scripts (B<preinst>, B<postinst>, B<prerm>, B<postrm>). To avoid mistakes "
@@ -11250,13 +11264,106 @@ msgstr ""
 "einem doppelten Bindestrich übergeben müssen, anpassen."
 
 #. type: SH
-#: dpkg-maintscript-helper.1:45
+#: dpkg-maintscript-helper.1:49
+#, no-wrap
+msgid "COMMON PARAMETERS"
+msgstr "GEMEINSAME PARAMETER"
+
+#. type: TP
+#: dpkg-maintscript-helper.1:50
+#, no-wrap
+msgid "I<prior-version>"
+msgstr "I<vorhergehende_Version>"
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:58
+msgid ""
+"Defines the latest version of the package whose upgrade should trigger the "
+"operation. It is important to calculate I<prior-version> correctly so that "
+"the operations are correctly performed even if the user rebuilt the package "
+"with a local version. If I<prior-version> is empty or omitted, then the "
+"operation is tried on every upgrade (note: it's safer to give the version "
+"and have the operation tried only once)."
+msgstr ""
+"Definiert die letzte Version des Pakets, dessen "
+"Upgrade die Operation auslösen soll. Es ist wichtig, I<vorhergehende_Version> "
+"korrekt zu berechnen, so dass die Operationen korrekt ausgeführt werden, "
+"selbst falls der Benutzer das Paket mit einer lokalen Version neugebaut hat. Falls "
+"I<vorhergehende_Version> leer ist oder weggelassen wurde wird die "
+"Operation bei jedem Upgrade versucht (Hinweis: Es ist sicherer, die "
+"Version anzugeben und damit die Operation nur einmal versuchen zu lassen)."
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:63
+msgid ""
+"For example, for a conffile removed in version B<2.0-1> of a package, "
+"I<prior-version> should be set to B<2.0-1~>. This will cause the conffile to "
+"be removed even if the user rebuilt the previous version B<1.0-1> as "
+"B<1.0-1local1>."
+msgstr ""
+"Wird beispielsweise eine Conffile in Version "
+"B<2.0-1> eines Pakets entfernt, sollte I<vorhergehende_Version> auf "
+"B<2.0-1~> gesetzt werden. Dies führt dazu, dass das Conffile entfernt wird, "
+"selbst falls der Benutzer die vorhergehende Version B<1.0-1> als "
+"B<1.0-1local1> neu gebaut hat."
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:69
+msgid ""
+"If the conffile has not been shipped for several versions, and you are now "
+"modifying the maintainer scripts to clean up the obsolete file, I<prior-"
+"version> should be based on the version of the package that you are now "
+"preparing, not the first version of the package that lacked the conffile."
+msgstr ""
+"Falls das Conffile in mehreren Versionen nicht ausgeliefert wurde und Sie "
+"jetzt die Betreuerskripte anpassen, um die überflüssige Datei zu entfernen, "
+"sollte I<vorhergehende_Version> auf die Version des Pakets gesetzt werden, "
+"die Sie jetzt zusammenstellen, nicht auf die erste Version des Pakets, bei "
+"dem das Conffile fehlte."
+
+#. type: TP
+#: dpkg-maintscript-helper.1:69
+#, no-wrap
+msgid "I<package>"
+msgstr "I<Paket>"
+
+# FIXME: Doppeltes Leerzeichen vor »will«
+#. type: Plain text
+#: dpkg-maintscript-helper.1:75
+msgid ""
+"The package name. When the package is \"Multi-Arch: same\", this parameter "
+"must include the architecture qualifier. If empty or omitted, the "
+"B<DPKG_MAINTSCRIPT_PACKAGE> environment variable (as set by B<dpkg>)  will "
+"be used."
+msgstr ""
+"Der Paketname. Wenn das Pakete »Multi-Arch: same« ist, muss "
+"dieser Parameter den Architektur-Kennzeichner enthalten. Falls leer oder "
+"nicht angegeben wird die (von B<dpkg> gesetzte) Umgebungsvariable "
+"B<DPKG_MAINTSCRIPT_PACKAGE> verwandt."
+
+#. type: TP
+#: dpkg-maintscript-helper.1:75
+#, no-wrap
+msgid "B<-->"
+msgstr "B<-->"
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:79
+msgid ""
+"All the parameters of the maintainer scripts have to be forwarded to the "
+"program after B<-->."
+msgstr ""
+"Alle Parameter der Betreuerskripte müssen nach B<--> an das Programm "
+"weitergeleitet werden."
+
+#. type: SH
+#: dpkg-maintscript-helper.1:79
 #, no-wrap
 msgid "CONFFILE RELATED TASKS"
 msgstr "CONFFILE-BEZOGENE AUFGABEN"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:55
+#: dpkg-maintscript-helper.1:89
 msgid ""
 "When upgrading a package, B<dpkg> will not automatically remove a conffile "
 "(a configuration file for which B<dpkg> should preserve user changes) if it "
@@ -11279,7 +11386,7 @@ msgstr ""
 "wird, umzustellen."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:60
+#: dpkg-maintscript-helper.1:94
 msgid ""
 "This means that if a package is intended to rename or remove a conffile, it "
 "must explicitly do so and B<dpkg-maintscript-helper> can be used to "
@@ -11292,13 +11399,13 @@ msgstr ""
 "innerhalb von Betreuerskripten durchzuführen."
 
 #. type: SS
-#: dpkg-maintscript-helper.1:61
+#: dpkg-maintscript-helper.1:95
 #, no-wrap
 msgid "Removing a conffile"
 msgstr "Eine Conffile entfernen"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:67
+#: dpkg-maintscript-helper.1:101
 msgid ""
 "If a conffile is completely removed, it should be removed from disk, unless "
 "the user has modified it. If there are local modifications, they should be "
@@ -11312,7 +11419,7 @@ msgstr ""
 "verschwinden."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:70
+#: dpkg-maintscript-helper.1:104
 msgid ""
 "All of this is implemented by putting the following shell snippet in the "
 "B<preinst>, B<postinst> and B<postrm> maintainer scripts:"
@@ -11321,7 +11428,7 @@ msgstr ""
 "Betreuerskripte B<preinst>, B<postinst> und B<postrm> implementiert:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:73
+#: dpkg-maintscript-helper.1:107
 #, no-wrap
 msgid ""
 "    dpkg-maintscript-helper rm_conffile \\e\n"
@@ -11331,69 +11438,12 @@ msgstr ""
 "        I<Conffile> I<vorhergehende_Version> I<Paket> -- \"$@\"\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:75
+#: dpkg-maintscript-helper.1:109
 msgid "I<conffile> is the filename of the conffile to remove."
 msgstr "I<Conffile> ist der Dateiname der zu entfernenden Conffile."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:84
-msgid ""
-"I<prior-version> defines the latest version of the package whose upgrade "
-"should trigger the removal. It is important to calculate I<prior-version> "
-"correctly so that conffiles are correctly removed even if the user rebuilt "
-"the package with a local version. For example, for a conffile removed in "
-"version B<2.0-1> of a package, I<prior-version> should be set to B<2.0-1~>. "
-"This will cause the conffile to be removed even if the user rebuilt the "
-"previous version B<1.0-1> as B<1.0-1local1>."
-msgstr ""
-"I<vorhergehende_Version> definiert die letzte Version des Pakets, dessen "
-"Upgrade die Entfernung auslösen soll. Es ist wichtig, dass "
-"I<vorhergehende_Version> korrekt berechnet wird, so dass Conffiles korrekt "
-"entfernt werden, selbst falls der Benutzer das Paket mit einer lokalen "
-"Version neu gebaut hat. Wird beispielsweise eine Conffile in Version "
-"B<2.0-1> eines Pakets entfernt, sollte I<vorhergehende_Version> auf "
-"B<2.0-1~> gesetzt werden. Dies führt dazu, dass das Conffile entfernt wird, "
-"selbst falls der Benutzer die vorhergehende Version B<1.0-1> als "
-"B<1.0-1local1> neu gebaut hat."
-
-#. type: Plain text
-#: dpkg-maintscript-helper.1:90
-msgid ""
-"If the conffile has not been shipped for several versions, and you are now "
-"modifying the maintainer scripts to clean up the obsolete file, I<prior-"
-"version> should be based on the version of the package that you are now "
-"preparing, not the first version of the package that lacked the conffile."
-msgstr ""
-"Falls das Conffile in mehreren Versionen nicht ausgeliefert wurde und Sie "
-"jetzt die Betreuerskripte anpassen, um die überflüssige Datei zu entfernen, "
-"sollte I<vorhergehende_Version> auf die Version des Pakets gesetzt werden, "
-"die Sie jetzt zusammenstellen, nicht auf die erste Version des Pakets, bei "
-"dem das Conffile fehlte."
-
-#. type: Plain text
-#: dpkg-maintscript-helper.1:95 dpkg-maintscript-helper.1:136
-msgid ""
-"I<package> is the package name. When the package is \"Multi-Arch: same\", "
-"this parameter must include the architecture qualifier. If empty or omitted, "
-"the B<DPKG_MAINTSCRIPT_PACKAGE> environment variable (as set by B<dpkg>) "
-"will be used."
-msgstr ""
-"I<Paket> ist der Paketname. Wenn das Pakete »Multi-Arch: same« ist, muss "
-"dieser Parameter den Architektur-Kennzeichner enthalten. Falls leer oder "
-"nicht angegeben wird die (von B<dpkg> gesetzte) Umgebungsvariable "
-"B<DPKG_MAINTSCRIPT_PACKAGE> verwandt."
-
-#. type: Plain text
-#: dpkg-maintscript-helper.1:98 dpkg-maintscript-helper.1:139
-msgid ""
-"All the parameters of the maintainer scripts have to be forwarded to the "
-"program after B<-->."
-msgstr ""
-"Alle Parameter der Betreuerskripte müssen nach B<--> an das Programm "
-"weitergeleitet werden."
-
-#. type: Plain text
-#: dpkg-maintscript-helper.1:107
+#: dpkg-maintscript-helper.1:118
 msgid ""
 "Current implementation: in the B<preinst>, it checks if the conffile was "
 "modified and renames it either to I<conffile>B<.dpkg-remove> (if not "
@@ -11415,13 +11465,13 @@ msgstr ""
 "Datei B<.dpkg-bak> entfernen."
 
 #. type: SS
-#: dpkg-maintscript-helper.1:108
+#: dpkg-maintscript-helper.1:119
 #, no-wrap
 msgid "Renaming a conffile"
 msgstr "Eine Conffile umbenennen"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:115
+#: dpkg-maintscript-helper.1:126
 msgid ""
 "If a conffile is moved from one location to another, you need to make sure "
 "you move across any changes the user has made. This may seem a simple change "
@@ -11437,7 +11487,7 @@ msgstr ""
 "für diese gar nicht verantwortlich sind."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:119
+#: dpkg-maintscript-helper.1:130 dpkg-maintscript-helper.1:161
 msgid ""
 "Graceful renaming can be implemented by putting the following shell snippet "
 "in the B<preinst>, B<postinst> and B<postrm> maintainer scripts:"
@@ -11446,7 +11496,7 @@ msgstr ""
 "Betreuerskripte B<preinst>, B<postinst> und B<postrm> implementiert werden:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:122
+#: dpkg-maintscript-helper.1:133
 #, no-wrap
 msgid ""
 "    dpkg-maintscript-helper mv_conffile \\e\n"
@@ -11456,7 +11506,7 @@ msgstr ""
 "        I<alte_Conffile> I<neue_Conffile> I<vorhergehende_Version> I<Paket> -- \"$@\"\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:125
+#: dpkg-maintscript-helper.1:136
 msgid ""
 "I<old-conffile> and I<new-conffile> are the old and new name of the conffile "
 "to rename."
@@ -11465,24 +11515,7 @@ msgstr ""
 "umzubenennenden Conffile."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:131
-msgid ""
-"I<prior-version> defines the latest version of the package whose upgrade "
-"should trigger the rename of the conffile (see the notes for B<rm_conffile> "
-"above concerning the correct value). If I<prior-version> is empty or "
-"omitted, then the operation is tried on every upgrade (note: it's safer to "
-"give the version and have the operation tried only once)."
-msgstr ""
-"I<vorhergehende_Version> definiert die letzte Version des Pakets, dessen "
-"Upgrade die Umbenennung der Conffile auslösen soll (siehe die Anmerkungen "
-"für B<rm_conffile> weiter oben in Bezug auf die korrekte Version). Falls "
-"I<vorhergehende_Version> leer ist oder weggelassen wurde wird die "
-"Umbenennung bei jedem Upgrade versucht (Hinweis: Es ist sicherer, die "
-"Version anzugeben und damit nur einmal versuchen zu lassen, die Datei "
-"umzubenennen)."
-
-#. type: Plain text
-#: dpkg-maintscript-helper.1:147
+#: dpkg-maintscript-helper.1:144
 msgid ""
 "Current implementation: the B<preinst> checks if the conffile has been "
 "modified, if yes it's left on place otherwise it's renamed to I<old-"
@@ -11501,33 +11534,185 @@ msgstr ""
 "I<alte_Conffile>B<.dpkg-remove> in I<alte_Conffile> zurück, falls notwendig."
 
 #. type: SH
-#: dpkg-maintscript-helper.1:148
+# FIXME: SWITCH und CONVERT Synonyme?
+#: dpkg-maintscript-helper.1:145
+#, no-wrap
+msgid "SYMLINK AND DIRECTORY SWITCHES"
+msgstr "SYMLINK- UND VERZEICHNISUMWANDLUNGEN"
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:149
+msgid ""
+"When upgrading a package, B<dpkg> will not automatically switch a symlink to "
+"a directory or vice-versa."
+msgstr ""
+"Beim Upgrade eines Pakets wird B<dpkg> einen Symlink nicht automatisch in "
+"ein Verzeichnis und umgekehrt umwandeln."
+
+#. type: SS
+#: dpkg-maintscript-helper.1:150
+#, no-wrap
+msgid "Switching a symlink to directory"
+msgstr "Einen Symlink in ein Verzeichnis umwandeln"
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:157
+msgid ""
+"If a symlink is converted to a real directory, you need to make sure before "
+"unpacking that the symlink is removed. This may seem a simple change to the "
+"B<preinst> script at first, however that will result in some problems in "
+"case of admin local customization of the symlink or when downgrading the "
+"package."
+msgstr ""
+"Falls ein Symlink in ein echtes Verzeichnis umgewandelt wird, müssen Sie vor "
+"dem Entpacken sicherstellen, dass der Symlink entfernt wird. Anfänglich "
+"erscheint dies als einfache Änderung am Skript B<preinst>, allerdings wird "
+"dies zu einigen Problemen führen, falls der Administrator lokale Anpassungen "
+"des Symlinks durchgeführt hat oder falls ein Downgrade des Pakets auf "
+"eine alte Version durchgeführt wird."
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:164
+#, no-wrap
+msgid ""
+"    dpkg-maintscript-helper symlink_to_dir \\e\n"
+"        I<pathname> I<old-target> I<prior-version> I<package> -- \"$@\"\n"
+msgstr ""
+"    dpkg-maintscript-helper symlink_to_dir \\e\n"
+"        I<Pfadname> I<altes_Ziel> I<vorhergehende_Version> I<Paket> -- \"$@\"\n"
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:168
+msgid ""
+"I<pathname> is the name of the old symlink (the path will be a directory at "
+"the end of the installation) and I<old-target> the target of the former "
+"symlink at I<pathname>."
+msgstr ""
+"I<Pfadname> ist der Name des alten Symlinks (der Pfad wird am Ende der "
+"Installation ein Verzeichnis sein) und I<altes_Ziel> das Ziel des bisherigen "
+"Symlinks unter I<Pfadname>."
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:176
+msgid ""
+"Current implementation: the B<preinst> checks if the symlink exists and "
+"points to I<old-target>, if not then it's left in place, otherwise it's "
+"renamed to I<pathname>B<.dpkg-backup>. On configuration, the B<postinst> "
+"removes I<pathname>B<.dpkg-backup> if I<pathname>B<.dpkg-backup> is still a "
+"symlink. On abort-upgrade/abort-install, the B<postrm> renames I<pathname>B<."
+"dpkg-backup> back to I<pathname> if required."
+msgstr ""
+"Aktuelle Implementierung: das B<preinst> überprüft, ob der Symlink existiert "
+"und auf I<altes_Ziel> zeigt. Falls dies nicht der Fall ist, bleibt der "
+"Symlink existent, andernfalls wird er in I<Pfadname>B<.dpkg-backup> "
+"umbenannt. Bei der Konfiguration entfernt das B<postinst> "
+"I<Pfadname>B<.dpkg-backup>, falls I<Pfadname>B<.dpkg-backup> noch ein Symlink "
+"ist. Falls abort-upgrade/abort-install eintritt, benennt das B<postrm> wieder "
+"I<Pfadname>B<.dpkg-backup> in I<Pfadname> zurück, falls notwendig."
+
+#. type: SS
+#: dpkg-maintscript-helper.1:177
+#, no-wrap
+msgid "Switching a directory to symlink"
+msgstr "Ein Verzeichnis in einen Symlink umwandeln"
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:185
+msgid ""
+"If a real directory is converted to a symlink, you need to make sure before "
+"unpacking that the directory is removed. This may seem a simple change to "
+"the B<preinst> script at first, however that will result in some problems in "
+"case the directory contains conffiles, pathnames owned by other packages, "
+"locally created pathnames, or when downgrading the package."
+msgstr ""
+"Falls ein echtes Verzeichnis in einen Symlink umgewandelt wird, müssen Sie "
+"vor dem Entpacken sicherstellen, dass das Verzeichnis entfernt wird. "
+"Anfänglich erscheint dies als einfache Änderung am Skript B<preinst>, "
+"allerdings wird dies zu einigen Problemen führen, falls das Verzeichnis "
+"Conffiles, Pfadnamen anderer Pakete oder lokal erstellte Pfadnamen enthält "
+"oder wenn ein Downgrade des Pakets durchgeführt wird."
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:189
+msgid ""
+"Graceful switching can be implemented by putting the following shell snippet "
+"in the B<preinst>, B<postinst> and B<postrm> maintainer scripts:"
+msgstr ""
+"Sanfte Umwandlung kann durch Einsetzen der folgenden Shell-Schnipsel in die "
+"Betreuerskripte B<preinst>, B<postinst> und B<postrm> implementiert werden:"
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:192
+#, no-wrap
+msgid ""
+"    dpkg-maintscript-helper dir_to_symlink \\e\n"
+"        I<pathname> I<new-target> I<prior-version> I<package> -- \"$@\"\n"
+msgstr ""
+"    dpkg-maintscript-helper dir_to_symlink \\e\n"
+"        I<Pfadname> I<neues_Ziel> I<vorhergehende_Version> I<Paket> -- \"$@\"\n"
+
+#. type: Plain text
+#: dpkg-maintscript-helper.1:196
+msgid ""
+"I<pathname> is the name of the of the old directory (the path will be a "
+"symlink at the end of the installation) and I<new-target> is the target of "
+"the new symlink at I<pathname>."
+msgstr ""
+"I<Pfadname> ist der Name des alten Verzeichnisses (der Pfad wird am Ende der "
+"Installation ein Symlink sein) und I<neues_Ziel> ist das Ziel des neuen "
+"Symlinks unter I<Pfadname>."
+
+#. type: Plain text
+# FIXME: Korrekte Beschreibung?
+#: dpkg-maintscript-helper.1:205
+msgid ""
+"Current implementation: the B<preinst> checks if the directory exists, does "
+"not contain conffiles, pathnames owned by other packages, or locally created "
+"pathnames, if not then it's left in place, otherwise it's renamed to "
+"I<pathname>B<.dpkg-backup>. On configuration, the B<postinst> removes "
+"I<pathname>B<.dpkg-backup> if I<pathname>B<.dpkg-backup> is still a "
+"directory. On abort-upgrade/abort-install, the B<postrm> renames "
+"I<pathname>B<.dpkg-backup> back to I<pathname> if required."
+msgstr ""
+"Aktuelle Implementierung: das B<preinst> überprüft, ob das Verzeichnis "
+"existiert, keine Conffiles, Pfadnamen anderer Pakete oder lokal erstellte "
+"Pfadnamen enthält. Falls nicht, bleibt es an Ort und Stelle, andernfalls wird "
+"es in I<Pfadname>B<.dpkg-backup> umbenannt. Bei der Konfiguration entfernt "
+"das B<postinst> I<Pfadname>B<.dpkg-backup>, falls I<Pfadname>B<.dpkg-backup> "
+"noch ein Verzeichnis ist. Falls abort-upgrade/abort-install eintritt, benennt "
+"das B<postrm> wieder I<Pfadname>B<.dpkg-backup> in I<Pfadname> zurück, falls "
+"notwendig."
+
+#. type: SH
+#: dpkg-maintscript-helper.1:206
 #, no-wrap
 msgid "INTEGRATION IN PACKAGES"
 msgstr "INTEGRATION IN PAKETE"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:155
+#: dpkg-maintscript-helper.1:214
 msgid ""
 "Given that B<dpkg-maintscript-helper> is used in the B<preinst>, using it "
 "unconditionally requires a pre-dependency to ensure that the required "
 "version of B<dpkg> has been unpacked before. The required version depends on "
-"the command used, for B<rm_conffile> and B<mv_conffile> it is 1.15.7.2:"
+"the command used, for B<rm_conffile> and B<mv_conffile> it is 1.15.7.2, for "
+"B<symlink_to_dir> and B<dir_to_symlink> it is 1.17.2:"
 msgstr ""
 "Da B<dpkg-maintscript-helper> im B<preinst> verwandt wird, benötigt der "
 "bedingungslose Einsatz eine pre-Abhängigkeit (I<pre-dependency>), um "
 "sicherzustellen, dass die Mindestversion von B<dpkg> breits entpackt wurde. "
 "Die benötigte Version hängt vom verwandten Befehl ab, für B<rm_conffile> und "
-"B<mv_conffile> lautet sie 1.15.7.2:"
+"B<mv_conffile> lautet sie 1.15.7.2, für B<symlink_to_dir> und "
+"B<dir_to_symlink> lautet sie 1.17.2:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:157
+#: dpkg-maintscript-helper.1:216
 #, no-wrap
-msgid "    B<Pre-Depends:> dpkg (E<gt>= 1.15.7.2)\n"
-msgstr "    B<Pre-Depends:> dpkg (E<gt>= 1.15.7.2)\n"
+msgid "    B<Pre-Depends:> dpkg (E<gt>= 1.17.2)\n"
+msgstr "    B<Pre-Depends:> dpkg (E<gt>= 1.17.2)\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:162
+#: dpkg-maintscript-helper.1:221
 msgid ""
 "But in many cases the operation done by the program is not critical for the "
 "package, and instead of using a pre-dependency we can call the program only "
@@ -11540,7 +11725,7 @@ msgstr ""
 "installierten B<dpkg> unterstützt wird:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:165
+#: dpkg-maintscript-helper.1:224
 #, no-wrap
 msgid ""
 "    if dpkg-maintscript-helper supports I<command>; then\n"
@@ -13716,7 +13901,8 @@ msgid ""
 "specified), rather than being added to the substitution variables file "
 "(B<debian/substvars> by default)."
 msgstr ""
-"Gebe die Variableneinstellung in die Standardausgabe (oder nach I<Dateiname>, falls angegeben) aus, statt sie zu der "
+"Gebe die Variableneinstellung in die Standardausgabe (oder nach "
+"I<Dateiname>, falls angegeben) aus, statt sie zu der "
 "Substitutionsvariablendatei (standardmäßig (B<debian/substvars>) "
 "hinzuzufügen."
 
@@ -15057,8 +15243,8 @@ msgstr ""
 "(B<.orig.tar.>I<erw>, wobei I<erw> B<gz>, B<bz2>, B<lzma> und B<xz> sein "
 "kann) und einen Debian-Tarball (B<.debian.tar.>I<erw>). Es kann auch "
 "zusätzliche Original-Tarbälle (B<.orig->I<Komponente>B<.tar.>I<erw>)) "
-"enthalten. I<Komponente> kann nur alphanumerische Zeichen und "
-"Bindestriche (»-«) enthalten."
+"enthalten. I<Komponente> kann nur alphanumerische Zeichen und Bindestriche "
+"(»-«) enthalten."
 
 #. type: Plain text
 #: dpkg-source.1:440
@@ -18086,10 +18272,10 @@ msgid ""
 msgstr ""
 "Diese Datei enthält Standardoptionen für dselect. Jede Zeile enthält eine "
 "einzelne Option, die exakt die gleiche wie für die normalen Kommandozeilen-"
-"Option von dselect sind, abgesehen von den einleitenden Bindestrichen, "
-"die hier nicht verwendet werden. Anführungszeichen (»Quotes«) um "
-"Optionswerte werden entfernt. Kommentare sind durch Einleiten einer Zeile "
-"mit einem Rautenzeichen (»B<#>«) erlaubt."
+"Option von dselect sind, abgesehen von den einleitenden Bindestrichen, die "
+"hier nicht verwendet werden. Anführungszeichen (»Quotes«) um Optionswerte "
+"werden entfernt. Kommentare sind durch Einleiten einer Zeile mit einem "
+"Rautenzeichen (»B<#>«) erlaubt."
 
 #. type: Plain text
 #: dselect.cfg.5:32
