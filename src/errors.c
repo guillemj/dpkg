@@ -54,15 +54,10 @@ static struct error_report *reports = NULL;
 static struct error_report **lastreport= &reports;
 static struct error_report emergency;
 
-void
-print_error_perpackage(const char *emsg, const void *data)
+static void
+enqueue_error_report(const char *arg)
 {
   struct error_report *nr;
-  const char *arg = data;
-
-  notice(_("error processing %s (--%s):\n %s"), arg, cipaction->olong, emsg);
-
-  statusfd_send("status: %s : %s : %s", arg, "error", emsg);
 
   nr= malloc(sizeof(struct error_report));
   if (!nr) {
@@ -79,6 +74,19 @@ print_error_perpackage(const char *emsg, const void *data)
   if (nerrs++ < errabort) return;
   notice(_("too many errors, stopping"));
   abort_processing = true;
+}
+
+void
+print_error_perpackage(const char *emsg, const void *data)
+{
+  const char *pkgname = data;
+
+  notice(_("error processing %s (--%s):\n %s"),
+         pkgname, cipaction->olong, emsg);
+
+  statusfd_send("status: %s : %s : %s", pkgname, "error", emsg);
+
+  enqueue_error_report(pkgname);
 }
 
 int
