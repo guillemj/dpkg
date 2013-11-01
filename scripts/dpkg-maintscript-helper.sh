@@ -247,12 +247,12 @@ debug() {
 }
 
 error() {
-	echo "$PROGNAME: error: $1" >&2
+	echo "$PROGNAME: error: $*" >&2
 	exit 1
 }
 
 warning() {
-	echo "$PROGNAME: warning: $1" >&2
+	echo "$PROGNAME: warning: $*" >&2
 }
 
 usage() {
