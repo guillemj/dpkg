@@ -248,8 +248,8 @@ working.
 .TP
 \fB\-\-get\-selections\fP [\fIpackage-name-pattern\fP...]
 Get list of package selections, and write it to stdout. Without a pattern,
-non-installed packages (i.e. those which have been previously purged)
-will not be shown.
+non-installed packages (i.e. those which have been previously purged) will
+not be shown.
 .TP
 .B \-\-set\-selections
 Set package selections using file read from stdin. This file should be
@@ -257,7 +257,7 @@ in the format '\fIpackage\fP \fIstate\fP', where state is one of
 \fBinstall\fP, \fBhold\fP, \fBdeinstall\fP or \fBpurge\fP. Blank lines
 and comment lines beginning with '#' are also permitted.
 
-The available database needs to be up-to-date for this command to be
+The \fIavailable\fP file needs to be up-to-date for this command to be
 useful, otherwise unknown packages will be ignored with a warning. See
 the \fB\-\-update\-avail\fP and \fB\-\-merge\-avail\fP commands for more
 information.
@@ -793,9 +793,9 @@ for more information about them:
 .
 .SH EXAMPLES
 To list installed packages related to the editor \fBvi\fP(1) (note that
-\fBdpkg\-query\fP does not load the available file anymore by default, and
-the \fBdpkg\-query\fP \fB\-\-load\-avail\fP option should be used instead
-for that):
+\fBdpkg\-query\fP does not load the \fIavailable\fP file anymore by
+default, and the \fBdpkg\-query\fP \fB\-\-load\-avail\fP option should
+be used instead for that):
 .br
 \fB     dpkg \-l \(aq*vi*\(aq\fP
 .br
@@ -816,7 +816,7 @@ To remove an installed elvis package:
 .br
 
 To install a package, you first need to find it in an archive or
-CDROM. The "available" file shows that the vim package is in section
+CDROM. The \fIavailable\fP file shows that the vim package is in section
 "editors":
 .br
 \fB     cd /media/cdrom/pool/main/v/vim\fP
@@ -829,7 +829,7 @@ To make a local copy of the package selection states:
 .br
 
 You might transfer this file to another computer, and after having updated
-the available database there with your package manager frontend of choice
+the \fIavailable\fP file there with your package manager frontend of choice
 (see https://wiki.debian.org/Teams/Dpkg/FAQ for more details), for example:
 .br
 \fB     avail=`mktemp`\fP
