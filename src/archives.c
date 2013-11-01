@@ -1648,7 +1648,7 @@ archivefiles(const char *const *argv)
         break;
       continue;
     }
-    push_error_context_jump(&ejbuf, print_error_perpackage, thisarg);
+    push_error_context_jump(&ejbuf, print_error_perarchive, thisarg);
 
     dpkg_selabel_load();
 

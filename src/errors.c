@@ -81,12 +81,25 @@ print_error_perpackage(const char *emsg, const void *data)
 {
   const char *pkgname = data;
 
-  notice(_("error processing %s (--%s):\n %s"),
+  notice(_("error processing package %s (--%s):\n %s"),
          pkgname, cipaction->olong, emsg);
 
   statusfd_send("status: %s : %s : %s", pkgname, "error", emsg);
 
   enqueue_error_report(pkgname);
+}
+
+void
+print_error_perarchive(const char *emsg, const void *data)
+{
+  const char *filename = data;
+
+  notice(_("error processing archive %s (--%s):\n %s"),
+         filename, cipaction->olong, emsg);
+
+  statusfd_send("status: %s : %s : %s", filename, "error", emsg);
+
+  enqueue_error_report(filename);
 }
 
 int
