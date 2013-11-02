@@ -451,31 +451,40 @@ run_invoke_hooks(const char *action, struct invoke_hook *hook_head)
   unsetenv("DPKG_HOOK_ACTION");
 }
 
+static int
+run_logger(struct invoke_hook *hook, const char *name)
+{
+  pid_t pid;
+  int p[2];
+
+  m_pipe(p);
+
+  pid = subproc_fork();
+  if (pid == 0) {
+    /* Setup stdin and stdout. */
+    m_dup2(p[0], 0);
+    close(1);
+
+    close(p[0]);
+    close(p[1]);
+
+    command_shell(hook->command, name);
+  }
+  close(p[0]);
+
+  return p[1];
+}
+
 static void
 run_status_loggers(struct invoke_hook *hook_head)
 {
   struct invoke_hook *hook;
 
   for (hook = hook_head; hook; hook = hook->next) {
-    pid_t pid;
-    int p[2];
+    int fd;
 
-    m_pipe(p);
-
-    pid = subproc_fork();
-    if (pid == 0) {
-      /* Setup stdin and stdout. */
-      m_dup2(p[0], 0);
-      close(1);
-
-      close(p[0]);
-      close(p[1]);
-
-      command_shell(hook->command, _("status logger"));
-    }
-    close(p[0]);
-
-    statusfd_add(p[1]);
+    fd = run_logger(hook, _("status logger"));
+    statusfd_add(fd);
   }
 }
 
