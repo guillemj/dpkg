@@ -381,24 +381,13 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
 }
 
 static void setinteger(const struct cmdinfo *cip, const char *value) {
-  long v;
-  char *ep;
-
-  errno = 0;
-  v = strtol(value, &ep, 0);
-  if (value == ep || *ep || v < 0 || v > INT_MAX || errno != 0)
-    badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
-  *cip->iassignto= v;
+  *cip->iassignto = dpkg_options_parse_arg_int(cip, value);
 }
 
 static void setpipe(const struct cmdinfo *cip, const char *value) {
   long v;
-  char *ep;
 
-  errno = 0;
-  v = strtol(value, &ep, 0);
-  if (value == ep || *ep || v < 0 || v > INT_MAX || errno != 0)
-    badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
+  v = dpkg_options_parse_arg_int(cip, value);
 
   statusfd_add(v);
 }
@@ -760,10 +749,8 @@ commandfd(const char *const *argv)
   pipein = *argv++;
   if (pipein == NULL || *argv)
     badusage(_("--%s takes exactly one argument"), cipaction->olong);
-  errno = 0;
-  infd = strtol(pipein, &endptr, 10);
-  if (pipein == endptr || *endptr || infd < 0 || infd > INT_MAX || errno != 0)
-    ohshit(_("invalid integer for --%s: `%.250s'"), cipaction->olong, pipein);
+
+  infd = dpkg_options_parse_arg_int(cipaction, pipein);
   in = fdopen(infd, "r");
   if (in == NULL)
     ohshite(_("couldn't open `%i' for stream"), (int) infd);

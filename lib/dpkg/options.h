@@ -62,6 +62,8 @@ void dpkg_options_load(const char *prog, const struct cmdinfo *cmdinfos);
 void dpkg_options_parse(const char *const **argvp,
                         const struct cmdinfo *cmdinfos, const char *help_str);
 
+long dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str);
+
 /**
  * Current cmdinfo action.
  */

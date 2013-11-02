@@ -189,13 +189,8 @@ static void
 set_compress_level(const struct cmdinfo *cip, const char *value)
 {
   long level;
-  char *end;
 
-  errno = 0;
-  level = strtol(value, &end, 0);
-  if (value == end || *end || errno != 0)
-    badusage(_("invalid integer for -%c: '%.250s'"), cip->oshort, value);
-
+  level = dpkg_options_parse_arg_int(cip, value);
   if (level < 0 || level > 9)
     badusage(_("invalid compression level for -%c: %ld'"), cip->oshort, level);
 

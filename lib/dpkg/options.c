@@ -25,6 +25,7 @@
 
 #include <errno.h>
 #include <ctype.h>
+#include <limits.h>
 #include <string.h>
 #include <dirent.h>
 #include <stdarg.h>
@@ -271,6 +272,20 @@ dpkg_options_parse(const char *const **argvp, const struct cmdinfo *cmdinfos,
       }
     }
   }
+}
+
+long
+dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str)
+{
+  long value;
+  char *end;
+
+  errno = 0;
+  value = strtol(str, &end, 0);
+  if (str == end || *end || value < 0 || value > INT_MAX || errno != 0)
+    badusage(_("invalid integer for --%s: `%.250s'"), cmd->olong, str);
+
+  return value;
 }
 
 void
