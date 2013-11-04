@@ -203,7 +203,7 @@ void cu_prermremove(int argc, void **argv);
 
 /* from errors.c */
 
-void print_error_perpackage(const char *emsg, const char *arg);
+void print_error_perpackage(const char *emsg, const void *data);
 void forcibleerr(int forceflag, const char *format, ...) DPKG_ATTR_PRINTF(2);
 int reportbroken_retexitstatus(int ret);
 bool skip_due_to_hold(struct pkginfo *pkg);

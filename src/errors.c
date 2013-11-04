@@ -54,8 +54,11 @@ static struct error_report *reports = NULL;
 static struct error_report **lastreport= &reports;
 static struct error_report emergency;
 
-void print_error_perpackage(const char *emsg, const char *arg) {
+void
+print_error_perpackage(const char *emsg, const void *data)
+{
   struct error_report *nr;
+  const char *arg = data;
 
   notice(_("error processing %s (--%s):\n %s"), arg, cipaction->olong, emsg);
 

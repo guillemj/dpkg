@@ -73,7 +73,7 @@ struct error_context {
 
   struct {
     error_printer_func *func;
-    const char *data;
+    const void *data;
   } printer;
 
   struct cleanup_entry *cleanups;
@@ -130,10 +130,10 @@ error_context_new(void)
 
 static void
 set_error_printer(struct error_context *ec, error_printer_func *func,
-                  const char *contextstring)
+                  const void *data)
 {
   ec->printer.func = func;
-  ec->printer.data = contextstring;
+  ec->printer.data = data;
 }
 
 static void
@@ -153,12 +153,12 @@ set_jump_handler(struct error_context *ec, jmp_buf *jump)
 void
 push_error_context_func(error_handler_func *handler,
                         error_printer_func *printer,
-                        const char *contextstring)
+                        const void *printer_data)
 {
   struct error_context *ec;
 
   ec = error_context_new();
-  set_error_printer(ec, printer, contextstring);
+  set_error_printer(ec, printer, printer_data);
   set_func_handler(ec, handler);
   onerr_abort = 0;
 }
@@ -166,12 +166,12 @@ push_error_context_func(error_handler_func *handler,
 void
 push_error_context_jump(jmp_buf *jumper,
                         error_printer_func *printer,
-                        const char *contextstring)
+                        const void *printer_data)
 {
   struct error_context *ec;
 
   ec = error_context_new();
-  set_error_printer(ec, printer, contextstring);
+  set_error_printer(ec, printer, printer_data);
   set_jump_handler(ec, jumper);
   onerr_abort = 0;
 }
@@ -183,7 +183,7 @@ push_error_context(void)
 }
 
 static void
-print_cleanup_error(const char *emsg, const char *contextstring)
+print_cleanup_error(const char *emsg, const void *data)
 {
   fprintf(stderr, _("%s: error while cleaning up:\n %s\n"),
           dpkg_get_progname(), emsg);
@@ -353,7 +353,7 @@ catch_fatal_error(void)
 }
 
 void
-print_fatal_error(const char *emsg, const char *contextstring)
+print_fatal_error(const char *emsg, const void *data)
 {
   fprintf(stderr, _("%s: error: %s\n"), dpkg_get_progname(), emsg);
 }

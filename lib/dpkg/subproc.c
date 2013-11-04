@@ -73,7 +73,7 @@ subproc_signals_cleanup(int argc, void **argv)
 }
 
 static void
-print_subproc_error(const char *emsg, const char *contextstring)
+print_subproc_error(const char *emsg, const void *data)
 {
 	fprintf(stderr, _("%s (subprocess): %s\n"), dpkg_get_progname(), emsg);
 }
