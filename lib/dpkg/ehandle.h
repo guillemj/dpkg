@@ -44,15 +44,17 @@ enum {
 	ehflag_recursiveerror	= DPKG_BIT(2),
 };
 
-typedef void error_handler(void);
-typedef void error_printer(const char *emsg, const char *contextstring);
+typedef void error_handler_func(void);
+typedef void error_printer_func(const char *emsg, const char *contextstring);
 
 void print_fatal_error(const char *emsg, const char *contextstring);
 void catch_fatal_error(void);
 
-void push_error_context_jump(jmp_buf *jbufp, error_printer *printerror,
+void push_error_context_jump(jmp_buf *jbufp,
+                             error_printer_func *printerror,
                              const char *contextstring);
-void push_error_context_func(error_handler *func, error_printer *printerror,
+void push_error_context_func(error_handler_func *func,
+                             error_printer_func *printerror,
                              const char *contextstring);
 void push_error_context(void);
 void pop_error_context(int flagset);

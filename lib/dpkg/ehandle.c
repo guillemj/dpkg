@@ -67,12 +67,12 @@ struct error_context {
   } handler_type;
 
   union {
-    error_handler *func;
+    error_handler_func *func;
     jmp_buf *jump;
   } handler;
 
   struct {
-    error_printer *func;
+    error_printer_func *func;
     const char *data;
   } printer;
 
@@ -129,7 +129,7 @@ error_context_new(void)
 }
 
 static void
-set_error_printer(struct error_context *ec, error_printer *printerror,
+set_error_printer(struct error_context *ec, error_printer_func *printerror,
                   const char *contextstring)
 {
   ec->printer.func = printerror;
@@ -137,7 +137,7 @@ set_error_printer(struct error_context *ec, error_printer *printerror,
 }
 
 static void
-set_func_handler(struct error_context *ec, error_handler *func)
+set_func_handler(struct error_context *ec, error_handler_func *func)
 {
   ec->handler_type = handler_type_func;
   ec->handler.func = func;
@@ -151,7 +151,8 @@ set_jump_handler(struct error_context *ec, jmp_buf *jump)
 }
 
 void
-push_error_context_func(error_handler *func, error_printer *printerror,
+push_error_context_func(error_handler_func *func,
+                        error_printer_func *printerror,
                         const char *contextstring)
 {
   struct error_context *ec;
@@ -163,7 +164,8 @@ push_error_context_func(error_handler *func, error_printer *printerror,
 }
 
 void
-push_error_context_jump(jmp_buf *jump, error_printer *printerror,
+push_error_context_jump(jmp_buf *jump,
+                        error_printer_func *printerror,
                         const char *contextstring)
 {
   struct error_context *ec;
