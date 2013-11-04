@@ -71,9 +71,12 @@ struct error_context {
     jmp_buf *jump;
   } handler;
 
+  struct {
+    error_printer *func;
+    const char *data;
+  } printer;
+
   struct cleanup_entry *cleanups;
-  void (*printerror)(const char *emsg, const char *contextstring);
-  const char *contextstring;
 };
 
 static struct error_context *volatile econtext = NULL;
@@ -129,8 +132,8 @@ static void
 set_error_printer(struct error_context *ec, error_printer *printerror,
                   const char *contextstring)
 {
-  ec->printerror = printerror;
-  ec->contextstring = contextstring;
+  ec->printer.func = printerror;
+  ec->printer.data = contextstring;
 }
 
 static void
@@ -194,7 +197,8 @@ run_cleanups(struct error_context *econ, int flagsetin)
   jmp_buf recurse_jump;
   volatile int i, flagset;
 
-  if (econ->printerror) econ->printerror(errmsg,econ->contextstring);
+  if (econ->printer.func)
+    econ->printer.func(errmsg, econ->printer.data);
 
   if (++preventrecurse > 3) {
     onerr_abort++;
