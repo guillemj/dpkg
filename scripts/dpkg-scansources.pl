@@ -41,34 +41,34 @@ my $exit = 0;
 # the lists.
 
 my %override;
-sub O_PRIORITY		() { 0 }
-sub O_SECTION		() { 1 }
-sub O_MAINT_FROM	() { 2 } # undef for non-specific, else listref
-sub O_MAINT_TO		() { 3 } # undef if there's no maint override
+sub O_PRIORITY          () { 0 }
+sub O_SECTION           () { 1 }
+sub O_MAINT_FROM        () { 2 } # undef for non-specific, else listref
+sub O_MAINT_TO          () { 3 } # undef if there's no maint override
 my %extra_override;
 
 my %priority = (
-     'extra'		=> 1,
-     'optional'		=> 2,
-     'standard'		=> 3,
-     'important'	=> 4,
-     'required'		=> 5,
+    'extra' => 1,
+    'optional' => 2,
+    'standard' => 3,
+    'important' => 4,
+    'required' => 5,
 );
 
 # Switches
 
-my $debug	= 0;
-my $no_sort	= 0;
+my $debug = 0;
+my $no_sort = 0;
 my $src_override = undef;
 my $extra_override_file = undef;
 
 my @option_spec = (
-    'debug!'		=> \$debug,
-    'help|?'		=> sub { usage(); exit 0; },
-    'no-sort|n'		=> \$no_sort,
+    'debug!' => \$debug,
+    'help|?' => sub { usage(); exit 0; },
+    'no-sort|n' => \$no_sort,
     'source-override|s=s' => \$src_override,
     'extra-override|e=s' => \$extra_override_file,
-    'version'		=> \&version,
+    'version' => \&version,
 );
 
 sub debug {
@@ -303,8 +303,8 @@ sub main {
     }
     @ARGV >= 1 and @ARGV <= 3 or usageerr(_g('one to three arguments expected'));
 
-    push @ARGV, undef		if @ARGV < 2;
-    push @ARGV, ''		if @ARGV < 3;
+    push @ARGV, undef if @ARGV < 2;
+    push @ARGV, '' if @ARGV < 3;
     my ($dir, $override, $prefix) = @ARGV;
 
     load_override $override if defined $override;

@@ -40,13 +40,13 @@ sub join_lines($);
 BEGIN {
     eval 'use Algorithm::Merge qw(merge);';
     if ($@) {
-	eval q{
-	    sub merge {
-		my ($o, $a, $b) = @_;
-		return @$a if join("\n", @$a) eq join("\n", @$b);
-		return get_conflict_block($a, $b);
-	    }
-	};
+        eval q{
+            sub merge {
+                my ($o, $a, $b) = @_;
+                return @$a if join("\n", @$a) eq join("\n", @$b);
+                return get_conflict_block($a, $b);
+            }
+        };
     }
 }
 

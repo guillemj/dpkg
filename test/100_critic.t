@@ -50,6 +50,7 @@ my @policies = qw(
     ClassHierarchies::ProhibitAutoloading
     ClassHierarchies::ProhibitExplicitISA
     ClassHierarchies::ProhibitOneArgBless
+    CodeLayout::ProhibitHardTabs
     CodeLayout::ProhibitQuotedWordLists
     CodeLayout::ProhibitTrailingWhitespace
     CodeLayout::RequireConsistentNewlines

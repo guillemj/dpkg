@@ -312,11 +312,11 @@ sub do_mdtm {
 
     #if ($has_mdtm) {
 	$time = $ftp->mdtm($file);
-#	my $code=$ftp->code();	my $message=$ftp->message();
+#	my $code = $ftp->code();
+#	my $message = $ftp->message();
 #	print " [ $code: $message ] ";
-	if ($ftp->code() == 502		      # MDTM not implemented
-	    || $ftp->code() == 500	      # command not understood (SUN firewall)
-	    ) {
+	if ($ftp->code() == 502 || # MDTM not implemented
+	    $ftp->code() == 500) { # command not understood (SUN firewall)
 	    $has_mdtm = 0;
 	} elsif (!$ftp->ok()) {
 	    return;
@@ -327,11 +327,13 @@ sub do_mdtm {
 	require Time::Local;
 
 	my @files = $ftp->dir($file);
-	if (($#files == -1) || ($ftp->code == 550)) { # No such file or directory
+	if (($#files == -1) ||
+	    ($ftp->code == 550)) { # No such file or directory
 	    return;
 	}
 
-#	my $code=$ftp->code();	my $message=$ftp->message();
+#	my $code = $ftp->code();
+#	my $message = $ftp->message();
 #	print " [ $code: $message ] ";
 
 #	print "[$#files]";

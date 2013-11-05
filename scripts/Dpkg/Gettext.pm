@@ -29,35 +29,35 @@ use warnings;
 our $VERSION = '1.00';
 
 BEGIN {
-	eval 'use Locale::gettext';
-	if ($@) {
-		eval q{
-			sub _g {
-				return shift;
-			}
-			sub textdomain {
-			}
-			sub ngettext {
-				if ($_[2] == 1) {
-					return $_[0];
-				} else {
-					return $_[1];
-				}
-			}
-			sub P_ {
-				return ngettext(@_);
-			}
-		};
-	} else {
-		eval q{
-			sub _g {
-				return gettext(shift);
-			}
-			sub P_ {
-				return ngettext(@_);
-			}
-		};
-	}
+    eval 'use Locale::gettext';
+    if ($@) {
+        eval q{
+            sub _g {
+                return shift;
+            }
+            sub textdomain {
+            }
+            sub ngettext {
+                if ($_[2] == 1) {
+                    return $_[0];
+                } else {
+                    return $_[1];
+                }
+            }
+            sub P_ {
+                return ngettext(@_);
+            }
+        };
+    } else {
+        eval q{
+            sub _g {
+                return gettext(shift);
+            }
+            sub P_ {
+                return ngettext(@_);
+            }
+        };
+    }
 }
 
 use Exporter qw(import);

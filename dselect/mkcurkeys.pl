@@ -30,8 +30,8 @@ my (%over, %base, %name);
 open(my $override_fh, '<', $ARGV[0]) || die $!;
 while (<$override_fh>) {
     chomp;
-    /^#/ && next;		# skip comments
-    /\S/ || next;		# ignore blank lines
+    /^#/ && next; # skip comments
+    /\S/ || next; # ignore blank lines
     /^(\w+)\s+(\S.*\S)\s*$/ || die ("cannot parse line:\n$_\n");
     $over{$1}= $2;
     $base{$1}= '';

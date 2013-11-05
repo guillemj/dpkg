@@ -610,7 +610,7 @@ sub parse_string {
                 \s* (.*?)                   # don't parse architectures now
                 \s* \]                      # closing bracket
               )?                            # end of optional architecture
-	      \s*$			    # trailing spaces at end
+              \s*$                          # trailing spaces at end
             }x;
     if (defined($2)) {
 	return if $2 eq 'native' and not $self->{build_dep};
