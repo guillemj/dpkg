@@ -47,7 +47,7 @@ extern struct pkg_deconf_list *deconfigure;
 
 void clear_deconfigure_queue(void);
 void enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal);
-void enqueue_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm);
+void enqueue_conflictor(struct pkginfo *pkg);
 
 void cu_pathname(int argc, void **argv);
 void cu_cidir(int argc, void **argv);

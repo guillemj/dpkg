@@ -100,6 +100,13 @@ dpkg (1.17.2) UNRELEASED; urgency=low
   * Add GnuPG 2.x support. Add gnupg2 and gpgv2 as alternative Recommends to
     gnupg and gpgv (to not pull them by default), but prefer gpgv2 over gpgv,
     and gpg2 over gpg at run-time if they are available.
+  * Switch dpkg conflictor tracking from a fixed-size array to a queue,
+    fixing several related issues, due to conflictors not being removed from
+    the array after processing them. dpkg could fill it due to additions in
+    previous package processing producing very confusing error messages; and
+    a theoretical problem where a package could get appended to be removed,
+    then reinstalled as a new version, to get removed again when revisiting
+    the array in a subsequent package processing. Closes: #726112
 
   [ Updated programs translations ]
   * German (Sven Joachim).

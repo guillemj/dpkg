@@ -45,6 +45,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
+#include <dpkg/pkg-queue.h>
 #include <dpkg/path.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
@@ -196,19 +197,12 @@ get_control_dir(char *cidir)
   return cidir;
 }
 
-#define MAXCONFLICTORS 20
-
-static struct pkginfo *conflictor[MAXCONFLICTORS];
-static int cflict_index = 0;
+static struct pkg_queue conflictors = PKG_QUEUE_INIT;
 
 void
-enqueue_conflictor(struct pkginfo *pkg, struct pkginfo *pkg_fixbyrm)
+enqueue_conflictor(struct pkginfo *pkg)
 {
-  if (cflict_index >= MAXCONFLICTORS)
-    ohshit(_("package %s has too many Conflicts/Replaces pairs"),
-           pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
-
-  conflictor[cflict_index++] = pkg_fixbyrm;
+  pkg_queue_push(&conflictors, pkg);
 }
 
 static void
@@ -423,10 +417,11 @@ void process_archive(const char *filename) {
 
   struct dpkg_error err;
   enum parsedbflags parsedb_flags;
-  int r, i;
+  int r;
   pid_t pid;
   struct pkgiterator *it;
   struct pkginfo *pkg, *otherpkg;
+  struct pkg_list *conflictor_iter;
   char *cidirrest, *p;
   char conffilenamebuf[MAXCONFFILENAME];
   char *psize;
@@ -698,9 +693,10 @@ void process_archive(const char *filename) {
   /* All the old conffiles are marked with a flag, so that we don't delete
    * them if they seem to disappear completely. */
   oldconffsetflags(pkg->installed.conffiles);
-  for (i = 0 ; i < cflict_index ; i++) {
-    oldconffsetflags(conflictor[i]->installed.conffiles);
-  }
+  for (conflictor_iter = conflictors.head;
+       conflictor_iter;
+       conflictor_iter = conflictor_iter->next)
+    oldconffsetflags(conflictor_iter->pkg->installed.conffiles);
 
   oldversionstatus= pkg->status;
 
@@ -778,24 +774,30 @@ void process_archive(const char *filename) {
     }
   }
 
-  for (i = 0 ; i < cflict_index; i++) {
-    if (!(conflictor[i]->status == stat_halfconfigured ||
-          conflictor[i]->status == stat_triggersawaited ||
-          conflictor[i]->status == stat_triggerspending ||
-          conflictor[i]->status == stat_installed)) continue;
-    trig_activate_packageprocessing(conflictor[i]);
-    pkg_set_status(conflictor[i], stat_halfconfigured);
-    modstatdb_note(conflictor[i]);
+  for (conflictor_iter = conflictors.head;
+       conflictor_iter;
+       conflictor_iter = conflictor_iter->next) {
+    struct pkginfo *conflictor = conflictor_iter->pkg;
+
+    if (!(conflictor->status == stat_halfconfigured ||
+          conflictor->status == stat_triggersawaited ||
+          conflictor->status == stat_triggerspending ||
+          conflictor->status == stat_installed))
+      continue;
+
+    trig_activate_packageprocessing(conflictor);
+    pkg_set_status(conflictor, stat_halfconfigured);
+    modstatdb_note(conflictor);
     push_cleanup(cu_prerminfavour, ~ehflag_normaltidy, NULL, 0,
-                 2,(void*)conflictor[i],(void*)pkg);
-    maintscript_installed(conflictor[i], PRERMFILE, "pre-removal",
+                 2, conflictor, pkg);
+    maintscript_installed(conflictor, PRERMFILE, "pre-removal",
                           "remove", "in-favour",
                           pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
                           versiondescribe(&pkg->available.version,
                                           vdew_nonambig),
                           NULL);
-    pkg_set_status(conflictor[i], stat_halfinstalled);
-    modstatdb_note(conflictor[i]);
+    pkg_set_status(conflictor, stat_halfinstalled);
+    modstatdb_note(conflictor);
   }
 
   pkg_set_eflags(pkg, eflag_reinstreq);
@@ -1424,11 +1426,13 @@ void process_archive(const char *filename) {
    * The files list for the conflictor is still a little inconsistent in-core,
    * as we have not yet updated the filename->packages mappings; however,
    * the package->filenames mapping is. */
-  for (i = 0 ; i < cflict_index ; i++) {
+  while (!pkg_queue_is_empty(&conflictors)) {
+    struct pkginfo *conflictor = pkg_queue_pop(&conflictors);
+
     /* We need to have the most up-to-date info about which files are
      * what ... */
     ensure_allinstfiles_available();
-    removal_bulk(conflictor[i]);
+    removal_bulk(conflictor);
   }
 
   if (cipaction->arg_int == act_install)
