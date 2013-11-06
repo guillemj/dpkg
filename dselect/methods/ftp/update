@@ -69,7 +69,7 @@ my $ftp;
 my $packages_modified = 0;
 
 sub download {
-foreach (@{$config{site}}) {
+foreach (@{$CONFIG{site}}) {
 
    my $site = $_;
 
@@ -78,10 +78,10 @@ foreach (@{$config{site}}) {
                            $_->[5], # password
                            $_->[1], # ftp dir
                            $_->[3], # passive
-                           $config{use_auth_proxy},
-                           $config{proxyhost},
-                           $config{proxylogname},
-                           $config{proxypassword});
+                           $CONFIG{use_auth_proxy},
+                           $CONFIG{proxyhost},
+                           $CONFIG{proxylogname},
+                           $CONFIG{proxypassword});
 
     my @dists = @{$_->[2]};
     PACKAGE:
@@ -168,10 +168,10 @@ foreach (@{$config{site}}) {
                            $site->[5], # password
                            $site->[1], # ftp dir
                            $site->[3], # passive
-                           $config{use_auth_proxy},
-                           $config{proxyhost},
-                           $config{proxylogname},
-                           $config{proxypassword});
+                           $CONFIG{use_auth_proxy},
+                           $CONFIG{proxyhost},
+                           $CONFIG{proxylogname},
+                           $CONFIG{proxypassword});
 
 			if ($newest_pack_date != do_mdtm ($ftp, "$dir/Packages.gz")) {
 			    print ("Packages file has changed !\n");

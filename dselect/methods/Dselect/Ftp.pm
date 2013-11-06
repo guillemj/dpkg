@@ -15,16 +15,17 @@ package Dselect::Ftp;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Exporter qw(import);
 
 use Net::FTP;
 use Data::Dumper;
 
-our @EXPORT = qw(%config yesno do_connect do_mdtm add_site edit_site
+our @EXPORT = qw(%CONFIG yesno do_connect do_mdtm add_site edit_site
                  edit_config read_config store_config view_mirrors nb);
-our %config;
+
+my %CONFIG;
 
 sub nb {
   my $nb = shift;
@@ -54,7 +55,7 @@ sub read_config {
   die "couldn't eval $vars content: $@\n" if ($@);
   if (ref($conf) =~ /HASH/) {
     foreach (keys %{$conf}) {
-      $config{$_} = $conf->{$_};
+      $CONFIG{$_} = $conf->{$_};
     }
   } else {
     print "Bad $vars file : removing it.\n";
@@ -68,11 +69,11 @@ sub store_config {
   my $vars = shift;
 
   # Check that config is completed
-  return if not $config{done};
+  return if not $CONFIG{done};
 
   open(my $vars_fh, '>', $vars) ||
     die "couldn't open $vars in write mode: $!\n";
-  print $vars_fh Dumper(\%config);
+  print $vars_fh Dumper(\%CONFIG);
   close $vars_fh;
 }
 
@@ -94,7 +95,7 @@ sub edit_config {
   while(1) {
     $i = 1;
     print "\n\nList of selected ftp sites :\n";
-    foreach (@{$config{site}}) {
+    foreach (@{$CONFIG{site}}) {
       print "$i. ftp://$_->[0]$_->[1] @{$_->[2]}\n";
       $i++;
     }
@@ -105,42 +106,42 @@ sub edit_config {
     /a/i && add_site();
     /d\s*(\d+)/i &&
     do {
-         splice(@{$config{site}}, $1 - 1, 1) if ($1 <= @{$config{site}});
+         splice(@{$CONFIG{site}}, $1 - 1, 1) if ($1 <= @{$CONFIG{site}});
          next;};
     /e\s*(\d+)/i &&
     do {
-         edit_site($config{site}[$1 - 1]) if ($1 <= @{$config{site}});
+         edit_site($CONFIG{site}[$1 - 1]) if ($1 <= @{$CONFIG{site}});
          next; };
     /m/i && view_mirrors();
   }
 
   print "\n";
-  $config{use_auth_proxy} = yesno($config{use_auth_proxy} ? 'y' : 'n',
+  $CONFIG{use_auth_proxy} = yesno($CONFIG{use_auth_proxy} ? 'y' : 'n',
                                   'Go through an authenticated proxy');
 
-  if ($config{use_auth_proxy}) {
-    print "\nEnter proxy hostname [$config{proxyhost}] : ";
+  if ($CONFIG{use_auth_proxy}) {
+    print "\nEnter proxy hostname [$CONFIG{proxyhost}] : ";
     chomp($_ = <STDIN>);
-    $config{proxyhost} = $_ || $config{proxyhost};
+    $CONFIG{proxyhost} = $_ || $CONFIG{proxyhost};
 
-    print "\nEnter proxy log name [$config{proxylogname}] : ";
+    print "\nEnter proxy log name [$CONFIG{proxylogname}] : ";
     chomp($_ = <STDIN>);
-    $config{proxylogname} = $_ || $config{proxylogname};
+    $CONFIG{proxylogname} = $_ || $CONFIG{proxylogname};
 
-    print "\nEnter proxy password [$config{proxypassword}] : ";
+    print "\nEnter proxy password [$CONFIG{proxypassword}] : ";
     chomp ($_ = <STDIN>);
-    $config{proxypassword} = $_ || $config{proxypassword};
+    $CONFIG{proxypassword} = $_ || $CONFIG{proxypassword};
   }
 
   print "\nEnter directory to download binary package files to\n";
   print "(relative to $methdir)\n";
   while(1) {
-    print "[$config{dldir}] : ";
+    print "[$CONFIG{dldir}] : ";
     chomp($_ = <STDIN>);
     s{/$}{};
-    $config{dldir} = $_ if ($_);
-    last if -d "$methdir/$config{dldir}";
-    print "$methdir/$config{dldir} is not a directory !\n";
+    $CONFIG{dldir} = $_ if ($_);
+    last if -d "$methdir/$CONFIG{dldir}";
+    print "$methdir/$CONFIG{dldir} is not a directory !\n";
   }
 }
 
@@ -153,11 +154,11 @@ sub add_site {
   chomp $email;
   my $dir = '/debian';
 
-  push (@{$config{site}}, [ '', $dir, [ 'dists/stable/main',
+  push (@{$CONFIG{site}}, [ '', $dir, [ 'dists/stable/main',
                                         'dists/stable/contrib',
                                         'dists/stable/non-free' ],
                                $pas, $user, $email ]);
-  edit_site($config{site}[@{$config{site}} - 1]);
+  edit_site($CONFIG{site}[@{$CONFIG{site}} - 1]);
 }
 
 sub edit_site {

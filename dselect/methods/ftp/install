@@ -56,7 +56,7 @@ my $methdir = "$vardir/methods/ftp";
 read_config("$methdir/vars");
 
 chdir "$methdir";
-mkpath(["$methdir/$config{dldir}"], 0, 0755);
+mkpath(["$methdir/$CONFIG{dldir}"], 0, 0755);
 
 
 #Read md5sums already calculated
@@ -187,7 +187,7 @@ sub procpkgfile {
 print "\nProcessing Package files...\n";
 my ($fn, $i, $j);
 $i = 0;
-foreach my $site (@{$config{site}}) {
+foreach my $site (@{$CONFIG{site}}) {
   $j = 0;
   foreach my $dist (@{$site->[2]}) {
     $fn = $dist;
@@ -204,7 +204,7 @@ foreach my $site (@{$config{site}}) {
   $i++;
 }
 
-my $dldir = $config{dldir};
+my $dldir = $CONFIG{dldir};
 # md5sum
 sub md5sum($) {
     my $fn = shift;
@@ -262,7 +262,7 @@ foreach my $pkg (keys(%pkgs)) {
 	    my $ffn = $fn;
 	    $ffn =~ s/binary-[^\/]+/.../;
 	    print 'want: ' .
-	          $config{site}[$pkgfiles{$fn}[2]][0] . " $ffn (${csize}k)\n";
+	          $CONFIG{site}[$pkgfiles{$fn}[2]][0] . " $ffn (${csize}k)\n";
 	    $downloads{$fn} = 0;
 	    $totsize += $csize;
 	}
@@ -317,7 +317,7 @@ sub download() {
 
  my $i = 0;
 
- foreach my $site (@{$config{site}}) {
+ foreach my $site (@{$CONFIG{site}}) {
 
     my @getfiles = grep { $pkgfiles{$_}[2] == $i } keys %downloads;
     my @pre_dist = (); # Directory to add before $fn
@@ -342,10 +342,10 @@ sub download() {
 		       $site->[5], #$::password,
 		       $site->[1], #$::ftpdir,
 		       $site->[3], #$::passive,
-		       $config{use_auth_proxy},
-		       $config{proxyhost},
-		       $config{proxylogname},
-		       $config{proxypassword});
+		       $CONFIG{use_auth_proxy},
+		       $CONFIG{proxyhost},
+		       $CONFIG{proxylogname},
+		       $CONFIG{proxypassword});
 
     local $SIG{INT} = sub { die "Interrupted !\n"; };
 
