@@ -59,96 +59,6 @@ use Dpkg::Gettext;
 use Exporter qw(import);
 our @EXPORT = qw(deps_concat deps_parse deps_eval_implication deps_compare);
 
-# Some factorized function
-
-# Dpkg::Deps::_arch_is_superset(\@p, \@q)
-#
-# Returns true if the arch list @p is a superset of arch list @q.
-# The arguments can also be undef in case there's no explicit architecture
-# restriction.
-
-sub _arch_is_superset {
-    my ($p, $q) = @_;
-    my $p_arch_neg = defined($p) && $p->[0] =~ /^!/;
-    my $q_arch_neg = defined($q) && $q->[0] =~ /^!/;
-
-    # If "p" has no arches, it is a superset of q and we should fall through
-    # to the version check.
-    if (not defined $p) {
-	return 1;
-    }
-
-    # If q has no arches, it is a superset of p and there are no useful
-    # implications.
-    elsif (not defined $q) {
-	return 0;
-    }
-
-    # Both have arches.  If neither are negated, we know nothing useful
-    # unless q is a subset of p.
-    elsif (not $p_arch_neg and not $q_arch_neg) {
-	my %p_arches = map { $_ => 1 } @{$p};
-	my $subset = 1;
-	for my $arch (@{$q}) {
-	    $subset = 0 unless $p_arches{$arch};
-	}
-	return 0 unless $subset;
-    }
-
-    # If both are negated, we know nothing useful unless p is a subset of
-    # q (and therefore has fewer things excluded, and therefore is more
-    # general).
-    elsif ($p_arch_neg and $q_arch_neg) {
-	my %q_arches = map { $_ => 1 } @{$q};
-	my $subset = 1;
-	for my $arch (@{$p}) {
-	    $subset = 0 unless $q_arches{$arch};
-	}
-	return 0 unless $subset;
-    }
-
-    # If q is negated and p isn't, we'd need to know the full list of
-    # arches to know if there's any relationship, so bail.
-    elsif (not $p_arch_neg and $q_arch_neg) {
-	return 0;
-    }
-
-    # If p is negated and q isn't, q is a subset of p if none of the
-    # negated arches in p are present in q.
-    elsif ($p_arch_neg and not $q_arch_neg) {
-	my %q_arches = map { $_ => 1 } @{$q};
-	my $subset = 1;
-	for my $arch (@{$p}) {
-	    $subset = 0 if $q_arches{substr($arch, 1)};
-	}
-	return 0 unless $subset;
-    }
-    return 1;
-}
-
-# Dpkg::Deps::_arch_qualifier_allows_implication($p, $q)
-#
-# Returns true if the arch qualifier $p and $q are compatible with the
-# implication $p -> $q, false otherwise. $p/$q can be
-# undef/"any"/"native" or an architecture string.
-
-sub _arch_qualifier_allows_implication {
-    my ($p, $q) = @_;
-    if (defined $p and $p eq 'any') {
-	return 1 if defined $q and $q eq 'any';
-	return 0;
-    } elsif (defined $p and $p eq 'native') {
-	return 1 if defined $q and ($q eq 'any' or $q eq 'native');
-	return 0;
-    } elsif (defined $p) {
-	return 1 if defined $q and ($p eq $q or $q eq 'any');
-	return 0;
-    } else {
-	return 0 if defined $q and $q ne 'any' and $q ne 'native';
-	return 1;
-    }
-}
-
 =item deps_eval_implication($rel_p, $v_p, $rel_q, $v_q)
 
 ($rel_p, $v_p) and ($rel_q, $v_q) express two dependencies as (relation,
@@ -644,6 +554,92 @@ sub output {
     return $res;
 }
 
+# _arch_is_superset(\@p, \@q)
+#
+# Returns true if the arch list @p is a superset of arch list @q.
+# The arguments can also be undef in case there's no explicit architecture
+# restriction.
+sub _arch_is_superset {
+    my ($p, $q) = @_;
+    my $p_arch_neg = defined($p) && $p->[0] =~ /^!/;
+    my $q_arch_neg = defined($q) && $q->[0] =~ /^!/;
+
+    # If "p" has no arches, it is a superset of q and we should fall through
+    # to the version check.
+    if (not defined $p) {
+	return 1;
+    }
+
+    # If q has no arches, it is a superset of p and there are no useful
+    # implications.
+    elsif (not defined $q) {
+	return 0;
+    }
+
+    # Both have arches.  If neither are negated, we know nothing useful
+    # unless q is a subset of p.
+    elsif (not $p_arch_neg and not $q_arch_neg) {
+	my %p_arches = map { $_ => 1 } @{$p};
+	my $subset = 1;
+	for my $arch (@{$q}) {
+	    $subset = 0 unless $p_arches{$arch};
+	}
+	return 0 unless $subset;
+    }
+
+    # If both are negated, we know nothing useful unless p is a subset of
+    # q (and therefore has fewer things excluded, and therefore is more
+    # general).
+    elsif ($p_arch_neg and $q_arch_neg) {
+	my %q_arches = map { $_ => 1 } @{$q};
+	my $subset = 1;
+	for my $arch (@{$p}) {
+	    $subset = 0 unless $q_arches{$arch};
+	}
+	return 0 unless $subset;
+    }
+
+    # If q is negated and p isn't, we'd need to know the full list of
+    # arches to know if there's any relationship, so bail.
+    elsif (not $p_arch_neg and $q_arch_neg) {
+	return 0;
+    }
+
+    # If p is negated and q isn't, q is a subset of p if none of the
+    # negated arches in p are present in q.
+    elsif ($p_arch_neg and not $q_arch_neg) {
+	my %q_arches = map { $_ => 1 } @{$q};
+	my $subset = 1;
+	for my $arch (@{$p}) {
+	    $subset = 0 if $q_arches{substr($arch, 1)};
+	}
+	return 0 unless $subset;
+    }
+    return 1;
+}
+
+# _arch_qualifier_allows_implication($p, $q)
+#
+# Returns true if the arch qualifier $p and $q are compatible with the
+# implication $p -> $q, false otherwise. $p/$q can be
+# undef/"any"/"native" or an architecture string.
+sub _arch_qualifier_allows_implication {
+    my ($p, $q) = @_;
+    if (defined $p and $p eq 'any') {
+	return 1 if defined $q and $q eq 'any';
+	return 0;
+    } elsif (defined $p and $p eq 'native') {
+	return 1 if defined $q and ($q eq 'any' or $q eq 'native');
+	return 0;
+    } elsif (defined $p) {
+	return 1 if defined $q and ($p eq $q or $q eq 'any');
+	return 0;
+    } else {
+	return 0 if defined $q and $q ne 'any' and $q ne 'native';
+	return 1;
+    }
+}
+
 # Returns true if the dependency in parameter can deduced from the current
 # dependency. Returns false if it can be negated. Returns undef if nothing
 # can be concluded.
@@ -655,12 +651,11 @@ sub implies {
 
 	# Our architecture set must be a superset of the architectures for
 	# o, otherwise we can't conclude anything.
-	return unless Dpkg::Deps::_arch_is_superset($self->{arches}, $o->{arches});
+	return unless _arch_is_superset($self->{arches}, $o->{arches});
 
 	# The arch qualifier must not forbid an implication
-	return unless
-	    Dpkg::Deps::_arch_qualifier_allows_implication($self->{archqual},
-	                                                   $o->{archqual});
+	return unless _arch_qualifier_allows_implication($self->{archqual},
+	                                                 $o->{archqual});
 
 	# If o has no version clause, then our dependency is stronger
 	return 1 if not defined $o->{relation};
