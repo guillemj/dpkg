@@ -58,9 +58,9 @@ use constant {
     CHANGES_OR_TRAILER => _g('more change data or trailer'),
 };
 
-=pod
+=over 4
 
-=head3 $c->parse($fh, $description)
+=item $c->parse($fh, $description)
 
 Read the filehandle and parse a Debian changelog in it. Returns the number
 of changelog entries that have been parsed with success.
@@ -190,6 +190,8 @@ sub parse {
 
 1;
 __END__
+
+=back
 
 =head1 SEE ALSO
 

@@ -255,7 +255,9 @@ sub get_timestamp {
 
 =head1 UTILITY FUNCTIONS
 
-=head3 my @closed_bugs = find_closes($changes)
+=over 4
+
+=item my @closed_bugs = find_closes($changes)
 
 Takes one string as argument and finds "Closes: #123456, #654321" statements
 as supported by the Debian Archive software in it. Returns all closed bug
@@ -275,6 +277,8 @@ sub find_closes {
     my @closes = sort { $a <=> $b } keys %closes;
     return @closes;
 }
+
+=back
 
 =head1 AUTHOR
 

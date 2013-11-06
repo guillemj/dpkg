@@ -25,7 +25,7 @@ Dpkg::Changelog::Parse - generic changelog parser for dpkg-parsechangelog
 This module provides a single function changelog_parse() which reproduces
 all the features of dpkg-parsechangelog.
 
-=head2 Functions
+=head2 FUNCTIONS
 
 =cut
 
@@ -44,7 +44,9 @@ use Dpkg::Control::Changelog;
 use Exporter qw(import);
 our @EXPORT = qw(changelog_parse);
 
-=head3 my $fields = changelog_parse(%opt)
+=over 4
+
+=item my $fields = changelog_parse(%opt)
 
 This function will parse a changelog. In list context, it return as many
 Dpkg::Control object as the parser did output. In scalar context, it will
@@ -156,5 +158,9 @@ sub changelog_parse {
 	return;
     }
 }
+
+=back
+
+=cut
 
 1;

@@ -330,7 +330,7 @@ dependencies and while trying to simplify them. It represents a set of
 installed packages along with the virtual packages that they might
 provide.
 
-=head2 Common functions
+=head2 COMMON FUNCTIONS
 
 =over 4
 
@@ -443,7 +443,7 @@ In the dependency "python:any (>= 2.6)", the arch qualifier is "any".
 
 =back
 
-=head3 Methods
+=head3 METHODS
 
 =over 4
 
