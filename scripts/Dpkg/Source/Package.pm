@@ -35,7 +35,7 @@ is the one that supports the extraction of the source package.
 use strict;
 use warnings;
 
-our $VERSION = '1.0';
+our $VERSION = '1.01';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -50,6 +50,10 @@ use Dpkg::Vendor qw(run_vendor_hook);
 
 use POSIX qw(:errno_h :sys_wait_h);
 use File::Basename;
+
+use Exporter qw(import);
+our @EXPORT_OK = qw(get_default_diff_ignore_regex
+                    get_default_tar_ignore_pattern);
 
 my $diff_ignore_default_regex = '
 # Ignore general backup files
@@ -72,6 +76,8 @@ $diff_ignore_default_regex =~ s/^#.*$//mg;
 $diff_ignore_default_regex =~ s/\n//sg;
 
 # Public variables
+# XXX: Backwards compatibility, stop exporting on VERSION 2.00.
+## no critic (Variables::ProhibitPackageVars)
 our $diff_ignore_default_regexp = $diff_ignore_default_regex;
 
 no warnings 'qw'; ## no critic (TestingAndDebugging::ProhibitNoWarnings)
@@ -110,8 +116,29 @@ _MTN
 _darcs
 {arch}
 );
+## use critic
 
 =over 4
+
+=item my $string = get_default_diff_ignore_regex()
+
+Returns the default diff ignore regex.
+
+=cut
+
+sub get_default_diff_ignore_regex {
+    return $diff_ignore_default_regex;
+}
+
+=item my @array = get_default_tar_ignore_pattern()
+
+Returns the default tar ignore pattern, as an array.
+
+=cut
+
+sub get_default_tar_ignore_pattern {
+    return @tar_ignore_default_pattern;
+}
 
 =item $p = Dpkg::Source::Package->new(filename => $dscfile, options => {})
 
@@ -564,6 +591,13 @@ sub write_dsc {
 }
 
 =back
+
+=head1 CHANGES
+
+=head2 Version 1.01
+
+New functions: get_default_diff_ignore_regex(), get_default_tar_ignore_pattern()
+Deprecated variables: $diff_ignore_default_regexp, @tar_ignore_default_pattern
 
 =head1 AUTHOR
 

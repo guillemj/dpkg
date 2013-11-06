@@ -42,7 +42,8 @@ use Dpkg::Substvars;
 use Dpkg::Version;
 use Dpkg::Vars;
 use Dpkg::Changelog::Parse;
-use Dpkg::Source::Package;
+use Dpkg::Source::Package qw(get_default_diff_ignore_regex
+                             get_default_tar_ignore_pattern);
 use Dpkg::Vendor qw(run_vendor_hook);
 
 use Cwd;
@@ -76,7 +77,7 @@ my %override;
 
 my $substvars = Dpkg::Substvars->new();
 my $tar_ignore_default_pattern_done;
-my $diff_ignore_regex = $Dpkg::Source::Package::diff_ignore_default_regexp;
+my $diff_ignore_regex = get_default_diff_ignore_regex();
 
 my @options;
 my @cmdline_options;
@@ -178,7 +179,7 @@ while (@options) {
         push @{$options{tar_ignore}}, $1;
     } elsif (m/^-(?:I|-tar-ignore)$/) {
         unless ($tar_ignore_default_pattern_done) {
-            push @{$options{tar_ignore}}, @Dpkg::Source::Package::tar_ignore_default_pattern;
+            push @{$options{tar_ignore}}, get_default_tar_ignore_pattern();
             # Prevent adding multiple times
             $tar_ignore_default_pattern_done = 1;
         }
@@ -517,8 +518,8 @@ sub usage {
 'More options are available but they depend on the source package format.
 See dpkg-source(1) for more info.') . "\n",
     $Dpkg::PROGNAME,
-    $Dpkg::Source::Package::diff_ignore_default_regexp,
-    join(' ', map { "-I$_" } @Dpkg::Source::Package::tar_ignore_default_pattern),
+    get_default_diff_ignore_regex(),
+    join(' ', map { "-I$_" } get_default_tar_ignore_pattern()),
     compression_get_default(),
     join(' ', compression_get_list()),
     compression_get_default_level();
