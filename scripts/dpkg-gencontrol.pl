@@ -316,6 +316,7 @@ if ($pkg_type eq 'udeb') {
     }
 }
 
+my $sourcepackage = get_source_package();
 my $verdiff = $binaryversion ne $sourceversion;
 if ($oppackage ne $sourcepackage || $verdiff) {
     $fields->{'Source'} = $sourcepackage;

@@ -398,7 +398,7 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
 
     # Write the .dsc
     my $dscname = $srcpkg->get_basename(1) . '.dsc';
-    info(_g('building %s in %s'), $sourcepackage, $dscname);
+    info(_g('building %s in %s'), get_source_package(), $dscname);
     $srcpkg->write_dsc(filename => $dscname,
 		       remove => \%remove,
 		       override => \%override,

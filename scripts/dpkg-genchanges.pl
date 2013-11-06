@@ -399,12 +399,13 @@ if (!is_binaryonly) {
 	warning(_g('missing Priority for source files'));
     }
 
+    my $spackage = get_source_package();
     (my $sversion = $substvars->get('source:Version')) =~ s/^\d+://;
-    $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
+    $dsc= "$uploadfilesdir/${spackage}_${sversion}.dsc";
 
     my $dsc_fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
     $dsc_fields->load($dsc) || error(_g('%s is empty', $dsc));
-    $checksums->add_from_file($dsc, key => "$sourcepackage\_$sversion.dsc");
+    $checksums->add_from_file($dsc, key => "$spackage\_$sversion.dsc");
     $checksums->add_from_control($dsc_fields, use_files_for_md5 => 1);
 
     for my $f ($checksums->get_files()) {
@@ -491,7 +492,7 @@ $checksums->export_to_control($fields);
 # redundant with the Files field
 delete $fields->{'Checksums-Md5'};
 
-$fields->{'Source'}= $sourcepackage;
+$fields->{'Source'} = get_source_package();
 if ($fields->{'Version'} ne $substvars->get('source:Version')) {
     $fields->{'Source'} .= ' (' . $substvars->get('source:Version') . ')';
 }

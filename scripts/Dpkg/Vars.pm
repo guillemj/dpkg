@@ -1,4 +1,4 @@
-# Copyright © 2007-2009,2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2007-2009,2012-2013 Guillem Jover <guillem@debian.org>
 # Copyright © 2007 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -19,16 +19,20 @@ package Dpkg::Vars;
 use strict;
 use warnings;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Package;
 
 use Exporter qw(import);
-our @EXPORT = qw($sourcepackage set_source_package);
+our @EXPORT = qw(get_source_package set_source_package);
 
-our $sourcepackage;
+my $sourcepackage;
+
+sub get_source_package {
+    return $sourcepackage;
+}
 
 sub set_source_package {
     my $v = shift;
