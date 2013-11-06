@@ -34,6 +34,8 @@ if ($@) {
 
 use Dselect::Ftp;
 
+my $ftp;
+
 # exit value
 my $exit = 0;
 
@@ -314,7 +316,6 @@ if($totsize == 0) {
 sub download() {
 
  my $i = 0;
- my $ftp;
 
  foreach my $site (@{$config{site}}) {
 
@@ -346,7 +347,6 @@ sub download() {
 		       $config{proxylogname},
 		       $config{proxypassword});
 
-    $::ftp = $ftp;
     local $SIG{INT} = sub { die "Interrupted !\n"; };
 
     my ($rsize, $res, $pre);
@@ -410,10 +410,10 @@ if($totsize != 0) {
 	  };
 	  if($@ =~ /Interrupted|Timeout/i ) {
 	      # close the FTP connection if needed
-              if ((ref($::ftp) =~ /Net::FTP/) and ($@ =~ /Interrupted/i)) {
-                $::ftp->abort();
-	        $::ftp->quit();
-	        undef $::ftp;
+	      if ((ref($ftp) =~ /Net::FTP/) and ($@ =~ /Interrupted/i)) {
+	        $ftp->abort();
+	        $ftp->quit();
+	        undef $ftp;
 	      }
 	      print "FTP ERROR\n";
               if (yesno('y', "\nDo you want to retry downloading at once")) {
