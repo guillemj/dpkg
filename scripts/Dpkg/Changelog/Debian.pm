@@ -84,7 +84,6 @@ sub parse {
     while (<$fh>) {
 	chomp;
 	if ($_ =~ $regex_header) {
-	    (my $options = $4) =~ s/^\s+//;
 	    unless ($expect eq FIRST_HEADING || $expect eq NEXT_OR_EOF) {
 		$self->parse_error($file, $.,
 		    sprintf(_g('found start of entry where expected %s'),
