@@ -76,6 +76,7 @@ my %override;
 
 my $substvars = Dpkg::Substvars->new();
 my $tar_ignore_default_pattern_done;
+my $diff_ignore_regex = $Dpkg::Source::Package::diff_ignore_default_regexp;
 
 my @options;
 my @cmdline_options;
@@ -167,9 +168,9 @@ while (@options) {
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1} = 1;
     } elsif (m/^-(?:i|-diff-ignore(?:$|=))(.*)$/) {
-        $options{diff_ignore_regex} = $1 ? $1 : $Dpkg::Source::Package::diff_ignore_default_regexp;
+        $options{diff_ignore_regex} = $1 ? $1 : $diff_ignore_regex;
     } elsif (m/^--extend-diff-ignore=(.+)$/) {
-	$Dpkg::Source::Package::diff_ignore_default_regexp .= "|$1";
+	$diff_ignore_regex .= "|$1";
 	if ($options{diff_ignore_regex}) {
 	    $options{diff_ignore_regex} .= "|$1";
 	}
