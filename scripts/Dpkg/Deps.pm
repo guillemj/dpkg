@@ -278,7 +278,7 @@ This function is mainly used to implement the sort() method.
 
 =cut
 
-our %relation_ordering = (
+my %relation_ordering = (
 	undef => 0,
 	REL_GE() => 1,
 	REL_GT() => 2,
