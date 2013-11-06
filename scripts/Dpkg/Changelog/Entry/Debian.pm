@@ -1,4 +1,5 @@
 # Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2012-2013 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,12 +19,13 @@ package Dpkg::Changelog::Entry::Debian;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Exporter qw(import);
 use Dpkg::Changelog::Entry;
 use parent qw(Dpkg::Changelog::Entry);
-our @EXPORT_OK = qw($regex_header $regex_trailer find_closes);
+our @EXPORT_OK = qw(match_header match_trailer find_closes
+                    $regex_header $regex_trailer);
 
 use Date::Parse;
 
@@ -44,21 +46,22 @@ This object represents a Debian changelog entry. It implements the
 generic interface Dpkg::Changelog::Entry. Only functions specific to this
 implementation are described below.
 
-=head1 VARIABLES
-
-$regex_header, $regex_trailer are two regular expressions that can be used
-to match a line and know whether it's a valid header/trailer line.
-
-The matched content for $regex_header is the source package name ($1), the
-version ($2), the target distributions ($3) and the options on the rest
-of the line ($4). For $regex_trailer, it's the maintainer name ($1), its
-email ($2), some blanks ($3) and the timestamp ($4).
-
 =cut
 
 my $name_chars = qr/[-+0-9a-z.]/i;
+
+# XXX: Backwards compatibility, stop exporting on VERSION 2.00.
+## no critic (Variables::ProhibitPackageVars)
+
+# The matched content is the source package name ($1), the version ($2),
+# the target distributions ($3) and the options on the rest of the line ($4).
 our $regex_header = qr/^(\w$name_chars*) \(([^\(\) \t]+)\)((?:\s+$name_chars+)+)\;(.*?)\s*$/i;
+
+# The matched content is the maintainer name ($1), its email ($2),
+# some blanks ($3) and the timestamp ($4).
 our $regex_trailer = qr/^ \-\- (.*) <(.*)>(  ?)((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}(\s+\([^\\\(\)]\))?)\s*$/o;
+
+## use critic
 
 =head1 FUNCTIONS
 
@@ -257,6 +260,30 @@ sub get_timestamp {
 
 =over 4
 
+=item my $bool = match_header($line)
+
+Checks if the line matches a valid changelog header line.
+
+=cut
+
+sub match_header {
+    my ($line) = @_;
+
+    return $line =~ /$regex_header/;
+}
+
+=item my $bool = match_trailer($line)
+
+Checks if the line matches a valid changelog trailing line.
+
+=cut
+
+sub match_trailer {
+    my ($line) = @_;
+
+    return $line =~ /$regex_trailer/;
+}
+
 =item my @closed_bugs = find_closes($changes)
 
 Takes one string as argument and finds "Closes: #123456, #654321" statements
@@ -279,6 +306,13 @@ sub find_closes {
 }
 
 =back
+
+=head1 CHANGES
+
+=head2 Version 1.01
+
+New functions: match_header(), match_trailer()
+Deprecated variables: $regex_header, $regex_trailer
 
 =head1 AUTHOR
 

@@ -104,6 +104,7 @@ my @policies = qw(
     Variables::ProhibitAugmentedAssignmentInDeclaration
     Variables::ProhibitConditionalDeclarations
     Variables::ProhibitLocalVars
+    Variables::ProhibitPackageVars
     Variables::ProhibitPerl4PackageNames
     Variables::ProhibitUnusedVariables
     Variables::ProtectPrivateVars

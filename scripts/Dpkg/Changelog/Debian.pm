@@ -1,6 +1,7 @@
 # Copyright © 1996 Ian Jackson
 # Copyright © 2005 Frank Lichtenheld <frank@lichtenheld.de>
 # Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2012-2013 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -49,7 +50,7 @@ use Dpkg::Gettext;
 use Dpkg::File;
 use Dpkg::Changelog qw(:util);
 use parent qw(Dpkg::Changelog);
-use Dpkg::Changelog::Entry::Debian qw($regex_header $regex_trailer);
+use Dpkg::Changelog::Entry::Debian qw(match_header match_trailer);
 
 use constant {
     FIRST_HEADING => _g('first heading'),
@@ -83,7 +84,7 @@ sub parse {
 
     while (<$fh>) {
 	chomp;
-	if ($_ =~ $regex_header) {
+	if (match_header($_)) {
 	    unless ($expect eq FIRST_HEADING || $expect eq NEXT_OR_EOF) {
 		$self->parse_error($file, $.,
 		    sprintf(_g('found start of entry where expected %s'),
@@ -124,7 +125,7 @@ sub parse {
 	    $self->set_unparsed_tail("$_\n" . file_slurp($fh));
 	} elsif (m/^\S/) {
 	    $self->parse_error($file, $., _g('badly formatted heading line'), "$_");
-	} elsif ($_ =~ $regex_trailer) {
+	} elsif (match_trailer($_)) {
 	    unless ($expect eq CHANGES_OR_TRAILER) {
 		$self->parse_error($file, $.,
 		    sprintf(_g('found trailer where expected %s'), $expect), "$_");
