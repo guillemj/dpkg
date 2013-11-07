@@ -51,7 +51,7 @@ sub report(@)
 
 sub info($;@)
 {
-    print $info_fh report(_g('info'), @_) if (!$quiet_warnings);
+    print { $info_fh } report(_g('info'), @_) if (!$quiet_warnings);
 }
 
 sub warning($;@)
@@ -72,7 +72,7 @@ sub error($;@)
 
 sub errormsg($;@)
 {
-    print STDERR report(_g('error'), @_);
+    print { *STDERR } report(_g('error'), @_);
 }
 
 sub subprocerr(@)

@@ -125,7 +125,7 @@ sub add_diff_file {
 	    $self->print(*$self->{header}) or syserr(_g('failed to write'));
 	    *$self->{empty} = 0;
 	}
-        print $self $_ or syserr(_g('failed to write'));
+        print { $self } $_ or syserr(_g('failed to write'));
     }
     close($diffgen) or syserr('close on diff pipe');
     wait_child($diff_pid, nocheck => 1,
@@ -557,8 +557,8 @@ sub apply {
 	error_to_string => \$stderr,
     );
     if ($?) {
-	print STDOUT $stdout;
-	print STDERR $stderr;
+	print { *STDOUT } $stdout;
+	print { *STDERR } $stderr;
 	subprocerr('LC_ALL=C patch ' . join(' ', @{$opts{options}}) .
 	           ' < ' . $self->get_filename());
     }

@@ -89,14 +89,14 @@ if (open(my $fileslist_fh, '<', $fileslistfile)) {
     while (<$fileslist_fh>) {
         s/\n$//;
         next if m/^(\S+) / && $1 eq $file;
-        print($fileslistnew_fh "$_\n")
+        print { $fileslistnew_fh } "$_\n"
             or syserr(_g('copy old entry to new files list file'));
     }
     close $fileslist_fh or syserr(_g('cannot close %s'), $fileslistfile);
 } elsif ($! != ENOENT) {
     syserr(_g('read old files list file'));
 }
-print($fileslistnew_fh "$file $section $priority\n")
+print { $fileslistnew_fh } "$file $section $priority\n"
     or syserr(_g('write new entry to new files list file'));
 close($fileslistnew_fh) or syserr(_g('close new files list file'));
 rename("$fileslistfile.new", $fileslistfile)

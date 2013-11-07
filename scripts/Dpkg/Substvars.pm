@@ -320,7 +320,7 @@ sub output {
     foreach my $vn (sort keys %{$self->{vars}}) {
 	next if /^(?:(?:dpkg|source|binary):(?:Source-)?Version|Space|Tab|Newline|Arch|Source-Version|F:.+)$/;
 	my $line = "$vn=" . $self->{vars}{$vn} . "\n";
-	print $fh $line if defined $fh;
+	print { $fh } $line if defined $fh;
 	$str .= $line;
     }
     return $str;

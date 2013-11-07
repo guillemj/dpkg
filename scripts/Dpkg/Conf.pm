@@ -167,7 +167,7 @@ sub output {
 	    $opt .= '"';
 	}
 	$opt .= "\n";
-	print $fh $opt if defined $fh;
+	print { $fh } $opt if defined $fh;
 	$ret .= $opt;
     }
     return $ret;

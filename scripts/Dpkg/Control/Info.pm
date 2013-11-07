@@ -182,7 +182,7 @@ sub output {
     my $str;
     $str .= $self->{source}->output($fh);
     foreach my $pkg (@{$self->{packages}}) {
-	print $fh "\n";
+	print { $fh } "\n";
 	$str .= "\n" . $pkg->output($fh);
     }
     return $str;

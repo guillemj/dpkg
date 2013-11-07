@@ -282,19 +282,19 @@ sub output {
 	my @deps = $self->get_dependencies($soname);
 	my $dep_first = shift @deps;
 	$dep_first =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
-	print $fh "$soname $dep_first\n" if defined $fh;
+	print { $fh } "$soname $dep_first\n" if defined $fh;
 	$res .= "$soname $dep_first\n" if defined wantarray;
 
 	foreach my $dep_next (@deps) {
 	    $dep_next =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
-	    print $fh "| $dep_next\n" if defined $fh;
+	    print { $fh } "| $dep_next\n" if defined $fh;
 	    $res .= "| $dep_next\n" if defined wantarray;
 	}
 	my $f = $self->{objects}{$soname}{fields};
 	foreach my $field (sort keys %{$f}) {
 	    my $value = $f->{$field};
 	    $value =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
-	    print $fh "* $field: $value\n" if defined $fh;
+	    print { $fh } "* $field: $value\n" if defined $fh;
 	    $res .= "* $field: $value\n" if defined wantarray;
 	}
 
@@ -313,14 +313,14 @@ sub output {
 	    next if not $opts{template_mode} and
 	            not $sym->arch_is_concerned($self->get_arch());
 	    # Dump symbol specification. Dump symbol tags only in template mode.
-	    print $fh $sym->get_symbolspec($opts{template_mode}), "\n" if defined $fh;
+	    print { $fh } $sym->get_symbolspec($opts{template_mode}), "\n" if defined $fh;
 	    $res .= $sym->get_symbolspec($opts{template_mode}) . "\n" if defined wantarray;
 	    # Dump pattern matches as comments (if requested)
 	    if ($opts{with_pattern_matches} && $sym->is_pattern()) {
 		for my $match (sort { $a->get_symboltempl() cmp
 		                      $b->get_symboltempl() } $sym->get_pattern_matches())
 		{
-		    print $fh '#MATCH:', $match->get_symbolspec(0), "\n" if defined $fh;
+		    print { $fh } '#MATCH:', $match->get_symbolspec(0), "\n" if defined $fh;
 		    $res .= '#MATCH:' . $match->get_symbolspec(0) . "\n" if defined wantarray;
 		}
 	    }

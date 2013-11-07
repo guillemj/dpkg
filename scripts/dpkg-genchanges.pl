@@ -146,11 +146,11 @@ while (@ARGV) {
     } elsif (m/^-B$/) {
 	usageerr(_g('cannot combine %s and %s'), $_, '-S') if is_sourceonly;
 	$include = ARCH_DEP;
-	printf STDERR _g('%s: arch-specific upload - not including arch-independent packages') . "\n", $Dpkg::PROGNAME;
+	printf { *STDERR } _g('%s: arch-specific upload - not including arch-independent packages') . "\n", $Dpkg::PROGNAME;
     } elsif (m/^-A$/) {
 	usageerr(_g('cannot combine %s and %s'), $_, '-S') if is_sourceonly;
 	$include = ARCH_INDEP;
-	printf STDERR _g('%s: arch-indep upload - not including arch-specific packages') . "\n", $Dpkg::PROGNAME;
+	printf { *STDERR } _g('%s: arch-indep upload - not including arch-specific packages') . "\n", $Dpkg::PROGNAME;
     } elsif (m/^-S$/) {
 	usageerr(_g('cannot combine %s and %s'), binary_opt, '-S')
 	    if is_binaryonly;
@@ -447,7 +447,7 @@ if (!is_binaryonly) {
     $origsrcmsg= _g('binary-only upload - not including any source code');
 }
 
-print(STDERR "$Dpkg::PROGNAME: $origsrcmsg\n")
+print { *STDERR } "$Dpkg::PROGNAME: $origsrcmsg\n"
     or syserr(_g('write original source message')) unless $quiet;
 
 $fields->{'Format'} = $substvars->get('Format');

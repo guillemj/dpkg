@@ -166,7 +166,7 @@ sub output {
     my ($self, $fh) = @_;
     my $o = $self->{options};
     my $res = join(' ', map { defined($o->{$_}) ? $_ . '=' . $o->{$_} : $_ } sort keys %$o);
-    print $fh $res if defined $fh;
+    print { $fh } $res if defined $fh;
     return $res;
 }
 

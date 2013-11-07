@@ -390,8 +390,8 @@ sub do_build {
     }
 
     if ($ur) {
-        printf(STDERR _g('%s: unrepresentable changes to source') . "\n",
-               $Dpkg::PROGNAME);
+        printf { *STDERR } _g('%s: unrepresentable changes to source') . "\n",
+               $Dpkg::PROGNAME;
         exit(1);
     }
 }

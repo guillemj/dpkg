@@ -113,12 +113,12 @@ if ($bc_value) {
 }
 
 if (@unmet) {
-	printf STDERR _g('%s: Unmet build dependencies: '), $Dpkg::PROGNAME;
-	print STDERR join(' ', map { $_->output() } @unmet), "\n";
+	printf { *STDERR } _g('%s: Unmet build dependencies: '), $Dpkg::PROGNAME;
+	print { *STDERR } join(' ', map { $_->output() } @unmet), "\n";
 }
 if (@conflicts) {
-	printf STDERR _g('%s: Build conflicts: '), $Dpkg::PROGNAME;
-	print STDERR join(' ', map { $_->output() } @conflicts), "\n";
+	printf { *STDERR } _g('%s: Build conflicts: '), $Dpkg::PROGNAME;
+	print { *STDERR } join(' ', map { $_->output() } @conflicts), "\n";
 }
 exit 1 if @unmet || @conflicts;
 

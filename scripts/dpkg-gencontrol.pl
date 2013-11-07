@@ -386,7 +386,7 @@ if (open(my $fileslist_fh, '<', $fileslistfile)) {
 	        && ($3 eq $pkg_type)
 	        && (debarch_eq($2, $fields->{'Architecture'} || '')
 		    || debarch_eq($2, 'all'));
-        print($fileslistnew_fh "$_\n")
+        print { $fileslistnew_fh } "$_\n"
             or syserr(_g('copy old entry to new files list file'));
     }
     close($fileslist_fh) or syserr(_g('close old files list file'));
@@ -398,10 +398,11 @@ $sversion =~ s/^\d+://;
 $forcefilename //= sprintf('%s_%s_%s.%s', $oppackage, $sversion,
                            $fields->{'Architecture'} || '', $pkg_type);
 
-print($fileslistnew_fh $substvars->substvars(sprintf("%s %s %s\n",
-                                             $forcefilename,
-                                             $fields->{'Section'} || '-',
-                                             $fields->{'Priority'} || '-')))
+print { $fileslistnew_fh }
+      $substvars->substvars(sprintf("%s %s %s\n",
+                                    $forcefilename,
+                                    $fields->{'Section'} || '-',
+                                    $fields->{'Priority'} || '-'))
     or syserr(_g('write new entry to new files list file'));
 close($fileslistnew_fh) or syserr(_g('close new files list file'));
 rename("$fileslistfile.new", $fileslistfile)

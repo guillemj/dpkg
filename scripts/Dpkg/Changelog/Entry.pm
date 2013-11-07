@@ -97,7 +97,7 @@ sub output {
     $str .= _format_output_block($self->{blank_after_changes});
     $str .= $self->{trailer} . "\n" if defined($self->{trailer});
     $str .= _format_output_block($self->{blank_after_trailer});
-    print $fh $str if defined $fh;
+    print { $fh } $str if defined $fh;
     return $str;
 }
 

@@ -74,7 +74,7 @@ sub store_config {
 
   open(my $vars_fh, '>', $vars)
     or die "couldn't open $vars in write mode: $!\n";
-  print $vars_fh Dumper(\%CONFIG);
+  print { $vars_fh } Dumper(\%CONFIG);
   close $vars_fh;
 }
 

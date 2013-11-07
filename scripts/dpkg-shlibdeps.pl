@@ -464,7 +464,7 @@ if ($stdout) {
 	    or syserr(_g("open old varlist file \`%s' for reading"), $varlistfile);
 	while (my $entry = <$old_fh>) {
 	    next if $entry =~ m/^\Q$varnameprefix\E:/;
-	    print($new_fh $entry)
+	    print { $new_fh } $entry
 	        or syserr(_g("copy old entry to new varlist file \`%s'"),
 	                  "$varlistfile.new");
 	}
@@ -531,7 +531,7 @@ foreach my $field (reverse @depfields) {
         my $obj = deps_parse($dep);
         error(_g('invalid dependency got generated: %s'), $dep) unless defined $obj;
         $obj->sort();
-	print $fh "$varnameprefix:$field=$obj\n";
+	print { $fh } "$varnameprefix:$field=$obj\n";
     }
 }
 
@@ -857,7 +857,7 @@ sub find_packages {
 	chomp($_);
 	if (m/^local diversion |^diversion by/) {
 	    warning(_g('diversions involved - output may be incorrect'));
-	    print(STDERR " $_\n")
+	    print { *STDERR } " $_\n"
 		or syserr(_g('write diversion info to stderr'));
 	} elsif (m/^([-a-z0-9+.:, ]+): (\/.*)$/) {
 	    $cached_pkgmatch{$2} = $pkgmatch->{$2} = [ split(/, /, $1) ];

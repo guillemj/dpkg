@@ -551,7 +551,7 @@ sub output {
 	$res .= ' [' . join(' ', @{$self->{arches}}) . ']';
     }
     if (defined($fh)) {
-	print $fh $res;
+	print { $fh } $res;
     }
     return $res;
 }
@@ -937,7 +937,7 @@ sub output {
     my ($self, $fh) = @_;
     my $res = join(', ', map { $_->output() } grep { not $_->is_empty() } $self->get_deps());
     if (defined($fh)) {
-	print $fh $res;
+	print { $fh } $res;
     }
     return $res;
 }
@@ -1042,7 +1042,7 @@ sub output {
     my ($self, $fh) = @_;
     my $res = join(' | ', map { $_->output() } grep { not $_->is_empty() } $self->get_deps());
     if (defined($fh)) {
-	print $fh $res;
+	print { $fh } $res;
     }
     return $res;
 }
@@ -1150,7 +1150,7 @@ sub output {
     my ($self, $fh) = @_;
     my $res = join(', ', map { $_->output() } grep { not $_->is_empty() } $self->get_deps());
     if (defined($fh)) {
-	print $fh $res;
+	print { $fh } $res;
     }
     return $res;
 }

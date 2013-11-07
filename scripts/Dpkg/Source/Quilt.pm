@@ -56,7 +56,7 @@ sub setup_db {
     my $file = $self->get_db_file('.version');
     if (not -e $file) {
         open(my $version_fh, '>', $file) or syserr(_g('cannot write %s'), $file);
-        print $version_fh "2\n";
+        print { $version_fh } "2\n";
         close($version_fh);
     }
     # The files below are used by quilt to know where patches are stored
@@ -65,7 +65,7 @@ sub setup_db {
     $file = $self->get_db_file('.quilt_patches');
     if (not -e $file) {
         open(my $qpatch_fh, '>', $file) or syserr(_g('cannot write %s'), $file);
-        print $qpatch_fh "debian/patches\n";
+        print { $qpatch_fh } "debian/patches\n";
         close($qpatch_fh);
     }
     $file = $self->get_db_file('.quilt_series');
@@ -73,7 +73,7 @@ sub setup_db {
         open(my $qseries_fh, '>', $file) or syserr(_g('cannot write %s'), $file);
         my $series = $self->get_series_file();
         $series = (File::Spec->splitpath($series))[2];
-        print $qseries_fh "$series\n";
+        print { $qseries_fh } "$series\n";
         close($qseries_fh);
     }
 }
@@ -93,7 +93,7 @@ sub write_db {
     open(my $applied_fh, '>', $pc_applied) or
         syserr(_g('cannot write %s'), $pc_applied);
     foreach my $patch (@{$self->{applied_patches}}) {
-        print $applied_fh "$patch\n";
+        print { $applied_fh } "$patch\n";
     }
     close($applied_fh);
 }

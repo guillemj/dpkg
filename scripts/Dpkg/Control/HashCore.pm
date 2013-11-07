@@ -349,7 +349,7 @@ sub output {
 	    }
 	    # Print it out
             if ($fh) {
-	        print $fh "$key: $value\n"
+	        print { $fh } "$key: $value\n"
 	            or syserr(_g('write error on control data'));
             }
 	    $str .= "$key: $value\n" if defined wantarray;

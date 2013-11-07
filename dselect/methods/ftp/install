@@ -628,7 +628,7 @@ foreach (keys %md5sums) {
 }
 open(my $md5sums_fh, '>', "$methdir/md5sums")
   or die "can't open $methdir/md5sums in write mode: $!\n";
-print $md5sums_fh Dumper(\%md5sums);
+print { $md5sums_fh } Dumper(\%md5sums);
 close $md5sums_fh;
 
 exit $exit;

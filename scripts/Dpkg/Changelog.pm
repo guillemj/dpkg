@@ -462,12 +462,12 @@ sub output {
     my $str = '';
     foreach my $entry (@{$self}) {
 	my $text = $entry->output();
-	print $fh $text if defined $fh;
+	print { $fh } $text if defined $fh;
 	$str .= $text if defined wantarray;
     }
     my $text = $self->get_unparsed_tail();
     if (defined $text) {
-	print $fh $text if defined $fh;
+	print { $fh } $text if defined $fh;
 	$str .= $text if defined wantarray;
     }
     return $str;

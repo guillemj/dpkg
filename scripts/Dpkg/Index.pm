@@ -333,7 +333,7 @@ sub output {
     my $str = '';
     foreach my $key ($self->get_keys()) {
 	if (defined $fh) {
-	    print $fh $self->get_by_key($key) . "\n";
+	    print { $fh } $self->get_by_key($key) . "\n";
 	}
 	if (defined wantarray) {
 	    $str .= $self->get_by_key($key) . "\n";

@@ -224,7 +224,7 @@ sub _add_line {
     my ($file, $line) = @_;
 
     open(my $file_fh, '>>', $file) or syserr(_g('cannot write %s'), $file);
-    print $file_fh "$line\n";
+    print { $file_fh } "$line\n";
     close($file_fh);
 }
 
@@ -235,7 +235,7 @@ sub _drop_line {
     my @lines = <$file_fh>;
     close($file_fh);
     open($file_fh, '>', $file) or syserr(_g('cannot write %s'), $file);
-    print($file_fh $_) foreach grep { not /^\Q$re\E\s*$/ } @lines;
+    print { $file_fh } $_ foreach grep { not /^\Q$re\E\s*$/ } @lines;
     close($file_fh);
 }
 

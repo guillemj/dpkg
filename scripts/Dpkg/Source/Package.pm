@@ -392,7 +392,7 @@ sub check_signature {
               timeout => 10);
         if (WIFEXITED($?)) {
             my $gpg_status = WEXITSTATUS($?);
-            print STDERR "$stdout$stderr" if $gpg_status;
+            print { *STDERR } "$stdout$stderr" if $gpg_status;
             if ($gpg_status == 1 or ($gpg_status &&
                 $self->{options}{require_valid_signature}))
             {
@@ -474,7 +474,7 @@ sub extract {
 	    mkdir($srcdir) unless -e $srcdir;
 	    open(my $format_fh, '>', $format_file)
 	        or syserr(_g('cannot write %s'), $format_file);
-	    print $format_fh $self->{fields}{'Format'} . "\n";
+	    print { $format_fh } $self->{fields}{'Format'} . "\n";
 	    close($format_fh);
 	}
     }

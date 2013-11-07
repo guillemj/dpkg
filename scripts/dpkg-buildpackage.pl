@@ -444,7 +444,7 @@ if (defined($since)) { push @changes_opts, "-v$since" }
 if (defined($desc)) { push @changes_opts, "-C$desc" }
 
 my $chg = "../$pva.changes";
-print STDERR " dpkg-genchanges @changes_opts >$chg\n";
+print { *STDERR } " dpkg-genchanges @changes_opts >$chg\n";
 open my $changes_fh, '-|', 'dpkg-genchanges', @changes_opts
     or subprocerr('dpkg-genchanges');
 
@@ -452,7 +452,7 @@ open my $out_fh, '>', $chg or syserr(_g('write changes file'));
 
 my $infiles = my $files = '';
 while ($_ = <$changes_fh>) {
-    print $out_fh $_ or syserr(_g('write changes file'));
+    print { $out_fh } $_ or syserr(_g('write changes file'));
     chomp;
 
     if (/^Files:/i) {
@@ -524,14 +524,14 @@ sub mustsetvar {
 
 sub withecho {
     shift while !$_[0];
-    print STDERR " @_\n";
+    print { *STDERR } " @_\n";
     system(@_)
 	and subprocerr("@_");
 }
 
 sub signfile {
     my ($file) = @_;
-    print STDERR " signfile $file\n";
+    print { *STDERR } " signfile $file\n";
     my $qfile = quotemeta($file);
 
     system("(cat ../$qfile ; echo '') | " .

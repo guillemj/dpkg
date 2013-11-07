@@ -31,9 +31,9 @@ sub test_write {
 
     $fh = Dpkg::Compression::FileHandle->new();
     open $fh, '>', $filename or die 'open failed';
-    print $fh $lines[0];
+    print { $fh } $lines[0];
     syswrite($fh, $lines[1]);
-    printf $fh '%s', $lines[2];
+    printf { $fh } '%s', $lines[2];
     close $fh or die 'close failed';
 
     &$check_result($filename, 'std functions');

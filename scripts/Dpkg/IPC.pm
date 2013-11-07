@@ -280,7 +280,7 @@ sub spawn {
     close($opts{error_to_handle}) if exists $opts{error_to_handle};
 
     if ($opts{from_string}) {
-	print $from_string_pipe ${$opts{from_string}};
+	print { $from_string_pipe } ${$opts{from_string}};
 	close($from_string_pipe);
     }
     if ($opts{to_string}) {

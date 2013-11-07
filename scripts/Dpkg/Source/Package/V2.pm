@@ -221,7 +221,7 @@ sub apply_patches {
     my $applied = File::Spec->catfile($dir, 'debian', 'patches', '.dpkg-source-applied');
     open(my $applied_fh, '>', $applied)
         or syserr(_g('cannot write %s'), $applied);
-    print $applied_fh "# During $opts{usage}\n";
+    print { $applied_fh } "# During $opts{usage}\n";
     my $timestamp = fs_time($applied);
     foreach my $patch ($self->get_patches($dir, %opts)) {
         my $path = File::Spec->catfile($dir, 'debian', 'patches', $patch);
@@ -230,7 +230,7 @@ sub apply_patches {
         $patch_obj->apply($dir, force_timestamp => 1,
                           timestamp => $timestamp,
                           add_options => [ '-E' ]);
-        print $applied_fh "$patch\n";
+        print { $applied_fh } "$patch\n";
     }
     close($applied_fh);
 }
@@ -596,7 +596,7 @@ sub register_patch {
         my $applied = File::Spec->catfile($dir, 'debian', 'patches', '.dpkg-source-applied');
         open(my $applied_fh, '>>', $applied)
             or syserr(_g('cannot write %s'), $applied);
-        print $applied_fh "$patch\n";
+        print { $applied_fh } "$patch\n";
         close($applied_fh) or syserr(_g('cannot close %s'), $applied);
     } elsif (-e $patch) {
         unlink($patch) or syserr(_g('cannot remove %s'), $patch);
@@ -727,7 +727,7 @@ sub update_debian_source_include_binaries {
     open(my $incbin_fh, '>>', $incbin_file)
         or syserr(_g('cannot write %s'), $incbin_file);
     foreach my $binary (@unknown_binaries) {
-        print $incbin_fh "$binary\n";
+        print { $incbin_fh } "$binary\n";
         info(_g('adding %s to %s'), $binary, 'debian/source/include-binaries');
         $self->{allowed_binaries}{$binary} = 1;
     }

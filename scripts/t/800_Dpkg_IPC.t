@@ -32,7 +32,7 @@ my $string2;
 
 open $tmp_fh, '>', $tmp1_name
     or die "cannot open $tmp1_name: $!";
-print $tmp_fh $string1;
+print { $tmp_fh } $string1;
 close $tmp_fh;
 
 my $pid = spawn(exec => 'cat',
