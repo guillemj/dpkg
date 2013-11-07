@@ -652,7 +652,7 @@ sub do_commit {
     }
     while (_is_bad_patch_name($dir, $patch_name)) {
         # Ask the patch name interactively
-        print STDOUT _g('Enter the desired patch name: ');
+        print _g('Enter the desired patch name: ');
         chomp($patch_name = <STDIN>);
         $patch_name =~ s/\s+/-/g;
         $patch_name =~ s/\///g;

@@ -258,7 +258,7 @@ for my $p (sort keys %packages) {
         push(@missingover,$p);
     }
     for my $package (@{$packages{$p}}) {
-	 print(STDOUT "$package\n") or syserr(_g('failed when writing stdout'));
+         print("$package\n") or syserr(_g('failed when writing stdout'));
          $records_written++;
     }
 }
