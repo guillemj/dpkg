@@ -252,10 +252,10 @@ sub read_triplettable()
 
 sub debtriplet_to_gnutriplet(@)
 {
+    my ($abi, $os, $cpu) = @_;
+
     read_cputable();
     read_ostable();
-
-    my ($abi, $os, $cpu) = @_;
 
     return unless defined($abi) && defined($os) && defined($cpu) &&
         exists($cputable{$cpu}) && exists($ostable{"$abi-$os"});
@@ -313,9 +313,9 @@ sub debarch_to_multiarch($)
 
 sub debtriplet_to_debarch(@)
 {
-    read_triplettable();
-
     my ($abi, $os, $cpu) = @_;
+
+    read_triplettable();
 
     if (!defined($abi) || !defined($os) || !defined($cpu)) {
 	return;
@@ -328,10 +328,10 @@ sub debtriplet_to_debarch(@)
 
 sub debarch_to_debtriplet($)
 {
-    read_triplettable();
-
     local ($_) = @_;
     my $arch;
+
+    read_triplettable();
 
     if (/^linux-([^-]*)/) {
 	# XXX: Might disappear in the future, not sure yet.
