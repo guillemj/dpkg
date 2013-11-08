@@ -91,7 +91,7 @@ sub do_build {
     my @argv = @{$self->{options}{ARGV}};
     # TODO: warn here?
     #my @tar_ignore = map { "--exclude=$_" } @{$self->{options}{tar_ignore}};
-    my $diff_ignore_regexp = $self->{options}{diff_ignore_regexp};
+    my $diff_ignore_regex = $self->{options}{diff_ignore_regex};
 
     $dir =~ s{/+$}{}; # Strip trailing /
     my ($dirname, $updir) = fileparse($dir);
@@ -122,8 +122,8 @@ sub do_build {
     while (<$bzr_status_fh>) {
         chomp;
         next unless s/^ +//;
-        if (! length $diff_ignore_regexp ||
-            ! m/$diff_ignore_regexp/o) {
+        if (! length $diff_ignore_regex ||
+            ! m/$diff_ignore_regex/o) {
             push @files, $_;
         }
     }

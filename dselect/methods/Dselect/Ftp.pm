@@ -375,7 +375,7 @@ sub do_mdtm {
 	    # build a system time
 	    $time = Time::Local::timegm(0, $minutes, $hours, $day, $month, $year);
 	} else {
-	    die 'regexp match failed on LIST output';
+	    die 'regex match failed on LIST output';
 	}
     }
 

@@ -94,7 +94,7 @@ sub can_build {
 
 sub do_build {
     my ($self, $dir) = @_;
-    my $diff_ignore_regexp = $self->{options}{diff_ignore_regexp};
+    my $diff_ignore_regex = $self->{options}{diff_ignore_regex};
 
     $dir =~ s{/+$}{}; # Strip trailing /
     my ($dirname, $updir) = fileparse($dir);
@@ -124,8 +124,8 @@ sub do_build {
     { local $/ = "\0";
       while (<$git_ls_files_fh>) {
           chomp;
-          if (! length $diff_ignore_regexp ||
-              ! m/$diff_ignore_regexp/o) {
+          if (! length $diff_ignore_regex ||
+              ! m/$diff_ignore_regex/o) {
               push @files, $_;
           }
       }

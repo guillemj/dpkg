@@ -30,9 +30,9 @@ ok(any { 'bar' eq $_ } @array, 'array has item');
 ok(!any { 'notfound' eq $_ } @array, 'array does not have item');
 ok(none { 'notfound' eq $_ } @array, 'array lacks item');
 
-ok(any { m/^quu/ } @array, 'array has item matching regexp');
-ok(none { m/^notfound/ } @array, 'array lacks item matching regexp');
+ok(any { m/^quu/ } @array, 'array has item matching regex');
+ok(none { m/^notfound/ } @array, 'array lacks item matching regex');
 
-ok(any { m/^quu/ } keys %hash, 'hash has item matching regexp');
+ok(any { m/^quu/ } keys %hash, 'hash has item matching regex');
 
 1;

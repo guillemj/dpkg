@@ -44,10 +44,10 @@ sub init_options {
     my ($self) = @_;
     # Don't call $self->SUPER::init_options() on purpose, V1.0 has no
     # ignore by default
-    if ($self->{options}{diff_ignore_regexp}) {
-	$self->{options}{diff_ignore_regexp} .= '|(?:^|/)debian/source/local-.*$';
+    if ($self->{options}{diff_ignore_regex}) {
+	$self->{options}{diff_ignore_regex} .= '|(?:^|/)debian/source/local-.*$';
     } else {
-	$self->{options}{diff_ignore_regexp} = '(?:^|/)debian/source/local-.*$';
+	$self->{options}{diff_ignore_regex} = '(?:^|/)debian/source/local-.*$';
     }
     push @{$self->{options}{tar_ignore}}, 'debian/source/local-options',
          'debian/source/local-patch-header';
@@ -176,7 +176,7 @@ sub do_build {
     my $sourcestyle = $self->{options}{sourcestyle};
     my @argv = @{$self->{options}{ARGV}};
     my @tar_ignore = map { "--exclude=$_" } @{$self->{options}{tar_ignore}};
-    my $diff_ignore_regexp = $self->{options}{diff_ignore_regexp};
+    my $diff_ignore_regex = $self->{options}{diff_ignore_regex};
 
     if (scalar(@argv) > 1) {
         usageerr(_g('-b takes at most a directory and an orig source ' .
@@ -356,7 +356,7 @@ sub do_build {
         $diff->create();
         $diff->add_diff_directory($origdir, $dir,
                 basedirname => $basedirname,
-                diff_ignore_regexp => $diff_ignore_regexp,
+                diff_ignore_regex => $diff_ignore_regex,
                 options => []); # Force empty set of options to drop the
                                 # default -p option
         $diff->finish() || $ur++;

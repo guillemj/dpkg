@@ -208,7 +208,7 @@ sub get_by_key {
 =item my @keys = $index->get_keys(%criteria)
 
 Returns the keys of items that matches all the criteria. The key of the
-%criteria hash is a field name and the value is either a regexp that needs
+%criteria hash is a field name and the value is either a regex that needs
 to match the field value, or a reference to a function that must return
 true and that receives the field value as single parameter, or a scalar
 that must be equal to the field value.

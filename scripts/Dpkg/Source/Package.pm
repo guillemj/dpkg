@@ -51,8 +51,7 @@ use Dpkg::Vendor qw(run_vendor_hook);
 use POSIX qw(:errno_h :sys_wait_h);
 use File::Basename;
 
-# Public variables
-our $diff_ignore_default_regexp = '
+my $diff_ignore_default_regex = '
 # Ignore general backup files
 (?:^|/).*~$|
 # Ignore emacs recovery files
@@ -69,8 +68,12 @@ our $diff_ignore_default_regexp = '
 \.shelf|_MTN|\.be|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
 ';
 # Take out comments and newlines
-$diff_ignore_default_regexp =~ s/^#.*$//mg;
-$diff_ignore_default_regexp =~ s/\n//sg;
+$diff_ignore_default_regex =~ s/^#.*$//mg;
+$diff_ignore_default_regex =~ s/\n//sg;
+
+# Public variables
+our $diff_ignore_default_regexp = $diff_ignore_default_regex;
+
 no warnings 'qw'; ## no critic (TestingAndDebugging::ProhibitNoWarnings)
 our @tar_ignore_default_pattern = qw(
 *.a
@@ -167,8 +170,8 @@ sub init_options {
     my ($self) = @_;
     # Use full ignore list by default
     # note: this function is not called by V1 packages
-    $self->{options}{diff_ignore_regexp} ||= $diff_ignore_default_regexp;
-    $self->{options}{diff_ignore_regexp} .= '|(?:^|/)debian/source/local-.*$';
+    $self->{options}{diff_ignore_regex} ||= $diff_ignore_default_regex;
+    $self->{options}{diff_ignore_regex} .= '|(?:^|/)debian/source/local-.*$';
     if (defined $self->{options}{tar_ignore}) {
         $self->{options}{tar_ignore} = [ @tar_ignore_default_pattern ]
             unless @{$self->{options}{tar_ignore}};

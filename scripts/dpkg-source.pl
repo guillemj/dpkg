@@ -63,7 +63,7 @@ my %options = (
     comp_ext => compression_get_property(compression_get_default(), 'file_ext'),
     # Ignore files
     tar_ignore => [],
-    diff_ignore_regexp => '',
+    diff_ignore_regex => '',
     # Misc options
     copy_orig_tarballs => 1,
     no_check => 0,
@@ -167,11 +167,11 @@ while (@options) {
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1} = 1;
     } elsif (m/^-(?:i|-diff-ignore(?:$|=))(.*)$/) {
-        $options{diff_ignore_regexp} = $1 ? $1 : $Dpkg::Source::Package::diff_ignore_default_regexp;
+        $options{diff_ignore_regex} = $1 ? $1 : $Dpkg::Source::Package::diff_ignore_default_regexp;
     } elsif (m/^--extend-diff-ignore=(.+)$/) {
 	$Dpkg::Source::Package::diff_ignore_default_regexp .= "|$1";
-	if ($options{diff_ignore_regexp}) {
-	    $options{diff_ignore_regexp} .= "|$1";
+	if ($options{diff_ignore_regex}) {
+	    $options{diff_ignore_regex} .= "|$1";
 	}
     } elsif (m/^-(?:I|-tar-ignore=)(.+)$/) {
         push @{$options{tar_ignore}}, $1;
@@ -495,7 +495,7 @@ sub usage {
   -D<field>=<value>        override or add a .dsc field and value.
   -U<field>                remove a field.
   -q                       quiet mode.
-  -i[<regexp>]             filter out files to ignore diffs of
+  -i[<regex>]              filter out files to ignore diffs of
                              (defaults to: '%s').
   -I[<pattern>]            filter out files when building tarballs
                              (defaults to: %s).

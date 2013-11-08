@@ -295,8 +295,8 @@ sub after_build {
 sub prepare_build {
     my ($self, $dir) = @_;
     $self->{diff_options} = {
-        diff_ignore_regexp => $self->{options}{diff_ignore_regexp} .
-                              '|(^|/)debian/patches/.dpkg-source-applied$',
+        diff_ignore_regex => $self->{options}{diff_ignore_regex} .
+                             '|(^|/)debian/patches/.dpkg-source-applied$',
         include_removal => $self->{options}{include_removal},
         include_timestamp => $self->{options}{include_timestamp},
         use_dev_null => 1,
