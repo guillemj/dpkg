@@ -206,20 +206,20 @@ sub spawn {
     # Create pipes if needed
     my ($input_pipe, $output_pipe, $error_pipe);
     if ($opts{from_pipe}) {
-	pipe($opts{from_handle}, $input_pipe) ||
-		syserr(_g('pipe for %s'), "@prog");
+	pipe($opts{from_handle}, $input_pipe)
+	    or syserr(_g('pipe for %s'), "@prog");
 	${$opts{from_pipe}} = $input_pipe;
 	push @{$opts{close_in_child}}, $input_pipe;
     }
     if ($opts{to_pipe}) {
-	pipe($output_pipe, $opts{to_handle}) ||
-		syserr(_g('pipe for %s'), "@prog");
+	pipe($output_pipe, $opts{to_handle})
+	    or syserr(_g('pipe for %s'), "@prog");
 	${$opts{to_pipe}} = $output_pipe;
 	push @{$opts{close_in_child}}, $output_pipe;
     }
     if ($opts{error_to_pipe}) {
-	pipe($error_pipe, $opts{error_to_handle}) ||
-		syserr(_g('pipe for %s'), "@prog");
+	pipe($error_pipe, $opts{error_to_handle})
+	    or syserr(_g('pipe for %s'), "@prog");
 	${$opts{error_to_pipe}} = $error_pipe;
 	push @{$opts{close_in_child}}, $error_pipe;
     }
@@ -238,30 +238,33 @@ sub spawn {
 	}
 	# Change the current directory
 	if ($opts{chdir}) {
-	    chdir($opts{chdir}) || syserr(_g('chdir to %s'), $opts{chdir});
+	    chdir($opts{chdir}) or syserr(_g('chdir to %s'), $opts{chdir});
 	}
 	# Redirect STDIN if needed
 	if ($opts{from_file}) {
-	    open(STDIN, '<', $opts{from_file}) ||
-		syserr(_g('cannot open %s'), $opts{from_file});
+	    open(STDIN, '<', $opts{from_file})
+	        or syserr(_g('cannot open %s'), $opts{from_file});
 	} elsif ($opts{from_handle}) {
-	    open(STDIN, '<&', $opts{from_handle}) || syserr(_g('reopen stdin'));
+	    open(STDIN, '<&', $opts{from_handle})
+		or syserr(_g('reopen stdin'));
 	    close($opts{from_handle}); # has been duped, can be closed
 	}
 	# Redirect STDOUT if needed
 	if ($opts{to_file}) {
-	    open(STDOUT, '>', $opts{to_file}) ||
-		syserr(_g('cannot write %s'), $opts{to_file});
+	    open(STDOUT, '>', $opts{to_file})
+	        or syserr(_g('cannot write %s'), $opts{to_file});
 	} elsif ($opts{to_handle}) {
-	    open(STDOUT, '>&', $opts{to_handle}) || syserr(_g('reopen stdout'));
+	    open(STDOUT, '>&', $opts{to_handle})
+		or syserr(_g('reopen stdout'));
 	    close($opts{to_handle}); # has been duped, can be closed
 	}
 	# Redirect STDERR if needed
 	if ($opts{error_to_file}) {
-	    open(STDERR, '>', $opts{error_to_file}) ||
-		syserr(_g('cannot write %s'), $opts{error_to_file});
+	    open(STDERR, '>', $opts{error_to_file})
+	        or syserr(_g('cannot write %s'), $opts{error_to_file});
 	} elsif ($opts{error_to_handle}) {
-	    open(STDERR, '>&', $opts{error_to_handle}) || syserr(_g('reopen stdout'));
+	    open(STDERR, '>&', $opts{error_to_handle})
+	        or syserr(_g('reopen stdout'));
 	    close($opts{error_to_handle}); # has been duped, can be closed
 	}
 	# Close some inherited filehandles

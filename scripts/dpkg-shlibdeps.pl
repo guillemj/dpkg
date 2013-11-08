@@ -457,16 +457,16 @@ my $fh;
 if ($stdout) {
     $fh = \*STDOUT;
 } else {
-    open(my $new_fh, '>', "$varlistfile.new") ||
-	syserr(_g("open new substvars file \`%s'"), "$varlistfile.new");
+    open(my $new_fh, '>', "$varlistfile.new")
+        or syserr(_g("open new substvars file \`%s'"), "$varlistfile.new");
     if (-e $varlistfile) {
-	open(my $old_fh, '<', $varlistfile) ||
-	    syserr(_g("open old varlist file \`%s' for reading"), $varlistfile);
+	open(my $old_fh, '<', $varlistfile)
+	    or syserr(_g("open old varlist file \`%s' for reading"), $varlistfile);
 	while (my $entry = <$old_fh>) {
 	    next if $entry =~ m/^\Q$varnameprefix\E:/;
-	    print($new_fh $entry) ||
-	        syserr(_g("copy old entry to new varlist file \`%s'"),
-	               "$varlistfile.new");
+	    print($new_fh $entry)
+	        or syserr(_g("copy old entry to new varlist file \`%s'"),
+	                  "$varlistfile.new");
 	}
 	close($old_fh);
     }
@@ -537,9 +537,9 @@ foreach my $field (reverse @depfields) {
 
 # Replace old file by new one
 if (!$stdout) {
-    close($fh) || syserr(_g('cannot close %s'), "$varlistfile.new");
-    rename("$varlistfile.new",$varlistfile) ||
-	syserr(_g("install new varlist file \`%s'"), $varlistfile);
+    close($fh) or syserr(_g('cannot close %s'), "$varlistfile.new");
+    rename("$varlistfile.new",$varlistfile)
+        or syserr(_g("install new varlist file \`%s'"), $varlistfile);
 }
 
 ##
@@ -690,8 +690,8 @@ sub extract_from_shlibs {
 	return;
     }
     # Open shlibs file
-    open(my $shlibs_fh, '<', $shlibfile) ||
-        syserr(_g("unable to open shared libs info file \`%s'"), $shlibfile);
+    open(my $shlibs_fh, '<', $shlibfile)
+        or syserr(_g("unable to open shared libs info file \`%s'"), $shlibfile);
     my $dep;
     while (<$shlibs_fh>) {
 	s/\s*\n$//;
@@ -755,8 +755,8 @@ sub symfile_has_soname {
         return $symfile_has_soname_cache{$file}{$soname};
     }
 
-    open(my $symfile_fh, '<', $file) ||
-        syserr(_g('cannot open file %s'), $file);
+    open(my $symfile_fh, '<', $file)
+        or syserr(_g('cannot open file %s'), $file);
     my $result = 0;
     while (<$symfile_fh>) {
 	if (/^\Q$soname\E /) {
@@ -851,14 +851,14 @@ sub find_packages {
 	    or syserr(_g('cannot open file %s'), '/dev/null');
 	$ENV{LC_ALL} = 'C';
 	exec('dpkg', '--search', '--', @files)
-	    || syserr(_g('unable to execute %s'), 'dpkg');
+	    or syserr(_g('unable to execute %s'), 'dpkg');
     }
     while (defined($_ = <$dpkg_fh>)) {
 	chomp($_);
 	if (m/^local diversion |^diversion by/) {
 	    warning(_g('diversions involved - output may be incorrect'));
 	    print(STDERR " $_\n")
-		|| syserr(_g('write diversion info to stderr'));
+		or syserr(_g('write diversion info to stderr'));
 	} elsif (m/^([-a-z0-9+.:, ]+): (\/.*)$/) {
 	    $cached_pkgmatch{$2} = $pkgmatch->{$2} = [ split(/, /, $1) ];
 	} else {

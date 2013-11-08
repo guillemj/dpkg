@@ -331,7 +331,7 @@ sub find_original_tarballs {
     my @tar;
     foreach my $dir ('.', $self->{basedir}, $self->{options}{origtardir}) {
         next unless defined($dir) and -d $dir;
-        opendir(my $dir_dh, $dir) || syserr(_g('cannot opendir %s'), $dir);
+        opendir(my $dir_dh, $dir) or syserr(_g('cannot opendir %s'), $dir);
         push @tar, map { "$dir/$_" } grep {
 		($opts{include_main} and
 		 /^\Q$basename\E\.orig\.tar\.$opts{extension}$/) or
@@ -471,8 +471,8 @@ sub extract {
         my $format_file = File::Spec->catfile($srcdir, 'format');
 	unless (-e $format_file) {
 	    mkdir($srcdir) unless -e $srcdir;
-	    open(my $format_fh, '>', $format_file) ||
-	        syserr(_g('cannot write %s'), $format_file);
+	    open(my $format_fh, '>', $format_file)
+	        or syserr(_g('cannot write %s'), $format_file);
 	    print $format_fh $self->{fields}{'Format'} . "\n";
 	    close($format_fh);
 	}
@@ -488,8 +488,8 @@ sub extract {
         warning(_g('%s does not exist'), $rules)
             unless $self->{options}{skip_debianization};
     } elsif (-f _) {
-        chmod($s[2] | 0111, $rules) ||
-            syserr(_g('cannot make %s executable'), $rules);
+        chmod($s[2] | 0111, $rules)
+            or syserr(_g('cannot make %s executable'), $rules);
     } else {
         warning(_g('%s is not a plain file'), $rules);
     }
@@ -584,7 +584,8 @@ sub write_dsc {
     unless (defined $filename) {
         $filename = $self->get_basename(1) . '.dsc';
     }
-    open(my $dsc_fh, '>', $filename) || syserr(_g('cannot write %s'), $filename);
+    open(my $dsc_fh, '>', $filename)
+        or syserr(_g('cannot write %s'), $filename);
     $fields->apply_substvars($opts{substvars});
     $fields->output($dsc_fh);
     close($dsc_fh);

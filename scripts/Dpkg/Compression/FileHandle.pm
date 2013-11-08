@@ -384,8 +384,8 @@ sub open_for_write {
 	*$self->{compressor}->compress(from_pipe => \$filehandle,
 		to_file => $self->get_filename());
     } else {
-	CORE::open($filehandle, '>', $self->get_filename) ||
-		syserr(_g('cannot write %s'), $self->get_filename());
+	CORE::open($filehandle, '>', $self->get_filename)
+	    or syserr(_g('cannot write %s'), $self->get_filename());
     }
     *$self->{mode} = 'w';
     *$self->{file} = $filehandle;
@@ -400,8 +400,8 @@ sub open_for_read {
 		from_file => $self->get_filename());
         *$self->{allow_sigpipe} = 1;
     } else {
-	CORE::open($filehandle, '<', $self->get_filename) ||
-		syserr(_g('cannot read %s'), $self->get_filename());
+	CORE::open($filehandle, '<', $self->get_filename)
+	    or syserr(_g('cannot read %s'), $self->get_filename());
     }
     *$self->{mode} = 'r';
     *$self->{file} = $filehandle;

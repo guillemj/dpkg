@@ -110,14 +110,13 @@ sub do_build {
     sanity_check($dir);
 
     my $old_cwd = getcwd();
-    chdir($dir) ||
-            syserr(_g("unable to chdir to `%s'"), $dir);
+    chdir($dir) or syserr(_g("unable to chdir to `%s'"), $dir);
 
     # Check for uncommitted files.
     # To support dpkg-source -i, remove any ignored files from the
     # output of bzr status.
-    open(my $bzr_status_fh, '-|', 'bzr', 'status') ||
-            subprocerr('bzr status');
+    open(my $bzr_status_fh, '-|', 'bzr', 'status')
+        or subprocerr('bzr status');
     my @files;
     while (<$bzr_status_fh>) {
         chomp;
@@ -127,14 +126,13 @@ sub do_build {
             push @files, $_;
         }
     }
-    close($bzr_status_fh) || syserr(_g('bzr status exited nonzero'));
+    close($bzr_status_fh) or syserr(_g('bzr status exited nonzero'));
     if (@files) {
         error(_g('uncommitted, not-ignored changes in working directory: %s'),
               join(' ', @files));
     }
 
-    chdir($old_cwd) ||
-            syserr(_g("unable to chdir to `%s'"), $old_cwd);
+    chdir($old_cwd) or syserr(_g("unable to chdir to `%s'"), $old_cwd);
 
     my $tmp = tempdir("$dirname.bzr.XXXXXX", DIR => $updir);
     push_exit_handler(sub { erasedir($tmp) });
@@ -199,15 +197,14 @@ sub do_extract {
     sanity_check($newdirectory);
 
     my $old_cwd = getcwd();
-    chdir($newdirectory) ||
-            syserr(_g("unable to chdir to `%s'"), $newdirectory);
+    chdir($newdirectory)
+        or syserr(_g("unable to chdir to `%s'"), $newdirectory);
 
     # Reconstitute the working tree.
     system('bzr', 'checkout');
     subprocerr('bzr checkout') if $?;
 
-    chdir($old_cwd) ||
-            syserr(_g("unable to chdir to `%s'"), $old_cwd);
+    chdir($old_cwd) or syserr(_g("unable to chdir to `%s'"), $old_cwd);
 }
 
 1;

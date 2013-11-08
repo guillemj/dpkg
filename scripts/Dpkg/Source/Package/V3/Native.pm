@@ -102,12 +102,12 @@ sub do_build {
     $tar->create(options => \@tar_ignore, chdir => $dirbase);
     $tar->add_directory($dirname);
     $tar->finish();
-    rename($newtar, $tarname) ||
-        syserr(_g("unable to rename `%s' (newly created) to `%s'"),
-               $newtar, $tarname);
+    rename($newtar, $tarname)
+        or syserr(_g("unable to rename `%s' (newly created) to `%s'"),
+                  $newtar, $tarname);
     pop_exit_handler();
-    chmod(0666 &~ umask(), $tarname) ||
-        syserr(_g("unable to change permission of `%s'"), $tarname);
+    chmod(0666 &~ umask(), $tarname)
+        or syserr(_g("unable to change permission of `%s'"), $tarname);
 
     $self->add_file($tarname);
 }

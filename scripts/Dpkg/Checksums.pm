@@ -168,7 +168,7 @@ sub add_from_file {
     }
 
     push @{$self->{files}}, $key unless exists $self->{size}{$key};
-    (my @s = stat($file)) || syserr(_g('cannot fstat file %s'), $file);
+    (my @s = stat($file)) or syserr(_g('cannot fstat file %s'), $file);
     if (exists $self->{size}{$key} and $self->{size}{$key} != $s[7]) {
 	error(_g('file %s has size %u instead of expected %u'),
 	      $file, $s[7], $self->{size}{$key});

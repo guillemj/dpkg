@@ -125,7 +125,7 @@ sub add_diff_file {
 	    $self->print(*$self->{header}) or syserr(_g('failed to write'));
 	    *$self->{empty} = 0;
 	}
-        print $self $_ || syserr(_g('failed to write'));
+        print $self $_ or syserr(_g('failed to write'));
     }
     close($diffgen) or syserr('close on diff pipe');
     wait_child($diff_pid, nocheck => 1,
@@ -161,7 +161,7 @@ sub add_diff_directory {
         my $fn = (length > length($new)) ? substr($_, length($new) + 1) : '.';
         return if &$diff_ignore($fn);
         $files_in_new{$fn} = 1;
-        lstat("$new/$fn") || syserr(_g('cannot stat file %s'), "$new/$fn");
+        lstat("$new/$fn") or syserr(_g('cannot stat file %s'), "$new/$fn");
         my $mode = S_IMODE((lstat(_))[2]);
         my $size = (lstat(_))[7];
         if (-l _) {
@@ -221,7 +221,7 @@ sub add_diff_directory {
         my $fn = (length > length($old)) ? substr($_, length($old) + 1) : '.';
         return if &$diff_ignore($fn);
         return if $files_in_new{$fn};
-        lstat("$old/$fn") || syserr(_g('cannot stat file %s'), "$old/$fn");
+        lstat("$old/$fn") or syserr(_g('cannot stat file %s'), "$old/$fn");
         if (-f _) {
             if ($inc_removal) {
                 push @diff_files, [$fn, 0, 0, "$old/$fn", '/dev/null',
@@ -295,7 +295,7 @@ sub add_diff_directory {
 
 sub finish {
     my ($self) = @_;
-    close($self) || syserr(_g('cannot close %s'), $self->get_filename());
+    close($self) or syserr(_g('cannot close %s'), $self->get_filename());
     return not *$self->{errors};
 }
 
@@ -570,12 +570,12 @@ sub apply {
     $now ||= fs_time($files[0]) if $opts{force_timestamp} && scalar @files;
     foreach my $fn (@files) {
 	if ($opts{force_timestamp}) {
-	    utime($now, $now, $fn) || $! == ENOENT ||
-		syserr(_g('cannot change timestamp for %s'), $fn);
+	    utime($now, $now, $fn) or $! == ENOENT
+		or syserr(_g('cannot change timestamp for %s'), $fn);
 	}
 	if ($opts{remove_backup}) {
 	    $fn .= '.dpkg-orig';
-	    unlink($fn) || syserr(_g('remove patch backup file %s'), $fn);
+	    unlink($fn) or syserr(_g('remove patch backup file %s'), $fn);
 	}
     }
     return $analysis;

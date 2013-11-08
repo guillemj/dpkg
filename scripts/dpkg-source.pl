@@ -109,14 +109,14 @@ if (defined($options{opmode}) &&
     } else {
 	$dir = File::Spec->catdir(shift(@ARGV));
     }
-    stat($dir) || syserr(_g('cannot stat directory %s'), $dir);
+    stat($dir) or syserr(_g('cannot stat directory %s'), $dir);
     if (not -d $dir) {
 	error(_g('directory argument %s is not a directory'), $dir);
     }
     if ($dir eq '.') {
 	# . is never correct, adjust automatically
 	$dir = basename(cwd());
-	chdir('..') || syserr(_g("unable to chdir to `%s'"), '..');
+	chdir('..') or syserr(_g("unable to chdir to `%s'"), '..');
     }
     # --format options are not allowed, they would take precedence
     # over real command line options, debian/source/format should be used
@@ -354,8 +354,8 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
     # Select the format to use
     if (not defined $build_format) {
 	if (-e "$dir/debian/source/format") {
-	    open(my $format_fh, '<', "$dir/debian/source/format") ||
-		syserr(_g('cannot read %s'), "$dir/debian/source/format");
+	    open(my $format_fh, '<', "$dir/debian/source/format")
+	        or syserr(_g('cannot read %s'), "$dir/debian/source/format");
 	    $build_format = <$format_fh>;
 	    chomp($build_format) if defined $build_format;
 	    error(_g('%s is empty'), "$dir/debian/source/format")

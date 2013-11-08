@@ -103,7 +103,7 @@ sub do_build {
     sanity_check($dir);
 
     my $old_cwd = getcwd();
-    chdir($dir) || syserr(_g("unable to chdir to `%s'"), $dir);
+    chdir($dir) or syserr(_g("unable to chdir to `%s'"), $dir);
 
     # Check for uncommitted files.
     # To support dpkg-source -i, get a list of files
@@ -119,7 +119,7 @@ sub do_build {
         push @ignores, '--exclude-from=.git/info/exclude';
     }
     open(my $git_ls_files_fh, '-|', 'git', 'ls-files', '--modified', '--deleted',
-         '-z', '--others', @ignores) || subprocerr('git ls-files');
+         '-z', '--others', @ignores) or subprocerr('git ls-files');
     my @files;
     { local $/ = "\0";
       while (<$git_ls_files_fh>) {
@@ -130,7 +130,7 @@ sub do_build {
           }
       }
     }
-    close($git_ls_files_fh) || syserr(_g('git ls-files exited nonzero'));
+    close($git_ls_files_fh) or syserr(_g('git ls-files exited nonzero'));
     if (@files) {
         error(_g('uncommitted, not-ignored changes in working directory: %s'),
               join(' ', @files));
@@ -141,8 +141,7 @@ sub do_build {
     my $tmp;
     my $shallowfile;
     if ($self->{options}{git_depth}) {
-        chdir($old_cwd) ||
-                syserr(_g("unable to chdir to `%s'"), $old_cwd);
+        chdir($old_cwd) or syserr(_g("unable to chdir to `%s'"), $old_cwd);
         $tmp = tempdir("$dirname.git.XXXXXX", DIR => $updir);
         push_exit_handler(sub { erasedir($tmp) });
         my $clone_dir = "$tmp/repo.git";
@@ -153,8 +152,8 @@ sub do_build {
         system('git', 'clone', '--depth=' . $self->{options}{git_depth},
                '--quiet', '--bare', 'file://' . abs_path($dir), $clone_dir);
         subprocerr('git clone') if $?;
-        chdir($clone_dir) ||
-                syserr(_g("unable to chdir to `%s'"), $clone_dir);
+        chdir($clone_dir)
+            or syserr(_g("unable to chdir to `%s'"), $clone_dir);
         $shallowfile = "$basenamerev.gitshallow";
         system('cp', '-f', 'shallow', "$old_cwd/$shallowfile");
         subprocerr('cp shallow') if $?;
@@ -172,8 +171,7 @@ sub do_build {
     );
     subprocerr('git bundle') if $?;
 
-    chdir($old_cwd) ||
-        syserr(_g("unable to chdir to `%s'"), $old_cwd);
+    chdir($old_cwd) or syserr(_g("unable to chdir to `%s'"), $old_cwd);
 
     if (defined $tmp) {
         erasedir($tmp);

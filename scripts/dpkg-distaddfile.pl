@@ -79,28 +79,28 @@ my ($file, $section, $priority) = @ARGV;
 # of debian/files when parallel building is in use
 my $lockfh;
 my $lockfile = 'debian/control';
-sysopen($lockfh, $lockfile, O_WRONLY) ||
-    syserr(_g('cannot write %s'), $lockfile);
+sysopen($lockfh, $lockfile, O_WRONLY)
+    or syserr(_g('cannot write %s'), $lockfile);
 file_lock($lockfh, $lockfile);
 
-open(my $fileslistnew_fh, '>', "$fileslistfile.new") ||
-    syserr(_g('open new files list file'));
+open(my $fileslistnew_fh, '>', "$fileslistfile.new")
+    or syserr(_g('open new files list file'));
 if (open(my $fileslist_fh, '<', $fileslistfile)) {
     while (<$fileslist_fh>) {
         s/\n$//;
         next if m/^(\S+) / && $1 eq $file;
-        print($fileslistnew_fh "$_\n") ||
-            syserr(_g('copy old entry to new files list file'));
+        print($fileslistnew_fh "$_\n")
+            or syserr(_g('copy old entry to new files list file'));
     }
     close $fileslist_fh or syserr(_g('cannot close %s'), $fileslistfile);
 } elsif ($! != ENOENT) {
     syserr(_g('read old files list file'));
 }
 print($fileslistnew_fh "$file $section $priority\n")
-    || syserr(_g('write new entry to new files list file'));
-close($fileslistnew_fh) || syserr(_g('close new files list file'));
-rename("$fileslistfile.new", $fileslistfile) ||
-    syserr(_g('install new files list file'));
+    or syserr(_g('write new entry to new files list file'));
+close($fileslistnew_fh) or syserr(_g('close new files list file'));
+rename("$fileslistfile.new", $fileslistfile)
+    or syserr(_g('install new files list file'));
 
 # Release the lock
-close($lockfh) || syserr(_g('cannot close %s'), $lockfile);
+close($lockfh) or syserr(_g('cannot close %s'), $lockfile);

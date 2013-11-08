@@ -56,7 +56,7 @@ do
 	perl -e '
 		($binaryprefix,$predep) = @ARGV;
 		$binaryprefix =~ s,/*$,/, if length($binaryprefix);
-		open(P,"< $predep") || die "cannot open $predep: $!\n";
+		open(P, "< $predep") or die "cannot open $predep: $!\n";
 		while (<P>) {
 			s/\s*\n$//;
 			$package= $_ if s/^Package: //i;

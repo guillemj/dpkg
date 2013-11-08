@@ -197,7 +197,7 @@ sub get_db_version {
     my ($self) = @_;
     my $pc_ver = $self->get_db_file('.version');
     if (-f $pc_ver) {
-        open(my $ver_fh, '<', $pc_ver) || syserr(_g('cannot read %s'), $pc_ver);
+        open(my $ver_fh, '<', $pc_ver) or syserr(_g('cannot read %s'), $pc_ver);
         my $version = <$ver_fh>;
         chomp $version;
         close($ver_fh);
@@ -256,7 +256,7 @@ sub read_patch_list {
     return () if not defined $file or not -f $file;
     $opts{warn_options} //= 0;
     my @patches;
-    open(my $series_fh, '<' , $file) || syserr(_g('cannot read %s'), $file);
+    open(my $series_fh, '<' , $file) or syserr(_g('cannot read %s'), $file);
     while (defined($_ = <$series_fh>)) {
         chomp; s/^\s+//; s/\s+$//; # Strip leading/trailing spaces
         s/(^|\s+)#.*$//; # Strip comment
@@ -292,10 +292,10 @@ sub restore_quilt_backup_files {
                 unlink($target);
                 make_path(dirname($target));
                 unless (link($_, $target)) {
-                    copy($_, $target) ||
-                        syserr(_g('failed to copy %s to %s'), $_, $target);
-                    chmod((stat(_))[2], $target) ||
-                        syserr(_g("unable to change permission of `%s'"), $target);
+                    copy($_, $target)
+                        or syserr(_g('failed to copy %s to %s'), $_, $target);
+                    chmod((stat(_))[2], $target)
+                        or syserr(_g("unable to change permission of `%s'"), $target);
                 }
             } else {
                 # empty files are "backups" for new files that patch created

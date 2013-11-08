@@ -86,7 +86,7 @@ sub get_vendor_info(;$) {
     my $file = get_vendor_file($vendor);
     return unless $file;
     my $fields = Dpkg::Control::HashCore->new();
-    $fields->load($file) || error(_g('%s is empty'), $file);
+    $fields->load($file) or error(_g('%s is empty'), $file);
     return $fields;
 }
 

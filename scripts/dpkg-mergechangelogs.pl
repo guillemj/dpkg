@@ -133,9 +133,10 @@ while (1) {
 }
 
 if (defined($out_file) and $out_file ne '-') {
-    open(my $out_fh, '>', $out_file) || syserr(_g('cannot write %s'), $out_file);
+    open(my $out_fh, '>', $out_file)
+        or syserr(_g('cannot write %s'), $out_file);
     print $out_fh ((blessed $_) ? "$_" : "$_\n") foreach @result;
-    close($out_fh) || syserr(_g('cannot write %s'), $out_file);
+    close($out_fh) or syserr(_g('cannot write %s'), $out_file);
 } else {
     print ((blessed $_) ? "$_" : "$_\n") foreach @result;
 }

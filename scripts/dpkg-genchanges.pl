@@ -230,8 +230,8 @@ if (defined($prev_changelog) and
 }
 
 if (not is_sourceonly) {
-    open(my $fileslist_fh, '<', $fileslistfile) ||
-        syserr(_g('cannot read files list file'));
+    open(my $fileslist_fh, '<', $fileslistfile)
+        or syserr(_g('cannot read files list file'));
     while(<$fileslist_fh>) {
 	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
 	    warning(_g('duplicate files list entry for package %s (line %d)'),
@@ -346,8 +346,8 @@ foreach (keys %{$changelog}) {
 }
 
 if ($changesdescription) {
-    open(my $changes_fh, '<', $changesdescription) ||
-        syserr(_g('read changesdescription'));
+    open(my $changes_fh, '<', $changesdescription)
+        or syserr(_g('read changesdescription'));
     $fields->{'Changes'} = "\n" . file_slurp($changes_fh);
     close($changes_fh);
 }
@@ -406,7 +406,7 @@ if (!is_binaryonly) {
     $dsc= "$uploadfilesdir/${spackage}_${sversion}.dsc";
 
     my $dsc_fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
-    $dsc_fields->load($dsc) || error(_g('%s is empty', $dsc));
+    $dsc_fields->load($dsc) or error(_g('%s is empty', $dsc));
     $checksums->add_from_file($dsc, key => "$spackage\_$sversion.dsc");
     $checksums->add_from_control($dsc_fields, use_files_for_md5 => 1);
 
@@ -447,14 +447,14 @@ if (!is_binaryonly) {
     $origsrcmsg= _g('binary-only upload - not including any source code');
 }
 
-print(STDERR "$Dpkg::PROGNAME: $origsrcmsg\n") ||
-    syserr(_g('write original source message')) unless $quiet;
+print(STDERR "$Dpkg::PROGNAME: $origsrcmsg\n")
+    or syserr(_g('write original source message')) unless $quiet;
 
 $fields->{'Format'} = $substvars->get('Format');
 
 if (!defined($fields->{'Date'})) {
     chomp(my $date822 = `date -R`);
-    $? && subprocerr('date -R');
+    subprocerr('date -R') if $?;
     $fields->{'Date'}= $date822;
 }
 

@@ -120,9 +120,9 @@ sub do_extract {
 
         erasedir($newdirectory);
         if (-e $expectprefix) {
-            rename($expectprefix, "$newdirectory.tmp-keep") ||
-                    syserr(_g("unable to rename `%s' to `%s'"), $expectprefix,
-                           "$newdirectory.tmp-keep");
+            rename($expectprefix, "$newdirectory.tmp-keep")
+                or syserr(_g("unable to rename `%s' to `%s'"), $expectprefix,
+                          "$newdirectory.tmp-keep");
         }
 
         info(_g('unpacking %s'), $tarfile);
@@ -138,15 +138,15 @@ sub do_extract {
             subprocerr("cp $expectprefix to $newdirectory.tmp-keep") if $?;
         }
 
-	rename($expectprefix, $newdirectory) ||
-	    syserr(_g('failed to rename newly-extracted %s to %s'),
-	           $expectprefix, $newdirectory);
+	rename($expectprefix, $newdirectory)
+	    or syserr(_g('failed to rename newly-extracted %s to %s'),
+	              $expectprefix, $newdirectory);
 
 	# rename the copied .orig directory
 	if (-e "$newdirectory.tmp-keep") {
-	    rename("$newdirectory.tmp-keep", $expectprefix) ||
-                    syserr(_g('failed to rename saved %s to %s'),
-	                   "$newdirectory.tmp-keep", $expectprefix);
+	    rename("$newdirectory.tmp-keep", $expectprefix)
+	        or syserr(_g('failed to rename saved %s to %s'),
+	                  "$newdirectory.tmp-keep", $expectprefix);
         }
     }
 
@@ -212,8 +212,8 @@ sub do_build {
 	# is to decide the mode to use
         my $origarg = shift(@argv);
         if (length($origarg)) {
-            stat($origarg) ||
-                syserr(_g('cannot stat orig argument %s'), $origarg);
+            stat($origarg)
+                or syserr(_g('cannot stat orig argument %s'), $origarg);
             if (-d _) {
                 $origdir = File::Spec->catdir($origarg);
 
@@ -314,11 +314,11 @@ sub do_build {
 	$tar->create(options => \@tar_ignore, chdir => $tardirbase);
 	$tar->add_directory($tardirname);
 	$tar->finish();
-        rename($newtar, $tarname) ||
-            syserr(_g("unable to rename `%s' (newly created) to `%s'"),
-                   $newtar, $tarname);
-	chmod(0666 &~ umask(), $tarname) ||
-	    syserr(_g("unable to change permission of `%s'"), $tarname);
+	rename($newtar, $tarname)
+	    or syserr(_g("unable to rename `%s' (newly created) to `%s'"),
+	              $newtar, $tarname);
+	chmod(0666 &~ umask(), $tarname)
+	    or syserr(_g("unable to change permission of `%s'"), $tarname);
     } else {
 	info(_g('building %s using existing %s'),
 	     $sourcepackage, $tarname);
@@ -376,11 +376,11 @@ sub do_build {
 		if $self->{options}{abort_on_upstream_changes};
 	}
 
-	rename($newdiffgz, $diffname) ||
-	    syserr(_g("unable to rename `%s' (newly created) to `%s'"),
-	           $newdiffgz, $diffname);
-	chmod(0666 &~ umask(), $diffname) ||
-	    syserr(_g("unable to change permission of `%s'"), $diffname);
+	rename($newdiffgz, $diffname)
+	    or syserr(_g("unable to rename `%s' (newly created) to `%s'"),
+	              $newdiffgz, $diffname);
+	chmod(0666 &~ umask(), $diffname)
+	    or syserr(_g("unable to change permission of `%s'"), $diffname);
 
 	$self->add_file($diffname);
     }

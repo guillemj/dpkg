@@ -333,10 +333,10 @@ if (!defined($substvars->get('Installed-Size'))) {
         syserr(_g('cannot fork for %s'), 'du');
     }
     if (!$c) {
-        chdir("$packagebuilddir") ||
-            syserr(_g("chdir for du to \`%s'"), $packagebuilddir);
-        exec('du', '-k', '-s', '--apparent-size', '.') or
-            syserr(_g('unable to execute %s'), 'du');
+        chdir("$packagebuilddir")
+            or syserr(_g("chdir for du to \`%s'"), $packagebuilddir);
+        exec('du', '-k', '-s', '--apparent-size', '.')
+            or syserr(_g('unable to execute %s'), 'du');
     }
     my $duo = '';
     while (<$du_fh>) {
@@ -370,12 +370,12 @@ my $lockfh;
 my $lockfile = 'debian/control';
 $lockfile = $controlfile if not -e $lockfile;
 
-sysopen($lockfh, $lockfile, O_WRONLY) ||
-    syserr(_g('cannot write %s'), $lockfile);
+sysopen($lockfh, $lockfile, O_WRONLY)
+    or syserr(_g('cannot write %s'), $lockfile);
 file_lock($lockfh, $lockfile);
 
-open(my $fileslistnew_fh, '>', "$fileslistfile.new") ||
-    syserr(_g('open new files list file'));
+open(my $fileslistnew_fh, '>', "$fileslistfile.new")
+    or syserr(_g('open new files list file'));
 binmode($fileslistnew_fh);
 if (open(my $fileslist_fh, '<', $fileslistfile)) {
     binmode($fileslist_fh);
@@ -386,10 +386,10 @@ if (open(my $fileslist_fh, '<', $fileslistfile)) {
 	        && ($3 eq $pkg_type)
 	        && (debarch_eq($2, $fields->{'Architecture'} || '')
 		    || debarch_eq($2, 'all'));
-        print($fileslistnew_fh "$_\n") ||
-            syserr(_g('copy old entry to new files list file'));
+        print($fileslistnew_fh "$_\n")
+            or syserr(_g('copy old entry to new files list file'));
     }
-    close($fileslist_fh) || syserr(_g('close old files list file'));
+    close($fileslist_fh) or syserr(_g('close old files list file'));
 } elsif ($! != ENOENT) {
     syserr(_g('read old files list file'));
 }
@@ -402,19 +402,20 @@ print($fileslistnew_fh $substvars->substvars(sprintf("%s %s %s\n",
                                              $forcefilename,
                                              $fields->{'Section'} || '-',
                                              $fields->{'Priority'} || '-')))
-    || syserr(_g('write new entry to new files list file'));
-close($fileslistnew_fh) || syserr(_g('close new files list file'));
-rename("$fileslistfile.new", $fileslistfile) || syserr(_g('install new files list file'));
+    or syserr(_g('write new entry to new files list file'));
+close($fileslistnew_fh) or syserr(_g('close new files list file'));
+rename("$fileslistfile.new", $fileslistfile)
+    or syserr(_g('install new files list file'));
 
 # Release the lock
-close($lockfh) || syserr(_g('cannot close %s'), $lockfile);
+close($lockfh) or syserr(_g('cannot close %s'), $lockfile);
 
 my $cf;
 my $fh_output;
 if (!$stdout) {
     $cf = $outputfile // "$packagebuilddir/DEBIAN/control";
-    open($fh_output, '>', "$cf.new") ||
-        syserr(_g("cannot open new output control file \`%s'"), "$cf.new");
+    open($fh_output, '>', "$cf.new")
+        or syserr(_g("cannot open new output control file \`%s'"), "$cf.new");
 } else {
     $fh_output = \*STDOUT;
 }
@@ -423,9 +424,9 @@ $fields->apply_substvars($substvars);
 $fields->output($fh_output);
 
 if (!$stdout) {
-    close($fh_output) || syserr(_g('cannot close %s'), "$cf.new");
-    rename("$cf.new", "$cf") ||
-        syserr(_g("cannot install output control file \`%s'"), $cf);
+    close($fh_output) or syserr(_g('cannot close %s'), "$cf.new");
+    rename("$cf.new", "$cf")
+        or syserr(_g("cannot install output control file \`%s'"), $cf);
 }
 
 $substvars->warn_about_unused();

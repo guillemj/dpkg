@@ -63,8 +63,8 @@ mkpath(["$methdir/$CONFIG{dldir}"], 0, 0755);
 my %md5sums;
 if (-f "$methdir/md5sums") {
   local $/;
-  open(my $md5sums_fh, '<', "$methdir/md5sums") ||
-    die "couldn't read file $methdir/md5sums";
+  open(my $md5sums_fh, '<', "$methdir/md5sums")
+    or die "couldn't read file $methdir/md5sums";
   my $code = <$md5sums_fh>;
   close $md5sums_fh;
   my $VAR1; ## no critic (Variables::ProhibitUnusedVariables)
@@ -626,8 +626,8 @@ foreach (keys %md5sums) {
   next if (-f $_);
   delete $md5sums{$_};
 }
-open(my $md5sums_fh, '>', "$methdir/md5sums") ||
-  die "can't open $methdir/md5sums in write mode: $!\n";
+open(my $md5sums_fh, '>', "$methdir/md5sums")
+  or die "can't open $methdir/md5sums in write mode: $!\n";
 print $md5sums_fh Dumper(\%md5sums);
 close $md5sums_fh;
 

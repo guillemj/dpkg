@@ -110,7 +110,7 @@ do
 
 	perl -e '
 		($binaryprefix,$predep,$thisdisk) = @ARGV;
-		open(P,"< $predep") || die "cannot open $predep: $!\n";
+		open(P, "< $predep") or die "cannot open $predep: $!\n";
 		while (<P>) {
 			s/\s*\n$//;
 			$package= $_ if s/^Package: //i;

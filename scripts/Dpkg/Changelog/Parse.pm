@@ -141,7 +141,7 @@ sub changelog_parse {
     my $pid = open(my $parser_fh, '-|');
     syserr(_g('cannot fork for %s'), $parser) unless defined $pid;
     if (not $pid) {
-	exec(@exec) || syserr(_g('cannot exec format parser: %s'), $parser);
+	exec(@exec) or syserr(_g('cannot exec format parser: %s'), $parser);
     }
 
     # Get the output into several Dpkg::Control objects

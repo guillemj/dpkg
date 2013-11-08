@@ -120,7 +120,7 @@ sub has_object {
 
 sub is_elf {
     my ($file) = @_;
-    open(my $file_fh, '<', $file) || syserr(_g('cannot read %s'), $file);
+    open(my $file_fh, '<', $file) or syserr(_g('cannot read %s'), $file);
     my ($header, $result) = ('', 0);
     if (read($file_fh, $header, 4) == 4) {
 	$result = 1 if ($header =~ /^\177ELF$/);
@@ -179,7 +179,7 @@ sub analyze {
 
     local $ENV{LC_ALL} = 'C';
     open(my $objdump, '-|', $OBJDUMP, '-w', '-f', '-p', '-T', '-R', $file)
-	|| syserr(_g('cannot fork for %s'), $OBJDUMP);
+        or syserr(_g('cannot fork for %s'), $OBJDUMP);
     my $ret = $self->parse_objdump_output($objdump);
     close($objdump);
     return $ret;

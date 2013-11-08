@@ -84,11 +84,11 @@ sub load {
 	$desc = _g('<standard input>');
     } else {
 	$fh = Dpkg::Compression::FileHandle->new();
-	open($fh, '<', $file) || syserr(_g('cannot read %s'), $file);
+	open($fh, '<', $file) or syserr(_g('cannot read %s'), $file);
     }
     my $res = $self->parse($fh, $desc, @options);
     if ($file ne '-') {
-	close($fh) || syserr(_g('cannot close %s'), $file);
+	close($fh) or syserr(_g('cannot close %s'), $file);
     }
     return $res;
 }
@@ -112,11 +112,11 @@ sub save {
 	$fh = \*STDOUT;
     } else {
 	$fh = Dpkg::Compression::FileHandle->new();
-	open($fh, '>', $file) || syserr(_g('cannot write %s'), $file);
+	open($fh, '>', $file) or syserr(_g('cannot write %s'), $file);
     }
     $self->output($fh, @options);
     if ($file ne '-') {
-	close($fh) || syserr(_g('cannot close %s'), $file);
+	close($fh) or syserr(_g('cannot close %s'), $file);
     }
 }
 
