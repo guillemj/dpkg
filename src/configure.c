@@ -704,21 +704,23 @@ promptconfaction(struct pkginfo *pkg, const char *cfgfile,
 		/* Flush the terminal's input in case the user involuntarily
 		 * typed some characters. */
 		tcflush(STDIN_FILENO, TCIFLUSH);
-		fprintf(stderr, _("\nConfiguration file `%s'"), cfgfile);
+		fputs("\n", stderr);
 		if (strcmp(cfgfile, realold))
-			fprintf(stderr, _(" (actually `%s')"), realold);
+			fprintf(stderr, _("Configuration file '%s' (actually '%s')\n"),
+			        cfgfile, realold);
+		else
+			fprintf(stderr, _("Configuration file '%s'\n"), cfgfile);
 
 		if (what & cfof_isnew) {
 			fprintf(stderr,
-			        _("\n"
-			          " ==> File on system created by you or by a script.\n"
+			        _(" ==> File on system created by you or by a script.\n"
 			          " ==> File also in package provided by package maintainer.\n"));
 		} else {
 			fprintf(stderr, !useredited ?
-			        _("\n     Not modified since installation.\n") :
+			        _("     Not modified since installation.\n") :
 			        !(what & cfof_userrmd) ?
-			        _("\n ==> Modified (by you or by a script) since installation.\n") :
-			        _("\n ==> Deleted (by you or by a script) since installation.\n"));
+			        _(" ==> Modified (by you or by a script) since installation.\n") :
+			        _(" ==> Deleted (by you or by a script) since installation.\n"));
 
 			fprintf(stderr, distedited ?
 			        _(" ==> Package distributor has shipped an updated version.\n") :
