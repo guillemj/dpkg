@@ -300,7 +300,9 @@ static const struct debuginfo {
   { 0, NULL, NULL }
 };
 
-static void setdebug(const struct cmdinfo *cpi, const char *value) {
+static void
+set_debug(const struct cmdinfo *cpi, const char *value)
+{
   char *endp;
   long mask;
   const struct debuginfo *dip;
@@ -330,7 +332,7 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
 }
 
 static void
-setfilter(const struct cmdinfo *cip, const char *value)
+set_filter(const struct cmdinfo *cip, const char *value)
 {
   filter_add(value, cip->arg_int);
 }
@@ -342,14 +344,18 @@ set_verify_format(const struct cmdinfo *cip, const char *value)
     badusage(_("unknown verify output format '%s'"), value);
 }
 
-static void setroot(const struct cmdinfo *cip, const char *value) {
+static void
+set_root(const struct cmdinfo *cip, const char *value)
+{
   char *p;
   instdir= value;
   m_asprintf(&p, "%s%s", value, ADMINDIR);
   admindir= p;
 }
 
-static void ignoredepends(const struct cmdinfo *cip, const char *value) {
+static void
+set_ignore_depends(const struct cmdinfo *cip, const char *value)
+{
   char *copy, *p;
 
   copy= m_malloc(strlen(value)+2);
@@ -380,11 +386,15 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
   free(copy);
 }
 
-static void setinteger(const struct cmdinfo *cip, const char *value) {
+static void
+set_integer(const struct cmdinfo *cip, const char *value)
+{
   *cip->iassignto = dpkg_options_parse_arg_int(cip, value);
 }
 
-static void setpipe(const struct cmdinfo *cip, const char *value) {
+static void
+set_pipe(const struct cmdinfo *cip, const char *value)
+{
   long v;
 
   v = dpkg_options_parse_arg_int(cip, value);
@@ -581,7 +591,9 @@ print_forceinfo(const struct forceinfo *fi)
   free(desc);
 }
 
-static void setforce(const struct cmdinfo *cip, const char *value) {
+static void
+set_force(const struct cmdinfo *cip, const char *value)
+{
   const char *comma;
   size_t l;
   const struct forceinfo *fip;
@@ -679,11 +691,11 @@ static const struct cmdinfo cmdinfos[]= {
 
   { "pre-invoke",        0,   1, NULL,          NULL,      set_invoke_hook, 0, &pre_invoke_hooks_tail },
   { "post-invoke",       0,   1, NULL,          NULL,      set_invoke_hook, 0, &post_invoke_hooks_tail },
-  { "path-exclude",      0,   1, NULL,          NULL,      setfilter,     0 },
-  { "path-include",      0,   1, NULL,          NULL,      setfilter,     1 },
+  { "path-exclude",      0,   1, NULL,          NULL,      set_filter,     0 },
+  { "path-include",      0,   1, NULL,          NULL,      set_filter,     1 },
   { "verify-format",     0,   1, NULL,          NULL,      set_verify_format },
   { "status-logger",     0,   1, NULL,          NULL,      set_invoke_hook, 0, &status_loggers_tail },
-  { "status-fd",         0,   1, NULL,          NULL,      setpipe, 0 },
+  { "status-fd",         0,   1, NULL,          NULL,      set_pipe, 0 },
   { "log",               0,   1, NULL,          &log_file, NULL,    0 },
   { "pending",           'a', 0, &f_pending,    NULL,      NULL,    1 },
   { "recursive",         'R', 0, &f_recursive,  NULL,      NULL,    1 },
@@ -700,15 +712,15 @@ static const struct cmdinfo cmdinfos[]= {
   { "no-also-select",    'N', 0, &f_alsoselect, NULL,      NULL,    0 },
   { "skip-same-version", 'E', 0, &f_skipsame,   NULL,      NULL,    1 },
   { "auto-deconfigure",  'B', 0, &f_autodeconf, NULL,      NULL,    1 },
-  { "root",              0,   1, NULL,          NULL,      setroot,       0 },
-  { "abort-after",       0,   1, &errabort,     NULL,      setinteger,    0 },
+  { "root",              0,   1, NULL,          NULL,      set_root,      0 },
+  { "abort-after",       0,   1, &errabort,     NULL,      set_integer,   0 },
   { "admindir",          0,   1, NULL,          &admindir, NULL,          0 },
   { "instdir",           0,   1, NULL,          &instdir,  NULL,          0 },
-  { "ignore-depends",    0,   1, NULL,          NULL,      ignoredepends, 0 },
-  { "force",             0,   2, NULL,          NULL,      setforce,      1 },
-  { "refuse",            0,   2, NULL,          NULL,      setforce,      0 },
-  { "no-force",          0,   2, NULL,          NULL,      setforce,      0 },
-  { "debug",             'D', 1, NULL,          NULL,      setdebug,      0 },
+  { "ignore-depends",    0,   1, NULL,          NULL,      set_ignore_depends, 0 },
+  { "force",             0,   2, NULL,          NULL,      set_force,     1 },
+  { "refuse",            0,   2, NULL,          NULL,      set_force,     0 },
+  { "no-force",          0,   2, NULL,          NULL,      set_force,     0 },
+  { "debug",             'D', 1, NULL,          NULL,      set_debug,     0 },
   { "help",              '?', 0, NULL,          NULL,      usage,         0 },
   { "version",           0,   0, NULL,          NULL,      printversion,  0 },
   ACTIONBACKEND( "build",		'b', BACKEND),

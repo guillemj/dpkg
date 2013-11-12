@@ -206,7 +206,7 @@ set_compress_strategy(const struct cmdinfo *cip, const char *value)
 }
 
 static void
-setcompresstype(const struct cmdinfo *cip, const char *value)
+set_compress_type(const struct cmdinfo *cip, const char *value)
 {
   compress_params.type = compressor_find_by_name(value);
   if (compress_params.type == compressor_type_unknown)
@@ -234,7 +234,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "verbose",       'v', 0, &opt_verbose,   NULL,         NULL,          1 },
   { "nocheck",       0,   0, &nocheckflag,   NULL,         NULL,          1 },
   { NULL,            'z', 1, NULL,           NULL,         set_compress_level },
-  { NULL,            'Z', 1, NULL,           NULL,         setcompresstype  },
+  { NULL,            'Z', 1, NULL,           NULL,         set_compress_type  },
   { NULL,            'S', 1, NULL,           NULL,         set_compress_strategy },
   { "showformat",    0,   1, NULL,           &showformat,  NULL             },
   { "help",          '?', 0, NULL,           NULL,         usage            },

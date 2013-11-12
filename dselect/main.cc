@@ -222,7 +222,9 @@ usage(const struct cmdinfo *ci, const char *value)
 /* These are called by C code, so need to have C calling convention */
 extern "C" {
 
-  static void setdebug(const struct cmdinfo*, const char *v) {
+  static void
+  set_debug(const struct cmdinfo*, const char *v)
+  {
     FILE *fp;
 
     fp = fopen(v, "a");
@@ -234,7 +236,9 @@ extern "C" {
     debug_set_mask(dbg_general | dbg_depcon);
   }
 
-  static void setexpert(const struct cmdinfo*, const char *v) {
+  static void
+  set_expert(const struct cmdinfo*, const char *v)
+  {
     expertmode= 1;
   }
 
@@ -258,7 +262,9 @@ extern "C" {
    *            --color colheads:,green:bright
    *            --color selstate::reverse  // doesn't work FIXME
    */
-  static void setcolor(const struct cmdinfo*, const char *string) {
+  static void
+  set_color(const struct cmdinfo*, const char *string)
+  {
     char *s;
     char *colours, *attributes, *attrib, *colourname;
     int screenpart, aval;
@@ -304,12 +310,12 @@ extern "C" {
 
 static const struct cmdinfo cmdinfos[]= {
   { "admindir",     0,   1,  0,  &admindir,  0               },
-  { "debug",       'D',  1,  0,  0,          setdebug        },
-  { "expert",      'E',  0,  0,  0,          setexpert       },
+  { "debug",       'D',  1,  0,  0,          set_debug       },
+  { "expert",      'E',  0,  0,  0,          set_expert      },
   { "help",        '?',  0,  0,  0,          usage           },
   { "version",      0,   0,  0,  0,          printversion    },
-  { "color",        0,   1,  0,  0,          setcolor        }, /* US spelling */
-  { "colour",       0,   1,  0,  0,          setcolor        }, /* UK spelling */
+  { "color",        0,   1,  0,  0,          set_color       }, /* US spelling */
+  { "colour",       0,   1,  0,  0,          set_color       }, /* UK spelling */
   { 0,              0,   0,  0,  0,          0               }
 };
 

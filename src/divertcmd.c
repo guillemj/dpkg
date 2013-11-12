@@ -717,7 +717,7 @@ diversion_listpackage(const char *const *argv)
 }
 
 static void
-setpackage(const struct cmdinfo *cip, const char *value)
+set_package(const struct cmdinfo *cip, const char *value)
 {
 	opt_pkgname_match_any = false;
 
@@ -729,7 +729,7 @@ setpackage(const struct cmdinfo *cip, const char *value)
 }
 
 static void
-setdivertto(const struct cmdinfo *cip, const char *value)
+set_divertto(const struct cmdinfo *cip, const char *value)
 {
 	opt_divertto = value;
 
@@ -750,9 +750,9 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("truename",    0, 0, diversion_truename),
 
 	{ "admindir",   0,   1,  NULL,         &admindir, NULL          },
-	{ "divert",     0,   1,  NULL,         NULL,      setdivertto   },
-	{ "package",    0,   1,  NULL,         NULL,      setpackage    },
-	{ "local",      0,   0,  NULL,         NULL,      setpackage    },
+	{ "divert",     0,   1,  NULL,         NULL,      set_divertto  },
+	{ "package",    0,   1,  NULL,         NULL,      set_package   },
+	{ "local",      0,   0,  NULL,         NULL,      set_package   },
 	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL, 0       },
 	{ "rename",     0,   0,  &opt_rename,  NULL,      NULL, 1       },
 	{ "test",       0,   0,  &opt_test,    NULL,      NULL, 1       },
@@ -775,7 +775,7 @@ main(int argc, const char * const *argv)
 
 	env_pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 	if (opt_pkgname_match_any && env_pkgname)
-		setpackage(NULL, env_pkgname);
+		set_package(NULL, env_pkgname);
 
 	if (!cipaction)
 		setaction(&cmdinfo_add, NULL);
