@@ -83,7 +83,9 @@ decompose_filename(const char *filename, struct partqueue *pq)
   return true;
 }
 
-void scandepot(void) {
+static void
+scandepot(void)
+{
   DIR *depot;
   struct dirent *de;
 

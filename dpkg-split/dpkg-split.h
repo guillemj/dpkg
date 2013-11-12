@@ -69,7 +69,6 @@ void rerreof(FILE *f, const char *fn) DPKG_ATTR_NORET;
 void print_info(const struct partinfo *pi);
 struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir);
 
-void scandepot(void);
 void reassemble(struct partinfo **partlist, const char *outputfile);
 void mustgetpartinfo(const char *filename, struct partinfo *ri);
 void addtopartlist(struct partinfo**, struct partinfo*, struct partinfo *refi);
