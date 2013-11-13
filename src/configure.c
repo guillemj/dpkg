@@ -82,11 +82,6 @@ static int conffoptcells[2][2] = {
 	{ cfo_keep,		cfo_prompt_keep },	/* User edited. */
 };
 
-static enum conffopt promptconfaction(struct pkginfo *pkg, const char *cfgfile,
-                                      const char *realold, const char *realnew,
-                                      int useredited, int distedited,
-                                      enum conffopt what);
-
 static int
 show_prompt(const char *cfgfile, const char *realold, const char *realnew,
             int useredited, int distedited, enum conffopt what)
@@ -191,6 +186,136 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 	}
 
 	return cc;
+}
+
+/**
+ * Show a diff between two files.
+ *
+ * @param old The path to the old file.
+ * @param new The path to the new file.
+ */
+static void
+showdiff(const char *old, const char *new)
+{
+	pid_t pid;
+
+	pid = subproc_fork();
+	if (!pid) {
+		/* Child process. */
+		char cmdbuf[1024];
+
+		sprintf(cmdbuf, DIFF " -Nu %.250s %.250s | %.250s",
+		        str_quote_meta(old), str_quote_meta(new),
+		        command_get_pager());
+
+		command_shell(cmdbuf, _("conffile difference visualizer"));
+	}
+
+	/* Parent process. */
+	subproc_wait(pid, _("conffile difference visualizer"));
+}
+
+/**
+ * Spawn a new shell.
+ *
+ * Create a subprocess and execute a shell to allow the user to manually
+ * solve the conffile conflict.
+ *
+ * @param confold The path to the old conffile.
+ * @param confnew The path to the new conffile.
+ */
+static void
+spawn_shell(const char *confold, const char *confnew)
+{
+	pid_t pid;
+
+	fputs(_("Type `exit' when you're done.\n"), stderr);
+
+	pid = subproc_fork();
+	if (!pid) {
+		/* Set useful variables for the user. */
+		setenv("DPKG_SHELL_REASON", "conffile-prompt", 1);
+		setenv("DPKG_CONFFILE_OLD", confold, 1);
+		setenv("DPKG_CONFFILE_NEW", confnew, 1);
+
+		command_shell(NULL, _("conffile shell"));
+	}
+
+	/* Parent process. */
+	subproc_wait(pid, _("conffile shell"));
+}
+
+/**
+ * Prompt the user for how to resolve a conffile conflict.
+ *
+ * When encountering a conffile conflict during configuration, the user will
+ * normally be presented with a textual menu of possible actions. This
+ * behavior is modified via various --force flags and perhaps on whether
+ * or not a terminal is available to do the prompting.
+ *
+ * @param pkg The package owning the conffile.
+ * @param cfgfile The path to the old conffile.
+ * @param realold The path to the old conffile, dereferenced in case of a
+ *        symlink, otherwise equal to cfgfile.
+ * @param realnew The path to the new conffile, dereferenced in case of a
+ *        symlink).
+ * @param useredited A flag to indicate whether the file has been edited
+ *        locally. Set to nonzero to indicate that the file has been modified.
+ * @param distedited A flag to indicate whether the file has been updated
+ *        between package versions. Set to nonzero to indicate that the file
+ *        has been updated.
+ * @param what Hints on what action should be taken by defualt.
+ *
+ * @return The action which should be taken based on user input and/or the
+ *         default actions as configured by cmdline/configuration options.
+ */
+static enum conffopt
+promptconfaction(struct pkginfo *pkg, const char *cfgfile,
+                 const char *realold, const char *realnew,
+                 int useredited, int distedited, enum conffopt what)
+{
+	int cc;
+
+	if (!(what & cfof_prompt))
+		return what;
+
+	statusfd_send("status: %s : %s : '%s' '%s' %i %i ",
+	              cfgfile, "conffile-prompt",
+	              realold, realnew, useredited, distedited);
+
+	do {
+		cc = show_prompt(cfgfile, realold, realnew,
+		                 useredited, distedited, what);
+
+		/* FIXME: Say something if silently not install. */
+		if (cc == 'd')
+			showdiff(realold, realnew);
+
+		if (cc == 'z')
+			spawn_shell(realold, realnew);
+	} while (!strchr("yino", cc));
+
+	log_message("conffile %s %s", cfgfile,
+	            (cc == 'i' || cc == 'y') ? "install" : "keep");
+
+	what &= cfof_userrmd;
+
+	switch (cc) {
+	case 'i':
+	case 'y':
+		what |= cfof_install | cfof_backup;
+		break;
+
+	case 'n':
+	case 'o':
+		what |= cfof_keep | cfof_backup;
+		break;
+
+	default:
+		internerr("unknown response '%d'", cc);
+	}
+
+	return what;
 }
 
 /**
@@ -708,134 +833,4 @@ md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
 		        pkg_name(pkg, pnaw_nonambig), fn, strerror(errno));
 		strcpy(hashbuf, EMPTYHASHFLAG);
 	}
-}
-
-/**
- * Show a diff between two files.
- *
- * @param old The path to the old file.
- * @param new The path to the new file.
- */
-static void
-showdiff(const char *old, const char *new)
-{
-	pid_t pid;
-
-	pid = subproc_fork();
-	if (!pid) {
-		/* Child process. */
-		char cmdbuf[1024];
-
-		sprintf(cmdbuf, DIFF " -Nu %.250s %.250s | %.250s",
-		        str_quote_meta(old), str_quote_meta(new),
-		        command_get_pager());
-
-		command_shell(cmdbuf, _("conffile difference visualizer"));
-	}
-
-	/* Parent process. */
-	subproc_wait(pid, _("conffile difference visualizer"));
-}
-
-/**
- * Spawn a new shell.
- *
- * Create a subprocess and execute a shell to allow the user to manually
- * solve the conffile conflict.
- *
- * @param confold The path to the old conffile.
- * @param confnew The path to the new conffile.
- */
-static void
-spawn_shell(const char *confold, const char *confnew)
-{
-	pid_t pid;
-
-	fputs(_("Type `exit' when you're done.\n"), stderr);
-
-	pid = subproc_fork();
-	if (!pid) {
-		/* Set useful variables for the user. */
-		setenv("DPKG_SHELL_REASON", "conffile-prompt", 1);
-		setenv("DPKG_CONFFILE_OLD", confold, 1);
-		setenv("DPKG_CONFFILE_NEW", confnew, 1);
-
-		command_shell(NULL, _("conffile shell"));
-	}
-
-	/* Parent process. */
-	subproc_wait(pid, _("conffile shell"));
-}
-
-/**
- * Prompt the user for how to resolve a conffile conflict.
- *
- * When encountering a conffile conflict during configuration, the user will
- * normally be presented with a textual menu of possible actions. This
- * behavior is modified via various --force flags and perhaps on whether
- * or not a terminal is available to do the prompting.
- *
- * @param pkg The package owning the conffile.
- * @param cfgfile The path to the old conffile.
- * @param realold The path to the old conffile, dereferenced in case of a
- *        symlink, otherwise equal to cfgfile.
- * @param realnew The path to the new conffile, dereferenced in case of a
- *        symlink).
- * @param useredited A flag to indicate whether the file has been edited
- *        locally. Set to nonzero to indicate that the file has been modified.
- * @param distedited A flag to indicate whether the file has been updated
- *        between package versions. Set to nonzero to indicate that the file
- *        has been updated.
- * @param what Hints on what action should be taken by defualt.
- *
- * @return The action which should be taken based on user input and/or the
- *         default actions as configured by cmdline/configuration options.
- */
-static enum conffopt
-promptconfaction(struct pkginfo *pkg, const char *cfgfile,
-                 const char *realold, const char *realnew,
-                 int useredited, int distedited, enum conffopt what)
-{
-	int cc;
-
-	if (!(what & cfof_prompt))
-		return what;
-
-	statusfd_send("status: %s : %s : '%s' '%s' %i %i ",
-	              cfgfile, "conffile-prompt",
-	              realold, realnew, useredited, distedited);
-
-	do {
-		cc = show_prompt(cfgfile, realold, realnew,
-		                 useredited, distedited, what);
-
-		/* FIXME: Say something if silently not install. */
-		if (cc == 'd')
-			showdiff(realold, realnew);
-
-		if (cc == 'z')
-			spawn_shell(realold, realnew);
-	} while (!strchr("yino", cc));
-
-	log_message("conffile %s %s", cfgfile,
-	            (cc == 'i' || cc == 'y') ? "install" : "keep");
-
-	what &= cfof_userrmd;
-
-	switch (cc) {
-	case 'i':
-	case 'y':
-		what |= cfof_install | cfof_backup;
-		break;
-
-	case 'n':
-	case 'o':
-		what |= cfof_keep | cfof_backup;
-		break;
-
-	default:
-		internerr("unknown response '%d'", cc);
-	}
-
-	return what;
 }
