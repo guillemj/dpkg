@@ -87,6 +87,112 @@ static enum conffopt promptconfaction(struct pkginfo *pkg, const char *cfgfile,
                                       int useredited, int distedited,
                                       enum conffopt what);
 
+static int
+show_prompt(const char *cfgfile, const char *realold, const char *realnew,
+            int useredited, int distedited, enum conffopt what)
+{
+	const char *s;
+	int c, cc;
+
+	/* Flush the terminal's input in case the user involuntarily
+	 * typed some characters. */
+	tcflush(STDIN_FILENO, TCIFLUSH);
+
+	fputs("\n", stderr);
+	if (strcmp(cfgfile, realold) == 0)
+		fprintf(stderr, _("Configuration file '%s'\n"), cfgfile);
+	else
+		fprintf(stderr, _("Configuration file '%s' (actually '%s')\n"),
+		        cfgfile, realold);
+
+	if (what & cfof_isnew) {
+		fprintf(stderr,
+		        _(" ==> File on system created by you or by a script.\n"
+		          " ==> File also in package provided by package maintainer.\n"));
+	} else {
+		fprintf(stderr, !useredited ?
+		        _("     Not modified since installation.\n") :
+		        !(what & cfof_userrmd) ?
+		        _(" ==> Modified (by you or by a script) since installation.\n") :
+		        _(" ==> Deleted (by you or by a script) since installation.\n"));
+
+		fprintf(stderr, distedited ?
+		        _(" ==> Package distributor has shipped an updated version.\n") :
+		        _("     Version in package is the same as at last installation.\n"));
+	}
+
+	/* No --force-confdef but a forcible situtation. */
+	/* TODO: check if this condition can not be simplified to
+	 *       just !fc_conff_def */
+	if (!(fc_conff_def && (what & (cfof_install | cfof_keep)))) {
+		if (fc_conff_new) {
+			fprintf(stderr,
+			        _(" ==> Using new file as you requested.\n"));
+			return 'y';
+		} else if (fc_conff_old) {
+			fprintf(stderr,
+			        _(" ==> Using current old file as you requested.\n"));
+			return 'n';
+		}
+	}
+
+	/* Force the default action (if there is one. */
+	if (fc_conff_def) {
+		if (what & cfof_keep) {
+			fprintf(stderr,
+			        _(" ==> Keeping old config file as default.\n"));
+			return 'n';
+		} else if (what & cfof_install) {
+			fprintf(stderr,
+			        _(" ==> Using new config file as default.\n"));
+			return 'y';
+		}
+	}
+
+	fprintf(stderr,
+	        _("   What would you like to do about it ?  Your options are:\n"
+	          "    Y or I  : install the package maintainer's version\n"
+	          "    N or O  : keep your currently-installed version\n"
+	          "      D     : show the differences between the versions\n"
+	          "      Z     : start a shell to examine the situation\n"));
+
+	if (what & cfof_keep)
+		fprintf(stderr,
+		        _(" The default action is to keep your current version.\n"));
+	else if (what & cfof_install)
+		fprintf(stderr,
+		        _(" The default action is to install the new version.\n"));
+
+	s = path_basename(cfgfile);
+	fprintf(stderr, "*** %s (Y/I/N/O/D/Z) %s ? ", s,
+	        (what & cfof_keep) ? _("[default=N]") :
+	        (what & cfof_install) ? _("[default=Y]") :
+	        _("[no default]"));
+
+	if (ferror(stderr))
+		ohshite(_("error writing to stderr, discovered before conffile prompt"));
+
+	cc = 0;
+	while ((c = getchar()) != EOF && c != '\n')
+		if (!isspace(c) && !cc)
+			cc = tolower(c);
+
+	if (c == EOF) {
+		if (ferror(stdin))
+			ohshite(_("read error on stdin at conffile prompt"));
+		ohshit(_("EOF on stdin at conffile prompt"));
+	}
+
+	if (!cc) {
+		if (what & cfof_keep)
+			return 'n';
+		else if (what & cfof_install)
+			return 'y';
+	}
+
+	return cc;
+}
+
 /**
  * Configure the ghost conffile instance.
  *
@@ -690,8 +796,7 @@ promptconfaction(struct pkginfo *pkg, const char *cfgfile,
                  const char *realold, const char *realnew,
                  int useredited, int distedited, enum conffopt what)
 {
-	const char *s;
-	int c, cc;
+	int cc;
 
 	if (!(what & cfof_prompt))
 		return what;
@@ -701,102 +806,8 @@ promptconfaction(struct pkginfo *pkg, const char *cfgfile,
 	              realold, realnew, useredited, distedited);
 
 	do {
-		/* Flush the terminal's input in case the user involuntarily
-		 * typed some characters. */
-		tcflush(STDIN_FILENO, TCIFLUSH);
-		fputs("\n", stderr);
-		if (strcmp(cfgfile, realold))
-			fprintf(stderr, _("Configuration file '%s' (actually '%s')\n"),
-			        cfgfile, realold);
-		else
-			fprintf(stderr, _("Configuration file '%s'\n"), cfgfile);
-
-		if (what & cfof_isnew) {
-			fprintf(stderr,
-			        _(" ==> File on system created by you or by a script.\n"
-			          " ==> File also in package provided by package maintainer.\n"));
-		} else {
-			fprintf(stderr, !useredited ?
-			        _("     Not modified since installation.\n") :
-			        !(what & cfof_userrmd) ?
-			        _(" ==> Modified (by you or by a script) since installation.\n") :
-			        _(" ==> Deleted (by you or by a script) since installation.\n"));
-
-			fprintf(stderr, distedited ?
-			        _(" ==> Package distributor has shipped an updated version.\n") :
-			        _("     Version in package is the same as at last installation.\n"));
-		}
-
-		/* No --force-confdef but a forcible situtation. */
-		/* TODO: check if this condition can not be simplified to
-		 *       just !fc_conff_def */
-		if (!(fc_conff_def && (what & (cfof_install | cfof_keep)))) {
-			if (fc_conff_new) {
-				fprintf(stderr, _(" ==> Using new file as you requested.\n"));
-				cc = 'y';
-				break;
-			} else if (fc_conff_old) {
-				fprintf(stderr, _(" ==> Using current old file as you requested.\n"));
-				cc = 'n';
-				break;
-			}
-		}
-
-		/* Force the default action (if there is one. */
-		if (fc_conff_def) {
-			if (what & cfof_keep) {
-				fprintf(stderr, _(" ==> Keeping old config file as default.\n"));
-				cc = 'n';
-				break;
-			} else if (what & cfof_install) {
-				fprintf(stderr, _(" ==> Using new config file as default.\n"));
-				cc = 'y';
-				break;
-			}
-		}
-
-		fprintf(stderr,
-		        _("   What would you like to do about it ?  Your options are:\n"
-		          "    Y or I  : install the package maintainer's version\n"
-		          "    N or O  : keep your currently-installed version\n"
-		          "      D     : show the differences between the versions\n"
-		          "      Z     : start a shell to examine the situation\n"));
-
-		if (what & cfof_keep)
-			fprintf(stderr, _(" The default action is to keep your current version.\n"));
-		else if (what & cfof_install)
-			fprintf(stderr, _(" The default action is to install the new version.\n"));
-
-		s = path_basename(cfgfile);
-		fprintf(stderr, "*** %s (Y/I/N/O/D/Z) %s ? ",
-		        s,
-		        (what & cfof_keep) ? _("[default=N]") :
-		        (what & cfof_install) ? _("[default=Y]") :
-		        _("[no default]"));
-
-		if (ferror(stderr))
-			ohshite(_("error writing to stderr, discovered before conffile prompt"));
-
-		cc = 0;
-		while ((c = getchar()) != EOF && c != '\n')
-			if (!isspace(c) && !cc)
-				cc = tolower(c);
-
-		if (c == EOF) {
-			if (ferror(stdin))
-				ohshite(_("read error on stdin at conffile prompt"));
-			ohshit(_("EOF on stdin at conffile prompt"));
-		}
-
-		if (!cc) {
-			if (what & cfof_keep) {
-				cc = 'n';
-				break;
-			} else if (what & cfof_install) {
-				cc = 'y';
-				break;
-			}
-		}
+		cc = show_prompt(cfgfile, realold, realnew,
+		                 useredited, distedited, what);
 
 		/* FIXME: Say something if silently not install. */
 		if (cc == 'd')
