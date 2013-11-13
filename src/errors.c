@@ -139,9 +139,7 @@ void forcibleerr(int forceflag, const char *fmt, ...) {
   va_start(args, fmt);
   if (forceflag) {
     warning(_("overriding problem because --force enabled:"));
-    fputc(' ', stderr);
-    vfprintf(stderr, fmt, args);
-    fputc('\n',stderr);
+    warningv(fmt, args);
   } else {
     ohshitv(fmt, args);
   }
