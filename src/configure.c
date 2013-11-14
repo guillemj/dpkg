@@ -373,7 +373,7 @@ deferred_configure(struct pkginfo *pkg)
 	if (ok == dep_check_defer) {
 		varbuf_destroy(&aemsgs);
 		pkg->clientdata->istobe = itb_installnew;
-		add_to_queue(pkg);
+		enqueue_package(pkg);
 		return;
 	}
 

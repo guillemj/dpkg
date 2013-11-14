@@ -136,7 +136,7 @@ void deferred_remove(struct pkginfo *pkg) {
   if (rok == dep_check_defer) {
     varbuf_destroy(&raemsgs);
     pkg->clientdata->istobe= itb_remove;
-    add_to_queue(pkg);
+    enqueue_package(pkg);
     return;
   } else if (rok == dep_check_halt) {
     sincenothing= 0;

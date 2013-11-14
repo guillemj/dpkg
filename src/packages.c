@@ -53,7 +53,7 @@ static struct pkg_queue queue = PKG_QUEUE_INIT;
 int sincenothing = 0, dependtry = 0;
 
 void
-add_to_queue(struct pkginfo *pkg)
+enqueue_package(struct pkginfo *pkg)
 {
   pkg_queue_push(&queue, pkg);
 }
@@ -95,7 +95,7 @@ enqueue_pending(void)
     default:
       internerr("unknown action '%d'", cipaction->arg_int);
     }
-    add_to_queue(pkg);
+    enqueue_package(pkg);
   }
   pkg_db_iter_free(it);
 }
@@ -122,7 +122,7 @@ enqueue_specified(const char *const *argv)
         badusage(_("you must specify packages by their own names,"
                    " not by quoting the names of the files they come in"));
     }
-    add_to_queue(pkg);
+    enqueue_package(pkg);
   }
 }
 
@@ -213,7 +213,7 @@ void process_queue(void) {
 
     if (sincenothing++ > queue.length * 2 + 2) {
       if (progress_bytrigproc && progress_bytrigproc->trigpend_head) {
-        add_to_queue(pkg);
+        enqueue_package(pkg);
         pkg = progress_bytrigproc;
         action_todo = act_configure;
       } else {
@@ -419,7 +419,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
       notice(_("also configuring '%s' (required by '%s')"),
              pkg_name(possdependee, pnaw_nonambig),
              pkg_name(requiredby, pnaw_nonambig));
-      add_to_queue(possdependee);
+      enqueue_package(possdependee);
       sincenothing = 0;
       return found_defer;
     } else {

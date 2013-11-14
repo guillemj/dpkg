@@ -67,7 +67,7 @@
  *
  *
  * For --triggers-only and --configure, we go through each thing in the
- * argument queue (the add_to_queue queue) and check what its state is
+ * argument queue (the enqueue_package queue) and check what its state is
  * and if appropriate we trigproc it. If we didn't have a queue (or had
  * just --pending) we search all triggers-pending packages and add them
  * to the deferred trigproc list.

@@ -176,7 +176,7 @@ int clearselections(const char *const *argv);
 /* from packages.c, remove.c and configure.c */
 
 void md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn);
-void add_to_queue(struct pkginfo *pkg);
+void enqueue_package(struct pkginfo *pkg);
 void process_queue(void);
 int packages(const char *const *argv);
 void removal_bulk(struct pkginfo *pkg);
