@@ -42,6 +42,8 @@ DPKG_BEGIN_DECLS
 #define N_(str) gettext_noop(str)
 #define C_(ctxt, str) pgettext(ctxt, str)
 
+void dpkg_locales_init(const char *package);
+
 /** @} */
 
 DPKG_END_DECLS

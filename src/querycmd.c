@@ -861,10 +861,7 @@ static const struct cmdinfo cmdinfos[]= {
 int main(int argc, const char *const *argv) {
   int ret;
 
-  setlocale(LC_ALL, "");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
-
+  dpkg_locales_init(PACKAGE);
   dpkg_program_init("dpkg-query");
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
 

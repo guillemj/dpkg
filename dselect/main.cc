@@ -508,10 +508,7 @@ dselect_catch_fatal_error()
 int
 main(int, const char *const *argv)
 {
-  setlocale(LC_ALL, "");
-  bindtextdomain(DSELECT, LOCALEDIR);
-  textdomain(DSELECT);
-
+  dpkg_locales_init(DSELECT);
   dpkg_set_progname(DSELECT);
 
   push_error_context_func(dselect_catch_fatal_error, print_fatal_error, 0);

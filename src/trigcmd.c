@@ -208,10 +208,7 @@ main(int argc, const char *const *argv)
 	const char *badname;
 	enum trigdef_updateflags tduf;
 
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE, LOCALEDIR);
-	textdomain(PACKAGE);
-
+	dpkg_locales_init(PACKAGE);
 	dpkg_program_init("dpkg-trigger");
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 

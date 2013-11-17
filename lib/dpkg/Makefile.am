@@ -44,7 +44,7 @@ libdpkg_a_SOURCES = \
 	file.c \
 	fields.c \
 	glob.c \
-	i18n.h \
+	i18n.c i18n.h \
 	log.c \
 	mlib.c \
 	namevalue.c \
