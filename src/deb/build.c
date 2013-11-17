@@ -169,7 +169,7 @@ file_treewalk_feed(const char *dir, int fd_out)
 
     nodename = str_fmt("./%s", virtname);
 
-    if (!nocheckflag && strchr(nodename, '\n'))
+    if (!opt_nocheck && strchr(nodename, '\n'))
       ohshit(_("newline not allowed in pathname '%s'"), nodename);
 
     /* We need to reorder the files so we can make sure that symlinks
@@ -582,7 +582,7 @@ do_build(const char *const *argv)
   ctrldir = str_fmt("%s/%s", dir, BUILDCONTROLDIR);
 
   /* Perform some sanity checks on the to-be-build package. */
-  if (nocheckflag) {
+  if (opt_nocheck) {
     if (debar == NULL)
       ohshit(_("target is directory - cannot skip control file check"));
     warning(_("not checking contents of control area"));

@@ -281,7 +281,7 @@ do_showinfo(const char *const *argv)
   struct pkginfo *pkg;
   struct pkg_format_node *fmt;
 
-  fmt = pkg_format_parse(showformat, &err);
+  fmt = pkg_format_parse(opt_showformat, &err);
   if (!fmt)
     ohshit(_("error in show format: %s"), err.str);
 

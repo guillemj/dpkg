@@ -45,7 +45,7 @@
 
 #include "dpkg-deb.h"
 
-const char *showformat = "${Package}\t${Version}\n";
+const char *opt_showformat = "${Package}\t${Version}\n";
 
 static int
 printversion(const char *const *argv)
@@ -139,8 +139,8 @@ static const char printforhelp[] =
   N_("Type dpkg-deb --help for help about manipulating *.deb files;\n"
      "Type dpkg --help for help about installing and deinstalling packages.");
 
-int debugflag = 0;
-int nocheckflag = 0;
+int opt_debug = 0;
+int opt_nocheck = 0;
 int opt_verbose = 0;
 int opt_root_owner_group = 0;
 int opt_uniform_compression = 1;
@@ -256,9 +256,9 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION("version",       0,   0, printversion),
 
   { "deb-format",    0,   1, NULL,           NULL,         set_deb_format   },
-  { "debug",         'D', 0, &debugflag,     NULL,         NULL,          1 },
+  { "debug",         'D', 0, &opt_debug,     NULL,         NULL,          1 },
   { "verbose",       'v', 0, &opt_verbose,   NULL,         NULL,          1 },
-  { "nocheck",       0,   0, &nocheckflag,   NULL,         NULL,          1 },
+  { "nocheck",       0,   0, &opt_nocheck,   NULL,         NULL,          1 },
   { "root-owner-group",    0, 0, &opt_root_owner_group,    NULL, NULL,    1 },
   { "threads-max",   0,   1, NULL,           NULL,         set_threads_max  },
   { "uniform-compression", 0, 0, &opt_uniform_compression, NULL, NULL,    1 },
@@ -266,7 +266,7 @@ static const struct cmdinfo cmdinfos[]= {
   { NULL,            'z', 1, NULL,           NULL,         set_compress_level },
   { NULL,            'Z', 1, NULL,           NULL,         set_compress_type  },
   { NULL,            'S', 1, NULL,           NULL,         set_compress_strategy },
-  { "showformat",    0,   1, NULL,           &showformat,  NULL             },
+  { "showformat",    0,   1, NULL,           &opt_showformat,  NULL         },
   {  NULL,           0,   0, NULL,           NULL,         NULL             }
 };
 

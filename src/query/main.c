@@ -59,7 +59,7 @@
 
 #include "actions.h"
 
-static const char *showformat = "${binary:Package}\t${Version}\n";
+static const char *opt_showformat = "${binary:Package}\t${Version}\n";
 
 static int opt_loadavail = 0;
 
@@ -570,7 +570,7 @@ showpackages(const char *const *argv)
   bool fmt_needs_db_fsys;
   int rc = 0;
 
-  fmt = pkg_format_parse(showformat, &err);
+  fmt = pkg_format_parse(opt_showformat, &err);
   if (!fmt) {
     notice(_("error in show format: %s"), err.str);
     dpkg_error_destroy(&err);
@@ -863,7 +863,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "admindir",   0,   1, NULL, NULL,        set_admindir, 0 },
   { "root",       0,   1, NULL, NULL,        set_root, 0   },
   { "load-avail", 0,   0, &opt_loadavail, NULL, NULL, 1    },
-  { "showformat", 'f', 1, NULL, &showformat, NULL          },
+  { "showformat", 'f', 1, NULL, &opt_showformat, NULL      },
   { "no-pager",   0,   0, NULL, NULL,        set_no_pager  },
   {  NULL,        0,   0, NULL, NULL,        NULL          }
 };
