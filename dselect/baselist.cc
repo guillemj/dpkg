@@ -313,7 +313,8 @@ void baselist::refreshinfo() {
 void baselist::wordwrapinfo(int offset, const char *m) {
   int usemax= xmax-5;
   debug(dbg_general, "baselist[%p]::wordwrapinfo(%d, '%s')", this, offset, m);
-  int wrapping=0;
+  bool wrapping = false;
+
   for (;;) {
     int offleft=offset; while (*m == ' ' && offleft>0) { m++; offleft--; }
     const char *p= strchr(m,'\n');
@@ -321,12 +322,13 @@ void baselist::wordwrapinfo(int offset, const char *m) {
     while (l && isspace(m[l-1])) l--;
     if (!l || (*m == '.' && l == 1)) {
       if (wrapping) waddch(infopad,'\n');
-      waddch(infopad,'\n');
-      wrapping= 0;
+      waddch(infopad, '\n');
+      wrapping = false;
     } else if (*m == ' ' || usemax < 10) {
       if (wrapping) waddch(infopad,'\n');
       waddnstr(infopad, m, l);
-      waddch(infopad,'\n'); wrapping= 0;
+      waddch(infopad, '\n');
+      wrapping = false;
     } else {
       int x, y DPKG_ATTR_UNUSED;
 
@@ -354,7 +356,7 @@ void baselist::wordwrapinfo(int offset, const char *m) {
         if (l <= 0) break;
         waddch(infopad,'\n');
       }
-      wrapping= 1;
+      wrapping = false;
     }
     if (!p) break;
     if (getcury(infopad) == (MAX_DISPLAY_INFO - 1)) {

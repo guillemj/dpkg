@@ -63,7 +63,11 @@ const struct helpmenuentry *packagelist::helpmenulist() {
                  recur;
 }
 
-int packagelist::itr_recursive() { return recursive; }
+bool
+packagelist::itr_recursive()
+{
+  return recursive;
+}
 
 const packagelist::infotype packagelist::infoinfos[]= {
   { &packagelist::itr_recursive,     &packagelist::itd_relations         },

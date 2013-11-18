@@ -81,7 +81,7 @@ struct perpackagestate {
   ssstateval ssstate;
   varbuf relations;
 
-  void free(int recursive);
+  void free(bool recursive);
 };
 
 class packagelist : public baselist {
@@ -99,27 +99,28 @@ protected:
   struct perpackagestate **table;
 
   // Misc.
-  int recursive, nallocated, verbose;
+  int nallocated;
+  bool recursive, verbose;
   enum { so_unsorted, so_section, so_priority, so_alpha } sortorder;
   enum { sso_unsorted, sso_avail, sso_state } statsortorder;
   enum { vdo_none, vdo_available, vdo_both } versiondisplayopt;
-  int calcssadone, calcsssdone;
+  bool calcssadone, calcsssdone;
   struct perpackagestate *headings;
 
   // Package searching flags
-  int searchdescr;
+  bool searchdescr;
   regex_t searchfsm;
 
   // Information displays
   struct infotype {
-    int (packagelist::*relevant)(); // null means always relevant
+    bool (packagelist::*relevant)(); // null means always relevant
     void (packagelist::*display)(); // null means end of table
   };
   const infotype *currentinfo;
   static const infotype infoinfos[];
   static const infotype *const baseinfo;
-  int itr_recursive();
-  int itr_nonrecursive();
+  bool itr_recursive();
+  bool itr_nonrecursive();
   void severalinfoblurb();
   void itd_mainwelcome();
   void itd_explaindisplay();

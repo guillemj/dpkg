@@ -62,7 +62,7 @@
 
 static const char printforhelp[] = N_("Type dselect --help for help.");
 
-int expertmode= 0;
+bool expertmode = false;
 
 static const char *admindir = ADMINDIR;
 
@@ -239,7 +239,7 @@ extern "C" {
   static void
   set_expert(const struct cmdinfo*, const char *v)
   {
-    expertmode= 1;
+    expertmode = true;
   }
 
   static int
@@ -319,7 +319,7 @@ static const struct cmdinfo cmdinfos[]= {
   { 0,              0,   0,  0,  0,          0               }
 };
 
-static int cursesareon= 0;
+static bool cursesareon = false;
 void curseson() {
   if (!cursesareon) {
     const char *cup, *smso;
@@ -339,7 +339,7 @@ void curseson() {
       ohshit(_("terminal lacks necessary features, giving up"));
     }
   }
-  cursesareon= 1;
+  cursesareon = true;
 }
 
 void cursesoff() {
@@ -348,7 +348,7 @@ void cursesoff() {
     refresh();
     endwin();
   }
-  cursesareon=0;
+  cursesareon = false;
 }
 
 extern void *operator new(size_t size) {

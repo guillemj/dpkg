@@ -133,12 +133,12 @@ void packagelist::setwant(pkginfo::pkgwant nwarg) {
   movecursorafter(bot);
 }
 
-int manual_install = 0;
+bool manual_install = false;
 
 void packagelist::kd_select()   {
-	manual_install = 1;
+	manual_install = true;
 	setwant(pkginfo::want_install);
-	manual_install = 0;
+	manual_install = false;
 }
 void packagelist::kd_hold()     { setwant(pkginfo::want_hold);      }
 void packagelist::kd_deselect() { setwant(pkginfo::want_deinstall); }

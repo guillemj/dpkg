@@ -163,7 +163,7 @@ void mywerase(WINDOW *win);
 void curseson();
 void cursesoff();
 
-extern int expertmode;
+extern bool expertmode;
 
 struct colordata {
        int fore;
@@ -173,7 +173,7 @@ struct colordata {
 extern colordata color[];
 
 /* Evil recommends flag variable. */
-extern int manual_install;
+extern bool manual_install;
 
 enum urqresult { urqr_normal, urqr_fail, urqr_quitmenu };
 enum quitaction { qa_noquit, qa_quitchecksave, qa_quitnochecksave };

@@ -221,7 +221,7 @@ void packagelist::ensurestatsortinfo() {
             "packagelist[%p]::ensurestatsortinfos() i=%d ssavail=%d",
             this, index, table[index]->ssavail);
     }
-    calcssadone= 1;
+    calcssadone = true;
     break;
   case sso_state:
     debug(dbg_general, "packagelist[%p]::ensurestatsortinfos() calcsssdone=%d",
@@ -254,7 +254,7 @@ void packagelist::ensurestatsortinfo() {
             "packagelist[%p]::ensurestatsortinfos() i=%d ssstate=%d",
             this, index, table[index]->ssstate);
     }
-    calcsssdone= 1;
+    calcsssdone = true;
     break;
   default:
     internerr("unknown statsortorder %d", statsortorder);
@@ -366,9 +366,9 @@ void packagelist::initialsetup() {
   unavdone= 0;
   currentinfo= 0;
   headings= 0;
-  verbose= 0;
-  calcssadone= calcsssdone= 0;
-  searchdescr= 0;
+  verbose = false;
+  calcssadone = calcsssdone = false;
+  searchdescr = false;
 }
 
 void packagelist::finalsetup() {
@@ -420,7 +420,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
 
   if (!nitems)
     ohshit(_("there are no packages"));
-  recursive= 0;
+  recursive = false;
   sortorder= so_priority;
   statsortorder= sso_avail;
   versiondisplayopt= vdo_both;
@@ -432,7 +432,7 @@ packagelist::packagelist(keybindings *kb, pkginfo **pkgltab) : baselist(kb) {
   // takes over responsibility for pkgltab (recursive)
   initialsetup();
 
-  recursive= 1;
+  recursive = true;
   nitems= 0;
   if (pkgltab) {
     add(pkgltab);
@@ -445,7 +445,9 @@ packagelist::packagelist(keybindings *kb, pkginfo **pkgltab) : baselist(kb) {
   finalsetup();
 }
 
-void perpackagestate::free(int recursive) {
+void
+perpackagestate::free(bool recursive)
+{
   if (pkg->set->name) {
     if (modstatdb_get_status() == msdbrw_write) {
       if (uprec) {
@@ -496,7 +498,7 @@ packagelist::checksearch(char *rx)
   if (str_is_unset(rx))
     return false;
 
-  searchdescr=0;
+  searchdescr = false;
   if (searchstring[0]) {
     regfree(&searchfsm);
     searchstring[0]=0;
@@ -518,7 +520,7 @@ packagelist::checksearch(char *rx)
      if (rx[r]=='i')
        opt|=REG_ICASE;
      else if (rx[r]=='d')
-       searchdescr=1;
+       searchdescr = true;
      r++;
    }
   }

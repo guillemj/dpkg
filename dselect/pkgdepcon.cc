@@ -114,9 +114,12 @@ int packagelist::resolvesuggest() {
   return maxchangemade;
 }
 
-static int dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *trythis) {
+static bool
+dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *trythis)
+{
   // There's no point trying to select a pure virtual package.
-  if (!trythis->clientdata) return 0;
+  if (!trythis->clientdata)
+    return false;
 
   debug(dbg_depcon, "update_best_to_change(best=%s{%d}, test=%s{%d});",
         best ? pkg_name(best->pkg, pnaw_always) : "",
@@ -125,7 +128,8 @@ static int dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *tryt
 
   // If the problem is caused by us deselecting one of these packages
   // we should not try to select another one instead.
-  if (trythis->clientdata->spriority == sp_deselecting) return 1;
+  if (trythis->clientdata->spriority == sp_deselecting)
+    return true;
 
   // If we haven't found anything yet then this is our best so far.
   if (!best) goto yes;
@@ -133,27 +137,30 @@ static int dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *tryt
   // If only one of the packages is available, use that one
   if (!pkg_is_informative(trythis, &trythis->available) &&
       pkg_is_informative(best->pkg, &best->pkg->available))
-    return 0;
+    return false;
   if (pkg_is_informative(trythis, &trythis->available) &&
       !pkg_is_informative(best->pkg, &best->pkg->available))
     goto yes;
 
   // Select the package with the lowest priority (ie, the one of whom
   // we were least sure we wanted it deselected).
-  if (trythis->clientdata->spriority > best->spriority) return 0;
+  if (trythis->clientdata->spriority > best->spriority)
+    return false;
   if (trythis->clientdata->spriority < best->spriority) goto yes;
 
   // Pick the package with the must fundamental recommendation level.
-  if (trythis->priority > best->pkg->priority) return 0;
+  if (trythis->priority > best->pkg->priority)
+    return false;
   if (trythis->priority < best->pkg->priority) goto yes;
 
   // If we're still unsure we'll change the first one in the list.
-  return 0;
+  return false;
 
  yes:
   debug(dbg_depcon, "update_best_to_change(); yes");
 
-  best=trythis->clientdata; return 0;
+  best = trythis->clientdata;
+  return false;
 }
 
 int
@@ -207,7 +214,8 @@ packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *dep)
 int packagelist::resolvedepcon(dependency *depends) {
   perpackagestate *best, *fixbyupgrade;
   deppossi *possi, *provider;
-  int r, foundany;
+  bool foundany;
+  int r;
 
   if (debug_has_flag(dbg_depcon)) {
     varbuf pkg_names;
@@ -273,16 +281,17 @@ int packagelist::resolvedepcon(dependency *depends) {
       for (possi= depends->list;
            possi;
            possi= possi->next) {
-        foundany= 0;
+        foundany = false;
         if (possi->ed->pkg.clientdata)
-          foundany = 1;
+          foundany = true;
         if (dep_update_best_to_change_stop(best, &possi->ed->pkg))
           goto mustdeselect;
         for (provider = possi->ed->depended.available;
              provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
-          if (provider->up->up->clientdata) foundany= 1;
+          if (provider->up->up->clientdata)
+            foundany = true;
           if (dep_update_best_to_change_stop(best, provider->up->up)) goto mustdeselect;
         }
         if (!foundany) addunavailable(possi);

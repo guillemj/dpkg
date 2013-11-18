@@ -183,7 +183,8 @@ void repeatedlydisplay(packagelist *sub,
     debug(dbg_general, "repeatedlydisplay(packagelist[%p]) once", sub);
     if (unredisplay) unredisplay->enddisplay();
     for (;;) {
-      manual_install = 0; /* Remove flag now that resolvesuggest has seen it. */
+      /* Reset manual_install flag now that resolvesuggest() has seen it. */
+      manual_install = false;
       newl= sub->display();
       if (!newl) break;
       debug(dbg_general, "repeatedlydisplay(packagelist[%p]) newl", sub);

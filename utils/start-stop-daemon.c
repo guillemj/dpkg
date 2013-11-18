@@ -156,12 +156,12 @@ enum action_code {
 };
 
 static enum action_code action;
-static int testmode = 0;
+static bool testmode = false;
 static int quietmode = 0;
 static int exitnodo = 1;
-static int background = 0;
-static int close_io = 1;
-static int mpidfile = 0;
+static bool background = false;
+static bool close_io = true;
+static bool mpidfile = false;
 static int signal_nr = SIGTERM;
 static int user_id = -1;
 static int runas_uid = -1;
@@ -866,13 +866,13 @@ parse_options(int argc, char * const *argv)
 			pidfile = optarg;
 			break;
 		case 'q':  /* --quiet */
-			quietmode = 1;
+			quietmode = true;
 			break;
 		case 's':  /* --signal <signal> */
 			signal_str = optarg;
 			break;
 		case 't':  /* --test */
-			testmode = 1;
+			testmode = true;
 			break;
 		case 'u':  /* --user <username>|<uid> */
 			userspec = optarg;
@@ -909,13 +909,13 @@ parse_options(int argc, char * const *argv)
 			umask_str = optarg;
 			break;
 		case 'b':  /* --background */
-			background = 1;
+			background = true;
 			break;
 		case 'C': /* --no-close */
-			close_io = 0;
+			close_io = false;
 			break;
 		case 'm':  /* --make-pidfile */
-			mpidfile = 1;
+			mpidfile = true;
 			break;
 		case 'R':  /* --retry <schedule>|<timeout> */
 			schedule_str = optarg;
