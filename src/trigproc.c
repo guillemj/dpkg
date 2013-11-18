@@ -352,8 +352,8 @@ trigproc(struct pkginfo *pkg)
 
 		if (!f_noact) {
 			sincenothing = 0;
-			maintainer_script_postinst(pkg, "triggered",
-			                           namesarg.buf + 1, NULL);
+			maintscript_postinst(pkg, "triggered",
+			                     namesarg.buf + 1, NULL);
 		}
 
 		/* This is to cope if the package triggers itself: */

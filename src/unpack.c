@@ -349,14 +349,14 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
         pkg_name(pkg, pnaw_always));
 
   trig_activate_packageprocessing(pkg);
-  maintainer_script_installed(pkg, POSTRMFILE,
-                              "post-removal script (for disappearance)",
-                              "disappear",
-                              pkgbin_name(infavour, &infavour->available,
-                                          pnaw_nonambig),
-                              versiondescribe(&infavour->available.version,
-                                              vdew_nonambig),
-                              NULL);
+  maintscript_installed(pkg, POSTRMFILE,
+                        "post-removal script (for disappearance)",
+                        "disappear",
+                        pkgbin_name(infavour, &infavour->available,
+                                    pnaw_nonambig),
+                        versiondescribe(&infavour->available.version,
+                                        vdew_nonambig),
+                        NULL);
 
   /* OK, now we delete all the stuff in the ‘info’ directory ... */
   debug(dbg_general, "pkg_disappear cleaning info directory");
@@ -719,12 +719,14 @@ void process_archive(const char *filename) {
     if (dpkg_version_compare(&pkg->available.version,
                              &pkg->installed.version) >= 0)
       /* Upgrade or reinstall. */
-      maintainer_script_alternative(pkg, PRERMFILE, "pre-removal", cidir, cidirrest,
-                                    "upgrade", "failed-upgrade");
+      maintscript_fallback(pkg, PRERMFILE, "pre-removal", cidir, cidirrest,
+                           "upgrade", "failed-upgrade");
     else /* Downgrade => no fallback */
-      maintainer_script_installed(pkg, PRERMFILE, "pre-removal", "upgrade",
-                                  versiondescribe(&pkg->available.version,
-                                                  vdew_nonambig), NULL);
+      maintscript_installed(pkg, PRERMFILE, "pre-removal",
+                            "upgrade",
+                            versiondescribe(&pkg->available.version,
+                                            vdew_nonambig),
+                            NULL);
     pkg_set_status(pkg, stat_unpacked);
     oldversionstatus= stat_unpacked;
     modstatdb_note(pkg);
@@ -756,23 +758,23 @@ void process_archive(const char *filename) {
                  3, (void*)deconpil->pkg, (void*)removing, (void*)pkg);
 
     if (removing) {
-      maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
-                                  "deconfigure", "in-favour",
-                                  pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
-                                  versiondescribe(&pkg->available.version,
-                                                  vdew_nonambig),
-                                  "removing",
-                                  pkg_name(removing, pnaw_nonambig),
-                                  versiondescribe(&removing->installed.version,
-                                                  vdew_nonambig),
-                                  NULL);
+      maintscript_installed(deconpil->pkg, PRERMFILE, "pre-removal",
+                            "deconfigure", "in-favour",
+                            pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+                            versiondescribe(&pkg->available.version,
+                                            vdew_nonambig),
+                            "removing",
+                            pkg_name(removing, pnaw_nonambig),
+                            versiondescribe(&removing->installed.version,
+                                            vdew_nonambig),
+                            NULL);
     } else {
-      maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
-                                  "deconfigure", "in-favour",
-                                  pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
-                                  versiondescribe(&pkg->available.version,
-                                                  vdew_nonambig),
-                                  NULL);
+      maintscript_installed(deconpil->pkg, PRERMFILE, "pre-removal",
+                            "deconfigure", "in-favour",
+                            pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+                            versiondescribe(&pkg->available.version,
+                                            vdew_nonambig),
+                            NULL);
     }
   }
 
@@ -786,12 +788,12 @@ void process_archive(const char *filename) {
     modstatdb_note(conflictor[i]);
     push_cleanup(cu_prerminfavour, ~ehflag_normaltidy, NULL, 0,
                  2,(void*)conflictor[i],(void*)pkg);
-    maintainer_script_installed(conflictor[i], PRERMFILE, "pre-removal",
-                                "remove", "in-favour",
-                                pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
-                                versiondescribe(&pkg->available.version,
-                                                vdew_nonambig),
-                                NULL);
+    maintscript_installed(conflictor[i], PRERMFILE, "pre-removal",
+                          "remove", "in-favour",
+                          pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+                          versiondescribe(&pkg->available.version,
+                                          vdew_nonambig),
+                          NULL);
     pkg_set_status(conflictor[i], stat_halfinstalled);
     modstatdb_note(conflictor[i]);
   }
@@ -806,22 +808,22 @@ void process_archive(const char *filename) {
   if (oldversionstatus == stat_notinstalled) {
     push_cleanup(cu_preinstverynew, ~ehflag_normaltidy, NULL, 0,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
-    maintainer_script_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
-                          "install", NULL);
+    maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
+                    "install", NULL);
   } else if (oldversionstatus == stat_configfiles) {
     push_cleanup(cu_preinstnew, ~ehflag_normaltidy, NULL, 0,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
-    maintainer_script_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
-                          "install", versiondescribe(&pkg->installed.version,
-                                                     vdew_nonambig),
-                          NULL);
+    maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
+                    "install",
+                    versiondescribe(&pkg->installed.version, vdew_nonambig),
+                    NULL);
   } else {
     push_cleanup(cu_preinstupgrade, ~ehflag_normaltidy, NULL, 0,
                  4,(void*)pkg,(void*)cidir,(void*)cidirrest,(void*)&oldversionstatus);
-    maintainer_script_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
-                          "upgrade", versiondescribe(&pkg->installed.version,
-                                                     vdew_nonambig),
-                          NULL);
+    maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
+                    "upgrade",
+                    versiondescribe(&pkg->installed.version, vdew_nonambig),
+                    NULL);
   }
 
   if (oldversionstatus == stat_notinstalled ||
@@ -952,8 +954,8 @@ void process_archive(const char *filename) {
     pkg_set_status(pkg, stat_halfinstalled);
     modstatdb_note(pkg);
     push_cleanup(cu_postrmupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
-    maintainer_script_alternative(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
-                                  "upgrade", "failed-upgrade");
+    maintscript_fallback(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
+                         "upgrade", "failed-upgrade");
   }
 
   /* If anything goes wrong while tidying up it's a bit late to do

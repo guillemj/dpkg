@@ -451,11 +451,11 @@ deferred_configure(struct pkginfo *pkg)
 
 	modstatdb_note(pkg);
 
-	maintainer_script_postinst(pkg, "configure",
-	                           dpkg_version_is_informative(&pkg->configversion) ?
-	                           versiondescribe(&pkg->configversion,
-	                                           vdew_nonambig) : "",
-	                           NULL);
+	maintscript_postinst(pkg, "configure",
+	                     dpkg_version_is_informative(&pkg->configversion) ?
+	                     versiondescribe(&pkg->configversion,
+	                                     vdew_nonambig) : "",
+	                     NULL);
 
 	pkg_reset_eflags(pkg);
 	pkg->trigpend_head = NULL;
