@@ -356,18 +356,10 @@ trigproc(struct pkginfo *pkg)
 			                     namesarg.buf + 1, NULL);
 		}
 
-		/* This is to cope if the package triggers itself: */
-		if (pkg->trigaw.head)
-			pkg_set_status(pkg, stat_triggersawaited);
-		else if (pkg->trigpend_head)
-			pkg_set_status(pkg, stat_triggerspending);
-		else
-			pkg_set_status(pkg, stat_installed);
-		modstatdb_note(pkg);
-
-		post_postinst_tasks_core(pkg);
+		post_postinst_tasks(pkg, stat_installed);
 	} else {
-		/* In other branch is done by modstatdb_note. */
+		/* In other branch is done by modstatdb_note(), from inside
+		 * post_postinst_tasks(). */
 		trig_clear_awaiters(pkg);
 	}
 }

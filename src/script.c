@@ -62,13 +62,7 @@ post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
 		pkg_set_status(pkg, stat_installed);
 	modstatdb_note(pkg);
 
-	post_postinst_tasks_core(pkg);
-}
-
-void
-post_postinst_tasks_core(struct pkginfo *pkg)
-{
-	debug(dbg_triggersdetail, "post_postinst_tasks_core - trig_incorporate");
+	debug(dbg_triggersdetail, "post_postinst_tasks - trig_incorporate");
 	trig_incorporate(modstatdb_get_status());
 }
 

@@ -242,8 +242,6 @@ int maintscript_fallback(struct pkginfo *pkg,
  * trigger incorporation until after updating the package status. The effect
  * is that a package can trigger itself. */
 int maintscript_postinst(struct pkginfo *pkg, ...) DPKG_ATTR_SENTINEL;
-void post_postinst_tasks_core(struct pkginfo *pkg);
-
 void post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status);
 
 void clear_istobes(void);
