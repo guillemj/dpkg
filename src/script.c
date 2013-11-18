@@ -68,11 +68,8 @@ post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
 void
 post_postinst_tasks_core(struct pkginfo *pkg)
 {
-	if (!f_noact) {
-		debug(dbg_triggersdetail,
-		      "post_postinst_tasks_core - trig_incorporate");
-		trig_incorporate(msdbrw_write);
-	}
+	debug(dbg_triggersdetail, "post_postinst_tasks_core - trig_incorporate");
+	trig_incorporate(modstatdb_get_status());
 }
 
 static void
@@ -82,7 +79,7 @@ post_script_tasks(void)
 
 	debug(dbg_triggersdetail,
 	      "post_script_tasks - ensure_diversions; trig_incorporate");
-	trig_incorporate(msdbrw_write);
+	trig_incorporate(modstatdb_get_status());
 }
 
 static void
