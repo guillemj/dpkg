@@ -2,6 +2,8 @@ dpkg (1.17.3) UNRELEASED; urgency=low
 
   * Check availability of warning flags at build time. Fixes a build failure
     on systems with old g++ compilers not accepting -Wc++11-compat.
+  * Move DPKG_C_C99 call just after AC_PROG_CC, so that subsequent checks
+    can take advantage of the possibly set flags to enable C99 features.
 
  -- Guillem Jover <guillem@debian.org>  Thu, 05 Dec 2013 06:50:31 +0100
 
