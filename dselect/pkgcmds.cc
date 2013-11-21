@@ -112,7 +112,7 @@ void packagelist::setwant(pkginfo::pkgwant nwarg) {
     top= cursorline;
     bot= cursorline+1;
   } else {
-    packagelist *sub= new packagelist(bindings,0);
+    packagelist *sub = new packagelist(bindings, nullptr);
 
     affectedrange(&top,&bot);
     for (index= top; index < bot; index++) {

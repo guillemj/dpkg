@@ -112,7 +112,7 @@ for my $i (1 .. 63) {
 p($comma, ',');
 
 print(<<'END') or die $!;
-  { -1,              0                    }
+  { -1,              nullptr              }
 END
 
 close(STDOUT) or die $!;

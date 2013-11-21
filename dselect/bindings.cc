@@ -33,7 +33,7 @@
 
 keybindings::keybindings(const interpretation *ints, const orgbinding *orgbindings) {
   interps= ints;
-  bindings=0;
+  bindings = nullptr;
   const orgbinding *b= orgbindings;
   while (b->action) { bind(b->key,b->action); b++; }
   describestart();
@@ -66,7 +66,7 @@ keybindings::bind(int key, const char *action)
     bindings = b;
   }
   b->interp = interp;
-  b->desc = desc ? desc->desc : 0;
+  b->desc = desc ? desc->desc : nullptr;
 
   return true;
 }
@@ -87,7 +87,8 @@ const keybindings::interpretation *keybindings::operator()(int key) {
   binding *b = bindings;
   while (b && b->key != key)
     b = b->next;
-  if (!b) return 0;
+  if (!b)
+    return nullptr;
   return b->interp;
 }
 
@@ -95,7 +96,8 @@ const char **keybindings::describenext() {
   binding *search;
   int count;
   for (;;) {
-    if (!iterate->action) return 0;
+    if (!iterate->action)
+      return nullptr;
     for (count=0, search=bindings; search; search=search->next)
       if (strcmp(search->interp->action, iterate->action) == 0)
         count++;
@@ -107,7 +109,7 @@ const char **keybindings::describenext() {
   for (count=1, search=bindings; search; search=search->next)
     if (strcmp(search->interp->action, iterate->action) == 0)
       retarray[count++]= key2name(search->key);
-  retarray[count]= 0;
+  retarray[count] = nullptr;
   iterate++;
   return retarray;
 }
@@ -173,5 +175,5 @@ const keybindings::description keybindings::descriptions[]= {
   // Actions which apply only to lists of methods.
   { "select-and-quit", N_("Select currently-highlighted access method")          },
   { "abort",           N_("Quit without changing selected access method")        },
-  {  0,                0                                                         }
+  { nullptr,           nullptr                                                   }
 };

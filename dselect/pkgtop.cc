@@ -37,7 +37,7 @@ static const char *
 pkgprioritystring(const struct pkginfo *pkg)
 {
   if (pkg->priority == pkginfo::pri_unset) {
-    return 0;
+    return nullptr;
   } else if (pkg->priority == pkginfo::pri_other) {
     return pkg->otherpriority;
   } else {
@@ -53,7 +53,7 @@ int packagelist::describemany(char buf[], const char *prioritystring,
   int statindent;
 
   statindent= 0;
-  ssostring= 0;
+  ssostring = nullptr;
   ssoabbrev= _("All");
   switch (statsortorder) {
   case sso_avail:

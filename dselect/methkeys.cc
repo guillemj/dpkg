@@ -27,29 +27,29 @@
 #include "bindings.h"
 
 const keybindings::interpretation methodlist_kinterps[] = {
-  { "up",              &methodlist::kd_up,             0,    qa_noquit           },
-  { "down",            &methodlist::kd_down,           0,    qa_noquit           },
-  { "top",             &methodlist::kd_top,            0,    qa_noquit           },
-  { "bottom",          &methodlist::kd_bottom,         0,    qa_noquit           },
-  { "scrollon",        &methodlist::kd_scrollon,       0,    qa_noquit           },
-  { "scrollback",      &methodlist::kd_scrollback,     0,    qa_noquit           },
-  { "iscrollon",       &methodlist::kd_iscrollon,      0,    qa_noquit           },
-  { "iscrollback",     &methodlist::kd_iscrollback,    0,    qa_noquit           },
-  { "scrollon1",       &methodlist::kd_scrollon1,      0,    qa_noquit           },
-  { "scrollback1",     &methodlist::kd_scrollback1,    0,    qa_noquit           },
-  { "iscrollon1",      &methodlist::kd_iscrollon1,     0,    qa_noquit           },
-  { "iscrollback1",    &methodlist::kd_iscrollback1,   0,    qa_noquit           },
-  { "panon",           &methodlist::kd_panon,          0,    qa_noquit           },
-  { "panback",         &methodlist::kd_panback,        0,    qa_noquit           },
-  { "panon1",          &methodlist::kd_panon1,         0,    qa_noquit           },
-  { "panback1",        &methodlist::kd_panback1,       0,    qa_noquit           },
-  { "help",            &methodlist::kd_help,           0,    qa_noquit           },
-  { "search",          &methodlist::kd_search,         0,    qa_noquit           },
-  { "searchagain",     &methodlist::kd_searchagain,    0,    qa_noquit           },
-  { "redraw",          &methodlist::kd_redraw,         0,    qa_noquit           },
-  { "select-and-quit", &methodlist::kd_quit,           0,    qa_quitchecksave    },
-  { "abort",           &methodlist::kd_abort,          0,    qa_quitnochecksave  },
-  {  0,                0,                             0,    qa_noquit           }
+  { "up",              &methodlist::kd_up,           nullptr, qa_noquit           },
+  { "down",            &methodlist::kd_down,         nullptr, qa_noquit           },
+  { "top",             &methodlist::kd_top,          nullptr, qa_noquit           },
+  { "bottom",          &methodlist::kd_bottom,       nullptr, qa_noquit           },
+  { "scrollon",        &methodlist::kd_scrollon,     nullptr, qa_noquit           },
+  { "scrollback",      &methodlist::kd_scrollback,   nullptr, qa_noquit           },
+  { "iscrollon",       &methodlist::kd_iscrollon,    nullptr, qa_noquit           },
+  { "iscrollback",     &methodlist::kd_iscrollback,  nullptr, qa_noquit           },
+  { "scrollon1",       &methodlist::kd_scrollon1,    nullptr, qa_noquit           },
+  { "scrollback1",     &methodlist::kd_scrollback1,  nullptr, qa_noquit           },
+  { "iscrollon1",      &methodlist::kd_iscrollon1,   nullptr, qa_noquit           },
+  { "iscrollback1",    &methodlist::kd_iscrollback1, nullptr, qa_noquit           },
+  { "panon",           &methodlist::kd_panon,        nullptr, qa_noquit           },
+  { "panback",         &methodlist::kd_panback,      nullptr, qa_noquit           },
+  { "panon1",          &methodlist::kd_panon1,       nullptr, qa_noquit           },
+  { "panback1",        &methodlist::kd_panback1,     nullptr, qa_noquit           },
+  { "help",            &methodlist::kd_help,         nullptr, qa_noquit           },
+  { "search",          &methodlist::kd_search,       nullptr, qa_noquit           },
+  { "searchagain",     &methodlist::kd_searchagain,  nullptr, qa_noquit           },
+  { "redraw",          &methodlist::kd_redraw,       nullptr, qa_noquit           },
+  { "select-and-quit", &methodlist::kd_quit,         nullptr, qa_quitchecksave    },
+  { "abort",           &methodlist::kd_abort,        nullptr, qa_quitnochecksave  },
+  { nullptr,           nullptr,                      nullptr, qa_noquit           }
 };
 
 const keybindings::orgbinding methodlist_korgbindings[]= {
@@ -105,5 +105,5 @@ const keybindings::orgbinding methodlist_korgbindings[]= {
   { 'X',            "abort"            },
   { 'Q',            "abort"            },
 
-  {  -1,             0                 }
+  {  -1,            nullptr            }
 };

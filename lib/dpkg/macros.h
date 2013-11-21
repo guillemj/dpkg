@@ -80,6 +80,10 @@
 # endif
 #endif
 
+#if defined(__cplusplus) && __cplusplus < 201103L
+#define nullptr 0
+#endif
+
 #ifdef __cplusplus
 #define DPKG_BEGIN_DECLS	extern "C" {
 #define DPKG_END_DECLS		}

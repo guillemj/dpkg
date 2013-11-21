@@ -51,10 +51,10 @@
 static const char *const methoddirectories[]= {
   LIBDIR "/" METHODSDIR,
   LOCALLIBDIR "/" METHODSDIR,
-  0
+  nullptr
 };
 
-static char *methodlockfile= 0;
+static char *methodlockfile = nullptr;
 static int methlockfd= -1;
 
 static void
@@ -88,7 +88,7 @@ static enum urqresult ensureoptions(void) {
   int nread;
 
   if (!options) {
-    newoptions= 0;
+    newoptions = nullptr;
     nread= 0;
     for (ccpp= methoddirectories; *ccpp; ccpp++)
       readmethods(*ccpp, &newoptions, &nread);
@@ -105,7 +105,7 @@ static enum urqresult ensureoptions(void) {
 static enum urqresult lockmethod(void) {
   struct flock fl;
 
-  if (methodlockfile == NULL)
+  if (methodlockfile == nullptr)
     methodlockfile = dpkg_db_get_path(METHLOCKFILE);
 
   if (methlockfd == -1) {
@@ -128,7 +128,7 @@ static enum urqresult lockmethod(void) {
     sthfailed("unable to lock access method area");
     return urqr_fail;
   }
-  push_cleanup(cu_unlockmethod,~0, 0,0, 0);
+  push_cleanup(cu_unlockmethod, ~0, nullptr, 0, 0);
   return urqr_normal;
 }
 
@@ -144,7 +144,7 @@ falliblesubprocess(struct command *cmd)
 
   pid = subproc_fork();
   if (pid == 0) {
-    subproc_signals_cleanup(0, 0);
+    subproc_signals_cleanup(0, nullptr);
     command_exec(cmd);
   }
 
@@ -180,7 +180,7 @@ static urqresult runscript(const char *exepath, const char *name) {
 
     command_init(&cmd, coption->meth->path, name);
     command_add_args(&cmd, exepath, dpkg_db_get_dir(),
-                     coption->meth->name, coption->name, NULL);
+                     coption->meth->name, coption->name, nullptr);
     ur = falliblesubprocess(&cmd);
     command_destroy(&cmd);
   } else {
@@ -206,7 +206,7 @@ static urqresult rundpkgauto(const char *name, const char *dpkgmode) {
 
   command_init(&cmd, DPKG, name);
   command_add_args(&cmd, DPKG, "--admindir", dpkg_db_get_dir(), "--pending",
-                   dpkgmode, NULL);
+                   dpkgmode, nullptr);
 
   cursesoff();
   printf("running dpkg --pending %s ...\n",dpkgmode);
@@ -245,7 +245,7 @@ urqresult urq_setup(void) {
 
     command_init(&cmd, coption->meth->path, _("query/setup script"));
     command_add_args(&cmd, METHODSETUPSCRIPT, dpkg_db_get_dir(),
-                     coption->meth->name, coption->name, NULL);
+                     coption->meth->name, coption->name, nullptr);
     ur = falliblesubprocess(&cmd);
     command_destroy(&cmd);
     if (ur == urqr_normal) writecurrentopt();

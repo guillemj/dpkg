@@ -38,7 +38,7 @@ const char
 			    N_("hold"),
 			    N_("remove"),
 			    N_("purge"),
-			    0 },
+			    nullptr },
 
   /* TRANSLATORS: The space is a trick to work around gettext which uses
    * the empty string to store information about the translation. DO NOT
@@ -46,7 +46,7 @@ const char
    * a single space. */
   *const eflagstrings[]=   { N_(" "),
 			     N_("REINSTALL"),
-			     0 },
+			     nullptr },
 
   *const statusstrings[]= { N_("not installed"),
 			    N_("removed (configs remain)"),
@@ -56,7 +56,7 @@ const char
 			    N_("awaiting trigger processing"),
 			    N_("triggered"),
 			    N_("installed"),
-			    0 },
+			    nullptr },
 
   *const prioritystrings[]=  { N_("Required"),
 			       N_("Important"),
@@ -65,7 +65,7 @@ const char
 			       N_("Extra"),
 			       N_("!Bug!"),
 			       N_("Unclassified"),
-			       0 },
+			       nullptr },
 
   *const relatestrings[]= { N_("suggests"),
 			    N_("recommends"),
@@ -76,7 +76,7 @@ const char
 			    N_("provides"),
 			    N_("replaces"),
 			    N_("enhances"),
-			    0 },
+			    nullptr },
 
   *const priorityabbrevs[]=  { N_("Req"),
 			       N_("Imp"),

@@ -215,7 +215,8 @@ protected:
   ~packagelist();
 };
 
-void repeatedlydisplay(packagelist *sub, showpriority, packagelist *unredisplay =0);
+void repeatedlydisplay(packagelist *sub, showpriority,
+                       packagelist *unredisplay = nullptr);
 int would_like_to_install(pkginfo::pkgwant, pkginfo *pkg);
 
 extern const char *const wantstrings[];

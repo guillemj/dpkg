@@ -82,7 +82,7 @@ static const struct table_t colourtable[]= {
   {"magenta",	COLOR_MAGENTA	},
   {"cyan",	COLOR_CYAN	},
   {"white",	COLOR_WHITE	},
-  {NULL, 0},
+  {nullptr, 0},
 };
 
 static const struct table_t attrtable[]= {
@@ -94,7 +94,7 @@ static const struct table_t attrtable[]= {
   {"bright",	A_BLINK		}, // on some terminals
   {"dim",	A_DIM		},
   {"bold",	A_BOLD		},
-  {NULL, 0},
+  {nullptr, 0},
 };
 
 /* A slightly confusing mapping from dselect's internal names to
@@ -112,7 +112,7 @@ static const struct table_t screenparttable[]= {
   {"infodesc",		info_head	},
   {"infofoot",		whatinfo	},
   {"helpscreen",	helpscreen	},
-  {NULL, 0},
+  {nullptr, 0},
 };
 
 /* Historical (patriotic?) colours. */
@@ -149,8 +149,8 @@ static const menuentry menuentries[]= {
   { "config",	N_("c"),	N_("[C]onfig"),	N_("Configure any packages that are unconfigured."),	&urq_config  },
   { "remove",	N_("r"),	N_("[R]emove"),	N_("Remove unwanted software."),			&urq_remove  },
   { "quit",	N_("q"),	N_("[Q]uit"),	N_("Quit dselect."),					&urq_quit    },
-  { 0,		0,  		N_("menu"),	0,							&urq_menu    },
-  { 0 }
+  { nullptr,	nullptr,	N_("menu"),	nullptr,						&urq_menu    },
+  { nullptr }
 };
 
 static const char programdesc[]=
@@ -247,7 +247,7 @@ extern "C" {
   {
     int i;
 
-    for (i= 0;  item && (table[i].name!=NULL); i++)
+    for (i = 0; item && (table[i].name != nullptr); i++)
       if (strcasecmp(item, table[i].name) == 0)
         return table[i].num;
 
@@ -271,32 +271,32 @@ extern "C" {
 
     s = m_strdup(string); // strtok modifies strings, keep string const
     screenpart= findintable(screenparttable, strtok(s, ":"), _("screen part"));
-    colours= strtok(NULL, ":");
-    attributes= strtok(NULL, ":");
+    colours = strtok(nullptr, ":");
+    attributes = strtok(nullptr, ":");
 
-    if ((colours == NULL || ! strlen(colours)) &&
-        (attributes == NULL || ! strlen(attributes))) {
+    if ((colours == nullptr || ! strlen(colours)) &&
+        (attributes == nullptr || ! strlen(attributes))) {
        ohshit(_("null colour specification"));
     }
 
-    if (colours != NULL && strlen(colours)) {
+    if (colours != nullptr && strlen(colours)) {
       colourname= strtok(colours, ",");
-      if (colourname != NULL && strlen(colourname)) {
+      if (colourname != nullptr && strlen(colourname)) {
         // normalize attributes to prevent confusion
         color[screenpart].attr= A_NORMAL;
        color[screenpart].fore=findintable(colourtable, colourname, _("colour"));
       }
-      colourname= strtok(NULL, ",");
-      if (colourname != NULL && strlen(colourname)) {
+      colourname = strtok(nullptr, ",");
+      if (colourname != nullptr && strlen(colourname)) {
         color[screenpart].attr= A_NORMAL;
         color[screenpart].back=findintable(colourtable, colourname, _("colour"));
       }
     }
 
-    if (attributes != NULL && strlen(attributes)) {
+    if (attributes != nullptr && strlen(attributes)) {
       for (attrib= strtok(attributes, "+");
-           attrib != NULL && strlen(attrib);
-          attrib= strtok(NULL, "+")) {
+           attrib != nullptr && strlen(attrib);
+           attrib = strtok(nullptr, "+")) {
                aval=findintable(attrtable, attrib, _("colour attribute"));
                if (aval == A_NORMAL) // set to normal
                        color[screenpart].attr= aval;
@@ -309,14 +309,14 @@ extern "C" {
 } /* End of extern "C" */
 
 static const struct cmdinfo cmdinfos[]= {
-  { "admindir",     0,   1,  0,  &admindir,  0               },
-  { "debug",       'D',  1,  0,  0,          set_debug       },
-  { "expert",      'E',  0,  0,  0,          set_expert      },
-  { "help",        '?',  0,  0,  0,          usage           },
-  { "version",      0,   0,  0,  0,          printversion    },
-  { "color",        0,   1,  0,  0,          set_color       }, /* US spelling */
-  { "colour",       0,   1,  0,  0,          set_color       }, /* UK spelling */
-  { 0,              0,   0,  0,  0,          0               }
+  { "admindir",     0,  1, nullptr,  &admindir, nullptr      },
+  { "debug",       'D', 1, nullptr,  nullptr,   set_debug    },
+  { "expert",      'E', 0, nullptr,  nullptr,   set_expert   },
+  { "help",        '?', 0, nullptr,  nullptr,   usage        },
+  { "version",      0,  0, nullptr,  nullptr,   printversion },
+  { "color",        0,  1, nullptr,  nullptr,   set_color    }, /* US spelling */
+  { "colour",       0,  1, nullptr,  nullptr,   set_color    }, /* UK spelling */
+  { nullptr,        0,  0, nullptr,  nullptr,   nullptr      }
 };
 
 static bool cursesareon = false;
@@ -517,7 +517,7 @@ main(int, const char *const *argv)
   dpkg_locales_init(DSELECT);
   dpkg_set_progname(DSELECT);
 
-  push_error_context_func(dselect_catch_fatal_error, print_fatal_error, 0);
+  push_error_context_func(dselect_catch_fatal_error, print_fatal_error, nullptr);
 
   dpkg_options_load(DSELECT, cmdinfos);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
@@ -526,7 +526,7 @@ main(int, const char *const *argv)
 
   if (*argv) {
     const char *a;
-    while ((a= *argv++) != 0) {
+    while ((a = *argv++) != nullptr) {
       const menuentry *me = menuentries;
       while (me->command && strcmp(me->command, a))
         me++;

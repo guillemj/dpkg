@@ -159,11 +159,13 @@ quitaction methodlist::display() {
     if (whatinfo_height) wcursyncup(whatinfowin);
     if (doupdate() == ERR) ohshite(_("doupdate failed"));
     signallist= this;
-    if (sigprocmask(SIG_UNBLOCK,&sigwinchset,0)) ohshite(_("failed to unblock SIGWINCH"));
+    if (sigprocmask(SIG_UNBLOCK, &sigwinchset, nullptr))
+      ohshite(_("failed to unblock SIGWINCH"));
     do
     response= getch();
     while (response == ERR && errno == EINTR);
-    if (sigprocmask(SIG_BLOCK,&sigwinchset,0)) ohshite(_("failed to re-block SIGWINCH"));
+    if (sigprocmask(SIG_BLOCK, &sigwinchset, nullptr))
+      ohshite(_("failed to re-block SIGWINCH"));
     if (response == ERR) ohshite(_("getch failed"));
     interp= (*bindings)(response);
     debug(dbg_general, "methodlist[%p]::display() response=%d interp=%s",

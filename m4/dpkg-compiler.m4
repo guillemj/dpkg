@@ -86,6 +86,9 @@ if test "x$enable_compiler_warnings" = "xyes"; then
   DPKG_WARNING_CC([-Wold-style-definition])
 
   DPKG_WARNING_CXX([-Wc++11-compat])
+  AS_IF([test "x$dpkg_cv_cxx11" = "xyes"], [
+    DPKG_WARNING_CXX([-Wzero-as-null-pointer-constant])
+  ])
 
   CFLAGS="$CWARNFLAGS $CFLAGS"
   CXXFLAGS="$CXXWARNFLAGS $CXXFLAGS"
@@ -175,3 +178,49 @@ AS_IF([test "x$dpkg_cv_c99" = "xyes"],
 		AC_DEFINE([HAVE_C99], 1)],
 	       [AC_MSG_ERROR([unsupported required C99 extensions])])])[]dnl
 ])# DPKG_C_C99
+
+# DPKG_TRY_CXX11([ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
+# --------------
+# Try compiling some C++11 code to see whether it works.
+AC_DEFUN([DPKG_TRY_CXX11], [
+  AC_LANG_PUSH([C++])
+  AC_COMPILE_IFELSE([
+    AC_LANG_PROGRAM([[
+]], [[
+	// Null pointer keyword.
+	void *ptr = nullptr;
+]])
+  ], [$1], [$2])
+  AC_LANG_POP([C++])dnl
+])# DPKG_TRY_CXX11
+
+# DPKG_CXX_CXX11
+# --------------
+# Check whether the compiler can do C++11.
+AC_DEFUN([DPKG_CXX_CXX11], [
+  AC_CACHE_CHECK([whether $CXX supports C++11], [dpkg_cv_cxx11], [
+    DPKG_TRY_CXX11([dpkg_cv_cxx11=yes], [dpkg_cv_cxx11=no])
+  ])
+  AS_IF([test "x$dpkg_cv_cxx11" != "xyes"], [
+    AC_CACHE_CHECK([for $CXX option to accept C++11], [dpkg_cv_cxx11_arg], [
+      dpkg_cv_cxx11_arg=none
+      dpkg_save_CXX="$CXX"
+      for arg in "-std=gnu++11" "-std=c++11"; do
+        CXX="$dpkg_save_CXX $arg"
+        DPKG_TRY_CXX11([dpkg_arg_worked=yes], [dpkg_arg_worked=no])
+        CXX="$dpkg_save_CXX"
+
+        AS_IF([test "x$dpkg_arg_worked" = "xyes"], [
+          dpkg_cv_cxx11_arg="$arg"; break
+        ])
+      done
+    ])
+    AS_IF([test "x$dpkg_cv_cxx11_arg" != "xnone"], [
+      CXX="$CXX $dpkg_cv_cxx11_arg"
+      dpkg_cv_cxx11=yes
+    ])
+  ])
+  AS_IF([test "x$dpkg_cv_cxx11" = "xyes"], [
+    AC_DEFINE([HAVE_CXX11], 1, [Define to 1 if the compiler supports C++11.])
+  ])[]dnl
+])# DPKG_CXX_CXX11

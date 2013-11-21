@@ -104,7 +104,7 @@ void packagelist::discardheadings() {
     delete head;
     head= next;
   }
-  headings= 0;
+  headings = nullptr;
 }
 
 void packagelist::addheading(enum ssavailval ssavail,
@@ -127,7 +127,7 @@ void packagelist::addheading(enum ssavailval ssavail,
         section ? section : "<null>");
 
   struct pkgset *newset = new pkgset;
-  newset->name = NULL;
+  newset->name = nullptr;
   struct pkginfo *newhead = &newset->pkg;
   newhead->set = newset;
   newhead->priority= priority;
@@ -272,7 +272,7 @@ void packagelist::sortmakeheads() {
         this, sortorder, statsortorder);
 
   int nrealitems= nitems;
-  addheading(ssa_none,sss_none,pkginfo::pri_unset,0,0);
+  addheading(ssa_none, sss_none, pkginfo::pri_unset, nullptr, nullptr);
 
   assert(sortorder != so_unsorted);
   if (sortorder == so_alpha && statsortorder == sso_unsorted) { sortinplace(); return; }
@@ -282,7 +282,7 @@ void packagelist::sortmakeheads() {
 
   struct pkginfo *lastpkg;
   struct pkginfo *thispkg;
-  lastpkg= 0;
+  lastpkg = nullptr;
   int a;
   for (a=0; a<nrealitems; a++) {
     thispkg= table[a]->pkg;
@@ -328,15 +328,16 @@ void packagelist::sortmakeheads() {
 
     if (ssdiff)
       addheading(ssavail,ssstate,
-                 pkginfo::pri_unset,0, 0);
+                 pkginfo::pri_unset, nullptr, nullptr);
 
     if (sortorder == so_section && sectiondiff)
       addheading(ssavail,ssstate,
-                 pkginfo::pri_unset,0, thispkg->section ? thispkg->section : "");
+                 pkginfo::pri_unset, nullptr,
+                 thispkg->section ? thispkg->section : "");
 
     if (sortorder == so_priority && prioritydiff)
       addheading(ssavail,ssstate,
-                 thispkg->priority,thispkg->otherpriority, 0);
+                 thispkg->priority, thispkg->otherpriority, nullptr);
 
     if (sortorder != so_alpha && (prioritydiff || sectiondiff))
       addheading(ssavail,ssstate,
@@ -362,10 +363,10 @@ void packagelist::initialsetup() {
   nallocated= allpackages+150; // will realloc if necessary, so 150 not critical
   table= new struct perpackagestate*[nallocated];
 
-  depsdone= 0;
-  unavdone= 0;
-  currentinfo= 0;
-  headings= 0;
+  depsdone = nullptr;
+  unavdone = nullptr;
+  currentinfo = nullptr;
+  headings = nullptr;
   verbose = false;
   calcssadone = calcsssdone = false;
   searchdescr = false;
@@ -393,7 +394,8 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     if (pkg->status == pkginfo::stat_notinstalled &&
         !pkg->files &&
         pkg->want != pkginfo::want_install) {
-      pkg->clientdata= 0; continue;
+      pkg->clientdata = nullptr;
+      continue;
     }
     // treat all unknown packages as already seen
     state->direct= state->original= (pkg->want == pkginfo::want_unknown ? pkginfo::want_purge : pkg->want);
@@ -410,7 +412,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     }
     state->dpriority= dp_must;
     state->selected= state->suggested;
-    state->uprec= 0;
+    state->uprec = nullptr;
     state->relations.init();
     pkg->clientdata= state;
     table[nitems]= state;
@@ -460,7 +462,7 @@ perpackagestate::free(bool recursive)
             !(pkg->want == pkginfo::want_unknown && selected == pkginfo::want_purge)) {
           pkg->want= selected;
         }
-        pkg->clientdata= 0;
+        pkg->clientdata = nullptr;
       }
     }
     relations.destroy();
@@ -543,7 +545,7 @@ packagelist::matchsearch(int index)
   if (!name)
     return false;	/* Skip things without a name (seperators) */
 
-  if (regexec(&searchfsm, name, 0, NULL, 0) == 0)
+  if (regexec(&searchfsm, name, 0, nullptr, 0) == 0)
     return true;
 
   if (searchdescr) {
@@ -551,7 +553,7 @@ packagelist::matchsearch(int index)
     if (str_is_unset(descr))
       return false;
 
-    if (regexec(&searchfsm, descr, 0, NULL, 0)==0)
+    if (regexec(&searchfsm, descr, 0, nullptr, 0) == 0)
       return true;
   }
 
@@ -580,12 +582,12 @@ pkginfo **packagelist::display() {
     if (doupdate() == ERR)
       ohshite(_("doupdate failed"));
     signallist= this;
-    if (sigprocmask(SIG_UNBLOCK, &sigwinchset, 0))
+    if (sigprocmask(SIG_UNBLOCK, &sigwinchset, nullptr))
       ohshite(_("failed to unblock SIGWINCH"));
     do
     response= getch();
     while (response == ERR && errno == EINTR);
-    if (sigprocmask(SIG_BLOCK, &sigwinchset, 0))
+    if (sigprocmask(SIG_BLOCK, &sigwinchset, nullptr))
       ohshite(_("failed to re-block SIGWINCH"));
     if (response == ERR)
       ohshite(_("getch failed"));
@@ -602,23 +604,23 @@ pkginfo **packagelist::display() {
   if (interp->qa == qa_quitnochecksave ||
       modstatdb_get_status() == msdbrw_readonly) {
     debug(dbg_general, "packagelist[%p]::display() done - quitNOcheck", this);
-    return 0;
+    return nullptr;
   }
 
   if (recursive) {
     retl= new pkginfo*[nitems+1];
     for (index=0; index<nitems; index++) retl[index]= table[index]->pkg;
-    retl[nitems]= 0;
+    retl[nitems] = nullptr;
     debug(dbg_general, "packagelist[%p]::display() done, retl=%p", this, retl);
     return retl;
   } else {
-    packagelist *sub= new packagelist(bindings,0);
+    packagelist *sub = new packagelist(bindings, nullptr);
     for (index=0; index < nitems; index++)
       if (table[index]->pkg->set->name)
         sub->add(table[index]->pkg);
     repeatedlydisplay(sub,dp_must);
     debug(dbg_general,
           "packagelist[%p]::display() done, not recursive no retl", this);
-    return 0;
+    return nullptr;
   }
 }

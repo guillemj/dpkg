@@ -49,7 +49,7 @@ void mywerase(WINDOW *win) {
   wmove(win,0,0);
 }
 
-baselist *baselist::signallist= 0;
+baselist *baselist::signallist = nullptr;
 void baselist::sigwinchhandler(int) {
   int save_errno = errno;
   struct winsize size;
@@ -68,9 +68,11 @@ static void cu_sigwinch(int, void **argv) {
   struct sigaction *osigactp= (struct sigaction*)argv[0];
   sigset_t *oblockedp= (sigset_t*)argv[1];
 
-  if (sigaction(SIGWINCH,osigactp,0)) ohshite(_("failed to restore old SIGWINCH sigact"));
+  if (sigaction(SIGWINCH, osigactp, nullptr))
+    ohshite(_("failed to restore old SIGWINCH sigact"));
   delete osigactp;
-  if (sigprocmask(SIG_SETMASK,oblockedp,0)) ohshite(_("failed to restore old signal mask"));
+  if (sigprocmask(SIG_SETMASK, oblockedp, nullptr))
+    ohshite(_("failed to restore old signal mask"));
   delete oblockedp;
 }
 
@@ -80,17 +82,21 @@ void baselist::setupsigwinch() {
 
   osigactp= new(struct sigaction);
   oblockedp= new(sigset_t);
-  if (sigprocmask(0,0,oblockedp)) ohshite(_("failed to get old signal mask"));
-  if (sigaction(SIGWINCH,0,osigactp)) ohshite(_("failed to get old SIGWINCH sigact"));
+  if (sigprocmask(0, nullptr, oblockedp))
+    ohshite(_("failed to get old signal mask"));
+  if (sigaction(SIGWINCH, nullptr, osigactp))
+    ohshite(_("failed to get old SIGWINCH sigact"));
 
-  push_cleanup(cu_sigwinch,~0, 0,0, 2,(void*)osigactp,(void*)oblockedp);
+  push_cleanup(cu_sigwinch, ~0, nullptr, 0, 2, osigactp, oblockedp);
 
-  if (sigprocmask(SIG_BLOCK,&sigwinchset,0)) ohshite(_("failed to block SIGWINCH"));
+  if (sigprocmask(SIG_BLOCK, &sigwinchset, nullptr))
+    ohshite(_("failed to block SIGWINCH"));
   memset(&nsigact,0,sizeof(nsigact));
   nsigact.sa_handler= sigwinchhandler;
   sigemptyset(&nsigact.sa_mask);
 //nsigact.sa_flags= SA_INTERRUPT;
-  if (sigaction(SIGWINCH,&nsigact,0)) ohshite(_("failed to set new SIGWINCH sigact"));
+  if (sigaction(SIGWINCH, &nsigact, nullptr))
+    ohshite(_("failed to set new SIGWINCH sigact"));
 }
 
 void baselist::setheights() {
@@ -211,7 +217,7 @@ void baselist::enddisplay() {
   delwin(thisstatepad);
   delwin(infopad);
   wmove(stdscr,ymax,0); wclrtoeol(stdscr);
-  listpad= 0;
+  listpad = nullptr;
 }
 
 void baselist::redrawall() {
@@ -241,7 +247,8 @@ baselist::baselist(keybindings *kb) {
   xmax= -1;
   list_height=0; info_height=0;
   topofscreen= 0; leftofscreen= 0;
-  listpad= 0; cursorline= -1;
+  listpad = nullptr;
+  cursorline = -1;
   showinfo= 1;
 
   searchstring[0]= 0;
@@ -253,7 +260,7 @@ void baselist::itd_keys() {
   const int givek= xmax/3;
   bindings->describestart();
   const char **ta;
-  while ((ta= bindings->describenext()) != 0) {
+  while ((ta = bindings->describenext()) != nullptr) {
     const char **tap= ta+1;
     for (;;) {
       waddstr(infopad, gettext(*tap));

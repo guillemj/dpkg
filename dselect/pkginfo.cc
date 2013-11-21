@@ -70,11 +70,11 @@ packagelist::itr_recursive()
 }
 
 const packagelist::infotype packagelist::infoinfos[]= {
-  { &packagelist::itr_recursive,     &packagelist::itd_relations         },
-  { 0,                               &packagelist::itd_description       },
-  { 0,                               &packagelist::itd_statuscontrol     },
-  { 0,                               &packagelist::itd_availablecontrol  },
-  { 0,                 0                     }
+  { &packagelist::itr_recursive, &packagelist::itd_relations         },
+  { nullptr,                     &packagelist::itd_description       },
+  { nullptr,                     &packagelist::itd_statuscontrol     },
+  { nullptr,                     &packagelist::itd_availablecontrol  },
+  { nullptr,                     nullptr                             }
 };
 
 const packagelist::infotype *const packagelist::baseinfo= infoinfos;

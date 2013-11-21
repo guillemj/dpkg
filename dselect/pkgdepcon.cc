@@ -249,7 +249,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     if (would_like_to_install(depends->up->clientdata->selected,depends->up) <= 0)
       return 0;
 
-    fixbyupgrade= 0;
+    fixbyupgrade = nullptr;
 
     possi = depends->list;
     while (possi && !deppossatisfied(possi, &fixbyupgrade))
@@ -277,7 +277,7 @@ int packagelist::resolvedepcon(dependency *depends) {
             this, depends, pkg_name(fixbyupgrade->pkg, pnaw_always));
       best= fixbyupgrade;
     } else {
-      best= 0;
+      best = nullptr;
       for (possi= depends->list;
            possi;
            possi= possi->next) {
@@ -343,7 +343,8 @@ int packagelist::resolvedepcon(dependency *depends) {
           "packagelist[%p]::resolvedepcon([%p]): conflict installing 1",
           this, depends);
 
-    if (!deppossatisfied(depends->list,0)) return 0;
+    if (!deppossatisfied(depends->list, nullptr))
+      return 0;
 
     debug(dbg_depcon,
           "packagelist[%p]::resolvedepcon([%p]): conflict satisfied - ouch",
