@@ -53,6 +53,7 @@ TESTS_PASS += t-triggers
 TESTS_PASS += t-triggers-path
 TESTS_PASS += t-file-replaces
 TESTS_PASS += t-file-replaces-disappear
+TESTS_PASS += t-file-replaces-versioned
 TESTS_PASS += t-conffile-normal
 TESTS_PASS += t-conffile-obsolete
 TESTS_PASS += t-conffile-orphan
