@@ -48,8 +48,6 @@ struct verify_checks {
 
 typedef void verify_output_func(struct filenamenode *, struct verify_checks *);
 
-static verify_output_func *verify_output;
-
 static int
 verify_result_rpm(enum verify_result result, int check)
 {
@@ -81,6 +79,8 @@ verify_output_rpm(struct filenamenode *namenode, struct verify_checks *checks)
 
 	printf("%.9s %c %s\n", result, attr, namenode->name);
 }
+
+static verify_output_func *verify_output = verify_output_rpm;
 
 int
 verify_set_output(const char *name)
