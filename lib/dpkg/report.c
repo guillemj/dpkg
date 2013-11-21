@@ -34,7 +34,7 @@
 void
 dpkg_set_report_buffer(FILE *fp)
 {
-	if (isatty(STDOUT_FILENO))
+	if (isatty(fileno(fp)))
 		setvbuf(fp, NULL, _IONBF, 0);
 	else
 		setvbuf(fp, NULL, _IOFBF, 0);
