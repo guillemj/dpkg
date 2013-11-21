@@ -69,10 +69,10 @@ post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
 static void
 post_script_tasks(void)
 {
+	debug(dbg_triggersdetail, "post_script_tasks - ensure_diversions");
 	ensure_diversions();
 
-	debug(dbg_triggersdetail,
-	      "post_script_tasks - ensure_diversions; trig_incorporate");
+	debug(dbg_triggersdetail, "post_script_tasks - trig_incorporate");
 	trig_incorporate(modstatdb_get_status());
 }
 
