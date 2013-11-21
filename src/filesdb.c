@@ -131,7 +131,6 @@ static void
 pkg_files_blank(struct pkginfo *pkg)
 {
   struct fileinlist *current;
-  struct pkg_list *pkg_node, *pkg_prev = NULL;
 
   /* Anything to empty? */
   if (!pkg->clientdata)
@@ -140,6 +139,8 @@ pkg_files_blank(struct pkginfo *pkg)
   for (current= pkg->clientdata->files;
        current;
        current= current->next) {
+    struct pkg_list *pkg_node, *pkg_prev = NULL;
+
     /* For each file that used to be in the package,
      * go through looking for this package's entry in the list
      * of packages containing this file, and blank it out. */
