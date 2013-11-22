@@ -204,9 +204,9 @@ static const struct cmdinfo cmdinfos[] = {
 int
 main(int argc, const char *const *argv)
 {
-	int uf;
 	const char *badname;
 	enum trigdef_updateflags tduf;
+	enum trigdef_update_status tdus;
 
 	dpkg_locales_init(PACKAGE);
 	dpkg_program_init("dpkg-trigger");
@@ -240,8 +240,8 @@ main(int argc, const char *const *argv)
 	tduf = tduf_nolockok;
 	if (!f_noact)
 		tduf |= tduf_write | tduf_writeifempty;
-	uf = trigdef_update_start(tduf);
-	if (uf >= 0) {
+	tdus = trigdef_update_start(tduf);
+	if (tdus >= 0) {
 		trigdef_parse();
 		if (!done_trig)
 			trigdef_update_printf("%s %s\n", activate, bypackage);
