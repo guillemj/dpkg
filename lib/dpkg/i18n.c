@@ -29,4 +29,18 @@ dpkg_locales_init(const char *package)
 	setlocale(LC_ALL, "");
 	bindtextdomain(package, LOCALEDIR);
 	textdomain(package);
+
+#if defined(__APPLE__) && defined(__MACH__)
+	/*
+	 * On Mac OS X, the libintl code needs to call into the CoreFoundation
+	 * framework, which is internally threaded, to initialize some caches.
+	 * This is a problem when that first call is done after a fork(3),
+	 * because per POSIX, only one thread will survive, leaving the
+	 * process in a very inconsistent state, leading to crashes.
+	 *
+	 * XXX: To workaround this, we try to force the caches initialization
+	 * at program startup time, by performing a dummy gettext() call.
+	 */
+	gettext("");
+#endif
 }
