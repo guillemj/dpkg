@@ -195,7 +195,7 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
  * @param new The path to the new file.
  */
 static void
-showdiff(const char *old, const char *new)
+show_diff(const char *old, const char *new)
 {
 	pid_t pid;
 
@@ -289,7 +289,7 @@ promptconfaction(struct pkginfo *pkg, const char *cfgfile,
 
 		/* FIXME: Say something if silently not install. */
 		if (cc == 'd')
-			showdiff(realold, realnew);
+			show_diff(realold, realnew);
 
 		if (cc == 'z')
 			spawn_shell(realold, realnew);
