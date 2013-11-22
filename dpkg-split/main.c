@@ -103,8 +103,6 @@ usage(const struct cmdinfo *cip, const char *value)
 
 static const char printforhelp[] = N_("Type dpkg-split --help for help.");
 
-struct partqueue *queue= NULL;
-
 off_t opt_maxpartsize = SPLITPARTDEFMAX;
 static const char *admindir;
 const char *opt_depotdir;

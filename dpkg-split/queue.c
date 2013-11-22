@@ -83,13 +83,13 @@ decompose_filename(const char *filename, struct partqueue *pq)
   return true;
 }
 
-static void
+static struct partqueue *
 scandepot(void)
 {
   DIR *depot;
   struct dirent *de;
+  struct partqueue *queue = NULL;
 
-  assert(!queue);
   depot = opendir(opt_depotdir);
   if (!depot)
     ohshite(_("unable to read depot directory `%.250s'"), opt_depotdir);
@@ -117,6 +117,8 @@ scandepot(void)
     queue= pq;
   }
   closedir(depot);
+
+  return queue;
 }
 
 static bool
@@ -133,6 +135,7 @@ do_auto(const char *const *argv)
 {
   const char *partfile;
   struct partinfo *refi, **partlist, *otherthispart;
+  struct partqueue *queue;
   struct partqueue *pq;
   unsigned int i;
   int j;
@@ -154,7 +157,8 @@ do_auto(const char *const *argv)
     return 1;
   }
   fclose(part);
-  scandepot();
+
+  queue = scandepot();
   partlist= nfmalloc(sizeof(struct partinfo*)*refi->maxpartn);
   for (i = 0; i < refi->maxpartn; i++)
     partlist[i] = NULL;
@@ -235,6 +239,7 @@ do_auto(const char *const *argv)
 int
 do_queue(const char *const *argv)
 {
+  struct partqueue *queue;
   struct partqueue *pq;
   const char *head;
   struct stat stab;
@@ -242,7 +247,8 @@ do_queue(const char *const *argv)
 
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
-  scandepot();
+
+  queue = scandepot();
 
   head= N_("Junk files left around in the depot directory:\n");
   for (pq= queue; pq; pq= pq->nextinqueue) {
@@ -301,7 +307,8 @@ enum discard_which {
 };
 
 static void
-discard_parts(enum discard_which which, const char *package)
+discard_parts(struct partqueue *queue, enum discard_which which,
+              const char *package)
 {
   struct partqueue *pq;
 
@@ -328,18 +335,19 @@ int
 do_discard(const char *const *argv)
 {
   const char *thisarg;
+  struct partqueue *queue;
   struct partqueue *pq;
 
-  scandepot();
+  queue = scandepot();
   if (*argv) {
     for (pq= queue; pq; pq= pq->nextinqueue)
       if (pq->info.md5sum)
         mustgetpartinfo(pq->info.filename,&pq->info);
-    discard_parts(ds_junk, null);
+    discard_parts(queue, ds_junk, NULL);
     while ((thisarg = *argv++))
-      discard_parts(ds_package, thisarg);
+      discard_parts(queue, ds_package, thisarg);
   } else {
-    discard_parts(ds_all, NULL);
+    discard_parts(queue, ds_all, NULL);
   }
 
   return 0;

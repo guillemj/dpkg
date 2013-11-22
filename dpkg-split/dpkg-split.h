@@ -57,8 +57,6 @@ struct partqueue {
   struct partinfo info;
 };
 
-extern struct partqueue *queue;
-
 extern off_t opt_maxpartsize;
 extern const char *opt_depotdir;
 extern const char *opt_outputfile;

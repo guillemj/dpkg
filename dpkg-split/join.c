@@ -101,11 +101,11 @@ int
 do_join(const char *const *argv)
 {
   const char *thisarg;
+  struct partqueue *queue = NULL;
   struct partqueue *pq;
   struct partinfo *refi, **partlist;
   unsigned int i;
 
-  assert(!queue);
   if (!*argv)
     badusage(_("--%s requires one or more part file arguments"),
              cipaction->olong);
