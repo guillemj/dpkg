@@ -294,9 +294,15 @@ do_queue(const char *const *argv)
   return 0;
 }
 
-enum discardwhich { ds_junk, ds_package, ds_all };
+enum discard_which {
+  ds_junk,
+  ds_package,
+  ds_all,
+};
 
-static void discardsome(enum discardwhich which, const char *package) {
+static void
+discard_parts(enum discard_which which, const char *package)
+{
   struct partqueue *pq;
 
   for (pq= queue; pq; pq= pq->nextinqueue) {
@@ -310,7 +316,7 @@ static void discardsome(enum discardwhich which, const char *package) {
     case ds_all:
       break;
     default:
-      internerr("unknown discardwhich '%d'", which);
+      internerr("unknown discard_which '%d'", which);
     }
     if (unlink(pq->info.filename))
       ohshite(_("unable to discard `%.250s'"),pq->info.filename);
@@ -329,10 +335,11 @@ do_discard(const char *const *argv)
     for (pq= queue; pq; pq= pq->nextinqueue)
       if (pq->info.md5sum)
         mustgetpartinfo(pq->info.filename,&pq->info);
-    discardsome(ds_junk,NULL);
-    while ((thisarg= *argv++)) discardsome(ds_package,thisarg);
+    discard_parts(ds_junk, null);
+    while ((thisarg = *argv++))
+      discard_parts(ds_package, thisarg);
   } else {
-    discardsome(ds_all,NULL);
+    discard_parts(ds_all, NULL);
   }
 
   return 0;
