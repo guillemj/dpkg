@@ -153,11 +153,11 @@ AC_DEFUN([DPKG_TRY_C99],
 # ----------
 # Check whether the compiler can do C99
 AC_DEFUN([DPKG_C_C99],
-[AC_CACHE_CHECK([whether compiler supports C99 features], [dpkg_cv_c99],
+[AC_CACHE_CHECK([whether $CC supports C99 features], [dpkg_cv_c99],
 	[DPKG_TRY_C99([dpkg_cv_c99=yes], [dpkg_cv_c99=no])])
 AS_IF([test "x$dpkg_cv_c99" = "xyes"],
 	[AC_DEFINE([HAVE_C99], 1, [Define to 1 if the compiler supports C99.])],
-	[AC_CACHE_CHECK([what argument makes compiler support C99 features],
+	[AC_CACHE_CHECK([for $CC option to accept C99 features],
 		[dpkg_cv_c99_arg],
 		[dpkg_cv_c99_arg=none
 		 dpkg_save_CC="$CC"
