@@ -280,8 +280,8 @@ void pkg_db_report(FILE *);
 /*** from parse.c ***/
 
 enum parsedbflags {
-  /** Parse the control file from a binary .deb package. */
-  pdb_deb_control		= DPKG_BIT(0),
+  /** Parse a single control stanza. */
+  pdb_single_stanza		= DPKG_BIT(0),
   /** Store in ‘available’ in-core structures, not ‘status’. */
   pdb_recordavailable		= DPKG_BIT(1),
   /** Throw up an error if ‘Status’ encountered. */
@@ -300,11 +300,11 @@ enum parsedbflags {
   /* Standard operations. */
 
   pdb_parse_status		= pdb_lax_parser | pdb_weakclassification,
-  pdb_parse_update		= pdb_parse_status | pdb_deb_control,
+  pdb_parse_update		= pdb_parse_status | pdb_single_stanza,
   pdb_parse_available		= pdb_recordavailable | pdb_rejectstatus |
 				  pdb_lax_parser,
   pdb_parse_binary		= pdb_recordavailable | pdb_rejectstatus |
-				  pdb_deb_control,
+				  pdb_single_stanza,
 };
 
 const char *pkg_name_is_illegal(const char *p);

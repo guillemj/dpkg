@@ -489,12 +489,12 @@ static enum parsedbtype
 parse_get_type(struct parsedb_state *ps, enum parsedbflags flags)
 {
   if (flags & pdb_recordavailable) {
-    if (flags & pdb_deb_control)
+    if (flags & pdb_single_stanza)
       return pdb_file_control;
     else
       return pdb_file_available;
   } else {
-    if (flags & pdb_deb_control)
+    if (flags & pdb_single_stanza)
       return pdb_file_update;
     else
       return pdb_file_status;
