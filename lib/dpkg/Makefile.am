@@ -8,6 +8,7 @@ AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DCONFIGDIR=\"$(pkgconfdir)\" \
 	-DADMINDIR=\"$(admindir)\" \
+	-DDEFAULT_TEXT_DOMAIN=\"@PACKAGE@\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
