@@ -107,10 +107,10 @@ sub reset_parse_errors {
     $self->{parse_errors} = [];
 }
 
-=item $c->parse_error($line_nr, $error, [$line])
+=item $c->parse_error($file, $line_nr, $error, [$line])
 
-Record a new parse error at line $line_nr. The error message is specified
-with $error and a copy of the line can be recorded in $line.
+Record a new parse error in $file at line $line_nr. The error message is
+specified with $error and a copy of the line can be recorded in $line.
 
 =cut
 
