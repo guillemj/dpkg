@@ -224,9 +224,10 @@ sub parse {
 	    if ($expect_pgp_sig) {
 		# Skip empty lines
 		$_ = <$fh> while defined($_) && $_ =~ /^\s*$/;
-		length($_) ||
+		unless (length $_) {
 		    $self->parse_error($desc, _g('expected PGP signature, ' .
 		                                 'found EOF after blank line'));
+		}
 		s/\s*\n$//;
 		unless (m/^-----BEGIN PGP SIGNATURE-----$/) {
 		    $self->parse_error($desc, _g('expected PGP signature, ' .

@@ -39,12 +39,11 @@ sub set_source_package {
     my $err = pkg_name_is_illegal($v);
     error(_g("source package name '%s' is illegal: %s"), $v, $err) if $err;
 
-    if (defined($sourcepackage)) {
-        $v eq $sourcepackage ||
-            error(_g('source package has two conflicting values - %s and %s'),
-                  $sourcepackage, $v);
-    } else {
+    if (not defined($sourcepackage)) {
         $sourcepackage = $v;
+    } elsif ($v ne $sourcepackage) {
+        error(_g('source package has two conflicting values - %s and %s'),
+              $sourcepackage, $v);
     }
 }
 

@@ -141,7 +141,7 @@ sub do_build {
     my $tardir = "$tmp/$dirname";
 
     system('bzr', 'branch', $dir, $tardir);
-    $? && subprocerr("bzr branch $dir $tardir");
+    subprocerr("bzr branch $dir $tardir") if $?;
 
     # Remove the working tree.
     system('bzr', 'remove-tree', $tardir);

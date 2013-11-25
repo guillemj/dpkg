@@ -141,18 +141,19 @@ sub usage {
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-b$/) {
-	is_sourceonly && usageerr(_g('cannot combine %s and %s'), $_, '-S');
+	usageerr(_g('cannot combine %s and %s'), $_, '-S') if is_sourceonly;
 	$include = BIN;
     } elsif (m/^-B$/) {
-	is_sourceonly && usageerr(_g('cannot combine %s and %s'), $_, '-S');
+	usageerr(_g('cannot combine %s and %s'), $_, '-S') if is_sourceonly;
 	$include = ARCH_DEP;
 	printf STDERR _g('%s: arch-specific upload - not including arch-independent packages') . "\n", $Dpkg::PROGNAME;
     } elsif (m/^-A$/) {
-	is_sourceonly && usageerr(_g('cannot combine %s and %s'), $_, '-S');
+	usageerr(_g('cannot combine %s and %s'), $_, '-S') if is_sourceonly;
 	$include = ARCH_INDEP;
 	printf STDERR _g('%s: arch-indep upload - not including arch-specific packages') . "\n", $Dpkg::PROGNAME;
     } elsif (m/^-S$/) {
-	is_binaryonly && usageerr(_g('cannot combine %s and %s'), binary_opt, '-S');
+	usageerr(_g('cannot combine %s and %s'), binary_opt, '-S')
+	    if is_binaryonly;
 	$include = SOURCE;
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
@@ -233,17 +234,16 @@ if (not is_sourceonly) {
         syserr(_g('cannot read files list file'));
     while(<$fileslist_fh>) {
 	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
-	    defined($p2f{"$2 $4"}) &&
-		warning(_g('duplicate files list entry for package %s (line %d)'),
-			$2, $.);
+	    warning(_g('duplicate files list entry for package %s (line %d)'),
+	            $2, $.) if defined $p2f{"$2 $4"};
 	    $f2p{$1}= $2;
 	    $pa2f{"$2 $4"}= $1;
 	    $p2f{$2} ||= [];
 	    push @{$p2f{$2}}, $1;
 	    $p2ver{$2}= $3;
-	    defined($f2sec{$1}) &&
-		warning(_g('duplicate files list entry for file %s (line %d)'),
-			$1, $.);
+
+	    warning(_g('duplicate files list entry for file %s (line %d)'),
+	            $1, $.) if defined $f2sec{$1};
 	    $f2sec{$1}= $5;
 	    $f2pri{$1}= $6;
 	    push(@archvalues, $4) if $4 and not $archadded{$4}++;
@@ -255,9 +255,8 @@ if (not is_sourceonly) {
 	    push(@archvalues, $2) if $2 and not $archadded{$2}++;
 	    push(@fileslistfiles,$1);
 	} elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
-	    defined($f2sec{$1}) &&
-		warning(_g('duplicate files list entry for file %s (line %d)'),
-			$1, $.);
+	    warning(_g('duplicate files list entry for file %s (line %d)'),
+	            $1, $.) if defined $f2sec{$1};
 	    $f2sec{$1}= $2;
 	    $f2pri{$1}= $3;
 	    push(@fileslistfiles,$1);
@@ -355,9 +354,9 @@ if ($changesdescription) {
 
 for my $pa (keys %pa2f) {
     my ($pp, $aa) = (split / /, $pa);
-    defined($control->get_pkg_by_name($pp)) ||
-	warning(_g('package %s listed in files list but not in control info'),
-	        $pp);
+
+    warning(_g('package %s listed in files list but not in control info'), $pp)
+        unless defined $control->get_pkg_by_name($pp);
 }
 
 for my $p (keys %p2f) {
@@ -370,18 +369,21 @@ for my $p (keys %p2f) {
 	    $sec = '-';
 	    warning(_g("missing Section for binary package %s; using '-'"), $p);
 	}
-	$sec eq $f2sec{$f} || error(_g('package %s has section %s in ' .
-				       'control file but %s in files list'),
-				    $p, $sec, $f2sec{$f});
+	if ($sec ne $f2sec{$f}) {
+	    error(_g('package %s has section %s in control file but %s in ' .
+	             'files list'), $p, $sec, $f2sec{$f});
+	}
+
 	my $pri = $f2pricf{$f};
 	$pri ||= $sourcedefault{'Priority'};
 	if (!defined($pri)) {
 	    $pri = '-';
 	    warning(_g("missing Priority for binary package %s; using '-'"), $p);
 	}
-	$pri eq $f2pri{$f} || error(_g('package %s has priority %s in ' .
-				       'control file but %s in files list'),
-				    $p, $pri, $f2pri{$f});
+	if ($pri ne $f2pri{$f}) {
+	    error(_g('package %s has priority %s in control file but %s in ' .
+	             'files list'), $p, $pri, $f2pri{$f});
+	}
     }
 }
 
@@ -501,13 +503,13 @@ $fields->{'Maintainer'} = $forcemaint if defined($forcemaint);
 $fields->{'Changed-By'} = $forcechangedby if defined($forcechangedby);
 
 for my $f (qw(Version Distribution Maintainer Changes)) {
-    defined($fields->{$f}) ||
-        error(_g('missing information for critical output field %s'), $f);
+    error(_g('missing information for critical output field %s'), $f)
+        unless defined $fields->{$f};
 }
 
 for my $f (qw(Urgency)) {
-    defined($fields->{$f}) ||
-        warning(_g('missing information for output field %s'), $f);
+    warning(_g('missing information for output field %s'), $f)
+        unless defined $fields->{$f};
 }
 
 for my $f (keys %override) {

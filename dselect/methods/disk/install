@@ -63,10 +63,11 @@ do
 			@filename= split(/ /,$_) if s/^Filename: //i;
 			@msdosfilename= split(/ /,$_) if s/^MSDOS-Filename: //i;
 		}
-		length($package) || die "internal error - no package";
-		@filename || die "internal error - no filename";
-		@filename==@msdosfilename || !@filename || !@msdosfilename ||
-			die "internal error - mismatch >@filename< >@msdosfilename<";
+		die "internal error - no package" if length($package) == 0;
+		die "internal error - no filename" if not @filename;
+		die "internal error - mismatch >@filename< >@msdosfilename<"
+			if @filename && @msdosfilename &&
+			   @filename != @msdosfilename;
 		@invoke=(); $|=1;
 		for ($i=0; $i<=$#filename; $i++) {
 			$ppart= $i+1;
@@ -80,8 +81,10 @@ do
 			} else {
 				$base= $filename[$i]; $base =~ s,.*/,,;
 				$msdosbase= $msdosfilename[$i]; $msdosbase =~ s,.*/,,;
-				defined($c= open(X,"-|")) ||
+				$c = open(X, "-|"));
+				if (not defined $c) {
 					die "failed to fork for find: $!\n";
+				}
 				if (!$c) {
 					exec("find", "-L",
 					     length($binaryprefix) ?

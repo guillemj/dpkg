@@ -169,18 +169,23 @@ sub add_diff_directory {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn");
                 return;
             }
-            defined(my $n = readlink("$new/$fn")) ||
+            my $n = readlink("$new/$fn");
+            unless (defined $n) {
                 syserr(_g('cannot read link %s'), "$new/$fn");
-            defined(my $n2 = readlink("$old/$fn")) ||
+            }
+            my $n2 = readlink("$old/$fn");
+            unless (defined $n2) {
                 syserr(_g('cannot read link %s'), "$old/$fn");
+            }
             unless ($n eq $n2) {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn");
             }
         } elsif (-f _) {
             my $old_file = "$old/$fn";
             if (not lstat("$old/$fn")) {
-                $! == ENOENT ||
+                if ($! != ENOENT) {
                     syserr(_g('cannot stat file %s'), "$old/$fn");
+                }
                 $old_file = '/dev/null';
             } elsif (not -f _) {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn");
@@ -202,8 +207,9 @@ sub add_diff_directory {
                 _g('device or socket is not allowed'));
         } elsif (-d _) {
             if (not lstat("$old/$fn")) {
-                $! == ENOENT ||
+                if ($! != ENOENT) {
                     syserr(_g('cannot stat file %s'), "$old/$fn");
+                }
             } elsif (not -d _) {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn");
             }

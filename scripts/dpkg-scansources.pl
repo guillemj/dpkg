@@ -301,7 +301,8 @@ sub main {
         local $SIG{__WARN__} = sub { usageerr($_[0]) };
         GetOptions(@option_spec);
     }
-    @ARGV >= 1 and @ARGV <= 3 or usageerr(_g('one to three arguments expected'));
+    usageerr(_g('one to three arguments expected'))
+        if @ARGV < 1 or @ARGV > 3;
 
     push @ARGV, undef if @ARGV < 2;
     push @ARGV, '' if @ARGV < 3;

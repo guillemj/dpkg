@@ -173,9 +173,10 @@ sub parse {
     while (<$fh>) {
 	next if m/^\s*\#/ || !m/\S/;
 	s/\s*\n$//;
-	m/^(\w[-:0-9A-Za-z]*)\=(.*)$/ ||
+	if (! m/^(\w[-:0-9A-Za-z]*)\=(.*)$/) {
 	    error(_g('bad line in substvars file %s at line %d'),
 		  $varlistfile, $.);
+	}
 	$self->{vars}{$1} = $2;
     }
 }
@@ -244,9 +245,10 @@ sub substvars {
         # reset the recursive counter.
         $count = 0 if (length($3) < length($rhs));
 
-        $count < $maxsubsts ||
+        if ($count >= $maxsubsts) {
             error($opts{msg_prefix} .
 	          _g("too many substitutions - recursive ? - in \`%s'"), $v);
+        }
         $lhs = $1; $vn = $2; $rhs = $3;
         if (defined($self->{vars}{$vn})) {
             $v = $lhs . $self->{vars}{$vn} . $rhs;

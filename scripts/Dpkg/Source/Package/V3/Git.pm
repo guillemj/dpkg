@@ -152,12 +152,12 @@ sub do_build {
                 $self->{options}{git_depth});
         system('git', 'clone', '--depth=' . $self->{options}{git_depth},
                '--quiet', '--bare', 'file://' . abs_path($dir), $clone_dir);
-        $? && subprocerr('git clone');
+        subprocerr('git clone') if $?;
         chdir($clone_dir) ||
                 syserr(_g("unable to chdir to `%s'"), $clone_dir);
         $shallowfile = "$basenamerev.gitshallow";
         system('cp', '-f', 'shallow', "$old_cwd/$shallowfile");
-        $? && subprocerr('cp shallow');
+        subprocerr('cp shallow') if $?;
     }
 
     # Create the git bundle.
@@ -170,7 +170,7 @@ sub do_build {
            'HEAD', # ensure HEAD is included no matter what
            '--', # avoids ambiguity error when referring to eg, a debian branch
     );
-    $? && subprocerr('git bundle');
+    subprocerr('git bundle') if $?;
 
     chdir($old_cwd) ||
         syserr(_g("unable to chdir to `%s'"), $old_cwd);
@@ -221,14 +221,14 @@ sub do_extract {
     # Extract git bundle.
     info(_g('cloning %s'), $bundle);
     system('git', 'clone', '--quiet', $dscdir . $bundle, $newdirectory);
-    $? && subprocerr('git bundle');
+    subprocerr('git bundle') if $?;
 
     if (defined $shallow) {
         # Move shallow info file into place, so git does not
         # try to follow parents of shallow refs.
         info(_g('setting up shallow clone'));
         system('cp', '-f',  $dscdir . $shallow, "$newdirectory/.git/shallow");
-        $? && subprocerr('cp');
+        subprocerr('cp') if $?;
     }
 
     sanity_check($newdirectory);

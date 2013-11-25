@@ -172,7 +172,9 @@ my $pkg;
 
 if (defined($oppackage)) {
     $pkg = $control->get_pkg_by_name($oppackage);
-    defined($pkg) || error(_g('package %s not in control info'), $oppackage);
+    if (not defined $pkg) {
+        error(_g('package %s not in control info'), $oppackage)
+    }
 } else {
     my @packages = map { $_->{'Package'} } $control->get_packages();
     if (@packages == 0) {
@@ -296,10 +298,12 @@ foreach my $field (field_list_pkg_dep()) {
 }
 
 for my $f (qw(Package Version)) {
-    defined($fields->{$f}) || error(_g('missing information for output field %s'), $f);
+    error(_g('missing information for output field %s'), $f)
+        unless defined $fields->{$f};
 }
 for my $f (qw(Maintainer Description Architecture)) {
-    defined($fields->{$f}) || warning(_g('missing information for output field %s'), $f);
+    warning(_g('missing information for output field %s'), $f)
+        unless defined $fields->{$f};
 }
 $oppackage = $fields->{'Package'};
 
@@ -324,8 +328,10 @@ if ($oppackage ne $sourcepackage || $verdiff) {
 }
 
 if (!defined($substvars->get('Installed-Size'))) {
-    my $du_fh;
-    defined(my $c = open($du_fh, '-|')) || syserr(_g('cannot fork for %s'), 'du');
+    my $c = open(my $du_fh, '-|');
+    if (not defined $c) {
+        syserr(_g('cannot fork for %s'), 'du');
+    }
     if (!$c) {
         chdir("$packagebuilddir") ||
             syserr(_g("chdir for du to \`%s'"), $packagebuilddir);
@@ -337,9 +343,10 @@ if (!defined($substvars->get('Installed-Size'))) {
 	$duo .= $_;
     }
     close($du_fh);
-    $? && subprocerr(_g("du in \`%s'"), $packagebuilddir);
-    $duo =~ m/^(\d+)\s+\.$/ ||
+    subprocerr(_g("du in \`%s'"), $packagebuilddir) if $?;
+    if ($duo !~ m/^(\d+)\s+\.$/) {
         error(_g("du gave unexpected output \`%s'"), $duo);
+    }
     $substvars->set_as_used('Installed-Size', $1);
 }
 if (defined($substvars->get('Extra-Size'))) {

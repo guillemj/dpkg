@@ -121,8 +121,7 @@ while (@ARGV) {
 	usageerr(_g("unknown option \`%s'"), $_);
     }
 }
-
-@ARGV && usageerr(_g('takes no non-option arguments'));
+usageerr(_g('takes no non-option arguments')) if @ARGV;
 
 my $count = 0;
 my @fields = changelog_parse(%options);

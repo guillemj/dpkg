@@ -101,13 +101,15 @@ foreach (@ARGV) {
 	version(); exit(0);
     } elsif (m/^--admindir=(.*)$/) {
 	$admindir = $1;
-	-d $admindir ||
+	if (not -d $admindir) {
 	    error(_g("administrative directory '%s' does not exist"), $admindir);
+	}
 	$ENV{DPKG_ADMINDIR} = $admindir;
     } elsif (m/^-d(.*)$/) {
 	$dependencyfield = field_capitalize($1);
-	defined($depstrength{$dependencyfield}) ||
+	if (not defined $depstrength{$dependencyfield}) {
 	    warning(_g("unrecognized dependency field '%s'"), $dependencyfield);
+	}
     } elsif (m/^-e(.*)$/) {
 	if (exists $exec{$1}) {
 	    # Affect the binary to the most important field
@@ -140,8 +142,7 @@ foreach (@ARGV) {
 	}
     }
 }
-
-scalar keys %exec || usageerr(_g('need at least one executable'));
+usageerr(_g('need at least one executable')) unless scalar keys %exec;
 
 my $control = Dpkg::Control::Info->new();
 my $fields = $control->get_source();

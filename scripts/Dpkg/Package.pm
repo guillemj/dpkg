@@ -29,12 +29,15 @@ our @EXPORT = qw(pkg_name_is_illegal);
 sub pkg_name_is_illegal($) {
     my $name = shift || '';
 
-    $name eq '' &&
+    if ($name eq '') {
         return _g('may not be empty string');
-    $name =~ m/[^-+.0-9a-z]/o &&
+    }
+    if ($name =~ m/[^-+.0-9a-z]/o) {
         return sprintf(_g("character '%s' not allowed"), $&);
-    $name =~ m/^[0-9a-z]/o ||
+    }
+    if ($name !~ m/^[0-9a-z]/o) {
         return _g('must start with an alphanumeric character');
+    }
 
     return;
 }

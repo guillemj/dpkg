@@ -23,7 +23,7 @@ use warnings;
 
 use Scalar::Util qw(looks_like_number);
 
-$#ARGV == 1 || die('usage: mkcurkeys.pl <filename> <curses.h>');
+die 'usage: mkcurkeys.pl <filename> <curses.h>' if @ARGV != 2;
 
 my (%over, %base, %name);
 
@@ -32,9 +32,12 @@ while (<$override_fh>) {
     chomp;
     /^#/ && next; # skip comments
     /\S/ || next; # ignore blank lines
-    /^(\w+)\s+(\S.*\S)\s*$/ || die ("cannot parse line:\n$_\n");
-    $over{$1}= $2;
-    $base{$1}= '';
+    if (/^(\w+)\s+(\S.*\S)\s*$/) {
+        $over{$1} = $2;
+        $base{$1} = '';
+    } else {
+        die "cannot parse line:\n$_\n";
+    }
 }
 close($override_fh);
 

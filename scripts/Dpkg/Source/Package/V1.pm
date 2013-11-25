@@ -81,9 +81,10 @@ sub do_extract {
     my $fields = $self->{fields};
 
     $sourcestyle =~ y/X/p/;
-    $sourcestyle =~ m/[pun]/ ||
+    unless ($sourcestyle =~ m/[pun]/) {
 	usageerr(_g('source handling style -s%s not allowed with -x'),
 	         $sourcestyle);
+    }
 
     my $dscdir = $self->{basedir};
 
@@ -236,10 +237,11 @@ sub do_build {
             }
         } else {
             $sourcestyle =~ y/aA/nn/;
-            $sourcestyle =~ m/n/ ||
+            unless ($sourcestyle =~ m/n/) {
                 error(_g('orig argument is empty (means no orig, no diff) ' .
                          'but source handling style -s%s wants something'),
                       $sourcestyle);
+            }
         }
     } elsif ($sourcestyle =~ m/[aA]/) {
 	# We have no explicit <orig-dir> or <orig-targz>, try to use

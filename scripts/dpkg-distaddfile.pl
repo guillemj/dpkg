@@ -68,8 +68,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         usageerr(_g("unknown option \`%s'"), $_);
     }
 }
+usageerr(_g('need exactly a filename, section and priority')) if @ARGV != 3;
 
-@ARGV == 3 || usageerr(_g('need exactly a filename, section and priority'));
 my ($file, $section, $priority) = @ARGV;
 
 ($file =~ m/\s/ || $section =~ m/\s/ || $priority =~ m/\s/) &&

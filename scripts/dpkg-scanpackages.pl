@@ -175,9 +175,12 @@ else {
 
 my ($binarydir, $override, $pathprefix) = @ARGV;
 
--d $binarydir or error(_g('binary dir %s not found'), $binarydir);
-defined($override) and (-e $override or
-    error(_g('override file %s not found'), $override));
+if (not -d $binarydir) {
+    error(_g('binary dir %s not found'), $binarydir);
+}
+if (defined $override and not -e $override) {
+    error(_g('override file %s not found'), $override);
+}
 
 $pathprefix //= '';
 

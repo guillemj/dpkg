@@ -385,7 +385,11 @@ sub find_matching_pattern {
 # machinery
 sub merge_symbols {
     my ($self, $object, $minver) = @_;
-    my $soname = $object->{SONAME} || error(_g('cannot merge symbols from objects without SONAME'));
+
+    my $soname = $object->{SONAME};
+    error(_g('cannot merge symbols from objects without SONAME'))
+        unless $soname;
+
     my %dynsyms;
     foreach my $sym ($object->get_exported_dynamic_symbols()) {
         my $name = $sym->{name} . '@' .
