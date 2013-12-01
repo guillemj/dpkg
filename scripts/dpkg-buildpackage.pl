@@ -324,9 +324,12 @@ if (build_sourceonly) {
 
 if (!defined $signcommand &&
     (($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) ||
-     ($ENV{HOME} && -e "$ENV{HOME}/.gnupg")) &&
-    find_command('gpg')) {
-    $signcommand = 'gpg';
+     ($ENV{HOME} && -e "$ENV{HOME}/.gnupg"))) {
+    if (find_command('gpg2')) {
+        $signcommand = 'gpg2';
+    } elsif (find_command('gpg')) {
+        $signcommand = 'gpg';
+    }
 }
 
 if (not $signcommand) {

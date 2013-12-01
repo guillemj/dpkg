@@ -370,8 +370,13 @@ sub check_signature {
     my ($self) = @_;
     my $dsc = $self->get_filename();
     my @exec;
-    if (find_command('gpgv')) {
+
+    if (find_command('gpgv2')) {
+        push @exec, 'gpgv2';
+    } elsif (find_command('gpgv')) {
         push @exec, 'gpgv';
+    } elsif (find_command('gpg2')) {
+        push @exec, 'gpg2', '--no-default-keyring', '-q', '--verify';
     } elsif (find_command('gpg')) {
         push @exec, 'gpg', '--no-default-keyring', '-q', '--verify';
     }
