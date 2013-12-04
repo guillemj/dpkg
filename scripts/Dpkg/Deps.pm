@@ -53,6 +53,7 @@ our $VERSION = '1.02';
 
 use Dpkg::Version;
 use Dpkg::Arch qw(get_host_arch get_build_arch);
+use Dpkg::BuildProfiles qw(get_build_profiles);
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
@@ -195,6 +196,30 @@ architecture. This implicitely strips off the architecture restriction
 list so that the resulting dependencies are directly applicable to the
 current architecture.
 
+=item use_profiles (defaults to 1)
+
+Take into account the profile restriction part of the dependencies. Set
+to 0 to completely ignore that information.
+
+=item build_profiles (defaults to no profile)
+
+Define the active build profiles. By default no profile is defined.
+
+=item reduce_profiles (defaults to 0)
+
+If set to 1, ignore dependencies that do not concern the current build
+profile. This implicitly strips off the profile restriction list so
+that the resulting dependencies are directly applicable to the current
+profiles.
+
+=item reduce_restrictions (defaults to 0)
+
+If set to 1, ignore dependencies that do not concern the current set of
+restrictions. This implicitly strips off any restriction list so that the
+resulting dependencies are directly applicable to the current restriction.
+This currently implies C<reduce_arch> and C<reduce_profiles>, and overrides
+them if set.
+
 =item union (defaults to 0)
 
 If set to 1, returns a Dpkg::Deps::Union instead of a Dpkg::Deps::AND. Use
@@ -216,8 +241,18 @@ sub deps_parse {
     $options{reduce_arch} = 0 if not exists $options{reduce_arch};
     $options{host_arch} = get_host_arch() if not exists $options{host_arch};
     $options{build_arch} = get_build_arch() if not exists $options{build_arch};
+    $options{use_profiles} = 1 if not exists $options{use_profiles};
+    $options{reduce_profiles} = 0 if not exists $options{reduce_profiles};
+    $options{build_profiles} = [ get_build_profiles() ]
+        if not exists $options{build_profiles};
+    $options{reduce_restrictions} = 0 if not exists $options{reduce_restrictions};
     $options{union} = 0 if not exists $options{union};
     $options{build_dep} = 0 if not exists $options{build_dep};
+
+    if ($options{reduce_restrictions}) {
+        $options{reduce_arch} = 1;
+        $options{reduce_profiles} = 1;
+    }
 
     # Strip trailing/leading spaces
     $dep_line =~ s/^\s+//;
@@ -241,6 +276,11 @@ sub deps_parse {
             if ($options{reduce_arch}) {
 		$dep_simple->reduce_arch($options{host_arch});
 		next if not $dep_simple->arch_is_concerned($options{host_arch});
+	    }
+	    $dep_simple->{restrictions} = undef if not $options{use_profiles};
+	    if ($options{reduce_profiles}) {
+		$dep_simple->reduce_profiles($options{build_profiles});
+		next if not $dep_simple->profile_is_concerned($options{build_profiles});
 	    }
 	    push @or_list, $dep_simple;
         }
@@ -470,6 +510,7 @@ use Dpkg::Arch qw(debarch_is);
 use Dpkg::Version;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
+use Dpkg::Util qw(:list);
 
 use parent qw(Dpkg::Interface::Storable);
 
@@ -493,6 +534,7 @@ sub reset {
     $self->{version} = undef;
     $self->{arches} = undef;
     $self->{archqual} = undef;
+    $self->{restrictions} = undef;
 }
 
 sub parse {
@@ -522,6 +564,11 @@ sub parse_string {
                 \s* (.*?)                   # don't parse architectures now
                 \s* \]                      # closing bracket
               )?                            # end of optional architecture
+              (?:                           # start of optional restriction
+                \s* <                       # open bracket for restriction
+                \s* (.*?)                   # don't parse restrictions now
+                \s* >                       # closing bracket
+              )?                            # end of optional restriction
               \s*$                          # trailing spaces at end
             }x;
     if (defined($2)) {
@@ -536,6 +583,9 @@ sub parse_string {
     if (defined($5)) {
 	$self->{arches} = [ split(/\s+/, $5) ];
     }
+    if (defined($6)) {
+	$self->{restrictions} = [ map { lc } split /\s+/, $6 ];
+    }
 }
 
 sub output {
@@ -549,6 +599,9 @@ sub output {
     }
     if (defined($self->{arches})) {
 	$res .= ' [' . join(' ', @{$self->{arches}}) . ']';
+    }
+    if (defined($self->{restrictions})) {
+	$res .= ' <' . join(' ', @{$self->{restrictions}}) . '>';
     }
     if (defined($fh)) {
 	print { $fh } $res;
@@ -761,6 +814,51 @@ sub has_arch_restriction {
 	return $self->{package};
     } else {
 	return ();
+    }
+}
+
+sub profile_is_concerned {
+    my ($self, $build_profiles) = @_;
+
+    return 0 if not defined $self->{package}; # Empty dep
+    return 1 if not defined $self->{restrictions}; # Dep without restrictions
+
+    my $seen_profile = 0;
+    foreach my $restriction (@{$self->{restrictions}}) {
+        # Determine if this restriction is negated, and within the "profile"
+        # namespace, otherwise it does not concern this check.
+        next if $restriction !~ m/^(!)?profile\.(.*)/;
+
+        my $negated = defined $1 && $1 eq '!';
+        my $profile = $2;
+
+        # Determine if the restriction matches any of the specified profiles.
+        my $found = any { $_ eq $profile } @{$build_profiles};
+
+        if ($negated) {
+            if ($found) {
+                $seen_profile = 0;
+                last;
+            } else {
+                # "!profile.this" includes by default all other profiles
+                # unless they also appear in a "!profile.other".
+                $seen_profile = 1;
+            }
+        } elsif ($found) {
+            $seen_profile = 1;
+            last;
+        }
+    }
+    return $seen_profile;
+}
+
+sub reduce_profiles {
+    my ($self, $build_profiles) = @_;
+
+    if (not $self->profile_is_concerned($build_profiles)) {
+        $self->reset();
+    } else {
+        $self->{restrictions} = undef;
     }
 }
 

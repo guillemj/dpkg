@@ -111,6 +111,10 @@ our %FIELDS = (
         dependency => 'normal',
         dep_order => 3,
     },
+    'Built-For-Profiles' => {
+        allowed => ALL_PKG | CTRL_FILE_CHANGES,
+        separator => FIELD_SEP_SPACE,
+    },
     'Built-Using' => {
         allowed => ALL_PKG,
         separator => FIELD_SEP_COMMA,
@@ -337,7 +341,8 @@ my @sum_fields = map { $_ eq 'md5' ? 'MD5sum' : &field_capitalize($_) }
 our %FIELD_ORDER = (
     CTRL_PKG_DEB() => [
         qw(Package Package-Type Source Version Built-Using Kernel-Version
-        Architecture Subarchitecture Installer-Menu-Item Essential Origin Bugs
+        Built-For-Profiles Architecture Subarchitecture
+        Installer-Menu-Item Essential Origin Bugs
         Maintainer Installed-Size), &field_list_pkg_dep(),
         qw(Section Priority Multi-Arch Homepage Description Tag Task)
     ],
@@ -349,8 +354,8 @@ our %FIELD_ORDER = (
         @checksum_fields, qw(Files)
     ],
     CTRL_FILE_CHANGES() => [
-        qw(Format Date Source Binary Binary-Only Architecture Version
-        Distribution Urgency Maintainer Changed-By Description
+        qw(Format Date Source Binary Binary-Only Built-For-Profiles Architecture
+        Version Distribution Urgency Maintainer Changed-By Description
         Closes Changes),
         @checksum_fields, qw(Files)
     ],

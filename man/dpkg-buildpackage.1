@@ -19,7 +19,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg\-buildpackage 1 "2013-08-31" "Debian Project" "dpkg utilities"
+.TH dpkg\-buildpackage 1 "2013-09-17" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-buildpackage \- build binary or source packages from sources
 .
@@ -130,6 +130,13 @@ for the host machine.
 Specify the GNU system type we build for. It can be used in place
 of \-a or as a complement to override the default GNU system type
 of the target Debian architecture.
+.TP
+.BR \-P \fIprofile\fP[ , ...]
+Specify the profile(s) we build, as a comma-separated list, without the
+"\fBprofile.\fP" namespace prefix. The default behavior is to build for
+no specific profile. Also adds them (as a space separated list) to the
+\fBDEB_BUILD_PROFILES\fP environment variable which allows, for example,
+\fBdebian/rules\fP files to use this information for conditional builds.
 .TP
 .BI \-j jobs
 Number of jobs allowed to be run simultaneously, equivalent to the
@@ -247,6 +254,11 @@ Show the version and exit.
 .B DEB_SIGN_KEYID
 If set, it will be used to sign the \fB.changes\fP and \fB.dsc\fP files.
 Overridden by the \fB\-k\fP option.
+.TP
+.B DEB_BUILD_PROFILES
+If set, it will be used as the active build profile(s) for the package
+being built. It is a space separated list of profile names, without the
+"\fBprofile.\fP" namespace prefix. Overridden by the \fB\-P\fP option.
 
 .SS Reliance on exported environment flags
 Even if \fBdpkg\-buildpackage\fP exports some variables, \fBdebian/rules\fP

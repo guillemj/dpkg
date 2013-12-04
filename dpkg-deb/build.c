@@ -339,6 +339,7 @@ check_conffiles(const char *dir)
 }
 
 static const char *arbitrary_fields[] = {
+  "Built-For-Profiles",
   "Built-Using",
   "Package-Type",
   "Subarchitecture",

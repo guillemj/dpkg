@@ -30,6 +30,7 @@ use Dpkg::Util qw(:list);
 use Dpkg::File;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
+use Dpkg::BuildProfiles qw(get_build_profiles);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Compression;
 use Dpkg::Control::Info;
@@ -469,6 +470,8 @@ unshift(@archvalues,'source') unless is_binaryonly;
 @archvalues = grep {!debarch_eq('all',$_)} @archvalues
     unless $include & ARCH_INDEP;
 $fields->{'Architecture'} = join(' ',@archvalues);
+
+$fields->{'Built-For-Profiles'} = join ' ', get_build_profiles();
 
 $fields->{'Description'} = "\n" . join("\n", sort @descriptions);
 

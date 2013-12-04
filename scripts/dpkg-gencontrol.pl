@@ -30,6 +30,7 @@ use Dpkg::Util qw(:list);
 use Dpkg::File;
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Package;
+use Dpkg::BuildProfiles qw(get_build_profiles);
 use Dpkg::Deps;
 use Dpkg::Control;
 use Dpkg::Control::Info;
@@ -253,7 +254,7 @@ $facts->add_installed_package($fields->{'Package'}, $fields->{'Version'},
                               $fields->{'Architecture'}, $fields->{'Multi-Arch'});
 if (exists $pkg->{'Provides'}) {
     my $provides = deps_parse($substvars->substvars($pkg->{'Provides'}, no_warn => 1),
-                              reduce_arch => 1, union => 1);
+                              reduce_restrictions => 1, union => 1);
     if (defined $provides) {
 	foreach my $subdep ($provides->get_deps()) {
 	    if ($subdep->isa('Dpkg::Deps::Simple')) {
@@ -275,7 +276,8 @@ foreach my $field (field_list_pkg_dep()) {
 	    msg_prefix => sprintf(_g('%s field of package %s: '), $field, $pkg->{Package}));
 	if (field_get_dep_type($field) eq 'normal') {
 	    $dep = deps_parse($field_value, use_arch => 1,
-			      reduce_arch => $reduce_arch);
+	                      reduce_arch => $reduce_arch,
+	                      reduce_profiles => 1);
 	    error(_g('error occurred while parsing %s field: %s'), $field,
                   $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts, @seen_deps);
@@ -283,7 +285,8 @@ foreach my $field (field_list_pkg_dep()) {
 	    push @seen_deps, $dep;
 	} else {
 	    $dep = deps_parse($field_value, use_arch => 1,
-                              reduce_arch => $reduce_arch, union => 1);
+	                      reduce_arch => $reduce_arch,
+	                      reduce_profiles => 1, union => 1);
 	    error(_g('error occurred while parsing %s field: %s'), $field,
                   $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts);
@@ -296,6 +299,8 @@ foreach my $field (field_list_pkg_dep()) {
 	delete $fields->{$field} unless $fields->{$field}; # Delete empty field
     }
 }
+
+$fields->{'Built-For-Profiles'} = join ' ', get_build_profiles();
 
 for my $f (qw(Package Version)) {
     error(_g('missing information for output field %s'), $f)

@@ -17,7 +17,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH dpkg\-checkbuilddeps 1 "2012-05-22" "Debian Project" "dpkg utilities"
+.TH dpkg\-checkbuilddeps 1 "2013-09-17" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-checkbuilddeps \- check build dependencies and conflicts
 .
@@ -61,8 +61,21 @@ Check build dependencies/conflicts assuming that the package described in
 the control file is to be built for the given host architecture instead of
 the architecture of the current system.
 .TP
+.BR "\-P " \fIprofile\fP[ , ...]
+Check build dependencies/conflicts assuming that the package described
+in the control file is to be built for the given build profile(s). The
+argument is a comma-separated list of profile names, without the
+"\fBprofile.\fP" namespace prefix.
+.TP
 .BR \-? ", " \-\-help
 Show the usage message and exit.
 .TP
 .BR \-\-version
 Show the version and exit.
+.
+.SH ENVIRONMENT
+.TP
+.B DEB_BUILD_PROFILES
+If set, it will be used as the active build profile(s) for the package
+being built. It is a space separated list of profile names, without the
+"\fBprofile.\fP" namespace prefix. Overridden by the \fB\-P\fP option.

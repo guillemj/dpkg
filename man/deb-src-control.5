@@ -17,7 +17,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH deb\-src\-control 5 "2013-04-02" "Debian Project" "Debian"
+.TH deb\-src\-control 5 "2013-09-17" "Debian Project" "Debian"
 .SH NAME
 deb\-src\-control \- Debian source packages' master control file format
 .
@@ -172,8 +172,9 @@ fields is a list of groups of alternative packages. Each group is a list
 of packages separated by vertical bar (or "pipe") symbols, "|". The
 groups are separated by commas. Commas are to be read as "AND", and pipes
 as "OR", with pipes binding more tightly. Each package name is
-optionally followed by a version number specification in parentheses and an
-architecture specification in square brackets.
+optionally followed by a version number specification in parentheses, an
+architecture specification in square brackets, and a profile specification
+in angle brackets.
 
 The syntax of the
 .BR Build\-Conflicts ,
@@ -183,7 +184,8 @@ and
 fields is a list of comma-separated package names, where the comma is read
 as an "AND". Specifying alternative packages using a "pipe" is not supported.
 Each package name is optionally followed by a version number specification in
-parentheses and an architecture specification in square brackets.
+parentheses, an architecture specification in square brackets, and a profile
+specification in angle brackets.
 
 A version number may start with a ">>", in which case any later version
 will match, and may specify or omit the Debian packaging revision (separated
@@ -194,6 +196,10 @@ or equal to, and "=" for equal to.
 A architecture specification consists of one or more architecture names,
 separated by whitespace. Exclamation marks may be prepended to each of the
 names, meaning "NOT".
+
+A profile specification consists of one or more profile names, prefixed
+with the "\fBprofile.\fP" namespace, separated by whitespace. Exclamation
+marks may be prepended to each of the names, meaning "NOT".
 
 Note that dependencies on packages in the
 .B build\-essential

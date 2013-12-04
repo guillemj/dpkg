@@ -28,6 +28,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch);
+use Dpkg::BuildProfiles qw(get_build_profiles set_build_profiles);
 use Dpkg::Deps;
 use Dpkg::Control::Info;
 
@@ -51,6 +52,7 @@ sub usage {
   -c build-conf  use given string for build conflicts instead of
                  retrieving them from control file
   -a arch        assume given host architecture
+  -P profiles    assume given build profiles (comma-separated list)
   --admindir=<directory>
                  change the administrative directory.
   -?, --help     show this help message.
@@ -63,6 +65,7 @@ sub usage {
 my $ignore_bd_arch = 0;
 my $ignore_bd_indep = 0;
 my ($bd_value, $bc_value);
+my $bp_value;
 my $host_arch = get_host_arch();
 my $admindir = $Dpkg::ADMINDIR;
 my @options_spec = (
@@ -73,6 +76,7 @@ my @options_spec = (
     'd=s' => \$bd_value,
     'c=s' => \$bc_value,
     'a=s' => \$host_arch,
+    'P=s' => \$bp_value,
     'admindir=s' => \$admindir,
 );
 
@@ -80,6 +84,10 @@ my @options_spec = (
     local $SIG{__WARN__} = sub { usageerr($_[0]) };
     GetOptions(@options_spec);
 }
+
+# Update currently active build profiles.
+set_build_profiles(split(/,/, $bp_value)) if ($bp_value);
+my @build_profiles = get_build_profiles();
 
 my $controlfile = shift || 'debian/control';
 
@@ -103,13 +111,15 @@ my (@unmet, @conflicts);
 
 if ($bd_value) {
 	push @unmet, build_depends('Build-Depends/Build-Depends-Arch/Build-Depends-Indep',
-		deps_parse($bd_value, build_dep => 1, host_arch => $host_arch,
-			   reduce_arch => 1), $facts);
+		deps_parse($bd_value, reduce_restrictions => 1, build_dep => 1,
+			   build_profiles => \@build_profiles,
+			   host_arch => $host_arch), $facts);
 }
 if ($bc_value) {
 	push @conflicts, build_conflicts('Build-Conflicts/Build-Conflicts-Arch/Build-Conflicts-Indep',
-		deps_parse($bc_value, build_dep => 1, host_arch => $host_arch,
-			   reduce_arch => 1, union => 1), $facts);
+		deps_parse($bc_value, reduce_restrictions => 1, build_dep => 1,
+			   build_profiles => \@build_profiles, union => 1,
+			   host_arch => $host_arch), $facts);
 }
 
 if (@unmet) {

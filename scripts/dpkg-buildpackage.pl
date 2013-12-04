@@ -31,6 +31,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::BuildOptions;
+use Dpkg::BuildProfiles qw(set_build_profiles);
 use Dpkg::Compression;
 use Dpkg::Version;
 use Dpkg::Changelog::Parse;
@@ -62,6 +63,7 @@ sub usage {
   -tc            clean source tree when finished.
   -D (default)   check build dependencies and conflicts.
   -d             do not check build dependencies and conflicts.
+  -P<profiles>   assume given build profiles as active (comma-separated list).
   -R<rules>      rules file to execute (default is debian/rules).
   -T<target>     call debian/rules <target> with the proper environment.
       --as-root  ensure -T calls the target with root rights.
@@ -123,6 +125,7 @@ my $signchanges = 1;
 my $buildtarget = 'build';
 my $binarytarget = 'binary';
 my $targetarch = my $targetgnusystem = '';
+my @build_profiles = ();
 my $call_target = '';
 my $call_target_as_root = 0;
 my (@checkbuilddep_opts, @changes_opts, @source_opts);
@@ -187,6 +190,8 @@ while (@ARGV) {
 	$usepause = 1;
     } elsif (/^-a(.*)$/) {
 	$targetarch = $1;
+    } elsif (/^-P(.*)$/) {
+	@build_profiles = split /,/, $1;
     } elsif (/^-s[iad]$/) {
 	push @changes_opts, $_;
     } elsif (/^-(?:s[insAkurKUR]|[zZ].*|i.*|I.*)$/) {
@@ -282,6 +287,8 @@ if (defined $parallel) {
     $build_opts->set('parallel', $parallel);
     $build_opts->export();
 }
+
+set_build_profiles(@build_profiles) if @build_profiles;
 
 my $cwd = cwd();
 my $dir = basename($cwd);
