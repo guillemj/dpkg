@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.2~\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2013-11-30 18:31+0100\n"
+"POT-Creation-Date: 2013-12-04 07:10+0100\n"
 "PO-Revision-Date: 2013-11-30 18:37+0100\n"
 "Last-Translator: Sven Joachim <svenjoac@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -150,8 +150,8 @@ msgid "failed to seek"
 msgstr "Positionierung fehlgeschlagen"
 
 #: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:391
-#: src/unpack.c:102 src/unpack.c:142 src/unpack.c:472 src/unpack.c:922
-#: dpkg-deb/build.c:192 dpkg-deb/build.c:509 dpkg-deb/build.c:601
+#: src/unpack.c:103 src/unpack.c:143 src/unpack.c:467 src/unpack.c:924
+#: dpkg-deb/build.c:192 dpkg-deb/build.c:510 dpkg-deb/build.c:602
 #: dpkg-deb/info.c:65 dpkg-split/split.c:70 utils/update-alternatives.c:414
 #, c-format
 msgid "unable to execute %s (%s)"
@@ -314,7 +314,7 @@ msgstr "Updates-Verzeichnis »%.255s« kann nicht eingelesen werden"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "Löschen der eingebundenen Update-Datei %.255s fehlgeschlagen"
 
-#: lib/dpkg/dbmodify.c:121 dpkg-deb/build.c:497
+#: lib/dpkg/dbmodify.c:121 dpkg-deb/build.c:498
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "»%.255s« kann nicht angelegt werden"
@@ -436,14 +436,14 @@ msgstr "Verzeichnis »%s« kann nicht geöffnet werden"
 msgid "unable to open file '%s'"
 msgstr "Datei »%s« kann nicht geöffnet werden"
 
-#: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:637
+#: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:638
 #: dpkg-split/join.c:70 dpkg-split/queue.c:197
 #: utils/update-alternatives.c:1424
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "Datei »%s« kann nicht synchronisiert werden"
 
-#: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:639
+#: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:640
 #: dpkg-split/join.c:72 dpkg-split/queue.c:199
 #: utils/update-alternatives.c:1332 utils/update-alternatives.c:1426
 #, c-format
@@ -1023,54 +1023,63 @@ msgstr "Lesen der Paket-Infodatei »%.255s«"
 msgid "failed to close after read: `%.255s'"
 msgstr "Schließen nach dem Lesen fehlgeschlagen: »%.255s«"
 
-#: lib/dpkg/parse.c:592
+#: lib/dpkg/parse.c:585
+msgid "empty field name"
+msgstr ""
+
+#: lib/dpkg/parse.c:587
+#, c-format
+msgid "field name '%.*s' cannot start with hyphen"
+msgstr ""
+
+#: lib/dpkg/parse.c:597
 #, c-format
 msgid "EOF after field name `%.*s'"
 msgstr "EOF nach Feldname »%.*s«"
 
-#: lib/dpkg/parse.c:595
+#: lib/dpkg/parse.c:600
 #, c-format
 msgid "newline in field name `%.*s'"
 msgstr "Zeilenvorschub im Feldnamen »%.*s«"
 
-#: lib/dpkg/parse.c:598
+#: lib/dpkg/parse.c:603
 #, c-format
 msgid "MSDOS EOF (^Z) in field name `%.*s'"
 msgstr "MS-DOS-EOF (^Z) im Feldnamen »%.*s«"
 
-#: lib/dpkg/parse.c:602
+#: lib/dpkg/parse.c:607
 #, c-format
 msgid "field name `%.*s' must be followed by colon"
 msgstr "nach Feldname »%.*s« muss ein Doppelpunkt folgen"
 
-#: lib/dpkg/parse.c:613
+#: lib/dpkg/parse.c:618
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
 msgstr ""
 "EOF vor einem Wert für das Feld »%.*s« (abschließender Zeilenvorschub fehlt)"
 
-#: lib/dpkg/parse.c:617
+#: lib/dpkg/parse.c:622
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr ""
 "MS-DOS-EOF-Zeichen im Wert des Feldes »%.*s« (fehlender Zeilenvorschub?)"
 
-#: lib/dpkg/parse.c:628
+#: lib/dpkg/parse.c:633
 #, c-format
 msgid "blank line in value of field '%.*s'"
 msgstr "Leerzeile im Wert des Feldnamen »%.*s«"
 
-#: lib/dpkg/parse.c:648
+#: lib/dpkg/parse.c:653
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr ""
 "EOF im Wert des Feldes »%.*s« (fehlender abschließender Zeilenvorschub)"
 
-#: lib/dpkg/parse.c:733
+#: lib/dpkg/parse.c:738
 msgid "several package info entries found, only one allowed"
 msgstr "mehrere Paketinfo-Einträge gefunden, nur einer erlaubt"
 
-#: lib/dpkg/parse.c:760
+#: lib/dpkg/parse.c:765
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "keine Paketinformationen in »%.255s«"
@@ -1175,14 +1184,14 @@ msgstr "ungültiger Architekturname in Spezifizierer »%s:%s«: %s"
 msgid "%s: warning: %s\n"
 msgstr "%s: Warnung: %s\n"
 
-#: lib/dpkg/strwide.c:59
+#: lib/dpkg/strwide.c:60
 #, c-format
 msgid "cannot convert multibyte string '%s' to a wide-character string"
 msgstr ""
 "Multibyte-Zeichenkette »%s« kann nicht in eine Wide-Zeichenkette umgewandelt "
 "werden"
 
-#: lib/dpkg/strwide.c:105
+#: lib/dpkg/strwide.c:113
 #, c-format
 msgid "cannot convert multibyte sequence '%s' to a wide character"
 msgstr ""
@@ -1845,7 +1854,7 @@ msgstr "--%s benötigt mindestens eine Paket-Archivdatei als Argument"
 #: src/querycmd.c:408 src/querycmd.c:455 src/querycmd.c:464 src/querycmd.c:510
 #: src/querycmd.c:593 src/querycmd.c:781 src/querycmd.c:829 src/select.c:99
 #: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:57 src/trigcmd.c:89
-#: dpkg-deb/build.c:491 dpkg-deb/extract.c:225 dpkg-deb/extract.c:261
+#: dpkg-deb/build.c:492 dpkg-deb/extract.c:225 dpkg-deb/extract.c:261
 #: dpkg-deb/info.c:205 dpkg-deb/info.c:267 dpkg-deb/main.c:61
 #: dpkg-deb/main.c:133 dpkg-split/info.c:266 dpkg-split/main.c:55
 #: dpkg-split/main.c:99 dpkg-split/queue.c:151 dpkg-split/queue.c:290
@@ -3079,7 +3088,7 @@ msgstr "Die Existenz von »%.250s« kann nicht überprüft werden"
 msgid "cannot read info directory"
 msgstr "Info-Verzeichnis kann nicht gelesen werden"
 
-#: src/infodb-format.c:52 src/unpack.c:695
+#: src/infodb-format.c:52 src/unpack.c:690
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "Fehler beim Versuch, %.250s zu öffnen"
@@ -3916,7 +3925,7 @@ msgstr "Fehler im Anzeigeformat: %s"
 msgid "control file contains %c"
 msgstr "control-Datei enthält %c"
 
-#: src/querycmd.c:676 dpkg-deb/build.c:458
+#: src/querycmd.c:676 dpkg-deb/build.c:459
 #, c-format
 msgid "--%s takes at most two arguments"
 msgstr "--%s akzeptiert maximal zwei Argumente"
@@ -4080,7 +4089,7 @@ msgstr "%s (%s) würde entfernt oder vollständig gelöscht werden ...\n"
 msgid "Removing %s (%s) ...\n"
 msgstr "Entfernen von %s (%s) ...\n"
 
-#: src/remove.c:215 src/unpack.c:218
+#: src/remove.c:215 src/unpack.c:212
 #, c-format
 msgid "unable to delete control info file `%.250s'"
 msgstr "Die Control-Info-Datei »%.250s« kann nicht gelöscht werden"
@@ -4160,8 +4169,8 @@ msgstr ""
 msgid "failed to chroot to `%.250s'"
 msgstr "chroot nach »%.250s« fehlgeschlagen"
 
-#: src/script.c:116 dpkg-deb/build.c:188 dpkg-deb/build.c:505
-#: dpkg-deb/build.c:507 dpkg-deb/build.c:599
+#: src/script.c:116 dpkg-deb/build.c:188 dpkg-deb/build.c:506
+#: dpkg-deb/build.c:508 dpkg-deb/build.c:600
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "Wechsel in das Verzeichnis »%.255s« fehlgeschlagen"
@@ -4517,39 +4526,39 @@ msgstr "Trigger bilden eine Schleife, aufgegeben"
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "Trigger für %s (%s) werden verarbeitet ...\n"
 
-#: src/unpack.c:75
+#: src/unpack.c:76
 #, c-format
 msgid ".../%s"
 msgstr ".../%s"
 
-#: src/unpack.c:95
+#: src/unpack.c:96
 #, c-format
 msgid "error ensuring `%.250s' doesn't exist"
 msgstr "Fehler beim Sicherstellen, dass »%.250s« nicht existiert"
 
-#: src/unpack.c:103
+#: src/unpack.c:104
 msgid "split package reassembly"
 msgstr "Zusammenfügung des aufgeteilten Paketes"
 
-#: src/unpack.c:112
+#: src/unpack.c:113
 msgid "reassembled package file"
 msgstr "Paketdatei wieder zusammengefügt"
 
-#: src/unpack.c:137
+#: src/unpack.c:138
 #, c-format
 msgid "Authenticating %s ...\n"
 msgstr "%s wird authentifiziert ...\n"
 
-#: src/unpack.c:143
+#: src/unpack.c:144
 msgid "package signature verification"
 msgstr "Paketsignatur-Überprüfung"
 
-#: src/unpack.c:150
+#: src/unpack.c:151
 #, c-format
 msgid "verification on package %s failed!"
 msgstr "Überprüfung von Paket %s fehlgeschlagen!"
 
-#: src/unpack.c:152
+#: src/unpack.c:153
 #, c-format
 msgid ""
 "verification on package %s failed; but installing anyway as you requested"
@@ -4557,94 +4566,89 @@ msgstr ""
 "Überprüfung von Paket %s fehlgeschlagen; wird aber wie gefordert trotzdem "
 "installiert"
 
-#: src/unpack.c:155
+#: src/unpack.c:156
 #, c-format
 msgid "passed\n"
 msgstr "bestanden\n"
 
-#: src/unpack.c:168 dpkg-deb/info.c:81
+#: src/unpack.c:169 dpkg-deb/info.c:81
 msgid "unable to create temporary directory"
 msgstr "Anlegen des temporären Verzeichnisses fehlgeschlagen"
 
-#: src/unpack.c:208
-#, c-format
-msgid "package %s has too many Conflicts/Replaces pairs"
-msgstr "Paket %s hat zu viele Conflicts/Replaces-Paare"
-
-#: src/unpack.c:229
+#: src/unpack.c:223
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "Alte Version des Paketes hat übermäßig langen Info-Dateinamen beginnend mit "
 "»%.250s«"
 
-#: src/unpack.c:267
+#: src/unpack.c:261
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "Veraltete Info-Datei »%.250s« kann nicht entfernt werden"
 
-#: src/unpack.c:272
+#: src/unpack.c:266
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr "Neue (vermeintliche) Info-Datei »%.250s« kann nicht installiert werden"
 
-#: src/unpack.c:282
+#: src/unpack.c:276
 msgid "unable to open temp control directory"
 msgstr "Temporäres Control-Verzeichnis kann nicht geöffnet werden"
 
-#: src/unpack.c:293
+#: src/unpack.c:287
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "Paket enthält übermäßig langen Control-Info-Dateinamen (beginnend mit "
 "»%.50s«)"
 
-#: src/unpack.c:300
+#: src/unpack.c:294
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "Paket-Control-Info enthielt Verzeichnis »%.250s«"
 
-#: src/unpack.c:302
+#: src/unpack.c:296
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "Paket-Control-Info rmdir von »%.250s« ergab nicht, dass dies kein "
 "Verzeichnis ist"
 
-#: src/unpack.c:312
+#: src/unpack.c:306
 #, c-format
 msgid "package %s contained list as info file"
 msgstr "Paket %s enthielt Liste als Info-Datei"
 
-#: src/unpack.c:320
+#: src/unpack.c:314
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "Neue Info-Datei »%.250s« kann nicht als »%.250s« installiert werden"
 
-#: src/unpack.c:345
+#: src/unpack.c:339
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Verschwinden von %s wurde bemerkt, welches komplett ersetzt wurde.)\n"
 
-#: src/unpack.c:451
+#: src/unpack.c:446
 msgid "cannot access archive"
 msgstr "Auf das Archiv kann nicht zugegriffen werden"
 
-#: src/unpack.c:473
+#: src/unpack.c:468
 msgid "package control information extraction"
 msgstr "Paket-control-Informationsextraktion"
 
-#: src/unpack.c:508
+#: src/unpack.c:503
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr "Info über %s aus %s aufgezeichnet.\n"
 
-#: src/unpack.c:518
+#: src/unpack.c:513
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "Paket-Architektur (%s) passt nicht zum System (%s)"
 
-#: src/unpack.c:581
+#: src/unpack.c:576
 #, c-format
 msgid ""
 "regarding %s containing %s, pre-dependency problem:\n"
@@ -4653,96 +4657,96 @@ msgstr ""
 "Vor-Abhängigkeitsproblem betreffend %s, welches %s enthält:\n"
 "%s"
 
-#: src/unpack.c:585
+#: src/unpack.c:580
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "Vor-Abhängigkeitsproblem - %.250s wird nicht installiert"
 
-#: src/unpack.c:587
+#: src/unpack.c:582
 msgid "ignoring pre-dependency problem!"
 msgstr "Vor-Abhängigkeitsproblem wird ignoriert!"
 
-#: src/unpack.c:602
+#: src/unpack.c:597
 #, c-format
 msgid "Preparing to unpack %s ...\n"
 msgstr "Vorbereitung zum Entpacken von %s ...\n"
 
-#: src/unpack.c:637
+#: src/unpack.c:632
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr "Name der Conffile (beginnend mit »%.250s«) ist zu lang (>%d Zeichen)"
 
-#: src/unpack.c:691 utils/update-alternatives.c:2157
+#: src/unpack.c:686 utils/update-alternatives.c:2157
 #, c-format
 msgid "read error in %.250s"
 msgstr "Lesefehler in %.250s"
 
-#: src/unpack.c:693
+#: src/unpack.c:688
 #, c-format
 msgid "error closing %.250s"
 msgstr "Fehler beim Schließen von %.250s"
 
-#: src/unpack.c:739
+#: src/unpack.c:735
 #, c-format
 msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
 msgstr "De-konfigurieren von %s (%s), um %s (%s) entfernen zu können ...\n"
 
-#: src/unpack.c:745
+#: src/unpack.c:741
 #, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "%s (%s) wird de-konfiguriert ...\n"
 
-#: src/unpack.c:831
+#: src/unpack.c:833
 #, c-format
 msgid "Unpacking %s (%s) ...\n"
 msgstr "Entpacken von %s (%s) ...\n"
 
-#: src/unpack.c:835
+#: src/unpack.c:837
 #, c-format
 msgid "Unpacking %s (%s) over (%s) ...\n"
 msgstr "Entpacken von %s (%s) über (%s) ...\n"
 
-#: src/unpack.c:923
+#: src/unpack.c:925
 msgid "package filesystem archive extraction"
 msgstr "Paket-Dateisystemarchiv-Extraktion"
 
-#: src/unpack.c:938
+#: src/unpack.c:940
 msgid "error reading dpkg-deb tar output"
 msgstr "Fehler beim Lesen der dpkg-deb-tar-Ausgabe"
 
-#: src/unpack.c:940
+#: src/unpack.c:942
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr "defektes Tar-Dateisystem - Paketarchiv ist defekt"
 
-#: src/unpack.c:944
+#: src/unpack.c:946
 #, c-format
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "Mögliche Nullen von dpkg-deb am Ende können nicht gelöscht werden: %s"
 
-#: src/unpack.c:1003
+#: src/unpack.c:1005
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 "Alte Datei »%.250s« konnte nicht mit stat abgefragt werden, wird daher nicht "
 "gelöscht: %s"
 
-#: src/unpack.c:1011
+#: src/unpack.c:1013
 #, c-format
 msgid "unable to delete old directory '%.250s': %s"
 msgstr "Altes Verzeichnis »%.250s« kann nicht gelöscht werden: %s"
 
-#: src/unpack.c:1014
+#: src/unpack.c:1016
 #, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
 msgstr ""
 "Altes Conffile »%.250s« war ein leeres Verzeichnis (und wurde jetzt gelöscht)"
 
-#: src/unpack.c:1061
+#: src/unpack.c:1063
 #, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr "Andere neue Datei »%.250s« kann nicht mit stat abgefragt werden"
 
-#: src/unpack.c:1072
+#: src/unpack.c:1074
 #, c-format
 msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
@@ -4751,7 +4755,7 @@ msgstr ""
 "Alte Datei »%.250s« ist die gleiche wie mehrere neue Dateien! (sowohl "
 "»%.250s« als auch »%.250s«)"
 
-#: src/unpack.c:1113
+#: src/unpack.c:1115
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "Alte Datei »%.250s« kann nicht auf sichere Weise entfernt werden: %s"
@@ -4817,8 +4821,8 @@ msgstr "Dateiname »%.250s« kann nicht mit stat abgefragt werden"
 msgid "failed to write filename to tar pipe (%s)"
 msgstr "Schreiben eines Dateinamens in tar-Pipe fehlgeschlagen (%s)"
 
-#: dpkg-deb/build.c:204 dpkg-deb/build.c:214 dpkg-deb/build.c:582
-#: dpkg-deb/build.c:585 dpkg-deb/build.c:630
+#: dpkg-deb/build.c:204 dpkg-deb/build.c:214 dpkg-deb/build.c:583
+#: dpkg-deb/build.c:586 dpkg-deb/build.c:631
 msgid "data member"
 msgstr "data-Element"
 
@@ -4899,102 +4903,102 @@ msgstr "Conffile-Name »%s« ist mehrfach vorhanden"
 msgid "error reading conffiles file"
 msgstr "Fehler beim Lesen der conffiles-Datei"
 
-#: dpkg-deb/build.c:389
+#: dpkg-deb/build.c:390
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr ""
 "Paketname hat Zeichen, die keine Kleinbuchstaben, Ziffern oder »-+.« sind"
 
-#: dpkg-deb/build.c:391
+#: dpkg-deb/build.c:392
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "»%s« enthält benutzerdefinierten Prioritätswert »%s«"
 
-#: dpkg-deb/build.c:397
+#: dpkg-deb/build.c:398
 #, c-format
 msgid "'%s' contains user-defined field '%s'"
 msgstr "»%s« enthält benutzerdefiniertes Feld »%s«"
 
-#: dpkg-deb/build.c:408
+#: dpkg-deb/build.c:409
 #, c-format
 msgid "ignoring %d warning about the control file(s)\n"
 msgid_plural "ignoring %d warnings about the control file(s)\n"
 msgstr[0] "%d Warnung wegen der control-Datei(en) wird ignoriert\n"
 msgstr[1] "%d Warnungen wegen der control-Datei(en) werden ignoriert\n"
 
-#: dpkg-deb/build.c:451 utils/update-alternatives.c:2645
+#: dpkg-deb/build.c:452 utils/update-alternatives.c:2645
 #: utils/update-alternatives.c:2652
 #, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s benötigt ein Verzeichnis als Argument"
 
-#: dpkg-deb/build.c:462
+#: dpkg-deb/build.c:463
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "Existenz des Archivs »%.250s« kann nicht überprüft werden"
 
-#: dpkg-deb/build.c:479
+#: dpkg-deb/build.c:480
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "Ziel ist ein Verzeichnis - kann Control-Datei-Überprüfung nicht übergehen"
 
-#: dpkg-deb/build.c:480
+#: dpkg-deb/build.c:481
 msgid "not checking contents of control area"
 msgstr "Inhalte des Control-Bereiches werden nicht überprüft"
 
-#: dpkg-deb/build.c:481
+#: dpkg-deb/build.c:482
 #, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: Ein unbekanntes Paket wird in »%s« gebaut.\n"
 
-#: dpkg-deb/build.c:488
+#: dpkg-deb/build.c:489
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: Paket »%s« wird in »%s« gebaut.\n"
 
-#: dpkg-deb/build.c:517 dpkg-deb/build.c:582
+#: dpkg-deb/build.c:518 dpkg-deb/build.c:583
 #, c-format
 msgid "failed to make temporary file (%s)"
 msgstr "Erstellen von temporärer Datei fehlgeschlagen (%s)"
 
-#: dpkg-deb/build.c:517 dpkg-deb/build.c:520 dpkg-deb/build.c:541
-#: dpkg-deb/build.c:550 dpkg-deb/build.c:556
+#: dpkg-deb/build.c:518 dpkg-deb/build.c:521 dpkg-deb/build.c:542
+#: dpkg-deb/build.c:551 dpkg-deb/build.c:557
 msgid "control member"
 msgstr "control-Element"
 
-#: dpkg-deb/build.c:520 dpkg-deb/build.c:585
+#: dpkg-deb/build.c:521 dpkg-deb/build.c:586
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "unlink von temporärer Datei fehlgeschlagen (%s), %s"
 
-#: dpkg-deb/build.c:533
+#: dpkg-deb/build.c:534
 msgid "compressing control member"
 msgstr "control-Element wird dekomprimiert"
 
-#: dpkg-deb/build.c:541 dpkg-deb/build.c:630
+#: dpkg-deb/build.c:542 dpkg-deb/build.c:631
 #, c-format
 msgid "failed to rewind temporary file (%s)"
 msgstr "Zurücksetzen von temporärer Datei fehlgeschlagen (%s)"
 
-#: dpkg-deb/build.c:550
+#: dpkg-deb/build.c:551
 #, c-format
 msgid "failed to stat temporary file (%s)"
 msgstr "Abfragen von temporärer Datei (%s) mit fstat fehlgeschlagen"
 
-#: dpkg-deb/build.c:554
+#: dpkg-deb/build.c:555
 #, c-format
 msgid "error writing `%s'"
 msgstr "Fehler beim Schreiben von »%s«"
 
-#: dpkg-deb/build.c:556
+#: dpkg-deb/build.c:557
 #, c-format
 msgid "cannot copy '%s' into archive '%s': %s"
 msgstr "»%s« kann nicht in Archiv »%s« kopiert werden: %s"
 
-#: dpkg-deb/build.c:609
+#: dpkg-deb/build.c:610
 msgid "compressing data member"
 msgstr "data-Element wird komprimiert"
 
-#: dpkg-deb/build.c:620
+#: dpkg-deb/build.c:621
 msgid "<compress> from tar -cf"
 msgstr "<Kompression> von tar -cf"
 
@@ -6485,6 +6489,9 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "Um zu automatischen Aktualisierungen zurückzukehren,\n"
 "verwenden Sie »%s --auto %s«"
+
+#~ msgid "package %s has too many Conflicts/Replaces pairs"
+#~ msgstr "Paket %s hat zu viele Conflicts/Replaces-Paare"
 
 #~ msgid "invalid integer for -%c: '%.250s'"
 #~ msgstr "ungültige Ganzzahl für -%c: »%.250s«"
