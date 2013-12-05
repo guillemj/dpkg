@@ -54,6 +54,7 @@ use File::Basename;
 
 use Exporter qw(import);
 our @EXPORT_OK = qw(get_default_diff_ignore_regex
+                    set_default_diff_ignore_regex
                     get_default_tar_ignore_pattern);
 
 my $diff_ignore_default_regex = '
@@ -130,6 +131,18 @@ Returns the default diff ignore regex.
 
 sub get_default_diff_ignore_regex {
     return $diff_ignore_default_regex;
+}
+
+=item set_default_diff_ignore_regex($string)
+
+Set a regex as the new default diff ignore regex.
+
+=cut
+
+sub set_default_diff_ignore_regex {
+    my ($regex) = @_;
+
+    $diff_ignore_default_regex = $regex;
 }
 
 =item my @array = get_default_tar_ignore_pattern()
@@ -604,7 +617,9 @@ sub write_dsc {
 
 =head2 Version 1.01
 
-New functions: get_default_diff_ignore_regex(), get_default_tar_ignore_pattern()
+New functions: get_default_diff_ignore_regex(), set_default_diff_ignore_regex(),
+get_default_tar_ignore_pattern()
+
 Deprecated variables: $diff_ignore_default_regexp, @tar_ignore_default_pattern
 
 =head1 AUTHOR
