@@ -43,6 +43,7 @@ use Dpkg::Version;
 use Dpkg::Vars;
 use Dpkg::Changelog::Parse;
 use Dpkg::Source::Package qw(get_default_diff_ignore_regex
+                             set_default_diff_ignore_regex
                              get_default_tar_ignore_pattern);
 use Dpkg::Vendor qw(run_vendor_hook);
 
@@ -175,6 +176,7 @@ while (@options) {
 	if ($options{diff_ignore_regex}) {
 	    $options{diff_ignore_regex} .= "|$1";
 	}
+	set_default_diff_ignore_regex($diff_ignore_regex);
     } elsif (m/^-(?:I|-tar-ignore=)(.+)$/) {
         push @{$options{tar_ignore}}, $1;
     } elsif (m/^-(?:I|-tar-ignore)$/) {
