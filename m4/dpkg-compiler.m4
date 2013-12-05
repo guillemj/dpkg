@@ -1,5 +1,56 @@
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>
-# Copyright © 2006, 2009 Guillem Jover <guillem@debian.org>
+# Copyright © 2006, 2009-2011, 2013 Guillem Jover <guillem@debian.org>
+
+# DPKG_WARNING_CC
+# ---------------
+AC_DEFUN([DPKG_WARNING_CC], [
+  AS_VAR_PUSHDEF([cache_var_name], [dpkg_cv_cflag_$1])
+  AC_CACHE_CHECK([whether $CC accepts $1], [cache_var_name], [
+    dpkg_save_CFLAGS="$CFLAGS"
+    CFLAGS="$1"
+    AC_LANG_PUSH([C])
+    AC_COMPILE_IFELSE([
+      AC_LANG_SOURCE([[]])
+    ], [
+      AS_VAR_SET([cache_var_name], [yes])
+    ],[
+      AS_VAR_SET([cache_var_name], [no])
+    ])
+    AC_LANG_POP([C])
+    CFLAGS="$dpkg_save_CFLAGS"
+  ])
+  AS_VAR_IF([cache_var_name], [yes], [CWARNFLAGS="$CWARNFLAGS $1"])
+  AS_VAR_POPDEF([cache_var_name])
+])
+
+# DPKG_WARNING_CXX
+# ----------------
+AC_DEFUN([DPKG_WARNING_CXX], [
+  AS_VAR_PUSHDEF([cache_var_name], [dpkg_cv_cxxflag_$1])
+  AC_CACHE_CHECK([whether $CXX accepts $1], [cache_var_name], [
+    dpkg_save_CXXFLAGS="$CXXFLAGS"
+    CXXFLAGS="$1"
+    AC_LANG_PUSH([C++])
+    AC_COMPILE_IFELSE([
+      AC_LANG_SOURCE([[]])
+    ], [
+      AS_VAR_SET([cache_var_name], [yes])
+    ], [
+      AS_VAR_SET([cache_var_name], [no])
+    ])
+    AC_LANG_POP([C++])
+    CXXFLAGS="$dpkg_save_CXXFLAGS"
+  ])
+  AS_VAR_IF([cache_var_name], [yes], [CXXWARNFLAGS="$CXXWARNFLAGS $1"])
+  AS_VAR_POPDEF([cache_var_name])
+])
+
+# DPKG_WARNING_ALL
+# ----------------
+AC_DEFUN([DPKG_WARNING_ALL], [
+  DPKG_WARNING_CC([$1])
+  DPKG_WARNING_CXX([$1])
+])
 
 # DPKG_COMPILER_WARNINGS
 # ---------------------
@@ -11,20 +62,33 @@ AC_DEFUN([DPKG_COMPILER_WARNINGS],
 	[],
 	[enable_compiler_warnings=yes])
 
-WFLAGS="-Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers \
-	 -Wmissing-declarations -Wmissing-format-attribute \
-	 -Wformat-security -Wpointer-arith -Wlogical-op \
-	 -Wvla -Winit-self -Wwrite-strings -Wcast-align -Wshadow"
-WCFLAGS="-Wdeclaration-after-statement -Wnested-externs -Wbad-function-cast \
-	 -Wstrict-prototypes -Wmissing-prototypes -Wold-style-definition"
-WCXXFLAGS="-Wc++11-compat"
 if test "x$enable_compiler_warnings" = "xyes"; then
-	if test "x$GCC" = "xyes"; then
-		CFLAGS="$WFLAGS $WCFLAGS $CFLAGS"
-        fi
-	if test "x$GXX" = "xyes"; then
-		CXXFLAGS="$WFLAGS $WCXXFLAGS $CXXFLAGS"
-	fi
+  DPKG_WARNING_ALL([-Wall])
+  DPKG_WARNING_ALL([-Wextra])
+  DPKG_WARNING_ALL([-Wno-unused-parameter])
+  DPKG_WARNING_ALL([-Wno-missing-field-initializers])
+  DPKG_WARNING_ALL([-Wmissing-declarations])
+  DPKG_WARNING_ALL([-Wmissing-format-attribute])
+  DPKG_WARNING_ALL([-Wformat-security])
+  DPKG_WARNING_ALL([-Wpointer-arith])
+  DPKG_WARNING_ALL([-Wlogical-op])
+  DPKG_WARNING_ALL([-Wvla])
+  DPKG_WARNING_ALL([-Winit-self])
+  DPKG_WARNING_ALL([-Wwrite-strings])
+  DPKG_WARNING_ALL([-Wcast-align])
+  DPKG_WARNING_ALL([-Wshadow])
+
+  DPKG_WARNING_CC([-Wdeclaration-after-statement])
+  DPKG_WARNING_CC([-Wnested-externs])
+  DPKG_WARNING_CC([-Wbad-function-cast])
+  DPKG_WARNING_CC([-Wstrict-prototypes])
+  DPKG_WARNING_CC([-Wmissing-prototypes])
+  DPKG_WARNING_CC([-Wold-style-definition])
+
+  DPKG_WARNING_CXX([-Wc++11-compat])
+
+  CFLAGS="$CWARNFLAGS $CFLAGS"
+  CXXFLAGS="$CXXWARNFLAGS $CXXFLAGS"
 fi
 ])
 
