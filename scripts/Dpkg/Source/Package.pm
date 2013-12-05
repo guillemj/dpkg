@@ -79,7 +79,8 @@ $diff_ignore_default_regex =~ s/\n//sg;
 # Public variables
 # XXX: Backwards compatibility, stop exporting on VERSION 2.00.
 ## no critic (Variables::ProhibitPackageVars)
-our $diff_ignore_default_regexp = $diff_ignore_default_regex;
+our $diff_ignore_default_regexp;
+*diff_ignore_default_regexp = \$diff_ignore_default_regex;
 
 no warnings 'qw'; ## no critic (TestingAndDebugging::ProhibitNoWarnings)
 our @tar_ignore_default_pattern = qw(
