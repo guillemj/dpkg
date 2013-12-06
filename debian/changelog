@@ -1,5 +1,12 @@
 dpkg (1.17.5) UNRELEASED; urgency=low
 
+  [ Guillem Jover ]
+  * Switch non-tty output to be line buffered by default, and set it to fully
+    buffered only for programs with precious and abundant output, not just
+    progress reporting output (i.e. dpkg-query). This was causing out-of-order
+    error and debug messages in relation to normal progress reporting, which
+    could be very confusing. Regression introduced in dpkg 1.17.2.
+
   [ Updated dpkg translations ]
   * German (Sven Joachim).
 

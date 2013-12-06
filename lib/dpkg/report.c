@@ -31,13 +31,21 @@
 #include <dpkg/progname.h>
 #include <dpkg/report.h>
 
+static int piped_mode = _IOLBF;
+
+void
+dpkg_set_report_piped_mode(int mode)
+{
+	piped_mode = mode;
+}
+
 void
 dpkg_set_report_buffer(FILE *fp)
 {
 	if (isatty(fileno(fp)))
 		setvbuf(fp, NULL, _IONBF, 0);
 	else
-		setvbuf(fp, NULL, _IOFBF, 0);
+		setvbuf(fp, NULL, piped_mode, 0);
 }
 
 static int warn_count = 0;

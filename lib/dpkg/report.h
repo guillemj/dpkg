@@ -35,6 +35,7 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
+void dpkg_set_report_piped_mode(int mode);
 void dpkg_set_report_buffer(FILE *fp);
 
 int warning_get_count(void);

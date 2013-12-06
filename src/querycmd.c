@@ -861,6 +861,7 @@ static const struct cmdinfo cmdinfos[]= {
 int main(int argc, const char *const *argv) {
   int ret;
 
+  dpkg_set_report_piped_mode(_IOFBF);
   dpkg_locales_init(PACKAGE);
   dpkg_program_init("dpkg-query");
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
