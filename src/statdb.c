@@ -112,6 +112,7 @@ ensure_statoverrides(void)
 {
 	static struct stat sb_prev;
 	struct stat sb_next;
+	static FILE *file_prev;
 	FILE *file;
 	char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
 	struct file_stat *fso;
@@ -127,17 +128,30 @@ ensure_statoverrides(void)
 		if (errno != ENOENT)
 			ohshite(_("failed to open statoverride file"));
 	} else {
+		setcloexec(fileno(file), statoverridename);
+
 		if (fstat(fileno(file), &sb_next))
 			ohshite(_("failed to fstat statoverride file"));
 
-		if (sb_prev.st_dev == sb_next.st_dev &&
+		/*
+		 * We need to keep the database file open so that the
+		 * filesystem cannot reuse the inode number (f.ex. during
+		 * multiple dpkg-statoverride invocations in a maintainer
+		 * script), otherwise the following check might turn true,
+		 * and we would skip reloading a modified database.
+		 */
+		if (file_prev &&
+		    sb_prev.st_dev == sb_next.st_dev &&
 		    sb_prev.st_ino == sb_next.st_ino) {
-			fclose(file);
 			onerr_abort--;
 			return;
 		}
 		sb_prev = sb_next;
+
+		if (file_prev)
+			fclose(file_prev);
 	}
+	file_prev = file;
 
 	if (!file) {
 		onerr_abort--;
@@ -147,7 +161,6 @@ ensure_statoverrides(void)
 	/* If the statoverride list is empty we don't need to bother
 	 * reading it. */
 	if (!sb_next.st_size) {
-		fclose(file);
 		onerr_abort--;
 		return;
 	}
@@ -220,6 +233,5 @@ ensure_statoverrides(void)
 		thisline = nextline;
 	}
 
-	fclose(file);
 	onerr_abort--;
 }

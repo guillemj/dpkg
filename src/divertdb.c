@@ -49,6 +49,7 @@ ensure_diversions(void)
 	static struct stat sb_prev;
 	struct stat sb_next;
 	char linebuf[MAXDIVERTFILENAME];
+	static FILE *file_prev;
 	FILE *file;
 	struct diversion *ov, *oicontest, *oialtname;
 
@@ -62,17 +63,30 @@ ensure_diversions(void)
 		if (errno != ENOENT)
 			ohshite(_("failed to open diversions file"));
 	} else {
+		setcloexec(fileno(file), diversionsname);
+
 		if (fstat(fileno(file), &sb_next))
 			ohshite(_("failed to fstat diversions file"));
 
-		if (sb_prev.st_dev == sb_next.st_dev &&
+		/*
+		 * We need to keep the database file open so that the
+		 * filesystem cannot reuse the inode number (f.ex. during
+		 * multiple dpkg-divert invocations in a maintainer script),
+		 * otherwise the following check might turn true, and we
+		 * would skip reloading a modified database.
+		 */
+		if (file_prev &&
+		    sb_prev.st_dev == sb_next.st_dev &&
 		    sb_prev.st_ino == sb_next.st_ino) {
-			fclose(file);
 			onerr_abort--;
 			return;
 		}
 		sb_prev = sb_next;
+
+		if (file_prev)
+			fclose(file_prev);
 	}
+	file_prev = file;
 
 	for (ov = diversions; ov; ov = ov->next) {
 		ov->useinstead->divert->camefrom->divert = NULL;
@@ -112,6 +126,5 @@ ensure_diversions(void)
 		diversions = oicontest;
 	}
 
-	fclose(file);
 	onerr_abort--;
 }

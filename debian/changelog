@@ -1,6 +1,10 @@
 dpkg (1.17.4) UNRELEASED; urgency=low
 
-  *
+  * Keep the diversions and statoverride database files open during dpkg
+    runs, to avoid eager inode number reuse by the filesystem if these files
+    get replaced multiple times in maintainer scripts, as we rely on the
+    inode numbers being different when checking if the databases need to
+    be reloaded. Regression introduced in 1.17.2. Closes: #731524
 
  -- Guillem Jover <guillem@debian.org>  Thu, 05 Dec 2013 11:08:49 +0100
 
