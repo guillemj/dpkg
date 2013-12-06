@@ -117,6 +117,7 @@ ensure_statoverrides(void)
 	char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
 	struct file_stat *fso;
 	struct filenamenode *fnn;
+	struct fileiterator *iter;
 
 	if (statoverridename == NULL)
 		statoverridename = dpkg_db_get_path(STATOVERRIDEFILE);
@@ -153,6 +154,12 @@ ensure_statoverrides(void)
 			fclose(file_prev);
 	}
 	file_prev = file;
+
+	/* Reset statoverride information. */
+	iter = files_db_iter_new();
+	while ((fnn = files_db_iter_next(iter)))
+		fnn->statoverride = NULL;
+	files_db_iter_free(iter);
 
 	if (!file) {
 		onerr_abort--;

@@ -6,6 +6,9 @@ dpkg (1.17.4) UNRELEASED; urgency=low
     inode numbers being different when checking if the databases need to
     be reloaded. Regression introduced in 1.17.2. Closes: #731524
   * Add debug output to diversions and statoverride database loading code.
+  * Reset the statoverrides information from the in-core database when
+    reloading it from disk, otherwise removals in maintainer scripts will
+    not be seen during the current dpkg run.
 
  -- Guillem Jover <guillem@debian.org>  Thu, 05 Dec 2013 11:08:49 +0100
 
