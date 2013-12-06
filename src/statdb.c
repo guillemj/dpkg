@@ -144,6 +144,7 @@ ensure_statoverrides(void)
 		    sb_prev.st_dev == sb_next.st_dev &&
 		    sb_prev.st_ino == sb_next.st_ino) {
 			onerr_abort--;
+			debug(dbg_general, "%s: same, skipping", __func__);
 			return;
 		}
 		sb_prev = sb_next;
@@ -155,8 +156,10 @@ ensure_statoverrides(void)
 
 	if (!file) {
 		onerr_abort--;
+		debug(dbg_general, "%s: none, resetting", __func__);
 		return;
 	}
+	debug(dbg_general, "%s: new, (re)loading", __func__);
 
 	/* If the statoverride list is empty we don't need to bother
 	 * reading it. */
