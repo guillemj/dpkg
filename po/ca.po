@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15.8.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2013-12-04 07:10+0100\n"
+"POT-Creation-Date: 2013-12-07 07:53+0100\n"
 "PO-Revision-Date: 2012-10-19 01:58+0200\n"
 "Last-Translator: Jordi Mallach <jordi@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -447,14 +447,14 @@ msgstr "no es pot obrir el fitxer «%s»"
 
 # No es pot sincronitzar, o no es pot fer «sync»? jm
 #: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:638
-#: dpkg-split/join.c:70 dpkg-split/queue.c:197
+#: dpkg-split/join.c:70 dpkg-split/queue.c:203
 #: utils/update-alternatives.c:1424
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "no es pot fer «sync» sobre el fitxer «%s»"
 
 #: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:640
-#: dpkg-split/join.c:72 dpkg-split/queue.c:199
+#: dpkg-split/join.c:72 dpkg-split/queue.c:205
 #: utils/update-alternatives.c:1332 utils/update-alternatives.c:1426
 #, c-format
 msgid "unable to close file '%s'"
@@ -1571,7 +1571,7 @@ msgstr "no es pot extreure el fitxer de control «%s» de «%s»: %s"
 msgid "unable to read link `%.255s'"
 msgstr "no es pot llegir l'enllaç «%.255s»"
 
-#: src/archives.c:603 src/archives.c:1137 src/configure.c:529
+#: src/archives.c:603 src/archives.c:1137 src/configure.c:760
 #, c-format
 msgid "symbolic link '%.250s' size has changed from %jd to %zd"
 msgstr "la mida de l'enllaç simbòlic «%.250s» ha canviat de %jd a %zd"
@@ -1887,20 +1887,20 @@ msgstr "--%s necessita almenys un paquet arxiu com a argument"
 #: src/archives.c:1657 src/divertcmd.c:76 src/divertcmd.c:116
 #: src/enquiry.c:215 src/enquiry.c:332 src/enquiry.c:523 src/enquiry.c:525
 #: src/enquiry.c:538 src/enquiry.c:568 src/main.c:67 src/main.c:171
-#: src/main.c:320 src/main.c:603 src/packages.c:266 src/querycmd.c:306
+#: src/main.c:322 src/main.c:615 src/packages.c:266 src/querycmd.c:306
 #: src/querycmd.c:408 src/querycmd.c:455 src/querycmd.c:464 src/querycmd.c:510
 #: src/querycmd.c:593 src/querycmd.c:781 src/querycmd.c:829 src/select.c:99
 #: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:57 src/trigcmd.c:89
 #: dpkg-deb/build.c:492 dpkg-deb/extract.c:225 dpkg-deb/extract.c:261
 #: dpkg-deb/info.c:205 dpkg-deb/info.c:267 dpkg-deb/main.c:61
 #: dpkg-deb/main.c:133 dpkg-split/info.c:266 dpkg-split/main.c:55
-#: dpkg-split/main.c:99 dpkg-split/queue.c:151 dpkg-split/queue.c:290
+#: dpkg-split/main.c:99 dpkg-split/queue.c:156 dpkg-split/queue.c:298
 msgid "<standard output>"
 msgstr "<eixida estàndard>"
 
 #: src/archives.c:1658 src/packages.c:267 src/querycmd.c:307
 #: src/querycmd.c:406 src/querycmd.c:516 src/querycmd.c:594 src/select.c:100
-#: dpkg-split/main.c:170 dpkg-split/queue.c:228
+#: dpkg-split/main.c:170 dpkg-split/queue.c:234
 msgid "<standard error>"
 msgstr "<error estàndard>"
 
@@ -1958,229 +1958,33 @@ msgstr "no es pot suprimir la versió acabada d'instaŀlar de «%.250s»"
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr "no es pot suprimir la versió acabada d'extraure de «%.250s»"
 
-#: src/configure.c:172
-#, c-format
-msgid "unable to stat new distributed conffile '%.250s'"
-msgstr "no es pot fer «stat» sobre el conffile de nova distribució «%.250s»"
-
-#: src/configure.c:182
-#, c-format
-msgid "unable to stat current installed conffile `%.250s'"
-msgstr "no es pot fer «stat» sobre el conffile «%.250s» actualment instaŀlat"
-
-#: src/configure.c:194
-#, c-format
-msgid ""
-"\n"
-"Configuration file `%s', does not exist on system.\n"
-"Installing new config file as you requested.\n"
-msgstr ""
-"\n"
-"El conffile «%s» no existeix en el sistema.\n"
-"S'està instaŀlant el conffile nou tal i com heu demanat.\n"
-
-#: src/configure.c:236
-#, c-format
-msgid "%s: failed to remove old backup '%.250s': %s"
-msgstr "%s: no s'ha pogut esborrar l'antiga còpia de seguretat «%.250s»: %s"
-
-# Reanomenar - Canviar el nom - Tornar a anomenar? -- Jordà
-# Jo personalment preferisc "canvia el nom", però per exemple al Termcat
-# van més amb reanomena, i el GNOME ho està seguint.
-# Anem amb «canviar el nom», val? jm
-# Fins on jo veig, el Nautilus diu això, en octubre de 2010…
-#: src/configure.c:245
-#, c-format
-msgid "%s: failed to rename '%.250s' to '%.250s': %s"
-msgstr "%s: no s'ha pogut canviar el nom de «%.250s» a «%.250s»: %s"
-
-#: src/configure.c:252
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: no s'ha pogut esborrar «%s»: %s"
-
-#: src/configure.c:259
-#, c-format
-msgid "%s: failed to remove old distributed version '%.250s': %s"
-msgstr ""
-"%s: no s'ha pogut esborrar la versió de l'antiga distribució «%.250s»: %s"
-
-#: src/configure.c:264
-#, c-format
-msgid "%s: failed to remove '%.250s' (before overwrite): %s"
-msgstr "%s: no s'ha pogut esborrar «%.250s» (abans de sobreescriure): %s"
-
-#: src/configure.c:269
-#, c-format
-msgid "%s: failed to link '%.250s' to '%.250s': %s"
-msgstr "%s: no s'ha pogut enllaçar «%.250s» a «%.250s»: %s"
-
-#: src/configure.c:274
-#, c-format
-msgid "Installing new version of config file %s ...\n"
-msgstr "S'està instaŀlant una versió nova del fitxer de configuració %s…\n"
-
-#: src/configure.c:280 utils/update-alternatives.c:490
-#, c-format
-msgid "unable to install `%.250s' as `%.250s'"
-msgstr "no es pot instaŀlar «%.250s» com a «%.250s»"
-
-#: src/configure.c:332
-#, c-format
-msgid "no package named `%s' is installed, cannot configure"
-msgstr "no hi ha instaŀlat cap paquet anomenat «%s», no es pot configurar"
-
-#: src/configure.c:335
-#, c-format
-msgid "package %.250s is already installed and configured"
-msgstr "el paquet %.250s ja està instaŀlat i configurat"
-
-#: src/configure.c:338
-#, c-format
-msgid ""
-"package %.250s is not ready for configuration\n"
-" cannot configure (current status `%.250s')"
-msgstr ""
-"el paquet %.250s no està llest per a configurar-se\n"
-" no es pot configurar (estat actual «%.250s»)"
-
-#: src/configure.c:350
-#, c-format
-msgid ""
-"package %s cannot be configured because %s is not ready (current status '%s')"
-msgstr ""
-"el paquet %s no es pot configurar perquè %s no està llest (estat actual «%s»)"
-
-#: src/configure.c:358
-#, c-format
-msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
-msgstr ""
-"el paquet %s %s no es pot configurar perquè %s és en una versió (%s) diferent"
-
-#: src/configure.c:394
-#, c-format
-msgid ""
-"dependency problems prevent configuration of %s:\n"
-"%s"
-msgstr ""
-"problemes de dependències impedeixen la configuració de %s:\n"
-"%s"
-
-#: src/configure.c:397
-msgid "dependency problems - leaving unconfigured"
-msgstr "problemes de dependències - es deixa sense configurar"
-
-#: src/configure.c:400
-#, c-format
-msgid ""
-"%s: dependency problems, but configuring anyway as you requested:\n"
-"%s"
-msgstr ""
-"%s: problemes de dependències, però es configurarà igualment tal i com heu "
-"demanat:\n"
-"%s"
-
-#: src/configure.c:408
-#, fuzzy
+#: src/configure.c:98
+#, fuzzy, c-format
 #| msgid ""
-#| "Package is in a very bad inconsistent state - you should\n"
-#| " reinstall it before attempting configuration."
-msgid ""
-"package is in a very bad inconsistent state; you should\n"
-" reinstall it before attempting configuration"
-msgstr ""
-"El paquet està en un greu estat d'inconsistència - heu de\n"
-" reinstaŀlar-lo abans d'intentar la seva configuració."
-
-#: src/configure.c:411
-#, c-format
-msgid "Setting up %s (%s) ...\n"
-msgstr "S'està configurant %s (%s)…\n"
-
-#: src/configure.c:498
-#, c-format
-msgid ""
-"%s: unable to stat config file '%s'\n"
-" (= '%s'): %s"
-msgstr ""
-"%s: no es pot fer «stat» sobre el fitxer de configuració «%s»\n"
-" (= «%s»): %s"
-
-#: src/configure.c:512
-#, c-format
-msgid ""
-"%s: config file '%s' is a circular link\n"
-" (= '%s')"
-msgstr ""
-"%s: el fitxer de configuració «%s» és un enllaç circular\n"
-" (= «%s»)"
-
-#: src/configure.c:523
-#, c-format
-msgid ""
-"%s: unable to readlink conffile '%s'\n"
-" (= '%s'): %s"
-msgstr ""
-"%s: no es pot llegir el valor de l'enllaç simbòlic del conffile «%s»\n"
-" (= «%s»): %s"
-
-#: src/configure.c:550
-#, c-format
-msgid ""
-"%s: conffile '%.250s' resolves to degenerate filename\n"
-" ('%s' is a symlink to '%s')"
-msgstr ""
-"%s: el conffile «%.250s» apunta a un nom de fitxer corromput\n"
-" («%s» és un enllaç simbòlic a «%s»)"
-
-#: src/configure.c:566
-#, c-format
-msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
-msgstr ""
-"%s: el conffile «%.250s» no és un fitxer normal o un enllaç simbòlic (= «%s»)"
-
-#: src/configure.c:594 dpkg-split/split.c:142
-#, c-format
-msgid "cannot compute MD5 hash for file '%s': %s"
-msgstr "no es pot calcular el resum MD5 del fitxer «%s»: %s"
-
-# FIXME hash. Cal traduir-ho. jm
-#: src/configure.c:601
-#, c-format
-msgid "%s: unable to open %s for hash: %s"
-msgstr "%s: no es pot obrir %s pel «hash»: %s"
-
-#: src/configure.c:627 src/configure.c:631
-msgid "conffile difference visualizer"
-msgstr "visualitzador de diferencies de conffile"
-
-#: src/configure.c:648
-msgid "Type `exit' when you're done.\n"
-msgstr "Escriviu «exit» quan acabeu.\n"
-
-#: src/configure.c:657 src/configure.c:661
-msgid "conffile shell"
-msgstr "intèrpret d'ordres de conffile"
-
-#: src/configure.c:707
-#, c-format
-msgid ""
-"\n"
-"Configuration file `%s'"
+#| "\n"
+#| "Configuration file `%s'"
+msgid "Configuration file '%s'\n"
 msgstr ""
 "\n"
 "Fitxer de configuració «%s»"
 
-#: src/configure.c:709
-#, c-format
-msgid " (actually `%s')"
-msgstr " («%s» actualment)"
-
-#: src/configure.c:713
-#, c-format
-msgid ""
+#: src/configure.c:100
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Configuration file `%s'"
+msgid "Configuration file '%s' (actually '%s')\n"
+msgstr ""
 "\n"
+"Fitxer de configuració «%s»"
+
+#: src/configure.c:105
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| " ==> File on system created by you or by a script.\n"
+#| " ==> File also in package provided by package maintainer.\n"
+msgid ""
 " ==> File on system created by you or by a script.\n"
 " ==> File also in package provided by package maintainer.\n"
 msgstr ""
@@ -2188,66 +1992,69 @@ msgstr ""
 " ==> Fitxer en el sistema creat per vosaltres o per alguna seqüència.\n"
 " ==> Fitxer també en el paquet proveït pel mantenidor.\n"
 
-#: src/configure.c:718
-#, c-format
-msgid ""
-"\n"
-"     Not modified since installation.\n"
+#: src/configure.c:109
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "     Not modified since installation.\n"
+msgid "     Not modified since installation.\n"
 msgstr ""
 "\n"
 "     No modificat des de la instaŀlació.\n"
 
-#: src/configure.c:720
-#, c-format
-msgid ""
-"\n"
-" ==> Modified (by you or by a script) since installation.\n"
+#: src/configure.c:111
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| " ==> Modified (by you or by a script) since installation.\n"
+msgid " ==> Modified (by you or by a script) since installation.\n"
 msgstr ""
 "\n"
 " ==> Modificat (per vosaltres o per alguna seqüència) des de la "
 "instaŀlació.\n"
 
-#: src/configure.c:721
-#, c-format
-msgid ""
-"\n"
-" ==> Deleted (by you or by a script) since installation.\n"
+#: src/configure.c:112
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| " ==> Deleted (by you or by a script) since installation.\n"
+msgid " ==> Deleted (by you or by a script) since installation.\n"
 msgstr ""
 "\n"
 " ==> Suprimit (per vosaltres o per alguna seqüència) des de la instaŀlació.\n"
 
-#: src/configure.c:724
+#: src/configure.c:115
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> El distribuïdor del paquet ha publicat una versió actualitzada.\n"
 
-#: src/configure.c:725
+#: src/configure.c:116
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr ""
 "     La versió del paquet és la mateixa que la de l'última instaŀlació.\n"
 
-#: src/configure.c:733
+#: src/configure.c:125
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> S'emprarà el fitxer nou tal i com heu demanat.\n"
 
-#: src/configure.c:737
+#: src/configure.c:129
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> S'emprarà el fitxer antic tal i com heu demanat.\n"
 
-#: src/configure.c:746
+#: src/configure.c:138
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> Es manté el fitxer de configuració antic per defecte.\n"
 
-#: src/configure.c:750
+#: src/configure.c:142
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> S'emprarà el fitxer de configuració nou per defecte.\n"
 
-#: src/configure.c:757
+#: src/configure.c:148
 #, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -2262,41 +2069,246 @@ msgstr ""
 "      D    : mostra les diferències entre versions\n"
 "      Z    : executa un intèrpret d'ordres per a examinar la situació\n"
 
-#: src/configure.c:764
+#: src/configure.c:156
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " L'acció per defecte és conservar la versió actual.\n"
 
-#: src/configure.c:766
+#: src/configure.c:159
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr " L'acció per defecte és instaŀlar la versió nova.\n"
 
-#: src/configure.c:771
+#: src/configure.c:163
 msgid "[default=N]"
 msgstr "[per defecte=N]"
 
-#: src/configure.c:772
+#: src/configure.c:164
 msgid "[default=Y]"
 msgstr "[per defecte=Y]"
 
-#: src/configure.c:773
+#: src/configure.c:165
 msgid "[no default]"
 msgstr "[no hi ha opció per defecte]"
 
-#: src/configure.c:776
+#: src/configure.c:168
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
 "error a l'escriure l'eixida d'error, s'ha descobert abans de preguntar sobre "
 "conffiles"
 
-#: src/configure.c:785
+#: src/configure.c:177
 msgid "read error on stdin at conffile prompt"
 msgstr "error de lectura en l'entrada estàndard al preguntar sobre conffiles"
 
-#: src/configure.c:786
+#: src/configure.c:178
 msgid "EOF on stdin at conffile prompt"
 msgstr "EOF en l'entrada estàndard al preguntar sobre conffiles"
+
+#: src/configure.c:211 src/configure.c:215
+msgid "conffile difference visualizer"
+msgstr "visualitzador de diferencies de conffile"
+
+#: src/configure.c:232
+msgid "Type `exit' when you're done.\n"
+msgstr "Escriviu «exit» quan acabeu.\n"
+
+#: src/configure.c:241 src/configure.c:245
+msgid "conffile shell"
+msgstr "intèrpret d'ordres de conffile"
+
+#: src/configure.c:403
+#, c-format
+msgid "unable to stat new distributed conffile '%.250s'"
+msgstr "no es pot fer «stat» sobre el conffile de nova distribució «%.250s»"
+
+#: src/configure.c:413
+#, c-format
+msgid "unable to stat current installed conffile `%.250s'"
+msgstr "no es pot fer «stat» sobre el conffile «%.250s» actualment instaŀlat"
+
+#: src/configure.c:425
+#, c-format
+msgid ""
+"\n"
+"Configuration file `%s', does not exist on system.\n"
+"Installing new config file as you requested.\n"
+msgstr ""
+"\n"
+"El conffile «%s» no existeix en el sistema.\n"
+"S'està instaŀlant el conffile nou tal i com heu demanat.\n"
+
+#: src/configure.c:467
+#, c-format
+msgid "%s: failed to remove old backup '%.250s': %s"
+msgstr "%s: no s'ha pogut esborrar l'antiga còpia de seguretat «%.250s»: %s"
+
+# Reanomenar - Canviar el nom - Tornar a anomenar? -- Jordà
+# Jo personalment preferisc "canvia el nom", però per exemple al Termcat
+# van més amb reanomena, i el GNOME ho està seguint.
+# Anem amb «canviar el nom», val? jm
+# Fins on jo veig, el Nautilus diu això, en octubre de 2010…
+#: src/configure.c:476
+#, c-format
+msgid "%s: failed to rename '%.250s' to '%.250s': %s"
+msgstr "%s: no s'ha pogut canviar el nom de «%.250s» a «%.250s»: %s"
+
+#: src/configure.c:483
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: no s'ha pogut esborrar «%s»: %s"
+
+#: src/configure.c:490
+#, c-format
+msgid "%s: failed to remove old distributed version '%.250s': %s"
+msgstr ""
+"%s: no s'ha pogut esborrar la versió de l'antiga distribució «%.250s»: %s"
+
+#: src/configure.c:495
+#, c-format
+msgid "%s: failed to remove '%.250s' (before overwrite): %s"
+msgstr "%s: no s'ha pogut esborrar «%.250s» (abans de sobreescriure): %s"
+
+#: src/configure.c:500
+#, c-format
+msgid "%s: failed to link '%.250s' to '%.250s': %s"
+msgstr "%s: no s'ha pogut enllaçar «%.250s» a «%.250s»: %s"
+
+#: src/configure.c:505
+#, c-format
+msgid "Installing new version of config file %s ...\n"
+msgstr "S'està instaŀlant una versió nova del fitxer de configuració %s…\n"
+
+#: src/configure.c:511 utils/update-alternatives.c:490
+#, c-format
+msgid "unable to install `%.250s' as `%.250s'"
+msgstr "no es pot instaŀlar «%.250s» com a «%.250s»"
+
+#: src/configure.c:563
+#, c-format
+msgid "no package named `%s' is installed, cannot configure"
+msgstr "no hi ha instaŀlat cap paquet anomenat «%s», no es pot configurar"
+
+#: src/configure.c:566
+#, c-format
+msgid "package %.250s is already installed and configured"
+msgstr "el paquet %.250s ja està instaŀlat i configurat"
+
+#: src/configure.c:569
+#, c-format
+msgid ""
+"package %.250s is not ready for configuration\n"
+" cannot configure (current status `%.250s')"
+msgstr ""
+"el paquet %.250s no està llest per a configurar-se\n"
+" no es pot configurar (estat actual «%.250s»)"
+
+#: src/configure.c:581
+#, c-format
+msgid ""
+"package %s cannot be configured because %s is not ready (current status '%s')"
+msgstr ""
+"el paquet %s no es pot configurar perquè %s no està llest (estat actual «%s»)"
+
+#: src/configure.c:589
+#, c-format
+msgid ""
+"package %s %s cannot be configured because %s is at a different version (%s)"
+msgstr ""
+"el paquet %s %s no es pot configurar perquè %s és en una versió (%s) diferent"
+
+#: src/configure.c:625
+#, c-format
+msgid ""
+"dependency problems prevent configuration of %s:\n"
+"%s"
+msgstr ""
+"problemes de dependències impedeixen la configuració de %s:\n"
+"%s"
+
+#: src/configure.c:628
+msgid "dependency problems - leaving unconfigured"
+msgstr "problemes de dependències - es deixa sense configurar"
+
+#: src/configure.c:631
+#, c-format
+msgid ""
+"%s: dependency problems, but configuring anyway as you requested:\n"
+"%s"
+msgstr ""
+"%s: problemes de dependències, però es configurarà igualment tal i com heu "
+"demanat:\n"
+"%s"
+
+#: src/configure.c:639
+#, fuzzy
+#| msgid ""
+#| "Package is in a very bad inconsistent state - you should\n"
+#| " reinstall it before attempting configuration."
+msgid ""
+"package is in a very bad inconsistent state; you should\n"
+" reinstall it before attempting configuration"
+msgstr ""
+"El paquet està en un greu estat d'inconsistència - heu de\n"
+" reinstaŀlar-lo abans d'intentar la seva configuració."
+
+#: src/configure.c:642
+#, c-format
+msgid "Setting up %s (%s) ...\n"
+msgstr "S'està configurant %s (%s)…\n"
+
+#: src/configure.c:729
+#, c-format
+msgid ""
+"%s: unable to stat config file '%s'\n"
+" (= '%s'): %s"
+msgstr ""
+"%s: no es pot fer «stat» sobre el fitxer de configuració «%s»\n"
+" (= «%s»): %s"
+
+#: src/configure.c:743
+#, c-format
+msgid ""
+"%s: config file '%s' is a circular link\n"
+" (= '%s')"
+msgstr ""
+"%s: el fitxer de configuració «%s» és un enllaç circular\n"
+" (= «%s»)"
+
+#: src/configure.c:754
+#, c-format
+msgid ""
+"%s: unable to readlink conffile '%s'\n"
+" (= '%s'): %s"
+msgstr ""
+"%s: no es pot llegir el valor de l'enllaç simbòlic del conffile «%s»\n"
+" (= «%s»): %s"
+
+#: src/configure.c:781
+#, c-format
+msgid ""
+"%s: conffile '%.250s' resolves to degenerate filename\n"
+" ('%s' is a symlink to '%s')"
+msgstr ""
+"%s: el conffile «%.250s» apunta a un nom de fitxer corromput\n"
+" («%s» és un enllaç simbòlic a «%s»)"
+
+#: src/configure.c:797
+#, c-format
+msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
+msgstr ""
+"%s: el conffile «%.250s» no és un fitxer normal o un enllaç simbòlic (= «%s»)"
+
+#: src/configure.c:825 dpkg-split/split.c:142
+#, c-format
+msgid "cannot compute MD5 hash for file '%s': %s"
+msgstr "no es pot calcular el resum MD5 del fitxer «%s»: %s"
+
+# FIXME hash. Cal traduir-ho. jm
+#: src/configure.c:832
+#, c-format
+msgid "%s: unable to open %s for hash: %s"
+msgstr "%s: no es pot obrir %s pel «hash»: %s"
 
 #: src/depcon.c:246
 #, c-format
@@ -2671,15 +2683,15 @@ msgstr "el paquet no pot contenir línies noves"
 msgid "divert-to may not contain newlines"
 msgstr "la desviació no pot contenir línies noves"
 
-#: src/divertdb.c:63
+#: src/divertdb.c:64
 msgid "failed to open diversions file"
 msgstr "no s'ha pogut obrir el fitxer de desviacions"
 
-#: src/divertdb.c:66
+#: src/divertdb.c:69
 msgid "failed to fstat diversions file"
 msgstr "no s'ha pogut fer «fstat» sobre el fitxer de desviacions"
 
-#: src/divertdb.c:105
+#: src/divertdb.c:122
 #, c-format
 msgid "conflicting diversions involving `%.250s' or `%.250s'"
 msgstr "hi ha desviacions en conflicte en «%.250s» o «%.250s»"
@@ -2783,7 +2795,7 @@ msgstr ""
 
 #: src/enquiry.c:186 src/enquiry.c:260 src/enquiry.c:345 src/enquiry.c:434
 #: src/enquiry.c:534 src/enquiry.c:557 src/select.c:118 src/select.c:199
-#: src/trigcmd.c:219 src/update.c:48 src/update.c:110 dpkg-split/queue.c:242
+#: src/trigcmd.c:219 src/update.c:48 src/update.c:110 dpkg-split/queue.c:249
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s no accepta cap argument"
@@ -3682,7 +3694,7 @@ msgstr "Molts detalls sobre p. ex. el directori dpkg/info"
 msgid "Insane amounts of drivel"
 msgstr "Quantitats ingents de detall"
 
-#: src/main.c:310
+#: src/main.c:312
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -3693,7 +3705,7 @@ msgstr ""
 "\n"
 " Número  Ref. al font     Descripció\n"
 
-#: src/main.c:317
+#: src/main.c:319
 #, c-format
 msgid ""
 "\n"
@@ -3704,70 +3716,70 @@ msgstr ""
 "Les opcions de depuració es barregen fent l'OR bit a bit.\n"
 "Teniu en compte que els significats i els valors estan subjectes a canvis.\n"
 
-#: src/main.c:327
+#: src/main.c:329
 #, c-format
 msgid "--%s requires a positive octal argument"
 msgstr "--%s requereix d'un número octal positiu com a paràmetre"
 
-#: src/main.c:342
+#: src/main.c:344
 #, fuzzy, c-format
 #| msgid "unknown option '%s'"
 msgid "unknown verify output format '%s'"
 msgstr "l'opció «%s» és desconeguda"
 
-#: src/main.c:362
+#: src/main.c:368
 #, c-format
 msgid "null package name in --%s comma-separated list '%.250s'"
 msgstr ""
 "nom de paquet buit en la llista separada per comes «%2$.250s» de --%1$s"
 
-#: src/main.c:372 src/packages.c:114 src/querycmd.c:440 src/querycmd.c:685
+#: src/main.c:378 src/packages.c:114 src/querycmd.c:440 src/querycmd.c:685
 #: src/querycmd.c:717 src/querycmd.c:754
 #, c-format
 msgid "--%s needs a valid package name but '%.250s' is not: %s"
 msgstr "--%s necessita un nom de paquet vàlid, però «%.250s» no ho és: %s"
 
 # hook -> lligam, segons el Termcat. jm
-#: src/main.c:447
+#: src/main.c:457
 #, c-format
 msgid "error executing hook '%s', exit code %d"
 msgstr "s'ha produït un error en executar el lligam «%s», codi d'eixida %d"
 
-#: src/main.c:486
+#: src/main.c:496
 msgid "status logger"
 msgstr "registre d'estat"
 
-#: src/main.c:498 src/main.c:528
+#: src/main.c:508 src/main.c:538
 #, c-format
 msgid "--%s takes one argument"
 msgstr "--%s només accepta un argument"
 
-#: src/main.c:508
+#: src/main.c:518
 #, c-format
 msgid "architecture '%s' is illegal: %s"
 msgstr "l'arquitectura «%s» és iŀlegal: %s"
 
-#: src/main.c:511
+#: src/main.c:521
 #, c-format
 msgid "architecture '%s' is reserved and cannot be added"
 msgstr "l'arquitectura «%s» és reservada i no es pot afegir"
 
-#: src/main.c:534
+#: src/main.c:544
 #, c-format
 msgid "cannot remove non-foreign architecture '%s'"
 msgstr "no es pot esborrar l'arquitectura no forania «%s»"
 
-#: src/main.c:545
+#: src/main.c:555
 #, c-format
 msgid "removing architecture '%s' currently in use by database"
 msgstr "s'esta esborrant l'arquitectura «%s» que és en ús a la base de dades"
 
-#: src/main.c:548
+#: src/main.c:558
 #, c-format
 msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr "no es pot esborrar l'arquitectura «%s» que és en ús a la base de dades"
 
-#: src/main.c:591
+#: src/main.c:603
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -3781,7 +3793,7 @@ msgstr ""
 "  atura't amb error:        --refuse-<cosa>,<cosa>,… | --no-force-<cosa>,…\n"
 " Forçat de coses:\n"
 
-#: src/main.c:600
+#: src/main.c:612
 #, c-format
 msgid ""
 "\n"
@@ -3793,37 +3805,37 @@ msgstr ""
 "seriosament la instaŀlació. Les opcions de forçat marcades amb [*] estan\n"
 "activades per defecte.\n"
 
-#: src/main.c:615
+#: src/main.c:627
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "l'opció de forçat/refusat «%.*s» és desconeguda"
 
-#: src/main.c:624
+#: src/main.c:636
 #, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "l'opció de forçat/refusat «%s» és obsoleta\n"
 
-#: src/main.c:760 dpkg-deb/info.c:333
+#: src/main.c:772 dpkg-deb/info.c:333
 #, c-format
 msgid "--%s takes exactly one argument"
 msgstr "--%s accepta exactament un argument"
 
-#: src/main.c:765
+#: src/main.c:777
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "no s'ha pogut obrir «%i» per a un flux"
 
-#: src/main.c:790
+#: src/main.c:802
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "EOF inesperat abans de la fi de la línia %d"
 
-#: src/main.c:833 src/main.c:851 src/querycmd.c:870 src/statcmd.c:356
+#: src/main.c:845 src/main.c:863 src/querycmd.c:870 src/statcmd.c:356
 #: dpkg-deb/main.c:253 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "es necessita una opció d'acció"
 
-#: src/main.c:857 src/script.c:108
+#: src/main.c:869 src/script.c:108
 msgid "unable to setenv for subprocesses"
 msgstr "no es pot fer «setenv» per al subprocés"
 
@@ -4555,36 +4567,36 @@ msgstr "error de sintaxi: el grup «%s» és desconegut al fitxer statoverride"
 msgid "syntax error: invalid mode in statoverride file"
 msgstr "error de sintaxi: el mode és invàlid al fitxer statoverride"
 
-#: src/statdb.c:128
+#: src/statdb.c:130
 msgid "failed to open statoverride file"
 msgstr "no s'ha pogut obrir el fitxer de statoverride"
 
-#: src/statdb.c:131
+#: src/statdb.c:135
 msgid "failed to fstat statoverride file"
 msgstr "no s'ha pogut fer «fstat» sobre el fitxer de statoverride"
 
-#: src/statdb.c:159
+#: src/statdb.c:182
 #, c-format
 msgid "reading statoverride file '%.250s'"
 msgstr "s'ha produït un error en llegir el fitxer de statoverride «%.250s»"
 
-#: src/statdb.c:167
+#: src/statdb.c:190
 msgid "statoverride file is missing final newline"
 msgstr "el fitxer de statoverride manca una línia nova al final"
 
-#: src/statdb.c:171
+#: src/statdb.c:194
 msgid "statoverride file contains empty line"
 msgstr "el fitxer de statoverride conté una línia buida"
 
-#: src/statdb.c:177 src/statdb.c:190 src/statdb.c:203
+#: src/statdb.c:200 src/statdb.c:213 src/statdb.c:226
 msgid "syntax error in statoverride file"
 msgstr "error de sintaxi al fitxer de statoverride"
 
-#: src/statdb.c:185 src/statdb.c:198 src/statdb.c:211
+#: src/statdb.c:208 src/statdb.c:221 src/statdb.c:234
 msgid "unexpected end of line in statoverride file"
 msgstr "s'ha trobat una fi de línia inesperada al fitxer de statoverride"
 
-#: src/statdb.c:215
+#: src/statdb.c:238
 #, c-format
 msgid "multiple statoverrides present for file '%.250s'"
 msgstr "hi ha múltiples statoverrides per al fitxer «%.250s»"
@@ -5647,7 +5659,7 @@ msgid "file `%.250s' is corrupt - missing newline after %.250s"
 msgstr ""
 "el fitxer «%.250s» està corromput - manca una línia nova després de %.250s"
 
-#: dpkg-split/info.c:95 dpkg-split/main.c:116
+#: dpkg-split/info.c:95 dpkg-split/main.c:114
 #, c-format
 msgid "error reading %.250s"
 msgstr "s'ha produït un error al llegir %.250s"
@@ -5950,7 +5962,7 @@ msgstr ""
 msgid "Type dpkg-split --help for help."
 msgstr "Executeu dpkg-split --help per a obtenir-ne ajuda."
 
-#: dpkg-split/main.c:117
+#: dpkg-split/main.c:115
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "s'ha trobat una fi de fitxer inesperada en %.250s"
@@ -5965,107 +5977,107 @@ msgid "part size must be at least %d KiB (to allow for header)"
 msgstr ""
 "la mida de la part ha de ser d'almenys %d KiB (per a admetre una capçalera)"
 
-#: dpkg-split/queue.c:93
+#: dpkg-split/queue.c:95
 #, c-format
 msgid "unable to read depot directory `%.250s'"
 msgstr "no es pot llegir el directori de dipòsit «%.250s»"
 
-#: dpkg-split/queue.c:140
+#: dpkg-split/queue.c:145
 msgid "--auto requires the use of the --output option"
 msgstr "--auto requereix l'ús de l'opció --output"
 
-#: dpkg-split/queue.c:143
+#: dpkg-split/queue.c:148
 msgid "--auto requires exactly one part file argument"
 msgstr "--auto requereix exactament un fitxer part com a argument"
 
-#: dpkg-split/queue.c:147
+#: dpkg-split/queue.c:152
 #, c-format
 msgid "unable to read part file `%.250s'"
 msgstr "no es pot llegir el fitxer part «%.250s»"
 
-#: dpkg-split/queue.c:150
+#: dpkg-split/queue.c:155
 #, c-format
 msgid "File `%.250s' is not part of a multipart archive.\n"
 msgstr "El fitxer «%.250s» no és part d'un arxiu multipart.\n"
 
-#: dpkg-split/queue.c:187
+#: dpkg-split/queue.c:193
 #, c-format
 msgid "unable to reopen part file `%.250s'"
 msgstr "no es pot reobrir el fitxer part «%.250s»"
 
-#: dpkg-split/queue.c:190
+#: dpkg-split/queue.c:196
 #, c-format
 msgid "unable to open new depot file `%.250s'"
 msgstr "no es pot obrir el fitxer de dipòsit nou «%.250s»"
 
-#: dpkg-split/queue.c:193
+#: dpkg-split/queue.c:199
 #, c-format
 msgid "cannot extract split package part '%s': %s"
 msgstr "no es pot extreure la part «%s» del paquet trossejat: %s"
 
-#: dpkg-split/queue.c:202
+#: dpkg-split/queue.c:208
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
 msgstr "no es pot canviar el nom del fitxer de dipòsit nou «%.250s» a «%.250s»"
 
-#: dpkg-split/queue.c:206
+#: dpkg-split/queue.c:212
 #, c-format
 msgid "Part %d of package %s filed (still want "
 msgstr "Part %d del paquet %s arxivada (encara es necessita "
 
-#: dpkg-split/queue.c:210
+#: dpkg-split/queue.c:216
 msgid " and "
 msgstr " i "
 
-#: dpkg-split/queue.c:224
+#: dpkg-split/queue.c:230
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
 msgstr "no es pot esborrar el fitxer de dipòsit emprat «%.250s»"
 
-#: dpkg-split/queue.c:245
+#: dpkg-split/queue.c:253
 msgid "Junk files left around in the depot directory:\n"
 msgstr "Queden fitxers de brutícia al directori de dipòsit:\n"
 
-#: dpkg-split/queue.c:250 dpkg-split/queue.c:279
+#: dpkg-split/queue.c:258 dpkg-split/queue.c:287
 #, c-format
 msgid "unable to stat `%.250s'"
 msgstr "no es pot fer «stat» sobre «%.250s»"
 
-#: dpkg-split/queue.c:253
+#: dpkg-split/queue.c:261
 #, c-format
 msgid " %s (%jd bytes)\n"
 msgstr " %s (%jd octets)\n"
 
-#: dpkg-split/queue.c:255
+#: dpkg-split/queue.c:263
 #, c-format
 msgid " %s (not a plain file)\n"
 msgstr " %s (no és un fitxer normal)\n"
 
-#: dpkg-split/queue.c:260
+#: dpkg-split/queue.c:268
 msgid "Packages not yet reassembled:\n"
 msgstr "Paquets encara sense reensamblar:\n"
 
-#: dpkg-split/queue.c:268
+#: dpkg-split/queue.c:276
 #, c-format
 msgid " Package %s: part(s) "
 msgstr " Paquet %s: part(s) "
 
-#: dpkg-split/queue.c:281
+#: dpkg-split/queue.c:289
 #, c-format
 msgid "part file `%.250s' is not a plain file"
 msgstr "el fitxer part «%.250s» no és un fitxer normal"
 
-#: dpkg-split/queue.c:288
+#: dpkg-split/queue.c:296
 #, c-format
 msgid "(total %jd bytes)\n"
 msgstr "(total %jd octets)\n"
 
-#: dpkg-split/queue.c:314
+#: dpkg-split/queue.c:329
 #, c-format
 msgid "unable to discard `%.250s'"
 msgstr "no es pot descartar «%.250s»"
 
-#: dpkg-split/queue.c:315
+#: dpkg-split/queue.c:330
 #, c-format
 msgid "Deleted %s.\n"
 msgstr "S'ha eliminat %s.\n"
@@ -6705,6 +6717,9 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "per tornar a activar les actualitzacions automàtiques, utilitzeu «%s --auto "
 "%s»"
+
+#~ msgid " (actually `%s')"
+#~ msgstr " («%s» actualment)"
 
 #~ msgid "value for `config-version' field not allowed in this context"
 #~ msgstr "en aquest context no es permet un valor pel camp «Config-Version»"

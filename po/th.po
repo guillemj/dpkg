@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2013-12-04 07:10+0100\n"
+"POT-Creation-Date: 2013-12-07 07:53+0100\n"
 "PO-Revision-Date: 2012-10-16 17:33+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -430,14 +430,14 @@ msgid "unable to open file '%s'"
 msgstr "ไม่สามารถเปิดแฟ้ม '%s'"
 
 #: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:638
-#: dpkg-split/join.c:70 dpkg-split/queue.c:197
+#: dpkg-split/join.c:70 dpkg-split/queue.c:203
 #: utils/update-alternatives.c:1424
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "ไม่สามารถ sync แฟ้ม '%s'"
 
 #: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:640
-#: dpkg-split/join.c:72 dpkg-split/queue.c:199
+#: dpkg-split/join.c:72 dpkg-split/queue.c:205
 #: utils/update-alternatives.c:1332 utils/update-alternatives.c:1426
 #, c-format
 msgid "unable to close file '%s'"
@@ -1512,7 +1512,7 @@ msgstr "ไม่สามารถแตกแฟ้มควบคุม '%s' 
 msgid "unable to read link `%.255s'"
 msgstr "ไม่สามารถอ่านลิงก์ `%.255s'"
 
-#: src/archives.c:603 src/archives.c:1137 src/configure.c:529
+#: src/archives.c:603 src/archives.c:1137 src/configure.c:760
 #, c-format
 msgid "symbolic link '%.250s' size has changed from %jd to %zd"
 msgstr "ขนาดของ symbolic link '%.250s' ได้เปลี่ยนจาก %jd ไปเป็น %zd"
@@ -1801,20 +1801,20 @@ msgstr "--%s ต้องการอาร์กิวเมนต์เป็�
 #: src/archives.c:1657 src/divertcmd.c:76 src/divertcmd.c:116
 #: src/enquiry.c:215 src/enquiry.c:332 src/enquiry.c:523 src/enquiry.c:525
 #: src/enquiry.c:538 src/enquiry.c:568 src/main.c:67 src/main.c:171
-#: src/main.c:320 src/main.c:603 src/packages.c:266 src/querycmd.c:306
+#: src/main.c:322 src/main.c:615 src/packages.c:266 src/querycmd.c:306
 #: src/querycmd.c:408 src/querycmd.c:455 src/querycmd.c:464 src/querycmd.c:510
 #: src/querycmd.c:593 src/querycmd.c:781 src/querycmd.c:829 src/select.c:99
 #: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:57 src/trigcmd.c:89
 #: dpkg-deb/build.c:492 dpkg-deb/extract.c:225 dpkg-deb/extract.c:261
 #: dpkg-deb/info.c:205 dpkg-deb/info.c:267 dpkg-deb/main.c:61
 #: dpkg-deb/main.c:133 dpkg-split/info.c:266 dpkg-split/main.c:55
-#: dpkg-split/main.c:99 dpkg-split/queue.c:151 dpkg-split/queue.c:290
+#: dpkg-split/main.c:99 dpkg-split/queue.c:156 dpkg-split/queue.c:298
 msgid "<standard output>"
 msgstr "<เอาต์พุตมาตรฐาน>"
 
 #: src/archives.c:1658 src/packages.c:267 src/querycmd.c:307
 #: src/querycmd.c:406 src/querycmd.c:516 src/querycmd.c:594 src/select.c:100
-#: dpkg-split/main.c:170 dpkg-split/queue.c:228
+#: dpkg-split/main.c:170 dpkg-split/queue.c:234
 msgid "<standard error>"
 msgstr "<ช่องแสดงข้อผิดพลาดมาตรฐาน>"
 
@@ -1870,218 +1870,33 @@ msgstr "ไม่สามารถลบรุ่นที่ติดตั้
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr "ไม่สามารถลบรุ่นที่แตกใหม่ของ `%.250s'"
 
-#: src/configure.c:172
-#, c-format
-msgid "unable to stat new distributed conffile '%.250s'"
-msgstr "ไม่สามารถ stat แฟ้มค่าตั้ง '%.250s' ฉบับจัดแจกรุ่นใหม่"
-
-#: src/configure.c:182
-#, c-format
-msgid "unable to stat current installed conffile `%.250s'"
-msgstr "ไม่สามารถ stat แฟ้มค่าตั้ง `%.250s' ที่ติดตั้งในปัจจุบัน"
-
-#: src/configure.c:194
-#, c-format
-msgid ""
-"\n"
-"Configuration file `%s', does not exist on system.\n"
-"Installing new config file as you requested.\n"
-msgstr ""
-"\n"
-"ไม่มีแฟ้มค่าตั้ง `%s' อยู่ในระบบ\n"
-"จะติดตั้งแฟ้มค่าตั้งแฟ้มใหม่ตามที่คุณสั่ง\n"
-
-#: src/configure.c:236
-#, c-format
-msgid "%s: failed to remove old backup '%.250s': %s"
-msgstr "%s: ไม่สามารถลบแฟ้มสำรองเก่า '%.250s': %s"
-
-#: src/configure.c:245
-#, c-format
-msgid "%s: failed to rename '%.250s' to '%.250s': %s"
-msgstr "%s: ไม่สามารถเปลี่ยนชื่อ '%.250s' เป็น '%.250s': %s"
-
-#: src/configure.c:252
-#, c-format
-msgid "%s: failed to remove '%.250s': %s"
-msgstr "%s: ไม่สามารถลบ '%.250s': %s"
-
-#: src/configure.c:259
-#, c-format
-msgid "%s: failed to remove old distributed version '%.250s': %s"
-msgstr "%s: ไม่สามารถลบรุ่นจัดแจกรุ่นเก่า '%.250s': %s"
-
-#: src/configure.c:264
-#, c-format
-msgid "%s: failed to remove '%.250s' (before overwrite): %s"
-msgstr "%s: ไม่สามารถลบ '%.250s' (ก่อนเขียนทับ): %s"
-
-#: src/configure.c:269
-#, c-format
-msgid "%s: failed to link '%.250s' to '%.250s': %s"
-msgstr "%s: ไม่สามารถเชื่อมโยง '%.250s' ไปที่ '%.250s': %s"
-
-#: src/configure.c:274
-#, c-format
-msgid "Installing new version of config file %s ...\n"
-msgstr "กำลังติดตั้งรุ่นใหม่ของแฟ้มค่าตั้ง %s ...\n"
-
-#: src/configure.c:280 utils/update-alternatives.c:490
-#, c-format
-msgid "unable to install `%.250s' as `%.250s'"
-msgstr "ไม่สามารถติดตั้ง `%.250s' ในชื่อ `%.250s'"
-
-#: src/configure.c:332
-#, c-format
-msgid "no package named `%s' is installed, cannot configure"
-msgstr "ไม่มีแพกเกจชื่อ `%s' ติดตั้งไว้ ไม่สามารถตั้งค่าได้"
-
-#: src/configure.c:335
-#, c-format
-msgid "package %.250s is already installed and configured"
-msgstr "แพกเกจ %.250s ถูกติดตั้งและตั้งค่าเรียบร้อยแล้ว"
-
-#: src/configure.c:338
-#, c-format
-msgid ""
-"package %.250s is not ready for configuration\n"
-" cannot configure (current status `%.250s')"
-msgstr ""
-"แพกเกจ %.250s ไม่พร้อมสำหรับการตั้งค่า\n"
-" ไม่สามารถตั้งค่าได้ (สถานะปัจจุบัน `%.250s')"
-
-#: src/configure.c:350
-#, c-format
-msgid ""
-"package %s cannot be configured because %s is not ready (current status '%s')"
-msgstr "แพกเกจ %s ไม่สามารถตั้งค่าได้ เพราะ %s ยังไม่พร้อม (สถานะปัจจุบัน '%.250s')"
-
-#: src/configure.c:358
-#, c-format
-msgid ""
-"package %s %s cannot be configured because %s is at a different version (%s)"
-msgstr "แพกเกจ %s %s ไม่สามารถตั้งค่าได้ เพราะ %s เป็นคนละรุ่นกัน (%s)"
-
-#: src/configure.c:394
-#, c-format
-msgid ""
-"dependency problems prevent configuration of %s:\n"
-"%s"
-msgstr ""
-"ปัญหาความขึ้นต่อกันระหว่างแพกเกจทำให้ไม่สามารถตั้งค่า %s:\n"
-"%s"
-
-#: src/configure.c:397
-msgid "dependency problems - leaving unconfigured"
-msgstr "มีปัญหาความขึ้นต่อกันระหว่างแพกเกจ - จะทิ้งไว้โดยไม่ตั้งค่า"
-
-#: src/configure.c:400
-#, c-format
-msgid ""
-"%s: dependency problems, but configuring anyway as you requested:\n"
-"%s"
-msgstr ""
-"%s: มีปัญหาความขึ้นต่อกันระหว่างแพกเกจ แต่จะตั้งค่าตามที่คุณสั่ง:\n"
-"%s"
-
-#: src/configure.c:408
-#, fuzzy
+#: src/configure.c:98
+#, fuzzy, c-format
 #| msgid ""
-#| "Package is in a very bad inconsistent state - you should\n"
-#| " reinstall it before attempting configuration."
-msgid ""
-"package is in a very bad inconsistent state; you should\n"
-" reinstall it before attempting configuration"
-msgstr ""
-"แพกเกจอยู่ในสถานะไม่ครบเต็มอย่างย่ำแย่ - คุณควรติดตั้งแพกเกจนี้ซ้ำ\n"
-" ก่อนที่จะพยายามตั้งค่าต่อไป"
-
-#: src/configure.c:411
-#, c-format
-msgid "Setting up %s (%s) ...\n"
-msgstr "กำลังตั้งค่า %s (%s) ...\n"
-
-#: src/configure.c:498
-#, c-format
-msgid ""
-"%s: unable to stat config file '%s'\n"
-" (= '%s'): %s"
-msgstr ""
-"%s: ไม่สามารถ stat แฟ้มค่าตั้ง '%s'\n"
-" (= '%s'): %s"
-
-#: src/configure.c:512
-#, c-format
-msgid ""
-"%s: config file '%s' is a circular link\n"
-" (= '%s')"
-msgstr ""
-"%s: แฟ้มค่าตั้ง '%s' เป็นลิงก์วนกลับ\n"
-" (= '%s')"
-
-#: src/configure.c:523
-#, c-format
-msgid ""
-"%s: unable to readlink conffile '%s'\n"
-" (= '%s'): %s"
-msgstr ""
-"%s: ไม่สามารถอ่านลิงก์ของแฟ้มค่าตั้ง '%s'\n"
-" (= '%s'): %s"
-
-#: src/configure.c:550
-#, c-format
-msgid ""
-"%s: conffile '%.250s' resolves to degenerate filename\n"
-" ('%s' is a symlink to '%s')"
-msgstr ""
-"%s: แฟ้มค่าตั้ง '%.250s' ชี้ต่อๆ ไป กลายเป็นชื่อแฟ้มที่เสียหาย\n"
-" ('%s' เป็น symlink ไปยัง '%s')"
-
-#: src/configure.c:566
-#, c-format
-msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
-msgstr "%s: แฟ้มค่าตั้ง '%.250s' ไม่ใช่แฟ้มธรรมดาหรือ symlink (= '%s')"
-
-#: src/configure.c:594 dpkg-split/split.c:142
-#, c-format
-msgid "cannot compute MD5 hash for file '%s': %s"
-msgstr "ไม่สามารถคำนวณแฮช MD5 สำหรับแฟ้ม '%s': %s"
-
-#: src/configure.c:601
-#, c-format
-msgid "%s: unable to open %s for hash: %s"
-msgstr "%s: ไม่สามารถเปิด %s เพื่อทำ hash: %s"
-
-#: src/configure.c:627 src/configure.c:631
-msgid "conffile difference visualizer"
-msgstr "เครื่องมือแสดงความต่างของเนื้อหาแฟ้มค่าตั้ง"
-
-#: src/configure.c:648
-msgid "Type `exit' when you're done.\n"
-msgstr "พิมพ์ `exit' เมื่อเสร็จแล้ว\n"
-
-#: src/configure.c:657 src/configure.c:661
-msgid "conffile shell"
-msgstr "เชลล์สำหรับแฟ้มค่าตั้ง"
-
-#: src/configure.c:707
-#, c-format
-msgid ""
-"\n"
-"Configuration file `%s'"
+#| "\n"
+#| "Configuration file `%s'"
+msgid "Configuration file '%s'\n"
 msgstr ""
 "\n"
 "แฟ้มค่าตั้ง `%s'"
 
-#: src/configure.c:709
-#, c-format
-msgid " (actually `%s')"
-msgstr " (ความจริงคือ `%s')"
-
-#: src/configure.c:713
-#, c-format
-msgid ""
+#: src/configure.c:100
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Configuration file `%s'"
+msgid "Configuration file '%s' (actually '%s')\n"
+msgstr ""
 "\n"
+"แฟ้มค่าตั้ง `%s'"
+
+#: src/configure.c:105
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| " ==> File on system created by you or by a script.\n"
+#| " ==> File also in package provided by package maintainer.\n"
+msgid ""
 " ==> File on system created by you or by a script.\n"
 " ==> File also in package provided by package maintainer.\n"
 msgstr ""
@@ -2089,64 +1904,67 @@ msgstr ""
 " ==> แฟ้มในระบบซึ่งคุณสร้างเองหรือสร้างโดยสคริปต์\n"
 " ==> แฟ้มซึ่งมากับแพกเกจและจัดเตรียมโดยผู้ดูแลแพกเกจ\n"
 
-#: src/configure.c:718
-#, c-format
-msgid ""
-"\n"
-"     Not modified since installation.\n"
+#: src/configure.c:109
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "     Not modified since installation.\n"
+msgid "     Not modified since installation.\n"
 msgstr ""
 "\n"
 "     ยังไม่มีการแก้ไขนับแต่ติดตั้งมา\n"
 
-#: src/configure.c:720
-#, c-format
-msgid ""
-"\n"
-" ==> Modified (by you or by a script) since installation.\n"
+#: src/configure.c:111
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| " ==> Modified (by you or by a script) since installation.\n"
+msgid " ==> Modified (by you or by a script) since installation.\n"
 msgstr ""
 "\n"
 " ==> มีการแก้ไข (โดยคุณหรือโดยสคริปต์) หลังการติดตั้ง\n"
 
-#: src/configure.c:721
-#, c-format
-msgid ""
-"\n"
-" ==> Deleted (by you or by a script) since installation.\n"
+#: src/configure.c:112
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| " ==> Deleted (by you or by a script) since installation.\n"
+msgid " ==> Deleted (by you or by a script) since installation.\n"
 msgstr ""
 "\n"
 " ==> ถูกลบ (โดยคุณหรือโดยสคริปต์) หลังการติดตั้ง\n"
 
-#: src/configure.c:724
+#: src/configure.c:115
 #, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> ผู้จัดแจกแพกเกจได้จัดเตรียมรุ่นใหม่ให้\n"
 
-#: src/configure.c:725
+#: src/configure.c:116
 #, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     ฉบับในแพกเกจมีเนื้อหาเหมือนกับที่ติดตั้งครั้งล่าสุด\n"
 
-#: src/configure.c:733
+#: src/configure.c:125
 #, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> จะใช้แฟ้มใหม่ตามที่คุณสั่ง\n"
 
-#: src/configure.c:737
+#: src/configure.c:129
 #, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> จะใช้แฟ้มเดิมตามที่คุณสั่ง\n"
 
-#: src/configure.c:746
+#: src/configure.c:138
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> จะใช้แฟ้มค่าตั้งเก่าโดยปริยาย\n"
 
-#: src/configure.c:750
+#: src/configure.c:142
 #, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> จะใช้แฟ้มค่าตั้งใหม่โดยปริยาย\n"
 
-#: src/configure.c:757
+#: src/configure.c:148
 #, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
@@ -2161,39 +1979,233 @@ msgstr ""
 "      D     : แสดงความแตกต่างระหว่างทั้งสองฉบับ\n"
 "      Z     : พักโพรเซสนี้ลงไปเบื้องหลังเพื่อตรวจสอบระบบ\n"
 
-#: src/configure.c:764
+#: src/configure.c:156
 #, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " การกระทำปริยายคือใช้ฉบับเดิมของคุณ\n"
 
-#: src/configure.c:766
+#: src/configure.c:159
 #, c-format
 msgid " The default action is to install the new version.\n"
 msgstr " การกระทำปริยายคือติดตั้งฉบับใหม่\n"
 
-#: src/configure.c:771
+#: src/configure.c:163
 msgid "[default=N]"
 msgstr "[ปริยาย=N]"
 
-#: src/configure.c:772
+#: src/configure.c:164
 msgid "[default=Y]"
 msgstr "[ปริยาย=Y]"
 
-#: src/configure.c:773
+#: src/configure.c:165
 msgid "[no default]"
 msgstr "[ไม่มีค่าปริยาย]"
 
-#: src/configure.c:776
+#: src/configure.c:168
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr "เกิดข้อผิดพลาดขณะเขียน stderr พบข้อผิดพลาดนี้ก่อนถามเกี่ยวกับแฟ้มค่าตั้ง"
 
-#: src/configure.c:785
+#: src/configure.c:177
 msgid "read error on stdin at conffile prompt"
 msgstr "เกิดข้อผิดพลาดในการอ่าน stdin ที่คำถามเกี่ยวกับแฟ้มค่าตั้ง"
 
-#: src/configure.c:786
+#: src/configure.c:178
 msgid "EOF on stdin at conffile prompt"
 msgstr "พบ EOF จาก stdin ที่คำถามเกี่ยวกับแฟ้มค่าตั้ง"
+
+#: src/configure.c:211 src/configure.c:215
+msgid "conffile difference visualizer"
+msgstr "เครื่องมือแสดงความต่างของเนื้อหาแฟ้มค่าตั้ง"
+
+#: src/configure.c:232
+msgid "Type `exit' when you're done.\n"
+msgstr "พิมพ์ `exit' เมื่อเสร็จแล้ว\n"
+
+#: src/configure.c:241 src/configure.c:245
+msgid "conffile shell"
+msgstr "เชลล์สำหรับแฟ้มค่าตั้ง"
+
+#: src/configure.c:403
+#, c-format
+msgid "unable to stat new distributed conffile '%.250s'"
+msgstr "ไม่สามารถ stat แฟ้มค่าตั้ง '%.250s' ฉบับจัดแจกรุ่นใหม่"
+
+#: src/configure.c:413
+#, c-format
+msgid "unable to stat current installed conffile `%.250s'"
+msgstr "ไม่สามารถ stat แฟ้มค่าตั้ง `%.250s' ที่ติดตั้งในปัจจุบัน"
+
+#: src/configure.c:425
+#, c-format
+msgid ""
+"\n"
+"Configuration file `%s', does not exist on system.\n"
+"Installing new config file as you requested.\n"
+msgstr ""
+"\n"
+"ไม่มีแฟ้มค่าตั้ง `%s' อยู่ในระบบ\n"
+"จะติดตั้งแฟ้มค่าตั้งแฟ้มใหม่ตามที่คุณสั่ง\n"
+
+#: src/configure.c:467
+#, c-format
+msgid "%s: failed to remove old backup '%.250s': %s"
+msgstr "%s: ไม่สามารถลบแฟ้มสำรองเก่า '%.250s': %s"
+
+#: src/configure.c:476
+#, c-format
+msgid "%s: failed to rename '%.250s' to '%.250s': %s"
+msgstr "%s: ไม่สามารถเปลี่ยนชื่อ '%.250s' เป็น '%.250s': %s"
+
+#: src/configure.c:483
+#, c-format
+msgid "%s: failed to remove '%.250s': %s"
+msgstr "%s: ไม่สามารถลบ '%.250s': %s"
+
+#: src/configure.c:490
+#, c-format
+msgid "%s: failed to remove old distributed version '%.250s': %s"
+msgstr "%s: ไม่สามารถลบรุ่นจัดแจกรุ่นเก่า '%.250s': %s"
+
+#: src/configure.c:495
+#, c-format
+msgid "%s: failed to remove '%.250s' (before overwrite): %s"
+msgstr "%s: ไม่สามารถลบ '%.250s' (ก่อนเขียนทับ): %s"
+
+#: src/configure.c:500
+#, c-format
+msgid "%s: failed to link '%.250s' to '%.250s': %s"
+msgstr "%s: ไม่สามารถเชื่อมโยง '%.250s' ไปที่ '%.250s': %s"
+
+#: src/configure.c:505
+#, c-format
+msgid "Installing new version of config file %s ...\n"
+msgstr "กำลังติดตั้งรุ่นใหม่ของแฟ้มค่าตั้ง %s ...\n"
+
+#: src/configure.c:511 utils/update-alternatives.c:490
+#, c-format
+msgid "unable to install `%.250s' as `%.250s'"
+msgstr "ไม่สามารถติดตั้ง `%.250s' ในชื่อ `%.250s'"
+
+#: src/configure.c:563
+#, c-format
+msgid "no package named `%s' is installed, cannot configure"
+msgstr "ไม่มีแพกเกจชื่อ `%s' ติดตั้งไว้ ไม่สามารถตั้งค่าได้"
+
+#: src/configure.c:566
+#, c-format
+msgid "package %.250s is already installed and configured"
+msgstr "แพกเกจ %.250s ถูกติดตั้งและตั้งค่าเรียบร้อยแล้ว"
+
+#: src/configure.c:569
+#, c-format
+msgid ""
+"package %.250s is not ready for configuration\n"
+" cannot configure (current status `%.250s')"
+msgstr ""
+"แพกเกจ %.250s ไม่พร้อมสำหรับการตั้งค่า\n"
+" ไม่สามารถตั้งค่าได้ (สถานะปัจจุบัน `%.250s')"
+
+#: src/configure.c:581
+#, c-format
+msgid ""
+"package %s cannot be configured because %s is not ready (current status '%s')"
+msgstr "แพกเกจ %s ไม่สามารถตั้งค่าได้ เพราะ %s ยังไม่พร้อม (สถานะปัจจุบัน '%.250s')"
+
+#: src/configure.c:589
+#, c-format
+msgid ""
+"package %s %s cannot be configured because %s is at a different version (%s)"
+msgstr "แพกเกจ %s %s ไม่สามารถตั้งค่าได้ เพราะ %s เป็นคนละรุ่นกัน (%s)"
+
+#: src/configure.c:625
+#, c-format
+msgid ""
+"dependency problems prevent configuration of %s:\n"
+"%s"
+msgstr ""
+"ปัญหาความขึ้นต่อกันระหว่างแพกเกจทำให้ไม่สามารถตั้งค่า %s:\n"
+"%s"
+
+#: src/configure.c:628
+msgid "dependency problems - leaving unconfigured"
+msgstr "มีปัญหาความขึ้นต่อกันระหว่างแพกเกจ - จะทิ้งไว้โดยไม่ตั้งค่า"
+
+#: src/configure.c:631
+#, c-format
+msgid ""
+"%s: dependency problems, but configuring anyway as you requested:\n"
+"%s"
+msgstr ""
+"%s: มีปัญหาความขึ้นต่อกันระหว่างแพกเกจ แต่จะตั้งค่าตามที่คุณสั่ง:\n"
+"%s"
+
+#: src/configure.c:639
+#, fuzzy
+#| msgid ""
+#| "Package is in a very bad inconsistent state - you should\n"
+#| " reinstall it before attempting configuration."
+msgid ""
+"package is in a very bad inconsistent state; you should\n"
+" reinstall it before attempting configuration"
+msgstr ""
+"แพกเกจอยู่ในสถานะไม่ครบเต็มอย่างย่ำแย่ - คุณควรติดตั้งแพกเกจนี้ซ้ำ\n"
+" ก่อนที่จะพยายามตั้งค่าต่อไป"
+
+#: src/configure.c:642
+#, c-format
+msgid "Setting up %s (%s) ...\n"
+msgstr "กำลังตั้งค่า %s (%s) ...\n"
+
+#: src/configure.c:729
+#, c-format
+msgid ""
+"%s: unable to stat config file '%s'\n"
+" (= '%s'): %s"
+msgstr ""
+"%s: ไม่สามารถ stat แฟ้มค่าตั้ง '%s'\n"
+" (= '%s'): %s"
+
+#: src/configure.c:743
+#, c-format
+msgid ""
+"%s: config file '%s' is a circular link\n"
+" (= '%s')"
+msgstr ""
+"%s: แฟ้มค่าตั้ง '%s' เป็นลิงก์วนกลับ\n"
+" (= '%s')"
+
+#: src/configure.c:754
+#, c-format
+msgid ""
+"%s: unable to readlink conffile '%s'\n"
+" (= '%s'): %s"
+msgstr ""
+"%s: ไม่สามารถอ่านลิงก์ของแฟ้มค่าตั้ง '%s'\n"
+" (= '%s'): %s"
+
+#: src/configure.c:781
+#, c-format
+msgid ""
+"%s: conffile '%.250s' resolves to degenerate filename\n"
+" ('%s' is a symlink to '%s')"
+msgstr ""
+"%s: แฟ้มค่าตั้ง '%.250s' ชี้ต่อๆ ไป กลายเป็นชื่อแฟ้มที่เสียหาย\n"
+" ('%s' เป็น symlink ไปยัง '%s')"
+
+#: src/configure.c:797
+#, c-format
+msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
+msgstr "%s: แฟ้มค่าตั้ง '%.250s' ไม่ใช่แฟ้มธรรมดาหรือ symlink (= '%s')"
+
+#: src/configure.c:825 dpkg-split/split.c:142
+#, c-format
+msgid "cannot compute MD5 hash for file '%s': %s"
+msgstr "ไม่สามารถคำนวณแฮช MD5 สำหรับแฟ้ม '%s': %s"
+
+#: src/configure.c:832
+#, c-format
+msgid "%s: unable to open %s for hash: %s"
+msgstr "%s: ไม่สามารถเปิด %s เพื่อทำ hash: %s"
 
 #: src/depcon.c:246
 #, c-format
@@ -2560,15 +2572,15 @@ msgstr "ชื่อแพกเกจห้ามมีอักขระขึ
 msgid "divert-to may not contain newlines"
 msgstr "divert-to ห้ามมีอักขระขึ้นบรรทัดใหม่"
 
-#: src/divertdb.c:63
+#: src/divertdb.c:64
 msgid "failed to open diversions file"
 msgstr "ไม่สามารถเปิดแฟ้ม diversions"
 
-#: src/divertdb.c:66
+#: src/divertdb.c:69
 msgid "failed to fstat diversions file"
 msgstr "ไม่สามารถ fstat แฟ้ม diversions"
 
-#: src/divertdb.c:105
+#: src/divertdb.c:122
 #, c-format
 msgid "conflicting diversions involving `%.250s' or `%.250s'"
 msgstr "มีการเบนแฟ้มขัดแย้งกันโดยเกี่ยวข้องกับ `%.250s' หรือ `%.250s'"
@@ -2668,7 +2680,7 @@ msgstr ""
 
 #: src/enquiry.c:186 src/enquiry.c:260 src/enquiry.c:345 src/enquiry.c:434
 #: src/enquiry.c:534 src/enquiry.c:557 src/select.c:118 src/select.c:199
-#: src/trigcmd.c:219 src/update.c:48 src/update.c:110 dpkg-split/queue.c:242
+#: src/trigcmd.c:219 src/update.c:48 src/update.c:110 dpkg-split/queue.c:249
 #, c-format
 msgid "--%s takes no arguments"
 msgstr "--%s ไม่รับอาร์กิวเมนต์"
@@ -3491,7 +3503,7 @@ msgstr "พล่ามเกี่ยวกับเรื่องอย่า
 msgid "Insane amounts of drivel"
 msgstr "พล่ามทุกเรื่องอย่างน่ารำคาญ"
 
-#: src/main.c:310
+#: src/main.c:312
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -3502,7 +3514,7 @@ msgstr ""
 "\n"
 "    เลข  รายการในโปรแกรม  คำบรรยาย\n"
 
-#: src/main.c:317
+#: src/main.c:319
 #, c-format
 msgid ""
 "\n"
@@ -3513,68 +3525,68 @@ msgstr ""
 "ตัวเลือกการดีบั๊กสามารถใช้ผสมกันได้ด้วยการ or แบบบิต\n"
 "อย่าลืมว่าค่าและความหมายต่างๆ อาจเปลี่ยนแปลงได้\n"
 
-#: src/main.c:327
+#: src/main.c:329
 #, c-format
 msgid "--%s requires a positive octal argument"
 msgstr "--%s ต้องมีอาร์กิวเมนต์เป็นเลขฐานแปดค่าบวก"
 
-#: src/main.c:342
+#: src/main.c:344
 #, fuzzy, c-format
 #| msgid "unknown option '%s'"
 msgid "unknown verify output format '%s'"
 msgstr "ไม่รู้จักตัวเลือก '%s'"
 
-#: src/main.c:362
+#: src/main.c:368
 #, c-format
 msgid "null package name in --%s comma-separated list '%.250s'"
 msgstr "ชื่อแพกเกจว่างเปล่าในรายการคั่นด้วยจุลภาคของตัวเลือก --%s '%.250s'"
 
-#: src/main.c:372 src/packages.c:114 src/querycmd.c:440 src/querycmd.c:685
+#: src/main.c:378 src/packages.c:114 src/querycmd.c:440 src/querycmd.c:685
 #: src/querycmd.c:717 src/querycmd.c:754
 #, c-format
 msgid "--%s needs a valid package name but '%.250s' is not: %s"
 msgstr "--%s ต้องการชื่อแพกเกจที่ถูกต้อง แต่ '%.250s' ไม่ใช่: %s"
 
-#: src/main.c:447
+#: src/main.c:457
 #, c-format
 msgid "error executing hook '%s', exit code %d"
 msgstr "เกิดข้อผิดพลาดขณะเรียกทำงาน hook '%s' โดยจบการทำงานด้วยรหัส %d"
 
-#: src/main.c:486
+#: src/main.c:496
 msgid "status logger"
 msgstr "เครื่องมือบันทึกปูมของสถานะ"
 
-#: src/main.c:498 src/main.c:528
+#: src/main.c:508 src/main.c:538
 #, c-format
 msgid "--%s takes one argument"
 msgstr "--%s ต้องมีอาร์กิวเมนต์หนึ่งตัว"
 
-#: src/main.c:508
+#: src/main.c:518
 #, c-format
 msgid "architecture '%s' is illegal: %s"
 msgstr "สถาปัตยกรรม '%s' ไม่สามารถใช้ได้: %s"
 
-#: src/main.c:511
+#: src/main.c:521
 #, c-format
 msgid "architecture '%s' is reserved and cannot be added"
 msgstr "สถาปัตยกรรม '%s' สงวนไว้ และไม่สามารถเพิ่มได้"
 
-#: src/main.c:534
+#: src/main.c:544
 #, c-format
 msgid "cannot remove non-foreign architecture '%s'"
 msgstr "ไม่สามารถลบสถาปัตยกรรม '%s' ที่ไม่ต่างถิ่นได้"
 
-#: src/main.c:545
+#: src/main.c:555
 #, c-format
 msgid "removing architecture '%s' currently in use by database"
 msgstr "กำลังลบสถาปัตยกรรม '%s' ซึ่งกำลังใช้งานอยู่ในฐานข้อมูล"
 
-#: src/main.c:548
+#: src/main.c:558
 #, c-format
 msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr "ไม่สามารถลบสถาปัตยกรรม '%s' ซึ่งกำลังใช้งานอยู่ในฐานข้อมูล"
 
-#: src/main.c:591
+#: src/main.c:603
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -3588,7 +3600,7 @@ msgstr ""
 "<รายการ>,...\n"
 " รายการสำหรับการบังคับ:\n"
 
-#: src/main.c:600
+#: src/main.c:612
 #, c-format
 msgid ""
 "\n"
@@ -3599,37 +3611,37 @@ msgstr ""
 "*คำเตือน* - การใช้ตัวเลือกที่ทำเครื่องหมาย [!] ไว้ อาจทำให้ระบบเสียหายอย่างร้ายแรงได้\n"
 "รายการการบังคับที่ทำเครื่องหมาย [*] ไว้ จะถูกเปิดใช้โดยปริยายอยู่แล้ว\n"
 
-#: src/main.c:615
+#: src/main.c:627
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "ไม่รู้จักตัวเลือก force/refuse `%.*s'"
 
-#: src/main.c:624
+#: src/main.c:636
 #, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "ตัวเลือก force/refuse '%s' เลิกใช้แล้ว\n"
 
-#: src/main.c:760 dpkg-deb/info.c:333
+#: src/main.c:772 dpkg-deb/info.c:333
 #, c-format
 msgid "--%s takes exactly one argument"
 msgstr "--%s รับอาร์กิวเมนต์ตัวเดียว"
 
-#: src/main.c:765
+#: src/main.c:777
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "ไม่สามารถเปิด `%i' สำหรับสตรีม"
 
-#: src/main.c:790
+#: src/main.c:802
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "แฟ้มจบก่อนที่จะจบบรรทัดที่บรรทัด %d"
 
-#: src/main.c:833 src/main.c:851 src/querycmd.c:870 src/statcmd.c:356
+#: src/main.c:845 src/main.c:863 src/querycmd.c:870 src/statcmd.c:356
 #: dpkg-deb/main.c:253 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "ต้องมีตัวเลือกระบุการกระทำด้วย"
 
-#: src/main.c:857 src/script.c:108
+#: src/main.c:869 src/script.c:108
 msgid "unable to setenv for subprocesses"
 msgstr "ไม่สามารถ setenv สำหรับโพรเซสย่อย"
 
@@ -4322,36 +4334,36 @@ msgstr "รูปแบบผิดพลาด: พบผู้กลุ่ม 
 msgid "syntax error: invalid mode in statoverride file"
 msgstr "รูปแบบผิดพลาด: ค่าโหมดไม่ถูกต้องในแฟ้ม statoverride"
 
-#: src/statdb.c:128
+#: src/statdb.c:130
 msgid "failed to open statoverride file"
 msgstr "ไม่สามารถเปิดแฟ้ม statoverride"
 
-#: src/statdb.c:131
+#: src/statdb.c:135
 msgid "failed to fstat statoverride file"
 msgstr "ไม่สามารถ fstat แฟ้ม statoverride"
 
-#: src/statdb.c:159
+#: src/statdb.c:182
 #, c-format
 msgid "reading statoverride file '%.250s'"
 msgstr "เกิดข้อผิดพลาดขณะอ่านแฟ้ม statoverride '%.250s'"
 
-#: src/statdb.c:167
+#: src/statdb.c:190
 msgid "statoverride file is missing final newline"
 msgstr "แฟ้ม statoverride ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
 
-#: src/statdb.c:171
+#: src/statdb.c:194
 msgid "statoverride file contains empty line"
 msgstr "แฟ้ม statoverride มีบรรทัดว่างเปล่า"
 
-#: src/statdb.c:177 src/statdb.c:190 src/statdb.c:203
+#: src/statdb.c:200 src/statdb.c:213 src/statdb.c:226
 msgid "syntax error in statoverride file"
 msgstr "พบรูปแบบผิดพลาดในแฟ้ม statoverride"
 
-#: src/statdb.c:185 src/statdb.c:198 src/statdb.c:211
+#: src/statdb.c:208 src/statdb.c:221 src/statdb.c:234
 msgid "unexpected end of line in statoverride file"
 msgstr "พบจุดจบบรรทัดก่อนกำหนดในแฟ้ม statoverride"
 
-#: src/statdb.c:215
+#: src/statdb.c:238
 #, c-format
 msgid "multiple statoverrides present for file '%.250s'"
 msgstr "มีรายการ statoverride หลายรายการสำหรับ '%.250s'"
@@ -5363,7 +5375,7 @@ msgstr "แฟ้ม `%.250s' เสียหาย - ขาด %.250s"
 msgid "file `%.250s' is corrupt - missing newline after %.250s"
 msgstr "แฟ้ม `%.250s' เสียหาย - ขาด newline หลัง %.250s"
 
-#: dpkg-split/info.c:95 dpkg-split/main.c:116
+#: dpkg-split/info.c:95 dpkg-split/main.c:114
 #, c-format
 msgid "error reading %.250s"
 msgstr "เกิดข้อผิดพลาดขณะอ่าน %.250s"
@@ -5649,7 +5661,7 @@ msgstr ""
 msgid "Type dpkg-split --help for help."
 msgstr "พิมพ์ dpkg-split --help เพื่อดูวิธีใช้"
 
-#: dpkg-split/main.c:117
+#: dpkg-split/main.c:115
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "พบจุดจบแฟ้มก่อนกำหนดใน %.250s"
@@ -5663,107 +5675,107 @@ msgstr "ขนาดของส่วนย่อยใหญ่เกินไ
 msgid "part size must be at least %d KiB (to allow for header)"
 msgstr "ขนาดของส่วนย่อยต้องมีค่าอย่างน้อย %dKiB (เพื่อให้เก็บข้อมูลส่วนหัวได้)"
 
-#: dpkg-split/queue.c:93
+#: dpkg-split/queue.c:95
 #, c-format
 msgid "unable to read depot directory `%.250s'"
 msgstr "ไม่สามารถอ่านไดเรกทอรีสะสมส่วนย่อย `%.250s'"
 
-#: dpkg-split/queue.c:140
+#: dpkg-split/queue.c:145
 msgid "--auto requires the use of the --output option"
 msgstr "--auto ต้องใช้ตัวเลือก --output ด้วย"
 
-#: dpkg-split/queue.c:143
+#: dpkg-split/queue.c:148
 msgid "--auto requires exactly one part file argument"
 msgstr "--auto ต้องการอาร์กิวเมนต์ที่เป็นแฟ้มส่วนย่อยรายการเดียว"
 
-#: dpkg-split/queue.c:147
+#: dpkg-split/queue.c:152
 #, c-format
 msgid "unable to read part file `%.250s'"
 msgstr "ไม่สามารถอ่านแฟ้มส่วนย่อย `%.250s'"
 
-#: dpkg-split/queue.c:150
+#: dpkg-split/queue.c:155
 #, c-format
 msgid "File `%.250s' is not part of a multipart archive.\n"
 msgstr "แฟ้ม `%.250s' ไม่ใช่ส่วนย่อยของแพกเกจแบ่งส่วน\n"
 
-#: dpkg-split/queue.c:187
+#: dpkg-split/queue.c:193
 #, c-format
 msgid "unable to reopen part file `%.250s'"
 msgstr "ไม่สามารถเปิดแฟ้มส่วนย่อย `%.250s' ซ้ำ"
 
-#: dpkg-split/queue.c:190
+#: dpkg-split/queue.c:196
 #, c-format
 msgid "unable to open new depot file `%.250s'"
 msgstr "ไม่สามารถเปิดแฟ้มสะสมส่วนย่อยใหม่ `%.250s'"
 
-#: dpkg-split/queue.c:193
+#: dpkg-split/queue.c:199
 #, c-format
 msgid "cannot extract split package part '%s': %s"
 msgstr "ไม่สามารถแตกส่วนย่อย '%s' ของแพกเกจตัดแบ่ง: %s"
 
-#: dpkg-split/queue.c:202
+#: dpkg-split/queue.c:208
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
 msgstr "ไม่สามารถเปลี่ยนชื่อแฟ้มสะสมใหม่ `%.250s' ไปเป็น `%.250s'"
 
-#: dpkg-split/queue.c:206
+#: dpkg-split/queue.c:212
 #, c-format
 msgid "Part %d of package %s filed (still want "
 msgstr "เก็บส่วนย่อย %d ของแพกเกจ %s แล้ว (ยังต้องการอีก "
 
-#: dpkg-split/queue.c:210
+#: dpkg-split/queue.c:216
 msgid " and "
 msgstr " และ "
 
-#: dpkg-split/queue.c:224
+#: dpkg-split/queue.c:230
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
 msgstr "ไม่สามารถลบแฟ้มสะสมส่วนย่อย `%.250s' ที่ใช้แล้ว"
 
-#: dpkg-split/queue.c:245
+#: dpkg-split/queue.c:253
 msgid "Junk files left around in the depot directory:\n"
 msgstr "มีแฟ้มขยะหลงเหลืออยู่ในไดเรกทอรีสะสมส่วนย่อย:\n"
 
-#: dpkg-split/queue.c:250 dpkg-split/queue.c:279
+#: dpkg-split/queue.c:258 dpkg-split/queue.c:287
 #, c-format
 msgid "unable to stat `%.250s'"
 msgstr "ไม่สามารถ stat `%.250s'"
 
-#: dpkg-split/queue.c:253
+#: dpkg-split/queue.c:261
 #, c-format
 msgid " %s (%jd bytes)\n"
 msgstr " %s (%jd ไบต์)\n"
 
-#: dpkg-split/queue.c:255
+#: dpkg-split/queue.c:263
 #, c-format
 msgid " %s (not a plain file)\n"
 msgstr " %s (ไม่ใช่แฟ้มปกติ)\n"
 
-#: dpkg-split/queue.c:260
+#: dpkg-split/queue.c:268
 msgid "Packages not yet reassembled:\n"
 msgstr "แพกเกจที่ยังประกอบรวมไม่เสร็จ:\n"
 
-#: dpkg-split/queue.c:268
+#: dpkg-split/queue.c:276
 #, c-format
 msgid " Package %s: part(s) "
 msgstr " แพกเกจ %s: ส่วนย่อย "
 
-#: dpkg-split/queue.c:281
+#: dpkg-split/queue.c:289
 #, c-format
 msgid "part file `%.250s' is not a plain file"
 msgstr "แฟ้มส่วนย่อย `%.250s' ไม่ใช่แฟ้มปกติ"
 
-#: dpkg-split/queue.c:288
+#: dpkg-split/queue.c:296
 #, c-format
 msgid "(total %jd bytes)\n"
 msgstr "(รวม %jd ไบต์)\n"
 
-#: dpkg-split/queue.c:314
+#: dpkg-split/queue.c:329
 #, c-format
 msgid "unable to discard `%.250s'"
 msgstr "ไม่สามารถล้าง `%.250s' ทิ้ง"
 
-#: dpkg-split/queue.c:315
+#: dpkg-split/queue.c:330
 #, c-format
 msgid "Deleted %s.\n"
 msgstr "ลบ %s แล้ว\n"
@@ -6368,6 +6380,9 @@ msgstr "การปรับข้อมูลแบบอัตโนมัต
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "หากต้องการกลับสู่การปรับข้อมูลแบบอัตโนมัติ ใช้คำสั่ง '%s --auto %s'"
+
+#~ msgid " (actually `%s')"
+#~ msgstr " (ความจริงคือ `%s')"
 
 #~ msgid "value for `config-version' field not allowed in this context"
 #~ msgstr "ใช้ค่าสำหรับเขตข้อมูล `config-version' ไม่ได้ในบริบทนี้"
