@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2013-12-07 07:53+0100\n"
-"PO-Revision-Date: 2013-11-25 16:22+0100\n"
+"PO-Revision-Date: 2013-12-07 14:48+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -955,10 +955,9 @@ msgstr "deb-src-control"
 
 #. type: TH
 #: deb-src-control.5:20 dpkg-buildpackage.1:22 dpkg-checkbuilddeps.1:20
-#, fuzzy, no-wrap
-#| msgid "2013-09-06"
+#, no-wrap
 msgid "2013-09-17"
-msgstr "2013-09-06"
+msgstr "2013-09-17"
 
 #. type: Plain text
 #: deb-src-control.5:23
@@ -1269,15 +1268,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.5:178
-#, fuzzy
-#| msgid ""
-#| "The syntax of the B<Build-Depends>, B<Build-Depends-Arch> and B<Build-"
-#| "Depends-Indep> fields is a list of groups of alternative packages. Each "
-#| "group is a list of packages separated by vertical bar (or \"pipe\") "
-#| "symbols, \"|\". The groups are separated by commas. Commas are to be read "
-#| "as \"AND\", and pipes as \"OR\", with pipes binding more tightly. Each "
-#| "package name is optionally followed by a version number specification in "
-#| "parentheses and an architecture specification in square brackets."
 msgid ""
 "The syntax of the B<Build-Depends>, B<Build-Depends-Arch> and B<Build-"
 "Depends-Indep> fields is a list of groups of alternative packages. Each "
@@ -1294,19 +1284,12 @@ msgstr ""
 "getrennten Paketen. Die Gruppen werden durch Kommata getrennt. Kommata "
 "müssen als »UND«, vertikale Striche als »ODER« gelesen werden, wobei die "
 "vertikalen Striche stärker binden. Jeder Paketname wird optional gefolgt von "
-"einer Versionsnummer-Spezifikation in Klammern und einer "
-"Architekturspezifikation in eckigen Klammern."
+"einer Versionsnummer-Spezifikation in Klammern, einer "
+"Architekturspezifikation in eckigen Klammern und einer Profilspezifikation in "
+"spitzen Klammern."
 
 #. type: Plain text
 #: deb-src-control.5:189
-#, fuzzy
-#| msgid ""
-#| "The syntax of the B<Build-Conflicts>, B<Build-Conflicts-Arch> and B<Build-"
-#| "Conflicts-Indep> fields is a list of comma-separated package names, where "
-#| "the comma is read as an \"AND\". Specifying alternative packages using a "
-#| "\"pipe\" is not supported.  Each package name is optionally followed by a "
-#| "version number specification in parentheses and an architecture "
-#| "specification in square brackets."
 msgid ""
 "The syntax of the B<Build-Conflicts>, B<Build-Conflicts-Arch> and B<Build-"
 "Conflicts-Indep> fields is a list of comma-separated package names, where "
@@ -1319,8 +1302,9 @@ msgstr ""
 "und B<Build-Conflicts-Indep> durch eine Komma-separierte Liste von "
 "Paketnamen dargestellt, wobei das Komma als »UND« verstanden wird. Die "
 "Angabe alternativer Pakete mit dem »Pipe«-Symbol wird nicht unterstützt. "
-"Jedem Paketnamen folgt optional eine Versionnummerangabe in Klammern und "
-"eine Architekturspezifikation in eckigen Klammern."
+"Jedem Paketnamen folgt optional eine Versionnummerangabe in Klammern, "
+"eine Architekturspezifikation in eckigen Klammern und ein Profilspezifikation "
+"in spitzen Klammern."
 
 #. type: Plain text
 #: deb-src-control.5:195
@@ -1340,11 +1324,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.5:199
-#, fuzzy
-#| msgid ""
-#| "A architecture specification consists of one or more architecture names, "
-#| "separated by whitespace. Exclamation marks may be prepended to each of "
-#| "the names, meaning \"NOT\"."
 msgid ""
 "An architecture specification consists of one or more architecture names, "
 "separated by whitespace. Exclamation marks may be prepended to each of the "
@@ -1356,19 +1335,15 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.5:203
-#, fuzzy
-#| msgid ""
-#| "A architecture specification consists of one or more architecture names, "
-#| "separated by whitespace. Exclamation marks may be prepended to each of "
-#| "the names, meaning \"NOT\"."
 msgid ""
 "A profile specification consists of one or more profile names, prefixed with "
 "the \"B<profile.>\" namespace, separated by whitespace. Exclamation marks "
 "may be prepended to each of the names, meaning \"NOT\"."
 msgstr ""
-"Eine Architekturspezifikation besteht aus einer oder mehreren durch "
-"Leerzeichen getrennten Architekturnamen. Jedem Namen darf ein Ausrufezeichen "
-"vorangestellt werden, das »NICHT« bedeutet."
+"Eine Profilspezifikation besteht aus einer oder mehreren durch Leerzeichen "
+"getrennten Profilnamen, denen der Namensraum »B<profile.>« vorangestellt "
+"wird. Jedem Namen darf ein Ausrufezeichen vorangestellt werden, das »NICHT« "
+"bedeutet."
 
 #. type: Plain text
 #: deb-src-control.5:208
@@ -7986,10 +7961,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1:133
-#, fuzzy, no-wrap
-#| msgid "B<-c>I<controlfile>"
+#, no-wrap
 msgid "B<-P>I<profile>[B<,>...]"
-msgstr "B<-c>I<Steuerdatei>"
+msgstr "B<-P>I<Profil>[B<,>…]"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:140
@@ -8000,6 +7974,12 @@ msgid ""
 "B<DEB_BUILD_PROFILES> environment variable which allows, for example, "
 "B<debian/rules> files to use this information for conditional builds."
 msgstr ""
+"Gibt als Kommata-getrennte Liste (ohne den Namensraum-Präfix »B<profile.>«) "
+"die zu bauenden Profile an. Standardmäßig wird für kein bestimmtes Profil "
+"gebaut. Fügt sie auch (als durch Leerzeichen getrennte Liste) zu der "
+"Umgebungsvariablen B<DEB_BUILD_PROFILES> hinzu. Dies erlaubt beispielsweise "
+"B<debian/rules>-Dateien, diese Information für den Bau unter bestimmten "
+"Bedingungen zu nutzen."
 
 #. type: TP
 #: dpkg-buildpackage.1:140
@@ -8298,10 +8278,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1:257 dpkg-checkbuilddeps.1:77
-#, fuzzy, no-wrap
-#| msgid "B<DEB_BUILD_ARCH_OS>"
+#, no-wrap
 msgid "B<DEB_BUILD_PROFILES>"
-msgstr "B<DEB_BUILD_ARCH_OS>"
+msgstr "B<DEB_BUILD_PROFILES>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:262 dpkg-checkbuilddeps.1:81
@@ -8310,6 +8289,10 @@ msgid ""
 "built. It is a space separated list of profile names, without the "
 "\"B<profile.>\" namespace prefix. Overridden by the B<-P> option."
 msgstr ""
+"Falls gesetzt, wird sie als aktive(s) Bau-Profil(e) für das zu bauende Paket "
+"verwandt. Es ist eine durch Leerzeichen getrennte Liste von Profilnamen ohne "
+"den Namensraum-Präfix »B<profile>«. Wird durch die Option B<-P> außer Kraft "
+"gesetzt."
 
 #. type: SS
 #: dpkg-buildpackage.1:263
@@ -8505,15 +8488,10 @@ msgstr ""
 #: dpkg-checkbuilddeps.1:63
 #, no-wrap
 msgid "B<-P >I<profile>[B<,>...]"
-msgstr ""
+msgstr "B<-P >I<Profil>[B<,>…]"
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:69
-#, fuzzy
-#| msgid ""
-#| "Check build dependencies/conflicts assuming that the package described in "
-#| "the control file is to be built for the given host architecture instead "
-#| "of the architecture of the current system."
 msgid ""
 "Check build dependencies/conflicts assuming that the package described in "
 "the control file is to be built for the given build profile(s). The argument "
@@ -8521,8 +8499,9 @@ msgid ""
 "namespace prefix."
 msgstr ""
 "Überprüfe Bauabhängigkeiten/-konflikte unter der Annahme, dass das Paket in "
-"der Datei »control« für die angegebene Host-Architektur statt für die "
-"Architektur des aktuellen Systems gebaut werden soll."
+"der Datei »control« für das/die angegebene(n) Bauprofile gebaut werden soll. "
+"Das Argument ist eine Kommata-getrennte Liste von Profilnamen ohne den "
+"Namensraum-Präfix »B<profile.>«."
 
 #. type: TH
 #: dpkg-distaddfile.1:19
@@ -14418,10 +14397,9 @@ msgstr "dpkg-source"
 
 #. type: TH
 #: dpkg-source.1:23
-#, fuzzy, no-wrap
-#| msgid "2013-10-20"
+#, no-wrap
 msgid "2013-12-05"
-msgstr "2013-10-20"
+msgstr "2013-12-05"
 
 #. type: Plain text
 #: dpkg-source.1:26
@@ -14738,18 +14716,6 @@ msgstr "B<-i>[I<regex>], B<--diff-ignore>[=I<regex>]"
 
 #. type: Plain text
 #: dpkg-source.1:185
-#, fuzzy
-#| msgid ""
-#| "You may specify a perl regular expression to match files you want "
-#| "filtered out of the list of files for the diff. (This list is generated "
-#| "by a find command.) (If the source package is being built as a version 3 "
-#| "source package using a VCS, this can be used to ignore uncommited changes "
-#| "on specific files. Using -i.* will ignore all of them.)  B<-i> by itself "
-#| "enables the option, with a default regex that will filter out control "
-#| "files and directories of the most common revision control systems, backup "
-#| "and swap files and Libtool build output directories. There can only be "
-#| "one active regex, of multiple B<-i> options only the last one will take "
-#| "effect."
 msgid ""
 "You may specify a perl regular expression to match files you want filtered "
 "out of the list of files for the diff. (This list is generated by a find "
@@ -14762,27 +14728,10 @@ msgstr ""
 "wird von einem Find-Befehl generiert. Falls das Quellpaket als Version 3-"
 "Quellpaket mittels eines VCS gebaut wird, ignoriert dies stattdessen "
 "Änderungen an bestimmten Dateien, die noch nicht übertragen (»committed«) "
-"wurden (mit -i.* werden alle davon ignoriert). B<-i> aktiviert diese Option "
-"mit einem voreingestellten regulären Ausdruck, der Steuerdateien und -"
-"Verzeichnisse der häufigsten Revisionskontrollsysteme, Backups, Swap-Dateien "
-"und Bau-Ausgabeverzeichnisse von Libtool herausgefiltert. Es kann nur einen "
-"aktiven regulären Ausdruck geben, von mehrfach angegebenen B<-i>-Optionen "
-"wird nur die letzte berücksichtigt."
+"wurden (mit -i.* werden alle davon ignoriert)."
 
 #. type: Plain text
 #: dpkg-source.1:192
-#, fuzzy
-#| msgid ""
-#| "You may specify a perl regular expression to match files you want "
-#| "filtered out of the list of files for the diff. (This list is generated "
-#| "by a find command.) (If the source package is being built as a version 3 "
-#| "source package using a VCS, this can be used to ignore uncommited changes "
-#| "on specific files. Using -i.* will ignore all of them.)  B<-i> by itself "
-#| "enables the option, with a default regex that will filter out control "
-#| "files and directories of the most common revision control systems, backup "
-#| "and swap files and Libtool build output directories. There can only be "
-#| "one active regex, of multiple B<-i> options only the last one will take "
-#| "effect."
 msgid ""
 "The B<-i> option by itself enables this setting with a default regex "
 "(preserving any modification to the default regex done by a previous use of "
@@ -14791,13 +14740,10 @@ msgid ""
 "Libtool build output directories. There can only be one active regex, of "
 "multiple B<-i> options only the last one will take effect."
 msgstr ""
-"Sie können einen regulären Perl-Ausdruck angeben, der auf Dateien passt, die "
-"Sie aus der Liste der Dateien für den Diff entfernen möchten; diese Liste "
-"wird von einem Find-Befehl generiert. Falls das Quellpaket als Version 3-"
-"Quellpaket mittels eines VCS gebaut wird, ignoriert dies stattdessen "
-"Änderungen an bestimmten Dateien, die noch nicht übertragen (»committed«) "
-"wurden (mit -i.* werden alle davon ignoriert). B<-i> aktiviert diese Option "
-"mit einem voreingestellten regulären Ausdruck, der Steuerdateien und -"
+"Die Option B<-i> selbst aktiviert diese Einstellung mit einem "
+"voreingestellten regulären Ausdruck (der alle Änderungen durch einen "
+"standardmäßigen regulären Ausdruck erhält, die durch einen früheren Aufruf "
+"von B<--extend-diff-ignore> erfolgten), der Steuerdateien und -"
 "Verzeichnisse der häufigsten Revisionskontrollsysteme, Backups, Swap-Dateien "
 "und Bau-Ausgabeverzeichnisse von Libtool herausgefiltert. Es kann nur einen "
 "aktiven regulären Ausdruck geben, von mehrfach angegebenen B<-i>-Optionen "
@@ -14834,14 +14780,8 @@ msgid "B<--extend-diff-ignore>=I<regex>"
 msgstr "B<--extend-diff-ignore>=I<regex>"
 
 #. type: Plain text
+# FIXME: alter dpkg? »and dessen« und »erweiteren«
 #: dpkg-source.1:209
-#, fuzzy
-#| msgid ""
-#| "The perl regular expression specified will extend the default value of "
-#| "B<--diff-ignore> and its current value (if set). It does this by "
-#| "concatenating \"B<|>I<regex>\" to the existing value.  This option is "
-#| "convenient to use in B<debian/source/options> to exclude some auto-"
-#| "generated files from the automatic patch generation."
 msgid ""
 "The perl regular expression specified will extend the default value used by "
 "B<--diff-ignore> and its current value (if set). It does this by "
@@ -14849,8 +14789,8 @@ msgid ""
 "convenient to use in B<debian/source/options> to exclude some auto-generated "
 "files from the automatic patch generation."
 msgstr ""
-"Der angegebene reguläre Ausdruck (Perl-Format) wird den standardmäßigen Wert "
-"von B<--diff-ignore> and dessen aktuellen Wert (falls gesetzt) erweiteren. "
+"Der angegebene reguläre Ausdruck (Perl-Format) wird den standardmäßigen "
+"von B<--diff-ignore> verwandten Wert und dessen aktuellen Wert (falls gesetzt) erweitern. "
 "Dies erfolgt, indem »B<|>I<regex>« an den existierenden Wert angehängt wird. "
 "Diese Option ist bequem in B<debian/source/options> zu nutzen, um einige "
 "automatisch erstellten Dateien von der automatischen Patch-Erzeugung "
