@@ -980,7 +980,7 @@ alternative_add_slave(struct alternative *a, char *slave_name,
 	else
 		a->slaves = new;
 
-	return sl;
+	return new;
 }
 
 static void
