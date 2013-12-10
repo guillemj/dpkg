@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright © 2007,2011-2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2007,2011-2013 Guillem Jover <guillem@debian.org>
 # Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
 # Copyright © 2008 Joey Hess <joeyh@debian.org>
 # Copyright © 2005 Scott James Remnant (original implementation on www.dpkg.org)
@@ -272,8 +272,13 @@ symlink_to_dir() {
 		fi
 		;;
 	postinst)
+		# We cannot bail depending on the version, as here we only
+		# know what was the last configured version, and we might
+		# have been unpacked, then upgraded with an unpack and thus
+		# never been configured before.
 		if [ "$1" = "configure" ] && [ -h "${SYMLINK}.dpkg-backup" ] &&
-		    dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+		   [ "$(readlink -f ${SYMLINK}.dpkg-backup)" = "$SYMLINK_TARGET" ]
+		then
 			rm -f "${SYMLINK}.dpkg-backup"
 		fi
 		;;
@@ -283,7 +288,8 @@ symlink_to_dir() {
 		fi
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
 		   [ -n "$2" ] &&
-		   [ -h "${SYMLINK}.dpkg-backup" ] && [ ! -e "$SYMLINK" ] &&
+		   [ ! -e "$SYMLINK" ] && [ -h "${SYMLINK}.dpkg-backup" ] &&
+		   [ "$(readlink -f ${SYMLINK}.dpkg-backup)" = "$SYMLINK_TARGET" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			echo "Restoring backup of $SYMLINK ..."
 			mv "${SYMLINK}.dpkg-backup" "$SYMLINK"
@@ -333,21 +339,22 @@ dir_to_symlink() {
 	case "$DPKG_MAINTSCRIPT_NAME" in
 	preinst)
 		if [ "$1" = "install" -o "$1" = "upgrade" ] &&
-		   [ -n "$2" ] && [ -d "$PATHNAME" ] &&
+		   [ -n "$2" ] &&
+		   [ ! -h "$PATHNAME" ] && [ -d "$PATHNAME" ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			prepare_dir_to_symlink "$PACKAGE" "$PATHNAME"
 		fi
 		;;
 	postinst)
+		# We cannot bail depending on the version, as here we only
+		# know what was the last configured version, and we might
+		# have been unpacked, then upgraded with an unpack and thus
+		# never been configured before.
 		if [ "$1" = "configure" ] &&
-		   [ -d "${PATHNAME}.dpkg-backup" ] && [ -h "$PATHNAME" ] &&
-		   [ "$(readlink -f $PATHNAME)" = "$SYMLINK_TARGET" ] &&
-		    dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
-			# By now, dpkg will have updated the symlink to point
-			# to the new location, but we are left behind the old
-			# files owned by this package in the backup directory,
-			# just remove it.
-			rm -rf "${PATHNAME}.dpkg-backup"
+		   [ -d "${PATHNAME}.dpkg-backup" ] &&
+		   [ ! -h "$PATHNAME" ] && [ -d "$PATHNAME" ] &&
+		   [ -f "$PATHNAME/.dpkg-staging-dir" ]; then
+			finish_dir_to_symlink "$PATHNAME" "$SYMLINK_TARGET"
 		fi
 		;;
 	postrm)
@@ -356,12 +363,13 @@ dir_to_symlink() {
 		fi
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
 		   [ -n "$2" ] &&
-		   [ -d "${PATHNAME}.dpkg-backup" ] && [ -h "$PATHNAME" ] &&
-		   [ "$(readlink -f $PATHNAME)" = "$SYMLINK_TARGET" ] &&
+		   [ -d "${PATHNAME}.dpkg-backup" ] &&
+		   [ \( ! -h "$PATHNAME" -a -d "$PATHNAME" -a \
+		        -f "$PATHNAME/.dpkg-staging-dir" \) -o \
+		     \( -h "$PATHNAME" -a \
+		        "$(readlink -f $PATHNAME)" = "$SYMLINK_TARGET" \) ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
-			echo "Restoring backup of $PATHNAME ..."
-			rm -f "$PATHNAME"
-			mv "${PATHNAME}.dpkg-backup" "$PATHNAME"
+			abort_dir_to_symlink "$PATHNAME"
 		fi
 		;;
 	*)
@@ -391,17 +399,69 @@ prepare_dir_to_symlink()
 			return 1
 		fi
 		return 0
-	' subcommand "$PACKAGE" || \
+	' check-files-ownership "$PACKAGE" || \
 		error "directory '$PATHNAME' contains files not owned by" \
 		      "package $PACKAGE, cannot switch to symlink"
 
-	# Move the directory aside and make a temporary symlink to reduce the
-	# time the contents are not available. dpkg will not be able to remove
-	# the old files from the backup directory after unpack, because it
-	# will have updated the symlink to point to the new location already,
-	# we'll remove them ourselves later on.
+	# At this point, we know that the directory either contains no files,
+	# or only non-conffiles owned by the package.
+	#
+	# To do the switch we cannot simply replace it with the final symlink
+	# just yet, because dpkg needs to remove any file present in the old
+	# package that have disappeared in the new one, and we do not want to
+	# lose files resolving to the same pathname in the symlink target.
+	#
+	# We cannot replace the directory with a staging symlink either,
+	# because dpkg will update symlinks to their new target.
+	#
+	# So we need to create a staging directory, to avoid removing files
+	# from other packages, and to trap any new files in the directory
+	# to move them to their correct place later on.
 	mv -f "$PATHNAME" "${PATHNAME}.dpkg-backup"
-	ln -s "${PATHNAME}.dpkg-backup" "$PATHNAME"
+	mkdir "$PATHNAME"
+
+	# Mark it as a staging directory, so that we can track things.
+	touch "$PATHNAME/.dpkg-staging-dir"
+}
+
+finish_dir_to_symlink()
+{
+	local PATHNAME="$1"
+	local SYMLINK_TARGET="$2"
+
+	# Move the contents of the staging directory to the symlink target,
+	# as those are all new files installed between this package being
+	# unpacked and configured.
+	rm "$PATHNAME/.dpkg-staging-dir"
+	find "$PATHNAME" -mindepth 1 -print0 | \
+		xargs -0 -i% mv -f "%" "$SYMLINK_TARGET/"
+
+	# Remove the staging directory.
+	rmdir "$PATHNAME"
+
+	# Do the actual switch.
+	ln -s "$SYMLINK_TARGET" "$PATHNAME"
+
+	# We are left behind the old files owned by this package in the backup
+	# directory, just remove it.
+	rm -rf "${PATHNAME}.dpkg-backup"
+}
+
+abort_dir_to_symlink()
+{
+	local PATHNAME="$1"
+
+	echo "Restoring backup of $PATHNAME ..."
+	if [ -h "$PATHNAME" ]; then
+		rm -f "$PATHNAME"
+	else
+		# The staging directory must be empty, as no other package
+		# should have been unpacked inbetween.
+		rm -f "$PATHNAME/.dpkg-staging-dir"
+		rmdir "$PATHNAME"
+	fi
+
+	mv "${PATHNAME}.dpkg-backup" "$PATHNAME"
 }
 
 # Common functions

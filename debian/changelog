@@ -9,6 +9,16 @@ dpkg (1.17.5) UNRELEASED; urgency=low
   * Fix segfault in update-alternatives when adding or renaming slaves for
     an existing alternative. Regression introduced in dpkg 1.17.2.
     Closes: #731710
+  * Fix dpkg-maintscript-helper symlink_to_dir and dir_to_symlink commands:
+    - Always run postinst code regardless of prior-version, as the package
+      might have been never configured before.
+    - Be more strict when checking the expected state of paths.
+    - Rename subcommand shell code to check-files-ownership.
+    - Change dir_to_symlink switch code to use a staging empty directory,
+      to avoid dpkg removing files from other packages, when removing the
+      package old files during upgrade.
+    - Bump minimal version in man page to 1.17.5.
+    Closes: #731730
 
   [ Updated dpkg translations ]
   * German (Sven Joachim).

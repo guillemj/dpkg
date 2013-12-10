@@ -15,7 +15,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH dpkg\-maintscript\-helper 1 "2012-05-04" "Debian Project" "dpkg suite"
+.TH dpkg\-maintscript\-helper 1 "2013-12-11" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer scripts
 .
@@ -197,9 +197,15 @@ of the new symlink at \fIpathname\fP.
 Current implementation: the \fBpreinst\fP checks if the directory
 exists, does not contain conffiles, pathnames owned by other packages,
 or locally created pathnames, if not then it's left in place, otherwise
-it's renamed to \fIpathname\fP\fB.dpkg\-backup\fP. On configuration,
-the \fBpostinst\fP removes \fIpathname\fP\fB.dpkg\-backup\fP if
-\fIpathname\fP\fB.dpkg\-backup\fP is still a directory. On
+it's renamed to \fIpathname\fP\fB.dpkg\-backup\fP, and an empty staging
+directory named \fIpathname\fP is created, marked with a file so that
+dpkg can track it. On configuration, the \fBpostinst\fP finishes the
+switch if \fIpathname\fP\fB.dpkg\-backup\fP is still a directory and
+\fIpathname\fP is the staging directory; it removes the staging directory
+mark file, moves the newly created files inside the staging directory
+to the symlink target \fInew-target\fP/, replaces the now empty staging
+directory \fIpathname\fP with a symlink to \fInew-target\fP, and
+removes \fIpathname\fP\fB.dpkg\-backup\fP. On
 abort\-upgrade/abort\-install, the \fBpostrm\fP renames
 \fIpathname\fP\fB.dpkg\-backup\fP back to \fIpathname\fP if required.
 .
@@ -210,9 +216,9 @@ using it unconditionally requires a pre-dependency to ensure that the
 required version of \fBdpkg\fP has been unpacked before. The required version
 depends on the command used, for \fBrm_conffile\fP and \fBmv_conffile\fP
 it is 1.15.7.2, for \fBsymlink_to_dir\fP and \fBdir_to_symlink\fP
-it is 1.17.2:
+it is 1.17.5:
 .P
-    \fBPre\-Depends:\fP dpkg (>= 1.17.2)
+    \fBPre\-Depends:\fP dpkg (>= 1.17.5)
 .P
 But in many cases the operation done by the program is not critical for
 the package, and instead of using a pre-dependency we can call the
