@@ -19,7 +19,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH dpkg\-buildpackage 1 "2013-09-17" "Debian Project" "dpkg utilities"
+.TH dpkg\-buildpackage 1 "2013-12-12" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-buildpackage \- build binary or source packages from sources
 .
@@ -56,15 +56,15 @@ case, or if \fB\-b\fP is specified), or \fBbuild\-arch\fP and
 \fBbinary\-arch\fP (if \fB\-B\fP is specified), or \fBbuild\-indep\fP and
 \fBbinary\-indep\fP (if \fB\-A\fP is specified).
 .IP \fB6.\fP 3
-It calls \fBgpg\fP to sign the \fB.dsc\fP file (if any, unless
+It calls \fBgpg2\fP or \fBgpg\fP to sign the \fB.dsc\fP file (if any, unless
 \fB\-us\fP is specified or on UNRELEASED builds).
 .IP \fB7.\fP 3
 It calls \fBdpkg\-genchanges\fP to generate a \fB.changes\fP file.
 Many \fBdpkg\-buildpackage\fP options are forwarded to
 \fBdpkg\-genchanges\fP.
 .IP \fB8.\fP 3
-It calls \fBgpg\fP to sign the \fB.changes\fP file (unless \fB\-uc\fP
-is specified or on UNRELEASED builds).
+It calls \fBgpg2\fP or \fBgpg\fP to sign the \fB.changes\fP file (unless
+\fB\-uc\fP is specified or on UNRELEASED builds).
 .IP \fB9.\fP 3
 If \fB\-tc\fP is specified, it will call \fBfakeroot debian/rules clean\fP
 again. Finally it calls \fBdpkg\-source \-\-after\-build\fP.
@@ -205,8 +205,8 @@ as \fIrules-file\fR).
 When \fBdpkg\-buildpackage\fP needs to execute GPG to sign a source
 control (\fB.dsc\fP) file or a \fB.changes\fP file it will run
 \fIsign-command\fP (searching the \fBPATH\fP if necessary) instead of
-\fBgpg\fP. \fIsign-command\fP will get all the arguments that
-\fBgpg\fP would have gotten. \fIsign-command\fP
+\fBgpg2\fP or \fBgpg\fP. \fIsign-command\fP will get all the arguments
+that \fBgpg2\fP or \fBgpg\fP would have gotten. \fIsign-command\fP
 should not contain spaces or any other shell metacharacters.
 .TP
 .BI \-k key-id
@@ -295,4 +295,5 @@ and initial arguments for
 .BR dpkg\-buildflags (1),
 .BR dpkg\-genchanges (1),
 .BR fakeroot (1),
+.BR gpg2 (1),
 .BR gpg (1).

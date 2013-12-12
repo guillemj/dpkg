@@ -71,7 +71,8 @@ sub usage {
   -r<gain-root-command>
                  command to gain root privileges (default is fakeroot).
   -p<sign-command>
-                 command to sign .dsc and/or .changes files (default is gpg).
+                 command to sign .dsc and/or .changes files
+                   (default is gpg2 or gpg).
   -k<keyid>      the key to use for signing.
   -ap            add pause before starting signature process.
   -us            unsigned source package.
