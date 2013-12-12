@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2013-12-07 07:53+0100\n"
+"POT-Creation-Date: 2013-12-12 08:36+0100\n"
 "PO-Revision-Date: 2012-09-29 02:56+0200\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -906,7 +906,7 @@ msgid "deb-src-control"
 msgstr "deb-control"
 
 #. type: TH
-#: deb-src-control.5:20 dpkg-buildpackage.1:22 dpkg-checkbuilddeps.1:20
+#: deb-src-control.5:20 dpkg-checkbuilddeps.1:20
 #, fuzzy, no-wrap
 msgid "2013-09-17"
 msgstr "2006-02-28"
@@ -6759,6 +6759,13 @@ msgstr ""
 msgid "dpkg-buildpackage"
 msgstr "B<dpkg> [I<параметры>] I<действие>"
 
+#. type: TH
+#: dpkg-buildpackage.1:22
+#, fuzzy, no-wrap
+#| msgid "2006-02-28"
+msgid "2013-12-12"
+msgstr "2006-02-28"
+
 #. type: Plain text
 #: dpkg-buildpackage.1:25
 msgid "dpkg-buildpackage - build binary or source packages from sources"
@@ -6858,8 +6865,8 @@ msgstr "B<-G>"
 #. type: Plain text
 #: dpkg-buildpackage.1:61
 msgid ""
-"It calls B<gpg> to sign the B<.dsc> file (if any, unless B<-us> is specified "
-"or on UNRELEASED builds)."
+"It calls B<gpg2> or B<gpg> to sign the B<.dsc> file (if any, unless B<-us> "
+"is specified or on UNRELEASED builds)."
 msgstr ""
 
 #. type: IP
@@ -6884,8 +6891,8 @@ msgstr "B<-G>"
 #. type: Plain text
 #: dpkg-buildpackage.1:68
 msgid ""
-"It calls B<gpg> to sign the B<.changes> file (unless B<-uc> is specified or "
-"on UNRELEASED builds)."
+"It calls B<gpg2> or B<gpg> to sign the B<.changes> file (unless B<-uc> is "
+"specified or on UNRELEASED builds)."
 msgstr ""
 
 #. type: IP
@@ -7213,9 +7220,9 @@ msgstr ""
 msgid ""
 "When B<dpkg-buildpackage> needs to execute GPG to sign a source control (B<."
 "dsc>) file or a B<.changes> file it will run I<sign-command> (searching the "
-"B<PATH> if necessary) instead of B<gpg>. I<sign-command> will get all the "
-"arguments that B<gpg> would have gotten. I<sign-command> should not contain "
-"spaces or any other shell metacharacters."
+"B<PATH> if necessary) instead of B<gpg2> or B<gpg>. I<sign-command> will get "
+"all the arguments that B<gpg2> or B<gpg> would have gotten. I<sign-command> "
+"should not contain spaces or any other shell metacharacters."
 msgstr ""
 
 #. type: TP
@@ -7423,11 +7430,11 @@ msgid ""
 msgstr ""
 
 #. type: Plain text
-#: dpkg-buildpackage.1:298
+#: dpkg-buildpackage.1:299
 #, fuzzy
 msgid ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
-"genchanges>(1), B<fakeroot>(1), B<gpg>(1)."
+"genchanges>(1), B<fakeroot>(1), B<gpg2>(1), B<gpg>(1)."
 msgstr "B<deb>(5), B<dpkg>(1), B<dpkg-deb>(1)."
 
 #. type: TH
@@ -7555,7 +7562,7 @@ msgid "dpkg-distaddfile"
 msgstr ""
 
 #. type: TH
-#: dpkg-distaddfile.1:19 dpkg-genchanges.1:21 dpkg-maintscript-helper.1:18
+#: dpkg-distaddfile.1:19 dpkg-genchanges.1:21
 #, fuzzy, no-wrap
 #| msgid "2006-02-28"
 msgid "2012-05-04"
@@ -9662,6 +9669,13 @@ msgstr "B<deb>(5), B<dpkg>(1), B<dpkg-deb>(1)."
 msgid "dpkg-maintscript-helper"
 msgstr ""
 
+#. type: TH
+#: dpkg-maintscript-helper.1:18
+#, fuzzy, no-wrap
+#| msgid "2006-02-28"
+msgid "2013-12-11"
+msgstr "2006-02-28"
+
 #. type: Plain text
 #: dpkg-maintscript-helper.1:21
 msgid ""
@@ -10016,43 +10030,48 @@ msgid ""
 msgstr ""
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:205
+#: dpkg-maintscript-helper.1:211
 msgid ""
 "Current implementation: the B<preinst> checks if the directory exists, does "
 "not contain conffiles, pathnames owned by other packages, or locally created "
 "pathnames, if not then it's left in place, otherwise it's renamed to "
-"I<pathname>B<.dpkg-backup>. On configuration, the B<postinst> removes "
-"I<pathname>B<.dpkg-backup> if I<pathname>B<.dpkg-backup> is still a "
-"directory. On abort-upgrade/abort-install, the B<postrm> renames "
-"I<pathname>B<.dpkg-backup> back to I<pathname> if required."
+"I<pathname>B<.dpkg-backup>, and an empty staging directory named I<pathname> "
+"is created, marked with a file so that dpkg can track it. On configuration, "
+"the B<postinst> finishes the switch if I<pathname>B<.dpkg-backup> is still a "
+"directory and I<pathname> is the staging directory; it removes the staging "
+"directory mark file, moves the newly created files inside the staging "
+"directory to the symlink target I<new-target>/, replaces the now empty "
+"staging directory I<pathname> with a symlink to I<new-target>, and removes "
+"I<pathname>B<.dpkg-backup>. On abort-upgrade/abort-install, the B<postrm> "
+"renames I<pathname>B<.dpkg-backup> back to I<pathname> if required."
 msgstr ""
 
 #. type: SH
-#: dpkg-maintscript-helper.1:206
+#: dpkg-maintscript-helper.1:212
 #, fuzzy, no-wrap
 #| msgid "INFORMATION ABOUT PACKAGES"
 msgid "INTEGRATION IN PACKAGES"
 msgstr "ИНФОРМАЦИЯ О ПАКЕТАХ"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:214
+#: dpkg-maintscript-helper.1:220
 msgid ""
 "Given that B<dpkg-maintscript-helper> is used in the B<preinst>, using it "
 "unconditionally requires a pre-dependency to ensure that the required "
 "version of B<dpkg> has been unpacked before. The required version depends on "
 "the command used, for B<rm_conffile> and B<mv_conffile> it is 1.15.7.2, for "
-"B<symlink_to_dir> and B<dir_to_symlink> it is 1.17.2:"
+"B<symlink_to_dir> and B<dir_to_symlink> it is 1.17.5:"
 msgstr ""
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:216
+#: dpkg-maintscript-helper.1:222
 #, fuzzy, no-wrap
 #| msgid "B<Pre-Depends:> E<lt>package listE<gt>"
-msgid "    B<Pre-Depends:> dpkg (E<gt>= 1.17.2)\n"
+msgid "    B<Pre-Depends:> dpkg (E<gt>= 1.17.5)\n"
 msgstr "B<Pre-Depends:> E<lt>список пакетовE<gt>"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:221
+#: dpkg-maintscript-helper.1:227
 msgid ""
 "But in many cases the operation done by the program is not critical for the "
 "package, and instead of using a pre-dependency we can call the program only "
@@ -10061,7 +10080,7 @@ msgid ""
 msgstr ""
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:224
+#: dpkg-maintscript-helper.1:230
 #, no-wrap
 msgid ""
 "    if dpkg-maintscript-helper supports I<command>; then\n"
