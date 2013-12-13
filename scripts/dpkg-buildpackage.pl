@@ -114,10 +114,11 @@ sub usage {
 my @debian_rules = ('debian/rules');
 my @rootcommand = ();
 my $signcommand;
-my ($admindir, $usepause, $noclean,
+my ($admindir, $noclean,
     $cleansource, $since, $maint,
     $changedby, $desc, $parallel);
 my $checkbuilddep = 1;
+my $signpause;
 my $signkey = defined $ENV{DEB_SIGN_KEYID} ? $ENV{DEB_SIGN_KEYID} : undef;
 my $signforce = 0;
 my $signreleased = 1;
@@ -188,7 +189,7 @@ while (@ARGV) {
     } elsif (/^-uc$/) {
 	$signchanges = 0;
     } elsif (/^-ap$/) {
-	$usepause = 1;
+	$signpause = 1;
     } elsif (/^-a(.*)$/) {
 	$targetarch = $1;
     } elsif (/^-P(.*)$/) {
@@ -435,7 +436,7 @@ unless (build_sourceonly) {
     withecho(@debian_rules, $buildtarget);
     withecho(@rootcommand, @debian_rules, $binarytarget);
 }
-if ($usepause &&
+if ($signpause &&
     ($signchanges || (!build_binaryonly && $signsource))) {
     print _g("Press the return key to start signing process\n");
     getc();
