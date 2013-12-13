@@ -488,30 +488,6 @@ while ($_ = <$changes_fh>) {
 close $changes_fh or subprocerr(_g('dpkg-genchanges'));
 close $out_fh or syserr(_g('write changes file'));
 
-my $srcmsg;
-sub fileomitted($) { return $files !~ /$_[0]/ }
-my $ext = compression_get_file_extension_regex();
-if (fileomitted '\.deb') {
-    # source only upload
-    if (fileomitted "\.diff\.$ext" and fileomitted "\.debian\.tar\.$ext") {
-	$srcmsg = _g('source only upload: Debian-native package');
-    } elsif (fileomitted "\.orig\.tar\.$ext") {
-	$srcmsg = _g('source only, diff-only upload (original source NOT included)');
-    } else {
-	$srcmsg = _g('source only upload (original source is included)');
-    }
-} else {
-    if (fileomitted '\.dsc') {
-	$srcmsg = _g('binary only upload (no source included)');
-    } elsif (fileomitted "\.diff\.$ext" and fileomitted "\.debian\.tar\.$ext") {
-	$srcmsg = _g('full upload; Debian-native package (full source is included)');
-    } elsif (fileomitted "\.orig\.tar\.$ext") {
-	$srcmsg = _g('binary and diff upload (original source NOT included)');
-    } else {
-	$srcmsg = _g('full upload (original source is included)');
-    }
-}
-
 if ($cleansource) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
@@ -519,7 +495,7 @@ chdir('..') or syserr('chdir ..');
 withecho('dpkg-source', @source_opts, '--after-build', $dir);
 chdir($dir) or syserr("chdir $dir");
 
-print "$Dpkg::PROGNAME: $srcmsg\n";
+printf "$Dpkg::PROGNAME: %s\n", describe_build($files);
 
 if ($signpause && ($signchanges || $signsource)) {
     print _g("Press the return key to start signing process\n");
@@ -572,4 +548,36 @@ sub signfile {
     }
     print "\n";
     return $status
+}
+
+sub fileomitted {
+    my ($files, $regex) = @_;
+
+    return $files !~ /$regex/
+}
+
+sub describe_build {
+    my ($files) = @_;
+    my $ext = compression_get_file_extension_regex();
+
+    if (fileomitted($files, '\.deb')) {
+        # source only upload
+        if (fileomitted($files, "\.diff\.$ext") and
+            fileomitted($files, "\.debian\.tar\.$ext")) {
+            return _g('source only upload: Debian-native package');
+        } elsif (fileomitted($files, "\.orig\.tar\.$ext")) {
+            return _g('source only, diff-only upload (original source NOT included)');
+        } else {
+            return _g('source only upload (original source is included)');
+        }
+    } elsif (fileomitted($files, '\.dsc')) {
+        return _g('binary only upload (no source included)');
+    } elsif (fileomitted($files, "\.diff\.$ext") and
+             fileomitted($files, "\.debian\.tar\.$ext")) {
+        return _g('full upload; Debian-native package (full source is included)');
+    } elsif (fileomitted($files, "\.orig\.tar\.$ext")) {
+        return _g('binary and diff upload (original source NOT included)');
+    } else {
+        return _g('full upload (original source is included)');
+    }
 }
