@@ -351,10 +351,11 @@ my $changelog = changelog_parse();
 
 my $pkg = mustsetvar($changelog->{source}, _g('source package'));
 my $version = mustsetvar($changelog->{version}, _g('source version'));
-my ($ok, $error) = version_check($version);
+my $v = Dpkg::Version->new($version);
+my ($ok, $error) = version_check($v);
 error($error) unless $ok;
 
-(my $sversion = $version) =~ s/^\d+://;
+my $sversion = $v->as_string(omit_epoch => 1);
 
 my $distribution = mustsetvar($changelog->{distribution}, _g('source distribution'));
 
