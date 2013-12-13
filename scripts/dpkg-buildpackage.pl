@@ -446,19 +446,6 @@ if ($include & BUILD_BINARY) {
     withecho(@debian_rules, $buildtarget);
     withecho(@rootcommand, @debian_rules, $binarytarget);
 }
-if ($signpause &&
-    ($signchanges || (($include & BUILD_SOURCE) && $signsource))) {
-    print _g("Press the return key to start signing process\n");
-    getc();
-}
-
-my $signerrors;
-if ($include & BUILD_SOURCE) {
-    if ($signsource && signfile("$pv.dsc")) {
-	$signerrors = _g('failed to sign .dsc and .changes file');
-	$signchanges = 0;
-    }
-}
 
 if (defined($maint)) { push @changes_opts, "-m$maint" }
 if (defined($changedby)) { push @changes_opts, "-e$changedby" }
@@ -514,10 +501,6 @@ if (fileomitted '\.deb') {
     }
 }
 
-if ($signchanges && signfile("$pva.changes")) {
-    $signerrors = _g('failed to sign .changes file');
-}
-
 if ($cleansource) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
@@ -525,13 +508,23 @@ chdir('..') or syserr('chdir ..');
 withecho('dpkg-source', @source_opts, '--after-build', $dir);
 chdir($dir) or syserr("chdir $dir");
 
+print "$Dpkg::PROGNAME: $srcmsg\n";
+
+if ($signpause &&
+    ($signchanges || (($include & BUILD_SOURCE) && $signsource))) {
+    print _g("Press the return key to start signing process\n");
+    getc();
+}
+
+if ($signsource && ($include & BUILD_SOURCE) && signfile("$pv.dsc")) {
+    error(_g('failed to sign .dsc and .changes file'));
+}
+if ($signchanges && signfile("$pva.changes")) {
+    error(_g('failed to sign .changes file'));
+}
+
 if (not $signreleased) {
     warning(_g('not signing UNRELEASED build; use --force-sign to override'));
-}
-print "$Dpkg::PROGNAME: $srcmsg\n";
-if ($signerrors) {
-    warning($signerrors);
-    exit 1;
 }
 
 sub mustsetvar {
