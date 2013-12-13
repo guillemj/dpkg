@@ -77,6 +77,10 @@ sub usage {
                  command to check the .changes file (no default).
   --check-option=<opt>
                  pass <opt> to <check-command>.
+  --hook-<hook-name>=<hook-command>
+                 set <hook-command> as the hook <hook-name>, known hooks:
+                   init preclean source build binary changes postclean
+                   check sign done
   -p<sign-command>
                  command to sign .dsc and/or .changes files
                    (default is gpg2 or gpg).
@@ -148,6 +152,11 @@ my $maint;
 my $changedby;
 my $desc;
 my @changes_opts;
+my @hook_names = qw(
+    init preclean source build binary changes postclean check sign done
+);
+my %hook;
+$hook{$_} = undef foreach @hook_names;
 
 use constant BUILD_DEFAULT    => 1;
 use constant BUILD_SOURCE     => 2;
@@ -206,6 +215,13 @@ while (@ARGV) {
 	$check_command = $1;
     } elsif (/^--check-option=(.*)$/) {
 	push @check_opts, $1;
+    } elsif (/^--hook-(.+)=(.*)$/) {
+	my ($hook_name, $hook_cmd) = ($1, $2);
+	usageerr(_g('unknown hook name %s'), $hook_name)
+	    if not exists $hook{$hook_name};
+	usageerr(_g('missing hook %s command'), $hook_name)
+	    if not defined $hook_cmd;
+	$hook{$hook_name} = $hook_cmd;
     } elsif (/^-p(.*)$/) {
 	$signcommand = $1;
     } elsif (/^-k(.*)$/) {
@@ -356,6 +372,7 @@ my ($ok, $error) = version_check($v);
 error($error) unless $ok;
 
 my $sversion = $v->as_string(omit_epoch => 1);
+my $uversion = $v->version();
 
 my $distribution = mustsetvar($changelog->{distribution}, _g('source distribution'));
 
@@ -409,6 +426,8 @@ if ($signsource && build_binaryonly) {
 # Preparation of environment stops here
 #
 
+run_hook('init', 1);
+
 if (not -x 'debian/rules') {
     warning(_g('debian/rules is not executable; fixing that'));
     chmod(0755, 'debian/rules'); # No checks of failures, non fatal
@@ -450,9 +469,14 @@ if ($call_target) {
     exit 0;
 }
 
+run_hook('preclean', ! $noclean);
+
 unless ($noclean) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
+
+run_hook('source', $include & BUILD_SOURCE);
+
 if ($include & BUILD_SOURCE) {
     warning(_g('building a source package without cleaning up as you asked; ' .
                'it might contain undesired files')) if $noclean;
@@ -460,6 +484,8 @@ if ($include & BUILD_SOURCE) {
     withecho('dpkg-source', @source_opts, '-b', $dir);
     chdir($dir) or syserr("chdir $dir");
 }
+
+run_hook('build', $include & BUILD_BINARY);
 
 if ($buildtarget ne 'build' and scalar(@debian_rules) == 1) {
     # Verify that build-{arch,indep} are supported. If not, fallback to build.
@@ -481,8 +507,11 @@ if ($buildtarget ne 'build' and scalar(@debian_rules) == 1) {
 
 if ($include & BUILD_BINARY) {
     withecho(@debian_rules, $buildtarget);
+    run_hook('binary', 1);
     withecho(@rootcommand, @debian_rules, $binarytarget);
 }
+
+run_hook('changes', 1);
 
 push @changes_opts, "-m$maint" if defined $maint;
 push @changes_opts, "-e$changedby" if defined $changedby;
@@ -500,14 +529,19 @@ $changes->parse($changes_fh, _g('parse changes file'));
 $changes->save($chg);
 close $changes_fh or subprocerr(_g('dpkg-genchanges'));
 
+run_hook('postclean', $cleansource);
+
 if ($cleansource) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
+
 chdir('..') or syserr('chdir ..');
 withecho('dpkg-source', @source_opts, '--after-build', $dir);
 chdir($dir) or syserr("chdir $dir");
 
 printf "$Dpkg::PROGNAME: %s\n", describe_build($changes->{'Files'});
+
+run_hook('check', $check_command);
 
 if ($check_command) {
     withecho($check_command, @check_opts, $chg);
@@ -517,6 +551,8 @@ if ($signpause && ($signchanges || $signsource)) {
     print _g("Press the return key to start signing process\n");
     getc();
 }
+
+run_hook('sign', $signsource || $signchanges);
 
 if ($signsource) {
     if (signfile("$pv.dsc")) {
@@ -546,6 +582,8 @@ if (not $signreleased) {
     warning(_g('not signing UNRELEASED build; use --force-sign to override'));
 }
 
+run_hook('done', 1);
+
 sub mustsetvar {
     my ($var, $text) = @_;
 
@@ -560,6 +598,29 @@ sub withecho {
     print { *STDERR } " @_\n";
     system(@_)
 	and subprocerr("@_");
+}
+
+sub run_hook {
+    my ($name, $enabled) = @_;
+    my $cmd = $hook{$name};
+
+    return if not $cmd;
+
+    print { *STDERR } "$Dpkg::PROGNAME: running hook $name\n";
+
+    my %hook_vars = (
+        '%' => '%',
+        'a' => $enabled ? 1 : 0,
+        'p' => $pkg,
+        'v' => $version,
+        's' => $sversion,
+        'u' => $uversion,
+    );
+
+    $cmd =~ s/\%(.)/exists $hook_vars{$1} ? $hook_vars{$1} :
+        (warning(_g('unknown %% substitution in hook: %%%s'), $1), "\%$1")/eg;
+
+    withecho($cmd);
 }
 
 sub signfile {

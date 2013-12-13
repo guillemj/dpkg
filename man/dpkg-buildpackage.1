@@ -33,44 +33,48 @@ is a program that automates the process of building a Debian package. It
 consists of the following steps:
 .IP \fB1.\fP 3
 It prepares the build environment by setting various environment
-variables (see \fBENVIRONMENT\fP) and calls \fBdpkg\-source
-\-\-before\-build\fP (unless \fB\-T\fP or \fB\-\-target\fP has been used).
+variables (see \fBENVIRONMENT\fP), runs the \fBinit\fP hook, and calls
+\fBdpkg\-source \-\-before\-build\fP (unless \fB\-T\fP or \fB\-\-target\fP
+has been used).
 .IP \fB2.\fP 3
 It checks that the build-dependencies and build-conflicts
 are satisfied (unless \fB\-d\fP is specified).
 .IP \fB3.\fP 3
 If a specific target has been selected with the \fB\-T\fP or \fB\-\-target\fP
-option, it calls that target and stops here. Otherwise it calls
-\fBfakeroot debian/rules clean\fP to clean the build-tree (unless
-\fB\-nc\fP is specified).
+option, it calls that target and stops here. Otherwise it runs the
+\fBpreclean\fP hook and calls \fBfakeroot debian/rules clean\fP to
+clean the build-tree (unless \fB\-nc\fP is specified).
 .IP \fB4.\fP 3
-It calls \fBdpkg\-source \-b\fP to generate the source package (unless
-a binary\-only build has been requested with \fB\-b\fP, \fB\-B\fP or
-\fB\-A\fP).
+It runs the \fBsource\fP hook and calls \fBdpkg\-source \-b\fP to generate
+the source package (unless a binary\-only build has been requested with
+\fB\-b\fP, \fB\-B\fP or \fB\-A\fP).
 .IP \fB5.\fP 3
-It calls \fBdebian/rules\fP \fIbuild-target\fP followed by
-\fBfakeroot debian/rules\fP \fIbinary-target\fP (unless a source-only
-build has been requested with \fB\-S\fP). Note that \fIbuild-target\fR
-and \fIbinary-target\fP are either \fBbuild\fP and \fBbinary\fP (default
-case, or if \fB\-b\fP is specified), or \fBbuild\-arch\fP and
-\fBbinary\-arch\fP (if \fB\-B\fP is specified), or \fBbuild\-indep\fP and
-\fBbinary\-indep\fP (if \fB\-A\fP is specified).
+It runs the \fBbuild\fP hook and calls \fBdebian/rules\fP \fIbuild-target\fP,
+then runs the \fBbinary\fP hook followed by \fBfakeroot debian/rules\fP
+\fIbinary-target\fP (unless a source-only build has been requested with
+\fB\-S\fP). Note that \fIbuild-target\fR and \fIbinary-target\fP are either
+\fBbuild\fP and \fBbinary\fP (default case, or if \fB\-b\fP is specified),
+or \fBbuild\-arch\fP and \fBbinary\-arch\fP (if \fB\-B\fP is specified),
+or \fBbuild\-indep\fP and \fBbinary\-indep\fP (if \fB\-A\fP is specified).
 .IP \fB6.\fP 3
-It calls \fBdpkg\-genchanges\fP to generate a \fB.changes\fP file.
+It runs the \fBchanges\fP hook and calls calls \fBdpkg\-genchanges\fP to
+generate a \fB.changes\fP file.
 Many \fBdpkg\-buildpackage\fP options are forwarded to
 \fBdpkg\-genchanges\fP.
 .IP \fB7.\fP 3
-If \fB\-tc\fP is specified, it will call \fBfakeroot debian/rules clean\fP
-again.
+It runs the \fBpostclean\fP and if \fB\-tc\fP is specified, it will
+call \fBfakeroot debian/rules clean\fP again.
 .IP \fB8.\fP 3
 It calls \fBdpkg\-source \-\-after\-build\fP.
 .IP \fB9.\fP 3
-It calls a package checker for the \fB.changes\fP file (if a command is
-specified in DEB_CHECK_COMMAND or with \fB\-\-check\-command\fP).
+It runs the \fBcheck\fP hook and calls a package checker for the
+\fB.changes\fP file (if a command is specified in DEB_CHECK_COMMAND or
+with \fB\-\-check\-command\fP).
 .IP \fB10.\fP 3
-It calls \fBgpg2\fP or \fBgpg\fP to sign the \fB.dsc\fP file (if any, unless
-\fB\-us\fP is specified or on UNRELEASED builds), and the \fB.changes\fP file
-(unless \fB\-uc\fP is specified or on UNRELEASED builds).
+It runs the \fBsign\fP hook and calls \fBgpg2\fP or \fBgpg\fP to sign
+the \fB.dsc\fP file (if any, unless \fB\-us\fP is specified or on UNRELEASED
+builds), and the \fB.changes\fP file (unless \fB\-uc\fP is specified or on
+UNRELEASED builds).
 .
 .SH OPTIONS
 .TP
@@ -211,6 +215,44 @@ as an argument. This command will usually be \fBlintian\fP.
 .TP
 .BI \-\-check\-option= opt
 Pass option \fIopt\fP to \fIcheck-command\fP.
+.TP
+.BI \-\-hook\- hook-name = hook-command
+Set the specified shell code \fIhook-command\fP as the hook \fIhook-name\fP,
+which will run at the times specified in the run steps. The hooks will
+always be executed even if the following action is not performed (except
+for the \fBbinary\fP hook).
+
+Note: Hooks can affect the build process, and cause build failures if
+their commands fail, so watch out for unintended consequences.
+
+The current \fIhook-name\fP supported are:
+
+.B init preclean source build binary changes postclean check sign done
+
+The \fIhook-command\fP supports the following substitution format string,
+which will get applied to it before execution:
+
+.RS
+.TP
+.B %%
+A single % character.
+.TP
+.B %a
+A boolean value (0 or 1), representing whether the following action is
+being performed.
+.TP
+.B %p
+The source package name.
+.TP
+.B %v
+The source package version.
+.TP
+.B %s
+The source package version (without the epoch).
+.TP
+.B %u
+The upstream version.
+.RE
 .TP
 .BI \-p sign-command
 When \fBdpkg\-buildpackage\fP needs to execute GPG to sign a source
