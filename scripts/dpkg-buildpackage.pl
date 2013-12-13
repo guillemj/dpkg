@@ -71,6 +71,10 @@ sub usage {
   -j[<number>]   specify jobs to run simultaneously (passed to <rules>).
   -r<gain-root-command>
                  command to gain root privileges (default is fakeroot).
+  --check-command=<check-command>
+                 command to check the .changes file (no default).
+  --check-option=<opt>
+                 pass <opt> to <check-command>.
   -p<sign-command>
                  command to sign .dsc and/or .changes files
                    (default is gpg2 or gpg).
@@ -122,6 +126,8 @@ my $parallel;
 my $checkbuilddep = 1;
 my @checkbuilddep_opts;
 my @source_opts;
+my $check_command = $ENV{DEB_CHECK_COMMAND};
+my @check_opts;
 my $signpause;
 my $signkey = defined $ENV{DEB_SIGN_KEYID} ? $ENV{DEB_SIGN_KEYID} : undef;
 my $signforce = 0;
@@ -188,6 +194,10 @@ while (@ARGV) {
 	$parallel = $1 || '';
     } elsif (/^-r(.*)$/) {
 	@rootcommand = split /\s+/, $1;
+    } elsif (/^--check-command=(.*)$/) {
+	$check_command = $1;
+    } elsif (/^--check-option=(.*)$/) {
+	push @check_opts, $1;
     } elsif (/^-p(.*)$/) {
 	$signcommand = $1;
     } elsif (/^-k(.*)$/) {
@@ -297,6 +307,10 @@ if ($< == 0) {
 	    error(_g("gain-root-commmand '%s' not found"), $rootcommand[0]);
 	}
     }
+}
+
+if ($check_command and not find_command($check_command)) {
+    error(_g("check-commmand '%s' not found"), $check_command);
 }
 
 if (!defined $signcommand &&
@@ -496,6 +510,10 @@ withecho('dpkg-source', @source_opts, '--after-build', $dir);
 chdir($dir) or syserr("chdir $dir");
 
 printf "$Dpkg::PROGNAME: %s\n", describe_build($files);
+
+if ($check_command) {
+    withecho($check_command, @check_opts, $chg);
+}
 
 if ($signpause && ($signchanges || $signsource)) {
     print _g("Press the return key to start signing process\n");

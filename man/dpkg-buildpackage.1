@@ -65,6 +65,9 @@ again.
 .IP \fB8.\fP 3
 It calls \fBdpkg\-source \-\-after\-build\fP.
 .IP \fB9.\fP 3
+It calls a package checker for the \fB.changes\fP file (if a command is
+specified in DEB_CHECK_COMMAND or with \fB\-\-check\-command\fP).
+.IP \fB10.\fP 3
 It calls \fBgpg2\fP or \fBgpg\fP to sign the \fB.dsc\fP file (if any, unless
 \fB\-us\fP is specified or on UNRELEASED builds), and the \fB.changes\fP file
 (unless \fB\-uc\fP is specified or on UNRELEASED builds).
@@ -201,6 +204,14 @@ another make program (for example by using
 .B /usr/local/bin/make \-f debian/rules
 as \fIrules-file\fR).
 .TP
+.BI \-\-check\-command= check-command
+Command used to check the \fB.changes\fP file itself and any artifact built
+referenced in the file. The command should take the \fB.changes\fP pathname
+as an argument. This command will usually be \fBlintian\fP.
+.TP
+.BI \-\-check\-option= opt
+Pass option \fIopt\fP to \fIcheck-command\fP.
+.TP
 .BI \-p sign-command
 When \fBdpkg\-buildpackage\fP needs to execute GPG to sign a source
 control (\fB.dsc\fP) file or a \fB.changes\fP file it will run
@@ -251,6 +262,10 @@ Show the version and exit.
 .
 .SH ENVIRONMENT
 .TP
+.B DEB_CHECK_COMMAND
+If set, it will be used as the command to check the \fB.changes\fP file.
+Overridden by the \fB\-\-check\-command\fP option.
+.TP
 .B DEB_SIGN_KEYID
 If set, it will be used to sign the \fB.changes\fP and \fB.dsc\fP files.
 Overridden by the \fB\-k\fP option.
@@ -295,5 +310,6 @@ and initial arguments for
 .BR dpkg\-buildflags (1),
 .BR dpkg\-genchanges (1),
 .BR fakeroot (1),
+.BR lintian (1),
 .BR gpg2 (1),
 .BR gpg (1).
