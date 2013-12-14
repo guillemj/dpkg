@@ -396,9 +396,7 @@ unless ($call_target) {
 }
 
 if ($checkbuilddep) {
-    if ($admindir) {
-	push @checkbuilddep_opts, "--admindir=$admindir";
-    }
+    push @checkbuilddep_opts, "--admindir=$admindir" if $admindir;
 
     system('dpkg-checkbuilddeps', @checkbuilddep_opts);
     if (not WIFEXITED($?)) {
@@ -461,10 +459,10 @@ if ($include & BUILD_BINARY) {
     withecho(@rootcommand, @debian_rules, $binarytarget);
 }
 
-if (defined($maint)) { push @changes_opts, "-m$maint" }
-if (defined($changedby)) { push @changes_opts, "-e$changedby" }
-if (defined($since)) { push @changes_opts, "-v$since" }
-if (defined($desc)) { push @changes_opts, "-C$desc" }
+push @changes_opts, "-m$maint" if defined $maint;
+push @changes_opts, "-e$changedby" if defined $changedby;
+push @changes_opts, "-v$since" if defined $since;
+push @changes_opts, "-C$desc" if defined $desc;
 
 my $chg = "../$pva.changes";
 print { *STDERR } " dpkg-genchanges @changes_opts >$chg\n";
