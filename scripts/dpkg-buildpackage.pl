@@ -129,7 +129,7 @@ my @source_opts;
 my $check_command = $ENV{DEB_CHECK_COMMAND};
 my @check_opts;
 my $signpause;
-my $signkey = defined $ENV{DEB_SIGN_KEYID} ? $ENV{DEB_SIGN_KEYID} : undef;
+my $signkey = $ENV{DEB_SIGN_KEYID};
 my $signforce = 0;
 my $signreleased = 1;
 my $signsource = 1;
