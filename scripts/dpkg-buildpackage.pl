@@ -501,7 +501,6 @@ if (fileomitted '\.deb') {
 	$srcmsg = _g('source only upload (original source is included)');
     }
 } else {
-    $srcmsg = _g('full upload (original source is included)');
     if (fileomitted '\.dsc') {
 	$srcmsg = _g('binary only upload (no source included)');
     } elsif (fileomitted "\.diff\.$ext" and fileomitted "\.debian\.tar\.$ext") {
