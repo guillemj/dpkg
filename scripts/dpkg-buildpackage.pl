@@ -322,6 +322,8 @@ my $version = mustsetvar($changelog->{version}, _g('source version'));
 my ($ok, $error) = version_check($version);
 error($error) unless $ok;
 
+(my $sversion = $version) =~ s/^\d+://;
+
 my $distribution = mustsetvar($changelog->{distribution}, _g('source distribution'));
 
 my $maintainer;
@@ -351,6 +353,9 @@ if (build_sourceonly) {
     $arch = mustsetvar($ENV{DEB_HOST_ARCH}, _g('host architecture'));
 }
 
+my $pv = "${pkg}_$sversion";
+my $pva = "${pkg}_${sversion}_$arch";
+
 if (not $signcommand) {
     $signsource = 0;
     $signchanges = 0;
@@ -367,12 +372,9 @@ if ($signsource && build_binaryonly) {
     $signsource = 0;
 }
 
+#
 # Preparation of environment stops here
-
-(my $sversion = $version) =~ s/^\d+://;
-
-my $pv = "${pkg}_$sversion";
-my $pva = "${pkg}_${sversion}_$arch";
+#
 
 if (not -x 'debian/rules') {
     warning(_g('debian/rules is not executable; fixing that'));
