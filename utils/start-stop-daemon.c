@@ -174,6 +174,7 @@ static const char *changedir = "/";
 static const char *cmdname = NULL;
 static char *execname = NULL;
 static char *startas = NULL;
+static pid_t match_pid = -1;
 static const char *pidfile = NULL;
 static char what_stop[1024];
 static const char *progname = "";
@@ -437,6 +438,7 @@ usage(void)
 "  -V|--version                  print version\n"
 "\n"
 "Matching options (at least one is required):\n"
+"     --pid <pid>                pid to check\n"
 "  -p|--pidfile <pid-file>       pid file to check\n"
 "  -x|--exec <executable>        program to start/check if it is running\n"
 "  -n|--name <process-name>      process name to check\n"
@@ -556,6 +558,17 @@ parse_unsigned(const char *string, int base, int *value_r)
 		return -1;
 
 	*value_r = value;
+	return 0;
+}
+
+static int
+parse_pid(const char *pid_str, int *pid_num)
+{
+	if (parse_unsigned(pid_str, 10, pid_num) != 0)
+		return -1;
+	if (*pid_num == 0)
+		return -1;
+
 	return 0;
 }
 
@@ -803,6 +816,7 @@ parse_options(int argc, char * const *argv)
 		{ "startas",	  1, NULL, 'a'},
 		{ "name",	  1, NULL, 'n'},
 		{ "oknodo",	  0, NULL, 'o'},
+		{ "pid",	  1, NULL, 500},
 		{ "pidfile",	  1, NULL, 'p'},
 		{ "quiet",	  0, NULL, 'q'},
 		{ "signal",	  1, NULL, 's'},
@@ -824,6 +838,7 @@ parse_options(int argc, char * const *argv)
 		{ "chdir",	  1, NULL, 'd'},
 		{ NULL,		  0, NULL, 0  }
 	};
+	const char *pid_str = NULL;
 	const char *umask_str = NULL;
 	const char *signal_str = NULL;
 	const char *schedule_str = NULL;
@@ -861,6 +876,9 @@ parse_options(int argc, char * const *argv)
 			break;
 		case 'o':  /* --oknodo */
 			exitnodo = 0;
+			break;
+		case 500: /* --pid <pid> */
+			pid_str = optarg;
 			break;
 		case 'p':  /* --pidfile <pid-file> */
 			pidfile = optarg;
@@ -929,6 +947,11 @@ parse_options(int argc, char * const *argv)
 		}
 	}
 
+	if (pid_str != NULL) {
+		if (parse_pid(pid_str, &match_pid) != 0)
+			badusage("pid value must be a number greater than 0");
+	}
+
 	if (signal_str != NULL) {
 		if (parse_signal(signal_str, &signal_nr) != 0)
 			badusage("signal value must be numeric or name"
@@ -953,8 +976,8 @@ parse_options(int argc, char * const *argv)
 	if (action == action_none)
 		badusage("need one of --start or --stop or --status");
 
-	if (!execname && !pidfile && !userspec && !cmdname)
-		badusage("need at least one of --exec, --pidfile, --user or --name");
+	if (!execname && !pid_str && !pidfile && !userspec && !cmdname)
+		badusage("need at least one of --exec, --pid, --pidfile, --user or --name");
 
 #ifdef PROCESS_NAME_SIZE
 	if (cmdname && strlen(cmdname) > PROCESS_NAME_SIZE)
@@ -971,6 +994,9 @@ parse_options(int argc, char * const *argv)
 
 	if (mpidfile && pidfile == NULL)
 		badusage("--make-pidfile requires --pidfile");
+
+	if (pid_str && pidfile)
+		badusage("need either --pid of --pidfile, not both");
 
 	if (background && action != action_start)
 		badusage("--background is only relevant with --start");
@@ -1481,7 +1507,9 @@ do_findprocs(void)
 {
 	pid_list_free(&found);
 
-	if (pidfile)
+	if (match_pid > 0)
+		return pid_check(match_pid);
+	else if (pidfile)
 		return do_pidfile(pidfile);
 	else
 		return do_procinit();
