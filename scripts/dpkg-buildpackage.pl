@@ -112,13 +112,16 @@ sub usage {
 '), $Dpkg::PROGNAME;
 }
 
+my $admindir;
 my @debian_rules = ('debian/rules');
 my @rootcommand = ();
 my $signcommand;
-my ($admindir, $noclean,
-    $cleansource, $since, $maint,
-    $changedby, $desc, $parallel);
+my $noclean;
+my $cleansource;
+my $parallel;
 my $checkbuilddep = 1;
+my @checkbuilddep_opts;
+my @source_opts;
 my $signpause;
 my $signkey = defined $ENV{DEB_SIGN_KEYID} ? $ENV{DEB_SIGN_KEYID} : undef;
 my $signforce = 0;
@@ -127,11 +130,16 @@ my $signsource = 1;
 my $signchanges = 1;
 my $buildtarget = 'build';
 my $binarytarget = 'binary';
-my $targetarch = my $targetgnusystem = '';
+my $targetarch = '';
+my $targetgnusystem = '';
 my @build_profiles = ();
 my $call_target = '';
 my $call_target_as_root = 0;
-my (@checkbuilddep_opts, @changes_opts, @source_opts);
+my $since;
+my $maint;
+my $changedby;
+my $desc;
+my @changes_opts;
 
 use constant BUILD_DEFAULT    => 1;
 use constant BUILD_SOURCE     => 2;
