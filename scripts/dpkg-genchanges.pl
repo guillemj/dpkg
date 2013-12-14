@@ -83,19 +83,20 @@ my $substvars_loaded = 0;
 my $substvars = Dpkg::Substvars->new();
 $substvars->set('Format', $changes_format);
 
-use constant SOURCE     => 1;
-use constant ARCH_DEP   => 2;
-use constant ARCH_INDEP => 4;
-use constant BIN        => ARCH_DEP | ARCH_INDEP;
-use constant ALL        => BIN | SOURCE;
-my $include = ALL;
+use constant BUILD_SOURCE     => 1;
+use constant BUILD_ARCH_DEP   => 2;
+use constant BUILD_ARCH_INDEP => 4;
+use constant BUILD_BINARY     => BUILD_ARCH_DEP | BUILD_ARCH_INDEP;
+use constant BUILD_ALL        => BUILD_BINARY | BUILD_SOURCE;
+my $include = BUILD_ALL;
 
-sub is_sourceonly() { return $include == SOURCE; }
-sub is_binaryonly() { return !($include & SOURCE); }
-sub binary_opt() { return (($include == BIN) ? '-b' :
-			   (($include == ARCH_DEP) ? '-B' :
-			    (($include == ARCH_INDEP) ? '-A' :
-			     internerr("binary_opt called with include=$include"))));
+sub is_sourceonly() { return $include == BUILD_SOURCE; }
+sub is_binaryonly() { return !($include & BUILD_SOURCE); }
+sub binary_opt() {
+    return (($include == BUILD_BINARY) ? '-b' :
+            (($include == BUILD_ARCH_DEP) ? '-B' :
+             (($include == BUILD_ARCH_INDEP) ? '-A' :
+              internerr("binary_opt called with include=$include"))));
 }
 
 sub version {
@@ -143,19 +144,19 @@ while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-b$/) {
 	usageerr(_g('cannot combine %s and %s'), $_, '-S') if is_sourceonly;
-	$include = BIN;
+	$include = BUILD_BINARY;
     } elsif (m/^-B$/) {
 	usageerr(_g('cannot combine %s and %s'), $_, '-S') if is_sourceonly;
-	$include = ARCH_DEP;
+	$include = BUILD_ARCH_DEP;
 	printf { *STDERR } _g('%s: arch-specific upload - not including arch-independent packages') . "\n", $Dpkg::PROGNAME;
     } elsif (m/^-A$/) {
 	usageerr(_g('cannot combine %s and %s'), $_, '-S') if is_sourceonly;
-	$include = ARCH_INDEP;
+	$include = BUILD_ARCH_INDEP;
 	printf { *STDERR } _g('%s: arch-indep upload - not including arch-specific packages') . "\n", $Dpkg::PROGNAME;
     } elsif (m/^-S$/) {
 	usageerr(_g('cannot combine %s and %s'), binary_opt, '-S')
 	    if is_binaryonly;
-	$include = SOURCE;
+	$include = BUILD_SOURCE;
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
     } elsif (m/^-q$/) {
@@ -300,9 +301,9 @@ foreach my $pkg ($control->get_packages()) {
 
     if (not defined($p2f{$p})) {
 	# No files for this package... warn if it's unexpected
-	if ((debarch_eq('all', $a) and ($include & ARCH_INDEP)) ||
+	if ((debarch_eq('all', $a) and ($include & BUILD_ARCH_INDEP)) ||
 	    ((any { debarch_is($host_arch, $_) } split /\s+/, $a)
-		  and ($include & ARCH_DEP))) {
+		  and ($include & BUILD_ARCH_DEP))) {
 	    warning(_g('package %s in control file but not in files list'),
 		    $p);
 	}
@@ -320,7 +321,7 @@ foreach my $pkg ($control->get_packages()) {
 	    $f2pricf{$_} = $v foreach (@f);
 	} elsif (m/^Architecture$/) {
 	    if ((any { debarch_is($host_arch, $_) } split /\s+/, $v)
-		and ($include & ARCH_DEP)) {
+		and ($include & BUILD_ARCH_DEP)) {
 		$v = $host_arch;
 	    } elsif (!debarch_eq('all', $v)) {
 		$v = '';
@@ -466,9 +467,9 @@ if (length($fields->{'Binary'}) > 980) {
 }
 
 unshift(@archvalues,'source') unless is_binaryonly;
-@archvalues = ('all') if $include == ARCH_INDEP;
+@archvalues = ('all') if $include == BUILD_ARCH_INDEP;
 @archvalues = grep {!debarch_eq('all',$_)} @archvalues
-    unless $include & ARCH_INDEP;
+    unless $include & BUILD_ARCH_INDEP;
 $fields->{'Architecture'} = join(' ',@archvalues);
 
 $fields->{'Built-For-Profiles'} = join ' ', get_build_profiles();
@@ -483,8 +484,8 @@ for my $f ($checksums->get_files(), @fileslistfiles) {
     if (defined $f2p{$f}) {
         my $arch_all = debarch_eq('all', $p2arch{$f2p{$f}});
 
-        next if ($include == ARCH_DEP and $arch_all);
-        next if ($include == ARCH_INDEP and not $arch_all);
+        next if ($include == BUILD_ARCH_DEP and $arch_all);
+        next if ($include == BUILD_ARCH_INDEP and not $arch_all);
     }
     next if $filedone{$f}++;
     my $uf = "$uploadfilesdir/$f";
