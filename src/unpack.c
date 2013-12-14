@@ -629,8 +629,8 @@ void process_archive(const char *filename) {
       p= conffilenamebuf + strlen(conffilenamebuf);
       assert(p != conffilenamebuf);
       if (p[-1] != '\n')
-        ohshit(_("name of conffile (starting `%.250s') is too long (>%d characters)"),
-               conffilenamebuf, MAXCONFFILENAME);
+        ohshit(_("conffile name '%s' is too long, or missing final newline"),
+               conffilenamebuf);
       while (p > conffilenamebuf && isspace(p[-1])) --p;
       if (p == conffilenamebuf) continue;
       *p = '\0';
