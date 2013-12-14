@@ -295,15 +295,9 @@ check_conffiles(const char *dir)
     if (!n)
       ohshite(_("empty string from fgets reading conffiles"));
 
-    if (conffilename[n - 1] != '\n') {
-      int c;
-
-      warning(_("conffile name '%.50s...' is too long, or missing final newline"),
-              conffilename);
-      while ((c = getc(cf)) != EOF && c != '\n');
-
-      continue;
-    }
+    if (conffilename[n - 1] != '\n')
+      ohshit(_("conffile name '%.50s...' is too long, or missing final newline"),
+             conffilename);
 
     conffilename[n - 1] = '\0';
     varbuf_reset(&controlfile);
