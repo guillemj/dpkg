@@ -363,6 +363,10 @@ if (not $signcommand) {
     $signchanges = 0;
 }
 
+if ($signsource && build_binaryonly) {
+    $signsource = 0;
+}
+
 # Preparation of environment stops here
 
 (my $sversion = $version) =~ s/^\d+://;
@@ -510,13 +514,12 @@ chdir($dir) or syserr("chdir $dir");
 
 print "$Dpkg::PROGNAME: $srcmsg\n";
 
-if ($signpause &&
-    ($signchanges || (($include & BUILD_SOURCE) && $signsource))) {
+if ($signpause && ($signchanges || $signsource)) {
     print _g("Press the return key to start signing process\n");
     getc();
 }
 
-if ($signsource && ($include & BUILD_SOURCE) && signfile("$pv.dsc")) {
+if ($signsource && signfile("$pv.dsc")) {
     error(_g('failed to sign .dsc and .changes file'));
 }
 if ($signchanges && signfile("$pva.changes")) {
