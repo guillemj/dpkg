@@ -88,7 +88,7 @@ str_width(const char *str)
  *
  * @param str        The string to crop.
  * @param max_width  The max screen width to use.
- * @param crop[out]  The generated crop values for the string.
+ * @param[out] crop  The generated crop values for the string.
  */
 void
 str_gen_crop(const char *str, int max_width, struct str_crop_info *crop)
