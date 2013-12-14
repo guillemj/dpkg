@@ -406,8 +406,8 @@ check_new_pkg(const char *dir)
 
   warns = warning_get_count();
   if (warns)
-    warning(P_("ignoring %d warning about the control file(s)\n",
-               "ignoring %d warnings about the control file(s)\n", warns),
+    warning(P_("ignoring %d warning about the control file(s)",
+               "ignoring %d warnings about the control file(s)", warns),
             warns);
 
   return pkg;
