@@ -297,15 +297,15 @@ if ($< == 0) {
     warning(_g('using a gain-root-command while being root')) if (@rootcommand);
 } else {
     push @rootcommand, 'fakeroot' unless @rootcommand;
+}
 
-    if (!find_command($rootcommand[0])) {
-	if ($rootcommand[0] eq 'fakeroot') {
-	    error(_g("fakeroot not found, either install the fakeroot\n" .
-	             'package, specify a command with the -r option, ' .
-	             'or run this as root'));
-	} else {
-	    error(_g("gain-root-commmand '%s' not found"), $rootcommand[0]);
-	}
+if (@rootcommand and not find_command($rootcommand[0])) {
+    if ($rootcommand[0] eq 'fakeroot' and $< != 0) {
+        error(_g("fakeroot not found, either install the fakeroot\n" .
+                 'package, specify a command with the -r option, ' .
+                 'or run this as root'));
+    } else {
+        error(_g("gain-root-commmand '%s' not found"), $rootcommand[0]);
     }
 }
 
