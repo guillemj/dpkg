@@ -291,6 +291,16 @@ if ($< == 0) {
     }
 }
 
+if (!defined $signcommand &&
+    (($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) ||
+     ($ENV{HOME} && -e "$ENV{HOME}/.gnupg"))) {
+    if (find_command('gpg2')) {
+        $signcommand = 'gpg2';
+    } elsif (find_command('gpg')) {
+        $signcommand = 'gpg';
+    }
+}
+
 my $build_opts = Dpkg::BuildOptions->new();
 if (defined $parallel) {
     $parallel = $build_opts->get('parallel') if $build_opts->has('parallel');
@@ -339,16 +349,6 @@ if (build_sourceonly) {
     $arch = 'all';
 } else {
     $arch = mustsetvar($ENV{DEB_HOST_ARCH}, _g('host architecture'));
-}
-
-if (!defined $signcommand &&
-    (($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) ||
-     ($ENV{HOME} && -e "$ENV{HOME}/.gnupg"))) {
-    if (find_command('gpg2')) {
-        $signcommand = 'gpg2';
-    } elsif (find_command('gpg')) {
-        $signcommand = 'gpg';
-    }
 }
 
 if (not $signcommand) {
