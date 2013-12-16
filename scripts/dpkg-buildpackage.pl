@@ -313,9 +313,12 @@ if ($check_command and not find_command($check_command)) {
     error(_g("check-commmand '%s' not found"), $check_command);
 }
 
-if (!defined $signcommand &&
-    (($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) ||
-     ($ENV{HOME} && -e "$ENV{HOME}/.gnupg"))) {
+if ($signcommand) {
+    if (!find_command($signcommand)) {
+        error(_g("sign-commmand '%s' not found"), $signcommand);
+    }
+} elsif (($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) ||
+         ($ENV{HOME} && -e "$ENV{HOME}/.gnupg")) {
     if (find_command('gpg2')) {
         $signcommand = 'gpg2';
     } elsif (find_command('gpg')) {
