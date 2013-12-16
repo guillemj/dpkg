@@ -144,12 +144,18 @@ sub build_normal() { return ($include & BUILD_ALL) == BUILD_ALL; }
 sub build_sourceonly() { return $include == BUILD_SOURCE; }
 sub build_binaryonly() { return !($include & BUILD_SOURCE); }
 sub build_binaryindep() { return ($include == BUILD_ARCH_INDEP); }
-sub build_opt() {
-    return (($include == BUILD_BINARY) ? '-b' :
-            (($include == BUILD_ARCH_DEP) ? '-B' :
-             (($include == BUILD_ARCH_INDEP) ? '-A' :
-              (($include == BUILD_SOURCE) ? '-S' :
-               internerr("build_opt called with include=$include")))));
+sub build_opt {
+    if ($include == BUILD_BINARY) {
+        return '-b';
+    } elsif ($include == BUILD_ARCH_DEP) {
+        return '-B';
+    } elsif ($include == BUILD_ARCH_INDEP) {
+        return '-A';
+    } elsif ($include == BUILD_SOURCE) {
+        return '-S';
+    } else {
+        internerr("build_opt called with include=$include");
+    }
 }
 
 while (@ARGV) {
@@ -211,34 +217,37 @@ while (@ARGV) {
     } elsif (/^-nc$/) {
 	$noclean = 1;
     } elsif (/^-b$/) {
-	usageerr(_g('cannot combine %s and %s'), $_, '-S') if build_sourceonly;
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
+	    if build_sourceonly;
 	$include = BUILD_BINARY;
 	push @changes_opts, '-b';
 	@checkbuilddep_opts = ();
 	$buildtarget = 'build';
 	$binarytarget = 'binary';
     } elsif (/^-B$/) {
-	usageerr(_g('cannot combine %s and %s'), $_, '-S') if build_sourceonly;
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
+	    if build_sourceonly;
 	$include = BUILD_ARCH_DEP;
 	push @changes_opts, '-B';
 	@checkbuilddep_opts = qw(-B);
 	$buildtarget = 'build-arch';
 	$binarytarget = 'binary-arch';
     } elsif (/^-A$/) {
-	usageerr(_g('cannot combine %s and %s'), $_, '-S') if build_sourceonly;
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
+	    if build_sourceonly;
 	$include = BUILD_ARCH_INDEP;
 	push @changes_opts, '-A';
 	@checkbuilddep_opts = qw(-A);
 	$buildtarget = 'build-indep';
 	$binarytarget = 'binary-indep';
     } elsif (/^-S$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt, '-S')
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
 	    if build_binaryonly;
 	$include = BUILD_SOURCE;
 	push @changes_opts, '-S';
 	@checkbuilddep_opts = qw(-A -B);
     } elsif (/^-F$/) {
-	usageerr(_g('cannot combine %s and %s'), $_, build_opt)
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
 	    if not build_normal;
 	$include = BUILD_ALL;
 	@checkbuilddep_opts = ();

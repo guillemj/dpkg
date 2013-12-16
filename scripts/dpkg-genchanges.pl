@@ -92,11 +92,18 @@ my $include = BUILD_ALL;
 
 sub is_sourceonly() { return $include == BUILD_SOURCE; }
 sub is_binaryonly() { return !($include & BUILD_SOURCE); }
-sub binary_opt() {
-    return (($include == BUILD_BINARY) ? '-b' :
-            (($include == BUILD_ARCH_DEP) ? '-B' :
-             (($include == BUILD_ARCH_INDEP) ? '-A' :
-              internerr("binary_opt called with include=$include"))));
+sub build_opt {
+    if ($include == BUILD_BINARY) {
+       return '-b';
+    } elsif ($include == BUILD_ARCH_DEP) {
+        return '-B';
+    } elsif ($include == BUILD_ARCH_INDEP) {
+        return '-A';
+    } elsif ($include == BUILD_SOURCE) {
+        return '-S';
+    } else {
+        internerr("build_opt called with include=$include");
+    }
 }
 
 sub version {
@@ -143,18 +150,21 @@ sub usage {
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-b$/) {
-	usageerr(_g('cannot combine %s and %s'), $_, '-S') if is_sourceonly;
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
+	    if is_sourceonly;
 	$include = BUILD_BINARY;
     } elsif (m/^-B$/) {
-	usageerr(_g('cannot combine %s and %s'), $_, '-S') if is_sourceonly;
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
+	    if is_sourceonly;
 	$include = BUILD_ARCH_DEP;
 	printf { *STDERR } _g('%s: arch-specific upload - not including arch-independent packages') . "\n", $Dpkg::PROGNAME;
     } elsif (m/^-A$/) {
-	usageerr(_g('cannot combine %s and %s'), $_, '-S') if is_sourceonly;
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
+	    if is_sourceonly;
 	$include = BUILD_ARCH_INDEP;
 	printf { *STDERR } _g('%s: arch-indep upload - not including arch-specific packages') . "\n", $Dpkg::PROGNAME;
     } elsif (m/^-S$/) {
-	usageerr(_g('cannot combine %s and %s'), binary_opt, '-S')
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
 	    if is_binaryonly;
 	$include = BUILD_SOURCE;
     } elsif (m/^-s([iad])$/) {
