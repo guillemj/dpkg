@@ -406,7 +406,7 @@ if ($call_target) {
 unless ($noclean) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
-unless (build_binaryonly) {
+if ($include & BUILD_SOURCE) {
     warning(_g('building a source package without cleaning up as you asked; ' .
                'it might contain undesired files')) if $noclean;
     chdir('..') or syserr('chdir ..');
@@ -432,18 +432,18 @@ if ($buildtarget ne 'build' and scalar(@debian_rules) == 1) {
     }
 }
 
-unless (build_sourceonly) {
+if ($include & BUILD_BINARY) {
     withecho(@debian_rules, $buildtarget);
     withecho(@rootcommand, @debian_rules, $binarytarget);
 }
 if ($signpause &&
-    ($signchanges || (!build_binaryonly && $signsource))) {
+    ($signchanges || (($include & BUILD_SOURCE) && $signsource))) {
     print _g("Press the return key to start signing process\n");
     getc();
 }
 
 my $signerrors;
-unless (build_binaryonly) {
+if ($include & BUILD_SOURCE) {
     if ($signsource && signfile("$pv.dsc")) {
 	$signerrors = _g('failed to sign .dsc and .changes file');
 	$signchanges = 0;
