@@ -4,7 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000,2001 Wichert Akkerman
-# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2013 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 use strict;
 use warnings;
 
+use Carp;
 use Encode;
 use POSIX qw(:errno_h);
 use Dpkg ();
@@ -102,7 +103,7 @@ sub build_opt {
     } elsif ($include == BUILD_SOURCE) {
         return '-S';
     } else {
-        internerr("build_opt called with include=$include");
+        croak "build_opt called with include=$include";
     }
 }
 

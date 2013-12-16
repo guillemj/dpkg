@@ -23,6 +23,7 @@
 use strict;
 use warnings;
 
+use Carp;
 use Cwd;
 use File::Basename;
 use POSIX qw(:sys_wait_h);
@@ -154,7 +155,7 @@ sub build_opt {
     } elsif ($include == BUILD_SOURCE) {
         return '-S';
     } else {
-        internerr("build_opt called with include=$include");
+        croak "build_opt called with include=$include";
     }
 }
 
