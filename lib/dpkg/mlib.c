@@ -44,17 +44,21 @@ must_alloc(void *ptr)
 
 void *m_malloc(size_t amount) {
 #ifdef MDEBUG
-  unsigned short *r2, x;
+  unsigned short *ptr_canary, canary;
 #endif
-  void *r;
+  void *ptr;
 
-  r = must_alloc(malloc(amount));
+  ptr = must_alloc(malloc(amount));
 
 #ifdef MDEBUG
-  r2= r; x= (unsigned short)amount ^ 0xf000;
-  while (amount >= 2) { *r2++= x; amount -= 2; }
+  ptr_canary = ptr;
+  canary = (unsigned short)amount ^ 0xf000;
+  while (amount >= 2) {
+    *ptr_canary++ = canary;
+    amount -= 2;
+  }
 #endif
-  return r;
+  return ptr;
 }
 
 void *

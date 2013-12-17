@@ -252,13 +252,13 @@ pr(char const *fmt, ...)
 static void *
 xmalloc(size_t size)
 {
-	void *r;
+	void *ptr;
 
-	r = malloc(size);
-	if (!r)
+	ptr = malloc(size);
+	if (!ptr)
 		error(_("malloc failed (%zu bytes)"), size);
 
-	return r;
+	return ptr;
 }
 
 static char *
