@@ -403,7 +403,7 @@ log_msg(const char *fmt, ...)
 static int
 spawn(const char *prog, const char *args[])
 {
-	pid_t pid, r;
+	pid_t pid, dead_pid;
 	int status;
 
 	pid = fork();
@@ -413,8 +413,8 @@ spawn(const char *prog, const char *args[])
 		execvp(prog, (char *const *)args);
 		syserr(_("unable to execute %s (%s)"), prog, prog);
 	}
-	while ((r = waitpid(pid, &status, 0)) == -1 && errno == EINTR) ;
-	if (r != pid)
+	while ((dead_pid = waitpid(pid, &status, 0)) == -1 && errno == EINTR) ;
+	if (dead_pid != pid)
 		error(_("wait for subprocess %s failed"), prog);
 
 	return status;

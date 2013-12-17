@@ -141,12 +141,12 @@ subproc_check(int status, const char *desc, int flags)
 int
 subproc_wait(pid_t pid, const char *desc)
 {
-	pid_t r;
+	pid_t dead_pid;
 	int status;
 
-	while ((r = waitpid(pid, &status, 0)) == -1 && errno == EINTR) ;
+	while ((dead_pid = waitpid(pid, &status, 0)) == -1 && errno == EINTR) ;
 
-	if (r != pid) {
+	if (dead_pid != pid) {
 		onerr_abort++;
 		ohshite(_("wait for subprocess %s failed"), desc);
 	}
