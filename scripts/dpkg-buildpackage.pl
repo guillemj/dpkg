@@ -581,22 +581,22 @@ sub describe_build {
     my ($files) = @_;
     my $ext = compression_get_file_extension_regex();
 
-    if (fileomitted($files, '\.deb')) {
+    if (fileomitted($files, qr/\.deb/)) {
         # source-only upload
-        if (fileomitted($files, "\.diff\.$ext") and
-            fileomitted($files, "\.debian\.tar\.$ext")) {
+        if (fileomitted($files, qr/\.diff\.$ext/) and
+            fileomitted($files, qr/\.debian\.tar\.$ext/)) {
             return _g('source-only upload: Debian-native package');
-        } elsif (fileomitted($files, "\.orig\.tar\.$ext")) {
+        } elsif (fileomitted($files, qr/\.orig\.tar\.$ext/)) {
             return _g('source-only, diff-only upload (original source NOT included)');
         } else {
             return _g('source-only upload (original source is included)');
         }
-    } elsif (fileomitted($files, '\.dsc')) {
+    } elsif (fileomitted($files, qr/\.dsc/)) {
         return _g('binary-only upload (no source included)');
-    } elsif (fileomitted($files, "\.diff\.$ext") and
-             fileomitted($files, "\.debian\.tar\.$ext")) {
+    } elsif (fileomitted($files, qr/\.diff\.$ext/) and
+             fileomitted($files, qr/\.debian\.tar\.$ext/)) {
         return _g('full upload; Debian-native package (full source is included)');
-    } elsif (fileomitted($files, "\.orig\.tar\.$ext")) {
+    } elsif (fileomitted($files, qr/\.orig\.tar\.$ext/)) {
         return _g('binary and diff upload (original source NOT included)');
     } else {
         return _g('full upload (original source is included)');
