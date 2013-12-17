@@ -496,6 +496,7 @@ bool
 packagelist::checksearch(char *rx)
 {
   int r,opt = REG_NOSUB;
+  int pos;
 
   if (str_is_unset(rx))
     return false;
@@ -507,23 +508,23 @@ packagelist::checksearch(char *rx)
   }
 
   /* look for search options */
-  for (r=strlen(rx)-1; r>=0; r--)
-    if ((rx[r]=='/') && ((r==0) || (rx[r-1]!='\\')))
+  for (pos = strlen(rx) - 1; pos >= 0; pos--)
+    if ((rx[pos] == '/') && ((pos == 0) || (rx[pos - 1] != '\\')))
       break;
 
-  if (r>=0) {
-    rx[r++]='\0';
-    if (strcspn(rx+r, "di")!=0) {
+  if (pos >= 0) {
+    rx[pos++] = '\0';
+    if (strcspn(rx + pos, "di") != 0) {
       displayerror(_("invalid search option given"));
       return false;
     }
 
-   while (rx[r]) {
-     if (rx[r]=='i')
+   while (rx[pos]) {
+     if (rx[pos] == 'i')
        opt|=REG_ICASE;
-     else if (rx[r]=='d')
+     else if (rx[pos] == 'd')
        searchdescr = true;
-     r++;
+     pos++;
    }
   }
 
