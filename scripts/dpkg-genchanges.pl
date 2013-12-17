@@ -153,12 +153,10 @@ while (@ARGV) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
 	    if is_sourceonly;
 	$include = BUILD_ARCH_DEP;
-	printf { *STDERR } _g('%s: arch-specific upload - not including arch-independent packages') . "\n", $Dpkg::PROGNAME;
     } elsif (m/^-A$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
 	    if is_sourceonly;
 	$include = BUILD_ARCH_INDEP;
-	printf { *STDERR } _g('%s: arch-indep upload - not including arch-specific packages') . "\n", $Dpkg::PROGNAME;
     } elsif (m/^-S$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
 	    if is_binaryonly;
@@ -436,8 +434,14 @@ if (!is_binaryonly) {
     for my $f ($checksums->get_files()) {
         $dist->add_file($f, $sec, $pri);
     }
+} elsif ($include == BUILD_ARCH_DEP) {
+    $origsrcmsg = _g('binary-only arch-specific upload ' .
+                     '(source code and arch-indep packages not included)');
+} elsif ($include == BUILD_ARCH_INDEP) {
+    $origsrcmsg = _g('binary-only arch-indep upload ' .
+                     '(source code and arch-specific packages not included)');
 } else {
-    $origsrcmsg= _g('binary-only upload - not including any source code');
+    $origsrcmsg = _g('binary-only upload (no source code included)');
 }
 
 print { *STDERR } "$Dpkg::PROGNAME: $origsrcmsg\n"
