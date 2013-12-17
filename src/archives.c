@@ -673,7 +673,7 @@ void setupfnamevbs(const char *filename) {
 int
 secure_remove(const char *filename)
 {
-  int r, e;
+  int rc, e;
 
   if (!rmdir(filename)) {
     debug(dbg_eachfiledetail, "secure_remove '%s' rmdir OK", filename);
@@ -687,11 +687,13 @@ secure_remove(const char *filename)
     errno= e; return -1;
   }
 
-  r = secure_unlink(filename);
+  rc = secure_unlink(filename);
   e = errno;
   debug(dbg_eachfiledetail, "secure_remove '%s' unlink %s",
-        filename, r ? strerror(e) : "OK");
-  errno= e; return r;
+        filename, rc ? strerror(e) : "OK");
+  errno = e;
+
+  return rc;
 }
 
 struct fileinlist *addfiletolist(struct tarcontext *tc,
@@ -1554,7 +1556,7 @@ archivefiles(const char *const *argv)
   log_message("startup archives %s", cipaction->olong);
 
   if (f_recursive) {
-    int pi[2], nfiles, c, i, r;
+    int pi[2], nfiles, c, i, rc;
     pid_t pid;
     FILE *pf;
     static struct varbuf findoutput;
@@ -1601,9 +1603,9 @@ archivefiles(const char *const *argv)
     }
     if (ferror(pf)) ohshite(_("error reading find's pipe"));
     if (fclose(pf)) ohshite(_("error closing find's pipe"));
-    r = subproc_wait_check(pid, "find", PROCNOERR);
-    if (r != 0)
-      ohshit(_("find for --recursive returned unhandled error %i"),r);
+    rc = subproc_wait_check(pid, "find", PROCNOERR);
+    if (rc != 0)
+      ohshit(_("find for --recursive returned unhandled error %i"), rc);
 
     if (!nfiles)
       ohshit(_("searched, but found no packages (files matching *.deb)"));
@@ -1694,7 +1696,7 @@ archivefiles(const char *const *argv)
 bool
 wanttoinstall(struct pkginfo *pkg)
 {
-  int r;
+  int rc;
 
   if (pkg->want != want_install && pkg->want != want_hold) {
     if (f_alsoselect) {
@@ -1713,10 +1715,10 @@ wanttoinstall(struct pkginfo *pkg)
   if (pkg->status < stat_unpacked)
     return true;
 
-  r = dpkg_version_compare(&pkg->available.version, &pkg->installed.version);
-  if (r > 0) {
+  rc = dpkg_version_compare(&pkg->available.version, &pkg->installed.version);
+  if (rc > 0) {
     return true;
-  } else if (r == 0) {
+  } else if (rc == 0) {
     /* Same version fully installed. */
     if (f_skipsame) {
       notice(_("version %.250s of %.250s already installed, skipping"),

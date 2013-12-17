@@ -609,7 +609,7 @@ cmpversions(const char *const *argv)
   const struct relationinfo *rip;
   struct dpkg_version a, b;
   struct dpkg_error err;
-  int r;
+  int rc;
 
   if (!argv[0] || !argv[1] || !argv[2] || argv[3])
     badusage(_("--compare-versions takes three arguments:"
@@ -649,14 +649,14 @@ cmpversions(const char *const *argv)
   } else if (!dpkg_version_is_informative(&b)) {
     return rip->if_none_b;
   }
-  r = dpkg_version_compare(&a, &b);
+  rc = dpkg_version_compare(&a, &b);
   debug(dbg_general, "cmpversions a='%s' b='%s' r=%d",
         versiondescribe(&a,vdew_always),
         versiondescribe(&b,vdew_always),
-        r);
-  if (r > 0)
+        rc);
+  if (rc > 0)
     return rip->if_greater;
-  else if (r < 0)
+  else if (rc < 0)
     return rip->if_lesser;
   else
     return rip->if_equal;

@@ -371,13 +371,13 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	struct stat stab;
 	struct varbuf cdr = VARBUF_INIT, cdr2 = VARBUF_INIT;
 	char *cdr2rest;
-	int r;
+	int rc;
 
 	usenode = namenodetouse(findnamenode(conff->name, fnn_nocopy),
                                 pkg, &pkg->installed);
 
-	r = conffderef(pkg, &cdr, usenode->name);
-	if (r == -1) {
+	rc = conffderef(pkg, &cdr, usenode->name);
+	if (rc == -1) {
 		conff->hash = EMPTYHASHFLAG;
 		return;
 	}

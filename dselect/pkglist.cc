@@ -495,7 +495,7 @@ packagelist::~packagelist() {
 bool
 packagelist::checksearch(char *rx)
 {
-  int r,opt = REG_NOSUB;
+  int rc, opt = REG_NOSUB;
   int pos;
 
   if (str_is_unset(rx))
@@ -528,8 +528,8 @@ packagelist::checksearch(char *rx)
    }
   }
 
-  r = regcomp(&searchfsm, rx, opt);
-  if (r != 0) {
+  rc = regcomp(&searchfsm, rx, opt);
+  if (rc != 0) {
     displayerror(_("error in regular expression"));
     return false;
   }

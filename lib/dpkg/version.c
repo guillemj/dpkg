@@ -139,16 +139,16 @@ int
 dpkg_version_compare(const struct dpkg_version *a,
                      const struct dpkg_version *b)
 {
-	int r;
+	int rc;
 
 	if (a->epoch > b->epoch)
 		return 1;
 	if (a->epoch < b->epoch)
 		return -1;
 
-	r = verrevcmp(a->version, b->version);
-	if (r)
-		return r;
+	rc = verrevcmp(a->version, b->version);
+	if (rc)
+		return rc;
 
 	return verrevcmp(a->revision, b->revision);
 }
@@ -172,24 +172,24 @@ dpkg_version_relate(const struct dpkg_version *a,
                     enum dpkg_relation rel,
                     const struct dpkg_version *b)
 {
-	int r;
+	int rc;
 
 	if (rel == dpkg_relation_none)
 		return true;
 
-	r = dpkg_version_compare(a, b);
+	rc = dpkg_version_compare(a, b);
 
 	switch (rel) {
 	case dpkg_relation_eq:
-		return r == 0;
+		return rc == 0;
 	case dpkg_relation_lt:
-		return r < 0;
+		return rc < 0;
 	case dpkg_relation_le:
-		return r <= 0;
+		return rc <= 0;
 	case dpkg_relation_gt:
-		return r > 0;
+		return rc > 0;
 	case dpkg_relation_ge:
-		return r >= 0;
+		return rc >= 0;
 	default:
 		internerr("unknown dpkg_relation %d", rel);
 	}

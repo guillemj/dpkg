@@ -1709,7 +1709,7 @@ static bool
 do_stop_timeout(int timeout, int *n_killed, int *n_notkilled)
 {
 	struct timeval stopat, before, after, interval, maxinterval;
-	int r, ratio;
+	int rc, ratio;
 
 	xgettimeofday(&stopat);
 	stopat.tv_sec += timeout;
@@ -1745,8 +1745,8 @@ do_stop_timeout(int timeout, int *n_killed, int *n_notkilled)
 		    interval.tv_usec <= MIN_POLL_INTERVAL)
 			interval.tv_usec = MIN_POLL_INTERVAL;
 
-		r = select(0, NULL, NULL, NULL, &interval);
-		if (r < 0 && errno != EINTR)
+		rc = select(0, NULL, NULL, NULL, &interval);
+		if (rc < 0 && errno != EINTR)
 			fatal("select() failed for pause");
 	}
 }

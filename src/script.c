@@ -198,7 +198,7 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
                  struct command *cmd, struct stat *stab, int warn)
 {
 	pid_t pid;
-	int r;
+	int rc;
 
 	setexecute(cmd->filename, stab);
 
@@ -226,12 +226,12 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 		command_exec(cmd);
 	}
 	subproc_signals_setup(cmd->name); /* This does a push_cleanup(). */
-	r = subproc_wait_check(pid, cmd->name, warn);
+	rc = subproc_wait_check(pid, cmd->name, warn);
 	pop_cleanup(ehflag_normaltidy);
 
 	pop_cleanup(ehflag_normaltidy);
 
-	return r;
+	return rc;
 }
 
 static int
@@ -276,32 +276,32 @@ maintscript_installed(struct pkginfo *pkg, const char *scriptname,
                       const char *desc, ...)
 {
 	va_list args;
-	int r;
+	int rc;
 
 	va_start(args, desc);
-	r = vmaintscript_installed(pkg, scriptname, desc, args);
+	rc = vmaintscript_installed(pkg, scriptname, desc, args);
 	va_end(args);
 
-	if (r)
+	if (rc)
 		post_script_tasks();
 
-	return r;
+	return rc;
 }
 
 int
 maintscript_postinst(struct pkginfo *pkg, ...)
 {
 	va_list args;
-	int r;
+	int rc;
 
 	va_start(args, pkg);
-	r = vmaintscript_installed(pkg, POSTINSTFILE, "post-installation", args);
+	rc = vmaintscript_installed(pkg, POSTINSTFILE, "post-installation", args);
 	va_end(args);
 
-	if (r)
+	if (rc)
 		ensure_diversions();
 
-	return r;
+	return rc;
 }
 
 int

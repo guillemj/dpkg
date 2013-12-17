@@ -417,7 +417,7 @@ void process_archive(const char *filename) {
 
   struct dpkg_error err;
   enum parsedbflags parsedb_flags;
-  int r;
+  int rc;
   pid_t pid;
   struct pkgiterator *it;
   struct pkginfo *pkg, *otherpkg;
@@ -934,8 +934,8 @@ void process_archive(const char *filename) {
   tc.backendpipe= p1[0];
   tc.pkgset_getting_in_sync = pkgset_getting_in_sync(pkg);
 
-  r = tar_extractor(&tc, &tf);
-  if (r) {
+  rc = tar_extractor(&tc, &tf);
+  if (rc) {
     if (errno) {
       ohshite(_("error reading dpkg-deb tar output"));
     } else {

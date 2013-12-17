@@ -466,10 +466,12 @@ rename_mv(const char *src, const char *dst)
 
 	if (rename(src, dst) != 0) {
 		const char *args[] = { "mv", src, dst, NULL };
-		int r;
-		r = spawn("mv", args);
-		if (WIFEXITED(r) && WEXITSTATUS(r) == 0)
+		int rc;
+
+		rc = spawn("mv", args);
+		if (WIFEXITED(rc) && WEXITSTATUS(rc) == 0)
 			return true;
+
 		return false;
 	}
 

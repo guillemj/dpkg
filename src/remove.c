@@ -456,7 +456,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
 
 static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
   static const char *const removeconffexts[] = { REMOVECONFFEXTS, NULL };
-  int r, removevbbase;
+  int rc, removevbbase;
   int conffnameused, conffbasenamelen;
   char *conffbasename;
   struct conffile *conff, **lconffp;
@@ -514,10 +514,11 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
 	      conff->name);
       }
       varbuf_reset(&fnvb);
-      r= conffderef(pkg, &fnvb, conff->name);
+      rc = conffderef(pkg, &fnvb, conff->name);
       debug(dbg_conffdetail, "removal_bulk conffile '%s' (= '%s')",
-            conff->name, r == -1 ? "<r==-1>" : fnvb.buf);
-      if (r == -1) continue;
+            conff->name, rc == -1 ? "<rc == -1>" : fnvb.buf);
+      if (rc == -1)
+        continue;
       conffnameused = fnvb.used;
       if (unlink(fnvb.buf) && errno != ENOENT && errno != ENOTDIR)
         ohshite(_("cannot remove old config file `%.250s' (= `%.250s')"),

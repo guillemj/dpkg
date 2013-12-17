@@ -215,7 +215,7 @@ int packagelist::resolvedepcon(dependency *depends) {
   perpackagestate *best, *fixbyupgrade;
   deppossi *possi, *provider;
   bool foundany;
-  int r;
+  int rc;
 
   if (debug_has_flag(dbg_depcon)) {
     varbuf pkg_names;
@@ -262,13 +262,13 @@ int packagelist::resolvedepcon(dependency *depends) {
     switch (depends->type) {
     case dep_enhances:
     case dep_suggests:
-    	r= add(depends, dp_may);
-	return r;
+      rc = add(depends, dp_may);
+      return rc;
     case dep_recommends:
-    	r= add(depends, dp_should);
+      rc = add(depends, dp_should);
 	break;
     default:
-    	r= add(depends, dp_must);
+      rc = add(depends, dp_must);
     }
 
     if (fixbyupgrade) {
@@ -300,20 +300,21 @@ int packagelist::resolvedepcon(dependency *depends) {
         debug(dbg_depcon,
               "packagelist[%p]::resolvedepcon([%p]): mustdeselect nobest",
               this, depends);
-        return r;
+        return rc;
       }
     }
     debug(dbg_depcon,
           "packagelist[%p]::resolvedepcon([%p]): select best=%s{%d}",
           this, depends, pkg_name(best->pkg, pnaw_always), best->spriority);
-    if (best->spriority >= sp_selecting) return r;
+    if (best->spriority >= sp_selecting)
+      return rc;
     /* Always select depends. Only select recommends if we got here because
      * of a manually-initiated install request. */
     if (depends->type != dep_recommends || manual_install) {
       best->selected= best->suggested= pkginfo::want_install;
       best->spriority= sp_selecting;
     }
-    return r ? 2 : 0;
+    return rc ? 2 : 0;
 
   mustdeselect:
     best= depends->up->clientdata;
@@ -321,7 +322,8 @@ int packagelist::resolvedepcon(dependency *depends) {
           "packagelist[%p]::resolvedepcon([%p]): mustdeselect best=%s{%d}",
           this, depends, pkg_name(best->pkg, pnaw_always), best->spriority);
 
-    if (best->spriority >= sp_deselecting) return r;
+    if (best->spriority >= sp_deselecting)
+      return rc;
     /* Always remove depends, but never remove recommends. */
     if (depends->type != dep_recommends) {
       best->selected= best->suggested=
@@ -329,7 +331,7 @@ int packagelist::resolvedepcon(dependency *depends) {
           ? pkginfo::want_purge : pkginfo::want_deinstall; // FIXME: configurable
       best->spriority= sp_deselecting;
     }
-    return r ? 2 : 0;
+    return rc ? 2 : 0;
 
   case dep_conflicts:
   case dep_breaks:
@@ -351,16 +353,18 @@ int packagelist::resolvedepcon(dependency *depends) {
           this, depends);
 
     if (depends->up->set != depends->list->ed) {
-      r = deselect_one_of(depends->up, &depends->list->ed->pkg, depends);
-      if (r)
-        return r;
+      rc = deselect_one_of(depends->up, &depends->list->ed->pkg, depends);
+      if (rc)
+        return rc;
     }
     for (provider = depends->list->ed->depended.available;
          provider;
          provider = provider->rev_next) {
       if (provider->up->type != dep_provides) continue;
       if (provider->up->up == depends->up) continue; // conflicts & provides same thing
-      r= deselect_one_of(depends->up, provider->up->up, depends);  if (r) return r;
+      rc = deselect_one_of(depends->up, provider->up->up, depends);
+      if (rc)
+        return rc;
     }
     debug(dbg_depcon, "packagelist[%p]::resolvedepcon([%p]): no desel",
           this, depends);
