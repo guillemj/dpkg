@@ -30,6 +30,10 @@ extern "C" {
 #define offsetof(st, m) ((size_t)&((st *)NULL)->m)
 #endif
 
+#ifndef HAVE_MAKEDEV
+#define makedev(maj, min) ((((maj) & 0xff) << 8) | ((min) & 0xff))
+#endif
+
 #ifndef HAVE_O_NOFOLLOW
 #define O_NOFOLLOW 0
 #endif

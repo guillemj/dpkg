@@ -87,6 +87,7 @@ DPKG_DECL_SYS_SIGLIST
 DPKG_FUNC_VA_COPY
 DPKG_FUNC_C99_SNPRINTF
 DPKG_CHECK_DECL([offsetof], [stddef.h])
+DPKG_CHECK_DECL([makedev], [sys/types.h])
 DPKG_CHECK_DECL([WCOREDUMP], [sys/wait.h])
 DPKG_CHECK_DECL([TIOCNOTTY], [sys/ioctl.h])
 DPKG_CHECK_DECL([O_NOFOLLOW], [fcntl.h])
