@@ -79,6 +79,14 @@ i2d i2f idiv idivmod l2d l2f lasr lcmp ldivmod llsl llsr lmul ui2d ui2f
 uidiv uidivmod ul2d ul2f ulcmp uldivmod unwind_cpp_pr0 unwind_cpp_pr1
 unwind_cpp_pr2 uread4 uread8 uwrite4 uwrite8));
 
+sub symbol_is_blacklisted {
+    my ($symbol) = @_;
+
+    return 1 if exists $blacklist{$symbol};
+
+    return 0;
+}
+
 sub new {
     my $this = shift;
     my %opts=@_;
@@ -395,7 +403,7 @@ sub merge_symbols {
         my $name = $sym->{name} . '@' .
                    ($sym->{version} ? $sym->{version} : 'Base');
         my $symobj = $self->lookup_symbol($name, $soname);
-        if (exists $blacklist{$sym->{name}}) {
+        if (symbol_is_blacklisted($sym->{name})) {
             next unless (defined $symobj and $symobj->has_tag('ignore-blacklist'));
         }
         $dynsyms{$name} = $sym;
