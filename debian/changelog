@@ -18,6 +18,10 @@ dpkg (1.17.6) UNRELEASED; urgency=low
   * Mention Multi-Arch: no value in man pages. Closes: #732648
   * Correctly hyphenate binary-only and source-only in dpkg-buildpackage
     output messages.
+  * Use makedev(3) when extracting .deb archives rather than ad-hoc
+    computations, to be able to support large major/minor device numbers,
+    supported on at least Linux, NetBSD and OpenBSD based systems.
+    Thanks to Peter Chang <dpf@google.com>.
 
   [ Updated dpkg translations ]
   * Swedish (Peter Krefting).

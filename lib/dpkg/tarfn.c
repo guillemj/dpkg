@@ -179,8 +179,8 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 	d->stat.mode = get_unix_mode(h);
 	d->size = (off_t)OtoM(h->size, sizeof(h->size));
 	d->mtime = (time_t)OtoM(h->mtime, sizeof(h->mtime));
-	d->dev = ((OtoM(h->devmajor, sizeof(h->devmajor)) & 0xff) << 8) |
-	         (OtoM(h->devminor, sizeof(h->devminor)) & 0xff);
+	d->dev = makedev(OtoM(h->devmajor, sizeof(h->devmajor)),
+			 OtoM(h->devminor, sizeof(h->devminor)));
 
 	if (*h->user)
 		passwd = getpwnam(h->user);
