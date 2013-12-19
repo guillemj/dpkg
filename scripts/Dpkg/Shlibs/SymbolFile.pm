@@ -70,19 +70,14 @@ for my $i (14 .. 31) {
     $blacklist{"_savegpr_$i"} = 1;
 }
 
-# Many armel-specific symbols
-$blacklist{"__aeabi_$_"} = 1 foreach (qw(cdcmpeq cdcmple cdrcmple cfcmpeq
-cfcmple cfrcmple d2f d2iz d2lz d2uiz d2ulz dadd dcmpeq dcmpge dcmpgt
-dcmple dcmplt dcmpun ddiv dmul dneg drsub dsub f2d f2iz f2lz f2uiz f2ulz
-fadd fcmpeq fcmpge fcmpgt fcmple fcmplt fcmpun fdiv fmul fneg frsub fsub
-i2d i2f idiv idivmod l2d l2f lasr lcmp ldivmod llsl llsr lmul ui2d ui2f
-uidiv uidivmod ul2d ul2f ulcmp uldivmod unwind_cpp_pr0 unwind_cpp_pr1
-unwind_cpp_pr2 uread4 uread8 uwrite4 uwrite8));
-
 sub symbol_is_blacklisted {
     my ($symbol) = @_;
 
     return 1 if exists $blacklist{$symbol};
+
+    # The ARM Embedded ABI spec states symbols under this namespace as
+    # possibly appearing in output objects.
+    return 1 if $symbol =~ /^__aeabi_/;
 
     return 0;
 }
