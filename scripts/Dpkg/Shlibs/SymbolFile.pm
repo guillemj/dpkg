@@ -79,6 +79,10 @@ sub symbol_is_blacklisted {
     # possibly appearing in output objects.
     return 1 if $symbol =~ /^__aeabi_/;
 
+    # The GNU implementation of the OpenMP spec, specifies symbols under
+    # this namespace as possibly appearing in output objects.
+    return 1 if $symbol =~ /^\.gomp_critical_user_/;
+
     return 0;
 }
 
