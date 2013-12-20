@@ -3,7 +3,7 @@
 .\" Copyright © 1995 Raul Miller, Ian Jackson, Ian Murdock
 .\" Copyright © 1999 Ben Collins <bcollins@debian.org>
 .\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
-.\" Copyright © 2007-2011 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2007-2011, 2013 Guillem Jover <guillem@debian.org>
 .\" Copyright © 2008-2012 Raphaël Hertzog <hertzog@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH deb\-control 5 "2011-08-14" "Debian Project" "Debian"
+.TH deb\-control 5 "2013-12-20" "Debian Project" "Debian"
 .SH NAME
 deb\-control \- Debian packages' master control file format
 .
@@ -118,7 +118,7 @@ The upstream project home page \fIurl\fP.
 List of tags describing the qualities of the package. The description and
 list of supported tags can be found in the \fBdebtags\fP package.
 .TP
-.BR Multi\-Arch: " \fBsame\fP|\fBforeign\fP|\fBallowed\fP"
+.BR Multi\-Arch: " \fBsame\fP|\fBforeign\fP|\fBallowed\fP|\fBno\fP"
 This field is used to indicate how this package should behave on a multi-arch
 installations. The value \fBsame\fP means that the package is co-installable
 with itself, but it must not be used to satisfy the dependency of any package
@@ -128,6 +128,8 @@ satisfy the dependency of a package of a different arch from itself. The
 value \fBallowed\fP allows reverse-dependencies to indicate in their
 Depends field that they accept a package from a foreign architecture, but
 has no effect otherwise.
+The value \fBno\fP is the default when the field is omitted, in which case
+the field is generally not needed.
 .TP
 .BI Source: " source-name"
 The name of the source package that this binary package came from, if
