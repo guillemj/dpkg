@@ -71,17 +71,18 @@ for my $i (14 .. 31) {
 }
 
 sub symbol_is_blacklisted {
-    my ($symbol) = @_;
+    my ($symbol, $include_groups) = @_;
 
     return 1 if exists $blacklist{$symbol};
 
     # The ARM Embedded ABI spec states symbols under this namespace as
     # possibly appearing in output objects.
-    return 1 if $symbol =~ /^__aeabi_/;
+    return 1 if not ${$include_groups}{aeabi} and $symbol =~ /^__aeabi_/;
 
     # The GNU implementation of the OpenMP spec, specifies symbols under
     # this namespace as possibly appearing in output objects.
-    return 1 if $symbol =~ /^\.gomp_critical_user_/;
+    return 1 if not ${$include_groups}{gomp}
+                and $symbol =~ /^\.gomp_critical_user_/;
 
     return 0;
 }
@@ -397,12 +398,18 @@ sub merge_symbols {
     error(_g('cannot merge symbols from objects without SONAME'))
         unless $soname;
 
+    my %include_groups = ();
+    my $groups = $self->get_field($soname, 'Ignore-Blacklist-Groups');
+    if (defined $groups) {
+        $include_groups{$_} = 1 foreach (split /\s+/, $groups);
+    }
+
     my %dynsyms;
     foreach my $sym ($object->get_exported_dynamic_symbols()) {
         my $name = $sym->{name} . '@' .
                    ($sym->{version} ? $sym->{version} : 'Base');
         my $symobj = $self->lookup_symbol($name, $soname);
-        if (symbol_is_blacklisted($sym->{name})) {
+        if (symbol_is_blacklisted($sym->{name}, \%include_groups)) {
             next unless (defined $symobj and $symobj->has_tag('ignore-blacklist'));
         }
         $dynsyms{$name} = $sym;

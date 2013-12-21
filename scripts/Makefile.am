@@ -203,6 +203,10 @@ test_cases = \
 	t/910_merge_changelogs.t
 
 test_data = \
+	t/200_Dpkg_Shlibs/symbols.blacklisted \
+	t/200_Dpkg_Shlibs/symbols.blacklist-groups \
+	t/200_Dpkg_Shlibs/symbols.blacklist-filter \
+	t/200_Dpkg_Shlibs/symbols.blacklist-ignore \
 	t/200_Dpkg_Shlibs/symbols.fake-1 \
 	t/200_Dpkg_Shlibs/symbols.fake-2 \
 	t/200_Dpkg_Shlibs/symbols.fake-3 \
@@ -222,6 +226,7 @@ test_data = \
 	t/200_Dpkg_Shlibs/objdump.space \
 	t/200_Dpkg_Shlibs/objdump.basictags-amd64 \
 	t/200_Dpkg_Shlibs/objdump.basictags-i386 \
+	t/200_Dpkg_Shlibs/objdump.blacklisted \
 	t/200_Dpkg_Shlibs/objdump.patterns \
 	t/200_Dpkg_Shlibs/objdump.glib-ia64 \
 	t/200_Dpkg_Shlibs/objdump.libc6-2.3 \
