@@ -35,6 +35,7 @@ use Dpkg::BuildOptions;
 use Dpkg::BuildProfiles qw(set_build_profiles);
 use Dpkg::Compression;
 use Dpkg::Version;
+use Dpkg::Control;
 use Dpkg::Changelog::Parse;
 use Dpkg::Path qw(find_command);
 use Dpkg::IPC;
@@ -482,28 +483,15 @@ push @changes_opts, "-v$since" if defined $since;
 push @changes_opts, "-C$desc" if defined $desc;
 
 my $chg = "../$pva.changes";
+my $changes = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
+
 print { *STDERR } " dpkg-genchanges @changes_opts >$chg\n";
+
 open my $changes_fh, '-|', 'dpkg-genchanges', @changes_opts
     or subprocerr('dpkg-genchanges');
-
-open my $out_fh, '>', $chg or syserr(_g('write changes file'));
-
-my $infiles = my $files = '';
-while ($_ = <$changes_fh>) {
-    print { $out_fh } $_ or syserr(_g('write changes file'));
-    chomp;
-
-    if (/^Files:/i) {
-	$infiles = 1;
-    } elsif ($infiles && /^\s+(.*)$/) {
-	$files .= " $1 ";
-    } elsif ($infiles && /^\S/) {
-	$infiles = 0;
-    }
-}
-
+$changes->parse($changes_fh, _g('parse changes file'));
+$changes->save($chg);
 close $changes_fh or subprocerr(_g('dpkg-genchanges'));
-close $out_fh or syserr(_g('write changes file'));
 
 if ($cleansource) {
     withecho(@rootcommand, @debian_rules, 'clean');
@@ -512,7 +500,7 @@ chdir('..') or syserr('chdir ..');
 withecho('dpkg-source', @source_opts, '--after-build', $dir);
 chdir($dir) or syserr("chdir $dir");
 
-printf "$Dpkg::PROGNAME: %s\n", describe_build($files);
+printf "$Dpkg::PROGNAME: %s\n", describe_build($changes->{'Files'});
 
 if ($check_command) {
     withecho($check_command, @check_opts, $chg);
