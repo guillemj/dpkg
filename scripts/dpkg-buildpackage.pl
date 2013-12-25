@@ -34,6 +34,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::BuildOptions;
 use Dpkg::BuildProfiles qw(set_build_profiles);
 use Dpkg::Compression;
+use Dpkg::Checksums;
 use Dpkg::Version;
 use Dpkg::Control;
 use Dpkg::Changelog::Parse;
@@ -511,8 +512,25 @@ if ($signpause && ($signchanges || $signsource)) {
     getc();
 }
 
-if ($signsource && signfile("$pv.dsc")) {
-    error(_g('failed to sign .dsc and .changes file'));
+if ($signsource) {
+    if (signfile("$pv.dsc")) {
+        error(_g('failed to sign .dsc and .changes file'));
+    }
+
+    # Recompute the checksums as the .dsc has changed now.
+    my $checksums = Dpkg::Checksums->new();
+    $checksums->add_from_control($changes);
+    $checksums->add_from_file("../$pv.dsc", update => 1, key => "$pv.dsc");
+    $checksums->export_to_control($changes);
+    delete $changes->{'Checksums-Md5'};
+
+    my $md5sum_regex = checksums_get_property('md5', 'regex');
+    my $dsc_md5sum = $checksums->get_checksum("$pv.dsc", 'md5');
+    my $dsc_size = $checksums->get_size("$pv.dsc");
+    my $dsc_files_regex = qr/$md5sum_regex\s+\d+\s+(\S+\s+\S+\s+$pv\.dsc)/;
+    $changes->{'Files'} =~ s/^$dsc_files_regex$/$dsc_md5sum $dsc_size $1/m;
+
+    $changes->save($chg);
 }
 if ($signchanges && signfile("$pva.changes")) {
     error(_g('failed to sign .changes file'));
