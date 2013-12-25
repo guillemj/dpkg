@@ -175,6 +175,12 @@ sub build_opt {
     }
 }
 
+my $build_opts = Dpkg::BuildOptions->new();
+
+if ($build_opts->has('nocheck')) {
+    $check_command = undef;
+}
+
 while (@ARGV) {
     $_ = shift @ARGV;
 
@@ -328,7 +334,6 @@ if ($signcommand) {
     }
 }
 
-my $build_opts = Dpkg::BuildOptions->new();
 if (defined $parallel) {
     $parallel = $build_opts->get('parallel') if $build_opts->has('parallel');
     $ENV{MAKEFLAGS} ||= '';
