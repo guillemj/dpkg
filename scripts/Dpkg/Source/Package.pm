@@ -227,7 +227,7 @@ sub init_options {
     $self->{options}{skip_debianization} ||= 0;
 
     # Set default compressor for new formats.
-    $self->{options}{compression} //= 'gzip';
+    $self->{options}{compression} //= 'xz';
     $self->{options}{comp_level} //= compression_get_property($self->{options}{compression},
                                                               'default_level');
     $self->{options}{comp_ext} //= compression_get_property($self->{options}{compression},

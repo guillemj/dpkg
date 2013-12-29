@@ -76,7 +76,7 @@ my $COMP = {
 
 # XXX: Backwards compatibility, stop exporting on VERSION 2.00.
 ## no critic (Variables::ProhibitPackageVars)
-our $default_compression = 'gzip';
+our $default_compression = 'xz';
 our $default_compression_level = undef;
 
 my $regex = join '|', map { $_->{file_ext} } values %$COMP;
