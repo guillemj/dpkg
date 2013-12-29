@@ -354,7 +354,8 @@ sub do_build {
 					DIR => getcwd(), UNLINK => 0);
         push_exit_handler(sub { unlink($newdiffgz) });
         my $diff = Dpkg::Source::Patch->new(filename => $newdiffgz,
-                                            compression => 'gzip');
+                                            compression => 'gzip',
+                                            compression_level => $self->{options}{comp_level});
         $diff->create();
         $diff->add_diff_directory($origdir, $dir,
                 basedirname => $basedirname,

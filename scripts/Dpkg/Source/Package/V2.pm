@@ -309,7 +309,8 @@ sub prepare_build {
         # No main orig.tar, create a dummy one
         my $filename = $self->get_basename() . '.orig.tar.' .
                        $self->{options}{comp_ext};
-        my $tar = Dpkg::Source::Archive->new(filename => $filename);
+        my $tar = Dpkg::Source::Archive->new(filename => $filename,
+                                             compression_level => $self->{options}{comp_level});
         $tar->create();
         $tar->finish();
     }
@@ -531,7 +532,8 @@ sub do_build {
     # Create the debian.tar
     my $debianfile = "$basenamerev.debian.tar." . $self->{options}{comp_ext};
     info(_g('building %s in %s'), $sourcepackage, $debianfile);
-    my $tar = Dpkg::Source::Archive->new(filename => $debianfile);
+    my $tar = Dpkg::Source::Archive->new(filename => $debianfile,
+                                         compression_level => $self->{options}{comp_level});
     $tar->create(options => \@tar_ignore, chdir => $dir);
     $tar->add_directory('debian');
     foreach my $binary ($binaryfiles->get_seen_binaries()) {
