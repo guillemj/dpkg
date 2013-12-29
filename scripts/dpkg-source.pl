@@ -59,10 +59,6 @@ my $changelogformat;
 
 my $build_format;
 my %options = (
-    # Compression related
-    compression => compression_get_default(),
-    comp_level => compression_get_default_level(),
-    comp_ext => compression_get_property(compression_get_default(), 'file_ext'),
     # Ignore files
     tar_ignore => [],
     diff_ignore_regex => '',
@@ -149,7 +145,6 @@ while (@options) {
     } elsif (m/^-(?:Z|-compression=)(.*)$/) {
 	my $compression = $1;
 	$options{compression} = $compression;
-	$options{comp_ext} = compression_get_property($compression, 'file_ext');
 	usageerr(_g('%s is not a supported compression'), $compression)
 	    unless compression_is_supported($compression);
 	compression_set_default($compression);

@@ -54,6 +54,11 @@ sub init_options {
     $self->{options}{sourcestyle} ||= 'X';
     $self->{options}{skip_debianization} ||= 0;
     $self->{options}{abort_on_upstream_changes} ||= 0;
+
+    # V1.0 only supports gzip compression.
+    $self->{options}{compression} //= 'gzip';
+    $self->{options}{comp_level} //= compression_get_property('gzip', 'default_level');
+    $self->{options}{comp_ext} //= compression_get_property('gzip', 'file_ext');
 }
 
 sub parse_cmdline_option {
