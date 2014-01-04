@@ -277,6 +277,10 @@ our %FIELDS = (
     'Task' => {
         allowed => ALL_PKG,
     },
+    'Testsuite' => {
+        allowed => ALL_SRC,
+        separator => FIELD_SEP_COMMA,
+    },
     'Triggers-Awaited' => {
         allowed => CTRL_FILE_STATUS,
         separator => FIELD_SEP_SPACE,
@@ -350,7 +354,7 @@ our %FIELD_ORDER = (
         qw(Format Source Binary Architecture Version Origin Maintainer
         Uploaders Homepage Standards-Version Vcs-Browser
         Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn
-        Vcs-Svn), &field_list_src_dep(), qw(Package-List),
+        Vcs-Svn Testsuite), &field_list_src_dep(), qw(Package-List),
         @checksum_fields, qw(Files)
     ],
     CTRL_FILE_CHANGES() => [
