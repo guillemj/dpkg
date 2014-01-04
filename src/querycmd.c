@@ -118,6 +118,9 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
     for (i = 0; i < array->n_pkgs; i++) {
       int plen, vlen, alen, dlen;
 
+      if (array->pkgs[i] == NULL)
+        continue;
+
       plen = str_width(pkg_name(array->pkgs[i], pnaw_nonambig));
       vlen = str_width(versiondescribe(&array->pkgs[i]->installed.version,
                                        vdew_nonambig));
@@ -240,6 +243,21 @@ list1package(struct pkginfo *pkg, struct list_format *fmt, struct pkg_array *arr
                     pdesc, l);
 }
 
+static void
+list_found_packages(struct list_format *fmt, struct pkg_array *array)
+{
+  int i;
+
+  for (i = 0; i < array->n_pkgs; i++) {
+    struct pkginfo *pkg = array->pkgs[i];
+
+    if (pkg == NULL)
+      continue;
+
+    list1package(pkg, fmt, array);
+  }
+}
+
 static int
 listpackages(const char *const *argv)
 {
@@ -262,9 +280,11 @@ listpackages(const char *const *argv)
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
-      if (pkg->status == stat_notinstalled) continue;
-      list1package(pkg, &fmt, &array);
+      if (pkg->status == stat_notinstalled)
+        array.pkgs[i] = NULL;
     }
+
+    list_found_packages(&fmt, &array);
   } else {
     int argc, ip, *found;
     struct pkg_spec *ps;
@@ -282,12 +302,15 @@ listpackages(const char *const *argv)
       pkg = array.pkgs[i];
       for (ip = 0; ip < argc; ip++) {
         if (pkg_spec_match_pkg(&ps[ip], pkg, &pkg->installed)) {
-          list1package(pkg, &fmt, &array);
           found[ip]++;
           break;
         }
       }
+      if (ip == argc)
+        array.pkgs[i] = NULL;
     }
+
+    list_found_packages(&fmt, &array);
 
     /* FIXME: we might get non-matching messages for sub-patterns specified
      * after their super-patterns, due to us skipping on first match. */
