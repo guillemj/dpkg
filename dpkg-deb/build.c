@@ -552,10 +552,14 @@ do_build(const char *const *argv)
              debar, err.str);
   } else if (deb_format.major == 2) {
     const char deb_magic[] = ARCHIVEVERSION "\n";
+    char adminmember[16 + 1];
+
+    sprintf(adminmember, "%s%s", ADMINMEMBER,
+            compressor_get_extension(compressor_type_gzip));
 
     dpkg_ar_put_magic(debar, arfd);
     dpkg_ar_member_put_mem(debar, arfd, DEBMAGIC, deb_magic, strlen(deb_magic));
-    dpkg_ar_member_put_file(debar, arfd, ADMINMEMBER, gzfd, -1);
+    dpkg_ar_member_put_file(debar, arfd, adminmember, gzfd, -1);
   } else {
     internerr("unknown deb format version %d.%d", deb_format.major, deb_format.minor);
   }

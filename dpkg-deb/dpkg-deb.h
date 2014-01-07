@@ -70,7 +70,7 @@ extern struct compress_params compress_params;
 #define OLDOLDDEBDIR		".DEBIAN"
 
 #define DEBMAGIC		"debian-binary"
-#define ADMINMEMBER		"control.tar.gz"
+#define ADMINMEMBER		"control.tar"
 #define DATAMEMBER		"data.tar"
 
 #define MAXFILENAME 2048

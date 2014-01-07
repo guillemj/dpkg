@@ -66,8 +66,11 @@ be able to safely continue, unless it encounters an unexpected member
 in the archive (except at the end), as described below.
 .PP
 The second required member is named
-.BR control.tar.gz .
-It is a gzipped tar archive containing the package control information,
+.BR control.tar .
+It is a tar archive containing the package control information, either
+not compressed (supported since dpkg 1.17.6), or compressed with
+gzip (with \fB.gz\fP extension) or
+xz (with \fB.xz\fP extension, supported since 1.17.6),
 as a series of plain files, of which the file
 .B control
 is mandatory and contains the core control information. The control

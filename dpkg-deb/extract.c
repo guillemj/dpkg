@@ -178,9 +178,18 @@ extracthalf(const char *debar, const char *dir,
         if (fd_skip(arfd, memberlen + (memberlen & 1), &err) < 0)
           ohshit(_("cannot skip archive member from '%s': %s"), debar, err.str);
       } else {
-	if (strncmp(arh.ar_name, ADMINMEMBER, sizeof(arh.ar_name)) == 0)
+        if (strncmp(arh.ar_name, ADMINMEMBER, strlen(ADMINMEMBER)) == 0) {
+          const char *extension = arh.ar_name + strlen(ADMINMEMBER);
+
 	  adminmember = 1;
-	else {
+          decompressor = compressor_find_by_extension(extension);
+          if (decompressor != compressor_type_none &&
+              decompressor != compressor_type_gzip &&
+              decompressor != compressor_type_xz)
+            ohshit(_("archive '%s' uses unknown compression for member '%.*s', "
+                     "giving up"),
+                   debar, (int)sizeof(arh.ar_name), arh.ar_name);
+        } else {
           if (adminmember != 1)
             ohshit(_("archive '%s' has premature member '%.*s' before '%s', "
                      "giving up"),
