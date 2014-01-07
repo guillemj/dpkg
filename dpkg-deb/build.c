@@ -432,6 +432,7 @@ pkg_get_pathname(const char *dir, struct pkginfo *pkg)
 int
 do_build(const char *const *argv)
 {
+  struct compress_params control_compress_params;
   struct dpkg_error err;
   const char *debar, *dir;
   bool subdir;
@@ -516,16 +517,18 @@ do_build(const char *const *argv)
            tfbuf);
   free(tfbuf);
 
-  /* And run gzip to compress our control archive. */
+  /* And run the compressor on our control archive. */
+  if (opt_uniform_compression) {
+    control_compress_params = compress_params;
+  } else {
+    control_compress_params.type = compressor_type_gzip;
+    control_compress_params.strategy = compressor_strategy_none;
+    control_compress_params.level = -1;
+  }
+
   c2 = subproc_fork();
   if (!c2) {
-    struct compress_params params;
-
-    params.type = compressor_type_gzip;
-    params.strategy = compressor_strategy_none;
-    params.level = -1;
-
-    compress_filter(&params, p1[0], gzfd, _("compressing control member"));
+    compress_filter(&control_compress_params, p1[0], gzfd, _("compressing control member"));
     exit(0);
   }
   close(p1[0]);
@@ -555,7 +558,7 @@ do_build(const char *const *argv)
     char adminmember[16 + 1];
 
     sprintf(adminmember, "%s%s", ADMINMEMBER,
-            compressor_get_extension(compressor_type_gzip));
+            compressor_get_extension(control_compress_params.type));
 
     dpkg_ar_put_magic(debar, arfd);
     dpkg_ar_member_put_mem(debar, arfd, DEBMAGIC, deb_magic, strlen(deb_magic));
