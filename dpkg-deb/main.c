@@ -98,14 +98,14 @@ usage(const struct cmdinfo *cip, const char *value)
 
   printf(_(
 "Options:\n"
-"  --showformat=<format>            Use alternative format for --show.\n"
 "  -v, --verbose                    Enable verbose output.\n"
 "  -D, --debug                      Enable debugging output.\n"
+"      --showformat=<format>        Use alternative format for --show.\n"
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 (default).\n"
 "      --old                        Legacy alias for '--deb-format=0.939000'.\n"
 "      --new                        Legacy alias for '--deb-format=2.0'.\n"
-"  --nocheck                        Suppress control file check (build bad\n"
+"      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --uniform-compression        Use the compression params on all members.\n"
 "  -z#                              Set the compression level when building.\n"
