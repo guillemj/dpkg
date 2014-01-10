@@ -144,15 +144,15 @@ ensure_statoverrides(void)
 		if (file_prev &&
 		    sb_prev.st_dev == sb_next.st_dev &&
 		    sb_prev.st_ino == sb_next.st_ino) {
+			fclose(file);
 			onerr_abort--;
 			debug(dbg_general, "%s: same, skipping", __func__);
 			return;
 		}
 		sb_prev = sb_next;
-
-		if (file_prev)
-			fclose(file_prev);
 	}
+	if (file_prev)
+		fclose(file_prev);
 	file_prev = file;
 
 	/* Reset statoverride information. */
