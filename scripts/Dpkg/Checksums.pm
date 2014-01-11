@@ -1,4 +1,5 @@
 # Copyright © 2008 Frank Lichtenheld <djpig@debian.org>
+# Copyright © 2008, 2012-2014 Guillem Jover <guillem@debian.org>
 # Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -19,7 +20,7 @@ package Dpkg::Checksums;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Dpkg;
 use Dpkg::Gettext;
@@ -153,7 +154,8 @@ wanted checksums in the "checksums" option.
 
 It the object already contains checksums information associated the
 filename (or key), it will error out if the newly computed information
-does not match what's stored.
+does not match what's stored, and the caller did not request that it be
+updated with the boolean "update" option.
 
 =cut
 
@@ -169,7 +171,8 @@ sub add_from_file {
 
     push @{$self->{files}}, $key unless exists $self->{size}{$key};
     (my @s = stat($file)) or syserr(_g('cannot fstat file %s'), $file);
-    if (exists $self->{size}{$key} and $self->{size}{$key} != $s[7]) {
+    if (not $opts{update} and exists $self->{size}{$key} and
+        $self->{size}{$key} != $s[7]) {
 	error(_g('file %s has size %u instead of expected %u'),
 	      $file, $s[7], $self->{size}{$key});
     }
@@ -182,7 +185,7 @@ sub add_from_file {
 	spawn(exec => \@exec, to_string => \$output);
 	if ($output =~ /^($regex)(\s|$)/m) {
 	    my $newsum = $1;
-	    if (exists $self->{checksums}{$key}{$alg} and
+	    if (not $opts{update} and exists $self->{checksums}{$key}{$alg} and
 		$self->{checksums}{$key}{$alg} ne $newsum) {
 		error(_g('file %s has checksum %s instead of expected %s (algorithm %s)'),
 		      $file, $newsum, $self->{checksums}{$key}{$alg}, $alg);
@@ -194,7 +197,7 @@ sub add_from_file {
     }
 }
 
-=item $ck->add_from_string($alg, $value)
+=item $ck->add_from_string($alg, $value, %opts)
 
 Add checksums of type $alg that are stored in the $value variable.
 $value can be multi-lines, each line should be a space separated list
@@ -203,12 +206,13 @@ not allowed.
 
 It the object already contains checksums information associated to the
 filenames, it will error out if the newly read information does not match
-what's stored.
+what's stored, and the caller did not request that it be updated with
+the boolean "update" option.
 
 =cut
 
 sub add_from_string {
-    my ($self, $alg, $fieldtext) = @_;
+    my ($self, $alg, $fieldtext, %opts) = @_;
     $alg = lc($alg);
     my $rx_fname = qr/[0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+/;
     my $regex = checksums_get_property($alg, 'regex');
@@ -221,12 +225,13 @@ sub add_from_string {
 		  $alg, $checksum);
 	}
 	my ($sum, $size, $file) = ($1, $2, $3);
-	if (exists($checksums->{$file}{$alg})
+	if (not $opts{update} and  exists($checksums->{$file}{$alg})
 	    and $checksums->{$file}{$alg} ne $sum) {
 	    error(_g("conflicting checksums '%s' and '%s' for file '%s'"),
 		  $checksums->{$file}{$alg}, $sum, $file);
 	}
-	if (exists $self->{size}{$file} and $self->{size}{$file} != $size) {
+	if (not $opts{update} and exists $self->{size}{$file}
+	    and $self->{size}{$file} != $size) {
 	    error(_g("conflicting file sizes '%u' and '%u' for file '%s'"),
 		  $self->{size}{$file}, $size, $file);
 	}
@@ -255,7 +260,7 @@ sub add_from_control {
 	my $key = "Checksums-$alg";
 	$key = 'Files' if ($opts{use_files_for_md5} and $alg eq 'md5');
 	if (exists $control->{$key}) {
-	    $self->add_from_string($alg, $control->{$key});
+	    $self->add_from_string($alg, $control->{$key}, %opts);
 	}
     }
 }
@@ -368,6 +373,15 @@ sub export_to_control {
 }
 
 =back
+
+=head1 CHANGES
+
+=head2 Version 1.01
+
+New argument: Accept an options argument in $ck->export_to_string().
+
+New option: Accept new option 'update' in $ck->add_from_file() and
+$ck->add_from_control().
 
 =head1 AUTHOR
 
