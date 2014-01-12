@@ -254,7 +254,6 @@ symlink_to_dir() {
 	[ -n "$PACKAGE" ] || error "cannot identify the package"
 	[ -n "$SYMLINK" ] || error "symlink parameter is missing"
 	[ -n "$SYMLINK_TARGET" ] || error "original symlink target is missing"
-	[ -n "$LASTVERSION" ] || error "last version is missing"
 	[ -n "$1" ] || error "maintainer script parameters are missing"
 
 	debug "Executing $0 symlink_to_dir in $DPKG_MAINTSCRIPT_NAME" \
@@ -328,7 +327,6 @@ dir_to_symlink() {
 	[ -n "$PACKAGE" ] || error "cannot identify the package"
 	[ -n "$PATHNAME" ] || error "directory parameter is missing"
 	[ -n "$SYMLINK_TARGET" ] || error "new symlink target is missing"
-	[ -n "$LASTVERSION" ] || error "last version is missing"
 	[ -n "$1" ] || error "maintainer script parameters are missing"
 
 	debug "Executing $0 dir_to_symlink in $DPKG_MAINTSCRIPT_NAME" \
