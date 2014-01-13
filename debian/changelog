@@ -83,6 +83,11 @@ dpkg (1.17.7) UNRELEASED; urgency=low
     from pipes, or standard input if the argument is omitted or is ‘-’.
     Closes: #357093, #367297
   * Error out on not-installed packages passed to «dpkg --verify».
+  * Deprecate compressing .deb files with bzip2, by making dpkg-deb issue a
+    warning, as the compressor has been superseded by xz when it comes to
+    compression ratio, and in cases where higher compatibility or raw speed
+    is desired gzip is still the better option. Although unpacking will be
+    kept being supported to handle existing bzip2 compressed .deb files.
 
   [ Updated dpkg translations ]
   * German (Sven Joachim).

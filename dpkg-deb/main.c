@@ -215,6 +215,8 @@ set_compress_type(const struct cmdinfo *cip, const char *value)
     ohshit(_("unknown compression type `%s'!"), value);
   if (compress_params.type == compressor_type_lzma)
     warning(_("deprecated compression type '%s'; use xz instead"), value);
+  if (compress_params.type == compressor_type_bzip2)
+    warning(_("deprecated compression type '%s'; use xz or gzip instead"), value);
 }
 
 static const struct cmdinfo cmdinfos[]= {
