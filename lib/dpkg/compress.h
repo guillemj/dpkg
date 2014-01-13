@@ -63,6 +63,7 @@ struct compress_params {
 enum compressor_type compressor_find_by_name(const char *name);
 enum compressor_type compressor_find_by_extension(const char *name);
 
+const char *compressor_get_name(enum compressor_type type);
 const char *compressor_get_extension(enum compressor_type type);
 
 enum compressor_strategy compressor_get_strategy(const char *name);

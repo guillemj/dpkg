@@ -731,6 +731,12 @@ compressor(enum compressor_type type)
 }
 
 const char *
+compressor_get_name(enum compressor_type type)
+{
+	return compressor(type)->name;
+}
+
+const char *
 compressor_get_extension(enum compressor_type type)
 {
 	return compressor(type)->extension;
