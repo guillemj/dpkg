@@ -59,7 +59,7 @@ sub usage {
   -b             binary-only, do not build source.
   -B             binary-only, no arch-indep files.
   -A             binary-only, only arch-indep files.
-  -S             source only, no binary files.
+  -S             source-only, no binary files.
   -nc            do not clean source tree (implies -b).
   -tc            clean source tree when finished.
   -D (default)   check build dependencies and conflicts.
@@ -582,17 +582,17 @@ sub describe_build {
     my $ext = compression_get_file_extension_regex();
 
     if (fileomitted($files, '\.deb')) {
-        # source only upload
+        # source-only upload
         if (fileomitted($files, "\.diff\.$ext") and
             fileomitted($files, "\.debian\.tar\.$ext")) {
-            return _g('source only upload: Debian-native package');
+            return _g('source-only upload: Debian-native package');
         } elsif (fileomitted($files, "\.orig\.tar\.$ext")) {
-            return _g('source only, diff-only upload (original source NOT included)');
+            return _g('source-only, diff-only upload (original source NOT included)');
         } else {
-            return _g('source only upload (original source is included)');
+            return _g('source-only upload (original source is included)');
         }
     } elsif (fileomitted($files, '\.dsc')) {
-        return _g('binary only upload (no source included)');
+        return _g('binary-only upload (no source included)');
     } elsif (fileomitted($files, "\.diff\.$ext") and
              fileomitted($files, "\.debian\.tar\.$ext")) {
         return _g('full upload; Debian-native package (full source is included)');
