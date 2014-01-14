@@ -116,10 +116,10 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . _g(
 "Options:
-  -b                       binary-only build - no source files.
-  -B                       arch-specific - no source or arch-indep files.
-  -A                       only arch-indep - no source or arch-specific files.
-  -S                       source-only upload.
+  -b                       binary-only, no source files.
+  -B                       binary-only, only arch-specific files.
+  -A                       binary-only, only arch-indep files.
+  -S                       source-only, no binary files.
   -c<control-file>         get control info from this file.
   -l<changelog-file>       get per-version info from this file.
   -f<files-list-file>      get .deb files list from this file.
@@ -128,8 +128,8 @@ sub usage {
   -m<maintainer>           override control's maintainer value.
   -e<maintainer>           override changelog's maintainer value.
   -u<upload-files-dir>     directory with files (default is '..').
-  -si (default)            src includes orig if new upstream.
-  -sa                      source includes orig src.
+  -si (default)            source includes orig, if new upstream.
+  -sa                      source includes orig, always.
   -sd                      source is diff and .dsc only.
   -q                       quiet - no informational messages on stderr.
   -F<changelog-format>     force changelog format.

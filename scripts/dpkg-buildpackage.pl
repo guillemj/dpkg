@@ -58,8 +58,8 @@ sub usage {
     . "\n\n" . _g(
 'Options:
   -F (default)   normal full build (binaries and sources).
-  -b             binary-only, do not build source.
-  -B             binary-only, no arch-indep files.
+  -b             binary-only, no source files.
+  -B             binary-only, only arch-specific files.
   -A             binary-only, only arch-indep files.
   -S             source-only, no binary files.
   -nc            do not clean source tree (implies -b).
@@ -100,9 +100,9 @@ sub usage {
   -t<system>     set GNU system type.')
     . "\n\n" . _g(
 'Options passed to dpkg-genchanges:
-  -si (default)  source includes orig if new upstream.
-  -sa            uploaded source always includes orig.
-  -sd            uploaded source is diff and .dsc only.
+  -si (default)  source includes orig, if new upstream.
+  -sa            source includes orig, always.
+  -sd            source is diff and .dsc only.
   -v<version>    changes since version <version>.
   -m<maint>      maintainer for package is <maint>.
   -e<maint>      maintainer for release is <maint>.
