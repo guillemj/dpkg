@@ -382,8 +382,11 @@ sub get_filehandle {
 
 sub open_for_write {
     my ($self) = @_;
-    error("Can't reopen an already opened compressed file") if exists *$self->{mode};
     my $filehandle;
+
+    croak 'cannot reopen an already opened compressed file'
+        if exists *$self->{mode};
+
     if ($self->use_compression()) {
 	*$self->{compressor}->compress(from_pipe => \$filehandle,
 		to_file => $self->get_filename());
@@ -397,8 +400,11 @@ sub open_for_write {
 
 sub open_for_read {
     my ($self) = @_;
-    error("Can't reopen an already opened compressed file") if exists *$self->{mode};
     my $filehandle;
+
+    croak 'cannot reopen an already opened compressed file'
+        if exists *$self->{mode};
+
     if ($self->use_compression()) {
 	*$self->{compressor}->uncompress(to_pipe => \$filehandle,
 		from_file => $self->get_filename());
