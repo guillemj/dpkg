@@ -350,9 +350,9 @@ sub wait_child {
     };
     if ($@) {
         die $@ unless $@ eq "alarm\n";
-        error(ngettext("%s didn't complete in %d second",
-                       "%s didn't complete in %d seconds",
-                       $opts{timeout}),
+        error(P_("%s didn't complete in %d second",
+                 "%s didn't complete in %d seconds",
+                 $opts{timeout}),
               $opts{cmdline}, $opts{timeout});
     }
     unless ($opts{nocheck}) {

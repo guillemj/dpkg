@@ -211,9 +211,9 @@ foreach (keys %{$pkg}) {
 	} else {
 	    my @archlist = split(/\s+/, $v);
 	    my @invalid_archs = grep { m/[^\w-]/ } @archlist;
-	    warning(ngettext("`%s' is not a legal architecture string.",
-			     "`%s' are not legal architecture strings.",
-			     scalar(@invalid_archs)),
+	    warning(P_("`%s' is not a legal architecture string.",
+	               "`%s' are not legal architecture strings.",
+	               scalar(@invalid_archs)),
 		    join("' `", @invalid_archs))
 		if @invalid_archs >= 1;
 	    if (none { debarch_is($host_arch, $_) } @archlist) {
