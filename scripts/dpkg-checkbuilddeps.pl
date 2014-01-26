@@ -189,39 +189,27 @@ sub parse_status {
 # in as the 4th parameter. If not set, dpkg will be queried for the build
 # architecture.
 sub build_depends {
-	return check_line(1, @_);
+    my ($dep_list, $facts) = @_;
+
+    $dep_list->simplify_deps($facts);
+    if ($dep_list->is_empty()) {
+        return ();
+    } else {
+        return $dep_list->get_deps();
+    }
 }
 
-# This function is exactly like unmet_build_depends, except it
+# This function is exactly like build_depends(), except it
 # checks for build conflicts, and returns a list of the packages
 # that are installed and are conflicted with.
 sub build_conflicts {
-	return check_line(0, @_);
-}
+    my ($dep_list, $facts) = @_;
 
-# This function does all the work. The first parameter is 1 to check build
-# deps, and 0 to check build conflicts.
-sub check_line {
-	my $build_depends=shift;
-	my $dep_list=shift;
-	my $facts=shift;
-
-	my @unmet=();
-
-	if ($build_depends) {
-		$dep_list->simplify_deps($facts);
-		if ($dep_list->is_empty()) {
-			return ();
-		} else {
-			return $dep_list->get_deps();
-		}
-	} else { # Build-Conflicts
-		my @conflicts = ();
-		foreach my $dep ($dep_list->get_deps()) {
-			if ($dep->get_evaluation($facts)) {
-				push @conflicts, $dep;
-			}
-		}
-		return @conflicts;
-	}
+    my @conflicts = ();
+    foreach my $dep ($dep_list->get_deps()) {
+        if ($dep->get_evaluation($facts)) {
+            push @conflicts, $dep;
+        }
+    }
+    return @conflicts;
 }
