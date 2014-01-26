@@ -110,16 +110,18 @@ unless (defined($bd_value) or defined($bc_value)) {
 my (@unmet, @conflicts);
 
 if ($bd_value) {
-	push @unmet, build_depends('Build-Depends/Build-Depends-Arch/Build-Depends-Indep',
-		deps_parse($bd_value, reduce_restrictions => 1, build_dep => 1,
-			   build_profiles => \@build_profiles,
-			   host_arch => $host_arch), $facts);
+    my $dep = deps_parse($bd_value, reduce_restrictions => 1,
+                         build_dep => 1, build_profiles => \@build_profiles,
+                         host_arch => $host_arch);
+    push @unmet, build_depends('Build-Depends/Build-Depends-Arch/Build-Depends-Indep',
+                               $dep, $facts);
 }
 if ($bc_value) {
-	push @conflicts, build_conflicts('Build-Conflicts/Build-Conflicts-Arch/Build-Conflicts-Indep',
-		deps_parse($bc_value, reduce_restrictions => 1, build_dep => 1,
-			   build_profiles => \@build_profiles, union => 1,
-			   host_arch => $host_arch), $facts);
+    my $dep = deps_parse($bc_value, reduce_restrictions => 1, union => 1,
+                         build_dep => 1, build_profiles => \@build_profiles,
+                         host_arch => $host_arch);
+    push @conflicts, build_conflicts('Build-Conflicts/Build-Conflicts-Arch/Build-Conflicts-Indep',
+                                     $dep, $facts);
 }
 
 if (@unmet) {
