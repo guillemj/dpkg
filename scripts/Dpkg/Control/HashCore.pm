@@ -92,6 +92,13 @@ The user friendly name of the information stored in the object. It might
 be used in some error messages or warnings. A default name might be set
 depending on the type.
 
+=item is_pgp_signed
+
+Set by the parser (starting in dpkg 1.17.0) if it finds an OpenPGP
+signature around the control information. Value can be 0 (default)
+or 1, and undef when the option is not supported by the code (in
+versions older than dpkg 1.17.0).
+
 =back
 
 =cut
