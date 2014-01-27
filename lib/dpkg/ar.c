@@ -26,6 +26,7 @@
 
 #include <time.h>
 #include <stdint.h>
+#include <string.h>
 #include <unistd.h>
 
 #include <dpkg/i18n.h>
@@ -33,6 +34,17 @@
 #include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 #include <dpkg/ar.h>
+
+static void
+dpkg_ar_member_init(struct dpkg_ar_member *member, const char *name, off_t size)
+{
+	member->name = name;
+	member->size = size;
+	member->time = time(NULL);
+	member->mode = 0100644;
+	member->uid = 0;
+	member->gid = 0;
+}
 
 void
 dpkg_ar_normalize_name(struct ar_hdr *arh)
@@ -89,18 +101,20 @@ dpkg_ar_put_magic(const char *ar_name, int ar_fd)
 
 void
 dpkg_ar_member_put_header(const char *ar_name, int ar_fd,
-                          const char *name, off_t size)
+                          struct dpkg_ar_member *member)
 {
 	char header[sizeof(struct ar_hdr) + 1];
 	int n;
 
-	if (strlen(name) > 15)
-		ohshit(_("ar member name '%s' length too long"), name);
-	if (size > 9999999999L)
-		ohshit(_("ar member size %jd too large"), size);
+	if (strlen(member->name) > 15)
+		ohshit(_("ar member name '%s' length too long"), member->name);
+	if (member->size > 9999999999L)
+		ohshit(_("ar member size %jd too large"), member->size);
 
-	n = sprintf(header, "%-16s%-12lu0     0     100644  %-10jd`\n",
-	            name, time(NULL), (intmax_t)size);
+	n = sprintf(header, "%-16s%-12lu%-6lu%-6lu%-8lo%-10jd`\n",
+	            member->name, (unsigned long)member->time,
+	            (unsigned long)member->uid, (unsigned long)member->gid,
+	            (unsigned long)member->mode, (intmax_t)member->size);
 	if (n != sizeof(struct ar_hdr))
 		ohshit(_("generated corrupt ar header for '%s'"), ar_name);
 
@@ -112,7 +126,10 @@ void
 dpkg_ar_member_put_mem(const char *ar_name, int ar_fd,
                        const char *name, const void *data, size_t size)
 {
-	dpkg_ar_member_put_header(ar_name, ar_fd, name, size);
+	struct dpkg_ar_member member;
+
+	dpkg_ar_member_init(&member, name, size);
+	dpkg_ar_member_put_header(ar_name, ar_fd, &member);
 
 	/* Copy data contents. */
 	if (fd_write(ar_fd, data, size) < 0)
@@ -128,6 +145,7 @@ dpkg_ar_member_put_file(const char *ar_name, int ar_fd,
                         const char *name, int fd, off_t size)
 {
 	struct dpkg_error err;
+	struct dpkg_ar_member member;
 
 	if (size <= 0) {
 		struct stat st;
@@ -137,7 +155,8 @@ dpkg_ar_member_put_file(const char *ar_name, int ar_fd,
 		size = st.st_size;
 	}
 
-	dpkg_ar_member_put_header(ar_name, ar_fd, name, size);
+	dpkg_ar_member_init(&member, name, size);
+	dpkg_ar_member_put_header(ar_name, ar_fd, &member);
 
 	/* Copy data contents. */
 	if (fd_fd_copy(fd, ar_fd, size, &err) < 0)

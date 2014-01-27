@@ -38,12 +38,26 @@ DPKG_BEGIN_DECLS
 
 #define DPKG_AR_MAGIC "!<arch>\n"
 
+/**
+ * In-memory archive member information.
+ */
+struct dpkg_ar_member {
+	struct dpkg_ar_member *next;
+	const char *name;
+	off_t offset;
+	off_t size;
+	time_t time;
+	mode_t mode;
+	uid_t uid;
+	gid_t gid;
+};
+
 void dpkg_ar_normalize_name(struct ar_hdr *arh);
 bool dpkg_ar_member_is_illegal(struct ar_hdr *arh);
 
 void dpkg_ar_put_magic(const char *ar_name, int ar_fd);
 void dpkg_ar_member_put_header(const char *ar_name, int ar_fd,
-                               const char *name, off_t size);
+                               struct dpkg_ar_member *member);
 void dpkg_ar_member_put_file(const char *ar_name, int ar_fd, const char *name,
                              int fd, off_t size);
 void dpkg_ar_member_put_mem(const char *ar_name, int ar_fd, const char *name,
