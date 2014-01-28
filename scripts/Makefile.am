@@ -78,6 +78,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Control/Hash.pm \
 	Dpkg/Control/Types.pm \
 	Dpkg/Deps.pm \
+	Dpkg/Dist/Files.pm \
 	Dpkg/ErrorHandling.pm \
 	Dpkg/Exit.pm \
 	Dpkg/File.pm \
@@ -200,6 +201,7 @@ test_cases = \
 	t/Dpkg_Substvars.t \
 	t/Dpkg_IPC.t \
 	t/Dpkg_Compression.t \
+	t/Dpkg_Dist_Files.t \
 	t/merge_changelogs.t
 
 test_data = \
@@ -247,6 +249,7 @@ test_data = \
 	t/Dpkg_Control/bogus-armor-nested.dsc \
 	t/Dpkg_Control/bogus-armor-spaces.dsc \
 	t/Dpkg_Substvars/substvars1 \
+	t/Dpkg_Dist_Files/files-byhand \
 	t/merge_changelogs/ch-old \
 	t/merge_changelogs/ch-a \
 	t/merge_changelogs/ch-b \
