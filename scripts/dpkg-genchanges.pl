@@ -240,7 +240,12 @@ if (defined($prev_changelog) and
 my $dist = Dpkg::Dist::Files->new();
 
 if (not is_sourceonly) {
-    $dist->load($fileslistfile);
+    my $dist_count = 0;
+
+    $dist_count = $dist->load($fileslistfile) if -e $fileslistfile;
+
+    error(_g('binary build with no binary artifacts found; cannot distribute'))
+        if $dist_count == 0;
 
     foreach my $file ($dist->get_files()) {
         if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
