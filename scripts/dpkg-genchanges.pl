@@ -56,7 +56,6 @@ my $changes_format = '1.8';
 
 my %f2p;           # - file to package map
 my %p2f;           # - package to file map, has entries for "packagename"
-my %p2ver;         # - package to version map
 my %p2arch;        # - package to arch map
 my %f2sec;         # - file to section map
 my %f2seccf;       # - likewise, from control file
@@ -249,7 +248,6 @@ if (not is_sourceonly) {
 	    $f2p{$1}= $2;
 	    $p2f{$2} ||= [];
 	    push @{$p2f{$2}}, $1;
-	    $p2ver{$2}= $3;
 
 	    warning(_g('duplicate files list entry for file %s (line %d)'),
 	            $1, $.) if defined $f2sec{$1};
