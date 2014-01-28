@@ -369,6 +369,11 @@ for my $f (keys %remove) {
     delete $fields->{$f};
 }
 
+my $sversion = $fields->{'Version'};
+$sversion =~ s/^\d+://;
+$forcefilename //= sprintf('%s_%s_%s.%s', $oppackage, $sversion,
+                           $fields->{'Architecture'} || '', $pkg_type);
+
 # Obtain a lock on debian/control to avoid simultaneous updates
 # of debian/files when parallel building is in use
 my $lockfh;
@@ -398,10 +403,6 @@ if (open(my $fileslist_fh, '<', $fileslistfile)) {
 } elsif ($! != ENOENT) {
     syserr(_g('read old files list file'));
 }
-my $sversion = $fields->{'Version'};
-$sversion =~ s/^\d+://;
-$forcefilename //= sprintf('%s_%s_%s.%s', $oppackage, $sversion,
-                           $fields->{'Architecture'} || '', $pkg_type);
 
 print { $fileslistnew_fh }
       $substvars->substvars(sprintf("%s %s %s\n",
