@@ -373,6 +373,9 @@ my $sversion = $fields->{'Version'};
 $sversion =~ s/^\d+://;
 $forcefilename //= sprintf('%s_%s_%s.%s', $oppackage, $sversion,
                            $fields->{'Architecture'} || '', $pkg_type);
+$forcefilename = $substvars->substvars($forcefilename);
+my $section = $substvars->substvars($fields->{'Section'} || '-');
+my $priority = $substvars->substvars($fields->{'Priority'} || '-');
 
 # Obtain a lock on debian/control to avoid simultaneous updates
 # of debian/files when parallel building is in use
@@ -404,11 +407,7 @@ if (open(my $fileslist_fh, '<', $fileslistfile)) {
     syserr(_g('read old files list file'));
 }
 
-print { $fileslistnew_fh }
-      $substvars->substvars(sprintf("%s %s %s\n",
-                                    $forcefilename,
-                                    $fields->{'Section'} || '-',
-                                    $fields->{'Priority'} || '-'))
+printf { $fileslistnew_fh } "%s %s %s\n", $forcefilename, $section, $priority
     or syserr(_g('write new entry to new files list file'));
 close($fileslistnew_fh) or syserr(_g('close new files list file'));
 rename("$fileslistfile.new", $fileslistfile)
