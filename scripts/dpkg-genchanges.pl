@@ -4,7 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000,2001 Wichert Akkerman
-# Copyright © 2006-2013 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -56,7 +56,6 @@ my $changes_format = '1.8';
 
 my %f2p;           # - file to package map
 my %p2f;           # - package to file map, has entries for "packagename"
-my %pa2f;          # - likewise, has entries for "packagename architecture"
 my %p2ver;         # - package to version map
 my %p2arch;        # - package to arch map
 my %f2sec;         # - file to section map
@@ -247,10 +246,7 @@ if (not is_sourceonly) {
         or syserr(_g('cannot read files list file'));
     while(<$fileslist_fh>) {
 	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
-	    warning(_g('duplicate files list entry for package %s (line %d)'),
-	            $2, $.) if defined $p2f{"$2 $4"};
 	    $f2p{$1}= $2;
-	    $pa2f{"$2 $4"}= $1;
 	    $p2f{$2} ||= [];
 	    push @{$p2f{$2}}, $1;
 	    $p2ver{$2}= $3;
@@ -365,11 +361,9 @@ if ($changesdescription) {
     close($changes_fh);
 }
 
-for my $pa (keys %pa2f) {
-    my ($pp, $aa) = (split / /, $pa);
-
-    warning(_g('package %s listed in files list but not in control info'), $pp)
-        unless defined $control->get_pkg_by_name($pp);
+for my $p (keys %p2f) {
+    warning(_g('package %s listed in files list but not in control info'), $p)
+        unless defined $control->get_pkg_by_name($p);
 }
 
 for my $p (keys %p2f) {
