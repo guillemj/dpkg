@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.17.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2014-01-15 15:08+0100\n"
-"PO-Revision-Date: 2014-01-12 22:08+0100\n"
+"PO-Revision-Date: 2014-01-29 10:55+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -202,13 +202,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb.5:80
-#, fuzzy
-#| msgid ""
-#| "The second required member is named B<control.tar.gz>.  It is a gzipped "
-#| "tar archive containing the package control information, as a series of "
-#| "plain files, of which the file B<control> is mandatory and contains the "
-#| "core control information. The control tarball may optionally contain an "
-#| "entry for `B<.>', the current directory."
 msgid ""
 "The second required member is named B<control.tar>.  It is a tar archive "
 "containing the package control information, either not compressed (supported "
@@ -218,9 +211,11 @@ msgid ""
 "information. The control tarball may optionally contain an entry for `B<.>', "
 "the current directory."
 msgstr ""
-"Den andra nödvändiga posten heter B<control.tar.gz>. Det är ett gzip-packat "
-"tar-arkiv som innehåller paketets kontrollinformation, lagrade som ett antal "
-"vanliga filer, av vilka filen B<control> krävs och innehåller grundläggande "
+"Den andra nödvändiga posten heter B<control.tar>. Det är ett tar-arkiv som "
+"innehåller paketets kontrollinformation, antingen okomprimerat (stöds sedan "
+"dpkg 1.17.6), eller komprimerat med gzip (med filtillägget B<.gz>) eller xz "
+"(med filtillägget B<.xz>, stöds sedan 1.17-6), lagrade som ett antal vanliga "
+"filer, av vilka filen B<control> krävs och innehåller grundläggande "
 "kontrollinformation. Tarbollen control kan eventuellt innehålla en post för "
 "\"B<.>\", den aktuella katalogen."
 
@@ -300,10 +295,9 @@ msgstr "deb-control"
 
 #. type: TH
 #: deb-control.5:22 deb-src-control.5:20
-#, fuzzy, no-wrap
-#| msgid "2013-12-12"
+#, no-wrap
 msgid "2013-12-20"
-msgstr "2013-12-12"
+msgstr "2013-12-20"
 
 #. type: Plain text
 #: deb-control.5:25
@@ -563,24 +557,12 @@ msgstr ""
 
 #. type: TQ
 #: deb-control.5:120 deb-src-control.5:258
-#, fuzzy, no-wrap
-#| msgid "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>"
+#, no-wrap
 msgid "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>|B<no>"
-msgstr "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>"
+msgstr "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>|B<no>"
 
 #. type: Plain text
 #: deb-control.5:133
-#, fuzzy
-#| msgid ""
-#| "This field is used to indicate how this package should behave on a multi-"
-#| "arch installations. The value B<same> means that the package is co-"
-#| "installable with itself, but it must not be used to satisfy the "
-#| "dependency of any package of a different architecture from itself. The "
-#| "value B<foreign> means that the package is not co-installable with "
-#| "itself, but should be allowed to satisfy the dependency of a package of a "
-#| "different arch from itself. The value B<allowed> allows reverse-"
-#| "dependencies to indicate in their Depends field that they accept a "
-#| "package from a foreign architecture, but has no effect otherwise."
 msgid ""
 "This field is used to indicate how this package should behave on a multi-"
 "arch installations. The value B<same> means that the package is co-"
@@ -601,7 +583,9 @@ msgstr ""
 "att det kan användas för att uppfylla beroenden för paket med en annan "
 "arkitektur än sig självt. Värdet B<allowed> (tillåtet) tillåter att omvända "
 "beroenden kan ange i sina Depends-fält att de behöver ett paket från en "
-"främmande arkitektur, men har i övrigt ingen funktion."
+"främmande arkitektur, men har i övrigt ingen funktion. Värdet B<no> är "
+"standard om fältet utesluts, i vilket fall fältet vanligtvis inte behöver "
+"anges."
 
 #. type: TP
 #: deb-control.5:133
@@ -1457,11 +1441,11 @@ msgid ""
 "naming scheme: the fields should start with a X, followed by one or more of "
 "the letters BCS and a hypen. If the letter B is used, the field will appear "
 "in the control file in the binary package, see B<deb-control>(5), for the "
-"letter S in the source package control file as constructed by B<dpkg-"
-"source>(1)  and for the letter C in the upload control (.changes) file. Note "
-"that the X[BCS]- prefixes are stripped when the fields are copied over to "
-"the output files. A field B<XC-Approved-By> will appear as B<Approved-By> in "
-"the changes file and will not appear in the binary or source package control "
+"letter S in the source package control file as constructed by B<dpkg-source>"
+"(1)  and for the letter C in the upload control (.changes) file. Note that "
+"the X[BCS]- prefixes are stripped when the fields are copied over to the "
+"output files. A field B<XC-Approved-By> will appear as B<Approved-By> in the "
+"changes file and will not appear in the binary or source package control "
 "files."
 msgstr ""
 "Det är möjligt att lägga till ytterligare användardefinierade fält i "
@@ -1470,11 +1454,11 @@ msgstr ""
 "använda en skräddarsydd namngivning: fälten måste starta med X, följt av ett "
 "eller flera av bokstäverna BCS och ett bindestreck. Om bokstaven B används "
 "kommer fältet att dyka upp i styrfilen i binärpaketet, se B<deb-control>(5), "
-"för bokstaven S i källkodspaketets styrfil som konstrueras av B<dpkg-"
-"source>(1) och för bokstaven C i styrfilen för insändning (.changes). "
-"Observera att X[BCS]-prefixen tas bort när fälten kopieras över till "
-"utdatafilerna. Fältet B<XC-Approved-By> visas som B<Approved-By> i changes-"
-"filen och visas inte i styrfilerna för binär- och källkodspaketen."
+"för bokstaven S i källkodspaketets styrfil som konstrueras av B<dpkg-source>"
+"(1) och för bokstaven C i styrfilen för insändning (.changes). Observera att "
+"X[BCS]-prefixen tas bort när fälten kopieras över till utdatafilerna. Fältet "
+"B<XC-Approved-By> visas som B<Approved-By> i changes-filen och visas inte i "
+"styrfilerna för binär- och källkodspaketen."
 
 #. type: Plain text
 #: deb-src-control.5:317
@@ -2012,8 +1996,8 @@ msgstr "deb-old - Debians gamla binärpaketformat"
 #: deb-old.5:36
 msgid ""
 "The B<.deb> format is the Debian binary package file format. This manual "
-"page describes the B<old> format, used before Debian 0.93. Please see "
-"B<deb>(5)  for details of the new format."
+"page describes the B<old> format, used before Debian 0.93. Please see B<deb>"
+"(5)  for details of the new format."
 msgstr ""
 "B<.deb>-formatet är Debians binära paketformat. Denna manualsida beskriver "
 "det B<gamla> formatet som används före Debian 0.93. Se B<deb>(5) för "
@@ -2847,11 +2831,11 @@ msgstr "Lista över substitueringsvariabler och -värden."
 #. type: Plain text
 #: deb-substvars.5:175
 msgid ""
-"B<dpkg>(1), B<dpkg-genchanges>(1), B<dpkg-gencontrol>(1), B<dpkg-"
-"shlibdeps>(1), B<dpkg-source>(1)."
+"B<dpkg>(1), B<dpkg-genchanges>(1), B<dpkg-gencontrol>(1), B<dpkg-shlibdeps>"
+"(1), B<dpkg-source>(1)."
 msgstr ""
-"B<dpkg>(1), B<dpkg-genchanges>(1), B<dpkg-gencontrol>(1), B<dpkg-"
-"shlibdeps>(1), B<dpkg-source>(1)."
+"B<dpkg>(1), B<dpkg-genchanges>(1), B<dpkg-gencontrol>(1), B<dpkg-shlibdeps>"
+"(1), B<dpkg-source>(1)."
 
 #. type: TH
 #: deb-symbols.5:18
@@ -2945,42 +2929,32 @@ msgid ""
 "Those fields are stored on lines starting with an asterisk. Currently, the "
 "only valid fields are:"
 msgstr ""
+"Alla poster i ett bibliotek kan även innehålla några fält med "
+"metainformation. Dessa fält lagras på rader som börjar med en asterisk. De "
+"enda fält som för närvarande är giltiga är:"
 
 #. type: TP
 #: deb-symbols.5:56
-#, fuzzy, no-wrap
-#| msgid "B<Build-Depends:>I< package-list>"
+#, no-wrap
 msgid "B<Build-Depends-Package>"
-msgstr "B<Build-Depends:>I< paketlista>"
+msgstr "B<Build-Depends-Package>"
 
 #. type: Plain text
 #: deb-symbols.5:61
-#, fuzzy
-#| msgid ""
-#| "Each entry for a library can also have some fields of meta-information.  "
-#| "Those fields are stored on lines starting with an asterisk. Currently, "
-#| "the only valid field is I<Build-Depends-Package>, it indicates the name "
-#| "of the \"-dev\" package associated to the library and is used by B<dpkg-"
-#| "shlibdeps> to make sure that the dependency generated is at least as "
-#| "strict as the corresponding build dependency."
 msgid ""
 "It indicates the name of the \"-dev\" package associated to the library and "
 "is used by B<dpkg-shlibdeps> to make sure that the dependency generated is "
 "at least as strict as the corresponding build dependency."
 msgstr ""
-"Alla poster i ett bibliotek kan även innehålla några fält med "
-"metainformation. Dessa fält lagras på rader som börjar med en asterisk. För "
-"närvarande är det enda giltiga fältet I<Build-Depends-Package>, vilket anger "
-"namnet på det \"-dev\"-paket som hör till biblioteket, och används av B<dpkg-"
-"shlibdeps> för att se till att det beroende som genereras är åtminstone lika "
-"strikt som motsvarande byggberoende."
+"Anger namnet på det \"-dev\"-paket som hör till biblioteket, och används av "
+"B<dpkg-shlibdeps> för att se till att det beroende som genereras är "
+"åtminstone lika strikt som motsvarande byggberoende."
 
 #. type: TP
 #: deb-symbols.5:61
-#, fuzzy, no-wrap
-#| msgid "B<ignore-blacklist>"
+#, no-wrap
 msgid "B<Ignore-Blacklist-Groups>"
-msgstr "B<ignore-blacklist>"
+msgstr "B<Ignore-Blacklist-Groups>"
 
 #. type: Plain text
 #: deb-symbols.5:69
@@ -2991,6 +2965,12 @@ msgid ""
 "providing those blacklisted symbols. The available groups are system "
 "dependent, for ELF and GNU-based systems these are B<aeabi> and B<gomp>."
 msgstr ""
+"Anger vilka svartlistegrupper som skall ignoreras, som en blankteckenavdelad "
+"lista, så att symbolerna som förekommer i dessa grupper tas med i "
+"utdatafilen. Detta bör endast vara nödvändigt för vektygskedjepaket som "
+"tillhandahåller dessa svartlistade symboler. Vilka grupper som är "
+"tillgängliga beror på systemet, för ELF- och GNU-baserade system är de "
+"B<aeabi> och B<gomp>."
 
 #. type: SS
 #: deb-symbols.5:70
@@ -3271,19 +3251,19 @@ msgstr ""
 #. type: Plain text
 #: dpkg.1:58
 msgid ""
-"B<dpkg> can also be used as a front-end to B<dpkg-deb>(1) and B<dpkg-"
-"query>(1). The list of supported actions can be found later on in the "
-"B<ACTIONS> section. If any such action is encountered B<dpkg> just runs "
-"B<dpkg-deb> or B<dpkg-query> with the parameters given to it, but no "
-"specific options are currently passed to them, to use any such option the "
-"back-ends need to be called directly."
+"B<dpkg> can also be used as a front-end to B<dpkg-deb>(1) and B<dpkg-query>"
+"(1). The list of supported actions can be found later on in the B<ACTIONS> "
+"section. If any such action is encountered B<dpkg> just runs B<dpkg-deb> or "
+"B<dpkg-query> with the parameters given to it, but no specific options are "
+"currently passed to them, to use any such option the back-ends need to be "
+"called directly."
 msgstr ""
-"B<dpkg> kan också användas som ett skal runt B<dpkg-deb>(1) och B<dpkg-"
-"query>(1). En förteckning över tillgängliga åtgärder beskrivs nedan i "
-"stycket B<ÅTGÄRDER>. Om B<dpkg> upptäcker en sådan åtgärd anropas bara "
-"B<dpkg-dpkg> eller B<dpkg-query> med de givna flaggorna, men inga specifika "
-"flaggor sänds direkt till dem, för att använda sådana flaggor måste "
-"bakgrundsprogrammen anropas direkt."
+"B<dpkg> kan också användas som ett skal runt B<dpkg-deb>(1) och B<dpkg-query>"
+"(1). En förteckning över tillgängliga åtgärder beskrivs nedan i stycket "
+"B<ÅTGÄRDER>. Om B<dpkg> upptäcker en sådan åtgärd anropas bara B<dpkg-dpkg> "
+"eller B<dpkg-query> med de givna flaggorna, men inga specifika flaggor sänds "
+"direkt till dem, för att använda sådana flaggor måste bakgrundsprogrammen "
+"anropas direkt."
 
 #. type: SH
 #: dpkg.1:59
@@ -5567,8 +5547,8 @@ msgstr ""
 #. type: Plain text
 #: dpkg-architecture.1:37
 msgid ""
-"The build architecture is always determined by an external call to "
-"B<dpkg>(1), and can not be set at the command line."
+"The build architecture is always determined by an external call to B<dpkg>"
+"(1), and can not be set at the command line."
 msgstr ""
 "Byggarkitekturen bestäms alltid av ett externt anrop till B<dpkg>(1) och kan "
 "inte ställas in på kommandoraden."
@@ -7503,19 +7483,14 @@ msgstr "B<1.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:39
-#, fuzzy
-#| msgid ""
-#| "It prepares the build environment by setting various environment "
-#| "variables (see B<ENVIRONMENT>) and calls B<dpkg-source --before-build> "
-#| "(unless B<-T> or B<--target> has been used)."
 msgid ""
 "It prepares the build environment by setting various environment variables "
 "(see B<ENVIRONMENT>), runs the B<init> hook, and calls B<dpkg-source --"
 "before-build> (unless B<-T> or B<--target> has been used)."
 msgstr ""
-"Byggmiljön förbereds genom att diverse miljövariabler sätts (se B<MILJÖ>) "
-"och anropar B<dpkg-source --before-build> (såvida inte B<_T> eller B<--"
-"target> används)."
+"Byggmiljön förbereds genom att diverse miljövariabler sätts (se B<MILJÖ>), "
+"kör haken B<init> och anropar B<dpkg-source --before-build> (såvida inte B<-"
+"T> eller B<--target> används)."
 
 #. type: IP
 #: dpkg-buildpackage.1:39
@@ -7540,12 +7515,6 @@ msgstr "B<3.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:47
-#, fuzzy
-#| msgid ""
-#| "If a specific target has been selected with the B<-T> or B<--target> "
-#| "option, it calls that target and stops here. Otherwise it calls "
-#| "B<fakeroot debian/rules clean> to clean the build-tree (unless B<-nc> is "
-#| "specified)."
 msgid ""
 "If a specific target has been selected with the B<-T> or B<--target> option, "
 "it calls that target and stops here. Otherwise it runs the B<preclean> hook "
@@ -7553,8 +7522,9 @@ msgid ""
 "nc> is specified)."
 msgstr ""
 "Om ett specifikt mål har valts med flaggan B<-T> eller B<--target> anropas "
-"det målet, varpå programmet avslutas. I annat fall anropas B<fakeroot debian/"
-"rules clean> för att städa byggträdet (såvida inte B<-nc> anges)."
+"det målet, varpå programmet avslutas. I annat fall körs haken B<preclean> "
+"och anropas B<fakeroot debian/rules clean> för att städa byggträdet (såvida "
+"inte B<-nc> anges)."
 
 #. type: IP
 #: dpkg-buildpackage.1:47
@@ -7564,17 +7534,14 @@ msgstr "B<4.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:51
-#, fuzzy
-#| msgid ""
-#| "It calls B<dpkg-source -b> to generate the source package (unless a "
-#| "binary-only build has been requested with B<-b>, B<-B> or B<-A>)."
 msgid ""
 "It runs the B<source> hook and calls B<dpkg-source -b> to generate the "
 "source package (unless a binary-only build has been requested with B<-b>, B<-"
 "B> or B<-A>)."
 msgstr ""
-"B<dpkg-source -b> anropas för att skapa källkodspaketet (såvida inte ett "
-"bygge av enbart binärer har valts med B<-b>, B<-B> eller B<-A>)."
+"Kör haken B<source> och anropar B<dpkg-source -b> för att skapa "
+"källkodspaketet (såvida inte ett bygge av enbart binärer har valts med B<-"
+"b>, B<-B> eller B<-A>)."
 
 #. type: IP
 #: dpkg-buildpackage.1:51
@@ -7584,14 +7551,6 @@ msgstr "B<5.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:59
-#, fuzzy
-#| msgid ""
-#| "It calls B<debian/rules> I<build-target> followed by B<fakeroot debian/"
-#| "rules> I<binary-target> (unless a source-only build has been requested "
-#| "with B<-S>). Note that I<build-target> and I<binary-target> are either "
-#| "B<build> and B<binary> (default case, or if B<-b> is specified), or "
-#| "B<build-arch> and B<binary-arch> (if B<-B> is specified), or B<build-"
-#| "indep> and B<binary-indep> (if B<-A> is specified)."
 msgid ""
 "It runs the B<build> hook and calls B<debian/rules> I<build-target>, then "
 "runs the B<binary> hook followed by B<fakeroot debian/rules> I<binary-"
@@ -7601,11 +7560,12 @@ msgid ""
 "arch> (if B<-B> is specified), or B<build-indep> and B<binary-indep> (if B<-"
 "A> is specified)."
 msgstr ""
-"B<debian/rules> I<byggmål> anropas, följt av B<fakeroot debian/rules> "
-"I<binärmål> (såvida inte ett bygge av enbart källkod har valts med B<-S>). "
-"Observera att I<byggmål> och I<binärmål> är ett av B<build> och B<binary> "
-"(standardval, eller om B<-b> anges), B<build-arch> och B<binary-arch> (om B<-"
-"B> anges) eller B<build-indep> och B<binary-indep> (om B<-A> anges)."
+"Kör haken <build> och anropar B<debian/rules> I<byggmål>, därefter körs "
+"haken B<binary> följt av B<fakeroot debian/rules> I<binärmål> (såvida inte "
+"ett bygge av enbart källkod har valts med B<-S>). Observera att I<byggmål> "
+"och I<binärmål> är ett av B<build> och B<binary> (standardval, eller om B<-"
+"b> anges), B<build-arch> och B<binary-arch> (om B<-B> anges) eller B<build-"
+"indep> och B<binary-indep> (om B<-A> anges)."
 
 #. type: IP
 #: dpkg-buildpackage.1:59
@@ -7615,17 +7575,14 @@ msgstr "B<6.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:64
-#, fuzzy
-#| msgid ""
-#| "It calls B<dpkg-genchanges> to generate a B<.changes> file.  Many B<dpkg-"
-#| "buildpackage> options are forwarded to B<dpkg-genchanges>."
 msgid ""
 "It runs the B<changes> hook and calls calls B<dpkg-genchanges> to generate a "
 "B<.changes> file.  Many B<dpkg-buildpackage> options are forwarded to B<dpkg-"
 "genchanges>."
 msgstr ""
-"B<dpkg-genchanges> anropas för att skapa en B<.changes>-fil. Många av "
-"flaggorna till B<dpkg-buildpackage> vidaresänds till B<dpkg-genchanges>."
+"Kör haken B<changes> och anropar B<dpkg-genchanges> för att skapa en B<."
+"changes>-fil. Många av flaggorna till B<dpkg-buildpackage> vidaresänds till "
+"B<dpkg-genchanges>."
 
 #. type: IP
 #: dpkg-buildpackage.1:64
@@ -7635,16 +7592,12 @@ msgstr "B<7.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:67
-#, fuzzy
-#| msgid ""
-#| "If B<-tc> is specified, it will call B<fakeroot debian/rules clean> "
-#| "again. Finally it calls B<dpkg-source --after-build>."
 msgid ""
 "It runs the B<postclean> and if B<-tc> is specified, it will call B<fakeroot "
 "debian/rules clean> again."
 msgstr ""
-"Om B<-tc> anges anropas B<fakeroot debian/rules clean> ytterligare en gång. "
-"Till slut anropas B<dpkg-source --after-build>."
+"Kör haken B<postclean> och, om B<-tc> anges, anropar B<fakeroot debian/rules "
+"clean> ytterligare en gång."
 
 #. type: IP
 #: dpkg-buildpackage.1:67
@@ -7655,7 +7608,7 @@ msgstr "B<8.>"
 #. type: Plain text
 #: dpkg-buildpackage.1:69
 msgid "It calls B<dpkg-source --after-build>."
-msgstr ""
+msgstr "Anropar B<dpkg-source --after-build>."
 
 #. type: IP
 #: dpkg-buildpackage.1:69
@@ -7670,26 +7623,26 @@ msgid ""
 "file (if a command is specified in DEB_CHECK_COMMAND or with B<--check-"
 "command>)."
 msgstr ""
+"Kör haken B<check> och anropar en paketkontrollerare för B<.changes>-filen "
+"(om ett kommando har angivits med DEB_CHECK_COMMAND eller med B<--check-"
+"command>)."
 
 #. type: IP
 #: dpkg-buildpackage.1:73
 #, no-wrap
 msgid "B<10.>"
-msgstr ""
+msgstr "B<10.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:78
-#, fuzzy
-#| msgid ""
-#| "It calls B<gpg2> or B<gpg> to sign the B<.dsc> file (if any, unless B<-"
-#| "us> is specified or on UNRELEASED builds)."
 msgid ""
 "It runs the B<sign> hook and calls B<gpg2> or B<gpg> to sign the B<.dsc> "
 "file (if any, unless B<-us> is specified or on UNRELEASED builds), and the "
 "B<.changes> file (unless B<-uc> is specified or on UNRELEASED builds)."
 msgstr ""
-"B<gpg2> eller B<gpg> anropas för att signera B<.dsc>-filen (om sådan finns, "
-"såvida inte B<-us> anges eller på UNRELEASED-byggen)."
+"Kör haken B<sign> och anropar B<gpg2> eller B<gpg> för att signera B<.dsc>-"
+"filen (om sådan finns, såvida inte B<-us> anges eller på UNRELEASED-byggen) "
+"och B<.changes>-filen (såvida inte B<-uc> anges eller på UNRELEASED-byggen)."
 
 #. type: TP
 #: dpkg-buildpackage.1:80
@@ -7918,8 +7871,8 @@ msgstr "B<-j>I<jobb>"
 #. type: Plain text
 #: dpkg-buildpackage.1:158
 msgid ""
-"Number of jobs allowed to be run simultaneously, equivalent to the "
-"B<make>(1)  option of the same name. Will add itself to the B<MAKEFLAGS> "
+"Number of jobs allowed to be run simultaneously, equivalent to the B<make>"
+"(1)  option of the same name. Will add itself to the B<MAKEFLAGS> "
 "environment variable, which should cause all subsequent make invocations to "
 "inherit the option. Also adds B<parallel=>I<jobs> to the "
 "B<DEB_BUILD_OPTIONS> environment variable which allows debian/rules files to "
@@ -8049,10 +8002,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1:210
-#, fuzzy, no-wrap
-#| msgid "B<--pre-invoke=>I<command>"
+#, no-wrap
 msgid "B<--check-command=>I<check-command>"
-msgstr "B<--pre-invoke=>I<kommando>"
+msgstr "B<--check-command=>I<kontrollkommando>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:215
@@ -8061,27 +8013,26 @@ msgid ""
 "referenced in the file. The command should take the B<.changes> pathname as "
 "an argument. This command will usually be B<lintian>."
 msgstr ""
+"Kommando som kontrollerar själva B<.changes>-filen och byggda artifakter som "
+"refereras i filen. Kommandot skall ta sökvägen till B<.changes> som "
+"argument. Kommandot är normalt B<lintian>."
 
 #. type: TP
 #: dpkg-buildpackage.1:215
-#, fuzzy, no-wrap
-#| msgid "B<--changes-option=>I<opt>"
+#, no-wrap
 msgid "B<--check-option=>I<opt>"
-msgstr "B<--changes-option=>I<val>"
+msgstr "B<--check-option=>I<val>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:218
-#, fuzzy
-#| msgid "Pass option I<opt> to B<dpkg-genchanges>."
 msgid "Pass option I<opt> to I<check-command>."
-msgstr "Sänder flaggan I<val> till B<dpkg-genchanges>."
+msgstr "Sänder flaggan I<val> till I<kontrollkommando>."
 
 #. type: TP
 #: dpkg-buildpackage.1:218
-#, fuzzy, no-wrap
-#| msgid "B<--post-invoke=>I<command>"
+#, no-wrap
 msgid "B<--hook->I<hook-name>B<=>I<hook-command>"
-msgstr "B<--post-invoke=>I<kommando>"
+msgstr "B<--hook->I<hakenamn>B<=>I<hakekommando>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:224
@@ -8091,6 +8042,10 @@ msgid ""
 "executed even if the following action is not performed (except for the "
 "B<binary> hook)."
 msgstr ""
+"Sätter den angivna skalkoden i I<hakekommando> som haken I<hakenamn>, vilket "
+"körs vid de tidpunkter som anges i byggstegen. Haken kommer alltid att "
+"exekveras även om de efterföljande funktionerna inte utförs (förutom haken "
+"B<binary>)."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:227
@@ -8098,16 +8053,18 @@ msgid ""
 "Note: Hooks can affect the build process, and cause build failures if their "
 "commands fail, so watch out for unintended consequences."
 msgstr ""
+"Observera: Hakar kan påverka byggprocessen och orsaka att byggen misslyckas "
+"om deras kommandon misslyckas, så se upp för oförutsedda konsekvenser."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:229
 msgid "The current I<hook-name> supported are:"
-msgstr ""
+msgstr "För närvarande stöds följande I<hakenamn>:"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:231
 msgid "B<init preclean source build binary changes postclean check sign done>"
-msgstr ""
+msgstr "B<init preclean source build binary changes postclean check sign done>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:234
@@ -8115,75 +8072,71 @@ msgid ""
 "The I<hook-command> supports the following substitution format string, which "
 "will get applied to it before execution:"
 msgstr ""
+"I<hakekommando> stöder följande substitueringsformatsträng, som appliceras "
+"på den föra exekvering:"
 
 #. type: TP
 #: dpkg-buildpackage.1:236
 #, no-wrap
 msgid "B<%%>"
-msgstr ""
+msgstr "B<%%>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:239
 msgid "A single % character."
-msgstr ""
+msgstr "Ett ensamt %-tecken."
 
 #. type: TP
 #: dpkg-buildpackage.1:239
 #, no-wrap
 msgid "B<%a>"
-msgstr ""
+msgstr "B<%a>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:243
 msgid ""
 "A boolean value (0 or 1), representing whether the following action is being "
 "performed."
-msgstr ""
+msgstr "Ett boolskt värde (0 eller 1) som anger om följande funktion utförs."
 
 #. type: TP
 #: dpkg-buildpackage.1:243
 #, no-wrap
 msgid "B<%p>"
-msgstr ""
+msgstr "B<%p>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:246
-#, fuzzy
-#| msgid "The package name."
 msgid "The source package name."
-msgstr "Paketets namn."
+msgstr "Namnet på källkodspaketet."
 
 #. type: TP
 #: dpkg-buildpackage.1:246
 #, no-wrap
 msgid "B<%v>"
-msgstr ""
+msgstr "B<%v>"
 
 #. type: TP
 #: dpkg-buildpackage.1:249
 #, no-wrap
 msgid "B<%s>"
-msgstr ""
+msgstr "B<%s>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:252
-#, fuzzy
-#| msgid "The source package version."
 msgid "The source package version (without the epoch)."
-msgstr "Version för källkodspaketet."
+msgstr "Version för källkodspaketet (utan epoken)."
 
 #. type: TP
 #: dpkg-buildpackage.1:252
 #, no-wrap
 msgid "B<%u>"
-msgstr ""
+msgstr "B<%u>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:255
-#, fuzzy
-#| msgid "The upstream version of dpkg."
 msgid "The upstream version."
-msgstr "Uppströmsversionen av dpkg."
+msgstr "Uppströmsversionen."
 
 #. type: TP
 #: dpkg-buildpackage.1:256
@@ -8322,23 +8275,18 @@ msgstr "Ändra platsen för B<dpkg>-databasen. Förval är I</var/lib/dpkg>."
 
 #. type: TP
 #: dpkg-buildpackage.1:306
-#, fuzzy, no-wrap
-#| msgid "B<DEB_VENDOR>"
+#, no-wrap
 msgid "B<DEB_CHECK_COMMAND>"
-msgstr "B<DEB_VENDOR>"
+msgstr "B<DEB_CHECK_COMMAND>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:310
-#, fuzzy
-#| msgid ""
-#| "If set, it will be used to sign the B<.changes> and B<.dsc> files.  "
-#| "Overridden by the B<-k> option."
 msgid ""
 "If set, it will be used as the command to check the B<.changes> file.  "
 "Overridden by the B<--check-command> option."
 msgstr ""
-"Används för att signera filerna B<.changes> och B<.dsc> om satt. Överstyrs "
-"av flaggan B<-k>."
+"Om satt, används som kommandot för att kontrollera B<.changes>-filen. "
+"Överstyrs av flaggan B<--check-command>."
 
 #. type: TP
 #: dpkg-buildpackage.1:310
@@ -8357,10 +8305,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1:314
-#, fuzzy, no-wrap
-#| msgid "B<DEB_BUILD_MAINT_OPTIONS>"
+#, no-wrap
 msgid "B<DEB_BUILD_OPTIONS>"
-msgstr "B<DEB_BUILD_MAINT_OPTIONS>"
+msgstr "B<DEB_BUILD_OPTIONS>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:318
@@ -8368,6 +8315,8 @@ msgid ""
 "If set, and containing B<nocheck> the B<DEB_CHECK_COMMAND> variable will be "
 "ignored."
 msgstr ""
+"Om satt, och innehåller B<nocheck>, kommer variabeln B<DEB_CHECK_COMMAND> "
+"att ignoreras."
 
 #. type: TP
 #: dpkg-buildpackage.1:318 dpkg-checkbuilddeps.1:77
@@ -8468,16 +8417,12 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildpackage.1:361
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
-#| "genchanges>(1), B<fakeroot>(1), B<gpg2>(1), B<gpg>(1)."
 msgid ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
 "genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<gpg2>(1), B<gpg>(1)."
 msgstr ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
-"genchanges>(1), B<fakeroot>(1), B<gpg2>(1), B<gpg>(1)."
+"genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<gpg2>(1), B<gpg>(1)."
 
 #. type: TH
 #: dpkg-checkbuilddeps.1:20
@@ -9103,10 +9048,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-deb.1:234
-#, fuzzy, no-wrap
-#| msgid "B<-Z>I<compression>"
+#, no-wrap
 msgid "B<--uniform-compression>"
-msgstr "B<-Z>I<komprimeringstyp>"
+msgstr "B<--uniform-compression>"
 
 #. type: Plain text
 #: dpkg-deb.1:241
@@ -9116,6 +9060,10 @@ msgid ""
 "tar> member will use those parameters. The only supported compression types "
 "allowed to be uniformly used are I<none>, I<gzip> and I<xz>."
 msgstr ""
+"Ange att samma komprimeringsparametrar skall användas för alla "
+"arkivmedlemmar (dvs. B<control.tar> och B<data.tar>). I annat fall kommer "
+"endast medlemmen B<data.tar> att använda parametrarna. De enda "
+"komprimeringstyper som kan användas enhetligt är I<none>, I<gzip> och I<xz>."
 
 #. type: TP
 #: dpkg-deb.1:241
@@ -10290,13 +10238,6 @@ msgstr "Använda symboltaggar"
 
 #. type: Plain text
 #: dpkg-gensymbols.1:97
-#, fuzzy
-#| msgid ""
-#| "Symbol tagging is useful for marking symbols that are special in some "
-#| "way.  Any symbol can have an arbitrary number of tags associated with it. "
-#| "While all tags are parsed and stored, only a some of them are understood "
-#| "by B<dpkg-gensymbols> and trigger special handling of the symbols. See "
-#| "subsection B<Standard symbol tags> for reference of these tags."
 msgid ""
 "Symbol tagging is useful for marking symbols that are special in some way.  "
 "Any symbol can have an arbitrary number of tags associated with it. While "
@@ -10370,12 +10311,12 @@ msgid ""
 "only be part of the symbols files used in source packages (those files "
 "should then be seen as templates used to build the symbols files that are "
 "embedded in binary packages). When B<dpkg-gensymbols> is called without the "
-"B<-t> option, it will output symbols files compatible to the B<deb-"
-"symbols>(5) format: it fully processes symbols according to the requirements "
-"of their standard tags and strips all tags from the output. On the contrary, "
-"in template mode (B<-t>) all symbols and their tags (both standard and "
-"unknown ones)  are kept in the output and are written in their original form "
-"as they were loaded."
+"B<-t> option, it will output symbols files compatible to the B<deb-symbols>"
+"(5) format: it fully processes symbols according to the requirements of "
+"their standard tags and strips all tags from the output. On the contrary, in "
+"template mode (B<-t>) all symbols and their tags (both standard and unknown "
+"ones)  are kept in the output and are written in their original form as they "
+"were loaded."
 msgstr ""
 "Eftersom symboltaggar er en utökning av formatet i I<deb-symbols(5)> kan de "
 "bara användas i symbolfiler i källkodspaket (dessa filer är att anse som "
@@ -14633,13 +14574,6 @@ msgstr "B<-Z>I<komprimering>, B<--compression>=I<komprimering>"
 
 #. type: Plain text
 #: dpkg-source.1:172
-#, fuzzy
-#| msgid ""
-#| "Specify the compression to use for created files (tarballs and diffs).  "
-#| "Note that this option will not cause existing tarballs to be "
-#| "recompressed, it only affects new files. Supported values are: I<gzip>, "
-#| "I<bzip2>, I<lzma> and I<xz>.  I<gzip> is the default. I<xz> is only "
-#| "supported since dpkg 1.15.5."
 msgid ""
 "Specify the compression to use for created files (tarballs and diffs).  Note "
 "that this option will not cause existing tarballs to be recompressed, it "
@@ -14650,8 +14584,9 @@ msgstr ""
 "Anger vilken komprimering som skall användas för de skapade filerna (tar-"
 "bollar och diffar). Observera att flaggan inte gör att befintliga tar-bollar "
 "packas om, utan enbart påverkar nya filer. Värden som stöds är: I<gzip>, "
-"I<bzip2>, I<lzma> samt I<xz>. I<gzip> är förvalet. Stöd för I<xz> finns bara "
-"från och med dpkg 1.15.5."
+"I<bzip2>, I<lzma> samt I<xz>. Förvalet är I<xz> för format 2.0 och senare, "
+"och I<gzip> för format 1.0. Stöd för I<xz> finns bara från och med dpkg "
+"1.15.5."
 
 #. type: TP
 #: dpkg-source.1:172
@@ -18230,10 +18165,9 @@ msgstr "start-stop-daemon"
 
 #. type: TH
 #: start-stop-daemon.8:23
-#, fuzzy, no-wrap
-#| msgid "2013-12-12"
+#, no-wrap
 msgid "2013-12-14"
-msgstr "2013-12-12"
+msgstr "2013-12-14"
 
 #. type: Plain text
 #: start-stop-daemon.8:26
@@ -18366,10 +18300,9 @@ msgstr "Matchingsflaggor"
 
 #. type: TP
 #: start-stop-daemon.8:105
-#, fuzzy, no-wrap
-#| msgid "[B<--add>] I<file>"
+#, no-wrap
 msgid "B<--pid> I<pid>"
-msgstr "[B<--add>] I<fil>"
+msgstr "B<--pid> I<pid>"
 
 #. type: Plain text
 #: start-stop-daemon.8:109
@@ -18377,6 +18310,8 @@ msgid ""
 "Check for a process with the specified I<pid>. The I<pid> must be a number "
 "greater than 0."
 msgstr ""
+"Se efter en process med angiven I<pid>. I<pid> måste vara ett tal större än "
+"0."
 
 #. type: TP
 #: start-stop-daemon.8:109
@@ -19030,10 +18965,10 @@ msgstr ""
 #: update-alternatives.8:108
 msgid ""
 "It is often useful for a number of alternatives to be synchronized, so that "
-"they are changed as a group; for example, when several versions of the "
-"B<vi>(1)  editor are installed, the man page referenced by I</usr/share/man/"
-"man1/vi.1> should correspond to the executable referenced by I</usr/bin/"
-"vi>.  B<update-alternatives> handles this by means of I<master> and I<slave> "
+"they are changed as a group; for example, when several versions of the B<vi>"
+"(1)  editor are installed, the man page referenced by I</usr/share/man/man1/"
+"vi.1> should correspond to the executable referenced by I</usr/bin/vi>.  "
+"B<update-alternatives> handles this by means of I<master> and I<slave> "
 "links; when the master is changed, any associated slaves are changed too.  A "
 "master link and its associated slaves make up a I<link> I<group>."
 msgstr ""
@@ -20791,8 +20726,8 @@ msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 #~ msgid ""
 #~ "B<dselect> [B<--admindir> I<E<lt>directoryE<gt>>] [B<--help>] [B<--"
 #~ "version>] [B<--expert>] [B<--debug>|B<-D>I<E<lt>fileE<gt>>] "
-#~ "[I<E<lt>actionE<gt>>] [B<--colour>|B<--color> I<screenpart:"
-#~ ">[I<foreground>],[I<background>][I<:attr>[I<+attr+..>]]]"
+#~ "[I<E<lt>actionE<gt>>] [B<--colour>|B<--color> I<screenpart:>"
+#~ "[I<foreground>],[I<background>][I<:attr>[I<+attr+..>]]]"
 #~ msgstr ""
 #~ "B<dselect> [B<--admindir> I<E<lt>katalogE<gt>>] [B<--help>] [B<--"
 #~ "version>] [B<--expert>] [B<--debug>|B<-D>I<E<lt>filE<gt>>] "
@@ -21577,8 +21512,8 @@ msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 #~ "kommer variabelns värde att nollställas."
 
 #~ msgid ""
-#~ "B<Deprecated>. Set an output substitution variable.  See B<deb-"
-#~ "substvars>(5) for a discussion of output substitution."
+#~ "B<Deprecated>. Set an output substitution variable.  See B<deb-substvars>"
+#~ "(5) for a discussion of output substitution."
 #~ msgstr ""
 #~ "B<Rekommenderas ej>. Ställer in en utdatasubstitueringsvariabel. Se B<deb-"
 #~ "substvars>(5) för en beskrivning av utdatasubstituering."
@@ -21768,8 +21703,8 @@ msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 #~ msgstr "Visar detaljer om I<paketnamn> från I</var/lib/dpkg/available>."
 
 #~ msgid ""
-#~ "All patches in B<debian/patches> matching the perl regular expression "
-#~ "B<[\\ew-]+> are then applied in alphabetical order. The timestamp of "
+#~ "All patches in B<debian/patches> matching the perl regular expression B<"
+#~ "[\\ew-]+> are then applied in alphabetical order. The timestamp of "
 #~ "patched files are reset to the extraction time. The patches can remove "
 #~ "files."
 #~ msgstr ""

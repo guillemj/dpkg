@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-01-15 05:18+0100\n"
-"PO-Revision-Date: 2014-01-10 15:29+0100\n"
+"POT-Creation-Date: 2014-01-29 10:27+0100\n"
+"PO-Revision-Date: 2014-01-29 10:35+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
-"Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
+"Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -201,43 +201,6 @@ msgid "Usage: %s [<option>...]"
 msgstr "Användning: %s [<flagga>...]"
 
 #: scripts/dpkg-buildpackage.pl:59
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -F (default)   normal full build (binaries and sources).\n"
-#| "  -b             binary-only, do not build source.\n"
-#| "  -B             binary-only, no arch-indep files.\n"
-#| "  -A             binary-only, only arch-indep files.\n"
-#| "  -S             source only, no binary files.\n"
-#| "  -nc            do not clean source tree (implies -b).\n"
-#| "  -tc            clean source tree when finished.\n"
-#| "  -D (default)   check build dependencies and conflicts.\n"
-#| "  -d             do not check build dependencies and conflicts.\n"
-#| "  -P<profiles>   assume given build profiles as active (comma-separated "
-#| "list).\n"
-#| "  -R<rules>      rules file to execute (default is debian/rules).\n"
-#| "  -T<target>     call debian/rules <target> with the proper environment.\n"
-#| "      --as-root  ensure -T calls the target with root rights.\n"
-#| "  -j[<number>]   specify jobs to run simultaneously (passed to <rules>).\n"
-#| "  -r<gain-root-command>\n"
-#| "                 command to gain root privileges (default is fakeroot).\n"
-#| "  --check-command=<check-command>\n"
-#| "                 command to check the .changes file (no default).\n"
-#| "  --check-option=<opt>\n"
-#| "                 pass <opt> to <check-command>.\n"
-#| "  -p<sign-command>\n"
-#| "                 command to sign .dsc and/or .changes files\n"
-#| "                   (default is gpg2 or gpg).\n"
-#| "  -k<keyid>      the key to use for signing.\n"
-#| "  -ap            add pause before starting signature process.\n"
-#| "  -us            unsigned source package.\n"
-#| "  -uc            unsigned .changes file.\n"
-#| "      --force-sign\n"
-#| "                 force signing the resulting files.\n"
-#| "      --admindir=<directory>\n"
-#| "                 change the administrative directory.\n"
-#| "  -?, --help     show this help message.\n"
-#| "      --version  show the version."
 msgid ""
 "Options:\n"
 "  -F (default)   normal full build (binaries and sources).\n"
@@ -303,6 +266,10 @@ msgstr ""
 "förval).\n"
 "  --check-option=<arg>\n"
 "                 sänd <arg> till <testkommando>.\n"
+"  --hook-<hakenamn>=<hakekommando>\n"
+"                 välj <hakekommando> som haken <hakenamn>, kända hakar:\n"
+"                   init preclean source build binary changes postclean\n"
+"                   check sign done\n"
 "  -p<signeringskommando>\n"
 "                 kommando för att signera .dsc och/eller .changes-filer\n"
 "                 (standard är gpg).\n"
@@ -374,15 +341,14 @@ msgstr ""
 "                 sänd flaggan <flagga> till dpkg-source.\n"
 
 #: scripts/dpkg-buildpackage.pl:220
-#, fuzzy, perl-format
-#| msgid "unknown option `%s'"
+#, perl-format
 msgid "unknown hook name %s"
-msgstr "okänd flagga \"%s\""
+msgstr "okänt namn på hake: %s"
 
 #: scripts/dpkg-buildpackage.pl:222
 #, perl-format
 msgid "missing hook %s command"
-msgstr ""
+msgstr "saknat kommando för haken %s"
 
 #: scripts/dpkg-buildpackage.pl:233
 #, perl-format
@@ -492,10 +458,8 @@ msgstr ""
 "\" (åtminstone \"%s\" verkar saknas)"
 
 #: scripts/dpkg-buildpackage.pl:528
-#, fuzzy
-#| msgid "write changes file"
 msgid "parse changes file"
-msgstr "skriv ändringsfil"
+msgstr "tolka ändringsfil"
 
 #: scripts/dpkg-buildpackage.pl:530
 msgid "dpkg-genchanges"
@@ -524,27 +488,19 @@ msgid "unable to determine %s"
 msgstr "kan inte bestämma %s"
 
 #: scripts/dpkg-buildpackage.pl:661
-#, fuzzy
-#| msgid "source only upload: Debian-native package"
 msgid "source-only upload: Debian-native package"
 msgstr "insändning med endast källkod: Debianeget paket"
 
 #: scripts/dpkg-buildpackage.pl:663
-#, fuzzy
-#| msgid "source only, diff-only upload (original source NOT included)"
 msgid "source-only, diff-only upload (original source NOT included)"
 msgstr ""
 "insändning enbart med källkod, enbart med diff (originalkällkod tas EJ med)"
 
 #: scripts/dpkg-buildpackage.pl:665
-#, fuzzy
-#| msgid "source only upload (original source is included)"
 msgid "source-only upload (original source is included)"
 msgstr "insändning enbart med källkod (originalkällkod tas med)"
 
 #: scripts/dpkg-buildpackage.pl:668
-#, fuzzy
-#| msgid "binary only upload (no source included)"
 msgid "binary-only upload (no source included)"
 msgstr "endast binär insändning (ingen källkod tas med)"
 
@@ -651,7 +607,7 @@ msgstr "filnamn, sektion och prioritet kan inte innehålla blanktecken"
 
 #: scripts/dpkg-distaddfile.pl:83 scripts/dpkg-gencontrol.pl:379
 #: scripts/dpkg-mergechangelogs.pl:137 scripts/dpkg-mergechangelogs.pl:139
-#: scripts/Dpkg/Compression/FileHandle.pm:392
+#: scripts/Dpkg/Compression/FileHandle.pm:395
 #: scripts/Dpkg/Interface/Storable.pm:117 scripts/Dpkg/IPC.pm:257
 #: scripts/Dpkg/IPC.pm:266 scripts/Dpkg/Source/Functions.pm:78
 #: scripts/Dpkg/Source/Package.pm:502 scripts/Dpkg/Source/Package.pm:615
@@ -1863,7 +1819,7 @@ msgid "building source for a binary-only release"
 msgstr "bygger källkod för utgåva med endast binär"
 
 #: scripts/dpkg-source.pl:355 scripts/Dpkg/BuildFlags.pm:305
-#: scripts/Dpkg/Compression/FileHandle.pm:408
+#: scripts/Dpkg/Compression/FileHandle.pm:414
 #: scripts/Dpkg/Interface/Storable.pm:89 scripts/Dpkg/Shlibs/Objdump.pm:123
 #: scripts/Dpkg/Source/Package/V2.pm:284 scripts/Dpkg/Source/Package/V2.pm:555
 #: scripts/Dpkg/Source/Package/V2.pm:705
@@ -3432,10 +3388,8 @@ msgid "setting up shallow clone"
 msgstr "ställer in grund klon"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm:79
-#, fuzzy
-#| msgid "native package version may not have a revision"
 msgid "non-native package version does not contain a revision"
-msgstr "Debianegen paketversion kan inte ha en debianuppdateringsversion"
+msgstr "icke-Debianegen paketversion saknar debianuppdateringsversion"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm:122
 #, perl-format
