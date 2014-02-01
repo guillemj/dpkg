@@ -3,7 +3,7 @@
 # dpkg-distaddfile
 #
 # Copyright © 1996 Ian Jackson
-# Copyright © 2006-2008,2010,2012-2013 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2008,2010,2012-2014 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::File;
+use Dpkg::Dist::Files;
 
 textdomain('dpkg-dev');
 
@@ -83,22 +84,11 @@ sysopen($lockfh, $lockfile, O_WRONLY)
     or syserr(_g('cannot write %s'), $lockfile);
 file_lock($lockfh, $lockfile);
 
-open(my $fileslistnew_fh, '>', "$fileslistfile.new")
-    or syserr(_g('open new files list file'));
-if (open(my $fileslist_fh, '<', $fileslistfile)) {
-    while (<$fileslist_fh>) {
-        s/\n$//;
-        next if m/^(\S+) / && $1 eq $file;
-        print { $fileslistnew_fh } "$_\n"
-            or syserr(_g('copy old entry to new files list file'));
-    }
-    close $fileslist_fh or syserr(_g('cannot close %s'), $fileslistfile);
-} elsif ($! != ENOENT) {
-    syserr(_g('read old files list file'));
-}
-print { $fileslistnew_fh } "$file $section $priority\n"
-    or syserr(_g('write new entry to new files list file'));
-close($fileslistnew_fh) or syserr(_g('close new files list file'));
+my $dist = Dpkg::Dist::Files->new();
+$dist->load($fileslistfile) if -e $fileslistfile;
+$dist->add_file($file, $section, $priority);
+$dist->save("$fileslistfile.new");
+
 rename("$fileslistfile.new", $fileslistfile)
     or syserr(_g('install new files list file'));
 

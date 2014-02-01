@@ -40,6 +40,7 @@ use Dpkg::Control;
 use Dpkg::Substvars;
 use Dpkg::Vars;
 use Dpkg::Changelog::Parse;
+use Dpkg::Dist::Files;
 use Dpkg::Version;
 
 textdomain('dpkg-dev');
@@ -54,18 +55,14 @@ my $quiet = 0;
 my $host_arch = get_host_arch();
 my $changes_format = '1.8';
 
-my %f2p;           # - file to package map
 my %p2f;           # - package to file map, has entries for "packagename"
 my %p2arch;        # - package to arch map
-my %f2sec;         # - file to section map
-my %f2seccf;       # - likewise, from control file
-my %f2pri;         # - file to priority map
-my %f2pricf;       # - likewise, from control file
+my %f2seccf;       # - package to section map, from control file
+my %f2pricf;       # - package to priority map, from control file
 my %sourcedefault; # - default values as taken from source (used for Section,
                    #   Priority and Maintainer)
 
 my @descriptions;
-my @fileslistfiles;
 
 my $checksums = Dpkg::Checksums->new();
 my %remove;        # - fields to remove
@@ -240,38 +237,22 @@ if (defined($prev_changelog) and
         unless $changelog->{'Version'} =~ /~(?:bpo|vola)/;
 }
 
-if (not is_sourceonly) {
-    open(my $fileslist_fh, '<', $fileslistfile)
-        or syserr(_g('cannot read files list file'));
-    while(<$fileslist_fh>) {
-	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
-	    $f2p{$1}= $2;
-	    $p2f{$2} ||= [];
-	    push @{$p2f{$2}}, $1;
+my $dist = Dpkg::Dist::Files->new();
 
-	    warning(_g('duplicate files list entry for file %s (line %d)'),
-	            $1, $.) if defined $f2sec{$1};
-	    $f2sec{$1}= $5;
-	    $f2pri{$1}= $6;
-	    push(@archvalues, $4) if $4 and not $archadded{$4}++;
-	    push(@fileslistfiles,$1);
-	} elsif (m/^([-+.0-9a-z]+_[^_]+_([-\w]+)\.[a-z0-9.]+) (\S+) (\S+)$/) {
-	    # A non-deb package
-	    $f2sec{$1}= $3;
-	    $f2pri{$1}= $4;
-	    push(@archvalues, $2) if $2 and not $archadded{$2}++;
-	    push(@fileslistfiles,$1);
-	} elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
-	    warning(_g('duplicate files list entry for file %s (line %d)'),
-	            $1, $.) if defined $f2sec{$1};
-	    $f2sec{$1}= $2;
-	    $f2pri{$1}= $3;
-	    push(@fileslistfiles,$1);
-	} else {
-	    error(_g('badly formed line in files list file, line %d'), $.);
-	}
+if (not is_sourceonly) {
+    $dist->load($fileslistfile);
+
+    foreach my $file ($dist->get_files()) {
+        if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
+            $p2f{$file->{package}} ||= [];
+            push @{$p2f{$file->{package}}}, $file->{filename};
+        }
+
+        if (defined $file->{arch}) {
+            push @archvalues, $file->{arch}
+                if $file->{arch} and not $archadded{$file->{arch}}++;
+        }
     }
-    close($fileslist_fh);
 }
 
 # Scan control info of source package
@@ -368,15 +349,17 @@ for my $p (keys %p2f) {
     my @f = @{$p2f{$p}};
 
     foreach my $f (@f) {
+	my $file = $dist->get_file($f);
+
 	my $sec = $f2seccf{$f};
 	$sec ||= $sourcedefault{'Section'};
 	if (!defined($sec)) {
 	    $sec = '-';
 	    warning(_g("missing Section for binary package %s; using '-'"), $p);
 	}
-	if ($sec ne $f2sec{$f}) {
+	if ($sec ne $file->{section}) {
 	    error(_g('package %s has section %s in control file but %s in ' .
-	             'files list'), $p, $sec, $f2sec{$f});
+	             'files list'), $p, $sec, $file->{section});
 	}
 
 	my $pri = $f2pricf{$f};
@@ -385,9 +368,9 @@ for my $p (keys %p2f) {
 	    $pri = '-';
 	    warning(_g("missing Priority for binary package %s; using '-'"), $p);
 	}
-	if ($pri ne $f2pri{$f}) {
+	if ($pri ne $file->{priority}) {
 	    error(_g('package %s has priority %s in control file but %s in ' .
-	             'files list'), $p, $pri, $f2pri{$f});
+	             'files list'), $p, $pri, $file->{priority});
 	}
     }
 }
@@ -446,8 +429,7 @@ if (!is_binaryonly) {
 
     # Only add attributes for files being distributed.
     for my $f ($checksums->get_files()) {
-	$f2sec{$f} = $sec;
-	$f2pri{$f} = $pri;
+        $dist->add_file($f, $sec, $pri);
     }
 } else {
     $origsrcmsg= _g('binary-only upload - not including any source code');
@@ -482,21 +464,20 @@ $fields->{'Description'} = "\n" . join("\n", sort @descriptions);
 
 $fields->{'Files'} = '';
 
-my %filedone;
+for my $file ($dist->get_files()) {
+    my $f = $file->{filename};
 
-for my $f ($checksums->get_files(), @fileslistfiles) {
-    if (defined $f2p{$f}) {
-        my $arch_all = debarch_eq('all', $p2arch{$f2p{$f}});
+    if (defined $file->{package}) {
+        my $arch_all = debarch_eq('all', $p2arch{$file->{package}});
 
         next if ($include == BUILD_ARCH_DEP and $arch_all);
         next if ($include == BUILD_ARCH_INDEP and not $arch_all);
     }
-    next if $filedone{$f}++;
     my $uf = "$uploadfilesdir/$f";
     $checksums->add_from_file($uf, key => $f);
     $fields->{'Files'} .= "\n" . $checksums->get_checksum($f, 'md5') .
 			  ' ' . $checksums->get_size($f) .
-			  " $f2sec{$f} $f2pri{$f} $f";
+			  " $file->{section} $file->{priority} $f";
 }
 $checksums->export_to_control($fields);
 # redundant with the Files field

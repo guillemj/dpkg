@@ -4,7 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000,2002 Wichert Akkerman
-# Copyright © 2006-2013 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ use Dpkg::Control::Fields;
 use Dpkg::Substvars;
 use Dpkg::Vars;
 use Dpkg::Changelog::Parse;
+use Dpkg::Dist::Files;
 
 textdomain('dpkg-dev');
 
@@ -387,29 +388,22 @@ sysopen($lockfh, $lockfile, O_WRONLY)
     or syserr(_g('cannot write %s'), $lockfile);
 file_lock($lockfh, $lockfile);
 
-open(my $fileslistnew_fh, '>', "$fileslistfile.new")
-    or syserr(_g('open new files list file'));
-binmode($fileslistnew_fh);
-if (open(my $fileslist_fh, '<', $fileslistfile)) {
-    binmode($fileslist_fh);
-    while (<$fileslist_fh>) {
-        chomp;
-        next if m/^([-+0-9a-z.]+)_[^_]+_([\w-]+)\.(a-z+) /
-                && ($1 eq $oppackage)
-	        && ($3 eq $pkg_type)
-	        && (debarch_eq($2, $fields->{'Architecture'} || '')
-		    || debarch_eq($2, 'all'));
-        print { $fileslistnew_fh } "$_\n"
-            or syserr(_g('copy old entry to new files list file'));
+my $dist = Dpkg::Dist::Files->new();
+$dist->load($fileslistfile) if -e $fileslistfile;
+
+foreach my $file ($dist->get_files()) {
+    if (defined $file->{package} &&
+        ($file->{package} eq $oppackage) &&
+        ($file->{package_type} eq $pkg_type) &&
+        (debarch_eq($file->{arch}, $fields->{'Architecture'} || '') ||
+         debarch_eq($file->{arch}, 'all'))) {
+        $dist->del_file($file->{filename});
     }
-    close($fileslist_fh) or syserr(_g('close old files list file'));
-} elsif ($! != ENOENT) {
-    syserr(_g('read old files list file'));
 }
 
-printf { $fileslistnew_fh } "%s %s %s\n", $forcefilename, $section, $priority
-    or syserr(_g('write new entry to new files list file'));
-close($fileslistnew_fh) or syserr(_g('close new files list file'));
+$dist->add_file($forcefilename, $section, $priority);
+$dist->save("$fileslistfile.new");
+
 rename("$fileslistfile.new", $fileslistfile)
     or syserr(_g('install new files list file'));
 
