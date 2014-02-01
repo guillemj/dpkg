@@ -415,11 +415,6 @@ if (!is_binaryonly) {
     $checksums->add_from_file($dsc, key => "$spackage\_$sversion.dsc");
     $checksums->add_from_control($dsc_fields, use_files_for_md5 => 1);
 
-    for my $f ($checksums->get_files()) {
-	$f2sec{$f} = $sec;
-	$f2pri{$f} = $pri;
-    }
-
     # Compare upstream version to previous upstream version to decide if
     # the .orig tarballs must be included
     my $include_tarball;
@@ -447,6 +442,12 @@ if (!is_binaryonly) {
 	    warning(_g('ignoring -sd option for native Debian package'));
 	}
         $origsrcmsg= _g('including full source code in upload');
+    }
+
+    # Only add attributes for files being distributed.
+    for my $f ($checksums->get_files()) {
+	$f2sec{$f} = $sec;
+	$f2pri{$f} = $pri;
     }
 } else {
     $origsrcmsg= _g('binary-only upload - not including any source code');
