@@ -229,7 +229,7 @@ sub add_diff_directory {
                 push @diff_files, [$fn, 0, 0, "$old/$fn", '/dev/null',
                                    "$basedir.orig/$fn", '/dev/null'];
             } else {
-                warning(_g('ignoring deletion of file %s'), $fn);
+                warning(_g('ignoring deletion of file %s, use --include-removal to override'), $fn);
             }
         } elsif (-d _) {
             warning(_g('ignoring deletion of directory %s'), $fn);
