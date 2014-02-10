@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.17.5\n"
+"Project-Id-Version: dpkg 1.17.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2014-01-15 05:18+0100\n"
-"PO-Revision-Date: 2014-01-01 14:50+0700\n"
+"PO-Revision-Date: 2014-02-10 08:45+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
 "Language: vi\n"
@@ -232,7 +232,7 @@ msgstr "gặp lỗi bzip2 bất thường"
 
 #: lib/dpkg/compress.c:412
 msgid "internal error (bug)"
-msgstr "lỗi nội  bộ"
+msgstr "lỗi nội bộ"
 
 #: lib/dpkg/compress.c:419
 msgid "memory usage limit reached"
@@ -438,7 +438,7 @@ msgstr "không thể mở tập tin “%s”"
 #: utils/update-alternatives.c:1426
 #, c-format
 msgid "unable to sync file '%s'"
-msgstr "không thể động bộ hoá tập tin “%s”"
+msgstr "không thể đồng bộ hoá tập tin “%s”"
 
 #: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:641
 #: dpkg-split/join.c:72 dpkg-split/queue.c:205
@@ -1448,7 +1448,7 @@ msgstr ""
 #: src/archives.c:358 src/archives.c:475 src/statcmd.c:159
 #, c-format
 msgid "error setting ownership of `%.255s'"
-msgstr "gặp lỗi khi đặt quyền sở hữu “%.255s”"
+msgstr "gặp lỗi khi đặt chủ sở hữu của “%.255s”"
 
 #: src/archives.c:360 src/archives.c:477 src/statcmd.c:161
 #, c-format
@@ -3010,7 +3010,7 @@ msgstr[0] ""
 msgid ""
 "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
 msgstr ""
-"Chú ý: PATH của siêu người dùng nên thường chứa “/usr/local/sbin”, “/usr/"
+"Chú ý: PATH của siêu người dùng thường nên chứa “/usr/local/sbin”, “/usr/"
 "sbin” và “/sbin”"
 
 #: src/help.c:386
@@ -4590,12 +4590,10 @@ msgid "Preparing to unpack %s ...\n"
 msgstr "Đang chuẩn bị mở gói %s ...\n"
 
 #: src/unpack.c:632 dpkg-deb/build.c:299
-#, fuzzy, c-format
-#| msgid "conffile name '%.50s...' is too long, or missing final newline"
+#, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
 msgstr ""
-"tên tập tin cấu hình “%.50s...” quá dài, hoặc nó còn thiếu ký tự dòng mới "
-"cuối cùng"
+"tên tập tin cấu hình “%s” quá dài, hoặc nó còn thiếu ký tự dòng mới ở cuối"
 
 #: src/unpack.c:686 utils/update-alternatives.c:2159
 #, c-format
@@ -5223,33 +5221,7 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c:100
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --showformat=<format>            Use alternative format for --show.\n"
-#| "  -v, --verbose                    Enable verbose output.\n"
-#| "  -D, --debug                      Enable debugging output.\n"
-#| "      --deb-format=<format>        Select archive format.\n"
-#| "                                     Allowed values: 0.939000, 2.0 "
-#| "(default).\n"
-#| "      --old                        Legacy alias for '--deb-"
-#| "format=0.939000'.\n"
-#| "      --new                        Legacy alias for '--deb-format=2.0'.\n"
-#| "  --nocheck                        Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "  -z#                              Set the compression level when "
-#| "building.\n"
-#| "  -Z<type>                         Set the compression type used when "
-#| "building.\n"
-#| "                                     Allowed types: gzip, xz, bzip2, "
-#| "none.\n"
-#| "  -S<strategy>                     Set the compression strategy when "
-#| "building.\n"
-#| "                                     Allowed values: none; extreme (xz);\n"
-#| "                                     filtered, huffman, rle, fixed "
-#| "(gzip).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -5276,9 +5248,9 @@ msgid ""
 "\n"
 msgstr ""
 "Tùy chọn:\n"
-"      --showformat=<định-dạng>     Dùng định dạng này cho “--show”.\n"
 "  -v, --verbose                    Mô tả chi tiết công việc.\n"
 "  -D, --debug                      Thêm thông tin gỡ rối.\n"
+"      --showformat=<định-dạng>     Dùng định dạng này cho “--show”.\n"
 "      --deb-format=<định-dạng>     Chọn định dạng kho lưu/nén.\n"
 "                                     Giá trị cho phép: 0.939000, 2.0 (mặc "
 "định).\n"
@@ -5287,13 +5259,14 @@ msgstr ""
 "      --nocheck                    Thu hồi chức năng kiểm tra tập tin điều "
 "khiển\n"
 "                                    (biên dịch gói sai).\n"
-"  -z#                              Đặt mức nén trong khi biên dịch.\n"
+"      --uniform-compression        Dùng tham số nén trên mọi thành viên.\n"
+"  -z#                              Đặt mức nén sẽ dùng khi biên dịch.\n"
 "  -Z<kiểu>                         Đặt kiểu nén sẽ dùng khi biên dịch.\n"
 "                                    Các kiểu được phép: gzip, xz, bzip2, "
 "none (không nén).\n"
 "  -S<chiến-lược>                   Đặt chiến lược nén khi biên dịch gói.\n"
-"                                    Giá trị có thể dùng: none, extreme "
-"(xz);\n"
+"                                    Giá trị có thể dùng: none (không nén), "
+"extreme (xz);\n"
 "                                    filtered, huffman, rle, cố định (gzip).\n"
 "\n"
 
@@ -5356,10 +5329,9 @@ msgid "invalid compressor parameters: %s"
 msgstr "các tham số nén không hợp lệ: %s"
 
 #: dpkg-deb/main.c:265
-#, fuzzy, c-format
-#| msgid "unsupported compression preset"
+#, c-format
 msgid "unsupported compression type '%s' with uniform compression"
-msgstr "không hỗ trợ phương thức nén cho trước"
+msgstr "không hỗ trợ kiểu nén “%s” với nén không đổi"
 
 #: dpkg-split/info.c:55
 #, c-format
@@ -5540,7 +5512,7 @@ msgstr ""
 "        ... phiên bản:              %s\n"
 "        ... kiến trúc:              %s\n"
 "        ... tổng kiểm tra MD5:      %s\n"
-"        ... chiều dài:              %jd byte\n"
+"        ... kích thước:             %jd byte\n"
 "        ... chia tách mỗi:          %jd byte\n"
 "    Số phần:                        %d/%d\n"
 "    Chiều dài phần:                 %jd byte\n"
@@ -5561,7 +5533,7 @@ msgstr "“--%s” yêu cầu một hay nhiều đối số kiểu tập tin ph�
 #: dpkg-split/info.c:264
 #, c-format
 msgid "file `%s' is not an archive part\n"
-msgstr "tập tin “%s” không phải là phần kho nén\n"
+msgstr "tập tin “%s” không phải là một phần kho nén\n"
 
 #: dpkg-split/join.c:45
 #, c-format
