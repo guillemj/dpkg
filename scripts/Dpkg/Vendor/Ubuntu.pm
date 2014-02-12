@@ -95,10 +95,13 @@ sub run_hook {
 
     } elsif ($hook eq 'update-buildflags') {
 	my $flags = shift @params;
+	my $build_opts = Dpkg::BuildOptions->new();
 
-	if (debarch_eq(get_host_arch(), 'ppc64')) {
-	    for my $flag (qw(CFLAGS CXXFLAGS GCJFLAGS FFLAGS)) {
-		$flags->set($flag, '-g -O3', 'vendor');
+	if (!$build_opts->has('noopt')) {
+	    if (debarch_eq(get_host_arch(), 'ppc64el')) {
+		for my $flag (qw(CFLAGS CXXFLAGS GCJFLAGS FFLAGS)) {
+		    $flags->set($flag, '-g -O3', 'vendor');
+		}
 	    }
 	}
 	# Per https://wiki.ubuntu.com/DistCompilerFlags
@@ -108,7 +111,6 @@ sub run_hook {
 	$self->SUPER::run_hook($hook, $flags);
 
 	# Allow control of hardening-wrapper via dpkg-buildpackage DEB_BUILD_OPTIONS
-	my $build_opts = Dpkg::BuildOptions->new();
 	my $hardening;
 	if ($build_opts->has('hardening')) {
 	    $hardening = $build_opts->get('hardening') // 1;
