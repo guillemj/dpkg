@@ -31,8 +31,9 @@ DPKG_WITH_DIR([admindir], [${localstatedir}/lib/${PACKAGE_NAME}],
 DPKG_WITH_DIR([logdir], [${localstatedir}/log],
               [system logging directory [LOCALSTATEDIR/log]])
 
-# Set default dpkg-deb compressor
+# Set default dpkg-deb values
 DPKG_DEB_COMPRESSOR([xz])
+DPKG_DEB_PROG_TAR
 
 # Checks for programs.
 AC_PROG_CC

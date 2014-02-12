@@ -39,3 +39,13 @@ AC_DEFUN([DPKG_PROG_POD2MAN], [
 AC_CHECK_PROGS([POD2MAN], [pod2man])
 AM_CONDITIONAL(BUILD_POD_DOC, [test "x$POD2MAN" != "x"])
 ])# DPKG_PROG_POD2MAN
+
+# DPKG_DEB_PROG_TAR
+# -----------------
+# Specify GNU tar program name to use by dpkg-deb. On GNU systems this is
+# usually simply tar, on BSD systems this is usually gnutar or gtar.
+AC_DEFUN([DPKG_DEB_PROG_TAR], [
+AC_ARG_VAR([TAR], [GNU tar program])
+AC_CHECK_PROGS([TAR], [gnutar gtar tar], [tar])
+AC_DEFINE_UNQUOTED([TAR], ["$TAR"], [GNU tar program])
+])# DPKG_DEB_PROG_TAR

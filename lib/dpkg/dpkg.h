@@ -108,7 +108,6 @@ DPKG_BEGIN_DECLS
 #define DPKG		"dpkg"
 #define DEBSIGVERIFY	"/usr/bin/debsig-verify"
 
-#define TAR		"tar"
 #define RM		"rm"
 #define CAT		"cat"
 #define FIND		"find"
