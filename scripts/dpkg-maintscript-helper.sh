@@ -394,9 +394,9 @@ prepare_dir_to_symlink()
 		package="$1"
 		file="$2"
 		if ! dpkg-query -L "$package" | grep -q -x "$file"; then
-			return 1
+			exit 1
 		fi
-		return 0
+		exit 0
 	' check-files-ownership "$PACKAGE" || \
 		error "directory '$PATHNAME' contains files not owned by" \
 		      "package $PACKAGE, cannot switch to symlink"
