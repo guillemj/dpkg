@@ -23,6 +23,7 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdio.h>
 
 #ifndef TEST_MAIN_PROVIDED
 #include <dpkg/ehandle.h>
@@ -36,6 +37,12 @@
  * @ingroup dpkg-internal
  * @{
  */
+
+#define test_bail(reason) \
+	do { \
+		printf("Bail out! %s\n", (reason)); \
+		exit(99); \
+	} while (0)
 
 #define test_pass(a)			assert((a))
 #define test_fail(a)			assert(!(a))
