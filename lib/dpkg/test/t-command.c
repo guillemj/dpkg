@@ -185,6 +185,8 @@ test_command_shell(void)
 static void
 test(void)
 {
+	test_plan(44);
+
 	test_command_init();
 	test_command_add_arg();
 	test_command_add_argl();

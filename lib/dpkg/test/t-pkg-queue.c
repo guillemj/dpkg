@@ -110,6 +110,8 @@ test_pkg_queue_push_pop(void)
 static void
 test(void)
 {
+	test_plan(38);
+
 	test_pkg_queue_init();
 	test_pkg_queue_push_pop();
 }

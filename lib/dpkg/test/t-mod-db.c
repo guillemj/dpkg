@@ -52,5 +52,7 @@ test_db_dir(void)
 static void
 test(void)
 {
+	test_plan(5);
+
 	test_db_dir();
 }

@@ -144,6 +144,8 @@ test_pkginfo_instance_tracking(void)
 static void
 test(void)
 {
+	test_plan(28);
+
 	test_pkginfo_informative();
 	test_pkginfo_eflags();
 	test_pkginfo_instance_tracking();

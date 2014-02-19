@@ -172,6 +172,8 @@ test_path_quote(void)
 static void
 test(void)
 {
+	test_plan(41);
+
 	test_path_trim();
 	test_path_skip();
 	test_path_basename();

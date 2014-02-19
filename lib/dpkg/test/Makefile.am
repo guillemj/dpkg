@@ -14,6 +14,7 @@ LDADD = \
 # The tests are sorted in order of increasing complexity.
 check_PROGRAMS = \
 	t-test \
+	t-test-skip \
 	t-macros \
 	t-string \
 	t-buffer \
@@ -32,4 +33,5 @@ check_PROGRAMS = \
 	t-trigger \
 	t-mod-db
 
+LOG_DRIVER = $(PERL) $(top_srcdir)/build-aux/tap-driver.pl
 TESTS = $(check_PROGRAMS)

@@ -291,6 +291,8 @@ test_varbuf_detach(void)
 static void
 test(void)
 {
+	test_plan(99);
+
 	test_varbuf_init();
 	test_varbuf_prealloc();
 	test_varbuf_grow();

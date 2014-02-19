@@ -81,9 +81,12 @@ test(void)
 {
 	int fd;
 
+	test_plan(6);
+
 	/* XXX: Shut up stderr, we don't want the error output. */
 	fd = open("/dev/null", O_RDWR);
-	test_pass(fd >= 0);
+	if (fd < 0)
+		test_bail("cannot open /dev/null");
 	dup2(fd, 2);
 
 	test_subproc_fork();

@@ -84,6 +84,8 @@ test_pkg_list_prepend(void)
 static void
 test(void)
 {
+	test_plan(14);
+
 	test_pkg_list_new();
 	test_pkg_list_prepend();
 }

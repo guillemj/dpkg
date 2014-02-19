@@ -42,5 +42,7 @@ test_progname(void)
 static void
 test(void)
 {
+	test_plan(3);
+
 	test_progname();
 }

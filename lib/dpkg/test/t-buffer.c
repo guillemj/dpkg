@@ -74,6 +74,8 @@ test_fdio_hash(void)
 static void
 test(void)
 {
+	test_plan(10);
+
 	test_buffer_hash();
 	test_fdio_hash();
 }

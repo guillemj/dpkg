@@ -127,6 +127,8 @@ test_str_strip_quotes(void)
 static void
 test(void)
 {
+	test_plan(18);
+
 	test_str_escape_fmt();
 	test_str_quote_meta();
 	test_str_strip_quotes();

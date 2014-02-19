@@ -44,5 +44,7 @@ test_trig_name_is_illegal(void)
 void
 test(void)
 {
+	test_plan(9);
+
 	test_trig_name_is_illegal();
 }

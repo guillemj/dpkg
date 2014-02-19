@@ -283,6 +283,8 @@ test_version_parse(void)
 static void
 test(void)
 {
+	test_plan(178);
+
 	test_version_blank();
 	test_version_is_informative();
 	test_version_compare();

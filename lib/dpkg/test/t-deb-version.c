@@ -65,5 +65,7 @@ test_deb_version_parse(void)
 static void
 test(void)
 {
+	test_plan(21);
+
 	test_deb_version_parse();
 }

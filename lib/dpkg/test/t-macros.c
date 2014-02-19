@@ -27,6 +27,8 @@
 static void
 test(void)
 {
+	test_plan(12);
+
 	test_pass(min(10, 30) == 10);
 	test_pass(min(30, 10) == 10);
 	test_pass(min(0, 10) == 0);

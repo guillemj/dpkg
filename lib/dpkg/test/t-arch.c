@@ -191,6 +191,8 @@ test_dpkg_arch_varbuf_archqual(void)
 void
 test(void)
 {
+	test_plan(55);
+
 	test_dpkg_arch_name_is_illegal();
 	test_dpkg_arch_get_list();
 	test_dpkg_arch_find();
