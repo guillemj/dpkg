@@ -81,10 +81,9 @@ test(void)
 {
 	int fd;
 
-	/* XXX: Shut up output, we just want the error code. */
+	/* XXX: Shut up stderr, we don't want the error output. */
 	fd = open("/dev/null", O_RDWR);
 	test_pass(fd >= 0);
-	dup2(fd, 1);
 	dup2(fd, 2);
 
 	test_subproc_fork();
