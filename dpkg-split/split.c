@@ -41,6 +41,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
+#include <dpkg/string.h>
 #include <dpkg/subproc.h>
 #include <dpkg/buffer.h>
 #include <dpkg/ar.h>
@@ -255,17 +256,12 @@ do_split(const char *const *argv)
 	if (prefix && *argv)
 		badusage(_("--split takes at most a source filename and destination prefix"));
 	if (!prefix) {
-		char *palloc;
-		int l;
+		size_t sourcefile_len = strlen(sourcefile);
 
-		l = strlen(sourcefile);
-		palloc = nfmalloc(l + 1);
-		strcpy(palloc, sourcefile);
-		if (strcmp(palloc + l - (sizeof(DEBEXT) - 1), DEBEXT) == 0) {
-			l -= (sizeof(DEBEXT) - 1);
-			palloc[l] = '\0';
-		}
-		prefix = palloc;
+		if (str_match_end(sourcefile, DEBEXT))
+			sourcefile_len -= strlen(DEBEXT);
+
+		prefix = nfstrnsave(sourcefile, sourcefile_len);
 	}
 
 	mksplit(sourcefile, prefix, opt_maxpartsize, opt_msdos);

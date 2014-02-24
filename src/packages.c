@@ -41,6 +41,7 @@
 #include <dpkg/pkg-list.h>
 #include <dpkg/pkg-queue.h>
 #include <dpkg/pkg-spec.h>
+#include <dpkg/string.h>
 #include <dpkg/options.h>
 
 #include "filesdb.h"
@@ -114,13 +115,10 @@ enqueue_specified(const char *const *argv)
       badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
                cipaction->olong, thisarg, err.str);
 
-    if (pkg->status == stat_notinstalled) {
-      size_t l = strlen(pkg->set->name);
-      const char *extension = pkg->set->name + l - sizeof(DEBEXT) + 1;
-
-      if (l >= sizeof(DEBEXT) && strcmp(extension, DEBEXT) == 0)
-        badusage(_("you must specify packages by their own names,"
-                   " not by quoting the names of the files they come in"));
+    if (pkg->status == stat_notinstalled &&
+        str_match_end(pkg->set->name, DEBEXT)) {
+      badusage(_("you must specify packages by their own names, "
+                 "not by quoting the names of the files they come in"));
     }
     enqueue_package(pkg);
   }
