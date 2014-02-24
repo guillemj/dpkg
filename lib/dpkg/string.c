@@ -3,7 +3,7 @@
  * string.c - string handling routines
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,27 @@
 
 #include <dpkg/string.h>
 #include <dpkg/dpkg.h>
+
+/**
+ * Match the end of a string.
+ *
+ * @param str The string.
+ * @param end The end to match in str.
+ *
+ * @return Whether the string was matched at the end.
+ */
+bool
+str_match_end(const char *str, const char *end)
+{
+	size_t str_len = strlen(str);
+	size_t end_len = strlen(end);
+	const char *str_end = str + str_len - end_len;
+
+	if (str_len >= end_len && strcmp(str_end, end) == 0)
+		return true;
+	else
+		return false;
+}
 
 /**
  * Escape format characters from a string.
