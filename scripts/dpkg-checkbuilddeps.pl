@@ -113,15 +113,19 @@ if ($bd_value) {
     my $dep = deps_parse($bd_value, reduce_restrictions => 1,
                          build_dep => 1, build_profiles => \@build_profiles,
                          host_arch => $host_arch);
-    push @unmet, build_depends('Build-Depends/Build-Depends-Arch/Build-Depends-Indep',
-                               $dep, $facts);
+    error(_g('error occurred while parsing %s'),
+          'Build-Depends/Build-Depends-Arch/Build-Depends-Indep')
+        unless defined $dep;
+    push @unmet, build_depends($dep, $facts);
 }
 if ($bc_value) {
     my $dep = deps_parse($bc_value, reduce_restrictions => 1, union => 1,
                          build_dep => 1, build_profiles => \@build_profiles,
                          host_arch => $host_arch);
-    push @conflicts, build_conflicts('Build-Conflicts/Build-Conflicts-Arch/Build-Conflicts-Indep',
-                                     $dep, $facts);
+    error(_g('error occurred while parsing %s'),
+          'Build-Conflicts/Build-Conflicts-Arch/Build-Conflicts-Indep')
+        unless defined $dep;
+    push @conflicts, build_conflicts($dep, $facts);
 }
 
 if (@unmet) {
@@ -199,15 +203,10 @@ sub build_conflicts {
 # deps, and 0 to check build conflicts.
 sub check_line {
 	my $build_depends=shift;
-	my $fieldname=shift;
 	my $dep_list=shift;
 	my $facts=shift;
 
 	my @unmet=();
-
-	unless(defined($dep_list)) {
-	    error(_g('error occurred while parsing %s'), $fieldname);
-	}
 
 	if ($build_depends) {
 		$dep_list->simplify_deps($facts);
