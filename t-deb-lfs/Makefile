@@ -11,13 +11,13 @@ include ../Test.mk
 $(PKG_LFS)/large-file:
 	dd if=/dev/zero of=$@ bs=1K count=5M
 
-$(PKG_TFS)/small-file:
+$(PKG_SFS)/small-file:
 	yes | dd of=$@ bs=1K count=4
 
-build-hook: $(PKG_LFS)/large-file $(PKG_TFS)/small-file
+build-hook: $(PKG_LFS)/large-file $(PKG_SFS)/small-file
 
 clean-hook:
-	$(RM) $(PKG_LFS)/large-file $(PKG_TFS)/small-file
+	$(RM) $(PKG_LFS)/large-file $(PKG_SFS)/small-file
 
 test-case:
 	# test Small File Support packages
