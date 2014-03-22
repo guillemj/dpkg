@@ -2,9 +2,11 @@ include ../Test.mk
 
 test-case:
 	# extract the base members
-	$(DPKG_DEB) -Znone -b pkg-templ
+	$(DPKG_DEB) --uniform-compression -Znone -b pkg-templ
 	ar x pkg-templ.deb
+	gzip -c control.tar >control.tar.gz
 	gzip -c data.tar >data.tar.gz
+	xz -c control.tar >control.tar.xz
 	xz -c data.tar >data.tar.xz
 	bzip2 -c data.tar >data.tar.bz2
 	lzma -c data.tar >data.tar.lzma
@@ -35,7 +37,7 @@ test-case:
 
 	# test missing control member
 	cp pkg-templ.deb pkg-missing-control.deb
-	ar d pkg-missing-control.deb control.tar.gz
+	ar d pkg-missing-control.deb control.tar
 	ar t pkg-missing-control.deb
 	! $(DPKG_DEB) -I pkg-missing-control.deb
 
@@ -53,13 +55,13 @@ test-case:
 
 	# test mixed member (index 2)
 	cp pkg-templ.deb pkg-mixed-2-member.deb
-	ar ra control.tar.gz pkg-mixed-2-member.deb unknown
+	ar ra control.tar pkg-mixed-2-member.deb unknown
 	ar t pkg-mixed-2-member.deb
 	! $(DPKG_DEB) -c pkg-mixed-2-member.deb
 
 	# test swapped control and data members
 	cp pkg-templ.deb pkg-swap-members.deb
-	ar ma data.tar pkg-swap-members.deb control.tar.gz
+	ar ma data.tar pkg-swap-members.deb control.tar
 	ar t pkg-swap-members.deb
 	! $(DPKG_DEB) -I pkg-swap-members.deb
 
@@ -80,6 +82,16 @@ test-case:
 	ar rc pkg-data-bad.deb debian-binary control.tar.gz data.tar.bad
 	ar t pkg-data-bad.deb
 	! $(DPKG_DEB) -c pkg-data-bad.deb
+
+	# test control.tar member
+	ar rc pkg-control-none.deb debian-binary control.tar data.tar
+	ar t pkg-control-none.deb
+	$(DPKG_DEB) -I pkg-control-none.deb
+
+	# test control.tar.xz member
+	ar rc pkg-control-xz.deb debian-binary control.tar.xz data.tar.xz
+	ar t pkg-control-xz.deb
+	$(DPKG_DEB) -c pkg-control-xz.deb
 
 	# test data.tar member
 	ar rc pkg-data-none.deb debian-binary control.tar.gz data.tar
@@ -105,6 +117,12 @@ test-case:
 	ar rc pkg-data-lzma.deb debian-binary control.tar.gz data.tar.lzma
 	ar t pkg-data-lzma.deb
 	$(DPKG_DEB) -c pkg-data-lzma.deb
+
+	# test non-uniform data.tar/control.tar member compression
+	ar rc pkg-mixed-comp.deb debian-binary control.tar.xz data.tar.gz
+	ar t pkg-mixed-comp.deb
+	$(DPKG_DEB) -I pkg-mixed-comp.deb
+	$(DPKG_DEB) -c pkg-mixed-comp.deb
 
 test-clean:
 	$(RM) _ignore unknown debian-binary control.tar* data.tar*
