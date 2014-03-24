@@ -75,3 +75,7 @@ clean: clean-hook
 
 .PHONY: build-hook build test test-case test-clean clean-hook clean
 
+# Most of the tests are serial in nature, as they perform package database
+# changes, and the Makefile are written with that in mind. Avoid any
+# surprises by explicitly disallowing parallel executions.
+.NOTPARALLEL:
