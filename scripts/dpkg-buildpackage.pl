@@ -569,7 +569,7 @@ if ($signsource) {
     my $md5sum_regex = checksums_get_property('md5', 'regex');
     my $dsc_md5sum = $checksums->get_checksum("$pv.dsc", 'md5');
     my $dsc_size = $checksums->get_size("$pv.dsc");
-    my $dsc_files_regex = qr/$md5sum_regex\s+\d+\s+(\S+\s+\S+\s+$pv\.dsc)/;
+    my $dsc_files_regex = qr/$md5sum_regex\s+\d+\s+(\S+\s+\S+\s+\Q$pv\E\.dsc)/;
     $changes->{'Files'} =~ s/^$dsc_files_regex$/$dsc_md5sum $dsc_size $1/m;
 
     $changes->save($chg);
