@@ -804,6 +804,8 @@ set_action(enum action_code new_action)
 	action = new_action;
 }
 
+#define OPT_PID		500
+
 static void
 parse_options(int argc, char * const *argv)
 {
@@ -816,7 +818,7 @@ parse_options(int argc, char * const *argv)
 		{ "startas",	  1, NULL, 'a'},
 		{ "name",	  1, NULL, 'n'},
 		{ "oknodo",	  0, NULL, 'o'},
-		{ "pid",	  1, NULL, 500},
+		{ "pid",	  1, NULL, OPT_PID},
 		{ "pidfile",	  1, NULL, 'p'},
 		{ "quiet",	  0, NULL, 'q'},
 		{ "signal",	  1, NULL, 's'},
@@ -877,7 +879,7 @@ parse_options(int argc, char * const *argv)
 		case 'o':  /* --oknodo */
 			exitnodo = 0;
 			break;
-		case 500: /* --pid <pid> */
+		case OPT_PID: /* --pid <pid> */
 			pid_str = optarg;
 			break;
 		case 'p':  /* --pidfile <pid-file> */
