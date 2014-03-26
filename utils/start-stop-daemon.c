@@ -1068,6 +1068,40 @@ setup_options(void)
 	}
 }
 
+#if defined(OSLinux)
+static const char *
+proc_status_field(pid_t pid, const char *field)
+{
+	static char *line = NULL;
+	static size_t line_size = 0;
+
+	FILE *fp;
+	char filename[32];
+	char *value = NULL;
+	ssize_t line_len;
+	size_t field_len = strlen(field);
+
+	sprintf(filename, "/proc/%d/status", pid);
+	fp = fopen(filename, "r");
+	if (!fp)
+		return NULL;
+	while ((line_len = getline(&line, &line_size, fp)) >= 0) {
+		if (strncasecmp(line, field, field_len) == 0) {
+			line[line_len - 1] = '\0';
+
+			value = line + field_len;
+			while (isspace(*value))
+				value++;
+
+			break;
+		}
+	}
+	fclose(fp);
+
+	return value;
+}
+#endif
+
 #if defined(OSHurd)
 static void
 init_procset(void)
@@ -1270,25 +1304,13 @@ pid_is_user(pid_t pid, uid_t uid)
 static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
-	char buf[32];
-	FILE *f;
-	int c;
+	const char *comm;
 
-	sprintf(buf, "/proc/%d/stat", pid);
-	f = fopen(buf, "r");
-	if (!f)
+	comm = proc_status_field(pid, "Name:");
+	if (comm == NULL)
 		return false;
-	while ((c = getc(f)) != EOF && c != '(')
-		;
-	if (c != '(') {
-		fclose(f);
-		return false;
-	}
-	/* This hopefully handles command names containing ‘)’. */
-	while ((c = getc(f)) != EOF && c == *name)
-		name++;
-	fclose(f);
-	return (c == ')' && *name == '\0');
+
+	return strcmp(comm, name) == 0;
 }
 #elif defined(OSHurd)
 static bool
