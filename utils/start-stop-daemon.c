@@ -176,6 +176,7 @@ static const char *cmdname = NULL;
 static char *execname = NULL;
 static char *startas = NULL;
 static pid_t match_pid = -1;
+static pid_t match_ppid = -1;
 static const char *pidfile = NULL;
 static char what_stop[1024];
 static const char *progname = "";
@@ -440,6 +441,7 @@ usage(void)
 "\n"
 "Matching options (at least one is required):\n"
 "     --pid <pid>                pid to check\n"
+"     --ppid <ppid>              parent pid to check\n"
 "  -p|--pidfile <pid-file>       pid file to check\n"
 "  -x|--exec <executable>        program to start/check if it is running\n"
 "  -n|--name <process-name>      process name to check\n"
@@ -806,6 +808,7 @@ set_action(enum action_code new_action)
 }
 
 #define OPT_PID		500
+#define OPT_PPID	501
 
 static void
 parse_options(int argc, char * const *argv)
@@ -820,6 +823,7 @@ parse_options(int argc, char * const *argv)
 		{ "name",	  1, NULL, 'n'},
 		{ "oknodo",	  0, NULL, 'o'},
 		{ "pid",	  1, NULL, OPT_PID},
+		{ "ppid",	  1, NULL, OPT_PPID},
 		{ "pidfile",	  1, NULL, 'p'},
 		{ "quiet",	  0, NULL, 'q'},
 		{ "signal",	  1, NULL, 's'},
@@ -842,6 +846,7 @@ parse_options(int argc, char * const *argv)
 		{ NULL,		  0, NULL, 0  }
 	};
 	const char *pid_str = NULL;
+	const char *ppid_str = NULL;
 	const char *umask_str = NULL;
 	const char *signal_str = NULL;
 	const char *schedule_str = NULL;
@@ -882,6 +887,9 @@ parse_options(int argc, char * const *argv)
 			break;
 		case OPT_PID: /* --pid <pid> */
 			pid_str = optarg;
+			break;
+		case OPT_PPID: /* --ppid <ppid> */
+			ppid_str = optarg;
 			break;
 		case 'p':  /* --pidfile <pid-file> */
 			pidfile = optarg;
@@ -955,6 +963,11 @@ parse_options(int argc, char * const *argv)
 			badusage("pid value must be a number greater than 0");
 	}
 
+	if (ppid_str != NULL) {
+		if (parse_pid(ppid_str, &match_ppid) != 0)
+			badusage("ppid value must be a number greater than 0");
+	}
+
 	if (signal_str != NULL) {
 		if (parse_signal(signal_str, &signal_nr) != 0)
 			badusage("signal value must be numeric or name"
@@ -979,8 +992,9 @@ parse_options(int argc, char * const *argv)
 	if (action == action_none)
 		badusage("need one of --start or --stop or --status");
 
-	if (!execname && !pid_str && !pidfile && !userspec && !cmdname)
-		badusage("need at least one of --exec, --pid, --pidfile, --user or --name");
+	if (!execname && !pid_str && !ppid_str && !pidfile && !userspec &&
+	    !cmdname)
+		badusage("need at least one of --exec, --pid, --ppid, --pidfile, --user or --name");
 
 #ifdef PROCESS_NAME_SIZE
 	if (cmdname && strlen(cmdname) > PROCESS_NAME_SIZE)
@@ -1275,6 +1289,79 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 
 #if defined(OSLinux)
 static bool
+pid_is_child(pid_t pid, pid_t ppid)
+{
+	const char *ppid_str;
+	pid_t proc_ppid;
+	int rc;
+
+	ppid_str = proc_status_field(pid, "PPid:");
+	if (ppid_str == NULL)
+		return false;
+
+	rc = parse_pid(ppid_str, &proc_ppid);
+	if (rc < 0)
+		return false;
+
+	return proc_ppid == ppid;
+}
+#elif defined(OSHurd)
+static bool
+pid_is_child(pid_t pid, pid_t ppid)
+{
+	struct proc_stat *ps;
+	struct procinfo *pi;
+
+	ps = get_proc_stat(pid, PSTAT_PROC_INFO);
+	if (ps == NULL)
+		return false;
+
+	pi = proc_stat_proc_info(ps);
+
+	return pi->ppid == ppid;
+}
+#elif defined(OShpux)
+static bool
+pid_is_child(pid_t pid, pid_t ppid)
+{
+	struct pst_status pst;
+
+	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
+		return false;
+
+	return pst.pst_ppid == ppid;
+}
+#elif defined(HAVE_KVM_H)
+static bool
+pid_is_child(pid_t pid, pid_t ppid)
+{
+	kvm_t *kd;
+	int nentries;
+	struct kinfo_proc *kp;
+	char errbuf[_POSIX2_LINE_MAX];
+	pid_t proc_ppid;
+
+	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
+	if (kd == NULL)
+		errx(1, "%s", errbuf);
+	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
+	if (kp == NULL)
+		errx(1, "%s", kvm_geterr(kd));
+
+#if defined(OSFreeBSD)
+	proc_ppid = kp->ki_ppid;
+#elif defined(OSOpenBSD)
+	proc_ppid = kp->p_ppid;
+#else
+	proc_ppid = kp->kp_proc.p_ppid;
+#endif
+
+	return proc_ppid == ppid;
+}
+#endif
+
+#if defined(OSLinux)
+static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
 	struct stat sb;
@@ -1443,6 +1530,8 @@ static enum status_code
 pid_check(pid_t pid)
 {
 	if (execname && !pid_is_exec(pid, &exec_stat))
+		return status_dead;
+	if (match_ppid > 0 && !pid_is_child(pid, match_ppid))
 		return status_dead;
 	if (userspec && !pid_is_user(pid, user_id))
 		return status_dead;
