@@ -45,6 +45,7 @@
 #include <dpkg/pkg.h>
 #include <dpkg/parsedump.h>
 #include <dpkg/fdio.h>
+#include <dpkg/buffer.h>
 
 /**
  * Fields information.
@@ -553,7 +554,20 @@ parsedb_load(struct parsedb_state *ps)
   if (fstat(ps->fd, &st) == -1)
     ohshite(_("can't stat package info file `%.255s'"), ps->filename);
 
-  if (st.st_size > 0) {
+  if (S_ISFIFO(st.st_mode)) {
+    struct varbuf buf = VARBUF_INIT;
+    struct dpkg_error err;
+    off_t size;
+
+    size = fd_vbuf_copy(ps->fd, &buf, -1, &err);
+    if (size < 0)
+      ohshit(_("reading package info file '%s': %s"), ps->filename, err.str);
+
+    varbuf_end_str(&buf);
+
+    ps->dataptr = varbuf_detach(&buf);
+    ps->endptr = ps->dataptr + size;
+  } else if (st.st_size > 0) {
 #ifdef USE_MMAP
     ps->dataptr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, ps->fd, 0);
     if (ps->dataptr == MAP_FAILED)
@@ -564,11 +578,11 @@ parsedb_load(struct parsedb_state *ps)
     if (fd_read(ps->fd, ps->dataptr, st.st_size) < 0)
       ohshite(_("reading package info file '%.255s'"), ps->filename);
 #endif
-    ps->data = ps->dataptr;
     ps->endptr = ps->dataptr + st.st_size;
   } else {
-    ps->data = ps->dataptr = ps->endptr = NULL;
+    ps->dataptr = ps->endptr = NULL;
   }
+  ps->data = ps->dataptr;
 }
 
 /**
