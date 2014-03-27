@@ -73,6 +73,8 @@ struct parsedb_state *
 parsedb_new(const char *filename, int fd, enum parsedbflags flags);
 struct parsedb_state *
 parsedb_open(const char *filename, enum parsedbflags flags);
+void
+parsedb_load(struct parsedb_state *ps);
 int
 parsedb_parse(struct parsedb_state *ps, struct pkginfo **pkgp);
 void

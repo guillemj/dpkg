@@ -528,7 +528,6 @@ struct parsedb_state *
 parsedb_open(const char *filename, enum parsedbflags flags)
 {
   struct parsedb_state *ps;
-  struct stat st;
   int fd;
 
   fd = open(filename, O_RDONLY);
@@ -540,27 +539,36 @@ parsedb_open(const char *filename, enum parsedbflags flags)
 
   push_cleanup(cu_closefd, ~ehflag_normaltidy, NULL, 0, 1, &ps->fd);
 
+  return ps;
+}
+
+/**
+ * Load data for package deb822 style parsing.
+ */
+void
+parsedb_load(struct parsedb_state *ps)
+{
+  struct stat st;
+
   if (fstat(ps->fd, &st) == -1)
-    ohshite(_("can't stat package info file `%.255s'"), filename);
+    ohshite(_("can't stat package info file `%.255s'"), ps->filename);
 
   if (st.st_size > 0) {
 #ifdef USE_MMAP
     ps->dataptr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, ps->fd, 0);
     if (ps->dataptr == MAP_FAILED)
-      ohshite(_("can't mmap package info file `%.255s'"), filename);
+      ohshite(_("can't mmap package info file `%.255s'"), ps->filename);
 #else
     ps->dataptr = m_malloc(st.st_size);
 
     if (fd_read(ps->fd, ps->dataptr, st.st_size) < 0)
-      ohshite(_("reading package info file '%.255s'"), filename);
+      ohshite(_("reading package info file '%.255s'"), ps->filename);
 #endif
     ps->data = ps->dataptr;
     ps->endptr = ps->dataptr + st.st_size;
   } else {
     ps->data = ps->dataptr = ps->endptr = NULL;
   }
-
-  return ps;
 }
 
 /**
@@ -796,6 +804,7 @@ parsedb(const char *filename, enum parsedbflags flags, struct pkginfo **pkgp)
   int count;
 
   ps = parsedb_open(filename, flags);
+  parsedb_load(ps);
   count = parsedb_parse(ps, pkgp);
   parsedb_close(ps);
 
