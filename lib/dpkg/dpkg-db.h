@@ -298,6 +298,8 @@ enum parsedbflags {
   pdb_lax_parser		= pdb_lax_version_parser,
   /** Close file descriptor on context destruction. */
   pdb_close_fd			= DPKG_BIT(7),
+  /** Interpret filename ‘-’ as stdin. */
+  pdb_dash_is_stdin		= DPKG_BIT(8),
 
   /* Standard operations. */
 

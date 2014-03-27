@@ -531,6 +531,10 @@ parsedb_open(const char *filename, enum parsedbflags flags)
   struct parsedb_state *ps;
   int fd;
 
+  /* Special case stdin handling. */
+  if (flags & pdb_dash_is_stdin && strcmp(filename, "-") == 0)
+    return parsedb_new(filename, STDIN_FILENO, flags);
+
   fd = open(filename, O_RDONLY);
   if (fd == -1)
     ohshite(_("failed to open package info file `%.255s' for reading"),
