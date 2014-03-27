@@ -502,7 +502,27 @@ parse_get_type(struct parsedb_state *ps, enum parsedbflags flags)
 }
 
 /**
- * Open a file for RFC-822 parsing.
+ * Create a new deb822 parser context.
+ */
+struct parsedb_state *
+parsedb_new(const char *filename, int fd, enum parsedbflags flags)
+{
+  struct parsedb_state *ps;
+
+  ps = m_malloc(sizeof(*ps));
+  ps->filename = filename;
+  ps->type = parse_get_type(ps, flags);
+  ps->flags = flags;
+  ps->fd = fd;
+  ps->lno = 0;
+  ps->pkg = NULL;
+  ps->pkgbin = NULL;
+
+  return ps;
+}
+
+/**
+ * Open a file for deb822 parsing.
  */
 struct parsedb_state *
 parsedb_open(const char *filename, enum parsedbflags flags)
@@ -511,20 +531,13 @@ parsedb_open(const char *filename, enum parsedbflags flags)
   struct stat st;
   int fd;
 
-  ps = m_malloc(sizeof(*ps));
-  ps->filename = filename;
-  ps->type = parse_get_type(ps, flags);
-  ps->flags = flags;
-  ps->lno = 0;
-  ps->pkg = NULL;
-  ps->pkgbin = NULL;
-
   fd = open(filename, O_RDONLY);
   if (fd == -1)
     ohshite(_("failed to open package info file `%.255s' for reading"),
             filename);
 
-  ps->fd = fd;
+  ps = parsedb_new(filename, fd, flags);
+
   push_cleanup(cu_closefd, ~ehflag_normaltidy, NULL, 0, 1, &ps->fd);
 
   if (fstat(ps->fd, &st) == -1)
