@@ -678,10 +678,10 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 }
 
 /**
- * Close an RFC-822 parser context.
+ * Teardown a package deb822 parser context.
  */
 void
-parse_close(struct parsedb_state *ps)
+parsedb_close(struct parsedb_state *ps)
 {
   if (ps->data != NULL) {
 #ifdef USE_MMAP
@@ -764,7 +764,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       break;
   }
 
-  parse_close(ps);
+  parsedb_close(ps);
 
   varbuf_destroy(&fs.value);
   if (donep && !pdone) ohshit(_("no package information in `%.255s'"),filename);
