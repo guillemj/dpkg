@@ -214,14 +214,16 @@ option, which by default uses the \fBrpm\fP format, but that might
 change in the future, and as such programs parsing this command
 output should be explicit about the format they expect.
 .TP
-\fB\-\-update\-avail\fP, \fB\-\-merge\-avail\fP \fIPackages-file\fP
+\fB\-\-update\-avail\fP, \fB\-\-merge\-avail\fP [\fIPackages-file\fP]
 Update \fBdpkg\fP's and \fBdselect\fP's idea of which packages are
 available. With action \fB\-\-merge\-avail\fP, old information is
 combined with information from \fIPackages-file\fP. With action
 \fB\-\-update\-avail\fP, old information is replaced with the information
 in the \fIPackages-file\fP. The \fIPackages-file\fP distributed with
-Debian is simply named \fIPackages\fP. \fBdpkg\fP keeps its
-record of available packages in \fI/var/lib/dpkg/available\fP.
+Debian is simply named \fIPackages\fP. If the \fIPackages-file\fP
+argument is missing or named \fB-\fP then it will be read from
+standard input (since dpkg 1.17.7). \fBdpkg\fP keeps its record of
+available packages in \fI/var/lib/dpkg/available\fP.
 
 A simpler one-shot command to retrieve and update the \fIavailable\fR
 file is \fBdselect update\fR. Note that this file is mostly useless
@@ -831,6 +833,10 @@ To make a local copy of the package selection states:
 You might transfer this file to another computer, and after having updated
 the \fIavailable\fP file there with your package manager frontend of choice
 (see https://wiki.debian.org/Teams/Dpkg/FAQ for more details), for example:
+.br
+\fB     apt\-cache dumpavail | dpkg \-\-merge\-avail\fP
+.br
+or with dpkg 1.17.6 and earlier:
 .br
 \fB     avail=`mktemp`\fP
 \fB     apt\-cache dumpavail >"$avail"\fP

@@ -48,8 +48,10 @@ updateavailable(const char *const *argv)
     if (sourcefile) badusage(_("--%s takes no arguments"),cipaction->olong);
     break;
   case act_avreplace: case act_avmerge:
-    if (!sourcefile || argv[1])
-      badusage(_("--%s needs exactly one Packages-file argument"),
+    if (sourcefile == NULL)
+      sourcefile = "-";
+    else if (sourcefile && argv[1])
+      badusage(_("--%s takes at most one Packages-file argument"),
                cipaction->olong);
     break;
   default:
@@ -85,7 +87,9 @@ updateavailable(const char *const *argv)
     parsedb(availfile, pdb_parse_available, NULL);
 
   if (cipaction->arg_int != act_avclear)
-    count += parsedb(sourcefile, pdb_parse_available | pdb_ignoreolder, NULL);
+    count += parsedb(sourcefile,
+                     pdb_parse_available | pdb_ignoreolder | pdb_dash_is_stdin,
+                     NULL);
 
   if (!f_noact) {
     writedb(availfile, wdb_dump_available);
