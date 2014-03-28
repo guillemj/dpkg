@@ -53,6 +53,7 @@ sub init_options {
          'debian/source/local-patch-header';
     $self->{options}{sourcestyle} ||= 'X';
     $self->{options}{skip_debianization} ||= 0;
+    $self->{options}{ignore_bad_version} ||= 0;
     $self->{options}{abort_on_upstream_changes} ||= 0;
 
     # V1.0 only supports gzip compression.
@@ -72,6 +73,9 @@ sub parse_cmdline_option {
         return 1;
     } elsif ($opt =~ m/^--skip-debianization$/) {
         $o->{skip_debianization} = 1;
+        return 1;
+    } elsif ($opt =~ m/^--ignore-bad-version$/) {
+        $o->{ignore_bad_version} = 1;
         return 1;
     } elsif ($opt =~ m/^--abort-on-upstream-changes$/) {
         $o->{abort_on_upstream_changes} = 1;

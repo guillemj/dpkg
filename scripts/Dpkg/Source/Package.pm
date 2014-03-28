@@ -463,7 +463,13 @@ sub extract {
     my $newdirectory = $_[0];
 
     my ($ok, $error) = version_check($self->{fields}{'Version'});
-    error($error) unless $ok;
+    if (not $ok) {
+        if ($self->{options}{ignore_bad_version}) {
+            warning($error);
+        } else {
+            error($error);
+        }
+    }
 
     # Copy orig tarballs
     if ($self->{options}{copy_orig_tarballs}) {

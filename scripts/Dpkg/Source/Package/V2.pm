@@ -67,6 +67,8 @@ sub init_options {
         unless exists $self->{options}{create_empty_orig};
     $self->{options}{auto_commit} = 0
         unless exists $self->{options}{auto_commit};
+    $self->{options}{ignore_bad_version} = 0
+        unless exists $self->{options}{ignore_bad_version};
 }
 
 sub parse_cmdline_option {
@@ -103,6 +105,9 @@ sub parse_cmdline_option {
         return 1;
     } elsif ($opt =~ /^--auto-commit$/) {
         $self->{options}{auto_commit} = 1;
+        return 1;
+    } elsif ($opt =~ /^--ignore-bad-version$/) {
+        $self->{options}{ignore_bad_version} = 1;
         return 1;
     }
     return 0;
