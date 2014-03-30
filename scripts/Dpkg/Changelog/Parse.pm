@@ -102,6 +102,8 @@ sub changelog_parse {
 
     # Extract the format from the changelog file if possible
     unless($force or ($changelogfile eq '-')) {
+	local $_;
+
 	open(my $format_fh, '-|', 'tail', '-n', '40', $changelogfile)
 	    or syserr(_g('cannot create pipe for %s'), 'tail');
 	while (<$format_fh>) {

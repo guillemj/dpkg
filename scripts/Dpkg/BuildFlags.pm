@@ -301,6 +301,8 @@ $source is the origin recorded for any build flag set or modified.
 
 sub update_from_conffile {
     my ($self, $file, $src) = @_;
+    local $_;
+
     return unless -e $file;
     open(my $conf_fh, '<', $file) or syserr(_g('cannot read %s'), $file);
     while (<$conf_fh>) {

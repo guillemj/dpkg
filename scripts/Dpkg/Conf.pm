@@ -95,6 +95,8 @@ Parse options from a file handle. Return the number of options parsed.
 sub parse {
     my ($self, $fh, $desc) = @_;
     my $count = 0;
+    local $_;
+
     while (<$fh>) {
 	chomp;
 	s/^\s+//; s/\s+$//;   # Strip leading/trailing spaces

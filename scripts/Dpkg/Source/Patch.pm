@@ -107,6 +107,8 @@ sub add_diff_file {
     # Check diff and write it in patch file
     my $difflinefound = 0;
     my $binary = 0;
+    local $_;
+
     while (<$diffgen>) {
         if (m/^(?:binary|[^-+\@ ].*\bdiffer\b)/i) {
             $binary = 1;

@@ -121,7 +121,9 @@ sub do_build {
     open(my $git_ls_files_fh, '-|', 'git', 'ls-files', '--modified', '--deleted',
          '-z', '--others', @ignores) or subprocerr('git ls-files');
     my @files;
-    { local $/ = "\0";
+    {
+      local $_;
+      local $/ = "\0";
       while (<$git_ls_files_fh>) {
           chomp;
           if (! length $diff_ignore_regex ||

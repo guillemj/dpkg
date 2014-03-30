@@ -81,6 +81,7 @@ sub parse {
     my $entry = Dpkg::Changelog::Entry::Debian->new();
     my @blanklines = ();
     my $unknowncounter = 1; # to make version unique, e.g. for using as id
+    local $_;
 
     while (<$fh>) {
 	chomp;

@@ -186,6 +186,7 @@ sub parse {
     my $parabody = 0;
     my $cf; # Current field
     my $expect_pgp_sig = 0;
+    local $_;
 
     while (<$fh>) {
 	s/\s*\n$//;

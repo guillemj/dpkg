@@ -93,6 +93,8 @@ sub has_object {
 	    return $format{$file};
 	} else {
 	    my ($output, %opts, $pid, $res);
+	    local $_;
+
 	    if ($objdump ne 'objdump') {
 		$opts{error_to_file} = '/dev/null';
 	    }

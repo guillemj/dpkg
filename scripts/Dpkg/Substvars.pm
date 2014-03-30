@@ -169,6 +169,8 @@ the filehandle in error messages.
 
 sub parse {
     my ($self, $fh, $varlistfile) = @_;
+    local $_;
+
     binmode($fh);
     while (<$fh>) {
 	next if m/^\s*\#/ || !m/\S/;

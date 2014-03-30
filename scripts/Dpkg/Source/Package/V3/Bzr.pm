@@ -112,6 +112,8 @@ sub do_build {
     my $old_cwd = getcwd();
     chdir($dir) or syserr(_g("unable to chdir to `%s'"), $dir);
 
+    local $_;
+
     # Check for uncommitted files.
     # To support dpkg-source -i, remove any ignored files from the
     # output of bzr status.
