@@ -1,10 +1,30 @@
 #!/bin/sh
 
-# Backup the 7 last versions of dpkg's status file
+dbdir=/var/lib/dpkg
+
+# Backup the 7 last versions of dpkg databases containing user data.
 if cd /var/backups ; then
-    if ! cmp -s dpkg.status.0 /var/lib/dpkg/status ; then
-            cp -p /var/lib/dpkg/status dpkg.status
-            savelog -c 7 dpkg.status >/dev/null
+    # We backup all relevant database files if any has changed, so that
+    # the rotation number always contains an internally consistent set.
+    dbchanged=no
+    dbfiles="arch status diversions statoverride"
+    for db in $dbfiles ; do
+        if ! cmp -s dpkg.${db}.0 $dbdir/$db ; then
+            dbchanged=yes
+            break;
+        fi
+    done
+    if [ "$dbchanged" = "yes" ] ; then
+        for db in $dbfiles ; do
+            cp -p $dbdir/$db dpkg.$db
+            savelog -c 7 dpkg.$db >/dev/null
+        done
+    fi
+
+    # The alternatives database is independent from the dpkg database.
+    if ! test -e alternatives.tar.0 ||
+       ! tar -df alternatives.tar.0 -C $dbdir alternatives >/dev/null ; then
+        tar -cf alternatives.tar -C $dbdir alternatives
+        savelog -c 7 -J alternatives.tar >/dev/null
     fi
 fi
-
