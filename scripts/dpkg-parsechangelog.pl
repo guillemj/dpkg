@@ -128,7 +128,7 @@ my @fields = changelog_parse(%options);
 foreach my $f (@fields) {
     print "\n" if $count++;
     if ($fieldname) {
-        print $f->{$fieldname} . "\n";
+        print $f->{$fieldname} . "\n" if exists $f->{$fieldname};
     } else {
         print $f->output();
     }
