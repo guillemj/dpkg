@@ -498,7 +498,8 @@ sub get_smallest_version {
     my ($self, $soname, $dep_id) = @_;
     $dep_id //= 0;
     my $so_object = $self->get_object($soname);
-    return $so_object->{minver_cache}[$dep_id] if(defined($so_object->{minver_cache}[$dep_id]));
+    return $so_object->{minver_cache}[$dep_id]
+        if defined $so_object->{minver_cache}[$dep_id];
     my $minver;
     foreach my $sym ($self->get_symbols($so_object)) {
         next if $dep_id != $sym->{dep_id};

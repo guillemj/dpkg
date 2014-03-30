@@ -281,7 +281,7 @@ sub process_dsc {
     # Process extra override
     if (exists $extra_override{$source}) {
         my ($field, $value);
-        while(($field, $value) = each %{$extra_override{$source}}) {
+        while (($field, $value) = each %{$extra_override{$source}}) {
             $fields->{$field} = $value;
         }
     }

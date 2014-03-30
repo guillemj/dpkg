@@ -101,7 +101,7 @@ sub changelog_parse {
     my $changelogfile = $options{file};
 
     # Extract the format from the changelog file if possible
-    unless($force or ($changelogfile eq '-')) {
+    unless ($force or ($changelogfile eq '-')) {
 	local $_;
 
 	open(my $format_fh, '-|', 'tail', '-n', '40', $changelogfile)

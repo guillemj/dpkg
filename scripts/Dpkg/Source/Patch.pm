@@ -405,7 +405,7 @@ sub analyze {
 	}
 	$diff_count++;
 	# read file header (---/+++ pair)
-	unless(s/^--- //) {
+	unless (s/^--- //) {
 	    error(_g("expected ^--- in line %d of diff `%s'"), $., $diff);
 	}
         $path{old} = $_ = _strip_ts($_);
@@ -505,7 +505,7 @@ sub analyze {
 	    }
 	    $hunk++;
 	}
-	unless($hunk) {
+	unless ($hunk) {
 	    error(_g("expected ^\@\@ at line %d of diff `%s'"), $., $diff);
 	}
     }

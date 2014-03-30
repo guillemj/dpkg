@@ -233,7 +233,7 @@ if ($stdout) {
                      with_deprecated => $verbose_output);
 } else {
     unless (defined($output)) {
-	unless($symfile->is_empty()) {
+	unless ($symfile->is_empty()) {
 	    $output = "$packagebuilddir/DEBIAN/symbols";
 	    mkdir("$packagebuilddir/DEBIAN") if not -e "$packagebuilddir/DEBIAN";
 	}
