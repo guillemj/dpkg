@@ -33,7 +33,7 @@ sub erasedir {
         return if $! == ENOENT;
         syserr(_g('cannot stat directory %s (before removal)'), $dir);
     }
-    system 'rm','-rf','--',$dir;
+    system 'rm', '-rf', '--', $dir;
     subprocerr("rm -rf $dir") if $?;
     if (not stat($dir)) {
         return if $! == ENOENT;

@@ -477,11 +477,11 @@ if (length($fields->{'Binary'}) > 980) {
     $fields->{'Binary'} =~ s/(.{0,980}) /$1\n/g;
 }
 
-unshift(@archvalues,'source') unless is_binaryonly;
+unshift @archvalues, 'source' unless is_binaryonly;
 @archvalues = ('all') if $include == BUILD_ARCH_INDEP;
-@archvalues = grep {!debarch_eq('all',$_)} @archvalues
+@archvalues = grep { !debarch_eq('all', $_) } @archvalues
     unless $include & BUILD_ARCH_INDEP;
-$fields->{'Architecture'} = join(' ',@archvalues);
+$fields->{'Architecture'} = join ' ', @archvalues;
 
 $fields->{'Built-For-Profiles'} = join ' ', get_build_profiles();
 

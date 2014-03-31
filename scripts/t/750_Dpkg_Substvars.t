@@ -38,7 +38,7 @@ is($s->get('var4'), undef, 'no var4');
 
 # overriding
 $s->set('var1', 'New value');
-is($s->get('var1'), 'New value','var1 updated');
+is($s->get('var1'), 'New value', 'var1 updated');
 
 # deleting
 $s->delete('var3');
@@ -53,7 +53,7 @@ is($s->get('dpkg:Version'), $Dpkg::PROGVERSION, 'dpkg version 1');
 # special variables
 is($s->get('Arch'), undef, 'no arch');
 $s->set_arch_substvars();
-is($s->get('Arch'), get_host_arch(),'arch');
+is($s->get('Arch'), get_host_arch(), 'arch');
 
 is($s->get($_), undef, 'no ' . $_) for qw/binary:Version source:Version source:Upstream-Version/;
 $s->set_version_substvars('1:2.3.4~5-6.7.8~nmu9', '1:2.3.4~5-6.7.8~nmu9+bin0');

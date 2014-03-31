@@ -268,7 +268,7 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
 	my $type = $pkg->{'Package-Type'} ||
 	        $pkg->get_custom_field('Package-Type') || 'deb';
 	push @pkglist, sprintf('%s %s %s %s', $p, $type, $sect, $prio);
-	push(@binarypackages,$p);
+	push @binarypackages, $p;
 	foreach (keys %{$pkg}) {
 	    my $v = $pkg->{$_};
             if (m/^Architecture$/) {

@@ -527,7 +527,7 @@ is_deeply(\@tmp, [], 'no LOST symbols if all patterns matched.');
 is_deeply(\@tmp, [], 'no NEW symbols if all patterns matched.');
 
 # Pattern resolution order: aliases (c++, symver), generic
-$sym = $sym_file->lookup_symbol('SYMVER_1@SYMVER_1','libpatterns.so.1');
+$sym = $sym_file->lookup_symbol('SYMVER_1@SYMVER_1', 'libpatterns.so.1');
 is($sym->{minver}, '1', 'specific SYMVER_1 symbol');
 
 $sym = $sym_file->lookup_symbol('_ZN3NSB6Symver14symver_method1Ev@SYMVER_1', 'libpatterns.so.1');

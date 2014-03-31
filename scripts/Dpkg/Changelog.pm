@@ -168,7 +168,7 @@ sub get_parse_errors {
 	my $res = '';
 	foreach my $e (@{$self->{parse_errors}}) {
 	    if ($e->[3]) {
-		$res .= report(_g('warning'),_g("%s(l%s): %s\nLINE: %s"), @$e );
+		$res .= report(_g('warning'), _g("%s(l%s): %s\nLINE: %s"), @$e);
 	    } else {
 		$res .= report(_g('warning'), _g('%s(l%s): %s'), @$e);
 	    }
