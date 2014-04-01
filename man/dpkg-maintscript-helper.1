@@ -15,7 +15,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH dpkg\-maintscript\-helper 1 "2013-12-11" "Debian Project" "dpkg suite"
+.TH dpkg\-maintscript\-helper 1 "2014-04-01" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer scripts
 .
@@ -56,16 +56,20 @@ package with a local version. If \fIprior-version\fP is empty or omitted,
 then the operation is tried on every upgrade (note: it's safer to give
 the version and have the operation tried only once).
 
-For example, for a conffile removed in version \fB2.0\-1\fP of a package,
-\fIprior-version\fP should be set to \fB2.0\-1~\fP. This will cause the
-conffile to be removed even if the user rebuilt the previous version
-\fB1.0\-1\fP as \fB1.0\-1local1\fP.
-
 If the conffile has not been shipped for several versions, and you are
 now modifying the maintainer scripts to clean up the obsolete file,
 \fIprior-version\fP should be based on the version of the package that
 you are now preparing, not the first version of the package that lacked
-the conffile.
+the conffile. This applies to all other actions in the same way.
+
+For example, for a conffile removed in version \fB2.0\-1\fP of a package,
+\fIprior-version\fP should be set to \fB2.0\-1~\fP. This will cause the
+conffile to be removed even if the user rebuilt the previous version
+\fB1.0\-1\fP as \fB1.0\-1local1\fP. Or a package switching a path from
+a symlink (shipped in version \fB1.0\-1\fP) to a directory (shipped in
+version \fB2.0\-1\fP), but only performing the actual switch in the
+maintainer scripts in version \fB3.0\-1\fP, should set \fIprior-version\fP
+to \fB3.0\-1~\fP.
 .TP
 .I package
 The package name. When the package is "Multi-Arch: same", this parameter
@@ -145,7 +149,8 @@ abort\-upgrade/abort\-install, the \fBpostrm\fP renames
 .SH SYMLINK AND DIRECTORY SWITCHES
 .
 When upgrading a package, \fBdpkg\fP will not automatically switch a symlink
-to a directory or vice-versa.
+to a directory or vice-versa. Downgrades are not suppoerted and the path
+will be left as is.
 .
 .SS Switching a symlink to directory
 .
