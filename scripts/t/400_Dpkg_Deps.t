@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 20;
+use Test::More tests => 21;
 
 use strict;
 use warnings;
@@ -30,6 +30,10 @@ my $field_multiline_sorted = "libatk1.0-0 (>= 1.13.2), libc6 (>= 2.5-5), libcair
 my $dep_multiline = deps_parse($field_multiline);
 $dep_multiline->sort();
 is($dep_multiline->output(), $field_multiline_sorted, "Parse, sort and output");
+
+my $dep_sorted = deps_parse('pkgz, pkgz | pkga, pkga (>= 1.0), pkgz (<= 2.0)');
+$dep_sorted->sort();
+is($dep_sorted->output(), 'pkga (>= 1.0), pkgz, pkgz | pkga, pkgz (<= 2.0)', 'Check sort() algorithm');
 
 my $dep_subset = deps_parse("libatk1.0-0 (>> 1.10), libc6, libcairo2");
 is($dep_multiline->implies($dep_subset), 1, "Dep implies subset of itself");
