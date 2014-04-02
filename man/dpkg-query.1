@@ -118,8 +118,15 @@ to the standard output.
 .BR \-c ", " \-\-control\-path " \fIpackage-name\fP [\fIcontrol-file\fP]"
 List paths for control files installed to your system from \fIpackage-name\fP.
 If \fIcontrol-file\fP is specified then only list the path for that control
-file if it is present. \fBWarning\fP: this command is deprecated, please
-switch to use \fB\-\-control\-list\fP and \fB\-\-control\-show\fP instead.
+file if it is present.
+
+\fBWarning\fP: this command is deprecated as it gives direct access to the
+internal dpkg database, please switch to use \fB\-\-control\-list\fP and
+\fB\-\-control\-show\fP instead for all cases where those commands might
+give the same end result. Although there is still at least one case where
+this command is needed (i.e. when having to remove a damaging postrm
+maintainer script), and as long as there is no good solution for that,
+this command will not get removed.
 .TP
 .BR \-S ", " \-\-search " \fIfilename-search-pattern\fP..."
 Search for packages that own files corresponding to the given pattern.
