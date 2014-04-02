@@ -195,6 +195,7 @@ test_cases = \
 	t/Dpkg_Deps.t \
 	t/Dpkg_Path.t \
 	t/Dpkg_Util.t \
+	t/Dpkg_Vendor.t \
 	t/Dpkg_Changelog.t \
 	t/Dpkg_Changelog_Ubuntu.t \
 	t/Dpkg_Control.t \
@@ -263,6 +264,7 @@ test_data = \
 	t/merge_changelogs/ch-merged-pr-basic \
 	t/origins/debian \
 	t/origins/default \
+	t/origins/gnewsense \
 	t/origins/ubuntu
 
 test_data_objects = \

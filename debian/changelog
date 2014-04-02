@@ -40,6 +40,9 @@ dpkg (1.17.7) UNRELEASED; urgency=low
     md5sum for the .changes file after signing the .dsc. Closes: #742535
   * Cache vendor info Control::Hash objects in Dpkg::Vendor::get_vendor_info()
     when parsing the vendor file on each hook invocation.
+  * If the vendor does not have a Dpkg::Vendor module, try loading a module
+    from the parent vendors, before falling back to Dpkg::Vendor::Default.
+    Closes: #735978
 
   [ Updated dpkg translations ]
   * German (Sven Joachim).
