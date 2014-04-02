@@ -81,12 +81,16 @@ if there's no file for the given vendor.
 
 =cut
 
+my %VENDOR_CACHE;
 sub get_vendor_info(;$) {
     my $vendor = shift || 'default';
+    return $VENDOR_CACHE{$vendor} if exists $VENDOR_CACHE{$vendor};
+
     my $file = get_vendor_file($vendor);
     return unless $file;
     my $fields = Dpkg::Control::HashCore->new();
     $fields->load($file) or error(_g('%s is empty'), $file);
+    $VENDOR_CACHE{$vendor} = $fields;
     return $fields;
 }
 
