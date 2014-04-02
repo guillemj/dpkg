@@ -701,7 +701,7 @@ sub extract_from_shlibs {
 	            $shlibfile, $., $_);
 	    next;
 	}
-	my $depread = defined($4) ? $4 : '';
+	my $depread = $4 // '';
 	if (($libname eq $2) && ($libversion eq $3)) {
 	    # Define dep and end here if the package type explicitly
 	    # matches. Otherwise if the packagetype is not specified, use

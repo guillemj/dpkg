@@ -98,7 +98,7 @@ while (@ARGV) {
 	my $err = pkg_name_is_illegal($oppackage);
 	error(_g("illegal package name '%s': %s"), $oppackage, $err) if $err;
     } elsif (m/^-c(\d)?$/) {
-	$compare = defined($1) ? $1 : 1;
+	$compare = $1 // 1;
     } elsif (m/^-q$/) {
 	$quiet = 1;
     } elsif (m/^-d$/) {

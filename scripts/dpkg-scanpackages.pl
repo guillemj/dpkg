@@ -161,7 +161,7 @@ if (not (@ARGV >= 1 and @ARGV <= 3)) {
     usageerr(_g('one to three arguments expected'));
 }
 
-my $type = defined($options{type}) ? $options{type} : 'deb';
+my $type = $options{type} // 'deb';
 my $arch = $options{arch};
 
 my @find_args;

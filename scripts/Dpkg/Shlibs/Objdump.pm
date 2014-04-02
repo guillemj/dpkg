@@ -311,7 +311,7 @@ sub parse_dynamic_symbol {
 
 	my $symbol = {
 		name => $name,
-		version => defined($ver) ? $ver : '',
+		version => $ver // '',
 		section => $sect,
 		dynamic => substr($flags, 5, 1) eq 'D',
 		debug => substr($flags, 5, 1) eq 'd',
@@ -319,7 +319,7 @@ sub parse_dynamic_symbol {
 		weak => substr($flags, 1, 1) eq 'w',
 		local => substr($flags, 0, 1) eq 'l',
 		global => substr($flags, 0, 1) eq 'g',
-		visibility => defined($vis) ? $vis : '',
+		visibility => $vis // '',
 		hidden => '',
 		defined => $sect ne '*UND*'
 	    };

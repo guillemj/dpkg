@@ -127,7 +127,7 @@ sub parse_symbolspec {
     # Now parse "the rest" (minver and dep_id)
     if ($rest =~ /^\s(\S+)(?:\s(\d+))?/) {
 	$self->{minver} = $1;
-	$self->{dep_id} = defined($2) ? $2 : 0;
+	$self->{dep_id} = $2 // 0;
     } elsif (defined $opts{default_minver}) {
 	$self->{minver} = $opts{default_minver};
 	$self->{dep_id} = 0;

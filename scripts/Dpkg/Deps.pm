@@ -341,8 +341,8 @@ sub deps_compare {
 	my @deps = $b->get_deps();
 	$b = $deps[0];
     }
-    my $ar = defined($a->{relation}) ? $a->{relation} : 'undef';
-    my $br = defined($b->{relation}) ? $b->{relation} : 'undef';
+    my $ar = $a->{relation} // 'undef';
+    my $br = $b->{relation} // 'undef';
     return (($a->{package} cmp $b->{package}) ||
 	    ($relation_ordering{$ar} <=> $relation_ordering{$br}) ||
 	    ($a->{version} cmp $b->{version}));
