@@ -134,8 +134,6 @@ fi
 # Check for start-stop-daemon libraries.
 AC_DEFUN([DPKG_LIB_SSD],
 [AC_ARG_VAR([SSD_LIBS], [linker flags for start-stop-daemon])dnl
-AC_CHECK_LIB([ihash], [ihash_create], [SSD_LIBS="${SSD_LIBS:+$SSD_LIBS }-lihash"])
 AC_CHECK_LIB([ps], [proc_stat_list_create], [SSD_LIBS="${SSD_LIBS:+$SSD_LIBS }-lps"])
-AC_CHECK_LIB([shouldbeinlibc], [fmt_past_time], [SSD_LIBS="${SSD_LIBS:+$SSD_LIBS }-lshouldbeinlibc"])
 AC_CHECK_LIB([kvm], [kvm_openfiles], [SSD_LIBS="${SSD_LIBS:+$SSD_LIBS }-lkvm"])
 ])# DPKG_LIB_SSD
