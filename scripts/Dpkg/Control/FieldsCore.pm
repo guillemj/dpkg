@@ -111,6 +111,10 @@ our %FIELDS = (
         dependency => 'normal',
         dep_order => 3,
     },
+    'Build-Profiles' => {
+        allowed => CTRL_INFO_PKG,
+        separator => FIELD_SEP_SPACE,
+    },
     'Built-For-Profiles' => {
         allowed => ALL_PKG | CTRL_FILE_CHANGES,
         separator => FIELD_SEP_SPACE,

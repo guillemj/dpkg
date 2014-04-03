@@ -267,7 +267,16 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
 	my $prio = $pkg->{'Priority'} || $src_prio;
 	my $type = $pkg->{'Package-Type'} ||
 	        $pkg->get_custom_field('Package-Type') || 'deb';
-	push @pkglist, sprintf('%s %s %s %s', $p, $type, $sect, $prio);
+        my $arch = $pkg->{'Architecture'};
+        my $profile = $pkg->{'Build-Profiles'};
+
+        my $pkg_summary = sprintf('%s %s %s %s', $p, $type, $sect, $prio);
+
+        $pkg_summary .= ' arch=' . join ',', split /\s+/, $arch;
+        $pkg_summary .= ' profile=' . join ',', split /\s+/, $profile
+            if defined $profile;
+
+        push @pkglist, $pkg_summary;
 	push @binarypackages, $p;
 	foreach (keys %{$pkg}) {
 	    my $v = $pkg->{$_};
