@@ -93,8 +93,8 @@ sub usage {
 my @files;
 while (@ARGV) {
     $_ = shift(@ARGV);
-    if (m/^-p/) {
-	$oppackage = $';
+    if (m/^-p/p) {
+	$oppackage = ${^POSTMATCH};
 	my $err = pkg_name_is_illegal($oppackage);
 	error(_g("illegal package name '%s': %s"), $oppackage, $err) if $err;
     } elsif (m/^-c(\d)?$/) {

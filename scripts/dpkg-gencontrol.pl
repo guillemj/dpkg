@@ -97,18 +97,18 @@ sub usage {
 
 while (@ARGV) {
     $_=shift(@ARGV);
-    if (m/^-p/) {
-        $oppackage = $';
+    if (m/^-p/p) {
+        $oppackage = ${^POSTMATCH};
         my $err = pkg_name_is_illegal($oppackage);
         error(_g("illegal package name '%s': %s"), $oppackage, $err) if $err;
-    } elsif (m/^-c/) {
-        $controlfile= $';
-    } elsif (m/^-l/) {
-        $changelogfile= $';
-    } elsif (m/^-P/) {
-        $packagebuilddir= $';
-    } elsif (m/^-f/) {
-        $fileslistfile= $';
+    } elsif (m/^-c/p) {
+        $controlfile = ${^POSTMATCH};
+    } elsif (m/^-l/p) {
+        $changelogfile = ${^POSTMATCH};
+    } elsif (m/^-P/p) {
+        $packagebuilddir = ${^POSTMATCH};
+    } elsif (m/^-f/p) {
+        $fileslistfile = ${^POSTMATCH};
     } elsif (m/^-v(.+)$/) {
         $forceversion= $1;
     } elsif (m/^-O$/) {
@@ -119,17 +119,17 @@ while (@ARGV) {
 	# ignored for backwards compatibility
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat=$1;
-    } elsif (m/^-D([^\=:]+)[=:]/) {
-        $override{$1}= $';
+    } elsif (m/^-D([^\=:]+)[=:]/p) {
+        $override{$1} = ${^POSTMATCH};
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
-    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
-        $substvars->set_as_used($1, $');
+    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/p) {
+        $substvars->set_as_used($1, ${^POSTMATCH});
     } elsif (m/^-T(.*)$/) {
 	$substvars->load($1) if -e $1;
 	$substvars_loaded = 1;
-    } elsif (m/^-n/) {
-        $forcefilename= $';
+    } elsif (m/^-n/p) {
+        $forcefilename = ${^POSTMATCH};
     } elsif (m/^-(\?|-help)$/) {
         usage();
         exit(0);

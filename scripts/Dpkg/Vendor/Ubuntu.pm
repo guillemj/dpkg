@@ -170,8 +170,8 @@ sub find_launchpad_closes {
     my %closes;
 
     while ($changes &&
-          ($changes =~ /lp:\s+\#\d+(?:,\s*\#\d+)*/ig)) {
-        $closes{$_} = 1 foreach ($& =~ /\#?\s?(\d+)/g);
+          ($changes =~ /lp:\s+\#\d+(?:,\s*\#\d+)*/pig)) {
+        $closes{$_} = 1 foreach (${^MATCH} =~ /\#?\s?(\d+)/g);
     }
 
     my @closes = sort { $a <=> $b } keys %closes;

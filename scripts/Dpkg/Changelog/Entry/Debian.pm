@@ -297,8 +297,8 @@ sub find_closes {
     my %closes;
 
     while ($changes &&
-           ($changes =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/ig)) {
-        $closes{$_} = 1 foreach ($& =~ /\#?\s?(\d+)/g);
+           ($changes =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/pig)) {
+        $closes{$_} = 1 foreach (${^MATCH} =~ /\#?\s?(\d+)/g);
     }
 
     my @closes = sort { $a <=> $b } keys %closes;

@@ -53,8 +53,8 @@ my ($k, $v);
 open(my $header_fh, '<', $ARGV[1]) or die $!;
 while (<$header_fh>) {
     s/\s+$//;
-    m/#define KEY_(\w+)\s+\d+\s+/ || next;
-    my $rhs = $';
+    m/#define KEY_(\w+)\s+\d+\s+/p || next;
+    my $rhs = ${^POSTMATCH};
     $k= "KEY_$1";
     $_= $1;
     capit();
@@ -122,12 +122,12 @@ sub capit {
     my $o = '';
     y/A-Z/a-z/;
     $_ = " $_";
-    while (m/ (\w)/) {
-        $o .= $`.' ';
+    while (m/ (\w)/p) {
+        $o .= ${^PREMATCH} . ' ';
         $_ = $1;
         y/a-z/A-Z/;
         $o .= $_;
-        $_ = $';
+        $_ = ${^POSTMATCH};
     }
     $_= $o.$_; s/^ //;
 }
@@ -135,6 +135,6 @@ sub capit {
 sub p {
     my ($k, $v) = @_;
 
-    $v =~ s/["\\]/\\$&/g;
+    $v =~ s/["\\]/\\${^MATCH}/pg;
     printf("  { %-15s \"%-20s },\n", $k . ',', $v . '"') or die $!;
 }

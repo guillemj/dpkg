@@ -55,8 +55,8 @@ Options:
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
-    if (m/^-f/) {
-        $fileslistfile= $';
+    if (m/^-f/p) {
+        $fileslistfile = ${^POSTMATCH};
     } elsif (m/^-(\?|-help)$/) {
         usage();
         exit(0);

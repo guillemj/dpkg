@@ -122,16 +122,16 @@ sub action_needs($) {
 
 while (@ARGV) {
     $_=shift(@ARGV);
-    if (m/^-a/) {
-	$req_host_arch = "$'";
-    } elsif (m/^-t/) {
-	$req_host_gnu_type = "$'";
-    } elsif (m/^-e/) {
-	$req_eq_arch = "$'";
+    if (m/^-a/p) {
+	$req_host_arch = ${^POSTMATCH};
+    } elsif (m/^-t/p) {
+	$req_host_gnu_type = ${^POSTMATCH};
+    } elsif (m/^-e/p) {
+	$req_eq_arch = ${^POSTMATCH};
 	$req_vars = $arch_vars{DEB_HOST_ARCH};
 	$action = 'e';
-    } elsif (m/^-i/) {
-	$req_is_arch = "$'";
+    } elsif (m/^-i/p) {
+	$req_is_arch = ${^POSTMATCH};
 	$req_vars = $arch_vars{DEB_HOST_ARCH};
 	$action = 'i';
     } elsif (m/^-u$/) {
@@ -142,8 +142,8 @@ while (@ARGV) {
 	$action =~ s/^-//;
     } elsif (m/^-f$/) {
         $force=1;
-    } elsif (m/^-q/) {
-	my $varname = "$'";
+    } elsif (m/^-q/p) {
+	my $varname = ${^POSTMATCH};
 	error(_g('%s is not a supported variable name'), $varname)
 	    unless (exists $arch_vars{$varname});
 	$req_variable_to_print = "$varname";

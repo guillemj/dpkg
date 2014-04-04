@@ -122,7 +122,7 @@ getblockdev () {
 			set -e
 			proposeddevice="$tryblockdevice" perl -ne '
 next unless /^ *Device +Boot +Begin +Start +End +Blocks +Id +System *$/i .. !/\S/;
-next unless s:^/\S+:: && $& eq $ENV{proposeddevice};
+next unless s:^/\S+::p && ${^MATCH} eq $ENV{proposeddevice};
 next unless s/^ +(\* +)?\d+ +\d+ +\d+ +\d+\+? +//;
 next unless m/^([0-9a-f]{1,2}) /i;
 %types= ( "1","msdos", "4","msdos", "6","msdos", "7","hpfs", "80","minix",
@@ -342,8 +342,8 @@ then
 	perl -ne '
 next unless /^ *Device +Boot +Begin +Start +End +Blocks +Id +System *$/i .. !/\S/;
 next unless / [146] +DOS \d+-bit \S+$/;
-next unless m:^/\S+:;
-print $&;		' <$tp.f >$tp.d
+next unless m:^/\S+:p;
+print ${^MATCH};		' <$tp.f >$tp.d
 	newdefaultdevice="`cat $tp.d`"
 	echo "
 I need to know which disk partition contains the distribution files;

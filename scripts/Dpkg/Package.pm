@@ -32,8 +32,8 @@ sub pkg_name_is_illegal($) {
     if ($name eq '') {
         return _g('may not be empty string');
     }
-    if ($name =~ m/[^-+.0-9a-z]/o) {
-        return sprintf(_g("character '%s' not allowed"), $&);
+    if ($name =~ m/[^-+.0-9a-z]/op) {
+        return sprintf(_g("character '%s' not allowed"), ${^MATCH});
     }
     if ($name !~ m/^[0-9a-z]/o) {
         return _g('must start with an alphanumeric character');
