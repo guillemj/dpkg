@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-01-17 20:39+0100\n"
+"POT-Creation-Date: 2014-04-04 23:49+0200\n"
 "PO-Revision-Date: 2014-01-20 11:16+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -216,12 +216,11 @@ msgid ""
 "information. The control tarball may optionally contain an entry for `B<.>', "
 "the current directory."
 msgstr ""
-"Das zweite erforderliche Mitglied heißt B<control.tar>. Es ist ein "
-"Tar-Archiv (entweder nicht komprimiert (wird seit Dpkg 1.17.6 unterstützt) "
-"oder mit Gzip (mit der Endung B<.gz>) bzw. Xz (mit der Endung B<.xz>, seit "
-"Dpkg 1.17.6 unterstützt) komprimiert), das die Steuerinformationen als eine "
-"Reihe von "
-"normalen Dateien enthält, von denen die Datei B<control> zwingend "
+"Das zweite erforderliche Mitglied heißt B<control.tar>. Es ist ein Tar-"
+"Archiv (entweder nicht komprimiert (wird seit Dpkg 1.17.6 unterstützt) oder "
+"mit Gzip (mit der Endung B<.gz>) bzw. Xz (mit der Endung B<.xz>, seit Dpkg "
+"1.17.6 unterstützt) komprimiert), das die Steuerinformationen als eine Reihe "
+"von normalen Dateien enthält, von denen die Datei B<control> zwingend "
 "erforderlich ist und die Kern-Steuerinformationen enthält. Der Steuer-"
 "Tarball kann optional einen Eintrag für »B<.>«, das aktuelle Verzeichnis, "
 "enthalten."
@@ -279,11 +278,11 @@ msgstr ""
 #: deb.5:110 deb-control.5:288 deb-src-control.5:357 deb-split.5:67
 #: deb-version.5:131 deb-old.5:70 deb-origin.5:56 deb-override.5:66
 #: deb-extra-override.5:54 deb-shlibs.5:66 deb-substvars.5:168
-#: deb-symbols.5:87 deb-triggers.5:85 dpkg.1:859 dpkg-architecture.1:263
-#: dpkg.cfg.5:41 dpkg-buildpackage.1:351 dpkg-deb.1:299 dpkg-divert.8:153
-#: dpkg-gensymbols.1:474 dpkg-name.1:109 dpkg-query.1:264
+#: deb-symbols.5:88 deb-triggers.5:85 dpkg.1:860 dpkg-architecture.1:263
+#: dpkg.cfg.5:41 dpkg-buildpackage.1:352 dpkg-deb.1:299 dpkg-divert.8:153
+#: dpkg-gensymbols.1:474 dpkg-name.1:109 dpkg-query.1:271
 #: dpkg-scanpackages.1:113 dpkg-scansources.1:90 dpkg-shlibdeps.1:364
-#: dpkg-source.1:765 dpkg-split.1:234 dpkg-statoverride.8:103
+#: dpkg-source.1:772 dpkg-split.1:234 dpkg-statoverride.8:103
 #: dpkg-trigger.1:83 dpkg-vendor.1:65 dselect.1:466 dselect.cfg.5:41
 #: update-alternatives.8:513
 #, no-wrap
@@ -574,9 +573,22 @@ msgstr ""
 msgid "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>|B<no>"
 msgstr "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>|B<no>"
 
-#. type: Plain text
 # FIXME: Last sentence??
+#. type: Plain text
 #: deb-control.5:133
+#, fuzzy
+#| msgid ""
+#| "This field is used to indicate how this package should behave on a multi-"
+#| "arch installations. The value B<same> means that the package is co-"
+#| "installable with itself, but it must not be used to satisfy the "
+#| "dependency of any package of a different architecture from itself. The "
+#| "value B<foreign> means that the package is not co-installable with "
+#| "itself, but should be allowed to satisfy the dependency of a package of a "
+#| "different arch from itself. The value B<allowed> allows reverse-"
+#| "dependencies to indicate in their Depends field that they accept a "
+#| "package from a foreign architecture, but has no effect otherwise.  The "
+#| "value B<no> is the default when the field is omitted, in which case the "
+#| "field is generally not needed."
 msgid ""
 "This field is used to indicate how this package should behave on a multi-"
 "arch installations. The value B<same> means that the package is co-"
@@ -587,7 +599,8 @@ msgid ""
 "itself. The value B<allowed> allows reverse-dependencies to indicate in "
 "their Depends field that they accept a package from a foreign architecture, "
 "but has no effect otherwise.  The value B<no> is the default when the field "
-"is omitted, in which case the field is generally not needed."
+"is omitted, in which case adding the field with an explicit B<no> value is "
+"generally not needed."
 msgstr ""
 "Das Feld wird dazu verwandt, anzugeben, wie sich dieses Paket in einer Multi-"
 "Arch-Installation verhalten soll. Der Wert B<same> bedeutet, dass das Paket "
@@ -895,7 +908,7 @@ msgstr ""
 
 #. type: SH
 #: deb-control.5:262 deb-src-control.5:318 deb-origin.5:50
-#: start-stop-daemon.8:339
+#: start-stop-daemon.8:343
 #, no-wrap
 msgid "EXAMPLE"
 msgstr "BEISPIEL"
@@ -1997,7 +2010,7 @@ msgstr ""
 "»pre«) oder mit unklugen Reihenfolgen."
 
 #. type: SH
-#: deb-version.5:127 dpkg-buildpackage.1:333 dpkg-deb.1:277 dpkg-divert.8:119
+#: deb-version.5:127 dpkg-buildpackage.1:334 dpkg-deb.1:277 dpkg-divert.8:119
 #: dpkg-parsechangelog.1:187
 #, no-wrap
 msgid "NOTES"
@@ -2478,7 +2491,7 @@ msgstr ""
 "Debian-Richtlinien für weitere Details."
 
 #. type: SH
-#: deb-shlibs.5:46 deb-symbols.5:69 dpkg.1:794 dpkg-architecture.1:183
+#: deb-shlibs.5:46 deb-symbols.5:70 dpkg.1:795 dpkg-architecture.1:183
 #: dpkg-buildflags.1:346 dpkg-divert.8:132 dpkg-name.1:88
 #: update-alternatives.8:486
 #, no-wrap
@@ -2686,7 +2699,7 @@ msgid "B<source:Version>"
 msgstr "B<source:Version>"
 
 #. type: Plain text
-#: deb-substvars.5:98 dpkg-buildpackage.1:249
+#: deb-substvars.5:98 dpkg-buildpackage.1:250
 msgid "The source package version."
 msgstr "Die Quellpaket-Version."
 
@@ -2870,7 +2883,7 @@ msgstr ""
 "wird es eine Warnung erstellen und ein leerer Wert wird angenommen."
 
 #. type: SH
-#: deb-substvars.5:163 dpkg.1:750 dpkg-architecture.1:162 dpkg.cfg.5:30
+#: deb-substvars.5:163 dpkg.1:751 dpkg-architecture.1:162 dpkg.cfg.5:30
 #: dpkg-buildflags.1:332 dpkg-distaddfile.1:57 dpkg-divert.8:109
 #: dpkg-genchanges.1:157 dpkg-gencontrol.1:148 dpkg-parsechangelog.1:193
 #: dpkg-split.1:216 dpkg-statoverride.8:93 dselect.cfg.5:30
@@ -2972,12 +2985,21 @@ msgstr ""
 "erachtet wird."
 
 #. type: Plain text
-#: deb-symbols.5:52
+#: deb-symbols.5:53
+#, fuzzy
+#| msgid ""
+#| "Each exported I<symbol> (listed as I<name>@I<version>, with I<version> "
+#| "being \"Base\" if the library is not versioned) is associated to a "
+#| "I<minimal-version> of its dependency template (the main dependency "
+#| "template is used if I<id-of-dependency-template> is not present). The "
+#| "first alternative dependency template is numbered 1, the second one 2, "
+#| "etc."
 msgid ""
 "Each exported I<symbol> (listed as I<name>@I<version>, with I<version> being "
 "\"Base\" if the library is not versioned) is associated to a I<minimal-"
-"version> of its dependency template (the main dependency template is used if "
-"I<id-of-dependency-template> is not present). The first alternative "
+"version> of its dependency template (the main dependency template is always "
+"used and will end up being combined with the dependency template referenced "
+"by I<id-of-dependency-template> if present). The first alternative "
 "dependency template is numbered 1, the second one 2, etc."
 msgstr ""
 "Jedem exportierten I<Symbol> (aufgeführt als I<Name>@I<Version>, mit "
@@ -2988,7 +3010,7 @@ msgstr ""
 "Abhängigkeitsvorlage wird mit 1 nummeriert, die zweite mit 2 usw."
 
 #. type: Plain text
-#: deb-symbols.5:56
+#: deb-symbols.5:57
 msgid ""
 "Each entry for a library can also have some fields of meta-information.  "
 "Those fields are stored on lines starting with an asterisk. Currently, the "
@@ -2999,31 +3021,31 @@ msgstr ""
 "mit einem Stern beginnen. Derzeit sind die einzig gültigen Felder:"
 
 #. type: TP
-#: deb-symbols.5:56
+#: deb-symbols.5:57
 #, no-wrap
 msgid "B<Build-Depends-Package>"
 msgstr "B<Build-Depends-Package>"
 
 #. type: Plain text
-#: deb-symbols.5:61
+#: deb-symbols.5:62
 msgid ""
 "It indicates the name of the \"-dev\" package associated to the library and "
 "is used by B<dpkg-shlibdeps> to make sure that the dependency generated is "
 "at least as strict as the corresponding build dependency."
 msgstr ""
-"Es gibt den Namen des »-dev«-Pakets an, das der Bibliothek "
-"zugeordnet ist, und wird von B<dpkg-shlibdeps> verwandt, um sicherzustellen, "
-"dass die erstellte Abhängigkeit mindestens genauso strikt ist wie die "
-"zugehörige Bau-Abhängigkeit."
+"Es gibt den Namen des »-dev«-Pakets an, das der Bibliothek zugeordnet ist, "
+"und wird von B<dpkg-shlibdeps> verwandt, um sicherzustellen, dass die "
+"erstellte Abhängigkeit mindestens genauso strikt ist wie die zugehörige Bau-"
+"Abhängigkeit."
 
 #. type: TP
-#: deb-symbols.5:61
+#: deb-symbols.5:62
 #, no-wrap
 msgid "B<Ignore-Blacklist-Groups>"
 msgstr "B<Ignore-Blacklist-Groups>"
 
 #. type: Plain text
-#: deb-symbols.5:69
+#: deb-symbols.5:70
 msgid ""
 "It indicates what blacklist groups should be ignored, as a whitespace "
 "separated list, so that the symbols contained in those groups get included "
@@ -3033,13 +3055,13 @@ msgid ""
 msgstr ""
 
 #. type: SS
-#: deb-symbols.5:70
+#: deb-symbols.5:71
 #, no-wrap
 msgid "Simple symbols file"
 msgstr "Einfache Symboldatei"
 
 #. type: Plain text
-#: deb-symbols.5:76
+#: deb-symbols.5:77
 #, no-wrap
 msgid ""
 "libftp.so.3 libftp3 #MINVER#\n"
@@ -3053,23 +3075,23 @@ msgstr ""
 " […]\n"
 
 #. type: SS
-#: deb-symbols.5:76
+#: deb-symbols.5:77
 #, no-wrap
 msgid "Advanced symbols file"
 msgstr "Fortgeschrittene Symboldatei"
 
 #. type: Plain text
-#: deb-symbols.5:79
+#: deb-symbols.5:80
 msgid "libGL.so.1 libgl1"
 msgstr "libGL.so.1 libgl1"
 
 #. type: Plain text
-#: deb-symbols.5:81
+#: deb-symbols.5:82
 msgid "| libgl1-mesa-glx #MINVER#"
 msgstr "| libgl1-mesa-glx #MINVER#"
 
 #. type: Plain text
-#: deb-symbols.5:87
+#: deb-symbols.5:88
 #, no-wrap
 msgid ""
 "* Build-Depends-Package: libgl1-mesa-dev\n"
@@ -3085,12 +3107,12 @@ msgstr ""
 " […]\n"
 
 #. type: Plain text
-#: deb-symbols.5:89
+#: deb-symbols.5:90
 msgid "B<https://wiki.debian.org/Projects/ImprovedDpkgShlibdeps>"
 msgstr "B<https://wiki.debian.org/Projects/ImprovedDpkgShlibdeps>"
 
 #. type: Plain text
-#: deb-symbols.5:91
+#: deb-symbols.5:92
 msgid "B<dpkg-shlibdeps>(1), B<dpkg-gensymbols>(1)."
 msgstr "B<dpkg-shlibdeps>(1), B<dpkg-gensymbols>(1)."
 
@@ -3796,14 +3818,24 @@ msgid "B<--update-avail>, B<--merge-avail> I<Packages-file>"
 msgstr "B<--update-avail>, B<--merge-avail> I<Packages-Datei>"
 
 #. type: Plain text
-#: dpkg.1:225
+#: dpkg.1:226
+#, fuzzy
+#| msgid ""
+#| "Update B<dpkg>'s and B<dselect>'s idea of which packages are available. "
+#| "With action B<--merge-avail>, old information is combined with "
+#| "information from I<Packages-file>. With action B<--update-avail>, old "
+#| "information is replaced with the information in the I<Packages-file>. The "
+#| "I<Packages-file> distributed with Debian is simply named I<Packages>. "
+#| "B<dpkg> keeps its record of available packages in I</var/lib/dpkg/"
+#| "available>."
 msgid ""
 "Update B<dpkg>'s and B<dselect>'s idea of which packages are available. With "
 "action B<--merge-avail>, old information is combined with information from "
 "I<Packages-file>. With action B<--update-avail>, old information is replaced "
 "with the information in the I<Packages-file>. The I<Packages-file> "
-"distributed with Debian is simply named I<Packages>. B<dpkg> keeps its "
-"record of available packages in I</var/lib/dpkg/available>."
+"distributed with Debian is simply named I<Packages>. If the I<Packages-file> "
+"is named B<-> then it will be read from the standard input. B<dpkg> keeps "
+"its record of available packages in I</var/lib/dpkg/available>."
 msgstr ""
 "Aktualisiere B<dpkg>s und B<dselect>s Verständnis darüber, welche Pakete "
 "verfügbar sind. Mit der Aktion B<--merge-avail> wird alte Information mit "
@@ -3814,7 +3846,7 @@ msgstr ""
 "verfügbaren Pakete in I</var/lib/dpkg/available>."
 
 #. type: Plain text
-#: dpkg.1:230
+#: dpkg.1:231
 msgid ""
 "A simpler one-shot command to retrieve and update the I<available> file is "
 "B<dselect update>. Note that this file is mostly useless if you don't use "
@@ -3828,13 +3860,13 @@ msgstr ""
 "Pakete zu überwachen."
 
 #. type: TP
-#: dpkg.1:230
+#: dpkg.1:231
 #, no-wrap
 msgid "B<-A>, B<--record-avail> I<package-file>..."
 msgstr "B<-A>, B<--record-avail> I<Paketdatei> …"
 
 #. type: Plain text
-#: dpkg.1:236
+#: dpkg.1:237
 msgid ""
 "Update B<dpkg> and B<dselect>'s idea of which packages are available with "
 "information from the package I<package-file>. If B<--recursive> or B<-R> "
@@ -3846,13 +3878,13 @@ msgstr ""
 "stattdessen auf ein Verzeichnis beziehen."
 
 #. type: TP
-#: dpkg.1:236
+#: dpkg.1:237
 #, no-wrap
 msgid "B<--forget-old-unavail>"
 msgstr "B<--forget-old-unavail>"
 
 #. type: Plain text
-#: dpkg.1:240
+#: dpkg.1:241
 msgid ""
 "Now B<obsolete> and a no-op as B<dpkg> will automatically forget uninstalled "
 "unavailable packages."
@@ -3861,25 +3893,25 @@ msgstr ""
 "installierte nicht verfügbare Pakete vergisst."
 
 #. type: TP
-#: dpkg.1:240
+#: dpkg.1:241
 #, no-wrap
 msgid "B<--clear-avail>"
 msgstr "B<--clear-avail>"
 
 #. type: Plain text
-#: dpkg.1:243
+#: dpkg.1:244
 msgid "Erase the existing information about what packages are available."
 msgstr ""
 "Lösche die existierenden Informationen darüber, welche Pakete verfügbar sind."
 
 #. type: TP
-#: dpkg.1:243
+#: dpkg.1:244
 #, no-wrap
 msgid " B<-C>, B<--audit>"
 msgstr "B<-C>, B<--audit>"
 
 #. type: Plain text
-#: dpkg.1:248
+#: dpkg.1:249
 msgid ""
 "Searches for packages that have been installed only partially on your "
 "system. B<dpkg> will suggest what to do with them to get them working."
@@ -3889,13 +3921,13 @@ msgstr ""
 "Funktion zu bringen."
 
 #. type: TP
-#: dpkg.1:248
+#: dpkg.1:249
 #, no-wrap
 msgid "B<--get-selections> [I<package-name-pattern>...]"
 msgstr "B<--get-selections> [I<Paket-Name-Muster> …]"
 
 #. type: Plain text
-#: dpkg.1:253
+#: dpkg.1:254
 msgid ""
 "Get list of package selections, and write it to stdout. Without a pattern, "
 "non-installed packages (i.e. those which have been previously purged) will "
@@ -3906,13 +3938,13 @@ msgstr ""
 "»vollständig gelöscht« wurden) nicht angezeigt."
 
 #. type: TP
-#: dpkg.1:253 update-alternatives.8:316
+#: dpkg.1:254 update-alternatives.8:316
 #, no-wrap
 msgid "B<--set-selections>"
 msgstr "B<--set-selections>"
 
 #. type: Plain text
-#: dpkg.1:259
+#: dpkg.1:260
 msgid ""
 "Set package selections using file read from stdin. This file should be in "
 "the format 'I<package> I<state>', where state is one of B<install>, B<hold>, "
@@ -3925,7 +3957,7 @@ msgstr ""
 "Kommentarzeilen (beginnend mit »#«) sind auch erlaubt."
 
 #. type: Plain text
-#: dpkg.1:264
+#: dpkg.1:265
 msgid ""
 "The I<available> file needs to be up-to-date for this command to be useful, "
 "otherwise unknown packages will be ignored with a warning. See the B<--"
@@ -3937,14 +3969,14 @@ msgstr ""
 "weitere Informationen."
 
 #. type: TP
-#: dpkg.1:264
+#: dpkg.1:265
 #, no-wrap
 msgid "B<--clear-selections>"
 msgstr "B<--clear-selections>"
 
 # FIMXE dass → das auch in älteren Versionen korrigieren
 #. type: Plain text
-#: dpkg.1:269
+#: dpkg.1:270
 msgid ""
 "Set the requested state of every non-essential package to deinstall.  This "
 "is intended to be used immediately before B<--set-selections>, to deinstall "
@@ -3956,13 +3988,13 @@ msgstr ""
 "selections> vorkommt, zu deinstallieren."
 
 #. type: TP
-#: dpkg.1:269
+#: dpkg.1:270
 #, no-wrap
 msgid "B<--yet-to-unpack>"
 msgstr "B<--yet-to-unpack>"
 
 #. type: Plain text
-#: dpkg.1:273
+#: dpkg.1:274
 msgid ""
 "Searches for packages selected for installation, but which for some reason "
 "still haven't been installed."
@@ -3971,13 +4003,13 @@ msgstr ""
 "irgendeinem Grund noch nicht installiert wurden."
 
 #. type: TP
-#: dpkg.1:273
+#: dpkg.1:274
 #, no-wrap
 msgid "B<--add-architecture >I<architecture>"
 msgstr "B<--add-architecture >I<Architektur>"
 
 #. type: Plain text
-#: dpkg.1:279
+#: dpkg.1:280
 msgid ""
 "Add I<architecture> to the list of architectures for which packages can be "
 "installed without using B<--force-architecture>. The architecture B<dpkg> is "
@@ -3990,13 +4022,13 @@ msgstr ""
 "print-architecture>), ist immer Teil der Liste."
 
 #. type: TP
-#: dpkg.1:279
+#: dpkg.1:280
 #, no-wrap
 msgid "B<--remove-architecture >I<architecture>"
 msgstr "B<--remove-architecture >I<Architektur>"
 
 #. type: Plain text
-#: dpkg.1:287
+#: dpkg.1:288
 msgid ""
 "Remove I<architecture> from the list of architectures for which packages can "
 "be installed without using B<--force-architecture>. If the architecture is "
@@ -4013,13 +4045,13 @@ msgstr ""
 "print-architecture>), kann niemals von der Liste entfernt werden."
 
 #. type: TP
-#: dpkg.1:287
+#: dpkg.1:288
 #, no-wrap
 msgid "B<--print-architecture>"
 msgstr "B<--print-architecture>"
 
 #. type: Plain text
-#: dpkg.1:290
+#: dpkg.1:291
 msgid ""
 "Print architecture of packages B<dpkg> installs (for example, \"i386\")."
 msgstr ""
@@ -4027,13 +4059,13 @@ msgstr ""
 "»i386«)."
 
 #. type: TP
-#: dpkg.1:290
+#: dpkg.1:291
 #, no-wrap
 msgid "B<--print-foreign-architectures>"
 msgstr "B<--print-foreign-architectures>"
 
 #. type: Plain text
-#: dpkg.1:294
+#: dpkg.1:295
 msgid ""
 "Print a newline-separated list of the extra architectures B<dpkg> is "
 "configured to allow packages to be installed for."
@@ -4043,7 +4075,7 @@ msgstr ""
 "zu erlauben."
 
 #. type: TP
-#: dpkg.1:294
+#: dpkg.1:295
 #, no-wrap
 msgid "B<--compare-versions >I<ver1 op ver2>"
 msgstr "B<--compare-versions >I<Ver1 Op Ver2>"
@@ -4054,7 +4086,7 @@ msgstr "B<--compare-versions >I<Ver1 Op Ver2>"
 #.  additional options set on the command line, and through this file descriptor,
 #.  are not reset for subsequent commands executed during the same run.
 #. type: Plain text
-#: dpkg.1:310
+#: dpkg.1:311
 msgid ""
 "Compare version numbers, where I<op> is a binary operator. B<dpkg> returns "
 "success (zero result) if the specified condition is satisfied, and failure "
@@ -4076,49 +4108,49 @@ msgstr ""
 "bereitgestellt: B<E<lt> E<lt>E<lt> E<lt>= = E<gt>= E<gt>E<gt> E<gt>>."
 
 #. type: TP
-#: dpkg.1:310 dpkg-architecture.1:82 dpkg-buildpackage.1:298
+#: dpkg.1:311 dpkg-architecture.1:82 dpkg-buildpackage.1:299
 #: dpkg-checkbuilddeps.1:69 dpkg-distaddfile.1:50 dpkg-deb.1:192
 #: dpkg-divert.8:92 dpkg-genchanges.1:150 dpkg-gencontrol.1:141
 #: dpkg-gensymbols.1:467 dpkg-name.1:71 dpkg-parsechangelog.1:60
-#: dpkg-query.1:140 dpkg-scanpackages.1:99 dpkg-shlibdeps.1:250
+#: dpkg-query.1:147 dpkg-scanpackages.1:99 dpkg-shlibdeps.1:250
 #: dpkg-source.1:117 dpkg-split.1:143 dpkg-trigger.1:48
 #, no-wrap
 msgid "B<-?>, B<--help>"
 msgstr "B<-?>, B<--help>"
 
 #. type: Plain text
-#: dpkg.1:313
+#: dpkg.1:314
 msgid "Display a brief help message."
 msgstr "Zeige eine kurze Hilfenachricht an."
 
 #. type: TP
-#: dpkg.1:313
+#: dpkg.1:314
 #, no-wrap
 msgid "B<--force-help>"
 msgstr "B<--force-help>"
 
 #. type: Plain text
-#: dpkg.1:316
+#: dpkg.1:317
 msgid "Give help about the B<--force->I<thing> options."
 msgstr "Gebe Hilfe über die B<--force->I<Sache>-Optionen aus."
 
 #. type: TP
-#: dpkg.1:316
+#: dpkg.1:317
 #, no-wrap
 msgid "B<-Dh>, B<--debug=help>"
 msgstr "B<-Dh>, B<--debug=help>"
 
 #. type: Plain text
-#: dpkg.1:319
+#: dpkg.1:320
 msgid "Give help about debugging options."
 msgstr "Gebe Hilfe über Debugging-Optionen aus."
 
 #. type: TP
-#: dpkg.1:319 dpkg-architecture.1:85 dpkg-buildflags.1:154
-#: dpkg-buildpackage.1:301 dpkg-checkbuilddeps.1:72 dpkg-distaddfile.1:53
+#: dpkg.1:320 dpkg-architecture.1:85 dpkg-buildflags.1:154
+#: dpkg-buildpackage.1:302 dpkg-checkbuilddeps.1:72 dpkg-distaddfile.1:53
 #: dpkg-deb.1:195 dpkg-divert.8:95 dpkg-genchanges.1:153 dpkg-gencontrol.1:144
 #: dpkg-gensymbols.1:470 dpkg-mergechangelogs.1:58 dpkg-parsechangelog.1:63
-#: dpkg-query.1:143 dpkg-scanpackages.1:102 dpkg-scansources.1:87
+#: dpkg-query.1:150 dpkg-scanpackages.1:102 dpkg-scansources.1:87
 #: dpkg-shlibdeps.1:253 dpkg-source.1:120 dpkg-split.1:146
 #: dpkg-statoverride.8:66 dpkg-trigger.1:51 dpkg-vendor.1:48 dselect.1:137
 #: update-alternatives.8:336
@@ -4127,25 +4159,25 @@ msgid "B<--version>"
 msgstr "B<--version>"
 
 #. type: Plain text
-#: dpkg.1:322
+#: dpkg.1:323
 msgid "Display B<dpkg> version information."
 msgstr "Zeige B<dpkg> Versionsinformationen an."
 
 #. type: TP
-#: dpkg.1:322
+#: dpkg.1:323
 #, no-wrap
 msgid "B<dpkg-deb actions>"
 msgstr "B<dpkg-deb-Aktionen>"
 
 #. type: Plain text
-#: dpkg.1:325
+#: dpkg.1:326
 msgid "See B<dpkg-deb>(1) for more information about the following actions."
 msgstr ""
 "Lesen Sie B<dpkg-deb>(1) für weitere Informationen über die folgenden "
 "Aktionen."
 
 #. type: Plain text
-#: dpkg.1:345
+#: dpkg.1:346
 #, no-wrap
 msgid ""
 "B<-b>, B<--build> I<directory> [I<archive>|I<directory>]\n"
@@ -4183,20 +4215,20 @@ msgstr ""
 "    Zeige Informationen über ein Paket.\n"
 
 #. type: TP
-#: dpkg.1:347
+#: dpkg.1:348
 #, no-wrap
 msgid "B<dpkg-query actions>"
 msgstr "B<dpkg-query-Aktionen>"
 
 #. type: Plain text
-#: dpkg.1:350
+#: dpkg.1:351
 msgid "See B<dpkg-query>(1) for more information about the following actions."
 msgstr ""
 "Lesen Sie B<dpkg-query>(1) für weitere Informationen über die folgenden "
 "Aktionen."
 
 #. type: Plain text
-#: dpkg.1:365
+#: dpkg.1:366
 #, no-wrap
 msgid ""
 "B<-l>, B<--list> I<package-name-pattern>...\n"
@@ -4226,11 +4258,11 @@ msgstr ""
 "    B<apt-cache show> I<Paketname> verwenden.\n"
 
 #. type: SH
-#: dpkg.1:367 dpkg-architecture.1:89 dpkg-buildpackage.1:79
+#: dpkg.1:368 dpkg-architecture.1:89 dpkg-buildpackage.1:79
 #: dpkg-checkbuilddeps.1:37 dpkg-distaddfile.1:45 dpkg-deb.1:199
 #: dpkg-divert.8:62 dpkg-genchanges.1:37 dpkg-gencontrol.1:57
 #: dpkg-gensymbols.1:389 dpkg-mergechangelogs.1:44 dpkg-name.1:43
-#: dpkg-parsechangelog.1:36 dpkg-query.1:147 dpkg-scanpackages.1:77
+#: dpkg-parsechangelog.1:36 dpkg-query.1:154 dpkg-scanpackages.1:77
 #: dpkg-scansources.1:63 dpkg-shlibdeps.1:129 dpkg-source.1:124
 #: dpkg-split.1:150 dpkg-statoverride.8:70 dpkg-trigger.1:55 dpkg-vendor.1:52
 #: dselect.1:57 start-stop-daemon.8:103 update-alternatives.8:340
@@ -4239,7 +4271,7 @@ msgid "OPTIONS"
 msgstr "OPTIONEN"
 
 #. type: Plain text
-#: dpkg.1:374
+#: dpkg.1:375
 msgid ""
 "All options can be specified both on the command line and in the B<dpkg> "
 "configuration file I</etc/dpkg/dpkg.cfg> or fragment files (with names "
@@ -4257,26 +4289,26 @@ msgstr ""
 "Kommentar (falls sie mit B<#> beginnt)."
 
 #. type: TP
-#: dpkg.1:375
+#: dpkg.1:376
 #, no-wrap
 msgid "B<--abort-after=>I<number>"
 msgstr "B<--abort-after=>I<Zahl>"
 
 #. type: Plain text
-#: dpkg.1:378
+#: dpkg.1:379
 msgid "Change after how many errors B<dpkg> will abort. The default is 50."
 msgstr ""
 "Ändere nach wie vielen Fehlern B<dpkg> abbrechen wird. Der Standardwert ist "
 "50."
 
 #. type: TP
-#: dpkg.1:378
+#: dpkg.1:379
 #, no-wrap
 msgid "B<-B>, B<--auto-deconfigure>"
 msgstr "B<-B>, B<--auto-deconfigure>"
 
 #. type: Plain text
-#: dpkg.1:384
+#: dpkg.1:385
 msgid ""
 "When a package is removed, there is a possibility that another installed "
 "package depended on the removed package. Specifying this option will cause "
@@ -4289,13 +4321,13 @@ msgstr ""
 "entfernten Paket abhängt."
 
 #. type: TP
-#: dpkg.1:384
+#: dpkg.1:385
 #, no-wrap
 msgid "B<-D>I<octal>B<, --debug=>I<octal>"
 msgstr "B<-D>I<Oktal>B<, --debug=>I<Oktal>"
 
 #. type: Plain text
-#: dpkg.1:390
+#: dpkg.1:391
 msgid ""
 "Switch debugging on. I<octal> is formed by bitwise-orring desired values "
 "together from the list below (note that these values may change in future "
@@ -4307,7 +4339,7 @@ msgstr ""
 "oder B<--debug=help> zeigen diese Debugging-Werte an."
 
 #. type: Plain text
-#: dpkg.1:405
+#: dpkg.1:406
 #, no-wrap
 msgid ""
 "    Number   Description\n"
@@ -4341,13 +4373,13 @@ msgstr ""
 "   2000   Verrückte Mengen an Gelaber\n"
 
 #. type: TP
-#: dpkg.1:405
+#: dpkg.1:406
 #, no-wrap
 msgid "B<--force->I<things>, B<--no-force->I<things>, B<--refuse->I<things>"
 msgstr "B<--force->I<Sachen>, B<--no-force->I<Sachen>, B<--refuse->I<Sachen>"
 
 #. type: Plain text
-#: dpkg.1:412
+#: dpkg.1:413
 msgid ""
 "Force or refuse (B<no-force> and B<refuse> mean the same thing)  to do some "
 "things. I<things> is a comma separated list of things specified below. B<--"
@@ -4360,7 +4392,7 @@ msgstr ""
 "diese beschreibt. Mit (*) markierte Dinge werden standardmäßig erzwungen."
 
 #. type: Plain text
-#: dpkg.1:416
+#: dpkg.1:417
 msgid ""
 "I<Warning: These options are mostly intended to be used by experts only. "
 "Using them without fully understanding their effects may break your whole "
@@ -4371,12 +4403,12 @@ msgstr ""
 "gesamtes System zerstören.>"
 
 #. type: Plain text
-#: dpkg.1:419
+#: dpkg.1:420
 msgid "B<all>: Turns on (or off) all force options."
 msgstr "B<all>: Schaltet alle »force«-Optionen ein (oder aus)."
 
 #. type: Plain text
-#: dpkg.1:422
+#: dpkg.1:423
 msgid ""
 "B<downgrade>(*): Install a package, even if newer version of it is already "
 "installed."
@@ -4385,7 +4417,7 @@ msgstr ""
 "davon bereits installiert ist."
 
 #. type: Plain text
-#: dpkg.1:429
+#: dpkg.1:430
 msgid ""
 "I<Warning: At present >B<dpkg>I< does not do any dependency checking on "
 "downgrades and therefore will not warn you if the downgrade breaks the "
@@ -4402,7 +4434,7 @@ msgstr ""
 "Vorsicht.>"
 
 #. type: Plain text
-#: dpkg.1:433
+#: dpkg.1:434
 msgid ""
 "B<configure-any>: Configure also any unpacked but unconfigured packages on "
 "which the current package depends."
@@ -4411,12 +4443,12 @@ msgstr ""
 "Paket von dem das aktuelle Paket abhängt."
 
 #. type: Plain text
-#: dpkg.1:436
+#: dpkg.1:437
 msgid "B<hold>: Process packages even when marked \"hold\"."
 msgstr "B<hold>: Verarbeite auch Pakete, die mit »halten« markiert sind."
 
 #. type: Plain text
-#: dpkg.1:441
+#: dpkg.1:442
 msgid ""
 "B<remove-reinstreq>: Remove a package, even if it's broken and marked to "
 "require reinstallation. This may, for example, cause parts of the package to "
@@ -4427,7 +4459,7 @@ msgstr ""
 "Teile des Pakets auf dem System bleiben und von B<dpkg> vergessen werden."
 
 #. type: Plain text
-#: dpkg.1:446
+#: dpkg.1:447
 msgid ""
 "B<remove-essential>: Remove, even if the package is considered essential. "
 "Essential packages contain mostly very basic Unix commands. Removing them "
@@ -4440,25 +4472,25 @@ msgstr ""
 "Vorsicht."
 
 #. type: Plain text
-#: dpkg.1:449
+#: dpkg.1:450
 msgid "B<depends>: Turn all dependency problems into warnings."
 msgstr "B<depends>: Verwandle alle Abhängigkeitsprobleme in Warnungen."
 
 #. type: Plain text
-#: dpkg.1:452
+#: dpkg.1:453
 msgid ""
 "B<depends-version>: Don't care about versions when checking dependencies."
 msgstr ""
 "B<depends-version>: Ignoriere Versionen bei der Prüfung von Abhängigkeiten."
 
 #. type: Plain text
-#: dpkg.1:455
+#: dpkg.1:456
 msgid "B<breaks>: Install, even if this would break another package."
 msgstr ""
 "B<breaks>: Installiere, selbst falls dies ein anderes Paket beschädigt."
 
 #. type: Plain text
-#: dpkg.1:459
+#: dpkg.1:460
 msgid ""
 "B<conflicts>: Install, even if it conflicts with another package. This is "
 "dangerous, for it will usually cause overwriting of some files."
@@ -4468,7 +4500,7 @@ msgstr ""
 "einige Dateien überschrieben werden."
 
 #. type: Plain text
-#: dpkg.1:464
+#: dpkg.1:465
 msgid ""
 "B<confmiss>: If a conffile is missing and the version in the package did "
 "change, always install the missing conffile without prompting. This is "
@@ -4481,7 +4513,7 @@ msgstr ""
 "erhalten wird."
 
 #. type: Plain text
-#: dpkg.1:470
+#: dpkg.1:471
 msgid ""
 "B<confnew>: If a conffile has been modified and the version in the package "
 "did change, always install the new version without prompting, unless the B<--"
@@ -4494,7 +4526,7 @@ msgstr ""
 "Standardaktion bevorzugt wird."
 
 #. type: Plain text
-#: dpkg.1:476
+#: dpkg.1:477
 msgid ""
 "B<confold>: If a conffile has been modified and the version in the package "
 "did change, always keep the old version without prompting, unless the B<--"
@@ -4507,7 +4539,7 @@ msgstr ""
 "Standardaktion bevorzugt wird."
 
 #. type: Plain text
-#: dpkg.1:483
+#: dpkg.1:484
 msgid ""
 "B<confdef>: If a conffile has been modified and the version in the package "
 "did change, always choose the default action without prompting. If there is "
@@ -4522,7 +4554,7 @@ msgstr ""
 "welchem Falle dies verwendet wird, um die letztendliche Aktion zu bestimmen."
 
 #. type: Plain text
-#: dpkg.1:490
+#: dpkg.1:491
 msgid ""
 "B<confask>: If a conffile has been modified always offer to replace it with "
 "the version in the package, even if the version in the package did not "
@@ -4537,21 +4569,21 @@ msgstr ""
 "wird sie dazu verwandt, die letztendliche Aktion zu ermitteln."
 
 #. type: Plain text
-#: dpkg.1:493
+#: dpkg.1:494
 msgid "B<overwrite>: Overwrite one package's file with another's file."
 msgstr ""
 "B<overwrite>: Überschreibe die Datei aus einem Paket mit einer Datei aus "
 "einem anderen Paket."
 
 #. type: Plain text
-#: dpkg.1:496
+#: dpkg.1:497
 msgid "B<overwrite-dir> Overwrite one package's directory with another's file."
 msgstr ""
 "B<overwrite-dir> Überschreibe das Verzeichnis aus einem Paket mit einer "
 "Datei aus einem anderen Paket."
 
 #. type: Plain text
-#: dpkg.1:499
+#: dpkg.1:500
 msgid ""
 "B<overwrite-diverted>: Overwrite a diverted file with an undiverted version."
 msgstr ""
@@ -4559,7 +4591,7 @@ msgstr ""
 "einer nicht umgeleiteten."
 
 #. type: Plain text
-#: dpkg.1:507
+#: dpkg.1:508
 msgid ""
 "B<unsafe-io>: Do not perform safe I/O operations when unpacking. Currently "
 "this implies not performing file system syncs before file renames, which is "
@@ -4576,7 +4608,7 @@ msgstr ""
 "bei abrupten Systemabstürzen Dateien der Länge Null entstehen können."
 
 #. type: Plain text
-#: dpkg.1:513
+#: dpkg.1:514
 msgid ""
 "I<Note>: For ext4, the main offender, consider using instead the mount "
 "option B<nodelalloc>, which will fix both the performance degradation and "
@@ -4592,7 +4624,7 @@ msgstr ""
 "werden."
 
 #. type: Plain text
-#: dpkg.1:516
+#: dpkg.1:517
 msgid ""
 "I<Warning: Using this option might improve performance at the cost of losing "
 "data, use with care.>"
@@ -4602,19 +4634,19 @@ msgstr ""
 "vorsichtig.>"
 
 #. type: Plain text
-#: dpkg.1:519
+#: dpkg.1:520
 msgid "B<architecture>: Process even packages with wrong or no architecture."
 msgstr ""
 "B<architecture>: Verarbeite sogar Pakete mit der falschen oder keiner "
 "Architektur."
 
 #. type: Plain text
-#: dpkg.1:522
+#: dpkg.1:523
 msgid "B<bad-version>: Process even packages with wrong versions."
 msgstr "B<bad-version>: Verarbeite sogar Pakete mit falschen Versionen."
 
 #. type: Plain text
-#: dpkg.1:525
+#: dpkg.1:526
 msgid ""
 "B<bad-path>: B<PATH> is missing important programs, so problems are likely."
 msgstr ""
@@ -4622,26 +4654,26 @@ msgstr ""
 "wahrscheinlich."
 
 #. type: Plain text
-#: dpkg.1:528
+#: dpkg.1:529
 msgid "B<not-root>: Try to (de)install things even when not root."
 msgstr ""
 "B<not-root>: Versuche Sachen zu (de)installieren, selbst falls nicht root."
 
 #. type: Plain text
-#: dpkg.1:531
+#: dpkg.1:532
 msgid "B<bad-verify>: Install a package even if it fails authenticity check."
 msgstr ""
 "B<bad-verify>: Installiere ein Paket selbst wenn die Authentizitätsprüfung "
 "fehlschlägt."
 
 #. type: TP
-#: dpkg.1:532
+#: dpkg.1:533
 #, no-wrap
 msgid "B<--ignore-depends>=I<package>,..."
 msgstr "B<--ignore-depends>=I<Paket>, …"
 
 #. type: Plain text
-#: dpkg.1:536
+#: dpkg.1:537
 msgid ""
 "Ignore dependency-checking for specified packages (actually, checking is "
 "performed, but only warnings about conflicts are given, nothing else)."
@@ -4651,13 +4683,13 @@ msgstr ""
 "angezeigt, sonst nichts)."
 
 #. type: TP
-#: dpkg.1:536
+#: dpkg.1:537
 #, no-wrap
 msgid "B<--no-act>, B<--dry-run>, B<--simulate>"
 msgstr "B<--no-act>, B<--dry-run>, B<--simulate>"
 
 #. type: Plain text
-#: dpkg.1:541
+#: dpkg.1:542
 msgid ""
 "Do everything which is supposed to be done, but don't write any changes. "
 "This is used to see what would happen with the specified action, without "
@@ -4668,7 +4700,7 @@ msgstr ""
 "passieren würde ohne tatsächlich etwas zu modifizieren."
 
 #. type: Plain text
-#: dpkg.1:546
+#: dpkg.1:547
 msgid ""
 "Be sure to give B<--no-act> before the action-parameter, or you might end up "
 "with undesirable results. (e.g. B<dpkg --purge foo --no-act> will first "
@@ -4682,13 +4714,13 @@ msgstr ""
 "dass tatsächlich gar nichts passieren sollte)"
 
 #. type: TP
-#: dpkg.1:546
+#: dpkg.1:547
 #, no-wrap
 msgid "B<-R>, B<--recursive>"
 msgstr "B<-R>, B<--recursive>"
 
 #. type: Plain text
-#: dpkg.1:552
+#: dpkg.1:553
 msgid ""
 "Recursively handle all regular files matching pattern B<*.deb> found at "
 "specified directories and all of its subdirectories. This can be used with "
@@ -4700,13 +4732,13 @@ msgstr ""
 "verwendet werden."
 
 #. type: TP
-#: dpkg.1:552
+#: dpkg.1:553
 #, no-wrap
 msgid "B<-G>"
 msgstr "B<-G>"
 
 #. type: Plain text
-#: dpkg.1:556
+#: dpkg.1:557
 msgid ""
 "Don't install a package if a newer version of the same package is already "
 "installed. This is an alias of B<--refuse-downgrade>."
@@ -4715,14 +4747,14 @@ msgstr ""
 "Paketes installiert ist. Dies ist ein Alias für B<--refuse-downgrade>."
 
 #. type: TP
-#: dpkg.1:556 dpkg-buildpackage.1:292 dpkg-checkbuilddeps.1:38
-#: dpkg-query.1:148 dpkg-shlibdeps.1:246 dpkg-trigger.1:56
+#: dpkg.1:557 dpkg-buildpackage.1:293 dpkg-checkbuilddeps.1:38
+#: dpkg-query.1:155 dpkg-shlibdeps.1:246 dpkg-trigger.1:56
 #, no-wrap
 msgid "B<--admindir=>I<dir>"
 msgstr "B<--admindir=>I<Verz>"
 
 #. type: Plain text
-#: dpkg.1:561
+#: dpkg.1:562
 msgid ""
 "Change default administrative directory, which contains many files that give "
 "information about status of installed or uninstalled packages, etc.  "
@@ -4733,13 +4765,13 @@ msgstr ""
 "von installierten und deinstallierten Pakete usw. liegen."
 
 #. type: TP
-#: dpkg.1:561
+#: dpkg.1:562
 #, no-wrap
 msgid "B<--instdir=>I<dir>"
 msgstr "B<--instdir=>I<Verz>"
 
 #. type: Plain text
-#: dpkg.1:568
+#: dpkg.1:569
 msgid ""
 "Change default installation directory which refers to the directory where "
 "packages are to be installed. B<instdir> is also the directory passed to "
@@ -4753,13 +4785,13 @@ msgstr ""
 "ein Wurzelverzeichnis sehen."
 
 #. type: TP
-#: dpkg.1:568
+#: dpkg.1:569
 #, no-wrap
 msgid "B<--root=>I<dir>"
 msgstr "B<-root=>I<Verz>"
 
 #. type: Plain text
-#: dpkg.1:572
+#: dpkg.1:573
 msgid ""
 "Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
 "var/lib/dpkg>."
@@ -4768,13 +4800,13 @@ msgstr ""
 "I<Verz>B</var/lib/dpkg> geändert."
 
 #. type: TP
-#: dpkg.1:572
+#: dpkg.1:573
 #, no-wrap
 msgid "B<-O>, B<--selected-only>"
 msgstr "B<-O>, B<--selected-only>"
 
 #. type: Plain text
-#: dpkg.1:578
+#: dpkg.1:579
 msgid ""
 "Only process the packages that are selected for installation. The actual "
 "marking is done with B<dselect> or by B<dpkg>, when it handles packages. For "
@@ -4787,13 +4819,13 @@ msgstr ""
 "Deinstallation ausgewählt« markiert."
 
 #. type: TP
-#: dpkg.1:578
+#: dpkg.1:579
 #, no-wrap
 msgid "B<-E>, B<--skip-same-version>"
 msgstr "B<-E>, B<--skip-same-version>"
 
 #. type: Plain text
-#: dpkg.1:582
+#: dpkg.1:583
 msgid ""
 "Don't install the package if the same version of the package is already "
 "installed."
@@ -4802,19 +4834,19 @@ msgstr ""
 "installiert ist."
 
 #. type: TP
-#: dpkg.1:582
+#: dpkg.1:583
 #, no-wrap
 msgid "B<--pre-invoke=>I<command>"
 msgstr "B<--pre-invoke=>I<Befehl>"
 
 #. type: TQ
-#: dpkg.1:584
+#: dpkg.1:585
 #, no-wrap
 msgid "B<--post-invoke=>I<command>"
 msgstr "B<--post-invoke=>I<Befehl>"
 
 #. type: Plain text
-#: dpkg.1:594
+#: dpkg.1:595
 msgid ""
 "Set an invoke hook I<command> to be run via ``sh -c'' before or after the "
 "B<dpkg> run for the I<unpack>, I<configure>, I<install>, I<triggers-only>, "
@@ -4835,19 +4867,19 @@ msgstr ""
 "aufrufen, wodurch die Hooks öfter als erwartet ausgeführt werden könnten."
 
 #. type: TP
-#: dpkg.1:594
+#: dpkg.1:595
 #, no-wrap
 msgid "B<--path-exclude=>I<glob-pattern>"
 msgstr "B<--path-exclude=>I<Glob-Muster>"
 
 #. type: TQ
-#: dpkg.1:596
+#: dpkg.1:597
 #, no-wrap
 msgid "B<--path-include=>I<glob-pattern>"
 msgstr "B<--path-include=>I<Glob-Muster>"
 
 #. type: Plain text
-#: dpkg.1:600
+#: dpkg.1:601
 msgid ""
 "Set I<glob-pattern> as a path filter, either by excluding or re-including "
 "previously excluded paths matching the specified patterns during install."
@@ -4857,7 +4889,7 @@ msgstr ""
 "auf bestimmte Muster passen."
 
 #. type: Plain text
-#: dpkg.1:603
+#: dpkg.1:604
 msgid ""
 "I<Warning: take into account that depending on the excluded paths you might "
 "completely break your system, use with caution.>"
@@ -4867,7 +4899,7 @@ msgstr ""
 ">"
 
 #. type: Plain text
-#: dpkg.1:613
+#: dpkg.1:614
 msgid ""
 "The glob patterns use the same wildcards used in the shell, were '*' matches "
 "any sequence of characters, including the empty string and also '/'. For "
@@ -4892,7 +4924,7 @@ msgstr ""
 "Arbeiten behoben werden."
 
 #. type: Plain text
-#: dpkg.1:616
+#: dpkg.1:617
 msgid ""
 "This can be used to remove all paths except some particular ones; a typical "
 "case is:"
@@ -4901,7 +4933,7 @@ msgstr ""
 "typischer Fall lautet:"
 
 #. type: Plain text
-#: dpkg.1:620
+#: dpkg.1:621
 #, no-wrap
 msgid ""
 "B<--path-exclude=/usr/share/doc/*>\n"
@@ -4911,14 +4943,14 @@ msgstr ""
 "B<--path-include=/usr/share/doc/*/copyright>\n"
 
 #. type: Plain text
-#: dpkg.1:623
+#: dpkg.1:624
 msgid "to remove all documentation files except the copyright files."
 msgstr ""
 "Hiermit werden alle Dokumentationsdateien (außer den Copyright-Dateien) "
 "entfernt."
 
 #. type: Plain text
-#: dpkg.1:627
+#: dpkg.1:628
 msgid ""
 "These two options can be specified multiple times, and interleaved with each "
 "other. Both are processed in the given order, with the last rule that "
@@ -4929,18 +4961,18 @@ msgstr ""
 "letzte Regel, die auf eine Datei passt, die Entscheidung fällt."
 
 #. type: TP
-#: dpkg.1:627
+#: dpkg.1:628
 #, no-wrap
 msgid "B<--verify-format>I< format-name>"
 msgstr "B<--verify-format=>I<Formatname>"
 
 #. type: Plain text
-#: dpkg.1:630
+#: dpkg.1:631
 msgid "Sets the output format for the B<--verify> command."
 msgstr "Setzt das Ausgabeformat für den Befehl B<--verify>."
 
 #. type: Plain text
-#: dpkg.1:640
+#: dpkg.1:641
 msgid ""
 "The only currently supported output format is B<rpm>, which consists of a "
 "line for every path that failed any check. The lines start with 9 characters "
@@ -4963,13 +4995,13 @@ msgstr ""
 "Conffiles), ein weiteres Leerzeichen und der Pfadnmae."
 
 #. type: TP
-#: dpkg.1:640
+#: dpkg.1:641
 #, no-wrap
 msgid "B<--status-fd >I<n>"
 msgstr "B<--status-fd >I<n>"
 
 #. type: Plain text
-#: dpkg.1:646
+#: dpkg.1:647
 msgid ""
 "Send machine-readable package status and progress information to file "
 "descriptor I<n>. This option can be specified multiple times. The "
@@ -4981,24 +5013,24 @@ msgstr ""
 "folgendem Format:"
 
 #. type: TP
-#: dpkg.1:647
+#: dpkg.1:648
 #, no-wrap
 msgid "B<status: >I<package>B<: >I<status>"
 msgstr "B<status: >I<Paket>B<: >I<Status>"
 
 #. type: Plain text
-#: dpkg.1:650
+#: dpkg.1:651
 msgid "Package status changed; I<status> is as in the status file."
 msgstr "Paketstatus geändert; I<Status> entsprechend der Statusdatei."
 
 #. type: TP
-#: dpkg.1:650
+#: dpkg.1:651
 #, no-wrap
 msgid "B<status: >I<package>B< : error : >I<extended-error-message>"
 msgstr "B<status: >I<Paket>B< : error : >I<ausführliche-Fehlermeldung>"
 
 #. type: Plain text
-#: dpkg.1:654
+#: dpkg.1:655
 msgid ""
 "An error occurred. Any possible newlines in I<extended-error-message> will "
 "be converted to spaces before output."
@@ -5007,24 +5039,24 @@ msgstr ""
 "Fehlermeldung> werden vor der Ausgabe in Leerzeichen gewandelt."
 
 #. type: TP
-#: dpkg.1:654
+#: dpkg.1:655
 #, no-wrap
 msgid "B<status: >I<file>B< : conffile-prompt : '>I<real-old>B<' '>I<real-new>B<' >I<useredited>B< >I<distedited>"
 msgstr "B<status: >I<Datei>B< : conffile-prompt : »>I<echt-alt>B<« »>I<echt-neu>B<« >I<benutzer-edit>B< >I<dist-edit>"
 
 #. type: Plain text
-#: dpkg.1:657
+#: dpkg.1:658
 msgid "User is being asked a conffile question."
 msgstr "Dem Benutzer wird eine Conffile-Frage gestellt."
 
 #. type: TP
-#: dpkg.1:657
+#: dpkg.1:658
 #, no-wrap
 msgid "B<processing: >I<stage>B<: >I<package>"
 msgstr "B<processing: >I<Stufe>B<: >I<Paket>"
 
 #. type: Plain text
-#: dpkg.1:662
+#: dpkg.1:663
 msgid ""
 "Sent just before a processing stage starts. I<stage> is one of B<upgrade>, "
 "B<install> (both sent before unpacking), B<configure>, B<trigproc>, "
@@ -5035,13 +5067,13 @@ msgstr ""
 "B<configure>, B<trigproc>, B<disappear>, B<remove>, B<purge>."
 
 #. type: TP
-#: dpkg.1:663
+#: dpkg.1:664
 #, no-wrap
 msgid "B<--status-logger>=I<command>"
 msgstr "B<--status-logger>=I<Befehl>"
 
 #. type: Plain text
-#: dpkg.1:668
+#: dpkg.1:669
 msgid ""
 "Send machine-readable package status and progress information to the shell "
 "I<command>'s standard input. This option can be specified multiple times. "
@@ -5053,13 +5085,13 @@ msgstr ""
 "status-fd.>"
 
 #. type: TP
-#: dpkg.1:669
+#: dpkg.1:670
 #, no-wrap
 msgid "B<--log=>I<filename>"
 msgstr "B<--log=>I<Dateiname>"
 
 #. type: Plain text
-#: dpkg.1:681
+#: dpkg.1:682
 msgid ""
 "Log status change updates and actions to I<filename>, instead of the default "
 "I</var/log/dpkg.log>. If this option is given multiple times, the last "
@@ -5082,24 +5114,24 @@ msgstr ""
 "ist, wobei I<Entscheidung> entweder B<install> oder B<keep> ist."
 
 #. type: TP
-#: dpkg.1:681
+#: dpkg.1:682
 #, no-wrap
 msgid "B<--no-debsig>"
 msgstr "B<--no-debsig>"
 
 #. type: Plain text
-#: dpkg.1:684
+#: dpkg.1:685
 msgid "Do not try to verify package signatures."
 msgstr "Versuche nicht, Paketsignaturen zu überprüfen."
 
 #. type: TP
-#: dpkg.1:684
+#: dpkg.1:685
 #, no-wrap
 msgid "B<--no-triggers>"
 msgstr "B<--no-triggers>"
 
 #. type: Plain text
-#: dpkg.1:693
+#: dpkg.1:694
 msgid ""
 "Do not run any triggers in this run (activations will still be recorded).  "
 "If used with B<--configure> I<package> or B<--triggers-only> I<package> then "
@@ -5117,19 +5149,19 @@ msgstr ""
 "pending>« kann dies später behoben werden."
 
 #. type: TP
-#: dpkg.1:693
+#: dpkg.1:694
 #, no-wrap
 msgid "B<--triggers>"
 msgstr "B<--triggers>"
 
 #. type: Plain text
-#: dpkg.1:696
+#: dpkg.1:697
 msgid "Cancels a previous B<--no-triggers>."
 msgstr "Annulliert ein vorheriges B<--no-triggers>."
 
 #. type: SH
-#: dpkg.1:697 dpkg-buildflags.1:294 dpkg-buildpackage.1:305
-#: dpkg-checkbuilddeps.1:76 dpkg-deb.1:271 dpkg-divert.8:99 dpkg-query.1:254
+#: dpkg.1:698 dpkg-buildflags.1:294 dpkg-buildpackage.1:306
+#: dpkg-checkbuilddeps.1:76 dpkg-deb.1:271 dpkg-divert.8:99 dpkg-query.1:261
 #: dpkg-statoverride.8:87 dpkg-trigger.1:77 dpkg-vendor.1:59 dselect.1:444
 #: update-alternatives.8:380
 #, no-wrap
@@ -5137,13 +5169,13 @@ msgid "ENVIRONMENT"
 msgstr "UMGEBUNG"
 
 #. type: TP
-#: dpkg.1:698 dselect.1:445
+#: dpkg.1:699 dselect.1:445
 #, no-wrap
 msgid "B<HOME>"
 msgstr "B<HOME>"
 
 #. type: Plain text
-#: dpkg.1:702
+#: dpkg.1:703
 msgid ""
 "If set, B<dpkg> will use it as the directory from which to read the user "
 "specific configuration file."
@@ -5152,13 +5184,13 @@ msgstr ""
 "benutzerspezifische Konfigurationsdatei gelesen wird."
 
 #. type: TP
-#: dpkg.1:702 dpkg-deb.1:272
+#: dpkg.1:703 dpkg-deb.1:272
 #, no-wrap
 msgid "B<TMPDIR>"
 msgstr "B<TMPDIR>"
 
 #. type: Plain text
-#: dpkg.1:706
+#: dpkg.1:707
 msgid ""
 "If set, B<dpkg> will use it as the directory in which to create temporary "
 "files and directories."
@@ -5167,37 +5199,37 @@ msgstr ""
 "temporäre Dateien und Verzeichnisse erstellt werden."
 
 #. type: TP
-#: dpkg.1:706
+#: dpkg.1:707
 #, no-wrap
 msgid "B<PAGER>"
 msgstr "B<PAGER>"
 
 #. type: Plain text
-#: dpkg.1:709
+#: dpkg.1:710
 msgid "The program B<dpkg> will execute when displaying the conffiles."
 msgstr ""
 "Das Programm, das B<dpkg> ausführen wird, wenn es die Conffiles anzeigt."
 
 #. type: TP
-#: dpkg.1:709
+#: dpkg.1:710
 #, no-wrap
 msgid "B<SHELL>"
 msgstr "B<SHELL>"
 
 #. type: Plain text
-#: dpkg.1:712
+#: dpkg.1:713
 msgid "The program B<dpkg> will execute when starting a new shell."
 msgstr ""
 "Das Programm, das B<dpkg> ausführen wird, wenn es eine neue Shell startet."
 
 #. type: TP
-#: dpkg.1:712 dpkg-query.1:259
+#: dpkg.1:713 dpkg-query.1:266
 #, no-wrap
 msgid "B<COLUMNS>"
 msgstr "B<COLUMNS>"
 
 #. type: Plain text
-#: dpkg.1:716
+#: dpkg.1:717
 msgid ""
 "Sets the number of columns B<dpkg> should use when displaying formatted "
 "text. Currently only used by -l."
@@ -5206,13 +5238,13 @@ msgstr ""
 "formatierten Text anzeigt. Derzeit nur von -l verwendet."
 
 #. type: TP
-#: dpkg.1:716
+#: dpkg.1:717
 #, no-wrap
 msgid "B<DPKG_SHELL_REASON>"
 msgstr "B<DPKG_SHELL_REASON>"
 
 #. type: Plain text
-#: dpkg.1:720
+#: dpkg.1:721
 msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Current valid value: B<conffile-prompt>."
@@ -5222,13 +5254,13 @@ msgstr ""
 "Wert: B<conffile-prompt>."
 
 #. type: TP
-#: dpkg.1:720
+#: dpkg.1:721
 #, no-wrap
 msgid "B<DPKG_CONFFILE_OLD>"
 msgstr "B<DPKG_CONFFILE_OLD>"
 
 #. type: Plain text
-#: dpkg.1:724
+#: dpkg.1:725
 msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Contains the path to the old conffile."
@@ -5238,13 +5270,13 @@ msgstr ""
 "zu der alten Conffile."
 
 #. type: TP
-#: dpkg.1:724
+#: dpkg.1:725
 #, no-wrap
 msgid "B<DPKG_CONFFILE_NEW>"
 msgstr "B<DPKG_CONFFILE_NEW>"
 
 #. type: Plain text
-#: dpkg.1:728
+#: dpkg.1:729
 msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Contains the path to the new conffile."
@@ -5254,13 +5286,13 @@ msgstr ""
 "zu der neuen Conffile."
 
 #. type: TP
-#: dpkg.1:728
+#: dpkg.1:729
 #, no-wrap
 msgid "B<DPKG_RUNNING_VERSION>"
 msgstr "B<DPKG_RUNNING_VERSION>"
 
 #. type: Plain text
-#: dpkg.1:732
+#: dpkg.1:733
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the version of "
 "the currently running B<dpkg> instance."
@@ -5269,13 +5301,13 @@ msgstr ""
 "aktuell laufenden Instanz von B<dpkg> gesetzt."
 
 #. type: TP
-#: dpkg.1:732 dpkg-divert.8:104
+#: dpkg.1:733 dpkg-divert.8:104
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_PACKAGE>"
 msgstr "B<DPKG_MAINTSCRIPT_PACKAGE>"
 
 #. type: Plain text
-#: dpkg.1:736
+#: dpkg.1:737
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the (non-arch-"
 "qualified) package name being handled."
@@ -5284,13 +5316,13 @@ msgstr ""
 "befindlichen (nicht architekturqualifizierten) Paketnamen gesetzt."
 
 #. type: TP
-#: dpkg.1:736
+#: dpkg.1:737
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_PACKAGE_REFCOUNT>"
 msgstr "B<DPKG_MAINTSCRIPT_PACKAGE_REFCOUNT>"
 
 #. type: Plain text
-#: dpkg.1:741
+#: dpkg.1:742
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the package "
 "reference count, i.e. the number of package instances with a state greater "
@@ -5301,13 +5333,13 @@ msgstr ""
 "B<not-installed>. Seit Dpkg 1.17.2."
 
 #. type: TP
-#: dpkg.1:741
+#: dpkg.1:742
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_ARCH>"
 msgstr "B<DPKG_MAINTSCRIPT_ARCH>"
 
 #. type: Plain text
-#: dpkg.1:745
+#: dpkg.1:746
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the architecture "
 "the package got built for."
@@ -5316,13 +5348,13 @@ msgstr ""
 "gesetzt, für die das Paket gebaut wurde."
 
 #. type: TP
-#: dpkg.1:745
+#: dpkg.1:746
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_NAME>"
 msgstr "B<DPKG_MAINTSCRIPT_NAME>"
 
 #. type: Plain text
-#: dpkg.1:749
+#: dpkg.1:750
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the name of the "
 "script running (preinst, postinst, prerm, postrm)."
@@ -5331,42 +5363,42 @@ msgstr ""
 "laufenden Skripts (preinst, postinst, prerm, postrm) gesetzt."
 
 #. type: Plain text
-#: dpkg.1:751 dpkg.cfg.5:32
+#: dpkg.1:752 dpkg.cfg.5:32
 #, no-wrap
 msgid "I</etc/dpkg/dpkg.cfg.d/[0-9a-zA-Z_-]*>"
 msgstr "I</etc/dpkg/dpkg.cfg.d/[0-9a-zA-Z_-]*>"
 
 #. type: Plain text
-#: dpkg.1:754
+#: dpkg.1:755
 msgid "Configuration fragment files."
 msgstr "Konfigurationsfragmentdateien."
 
 #. type: Plain text
-#: dpkg.1:754 dpkg.cfg.5:34
+#: dpkg.1:755 dpkg.cfg.5:34
 #, no-wrap
 msgid "I</etc/dpkg/dpkg.cfg>"
 msgstr "I</etc/dpkg/dpkg.cfg>"
 
 #. type: Plain text
-#: dpkg.1:757
+#: dpkg.1:758
 msgid "Configuration file with default options."
 msgstr "Konfigurationsdatei mit Standardeinstellungen der Optionen."
 
 #. type: TP
-#: dpkg.1:757
+#: dpkg.1:758
 #, no-wrap
 msgid "I</var/log/dpkg.log>"
 msgstr "I</var/log/dpkg.log>"
 
 #. type: Plain text
-#: dpkg.1:761
+#: dpkg.1:762
 msgid "Default log file (see I</etc/dpkg/dpkg.cfg>(5) and option B<--log>)."
 msgstr ""
 "Standard-Protokolldatei (lesen Sie I</etc/dpkg/dpkg.cfg>(5) und die Option "
 "B<--log>)."
 
 #. type: Plain text
-#: dpkg.1:764
+#: dpkg.1:765
 msgid ""
 "The other files listed below are in their default directories, see option "
 "B<--admindir> to see how to change locations of these files."
@@ -5376,24 +5408,24 @@ msgstr ""
 "dieser Dateien ändern können."
 
 #. type: TP
-#: dpkg.1:764
+#: dpkg.1:765
 #, no-wrap
 msgid "I</var/lib/dpkg/available>"
 msgstr "I</var/lib/dpkg/available>"
 
 #. type: Plain text
-#: dpkg.1:767
+#: dpkg.1:768
 msgid "List of available packages."
 msgstr "Liste der verfügbaren Pakete."
 
 #. type: TP
-#: dpkg.1:767
+#: dpkg.1:768
 #, no-wrap
 msgid "I</var/lib/dpkg/status>"
 msgstr "I</var/lib/dpkg/status>"
 
 #. type: Plain text
-#: dpkg.1:773
+#: dpkg.1:774
 msgid ""
 "Statuses of available packages. This file contains information about whether "
 "a package is marked for removing or not, whether it is installed or not, "
@@ -5405,7 +5437,7 @@ msgstr ""
 "weitere Informationen."
 
 #. type: Plain text
-#: dpkg.1:776
+#: dpkg.1:777
 msgid ""
 "The status file is backed up daily in I</var/backups>. It can be useful if "
 "it's lost or corrupted due to filesystems troubles."
@@ -5415,7 +5447,7 @@ msgstr ""
 "verloren gegangen oder beschädigt worden ist."
 
 #. type: Plain text
-#: dpkg.1:779
+#: dpkg.1:780
 msgid ""
 "The following files are components of a binary package. See B<deb>(5)  for "
 "more information about them:"
@@ -5424,7 +5456,7 @@ msgstr ""
 "für weitere Informationen über sie:"
 
 #. type: Plain text
-#: dpkg.1:788
+#: dpkg.1:789
 #, no-wrap
 msgid ""
 "I<control>\n"
@@ -5444,20 +5476,20 @@ msgstr ""
 "I<triggers>\n"
 
 #. type: SH
-#: dpkg.1:791 dpkg-buildpackage.1:346 dpkg-deb.1:285 dpkg-name.1:78
-#: dpkg-source.1:762 dpkg-split.1:227 dselect.1:450
+#: dpkg.1:792 dpkg-buildpackage.1:347 dpkg-deb.1:285 dpkg-name.1:78
+#: dpkg-source.1:769 dpkg-split.1:227 dselect.1:450
 #, no-wrap
 msgid "BUGS"
 msgstr "FEHLER"
 
 #. type: Plain text
-#: dpkg.1:793
+#: dpkg.1:794
 msgid "B<--no-act> usually gives less information than might be helpful."
 msgstr ""
 "B<--no-act> gibt gewöhnlich weniger Informationen als hilfreich sein könnten."
 
 #. type: Plain text
-#: dpkg.1:799
+#: dpkg.1:800
 msgid ""
 "To list installed packages related to the editor B<vi>(1) (note that B<dpkg-"
 "query> does not load the I<available> file anymore by default, and the "
@@ -5469,47 +5501,47 @@ msgstr ""
 "avail> verwandt werden sollte):"
 
 #. type: Plain text
-#: dpkg.1:801
+#: dpkg.1:802
 #, no-wrap
 msgid "     B<dpkg -l \\(aq*vi*\\(aq>\n"
 msgstr "     B<dpkg -l \\(aq*vi*\\(aq>\n"
 
 #. type: Plain text
-#: dpkg.1:804
+#: dpkg.1:805
 msgid "To see the entries in I</var/lib/dpkg/available> of two packages:"
 msgstr ""
 "Um die Einträge von zwei Paketen in I</var/lib/dpkg/available> zu sehen:"
 
 #. type: Plain text
-#: dpkg.1:806
+#: dpkg.1:807
 #, no-wrap
 msgid "     B<dpkg --print-avail elvis vim | less>\n"
 msgstr "     B<dpkg --print-avail elvis vim | less>\n"
 
 #. type: Plain text
-#: dpkg.1:809
+#: dpkg.1:810
 msgid "To search the listing of packages yourself:"
 msgstr "Wenn Sie die Liste der Pakete selbst durchsuchen wollen:"
 
 #. type: Plain text
-#: dpkg.1:811
+#: dpkg.1:812
 #, no-wrap
 msgid "     B<less /var/lib/dpkg/available>\n"
 msgstr "     B<less /var/lib/dpkg/available>\n"
 
 #. type: Plain text
-#: dpkg.1:814
+#: dpkg.1:815
 msgid "To remove an installed elvis package:"
 msgstr "Um ein installiertes Elvis-Paket zu entfernen:"
 
 #. type: Plain text
-#: dpkg.1:816
+#: dpkg.1:817
 #, no-wrap
 msgid "     B<dpkg -r elvis>\n"
 msgstr "     B<dpkg -r elvis>\n"
 
 #. type: Plain text
-#: dpkg.1:821
+#: dpkg.1:822
 msgid ""
 "To install a package, you first need to find it in an archive or CDROM. The "
 "I<available> file shows that the vim package is in section \"editors\":"
@@ -5519,7 +5551,7 @@ msgstr ""
 "Bereich »editors« ist:"
 
 #. type: Plain text
-#: dpkg.1:824
+#: dpkg.1:825
 #, no-wrap
 msgid ""
 "     B<cd /media/cdrom/pool/main/v/vim>\n"
@@ -5529,18 +5561,18 @@ msgstr ""
 "     B<dpkg -i vim_4.5-3.deb>\n"
 
 #. type: Plain text
-#: dpkg.1:827
+#: dpkg.1:828
 msgid "To make a local copy of the package selection states:"
 msgstr "Um eine lokale Kopie der Paketauswahl-Zustände zu erstellen:"
 
 #. type: Plain text
-#: dpkg.1:829
+#: dpkg.1:830
 #, no-wrap
 msgid "     B<dpkg --get-selections E<gt>myselections>\n"
 msgstr "     B<dpkg --get-selections E<gt>meine_auswahl>\n"
 
 #. type: Plain text
-#: dpkg.1:834
+#: dpkg.1:835
 msgid ""
 "You might transfer this file to another computer, and after having updated "
 "the I<available> file there with your package manager frontend of choice "
@@ -5552,7 +5584,7 @@ msgstr ""
 "Beispiel:"
 
 #. type: Plain text
-#: dpkg.1:839
+#: dpkg.1:840
 #, no-wrap
 msgid ""
 "     B<avail=`mktemp`>\n"
@@ -5566,12 +5598,12 @@ msgstr ""
 "     B<rm \"$avail\">\n"
 
 #. type: Plain text
-#: dpkg.1:841
+#: dpkg.1:842
 msgid "you can install it with:"
 msgstr "Sie können sie dann wie folgt installieren:"
 
 #. type: Plain text
-#: dpkg.1:844
+#: dpkg.1:845
 #, no-wrap
 msgid ""
 "     B<dpkg --clear-selections>\n"
@@ -5581,7 +5613,7 @@ msgstr ""
 "     B<dpkg --set-selections E<lt>meine_auswahl>\n"
 
 #. type: Plain text
-#: dpkg.1:850
+#: dpkg.1:851
 msgid ""
 "Note that this will not actually install or remove anything, but just set "
 "the selection state on the requested packages. You will need some other "
@@ -5595,7 +5627,7 @@ msgstr ""
 "dselect-upgrade> aus."
 
 #. type: Plain text
-#: dpkg.1:853
+#: dpkg.1:854
 msgid ""
 "Ordinarily, you will find that B<dselect>(1) provides a more convenient way "
 "to modify the package selection states."
@@ -5604,13 +5636,13 @@ msgstr ""
 "ist, den Paketauswahlzustand zu ändern."
 
 #. type: SH
-#: dpkg.1:855
+#: dpkg.1:856
 #, no-wrap
 msgid "ADDITIONAL FUNCTIONALITY"
 msgstr "ZUSÄTZLICHE FUNKTIONALITÄT"
 
 #. type: Plain text
-#: dpkg.1:858
+#: dpkg.1:859
 msgid ""
 "Additional functionality can be gained by installing any of the following "
 "packages: B<apt>, B<aptitude> and B<debsums>."
@@ -5619,7 +5651,7 @@ msgstr ""
 "Pakete erhalten werden: B<apt>, B<aptitude> und B<debsums>."
 
 #. type: Plain text
-#: dpkg.1:872
+#: dpkg.1:873
 msgid ""
 "B<aptitude>(1), B<apt>(1), B<dselect>(1), B<dpkg-deb>(1), B<dpkg-query>(1), "
 "B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5), and B<dpkg-reconfigure>(8)."
@@ -5628,13 +5660,13 @@ msgstr ""
 "B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5) und B<dpkg-reconfigure>(8)."
 
 #. type: SH
-#: dpkg.1:873
+#: dpkg.1:874
 #, no-wrap
 msgid "AUTHORS"
 msgstr "AUTOREN"
 
 #. type: Plain text
-#: dpkg.1:875 dpkg.cfg.5:40
+#: dpkg.1:876 dpkg.cfg.5:40
 msgid ""
 "See I</usr/share/doc/dpkg/THANKS> for the list of people who have "
 "contributed to B<dpkg>."
@@ -5832,11 +5864,11 @@ msgid "Print a list of valid architecture names."
 msgstr "Zeige eine Liste von gültigen Architekturnamen."
 
 #. type: Plain text
-#: dpkg-architecture.1:85 dpkg-buildflags.1:154 dpkg-buildpackage.1:301
+#: dpkg-architecture.1:85 dpkg-buildflags.1:154 dpkg-buildpackage.1:302
 #: dpkg-checkbuilddeps.1:72 dpkg-distaddfile.1:53 dpkg-deb.1:195
 #: dpkg-divert.8:95 dpkg-genchanges.1:153 dpkg-gencontrol.1:144
 #: dpkg-gensymbols.1:470 dpkg-mergechangelogs.1:58 dpkg-name.1:74
-#: dpkg-parsechangelog.1:63 dpkg-query.1:143 dpkg-scanpackages.1:102
+#: dpkg-parsechangelog.1:63 dpkg-query.1:150 dpkg-scanpackages.1:102
 #: dpkg-scansources.1:87 dpkg-shlibdeps.1:253 dpkg-source.1:120
 #: dpkg-split.1:146 dpkg-statoverride.8:66 dpkg-trigger.1:51 dpkg-vendor.1:48
 #: update-alternatives.8:336
@@ -5844,11 +5876,11 @@ msgid "Show the usage message and exit."
 msgstr "Zeige den Bedienungshinweis und beende."
 
 #. type: Plain text
-#: dpkg-architecture.1:88 dpkg-buildflags.1:157 dpkg-buildpackage.1:304
+#: dpkg-architecture.1:88 dpkg-buildflags.1:157 dpkg-buildpackage.1:305
 #: dpkg-checkbuilddeps.1:75 dpkg-distaddfile.1:56 dpkg-deb.1:198
 #: dpkg-divert.8:98 dpkg-genchanges.1:156 dpkg-gencontrol.1:147
 #: dpkg-gensymbols.1:473 dpkg-mergechangelogs.1:61 dpkg-name.1:77
-#: dpkg-parsechangelog.1:66 dpkg-query.1:146 dpkg-scanpackages.1:105
+#: dpkg-parsechangelog.1:66 dpkg-query.1:153 dpkg-scanpackages.1:105
 #: dpkg-scansources.1:89 dpkg-shlibdeps.1:256 dpkg-source.1:123
 #: dpkg-split.1:149 dpkg-statoverride.8:69 dpkg-trigger.1:54 dpkg-vendor.1:51
 #: update-alternatives.8:339
@@ -6489,7 +6521,7 @@ msgid "AUTHOR"
 msgstr "AUTOR"
 
 #. type: Plain text
-#: dpkg.cfg.5:42 dpkg-divert.8:154 dpkg-query.1:266 dpkg-statoverride.8:104
+#: dpkg.cfg.5:42 dpkg-divert.8:154 dpkg-query.1:273 dpkg-statoverride.8:104
 msgid "B<dpkg>(1)."
 msgstr "B<dpkg>(1)."
 
@@ -7663,8 +7695,9 @@ msgid ""
 "before-build> (unless B<-T> or B<--target> has been used)."
 msgstr ""
 "Es bereitet die Bauumgebung vor, indem verschiedene Umgebungsvariablen "
-"gesetzt werden (siehe B<UMGEBUNG>), führt den B<init>-Hook aus und ruft B<dpkg-source --before-build> "
-"auf (es sei denn, B<-T> oder B<--target> wurde verwandt)."
+"gesetzt werden (siehe B<UMGEBUNG>), führt den B<init>-Hook aus und ruft "
+"B<dpkg-source --before-build> auf (es sei denn, B<-T> oder B<--target> wurde "
+"verwandt)."
 
 #. type: IP
 #: dpkg-buildpackage.1:39
@@ -7687,8 +7720,8 @@ msgstr ""
 msgid "B<3.>"
 msgstr "B<3.>"
 
-#. type: Plain text
 # FIXME ruft es diese Ziel auf → ruft es dieses Ziel auf
+#. type: Plain text
 #: dpkg-buildpackage.1:47
 msgid ""
 "If a specific target has been selected with the B<-T> or B<--target> option, "
@@ -7697,9 +7730,9 @@ msgid ""
 "nc> is specified)."
 msgstr ""
 "Falls ein spezielles Ziel mit der Option B<-T> oder B<--target> ausgewählt "
-"wurde, ruft es dieses Ziel auf und endet hier. Andernfalls führt es den Hook B<preclean> aus und ruft B<fakeroot "
-"debian/ rules clean> auf, um den Bau-Baum zu bereinigen (falls B<-nc> nicht "
-"angegeben ist)."
+"wurde, ruft es dieses Ziel auf und endet hier. Andernfalls führt es den Hook "
+"B<preclean> aus und ruft B<fakeroot debian/ rules clean> auf, um den Bau-"
+"Baum zu bereinigen (falls B<-nc> nicht angegeben ist)."
 
 #. type: IP
 #: dpkg-buildpackage.1:47
@@ -7714,8 +7747,9 @@ msgid ""
 "source package (unless a binary-only build has been requested with B<-b>, B<-"
 "B> or B<-A>)."
 msgstr ""
-"Es führt den Hook B<source> aus und ruft B<dpkg-source -b> auf, um das Quellpaket zu erstellen (falls nicht "
-"mit B<-b>, B<-B> oder B<-A> ein rein-binärer Bau erbeten wurde)."
+"Es führt den Hook B<source> aus und ruft B<dpkg-source -b> auf, um das "
+"Quellpaket zu erstellen (falls nicht mit B<-b>, B<-B> oder B<-A> ein rein-"
+"binärer Bau erbeten wurde)."
 
 #. type: IP
 #: dpkg-buildpackage.1:51
@@ -7755,9 +7789,9 @@ msgid ""
 "changes> file.  Many B<dpkg-buildpackage> options are forwarded to B<dpkg-"
 "genchanges>."
 msgstr ""
-"Es führt den Hook B<changes> aus und ruft B<dpkg-genchanges> auf, um eine B<.changes>-Datei zu erstellen. "
-"Viele Optionen von B<dpkg-buildpackage> werden an B<dpkg-genchanges> "
-"weitergeleitet."
+"Es führt den Hook B<changes> aus und ruft B<dpkg-genchanges> auf, um eine B<."
+"changes>-Datei zu erstellen. Viele Optionen von B<dpkg-buildpackage> werden "
+"an B<dpkg-genchanges> weitergeleitet."
 
 #. type: IP
 #: dpkg-buildpackage.1:64
@@ -7765,15 +7799,19 @@ msgstr ""
 msgid "B<7.>"
 msgstr "B<7.>"
 
-#. type: Plain text
 # FIXME »hook« missing
+#. type: Plain text
 #: dpkg-buildpackage.1:67
+#, fuzzy
+#| msgid ""
+#| "It runs the B<postclean> and if B<-tc> is specified, it will call "
+#| "B<fakeroot debian/rules clean> again."
 msgid ""
-"It runs the B<postclean> and if B<-tc> is specified, it will call B<fakeroot "
-"debian/rules clean> again."
+"It runs the B<postclean> hook and if B<-tc> is specified, it will call "
+"B<fakeroot debian/rules clean> again."
 msgstr ""
-"Es führt den B<postclean> aus und, falls B<-tc> angegeben ist, ruft erneut B<fakeroot debian/rules clean> "
-"auf."
+"Es führt den B<postclean> aus und, falls B<-tc> angegeben ist, ruft erneut "
+"B<fakeroot debian/rules clean> auf."
 
 #. type: IP
 #: dpkg-buildpackage.1:67
@@ -7799,8 +7837,9 @@ msgid ""
 "file (if a command is specified in DEB_CHECK_COMMAND or with B<--check-"
 "command>)."
 msgstr ""
-"Es führt den Hook B<check> aus und ruft einen Paketprüfer für die Datei B<.changes> auf (falls ein Befehl "
-"in DEB_CHECK_COMMAND oder mit B<--check-command> angegeben ist)."
+"Es führt den Hook B<check> aus und ruft einen Paketprüfer für die Datei B<."
+"changes> auf (falls ein Befehl in DEB_CHECK_COMMAND oder mit B<--check-"
+"command> angegeben ist)."
 
 #. type: IP
 #: dpkg-buildpackage.1:73
@@ -7815,10 +7854,11 @@ msgid ""
 "file (if any, unless B<-us> is specified or on UNRELEASED builds), and the "
 "B<.changes> file (unless B<-uc> is specified or on UNRELEASED builds)."
 msgstr ""
-"Es führt den Hook B<sign> aus und ruft B<gpg2> oder B<gpg> auf, um die B<.dsc>-Datei (falls vorhanden "
-"und B<-us> nicht angegeben wurde oder es sich um einen »UNRELEASED«-Bau "
-"handelt) und die B<.changes>-Datei (falls vorhanden und B<-uc> nicht "
-"angegeben wurde oder es sich um einen »UNRELEASED«-Bau handelt) zu signieren."
+"Es führt den Hook B<sign> aus und ruft B<gpg2> oder B<gpg> auf, um die B<."
+"dsc>-Datei (falls vorhanden und B<-us> nicht angegeben wurde oder es sich um "
+"einen »UNRELEASED«-Bau handelt) und die B<.changes>-Datei (falls vorhanden "
+"und B<-uc> nicht angegeben wurde oder es sich um einen »UNRELEASED«-Bau "
+"handelt) zu signieren."
 
 #. type: TP
 #: dpkg-buildpackage.1:80
@@ -8209,79 +8249,88 @@ msgstr ""
 msgid "B<--check-option=>I<opt>"
 msgstr "B<--check-option=>I<Opt>"
 
-# FIXME I<> → B<>
 #. type: Plain text
-#: dpkg-buildpackage.1:218
-msgid "Pass option I<opt> to I<check-command>."
-msgstr "Option I<Opt> an I<Prüfbefehl> weitergeben."
+#: dpkg-buildpackage.1:219
+#, fuzzy
+#| msgid ""
+#| "It runs the B<check> hook and calls a package checker for the B<.changes> "
+#| "file (if a command is specified in DEB_CHECK_COMMAND or with B<--check-"
+#| "command>)."
+msgid ""
+"Pass option I<opt> to the I<check-command> specified with "
+"B<DEB_CHECK_COMMAND> or B<--check-command>."
+msgstr ""
+"Es führt den Hook B<check> aus und ruft einen Paketprüfer für die Datei B<."
+"changes> auf (falls ein Befehl in DEB_CHECK_COMMAND oder mit B<--check-"
+"command> angegeben ist)."
 
 #. type: TP
-#: dpkg-buildpackage.1:218
+#: dpkg-buildpackage.1:219
 #, no-wrap
 msgid "B<--hook->I<hook-name>B<=>I<hook-command>"
 msgstr "B<--hook->I<Hook-Name>B<=>I<Hook-Befehl>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:224
+#: dpkg-buildpackage.1:225
 msgid ""
 "Set the specified shell code I<hook-command> as the hook I<hook-name>, which "
 "will run at the times specified in the run steps. The hooks will always be "
 "executed even if the following action is not performed (except for the "
 "B<binary> hook)."
 msgstr ""
-"Setzt den angegebenen Shell-Code I<Hook-Befehl> als den Hook I<Hook-Name>, der "
-"an den Zeitpunkten läuft, die in den Ablaufschritten angegeben sind. Die "
+"Setzt den angegebenen Shell-Code I<Hook-Befehl> als den Hook I<Hook-Name>, "
+"der an den Zeitpunkten läuft, die in den Ablaufschritten angegeben sind. Die "
 "Hooks werden immer ausgeführt, selbst falls die folgende Aktion nicht "
 "durchgeführt wird (außer beim Hook B<binary>)."
 
 #. type: Plain text
-#: dpkg-buildpackage.1:227
+#: dpkg-buildpackage.1:228
 msgid ""
 "Note: Hooks can affect the build process, and cause build failures if their "
 "commands fail, so watch out for unintended consequences."
 msgstr ""
 "Hinweis: Hooks können den Bauprozess beeinflussen und zu Baufehlern führen, "
-"falls ihre Befehle fehlschlagen. Passen Sie daher auf ungeplante Konsequenzen "
-"auf."
+"falls ihre Befehle fehlschlagen. Passen Sie daher auf ungeplante "
+"Konsequenzen auf."
 
 #. type: Plain text
-#: dpkg-buildpackage.1:229
+#: dpkg-buildpackage.1:230
 msgid "The current I<hook-name> supported are:"
 msgstr "Die derzeit unterstützten I<Hook-Name>n sind:"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:231
+#: dpkg-buildpackage.1:232
 msgid "B<init preclean source build binary changes postclean check sign done>"
 msgstr "B<init preclean source build binary changes postclean check sign done>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:234
+#: dpkg-buildpackage.1:235
 msgid ""
 "The I<hook-command> supports the following substitution format string, which "
 "will get applied to it before execution:"
 msgstr ""
-"Der I<Hook-Befehl> unterstützt die folgende Ersetzungsformatzeichenkette, die "
-"vor seiner Ausführung angewandt wird:"
+"Der I<Hook-Befehl> unterstützt die folgende Ersetzungsformatzeichenkette, "
+"die vor seiner Ausführung angewandt wird:"
 
 #. type: TP
-#: dpkg-buildpackage.1:236
+#: dpkg-buildpackage.1:237
 #, no-wrap
 msgid "B<%%>"
 msgstr "B<%%>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:239
+#: dpkg-buildpackage.1:240
 msgid "A single % character."
 msgstr "Ein einzelnes %-Zeichen."
 
 #. type: TP
-#: dpkg-buildpackage.1:239
+#: dpkg-buildpackage.1:240
 #, no-wrap
 msgid "B<%a>"
 msgstr "B<%a>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:243
+#: dpkg-buildpackage.1:244
 msgid ""
 "A boolean value (0 or 1), representing whether the following action is being "
 "performed."
@@ -8290,52 +8339,52 @@ msgstr ""
 "ausgeführt wird oder nicht."
 
 #. type: TP
-#: dpkg-buildpackage.1:243
+#: dpkg-buildpackage.1:244
 #, no-wrap
 msgid "B<%p>"
 msgstr "B<%p>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:246
+#: dpkg-buildpackage.1:247
 msgid "The source package name."
 msgstr "Der Quellpaketname."
 
 #. type: TP
-#: dpkg-buildpackage.1:246
+#: dpkg-buildpackage.1:247
 #, no-wrap
 msgid "B<%v>"
 msgstr "B<%v>"
 
 #. type: TP
-#: dpkg-buildpackage.1:249
+#: dpkg-buildpackage.1:250
 #, no-wrap
 msgid "B<%s>"
 msgstr "B<%s>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:252
+#: dpkg-buildpackage.1:253
 msgid "The source package version (without the epoch)."
 msgstr "Die Quellpaket-Version (ohne die Epoche)."
 
 #. type: TP
-#: dpkg-buildpackage.1:252
+#: dpkg-buildpackage.1:253
 #, no-wrap
 msgid "B<%u>"
 msgstr "B<%u>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:255
+#: dpkg-buildpackage.1:256
 msgid "The upstream version."
 msgstr "Die Original- (Upstream-)Version."
 
 #. type: TP
-#: dpkg-buildpackage.1:256
+#: dpkg-buildpackage.1:257
 #, no-wrap
 msgid "B<-p>I<sign-command>"
 msgstr "B<-p>I<signier-Befehl>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:264
+#: dpkg-buildpackage.1:265
 msgid ""
 "When B<dpkg-buildpackage> needs to execute GPG to sign a source control (B<."
 "dsc>) file or a B<.changes> file it will run I<sign-command> (searching the "
@@ -8351,46 +8400,46 @@ msgstr ""
 "andere Metazeichen der Shell enthalten."
 
 #. type: TP
-#: dpkg-buildpackage.1:264
+#: dpkg-buildpackage.1:265
 #, no-wrap
 msgid "B<-k>I<key-id>"
 msgstr "B<-k>I<Schlüssel-id>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:267
+#: dpkg-buildpackage.1:268
 msgid "Specify a key-ID to use when signing packages."
 msgstr "Geben Sie die Schlüssel-ID zur Signatur von Paketen an."
 
 #. type: TP
-#: dpkg-buildpackage.1:267
+#: dpkg-buildpackage.1:268
 #, no-wrap
 msgid "B<-us>"
 msgstr "B<-us>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:270
+#: dpkg-buildpackage.1:271
 msgid "Do not sign the source package."
 msgstr "Das Quellpaket nicht signieren."
 
 #. type: TP
-#: dpkg-buildpackage.1:270
+#: dpkg-buildpackage.1:271
 #, no-wrap
 msgid "B<-uc>"
 msgstr "B<-uc>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:273
+#: dpkg-buildpackage.1:274
 msgid "Do not sign the B<.changes> file."
 msgstr "Die B<.changes>-Datei nicht signieren."
 
 #. type: TP
-#: dpkg-buildpackage.1:273
+#: dpkg-buildpackage.1:274
 #, no-wrap
 msgid "B<--force-sign>"
 msgstr "B<--force-sign>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:277
+#: dpkg-buildpackage.1:278
 msgid ""
 "Force the signing of the resulting files (since dpkg 1.17.0), regardless of "
 "B<-us> or B<-uc> or other internal heuristics."
@@ -8399,66 +8448,66 @@ msgstr ""
 "unabhängig von B<-us> oder B<-uc> oder anderen internen Heuristiken."
 
 #. type: TP
-#: dpkg-buildpackage.1:277
+#: dpkg-buildpackage.1:278
 #, no-wrap
 msgid "B<-i>[I<regex>]"
 msgstr "B<-i>[I<Regex>]"
 
 #. type: TQ
-#: dpkg-buildpackage.1:279
+#: dpkg-buildpackage.1:280
 #, no-wrap
 msgid "B<-I>[I<pattern>]"
 msgstr "B<-I>[I<Muster>]"
 
 #. type: TQ
-#: dpkg-buildpackage.1:281
+#: dpkg-buildpackage.1:282
 #, no-wrap
 msgid "B<-s>[B<nsAkurKUR>]"
 msgstr "B<-s>[B<nsAkurKUR>]"
 
 #. type: TQ
-#: dpkg-buildpackage.1:283
+#: dpkg-buildpackage.1:284
 #, no-wrap
 msgid "B<-z>, B<-Z>"
 msgstr "B<-z>, B<-Z>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:286
+#: dpkg-buildpackage.1:287
 msgid "Passed unchanged to B<dpkg-source>. See its manual page."
 msgstr ""
 "Wird unverändert an B<dpkg-source> weitergegeben. Lesen Sie dessen "
 "Handbuchseite."
 
 #. type: TP
-#: dpkg-buildpackage.1:286
+#: dpkg-buildpackage.1:287
 #, no-wrap
 msgid "B<--source-option=>I<opt>"
 msgstr "B<--source-option=>I<Opt>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:289
+#: dpkg-buildpackage.1:290
 msgid "Pass option I<opt> to B<dpkg-source>."
 msgstr "Option I<Opt> an B<dpkg-source> weitergeben."
 
 #. type: TP
-#: dpkg-buildpackage.1:289
+#: dpkg-buildpackage.1:290
 #, no-wrap
 msgid "B<--changes-option=>I<opt>"
 msgstr "B<--changes-option=>I<Opt>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:292
+#: dpkg-buildpackage.1:293
 msgid "Pass option I<opt> to B<dpkg-genchanges>."
 msgstr "Option I<Opt> an B<dpkg-genchanges> weitergeben."
 
 #. type: TQ
-#: dpkg-buildpackage.1:294
+#: dpkg-buildpackage.1:295
 #, no-wrap
 msgid "B<--admindir >I<dir>"
 msgstr "B<--admindir >I<Verz>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:298 dpkg-checkbuilddeps.1:42 dpkg-query.1:152
+#: dpkg-buildpackage.1:299 dpkg-checkbuilddeps.1:42 dpkg-query.1:159
 #: dpkg-shlibdeps.1:250 dpkg-trigger.1:60
 msgid ""
 "Change the location of the B<dpkg> database. The default location is I</var/"
@@ -8468,13 +8517,13 @@ msgstr ""
 "dpkg>."
 
 #. type: TP
-#: dpkg-buildpackage.1:306
+#: dpkg-buildpackage.1:307
 #, no-wrap
 msgid "B<DEB_CHECK_COMMAND>"
 msgstr "B<DEB_CHECK_COMMAND>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:310
+#: dpkg-buildpackage.1:311
 msgid ""
 "If set, it will be used as the command to check the B<.changes> file.  "
 "Overridden by the B<--check-command> option."
@@ -8483,13 +8532,13 @@ msgstr ""
 "die Option B<--check-command> außer Kraft gesetzt."
 
 #. type: TP
-#: dpkg-buildpackage.1:310
+#: dpkg-buildpackage.1:311
 #, no-wrap
 msgid "B<DEB_SIGN_KEYID>"
 msgstr "B<DEB_SIGN_KEYID>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:314
+#: dpkg-buildpackage.1:315
 msgid ""
 "If set, it will be used to sign the B<.changes> and B<.dsc> files.  "
 "Overridden by the B<-k> option."
@@ -8498,13 +8547,13 @@ msgstr ""
 "verwandt. Wird durch die Option B<-k> außer Kraft gesetzt."
 
 #. type: TP
-#: dpkg-buildpackage.1:314
+#: dpkg-buildpackage.1:315
 #, no-wrap
 msgid "B<DEB_BUILD_OPTIONS>"
 msgstr "B<DEB_BUILD_OPTIONS>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:318
+#: dpkg-buildpackage.1:319
 msgid ""
 "If set, and containing B<nocheck> the B<DEB_CHECK_COMMAND> variable will be "
 "ignored."
@@ -8513,13 +8562,13 @@ msgstr ""
 "B<DEB_CHECK_COMMAND> ignoriert."
 
 #. type: TP
-#: dpkg-buildpackage.1:318 dpkg-checkbuilddeps.1:77
+#: dpkg-buildpackage.1:319 dpkg-checkbuilddeps.1:77
 #, no-wrap
 msgid "B<DEB_BUILD_PROFILES>"
 msgstr "B<DEB_BUILD_PROFILES>"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:323 dpkg-checkbuilddeps.1:81
+#: dpkg-buildpackage.1:324 dpkg-checkbuilddeps.1:81
 msgid ""
 "If set, it will be used as the active build profile(s) for the package being "
 "built. It is a space separated list of profile names, without the "
@@ -8531,14 +8580,14 @@ msgstr ""
 "gesetzt."
 
 #. type: SS
-#: dpkg-buildpackage.1:324
+#: dpkg-buildpackage.1:325
 #, no-wrap
 msgid "Reliance on exported environment flags"
 msgstr "Vertrauen auf exportierte Umgebungsvariablen"
 
 # FIXME: Korrektur in alter Version
 #. type: Plain text
-#: dpkg-buildpackage.1:328
+#: dpkg-buildpackage.1:329
 msgid ""
 "Even if B<dpkg-buildpackage> exports some variables, B<debian/rules> should "
 "not rely on their presence and should instead use the respective interface "
@@ -8550,13 +8599,13 @@ msgstr ""
 "abzufragen."
 
 #. type: SS
-#: dpkg-buildpackage.1:328
+#: dpkg-buildpackage.1:329
 #, no-wrap
 msgid "Variables set by dpkg-architecture"
 msgstr "Von dpkg-architecture gesetzte Variablen"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:332
+#: dpkg-buildpackage.1:333
 msgid ""
 "B<dpkg-architecture> is called with the B<-a> and B<-t> parameters "
 "forwarded. Any variable that is output by its B<-s> option is integrated in "
@@ -8567,13 +8616,13 @@ msgstr ""
 "wird, wird in die Bauumgebung integriert."
 
 #. type: SS
-#: dpkg-buildpackage.1:334
+#: dpkg-buildpackage.1:335
 #, no-wrap
 msgid "Compiler flags are no longer exported"
 msgstr "Kompilierschalter werden nicht mehr exportiert"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:339
+#: dpkg-buildpackage.1:340
 msgid ""
 "Between dpkg 1.14.17 and 1.16.1, B<dpkg-buildpackage> exported compiler "
 "flags (B<CFLAGS>, B<CXXFLAGS>, B<FFLAGS>, B<CPPFLAGS> and B<LDFLAGS>) with "
@@ -8585,13 +8634,13 @@ msgstr ""
 "ist nicht mehr der Fall."
 
 #. type: SS
-#: dpkg-buildpackage.1:339
+#: dpkg-buildpackage.1:340
 #, no-wrap
 msgid "Default build targets"
 msgstr "Standard Bauziele"
 
 #. type: Plain text
-#: dpkg-buildpackage.1:346
+#: dpkg-buildpackage.1:347
 msgid ""
 "B<dpkg-buildpackage> is using the B<build-arch> and B<build-indep> targets "
 "since dpkg 1.16.2. Those targets are thus mandatory. But to avoid breakages "
@@ -8606,7 +8655,7 @@ msgstr ""
 "I<Bauziel> den Rückgabewert 2 liefert."
 
 #. type: Plain text
-#: dpkg-buildpackage.1:350
+#: dpkg-buildpackage.1:351
 msgid ""
 "It should be possible to specify spaces and shell metacharacters in and "
 "initial arguments for I<gain-root-command> and I<sign-command>."
@@ -8615,7 +8664,7 @@ msgstr ""
 "Anfangsargumente für I<root-werde-Befehl> und I<signier-Befehl> anzugeben."
 
 #. type: Plain text
-#: dpkg-buildpackage.1:361
+#: dpkg-buildpackage.1:362
 msgid ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
 "genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<gpg2>(1), B<gpg>(1)."
@@ -9176,7 +9225,7 @@ msgid "B<--showformat=>I<format>"
 msgstr "B<--showformat=>I<Format>"
 
 #. type: Plain text
-#: dpkg-deb.1:205 dpkg-query.1:161
+#: dpkg-deb.1:205 dpkg-query.1:168
 msgid ""
 "This option is used to specify the format of the output B<--show> will "
 "produce. The format is a string that will be output for each package listed."
@@ -9277,11 +9326,11 @@ msgid ""
 "tar> member will use those parameters. The only supported compression types "
 "allowed to be uniformly used are I<none>, I<gzip> and I<xz>."
 msgstr ""
-"Gibt an, dass die gleichen Komprimierungsparameter für alle Archivteile (d.h. "
-"B<control.tar> und B<data.tar>) verwandt werden sollen. Andernfalls wird nur "
-"der Teil B<data.tar> diese Parameter verwenden. Die einzigen unterstützten "
-"Kompressionstypen, die übergreifend benutzt werden dürfen, sind I<none>, "
-"I<gzip> und I<xz>."
+"Gibt an, dass die gleichen Komprimierungsparameter für alle Archivteile (d."
+"h. B<control.tar> und B<data.tar>) verwandt werden sollen. Andernfalls wird "
+"nur der Teil B<data.tar> diese Parameter verwenden. Die einzigen "
+"unterstützten Kompressionstypen, die übergreifend benutzt werden dürfen, "
+"sind I<none>, I<gzip> und I<xz>."
 
 #. type: TP
 #: dpkg-deb.1:241
@@ -9352,7 +9401,7 @@ msgstr ""
 "das Sie möchten, egal wie defekt es ist."
 
 #. type: TP
-#: dpkg-deb.1:263 start-stop-daemon.8:292
+#: dpkg-deb.1:263 start-stop-daemon.8:296
 #, no-wrap
 msgid "B<-v>, B<--verbose>"
 msgstr "B<-v>, B<--verbose>"
@@ -9635,14 +9684,14 @@ msgstr ""
 "Testmodus, d.h. führe keine Änderungen durch, sondern zeige sie lediglich."
 
 #. type: TP
-#: dpkg-divert.8:100 dpkg-query.1:255 dpkg-statoverride.8:88 dpkg-trigger.1:78
+#: dpkg-divert.8:100 dpkg-query.1:262 dpkg-statoverride.8:88 dpkg-trigger.1:78
 #: update-alternatives.8:381
 #, no-wrap
 msgid "B<DPKG_ADMINDIR>"
 msgstr "B<DPKG_ADMINDIR>"
 
 #. type: Plain text
-#: dpkg-divert.8:104 dpkg-query.1:259 dpkg-statoverride.8:92 dpkg-trigger.1:82
+#: dpkg-divert.8:104 dpkg-query.1:266 dpkg-statoverride.8:92 dpkg-trigger.1:82
 msgid ""
 "If set and the B<--admindir> option has not been specified, it will be used "
 "as the B<dpkg> data directory."
@@ -11508,9 +11557,10 @@ msgstr "dpkg-maintscript-helper"
 
 #. type: TH
 #: dpkg-maintscript-helper.1:18
-#, no-wrap
-msgid "2013-12-11"
-msgstr "2013-12-11"
+#, fuzzy, no-wrap
+#| msgid "2013-04-01"
+msgid "2014-04-01"
+msgstr "2013-04-01"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:21
@@ -11627,25 +11677,20 @@ msgstr ""
 "und damit die Operation nur einmal versuchen zu lassen)."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:63
-msgid ""
-"For example, for a conffile removed in version B<2.0-1> of a package, "
-"I<prior-version> should be set to B<2.0-1~>. This will cause the conffile to "
-"be removed even if the user rebuilt the previous version B<1.0-1> as "
-"B<1.0-1local1>."
-msgstr ""
-"Wird beispielsweise eine Conffile in Version B<2.0-1> eines Pakets entfernt, "
-"sollte I<vorhergehende_Version> auf B<2.0-1~> gesetzt werden. Dies führt "
-"dazu, dass das Conffile entfernt wird, selbst falls der Benutzer die "
-"vorhergehende Version B<1.0-1> als B<1.0-1local1> neu gebaut hat."
-
-#. type: Plain text
-#: dpkg-maintscript-helper.1:69
+#: dpkg-maintscript-helper.1:64
+#, fuzzy
+#| msgid ""
+#| "If the conffile has not been shipped for several versions, and you are "
+#| "now modifying the maintainer scripts to clean up the obsolete file, "
+#| "I<prior-version> should be based on the version of the package that you "
+#| "are now preparing, not the first version of the package that lacked the "
+#| "conffile."
 msgid ""
 "If the conffile has not been shipped for several versions, and you are now "
 "modifying the maintainer scripts to clean up the obsolete file, I<prior-"
 "version> should be based on the version of the package that you are now "
-"preparing, not the first version of the package that lacked the conffile."
+"preparing, not the first version of the package that lacked the conffile. "
+"This applies to all other actions in the same way."
 msgstr ""
 "Falls das Conffile in mehreren Versionen nicht ausgeliefert wurde und Sie "
 "jetzt die Betreuerskripte anpassen, um die überflüssige Datei zu entfernen, "
@@ -11653,14 +11698,36 @@ msgstr ""
 "die Sie jetzt zusammenstellen, nicht auf die erste Version des Pakets, bei "
 "dem das Conffile fehlte."
 
+#. type: Plain text
+#: dpkg-maintscript-helper.1:73
+#, fuzzy
+#| msgid ""
+#| "For example, for a conffile removed in version B<2.0-1> of a package, "
+#| "I<prior-version> should be set to B<2.0-1~>. This will cause the conffile "
+#| "to be removed even if the user rebuilt the previous version B<1.0-1> as "
+#| "B<1.0-1local1>."
+msgid ""
+"For example, for a conffile removed in version B<2.0-1> of a package, "
+"I<prior-version> should be set to B<2.0-1~>. This will cause the conffile to "
+"be removed even if the user rebuilt the previous version B<1.0-1> as "
+"B<1.0-1local1>. Or a package switching a path from a symlink (shipped in "
+"version B<1.0-1>) to a directory (shipped in version B<2.0-1>), but only "
+"performing the actual switch in the maintainer scripts in version B<3.0-1>, "
+"should set I<prior-version> to B<3.0-1~>."
+msgstr ""
+"Wird beispielsweise eine Conffile in Version B<2.0-1> eines Pakets entfernt, "
+"sollte I<vorhergehende_Version> auf B<2.0-1~> gesetzt werden. Dies führt "
+"dazu, dass das Conffile entfernt wird, selbst falls der Benutzer die "
+"vorhergehende Version B<1.0-1> als B<1.0-1local1> neu gebaut hat."
+
 #. type: TP
-#: dpkg-maintscript-helper.1:69
+#: dpkg-maintscript-helper.1:73
 #, no-wrap
 msgid "I<package>"
 msgstr "I<Paket>"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:75
+#: dpkg-maintscript-helper.1:79
 msgid ""
 "The package name. When the package is \"Multi-Arch: same\", this parameter "
 "must include the architecture qualifier. If empty or omitted, the "
@@ -11673,13 +11740,13 @@ msgstr ""
 "verwandt."
 
 #. type: TP
-#: dpkg-maintscript-helper.1:75
+#: dpkg-maintscript-helper.1:79
 #, no-wrap
 msgid "B<-->"
 msgstr "B<-->"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:79
+#: dpkg-maintscript-helper.1:83
 msgid ""
 "All the parameters of the maintainer scripts have to be forwarded to the "
 "program after B<-->."
@@ -11688,13 +11755,13 @@ msgstr ""
 "weitergeleitet werden."
 
 #. type: SH
-#: dpkg-maintscript-helper.1:79
+#: dpkg-maintscript-helper.1:83
 #, no-wrap
 msgid "CONFFILE RELATED TASKS"
 msgstr "CONFFILE-BEZOGENE AUFGABEN"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:89
+#: dpkg-maintscript-helper.1:93
 msgid ""
 "When upgrading a package, B<dpkg> will not automatically remove a conffile "
 "(a configuration file for which B<dpkg> should preserve user changes) if it "
@@ -11717,7 +11784,7 @@ msgstr ""
 "wird, umzustellen."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:94
+#: dpkg-maintscript-helper.1:98
 msgid ""
 "This means that if a package is intended to rename or remove a conffile, it "
 "must explicitly do so and B<dpkg-maintscript-helper> can be used to "
@@ -11730,13 +11797,13 @@ msgstr ""
 "innerhalb von Betreuerskripten durchzuführen."
 
 #. type: SS
-#: dpkg-maintscript-helper.1:95
+#: dpkg-maintscript-helper.1:99
 #, no-wrap
 msgid "Removing a conffile"
 msgstr "Eine Conffile entfernen"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:101
+#: dpkg-maintscript-helper.1:105
 msgid ""
 "If a conffile is completely removed, it should be removed from disk, unless "
 "the user has modified it. If there are local modifications, they should be "
@@ -11750,7 +11817,7 @@ msgstr ""
 "verschwinden."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:104
+#: dpkg-maintscript-helper.1:108
 msgid ""
 "All of this is implemented by putting the following shell snippet in the "
 "B<preinst>, B<postinst> and B<postrm> maintainer scripts:"
@@ -11759,7 +11826,7 @@ msgstr ""
 "Betreuerskripte B<preinst>, B<postinst> und B<postrm> implementiert:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:107
+#: dpkg-maintscript-helper.1:111
 #, no-wrap
 msgid ""
 "    dpkg-maintscript-helper rm_conffile \\e\n"
@@ -11769,12 +11836,12 @@ msgstr ""
 "        I<Conffile> I<vorhergehende_Version> I<Paket> -- \"$@\"\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:109
+#: dpkg-maintscript-helper.1:113
 msgid "I<conffile> is the filename of the conffile to remove."
 msgstr "I<Conffile> ist der Dateiname der zu entfernenden Conffile."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:118
+#: dpkg-maintscript-helper.1:122
 msgid ""
 "Current implementation: in the B<preinst>, it checks if the conffile was "
 "modified and renames it either to I<conffile>B<.dpkg-remove> (if not "
@@ -11796,13 +11863,13 @@ msgstr ""
 "Datei B<.dpkg-bak> entfernen."
 
 #. type: SS
-#: dpkg-maintscript-helper.1:119
+#: dpkg-maintscript-helper.1:123
 #, no-wrap
 msgid "Renaming a conffile"
 msgstr "Eine Conffile umbenennen"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:126
+#: dpkg-maintscript-helper.1:130
 msgid ""
 "If a conffile is moved from one location to another, you need to make sure "
 "you move across any changes the user has made. This may seem a simple change "
@@ -11818,7 +11885,7 @@ msgstr ""
 "für diese gar nicht verantwortlich sind."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:130 dpkg-maintscript-helper.1:161
+#: dpkg-maintscript-helper.1:134 dpkg-maintscript-helper.1:166
 msgid ""
 "Graceful renaming can be implemented by putting the following shell snippet "
 "in the B<preinst>, B<postinst> and B<postrm> maintainer scripts:"
@@ -11827,7 +11894,7 @@ msgstr ""
 "Betreuerskripte B<preinst>, B<postinst> und B<postrm> implementiert werden:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:133
+#: dpkg-maintscript-helper.1:137
 #, no-wrap
 msgid ""
 "    dpkg-maintscript-helper mv_conffile \\e\n"
@@ -11837,7 +11904,7 @@ msgstr ""
 "        I<alte_Conffile> I<neue_Conffile> I<vorhergehende_Version> I<Paket> -- \"$@\"\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:136
+#: dpkg-maintscript-helper.1:140
 msgid ""
 "I<old-conffile> and I<new-conffile> are the old and new name of the conffile "
 "to rename."
@@ -11846,7 +11913,7 @@ msgstr ""
 "umzubenennenden Conffile."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:144
+#: dpkg-maintscript-helper.1:148
 msgid ""
 "Current implementation: the B<preinst> checks if the conffile has been "
 "modified, if yes it's left on place otherwise it's renamed to I<old-"
@@ -11865,28 +11932,33 @@ msgstr ""
 "I<alte_Conffile>B<.dpkg-remove> in I<alte_Conffile> zurück, falls notwendig."
 
 #. type: SH
-#: dpkg-maintscript-helper.1:145
+#: dpkg-maintscript-helper.1:149
 #, no-wrap
 msgid "SYMLINK AND DIRECTORY SWITCHES"
 msgstr "SYMLINK- UND VERZEICHNISUMWANDLUNGEN"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:149
+#: dpkg-maintscript-helper.1:154
+#, fuzzy
+#| msgid ""
+#| "When upgrading a package, B<dpkg> will not automatically switch a symlink "
+#| "to a directory or vice-versa."
 msgid ""
 "When upgrading a package, B<dpkg> will not automatically switch a symlink to "
-"a directory or vice-versa."
+"a directory or vice-versa. Downgrades are not suppoerted and the path will "
+"be left as is."
 msgstr ""
 "Beim Upgrade eines Pakets wird B<dpkg> einen Symlink nicht automatisch in "
 "ein Verzeichnis und umgekehrt umwandeln."
 
 #. type: SS
-#: dpkg-maintscript-helper.1:150
+#: dpkg-maintscript-helper.1:155
 #, no-wrap
 msgid "Switching a symlink to directory"
 msgstr "Einen Symlink in ein Verzeichnis umwandeln"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:157
+#: dpkg-maintscript-helper.1:162
 msgid ""
 "If a symlink is switched to a real directory, you need to make sure before "
 "unpacking that the symlink is removed. This may seem a simple change to the "
@@ -11902,7 +11974,7 @@ msgstr ""
 "alte Version durchgeführt wird."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:164
+#: dpkg-maintscript-helper.1:169
 #, no-wrap
 msgid ""
 "    dpkg-maintscript-helper symlink_to_dir \\e\n"
@@ -11912,7 +11984,7 @@ msgstr ""
 "        I<Pfadname> I<altes_Ziel> I<vorhergehende_Version> I<Paket> -- \"$@\"\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:168
+#: dpkg-maintscript-helper.1:173
 msgid ""
 "I<pathname> is the name of the old symlink (the path will be a directory at "
 "the end of the installation) and I<old-target> the target of the former "
@@ -11923,7 +11995,7 @@ msgstr ""
 "Symlinks unter I<Pfadname>."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:176
+#: dpkg-maintscript-helper.1:181
 msgid ""
 "Current implementation: the B<preinst> checks if the symlink exists and "
 "points to I<old-target>, if not then it's left in place, otherwise it's "
@@ -11941,13 +12013,13 @@ msgstr ""
 "dpkg-backup> in I<Pfadname> zurück, falls notwendig."
 
 #. type: SS
-#: dpkg-maintscript-helper.1:177
+#: dpkg-maintscript-helper.1:182
 #, no-wrap
 msgid "Switching a directory to symlink"
 msgstr "Ein Verzeichnis in einen Symlink umwandeln"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:185
+#: dpkg-maintscript-helper.1:190
 msgid ""
 "If a real directory is switched to a symlink, you need to make sure before "
 "unpacking that the directory is removed. This may seem a simple change to "
@@ -11963,7 +12035,7 @@ msgstr ""
 "oder wenn ein Downgrade des Pakets durchgeführt wird."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:189
+#: dpkg-maintscript-helper.1:194
 msgid ""
 "Graceful switching can be implemented by putting the following shell snippet "
 "in the B<preinst>, B<postinst> and B<postrm> maintainer scripts:"
@@ -11972,7 +12044,7 @@ msgstr ""
 "Betreuerskripte B<preinst>, B<postinst> und B<postrm> implementiert werden:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:192
+#: dpkg-maintscript-helper.1:197
 #, no-wrap
 msgid ""
 "    dpkg-maintscript-helper dir_to_symlink \\e\n"
@@ -11982,7 +12054,7 @@ msgstr ""
 "        I<Pfadname> I<neues_Ziel> I<vorhergehende_Version> I<Paket> -- \"$@\"\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:196
+#: dpkg-maintscript-helper.1:201
 msgid ""
 "I<pathname> is the name of the of the old directory (the path will be a "
 "symlink at the end of the installation) and I<new-target> is the target of "
@@ -11993,7 +12065,7 @@ msgstr ""
 "Symlinks unter I<Pfadname>."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:211
+#: dpkg-maintscript-helper.1:216
 msgid ""
 "Current implementation: the B<preinst> checks if the directory exists, does "
 "not contain conffiles, pathnames owned by other packages, or locally created "
@@ -12025,13 +12097,13 @@ msgstr ""
 "notwendig."
 
 #. type: SH
-#: dpkg-maintscript-helper.1:212
+#: dpkg-maintscript-helper.1:217
 #, no-wrap
 msgid "INTEGRATION IN PACKAGES"
 msgstr "INTEGRATION IN PAKETE"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:220
+#: dpkg-maintscript-helper.1:225
 msgid ""
 "Given that B<dpkg-maintscript-helper> is used in the B<preinst>, using it "
 "unconditionally requires a pre-dependency to ensure that the required "
@@ -12047,13 +12119,13 @@ msgstr ""
 "B<dir_to_symlink> lautet sie 1.17.5:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:222
+#: dpkg-maintscript-helper.1:227
 #, no-wrap
 msgid "    B<Pre-Depends:> dpkg (E<gt>= 1.17.5)\n"
 msgstr "    B<Pre-Depends:> dpkg (E<gt>= 1.17.5)\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:227
+#: dpkg-maintscript-helper.1:232
 msgid ""
 "But in many cases the operation done by the program is not critical for the "
 "package, and instead of using a pre-dependency we can call the program only "
@@ -12066,7 +12138,7 @@ msgstr ""
 "installierten B<dpkg> unterstützt wird:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:230
+#: dpkg-maintscript-helper.1:235
 #, no-wrap
 msgid ""
 "    if dpkg-maintscript-helper supports I<command>; then\n"
@@ -13192,12 +13264,17 @@ msgid "B<-c>, B<--control-path> I<package-name> [I<control-file>]"
 msgstr "B<-c>, B<--control-path> I<Paketname> [I<Steuerdatei>]"
 
 #. type: Plain text
-#: dpkg-query.1:123
+#: dpkg-query.1:122
+#, fuzzy
+#| msgid ""
+#| "List paths for control files installed to your system from I<package-"
+#| "name>.  If I<control-file> is specified then only list the path for that "
+#| "control file if it is present. B<Warning>: this command is deprecated, "
+#| "please switch to use B<--control-list> and B<--control-show> instead."
 msgid ""
 "List paths for control files installed to your system from I<package-name>.  "
 "If I<control-file> is specified then only list the path for that control "
-"file if it is present. B<Warning>: this command is deprecated, please switch "
-"to use B<--control-list> and B<--control-show> instead."
+"file if it is present."
 msgstr ""
 "Listet die Pfade für Steuerdateien auf, die von I<Paketname> auf Ihrem "
 "System installiert wurden. Falls I<Steuerdatei> angegeben wurde, liste nur "
@@ -13205,14 +13282,26 @@ msgstr ""
 "Befehl ist veraltet, bitte verwenden Sie stattdessen B<--control-list> und "
 "B<--control-show>."
 
+#. type: Plain text
+#: dpkg-query.1:130
+msgid ""
+"B<Warning>: this command is strongly deprecated as it gives direct access to "
+"the internal dpkg database, please switch to use B<--control-list> and B<--"
+"control-show> instead for all cases where those commands might give the same "
+"end result. Although there is still at least one case where this command is "
+"needed, that is when having to remove a damaging postrm maintainer script, "
+"and as long as there is no good solution for that, this command will not get "
+"removed."
+msgstr ""
+
 #. type: TP
-#: dpkg-query.1:123
+#: dpkg-query.1:130
 #, no-wrap
 msgid "B<-S>, B<--search> I<filename-search-pattern>..."
 msgstr "B<-S>, B<--search> I<Dateiname-Suchmuster> …"
 
 #. type: Plain text
-#: dpkg-query.1:129
+#: dpkg-query.1:136
 msgid ""
 "Search for packages that own files corresponding to the given pattern.  "
 "Standard shell wildchars can be used in the pattern.  This command will not "
@@ -13225,13 +13314,13 @@ msgstr ""
 "die durch Betreuer-Skripte angelegt wurden, noch Alternativen aufführen."
 
 #. type: TP
-#: dpkg-query.1:129
+#: dpkg-query.1:136
 #, no-wrap
 msgid "B<-p>, B<--print-avail> I<package-name>..."
 msgstr "B<-p>, B<--print-avail> I<Paketname> …"
 
 #. type: Plain text
-#: dpkg-query.1:135
+#: dpkg-query.1:142
 msgid ""
 "Display details about I<package-name>, as found in I</var/lib/dpkg/"
 "available>. When multiple I<package-name> are listed, the requested "
@@ -13244,7 +13333,7 @@ msgstr ""
 "Reihenfolge identisch zu der in der Argumentenliste ist."
 
 #. type: Plain text
-#: dpkg-query.1:140
+#: dpkg-query.1:147
 msgid ""
 "Users of APT-based frontends should use B<apt-cache show> I<package-name> "
 "instead as the I<available> file is only kept up-to-date when using "
@@ -13255,13 +13344,13 @@ msgstr ""
 "aktuell bleibt."
 
 #. type: TP
-#: dpkg-query.1:152
+#: dpkg-query.1:159
 #, no-wrap
 msgid "B<--load-avail>"
 msgstr "B<--load-avail>"
 
 #. type: Plain text
-#: dpkg-query.1:156
+#: dpkg-query.1:163
 msgid ""
 "Also load the available file when using the B<--show> and B<--list> "
 "commands, which now default to only querying the status file."
@@ -13270,19 +13359,19 @@ msgstr ""
 "verwandt werden, die jetzt standardmnäßig nur die Statusdatei laden."
 
 #. type: TP
-#: dpkg-query.1:156
+#: dpkg-query.1:163
 #, no-wrap
 msgid "B<-f>, B<--showformat=>I<format>"
 msgstr "B<-f>, B<--showformat=>I<Format>"
 
 #. type: Plain text
-#: dpkg-query.1:163
+#: dpkg-query.1:170
 msgid "In the format string, \\(lqB<\\e>\\(rq introduces escapes:"
 msgstr ""
 "In der Formatzeichenkette leitet \\(lqB<\\e>\\(rq Escape-Sequenzen ein:"
 
 #. type: Plain text
-#: dpkg-query.1:168
+#: dpkg-query.1:175
 #, no-wrap
 msgid ""
 "    B<\\en>  newline\n"
@@ -13294,7 +13383,7 @@ msgstr ""
 "    B<\\et>  Tabulator\n"
 
 #. type: Plain text
-#: dpkg-query.1:173
+#: dpkg-query.1:180
 msgid ""
 "\\(lqB<\\e>\\(rq before any other character suppresses any special meaning "
 "of the following character, which is useful for \\(lqB<\\e>\\(rq and \\(lqB<"
@@ -13305,7 +13394,7 @@ msgstr ""
 "\\(rq nützlich."
 
 #. type: Plain text
-#: dpkg-query.1:181
+#: dpkg-query.1:188
 msgid ""
 "Package information can be included by inserting variable references to "
 "package fields using the syntax \\(lqB<${>I<field>[B<;>I<width>]B<}>\\(rq. "
@@ -13323,7 +13412,7 @@ msgstr ""
 "Binärpaket abgespeichert sind, landen dort):"
 
 #. type: Plain text
-#: dpkg-query.1:216
+#: dpkg-query.1:223
 #, no-wrap
 msgid ""
 "    B<Architecture>\n"
@@ -13397,7 +13486,7 @@ msgstr ""
 "    B<show:Status-Abbrev> (virtuell)\n"
 
 #. type: Plain text
-#: dpkg-query.1:221
+#: dpkg-query.1:228
 msgid ""
 "The following are virtual fields, generated by B<dpkg-query> from values "
 "from other fields (note that these do not use valid names for fields in "
@@ -13408,7 +13497,7 @@ msgstr ""
 "für Felder in Steuerdateien benutzen):"
 
 #. type: Plain text
-#: dpkg-query.1:228
+#: dpkg-query.1:235
 #, no-wrap
 msgid ""
 "    B<binary:Package>\n"
@@ -13424,7 +13513,7 @@ msgstr ""
 "    B<source:Version>\n"
 
 #. type: Plain text
-#: dpkg-query.1:239
+#: dpkg-query.1:246
 msgid ""
 "The default format string is \\(lqB<${binary:Package}\\et${Version}\\en>"
 "\\(rq.  Actually, all other fields found in the status file (i.e. user "
@@ -13447,39 +13536,39 @@ msgstr ""
 "folgendes ausführen:"
 
 #. type: Plain text
-#: dpkg-query.1:242
+#: dpkg-query.1:249
 #, no-wrap
 msgid "  B<dpkg-query -W -f=\\(aq${binary:Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
 msgstr "  B<dpkg-query -W -f=\\(aq${binary:Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
 
 #. type: SH
-#: dpkg-query.1:244 dpkg-split.1:196 start-stop-daemon.8:296
+#: dpkg-query.1:251 dpkg-split.1:196 start-stop-daemon.8:300
 #: update-alternatives.8:371
 #, no-wrap
 msgid "EXIT STATUS"
 msgstr "RÜCKGABEWERT"
 
 #. type: TP
-#: dpkg-query.1:245 dpkg-split.1:197 start-stop-daemon.8:297
-#: start-stop-daemon.8:326 update-alternatives.8:372
+#: dpkg-query.1:252 dpkg-split.1:197 start-stop-daemon.8:301
+#: start-stop-daemon.8:330 update-alternatives.8:372
 #, no-wrap
 msgid "B<0>"
 msgstr "B<0>"
 
 #. type: Plain text
-#: dpkg-query.1:248
+#: dpkg-query.1:255
 msgid "The requested query was successfully performed."
 msgstr "Die angeforderte Abfrage wurde erfolgreich ausgeführt."
 
 #. type: TP
-#: dpkg-query.1:248 dpkg-split.1:203 start-stop-daemon.8:307
-#: start-stop-daemon.8:329
+#: dpkg-query.1:255 dpkg-split.1:203 start-stop-daemon.8:311
+#: start-stop-daemon.8:333
 #, no-wrap
 msgid "B<1>"
 msgstr "B<1>"
 
 #. type: Plain text
-#: dpkg-query.1:253
+#: dpkg-query.1:260
 msgid ""
 "Problems were encountered while parsing the command line or performing the "
 "query, including no file or package being found (except for B<--control-"
@@ -13490,7 +13579,7 @@ msgstr ""
 "control-path>)."
 
 #. type: Plain text
-#: dpkg-query.1:263
+#: dpkg-query.1:270
 msgid ""
 "This setting influences the output of the B<--list> option by changing the "
 "width of its output."
@@ -13671,7 +13760,7 @@ msgstr ""
 "Einsatz mit der Multicd-Zugriffsmethode von Dselect erstellen wollen."
 
 #. type: SH
-#: dpkg-scanpackages.1:106 dpkg-shlibdeps.1:257 dpkg-source.1:675
+#: dpkg-scanpackages.1:106 dpkg-shlibdeps.1:257 dpkg-source.1:682
 #: update-alternatives.8:475
 #, no-wrap
 msgid "DIAGNOSTICS"
@@ -14968,9 +15057,9 @@ msgstr ""
 "Gibt die Komprimierung an, die für die angelegte Dateien (Tarbälle und "
 "Diffs) verwendet wird. Beachten Sie, dass diese Option nicht dazu führt, "
 "dass existierende Tarbälle rekomprimiert werden, sie betrifft nur neue "
-"Dateien. Unterstützte Werte sind I<gzip>, I<bzip2>, I<lzma> und I<xz>. "
-"I<xz> ist für Format 2.0 und neuer, I<gzip> für Format 1.0 voreingestellt. "
-"I<xz> wird erst seit Dpkg 1.15.5 unterstützt."
+"Dateien. Unterstützte Werte sind I<gzip>, I<bzip2>, I<lzma> und I<xz>. I<xz> "
+"ist für Format 2.0 und neuer, I<gzip> für Format 1.0 voreingestellt. I<xz> "
+"wird erst seit Dpkg 1.15.5 unterstützt."
 
 #. type: TP
 #: dpkg-source.1:172
@@ -15228,7 +15317,7 @@ msgstr ""
 "wird das Paket als I<nativ> bezeichnet)."
 
 #. type: Plain text
-#: dpkg-source.1:266 dpkg-source.1:433 dpkg-source.1:624 dpkg-source.1:663
+#: dpkg-source.1:266 dpkg-source.1:437 dpkg-source.1:631 dpkg-source.1:670
 msgid "B<Extracting>"
 msgstr "B<Extrahieren>"
 
@@ -15255,7 +15344,7 @@ msgstr ""
 "aber keine Dateien entfernen (leere Dateien bleiben zurück)."
 
 #. type: Plain text
-#: dpkg-source.1:278 dpkg-source.1:467 dpkg-source.1:635 dpkg-source.1:668
+#: dpkg-source.1:278 dpkg-source.1:471 dpkg-source.1:642 dpkg-source.1:675
 msgid "B<Building>"
 msgstr "B<Bauen>"
 
@@ -15331,7 +15420,7 @@ msgstr ""
 "wird nach I<Verzeichnis>B<.orig> für die Erstellung des Diffs entpackt."
 
 #. type: TP
-#: dpkg-source.1:313 dpkg-source.1:381
+#: dpkg-source.1:313 dpkg-source.1:382
 #, no-wrap
 msgid "B<-sp>"
 msgstr "B<-sp>"
@@ -15342,7 +15431,7 @@ msgid "Like B<-sk> but will remove the directory again afterwards."
 msgstr "Wie B<-sk>, aber das Verzeichnis wird danach entfernt."
 
 #. type: TP
-#: dpkg-source.1:318 dpkg-source.1:387
+#: dpkg-source.1:318 dpkg-source.1:388
 #, no-wrap
 msgid "B<-su>"
 msgstr "B<-su>"
@@ -15390,7 +15479,7 @@ msgstr ""
 "zusammen passen, wird ein fehlerhaftes Quellarchiv erstellt."
 
 #. type: TP
-#: dpkg-source.1:339 dpkg-source.1:390
+#: dpkg-source.1:339 dpkg-source.1:391
 #, no-wrap
 msgid "B<-sn>"
 msgstr "B<-sn>"
@@ -15445,7 +15534,7 @@ msgstr ""
 "die Voreinstellung."
 
 #. type: TP
-#: dpkg-source.1:371 dpkg-source.1:579
+#: dpkg-source.1:371 dpkg-source.1:583
 #, no-wrap
 msgid "B<--abort-on-upstream-changes>"
 msgstr "B<--abort-on-upstream-changes>"
@@ -15463,17 +15552,17 @@ msgstr ""
 "options> verwandt werden."
 
 #. type: Plain text
-#: dpkg-source.1:379
+#: dpkg-source.1:380
 msgid "B<Extract options (with -x):>"
 msgstr "B<Extrahierungs-Optionen (mit -x):>"
 
 #. type: Plain text
-#: dpkg-source.1:381
+#: dpkg-source.1:382
 msgid "In all cases any existing original source tree will be removed."
 msgstr "In allen Fällen werden die Originalquellbäume entfernt."
 
 #. type: Plain text
-#: dpkg-source.1:387
+#: dpkg-source.1:388
 msgid ""
 "Used when extracting then the original source (if any) will be left as a "
 "tarfile. If it is not already located in the current directory or if an "
@@ -15486,12 +15575,12 @@ msgstr ""
 "vorhanden ist, wird sie dort hin kopiert. (B<Dies ist die Voreinstellung.>)"
 
 #. type: Plain text
-#: dpkg-source.1:390
+#: dpkg-source.1:391
 msgid "Unpacks the original source tree."
 msgstr "Entpackt den Originalquellbaum."
 
 #. type: Plain text
-#: dpkg-source.1:395
+#: dpkg-source.1:396
 msgid ""
 "Ensures that the original source is neither copied to the current directory "
 "nor unpacked. Any original source tree that was in the current directory is "
@@ -15502,7 +15591,7 @@ msgstr ""
 "Verzeichnis war, wird dennoch entfernt."
 
 #. type: Plain text
-#: dpkg-source.1:400
+#: dpkg-source.1:401
 msgid ""
 "All the B<-s>I<X> options are mutually exclusive. If you specify more than "
 "one only the last one will be used."
@@ -15511,26 +15600,38 @@ msgstr ""
 "eine angeben, wird nur die letzte verwendet."
 
 #. type: TP
-#: dpkg-source.1:400 dpkg-source.1:593
+#: dpkg-source.1:401 dpkg-source.1:597
 #, no-wrap
 msgid "B<--skip-debianization>"
 msgstr "B<--skip-debianization>"
 
 #. type: Plain text
-#: dpkg-source.1:403
+#: dpkg-source.1:404
 msgid "Skips application of the debian diff on top of the upstream sources."
 msgstr ""
 "Überspringt die Anwendung des Debian-Diffs auf die Quellen der "
 "Originalautoren."
 
+#. type: TP
+#: dpkg-source.1:404 dpkg-source.1:603
+#, fuzzy, no-wrap
+#| msgid "B<--version>"
+msgid "B<--ignore-bad-version>"
+msgstr "B<--version>"
+
+#. type: Plain text
+#: dpkg-source.1:407 dpkg-source.1:606
+msgid "Turns the bad source package version check into a non-fatal warning."
+msgstr ""
+
 #. type: SS
-#: dpkg-source.1:404
+#: dpkg-source.1:408
 #, no-wrap
 msgid "Format: 2.0"
 msgstr "Format: 2.0"
 
 #. type: Plain text
-#: dpkg-source.1:408
+#: dpkg-source.1:412
 msgid ""
 "Also known as wig&pen. This format is not recommended for wide-spread usage, "
 "the format \"3.0 (quilt)\" replaces it. Wig&pen was the first specification "
@@ -15541,7 +15642,7 @@ msgstr ""
 "erste Spezifikation eines Paketformats der nächsten Generation."
 
 #. type: Plain text
-#: dpkg-source.1:413
+#: dpkg-source.1:417
 msgid ""
 "The behaviour of this format is the same as the \"3.0 (quilt)\" format "
 "except that it doesn't use an explicit list of patches. All files in "
@@ -15555,7 +15656,7 @@ msgstr ""
 "der Extrahierung angewandt."
 
 #. type: Plain text
-#: dpkg-source.1:416
+#: dpkg-source.1:420
 msgid ""
 "When building a new source package, any change to the upstream source is "
 "stored in a patch named B<zz_debian-diff-auto>."
@@ -15565,13 +15666,13 @@ msgstr ""
 "gespeichert."
 
 #. type: SS
-#: dpkg-source.1:417
+#: dpkg-source.1:421
 #, no-wrap
 msgid "Format: 3.0 (native)"
 msgstr "Format: 3.0 (native)"
 
 #. type: Plain text
-#: dpkg-source.1:423
+#: dpkg-source.1:427
 msgid ""
 "This format is an extension of the native package format as defined in the "
 "1.0 format. It supports all compression methods and will ignore by default "
@@ -15585,13 +15686,13 @@ msgstr ""
 "Ausgabe von B<--help>)."
 
 #. type: SS
-#: dpkg-source.1:424
+#: dpkg-source.1:428
 #, no-wrap
 msgid "Format: 3.0 (quilt)"
 msgstr "Format: 3.0 (quilt)"
 
 #. type: Plain text
-#: dpkg-source.1:431
+#: dpkg-source.1:435
 msgid ""
 "A source package in this format contains at least an original tarball (B<."
 "orig.tar.>I<ext> where I<ext> can be B<gz>, B<bz2>, B<lzma> and B<xz>) and a "
@@ -15607,7 +15708,7 @@ msgstr ""
 "(»-«) enthalten."
 
 #. type: Plain text
-#: dpkg-source.1:442
+#: dpkg-source.1:446
 msgid ""
 "The main original tarball is extracted first, then all additional original "
 "tarballs are extracted in subdirectories named after the I<component> part "
@@ -15628,7 +15729,7 @@ msgstr ""
 "B<--include-binaries>)."
 
 #. type: Plain text
-#: dpkg-source.1:454
+#: dpkg-source.1:458
 msgid ""
 "All patches listed in B<debian/patches/debian.series> or B<debian/patches/"
 "series> are then applied.  If the former file is used and the latter one "
@@ -15655,7 +15756,7 @@ msgstr ""
 "solche Optionen trifft, und der Bau wird wahrscheinlich fehlschlagen."
 
 #. type: Plain text
-#: dpkg-source.1:459
+#: dpkg-source.1:463
 msgid ""
 "Contrary to B<quilt>'s default behaviour, patches are expected to apply "
 "without any fuzz. When that is not the case, you should refresh such patches "
@@ -15667,13 +15768,13 @@ msgstr ""
 "einer Fehlermeldung beim Versuch, sie anzuwenden, abbrechen."
 
 #. type: Plain text
-#: dpkg-source.1:462
+#: dpkg-source.1:466
 msgid ""
 "Similarly to B<quilt>'s default behaviour, the patches can remove files too."
 msgstr "Ähnlich wie bei B<quilt> können Patches auch Dateien entfernen."
 
 #. type: Plain text
-#: dpkg-source.1:465
+#: dpkg-source.1:469
 msgid ""
 "The file B<.pc/applied-patches> is created if some patches have been applied "
 "during the extraction."
@@ -15682,7 +15783,7 @@ msgstr ""
 "der Extrahierung angewandt wurden."
 
 #. type: Plain text
-#: dpkg-source.1:479
+#: dpkg-source.1:483
 msgid ""
 "All original tarballs found in the current directory are extracted in a "
 "temporary directory by following the same logic as for the unpack, the "
@@ -15709,7 +15810,7 @@ msgstr ""
 "gelöscht."
 
 #. type: Plain text
-#: dpkg-source.1:487
+#: dpkg-source.1:491
 msgid ""
 "Any change on a binary file is not representable in a diff and will thus "
 "lead to a failure unless the maintainer deliberately decided to include that "
@@ -15727,7 +15828,7 @@ msgstr ""
 "freigegeben wurden."
 
 #. type: Plain text
-#: dpkg-source.1:490
+#: dpkg-source.1:494
 msgid ""
 "The updated debian directory and the list of modified binaries is then used "
 "to generate the debian tarball."
@@ -15736,7 +15837,7 @@ msgstr ""
 "wird dann zur Erstellung des Debian-Tarballs verwandt."
 
 #. type: Plain text
-#: dpkg-source.1:496
+#: dpkg-source.1:500
 msgid ""
 "The automatically generated diff doesn't include changes on VCS specific "
 "files as well as many temporary files (see default value associated to B<-i> "
@@ -15750,7 +15851,7 @@ msgstr ""
 "automatischen Patches ignoriert."
 
 #. type: Plain text
-#: dpkg-source.1:505
+#: dpkg-source.1:509
 msgid ""
 "Note: B<dpkg-source> B<--before-build> (and B<-b>) will ensure that all "
 "patches listed in the series file are applied so that a package build always "
@@ -15769,18 +15870,18 @@ msgstr ""
 "Abschalten dieses Verhaltens verwandt werden."
 
 #. type: Plain text
-#: dpkg-source.1:508
+#: dpkg-source.1:512
 msgid "B<Recording changes>"
 msgstr "B<Änderungen aufzeichnen>"
 
 #. type: TP
-#: dpkg-source.1:508
+#: dpkg-source.1:512
 #, no-wrap
 msgid "B<--commit> [I<directory>] [I<patch-name>] [I<patch-file>]"
 msgstr "B<--commit> [I<Verzeichnis>] [I<Patch-Name>] [I<Patch-Datei>]"
 
 #. type: Plain text
-#: dpkg-source.1:517
+#: dpkg-source.1:521
 msgid ""
 "Generates a patch corresponding to the local changes that are not managed by "
 "the B<quilt> patch system and integrates it in the patch system under the "
@@ -15798,7 +15899,7 @@ msgstr ""
 "Metainformationen in den Kopfzeilen des Patches einfügen können."
 
 #. type: Plain text
-#: dpkg-source.1:523
+#: dpkg-source.1:527
 msgid ""
 "Passing I<patch-file> is mainly useful after a build failure that pre-"
 "generated this file, and on this ground the given file is removed after "
@@ -15814,7 +15915,7 @@ msgstr ""
 "nicht aufgezeichneten Änderungen enthalten dürfen."
 
 #. type: Plain text
-#: dpkg-source.1:528
+#: dpkg-source.1:532
 msgid ""
 "If the patch generation detects modified binary files, they will be "
 "automatically added to B<debian/source/include-binaries> so that they end up "
@@ -15827,18 +15928,18 @@ msgstr ""
 "machen würde)."
 
 #. type: Plain text
-#: dpkg-source.1:530 dpkg-source.1:605 dpkg-source.1:644
+#: dpkg-source.1:534 dpkg-source.1:612 dpkg-source.1:651
 msgid "B<Build options>"
 msgstr "B<Bau-Optionen>"
 
 #. type: TP
-#: dpkg-source.1:530
+#: dpkg-source.1:534
 #, no-wrap
 msgid "B<--allow-version-of-quilt-db=>I<version>"
 msgstr "B<--allow-version-of-quilt-db=>I<Version>"
 
 #. type: Plain text
-#: dpkg-source.1:538
+#: dpkg-source.1:542
 msgid ""
 "Allow B<dpkg-source> to build the source package if the version of the "
 "B<quilt> metadata is the one specified, even if B<dpkg-source> doesn't know "
@@ -15854,13 +15955,13 @@ msgstr ""
 "gespeichert."
 
 #. type: TP
-#: dpkg-source.1:538
+#: dpkg-source.1:542
 #, no-wrap
 msgid "B<--include-removal>"
 msgstr "B<--include-removal>"
 
 #. type: Plain text
-#: dpkg-source.1:542
+#: dpkg-source.1:546
 msgid ""
 "Do not ignore removed files and include them in the automatically generated "
 "patch."
@@ -15869,24 +15970,24 @@ msgstr ""
 "generierten Patch hinzu."
 
 #. type: TP
-#: dpkg-source.1:542
+#: dpkg-source.1:546
 #, no-wrap
 msgid "B<--include-timestamp>"
 msgstr "B<--include-timestamp>"
 
 #. type: Plain text
-#: dpkg-source.1:545
+#: dpkg-source.1:549
 msgid "Include timestamp in the automatically generated patch."
 msgstr "Füge Zeitstempel zu dem automatisch generierten Patch hinzu."
 
 #. type: TP
-#: dpkg-source.1:545
+#: dpkg-source.1:549
 #, no-wrap
 msgid "B<--include-binaries>"
 msgstr "B<--include-binaries>"
 
 #. type: Plain text
-#: dpkg-source.1:550
+#: dpkg-source.1:554
 msgid ""
 "Add all modified binaries in the debian tarball. Also add them to B<debian/"
 "source/include-binaries>: they will be added by default in subsequent builds "
@@ -15898,13 +15999,13 @@ msgstr ""
 "benötigt."
 
 #. type: TP
-#: dpkg-source.1:550
+#: dpkg-source.1:554
 #, no-wrap
 msgid "B<--no-preparation>"
 msgstr "B<--no-preparation>"
 
 #. type: Plain text
-#: dpkg-source.1:554
+#: dpkg-source.1:558
 msgid ""
 "Do not try to prepare the build tree by applying patches which are "
 "apparently unapplied."
@@ -15913,13 +16014,13 @@ msgstr ""
 "Patches vorzubreiten."
 
 #. type: TP
-#: dpkg-source.1:554
+#: dpkg-source.1:558
 #, no-wrap
 msgid "B<--single-debian-patch>"
 msgstr "B<--single-debian-patch>"
 
 #. type: Plain text
-#: dpkg-source.1:565
+#: dpkg-source.1:569
 msgid ""
 "Use B<debian/patches/debian-changes> instead of B<debian/patches/debian-"
 "changes->I<version> for the name of the automatic patch generated during "
@@ -15942,13 +16043,13 @@ msgstr ""
 "beispielsweise im eingesetzten VCS."
 
 #. type: TP
-#: dpkg-source.1:565
+#: dpkg-source.1:569
 #, no-wrap
 msgid "B<--create-empty-orig>"
 msgstr "B<--create-empty-orig>"
 
 #. type: Plain text
-#: dpkg-source.1:571
+#: dpkg-source.1:575
 msgid ""
 "Automatically create the main original tarball as empty if it's missing and "
 "if there are supplementary original tarballs. This option is meant to be "
@@ -15961,13 +16062,13 @@ msgstr ""
 "Originalautoren ist und es keine »Haupt«-Software gibt."
 
 #. type: TP
-#: dpkg-source.1:571
+#: dpkg-source.1:575
 #, no-wrap
 msgid "B<--no-unapply-patches, --unapply-patches>"
 msgstr "B<--no-unapply-patches, --unapply-patches>"
 
 #. type: Plain text
-#: dpkg-source.1:579
+#: dpkg-source.1:583
 msgid ""
 "By default, B<dpkg-source> will automatically unapply the patches in the B<--"
 "after-build> hook if it did apply them during B<--before-build>. Those "
@@ -15983,7 +16084,7 @@ msgstr ""
 "standardmäßig das gleiche Verhalten zeigen."
 
 #. type: Plain text
-#: dpkg-source.1:586
+#: dpkg-source.1:590
 msgid ""
 "The process fails if an automatic patch has been generated. This option can "
 "be used to ensure that all changes were properly recorded in separate "
@@ -15998,13 +16099,13 @@ msgstr ""
 "erlaubt, kann aber in B<debian/source/local-options> verwandt werden."
 
 #. type: TP
-#: dpkg-source.1:586
+#: dpkg-source.1:590
 #, no-wrap
 msgid "B<--auto-commit>"
 msgstr "B<--auto-commit>"
 
 #. type: Plain text
-#: dpkg-source.1:590
+#: dpkg-source.1:594
 msgid ""
 "The process doesn't fail if an automatic patch has been generated, instead "
 "it's immediately recorded in the B<quilt> series."
@@ -16013,36 +16114,36 @@ msgstr ""
 "wurde, stattdessen wird dieser sofort in die B<quilt>-Serie aufgenommen."
 
 #. type: Plain text
-#: dpkg-source.1:593
+#: dpkg-source.1:597
 msgid "B<Extract options>"
 msgstr "B<Extrahierungs-Optionen>"
 
 #. type: Plain text
-#: dpkg-source.1:596
+#: dpkg-source.1:600
 msgid "Skips extraction of the debian tarball on top of the upstream sources."
 msgstr ""
 "Überspringt das Entpacken des Debian-Tarballs auf die Quellen der "
 "Originalautoren."
 
 #. type: TP
-#: dpkg-source.1:596
+#: dpkg-source.1:600
 #, no-wrap
 msgid "B<--skip-patches>"
 msgstr "B<--skip-patches>"
 
 #. type: Plain text
-#: dpkg-source.1:599
+#: dpkg-source.1:603
 msgid "Do not apply patches at the end of the extraction."
 msgstr "Wende am Ende der Extrahierung keine Patches an."
 
 #. type: SS
-#: dpkg-source.1:600
+#: dpkg-source.1:607
 #, no-wrap
 msgid "Format: 3.0 (custom)"
 msgstr "Format: 3.0 (custom)"
 
 #. type: Plain text
-#: dpkg-source.1:603
+#: dpkg-source.1:610
 msgid ""
 "This format is special. It doesn't represent a real source package format "
 "but can be used to create source packages with arbitrary files."
@@ -16051,7 +16152,7 @@ msgstr ""
 "zur Erstellung eines Quellpakets mit beliebigen Dateien verwandt werden."
 
 #. type: Plain text
-#: dpkg-source.1:609
+#: dpkg-source.1:616
 msgid ""
 "All non-option arguments are taken as files to integrate in the generated "
 "source package. They must exist and are preferably in the current directory. "
@@ -16063,13 +16164,13 @@ msgstr ""
 "muss angegeben werden."
 
 #. type: TP
-#: dpkg-source.1:609
+#: dpkg-source.1:616
 #, no-wrap
 msgid "B<--target-format=>I<value>"
 msgstr "B<--target-format=>I<Wert>"
 
 #. type: Plain text
-#: dpkg-source.1:614
+#: dpkg-source.1:621
 msgid ""
 "B<Required>. Defines the real format of the generated source package.  The "
 "generated .dsc file will contain this value in its B<Format> field and not "
@@ -16080,18 +16181,18 @@ msgstr ""
 "B<Format>-Feld enthalten."
 
 #. type: SS
-#: dpkg-source.1:615
+#: dpkg-source.1:622
 #, no-wrap
 msgid "Format: 3.0 (git)"
 msgstr "Format: 3.0 (git)"
 
 #. type: Plain text
-#: dpkg-source.1:617
+#: dpkg-source.1:624
 msgid "This format is experimental."
 msgstr "Dieses Format ist experimentell."
 
 #. type: Plain text
-#: dpkg-source.1:622
+#: dpkg-source.1:629
 msgid ""
 "A source package in this format consists of a single bundle of a git "
 "repository B<.git> to hold the source of a package.  There may also be a B<."
@@ -16103,7 +16204,7 @@ msgstr ""
 "aufführt."
 
 #. type: Plain text
-#: dpkg-source.1:628
+#: dpkg-source.1:635
 msgid ""
 "The bundle is cloned as a git repository to the target directory.  If there "
 "is a gitshallow file, it is installed as `.git/shallow` inside the cloned "
@@ -16114,7 +16215,7 @@ msgstr ""
 "Git-Depots installiert."
 
 #. type: Plain text
-#: dpkg-source.1:633
+#: dpkg-source.1:640
 msgid ""
 "Note that by default the new repository will have the same branch checked "
 "out that was checked out in the original source. (Typically \"master\", but "
@@ -16127,7 +16228,7 @@ msgstr ""
 "Alle anderen Zweige sind unter »remotes/origin/« verfügbar."
 
 #. type: Plain text
-#: dpkg-source.1:638 dpkg-source.1:671
+#: dpkg-source.1:645 dpkg-source.1:678
 msgid ""
 "Before going any further, some checks are done to ensure that we don't have "
 "any non-ignored uncommitted changes."
@@ -16137,7 +16238,7 @@ msgstr ""
 "(»uncommitted«) Änderungen vorliegen."
 
 #. type: Plain text
-#: dpkg-source.1:642
+#: dpkg-source.1:649
 msgid ""
 "B<git-bundle>(1) is used to generate a bundle of the git repository.  By "
 "default, all branches and tags in the repository are included in the bundle."
@@ -16147,13 +16248,13 @@ msgstr ""
 "einbezogen."
 
 #. type: TP
-#: dpkg-source.1:644
+#: dpkg-source.1:651
 #, no-wrap
 msgid "B<--git-ref=>I<ref>"
 msgstr "B<--git-ref=>I<Referenz>"
 
 #. type: Plain text
-#: dpkg-source.1:654
+#: dpkg-source.1:661
 msgid ""
 "Allows specifying a git ref to include in the git bundle. Use disables the "
 "default behavior of including all branches and tags. May be specified "
@@ -16174,13 +16275,13 @@ msgstr ""
 "ref=>^private."
 
 #. type: TP
-#: dpkg-source.1:654
+#: dpkg-source.1:661
 #, no-wrap
 msgid "B<--git-depth=>I<number>"
 msgstr "B<--git-depth=>I<Zahl>"
 
 #. type: Plain text
-#: dpkg-source.1:658
+#: dpkg-source.1:665
 msgid ""
 "Creates a shallow clone with a history truncated to the specified number of "
 "revisions."
@@ -16189,13 +16290,13 @@ msgstr ""
 "Anzahl an Revisionen abgeschnitten wird."
 
 #. type: SS
-#: dpkg-source.1:658
+#: dpkg-source.1:665
 #, no-wrap
 msgid "Format: 3.0 (bzr)"
 msgstr "Format: 3.0 (bzr)"
 
 #. type: Plain text
-#: dpkg-source.1:661
+#: dpkg-source.1:668
 msgid ""
 "This format is experimental. It generates a single tarball containing the "
 "bzr repository."
@@ -16204,7 +16305,7 @@ msgstr ""
 "das Bzr-Depot enthält."
 
 #. type: Plain text
-#: dpkg-source.1:666
+#: dpkg-source.1:673
 msgid ""
 "The tarball is unpacked and then bzr is used to checkout the current branch."
 msgstr ""
@@ -16212,7 +16313,7 @@ msgstr ""
 "auszuchecken."
 
 #. type: Plain text
-#: dpkg-source.1:675
+#: dpkg-source.1:682
 msgid ""
 "Then the VCS specific part of the source directory is copied over to a "
 "temporary directory. Before this temporary directory is packed in a tarball, "
@@ -16224,13 +16325,13 @@ msgstr ""
 "sparen."
 
 #. type: SS
-#: dpkg-source.1:676
+#: dpkg-source.1:683
 #, no-wrap
 msgid "no source format specified in debian/source/format"
 msgstr "kein Quellformat in debian/source/format angegeben"
 
 #. type: Plain text
-#: dpkg-source.1:682
+#: dpkg-source.1:689
 msgid ""
 "The file B<debian/source/format> should always exist and indicate the "
 "desired source format. For backwards compatibility, format \"1.0\" is "
@@ -16245,7 +16346,7 @@ msgstr ""
 "und dann fehlschlagen, wenn diese Datei nicht existiert."
 
 #. type: Plain text
-#: dpkg-source.1:688
+#: dpkg-source.1:695
 msgid ""
 "The rationale is that format \"1.0\" is no longer the recommended format, "
 "you should usually pick one of the newer formats (\"3.0 (quilt)\", \"3.0 "
@@ -16261,13 +16362,13 @@ msgstr ""
 "format> eintragen."
 
 #. type: SS
-#: dpkg-source.1:688
+#: dpkg-source.1:695
 #, no-wrap
 msgid "the diff modifies the following upstream files"
 msgstr "der Diff verändert die folgenden Dateien der Originalautoren"
 
 #. type: Plain text
-#: dpkg-source.1:695
+#: dpkg-source.1:702
 msgid ""
 "When using source format \"1.0\" it is usually a bad idea to modify upstream "
 "files directly as the changes end up hidden and mostly undocumented in the ."
@@ -16284,13 +16385,13 @@ msgstr ""
 "anbietet."
 
 #. type: SS
-#: dpkg-source.1:695
+#: dpkg-source.1:702
 #, no-wrap
 msgid "cannot represent change to I<file>"
 msgstr "kann Änderungen an I<Datei> nicht darstellen"
 
 #. type: Plain text
-#: dpkg-source.1:701
+#: dpkg-source.1:708
 msgid ""
 "Changes to upstream sources are usually stored with patch files, but not all "
 "changes can be represented with patches: they can only alter the content of "
@@ -16306,13 +16407,13 @@ msgstr ""
 "Symlink oder einem Verzeichnis), werden Sie diese Fehlermeldung erhalten."
 
 #. type: SS
-#: dpkg-source.1:701
+#: dpkg-source.1:708
 #, no-wrap
 msgid "newly created empty file I<file> will not be represented in diff"
 msgstr "neu angelegte leere Datei I<Datei> wird im Diff nicht dargestellt werden"
 
 #. type: Plain text
-#: dpkg-source.1:704
+#: dpkg-source.1:711
 msgid ""
 "Empty files can't be created with patch files. Thus this change is not "
 "recorded in the source package and you are warned about it."
@@ -16322,13 +16423,13 @@ msgstr ""
 "Warnung."
 
 #. type: SS
-#: dpkg-source.1:704
+#: dpkg-source.1:711
 #, no-wrap
 msgid "executable mode I<perms> of I<file> will not be represented in diff"
 msgstr "ausführbarer Modus I<Rechte> von I<Datei> wird nicht im Diff dargestellt werden"
 
 #. type: Plain text
-#: dpkg-source.1:708
+#: dpkg-source.1:715
 msgid ""
 "Patch files do not record permissions of files and thus executable "
 "permissions are not stored in the source package. This warning reminds you "
@@ -16339,13 +16440,13 @@ msgstr ""
 "Sie an diese Tatsache."
 
 #. type: SS
-#: dpkg-source.1:708
+#: dpkg-source.1:715
 #, no-wrap
 msgid "special mode I<perms> of I<file> will not be represented in diff"
 msgstr "besonderer Modus I<Rechte> von I<Datei> wird nicht im Diff dargestellt werden"
 
 #. type: Plain text
-#: dpkg-source.1:712
+#: dpkg-source.1:719
 msgid ""
 "Patch files do not record permissions of files and thus modified permissions "
 "are not stored in the source package. This warning reminds you of that fact."
@@ -16355,19 +16456,19 @@ msgstr ""
 "an diese Tatsache."
 
 #. type: SH
-#: dpkg-source.1:712
+#: dpkg-source.1:719
 #, no-wrap
 msgid "FILE FORMATS"
 msgstr "DATEIFORMATE"
 
 #. type: SS
-#: dpkg-source.1:713
+#: dpkg-source.1:720
 #, no-wrap
 msgid "debian/source/format"
 msgstr "debian/source/format"
 
 #. type: Plain text
-#: dpkg-source.1:717
+#: dpkg-source.1:724
 msgid ""
 "This file contains on a single line the format that should be used to build "
 "the source package (possible formats are described above). No leading or "
@@ -16378,13 +16479,13 @@ msgstr ""
 "Leerzeichen am Zeilenanfang oder -ende sind nicht erlaubt."
 
 #. type: SS
-#: dpkg-source.1:717
+#: dpkg-source.1:724
 #, no-wrap
 msgid "debian/source/include-binaries"
 msgstr "debian/source/include-binaries"
 
 #. type: Plain text
-#: dpkg-source.1:721
+#: dpkg-source.1:728
 msgid ""
 "This file contains a list of binary files (one per line) that should be "
 "included in the debian tarball. Leading and trailing spaces are stripped.  "
@@ -16397,13 +16498,13 @@ msgstr ""
 "werden übersprungen. Leere Zeilen werden ignoriert."
 
 #. type: SS
-#: dpkg-source.1:721
+#: dpkg-source.1:728
 #, no-wrap
 msgid "debian/source/options"
 msgstr "debian/source/options"
 
 #. type: Plain text
-#: dpkg-source.1:727
+#: dpkg-source.1:734
 msgid ""
 "This file contains a list of long options that should be automatically "
 "prepended to the set of command line options of a B<dpkg-source -b> or "
@@ -16416,7 +16517,7 @@ msgstr ""
 "compression-level> sind für diese Datei gut geeignet."
 
 #. type: Plain text
-#: dpkg-source.1:733
+#: dpkg-source.1:740
 msgid ""
 "Each option should be put on a separate line. Empty lines and lines starting "
 "with \"#\" are ignored. The leading \"--\" should be stripped and short "
@@ -16431,7 +16532,7 @@ msgstr ""
 "ist ein Beispiel für so eine Datei:"
 
 #. type: Plain text
-#: dpkg-source.1:741
+#: dpkg-source.1:748
 #, no-wrap
 msgid ""
 "  # let dpkg-source create a debian.tar.bz2 with maximal compression\n"
@@ -16452,7 +16553,7 @@ msgstr ""
 "  extend-diff-ignore = \"(^|/)(config.sub|config.guess)$\"\n"
 
 #. type: Plain text
-#: dpkg-source.1:744
+#: dpkg-source.1:751
 msgid ""
 "Note: B<format> options are not accepted in this file, you should use "
 "B<debian/source/format> instead."
@@ -16461,13 +16562,13 @@ msgstr ""
 "sollten stattdessen B<debian/source/format> verwenden."
 
 #. type: SS
-#: dpkg-source.1:744
+#: dpkg-source.1:751
 #, no-wrap
 msgid "debian/source/local-options"
 msgstr "debian/source/local-options"
 
 #. type: Plain text
-#: dpkg-source.1:749
+#: dpkg-source.1:756
 msgid ""
 "Exactly like B<debian/source/options> except that the file is not included "
 "in the generated source package. It can be useful to store a preference tied "
@@ -16480,13 +16581,13 @@ msgstr ""
 "bestimmtes VCS, in dem das Paket gewartet wird, gebunden sind."
 
 #. type: SS
-#: dpkg-source.1:749
+#: dpkg-source.1:756
 #, no-wrap
 msgid "debian/source/local-patch-header and debian/source/patch-header"
 msgstr "debian/source/local-patch-header und debian/source/patch-header"
 
 #. type: Plain text
-#: dpkg-source.1:753
+#: dpkg-source.1:760
 msgid ""
 "Free form text that is put on top of the automatic patch generated in "
 "formats \"2.0\" or \"3.0 (quilt)\". B<local-patch-header> is not included in "
@@ -16498,13 +16599,13 @@ msgstr ""
 "dagegen schon."
 
 #. type: SS
-#: dpkg-source.1:753
+#: dpkg-source.1:760
 #, no-wrap
 msgid "debian/patches/series"
 msgstr "debian/patches/series"
 
 #. type: Plain text
-#: dpkg-source.1:762
+#: dpkg-source.1:769
 msgid ""
 "This file lists all patches that have to be applied (in the given order)  on "
 "top of the upstream source package. Leading and trailing spaces are "
@@ -16526,7 +16627,7 @@ msgstr ""
 "bis zum Zeilenende geht) können optionale B<quilt>-Befehle folgen."
 
 #. type: Plain text
-#: dpkg-source.1:765
+#: dpkg-source.1:772
 msgid ""
 "The point at which field overriding occurs compared to certain standard "
 "output field settings is rather confused."
@@ -16535,7 +16636,7 @@ msgstr ""
 "bestimmten Standard-Ausgabe-Feldeinstellungen, ist eher konfus."
 
 #. type: Plain text
-#: dpkg-source.1:768
+#: dpkg-source.1:775
 msgid "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
 msgstr "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
 
@@ -16950,7 +17051,7 @@ msgstr ""
 "eines Binärprogramms war."
 
 #. type: TP
-#: dpkg-split.1:210 start-stop-daemon.8:312 update-alternatives.8:375
+#: dpkg-split.1:210 start-stop-daemon.8:316 update-alternatives.8:375
 #, no-wrap
 msgid "B<2>"
 msgstr "B<2>"
@@ -18674,9 +18775,10 @@ msgstr "start-stop-daemon"
 
 #. type: TH
 #: start-stop-daemon.8:23
-#, no-wrap
-msgid "2013-12-14"
-msgstr "2013-12-14"
+#, fuzzy, no-wrap
+#| msgid "2013-03-28"
+msgid "2014-03-26"
+msgstr "2013-03-28"
 
 #. type: Plain text
 #: start-stop-daemon.8:26
@@ -18829,12 +18931,32 @@ msgstr ""
 
 #. type: TP
 #: start-stop-daemon.8:109
+#, fuzzy, no-wrap
+#| msgid "B<--pid> I<pid>"
+msgid "B<--ppid> I<ppid>"
+msgstr "B<--pid> I<PID>"
+
+#. type: Plain text
+#: start-stop-daemon.8:113
+#, fuzzy
+#| msgid ""
+#| "Check for a process with the specified I<pid>. The I<pid> must be a "
+#| "number greater than 0."
+msgid ""
+"Check for a process with the specified I<ppid> (parent pid).  The I<ppid> "
+"must be a number greater than 0."
+msgstr ""
+"Prüfe auf einen Prozess mit der angegebenen I<PID>. Die I<PID> muss eine "
+"Zahl größer Null sein."
+
+#. type: TP
+#: start-stop-daemon.8:113
 #, no-wrap
 msgid "B<-p>, B<--pidfile> I<pid-file>"
 msgstr "B<-p>, B<--pidfile> I<pid-Datei>"
 
 #. type: Plain text
-#: start-stop-daemon.8:114
+#: start-stop-daemon.8:118
 msgid ""
 "Check whether a process has created the file I<pid-file>. Note: using this "
 "matching option alone might cause unintended processes to be acted on, if "
@@ -18846,13 +18968,13 @@ msgstr ""
 "Datei> entfernen konnte."
 
 #. type: TP
-#: start-stop-daemon.8:114
+#: start-stop-daemon.8:118
 #, no-wrap
 msgid "B<-x>, B<--exec> I<executable>"
 msgstr "B<-x>, B<--exec> I<Programm>"
 
 #. type: Plain text
-#: start-stop-daemon.8:121
+#: start-stop-daemon.8:125
 msgid ""
 "Check for processes that are instances of this I<executable>. The "
 "I<executable> argument should be an absolute pathname. Note: this might not "
@@ -18868,13 +18990,13 @@ msgstr ""
 "Abgleichrestriktionen benötigt werden."
 
 #. type: TP
-#: start-stop-daemon.8:121
+#: start-stop-daemon.8:125
 #, no-wrap
 msgid "B<-n>, B<--name> I<process-name>"
 msgstr "B<-n>, B<--name> I<Prozessname>"
 
 #. type: Plain text
-#: start-stop-daemon.8:128
+#: start-stop-daemon.8:132
 msgid ""
 "Check for processes with the name I<process-name>. The I<process-name> is "
 "usually the process filename, but it could have been changed by the process "
@@ -18890,13 +19012,13 @@ msgstr ""
 "Zeichen anzunehmen ist nicht portabel)."
 
 #. type: TP
-#: start-stop-daemon.8:128
+#: start-stop-daemon.8:132
 #, no-wrap
 msgid "B<-u>, B<--user> I<username>|I<uid>"
 msgstr "B<-u>, B<--user> I<Benutzername>|I<uid>"
 
 #. type: Plain text
-#: start-stop-daemon.8:133
+#: start-stop-daemon.8:137
 msgid ""
 "Check for processes owned by the user specified by I<username> or I<uid>. "
 "Note: using this matching option alone will cause all processes matching the "
@@ -18907,30 +19029,30 @@ msgstr ""
 "verwandt, wird auf alle Prozesse, die auf den Benutzer passen, eingewirkt."
 
 #. type: SS
-#: start-stop-daemon.8:134
+#: start-stop-daemon.8:138
 #, no-wrap
 msgid "Generic options"
 msgstr "Allgemeine Optionen:"
 
 #. type: TP
-#: start-stop-daemon.8:135
+#: start-stop-daemon.8:139
 #, no-wrap
 msgid "B<-g>, B<--group> I<group>|I<gid>"
 msgstr "B<-g>, B<--group> I<Gruppe>|I<gid>"
 
 #. type: Plain text
-#: start-stop-daemon.8:138
+#: start-stop-daemon.8:142
 msgid "Change to I<group> or I<gid> when starting the process."
 msgstr "Wechsle zum Starten des Prozesses zur I<Gruppe> oder I<gid>."
 
 #. type: TP
-#: start-stop-daemon.8:138
+#: start-stop-daemon.8:142
 #, no-wrap
 msgid "B<-s>, B<--signal> I<signal>"
 msgstr "B<-s>, B<--signal> I<Signal>"
 
 #. type: Plain text
-#: start-stop-daemon.8:143
+#: start-stop-daemon.8:147
 msgid ""
 "With B<--stop>, specifies the signal to send to processes being stopped "
 "(default TERM)."
@@ -18939,13 +19061,13 @@ msgstr ""
 "spezifiziert (standardmäßig TERM)."
 
 #. type: TP
-#: start-stop-daemon.8:143
+#: start-stop-daemon.8:147
 #, no-wrap
 msgid "B<-R>, B<--retry> I<timeout>|I<schedule>"
 msgstr "B<-R>, B<--retry> I<Zeitüberschreitung>|I<Plan>"
 
 #. type: Plain text
-#: start-stop-daemon.8:153
+#: start-stop-daemon.8:157
 msgid ""
 "With B<--stop>, specifies that B<start-stop-daemon> is to check whether the "
 "process(es)  do finish. It will check repeatedly whether any matching "
@@ -18959,7 +19081,7 @@ msgstr ""
 "durchgeführt."
 
 #. type: Plain text
-#: start-stop-daemon.8:164
+#: start-stop-daemon.8:168
 msgid ""
 "If I<timeout> is specified instead of I<schedule>, then the schedule "
 "I<signal>B</>I<timeout>B</KILL/>I<timeout> is used, where I<signal> is the "
@@ -18971,7 +19093,7 @@ msgstr ""
 "spezifizierte Signal ist."
 
 #. type: Plain text
-#: start-stop-daemon.8:180
+#: start-stop-daemon.8:184
 msgid ""
 "I<schedule> is a list of at least two items separated by slashes (B</>); "
 "each item may be B<->I<signal-number> or [B<->]I<signal-name>, which means "
@@ -18987,7 +19109,7 @@ msgstr ""
 "bedeutet, den Rest des Plans falls notwendig für immer zu wiederholen."
 
 #. type: Plain text
-#: start-stop-daemon.8:190
+#: start-stop-daemon.8:194
 msgid ""
 "If the end of the schedule is reached and B<forever> is not specified, then "
 "B<start-stop-daemon> exits with error status 2.  If a schedule is specified, "
@@ -18999,13 +19121,13 @@ msgstr ""
 "spezifizierte Signal ignoriert."
 
 #. type: TP
-#: start-stop-daemon.8:190
+#: start-stop-daemon.8:194
 #, no-wrap
 msgid "B<-a>, B<--startas> I<pathname>"
 msgstr "B<-a>, B<--startas> I<Pfadname>"
 
 #. type: Plain text
-#: start-stop-daemon.8:198
+#: start-stop-daemon.8:202
 msgid ""
 "With B<--start>, start the process specified by I<pathname>.  If not "
 "specified, defaults to the argument given to B<--exec>."
@@ -19015,13 +19137,13 @@ msgstr ""
 "Argumente verwendet."
 
 #. type: TP
-#: start-stop-daemon.8:198
+#: start-stop-daemon.8:202
 #, no-wrap
 msgid "B<-t>, B<--test>"
 msgstr "B<-t>, B<--test>"
 
 #. type: Plain text
-#: start-stop-daemon.8:202
+#: start-stop-daemon.8:206
 msgid ""
 "Print actions that would be taken and set appropriate return value, but take "
 "no action."
@@ -19030,37 +19152,37 @@ msgstr ""
 "Rückgabewerte, führe aber keine Aktionen durch."
 
 #. type: TP
-#: start-stop-daemon.8:202
+#: start-stop-daemon.8:206
 #, no-wrap
 msgid "B<-o>, B<--oknodo>"
 msgstr "B<-o>, B<--oknodo>"
 
 #. type: Plain text
-#: start-stop-daemon.8:205
+#: start-stop-daemon.8:209
 msgid "Return exit status 0 instead of 1 if no actions are (would be) taken."
 msgstr ""
 "Liefert den Rückgabewert 0 anstatt 1 falls keine Aktionen ausgeführt wurden "
 "(würden)."
 
 #. type: TP
-#: start-stop-daemon.8:205
+#: start-stop-daemon.8:209
 #, no-wrap
 msgid "B<-q>, B<--quiet>"
 msgstr "B<-q>, B<--quiet>"
 
 #. type: Plain text
-#: start-stop-daemon.8:208
+#: start-stop-daemon.8:212
 msgid "Do not print informational messages; only display error messages."
 msgstr "Gebe keine informativen Meldungen aus, zeige nur Fehlermeldungen an."
 
 #. type: TP
-#: start-stop-daemon.8:208
+#: start-stop-daemon.8:212
 #, no-wrap
 msgid "B<-c>, B<--chuid> I<username>|I<uid>[B<:>I<group>|I<gid>]"
 msgstr "B<-c >, B< --chuid >I<Benutzername>|I<uid>[B<:>I<Gruppe>|I<gid>]"
 
 #. type: Plain text
-#: start-stop-daemon.8:226
+#: start-stop-daemon.8:230
 msgid ""
 "Change to this username/uid before starting the process. You can also "
 "specify a group by appending a B<:>, then the group or gid in the same way "
@@ -19083,13 +19205,13 @@ msgstr ""
 "generische Benutzer wie B<nobody>)."
 
 #. type: TP
-#: start-stop-daemon.8:226
+#: start-stop-daemon.8:230
 #, no-wrap
 msgid "B<-r>, B<--chroot> I<root>"
 msgstr "B<-r>, B<--chroot> I<Wurzel>"
 
 #. type: Plain text
-#: start-stop-daemon.8:232
+#: start-stop-daemon.8:236
 msgid ""
 "Chdir and chroot to I<root> before starting the process. Please note that "
 "the pidfile is also written after the chroot."
@@ -19098,13 +19220,13 @@ msgstr ""
 "Sie, dass die PID-Datei auch nach dem chroot geschrieben wird."
 
 #. type: TP
-#: start-stop-daemon.8:232
+#: start-stop-daemon.8:236
 #, no-wrap
 msgid "B<-d>, B<--chdir> I<path>"
 msgstr "B<-d>, B<--chdir> I<Pfad>"
 
 #. type: Plain text
-#: start-stop-daemon.8:240
+#: start-stop-daemon.8:244
 msgid ""
 "Chdir to I<path> before starting the process. This is done after the chroot "
 "if the B<-r>|B<--chroot> option is set. When not specified, B<start-stop-"
@@ -19116,13 +19238,13 @@ msgstr ""
 "Wurzelverzeichnis wechseln."
 
 #. type: TP
-#: start-stop-daemon.8:240
+#: start-stop-daemon.8:244
 #, no-wrap
 msgid "B<-b>, B<--background>"
 msgstr "B<-b>, B<--background>"
 
 #. type: Plain text
-#: start-stop-daemon.8:252
+#: start-stop-daemon.8:256
 msgid ""
 "Typically used with programs that don't detach on their own. This option "
 "will force B<start-stop-daemon> to fork before starting the process, and "
@@ -19141,13 +19263,13 @@ msgstr ""
 "ergibt oder wo es nicht sinnvoll ist, den Code hierfür hinzuzufügen."
 
 #. type: TP
-#: start-stop-daemon.8:252
+#: start-stop-daemon.8:256
 #, no-wrap
 msgid "B<-C>, B<--no-close>"
 msgstr "B<-C>, B<--no-close>"
 
 #. type: Plain text
-#: start-stop-daemon.8:258
+#: start-stop-daemon.8:262
 msgid ""
 "Do not close any file descriptor when forcing the daemon into the "
 "background.  Used for debugging purposes to see the process output, or to "
@@ -19160,24 +19282,24 @@ msgstr ""
 "relevant bei der Verwendung von B<--background>."
 
 #. type: TP
-#: start-stop-daemon.8:258
+#: start-stop-daemon.8:262
 #, no-wrap
 msgid "B<-N>, B<--nicelevel> I<int>"
 msgstr "B<-N>, B<--nicelevel> I<Ganzzahl>"
 
 #. type: Plain text
-#: start-stop-daemon.8:261
+#: start-stop-daemon.8:265
 msgid "This alters the priority of the process before starting it."
 msgstr "Dies ändert die Priorität des Prozesses bevor er gestartet wird."
 
 #. type: TP
-#: start-stop-daemon.8:261
+#: start-stop-daemon.8:265
 #, no-wrap
 msgid "B<-P>, B<--procsched> I<policy>B<:>I<priority>"
 msgstr "B<-P>, B<--procsched> I<Strategie>B<:>I<Priorität>"
 
 #. type: Plain text
-#: start-stop-daemon.8:267
+#: start-stop-daemon.8:271
 msgid ""
 "This alters the process scheduler policy and priority of the process before "
 "starting it. The priority can be optionally specified by appending a B<:> "
@@ -19191,13 +19313,13 @@ msgstr ""
 "für die Strategie lauten B<other>, B<fifo> und B<rr>."
 
 #. type: TP
-#: start-stop-daemon.8:267
+#: start-stop-daemon.8:271
 #, no-wrap
 msgid "B<-I>, B<--iosched> I<class>B<:>I<priority>"
 msgstr "B<-I>, B<--iosched> I<Klasse>B<:>I<Priorität>"
 
 #. type: Plain text
-#: start-stop-daemon.8:274
+#: start-stop-daemon.8:278
 msgid ""
 "This alters the IO scheduler class and priority of the process before "
 "starting it. The priority can be optionally specified by appending a B<:> "
@@ -19213,24 +19335,24 @@ msgstr ""
 "lauten B<idle>, B<best-effort> und B<real-time>."
 
 #. type: TP
-#: start-stop-daemon.8:274
+#: start-stop-daemon.8:278
 #, no-wrap
 msgid "B<-k>, B<--umask> I<mask>"
 msgstr "B<-k>, B<--umask> I<Maske>"
 
 #. type: Plain text
-#: start-stop-daemon.8:277
+#: start-stop-daemon.8:281
 msgid "This sets the umask of the process before starting it."
 msgstr "Dies setzt die umask des Prozesses bevor er gestartet wird."
 
 #. type: TP
-#: start-stop-daemon.8:277
+#: start-stop-daemon.8:281
 #, no-wrap
 msgid "B<-m>, B<--make-pidfile>"
 msgstr "B<-m>, B<--make-pidfile>"
 
 #. type: Plain text
-#: start-stop-daemon.8:292
+#: start-stop-daemon.8:296
 msgid ""
 "Used when starting a program that does not create its own pid file. This "
 "option will make B<start-stop-daemon> create the file referenced with B<--"
@@ -19250,12 +19372,12 @@ msgstr ""
 "Kombination mit der Option B<--background> sinnvoll."
 
 #. type: Plain text
-#: start-stop-daemon.8:295
+#: start-stop-daemon.8:299
 msgid "Print verbose informational messages."
 msgstr "Gibt ausführliche informative Meldungen aus."
 
 #. type: Plain text
-#: start-stop-daemon.8:307
+#: start-stop-daemon.8:311
 msgid ""
 "The requested action was performed. If B<--oknodo> was specified, it's also "
 "possible that nothing had to be done.  This can happen when B<--start> was "
@@ -19268,12 +19390,12 @@ msgstr ""
 "wenn B<--stop> angegeben wurde und es keinen passenden Prozess gab."
 
 #. type: Plain text
-#: start-stop-daemon.8:312
+#: start-stop-daemon.8:316
 msgid "If B<--oknodo> was not specified and nothing was done."
 msgstr "Falls B<--oknodo> nicht angegeben war und nichts durchgeführt wurde."
 
 #. type: Plain text
-#: start-stop-daemon.8:320
+#: start-stop-daemon.8:324
 msgid ""
 "If B<--stop> and B<--retry> were specified, but the end of the schedule was "
 "reached and the processes were still running."
@@ -19282,18 +19404,18 @@ msgstr ""
 "erreicht wurde und die Prozesse noch liefen."
 
 #. type: TP
-#: start-stop-daemon.8:320 start-stop-daemon.8:332
+#: start-stop-daemon.8:324 start-stop-daemon.8:336
 #, no-wrap
 msgid "B<3>"
 msgstr "B<3>"
 
 #. type: Plain text
-#: start-stop-daemon.8:323
+#: start-stop-daemon.8:327
 msgid "Any other error."
 msgstr "Jeder andere Fehler."
 
 #. type: Plain text
-#: start-stop-daemon.8:326
+#: start-stop-daemon.8:330
 msgid ""
 "When using the B<--status> command, the following status codes are returned:"
 msgstr ""
@@ -19301,33 +19423,33 @@ msgstr ""
 "zurückgeliefert:"
 
 #. type: Plain text
-#: start-stop-daemon.8:329
+#: start-stop-daemon.8:333
 msgid "Program is running."
 msgstr "Programm läuft."
 
 #. type: Plain text
-#: start-stop-daemon.8:332
+#: start-stop-daemon.8:336
 msgid "Program is not running and the pid file exists."
 msgstr "Programm läuft nicht und die PID-Datei existiert."
 
 #. type: Plain text
-#: start-stop-daemon.8:335
+#: start-stop-daemon.8:339
 msgid "Program is not running."
 msgstr "Programm läuft nicht."
 
 #. type: TP
-#: start-stop-daemon.8:335
+#: start-stop-daemon.8:339
 #, no-wrap
 msgid "B<4>"
 msgstr "B<4>"
 
 #. type: Plain text
-#: start-stop-daemon.8:338
+#: start-stop-daemon.8:342
 msgid "Unable to determine program status."
 msgstr "Programmstatus kann nicht bestimmt werden."
 
 #. type: Plain text
-#: start-stop-daemon.8:342
+#: start-stop-daemon.8:346
 msgid ""
 "Start the B<food> daemon, unless one is already running (a process named "
 "food, running as user food, with pid in food.pid):"
@@ -19336,7 +19458,7 @@ msgstr ""
 "food, der als Benutzer food mit PID in food.pid läuft):"
 
 #. type: Plain text
-#: start-stop-daemon.8:347
+#: start-stop-daemon.8:351
 #, no-wrap
 msgid ""
 "start-stop-daemon --start --oknodo --user food --name food \\e\n"
@@ -19348,14 +19470,14 @@ msgstr ""
 "\t--chuid food -- --daemon\n"
 
 #. type: Plain text
-#: start-stop-daemon.8:350
+#: start-stop-daemon.8:354
 msgid "Send B<SIGTERM> to B<food> and wait up to 5 seconds for it to stop:"
 msgstr ""
 "Schicke B<SIGTERM> an B<food> und warte bis zu fünf Sekunden auf sein "
 "Beenden:"
 
 #. type: Plain text
-#: start-stop-daemon.8:354
+#: start-stop-daemon.8:358
 #, no-wrap
 msgid ""
 "start-stop-daemon --stop --oknodo --user food --name food \\e\n"
@@ -19365,12 +19487,12 @@ msgstr ""
 "\t--pidfile /run/food.pid --retry 5\n"
 
 #. type: Plain text
-#: start-stop-daemon.8:357
+#: start-stop-daemon.8:361
 msgid "Demonstration of a custom schedule for stopping B<food>:"
 msgstr "Vorführung eines angepassten Plans zum Beenden von B<food>:"
 
 #. type: Plain text
-#: start-stop-daemon.8:361
+#: start-stop-daemon.8:365
 #, no-wrap
 msgid ""
 "start-stop-daemon --stop --oknodo --user food --name food \\e\n"
@@ -20429,6 +20551,16 @@ msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
 "B<ln>(1), FHS, der Dateisystem Hierarchie-Standard (Filesystem Hierarchy "
 "Standard)."
+
+# FIXME I<> → B<>
+#~ msgid "Pass option I<opt> to I<check-command>."
+#~ msgstr "Option I<Opt> an I<Prüfbefehl> weitergeben."
+
+#~ msgid "2013-12-11"
+#~ msgstr "2013-12-11"
+
+#~ msgid "2013-12-14"
+#~ msgstr "2013-12-14"
 
 #~ msgid ""
 #~ "It calls B<gpg2> or B<gpg> to sign the B<.changes> file (unless B<-uc> is "
