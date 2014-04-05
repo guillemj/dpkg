@@ -1521,8 +1521,33 @@ do_procinit(void)
 static enum status_code
 do_procinit(void)
 {
-	/* Nothing to do. */
-	return status_unknown;
+	kvm_t *kd;
+	int nentries, i;
+	struct kinfo_proc *kp;
+	char errbuf[_POSIX2_LINE_MAX];
+	enum status_code prog_status = status_dead;
+
+	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
+	if (kd == NULL)
+		errx(1, "%s", errbuf);
+	kp = kvm_getprocs(kd, KERN_PROC_ALL, 0, &nentries);
+	if (kp == NULL)
+		errx(1, "%s", kvm_geterr(kd));
+
+	for (i = 0; i < nentries; i++) {
+		enum status_code pid_status;
+		pid_t pid;
+
+		pid = kp[i].kp_proc.p_pid;
+
+		pid_status = pid_check(pid);
+		if (pid_status < prog_status)
+			prog_status = pid_status;
+	}
+
+	kvm_close(kd);
+
+	return prog_status;
 }
 #endif
 
