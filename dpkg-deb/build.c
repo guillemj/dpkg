@@ -599,7 +599,8 @@ do_build(const char *const *argv)
     m_dup2(p2[1],1); close(p2[0]); close(p2[1]);
     if (chdir(dir))
       ohshite(_("failed to chdir to `%.255s'"), dir);
-    execlp(TAR, "tar", "-cf", "-", "--format=gnu", "--null", "-T", "-", "--no-recursion", NULL);
+    execlp(TAR, "tar", "-cf", "-", "--format=gnu", "--null", "--no-unquote",
+                       "-T", "-", "--no-recursion", NULL);
     ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
   }
   close(p1[0]);
