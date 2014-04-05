@@ -1199,6 +1199,32 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 	return ((dev_t)pst.pst_text.psf_fsid.psfs_id == esb->st_dev &&
 	        (ino_t)pst.pst_text.psf_fileid == esb->st_ino);
 }
+#elif defined(OSFreeBSD)
+static bool
+pid_is_exec(pid_t pid, const struct stat *esb)
+{
+	struct stat sb;
+	int error, name[4];
+	size_t len;
+	char pathname[PATH_MAX];
+
+	name[0] = CTL_KERN;
+	name[1] = KERN_PROC;
+	name[2] = KERN_PROC_PATHNAME;
+	name[3] = pid;
+	len = sizeof(pathname);
+
+	error = sysctl(name, 4, pathname, &len, NULL, 0);
+	if (error != 0 && errno != ESRCH)
+		return false;
+	if (len == 0)
+		pathname[0] = '\0';
+
+	if (stat(pathname, &sb) != 0)
+		return false;
+
+	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
+}
 #elif defined(HAVE_KVM_H)
 static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
