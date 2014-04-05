@@ -1293,11 +1293,17 @@ pid_is_user(pid_t pid, uid_t uid)
 	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
 	if (kp == NULL)
 		errx(1, "%s", kvm_geterr(kd));
+
+#if defined(OSFreeBSD)
+	proc_uid = kp->ki_ruid;
+#else
 	if (kp->kp_proc.p_cred)
 		kvm_read(kd, (u_long)&(kp->kp_proc.p_cred->p_ruid),
 		         &proc_uid, sizeof(uid_t));
 	else
 		return false;
+#endif
+
 	return (proc_uid == (uid_t)uid);
 }
 #endif
@@ -1370,7 +1376,13 @@ pid_is_cmd(pid_t pid, const char *name)
 	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
 	if (kp == NULL)
 		errx(1, "%s", kvm_geterr(kd));
+
+#if defined(OSFreeBSD)
+	process_name = kp->ki_comm;
+#else
 	process_name = kp->kp_proc.p_comm;
+#endif
+
 	if (strlen(name) != strlen(process_name))
 		return false;
 	return (strcmp(name, process_name) == 0);
@@ -1538,7 +1550,11 @@ do_procinit(void)
 		enum status_code pid_status;
 		pid_t pid;
 
+#if defined(OSFreeBSD)
+		pid = kp[i].ki_pid;
+#else
 		pid = kp[i].kp_proc.p_pid;
+#endif
 
 		pid_status = pid_check(pid);
 		if (pid_status < prog_status)
