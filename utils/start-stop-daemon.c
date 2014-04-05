@@ -25,7 +25,7 @@
 
 #include <dpkg/macros.h>
 
-#if defined(linux) || (defined(__FreeBSD_kernel__) && defined(__GLIBC__))
+#if defined(linux)
 #  define OSLinux
 #elif defined(__GNU__)
 #  define OSHurd
@@ -35,7 +35,7 @@
 #  define OSOpenBSD
 #elif defined(hpux)
 #  define OShpux
-#elif defined(__FreeBSD__)
+#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 #  define OSFreeBSD
 #elif defined(__NetBSD__)
 #  define OSNetBSD

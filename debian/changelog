@@ -19,6 +19,9 @@ dpkg (1.17.13) UNRELEASED; urgency=low
     Reported by Neil Williams <codehelp@debian.org>.
   * Only test the strerror() compatible code if sys_errlist and sys_nerr
     are present. This fixes a build failure on GNU/Hurd. Closes: #758199
+  * Switch start-stop-daemon on GNU/kFreeBSD systems to use libkvm, instead
+    of relying on linprocfs which is not the native procfs on kFreeBSD, and it
+    is usually not mounted as FreeBSD programs do not expect it to be present.
 
   [ Updated programs translations ]
   * Czech (Miroslav Kure).
