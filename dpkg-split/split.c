@@ -40,6 +40,7 @@
 #include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/parsedump.h>
 #include <dpkg/path.h>
 #include <dpkg/string.h>
 #include <dpkg/subproc.h>
@@ -49,14 +50,16 @@
 
 #include "dpkg-split.h"
 
-static char *
-deb_field(const char *filename, const char *field)
+/**
+ * Parse the control file from a .deb package into a struct pkginfo.
+ */
+static struct pkginfo *
+deb_parse_control(const char *filename)
 {
-	struct dpkg_error err;
+	struct parsedb_state *ps;
+	struct pkginfo *pkg;
 	pid_t pid;
 	int p[2];
-	struct varbuf buf = VARBUF_INIT;
-	char *end;
 
 	m_pipe(p);
 
@@ -67,31 +70,23 @@ deb_field(const char *filename, const char *field)
 		close(p[0]);
 		close(p[1]);
 
-		execlp(BACKEND, BACKEND, "--field", filename, field, NULL);
+		execlp(BACKEND, BACKEND, "--info", filename, "control", NULL);
 		ohshite(_("unable to execute %s (%s)"),
 		        _("package field value extraction"), BACKEND);
 	}
 	close(p[1]);
 
-	/* Parant reads from pipe. */
-	varbuf_reset(&buf);
-	if (fd_vbuf_copy(p[0], &buf, -1, &err) < 0)
-		ohshit(_("cannot extract package field value from '%s': %s"),
-		       filename, err.str);
-	varbuf_end_str(&buf);
+	/* Parent reads from pipe. */
+	ps = parsedb_new(_("<dpkg-deb --info pipe>"), p[0], pdb_parse_binary);
+	parsedb_load(ps);
+	parsedb_parse(ps, &pkg);
+	parsedb_close(ps);
 
 	close(p[0]);
 
 	subproc_reap(pid, _("package field value extraction"), SUBPROC_NOPIPE);
 
-	/* Trim down trailing junk. */
-	for (end = buf.buf + strlen(buf.buf) - 1; end - buf.buf >= 1; end--)
-		if (c_isspace(*end))
-			*end = '\0';
-		else
-			break;
-
-	return varbuf_detach(&buf);
+	return pkg;
 }
 
 /* Cleanup filename for use in crippled msdos systems. */
@@ -118,11 +113,12 @@ static int
 mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
         bool msdos)
 {
+	struct pkginfo *pkg;
 	struct dpkg_error err;
 	int fd_src;
 	struct stat st;
+	const char *version;
 	char hash[MD5HASHLEN + 1];
-	char *package, *version, *arch;
 	int nparts, curpart;
 	off_t partsize;
 	off_t cur_partsize, last_partsize;
@@ -144,10 +140,8 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 		       file_src, err.str);
 	lseek(fd_src, 0, SEEK_SET);
 
-	/* FIXME: Use libdpkg-deb. */
-	package = deb_field(file_src, "Package");
-	version = deb_field(file_src, "Version");
-	arch = deb_field(file_src, "Architecture");
+	pkg  = deb_parse_control(file_src);
+	version = versiondescribe(&pkg->available.version, vdew_always);
 
 	partsize = maxpartsize - HEADERALLOWANCE;
 	last_partsize = st.st_size % partsize;
@@ -157,7 +151,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 
 	printf(P_("Splitting package %s into %d part: ",
 	          "Splitting package %s into %d parts: ", nparts),
-	       package, nparts);
+	       pkg->set->name, nparts);
 
 	if (msdos) {
 		char *t;
@@ -212,9 +206,9 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 		/* Write the debian-split part. */
 		varbuf_printf(&partmagic,
 		              "%s\n%s\n%s\n%s\n%jd\n%jd\n%d/%d\n%s\n",
-		              SPLITVERSION, package, version, hash,
+		              SPLITVERSION, pkg->set->name, version, hash,
 		              (intmax_t)st.st_size, (intmax_t)partsize,
-		              curpart, nparts, arch);
+		              curpart, nparts, pkg->available.arch->name);
 		dpkg_ar_member_put_mem(file_dst.buf, fd_dst, PARTMAGIC,
 		                       partmagic.buf, partmagic.used);
 		varbuf_reset(&partmagic);
@@ -233,10 +227,6 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	varbuf_destroy(&file_dst);
 	varbuf_destroy(&partname);
 	varbuf_destroy(&partmagic);
-
-	free(package);
-	free(version);
-	free(arch);
 
 	free(prefixdir);
 	free(msdos_prefix);
