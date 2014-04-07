@@ -504,13 +504,14 @@ parse_get_type(struct parsedb_state *ps, enum parsedbflags flags)
 /**
  * Open a file for RFC-822 parsing.
  */
-void
-parse_open(struct parsedb_state *ps, const char *filename,
-           enum parsedbflags flags)
+struct parsedb_state *
+parse_open(const char *filename, enum parsedbflags flags)
 {
   static int fd;
+  struct parsedb_state *ps;
   struct stat st;
 
+  ps = m_malloc(sizeof(*ps));
   ps->filename = filename;
   ps->type = parse_get_type(ps, flags);
   ps->flags = flags;
@@ -549,6 +550,8 @@ parse_open(struct parsedb_state *ps, const char *filename,
 
   if (close(fd))
     ohshite(_("failed to close after read: `%.255s'"), filename);
+
+  return ps;
 }
 
 /**
@@ -686,6 +689,7 @@ parse_close(struct parsedb_state *ps)
     free(ps->data);
 #endif
   }
+  free(ps);
 }
 
 /**
@@ -703,13 +707,13 @@ int parsedb(const char *filename, enum parsedbflags flags,
   struct pkg_parse_object pkg_obj;
   int fieldencountered[array_count(fieldinfos)];
   int pdone;
-  struct parsedb_state ps;
+  struct parsedb_state *ps;
   struct field_state fs;
 
   memset(&fs, 0, sizeof(fs));
   fs.fieldencountered = fieldencountered;
 
-  parse_open(&ps, filename, flags);
+  ps = parse_open(filename, flags);
 
   new_pkg = &tmp_set.pkg;
   if (flags & pdb_recordavailable)
@@ -717,8 +721,8 @@ int parsedb(const char *filename, enum parsedbflags flags,
   else
     new_pkgbin = &new_pkg->installed;
 
-  ps.pkg = new_pkg;
-  ps.pkgbin = new_pkgbin;
+  ps->pkg = new_pkg;
+  ps->pkgbin = new_pkgbin;
 
   pkg_obj.pkg = new_pkg;
   pkg_obj.pkgbin = new_pkgbin;
@@ -730,36 +734,36 @@ int parsedb(const char *filename, enum parsedbflags flags,
     memset(fieldencountered, 0, sizeof(fieldencountered));
     pkgset_blank(&tmp_set);
 
-    if (!parse_stanza(&ps, &fs, pkg_parse_field, &pkg_obj))
+    if (!parse_stanza(ps, &fs, pkg_parse_field, &pkg_obj))
       break;
 
     if (pdone && donep)
-      parse_error(&ps,
+      parse_error(ps,
                   _("several package info entries found, only one allowed"));
 
-    pkg_parse_verify(&ps, new_pkg, new_pkgbin);
+    pkg_parse_verify(ps, new_pkg, new_pkgbin);
 
-    db_pkg = parse_find_pkg_slot(&ps, new_pkg, new_pkgbin);
+    db_pkg = parse_find_pkg_slot(ps, new_pkg, new_pkgbin);
     if (flags & pdb_recordavailable)
       db_pkgbin = &db_pkg->available;
     else
       db_pkgbin = &db_pkg->installed;
 
-    if (((flags & pdb_ignoreolder) || ps.type == pdb_file_available) &&
+    if (((flags & pdb_ignoreolder) || ps->type == pdb_file_available) &&
         dpkg_version_is_informative(&db_pkgbin->version) &&
         dpkg_version_compare(&new_pkgbin->version, &db_pkgbin->version) < 0)
       continue;
 
-    pkg_parse_copy(&ps, db_pkg, db_pkgbin, new_pkg, new_pkgbin);
+    pkg_parse_copy(ps, db_pkg, db_pkgbin, new_pkg, new_pkgbin);
 
     if (donep)
       *donep = db_pkg;
     pdone++;
-    if (parse_EOF(&ps))
+    if (parse_EOF(ps))
       break;
   }
 
-  parse_close(&ps);
+  parse_close(ps);
 
   varbuf_destroy(&fs.value);
   if (donep && !pdone) ohshit(_("no package information in `%.255s'"),filename);
