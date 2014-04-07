@@ -507,9 +507,9 @@ parse_get_type(struct parsedb_state *ps, enum parsedbflags flags)
 struct parsedb_state *
 parse_open(const char *filename, enum parsedbflags flags)
 {
-  static int fd;
   struct parsedb_state *ps;
   struct stat st;
+  int fd;
 
   ps = m_malloc(sizeof(*ps));
   ps->filename = filename;
@@ -524,20 +524,21 @@ parse_open(const char *filename, enum parsedbflags flags)
     ohshite(_("failed to open package info file `%.255s' for reading"),
             filename);
 
-  push_cleanup(cu_closefd, ~ehflag_normaltidy, NULL, 0, 1, &fd);
+  ps->fd = fd;
+  push_cleanup(cu_closefd, ~ehflag_normaltidy, NULL, 0, 1, &ps->fd);
 
-  if (fstat(fd, &st) == -1)
+  if (fstat(ps->fd, &st) == -1)
     ohshite(_("can't stat package info file `%.255s'"), filename);
 
   if (st.st_size > 0) {
 #ifdef USE_MMAP
-    ps->dataptr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
+    ps->dataptr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, ps->fd, 0);
     if (ps->dataptr == MAP_FAILED)
       ohshite(_("can't mmap package info file `%.255s'"), filename);
 #else
     ps->dataptr = m_malloc(st.st_size);
 
-    if (fd_read(fd, ps->dataptr, st.st_size) < 0)
+    if (fd_read(ps->fd, ps->dataptr, st.st_size) < 0)
       ohshite(_("reading package info file '%.255s'"), filename);
 #endif
     ps->data = ps->dataptr;
@@ -548,7 +549,7 @@ parse_open(const char *filename, enum parsedbflags flags)
 
   pop_cleanup(ehflag_normaltidy);
 
-  if (close(fd))
+  if (close(ps->fd))
     ohshite(_("failed to close after read: `%.255s'"), filename);
 
   return ps;

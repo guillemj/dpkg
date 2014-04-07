@@ -52,6 +52,7 @@ struct parsedb_state {
 	char *dataptr;
 	char *endptr;
 	const char *filename;
+	int fd;
 	int lno;
 };
 
