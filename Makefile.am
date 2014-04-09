@@ -130,12 +130,12 @@ coverage-clean:
 endif
 
 test_cases = \
-	test/000_pod.t \
-	test/100_critic.t \
+	test/pod.t \
+	test/critic.t \
 	$(nil)
 
 test_data = \
-	test/100_critic/perlcriticrc \
+	test/critic/perlcriticrc \
 	$(nil)
 
 include $(top_srcdir)/check.am

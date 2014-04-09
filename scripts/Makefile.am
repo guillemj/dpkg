@@ -185,99 +185,99 @@ TEST_COVERAGE = $(PERL_COVERAGE)
 test_tmpdir = t.tmp
 
 test_cases = \
-	t/100_Dpkg_Version.t \
-	t/110_Dpkg_Arch.t \
-	t/150_Dpkg_Package.t \
-	t/190_Dpkg_Shlibs_Cppfilt.t \
-	t/200_Dpkg_Shlibs.t \
-	t/300_Dpkg_BuildOptions.t \
-	t/400_Dpkg_Deps.t \
-	t/500_Dpkg_Path.t \
-	t/550_Dpkg_Util.t \
-	t/600_Dpkg_Changelog.t \
-	t/600_Dpkg_Changelog_Ubuntu.t \
-	t/700_Dpkg_Control.t \
-	t/750_Dpkg_Substvars.t \
-	t/800_Dpkg_IPC.t \
-	t/850_Dpkg_Compression.t \
-	t/910_merge_changelogs.t
+	t/Dpkg_Version.t \
+	t/Dpkg_Arch.t \
+	t/Dpkg_Package.t \
+	t/Dpkg_Shlibs_Cppfilt.t \
+	t/Dpkg_Shlibs.t \
+	t/Dpkg_BuildOptions.t \
+	t/Dpkg_Deps.t \
+	t/Dpkg_Path.t \
+	t/Dpkg_Util.t \
+	t/Dpkg_Changelog.t \
+	t/Dpkg_Changelog_Ubuntu.t \
+	t/Dpkg_Control.t \
+	t/Dpkg_Substvars.t \
+	t/Dpkg_IPC.t \
+	t/Dpkg_Compression.t \
+	t/merge_changelogs.t
 
 test_data = \
-	t/200_Dpkg_Shlibs/symbols.blacklisted \
-	t/200_Dpkg_Shlibs/symbols.blacklist-groups \
-	t/200_Dpkg_Shlibs/symbols.blacklist-filter \
-	t/200_Dpkg_Shlibs/symbols.blacklist-ignore \
-	t/200_Dpkg_Shlibs/symbols.fake-1 \
-	t/200_Dpkg_Shlibs/symbols.fake-2 \
-	t/200_Dpkg_Shlibs/symbols.fake-3 \
-	t/200_Dpkg_Shlibs/symbols.include-1 \
-	t/200_Dpkg_Shlibs/symbols.include-2 \
-	t/200_Dpkg_Shlibs/symbols.include-3 \
-	t/200_Dpkg_Shlibs/basictags.symbols \
-	t/200_Dpkg_Shlibs/basictags.c \
-	t/200_Dpkg_Shlibs/patterns.symbols \
-	t/200_Dpkg_Shlibs/patterns.cpp \
-	t/200_Dpkg_Shlibs/patterns.map \
-	t/200_Dpkg_Shlibs/ld.so.conf \
-	t/200_Dpkg_Shlibs/ld.so.conf_2 \
-	t/200_Dpkg_Shlibs/ld.so.conf.d/normal.conf \
-	t/200_Dpkg_Shlibs/ld.so.conf.d/inf_recurse.conf \
-	t/200_Dpkg_Shlibs/ld.so.conf.d/recursive.conf \
-	t/200_Dpkg_Shlibs/objdump.space \
-	t/200_Dpkg_Shlibs/objdump.basictags-amd64 \
-	t/200_Dpkg_Shlibs/objdump.basictags-i386 \
-	t/200_Dpkg_Shlibs/objdump.blacklisted \
-	t/200_Dpkg_Shlibs/objdump.patterns \
-	t/200_Dpkg_Shlibs/objdump.glib-ia64 \
-	t/200_Dpkg_Shlibs/objdump.libc6-2.3 \
-	t/200_Dpkg_Shlibs/objdump.libc6-2.6 \
-	t/200_Dpkg_Shlibs/objdump.dbd-pg \
-	t/200_Dpkg_Shlibs/objdump.ls \
-	t/600_Dpkg_Changelog/countme \
-	t/600_Dpkg_Changelog/fields \
-	t/600_Dpkg_Changelog/misplaced-tz \
-	t/600_Dpkg_Changelog/regressions \
-	t/600_Dpkg_Changelog/shadow \
-	t/700_Dpkg_Control/control-1 \
-	t/700_Dpkg_Control/bogus-unsigned.dsc \
-	t/700_Dpkg_Control/bogus-armor-double.dsc \
-	t/700_Dpkg_Control/bogus-armor-no-sig.dsc \
-	t/700_Dpkg_Control/bogus-armor-trail.dsc \
-	t/700_Dpkg_Control/bogus-armor-inline.dsc \
-	t/700_Dpkg_Control/bogus-armor-nested.dsc \
-	t/700_Dpkg_Control/bogus-armor-spaces.dsc \
-	t/750_Dpkg_Substvars/substvars1 \
-	t/910_merge_changelogs/ch-old \
-	t/910_merge_changelogs/ch-a \
-	t/910_merge_changelogs/ch-b \
-	t/910_merge_changelogs/ch-badver-a \
-	t/910_merge_changelogs/ch-badver-b \
-	t/910_merge_changelogs/ch-badver-merged \
-	t/910_merge_changelogs/ch-badver-old \
-	t/910_merge_changelogs/ch-merged \
-	t/910_merge_changelogs/ch-merged-basic \
-	t/910_merge_changelogs/ch-merged-pr \
-	t/910_merge_changelogs/ch-merged-pr-basic \
+	t/Dpkg_Shlibs/symbols.blacklisted \
+	t/Dpkg_Shlibs/symbols.blacklist-groups \
+	t/Dpkg_Shlibs/symbols.blacklist-filter \
+	t/Dpkg_Shlibs/symbols.blacklist-ignore \
+	t/Dpkg_Shlibs/symbols.fake-1 \
+	t/Dpkg_Shlibs/symbols.fake-2 \
+	t/Dpkg_Shlibs/symbols.fake-3 \
+	t/Dpkg_Shlibs/symbols.include-1 \
+	t/Dpkg_Shlibs/symbols.include-2 \
+	t/Dpkg_Shlibs/symbols.include-3 \
+	t/Dpkg_Shlibs/basictags.symbols \
+	t/Dpkg_Shlibs/basictags.c \
+	t/Dpkg_Shlibs/patterns.symbols \
+	t/Dpkg_Shlibs/patterns.cpp \
+	t/Dpkg_Shlibs/patterns.map \
+	t/Dpkg_Shlibs/ld.so.conf \
+	t/Dpkg_Shlibs/ld.so.conf_2 \
+	t/Dpkg_Shlibs/ld.so.conf.d/normal.conf \
+	t/Dpkg_Shlibs/ld.so.conf.d/inf_recurse.conf \
+	t/Dpkg_Shlibs/ld.so.conf.d/recursive.conf \
+	t/Dpkg_Shlibs/objdump.space \
+	t/Dpkg_Shlibs/objdump.basictags-amd64 \
+	t/Dpkg_Shlibs/objdump.basictags-i386 \
+	t/Dpkg_Shlibs/objdump.blacklisted \
+	t/Dpkg_Shlibs/objdump.patterns \
+	t/Dpkg_Shlibs/objdump.glib-ia64 \
+	t/Dpkg_Shlibs/objdump.libc6-2.3 \
+	t/Dpkg_Shlibs/objdump.libc6-2.6 \
+	t/Dpkg_Shlibs/objdump.dbd-pg \
+	t/Dpkg_Shlibs/objdump.ls \
+	t/Dpkg_Changelog/countme \
+	t/Dpkg_Changelog/fields \
+	t/Dpkg_Changelog/misplaced-tz \
+	t/Dpkg_Changelog/regressions \
+	t/Dpkg_Changelog/shadow \
+	t/Dpkg_Control/control-1 \
+	t/Dpkg_Control/bogus-unsigned.dsc \
+	t/Dpkg_Control/bogus-armor-double.dsc \
+	t/Dpkg_Control/bogus-armor-no-sig.dsc \
+	t/Dpkg_Control/bogus-armor-trail.dsc \
+	t/Dpkg_Control/bogus-armor-inline.dsc \
+	t/Dpkg_Control/bogus-armor-nested.dsc \
+	t/Dpkg_Control/bogus-armor-spaces.dsc \
+	t/Dpkg_Substvars/substvars1 \
+	t/merge_changelogs/ch-old \
+	t/merge_changelogs/ch-a \
+	t/merge_changelogs/ch-b \
+	t/merge_changelogs/ch-badver-a \
+	t/merge_changelogs/ch-badver-b \
+	t/merge_changelogs/ch-badver-merged \
+	t/merge_changelogs/ch-badver-old \
+	t/merge_changelogs/ch-merged \
+	t/merge_changelogs/ch-merged-basic \
+	t/merge_changelogs/ch-merged-pr \
+	t/merge_changelogs/ch-merged-pr-basic \
 	t/origins/debian \
 	t/origins/default \
 	t/origins/ubuntu
 
 test_data_objects = \
-	t/200_Dpkg_Shlibs/libobjdump.basictags-amd64.so \
-	t/200_Dpkg_Shlibs/libobjdump.basictags-i386.so \
-	t/200_Dpkg_Shlibs/libobjdump.patterns.so
+	t/Dpkg_Shlibs/libobjdump.basictags-amd64.so \
+	t/Dpkg_Shlibs/libobjdump.basictags-i386.so \
+	t/Dpkg_Shlibs/libobjdump.patterns.so
 
-$(srcdir)/t/200_Dpkg_Shlibs/libobjdump.basictags-amd64.so: $(srcdir)/t/200_Dpkg_Shlibs/basictags.c
+$(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-amd64.so: $(srcdir)/t/Dpkg_Shlibs/basictags.c
 	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \
 	  -DAMD64 -o $@
 
-$(srcdir)/t/200_Dpkg_Shlibs/libobjdump.basictags-i386.so: $(srcdir)/t/200_Dpkg_Shlibs/basictags.c
+$(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-i386.so: $(srcdir)/t/Dpkg_Shlibs/basictags.c
 	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \
 	  -o $@
 
-$(srcdir)/t/200_Dpkg_Shlibs/libobjdump.patterns.so: $(srcdir)/t/200_Dpkg_Shlibs/patterns.cpp $(srcdir)/t/200_Dpkg_Shlibs/patterns.map
+$(srcdir)/t/Dpkg_Shlibs/libobjdump.patterns.so: $(srcdir)/t/Dpkg_Shlibs/patterns.cpp $(srcdir)/t/Dpkg_Shlibs/patterns.map
 	$(CXX) $(CXXFLAGS) -shared -fPIC -Wl,-soname -Wl,libpatterns.so.1 \
-	    -Wl,--version-script=$(srcdir)/t/200_Dpkg_Shlibs/patterns.map $< \
+	    -Wl,--version-script=$(srcdir)/t/Dpkg_Shlibs/patterns.map $< \
 	    -o $@
 
 .PHONY: refresh-test-data
@@ -285,13 +285,13 @@ $(srcdir)/t/200_Dpkg_Shlibs/libobjdump.patterns.so: $(srcdir)/t/200_Dpkg_Shlibs/
 OBJDUMP = objdump -w -f -p -T -R
 
 refresh-test-data: $(test_data_objects)
-	$(OBJDUMP) $(srcdir)/t/200_Dpkg_Shlibs/libobjdump.basictags-amd64.so \
-	  >$(srcdir)/t/200_Dpkg_Shlibs/objdump.basictags-amd64
-	$(OBJDUMP) $(srcdir)/t/200_Dpkg_Shlibs/libobjdump.basictags-i386.so \
-	  >$(srcdir)/t/200_Dpkg_Shlibs/objdump.basictags-i386
-	$(OBJDUMP) $(srcdir)/t/200_Dpkg_Shlibs/libobjdump.patterns.so \
-	  >$(srcdir)/t/200_Dpkg_Shlibs/objdump.patterns
-	$(OBJDUMP) `which ls` >$(srcdir)/t/200_Dpkg_Shlibs/objdump.ls
+	$(OBJDUMP) $(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-amd64.so \
+	  >$(srcdir)/t/Dpkg_Shlibs/objdump.basictags-amd64
+	$(OBJDUMP) $(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-i386.so \
+	  >$(srcdir)/t/Dpkg_Shlibs/objdump.basictags-i386
+	$(OBJDUMP) $(srcdir)/t/Dpkg_Shlibs/libobjdump.patterns.so \
+	  >$(srcdir)/t/Dpkg_Shlibs/objdump.patterns
+	$(OBJDUMP) `which ls` >$(srcdir)/t/Dpkg_Shlibs/objdump.ls
 
 include $(top_srcdir)/check.am
 

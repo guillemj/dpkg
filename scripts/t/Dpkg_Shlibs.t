@@ -30,14 +30,14 @@ my @save_paths = Dpkg::Shlibs::get_library_paths();
 Dpkg::Shlibs::reset_library_paths();
 
 my $srcdir = $ENV{srcdir} || '.';
-my $datadir = $srcdir . '/t/200_Dpkg_Shlibs';
+my $datadir = $srcdir . '/t/Dpkg_Shlibs';
 
 # We want relative paths inside the ld.so.conf fragments to work, and $srcdir
 # is usually a relative path, so let's temporarily switch directory.
 # XXX: An alternative would be to make parse_ldso_conf relative path aware.
 my $cwd = cwd();
 chdir($srcdir);
-Dpkg::Shlibs::parse_ldso_conf('t/200_Dpkg_Shlibs/ld.so.conf');
+Dpkg::Shlibs::parse_ldso_conf('t/Dpkg_Shlibs/ld.so.conf');
 chdir($cwd);
 
 use Data::Dumper;

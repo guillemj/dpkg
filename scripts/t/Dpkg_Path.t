@@ -22,7 +22,7 @@ use_ok('Dpkg::Path', 'canonpath', 'resolve_symlink',
        'check_files_are_the_same', 'get_pkg_root_dir',
        'guess_pkg_root_dir', 'relative_to_pkg_root');
 
-my $tmpdir = 't.tmp/500_Dpkg_Path';
+my $tmpdir = 't.tmp/Dpkg_Path';
 
 mkdir $tmpdir;
 mkdir "$tmpdir/a";

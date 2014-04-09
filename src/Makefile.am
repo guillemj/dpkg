@@ -91,7 +91,7 @@ install-data-local:
 test_tmpdir = t.tmp
 
 test_cases = \
-	t/100_dpkg_divert.t
+	t/dpkg_divert.t
 
 include $(top_srcdir)/check.am
 

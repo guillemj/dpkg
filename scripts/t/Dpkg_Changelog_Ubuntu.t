@@ -18,4 +18,4 @@ use warnings;
 
 $ENV{DEB_VENDOR} = 'Ubuntu';
 my $srcdir = $ENV{srcdir} || '.';
-do "$srcdir/t/600_Dpkg_Changelog.t";
+do "$srcdir/t/Dpkg_Changelog.t";

@@ -28,7 +28,7 @@ BEGIN {
 };
 
 my $srcdir = $ENV{srcdir} || '.';
-my $datadir = $srcdir . '/t/600_Dpkg_Changelog';
+my $datadir = $srcdir . '/t/Dpkg_Changelog';
 
 my $vendor = get_current_vendor();
 

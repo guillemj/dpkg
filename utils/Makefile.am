@@ -55,7 +55,7 @@ TEST_ENV_VARS = DPKG_DATADIR=$(top_srcdir)
 
 test_tmpdir = t.tmp
 test_cases = \
-	t/100_update_alternatives.t
+	t/update_alternatives.t
 
 include $(top_srcdir)/check.am
 

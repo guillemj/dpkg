@@ -25,7 +25,7 @@ BEGIN {
 }
 
 my $srcdir = $ENV{srcdir} || '.';
-my $datadir = $srcdir . '/t/700_Dpkg_Control';
+my $datadir = $srcdir . '/t/Dpkg_Control';
 
 sub parse_dsc {
     my ($path) = @_;

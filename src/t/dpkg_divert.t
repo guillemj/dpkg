@@ -27,7 +27,7 @@ delete $ENV{DPKG_MAINTSCRIPT_ARCH};
 
 my $srcdir = $ENV{srcdir} || '.';
 my $builddir = $ENV{builddir} || '.';
-my $tmpdir = 't.tmp/950_dpkg_divert';
+my $tmpdir = 't.tmp/dpkg_divert';
 my $admindir = File::Spec->rel2abs("$tmpdir/admindir");
 my $testdir = File::Spec->rel2abs("$tmpdir/testdir");
 

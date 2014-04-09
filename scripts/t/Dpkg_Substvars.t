@@ -24,7 +24,7 @@ use Dpkg::Arch qw(get_host_arch);
 use_ok('Dpkg::Substvars');
 
 my $srcdir = $ENV{srcdir} || '.';
-my $datadir = $srcdir . '/t/750_Dpkg_Substvars';
+my $datadir = $srcdir . '/t/Dpkg_Substvars';
 
 my $s = Dpkg::Substvars->new();
 
@@ -80,7 +80,7 @@ is($s->substvars('This is a string with unknown variable ${blubb}'),
                  'This is a string with unknown variable ',
                  'substvars missing');
 delete $SIG{__WARN__};
-is($output, '750_Dpkg_Substvars.t: warning: unknown substitution variable ${blubb}'."\n"
+is($output, 'Dpkg_Substvars.t: warning: unknown substitution variable ${blubb}'."\n"
           , 'missing variables warning');
 
 # Recursive replace
@@ -99,7 +99,7 @@ $output = '';
 $SIG{__WARN__} = sub { $output .= $_[0] };
 $s->warn_about_unused();
 delete $SIG{__WARN__};
-is($output, "750_Dpkg_Substvars.t: warning: unused substitution variable \${var2}\n",
+is($output, "Dpkg_Substvars.t: warning: unused substitution variable \${var2}\n",
           , 'unused variables warnings');
 
 # Disable warnings for a certain variable

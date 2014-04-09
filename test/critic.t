@@ -115,7 +115,7 @@ my @policies = qw(
 );
 
 Test::Perl::Critic->import(
-    -profile => 'test/100_critic/perlcriticrc',
+    -profile => 'test/critic/perlcriticrc',
     -verbose => 8,
     -include => \@policies,
     -only => 1,

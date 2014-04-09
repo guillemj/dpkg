@@ -24,7 +24,7 @@ use File::Compare;
 use File::Temp qw(tempfile);
 
 my $srcdir = $ENV{srcdir} || '.';
-my $datadir = "$srcdir/t/910_merge_changelogs";
+my $datadir = "$srcdir/t/merge_changelogs";
 
 my $res;
 sub test_merge {
