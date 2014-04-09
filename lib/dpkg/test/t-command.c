@@ -140,6 +140,7 @@ test_command_exec(void)
 {
 	struct command cmd;
 	pid_t pid;
+	int ret;
 
 	command_init(&cmd, "true", "exec test");
 
@@ -151,7 +152,8 @@ test_command_exec(void)
 	if (pid == 0)
 		command_exec(&cmd);
 
-	subproc_wait_check(pid, "command exec test", 0);
+	ret = subproc_wait_check(pid, "command exec test", 0);
+	test_pass(ret == 0);
 }
 
 static void
