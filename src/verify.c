@@ -134,6 +134,7 @@ int
 verify(const char *const *argv)
 {
 	struct pkginfo *pkg;
+	int rc = 0;
 
 	modstatdb_open(msdbrw_readonly);
 	ensure_diversions();
@@ -156,6 +157,13 @@ verify(const char *const *argv)
 				badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
 				         cipaction->olong, thisarg, err.str);
 
+			if (pkg->status == stat_notinstalled) {
+				notice(_("package '%s' is not installed"),
+				       pkg_name(pkg, pnaw_nonambig));
+				rc = 1;
+				continue;
+			}
+
 			verify_package(pkg);
 		}
 	}
@@ -164,5 +172,5 @@ verify(const char *const *argv)
 
 	m_output(stdout, _("<standard output>"));
 
-	return 0;
+	return rc;
 }
