@@ -40,10 +40,16 @@ struct deb_version {
 };
 
 /**
- * Initializer for a deb_version.
+ * Constant initializer for a deb_version.
  */
 #define DEB_VERSION(X, Y) \
-	(struct deb_version){ .major = (X), .minor = (Y) }
+	{ .major = (X), .minor = (Y) }
+
+/**
+ * Compound literal for a deb_version.
+ */
+#define DEB_VERSION_OBJECT(X, Y) \
+	(struct deb_version)DEB_VERSION(X, Y)
 
 const char *deb_version_parse(struct deb_version *version, const char *str);
 

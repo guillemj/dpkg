@@ -38,10 +38,16 @@ struct pkg_queue {
 };
 
 /**
- * Initializer for a package queue.
+ * Constant initializer for a package queue.
  */
 #define PKG_QUEUE_INIT \
-	(struct pkg_queue){ .head = NULL, .tail = NULL, .length = 0 }
+	{ .head = NULL, .tail = NULL, .length = 0 }
+
+/**
+ * Compound literal for a package queue.
+ */
+#define PKG_QUEUE_OBJECT \
+	(struct pkg_queue)PKG_QUEUE_INIT
 
 void pkg_queue_init(struct pkg_queue *queue);
 void pkg_queue_destroy(struct pkg_queue *queue);

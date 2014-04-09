@@ -166,7 +166,7 @@ set_deb_format(const struct cmdinfo *cip, const char *value)
 static void
 set_deb_old(const struct cmdinfo *cip, const char *value)
 {
-  deb_format = DEB_VERSION(0, 939000);
+  deb_format = DEB_VERSION_OBJECT(0, 939000);
 
   warning(_("obsolete option '--%s'; please use '--%s' instead"),
           cip->olong, "deb-format=0.939000");
@@ -175,7 +175,7 @@ set_deb_old(const struct cmdinfo *cip, const char *value)
 static void
 set_deb_new(const struct cmdinfo *cip, const char *value)
 {
-  deb_format = DEB_VERSION(2, 0);
+  deb_format = DEB_VERSION_OBJECT(2, 0);
 
   warning(_("obsolete option '--%s'; please use '--%s' instead"),
           cip->olong, "deb-format=2.0");
