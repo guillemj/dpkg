@@ -125,8 +125,12 @@ AC_DEFUN([DPKG_TRY_C99],
 [[
 	int rc;
 
-	/* Compound initializers. */
+	/* Designated initializers. */
 	struct { int a, b; } foo = { .a = 1, .b = 2 };
+
+	/* Compound literals. */
+	struct point { int x, y; } p = (struct point){ .x = 0, .y = 1 };
+	p = (struct point){ .x = 2, .y = 4 };
 
 	/* Trailing comma in enum. */
 	enum { first, second, } quux;
