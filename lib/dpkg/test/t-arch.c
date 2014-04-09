@@ -66,7 +66,7 @@ test_dpkg_arch_get_list(void)
 
 	/* Must never return NULL. */
 	arch = dpkg_arch_get_list();
-	test_pass(arch != NULL);
+	test_alloc(arch);
 
 	while ((arch = arch->next))
 		count++;

@@ -55,8 +55,7 @@ test_fdio_hash(void)
 	char *test_file;
 	int fd;
 
-	test_file = strdup("test.XXXXXX");
-	test_pass(test_file != NULL);
+	test_file = test_alloc(strdup("test.XXXXXX"));
 	fd = mkstemp(test_file);
 	test_pass(fd >= 0);
 

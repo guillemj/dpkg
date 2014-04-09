@@ -44,6 +44,22 @@
 		exit(99); \
 	} while (0)
 
+#define test_xstringify(str) \
+	#str
+#define test_stringify(str) \
+	test_xstringify(str)
+
+static inline void *
+test_alloc(void *ptr, const char *reason)
+{
+	if (ptr == NULL)
+		test_bail(reason);
+	return ptr;
+}
+
+#define test_alloc(ptr) \
+	test_alloc((ptr), "cannot allocate memory for " #ptr " in " __FILE__ ":" test_stringify(__LINE__))
+
 #define test_pass(a)			assert((a))
 #define test_fail(a)			assert(!(a))
 #define test_str(a, op, b)		assert(strcmp((a), (b)) op 0)

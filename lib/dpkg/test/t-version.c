@@ -257,7 +257,7 @@ test_version_parse(void)
 	test_warn(err);
 
 	/* Test invalid characters in upstream version. */
-	verstr = m_strdup("0:0a-0");
+	verstr = test_alloc(strdup("0:0a-0"));
 	for (p = "!#@$%&/|\\<>()[]{};,_=*^'"; *p; p++) {
 		verstr[3] = *p;
 		test_fail(parseversion(&a, verstr, &err) == 0);
@@ -269,7 +269,7 @@ test_version_parse(void)
 	test_fail(parseversion(&a, "0:0-0:0", &err) == 0);
 	test_warn(err);
 
-	verstr = m_strdup("0:0-0");
+	verstr = test_alloc(strdup("0:0-0"));
 	for (p = "!#@$%&/|\\<>()[]{}:;,_=*^'"; *p; p++) {
 		verstr[4] = *p;
 		test_fail(parseversion(&a, verstr, &err) == 0);

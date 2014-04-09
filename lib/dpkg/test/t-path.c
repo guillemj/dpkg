@@ -32,7 +32,7 @@
  * meaningful line numbers from assert. */
 #define test_trim_eq_ref(p, ref) \
 do { \
-	char *t = strdup((p)); \
+	char *t = test_alloc(strdup((p))); \
 	path_trim_slash_slashdot(t); \
 	test_str(t, ==, (ref)); \
 	free(t); \
@@ -129,8 +129,7 @@ test_path_quote(void)
 
 	/* Test no quoting. */
 	len = strlen(src_7_bit) + 1;
-	dst = malloc(len);
-	test_fail(dst == NULL);
+	dst = test_alloc(malloc(len));
 
 	path_quote_filename(dst, src_7_bit, len);
 	test_str(dst, ==, src_7_bit);
@@ -138,8 +137,7 @@ test_path_quote(void)
 
 	/* Test no quoting with limit. */
 	len = strlen(src_7_bit_trim) + 1;
-	dst = malloc(len);
-	test_fail(dst == NULL);
+	dst = test_alloc(malloc(len));
 
 	path_quote_filename(dst, src_7_bit, len);
 	test_str(dst, ==, src_7_bit_trim);
@@ -147,8 +145,7 @@ test_path_quote(void)
 
 	/* Test normal quoting. */
 	len = strlen(src_8_bit) * 2 + 1;
-	dst = malloc(len);
-	test_fail(dst == NULL);
+	dst = test_alloc(malloc(len));
 
 	path_quote_filename(dst, src_8_bit, len);
 	test_pass(strstr(dst, "end") != NULL);
@@ -157,8 +154,7 @@ test_path_quote(void)
 
 	/* Test normal quoting with limit. */
 	len = strlen(src_8_bit_end) + 1 + 2;
-	dst = malloc(len);
-	test_fail(dst == NULL);
+	dst = test_alloc(malloc(len));
 
 	path_quote_filename(dst, src_8_bit_end, len);
 	test_str(dst, ==, "text ");
@@ -166,8 +162,7 @@ test_path_quote(void)
 
 	/* Test backslash quoting with limit. */
 	len = strlen(src_bs_end) + 1;
-	dst = malloc(len);
-	test_fail(dst == NULL);
+	dst = test_alloc(malloc(len));
 
 	path_quote_filename(dst, src_bs_end, len);
 	test_str(dst, ==, "text ");
