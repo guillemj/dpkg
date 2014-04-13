@@ -66,7 +66,7 @@ check: build
 	dh_testdir
 
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	cd build-tree && $(MAKE) check
+	cd build-tree && $(MAKE) VERBOSE=1 check
 endif
 
 # Install the package underneath debian/tmp
