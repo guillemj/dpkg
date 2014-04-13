@@ -78,24 +78,33 @@ sub load_vendor_defaults {
 	CPPFLAGS => '',
 	CFLAGS   => $default_flags,
 	CXXFLAGS => $default_flags,
+	OBJCFLAGS   => $default_flags,
+	OBJCXXFLAGS => $default_flags,
 	GCJFLAGS => $default_flags,
 	FFLAGS   => $default_flags,
+	FCFLAGS  => $default_flags,
 	LDFLAGS  => '',
     };
     $self->{origin} = {
 	CPPFLAGS => 'vendor',
 	CFLAGS   => 'vendor',
 	CXXFLAGS => 'vendor',
+	OBJCFLAGS   => 'vendor',
+	OBJCXXFLAGS => 'vendor',
 	GCJFLAGS => 'vendor',
 	FFLAGS   => 'vendor',
+	FCFLAGS  => 'vendor',
 	LDFLAGS  => 'vendor',
     };
     $self->{maintainer} = {
 	CPPFLAGS => 0,
 	CFLAGS   => 0,
 	CXXFLAGS => 0,
+	OBJCFLAGS   => 0,
+	OBJCXXFLAGS => 0,
 	GCJFLAGS => 0,
 	FFLAGS   => 0,
+	FCFLAGS  => 0,
 	LDFLAGS  => 0,
     };
     # The Debian vendor hook will add hardening build flags

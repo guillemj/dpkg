@@ -150,7 +150,10 @@ sub add_hardening_flags {
     # PIE
     if ($use_feature{pie}) {
 	$flags->append('CFLAGS', '-fPIE');
+	$flags->append('OBJCFLAGS', '-fPIE');
+	$flags->append('OBJCXXFLAGS', '-fPIE');
 	$flags->append('FFLAGS', '-fPIE');
+	$flags->append('FCFLAGS', '-fPIE');
 	$flags->append('CXXFLAGS', '-fPIE');
 	$flags->append('GCJFLAGS', '-fPIE');
 	$flags->append('LDFLAGS', '-fPIE -pie');
@@ -159,7 +162,10 @@ sub add_hardening_flags {
     # Stack protector
     if ($use_feature{stackprotector}) {
 	$flags->append('CFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
+	$flags->append('OBJCFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
+	$flags->append('OBJCXXFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
 	$flags->append('FFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
+	$flags->append('FCFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
 	$flags->append('CXXFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
 	$flags->append('GCJFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
     }
@@ -173,6 +179,8 @@ sub add_hardening_flags {
     if ($use_feature{format}) {
 	$flags->append('CFLAGS', '-Wformat -Werror=format-security');
 	$flags->append('CXXFLAGS', '-Wformat -Werror=format-security');
+	$flags->append('OBJCFLAGS', '-Wformat -Werror=format-security');
+	$flags->append('OBJCXXFLAGS', '-Wformat -Werror=format-security');
     }
 
     # Read-only Relocations

@@ -169,11 +169,20 @@ Options for the C preprocessor. Default value: empty.
 .B CXXFLAGS
 Options for the C++ compiler. Same as \fBCFLAGS\fP.
 .TP
+.B OBJCFLAGS
+Options for the Objective C compiler. Same as \fBCFLAGS\fP.
+.TP
+.B OBJCXXFLAGS
+Options for the Objective C++ compiler. Same as \fBCXXFLAGS\fP.
+.TP
 .B GCJFLAGS
 Options for the GNU Java compiler (gcj). A subset of \fBCFLAGS\fP.
 .TP
 .B FFLAGS
-Options for the Fortran compiler. A subset of \fBCFLAGS\fP.
+Options for the Fortran 77 compiler. A subset of \fBCFLAGS\fP.
+.TP
+.B FCFLAGS
+Options for the Fortran 9x compiler. Same as \fBFFLAGS\fP.
 .TP
 .B LDFLAGS
 Options passed to the compiler when linking executables or shared
@@ -211,7 +220,8 @@ enabling only "format" and "fortify" can be achieved with:
 .B format
 This setting (enabled by default) adds
 .B \-Wformat \-Werror=format\-security
-to \fBCFLAGS\fP and \fBCXXFLAGS\fP. This will warn about improper format
+to \fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBOBJCFLAGS\fP and \fBOBJCXXFLAGS\fP.
+This will warn about improper format
 string uses, and will fail when format functions are used in a way
 that represent possible security problems. At present, this warns about
 calls to \fBprintf\fP and \fBscanf\fP functions where the format string is
@@ -241,7 +251,8 @@ glibc 2.16 and later.
 .B stackprotector
 This setting (enabled by default) adds
 .B \-fstack-protector \-\-param=ssp\-buffer\-size=4
-to \fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBGCJFLAGS\fP and \fBFFLAGS\fP.
+to \fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBOBJCFLAGS\fP, \fBOBJCXXFLAGS\fP,
+\fBGCJFLAGS\fP, \fBFFLAGS\fP and \fBFCFLAGS\fP.
 This adds safety checks against stack
 overwrites. This renders many potential code injection attacks into
 aborting situations. In the best case this turns code injection
@@ -273,7 +284,8 @@ above). The option cannot become enabled if \fBrelro\fP is not enabled.
 .TP
 .B pie
 This setting (disabled by default) adds \fB\-fPIE\fP to \fBCFLAGS\fP,
-\fBCXXFLAGS\fP, \fBGCJFLAGS\fP and \fBFFLAGS\fP,
+\fBCXXFLAGS\fP, \fBOBJCFLAGS\fP, \fBOBJCXXFLAGS\fP, \fBGCJFLAGS\fP,
+\fBFFLAGS\fP and \fBFCFLAGS\fP,
 and \fB\-fPIE \-pie\fP to \fBLDFLAGS\fP. Position Independent
 Executable are needed to take advantage of Address Space Layout
 Randomization, supported by some kernel versions. While ASLR can already

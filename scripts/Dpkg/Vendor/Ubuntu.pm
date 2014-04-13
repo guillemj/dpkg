@@ -99,7 +99,8 @@ sub run_hook {
 
 	if (!$build_opts->has('noopt')) {
 	    if (debarch_eq(get_host_arch(), 'ppc64el')) {
-		for my $flag (qw(CFLAGS CXXFLAGS GCJFLAGS FFLAGS)) {
+		for my $flag (qw(CFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS GCJFLAGS
+		                 FFLAGS FCFLAGS)) {
 		    $flags->set($flag, '-g -O3', 'vendor');
 		}
 	    }
