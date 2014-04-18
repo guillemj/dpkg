@@ -1370,7 +1370,7 @@ pid_is_cmd(pid_t pid, const char *name)
 	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
 	if (kp == NULL)
 		errx(1, "%s", kvm_geterr(kd));
-	process_name = (&kp->kp_proc)->p_comm;
+	process_name = kp->kp_proc.p_comm;
 	if (strlen(name) != strlen(process_name))
 		return false;
 	return (strcmp(name, process_name) == 0);
