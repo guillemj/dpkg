@@ -43,29 +43,24 @@
 #  error Unknown architecture - cannot build start-stop-daemon
 #endif
 
+#ifdef HAVE_SYS_PARAM_H
+#include <sys/param.h>
+#endif
 #ifdef HAVE_SYS_SYSCALL_H
 #include <sys/syscall.h>
 #endif
-
-#if defined(OSOpenBSD) || defined(OSFreeBSD) || defined(OSNetBSD)
-#include <sys/param.h>
-#include <sys/proc.h>
-
-#include <err.h>
-#endif
-
-#ifdef HAVE_KVM_H
+#ifdef HAVE_SYS_SYSCTL_H
 #include <sys/sysctl.h>
-#include <sys/user.h>
-
-#include <kvm.h>
 #endif
-
-#if defined(OShpux)
-#include <sys/param.h>
+#ifdef HAVE_SYS_PROC_H
+#include <sys/proc.h>
+#endif
+#ifdef HAVE_SYS_USER_H
+#include <sys/user.h>
+#endif
+#ifdef HAVE_SYS_PSTAT_H
 #include <sys/pstat.h>
 #endif
-
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/stat.h>
@@ -91,14 +86,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <getopt.h>
-
 #ifdef HAVE_ERROR_H
 #include <error.h>
+#endif
+#ifdef HAVE_ERR_H
+#include <err.h>
 #endif
 
 #if defined(OSHurd)
 #include <hurd.h>
 #include <ps.h>
+#endif
+
+#ifdef HAVE_KVM_H
+#include <kvm.h>
 #endif
 
 #ifdef _POSIX_PRIORITY_SCHEDULING

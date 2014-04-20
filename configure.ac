@@ -66,8 +66,9 @@ fi
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([stddef.h error.h locale.h libintl.h kvm.h \
-                  sys/syscall.h linux/fiemap.h])
+AC_CHECK_HEADERS([stddef.h error.h err.h locale.h libintl.h kvm.h \
+                  sys/param.h sys/sysctl.h sys/syscall.h sys/user.h \
+                  sys/proc.h sys/pstat.h linux/fiemap.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_BIGENDIAN
