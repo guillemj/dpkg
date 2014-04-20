@@ -47,11 +47,6 @@
 #include <sys/syscall.h>
 #endif
 
-#if defined(OSHurd)
-#include <hurd.h>
-#include <ps.h>
-#endif
-
 #if defined(OSOpenBSD) || defined(OSFreeBSD) || defined(OSNetBSD)
 #include <sys/param.h>
 #include <sys/proc.h>
@@ -99,6 +94,11 @@
 
 #ifdef HAVE_ERROR_H
 #include <error.h>
+#endif
+
+#if defined(OSHurd)
+#include <hurd.h>
+#include <ps.h>
 #endif
 
 #ifdef _POSIX_PRIORITY_SCHEDULING
