@@ -57,6 +57,6 @@ test_tmpdir = t.tmp
 test_cases = \
 	t/100_update_alternatives.t
 
-include $(top_srcdir)/Makecheck.am
+include $(top_srcdir)/check.am
 
 clean-local: check-clean

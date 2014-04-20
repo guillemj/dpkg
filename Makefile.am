@@ -138,7 +138,7 @@ test_data = \
 	test/100_critic/perlcriticrc \
 	$(nil)
 
-include $(top_srcdir)/Makecheck.am
+include $(top_srcdir)/check.am
 
 .PHONY: update-po
 

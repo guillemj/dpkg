@@ -293,7 +293,7 @@ refresh-test-data: $(test_data_objects)
 	  >$(srcdir)/t/200_Dpkg_Shlibs/objdump.patterns
 	$(OBJDUMP) `which ls` >$(srcdir)/t/200_Dpkg_Shlibs/objdump.ls
 
-include $(top_srcdir)/Makecheck.am
+include $(top_srcdir)/check.am
 
 clean-local: check-clean coverage-clean
 	rm -fr man
