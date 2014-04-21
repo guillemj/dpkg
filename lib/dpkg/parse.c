@@ -536,7 +536,7 @@ parsedb_open(const char *filename, enum parsedbflags flags)
     ohshite(_("failed to open package info file `%.255s' for reading"),
             filename);
 
-  ps = parsedb_new(filename, fd, flags);
+  ps = parsedb_new(filename, fd, flags | pdb_close_fd);
 
   push_cleanup(cu_closefd, ~ehflag_normaltidy, NULL, 0, 1, &ps->fd);
 
@@ -559,11 +559,6 @@ parsedb_open(const char *filename, enum parsedbflags flags)
   } else {
     ps->data = ps->dataptr = ps->endptr = NULL;
   }
-
-  pop_cleanup(ehflag_normaltidy);
-
-  if (close(ps->fd))
-    ohshite(_("failed to close after read: `%.255s'"), filename);
 
   return ps;
 }
@@ -696,6 +691,13 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 void
 parsedb_close(struct parsedb_state *ps)
 {
+  if (ps->flags & pdb_close_fd) {
+    pop_cleanup(ehflag_normaltidy);
+
+    if (close(ps->fd))
+      ohshite(_("failed to close after read: `%.255s'"), ps->filename);
+  }
+
   if (ps->data != NULL) {
 #ifdef USE_MMAP
     munmap(ps->data, ps->endptr - ps->data);

@@ -296,6 +296,8 @@ enum parsedbflags {
   pdb_lax_version_parser	= DPKG_BIT(6),
   /** Perform laxer parsing, used to transition to stricter parsing. */
   pdb_lax_parser		= pdb_lax_version_parser,
+  /** Close file descriptor on context destruction. */
+  pdb_close_fd			= DPKG_BIT(7),
 
   /* Standard operations. */
 
