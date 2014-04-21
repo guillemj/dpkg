@@ -505,7 +505,7 @@ parse_get_type(struct parsedb_state *ps, enum parsedbflags flags)
  * Open a file for RFC-822 parsing.
  */
 struct parsedb_state *
-parse_open(const char *filename, enum parsedbflags flags)
+parsedb_open(const char *filename, enum parsedbflags flags)
 {
   struct parsedb_state *ps;
   struct stat st;
@@ -714,7 +714,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   memset(&fs, 0, sizeof(fs));
   fs.fieldencountered = fieldencountered;
 
-  ps = parse_open(filename, flags);
+  ps = parsedb_open(filename, flags);
 
   new_pkg = &tmp_set.pkg;
   if (flags & pdb_recordavailable)

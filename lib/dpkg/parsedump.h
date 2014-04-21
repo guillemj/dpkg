@@ -70,7 +70,7 @@ struct field_state {
 };
 
 struct parsedb_state *
-parse_open(const char *filename, enum parsedbflags flags);
+parsedb_open(const char *filename, enum parsedbflags flags);
 void parse_close(struct parsedb_state *ps);
 
 typedef void parse_field_func(struct parsedb_state *ps, struct field_state *fs,
