@@ -22,6 +22,7 @@
 #include <compat.h>
 
 #include <errno.h>
+#include <string.h>
 #include <stdlib.h>
 
 #include <dpkg/dpkg.h>

@@ -23,6 +23,8 @@
 #include <config.h>
 #include <compat.h>
 
+#include <string.h>
+
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>

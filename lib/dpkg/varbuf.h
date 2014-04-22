@@ -24,6 +24,7 @@
 
 #include <stddef.h>
 #include <stdarg.h>
+#include <string.h>
 
 #include <dpkg/macros.h>
 
