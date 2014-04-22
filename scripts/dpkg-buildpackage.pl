@@ -617,8 +617,18 @@ sub run_hook {
         'u' => $uversion,
     );
 
-    $cmd =~ s/\%(.)/exists $hook_vars{$1} ? $hook_vars{$1} :
-        (warning(_g('unknown %% substitution in hook: %%%s'), $1), "\%$1")/eg;
+    my $subst_hook_var = sub {
+        my ($var) = @_;
+
+        if (exists $hook_vars{$var}) {
+            return $hook_vars{$var};
+        } else {
+            warning(_g('unknown %% substitution in hook: %%%s'), $var);
+            return "\%$var";
+        }
+    };
+
+    $cmd =~ s/\%(.)/&$subst_hook_var($1)/eg;
 
     withecho($cmd);
 }
