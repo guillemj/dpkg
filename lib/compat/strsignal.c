@@ -61,7 +61,7 @@ strsignal(int s)
 {
 	static char buf[100];
 
-	if (s > 0 && s < sizeof(sys_siglist) / sizeof(sys_siglist[0]))
+	if (s > 0 && s < (int)(sizeof(sys_siglist) / sizeof(sys_siglist[0])))
 		return sys_siglist[s];
 
 	sprintf(buf, _("Unknown signal %d"), s);
