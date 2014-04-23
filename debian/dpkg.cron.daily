@@ -16,6 +16,7 @@ if cd /var/backups ; then
     done
     if [ "$dbchanged" = "yes" ] ; then
         for db in $dbfiles ; do
+            [ -e $dbdir/$db ] || continue
             cp -p $dbdir/$db dpkg.$db
             savelog -c 7 dpkg.$db >/dev/null
         done
