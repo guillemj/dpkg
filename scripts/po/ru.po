@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.9\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2013-03-08 03:46+0000\n"
+"POT-Creation-Date: 2014-04-23 02:48+0200\n"
 "PO-Revision-Date: 2013-01-25 18:57+0400\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -532,7 +532,8 @@ msgstr "%s: Сборочные конфликты: "
 msgid "cannot open %s"
 msgstr "не удалось открыть %s"
 
-#: scripts/dpkg-checkbuilddeps.pl:205 scripts/dpkg-source.pl:253
+#: scripts/dpkg-checkbuilddeps.pl:205 scripts/dpkg-shlibdeps.pl:145
+#: scripts/dpkg-source.pl:253
 #, perl-format
 msgid "error occurred while parsing %s"
 msgstr "ошибка при анализе %s"
@@ -2403,12 +2404,12 @@ msgstr "строка неизвестного формата (не поле-дв
 msgid "write error on control data"
 msgstr "ошибка записи управляющих данных"
 
-#: scripts/Dpkg/Deps.pm:305
+#: scripts/Dpkg/Deps.pm:306
 #, perl-format
 msgid "can't parse dependency %s"
 msgstr "не удалось проанализировать зависимость %s"
 
-#: scripts/Dpkg/Deps.pm:332
+#: scripts/Dpkg/Deps.pm:333
 msgid "an union dependency can only contain simple dependencies"
 msgstr "в объединяющей зависимости могут быть только простые зависимости"
 
@@ -2548,7 +2549,7 @@ msgstr "вызов write для ввода tar"
 msgid "close on tar input"
 msgstr "закрытие ввода tar"
 
-#: scripts/Dpkg/Source/Archive.pm:113 scripts/Dpkg/Source/Patch.pm:510
+#: scripts/Dpkg/Source/Archive.pm:113 scripts/Dpkg/Source/Patch.pm:552
 #, perl-format
 msgid "cannot create directory %s"
 msgstr "не удалось создать каталог %s"
@@ -2579,7 +2580,7 @@ msgstr "невозможно проверить удаление каталог�
 msgid "rm -rf failed to remove `%s'"
 msgstr "при удалении «%s» команда rm -rf завершилась неудачно"
 
-#: scripts/Dpkg/Source/Functions.pm:83 scripts/Dpkg/Source/Patch.pm:557
+#: scripts/Dpkg/Source/Functions.pm:83 scripts/Dpkg/Source/Patch.pm:599
 #, perl-format
 msgid "cannot change timestamp for %s"
 msgstr "не удалось изменить метку времени для %s"
@@ -2683,127 +2684,139 @@ msgstr "  новая версия %s"
 msgid "  old version is %s"
 msgstr "  старая версия %s"
 
-#: scripts/Dpkg/Source/Patch.pm:390
+#: scripts/Dpkg/Source/Patch.pm:333
+#, fuzzy, perl-format
+#| msgid "diff `%s' patches file with name ending .dpkg-orig"
+msgid "diff %s patches file with unknown escape sequence \\%s"
+msgstr "файл заплаток diff «%s» с именем, оканчивающимся на .dpkg-orig"
+
+#: scripts/Dpkg/Source/Patch.pm:348
+#, fuzzy, perl-format
+#| msgid "diff `%s' patches file with name ending .dpkg-orig"
+msgid "diff %s patches file with unbalanced quote"
+msgstr "файл заплаток diff «%s» с именем, оканчивающимся на .dpkg-orig"
+
+#: scripts/Dpkg/Source/Patch.pm:432
 #, perl-format
 msgid "expected ^--- in line %d of diff `%s'"
 msgstr "ожидается ^--- в строке %d в diff «%s»"
 
-#: scripts/Dpkg/Source/Patch.pm:395
+#: scripts/Dpkg/Source/Patch.pm:437
 #, perl-format
 msgid "diff `%s' patches file with name ending .dpkg-orig"
 msgstr "файл заплаток diff «%s» с именем, оканчивающимся на .dpkg-orig"
 
-#: scripts/Dpkg/Source/Patch.pm:399
+#: scripts/Dpkg/Source/Patch.pm:441
 #, perl-format
 msgid "diff `%s' finishes in middle of ---/+++ (line %d)"
 msgstr "diff «%s» завершился в середине ---/+++ (строка %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:402
+#: scripts/Dpkg/Source/Patch.pm:444
 #, perl-format
 msgid "line after --- isn't as expected in diff `%s' (line %d)"
 msgstr "строка после --- не та, что ожидалась в diff «%s» (строка %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:408
+#: scripts/Dpkg/Source/Patch.pm:450
 #, perl-format
 msgid "none of the filenames in ---/+++ are valid in diff '%s' (line %d)"
 msgstr "все имена файлов в ---/+++ некорректны в diff «%s» (строка %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:416 scripts/Dpkg/Source/Quilt.pm:272
+#: scripts/Dpkg/Source/Patch.pm:458 scripts/Dpkg/Source/Quilt.pm:272
 #, perl-format
 msgid "%s contains an insecure path: %s"
 msgstr "%s содержит небезопасный путь: %s"
 
-#: scripts/Dpkg/Source/Patch.pm:421
+#: scripts/Dpkg/Source/Patch.pm:463
 #, perl-format
 msgid "diff %s modifies file %s through a symlink: %s"
 msgstr "diff %s изменяет файл %s через символьную ссылку: %s"
 
-#: scripts/Dpkg/Source/Patch.pm:430
+#: scripts/Dpkg/Source/Patch.pm:472
 #, perl-format
 msgid "original and modified files are /dev/null in diff `%s' (line %d)"
 msgstr ""
 "оригинальный и изменённый файлы равны /dev/null для diff «%s» (строка %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:433
+#: scripts/Dpkg/Source/Patch.pm:475
 #, perl-format
 msgid "file removal without proper filename in diff `%s' (line %d)"
 msgstr "удаление файла без правильного имени файла в diff «%s» (строка %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:436
+#: scripts/Dpkg/Source/Patch.pm:478
 #, perl-format
 msgid "diff %s removes a non-existing file %s (line %d)"
 msgstr "diff %s удаляет несуществующий файл %s (строка %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:448
+#: scripts/Dpkg/Source/Patch.pm:490
 #, perl-format
 msgid "diff `%s' patches something which is not a plain file"
 msgstr "diff «%s» латает что-то не являющееся простым файлом"
 
-#: scripts/Dpkg/Source/Patch.pm:452
+#: scripts/Dpkg/Source/Patch.pm:494
 #, perl-format
 msgid "diff `%s' patches file %s twice"
 msgstr "diff «%s» латает файл %s дважды"
 
-#: scripts/Dpkg/Source/Patch.pm:470 scripts/Dpkg/Source/Patch.pm:474
+#: scripts/Dpkg/Source/Patch.pm:512 scripts/Dpkg/Source/Patch.pm:516
 #, perl-format
 msgid "unexpected end of diff `%s'"
 msgstr "неожиданный конец diff «%s»"
 
-#: scripts/Dpkg/Source/Patch.pm:483
+#: scripts/Dpkg/Source/Patch.pm:525
 #, perl-format
 msgid "expected [ +-] at start of line %d of diff `%s'"
 msgstr "ожидается [ +-] в начале строки %d в diff «%s»"
 
-#: scripts/Dpkg/Source/Patch.pm:490
+#: scripts/Dpkg/Source/Patch.pm:532
 #, perl-format
 msgid "expected ^@@ at line %d of diff `%s'"
 msgstr "ожидается ^@@ в строке %d в diff «%s»"
 
-#: scripts/Dpkg/Source/Patch.pm:495
+#: scripts/Dpkg/Source/Patch.pm:537
 #, perl-format
 msgid "diff `%s' doesn't contain any patch"
 msgstr "diff «%s» не содержит заплатки"
 
-#: scripts/Dpkg/Source/Patch.pm:561
+#: scripts/Dpkg/Source/Patch.pm:603
 #, perl-format
 msgid "remove patch backup file %s"
 msgstr "удаление резервной копии заплатки %s"
 
-#: scripts/Dpkg/Source/Patch.pm:602
+#: scripts/Dpkg/Source/Patch.pm:644
 msgid "nonexistent"
 msgstr "несуществующий"
 
-#: scripts/Dpkg/Source/Patch.pm:603 scripts/Dpkg/Source/Package.pm:459
+#: scripts/Dpkg/Source/Patch.pm:645 scripts/Dpkg/Source/Package.pm:459
 #, perl-format
 msgid "cannot stat %s"
 msgstr "не удалось выполнить функцию stat %s"
 
-#: scripts/Dpkg/Source/Patch.pm:605
+#: scripts/Dpkg/Source/Patch.pm:647
 msgid "plain file"
 msgstr "простой файл"
 
-#: scripts/Dpkg/Source/Patch.pm:606
+#: scripts/Dpkg/Source/Patch.pm:648
 msgid "directory"
 msgstr "каталог"
 
-#: scripts/Dpkg/Source/Patch.pm:607
+#: scripts/Dpkg/Source/Patch.pm:649
 #, perl-format
 msgid "symlink to %s"
 msgstr "символьная ссылка на %s"
 
-#: scripts/Dpkg/Source/Patch.pm:608
+#: scripts/Dpkg/Source/Patch.pm:650
 msgid "block device"
 msgstr "блочное устройство"
 
-#: scripts/Dpkg/Source/Patch.pm:609
+#: scripts/Dpkg/Source/Patch.pm:651
 msgid "character device"
 msgstr "символьное устройство"
 
-#: scripts/Dpkg/Source/Patch.pm:610
+#: scripts/Dpkg/Source/Patch.pm:652
 msgid "named pipe"
 msgstr "именованный канал"
 
-#: scripts/Dpkg/Source/Patch.pm:611
+#: scripts/Dpkg/Source/Patch.pm:653
 msgid "named socket"
 msgstr "именованный сокет"
 

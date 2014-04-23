@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2013-03-08 03:46+0000\n"
+"POT-Creation-Date: 2014-04-23 02:48+0200\n"
 "PO-Revision-Date: 2012-07-28 20:29+0200\n"
 "Last-Translator: Michał Kułach <michal.kulach@gmail.com>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -524,7 +524,8 @@ msgstr "%s: Konfliktu budowania pakietu:"
 msgid "cannot open %s"
 msgstr "nie można otworzyć %s"
 
-#: scripts/dpkg-checkbuilddeps.pl:205 scripts/dpkg-source.pl:253
+#: scripts/dpkg-checkbuilddeps.pl:205 scripts/dpkg-shlibdeps.pl:145
+#: scripts/dpkg-source.pl:253
 #, perl-format
 msgid "error occurred while parsing %s"
 msgstr "wystąpił błąd podczas przetwarzania %s"
@@ -2393,12 +2394,12 @@ msgstr "nieznany format linii (oczekiwano: pole-dwukropek-wartość)"
 msgid "write error on control data"
 msgstr "błąd zapisu danych kontrolnych"
 
-#: scripts/Dpkg/Deps.pm:305
+#: scripts/Dpkg/Deps.pm:306
 #, perl-format
 msgid "can't parse dependency %s"
 msgstr "nie można przetworzyć zależności %s"
 
-#: scripts/Dpkg/Deps.pm:332
+#: scripts/Dpkg/Deps.pm:333
 msgid "an union dependency can only contain simple dependencies"
 msgstr "suma zależności może zawierać jedynie proste zależności"
 
@@ -2537,7 +2538,7 @@ msgstr "zapisywanie na wejściu tar"
 msgid "close on tar input"
 msgstr "zamykanie wejścia tar"
 
-#: scripts/Dpkg/Source/Archive.pm:113 scripts/Dpkg/Source/Patch.pm:510
+#: scripts/Dpkg/Source/Archive.pm:113 scripts/Dpkg/Source/Patch.pm:552
 #, perl-format
 msgid "cannot create directory %s"
 msgstr "nie można utworzyć katalogu %s"
@@ -2568,7 +2569,7 @@ msgstr "nie można sprawdzić, czy usunąć katalog \"%s\""
 msgid "rm -rf failed to remove `%s'"
 msgstr "niepowodzenie rm -rf podczas usuwania \"%s\""
 
-#: scripts/Dpkg/Source/Functions.pm:83 scripts/Dpkg/Source/Patch.pm:557
+#: scripts/Dpkg/Source/Functions.pm:83 scripts/Dpkg/Source/Patch.pm:599
 #, perl-format
 msgid "cannot change timestamp for %s"
 msgstr "nie można zmienić czasu modyfikacji dla %s"
@@ -2673,129 +2674,141 @@ msgstr "  nową wersją jest %s"
 msgid "  old version is %s"
 msgstr "  starą wersją jest %s"
 
-#: scripts/Dpkg/Source/Patch.pm:390
+#: scripts/Dpkg/Source/Patch.pm:333
+#, fuzzy, perl-format
+#| msgid "diff `%s' patches file with name ending .dpkg-orig"
+msgid "diff %s patches file with unknown escape sequence \\%s"
+msgstr "plik łatki \"%s\" łata plik o nazwie kończącej się na .dpkg-orig"
+
+#: scripts/Dpkg/Source/Patch.pm:348
+#, fuzzy, perl-format
+#| msgid "diff `%s' patches file with name ending .dpkg-orig"
+msgid "diff %s patches file with unbalanced quote"
+msgstr "plik łatki \"%s\" łata plik o nazwie kończącej się na .dpkg-orig"
+
+#: scripts/Dpkg/Source/Patch.pm:432
 #, perl-format
 msgid "expected ^--- in line %d of diff `%s'"
 msgstr "oczekiwano ^--- w linii %d pliku łatki \"%s\""
 
-#: scripts/Dpkg/Source/Patch.pm:395
+#: scripts/Dpkg/Source/Patch.pm:437
 #, perl-format
 msgid "diff `%s' patches file with name ending .dpkg-orig"
 msgstr "plik łatki \"%s\" łata plik o nazwie kończącej się na .dpkg-orig"
 
-#: scripts/Dpkg/Source/Patch.pm:399
+#: scripts/Dpkg/Source/Patch.pm:441
 #, perl-format
 msgid "diff `%s' finishes in middle of ---/+++ (line %d)"
 msgstr "plik łatki \"%s\"  kończy się w środku ---/+++ (linia %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:402
+#: scripts/Dpkg/Source/Patch.pm:444
 #, perl-format
 msgid "line after --- isn't as expected in diff `%s' (line %d)"
 msgstr "linia po --- nie jest oczekiwana w pliku łatki \"%s\" (linia %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:408
+#: scripts/Dpkg/Source/Patch.pm:450
 #, perl-format
 msgid "none of the filenames in ---/+++ are valid in diff '%s' (line %d)"
 msgstr ""
 "żadna z nazw plików w ---/+++ nie jest prawidłowa w łatce \"%s\" (wiersz %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:416 scripts/Dpkg/Source/Quilt.pm:272
+#: scripts/Dpkg/Source/Patch.pm:458 scripts/Dpkg/Source/Quilt.pm:272
 #, perl-format
 msgid "%s contains an insecure path: %s"
 msgstr "%s zawiera niezaufaną ścieżkę: %s"
 
-#: scripts/Dpkg/Source/Patch.pm:421
+#: scripts/Dpkg/Source/Patch.pm:463
 #, perl-format
 msgid "diff %s modifies file %s through a symlink: %s"
 msgstr "łatka %s modyfikuje plik %s za pomocą dowiązania symbolicznego: %s"
 
-#: scripts/Dpkg/Source/Patch.pm:430
+#: scripts/Dpkg/Source/Patch.pm:472
 #, perl-format
 msgid "original and modified files are /dev/null in diff `%s' (line %d)"
 msgstr ""
 "oryginalnym i zmodyfikowanym plikiem jest /dev/null w pliku łatki \"%s"
 "\" (linia %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:433
+#: scripts/Dpkg/Source/Patch.pm:475
 #, perl-format
 msgid "file removal without proper filename in diff `%s' (line %d)"
 msgstr "usuwanie pliku bez właściwej nazwy w pliku łatki \"%s\" (linia %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:436
+#: scripts/Dpkg/Source/Patch.pm:478
 #, perl-format
 msgid "diff %s removes a non-existing file %s (line %d)"
 msgstr "plik łatki \"%s\" usuwa nieistniejący plik %s (linia %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:448
+#: scripts/Dpkg/Source/Patch.pm:490
 #, perl-format
 msgid "diff `%s' patches something which is not a plain file"
 msgstr "łatka \"%s\" łata coś, co nie jest zwykłym plikiem"
 
-#: scripts/Dpkg/Source/Patch.pm:452
+#: scripts/Dpkg/Source/Patch.pm:494
 #, perl-format
 msgid "diff `%s' patches file %s twice"
 msgstr "łatka \"%s\" dwukrotnie łata plik %s"
 
-#: scripts/Dpkg/Source/Patch.pm:470 scripts/Dpkg/Source/Patch.pm:474
+#: scripts/Dpkg/Source/Patch.pm:512 scripts/Dpkg/Source/Patch.pm:516
 #, perl-format
 msgid "unexpected end of diff `%s'"
 msgstr "niespodziewany koniec łatki \"%s\""
 
-#: scripts/Dpkg/Source/Patch.pm:483
+#: scripts/Dpkg/Source/Patch.pm:525
 #, perl-format
 msgid "expected [ +-] at start of line %d of diff `%s'"
 msgstr "oczekiwano [+-] na początku linii %d pliku łatki \"%s\""
 
-#: scripts/Dpkg/Source/Patch.pm:490
+#: scripts/Dpkg/Source/Patch.pm:532
 #, perl-format
 msgid "expected ^@@ at line %d of diff `%s'"
 msgstr "oczekiwano ^@@ w linii %d pliku łatki \"%s\""
 
-#: scripts/Dpkg/Source/Patch.pm:495
+#: scripts/Dpkg/Source/Patch.pm:537
 #, perl-format
 msgid "diff `%s' doesn't contain any patch"
 msgstr "łatka \"%s\" nie zawiera żadnej łatki"
 
-#: scripts/Dpkg/Source/Patch.pm:561
+#: scripts/Dpkg/Source/Patch.pm:603
 #, perl-format
 msgid "remove patch backup file %s"
 msgstr "usuwanie kopii zapasowej pliku łatki %s"
 
-#: scripts/Dpkg/Source/Patch.pm:602
+#: scripts/Dpkg/Source/Patch.pm:644
 msgid "nonexistent"
 msgstr "nieistniejące"
 
-#: scripts/Dpkg/Source/Patch.pm:603 scripts/Dpkg/Source/Package.pm:459
+#: scripts/Dpkg/Source/Patch.pm:645 scripts/Dpkg/Source/Package.pm:459
 #, perl-format
 msgid "cannot stat %s"
 msgstr "nie można ustalić stanu %s"
 
-#: scripts/Dpkg/Source/Patch.pm:605
+#: scripts/Dpkg/Source/Patch.pm:647
 msgid "plain file"
 msgstr "zwykły plik"
 
-#: scripts/Dpkg/Source/Patch.pm:606
+#: scripts/Dpkg/Source/Patch.pm:648
 msgid "directory"
 msgstr "katalog"
 
-#: scripts/Dpkg/Source/Patch.pm:607
+#: scripts/Dpkg/Source/Patch.pm:649
 #, perl-format
 msgid "symlink to %s"
 msgstr "dowiązanie symboliczne do %s"
 
-#: scripts/Dpkg/Source/Patch.pm:608
+#: scripts/Dpkg/Source/Patch.pm:650
 msgid "block device"
 msgstr "urządzenie blokowe"
 
-#: scripts/Dpkg/Source/Patch.pm:609
+#: scripts/Dpkg/Source/Patch.pm:651
 msgid "character device"
 msgstr "urządzenie znakowe"
 
-#: scripts/Dpkg/Source/Patch.pm:610
+#: scripts/Dpkg/Source/Patch.pm:652
 msgid "named pipe"
 msgstr "nazwany potok"
 
-#: scripts/Dpkg/Source/Patch.pm:611
+#: scripts/Dpkg/Source/Patch.pm:653
 msgid "named socket"
 msgstr "nazwane gniazdo"
 
