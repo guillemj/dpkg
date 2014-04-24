@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 8;
+use Test::More tests => 15;
 
 use_ok('Dpkg::Dist::Files');
 
@@ -76,8 +76,14 @@ BY-HAND-file webdocs optional
 
 is($dist->output(), $expected, 'Parsed dist file');
 foreach my $f ($dist->get_files()) {
-    is_deeply($f, $expected{$f->{filename}},
-              "Detail for individual dist file $f->{filename}");
+    my $filename = $f->{filename};
+
+    is_deeply($f, $expected{$filename},
+              "Detail for individual dist file $filename, via get_files()");
+
+    my $fs = $dist->get_file($filename);
+    is_deeply($fs, $expected{$filename},
+              "Detail for individual dist file $filename, via get_file()");
 }
 
 $expected = 'pkg-templ_1.2.3_arch.type section priority
@@ -90,6 +96,8 @@ added-on-the-fly void wish
 $dist->add_file('added-on-the-fly', 'void', 'wish');
 $dist->add_file('pkg-arch_2.0.0_amd64.deb', 'void', 'imperative');
 $dist->del_file('pkg-indep_0.0.1-2_all.deb');
+is($dist->get_file('unknown'), undef, 'Get unknown file');
+is($dist->get_file('pkg-indep_0.0.1-2_all.deb'), undef, 'Get deleted file');
 is($dist->output(), $expected, 'Modified dist object');
 
 1;
