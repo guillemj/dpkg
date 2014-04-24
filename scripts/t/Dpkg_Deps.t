@@ -16,10 +16,17 @@
 use strict;
 use warnings;
 
-use Test::More tests => 26;
+use Test::More tests => 31;
 use Dpkg::Arch qw(get_host_arch);
 
 use_ok('Dpkg::Deps');
+
+is(deps_concat(), '', 'Concatenate an empty list');
+is(deps_concat(undef), '', 'Concatenate list with undef');
+is(deps_concat(''), '', 'Concatenate an empty string');
+is(deps_concat('', undef), '', 'Concatenate empty string with undef');
+is(deps_concat('dep-a', undef, 'dep-b'), 'dep-a, dep-b',
+   'Concatenate two strings with intermixed undef');
 
 my $field_multiline = ' , , libgtk2.0-common (= 2.10.13-1)  , libatk1.0-0 (>=
 1.13.2), libc6 (>= 2.5-5), libcairo2 (>= 1.4.0), libcupsys2 (>= 1.2.7),
