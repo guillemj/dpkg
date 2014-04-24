@@ -32,8 +32,8 @@ if test "x$enable_coverage" = "xyes"; then
       AC_MSG_ERROR([missing genhtml, which is required for C coverage support])
    fi
 
-   CFLAGS="$CFLAGS -fprofile-arcs -ftest-coverage"
-   LDFLAGS="$LDFLAGS -fprofile-arcs -ftest-coverage"
+   CFLAGS="$CFLAGS --coverage"
+   LDFLAGS="$LDFLAGS --coverage"
 
    AC_MSG_CHECKING([for Devel::Cover perl module])
    if $($PERL -e "require Devel::Cover;" 2>/dev/null); then
