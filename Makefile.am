@@ -100,17 +100,22 @@ LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
 	-d $(top_builddir)/utils
 
 coverage: all
+	: # Remove coverage data from any previous run
 	rm -f *.lcov
 	find -name '*.gcda' -o -name '*.gcov' | xargs rm -f
 
+	: # Initialize data
 	$(LCOV) $(LCOV_CAPTURE_OPTS) -c -o dpkg_base.lcov -i
+	: # Run test cases
 	$(MAKE) -C lib/dpkg check
 	$(MAKE) -C src check
 	$(MAKE) -C utils check
+	: # Merge test coverage data
 	$(LCOV) $(LCOV_CAPTURE_OPTS) -c -o dpkg_test.lcov
 	$(LCOV) $(LCOV_OPTS) -a dpkg_base.lcov -a dpkg_test.lcov \
 	  -o dpkg_merge.lcov
 	$(LCOV) $(LCOV_OPTS) -r dpkg_merge.lcov '/usr/include/*' -o dpkg.lcov
+	: # Generate reports
 	$(LCOV) -q -l dpkg.lcov
 	$(LCOV_GENHTML) -q --legend --title "dpkg C code coverage" \
 	  --html-prolog $(top_srcdir)/doc/lcov-prolog \
