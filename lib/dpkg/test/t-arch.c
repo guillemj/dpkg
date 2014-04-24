@@ -188,10 +188,31 @@ test_dpkg_arch_varbuf_archqual(void)
 	varbuf_reset(&vb);
 }
 
+static void
+test_dpkg_arch_describe(void)
+{
+	struct dpkg_arch *arch;
+
+	arch = dpkg_arch_get(arch_none);
+	test_str(dpkg_arch_describe(arch), ==, "<none>");
+
+	arch = dpkg_arch_get(arch_empty);
+	test_str(dpkg_arch_describe(arch), ==, "<empty>");
+
+	arch = dpkg_arch_get(arch_all);
+	test_str(dpkg_arch_describe(arch), ==, "all");
+
+	arch = dpkg_arch_get(arch_wildcard);
+	test_str(dpkg_arch_describe(arch), ==, "any");
+
+	arch = dpkg_arch_get(arch_native);
+	test_str(dpkg_arch_describe(arch), ==, ARCHITECTURE);
+}
+
 void
 test(void)
 {
-	test_plan(55);
+	test_plan(60);
 
 	test_dpkg_arch_name_is_illegal();
 	test_dpkg_arch_get_list();
@@ -199,4 +220,5 @@ test(void)
 	test_dpkg_arch_reset_list();
 	test_dpkg_arch_modify();
 	test_dpkg_arch_varbuf_archqual();
+	test_dpkg_arch_describe();
 }
