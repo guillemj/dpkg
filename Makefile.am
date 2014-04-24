@@ -111,6 +111,7 @@ coverage: all
 	$(LCOV) $(LCOV_OPTS) -a dpkg_base.lcov -a dpkg_test.lcov \
 	  -o dpkg_merge.lcov
 	$(LCOV) $(LCOV_OPTS) -r dpkg_merge.lcov '/usr/include/*' -o dpkg.lcov
+	$(LCOV) -q -l dpkg.lcov
 	$(LCOV_GENHTML) -q --legend --title "dpkg C code coverage" \
 	  --html-prolog $(top_srcdir)/doc/lcov-prolog \
 	  --html-epilog $(top_srcdir)/doc/lcov-epilog \
