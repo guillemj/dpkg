@@ -93,7 +93,7 @@ doc-clean:
 .PHONY: coverage coverage-clean
 
 if COVERAGE_ENABLED
-LCOV_OPTS = -q --checksum
+LCOV_OPTS = -q --rc geninfo_checksum=1
 LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
 	-d $(top_builddir)/lib/dpkg \
 	-d $(top_builddir)/src \
@@ -116,8 +116,9 @@ coverage: all
 	  -o dpkg_merge.lcov
 	$(LCOV) $(LCOV_OPTS) -r dpkg_merge.lcov '/usr/include/*' -o dpkg.lcov
 	: # Generate reports
-	$(LCOV) -q -l dpkg.lcov
-	$(LCOV_GENHTML) -q --legend --title "dpkg C code coverage" \
+	$(LCOV) $(LCOV_OPTS) -l dpkg.lcov
+	$(LCOV_GENHTML) $(LCOV_OPTS) \
+	  --legend --title "dpkg C code coverage" \
 	  --html-prolog $(top_srcdir)/doc/lcov-prolog \
 	  --html-epilog $(top_srcdir)/doc/lcov-epilog \
 	  -o doc/coverage dpkg.lcov
