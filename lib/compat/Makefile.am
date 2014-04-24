@@ -28,7 +28,7 @@ libcompat_a_SOURCES += obstack.c obstack.h
 endif
 
 if !HAVE_STRNLEN
-libcompat_a_SOURCES += strnlen.c strnlen.h
+libcompat_a_SOURCES += strnlen.c
 endif
 
 if !HAVE_STRNDUP

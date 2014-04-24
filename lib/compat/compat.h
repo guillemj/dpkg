@@ -51,8 +51,6 @@ extern "C" {
 #define va_copy(dest, src) memcpy(&(dest), &(src), sizeof(va_list))
 #endif
 
-#include <strnlen.h>
-
 #ifndef HAVE_C99_SNPRINTF
 #include <stddef.h>
 #include <stdarg.h>
@@ -66,6 +64,10 @@ int vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args);
 
 int asprintf(char **str, char const *fmt, ...);
 int vasprintf(char **str, const char *fmt, va_list args);
+#endif
+
+#ifndef HAVE_STRNLEN
+size_t strnlen(const char *s, size_t n);
 #endif
 
 #ifndef HAVE_STRNDUP
