@@ -21,11 +21,16 @@
 #include <config.h>
 #include <compat.h>
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include <dpkg/test.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
+#include <dpkg/dpkg.h>
 
 static void
 test_command_init(void)
@@ -183,9 +188,42 @@ test_command_shell(void)
 }
 
 static void
+test_dup_file(int fd, const char *filename, int flags)
+{
+	int newfd;
+
+	newfd = open(filename, flags);
+	dup2(newfd, fd);
+	close(newfd);
+}
+
+static void
+test_command_pager(void)
+{
+	const char *pager, *default_pager;
+	int origfd = dup(STDOUT_FILENO);
+
+	/* Test stdout being a tty. */
+	test_dup_file(STDOUT_FILENO, "/dev/tty", O_WRONLY);
+	setenv("PAGER", "test-pager", 1);
+	pager = command_get_pager();
+	unsetenv("PAGER");
+	default_pager = command_get_pager();
+	dup2(origfd, STDOUT_FILENO);
+	test_str(pager, ==, "test-pager");
+	test_str(default_pager, ==, DEFAULTPAGER);
+
+	/* Test stdout not being a tty. */
+	test_dup_file(STDOUT_FILENO, "/dev/null", O_WRONLY);
+	pager = command_get_pager();
+	dup2(origfd, STDOUT_FILENO);
+	test_str(pager, ==, CAT);
+}
+
+static void
 test(void)
 {
-	test_plan(44);
+	test_plan(47);
 
 	test_command_init();
 	test_command_add_arg();
@@ -193,4 +231,5 @@ test(void)
 	test_command_add_args();
 	test_command_exec();
 	test_command_shell();
+	test_command_pager();
 }
