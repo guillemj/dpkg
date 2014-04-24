@@ -100,8 +100,8 @@ LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
 	-d $(top_builddir)/utils
 
 coverage: all
-	$(RM) -f *.lcov
-	find -name '*.gcda' -o -name '*.gcov' | xargs $(RM) -f
+	rm -f *.lcov
+	find -name '*.gcda' -o -name '*.gcov' | xargs rm -f
 
 	$(LCOV) $(LCOV_CAPTURE_OPTS) -c -o dpkg_base.lcov -i
 	$(MAKE) -C lib/dpkg check
