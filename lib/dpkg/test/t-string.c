@@ -33,6 +33,8 @@ test_str_match_end(void)
 	test_pass(str_match_end("foo bar quux", "quux"));
 	test_pass(str_match_end("foo bar quux", "bar quux"));
 	test_pass(str_match_end("foo bar quux", "foo bar quux"));
+	test_fail(str_match_end("foo bar quux", "foo bar"));
+	test_fail(str_match_end("foo bar quux", "foo"));
 }
 
 static void
@@ -135,7 +137,7 @@ test_str_strip_quotes(void)
 static void
 test(void)
 {
-	test_plan(21);
+	test_plan(23);
 
 	test_str_match_end();
 	test_str_escape_fmt();
