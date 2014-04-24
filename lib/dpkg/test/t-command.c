@@ -67,6 +67,27 @@ test_command_init(void)
 }
 
 static void
+test_command_grow_argv(void)
+{
+	struct command cmd;
+	int argv_size, i;
+
+	command_init(&cmd, "test", NULL);
+
+	argv_size = cmd.argv_size + 4;
+	for (i = 0; i < argv_size; i++)
+		command_add_arg(&cmd, "arg");
+
+	test_pass(cmd.argc == argv_size);
+	test_pass(cmd.argv_size >= argv_size);
+	test_str(cmd.argv[0], ==, "arg");
+	test_str(cmd.argv[argv_size - 1], ==, "arg");
+	test_pass(cmd.argv[argv_size] == NULL);
+
+	command_destroy(&cmd);
+}
+
+static void
 test_command_add_arg(void)
 {
 	struct command cmd;
@@ -223,9 +244,10 @@ test_command_pager(void)
 static void
 test(void)
 {
-	test_plan(47);
+	test_plan(52);
 
 	test_command_init();
+	test_command_grow_argv();
 	test_command_add_arg();
 	test_command_add_argl();
 	test_command_add_args();
