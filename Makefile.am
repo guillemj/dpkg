@@ -93,7 +93,7 @@ doc-clean:
 .PHONY: coverage coverage-clean
 
 if COVERAGE_ENABLED
-LCOV_OPTS = -q --rc geninfo_checksum=1
+LCOV_OPTS = -q --rc geninfo_checksum=1 --rc lcov_branch_coverage=1
 LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
 	-d $(top_builddir)/lib/dpkg \
 	-d $(top_builddir)/src \
