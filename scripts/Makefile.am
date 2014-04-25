@@ -174,6 +174,9 @@ coverage: check
 	$(PERL_COVER) -silent \
 	  -ignore_re '^t/.*\.t' \
 	  -outputdir $(top_builddir)/doc/coverage/scripts
+	: # Cleanup coverage report index
+	$(PERL) -i -p -e "s:$(abs_top_builddir)::" \
+	  $(top_builddir)/doc/coverage/scripts/coverage.html
 
 coverage-clean:
 	rm -rf cover_db
