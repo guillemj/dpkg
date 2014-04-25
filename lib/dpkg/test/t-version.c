@@ -234,6 +234,15 @@ test_version_parse(void)
 	test_pass(parseversion(&a, "0:0-azAZ09.+~", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
+	/* Test version with leading and trailing spaces. */
+	b = version(0, "0", "1");
+	test_pass(parseversion(&a, "  	0:0-1", &err) == 0);
+	test_pass(dpkg_version_compare(&a, &b) == 0);
+	test_pass(parseversion(&a, "0:0-1	  ", &err) == 0);
+	test_pass(dpkg_version_compare(&a, &b) == 0);
+	test_pass(parseversion(&a, "	  0:0-1  	", &err) == 0);
+	test_pass(dpkg_version_compare(&a, &b) == 0);
+
 	/* Test empty version. */
 	test_pass(parseversion(&a, "", &err) != 0);
 	test_error(err);
@@ -244,6 +253,14 @@ test_version_parse(void)
 
 	/* Test version with embedded spaces. */
 	test_fail(parseversion(&a, "0:0 0-1", &err) == 0);
+	test_error(err);
+
+	/* Test version with negative epoch. */
+	test_fail(parseversion(&a, "-1:0-1", &err) == 0);
+	test_error(err);
+
+	/* Test version with huge epoch. */
+	test_fail(parseversion(&a, "999999999999999999999999:0-1", &err) == 0);
 	test_error(err);
 
 	/* Test invalid characters in epoch. */
@@ -283,7 +300,7 @@ test_version_parse(void)
 static void
 test(void)
 {
-	test_plan(178);
+	test_plan(188);
 
 	test_version_blank();
 	test_version_is_informative();
