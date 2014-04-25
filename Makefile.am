@@ -34,7 +34,7 @@ EXTRA_DIST = \
 	doc/README.feature-removal-schedule \
 	doc/coding-style.txt \
 	doc/frontend.txt \
-	doc/lcov-epilog \
+	doc/lcov-inject \
 	doc/lcov-prolog \
 	doc/triggers.txt \
 	debian/changelog \
@@ -98,6 +98,7 @@ LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
 	-d $(top_builddir)/lib/dpkg \
 	-d $(top_builddir)/src \
 	-d $(top_builddir)/utils
+LCOV_INJECT = $(PERL) -i $(top_srcdir)/doc/lcov-inject
 
 coverage: all
 	: # Remove coverage data from any previous run
@@ -120,10 +121,16 @@ coverage: all
 	$(LCOV_GENHTML) $(LCOV_OPTS) \
 	  --legend --title "dpkg C code coverage" \
 	  --html-prolog $(top_srcdir)/doc/lcov-prolog \
-	  --html-epilog $(top_srcdir)/doc/lcov-epilog \
 	  -o doc/coverage dpkg.lcov
 
 	$(MAKE) -C scripts $@
+
+	: # XXX: Inject perl coverage into lcov index files. This is a fragile
+	: # hack which might break depending on the html output generated.
+	$(LCOV_INJECT) doc/coverage/index-sort-b.html
+	$(LCOV_INJECT) doc/coverage/index-sort-f.html
+	$(LCOV_INJECT) doc/coverage/index-sort-l.html
+	$(LCOV_INJECT) doc/coverage/index.html
 
 coverage-clean:
 	rm -rf doc/coverage/
