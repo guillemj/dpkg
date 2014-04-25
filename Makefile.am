@@ -118,7 +118,7 @@ coverage: all
 	: # Generate reports
 	$(LCOV) $(LCOV_OPTS) -l dpkg.lcov
 	$(LCOV_GENHTML) $(LCOV_OPTS) \
-	  --legend --title "dpkg C code coverage" \
+	  --legend --title "dpkg $(VERSION) C code coverage" \
 	  -o doc/coverage dpkg.lcov
 
 	$(MAKE) -C scripts $@
