@@ -35,7 +35,6 @@ EXTRA_DIST = \
 	doc/coding-style.txt \
 	doc/frontend.txt \
 	doc/lcov-inject \
-	doc/lcov-prolog \
 	doc/triggers.txt \
 	debian/changelog \
 	debian/compat \
@@ -120,7 +119,6 @@ coverage: all
 	$(LCOV) $(LCOV_OPTS) -l dpkg.lcov
 	$(LCOV_GENHTML) $(LCOV_OPTS) \
 	  --legend --title "dpkg C code coverage" \
-	  --html-prolog $(top_srcdir)/doc/lcov-prolog \
 	  -o doc/coverage dpkg.lcov
 
 	$(MAKE) -C scripts $@
