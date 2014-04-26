@@ -16,6 +16,7 @@ check_PROGRAMS = \
 	t-test \
 	t-test-skip \
 	t-macros \
+	t-error \
 	t-string \
 	t-buffer \
 	t-path \
