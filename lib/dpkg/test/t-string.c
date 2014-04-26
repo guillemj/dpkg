@@ -28,6 +28,20 @@
 #include <string.h>
 
 static void
+test_str_is_set(void)
+{
+	/* Test if strings are unset. */
+	test_pass(str_is_unset(NULL));
+	test_pass(str_is_unset(""));
+	test_fail(str_is_unset("aaa"));
+
+	/* Test if strings are set. */
+	test_fail(str_is_set(NULL));
+	test_fail(str_is_set(""));
+	test_pass(str_is_set("ccc"));
+}
+
+static void
 test_str_match_end(void)
 {
 	test_pass(str_match_end("foo bar quux", "quux"));
@@ -137,8 +151,9 @@ test_str_strip_quotes(void)
 static void
 test(void)
 {
-	test_plan(23);
+	test_plan(29);
 
+	test_str_is_set();
 	test_str_match_end();
 	test_str_escape_fmt();
 	test_str_quote_meta();
