@@ -213,12 +213,13 @@ parseversion(struct dpkg_version *rversion, const char *string,
   char *hyphen, *colon, *eepochcolon;
   const char *end, *ptr;
 
-  if (!*string)
-    return dpkg_put_error(err, _("version string is empty"));
-
   /* Trim leading and trailing space. */
   while (*string && isblank(*string))
     string++;
+
+  if (!*string)
+    return dpkg_put_error(err, _("version string is empty"));
+
   /* String now points to the first non-whitespace char. */
   end = string;
   /* Find either the end of the string, or a whitespace char. */

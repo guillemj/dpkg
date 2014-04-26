@@ -246,6 +246,8 @@ test_version_parse(void)
 	/* Test empty version. */
 	test_pass(parseversion(&a, "", &err) != 0);
 	test_error(err);
+	test_pass(parseversion(&a, "  ", &err) != 0);
+	test_error(err);
 
 	/* Test empty upstream version after epoch. */
 	test_fail(parseversion(&a, "0:", &err) == 0);
@@ -300,7 +302,7 @@ test_version_parse(void)
 static void
 test(void)
 {
-	test_plan(188);
+	test_plan(190);
 
 	test_version_blank();
 	test_version_is_informative();
