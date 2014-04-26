@@ -23,9 +23,10 @@ if cd /var/backups ; then
     fi
 
     # The alternatives database is independent from the dpkg database.
-    if ! test -e alternatives.tar.0 ||
-       ! tar -df alternatives.tar.0 -C $dbdir alternatives >/dev/null ; then
-        tar -cf alternatives.tar -C $dbdir alternatives
-        savelog -c 7 -J alternatives.tar >/dev/null
+    dbalt=alternatives
+    if ! test -e ${dbalt}.tar.0 ||
+       ! tar -df ${dbalt}.tar.0 -C $dbdir $dbalt >/dev/null ; then
+        tar -cf ${dbalt}.tar -C $dbdir $dbalt
+        savelog -c 7 -J ${dbalt}.tar >/dev/null
     fi
 fi
