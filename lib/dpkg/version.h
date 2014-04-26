@@ -49,6 +49,12 @@ struct dpkg_version {
 };
 
 /**
+ * Compound literal for a dpkg_version.
+ */
+#define DPKG_VERSION_OBJECT(e, v, r) \
+	(struct dpkg_version){ .epoch = (e), .version = (v), .revision = (r) }
+
+/**
  * Enum constants for the supported relation operations that can be done
  * on Debian versions.
  */
