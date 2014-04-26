@@ -148,17 +148,6 @@ test_version_relate(void)
 	test_pass(dpkg_version_relate(&a, dpkg_relation_ge, &b));
 }
 
-#define test_warn(e) \
-	do { \
-		test_pass((e).type == DPKG_MSG_WARN); \
-		dpkg_error_destroy(&(e)); \
-	} while (0)
-#define test_error(e) \
-	do { \
-		test_pass((e).type == DPKG_MSG_ERROR); \
-		dpkg_error_destroy(&(e)); \
-	} while (0)
-
 static void
 test_version_parse(void)
 {

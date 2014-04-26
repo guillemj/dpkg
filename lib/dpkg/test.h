@@ -107,6 +107,18 @@ static const char *test_skip_reason;
 #define test_mem(a, op, b, size) \
 	test_case(memcmp((a), (b), (size)) op 0, "memcmp %p %s %p", a, #op, b)
 
+/* Specific test macros. */
+#define test_warn(e) \
+	do { \
+		test_pass((e).type == DPKG_MSG_WARN); \
+		dpkg_error_destroy(&(e)); \
+	} while (0)
+#define test_error(e) \
+	do { \
+		test_pass((e).type == DPKG_MSG_ERROR); \
+		dpkg_error_destroy(&(e)); \
+	} while (0)
+
 /** @} */
 
 #ifndef TEST_MAIN_PROVIDED
