@@ -27,9 +27,6 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 
-#define version(epoch, version, revision) \
-	(struct dpkg_version) { (epoch), (version), (revision) }
-
 static void
 test_version_blank(void)
 {
@@ -74,40 +71,40 @@ test_version_compare(void)
 	b.epoch = 2;
 	test_fail(dpkg_version_compare(&a, &b) == 0);
 
-	a = version(0, "1", "1");
-	b = version(0, "2", "1");
+	a = DPKG_VERSION_OBJECT(0, "1", "1");
+	b = DPKG_VERSION_OBJECT(0, "2", "1");
 	test_fail(dpkg_version_compare(&a, &b) == 0);
 
-	a = version(0, "1", "1");
-	b = version(0, "1", "2");
+	a = DPKG_VERSION_OBJECT(0, "1", "1");
+	b = DPKG_VERSION_OBJECT(0, "1", "2");
 	test_fail(dpkg_version_compare(&a, &b) == 0);
 
 	/* Test for version equality. */
-	a = b = version(0, "0", "0");
+	a = b = DPKG_VERSION_OBJECT(0, "0", "0");
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
-	a = version(0, "0", "00");
-	b = version(0, "00", "0");
+	a = DPKG_VERSION_OBJECT(0, "0", "00");
+	b = DPKG_VERSION_OBJECT(0, "00", "0");
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
-	a = b = version(1, "2", "3");
+	a = b = DPKG_VERSION_OBJECT(1, "2", "3");
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
 	/* Test for epoch difference. */
-	a = version(0, "0", "0");
-	b = version(1, "0", "0");
+	a = DPKG_VERSION_OBJECT(0, "0", "0");
+	b = DPKG_VERSION_OBJECT(1, "0", "0");
 	test_pass(dpkg_version_compare(&a, &b) < 0);
 	test_pass(dpkg_version_compare(&b, &a) > 0);
 
 	/* Test for version component difference. */
-	a = version(0, "a", "0");
-	b = version(0, "b", "0");
+	a = DPKG_VERSION_OBJECT(0, "a", "0");
+	b = DPKG_VERSION_OBJECT(0, "b", "0");
 	test_pass(dpkg_version_compare(&a, &b) < 0);
 	test_pass(dpkg_version_compare(&b, &a) > 0);
 
 	/* Test for revision component difference. */
-	a = version(0, "0", "a");
-	b = version(0, "0", "b");
+	a = DPKG_VERSION_OBJECT(0, "0", "a");
+	b = DPKG_VERSION_OBJECT(0, "0", "b");
 	test_pass(dpkg_version_compare(&a, &b) < 0);
 	test_pass(dpkg_version_compare(&b, &a) > 0);
 
@@ -123,24 +120,24 @@ test_version_relate(void)
 	dpkg_version_blank(&b);
 	test_pass(dpkg_version_relate(&a, dpkg_relation_none, &b));
 
-	a = version(0, "1", "1");
-	b = version(0, "1", "1");
+	a = DPKG_VERSION_OBJECT(0, "1", "1");
+	b = DPKG_VERSION_OBJECT(0, "1", "1");
 	test_pass(dpkg_version_relate(&a, dpkg_relation_eq, &b));
 	test_fail(dpkg_version_relate(&a, dpkg_relation_lt, &b));
 	test_pass(dpkg_version_relate(&a, dpkg_relation_le, &b));
 	test_fail(dpkg_version_relate(&a, dpkg_relation_gt, &b));
 	test_pass(dpkg_version_relate(&a, dpkg_relation_ge, &b));
 
-	a = version(0, "1", "1");
-	b = version(0, "2", "1");
+	a = DPKG_VERSION_OBJECT(0, "1", "1");
+	b = DPKG_VERSION_OBJECT(0, "2", "1");
 	test_fail(dpkg_version_relate(&a, dpkg_relation_eq, &b));
 	test_pass(dpkg_version_relate(&a, dpkg_relation_lt, &b));
 	test_pass(dpkg_version_relate(&a, dpkg_relation_le, &b));
 	test_fail(dpkg_version_relate(&a, dpkg_relation_gt, &b));
 	test_fail(dpkg_version_relate(&a, dpkg_relation_ge, &b));
 
-	a = version(0, "2", "1");
-	b = version(0, "1", "1");
+	a = DPKG_VERSION_OBJECT(0, "2", "1");
+	b = DPKG_VERSION_OBJECT(0, "1", "1");
 	test_fail(dpkg_version_relate(&a, dpkg_relation_eq, &b));
 	test_fail(dpkg_version_relate(&a, dpkg_relation_lt, &b));
 	test_fail(dpkg_version_relate(&a, dpkg_relation_le, &b));
@@ -158,7 +155,7 @@ test_version_parse(void)
 
 	/* Test 0 versions. */
 	dpkg_version_blank(&a);
-	b = version(0, "0", "");
+	b = DPKG_VERSION_OBJECT(0, "0", "");
 
 	test_pass(parseversion(&a, "0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
@@ -169,62 +166,62 @@ test_version_parse(void)
 	test_pass(parseversion(&a, "0:0-", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
-	b = version(0, "0", "0");
+	b = DPKG_VERSION_OBJECT(0, "0", "0");
 	test_pass(parseversion(&a, "0:0-0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
-	b = version(0, "0.0", "0.0");
+	b = DPKG_VERSION_OBJECT(0, "0.0", "0.0");
 	test_pass(parseversion(&a, "0:0.0-0.0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
 	/* Test epoched versions. */
-	b = version(1, "0", "");
+	b = DPKG_VERSION_OBJECT(1, "0", "");
 	test_pass(parseversion(&a, "1:0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
-	b = version(5, "1", "");
+	b = DPKG_VERSION_OBJECT(5, "1", "");
 	test_pass(parseversion(&a, "5:1", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
 	/* Test multiple hyphens. */
-	b = version(0, "0-0", "0");
+	b = DPKG_VERSION_OBJECT(0, "0-0", "0");
 	test_pass(parseversion(&a, "0:0-0-0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
-	b = version(0, "0-0-0", "0");
+	b = DPKG_VERSION_OBJECT(0, "0-0-0", "0");
 	test_pass(parseversion(&a, "0:0-0-0-0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
 	/* Test multiple colons. */
-	b = version(0, "0:0", "0");
+	b = DPKG_VERSION_OBJECT(0, "0:0", "0");
 	test_pass(parseversion(&a, "0:0:0-0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
-	b = version(0, "0:0:0", "0");
+	b = DPKG_VERSION_OBJECT(0, "0:0:0", "0");
 	test_pass(parseversion(&a, "0:0:0:0-0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
 	/* Test multiple hyphens and colons. */
-	b = version(0, "0:0-0", "0");
+	b = DPKG_VERSION_OBJECT(0, "0:0-0", "0");
 	test_pass(parseversion(&a, "0:0:0-0-0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
-	b = version(0, "0-0:0", "0");
+	b = DPKG_VERSION_OBJECT(0, "0-0:0", "0");
 	test_pass(parseversion(&a, "0:0-0:0-0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
 	/* Test valid characters in upstream version. */
-	b = version(0, "09azAZ.-+~:", "0");
+	b = DPKG_VERSION_OBJECT(0, "09azAZ.-+~:", "0");
 	test_pass(parseversion(&a, "0:09azAZ.-+~:-0", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
 	/* Test valid characters in revision. */
-	b = version(0, "0", "azAZ09.+~");
+	b = DPKG_VERSION_OBJECT(0, "0", "azAZ09.+~");
 	test_pass(parseversion(&a, "0:0-azAZ09.+~", NULL) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 
 	/* Test version with leading and trailing spaces. */
-	b = version(0, "0", "1");
+	b = DPKG_VERSION_OBJECT(0, "0", "1");
 	test_pass(parseversion(&a, "  	0:0-1", &err) == 0);
 	test_pass(dpkg_version_compare(&a, &b) == 0);
 	test_pass(parseversion(&a, "0:0-1	  ", &err) == 0);
