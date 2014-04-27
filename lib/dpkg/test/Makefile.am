@@ -34,5 +34,8 @@ check_PROGRAMS = \
 	t-trigger \
 	t-mod-db
 
-LOG_DRIVER = $(PERL) $(top_srcdir)/build-aux/tap-driver.pl
-TESTS = $(check_PROGRAMS)
+TEST_PREFIX = $(builddir)
+
+test_cases = $(check_PROGRAMS)
+
+include $(top_srcdir)/check.am

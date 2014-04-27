@@ -7,7 +7,6 @@ AC_INIT([dpkg], m4_esyscmd([./get-version]), [debian-dpkg@lists.debian.org])
 AC_CONFIG_SRCDIR([lib/dpkg/dpkg.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
-AC_REQUIRE_AUX_FILE([tap-driver.pl])
 
 AC_USE_SYSTEM_EXTENSIONS
 
