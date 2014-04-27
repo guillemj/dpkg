@@ -1,0 +1,57 @@
+name: Coverity Scan
+
+on:
+  push:
+    branches: [ ci-analysis ]
+
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    container: debian:sid
+
+    env:
+      COVERITY_SCAN_TOKEN: ${{ secrets.COVERITY_SCAN_TOKEN }}
+      COVERITY_SCAN_PROG_URL: https://scan.coverity.com/download/linux64
+      COVERITY_SCAN_PROJECT_NAME: guillemj/dpkg
+      COVERITY_SCAN_NOTIFICATION_EMAIL: guillem@debian.org
+
+    steps:
+      - name: Checkout repositor
+        uses: actions/checkout@v4
+
+      - name: Get build dependencies
+        run: |
+          apt update
+          apt install -qq -y --no-install-recommends git ca-certificates curl
+          apt build-dep -qq -y .
+
+      - name: Get coverity scan
+        run: |
+          curl -o cov-analysis.tgz \
+            $COVERITY_SCAN_PROG_URL \
+            --form project=$COVERITY_SCAN_PROJECT_NAME \
+            --form token=$COVERITY_SCAN_TOKEN
+          tar xfz cov-analysis.tgz
+
+      - name: Configure
+        run: |
+          echo "1.23.x" >.dist-version
+          echo "$GITHUB_SHA" >.dist-vcs-id
+          ./autogen && ./configure
+
+      - name: Analyze
+        run: cov-analysis-*/bin/cov-build --dir cov-int make -j4
+
+      - name: Submit result
+        run: |
+          tar cfz cov-int.tar.gz cov-int
+          curl \
+            https://scan.coverity.com/builds?project=$COVERITY_SCAN_PROJECT_NAME \
+            --form token=$COVERITY_SCAN_TOKEN \
+            --form email=$COVERITY_SCAN_NOTIFICATION_EMAIL \
+            --form file=@cov-int.tar.gz \
+            --form version="`git describe --tags`" \
+            --form description="`git describe --tags` / $CI_COMMIT_TITLE / $CI_COMMIT_REF_NAME:$CI_PIPELINE_ID"
