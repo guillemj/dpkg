@@ -72,3 +72,29 @@ func-tests:
     - ./configure --enable-compiler-sanitizer
     - make
     - eatmydata make -C tests test
+
+coverity:
+  stage: test
+  only:
+    refs:
+      - ci-analysis
+  variables:
+    COVERITY_SCAN_PROG_URL: https://scan.coverity.com/download/linux64
+    COVERITY_SCAN_PROJECT_NAME: guillemj/dpkg
+    COVERITY_SCAN_BRANCH_PATTERN: ci-analysis
+  script:
+    - eatmydata apt install -qq -y --no-install-recommends
+      curl
+    - curl -o /tmp/cov-analysis.tgz $COVERITY_SCAN_PROG_URL
+      --form project=$COVERITY_SCAN_PROJECT_NAME
+      --form token=$COVERITY_SCAN_TOKEN
+    - tar xfz /tmp/cov-analysis.tgz
+    - ./autogen && ./configure
+    - cov-analysis-*/bin/cov-build --dir cov-int make -j4
+    - tar cfz cov-int.tar.gz cov-int
+    - curl https://scan.coverity.com/builds?project=$COVERITY_SCAN_PROJECT_NAME
+      --form token=$COVERITY_SCAN_TOKEN
+      --form email=$GITLAB_USER_EMAIL
+      --form file=@cov-int.tar.gz
+      --form version="`git describe --tags`"
+      --form description="`git describe --tags` / $CI_COMMIT_TITLE / $CI_COMMIT_REF_NAME:$CI_PIPELINE_ID "
