@@ -9,6 +9,14 @@
 
 TEST_VERBOSE ?= 0
 
+TEST_RUNNER = '\
+	my $$harness = TAP::Harness->new({ \
+	    lib => [ "$(top_srcdir)/scripts" ], \
+	    color => 1, \
+	    verbosity => $(TEST_VERBOSE), \
+	}); \
+	$$harness->runtests(@ARGV);'
+
 check-clean:
 	[ -z "$(test_tmpdir)" ] || rm -fr $(test_tmpdir)
 
@@ -17,10 +25,8 @@ check-local: $(test_data) $(test_cases)
 	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(top_builddir)/utils:$(PATH)" \
 	  LC_ALL=C \
 	  $(TEST_ENV_VARS) \
-	  HARNESS_VERBOSE=$(TEST_VERBOSE) HARNESS_COLOR=1 \
 	  srcdir=$(srcdir) builddir=$(builddir) \
-	  PERL5LIB=$(top_srcdir)/scripts PERL_DL_NONLAZY=1 \
+	  PERL_DL_NONLAZY=1 \
 	  PERL5OPT=$(TEST_COVERAGE) \
-	  $(PERL) -I$(top_srcdir)/scripts \
-	    -MTest::Harness -e 'Test::Harness::runtests(@ARGV)' \
+	  $(PERL) -MTAP::Harness -e $(TEST_RUNNER) \
 	    $(addprefix $(srcdir)/,$(test_cases))
