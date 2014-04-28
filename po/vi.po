@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.17.6\n"
+"Project-Id-Version: dpkg 1.17.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2014-04-21 05:07+0200\n"
-"PO-Revision-Date: 2014-02-10 08:45+0700\n"
+"PO-Revision-Date: 2014-04-28 09:13+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
 "Language: vi\n"
@@ -232,7 +232,7 @@ msgstr "gặp lỗi bzip2 bất thường"
 
 #: lib/dpkg/compress.c:412
 msgid "internal error (bug)"
-msgstr "lỗi nội bộ"
+msgstr "lỗi nội bộ (đây là lỗi)"
 
 #: lib/dpkg/compress.c:419
 msgid "memory usage limit reached"
@@ -252,7 +252,7 @@ msgstr "dữ liệu đã nén bị hỏng"
 
 #: lib/dpkg/compress.c:433
 msgid "unexpected end of input"
-msgstr "kết thúc của đầu vào đột xuất"
+msgstr "kết thúc của đầu vào bất thường"
 
 #: lib/dpkg/compress.c:437
 msgid "file format not recognized"
@@ -410,7 +410,7 @@ msgstr "định dạng của phiên bản có thành phần số nhỏ (minor) t
 
 #: lib/dpkg/deb-version.c:65
 msgid "format version followed by junk"
-msgstr "phiên bản định dạng theo sau bởi junk (rác?)"
+msgstr "phiên bản định dạng theo sau bởi rác"
 
 #: lib/dpkg/dir.c:50
 #, c-format
@@ -1006,10 +1006,10 @@ msgid "can't stat package info file `%.255s'"
 msgstr "không thể lấy các thông tin về tập tin thông tin gói “%.255s”"
 
 #: lib/dpkg/parse.c:568
-#, fuzzy, c-format
+#, c-format
 #| msgid "reading package info file '%.255s'"
 msgid "reading package info file '%s': %s"
-msgstr "đọc tập tin thông tin gói “%.255s”"
+msgstr "đang đọc tập tin thông tin gói “%s”: %s"
 
 #: lib/dpkg/parse.c:578
 #, c-format
@@ -3070,7 +3070,7 @@ msgid "Debian `%s' package management program version %s.\n"
 msgstr "Chương trình quản lý gói Debian “%s”, phiên bản %s.\n"
 
 #: src/main.c:86
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Commands:\n"
 #| "  -i|--install       <.deb file name> ... | -R|--recursive "
@@ -3156,19 +3156,19 @@ msgstr ""
 "  -P|--purge         <tên gói> ... | -a|--pending\n"
 "                                               (tạm dịch: tẩy, chưa xử lý)\n"
 "  -V|--verify <gói> ...            Kiểm tra tính toàn vẹn của gói.\n"
-"  --get-selections [<mẫu> ...]     Lấy danh sách các gói đã chọn ra đầu xuất "
+"  --get-selections [<mẫu> ...]     Lấy danh sách các gói đã chọn ra đầu ra "
 "tiêu chuẩn\n"
 "  --set-selections                 Đặt các gói đã chọn từ đầu vào tiêu "
 "chuẩn.\n"
 "  --clear-selections               Hủy chọn mọi gói không cốt yếu.\n"
-"  --update-avail <tập tin gói>     Thay thế thông tin về các gói sẵn có.\n"
-"  --merge-avail <tập tin gói>      Trộn với thông tin từ tập tin này.\n"
+"  --update-avail <Tập_tin_gói>     Thay thế thông tin về các gói sẵn có.\n"
+"  --merge-avail <Tập_tin_gói>      Trộn với thông tin từ tập tin này.\n"
 "  --clear-avail                    Xoá thông tin các gói sẵn có.\n"
 "  --forget-old-unavail             Quên các gói không được cài đặt, không "
 "sẵn có.\n"
 "  -s|--status <tên gói> ...        Hiện chi tiết về trạng thái của gói.\n"
 "  -p|--print-avail <tên gói> ...   Hiện chi tiết về phiên bản sẵn có.\n"
-"  -L|--listfiles <tên gói> ...     Liệt kê các tập tin được gói “sở hữu”.\n"
+"  -L|--listfiles <tên gói> ...     Liệt kê các tập tin có trong các gói.\n"
 "  -l|--list [<mẫu> ...]            Liệt kê ngắn gọn các gói.\n"
 "  -S|--search <mẫu> ...            Tìm các gói sở hữu những tập tin nào đó.\n"
 "  -C|--audit                       Kiểm tra tìm gói bị hỏng.\n"
@@ -3177,8 +3177,8 @@ msgstr ""
 "  --print-architecture             In ra kiến trúc dpkg.\n"
 "  --print-foreign-architectures    Hiển thị các kiến trúc ngoại lai cho "
 "phép.\n"
-"  --compare-versions <a> <op> <b>  So sánh hai số thứ tự phiên bản (xem "
-"dưới).\n"
+"  --compare-versions <a> <op> <b>  So sánh hai số thứ tự phiên bản - xem ở "
+"dưới.\n"
 "  --force-help                     Hiện trợ giúp về việc ép buộc.\n"
 "  -Dh|--debug=help                 Hiện trợ giúp dành cho gỡ lỗi.\n"
 " \n"
@@ -4081,7 +4081,7 @@ msgid ""
 "may be a mount point?"
 msgstr ""
 "trong khi gỡ bỏ %.250s, không thể gỡ bỏ thư mục “%.250s”:\n"
-"%s — thư mục có thể là một điểm gắm không?"
+"%s — thư mục có thể là một điểm gắn không?"
 
 #: src/remove.c:349
 #, c-format
@@ -4145,7 +4145,7 @@ msgstr "lỗi chroot (chuyển gốc) tới “%.250s”"
 #: dpkg-deb/build.c:503 dpkg-deb/build.c:601
 #, c-format
 msgid "failed to chdir to `%.255s'"
-msgstr "lỗi chdir (chuyển đổi thư mục) sang “%.255s”"
+msgstr "gặp lỗi khi chuyển đổi thư mục sang “%.255s”"
 
 #: src/script.c:218
 msgid "unable to setenv for maintainer script"
@@ -4292,7 +4292,7 @@ msgstr ""
 
 #: src/statcmd.c:112
 msgid "stripping trailing /"
-msgstr "đang tước các dấu gạch chéo / theo sau"
+msgstr "đang xóa bỏ các dấu gạch chéo / ở cuối"
 
 #: src/statcmd.c:227
 #, c-format
@@ -4336,16 +4336,16 @@ msgstr "lỗi cú pháp: gặp UID sai trong tập tin stateoverride"
 #: src/statdb.c:64
 #, c-format
 msgid "syntax error: unknown user '%s' in statoverride file"
-msgstr "lỗi cú pháp: gặp người dùng không rõ “%s” trong tập tin stateoverride"
+msgstr "lỗi cú pháp: gặp người dùng chưa biết “%s” trong tập tin stateoverride"
 
 #: src/statdb.c:84
 msgid "syntax error: invalid gid in statoverride file"
-msgstr "lỗi cú pháp: gặp GID sai trong tập tin stateoverride"
+msgstr "lỗi cú pháp: gặp mã số nhóm sai trong tập tin stateoverride"
 
 #: src/statdb.c:89
 #, c-format
 msgid "syntax error: unknown group '%s' in statoverride file"
-msgstr "lỗi cú pháp: gặp nhóm không rõ “%s” trong tập tin stateoverride"
+msgstr "lỗi cú pháp: gặp nhóm chưa biết “%s” trong tập tin stateoverride"
 
 #: src/statdb.c:105
 msgid "syntax error: invalid mode in statoverride file"
@@ -4392,7 +4392,7 @@ msgstr "Gõ “dpkg-trigger --help” để xem trợ giúp về tiện ích nà
 #: src/trigcmd.c:50
 #, c-format
 msgid "Debian %s package trigger utility version %s.\n"
-msgstr "Tiện ích gây nên gói %s của Debian, phiên bản %s.\n"
+msgstr "Tiện ích xử lý bẫy %s của Debian, phiên bản %s.\n"
 
 #: src/trigcmd.c:66
 #, c-format
@@ -4434,7 +4434,7 @@ msgstr ""
 "Tuỳ chọn:\n"
 "  --admindir=<thư_mục>             Dùng thư mục này thay cho %s.\n"
 "  --by-package=<tên_gói>           Có quyền cao hơn sự đợi bẫy\n"
-"                                      (bình thường được dpkg đặt).\n"
+"                                     (bình thường được dpkg đặt).\n"
 "  --no-await                       Không có gói nào cần đợi xử lý.\n"
 "  --no-act                         Chỉ thử, không phải thật, sẽ không thay "
 "đổi gì.\n"
@@ -4454,12 +4454,12 @@ msgstr "bản ghi của bẫy chưa tồn tại"
 
 #: src/trigcmd.c:225
 msgid "takes one argument, the trigger name"
-msgstr "chấp nhận 1 đối số, tên bẫy"
+msgstr "chấp nhận một đối số, tên bẫy"
 
 #: src/trigcmd.c:229
 #, c-format
 msgid "illegal awaited package name '%.250s': %.250s"
-msgstr "tên gói mong đợi không hợp lệ “%.250s”: %.250s"
+msgstr "tên gói đã đợi không hợp lệ “%.250s”: %.250s"
 
 #: src/trigcmd.c:235
 #, c-format
@@ -4528,7 +4528,7 @@ msgstr "xác minh trên gói “%s” gặp lỗi!"
 #, c-format
 msgid ""
 "verification on package %s failed; but installing anyway as you requested"
-msgstr "thẩm tra gói %s gặp lỗi; nhưng vẫn đang cài đặt như bạn yêu cầu."
+msgstr "thẩm tra gói %s gặp lỗi; nhưng vẫn đang cài đặt như bạn yêu cầu"
 
 #: src/unpack.c:156
 #, c-format
@@ -4720,10 +4720,10 @@ msgid "unable to securely remove old file '%.250s': %s"
 msgstr "không thể gỡ bỏ bảo mật tập tin cũ “%.250s”: %s"
 
 #: src/update.c:54
-#, fuzzy, c-format
+#, c-format
 #| msgid "--%s needs exactly one Packages-file argument"
 msgid "--%s takes at most one Packages-file argument"
-msgstr "--%s cần chính xác một đối sô Packages-file"
+msgstr "--%s cần chính xác một đối số Packages-file"
 
 #: src/update.c:64
 msgid "unable to access dpkg status area for bulk available update"
@@ -5367,10 +5367,10 @@ msgid "deprecated compression type '%s'; use xz instead"
 msgstr "không tán thành dùng kiểu nén “%s”; dùng xz để thay thế"
 
 #: dpkg-deb/main.c:219
-#, fuzzy, c-format
+#, c-format
 #| msgid "deprecated compression type '%s'; use xz instead"
 msgid "deprecated compression type '%s'; use xz or gzip instead"
-msgstr "không tán thành dùng kiểu nén “%s”; dùng xz để thay thế"
+msgstr "không tán thành dùng kiểu nén “%s”; dùng xz hoặc gzip để thay thế"
 
 #: dpkg-deb/main.c:261
 #, c-format
