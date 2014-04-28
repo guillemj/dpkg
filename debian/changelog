@@ -11,6 +11,11 @@ dpkg (1.17.9) UNRELEASED; urgency=low
   * Fix memory leak in unused Keybindings screen in dselect.
   * Do not leak color string on «dselect --color».
   * Fix memory leaks when parsing alternatives.
+  * Fix off-by-one stack buffer overrun in start-stop-daemon on GNU/Linux and
+    GNU/kFreeBSD if the executable pathname is longer than _POSIX_PATH_MAX.
+    Although this should not have security implications as the buffer is
+    surrounded by two arrays (so those catch accesses even if the stack
+    grows up or down), and we are compiling with -fstack-protector anyway.
 
   [ Updated scripts translations ]
   * French (Steve Petruzzello). Closes: #746350
