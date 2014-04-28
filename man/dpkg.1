@@ -6,7 +6,7 @@
 .\" Copyright © 2000-2003 Adam Heath <doogie@debian.org>
 .\" Copyright © 2002 Josip Rodin
 .\" Copyright © 2004-2005 Scott James Remnant <keybuk@debian.org>
-.\" Copyright © 2006-2013 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
 .\" Copyright © 2007-2008 Ian Jackson <ian@davenant.greenend.org.uk>
 .\" Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
 .\"
@@ -23,7 +23,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH dpkg 1 "2013-07-28" "Debian Project" "dpkg suite"
+.TH dpkg 1 "2014-04-28" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg \- package manager for Debian
 .
@@ -206,12 +206,15 @@ Removing of a package consists of the following steps:
 .TP
 .BR \-V ", " \-\-verify " [\fIpackage-name\fP...]
 Verifies the integrity of \fIpackage-name\fP or all packages if omitted,
-by comparing information from the installed paths with the database
-metadata.
+by comparing information from the package installed paths with information
+from the files taken from the package metadata stored in the \fBdpkg\fP
+database. The origin of the information in the database is the binary
+packages themselves, which gets collected at package unpack time during
+installation.
 
 The output format is selectable with the \fB\-\-verify\-format\fP
 option, which by default uses the \fBrpm\fP format, but that might
-change in the future, and as such programs parsing this command
+change in the future, and as such, programs parsing this command
 output should be explicit about the format they expect.
 .TP
 \fB\-\-update\-avail\fP, \fB\-\-merge\-avail\fP [\fIPackages-file\fP]
@@ -632,12 +635,13 @@ Sets the output format for the \fB\-\-verify\fP command.
 
 The only currently supported output format is \fBrpm\fP, which consists
 of a line for every path that failed any check. The lines start with 9
-characters to report the specific check results, a '\fB?\fP' implies the
+characters to report each specific check result, a '\fB?\fP' implies the
 check could not be done (lack of support, file permissions, etc), '\fB.\fP'
 implies the check passed, and an alphanumeric character implies a specific
-check failed; the only functional check is an md5sum verification denoted
-with a '\fB5\fP' on the third character. The line is followed by a space
-and an attribute character (currently '\fBc\fP' for conffiles), another
+check failed; currently the only functional check is an md5sum verification
+against the stored value in the files database, denoted with a '\fB5\fP' on
+the third character. The line is followed by a space and an attribute
+character (currently '\fBc\fP' for conffiles), another
 space and the pathname.
 .TP
 \fB\-\-status\-fd \fR\fIn\fR
