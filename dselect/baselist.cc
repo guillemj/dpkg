@@ -272,6 +272,7 @@ void baselist::itd_keys() {
     if (x >= givek) y++;
     mvwaddstr(infopad, y,givek, ta[0]);
     waddch(infopad,'\n');
+    delete [] ta;
   }
 }
 
