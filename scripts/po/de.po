@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-04-21 05:07+0200\n"
+"POT-Creation-Date: 2014-04-28 14:27+0200\n"
 "PO-Revision-Date: 2014-01-17 14:05+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -2599,7 +2599,7 @@ msgstr "schreiben auf Tar-Eingabe"
 msgid "close on tar input"
 msgstr "schließen auf Tar-Eingabe"
 
-#: scripts/Dpkg/Source/Archive.pm:116 scripts/Dpkg/Source/Patch.pm:529
+#: scripts/Dpkg/Source/Archive.pm:116 scripts/Dpkg/Source/Patch.pm:568
 #, perl-format
 msgid "cannot create directory %s"
 msgstr "Verzeichnis %s kann nicht angelegt werden"
@@ -2630,7 +2630,7 @@ msgstr "es kann nicht auf Entfernung des Verzeichnisses »%s« überprüft werde
 msgid "rm -rf failed to remove `%s'"
 msgstr "Entfernen von »%s« durch rm -rf fehlgeschlagen"
 
-#: scripts/Dpkg/Source/Functions.pm:83 scripts/Dpkg/Source/Patch.pm:576
+#: scripts/Dpkg/Source/Functions.pm:83 scripts/Dpkg/Source/Patch.pm:615
 #, perl-format
 msgid "cannot change timestamp for %s"
 msgstr "Zeitstempel für %s kann nicht geändert werden"
@@ -2735,127 +2735,139 @@ msgstr "  neue Version ist %s"
 msgid "  old version is %s"
 msgstr "  alte Version ist %s"
 
-#: scripts/Dpkg/Source/Patch.pm:409
+#: scripts/Dpkg/Source/Patch.pm:355
+#, fuzzy, perl-format
+#| msgid "diff `%s' patches file with no subdirectory"
+msgid "diff %s patches file with unknown escape sequence \\%s"
+msgstr "Diff »%s« patcht Datei ohne Unterverzeichnis"
+
+#: scripts/Dpkg/Source/Patch.pm:370
+#, fuzzy, perl-format
+#| msgid "diff `%s' patches file with no subdirectory"
+msgid "diff %s patches file with unbalanced quote"
+msgstr "Diff »%s« patcht Datei ohne Unterverzeichnis"
+
+#: scripts/Dpkg/Source/Patch.pm:448
 #, perl-format
 msgid "expected ^--- in line %d of diff `%s'"
 msgstr "^--- wurde in Zeile %d des Diffs »%s« erwartet"
 
-#: scripts/Dpkg/Source/Patch.pm:414
+#: scripts/Dpkg/Source/Patch.pm:453
 #, perl-format
 msgid "diff `%s' patches file with name ending .dpkg-orig"
 msgstr "Diff »%s« patcht Datei, deren Namen auf .dpkg-orig endet"
 
-#: scripts/Dpkg/Source/Patch.pm:418
+#: scripts/Dpkg/Source/Patch.pm:457
 #, perl-format
 msgid "diff `%s' finishes in middle of ---/+++ (line %d)"
 msgstr "Diff »%s« endet in der Mitte von ---/+++ (Zeile %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:421
+#: scripts/Dpkg/Source/Patch.pm:460
 #, perl-format
 msgid "line after --- isn't as expected in diff `%s' (line %d)"
 msgstr "Zeile nach --- ist im Diff »%s« (Zeile %d) nicht wie erwartet"
 
-#: scripts/Dpkg/Source/Patch.pm:427
+#: scripts/Dpkg/Source/Patch.pm:466
 #, perl-format
 msgid "none of the filenames in ---/+++ are valid in diff '%s' (line %d)"
 msgstr "keine der Dateinamen in ---/+++ ist im Diff »%s« (Zeile %d) gültig"
 
-#: scripts/Dpkg/Source/Patch.pm:435 scripts/Dpkg/Source/Quilt.pm:273
+#: scripts/Dpkg/Source/Patch.pm:474 scripts/Dpkg/Source/Quilt.pm:273
 #, perl-format
 msgid "%s contains an insecure path: %s"
 msgstr "%s enthält einen unsicheren Pfad: %s"
 
-#: scripts/Dpkg/Source/Patch.pm:440
+#: scripts/Dpkg/Source/Patch.pm:479
 #, perl-format
 msgid "diff %s modifies file %s through a symlink: %s"
 msgstr "Diff %s verändert Datei %s über einen Symlink: %s"
 
-#: scripts/Dpkg/Source/Patch.pm:449
+#: scripts/Dpkg/Source/Patch.pm:488
 #, perl-format
 msgid "original and modified files are /dev/null in diff `%s' (line %d)"
 msgstr ""
 "ursprüngliche und geänderte Dateien sind im Diff »%s« /dev/null (Zeile %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:452
+#: scripts/Dpkg/Source/Patch.pm:491
 #, perl-format
 msgid "file removal without proper filename in diff `%s' (line %d)"
 msgstr "Datei-Entfernung ohne passenden Dateinamen im Diff »%s« (Zeile %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:455
+#: scripts/Dpkg/Source/Patch.pm:494
 #, perl-format
 msgid "diff %s removes a non-existing file %s (line %d)"
 msgstr "Diff %s entfernt eine nicht existierende Datei %s (Zeile %d)"
 
-#: scripts/Dpkg/Source/Patch.pm:467
+#: scripts/Dpkg/Source/Patch.pm:506
 #, perl-format
 msgid "diff `%s' patches something which is not a plain file"
 msgstr "Diff »%s« patcht etwas, das keine gewöhnliche Datei ist"
 
-#: scripts/Dpkg/Source/Patch.pm:471
+#: scripts/Dpkg/Source/Patch.pm:510
 #, perl-format
 msgid "diff `%s' patches file %s twice"
 msgstr "Diff »%s« patcht Datei %s zweifach"
 
-#: scripts/Dpkg/Source/Patch.pm:489 scripts/Dpkg/Source/Patch.pm:493
+#: scripts/Dpkg/Source/Patch.pm:528 scripts/Dpkg/Source/Patch.pm:532
 #, perl-format
 msgid "unexpected end of diff `%s'"
 msgstr "unerwartetes Ende des Diffs »%s«"
 
-#: scripts/Dpkg/Source/Patch.pm:502
+#: scripts/Dpkg/Source/Patch.pm:541
 #, perl-format
 msgid "expected [ +-] at start of line %d of diff `%s'"
 msgstr "[ +-] wurde am Anfang der Zeile %d des Diffs »%s« erwartet"
 
-#: scripts/Dpkg/Source/Patch.pm:509
+#: scripts/Dpkg/Source/Patch.pm:548
 #, perl-format
 msgid "expected ^@@ at line %d of diff `%s'"
 msgstr "^@@ wurde in Zeile %d des Diff »%s« erwartet"
 
-#: scripts/Dpkg/Source/Patch.pm:514
+#: scripts/Dpkg/Source/Patch.pm:553
 #, perl-format
 msgid "diff `%s' doesn't contain any patch"
 msgstr "Diff »%s« enthält keinen Patch"
 
-#: scripts/Dpkg/Source/Patch.pm:580
+#: scripts/Dpkg/Source/Patch.pm:619
 #, perl-format
 msgid "remove patch backup file %s"
 msgstr "Patch-Sicherungskopiedatei %s entfernen"
 
-#: scripts/Dpkg/Source/Patch.pm:620
+#: scripts/Dpkg/Source/Patch.pm:659
 msgid "nonexistent"
 msgstr "nicht existent"
 
-#: scripts/Dpkg/Source/Patch.pm:621 scripts/Dpkg/Source/Package.pm:519
+#: scripts/Dpkg/Source/Patch.pm:660 scripts/Dpkg/Source/Package.pm:519
 #, perl-format
 msgid "cannot stat %s"
 msgstr "%s kann nicht mit stat abgefragt werden"
 
-#: scripts/Dpkg/Source/Patch.pm:623
+#: scripts/Dpkg/Source/Patch.pm:662
 msgid "plain file"
 msgstr "gewöhnliche Datei"
 
-#: scripts/Dpkg/Source/Patch.pm:624
+#: scripts/Dpkg/Source/Patch.pm:663
 msgid "directory"
 msgstr "Verzeichnis"
 
-#: scripts/Dpkg/Source/Patch.pm:625
+#: scripts/Dpkg/Source/Patch.pm:664
 #, perl-format
 msgid "symlink to %s"
 msgstr "Symlink auf %s"
 
-#: scripts/Dpkg/Source/Patch.pm:626
+#: scripts/Dpkg/Source/Patch.pm:665
 msgid "block device"
 msgstr "Blockgerät"
 
-#: scripts/Dpkg/Source/Patch.pm:627
+#: scripts/Dpkg/Source/Patch.pm:666
 msgid "character device"
 msgstr "Zeichengerät"
 
-#: scripts/Dpkg/Source/Patch.pm:628
+#: scripts/Dpkg/Source/Patch.pm:667
 msgid "named pipe"
 msgstr "benannte Pipe"
 
-#: scripts/Dpkg/Source/Patch.pm:629
+#: scripts/Dpkg/Source/Patch.pm:668
 msgid "named socket"
 msgstr "benannter Socket"
 
@@ -4169,9 +4181,6 @@ msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 
 #~ msgid "tried to add file `%s' twice"
 #~ msgstr "versuchte zweimal Datei »%s« hinzuzufügen"
-
-#~ msgid "diff `%s' patches file with no subdirectory"
-#~ msgstr "Diff »%s« patcht Datei ohne Unterverzeichnis"
 
 #~ msgid "diff `%s' is missing trailing newline"
 #~ msgstr "Diff »%s« fehlt ein abschließender Zeilenumbruch"
