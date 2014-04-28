@@ -304,6 +304,8 @@ extern "C" {
                        color[screenpart].attr= color[screenpart].attr | aval;
       }
     }
+
+    free(s);
   }
 
 } /* End of extern "C" */
