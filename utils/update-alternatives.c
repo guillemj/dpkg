@@ -1262,6 +1262,8 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 			ctx->bad_format(ctx,
 			                _("priority of %s is out of range: %s"),
 			                master_file, prio_str);
+		free(prio_str);
+
 		fs = fileset_new(master_file, prio);
 		for (sl = a->slaves; sl; sl = sl->next) {
 			fileset_add_slave(fs, xstrdup(sl->name),
@@ -1269,6 +1271,8 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 		}
 		alternative_add_choice(a, fs);
 	}
+	free(master_file);
+
 	return true;
 }
 
