@@ -257,6 +257,7 @@ dir_is_used_by_others(struct filenamenode *file, struct pkginfo *pkg)
     if (other_pkg == pkg)
       continue;
 
+    filepackages_iter_free(iter);
     debug(dbg_veryverbose, "dir_is_used_by_others yes");
     return true;
   }
