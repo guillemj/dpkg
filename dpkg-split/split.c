@@ -234,6 +234,10 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	varbuf_destroy(&partname);
 	varbuf_destroy(&partmagic);
 
+	free(package);
+	free(version);
+	free(arch);
+
 	free(prefixdir);
 	free(msdos_prefix);
 
