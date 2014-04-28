@@ -1021,13 +1021,13 @@ static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
 {
 	char lname[32];
-	char lcontents[_POSIX_PATH_MAX];
+	char lcontents[_POSIX_PATH_MAX + 1];
 	const char deleted[] = " (deleted)";
 	int nread;
 	struct stat sb;
 
 	sprintf(lname, "/proc/%d/exe", pid);
-	nread = readlink(lname, lcontents, sizeof(lcontents));
+	nread = readlink(lname, lcontents, sizeof(lcontents) - 1);
 	if (nread == -1)
 		return false;
 

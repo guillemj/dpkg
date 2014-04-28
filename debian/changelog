@@ -14,6 +14,11 @@ dpkg (1.16.15+nmu1) UNRELEASED; urgency=low
     Closes: #751021
   * Fix a descriptor leak on dselect subprocesses when --debug is used.
   * Do not run qsort() over the scandir() list in libcompat if it is NULL.
+  * Fix off-by-one stack buffer overrun in start-stop-daemon on GNU/Linux and
+    GNU/kFreeBSD if the executable pathname is longer than _POSIX_PATH_MAX.
+    Although this should not have security implications as the buffer is
+    surrounded by two arrays (so those catch accesses even if the stack
+    grows up or down), and we are compiling with -fstack-protector anyway.
 
   [ Updated scripts translations ]
   * Fix typos in German (Helge Kreutzmann)
