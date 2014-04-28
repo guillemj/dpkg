@@ -1,5 +1,6 @@
 # Variables to be defined:
 #
+#  TEST_PREFIX - set to the path to prefix to each test case for execution
 #  TEST_VERBOSE - set to 0 (default) or 1 to control test suite verbosity
 #  TEST_ENV_VARS - environment variables to be set for the test suite
 #  TEST_COVERAGE - set to the perl module in charge of getting test coverage
@@ -29,4 +30,6 @@ check-local: $(test_data) $(test_cases)
 	  PERL_DL_NONLAZY=1 \
 	  PERL5OPT=$(TEST_COVERAGE) \
 	  $(PERL) -MTAP::Harness -e $(TEST_RUNNER) \
-	    $(addprefix $(srcdir)/,$(test_cases))
+	    $(if $(TEST_PREFIX), \
+	         $(addprefix $(TEST_PREFIX)/,$(test_cases)), \
+	         $(addprefix $(srcdir)/,$(test_cases)))
