@@ -15,7 +15,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH dpkg\-maintscript\-helper 1 "2014-04-01" "Debian Project" "dpkg suite"
+.TH dpkg\-maintscript\-helper 1 "2014-04-28" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer scripts
 .
@@ -24,6 +24,8 @@ dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer s
 .IR command " [" parameter "...] \fB\-\-\fP " maint-script-parameter ...
 .
 .SH COMMANDS AND PARAMETERS
+.P
+\fBsupports\fP \fIcommand\fP
 .P
 \fBrm_conffile\fP \fIconffile\fP [\fIprior-version\fP [\fIpackage\fP]]
 .P
@@ -233,3 +235,8 @@ the currently installed \fBdpkg\fP:
     if dpkg\-maintscript\-helper supports \fIcommand\fP; then
         dpkg\-maintscript\-helper \fIcommand\fP ...
     fi
+.P
+The command \fBsupports\fP will return 0 on success, 1 otherwise. The
+\fBsupports\fP command will check if the required environment variables
+by the script as set by dpkg have been setup, and will consider it a
+failure in case the environment is not sufficient.
