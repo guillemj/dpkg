@@ -24,10 +24,22 @@ if cd /var/backups ; then
 
     # The alternatives database is independent from the dpkg database.
     dbalt=alternatives
+
+    # Switch the alternatives database backups from xz to gzip, as the latter
+    # is Essential and we can rely on it being always present, using xz here
+    # is not worth the trouble, disk space savings, or possible additional
+    # dependencies.
+    for dbseq in `seq 1 6` ; do
+        dbfile=${dbalt}.tar.${dbseq}
+        [ -e "${dbfile}.xz" ] || continue
+        unxz ${dbfile}.xz
+        gzip -9 $dbfile
+    done
+
     if ! test -e ${dbalt}.tar.0 ||
        ! tar -df ${dbalt}.tar.0 --warning=none -C $dbdir $dbalt >/dev/null ;
     then
         tar -cf ${dbalt}.tar --warning=none -C $dbdir $dbalt
-        savelog -c 7 -J ${dbalt}.tar >/dev/null
+        savelog -c 7 ${dbalt}.tar >/dev/null
     fi
 fi
