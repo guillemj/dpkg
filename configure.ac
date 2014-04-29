@@ -93,6 +93,7 @@ DPKG_CHECK_DECL([makedev], [sys/types.h])
 DPKG_CHECK_DECL([WCOREDUMP], [sys/wait.h])
 DPKG_CHECK_DECL([TIOCNOTTY], [sys/ioctl.h])
 DPKG_CHECK_DECL([O_NOFOLLOW], [fcntl.h])
+DPKG_CHECK_DECL([P_tmpdir], [stdio.h])
 DPKG_CHECK_PROGNAME
 DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
                          strnlen strndup strerror strsignal asprintf \

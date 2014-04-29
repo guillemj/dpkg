@@ -38,6 +38,10 @@ extern "C" {
 #define O_NOFOLLOW 0
 #endif
 
+#ifndef HAVE_P_TMPDIR
+#define P_tmpdir "/tmp"
+#endif
+
 /*
  * Define WCOREDUMP if we don't have it already, coredumps won't be
  * detected, though.
