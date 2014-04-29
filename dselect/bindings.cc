@@ -66,7 +66,7 @@ keybindings::bind(int key, const char *action)
     bindings = b;
   }
   b->interp = interp;
-  b->desc = desc ? desc->desc : nullptr;
+  b->desc = desc->desc;
 
   return true;
 }
