@@ -632,6 +632,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     case found_none:
       anycannotfixbytrig = true;
       ok = dep_check_halt;
+      /* Fall through. */
     case found_forced:
       varbuf_add_str(aemsgs, " ");
       varbuf_add_pkgbin_name(aemsgs, pkg, &pkg->installed, pnaw_nonambig);

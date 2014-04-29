@@ -504,6 +504,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	case cfo_install:
 		printf(_("Installing new version of config file %s ...\n"),
 		       usenode->name);
+		/* Fall through. */
 	case cfo_newconff:
 		strcpy(cdr2rest, DPKGNEWEXT);
 		trig_path_activate(usenode, pkg);
