@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.17.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2014-04-28 14:27+0200\n"
-"PO-Revision-Date: 2014-01-20 11:16+0100\n"
+"PO-Revision-Date: 2014-04-29 21:33+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -573,22 +573,8 @@ msgstr ""
 msgid "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>|B<no>"
 msgstr "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>|B<no>"
 
-# FIXME: Last sentence??
 #. type: Plain text
 #: deb-control.5:133
-#, fuzzy
-#| msgid ""
-#| "This field is used to indicate how this package should behave on a multi-"
-#| "arch installations. The value B<same> means that the package is co-"
-#| "installable with itself, but it must not be used to satisfy the "
-#| "dependency of any package of a different architecture from itself. The "
-#| "value B<foreign> means that the package is not co-installable with "
-#| "itself, but should be allowed to satisfy the dependency of a package of a "
-#| "different arch from itself. The value B<allowed> allows reverse-"
-#| "dependencies to indicate in their Depends field that they accept a "
-#| "package from a foreign architecture, but has no effect otherwise.  The "
-#| "value B<no> is the default when the field is omitted, in which case the "
-#| "field is generally not needed."
 msgid ""
 "This field is used to indicate how this package should behave on a multi-"
 "arch installations. The value B<same> means that the package is co-"
@@ -612,8 +598,8 @@ msgstr ""
 "Wert B<allowed> erlaubt es invers Abhängigen in ihrem Feld »Depends« "
 "anzuzeigen, dass sie ein Paket von einer fremden Architektur akzeptieren, "
 "hat aber ansonsten keinen Effekt. Der Wert B<no> ist der Standardwert, wenn "
-"das Feld nicht verwandt wurde. In diesem Fall wird das Feld im Allgemeinen "
-"nicht benötigt."
+"das Feld nicht verwandt wurde. In diesem Fall wird das Feld mit einem "
+"expliziten Wert B<no> im Allgemeinen nicht benötigt."
 
 #. type: TP
 #: deb-control.5:133
@@ -2986,14 +2972,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-symbols.5:53
-#, fuzzy
-#| msgid ""
-#| "Each exported I<symbol> (listed as I<name>@I<version>, with I<version> "
-#| "being \"Base\" if the library is not versioned) is associated to a "
-#| "I<minimal-version> of its dependency template (the main dependency "
-#| "template is used if I<id-of-dependency-template> is not present). The "
-#| "first alternative dependency template is numbered 1, the second one 2, "
-#| "etc."
 msgid ""
 "Each exported I<symbol> (listed as I<name>@I<version>, with I<version> being "
 "\"Base\" if the library is not versioned) is associated to a I<minimal-"
@@ -3005,8 +2983,9 @@ msgstr ""
 "Jedem exportierten I<Symbol> (aufgeführt als I<Name>@I<Version>, mit "
 "I<Version> als »Base«, falls die Bibliothek nicht versioniert ist) wird eine "
 "I<Minimalversion> seiner Abhängigkeitsvorlage zugeordnet (die "
-"Hauptabhängigkeitsvorlage wird verwandt, falls die I<Kennung-der-"
-"Abhängigkeitsvorlage> nicht vorhanden ist). Die erste alternative "
+"Hauptabhängigkeitsvorlage wird immer verwandt und wird am Ende mit der "
+"abhängigen, in I<id-of-dependency-template> referenzierten Vorlage (falls "
+"vorhanden) kombiniert) Die erste alternative "
 "Abhängigkeitsvorlage wird mit 1 nummeriert, die zweite mit 2 usw."
 
 #. type: Plain text
@@ -3266,10 +3245,9 @@ msgstr "dpkg"
 
 #. type: TH
 #: dpkg.1:26 dpkg-maintscript-helper.1:18
-#, fuzzy, no-wrap
-#| msgid "2011-04-28"
+#, no-wrap
 msgid "2014-04-28"
-msgstr "2011-04-28"
+msgstr "2014-04-28"
 
 #. type: TH
 #: dpkg.1:26 dpkg.cfg.5:19 dpkg-buildflags.1:20 dpkg-deb.1:21
@@ -3801,12 +3779,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.1:219
-#, fuzzy
-#| msgid ""
-#| "The output format is selectable with the B<--verify-format> option, which "
-#| "by default uses the B<rpm> format, but that might change in the future, "
-#| "and as such programs parsing this command output should be explicit about "
-#| "the format they expect."
 msgid ""
 "The output format is selectable with the B<--verify-format> option, which by "
 "default uses the B<rpm> format, but that might change in the future, and as "
@@ -3820,22 +3792,12 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1:219
-#, fuzzy, no-wrap
-#| msgid "B<--update-avail>, B<--merge-avail> I<Packages-file>"
+#, no-wrap
 msgid "B<--update-avail>, B<--merge-avail> [I<Packages-file>]"
-msgstr "B<--update-avail>, B<--merge-avail> I<Packages-Datei>"
+msgstr "B<--update-avail>, B<--merge-avail> [I<Packages-Datei>]"
 
 #. type: Plain text
 #: dpkg.1:230
-#, fuzzy
-#| msgid ""
-#| "Update B<dpkg>'s and B<dselect>'s idea of which packages are available. "
-#| "With action B<--merge-avail>, old information is combined with "
-#| "information from I<Packages-file>. With action B<--update-avail>, old "
-#| "information is replaced with the information in the I<Packages-file>. The "
-#| "I<Packages-file> distributed with Debian is simply named I<Packages>. "
-#| "B<dpkg> keeps its record of available packages in I</var/lib/dpkg/"
-#| "available>."
 msgid ""
 "Update B<dpkg>'s and B<dselect>'s idea of which packages are available. With "
 "action B<--merge-avail>, old information is combined with information from "
@@ -3851,7 +3813,9 @@ msgstr ""
 "der Information aus der I<Packages-Datei> zusammengeführt. Mit der Aktion "
 "B<--update-avail> wird die alte Information durch die Information aus der "
 "I<Packages-Datei> ersetzt. Die mit Debian vertriebene I<Packages-Datei> "
-"heißt einfach I<Packages>. B<dpkg> hält seine Aufzeichnungen über die "
+"heißt einfach I<Packages>. Falls das Argument I<Packages-file> fehlt oder "
+"B<-> benannt ist, wird es aus der Standardeingabe lesen (seit Dpkg 1.17.7). "
+"B<dpkg> hält seine Aufzeichnungen über die "
 "verfügbaren Pakete in I</var/lib/dpkg/available>."
 
 #. type: Plain text
@@ -4982,17 +4946,6 @@ msgstr "Setzt das Ausgabeformat für den Befehl B<--verify>."
 
 #. type: Plain text
 #: dpkg.1:646
-#, fuzzy
-#| msgid ""
-#| "The only currently supported output format is B<rpm>, which consists of a "
-#| "line for every path that failed any check. The lines start with 9 "
-#| "characters to report the specific check results, a 'B<?>' implies the "
-#| "check could not be done (lack of support, file permissions, etc), 'B<.>' "
-#| "implies the check passed, and an alphanumeric character implies a "
-#| "specific check failed; the only functional check is an md5sum "
-#| "verification denoted with a 'B<5>' on the third character. The line is "
-#| "followed by a space and an attribute character (currently 'B<c>' for "
-#| "conffiles), another space and the pathname."
 msgid ""
 "The only currently supported output format is B<rpm>, which consists of a "
 "line for every path that failed any check. The lines start with 9 characters "
@@ -5006,12 +4959,13 @@ msgid ""
 msgstr ""
 "Derzeit wird nur das Ausgabeformat B<rpm> unterstützt. Es besteht aus einer "
 "Zeile für jeden Pfad, der bei der Prüfung fehlschlug. Die Zeilen starten mit "
-"9 Zeichen, um die Ergebnisse der angegebenen Prüfung zu berichten. Ein »B<?"
+"9 Zeichen, um die Ergebnisse jeder angegebenen Prüfung zu berichten. Ein »B<?"
 ">« impliziert, dass die Prüfung nicht durchgeführt werden konnte (keine "
 "Unterstützung dafür, Dateirechte usw.). »B<.>« impliziert, dass die Prüfung "
 "erfolgreich durchgeführt wurde und ein alphanumerisches Zeichen impliziert, "
-"dass eine angegebene Prüfung fehlschlug. Die einzige funktionale Prüfung ist "
-"eine Md5sum-Überprüfung, angezeigt durch ein »B<5>« als drittes Zeichen. Der "
+"dass eine angegebene Prüfung fehlschlug. Derzeit ist die einzige funktionale Prüfung "
+"eine Md5sum-Überprüfung gegen den gespeicherten Wert in der Datei-Datenbank, "
+"angezeigt durch ein »B<5>« als drittes Zeichen. Der "
 "Zeile folgt ein Leerzeichen und ein Attributszeichen (derzeit »B<c>« für "
 "Conffiles), ein weiteres Leerzeichen und der Pfadnmae."
 
@@ -5608,12 +5562,12 @@ msgstr ""
 #: dpkg.1:842
 #, no-wrap
 msgid "     B<apt-cache dumpavail | dpkg --merge-avail>\n"
-msgstr ""
+msgstr "     B<apt-cache dumpavail | dpkg --merge-avail>\n"
 
 #. type: Plain text
 #: dpkg.1:844
 msgid "or with dpkg 1.17.6 and earlier:"
-msgstr ""
+msgstr "Oder mit Dpkg 1.17.6 oder älter:"
 
 #. type: Plain text
 #: dpkg.1:849
@@ -7058,31 +7012,25 @@ msgstr "Optionen für den C++-Compiler. Identisch zu B<CFLAGS>."
 
 #. type: TP
 #: dpkg-buildflags.1:171
-#, fuzzy, no-wrap
-#| msgid "B<CFLAGS>"
+#, no-wrap
 msgid "B<OBJCFLAGS>"
-msgstr "B<CFLAGS>"
+msgstr "B<OBJCFLAGS>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:174
-#, fuzzy
-#| msgid "Options for the C++ compiler. Same as B<CFLAGS>."
 msgid "Options for the Objective C compiler. Same as B<CFLAGS>."
-msgstr "Optionen für den C++-Compiler. Identisch zu B<CFLAGS>."
+msgstr "Optionen für den Objective-C-Compiler. Identisch zu B<CFLAGS>."
 
 #. type: TP
 #: dpkg-buildflags.1:174
-#, fuzzy, no-wrap
-#| msgid "B<CXXFLAGS>"
+#, no-wrap
 msgid "B<OBJCXXFLAGS>"
-msgstr "B<CXXFLAGS>"
+msgstr "B<OBJCXXFLAGS>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:177
-#, fuzzy
-#| msgid "Options for the C++ compiler. Same as B<CFLAGS>."
 msgid "Options for the Objective C++ compiler. Same as B<CXXFLAGS>."
-msgstr "Optionen für den C++-Compiler. Identisch zu B<CFLAGS>."
+msgstr "Optionen für den Objective-C++-Compiler. Identisch zu B<CXXFLAGS>."
 
 #. type: TP
 #: dpkg-buildflags.1:177
@@ -7104,24 +7052,19 @@ msgstr "B<FFLAGS>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:183
-#, fuzzy
-#| msgid "Options for the Fortran compiler. A subset of B<CFLAGS>."
 msgid "Options for the Fortran 77 compiler. A subset of B<CFLAGS>."
-msgstr "Optionen für den Fortran-Compiler. Eine Untermenge von B<CFLAGS>."
+msgstr "Optionen für den Fortran-77-Compiler. Eine Untermenge von B<CFLAGS>."
 
 #. type: TP
 #: dpkg-buildflags.1:183
-#, fuzzy, no-wrap
-#| msgid "B<CFLAGS>"
+#, no-wrap
 msgid "B<FCFLAGS>"
-msgstr "B<CFLAGS>"
+msgstr "B<FCFLAGS>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:186
-#, fuzzy
-#| msgid "Options for the C++ compiler. Same as B<CFLAGS>."
 msgid "Options for the Fortran 9x compiler. Same as B<FFLAGS>."
-msgstr "Optionen für den C++-Compiler. Identisch zu B<CFLAGS>."
+msgstr "Optionen für den Fortran-9x-Compiler. Identisch zu B<FFLAGS>."
 
 #. type: TP
 #: dpkg-buildflags.1:186
@@ -7222,16 +7165,6 @@ msgstr "B<format>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:232
-#, fuzzy
-#| msgid ""
-#| "This setting (enabled by default) adds B<-Wformat -Werror=format-"
-#| "security> to B<CFLAGS> and B<CXXFLAGS>. This will warn about improper "
-#| "format string uses, and will fail when format functions are used in a way "
-#| "that represent possible security problems. At present, this warns about "
-#| "calls to B<printf> and B<scanf> functions where the format string is not "
-#| "a string literal and there are no format arguments, as in B<printf(foo);> "
-#| "instead of B<printf(\"%s\", foo);> This may be a security hole if the "
-#| "format string came from untrusted input and contains \"%n\"."
 msgid ""
 "This setting (enabled by default) adds B<-Wformat -Werror=format-security> "
 "to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS> and B<OBJCXXFLAGS>.  This will warn "
@@ -7243,7 +7176,7 @@ msgid ""
 "hole if the format string came from untrusted input and contains \"%n\"."
 msgstr ""
 "Diese Einstellung (standardmäßig aktiviert) fügt B<-Wformat -Werror=format-"
-"security> zu B<CFLAGS> und B<CXXFLAGS> hinzu. Damit wird über inkorrekte "
+"security> zu B<CFLAGS>, B<CXXFLAGS> B<CXXFLAGS>, B<OBJCFLAGS> und B<OBJCXXFLAGS> hinzu. Damit wird über inkorrekte "
 "Formatzeichenkettenverwendungen gewarnt und zu einem Fehler führen, wenn "
 "Formatfunktionen deart verwandt werden, dass daraus ein mögliches "
 "Sicherheitsproblem werden könnte. Derzeit warnt dies über Aufrufe auf "
@@ -7300,14 +7233,6 @@ msgstr "B<stackprotector>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:261
-#, fuzzy
-#| msgid ""
-#| "This setting (enabled by default) adds B<-fstack-protector --param=ssp-"
-#| "buffer-size=4> to B<CFLAGS> and B<CXXFLAGS>. This adds safety checks "
-#| "against stack overwrites. This renders many potential code injection "
-#| "attacks into aborting situations. In the best case this turns code "
-#| "injection vulnerabilities into denial of service or into non-issues "
-#| "(depending on the application)."
 msgid ""
 "This setting (enabled by default) adds B<-fstack-protector --param=ssp-"
 "buffer-size=4> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, "
@@ -7318,7 +7243,8 @@ msgid ""
 "application)."
 msgstr ""
 "Diese Einstellung (standardmäßig aktiviert) fügt B<-fstack-protector --"
-"param=ssp-buffer-size=4> zu B<CFLAGS> und B<CXXFLAGS> hinzu. Dies fügt "
+"param=ssp-buffer-size=4> zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, "
+"B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu. Dies fügt "
 "Sicherheitsprüfungen gegen die Überschreibung des Stapelspeichers (Stacks) "
 "hinzu. Damit werden viele mögliche Code-Einfügeangriffe zu "
 "Abbruchsituationen. Im besten Fall werden damit Code-Einfügungsangriffe zu "
@@ -7388,18 +7314,6 @@ msgstr "B<pie>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:298
-#, fuzzy
-#| msgid ""
-#| "This setting (disabled by default) adds B<-fPIE> to B<CFLAGS> and "
-#| "B<CXXFLAGS>, and B<-fPIE -pie> to B<LDFLAGS>. Position Independent "
-#| "Executable are needed to take advantage of Address Space Layout "
-#| "Randomization, supported by some kernel versions. While ASLR can already "
-#| "be enforced for data areas in the stack and heap (brk and mmap), the code "
-#| "areas must be compiled as position-independent. Shared libraries already "
-#| "do this (-fPIC), so they gain ASLR automatically, but binary .text "
-#| "regions need to be build PIE to gain ASLR. When this happens, ROP (Return "
-#| "Oriented Programming) attacks are much harder since there are no static "
-#| "locations to bounce off of during a memory corruption attack."
 msgid ""
 "This setting (disabled by default) adds B<-fPIE> to B<CFLAGS>, B<CXXFLAGS>, "
 "B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>, and B<-"
@@ -7413,8 +7327,9 @@ msgid ""
 "since there are no static locations to bounce off of during a memory "
 "corruption attack."
 msgstr ""
-"Diese Einstellung (standardmäßig deaktiviert) fügt B<-fPIE> zu B<CFLAGS> und "
-"B<CXXFLAGS> sowie B<-fPIE -pie> zu B<LDFLAGS> hinzu. »Position Independent "
+"Diese Einstellung (standardmäßig deaktiviert) fügt B<-fPIE> zu B<CFLAGS>, "
+"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und "
+"B<FCFLAGS> sowie B<-fPIE -pie> zu B<LDFLAGS> hinzu. »Position Independent "
 "Executable« (positionsunabhängige Programme) werden benötigt, um »Address "
 "Space Layout Randomization« (Bereitstellung eines zufälligen "
 "Adressbereichlayouts) auszunutzen, der von einigen Kernelversionen "
@@ -7907,18 +7822,13 @@ msgstr ""
 msgid "B<7.>"
 msgstr "B<7.>"
 
-# FIXME »hook« missing
 #. type: Plain text
 #: dpkg-buildpackage.1:67
-#, fuzzy
-#| msgid ""
-#| "It runs the B<postclean> and if B<-tc> is specified, it will call "
-#| "B<fakeroot debian/rules clean> again."
 msgid ""
 "It runs the B<postclean> hook and if B<-tc> is specified, it will call "
 "B<fakeroot debian/rules clean> again."
 msgstr ""
-"Es führt den B<postclean> aus und, falls B<-tc> angegeben ist, ruft erneut "
+"Es führt den Hook B<postclean> aus und, falls B<-tc> angegeben ist, ruft erneut "
 "B<fakeroot debian/rules clean> auf."
 
 #. type: IP
@@ -11689,10 +11599,8 @@ msgstr "BEFEHLE UND PARAMETER"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:29
-#, fuzzy
-#| msgid "B<-c>I< command>"
 msgid "B<supports> I<command>"
-msgstr "B<-c>I< Befehl>"
+msgstr "B<supports> I<Befehl>"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:31
@@ -12046,18 +11954,16 @@ msgid "SYMLINK AND DIRECTORY SWITCHES"
 msgstr "SYMLINK- UND VERZEICHNISUMWANDLUNGEN"
 
 #. type: Plain text
+# FIXME: suppoerted → supported
 #: dpkg-maintscript-helper.1:156
-#, fuzzy
-#| msgid ""
-#| "When upgrading a package, B<dpkg> will not automatically switch a symlink "
-#| "to a directory or vice-versa."
 msgid ""
 "When upgrading a package, B<dpkg> will not automatically switch a symlink to "
 "a directory or vice-versa. Downgrades are not suppoerted and the path will "
 "be left as is."
 msgstr ""
 "Beim Upgrade eines Pakets wird B<dpkg> einen Symlink nicht automatisch in "
-"ein Verzeichnis und umgekehrt umwandeln."
+"ein Verzeichnis und umgekehrt umwandeln. Installationen älterer Versionen "
+"(»downgrades«) werden nicht unterstützt und der Pfad verbleibt wie er ist."
 
 #. type: SS
 #: dpkg-maintscript-helper.1:157
@@ -15400,10 +15306,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-source.1:253
-#, fuzzy, no-wrap
-#| msgid "B<--version>"
+#, no-wrap
 msgid "B<--ignore-bad-version>"
-msgstr "B<--version>"
+msgstr "B<--ignore-bad-version>"
 
 #. type: Plain text
 #: dpkg-source.1:258
@@ -18895,10 +18800,9 @@ msgstr "start-stop-daemon"
 
 #. type: TH
 #: start-stop-daemon.8:23
-#, fuzzy, no-wrap
-#| msgid "2013-03-28"
+#, no-wrap
 msgid "2014-03-26"
-msgstr "2013-03-28"
+msgstr "2014-03-26"
 
 #. type: Plain text
 #: start-stop-daemon.8:26
@@ -19051,22 +18955,17 @@ msgstr ""
 
 #. type: TP
 #: start-stop-daemon.8:109
-#, fuzzy, no-wrap
-#| msgid "B<--pid> I<pid>"
+#, no-wrap
 msgid "B<--ppid> I<ppid>"
-msgstr "B<--pid> I<PID>"
+msgstr "B<--ppid> I<PPID>"
 
 #. type: Plain text
 #: start-stop-daemon.8:113
-#, fuzzy
-#| msgid ""
-#| "Check for a process with the specified I<pid>. The I<pid> must be a "
-#| "number greater than 0."
 msgid ""
 "Check for a process with the specified I<ppid> (parent pid).  The I<ppid> "
 "must be a number greater than 0."
 msgstr ""
-"Prüfe auf einen Prozess mit der angegebenen I<PID>. Die I<PID> muss eine "
+"Prüfe auf einen Prozess mit der angegebenen I<PPID> (Eltern-PID). Die I<PPID> muss eine "
 "Zahl größer Null sein."
 
 #. type: TP
