@@ -1935,10 +1935,11 @@ alternative_needs_update(struct alternative *a)
 	if (current == NULL)
 		return ALT_UPDATE_LINK_BROKEN;
 
-	if (!alternative_has_choice(a, current))
-		return ALT_UPDATE_NO;
-
 	fs = alternative_get_fileset(a, current);
+
+	/* Stop if we do not have the choice. */
+	if (fs == NULL)
+		return ALT_UPDATE_NO;
 
 	/* Check slaves */
 	for (sl = a->slaves; sl; sl = sl->next) {
