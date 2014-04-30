@@ -196,7 +196,7 @@ buffer_copy(struct buffer_data *read_data,
 	while (bufsize > 0) {
 		bytesread = buffer_read(read_data, buf, bufsize, err);
 		if (bytesread < 0)
-			return -1;
+			break;
 		if (bytesread == 0)
 			break;
 
@@ -212,19 +212,21 @@ buffer_copy(struct buffer_data *read_data,
 
 		byteswritten = buffer_write(write_data, buf, bytesread, err);
 		if (byteswritten < 0)
-			return -1;
+			break;
 		if (byteswritten == 0)
 			break;
 
 		totalwritten += byteswritten;
 	}
 
-	if (limit > 0)
-		return dpkg_put_error(err, _("unexpected end of file or stream"));
-
 	buffer_filter_done(filter);
 
 	free(buf);
+
+	if (bytesread < 0 || byteswritten < 0)
+		return -1;
+	if (limit > 0)
+		return dpkg_put_error(err, _("unexpected end of file or stream"));
 
 	return totalread;
 }
