@@ -225,14 +225,16 @@ test_command_pager(void)
 	int origfd = dup(STDOUT_FILENO);
 
 	/* Test stdout being a tty. */
-	test_dup_file(STDOUT_FILENO, "/dev/tty", O_WRONLY);
-	setenv("PAGER", "test-pager", 1);
-	pager = command_get_pager();
-	unsetenv("PAGER");
-	default_pager = command_get_pager();
-	dup2(origfd, STDOUT_FILENO);
-	test_str(pager, ==, "test-pager");
-	test_str(default_pager, ==, DEFAULTPAGER);
+	test_todo_block("environment might not expose controlling terminal") {
+		test_dup_file(STDOUT_FILENO, "/dev/tty", O_WRONLY);
+		setenv("PAGER", "test-pager", 1);
+		pager = command_get_pager();
+		unsetenv("PAGER");
+		default_pager = command_get_pager();
+		dup2(origfd, STDOUT_FILENO);
+		test_str(pager, ==, "test-pager");
+		test_str(default_pager, ==, DEFAULTPAGER);
+	}
 
 	/* Test stdout not being a tty. */
 	test_dup_file(STDOUT_FILENO, "/dev/null", O_WRONLY);
