@@ -310,31 +310,6 @@ sub _fail_not_same_type {
     $self->register_error();
 }
 
-my %ESCAPE = ((
-    'a' => "\a",
-    'b' => "\b",
-    'f' => "\f",
-    'n' => "\n",
-    'r' => "\r",
-    't' => "\t",
-    'v' => "\cK",
-    '\\' => "\\",
-    '"' => "\"",
-), (
-    map { sprintf('%03o', $_) => chr($_) } (0..255)
-));
-
-sub _unescape {
-    my ($diff, $str) = @_;
-
-    if (exists $ESCAPE{$str}) {
-        return $ESCAPE{$str};
-    } else {
-        error(_g("diff %s patches file with unknown escape sequence \\%s"),
-              $diff, $str);
-    }
-}
-
 # Fetch the header filename ignoring the optional timestamp
 sub _fetch_filename {
     my ($diff, $header) = @_;
@@ -344,12 +319,7 @@ sub _fetch_filename {
 
     # Is it a C-style string?
     if ($header =~ m/^"/) {
-        $header =~ m/^"((?:[^\\"]|\\.)*)"/;
-        error(_g('diff %s patches file with unbalanced quote'), $diff)
-            unless defined $1;
-
-        $header = $1;
-        $header =~ s/\\([0-3][0-7]{2}|.)/_unescape($diff, $1)/eg;
+        error(_g('diff %s patches file with C-style encoded filename'), $diff);
     } else {
         # Tab is the official separator, it's always used when
         # filename contain spaces. Try it first, otherwise strip on space
