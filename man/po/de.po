@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.17.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2014-04-28 14:27+0200\n"
-"PO-Revision-Date: 2014-04-29 21:33+0200\n"
+"PO-Revision-Date: 2014-04-30 21:05+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -3032,6 +3032,12 @@ msgid ""
 "providing those blacklisted symbols. The available groups are system "
 "dependent, for ELF and GNU-based systems these are B<aeabi> and B<gomp>."
 msgstr ""
+"Es gibt in einer durch Leerzeichen getrennten Liste an, welche Blacklist-"
+"Gruppen ignoriert werden sollten, so dass Symbole, die in diesen Gruppen "
+"enthalten sind, in die Ausgabedatei aufgenommen werden. Dies sollte nur für "
+"Toolchain-Pakete notwendig sein, die solche Symbole in Blacklists "
+"bereitstellen. Die verfügbaren Gruppen sind systemabhängig, für ELF- und GNU-"
+"basierte Systeme sind dies B<aeabi> und B<gomp>."
 
 #. type: SS
 #: deb-symbols.5:71
@@ -3768,6 +3774,9 @@ msgid "B<-V>, B<--verify> [I<package-name>...]"
 msgstr "B<-V>, B<----verify> [I<Paketname> …]"
 
 #. type: Plain text
+# FIXME "package isntalled paths"
+# FIXME ist the binary → are the binary
+# FIXME: Bezug bei »which gets« correct?
 #: dpkg.1:214
 msgid ""
 "Verifies the integrity of I<package-name> or all packages if omitted, by "
@@ -3776,6 +3785,12 @@ msgid ""
 "The origin of the information in the database is the binary packages "
 "themselves, which gets collected at package unpack time during installation."
 msgstr ""
+"Überprüft die Integrität von I<Paketname> oder allen Paketen, falls nicht "
+"angegeben, indem Informationen von den durch Paketen installierten Pfaden mit "
+"Informationen aus den Dateien, die in den Paketmetadaten, gespeichert in der "
+"B<dpkg>-Datenbank, entnommen werden, verglichen werden. Die Quelle der "
+"Informationen in der Datenbank sind die Binärpakete selbst. Diese werden zum "
+"Zeitpunkt des Entpackens während der Installationen gesammelt."
 
 #. type: Plain text
 #: dpkg.1:219
@@ -7743,7 +7758,6 @@ msgstr ""
 msgid "B<3.>"
 msgstr "B<3.>"
 
-# FIXME ruft es diese Ziel auf → ruft es dieses Ziel auf
 #. type: Plain text
 #: dpkg-buildpackage.1:47
 msgid ""
@@ -8269,18 +8283,12 @@ msgstr "B<--check-option=>I<Opt>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:219
-#, fuzzy
-#| msgid ""
-#| "It runs the B<check> hook and calls a package checker for the B<.changes> "
-#| "file (if a command is specified in DEB_CHECK_COMMAND or with B<--check-"
-#| "command>)."
 msgid ""
 "Pass option I<opt> to the I<check-command> specified with "
 "B<DEB_CHECK_COMMAND> or B<--check-command>."
 msgstr ""
-"Es führt den Hook B<check> aus und ruft einen Paketprüfer für die Datei B<."
-"changes> auf (falls ein Befehl in DEB_CHECK_COMMAND oder mit B<--check-"
-"command> angegeben ist)."
+"Option I<Opt> an den I<Prüfbefehl>, der mit B<DEB_CHECK_COMMAND> oder "
+"B<--check-command> spezifiziert wurde, übergeben."
 
 #. type: TP
 #: dpkg-buildpackage.1:219
@@ -8603,7 +8611,6 @@ msgstr ""
 msgid "Reliance on exported environment flags"
 msgstr "Vertrauen auf exportierte Umgebungsvariablen"
 
-# FIXME: Korrektur in alter Version
 #. type: Plain text
 #: dpkg-buildpackage.1:329
 msgid ""
@@ -11644,7 +11651,6 @@ msgstr ""
 "selbst erledigen kann, entweder aufgrund von Design-Entscheidungen oder "
 "aufgrund aktueller Einschränkungen."
 
-# FIXME (alten) Dpkg: Schrägstrich → Bindestrich
 #. type: Plain text
 #: dpkg-maintscript-helper.1:50
 msgid ""
@@ -11694,13 +11700,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:66
-#, fuzzy
-#| msgid ""
-#| "If the conffile has not been shipped for several versions, and you are "
-#| "now modifying the maintainer scripts to clean up the obsolete file, "
-#| "I<prior-version> should be based on the version of the package that you "
-#| "are now preparing, not the first version of the package that lacked the "
-#| "conffile."
 msgid ""
 "If the conffile has not been shipped for several versions, and you are now "
 "modifying the maintainer scripts to clean up the obsolete file, I<prior-"
@@ -11712,16 +11711,11 @@ msgstr ""
 "jetzt die Betreuerskripte anpassen, um die überflüssige Datei zu entfernen, "
 "sollte I<vorhergehende_Version> auf die Version des Pakets gesetzt werden, "
 "die Sie jetzt zusammenstellen, nicht auf die erste Version des Pakets, bei "
-"dem das Conffile fehlte."
+"dem das Conffile fehlte. Dies trifft genauso auch auf alle anderen Aktionen "
+"zu."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:75
-#, fuzzy
-#| msgid ""
-#| "For example, for a conffile removed in version B<2.0-1> of a package, "
-#| "I<prior-version> should be set to B<2.0-1~>. This will cause the conffile "
-#| "to be removed even if the user rebuilt the previous version B<1.0-1> as "
-#| "B<1.0-1local1>."
 msgid ""
 "For example, for a conffile removed in version B<2.0-1> of a package, "
 "I<prior-version> should be set to B<2.0-1~>. This will cause the conffile to "
@@ -11734,7 +11728,11 @@ msgstr ""
 "Wird beispielsweise eine Conffile in Version B<2.0-1> eines Pakets entfernt, "
 "sollte I<vorhergehende_Version> auf B<2.0-1~> gesetzt werden. Dies führt "
 "dazu, dass das Conffile entfernt wird, selbst falls der Benutzer die "
-"vorhergehende Version B<1.0-1> als B<1.0-1local1> neu gebaut hat."
+"vorhergehende Version B<1.0-1> als B<1.0-1local1> neu gebaut hat. Oder ein "
+"Paket, das einen Pfad von einem Symlink (das in Version B<1.0-1> ausgeliefert "
+"wurde) zu einem Verzeichnis (ausgeliefert in Version B<2.0-1>) wechselt, aber "
+"die eigentliche Umstellung in den Betreuerskripten in Version B<3.0-1> "
+"durchführt, sollte I<vorhergehende_Version> auf B<3.0-1~> setzen."
 
 #. type: TP
 #: dpkg-maintscript-helper.1:75
@@ -12164,6 +12162,7 @@ msgstr ""
 "    fi\n"
 
 #. type: Plain text
+# FIXME: 2nd sentence unclear "by the script"
 #: dpkg-maintscript-helper.1:242
 msgid ""
 "The command B<supports> will return 0 on success, 1 otherwise. The "
@@ -12171,6 +12170,10 @@ msgid ""
 "script as set by dpkg have been setup, and will consider it a failure in "
 "case the environment is not sufficient."
 msgstr ""
+"Der Befehl B<supports> liefert im Erfolgsfall 0, ansonsten 1 zurück. Der "
+"Befehl B<supports> überprüft, ob die benötigten Umgebungsvariablen des "
+"Skripts von Dpkg gesetzt wurden und betrachtet es als Fehlschlag, falls die "
+"Umgebung nicht ausreichend ist." 
 
 #. type: TH
 #: dpkg-mergechangelogs.1:18
@@ -12860,7 +12863,6 @@ msgstr ""
 msgid "B<--offset> I<number>, B<-o>I<number>"
 msgstr "B<--offset> I<Zahl>, B<-o>I<Zahl>"
 
-# FIXME: Check in alter dpkg-Version, ob hier »oder Fuß falls,« steht
 #. type: Plain text
 #: dpkg-parsechangelog.1:142
 msgid ""
@@ -13288,12 +13290,6 @@ msgstr "B<-c>, B<--control-path> I<Paketname> [I<Steuerdatei>]"
 
 #. type: Plain text
 #: dpkg-query.1:122
-#, fuzzy
-#| msgid ""
-#| "List paths for control files installed to your system from I<package-"
-#| "name>.  If I<control-file> is specified then only list the path for that "
-#| "control file if it is present. B<Warning>: this command is deprecated, "
-#| "please switch to use B<--control-list> and B<--control-show> instead."
 msgid ""
 "List paths for control files installed to your system from I<package-name>.  "
 "If I<control-file> is specified then only list the path for that control "
@@ -13301,11 +13297,10 @@ msgid ""
 msgstr ""
 "Listet die Pfade für Steuerdateien auf, die von I<Paketname> auf Ihrem "
 "System installiert wurden. Falls I<Steuerdatei> angegeben wurde, liste nur "
-"den Pfad für diese Steuerdatei auf, falls sie existiert. B<Warnung:>: Dieser "
-"Befehl ist veraltet, bitte verwenden Sie stattdessen B<--control-list> und "
-"B<--control-show>."
+"den Pfad für diese Steuerdatei auf, falls sie existiert."
 
 #. type: Plain text
+# FIXME 2nd sentence suboptimal: Although → Since?
 #: dpkg-query.1:130
 msgid ""
 "B<Warning>: this command is deprecated as it gives direct access to the "
@@ -13316,6 +13311,13 @@ msgid ""
 "as long as there is no good solution for that, this command will not get "
 "removed."
 msgstr ""
+"B<Warnung>: Dieser Befehl ist veraltet, da er direkten Zugriff auf die "
+"interne Dpkg-Datenbank gibt. Bitte wechseln Sie stattdessen zu "
+"B<--control-list> und B<--control-show> für alle Fälle, in denen diese "
+"Befehle die gleichen Ergebnisse geben. Obwohl es noch mindestens einen Fall "
+"gibt, in dem dieser Befehl benötigt wird (d.h. wenn ein beschädigendes Postrm-"
+"Betreuerskript entfernt werden muss) und solange es keine gute Lösung dafür "
+"gibt wird dieser Befehl nicht entfernt."
 
 #. type: TP
 #: dpkg-query.1:130
@@ -15173,7 +15175,6 @@ msgstr ""
 msgid "B<--extend-diff-ignore>=I<regex>"
 msgstr "B<--extend-diff-ignore>=I<regex>"
 
-# FIXME: alter dpkg? »and dessen« und »erweiteren«
 #. type: Plain text
 #: dpkg-source.1:209
 msgid ""
@@ -15317,6 +15318,10 @@ msgid ""
 "option should only be necessary when extracting ancient source packages with "
 "broken versions, just for backwards compatibility."
 msgstr ""
+"Wandelt die Prüfung auf eine defekte Quellpaketversion in eine nicht-fatale "
+"Warnung. Diese Option sollte nur notwendig sein, wenn ein historisches "
+"Quellpaket mit defekten Versionen entpackt wird, lediglich zur "
+"Rückwärtskompatibilität."
 
 #. type: SH
 #: dpkg-source.1:259
@@ -20582,14 +20587,8 @@ msgstr ""
 #~ "Argument fehlt). Hierzu werden Informationen aus installierten Pfaden mit "
 #~ "den Metadaten der Datenbank verglichen."
 
-#, fuzzy
-#~| msgid "2013-04-01"
 #~ msgid "2014-04-01"
-#~ msgstr "2013-04-01"
-
-# FIXME I<> → B<>
-#~ msgid "Pass option I<opt> to I<check-command>."
-#~ msgstr "Option I<Opt> an I<Prüfbefehl> weitergeben."
+#~ msgstr "2014-04-01"
 
 #~ msgid "2013-12-11"
 #~ msgstr "2013-12-11"
