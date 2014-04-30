@@ -17,7 +17,8 @@ TEST_RUNNER = '\
 	    verbosity => $(TEST_VERBOSE), \
 	    failures => 1, \
 	}); \
-	$$harness->runtests(@ARGV);'
+	my $$aggregate = $$harness->runtests(@ARGV); \
+	die "FAIL: test suite has errors\n" if $$aggregate->has_errors;'
 
 check-clean:
 	[ -z "$(test_tmpdir)" ] || rm -fr $(test_tmpdir)
