@@ -221,7 +221,8 @@ void process_queue(void) {
       }
     }
 
-    assert(pkg->status <= stat_installed);
+    if (pkg->status > stat_installed)
+      internerr("package status (%d) > stat_installed", pkg->status);
 
     if (setjmp(ejbuf)) {
       /* Give up on it from the point of view of other packages, i.e. reset
