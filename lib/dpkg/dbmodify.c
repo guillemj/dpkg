@@ -332,7 +332,7 @@ void modstatdb_shutdown(void) {
     modstatdb_checkpoint();
     /* Tidy up a bit, but don't worry too much about failure. */
     fclose(importanttmp);
-    unlink(importanttmpfile);
+    (void)unlink(importanttmpfile);
     varbuf_destroy(&uvb);
     /* Fall through. */
   case msdbrw_needsuperuserlockonly:

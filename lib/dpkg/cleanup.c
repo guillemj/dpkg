@@ -65,5 +65,5 @@ cu_filename(int argc, void **argv)
 {
 	const char *filename = argv[0];
 
-	unlink(filename);
+	(void)unlink(filename);
 }

@@ -165,7 +165,7 @@ check_writable_dir(struct file *f)
 	if (tmpfd < 0)
 		ohshite(_("error checking '%s'"), f->name);
 	close(tmpfd);
-	unlink(tmpname);
+	(void)unlink(tmpname);
 
 	free(tmpname);
 }
