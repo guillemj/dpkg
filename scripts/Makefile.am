@@ -183,6 +183,7 @@ test_cases = \
 	t/500_Dpkg_Path.t \
 	t/600_Dpkg_Changelog.t \
 	t/600_Dpkg_Changelog_Ubuntu.t \
+	t/Dpkg_Source_Patch.t \
 	t/700_Dpkg_Control.t \
 	t/750_Dpkg_Substvars.t \
 	t/800_Dpkg_IPC.t \
@@ -216,6 +217,7 @@ test_data = \
 	t/200_Dpkg_Shlibs/objdump.libc6-2.6 \
 	t/200_Dpkg_Shlibs/objdump.dbd-pg \
 	t/200_Dpkg_Shlibs/objdump.ls \
+	t/Dpkg_Source_Patch/c-style.patch \
 	t/600_Dpkg_Changelog/countme \
 	t/600_Dpkg_Changelog/fields \
 	t/600_Dpkg_Changelog/misplaced-tz \
