@@ -66,6 +66,13 @@ dpkg (1.17.10) UNRELEASED; urgency=low
     Thanks to Hleb Valoshka <375gnu@gmail.com>.
   * Add support for DragonFlyBSD to start-stop-daemon. Closes: #734452
     Based on a patch by Hleb Valoshka <375gnu@gmail.com>.
+  * Correctly parse patch headers in Dpkg::Source::Patch, to avoid directory
+    traversal attempts from hostile source packages when unpacking them.
+    Reported by Javier Serrano Polo <javier@jasp.net> as an unspecified
+    directory traversal; meanwhile also independently found by me both
+    #749183 and what was supposed to be #746498, which was later on published
+    and ended up being just a subset of the other non-reported issue.
+    Fixes CVE-2014-3864 and CVE-2014-3865. Closes: #746498, #749183
 
   [ Updated programs translations ]
   * Catalan (Guillem Jover).

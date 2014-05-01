@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 8;
 
 use File::Path qw(make_path);
 
@@ -49,5 +49,19 @@ test_patch_escape('c-style-parsed', "\tmp", 'c-style.patch',
 # This is CVE-2014-0471 with GNU patch < 2.7
 test_patch_escape('c-style-unknown', '\\tmp', 'c-style.patch',
                   'Patch cannot escape using unknown c-style encoded filename');
+
+# This is CVE-2014-3865
+test_patch_escape('index-alone', 'symlink', 'index-alone.patch',
+                  'Patch cannot escape using Index: w/o ---/+++ header');
+test_patch_escape('index-+++', 'symlink', 'index-+++.patch',
+                  'Patch cannot escape using Index: w/ only +++ header');
+test_patch_escape('index-inert', 'symlink', 'index-inert.patch',
+                  'Patch should not fail to apply using an inert Index:');
+ok(-e "$tmpdir/index-inert-tree/inert-file",
+   'Patch with inert Index: applies correrctly');
+
+# This is CVE-2014-3864
+test_patch_escape('partial', 'symlink', 'partial.patch',
+                  'Patch cannot escape using partial +++ header');
 
 1;
