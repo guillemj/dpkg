@@ -307,6 +307,17 @@ xstrdup(const char *str)
 	fatal("strdup(%s) failed", str);
 }
 
+static char *
+xstrndup(const char *str, size_t n)
+{
+	char *new_str;
+
+	new_str = strndup(str, n);
+	if (new_str)
+		return new_str;
+	fatal("strndup(%s, %zu) failed", str, n);
+}
+
 static void
 timespec_gettime(struct timespec *ts)
 {
@@ -733,14 +744,15 @@ validate_proc_schedule(void)
 static void
 parse_proc_schedule(const char *string)
 {
-	char *policy_str, *prio_str;
+	char *policy_str;
+	size_t policy_len;
 	int prio = 0;
 
-	policy_str = xstrdup(string);
-	policy_str = strtok(policy_str, ":");
-	prio_str = strtok(NULL, ":");
+	policy_len = strcspn(string, ":");
+	policy_str = xstrndup(string, policy_len);
 
-	if (prio_str && parse_unsigned(prio_str, 10, &prio) != 0)
+	if (string[policy_len] == ':' &&
+	    parse_unsigned(string + policy_len + 1, 10, &prio) != 0)
 		fatal("invalid process scheduler priority");
 
 	proc_sched = xmalloc(sizeof(*proc_sched));
@@ -764,14 +776,15 @@ parse_proc_schedule(const char *string)
 static void
 parse_io_schedule(const char *string)
 {
-	char *class_str, *prio_str;
+	char *class_str;
+	size_t class_len;
 	int prio = 4;
 
-	class_str = xstrdup(string);
-	class_str = strtok(class_str, ":");
-	prio_str = strtok(NULL, ":");
+	class_len = strcspn(string, ":");
+	class_str = xstrndup(string, class_len);
 
-	if (prio_str && parse_unsigned(prio_str, 10, &prio) != 0)
+	if (string[class_len] == ':' &&
+	    parse_unsigned(string + class_len + 1, 10, &prio) != 0)
 		fatal("invalid IO scheduler priority");
 
 	io_sched = xmalloc(sizeof(*io_sched));
@@ -970,6 +983,7 @@ parse_options(int argc, char * const *argv)
 	const char *schedule_str = NULL;
 	const char *proc_schedule_str = NULL;
 	const char *io_schedule_str = NULL;
+	size_t changeuser_len;
 	int c;
 
 	for (;;) {
@@ -1033,9 +1047,12 @@ parse_options(int argc, char * const *argv)
 		case 'c':  /* --chuid <username>|<uid> */
 			/* We copy the string just in case we need the
 			 * argument later. */
-			changeuser = xstrdup(optarg);
-			changeuser = strtok(changeuser, ":");
-			changegroup = strtok(NULL, ":");
+			changeuser_len = strcspn(optarg, ":");
+			changeuser = xstrndup(optarg, changeuser_len);
+			if (optarg[changeuser_len] == ':' &&
+			    optarg[changeuser_len + 1] == '\0')
+				fatal("missing group name");
+			changegroup = xstrdup(optarg + changeuser_len + 1);
 			break;
 		case 'g':  /* --group <group>|<gid> */
 			changegroup = optarg;
