@@ -364,7 +364,7 @@ void baselist::wordwrapinfo(int offset, const char *m) {
         if (l <= 0) break;
         waddch(infopad,'\n');
       }
-      wrapping = false;
+      wrapping = true;
     }
     if (!p) break;
     if (getcury(infopad) == (MAX_DISPLAY_INFO - 1)) {
