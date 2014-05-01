@@ -225,6 +225,10 @@ test_data = \
 	t/200_Dpkg_Shlibs/objdump.dbd-pg \
 	t/200_Dpkg_Shlibs/objdump.ls \
 	t/Dpkg_Source_Patch/c-style.patch \
+	t/Dpkg_Source_Patch/index-+++.patch \
+	t/Dpkg_Source_Patch/index-alone.patch \
+	t/Dpkg_Source_Patch/index-inert.patch \
+	t/Dpkg_Source_Patch/partial.patch \
 	t/600_Dpkg_Changelog/countme \
 	t/600_Dpkg_Changelog/fields \
 	t/600_Dpkg_Changelog/misplaced-tz \

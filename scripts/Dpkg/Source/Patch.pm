@@ -389,7 +389,7 @@ sub analyze {
 	my (%path, %fn);
 	# skip comments leading up to patch (if any)
 	while (1) {
-	    if (/^--- /) {
+	    if (/^(?:--- |\+\+\+ |@@ -)/) {
 		last;
 	    } else {
 		$patch_header .= "$_\n";
