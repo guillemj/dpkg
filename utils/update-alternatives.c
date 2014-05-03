@@ -459,23 +459,19 @@ subcall(const char *prog, ...)
 static bool
 rename_mv(const char *src, const char *dst)
 {
-	struct stat st;
+	const char *args[] = { "mv", src, dst, NULL };
+	int rc;
 
-	if (lstat(src, &st) != 0)
+	if (rename(src, dst) == 0)
+		return true;
+	if (errno == ENOENT)
 		return false;
 
-	if (rename(src, dst) != 0) {
-		const char *args[] = { "mv", src, dst, NULL };
-		int rc;
+	rc = spawn("mv", args);
+	if (WIFEXITED(rc) && WEXITSTATUS(rc) == 0)
+		return true;
 
-		rc = spawn("mv", args);
-		if (WIFEXITED(rc) && WEXITSTATUS(rc) == 0)
-			return true;
-
-		return false;
-	}
-
-	return true;
+	return false;
 }
 
 static void
