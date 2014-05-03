@@ -121,9 +121,6 @@ constructfn(struct varbuf *vb, const char *dir, const char *tail)
 enum trigdef_update_status
 trigdef_update_start(enum trigdef_updateflags uf)
 {
-	struct stat stab;
-	int r;
-
 	triggersdir = dpkg_db_get_path(TRIGGERSDIR);
 
 	if (uf & tduf_write) {
@@ -146,17 +143,6 @@ trigdef_update_start(enum trigdef_updateflags uf)
 	}
 
 	constructfn(&fn, triggersdir, TRIGGERSDEFERREDFILE);
-	r = stat(fn.buf, &stab);
-	if (r) {
-		if (errno != ENOENT)
-			ohshite(_("unable to stat triggers deferred file `%.250s'"),
-			        fn.buf);
-	} else if (!stab.st_size) {
-		if (!(uf & tduf_writeifempty)) {
-			pop_cleanup(ehflag_normaltidy);
-			return tdus_error_empty_deferred;
-		}
-	}
 
 	if (old_deferred)
 		fclose(old_deferred);
@@ -168,6 +154,19 @@ trigdef_update_start(enum trigdef_updateflags uf)
 		if (!(uf & tduf_writeifenoent)) {
 			pop_cleanup(ehflag_normaltidy);
 			return tdus_error_no_deferred;
+		}
+	} else {
+		struct stat stab;
+		int rc;
+
+		rc = fstat(fileno(old_deferred), &stab);
+		if (rc < 0)
+			ohshite(_("unable to stat triggers deferred file `%.250s'"),
+			        fn.buf);
+
+		if (stab.st_size == 0 && !(uf & tduf_writeifempty)) {
+			pop_cleanup(ehflag_normaltidy);
+			return tdus_error_empty_deferred;
 		}
 	}
 
