@@ -1300,21 +1300,20 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 	xasprintf(&fn, "%s/%s", admdir, a->master_name);
 	ctx.filename = fn;
 
-	/* Verify the alternative exists */
-	if (stat(ctx.filename, &st) == -1) {
+	/* Open the alternative file. */
+	ctx.fh = fopen(ctx.filename, "r");
+	if (ctx.fh == NULL) {
 		if (errno == ENOENT)
 			return false;
-		else
-			syserr(_("cannot stat file '%s'"), ctx.filename);
-	}
-	if (st.st_size == 0) {
-		return false;
+
+		syserr(_("unable to open file '%s'"), ctx.filename);
 	}
 
-	/* Open the database file */
-	ctx.fh = fopen(ctx.filename, "r");
-	if (ctx.fh == NULL)
-		syserr(_("unable to open file '%s'"), ctx.filename);
+	/* Verify the alternative is not empty. */
+	if (fstat(fileno(ctx.fh), &st) == -1)
+		syserr(_("cannot stat file '%s'"), ctx.filename);
+	if (st.st_size == 0)
+		return false;
 
 	/* Start parsing mandatory attributes (link+status) of the alternative */
 	alternative_reset(a);
