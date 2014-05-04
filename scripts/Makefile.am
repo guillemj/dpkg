@@ -194,17 +194,34 @@ test_cases = \
 	t/Dpkg_Package.t \
 	t/Dpkg_Shlibs_Cppfilt.t \
 	t/Dpkg_Shlibs.t \
+	t/Dpkg_BuildEnv.t \
+	t/Dpkg_BuildFlags.t \
 	t/Dpkg_BuildOptions.t \
+	t/Dpkg_BuildProfiles.t \
+	t/Dpkg_Checksums.t \
+	t/Dpkg_ErrorHandling.t \
+	t/Dpkg_Exit.t \
+	t/Dpkg_File.t \
+	t/Dpkg_Gettext.t \
+	t/Dpkg_Conf.t \
 	t/Dpkg_Deps.t \
 	t/Dpkg_Path.t \
 	t/Dpkg_Util.t \
+	t/Dpkg_Vars.t \
+	t/Dpkg_Interface_Storable.t \
 	t/Dpkg_Vendor.t \
 	t/Dpkg_Changelog.t \
 	t/Dpkg_Changelog_Ubuntu.t \
 	t/Dpkg_Control.t \
+	t/Dpkg_Index.t \
 	t/Dpkg_Substvars.t \
 	t/Dpkg_IPC.t \
 	t/Dpkg_Compression.t \
+	t/Dpkg_Source_Functions.t \
+	t/Dpkg_Source_Patch.t \
+	t/Dpkg_Source_Quilt.t \
+	t/Dpkg_Source_Archive.t \
+	t/Dpkg_Source_Package.t \
 	t/Dpkg_Dist_Files.t \
 	t/merge_changelogs.t
 
