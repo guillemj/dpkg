@@ -41,30 +41,59 @@ my $tmpl = sprintf '
       <td class="coverFile"><a href="%s">%s</a></td>
       <td class="coverBar" align="center">
         <table border=0 cellspacing=0 cellpadding=1>
-          <tr><td class="coverBarOutline">
-              <img src="ruby.png" width=%.0f height=10 alt="%.1f"><img src="snow.png" width=%.0f height=10 alt="%.1f">
-          </td></tr>
+          <tr><td class="coverBarOutline">%s</td></tr>
         </table>
       </td>
-      <td class="coverPerLo">%.1f&nbsp;%%</td>
-      <td class="coverNumLo">%d / %d</td>
-      <td class="coverPerLo">%.1f&nbsp;%%</td>
-      <td class="coverNumLo">%d / %d</td>
-      <td class="coverPerLo">%.1f&nbsp;%%</td>
-      <td class="coverNumLo">%d / %d</td>
+      %s
+      %s
+      %s
     </tr>
     <tr>
-', "$dir/coverage.html", $dir,
-   $s->{total}{percentage}, $s->{total}{percentage},
-   100 - $s->{total}{percentage}, $s->{total}{percentage},
-   $s->{total}{percentage}, $s->{total}{covered}, $s->{total}{total},
-   $s->{subroutine}{percentage},
-   $s->{subroutine}{covered}, $s->{subroutine}{total},
-   $s->{branch}{percentage}, $s->{branch}{covered}, $s->{branch}{total};
+', "$dir/coverage.html", $dir, bar_html($s->{total}{percentage}),
+   box_html($s->{total}), box_html($s->{subroutine}), box_html($s->{branch});
 
 while (<>) {
     s/^(.*<td .*href="src\/index\.html">.*)$/$tmpl$1/;
     print;
+}
+
+sub bar_image {
+    my ($num) = @_;
+
+    return 'emerald.png' if $num >= 90;
+    return 'ruby.png' if $num < 75;
+    return 'amber.png';
+}
+
+sub bar_html {
+    my ($num) = @_;
+
+    my $html = sprintf '<img src="%s" width=%.0f height=10 alt="%.1f">',
+                       bar_image($num), $num, $num;
+
+    if ($num < 100) {
+        $html .= sprintf '<img src="snow.png" width=%.0f height=10 alt="%.1f">',
+                         100 - $num, $num;
+    }
+
+    return $html;
+}
+
+sub box_rating {
+    my ($num) = @_;
+
+    return 'Hi' if $num >= 90;
+    return 'Lo' if $num < 75;
+    return 'Med';
+}
+
+sub box_html {
+    my ($stats) = @_;
+
+    return sprintf '<td class="coverPer%s">%.1f&nbsp;%%</td>\n' .
+                   '<td class="coverNum%s">%d / %d</td>',
+        box_rating($stats->{percentage}), $stats->{percentage},
+        box_rating($stats->{percentage}), $stats->{covered}, $stats->{total};
 }
 
 1;
