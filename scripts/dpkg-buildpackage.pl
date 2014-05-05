@@ -210,7 +210,8 @@ while (@ARGV) {
     } elsif (/^-j(\d*)$/) {
 	$parallel = $1 || '';
     } elsif (/^-r(.*)$/) {
-	@rootcommand = split /\s+/, $1;
+	my $arg = $1;
+	@rootcommand = split /\s+/, $arg;
     } elsif (/^--check-command=(.*)$/) {
 	$check_command = $1;
     } elsif (/^--check-option=(.*)$/) {
@@ -242,7 +243,8 @@ while (@ARGV) {
     } elsif (/^-a(.*)$/) {
 	$targetarch = $1;
     } elsif (/^-P(.*)$/) {
-	@build_profiles = split /,/, $1;
+	my $arg = $1;
+	@build_profiles = split /,/, $arg;
     } elsif (/^-s[iad]$/) {
 	push @changes_opts, $_;
     } elsif (/^-(?:s[insAkurKUR]|[zZ].*|i.*|I.*)$/) {
@@ -306,7 +308,8 @@ while (@ARGV) {
 	# Deprecated option
 	warning(_g('-E and -W are deprecated, they are without effect'));
     } elsif (/^-R(.*)$/) {
-	@debian_rules = split /\s+/, $1;
+	my $arg = $1;
+	@debian_rules = split /\s+/, $arg;
     } else {
 	usageerr(_g('unknown option or argument %s'), $_);
     }

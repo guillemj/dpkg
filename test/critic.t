@@ -80,6 +80,7 @@ my @policies = qw(
     NamingConventions::Capitalization
     Objects::ProhibitIndirectSyntax
     RegularExpressions::ProhibitSingleCharAlternation
+    RegularExpressions::ProhibitUnusedCapture
     RegularExpressions::ProhibitUnusualDelimiters
     RegularExpressions::RequireBracesForMultiline
     Subroutines::ProhibitExplicitReturnUndef

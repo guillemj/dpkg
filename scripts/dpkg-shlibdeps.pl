@@ -860,7 +860,8 @@ sub find_packages {
 	    print { *STDERR } " $_\n"
 		or syserr(_g('write diversion info to stderr'));
 	} elsif (m/^([-a-z0-9+.:, ]+): (\/.*)$/) {
-	    $cached_pkgmatch{$2} = $pkgmatch->{$2} = [ split(/, /, $1) ];
+	    my ($pkgs, $path) = ($1, $2);
+	    $cached_pkgmatch{$path} = $pkgmatch->{$path} = [ split /, /, $pkgs ];
 	} else {
 	    warning(_g("unknown output from dpkg --search: '%s'"), $_);
 	}

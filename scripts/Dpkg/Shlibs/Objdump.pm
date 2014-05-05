@@ -237,10 +237,12 @@ sub parse_objdump_output {
                 # RUNPATH takes precedence over RPATH but is
                 # considered after LD_LIBRARY_PATH while RPATH
                 # is considered before (if RUNPATH is not set).
-                $self->{RPATH} = [ split (/:/, $1) ];
+                my $runpath = $1;
+                $self->{RPATH} = [ split /:/, $runpath ];
 	    } elsif (/^\s*RPATH\s+(\S+)/) {
+                my $rpath = $1;
                 unless (scalar(@{$self->{RPATH}})) {
-                    $self->{RPATH} = [ split (/:/, $1) ];
+                    $self->{RPATH} = [ split /:/, $rpath ];
                 }
 	    }
 	} elsif ($section eq 'none') {

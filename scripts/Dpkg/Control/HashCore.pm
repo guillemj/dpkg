@@ -202,16 +202,17 @@ sub parse {
 	$paraborder = 0;
 	if (m/^(\S+?)\s*:\s*(.*)$/) {
 	    $parabody = 1;
-	    if ($1 =~ m/^-/) {
+	    my ($name, $value) = ($1, $2);
+	    if ($name =~ m/^-/) {
 		$self->parse_error($desc, _g('field cannot start with a hyphen'));
 	    }
-	    if (exists $self->{$1}) {
+	    if (exists $self->{$name}) {
 		unless ($$self->{allow_duplicate}) {
-		    $self->parse_error($desc, _g('duplicate field %s found'), $1);
+		    $self->parse_error($desc, _g('duplicate field %s found'), $name);
 		}
 	    }
-	    $self->{$1} = $2;
-	    $cf = $1;
+	    $self->{$name} = $value;
+	    $cf = $name;
 	} elsif (m/^\s(\s*\S.*)$/) {
 	    my $line = $1;
 	    unless (defined($cf)) {
