@@ -1,6 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
 dist_man_MANS = \
+	deb-changelog.5 \
+	deb-changes.5 \
 	deb-control.5 \
 	deb-src-control.5 \
 	deb-version.5 \
@@ -38,7 +40,9 @@ dist_man_MANS = \
 	dpkg-trigger.1 \
 	dpkg-vendor.1 \
 	dpkg.1 \
-	dpkg.cfg.5
+	dpkg.cfg.5 \
+	dsc.5 \
+	$(nil)
 
 if BUILD_DSELECT
 dist_man_MANS += \
