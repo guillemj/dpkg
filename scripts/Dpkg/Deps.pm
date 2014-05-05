@@ -557,7 +557,7 @@ sub parse_string {
               )?                            # end of optional part
               (?:                           # start of optional part
                 \s* \(                      # open parenthesis for version part
-                \s* (<<|<=|=|>=|>>|<|>)     # relation part
+                \s* (<<|<=|=|>=|>>|[<>])    # relation part
                 \s* (.*?)                   # do not attempt to parse version
                 \s* \)                      # closing parenthesis
               )?                            # end of optional part

@@ -112,10 +112,10 @@ sub parse {
 	    next; # skip comments, even that's not supported
 	} elsif (m{^/\*.*\*/}o) {
 	    next; # more comments
-	} elsif (m/^(\w+\s+\w+\s+\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}\s+[\w\s]*\d{4})\s+(.*)\s+(<|\()(.*)(\)|>)/o
-		 || m/^(\w+\s+\w+\s+\d{1,2},?\s*\d{4})\s+(.*)\s+(<|\()(.*)(\)|>)/o
+	} elsif (m/^(\w+\s+\w+\s+\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}\s+[\w\s]*\d{4})\s+(.*)\s+[<\(](.*)[\)>]/o
+		 || m/^(\w+\s+\w+\s+\d{1,2},?\s*\d{4})\s+(.*)\s+[<\(](.*)[\)>]/o
 		 || m/^(\w[-+0-9a-z.]*) \(([^\(\) \t]+)\)\;?/io
-		 || m/^([\w.+-]+)(-| )(\S+) Debian (\S+)/io
+		 || m/^([\w.+-]+)[- ](\S+) Debian (\S+)/io
 		 || m/^Changes from version (.*) to (.*):/io
 		 || m/^Changes for [\w.+-]+-[\w.+-]+:?\s*$/io
 		 || m/^Old Changelog:\s*$/io
