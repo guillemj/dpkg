@@ -158,7 +158,7 @@ sub do_extract {
     # that would be blindly followed when applying the patches
 
     # Extract additional orig tarballs
-    foreach my $subdir (keys %origtar) {
+    foreach my $subdir (sort keys %origtar) {
         my $file = $origtar{$subdir};
         info(_g('unpacking %s'), $file);
         if (-e "$newdirectory/$subdir") {
