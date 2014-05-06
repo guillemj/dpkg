@@ -13,6 +13,8 @@ AM_CPPFLAGS = \
 	-iquote $(builddir) \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
+AM_CXXFLAGS = \
+	-fno-rtti
 
 
 bin_PROGRAMS = dselect
