@@ -1222,6 +1222,36 @@ get_proc_stat(pid_t pid, ps_flags_t flags)
 
 	return ps;
 }
+#elif defined(HAVE_KVM_H)
+static kvm_t *
+ssd_kvm_open(void)
+{
+	kvm_t *kd;
+	char errbuf[_POSIX2_LINE_MAX];
+
+	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
+	if (kd == NULL)
+		errx(1, "%s", errbuf);
+
+	return kd;
+}
+
+static struct kinfo_proc *
+ssd_kvm_get_procs(kvm_t *kd, int op, int arg, int *count)
+{
+	struct kinfo_proc *kp;
+	int lcount;
+
+	if (count == NULL)
+		count = &lcount;
+	*count = 0;
+
+	kp = kvm_getprocs(kd, op, arg, count);
+	if (kp == NULL)
+		errx(1, "%s", kvm_geterr(kd));
+
+	return kp;
+}
 #endif
 
 #if defined(OSLinux)
@@ -1317,19 +1347,16 @@ static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
 {
 	kvm_t *kd;
-	int nentries, argv_len = 0;
+	int argv_len = 0;
 	struct kinfo_proc *kp;
 	struct stat sb;
-	char errbuf[_POSIX2_LINE_MAX], buf[_POSIX2_LINE_MAX];
+	char buf[_POSIX2_LINE_MAX];
 	char **pid_argv_p;
 	char *start_argv_0_p, *end_argv_0_p;
 
-	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-	if (kd == NULL)
-		errx(1, "%s", errbuf);
-	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
-	if (kp == NULL)
-		errx(1, "%s", kvm_geterr(kd));
+	kd = ssd_kvm_open();
+	kp = ssd_kvm_get_procs(kd, KERN_PROC_PID, pid, NULL);
+
 	pid_argv_p = kvm_getargv(kd, kp, argv_len);
 	if (pid_argv_p == NULL)
 		errx(1, "%s", kvm_geterr(kd));
@@ -1408,17 +1435,11 @@ static bool
 pid_is_child(pid_t pid, pid_t ppid)
 {
 	kvm_t *kd;
-	int nentries;
 	struct kinfo_proc *kp;
-	char errbuf[_POSIX2_LINE_MAX];
 	pid_t proc_ppid;
 
-	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-	if (kd == NULL)
-		errx(1, "%s", errbuf);
-	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
-	if (kp == NULL)
-		errx(1, "%s", kvm_geterr(kd));
+	kd = ssd_kvm_open();
+	kp = ssd_kvm_get_procs(kd, KERN_PROC_PID, pid, NULL);
 
 #if defined(OSFreeBSD)
 	proc_ppid = kp->ki_ppid;
@@ -1470,17 +1491,11 @@ static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
 	kvm_t *kd;
-	int nentries; /* Value not used. */
 	uid_t proc_uid;
 	struct kinfo_proc *kp;
-	char errbuf[_POSIX2_LINE_MAX];
 
-	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-	if (kd == NULL)
-		errx(1, "%s", errbuf);
-	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
-	if (kp == NULL)
-		errx(1, "%s", kvm_geterr(kd));
+	kd = ssd_kvm_open();
+	kp = ssd_kvm_get_procs(kd, KERN_PROC_PID, pid, NULL);
 
 #if defined(OSFreeBSD)
 	proc_uid = kp->ki_ruid;
@@ -1558,16 +1573,11 @@ static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
 	kvm_t *kd;
-	int nentries;
 	struct kinfo_proc *kp;
-	char errbuf[_POSIX2_LINE_MAX], *process_name;
+	char *process_name;
 
-	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-	if (kd == NULL)
-		errx(1, "%s", errbuf);
-	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
-	if (kp == NULL)
-		errx(1, "%s", kvm_geterr(kd));
+	kd = ssd_kvm_open();
+	kp = ssd_kvm_get_procs(kd, KERN_PROC_PID, pid, NULL);
 
 #if defined(OSFreeBSD)
 	process_name = kp->ki_comm;
@@ -1732,15 +1742,10 @@ do_procinit(void)
 	kvm_t *kd;
 	int nentries, i;
 	struct kinfo_proc *kp;
-	char errbuf[_POSIX2_LINE_MAX];
 	enum status_code prog_status = STATUS_DEAD;
 
-	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-	if (kd == NULL)
-		errx(1, "%s", errbuf);
-	kp = kvm_getprocs(kd, KERN_PROC_ALL, 0, &nentries);
-	if (kp == NULL)
-		errx(1, "%s", kvm_geterr(kd));
+	kd = ssd_kvm_open();
+	kp = ssd_kvm_get_procs(kd, KERN_PROC_ALL, 0, &nentries);
 
 	for (i = 0; i < nentries; i++) {
 		enum status_code pid_status;
