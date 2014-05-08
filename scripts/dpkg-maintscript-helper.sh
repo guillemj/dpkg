@@ -92,11 +92,8 @@ prepare_rm_conffile() {
 	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' $PACKAGE | \
 		sed -n -e "\' $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
 	if [ "$md5sum" != "$old_md5sum" ]; then
-		echo "Obsolete conffile $CONFFILE has been modified by you."
-		echo "Saving as $CONFFILE.dpkg-bak ..."
 		mv -f "$CONFFILE" "$CONFFILE.dpkg-backup"
 	else
-		echo "Moving obsolete conffile $CONFFILE out of the way..."
 		mv -f "$CONFFILE" "$CONFFILE.dpkg-remove"
 	fi
 }
@@ -105,6 +102,8 @@ finish_rm_conffile() {
 	local CONFFILE="$1"
 
 	if [ -e "$CONFFILE.dpkg-backup" ]; then
+		echo "Obsolete conffile $CONFFILE has been modified by you."
+		echo "Saving as $CONFFILE.dpkg-bak ..."
 		mv -f "$CONFFILE.dpkg-backup" "$CONFFILE.dpkg-bak"
 	fi
 	if [ -e "$CONFFILE.dpkg-remove" ]; then
