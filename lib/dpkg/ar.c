@@ -77,7 +77,7 @@ dpkg_ar_member_get_size(const char *ar_name, struct ar_hdr *arh)
 		if (*str < '0' || *str > '9')
 			ohshit(_("invalid character '%c' in archive '%.250s' "
 			         "member '%.16s' size"),
-			       *str, arh->ar_name, ar_name);
+			       *str, ar_name, arh->ar_name);
 
 		size *= 10;
 		size += *str++ - '0';
