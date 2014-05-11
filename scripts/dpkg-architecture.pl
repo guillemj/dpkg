@@ -49,11 +49,11 @@ sub usage {
 'Options:
   -a<debian-arch>    set current Debian architecture.
   -t<gnu-system>     set current GNU system type.
-  -L                 list valid architectures.
   -f                 force flag (override variables set in environment).')
     . "\n\n" . _g(
 'Commands:
   -l                 list variables (default).
+  -L                 list valid architectures.
   -e<debian-arch>    compare with current Debian architecture.
   -i<arch-alias>     check if current Debian architecture is <arch-alias>.
   -q<variable>       prints only the value of <variable>.
