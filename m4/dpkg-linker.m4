@@ -1,4 +1,5 @@
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>.
+# Copyright © 2010, 2014 Guillem Jover <guillem@debian.org>
 
 # DPKG_LINKER_OPTIMISATIONS
 # --------------------------
@@ -15,4 +16,23 @@ AC_DEFUN([DPKG_LINKER_OPTIMISATIONS],
   ], [
     LDFLAGS="$LDFLAGS -Wl,-O1"
   ])
+])
+
+# DPKG_LINKER_VERSION_SCRIPT
+# --------------------------
+AC_DEFUN([DPKG_LINKER_VERSION_SCRIPT],
+[
+  AC_CACHE_CHECK([for --version-script linker flag],
+    [dpkg_cv_version_script],
+    [echo "{ global: symbol; local: *; };" >conftest.map
+    save_LDFLAGS=$LDFLAGS
+    LDFLAGS="$LDFLAGS -Wl,--version-script=conftest.map"
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([], [])],
+                   [dpkg_cv_version_script=yes],
+                   [dpkg_cv_version_script=no])
+    LDFLAGS="$save_LDFLAGS"
+    rm -f conftest.map
+  ])
+  AM_CONDITIONAL([HAVE_LINKER_VERSION_SCRIPT],
+                 [test "x$dpkg_cv_version_script" = "xyes"])
 ])

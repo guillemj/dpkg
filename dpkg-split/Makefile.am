@@ -20,8 +20,7 @@ dpkg_split_SOURCES = \
 	split.c
 
 dpkg_split_LDADD = \
-	../lib/dpkg/libdpkg.a \
-	../lib/compat/libcompat.a \
+	../lib/dpkg/libdpkg.la \
 	$(LIBINTL)
 
 install-data-local:

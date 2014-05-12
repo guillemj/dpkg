@@ -21,9 +21,24 @@ EXTRA_DIST = \
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libdpkg.pc
 
-lib_LIBRARIES = libdpkg.a
+lib_LTLIBRARIES = libdpkg.la
 
-libdpkg_a_SOURCES = \
+if HAVE_LINKER_VERSION_SCRIPT
+libdpkg_la_LDFLAGS = \
+	-Wl,--version-script=$(srcdir)/libdpkg.map
+endif
+libdpkg_la_LIBADD = \
+	../compat/libcompat.la
+if BUILD_SHARED
+libdpkg_la_LIBADD += \
+	$(LIBINTL) \
+	$(ZLIB_LIBS) \
+	$(LIBLZMA_LIBS) \
+	$(BZ2_LIBS)
+endif
+libdpkg_la_DEPENDENCIES = \
+	libdpkg.map
+libdpkg_la_SOURCES = \
 	dlist.h \
 	ar.c \
 	arch.c \

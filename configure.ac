@@ -18,6 +18,13 @@ AM_GNU_GETTEXT([external])
 DPKG_DIST_CHECK([test "$GMSGFMT" = ":" && test "$USE_NLS" = "yes"],
                 [gettext required when NLS support enabled])
 
+# Shared libraries are disabled on purpose, currently there is no ABI stability
+# guarantee, and it will be broken at will. The infrastructure is in place just
+# to be able to test that its future activation will work.
+LT_INIT([disable-shared])
+DPKG_BUILD_SHARED_LIBS
+DPKG_LINKER_VERSION_SCRIPT
+
 # Allow compilation without optional programs
 DPKG_BUILD_PROG([dselect])
 DPKG_BUILD_PROG([start-stop-daemon])
@@ -42,7 +49,6 @@ AC_PROG_CXX
 DPKG_CXX_CXX11
 AC_PROG_LEX
 DPKG_DIST_CHECK([test "$LEX" = ":"], [lex program required])
-AC_PROG_RANLIB
 AC_CHECK_PROGS([DOXYGEN], [doxygen])
 AC_CHECK_PROG([HAVE_DOT], [dot], [YES], [NO])
 DPKG_PROG_PO4A

@@ -6,8 +6,7 @@ AM_CPPFLAGS = \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
 LDADD = \
-	$(top_builddir)/lib/dpkg/libdpkg.a \
-	$(top_builddir)/lib/compat/libcompat.a \
+	$(top_builddir)/lib/dpkg/libdpkg.la \
 	$(LIBINTL)
 
 

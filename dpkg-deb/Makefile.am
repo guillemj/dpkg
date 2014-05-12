@@ -18,8 +18,7 @@ dpkg_deb_SOURCES = \
 	main.c
 
 dpkg_deb_LDADD = \
-	../lib/dpkg/libdpkg.a \
-	../lib/compat/libcompat.a \
+	../lib/dpkg/libdpkg.la \
 	$(LIBINTL) \
 	$(ZLIB_LIBS) \
 	$(LIBLZMA_LIBS) \

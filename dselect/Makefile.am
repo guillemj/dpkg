@@ -42,8 +42,7 @@ dselect_SOURCES = \
 
 dselect_LDADD = \
 	$(CURSES_LIBS) \
-	../lib/dpkg/libdpkg.a \
-	../lib/compat/libcompat.a \
+	../lib/dpkg/libdpkg.la \
 	$(LIBINTL)
 
 

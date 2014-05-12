@@ -24,7 +24,7 @@ update_alternatives_SOURCES = \
 	update-alternatives.c
 
 update_alternatives_LDADD = \
-	../lib/compat/libcompat.a \
+	../lib/compat/libcompat.la \
 	$(LIBINTL) \
 	$(UA_LIBS)
 
@@ -37,7 +37,7 @@ start_stop_daemon_SOURCES = \
 	start-stop-daemon.c
 
 start_stop_daemon_LDADD = \
-	../lib/compat/libcompat.a \
+	../lib/compat/libcompat.la \
 	$(SSD_LIBS)
 endif
 
