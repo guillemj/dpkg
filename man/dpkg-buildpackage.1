@@ -145,16 +145,18 @@ no specific profile. Also adds them (as a space separated list) to the
 \fBDEB_BUILD_PROFILES\fP environment variable which allows, for example,
 \fBdebian/rules\fP files to use this information for conditional builds.
 .TP
-.BI \-j jobs
-Number of jobs allowed to be run simultaneously, equivalent to the
+.BR \-j [\fIjobs\fP]
+Number of jobs allowed to be run simultaneously, or unlimited number
+if \fIjobs\fP is not specified, equivalent to the
 .BR make (1)
 option of the same name. Will add itself to the \fBMAKEFLAGS\fP
 environment variable, which should cause all subsequent make
-invocations to inherit the option. Also adds \fBparallel=\fP\fIjobs\fP
-to the \fBDEB_BUILD_OPTIONS\fP environment variable which allows
-debian/rules files to use this information for their own purposes.
-The \fBparallel=\fP\fIjobs\fP in \fBDEB_BUILD_OPTIONS\fP environment variable
-will override the \fB\-j\fP value if this option is given.
+invocations to inherit the option. Also adds \fBparallel=\fP\fIjobs\fP or
+\fBparallel=\fP to the \fBDEB_BUILD_OPTIONS\fP environment variable which
+allows debian/rules files to use this information for their own purposes.
+The \fBparallel=\fP\fIjobs\fP or \fBparallel=\fP option in
+\fBDEB_BUILD_OPTIONS\fP environment variable will override the \fB\-j\fP
+value if this option is given.
 .TP
 .B \-D
 Check build dependencies and conflicts; abort if unsatisfied. This is the
