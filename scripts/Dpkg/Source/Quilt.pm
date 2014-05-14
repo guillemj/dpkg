@@ -18,7 +18,7 @@ package Dpkg::Source::Quilt;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -85,7 +85,7 @@ sub load_db {
     $self->{applied_patches} = [ $self->read_patch_list($pc_applied) ];
 }
 
-sub write_db {
+sub save_db {
     my ($self) = @_;
 
     $self->setup_db();
@@ -154,7 +154,7 @@ sub push {
         die $@;
     }
     CORE::push @{$self->{applied_patches}}, $patch;
-    $self->write_db();
+    $self->save_db();
 }
 
 sub pop {
@@ -185,7 +185,7 @@ sub pop {
 
     erasedir($backup_dir);
     pop @{$self->{applied_patches}};
-    $self->write_db();
+    $self->save_db();
 }
 
 sub get_db_version {

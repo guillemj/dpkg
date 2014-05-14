@@ -109,7 +109,7 @@ sub apply_patches {
 
     # Always create the quilt db so that if the maintainer calls quilt to
     # create a patch, it's stored in the right directory
-    $quilt->write_db();
+    $quilt->save_db();
 
     # Update debian/patches/series symlink if needed to allow quilt usage
     my $series = $quilt->get_series_file();
