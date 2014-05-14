@@ -22,6 +22,7 @@ our $VERSION = '0.02';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Util qw(:list);
 use Dpkg::Source::Patch;
 use Dpkg::Source::Functions qw(erasedir fs_time);
 use Dpkg::Vendor qw(get_current_vendor);
@@ -115,6 +116,42 @@ sub top {
     my $count = scalar @{$self->{applied_patches}};
     return $self->{applied_patches}[$count - 1] if $count;
     return;
+}
+
+sub register {
+    my ($self, $patch_name) = @_;
+
+    return if any { $_ eq $patch_name } @{$self->{series}};
+
+    # Add patch to series files.
+    $self->setup_db();
+    $self->_file_add_line($self->get_series_file(), $patch_name);
+    $self->_file_add_line($self->get_db_file('applied-patches'), $patch_name);
+    $self->load_db();
+    $self->load_series();
+
+    # Ensure quilt meta-data is created and in sync with some trickery:
+    # Reverse-apply the patch, drop .pc/$patch, and re-apply it with the
+    # correct options to recreate the backup files.
+    $self->pop(reverse_apply => 1);
+    $self->push();
+}
+
+sub unregister {
+    my ($self, $patch_name) = @_;
+
+    return if none { $_ eq $patch_name } @{$self->{series}};
+
+    my $series = $self->get_series_file();
+
+    $self->_file_drop_line($series, $patch_name);
+    $self->_file_drop_line($self->get_db_file('applied-patches'), $patch_name);
+    erasedir($self->get_db_file($patch_name));
+    $self->load_db();
+    $self->load_series();
+
+    # Clean up empty series.
+    unlink $series if -z $series;
 }
 
 sub next {
@@ -245,6 +282,38 @@ sub get_patch_dir {
 }
 
 ## METHODS BELOW ARE INTERNAL ##
+
+sub _file_load {
+    my ($self, $file) = @_;
+
+    open my $file_fh, '<', $file or syserr(_g('cannot read %s'), $file);
+    my @lines = <$file_fh>;
+    close $file_fh;
+
+    return @lines;
+}
+
+sub _file_add_line {
+    my ($self, $file, $line) = @_;
+
+    my @lines;
+    @lines = $self->_file_load($file) if -f $file;
+    CORE::push @lines, $line;
+    chomp @lines;
+
+    open my $file_fh, '>', $file or syserr(_g('cannot write %s'), $file);
+    print { $file_fh } "$_\n" foreach @lines;
+    close $file_fh;
+}
+
+sub _file_drop_line {
+    my ($self, $file, $re) = @_;
+
+    my @lines = $self->_file_load($file);
+    open my $file_fh, '>', $file or syserr(_g('cannot write %s'), $file);
+    print { $file_fh } $_ foreach grep { not /^\Q$re\E\s*$/ } @lines;
+    close $file_fh;
+}
 
 sub read_patch_list {
     my ($self, $file, %opts) = @_;

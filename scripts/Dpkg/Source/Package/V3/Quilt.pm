@@ -221,47 +221,10 @@ sub check_patches_applied {
     $self->apply_patches($dir, usage => 'preparation', verbose => 1);
 }
 
-sub _load_file {
-    my ($file) = @_;
-
-    open my $file_fh, '<', $file or syserr(_g('cannot read %s'), $file);
-    my @lines = <$file_fh>;
-    close $file_fh;
-
-    return @lines;
-}
-
-sub _add_line {
-    my ($file, $line) = @_;
-
-    my @lines;
-    @lines = _load_file($file) if -f $file;
-    push @lines, $line;
-    chomp @lines;
-
-    open my $file_fh, '>', $file or syserr(_g('cannot write %s'), $file);
-    print { $file_fh } "$_\n" foreach @lines;
-    close($file_fh);
-}
-
-sub _drop_line {
-    my ($file, $re) = @_;
-
-    my @lines = _load_file($file);
-    open my $file_fh, '>', $file or syserr(_g('cannot write %s'), $file);
-    print { $file_fh } $_ foreach grep { not /^\Q$re\E\s*$/ } @lines;
-    close($file_fh);
-}
-
 sub register_patch {
     my ($self, $dir, $tmpdiff, $patch_name) = @_;
 
     my $quilt = $self->build_quilt_object($dir);
-
-    my @patches = $quilt->series();
-    my $has_patch = (grep { $_ eq $patch_name } @patches) ? 1 : 0;
-    my $series = $quilt->get_series_file();
-    my $applied = $quilt->get_db_file('applied-patches');
     my $patch = $quilt->get_patch_file($patch_name);
 
     if (-s $tmpdiff) {
@@ -274,30 +237,11 @@ sub register_patch {
     }
 
     if (-e $patch) {
-        $quilt->setup_db();
         # Add patch to series file
-        if (not $has_patch) {
-            _add_line($series, $patch_name);
-            _add_line($applied, $patch_name);
-            $quilt->load_series();
-            $quilt->load_db();
-        }
-        # Ensure quilt meta-data are created and in sync with some trickery:
-        # reverse-apply the patch, drop .pc/$patch, re-apply it
-        # with the correct options to recreate the backup files
-        $quilt->pop(reverse_apply => 1);
-        $quilt->push();
+        $quilt->register($patch_name);
     } else {
         # Remove auto_patch from series
-        if ($has_patch) {
-            _drop_line($series, $patch_name);
-            _drop_line($applied, $patch_name);
-            erasedir($quilt->get_db_file($patch_name));
-            $quilt->load_db();
-            $quilt->load_series();
-        }
-        # Clean up empty series
-        unlink($series) if -z $series;
+        $quilt->unregister($patch_name);
     }
     return $patch;
 }
