@@ -207,7 +207,7 @@ while (@ARGV) {
 	push @source_opts, $1;
     } elsif (/^--changes-option=(.*)$/) {
 	push @changes_opts, $1;
-    } elsif (/^-j(\d*)$/) {
+    } elsif (/^-j(\d*|auto)$/) {
 	$parallel = $1 || '';
     } elsif (/^-r(.*)$/) {
 	my $arg = $1;
@@ -354,6 +354,13 @@ if ($signcommand) {
 }
 
 if (defined $parallel) {
+    if ($parallel eq 'auto') {
+        # Most Unices.
+        $parallel = qx(getconf _NPROCESSORS_ONLN 2>/dev/null);
+        # Fallback for at least Irix.
+        $parallel = qx(getconf _NPROC_ONLN 2>/dev/null) if $?;
+        chomp $parallel;
+    }
     $parallel = $build_opts->get('parallel') if $build_opts->has('parallel');
     $ENV{MAKEFLAGS} ||= '';
     $ENV{MAKEFLAGS} .= " -j$parallel";
