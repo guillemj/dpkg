@@ -90,12 +90,7 @@ sub write_db {
 
     $self->setup_db();
     my $pc_applied = $self->get_db_file('applied-patches');
-    open(my $applied_fh, '>', $pc_applied) or
-        syserr(_g('cannot write %s'), $pc_applied);
-    foreach my $patch (@{$self->{applied_patches}}) {
-        print { $applied_fh } "$patch\n";
-    }
-    close($applied_fh);
+    $self->write_patch_list($pc_applied, $self->{applied_patches});
 }
 
 sub load_series {
@@ -275,6 +270,16 @@ sub read_patch_list {
     }
     close($series_fh);
     return @patches;
+}
+
+sub write_patch_list {
+    my ($self, $series, $patches) = @_;
+
+    open my $series_fh, '>', $series or syserr(_g('cannot write %s'), $series);
+    foreach my $patch (@{$patches}) {
+        print { $series_fh } "$patch\n";
+    }
+    close $series_fh;
 }
 
 sub restore_quilt_backup_files {
