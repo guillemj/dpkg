@@ -61,8 +61,13 @@ option).
 The symbols files are really useful only if they reflect the evolution of
 the package through several releases. Thus the maintainer has to update
 them every time that a new symbol is added so that its associated minimal
-version matches reality. To do this properly the diffs contained in the
-build logs can be used. In most cases, the diff applies directly to the
+version matches reality.
+The diffs contained in the build logs can be used as a starting point,
+but the maintainer, additionally, has to make sure that the behaviour
+of those symbols has not changed in a way that would make anything
+using those symbols and linking against the new version, stop working
+with the old version.
+In most cases, the diff applies directly to the
 debian/\fIpackage\fR.symbols file. That said, further tweaks are usually
 needed: it's recommended for example to drop the Debian revision
 from the minimal version so that backports with a lower version number
@@ -79,6 +84,14 @@ Note that you can put comments in symbols files: any line with '#' as the
 first character is a comment except if it starts with '#include' (see
 section \fBUsing includes\fP). Lines starting with '#MISSING:' are special
 comments documenting symbols that have disappeared.
+.P
+Do not forget to check if old symbol versions need to be increased.
+There is no way \fBdpkg\-gensymbols\fP can warn about this. Blindly
+applying the diff or assuming there is nothing to change if there is
+no diff, without checking for such changes, can lead to packages with
+loose dependencies that claim they can work with older packages they
+cannot work with. This will introduce hard to find bugs with (partial)
+upgrades.
 .SS Using #PACKAGE# substitution
 .P
 In some rare cases, the name of the library varies between architectures.
