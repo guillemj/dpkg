@@ -1022,6 +1022,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 {
 	char lname[32];
 	char lcontents[_POSIX_PATH_MAX + 1];
+	char *filename;
 	const char deleted[] = " (deleted)";
 	int nread;
 	struct stat sb;
@@ -1031,11 +1032,18 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 	if (nread == -1)
 		return false;
 
-	lcontents[nread] = '\0';
-	if (strcmp(lcontents + nread - strlen(deleted), deleted) == 0)
-		lcontents[nread - strlen(deleted)] = '\0';
+	filename = lcontents;
+	filename[nread] = '\0';
 
-	if (stat(lcontents, &sb) != 0)
+	/* OpenVZ kernels contain a bogus patch that instead of appending,
+	 * prepends the deleted marker. Workaround those. Otherwise handle
+	 * the normal appended marker. */
+	if (strncmp(filename, deleted, strlen(deleted)) == 0)
+		filename += strlen(deleted);
+	else if (strcmp(filename + nread - strlen(deleted), deleted) == 0)
+		filename[nread - strlen(deleted)] = '\0';
+
+	if (stat(filename, &sb) != 0)
 		return false;
 
 	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
