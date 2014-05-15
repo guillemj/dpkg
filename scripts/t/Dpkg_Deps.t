@@ -73,15 +73,16 @@ my $field_profile = 'dep1 <!profile.stage1 !profile.notest>, ' .
 'dep2 <profile.stage1 !profile.notest>, ' .
 'dep3 <profile.notest !profile.stage1>, ' .
 'dep4 <profile.stage1 profile.notest>, ' .
-'dep5 <profile.stage1>, dep6 <!profile.stage1>';
+'dep5 <profile.stage1>, dep6 <!profile.stage1>, ' .
+'dep7 <profile.stage1> | dep8 <profile.notest>';
 my $dep_noprof = deps_parse($field_profile, reduce_profiles => 1, build_profiles => []);
 my $dep_stage1 = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['stage1']);
 my $dep_notest = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['notest']);
 my $dep_stage1notest = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['stage1', 'notest']);
 is($dep_noprof->output(), 'dep1, dep2, dep3, dep6', 'Profile reduce 1/4');
-is($dep_stage1->output(), 'dep2, dep4, dep5', 'Profile reduce 2/4');
-is($dep_notest->output(), 'dep3, dep4, dep6', 'Profile reduce 3/4');
-is($dep_stage1notest->output(), 'dep2, dep3, dep4, dep5', 'Profile reduce 4/4');
+is($dep_stage1->output(), 'dep2, dep4, dep5, dep7', 'Profile reduce 2/4');
+is($dep_notest->output(), 'dep3, dep4, dep6, dep8', 'Profile reduce 3/4');
+is($dep_stage1notest->output(), 'dep2, dep3, dep4, dep5, dep7 | dep8', 'Profile reduce 4/4');
 
 my $field_restrict = 'dep1 <!profile.bootstrap !other.restrict>, ' .
 'dep2 <profile.bootstrap other.restrict>, ' .
