@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 31;
+use Test::More tests => 36;
 use Dpkg::Arch qw(get_host_arch);
 
 use_ok('Dpkg::Deps');
@@ -84,12 +84,29 @@ is($dep_stage1->output(), 'dep2, dep4, dep5, dep7', 'Profile reduce 2/4');
 is($dep_notest->output(), 'dep3, dep4, dep6, dep8', 'Profile reduce 3/4');
 is($dep_stage1notest->output(), 'dep2, dep3, dep4, dep5, dep7 | dep8', 'Profile reduce 4/4');
 
+$dep_noprof = deps_parse($field_profile);
+$dep_noprof->reduce_profiles([]);
+$dep_stage1 = deps_parse($field_profile);
+$dep_stage1->reduce_profiles(['stage1']);
+$dep_notest = deps_parse($field_profile);
+$dep_notest->reduce_profiles(['notest']);
+$dep_stage1notest = deps_parse($field_profile);
+$dep_stage1notest->reduce_profiles(['stage1', 'notest']);
+is($dep_noprof->output(), 'dep1, dep2, dep3, dep6', 'Profile post-reduce 1/4');
+is($dep_stage1->output(), 'dep2, dep4, dep5, dep7', 'Profile post-reduce 2/4');
+is($dep_notest->output(), 'dep3, dep4, dep6, dep8', 'Profile post-reduce 3/4');
+is($dep_stage1notest->output(), 'dep2, dep3, dep4, dep5, dep7 | dep8', 'Profile post-reduce 4/4');
+
 my $field_restrict = 'dep1 <!profile.bootstrap !other.restrict>, ' .
 'dep2 <profile.bootstrap other.restrict>, ' .
 'dep3 <!other.restrict>, ' .
 'dep4 <other.restrict>';
 my $dep_restrict = deps_parse($field_restrict, reduce_restrictions => 1, build_profiles => []);
 is($dep_restrict->output(), 'dep1', 'Unknown restrictions reduce');
+
+$dep_restrict = deps_parse($field_restrict);
+$dep_restrict->reduce_profiles([]);
+is($dep_restrict->output(), 'dep1', 'Unknown restrictions post-reduce');
 
 my $facts = Dpkg::Deps::KnownFacts->new();
 $facts->add_installed_package('mypackage', '1.3.4-1', get_host_arch(), 'no');

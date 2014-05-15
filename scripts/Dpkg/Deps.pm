@@ -49,7 +49,7 @@ All the deps_* functions are exported by default.
 use strict;
 use warnings;
 
-our $VERSION = '1.03';
+our $VERSION = '1.04';
 
 use Dpkg::Version;
 use Dpkg::Arch qw(get_host_arch get_build_arch);
@@ -1001,6 +1001,26 @@ sub has_arch_restriction {
     return @res;
 }
 
+sub profile_is_concerned {
+    my ($self, $build_profiles) = @_;
+    my $res = 0;
+
+    foreach my $dep (@{$self->{list}}) {
+        $res = 1 if $dep->profile_is_concerned($build_profiles);
+    }
+    return $res;
+}
+
+sub reduce_profiles {
+    my ($self, $build_profiles) = @_;
+    my @new;
+
+    foreach my $dep (@{$self->{list}}) {
+        $dep->reduce_profiles($build_profiles);
+        push @new, $dep if $dep->profile_is_concerned($build_profiles);
+    }
+    $self->{list} = [ @new ];
+}
 
 sub is_empty {
     my $self = shift;
@@ -1439,6 +1459,14 @@ sub _evaluate_simple_dep {
 }
 
 =head1 CHANGES
+
+=head2 Version 1.04
+
+New options: Add use_profiles, build_profiles, reduce_profiles and
+reduce_restrictions to Dpkg::Deps::deps_parse().
+
+New methods: Add $dep->profile_is_concerned() and $dep->reduce_profiles()
+for all dependency objects.
 
 =head2 Version 1.03
 
