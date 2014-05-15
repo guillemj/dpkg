@@ -330,6 +330,21 @@ sub output {
 
 =back
 
+=head1 CHANGES
+
+=head2 Version 1.02
+
+New argument: Accept a $binaryversion in $s->set_version_substvars(),
+passing a single argument is still supported.
+
+New method: $s->mark_as_used().
+
+Deprecated method: $s->no_warn(), use $s->mark_as_used() instead.
+
+=head2 Version 1.01
+
+New method: $s->set_as_used().
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>.

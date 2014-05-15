@@ -177,6 +177,12 @@ sub output {
 
 =back
 
+=head1 CHANGES
+
+=head2 Version 1.01
+
+New method: $conf->filter()
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>.

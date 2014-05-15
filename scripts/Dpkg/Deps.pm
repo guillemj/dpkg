@@ -1446,28 +1446,20 @@ New option: Add build_arch option to Dpkg::Deps::deps_parse().
 
 =head2 Version 1.02
 
-=over
-
-=item * Add new Dpkg::deps_concat() function.
-
-=back
+New function: Dpkg::Deps::deps_concat()
 
 =head2 Version 1.01
 
-=over
+New method: Add $dep->reset() for all dependency objects.
 
-=item * Add new $dep->reset() method that all dependency objects support.
+New property: Dpkg::Deps::Simple now recognizes the arch qualifier "any"
+and stores it in the "archqual" property when present.
 
-=item * Dpkg::Deps::Simple now recognizes the arch qualifier "any" and
-stores it in the "archqual" property when present.
-
-=item * Dpkg::Deps::KnownFacts->add_installed_package() now accepts 2
+New option: Dpkg::Deps::KnownFacts->add_installed_package() now accepts 2
 supplementary parameters ($arch and $multiarch).
 
-=item * Dpkg::Deps::KnownFacts->check_package() is obsolete, it should
-not have been part of the public API.
-
-=back
+Deprecated method: Dpkg::Deps::KnownFacts->check_package() is obsolete,
+it should not have been part of the public API.
 
 =cut
 

@@ -312,6 +312,7 @@ sub find_closes {
 =head2 Version 1.01
 
 New functions: match_header(), match_trailer()
+
 Deprecated variables: $regex_header, $regex_trailer
 
 =head1 AUTHOR

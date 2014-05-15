@@ -534,7 +534,7 @@ sub NEXTKEY {
 
 =head2 Version 1.01
 
-New method: parse_error().
+New method: $c->parse_error().
 
 =head1 AUTHOR
 
