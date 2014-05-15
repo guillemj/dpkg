@@ -49,7 +49,7 @@ All the deps_* functions are exported by default.
 use strict;
 use warnings;
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 
 use Dpkg::Version;
 use Dpkg::Arch qw(get_host_arch get_build_arch);
@@ -1439,6 +1439,10 @@ sub _evaluate_simple_dep {
 }
 
 =head1 CHANGES
+
+=head2 Version 1.03
+
+New option: Add build_arch option to Dpkg::Deps::deps_parse().
 
 =head2 Version 1.02
 
