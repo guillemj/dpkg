@@ -16,11 +16,22 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 BEGIN {
     use_ok('Dpkg::Source::Quilt');
 }
+
+my $srcdir = $ENV{srcdir} || '.';
+my $datadir = $srcdir . '/t/Dpkg_Source_Quilt';
+
+my $quilt;
+my (@series_got, @series_exp);
+
+$quilt = Dpkg::Source::Quilt->new("$datadir/parse");
+@series_got = $quilt->series();
+@series_exp = qw(change-a.patch change-b.patch change-c.patch change-d.patch);
+is_deeply(\@series_got, \@series_exp, 'Parsed series file matches ref');
 
 # TODO: Add actual test cases.
 

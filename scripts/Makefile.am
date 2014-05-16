@@ -269,6 +269,7 @@ test_data = \
 	t/Dpkg_Control/bogus-armor-inline.dsc \
 	t/Dpkg_Control/bogus-armor-nested.dsc \
 	t/Dpkg_Control/bogus-armor-spaces.dsc \
+	t/Dpkg_Source_Quilt/parse/debian/patches/series \
 	t/Dpkg_Substvars/substvars1 \
 	t/Dpkg_Dist_Files/files-byhand \
 	t/merge_changelogs/ch-old \
