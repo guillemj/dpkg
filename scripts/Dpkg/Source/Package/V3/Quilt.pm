@@ -234,8 +234,13 @@ sub _load_file {
 sub _add_line {
     my ($file, $line) = @_;
 
-    open(my $file_fh, '>>', $file) or syserr(_g('cannot write %s'), $file);
-    print { $file_fh } "$line\n";
+    my @lines;
+    @lines = _load_file($file) if -f $file;
+    push @lines, $line;
+    chomp @lines;
+
+    open my $file_fh, '>', $file or syserr(_g('cannot write %s'), $file);
+    print { $file_fh } "$_\n" foreach @lines;
     close($file_fh);
 }
 
