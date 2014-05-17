@@ -221,6 +221,16 @@ sub check_patches_applied {
     $self->apply_patches($dir, usage => 'preparation', verbose => 1);
 }
 
+sub _load_file {
+    my ($file) = @_;
+
+    open my $file_fh, '<', $file or syserr(_g('cannot read %s'), $file);
+    my @lines = <$file_fh>;
+    close $file_fh;
+
+    return @lines;
+}
+
 sub _add_line {
     my ($file, $line) = @_;
 
@@ -232,10 +242,8 @@ sub _add_line {
 sub _drop_line {
     my ($file, $re) = @_;
 
-    open(my $file_fh, '<', $file) or syserr(_g('cannot read %s'), $file);
-    my @lines = <$file_fh>;
-    close($file_fh);
-    open($file_fh, '>', $file) or syserr(_g('cannot write %s'), $file);
+    my @lines = _load_file($file);
+    open my $file_fh, '>', $file or syserr(_g('cannot write %s'), $file);
     print { $file_fh } $_ foreach grep { not /^\Q$re\E\s*$/ } @lines;
     close($file_fh);
 }
