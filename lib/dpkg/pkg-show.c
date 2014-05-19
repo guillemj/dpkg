@@ -3,7 +3,7 @@
  * pkg-show.c - primitives for pkg information display
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -165,6 +165,45 @@ int
 pkg_abbrev_eflag(const struct pkginfo *pkg)
 {
 	return " R"[pkg->eflag];
+}
+
+/**
+ * Return a string representation of the package want status name.
+ *
+ * @param pkg The package to consider.
+ *
+ * @return The string representation.
+ */
+const char *
+pkg_want_name(const struct pkginfo *pkg)
+{
+	return wantinfos[pkg->want].name;
+}
+
+/**
+ * Return a string representation of the package eflag status name.
+ *
+ * @param pkg The package to consider.
+ *
+ * @return The string representation.
+ */
+const char *
+pkg_eflag_name(const struct pkginfo *pkg)
+{
+	return eflaginfos[pkg->eflag].name;
+}
+
+/**
+ * Return a string representation of the package current status name.
+ *
+ * @param pkg The package to consider.
+ *
+ * @return The string representation.
+ */
+const char *
+pkg_status_name(const struct pkginfo *pkg)
+{
+	return statusinfos[pkg->status].name;
 }
 
 /**

@@ -4,7 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -356,6 +356,10 @@ void varbuf_add_pkgbin_name(struct varbuf *vb, const struct pkginfo *pkg,
 const char *pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
                         enum pkg_name_arch_when pnaw);
 const char *pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw);
+
+const char *pkg_want_name(const struct pkginfo *pkg);
+const char *pkg_status_name(const struct pkginfo *pkg);
+const char *pkg_eflag_name(const struct pkginfo *pkg);
 
 /*** from dump.c ***/
 
