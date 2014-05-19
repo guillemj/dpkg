@@ -74,58 +74,6 @@ parse_warn(struct parsedb_state *ps, const char *fmt, ...)
   va_end(args);
 }
 
-const struct namevalue booleaninfos[] = {
-  NAMEVALUE_DEF("no",  false),
-  NAMEVALUE_DEF("yes", true),
-  { .name = NULL }
-};
-
-const struct namevalue multiarchinfos[] = {
-  NAMEVALUE_DEF("no",      multiarch_no),
-  NAMEVALUE_DEF("same",    multiarch_same),
-  NAMEVALUE_DEF("allowed", multiarch_allowed),
-  NAMEVALUE_DEF("foreign", multiarch_foreign),
-  { .name = NULL }
-};
-
-const struct namevalue priorityinfos[] = {
-  NAMEVALUE_DEF("required",                      pri_required),
-  NAMEVALUE_DEF("important",                     pri_important),
-  NAMEVALUE_DEF("standard",                      pri_standard),
-  NAMEVALUE_DEF("optional",                      pri_optional),
-  NAMEVALUE_DEF("extra",                         pri_extra),
-  NAMEVALUE_FALLBACK_DEF("this is a bug - please report", pri_other),
-  NAMEVALUE_DEF("unknown",                       pri_unknown),
-  { .name = NULL }
-};
-
-const struct namevalue statusinfos[] = {
-  NAMEVALUE_DEF("not-installed",    stat_notinstalled),
-  NAMEVALUE_DEF("config-files",     stat_configfiles),
-  NAMEVALUE_DEF("half-installed",   stat_halfinstalled),
-  NAMEVALUE_DEF("unpacked",         stat_unpacked),
-  NAMEVALUE_DEF("half-configured",  stat_halfconfigured),
-  NAMEVALUE_DEF("triggers-awaited", stat_triggersawaited),
-  NAMEVALUE_DEF("triggers-pending", stat_triggerspending),
-  NAMEVALUE_DEF("installed",        stat_installed),
-  { .name = NULL }
-};
-
-const struct namevalue eflaginfos[] = {
-  NAMEVALUE_DEF("ok",        eflag_ok),
-  NAMEVALUE_DEF("reinstreq", eflag_reinstreq),
-  { .name = NULL }
-};
-
-const struct namevalue wantinfos[] = {
-  NAMEVALUE_DEF("unknown",   want_unknown),
-  NAMEVALUE_DEF("install",   want_install),
-  NAMEVALUE_DEF("hold",      want_hold),
-  NAMEVALUE_DEF("deinstall", want_deinstall),
-  NAMEVALUE_DEF("purge",     want_purge),
-  { .name = NULL }
-};
-
 const char *
 pkg_name_is_illegal(const char *p)
 {

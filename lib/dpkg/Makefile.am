@@ -74,6 +74,7 @@ libdpkg_la_SOURCES = \
 	pkg-array.c \
 	pkg-format.c \
 	pkg-list.c \
+	pkg-namevalue.c \
 	pkg-queue.c \
 	pkg-show.c \
 	pkg-spec.c \
