@@ -4,7 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 1999, 2002 Wichert Akkerman <wichert@deephackmode.org>
- * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -570,7 +570,7 @@ deferred_configure(struct pkginfo *pkg)
 		ohshit(_("package %.250s is not ready for configuration\n"
 		         " cannot configure (current status `%.250s')"),
 		       pkg_name(pkg, pnaw_nonambig),
-		       statusinfos[pkg->status].name);
+		       pkg_status_name(pkg));
 
 	for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
 		if (otherpkg == pkg)
@@ -583,7 +583,7 @@ deferred_configure(struct pkginfo *pkg)
 			         "%s is not ready (current status '%s')"),
 			       pkg_name(pkg, pnaw_always),
 			       pkg_name(otherpkg, pnaw_always),
-			       statusinfos[otherpkg->status].name);
+			       pkg_status_name(otherpkg));
 
 		if (dpkg_version_compare(&pkg->installed.version,
 		                         &otherpkg->installed.version))

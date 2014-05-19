@@ -3,7 +3,7 @@
  * parse.c - database file parsing, main package/field loop
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006,2008-2013 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006,2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -242,7 +242,7 @@ pkg_parse_verify(struct parsedb_state *ps,
        pkg->status >= stat_triggerspending))
     parse_error(ps,
                 _("package has status %s but triggers are awaited"),
-                statusinfos[pkg->status].name);
+                pkg_status_name(pkg));
   else if (pkg->status == stat_triggersawaited && !pkg->trigaw.head)
     parse_error(ps,
                 _("package has status triggers-awaited but no triggers awaited"));
@@ -252,7 +252,7 @@ pkg_parse_verify(struct parsedb_state *ps,
         pkg->status == stat_triggersawaited))
     parse_error(ps,
                 _("package has status %s but triggers are pending"),
-                statusinfos[pkg->status].name);
+                pkg_status_name(pkg));
   else if (pkg->status == stat_triggerspending && !pkg->trigpend_head)
     parse_error(ps,
                 _("package has status triggers-pending but no triggers "

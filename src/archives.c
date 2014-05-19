@@ -4,7 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2007-2013 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -216,7 +216,7 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
       debug(dbg_conffdetail,
             "tarobject found shared conffile, from pkg %s (%s); hash=%s",
             pkg_name(otherpkg, pnaw_always),
-            statusinfos[otherpkg->status].name, oldhash);
+            pkg_status_name(otherpkg), oldhash);
       break;
     }
   }

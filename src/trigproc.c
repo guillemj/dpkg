@@ -4,7 +4,7 @@
  *
  * Copyright © 2007 Canonical Ltd
  * written by Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2013 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -408,7 +408,7 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 			continue;
 		debug(dbg_triggersdetail, "trig_transitional_activate %s %s",
 		      pkg_name(pkg, pnaw_always),
-		      statusinfos[pkg->status].name);
+		      pkg_status_name(pkg));
 		pkg->trigpend_head = NULL;
 		trig_parse_ci(pkg_infodb_get_file(pkg, &pkg->installed,
 		                                  TRIGGERSCIFILE),

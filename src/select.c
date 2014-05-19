@@ -3,7 +3,7 @@
  * select.c - by-hand (rather than dselect-based) package selection
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006,2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006,2008-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -53,7 +53,7 @@ static void getsel1package(struct pkginfo *pkg) {
   l = 6 - l;
   if (l < 1)
     l = 1;
-  printf("%s%.*s%s\n", pkgname, l, "\t\t\t\t\t\t", wantinfos[pkg->want].name);
+  printf("%s%.*s%s\n", pkgname, l, "\t\t\t\t\t\t", pkg_want_name(pkg));
 }
 
 int

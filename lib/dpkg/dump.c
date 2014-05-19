@@ -4,7 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
- * Copyright © 2006,2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006,2008-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -283,11 +283,11 @@ w_status(struct varbuf *vb,
 
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Status: ");
-  varbuf_add_str(vb, wantinfos[pkg->want].name);
+  varbuf_add_str(vb, pkg_want_name(pkg));
   varbuf_add_char(vb, ' ');
-  varbuf_add_str(vb, eflaginfos[pkg->eflag].name);
+  varbuf_add_str(vb, pkg_eflag_name(pkg));
   varbuf_add_char(vb, ' ');
-  varbuf_add_str(vb, statusinfos[pkg->status].name);
+  varbuf_add_str(vb, pkg_status_name(pkg));
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
 }

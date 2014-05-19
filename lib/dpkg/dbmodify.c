@@ -4,6 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman <wichert@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -408,11 +409,11 @@ void modstatdb_note(struct pkginfo *pkg) {
     pkg->trigaw.head = pkg->trigaw.tail = NULL;
   }
 
-  log_message("status %s %s %s", statusinfos[pkg->status].name,
+  log_message("status %s %s %s", pkg_status_name(pkg),
               pkg_name(pkg, pnaw_always),
 	      versiondescribe(&pkg->installed.version, vdew_nonambig));
   statusfd_send("status: %s: %s", pkg_name(pkg, pnaw_nonambig),
-                statusinfos[pkg->status].name);
+                pkg_status_name(pkg));
 
   if (cstatus >= msdbrw_write)
     modstatdb_note_core(pkg);
