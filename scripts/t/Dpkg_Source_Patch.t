@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 8;
+use Test::More tests => 9;
 
 use File::Path qw(make_path);
 
@@ -63,5 +63,8 @@ ok(-e "$tmpdir/index-inert-tree/inert-file",
 # This is CVE-2014-3864
 test_patch_escape('partial', 'symlink', 'partial.patch',
                   'Patch cannot escape using partial +++ header');
+
+test_patch_escape('ghost-hunk', 'symlink', 'ghost-hunk.patch',
+                  'Patch cannot escape using a disabling hunk');
 
 1;

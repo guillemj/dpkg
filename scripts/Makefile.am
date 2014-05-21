@@ -225,6 +225,7 @@ test_data = \
 	t/200_Dpkg_Shlibs/objdump.dbd-pg \
 	t/200_Dpkg_Shlibs/objdump.ls \
 	t/Dpkg_Source_Patch/c-style.patch \
+	t/Dpkg_Source_Patch/ghost-hunk.patch \
 	t/Dpkg_Source_Patch/index-+++.patch \
 	t/Dpkg_Source_Patch/index-alone.patch \
 	t/Dpkg_Source_Patch/index-inert.patch \
