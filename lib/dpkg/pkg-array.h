@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * pkg-array.h - primitives for pkg array handling
  *
- * Copyright © 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,7 +40,11 @@ struct pkg_array {
 	struct pkginfo **pkgs;
 };
 
+typedef struct pkginfo *pkg_mapper_func(const char *name);
+
 void pkg_array_init_from_db(struct pkg_array *a);
+void pkg_array_init_from_names(struct pkg_array *a, pkg_mapper_func *pkg_mapper,
+                               const char **pkg_names);
 void pkg_array_sort(struct pkg_array *a, pkg_sorter_func *pkg_sort);
 void pkg_array_destroy(struct pkg_array *a);
 
