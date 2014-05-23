@@ -66,6 +66,7 @@ libdpkg_la_SOURCES = \
 	namevalue.c \
 	nfmalloc.c \
 	options.c \
+	options-parsers.c \
 	parse.c \
 	parsehelp.c \
 	path.c \

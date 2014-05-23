@@ -4,7 +4,7 @@
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -456,12 +456,7 @@ enqperpackage(const char *const *argv)
     modstatdb_open(msdbrw_readonly);
 
   while ((thisarg = *argv++) != NULL) {
-    struct dpkg_error err;
-
-    pkg = pkg_spec_parse_pkg(thisarg, &err);
-    if (pkg == NULL)
-      badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
-               cipaction->olong, thisarg, err.str);
+    pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
 
     switch (cipaction->arg_int) {
     case act_status:
@@ -684,7 +679,6 @@ control_path_file(struct pkginfo *pkg, const char *control_file)
 static int
 control_path(const char *const *argv)
 {
-  struct dpkg_error err;
   struct pkginfo *pkg;
   const char *pkgname;
   const char *control_file;
@@ -703,11 +697,7 @@ control_path(const char *const *argv)
 
   modstatdb_open(msdbrw_readonly);
 
-  pkg = pkg_spec_parse_pkg(pkgname, &err);
-  if (pkg == NULL)
-    badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
-             cipaction->olong, pkgname, err.str);
-
+  pkg = dpkg_options_parse_pkgname(cipaction, pkgname);
   if (pkg->status == stat_notinstalled)
     ohshit(_("package '%s' is not installed"),
            pkg_name(pkg, pnaw_nonambig));
@@ -725,7 +715,6 @@ control_path(const char *const *argv)
 static int
 control_list(const char *const *argv)
 {
-  struct dpkg_error err;
   struct pkginfo *pkg;
   const char *pkgname;
 
@@ -735,11 +724,7 @@ control_list(const char *const *argv)
 
   modstatdb_open(msdbrw_readonly);
 
-  pkg = pkg_spec_parse_pkg(pkgname, &err);
-  if (pkg == NULL)
-    badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
-             cipaction->olong, pkgname, err.str);
-
+  pkg = dpkg_options_parse_pkgname(cipaction, pkgname);
   if (pkg->status == stat_notinstalled)
     ohshit(_("package '%s' is not installed"), pkg_name(pkg, pnaw_nonambig));
 
@@ -753,7 +738,6 @@ control_list(const char *const *argv)
 static int
 control_show(const char *const *argv)
 {
-  struct dpkg_error err;
   struct pkginfo *pkg;
   const char *pkgname;
   const char *filename;
@@ -772,11 +756,7 @@ control_show(const char *const *argv)
 
   modstatdb_open(msdbrw_readonly);
 
-  pkg = pkg_spec_parse_pkg(pkgname, &err);
-  if (pkg == NULL)
-    badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
-             cipaction->olong, pkgname, err.str);
-
+  pkg = dpkg_options_parse_pkgname(cipaction, pkgname);
   if (pkg->status == stat_notinstalled)
     ohshit(_("package '%s' is not installed"), pkg_name(pkg, pnaw_nonambig));
 

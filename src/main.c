@@ -48,7 +48,6 @@
 #include <dpkg/arch.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
-#include <dpkg/pkg-spec.h>
 #include <dpkg/options.h>
 
 #include "main.h"
@@ -370,14 +369,9 @@ set_ignore_depends(const struct cmdinfo *cip, const char *value)
   }
   p= copy;
   while (*p) {
-    struct dpkg_error err;
     struct pkginfo *pkg;
 
-    pkg = pkg_spec_parse_pkg(p, &err);
-    if (pkg == NULL)
-      badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
-               cip->olong, p, err.str);
-
+    pkg = dpkg_options_parse_pkgname(cip, p);
     pkg_list_prepend(&ignoredependss, pkg);
 
     p+= strlen(p)+1;

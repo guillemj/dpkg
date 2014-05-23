@@ -3,6 +3,7 @@
  * options.h - option parsing functions
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +23,7 @@
 #define LIBDPKG_OPTIONS_H
 
 #include <dpkg/macros.h>
+#include <dpkg/dpkg-db.h>
 
 DPKG_BEGIN_DECLS
 
@@ -63,6 +65,9 @@ void dpkg_options_parse(const char *const **argvp,
                         const struct cmdinfo *cmdinfos, const char *help_str);
 
 long dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str);
+
+struct pkginfo *
+dpkg_options_parse_pkgname(const struct cmdinfo *cmd, const char *name);
 
 /**
  * Current cmdinfo action.

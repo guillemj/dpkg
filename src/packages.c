@@ -41,7 +41,6 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-list.h>
 #include <dpkg/pkg-queue.h>
-#include <dpkg/pkg-spec.h>
 #include <dpkg/string.h>
 #include <dpkg/options.h>
 
@@ -108,14 +107,9 @@ enqueue_specified(const char *const *argv)
   const char *thisarg;
 
   while ((thisarg = *argv++) != NULL) {
-    struct dpkg_error err;
     struct pkginfo *pkg;
 
-    pkg = pkg_spec_parse_pkg(thisarg, &err);
-    if (pkg == NULL)
-      badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
-               cipaction->olong, thisarg, err.str);
-
+    pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
     if (pkg->status == stat_notinstalled &&
         str_match_end(pkg->set->name, DEBEXT)) {
       badusage(_("you must specify packages by their own names, "
