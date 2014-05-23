@@ -53,7 +53,7 @@ Long-Field: line1
    line 3 line 3 line 3
  ..
  line 4
-Empty-Field: 
+Empty-Field:
 
 Package: mypackage1
 Architecture: any

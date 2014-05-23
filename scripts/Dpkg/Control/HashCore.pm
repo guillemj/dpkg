@@ -349,22 +349,25 @@ sub output {
             # Skip whitespace-only fields
             next if $$self->{drop_empty} and $value !~ m/\S/;
 	    # Escape data to follow control file syntax
-	    my @lines = split(/\n/, $value);
-	    $value = (scalar @lines) ? shift @lines : '';
+	    my ($first_line, @lines) = split /\n/, $value;
+
+	    my $kv = "$key:";
+	    $kv .= ' ' . $first_line if $first_line;
+	    $kv .= "\n";
 	    foreach (@lines) {
 		s/\s+$//;
 		if (/^$/ or /^\.+$/) {
-		    $value .= "\n .$_";
+		    $kv .= " .$_\n";
 		} else {
-		    $value .= "\n $_";
+		    $kv .= " $_\n";
 		}
 	    }
 	    # Print it out
             if ($fh) {
-	        print { $fh } "$key: $value\n"
+	        print { $fh } $kv
 	            or syserr(_g('write error on control data'));
             }
-	    $str .= "$key: $value\n" if defined wantarray;
+	    $str .= $kv if defined wantarray;
 	}
     }
     return $str;

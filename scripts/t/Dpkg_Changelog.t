@@ -173,7 +173,7 @@ Urgency: high
 Maintainer: Frank Lichtenheld <frank@lichtenheld.de>
 Date: Sun, 13 Jan 2008 15:49:19 +0100
 Closes: 1000000 1111111 2222222
-Changes: 
+Changes:
  fields (2.0-0etch1) stable; urgency=low
  .
    * Upload to stable (Closes: #1111111, #2222222)
@@ -214,7 +214,7 @@ Urgency: medium
 Maintainer: Frank Lichtenheld <djpig@debian.org>
 Date: Sun, 12 Jan 2008 15:49:19 +0100
 Closes: 1111111 2222222
-Changes: 
+Changes:
  fields (2.0-1) unstable  frozen; urgency=medium
  .
    [ Frank Lichtenheld ]
@@ -244,7 +244,7 @@ Distribution: unstable
 Urgency: low
 Maintainer: Frank Lichtenheld <frank@lichtenheld.de>
 Date: Sun, 11 Jan 2008 15:49:19 +0100
-Changes: 
+Changes:
  fields (2.0~b1-1) unstable; urgency=low,xc-userfield=foobar
  .
    * Beta
@@ -257,7 +257,7 @@ Urgency: high
 Maintainer: Frank Lichtenheld <djpig@debian.org>
 Date: Sun, 10 Jan 2008 15:49:19 +0100
 Closes: 1000000
-Changes: 
+Changes:
  fields (1.0) experimental; urgency=high,xb-userfield2=foobar
  .
    * First upload (Closes: #1000000)
