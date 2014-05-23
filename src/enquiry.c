@@ -3,7 +3,7 @@
  * enquiry.c - status enquiry and listing options
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006,2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006,2008-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -48,8 +48,8 @@
 #include "infodb.h"
 #include "main.h"
 
-struct badstatinfo {
-  bool (*yesno)(struct pkginfo *, const struct badstatinfo *bsi);
+struct audit_problem {
+  bool (*check)(struct pkginfo *, const struct audit_problem *problem);
   union {
     int number;
     const char *string;
@@ -58,107 +58,107 @@ struct badstatinfo {
 };
 
 static bool
-bsyn_reinstreq(struct pkginfo *pkg, const struct badstatinfo *bsi)
+audit_reinstreq(struct pkginfo *pkg, const struct audit_problem *problem)
 {
   return pkg->eflag & eflag_reinstreq;
 }
 
 static bool
-bsyn_status(struct pkginfo *pkg, const struct badstatinfo *bsi)
+audit_status(struct pkginfo *pkg, const struct audit_problem *problem)
 {
   if (pkg->eflag & eflag_reinstreq)
     return false;
-  return (int)pkg->status == bsi->value.number;
+  return (int)pkg->status == problem->value.number;
 }
 
 static bool
-bsyn_infofile(struct pkginfo *pkg, const struct badstatinfo *bsi)
+audit_infofile(struct pkginfo *pkg, const struct audit_problem *problem)
 {
   if (pkg->status < stat_halfinstalled)
     return false;
-  return !pkg_infodb_has_file(pkg, &pkg->installed, bsi->value.string);
+  return !pkg_infodb_has_file(pkg, &pkg->installed, problem->value.string);
 }
 
 static bool
-bsyn_arch(struct pkginfo *pkg, const struct badstatinfo *bsi)
+audit_arch(struct pkginfo *pkg, const struct audit_problem *problem)
 {
   if (pkg->status < stat_halfinstalled)
     return false;
-  return pkg->installed.arch->type == (enum dpkg_arch_type)bsi->value.number;
+  return pkg->installed.arch->type == (enum dpkg_arch_type)problem->value.number;
 }
 
-static const struct badstatinfo badstatinfos[]= {
+static const struct audit_problem audit_problems[] = {
   {
-    .yesno = bsyn_reinstreq,
+    .check = audit_reinstreq,
     .value.number = 0,
     .explanation = N_(
     "The following packages are in a mess due to serious problems during\n"
     "installation.  They must be reinstalled for them (and any packages\n"
     "that depend on them) to function properly:\n")
   }, {
-    .yesno = bsyn_status,
+    .check = audit_status,
     .value.number = stat_unpacked,
     .explanation = N_(
     "The following packages have been unpacked but not yet configured.\n"
     "They must be configured using dpkg --configure or the configure\n"
     "menu option in dselect for them to work:\n")
   }, {
-    .yesno = bsyn_status,
+    .check = audit_status,
     .value.number = stat_halfconfigured,
     .explanation = N_(
     "The following packages are only half configured, probably due to problems\n"
     "configuring them the first time.  The configuration should be retried using\n"
     "dpkg --configure <package> or the configure menu option in dselect:\n")
   }, {
-    .yesno = bsyn_status,
+    .check = audit_status,
     .value.number = stat_halfinstalled,
     .explanation = N_(
     "The following packages are only half installed, due to problems during\n"
     "installation.  The installation can probably be completed by retrying it;\n"
     "the packages can be removed using dselect or dpkg --remove:\n")
   }, {
-    .yesno = bsyn_status,
+    .check = audit_status,
     .value.number = stat_triggersawaited,
     .explanation = N_(
     "The following packages are awaiting processing of triggers that they\n"
     "have activated in other packages.  This processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
   }, {
-    .yesno = bsyn_status,
+    .check = audit_status,
     .value.number = stat_triggerspending,
     .explanation = N_(
     "The following packages have been triggered, but the trigger processing\n"
     "has not yet been done.  Trigger processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
   }, {
-    .yesno = bsyn_infofile,
+    .check = audit_infofile,
     .value.string = LISTFILE,
     .explanation = N_(
     "The following packages are missing the list control file in the\n"
     "database, they need to be reinstalled:\n")
   }, {
-    .yesno = bsyn_infofile,
+    .check = audit_infofile,
     .value.string = HASHFILE,
     .explanation = N_(
     "The following packages are missing the md5sums control file in the\n"
     "database, they need to be reinstalled:\n")
   }, {
-    .yesno = bsyn_arch,
+    .check = audit_arch,
     .value.number = arch_none,
     .explanation = N_("The following packages do not have an architecture:\n")
   }, {
-    .yesno = bsyn_arch,
+    .check = audit_arch,
     .value.number = arch_illegal,
     .explanation = N_("The following packages have an illegal architecture:\n")
   }, {
-    .yesno = bsyn_arch,
+    .check = audit_arch,
     .value.number = arch_unknown,
     .explanation = N_(
     "The following packages have an unknown foreign architecture, which will\n"
     "cause dependency issues on front-ends. This can be fixed by registering\n"
     "the foreign architecture with dpkg --add-architecture:\n")
   }, {
-    .yesno = NULL
+    .check = NULL
   }
 };
 
@@ -179,7 +179,7 @@ static void describebriefly(struct pkginfo *pkg) {
 int
 audit(const char *const *argv)
 {
-  const struct badstatinfo *bsi;
+  const struct audit_problem *problem;
   bool head_running = false;
 
   if (*argv)
@@ -187,14 +187,15 @@ audit(const char *const *argv)
 
   modstatdb_open(msdbrw_readonly);
 
-  for (bsi= badstatinfos; bsi->yesno; bsi++) {
+  for (problem = audit_problems; problem->check; problem++) {
     struct pkgiterator *it;
     struct pkginfo *pkg;
     bool head = false;
 
     it = pkg_db_iter_new();
     while ((pkg = pkg_db_iter_next_pkg(it))) {
-      if (!bsi->yesno(pkg,bsi)) continue;
+      if (!problem->check(pkg, problem))
+        continue;
       if (!head_running) {
         if (modstatdb_is_locked())
           puts(_(
@@ -203,7 +204,7 @@ audit(const char *const *argv)
         head_running = true;
       }
       if (!head) {
-        fputs(gettext(bsi->explanation),stdout);
+        fputs(gettext(problem->explanation), stdout);
         head = true;
       }
       describebriefly(pkg);
