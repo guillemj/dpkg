@@ -21,8 +21,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/* FIXME: per-package audit. */
-
 #include <config.h>
 #include <compat.h>
 
@@ -40,6 +38,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/arch.h>
+#include <dpkg/pkg-array.h>
 #include <dpkg/pkg-show.h>
 #include <dpkg/string.h>
 #include <dpkg/options.h>
@@ -176,24 +175,41 @@ static void describebriefly(struct pkginfo *pkg) {
   printf(" %-20s %.*s\n", pkg_name(pkg, pnaw_nonambig), l, pdesc);
 }
 
+static struct pkginfo *
+pkg_array_mapper(const char *name)
+{
+  struct pkginfo *pkg;
+
+  pkg = dpkg_options_parse_pkgname(cipaction, name);
+  if (pkg->status == stat_notinstalled)
+    notice(_("package '%s' is not installed"), pkg_name(pkg, pnaw_nonambig));
+
+  return pkg;
+}
+
 int
 audit(const char *const *argv)
 {
   const struct audit_problem *problem;
+  struct pkg_array array;
   bool head_running = false;
-
-  if (*argv)
-    badusage(_("--%s takes no arguments"), cipaction->olong);
+  int i;
 
   modstatdb_open(msdbrw_readonly);
 
+  if (!*argv)
+    pkg_array_init_from_db(&array);
+  else
+    pkg_array_init_from_names(&array, pkg_array_mapper, (const char **)argv);
+
+  pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
+
   for (problem = audit_problems; problem->check; problem++) {
-    struct pkgiterator *it;
-    struct pkginfo *pkg;
     bool head = false;
 
-    it = pkg_db_iter_new();
-    while ((pkg = pkg_db_iter_next_pkg(it))) {
+    for (i = 0; i < array.n_pkgs; i++) {
+      struct pkginfo *pkg = array.pkgs[i];
+
       if (!problem->check(pkg, problem))
         continue;
       if (!head_running) {
@@ -209,9 +225,11 @@ audit(const char *const *argv)
       }
       describebriefly(pkg);
     }
-    pkg_db_iter_free(it);
+
     if (head) putchar('\n');
   }
+
+  pkg_array_destroy(&array);
 
   m_output(stdout, _("<standard output>"));
 
