@@ -638,7 +638,7 @@ sub add_shlibs_dep {
     my ($soname, $pkg, $libfile) = @_;
     my @shlibs = ($shlibslocal, $shlibsoverride);
     if ($pkg eq '') {
-	# If the file is not packaged, try to find out the shlibs file in
+	# If the file is not packaged, try to find out the shlibs file in
 	# the package being built where the lib has been found
 	my $pkg_root = guess_pkg_root_dir($libfile);
 	if (defined $pkg_root) {
@@ -725,7 +725,7 @@ sub find_symbols_file {
     my ($pkg, $soname, $libfile) = @_;
     my @files;
     if ($pkg eq '') {
-	# If the file is not packaged, try to find out the symbols file in
+	# If the file is not packaged, try to find out the symbols file in
 	# the package being built where the lib has been found
 	my $pkg_root = guess_pkg_root_dir($libfile);
 	if (defined $pkg_root) {

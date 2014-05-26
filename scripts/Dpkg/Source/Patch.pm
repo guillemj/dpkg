@@ -592,7 +592,7 @@ sub apply {
     return $analysis;
 }
 
-# Verify if check will work...
+# Verify if check will work...
 sub check_apply {
     my ($self, $destdir, %opts) = @_;
     # Set default values to options
