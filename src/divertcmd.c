@@ -121,9 +121,9 @@ usage(const struct cmdinfo *cip, const char *value)
 struct file {
 	const char *name;
 	enum {
-		file_stat_invalid,
-		file_stat_valid,
-		file_stat_nofile,
+		FILE_STAT_INVALID,
+		FILE_STAT_VALID,
+		FILE_STAT_NOFILE,
 	} stat_state;
 	struct stat stat;
 };
@@ -132,7 +132,7 @@ static void
 file_init(struct file *f, const char *filename)
 {
 	f->name = filename;
-	f->stat_state = file_stat_invalid;
+	f->stat_state = FILE_STAT_INVALID;
 }
 
 static void
@@ -140,7 +140,7 @@ file_stat(struct file *f)
 {
 	int ret;
 
-	if (f->stat_state != file_stat_invalid)
+	if (f->stat_state != FILE_STAT_INVALID)
 		return;
 
 	ret = lstat(f->name, &f->stat);
@@ -148,9 +148,9 @@ file_stat(struct file *f)
 		ohshite(_("cannot stat file '%s'"), f->name);
 
 	if (ret == 0)
-		f->stat_state = file_stat_valid;
+		f->stat_state = FILE_STAT_VALID;
 	else
-		f->stat_state = file_stat_nofile;
+		f->stat_state = FILE_STAT_NOFILE;
 }
 
 static void
@@ -177,7 +177,7 @@ check_rename(struct file *src, struct file *dst)
 
 	/* If the source file is not present and we are not going to do
 	 * the rename anyway there's no point in checking any further. */
-	if (src->stat_state == file_stat_nofile)
+	if (src->stat_state == FILE_STAT_NOFILE)
 		return false;
 
 	file_stat(dst);
@@ -194,8 +194,8 @@ check_rename(struct file *src, struct file *dst)
 	check_writable_dir(src);
 	check_writable_dir(dst);
 
-	if (src->stat_state == file_stat_valid &&
-	    dst->stat_state == file_stat_valid &&
+	if (src->stat_state == FILE_STAT_VALID &&
+	    dst->stat_state == FILE_STAT_VALID &&
 	    !(src->stat.st_dev == dst->stat.st_dev &&
 	      src->stat.st_ino == dst->stat.st_ino))
 		ohshit(_("rename involves overwriting `%s' with\n"
@@ -246,10 +246,10 @@ file_copy(const char *src, const char *dst)
 static void
 file_rename(struct file *src, struct file *dst)
 {
-	if (src->stat_state == file_stat_nofile)
+	if (src->stat_state == FILE_STAT_NOFILE)
 		return;
 
-	if (dst->stat_state == file_stat_valid) {
+	if (dst->stat_state == FILE_STAT_VALID) {
 		if (unlink(src->name))
 			ohshite(_("rename: remove duplicate old link '%s'"),
 			        src->name);
@@ -431,7 +431,7 @@ diversion_add(const char *const *argv)
 	file_init(&file_from, filename);
 	file_stat(&file_from);
 
-	if (file_from.stat_state == file_stat_valid &&
+	if (file_from.stat_state == FILE_STAT_VALID &&
 	    S_ISDIR(file_from.stat.st_mode))
 		badusage(_("cannot divert directories"));
 
