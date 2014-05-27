@@ -3,7 +3,7 @@
  * compress.h - compression support functions
  *
  * Copyright © 2004 Scott James Remnant <scott@netsplit.com>
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,22 +36,22 @@ DPKG_BEGIN_DECLS
  */
 
 enum compressor_type {
-	compressor_type_unknown = -1,
-	compressor_type_none,
-	compressor_type_gzip,
-	compressor_type_xz,
-	compressor_type_bzip2,
-	compressor_type_lzma,
+	COMPRESSOR_TYPE_UNKNOWN = -1,
+	COMPRESSOR_TYPE_NONE,
+	COMPRESSOR_TYPE_GZIP,
+	COMPRESSOR_TYPE_XZ,
+	COMPRESSOR_TYPE_BZIP2,
+	COMPRESSOR_TYPE_LZMA,
 };
 
 enum compressor_strategy {
-	compressor_strategy_unknown = -1,
-	compressor_strategy_none,
-	compressor_strategy_filtered,
-	compressor_strategy_huffman,
-	compressor_strategy_rle,
-	compressor_strategy_fixed,
-	compressor_strategy_extreme,
+	COMPRESSOR_STRATEGY_UNKNOWN = -1,
+	COMPRESSOR_STRATEGY_NONE,
+	COMPRESSOR_STRATEGY_FILTERED,
+	COMPRESSOR_STRATEGY_HUFFMAN,
+	COMPRESSOR_STRATEGY_RLE,
+	COMPRESSOR_STRATEGY_FIXED,
+	COMPRESSOR_STRATEGY_EXTREME,
 };
 
 struct compress_params {

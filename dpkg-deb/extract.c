@@ -3,7 +3,7 @@
  * extract.c - extracting archives
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@ extracthalf(const char *debar, const char *dir,
   char nlc;
   int adminmember = -1;
   bool header_done;
-  enum compressor_type decompressor = compressor_type_gzip;
+  enum compressor_type decompressor = COMPRESSOR_TYPE_GZIP;
 
   arfd = open(debar, O_RDONLY);
   if (arfd < 0)
@@ -183,9 +183,9 @@ extracthalf(const char *debar, const char *dir,
 
 	  adminmember = 1;
           decompressor = compressor_find_by_extension(extension);
-          if (decompressor != compressor_type_none &&
-              decompressor != compressor_type_gzip &&
-              decompressor != compressor_type_xz)
+          if (decompressor != COMPRESSOR_TYPE_NONE &&
+              decompressor != COMPRESSOR_TYPE_GZIP &&
+              decompressor != COMPRESSOR_TYPE_XZ)
             ohshit(_("archive '%s' uses unknown compression for member '%.*s', "
                      "giving up"),
                    debar, (int)sizeof(arh.ar_name), arh.ar_name);
@@ -200,7 +200,7 @@ extracthalf(const char *debar, const char *dir,
 
 	    adminmember= 0;
 	    decompressor = compressor_find_by_extension(extension);
-            if (decompressor == compressor_type_unknown)
+            if (decompressor == COMPRESSOR_TYPE_UNKNOWN)
               ohshit(_("archive '%s' uses unknown compression for member '%.*s', "
                        "giving up"),
                      debar, (int)sizeof(arh.ar_name), arh.ar_name);

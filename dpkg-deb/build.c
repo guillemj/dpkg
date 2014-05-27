@@ -4,7 +4,7 @@
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -521,8 +521,8 @@ do_build(const char *const *argv)
   if (opt_uniform_compression) {
     control_compress_params = compress_params;
   } else {
-    control_compress_params.type = compressor_type_gzip;
-    control_compress_params.strategy = compressor_strategy_none;
+    control_compress_params.type = COMPRESSOR_TYPE_GZIP;
+    control_compress_params.strategy = COMPRESSOR_STRATEGY_NONE;
     control_compress_params.level = -1;
   }
 

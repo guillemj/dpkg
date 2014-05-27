@@ -3,7 +3,7 @@
  * main.c - main program
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -183,7 +183,7 @@ set_deb_new(const struct cmdinfo *cip, const char *value)
 
 struct compress_params compress_params = {
   .type = DPKG_DEB_DEFAULT_COMPRESSOR,
-  .strategy = compressor_strategy_none,
+  .strategy = COMPRESSOR_STRATEGY_NONE,
   .level = -1,
 };
 
@@ -203,7 +203,7 @@ static void
 set_compress_strategy(const struct cmdinfo *cip, const char *value)
 {
   compress_params.strategy = compressor_get_strategy(value);
-  if (compress_params.strategy == compressor_strategy_unknown)
+  if (compress_params.strategy == COMPRESSOR_STRATEGY_UNKNOWN)
     ohshit(_("unknown compression strategy '%s'!"), value);
 }
 
@@ -211,11 +211,11 @@ static void
 set_compress_type(const struct cmdinfo *cip, const char *value)
 {
   compress_params.type = compressor_find_by_name(value);
-  if (compress_params.type == compressor_type_unknown)
+  if (compress_params.type == COMPRESSOR_TYPE_UNKNOWN)
     ohshit(_("unknown compression type `%s'!"), value);
-  if (compress_params.type == compressor_type_lzma)
+  if (compress_params.type == COMPRESSOR_TYPE_LZMA)
     warning(_("deprecated compression type '%s'; use xz instead"), value);
-  if (compress_params.type == compressor_type_bzip2)
+  if (compress_params.type == COMPRESSOR_TYPE_BZIP2)
     warning(_("deprecated compression type '%s'; use xz or gzip instead"), value);
 }
 
@@ -261,9 +261,9 @@ int main(int argc, const char *const *argv) {
     badusage(_("invalid compressor parameters: %s"), err.str);
 
   if (opt_uniform_compression &&
-      (compress_params.type != compressor_type_none &&
-       compress_params.type != compressor_type_gzip &&
-       compress_params.type != compressor_type_xz))
+      (compress_params.type != COMPRESSOR_TYPE_NONE &&
+       compress_params.type != COMPRESSOR_TYPE_GZIP &&
+       compress_params.type != COMPRESSOR_TYPE_XZ))
     badusage(_("unsupported compression type '%s' with uniform compression"),
              compressor_get_name(compress_params.type));
 

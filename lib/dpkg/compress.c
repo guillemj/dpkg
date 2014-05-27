@@ -4,7 +4,7 @@
  *
  * Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2004 Scott James Remnant <scott@netsplit.com>
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -142,7 +142,7 @@ fixup_gzip_params(struct compress_params *params)
 {
 	/* Normalize compression level. */
 	if (params->level == 0)
-		params->type = compressor_type_none;
+		params->type = COMPRESSOR_TYPE_NONE;
 }
 
 #ifdef WITH_ZLIB
@@ -189,13 +189,13 @@ compress_gzip(int fd_in, int fd_out, struct compress_params *params, const char 
 	int z_errnum;
 	gzFile gzfile;
 
-	if (params->strategy == compressor_strategy_filtered)
+	if (params->strategy == COMPRESSOR_STRATEGY_FILTERED)
 		strategy = 'f';
-	else if (params->strategy == compressor_strategy_huffman)
+	else if (params->strategy == COMPRESSOR_STRATEGY_HUFFMAN)
 		strategy = 'h';
-	else if (params->strategy == compressor_strategy_rle)
+	else if (params->strategy == COMPRESSOR_STRATEGY_RLE)
 		strategy = 'R';
-	else if (params->strategy == compressor_strategy_fixed)
+	else if (params->strategy == COMPRESSOR_STRATEGY_FIXED)
 		strategy = 'F';
 	else
 		strategy = ' ';
@@ -532,7 +532,7 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 	io->status |= DPKG_STREAM_COMPRESS;
 
 	preset = io->params->level;
-	if (io->params->strategy == compressor_strategy_extreme)
+	if (io->params->strategy == COMPRESSOR_STRATEGY_EXTREME)
 		preset |= LZMA_PRESET_EXTREME;
 	ret = lzma_easy_encoder(s, preset, LZMA_CHECK_CRC32);
 	if (ret != LZMA_OK)
@@ -598,7 +598,7 @@ compress_xz(int fd_in, int fd_out, struct compress_params *params, const char *d
 	char combuf[6];
 	const char *strategy;
 
-	if (params->strategy == compressor_strategy_extreme)
+	if (params->strategy == COMPRESSOR_STRATEGY_EXTREME)
 		strategy = "-e";
 	else
 		strategy = NULL;
@@ -645,7 +645,7 @@ filter_lzma_init(struct io_lzma *io, lzma_stream *s)
 	io->status |= DPKG_STREAM_COMPRESS;
 
 	preset = io->params->level;
-	if (io->params->strategy == compressor_strategy_extreme)
+	if (io->params->strategy == COMPRESSOR_STRATEGY_EXTREME)
 		preset |= LZMA_PRESET_EXTREME;
 	if (lzma_lzma_preset(&options, preset))
 		filter_lzma_error(io, LZMA_OPTIONS_ERROR);
@@ -712,11 +712,11 @@ static const struct compressor compressor_lzma = {
  */
 
 static const struct compressor *compressor_array[] = {
-	[compressor_type_none] = &compressor_none,
-	[compressor_type_gzip] = &compressor_gzip,
-	[compressor_type_xz] = &compressor_xz,
-	[compressor_type_bzip2] = &compressor_bzip2,
-	[compressor_type_lzma] = &compressor_lzma,
+	[COMPRESSOR_TYPE_NONE] = &compressor_none,
+	[COMPRESSOR_TYPE_GZIP] = &compressor_gzip,
+	[COMPRESSOR_TYPE_XZ] = &compressor_xz,
+	[COMPRESSOR_TYPE_BZIP2] = &compressor_bzip2,
+	[COMPRESSOR_TYPE_LZMA] = &compressor_lzma,
 };
 
 static const struct compressor *
@@ -751,7 +751,7 @@ compressor_find_by_name(const char *name)
 		if (strcmp(compressor_array[i]->name, name) == 0)
 			return i;
 
-	return compressor_type_unknown;
+	return COMPRESSOR_TYPE_UNKNOWN;
 }
 
 enum compressor_type
@@ -763,26 +763,26 @@ compressor_find_by_extension(const char *extension)
 		if (strcmp(compressor_array[i]->extension, extension) == 0)
 			return i;
 
-	return compressor_type_unknown;
+	return COMPRESSOR_TYPE_UNKNOWN;
 }
 
 enum compressor_strategy
 compressor_get_strategy(const char *name)
 {
 	if (strcmp(name, "none") == 0)
-		return compressor_strategy_none;
+		return COMPRESSOR_STRATEGY_NONE;
 	if (strcmp(name, "filtered") == 0)
-		return compressor_strategy_filtered;
+		return COMPRESSOR_STRATEGY_FILTERED;
 	if (strcmp(name, "huffman") == 0)
-		return compressor_strategy_huffman;
+		return COMPRESSOR_STRATEGY_HUFFMAN;
 	if (strcmp(name, "rle") == 0)
-		return compressor_strategy_rle;
+		return COMPRESSOR_STRATEGY_RLE;
 	if (strcmp(name, "fixed") == 0)
-		return compressor_strategy_fixed;
+		return COMPRESSOR_STRATEGY_FIXED;
 	if (strcmp(name, "extreme") == 0)
-		return compressor_strategy_extreme;
+		return COMPRESSOR_STRATEGY_EXTREME;
 
-	return compressor_strategy_unknown;
+	return COMPRESSOR_STRATEGY_UNKNOWN;
 }
 
 static void
@@ -799,18 +799,18 @@ compressor_check_params(struct compress_params *params, struct dpkg_error *err)
 {
 	compressor_fixup_params(params);
 
-	if (params->strategy == compressor_strategy_none)
+	if (params->strategy == COMPRESSOR_STRATEGY_NONE)
 		return true;
 
-	if (params->type == compressor_type_gzip &&
-	    (params->strategy == compressor_strategy_filtered ||
-	     params->strategy == compressor_strategy_huffman ||
-	     params->strategy == compressor_strategy_rle ||
-	     params->strategy == compressor_strategy_fixed))
+	if (params->type == COMPRESSOR_TYPE_GZIP &&
+	    (params->strategy == COMPRESSOR_STRATEGY_FILTERED ||
+	     params->strategy == COMPRESSOR_STRATEGY_HUFFMAN ||
+	     params->strategy == COMPRESSOR_STRATEGY_RLE ||
+	     params->strategy == COMPRESSOR_STRATEGY_FIXED))
 		return true;
 
-	if (params->type == compressor_type_xz &&
-	    params->strategy == compressor_strategy_extreme)
+	if (params->type == COMPRESSOR_TYPE_XZ &&
+	    params->strategy == COMPRESSOR_STRATEGY_EXTREME)
 		return true;
 
 	dpkg_put_error(err, _("unknown compression strategy"));

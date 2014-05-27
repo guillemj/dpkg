@@ -56,7 +56,7 @@ AC_DEFUN([DPKG_DEB_COMPRESSOR], [
     [gzip|xz|bzip2], [:],
     [AC_MSG_ERROR([unsupported default compressor $with_dpkg_deb_compressor])])
   AC_DEFINE_UNQUOTED([DPKG_DEB_DEFAULT_COMPRESSOR],
-                     [compressor_type_${with_dpkg_deb_compressor}],
+                     [COMPRESSOR_TYPE_]AS_TR_CPP(${with_dpkg_deb_compressor}),
                      [default dpkg-deb build compressor])
   AC_MSG_NOTICE([using default dpkg-deb compressor = $with_dpkg_deb_compressor])
 ]) # DPKG_DEB_COMPRESSOR
