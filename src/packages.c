@@ -494,7 +494,7 @@ breaks_check_one(struct varbuf *aemsgs, enum dep_check *ok,
     if (fc_dependsversion) return;
   }
   if (force_breaks(breaks)) return;
-  *ok = dep_check_halt;
+  *ok = DEP_CHECK_HALT;
 }
 
 static void
@@ -517,7 +517,7 @@ breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs)
 {
   struct dependency *dep;
   struct pkgset *virtbroken;
-  enum dep_check ok = dep_check_ok;
+  enum dep_check ok = DEP_CHECK_OK;
 
   debug(dbg_depcon, "    checking Breaks");
 
@@ -551,7 +551,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
   struct pkginfo *possfixbytrig, *canfixbytrig;
 
   interestingwarnings= 0;
-  ok = dep_check_ok;
+  ok = DEP_CHECK_OK;
   debug(dbg_depcon,"checking dependencies of %s (- %s)",
         pkg_name(pkg, pnaw_always),
         removing ? pkg_name(removing, pnaw_always) : "<none>");
@@ -627,7 +627,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     switch (found) {
     case found_none:
       anycannotfixbytrig = true;
-      ok = dep_check_halt;
+      ok = DEP_CHECK_HALT;
       /* Fall through. */
     case found_forced:
       varbuf_add_str(aemsgs, " ");
@@ -649,8 +649,8 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
         canfixbytrig = possfixbytrig;
       else
         anycannotfixbytrig = true;
-      if (ok > dep_check_defer)
-        ok = dep_check_defer;
+      if (ok > DEP_CHECK_DEFER)
+        ok = DEP_CHECK_DEFER;
       break;
     case found_ok:
       break;
@@ -658,9 +658,9 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
       internerr("unknown value for found '%d'", found);
     }
   }
-  if (ok == dep_check_halt &&
+  if (ok == DEP_CHECK_HALT &&
       (pkg->clientdata && pkg->clientdata->istobe == itb_remove))
-    ok = dep_check_defer;
+    ok = DEP_CHECK_DEFER;
   if (!anycannotfixbytrig && canfixbytrig)
     progress_bytrigproc = canfixbytrig;
 

@@ -3,7 +3,7 @@
  * remove.c - functionality for removing packages
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2007-2013 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,9 +75,9 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
     if (dependtry > 1) { if (findbreakcycle(pkgtoremove)) sincenothing= 0; }
     before= raemsgs->used;
     ok= dependencies_ok(depender,pkgtoremove,raemsgs);
-    if (ok == dep_check_halt && depender->clientdata->istobe == itb_remove)
-      ok = dep_check_defer;
-    if (ok == dep_check_defer)
+    if (ok == DEP_CHECK_HALT && depender->clientdata->istobe == itb_remove)
+      ok = DEP_CHECK_DEFER;
+    if (ok == DEP_CHECK_DEFER)
       /* Don't burble about reasons for deferral. */
       varbuf_trunc(raemsgs, before);
     if (ok < *rokp) *rokp= ok;
@@ -125,7 +125,7 @@ void deferred_remove(struct pkginfo *pkg) {
 
   debug(dbg_general, "checking dependencies for remove '%s'",
         pkg_name(pkg, pnaw_always));
-  rok = dep_check_ok;
+  rok = DEP_CHECK_OK;
   checkforremoval(pkg, pkg->set, &rok, &raemsgs);
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
     if (dep->type != dep_provides) continue;
@@ -133,12 +133,12 @@ void deferred_remove(struct pkginfo *pkg) {
     checkforremoval(pkg, dep->list->ed, &rok, &raemsgs);
   }
 
-  if (rok == dep_check_defer) {
+  if (rok == DEP_CHECK_DEFER) {
     varbuf_destroy(&raemsgs);
     pkg->clientdata->istobe= itb_remove;
     enqueue_package(pkg);
     return;
-  } else if (rok == dep_check_halt) {
+  } else if (rok == DEP_CHECK_HALT) {
     sincenothing= 0;
     varbuf_end_str(&raemsgs);
     notice(_("dependency problems prevent removal of %s:\n%s"),
