@@ -3,7 +3,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@davenant.greenend.org.uk>
  * Copyright © 2000-2002 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2008 Pierre Habouzit <madcoder@debian.org>
  * Copyright © 2009-2010 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -639,9 +639,9 @@ struct commit_operation {
 	struct commit_operation *next;
 
 	enum opcode {
-		opcode_nop,
-		opcode_rm,
-		opcode_mv,
+		OPCODE_NOP,
+		OPCODE_RM,
+		OPCODE_MV,
 	} opcode;
 
 	char *arg_a;
@@ -1694,12 +1694,12 @@ alternative_commit(struct alternative *a)
 
 	for (op = a->commit_ops; op; op = op->next) {
 		switch (op->opcode) {
-		case opcode_nop:
+		case OPCODE_NOP:
 			break;
-		case opcode_rm:
+		case OPCODE_RM:
 			checked_rm(op->arg_a);
 			break;
-		case opcode_mv:
+		case OPCODE_MV:
 			checked_mv(op->arg_a, op->arg_b);
 			break;
 		}
@@ -1782,7 +1782,7 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 	xasprintf(&fn, "%s/%s", altdir, name);
 	checked_rm(fntmp);
 	checked_symlink(file, fntmp);
-	alternative_add_commit_op(a, opcode_mv, fntmp, fn);
+	alternative_add_commit_op(a, OPCODE_MV, fntmp, fn);
 	free(fntmp);
 
 	if (alternative_path_needs_update(linkname, fn)) {
@@ -1790,7 +1790,7 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 		xasprintf(&fntmp, "%s" ALT_TMP_EXT, linkname);
 		checked_rm(fntmp);
 		checked_symlink(fn, fntmp);
-		alternative_add_commit_op(a, opcode_mv, fntmp, linkname);
+		alternative_add_commit_op(a, OPCODE_MV, fntmp, linkname);
 		free(fntmp);
 	}
 	free(fn);
@@ -1830,11 +1830,11 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 		/* Drop unused slave. */
 		xasprintf(&fn, "%s/%s", altdir, sl->name);
 		if (alternative_path_can_remove(sl->link))
-			alternative_add_commit_op(a, opcode_rm, sl->link, NULL);
+			alternative_add_commit_op(a, OPCODE_RM, sl->link, NULL);
 		else
 			warning(_("not removing %s since it's not a symlink"),
 			        sl->link);
-		alternative_add_commit_op(a, opcode_rm, fn, NULL);
+		alternative_add_commit_op(a, OPCODE_RM, fn, NULL);
 		free(fn);
 	}
 }
