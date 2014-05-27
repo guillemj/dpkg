@@ -80,7 +80,7 @@ getselections(const char *const *argv)
       struct pkg_spec pkgspec;
 
       found= 0;
-      pkg_spec_init(&pkgspec, psf_patterns | psf_arch_def_wildcard);
+      pkg_spec_init(&pkgspec, PKG_SPEC_PATTERNS | PKG_SPEC_ARCH_WILDCARD);
       pkg_spec_parse(&pkgspec, thisarg);
 
       for (i = 0; i < array.n_pkgs; i++) {

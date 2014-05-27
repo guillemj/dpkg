@@ -294,7 +294,7 @@ listpackages(const char *const *argv)
 
     ps = m_malloc(sizeof(*ps) * argc);
     for (ip = 0; ip < argc; ip++) {
-      pkg_spec_init(&ps[ip], psf_patterns | psf_arch_def_wildcard);
+      pkg_spec_init(&ps[ip], PKG_SPEC_PATTERNS | PKG_SPEC_ARCH_WILDCARD);
       pkg_spec_parse(&ps[ip], argv[ip]);
     }
 
@@ -579,7 +579,7 @@ showpackages(const char *const *argv)
 
     ps = m_malloc(sizeof(*ps) * argc);
     for (ip = 0; ip < argc; ip++) {
-      pkg_spec_init(&ps[ip], psf_patterns | psf_arch_def_wildcard);
+      pkg_spec_init(&ps[ip], PKG_SPEC_PATTERNS | PKG_SPEC_ARCH_WILDCARD);
       pkg_spec_parse(&ps[ip], argv[ip]);
     }
 

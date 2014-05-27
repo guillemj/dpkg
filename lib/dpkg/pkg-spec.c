@@ -86,7 +86,7 @@ pkg_spec_is_illegal(struct pkg_spec *ps)
 
 	/* If we have been requested a single instance, check that the
 	 * package does not contain other instances. */
-	if (!ps->arch_is_pattern && ps->flags & psf_arch_def_single) {
+	if (!ps->arch_is_pattern && ps->flags & PKG_SPEC_ARCH_SINGLE) {
 		struct pkgset *set;
 
 		set = pkg_db_find_set(ps->name);
@@ -114,10 +114,10 @@ pkg_spec_prep(struct pkg_spec *ps, char *pkgname, const char *archname)
 	ps->arch_is_pattern = false;
 
 	/* Detect if we have patterns and/or illegal names. */
-	if ((ps->flags & psf_patterns) && strpbrk(ps->name, "*[?\\"))
+	if ((ps->flags & PKG_SPEC_PATTERNS) && strpbrk(ps->name, "*[?\\"))
 		ps->name_is_pattern = true;
 
-	if ((ps->flags & psf_patterns) && strpbrk(ps->arch->name, "*[?\\"))
+	if ((ps->flags & PKG_SPEC_PATTERNS) && strpbrk(ps->arch->name, "*[?\\"))
 		ps->arch_is_pattern = true;
 
 	return pkg_spec_is_illegal(ps);
@@ -164,14 +164,14 @@ pkg_spec_match_arch(struct pkg_spec *ps, struct pkginfo *pkg,
 		return (ps->arch == arch);
 
 	/* No arch specified. */
-	switch (ps->flags & psf_arch_def_mask) {
-	case psf_arch_def_single:
+	switch (ps->flags & PKG_SPEC_ARCH_MASK) {
+	case PKG_SPEC_ARCH_SINGLE:
 		return pkgset_installed_instances(pkg->set) <= 1;
-	case psf_arch_def_wildcard:
+	case PKG_SPEC_ARCH_WILDCARD:
 		return true;
 	default:
-		internerr("unknown psf_arch_def_* flags %d in pkg_spec",
-		          ps->flags & psf_arch_def_mask);
+		internerr("unknown PKG_SPEC_ARCH_* flags %d in pkg_spec",
+		          ps->flags & PKG_SPEC_ARCH_MASK);
 	}
 }
 
@@ -199,7 +199,7 @@ pkg_spec_parse_pkg(const char *str, struct dpkg_error *err)
 	struct pkginfo *pkg;
 	const char *emsg;
 
-	pkg_spec_init(&ps, psf_arch_def_single);
+	pkg_spec_init(&ps, PKG_SPEC_ARCH_SINGLE);
 	emsg = pkg_spec_parse(&ps, str);
 	if (emsg) {
 		dpkg_put_error(err, "%s", emsg);
@@ -220,7 +220,7 @@ pkg_spec_find_pkg(const char *pkgname, const char *archname,
 	struct pkginfo *pkg;
 	const char *emsg;
 
-	pkg_spec_init(&ps, psf_arch_def_single);
+	pkg_spec_init(&ps, PKG_SPEC_ARCH_SINGLE);
 	emsg = pkg_spec_set(&ps, pkgname, archname);
 	if (emsg) {
 		dpkg_put_error(err, "%s", emsg);

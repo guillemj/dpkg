@@ -40,12 +40,12 @@ DPKG_BEGIN_DECLS
 
 enum pkg_spec_flags {
 	/** Recognize glob patterns. */
-	psf_patterns		= DPKG_BIT(0),
+	PKG_SPEC_PATTERNS	= DPKG_BIT(0),
 
 	/* How to consider the lack of an arch qualifier. */
-	psf_arch_def_single	= DPKG_BIT(8),
-	psf_arch_def_wildcard	= DPKG_BIT(9),
-	psf_arch_def_mask	= 0xff00,
+	PKG_SPEC_ARCH_SINGLE	= DPKG_BIT(8),
+	PKG_SPEC_ARCH_WILDCARD	= DPKG_BIT(9),
+	PKG_SPEC_ARCH_MASK	= 0xff00,
 };
 
 struct pkg_spec {
