@@ -4,6 +4,7 @@
  *
  * Copyright © 2007 Canonical, Ltd.
  *   written by Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,8 +46,8 @@ DPKG_BEGIN_DECLS
 const char *trig_name_is_illegal(const char *p);
 
 enum trig_options {
-	trig_await,
-	trig_noawait
+	TRIG_AWAIT,
+	TRIG_NOAWAIT,
 };
 
 struct trigfileint {

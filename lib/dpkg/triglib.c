@@ -344,7 +344,7 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg,
 	if (signum > 0) {
 		fprintf(file->fp, "%s%s\n",
 		        pkgbin_name(pkg, pkgbin, pnaw_nonambig),
-		        (opts == trig_noawait) ? "/noawait" : "");
+		        (opts == TRIG_NOAWAIT) ? "/noawait" : "");
 		empty = false;
 	}
 
@@ -459,7 +459,7 @@ trig_file_interests_update(void)
 	for (tfi = filetriggers.head; tfi; tfi = tfi->inoverall.next)
 		fprintf(file->fp, "%s %s%s\n", trigh.namenode_name(tfi->fnn),
 		        pkgbin_name(tfi->pkg, tfi->pkgbin, pnaw_nonambig),
-		        (tfi->options == trig_noawait) ? "/noawait" : "");
+		        (tfi->options == TRIG_NOAWAIT) ? "/noawait" : "");
 
 	atomic_file_sync(file);
 	atomic_file_close(file);
@@ -506,7 +506,7 @@ trig_file_interests_ensure(void)
 	while (fgets_checked(linebuf, sizeof(linebuf), f, triggersfilefile) >= 0) {
 		struct dpkg_error err;
 		char *slash;
-		enum trig_options trig_opts = trig_await;
+		enum trig_options trig_opts = TRIG_AWAIT;
 		space = strchr(linebuf, ' ');
 		if (!space || linebuf[0] != '/')
 			ohshit(_("syntax error in file triggers file `%.250s'"),
@@ -515,7 +515,7 @@ trig_file_interests_ensure(void)
 
 		slash = strchr(space, '/');
 		if (slash && strcmp("/noawait", slash) == 0) {
-			trig_opts = trig_noawait;
+			trig_opts = TRIG_NOAWAIT;
 			*slash = '\0';
 		}
 
@@ -549,7 +549,7 @@ trig_file_activate(struct filenamenode *trig, struct pkginfo *aw)
 
 	for (tfi = *trigh.namenode_interested(trig); tfi;
 	     tfi = tfi->samefile_next)
-		trig_record_activation(tfi->pkg, (tfi->options == trig_noawait) ?
+		trig_record_activation(tfi->pkg, (tfi->options == TRIG_NOAWAIT) ?
 		                       NULL : aw, trigh.namenode_name(trig));
 }
 
@@ -647,7 +647,7 @@ trig_cicb_statuschange_activate(const char *trig, struct pkginfo *pkg,
 	struct pkginfo *aw = pkg;
 
 	trig_activate_start(trig);
-	dtki->activate_awaiter((opts == trig_noawait) ? NULL : aw);
+	dtki->activate_awaiter((opts == TRIG_NOAWAIT) ? NULL : aw);
 	dtki->activate_done();
 }
 
@@ -700,13 +700,13 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 		while (cisspace(*spc))
 			spc++;
 		if (strcmp(cmd, "interest") == 0) {
-			parse_ci_call(file, cmd, interest, spc, pkg, pkgbin, trig_await);
+			parse_ci_call(file, cmd, interest, spc, pkg, pkgbin, TRIG_AWAIT);
 		} else if (strcmp(cmd, "interest-noawait") == 0) {
-			parse_ci_call(file, cmd, interest, spc, pkg, pkgbin, trig_noawait);
+			parse_ci_call(file, cmd, interest, spc, pkg, pkgbin, TRIG_NOAWAIT);
 		} else if (strcmp(cmd, "activate") == 0) {
-			parse_ci_call(file, cmd, activate, spc, pkg, pkgbin, trig_await);
+			parse_ci_call(file, cmd, activate, spc, pkg, pkgbin, TRIG_AWAIT);
 		} else if (strcmp(cmd, "activate-noawait") == 0) {
-			parse_ci_call(file, cmd, activate, spc, pkg, pkgbin, trig_noawait);
+			parse_ci_call(file, cmd, activate, spc, pkg, pkgbin, TRIG_NOAWAIT);
 		} else {
 			ohshit(_("triggers ci file contains unknown directive `%.250s'"),
 			       cmd);
