@@ -150,10 +150,10 @@ enum {
 };
 
 enum action_code {
-	action_none,
-	action_start,
-	action_stop,
-	action_status,
+	ACTION_NONE,
+	ACTION_START,
+	ACTION_STOP,
+	ACTION_STATUS,
 };
 
 static enum action_code action;
@@ -257,7 +257,7 @@ fatal(const char *format, ...)
 	else
 		fprintf(stderr, "\n");
 
-	if (action == action_status)
+	if (action == ACTION_STATUS)
 		exit(status_unknown);
 	else
 		exit(2);
@@ -511,7 +511,7 @@ badusage(const char *msg)
 		fprintf(stderr, "%s: %s\n", progname, msg);
 	fprintf(stderr, "Try '%s --help' for more information.\n", progname);
 
-	if (action == action_status)
+	if (action == ACTION_STATUS)
 		exit(status_unknown);
 	else
 		exit(3);
@@ -801,7 +801,7 @@ set_action(enum action_code new_action)
 	if (action == new_action)
 		return;
 
-	if (action != action_none)
+	if (action != ACTION_NONE)
 		badusage("only one command can be specified");
 
 	action = new_action;
@@ -865,13 +865,13 @@ parse_options(int argc, char * const *argv)
 			usage();
 			exit(0);
 		case 'K':  /* --stop */
-			set_action(action_stop);
+			set_action(ACTION_STOP);
 			break;
 		case 'S':  /* --start */
-			set_action(action_start);
+			set_action(ACTION_START);
 			break;
 		case 'T':  /* --status */
-			set_action(action_status);
+			set_action(ACTION_STATUS);
 			break;
 		case 'V':  /* --version */
 			do_version();
@@ -989,7 +989,7 @@ parse_options(int argc, char * const *argv)
 			badusage("umask value must be a positive number");
 	}
 
-	if (action == action_none)
+	if (action == ACTION_NONE)
 		badusage("need one of --start or --stop or --status");
 
 	if (!execname && !pid_str && !ppid_str && !pidfile && !userspec &&
@@ -1006,7 +1006,7 @@ parse_options(int argc, char * const *argv)
 	if (!startas)
 		startas = execname;
 
-	if (action == action_start && !startas)
+	if (action == ACTION_START && !startas)
 		badusage("--start needs --exec or --startas");
 
 	if (mpidfile && pidfile == NULL)
@@ -1015,7 +1015,7 @@ parse_options(int argc, char * const *argv)
 	if (pid_str && pidfile)
 		badusage("need either --pid of --pidfile, not both");
 
-	if (background && action != action_start)
+	if (background && action != ACTION_START)
 		badusage("--background is only relevant with --start");
 
 	if (!close_io && !background)
@@ -1545,7 +1545,7 @@ pid_check(pid_t pid)
 		return status_dead;
 	if (cmdname && !pid_is_cmd(pid, cmdname))
 		return status_dead;
-	if (action != action_stop && !pid_is_running(pid))
+	if (action != ACTION_STOP && !pid_is_running(pid))
 		return status_dead;
 
 	pid_list_push(&found, pid);
@@ -2041,15 +2041,15 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
-	if (action == action_start)
+	if (action == ACTION_START)
 		do_start(argc, argv);
 
-	if (action == action_stop) {
+	if (action == ACTION_STOP) {
 		int i = run_stop_schedule();
 		exit(i);
 	}
 
-	if (action == action_status) {
+	if (action == ACTION_STATUS) {
 		enum status_code prog_status;
 
 		prog_status = do_findprocs();
