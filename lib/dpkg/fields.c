@@ -479,9 +479,9 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
         c1= *p;
         if (c1 == '<' || c1 == '>') {
           c2= *++p;
-          dop->verrel = (c1 == '<') ? dpkg_relation_lt : dpkg_relation_gt;
+          dop->verrel = (c1 == '<') ? DPKG_RELATION_LT : DPKG_RELATION_GT;
           if (c2 == '=') {
-            dop->verrel |= dpkg_relation_eq;
+            dop->verrel |= DPKG_RELATION_EQ;
             p++;
           } else if (c2 == c1) {
             /* Either ‘<<’ or ‘>>’. */
@@ -491,16 +491,16 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
                         _("`%s' field, reference to `%.255s':\n"
                           " bad version relationship %c%c"),
                         fip->name, depname.buf, c1, c2);
-            dop->verrel = dpkg_relation_none;
+            dop->verrel = DPKG_RELATION_NONE;
           } else {
             parse_warn(ps,
                        _("`%s' field, reference to `%.255s':\n"
                          " `%c' is obsolete, use `%c=' or `%c%c' instead"),
                        fip->name, depname.buf, c1, c1, c1, c1);
-            dop->verrel |= dpkg_relation_eq;
+            dop->verrel |= DPKG_RELATION_EQ;
           }
         } else if (c1 == '=') {
-          dop->verrel = dpkg_relation_eq;
+          dop->verrel = DPKG_RELATION_EQ;
           p++;
         } else {
           parse_warn(ps,
@@ -508,9 +508,9 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
                        " implicit exact match on version number, "
                        "suggest using `=' instead"),
                      fip->name, depname.buf);
-          dop->verrel = dpkg_relation_eq;
+          dop->verrel = DPKG_RELATION_EQ;
         }
-        if ((dop->verrel != dpkg_relation_eq) && (fip->integer == dep_provides))
+        if ((dop->verrel != DPKG_RELATION_EQ) && (fip->integer == dep_provides))
           parse_warn(ps,
                      _("only exact versions may be used for '%s' field"),
                      "Provides");
@@ -552,7 +552,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
                            "error in version"), fip->name, depname.buf);
         p++; while (isspace(*p)) p++;
       } else {
-        dop->verrel = dpkg_relation_none;
+        dop->verrel = DPKG_RELATION_NONE;
         dpkg_version_blank(&dop->version);
       }
       if (!*p || *p == ',') break;

@@ -372,7 +372,7 @@ assert_version_support(const char *const *argv,
     return 0;
   case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
   case stat_triggersawaited:
-    if (dpkg_version_relate(&pkg->configversion, dpkg_relation_ge, version))
+    if (dpkg_version_relate(&pkg->configversion, DPKG_RELATION_GE, version))
       return 0;
     printf(_("Version of dpkg with working %s support not yet configured.\n"
              " Please use 'dpkg --configure dpkg', and then try again.\n"),
@@ -501,7 +501,7 @@ predeppackage(const char *const *argv)
           pkg = trypkg;
           break;
         }
-        if (possi->verrel != dpkg_relation_none)
+        if (possi->verrel != DPKG_RELATION_NONE)
           continue;
         for (provider = possi->ed->depended.available;
              !pkg && provider;

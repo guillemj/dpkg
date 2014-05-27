@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * t-version.c - test version handling
  *
- * Copyright © 2009-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -118,31 +118,31 @@ test_version_relate(void)
 
 	dpkg_version_blank(&a);
 	dpkg_version_blank(&b);
-	test_pass(dpkg_version_relate(&a, dpkg_relation_none, &b));
+	test_pass(dpkg_version_relate(&a, DPKG_RELATION_NONE, &b));
 
 	a = DPKG_VERSION_OBJECT(0, "1", "1");
 	b = DPKG_VERSION_OBJECT(0, "1", "1");
-	test_pass(dpkg_version_relate(&a, dpkg_relation_eq, &b));
-	test_fail(dpkg_version_relate(&a, dpkg_relation_lt, &b));
-	test_pass(dpkg_version_relate(&a, dpkg_relation_le, &b));
-	test_fail(dpkg_version_relate(&a, dpkg_relation_gt, &b));
-	test_pass(dpkg_version_relate(&a, dpkg_relation_ge, &b));
+	test_pass(dpkg_version_relate(&a, DPKG_RELATION_EQ, &b));
+	test_fail(dpkg_version_relate(&a, DPKG_RELATION_LT, &b));
+	test_pass(dpkg_version_relate(&a, DPKG_RELATION_LE, &b));
+	test_fail(dpkg_version_relate(&a, DPKG_RELATION_GT, &b));
+	test_pass(dpkg_version_relate(&a, DPKG_RELATION_GE, &b));
 
 	a = DPKG_VERSION_OBJECT(0, "1", "1");
 	b = DPKG_VERSION_OBJECT(0, "2", "1");
-	test_fail(dpkg_version_relate(&a, dpkg_relation_eq, &b));
-	test_pass(dpkg_version_relate(&a, dpkg_relation_lt, &b));
-	test_pass(dpkg_version_relate(&a, dpkg_relation_le, &b));
-	test_fail(dpkg_version_relate(&a, dpkg_relation_gt, &b));
-	test_fail(dpkg_version_relate(&a, dpkg_relation_ge, &b));
+	test_fail(dpkg_version_relate(&a, DPKG_RELATION_EQ, &b));
+	test_pass(dpkg_version_relate(&a, DPKG_RELATION_LT, &b));
+	test_pass(dpkg_version_relate(&a, DPKG_RELATION_LE, &b));
+	test_fail(dpkg_version_relate(&a, DPKG_RELATION_GT, &b));
+	test_fail(dpkg_version_relate(&a, DPKG_RELATION_GE, &b));
 
 	a = DPKG_VERSION_OBJECT(0, "2", "1");
 	b = DPKG_VERSION_OBJECT(0, "1", "1");
-	test_fail(dpkg_version_relate(&a, dpkg_relation_eq, &b));
-	test_fail(dpkg_version_relate(&a, dpkg_relation_lt, &b));
-	test_fail(dpkg_version_relate(&a, dpkg_relation_le, &b));
-	test_pass(dpkg_version_relate(&a, dpkg_relation_gt, &b));
-	test_pass(dpkg_version_relate(&a, dpkg_relation_ge, &b));
+	test_fail(dpkg_version_relate(&a, DPKG_RELATION_EQ, &b));
+	test_fail(dpkg_version_relate(&a, DPKG_RELATION_LT, &b));
+	test_fail(dpkg_version_relate(&a, DPKG_RELATION_LE, &b));
+	test_pass(dpkg_version_relate(&a, DPKG_RELATION_GT, &b));
+	test_pass(dpkg_version_relate(&a, DPKG_RELATION_GE, &b));
 }
 
 static void

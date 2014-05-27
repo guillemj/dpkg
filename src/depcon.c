@@ -3,7 +3,7 @@
  * depcon.c - dependency and conflict checking
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -455,7 +455,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       deppossi_pkg_iter_free(possi_iter);
 
       /* If there was no version specified we try looking for Providers. */
-      if (possi->verrel == dpkg_relation_none) {
+      if (possi->verrel == DPKG_RELATION_NONE) {
         /* See if the package we're about to install Provides it. */
         for (provider = possi->ed->depended.available;
              provider;
@@ -594,7 +594,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
     }
 
     /* If there was no version specified we try looking for Providers. */
-    if (possi->verrel == dpkg_relation_none) {
+    if (possi->verrel == DPKG_RELATION_NONE) {
       /* See if the package we're about to install Provides it. */
       for (provider = possi->ed->depended.available;
            provider;

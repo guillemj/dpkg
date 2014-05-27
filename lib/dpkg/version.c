@@ -3,6 +3,7 @@
  * version.c - version handling functions
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -161,7 +162,7 @@ dpkg_version_compare(const struct dpkg_version *a,
  * @param b The second version.
  *
  * @retval true If the expression “a rel b” is true.
- * @retval true If rel is #dpkg_relation_none.
+ * @retval true If rel is #DPKG_RELATION_NONE.
  * @retval false Otherwise.
  *
  * @warning If rel is not a valid relation, this function will terminate
@@ -174,21 +175,21 @@ dpkg_version_relate(const struct dpkg_version *a,
 {
 	int rc;
 
-	if (rel == dpkg_relation_none)
+	if (rel == DPKG_RELATION_NONE)
 		return true;
 
 	rc = dpkg_version_compare(a, b);
 
 	switch (rel) {
-	case dpkg_relation_eq:
+	case DPKG_RELATION_EQ:
 		return rc == 0;
-	case dpkg_relation_lt:
+	case DPKG_RELATION_LT:
 		return rc < 0;
-	case dpkg_relation_le:
+	case DPKG_RELATION_LE:
 		return rc <= 0;
-	case dpkg_relation_gt:
+	case DPKG_RELATION_GT:
 		return rc > 0;
-	case dpkg_relation_ge:
+	case DPKG_RELATION_GE:
 		return rc >= 0;
 	default:
 		internerr("unknown dpkg_relation %d", rel);

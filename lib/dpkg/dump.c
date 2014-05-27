@@ -302,22 +302,22 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
     varbuf_add_str(vb, dop->ed->name);
     if (!dop->arch_is_implicit)
       varbuf_add_archqual(vb, dop->arch);
-    if (dop->verrel != dpkg_relation_none) {
+    if (dop->verrel != DPKG_RELATION_NONE) {
       varbuf_add_str(vb, " (");
       switch (dop->verrel) {
-      case dpkg_relation_eq:
+      case DPKG_RELATION_EQ:
         varbuf_add_char(vb, '=');
         break;
-      case dpkg_relation_ge:
+      case DPKG_RELATION_GE:
         varbuf_add_str(vb, ">=");
         break;
-      case dpkg_relation_le:
+      case DPKG_RELATION_LE:
         varbuf_add_str(vb, "<=");
         break;
-      case dpkg_relation_gt:
+      case DPKG_RELATION_GT:
         varbuf_add_str(vb, ">>");
         break;
-      case dpkg_relation_lt:
+      case DPKG_RELATION_LT:
         varbuf_add_str(vb, "<<");
         break;
       default:

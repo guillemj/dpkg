@@ -414,7 +414,7 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
       return false;
     }
   }
-  if (possi->verrel != dpkg_relation_none)
+  if (possi->verrel != DPKG_RELATION_NONE)
     return false;
   deppossi *provider;
 

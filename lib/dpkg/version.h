@@ -3,7 +3,7 @@
  * version.h - version handling routines
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,17 +60,17 @@ struct dpkg_version {
  */
 enum dpkg_relation {
 	/** The “none” relation, sentinel value. */
-	dpkg_relation_none	= 0,
+	DPKG_RELATION_NONE	= 0,
 	/** Equality relation (‘=’). */
-	dpkg_relation_eq	= DPKG_BIT(0),
+	DPKG_RELATION_EQ	= DPKG_BIT(0),
 	/** Less than relation (‘<<’). */
-	dpkg_relation_lt	= DPKG_BIT(1),
+	DPKG_RELATION_LT	= DPKG_BIT(1),
 	/** Less than or equal to relation (‘<=’). */
-	dpkg_relation_le	= dpkg_relation_lt | dpkg_relation_eq,
+	DPKG_RELATION_LE	= DPKG_RELATION_LT | DPKG_RELATION_EQ,
 	/** Greater than relation (‘>>’). */
-	dpkg_relation_gt	= DPKG_BIT(2),
+	DPKG_RELATION_GT	= DPKG_BIT(2),
 	/** Greater than or equal to relation (‘>=’). */
-	dpkg_relation_ge	= dpkg_relation_gt | dpkg_relation_eq,
+	DPKG_RELATION_GE	= DPKG_RELATION_GT | DPKG_RELATION_EQ,
 };
 
 void dpkg_version_blank(struct dpkg_version *version);
