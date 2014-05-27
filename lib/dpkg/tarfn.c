@@ -3,7 +3,7 @@
  * tarfn.c - tar archive extraction functions
  *
  * Copyright © 1995 Bruce Perens
- * Copyright © 2007-2011,2013 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2011,2013-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -99,26 +99,26 @@ get_unix_mode(struct tar_header *h)
 	type = (enum tar_filetype)h->linkflag;
 
 	switch (type) {
-	case tar_filetype_file0:
-	case tar_filetype_file:
+	case TAR_FILETYPE_FILE0:
+	case TAR_FILETYPE_FILE:
 		mode = S_IFREG;
 		break;
-	case tar_filetype_symlink:
+	case TAR_FILETYPE_SYMLINK:
 		mode = S_IFLNK;
 		break;
-	case tar_filetype_dir:
+	case TAR_FILETYPE_DIR:
 		mode = S_IFDIR;
 		break;
-	case tar_filetype_chardev:
+	case TAR_FILETYPE_CHARDEV:
 		mode = S_IFCHR;
 		break;
-	case tar_filetype_blockdev:
+	case TAR_FILETYPE_BLOCKDEV:
 		mode = S_IFBLK;
 		break;
-	case tar_filetype_fifo:
+	case TAR_FILETYPE_FIFO:
 		mode = S_IFIFO;
 		break;
-	case tar_filetype_hardlink:
+	case TAR_FILETYPE_HARDLINK:
 	default:
 		mode = 0;
 		break;
@@ -160,18 +160,18 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 	long checksum;
 
 	if (memcmp(h->magic, TAR_MAGIC_GNU, 6) == 0)
-		d->format = tar_format_gnu;
+		d->format = TAR_FORMAT_GNU;
 	else if (memcmp(h->magic, TAR_MAGIC_USTAR, 6) == 0)
-		d->format = tar_format_ustar;
+		d->format = TAR_FORMAT_USTAR;
 	else
-		d->format = tar_format_old;
+		d->format = TAR_FORMAT_OLD;
 
 	d->type = (enum tar_filetype)h->linkflag;
-	if (d->type == tar_filetype_file0)
-		d->type = tar_filetype_file;
+	if (d->type == TAR_FILETYPE_FILE0)
+		d->type = TAR_FILETYPE_FILE;
 
 	/* Concatenate prefix and name to support ustar style long names. */
-	if (d->format == tar_format_ustar && h->prefix[0] != '\0')
+	if (d->format == TAR_FORMAT_USTAR && h->prefix[0] != '\0')
 		d->name = get_prefix_name(h);
 	else
 		d->name = m_strndup(h->name, sizeof(h->name));
@@ -294,8 +294,8 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 			tar_entry_destroy(&h);
 			break;
 		}
-		if (h.type != tar_filetype_gnu_longlink &&
-		    h.type != tar_filetype_gnu_longname) {
+		if (h.type != TAR_FILETYPE_GNU_LONGLINK &&
+		    h.type != TAR_FILETYPE_GNU_LONGNAME) {
 			if (next_long_name)
 				h.name = next_long_name;
 
@@ -317,23 +317,23 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 		name_len = strlen(h.name);
 
 		switch (h.type) {
-		case tar_filetype_file:
+		case TAR_FILETYPE_FILE:
 			/* Compatibility with pre-ANSI ustar. */
 			if (h.name[name_len - 1] != '/') {
 				status = ops->extract_file(ctx, &h);
 				break;
 			}
 			/* Else, fall through. */
-		case tar_filetype_dir:
+		case TAR_FILETYPE_DIR:
 			if (h.name[name_len - 1] == '/') {
 				h.name[name_len - 1] = '\0';
 			}
 			status = ops->mkdir(ctx, &h);
 			break;
-		case tar_filetype_hardlink:
+		case TAR_FILETYPE_HARDLINK:
 			status = ops->link(ctx, &h);
 			break;
-		case tar_filetype_symlink:
+		case TAR_FILETYPE_SYMLINK:
 			symlink_node = m_malloc(sizeof(*symlink_node));
 			memcpy(&symlink_node->h, &h, sizeof(struct tar_entry));
 			symlink_node->h.name = m_strdup(h.name);
@@ -347,15 +347,15 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 			symlink_tail = symlink_node;
 			status = 0;
 			break;
-		case tar_filetype_chardev:
-		case tar_filetype_blockdev:
-		case tar_filetype_fifo:
+		case TAR_FILETYPE_CHARDEV:
+		case TAR_FILETYPE_BLOCKDEV:
+		case TAR_FILETYPE_FIFO:
 			status = ops->mknod(ctx, &h);
 			break;
-		case tar_filetype_gnu_longlink:
+		case TAR_FILETYPE_GNU_LONGLINK:
 			status = tar_gnu_long(ctx, ops, &h, &next_long_link);
 			break;
-		case tar_filetype_gnu_longname:
+		case TAR_FILETYPE_GNU_LONGNAME:
 			status = tar_gnu_long(ctx, ops, &h, &next_long_name);
 			break;
 		default:

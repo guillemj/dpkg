@@ -3,7 +3,7 @@
  * filters.c - filtering routines for excluding bits of packages
  *
  * Copyright © 2007, 2008 Tollef Fog Heen <tfheen@err.no>
- * Copyright © 2008, 2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008, 2010, 2012-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2010 Canonical Ltd.
  *   written by Martin Pitt <martin.pitt@canonical.com>
  *
@@ -93,8 +93,8 @@ filter_should_skip(struct tar_entry *ti)
 	 * directories than necessary, but better err on the side of caution
 	 * than failing with “no such file or directory” (which would leave
 	 * the package in a very bad state). */
-	if (skip && (ti->type == tar_filetype_dir ||
-	             ti->type == tar_filetype_symlink)) {
+	if (skip && (ti->type == TAR_FILETYPE_DIR ||
+	             ti->type == TAR_FILETYPE_SYMLINK)) {
 		debug(dbg_eachfile,
 		      "filter seeing if '%s' needs to be reincluded",
 		      &ti->name[1]);

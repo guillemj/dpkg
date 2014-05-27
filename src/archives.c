@@ -264,7 +264,7 @@ tarobject_skip_entry(struct tarcontext *tc, struct tar_entry *ti)
 {
   /* We need to advance the tar file to the next object, so read the
    * file data and set it to oblivion. */
-  if (ti->type == tar_filetype_file) {
+  if (ti->type == TAR_FILETYPE_FILE) {
     struct dpkg_error err;
     char fnamebuf[256];
 
@@ -326,7 +326,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
   char *newhash;
 
   switch (te->type) {
-  case tar_filetype_file:
+  case TAR_FILETYPE_FILE:
     /* We create the file with mode 0 to make sure nobody can do anything with
      * it until we apply the proper mode, which might be a statoverride. */
     fd = open(path, O_CREAT | O_EXCL | O_WRONLY, 0);
@@ -367,22 +367,22 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     if (close(fd))
       ohshite(_("error closing/writing `%.255s'"), te->name);
     break;
-  case tar_filetype_fifo:
+  case TAR_FILETYPE_FIFO:
     if (mkfifo(path, 0))
       ohshite(_("error creating pipe `%.255s'"), te->name);
     debug(dbg_eachfiledetail, "tarobject fifo");
     break;
-  case tar_filetype_chardev:
+  case TAR_FILETYPE_CHARDEV:
     if (mknod(path, S_IFCHR, te->dev))
       ohshite(_("error creating device `%.255s'"), te->name);
     debug(dbg_eachfiledetail, "tarobject chardev");
     break;
-  case tar_filetype_blockdev:
+  case TAR_FILETYPE_BLOCKDEV:
     if (mknod(path, S_IFBLK, te->dev))
       ohshite(_("error creating device `%.255s'"), te->name);
     debug(dbg_eachfiledetail, "tarobject blockdev");
     break;
-  case tar_filetype_hardlink:
+  case TAR_FILETYPE_HARDLINK:
     varbuf_reset(&hardlinkfn);
     varbuf_add_str(&hardlinkfn, instdir);
     varbuf_add_char(&hardlinkfn, '/');
@@ -397,13 +397,13 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     namenode->newhash = linknode->newhash;
     debug(dbg_eachfiledetail, "tarobject hardlink hash=%s", namenode->newhash);
     break;
-  case tar_filetype_symlink:
+  case TAR_FILETYPE_SYMLINK:
     /* We've already checked for an existing directory. */
     if (symlink(te->linkname, path))
       ohshite(_("error creating symbolic link `%.255s'"), te->name);
     debug(dbg_eachfiledetail, "tarobject symlink creating");
     break;
-  case tar_filetype_dir:
+  case TAR_FILETYPE_DIR:
     /* We've already checked for an existing directory. */
     if (mkdir(path, 0))
       ohshite(_("error creating directory `%.255s'"), te->name);
@@ -418,7 +418,7 @@ static void
 tarobject_hash(struct tarcontext *tc, struct tar_entry *te,
                struct filenamenode *namenode)
 {
-  if (te->type == tar_filetype_file) {
+  if (te->type == TAR_FILETYPE_FILE) {
     struct dpkg_error err;
     char fnamebuf[256];
     char *newhash;
@@ -431,7 +431,7 @@ tarobject_hash(struct tarcontext *tc, struct tar_entry *te,
 
     namenode->newhash = newhash;
     debug(dbg_eachfiledetail, "tarobject file hash=%s", namenode->newhash);
-  } else if (te->type == tar_filetype_hardlink) {
+  } else if (te->type == TAR_FILETYPE_HARDLINK) {
     struct filenamenode *linknode;
 
     linknode = findnamenode(te->linkname, 0);
@@ -450,7 +450,7 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
   tv[1].tv_sec = te->mtime;
   tv[1].tv_usec = 0;
 
-  if (te->type == tar_filetype_symlink) {
+  if (te->type == TAR_FILETYPE_SYMLINK) {
 #ifdef HAVE_LUTIMES
     if (lutimes(path, tv) && errno != ENOSYS)
       ohshite(_("error setting timestamps of `%.255s'"), path);
@@ -464,10 +464,10 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
 static void
 tarobject_set_perms(struct tar_entry *te, const char *path, struct file_stat *st)
 {
-  if (te->type == tar_filetype_file)
+  if (te->type == TAR_FILETYPE_FILE)
     return; /* Already handled using the file descriptor. */
 
-  if (te->type == tar_filetype_symlink) {
+  if (te->type == TAR_FILETYPE_SYMLINK) {
     if (lchown(path, st->uid, st->gid))
       ohshite(_("error setting ownership of symlink `%.255s'"), path);
   } else {
@@ -587,10 +587,10 @@ tarobject_matches(struct tarcontext *tc,
   debug(dbg_eachfiledetail, "tarobject matches on-disk object?");
 
   switch (te->type) {
-  case tar_filetype_dir:
+  case TAR_FILETYPE_DIR:
     /* Nothing to check for a new directory. */
     return;
-  case tar_filetype_symlink:
+  case TAR_FILETYPE_SYMLINK:
     /* Symlinks to existing dirs have already been dealt with, only
      * reamin real symlinks where we can compare the target. */
     if (!S_ISLNK(stab->st_mode))
@@ -610,21 +610,21 @@ tarobject_matches(struct tarcontext *tc,
       free(linkname);
     }
     break;
-  case tar_filetype_chardev:
+  case TAR_FILETYPE_CHARDEV:
     if (S_ISCHR(stab->st_mode) && stab->st_rdev == te->dev)
       return;
     break;
-  case tar_filetype_blockdev:
+  case TAR_FILETYPE_BLOCKDEV:
     if (S_ISBLK(stab->st_mode) && stab->st_rdev == te->dev)
       return;
     break;
-  case tar_filetype_fifo:
+  case TAR_FILETYPE_FIFO:
     if (S_ISFIFO(stab->st_mode))
       return;
     break;
-  case tar_filetype_hardlink:
+  case TAR_FILETYPE_HARDLINK:
     /* Fall through. */
-  case tar_filetype_file:
+  case TAR_FILETYPE_FILE:
     /* Only check metadata for non-conffiles. */
     if (!(namenode->flags & fnnf_new_conff) &&
         !(S_ISREG(stab->st_mode) && te->size == stab->st_size))
@@ -871,7 +871,7 @@ tarobject(void *ctx, struct tar_entry *ti)
    * a file overwriting conflict. */
   existingdir = false;
   switch (ti->type) {
-  case tar_filetype_symlink:
+  case TAR_FILETYPE_SYMLINK:
     /* If it's already an existing directory, do nothing. */
     if (!statr && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail, "tarobject symlink exists as directory");
@@ -881,18 +881,18 @@ tarobject(void *ctx, struct tar_entry *ti)
         existingdir = true;
     }
     break;
-  case tar_filetype_dir:
+  case TAR_FILETYPE_DIR:
     /* If it's already an existing directory, do nothing. */
     if (!stat(fnamevb.buf,&stabtmp) && S_ISDIR(stabtmp.st_mode)) {
       debug(dbg_eachfiledetail, "tarobject directory exists");
       existingdir = true;
     }
     break;
-  case tar_filetype_file:
-  case tar_filetype_chardev:
-  case tar_filetype_blockdev:
-  case tar_filetype_fifo:
-  case tar_filetype_hardlink:
+  case TAR_FILETYPE_FILE:
+  case TAR_FILETYPE_CHARDEV:
+  case TAR_FILETYPE_BLOCKDEV:
+  case TAR_FILETYPE_FIFO:
+  case TAR_FILETYPE_HARDLINK:
     break;
   default:
     ohshit(_("archive contained object `%.255s' of unknown type 0x%x"),
@@ -941,7 +941,7 @@ tarobject(void *ctx, struct tar_entry *ti)
        * not exist assume it's also a directory and skip further checks.
        * XXX: Ideally with more information about the installed files we
        * could perform more clever checks. */
-      if (statr != 0 && ti->type == tar_filetype_dir) {
+      if (statr != 0 && ti->type == TAR_FILETYPE_DIR) {
         debug(dbg_eachfile, "tarobject ... assuming shared directory");
         continue;
       }
@@ -1119,7 +1119,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     /* Don't try to back it up if it didn't exist. */
     debug(dbg_eachfiledetail,"tarobject new - no backup");
   } else {
-    if (ti->type == tar_filetype_dir || S_ISDIR(stab.st_mode)) {
+    if (ti->type == TAR_FILETYPE_DIR || S_ISDIR(stab.st_mode)) {
       /* One of the two is a directory - can't do atomic install. */
       debug(dbg_eachfiledetail,"tarobject directory, nonatomic");
       nifd->namenode->flags |= fnnf_no_atomic_overwrite;
@@ -1158,8 +1158,8 @@ tarobject(void *ctx, struct tar_entry *ti)
    * in .dpkg-new.
    */
 
-  if (ti->type == tar_filetype_file || ti->type == tar_filetype_hardlink ||
-      ti->type == tar_filetype_symlink) {
+  if (ti->type == TAR_FILETYPE_FILE || ti->type == TAR_FILETYPE_HARDLINK ||
+      ti->type == TAR_FILETYPE_SYMLINK) {
     nifd->namenode->flags |= fnnf_deferred_rename;
 
     debug(dbg_eachfiledetail, "tarobject done and installation deferred");
