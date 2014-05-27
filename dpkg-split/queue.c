@@ -3,7 +3,7 @@
  * queue.c - queue management
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -301,9 +301,9 @@ do_queue(const char *const *argv)
 }
 
 enum discard_which {
-  ds_junk,
-  ds_package,
-  ds_all,
+  DISCARD_PART_JUNK,
+  DISCARD_PART_PACKAGE,
+  DISCARD_PART_ALL,
 };
 
 static void
@@ -314,13 +314,13 @@ discard_parts(struct partqueue *queue, enum discard_which which,
 
   for (pq= queue; pq; pq= pq->nextinqueue) {
     switch (which) {
-    case ds_junk:
+    case DISCARD_PART_JUNK:
       if (pq->info.md5sum) continue;
       break;
-    case ds_package:
+    case DISCARD_PART_PACKAGE:
       if (!pq->info.md5sum || strcasecmp(pq->info.package,package)) continue;
       break;
-    case ds_all:
+    case DISCARD_PART_ALL:
       break;
     default:
       internerr("unknown discard_which '%d'", which);
@@ -343,11 +343,11 @@ do_discard(const char *const *argv)
     for (pq= queue; pq; pq= pq->nextinqueue)
       if (pq->info.md5sum)
         mustgetpartinfo(pq->info.filename,&pq->info);
-    discard_parts(queue, ds_junk, NULL);
+    discard_parts(queue, DISCARD_PART_JUNK, NULL);
     while ((thisarg = *argv++))
-      discard_parts(queue, ds_package, thisarg);
+      discard_parts(queue, DISCARD_PART_PACKAGE, thisarg);
   } else {
-    discard_parts(queue, ds_all, NULL);
+    discard_parts(queue, DISCARD_PART_ALL, NULL);
   }
 
   return 0;
