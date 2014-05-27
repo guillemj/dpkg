@@ -604,7 +604,7 @@ deferred_configure(struct pkginfo *pkg)
 	ok = dependencies_ok(pkg, NULL, &aemsgs);
 	if (ok == DEP_CHECK_DEFER) {
 		varbuf_destroy(&aemsgs);
-		pkg->clientdata->istobe = itb_installnew;
+		pkg->clientdata->istobe = PKG_ISTOBE_INSTALLNEW;
 		enqueue_package(pkg);
 		return;
 	}
@@ -648,7 +648,7 @@ deferred_configure(struct pkginfo *pkg)
 
 	if (f_noact) {
 		pkg_set_status(pkg, stat_installed);
-		pkg->clientdata->istobe = itb_normal;
+		pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
 		return;
 	}
 

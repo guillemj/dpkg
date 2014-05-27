@@ -4,6 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -101,7 +102,7 @@ ensure_package_clientdata(struct pkginfo *pkg)
   if (pkg->clientdata)
     return;
   pkg->clientdata = nfmalloc(sizeof(struct perpackagestate));
-  pkg->clientdata->istobe = itb_normal;
+  pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
   pkg->clientdata->color = white;
   pkg->clientdata->fileslistvalid = false;
   pkg->clientdata->files = NULL;

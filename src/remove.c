@@ -75,7 +75,8 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
     if (dependtry > 1) { if (findbreakcycle(pkgtoremove)) sincenothing= 0; }
     before= raemsgs->used;
     ok= dependencies_ok(depender,pkgtoremove,raemsgs);
-    if (ok == DEP_CHECK_HALT && depender->clientdata->istobe == itb_remove)
+    if (ok == DEP_CHECK_HALT &&
+        depender->clientdata->istobe == PKG_ISTOBE_REMOVE)
       ok = DEP_CHECK_DEFER;
     if (ok == DEP_CHECK_DEFER)
       /* Don't burble about reasons for deferral. */
@@ -106,7 +107,7 @@ void deferred_remove(struct pkginfo *pkg) {
     sincenothing = 0;
     warning(_("ignoring request to remove %.250s which isn't installed"),
             pkg_name(pkg, pnaw_nonambig));
-    pkg->clientdata->istobe= itb_normal;
+    pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     return;
   } else if (!f_pending &&
              pkg->status == stat_configfiles &&
@@ -115,7 +116,7 @@ void deferred_remove(struct pkginfo *pkg) {
     warning(_("ignoring request to remove %.250s, only the config\n"
               " files of which are on the system; use --purge to remove them too"),
             pkg_name(pkg, pnaw_nonambig));
-    pkg->clientdata->istobe= itb_normal;
+    pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     return;
   }
 
@@ -135,7 +136,7 @@ void deferred_remove(struct pkginfo *pkg) {
 
   if (rok == DEP_CHECK_DEFER) {
     varbuf_destroy(&raemsgs);
-    pkg->clientdata->istobe= itb_remove;
+    pkg->clientdata->istobe = PKG_ISTOBE_REMOVE;
     enqueue_package(pkg);
     return;
   } else if (rok == DEP_CHECK_HALT) {
@@ -165,7 +166,7 @@ void deferred_remove(struct pkginfo *pkg) {
            pkg_name(pkg, pnaw_nonambig),
            versiondescribe(&pkg->installed.version, vdew_nonambig));
     pkg_set_status(pkg, stat_notinstalled);
-    pkg->clientdata->istobe= itb_normal;
+    pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     return;
   }
 

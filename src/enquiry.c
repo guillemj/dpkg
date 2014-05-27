@@ -465,7 +465,7 @@ predeppackage(const char *const *argv)
     /* Ignore packages not available. */
     if (!pkg->files)
       continue;
-    pkg->clientdata->istobe= itb_preinstall;
+    pkg->clientdata->istobe = PKG_ISTOBE_PREINSTALL;
     for (dep= pkg->available.depends; dep; dep= dep->next) {
       if (dep->type != dep_predepends) continue;
       if (depisok(dep, &vb, NULL, NULL, true))
@@ -473,7 +473,7 @@ predeppackage(const char *const *argv)
       /* This will leave dep non-NULL, and so exit the loop. */
       break;
     }
-    pkg->clientdata->istobe= itb_normal;
+    pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     /* If dep is NULL we go and get the next package. */
   }
   pkg_db_iter_free(it);
@@ -482,7 +482,7 @@ predeppackage(const char *const *argv)
     return 1; /* Not found. */
   assert(pkg);
   startpkg= pkg;
-  pkg->clientdata->istobe= itb_preinstall;
+  pkg->clientdata->istobe = PKG_ISTOBE_PREINSTALL;
 
   /* OK, we have found an unsatisfied predependency.
    * Now go and find the first thing we need to install, as a first step
@@ -496,7 +496,8 @@ predeppackage(const char *const *argv)
 
       possi_iter = deppossi_pkg_iter_new(possi, wpb_available);
       while (!pkg && (trypkg = deppossi_pkg_iter_next(possi_iter))) {
-        if (trypkg->files && trypkg->clientdata->istobe == itb_normal &&
+        if (trypkg->files &&
+            trypkg->clientdata->istobe == PKG_ISTOBE_NORMAL &&
             versionsatisfied(&trypkg->available, possi)) {
           pkg = trypkg;
           break;
@@ -511,7 +512,7 @@ predeppackage(const char *const *argv)
           trypkg = provider->up->up;
           if (!trypkg->files)
             continue;
-          if (trypkg->clientdata->istobe == itb_normal) {
+          if (trypkg->clientdata->istobe == PKG_ISTOBE_NORMAL) {
             pkg = trypkg;
             break;
           }
@@ -528,7 +529,7 @@ predeppackage(const char *const *argv)
              pkgbin_name(dep->up, &dep->up->available, pnaw_nonambig),
              pkgbin_name(startpkg, &startpkg->available, pnaw_nonambig));
     }
-    pkg->clientdata->istobe= itb_preinstall;
+    pkg->clientdata->istobe = PKG_ISTOBE_PREINSTALL;
     for (dep= pkg->available.depends; dep; dep= dep->next) {
       if (dep->type != dep_predepends) continue;
       if (depisok(dep, &vb, NULL, NULL, true))

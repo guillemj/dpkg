@@ -76,7 +76,7 @@ deppossi_pkg_iter_next(struct deppossi_pkg_iterator *iter)
       pkgbin = &pkg_cur->available;
       break;
     case wpb_by_istobe:
-      if (pkg_cur->clientdata->istobe == itb_installnew)
+      if (pkg_cur->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)
         pkgbin = &pkg_cur->available;
       else
         pkgbin = &pkg_cur->installed;
@@ -207,7 +207,8 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
            providelink = providelink->rev_next) {
         if (providelink->up->type != dep_provides) continue;
         provider= providelink->up->up;
-        if (provider->clientdata->istobe == itb_normal) continue;
+        if (provider->clientdata->istobe == PKG_ISTOBE_NORMAL)
+          continue;
         /* We don't break things at ‘provides’ links, so ‘possi’ is
          * still the one we use. */
         if (foundcyclebroken(&thislink, sofar, provider, possi))
@@ -326,9 +327,10 @@ depisok(struct dependency *dep, struct varbuf *whynot,
   /* The dependency is always OK if we're trying to remove the depend*ing*
    * package. */
   switch (dep->up->clientdata->istobe) {
-  case itb_remove: case itb_deconfigure:
+  case PKG_ISTOBE_REMOVE:
+  case PKG_ISTOBE_DECONFIGURE:
     return true;
-  case itb_normal:
+  case PKG_ISTOBE_NORMAL:
     /* Only installed packages can be make dependency problems. */
     switch (dep->up->status) {
     case stat_installed:
@@ -342,7 +344,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       internerr("unknown status depending '%d'", dep->up->status);
     }
     break;
-  case itb_installnew: case itb_preinstall:
+  case PKG_ISTOBE_INSTALLNEW:
+  case PKG_ISTOBE_PREINSTALL:
     break;
   default:
     internerr("unknown istobe depending '%d'", dep->up->clientdata->istobe);
@@ -368,15 +371,15 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       possi_iter = deppossi_pkg_iter_new(possi, wpb_by_istobe);
       while ((pkg_pos = deppossi_pkg_iter_next(possi_iter))) {
         switch (pkg_pos->clientdata->istobe) {
-        case itb_remove:
+        case PKG_ISTOBE_REMOVE:
           sprintf(linebuf, _("  %.250s is to be removed.\n"),
                   pkg_name(pkg_pos, pnaw_nonambig));
           break;
-        case itb_deconfigure:
+        case PKG_ISTOBE_DECONFIGURE:
           sprintf(linebuf, _("  %.250s is to be deconfigured.\n"),
                   pkg_name(pkg_pos, pnaw_nonambig));
           break;
-        case itb_installnew:
+        case PKG_ISTOBE_INSTALLNEW:
           if (versionsatisfied(&pkg_pos->available, possi)) {
             deppossi_pkg_iter_free(possi_iter);
             return true;
@@ -386,8 +389,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                   pkgbin_name(pkg_pos, &pkg_pos->available, pnaw_nonambig),
                   versiondescribe(&pkg_pos->available.version, vdew_nonambig));
           break;
-        case itb_normal:
-        case itb_preinstall:
+        case PKG_ISTOBE_NORMAL:
+        case PKG_ISTOBE_PREINSTALL:
           switch (pkg_pos->status) {
           case stat_installed:
           case stat_triggerspending:
@@ -461,7 +464,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
              provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
-          if (provider->up->up->clientdata->istobe == itb_installnew)
+          if (provider->up->up->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)
             return true;
         }
 
@@ -472,23 +475,24 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           if (provider->up->type != dep_provides) continue;
 
           switch (provider->up->up->clientdata->istobe) {
-          case itb_installnew:
+          case PKG_ISTOBE_INSTALLNEW:
             /* Don't pay any attention to the Provides field of the
              * currently-installed version of the package we're trying
              * to install. We dealt with that by using the available
              * information above. */
             continue;
-          case itb_remove:
+          case PKG_ISTOBE_REMOVE:
             sprintf(linebuf, _("  %.250s provides %.250s but is to be removed.\n"),
                     pkg_name(provider->up->up, pnaw_nonambig),
                     possi->ed->name);
             break;
-          case itb_deconfigure:
+          case PKG_ISTOBE_DECONFIGURE:
             sprintf(linebuf, _("  %.250s provides %.250s but is to be deconfigured.\n"),
                     pkg_name(provider->up->up, pnaw_nonambig),
                     possi->ed->name);
             break;
-          case itb_normal: case itb_preinstall:
+          case PKG_ISTOBE_NORMAL:
+          case PKG_ISTOBE_PREINSTALL:
             if (provider->up->up->status == stat_installed ||
                 provider->up->up->status == stat_triggerspending)
               return true;
@@ -537,9 +541,9 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       possi_iter = deppossi_pkg_iter_new(possi, wpb_by_istobe);
       while ((pkg_pos = deppossi_pkg_iter_next(possi_iter))) {
         switch (pkg_pos->clientdata->istobe) {
-        case itb_remove:
+        case PKG_ISTOBE_REMOVE:
           break;
-        case itb_installnew:
+        case PKG_ISTOBE_INSTALLNEW:
           if (!versionsatisfied(&pkg_pos->available, possi))
             break;
           sprintf(linebuf, _("  %.250s (version %.250s) is to be installed.\n"),
@@ -553,12 +557,12 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           nconflicts++;
           *canfixbyremove = pkg_pos;
           break;
-        case itb_deconfigure:
+        case PKG_ISTOBE_DECONFIGURE:
           if (dep->type == dep_breaks)
             break; /* Already deconfiguring this. */
           /* Fall through. */
-        case itb_normal:
-        case itb_preinstall:
+        case PKG_ISTOBE_NORMAL:
+        case PKG_ISTOBE_PREINSTALL:
           switch (pkg_pos->status) {
           case stat_notinstalled:
           case stat_configfiles:
@@ -600,7 +604,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
            provider;
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
-        if (provider->up->up->clientdata->istobe != itb_installnew) continue;
+        if (provider->up->up->clientdata->istobe != PKG_ISTOBE_INSTALLNEW)
+          continue;
         if (provider->up->up->set == dep->up->set)
           continue; /* Conflicts and provides the same. */
         sprintf(linebuf, _("  %.250s provides %.250s and is to be installed.\n"),
@@ -623,18 +628,19 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           continue; /* Conflicts and provides the same. */
 
         switch (provider->up->up->clientdata->istobe) {
-        case itb_installnew:
+        case PKG_ISTOBE_INSTALLNEW:
           /* Don't pay any attention to the Provides field of the
            * currently-installed version of the package we're trying
            * to install. We dealt with that package by using the
            * available information above. */
           continue;
-        case itb_remove:
+        case PKG_ISTOBE_REMOVE:
           continue;
-        case itb_deconfigure:
+        case PKG_ISTOBE_DECONFIGURE:
           if (dep->type == dep_breaks)
             continue; /* Already deconfiguring. */
-        case itb_normal: case itb_preinstall:
+        case PKG_ISTOBE_NORMAL:
+        case PKG_ISTOBE_PREINSTALL:
           switch (provider->up->up->status) {
           case stat_notinstalled: case stat_configfiles:
             continue;

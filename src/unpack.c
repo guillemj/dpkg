@@ -538,7 +538,7 @@ void process_archive(const char *filename) {
 
   /* Check if anything is installed that we conflict with, or not installed
    * that we need. */
-  pkg->clientdata->istobe = itb_installnew;
+  pkg->clientdata->istobe = PKG_ISTOBE_INSTALLNEW;
 
   for (dsearch= pkg->available.depends; dsearch; dsearch= dsearch->next) {
     switch (dsearch->type) {
@@ -1257,7 +1257,7 @@ void process_archive(const char *filename) {
     if (otherpkg == pkg ||
         otherpkg->status == stat_notinstalled ||
         otherpkg->status == stat_configfiles ||
-	otherpkg->clientdata->istobe == itb_remove ||
+        otherpkg->clientdata->istobe == PKG_ISTOBE_REMOVE ||
         !otherpkg->clientdata->files) continue;
     /* Do not try to disappear other packages from the same set
      * if they are Multi-Arch: same */
@@ -1267,8 +1267,8 @@ void process_archive(const char *filename) {
       continue;
     debug(dbg_veryverbose, "process_archive checking disappearance %s",
           pkg_name(otherpkg, pnaw_always));
-    assert(otherpkg->clientdata->istobe == itb_normal ||
-           otherpkg->clientdata->istobe == itb_deconfigure);
+    assert(otherpkg->clientdata->istobe == PKG_ISTOBE_NORMAL ||
+           otherpkg->clientdata->istobe == PKG_ISTOBE_DECONFIGURE);
     for (cfile= otherpkg->clientdata->files;
          cfile && strcmp(cfile->namenode->name, "/.") == 0;
          cfile= cfile->next);
@@ -1282,7 +1282,7 @@ void process_archive(const char *filename) {
     if (cfile) continue;
 
     /* So dependency things will give right answers ... */
-    otherpkg->clientdata->istobe= itb_remove;
+    otherpkg->clientdata->istobe = PKG_ISTOBE_REMOVE;
     debug(dbg_veryverbose, "process_archive disappear checking dependencies");
     for (pdep = otherpkg->set->depended.installed;
          pdep;
@@ -1317,7 +1317,7 @@ void process_archive(const char *filename) {
       }
     break_from_both_loops_at_once:;
     }
-    otherpkg->clientdata->istobe= itb_normal;
+    otherpkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     if (pdep) continue;
 
     /* No, we're disappearing it. This is the wrong time to go and

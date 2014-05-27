@@ -3,7 +3,7 @@
  * help.c - various helper routines
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -204,7 +204,7 @@ void clear_istobes(void) {
   it = pkg_db_iter_new();
   while ((pkg = pkg_db_iter_next_pkg(it)) != NULL) {
     ensure_package_clientdata(pkg);
-    pkg->clientdata->istobe= itb_normal;
+    pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     pkg->clientdata->replacingfilesandsaid= 0;
   }
   pkg_db_iter_free(it);

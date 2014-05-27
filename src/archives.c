@@ -961,7 +961,7 @@ tarobject(void *ctx, struct tar_entry *ti)
         continue;
 
       /* Perhaps we're removing a conflicting package? */
-      if (otherpkg->clientdata->istobe == itb_remove)
+      if (otherpkg->clientdata->istobe == PKG_ISTOBE_REMOVE)
         continue;
 
       /* Is the file an obsolete conffile in the other package
@@ -1284,7 +1284,7 @@ enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal)
   struct pkg_deconf_list *newdeconf;
 
   ensure_package_clientdata(pkg);
-  pkg->clientdata->istobe = itb_deconfigure;
+  pkg->clientdata->istobe = PKG_ISTOBE_DECONFIGURE;
   newdeconf = m_malloc(sizeof(struct pkg_deconf_list));
   newdeconf->next = deconfigure;
   newdeconf->pkg = pkg;
@@ -1377,7 +1377,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
     char action[512];
 
     ensure_package_clientdata(fixbydeconf);
-    assert(fixbydeconf->clientdata->istobe == itb_normal);
+    assert(fixbydeconf->clientdata->istobe == PKG_ISTOBE_NORMAL);
 
     sprintf(action, _("installation of %.250s"),
             pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
@@ -1430,7 +1430,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
   }
   if (fixbyrm) {
     ensure_package_clientdata(fixbyrm);
-    if (fixbyrm->clientdata->istobe == itb_installnew) {
+    if (fixbyrm->clientdata->istobe == PKG_ISTOBE_INSTALLNEW) {
       fixbyrm= dep->up;
       ensure_package_clientdata(fixbyrm);
     }
@@ -1438,8 +1438,9 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
          (((fixbyrm->want != want_install && fixbyrm->want != want_hold) ||
            does_replace(pkg, &pkg->available, fixbyrm, &fixbyrm->installed)) &&
           (!fixbyrm->installed.essential || fc_removeessential)))) {
-      assert(fixbyrm->clientdata->istobe == itb_normal || fixbyrm->clientdata->istobe == itb_deconfigure);
-      fixbyrm->clientdata->istobe= itb_remove;
+      assert(fixbyrm->clientdata->istobe == PKG_ISTOBE_NORMAL ||
+             fixbyrm->clientdata->istobe == PKG_ISTOBE_DECONFIGURE);
+      fixbyrm->clientdata->istobe = PKG_ISTOBE_REMOVE;
       notice(_("considering removing %s in favour of %s ..."),
              pkg_name(fixbyrm, pnaw_nonambig),
              pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
@@ -1509,7 +1510,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
         return;
       }
       /* Put it back. */
-      fixbyrm->clientdata->istobe = itb_normal;
+      fixbyrm->clientdata->istobe = PKG_ISTOBE_NORMAL;
     }
   }
   varbuf_end_str(&conflictwhy);

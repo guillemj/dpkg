@@ -159,7 +159,7 @@ void process_queue(void) {
   struct pkginfo *volatile pkg;
   volatile enum action action_todo;
   jmp_buf ejbuf;
-  enum istobes istobe= itb_normal;
+  enum pkg_istobe istobe = PKG_ISTOBE_NORMAL;
 
   if (abort_processing)
     return;
@@ -168,8 +168,14 @@ void process_queue(void) {
 
   switch (cipaction->arg_int) {
   case act_triggers:
-  case act_configure: case act_install:  istobe= itb_installnew;  break;
-  case act_remove: case act_purge:       istobe= itb_remove;      break;
+  case act_configure:
+  case act_install:
+    istobe = PKG_ISTOBE_INSTALLNEW;
+    break;
+  case act_remove:
+  case act_purge:
+    istobe = PKG_ISTOBE_REMOVE;
+    break;
   default:
     internerr("unknown action '%d'", cipaction->arg_int);
   }
@@ -222,7 +228,7 @@ void process_queue(void) {
     if (setjmp(ejbuf)) {
       /* Give up on it from the point of view of other packages, i.e. reset
        * istobe. */
-      pkg->clientdata->istobe= itb_normal;
+      pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
 
       pop_error_context(ehflag_bombout);
       if (abort_processing)
@@ -373,8 +379,9 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
     }
     if (possdependee->status == stat_triggersawaited) {
       assert(possdependee->trigaw.head);
-      if (removing || !(f_triggers ||
-                        possdependee->clientdata->istobe == itb_installnew)) {
+      if (removing ||
+          !(f_triggers ||
+            possdependee->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)) {
         if (providing) {
           varbuf_printf(oemsgs,
                         _("  Package %s which provides %s awaits trigger processing.\n"),
@@ -404,7 +411,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
       return FOUND_DEFER;
     }
     if (possdependee->clientdata &&
-        possdependee->clientdata->istobe == itb_installnew) {
+        possdependee->clientdata->istobe == PKG_ISTOBE_INSTALLNEW) {
       debug(dbg_depcondetail,"      unpacked/halfconfigured, defer");
       return FOUND_DEFER;
     } else if (!removing && fc_configureany &&
@@ -659,7 +666,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     }
   }
   if (ok == DEP_CHECK_HALT &&
-      (pkg->clientdata && pkg->clientdata->istobe == itb_remove))
+      (pkg->clientdata && pkg->clientdata->istobe == PKG_ISTOBE_REMOVE))
     ok = DEP_CHECK_DEFER;
   if (!anycannotfixbytrig && canfixbytrig)
     progress_bytrigproc = canfixbytrig;

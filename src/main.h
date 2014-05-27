@@ -29,12 +29,12 @@
 struct fileinlist;
 struct filenamenode;
 
-enum istobes {
-	itb_normal,
-	itb_remove,
-	itb_installnew,
-	itb_deconfigure,
-	itb_preinstall
+enum pkg_istobe {
+	PKG_ISTOBE_NORMAL,
+	PKG_ISTOBE_REMOVE,
+	PKG_ISTOBE_INSTALLNEW,
+	PKG_ISTOBE_DECONFIGURE,
+	PKG_ISTOBE_PREINSTALL,
 };
 
 enum pkg_cycle_color {
@@ -44,7 +44,7 @@ enum pkg_cycle_color {
 };
 
 struct perpackagestate {
-  enum istobe istobe;
+  enum pkg_istobe istobe;
 
   /** Used during cycle detection. */
   enum pkg_cycle_color color;
