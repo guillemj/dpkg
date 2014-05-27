@@ -3,6 +3,7 @@
  * ehandle.c - error handling
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,8 +63,8 @@ struct error_context {
   struct error_context *next;
 
   enum {
-    handler_type_func,
-    handler_type_jump,
+    HANDLER_TYPE_FUNC,
+    HANDLER_TYPE_JUMP,
   } handler_type;
 
   union {
@@ -103,10 +104,10 @@ run_error_handler(void)
     fprintf(stderr, _("%s: outside error context, aborting:\n %s\n"),
             dpkg_get_progname(), errmsg);
     exit(2);
-  } else if (econtext->handler_type == handler_type_func) {
+  } else if (econtext->handler_type == HANDLER_TYPE_FUNC) {
     econtext->handler.func();
     internerr("error handler returned unexpectedly!");
-  } else if (econtext->handler_type == handler_type_jump) {
+  } else if (econtext->handler_type == HANDLER_TYPE_JUMP) {
     longjmp(*econtext->handler.jump, 1);
   } else {
     internerr("unknown error handler type %d!", econtext->handler_type);
@@ -139,14 +140,14 @@ set_error_printer(struct error_context *ec, error_printer_func *func,
 static void
 set_func_handler(struct error_context *ec, error_handler_func *func)
 {
-  ec->handler_type = handler_type_func;
+  ec->handler_type = HANDLER_TYPE_FUNC;
   ec->handler.func = func;
 }
 
 static void
 set_jump_handler(struct error_context *ec, jmp_buf *jump)
 {
-  ec->handler_type = handler_type_jump;
+  ec->handler_type = HANDLER_TYPE_JUMP;
   ec->handler.jump = jump;
 }
 
