@@ -3,7 +3,7 @@
  * main.c - main program
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2010 Canonical Ltd.
  *   written by Martin Pitt <martin.pitt@canonical.com>
  *
@@ -375,8 +375,8 @@ set_ignore_depends(const struct cmdinfo *cip, const char *value)
 
     pkg = pkg_spec_parse_pkg(p, &err);
     if (pkg == NULL)
-      ohshit(_("--%s needs a valid package name but '%.250s' is not: %s"),
-              cip->olong, p, err.str);
+      badusage(_("--%s needs a valid package name but '%.250s' is not: %s"),
+               cip->olong, p, err.str);
 
     pkg_list_prepend(&ignoredependss, pkg);
 
