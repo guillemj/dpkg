@@ -38,9 +38,9 @@ enum pkg_istobe {
 };
 
 enum pkg_cycle_color {
-	white,
-	gray,
-	black,
+	PKG_CYCLE_WHITE,
+	PKG_CYCLE_GRAY,
+	PKG_CYCLE_BLACK,
 };
 
 struct perpackagestate {

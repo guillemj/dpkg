@@ -103,7 +103,7 @@ ensure_package_clientdata(struct pkginfo *pkg)
     return;
   pkg->clientdata = nfmalloc(sizeof(struct perpackagestate));
   pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
-  pkg->clientdata->color = white;
+  pkg->clientdata->color = PKG_CYCLE_WHITE;
   pkg->clientdata->fileslistvalid = false;
   pkg->clientdata->files = NULL;
   pkg->clientdata->replacingfilesandsaid = 0;

@@ -165,9 +165,9 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
   struct deppossi *possi, *providelink;
   struct pkginfo *provider, *pkg_pos;
 
-  if (pkg->clientdata->color == black)
+  if (pkg->clientdata->color == PKG_CYCLE_BLACK)
     return false;
-  pkg->clientdata->color = gray;
+  pkg->clientdata->color = PKG_CYCLE_GRAY;
 
   if (debug_has_flag(dbg_depcondetail)) {
     struct varbuf str_pkgs = VARBUF_INIT;
@@ -217,7 +217,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
     }
   }
   /* Nope, we didn't find a cycle to break. */
-  pkg->clientdata->color = black;
+  pkg->clientdata->color = PKG_CYCLE_BLACK;
   return false;
 }
 
@@ -231,7 +231,7 @@ findbreakcycle(struct pkginfo *pkg)
   iter = pkg_db_iter_new();
   while ((tpkg = pkg_db_iter_next_pkg(iter))) {
     ensure_package_clientdata(tpkg);
-    tpkg->clientdata->color = white;
+    tpkg->clientdata->color = PKG_CYCLE_WHITE;
   }
   pkg_db_iter_free(iter);
 
