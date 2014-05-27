@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * infodb-format.c - package control information database format
  *
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@
 
 #include "infodb.h"
 
-static enum pkg_infodb_format db_format = pkg_infodb_format_unknown;
+static enum pkg_infodb_format db_format = PKG_INFODB_FORMAT_UNKNOWN;
 static bool db_upgrading;
 
 static enum pkg_infodb_format
@@ -48,7 +48,7 @@ pkg_infodb_parse_format(const char *file)
 	if (fp == NULL) {
 		/* A missing format file means legacy format (0). */
 		if (errno == ENOENT)
-			return pkg_infodb_format_legacy;
+			return PKG_INFODB_FORMAT_LEGACY;
 		ohshite(_("error trying to open %.250s"), file);
 	}
 
@@ -84,7 +84,7 @@ pkg_infodb_read_format(void)
 	atomic_file_free(file);
 	free(filename);
 
-	if (db_format < 0 || db_format >= pkg_infodb_format_last)
+	if (db_format < 0 || db_format >= PKG_INFODB_FORMAT_LAST)
 		ohshit(_("info database format (%d) is bogus or too new; "
 		         "try getting a newer dpkg"), db_format);
 
@@ -94,7 +94,7 @@ pkg_infodb_read_format(void)
 enum pkg_infodb_format
 pkg_infodb_get_format(void)
 {
-	if (db_format > pkg_infodb_format_unknown)
+	if (db_format > PKG_INFODB_FORMAT_UNKNOWN)
 		return db_format;
 	else
 		return pkg_infodb_read_format();
@@ -141,7 +141,7 @@ pkg_infodb_get_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	varbuf_add_char(&vb, '/');
 	varbuf_add_str(&vb, pkg->set->name);
 	if (pkgbin->multiarch == multiarch_same &&
-	    format == pkg_infodb_format_multiarch)
+	    format == PKG_INFODB_FORMAT_MULTIARCH)
 		varbuf_add_archqual(&vb, pkgbin->arch);
 	varbuf_add_char(&vb, '.');
 	varbuf_add_str(&vb, filetype);

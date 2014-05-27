@@ -3,7 +3,7 @@
  * infodb-upgrade.c - package control information database format upgrade
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -246,7 +246,7 @@ pkg_infodb_upgrade(void)
 	if (modstatdb_get_status() < msdbrw_write)
 		return;
 
-	if (db_format < pkg_infodb_format_multiarch ||
+	if (db_format < PKG_INFODB_FORMAT_MULTIARCH ||
 	    pkg_infodb_is_upgrading())
 		pkg_infodb_upgrade_to_multiarch();
 }
