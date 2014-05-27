@@ -58,28 +58,28 @@
 #include "main.h"
 
 enum conffopt {
-	cfof_prompt		= DPKG_BIT(0),
-	cfof_keep		= DPKG_BIT(1),
-	cfof_install		= DPKG_BIT(2),
-	cfof_backup		= DPKG_BIT(3),
-	cfof_newconff		= DPKG_BIT(4),
-	cfof_isnew		= DPKG_BIT(5),
-	cfof_isold		= DPKG_BIT(6),
-	cfof_userrmd		= DPKG_BIT(7),
+	CFOF_PROMPT		= DPKG_BIT(0),
+	CFOF_KEEP		= DPKG_BIT(1),
+	CFOF_INSTALL		= DPKG_BIT(2),
+	CFOF_BACKUP		= DPKG_BIT(3),
+	CFOF_NEW_CONFF		= DPKG_BIT(4),
+	CFOF_IS_NEW		= DPKG_BIT(5),
+	CFOF_IS_OLD		= DPKG_BIT(6),
+	CFOF_USER_DEL		= DPKG_BIT(7),
 
-	cfo_keep		= cfof_keep,
-	cfo_identical		= cfof_keep,
-	cfo_install		= cfof_install,
-	cfo_newconff		= cfof_newconff | cfof_install,
-	cfo_prompt		= cfof_prompt,
-	cfo_prompt_keep		= cfof_prompt | cfof_keep,
-	cfo_prompt_install	= cfof_prompt | cfof_install,
+	CFO_KEEP		= CFOF_KEEP,
+	CFO_IDENTICAL		= CFOF_KEEP,
+	CFO_INSTALL		= CFOF_INSTALL,
+	CFO_NEW_CONFF		= CFOF_NEW_CONFF | CFOF_INSTALL,
+	CFO_PROMPT		= CFOF_PROMPT,
+	CFO_PROMPT_KEEP		= CFOF_PROMPT | CFOF_KEEP,
+	CFO_PROMPT_INSTALL	= CFOF_PROMPT | CFOF_INSTALL,
 };
 
 static int conffoptcells[2][2] = {
 	/* Distro !edited. */	/* Distro edited. */
-	{ cfo_keep,		cfo_install },		/* User !edited. */
-	{ cfo_keep,		cfo_prompt_keep },	/* User edited. */
+	{ CFO_KEEP,		CFO_INSTALL },		/* User !edited. */
+	{ CFO_KEEP,		CFO_PROMPT_KEEP },	/* User edited. */
 };
 
 static int
@@ -100,14 +100,14 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 		fprintf(stderr, _("Configuration file '%s' (actually '%s')\n"),
 		        cfgfile, realold);
 
-	if (what & cfof_isnew) {
+	if (what & CFOF_IS_NEW) {
 		fprintf(stderr,
 		        _(" ==> File on system created by you or by a script.\n"
 		          " ==> File also in package provided by package maintainer.\n"));
 	} else {
 		fprintf(stderr, !useredited ?
 		        _("     Not modified since installation.\n") :
-		        !(what & cfof_userrmd) ?
+		        !(what & CFOF_USER_DEL) ?
 		        _(" ==> Modified (by you or by a script) since installation.\n") :
 		        _(" ==> Deleted (by you or by a script) since installation.\n"));
 
@@ -119,7 +119,7 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 	/* No --force-confdef but a forcible situtation. */
 	/* TODO: check if this condition can not be simplified to
 	 *       just !fc_conff_def */
-	if (!(fc_conff_def && (what & (cfof_install | cfof_keep)))) {
+	if (!(fc_conff_def && (what & (CFOF_INSTALL | CFOF_KEEP)))) {
 		if (fc_conff_new) {
 			fprintf(stderr,
 			        _(" ==> Using new file as you requested.\n"));
@@ -133,11 +133,11 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 
 	/* Force the default action (if there is one. */
 	if (fc_conff_def) {
-		if (what & cfof_keep) {
+		if (what & CFOF_KEEP) {
 			fprintf(stderr,
 			        _(" ==> Keeping old config file as default.\n"));
 			return 'n';
-		} else if (what & cfof_install) {
+		} else if (what & CFOF_INSTALL) {
 			fprintf(stderr,
 			        _(" ==> Using new config file as default.\n"));
 			return 'y';
@@ -151,17 +151,17 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 	          "      D     : show the differences between the versions\n"
 	          "      Z     : start a shell to examine the situation\n"));
 
-	if (what & cfof_keep)
+	if (what & CFOF_KEEP)
 		fprintf(stderr,
 		        _(" The default action is to keep your current version.\n"));
-	else if (what & cfof_install)
+	else if (what & CFOF_INSTALL)
 		fprintf(stderr,
 		        _(" The default action is to install the new version.\n"));
 
 	s = path_basename(cfgfile);
 	fprintf(stderr, "*** %s (Y/I/N/O/D/Z) %s ? ", s,
-	        (what & cfof_keep) ? _("[default=N]") :
-	        (what & cfof_install) ? _("[default=Y]") :
+	        (what & CFOF_KEEP) ? _("[default=N]") :
+	        (what & CFOF_INSTALL) ? _("[default=Y]") :
 	        _("[no default]"));
 
 	if (ferror(stderr))
@@ -179,9 +179,9 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 	}
 
 	if (!cc) {
-		if (what & cfof_keep)
+		if (what & CFOF_KEEP)
 			return 'n';
-		else if (what & cfof_install)
+		else if (what & CFOF_INSTALL)
 			return 'y';
 	}
 
@@ -276,7 +276,7 @@ promptconfaction(struct pkginfo *pkg, const char *cfgfile,
 {
 	int cc;
 
-	if (!(what & cfof_prompt))
+	if (!(what & CFOF_PROMPT))
 		return what;
 
 	statusfd_send("status: %s : %s : '%s' '%s' %i %i ",
@@ -298,17 +298,17 @@ promptconfaction(struct pkginfo *pkg, const char *cfgfile,
 	log_message("conffile %s %s", cfgfile,
 	            (cc == 'i' || cc == 'y') ? "install" : "keep");
 
-	what &= cfof_userrmd;
+	what &= CFOF_USER_DEL;
 
 	switch (cc) {
 	case 'i':
 	case 'y':
-		what |= cfof_install | cfof_backup;
+		what |= CFOF_INSTALL | CFOF_BACKUP;
 		break;
 
 	case 'n':
 	case 'o':
-		what |= cfof_keep | cfof_backup;
+		what |= CFOF_KEEP | CFOF_BACKUP;
 		break;
 
 	default:
@@ -419,38 +419,38 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		 * questions. */
 		useredited = -1;
 		distedited = -1;
-		what = cfo_identical;
+		what = CFO_IDENTICAL;
 	} else if (strcmp(currenthash, NONEXISTENTFLAG) == 0 && fc_conff_miss) {
 		fprintf(stderr,
 		        _("\n"
 		          "Configuration file `%s', does not exist on system.\n"
 		          "Installing new config file as you requested.\n"),
 		        usenode->name);
-		what = cfo_newconff;
+		what = CFO_NEW_CONFF;
 		useredited = -1;
 		distedited = -1;
 	} else if (strcmp(conff->hash, NEWCONFFILEFLAG) == 0) {
 		if (strcmp(currenthash, NONEXISTENTFLAG) == 0) {
-			what = cfo_newconff;
+			what = CFO_NEW_CONFF;
 			useredited = -1;
 			distedited = -1;
 		} else {
 			useredited = 1;
 			distedited = 1;
 			what = conffoptcells[useredited][distedited] |
-			       cfof_isnew;
+			       CFOF_IS_NEW;
 		}
 	} else {
 		useredited = strcmp(conff->hash, currenthash) != 0;
 		distedited = strcmp(conff->hash, newdisthash) != 0;
 
 		if (fc_conff_ask && useredited)
-			what = cfo_prompt_keep;
+			what = CFO_PROMPT_KEEP;
 		else
 			what = conffoptcells[useredited][distedited];
 
 		if (strcmp(currenthash, NONEXISTENTFLAG) == 0)
-			what |= cfof_userrmd;
+			what |= CFOF_USER_DEL;
 	}
 
 	debug(dbg_conff,
@@ -460,8 +460,8 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	what = promptconfaction(pkg, usenode->name, cdr.buf, cdr2.buf,
 	                        useredited, distedited, what);
 
-	switch (what & ~(cfof_isnew | cfof_userrmd)) {
-	case cfo_keep | cfof_backup:
+	switch (what & ~(CFOF_IS_NEW | CFOF_USER_DEL)) {
+	case CFO_KEEP | CFOF_BACKUP:
 		strcpy(cdr2rest, DPKGOLDEXT);
 		if (unlink(cdr2.buf) && errno != ENOENT)
 			warning(_("%s: failed to remove old backup '%.250s': %s"),
@@ -477,14 +477,14 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 			        pkg_name(pkg, pnaw_nonambig), cdr2.buf, cdr.buf,
 			        strerror(errno));
 		break;
-	case cfo_keep:
+	case CFO_KEEP:
 		strcpy(cdr2rest, DPKGNEWEXT);
 		if (unlink(cdr2.buf))
 			warning(_("%s: failed to remove '%.250s': %s"),
 			        pkg_name(pkg, pnaw_nonambig), cdr2.buf,
 			        strerror(errno));
 		break;
-	case cfo_install | cfof_backup:
+	case CFO_INSTALL | CFOF_BACKUP:
 		strcpy(cdr2rest, DPKGDISTEXT);
 		if (unlink(cdr2.buf) && errno != ENOENT)
 			warning(_("%s: failed to remove old distributed version '%.250s': %s"),
@@ -495,17 +495,17 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 			warning(_("%s: failed to remove '%.250s' (before overwrite): %s"),
 			        pkg_name(pkg, pnaw_nonambig), cdr2.buf,
 			        strerror(errno));
-		if (!(what & cfof_userrmd))
+		if (!(what & CFOF_USER_DEL))
 			if (link(cdr.buf, cdr2.buf))
 				warning(_("%s: failed to link '%.250s' to '%.250s': %s"),
 				        pkg_name(pkg, pnaw_nonambig), cdr.buf,
 				        cdr2.buf, strerror(errno));
 		/* Fall through. */
-	case cfo_install:
+	case CFO_INSTALL:
 		printf(_("Installing new version of config file %s ...\n"),
 		       usenode->name);
 		/* Fall through. */
-	case cfo_newconff:
+	case CFO_NEW_CONFF:
 		strcpy(cdr2rest, DPKGNEWEXT);
 		trig_path_activate(usenode, pkg);
 		if (rename(cdr2.buf, cdr.buf))
