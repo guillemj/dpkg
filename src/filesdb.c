@@ -117,13 +117,13 @@ void note_must_reread_files_inpackage(struct pkginfo *pkg) {
   pkg->clientdata->fileslistvalid = false;
 }
 
-enum filesdb_load_status {
-  filesdb_load_none = 0,
-  filesdb_load_inprogress = 1,
-  filesdb_load_done = 2,
+enum pkg_filesdb_load_status {
+  PKG_FILESDB_LOAD_NONE = 0,
+  PKG_FILESDB_LOAD_INPROGRESS = 1,
+  PKG_FILESDB_LOAD_DONE = 2,
 };
 
-static enum filesdb_load_status saidread = filesdb_load_none;
+static enum pkg_filesdb_load_status saidread = PKG_FILESDB_LOAD_NONE;
 
 /**
  * Erase the files saved in pkg.
@@ -398,10 +398,10 @@ void ensure_allinstfiles_available(void) {
   int i;
 
   if (allpackagesdone) return;
-  if (saidread < filesdb_load_done) {
+  if (saidread < PKG_FILESDB_LOAD_DONE) {
     int max = pkg_db_count_pkg();
 
-    saidread = filesdb_load_inprogress;
+    saidread = PKG_FILESDB_LOAD_INPROGRESS;
     progress_init(&progress, _("(Reading database ... "), max);
   }
 
@@ -413,7 +413,7 @@ void ensure_allinstfiles_available(void) {
     pkg = array.pkgs[i];
     ensure_packagefiles_available(pkg);
 
-    if (saidread == filesdb_load_inprogress)
+    if (saidread == PKG_FILESDB_LOAD_INPROGRESS)
       progress_step(&progress);
   }
 
@@ -421,17 +421,17 @@ void ensure_allinstfiles_available(void) {
 
   allpackagesdone = true;
 
-  if (saidread == filesdb_load_inprogress) {
+  if (saidread == PKG_FILESDB_LOAD_INPROGRESS) {
     progress_done(&progress);
     printf(P_("%d file or directory currently installed.)\n",
               "%d files and directories currently installed.)\n", nfiles),
            nfiles);
-    saidread = filesdb_load_done;
+    saidread = PKG_FILESDB_LOAD_DONE;
   }
 }
 
 void ensure_allinstfiles_available_quiet(void) {
-  saidread = filesdb_load_done;
+  saidread = PKG_FILESDB_LOAD_DONE;
   ensure_allinstfiles_available();
 }
 
