@@ -190,11 +190,11 @@ static struct proc_stat_list *procset = NULL;
 
 /* LSB Init Script process status exit codes. */
 enum status_code {
-	status_ok = 0,
-	status_dead_pidfile = 1,
-	status_dead_lockfile = 2,
-	status_dead = 3,
-	status_unknown = 4,
+	STATUS_OK = 0,
+	STATUS_DEAD_PIDFILE = 1,
+	STATUS_DEAD_LOCKFILE = 2,
+	STATUS_DEAD = 3,
+	STATUS_UNKNOWN = 4,
 };
 
 struct pid_list {
@@ -258,7 +258,7 @@ fatal(const char *format, ...)
 		fprintf(stderr, "\n");
 
 	if (action == ACTION_STATUS)
-		exit(status_unknown);
+		exit(STATUS_UNKNOWN);
 	else
 		exit(2);
 }
@@ -512,7 +512,7 @@ badusage(const char *msg)
 	fprintf(stderr, "Try '%s --help' for more information.\n", progname);
 
 	if (action == ACTION_STATUS)
-		exit(status_unknown);
+		exit(STATUS_UNKNOWN);
 	else
 		exit(3);
 }
@@ -1538,19 +1538,19 @@ static enum status_code
 pid_check(pid_t pid)
 {
 	if (execname && !pid_is_exec(pid, &exec_stat))
-		return status_dead;
+		return STATUS_DEAD;
 	if (match_ppid > 0 && !pid_is_child(pid, match_ppid))
-		return status_dead;
+		return STATUS_DEAD;
 	if (userspec && !pid_is_user(pid, user_id))
-		return status_dead;
+		return STATUS_DEAD;
 	if (cmdname && !pid_is_cmd(pid, cmdname))
-		return status_dead;
+		return STATUS_DEAD;
 	if (action != ACTION_STOP && !pid_is_running(pid))
-		return status_dead;
+		return STATUS_DEAD;
 
 	pid_list_push(&found, pid);
 
-	return status_ok;
+	return STATUS_OK;
 }
 
 static enum status_code
@@ -1569,15 +1569,15 @@ do_pidfile(const char *name)
 		if (fscanf(f, "%d", &pid) == 1)
 			pid_status = pid_check(pid);
 		else
-			pid_status = status_unknown;
+			pid_status = STATUS_UNKNOWN;
 		fclose(f);
 
-		if (pid_status == status_dead)
-			return status_dead_pidfile;
+		if (pid_status == STATUS_DEAD)
+			return STATUS_DEAD_PIDFILE;
 		else
 			return pid_status;
 	} else if (errno == ENOENT)
-		return status_dead;
+		return STATUS_DEAD;
 	else
 		fatal("unable to open pidfile %s", name);
 }
@@ -1590,7 +1590,7 @@ do_procinit(void)
 	struct dirent *entry;
 	int foundany;
 	pid_t pid;
-	enum status_code prog_status = status_dead;
+	enum status_code prog_status = STATUS_DEAD;
 
 	procdir = opendir("/proc");
 	if (!procdir)
@@ -1631,9 +1631,9 @@ do_procinit(void)
 	proc_stat_list_for_each(procset, check_proc_stat);
 
 	if (found)
-		return status_ok;
+		return STATUS_OK;
 	else
-		return status_dead;
+		return STATUS_DEAD;
 }
 #elif defined(OShpux)
 static enum status_code
@@ -1642,7 +1642,7 @@ do_procinit(void)
 	struct pst_status pst[10];
 	int i, count;
 	int idx = 0;
-	enum status_code prog_status = status_dead;
+	enum status_code prog_status = STATUS_DEAD;
 
 	while ((count = pstat_getproc(pst, sizeof(pst[0]), 10, idx)) > 0) {
 		enum status_code pid_status;
@@ -1665,7 +1665,7 @@ do_procinit(void)
 	int nentries, i;
 	struct kinfo_proc *kp;
 	char errbuf[_POSIX2_LINE_MAX];
-	enum status_code prog_status = status_dead;
+	enum status_code prog_status = STATUS_DEAD;
 
 	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
 	if (kd == NULL)
