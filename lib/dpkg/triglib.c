@@ -4,7 +4,7 @@
  *
  * Copyright © 2007 Canonical Ltd
  * Written by Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -752,7 +752,7 @@ void
 trig_incorporate(enum modstatdb_rw cstatus)
 {
 	enum trigdef_update_status ur;
-	enum trigdef_updateflags tduf;
+	enum trigdef_update_flags tduf;
 
 	free(triggersdir);
 	triggersdir = dpkg_db_get_path(TRIGGERSDIR);
@@ -763,15 +763,15 @@ trig_incorporate(enum modstatdb_rw cstatus)
 	trigdef_set_methods(&tdm_incorp);
 	trig_file_interests_ensure();
 
-	tduf = tduf_nolockok;
+	tduf = TDUF_NO_LOCK_OK;
 	if (cstatus >= msdbrw_write) {
-		tduf |= tduf_write;
+		tduf |= TDUF_WRITE;
 		if (trigh.transitional_activate)
-			tduf |= tduf_writeifenoent;
+			tduf |= TDUF_WRITE_IF_ENOENT;
 	}
 
 	ur = trigdef_update_start(tduf);
-	if (ur == tdus_error_no_dir && cstatus >= msdbrw_write) {
+	if (ur == TDUS_ERROR_NO_DIR && cstatus >= msdbrw_write) {
 		if (mkdir(triggersdir, 0755)) {
 			if (errno != EEXIST)
 				ohshite(_("unable to create triggers state"
@@ -783,17 +783,17 @@ trig_incorporate(enum modstatdb_rw cstatus)
 		ur = trigdef_update_start(tduf);
 	}
 	switch (ur) {
-	case tdus_error_empty_deferred:
+	case TDUS_ERROR_EMPTY_DEFERRED:
 		return;
-	case tdus_error_no_dir:
-	case tdus_error_no_deferred:
+	case TDUS_ERROR_NO_DIR:
+	case TDUS_ERROR_NO_DEFERRED:
 		if (!trigh.transitional_activate)
 			return;
 	/* Fall through. */
-	case tdus_no_deferred:
+	case TDUS_NO_DEFERRED:
 		trigh.transitional_activate(cstatus);
 		break;
-	case tdus_ok:
+	case TDUS_OK:
 		/* Read and incorporate triggers. */
 		trigdef_parse();
 		break;

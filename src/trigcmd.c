@@ -3,7 +3,7 @@
  *
  * Copyright © 2007 Canonical Ltd.
  * Written by Ian Jackson <ian@davenant.greenend.org.uk>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -174,16 +174,16 @@ do_check(void)
 {
 	enum trigdef_update_status uf;
 
-	uf = trigdef_update_start(tduf_nolockok);
+	uf = trigdef_update_start(TDUF_NO_LOCK_OK);
 	switch (uf) {
-	case tdus_error_no_dir:
+	case TDUS_ERROR_NO_DIR:
 		notice(_("triggers data directory not yet created"));
 		exit(1);
-	case tdus_error_no_deferred:
+	case TDUS_ERROR_NO_DEFERRED:
 		notice(_("trigger records not yet in existence"));
 		exit(1);
-	case tdus_ok:
-	case tdus_error_empty_deferred:
+	case TDUS_OK:
+	case TDUS_ERROR_EMPTY_DEFERRED:
 		exit(0);
 	default:
 		internerr("unknown trigdef_update_start return value '%d'", uf);
@@ -205,7 +205,7 @@ int
 main(int argc, const char *const *argv)
 {
 	const char *badname;
-	enum trigdef_updateflags tduf;
+	enum trigdef_update_flags tduf;
 	enum trigdef_update_status tdus;
 
 	dpkg_locales_init(PACKAGE);
@@ -237,9 +237,9 @@ main(int argc, const char *const *argv)
 
 	trigdef_set_methods(&tdm_add);
 
-	tduf = tduf_nolockok;
+	tduf = TDUF_NO_LOCK_OK;
 	if (!f_noact)
-		tduf |= tduf_write | tduf_writeifempty;
+		tduf |= TDUF_WRITE | TDUF_WRITE_IF_EMPTY;
 	tdus = trigdef_update_start(tduf);
 	if (tdus >= 0) {
 		trigdef_parse();
