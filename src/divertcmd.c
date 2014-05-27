@@ -361,7 +361,7 @@ divertdb_write(void)
 
 	dbname = dpkg_db_get_path(DIVERSIONSFILE);
 
-	file = atomic_file_new(dbname, aff_backup);
+	file = atomic_file_new(dbname, ATOMIC_FILE_BACKUP);
 	atomic_file_open(file);
 
 	iter = files_db_iter_new();

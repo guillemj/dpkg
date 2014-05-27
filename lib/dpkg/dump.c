@@ -480,7 +480,7 @@ writedb(const char *filename, enum writedb_flags flags)
 
   which = (flags & wdb_dump_available) ? "available" : "status";
 
-  file = atomic_file_new(filename, aff_backup);
+  file = atomic_file_new(filename, ATOMIC_FILE_BACKUP);
   atomic_file_open(file);
   if (setvbuf(file->fp, writebuf, _IOFBF, sizeof(writebuf)))
     ohshite(_("unable to set buffering on %s database file"), which);

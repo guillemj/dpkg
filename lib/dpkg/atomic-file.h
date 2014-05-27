@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * atomic-file.h - atomic file helper functions
  *
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ DPKG_BEGIN_DECLS
  */
 
 enum atomic_file_flags {
-	aff_backup		= DPKG_BIT(0),
+	ATOMIC_FILE_BACKUP	= DPKG_BIT(0),
 };
 
 struct atomic_file {

@@ -2,7 +2,7 @@
  * dpkg-statoverride - override ownership and mode of files
  *
  * Copyright © 2000, 2001 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -195,7 +195,7 @@ statdb_write(void)
 	struct filenamenode *file;
 
 	dbname = dpkg_db_get_path(STATOVERRIDEFILE);
-	dbfile = atomic_file_new(dbname, aff_backup);
+	dbfile = atomic_file_new(dbname, ATOMIC_FILE_BACKUP);
 	atomic_file_open(dbfile);
 
 	iter = files_db_iter_new();

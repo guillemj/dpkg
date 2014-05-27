@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * atomic-file.c - atomic file helper functions
  *
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -108,7 +108,7 @@ atomic_file_remove(struct atomic_file *file)
 void
 atomic_file_commit(struct atomic_file *file)
 {
-	if (file->flags & aff_backup)
+	if (file->flags & ATOMIC_FILE_BACKUP)
 		atomic_file_backup(file);
 
 	if (rename(file->name_new, file->name))
