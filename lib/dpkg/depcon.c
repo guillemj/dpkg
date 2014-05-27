@@ -3,6 +3,7 @@
  * depcon.c - dependency and conflict checking
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2009 Canonical Ltd.
  *
  * This is free software; you can redistribute it and/or modify
@@ -61,7 +62,7 @@ deparchsatisfied(struct pkgbin *it, const struct dpkg_arch *it_arch,
 		return true;
 
 	dep_arch = against->arch;
-	if (dep_arch->type == arch_wildcard &&
+	if (dep_arch->type == DPKG_ARCH_WILDCARD &&
 	    (it->multiarch == multiarch_allowed ||
 	     against->up->type == dep_conflicts ||
 	     against->up->type == dep_replaces ||
@@ -69,10 +70,10 @@ deparchsatisfied(struct pkgbin *it, const struct dpkg_arch *it_arch,
 		return true;
 
 	pkg_arch = it_arch;
-	if (dep_arch->type == arch_none || dep_arch->type == arch_all)
-		dep_arch = dpkg_arch_get(arch_native);
-	if (pkg_arch->type == arch_none || pkg_arch->type == arch_all)
-		pkg_arch = dpkg_arch_get(arch_native);
+	if (dep_arch->type == DPKG_ARCH_NONE || dep_arch->type == DPKG_ARCH_ALL)
+		dep_arch = dpkg_arch_get(DPKG_ARCH_NATIVE);
+	if (pkg_arch->type == DPKG_ARCH_NONE || pkg_arch->type == DPKG_ARCH_ALL)
+		pkg_arch = dpkg_arch_get(DPKG_ARCH_NATIVE);
 
 	return (dep_arch == pkg_arch);
 }

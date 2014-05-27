@@ -37,9 +37,9 @@ pkgbin_name_needs_arch(const struct pkgbin *pkgbin,
 	case pnaw_never:
 		break;
 	case pnaw_foreign:
-		if (pkgbin->arch->type == arch_native ||
-		    pkgbin->arch->type == arch_all ||
-		    pkgbin->arch->type == arch_none)
+		if (pkgbin->arch->type == DPKG_ARCH_NATIVE ||
+		    pkgbin->arch->type == DPKG_ARCH_ALL ||
+		    pkgbin->arch->type == DPKG_ARCH_NONE)
 			break;
 		return true;
 	case pnaw_nonambig:

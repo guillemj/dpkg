@@ -4,7 +4,7 @@
  *
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
- * Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -80,28 +80,28 @@ dpkg_arch_name_is_illegal(const char *name)
  * structure to handle. */
 static struct dpkg_arch arch_item_none = {
 	.name = "",
-	.type = arch_none,
+	.type = DPKG_ARCH_NONE,
 	.next = NULL,
 };
 static struct dpkg_arch arch_item_empty = {
 	.name = "",
-	.type = arch_empty,
+	.type = DPKG_ARCH_EMPTY,
 	.next = NULL,
 };
 
 static struct dpkg_arch arch_item_any = {
 	.name = "any",
-	.type = arch_wildcard,
+	.type = DPKG_ARCH_WILDCARD,
 	.next = NULL,
 };
 static struct dpkg_arch arch_item_all = {
 	.name = "all",
-	.type = arch_all,
+	.type = DPKG_ARCH_ALL,
 	.next = &arch_item_any,
 };
 static struct dpkg_arch arch_item_native = {
 	.name = ARCHITECTURE,
-	.type = arch_native,
+	.type = DPKG_ARCH_NATIVE,
 	.next = &arch_item_all,
 };
 static struct dpkg_arch *arch_head = &arch_item_native;
@@ -149,9 +149,9 @@ dpkg_arch_find(const char *name)
 	}
 
 	if (dpkg_arch_name_is_illegal(name))
-		type = arch_illegal;
+		type = DPKG_ARCH_ILLEGAL;
 	else
-		type = arch_unknown;
+		type = DPKG_ARCH_UNKNOWN;
 
 	arch = dpkg_arch_new(name, type);
 	last_arch->next = arch;
@@ -169,19 +169,19 @@ struct dpkg_arch *
 dpkg_arch_get(enum dpkg_arch_type type)
 {
 	switch (type) {
-	case arch_none:
+	case DPKG_ARCH_NONE:
 		return &arch_item_none;
-	case arch_empty:
+	case DPKG_ARCH_EMPTY:
 		return &arch_item_empty;
-	case arch_wildcard:
+	case DPKG_ARCH_WILDCARD:
 		return &arch_item_any;
-	case arch_all:
+	case DPKG_ARCH_ALL:
 		return &arch_item_all;
-	case arch_native:
+	case DPKG_ARCH_NATIVE:
 		return &arch_item_native;
-	case arch_illegal:
-	case arch_foreign:
-	case arch_unknown:
+	case DPKG_ARCH_ILLEGAL:
+	case DPKG_ARCH_FOREIGN:
+	case DPKG_ARCH_UNKNOWN:
 		internerr("architecture type %d is not unique", type);
 	default:
 		/* Ignore unknown types for forward-compatibility. */
@@ -217,9 +217,9 @@ dpkg_arch_reset_list(void)
 void
 varbuf_add_archqual(struct varbuf *vb, const struct dpkg_arch *arch)
 {
-	if (arch->type == arch_none)
+	if (arch->type == DPKG_ARCH_NONE)
 		return;
-	if (arch->type == arch_empty)
+	if (arch->type == DPKG_ARCH_EMPTY)
 		return;
 
 	varbuf_add_char(vb, ':');
@@ -232,9 +232,9 @@ varbuf_add_archqual(struct varbuf *vb, const struct dpkg_arch *arch)
 const char *
 dpkg_arch_describe(const struct dpkg_arch *arch)
 {
-	if (arch->type == arch_none)
+	if (arch->type == DPKG_ARCH_NONE)
 		return C_("architecture", "<none>");
-	if (arch->type == arch_empty)
+	if (arch->type == DPKG_ARCH_EMPTY)
 		return C_("architecture", "<empty>");
 
 	return arch->name;
@@ -249,8 +249,8 @@ dpkg_arch_add(const char *name)
 	struct dpkg_arch *arch;
 
 	arch = dpkg_arch_find(name);
-	if (arch->type == arch_unknown) {
-		arch->type = arch_foreign;
+	if (arch->type == DPKG_ARCH_UNKNOWN) {
+		arch->type = DPKG_ARCH_FOREIGN;
 		arch_list_dirty = true;
 	}
 
@@ -266,11 +266,11 @@ dpkg_arch_unmark(struct dpkg_arch *arch_remove)
 	struct dpkg_arch *arch;
 
 	for (arch = arch_builtin_tail->next; arch; arch = arch->next) {
-		if (arch->type != arch_foreign)
+		if (arch->type != DPKG_ARCH_FOREIGN)
 			continue;
 
 		if (arch == arch_remove) {
-			arch->type = arch_unknown;
+			arch->type = DPKG_ARCH_UNKNOWN;
 			arch_list_dirty = true;
 			return;
 		}
@@ -320,7 +320,8 @@ dpkg_arch_save_list(void)
 	atomic_file_open(file);
 
 	for (arch = arch_head; arch; arch = arch->next) {
-		if (arch->type != arch_foreign && arch->type != arch_native)
+		if (arch->type != DPKG_ARCH_FOREIGN &&
+		    arch->type != DPKG_ARCH_NATIVE)
 			continue;
 
 		if (fprintf(file->fp, "%s\n", arch->name) < 0)

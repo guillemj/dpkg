@@ -3,7 +3,7 @@
  * pkg.c - primitives for pkg handling
  *
  * Copyright © 1995, 1996 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2009-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -131,9 +131,9 @@ pkg_blank(struct pkginfo *pkg)
 	/* The architectures are reset here (instead of in pkgbin_blank),
 	 * because they are part of the package specification, and needed
 	 * for selections. */
-	pkg->installed.arch = dpkg_arch_get(arch_none);
+	pkg->installed.arch = dpkg_arch_get(DPKG_ARCH_NONE);
 	pkg->installed.multiarch = multiarch_no;
-	pkg->available.arch = dpkg_arch_get(arch_none);
+	pkg->available.arch = dpkg_arch_get(DPKG_ARCH_NONE);
 	pkg->available.multiarch = multiarch_no;
 }
 

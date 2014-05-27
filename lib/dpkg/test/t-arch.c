@@ -4,7 +4,7 @@
  *
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
- * Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -82,25 +82,25 @@ test_dpkg_arch_find(void)
 
 	/* Test existence and initial values of default architectures. */
 	arch = dpkg_arch_find("all");
-	test_pass(arch->type == arch_all);
-	test_pass(dpkg_arch_get(arch_all) == arch);
+	test_pass(arch->type == DPKG_ARCH_ALL);
+	test_pass(dpkg_arch_get(DPKG_ARCH_ALL) == arch);
 	arch = dpkg_arch_find(ARCHITECTURE);
-	test_pass(arch->type == arch_native);
-	test_pass(dpkg_arch_get(arch_native) == arch);
+	test_pass(arch->type == DPKG_ARCH_NATIVE);
+	test_pass(dpkg_arch_get(DPKG_ARCH_NATIVE) == arch);
 	arch = dpkg_arch_find("any");
-	test_pass(arch->type == arch_wildcard);
-	test_pass(dpkg_arch_get(arch_wildcard) == arch);
+	test_pass(arch->type == DPKG_ARCH_WILDCARD);
+	test_pass(dpkg_arch_get(DPKG_ARCH_WILDCARD) == arch);
 
 	/* Test missing architecture. */
 	arch = dpkg_arch_find(NULL);
-	test_pass(arch->type == arch_none);
-	test_pass(dpkg_arch_get(arch_none) == arch);
+	test_pass(arch->type == DPKG_ARCH_NONE);
+	test_pass(dpkg_arch_get(DPKG_ARCH_NONE) == arch);
 	test_str(arch->name, ==, "");
 
 	/* Test empty architectures. */
 	arch = dpkg_arch_find("");
-	test_pass(arch->type == arch_empty);
-	test_pass(dpkg_arch_get(arch_empty) == arch);
+	test_pass(arch->type == DPKG_ARCH_EMPTY);
+	test_pass(dpkg_arch_get(DPKG_ARCH_EMPTY) == arch);
 	test_str(arch->name, ==, "");
 
 	/* Test for an unknown type. */
@@ -108,12 +108,12 @@ test_dpkg_arch_find(void)
 
 	/* New valid architectures are marked unknown. */
 	arch = dpkg_arch_find("foobar");
-	test_pass(arch->type == arch_unknown);
+	test_pass(arch->type == DPKG_ARCH_UNKNOWN);
 	test_str(arch->name, ==, "foobar");
 
 	/* New illegal architectures are marked illegal. */
 	arch = dpkg_arch_find("a:b");
-	test_pass(arch->type == arch_illegal);
+	test_pass(arch->type == DPKG_ARCH_ILLEGAL);
 	test_str(arch->name, ==, "a:b");
 }
 
@@ -134,32 +134,32 @@ test_dpkg_arch_modify(void)
 
 	/* Insert a new unknown arch. */
 	arch = dpkg_arch_find("foo");
-	test_pass(arch->type == arch_unknown);
+	test_pass(arch->type == DPKG_ARCH_UNKNOWN);
 	test_str(arch->name, ==, "foo");
 
 	/* Check that existing unknown arch gets tagged. */
 	arch = dpkg_arch_add("foo");
-	test_pass(arch->type == arch_foreign);
+	test_pass(arch->type == DPKG_ARCH_FOREIGN);
 	test_str(arch->name, ==, "foo");
 
 	/* Check that new unknown arch gets tagged. */
 	arch = dpkg_arch_add("quux");
-	test_pass(arch->type == arch_foreign);
+	test_pass(arch->type == DPKG_ARCH_FOREIGN);
 	test_str(arch->name, ==, "quux");
 
 	/* Unmark foreign architectures. */
 
 	arch = dpkg_arch_find("foo");
 	dpkg_arch_unmark(arch);
-	test_pass(arch->type == arch_unknown);
+	test_pass(arch->type == DPKG_ARCH_UNKNOWN);
 
 	arch = dpkg_arch_find("bar");
 	dpkg_arch_unmark(arch);
-	test_pass(arch->type == arch_unknown);
+	test_pass(arch->type == DPKG_ARCH_UNKNOWN);
 
 	arch = dpkg_arch_find("quux");
 	dpkg_arch_unmark(arch);
-	test_pass(arch->type == arch_unknown);
+	test_pass(arch->type == DPKG_ARCH_UNKNOWN);
 }
 
 static void
@@ -167,22 +167,22 @@ test_dpkg_arch_varbuf_archqual(void)
 {
 	struct varbuf vb = VARBUF_INIT;
 
-	varbuf_add_archqual(&vb, dpkg_arch_get(arch_none));
+	varbuf_add_archqual(&vb, dpkg_arch_get(DPKG_ARCH_NONE));
 	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "");
 	varbuf_reset(&vb);
 
-	varbuf_add_archqual(&vb, dpkg_arch_get(arch_empty));
+	varbuf_add_archqual(&vb, dpkg_arch_get(DPKG_ARCH_EMPTY));
 	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, "");
 	varbuf_reset(&vb);
 
-	varbuf_add_archqual(&vb, dpkg_arch_get(arch_all));
+	varbuf_add_archqual(&vb, dpkg_arch_get(DPKG_ARCH_ALL));
 	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, ":all");
 	varbuf_reset(&vb);
 
-	varbuf_add_archqual(&vb, dpkg_arch_get(arch_wildcard));
+	varbuf_add_archqual(&vb, dpkg_arch_get(DPKG_ARCH_WILDCARD));
 	varbuf_end_str(&vb);
 	test_str(vb.buf, ==, ":any");
 	varbuf_reset(&vb);
@@ -193,19 +193,19 @@ test_dpkg_arch_describe(void)
 {
 	struct dpkg_arch *arch;
 
-	arch = dpkg_arch_get(arch_none);
+	arch = dpkg_arch_get(DPKG_ARCH_NONE);
 	test_str(dpkg_arch_describe(arch), ==, "<none>");
 
-	arch = dpkg_arch_get(arch_empty);
+	arch = dpkg_arch_get(DPKG_ARCH_EMPTY);
 	test_str(dpkg_arch_describe(arch), ==, "<empty>");
 
-	arch = dpkg_arch_get(arch_all);
+	arch = dpkg_arch_get(DPKG_ARCH_ALL);
 	test_str(dpkg_arch_describe(arch), ==, "all");
 
-	arch = dpkg_arch_get(arch_wildcard);
+	arch = dpkg_arch_get(DPKG_ARCH_WILDCARD);
 	test_str(dpkg_arch_describe(arch), ==, "any");
 
-	arch = dpkg_arch_get(arch_native);
+	arch = dpkg_arch_get(DPKG_ARCH_NATIVE);
 	test_str(dpkg_arch_describe(arch), ==, ARCHITECTURE);
 }
 

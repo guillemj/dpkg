@@ -3,7 +3,7 @@
  *
  * Copyright © 1995 Ian Jackson
  * Copyright © 2000, 2001 Wichert Akkerman
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -528,7 +528,7 @@ diversion_is_shared(struct pkgset *set, struct filenamenode *namenode)
 
 	archname = getenv("DPKG_MAINTSCRIPT_ARCH");
 	arch = dpkg_arch_find(archname);
-	if (arch->type == arch_none || arch->type == arch_empty)
+	if (arch->type == DPKG_ARCH_NONE || arch->type == DPKG_ARCH_EMPTY)
 		return false;
 
 	for (pkg = &set->pkg; pkg; pkg = pkg->arch_next)

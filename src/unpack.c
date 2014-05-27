@@ -3,7 +3,7 @@
  * unpack.c - the huge function process_archive
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -506,12 +506,13 @@ void process_archive(const char *filename) {
     return;
   }
 
-  if (pkg->available.arch->type != arch_all &&
-      pkg->available.arch->type != arch_native &&
-      pkg->available.arch->type != arch_foreign)
+  if (pkg->available.arch->type != DPKG_ARCH_ALL &&
+      pkg->available.arch->type != DPKG_ARCH_NATIVE &&
+      pkg->available.arch->type != DPKG_ARCH_FOREIGN)
     forcibleerr(fc_architecture,
                 _("package architecture (%s) does not match system (%s)"),
-                pkg->available.arch->name, dpkg_arch_get(arch_native)->name);
+                pkg->available.arch->name,
+                dpkg_arch_get(DPKG_ARCH_NATIVE)->name);
 
   clear_deconfigure_queue();
   clear_istobes();

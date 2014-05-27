@@ -198,20 +198,22 @@ pkg_parse_verify(struct parsedb_state *ps,
     /* We always want usable architecture information (as long as the package
      * is in such a state that it make sense), so that it can be used safely
      * on string comparisons and the like. */
-    if (pkgbin->arch->type == arch_none)
+    if (pkgbin->arch->type == DPKG_ARCH_NONE)
       parse_warn(ps, _("missing %s"), "architecture");
-    else if (pkgbin->arch->type == arch_empty)
+    else if (pkgbin->arch->type == DPKG_ARCH_EMPTY)
       parse_warn(ps, _("empty value for %s"), "architecture");
   }
   /* Mark missing architectures as empty, to distinguish these from
    * unused slots in the db. */
-  if (pkgbin->arch->type == arch_none)
-    pkgbin->arch = dpkg_arch_get(arch_empty);
+  if (pkgbin->arch->type == DPKG_ARCH_NONE)
+    pkgbin->arch = dpkg_arch_get(DPKG_ARCH_EMPTY);
 
-  if (pkgbin->arch->type == arch_empty && pkgbin->multiarch == multiarch_same)
+  if (pkgbin->arch->type == DPKG_ARCH_EMPTY &&
+      pkgbin->multiarch == multiarch_same)
     parse_error(ps, _("package has field '%s' but is missing architecture"),
                 "Multi-Arch: same");
-  if (pkgbin->arch->type == arch_all && pkgbin->multiarch == multiarch_same)
+  if (pkgbin->arch->type == DPKG_ARCH_ALL &&
+      pkgbin->multiarch == multiarch_same)
     parse_error(ps, _("package has field '%s' but is architecture all"),
                 "Multi-Arch: same");
 
@@ -291,7 +293,7 @@ pkg_parse_verify(struct parsedb_state *ps,
       pkg->status == stat_notinstalled &&
       pkg->eflag == eflag_ok &&
       pkg->want == want_install &&
-      pkgbin->arch->type == arch_empty)
+      pkgbin->arch->type == DPKG_ARCH_EMPTY)
     pkg->want = want_unknown;
 }
 

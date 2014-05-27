@@ -4,7 +4,7 @@
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
- * Copyright © 2006-2013 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2009 Canonical Ltd.
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
@@ -185,7 +185,7 @@ f_architecture(struct pkginfo *pkg, struct pkgbin *pkgbin,
                const char *value, const struct fieldinfo *fip)
 {
   pkgbin->arch = dpkg_arch_find(value);
-  if (pkgbin->arch->type == arch_illegal)
+  if (pkgbin->arch->type == DPKG_ARCH_ILLEGAL)
     parse_warn(ps, _("'%s' is not a valid architecture name: %s"),
                value, dpkg_arch_name_is_illegal(value));
 }
@@ -451,7 +451,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
         dop->arch_is_implicit = false;
         dop->arch = dpkg_arch_find(arch.buf);
 
-        if (dop->arch->type == arch_illegal)
+        if (dop->arch->type == DPKG_ARCH_ILLEGAL)
           emsg = dpkg_arch_name_is_illegal(arch.buf);
         if (emsg)
           parse_error(ps, _("'%s' field, reference to '%.255s': "
@@ -461,7 +461,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
                  fip->integer == dep_replaces) {
         /* Conflics/Breaks/Replaces get an implicit "any" arch qualifier. */
         dop->arch_is_implicit = true;
-        dop->arch = dpkg_arch_get(arch_wildcard);
+        dop->arch = dpkg_arch_get(DPKG_ARCH_WILDCARD);
       } else {
         /* Otherwise use the pkgbin architecture, which will be assigned to
          * later on by parse.c, once we can guarantee we have parsed it from

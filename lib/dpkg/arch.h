@@ -4,7 +4,7 @@
  *
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
- * Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,14 +35,14 @@ DPKG_BEGIN_DECLS
  */
 
 enum dpkg_arch_type {
-	arch_none,
-	arch_empty,
-	arch_illegal,
-	arch_wildcard,
-	arch_all,
-	arch_native,
-	arch_foreign,
-	arch_unknown,
+	DPKG_ARCH_NONE,
+	DPKG_ARCH_EMPTY,
+	DPKG_ARCH_ILLEGAL,
+	DPKG_ARCH_WILDCARD,
+	DPKG_ARCH_ALL,
+	DPKG_ARCH_NATIVE,
+	DPKG_ARCH_FOREIGN,
+	DPKG_ARCH_UNKNOWN,
 };
 
 struct dpkg_arch {

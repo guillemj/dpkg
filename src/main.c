@@ -505,10 +505,10 @@ arch_add(const char *const *argv)
 
   arch = dpkg_arch_add(archname);
   switch (arch->type) {
-  case arch_native:
-  case arch_foreign:
+  case DPKG_ARCH_NATIVE:
+  case DPKG_ARCH_FOREIGN:
     break;
-  case arch_illegal:
+  case DPKG_ARCH_ILLEGAL:
     ohshit(_("architecture '%s' is illegal: %s"), archname,
            dpkg_arch_name_is_illegal(archname));
   default:
@@ -534,7 +534,7 @@ arch_remove(const char *const *argv)
   modstatdb_open(msdbrw_readonly);
 
   arch = dpkg_arch_find(archname);
-  if (arch->type != arch_foreign) {
+  if (arch->type != DPKG_ARCH_FOREIGN) {
     warning(_("cannot remove non-foreign architecture '%s'"), arch->name);
     return 0;
   }

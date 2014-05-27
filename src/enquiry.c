@@ -143,15 +143,15 @@ static const struct audit_problem audit_problems[] = {
     "database, they need to be reinstalled:\n")
   }, {
     .check = audit_arch,
-    .value.number = arch_none,
+    .value.number = DPKG_ARCH_NONE,
     .explanation = N_("The following packages do not have an architecture:\n")
   }, {
     .check = audit_arch,
-    .value.number = arch_illegal,
+    .value.number = DPKG_ARCH_ILLEGAL,
     .explanation = N_("The following packages have an illegal architecture:\n")
   }, {
     .check = audit_arch,
-    .value.number = arch_unknown,
+    .value.number = DPKG_ARCH_UNKNOWN,
     .explanation = N_(
     "The following packages have an unknown foreign architecture, which will\n"
     "cause dependency issues on front-ends. This can be fixed by registering\n"
@@ -552,7 +552,7 @@ printarch(const char *const *argv)
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  printf("%s\n", dpkg_arch_get(arch_native)->name);
+  printf("%s\n", dpkg_arch_get(DPKG_ARCH_NATIVE)->name);
 
   m_output(stdout, _("<standard output>"));
 
@@ -578,7 +578,7 @@ print_foreign_arches(const char *const *argv)
   dpkg_arch_load_list();
 
   for (arch = dpkg_arch_get_list(); arch; arch = arch->next) {
-    if (arch->type != arch_foreign)
+    if (arch->type != DPKG_ARCH_FOREIGN)
       continue;
 
     printf("%s\n", arch->name);

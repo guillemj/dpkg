@@ -3,7 +3,7 @@
  * pkg-db.c - low level package database routines (hash tables, etc.)
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -129,7 +129,7 @@ pkg_db_get_singleton(struct pkgset *set)
     for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
       const struct dpkg_arch *arch = pkg->available.arch;
 
-      if (arch->type == arch_native || arch->type == arch_all)
+      if (arch->type == DPKG_ARCH_NATIVE || arch->type == DPKG_ARCH_ALL)
         return pkg;
     }
     /* Or failing that, the first entry. */
@@ -186,12 +186,12 @@ pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
   struct pkginfo *pkg, **pkgp;
 
   assert(arch);
-  assert(arch->type != arch_none);
+  assert(arch->type != DPKG_ARCH_NONE);
 
   pkg = &set->pkg;
 
   /* If there's a single unused slot, let's use that. */
-  if (pkg->installed.arch->type == arch_none && pkg->arch_next == NULL) {
+  if (pkg->installed.arch->type == DPKG_ARCH_NONE && pkg->arch_next == NULL) {
     pkg->installed.arch = arch;
     pkg->available.arch = arch;
     return pkg;

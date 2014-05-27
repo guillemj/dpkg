@@ -4,7 +4,7 @@
  *
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
- * Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,13 +69,14 @@ pkg_spec_is_illegal(struct pkg_spec *ps)
 	    (emsg = pkg_name_is_illegal(ps->name))) {
 		snprintf(msg, sizeof(msg),
 		         _("illegal package name in specifier '%s%s%s': %s"),
-		         ps->name, (ps->arch->type != arch_none) ? ":" : "",
+		         ps->name,
+		         (ps->arch->type != DPKG_ARCH_NONE) ? ":" : "",
 		         ps->arch->name, emsg);
 		return msg;
 	}
 
-	if ((!ps->arch_is_pattern && ps->arch->type == arch_illegal) ||
-	    ps->arch->type == arch_empty) {
+	if ((!ps->arch_is_pattern && ps->arch->type == DPKG_ARCH_ILLEGAL) ||
+	    ps->arch->type == DPKG_ARCH_EMPTY) {
 		emsg = dpkg_arch_name_is_illegal(ps->arch->name);
 		snprintf(msg, sizeof(msg),
 		         _("illegal architecture name in specifier '%s:%s': %s"),
@@ -91,7 +92,7 @@ pkg_spec_is_illegal(struct pkg_spec *ps)
 		set = pkg_db_find_set(ps->name);
 
 		/* Single instancing only applies with no architecture. */
-		if (ps->arch->type == arch_none &&
+		if (ps->arch->type == DPKG_ARCH_NONE &&
 		    pkgset_installed_instances(set) > 1) {
 			snprintf(msg, sizeof(msg),
 			         _("ambiguous package name '%s' with more "
@@ -159,7 +160,7 @@ pkg_spec_match_arch(struct pkg_spec *ps, struct pkginfo *pkg,
 {
 	if (ps->arch_is_pattern)
 		return (fnmatch(ps->arch->name, arch->name, 0) == 0);
-	else if (ps->arch->type != arch_none) /* !arch_is_pattern */
+	else if (ps->arch->type != DPKG_ARCH_NONE) /* !arch_is_pattern */
 		return (ps->arch == arch);
 
 	/* No arch specified. */
@@ -185,7 +186,7 @@ pkg_spec_match_pkg(struct pkg_spec *ps, struct pkginfo *pkg,
 static struct pkginfo *
 pkg_spec_get_pkg(struct pkg_spec *ps)
 {
-	if (ps->arch->type == arch_none)
+	if (ps->arch->type == DPKG_ARCH_NONE)
 		return pkg_db_find_singleton(ps->name);
 	else
 		return pkg_db_find_pkg(ps->name, ps->arch);

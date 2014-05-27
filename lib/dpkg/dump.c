@@ -212,9 +212,9 @@ w_architecture(struct varbuf *vb,
 {
   if (!pkgbin->arch)
     return;
-  if (pkgbin->arch->type == arch_none)
+  if (pkgbin->arch->type == DPKG_ARCH_NONE)
     return;
-  if (pkgbin->arch->type == arch_empty)
+  if (pkgbin->arch->type == DPKG_ARCH_EMPTY)
     return;
 
   if (flags & fw_printheader)
