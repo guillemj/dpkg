@@ -1054,8 +1054,8 @@ alternative_remove_choice(struct alternative *a, const char *file)
  */
 
 enum altdb_flags {
-	altdb_lax_parser = 1 << 0,
-	altdb_warn_parser = 1 << 1,
+	ALTDB_LAX_PARSER = 1 << 0,
+	ALTDB_WARN_PARSER = 1 << 1,
 };
 
 struct altdb_context {
@@ -1232,7 +1232,7 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 			syserr(_("cannot stat file '%s'"), master_file);
 
 		/* File not found - remove. */
-		if (ctx->flags & altdb_warn_parser)
+		if (ctx->flags & ALTDB_WARN_PARSER)
 			warning(_("alternative %s (part of link group %s) "
 			          "doesn't exist; removing from list of "
 			          "alternatives"), master_file, a->master_name);
@@ -1289,7 +1289,7 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 	}
 	ctx.modified = false;
 	ctx.flags = flags;
-	if (flags & altdb_lax_parser)
+	if (flags & ALTDB_LAX_PARSER)
 		ctx.bad_format = altdb_parse_stop;
 	else
 		ctx.bad_format = altdb_parse_error;
@@ -2010,7 +2010,7 @@ alternative_map_load_names(struct alternative_map *alt_map_obj)
 	for (i = 0; i < count; i++) {
 		struct alternative *a_new = alternative_new(table[i]->d_name);
 
-		if (!alternative_load(a_new, altdb_lax_parser)) {
+		if (!alternative_load(a_new, ALTDB_LAX_PARSER)) {
 			alternative_free(a_new);
 			continue;
 		}
@@ -2031,7 +2031,7 @@ alternative_map_load_tree(struct alternative_map *alt_map_links,
 		struct slave_link *sl;
 		struct alternative *a_new = alternative_new(table[i]->d_name);
 
-		if (!alternative_load(a_new, altdb_lax_parser)) {
+		if (!alternative_load(a_new, ALTDB_LAX_PARSER)) {
 			alternative_free(a_new);
 			continue;
 		}
@@ -2683,19 +2683,19 @@ main(int argc, char **argv)
 	    strcmp(action, "config") == 0 ||
 	    strcmp(action, "remove-all") == 0) {
 		/* Load the alternative info, stop on failure. */
-		if (!alternative_load(a, altdb_warn_parser))
+		if (!alternative_load(a, ALTDB_WARN_PARSER))
 			error(_("no alternatives for %s"), a->master_name);
 	} else if (strcmp(action, "remove") == 0) {
 		/* FIXME: Be consistent for now with the case when we
 		 * try to remove a non-existing path from an existing
 		 * link group file. */
-		if (!alternative_load(a, altdb_warn_parser)) {
+		if (!alternative_load(a, ALTDB_WARN_PARSER)) {
 			verbose(_("no alternatives for %s"), a->master_name);
 			exit(0);
 		}
 	} else if (strcmp(action, "install") == 0) {
 		/* Load the alternative info, ignore failures. */
-		alternative_load(a, altdb_warn_parser);
+		alternative_load(a, ALTDB_WARN_PARSER);
 	}
 
 	/* Handle actions. */
