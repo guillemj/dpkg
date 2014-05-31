@@ -197,6 +197,106 @@ get_control_dir(char *cidir)
   return cidir;
 }
 
+/**
+ * Read the conffiles, and copy the hashes across.
+ */
+static void
+deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
+                    struct filenamenode_queue *newconffiles)
+{
+  FILE *conff;
+  char conffilenamebuf[MAXCONFFILENAME];
+
+  conff = fopen(control_conffiles, "r");
+  if (conff == NULL) {
+    if (errno == ENOENT)
+      return;
+    ohshite(_("error trying to open %.250s"), control_conffiles);
+  }
+
+  push_cleanup(cu_closestream, ehflag_bombout, NULL, 0, 1, conff);
+
+  while (fgets(conffilenamebuf, MAXCONFFILENAME - 2, conff)) {
+    struct pkginfo *otherpkg;
+    struct filepackages_iterator *iter;
+    struct filenamenode *namenode;
+    struct fileinlist *newconff;
+    struct conffile *searchconff;
+    char *p;
+
+    p = conffilenamebuf + strlen(conffilenamebuf);
+    assert(p != conffilenamebuf);
+    if (p[-1] != '\n')
+      ohshit(_("conffile name '%s' is too long, or missing final newline"),
+             conffilenamebuf);
+    while (p > conffilenamebuf && isspace(p[-1]))
+      --p;
+    if (p == conffilenamebuf)
+      continue;
+    *p = '\0';
+
+    namenode = findnamenode(conffilenamebuf, 0);
+    namenode->oldhash = NEWCONFFILEFLAG;
+    newconff = filenamenode_queue_push(newconffiles, namenode);
+
+    /*
+     * Let's see if any packages have this file.
+     *
+     * If they do we check to see if they listed it as a conffile,
+     * and if they did we copy the hash across. Since (for plain
+     * file conffiles, which is the only kind we are supposed to
+     * have) there will only be one package which ‘has’ the file,
+     * this will usually mean we only look in the package which
+     * we are installing now.
+     *
+     * The ‘conffiles’ data in the status file is ignored when a
+     * package is not also listed in the file ownership database as
+     * having that file. If several packages are listed as owning
+     * the file we pick one at random.
+     */
+    searchconff = NULL;
+
+    iter = filepackages_iter_new(newconff->namenode);
+    while ((otherpkg = filepackages_iter_next(iter))) {
+      debug(dbg_conffdetail,
+            "process_archive conffile '%s' in package %s - conff ?",
+            newconff->namenode->name, pkg_name(otherpkg, pnaw_always));
+      for (searchconff = otherpkg->installed.conffiles;
+           searchconff && strcmp(newconff->namenode->name, searchconff->name);
+           searchconff = searchconff->next)
+        debug(dbg_conffdetail,
+              "process_archive conffile '%s' in package %s - conff ? not '%s'",
+              newconff->namenode->name, pkg_name(otherpkg, pnaw_always),
+              searchconff->name);
+      if (searchconff) {
+        debug(dbg_conff,
+              "process_archive conffile '%s' package=%s %s hash=%s",
+              newconff->namenode->name, pkg_name(otherpkg, pnaw_always),
+              otherpkg == pkg ? "same" : "different!",
+              searchconff->hash);
+        if (otherpkg == pkg)
+          break;
+      }
+    }
+    filepackages_iter_free(iter);
+
+    if (searchconff) {
+      /* We don't copy ‘obsolete’; it's not obsolete in the new package. */
+      newconff->namenode->oldhash = searchconff->hash;
+    } else {
+      debug(dbg_conff, "process_archive conffile '%s' no package, no hash",
+            newconff->namenode->name);
+    }
+    newconff->namenode->flags |= fnnf_new_conff;
+  }
+
+  if (ferror(conff))
+    ohshite(_("read error in %.250s"), control_conffiles);
+  pop_cleanup(ehflag_normaltidy); /* conff = fopen() */
+  if (fclose(conff))
+    ohshite(_("error closing %.250s"), control_conffiles);
+}
+
 static struct pkg_queue conflictors = PKG_QUEUE_INIT;
 
 void
@@ -421,20 +521,17 @@ void process_archive(const char *filename) {
   struct pkginfo *pkg, *otherpkg;
   struct pkg_list *conflictor_iter;
   char *cidir = NULL;
-  char *cidirrest, *p;
-  char conffilenamebuf[MAXCONFFILENAME];
+  char *cidirrest;
   char *psize;
   const char *pfilename;
   struct fileinlist *newfileslist;
-  struct fileinlist *newconff;
   struct fileinlist *cfile;
   struct filenamenode_queue newconffiles;
   struct reversefilelistiter rlistit;
-  struct conffile *searchconff, **iconffileslastp, *newiconff;
+  struct conffile **iconffileslastp, *newiconff;
   struct dependency *dsearch, *newdeplist, **newdeplistlastp;
   struct dependency *newdep, *dep, *providecheck;
   struct deppossi *psearch, **newpossilastp, *possi, *newpossi, *pdep;
-  FILE *conff;
   struct filenamenode *namenode;
   struct stat stab, oldfs;
   struct pkg_deconf_list *deconpil;
@@ -623,75 +720,7 @@ void process_archive(const char *filename) {
   newconffiles.tail = &newconffiles.head;
   push_cleanup(cu_fileslist, ~0, NULL, 0, 0);
   strcpy(cidirrest,CONFFILESFILE);
-  conff= fopen(cidir,"r");
-  if (conff) {
-    push_cleanup(cu_closestream, ehflag_bombout, NULL, 0, 1, (void *)conff);
-    while (fgets(conffilenamebuf,MAXCONFFILENAME-2,conff)) {
-      struct filepackages_iterator *iter;
-
-      p= conffilenamebuf + strlen(conffilenamebuf);
-      assert(p != conffilenamebuf);
-      if (p[-1] != '\n')
-        ohshit(_("conffile name '%s' is too long, or missing final newline"),
-               conffilenamebuf);
-      while (p > conffilenamebuf && isspace(p[-1])) --p;
-      if (p == conffilenamebuf) continue;
-      *p = '\0';
-      namenode= findnamenode(conffilenamebuf, 0);
-      namenode->oldhash= NEWCONFFILEFLAG;
-      newconff = filenamenode_queue_push(&newconffiles, namenode);
-
-      /* Let's see if any packages have this file. If they do we
-       * check to see if they listed it as a conffile, and if they did
-       * we copy the hash across. Since (for plain file conffiles,
-       * which is the only kind we are supposed to have) there will
-       * only be one package which ‘has’ the file, this will usually
-       * mean we only look in the package which we're installing now.
-       * The ‘conffiles’ data in the status file is ignored when a
-       * package isn't also listed in the file ownership database as
-       * having that file. If several packages are listed as owning
-       * the file we pick one at random. */
-      searchconff = NULL;
-
-      iter = filepackages_iter_new(newconff->namenode);
-      while ((otherpkg = filepackages_iter_next(iter))) {
-        debug(dbg_conffdetail,
-              "process_archive conffile '%s' in package %s - conff ?",
-              newconff->namenode->name, pkg_name(otherpkg, pnaw_always));
-        for (searchconff = otherpkg->installed.conffiles;
-             searchconff && strcmp(newconff->namenode->name, searchconff->name);
-             searchconff = searchconff->next)
-          debug(dbg_conffdetail,
-                "process_archive conffile '%s' in package %s - conff ? not '%s'",
-                newconff->namenode->name, pkg_name(otherpkg, pnaw_always),
-                searchconff->name);
-        if (searchconff) {
-          debug(dbg_conff,
-                "process_archive conffile '%s' package=%s %s hash=%s",
-                newconff->namenode->name, pkg_name(otherpkg, pnaw_always),
-                otherpkg == pkg ? "same" : "different!",
-                searchconff->hash);
-          if (otherpkg == pkg)
-            break;
-        }
-      }
-      filepackages_iter_free(iter);
-
-      if (searchconff) {
-        newconff->namenode->oldhash= searchconff->hash;
-	/* We don't copy ‘obsolete’; it's not obsolete in the new package. */
-      } else {
-        debug(dbg_conff, "process_archive conffile '%s' no package, no hash",
-              newconff->namenode->name);
-      }
-      newconff->namenode->flags |= fnnf_new_conff;
-    }
-    if (ferror(conff)) ohshite(_("read error in %.250s"),cidir);
-    pop_cleanup(ehflag_normaltidy); /* conff = fopen() */
-    if (fclose(conff)) ohshite(_("error closing %.250s"),cidir);
-  } else {
-    if (errno != ENOENT) ohshite(_("error trying to open %.250s"),cidir);
-  }
+  deb_parse_conffiles(pkg, cidir, &newconffiles);
 
   /* All the old conffiles are marked with a flag, so that we don't delete
    * them if they seem to disappear completely. */
