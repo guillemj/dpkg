@@ -273,7 +273,7 @@ unpackchk(const char *const *argv)
 {
   int totalcount, sects;
   struct sectionentry *sectionentries, *se, **sep;
-  struct pkgiterator *it;
+  struct pkgiterator *iter;
   struct pkginfo *pkg;
   const char *thissect;
   char buf[20];
@@ -287,8 +287,8 @@ unpackchk(const char *const *argv)
   totalcount= 0;
   sectionentries = NULL;
   sects= 0;
-  it = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(it))) {
+  iter = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next_pkg(iter))) {
     if (!yettobeunpacked(pkg, &thissect)) continue;
     for (se= sectionentries; se && strcasecmp(thissect,se->name); se= se->next);
     if (!se) {
@@ -304,27 +304,27 @@ unpackchk(const char *const *argv)
     }
     se->count++; totalcount++;
   }
-  pkg_db_iter_free(it);
+  pkg_db_iter_free(iter);
 
   if (totalcount == 0)
     return 0;
 
   if (totalcount <= 12) {
-    it = pkg_db_iter_new();
-    while ((pkg = pkg_db_iter_next_pkg(it))) {
+    iter = pkg_db_iter_new();
+    while ((pkg = pkg_db_iter_next_pkg(iter))) {
       if (!yettobeunpacked(pkg, NULL))
         continue;
       describebriefly(pkg);
     }
-    pkg_db_iter_free(it);
+    pkg_db_iter_free(iter);
   } else if (sects <= 12) {
     for (se= sectionentries; se; se= se->next) {
       sprintf(buf,"%d",se->count);
       printf(_(" %d in %s: "),se->count,se->name);
       width= 70-strlen(se->name)-strlen(buf);
       while (width > 59) { putchar(' '); width--; }
-      it = pkg_db_iter_new();
-      while ((pkg = pkg_db_iter_next_pkg(it))) {
+      iter = pkg_db_iter_new();
+      while ((pkg = pkg_db_iter_next_pkg(iter))) {
         const char *pkgname;
 
         if (!yettobeunpacked(pkg,&thissect)) continue;
@@ -335,7 +335,7 @@ unpackchk(const char *const *argv)
         if (width < 4) { printf(" ..."); break; }
         printf(" %s", pkgname);
       }
-      pkg_db_iter_free(it);
+      pkg_db_iter_free(iter);
       putchar('\n');
     }
   } else {
@@ -458,7 +458,7 @@ predeppackage(const char *const *argv)
 {
   static struct varbuf vb;
 
-  struct pkgiterator *it;
+  struct pkgiterator *iter;
   struct pkginfo *pkg = NULL, *startpkg, *trypkg;
   struct dependency *dep;
   struct deppossi *possi, *provider;
@@ -471,8 +471,8 @@ predeppackage(const char *const *argv)
   clear_istobes();
 
   dep = NULL;
-  it = pkg_db_iter_new();
-  while (!dep && (pkg = pkg_db_iter_next_pkg(it))) {
+  iter = pkg_db_iter_new();
+  while (!dep && (pkg = pkg_db_iter_next_pkg(iter))) {
     /* Ignore packages user doesn't want. */
     if (pkg->want != PKG_WANT_INSTALL)
       continue;
@@ -490,7 +490,7 @@ predeppackage(const char *const *argv)
     pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     /* If dep is NULL we go and get the next package. */
   }
-  pkg_db_iter_free(it);
+  pkg_db_iter_free(iter);
 
   if (!dep)
     return 1; /* Not found. */

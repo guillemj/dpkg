@@ -147,12 +147,12 @@ verify(const char *const *argv)
 	ensure_diversions();
 
 	if (!*argv) {
-		struct pkgiterator *it;
+		struct pkgiterator *iter;
 
-		it = pkg_db_iter_new();
-		while ((pkg = pkg_db_iter_next_pkg(it)))
+		iter = pkg_db_iter_new();
+		while ((pkg = pkg_db_iter_next_pkg(iter)))
 			verify_package(pkg);
-		pkg_db_iter_free(it);
+		pkg_db_iter_free(iter);
 	} else {
 		const char *thisarg;
 

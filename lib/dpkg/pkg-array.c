@@ -62,17 +62,17 @@ pkg_array_init_from_names(struct pkg_array *a, pkg_mapper_func pkg_mapper,
 void
 pkg_array_init_from_db(struct pkg_array *a)
 {
-	struct pkgiterator *it;
+	struct pkgiterator *iter;
 	struct pkginfo *pkg;
 	int i;
 
 	a->n_pkgs = pkg_db_count_pkg();
 	a->pkgs = m_malloc(sizeof(a->pkgs[0]) * a->n_pkgs);
 
-	it = pkg_db_iter_new();
-	for (i = 0; (pkg = pkg_db_iter_next_pkg(it)); i++)
+	iter = pkg_db_iter_new();
+	for (i = 0; (pkg = pkg_db_iter_next_pkg(iter)); i++)
 		a->pkgs[i] = pkg;
-	pkg_db_iter_free(it);
+	pkg_db_iter_free(iter);
 
 	assert(i == a->n_pkgs);
 }

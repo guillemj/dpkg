@@ -72,11 +72,11 @@ enqueue_package_mark_seen(struct pkginfo *pkg)
 static void
 enqueue_pending(void)
 {
-  struct pkgiterator *it;
+  struct pkgiterator *iter;
   struct pkginfo *pkg;
 
-  it = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(it)) != NULL) {
+  iter = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next_pkg(iter)) != NULL) {
     switch (cipaction->arg_int) {
     case act_configure:
       if (!(pkg->status == PKG_STAT_UNPACKED ||
@@ -108,7 +108,7 @@ enqueue_pending(void)
     }
     enqueue_package(pkg);
   }
-  pkg_db_iter_free(it);
+  pkg_db_iter_free(iter);
 }
 
 static void

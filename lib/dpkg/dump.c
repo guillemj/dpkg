@@ -480,7 +480,7 @@ writedb(const char *filename, enum writedb_flags flags)
 {
   static char writebuf[8192];
 
-  struct pkgiterator *it;
+  struct pkgiterator *iter;
   struct pkginfo *pkg;
   struct pkgbin *pkgbin;
   const char *which;
@@ -494,8 +494,8 @@ writedb(const char *filename, enum writedb_flags flags)
   if (setvbuf(file->fp, writebuf, _IOFBF, sizeof(writebuf)))
     ohshite(_("unable to set buffering on %s database file"), which);
 
-  it = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(it)) != NULL) {
+  iter = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next_pkg(iter)) != NULL) {
     pkgbin = (flags & wdb_dump_available) ? &pkg->available : &pkg->installed;
     /* Don't dump records which have no useful content. */
     if (!pkg_is_informative(pkg, pkgbin))
@@ -508,7 +508,7 @@ writedb(const char *filename, enum writedb_flags flags)
               which, pkgbin_name(pkg, pkgbin, pnaw_nonambig), filename);
     varbuf_reset(&vb);
   }
-  pkg_db_iter_free(it);
+  pkg_db_iter_free(iter);
   varbuf_destroy(&vb);
   if (flags & wdb_must_sync)
     atomic_file_sync(file);

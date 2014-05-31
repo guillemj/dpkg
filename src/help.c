@@ -196,16 +196,16 @@ force_conflicts(struct deppossi *possi)
 }
 
 void clear_istobes(void) {
-  struct pkgiterator *it;
+  struct pkgiterator *iter;
   struct pkginfo *pkg;
 
-  it = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(it)) != NULL) {
+  iter = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next_pkg(iter)) != NULL) {
     ensure_package_clientdata(pkg);
     pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     pkg->clientdata->replacingfilesandsaid= 0;
   }
-  pkg_db_iter_free(it);
+  pkg_db_iter_free(iter);
 }
 
 /*

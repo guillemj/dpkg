@@ -247,7 +247,7 @@ removal_bulk_file_is_shared(struct pkginfo *pkg, struct filenamenode *namenode)
 static void
 removal_bulk_remove_files(struct pkginfo *pkg)
 {
-  struct reversefilelistiter rlistit;
+  struct reversefilelistiter rev_iter;
   struct fileinlist *leftover;
   struct filenamenode *namenode;
   static struct varbuf fnvb;
@@ -258,9 +258,9 @@ removal_bulk_remove_files(struct pkginfo *pkg)
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
-    reversefilelist_init(&rlistit,pkg->clientdata->files);
+    reversefilelist_init(&rev_iter, pkg->clientdata->files);
     leftover = NULL;
-    while ((namenode= reversefilelist_next(&rlistit))) {
+    while ((namenode = reversefilelist_next(&rev_iter))) {
       struct filenamenode *usenode;
       bool is_dir;
 
@@ -369,7 +369,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 }
 
 static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
-  struct reversefilelistiter rlistit;
+  struct reversefilelistiter rev_iter;
   struct fileinlist *leftover;
   struct filenamenode *namenode;
   static struct varbuf fnvb;
@@ -381,9 +381,9 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
   modstatdb_note(pkg);
   push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
-  reversefilelist_init(&rlistit,pkg->clientdata->files);
+  reversefilelist_init(&rev_iter, pkg->clientdata->files);
   leftover = NULL;
-  while ((namenode= reversefilelist_next(&rlistit))) {
+  while ((namenode = reversefilelist_next(&rev_iter))) {
     struct filenamenode *usenode;
 
     debug(dbg_eachfile, "removal_bulk '%s' flags=%o",

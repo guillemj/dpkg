@@ -257,7 +257,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	struct trigcyclenode *tcn;
 	struct trigcycleperpkg *tcpp, *tortoise_pkg;
 	struct trigpend *tortoise_trig;
-	struct pkgiterator *it;
+	struct pkgiterator *iter;
 	struct pkginfo *pkg, *giveup;
 	const char *sep;
 
@@ -268,8 +268,8 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	tcn->pkgs = NULL;
 	tcn->then_processed = processing_now;
 
-	it = pkg_db_iter_new();
-	while ((pkg = pkg_db_iter_next_pkg(it))) {
+	iter = pkg_db_iter_new();
+	while ((pkg = pkg_db_iter_next_pkg(iter))) {
 		if (!pkg->trigpend_head)
 			continue;
 		tcpp = nfmalloc(sizeof(*tcpp));
@@ -278,7 +278,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 		tcpp->next = tcn->pkgs;
 		tcn->pkgs = tcpp;
 	}
-	pkg_db_iter_free(it);
+	pkg_db_iter_free(iter);
 	if (!hare) {
 		debug(dbg_triggersdetail, "check_triggers_cycle pnow=%s first",
 		      pkg_name(processing_now, pnaw_always));
@@ -488,11 +488,11 @@ transitional_interest_callback(const char *trig, struct pkginfo *pkg,
 static void
 trig_transitional_activate(enum modstatdb_rw cstatus)
 {
-	struct pkgiterator *it;
+	struct pkgiterator *iter;
 	struct pkginfo *pkg;
 
-	it = pkg_db_iter_new();
-	while ((pkg = pkg_db_iter_next_pkg(it))) {
+	iter = pkg_db_iter_new();
+	while ((pkg = pkg_db_iter_next_pkg(iter))) {
 		if (pkg->status <= PKG_STAT_HALFINSTALLED)
 			continue;
 		debug(dbg_triggersdetail, "trig_transitional_activate %s %s",
@@ -519,7 +519,7 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		else
 			pkg_set_status(pkg, PKG_STAT_INSTALLED);
 	}
-	pkg_db_iter_free(it);
+	pkg_db_iter_free(iter);
 
 	if (cstatus >= msdbrw_write) {
 		modstatdb_checkpoint();

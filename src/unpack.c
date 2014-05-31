@@ -438,13 +438,13 @@ pkg_remove_old_files(struct pkginfo *pkg,
                      struct filenamenode_queue *newfiles_queue,
                      struct filenamenode_queue *newconffiles)
 {
-  struct reversefilelistiter rlistit;
+  struct reversefilelistiter rev_iter;
   struct filenamenode *namenode;
   struct stat stab, oldfs;
 
-  reversefilelist_init(&rlistit, pkg->clientdata->files);
+  reversefilelist_init(&rev_iter, pkg->clientdata->files);
 
-  while ((namenode = reversefilelist_next(&rlistit))) {
+  while ((namenode = reversefilelist_next(&rev_iter))) {
     struct filenamenode *usenode;
 
     if ((namenode->flags & fnnf_new_conff) ||
@@ -711,15 +711,15 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
 static void
 pkg_disappear_others(struct pkginfo *pkg)
 {
-  struct pkgiterator *it;
+  struct pkgiterator *iter;
   struct pkginfo *otherpkg;
   struct fileinlist *cfile;
   struct deppossi *pdep;
   struct dependency *providecheck;
   struct varbuf depprobwhy = VARBUF_INIT;
 
-  it = pkg_db_iter_new();
-  while ((otherpkg = pkg_db_iter_next_pkg(it)) != NULL) {
+  iter = pkg_db_iter_new();
+  while ((otherpkg = pkg_db_iter_next_pkg(iter)) != NULL) {
     ensure_package_clientdata(otherpkg);
 
     if (otherpkg == pkg ||
@@ -810,7 +810,7 @@ pkg_disappear_others(struct pkginfo *pkg)
      * what can we do ?  It has to be run this late. */
     pkg_disappear(otherpkg, pkg);
   } /* while (otherpkg= ... */
-  pkg_db_iter_free(it);
+  pkg_db_iter_free(iter);
 }
 
 /**

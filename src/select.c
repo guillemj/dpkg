@@ -208,7 +208,7 @@ int
 clearselections(const char *const *argv)
 {
   enum modstatdb_rw msdbflags;
-  struct pkgiterator *it;
+  struct pkgiterator *iter;
   struct pkginfo *pkg;
 
   if (*argv)
@@ -222,12 +222,12 @@ clearselections(const char *const *argv)
   modstatdb_open(msdbflags);
   pkg_infodb_upgrade();
 
-  it = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(it))) {
+  iter = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next_pkg(iter))) {
     if (!pkg->installed.essential)
       pkg_set_want(pkg, PKG_WANT_DEINSTALL);
   }
-  pkg_db_iter_free(it);
+  pkg_db_iter_free(iter);
 
   modstatdb_shutdown();
 
