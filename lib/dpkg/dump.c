@@ -234,9 +234,7 @@ w_priority(struct varbuf *vb,
   assert(pkg->priority <= pri_unknown);
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Priority: ");
-  varbuf_add_str(vb, pkg->priority == pri_other ?
-                     pkg->otherpriority :
-                     priorityinfos[pkg->priority].name);
+  varbuf_add_str(vb, pkg_priority_name(pkg));
   if (flags&fw_printheader)
     varbuf_add_char(vb, '\n');
 }

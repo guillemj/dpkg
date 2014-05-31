@@ -207,6 +207,22 @@ pkg_status_name(const struct pkginfo *pkg)
 }
 
 /**
+ * Return a string representation of the package priority name.
+ *
+ * @param pkg The package to consider.
+ *
+ * @return The string representation.
+ */
+const char *
+pkg_priority_name(const struct pkginfo *pkg)
+{
+	if (pkg->priority == pri_other)
+		return pkg->otherpriority;
+	else
+		return priorityinfos[pkg->priority].name;
+}
+
+/**
  * Compare a package to be sorted by non-ambiguous name and architecture.
  *
  * @param a A pointer of a pointer to a struct pkginfo.

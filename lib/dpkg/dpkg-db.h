@@ -361,6 +361,8 @@ const char *pkg_want_name(const struct pkginfo *pkg);
 const char *pkg_status_name(const struct pkginfo *pkg);
 const char *pkg_eflag_name(const struct pkginfo *pkg);
 
+const char *pkg_priority_name(const struct pkginfo *pkg);
+
 /*** from dump.c ***/
 
 void writerecord(FILE*, const char*,
