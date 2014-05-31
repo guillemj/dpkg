@@ -409,8 +409,6 @@ void process_archive(const char *filename) {
    * we unwind the stack before processing the cleanup list, and these
    * variables had better still exist ... */
   static int p1[2];
-  static char *cidir = NULL;
-  static struct fileinlist *newconffiles, *newfileslist;
   static enum pkgstatus oldversionstatus;
   static struct varbuf depprobwhy;
   static struct tarcontext tc;
@@ -422,10 +420,13 @@ void process_archive(const char *filename) {
   struct pkgiterator *it;
   struct pkginfo *pkg, *otherpkg;
   struct pkg_list *conflictor_iter;
+  char *cidir = NULL;
   char *cidirrest, *p;
   char conffilenamebuf[MAXCONFFILENAME];
   char *psize;
   const char *pfilename;
+  struct fileinlist *newfileslist;
+  struct fileinlist *newconffiles;
   struct fileinlist *newconff, **newconffileslastp;
   struct fileinlist *cfile;
   struct reversefilelistiter rlistit;
