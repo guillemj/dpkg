@@ -27,6 +27,7 @@
 
 /* These two are defined in filesdb.h. */
 struct fileinlist;
+struct filenamenode_queue;
 struct filenamenode;
 
 enum pkg_istobe {
@@ -149,8 +150,10 @@ struct invoke_hook {
 int archivefiles(const char *const *argv);
 void process_archive(const char *filename);
 bool wanttoinstall(struct pkginfo *pkg);
-struct fileinlist *newconff_append(struct fileinlist ***newconffileslastp_io,
-				   struct filenamenode *namenode);
+
+struct fileinlist *
+newconff_append(struct filenamenode_queue *queue,
+                struct filenamenode *namenode);
 
 /* from update.c */
 

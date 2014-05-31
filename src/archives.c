@@ -1758,14 +1758,18 @@ wanttoinstall(struct pkginfo *pkg)
   }
 }
 
-struct fileinlist *newconff_append(struct fileinlist ***newconffileslastp_io,
-				   struct filenamenode *namenode) {
+struct fileinlist *
+newconff_append(struct filenamenode_queue *queue,
+                struct filenamenode *namenode)
+{
   struct fileinlist *newconff;
 
   newconff= m_malloc(sizeof(struct fileinlist));
   newconff->next = NULL;
   newconff->namenode= namenode;
-  **newconffileslastp_io= newconff;
-  *newconffileslastp_io= &newconff->next;
+
+  *queue->tail = newconff;
+  queue->tail = &newconff->next;
+
   return newconff;
 }

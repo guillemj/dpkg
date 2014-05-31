@@ -426,9 +426,9 @@ void process_archive(const char *filename) {
   char *psize;
   const char *pfilename;
   struct fileinlist *newfileslist;
-  struct fileinlist *newconffiles;
-  struct fileinlist *newconff, **newconffileslastp;
+  struct fileinlist *newconff;
   struct fileinlist *cfile;
+  struct filenamenode_queue newconffiles;
   struct reversefilelistiter rlistit;
   struct conffile *searchconff, **iconffileslastp, *newiconff;
   struct dependency *dsearch, *newdeplist, **newdeplistlastp;
@@ -619,8 +619,8 @@ void process_archive(const char *filename) {
   trig_parse_ci(cidir, NULL, trig_cicb_statuschange_activate, pkg, &pkg->available);
 
   /* Read the conffiles, and copy the hashes across. */
-  newconffiles = NULL;
-  newconffileslastp = &newconffiles;
+  newconffiles.head = NULL;
+  newconffiles.tail = &newconffiles.head;
   push_cleanup(cu_fileslist, ~0, NULL, 0, 0);
   strcpy(cidirrest,CONFFILESFILE);
   conff= fopen(cidir,"r");
@@ -639,7 +639,7 @@ void process_archive(const char *filename) {
       *p = '\0';
       namenode= findnamenode(conffilenamebuf, 0);
       namenode->oldhash= NEWCONFFILEFLAG;
-      newconff= newconff_append(&newconffileslastp, namenode);
+      newconff = newconff_append(&newconffiles, namenode);
 
       /* Let's see if any packages have this file. If they do we
        * check to see if they listed it as a conffile, and if they did
@@ -1104,7 +1104,7 @@ void process_archive(const char *filename) {
 	  debug(dbg_eachfile, "process_archive: old conff %s"
 		" is disappearing", namenode->name);
 	  namenode->flags |= fnnf_obs_conff;
-	  newconff_append(&newconffileslastp, namenode);
+	  newconff_append(&newconffiles, namenode);
 	  addfiletolist(&tc, namenode);
 	}
 	continue;
@@ -1215,7 +1215,7 @@ void process_archive(const char *filename) {
   /* We have to generate our own conffiles structure. */
   pkg->installed.conffiles = NULL;
   iconffileslastp = &pkg->installed.conffiles;
-  for (cfile= newconffiles; cfile; cfile= cfile->next) {
+  for (cfile = newconffiles.head; cfile; cfile = cfile->next) {
     newiconff= nfmalloc(sizeof(struct conffile));
     newiconff->next = NULL;
     newiconff->name= nfstrsave(cfile->namenode->name);
