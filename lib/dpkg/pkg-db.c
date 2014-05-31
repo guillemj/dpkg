@@ -331,7 +331,7 @@ pkg_db_iter_next_set(struct pkgiterator *iter)
 struct pkginfo *
 pkg_db_iter_next_pkg(struct pkgiterator *iter)
 {
-  struct pkginfo *r;
+  struct pkginfo *pkg;
 
   while (!iter->pkg) {
     if (iter->nbinn >= BINS)
@@ -341,15 +341,15 @@ pkg_db_iter_next_pkg(struct pkgiterator *iter)
     iter->nbinn++;
   }
 
-  r = iter->pkg;
-  if (r->arch_next)
-    iter->pkg = r->arch_next;
-  else if (r->set->next)
-    iter->pkg = &r->set->next->pkg;
+  pkg = iter->pkg;
+  if (pkg->arch_next)
+    iter->pkg = pkg->arch_next;
+  else if (pkg->set->next)
+    iter->pkg = &pkg->set->next->pkg;
   else
     iter->pkg = NULL;
 
-  return r;
+  return pkg;
 }
 
 /**
