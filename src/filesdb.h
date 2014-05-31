@@ -114,6 +114,13 @@ struct fileinlist {
 };
 
 /**
+ * Queue of filenamenode entries.
+ */
+struct filenamenode_queue {
+  struct fileinlist *head, **tail;
+};
+
+/**
  * When we deal with an ‘overridden’ file, every package except the
  * overriding one is considered to contain the other file instead. Both
  * files have entries in the filesdb database, and they refer to each other
