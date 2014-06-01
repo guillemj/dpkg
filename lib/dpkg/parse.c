@@ -449,11 +449,11 @@ pkg_parse_copy(struct parsedb_state *ps,
       !((ps->flags & pdb_weakclassification) &&
         str_is_set(dst_pkg->section)))
     dst_pkg->section = src_pkg->section;
-  if (src_pkg->priority != pri_unknown &&
+  if (src_pkg->priority != PKG_PRIO_UNKNOWN &&
       !((ps->flags & pdb_weakclassification) &&
-        dst_pkg->priority != pri_unknown)) {
+        dst_pkg->priority != PKG_PRIO_UNKNOWN)) {
     dst_pkg->priority = src_pkg->priority;
-    if (src_pkg->priority == pri_other)
+    if (src_pkg->priority == PKG_PRIO_OTHER)
       dst_pkg->otherpriority = src_pkg->otherpriority;
   }
 

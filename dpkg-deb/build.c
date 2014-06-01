@@ -382,7 +382,7 @@ check_new_pkg(const char *dir)
   if (strspn(pkg->set->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
       strlen(pkg->set->name))
     ohshit(_("package name has characters that aren't lowercase alphanums or `-+.'"));
-  if (pkg->priority == pri_other)
+  if (pkg->priority == PKG_PRIO_OTHER)
     warning(_("'%s' contains user-defined Priority value '%s'"),
             controlfile, pkg->otherpriority);
   for (field = pkg->available.arbs; field; field = field->next) {

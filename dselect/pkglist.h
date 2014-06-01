@@ -67,7 +67,8 @@ struct perpackagestate {
   /* The ‘heading’ entries in the list, for “all packages of type foo”,
    * point to a made-up pkginfo, which has pkg->name==0.
    * pkg->priority and pkg->section are set to the values if appropriate, or to
-   * pri_unset resp. null if the heading refers to all priorities resp. sections.
+   * PKG_PRIO_UNSET resp. null if the heading refers to all priorities resp.
+   * sections.
    * uprec is used when constructing the list initially and when tearing it
    * down and should not otherwise be used; other fields are undefined.
    */

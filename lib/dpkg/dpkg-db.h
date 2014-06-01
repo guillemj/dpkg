@@ -177,14 +177,14 @@ enum pkgstatus {
 };
 
 enum pkgpriority {
-	pri_required,
-	pri_important,
-	pri_standard,
-	pri_optional,
-	pri_extra,
-	pri_other,
-	pri_unknown,
-	pri_unset = -1,
+	PKG_PRIO_REQUIRED,
+	PKG_PRIO_IMPORTANT,
+	PKG_PRIO_STANDARD,
+	PKG_PRIO_OPTIONAL,
+	PKG_PRIO_EXTRA,
+	PKG_PRIO_OTHER,
+	PKG_PRIO_UNKNOWN,
+	PKG_PRIO_UNSET = -1,
 };
 
 /**

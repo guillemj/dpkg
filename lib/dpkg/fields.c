@@ -207,7 +207,7 @@ f_priority(struct pkginfo *pkg, struct pkgbin *pkgbin,
   if (!*value) return;
   pkg->priority = parse_nv_last(ps, _("word in 'Priority' field"),
                                 priorityinfos, value);
-  if (pkg->priority == pri_other)
+  if (pkg->priority == PKG_PRIO_OTHER)
     pkg->otherpriority = nfstrsave(value);
 }
 

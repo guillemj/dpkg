@@ -115,7 +115,7 @@ pkg_blank(struct pkginfo *pkg)
 	pkg->status = stat_notinstalled;
 	pkg->eflag = PKG_EFLAG_OK;
 	pkg->want = PKG_WANT_UNKNOWN;
-	pkg->priority = pri_unknown;
+	pkg->priority = PKG_PRIO_UNKNOWN;
 	pkg->otherpriority = NULL;
 	pkg->section = NULL;
 	dpkg_version_blank(&pkg->configversion);

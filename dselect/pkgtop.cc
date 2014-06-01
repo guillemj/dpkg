@@ -37,12 +37,12 @@
 static const char *
 pkgprioritystring(const struct pkginfo *pkg)
 {
-  if (pkg->priority == pri_unset) {
+  if (pkg->priority == PKG_PRIO_UNSET) {
     return nullptr;
-  } else if (pkg->priority == pri_other) {
+  } else if (pkg->priority == PKG_PRIO_OTHER) {
     return pkg->otherpriority;
   } else {
-    assert(pkg->priority <= pri_unknown);
+    assert(pkg->priority <= PKG_PRIO_UNKNOWN);
     return gettext(prioritystrings[pkg->priority]);
   }
 }
@@ -167,7 +167,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
       mvwprintw(listpad, screenline, priority_column - 1, " %-*.*s",
                 priority_width, priority_width,
-                pkg->priority == pri_other ? pkg->otherpriority :
+                pkg->priority == PKG_PRIO_OTHER ? pkg->otherpriority :
                 gettext(prioritystrings[pkg->priority]));
     } else {
       mvwaddch(listpad, screenline, 0, eflagchars[pkg->eflag]);
@@ -183,7 +183,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
       wmove(listpad, screenline, priority_column - 1);
       waddch(listpad, ' ');
-      if (pkg->priority == pri_other) {
+      if (pkg->priority == PKG_PRIO_OTHER) {
         for (i=priority_width, p=pkg->otherpriority;
              i > 0 && *p;
              i--, p++)

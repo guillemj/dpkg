@@ -40,13 +40,13 @@ const struct namevalue multiarchinfos[] = {
 };
 
 const struct namevalue priorityinfos[] = {
-	NAMEVALUE_DEF("required",		pri_required),
-	NAMEVALUE_DEF("important",		pri_important),
-	NAMEVALUE_DEF("standard",		pri_standard),
-	NAMEVALUE_DEF("optional",		pri_optional),
-	NAMEVALUE_DEF("extra",			pri_extra),
-	NAMEVALUE_FALLBACK_DEF("this is a bug - please report", pri_other),
-	NAMEVALUE_DEF("unknown",		pri_unknown),
+	NAMEVALUE_DEF("required",		PKG_PRIO_REQUIRED),
+	NAMEVALUE_DEF("important",		PKG_PRIO_IMPORTANT),
+	NAMEVALUE_DEF("standard",		PKG_PRIO_STANDARD),
+	NAMEVALUE_DEF("optional",		PKG_PRIO_OPTIONAL),
+	NAMEVALUE_DEF("extra",			PKG_PRIO_EXTRA),
+	NAMEVALUE_FALLBACK_DEF("this is a bug - please report", PKG_PRIO_OTHER),
+	NAMEVALUE_DEF("unknown",		PKG_PRIO_UNKNOWN),
 	{ .name = NULL }
 };
 

@@ -461,7 +461,7 @@ enqperpackage(const char *const *argv)
     switch (cipaction->arg_int) {
     case act_status:
       if (pkg->status == stat_notinstalled &&
-          pkg->priority == pri_unknown &&
+          pkg->priority == PKG_PRIO_UNKNOWN &&
           str_is_unset(pkg->section) &&
           !pkg->files &&
           pkg->want == PKG_WANT_UNKNOWN &&

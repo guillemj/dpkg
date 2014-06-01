@@ -216,7 +216,7 @@ pkg_status_name(const struct pkginfo *pkg)
 const char *
 pkg_priority_name(const struct pkginfo *pkg)
 {
-	if (pkg->priority == pri_other)
+	if (pkg->priority == PKG_PRIO_OTHER)
 		return pkg->otherpriority;
 	else
 		return priorityinfos[pkg->priority].name;

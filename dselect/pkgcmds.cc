@@ -47,9 +47,9 @@ packagelist::affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewith) {
   default:
     internerr("unknown statsortorder %d", statsortorder);
   }
-  if (comparewith->priority != pri_unset &&
+  if (comparewith->priority != PKG_PRIO_UNSET &&
       (comparewith->priority != pkg->priority ||
-       (comparewith->priority == pri_other &&
+       (comparewith->priority == PKG_PRIO_OTHER &&
         strcasecmp(comparewith->otherpriority, pkg->otherpriority))))
     return false;
   if (comparewith->section &&

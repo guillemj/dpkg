@@ -66,7 +66,7 @@ int packagelist::compareentries(const struct perpackagestate *a,
     strcasecmp(asection,bsection);
   int c_priority=
     a->pkg->priority - b->pkg->priority;
-  if (!c_priority && a->pkg->priority == pri_other)
+  if (!c_priority && a->pkg->priority == PKG_PRIO_OTHER)
     c_priority= strcasecmp(a->pkg->otherpriority, b->pkg->otherpriority);
   int c_name=
     a->pkg->set->name && b->pkg->set->name ?
@@ -273,7 +273,7 @@ void packagelist::sortmakeheads() {
         this, sortorder, statsortorder);
 
   int nrealitems= nitems;
-  addheading(ssa_none, sss_none, pri_unset, nullptr, nullptr);
+  addheading(ssa_none, sss_none, PKG_PRIO_UNSET, nullptr, nullptr);
 
   assert(sortorder != so_unsorted);
   if (sortorder == so_alpha && statsortorder == sso_unsorted) { sortinplace(); return; }
@@ -308,7 +308,7 @@ void packagelist::sortmakeheads() {
 
     int prioritydiff= (!lastpkg ||
                        thispkg->priority != lastpkg->priority ||
-                       (thispkg->priority == pri_other &&
+                       (thispkg->priority == PKG_PRIO_OTHER &&
                         strcasecmp(thispkg->otherpriority,lastpkg->otherpriority)));
     int sectiondiff= (!lastpkg ||
                       strcasecmp(thispkg->section ? thispkg->section : "",
@@ -321,7 +321,7 @@ void packagelist::sortmakeheads() {
           thispkg->clientdata->ssavail, thispkg->clientdata->ssstate,
           ssdiff ? "*diff" : "same",
           thispkg->priority,
-          thispkg->priority != pri_other ? "<none>" :
+          thispkg->priority != PKG_PRIO_OTHER ? "<none>" :
           thispkg->otherpriority ? thispkg->otherpriority : "<null>",
           prioritydiff ? "*diff*" : "same",
           thispkg->section ? thispkg->section : "<null>",
@@ -329,11 +329,11 @@ void packagelist::sortmakeheads() {
 
     if (ssdiff)
       addheading(ssavail,ssstate,
-                 pri_unset, nullptr, nullptr);
+                 PKG_PRIO_UNSET, nullptr, nullptr);
 
     if (sortorder == so_section && sectiondiff)
       addheading(ssavail,ssstate,
-                 pri_unset, nullptr,
+                 PKG_PRIO_UNSET, nullptr,
                  thispkg->section ? thispkg->section : "");
 
     if (sortorder == so_priority && prioritydiff)
@@ -404,7 +404,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
         state->original == PKG_WANT_UNKNOWN) {
       state->suggested=
         pkg->status == stat_installed ||
-          pkg->priority <= pri_standard /* FIXME: configurable */
+          pkg->priority <= PKG_PRIO_STANDARD /* FIXME: configurable */
             ? PKG_WANT_INSTALL : PKG_WANT_PURGE;
       state->spriority= sp_inherit;
     } else {

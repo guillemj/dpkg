@@ -229,9 +229,9 @@ w_priority(struct varbuf *vb,
            const struct pkginfo *pkg, const struct pkgbin *pkgbin,
            enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  if (pkg->priority == pri_unknown)
+  if (pkg->priority == PKG_PRIO_UNKNOWN)
     return;
-  assert(pkg->priority <= pri_unknown);
+  assert(pkg->priority <= PKG_PRIO_UNKNOWN);
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Priority: ");
   varbuf_add_str(vb, pkg_priority_name(pkg));
