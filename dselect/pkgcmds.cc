@@ -91,14 +91,14 @@ void packagelist::movecursorafter(int ncursor) {
 pkgwant
 packagelist::reallywant(pkgwant nwarg, struct perpackagestate *pkgstate)
 {
-  if (nwarg != want_sentinel)
+  if (nwarg != PKG_WANT_SENTINEL)
     return nwarg;
   pkgstatus status = pkgstate->pkg->status;
   if (status == stat_notinstalled)
-    return want_purge;
+    return PKG_WANT_PURGE;
   if (status == stat_configfiles)
-    return want_deinstall;
-  return want_install;
+    return PKG_WANT_DEINSTALL;
+  return PKG_WANT_INSTALL;
 }
 
 void
@@ -127,8 +127,8 @@ packagelist::setwant(pkgwant nwarg)
         continue;
       nw= reallywant(nwarg,table[index]);
       if (table[index]->selected == nw ||
-          (table[index]->selected == want_purge &&
-           nw == want_deinstall))
+          (table[index]->selected == PKG_WANT_PURGE &&
+           nw == PKG_WANT_DEINSTALL))
         continue;
       sub->add(table[index]->pkg,nw);
     }
@@ -144,13 +144,13 @@ bool manual_install = false;
 
 void packagelist::kd_select()   {
 	manual_install = true;
-	setwant(want_install);
+	setwant(PKG_WANT_INSTALL);
 	manual_install = false;
 }
-void packagelist::kd_hold()     { setwant(want_hold);      }
-void packagelist::kd_deselect() { setwant(want_deinstall); }
-void packagelist::kd_unhold()   { setwant(want_sentinel);  }
-void packagelist::kd_purge()    { setwant(want_purge);     }
+void packagelist::kd_hold()     { setwant(PKG_WANT_HOLD);      }
+void packagelist::kd_deselect() { setwant(PKG_WANT_DEINSTALL); }
+void packagelist::kd_unhold()   { setwant(PKG_WANT_SENTINEL);  }
+void packagelist::kd_purge()    { setwant(PKG_WANT_PURGE);     }
 
 int
 would_like_to_install(pkgwant wantvalue, pkginfo *pkg)
@@ -159,9 +159,9 @@ would_like_to_install(pkgwant wantvalue, pkginfo *pkg)
   debug(dbg_general, "would_like_to_install(%d, %s) status %d",
         wantvalue, pkg_name(pkg, pnaw_always), pkg->status);
 
-  if (wantvalue == want_install)
+  if (wantvalue == PKG_WANT_INSTALL)
     return 1;
-  if (wantvalue != want_hold)
+  if (wantvalue != PKG_WANT_HOLD)
     return 0;
   if (pkg->status == stat_installed)
     return 1;
@@ -293,7 +293,7 @@ packagelist::kd_revertinstalled()
 
   for (i = 0; i < nitems; i++) {
     if (table[i]->pkg->set->name)
-      table[i]->selected = reallywant(want_sentinel, table[i]);
+      table[i]->selected = reallywant(PKG_WANT_SENTINEL, table[i]);
     ldrawnstart = ldrawnend = -1;
   }
 

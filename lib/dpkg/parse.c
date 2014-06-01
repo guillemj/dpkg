@@ -279,10 +279,10 @@ pkg_parse_verify(struct parsedb_state *ps,
   if (!(ps->flags & pdb_recordavailable) &&
       pkg->status == stat_notinstalled &&
       pkg->eflag == eflag_ok &&
-      (pkg->want == want_purge ||
-       pkg->want == want_deinstall ||
-       pkg->want == want_hold)) {
-    pkg_set_want(pkg, want_unknown);
+      (pkg->want == PKG_WANT_PURGE ||
+       pkg->want == PKG_WANT_DEINSTALL ||
+       pkg->want == PKG_WANT_HOLD)) {
+    pkg_set_want(pkg, PKG_WANT_UNKNOWN);
   }
 
   /* XXX: Mark not-installed non-arch-qualified selections for automatic
@@ -292,9 +292,9 @@ pkg_parse_verify(struct parsedb_state *ps,
   if (ps->type == pdb_file_status &&
       pkg->status == stat_notinstalled &&
       pkg->eflag == eflag_ok &&
-      pkg->want == want_install &&
+      pkg->want == PKG_WANT_INSTALL &&
       pkgbin->arch->type == DPKG_ARCH_EMPTY)
-    pkg->want = want_unknown;
+    pkg->want = PKG_WANT_UNKNOWN;
 }
 
 struct pkgcount {

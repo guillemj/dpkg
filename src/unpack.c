@@ -358,7 +358,7 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
   dir_sync_path(pkg_infodb_get_dir());
 
   pkg_set_status(pkg, stat_notinstalled);
-  pkg_set_want(pkg, want_unknown);
+  pkg_set_want(pkg, PKG_WANT_UNKNOWN);
   pkg_reset_eflags(pkg);
 
   dpkg_version_blank(&pkg->configversion);
@@ -518,7 +518,7 @@ void process_archive(const char *filename) {
   clear_istobes();
 
   if (wanttoinstall(pkg)) {
-    pkg_set_want(pkg, want_install);
+    pkg_set_want(pkg, PKG_WANT_INSTALL);
   } else {
       pop_cleanup(ehflag_normaltidy);
       return;

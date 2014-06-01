@@ -114,7 +114,7 @@ pkg_blank(struct pkginfo *pkg)
 {
 	pkg->status = stat_notinstalled;
 	pkg->eflag = eflag_ok;
-	pkg->want = want_unknown;
+	pkg->want = PKG_WANT_UNKNOWN;
 	pkg->priority = pri_unknown;
 	pkg->otherpriority = NULL;
 	pkg->section = NULL;
@@ -187,7 +187,7 @@ pkg_is_informative(struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
 	/* We ignore Section and Priority, as these tend to hang around. */
 	if (pkgbin == &pkg->installed &&
-	    (pkg->want != want_unknown ||
+	    (pkg->want != PKG_WANT_UNKNOWN ||
 	     pkg->eflag != eflag_ok ||
 	     pkg->status != stat_notinstalled ||
 	     dpkg_version_is_informative(&pkg->configversion)))

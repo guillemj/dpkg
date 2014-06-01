@@ -93,11 +93,11 @@ void deferred_remove(struct pkginfo *pkg) {
   debug(dbg_general, "deferred_remove package %s",
         pkg_name(pkg, pnaw_always));
 
-  if (!f_pending && pkg->want != want_unknown) {
+  if (!f_pending && pkg->want != PKG_WANT_UNKNOWN) {
     if (cipaction->arg_int == act_purge)
-      pkg_set_want(pkg, want_purge);
+      pkg_set_want(pkg, PKG_WANT_PURGE);
     else
-      pkg_set_want(pkg, want_deinstall);
+      pkg_set_want(pkg, PKG_WANT_DEINSTALL);
 
     if (!f_noact)
       modstatdb_note(pkg);
@@ -613,16 +613,16 @@ void removal_bulk(struct pkginfo *pkg) {
      * go straight into ‘purge’.  */
     debug(dbg_general, "removal_bulk no postrm, no conffiles, purging");
 
-    pkg_set_want(pkg, want_purge);
+    pkg_set_want(pkg, PKG_WANT_PURGE);
     dpkg_version_blank(&pkg->configversion);
-  } else if (pkg->want == want_purge) {
+  } else if (pkg->want == PKG_WANT_PURGE) {
 
     removal_bulk_remove_configfiles(pkg);
 
   }
 
   /* I.e., either of the two branches above. */
-  if (pkg->want == want_purge) {
+  if (pkg->want == PKG_WANT_PURGE) {
     const char *filename;
 
     /* Retry empty directories, and warn on any leftovers that aren't. */
@@ -641,7 +641,7 @@ void removal_bulk(struct pkginfo *pkg) {
       ohshite(_("can't remove old postrm script"));
 
     pkg_set_status(pkg, stat_notinstalled);
-    pkg_set_want(pkg, want_unknown);
+    pkg_set_want(pkg, PKG_WANT_UNKNOWN);
 
     /* This will mess up reverse links, but if we follow them
      * we won't go back because pkg->status is stat_notinstalled. */

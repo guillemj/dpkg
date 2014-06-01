@@ -36,7 +36,7 @@ bool
 packagelist::useavailable(pkginfo *pkg)
 {
   if (pkg->clientdata &&
-      pkg->clientdata->selected == want_install &&
+      pkg->clientdata->selected == PKG_WANT_INSTALL &&
       pkg_is_informative(pkg, &pkg->available) &&
       (!(pkg->status == stat_installed ||
          pkg->status == stat_triggersawaited ||
@@ -205,7 +205,7 @@ packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *dep)
   if (best->spriority >= sp_deselecting) return 0;
   best->suggested=
     best->pkg->status == stat_notinstalled
-      ? want_purge : want_deinstall; // FIXME: configurable.
+      ? PKG_WANT_PURGE : PKG_WANT_DEINSTALL; // FIXME: configurable.
   best->selected= best->suggested;
   best->spriority= sp_deselecting;
 
@@ -312,7 +312,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     /* Always select depends. Only select recommends if we got here because
      * of a manually-initiated install request. */
     if (depends->type != dep_recommends || manual_install) {
-      best->selected = best->suggested = want_install;
+      best->selected = best->suggested = PKG_WANT_INSTALL;
       best->spriority= sp_selecting;
     }
     return rc ? 2 : 0;
@@ -329,7 +329,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     if (depends->type != dep_recommends) {
       best->selected= best->suggested=
         best->pkg->status == stat_notinstalled
-          ? want_purge : want_deinstall; // FIXME: configurable
+          ? PKG_WANT_PURGE : PKG_WANT_DEINSTALL; // FIXME: configurable
       best->spriority= sp_deselecting;
     }
     return rc ? 2 : 0;
@@ -384,7 +384,7 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
   // ‘satisfied’ here for Conflicts and Breaks means that the
   //  restriction is violated ie that the target package is wanted
   int would;
-  pkgwant want = want_purge;
+  pkgwant want = PKG_WANT_PURGE;
 
   if (possi->ed->pkg.clientdata) {
     want = possi->ed->pkg.clientdata->selected;
@@ -401,12 +401,12 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
     // been specified, in which case we don't need to look at the rest
     // anyway.
     if (useavailable(&possi->ed->pkg)) {
-      assert(want == want_install);
+      assert(want == PKG_WANT_INSTALL);
       return versionsatisfied(&possi->ed->pkg.available, possi);
     } else {
       if (versionsatisfied(&possi->ed->pkg.installed, possi))
         return true;
-      if (want == want_hold && fixbyupgrade && !*fixbyupgrade &&
+      if (want == PKG_WANT_HOLD && fixbyupgrade && !*fixbyupgrade &&
           versionsatisfied(&possi->ed->pkg.available, possi) &&
           dpkg_version_compare(&possi->ed->pkg.available.version,
                                &possi->ed->pkg.installed.version) > 1)

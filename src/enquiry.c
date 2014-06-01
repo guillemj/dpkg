@@ -245,7 +245,7 @@ struct sectionentry {
 static bool
 yettobeunpacked(struct pkginfo *pkg, const char **thissect)
 {
-  if (pkg->want != want_install)
+  if (pkg->want != PKG_WANT_INSTALL)
     return false;
 
   switch (pkg->status) {
@@ -460,7 +460,7 @@ predeppackage(const char *const *argv)
   it = pkg_db_iter_new();
   while (!dep && (pkg = pkg_db_iter_next_pkg(it))) {
     /* Ignore packages user doesn't want. */
-    if (pkg->want != want_install)
+    if (pkg->want != PKG_WANT_INSTALL)
       continue;
     /* Ignore packages not available. */
     if (!pkg->files)

@@ -197,7 +197,7 @@ void packagelist::ensurestatsortinfo() {
 // FIXME: Disable for now as a workaround, until dselect knows how to properly
 //        store seen packages.
 #if 0
-        } else if (table[index]->original == want_unknown) {
+        } else if (table[index]->original == PKG_WANT_UNKNOWN) {
           table[index]->ssavail= ssa_notinst_unseen;
 #endif
         } else {
@@ -394,18 +394,18 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     state->pkg= pkg;
     if (pkg->status == stat_notinstalled &&
         !pkg->files &&
-        pkg->want != want_install) {
+        pkg->want != PKG_WANT_INSTALL) {
       pkg->clientdata = nullptr;
       continue;
     }
     // treat all unknown packages as already seen
-    state->direct = state->original = (pkg->want == want_unknown ? want_purge : pkg->want);
+    state->direct = state->original = (pkg->want == PKG_WANT_UNKNOWN ? PKG_WANT_PURGE : pkg->want);
     if (modstatdb_get_status() == msdbrw_write &&
-        state->original == want_unknown) {
+        state->original == PKG_WANT_UNKNOWN) {
       state->suggested=
         pkg->status == stat_installed ||
           pkg->priority <= pri_standard /* FIXME: configurable */
-            ? want_install : want_purge;
+            ? PKG_WANT_INSTALL : PKG_WANT_PURGE;
       state->spriority= sp_inherit;
     } else {
       state->suggested= state->original;
@@ -460,7 +460,7 @@ perpackagestate::free(bool recursive)
       } else {
         assert(!recursive);
         if (pkg->want != selected &&
-            !(pkg->want == want_unknown && selected == want_purge)) {
+            !(pkg->want == PKG_WANT_UNKNOWN && selected == PKG_WANT_PURGE)) {
           pkg->want= selected;
         }
         pkg->clientdata = nullptr;

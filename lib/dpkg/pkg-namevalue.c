@@ -51,11 +51,11 @@ const struct namevalue priorityinfos[] = {
 };
 
 const struct namevalue wantinfos[] = {
-	NAMEVALUE_DEF("unknown",		want_unknown),
-	NAMEVALUE_DEF("install",		want_install),
-	NAMEVALUE_DEF("hold",			want_hold),
-	NAMEVALUE_DEF("deinstall",		want_deinstall),
-	NAMEVALUE_DEF("purge",			want_purge),
+	NAMEVALUE_DEF("unknown",		PKG_WANT_UNKNOWN),
+	NAMEVALUE_DEF("install",		PKG_WANT_INSTALL),
+	NAMEVALUE_DEF("hold",			PKG_WANT_HOLD),
+	NAMEVALUE_DEF("deinstall",		PKG_WANT_DEINSTALL),
+	NAMEVALUE_DEF("purge",			PKG_WANT_PURGE),
 	{ .name = NULL }
 };
 

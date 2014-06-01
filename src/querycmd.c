@@ -464,7 +464,7 @@ enqperpackage(const char *const *argv)
           pkg->priority == pri_unknown &&
           str_is_unset(pkg->section) &&
           !pkg->files &&
-          pkg->want == want_unknown &&
+          pkg->want == PKG_WANT_UNKNOWN &&
           !pkg_is_informative(pkg, &pkg->installed)) {
         notice(_("package '%s' is not installed and no information is available"),
                pkg_name(pkg, pnaw_nonambig));

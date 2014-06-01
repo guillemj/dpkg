@@ -46,7 +46,8 @@ static void getsel1package(struct pkginfo *pkg) {
   const char *pkgname;
   int l;
 
-  if (pkg->want == want_unknown) return;
+  if (pkg->want == PKG_WANT_UNKNOWN)
+    return;
   pkgname = pkg_name(pkg, pnaw_nonambig);
   l = strlen(pkgname);
   l >>= 3;
@@ -204,7 +205,7 @@ clearselections(const char *const *argv)
   it = pkg_db_iter_new();
   while ((pkg = pkg_db_iter_next_pkg(it))) {
     if (!pkg->installed.essential)
-      pkg_set_want(pkg, want_deinstall);
+      pkg_set_want(pkg, PKG_WANT_DEINSTALL);
   }
   pkg_db_iter_free(it);
 

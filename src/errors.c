@@ -3,6 +3,7 @@
  * errors.c - per package error handling
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2007-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -121,7 +122,7 @@ reportbroken_retexitstatus(int ret)
 bool
 skip_due_to_hold(struct pkginfo *pkg)
 {
-  if (pkg->want != want_hold)
+  if (pkg->want != PKG_WANT_HOLD)
     return false;
   if (fc_hold) {
     notice(_("package %s was on hold, processing it anyway as you requested"),

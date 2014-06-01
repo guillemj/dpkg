@@ -1435,7 +1435,8 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       ensure_package_clientdata(fixbyrm);
     }
     if (((pkg->available.essential && fixbyrm->installed.essential) ||
-         (((fixbyrm->want != want_install && fixbyrm->want != want_hold) ||
+         (((fixbyrm->want != PKG_WANT_INSTALL &&
+            fixbyrm->want != PKG_WANT_HOLD) ||
            does_replace(pkg, &pkg->available, fixbyrm, &fixbyrm->installed)) &&
           (!fixbyrm->installed.essential || fc_removeessential)))) {
       assert(fixbyrm->clientdata->istobe == PKG_ISTOBE_NORMAL ||
@@ -1699,7 +1700,7 @@ wanttoinstall(struct pkginfo *pkg)
 {
   int rc;
 
-  if (pkg->want != want_install && pkg->want != want_hold) {
+  if (pkg->want != PKG_WANT_INSTALL && pkg->want != PKG_WANT_HOLD) {
     if (f_alsoselect) {
       printf(_("Selecting previously unselected package %s.\n"),
              pkgbin_name(pkg, &pkg->available, pnaw_nonambig));

@@ -151,13 +151,13 @@ struct trigaw {
 struct perpackagestate;
 
 enum pkgwant {
-	want_unknown,
-	want_install,
-	want_hold,
-	want_deinstall,
-	want_purge,
+	PKG_WANT_UNKNOWN,
+	PKG_WANT_INSTALL,
+	PKG_WANT_HOLD,
+	PKG_WANT_DEINSTALL,
+	PKG_WANT_PURGE,
 	/** Not allowed except as special sentinel value in some places. */
-	want_sentinel,
+	PKG_WANT_SENTINEL,
 };
 
 enum pkgeflag {

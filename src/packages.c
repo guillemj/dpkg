@@ -73,19 +73,19 @@ enqueue_pending(void)
             pkg->status == stat_halfconfigured ||
             pkg->trigpend_head))
         continue;
-      if (pkg->want != want_install)
+      if (pkg->want != PKG_WANT_INSTALL)
         continue;
       break;
     case act_triggers:
       if (!pkg->trigpend_head)
         continue;
-      if (pkg->want != want_install)
+      if (pkg->want != PKG_WANT_INSTALL)
         continue;
       break;
     case act_remove:
     case act_purge:
-      if (pkg->want != want_purge) {
-        if (pkg->want != want_deinstall)
+      if (pkg->want != PKG_WANT_PURGE) {
+        if (pkg->want != PKG_WANT_DEINSTALL)
           continue;
         if (pkg->status == stat_configfiles)
           continue;
