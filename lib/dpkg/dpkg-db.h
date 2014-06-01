@@ -161,8 +161,8 @@ enum pkgwant {
 };
 
 enum pkgeflag {
-	eflag_ok		= 0,
-	eflag_reinstreq		= 1,
+	PKG_EFLAG_OK		= 0,
+	PKG_EFLAG_REINSTREQ	= 1,
 };
 
 enum pkgstatus {

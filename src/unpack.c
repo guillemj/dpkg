@@ -709,7 +709,7 @@ void process_archive(const char *filename) {
       oldversionstatus == stat_triggersawaited ||
       oldversionstatus == stat_triggerspending ||
       oldversionstatus == stat_installed) {
-    pkg_set_eflags(pkg, eflag_reinstreq);
+    pkg_set_eflags(pkg, PKG_EFLAG_REINSTREQ);
     pkg_set_status(pkg, stat_halfconfigured);
     modstatdb_note(pkg);
     push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
@@ -801,7 +801,7 @@ void process_archive(const char *filename) {
     modstatdb_note(conflictor);
   }
 
-  pkg_set_eflags(pkg, eflag_reinstreq);
+  pkg_set_eflags(pkg, PKG_EFLAG_REINSTREQ);
   if (pkg->status == stat_notinstalled) {
     pkg->installed.version= pkg->available.version;
     pkg->installed.multiarch = pkg->available.multiarch;

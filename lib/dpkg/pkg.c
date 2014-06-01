@@ -71,7 +71,7 @@ pkg_clear_eflags(struct pkginfo *pkg, enum pkgeflag eflag)
 void
 pkg_reset_eflags(struct pkginfo *pkg)
 {
-	pkg->eflag = eflag_ok;
+	pkg->eflag = PKG_EFLAG_OK;
 }
 
 /**
@@ -113,7 +113,7 @@ void
 pkg_blank(struct pkginfo *pkg)
 {
 	pkg->status = stat_notinstalled;
-	pkg->eflag = eflag_ok;
+	pkg->eflag = PKG_EFLAG_OK;
 	pkg->want = PKG_WANT_UNKNOWN;
 	pkg->priority = pri_unknown;
 	pkg->otherpriority = NULL;
@@ -188,7 +188,7 @@ pkg_is_informative(struct pkginfo *pkg, struct pkgbin *pkgbin)
 	/* We ignore Section and Priority, as these tend to hang around. */
 	if (pkgbin == &pkg->installed &&
 	    (pkg->want != PKG_WANT_UNKNOWN ||
-	     pkg->eflag != eflag_ok ||
+	     pkg->eflag != PKG_EFLAG_OK ||
 	     pkg->status != stat_notinstalled ||
 	     dpkg_version_is_informative(&pkg->configversion)))
 		return true;

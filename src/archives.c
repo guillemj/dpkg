@@ -1490,7 +1490,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       if (!pdep && skip_due_to_hold(fixbyrm)) {
         pdep= &flagdeppossi;
       }
-      if (!pdep && (fixbyrm->eflag & eflag_reinstreq)) {
+      if (!pdep && (fixbyrm->eflag & PKG_EFLAG_REINSTREQ)) {
         if (fc_removereinstreq) {
           notice(_("package %s requires reinstallation, but will "
                    "remove anyway as you requested"),
@@ -1712,7 +1712,7 @@ wanttoinstall(struct pkginfo *pkg)
     }
   }
 
-  if (pkg->eflag & eflag_reinstreq)
+  if (pkg->eflag & PKG_EFLAG_REINSTREQ)
     return true;
   if (pkg->status < stat_unpacked)
     return true;

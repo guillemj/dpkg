@@ -186,9 +186,9 @@ packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *dep)
   perpackagestate *best;
 
   // Try not keep packages needing reinstallation.
-  if (per->eflag & eflag_reinstreq)
+  if (per->eflag & PKG_EFLAG_REINSTREQ)
     best = ed;
-  else if (ped->eflag & eflag_reinstreq)
+  else if (ped->eflag & PKG_EFLAG_REINSTREQ)
     best = er;
   else if (er->spriority < ed->spriority) best= er; // We'd rather change the
   else if (er->spriority > ed->spriority) best= ed; // one with the lowest priority.

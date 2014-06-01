@@ -247,7 +247,7 @@ w_status(struct varbuf *vb,
   if (pkgbin != &pkg->installed)
     return;
   assert(pkg->want <= PKG_WANT_PURGE);
-  assert(pkg->eflag <= eflag_reinstreq);
+  assert(pkg->eflag <= PKG_EFLAG_REINSTREQ);
 
 #define PEND pkg->trigpend_head
 #define AW pkg->trigaw.head

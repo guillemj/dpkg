@@ -49,18 +49,18 @@ test_pkginfo_eflags(void)
 	struct pkginfo pkg;
 
 	pkg_blank(&pkg);
-	test_pass(pkg.eflag == eflag_ok);
+	test_pass(pkg.eflag == PKG_EFLAG_OK);
 
-	pkg_set_eflags(&pkg, eflag_reinstreq);
-	test_pass(pkg.eflag == eflag_reinstreq);
+	pkg_set_eflags(&pkg, PKG_EFLAG_REINSTREQ);
+	test_pass(pkg.eflag == PKG_EFLAG_REINSTREQ);
 
-	pkg_clear_eflags(&pkg, eflag_reinstreq);
-	test_pass(pkg.eflag == eflag_ok);
+	pkg_clear_eflags(&pkg, PKG_EFLAG_REINSTREQ);
+	test_pass(pkg.eflag == PKG_EFLAG_OK);
 
 	pkg_set_eflags(&pkg, 0x11);
 	test_pass(pkg.eflag == 0x11);
 	pkg_reset_eflags(&pkg);
-	test_pass(pkg.eflag == eflag_ok);
+	test_pass(pkg.eflag == PKG_EFLAG_OK);
 }
 
 static void

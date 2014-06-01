@@ -60,8 +60,8 @@ const struct namevalue wantinfos[] = {
 };
 
 const struct namevalue eflaginfos[] = {
-	NAMEVALUE_DEF("ok",			eflag_ok),
-	NAMEVALUE_DEF("reinstreq",		eflag_reinstreq),
+	NAMEVALUE_DEF("ok",			PKG_EFLAG_OK),
+	NAMEVALUE_DEF("reinstreq",		PKG_EFLAG_REINSTREQ),
 	{ .name = NULL }
 };
 

@@ -59,13 +59,13 @@ struct audit_problem {
 static bool
 audit_reinstreq(struct pkginfo *pkg, const struct audit_problem *problem)
 {
-  return pkg->eflag & eflag_reinstreq;
+  return pkg->eflag & PKG_EFLAG_REINSTREQ;
 }
 
 static bool
 audit_status(struct pkginfo *pkg, const struct audit_problem *problem)
 {
-  if (pkg->eflag & eflag_reinstreq)
+  if (pkg->eflag & PKG_EFLAG_REINSTREQ)
     return false;
   return (int)pkg->status == problem->value.number;
 }

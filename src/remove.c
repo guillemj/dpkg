@@ -153,7 +153,7 @@ void deferred_remove(struct pkginfo *pkg) {
   varbuf_destroy(&raemsgs);
   sincenothing= 0;
 
-  if (pkg->eflag & eflag_reinstreq)
+  if (pkg->eflag & PKG_EFLAG_REINSTREQ)
     forcibleerr(fc_removereinstreq,
                 _("package is in a very bad inconsistent state; you should\n"
                   " reinstall it before attempting a removal"));

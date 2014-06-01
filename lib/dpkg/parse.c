@@ -278,7 +278,7 @@ pkg_parse_verify(struct parsedb_state *ps,
    * major distributions. */
   if (!(ps->flags & pdb_recordavailable) &&
       pkg->status == stat_notinstalled &&
-      pkg->eflag == eflag_ok &&
+      pkg->eflag == PKG_EFLAG_OK &&
       (pkg->want == PKG_WANT_PURGE ||
        pkg->want == PKG_WANT_DEINSTALL ||
        pkg->want == PKG_WANT_HOLD)) {
@@ -291,7 +291,7 @@ pkg_parse_verify(struct parsedb_state *ps,
    * interfaces when there's other more specific selections. */
   if (ps->type == pdb_file_status &&
       pkg->status == stat_notinstalled &&
-      pkg->eflag == eflag_ok &&
+      pkg->eflag == PKG_EFLAG_OK &&
       pkg->want == PKG_WANT_INSTALL &&
       pkgbin->arch->type == DPKG_ARCH_EMPTY)
     pkg->want = PKG_WANT_UNKNOWN;
