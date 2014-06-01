@@ -93,10 +93,10 @@ struct filedetails {
 };
 
 enum pkgmultiarch {
-	multiarch_no,
-	multiarch_same,
-	multiarch_allowed,
-	multiarch_foreign,
+	PKG_MULTIARCH_NO,
+	PKG_MULTIARCH_SAME,
+	PKG_MULTIARCH_ALLOWED,
+	PKG_MULTIARCH_FOREIGN,
 };
 
 /**

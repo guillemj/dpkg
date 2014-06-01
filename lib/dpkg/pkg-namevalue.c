@@ -32,10 +32,10 @@ const struct namevalue booleaninfos[] = {
 };
 
 const struct namevalue multiarchinfos[] = {
-	NAMEVALUE_DEF("no",			multiarch_no),
-	NAMEVALUE_DEF("same",			multiarch_same),
-	NAMEVALUE_DEF("allowed",		multiarch_allowed),
-	NAMEVALUE_DEF("foreign",		multiarch_foreign),
+	NAMEVALUE_DEF("no",			PKG_MULTIARCH_NO),
+	NAMEVALUE_DEF("same",			PKG_MULTIARCH_SAME),
+	NAMEVALUE_DEF("allowed",		PKG_MULTIARCH_ALLOWED),
+	NAMEVALUE_DEF("foreign",		PKG_MULTIARCH_FOREIGN),
 	{ .name = NULL }
 };
 

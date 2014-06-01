@@ -157,7 +157,7 @@ filesavespackage(struct fileinlist *file,
     /* A Multi-Arch: same package can share files and their presence in a
      * third package of the same set is not a sign that we can get rid of
      * it. */
-    if (pkgtobesaved->installed.multiarch == multiarch_same &&
+    if (pkgtobesaved->installed.multiarch == PKG_MULTIARCH_SAME &&
         thirdpkg->set == pkgtobesaved->set)
       continue;
 
@@ -915,8 +915,8 @@ tarobject(void *ctx, struct tar_entry *ti)
        * is allowed when they are not getting in sync, otherwise the
        * file content must match the installed file. */
       if (otherpkg->set == tc->pkg->set &&
-          otherpkg->installed.multiarch == multiarch_same &&
-          tc->pkg->available.multiarch == multiarch_same) {
+          otherpkg->installed.multiarch == PKG_MULTIARCH_SAME &&
+          tc->pkg->available.multiarch == PKG_MULTIARCH_SAME) {
         if (statr == 0 && tc->pkgset_getting_in_sync)
           refcounting = true;
         debug(dbg_eachfiledetail, "tarobject ... shared with %s %s (syncing=%d)",

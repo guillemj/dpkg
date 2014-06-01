@@ -43,7 +43,7 @@ pkgbin_name_needs_arch(const struct pkgbin *pkgbin,
 			break;
 		return true;
 	case pnaw_nonambig:
-		if (pkgbin->multiarch != multiarch_same)
+		if (pkgbin->multiarch != PKG_MULTIARCH_SAME)
 			break;
 	/* Fall through. */
 	case pnaw_always:

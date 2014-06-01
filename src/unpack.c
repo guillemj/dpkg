@@ -323,8 +323,8 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
   /* If the old and new versions use a different infodb layout, get rid
    * of the files using the old layout. */
   if (pkg->installed.multiarch != pkg->available.multiarch &&
-      (pkg->installed.multiarch == multiarch_same ||
-       pkg->available.multiarch == multiarch_same)) {
+      (pkg->installed.multiarch == PKG_MULTIARCH_SAME ||
+       pkg->available.multiarch == PKG_MULTIARCH_SAME)) {
     debug(dbg_scripts,
           "process_archive remove old info files after db layout switch");
     pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_remove_file);
@@ -1261,8 +1261,8 @@ void process_archive(const char *filename) {
         !otherpkg->clientdata->files) continue;
     /* Do not try to disappear other packages from the same set
      * if they are Multi-Arch: same */
-    if (pkg->installed.multiarch == multiarch_same &&
-        otherpkg->installed.multiarch == multiarch_same &&
+    if (pkg->installed.multiarch == PKG_MULTIARCH_SAME &&
+        otherpkg->installed.multiarch == PKG_MULTIARCH_SAME &&
         otherpkg->set == pkg->set)
       continue;
     debug(dbg_veryverbose, "process_archive checking disappearance %s",

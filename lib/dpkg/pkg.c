@@ -132,9 +132,9 @@ pkg_blank(struct pkginfo *pkg)
 	 * because they are part of the package specification, and needed
 	 * for selections. */
 	pkg->installed.arch = dpkg_arch_get(DPKG_ARCH_NONE);
-	pkg->installed.multiarch = multiarch_no;
+	pkg->installed.multiarch = PKG_MULTIARCH_NO;
 	pkg->available.arch = dpkg_arch_get(DPKG_ARCH_NONE);
-	pkg->available.multiarch = multiarch_no;
+	pkg->available.multiarch = PKG_MULTIARCH_NO;
 }
 
 void

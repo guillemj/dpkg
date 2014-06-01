@@ -58,12 +58,12 @@ deparchsatisfied(struct pkgbin *it, const struct dpkg_arch *it_arch,
 	const struct dpkg_arch *dep_arch, *pkg_arch;
 
 	if (against->arch_is_implicit &&
-	    it->multiarch == multiarch_foreign)
+	    it->multiarch == PKG_MULTIARCH_FOREIGN)
 		return true;
 
 	dep_arch = against->arch;
 	if (dep_arch->type == DPKG_ARCH_WILDCARD &&
-	    (it->multiarch == multiarch_allowed ||
+	    (it->multiarch == PKG_MULTIARCH_ALLOWED ||
 	     against->up->type == dep_conflicts ||
 	     against->up->type == dep_replaces ||
 	     against->up->type == dep_breaks))

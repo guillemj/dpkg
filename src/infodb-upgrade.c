@@ -126,7 +126,7 @@ pkg_infodb_link_multiarch_files(void)
 		}
 
 		/* Does it need to be upgraded? */
-		if (pkg->installed.multiarch != multiarch_same)
+		if (pkg->installed.multiarch != PKG_MULTIARCH_SAME)
 			continue;
 
 		/* Skip past the full stop. */

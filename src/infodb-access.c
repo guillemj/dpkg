@@ -67,7 +67,7 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	/* Make sure to always read and verify the format version. */
 	db_format = pkg_infodb_get_format();
 
-	if (pkgbin->multiarch == multiarch_same &&
+	if (pkgbin->multiarch == PKG_MULTIARCH_SAME &&
 	    db_format == PKG_INFODB_FORMAT_MULTIARCH)
 		pkgname = pkgbin_name(pkg, pkgbin, pnaw_always);
 	else

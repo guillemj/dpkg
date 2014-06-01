@@ -140,7 +140,7 @@ pkg_infodb_get_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	varbuf_add_str(&vb, pkg_infodb_get_dir());
 	varbuf_add_char(&vb, '/');
 	varbuf_add_str(&vb, pkg->set->name);
-	if (pkgbin->multiarch == multiarch_same &&
+	if (pkgbin->multiarch == PKG_MULTIARCH_SAME &&
 	    format == PKG_INFODB_FORMAT_MULTIARCH)
 		varbuf_add_archqual(&vb, pkgbin->arch);
 	varbuf_add_char(&vb, '.');

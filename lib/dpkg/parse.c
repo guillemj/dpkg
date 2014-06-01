@@ -209,11 +209,11 @@ pkg_parse_verify(struct parsedb_state *ps,
     pkgbin->arch = dpkg_arch_get(DPKG_ARCH_EMPTY);
 
   if (pkgbin->arch->type == DPKG_ARCH_EMPTY &&
-      pkgbin->multiarch == multiarch_same)
+      pkgbin->multiarch == PKG_MULTIARCH_SAME)
     parse_error(ps, _("package has field '%s' but is missing architecture"),
                 "Multi-Arch: same");
   if (pkgbin->arch->type == DPKG_ARCH_ALL &&
-      pkgbin->multiarch == multiarch_same)
+      pkgbin->multiarch == PKG_MULTIARCH_SAME)
     parse_error(ps, _("package has field '%s' but is architecture all"),
                 "Multi-Arch: same");
 
@@ -310,7 +310,7 @@ parse_count_pkg_instance(struct pkgcount *count,
   if (pkg->status == stat_notinstalled)
      return;
 
-  if (pkgbin->multiarch == multiarch_same)
+  if (pkgbin->multiarch == PKG_MULTIARCH_SAME)
     count->multi++;
   else
     count->single++;
@@ -376,7 +376,7 @@ parse_find_set_slot(struct parsedb_state *ps,
  * slot architecture, because cross-grading is just not possible.
  *
  * If there's 1 instance, we are cross-grading and both installed and
- * candidate are not multiarch_same, we have to reuse the existing single
+ * candidate are not PKG_MULTIARCH_SAME, we have to reuse the existing single
  * slot regardless of the arch differing between the two. If we are not
  * cross-grading, then we use the entry with the matching arch.
  */
@@ -394,7 +394,7 @@ parse_find_pkg_slot(struct parsedb_state *ps,
      * “Multi-Arch: same”, then we preserve the previous behaviour of
      * possible architecture switch, for example from native to all. */
     if (pkgset_installed_instances(db_set) == 1 &&
-        new_pkgbin->multiarch != multiarch_same)
+        new_pkgbin->multiarch != PKG_MULTIARCH_SAME)
       return pkg_db_get_singleton(db_set);
     else
       return pkg_db_get_pkg(db_set, new_pkgbin->arch);
@@ -408,7 +408,7 @@ parse_find_pkg_slot(struct parsedb_state *ps,
 
     /* Verify we don't allow something that will mess up the db. */
     if (pkgset_installed_instances(db_set) > 1 &&
-        !selection && new_pkgbin->multiarch != multiarch_same)
+        !selection && new_pkgbin->multiarch != PKG_MULTIARCH_SAME)
       ohshit(_("%s %s (Multi-Arch: %s) is not co-installable with "
                "%s which has multiple installed instances"),
              pkgbin_name(new_pkg, new_pkgbin, pnaw_always),
@@ -424,8 +424,8 @@ parse_find_pkg_slot(struct parsedb_state *ps,
     if (pkgset_installed_instances(db_set) == 1) {
       db_pkg = pkg_db_get_singleton(db_set);
 
-      if (db_pkg->installed.multiarch == multiarch_same &&
-          new_pkgbin->multiarch == multiarch_same)
+      if (db_pkg->installed.multiarch == PKG_MULTIARCH_SAME &&
+          new_pkgbin->multiarch == PKG_MULTIARCH_SAME)
         return pkg_db_get_pkg(db_set, new_pkgbin->arch);
       else
         return db_pkg;
