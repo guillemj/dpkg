@@ -3,6 +3,7 @@
  * pkgsublist.cc - status modification and recursive package list handling
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2007-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +54,9 @@ void packagelist::add(pkginfo *pkg) {
   nitems++;
 }
 
-void packagelist::add(pkginfo *pkg, pkginfo::pkgwant nw) {
+void
+packagelist::add(pkginfo *pkg, pkgwant nw)
+{
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s, %s)",
         this, pkg_name(pkg, pnaw_always), wantstrings[nw]);
   add(pkg);  if (!pkg->clientdata) return;

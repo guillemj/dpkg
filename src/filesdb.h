@@ -56,6 +56,27 @@ enum fnnflags {
     fnn_nonew			= DPKG_BIT(1),
 };
 
+enum filenamenode_flags {
+	/** In the newconffiles list. */
+	fnnf_new_conff			= DPKG_BIT(0),
+	/** In the new filesystem archive. */
+	fnnf_new_inarchive		= DPKG_BIT(1),
+	/** In the old package's conffiles list. */
+	fnnf_old_conff			= DPKG_BIT(2),
+	/** Obsolete conffile. */
+	fnnf_obs_conff			= DPKG_BIT(3),
+	/** Must remove from other packages' lists. */
+	fnnf_elide_other_lists		= DPKG_BIT(4),
+	/** >= 1 instance is a dir, cannot rename over. */
+	fnnf_no_atomic_overwrite	= DPKG_BIT(5),
+	/** New file has been placed on the disk. */
+	fnnf_placed_on_disk		= DPKG_BIT(6),
+	fnnf_deferred_fsync		= DPKG_BIT(7),
+	fnnf_deferred_rename		= DPKG_BIT(8),
+	/** Path being filtered. */
+	fnnf_filtered			= DPKG_BIT(9),
+};
+
 struct filenamenode {
   struct filenamenode *next;
   const char *name;
@@ -75,26 +96,7 @@ struct filenamenode {
    */
 
   /** Set to zero when a new node is created. */
-  enum filenamenode_flags {
-    /** In the newconffiles list. */
-    fnnf_new_conff		= DPKG_BIT(0),
-    /** In the new filesystem archive. */
-    fnnf_new_inarchive		= DPKG_BIT(1),
-    /** In the old package's conffiles list. */
-    fnnf_old_conff		= DPKG_BIT(2),
-    /** Obsolete conffile. */
-    fnnf_obs_conff		= DPKG_BIT(3),
-    /** Must remove from other packages' lists. */
-    fnnf_elide_other_lists	= DPKG_BIT(4),
-    /** >= 1 instance is a dir, cannot rename over. */
-    fnnf_no_atomic_overwrite	= DPKG_BIT(5),
-    /** New file has been placed on the disk. */
-    fnnf_placed_on_disk		= DPKG_BIT(6),
-    fnnf_deferred_fsync		= DPKG_BIT(7),
-    fnnf_deferred_rename	= DPKG_BIT(8),
-    /** Path being filtered. */
-    fnnf_filtered		= DPKG_BIT(9),
-  } flags;
+  enum filenamenode_flags flags;
 
   /** Valid iff this namenode is in the newconffiles list. */
   const char *oldhash;

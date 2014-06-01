@@ -92,6 +92,13 @@ struct filedetails {
   const char *md5sum;
 };
 
+enum pkgmultiarch {
+	multiarch_no,
+	multiarch_same,
+	multiarch_allowed,
+	multiarch_foreign,
+};
+
 /**
  * Node describing a binary package file.
  *
@@ -101,12 +108,7 @@ struct pkgbin {
   struct dependency *depends;
   /** The ‘essential’ flag, true = yes, false = no (absent). */
   bool essential;
-  enum pkgmultiarch {
-    multiarch_no,
-    multiarch_same,
-    multiarch_allowed,
-    multiarch_foreign,
-  } multiarch;
+  enum pkgmultiarch multiarch;
   const struct dpkg_arch *arch;
   /** The following is the "pkgname:archqual" cached string, if this was a
    * C++ class this member would be mutable. */
@@ -148,6 +150,43 @@ struct trigaw {
 /* Note: dselect and dpkg have different versions of this. */
 struct perpackagestate;
 
+enum pkgwant {
+	want_unknown,
+	want_install,
+	want_hold,
+	want_deinstall,
+	want_purge,
+	/** Not allowed except as special sentinel value in some places. */
+	want_sentinel,
+};
+
+enum pkgeflag {
+	eflag_ok		= 0,
+	eflag_reinstreq		= 1,
+};
+
+enum pkgstatus {
+	stat_notinstalled,
+	stat_configfiles,
+	stat_halfinstalled,
+	stat_unpacked,
+	stat_halfconfigured,
+	stat_triggersawaited,
+	stat_triggerspending,
+	stat_installed,
+};
+
+enum pkgpriority {
+	pri_required,
+	pri_important,
+	pri_standard,
+	pri_optional,
+	pri_extra,
+	pri_other,
+	pri_unknown,
+	pri_unset = -1,
+};
+
 /**
  * Node describing an architecture package instance.
  *
@@ -157,34 +196,11 @@ struct pkginfo {
   struct pkgset *set;
   struct pkginfo *arch_next;
 
-  enum pkgwant {
-    want_unknown, want_install, want_hold, want_deinstall, want_purge,
-    /** Not allowed except as special sentinel value in some places. */
-    want_sentinel,
-  } want;
+  enum pkgwant want;
   /** The error flag bitmask. */
-  enum pkgeflag {
-    eflag_ok		= 0,
-    eflag_reinstreq	= 1,
-  } eflag;
-  enum pkgstatus {
-    stat_notinstalled,
-    stat_configfiles,
-    stat_halfinstalled,
-    stat_unpacked,
-    stat_halfconfigured,
-    stat_triggersawaited,
-    stat_triggerspending,
-    stat_installed
-  } status;
-  enum pkgpriority {
-    pri_required,
-    pri_important,
-    pri_standard,
-    pri_optional,
-    pri_extra,
-    pri_other, pri_unknown, pri_unset=-1
-  } priority;
+  enum pkgeflag eflag;
+  enum pkgstatus status;
+  enum pkgpriority priority;
   const char *otherpriority;
   const char *section;
   struct dpkg_version configversion;

@@ -3,6 +3,7 @@
  * pkgdepcon.cc - dependency and conflict resolution
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,11 +36,11 @@ bool
 packagelist::useavailable(pkginfo *pkg)
 {
   if (pkg->clientdata &&
-      pkg->clientdata->selected == pkginfo::want_install &&
+      pkg->clientdata->selected == want_install &&
       pkg_is_informative(pkg, &pkg->available) &&
-      (!(pkg->status == pkginfo::stat_installed ||
-         pkg->status == pkginfo::stat_triggersawaited ||
-         pkg->status == pkginfo::stat_triggerspending) ||
+      (!(pkg->status == stat_installed ||
+         pkg->status == stat_triggersawaited ||
+         pkg->status == stat_triggerspending) ||
        dpkg_version_compare(&pkg->available.version,
                             &pkg->installed.version) > 0))
     return true;
@@ -185,9 +186,9 @@ packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *dep)
   perpackagestate *best;
 
   // Try not keep packages needing reinstallation.
-  if (per->eflag & pkginfo::eflag_reinstreq)
+  if (per->eflag & eflag_reinstreq)
     best = ed;
-  else if (ped->eflag & pkginfo::eflag_reinstreq)
+  else if (ped->eflag & eflag_reinstreq)
     best = er;
   else if (er->spriority < ed->spriority) best= er; // We'd rather change the
   else if (er->spriority > ed->spriority) best= ed; // one with the lowest priority.
@@ -203,8 +204,8 @@ packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *dep)
 
   if (best->spriority >= sp_deselecting) return 0;
   best->suggested=
-    best->pkg->status == pkginfo::stat_notinstalled
-      ? pkginfo::want_purge : pkginfo::want_deinstall; // FIXME: configurable.
+    best->pkg->status == stat_notinstalled
+      ? want_purge : want_deinstall; // FIXME: configurable.
   best->selected= best->suggested;
   best->spriority= sp_deselecting;
 
@@ -311,7 +312,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     /* Always select depends. Only select recommends if we got here because
      * of a manually-initiated install request. */
     if (depends->type != dep_recommends || manual_install) {
-      best->selected= best->suggested= pkginfo::want_install;
+      best->selected = best->suggested = want_install;
       best->spriority= sp_selecting;
     }
     return rc ? 2 : 0;
@@ -327,8 +328,8 @@ int packagelist::resolvedepcon(dependency *depends) {
     /* Always remove depends, but never remove recommends. */
     if (depends->type != dep_recommends) {
       best->selected= best->suggested=
-        best->pkg->status == pkginfo::stat_notinstalled
-          ? pkginfo::want_purge : pkginfo::want_deinstall; // FIXME: configurable
+        best->pkg->status == stat_notinstalled
+          ? want_purge : want_deinstall; // FIXME: configurable
       best->spriority= sp_deselecting;
     }
     return rc ? 2 : 0;
@@ -383,7 +384,7 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
   // ‘satisfied’ here for Conflicts and Breaks means that the
   //  restriction is violated ie that the target package is wanted
   int would;
-  pkginfo::pkgwant want= pkginfo::want_purge;
+  pkgwant want = want_purge;
 
   if (possi->ed->pkg.clientdata) {
     want = possi->ed->pkg.clientdata->selected;
@@ -400,12 +401,12 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
     // been specified, in which case we don't need to look at the rest
     // anyway.
     if (useavailable(&possi->ed->pkg)) {
-      assert(want == pkginfo::want_install);
+      assert(want == want_install);
       return versionsatisfied(&possi->ed->pkg.available, possi);
     } else {
       if (versionsatisfied(&possi->ed->pkg.installed, possi))
         return true;
-      if (want == pkginfo::want_hold && fixbyupgrade && !*fixbyupgrade &&
+      if (want == want_hold && fixbyupgrade && !*fixbyupgrade &&
           versionsatisfied(&possi->ed->pkg.available, possi) &&
           dpkg_version_compare(&possi->ed->pkg.available.version,
                                &possi->ed->pkg.installed.version) > 1)
@@ -442,9 +443,9 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
     if (useavailable(provider->up->up))
       return true;
     if (fixbyupgrade && !*fixbyupgrade &&
-        (!(provider->up->up->status == pkginfo::stat_installed ||
-           provider->up->up->status == pkginfo::stat_triggerspending ||
-           provider->up->up->status == pkginfo::stat_triggersawaited) ||
+        (!(provider->up->up->status == stat_installed ||
+           provider->up->up->status == stat_triggerspending ||
+           provider->up->up->status == stat_triggersawaited) ||
          dpkg_version_compare(&provider->up->up->available.version,
                               &provider->up->up->installed.version) > 1))
       *fixbyupgrade = provider->up->up->clientdata;

@@ -3,6 +3,7 @@
  * pkgtop.cc - handles (re)draw of package list windows colheads, list, thisstate
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2007-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,12 +37,12 @@
 static const char *
 pkgprioritystring(const struct pkginfo *pkg)
 {
-  if (pkg->priority == pkginfo::pri_unset) {
+  if (pkg->priority == pri_unset) {
     return nullptr;
-  } else if (pkg->priority == pkginfo::pri_other) {
+  } else if (pkg->priority == pri_other) {
     return pkg->otherpriority;
   } else {
-    assert(pkg->priority <= pkginfo::pri_unknown);
+    assert(pkg->priority <= pri_unknown);
     return gettext(prioritystrings[pkg->priority]);
   }
 }
@@ -166,7 +167,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
       mvwprintw(listpad, screenline, priority_column - 1, " %-*.*s",
                 priority_width, priority_width,
-                pkg->priority == pkginfo::pri_other ? pkg->otherpriority :
+                pkg->priority == pri_other ? pkg->otherpriority :
                 gettext(prioritystrings[pkg->priority]));
     } else {
       mvwaddch(listpad, screenline, 0, eflagchars[pkg->eflag]);
@@ -182,7 +183,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
       wmove(listpad, screenline, priority_column - 1);
       waddch(listpad, ' ');
-      if (pkg->priority == pkginfo::pri_other) {
+      if (pkg->priority == pri_other) {
         for (i=priority_width, p=pkg->otherpriority;
              i > 0 && *p;
              i--, p++)

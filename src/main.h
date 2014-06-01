@@ -29,17 +29,25 @@
 struct fileinlist;
 struct filenamenode;
 
+enum istobes {
+	itb_normal,
+	itb_remove,
+	itb_installnew,
+	itb_deconfigure,
+	itb_preinstall
+};
+
+enum pkg_cycle_color {
+	white,
+	gray,
+	black,
+};
+
 struct perpackagestate {
-  enum istobes {
-    itb_normal, itb_remove, itb_installnew, itb_deconfigure, itb_preinstall
-  } istobe;
+  enum istobe istobe;
 
   /** Used during cycle detection. */
-  enum pkg_cycle_color {
-    white,
-    gray,
-    black,
-  } color;
+  enum pkg_cycle_color color;
 
   /**
    * filelistvalid  files  Meaning

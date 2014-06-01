@@ -3,6 +3,7 @@
  * pkgcmds.cc - package list keyboard commands
  *
  * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,9 +47,9 @@ packagelist::affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewith) {
   default:
     internerr("unknown statsortorder %d", statsortorder);
   }
-  if (comparewith->priority != pkginfo::pri_unset &&
+  if (comparewith->priority != pri_unset &&
       (comparewith->priority != pkg->priority ||
-       (comparewith->priority == pkginfo::pri_other &&
+       (comparewith->priority == pri_other &&
         strcasecmp(comparewith->otherpriority, pkg->otherpriority))))
     return false;
   if (comparewith->section &&
@@ -87,18 +88,24 @@ void packagelist::movecursorafter(int ncursor) {
   refreshlist(); redrawthisstate();
 }
 
-pkginfo::pkgwant packagelist::reallywant(pkginfo::pkgwant nwarg,
-                                         struct perpackagestate *pkgstate) {
-  if (nwarg != pkginfo::want_sentinel) return nwarg;
-  pkginfo::pkgstatus status= pkgstate->pkg->status;
-  if (status == pkginfo::stat_notinstalled) return pkginfo::want_purge;
-  if (status == pkginfo::stat_configfiles) return pkginfo::want_deinstall;
-  return pkginfo::want_install;
+pkgwant
+packagelist::reallywant(pkgwant nwarg, struct perpackagestate *pkgstate)
+{
+  if (nwarg != want_sentinel)
+    return nwarg;
+  pkgstatus status = pkgstate->pkg->status;
+  if (status == stat_notinstalled)
+    return want_purge;
+  if (status == stat_configfiles)
+    return want_deinstall;
+  return want_install;
 }
 
-void packagelist::setwant(pkginfo::pkgwant nwarg) {
+void
+packagelist::setwant(pkgwant nwarg)
+{
   int index, top, bot;
-  pkginfo::pkgwant nw;
+  pkgwant nw;
 
   if (modstatdb_get_status() == msdbrw_readonly) {
     beep();
@@ -120,8 +127,8 @@ void packagelist::setwant(pkginfo::pkgwant nwarg) {
         continue;
       nw= reallywant(nwarg,table[index]);
       if (table[index]->selected == nw ||
-          (table[index]->selected == pkginfo::want_purge &&
-           nw == pkginfo::want_deinstall))
+          (table[index]->selected == want_purge &&
+           nw == want_deinstall))
         continue;
       sub->add(table[index]->pkg,nw);
     }
@@ -137,24 +144,30 @@ bool manual_install = false;
 
 void packagelist::kd_select()   {
 	manual_install = true;
-	setwant(pkginfo::want_install);
+	setwant(want_install);
 	manual_install = false;
 }
-void packagelist::kd_hold()     { setwant(pkginfo::want_hold);      }
-void packagelist::kd_deselect() { setwant(pkginfo::want_deinstall); }
-void packagelist::kd_unhold()   { setwant(pkginfo::want_sentinel);  }
-void packagelist::kd_purge()    { setwant(pkginfo::want_purge);     }
+void packagelist::kd_hold()     { setwant(want_hold);      }
+void packagelist::kd_deselect() { setwant(want_deinstall); }
+void packagelist::kd_unhold()   { setwant(want_sentinel);  }
+void packagelist::kd_purge()    { setwant(want_purge);     }
 
-int would_like_to_install(pkginfo::pkgwant wantvalue, pkginfo *pkg) {
+int
+would_like_to_install(pkgwant wantvalue, pkginfo *pkg)
+{
   /* Returns: 1 for yes, 0 for no, -1 for if they want to preserve an error condition. */
   debug(dbg_general, "would_like_to_install(%d, %s) status %d",
         wantvalue, pkg_name(pkg, pnaw_always), pkg->status);
 
-  if (wantvalue == pkginfo::want_install) return 1;
-  if (wantvalue != pkginfo::want_hold) return 0;
-  if (pkg->status == pkginfo::stat_installed) return 1;
-  if (pkg->status == pkginfo::stat_notinstalled ||
-      pkg->status == pkginfo::stat_configfiles) return 0;
+  if (wantvalue == want_install)
+    return 1;
+  if (wantvalue != want_hold)
+    return 0;
+  if (pkg->status == stat_installed)
+    return 1;
+  if (pkg->status == stat_notinstalled ||
+      pkg->status == stat_configfiles)
+    return 0;
   return -1;
 }
 
@@ -280,7 +293,7 @@ packagelist::kd_revertinstalled()
 
   for (i = 0; i < nitems; i++) {
     if (table[i]->pkg->set->name)
-      table[i]->selected = reallywant(pkginfo::want_sentinel, table[i]);
+      table[i]->selected = reallywant(want_sentinel, table[i]);
     ldrawnstart = ldrawnend = -1;
   }
 
