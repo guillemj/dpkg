@@ -52,6 +52,9 @@ dpkg (1.17.10) UNRELEASED; urgency=low
     first line. Bump dpkg-dev Breaks on devscripts to 2.14.4, as previous
     versions expect a trailing space from dpkg-parsechangelog output.
     Based on a patch by Johannes Schauer <j.schauer@email.de>. Closes: #749044
+  * Do not assume that sensible-editor is present on «dpkg-source --commit»,
+    as that command is very Debian specific. Fallback to try VISUAL, EDITOR,
+    or vi, if the previous commands are either unset or not found.
 
   [ Updated programs translations ]
   * Catalan (Guillem Jover).

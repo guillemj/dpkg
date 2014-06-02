@@ -1,4 +1,5 @@
 # Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,6 +27,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::File;
+use Dpkg::Path qw(find_command);
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
@@ -35,6 +37,7 @@ use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::Control;
 use Dpkg::Changelog::Parse;
 
+use List::Util qw(first);
 use POSIX qw(:errno_h);
 use Cwd;
 use File::Basename;
@@ -666,8 +669,13 @@ sub do_commit {
     }
     mkpath(File::Spec->catdir($dir, 'debian', 'patches'));
     my $patch = $self->register_patch($dir, $tmpdiff, $patch_name);
-    system('sensible-editor', $patch);
-    subprocerr('sensible-editor') if $?;
+    my @editors = ('sensible-editor', $ENV{VISUAL}, $ENV{EDITOR}, 'vi');
+    my $editor = first { defined $_ and find_command($_) } @editors;
+    if (not $editor) {
+        error(_g('cannot find an editor'));
+    }
+    system($editor, $patch);
+    subprocerr($editor) if $?;
     unlink($tmpdiff) or syserr(_g('cannot remove %s'), $tmpdiff);
     pop_exit_handler();
     info(_g('local changes have been recorded in a new patch: %s'), $patch);
