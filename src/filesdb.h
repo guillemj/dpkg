@@ -3,7 +3,7 @@
  * filesdb.h - management of database of files installed on system
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ struct filenamenode {
    */
 
   /** Set to zero when a new node is created. */
-  enum {
+  enum filenamenode_flags {
     /** In the newconffiles list. */
     fnnf_new_conff		= DPKG_BIT(0),
     /** In the new filesystem archive. */
