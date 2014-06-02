@@ -297,9 +297,9 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	debug(dbg_triggers, "check_triggers_cycle pnow=%s giveup=%p",
 	      pkg_name(processing_now, pnaw_always),
 	      pkg_name(giveup, pnaw_always));
-	assert(giveup->status == stat_triggersawaited ||
-	       giveup->status == stat_triggerspending);
-	pkg_set_status(giveup, stat_halfconfigured);
+	assert(giveup->status == PKG_STAT_TRIGGERSAWAITED ||
+	       giveup->status == PKG_STAT_TRIGGERSPENDING);
+	pkg_set_status(giveup, PKG_STAT_HALFCONFIGURED);
 	modstatdb_note(giveup);
 	print_error_perpackage(_("triggers looping, abandoned"),
 	                       pkg_name(giveup, pnaw_nonambig));
@@ -326,8 +326,8 @@ trigproc(struct pkginfo *pkg)
 	pkg->clientdata->trigprocdeferred = NULL;
 
 	if (pkg->trigpend_head) {
-		assert(pkg->status == stat_triggerspending ||
-		       pkg->status == stat_triggersawaited);
+		assert(pkg->status == PKG_STAT_TRIGGERSPENDING ||
+		       pkg->status == PKG_STAT_TRIGGERSAWAITED);
 
 		gaveup = check_trigger_cycle(pkg);
 		if (gaveup == pkg)
@@ -347,7 +347,7 @@ trigproc(struct pkginfo *pkg)
 
 		/* Setting the status to half-configured
 		 * causes modstatdb_note to clear pending triggers. */
-		pkg_set_status(pkg, stat_halfconfigured);
+		pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
 		modstatdb_note(pkg);
 
 		if (!f_noact) {
@@ -356,7 +356,7 @@ trigproc(struct pkginfo *pkg)
 			                     namesarg.buf + 1, NULL);
 		}
 
-		post_postinst_tasks(pkg, stat_installed);
+		post_postinst_tasks(pkg, PKG_STAT_INSTALLED);
 	} else {
 		/* In other branch is done by modstatdb_note(), from inside
 		 * post_postinst_tasks(). */
@@ -376,7 +376,7 @@ transitional_interest_callback_ro(const char *trig, struct pkginfo *pkg,
 	debug(dbg_triggersdetail,
 	      "trig_transitional_interest_callback trig=%s pend=%s",
 	      trig, pkgbin_name(pend, pendbin, pnaw_always));
-	if (pend->status >= stat_triggersawaited)
+	if (pend->status >= PKG_STAT_TRIGGERSAWAITED)
 		trig_note_pend(pend, nfstrsave(trig));
 }
 
@@ -404,7 +404,7 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 
 	it = pkg_db_iter_new();
 	while ((pkg = pkg_db_iter_next_pkg(it))) {
-		if (pkg->status <= stat_halfinstalled)
+		if (pkg->status <= PKG_STAT_HALFINSTALLED)
 			continue;
 		debug(dbg_triggersdetail, "trig_transitional_activate %s %s",
 		      pkg_name(pkg, pnaw_always),
@@ -420,15 +420,15 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		 * be written down. This should never happen in theory but
 		 * can happen if you restore an old status file that is
 		 * not in sync with the infodb files. */
-		if (pkg->status < stat_triggersawaited)
+		if (pkg->status < PKG_STAT_TRIGGERSAWAITED)
 			continue;
 
 		if (pkg->trigaw.head)
-			pkg_set_status(pkg, stat_triggersawaited);
+			pkg_set_status(pkg, PKG_STAT_TRIGGERSAWAITED);
 		else if (pkg->trigpend_head)
-			pkg_set_status(pkg, stat_triggerspending);
+			pkg_set_status(pkg, PKG_STAT_TRIGGERSPENDING);
 		else
-			pkg_set_status(pkg, stat_installed);
+			pkg_set_status(pkg, PKG_STAT_INSTALLED);
 	}
 	pkg_db_iter_free(it);
 

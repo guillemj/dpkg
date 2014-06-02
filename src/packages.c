@@ -69,8 +69,8 @@ enqueue_pending(void)
   while ((pkg = pkg_db_iter_next_pkg(it)) != NULL) {
     switch (cipaction->arg_int) {
     case act_configure:
-      if (!(pkg->status == stat_unpacked ||
-            pkg->status == stat_halfconfigured ||
+      if (!(pkg->status == PKG_STAT_UNPACKED ||
+            pkg->status == PKG_STAT_HALFCONFIGURED ||
             pkg->trigpend_head))
         continue;
       if (pkg->want != PKG_WANT_INSTALL)
@@ -87,10 +87,10 @@ enqueue_pending(void)
       if (pkg->want != PKG_WANT_PURGE) {
         if (pkg->want != PKG_WANT_DEINSTALL)
           continue;
-        if (pkg->status == stat_configfiles)
+        if (pkg->status == PKG_STAT_CONFIGFILES)
           continue;
       }
-      if (pkg->status == stat_notinstalled)
+      if (pkg->status == PKG_STAT_NOTINSTALLED)
         continue;
       break;
     default:
@@ -110,7 +110,7 @@ enqueue_specified(const char *const *argv)
     struct pkginfo *pkg;
 
     pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
-    if (pkg->status == stat_notinstalled &&
+    if (pkg->status == PKG_STAT_NOTINSTALLED &&
         str_match_end(pkg->set->name, DEBEXT)) {
       badusage(_("you must specify packages by their own names, "
                  "not by quoting the names of the files they come in"));
@@ -222,8 +222,8 @@ void process_queue(void) {
       }
     }
 
-    if (pkg->status > stat_installed)
-      internerr("package status (%d) > stat_installed", pkg->status);
+    if (pkg->status > PKG_STAT_INSTALLED)
+      internerr("package status (%d) > PKG_STAT_INSTALLED", pkg->status);
 
     if (setjmp(ejbuf)) {
       /* Give up on it from the point of view of other packages, i.e. reset
@@ -247,7 +247,7 @@ void process_queue(void) {
       /* Fall through. */
     case act_install:
       /* Don't try to configure pkgs that we've just disappeared. */
-      if (pkg->status == stat_notinstalled)
+      if (pkg->status == PKG_STAT_NOTINSTALLED)
         break;
       /* Fall through. */
     case act_configure:
@@ -355,11 +355,11 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
     return thisf;
   }
   switch (possdependee->status) {
-  case stat_unpacked:
-  case stat_halfconfigured:
-  case stat_triggersawaited:
-  case stat_triggerspending:
-  case stat_installed:
+  case PKG_STAT_UNPACKED:
+  case PKG_STAT_HALFCONFIGURED:
+  case PKG_STAT_TRIGGERSAWAITED:
+  case PKG_STAT_TRIGGERSPENDING:
+  case PKG_STAT_INSTALLED:
     if (checkversion && !versionsatisfied(&possdependee->installed,checkversion)) {
       varbuf_printf(oemsgs, _("  Version of %s on system is %s.\n"),
                     pkg_name(possdependee, pnaw_nonambig),
@@ -372,12 +372,12 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
       (*interestingwarnings)++;
       return thisf;
     }
-    if (possdependee->status == stat_installed ||
-        possdependee->status == stat_triggerspending) {
+    if (possdependee->status == PKG_STAT_INSTALLED ||
+        possdependee->status == PKG_STAT_TRIGGERSPENDING) {
       debug(dbg_depcondetail,"      is installed, ok and found");
       return FOUND_OK;
     }
-    if (possdependee->status == stat_triggersawaited) {
+    if (possdependee->status == PKG_STAT_TRIGGERSAWAITED) {
       assert(possdependee->trigaw.head);
       if (removing ||
           !(f_triggers ||
@@ -416,7 +416,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
       return FOUND_DEFER;
     } else if (!removing && fc_configureany &&
                !skip_due_to_hold(possdependee) &&
-               !(possdependee->status == stat_halfconfigured)) {
+               !(possdependee->status == PKG_STAT_HALFCONFIGURED)) {
       notice(_("also configuring '%s' (required by '%s')"),
              pkg_name(possdependee, pnaw_nonambig),
              pkg_name(requiredby, pnaw_nonambig));
@@ -469,8 +469,9 @@ breaks_check_one(struct varbuf *aemsgs, enum dep_check *ok,
         pkg_name(breaker, pnaw_always),
         virtbroken ? virtbroken->name : "<none>");
 
-  if (breaker->status == stat_notinstalled ||
-      breaker->status == stat_configfiles) return;
+  if (breaker->status == PKG_STAT_NOTINSTALLED ||
+      breaker->status == PKG_STAT_CONFIGFILES)
+    return;
   if (broken == breaker) return;
   if (!versionsatisfied(&broken->installed, breaks)) return;
   /* The test below can only trigger if dep_breaks start having

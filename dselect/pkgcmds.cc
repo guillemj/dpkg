@@ -94,9 +94,9 @@ packagelist::reallywant(pkgwant nwarg, struct perpackagestate *pkgstate)
   if (nwarg != PKG_WANT_SENTINEL)
     return nwarg;
   pkgstatus status = pkgstate->pkg->status;
-  if (status == stat_notinstalled)
+  if (status == PKG_STAT_NOTINSTALLED)
     return PKG_WANT_PURGE;
-  if (status == stat_configfiles)
+  if (status == PKG_STAT_CONFIGFILES)
     return PKG_WANT_DEINSTALL;
   return PKG_WANT_INSTALL;
 }
@@ -163,10 +163,10 @@ would_like_to_install(pkgwant wantvalue, pkginfo *pkg)
     return 1;
   if (wantvalue != PKG_WANT_HOLD)
     return 0;
-  if (pkg->status == stat_installed)
+  if (pkg->status == PKG_STAT_INSTALLED)
     return 1;
-  if (pkg->status == stat_notinstalled ||
-      pkg->status == stat_configfiles)
+  if (pkg->status == PKG_STAT_NOTINSTALLED ||
+      pkg->status == PKG_STAT_CONFIGFILES)
     return 0;
   return -1;
 }

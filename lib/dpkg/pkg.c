@@ -37,9 +37,9 @@ pkg_set_status(struct pkginfo *pkg, enum pkgstatus status)
 {
 	if (pkg->status == status)
 		return;
-	else if (pkg->status == stat_notinstalled)
+	else if (pkg->status == PKG_STAT_NOTINSTALLED)
 		pkg->set->installed_instances++;
-	else if (status == stat_notinstalled)
+	else if (status == PKG_STAT_NOTINSTALLED)
 		pkg->set->installed_instances--;
 
 	assert(pkg->set->installed_instances >= 0);
@@ -112,7 +112,7 @@ pkgbin_blank(struct pkgbin *pkgbin)
 void
 pkg_blank(struct pkginfo *pkg)
 {
-	pkg->status = stat_notinstalled;
+	pkg->status = PKG_STAT_NOTINSTALLED;
 	pkg->eflag = PKG_EFLAG_OK;
 	pkg->want = PKG_WANT_UNKNOWN;
 	pkg->priority = PKG_PRIO_UNKNOWN;
@@ -189,7 +189,7 @@ pkg_is_informative(struct pkginfo *pkg, struct pkgbin *pkgbin)
 	if (pkgbin == &pkg->installed &&
 	    (pkg->want != PKG_WANT_UNKNOWN ||
 	     pkg->eflag != PKG_EFLAG_OK ||
-	     pkg->status != stat_notinstalled ||
+	     pkg->status != PKG_STAT_NOTINSTALLED ||
 	     dpkg_version_is_informative(&pkg->configversion)))
 		return true;
 

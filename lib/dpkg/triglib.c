@@ -84,7 +84,7 @@ static struct trig_hooks trigh;
 static void
 trig_record_activation(struct pkginfo *pend, struct pkginfo *aw, const char *trig)
 {
-	if (pend->status < stat_triggersawaited)
+	if (pend->status < PKG_STAT_TRIGGERSAWAITED)
 		return; /* Not interested then. */
 
 	if (trig_note_pend(pend, trig))
@@ -93,10 +93,10 @@ trig_record_activation(struct pkginfo *pend, struct pkginfo *aw, const char *tri
 	if (trigh.enqueue_deferred)
 		trigh.enqueue_deferred(pend);
 
-	if (aw && pend->status > stat_configfiles)
+	if (aw && pend->status > PKG_STAT_CONFIGFILES)
 		if (trig_note_aw(pend, aw)) {
-			if (aw->status > stat_triggersawaited)
-				pkg_set_status(aw, stat_triggersawaited);
+			if (aw->status > PKG_STAT_TRIGGERSAWAITED)
+				pkg_set_status(aw, PKG_STAT_TRIGGERSAWAITED);
 			modstatdb_note_ifwrite(aw);
 		}
 }
@@ -116,11 +116,11 @@ trig_clear_awaiters(struct pkginfo *notpend)
 		if (!aw)
 			continue;
 		LIST_UNLINK_PART(aw->trigaw, ta, sameaw.);
-		if (!aw->trigaw.head && aw->status == stat_triggersawaited) {
+		if (!aw->trigaw.head && aw->status == PKG_STAT_TRIGGERSAWAITED) {
 			if (aw->trigpend_head)
-				pkg_set_status(aw, stat_triggerspending);
+				pkg_set_status(aw, PKG_STAT_TRIGGERSPENDING);
 			else
-				pkg_set_status(aw, stat_installed);
+				pkg_set_status(aw, PKG_STAT_INSTALLED);
 			modstatdb_note(aw);
 		}
 	}

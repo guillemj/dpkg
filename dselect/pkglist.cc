@@ -183,15 +183,15 @@ void packagelist::ensurestatsortinfo() {
             this, index, pkg_name(table[index]->pkg, pnaw_always));
       pkg= table[index]->pkg;
       switch (pkg->status) {
-      case stat_unpacked:
-      case stat_halfconfigured:
-      case stat_halfinstalled:
-      case stat_triggersawaited:
-      case stat_triggerspending:
+      case PKG_STAT_UNPACKED:
+      case PKG_STAT_HALFCONFIGURED:
+      case PKG_STAT_HALFINSTALLED:
+      case PKG_STAT_TRIGGERSAWAITED:
+      case PKG_STAT_TRIGGERSPENDING:
         table[index]->ssavail= ssa_broken;
         break;
-      case stat_notinstalled:
-      case stat_configfiles:
+      case PKG_STAT_NOTINSTALLED:
+      case PKG_STAT_CONFIGFILES:
         if (!dpkg_version_is_informative(&pkg->available.version)) {
           table[index]->ssavail= ssa_notinst_gone;
 // FIXME: Disable for now as a workaround, until dselect knows how to properly
@@ -204,7 +204,7 @@ void packagelist::ensurestatsortinfo() {
           table[index]->ssavail= ssa_notinst_seen;
         }
         break;
-      case stat_installed:
+      case PKG_STAT_INSTALLED:
         veri= &table[index]->pkg->installed.version;
         vera= &table[index]->pkg->available.version;
         if (!dpkg_version_is_informative(vera)) {
@@ -232,20 +232,20 @@ void packagelist::ensurestatsortinfo() {
       debug(dbg_general, "packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s",
             this, index, pkg_name(table[index]->pkg, pnaw_always));
       switch (table[index]->pkg->status) {
-      case stat_unpacked:
-      case stat_halfconfigured:
-      case stat_halfinstalled:
-      case stat_triggersawaited:
-      case stat_triggerspending:
+      case PKG_STAT_UNPACKED:
+      case PKG_STAT_HALFCONFIGURED:
+      case PKG_STAT_HALFINSTALLED:
+      case PKG_STAT_TRIGGERSAWAITED:
+      case PKG_STAT_TRIGGERSPENDING:
         table[index]->ssstate= sss_broken;
         break;
-      case stat_notinstalled:
+      case PKG_STAT_NOTINSTALLED:
         table[index]->ssstate= sss_notinstalled;
         break;
-      case stat_configfiles:
+      case PKG_STAT_CONFIGFILES:
         table[index]->ssstate= sss_configfiles;
         break;
-      case stat_installed:
+      case PKG_STAT_INSTALLED:
         table[index]->ssstate= sss_installed;
         break;
       default:
@@ -392,7 +392,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
   while ((pkg = pkg_db_iter_next_pkg(iter))) {
     struct perpackagestate *state= &datatable[nitems];
     state->pkg= pkg;
-    if (pkg->status == stat_notinstalled &&
+    if (pkg->status == PKG_STAT_NOTINSTALLED &&
         !pkg->files &&
         pkg->want != PKG_WANT_INSTALL) {
       pkg->clientdata = nullptr;
@@ -403,7 +403,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     if (modstatdb_get_status() == msdbrw_write &&
         state->original == PKG_WANT_UNKNOWN) {
       state->suggested=
-        pkg->status == stat_installed ||
+        pkg->status == PKG_STAT_INSTALLED ||
           pkg->priority <= PKG_PRIO_STANDARD /* FIXME: configurable */
             ? PKG_WANT_INSTALL : PKG_WANT_PURGE;
       state->spriority= sp_inherit;

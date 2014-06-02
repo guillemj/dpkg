@@ -38,9 +38,9 @@ packagelist::useavailable(pkginfo *pkg)
   if (pkg->clientdata &&
       pkg->clientdata->selected == PKG_WANT_INSTALL &&
       pkg_is_informative(pkg, &pkg->available) &&
-      (!(pkg->status == stat_installed ||
-         pkg->status == stat_triggersawaited ||
-         pkg->status == stat_triggerspending) ||
+      (!(pkg->status == PKG_STAT_INSTALLED ||
+         pkg->status == PKG_STAT_TRIGGERSAWAITED ||
+         pkg->status == PKG_STAT_TRIGGERSPENDING) ||
        dpkg_version_compare(&pkg->available.version,
                             &pkg->installed.version) > 0))
     return true;
@@ -204,7 +204,7 @@ packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *dep)
 
   if (best->spriority >= sp_deselecting) return 0;
   best->suggested=
-    best->pkg->status == stat_notinstalled
+    best->pkg->status == PKG_STAT_NOTINSTALLED
       ? PKG_WANT_PURGE : PKG_WANT_DEINSTALL; // FIXME: configurable.
   best->selected= best->suggested;
   best->spriority= sp_deselecting;
@@ -328,7 +328,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     /* Always remove depends, but never remove recommends. */
     if (depends->type != dep_recommends) {
       best->selected= best->suggested=
-        best->pkg->status == stat_notinstalled
+        best->pkg->status == PKG_STAT_NOTINSTALLED
           ? PKG_WANT_PURGE : PKG_WANT_DEINSTALL; // FIXME: configurable
       best->spriority= sp_deselecting;
     }
@@ -443,9 +443,9 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
     if (useavailable(provider->up->up))
       return true;
     if (fixbyupgrade && !*fixbyupgrade &&
-        (!(provider->up->up->status == stat_installed ||
-           provider->up->up->status == stat_triggerspending ||
-           provider->up->up->status == stat_triggersawaited) ||
+        (!(provider->up->up->status == PKG_STAT_INSTALLED ||
+           provider->up->up->status == PKG_STAT_TRIGGERSPENDING ||
+           provider->up->up->status == PKG_STAT_TRIGGERSAWAITED) ||
          dpkg_version_compare(&provider->up->up->available.version,
                               &provider->up->up->installed.version) > 1))
       *fixbyupgrade = provider->up->up->clientdata;

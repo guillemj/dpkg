@@ -196,12 +196,12 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
       continue;
     /* The hash in the Conffiles is only meaningful if the package
      * configuration has been at least tried. */
-    if (otherpkg->status < stat_unpacked)
+    if (otherpkg->status < PKG_STAT_UNPACKED)
       continue;
     /* If we are reinstalling, even if the other package is only unpacked,
      * we can always make use of the Conffiles hash value from an initial
      * installation, if that happened at all. */
-    if (otherpkg->status == stat_unpacked &&
+    if (otherpkg->status == PKG_STAT_UNPACKED &&
         dpkg_version_compare(&otherpkg->installed.version,
                              &otherpkg->configversion) != 0)
       continue;
@@ -957,7 +957,7 @@ tarobject(void *ctx, struct tar_entry *ti)
       /* Is the package with the conflicting file in the “config files only”
        * state? If so it must be a config file and we can silenty take it
        * over. */
-      if (otherpkg->status == stat_configfiles)
+      if (otherpkg->status == PKG_STAT_CONFIGFILES)
         continue;
 
       /* Perhaps we're removing a conflicting package? */
@@ -1445,9 +1445,9 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       notice(_("considering removing %s in favour of %s ..."),
              pkg_name(fixbyrm, pnaw_nonambig),
              pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
-      if (!(fixbyrm->status == stat_installed ||
-            fixbyrm->status == stat_triggerspending ||
-            fixbyrm->status == stat_triggersawaited)) {
+      if (!(fixbyrm->status == PKG_STAT_INSTALLED ||
+            fixbyrm->status == PKG_STAT_TRIGGERSPENDING ||
+            fixbyrm->status == PKG_STAT_TRIGGERSAWAITED)) {
         notice(_("%s is not properly installed; ignoring any dependencies on it"),
                pkg_name(fixbyrm, pnaw_nonambig));
         pdep = NULL;
@@ -1714,7 +1714,7 @@ wanttoinstall(struct pkginfo *pkg)
 
   if (pkg->eflag & PKG_EFLAG_REINSTREQ)
     return true;
-  if (pkg->status < stat_unpacked)
+  if (pkg->status < PKG_STAT_UNPACKED)
     return true;
 
   rc = dpkg_version_compare(&pkg->available.version, &pkg->installed.version);

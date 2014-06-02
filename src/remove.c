@@ -63,9 +63,9 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
     depender= possi->up->up;
     debug(dbg_depcon, "checking depending package '%s'",
           pkg_name(depender, pnaw_always));
-    if (!(depender->status == stat_installed ||
-          depender->status == stat_triggerspending ||
-          depender->status == stat_triggersawaited))
+    if (!(depender->status == PKG_STAT_INSTALLED ||
+          depender->status == PKG_STAT_TRIGGERSPENDING ||
+          depender->status == PKG_STAT_TRIGGERSAWAITED))
       continue;
     if (ignore_depends(depender)) {
       debug(dbg_depcon, "ignoring depending package '%s'",
@@ -103,14 +103,14 @@ void deferred_remove(struct pkginfo *pkg) {
       modstatdb_note(pkg);
   }
 
-  if (pkg->status == stat_notinstalled) {
+  if (pkg->status == PKG_STAT_NOTINSTALLED) {
     sincenothing = 0;
     warning(_("ignoring request to remove %.250s which isn't installed"),
             pkg_name(pkg, pnaw_nonambig));
     pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     return;
   } else if (!f_pending &&
-             pkg->status == stat_configfiles &&
+             pkg->status == PKG_STAT_CONFIGFILES &&
              cipaction->arg_int != act_purge) {
     sincenothing = 0;
     warning(_("ignoring request to remove %.250s, only the config\n"
@@ -120,7 +120,7 @@ void deferred_remove(struct pkginfo *pkg) {
     return;
   }
 
-  if (pkg->installed.essential && pkg->status != stat_configfiles)
+  if (pkg->installed.essential && pkg->status != PKG_STAT_CONFIGFILES)
     forcibleerr(fc_removeessential,
                 _("this is an essential package; it should not be removed"));
 
@@ -165,7 +165,7 @@ void deferred_remove(struct pkginfo *pkg) {
     printf(_("Would remove or purge %s (%s) ...\n"),
            pkg_name(pkg, pnaw_nonambig),
            versiondescribe(&pkg->installed.version, vdew_nonambig));
-    pkg_set_status(pkg, stat_notinstalled);
+    pkg_set_status(pkg, PKG_STAT_NOTINSTALLED);
     pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     return;
   }
@@ -176,18 +176,18 @@ void deferred_remove(struct pkginfo *pkg) {
          versiondescribe(&pkg->installed.version, vdew_nonambig));
   log_action("remove", pkg, &pkg->installed);
   trig_activate_packageprocessing(pkg);
-  if (pkg->status >= stat_halfconfigured) {
+  if (pkg->status >= PKG_STAT_HALFCONFIGURED) {
     static enum pkgstatus oldpkgstatus;
 
     oldpkgstatus= pkg->status;
-    pkg_set_status(pkg, stat_halfconfigured);
+    pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(pkg);
     push_cleanup(cu_prermremove, ~ehflag_normaltidy, NULL, 0, 2,
                  (void *)pkg, (void *)&oldpkgstatus);
     maintscript_installed(pkg, PRERMFILE, "pre-removal", "remove", NULL);
 
     /* Will turn into ‘half-installed’ soon ... */
-    pkg_set_status(pkg, stat_unpacked);
+    pkg_set_status(pkg, PKG_STAT_UNPACKED);
   }
 
   removal_bulk(pkg);
@@ -255,7 +255,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
   static struct varbuf fnvb;
   struct stat stab;
 
-    pkg_set_status(pkg, stat_halfinstalled);
+    pkg_set_status(pkg, PKG_STAT_HALFINSTALLED);
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
@@ -360,7 +360,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
     pkg_infodb_foreach(pkg, &pkg->installed, removal_bulk_remove_file);
     dir_sync_path(pkg_infodb_get_dir());
 
-    pkg_set_status(pkg, stat_configfiles);
+    pkg_set_status(pkg, PKG_STAT_CONFIGFILES);
     pkg->installed.essential = false;
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
@@ -600,7 +600,8 @@ void removal_bulk(struct pkginfo *pkg) {
 
   debug(dbg_general, "removal_bulk package %s", pkg_name(pkg, pnaw_always));
 
-  if (pkg->status == stat_halfinstalled || pkg->status == stat_unpacked) {
+  if (pkg->status == PKG_STAT_HALFINSTALLED ||
+      pkg->status == PKG_STAT_UNPACKED) {
     removal_bulk_remove_files(pkg);
   }
 
@@ -640,11 +641,11 @@ void removal_bulk(struct pkginfo *pkg) {
     if (unlink(filename) && errno != ENOENT)
       ohshite(_("can't remove old postrm script"));
 
-    pkg_set_status(pkg, stat_notinstalled);
+    pkg_set_status(pkg, PKG_STAT_NOTINSTALLED);
     pkg_set_want(pkg, PKG_WANT_UNKNOWN);
 
     /* This will mess up reverse links, but if we follow them
-     * we won't go back because pkg->status is stat_notinstalled. */
+     * we won't go back because pkg->status is PKG_STAT_NOTINSTALLED. */
     pkgbin_blank(&pkg->installed);
   }
 

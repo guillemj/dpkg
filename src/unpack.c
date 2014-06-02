@@ -357,7 +357,7 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
   pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_remove_file);
   dir_sync_path(pkg_infodb_get_dir());
 
-  pkg_set_status(pkg, stat_notinstalled);
+  pkg_set_status(pkg, PKG_STAT_NOTINSTALLED);
   pkg_set_want(pkg, PKG_WANT_UNKNOWN);
   pkg_reset_eflags(pkg);
 
@@ -383,7 +383,7 @@ pkgset_getting_in_sync(struct pkginfo *pkg)
   for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
     if (otherpkg == pkg)
       continue;
-    if (otherpkg->status <= stat_configfiles)
+    if (otherpkg->status <= PKG_STAT_CONFIGFILES)
       continue;
     if (dpkg_version_compare(&pkg->available.version,
                              &otherpkg->installed.version)) {
@@ -528,7 +528,7 @@ void process_archive(const char *filename) {
   for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
     if (otherpkg == pkg)
       continue;
-    if (otherpkg->status <= stat_halfconfigured)
+    if (otherpkg->status <= PKG_STAT_HALFCONFIGURED)
       continue;
 
     if (dpkg_version_compare(&pkg->available.version,
@@ -597,7 +597,8 @@ void process_archive(const char *filename) {
 
   printf(_("Preparing to unpack %s ...\n"), pfilename);
 
-  if (pkg->status != stat_notinstalled && pkg->status != stat_configfiles) {
+  if (pkg->status != PKG_STAT_NOTINSTALLED &&
+      pkg->status != PKG_STAT_CONFIGFILES) {
     log_action("upgrade", pkg, &pkg->installed);
   } else {
     log_action("install", pkg, &pkg->available);
@@ -701,16 +702,16 @@ void process_archive(const char *filename) {
 
   oldversionstatus= pkg->status;
 
-  assert(oldversionstatus <= stat_installed);
+  assert(oldversionstatus <= PKG_STAT_INSTALLED);
   debug(dbg_general,"process_archive oldversionstatus=%s",
         statusstrings[oldversionstatus]);
 
-  if (oldversionstatus == stat_halfconfigured ||
-      oldversionstatus == stat_triggersawaited ||
-      oldversionstatus == stat_triggerspending ||
-      oldversionstatus == stat_installed) {
+  if (oldversionstatus == PKG_STAT_HALFCONFIGURED ||
+      oldversionstatus == PKG_STAT_TRIGGERSAWAITED ||
+      oldversionstatus == PKG_STAT_TRIGGERSPENDING ||
+      oldversionstatus == PKG_STAT_INSTALLED) {
     pkg_set_eflags(pkg, PKG_EFLAG_REINSTREQ);
-    pkg_set_status(pkg, stat_halfconfigured);
+    pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(pkg);
     push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
     if (dpkg_version_compare(&pkg->available.version,
@@ -724,8 +725,8 @@ void process_archive(const char *filename) {
                             versiondescribe(&pkg->available.version,
                                             vdew_nonambig),
                             NULL);
-    pkg_set_status(pkg, stat_unpacked);
-    oldversionstatus= stat_unpacked;
+    pkg_set_status(pkg, PKG_STAT_UNPACKED);
+    oldversionstatus = PKG_STAT_UNPACKED;
     modstatdb_note(pkg);
   }
 
@@ -744,7 +745,7 @@ void process_archive(const char *filename) {
              versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig));
 
     trig_activate_packageprocessing(deconpil->pkg);
-    pkg_set_status(deconpil->pkg, stat_halfconfigured);
+    pkg_set_status(deconpil->pkg, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(deconpil->pkg);
 
     /* This means that we *either* go and run postinst abort-deconfigure,
@@ -780,14 +781,14 @@ void process_archive(const char *filename) {
        conflictor_iter = conflictor_iter->next) {
     struct pkginfo *conflictor = conflictor_iter->pkg;
 
-    if (!(conflictor->status == stat_halfconfigured ||
-          conflictor->status == stat_triggersawaited ||
-          conflictor->status == stat_triggerspending ||
-          conflictor->status == stat_installed))
+    if (!(conflictor->status == PKG_STAT_HALFCONFIGURED ||
+          conflictor->status == PKG_STAT_TRIGGERSAWAITED ||
+          conflictor->status == PKG_STAT_TRIGGERSPENDING ||
+          conflictor->status == PKG_STAT_INSTALLED))
       continue;
 
     trig_activate_packageprocessing(conflictor);
-    pkg_set_status(conflictor, stat_halfconfigured);
+    pkg_set_status(conflictor, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(conflictor);
     push_cleanup(cu_prerminfavour, ~ehflag_normaltidy, NULL, 0,
                  2, conflictor, pkg);
@@ -797,23 +798,23 @@ void process_archive(const char *filename) {
                           versiondescribe(&pkg->available.version,
                                           vdew_nonambig),
                           NULL);
-    pkg_set_status(conflictor, stat_halfinstalled);
+    pkg_set_status(conflictor, PKG_STAT_HALFINSTALLED);
     modstatdb_note(conflictor);
   }
 
   pkg_set_eflags(pkg, PKG_EFLAG_REINSTREQ);
-  if (pkg->status == stat_notinstalled) {
+  if (pkg->status == PKG_STAT_NOTINSTALLED) {
     pkg->installed.version= pkg->available.version;
     pkg->installed.multiarch = pkg->available.multiarch;
   }
-  pkg_set_status(pkg, stat_halfinstalled);
+  pkg_set_status(pkg, PKG_STAT_HALFINSTALLED);
   modstatdb_note(pkg);
-  if (oldversionstatus == stat_notinstalled) {
+  if (oldversionstatus == PKG_STAT_NOTINSTALLED) {
     push_cleanup(cu_preinstverynew, ~ehflag_normaltidy, NULL, 0,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
     maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
                     "install", NULL);
-  } else if (oldversionstatus == stat_configfiles) {
+  } else if (oldversionstatus == PKG_STAT_CONFIGFILES) {
     push_cleanup(cu_preinstnew, ~ehflag_normaltidy, NULL, 0,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
     maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
@@ -829,8 +830,8 @@ void process_archive(const char *filename) {
                     NULL);
   }
 
-  if (oldversionstatus == stat_notinstalled ||
-      oldversionstatus == stat_configfiles) {
+  if (oldversionstatus == PKG_STAT_NOTINSTALLED ||
+      oldversionstatus == PKG_STAT_CONFIGFILES) {
     printf(_("Unpacking %s (%s) ...\n"),
            pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
            versiondescribe(&pkg->available.version, vdew_nonambig));
@@ -951,10 +952,11 @@ void process_archive(const char *filename) {
 
   tar_deferred_extract(newfileslist, pkg);
 
-  if (oldversionstatus == stat_halfinstalled || oldversionstatus == stat_unpacked) {
+  if (oldversionstatus == PKG_STAT_HALFINSTALLED ||
+      oldversionstatus == PKG_STAT_UNPACKED) {
     /* Packages that were in ‘installed’ and ‘postinstfailed’ have been
      * reduced to ‘unpacked’ by now, by the running of the prerm script. */
-    pkg_set_status(pkg, stat_halfinstalled);
+    pkg_set_status(pkg, PKG_STAT_HALFINSTALLED);
     modstatdb_note(pkg);
     push_cleanup(cu_postrmupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
     maintscript_fallback(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
@@ -1237,7 +1239,7 @@ void process_archive(const char *filename) {
     if (otherpkg->installed.arch != pkg->installed.arch)
       continue;
 
-    assert(otherpkg->status == stat_notinstalled);
+    assert(otherpkg->status == PKG_STAT_NOTINSTALLED);
 
     pkg_blank(otherpkg);
   }
@@ -1255,8 +1257,8 @@ void process_archive(const char *filename) {
   while ((otherpkg = pkg_db_iter_next_pkg(it)) != NULL) {
     ensure_package_clientdata(otherpkg);
     if (otherpkg == pkg ||
-        otherpkg->status == stat_notinstalled ||
-        otherpkg->status == stat_configfiles ||
+        otherpkg->status == PKG_STAT_NOTINSTALLED ||
+        otherpkg->status == PKG_STAT_CONFIGFILES ||
         otherpkg->clientdata->istobe == PKG_ISTOBE_REMOVE ||
         !otherpkg->clientdata->files) continue;
     /* Do not try to disappear other packages from the same set
@@ -1395,7 +1397,7 @@ void process_archive(const char *filename) {
    * The only thing that we have left to do with it is remove
    * backup files, and we can leave the user to fix that if and when
    * it happens (we leave the reinstall required flag, of course). */
-  pkg_set_status(pkg, stat_unpacked);
+  pkg_set_status(pkg, PKG_STAT_UNPACKED);
   modstatdb_note(pkg);
 
   /* Now we delete all the backup files that we made when

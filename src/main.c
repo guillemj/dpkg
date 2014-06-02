@@ -542,7 +542,7 @@ arch_remove(const char *const *argv)
   /* Check if it's safe to remove the architecture from the db. */
   iter = pkg_db_iter_new();
   while ((pkg = pkg_db_iter_next_pkg(iter))) {
-    if (pkg->status < stat_halfinstalled)
+    if (pkg->status < PKG_STAT_HALFINSTALLED)
       continue;
     if (pkg->installed.arch == arch) {
       if (fc_architecture)

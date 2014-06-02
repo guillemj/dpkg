@@ -280,7 +280,7 @@ listpackages(const char *const *argv)
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
-      if (pkg->status == stat_notinstalled)
+      if (pkg->status == PKG_STAT_NOTINSTALLED)
         array.pkgs[i] = NULL;
     }
 
@@ -460,7 +460,7 @@ enqperpackage(const char *const *argv)
 
     switch (cipaction->arg_int) {
     case act_status:
-      if (pkg->status == stat_notinstalled &&
+      if (pkg->status == PKG_STAT_NOTINSTALLED &&
           pkg->priority == PKG_PRIO_UNKNOWN &&
           str_is_unset(pkg->section) &&
           !pkg->files &&
@@ -484,7 +484,7 @@ enqperpackage(const char *const *argv)
       break;
     case act_listfiles:
       switch (pkg->status) {
-      case stat_notinstalled:
+      case PKG_STAT_NOTINSTALLED:
         notice(_("package '%s' is not installed"),
                pkg_name(pkg, pnaw_nonambig));
         failures++;
@@ -567,7 +567,8 @@ showpackages(const char *const *argv)
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
-      if (pkg->status == stat_notinstalled) continue;
+      if (pkg->status == PKG_STAT_NOTINSTALLED)
+        continue;
       pkg_format_show(fmt, pkg, &pkg->installed);
     }
   } else {
@@ -698,7 +699,7 @@ control_path(const char *const *argv)
   modstatdb_open(msdbrw_readonly);
 
   pkg = dpkg_options_parse_pkgname(cipaction, pkgname);
-  if (pkg->status == stat_notinstalled)
+  if (pkg->status == PKG_STAT_NOTINSTALLED)
     ohshit(_("package '%s' is not installed"),
            pkg_name(pkg, pnaw_nonambig));
 
@@ -725,7 +726,7 @@ control_list(const char *const *argv)
   modstatdb_open(msdbrw_readonly);
 
   pkg = dpkg_options_parse_pkgname(cipaction, pkgname);
-  if (pkg->status == stat_notinstalled)
+  if (pkg->status == PKG_STAT_NOTINSTALLED)
     ohshit(_("package '%s' is not installed"), pkg_name(pkg, pnaw_nonambig));
 
   pkg_infodb_foreach(pkg, &pkg->installed, pkg_infodb_print_filetype);
@@ -757,7 +758,7 @@ control_show(const char *const *argv)
   modstatdb_open(msdbrw_readonly);
 
   pkg = dpkg_options_parse_pkgname(cipaction, pkgname);
-  if (pkg->status == stat_notinstalled)
+  if (pkg->status == PKG_STAT_NOTINSTALLED)
     ohshit(_("package '%s' is not installed"), pkg_name(pkg, pnaw_nonambig));
 
   if (pkg_infodb_has_file(pkg, &pkg->installed, control_file))

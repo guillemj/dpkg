@@ -341,7 +341,7 @@ deferred_configure_ghost_conffile(struct pkginfo *pkg, struct conffile *conff)
 	for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
 		if (otherpkg == pkg)
 			continue;
-		if (otherpkg->status <= stat_halfconfigured)
+		if (otherpkg->status <= PKG_STAT_HALFCONFIGURED)
 			continue;
 
 		for (otherconff = otherpkg->installed.conffiles; otherconff;
@@ -560,13 +560,14 @@ deferred_configure(struct pkginfo *pkg)
 	struct pkginfo *otherpkg;
 	enum dep_check ok;
 
-	if (pkg->status == stat_notinstalled)
+	if (pkg->status == PKG_STAT_NOTINSTALLED)
 		ohshit(_("no package named `%s' is installed, cannot configure"),
 		       pkg_name(pkg, pnaw_nonambig));
-	if (pkg->status == stat_installed)
+	if (pkg->status == PKG_STAT_INSTALLED)
 		ohshit(_("package %.250s is already installed and configured"),
 		       pkg_name(pkg, pnaw_nonambig));
-	if (pkg->status != stat_unpacked && pkg->status != stat_halfconfigured)
+	if (pkg->status != PKG_STAT_UNPACKED &&
+	    pkg->status != PKG_STAT_HALFCONFIGURED)
 		ohshit(_("package %.250s is not ready for configuration\n"
 		         " cannot configure (current status `%.250s')"),
 		       pkg_name(pkg, pnaw_nonambig),
@@ -575,10 +576,10 @@ deferred_configure(struct pkginfo *pkg)
 	for (otherpkg = &pkg->set->pkg; otherpkg; otherpkg = otherpkg->arch_next) {
 		if (otherpkg == pkg)
 			continue;
-		if (otherpkg->status <= stat_configfiles)
+		if (otherpkg->status <= PKG_STAT_CONFIGFILES)
 			continue;
 
-		if (otherpkg->status < stat_unpacked)
+		if (otherpkg->status < PKG_STAT_UNPACKED)
 			ohshit(_("package %s cannot be configured because "
 			         "%s is not ready (current status '%s')"),
 			       pkg_name(pkg, pnaw_always),
@@ -614,7 +615,7 @@ deferred_configure(struct pkginfo *pkg)
 	/*
 	 * At this point removal from the queue is confirmed. This
 	 * represents irreversible progress wrt trigger cycles. Only
-	 * packages in stat_unpacked are automatically added to the
+	 * packages in PKG_STAT_UNPACKED are automatically added to the
 	 * configuration queue, and during configuration and trigger
 	 * processing new packages can't enter into unpacked.
 	 */
@@ -647,12 +648,12 @@ deferred_configure(struct pkginfo *pkg)
 	trig_activate_packageprocessing(pkg);
 
 	if (f_noact) {
-		pkg_set_status(pkg, stat_installed);
+		pkg_set_status(pkg, PKG_STAT_INSTALLED);
 		pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
 		return;
 	}
 
-	if (pkg->status == stat_unpacked) {
+	if (pkg->status == PKG_STAT_UNPACKED) {
 		debug(dbg_general, "deferred_configure updating conffiles");
 		/* This will not do at all the right thing with overridden
 		 * conffiles or conffiles that are the ‘target’ of an override;
@@ -676,10 +677,10 @@ deferred_configure(struct pkginfo *pkg)
 			deferred_configure_conffile(pkg, conff);
 		}
 
-		pkg_set_status(pkg, stat_halfconfigured);
+		pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
 	}
 
-	assert(pkg->status == stat_halfconfigured);
+	assert(pkg->status == PKG_STAT_HALFCONFIGURED);
 
 	modstatdb_note(pkg);
 
@@ -691,7 +692,7 @@ deferred_configure(struct pkginfo *pkg)
 
 	pkg_reset_eflags(pkg);
 	pkg->trigpend_head = NULL;
-	post_postinst_tasks(pkg, stat_installed);
+	post_postinst_tasks(pkg, PKG_STAT_INSTALLED);
 }
 
 /**

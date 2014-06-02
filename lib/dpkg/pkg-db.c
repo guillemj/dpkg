@@ -136,7 +136,7 @@ pkg_db_get_singleton(struct pkgset *set)
     return &set->pkg;
   case 1:
     for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
-      if (pkg->status > stat_notinstalled)
+      if (pkg->status > PKG_STAT_NOTINSTALLED)
         return pkg;
     }
     internerr("pkgset '%s' should have one installed instance", set->name);

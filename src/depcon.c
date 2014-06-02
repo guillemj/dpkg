@@ -333,12 +333,15 @@ depisok(struct dependency *dep, struct varbuf *whynot,
   case PKG_ISTOBE_NORMAL:
     /* Only installed packages can be make dependency problems. */
     switch (dep->up->status) {
-    case stat_installed:
-    case stat_triggerspending:
-    case stat_triggersawaited:
+    case PKG_STAT_INSTALLED:
+    case PKG_STAT_TRIGGERSPENDING:
+    case PKG_STAT_TRIGGERSAWAITED:
       break;
-    case stat_notinstalled: case stat_configfiles: case stat_halfinstalled:
-    case stat_halfconfigured: case stat_unpacked:
+    case PKG_STAT_NOTINSTALLED:
+    case PKG_STAT_CONFIGFILES:
+    case PKG_STAT_HALFINSTALLED:
+    case PKG_STAT_HALFCONFIGURED:
+    case PKG_STAT_UNPACKED:
       return true;
     default:
       internerr("unknown status depending '%d'", dep->up->status);
@@ -392,8 +395,8 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         case PKG_ISTOBE_NORMAL:
         case PKG_ISTOBE_PREINSTALL:
           switch (pkg_pos->status) {
-          case stat_installed:
-          case stat_triggerspending:
+          case PKG_STAT_INSTALLED:
+          case PKG_STAT_TRIGGERSPENDING:
             if (versionsatisfied(&pkg_pos->installed, possi)) {
               deppossi_pkg_iter_free(possi_iter);
               return true;
@@ -403,19 +406,19 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                     pkg_name(pkg_pos, pnaw_nonambig),
                     versiondescribe(&pkg_pos->installed.version, vdew_nonambig));
             break;
-          case stat_notinstalled:
+          case PKG_STAT_NOTINSTALLED:
             /* Don't say anything about this yet - it might be a virtual package.
              * Later on, if nothing has put anything in linebuf, we know that it
              * isn't and issue a diagnostic then. */
             *linebuf = '\0';
             break;
-          case stat_triggersawaited:
+          case PKG_STAT_TRIGGERSAWAITED:
               if (canfixbytrigaw && versionsatisfied(&pkg_pos->installed, possi))
                 *canfixbytrigaw = pkg_pos;
               /* Fall through to have a chance to return OK due to
                * allowunconfigd and to fill the explanation */
-          case stat_unpacked:
-          case stat_halfconfigured:
+          case PKG_STAT_UNPACKED:
+          case PKG_STAT_HALFCONFIGURED:
             if (allowunconfigd) {
               if (!dpkg_version_is_informative(&pkg_pos->configversion)) {
                 sprintf(linebuf, _("  %.250s is unpacked, but has never been "
@@ -493,10 +496,10 @@ depisok(struct dependency *dep, struct varbuf *whynot,
             break;
           case PKG_ISTOBE_NORMAL:
           case PKG_ISTOBE_PREINSTALL:
-            if (provider->up->up->status == stat_installed ||
-                provider->up->up->status == stat_triggerspending)
+            if (provider->up->up->status == PKG_STAT_INSTALLED ||
+                provider->up->up->status == PKG_STAT_TRIGGERSPENDING)
               return true;
-            if (provider->up->up->status == stat_triggersawaited)
+            if (provider->up->up->status == PKG_STAT_TRIGGERSAWAITED)
               *canfixbytrigaw = provider->up->up;
             sprintf(linebuf, _("  %.250s provides %.250s but is %s.\n"),
                     pkg_name(provider->up->up, pnaw_nonambig),
@@ -564,17 +567,17 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         case PKG_ISTOBE_NORMAL:
         case PKG_ISTOBE_PREINSTALL:
           switch (pkg_pos->status) {
-          case stat_notinstalled:
-          case stat_configfiles:
+          case PKG_STAT_NOTINSTALLED:
+          case PKG_STAT_CONFIGFILES:
             break;
-          case stat_halfinstalled:
-          case stat_unpacked:
-          case stat_halfconfigured:
+          case PKG_STAT_HALFINSTALLED:
+          case PKG_STAT_UNPACKED:
+          case PKG_STAT_HALFCONFIGURED:
             if (dep->type == dep_breaks)
               break; /* No problem. */
-          case stat_installed:
-          case stat_triggerspending:
-          case stat_triggersawaited:
+          case PKG_STAT_INSTALLED:
+          case PKG_STAT_TRIGGERSPENDING:
+          case PKG_STAT_TRIGGERSAWAITED:
             if (!versionsatisfied(&pkg_pos->installed, possi))
               break;
             sprintf(linebuf, _("  %.250s (version %.250s) is present and %s.\n"),
@@ -642,15 +645,17 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         case PKG_ISTOBE_NORMAL:
         case PKG_ISTOBE_PREINSTALL:
           switch (provider->up->up->status) {
-          case stat_notinstalled: case stat_configfiles:
+          case PKG_STAT_NOTINSTALLED:
+          case PKG_STAT_CONFIGFILES:
             continue;
-          case stat_halfinstalled: case stat_unpacked:
-          case stat_halfconfigured:
+          case PKG_STAT_HALFINSTALLED:
+          case PKG_STAT_UNPACKED:
+          case PKG_STAT_HALFCONFIGURED:
             if (dep->type == dep_breaks)
               break; /* No problem. */
-          case stat_installed:
-          case stat_triggerspending:
-          case stat_triggersawaited:
+          case PKG_STAT_INSTALLED:
+          case PKG_STAT_TRIGGERSPENDING:
+          case PKG_STAT_TRIGGERSAWAITED:
             sprintf(linebuf,
                     _("  %.250s provides %.250s and is present and %s.\n"),
                     pkg_name(provider->up->up, pnaw_nonambig), possi->ed->name,

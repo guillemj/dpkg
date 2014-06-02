@@ -66,13 +66,13 @@ const struct namevalue eflaginfos[] = {
 };
 
 const struct namevalue statusinfos[] = {
-	NAMEVALUE_DEF("not-installed",		stat_notinstalled),
-	NAMEVALUE_DEF("config-files",		stat_configfiles),
-	NAMEVALUE_DEF("half-installed",		stat_halfinstalled),
-	NAMEVALUE_DEF("unpacked",		stat_unpacked),
-	NAMEVALUE_DEF("half-configured",	stat_halfconfigured),
-	NAMEVALUE_DEF("triggers-awaited",	stat_triggersawaited),
-	NAMEVALUE_DEF("triggers-pending",	stat_triggerspending),
-	NAMEVALUE_DEF("installed",		stat_installed),
+	NAMEVALUE_DEF("not-installed",		PKG_STAT_NOTINSTALLED),
+	NAMEVALUE_DEF("config-files",		PKG_STAT_CONFIGFILES),
+	NAMEVALUE_DEF("half-installed",		PKG_STAT_HALFINSTALLED),
+	NAMEVALUE_DEF("unpacked",		PKG_STAT_UNPACKED),
+	NAMEVALUE_DEF("half-configured",	PKG_STAT_HALFCONFIGURED),
+	NAMEVALUE_DEF("triggers-awaited",	PKG_STAT_TRIGGERSAWAITED),
+	NAMEVALUE_DEF("triggers-pending",	PKG_STAT_TRIGGERSPENDING),
+	NAMEVALUE_DEF("installed",		PKG_STAT_INSTALLED),
 	{ .name = NULL }
 };

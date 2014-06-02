@@ -219,7 +219,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
   pkg_files_blank(pkg);
 
   /* Packages which aren't installed don't have a files list. */
-  if (pkg->status == stat_notinstalled) {
+  if (pkg->status == PKG_STAT_NOTINSTALLED) {
     pkg->clientdata->fileslistvalid = true;
     return;
   }
@@ -235,7 +235,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
       ohshite(_("unable to open files list file for package `%.250s'"),
               pkg_name(pkg, pnaw_nonambig));
     onerr_abort--;
-    if (pkg->status != stat_configfiles &&
+    if (pkg->status != PKG_STAT_CONFIGFILES &&
         dpkg_version_is_informative(&pkg->configversion)) {
       warning(_("files list file for package '%.250s' missing; assuming "
                 "package has no files currently installed"),
@@ -336,7 +336,7 @@ pkg_files_optimize_load(struct pkg_array *array)
 
     ensure_package_clientdata(pkg);
 
-    if (pkg->status == stat_notinstalled ||
+    if (pkg->status == PKG_STAT_NOTINSTALLED ||
         pkg->clientdata->listfile_phys_offs != 0)
       continue;
 

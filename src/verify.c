@@ -150,7 +150,7 @@ verify(const char *const *argv)
 
 		while ((thisarg = *argv++)) {
 			pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
-			if (pkg->status == stat_notinstalled) {
+			if (pkg->status == PKG_STAT_NOTINSTALLED) {
 				notice(_("package '%s' is not installed"),
 				       pkg_name(pkg, pnaw_nonambig));
 				rc = 1;

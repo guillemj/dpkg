@@ -178,13 +178,13 @@ pkg_parse_verify(struct parsedb_state *ps,
 
   parse_must_have_field(ps, pkg->set->name, "package name");
 
-  /* XXX: We need to check for status != stat_halfinstalled as while
+  /* XXX: We need to check for status != PKG_STAT_HALFINSTALLED as while
    * unpacking an unselected package, it will not have yet all data in
-   * place. But we cannot check for > stat_halfinstalled as stat_configfiles
-   * always should have those fields. */
+   * place. But we cannot check for > PKG_STAT_HALFINSTALLED as
+   * PKG_STAT_CONFIGFILES always should have those fields. */
   if ((ps->flags & pdb_recordavailable) ||
-      (pkg->status != stat_notinstalled &&
-       pkg->status != stat_halfinstalled)) {
+      (pkg->status != PKG_STAT_NOTINSTALLED &&
+       pkg->status != PKG_STAT_HALFINSTALLED)) {
     parse_ensure_have_field(ps, &pkgbin->description, "description");
     parse_ensure_have_field(ps, &pkgbin->maintainer, "maintainer");
     parse_must_have_field(ps, pkgbin->version.version, "version");
@@ -192,9 +192,9 @@ pkg_parse_verify(struct parsedb_state *ps,
 
   /* XXX: Versions before dpkg 1.10.19 did not preserve the Architecture
    * field in the status file. So there's still live systems with packages
-   * in stat_configfiles, ignore those too for now. */
+   * in PKG_STAT_CONFIGFILES, ignore those too for now. */
   if ((ps->flags & pdb_recordavailable) ||
-      pkg->status > stat_halfinstalled) {
+      pkg->status > PKG_STAT_HALFINSTALLED) {
     /* We always want usable architecture information (as long as the package
      * is in such a state that it make sense), so that it can be used safely
      * on string comparisons and the like. */
@@ -230,32 +230,33 @@ pkg_parse_verify(struct parsedb_state *ps,
    * ‘not-installed’ (in which case there is no Config-Version). */
   if (!(ps->flags & pdb_recordavailable)) {
     if (pkg->configversion.version) {
-      if (pkg->status == stat_installed || pkg->status == stat_notinstalled)
+      if (pkg->status == PKG_STAT_INSTALLED ||
+          pkg->status == PKG_STAT_NOTINSTALLED)
         parse_error(ps,
                     _("Config-Version for package with inappropriate Status"));
     } else {
-      if (pkg->status == stat_installed)
+      if (pkg->status == PKG_STAT_INSTALLED)
         pkg->configversion = pkgbin->version;
     }
   }
 
   if (pkg->trigaw.head &&
-      (pkg->status <= stat_configfiles ||
-       pkg->status >= stat_triggerspending))
+      (pkg->status <= PKG_STAT_CONFIGFILES ||
+       pkg->status >= PKG_STAT_TRIGGERSPENDING))
     parse_error(ps,
                 _("package has status %s but triggers are awaited"),
                 pkg_status_name(pkg));
-  else if (pkg->status == stat_triggersawaited && !pkg->trigaw.head)
+  else if (pkg->status == PKG_STAT_TRIGGERSAWAITED && !pkg->trigaw.head)
     parse_error(ps,
                 _("package has status triggers-awaited but no triggers awaited"));
 
   if (pkg->trigpend_head &&
-      !(pkg->status == stat_triggerspending ||
-        pkg->status == stat_triggersawaited))
+      !(pkg->status == PKG_STAT_TRIGGERSPENDING ||
+        pkg->status == PKG_STAT_TRIGGERSAWAITED))
     parse_error(ps,
                 _("package has status %s but triggers are pending"),
                 pkg_status_name(pkg));
-  else if (pkg->status == stat_triggerspending && !pkg->trigpend_head)
+  else if (pkg->status == PKG_STAT_TRIGGERSPENDING && !pkg->trigpend_head)
     parse_error(ps,
                 _("package has status triggers-pending but no triggers "
                   "pending"));
@@ -264,7 +265,7 @@ pkg_parse_verify(struct parsedb_state *ps,
    * conffiles, so we check for them here and remove them (rather than
    * calling it an error, which will do at some point). */
   if (!(ps->flags & pdb_recordavailable) &&
-      pkg->status == stat_notinstalled &&
+      pkg->status == PKG_STAT_NOTINSTALLED &&
       pkgbin->conffiles) {
     parse_warn(ps,
                _("Package which in state not-installed has conffiles, "
@@ -277,7 +278,7 @@ pkg_parse_verify(struct parsedb_state *ps,
    * there's guarantee that no leftover is found on the status file on
    * major distributions. */
   if (!(ps->flags & pdb_recordavailable) &&
-      pkg->status == stat_notinstalled &&
+      pkg->status == PKG_STAT_NOTINSTALLED &&
       pkg->eflag == PKG_EFLAG_OK &&
       (pkg->want == PKG_WANT_PURGE ||
        pkg->want == PKG_WANT_DEINSTALL ||
@@ -290,7 +291,7 @@ pkg_parse_verify(struct parsedb_state *ps,
    * might cause those selections to be unreferencable from command-line
    * interfaces when there's other more specific selections. */
   if (ps->type == pdb_file_status &&
-      pkg->status == stat_notinstalled &&
+      pkg->status == PKG_STAT_NOTINSTALLED &&
       pkg->eflag == PKG_EFLAG_OK &&
       pkg->want == PKG_WANT_INSTALL &&
       pkgbin->arch->type == DPKG_ARCH_EMPTY)
@@ -307,7 +308,7 @@ static void
 parse_count_pkg_instance(struct pkgcount *count,
                          struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
-  if (pkg->status == stat_notinstalled)
+  if (pkg->status == PKG_STAT_NOTINSTALLED)
      return;
 
   if (pkgbin->multiarch == PKG_MULTIARCH_SAME)
@@ -403,7 +404,7 @@ parse_find_pkg_slot(struct parsedb_state *ps,
 
     /* If the package is part of the status file, and it's not installed
      * then this means it's just a selection. */
-    if (ps->type == pdb_file_status && new_pkg->status == stat_notinstalled)
+    if (ps->type == pdb_file_status && new_pkg->status == PKG_STAT_NOTINSTALLED)
       selection = true;
 
     /* Verify we don't allow something that will mess up the db. */

@@ -89,9 +89,9 @@ w_configversion(struct varbuf *vb,
     return;
   if (!dpkg_version_is_informative(&pkg->configversion))
     return;
-  if (pkg->status == stat_installed ||
-      pkg->status == stat_notinstalled ||
-      pkg->status == stat_triggerspending)
+  if (pkg->status == PKG_STAT_INSTALLED ||
+      pkg->status == PKG_STAT_NOTINSTALLED ||
+      pkg->status == PKG_STAT_TRIGGERSPENDING)
     return;
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Config-Version: ");
@@ -252,24 +252,24 @@ w_status(struct varbuf *vb,
 #define PEND pkg->trigpend_head
 #define AW pkg->trigaw.head
   switch (pkg->status) {
-  case stat_notinstalled:
-  case stat_configfiles:
+  case PKG_STAT_NOTINSTALLED:
+  case PKG_STAT_CONFIGFILES:
     assert(!PEND);
     assert(!AW);
     break;
-  case stat_halfinstalled:
-  case stat_unpacked:
-  case stat_halfconfigured:
+  case PKG_STAT_HALFINSTALLED:
+  case PKG_STAT_UNPACKED:
+  case PKG_STAT_HALFCONFIGURED:
     assert(!PEND);
     break;
-  case stat_triggersawaited:
+  case PKG_STAT_TRIGGERSAWAITED:
     assert(AW);
     break;
-  case stat_triggerspending:
+  case PKG_STAT_TRIGGERSPENDING:
     assert(PEND);
     assert(!AW);
     break;
-  case stat_installed:
+  case PKG_STAT_INSTALLED:
     assert(!PEND);
     assert(!AW);
     break;
@@ -390,8 +390,8 @@ w_trigpend(struct varbuf *vb,
   if (pkgbin == &pkg->available || !pkg->trigpend_head)
     return;
 
-  assert(pkg->status >= stat_triggersawaited &&
-         pkg->status <= stat_triggerspending);
+  assert(pkg->status >= PKG_STAT_TRIGGERSAWAITED &&
+         pkg->status <= PKG_STAT_TRIGGERSPENDING);
 
   if (flags & fw_printheader)
     varbuf_add_str(vb, "Triggers-Pending:");
@@ -413,8 +413,8 @@ w_trigaw(struct varbuf *vb,
   if (pkgbin == &pkg->available || !pkg->trigaw.head)
     return;
 
-  assert(pkg->status > stat_configfiles &&
-         pkg->status <= stat_triggersawaited);
+  assert(pkg->status > PKG_STAT_CONFIGFILES &&
+         pkg->status <= PKG_STAT_TRIGGERSAWAITED);
 
   if (flags & fw_printheader)
     varbuf_add_str(vb, "Triggers-Awaited:");

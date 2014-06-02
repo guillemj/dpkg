@@ -73,7 +73,7 @@ audit_status(struct pkginfo *pkg, const struct audit_problem *problem)
 static bool
 audit_infofile(struct pkginfo *pkg, const struct audit_problem *problem)
 {
-  if (pkg->status < stat_halfinstalled)
+  if (pkg->status < PKG_STAT_HALFINSTALLED)
     return false;
   return !pkg_infodb_has_file(pkg, &pkg->installed, problem->value.string);
 }
@@ -81,7 +81,7 @@ audit_infofile(struct pkginfo *pkg, const struct audit_problem *problem)
 static bool
 audit_arch(struct pkginfo *pkg, const struct audit_problem *problem)
 {
-  if (pkg->status < stat_halfinstalled)
+  if (pkg->status < PKG_STAT_HALFINSTALLED)
     return false;
   return pkg->installed.arch->type == (enum dpkg_arch_type)problem->value.number;
 }
@@ -96,35 +96,35 @@ static const struct audit_problem audit_problems[] = {
     "that depend on them) to function properly:\n")
   }, {
     .check = audit_status,
-    .value.number = stat_unpacked,
+    .value.number = PKG_STAT_UNPACKED,
     .explanation = N_(
     "The following packages have been unpacked but not yet configured.\n"
     "They must be configured using dpkg --configure or the configure\n"
     "menu option in dselect for them to work:\n")
   }, {
     .check = audit_status,
-    .value.number = stat_halfconfigured,
+    .value.number = PKG_STAT_HALFCONFIGURED,
     .explanation = N_(
     "The following packages are only half configured, probably due to problems\n"
     "configuring them the first time.  The configuration should be retried using\n"
     "dpkg --configure <package> or the configure menu option in dselect:\n")
   }, {
     .check = audit_status,
-    .value.number = stat_halfinstalled,
+    .value.number = PKG_STAT_HALFINSTALLED,
     .explanation = N_(
     "The following packages are only half installed, due to problems during\n"
     "installation.  The installation can probably be completed by retrying it;\n"
     "the packages can be removed using dselect or dpkg --remove:\n")
   }, {
     .check = audit_status,
-    .value.number = stat_triggersawaited,
+    .value.number = PKG_STAT_TRIGGERSAWAITED,
     .explanation = N_(
     "The following packages are awaiting processing of triggers that they\n"
     "have activated in other packages.  This processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
   }, {
     .check = audit_status,
-    .value.number = stat_triggerspending,
+    .value.number = PKG_STAT_TRIGGERSPENDING,
     .explanation = N_(
     "The following packages have been triggered, but the trigger processing\n"
     "has not yet been done.  Trigger processing can be requested using\n"
@@ -181,7 +181,7 @@ pkg_array_mapper(const char *name)
   struct pkginfo *pkg;
 
   pkg = dpkg_options_parse_pkgname(cipaction, name);
-  if (pkg->status == stat_notinstalled)
+  if (pkg->status == PKG_STAT_NOTINSTALLED)
     notice(_("package '%s' is not installed"), pkg_name(pkg, pnaw_nonambig));
 
   return pkg;
@@ -249,11 +249,15 @@ yettobeunpacked(struct pkginfo *pkg, const char **thissect)
     return false;
 
   switch (pkg->status) {
-  case stat_unpacked: case stat_installed: case stat_halfconfigured:
-  case stat_triggerspending:
-  case stat_triggersawaited:
+  case PKG_STAT_UNPACKED:
+  case PKG_STAT_INSTALLED:
+  case PKG_STAT_HALFCONFIGURED:
+  case PKG_STAT_TRIGGERSPENDING:
+  case PKG_STAT_TRIGGERSAWAITED:
     return false;
-  case stat_notinstalled: case stat_halfinstalled: case stat_configfiles:
+  case PKG_STAT_NOTINSTALLED:
+  case PKG_STAT_HALFINSTALLED:
+  case PKG_STAT_CONFIGFILES:
     if (thissect)
       *thissect = str_is_set(pkg->section) ? pkg->section :
                                              C_("section", "<unknown>");
@@ -367,11 +371,13 @@ assert_version_support(const char *const *argv,
 
   pkg = pkg_db_find_singleton("dpkg");
   switch (pkg->status) {
-  case stat_installed:
-  case stat_triggerspending:
+  case PKG_STAT_INSTALLED:
+  case PKG_STAT_TRIGGERSPENDING:
     return 0;
-  case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
-  case stat_triggersawaited:
+  case PKG_STAT_UNPACKED:
+  case PKG_STAT_HALFCONFIGURED:
+  case PKG_STAT_HALFINSTALLED:
+  case PKG_STAT_TRIGGERSAWAITED:
     if (dpkg_version_relate(&pkg->configversion, DPKG_RELATION_GE, version))
       return 0;
     printf(_("Version of dpkg with working %s support not yet configured.\n"

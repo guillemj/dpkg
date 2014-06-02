@@ -82,62 +82,62 @@ test_pkginfo_instance_tracking(void)
 	pkgset_link_pkg(&set, &pkg2);
 
 	/* Test installation state transitions. */
-	pkg_set_status(&pkg4, stat_installed);
+	pkg_set_status(&pkg4, PKG_STAT_INSTALLED);
 	test_pass(pkgset_installed_instances(&set) == 1);
 
-	pkg_set_status(&pkg4, stat_installed);
+	pkg_set_status(&pkg4, PKG_STAT_INSTALLED);
 	test_pass(pkgset_installed_instances(&set) == 1);
 
-	pkg_set_status(&pkg4, stat_triggerspending);
+	pkg_set_status(&pkg4, PKG_STAT_TRIGGERSPENDING);
 	test_pass(pkgset_installed_instances(&set) == 1);
 
-	pkg_set_status(&pkg4, stat_triggersawaited);
+	pkg_set_status(&pkg4, PKG_STAT_TRIGGERSAWAITED);
 	test_pass(pkgset_installed_instances(&set) == 1);
 
-	pkg_set_status(&pkg4, stat_halfconfigured);
+	pkg_set_status(&pkg4, PKG_STAT_HALFCONFIGURED);
 	test_pass(pkgset_installed_instances(&set) == 1);
 
-	pkg_set_status(&pkg4, stat_unpacked);
+	pkg_set_status(&pkg4, PKG_STAT_UNPACKED);
 	test_pass(pkgset_installed_instances(&set) == 1);
 
-	pkg_set_status(&pkg4, stat_halfinstalled);
+	pkg_set_status(&pkg4, PKG_STAT_HALFINSTALLED);
 	test_pass(pkgset_installed_instances(&set) == 1);
 
-	pkg_set_status(&pkg4, stat_configfiles);
+	pkg_set_status(&pkg4, PKG_STAT_CONFIGFILES);
 	test_pass(pkgset_installed_instances(&set) == 1);
 
-	pkg_set_status(&pkg4, stat_notinstalled);
+	pkg_set_status(&pkg4, PKG_STAT_NOTINSTALLED);
 	test_pass(pkgset_installed_instances(&set) == 0);
 
-	pkg_set_status(&pkg4, stat_notinstalled);
+	pkg_set_status(&pkg4, PKG_STAT_NOTINSTALLED);
 	test_pass(pkgset_installed_instances(&set) == 0);
 
 	/* Toggle installation states on various packages. */
-	pkg_set_status(&pkg4, stat_installed);
+	pkg_set_status(&pkg4, PKG_STAT_INSTALLED);
 	test_pass(pkgset_installed_instances(&set) == 1);
 
-	pkg_set_status(&pkg2, stat_halfinstalled);
+	pkg_set_status(&pkg2, PKG_STAT_HALFINSTALLED);
 	test_pass(pkgset_installed_instances(&set) == 2);
 
-	pkg_set_status(&set.pkg, stat_configfiles);
+	pkg_set_status(&set.pkg, PKG_STAT_CONFIGFILES);
 	test_pass(pkgset_installed_instances(&set) == 3);
 
-	pkg_set_status(&pkg3, stat_notinstalled);
+	pkg_set_status(&pkg3, PKG_STAT_NOTINSTALLED);
 	test_pass(pkgset_installed_instances(&set) == 3);
 
-	pkg_set_status(&pkg3, stat_unpacked);
+	pkg_set_status(&pkg3, PKG_STAT_UNPACKED);
 	test_pass(pkgset_installed_instances(&set) == 4);
 
-	pkg_set_status(&set.pkg, stat_notinstalled);
+	pkg_set_status(&set.pkg, PKG_STAT_NOTINSTALLED);
 	test_pass(pkgset_installed_instances(&set) == 3);
 
-	pkg_set_status(&pkg2, stat_notinstalled);
+	pkg_set_status(&pkg2, PKG_STAT_NOTINSTALLED);
 	test_pass(pkgset_installed_instances(&set) == 2);
 
-	pkg_set_status(&pkg3, stat_notinstalled);
+	pkg_set_status(&pkg3, PKG_STAT_NOTINSTALLED);
 	test_pass(pkgset_installed_instances(&set) == 1);
 
-	pkg_set_status(&pkg4, stat_notinstalled);
+	pkg_set_status(&pkg4, PKG_STAT_NOTINSTALLED);
 	test_pass(pkgset_installed_instances(&set) == 0);
 }
 

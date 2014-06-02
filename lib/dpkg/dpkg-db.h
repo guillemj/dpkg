@@ -166,14 +166,14 @@ enum pkgeflag {
 };
 
 enum pkgstatus {
-	stat_notinstalled,
-	stat_configfiles,
-	stat_halfinstalled,
-	stat_unpacked,
-	stat_halfconfigured,
-	stat_triggersawaited,
-	stat_triggerspending,
-	stat_installed,
+	PKG_STAT_NOTINSTALLED,
+	PKG_STAT_CONFIGFILES,
+	PKG_STAT_HALFINSTALLED,
+	PKG_STAT_UNPACKED,
+	PKG_STAT_HALFCONFIGURED,
+	PKG_STAT_TRIGGERSAWAITED,
+	PKG_STAT_TRIGGERSPENDING,
+	PKG_STAT_INSTALLED,
 };
 
 enum pkgpriority {

@@ -3,7 +3,7 @@
  * script.c - maintainer script routines
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2007-2013 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,14 +52,14 @@
 void
 post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
 {
-	if (new_status < stat_triggersawaited)
+	if (new_status < PKG_STAT_TRIGGERSAWAITED)
 		pkg_set_status(pkg, new_status);
 	else if (pkg->trigaw.head)
-		pkg_set_status(pkg, stat_triggersawaited);
+		pkg_set_status(pkg, PKG_STAT_TRIGGERSAWAITED);
 	else if (pkg->trigpend_head)
-		pkg_set_status(pkg, stat_triggerspending);
+		pkg_set_status(pkg, PKG_STAT_TRIGGERSPENDING);
 	else
-		pkg_set_status(pkg, stat_installed);
+		pkg_set_status(pkg, PKG_STAT_INSTALLED);
 	modstatdb_note(pkg);
 
 	debug(dbg_triggersdetail, "post_postinst_tasks - trig_incorporate");

@@ -117,7 +117,7 @@ pkg_infodb_link_multiarch_files(void)
 
 		set = pkg_db_find_set(pkgname.buf);
 		for (pkg = &set->pkg; pkg; pkg = pkg->arch_next)
-			if (pkg->status != stat_notinstalled)
+			if (pkg->status != PKG_STAT_NOTINSTALLED)
 				break;
 		if (!pkg) {
 			warning(_("info file %s/%s not associated to any package"),

@@ -73,7 +73,8 @@ getselections(const char *const *argv)
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {
       pkg = array.pkgs[i];
-      if (pkg->status == stat_notinstalled) continue;
+      if (pkg->status == PKG_STAT_NOTINSTALLED)
+        continue;
       getsel1package(pkg);
     }
   } else {

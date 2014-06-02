@@ -399,11 +399,11 @@ void modstatdb_note(struct pkginfo *pkg) {
 
   /* Clear pending triggers here so that only code that sets the status
    * to interesting (for triggers) values has to care about triggers. */
-  if (pkg->status != stat_triggerspending &&
-      pkg->status != stat_triggersawaited)
+  if (pkg->status != PKG_STAT_TRIGGERSPENDING &&
+      pkg->status != PKG_STAT_TRIGGERSAWAITED)
     pkg->trigpend_head = NULL;
 
-  if (pkg->status <= stat_configfiles) {
+  if (pkg->status <= PKG_STAT_CONFIGFILES) {
     for (ta = pkg->trigaw.head; ta; ta = ta->sameaw.next)
       ta->aw = NULL;
     pkg->trigaw.head = pkg->trigaw.tail = NULL;

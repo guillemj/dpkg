@@ -41,14 +41,14 @@
 #include "main.h"
 
 const char *const statusstrings[]= {
-  [stat_notinstalled]    = N_("not installed"),
-  [stat_configfiles]     = N_("not installed but configs remain"),
-  [stat_halfinstalled]   = N_("broken due to failed removal or installation"),
-  [stat_unpacked]        = N_("unpacked but not configured"),
-  [stat_halfconfigured]  = N_("broken due to postinst failure"),
-  [stat_triggersawaited] = N_("awaiting trigger processing by another package"),
-  [stat_triggerspending] = N_("triggered"),
-  [stat_installed]       = N_("installed")
+  [PKG_STAT_NOTINSTALLED]    = N_("not installed"),
+  [PKG_STAT_CONFIGFILES]     = N_("not installed but configs remain"),
+  [PKG_STAT_HALFINSTALLED]   = N_("broken due to failed removal or installation"),
+  [PKG_STAT_UNPACKED]        = N_("unpacked but not configured"),
+  [PKG_STAT_HALFCONFIGURED]  = N_("broken due to postinst failure"),
+  [PKG_STAT_TRIGGERSAWAITED] = N_("awaiting trigger processing by another package"),
+  [PKG_STAT_TRIGGERSPENDING] = N_("triggered"),
+  [PKG_STAT_INSTALLED]       = N_("installed")
 };
 
 struct filenamenode *
