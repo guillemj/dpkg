@@ -1,5 +1,5 @@
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>
-# Copyright © 2006, 2009-2011, 2013 Guillem Jover <guillem@debian.org>
+# Copyright © 2006,2009-2011,2013-2014 Guillem Jover <guillem@debian.org>
 
 # DPKG_WARNING_CC
 # ---------------
@@ -133,7 +133,7 @@ AC_DEFUN([DPKG_TRY_C99],
 	p = (struct point){ .x = 2, .y = 4 };
 
 	/* Trailing comma in enum. */
-	enum { first, second, } quux;
+	enum { FIRST, SECOND, } quux;
 
 	/* Boolean type. */
 	bool bar = false;
