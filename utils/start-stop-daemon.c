@@ -39,6 +39,8 @@
 #  define OSFreeBSD
 #elif defined(__NetBSD__)
 #  define OSNetBSD
+#elif defined(__DragonFly__)
+#  define OSDragonFlyBSD
 #else
 #  error Unknown architecture - cannot build start-stop-daemon
 #endif
@@ -123,6 +125,9 @@
 #define PROCESS_NAME_SIZE 16
 #elif defined(OSFreeBSD)
 #define PROCESS_NAME_SIZE 19
+#elif defined(OSDragonFlyBSD)
+/* On DragonFlyBSD MAXCOMLEN expands to 16. */
+#define PROCESS_NAME_SIZE MAXCOMLEN
 #endif
 
 #define MIN_POLL_INTERVAL 20000 /* µs */
@@ -1360,6 +1365,8 @@ pid_is_child(pid_t pid, pid_t ppid)
 	proc_ppid = kp->ki_ppid;
 #elif defined(OSOpenBSD)
 	proc_ppid = kp->p_ppid;
+#elif defined(OSDragonFlyBSD)
+	proc_ppid = kp->kp_ppid;
 #else
 	proc_ppid = kp->kp_proc.p_ppid;
 #endif
@@ -1420,6 +1427,8 @@ pid_is_user(pid_t pid, uid_t uid)
 	proc_uid = kp->ki_ruid;
 #elif defined(OSOpenBSD)
 	proc_uid = kp->p_ruid;
+#elif defined(OSDragonFlyBSD)
+	proc_uid = kp->kp_ruid;
 #else
 	if (kp->kp_proc.p_cred)
 		kvm_read(kd, (u_long)&(kp->kp_proc.p_cred->p_ruid),
@@ -1505,6 +1514,8 @@ pid_is_cmd(pid_t pid, const char *name)
 	process_name = kp->ki_comm;
 #elif defined(OSOpenBSD)
 	process_name = kp->p_comm;
+#elif defined(OSDragonFlyBSD)
+	process_name = kp->kp_comm;
 #else
 	process_name = kp->kp_proc.p_comm;
 #endif
@@ -1682,6 +1693,8 @@ do_procinit(void)
 		pid = kp[i].ki_pid;
 #elif defined(OSOpenBSD)
 		pid = kp[i].p_pid;
+#elif defined(OSDragonFlyBSD)
+		pid = kp[i].kp_pid;
 #else
 		pid = kp[i].kp_proc.p_pid;
 #endif
