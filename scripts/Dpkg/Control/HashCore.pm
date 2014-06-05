@@ -352,7 +352,7 @@ sub output {
 	    my ($first_line, @lines) = split /\n/, $value;
 
 	    my $kv = "$key:";
-	    $kv .= ' ' . $first_line if $first_line;
+	    $kv .= ' ' . $first_line if length $first_line;
 	    $kv .= "\n";
 	    foreach (@lines) {
 		s/\s+$//;

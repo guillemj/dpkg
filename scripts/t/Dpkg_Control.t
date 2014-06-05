@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 22;
+use Test::More tests => 23;
 use IO::String;
 
 BEGIN {
@@ -45,6 +45,7 @@ my $io = IO::String->new();
 $c->output($io);
 my $value = ${$io->string_ref()};
 my $expected = 'Source: mysource
+Numeric-Field: 0
 My-Field-One: myvalue1
 My-Field-Two: myvalue2
 Long-Field: line1
@@ -74,6 +75,7 @@ is($value, $expected, "Dump of $datadir/control-1");
 
 my $src = $c->get_source();
 is($src, $c->[0], 'array representation of Dpkg::Control::Info 1/2');
+is($src->{'numeric-field'}, '0', 'Numeric 0 value parsed correctly');
 is($src->{'my-field-one'}, 'myvalue1', 'Access field through badly capitalized field name');
 is($src->{'long-field'},
 'line1
