@@ -47,6 +47,14 @@
 #define LIBCOMPAT_GCC_VERSION 0
 #endif
 
+#if LIBCOMPAT_GCC_VERSION >= 0x0300
+#define LIBCOMPAT_ATTR_PRINTF(n)	__attribute__((format(printf, n, n + 1)))
+#define LIBCOMPAT_ATTR_VPRINTF(n)	__attribute__((format(printf, n, 0)))
+#else
+#define LIBCOMPAT_ATTR_PRINTF(n)
+#define LIBCOMPAT_ATTR_VPRINTF(n)
+#endif
+
 /* For C++, define a __func__ fallback in case it's not natively supported. */
 #if defined(__cplusplus) && __cplusplus < 201103L
 # if LIBCOMPAT_GCC_VERSION >= 0x0200
@@ -118,13 +126,17 @@ extern "C" {
 #endif
 
 #if TEST_LIBCOMPAT || !defined(HAVE_C99_SNPRINTF)
-int snprintf(char *str, size_t n, char const *fmt, ...);
-int vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args);
+int snprintf(char *str, size_t n, char const *fmt, ...)
+	LIBCOMPAT_ATTR_PRINTF(3);
+int vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args)
+	LIBCOMPAT_ATTR_VPRINTF(3);
 #endif
 
 #if TEST_LIBCOMPAT || !defined(HAVE_ASPRINTF)
-int asprintf(char **str, char const *fmt, ...);
-int vasprintf(char **str, const char *fmt, va_list args);
+int asprintf(char **str, char const *fmt, ...)
+	LIBCOMPAT_ATTR_PRINTF(2);
+int vasprintf(char **str, const char *fmt, va_list args)
+	LIBCOMPAT_ATTR_VPRINTF(2);
 #endif
 
 #if TEST_LIBCOMPAT || !defined(HAVE_STRNLEN)
