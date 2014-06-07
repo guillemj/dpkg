@@ -22,6 +22,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "compat.h"
+
 int
 unsetenv(const char *p)
 {

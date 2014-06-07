@@ -22,10 +22,14 @@
 #include <stdio.h>
 #include <gettext.h>
 
+#include "compat.h"
+
 #define _(str) gettext(str)
 
+#ifndef HAVE_STRERROR
 extern const char *const sys_errlist[];
 extern const int sys_nerr;
+#endif
 
 const char *
 strerror(int e)

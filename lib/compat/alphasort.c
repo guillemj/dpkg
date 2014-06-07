@@ -22,6 +22,8 @@
 #include <string.h>
 #include <dirent.h>
 
+#include "compat.h"
+
 int
 alphasort(const void *a, const void *b)
 {

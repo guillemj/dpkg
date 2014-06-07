@@ -26,6 +26,8 @@
 #include <dirent.h>
 #include <stdlib.h>
 
+#include "compat.h"
+
 static int
 cleanup(DIR *dir, struct dirent **dirlist, int used)
 {

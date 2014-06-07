@@ -23,6 +23,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "compat.h"
+
 int
 vasprintf(char **strp, char const *fmt, va_list args)
 {

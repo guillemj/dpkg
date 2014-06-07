@@ -18,11 +18,12 @@
  */
 
 #include <config.h>
-#include <compat.h>
 
 #include <stddef.h>
 #include <stdarg.h>
 #include <stdio.h>
+
+#include "compat.h"
 
 int
 snprintf(char *str, size_t n, char const *fmt, ...)

@@ -5,7 +5,20 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)
 
 
-noinst_LTLIBRARIES = libcompat.la
+noinst_LTLIBRARIES = libcompat-test.la libcompat.la
+
+libcompat_test_la_CPPFLAGS = $(AM_CPPFLAGS) -DTEST_LIBCOMPAT=1
+libcompat_test_la_SOURCES = \
+	compat.h \
+	strnlen.c \
+	strndup.c \
+	strerror.c \
+	strsignal.c \
+	snprintf.c vsnprintf.c \
+	asprintf.c vasprintf.c \
+	alphasort.c \
+	scandir.c \
+	unsetenv.c
 
 libcompat_la_SOURCES = \
 	empty.c \

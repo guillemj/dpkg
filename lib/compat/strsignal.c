@@ -24,6 +24,8 @@
 #include <stdio.h>
 #include <gettext.h>
 
+#include "compat.h"
+
 #define _(str) gettext(str)
 
 #ifndef HAVE_DECL_SYS_SIGLIST

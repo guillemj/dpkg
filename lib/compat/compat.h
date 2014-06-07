@@ -22,6 +22,23 @@
 #ifndef COMPAT_H
 #define COMPAT_H
 
+#ifndef TEST_LIBCOMPAT
+#define TEST_LIBCOMPAT 0
+#endif
+
+#if TEST_LIBCOMPAT || !defined(HAVE_STRNLEN) || !defined(HAVE_STRNDUP) || \
+    !defined(HAVE_C99_SNPRINTF)
+#include <stddef.h>
+#endif
+
+#if TEST_LIBCOMPAT || !defined(HAVE_ASPRINTF) || !defined(HAVE_C99_SNPRINTF)
+#include <stdarg.h>
+#endif
+
+#if  TEST_LIBCOMPAT || !defined(HAVE_VA_COPY)
+#include <string.h>
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -51,56 +68,72 @@ extern "C" {
 #endif
 
 #ifndef HAVE_VA_COPY
-#include <string.h>
 #define va_copy(dest, src) memcpy(&(dest), &(src), sizeof(va_list))
 #endif
 
-#ifndef HAVE_C99_SNPRINTF
-#include <stddef.h>
-#include <stdarg.h>
+#if TEST_LIBCOMPAT
+#undef snprintf
+#define snprintf test_snprintf
+#undef vsnprintf
+#define vsnprintf test_vsnprintf
+#undef asprintf
+#define asprintf test_asprintf
+#undef vasprintf
+#define vasprintf test_vasprintf
+#undef strndup
+#define strndup test_strndup
+#undef strnlen
+#define strnlen test_strnlen
+#undef strerror
+#define strerror test_strerror
+#undef strsignal
+#define strsignal test_strsignal
+#undef scandir
+#define scandir test_scandir
+#undef alphasort
+#define alphasort test_alphasort
+#undef unsetenv
+#define unsetenv test_unsetenv
+#endif
 
+#if TEST_LIBCOMPAT || !defined(HAVE_C99_SNPRINTF)
 int snprintf(char *str, size_t n, char const *fmt, ...);
 int vsnprintf(char *buf, size_t maxsize, const char *fmt, va_list args);
 #endif
 
-#ifndef HAVE_ASPRINTF
-#include <stdarg.h>
-
+#if TEST_LIBCOMPAT || !defined(HAVE_ASPRINTF)
 int asprintf(char **str, char const *fmt, ...);
 int vasprintf(char **str, const char *fmt, va_list args);
 #endif
 
-#ifndef HAVE_STRNLEN
+#if TEST_LIBCOMPAT || !defined(HAVE_STRNLEN)
 size_t strnlen(const char *s, size_t n);
 #endif
 
-#ifndef HAVE_STRNDUP
-#include <stddef.h>
-
-#undef strndup
+#if TEST_LIBCOMPAT || !defined(HAVE_STRNDUP)
 char *strndup(const char *s, size_t n);
 #endif
 
-#ifndef HAVE_STRERROR
+#if TEST_LIBCOMPAT || !defined(HAVE_STRERROR)
 const char *strerror(int);
 #endif
 
-#ifndef HAVE_STRSIGNAL
+#if TEST_LIBCOMPAT || !defined(HAVE_STRSIGNAL)
 const char *strsignal(int);
 #endif
 
-#ifndef HAVE_SCANDIR
+#if TEST_LIBCOMPAT || !defined(HAVE_SCANDIR)
 struct dirent;
 int scandir(const char *dir, struct dirent ***namelist,
             int (*filter)(const struct dirent *),
             int (*cmp)(const void *, const void *));
 #endif
 
-#ifndef HAVE_ALPHASORT
+#if TEST_LIBCOMPAT || !defined(HAVE_ALPHASORT)
 int alphasort(const void *a, const void *b);
 #endif
 
-#ifndef HAVE_UNSETENV
+#if TEST_LIBCOMPAT || !defined(HAVE_UNSETENV)
 int unsetenv(const char *x);
 #endif
 

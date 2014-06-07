@@ -18,12 +18,11 @@
  */
 
 #include <config.h>
-#include <compat.h>
 
 #include <string.h>
 #include <stdlib.h>
 
-#undef strndup
+#include "compat.h"
 
 char *
 strndup(const char *s, size_t n)

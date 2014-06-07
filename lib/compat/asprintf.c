@@ -22,6 +22,8 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#include "compat.h"
+
 int
 asprintf(char **strp, char const *fmt, ...)
 {
