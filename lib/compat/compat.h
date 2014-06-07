@@ -39,6 +39,27 @@
 #include <string.h>
 #endif
 
+/* Language definitions. */
+
+#ifdef __GNUC__
+#define LIBCOMPAT_GCC_VERSION (__GNUC__ << 8 | __GNUC_MINOR__)
+#else
+#define LIBCOMPAT_GCC_VERSION 0
+#endif
+
+/* For C++, define a __func__ fallback in case it's not natively supported. */
+#if defined(__cplusplus) && __cplusplus < 201103L
+# if LIBCOMPAT_GCC_VERSION >= 0x0200
+#  define __func__ __PRETTY_FUNCTION__
+# else
+#  define __func__ __FUNCTION__
+# endif
+#endif
+
+#if defined(__cplusplus) && __cplusplus < 201103L
+#define nullptr 0
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif

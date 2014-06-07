@@ -71,19 +71,6 @@
 #define DPKG_ATTR_SENTINEL
 #endif
 
-/* For C++, define a __func__ fallback in case it's not natively supported. */
-#if defined(__cplusplus) && __cplusplus < 201103L
-# if DPKG_GCC_VERSION >= 0x0200
-#  define __func__ __PRETTY_FUNCTION__
-# else
-#  define __func__ __FUNCTION__
-# endif
-#endif
-
-#if defined(__cplusplus) && __cplusplus < 201103L
-#define nullptr 0
-#endif
-
 #ifdef __cplusplus
 #define DPKG_BEGIN_DECLS	extern "C" {
 #define DPKG_END_DECLS		}
