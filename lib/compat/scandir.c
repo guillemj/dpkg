@@ -88,7 +88,7 @@ scandir(const char *dir, struct dirent ***namelist,
 
 	closedir(d);
 
-	if (cmp != NULL)
+	if (list != NULL && cmp != NULL)
 		qsort(list, used, sizeof(struct dirent *), cmp);
 
 	*namelist = list;
