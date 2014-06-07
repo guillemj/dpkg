@@ -45,7 +45,7 @@
  */
 void
 write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                      struct fileinlist *list, enum fnnflags mask)
+                      struct fileinlist *list, enum filenamenode_flags mask)
 {
 	struct atomic_file *file;
 	const char *hashfile;

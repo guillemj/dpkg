@@ -441,7 +441,7 @@ void ensure_allinstfiles_available_quiet(void) {
  */
 void
 write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                      struct fileinlist *list, enum fnnflags mask)
+                      struct fileinlist *list, enum filenamenode_flags mask)
 {
   struct atomic_file *file;
   const char *listfile;
