@@ -10,6 +10,7 @@ noinst_LTLIBRARIES = libcompat-test.la libcompat.la
 libcompat_test_la_CPPFLAGS = $(AM_CPPFLAGS) -DTEST_LIBCOMPAT=1
 libcompat_test_la_SOURCES = \
 	compat.h \
+	selinux.c \
 	strnlen.c \
 	strndup.c \
 	strerror.c \
@@ -54,6 +55,10 @@ endif
 
 if !HAVE_STRSIGNAL
 libcompat_la_SOURCES += strsignal.c
+endif
+
+if !HAVE_SETEXECFILECON
+libcompat_la_SOURCES += selinux.c
 endif
 
 if !HAVE_C99_SNPRINTF

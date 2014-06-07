@@ -33,8 +33,6 @@
 
 #ifdef WITH_SELINUX
 #include <selinux/selinux.h>
-#include <selinux/flask.h>
-#include <selinux/context.h>
 #endif
 
 #include <dpkg/i18n.h>
@@ -145,53 +143,9 @@ static int
 maintscript_set_exec_context(struct command *cmd, const char *fallback)
 {
 	int rc = 0;
+
 #ifdef WITH_SELINUX
-#if HAVE_SETEXECFILECON
 	rc = setexecfilecon(cmd->filename, fallback);
-#else
-	security_context_t curcon = NULL, newcon = NULL, filecon = NULL;
-	context_t tmpcon = NULL;
-
-	if (is_selinux_enabled() < 1)
-		return 0;
-
-	rc = getcon(&curcon);
-	if (rc < 0)
-		goto out;
-
-	rc = getfilecon(cmd->filename, &filecon);
-	if (rc < 0)
-		goto out;
-
-	rc = security_compute_create(curcon, filecon, SECCLASS_PROCESS, &newcon);
-	if (rc < 0)
-		goto out;
-
-	if (strcmp(curcon, newcon) == 0) {
-		/* No default transition, use fallback for now. */
-		rc = -1;
-		tmpcon = context_new(curcon);
-		if (tmpcon == NULL)
-			goto out;
-		if (context_type_set(tmpcon, fallback))
-			goto out;
-		freecon(newcon);
-		newcon = strdup(context_str(tmpcon));
-		if (newcon == NULL)
-			goto out;
-	}
-
-	rc = setexeccon(newcon);
-
-out:
-	if (rc < 0 && security_getenforce() == 0)
-		rc = 0;
-
-	context_free(tmpcon);
-	freecon(newcon);
-	freecon(curcon);
-	freecon(filecon);
-#endif
 #endif
 
 	return rc < 0 ? rc : 0;

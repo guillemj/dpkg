@@ -170,6 +170,10 @@ int alphasort(const void *a, const void *b);
 int unsetenv(const char *x);
 #endif
 
+#if TEST_LIBCOMPAT || !defined(HAVE_SETEXECFILECON)
+int setexecfilecon(const char *filename, const char *fallback_type);
+#endif
+
 #ifdef __cplusplus
 }
 #endif
