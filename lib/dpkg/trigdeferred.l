@@ -169,6 +169,8 @@ trigdef_update_start(enum trigdef_updateflags uf)
 			pop_cleanup(ehflag_normaltidy);
 			return tdus_error_no_deferred;
 		}
+	} else {
+		setcloexec(fileno(old_deferred), fn.buf);
 	}
 
 	if (uf & tduf_write) {
@@ -179,6 +181,8 @@ trigdef_update_start(enum trigdef_updateflags uf)
 		if (!trig_new_deferred)
 			ohshite(_("unable to open/create new triggers deferred file `%.250s'"),
 			        newfn.buf);
+
+		setcloexec(fileno(trig_new_deferred), newfn.buf);
 	}
 
 	if (!old_deferred)
