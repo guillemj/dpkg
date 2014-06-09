@@ -122,8 +122,8 @@ sub add_hardening_flags {
 	#  (#574716).
 	$use_feature{pie} = 0;
     }
-    if ($cpu =~ /^(?:ia64|alpha|mips|mipsel|hppa|arm64)$/ or $arch eq 'arm') {
-	# Stack protector disabled on ia64, alpha, arm64, mips, mipsel, hppa.
+    if ($cpu =~ /^(?:ia64|alpha|mips|mipsel|hppa)$/ or $arch eq 'arm') {
+	# Stack protector disabled on ia64, alpha, mips, mipsel, hppa.
 	#   "warning: -fstack-protector not supported for this target"
 	# Stack protector disabled on arm (ok on armel).
 	#   compiler supports it incorrectly (leads to SEGV)
