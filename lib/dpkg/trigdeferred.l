@@ -161,6 +161,8 @@ trigdef_update_start(enum trigdef_update_flags uf)
 		struct stat stab;
 		int rc;
 
+		setcloexec(fileno(old_deferred), fn.buf);
+
 		rc = fstat(fileno(old_deferred), &stab);
 		if (rc < 0)
 			ohshite(_("unable to stat triggers deferred file `%.250s'"),
@@ -180,6 +182,8 @@ trigdef_update_start(enum trigdef_update_flags uf)
 		if (!trig_new_deferred)
 			ohshite(_("unable to open/create new triggers deferred file `%.250s'"),
 			        newfn.buf);
+
+		setcloexec(fileno(trig_new_deferred), newfn.buf);
 	}
 
 	if (!old_deferred)
