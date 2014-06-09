@@ -353,14 +353,18 @@ void cursesoff() {
   cursesareon = false;
 }
 
-extern void *operator new(size_t size) {
+extern void *
+operator new(size_t size) DPKG_ATTR_THROW(std::bad_alloc)
+{
   void *p;
   p= m_malloc(size);
   assert(p);
   return p;
 }
 
-extern void operator delete(void *p) {
+extern void
+operator delete(void *p) DPKG_ATTR_NOEXCEPT
+{
   free(p);
 }
 
