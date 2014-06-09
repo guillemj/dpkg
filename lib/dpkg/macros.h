@@ -71,6 +71,14 @@
 #define DPKG_ATTR_SENTINEL
 #endif
 
+#if defined(__cplusplus) && __cplusplus >= 201103L
+#define DPKG_ATTR_THROW(exception)
+#define DPKG_ATTR_NOEXCEPT		noexcept
+#elif defined(__cplusplus)
+#define DPKG_ATTR_THROW(exception)	throw(exception)
+#define DPKG_ATTR_NOEXCEPT		throw()
+#endif
+
 #ifdef __cplusplus
 #define DPKG_BEGIN_DECLS	extern "C" {
 #define DPKG_END_DECLS		}
