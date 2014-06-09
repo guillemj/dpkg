@@ -1,98 +1,97 @@
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>
 # Copyright © 2006,2009-2011,2013-2014 Guillem Jover <guillem@debian.org>
 
-# DPKG_WARNING_CC
-# ---------------
-AC_DEFUN([DPKG_WARNING_CC], [
-  AS_VAR_PUSHDEF([cache_var_name], [dpkg_cv_cflag_$1])
-  AC_CACHE_CHECK([whether $CC accepts $1], [cache_var_name], [
-    dpkg_save_CFLAGS="$CFLAGS"
-    CFLAGS="$1"
-    AC_LANG_PUSH([C])
+# DPKG_CHECK_COMPILER_FLAG
+# ------------------------
+AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
+  AC_LANG_CASE(
+  [C], [
+    m4_define([dpkg_compiler], [$CC])
+    m4_define([dpkg_varname], [CFLAGS])
+    m4_define([dpkg_varname_save], [dpkg_save_CFLAGS])
+    m4_define([dpkg_varname_export], [COMPILER_CFLAGS])
+    AS_VAR_PUSHDEF([dpkg_varname_cache], [dpkg_cv_cflags_$1])
+  ],
+  [C++], [
+    m4_define([dpkg_compiler], [$CXX])
+    m4_define([dpkg_varname], [CXXFLAGS])
+    m4_define([dpkg_varname_save], [dpkg_save_CXXFLAGS])
+    m4_define([dpkg_varname_export], [COMPILER_CXXFLAGS])
+    AS_VAR_PUSHDEF([dpkg_varname_cache], [dpkg_cv_cxxflags_$1])
+  ])
+  AC_CACHE_CHECK([whether ]dpkg_compiler[ accepts $1], [dpkg_varname_cache], [
+    AS_VAR_COPY([dpkg_varname_save], [dpkg_varname])
+    AS_VAR_SET([dpkg_varname], [$1])
     AC_COMPILE_IFELSE([
       AC_LANG_SOURCE([[]])
     ], [
-      AS_VAR_SET([cache_var_name], [yes])
-    ],[
-      AS_VAR_SET([cache_var_name], [no])
+      AS_VAR_SET([dpkg_varname_cache], [yes])
+    ], [
+      AS_VAR_SET([dpkg_varname_cache], [no])
     ])
-    AC_LANG_POP([C])
-    CFLAGS="$dpkg_save_CFLAGS"
+    AS_VAR_COPY([dpkg_varname], [dpkg_varname_save])
   ])
-  AS_VAR_IF([cache_var_name], [yes], [CWARNFLAGS="$CWARNFLAGS $1"])
-  AS_VAR_POPDEF([cache_var_name])
+  AS_VAR_IF([dpkg_varname_cache], [yes],
+            [AS_VAR_APPEND([dpkg_varname_export], [" $1"])])
+  AS_VAR_POPDEF([dpkg_varname_cache])
 ])
 
-# DPKG_WARNING_CXX
-# ----------------
-AC_DEFUN([DPKG_WARNING_CXX], [
-  AS_VAR_PUSHDEF([cache_var_name], [dpkg_cv_cxxflag_$1])
-  AC_CACHE_CHECK([whether $CXX accepts $1], [cache_var_name], [
-    dpkg_save_CXXFLAGS="$CXXFLAGS"
-    CXXFLAGS="$1"
-    AC_LANG_PUSH([C++])
-    AC_COMPILE_IFELSE([
-      AC_LANG_SOURCE([[]])
-    ], [
-      AS_VAR_SET([cache_var_name], [yes])
-    ], [
-      AS_VAR_SET([cache_var_name], [no])
-    ])
-    AC_LANG_POP([C++])
-    CXXFLAGS="$dpkg_save_CXXFLAGS"
-  ])
-  AS_VAR_IF([cache_var_name], [yes], [CXXWARNFLAGS="$CXXWARNFLAGS $1"])
-  AS_VAR_POPDEF([cache_var_name])
-])
+# DPKG_CHECK_COMPILER_WARNINGS
+# ----------------------------
+# Add configure option to disable additional compiler warnings.
+AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
+  DPKG_CHECK_COMPILER_FLAG([-Wall])
+  DPKG_CHECK_COMPILER_FLAG([-Wextra])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-unused-parameter])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-missing-field-initializers])
+  DPKG_CHECK_COMPILER_FLAG([-Wmissing-declarations])
+  DPKG_CHECK_COMPILER_FLAG([-Wmissing-format-attribute])
+  DPKG_CHECK_COMPILER_FLAG([-Wformat-security])
+  DPKG_CHECK_COMPILER_FLAG([-Wpointer-arith])
+  DPKG_CHECK_COMPILER_FLAG([-Wlogical-op])
+  DPKG_CHECK_COMPILER_FLAG([-Wvla])
+  DPKG_CHECK_COMPILER_FLAG([-Winit-self])
+  DPKG_CHECK_COMPILER_FLAG([-Wwrite-strings])
+  DPKG_CHECK_COMPILER_FLAG([-Wcast-align])
+  DPKG_CHECK_COMPILER_FLAG([-Wshadow])
 
-# DPKG_WARNING_ALL
-# ----------------
-AC_DEFUN([DPKG_WARNING_ALL], [
-  DPKG_WARNING_CC([$1])
-  DPKG_WARNING_CXX([$1])
+  AC_LANG_CASE(
+  [C], [
+    DPKG_CHECK_COMPILER_FLAG([-Wdeclaration-after-statement])
+    DPKG_CHECK_COMPILER_FLAG([-Wnested-externs])
+    DPKG_CHECK_COMPILER_FLAG([-Wbad-function-cast])
+    DPKG_CHECK_COMPILER_FLAG([-Wstrict-prototypes])
+    DPKG_CHECK_COMPILER_FLAG([-Wmissing-prototypes])
+    DPKG_CHECK_COMPILER_FLAG([-Wold-style-definition])
+  ],
+  [C++], [
+    DPKG_CHECK_COMPILER_FLAG([-Wc++11-compat])
+    AS_IF([test "x$dpkg_cv_cxx11" = "xyes"], [
+      DPKG_CHECK_COMPILER_FLAG([-Wzero-as-null-pointer-constant])
+    ])
+  ])
 ])
 
 # DPKG_COMPILER_WARNINGS
-# ---------------------
+# ----------------------
 # Add configure option to disable additional compiler warnings.
-AC_DEFUN([DPKG_COMPILER_WARNINGS],
-[AC_ARG_ENABLE(compiler-warnings,
-	AS_HELP_STRING([--disable-compiler-warnings],
-	               [Disable additional compiler warnings]),
-	[],
-	[enable_compiler_warnings=yes])
+AC_DEFUN([DPKG_COMPILER_WARNINGS], [
+  AC_ARG_ENABLE([compiler-warnings],
+    AS_HELP_STRING([--disable-compiler-warnings],
+                   [Disable additional compiler warnings]),
+    [],
+    [enable_compiler_warnings=yes]
+  )
 
-if test "x$enable_compiler_warnings" = "xyes"; then
-  DPKG_WARNING_ALL([-Wall])
-  DPKG_WARNING_ALL([-Wextra])
-  DPKG_WARNING_ALL([-Wno-unused-parameter])
-  DPKG_WARNING_ALL([-Wno-missing-field-initializers])
-  DPKG_WARNING_ALL([-Wmissing-declarations])
-  DPKG_WARNING_ALL([-Wmissing-format-attribute])
-  DPKG_WARNING_ALL([-Wformat-security])
-  DPKG_WARNING_ALL([-Wpointer-arith])
-  DPKG_WARNING_ALL([-Wlogical-op])
-  DPKG_WARNING_ALL([-Wvla])
-  DPKG_WARNING_ALL([-Winit-self])
-  DPKG_WARNING_ALL([-Wwrite-strings])
-  DPKG_WARNING_ALL([-Wcast-align])
-  DPKG_WARNING_ALL([-Wshadow])
+  if test "x$enable_compiler_warnings" = "xyes"; then
+    DPKG_CHECK_COMPILER_WARNINGS
+    AC_LANG_PUSH([C++])
+    DPKG_CHECK_COMPILER_WARNINGS
+    AC_LANG_POP([C++])
 
-  DPKG_WARNING_CC([-Wdeclaration-after-statement])
-  DPKG_WARNING_CC([-Wnested-externs])
-  DPKG_WARNING_CC([-Wbad-function-cast])
-  DPKG_WARNING_CC([-Wstrict-prototypes])
-  DPKG_WARNING_CC([-Wmissing-prototypes])
-  DPKG_WARNING_CC([-Wold-style-definition])
-
-  DPKG_WARNING_CXX([-Wc++11-compat])
-  AS_IF([test "x$dpkg_cv_cxx11" = "xyes"], [
-    DPKG_WARNING_CXX([-Wzero-as-null-pointer-constant])
-  ])
-
-  CFLAGS="$CWARNFLAGS $CFLAGS"
-  CXXFLAGS="$CXXWARNFLAGS $CXXFLAGS"
-fi
+    CFLAGS="$COMPILER_CFLAGS $CFLAGS"
+    CXXFLAGS="$COMPILER_CXXFLAGS $CXXFLAGS"
+  fi
 ])
 
 # DPKG_COMPILER_OPTIMISATIONS
