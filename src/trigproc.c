@@ -23,10 +23,10 @@
 #include <config.h>
 #include <compat.h>
 
-#include <sys/fcntl.h>
 #include <sys/stat.h>
 
 #include <assert.h>
+#include <fcntl.h>
 #include <stdlib.h>
 
 #include <dpkg/i18n.h>
