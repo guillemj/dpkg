@@ -63,9 +63,7 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
     depender= possi->up->up;
     debug(dbg_depcon, "checking depending package '%s'",
           pkg_name(depender, pnaw_always));
-    if (!(depender->status == PKG_STAT_INSTALLED ||
-          depender->status == PKG_STAT_TRIGGERSPENDING ||
-          depender->status == PKG_STAT_TRIGGERSAWAITED))
+    if (depender->status < PKG_STAT_UNPACKED)
       continue;
     if (ignore_depends(depender)) {
       debug(dbg_depcon, "ignoring depending package '%s'",
