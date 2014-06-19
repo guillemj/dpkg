@@ -13,6 +13,10 @@ test-case:
 	$(DPKG_PURGE) pkg-dep
 	$(DPKG_PURGE) pkg-b
 
+	$(DPKG_INSTALL) pkg-a.deb
+	! $(DPKG_INSTALL) pkg-dep.deb
+	$(DPKG_PURGE) pkg-a
+
 test-clean:
 	$(DPKG_PURGE) pkg-dep
 	$(DPKG_PURGE) pkg-b pkg-b
