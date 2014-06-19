@@ -72,7 +72,7 @@ build: build-hook $(DEB) $(DSC)
 test: build test-case test-clean
 
 clean: clean-hook
-	$(RM) $(DEB) $(DSC) *.diff.gz *.tar.gz
+	$(RM) $(DEB) $(DSC) *.diff.xz *.diff.gz *.tar.xz *.tar.gz
 
 .PHONY: build-hook build test test-case test-clean clean-hook clean
 
