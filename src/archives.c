@@ -1543,14 +1543,20 @@ archivefiles(const char *const *argv)
   const char *volatile thisarg;
   const char *const *volatile argp;
   jmp_buf ejbuf;
+  enum modstatdb_rw msdbflags;
 
   trigproc_install_hooks();
 
-  modstatdb_open(f_noact ?                          msdbrw_readonly :
-                 (cipaction->arg_int == act_avail ? msdbrw_readonly :
-                  fc_nonroot ?                      msdbrw_write :
-                                                    msdbrw_needsuperuser) |
-                 msdbrw_available_write);
+  if (f_noact)
+    msdbflags = msdbrw_readonly;
+  else if (cipaction->arg_int == act_avail)
+    msdbflags = msdbrw_readonly | msdbrw_available_write;
+  else if (fc_nonroot)
+    msdbflags = msdbrw_write;
+  else
+    msdbflags = msdbrw_needsuperuser;
+
+  modstatdb_open(msdbflags);
 
   checkpath();
   pkg_infodb_upgrade();

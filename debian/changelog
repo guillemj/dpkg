@@ -21,6 +21,9 @@ dpkg (1.17.11) UNRELEASED; urgency=low
   * When parsing the statoverride database from dpkg-statoverride do not
     consider it an error and refuse to operate at all if the user or group
     names are not known to the system, just preserve them. Closes: #563307
+  * Do not write to the available file when unpacking binary packages. This
+    information is not useful as dpkg has never recorded the archive path,
+    so it has never been truly available for re-installation anyway.
 
   [ Updated programs translations ]
   * Danish (Joe Dalton). Closes: #754127
