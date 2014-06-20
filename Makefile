@@ -35,7 +35,6 @@ TESTS_PASS += t-unpack-fifo
 TESTS_PASS += t-unpack-device
 TESTS_PASS += t-filtering
 TESTS_PASS += t-depends
-TESTS_PASS += t-depends-versioned
 TESTS_PASS += t-dir-leftover-parents
 TESTS_PASS += t-dir-leftover-conffile
 TESTS_PASS += t-disappear
