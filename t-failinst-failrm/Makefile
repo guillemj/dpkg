@@ -1,14 +1,12 @@
-TESTS_DEB := pkg-failinst-failrm
+TESTS_DEB := pkg-failinst-failrm-0 pkg-failinst-failrm-1
 
 include ../Test.mk
 
 test-case:
-	-$(DPKG_INSTALL) pkg-failinst-failrm.deb
+	-$(DPKG_INSTALL) pkg-failinst-failrm-0.deb
 	test "`$(PKG_STATUS) pkg-failinst-failrm`" = "install ok half-configured"
 
 test-clean:
-	# FIXME: The purge will fail, need --force-scripts. We'll just remove
-	#        the failing script for now.
-	-$(DPKG_QUERY) --control-path pkg-failinst-failrm | xargs $(BEROOT) rm -f
+	# Upgrade to a working version to allow the purge.
+	-$(DPKG_INSTALL) pkg-failinst-failrm-1.deb
 	$(DPKG_PURGE) pkg-failinst-failrm
-
