@@ -249,8 +249,8 @@ support will be disabled, due to new warnings being issued by
 glibc 2.16 and later.
 .TP
 .B stackprotector
-This setting (enabled by default) adds
-.B \-fstack-protector \-\-param=ssp\-buffer\-size=4
+This setting (enabled by default if stackprotectorstrong is not in use) adds
+.B \-fstack\-protector \-\-param=ssp\-buffer\-size=4
 to \fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBOBJCFLAGS\fP, \fBOBJCXXFLAGS\fP,
 \fBGCJFLAGS\fP, \fBFFLAGS\fP and \fBFCFLAGS\fP.
 This adds safety checks against stack
@@ -262,6 +262,20 @@ the application).
 This feature requires linking against glibc (or another provider of
 \fB__stack_chk_fail\fP), so needs to be disabled when building with
 \fB\-nostdlib\fP or \fB\-ffreestanding\fP or similar.
+.
+.TP
+.B stackprotectorstrong
+This setting (enabled by default) adds
+.B \-fstack\-protector\-strong
+to \fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBOBJCFLAGS\fP, \fBOBJCXXFLAGS\fP,
+\fBGCJFLAGS\fP, \fBFFLAGS\fP and \fBFCFLAGS\fP.
+This is a stronger variant of \fBstackprotector\fP, but without significant
+performance penalties.
+
+Disabling \fBstackprotector\fP will also disable this setting.
+
+This feature has the same requirements as \fBstackprotector\fP, and in
+addition also requires gcc 4.9 and later.
 .
 .TP
 .B relro

@@ -87,6 +87,7 @@ sub add_hardening_flags {
     my %use_feature = (
 	pie => 0,
 	stackprotector => 1,
+	stackprotectorstrong => 1,
 	fortify => 1,
 	format => 1,
 	relro => 1,
@@ -129,6 +130,12 @@ sub add_hardening_flags {
 	#   compiler supports it incorrectly (leads to SEGV)
 	$use_feature{stackprotector} = 0;
     }
+    if ($arch =~ /^(?:m68k|or1k|powerpcspe|sh4|x32)$/) {
+	# "Strong" stack protector disabled on m68k, or1k, powerpcspe, sh4, x32.
+	#   It requires GCC 4.9 and these archs are still using 4.8 as of
+	#   gcc-defaults 1.128.
+	$use_feature{stackprotectorstrong} = 0;
+    }
     if ($cpu =~ /^(?:ia64|hppa|avr32)$/) {
 	# relro not implemented on ia64, hppa, avr32.
 	$use_feature{relro} = 0;
@@ -146,6 +153,10 @@ sub add_hardening_flags {
 	# hardening ability without relro and may incur load penalties.
 	$use_feature{bindnow} = 0;
     }
+    if ($use_feature{stackprotector} == 0) {
+	# Disable stackprotectorstrong if stackprotector is disabled.
+	$use_feature{stackprotectorstrong} = 0;
+    }
 
     # PIE
     if ($use_feature{pie}) {
@@ -160,7 +171,16 @@ sub add_hardening_flags {
     }
 
     # Stack protector
-    if ($use_feature{stackprotector}) {
+    if ($use_feature{stackprotectorstrong}) {
+	my $flag = '-fstack-protector-strong';
+	$flags->append('CFLAGS', $flag);
+	$flags->append('OBJCFLAGS', $flag);
+	$flags->append('OBJCXXFLAGS', $flag);
+	$flags->append('FFLAGS', $flag);
+	$flags->append('FCFLAGS', $flag);
+	$flags->append('CXXFLAGS', $flag);
+	$flags->append('GCJFLAGS', $flag);
+    } elsif ($use_feature{stackprotector}) {
 	$flags->append('CFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
 	$flags->append('OBJCFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
 	$flags->append('OBJCXXFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
