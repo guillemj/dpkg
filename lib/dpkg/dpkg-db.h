@@ -328,6 +328,12 @@ enum parsedbflags {
 };
 
 const char *pkg_name_is_illegal(const char *p);
+
+const struct fieldinfo *
+find_field_info(const struct fieldinfo *fields, const char *fieldname);
+const struct arbitraryfield *
+find_arbfield_info(const struct arbitraryfield *arbs, const char *fieldname);
+
 int parsedb(const char *filename, enum parsedbflags, struct pkginfo **donep);
 void copy_dependency_links(struct pkginfo *pkg,
                            struct dependency **updateme,

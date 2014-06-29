@@ -74,6 +74,30 @@ parse_warn(struct parsedb_state *ps, const char *fmt, ...)
   va_end(args);
 }
 
+const struct fieldinfo *
+find_field_info(const struct fieldinfo *fields, const char *fieldname)
+{
+  const struct fieldinfo *field;
+
+  for (field = fields; field->name; field++)
+    if (strcasecmp(field->name, fieldname) == 0)
+      return field;
+
+  return NULL;
+}
+
+const struct arbitraryfield *
+find_arbfield_info(const struct arbitraryfield *arbs, const char *fieldname)
+{
+  const struct arbitraryfield *arbfield;
+
+  for (arbfield = arbs; arbfield; arbfield = arbfield->next)
+    if (strcasecmp(arbfield->name, fieldname) == 0)
+      return arbfield;
+
+  return NULL;
+}
+
 const char *
 pkg_name_is_illegal(const char *p)
 {
