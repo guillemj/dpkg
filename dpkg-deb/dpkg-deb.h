@@ -75,7 +75,6 @@ extern struct compress_params compress_params;
 #define DATAMEMBER		"data.tar"
 
 #define MAXFILENAME 2048
-#define MAXFIELDNAME 200
 
 #ifdef PATH_MAX
 # define INTERPRETER_MAX PATH_MAX

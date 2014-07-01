@@ -40,6 +40,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/parsedump.h>
 #include <dpkg/pkg-format.h>
 #include <dpkg/buffer.h>
 #include <dpkg/path.h>
@@ -208,64 +209,41 @@ info_list(const char *debar, const char *dir)
 
 static void
 info_field(const char *debar, const char *dir, const char *const *fields,
-           bool showfieldname)
+           enum fwriteflags fieldflags)
 {
-  FILE *cc;
   char *controlfile;
-  char fieldname[MAXFIELDNAME+1];
-  char *pf;
-  const char *const *fp;
-  int c, lno, fnl;
-  bool doing;
+  struct varbuf str = VARBUF_INIT;
+  struct pkginfo *pkg;
+  int i;
 
   m_asprintf(&controlfile, "%s/%s", dir, CONTROLFILE);
-  cc = fopen(controlfile, "r");
-  if (!cc)
-    ohshite(_("could not open the `control' component"));
-  doing = true;
-  lno = 1;
-  for (;;) {
-    c = getc(cc);
-    if (c == EOF) {
-      doing = false;
-      break;
-    }
-    if (c == '\n') {
-      lno++;
-      doing = true;
-      continue;
-    }
-    if (!isspace(c)) {
-      for (pf=fieldname, fnl=0;
-           fnl <= MAXFIELDNAME && c!=EOF && !isspace(c) && c!=':';
-           c= getc(cc)) { *pf++= c; fnl++; }
-      *pf = '\0';
-      doing= fnl >= MAXFIELDNAME || c=='\n' || c==EOF;
-      for (fp=fields; !doing && *fp; fp++)
-        if (strcasecmp(*fp, fieldname) == 0)
-          doing = true;
-      if (showfieldname) {
-        if (doing)
-          fputs(fieldname,stdout);
-      } else {
-        if (c==':') c= getc(cc);
-        while (c != '\n' && isspace(c)) c= getc(cc);
-      }
-    }
-    for(;;) {
-      if (c == EOF) break;
-      if (doing) putc(c,stdout);
-      if (c == '\n') { lno++; break; }
-      c= getc(cc);
-    }
-    if (c == EOF) break;
-  }
-  if (ferror(cc)) ohshite(_("failed during read of `control' component"));
-  if (fclose(cc))
-    ohshite(_("error closing the '%s' component"), CONTROLFILE);
-  if (doing) putc('\n',stdout);
-  m_output(stdout, _("<standard output>"));
+  parsedb(controlfile, pdb_parse_binary | pdb_ignorefiles, &pkg);
   free(controlfile);
+
+  for (i = 0; fields[i]; i++) {
+    const struct fieldinfo *field;
+    const struct arbitraryfield *arbfield;
+
+    varbuf_reset(&str);
+    field = find_field_info(fieldinfos, fields[i]);
+    if (field) {
+      field->wcall(&str, pkg, &pkg->available, fieldflags, field);
+    } else {
+      arbfield = find_arbfield_info(pkg->available.arbs, fields[i]);
+      if (arbfield)
+        varbuf_add_arbfield(&str, arbfield, fieldflags);
+    }
+    varbuf_end_str(&str);
+
+    if (fieldflags & fw_printheader)
+      printf("%s", str.buf);
+    else
+      printf("%s\n", str.buf);
+  }
+
+  m_output(stdout, _("<standard output>"));
+
+  varbuf_destroy(&str);
 }
 
 int
@@ -315,7 +293,7 @@ do_field(const char *const *argv)
 
   info_prepare(&argv, &debar, &dir, 1);
   if (*argv) {
-    info_field(debar, dir, argv, argv[1] != NULL);
+    info_field(debar, dir, argv, argv[1] != NULL ? fw_printheader : 0);
   } else {
     static const char *const controlonly[] = { CONTROLFILE, NULL };
     info_spew(debar, dir, controlonly);
