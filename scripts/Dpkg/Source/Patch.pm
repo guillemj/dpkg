@@ -403,7 +403,10 @@ sub analyze {
   HUNK:
     while (defined($_) or not eof($self)) {
 	my (%path, %fn);
-	# skip comments leading up to patch (if any)
+
+	# Skip comments leading up to the patch (if any). Although we do not
+	# look for an Index: pseudo-header in the comments, because we would
+	# not use it anyway, as we require both ---/+++ filename headers.
 	while (1) {
 	    if (/^(?:--- |\+\+\+ |@@ -)/) {
 		last;
