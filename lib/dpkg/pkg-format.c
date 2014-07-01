@@ -236,6 +236,39 @@ virt_status_abbrev(struct varbuf *vb,
 }
 
 static void
+virt_status_want(struct varbuf *vb,
+                 const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                 enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	if (pkgbin != &pkg->installed)
+		return;
+
+	varbuf_add_str(vb, pkg_want_name(pkg));
+}
+
+static void
+virt_status_status(struct varbuf *vb,
+                   const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                   enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	if (pkgbin != &pkg->installed)
+		return;
+
+	varbuf_add_str(vb, pkg_status_name(pkg));
+}
+
+static void
+virt_status_eflag(struct varbuf *vb,
+                  const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                  enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	if (pkgbin != &pkg->installed)
+		return;
+
+	varbuf_add_str(vb, pkg_eflag_name(pkg));
+}
+
+static void
 virt_summary(struct varbuf *vb,
              const struct pkginfo *pkg, const struct pkgbin *pkgbin,
              enum fwriteflags flags, const struct fieldinfo *fip)
@@ -297,6 +330,9 @@ const struct fieldinfo virtinfos[] = {
 	{ "binary:Package", NULL, virt_package },
 	{ "binary:Summary", NULL, virt_summary },
 	{ "db:Status-Abbrev", NULL, virt_status_abbrev },
+	{ "db:Status-Want", NULL, virt_status_want },
+	{ "db:Status-Status", NULL, virt_status_status },
+	{ "db:Status-Eflag", NULL, virt_status_eflag },
 	{ "source:Package", NULL, virt_source_package },
 	{ "source:Version", NULL, virt_source_version },
 	{ NULL },
