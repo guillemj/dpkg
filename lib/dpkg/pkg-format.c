@@ -350,7 +350,7 @@ pkg_format_show(const struct pkg_format_node *head,
 		}
 
 		if (ok) {
-			size_t len = strlen(fb.buf);
+			size_t len = fb.used;
 			if ((node->width > 0) && (len > node->width))
 				len = node->width;
 			varbuf_add_buf(&vb, fb.buf, len);
