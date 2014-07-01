@@ -116,6 +116,10 @@ fwritefunction w_architecture;
 fwritefunction w_filecharf;
 fwritefunction w_trigpend, w_trigaw;
 
+void
+varbuf_add_arbfield(struct varbuf *vb, const struct arbitraryfield *arbfield,
+                    enum fwriteflags flags);
+
 struct fieldinfo {
   const char *name;
   freadfunction *rcall;

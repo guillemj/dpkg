@@ -427,6 +427,19 @@ w_trigaw(struct varbuf *vb,
 }
 
 void
+varbuf_add_arbfield(struct varbuf *vb, const struct arbitraryfield *arbfield,
+                    enum fwriteflags flags)
+{
+  if (flags & fw_printheader) {
+    varbuf_add_str(vb, arbfield->name);
+    varbuf_add_str(vb, ": ");
+  }
+  varbuf_add_str(vb, arbfield->value);
+  if (flags & fw_printheader)
+    varbuf_add_char(vb, '\n');
+}
+
+void
 varbufrecord(struct varbuf *vb,
              const struct pkginfo *pkg, const struct pkgbin *pkgbin)
 {
@@ -437,10 +450,7 @@ varbufrecord(struct varbuf *vb,
     fip->wcall(vb, pkg, pkgbin, fw_printheader, fip);
   }
   for (afp = pkgbin->arbs; afp; afp = afp->next) {
-    varbuf_add_str(vb, afp->name);
-    varbuf_add_str(vb, ": ");
-    varbuf_add_str(vb, afp->value);
-    varbuf_add_char(vb, '\n');
+    varbuf_add_arbfield(vb, afp, fw_printheader);
   }
 }
 
