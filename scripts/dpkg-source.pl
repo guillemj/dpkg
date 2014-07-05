@@ -330,6 +330,9 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
     $fields->{'Architecture'} = join(' ', @sourcearch);
     $fields->{'Package-List'} = "\n" . join("\n", sort @pkglist);
 
+    # Check if we have a testsuite, and handle manual and automatic values.
+    set_testsuite_field($fields);
+
     # Scan fields of dpkg-parsechangelog
     foreach (keys %{$changelog}) {
         my $v = $changelog->{$_};
@@ -463,6 +466,22 @@ if ($options{opmode} =~ /^(-b|--print-format|--(before|after)-build|--commit)$/)
     $srcpkg->extract($newdirectory);
 
     exit(0);
+}
+
+sub set_testsuite_field
+{
+    my ($fields) = @_;
+
+    my $testsuite_field = $fields->{'Testsuite'} // '';
+    my %testsuite = map { $_ => 1 } split /\s*,\s*/, $testsuite_field;
+    if (-e "$dir/debian/tests/control") {
+        $testsuite{autopkgtest} = 1;
+    } elsif ($testsuite{autopkgtest}) {
+        warning(_g('%s field contains value %s, but no tests control file %s'),
+                'Testsuite', 'autopkgtest', 'debian/tests/control');
+        delete $testsuite{autopkgtest};
+    }
+    $fields->{'Testsuite'} = join ', ', sort keys %testsuite;
 }
 
 sub setopmode {
