@@ -73,6 +73,31 @@ sub run_hook {
     }
 }
 
+sub _parse_feature_area {
+    my ($self, $area, $use_feature) = @_;
+
+    # Adjust features based on Maintainer's desires.
+    my $opts = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_MAINT_OPTIONS');
+    foreach my $feature (split(/,/, $opts->get($area) // '')) {
+	$feature = lc($feature);
+	if ($feature =~ s/^([+-])//) {
+	    my $value = ($1 eq '+') ? 1 : 0;
+	    if ($feature eq 'all') {
+		$use_feature->{$_} = $value foreach keys %{$use_feature};
+	    } else {
+		if (exists $use_feature->{$feature}) {
+		    $use_feature->{$feature} = $value;
+		} else {
+		    warning(_g('unknown %s feature: %s'), $area, $feature);
+		}
+	    }
+	} else {
+	    warning(_g('incorrect value in %s option of ' .
+	               'DEB_BUILD_MAINT_OPTIONS: %s'), $area, $feature);
+	}
+    }
+}
+
 sub add_hardening_flags {
     my ($self, $flags) = @_;
     my $arch = get_host_arch();
@@ -95,25 +120,7 @@ sub add_hardening_flags {
     );
 
     # Adjust features based on Maintainer's desires.
-    my $opts = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_MAINT_OPTIONS');
-    foreach my $feature (split(/,/, $opts->get('hardening') // '')) {
-	$feature = lc($feature);
-	if ($feature =~ s/^([+-])//) {
-	    my $value = ($1 eq '+') ? 1 : 0;
-	    if ($feature eq 'all') {
-		$use_feature{$_} = $value foreach keys %use_feature;
-	    } else {
-		if (exists $use_feature{$feature}) {
-		    $use_feature{$feature} = $value;
-		} else {
-		    warning(_g('unknown hardening feature: %s'), $feature);
-		}
-	    }
-	} else {
-	    warning(_g('incorrect value in hardening option of ' .
-	               'DEB_BUILD_MAINT_OPTIONS: %s'), $feature);
-	}
-    }
+    $self->_parse_feature_area('hardening', \%use_feature);
 
     # Mask features that are not available on certain architectures.
     if ($os !~ /^(?:linux|knetbsd|hurd)$/ or
