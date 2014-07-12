@@ -517,6 +517,7 @@ sub usage {
   -c<control-file>         get control info from this file.
   -l<changelog-file>       get per-version info from this file.
   -F<changelog-format>     force changelog format.
+  --format=<source-format> set the format to be used for the source package.
   -V<name>=<value>         set a substitution variable.
   -T<substvars-file>       read variables here.
   -D<field>=<value>        override or add a .dsc field and value.
@@ -534,7 +535,8 @@ sub usage {
 "Extract options:
   --no-copy                don't copy .orig tarballs
   --no-check               don't check signature and checksums before unpacking
-  --require-valid-signature abort if the package doesn't have a valid signature")
+  --require-valid-signature abort if the package doesn't have a valid signature
+  --ignore-bad-version     allow bad source package versions.")
     . "\n\n" . _g(
 'General options:
   -?, --help               show this help message.
