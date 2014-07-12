@@ -199,7 +199,7 @@ __END__
 Dpkg::Changelog
 
 Description of the Debian changelog format in the Debian policy:
-L<http://www.debian.org/doc/debian-policy/ch-source.html#s-dpkgchangelog>.
+L<https://www.debian.org/doc/debian-policy/ch-source.html#s-dpkgchangelog>.
 
 =head1 AUTHORS
 

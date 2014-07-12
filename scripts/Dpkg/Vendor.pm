@@ -46,7 +46,7 @@ vendors who are providing Debian packages. Currently those files look like
 this:
 
   Vendor: Debian
-  Vendor-URL: http://www.debian.org/
+  Vendor-URL: https://www.debian.org/
   Bugs: debbugs://bugs.debian.org
 
 If the vendor derives from another vendor, the file should document

@@ -56,7 +56,7 @@ sub run_hook {
         my ($textref, $ch_info) = @params;
 	if ($ch_info->{'Closes'}) {
 	    foreach my $bug (split(/\s+/, $ch_info->{'Closes'})) {
-		$$textref .= "Bug-Debian: http://bugs.debian.org/$bug\n";
+		$$textref .= "Bug-Debian: https://bugs.debian.org/$bug\n";
 	    }
 	}
 

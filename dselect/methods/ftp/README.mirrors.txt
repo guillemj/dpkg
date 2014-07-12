@@ -18,7 +18,7 @@ determine the fastest of a list of sites.
 
 If you know of any mirrors that are missing from this list,
 please have the site maintainer fill out
-http://www.debian.org/mirror/submit
+https://www.debian.org/mirror/submit
 To contact the maintainer of this page, write to
 mirrors@debian.org
 
