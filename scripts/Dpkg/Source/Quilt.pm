@@ -183,7 +183,7 @@ sub push {
                                  '-B', ".pc/$patch/", '--reject-file=-' ]);
     };
     if ($@) {
-        info(_g('fuzz is not allowed when applying patches'));
+        info(_g('the patch has fuzz which is not allowed, or is malformed'));
         info(_g("if patch '%s' is correctly applied by quilt, use '%s' to update it"),
              $patch, 'quilt refresh');
         $self->restore_quilt_backup_files($patch, %opts);
