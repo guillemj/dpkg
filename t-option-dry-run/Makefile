@@ -16,7 +16,7 @@ test-case:
 	
 	# Simulate configuring a package
 	$(DPKG_CONFIGURE) --dry-run pkg-normal
-	test "`$(PKG_STATUS) pkg-normal`" = "install ok unpacked"
+	$(call pkg_status_is,pkg-normal,install ok unpacked)
 	
 	$(DPKG_CONFIGURE) pkg-normal
 	

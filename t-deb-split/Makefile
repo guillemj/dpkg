@@ -37,7 +37,7 @@ test-case:
 	$(DPKG_INSTALL) pkg-split-part.2of3.deb
 	$(DPKG_INSTALL) pkg-split-part.1of3.deb
 	$(DPKG_INSTALL) pkg-split-part.3of3.deb
-	test "`$(PKG_STATUS) pkg-split`" = "install ok installed"
+	$(call pkg_is_installed,pkg-split)
 
 test-clean:
 	$(DPKG_PURGE) pkg-split

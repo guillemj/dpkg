@@ -14,8 +14,8 @@ $(DPKG_QUERY) -f '$${Package} @ $${Conffiles}\n'
 endef
 
 define VERIFY
-test "`$(PKG_STATUS) pkg-conff-original`" = "install ok installed"
-test "`$(PKG_STATUS) pkg-conff-takeover`" = "install ok installed"
+$(call pkg_is_installed,pkg-conff-original)
+$(call pkg_is_installed,pkg-conff-takeover)
 test "`$(DPKG_QUERY) -S /test-conffile`" = "pkg-conff-takeover: /test-conffile"
 test "`$(DPKG_QUERY) -S /test-confpath`" = "pkg-conff-takeover: /test-confpath"
 test "`$(CONFFILES) -W pkg-conff-original | grep obsolete | wc -l`" = "2"

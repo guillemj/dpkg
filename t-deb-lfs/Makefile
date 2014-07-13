@@ -22,12 +22,12 @@ clean-hook:
 test-case:
 	# test Small File Support packages
 	$(DPKG_INSTALL) pkg-sfs.deb
-	test "`$(PKG_STATUS) pkg-sfs`" = "install ok installed"
+	$(call pkg_is_installed,pkg-sfs)
 	test "`stat -c%s /small-file`" = "4096"
 	
 	# test Large File Support packages
 	$(DPKG_INSTALL) pkg-lfs.deb
-	test "`$(PKG_STATUS) pkg-lfs`" = "install ok installed"
+	$(call pkg_is_installed,pkg-lfs)
 	test "`stat -c%s /large-file`" = "5368709120"
 
 test-clean:

@@ -8,11 +8,11 @@ test-case:
 	$(DPKG_INSTALL) pkg-depend.deb
 	$(DPKG_INSTALL) pkg-normal.deb
 	# should not disappear while it's being depended on
-	test "`$(PKG_STATUS) pkg-disappear`" = "install ok installed"
+	$(call pkg_is_installed,pkg-disappear)
 	$(DPKG_PURGE) pkg-depend
 	$(DPKG_INSTALL) pkg-normal.deb
 	# should have been disappered now
-	test "`$(PKG_STATUS) pkg-disappear`" = "unknown ok not-installed"
+	$(call pkg_is_not_installed,pkg-disappear)
 
 test-clean:
 	-$(DPKG_PURGE) pkg-depend

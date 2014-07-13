@@ -176,8 +176,8 @@ test-coinstall-ma-same: ma-setup
 	$(call pkg_is_installed,pkg-ma-same:$(FOREIGN_ARCH))
 	# Upgrade one, the other must be unconfigured
 	$(DPKG_UNPACK) pkg-ma-same_2.0_$(NATIVE_ARCH).deb
-	$(call stdout_is,$(PKG_STATUS) pkg-ma-same:$(NATIVE_ARCH),install ok unpacked)
-	$(call stdout_is,$(PKG_STATUS) pkg-ma-same:$(FOREIGN_ARCH),install ok half-configured)
+	$(call pkg_status_is,pkg-ma-same:$(NATIVE_ARCH),install ok unpacked)
+	$(call pkg_status_is,pkg-ma-same:$(FOREIGN_ARCH),install ok half-configured)
 	# Configure one alone must fail
 	! $(DPKG_CONFIGURE) pkg-ma-same:$(NATIVE_ARCH)
 	! $(DPKG_CONFIGURE) pkg-ma-same:$(FOREIGN_ARCH)
@@ -219,7 +219,7 @@ test-crossgrade-any-all-%: ma-setup
 	$(DPKG_INSTALL) pkg-ma-$*_1.0_all.deb
 	$(call pkg_is_installed,pkg-ma-$*:all)
 	$(call pkg_is_not_installed,pkg-ma-$*:$(NATIVE_ARCH))
-	$(call stdout_has,$(DPKG_QUERY) -s pkg-ma-$*,^Architecture: all)
+	$(call pkg_field_is,pkg-ma-$*,Architecture,all)
 	$(DPKG_PURGE) pkg-ma-$*
 	$(call pkg_is_not_installed,pkg-ma-$*)
 	# M-A: $* / Upgrade from arch: any-foreign -> all
@@ -235,7 +235,7 @@ test-crossgrade-all-any-%: ma-setup
 	$(DPKG_INSTALL) pkg-ma-$*_1.0_$(NATIVE_ARCH).deb
 	$(call pkg_is_installed,pkg-ma-$*:$(NATIVE_ARCH))
 	$(call pkg_is_not_installed,pkg-ma-$*:all)
-	$(call stdout_has,$(DPKG_QUERY) -s pkg-ma-$*,^Architecture: $(NATIVE_ARCH))
+	$(call pkg_field_is,pkg-ma-$*,Architecture,$(NATIVE_ARCH))
 	$(DPKG_PURGE) pkg-ma-$*:$(NATIVE_ARCH)
 	$(call pkg_is_not_installed,pkg-ma-$*:all)
 	$(call pkg_is_not_installed,pkg-ma-$*:$(NATIVE_ARCH))
@@ -683,8 +683,8 @@ test-coinstall-triggers: ma-setup
 	# Test file trigger processing
 	$(BEROOT) sh -c ":>/m-a/triggers"
 	$(DPKG_UNPACK) --no-triggers pkg-ma-act-trig_1.0_all.deb
-	$(call stdout_is,$(PKG_STATUS) pkg-ma-triggers:$(NATIVE_ARCH),install ok triggers-pending)
-	$(call stdout_is,$(PKG_STATUS) pkg-ma-triggers:$(FOREIGN_ARCH),install ok triggers-pending)
+	$(call pkg_status_is,pkg-ma-triggers:$(NATIVE_ARCH),install ok triggers-pending)
+	$(call pkg_status_is,pkg-ma-triggers:$(FOREIGN_ARCH),install ok triggers-pending)
 	$(DPKG_CONFIGURE) pkg-ma-triggers:$(NATIVE_ARCH) pkg-ma-triggers:$(FOREIGN_ARCH)
 	$(call pkg_is_installed,pkg-ma-triggers:$(NATIVE_ARCH))
 	$(call pkg_is_installed,pkg-ma-triggers:$(FOREIGN_ARCH))

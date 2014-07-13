@@ -17,7 +17,7 @@ test-case:
 	$(DPKG_DIVERT_ADD) /test-hardlink
 	# test if unpack can divert a hardlink
 	$(DPKG_INSTALL) pkg-hardlink.deb
-	test "`$(PKG_STATUS) pkg-hardlink`" = "install ok installed"
+	$(call pkg_is_installed,pkg-hardlink)
 	test -f /test-file.distrib
 	test -f /test-hardlink.distrib
 	cmp /test-file.distrib /test-hardlink.distrib

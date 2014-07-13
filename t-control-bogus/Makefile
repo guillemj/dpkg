@@ -11,9 +11,9 @@ test-case:
 	
 	# test installing packages with bogus control files
 	! $(DPKG_INSTALL) pkg-bogus-colon.deb
-	test "`$(PKG_STATUS) pkg-bogus-colon`" = ""
+	$(call pkg_is_not_installed,pkg-bogus-colon)
 	! $(DPKG_INSTALL) pkg-bogus-blank.deb
-	test "`$(PKG_STATUS) pkg-bogus-blank`" = ""
+	$(call pkg_is_not_installed,pkg-bogus-blank)
 
 test-clean:
 	rm -f pkg-bogus-colon.deb

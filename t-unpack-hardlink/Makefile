@@ -38,7 +38,7 @@ clean-hook:
 test-case:
 	# test unpacking hardlinks
 	$(DPKG_INSTALL) pkg-hardlink.deb
-	test "`$(PKG_STATUS) pkg-hardlink`" = "install ok installed"
+	$(call pkg_is_installed,pkg-hardlink)
 
 test-clean:
 	$(DPKG_PURGE) pkg-hardlink

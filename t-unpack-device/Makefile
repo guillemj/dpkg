@@ -19,7 +19,7 @@ clean-hook:
 test-case:
 	# test unpacking device files
 	$(DPKG_INSTALL) pkg-device.deb
-	test "`$(PKG_STATUS) pkg-device`" = "install ok installed"
+	$(call pkg_is_installed,pkg-device)
 
 test-clean:
 	$(DPKG_PURGE) pkg-device

@@ -6,9 +6,9 @@ test-case:
 	$(DPKG_INSTALL) pkg-disappear-0.deb
 	# test that an upgraded empty package does not get disappeared
 	$(DPKG_INSTALL) pkg-disappear-1.deb
-	test "`$(PKG_STATUS) pkg-disappear`" = "install ok installed"
+	$(call pkg_is_installed,pkg-disappear)
 	$(DPKG_INSTALL) pkg-normal.deb
-	test "`$(PKG_STATUS) pkg-normal`" = "install ok installed"
+	$(call pkg_is_installed,pkg-normal)
 
 test-clean:
 	$(DPKG_PURGE) pkg-disappear

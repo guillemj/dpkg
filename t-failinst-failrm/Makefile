@@ -4,7 +4,7 @@ include ../Test.mk
 
 test-case:
 	-$(DPKG_INSTALL) pkg-failinst-failrm-0.deb
-	test "`$(PKG_STATUS) pkg-failinst-failrm`" = "install ok half-configured"
+	$(call pkg_status_is,pkg-failinst-failrm,install ok half-configured)
 
 test-clean:
 	# Upgrade to a working version to allow the purge.

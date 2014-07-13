@@ -8,8 +8,8 @@ TEST_CASES += test-reverse
 test-case: $(TEST_CASES)
 
 define VERIFY
-test "`$(PKG_STATUS) pkg-dir-original`" = "install ok installed"
-test "`$(PKG_STATUS) pkg-dir-takeover`" = "install ok installed"
+$(call pkg_is_installed,pkg-dir-original)
+$(call pkg_is_installed,pkg-dir-takeover)
 test -d /test-dir
 test "`$(DPKG_QUERY) -S /test-dir/test-original`" = "pkg-dir-original: /test-dir/test-original"
 test "`$(DPKG_QUERY) -S /test-dir/test-takeover`" = "pkg-dir-takeover: /test-dir/test-takeover"

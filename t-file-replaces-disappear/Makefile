@@ -10,7 +10,7 @@ TEST_CASES += test-one-run-reverse
 test-case: $(TEST_CASES)
 
 define VERIFY
-test "`$(PKG_STATUS) pkg-file-takeover`" = "install ok installed"
+$(call pkg_is_installed,pkg-file-takeover)
 test "`$(DPKG_QUERY) -S /test-file`" = "pkg-file-takeover: /test-file"
 test "`$(DPKG_QUERY) -S /test-other`" = "pkg-file-takeover: /test-other"
 cmp ref-file /test-file
@@ -21,7 +21,7 @@ test-two-run-ordered:
 	# test-two-run-ordered
 	$(DPKG_INSTALL) pkg-file-original.deb
 	$(DPKG_INSTALL) pkg-file-takeover.deb
-	test "`$(PKG_STATUS) pkg-file-original`" = "unknown ok not-installed"
+	$(call pkg_is_not_installed,pkg-file-original)
 	$(VERIFY)
 	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
 	test ! -f /test-file
@@ -30,7 +30,7 @@ test-two-run-ordered:
 test-one-run-ordered:
 	# test-one-run-ordered
 	$(DPKG_INSTALL) pkg-file-original.deb pkg-file-takeover.deb
-	test "`$(PKG_STATUS) pkg-file-original`" = "unknown ok not-installed"
+	$(call pkg_is_not_installed,pkg-file-original)
 	$(VERIFY)
 	$(DPKG_PURGE) pkg-file-original pkg-file-takeover
 	test ! -f /test-file
@@ -40,7 +40,7 @@ test-two-run-reverse:
 	# test-two-run-reverse
 	$(DPKG_INSTALL) pkg-file-takeover.deb
 	$(DPKG_INSTALL) pkg-file-original.deb
-	test "`$(PKG_STATUS) pkg-file-original`" = "install ok installed"
+	$(call pkg_is_installed,pkg-file-original)
 	$(VERIFY)
 	$(DPKG_PURGE) pkg-file-original
 	test -f /test-file
@@ -52,7 +52,7 @@ test-two-run-reverse:
 test-one-run-reverse:
 	# test-one-run-reverse
 	$(DPKG_INSTALL) pkg-file-takeover.deb pkg-file-original.deb
-	test "`$(PKG_STATUS) pkg-file-original`" = "install ok installed"
+	$(call pkg_is_installed,pkg-file-original)
 	$(VERIFY)
 	$(DPKG_PURGE) pkg-file-original
 	test -f /test-file

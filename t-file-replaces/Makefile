@@ -10,8 +10,8 @@ TEST_CASES += test-one-run-reverse
 test-case: $(TEST_CASES)
 
 define VERIFY
-test "`$(PKG_STATUS) pkg-file-original`" = "install ok installed"
-test "`$(PKG_STATUS) pkg-file-takeover`" = "install ok installed"
+$(call pkg_is_installed,pkg-file-original)
+$(call pkg_is_installed,pkg-file-takeover)
 test "`$(DPKG_QUERY) -S /test-file`" = "pkg-file-takeover: /test-file"
 cmp ref-file /test-file
 endef

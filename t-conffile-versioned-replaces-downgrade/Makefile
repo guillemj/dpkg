@@ -3,8 +3,8 @@ TESTS_DEB := pkg-conff-original-0 pkg-conff-original-1 pkg-conff-takeover
 include ../Test.mk
 
 define VERIFY
-test "`$(PKG_STATUS) pkg-conff-original`" = "install ok installed"
-test "`$(PKG_STATUS) pkg-conff-takeover`" = "install ok installed"
+$(call pkg_is_installed,pkg-conff-original)
+$(call pkg_is_installed,pkg-conff-takeover)
 test "`$(DPKG_QUERY) -S /test-conffile`" = "pkg-conff-takeover: /test-conffile"
 cmp ref-conffile /test-conffile
 endef
