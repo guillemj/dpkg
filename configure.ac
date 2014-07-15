@@ -99,6 +99,8 @@ DPKG_CHECK_DECL([makedev], [sys/types.h])
 DPKG_CHECK_DECL([WCOREDUMP], [sys/wait.h])
 DPKG_CHECK_DECL([TIOCNOTTY], [sys/ioctl.h])
 DPKG_CHECK_DECL([O_NOFOLLOW], [fcntl.h])
+DPKG_CHECK_DECL([F_ALLOCSP64], [fcntl.h])
+DPKG_CHECK_DECL([F_PREALLOCATE], [fcntl.h])
 DPKG_CHECK_DECL([P_tmpdir], [stdio.h])
 DPKG_CHECK_PROGNAME
 DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
@@ -108,7 +110,8 @@ AC_CHECK_DECLS([strnlen], [[#include <string.h>]])
 AC_CHECK_FUNCS([memcpy lchown],
                [], [AC_MSG_ERROR([missing required function])])
 AC_CHECK_FUNCS([strtoimax isascii setsid getdtablesize \
-                getprogname getexecname lutimes posix_fadvise])
+                getprogname getexecname lutimes \
+                fallocate posix_fallocate posix_fadvise])
 
 DPKG_MMAP
 

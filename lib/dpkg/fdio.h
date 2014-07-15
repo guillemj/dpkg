@@ -36,6 +36,9 @@ DPKG_BEGIN_DECLS
 ssize_t fd_read(int fd, void *buf, size_t len);
 ssize_t fd_write(int fd, const void *buf, size_t len);
 
+int
+fd_allocate_size(int fd, off_t offset, off_t len);
+
 /** @} */
 
 DPKG_END_DECLS

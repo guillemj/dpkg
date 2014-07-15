@@ -337,6 +337,11 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     debug(dbg_eachfiledetail, "tarobject file open size=%jd",
           (intmax_t)te->size);
 
+    /* We try to tell the filesystem how much disk space we are going to
+     * need to let it reduce fragmentation and possibly improve performance,
+     * as we do know the size beforehand. */
+    fd_allocate_size(fd, 0, te->size);
+
     newhash = nfmalloc(MD5HASHLEN + 1);
     if (fd_fd_copy_and_md5(tc->backendpipe, fd, newhash, te->size, &err) < 0)
       ohshit(_("cannot copy extracted data for '%.255s' to '%.255s': %s"),

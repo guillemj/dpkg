@@ -59,6 +59,9 @@ dpkg (1.17.11) UNRELEASED; urgency=low
   * Clarify error message in Dpkg::Source::Quilt when patches fail to apply,
     to note that the patch might be malformed (besides not accepting patches
     with fuzz).
+  * Try to preallocate the disk size for extracted files on unpack. This
+    might help in avoiding filesystem fragmentation, and possibly improve
+    performance on some filesystems.
 
   [ Updated programs translations ]
   * Danish (Joe Dalton). Closes: #754127
