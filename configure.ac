@@ -173,8 +173,13 @@ DPKG_ARCHITECTURE
 AC_DEFINE([PACKAGE_RELEASE], [PACKAGE_VERSION " (" ARCHITECTURE ")"],
   [Define the project release information, version and architecture])
 
+AC_CONFIG_TESTDIR([t-func])
+AM_MISSING_PROG([AUTOM4TE], [autom4te])
+
 AC_CONFIG_FILES([
   Makefile
+  t-func/Makefile
+  t-func/atlocal
   dpkg-deb/Makefile
   dpkg-split/Makefile
   dselect/Makefile

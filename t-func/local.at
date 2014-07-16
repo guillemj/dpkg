@@ -1,0 +1,32 @@
+# Dpkg helper macros
+
+m4_pattern_forbid([^DPKG_])
+
+# DPKG_GEN_CONTROL([$pkgname])
+m4_define([DPKG_GEN_CONTROL], [
+  mkdir -p '$1/DEBIAN'
+
+  cat >'$1/DEBIAN/control' <<CTRL_TEMPL
+Package: $1
+Version: 0.0-1
+Section: test
+Priority: extra
+Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+Architecture: all
+Description: test package
+CTRL_TEMPL
+])
+
+# DPKG_MOD_CONTROL([$pkgname], [$sedexpr])
+m4_define([DPKG_MOD_CONTROL], [
+  sed -i -e '$2' '$1/DEBIAN/control'
+])
+
+# DPKG_GEN_FILE([$pkgname], [$file], [$contents])
+m4_define([DPKG_GEN_FILE], [
+  mkdir -p '$1/DEBIAN'
+
+  cat >'$1/DEBIAN/$2' <<CTRL_TEMPL
+$3
+CTRL_TEMPL
+])

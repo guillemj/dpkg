@@ -1,0 +1,42 @@
+AT_TESTED([dpkg-deb])
+
+AT_SETUP([dpkg-deb .deb conffiles])
+AT_KEYWORDS([dpkg-deb deb conffiles])
+
+DPKG_GEN_CONTROL([pkg-conff-dupe])
+DPKG_GEN_FILE([pkg-conff-dupe], [conffiles], [/test-conffile-1
+/test-conffile-2
+/test-conffile-1])
+AT_DATA([pkg-conff-dupe/test-conffile-1], [test init
+])
+AT_DATA([pkg-conff-dupe/test-conffile-2], [test init
+])
+AT_CHECK([
+# Duplicate conffile entries should produce a warning.
+dpkg-deb -b pkg-conff-dupe
+], [0], [ignore], [dpkg-deb: warning: conffile name '/test-conffile-1' is duplicated
+dpkg-deb: warning: ignoring 1 warning about the control file(s)
+])
+
+DPKG_GEN_CONTROL([pkg-conff-noel])
+printf "/test-conffile-1" >"pkg-conff-noel/DEBIAN/conffiles"
+AT_DATA([pkg-conff-noel/test-conffile-1], [test init
+])
+AT_CHECK([
+# Conffiles need a final newline to guarantee there's been no accidental
+# file truncation.
+dpkg-deb -b pkg-conff-noel pkg-conff-noel.deb
+], [2], [ignore], [dpkg-deb: error: conffile name '/test-conffile-1' is too long, or missing final newline
+])
+
+DPKG_GEN_CONTROL([pkg-deb-newline])
+touch 'pkg-deb-newline/file
+newline'
+AT_CHECK([
+# Cannot create package with newlines in filenames.
+dpkg-deb -b pkg-deb-newline
+], [2], [ignore], [dpkg-deb: error: newline not allowed in pathname './file
+newline'
+])
+
+AT_CLEANUP

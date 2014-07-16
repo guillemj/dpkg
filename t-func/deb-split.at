@@ -1,0 +1,86 @@
+AT_TESTED([dpkg-split])
+
+AT_SETUP([dpkg-split options])
+AT_KEYWORDS([dpkg-split command-line])
+AT_CHECK([dpkg-split --help], [], [ignore])
+AT_CLEANUP
+
+AT_SETUP([dpkg-split .deb format])
+AT_KEYWORDS([dpkg-split deb-split])
+
+DPKG_GEN_CONTROL([pkg-split])
+DPKG_MOD_CONTROL([pkg-split],
+                 [s/^Description:.*$/& - normal package to be split/])
+AT_CHECK([
+# Initialize the template package
+chmod -R u+w pkg-split
+yes | dd of=pkg-split/data-file bs=1024 count=1024 status=none
+find pkg-split | xargs touch -t 197001010100.00
+$ASROOT dpkg-deb -b -Znone pkg-split >/dev/null
+])
+
+AT_CHECK([
+# Test splitting a package (in 3 parts: 400 KiB + 400 KiB + 224 KiB)
+dpkg-split -S 400 -s pkg-split.deb pkg-split-part
+test -f pkg-split-part.1of3.deb
+test -f pkg-split-part.2of3.deb
+test -f pkg-split-part.3of3.deb
+], [], [Splitting package pkg-split into 3 parts: 1 2 3 done
+])
+
+DEB_SPLIT_MD5SUM=a4042d88f6da3da8ab2ab191a290ab66
+
+AT_CHECK_UNQUOTED([
+# Test getting information about the split parts (parsing verification)
+dpkg-split -I pkg-split-part.1of3.deb
+dpkg-split -I pkg-split-part.2of3.deb
+dpkg-split -I pkg-split-part.3of3.deb
+], [], [pkg-split-part.1of3.deb:
+    Part format version:            2.1
+    Part of package:                pkg-split
+        ... version:                0.0-1
+        ... architecture:           all
+        ... MD5 checksum:           $DEB_SPLIT_MD5SUM
+        ... length:                 1055178 bytes
+        ... split every:            408576 bytes
+    Part number:                    1/3
+    Part length:                    408576 bytes
+    Part offset:                    0 bytes
+    Part file size (used portion):  408780 bytes
+
+pkg-split-part.2of3.deb:
+    Part format version:            2.1
+    Part of package:                pkg-split
+        ... version:                0.0-1
+        ... architecture:           all
+        ... MD5 checksum:           $DEB_SPLIT_MD5SUM
+        ... length:                 1055178 bytes
+        ... split every:            408576 bytes
+    Part number:                    2/3
+    Part length:                    408576 bytes
+    Part offset:                    408576 bytes
+    Part file size (used portion):  408780 bytes
+
+pkg-split-part.3of3.deb:
+    Part format version:            2.1
+    Part of package:                pkg-split
+        ... version:                0.0-1
+        ... architecture:           all
+        ... MD5 checksum:           $DEB_SPLIT_MD5SUM
+        ... length:                 1055178 bytes
+        ... split every:            408576 bytes
+    Part number:                    3/3
+    Part length:                    238026 bytes
+    Part offset:                    817152 bytes
+    Part file size (used portion):  238230 bytes
+
+])
+
+AT_CHECK([
+# Test joining the split parts back together
+dpkg-split -o pkg-joined.deb -j pkg-split-part.*.deb
+cmp pkg-split.deb pkg-joined.deb
+], [], [Putting package pkg-split together from 3 parts: 1 2 3 done
+])
+
+AT_CLEANUP

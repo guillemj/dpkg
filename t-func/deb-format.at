@@ -1,0 +1,329 @@
+AT_TESTED([dpkg-deb])
+
+AT_SETUP([dpkg-deb options])
+AT_KEYWORDS([dpkg-deb command-line])
+AT_CHECK([dpkg-deb --help], [], [ignore])
+AT_CLEANUP
+
+AT_SETUP([dpkg-deb .deb format])
+AT_KEYWORDS([dpkg-deb deb])
+
+DPKG_GEN_CONTROL([pkg-deb-format])
+DPKG_MOD_CONTROL([pkg-deb-format],
+                 [s/^Description:.*$/& - deb format support/])
+AT_DATA([pkg-deb-format/file-templ], [test
+])
+AT_CHECK([
+# Initialize the template package
+mv pkg-deb-format pkg-templ
+chmod -R u+w pkg-templ
+find pkg-templ | xargs touch -t 197001010100.00
+$ASROOT dpkg-deb --uniform-compression -Znone -b pkg-templ >/dev/null
+
+# Extract the base members
+ar x pkg-templ.deb
+gzip -c control.tar >control.tar.gz
+gzip -c data.tar >data.tar.gz
+xz -c control.tar >control.tar.xz
+xz -c data.tar >data.tar.xz
+bzip2 -c data.tar >data.tar.bz2
+lzma -c data.tar >data.tar.lzma
+touch _ignore
+touch unknown
+])
+
+AT_CHECK([
+# Test debian-binary with 2.x versions
+cp pkg-templ.deb pkg-version-2x.deb
+echo 2.999 >debian-binary
+ar rc pkg-version-2x.deb debian-binary
+ar t pkg-version-2x.deb
+ar x pkg-templ.deb debian-binary
+# XXX: Ideally we would have no need to strip trailing spaces.
+dpkg-deb -I pkg-version-2x.deb | sed -e 's/ *$//'
+], [], [debian-binary
+control.tar
+data.tar
+ new debian package, version 2.999.
+ size 20674 bytes: control archive=10240 bytes.
+     193 bytes,     7 lines      control
+ Package: pkg-deb-format
+ Version: 0.0-1
+ Section: test
+ Priority: extra
+ Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+ Architecture: all
+ Description: test package - deb format support
+])
+
+AT_CHECK([
+# Test debian-binary with extra lines
+cp pkg-templ.deb pkg-magic-extra.deb
+echo "extra line" >>debian-binary
+ar rc pkg-magic-extra.deb debian-binary
+ar t pkg-magic-extra.deb
+ar x pkg-templ.deb debian-binary
+# XXX: Ideally we would have no need to strip trailing spaces.
+dpkg-deb -I pkg-magic-extra.deb | sed -e 's/ *$//'
+], [], [debian-binary
+control.tar
+data.tar
+ new debian package, version 2.0.
+ size 20684 bytes: control archive=10240 bytes.
+     193 bytes,     7 lines      control
+ Package: pkg-deb-format
+ Version: 0.0-1
+ Section: test
+ Priority: extra
+ Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+ Architecture: all
+ Description: test package - deb format support
+])
+
+AT_CHECK([
+# Test missing debian-binary member
+cp pkg-templ.deb pkg-missing-magic.deb
+ar d pkg-missing-magic.deb debian-binary
+ar t pkg-missing-magic.deb
+dpkg-deb -I pkg-missing-magic.deb
+], [2], [control.tar
+data.tar
+], [dpkg-deb: error: file 'pkg-missing-magic.deb' is not a debian binary archive (try dpkg-split?)
+])
+
+AT_CHECK([
+# Test missing control member
+cp pkg-templ.deb pkg-missing-control.deb
+ar d pkg-missing-control.deb control.tar
+ar t pkg-missing-control.deb
+dpkg-deb -I pkg-missing-control.deb
+], [2], [debian-binary
+data.tar
+], [dpkg-deb: error: archive 'pkg-missing-control.deb' has premature member 'data.tar' before 'control.tar', giving up
+])
+
+AT_CHECK([
+# Test missing data member
+cp pkg-templ.deb pkg-missing-data.deb
+ar d pkg-missing-data.deb data.tar
+ar t pkg-missing-data.deb
+dpkg-deb -c pkg-missing-data.deb
+], [2], [debian-binary
+control.tar
+], [dpkg-deb: error: unexpected end of file in archive member header in pkg-missing-data.deb
+])
+
+AT_CHECK([
+# Test mixed member (index 1)
+cp pkg-templ.deb pkg-mixed-1-member.deb
+ar ra debian-binary pkg-mixed-1-member.deb unknown
+ar t pkg-mixed-1-member.deb
+dpkg-deb -I pkg-mixed-1-member.deb
+], [2], [debian-binary
+unknown
+control.tar
+data.tar
+], [dpkg-deb: error: archive 'pkg-mixed-1-member.deb' has premature member 'unknown' before 'control.tar', giving up
+])
+
+AT_CHECK([
+# Test mixed member (index 2)
+cp pkg-templ.deb pkg-mixed-2-member.deb
+ar ra control.tar pkg-mixed-2-member.deb unknown
+ar t pkg-mixed-2-member.deb
+dpkg-deb -c pkg-mixed-2-member.deb
+], [2], [debian-binary
+control.tar
+unknown
+data.tar
+], [dpkg-deb: error: archive 'pkg-mixed-2-member.deb' has premature member 'unknown' before 'data.tar', giving up
+])
+
+AT_CHECK([
+# Test swapped control and data members
+cp pkg-templ.deb pkg-swap-members.deb
+ar ma data.tar pkg-swap-members.deb control.tar
+ar t pkg-swap-members.deb
+dpkg-deb -I pkg-swap-members.deb
+], [2], [debian-binary
+data.tar
+control.tar
+], [dpkg-deb: error: archive 'pkg-swap-members.deb' has premature member 'data.tar' before 'control.tar', giving up
+])
+
+AT_CHECK([
+# Test extra member
+cp pkg-templ.deb pkg-extra-member.deb
+ar q pkg-extra-member.deb unknown
+ar t pkg-extra-member.deb
+# XXX: Ideally we would have no need to strip trailing spaces.
+dpkg-deb -I pkg-extra-member.deb | sed -e 's/ *$//'
+], [], [debian-binary
+control.tar
+data.tar
+unknown
+ new debian package, version 2.0.
+ size 20732 bytes: control archive=10240 bytes.
+     193 bytes,     7 lines      control
+ Package: pkg-deb-format
+ Version: 0.0-1
+ Section: test
+ Priority: extra
+ Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+ Architecture: all
+ Description: test package - deb format support
+])
+
+AT_CHECK([
+# Test _ member
+cp pkg-templ.deb pkg-under-member.deb
+ar ra debian-binary pkg-under-member.deb _ignore
+ar t pkg-under-member.deb
+# XXX: Ideally we would have no need to strip trailing spaces.
+dpkg-deb -I pkg-under-member.deb | sed -e 's/ *$//'
+], [], [debian-binary
+_ignore
+control.tar
+data.tar
+ new debian package, version 2.0.
+ size 20732 bytes: control archive=10240 bytes.
+     193 bytes,     7 lines      control
+ Package: pkg-deb-format
+ Version: 0.0-1
+ Section: test
+ Priority: extra
+ Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+ Architecture: all
+ Description: test package - deb format support
+])
+
+AT_CHECK([
+# Test data.tar.bad member
+dd if=/dev/zero of=data.tar.bad bs=1K count=4 status=none
+ar rc pkg-data-bad.deb debian-binary control.tar.gz data.tar.bad
+ar t pkg-data-bad.deb
+dpkg-deb -c pkg-data-bad.deb
+], [2], [debian-binary
+control.tar.gz
+data.tar.bad
+], [dpkg-deb: error: archive 'pkg-data-bad.deb' uses unknown compression for member 'data.tar.bad', giving up
+])
+
+AT_CHECK([
+# Test control.tar member
+ar rc pkg-control-none.deb debian-binary control.tar data.tar
+ar t pkg-control-none.deb
+# XXX: Ideally we would have no need to strip trailing spaces.
+dpkg-deb -I pkg-control-none.deb | sed -e 's/ *$//'
+], [], [debian-binary
+control.tar
+data.tar
+ new debian package, version 2.0.
+ size 20672 bytes: control archive=10240 bytes.
+     193 bytes,     7 lines      control
+ Package: pkg-deb-format
+ Version: 0.0-1
+ Section: test
+ Priority: extra
+ Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+ Architecture: all
+ Description: test package - deb format support
+])
+
+AT_CHECK([
+# Test control.tar.xz member
+ar rc pkg-control-xz.deb debian-binary control.tar.xz data.tar.xz
+ar t pkg-control-xz.deb
+dpkg-deb -c pkg-control-xz.deb
+], [], [debian-binary
+control.tar.xz
+data.tar.xz
+drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CHECK([
+# Test data.tar member
+ar rc pkg-data-none.deb debian-binary control.tar.gz data.tar
+ar t pkg-data-none.deb
+dpkg-deb -c pkg-data-none.deb
+], [], [debian-binary
+control.tar.gz
+data.tar
+drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CHECK([
+# Test data.tar.gz member
+ar rc pkg-data-gz.deb debian-binary control.tar.gz data.tar.gz
+ar t pkg-data-gz.deb
+dpkg-deb -c pkg-data-gz.deb
+], [], [debian-binary
+control.tar.gz
+data.tar.gz
+drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CHECK([
+# Test data.tar.xz member
+ar rc pkg-data-xz.deb debian-binary control.tar.gz data.tar.xz
+ar t pkg-data-xz.deb
+dpkg-deb -c pkg-data-xz.deb
+], [], [debian-binary
+control.tar.gz
+data.tar.xz
+drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CHECK([
+# Test data.tar.bz2 member
+ar rc pkg-data-bz2.deb debian-binary control.tar.gz data.tar.bz2
+ar t pkg-data-bz2.deb
+dpkg-deb -c pkg-data-bz2.deb
+], [], [debian-binary
+control.tar.gz
+data.tar.bz2
+drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CHECK([
+# Test data.tar.lzma member
+ar rc pkg-data-lzma.deb debian-binary control.tar.gz data.tar.lzma
+ar t pkg-data-lzma.deb
+dpkg-deb -c pkg-data-lzma.deb
+], [], [debian-binary
+control.tar.gz
+data.tar.lzma
+drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CHECK([
+# Test non-uniform data.tar/control.tar member compression
+ar rc pkg-mixed-comp.deb debian-binary control.tar.xz data.tar.gz
+ar t pkg-mixed-comp.deb
+# XXX: Ideally we would have no need to strip trailing spaces.
+dpkg-deb -I pkg-mixed-comp.deb | sed -e 's/ *$//'
+dpkg-deb -c pkg-mixed-comp.deb
+], [], [debian-binary
+control.tar.xz
+data.tar.gz
+ new debian package, version 2.0.
+ size 682 bytes: control archive=336 bytes.
+     193 bytes,     7 lines      control
+ Package: pkg-deb-format
+ Version: 0.0-1
+ Section: test
+ Priority: extra
+ Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+ Architecture: all
+ Description: test package - deb format support
+drwxr-xr-x root/root         0 1970-01-01 00:00 ./
+-rw-r--r-- root/root         5 1970-01-01 00:00 ./file-templ
+])
+
+AT_CLEANUP

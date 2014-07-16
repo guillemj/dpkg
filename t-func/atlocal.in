@@ -1,0 +1,26 @@
+# Global shell definitions for the autotest test suite
+
+PATH="@abs_top_builddir@/dpkg-deb:@abs_top_builddir@/dpkg-split:@abs_top_builddir@/src:@abs_top_builddir@/utils:$PATH"
+export PATH
+
+# Setup a sane environment
+LC_ALL=C
+export LC_ALL
+
+TZ=UTC
+export TZ
+
+SOURCE_DATE_EPOCH=0
+export SOURCE_DATE_EPOCH
+
+if [ "$(id -u)" = 0 ]; then
+  ASROOT=
+elif which fakeroot >/dev/null; then
+  ASROOT=fakeroot
+else
+  echo "error: cannot run as root(ish)" >&2
+  exit 1
+fi
+export ASROOT
+
+TESTDATA="@abs_top_srcdir@/t-func"
