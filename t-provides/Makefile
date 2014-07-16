@@ -27,6 +27,8 @@ test-depends:
 	! $(DPKG_INSTALL) pkg-depends-eq.deb
 	! $(DPKG_INSTALL) pkg-depends-le.deb
 	! $(DPKG_INSTALL) pkg-depends-ge.deb
+	# Upgrade the providing package (versionless)
+	$(DPKG_INSTALL) pkg-provides.deb
 	! $(DPKG_PURGE) pkg-provides
 
 	$(PURGE_DEPENDS)
@@ -37,6 +39,8 @@ test-depends:
 	$(DPKG_INSTALL) pkg-depends-le.deb
 	! $(DPKG_INSTALL) pkg-depends-eq.deb
 	! $(DPKG_INSTALL) pkg-depends-ge.deb
+	# Upgrade the providing package (pkg-virtual 10)
+	$(DPKG_INSTALL) pkg-provides-10.deb
 
 	$(PURGE_DEPENDS)
 
@@ -46,6 +50,8 @@ test-depends:
 	$(DPKG_INSTALL) pkg-depends-eq.deb
 	! $(DPKG_INSTALL) pkg-depends-le.deb
 	$(DPKG_INSTALL) pkg-depends-ge.deb
+	# Upgrade the providing package (pkg-virtual 20)
+	$(DPKG_INSTALL) pkg-provides-20.deb
 
 	$(PURGE_DEPENDS)
 
@@ -55,6 +61,8 @@ test-depends:
 	$(DPKG_INSTALL) pkg-depends-eq.deb
 	$(DPKG_INSTALL) pkg-depends-le.deb
 	$(DPKG_INSTALL) pkg-depends-ge.deb
+	# Upgrade the providing package (pkg-virtual 10 && 20)
+	$(DPKG_INSTALL) pkg-provides-10-20.deb
 
 	$(PURGE_DEPENDS)
 
@@ -81,6 +89,8 @@ test-predepends:
 	! $(DPKG_UNPACK) pkg-predepends-eq.deb
 	! $(DPKG_UNPACK) pkg-predepends-le.deb
 	! $(DPKG_UNPACK) pkg-predepends-ge.deb
+	# Upgrade the providing package (versionless)
+	$(DPKG_INSTALL) pkg-provides.deb
 	! $(DPKG_PURGE) pkg-provides
 
 	$(PURGE_PREDEPENDS)
@@ -91,6 +101,8 @@ test-predepends:
 	$(DPKG_UNPACK) pkg-predepends-le.deb
 	! $(DPKG_UNPACK) pkg-predepends-eq.deb
 	! $(DPKG_UNPACK) pkg-predepends-ge.deb
+	# Upgrade the providing package (pkg-virtual 10)
+	$(DPKG_INSTALL) pkg-provides-10.deb
 
 	$(PURGE_PREDEPENDS)
 
@@ -100,6 +112,8 @@ test-predepends:
 	$(DPKG_UNPACK) pkg-predepends-eq.deb
 	! $(DPKG_UNPACK) pkg-predepends-le.deb
 	$(DPKG_UNPACK) pkg-predepends-ge.deb
+	# Upgrade the providing package (pkg-virtual 20)
+	$(DPKG_INSTALL) pkg-provides-20.deb
 
 	$(PURGE_PREDEPENDS)
 
@@ -109,6 +123,8 @@ test-predepends:
 	$(DPKG_UNPACK) pkg-predepends-eq.deb
 	$(DPKG_UNPACK) pkg-predepends-le.deb
 	$(DPKG_UNPACK) pkg-predepends-ge.deb
+	# Upgrade the providing package (pkg-virtual 10 && 20)
+	$(DPKG_INSTALL) pkg-provides-10-20.deb
 
 	$(PURGE_PREDEPENDS)
 
@@ -137,6 +153,8 @@ test-breaks:
 	$(DPKG_INSTALL) pkg-breaks-eq.deb
 	$(DPKG_INSTALL) pkg-breaks-le.deb
 	$(DPKG_INSTALL) pkg-breaks-ge.deb
+	# Upgrade the providing package (versionless)
+	$(DPKG_INSTALL) pkg-provides.deb
 	$(DPKG_PURGE) pkg-provides
 
 	$(PURGE_BREAKS)
@@ -147,6 +165,8 @@ test-breaks:
 	! $(DPKG_INSTALL) pkg-breaks-le.deb
 	$(DPKG_INSTALL) pkg-breaks-eq.deb
 	$(DPKG_INSTALL) pkg-breaks-ge.deb
+	# Upgrade the providing package (pkg-virtual 10)
+	$(DPKG_INSTALL) pkg-provides-10.deb
 
 	$(PURGE_BREAKS)
 
@@ -156,6 +176,8 @@ test-breaks:
 	! $(DPKG_INSTALL) pkg-breaks-eq.deb
 	$(DPKG_INSTALL) pkg-breaks-le.deb
 	! $(DPKG_INSTALL) pkg-breaks-ge.deb
+	# Upgrade the providing package (pkg-virtual 20)
+	$(DPKG_INSTALL) pkg-provides-20.deb
 
 	$(PURGE_BREAKS)
 
@@ -165,6 +187,8 @@ test-breaks:
 	! $(DPKG_INSTALL) pkg-breaks-eq.deb
 	! $(DPKG_INSTALL) pkg-breaks-le.deb
 	! $(DPKG_INSTALL) pkg-breaks-ge.deb
+	# Upgrade the providing package (pkg-virtual 10 && 20)
+	$(DPKG_INSTALL) pkg-provides-10-20.deb
 
 	$(PURGE_BREAKS)
 
@@ -193,6 +217,8 @@ test-conflicts:
 	$(DPKG_UNPACK) pkg-conflicts-eq.deb
 	$(DPKG_UNPACK) pkg-conflicts-le.deb
 	$(DPKG_UNPACK) pkg-conflicts-ge.deb
+	# Upgrade the providing package (pkg-virtual versionless)
+	$(DPKG_INSTALL) pkg-provides.deb
 	$(DPKG_PURGE) pkg-provides
 
 	$(PURGE_CONFLICTS)
@@ -203,6 +229,8 @@ test-conflicts:
 	! $(DPKG_UNPACK) pkg-conflicts-le.deb
 	$(DPKG_UNPACK) pkg-conflicts-eq.deb
 	$(DPKG_UNPACK) pkg-conflicts-ge.deb
+	# Upgrade the providing package (pkg-virtual 10)
+	$(DPKG_INSTALL) pkg-provides-10.deb
 
 	$(PURGE_CONFLICTS)
 
@@ -212,6 +240,8 @@ test-conflicts:
 	! $(DPKG_UNPACK) pkg-conflicts-eq.deb
 	$(DPKG_UNPACK) pkg-conflicts-le.deb
 	! $(DPKG_UNPACK) pkg-conflicts-ge.deb
+	# Upgrade the providing package (pkg-virtual 20)
+	$(DPKG_INSTALL) pkg-provides-20.deb
 
 	$(PURGE_CONFLICTS)
 
@@ -221,6 +251,8 @@ test-conflicts:
 	! $(DPKG_UNPACK) pkg-conflicts-eq.deb
 	! $(DPKG_UNPACK) pkg-conflicts-le.deb
 	! $(DPKG_UNPACK) pkg-conflicts-ge.deb
+	# Upgrade the providing package (pkg-virtual 10 && 20)
+	$(DPKG_INSTALL) pkg-provides-10-20.deb
 
 	$(PURGE_CONFLICTS)
 
