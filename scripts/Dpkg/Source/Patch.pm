@@ -43,7 +43,7 @@ sub create {
     $self->ensure_open('w'); # Creates the file
     *$self->{errors} = 0;
     *$self->{empty} = 1;
-    if ($opts{old} and $opts{new}) {
+    if ($opts{old} and $opts{new} and $opts{filename}) {
         $opts{old} = '/dev/null' unless -e $opts{old};
         $opts{new} = '/dev/null' unless -e $opts{new};
         if (-d $opts{old} and -d $opts{new}) {
@@ -51,7 +51,7 @@ sub create {
         } elsif (-f $opts{old} and -f $opts{new}) {
             $self->add_diff_file($opts{old}, $opts{new}, %opts);
         } else {
-            $self->_fail_not_same_type($opts{old}, $opts{new});
+            $self->_fail_not_same_type($opts{old}, $opts{new}, $opts{filename});
         }
         $self->finish() unless $opts{nofinish};
     }
@@ -66,8 +66,9 @@ sub add_diff_file {
     my ($self, $old, $new, %opts) = @_;
     $opts{include_timestamp} = 0 unless exists $opts{include_timestamp};
     my $handle_binary = $opts{handle_binary_func} || sub {
-        my ($self, $old, $new) = @_;
-        $self->_fail_with_msg($new, _g('binary file contents changed'));
+        my ($self, $old, $new, %opts) = @_;
+        my $file = $opts{filename};
+        $self->_fail_with_msg($file, _g('binary file contents changed'));
     };
     # Optimization to avoid forking diff if unnecessary
     return 1 if compare($old, $new, 4096) == 0;
@@ -112,7 +113,7 @@ sub add_diff_file {
     while (<$diffgen>) {
         if (m/^(?:binary|[^-+\@ ].*\bdiffer\b)/i) {
             $binary = 1;
-            &$handle_binary($self, $old, $new);
+            &$handle_binary($self, $old, $new, %opts);
             last;
         } elsif (m/^[-+\@ ]/) {
             $difflinefound++;
@@ -168,7 +169,7 @@ sub add_diff_directory {
         my $size = (lstat(_))[7];
         if (-l _) {
             unless (-l "$old/$fn") {
-                $self->_fail_not_same_type("$old/$fn", "$new/$fn");
+                $self->_fail_not_same_type("$old/$fn", "$new/$fn", $fn);
                 return;
             }
             my $n = readlink("$new/$fn");
@@ -180,7 +181,7 @@ sub add_diff_directory {
                 syserr(_g('cannot read link %s'), "$old/$fn");
             }
             unless ($n eq $n2) {
-                $self->_fail_not_same_type("$old/$fn", "$new/$fn");
+                $self->_fail_not_same_type("$old/$fn", "$new/$fn", $fn);
             }
         } elsif (-f _) {
             my $old_file = "$old/$fn";
@@ -190,7 +191,7 @@ sub add_diff_directory {
                 }
                 $old_file = '/dev/null';
             } elsif (not -f _) {
-                $self->_fail_not_same_type("$old/$fn", "$new/$fn");
+                $self->_fail_not_same_type("$old/$fn", "$new/$fn", $fn);
                 return;
             }
 
@@ -202,7 +203,7 @@ sub add_diff_directory {
                                $label_old, "$basedir/$fn"];
         } elsif (-p _) {
             unless (-p "$old/$fn") {
-                $self->_fail_not_same_type("$old/$fn", "$new/$fn");
+                $self->_fail_not_same_type("$old/$fn", "$new/$fn", $fn);
             }
         } elsif (-b _ || -c _ || -S _) {
             $self->_fail_with_msg("$new/$fn",
@@ -213,7 +214,7 @@ sub add_diff_directory {
                     syserr(_g('cannot stat file %s'), "$old/$fn");
                 }
             } elsif (not -d _) {
-                $self->_fail_not_same_type("$old/$fn", "$new/$fn");
+                $self->_fail_not_same_type("$old/$fn", "$new/$fn", $fn);
             }
         } else {
             $self->_fail_with_msg("$new/$fn", _g('unknown file type'));
@@ -236,7 +237,7 @@ sub add_diff_directory {
         } elsif (-l _) {
             warning(_g('ignoring deletion of symlink %s'), $fn);
         } else {
-            $self->_fail_not_same_type("$old/$fn", "$new/$fn");
+            $self->_fail_not_same_type("$old/$fn", "$new/$fn", $fn);
         }
     };
 
@@ -273,6 +274,7 @@ sub add_diff_directory {
         my ($fn, $mode, $size,
             $old_file, $new_file, $label_old, $label_new) = @$diff_file;
         my $success = $self->add_diff_file($old_file, $new_file,
+                                           filename => $fn,
                                            label_old => $label_old,
                                            label_new => $label_new, %opts);
         if ($success and
@@ -311,10 +313,10 @@ sub _fail_with_msg {
     $self->register_error();
 }
 sub _fail_not_same_type {
-    my ($self, $old, $new) = @_;
+    my ($self, $old, $new, $file) = @_;
     my $old_type = get_type($old);
     my $new_type = get_type($new);
-    errormsg(_g('cannot represent change to %s:'), $new);
+    errormsg(_g('cannot represent change to %s:'), $file);
     errormsg(_g('  new version is %s'), $new_type);
     errormsg(_g('  old version is %s'), $old_type);
     $self->register_error();

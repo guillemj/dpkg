@@ -495,15 +495,16 @@ sub do_build {
 
     # Handle modified binary files detected by the auto-patch generation
     my $handle_binary = sub {
-        my ($self, $old, $new) = @_;
-        my $relfn = File::Spec->abs2rel($new, $dir);
-        $binaryfiles->new_binary_found($relfn);
-        unless ($include_binaries or $binaryfiles->binary_is_allowed($relfn)) {
-            errormsg(_g('cannot represent change to %s: %s'), $relfn,
+        my ($self, $old, $new, %opts) = @_;
+
+        my $file = $opts{filename};
+        $binaryfiles->new_binary_found($file);
+        unless ($include_binaries or $binaryfiles->binary_is_allowed($file)) {
+            errormsg(_g('cannot represent change to %s: %s'), $file,
                      _g('binary file contents changed'));
             errormsg(_g('add %s in debian/source/include-binaries if you want ' .
                         'to store the modified binary in the debian tarball'),
-                     $relfn);
+                     $file);
             $self->register_error();
         }
     };
@@ -644,7 +645,7 @@ sub do_commit {
 
     my $binaryfiles = Dpkg::Source::Package::V2::BinaryFiles->new($dir);
     my $handle_binary = sub {
-        my ($self, $old, $new) = @_;
+        my ($self, $old, $new, %opts) = @_;
         my $fn = File::Spec->abs2rel($new, $dir);
         $binaryfiles->new_binary_found($fn);
     };
