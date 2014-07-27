@@ -77,7 +77,7 @@ my $since;
 
 my $substvars_loaded = 0;
 my $substvars = Dpkg::Substvars->new();
-$substvars->set('Format', $changes_format);
+$substvars->set_as_auto('Format', $changes_format);
 
 use constant BUILD_SOURCE     => 1;
 use constant BUILD_ARCH_DEP   => 2;

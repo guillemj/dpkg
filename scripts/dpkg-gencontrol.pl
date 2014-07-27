@@ -353,11 +353,11 @@ if (!defined($substvars->get('Installed-Size'))) {
     if ($duo !~ m/^(\d+)\s+\.$/) {
         error(_g("du gave unexpected output \`%s'"), $duo);
     }
-    $substvars->set_as_used('Installed-Size', $1);
+    $substvars->set_as_auto('Installed-Size', $1);
 }
 if (defined($substvars->get('Extra-Size'))) {
     my $size = $substvars->get('Extra-Size') + $substvars->get('Installed-Size');
-    $substvars->set_as_used('Installed-Size', $size);
+    $substvars->set_as_auto('Installed-Size', $size);
 }
 if (defined($substvars->get('Installed-Size'))) {
     $fields->{'Installed-Size'} = $substvars->get('Installed-Size');
