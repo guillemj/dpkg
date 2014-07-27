@@ -267,7 +267,7 @@ sub substvars {
 
 =item $s->warn_about_unused()
 
-Issues warning about any variables that were set, but not used
+Issues warning about any variables that were set, but not used.
 
 =cut
 
