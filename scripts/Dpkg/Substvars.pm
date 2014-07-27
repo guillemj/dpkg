@@ -49,6 +49,7 @@ strings.
 use constant {
     SUBSTVAR_ATTR_USED => 1,
     SUBSTVAR_ATTR_AUTO => 2,
+    SUBSTVAR_ATTR_OLD => 4,
 };
 
 =head1 METHODS
@@ -238,7 +239,7 @@ sub set_version_substvars {
     $self->set('source:Upstream-Version', $upstreamversion, $attr);
 
     # XXX: Source-Version is now deprecated, remove in the future.
-    $self->set('Source-Version', $binaryversion, $attr);
+    $self->set('Source-Version', $binaryversion, $attr | SUBSTVAR_ATTR_OLD);
 }
 
 =item $s->set_arch_substvars()
@@ -286,6 +287,11 @@ sub substvars {
             $v = $lhs . $self->{vars}{$vn} . $rhs;
             $self->mark_as_used($vn);
             $count++;
+
+            if (not $opts{no_warn} and $self->{attr}{$vn} & SUBSTVAR_ATTR_OLD) {
+                warning($opts{msg_prefix} .
+                        _g('deprecated substitution variable ${%s}'), $vn);
+            }
         } else {
             warning($opts{msg_prefix} . _g('unknown substitution variable ${%s}'),
 	            $vn) unless $opts{no_warn};
