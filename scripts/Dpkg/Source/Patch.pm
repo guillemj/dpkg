@@ -64,7 +64,7 @@ sub set_header {
 
 sub add_diff_file {
     my ($self, $old, $new, %opts) = @_;
-    $opts{include_timestamp} = 0 unless exists $opts{include_timestamp};
+    $opts{include_timestamp} //= 0;
     my $handle_binary = $opts{handle_binary_func} || sub {
         my ($self, $old, $new, %opts) = @_;
         my $file = $opts{filename};
@@ -262,7 +262,7 @@ sub add_diff_directory {
         # being shuffled when they are regenerated.
         foreach my $diff_file (sort { $a->[0] cmp $b->[0] } @diff_files) {
             my $fn = $diff_file->[0];
-            $patchorder{$fn} = $i++ unless exists $patchorder{$fn};
+            $patchorder{$fn} //= $i++;
         }
         @diff_files = sort { $patchorder{$a->[0]} <=> $patchorder{$b->[0]} }
                       @diff_files;
@@ -548,9 +548,9 @@ sub prepare_apply {
 sub apply {
     my ($self, $destdir, %opts) = @_;
     # Set default values to options
-    $opts{force_timestamp} = 1 unless exists $opts{force_timestamp};
-    $opts{remove_backup} = 1 unless exists $opts{remove_backup};
-    $opts{create_dirs} = 1 unless exists $opts{create_dirs};
+    $opts{force_timestamp} //= 1;
+    $opts{remove_backup} //= 1;
+    $opts{create_dirs} //= 1;
     $opts{options} ||= [ '-t', '-F', '0', '-N', '-p1', '-u',
             '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
     $opts{add_options} ||= [];
@@ -601,7 +601,7 @@ sub apply {
 sub check_apply {
     my ($self, $destdir, %opts) = @_;
     # Set default values to options
-    $opts{create_dirs} = 1 unless exists $opts{create_dirs};
+    $opts{create_dirs} //= 1;
     $opts{options} ||= [ '--dry-run', '-s', '-t', '-F', '0', '-N', '-p1', '-u',
             '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
     $opts{add_options} ||= [];

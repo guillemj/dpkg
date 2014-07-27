@@ -255,7 +255,7 @@ is false.
 
 sub add_from_control {
     my ($self, $control, %opts) = @_;
-    $opts{use_files_for_md5} = 0 unless exists $opts{use_files_for_md5};
+    $opts{use_files_for_md5} //= 0;
     foreach my $alg (checksums_get_list()) {
 	my $key = "Checksums-$alg";
 	$key = 'Files' if ($opts{use_files_for_md5} and $alg eq 'md5');
@@ -364,7 +364,7 @@ $control object.
 
 sub export_to_control {
     my ($self, $control, %opts) = @_;
-    $opts{use_files_for_md5} = 0 unless exists $opts{use_files_for_md5};
+    $opts{use_files_for_md5} //= 0;
     foreach my $alg (checksums_get_list()) {
 	my $key = "Checksums-$alg";
 	$key = 'Files' if ($opts{use_files_for_md5} and $alg eq 'md5');

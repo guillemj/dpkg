@@ -261,8 +261,7 @@ sub initialize {
 sub upgrade_object_type {
     my ($self, $update_format) = @_;
     $update_format //= 1;
-    $self->{fields}{'Format'} = '1.0'
-        unless exists $self->{fields}{'Format'};
+    $self->{fields}{'Format'} //= '1.0';
     my $format = $self->{fields}{'Format'};
 
     if ($format =~ /^([\d\.]+)(?:\s+\((.*)\))?$/) {
@@ -345,10 +344,9 @@ sub get_basename {
 
 sub find_original_tarballs {
     my ($self, %opts) = @_;
-    $opts{extension} = compression_get_file_extension_regex()
-        unless exists $opts{extension};
-    $opts{include_main} = 1 unless exists $opts{include_main};
-    $opts{include_supplementary} = 1 unless exists $opts{include_supplementary};
+    $opts{extension} //= compression_get_file_extension_regex();
+    $opts{include_main} //= 1;
+    $opts{include_supplementary} //= 1;
     my $basename = $self->get_basename();
     my @tar;
     foreach my $dir ('.', $self->{basedir}, $self->{options}{origtardir}) {
@@ -614,9 +612,7 @@ sub write_dsc {
     }
 
     my $filename = $opts{filename};
-    unless (defined $filename) {
-        $filename = $self->get_basename(1) . '.dsc';
-    }
+    $filename //= $self->get_basename(1) . '.dsc';
     open(my $dsc_fh, '>', $filename)
         or syserr(_g('cannot write %s'), $filename);
     $fields->apply_substvars($opts{substvars});

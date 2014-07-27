@@ -270,8 +270,8 @@ sub substvars {
     my $vn;
     my $rhs = '';
     my $count = 0;
-    $opts{msg_prefix} = $self->{msg_prefix} unless exists $opts{msg_prefix};
-    $opts{no_warn} = 0 unless exists $opts{no_warn};
+    $opts{msg_prefix} //= $self->{msg_prefix};
+    $opts{no_warn} //= 0;
 
     while ($v =~ m/^(.*?)\$\{([-:0-9a-z]+)\}(.*)$/si) {
         # If we have consumed more from the leftover data, then
@@ -309,7 +309,7 @@ Issues warning about any variables that were set, but not used.
 
 sub warn_about_unused {
     my ($self, %opts) = @_;
-    $opts{msg_prefix} = $self->{msg_prefix} unless exists $opts{msg_prefix};
+    $opts{msg_prefix} //= $self->{msg_prefix};
 
     foreach my $vn (keys %{$self->{vars}}) {
         next if $self->{attr}{$vn} & SUBSTVAR_ATTR_USED;

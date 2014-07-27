@@ -244,10 +244,8 @@ foreach my $file (keys %exec) {
             if (defined($symfile_path)) {
                 # Load symbol information
                 print "Using symbols file $symfile_path for $soname\n" if $debug;
-                unless (exists $symfile_cache{$symfile_path}) {
-                    $symfile_cache{$symfile_path} =
-                        Dpkg::Shlibs::SymbolFile->new(file => $symfile_path);
-                }
+                $symfile_cache{$symfile_path} //=
+                   Dpkg::Shlibs::SymbolFile->new(file => $symfile_path);
                 $symfile->merge_object_from_symfile($symfile_cache{$symfile_path}, $soname);
             }
 	    if (defined($symfile_path) && $symfile->has_object($soname)) {
@@ -267,9 +265,7 @@ foreach my $file (keys %exec) {
 	    } else {
 		# No symbol file found, fall back to standard shlibs
                 print "Using shlibs+objdump for $soname (file $lib)\n" if $debug;
-                unless (exists $objdump_cache{$lib}) {
-                    $objdump_cache{$lib} = Dpkg::Shlibs::Objdump::Object->new($lib);
-                }
+                $objdump_cache{$lib} //= Dpkg::Shlibs::Objdump::Object->new($lib);
                 my $libobj = $objdump_cache{$lib};
                 my $id = $dumplibs_wo_symfile->add_object($libobj);
 		if (($id ne $soname) and ($id ne $lib)) {
@@ -308,7 +304,7 @@ foreach my $file (keys %exec) {
     foreach (@sonames) {
         # Initialize statistics
         $soname_used{$_} = 0;
-        $global_soname_used{$_} = 0 unless exists $global_soname_used{$_};
+        $global_soname_used{$_} //= 0;
         if (exists $global_soname_needed{$_}) {
             push @{$global_soname_needed{$_}}, $file;
         } else {

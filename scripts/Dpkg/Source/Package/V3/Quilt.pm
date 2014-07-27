@@ -40,10 +40,8 @@ our $CURRENT_MINOR_VERSION = '0';
 
 sub init_options {
     my ($self) = @_;
-    $self->{options}{single_debian_patch} = 0
-        unless exists $self->{options}{single_debian_patch};
-    $self->{options}{allow_version_of_quilt_db} = []
-        unless exists $self->{options}{allow_version_of_quilt_db};
+    $self->{options}{single_debian_patch} //= 0;
+    $self->{options}{allow_version_of_quilt_db} //= [];
 
     $self->SUPER::init_options();
 }

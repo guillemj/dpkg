@@ -52,26 +52,16 @@ our $CURRENT_MINOR_VERSION = '0';
 sub init_options {
     my ($self) = @_;
     $self->SUPER::init_options();
-    $self->{options}{include_removal} = 0
-        unless exists $self->{options}{include_removal};
-    $self->{options}{include_timestamp} = 0
-        unless exists $self->{options}{include_timestamp};
-    $self->{options}{include_binaries} = 0
-        unless exists $self->{options}{include_binaries};
-    $self->{options}{preparation} = 1
-        unless exists $self->{options}{preparation};
-    $self->{options}{skip_patches} = 0
-        unless exists $self->{options}{skip_patches};
-    $self->{options}{unapply_patches} = 'auto'
-        unless exists $self->{options}{unapply_patches};
-    $self->{options}{skip_debianization} = 0
-        unless exists $self->{options}{skip_debianization};
-    $self->{options}{create_empty_orig} = 0
-        unless exists $self->{options}{create_empty_orig};
-    $self->{options}{auto_commit} = 0
-        unless exists $self->{options}{auto_commit};
-    $self->{options}{ignore_bad_version} = 0
-        unless exists $self->{options}{ignore_bad_version};
+    $self->{options}{include_removal} //= 0;
+    $self->{options}{include_timestamp} //= 0;
+    $self->{options}{include_binaries} //= 0;
+    $self->{options}{preparation} //= 1;
+    $self->{options}{skip_patches} //= 0;
+    $self->{options}{unapply_patches} //= 'auto';
+    $self->{options}{skip_debianization} //= 0;
+    $self->{options}{create_empty_orig} //= 0;
+    $self->{options}{auto_commit} //= 0;
+    $self->{options}{ignore_bad_version} //= 0;
 }
 
 sub parse_cmdline_option {

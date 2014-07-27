@@ -180,7 +180,7 @@ set to the variable is also returned.
 
 sub export {
     my ($self, $var) = @_;
-    $var = $self->{envvar} unless defined $var;
+    $var //= $self->{envvar};
     my $content = $self->output();
     Dpkg::BuildEnv::set($var, $content);
     return $content;

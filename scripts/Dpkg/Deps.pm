@@ -237,17 +237,16 @@ This should be set whenever working with build-deps.
 sub deps_parse {
     my $dep_line = shift;
     my %options = (@_);
-    $options{use_arch} = 1 if not exists $options{use_arch};
-    $options{reduce_arch} = 0 if not exists $options{reduce_arch};
-    $options{host_arch} = get_host_arch() if not exists $options{host_arch};
-    $options{build_arch} = get_build_arch() if not exists $options{build_arch};
-    $options{use_profiles} = 1 if not exists $options{use_profiles};
-    $options{reduce_profiles} = 0 if not exists $options{reduce_profiles};
-    $options{build_profiles} = [ get_build_profiles() ]
-        if not exists $options{build_profiles};
-    $options{reduce_restrictions} = 0 if not exists $options{reduce_restrictions};
-    $options{union} = 0 if not exists $options{union};
-    $options{build_dep} = 0 if not exists $options{build_dep};
+    $options{use_arch} //= 1;
+    $options{reduce_arch} //= 0;
+    $options{host_arch} //= get_host_arch();
+    $options{build_arch} //= get_build_arch();
+    $options{use_profiles} //= 1;
+    $options{reduce_profiles} //= 0;
+    $options{build_profiles} //= [ get_build_profiles() ];
+    $options{reduce_restrictions} //= 0;
+    $options{union} //= 0;
+    $options{build_dep} //= 0;
 
     if ($options{reduce_restrictions}) {
         $options{reduce_arch} = 1;
@@ -1365,9 +1364,8 @@ field. This might be used in the future for versioned provides.
 
 sub add_provided_package {
     my ($self, $pkg, $rel, $ver, $by) = @_;
-    if (not exists $self->{virtualpkg}{$pkg}) {
-	$self->{virtualpkg}{$pkg} = [];
-    }
+
+    $self->{virtualpkg}{$pkg} //= [];
     push @{$self->{virtualpkg}{$pkg}}, [ $by, $rel, $ver ];
 }
 

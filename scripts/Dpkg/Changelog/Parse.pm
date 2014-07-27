@@ -95,9 +95,7 @@ sub changelog_parse {
     }
 
     # Set a default filename
-    if (not exists $options{file}) {
-	$options{file} = 'debian/changelog';
-    }
+    $options{file} //= 'debian/changelog';
     my $changelogfile = $options{file};
 
     # Extract the format from the changelog file if possible

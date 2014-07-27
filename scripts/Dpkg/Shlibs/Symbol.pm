@@ -194,9 +194,8 @@ sub get_symboltempl {
 
 sub set_symbolname {
     my ($self, $name, $templ, $quoted) = @_;
-    unless (defined $name) {
-	$name = $self->{symbol};
-    }
+
+    $name //= $self->{symbol};
     if (!defined $templ && $name =~ /\s/) {
 	$templ = $name;
     }
@@ -253,8 +252,8 @@ sub get_tag_value {
 # tag sets, versioning info (minver and depid))
 sub equals {
     my ($self, $other, %opts) = @_;
-    $opts{versioning} = 1 unless exists $opts{versioning};
-    $opts{tags} = 1 unless exists $opts{tags};
+    $opts{versioning} //= 1;
+    $opts{tags} //= 1;
 
     return 0 if $self->{symbol} ne $other->{symbol};
 

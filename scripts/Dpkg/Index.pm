@@ -141,9 +141,8 @@ details).
 
 sub add {
     my ($self, $item, $key) = @_;
-    unless (defined $key) {
-	$key = $self->{get_key_func}($item);
-    }
+
+    $key //= $self->{get_key_func}($item);
     if (not exists $self->{items}{$key}) {
 	push @{$self->{order}}, $key;
     }
@@ -288,7 +287,7 @@ computed with the same function.
 
 sub merge {
     my ($self, $other, %opts) = @_;
-    $opts{keep_keys} = 1 unless exists $opts{keep_keys};
+    $opts{keep_keys} //= 1;
     foreach my $key ($other->get_keys()) {
 	$self->add($other->get_by_key($key), $opts{keep_keys} ? $key : undef);
     }
