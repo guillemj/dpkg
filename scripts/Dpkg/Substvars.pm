@@ -202,10 +202,12 @@ sub set_version_substvars {
     # field on the changelog, always fix up the source version.
     $sourceversion =~ s/\+b[0-9]+$//;
 
+    my $upstreamversion = $sourceversion;
+    $upstreamversion =~ s/-[^-]*$//;
+
     $self->{vars}{'binary:Version'} = $binaryversion;
     $self->{vars}{'source:Version'} = $sourceversion;
-    $self->{vars}{'source:Upstream-Version'} = $sourceversion;
-    $self->{vars}{'source:Upstream-Version'} =~ s/-[^-]*$//;
+    $self->{vars}{'source:Upstream-Version'} = $upstreamversion;
 
     # XXX: Source-Version is now deprecated, remove in the future.
     $self->{vars}{'Source-Version'} = $binaryversion;
