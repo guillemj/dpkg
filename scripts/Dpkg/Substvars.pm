@@ -223,7 +223,7 @@ sub set_version_substvars {
     my ($self, $sourceversion, $binaryversion) = @_;
 
     # Handle old function signature taking only one argument.
-    $binaryversion ||= $sourceversion;
+    $binaryversion //= $sourceversion;
 
     # For backwards compatibility on binNMUs that do not use the Binary-Only
     # field on the changelog, always fix up the source version.

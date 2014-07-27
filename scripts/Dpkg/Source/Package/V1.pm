@@ -51,10 +51,10 @@ sub init_options {
     }
     push @{$self->{options}{tar_ignore}}, 'debian/source/local-options',
          'debian/source/local-patch-header';
-    $self->{options}{sourcestyle} ||= 'X';
-    $self->{options}{skip_debianization} ||= 0;
-    $self->{options}{ignore_bad_version} ||= 0;
-    $self->{options}{abort_on_upstream_changes} ||= 0;
+    $self->{options}{sourcestyle} //= 'X';
+    $self->{options}{skip_debianization} //= 0;
+    $self->{options}{ignore_bad_version} //= 0;
+    $self->{options}{abort_on_upstream_changes} //= 0;
 
     # V1.0 only supports gzip compression.
     $self->{options}{compression} //= 'gzip';

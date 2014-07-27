@@ -184,7 +184,7 @@ sub _sanity_check_opts {
 
 sub spawn {
     my (%opts) = _sanity_check_opts(@_);
-    $opts{close_in_child} ||= [];
+    $opts{close_in_child} //= [];
     my @prog;
     if (ref($opts{exec}) =~ /ARRAY/) {
 	push @prog, @{$opts{exec}};
@@ -340,7 +340,7 @@ with an error message.
 
 sub wait_child {
     my ($pid, %opts) = @_;
-    $opts{cmdline} ||= _g('child process');
+    $opts{cmdline} //= _g('child process');
     croak 'no PID set, cannot wait end of process' unless $pid;
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" };

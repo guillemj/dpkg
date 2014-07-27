@@ -551,9 +551,9 @@ sub apply {
     $opts{force_timestamp} //= 1;
     $opts{remove_backup} //= 1;
     $opts{create_dirs} //= 1;
-    $opts{options} ||= [ '-t', '-F', '0', '-N', '-p1', '-u',
+    $opts{options} //= [ '-t', '-F', '0', '-N', '-p1', '-u',
             '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
-    $opts{add_options} ||= [];
+    $opts{add_options} //= [];
     push @{$opts{options}}, @{$opts{add_options}};
     # Check the diff and create missing directories
     my $analysis = $self->analyze($destdir, %opts);
@@ -583,7 +583,7 @@ sub apply {
     # and remove .dpkg-orig files
     my @files = keys %{$analysis->{filepatched}};
     my $now = $opts{timestamp};
-    $now ||= fs_time($files[0]) if $opts{force_timestamp} && scalar @files;
+    $now //= fs_time($files[0]) if $opts{force_timestamp} && scalar @files;
     foreach my $fn (@files) {
 	if ($opts{force_timestamp}) {
 	    utime($now, $now, $fn) or $! == ENOENT
@@ -602,9 +602,9 @@ sub check_apply {
     my ($self, $destdir, %opts) = @_;
     # Set default values to options
     $opts{create_dirs} //= 1;
-    $opts{options} ||= [ '--dry-run', '-s', '-t', '-F', '0', '-N', '-p1', '-u',
+    $opts{options} //= [ '--dry-run', '-s', '-t', '-F', '0', '-N', '-p1', '-u',
             '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
-    $opts{add_options} ||= [];
+    $opts{add_options} //= [];
     push @{$opts{options}}, @{$opts{add_options}};
     # Check the diff and create missing directories
     my $analysis = $self->analyze($destdir, %opts);

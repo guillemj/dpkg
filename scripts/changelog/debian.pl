@@ -119,8 +119,8 @@ if (@ARGV) {
     $file = $ARGV[0];
 }
 
-$file ||= $default_file;
-$label ||= $file;
+$file //= $default_file;
+$label //= $file;
 unless (defined($since) or defined($until) or defined($from) or
         defined($to) or defined($offset) or defined($count) or
         defined($all))

@@ -35,7 +35,7 @@ use parent qw(Dpkg::Compression::FileHandle);
 
 sub create {
     my ($self, %opts) = @_;
-    $opts{options} ||= [];
+    $opts{options} //= [];
     my %spawn_opts;
     # Possibly run tar from another directory
     if ($opts{chdir}) {
@@ -99,9 +99,9 @@ sub finish {
 
 sub extract {
     my ($self, $dest, %opts) = @_;
-    $opts{options} ||= [];
-    $opts{in_place} ||= 0;
-    $opts{no_fixperms} ||= 0;
+    $opts{options} //= [];
+    $opts{in_place} //= 0;
+    $opts{no_fixperms} //= 0;
     my %spawn_opts = (wait_child => 1);
 
     # Prepare destination

@@ -190,7 +190,7 @@ it for you.
 
 sub wait_end_process {
     my ($self, %opts) = @_;
-    $opts{cmdline} ||= $self->{cmdline};
+    $opts{cmdline} //= $self->{cmdline};
     wait_child($self->{pid}, %opts) if $self->{pid};
     delete $self->{pid};
     delete $self->{cmdline};

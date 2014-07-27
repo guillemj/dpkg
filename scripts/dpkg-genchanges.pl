@@ -249,7 +249,7 @@ if (not is_sourceonly) {
 
     foreach my $file ($dist->get_files()) {
         if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
-            $p2f{$file->{package}} ||= [];
+            $p2f{$file->{package}} //= [];
             push @{$p2f{$file->{package}}}, $file->{filename};
         }
 

@@ -212,7 +212,7 @@ sub init_options {
     my ($self) = @_;
     # Use full ignore list by default
     # note: this function is not called by V1 packages
-    $self->{options}{diff_ignore_regex} ||= $diff_ignore_default_regex;
+    $self->{options}{diff_ignore_regex} //= $diff_ignore_default_regex;
     $self->{options}{diff_ignore_regex} .= '|(?:^|/)debian/source/local-.*$';
     if (defined $self->{options}{tar_ignore}) {
         $self->{options}{tar_ignore} = [ @tar_ignore_default_pattern ]
@@ -224,7 +224,7 @@ sub init_options {
          'debian/source/local-patch-header';
     # Skip debianization while specific to some formats has an impact
     # on code common to all formats
-    $self->{options}{skip_debianization} ||= 0;
+    $self->{options}{skip_debianization} //= 0;
 
     # Set default compressor for new formats.
     $self->{options}{compression} //= 'xz';

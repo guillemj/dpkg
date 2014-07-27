@@ -362,7 +362,7 @@ if (defined $parallel) {
         chomp $parallel;
     }
     $parallel = $build_opts->get('parallel') if $build_opts->has('parallel');
-    $ENV{MAKEFLAGS} ||= '';
+    $ENV{MAKEFLAGS} //= '';
     $ENV{MAKEFLAGS} .= " -j$parallel";
     $build_opts->set('parallel', $parallel);
     $build_opts->export();
