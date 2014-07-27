@@ -1,4 +1,4 @@
-# Copyright © 2006-2009,2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2009,2012-2014 Guillem Jover <guillem@debian.org>
 # Copyright © 2007-2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -44,6 +44,12 @@ Dpkg::Substvars - handle variable substitution in strings
 It provides some an object which is able to substitute variables in
 strings.
 
+=cut
+
+use constant {
+    SUBSTVAR_ATTR_USED => 1,
+};
+
 =head1 METHODS
 
 =over 8
@@ -73,12 +79,14 @@ sub new {
             'dpkg:Version' => $Dpkg::PROGVERSION,
             'dpkg:Upstream-Version' => $Dpkg::PROGVERSION,
             },
-        used => {},
+        attr => {},
 	msg_prefix => '',
     };
     $self->{vars}{'dpkg:Upstream-Version'} =~ s/-[^-]+$//;
     bless $self, $class;
-    $self->mark_as_used($_) foreach keys %{$self->{vars}};
+
+    my $attr = SUBSTVAR_ATTR_USED;
+    $self->{attr}{$_} = $attr foreach keys %{$self->{vars}};
     if ($arg) {
         $self->load($arg) if -e $arg;
     }
@@ -92,8 +100,12 @@ Add/replace a substitution.
 =cut
 
 sub set {
-    my ($self, $key, $value) = @_;
+    my ($self, $key, $value, $attr) = @_;
+
+    $attr //= 0;
+
     $self->{vars}{$key} = $value;
+    $self->{attr}{$key} = $attr;
 }
 
 =item $s->set_as_used($key, $value)
@@ -105,8 +117,8 @@ even if unused).
 
 sub set_as_used {
     my ($self, $key, $value) = @_;
-    $self->set($key, $value);
-    $self->mark_as_used($key);
+
+    $self->set($key, $value, SUBSTVAR_ATTR_USED);
 }
 
 =item $s->get($key)
@@ -128,7 +140,7 @@ Remove a given substitution.
 
 sub delete {
     my ($self, $key) = @_;
-    delete $self->{used}{$key};
+    delete $self->{attr}{$key};
     return delete $self->{vars}{$key};
 }
 
@@ -141,7 +153,7 @@ default.
 
 sub mark_as_used {
     my ($self, $key) = @_;
-    $self->{used}{$key}++;
+    $self->{attr}{$key} |= SUBSTVAR_ATTR_USED;
 }
 
 =item $s->no_warn($key)
@@ -179,7 +191,7 @@ sub parse {
 	    error(_g('bad line in substvars file %s at line %d'),
 		  $varlistfile, $.);
 	}
-	$self->{vars}{$1} = $2;
+	$self->set($1, $2);
     }
 }
 
@@ -205,14 +217,14 @@ sub set_version_substvars {
     my $upstreamversion = $sourceversion;
     $upstreamversion =~ s/-[^-]*$//;
 
-    $self->{vars}{'binary:Version'} = $binaryversion;
-    $self->{vars}{'source:Version'} = $sourceversion;
-    $self->{vars}{'source:Upstream-Version'} = $upstreamversion;
+    my $attr = SUBSTVAR_ATTR_USED;
+
+    $self->set('binary:Version', $binaryversion, $attr);
+    $self->set('source:Version', $sourceversion, $attr);
+    $self->set('source:Upstream-Version', $upstreamversion, $attr);
 
     # XXX: Source-Version is now deprecated, remove in the future.
-    $self->{vars}{'Source-Version'} = $binaryversion;
-
-    $self->mark_as_used($_) foreach qw/binary:Version source:Version source:Upstream-Version Source-Version/;
+    $self->set('Source-Version', $binaryversion, $attr);
 }
 
 =item $s->set_arch_substvars()
@@ -226,7 +238,9 @@ This will never be warned about when unused.
 sub set_arch_substvars {
     my ($self) = @_;
 
-    $self->set_as_used('Arch', get_host_arch());
+    my $attr = SUBSTVAR_ATTR_USED;
+
+    $self->set('Arch', get_host_arch(), $attr);
 }
 
 =item $newstring = $s->substvars($string)
@@ -278,7 +292,7 @@ sub warn_about_unused {
     $opts{msg_prefix} = $self->{msg_prefix} unless exists $opts{msg_prefix};
 
     foreach my $vn (keys %{$self->{vars}}) {
-        next if $self->{used}{$vn};
+        next if $self->{attr}{$vn} & SUBSTVAR_ATTR_USED;
         # Empty substitutions variables are ignored on the basis
         # that they are not required in the current situation
         # (example: debhelper's misc:Depends in many cases)
