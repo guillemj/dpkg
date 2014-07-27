@@ -19,7 +19,7 @@ package Dpkg::Substvars;
 use strict;
 use warnings;
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
@@ -48,6 +48,7 @@ strings.
 
 use constant {
     SUBSTVAR_ATTR_USED => 1,
+    SUBSTVAR_ATTR_AUTO => 2,
 };
 
 =head1 METHODS
@@ -85,7 +86,7 @@ sub new {
     $self->{vars}{'dpkg:Upstream-Version'} =~ s/-[^-]+$//;
     bless $self, $class;
 
-    my $attr = SUBSTVAR_ATTR_USED;
+    my $attr = SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_AUTO;
     $self->{attr}{$_} = $attr foreach keys %{$self->{vars}};
     if ($arg) {
         $self->load($arg) if -e $arg;
@@ -119,6 +120,19 @@ sub set_as_used {
     my ($self, $key, $value) = @_;
 
     $self->set($key, $value, SUBSTVAR_ATTR_USED);
+}
+
+=item $s->set_as_auto($key, $value)
+
+Add/replace a substitution and mark it as used and automatic (no warnings
+will be produced even if unused).
+
+=cut
+
+sub set_as_auto {
+    my ($self, $key, $value) = @_;
+
+    $self->set($key, $value, SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_AUTO);
 }
 
 =item $s->get($key)
@@ -217,7 +231,7 @@ sub set_version_substvars {
     my $upstreamversion = $sourceversion;
     $upstreamversion =~ s/-[^-]*$//;
 
-    my $attr = SUBSTVAR_ATTR_USED;
+    my $attr = SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_AUTO;
 
     $self->set('binary:Version', $binaryversion, $attr);
     $self->set('source:Version', $sourceversion, $attr);
@@ -238,7 +252,7 @@ This will never be warned about when unused.
 sub set_arch_substvars {
     my ($self) = @_;
 
-    my $attr = SUBSTVAR_ATTR_USED;
+    my $attr = SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_AUTO;
 
     $self->set('Arch', get_host_arch(), $attr);
 }
@@ -336,7 +350,7 @@ sub output {
     my $str = '';
     # Store all non-automatic substitutions only
     foreach my $vn (sort keys %{$self->{vars}}) {
-	next if /^(?:(?:dpkg|source|binary):(?:Source-)?Version|Space|Tab|Newline|Arch|Source-Version|F:.+)$/;
+	next if $self->{attr}{$vn} & SUBSTVAR_ATTR_AUTO;
 	my $line = "$vn=" . $self->{vars}{$vn} . "\n";
 	print { $fh } $line if defined $fh;
 	$str .= $line;
@@ -347,6 +361,10 @@ sub output {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.03
+
+New method: $s->set_as_auto().
 
 =head2 Version 1.02
 

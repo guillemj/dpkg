@@ -397,7 +397,7 @@ sub apply_substvars {
 
     # Add substvars to refer to other fields
     foreach my $f (keys %$self) {
-        $substvars->set_as_used("F:$f", $self->{$f});
+        $substvars->set_as_auto("F:$f", $self->{$f});
     }
 
     foreach my $f (keys %$self) {
