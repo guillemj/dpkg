@@ -73,7 +73,7 @@ are:
 
 =item allow_pgp
 
-Configures the parser to accept PGP signatures around the control
+Configures the parser to accept OpenPGP signatures around the control
 information. Value can be 0 (default) or 1.
 
 =item allow_duplicate
@@ -225,33 +225,33 @@ sub parse {
 	} elsif (m/^-----BEGIN PGP SIGNED MESSAGE-----$/) {
 	    $expect_pgp_sig = 1;
 	    if ($$self->{allow_pgp} and not $parabody) {
-		# Skip PGP headers
+		# Skip OpenPGP headers
 		while (<$fh>) {
 		    last if m/^\s*$/;
 		}
 	    } else {
-		$self->parse_error($desc, _g('PGP signature not allowed here'));
+		$self->parse_error($desc, _g('OpenPGP signature not allowed here'));
 	    }
 	} elsif (m/^$/ || ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----$/)) {
 	    if ($expect_pgp_sig) {
 		# Skip empty lines
 		$_ = <$fh> while defined($_) && $_ =~ /^\s*$/;
 		unless (length $_) {
-		    $self->parse_error($desc, _g('expected PGP signature, ' .
+		    $self->parse_error($desc, _g('expected OpenPGP signature, ' .
 		                                 'found EOF after blank line'));
 		}
 		s/\s*\n$//;
 		unless (m/^-----BEGIN PGP SIGNATURE-----$/) {
-		    $self->parse_error($desc, _g('expected PGP signature, ' .
+		    $self->parse_error($desc, _g('expected OpenPGP signature, ' .
 		                                 "found something else \`%s'"), $_);
                 }
-		# Skip PGP signature
+		# Skip OpenPGP signature
 		while (<$fh>) {
 		    s/\s*\n$//;
 		    last if m/^-----END PGP SIGNATURE-----$/;
 		}
 		unless (defined($_)) {
-		    $self->parse_error($desc, _g('unfinished PGP signature'));
+		    $self->parse_error($desc, _g('unfinished OpenPGP signature'));
                 }
 		# This does not mean the signature is correct, that needs to
 		# be verified by gnupg.
@@ -265,7 +265,7 @@ sub parse {
     }
 
     if ($expect_pgp_sig and not $$self->{is_pgp_signed}) {
-	$self->parse_error($desc, _g('unfinished PGP signature'));
+	$self->parse_error($desc, _g('unfinished OpenPGP signature'));
     }
 
     return defined($cf);
