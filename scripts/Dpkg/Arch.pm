@@ -389,7 +389,7 @@ sub debarch_to_cpuattrs($)
     if (defined($cpu)) {
         abitable_load();
 
-        return ($abibits{$abi} || $cpubits{$cpu}, $cpuendian{$cpu});
+        return ($abibits{$abi} // $cpubits{$cpu}, $cpuendian{$cpu});
     } else {
         return;
     }

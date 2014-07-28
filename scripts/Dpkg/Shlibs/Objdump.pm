@@ -138,7 +138,7 @@ use Dpkg::ErrorHandling;
 
 sub new {
     my $this = shift;
-    my $file = shift || '';
+    my $file = shift // '';
     my $class = ref($this) || $this;
     my $self = {};
     bless $self, $class;

@@ -328,7 +328,7 @@ sub is_pattern {
 
 # Get pattern type if this symbol is a pattern.
 sub get_pattern_type {
-    return $_[0]->{pattern}{type} || '';
+    return $_[0]->{pattern}{type} // '';
 }
 
 # Get (sub)type of the alias pattern. Returns empty string if current
@@ -410,7 +410,7 @@ sub get_symbolspec {
     if ($template_mode) {
 	if ($self->has_tags()) {
 	    $spec .= sprintf('%s%3$s%s%3$s', $self->get_tagspec(),
-		$self->get_symboltempl(), $self->{symbol_quoted} || '');
+		$self->get_symboltempl(), $self->{symbol_quoted} // '');
 	} else {
 	    $spec .= $self->get_symboltempl();
 	}

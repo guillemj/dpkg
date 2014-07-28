@@ -362,7 +362,7 @@ sub _data_range {
 
     my ($start, $end);
     if (defined($range->{count})) {
-	my $offset = $range->{offset} || 0;
+	my $offset = $range->{offset} // 0;
 	my $count = $range->{count};
 	# Convert count/offset in start/end
 	if ($offset > 0) {
@@ -416,8 +416,8 @@ sub abort_early {
 
     my $data = $self->{data} or return;
     my $r = $self->{range} or return;
-    my $count = $r->{count} || 0;
-    my $offset = $r->{offset} || 0;
+    my $count = $r->{count} // 0;
+    my $offset = $r->{offset} // 0;
 
     return if $self->_is_full_range($r);
     return if $offset < 0 or $count < 0;
@@ -537,8 +537,8 @@ sub dpkg {
     $f->{Source} = $src->get_source() || 'unknown';
     $f->{Version} = $src->get_version() // 'unknown';
     $f->{Distribution} = join(' ', $src->get_distributions());
-    $f->{Maintainer} = $src->get_maintainer() || '';
-    $f->{Date} = $src->get_timestamp() || '';
+    $f->{Maintainer} = $src->get_maintainer() // '';
+    $f->{Date} = $src->get_timestamp() // '';
     $f->{Changes} = $src->get_dpkg_changes();
 
     # handle optional fields
@@ -554,10 +554,10 @@ sub dpkg {
     }
 
     foreach my $bin (@data) {
-	my $oldurg = $f->{Urgency} || '';
-	my $oldurgn = $URGENCIES{$f->{Urgency}} || -1;
-	my $newurg = $bin->get_urgency() || '';
-	my $newurgn = $URGENCIES{$newurg} || -1;
+	my $oldurg = $f->{Urgency} // '';
+	my $oldurgn = $URGENCIES{$f->{Urgency}} // -1;
+	my $newurg = $bin->get_urgency() // '';
+	my $newurgn = $URGENCIES{$newurg} // -1;
 	$f->{Urgency} = ($newurgn > $oldurgn) ? $newurg : $oldurg;
 	$f->{Changes} .= "\n" . $bin->get_dpkg_changes();
 
@@ -602,8 +602,8 @@ sub rfc822 {
 	$f->{Source} = $entry->get_source() || 'unknown';
 	$f->{Version} = $entry->get_version() // 'unknown';
 	$f->{Distribution} = join(' ', $entry->get_distributions());
-	$f->{Maintainer} = $entry->get_maintainer() || '';
-	$f->{Date} = $entry->get_timestamp() || '';
+	$f->{Maintainer} = $entry->get_maintainer() // '';
+	$f->{Date} = $entry->get_timestamp() // '';
 	$f->{Changes} = $entry->get_dpkg_changes();
 
 	# handle optional fields

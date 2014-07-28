@@ -89,7 +89,7 @@ my @options_spec = (
 set_build_profiles(split(/,/, $bp_value)) if ($bp_value);
 my @build_profiles = get_build_profiles();
 
-my $controlfile = shift || 'debian/control';
+my $controlfile = shift // 'debian/control';
 
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = $control->get_source();

@@ -276,7 +276,7 @@ foreach (keys %{$src_fields}) {
 # Scan control info of all binary packages
 foreach my $pkg ($control->get_packages()) {
     my $p = $pkg->{'Package'};
-    my $a = $pkg->{'Architecture'} || '';
+    my $a = $pkg->{'Architecture'} // '';
     my $d = $pkg->{'Description'} || 'no description available';
     $d = $1 if $d =~ /^(.*)\n/;
     my $pkg_type = $pkg->{'Package-Type'} ||

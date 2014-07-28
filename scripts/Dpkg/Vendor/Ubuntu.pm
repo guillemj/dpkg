@@ -88,7 +88,7 @@ sub run_hook {
         my $fields = shift @params;
 
         # Add Launchpad-Bugs-Fixed field
-        my $bugs = find_launchpad_closes($fields->{'Changes'} || '');
+        my $bugs = find_launchpad_closes($fields->{'Changes'} // '');
         if (scalar(@$bugs)) {
             $fields->{'Launchpad-Bugs-Fixed'} = join(' ', @$bugs);
         }

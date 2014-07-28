@@ -65,7 +65,7 @@ sub set_header {
 sub add_diff_file {
     my ($self, $old, $new, %opts) = @_;
     $opts{include_timestamp} //= 0;
-    my $handle_binary = $opts{handle_binary_func} || sub {
+    my $handle_binary = $opts{handle_binary_func} // sub {
         my ($self, $old, $new, %opts) = @_;
         my $file = $opts{filename};
         $self->_fail_with_msg($file, _g('binary file contents changed'));
@@ -148,7 +148,7 @@ sub add_diff_directory {
     # TODO: make this function more configurable
     # - offer to disable some checks
     my $basedir = $opts{basedirname} || basename($new);
-    my $inc_removal = $opts{include_removal} || 0;
+    my $inc_removal = $opts{include_removal} // 0;
     my $diff_ignore;
     if ($opts{diff_ignore_func}) {
         $diff_ignore = $opts{diff_ignore_func};

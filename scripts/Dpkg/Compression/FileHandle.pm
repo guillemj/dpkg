@@ -419,7 +419,7 @@ sub open_for_read {
 
 sub cleanup {
     my ($self) = @_;
-    my $cmdline = *$self->{compressor}{cmdline} || '';
+    my $cmdline = *$self->{compressor}{cmdline} // '';
     *$self->{compressor}->wait_end_process(nocheck => *$self->{allow_sigpipe});
     if (*$self->{allow_sigpipe}) {
         unless (($? == 0) || (WIFSIGNALED($?) && (WTERMSIG($?) == SIGPIPE))) {

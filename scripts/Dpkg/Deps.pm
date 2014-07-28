@@ -523,7 +523,7 @@ sub new {
     $self->reset();
     $self->{host_arch} = $opts{host_arch} || Dpkg::Arch::get_host_arch();
     $self->{build_arch} = $opts{build_arch} || Dpkg::Arch::get_build_arch();
-    $self->{build_dep} = $opts{build_dep} || 0;
+    $self->{build_dep} = $opts{build_dep} // 0;
     $self->parse_string($arg) if defined($arg);
     return $self;
 }
@@ -1348,7 +1348,7 @@ sub add_installed_package {
 	package => $pkg,
 	version => $ver,
 	architecture => $arch,
-	multiarch => $multiarch || 'no',
+	multiarch => $multiarch // 'no',
     };
     $self->{pkg}{"$pkg:$arch"} = $p if defined $arch;
     push @{$self->{pkg}{$pkg}}, $p;

@@ -27,7 +27,7 @@ use Exporter qw(import);
 our @EXPORT = qw(pkg_name_is_illegal);
 
 sub pkg_name_is_illegal($) {
-    my $name = shift || '';
+    my $name = shift // '';
 
     if ($name eq '') {
         return _g('may not be empty string');
