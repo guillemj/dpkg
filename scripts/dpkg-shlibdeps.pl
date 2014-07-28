@@ -291,7 +291,9 @@ foreach my $file (keys %exec) {
 		    # 3/ when we have been asked to do so
 		    $ignore++ if $ignore_missing_info;
 		    error(_g('no dependency information found for %s ' .
-		             '(used by %s)'), $lib, $file)
+		             '(used by %s)\n' .
+		             'Hint: check if the library actually comes ' .
+		             'from a package.'), $lib, $file)
 		        unless $ignore;
 		}
 	    }
