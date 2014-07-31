@@ -1,4 +1,5 @@
 # Copyright © 2008-2010 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2012-2014 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +19,7 @@ package Dpkg::Compression::FileHandle;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Dpkg::Compression;
 use Dpkg::Compression::Process;
@@ -146,24 +147,31 @@ sub new {
     return $self;
 }
 
-=item $fh->ensure_open($mode)
+=item $fh->ensure_open($mode, %opts)
 
 Ensure the file is opened in the requested mode ("r" for read and "w" for
-write). Opens the file with the recorded filename if needed. If the file
+write). The options are passed down to the compressor's spawn() call, if one
+is used. Opens the file with the recorded filename if needed. If the file
 is already open but not in the requested mode, then it errors out.
 
 =cut
 
 sub ensure_open {
-    my ($self, $mode) = @_;
+    my ($self, $mode, %opts) = @_;
     if (exists *$self->{mode}) {
 	return if *$self->{mode} eq $mode;
 	croak "ensure_open requested incompatible mode: $mode";
     } else {
+	# Sanitize options.
+	delete $opts{from_pipe};
+	delete $opts{from_file};
+	delete $opts{to_pipe};
+	delete $opts{to_file};
+
 	if ($mode eq 'w') {
-	    $self->open_for_write();
+	    $self->open_for_write(%opts);
 	} elsif ($mode eq 'r') {
-	    $self->open_for_read();
+	    $self->open_for_read(%opts);
 	} else {
 	    croak "invalid mode in ensure_open: $mode";
 	}
@@ -381,7 +389,7 @@ sub get_filehandle {
 ## INTERNAL METHODS
 
 sub open_for_write {
-    my ($self) = @_;
+    my ($self, %opts) = @_;
     my $filehandle;
 
     croak 'cannot reopen an already opened compressed file'
@@ -389,7 +397,7 @@ sub open_for_write {
 
     if ($self->use_compression()) {
 	*$self->{compressor}->compress(from_pipe => \$filehandle,
-		to_file => $self->get_filename());
+		to_file => $self->get_filename(), %opts);
     } else {
 	CORE::open($filehandle, '>', $self->get_filename)
 	    or syserr(_g('cannot write %s'), $self->get_filename());
@@ -399,7 +407,7 @@ sub open_for_write {
 }
 
 sub open_for_read {
-    my ($self) = @_;
+    my ($self, %opts) = @_;
     my $filehandle;
 
     croak 'cannot reopen an already opened compressed file'
@@ -407,7 +415,7 @@ sub open_for_read {
 
     if ($self->use_compression()) {
 	*$self->{compressor}->uncompress(to_pipe => \$filehandle,
-		from_file => $self->get_filename());
+		from_file => $self->get_filename(), %opts);
         *$self->{allow_sigpipe} = 1;
     } else {
 	CORE::open($filehandle, '<', $self->get_filename)
@@ -448,6 +456,11 @@ C<*$self->{...}> to access the associated hash like in the example below:
 	*$self->{option} = $value;
     }
 
+=head1 CHANGES
+
+=head2 Version 1.01
+
+New argument: $fh->ensure_open() accepts an %opts argument.
 
 =head1 AUTHOR
 
