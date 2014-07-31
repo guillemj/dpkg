@@ -120,7 +120,7 @@ sub extract {
     }
 
     # Prepare stuff that handles the input of tar
-    $self->ensure_open('r');
+    $self->ensure_open('r', delete_sig => [ 'PIPE' ]);
     $spawn_opts{from_handle} = $self->get_filehandle();
 
     # Call tar extraction process
