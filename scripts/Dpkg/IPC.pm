@@ -1,5 +1,6 @@
 # Copyright © 2008-2009 Raphaël Hertzog <hertzog@debian.org>
 # Copyright © 2008 Frank Lichtenheld <djpig@debian.org>
+# Copyright © 2008-2010,2012-2014 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +20,7 @@ package Dpkg::IPC;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -127,6 +128,16 @@ hash before calling exec. This allows exporting environment variables.
 Array reference. The child process will remove all environment variables
 listed in the array before calling exec.
 
+=item sig
+
+Hash reference. The child process will populate %SIG with the items of the
+hash before calling exec. This allows setting signal dispositions.
+
+=item delete_sig
+
+Array reference. The child process will reset all signals listed in the
+array to their default dispositions before calling exec.
+
 =back
 
 =cut
@@ -177,6 +188,14 @@ sub _sanity_check_opts {
 
     if (exists $opts{delete_env} and ref($opts{delete_env}) ne 'ARRAY') {
 	croak 'parameter delete_env must be an array reference';
+    }
+
+    if (exists $opts{sig} and ref($opts{sig}) ne 'HASH') {
+	croak 'parameter sig must be a hash reference';
+    }
+
+    if (exists $opts{delete_sig} and ref($opts{delete_sig}) ne 'ARRAY') {
+	croak 'parameter delete_sig must be an array reference';
     }
 
     return %opts;
@@ -237,6 +256,15 @@ sub spawn {
 	}
 	if ($opts{delete_env}) {
 	    delete $ENV{$_} foreach (@{$opts{delete_env}});
+	}
+	# Define signal dispositions.
+	if ($opts{sig}) {
+	    foreach (keys %{$opts{sig}}) {
+		$SIG{$_} = $opts{sig}{$_};
+	    }
+	}
+	if ($opts{delete_sig}) {
+	    delete $SIG{$_} foreach (@{$opts{delete_sig}});
 	}
 	# Change the current directory
 	if ($opts{chdir}) {
@@ -364,6 +392,12 @@ sub wait_child {
 __END__
 
 =back
+
+=head1 CHANGES
+
+=head2 Version 1.01
+
+New options: spawn() now accepts 'sig' and 'delete_sig'.
 
 =head1 AUTHORS
 
