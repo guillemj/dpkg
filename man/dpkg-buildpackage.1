@@ -68,13 +68,15 @@ call \fBfakeroot debian/rules clean\fP again.
 It calls \fBdpkg\-source \-\-after\-build\fP.
 .IP \fB9.\fP 3
 It runs the \fBcheck\fP hook and calls a package checker for the
-\fB.changes\fP file (if a command is specified in DEB_CHECK_COMMAND or
+\fB.changes\fP file (if a command is specified in \fBDEB_CHECK_COMMAND\fP or
 with \fB\-\-check\-command\fP).
 .IP \fB10.\fP 3
 It runs the \fBsign\fP hook and calls \fBgpg2\fP or \fBgpg\fP to sign
 the \fB.dsc\fP file (if any, unless \fB\-us\fP is specified or on UNRELEASED
 builds), and the \fB.changes\fP file (unless \fB\-uc\fP is specified or on
 UNRELEASED builds).
+.IP \fB11.\fP 3
+It runs the \fBdone\fP hook.
 .
 .SH OPTIONS
 .TP
@@ -172,7 +174,7 @@ Do not check build dependencies and conflicts.
 .TP
 .B \-nc
 Do not clean the source tree (implies \fB\-b\fP if nothing else has been
-selected among \fB\-B\fP, \fB\-A\fP or \fB\-S\fP).
+selected among \fB\-F\fP, \fB\-B\fP, \fB\-A\fP or \fB\-S\fP).
 .TP
 .B \-tc
 Clean the source tree (using
@@ -223,6 +225,7 @@ as an argument. This command will usually be \fBlintian\fP.
 .BI \-\-check\-option= opt
 Pass option \fIopt\fP to the \fIcheck-command\fP specified with
 \fBDEB_CHECK_COMMAND\fP or \fB\-\-check\-command\fP.
+Can be used multiple times.
 .TP
 .BI \-\-hook\- hook-name = hook-command
 Set the specified shell code \fIhook-command\fP as the hook \fIhook-name\fP,
@@ -294,9 +297,11 @@ Passed unchanged to \fBdpkg\-source\fP. See its manual page.
 .TP
 .BI \-\-source\-option= opt
 Pass option \fIopt\fP to \fBdpkg\-source\fP.
+Can be used multiple times.
 .TP
 .BI \-\-changes\-option= opt
 Pass option \fIopt\fP to \fBdpkg\-genchanges\fP.
+Can be used multiple times.
 .TP
 .BI \-\-admindir= dir
 .TQ
@@ -352,7 +357,7 @@ the transition, it will fallback to using the \fBbuild\fP target
 if \fBmake \-f debian/rules \-qn\fP \fIbuild-target\fP returns 2 as
 exit code.
 .SH BUGS
-It should be possible to specify spaces and shell metacharacters in
+It should be possible to specify spaces and shell metacharacters
 and initial arguments for
 .IR gain-root-command " and " sign-command .
 .
