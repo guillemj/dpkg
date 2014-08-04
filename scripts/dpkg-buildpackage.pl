@@ -130,7 +130,6 @@ my $noclean;
 my $cleansource;
 my $parallel;
 my $checkbuilddep = 1;
-my @checkbuilddep_opts;
 my @source_opts;
 my $check_command = $ENV{DEB_CHECK_COMMAND};
 my @check_opts;
@@ -268,36 +267,25 @@ while (@ARGV) {
 	    if build_sourceonly;
 	$include = BUILD_BINARY;
 	push @changes_opts, '-b';
-	@checkbuilddep_opts = ();
-	$buildtarget = 'build';
-	$binarytarget = 'binary';
     } elsif (/^-B$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
 	    if build_sourceonly;
 	$include = BUILD_ARCH_DEP;
 	push @changes_opts, '-B';
-	@checkbuilddep_opts = qw(-B);
-	$buildtarget = 'build-arch';
-	$binarytarget = 'binary-arch';
     } elsif (/^-A$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
 	    if build_sourceonly;
 	$include = BUILD_ARCH_INDEP;
 	push @changes_opts, '-A';
-	@checkbuilddep_opts = qw(-A);
-	$buildtarget = 'build-indep';
-	$binarytarget = 'binary-indep';
     } elsif (/^-S$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
 	    if build_binaryonly;
 	$include = BUILD_SOURCE;
 	push @changes_opts, '-S';
-	@checkbuilddep_opts = qw(-A -B);
     } elsif (/^-F$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
 	    if not build_normal;
 	$include = BUILD_ALL;
-	@checkbuilddep_opts = ();
     } elsif (/^-v(.*)$/) {
 	$since = $1;
     } elsif (/^-m(.*)$/) {
@@ -315,6 +303,17 @@ while (@ARGV) {
     } else {
 	usageerr(_g('unknown option or argument %s'), $_);
     }
+}
+
+if (($include & BUILD_BINARY) == BUILD_BINARY) {
+    $buildtarget = 'build';
+    $binarytarget = 'binary';
+} elsif ($include & BUILD_ARCH_DEP) {
+    $buildtarget = 'build-arch';
+    $binarytarget = 'binary-arch';
+} elsif ($include & BUILD_ARCH_INDEP) {
+    $buildtarget = 'build-indep';
+    $binarytarget = 'binary-indep';
 }
 
 if ($noclean) {
@@ -452,6 +451,10 @@ unless ($call_target) {
 }
 
 if ($checkbuilddep) {
+    my @checkbuilddep_opts;
+
+    push @checkbuilddep_opts, '-A' if ($include & BUILD_ARCH_DEP) == 0;
+    push @checkbuilddep_opts, '-B' if ($include & BUILD_ARCH_INDEP) == 0;
     push @checkbuilddep_opts, "--admindir=$admindir" if $admindir;
 
     system('dpkg-checkbuilddeps', @checkbuilddep_opts);
