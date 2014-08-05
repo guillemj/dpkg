@@ -466,6 +466,8 @@ unshift @archvalues, 'source' unless is_binaryonly;
 @archvalues = ('all') if $include == BUILD_ARCH_INDEP;
 @archvalues = grep { !debarch_eq('all', $_) } @archvalues
     unless $include & BUILD_ARCH_INDEP;
+@archvalues = grep { !debarch_eq($host_arch, $_) } @archvalues
+    unless $include & BUILD_ARCH_DEP;
 $fields->{'Architecture'} = join ' ', @archvalues;
 
 $fields->{'Built-For-Profiles'} = join ' ', get_build_profiles();
