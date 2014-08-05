@@ -26,6 +26,7 @@ our @EXPORT_OK = qw(
     test_needs_module
     test_needs_command
     test_needs_srcdir_switch
+    test_neutralize_checksums
 );
 our %EXPORT_TAGS = (
     needs => [ qw(
@@ -99,6 +100,23 @@ sub test_needs_srcdir_switch
     if (defined $ENV{srcdir}) {
         chdir $ENV{srcdir} or BAIL_OUT("cannot chdir to source directory: $!");
     }
+}
+
+sub test_neutralize_checksums
+{
+    my $filename = shift;
+    my $filenamenew = "$filename.new";
+
+    open my $fhnew, '>', $filenamenew or die;
+    open my $fh, '<', $filename or die;
+    while (<$fh>) {
+        s/^ ([0-9a-f]{32,}) [1-9][0-9]* /q{ } . $1 =~ tr{0-9a-f}{0}r . q{ 0 }/e;
+        print { $fhnew } $_;
+    }
+    close $fh or die;
+    close $fhnew or die;
+
+    rename $filenamenew, $filename or die;
 }
 
 1;
