@@ -661,7 +661,7 @@ sub do_commit {
     mkpath(File::Spec->catdir($dir, 'debian', 'patches'));
     my $patch = $self->register_patch($dir, $tmpdiff, $patch_name);
     my @editors = ('sensible-editor', $ENV{VISUAL}, $ENV{EDITOR}, 'vi');
-    my $editor = first { defined $_ and find_command($_) } @editors;
+    my $editor = first { find_command($_) } @editors;
     if (not $editor) {
         error(_g('cannot find an editor'));
     }
