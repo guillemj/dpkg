@@ -188,6 +188,8 @@ my $build_opts = Dpkg::BuildOptions->new();
 
 if ($build_opts->has('nocheck')) {
     $check_command = undef;
+} elsif (not find_command($check_command)) {
+    $check_command = undef;
 }
 
 while (@ARGV) {
