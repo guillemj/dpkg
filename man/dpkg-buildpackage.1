@@ -54,8 +54,9 @@ then runs the \fBbinary\fP hook followed by \fBfakeroot debian/rules\fP
 \fIbinary-target\fP (unless a source-only build has been requested with
 \fB\-S\fP). Note that \fIbuild-target\fR and \fIbinary-target\fP are either
 \fBbuild\fP and \fBbinary\fP (default case, or if \fB\-b\fP is specified),
-or \fBbuild\-arch\fP and \fBbinary\-arch\fP (if \fB\-B\fP is specified),
-or \fBbuild\-indep\fP and \fBbinary\-indep\fP (if \fB\-A\fP is specified).
+or \fBbuild\-arch\fP and \fBbinary\-arch\fP (if \fB\-B\fP or \fB\-G\fP are
+specified), or \fBbuild\-indep\fP and \fBbinary\-indep\fP (if \fB\-A\fP
+or \fB\-g\fP are specified).
 .IP \fB6.\fP 3
 It runs the \fBchanges\fP hook and calls \fBdpkg\-genchanges\fP to
 generate a \fB.changes\fP file.
@@ -79,6 +80,14 @@ UNRELEASED builds).
 It runs the \fBdone\fP hook.
 .
 .SH OPTIONS
+.TP
+.B \-g
+Specifies a build limited to source and architecture independent packages.
+Passed to \fBdpkg\-genchanges\fP.
+.TP
+.B \-G
+Specifies a build limited to source and architecture specific packages.
+Passed to \fBdpkg\-genchanges\fP.
 .TP
 .B \-b
 Specifies a binary-only build, no source files are to be built and/or
@@ -174,7 +183,8 @@ Do not check build dependencies and conflicts.
 .TP
 .B \-nc
 Do not clean the source tree (implies \fB\-b\fP if nothing else has been
-selected among \fB\-F\fP, \fB\-B\fP, \fB\-A\fP or \fB\-S\fP).
+selected among \fB\-F\fP, \fB\-g\fP, \fB\-G\fP, \fB\-B\fP, \fB\-A\fP
+or \fB\-S\fP).
 .TP
 .B \-tc
 Clean the source tree (using

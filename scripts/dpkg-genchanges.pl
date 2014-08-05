@@ -83,6 +83,8 @@ use constant BUILD_SOURCE     => 1;
 use constant BUILD_ARCH_DEP   => 2;
 use constant BUILD_ARCH_INDEP => 4;
 use constant BUILD_BINARY     => BUILD_ARCH_DEP | BUILD_ARCH_INDEP;
+use constant BUILD_SOURCE_DEP => BUILD_SOURCE | BUILD_ARCH_DEP;
+use constant BUILD_SOURCE_INDEP => BUILD_SOURCE | BUILD_ARCH_INDEP;
 use constant BUILD_ALL        => BUILD_BINARY | BUILD_SOURCE;
 my $include = BUILD_ALL;
 
@@ -98,6 +100,10 @@ sub build_opt {
         return '-A';
     } elsif ($include == BUILD_SOURCE) {
         return '-S';
+    } elsif ($include == BUILD_SOURCE_DEP) {
+        return '-G';
+    } elsif ($include == BUILD_SOURCE_INDEP) {
+        return '-g';
     } else {
         croak "build_opt called with include=$include";
     }
@@ -117,6 +123,8 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . _g(
 "Options:
+  -g                       source and arch-indep build.
+  -G                       source and arch-specific build.
   -b                       binary-only, no source files.
   -B                       binary-only, only arch-specific files.
   -A                       binary-only, only arch-indep files.
@@ -162,6 +170,14 @@ while (@ARGV) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
 	    if not build_is_default;
 	$include = BUILD_SOURCE;
+    } elsif (m/^-G$/) {
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
+	    if not build_is_default;
+	$include = BUILD_SOURCE_DEP;
+    } elsif (m/^-g$/) {
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
+	    if not build_is_default;
+	$include = BUILD_SOURCE_INDEP;
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
     } elsif (m/^-q$/) {
@@ -482,8 +498,8 @@ for my $file ($dist->get_files()) {
     if (defined $file->{package}) {
         my $arch_all = debarch_eq('all', $p2arch{$file->{package}});
 
-        next if ($include == BUILD_ARCH_DEP and $arch_all);
-        next if ($include == BUILD_ARCH_INDEP and not $arch_all);
+        next if (not ($include & BUILD_ARCH_INDEP) and $arch_all);
+        next if (not ($include & BUILD_ARCH_DEP) and not $arch_all);
     }
     my $uf = "$uploadfilesdir/$f";
     $checksums->add_from_file($uf, key => $f);

@@ -4,7 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000 Wichert Akkerman
-# Copyright © 2006-2010,2012-2013 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2010,2012-2014 Guillem Jover <guillem@debian.org>
 # Copyright © 2007 Frank Lichtenheld
 #
 # This program is free software; you can redistribute it and/or modify
@@ -58,6 +58,8 @@ sub usage {
     . "\n\n" . _g(
 'Options:
   -F (default)   normal full build (binaries and sources).
+  -g             source and arch-indep build.
+  -G             source and arch-specific build.
   -b             binary-only, no source files.
   -B             binary-only, only arch-specific files.
   -A             binary-only, only arch-indep files.
@@ -162,6 +164,8 @@ use constant BUILD_SOURCE     => 2;
 use constant BUILD_ARCH_DEP   => 4;
 use constant BUILD_ARCH_INDEP => 8;
 use constant BUILD_BINARY     => BUILD_ARCH_DEP | BUILD_ARCH_INDEP;
+use constant BUILD_SOURCE_DEP => BUILD_SOURCE | BUILD_ARCH_DEP;
+use constant BUILD_SOURCE_INDEP => BUILD_SOURCE | BUILD_ARCH_INDEP;
 use constant BUILD_ALL        => BUILD_BINARY | BUILD_SOURCE;
 my $include = BUILD_ALL | BUILD_DEFAULT;
 
@@ -178,6 +182,10 @@ sub build_opt {
         return '-A';
     } elsif ($include == BUILD_SOURCE) {
         return '-S';
+    } elsif ($include == BUILD_SOURCE_DEP) {
+        return '-G';
+    } elsif ($include == BUILD_SOURCE_INDEP) {
+        return '-g';
     } else {
         croak "build_opt called with include=$include";
     }
@@ -282,6 +290,16 @@ while (@ARGV) {
 	    if not build_is_default;
 	$include = BUILD_SOURCE;
 	push @changes_opts, '-S';
+    } elsif (/^-G$/) {
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
+	    if not build_is_default;
+	$include = BUILD_SOURCE_DEP;
+	push @changes_opts, '-G';
+    } elsif (/^-g$/) {
+	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
+	    if not build_is_default;
+	$include = BUILD_SOURCE_INDEP;
+	push @changes_opts, '-g';
     } elsif (/^-F$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
 	    if not build_is_default;
