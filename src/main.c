@@ -498,8 +498,8 @@ arch_add(const char *const *argv)
   struct dpkg_arch *arch;
   const char *archname = *argv++;
 
-  if (archname == NULL)
-    badusage(_("--%s takes one argument"), cipaction->olong);
+  if (archname == NULL || *argv)
+    badusage(_("--%s takes exactly one argument"), cipaction->olong);
 
   dpkg_arch_load_list();
 
@@ -528,8 +528,8 @@ arch_remove(const char *const *argv)
   struct pkgiterator *iter;
   struct pkginfo *pkg;
 
-  if (archname == NULL)
-    badusage(_("--%s takes one argument"), cipaction->olong);
+  if (archname == NULL || *argv)
+    badusage(_("--%s takes exactly one argument"), cipaction->olong);
 
   modstatdb_open(msdbrw_readonly);
 
