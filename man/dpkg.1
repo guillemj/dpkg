@@ -212,6 +212,11 @@ of the files metadata information in the database is the binary packages
 themselves. That metadata gets collected at package unpack time during
 the installation process.
 
+Currently the only functional check performed is an md5sum verification
+against the stored value in the files database. It will only get checked
+if the database contains the file md5sum. To check for any missing
+metadata in the database, the \fB\-\-audit\fP command can be used.
+
 The output format is selectable with the \fB\-\-verify\-format\fP
 option, which by default uses the \fBrpm\fP format, but that might
 change in the future, and as such, programs parsing this command
@@ -640,8 +645,7 @@ of a line for every path that failed any check. The lines start with 9
 characters to report each specific check result, a '\fB?\fP' implies the
 check could not be done (lack of support, file permissions, etc), '\fB.\fP'
 implies the check passed, and an alphanumeric character implies a specific
-check failed; currently the only functional check is an md5sum verification
-against the stored value in the files database, denoted with a '\fB5\fP' on
+check failed; the md5sum verification is denoted with a '\fB5\fP' on
 the third character. The line is followed by a space and an attribute
 character (currently '\fBc\fP' for conffiles), another
 space and the pathname.
