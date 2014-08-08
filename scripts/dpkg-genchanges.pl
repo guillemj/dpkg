@@ -86,6 +86,7 @@ use constant BUILD_BINARY     => BUILD_ARCH_DEP | BUILD_ARCH_INDEP;
 use constant BUILD_ALL        => BUILD_BINARY | BUILD_SOURCE;
 my $include = BUILD_ALL;
 
+sub build_is_default() { return ($include & BUILD_ALL) == BUILD_ALL; }
 sub is_sourceonly() { return $include == BUILD_SOURCE; }
 sub is_binaryonly() { return !($include & BUILD_SOURCE); }
 sub build_opt {
@@ -147,19 +148,19 @@ while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-b$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if is_sourceonly;
+	    if not build_is_default;
 	$include = BUILD_BINARY;
     } elsif (m/^-B$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if is_sourceonly;
+	    if not build_is_default;
 	$include = BUILD_ARCH_DEP;
     } elsif (m/^-A$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if is_sourceonly;
+	    if not build_is_default;
 	$include = BUILD_ARCH_INDEP;
     } elsif (m/^-S$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if is_binaryonly;
+	    if not build_is_default;
 	$include = BUILD_SOURCE;
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;

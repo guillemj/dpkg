@@ -165,7 +165,7 @@ use constant BUILD_BINARY     => BUILD_ARCH_DEP | BUILD_ARCH_INDEP;
 use constant BUILD_ALL        => BUILD_BINARY | BUILD_SOURCE;
 my $include = BUILD_ALL | BUILD_DEFAULT;
 
-sub build_normal() { return ($include & BUILD_ALL) == BUILD_ALL; }
+sub build_is_default() { return $include & BUILD_DEFAULT; }
 sub build_sourceonly() { return $include == BUILD_SOURCE; }
 sub build_binaryonly() { return !($include & BUILD_SOURCE); }
 sub build_binaryindep() { return ($include == BUILD_ARCH_INDEP); }
@@ -264,27 +264,27 @@ while (@ARGV) {
 	$noclean = 1;
     } elsif (/^-b$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if build_sourceonly;
+	    if not build_is_default;
 	$include = BUILD_BINARY;
 	push @changes_opts, '-b';
     } elsif (/^-B$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if build_sourceonly;
+	    if not build_is_default;
 	$include = BUILD_ARCH_DEP;
 	push @changes_opts, '-B';
     } elsif (/^-A$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if build_sourceonly;
+	    if not build_is_default;
 	$include = BUILD_ARCH_INDEP;
 	push @changes_opts, '-A';
     } elsif (/^-S$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if build_binaryonly;
+	    if not build_is_default;
 	$include = BUILD_SOURCE;
 	push @changes_opts, '-S';
     } elsif (/^-F$/) {
 	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_normal;
+	    if not build_is_default;
 	$include = BUILD_ALL;
     } elsif (/^-v(.*)$/) {
 	$since = $1;
@@ -318,7 +318,7 @@ if (($include & BUILD_BINARY) == BUILD_BINARY) {
 
 if ($noclean) {
     # -nc without -b/-B/-A/-S/-F implies -b
-    $include = BUILD_BINARY if ($include & BUILD_DEFAULT);
+    $include = BUILD_BINARY if build_is_default;
 }
 
 if ($< == 0) {
