@@ -80,7 +80,7 @@ install: check
 
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 	# Ubuntu's «i386» architecture is built for i686 (the Debian default
-	# is i486).
+	# is i586).
 	sed -ri 's/^(i386[[:space:]]+)[^[:space:]]+/\1i686/' \
 	        $(CURDIR)/debian/tmp/usr/share/dpkg/cputable
 endif
