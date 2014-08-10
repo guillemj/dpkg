@@ -167,13 +167,14 @@ sub add_hardening_flags {
 
     # PIE
     if ($use_feature{pie}) {
-	$flags->append('CFLAGS', '-fPIE');
-	$flags->append('OBJCFLAGS', '-fPIE');
-	$flags->append('OBJCXXFLAGS', '-fPIE');
-	$flags->append('FFLAGS', '-fPIE');
-	$flags->append('FCFLAGS', '-fPIE');
-	$flags->append('CXXFLAGS', '-fPIE');
-	$flags->append('GCJFLAGS', '-fPIE');
+	my $flag = '-fPIE';
+	$flags->append('CFLAGS', $flag);
+	$flags->append('OBJCFLAGS',  $flag);
+	$flags->append('OBJCXXFLAGS', $flag);
+	$flags->append('FFLAGS', $flag);
+	$flags->append('FCFLAGS', $flag);
+	$flags->append('CXXFLAGS', $flag);
+	$flags->append('GCJFLAGS', $flag);
 	$flags->append('LDFLAGS', '-fPIE -pie');
     }
 
@@ -188,13 +189,14 @@ sub add_hardening_flags {
 	$flags->append('CXXFLAGS', $flag);
 	$flags->append('GCJFLAGS', $flag);
     } elsif ($use_feature{stackprotector}) {
-	$flags->append('CFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
-	$flags->append('OBJCFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
-	$flags->append('OBJCXXFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
-	$flags->append('FFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
-	$flags->append('FCFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
-	$flags->append('CXXFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
-	$flags->append('GCJFLAGS', '-fstack-protector --param=ssp-buffer-size=4');
+	my $flag = '-fstack-protector --param=ssp-buffer-size=4';
+	$flags->append('CFLAGS', $flag);
+	$flags->append('OBJCFLAGS', $flag);
+	$flags->append('OBJCXXFLAGS', $flag);
+	$flags->append('FFLAGS', $flag);
+	$flags->append('FCFLAGS', $flag);
+	$flags->append('CXXFLAGS', $flag);
+	$flags->append('GCJFLAGS', $flag);
     }
 
     # Fortify Source
@@ -204,10 +206,11 @@ sub add_hardening_flags {
 
     # Format Security
     if ($use_feature{format}) {
-	$flags->append('CFLAGS', '-Wformat -Werror=format-security');
-	$flags->append('CXXFLAGS', '-Wformat -Werror=format-security');
-	$flags->append('OBJCFLAGS', '-Wformat -Werror=format-security');
-	$flags->append('OBJCXXFLAGS', '-Wformat -Werror=format-security');
+	my $flag = '-Wformat -Werror=format-security';
+	$flags->append('CFLAGS', $flag);
+	$flags->append('CXXFLAGS', $flag);
+	$flags->append('OBJCFLAGS', $flag);
+	$flags->append('OBJCXXFLAGS', $flag);
     }
 
     # Read-only Relocations
