@@ -92,14 +92,15 @@ if test "x$with_selinux" != "xno"; then
 		[AC_DEFINE([HAVE_SETEXECFILECON], [1],
 		           [Define to 1 if SELinux setexecfilecon is present])
 	])
-	AM_CONDITIONAL(HAVE_SETEXECFILECON,
-	               [test "x$ac_cv_lib_selinux_setexecfilecon" = "xyes"])
 
 	AC_CHECK_HEADER([selinux/selinux.h],,
 		[if test -n "$with_selinux"; then
 			AC_MSG_FAILURE([selinux header not found])
 		 fi])
 fi
+AM_CONDITIONAL(WITH_SELINUX, [test "x$with_selinux" = "xyes"])
+AM_CONDITIONAL(HAVE_SETEXECFILECON,
+               [test "x$ac_cv_lib_selinux_setexecfilecon" = "xyes"])
 ])# DPKG_LIB_SELINUX
 
 # _DPKG_CHECK_LIB_CURSES_NARROW
