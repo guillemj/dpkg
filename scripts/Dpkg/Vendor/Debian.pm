@@ -137,12 +137,6 @@ sub add_hardening_flags {
 	#   compiler supports it incorrectly (leads to SEGV)
 	$use_feature{stackprotector} = 0;
     }
-    if ($arch =~ /^(?:m68k|or1k|powerpcspe|sh4|x32)$/) {
-	# "Strong" stack protector disabled on m68k, or1k, powerpcspe, sh4, x32.
-	#   It requires GCC 4.9 and these archs are still using 4.8 as of
-	#   gcc-defaults 1.128.
-	$use_feature{stackprotectorstrong} = 0;
-    }
     if ($cpu =~ /^(?:ia64|hppa|avr32)$/) {
 	# relro not implemented on ia64, hppa, avr32.
 	$use_feature{relro} = 0;
