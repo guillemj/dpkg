@@ -426,6 +426,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
   recursive = false;
   sortorder= so_priority;
   statsortorder= sso_avail;
+  archdisplayopt = ado_both;
   versiondisplayopt= vdo_both;
   sortmakeheads();
   finalsetup();
@@ -444,6 +445,7 @@ packagelist::packagelist(keybindings *kb, pkginfo **pkgltab) : baselist(kb) {
 
   sortorder= so_unsorted;
   statsortorder= sso_unsorted;
+  archdisplayopt = ado_none;
   versiondisplayopt= vdo_none;
   finalsetup();
 }

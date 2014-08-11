@@ -208,6 +208,19 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
     waddch(listpad, ' ');
 
+    if (col_archinstalled.width) {
+      draw_column_sep(col_archinstalled, screenline);
+      draw_column_item(col_archinstalled, screenline, pkg->installed.arch->name);
+
+      waddch(listpad, ' ');
+    }
+    if (col_archavailable.width) {
+      draw_column_sep(col_archavailable, screenline);
+      draw_column_item(col_archavailable, screenline, pkg->available.arch->name);
+
+      waddch(listpad, ' ');
+    }
+
     if (col_versioninstalled.width) {
       draw_column_item(col_versioninstalled, screenline,
                        versiondescribe(&pkg->installed.version, vdew_nonambig));
@@ -278,6 +291,11 @@ void packagelist::redrawcolheads() {
     draw_column_head(col_section);
     draw_column_head(col_priority);
     draw_column_head(col_package);
+
+    if (col_archinstalled.width)
+      draw_column_head(col_archinstalled);
+    if (col_archavailable.width)
+      draw_column_head(col_archavailable);
 
     if (col_versioninstalled.width)
       draw_column_head(col_versioninstalled);

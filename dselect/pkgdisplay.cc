@@ -151,6 +151,23 @@ void packagelist::setwidths() {
 
   add_column(col_package, _("Package"), verbose ? 16 : 12);
 
+  switch (archdisplayopt) {
+  case ado_none:
+    col_archinstalled.blank();
+    col_archavailable.blank();
+    break;
+  case ado_available:
+    col_archinstalled.blank();
+    add_column(col_archavailable, _("Avail.arch"), verbose ? 14 : 10);
+    break;
+  case ado_both:
+    add_column(col_archinstalled, _("Inst.arch"), verbose ? 14 : 10);
+    add_column(col_archavailable, _("Avail.arch"), verbose ? 14 : 10);
+    break;
+  default:
+    internerr("unknown archdisplayopt %d", archdisplayopt);
+  }
+
   switch (versiondisplayopt) {
   case vdo_none:
     col_versioninstalled.blank();

@@ -226,6 +226,31 @@ void packagelist::resortredisplay() {
   refreshlist();
 }
 
+void
+packagelist::kd_archdisplay()
+{
+  switch (archdisplayopt) {
+  case ado_both:
+    archdisplayopt = ado_none;
+    break;
+  case ado_none:
+    archdisplayopt = ado_available;
+    break;
+  case ado_available:
+    archdisplayopt = ado_both;
+    break;
+  default:
+    internerr("unknown archdisplayopt %d", archdisplayopt);
+  }
+  setwidths();
+  leftofscreen = 0;
+  ldrawnstart = ldrawnend = -1;
+  redrawtitle();
+  redrawcolheads();
+  redrawitemsrange(topofscreen, min(topofscreen + list_height, nitems));
+  refreshlist();
+}
+
 void packagelist::kd_versiondisplay() {
   switch (versiondisplayopt) {
   case vdo_both:       versiondisplayopt= vdo_none;       break;

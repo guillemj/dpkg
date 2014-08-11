@@ -45,7 +45,7 @@ Mark packages for later processing:\n\
 Quit, exit, overwrite (note capitals!):       ?, F1 request help (also Help)\n\
  Return  Confirm, quit (check dependencies)   i, I  toggle/cycle info displays\n\
    Q     Confirm, quit (override dep.s)       o, O  cycle through sort options\n\
- X, Esc  eXit, abandoning any changes made    v, V  change status display opts\n\
+ X, Esc  eXit, abandoning any changes made   v, A, V  change status display opts\n\
    R     Revert to state before this list      ^l   redraw display\n\
    U     set all to sUggested state             /   search (Return to cancel)\n\
    D     set all to Directly requested state  n, \\  repeat last search\n")

@@ -92,6 +92,8 @@ protected:
   column col_section;
   column col_priority;
   column col_package;
+  column col_archinstalled;
+  column col_archavailable;
   column col_versioninstalled;
   column col_versionavailable;
   column col_description;
@@ -111,6 +113,7 @@ protected:
   bool recursive, verbose;
   enum { so_unsorted, so_section, so_priority, so_alpha } sortorder;
   enum { sso_unsorted, sso_avail, sso_state } statsortorder;
+  enum { ado_none, ado_available, ado_both } archdisplayopt;
   enum { vdo_none, vdo_available, vdo_both } versiondisplayopt;
   bool calcssadone, calcsssdone;
   struct perpackagestate *headings;
@@ -204,6 +207,7 @@ protected:
   void kd_info();
   void kd_toggleinfo();
   void kd_verbose();
+  void kd_archdisplay();
   void kd_versiondisplay();
 
   packagelist(keybindings *kb); // nonrecursive
