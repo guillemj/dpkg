@@ -1520,8 +1520,6 @@ pid_is_cmd(pid_t pid, const char *name)
 	process_name = kp->kp_proc.p_comm;
 #endif
 
-	if (strlen(name) != strlen(process_name))
-		return false;
 	return (strcmp(name, process_name) == 0);
 }
 #endif
