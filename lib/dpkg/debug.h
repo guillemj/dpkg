@@ -54,7 +54,7 @@ enum debugflags {
 	dbg_triggersstupid = 040000,
 };
 
-void debug_set_output(FILE *output);
+void debug_set_output(FILE *output, const char *filename);
 void debug_set_mask(int mask);
 bool debug_has_flag(int flag);
 void debug(int flag, const char *fmt, ...) DPKG_ATTR_PRINTF(2);

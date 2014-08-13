@@ -231,7 +231,7 @@ extern "C" {
     if (!fp)
       ohshite(_("couldn't open debug file `%.255s'\n"), v);
 
-    debug_set_output(fp);
+    debug_set_output(fp, v);
     debug_set_mask(dbg_general | dbg_depcon);
   }
 
