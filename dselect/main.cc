@@ -230,7 +230,6 @@ extern "C" {
     fp = fopen(v, "a");
     if (!fp)
       ohshite(_("couldn't open debug file `%.255s'\n"), v);
-    dpkg_set_report_buffer(fp);
 
     debug_set_output(fp);
     debug_set_mask(dbg_general | dbg_depcon);

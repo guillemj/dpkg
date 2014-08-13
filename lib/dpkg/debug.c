@@ -25,6 +25,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#include <dpkg/report.h>
 #include <dpkg/debug.h>
 
 static int debug_mask = 0;
@@ -36,6 +37,7 @@ static FILE *debug_output = NULL;
 void
 debug_set_output(FILE *output)
 {
+	dpkg_set_report_buffer(output);
 	debug_output = output;
 }
 
