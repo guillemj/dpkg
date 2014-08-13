@@ -49,7 +49,7 @@ sub create {
     # Call tar creation process
     $spawn_opts{delete_env} = [ 'TAR_OPTIONS' ];
     $spawn_opts{exec} = [ 'tar', '--null', '-T', '-', '--numeric-owner',
-                            '--owner', '0', '--group', '0',
+                            '--owner', '0', '--group', '0', '--format=gnu',
                             @{$opts{options}}, '-cf', '-' ];
     *$self->{pid} = spawn(%spawn_opts);
     *$self->{cwd} = getcwd();
