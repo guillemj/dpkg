@@ -131,8 +131,8 @@ Update flags from the user configuration.
 sub load_user_config {
     my ($self) = @_;
     my $confdir = $ENV{XDG_CONFIG_HOME};
-    $confdir ||= $ENV{HOME} . '/.config' if defined $ENV{HOME};
-    if (defined $confdir) {
+    $confdir ||= $ENV{HOME} . '/.config' if length $ENV{HOME};
+    if (length $confdir) {
         $self->update_from_conffile("$confdir/dpkg/buildflags.conf", 'user');
     }
 }

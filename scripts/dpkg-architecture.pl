@@ -254,7 +254,7 @@ if (action_needs(DEB_HOST | DEB_GNU_INFO)) {
 
 
 for my $k (keys %arch_vars) {
-    $v{$k} = $ENV{$k} if (defined ($ENV{$k}) && !$force);
+    $v{$k} = $ENV{$k} if (length $ENV{$k} && !$force);
 }
 
 if ($action eq 'l') {

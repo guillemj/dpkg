@@ -58,7 +58,7 @@ sub run_hook {
         if (defined($fields->{'Version'}) and defined($fields->{'Maintainer'}) and
            $fields->{'Version'} =~ /ubuntu/) {
            if ($fields->{'Maintainer'} !~ /ubuntu/i) {
-               if (defined ($ENV{DEBEMAIL}) and $ENV{DEBEMAIL} =~ /\@ubuntu\.com/) {
+               if (length $ENV{DEBEMAIL} and $ENV{DEBEMAIL} =~ /\@ubuntu\.com/) {
                    error(_g('Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu address'));
                } else {
                    warning(_g('Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu address'));
