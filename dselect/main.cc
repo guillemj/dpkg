@@ -231,7 +231,7 @@ extern "C" {
       ohshite(_("couldn't open debug file `%.255s'\n"), v);
     setvbuf(fp, 0, _IONBF, 0);
 
-    debug_set_output(fp);
+    debug_set_output(fp, v);
     debug_set_mask(dbg_general | dbg_depcon);
   }
 
