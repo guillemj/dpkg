@@ -551,7 +551,7 @@ sub apply {
     $opts{force_timestamp} //= 1;
     $opts{remove_backup} //= 1;
     $opts{create_dirs} //= 1;
-    $opts{options} //= [ '-t', '-F', '0', '-N', '-p1', '-u',
+    $opts{options} ||= [ '-t', '-F', '0', '-N', '-p1', '-u',
             '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
     $opts{add_options} //= [];
     push @{$opts{options}}, @{$opts{add_options}};
@@ -602,7 +602,7 @@ sub check_apply {
     my ($self, $destdir, %opts) = @_;
     # Set default values to options
     $opts{create_dirs} //= 1;
-    $opts{options} //= [ '--dry-run', '-s', '-t', '-F', '0', '-N', '-p1', '-u',
+    $opts{options} ||= [ '--dry-run', '-s', '-t', '-F', '0', '-N', '-p1', '-u',
             '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
     $opts{add_options} //= [];
     push @{$opts{options}}, @{$opts{add_options}};

@@ -173,7 +173,7 @@ sub reset {
 sub analyze {
     my ($self, $file) = @_;
 
-    $file //= $self->{file};
+    $file ||= $self->{file};
     return unless $file;
 
     $self->reset;
