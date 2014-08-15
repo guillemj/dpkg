@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.11\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-08-09 12:49+0200\n"
+"POT-Creation-Date: 2014-08-15 03:51+0200\n"
 "PO-Revision-Date: 2014-06-14 20:28+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: scripts/dpkg-architecture.pl:37 scripts/dpkg-buildflags.pl:33
 #: scripts/dpkg-buildpackage.pl:47 scripts/dpkg-checkbuilddeps.pl:39
-#: scripts/dpkg-distaddfile.pl:37 scripts/dpkg-genchanges.pl:113
+#: scripts/dpkg-distaddfile.pl:37 scripts/dpkg-genchanges.pl:122
 #: scripts/dpkg-gencontrol.pl:66 scripts/dpkg-gensymbols.pl:53
 #: scripts/dpkg-mergechangelogs.pl:54 scripts/dpkg-name.pl:46
 #: scripts/dpkg-parsechangelog.pl:36 scripts/dpkg-scanpackages.pl:67
@@ -31,7 +31,7 @@ msgstr "Debian %s version %s.\n"
 
 #: scripts/dpkg-architecture.pl:39 scripts/dpkg-buildflags.pl:35
 #: scripts/dpkg-buildpackage.pl:49 scripts/dpkg-distaddfile.pl:39
-#: scripts/dpkg-genchanges.pl:115 scripts/dpkg-gencontrol.pl:68
+#: scripts/dpkg-genchanges.pl:124 scripts/dpkg-gencontrol.pl:68
 #: scripts/dpkg-gensymbols.pl:55 scripts/dpkg-parsechangelog.pl:38
 #: scripts/dpkg-shlibdeps.pl:550 scripts/dpkg-source.pl:497
 #: scripts/changelog/debian.pl:39
@@ -95,7 +95,7 @@ msgid "%s is not a supported variable name"
 msgstr "%s är inte ett variabelnamn som stöds"
 
 #: scripts/dpkg-architecture.pl:165 scripts/dpkg-buildflags.pl:92
-#: scripts/dpkg-distaddfile.pl:69 scripts/dpkg-genchanges.pl:219
+#: scripts/dpkg-distaddfile.pl:69 scripts/dpkg-genchanges.pl:216
 #: scripts/dpkg-gencontrol.pl:140 scripts/dpkg-gensymbols.pl:140
 #: scripts/dpkg-name.pl:245 scripts/dpkg-parsechangelog.pl:121
 #: scripts/dpkg-shlibdeps.pl:133
@@ -193,7 +193,7 @@ msgstr "två kommandon angavs: --%s och --%s"
 msgid "%s needs a parameter"
 msgstr "%s behöver en parameter"
 
-#: scripts/dpkg-buildpackage.pl:57 scripts/dpkg-genchanges.pl:123
+#: scripts/dpkg-buildpackage.pl:57 scripts/dpkg-genchanges.pl:132
 #: scripts/dpkg-gencontrol.pl:76 scripts/dpkg-gensymbols.pl:63
 #: scripts/dpkg-parsechangelog.pl:46
 #, perl-format
@@ -396,46 +396,40 @@ msgstr ""
 "  --source-option=<flagga>\n"
 "                 sänd flaggan <flagga> till dpkg-source.\n"
 
-#: scripts/dpkg-buildpackage.pl:230
-#, perl-format
-msgid "unknown hook name %s"
-msgstr "okänt namn på hake: %s"
-
-#: scripts/dpkg-buildpackage.pl:232
-#, perl-format
-msgid "missing hook %s command"
-msgstr "saknat kommando för haken %s"
-
-#: scripts/dpkg-buildpackage.pl:243
-#, perl-format
-msgid "-s%s is deprecated; always using gpg style interface"
-msgstr "-s%s är föråldrat; använder alltid gränssnitt av gpg-typ"
-
-#: scripts/dpkg-buildpackage.pl:274 scripts/dpkg-buildpackage.pl:279
-#: scripts/dpkg-buildpackage.pl:284 scripts/dpkg-buildpackage.pl:289
-#: scripts/dpkg-buildpackage.pl:294 scripts/dpkg-buildpackage.pl:299
-#: scripts/dpkg-buildpackage.pl:304 scripts/dpkg-genchanges.pl:158
-#: scripts/dpkg-genchanges.pl:162 scripts/dpkg-genchanges.pl:166
-#: scripts/dpkg-genchanges.pl:170 scripts/dpkg-genchanges.pl:174
-#: scripts/dpkg-genchanges.pl:178
+#: scripts/dpkg-buildpackage.pl:198 scripts/dpkg-genchanges.pl:116
 #, perl-format
 msgid "cannot combine %s and %s"
 msgstr "kan inte kombinera %s och %s"
 
-#: scripts/dpkg-buildpackage.pl:317 scripts/dpkg-source.pl:201
+#: scripts/dpkg-buildpackage.pl:239
+#, perl-format
+msgid "unknown hook name %s"
+msgstr "okänt namn på hake: %s"
+
+#: scripts/dpkg-buildpackage.pl:241
+#, perl-format
+msgid "missing hook %s command"
+msgstr "saknat kommando för haken %s"
+
+#: scripts/dpkg-buildpackage.pl:252
+#, perl-format
+msgid "-s%s is deprecated; always using gpg style interface"
+msgstr "-s%s är föråldrat; använder alltid gränssnitt av gpg-typ"
+
+#: scripts/dpkg-buildpackage.pl:312 scripts/dpkg-source.pl:201
 msgid "-E and -W are deprecated, they are without effect"
 msgstr "-E och -W rekommenderas ej, de har ingen effekt"
 
-#: scripts/dpkg-buildpackage.pl:322
+#: scripts/dpkg-buildpackage.pl:317
 #, perl-format
 msgid "unknown option or argument %s"
 msgstr "okänd flagga eller argument %s"
 
-#: scripts/dpkg-buildpackage.pl:343
+#: scripts/dpkg-buildpackage.pl:338
 msgid "using a gain-root-command while being root"
 msgstr "använder ett gain-root-command fast jag redan är root"
 
-#: scripts/dpkg-buildpackage.pl:350
+#: scripts/dpkg-buildpackage.pl:345
 msgid ""
 "fakeroot not found, either install the fakeroot\n"
 "package, specify a command with the -r option, or run this as root"
@@ -443,54 +437,54 @@ msgstr ""
 "fakeroot hittades inte, du kan installera paketet fakeroot,\n"
 "ange ett kommando med flaggan -r, eller köra som root"
 
-#: scripts/dpkg-buildpackage.pl:354
+#: scripts/dpkg-buildpackage.pl:349
 #, perl-format
 msgid "gain-root-commmand '%s' not found"
 msgstr "få-root-kommandot \"%s\" hittades inte"
 
-#: scripts/dpkg-buildpackage.pl:359
+#: scripts/dpkg-buildpackage.pl:354
 #, perl-format
 msgid "check-commmand '%s' not found"
 msgstr "testkommandot \"%s\" hittades inte"
 
-#: scripts/dpkg-buildpackage.pl:364
+#: scripts/dpkg-buildpackage.pl:359
 #, perl-format
 msgid "sign-commmand '%s' not found"
 msgstr "signeringskommandot \"%s\" hittades inte"
 
-#: scripts/dpkg-buildpackage.pl:397
+#: scripts/dpkg-buildpackage.pl:392
 msgid "source package"
 msgstr "källkodspaket"
 
-#: scripts/dpkg-buildpackage.pl:398
+#: scripts/dpkg-buildpackage.pl:393
 msgid "source version"
 msgstr "källkodsversion"
 
-#: scripts/dpkg-buildpackage.pl:406
+#: scripts/dpkg-buildpackage.pl:401
 msgid "source distribution"
 msgstr "källkodsdistribution"
 
-#: scripts/dpkg-buildpackage.pl:414
+#: scripts/dpkg-buildpackage.pl:409
 msgid "source changed by"
 msgstr "källkod ändrad av"
 
-#: scripts/dpkg-buildpackage.pl:432
+#: scripts/dpkg-buildpackage.pl:427
 msgid "host architecture"
 msgstr "värdarkitektur"
 
-#: scripts/dpkg-buildpackage.pl:461
+#: scripts/dpkg-buildpackage.pl:456
 msgid "debian/rules is not executable; fixing that"
 msgstr "debian/rules är inte exekverbar: rättar"
 
-#: scripts/dpkg-buildpackage.pl:482
+#: scripts/dpkg-buildpackage.pl:477
 msgid "build dependencies/conflicts unsatisfied; aborting"
 msgstr "byggberoenden/-konflikter ej uppfyllda; avbryter"
 
-#: scripts/dpkg-buildpackage.pl:483
+#: scripts/dpkg-buildpackage.pl:478
 msgid "(Use -d flag to override.)"
 msgstr "(Använd flaggan -d för att överstyra.)"
 
-#: scripts/dpkg-buildpackage.pl:486
+#: scripts/dpkg-buildpackage.pl:481
 msgid ""
 "this is currently a non-fatal warning with -S, but will probably become "
 "fatal in the future"
@@ -498,7 +492,7 @@ msgstr ""
 "detta är för närvarande en icke-ödesdiger varning med -S, men den kommer "
 "troligen att bli ödesdiger i framtiden"
 
-#: scripts/dpkg-buildpackage.pl:514
+#: scripts/dpkg-buildpackage.pl:509
 msgid ""
 "building a source package without cleaning up as you asked; it might contain "
 "undesired files"
@@ -506,7 +500,7 @@ msgstr ""
 "bygger ett källkodspaket utan att städa upp som efterfrågat; det kan "
 "innehålla oönskade filer."
 
-#: scripts/dpkg-buildpackage.pl:534
+#: scripts/dpkg-buildpackage.pl:529
 #, perl-format
 msgid ""
 "%s must be updated to support the 'build-arch' and 'build-indep' targets (at "
@@ -515,67 +509,67 @@ msgstr ""
 "%s måste uppdateras för att stöda målen \"build-arch\" och \"build-indep"
 "\" (åtminstone \"%s\" verkar saknas)"
 
-#: scripts/dpkg-buildpackage.pl:561
+#: scripts/dpkg-buildpackage.pl:556
 msgid "parse changes file"
 msgstr "tolka ändringsfil"
 
-#: scripts/dpkg-buildpackage.pl:563
+#: scripts/dpkg-buildpackage.pl:558
 msgid "dpkg-genchanges"
 msgstr "dpkg-genchanges"
 
-#: scripts/dpkg-buildpackage.pl:584
+#: scripts/dpkg-buildpackage.pl:579
 msgid "Press the return key to start signing process\n"
 msgstr "Tryck på Enter för att inleda signeringsproceduren\n"
 
-#: scripts/dpkg-buildpackage.pl:592
+#: scripts/dpkg-buildpackage.pl:587
 msgid "failed to sign .dsc and .changes file"
 msgstr "misslyckades att signera .dsc- och .changes-filerna"
 
-#: scripts/dpkg-buildpackage.pl:611
+#: scripts/dpkg-buildpackage.pl:606
 msgid "failed to sign .changes file"
 msgstr "misslyckades att signera .changes-fil"
 
-#: scripts/dpkg-buildpackage.pl:615
+#: scripts/dpkg-buildpackage.pl:610
 msgid "not signing UNRELEASED build; use --force-sign to override"
 msgstr ""
 "signerar inte \"UNRELEASED\"-bytte; använd --force-sign för att överstyra"
 
-#: scripts/dpkg-buildpackage.pl:623
+#: scripts/dpkg-buildpackage.pl:618
 #, perl-format
 msgid "unable to determine %s"
 msgstr "kan inte bestämma %s"
 
-#: scripts/dpkg-buildpackage.pl:659
+#: scripts/dpkg-buildpackage.pl:654
 #, perl-format
 msgid "unknown %% substitution in hook: %%%s"
 msgstr "okänd %%-substituering i krok: %%%s"
 
-#: scripts/dpkg-buildpackage.pl:704
+#: scripts/dpkg-buildpackage.pl:699
 msgid "source-only upload: Debian-native package"
 msgstr "insändning med endast källkod: Debianeget paket"
 
-#: scripts/dpkg-buildpackage.pl:706
+#: scripts/dpkg-buildpackage.pl:701
 msgid "source-only, diff-only upload (original source NOT included)"
 msgstr ""
 "insändning enbart med källkod, enbart med diff (originalkällkod tas EJ med)"
 
-#: scripts/dpkg-buildpackage.pl:708
+#: scripts/dpkg-buildpackage.pl:703
 msgid "source-only upload (original source is included)"
 msgstr "insändning enbart med källkod (originalkällkod tas med)"
 
-#: scripts/dpkg-buildpackage.pl:711
+#: scripts/dpkg-buildpackage.pl:706
 msgid "binary-only upload (no source included)"
 msgstr "endast binär insändning (ingen källkod tas med)"
 
-#: scripts/dpkg-buildpackage.pl:714
+#: scripts/dpkg-buildpackage.pl:709
 msgid "full upload; Debian-native package (full source is included)"
 msgstr "komplett insändnig; Debianeget paket (komplett källkod tas med)"
 
-#: scripts/dpkg-buildpackage.pl:716
+#: scripts/dpkg-buildpackage.pl:711
 msgid "binary and diff upload (original source NOT included)"
 msgstr "binär- och diffinsändning (originalkällkod tas EJ med)"
 
-#: scripts/dpkg-buildpackage.pl:718
+#: scripts/dpkg-buildpackage.pl:713
 msgid "full upload (original source is included)"
 msgstr "komplett insändning (originalkällkod tas med)"
 
@@ -697,7 +691,7 @@ msgstr "installerar ny fillistfil"
 msgid "cannot close %s"
 msgstr "kan inte stänga %s"
 
-#: scripts/dpkg-genchanges.pl:125
+#: scripts/dpkg-genchanges.pl:134
 #, fuzzy
 #| msgid ""
 #| "Options:\n"
@@ -783,76 +777,76 @@ msgstr ""
 "  -?, --help               visa detta hjälpmeddelande.\n"
 "      --version            visa versionsnummer.\n"
 
-#: scripts/dpkg-genchanges.pl:249
+#: scripts/dpkg-genchanges.pl:246
 #, perl-format
 msgid "the current version (%s) is earlier than the previous one (%s)"
 msgstr "aktuell version (%s) är tidigare än den föregående (%s)"
 
-#: scripts/dpkg-genchanges.pl:262
+#: scripts/dpkg-genchanges.pl:259
 msgid "binary build with no binary artifacts found; cannot distribute"
 msgstr "binärbygge utan binära artifakter upptäckt; kan inte distribuera"
 
-#: scripts/dpkg-genchanges.pl:313
+#: scripts/dpkg-genchanges.pl:310
 #, perl-format
 msgid "package %s in control file but not in files list"
 msgstr "paketet %s i styrinfofilen men inte i fillistfilen"
 
-#: scripts/dpkg-genchanges.pl:358
+#: scripts/dpkg-genchanges.pl:355
 msgid "read changesdescription"
 msgstr "läs ändringsbeskrivning"
 
-#: scripts/dpkg-genchanges.pl:364
+#: scripts/dpkg-genchanges.pl:361
 #, perl-format
 msgid "package %s listed in files list but not in control info"
 msgstr "paketet %s listat i fillista men inte i styrinfo"
 
-#: scripts/dpkg-genchanges.pl:378
+#: scripts/dpkg-genchanges.pl:375
 #, perl-format
 msgid "missing Section for binary package %s; using '-'"
 msgstr "\"Section\" saknas för binärpaket %s; använder \"-\""
 
-#: scripts/dpkg-genchanges.pl:381
+#: scripts/dpkg-genchanges.pl:378
 #, perl-format
 msgid "package %s has section %s in control file but %s in files list"
 msgstr "paketet %s har sektionen %s i styrinfofilen men %s i fillistan"
 
-#: scripts/dpkg-genchanges.pl:389
+#: scripts/dpkg-genchanges.pl:386
 #, perl-format
 msgid "missing Priority for binary package %s; using '-'"
 msgstr "\"Priority\" saknas för binärpaketet %s; använder \"-\""
 
-#: scripts/dpkg-genchanges.pl:392
+#: scripts/dpkg-genchanges.pl:389
 #, perl-format
 msgid "package %s has priority %s in control file but %s in files list"
 msgstr "paketet %s har prioritet %s i styrfilen men %s i fillistan"
 
-#: scripts/dpkg-genchanges.pl:404
+#: scripts/dpkg-genchanges.pl:401
 msgid "missing Section for source files"
 msgstr "\"Section\" saknas för källfiler"
 
-#: scripts/dpkg-genchanges.pl:409
+#: scripts/dpkg-genchanges.pl:406
 msgid "missing Priority for source files"
 msgstr "\"Priority\" saknas för källfiler"
 
-#: scripts/dpkg-genchanges.pl:417 scripts/dpkg-source.pl:370
+#: scripts/dpkg-genchanges.pl:414 scripts/dpkg-source.pl:370
 #: scripts/Dpkg/Vendor.pm:92
 #, perl-format
 msgid "%s is empty"
 msgstr "%s är tom"
 
-#: scripts/dpkg-genchanges.pl:438
+#: scripts/dpkg-genchanges.pl:435
 msgid "not including original source code in upload"
 msgstr "tar inte med ursprunglig källkod i denna insändning"
 
-#: scripts/dpkg-genchanges.pl:445
+#: scripts/dpkg-genchanges.pl:442
 msgid "ignoring -sd option for native Debian package"
 msgstr "ignorerar flaggan -sd för Debianspecifikt paket"
 
-#: scripts/dpkg-genchanges.pl:447
+#: scripts/dpkg-genchanges.pl:444
 msgid "including full source code in upload"
 msgstr "sänder med komplett källkod med denna insändning"
 
-#: scripts/dpkg-genchanges.pl:455
+#: scripts/dpkg-genchanges.pl:452
 #, fuzzy
 #| msgid "%s: arch-specific upload - not including arch-independent packages"
 msgid ""
@@ -861,7 +855,7 @@ msgid ""
 msgstr ""
 "%s: arkitekturspecifik insändning - inkluderar inte ark.-oberoende paket"
 
-#: scripts/dpkg-genchanges.pl:458
+#: scripts/dpkg-genchanges.pl:455
 #, fuzzy
 #| msgid "%s: arch-indep upload - not including arch-specific packages"
 msgid ""
@@ -870,22 +864,22 @@ msgid ""
 msgstr ""
 "%s: arkitekturobereoende insändning - inkluderar inte ark.-specifik paket"
 
-#: scripts/dpkg-genchanges.pl:461
+#: scripts/dpkg-genchanges.pl:458
 #, fuzzy
 #| msgid "binary-only upload (no source included)"
 msgid "binary-only upload (no source code included)"
 msgstr "endast binär insändning (ingen källkod tas med)"
 
-#: scripts/dpkg-genchanges.pl:465
+#: scripts/dpkg-genchanges.pl:462
 msgid "write original source message"
 msgstr "skriver meddelande om originalkällkod"
 
-#: scripts/dpkg-genchanges.pl:523 scripts/Dpkg/Source/Package.pm:600
+#: scripts/dpkg-genchanges.pl:520 scripts/Dpkg/Source/Package.pm:600
 #, perl-format
 msgid "missing information for critical output field %s"
 msgstr "saknar information för kritiskt utdatafält %s"
 
-#: scripts/dpkg-genchanges.pl:528 scripts/dpkg-gencontrol.pl:307
+#: scripts/dpkg-genchanges.pl:525 scripts/dpkg-gencontrol.pl:307
 #: scripts/dpkg-gencontrol.pl:311 scripts/Dpkg/Source/Package.pm:605
 #, perl-format
 msgid "missing information for output field %s"

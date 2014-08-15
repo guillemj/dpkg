@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.11\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-08-09 12:49+0200\n"
+"POT-Creation-Date: 2014-08-15 03:51+0200\n"
 "PO-Revision-Date: 2014-06-14 20:58+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -305,10 +305,10 @@ msgstr "application/x-deb"
 #: deb-extra-override.5:54 deb-shlibs.5:66 deb-substvars.5:168
 #: deb-symbols.5:88 deb-triggers.5:85 dpkg.1:875 dpkg-architecture.1:263
 #: dpkg.cfg.5:41 dpkg-buildpackage.1:374 dpkg-deb.1:299 dpkg-divert.8:153
-#: dpkg-gensymbols.1:487 dpkg-name.1:109 dpkg-query.1:274
+#: dpkg-gensymbols.1:487 dpkg-name.1:109 dpkg-query.1:296
 #: dpkg-scanpackages.1:113 dpkg-scansources.1:90 dpkg-shlibdeps.1:364
 #: dpkg-source.1:771 dpkg-split.1:234 dpkg-statoverride.8:103
-#: dpkg-trigger.1:83 dpkg-vendor.1:65 dselect.1:466 dselect.cfg.5:41
+#: dpkg-trigger.1:83 dpkg-vendor.1:65 dselect.1:469 dselect.cfg.5:41
 #: update-alternatives.8:513
 #, no-wrap
 msgid "SEE ALSO"
@@ -2696,7 +2696,7 @@ msgid "The current build architecture (from B<dpkg --print-architecture>)."
 msgstr "Den aktuella byggarkitekturen (från B<dpkg --print-architecture>)."
 
 #. type: TP
-#: deb-substvars.5:95
+#: deb-substvars.5:95 dpkg-query.1:256
 #, no-wrap
 msgid "B<source:Version>"
 msgstr "B<source:Version>"
@@ -5122,15 +5122,15 @@ msgstr "Överstyr ett tidigare B<--no-triggers>."
 
 #. type: SH
 #: dpkg.1:709 dpkg-buildflags.1:322 dpkg-buildpackage.1:328
-#: dpkg-checkbuilddeps.1:76 dpkg-deb.1:271 dpkg-divert.8:99 dpkg-query.1:264
-#: dpkg-statoverride.8:87 dpkg-trigger.1:77 dpkg-vendor.1:59 dselect.1:444
+#: dpkg-checkbuilddeps.1:76 dpkg-deb.1:271 dpkg-divert.8:99 dpkg-query.1:286
+#: dpkg-statoverride.8:87 dpkg-trigger.1:77 dpkg-vendor.1:59 dselect.1:447
 #: update-alternatives.8:380
 #, no-wrap
 msgid "ENVIRONMENT"
 msgstr "MILJÖVARIABLER"
 
 #. type: TP
-#: dpkg.1:710 dselect.1:445
+#: dpkg.1:710 dselect.1:448
 #, no-wrap
 msgid "B<HOME>"
 msgstr "B<HOME>"
@@ -5183,7 +5183,7 @@ msgid "The program B<dpkg> will execute when starting a new shell."
 msgstr "Programmet B<dpkg> kommer att exekveras när ett nytt skal startas."
 
 #. type: TP
-#: dpkg.1:724 dpkg-query.1:269
+#: dpkg.1:724 dpkg-query.1:291
 #, no-wrap
 msgid "B<COLUMNS>"
 msgstr "B<COLUMNS>"
@@ -5433,7 +5433,7 @@ msgstr ""
 
 #. type: SH
 #: dpkg.1:803 dpkg-buildpackage.1:369 dpkg-deb.1:285 dpkg-name.1:78
-#: dpkg-source.1:768 dpkg-split.1:227 dselect.1:450
+#: dpkg-source.1:768 dpkg-split.1:227 dselect.1:453
 #, no-wrap
 msgid "BUGS"
 msgstr "PROGRAMFEL"
@@ -6474,7 +6474,7 @@ msgid "AUTHOR"
 msgstr "FÖRFATTARE"
 
 #. type: Plain text
-#: dpkg.cfg.5:42 dpkg-divert.8:154 dpkg-query.1:276 dpkg-statoverride.8:104
+#: dpkg.cfg.5:42 dpkg-divert.8:154 dpkg-query.1:298 dpkg-statoverride.8:104
 msgid "B<dpkg>(1)."
 msgstr "B<dpkg>(1)."
 
@@ -9714,14 +9714,14 @@ msgstr ""
 "Testläge, dvs. utför inga faktiska ändringar, bara visa vad som skulle hända."
 
 #. type: TP
-#: dpkg-divert.8:100 dpkg-query.1:265 dpkg-statoverride.8:88 dpkg-trigger.1:78
+#: dpkg-divert.8:100 dpkg-query.1:287 dpkg-statoverride.8:88 dpkg-trigger.1:78
 #: update-alternatives.8:381
 #, no-wrap
 msgid "B<DPKG_ADMINDIR>"
 msgstr "B<DPKG_ADMINDIR>"
 
 #. type: Plain text
-#: dpkg-divert.8:104 dpkg-query.1:269 dpkg-statoverride.8:92 dpkg-trigger.1:82
+#: dpkg-divert.8:104 dpkg-query.1:291 dpkg-statoverride.8:92 dpkg-trigger.1:82
 msgid ""
 "If set and the B<--admindir> option has not been specified, it will be used "
 "as the B<dpkg> data directory."
@@ -13449,33 +13449,112 @@ msgstr ""
 "adnra fält (observera att dessa inte är giltiga namn för fält i "
 "kontrollfiler):"
 
-#. type: Plain text
-#: dpkg-query.1:238
+#. type: TP
+#: dpkg-query.1:229
 #, fuzzy, no-wrap
-#| msgid ""
-#| "    B<binary:Package>\n"
-#| "    B<binary:Summary>\n"
-#| "    B<db:Status-Abbrev>\n"
-#| "    B<source:Package>\n"
-#| "    B<source:Version>\n"
-msgid ""
-"    B<binary:Package>\n"
-"    B<binary:Summary>\n"
-"    B<db:Status-Abbrev>\n"
-"    B<db:Status-Want>\n"
-"    B<db:Status-Status>\n"
-"    B<db:Status-Eflag>\n"
-"    B<source:Package>\n"
-"    B<source:Version>\n"
-msgstr ""
-"    B<binary:Package>\n"
-"    B<binary:Summary>\n"
-"    B<db:Status-Abbrev>\n"
-"    B<source:Package>\n"
-"    B<source:Version>\n"
+#| msgid "B<binary:Version>"
+msgid "B<binary:Package>"
+msgstr "B<binary:Version>"
 
 #. type: Plain text
-#: dpkg-query.1:249
+#: dpkg-query.1:233
+msgid ""
+"It contains the binary package name, in a multiarch conformant form, arch-"
+"qualified if needed (since dpkg 1.16.2)."
+msgstr ""
+
+#. type: TP
+#: dpkg-query.1:233
+#, fuzzy, no-wrap
+#| msgid "B<binary:Version>"
+msgid "B<binary:Summary>"
+msgstr "B<binary:Version>"
+
+#. type: Plain text
+#: dpkg-query.1:236
+#, fuzzy
+#| msgid "The package architecture (since dpkg 1.16.1)."
+msgid "It contains the package short description (since dpkg 1.16.2)."
+msgstr "Paketets arkitektur (sedan dpkg 1.16.1)."
+
+#. type: TP
+#: dpkg-query.1:236
+#, no-wrap
+msgid "B<db:Status-Abbrev>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-query.1:240
+msgid ""
+"It contains the abbreviated package status, such as \\(lqii\\(rq (since dpkg "
+"1.16.2)."
+msgstr ""
+
+#. type: TP
+#: dpkg-query.1:240
+#, no-wrap
+msgid "B<db:Status-Want>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-query.1:244
+msgid ""
+"It contains the package wanted status, part of the Status field (since dpkg "
+"1.17.11)."
+msgstr ""
+
+#. type: TP
+#: dpkg-query.1:244
+#, fuzzy, no-wrap
+#| msgid "B<Status:>I< status>"
+msgid "B<db:Status-Status>"
+msgstr "B<Status:>I< status>"
+
+#. type: Plain text
+#: dpkg-query.1:248
+msgid ""
+"It contains the package status word, part of the Status field (since dpkg "
+"1.17.11)."
+msgstr ""
+
+#. type: TP
+#: dpkg-query.1:248
+#, no-wrap
+msgid "B<db:Status-Eflag>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-query.1:252
+msgid ""
+"It contains the package status error flag, part of the Status field (since "
+"dpkg 1.17.11)."
+msgstr ""
+
+#. type: TP
+#: dpkg-query.1:252
+#, fuzzy, no-wrap
+#| msgid "B<source:Version>"
+msgid "B<source:Package>"
+msgstr "B<source:Version>"
+
+#. type: Plain text
+#: dpkg-query.1:256
+#, fuzzy
+#| msgid "The Debian cpu name of the build machine (since dpkg 1.13.2)."
+msgid ""
+"It contains the source package name for this binary package (since dpkg "
+"1.16.2)."
+msgstr "Debian-processornamnet för byggmaskinen (sedan dpkg 1.13.)."
+
+#. type: Plain text
+#: dpkg-query.1:260
+msgid ""
+"It contains the source package version for this binary package (since dpkg "
+"1.16.2)"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-query.1:271
 msgid ""
 "The default format string is \\(lqB<${binary:Package}\\et${Version}\\en>"
 "\\(rq.  Actually, all other fields found in the status file (i.e. user "
@@ -13496,39 +13575,39 @@ msgstr ""
 "installerad version av B<dpkg> och kan du köra:"
 
 #. type: Plain text
-#: dpkg-query.1:252
+#: dpkg-query.1:274
 #, no-wrap
 msgid "  B<dpkg-query -W -f=\\(aq${binary:Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
 msgstr "  B<dpkg-query -W -f=\\(aq${binary:Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
 
 #. type: SH
-#: dpkg-query.1:254 dpkg-split.1:196 start-stop-daemon.8:300
+#: dpkg-query.1:276 dpkg-split.1:196 start-stop-daemon.8:300
 #: update-alternatives.8:371
 #, no-wrap
 msgid "EXIT STATUS"
 msgstr "RETURVÄRDE"
 
 #. type: TP
-#: dpkg-query.1:255 dpkg-split.1:197 start-stop-daemon.8:301
+#: dpkg-query.1:277 dpkg-split.1:197 start-stop-daemon.8:301
 #: start-stop-daemon.8:330 update-alternatives.8:372
 #, no-wrap
 msgid "B<0>"
 msgstr "B<0>"
 
 #. type: Plain text
-#: dpkg-query.1:258
+#: dpkg-query.1:280
 msgid "The requested query was successfully performed."
 msgstr "Den önskade frågan utfördes utan fel."
 
 #. type: TP
-#: dpkg-query.1:258 dpkg-split.1:203 start-stop-daemon.8:311
+#: dpkg-query.1:280 dpkg-split.1:203 start-stop-daemon.8:311
 #: start-stop-daemon.8:333
 #, no-wrap
 msgid "B<1>"
 msgstr "B<1>"
 
 #. type: Plain text
-#: dpkg-query.1:263
+#: dpkg-query.1:285
 msgid ""
 "Problems were encountered while parsing the command line or performing the "
 "query, including no file or package being found (except for B<--control-"
@@ -13539,7 +13618,7 @@ msgstr ""
 "control-path>)."
 
 #. type: Plain text
-#: dpkg-query.1:273
+#: dpkg-query.1:295
 msgid ""
 "This setting influences the output of the B<--list> option by changing the "
 "width of its output."
@@ -17385,9 +17464,10 @@ msgstr "dselect"
 
 #. type: TH
 #: dselect.1:22
-#, no-wrap
-msgid "2012-04-07"
-msgstr "2012-04-07"
+#, fuzzy, no-wrap
+#| msgid "2011-08-14"
+msgid "2014-08-11"
+msgstr "2011-08-14"
 
 #. type: Plain text
 #: dselect.1:25
@@ -18074,12 +18154,22 @@ msgstr ""
 "paket kända från databasen över tillgängliga paket."
 
 #. type: Plain text
-#: dselect.1:290
+#: dselect.1:293
+#, fuzzy
+#| msgid ""
+#| "For every package, the list shows the package's status, priority, "
+#| "section, installed and available versions, the package name and its short "
+#| "description, all in one line. By pressing the B<'V'> key, the display of "
+#| "the installed and available version can be toggled between on an off. By "
+#| "pressing the B<'v'> key, the package status display is toggled between "
+#| "verbose and shorthand.  Shorthand display is the default."
 msgid ""
 "For every package, the list shows the package's status, priority, section, "
-"installed and available versions, the package name and its short "
-"description, all in one line. By pressing the B<'V'> key, the display of the "
-"installed and available version can be toggled between on an off. By "
+"installed and available architecture, installed and available versions, the "
+"package name and its short description, all in one line.  By pressing the "
+"B<'A'> key, the display of the installed and available architecture can be "
+"toggled between on an off.  By pressing the B<'V'> key, the display of the "
+"installed and available version can be toggled between on an off.  By "
 "pressing the B<'v'> key, the package status display is toggled between "
 "verbose and shorthand.  Shorthand display is the default."
 msgstr ""
@@ -18091,7 +18181,7 @@ msgstr ""
 "förkortad, med den förkortade visningen som förval."
 
 #. type: Plain text
-#: dselect.1:296
+#: dselect.1:299
 msgid ""
 "The shorthand status indication consists of four parts: an error flag, which "
 "should normally be clear, the current status, the last selection state and "
@@ -18104,7 +18194,7 @@ msgstr ""
 "beskriver valet som gjorts av användaren."
 
 #. type: Plain text
-#: dselect.1:314
+#: dselect.1:317
 #, no-wrap
 msgid ""
 "These are the meanings of the shorthand package status indicator codes:\n"
@@ -18145,13 +18235,13 @@ msgstr ""
 "  B<n>       paketet är nytt och har ännu inte markerats\n"
 
 #. type: SS
-#: dselect.1:315
+#: dselect.1:318
 #, no-wrap
 msgid "Cursor and screen movement"
 msgstr "Markör- och skärmrörelser"
 
 #. type: Plain text
-#: dselect.1:320
+#: dselect.1:323
 msgid ""
 "The package selection list and the dependency conflict resolution screens "
 "can be navigated using motion commands mapped to the following keys:"
@@ -18160,7 +18250,7 @@ msgstr ""
 "att använda rörelsekommandon kopplade till följande tangenter:"
 
 #. type: Plain text
-#: dselect.1:337
+#: dselect.1:340
 #, no-wrap
 msgid ""
 "  B<p, Up, k>           move cursor bar up\n"
@@ -18198,13 +18288,13 @@ msgstr ""
 "  B<^f>                  panorera vy 1 tecken höger\n"
 
 #. type: SS
-#: dselect.1:338
+#: dselect.1:341
 #, no-wrap
 msgid "Searching and sorting"
 msgstr "Sökning och sortering"
 
 #. type: Plain text
-#: dselect.1:352
+#: dselect.1:355
 msgid ""
 "The list of packages can be searched by package name. This is done by "
 "pressing B<'/'>, and typing a simple search string. The string is "
@@ -18227,7 +18317,7 @@ msgstr ""
 "sökningen därifrån."
 
 #. type: Plain text
-#: dselect.1:359
+#: dselect.1:362
 #, no-wrap
 msgid ""
 "The list sort order can be varied by pressing\n"
@@ -18245,7 +18335,7 @@ msgstr ""
 " sektion+prioritet  tillgänglig+sektion    status+sektion\n"
 
 #. type: Plain text
-#: dselect.1:362
+#: dselect.1:365
 msgid ""
 "Where not listed above explicitly, alphabetic order is used as the final "
 "subordering sort key."
@@ -18254,13 +18344,13 @@ msgstr ""
 "sorteringsnyckeln."
 
 #. type: SS
-#: dselect.1:363
+#: dselect.1:366
 #, no-wrap
 msgid "Altering selections"
 msgstr "Ändra val"
 
 #. type: Plain text
-#: dselect.1:372
+#: dselect.1:375
 #, no-wrap
 msgid ""
 "The requested selection state of individual packages may be\n"
@@ -18280,7 +18370,7 @@ msgstr ""
 "  B<_>            ta bort och radera konfiguration\n"
 
 #. type: Plain text
-#: dselect.1:376
+#: dselect.1:379
 msgid ""
 "When the change request results in one or more unsatisfied depends or "
 "conflicts, B<dselect> prompts the user with a dependency resolution screen. "
@@ -18291,7 +18381,7 @@ msgstr ""
 "beroendelösningsskärm, vilken beskrivs ytterligare nedan."
 
 #. type: Plain text
-#: dselect.1:381
+#: dselect.1:384
 msgid ""
 "It is also possible to apply these commands to groups of package selections, "
 "by pointing the cursor bar onto a group header. The exact grouping of "
@@ -18302,7 +18392,7 @@ msgstr ""
 "grupperas beror på vilken listordning som för tillfället används."
 
 #. type: Plain text
-#: dselect.1:387
+#: dselect.1:390
 msgid ""
 "Proper care should be taken when altering large groups of selections, "
 "because this can instantaneously create large numbers of unresolved depends "
@@ -18317,13 +18407,13 @@ msgstr ""
 "praktiken är bara håll-kommandot och dess motsats användbara på grupper."
 
 #. type: SS
-#: dselect.1:388
+#: dselect.1:391
 #, no-wrap
 msgid "Resolving depends and conflicts"
 msgstr "Lösa beroenden och konflikter"
 
 #. type: Plain text
-#: dselect.1:393
+#: dselect.1:396
 msgid ""
 "When the change request results in one or more unsatisfied depends or "
 "conflicts, B<dselect> prompts the user with a dependency resolution screen. "
@@ -18334,7 +18424,7 @@ msgstr ""
 "beroendelösningsskärm. Först visas dock en informativ hjälpskärm."
 
 #. type: Plain text
-#: dselect.1:400
+#: dselect.1:403
 msgid ""
 "The top half of this screen lists all the packages that will have unresolved "
 "depends or conflicts, as a result of the requested change, and all the "
@@ -18351,7 +18441,7 @@ msgstr ""
 "paketet listas."
 
 #. type: Plain text
-#: dselect.1:406
+#: dselect.1:409
 msgid ""
 "When the sublist of packages is displayed initially, B<dselect> may have "
 "already set the requested selection status of some of the listed packages, "
@@ -18365,7 +18455,7 @@ msgstr ""
 "är oftast bäst att följa upp de förslag B<dselect> ger."
 
 #. type: Plain text
-#: dselect.1:414
+#: dselect.1:417
 msgid ""
 "The listed packages' selection state may be reverted to the original "
 "settings, as they were before the unresolved depends or conflicts were "
@@ -18382,13 +18472,13 @@ msgstr ""
 "återställs valen återigen till de automatiskt föreslagna värdena."
 
 #. type: SS
-#: dselect.1:415
+#: dselect.1:418
 #, no-wrap
 msgid "Establishing the requested selections"
 msgstr "Bekräfta de efterfrågade valen"
 
 #. type: Plain text
-#: dselect.1:422
+#: dselect.1:425
 msgid ""
 "By pressing B<enter>, the currently displayed set of selections is accepted. "
 "If B<dselect> detects no unresolved depends as a result of the requested "
@@ -18403,7 +18493,7 @@ msgstr ""
 "gå till beroendelösningsskärmen."
 
 #. type: Plain text
-#: dselect.1:428
+#: dselect.1:431
 msgid ""
 "To alter a set of selections that creates unresolved depends or conflicts "
 "and forcing B<dselect> to accept it, press the B<'Q'> key. This sets the "
@@ -18416,7 +18506,7 @@ msgstr ""
 "vanligtvis inte bör göras om man inte har läst det finstilta."
 
 #. type: Plain text
-#: dselect.1:435
+#: dselect.1:438
 msgid ""
 "The opposite effect, to back out any selections change requests and go back "
 "to the previous list of selections, is attained by pressing the B<'X'> or "
@@ -18431,7 +18521,7 @@ msgstr ""
 "inställningar."
 
 #. type: Plain text
-#: dselect.1:442
+#: dselect.1:445
 msgid ""
 "If you mistakenly establish some settings and wish to revert all the "
 "selections to what is currently installed on the system, press the B<'C'> "
@@ -18446,7 +18536,7 @@ msgstr ""
 "tryckte på B<Enter>."
 
 #. type: Plain text
-#: dselect.1:449
+#: dselect.1:452
 msgid ""
 "If set, B<dselect> will use it as the directory from which to read the user "
 "specific configuration file."
@@ -18455,7 +18545,7 @@ msgstr ""
 "användarspecifika konfigurationsfilen skall läsas."
 
 #. type: Plain text
-#: dselect.1:455
+#: dselect.1:458
 msgid ""
 "The B<dselect> package selection interface is confusing to some new users.  "
 "Reportedly, it even makes seasoned kernel developers cry."
@@ -18465,22 +18555,22 @@ msgstr ""
 "kärnan att gråta."
 
 #. type: Plain text
-#: dselect.1:457
+#: dselect.1:460
 msgid "The documentation is lacking."
 msgstr "Dokumentationen har brister."
 
 #. type: Plain text
-#: dselect.1:459
+#: dselect.1:462
 msgid "There is no help option in the main menu."
 msgstr "Det finns inget hjälpalternativ i huvudmenyn."
 
 #. type: Plain text
-#: dselect.1:461
+#: dselect.1:464
 msgid "The visible list of available packages cannot be reduced."
 msgstr "Den synliga listan med tillgängliga paket kan inte förminskas."
 
 #. type: Plain text
-#: dselect.1:465
+#: dselect.1:468
 msgid ""
 "The built in access methods can no longer stand up to current quality "
 "standards. Use the access method provided by apt, it is not only not broken, "
@@ -18491,7 +18581,7 @@ msgstr ""
 "även mycket flexiblare än de inbyggda åtkomstmetoderna."
 
 #. type: Plain text
-#: dselect.1:470
+#: dselect.1:473
 msgid "B<dpkg>(1), B<apt-get>(8), B<sources.list>(5), B<deb>(5)."
 msgstr "B<dpkg>(1), B<apt-get>(8), B<sources.list>(5), B<deb>(5)."
 
@@ -20291,6 +20381,32 @@ msgstr "B<update-alternatives --auto vi>"
 #: update-alternatives.8:515
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
+
+#, fuzzy
+#~| msgid ""
+#~| "    B<binary:Package>\n"
+#~| "    B<binary:Summary>\n"
+#~| "    B<db:Status-Abbrev>\n"
+#~| "    B<source:Package>\n"
+#~| "    B<source:Version>\n"
+#~ msgid ""
+#~ "    B<binary:Package>\n"
+#~ "    B<binary:Summary>\n"
+#~ "    B<db:Status-Abbrev>\n"
+#~ "    B<db:Status-Want>\n"
+#~ "    B<db:Status-Status>\n"
+#~ "    B<db:Status-Eflag>\n"
+#~ "    B<source:Package>\n"
+#~ "    B<source:Version>\n"
+#~ msgstr ""
+#~ "    B<binary:Package>\n"
+#~ "    B<binary:Summary>\n"
+#~ "    B<db:Status-Abbrev>\n"
+#~ "    B<source:Package>\n"
+#~ "    B<source:Version>\n"
+
+#~ msgid "2012-04-07"
+#~ msgstr "2012-04-07"
 
 #~ msgid "2013-08-08"
 #~ msgstr "2013-08-08"

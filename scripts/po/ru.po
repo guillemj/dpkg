@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.16.9\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-08-09 12:49+0200\n"
+"POT-Creation-Date: 2014-08-15 03:51+0200\n"
 "PO-Revision-Date: 2013-01-25 18:57+0400\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: scripts/dpkg-architecture.pl:37 scripts/dpkg-buildflags.pl:33
 #: scripts/dpkg-buildpackage.pl:47 scripts/dpkg-checkbuilddeps.pl:39
-#: scripts/dpkg-distaddfile.pl:37 scripts/dpkg-genchanges.pl:113
+#: scripts/dpkg-distaddfile.pl:37 scripts/dpkg-genchanges.pl:122
 #: scripts/dpkg-gencontrol.pl:66 scripts/dpkg-gensymbols.pl:53
 #: scripts/dpkg-mergechangelogs.pl:54 scripts/dpkg-name.pl:46
 #: scripts/dpkg-parsechangelog.pl:36 scripts/dpkg-scanpackages.pl:67
@@ -33,7 +33,7 @@ msgstr "Debian %s, версия %s.\n"
 
 #: scripts/dpkg-architecture.pl:39 scripts/dpkg-buildflags.pl:35
 #: scripts/dpkg-buildpackage.pl:49 scripts/dpkg-distaddfile.pl:39
-#: scripts/dpkg-genchanges.pl:115 scripts/dpkg-gencontrol.pl:68
+#: scripts/dpkg-genchanges.pl:124 scripts/dpkg-gencontrol.pl:68
 #: scripts/dpkg-gensymbols.pl:55 scripts/dpkg-parsechangelog.pl:38
 #: scripts/dpkg-shlibdeps.pl:550 scripts/dpkg-source.pl:497
 #: scripts/changelog/debian.pl:39
@@ -118,7 +118,7 @@ msgid "%s is not a supported variable name"
 msgstr "%s не является поддерживаемым именем переменной"
 
 #: scripts/dpkg-architecture.pl:165 scripts/dpkg-buildflags.pl:92
-#: scripts/dpkg-distaddfile.pl:69 scripts/dpkg-genchanges.pl:219
+#: scripts/dpkg-distaddfile.pl:69 scripts/dpkg-genchanges.pl:216
 #: scripts/dpkg-gencontrol.pl:140 scripts/dpkg-gensymbols.pl:140
 #: scripts/dpkg-name.pl:245 scripts/dpkg-parsechangelog.pl:121
 #: scripts/dpkg-shlibdeps.pl:133
@@ -237,7 +237,7 @@ msgstr "указаны две команды: --%s и --%s"
 msgid "%s needs a parameter"
 msgstr "для %s требуется параметр"
 
-#: scripts/dpkg-buildpackage.pl:57 scripts/dpkg-genchanges.pl:123
+#: scripts/dpkg-buildpackage.pl:57 scripts/dpkg-genchanges.pl:132
 #: scripts/dpkg-gencontrol.pl:76 scripts/dpkg-gensymbols.pl:63
 #: scripts/dpkg-parsechangelog.pl:46
 #, perl-format
@@ -417,47 +417,41 @@ msgstr ""
 "     --source-option=<пар>\n"
 "                    передать параметр <пар> в dpkg-source\n"
 
-#: scripts/dpkg-buildpackage.pl:230
+#: scripts/dpkg-buildpackage.pl:198 scripts/dpkg-genchanges.pl:116
+#, perl-format
+msgid "cannot combine %s and %s"
+msgstr "не удалось объединить %s и %s"
+
+#: scripts/dpkg-buildpackage.pl:239
 #, fuzzy, perl-format
 #| msgid "unknown option `%s'"
 msgid "unknown hook name %s"
 msgstr "неизвестный параметр «%s»"
 
-#: scripts/dpkg-buildpackage.pl:232
+#: scripts/dpkg-buildpackage.pl:241
 #, perl-format
 msgid "missing hook %s command"
 msgstr ""
 
-#: scripts/dpkg-buildpackage.pl:243
+#: scripts/dpkg-buildpackage.pl:252
 #, perl-format
 msgid "-s%s is deprecated; always using gpg style interface"
 msgstr "-s%s устарел; всегда используется интерфейс как у gpg"
 
-#: scripts/dpkg-buildpackage.pl:274 scripts/dpkg-buildpackage.pl:279
-#: scripts/dpkg-buildpackage.pl:284 scripts/dpkg-buildpackage.pl:289
-#: scripts/dpkg-buildpackage.pl:294 scripts/dpkg-buildpackage.pl:299
-#: scripts/dpkg-buildpackage.pl:304 scripts/dpkg-genchanges.pl:158
-#: scripts/dpkg-genchanges.pl:162 scripts/dpkg-genchanges.pl:166
-#: scripts/dpkg-genchanges.pl:170 scripts/dpkg-genchanges.pl:174
-#: scripts/dpkg-genchanges.pl:178
-#, perl-format
-msgid "cannot combine %s and %s"
-msgstr "не удалось объединить %s и %s"
-
-#: scripts/dpkg-buildpackage.pl:317 scripts/dpkg-source.pl:201
+#: scripts/dpkg-buildpackage.pl:312 scripts/dpkg-source.pl:201
 msgid "-E and -W are deprecated, they are without effect"
 msgstr "-E и -W устарели, они ничего не изменят"
 
-#: scripts/dpkg-buildpackage.pl:322
+#: scripts/dpkg-buildpackage.pl:317
 #, perl-format
 msgid "unknown option or argument %s"
 msgstr "неизвестный параметр или аргумент %s"
 
-#: scripts/dpkg-buildpackage.pl:343
+#: scripts/dpkg-buildpackage.pl:338
 msgid "using a gain-root-command while being root"
 msgstr "используется команда получения прав root, но уже есть права root"
 
-#: scripts/dpkg-buildpackage.pl:350
+#: scripts/dpkg-buildpackage.pl:345
 msgid ""
 "fakeroot not found, either install the fakeroot\n"
 "package, specify a command with the -r option, or run this as root"
@@ -465,58 +459,58 @@ msgstr ""
 "fakeroot не найдена, установите пакет fakeroot и\n"
 "запускайте команду с параметром -r, или запускайте её от root"
 
-#: scripts/dpkg-buildpackage.pl:354
+#: scripts/dpkg-buildpackage.pl:349
 #, perl-format
 msgid "gain-root-commmand '%s' not found"
 msgstr "команда-получения-root «%s» не найдена"
 
-#: scripts/dpkg-buildpackage.pl:359
+#: scripts/dpkg-buildpackage.pl:354
 #, fuzzy, perl-format
 #| msgid "gain-root-commmand '%s' not found"
 msgid "check-commmand '%s' not found"
 msgstr "команда-получения-root «%s» не найдена"
 
-#: scripts/dpkg-buildpackage.pl:364
+#: scripts/dpkg-buildpackage.pl:359
 #, fuzzy, perl-format
 #| msgid "gain-root-commmand '%s' not found"
 msgid "sign-commmand '%s' not found"
 msgstr "команда-получения-root «%s» не найдена"
 
-#: scripts/dpkg-buildpackage.pl:397
+#: scripts/dpkg-buildpackage.pl:392
 msgid "source package"
 msgstr "пакет исходных текстов"
 
-#: scripts/dpkg-buildpackage.pl:398
+#: scripts/dpkg-buildpackage.pl:393
 msgid "source version"
 msgstr "версия исходных текстов"
 
-#: scripts/dpkg-buildpackage.pl:406
+#: scripts/dpkg-buildpackage.pl:401
 #, fuzzy
 #| msgid "source version"
 msgid "source distribution"
 msgstr "версия исходных текстов"
 
-#: scripts/dpkg-buildpackage.pl:414
+#: scripts/dpkg-buildpackage.pl:409
 msgid "source changed by"
 msgstr "исходные тексты изменены"
 
-#: scripts/dpkg-buildpackage.pl:432
+#: scripts/dpkg-buildpackage.pl:427
 msgid "host architecture"
 msgstr "архитектура узла"
 
-#: scripts/dpkg-buildpackage.pl:461
+#: scripts/dpkg-buildpackage.pl:456
 msgid "debian/rules is not executable; fixing that"
 msgstr "debian/rules не является исполняемым; исправляем это"
 
-#: scripts/dpkg-buildpackage.pl:482
+#: scripts/dpkg-buildpackage.pl:477
 msgid "build dependencies/conflicts unsatisfied; aborting"
 msgstr "неудовлетворительные зависимости/конфликты при сборке; прерываемся"
 
-#: scripts/dpkg-buildpackage.pl:483
+#: scripts/dpkg-buildpackage.pl:478
 msgid "(Use -d flag to override.)"
 msgstr "(Используйте параметр -d, чтобы продолжить сборку.)"
 
-#: scripts/dpkg-buildpackage.pl:486
+#: scripts/dpkg-buildpackage.pl:481
 msgid ""
 "this is currently a non-fatal warning with -S, but will probably become "
 "fatal in the future"
@@ -524,7 +518,7 @@ msgstr ""
 "в данный момент с -S это только предупреждение но, вероятно, в будущем это "
 "станет ошибкой"
 
-#: scripts/dpkg-buildpackage.pl:514
+#: scripts/dpkg-buildpackage.pl:509
 msgid ""
 "building a source package without cleaning up as you asked; it might contain "
 "undesired files"
@@ -532,7 +526,7 @@ msgstr ""
 "сборка пакета исходного кода без предварительной очистки по вашему запросу; "
 "могут добавиться нежелательные файлы"
 
-#: scripts/dpkg-buildpackage.pl:534
+#: scripts/dpkg-buildpackage.pl:529
 #, perl-format
 msgid ""
 "%s must be updated to support the 'build-arch' and 'build-indep' targets (at "
@@ -541,54 +535,54 @@ msgstr ""
 "для поддержки целей «build-arch» и «build-indep» требуется обновить %s (во "
 "всяком случае, будет отсутствовать «%s»)"
 
-#: scripts/dpkg-buildpackage.pl:561
+#: scripts/dpkg-buildpackage.pl:556
 #, fuzzy
 #| msgid "write changes file"
 msgid "parse changes file"
 msgstr "запись файла изменений"
 
-#: scripts/dpkg-buildpackage.pl:563
+#: scripts/dpkg-buildpackage.pl:558
 msgid "dpkg-genchanges"
 msgstr "dpkg-genchanges"
 
-#: scripts/dpkg-buildpackage.pl:584
+#: scripts/dpkg-buildpackage.pl:579
 msgid "Press the return key to start signing process\n"
 msgstr "Нажмите любую клавишу для запуска процесс подписывания\n"
 
-#: scripts/dpkg-buildpackage.pl:592
+#: scripts/dpkg-buildpackage.pl:587
 #, fuzzy
 #| msgid "Failed to sign .dsc and .changes file"
 msgid "failed to sign .dsc and .changes file"
 msgstr "Отказ при подписывании файлов .dsc и .changes"
 
-#: scripts/dpkg-buildpackage.pl:611
+#: scripts/dpkg-buildpackage.pl:606
 #, fuzzy
 #| msgid "Failed to sign .changes file"
 msgid "failed to sign .changes file"
 msgstr "Отказ при подписывании файла .changes"
 
-#: scripts/dpkg-buildpackage.pl:615
+#: scripts/dpkg-buildpackage.pl:610
 msgid "not signing UNRELEASED build; use --force-sign to override"
 msgstr ""
 
-#: scripts/dpkg-buildpackage.pl:623
+#: scripts/dpkg-buildpackage.pl:618
 #, perl-format
 msgid "unable to determine %s"
 msgstr "невозможно определить %s"
 
-#: scripts/dpkg-buildpackage.pl:659
+#: scripts/dpkg-buildpackage.pl:654
 #, fuzzy, perl-format
 #| msgid "unknown substitution variable ${%s}"
 msgid "unknown %% substitution in hook: %%%s"
 msgstr "неизвестная подстановочная переменная ${%s}"
 
-#: scripts/dpkg-buildpackage.pl:704
+#: scripts/dpkg-buildpackage.pl:699
 #, fuzzy
 #| msgid "source only upload: Debian-native package"
 msgid "source-only upload: Debian-native package"
 msgstr "закачка только пакетов исходного кода: родной пакет Debian"
 
-#: scripts/dpkg-buildpackage.pl:706
+#: scripts/dpkg-buildpackage.pl:701
 #, fuzzy
 #| msgid "source only, diff-only upload (original source NOT included)"
 msgid "source-only, diff-only upload (original source NOT included)"
@@ -596,7 +590,7 @@ msgstr ""
 "закачка только пакета исходного кода и diff (пакет оригинального исходного "
 "кода НЕ включён)"
 
-#: scripts/dpkg-buildpackage.pl:708
+#: scripts/dpkg-buildpackage.pl:703
 #, fuzzy
 #| msgid "source only upload (original source is included)"
 msgid "source-only upload (original source is included)"
@@ -604,24 +598,24 @@ msgstr ""
 "закачка только пакета исходного кода и diff (с пакетом оригинального "
 "исходного кода)"
 
-#: scripts/dpkg-buildpackage.pl:711
+#: scripts/dpkg-buildpackage.pl:706
 #, fuzzy
 #| msgid "binary only upload (no source included)"
 msgid "binary-only upload (no source included)"
 msgstr "закачка только двоичных пакетов (без пакетов исходного кода)"
 
-#: scripts/dpkg-buildpackage.pl:714
+#: scripts/dpkg-buildpackage.pl:709
 msgid "full upload; Debian-native package (full source is included)"
 msgstr ""
 "закачка всего; родной пакет Debian (включены все пакеты исходного кода)"
 
-#: scripts/dpkg-buildpackage.pl:716
+#: scripts/dpkg-buildpackage.pl:711
 msgid "binary and diff upload (original source NOT included)"
 msgstr ""
 "закачка только двоичных пакетов и diff (без пакетов оригинального исходного "
 "кода)"
 
-#: scripts/dpkg-buildpackage.pl:718
+#: scripts/dpkg-buildpackage.pl:713
 msgid "full upload (original source is included)"
 msgstr "закачка всего (с пакетом оригинального исходного кода)"
 
@@ -756,7 +750,7 @@ msgstr "установка нового файла с списком файло�
 msgid "cannot close %s"
 msgstr "не удалось закрыть %s"
 
-#: scripts/dpkg-genchanges.pl:125
+#: scripts/dpkg-genchanges.pl:134
 #, fuzzy
 #| msgid ""
 #| "Options:\n"
@@ -846,77 +840,77 @@ msgstr ""
 "  -?, --help               показать это сообщение\n"
 "      --version            показать версию\n"
 
-#: scripts/dpkg-genchanges.pl:249
+#: scripts/dpkg-genchanges.pl:246
 #, perl-format
 msgid "the current version (%s) is earlier than the previous one (%s)"
 msgstr "текущая версия (%s) меньше чем предыдущая (%s)"
 
-#: scripts/dpkg-genchanges.pl:262
+#: scripts/dpkg-genchanges.pl:259
 msgid "binary build with no binary artifacts found; cannot distribute"
 msgstr ""
 
-#: scripts/dpkg-genchanges.pl:313
+#: scripts/dpkg-genchanges.pl:310
 #, perl-format
 msgid "package %s in control file but not in files list"
 msgstr "пакет %s в управляющем файле, но его нет в файле со списком файлов"
 
-#: scripts/dpkg-genchanges.pl:358
+#: scripts/dpkg-genchanges.pl:355
 msgid "read changesdescription"
 msgstr "чтение описания изменений"
 
-#: scripts/dpkg-genchanges.pl:364
+#: scripts/dpkg-genchanges.pl:361
 #, perl-format
 msgid "package %s listed in files list but not in control info"
 msgstr ""
 "пакет %s есть в файле со списком файлов, но его нет в управляющей информации"
 
-#: scripts/dpkg-genchanges.pl:378
+#: scripts/dpkg-genchanges.pl:375
 #, perl-format
 msgid "missing Section for binary package %s; using '-'"
 msgstr "отсутствует Section для двоичного пакета %s; используется «-»"
 
-#: scripts/dpkg-genchanges.pl:381
+#: scripts/dpkg-genchanges.pl:378
 #, perl-format
 msgid "package %s has section %s in control file but %s in files list"
 msgstr "пакет %s в секции %s в управляющем файле, но в %s в списке файлов"
 
-#: scripts/dpkg-genchanges.pl:389
+#: scripts/dpkg-genchanges.pl:386
 #, perl-format
 msgid "missing Priority for binary package %s; using '-'"
 msgstr "отсутствует Priority для двоичного пакета %s; используется «-»"
 
-#: scripts/dpkg-genchanges.pl:392
+#: scripts/dpkg-genchanges.pl:389
 #, perl-format
 msgid "package %s has priority %s in control file but %s in files list"
 msgstr "пакет %s имеет приоритет %s в управляющем файле, но %s в списке файлов"
 
-#: scripts/dpkg-genchanges.pl:404
+#: scripts/dpkg-genchanges.pl:401
 msgid "missing Section for source files"
 msgstr "отсутствует Section для файлов с исходным кодом"
 
-#: scripts/dpkg-genchanges.pl:409
+#: scripts/dpkg-genchanges.pl:406
 msgid "missing Priority for source files"
 msgstr "отсутствует Priority для файлов с исходным кодом"
 
-#: scripts/dpkg-genchanges.pl:417 scripts/dpkg-source.pl:370
+#: scripts/dpkg-genchanges.pl:414 scripts/dpkg-source.pl:370
 #: scripts/Dpkg/Vendor.pm:92
 #, perl-format
 msgid "%s is empty"
 msgstr "%s пуст"
 
-#: scripts/dpkg-genchanges.pl:438
+#: scripts/dpkg-genchanges.pl:435
 msgid "not including original source code in upload"
 msgstr "в закачку не включён оригинальный исходный код"
 
-#: scripts/dpkg-genchanges.pl:445
+#: scripts/dpkg-genchanges.pl:442
 msgid "ignoring -sd option for native Debian package"
 msgstr "игнорируется параметр -sd для родного пакета Debian"
 
-#: scripts/dpkg-genchanges.pl:447
+#: scripts/dpkg-genchanges.pl:444
 msgid "including full source code in upload"
 msgstr "в закачку включён весь исходный код"
 
-#: scripts/dpkg-genchanges.pl:455
+#: scripts/dpkg-genchanges.pl:452
 #, fuzzy
 #| msgid "%s: arch-specific upload - not including arch-independent packages"
 msgid ""
@@ -926,7 +920,7 @@ msgstr ""
 "%s: архит. специфичная закачка — не включаются независимые от архитектуры "
 "пакеты"
 
-#: scripts/dpkg-genchanges.pl:458
+#: scripts/dpkg-genchanges.pl:455
 #, fuzzy
 #| msgid "%s: arch-indep upload - not including arch-specific packages"
 msgid ""
@@ -936,22 +930,22 @@ msgstr ""
 "%s: независимая от архитектуры закачка — не включаются зависимые от "
 "архитектуры пакеты"
 
-#: scripts/dpkg-genchanges.pl:461
+#: scripts/dpkg-genchanges.pl:458
 #, fuzzy
 #| msgid "binary only upload (no source included)"
 msgid "binary-only upload (no source code included)"
 msgstr "закачка только двоичных пакетов (без пакетов исходного кода)"
 
-#: scripts/dpkg-genchanges.pl:465
+#: scripts/dpkg-genchanges.pl:462
 msgid "write original source message"
 msgstr "запись оригинального исходного сообщения"
 
-#: scripts/dpkg-genchanges.pl:523 scripts/Dpkg/Source/Package.pm:600
+#: scripts/dpkg-genchanges.pl:520 scripts/Dpkg/Source/Package.pm:600
 #, perl-format
 msgid "missing information for critical output field %s"
 msgstr "отсутствует информация о критическом поле вывода %s"
 
-#: scripts/dpkg-genchanges.pl:528 scripts/dpkg-gencontrol.pl:307
+#: scripts/dpkg-genchanges.pl:525 scripts/dpkg-gencontrol.pl:307
 #: scripts/dpkg-gencontrol.pl:311 scripts/Dpkg/Source/Package.pm:605
 #, perl-format
 msgid "missing information for output field %s"

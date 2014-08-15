@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-08-09 12:49+0200\n"
+"POT-Creation-Date: 2014-08-15 03:51+0200\n"
 "PO-Revision-Date: 2012-09-29 02:55+0200\n"
 "Last-Translator: TAKAHASHI Motonobu <monyo@monyo.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -323,10 +323,10 @@ msgstr ""
 #: deb-extra-override.5:54 deb-shlibs.5:66 deb-substvars.5:168
 #: deb-symbols.5:88 deb-triggers.5:85 dpkg.1:875 dpkg-architecture.1:263
 #: dpkg.cfg.5:41 dpkg-buildpackage.1:374 dpkg-deb.1:299 dpkg-divert.8:153
-#: dpkg-gensymbols.1:487 dpkg-name.1:109 dpkg-query.1:274
+#: dpkg-gensymbols.1:487 dpkg-name.1:109 dpkg-query.1:296
 #: dpkg-scanpackages.1:113 dpkg-scansources.1:90 dpkg-shlibdeps.1:364
 #: dpkg-source.1:771 dpkg-split.1:234 dpkg-statoverride.8:103
-#: dpkg-trigger.1:83 dpkg-vendor.1:65 dselect.1:466 dselect.cfg.5:41
+#: dpkg-trigger.1:83 dpkg-vendor.1:65 dselect.1:469 dselect.cfg.5:41
 #: update-alternatives.8:513
 #, no-wrap
 msgid "SEE ALSO"
@@ -2752,7 +2752,7 @@ msgstr ""
 "り)。"
 
 #. type: TP
-#: deb-substvars.5:95
+#: deb-substvars.5:95 dpkg-query.1:256
 #, no-wrap
 msgid "B<source:Version>"
 msgstr "B<source:Version>"
@@ -5205,15 +5205,15 @@ msgstr "先に指定した B<--no-triggers> を無効にする。"
 
 #. type: SH
 #: dpkg.1:709 dpkg-buildflags.1:322 dpkg-buildpackage.1:328
-#: dpkg-checkbuilddeps.1:76 dpkg-deb.1:271 dpkg-divert.8:99 dpkg-query.1:264
-#: dpkg-statoverride.8:87 dpkg-trigger.1:77 dpkg-vendor.1:59 dselect.1:444
+#: dpkg-checkbuilddeps.1:76 dpkg-deb.1:271 dpkg-divert.8:99 dpkg-query.1:286
+#: dpkg-statoverride.8:87 dpkg-trigger.1:77 dpkg-vendor.1:59 dselect.1:447
 #: update-alternatives.8:380
 #, no-wrap
 msgid "ENVIRONMENT"
 msgstr "環境変数"
 
 #. type: TP
-#: dpkg.1:710 dselect.1:445
+#: dpkg.1:710 dselect.1:448
 #, no-wrap
 msgid "B<HOME>"
 msgstr "B<HOME>"
@@ -5266,7 +5266,7 @@ msgid "The program B<dpkg> will execute when starting a new shell."
 msgstr "B<dpkg> が新しいシェルを起動するときに、実際に起動するプログラム。"
 
 #. type: TP
-#: dpkg.1:724 dpkg-query.1:269
+#: dpkg.1:724 dpkg-query.1:291
 #, no-wrap
 msgid "B<COLUMNS>"
 msgstr "B<COLUMNS>"
@@ -5518,7 +5518,7 @@ msgstr ""
 
 #. type: SH
 #: dpkg.1:803 dpkg-buildpackage.1:369 dpkg-deb.1:285 dpkg-name.1:78
-#: dpkg-source.1:768 dpkg-split.1:227 dselect.1:450
+#: dpkg-source.1:768 dpkg-split.1:227 dselect.1:453
 #, no-wrap
 msgid "BUGS"
 msgstr "バグ"
@@ -6679,7 +6679,7 @@ msgid "AUTHOR"
 msgstr "作者"
 
 #. type: Plain text
-#: dpkg.cfg.5:42 dpkg-divert.8:154 dpkg-query.1:276 dpkg-statoverride.8:104
+#: dpkg.cfg.5:42 dpkg-divert.8:154 dpkg-query.1:298 dpkg-statoverride.8:104
 msgid "B<dpkg>(1)."
 msgstr "B<dpkg>(1)."
 
@@ -9999,14 +9999,14 @@ msgstr ""
 "テストモード。実際にはなにも実行せず、なにを実行するかを表示するだけである。"
 
 #. type: TP
-#: dpkg-divert.8:100 dpkg-query.1:265 dpkg-statoverride.8:88 dpkg-trigger.1:78
+#: dpkg-divert.8:100 dpkg-query.1:287 dpkg-statoverride.8:88 dpkg-trigger.1:78
 #: update-alternatives.8:381
 #, no-wrap
 msgid "B<DPKG_ADMINDIR>"
 msgstr "B<DPKG_ADMINDIR>"
 
 #. type: Plain text
-#: dpkg-divert.8:104 dpkg-query.1:269 dpkg-statoverride.8:92 dpkg-trigger.1:82
+#: dpkg-divert.8:104 dpkg-query.1:291 dpkg-statoverride.8:92 dpkg-trigger.1:82
 #, fuzzy
 #| msgid ""
 #| "If set and the B<--admindir> option has not been specified, it will be "
@@ -13985,33 +13985,112 @@ msgstr ""
 "る (これらのフィールド名は、制御ファイルにおける適切な命名規則に従っていない"
 "点に留意)。"
 
-#. type: Plain text
-#: dpkg-query.1:238
+#. type: TP
+#: dpkg-query.1:229
 #, fuzzy, no-wrap
-#| msgid ""
-#| "    B<binary:Package>\n"
-#| "    B<binary:Summary>\n"
-#| "    B<db:Status-Abbrev>\n"
-#| "    B<source:Package>\n"
-#| "    B<source:Version>\n"
-msgid ""
-"    B<binary:Package>\n"
-"    B<binary:Summary>\n"
-"    B<db:Status-Abbrev>\n"
-"    B<db:Status-Want>\n"
-"    B<db:Status-Status>\n"
-"    B<db:Status-Eflag>\n"
-"    B<source:Package>\n"
-"    B<source:Version>\n"
-msgstr ""
-"    B<binary:Package>\n"
-"    B<binary:Summary>\n"
-"    B<db:Status-Abbrev>\n"
-"    B<source:Package>\n"
-"    B<source:Version>\n"
+#| msgid "B<binary:Version>"
+msgid "B<binary:Package>"
+msgstr "B<binary:Version>"
 
 #. type: Plain text
-#: dpkg-query.1:249
+#: dpkg-query.1:233
+msgid ""
+"It contains the binary package name, in a multiarch conformant form, arch-"
+"qualified if needed (since dpkg 1.16.2)."
+msgstr ""
+
+#. type: TP
+#: dpkg-query.1:233
+#, fuzzy, no-wrap
+#| msgid "B<binary:Version>"
+msgid "B<binary:Summary>"
+msgstr "B<binary:Version>"
+
+#. type: Plain text
+#: dpkg-query.1:236
+#, fuzzy
+#| msgid "The package architecture (since dpkg 1.16.1)."
+msgid "It contains the package short description (since dpkg 1.16.2)."
+msgstr "パッケージのアーキテクチャ (dpkg 1.16.1 以降)"
+
+#. type: TP
+#: dpkg-query.1:236
+#, no-wrap
+msgid "B<db:Status-Abbrev>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-query.1:240
+msgid ""
+"It contains the abbreviated package status, such as \\(lqii\\(rq (since dpkg "
+"1.16.2)."
+msgstr ""
+
+#. type: TP
+#: dpkg-query.1:240
+#, no-wrap
+msgid "B<db:Status-Want>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-query.1:244
+msgid ""
+"It contains the package wanted status, part of the Status field (since dpkg "
+"1.17.11)."
+msgstr ""
+
+#. type: TP
+#: dpkg-query.1:244
+#, fuzzy, no-wrap
+#| msgid "B<Status:>I< status>"
+msgid "B<db:Status-Status>"
+msgstr "B<Status:>I< status>"
+
+#. type: Plain text
+#: dpkg-query.1:248
+msgid ""
+"It contains the package status word, part of the Status field (since dpkg "
+"1.17.11)."
+msgstr ""
+
+#. type: TP
+#: dpkg-query.1:248
+#, no-wrap
+msgid "B<db:Status-Eflag>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-query.1:252
+msgid ""
+"It contains the package status error flag, part of the Status field (since "
+"dpkg 1.17.11)."
+msgstr ""
+
+#. type: TP
+#: dpkg-query.1:252
+#, fuzzy, no-wrap
+#| msgid "B<source:Version>"
+msgid "B<source:Package>"
+msgstr "B<source:Version>"
+
+#. type: Plain text
+#: dpkg-query.1:256
+#, fuzzy
+#| msgid "The Debian cpu name of the build machine."
+msgid ""
+"It contains the source package name for this binary package (since dpkg "
+"1.16.2)."
+msgstr "ビルドマシンの Debian CPU 名"
+
+#. type: Plain text
+#: dpkg-query.1:260
+msgid ""
+"It contains the source package version for this binary package (since dpkg "
+"1.16.2)"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-query.1:271
 #, fuzzy
 #| msgid ""
 #| "The default format string is \\(lqB<${binary:Package}\\et${Version}\\en>"
@@ -14043,39 +14122,39 @@ msgstr ""
 "ているバージョンを取得するには、以下を実行する:"
 
 #. type: Plain text
-#: dpkg-query.1:252
+#: dpkg-query.1:274
 #, no-wrap
 msgid "  B<dpkg-query -W -f=\\(aq${binary:Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
 msgstr "  B<dpkg-query -W -f=\\(aq${binary:Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
 
 #. type: SH
-#: dpkg-query.1:254 dpkg-split.1:196 start-stop-daemon.8:300
+#: dpkg-query.1:276 dpkg-split.1:196 start-stop-daemon.8:300
 #: update-alternatives.8:371
 #, no-wrap
 msgid "EXIT STATUS"
 msgstr "終了ステータス"
 
 #. type: TP
-#: dpkg-query.1:255 dpkg-split.1:197 start-stop-daemon.8:301
+#: dpkg-query.1:277 dpkg-split.1:197 start-stop-daemon.8:301
 #: start-stop-daemon.8:330 update-alternatives.8:372
 #, no-wrap
 msgid "B<0>"
 msgstr "B<0>"
 
 #. type: Plain text
-#: dpkg-query.1:258
+#: dpkg-query.1:280
 msgid "The requested query was successfully performed."
 msgstr "リクエストされたクエリが正しく実行された。"
 
 #. type: TP
-#: dpkg-query.1:258 dpkg-split.1:203 start-stop-daemon.8:311
+#: dpkg-query.1:280 dpkg-split.1:203 start-stop-daemon.8:311
 #: start-stop-daemon.8:333
 #, no-wrap
 msgid "B<1>"
 msgstr "B<1>"
 
 #. type: Plain text
-#: dpkg-query.1:263
+#: dpkg-query.1:285
 #, fuzzy
 #| msgid ""
 #| "Problems were encountered while parsing the command line or performing "
@@ -14090,7 +14169,7 @@ msgstr ""
 "control-path を除き) ファイルやパッケージが存在しなかった場合も含まれる。"
 
 #. type: Plain text
-#: dpkg-query.1:273
+#: dpkg-query.1:295
 msgid ""
 "This setting influences the output of the B<--list> option by changing the "
 "width of its output."
@@ -18202,9 +18281,10 @@ msgstr "dselect"
 
 #. type: TH
 #: dselect.1:22
-#, no-wrap
-msgid "2012-04-07"
-msgstr "2012-04-07"
+#, fuzzy, no-wrap
+#| msgid "2011-08-14"
+msgid "2014-08-11"
+msgstr "2011-08-14"
 
 #. type: Plain text
 #: dselect.1:25
@@ -18873,12 +18953,22 @@ msgstr ""
 "可能パッケージのデータベースが認識しているパッケージが含まれる。"
 
 #. type: Plain text
-#: dselect.1:290
+#: dselect.1:293
+#, fuzzy
+#| msgid ""
+#| "For every package, the list shows the package's status, priority, "
+#| "section, installed and available versions, the package name and its short "
+#| "description, all in one line. By pressing the B<'V'> key, the display of "
+#| "the installed and available version can be toggled between on an off. By "
+#| "pressing the B<'v'> key, the package status display is toggled between "
+#| "verbose and shorthand.  Shorthand display is the default."
 msgid ""
 "For every package, the list shows the package's status, priority, section, "
-"installed and available versions, the package name and its short "
-"description, all in one line. By pressing the B<'V'> key, the display of the "
-"installed and available version can be toggled between on an off. By "
+"installed and available architecture, installed and available versions, the "
+"package name and its short description, all in one line.  By pressing the "
+"B<'A'> key, the display of the installed and available architecture can be "
+"toggled between on an off.  By pressing the B<'V'> key, the display of the "
+"installed and available version can be toggled between on an off.  By "
 "pressing the B<'v'> key, the package status display is toggled between "
 "verbose and shorthand.  Shorthand display is the default."
 msgstr ""
@@ -18889,7 +18979,7 @@ msgstr ""
 "り替える。簡略表示がデフォルトである。"
 
 #. type: Plain text
-#: dselect.1:296
+#: dselect.1:299
 msgid ""
 "The shorthand status indication consists of four parts: an error flag, which "
 "should normally be clear, the current status, the last selection state and "
@@ -18901,7 +18991,7 @@ msgstr ""
 "の状況を表し、後の 2 つはユーザが設定した選択状況を示している。"
 
 #. type: Plain text
-#: dselect.1:314
+#: dselect.1:317
 #, no-wrap
 msgid ""
 "These are the meanings of the shorthand package status indicator codes:\n"
@@ -18941,13 +19031,13 @@ msgstr ""
 "  B<n>       新規パッケージでまだマークが付けられていない\n"
 
 #. type: SS
-#: dselect.1:315
+#: dselect.1:318
 #, no-wrap
 msgid "Cursor and screen movement"
 msgstr "カーソルおよび画面移動"
 
 #. type: Plain text
-#: dselect.1:320
+#: dselect.1:323
 msgid ""
 "The package selection list and the dependency conflict resolution screens "
 "can be navigated using motion commands mapped to the following keys:"
@@ -18956,7 +19046,7 @@ msgstr ""
 "動コマンドで操作することができる。"
 
 #. type: Plain text
-#: dselect.1:337
+#: dselect.1:340
 #, no-wrap
 msgid ""
 "  B<p, Up, k>           move cursor bar up\n"
@@ -18994,13 +19084,13 @@ msgstr ""
 "  B<^f>                 表示を 1 文字右にスクロール\n"
 
 #. type: SS
-#: dselect.1:338
+#: dselect.1:341
 #, no-wrap
 msgid "Searching and sorting"
 msgstr "検索とソート"
 
 #. type: Plain text
-#: dselect.1:352
+#: dselect.1:355
 msgid ""
 "The list of packages can be searched by package name. This is done by "
 "pressing B<'/'>, and typing a simple search string. The string is "
@@ -19021,7 +19111,7 @@ msgstr ""
 "検索を繰り返せる。検索がリストの最後まで達すると、先頭に戻る。"
 
 #. type: Plain text
-#: dselect.1:359
+#: dselect.1:362
 #, no-wrap
 msgid ""
 "The list sort order can be varied by pressing\n"
@@ -19038,7 +19128,7 @@ msgstr ""
 " セクション+優先度  取得可能+セクション  状況+セクション\n"
 
 #. type: Plain text
-#: dselect.1:362
+#: dselect.1:365
 msgid ""
 "Where not listed above explicitly, alphabetic order is used as the final "
 "subordering sort key."
@@ -19047,13 +19137,13 @@ msgstr ""
 "る。"
 
 #. type: SS
-#: dselect.1:363
+#: dselect.1:366
 #, no-wrap
 msgid "Altering selections"
 msgstr "選択の変更"
 
 #. type: Plain text
-#: dselect.1:372
+#: dselect.1:375
 #, no-wrap
 msgid ""
 "The requested selection state of individual packages may be\n"
@@ -19072,7 +19162,7 @@ msgstr ""
 "  B<_>            完全削除、設定も消す\n"
 
 #. type: Plain text
-#: dselect.1:376
+#: dselect.1:379
 msgid ""
 "When the change request results in one or more unsatisfied depends or "
 "conflicts, B<dselect> prompts the user with a dependency resolution screen. "
@@ -19082,7 +19172,7 @@ msgstr ""
 "存関係解決画面を表示する。これは後ほど説明する。"
 
 #. type: Plain text
-#: dselect.1:381
+#: dselect.1:384
 msgid ""
 "It is also possible to apply these commands to groups of package selections, "
 "by pointing the cursor bar onto a group header. The exact grouping of "
@@ -19093,7 +19183,7 @@ msgstr ""
 "ループ化が適切に行われない場合がある。"
 
 #. type: Plain text
-#: dselect.1:387
+#: dselect.1:390
 msgid ""
 "Proper care should be taken when altering large groups of selections, "
 "because this can instantaneously create large numbers of unresolved depends "
@@ -19107,13 +19197,13 @@ msgstr ""
 "更が実用的なのは、保留や保留解除の時ぐらいである。"
 
 #. type: SS
-#: dselect.1:388
+#: dselect.1:391
 #, no-wrap
 msgid "Resolving depends and conflicts"
 msgstr "依存・競合関係の解決"
 
 #. type: Plain text
-#: dselect.1:393
+#: dselect.1:396
 msgid ""
 "When the change request results in one or more unsatisfied depends or "
 "conflicts, B<dselect> prompts the user with a dependency resolution screen. "
@@ -19123,7 +19213,7 @@ msgstr ""
 "関係解決画面を表示する。なお、表示の前にヘルプ画面が表示される。"
 
 #. type: Plain text
-#: dselect.1:400
+#: dselect.1:403
 msgid ""
 "The top half of this screen lists all the packages that will have unresolved "
 "depends or conflicts, as a result of the requested change, and all the "
@@ -19139,7 +19229,7 @@ msgstr ""
 "される。"
 
 #. type: Plain text
-#: dselect.1:406
+#: dselect.1:409
 msgid ""
 "When the sublist of packages is displayed initially, B<dselect> may have "
 "already set the requested selection status of some of the listed packages, "
@@ -19153,7 +19243,7 @@ msgstr ""
 "用するのが最良である。"
 
 #. type: Plain text
-#: dselect.1:414
+#: dselect.1:417
 msgid ""
 "The listed packages' selection state may be reverted to the original "
 "settings, as they were before the unresolved depends or conflicts were "
@@ -19169,13 +19259,13 @@ msgstr ""
 "定が再設定される。"
 
 #. type: SS
-#: dselect.1:415
+#: dselect.1:418
 #, no-wrap
 msgid "Establishing the requested selections"
 msgstr "選択された変更の確定"
 
 #. type: Plain text
-#: dselect.1:422
+#: dselect.1:425
 msgid ""
 "By pressing B<enter>, the currently displayed set of selections is accepted. "
 "If B<dselect> detects no unresolved depends as a result of the requested "
@@ -19189,7 +19279,7 @@ msgstr ""
 "る。"
 
 #. type: Plain text
-#: dselect.1:428
+#: dselect.1:431
 msgid ""
 "To alter a set of selections that creates unresolved depends or conflicts "
 "and forcing B<dselect> to accept it, press the B<'Q'> key. This sets the "
@@ -19201,7 +19291,7 @@ msgstr ""
 "に、何が行われるかの詳細を把握していない限り、これを行わないこと。"
 
 #. type: Plain text
-#: dselect.1:435
+#: dselect.1:438
 msgid ""
 "The opposite effect, to back out any selections change requests and go back "
 "to the previous list of selections, is attained by pressing the B<'X'> or "
@@ -19214,7 +19304,7 @@ msgstr ""
 "ジ選択の変更を取り消し、最後に確定した選択に戻すことができる。"
 
 #. type: Plain text
-#: dselect.1:442
+#: dselect.1:445
 msgid ""
 "If you mistakenly establish some settings and wish to revert all the "
 "selections to what is currently installed on the system, press the B<'C'> "
@@ -19228,7 +19318,7 @@ msgstr ""
 "押してしまった場合についての明確なパニックボタンを提供するものである。"
 
 #. type: Plain text
-#: dselect.1:449
+#: dselect.1:452
 msgid ""
 "If set, B<dselect> will use it as the directory from which to read the user "
 "specific configuration file."
@@ -19237,7 +19327,7 @@ msgstr ""
 "レクトリとして使用する。"
 
 #. type: Plain text
-#: dselect.1:455
+#: dselect.1:458
 msgid ""
 "The B<dselect> package selection interface is confusing to some new users.  "
 "Reportedly, it even makes seasoned kernel developers cry."
@@ -19247,22 +19337,22 @@ msgstr ""
 "悩まされている。"
 
 #. type: Plain text
-#: dselect.1:457
+#: dselect.1:460
 msgid "The documentation is lacking."
 msgstr "ドキュメントが不足している。"
 
 #. type: Plain text
-#: dselect.1:459
+#: dselect.1:462
 msgid "There is no help option in the main menu."
 msgstr "メインメニューにヘルプオプションがない。"
 
 #. type: Plain text
-#: dselect.1:461
+#: dselect.1:464
 msgid "The visible list of available packages cannot be reduced."
 msgstr "取得可能パッケージのリスト表示を減らせない。"
 
 #. type: Plain text
-#: dselect.1:465
+#: dselect.1:468
 msgid ""
 "The built in access methods can no longer stand up to current quality "
 "standards. Use the access method provided by apt, it is not only not broken, "
@@ -19273,7 +19363,7 @@ msgstr ""
 "ているアクセス方式より遙かに柔軟である。"
 
 #. type: Plain text
-#: dselect.1:470
+#: dselect.1:473
 msgid "B<dpkg>(1), B<apt-get>(8), B<sources.list>(5), B<deb>(5)."
 msgstr "B<dpkg>(1), B<apt-get>(8), B<sources.list>(5), B<deb>(5)."
 
@@ -21079,6 +21169,32 @@ msgstr "B<update-alternatives --auto vi>"
 #: update-alternatives.8:515
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
+
+#, fuzzy
+#~| msgid ""
+#~| "    B<binary:Package>\n"
+#~| "    B<binary:Summary>\n"
+#~| "    B<db:Status-Abbrev>\n"
+#~| "    B<source:Package>\n"
+#~| "    B<source:Version>\n"
+#~ msgid ""
+#~ "    B<binary:Package>\n"
+#~ "    B<binary:Summary>\n"
+#~ "    B<db:Status-Abbrev>\n"
+#~ "    B<db:Status-Want>\n"
+#~ "    B<db:Status-Status>\n"
+#~ "    B<db:Status-Eflag>\n"
+#~ "    B<source:Package>\n"
+#~ "    B<source:Version>\n"
+#~ msgstr ""
+#~ "    B<binary:Package>\n"
+#~ "    B<binary:Summary>\n"
+#~ "    B<db:Status-Abbrev>\n"
+#~ "    B<source:Package>\n"
+#~ "    B<source:Version>\n"
+
+#~ msgid "2012-04-07"
+#~ msgstr "2012-04-07"
 
 #, fuzzy
 #~| msgid "2012-04-09"

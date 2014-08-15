@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-08-09 12:49+0200\n"
+"POT-Creation-Date: 2014-08-15 03:51+0200\n"
 "PO-Revision-Date: 2014-04-25 13:37+0200\n"
 "Last-Translator: Steve Petruzzello <dlist@bluewin.ch>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: scripts/dpkg-architecture.pl:37 scripts/dpkg-buildflags.pl:33
 #: scripts/dpkg-buildpackage.pl:47 scripts/dpkg-checkbuilddeps.pl:39
-#: scripts/dpkg-distaddfile.pl:37 scripts/dpkg-genchanges.pl:113
+#: scripts/dpkg-distaddfile.pl:37 scripts/dpkg-genchanges.pl:122
 #: scripts/dpkg-gencontrol.pl:66 scripts/dpkg-gensymbols.pl:53
 #: scripts/dpkg-mergechangelogs.pl:54 scripts/dpkg-name.pl:46
 #: scripts/dpkg-parsechangelog.pl:36 scripts/dpkg-scanpackages.pl:67
@@ -35,7 +35,7 @@ msgstr "Debian %s version %s.\n"
 
 #: scripts/dpkg-architecture.pl:39 scripts/dpkg-buildflags.pl:35
 #: scripts/dpkg-buildpackage.pl:49 scripts/dpkg-distaddfile.pl:39
-#: scripts/dpkg-genchanges.pl:115 scripts/dpkg-gencontrol.pl:68
+#: scripts/dpkg-genchanges.pl:124 scripts/dpkg-gencontrol.pl:68
 #: scripts/dpkg-gensymbols.pl:55 scripts/dpkg-parsechangelog.pl:38
 #: scripts/dpkg-shlibdeps.pl:550 scripts/dpkg-source.pl:497
 #: scripts/changelog/debian.pl:39
@@ -124,7 +124,7 @@ msgid "%s is not a supported variable name"
 msgstr "%s n'est pas le nom d'une variable reconnue"
 
 #: scripts/dpkg-architecture.pl:165 scripts/dpkg-buildflags.pl:92
-#: scripts/dpkg-distaddfile.pl:69 scripts/dpkg-genchanges.pl:219
+#: scripts/dpkg-distaddfile.pl:69 scripts/dpkg-genchanges.pl:216
 #: scripts/dpkg-gencontrol.pl:140 scripts/dpkg-gensymbols.pl:140
 #: scripts/dpkg-name.pl:245 scripts/dpkg-parsechangelog.pl:121
 #: scripts/dpkg-shlibdeps.pl:133
@@ -228,7 +228,7 @@ msgstr "deux commandes indiquées : --%s et --%s"
 msgid "%s needs a parameter"
 msgstr "paramètre nécessaire pour %s"
 
-#: scripts/dpkg-buildpackage.pl:57 scripts/dpkg-genchanges.pl:123
+#: scripts/dpkg-buildpackage.pl:57 scripts/dpkg-genchanges.pl:132
 #: scripts/dpkg-gencontrol.pl:76 scripts/dpkg-gensymbols.pl:63
 #: scripts/dpkg-parsechangelog.pl:46
 #, perl-format
@@ -439,48 +439,42 @@ msgstr ""
 "      --source-option=<opt>\n"
 "                 passer l'option <opt> à dpkg-source.\n"
 
-#: scripts/dpkg-buildpackage.pl:230
-#, perl-format
-msgid "unknown hook name %s"
-msgstr "nom de crochet inconnu %s"
-
-#: scripts/dpkg-buildpackage.pl:232
-#, perl-format
-msgid "missing hook %s command"
-msgstr "la commande du point d'ancrage %s est manquante"
-
-#: scripts/dpkg-buildpackage.pl:243
-#, perl-format
-msgid "-s%s is deprecated; always using gpg style interface"
-msgstr "-s%s est obsolète ; l'interface utilisée est toujours de type gpg"
-
-#: scripts/dpkg-buildpackage.pl:274 scripts/dpkg-buildpackage.pl:279
-#: scripts/dpkg-buildpackage.pl:284 scripts/dpkg-buildpackage.pl:289
-#: scripts/dpkg-buildpackage.pl:294 scripts/dpkg-buildpackage.pl:299
-#: scripts/dpkg-buildpackage.pl:304 scripts/dpkg-genchanges.pl:158
-#: scripts/dpkg-genchanges.pl:162 scripts/dpkg-genchanges.pl:166
-#: scripts/dpkg-genchanges.pl:170 scripts/dpkg-genchanges.pl:174
-#: scripts/dpkg-genchanges.pl:178
+#: scripts/dpkg-buildpackage.pl:198 scripts/dpkg-genchanges.pl:116
 #, perl-format
 msgid "cannot combine %s and %s"
 msgstr "impossible de combiner %s et %s"
 
-#: scripts/dpkg-buildpackage.pl:317 scripts/dpkg-source.pl:201
+#: scripts/dpkg-buildpackage.pl:239
+#, perl-format
+msgid "unknown hook name %s"
+msgstr "nom de crochet inconnu %s"
+
+#: scripts/dpkg-buildpackage.pl:241
+#, perl-format
+msgid "missing hook %s command"
+msgstr "la commande du point d'ancrage %s est manquante"
+
+#: scripts/dpkg-buildpackage.pl:252
+#, perl-format
+msgid "-s%s is deprecated; always using gpg style interface"
+msgstr "-s%s est obsolète ; l'interface utilisée est toujours de type gpg"
+
+#: scripts/dpkg-buildpackage.pl:312 scripts/dpkg-source.pl:201
 msgid "-E and -W are deprecated, they are without effect"
 msgstr "La gestion de -E et -W est obsolète (ces paramètres sont sans effet)"
 
-#: scripts/dpkg-buildpackage.pl:322
+#: scripts/dpkg-buildpackage.pl:317
 #, perl-format
 msgid "unknown option or argument %s"
 msgstr "option ou paramètre inconnu %s"
 
-#: scripts/dpkg-buildpackage.pl:343
+#: scripts/dpkg-buildpackage.pl:338
 msgid "using a gain-root-command while being root"
 msgstr ""
 "utilisation d'une commande pour obtenir les privilèges administrateur en "
 "tant qu'administrateur"
 
-#: scripts/dpkg-buildpackage.pl:350
+#: scripts/dpkg-buildpackage.pl:345
 msgid ""
 "fakeroot not found, either install the fakeroot\n"
 "package, specify a command with the -r option, or run this as root"
@@ -489,54 +483,54 @@ msgstr ""
 "soit indiquer une commande avec l'option -r ou exécuter cette\n"
 "commande en tant qu'administrateur"
 
-#: scripts/dpkg-buildpackage.pl:354
+#: scripts/dpkg-buildpackage.pl:349
 #, perl-format
 msgid "gain-root-commmand '%s' not found"
 msgstr "commande pour obtenir les privilèges administrateur « %s » non trouvée"
 
-#: scripts/dpkg-buildpackage.pl:359
+#: scripts/dpkg-buildpackage.pl:354
 #, perl-format
 msgid "check-commmand '%s' not found"
 msgstr "check-command « %s » non trouvé"
 
-#: scripts/dpkg-buildpackage.pl:364
+#: scripts/dpkg-buildpackage.pl:359
 #, perl-format
 msgid "sign-commmand '%s' not found"
 msgstr "sign-command « %s » non trouvée"
 
-#: scripts/dpkg-buildpackage.pl:397
+#: scripts/dpkg-buildpackage.pl:392
 msgid "source package"
 msgstr "paquet source"
 
-#: scripts/dpkg-buildpackage.pl:398
+#: scripts/dpkg-buildpackage.pl:393
 msgid "source version"
 msgstr "version source"
 
-#: scripts/dpkg-buildpackage.pl:406
+#: scripts/dpkg-buildpackage.pl:401
 msgid "source distribution"
 msgstr "distribution source"
 
-#: scripts/dpkg-buildpackage.pl:414
+#: scripts/dpkg-buildpackage.pl:409
 msgid "source changed by"
 msgstr "source changé par"
 
-#: scripts/dpkg-buildpackage.pl:432
+#: scripts/dpkg-buildpackage.pl:427
 msgid "host architecture"
 msgstr "architecture hôte"
 
-#: scripts/dpkg-buildpackage.pl:461
+#: scripts/dpkg-buildpackage.pl:456
 msgid "debian/rules is not executable; fixing that"
 msgstr "debian/rules n'est pas exécutable ; corrigé."
 
-#: scripts/dpkg-buildpackage.pl:482
+#: scripts/dpkg-buildpackage.pl:477
 msgid "build dependencies/conflicts unsatisfied; aborting"
 msgstr "dépendances de construction et conflits non satisfaits ; échec."
 
-#: scripts/dpkg-buildpackage.pl:483
+#: scripts/dpkg-buildpackage.pl:478
 msgid "(Use -d flag to override.)"
 msgstr "(Utilisez l'option -d pour forcer.)"
 
-#: scripts/dpkg-buildpackage.pl:486
+#: scripts/dpkg-buildpackage.pl:481
 msgid ""
 "this is currently a non-fatal warning with -S, but will probably become "
 "fatal in the future"
@@ -544,7 +538,7 @@ msgstr ""
 "ceci est actuellement un avertissement sans conséquence avec -S, mais sera "
 "un échec fatal dans le futur."
 
-#: scripts/dpkg-buildpackage.pl:514
+#: scripts/dpkg-buildpackage.pl:509
 msgid ""
 "building a source package without cleaning up as you asked; it might contain "
 "undesired files"
@@ -552,7 +546,7 @@ msgstr ""
 "création d'un paquet source sans le nettoyer préalablement comme demandé ; "
 "il peut contenir des fichiers non souhaités"
 
-#: scripts/dpkg-buildpackage.pl:534
+#: scripts/dpkg-buildpackage.pl:529
 #, perl-format
 msgid ""
 "%s must be updated to support the 'build-arch' and 'build-indep' targets (at "
@@ -561,72 +555,72 @@ msgstr ""
 "%s doit être mis à jour pour gérer les cibles « build-arch » et « build-"
 "indep » (au moins « %s » semble manquer)"
 
-#: scripts/dpkg-buildpackage.pl:561
+#: scripts/dpkg-buildpackage.pl:556
 msgid "parse changes file"
 msgstr "analyse du fichier changes"
 
-#: scripts/dpkg-buildpackage.pl:563
+#: scripts/dpkg-buildpackage.pl:558
 msgid "dpkg-genchanges"
 msgstr "dpkg-genchanges"
 
-#: scripts/dpkg-buildpackage.pl:584
+#: scripts/dpkg-buildpackage.pl:579
 msgid "Press the return key to start signing process\n"
 msgstr "Appuyez sur Entrée pour commencer le processus de signature\n"
 
-#: scripts/dpkg-buildpackage.pl:592
+#: scripts/dpkg-buildpackage.pl:587
 msgid "failed to sign .dsc and .changes file"
 msgstr "échec de signature des fichiers .dsc et .changes"
 
-#: scripts/dpkg-buildpackage.pl:611
+#: scripts/dpkg-buildpackage.pl:606
 msgid "failed to sign .changes file"
 msgstr "échec de signature du fichier .changes"
 
-#: scripts/dpkg-buildpackage.pl:615
+#: scripts/dpkg-buildpackage.pl:610
 msgid "not signing UNRELEASED build; use --force-sign to override"
 msgstr ""
 "construction non-publiée (UNRELEASED) non signée ; veuillez utiliser --force-"
 "sign pour passer outre"
 
-#: scripts/dpkg-buildpackage.pl:623
+#: scripts/dpkg-buildpackage.pl:618
 #, perl-format
 msgid "unable to determine %s"
 msgstr "impossible de déterminer %s"
 
-#: scripts/dpkg-buildpackage.pl:659
+#: scripts/dpkg-buildpackage.pl:654
 #, fuzzy, perl-format
 #| msgid "unknown substitution variable ${%s}"
 msgid "unknown %% substitution in hook: %%%s"
 msgstr "variable de substitution inconnue ${%s}"
 
-#: scripts/dpkg-buildpackage.pl:704
+#: scripts/dpkg-buildpackage.pl:699
 msgid "source-only upload: Debian-native package"
 msgstr "envoi de source uniquement : paquet Debian natif"
 
-#: scripts/dpkg-buildpackage.pl:706
+#: scripts/dpkg-buildpackage.pl:701
 msgid "source-only, diff-only upload (original source NOT included)"
 msgstr ""
 "source uniquement, envoi du fichier de différences uniquement (aucune "
 "inclusion du code source d'origine)"
 
-#: scripts/dpkg-buildpackage.pl:708
+#: scripts/dpkg-buildpackage.pl:703
 msgid "source-only upload (original source is included)"
 msgstr "envoi du source seulement (inclusion du code source d'origine)"
 
-#: scripts/dpkg-buildpackage.pl:711
+#: scripts/dpkg-buildpackage.pl:706
 msgid "binary-only upload (no source included)"
 msgstr "envoi d'un binaire seulement (aucune inclusion de code source)"
 
-#: scripts/dpkg-buildpackage.pl:714
+#: scripts/dpkg-buildpackage.pl:709
 msgid "full upload; Debian-native package (full source is included)"
 msgstr "envoi complet ; paquet Debian natif (inclusion du code source complet)"
 
-#: scripts/dpkg-buildpackage.pl:716
+#: scripts/dpkg-buildpackage.pl:711
 msgid "binary and diff upload (original source NOT included)"
 msgstr ""
 "envoi d'un binaire et du fichier de différences (aucune inclusion du code "
 "source d'origine)"
 
-#: scripts/dpkg-buildpackage.pl:718
+#: scripts/dpkg-buildpackage.pl:713
 msgid "full upload (original source is included)"
 msgstr "envoi complet (inclusion du code source d'origine)"
 
@@ -753,7 +747,7 @@ msgstr "installation du nouveau fichier de liste des fichiers"
 msgid "cannot close %s"
 msgstr "impossible de fermer %s"
 
-#: scripts/dpkg-genchanges.pl:125
+#: scripts/dpkg-genchanges.pl:134
 #, fuzzy
 #| msgid ""
 #| "Options:\n"
@@ -852,85 +846,85 @@ msgstr ""
 "  -?, --help                 afficher ce message d'aide.\n"
 "      --version              afficher la version.\n"
 
-#: scripts/dpkg-genchanges.pl:249
+#: scripts/dpkg-genchanges.pl:246
 #, perl-format
 msgid "the current version (%s) is earlier than the previous one (%s)"
 msgstr "La version actuelle (%s) est inférieure à la version précédente (%s)"
 
-#: scripts/dpkg-genchanges.pl:262
+#: scripts/dpkg-genchanges.pl:259
 msgid "binary build with no binary artifacts found; cannot distribute"
 msgstr ""
 
-#: scripts/dpkg-genchanges.pl:313
+#: scripts/dpkg-genchanges.pl:310
 #, perl-format
 msgid "package %s in control file but not in files list"
 msgstr ""
 "paquet %s dans le fichier de contrôle mais pas dans le fichier de liste des "
 "fichiers"
 
-#: scripts/dpkg-genchanges.pl:358
+#: scripts/dpkg-genchanges.pl:355
 msgid "read changesdescription"
 msgstr "lecture de changesdescription"
 
-#: scripts/dpkg-genchanges.pl:364
+#: scripts/dpkg-genchanges.pl:361
 #, perl-format
 msgid "package %s listed in files list but not in control info"
 msgstr ""
 "paquet %s listé dans le fichier de liste des fichiers mais pas dans le "
 "fichier info"
 
-#: scripts/dpkg-genchanges.pl:378
+#: scripts/dpkg-genchanges.pl:375
 #, perl-format
 msgid "missing Section for binary package %s; using '-'"
 msgstr "la section du paquet binaire %s manque ; utilisation de « - »"
 
-#: scripts/dpkg-genchanges.pl:381
+#: scripts/dpkg-genchanges.pl:378
 #, perl-format
 msgid "package %s has section %s in control file but %s in files list"
 msgstr ""
 "le paquet %s a une section %s dans le fichier de contrôle mais une section "
 "%s dans le fichier de liste des fichiers"
 
-#: scripts/dpkg-genchanges.pl:389
+#: scripts/dpkg-genchanges.pl:386
 #, perl-format
 msgid "missing Priority for binary package %s; using '-'"
 msgstr ""
 "le champ « Priority » du paquet binaire %s manque ; utilisation de « - »"
 
-#: scripts/dpkg-genchanges.pl:392
+#: scripts/dpkg-genchanges.pl:389
 #, perl-format
 msgid "package %s has priority %s in control file but %s in files list"
 msgstr ""
 "le paquet %s a une priorité %s dans le fichier de contrôle mais une priorité "
 "%s dans le fichier de liste des fichiers"
 
-#: scripts/dpkg-genchanges.pl:404
+#: scripts/dpkg-genchanges.pl:401
 msgid "missing Section for source files"
 msgstr "il manque la section des fichiers source"
 
-#: scripts/dpkg-genchanges.pl:409
+#: scripts/dpkg-genchanges.pl:406
 msgid "missing Priority for source files"
 msgstr "il manque la priorité des fichiers source"
 
-#: scripts/dpkg-genchanges.pl:417 scripts/dpkg-source.pl:370
+#: scripts/dpkg-genchanges.pl:414 scripts/dpkg-source.pl:370
 #: scripts/Dpkg/Vendor.pm:92
 #, perl-format
 msgid "%s is empty"
 msgstr "%s est vide"
 
-#: scripts/dpkg-genchanges.pl:438
+#: scripts/dpkg-genchanges.pl:435
 msgid "not including original source code in upload"
 msgstr "pas d'inclusion du code source original dans l'envoi (« upload »)"
 
-#: scripts/dpkg-genchanges.pl:445
+#: scripts/dpkg-genchanges.pl:442
 msgid "ignoring -sd option for native Debian package"
 msgstr "option -sd ignorée pour les paquets Debian pure souche"
 
-#: scripts/dpkg-genchanges.pl:447
+#: scripts/dpkg-genchanges.pl:444
 msgid "including full source code in upload"
 msgstr "inclusion du code source original dans l'envoi (« upload »)"
 
-#: scripts/dpkg-genchanges.pl:455
+#: scripts/dpkg-genchanges.pl:452
 #, fuzzy
 #| msgid "%s: arch-specific upload - not including arch-independent packages"
 msgid ""
@@ -940,7 +934,7 @@ msgstr ""
 "%s : envoi d'un paquet pour une architecture - n'inclut pas de paquet "
 "indépendant d'une architecture."
 
-#: scripts/dpkg-genchanges.pl:458
+#: scripts/dpkg-genchanges.pl:455
 #, fuzzy
 #| msgid "%s: arch-indep upload - not including arch-specific packages"
 msgid ""
@@ -950,22 +944,22 @@ msgstr ""
 "%s : envoi d'un paquet indépendant de l'architecture - n'inclut pas de "
 "paquet spécifique d'une architecture."
 
-#: scripts/dpkg-genchanges.pl:461
+#: scripts/dpkg-genchanges.pl:458
 #, fuzzy
 #| msgid "binary-only upload (no source included)"
 msgid "binary-only upload (no source code included)"
 msgstr "envoi d'un binaire seulement (aucune inclusion de code source)"
 
-#: scripts/dpkg-genchanges.pl:465
+#: scripts/dpkg-genchanges.pl:462
 msgid "write original source message"
 msgstr "écriture du message source original"
 
-#: scripts/dpkg-genchanges.pl:523 scripts/Dpkg/Source/Package.pm:600
+#: scripts/dpkg-genchanges.pl:520 scripts/Dpkg/Source/Package.pm:600
 #, perl-format
 msgid "missing information for critical output field %s"
 msgstr "il manque l'information pour l'important champ de sortie %s"
 
-#: scripts/dpkg-genchanges.pl:528 scripts/dpkg-gencontrol.pl:307
+#: scripts/dpkg-genchanges.pl:525 scripts/dpkg-gencontrol.pl:307
 #: scripts/dpkg-gencontrol.pl:311 scripts/Dpkg/Source/Package.pm:605
 #, perl-format
 msgid "missing information for output field %s"
