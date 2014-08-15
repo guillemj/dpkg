@@ -114,7 +114,7 @@ sub set_build_type
     my ($build_type, $build_option) = @_;
 
     usageerr(_g('cannot combine %s and %s'), build_opt(), $build_option)
-        if not build_is_default;
+        if not build_is_default and $include != $build_type;
     $include = $build_type;
 }
 
