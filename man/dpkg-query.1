@@ -228,8 +228,10 @@ fields in control files):
 .RS
 .TP
 .B binary:Package
-It contains the binary package name, in a multiarch conformant form,
-arch-qualified if needed (since dpkg 1.16.2).
+It contains the binary package name with a possible architecture qualifier
+like "libc6:amd64" (since dpkg 1.16.2). The architecture qualifier will
+only be present if the package has a \fBMulti\-Arch\fP field with a value
+of \fBsame\fP. This makes the package name unambiguous.
 .TP
 .B binary:Summary
 It contains the package short description (since dpkg 1.16.2).
@@ -262,12 +264,8 @@ It contains the source package version for this binary package
 The default format string is \(lq\fB${binary:Package}\et${Version}\en\fP\(rq.
 Actually, all other fields found in the status file (i.e. user defined
 fields) can be requested, too. They will be printed as-is, though, no
-conversion nor error checking is done on them. \fBbinary:Package\fP is
-a special field that will print the package name with an architecture
-qualifier (like "libc6:amd64") if the package has a \fBMulti\-Arch\fP
-field with a value of \fBsame\fP, and as such its name could be ambiguous.
-To get the name of the \fBdpkg\fP maintainer and the installed version,
-you could run:
+conversion nor error checking is done on them. To get the name of the
+\fBdpkg\fP maintainer and the installed version, you could run:
 
 .nf
   \fBdpkg\-query \-W \-f=\(aq${binary:Package} ${Version}\\t${Maintainer}\\n\(aq dpkg\fP
