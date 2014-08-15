@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2014-08-15 03:51+0200\n"
-"PO-Revision-Date: 2014-04-25 13:37+0200\n"
+"PO-Revision-Date: 2014-08-15 14:20+0200\n"
 "Last-Translator: Steve Petruzzello <dlist@bluewin.ch>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -56,13 +56,6 @@ msgid "Usage: %s [<option>...] [<command>]"
 msgstr "Usage: %s [<option>...] [<commande>]"
 
 #: scripts/dpkg-architecture.pl:49
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -a<debian-arch>    set current Debian architecture.\n"
-#| "  -t<gnu-system>     set current GNU system type.\n"
-#| "  -L                 list valid architectures.\n"
-#| "  -f                 force flag (override variables set in environment)."
 msgid ""
 "Options:\n"
 "  -a<debian-arch>    set current Debian architecture.\n"
@@ -72,24 +65,10 @@ msgstr ""
 "Options:\n"
 "  -a<debian-arch>    définir l'architecture actuelle.\n"
 "  -t<gnu-system>     définir le type de système GNU.\n"
-"  -L                 afficher les architectures valables.\n"
-"  -f                 drapeau de forçage (annule les variables\n"
-"                     de l'environnement)."
+"  -f                 drapeau de forçage (outrepasse les variables\n"
+"                     définies dans l'environnement)."
 
 #: scripts/dpkg-architecture.pl:54
-#, fuzzy
-#| msgid ""
-#| "Commands:\n"
-#| "  -l                 list variables (default).\n"
-#| "  -e<debian-arch>    compare with current Debian architecture.\n"
-#| "  -i<arch-alias>     check if current Debian architecture is <arch-"
-#| "alias>.\n"
-#| "  -q<variable>       prints only the value of <variable>.\n"
-#| "  -s                 print command to set environment variables.\n"
-#| "  -u                 print command to unset environment variables.\n"
-#| "  -c <command>       set environment and run the command in it.\n"
-#| "  -?, --help         show this help message.\n"
-#| "      --version      show the version.\n"
 msgid ""
 "Commands:\n"
 "  -l                 list variables (default).\n"
@@ -105,6 +84,7 @@ msgid ""
 msgstr ""
 "Actions :\n"
 "  -l                 lister les variables (défaut).\n"
+"  -L                 lister les architectures valides.\n"
 "  -e<debian-arch>    comparer avec l'architecture Debian en cours.\n"
 "  -i<arch-alias>     vérifier que l'architecture Debian en cours est <arch-"
 "alias>.\n"
@@ -116,7 +96,7 @@ msgstr ""
 "  -c <commande>      mettre en place l'environnement et exécuter la "
 "commande.\n"
 "  -?, --help         afficher ce message d'aide.\n"
-"  --version          afficher la version.\n"
+"      --version      afficher la version.\n"
 
 #: scripts/dpkg-architecture.pl:147
 #, perl-format
@@ -236,48 +216,6 @@ msgid "Usage: %s [<option>...]"
 msgstr "Utilisation : %s [<option>...]"
 
 #: scripts/dpkg-buildpackage.pl:59
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -F (default)   normal full build (binaries and sources).\n"
-#| "  -b             binary-only, do not build source.\n"
-#| "  -B             binary-only, no arch-indep files.\n"
-#| "  -A             binary-only, only arch-indep files.\n"
-#| "  -S             source-only, no binary files.\n"
-#| "  -nc            do not clean source tree (implies -b).\n"
-#| "  -tc            clean source tree when finished.\n"
-#| "  -D (default)   check build dependencies and conflicts.\n"
-#| "  -d             do not check build dependencies and conflicts.\n"
-#| "  -P<profiles>   assume given build profiles as active (comma-separated "
-#| "list).\n"
-#| "  -R<rules>      rules file to execute (default is debian/rules).\n"
-#| "  -T<target>     call debian/rules <target> with the proper environment.\n"
-#| "      --as-root  ensure -T calls the target with root rights.\n"
-#| "  -j[<number>]   specify jobs to run simultaneously (passed to <rules>).\n"
-#| "  -r<gain-root-command>\n"
-#| "                 command to gain root privileges (default is fakeroot).\n"
-#| "  --check-command=<check-command>\n"
-#| "                 command to check the .changes file (no default).\n"
-#| "  --check-option=<opt>\n"
-#| "                 pass <opt> to <check-command>.\n"
-#| "  --hook-<hook-name>=<hook-command>\n"
-#| "                 set <hook-command> as the hook <hook-name>, known "
-#| "hooks:\n"
-#| "                   init preclean source build binary changes postclean\n"
-#| "                   check sign done\n"
-#| "  -p<sign-command>\n"
-#| "                 command to sign .dsc and/or .changes files\n"
-#| "                   (default is gpg2 or gpg).\n"
-#| "  -k<keyid>      the key to use for signing.\n"
-#| "  -ap            add pause before starting signature process.\n"
-#| "  -us            unsigned source package.\n"
-#| "  -uc            unsigned .changes file.\n"
-#| "      --force-sign\n"
-#| "                 force signing the resulting files.\n"
-#| "      --admindir=<directory>\n"
-#| "                 change the administrative directory.\n"
-#| "  -?, --help     show this help message.\n"
-#| "      --version  show the version."
 msgid ""
 "Options:\n"
 "  -F (default)   normal full build (binaries and sources).\n"
@@ -323,43 +261,49 @@ msgid ""
 msgstr ""
 "Options:\n"
 "  -F (défaut )   construction complète normale (sources et binaires).\n"
+"  -g             source et binaires indépendants de l'architecture.\n"
+"  -G             source et binaires dépendants de l'architecture.\n"
 "  -b             binaire uniquement sans construire les sources.\n"
 "  -B             binaire uniquement sans fichiers indépendants\n"
-"                  de l'architecture.\n"
+"                   de l'architecture.\n"
 "  -A             binaire uniquement, seulement les fichiers indépendants\n"
-"                  de l'architecture.\n"
+"                   de l'architecture.\n"
 "  -S             source uniquement, pas de fichiers binaires.\n"
 "  -nc            ne pas nettoyer l'arborescence source (implique -b).\n"
 "  -tc            nettoyer l'arborescence source une fois terminé.\n"
 "  -D (default)   contrôler les dépendances et les conflits de\n"
-"                  construction.\n"
+"                   construction.\n"
 "  -d             ne pas contrôler les dépendances et les conflits de\n"
-"                  construction.\n"
-"  -P<profils>   supposer que les profils de construction donnés sont actifs "
+"                   construction.\n"
+"  -P<profils>    considérer les profils de construction donnés comme actifs "
 "(liste séparée par des virgules).\n"
 "  -R<rules>      fichier rules à exécuter (par défaut : debian/rules).\n"
-"  -T<cible>      appeller debian/rules <cible> avec l'environnement adapté.\n"
+"  -T<cible>      appeler debian/rules <cible> avec l'environnement adapté.\n"
 "      --as-root  garantir que -T appelle la cible avec les droits du\n"
-"                  superutilisateur.\n"
+"                   superutilisateur.\n"
 "  -j[<nombre>]   indiquer le nombre de travaux à exécuter simultanément\n"
-"                  (passé à<rules>).\n"
+"                   (passé à <rules>).\n"
 "  -r<gain-root-command>\n"
 "                 commande permettant d'obtenir les privilèges du\n"
 "                   superutilisateur.\n"
-"  --check-command=<check-command> commande pour vérifier le fichier .changes "
+"  --check-command=<check-command>\n"
+"                 commande pour vérifier le fichier .changes "
 "(pas de valeur par défaut)\n"
-"  --check-option=<options>  passe <options> à <check-command>\n"
-"  --hook-<nom-crochet>=<hook-command>  positionne <hook-command> pour le "
-"crochet <nom-crochet>, crochets connus : init preclean source build binary "
-"changes postclean check sign done\n"
+"  --check-option=<opt>\n"
+"                 passe <opt> à <check-command>\n"
+"  --hook-<nom>=<commande>\n"
+"                 exécute <commande> au point d'ancrage <nom>, points\n"
+"                   d'ancrage connus : init preclean source build binary\n"
+"                   changes postclean check sign done\n"
 "  -p<sign-command>\n"
 "                 commande permettant de signer les fichiers .dsc\n"
-"                  et/ou les fichiers .changes (par défaut : gpg2 ou gpg).\n"
+"                   et/ou les fichiers .changes (par défaut : gpg2 ou gpg).\n"
 "  -k<keyid>      clé à utiliser pour signer.\n"
 "  -ap            ajouter une pause avant le processus de signature.\n"
 "  -us            paquet source non signé.\n"
 "  -uc            fichier .changes non signé.\n"
-"      --force-sign   force la signature des fichers résultants\n"
+"      --force-sign\n"
+"                 force la signature des fichers résultants\n"
 "      --admindir=<répertoire>\n"
 "                 modifier le répertoire administratif.\n"
 "  -?, --help     afficher ce message d'aide.\n"
@@ -376,18 +320,6 @@ msgstr ""
 "  -t<système>    définir le type de système GNU."
 
 #: scripts/dpkg-buildpackage.pl:104
-#, fuzzy
-#| msgid ""
-#| "Options passed to dpkg-genchanges:\n"
-#| "  -si (default)  source includes orig if new upstream.\n"
-#| "  -sa            uploaded source always includes orig.\n"
-#| "  -sd            uploaded source is diff and .dsc only.\n"
-#| "  -v<version>    changes since version <version>.\n"
-#| "  -m<maint>      maintainer for package is <maint>.\n"
-#| "  -e<maint>      maintainer for release is <maint>.\n"
-#| "  -C<descfile>   changes are described in <descfile>.\n"
-#| "      --changes-option=<opt>\n"
-#| "                 pass option <opt> to dpkg-genchanges."
 msgid ""
 "Options passed to dpkg-genchanges:\n"
 "  -si (default)  source includes orig, if new upstream.\n"
@@ -402,13 +334,13 @@ msgid ""
 msgstr ""
 "Options passées à dpkg-genchanges:\n"
 "  -si (défaut)   la source n'inclut le fichier d'origine que si nouvelle\n"
-"                  version amont.\n"
+"                   version amont.\n"
 "  -sa            toujours inclure le fichier d'origine.\n"
 "  -sd            la source envoyée ne comporte que les fichiers\n"
-"                  diff et .dsc.\n"
+"                   diff et .dsc.\n"
 "  -v<version>    modifications depuis la version <version>.\n"
 "  -m<resp>       le responsable du paquet est <maint>.\n"
-"  -e<resp>       le responsable de la publication est <maint>.\n"
+"  -e<resp>       le responsable de la version courante est <maint>.\n"
 "  -C<fichdesc>   modifications décrites dans <fichdesc>.\n"
 "      --changes-option=<opt>\n"
 "                 passer l'option <opt> à dpkg-genchanges."
@@ -587,10 +519,9 @@ msgid "unable to determine %s"
 msgstr "impossible de déterminer %s"
 
 #: scripts/dpkg-buildpackage.pl:654
-#, fuzzy, perl-format
-#| msgid "unknown substitution variable ${%s}"
+#, perl-format
 msgid "unknown %% substitution in hook: %%%s"
-msgstr "variable de substitution inconnue ${%s}"
+msgstr "substitution %% inconnue dans le point d'ancrage: %%%s"
 
 #: scripts/dpkg-buildpackage.pl:699
 msgid "source-only upload: Debian-native package"
@@ -748,34 +679,6 @@ msgid "cannot close %s"
 msgstr "impossible de fermer %s"
 
 #: scripts/dpkg-genchanges.pl:134
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  -b                       binary-only build - no source files.\n"
-#| "  -B                       arch-specific - no source or arch-indep "
-#| "files.\n"
-#| "  -A                       only arch-indep - no source or arch-specific "
-#| "files.\n"
-#| "  -S                       source-only upload.\n"
-#| "  -c<control-file>         get control info from this file.\n"
-#| "  -l<changelog-file>       get per-version info from this file.\n"
-#| "  -f<files-list-file>      get .deb files list from this file.\n"
-#| "  -v<since-version>        include all changes later than version.\n"
-#| "  -C<changes-description>  use change description from this file.\n"
-#| "  -m<maintainer>           override control's maintainer value.\n"
-#| "  -e<maintainer>           override changelog's maintainer value.\n"
-#| "  -u<upload-files-dir>     directory with files (default is '..').\n"
-#| "  -si (default)            src includes orig if new upstream.\n"
-#| "  -sa                      source includes orig src.\n"
-#| "  -sd                      source is diff and .dsc only.\n"
-#| "  -q                       quiet - no informational messages on stderr.\n"
-#| "  -F<changelog-format>     force changelog format.\n"
-#| "  -V<name>=<value>         set a substitution variable.\n"
-#| "  -T<substvars-file>       read variables here, not debian/substvars.\n"
-#| "  -D<field>=<value>        override or add a field and value.\n"
-#| "  -U<field>                remove a field.\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version.\n"
 msgid ""
 "Options:\n"
 "  -g                       source and arch-indep build.\n"
@@ -805,46 +708,36 @@ msgid ""
 "      --version            show the version.\n"
 msgstr ""
 "Options :\n"
-"  -b                         construction du binaire seul - pas de fichier\n"
-"                             source.\n"
-"  -B                         spécifique à une arch. - pas de fichier source\n"
-"                             ou arch-indep.\n"
-"  -A                         indépendant d'une arch. - pas de fichier "
-"source                              ou fichiers dépendant de l'arch.\n"
-"  -S                         envoi (« upload ») de source seulement.\n"
-"  -c<fichier_de_contrôle>    obtenir les informations de contrôle dans ce\n"
+"  -g                       source et binaires indépendants de l'architecture.\n"
+"  -G                       source et binaires dépendants de l'architecture.\n"
+"  -b                       binaires uniquement, pas de fichiers source.\n"
+"  -B                       binaires dépendants de l'architecture uniquement.\n"
+"  -A                       binaires indépendants de l'architecture uniquement.\n"
+"  -S                       source uniquement.\n"
+"  -c<fichier-control>      obtenir les informations de contrôle dans ce fichier.\n"
+"  -l<fichier-changelog>    obtenir les informations de version dans ce fichier.\n"
+"  -f<fichier-liste-deb>    obtenir la liste des fichiers .deb dans ce fichier.\n"
+"  -v<depuis-version>       inclure toutes les modifications depuis cette version.\n"
+"  -C<changesdescription>   utiliser la description des changements dans ce\n"
 "                             fichier.\n"
-"  -l<fichier_changelog>      obtenir les informations de changelog dans ce\n"
-"                             fichier.\n"
-"  -f<fichier_des_fichiers>   obtenir la liste des fichiers .deb dans ce\n"
-"                             fichier.\n"
-"  -v<depuis_version>         inclure toutes les modifications depuis cette\n"
-"                             version.\n"
-"  -C<changesdescription>     utiliser la description des changements dans "
-"ce\n"
-"                             fichier.\n"
-"  -m<responsable>            remplacer la valeur pour le responsable dans "
-"le\n"
-"                             fichier control.\n"
-"  -e<responsable>            remplacer la valeur pour le responsable dans "
-"le\n"
+"  -m<responsable>          remplacer la valeur du champ « Maintainer » défini\n"
+"                             dans le fichier control.\n"
+"  -e<responsable>          remplacer le mainteneur défini dans le\n"
 "                             fichier changelog.\n"
-"  -u<uploadfilesdir>         répertoire avec fichiers (par défaut c'est\n"
-"                             « .. »).\n"
-"  -si (défaut)               le source inclut un orig pour debian-revision "
-"0\n"
-"                             ou 1.\n"
-"  -sa                        le source inclut un orig.\n"
-"  -sd                        le source inclut seulement un diff et un .dsc.\n"
-"  -q                         silence - pas d'information sur stderr.\n"
-"  -F<changelogformat>        modifier le format du changelog.\n"
-"  -V<nom>=<valeur>           définir une substitution de variable.\n"
-"  -T<varlistfile>            lire les variables dans ce fichier, pas dans\n"
-"                             debian/substvars.\n"
-"  -D<champ>=<valeur>         remplacer ou ajouter une paire champ / valeur.\n"
-"  -U<champ>                  supprimer un champ.\n"
-"  -?, --help                 afficher ce message d'aide.\n"
-"      --version              afficher la version.\n"
+"  -u<uploadfilesdir>       répertoire avec fichiers (par défaut : « .. »).\n"
+"  -si (défaut)             inclure un fichier .orig avec les sources en cas\n"
+"                             de nouvelle version amont.\n"
+"  -sa                      inclure un fichier .orig avec les sources.\n"
+"  -sd                      inclure seulement un diff et un .dsc dans les sources.\n"
+"  -q                       silence - pas d'information sur stderr.\n"
+"  -F<changelogformat>      modifier le format du changelog.\n"
+"  -V<nom>=<valeur>         définir une variable de substitution.\n"
+"  -T<varlistfile>          lire les variables de substitution dans ce fichier,\n"
+"                             pas dans debian/substvars.\n"
+"  -D<champ>=<valeur>       remplacer ou ajouter une paire champ / valeur.\n"
+"  -U<champ>                supprimer un champ.\n"
+"  -?, --help               afficher ce message d'aide.\n"
+"      --version            afficher la version.\n"
 
 #: scripts/dpkg-genchanges.pl:246
 #, perl-format
@@ -853,7 +746,7 @@ msgstr "La version actuelle (%s) est inférieure à la version précédente (%s)
 
 #: scripts/dpkg-genchanges.pl:259
 msgid "binary build with no binary artifacts found; cannot distribute"
-msgstr ""
+msgstr "construction de binaires sans binaires trouvés ; impossible d'envoyer"
 
 #: scripts/dpkg-genchanges.pl:310
 #, perl-format
@@ -925,30 +818,24 @@ msgid "including full source code in upload"
 msgstr "inclusion du code source original dans l'envoi (« upload »)"
 
 #: scripts/dpkg-genchanges.pl:452
-#, fuzzy
-#| msgid "%s: arch-specific upload - not including arch-independent packages"
 msgid ""
 "binary-only arch-specific upload (source code and arch-indep packages not "
 "included)"
 msgstr ""
-"%s : envoi d'un paquet pour une architecture - n'inclut pas de paquet "
-"indépendant d'une architecture."
+"envoi de binaires dépendants de l'architecture (le code source et les paquets "
+"indépendants de l'architecture ne sont pas inclus)."
 
 #: scripts/dpkg-genchanges.pl:455
-#, fuzzy
-#| msgid "%s: arch-indep upload - not including arch-specific packages"
 msgid ""
 "binary-only arch-indep upload (source code and arch-specific packages not "
 "included)"
 msgstr ""
-"%s : envoi d'un paquet indépendant de l'architecture - n'inclut pas de "
-"paquet spécifique d'une architecture."
+"envoi de binaires indépendants de l'architecture (le code source et les paquets "
+"dépendants d'une architecture ne sont pas inclus)."
 
 #: scripts/dpkg-genchanges.pl:458
-#, fuzzy
-#| msgid "binary-only upload (no source included)"
 msgid "binary-only upload (no source code included)"
-msgstr "envoi d'un binaire seulement (aucune inclusion de code source)"
+msgstr "envoi des binaires seulement (le code source n'est pas inclus)"
 
 #: scripts/dpkg-genchanges.pl:462
 msgid "write original source message"
@@ -1018,10 +905,9 @@ msgid "illegal package name '%s': %s"
 msgstr "nom de paquet « %s » non autorisé : %s"
 
 #: scripts/dpkg-gencontrol.pl:119
-#, fuzzy, perl-format
-#| msgid "-E and -W are deprecated, they are without effect"
+#, perl-format
 msgid "-i%s is deprecated; it is without effect"
-msgstr "La gestion de -E et -W est obsolète (ces paramètres sont sans effet)"
+msgstr "-i%s est obsolète ; ce paramètre est sans effet"
 
 #: scripts/dpkg-gencontrol.pl:178
 #, perl-format
@@ -1708,12 +1594,12 @@ msgid "%s has an unexpected SONAME (%s)"
 msgstr "%s utilise un SONAME inattendu (%s)"
 
 #: scripts/dpkg-shlibdeps.pl:293
-#, fuzzy, perl-format
-#| msgid "no dependency information found for %s (used by %s)"
+#, perl-format
 msgid ""
 "no dependency information found for %s (used by %s)\\nHint: check if the "
 "library actually comes from a package."
-msgstr "pas d'information de dépendance trouvée pour %s (utilisé par %s)"
+msgstr "pas d'information de dépendance trouvée pour %s (utilisé par %s)\n"
+"Indication: vérifiez que la bibliothèque provienne bien d'un paquet."
 
 #: scripts/dpkg-shlibdeps.pl:326
 msgid ""
@@ -2081,7 +1967,7 @@ msgstr "extraction de %s dans %s"
 #: scripts/dpkg-source.pl:480
 #, perl-format
 msgid "%s field contains value %s, but no tests control file %s"
-msgstr ""
+msgstr "le champ %s contient la valeur %s, mais il n'y a pas de fichier de contrôle des tests %s"
 
 #: scripts/dpkg-source.pl:489
 msgid "only one of -x, -b or --print-format allowed, and only once"
@@ -2116,25 +2002,7 @@ msgstr ""
 "                           un nouveau correctif."
 
 #: scripts/dpkg-source.pl:516
-#, fuzzy, perl-format
-#| msgid ""
-#| "Build options:\n"
-#| "  -c<control-file>         get control info from this file.\n"
-#| "  -l<changelog-file>       get per-version info from this file.\n"
-#| "  -F<changelog-format>     force changelog format.\n"
-#| "  -V<name>=<value>         set a substitution variable.\n"
-#| "  -T<substvars-file>       read variables here.\n"
-#| "  -D<field>=<value>        override or add a .dsc field and value.\n"
-#| "  -U<field>                remove a field.\n"
-#| "  -q                       quiet mode.\n"
-#| "  -i[<regex>]              filter out files to ignore diffs of\n"
-#| "                             (defaults to: '%s').\n"
-#| "  -I[<pattern>]            filter out files when building tarballs\n"
-#| "                             (defaults to: %s).\n"
-#| "  -Z<compression>          select compression to use (defaults to '%s',\n"
-#| "                             supported are: %s).\n"
-#| "  -z<level>                compression level to use (defaults to '%d',\n"
-#| "                             supported are: '1'-'9', 'best', 'fast')"
+#, perl-format
 msgid ""
 "Build options:\n"
 "  -c<control-file>         get control info from this file.\n"
@@ -2157,36 +2025,31 @@ msgid ""
 "                             supported are: '1'-'9', 'best', 'fast')"
 msgstr ""
 "Options de construction :\n"
-"  -c<fichier_de_contrôle>    obtenir les informations de contrôle de ce "
+"  -c<fichier-control>      obtenir les informations de contrôle de ce "
 "fichier.\n"
-"  -l<fichier_changelog>      obtenir les informations par version de ce "
+"  -l<fichier-changelog>    obtenir les informations de version de ce "
 "fichier.\n"
-"  -F<changelogformat>        forcer le format du changelog.\n"
-"  -V<nom>=<valeur>           définir une substitution de variable.\n"
-"  -T<fichier-substvars>      lire ici les variables.\n"
-"  -D<champ>=<valeur>         remplacer ou ajouter une paire champ et valeur ."
+"  -F<changelogformat>      forcer le format du changelog.\n"
+"  --format=<source-format> définir le format à utiliser pour le paquet "
+"source.\n"
+"  -V<nom>=<valeur>         définir une variable de substitution.\n"
+"  -T<fichier-substvars>    lire ici les variables.\n"
+"  -D<champ>=<valeur>       remplacer ou ajouter une paire champ et valeur ."
 "dsc.\n"
-"  -U<champ>                  supprimer un champ.\n"
-"  -q                         mode silencieux  -i[<regexp>]               "
-"éliminer les fichiers différence à ignorer (par défaut : %s).\n"
-"  -I[<motif>]                éliminer des fichiers en construisant les "
-"tarballs (par défaut : %s).\n"
-"  -Z<compression>            choisir la compression à utiliser (par défaut : "
-"« %s », les valeurs gérées sont : %s)\n"
-"  -z<niveau>                 niveau de compression à utiliser (par défaut, "
+"  -U<champ>                supprimer un champ.\n"
+"  -q                       mode silencieux\n"
+"  -i[<regexp>]             ignorer les différences sur les fichiers\n"
+"                             (par défaut : %s).\n"
+"  -I[<motif>]              exclure des fichiers en construisant les\n"
+"                             tarballs (par défaut : %s).\n"
+"  -Z<compression>          compression à utiliser (par défaut : « %s »,\n"
+"                             les valeurs gérées sont : %s)\n"
+"  -z<niveau>               niveau de compression à utiliser (par défaut, "
 "« %d » ,\n"
 "                             les valeurs gérées sont : « 1 » - « 9 », "
 "« best », « fast »)"
 
 #: scripts/dpkg-source.pl:535
-#, fuzzy
-#| msgid ""
-#| "Extract options:\n"
-#| "  --no-copy                don't copy .orig tarballs\n"
-#| "  --no-check               don't check signature and checksums before "
-#| "unpacking\n"
-#| "  --require-valid-signature abort if the package doesn't have a valid "
-#| "signature"
 msgid ""
 "Extract options:\n"
 "  --no-copy                don't copy .orig tarballs\n"
@@ -2197,11 +2060,13 @@ msgid ""
 "  --ignore-bad-version     allow bad source package versions."
 msgstr ""
 "Options d'extraction :\n"
-"  --no-copy                  ne pas copier l'archive originale\n"
-"  --no-check                 ne pas contrôler la signature et les\n"
+"  --no-copy                ne pas copier l'archive originale\n"
+"  --no-check               ne pas contrôler la signature et les\n"
 "                             sommes de contrôle avant de décompacter.\n"
-" ---require-valid-signature  imposer que le paquet comporte une\n"
-"                             signature valable."
+" ---require-valid-signature imposer que le paquet comporte une\n"
+"                             signature valable.\n"
+"  --ignore-bad-version     autorise des versions invalides de\n"
+"                             paquet source."
 
 #: scripts/dpkg-source.pl:541
 msgid ""
@@ -2664,28 +2529,21 @@ msgid "continued value line not in field"
 msgstr "la ligne continuée n'est pas dans le champ"
 
 #: scripts/Dpkg/Control/HashCore.pm:233
-#, fuzzy
-#| msgid "PGP signature not allowed here"
 msgid "OpenPGP signature not allowed here"
-msgstr "signature PGP non autorisée ici"
+msgstr "signature OpenPGP non autorisée ici"
 
 #: scripts/Dpkg/Control/HashCore.pm:240
-#, fuzzy
-#| msgid "expected PGP signature, found EOF after blank line"
 msgid "expected OpenPGP signature, found EOF after blank line"
-msgstr "signature PGP attendue, EOF après ligne blanche trouvé"
+msgstr "signature OpenPGP attendue, mais fin de fichier atteinte (après ligne blanche)"
 
 #: scripts/Dpkg/Control/HashCore.pm:245
-#, fuzzy, perl-format
-#| msgid "expected PGP signature, found something else `%s'"
+#, perl-format
 msgid "expected OpenPGP signature, found something else `%s'"
-msgstr "signature PGP attendue, « %s » trouvé"
+msgstr "signature OpenPGP attendue, mais « %s » trouvé"
 
 #: scripts/Dpkg/Control/HashCore.pm:254 scripts/Dpkg/Control/HashCore.pm:268
-#, fuzzy
-#| msgid "unfinished PGP signature"
 msgid "unfinished OpenPGP signature"
-msgstr "signature PGP non terminée"
+msgstr "signature OpenPGP non terminée"
 
 #: scripts/Dpkg/Control/HashCore.pm:263
 msgid "line with unknown format (not field-colon-value)"
@@ -2939,10 +2797,9 @@ msgid "unknown file type"
 msgstr "type de fichier inconnu"
 
 #: scripts/Dpkg/Source/Patch.pm:233
-#, fuzzy, perl-format
-#| msgid "ignoring deletion of file %s"
+#, perl-format
 msgid "ignoring deletion of file %s, use --include-removal to override"
-msgstr "suppression du fichier %s ignorée"
+msgstr "suppression du fichier %s ignorée, utilisez --include-removal pour la prendre en compte"
 
 #: scripts/Dpkg/Source/Patch.pm:236
 #, perl-format
@@ -2996,10 +2853,9 @@ msgid "  old version is %s"
 msgstr "  l'ancienne version est %s"
 
 #: scripts/Dpkg/Source/Patch.pm:346
-#, fuzzy, perl-format
-#| msgid "diff `%s' patches file with name ending .dpkg-orig"
+#, perl-format
 msgid "diff %s patches file with C-style encoded filename"
-msgstr "diff « %s » modifie un fichier dont le nom de termine par .dpkg-orig"
+msgstr "diff %s modifie un fichier dont le nom est encodé avec une chaîne de type C"
 
 #: scripts/Dpkg/Source/Patch.pm:423
 #, perl-format
@@ -3560,10 +3416,8 @@ msgid "Enter the desired patch name: "
 msgstr "Saisissez le nom du fichier de différences : "
 
 #: scripts/Dpkg/Source/Package/V2.pm:666
-#, fuzzy
-#| msgid "cannot find '%s'"
 msgid "cannot find an editor"
-msgstr "impossible de trouver %s"
+msgstr "impossible de trouver un éditeur"
 
 #: scripts/Dpkg/Source/Package/V2.pm:737
 #, perl-format
@@ -3732,7 +3586,7 @@ msgstr "impossible de créer le répertoire %s"
 
 #: scripts/Dpkg/Source/Quilt.pm:186
 msgid "the patch has fuzz which is not allowed, or is malformed"
-msgstr ""
+msgstr "le patch ne s'applique pas proprement (« fuzz »), ou est mal-formé"
 
 #: scripts/Dpkg/Source/Quilt.pm:187
 #, perl-format
@@ -3776,10 +3630,9 @@ msgid "too many substitutions - recursive ? - in `%s'"
 msgstr "trop de substitutions - mode récursif ? - dans « %s »"
 
 #: scripts/Dpkg/Substvars.pm:293
-#, fuzzy, perl-format
-#| msgid "unused substitution variable ${%s}"
+#, perl-format
 msgid "deprecated substitution variable ${%s}"
-msgstr "variable de substitution inutilisée ${%s}"
+msgstr "variable de substitution obsolète ${%s}"
 
 #: scripts/Dpkg/Substvars.pm:296
 #, perl-format
@@ -3802,17 +3655,15 @@ msgid "source package has two conflicting values - %s and %s"
 msgstr "le paquet source a deux valeurs en conflit : %s et %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm:91
-#, fuzzy, perl-format
-#| msgid "unknown hardening feature: %s"
+#, perl-format
 msgid "unknown %s feature: %s"
-msgstr "fonctionnalité de renforcement (« hardening ») inconnue : %s"
+msgstr "fonctionnalité %s inconnue : %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm:95
-#, fuzzy, perl-format
-#| msgid "incorrect value in hardening option of DEB_BUILD_MAINT_OPTIONS: %s"
+#, perl-format
 msgid "incorrect value in %s option of DEB_BUILD_MAINT_OPTIONS: %s"
 msgstr ""
-"valeur incorrecte dans l'option de renforcement de DEB_BUILD_MAINT_OPTIONS : "
+"valeur incorrecte dans l'option %s de DEB_BUILD_MAINT_OPTIONS : "
 "%s"
 
 #: scripts/Dpkg/Vendor/Debian.pm:107

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2014-08-15 10:23+0200\n"
-"PO-Revision-Date: 2014-08-15 10:29+0200\n"
+"PO-Revision-Date: 2014-08-15 14:04+0200\n"
 "Last-Translator: Jean-Pierre Giraud <jean-pierregiraud@neuf.fr>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -1601,21 +1601,7 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.5:348
-#, fuzzy, no-wrap
-#| msgid ""
-#| "# Comment\n"
-#| "Source: dpkg\n"
-#| "Section: admin\n"
-#| "Priority: required\n"
-#| "Maintainer: Dpkg Developers E<lt>debian-dpkg@lists.debian.orgE<gt>\n"
-#| "# this field is copied to the binary and source packages\n"
-#| "XBS-Upstream-Release-Status: stable\n"
-#| "Homepage: https://wiki.debian.org/Teams/Dpkg\n"
-#| "Vcs-Browser: http://git.debian.org/?p=dpkg/dpkg.git\n"
-#| "Vcs-Git: git://git.debian.org/git/dpkg/dpkg.git\n"
-#| "Standards-Version: 3.7.3\n"
-#| "Build-Depends: pkg-config, debhelper (E<gt>= 4.1.81),\n"
-#| " libselinux1-dev (E<gt>= 1.28-4) [!linux-any]\n"
+#, no-wrap
 msgid ""
 "# Comment\n"
 "Source: dpkg\n"
@@ -1639,8 +1625,8 @@ msgstr ""
 "# ce champ est copié dans les paquets source et binaires\n"
 "XBS-Upstream-Release-Status: stable\n"
 "Homepage: https://wiki.debian.org/Teams/Dpkg\n"
-"Vcs-Browser: http://git.debian.org/?p=dpkg/dpkg.git\n"
-"Vcs-Git: git://git.debian.org/git/dpkg/dpkg.git\n"
+"Vcs-Browser: https://anonscm.debian.org/cgit/dpkg/dpkg.git\n"
+"Vcs-Git: git://anonscm.debian.org/dpkg/dpkg.git\n"
 "Standards-Version: 3.7.3\n"
 "Build-Depends: pkg-config, debhelper (E<gt>= 4.1.81),\n"
 " libselinux1-dev (E<gt>= 1.28-4) [!linux-any]\n"
@@ -2326,18 +2312,14 @@ msgstr ""
 
 #. type: Plain text
 #: deb-origin.5:55
-#, fuzzy, no-wrap
-#| msgid ""
-#| "Vendor: Debian\n"
-#| "Vendor-URL: http://www.debian.org/\n"
-#| "Bugs: debbugs://bugs.debian.org\n"
+#, no-wrap
 msgid ""
 "Vendor: Debian\n"
 "Vendor-URL: https://www.debian.org/\n"
 "Bugs: debbugs://bugs.debian.org\n"
 msgstr ""
 "Vendor: Debian\n"
-"Vendor-URL: http://www.debian.org/\n"
+"Vendor-URL: https://www.debian.org/\n"
 "Bugs: debbugs://bugs.debian.org\n"
 
 #. type: Plain text
@@ -3909,6 +3891,12 @@ msgid ""
 "the database contains the file md5sum. To check for any missing metadata in "
 "the database, the B<--audit> command can be used."
 msgstr ""
+"Actuellement la seule vérification fonctionnelle effectuée est une "
+"comparaison des sommes de contrôle MD5 des fichiers par rapport aux valeurs "
+"stockées dans la base de données des fichiers. La vérification n'a lieu "
+"que si la base de données contient les informations nécessaires. Pour vérifier "
+"si des méta-données manquent dans la base de données, la commande B<--audit> "
+"peut être employée."
 
 #. type: Plain text
 #: dpkg.1:224
@@ -5085,18 +5073,6 @@ msgstr "Définit le format de sortie de la commande B<--verify>."
 
 #. type: Plain text
 #: dpkg.1:652
-#, fuzzy
-#| msgid ""
-#| "The only currently supported output format is B<rpm>, which consists of a "
-#| "line for every path that failed any check. The lines start with 9 "
-#| "characters to report each specific check result, a 'B<?>' implies the "
-#| "check could not be done (lack of support, file permissions, etc), 'B<.>' "
-#| "implies the check passed, and an alphanumeric character implies a "
-#| "specific check failed; currently the only functional check is an md5sum "
-#| "verification against the stored value in the files database, denoted with "
-#| "a 'B<5>' on the third character. The line is followed by a space and an "
-#| "attribute character (currently 'B<c>' for conffiles), another space and "
-#| "the pathname."
 msgid ""
 "The only currently supported output format is B<rpm>, which consists of a "
 "line for every path that failed any check. The lines start with 9 characters "
@@ -5113,10 +5089,10 @@ msgstr ""
 "« B<?> » implique que la vérification ne peut être réalisée (absence de "
 "prise en charge, droit d'accès de fichier, etc), « B<.> » implique que la "
 "vérification est passée et un caractère alphanumérique implique qu'une "
-"vérification spécifique a échoué ; la seule vérification fonctionnelle est "
-"une vérification md5sum noté par un « B<5> » en troisième caractère. La "
-"ligne continue par une espace et un caractère d'attribut (dans ce cas "
-"« B<c> » pour conffiles - fichiers de configuration), une autre espace et le "
+"vérification spécifique a échoué ; "
+"la vérification md5sum est identifiée par un « B<5> » en troisième caractère. La "
+"ligne continue par une espace et un caractère d'attribut (comme "
+"« B<c> » pour conffiles - fichiers de configuration), une autre espace et le "
 "nom de chemin."
 
 #. type: TP
@@ -7397,15 +7373,6 @@ msgstr "B<stackprotector>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:261
-#, fuzzy
-#| msgid ""
-#| "This setting (enabled by default) adds B<-fstack-protector --param=ssp-"
-#| "buffer-size=4> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, "
-#| "B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>.  This adds safety checks against "
-#| "stack overwrites. This renders many potential code injection attacks into "
-#| "aborting situations. In the best case this turns code injection "
-#| "vulnerabilities into denial of service or into non-issues (depending on "
-#| "the application)."
 msgid ""
 "This setting (enabled by default if stackprotectorstrong is not in use) adds "
 "B<-fstack-protector --param=ssp-buffer-size=4> to B<CFLAGS>, B<CXXFLAGS>, "
@@ -7415,7 +7382,8 @@ msgid ""
 "code injection vulnerabilities into denial of service or into non-issues "
 "(depending on the application)."
 msgstr ""
-"Ce réglage, activé par défaut, ajoute B<-fstack-protector --param=ssp-buffer-"
+"Ce réglage (activé par défaut si stackprotectorstrong n'est pas employé), "
+"ajoute B<-fstack-protector --param=ssp-buffer-"
 "size=4> à B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
 "B<FFLAGS> et B<FCFLAGS>. Il ajoute des contrôles liés aux réécritures de "
 "piles. Cela conduit des tentatives d'attaques par injection de code à "
@@ -7437,40 +7405,27 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildflags.1:266
-#, fuzzy, no-wrap
-#| msgid "B<stackprotector>"
+#, no-wrap
 msgid "B<stackprotectorstrong>"
-msgstr "B<stackprotector>"
+msgstr "B<stackprotectorstrong>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:274
-#, fuzzy
-#| msgid ""
-#| "This setting (enabled by default) adds B<-fstack-protector --param=ssp-"
-#| "buffer-size=4> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, "
-#| "B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>.  This adds safety checks against "
-#| "stack overwrites. This renders many potential code injection attacks into "
-#| "aborting situations. In the best case this turns code injection "
-#| "vulnerabilities into denial of service or into non-issues (depending on "
-#| "the application)."
 msgid ""
 "This setting (enabled by default) adds B<-fstack-protector-strong> to "
 "B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> "
 "and B<FCFLAGS>.  This is a stronger variant of B<stackprotector>, but "
 "without significant performance penalties."
 msgstr ""
-"Ce réglage, activé par défaut, ajoute B<-fstack-protector --param=ssp-buffer-"
-"size=4> à B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
-"B<FFLAGS> et B<FCFLAGS>. Il ajoute des contrôles liés aux réécritures de "
-"piles. Cela conduit des tentatives d'attaques par injection de code à "
-"terminer en échec. Dans le meilleur des cas, cette protection transforme une "
-"vulnérabilité d'injection de code en déni de service ou en non-problème "
-"(selon les applications)."
+"Ce réglage, activé par défaut, ajoute B<-fstack-protector-strong> à "
+"B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
+"B<FFLAGS> et B<FCFLAGS>. Il s'agit d'une version renforcée de B<stackprotector>"
+"qui n'affecte pas les performances de manière importante."
 
 #. type: Plain text
 #: dpkg-buildflags.1:276
 msgid "Disabling B<stackprotector> will also disable this setting."
-msgstr ""
+msgstr "Désactiver B<stackprotector> désactive également ce paramètre."
 
 #. type: Plain text
 #: dpkg-buildflags.1:279
@@ -7478,6 +7433,8 @@ msgid ""
 "This feature has the same requirements as B<stackprotector>, and in addition "
 "also requires gcc 4.9 and later."
 msgstr ""
+"Cette fonctionnalité a les même exigences que B<stackprotector>, en plus de "
+"nécessiter gcc 4.9 ou plus récent."
 
 #. type: TP
 #: dpkg-buildflags.1:280
@@ -8005,15 +7962,6 @@ msgstr "B<5.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:60
-#, fuzzy
-#| msgid ""
-#| "It runs the B<build> hook and calls B<debian/rules> I<build-target>, then "
-#| "runs the B<binary> hook followed by B<fakeroot debian/rules> I<binary-"
-#| "target> (unless a source-only build has been requested with B<-S>). Note "
-#| "that I<build-target> and I<binary-target> are either B<build> and "
-#| "B<binary> (default case, or if B<-b> is specified), or B<build-arch> and "
-#| "B<binary-arch> (if B<-B> is specified), or B<build-indep> and B<binary-"
-#| "indep> (if B<-A> is specified)."
 msgid ""
 "It runs the B<build> hook and calls B<debian/rules> I<build-target>, then "
 "runs the B<binary> hook followed by B<fakeroot debian/rules> I<binary-"
@@ -8028,8 +7976,8 @@ msgstr ""
 "debian/rules> I<binary-target> (sauf si une construction source seule a été "
 "demandée avec B<-S>). Noter que I<build-target> et I<binary-target> sont "
 "soit B<build> et B<binary> (cas par défaut, ou avec utilisation de B<-b>) "
-"soit B<build-arch> et B<binary-arch> (si B<-B> est utilisé) soit B<build-"
-"indep> et B<binary-indep> (si B<-A> est utilisé)."
+"soit B<build-arch> et B<binary-arch> (si B<-B> ou B<-G> est utilisé) soit B<build-"
+"indep> et B<binary-indep> (si B<-A> ou B<-g> est utilisé)."
 
 #. type: IP
 #: dpkg-buildpackage.1:60
@@ -8082,11 +8030,6 @@ msgstr "B<9.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:74
-#, fuzzy
-#| msgid ""
-#| "It runs the B<check> hook and calls a package checker for the B<.changes> "
-#| "file (if a command is specified in DEB_CHECK_COMMAND or with B<--check-"
-#| "command>)."
 msgid ""
 "It runs the B<check> hook and calls a package checker for the B<.changes> "
 "file (if a command is specified in B<DEB_CHECK_COMMAND> or with B<--check-"
@@ -8094,7 +8037,7 @@ msgid ""
 msgstr ""
 "Exécution du point d'entrée B<check> et appel d'un contrôleur de paquet pour "
 "le fichier B<.changes> (dans le cas où une commande est spécifiée dans "
-"DEB_CHECK_COMMAND ou avec B<--check-command>)."
+"B<DEB_CHECK_COMMAND> ou avec B<--check-command>)."
 
 #. type: IP
 #: dpkg-buildpackage.1:74
@@ -8118,44 +8061,36 @@ msgstr ""
 #: dpkg-buildpackage.1:79
 #, no-wrap
 msgid "B<11.>"
-msgstr ""
+msgstr "B<11.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:81
 msgid "It runs the B<done> hook."
-msgstr ""
+msgstr "Il exécute le point d'entrée B<done>."
 
 #. type: TP
 #: dpkg-buildpackage.1:83
 #, no-wrap
 msgid "B<-g>"
-msgstr ""
+msgstr "B<-g>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:87
-#, fuzzy
-#| msgid ""
-#| "Specifies a binary-only build, limited to architecture independent "
-#| "packages. Passed to B<dpkg-genchanges>."
 msgid ""
 "Specifies a build limited to source and architecture independent packages.  "
 "Passed to B<dpkg-genchanges>."
 msgstr ""
-"Indique une construction uniquement binaire, limitée aux paquets ne "
-"dépendant pas d'une architecture. Passé à B<dpkg-genchanges>."
+"Indique une construction limitée aux paquets source et binaires indépendants de l'architecture. "
+"Passé à B<dpkg-genchanges>."
 
 #. type: Plain text
 #: dpkg-buildpackage.1:91
-#, fuzzy
-#| msgid ""
-#| "Specifies a binary-only build, limited to architecture dependent "
-#| "packages.  Passed to B<dpkg-genchanges>."
 msgid ""
 "Specifies a build limited to source and architecture specific packages.  "
 "Passed to B<dpkg-genchanges>."
 msgstr ""
-"Indique une construction uniquement binaire, limitée aux paquets dépendant "
-"d'une architecture. Passé à B<dpkg-genchanges>."
+"Indique une construction limitée aux paquets source et binaires dépendants de l'architecture. "
+"Passé à B<dpkg-genchanges>."
 
 #. type: TP
 #: dpkg-buildpackage.1:91
@@ -8450,16 +8385,12 @@ msgstr "B<-nc>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:188
-#, fuzzy
-#| msgid ""
-#| "Do not clean the source tree (implies B<-b> if nothing else has been "
-#| "selected among B<-B>, B<-A> or B<-S>)."
 msgid ""
 "Do not clean the source tree (implies B<-b> if nothing else has been "
 "selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-A> or B<-S>)."
 msgstr ""
 "Pas de nettoyage de l'arborescence des sources (implique B<-b> si aucune des "
-"options B<-B>, B<-A> ou B<-S> n'est utilisée)."
+"options B<-F>, B<-g>, B<-G>, B<-B>, B<-A> ou B<-S> n'est utilisée)."
 
 #. type: TP
 #: dpkg-buildpackage.1:188
@@ -8540,7 +8471,7 @@ msgstr ""
 #: dpkg-buildpackage.1:229
 #, no-wrap
 msgid "B<--check-command=>I<check-command>"
-msgstr "B<--check-command=>I<commande-vérifier>"
+msgstr "B<--check-command=>I<commande-contrôleur>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:234
@@ -8562,16 +8493,12 @@ msgstr "B<--check-option=>I<opt>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:239
-#, fuzzy
-#| msgid ""
-#| "Pass option I<opt> to the I<check-command> specified with "
-#| "B<DEB_CHECK_COMMAND> or B<--check-command>."
 msgid ""
 "Pass option I<opt> to the I<check-command> specified with "
 "B<DEB_CHECK_COMMAND> or B<--check-command>.  Can be used multiple times."
 msgstr ""
-"Passe l'option I<opt> à I<commande-vérifier> indiquée par "
-"B<DEB_CHECK_COMMAND> ou B<--check-command>."
+"Passe l'option I<opt> à I<commande-contrôleur> indiquée par "
+"B<DEB_CHECK_COMMAND> ou B<--check-command>.  Peut être utilisé plusieurs fois."
 
 #. type: TP
 #: dpkg-buildpackage.1:239
@@ -8795,10 +8722,8 @@ msgstr "B<--source-option=>I<opt>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:311
-#, fuzzy
-#| msgid "Pass option I<opt> to B<dpkg-source>."
 msgid "Pass option I<opt> to B<dpkg-source>.  Can be used multiple times."
-msgstr "Passe l'option I<opt> à B<dpkg-source>."
+msgstr "Passe l'option I<opt> à B<dpkg-source>. Peut être utilisé plusieurs fois."
 
 #. type: TP
 #: dpkg-buildpackage.1:311
@@ -8808,10 +8733,8 @@ msgstr "B<--changes-option=>I<opt>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:315
-#, fuzzy
-#| msgid "Pass option I<opt> to B<dpkg-genchanges>."
 msgid "Pass option I<opt> to B<dpkg-genchanges>.  Can be used multiple times."
-msgstr "Passe l'option I<opt> à B<dpkg-genchanges>."
+msgstr "Passe l'option I<opt> à B<dpkg-genchanges>. Peut être utilisé plusieurs fois."
 
 #. type: TQ
 #: dpkg-buildpackage.1:317
@@ -8967,15 +8890,11 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildpackage.1:373
-#, fuzzy
-#| msgid ""
-#| "It should be possible to specify spaces and shell metacharacters in and "
-#| "initial arguments for I<gain-root-command> and I<sign-command>."
 msgid ""
 "It should be possible to specify spaces and shell metacharacters and initial "
 "arguments for I<gain-root-command> and I<sign-command>."
 msgstr ""
-"On devrait pouvoir mettre des espaces et des métacaractères du shell dans "
+"On devrait pouvoir mettre des espaces et des métacaractères du shell et "
 "les arguments initiaux de I<commande-pour-obtenir-privilèges-de-root> et "
 "I<commande-de-signature>."
 
@@ -13861,108 +13780,106 @@ msgstr ""
 
 #. type: TP
 #: dpkg-query.1:229
-#, fuzzy, no-wrap
-#| msgid "B<binary:Version>"
+#, no-wrap
 msgid "B<binary:Package>"
-msgstr "B<binary:Version>"
+msgstr "B<binary:Package>"
 
 #. type: Plain text
 #: dpkg-query.1:233
 msgid ""
 "It contains the binary package name, in a multiarch conformant form, arch-"
 "qualified if needed (since dpkg 1.16.2)."
-msgstr ""
+msgstr "Il contient le nom du paquet binaire, dans un format conforme à multiarch, "
+"c'est-à-dire qualifié avec son architecture si nécessaire (depuis dpkg 1.16.2)."
 
 #. type: TP
 #: dpkg-query.1:233
-#, fuzzy, no-wrap
-#| msgid "B<binary:Version>"
+#, no-wrap
 msgid "B<binary:Summary>"
-msgstr "B<binary:Version>"
+msgstr "B<binary:Summary>"
 
 #. type: Plain text
 #: dpkg-query.1:236
-#, fuzzy
-#| msgid "The package architecture (since dpkg 1.16.1)."
 msgid "It contains the package short description (since dpkg 1.16.2)."
-msgstr "Architecture du paquet (depuis dpkg 1.16.1)"
+msgstr "Il contient la description courte du paquet (depuis dpkg 1.16.2)."
 
 #. type: TP
 #: dpkg-query.1:236
 #, no-wrap
 msgid "B<db:Status-Abbrev>"
-msgstr ""
+msgstr "B<db:Status-Abbrev>"
 
 #. type: Plain text
 #: dpkg-query.1:240
 msgid ""
 "It contains the abbreviated package status, such as \\(lqii\\(rq (since dpkg "
 "1.16.2)."
-msgstr ""
+msgstr "Il contient le statut du paquet dans sa forme abrégée comme \\(lqii\\(rq "
+"(depuis dpkg 1.16.2)."
 
 #. type: TP
 #: dpkg-query.1:240
 #, no-wrap
 msgid "B<db:Status-Want>"
-msgstr ""
+msgstr "B<db:Status-Want>"
 
 #. type: Plain text
 #: dpkg-query.1:244
 msgid ""
 "It contains the package wanted status, part of the Status field (since dpkg "
 "1.17.11)."
-msgstr ""
+msgstr "Il contient le statut désiré du paquet, extrait du champ Status (depuis "
+"dpkg 1.17.11)."
 
 #. type: TP
 #: dpkg-query.1:244
-#, fuzzy, no-wrap
-#| msgid "B<Status:>I< status>"
+#, no-wrap
 msgid "B<db:Status-Status>"
-msgstr "B<Status:>I< état>"
+msgstr "B<db:Status-Status>"
 
 #. type: Plain text
 #: dpkg-query.1:248
 msgid ""
 "It contains the package status word, part of the Status field (since dpkg "
 "1.17.11)."
-msgstr ""
+msgstr "Il contient le statut actuel du paquet, extrait du champ Status (depuis "
+"dpkg 1.17.11)."
 
 #. type: TP
 #: dpkg-query.1:248
 #, no-wrap
 msgid "B<db:Status-Eflag>"
-msgstr ""
+msgstr "B<db:Status-Eflag>"
 
 #. type: Plain text
 #: dpkg-query.1:252
 msgid ""
 "It contains the package status error flag, part of the Status field (since "
 "dpkg 1.17.11)."
-msgstr ""
+msgstr "Il contient le drapeau d'erreur du statut du paquet, extrait du champ "
+"Status (depuis dpkg 1.17.11)."
 
 #. type: TP
 #: dpkg-query.1:252
-#, fuzzy, no-wrap
-#| msgid "B<source:Version>"
+#, no-wrap
 msgid "B<source:Package>"
-msgstr "B<source:Version>"
+msgstr "B<source:Package>"
 
 #. type: Plain text
 #: dpkg-query.1:256
-#, fuzzy
-#| msgid "The Debian cpu name of the build machine (since dpkg 1.13.2)."
 msgid ""
 "It contains the source package name for this binary package (since dpkg "
 "1.16.2)."
-msgstr ""
-"Nom de processeur Debian de la machine de construction (depuis dpkg 1.13.2)."
+msgstr "Il contient le nom du paquet source de ce paquet binaire (depuis "
+"dpkg 1.16.2)."
 
 #. type: Plain text
 #: dpkg-query.1:260
 msgid ""
 "It contains the source package version for this binary package (since dpkg "
 "1.16.2)"
-msgstr ""
+msgstr "Il contient la version du paquet source de ce paquet binaire (depuis "
+"dpkg 1.16.2)."
 
 #. type: Plain text
 #: dpkg-query.1:271
@@ -17039,10 +16956,9 @@ msgstr ""
 
 #. type: SS
 #: dpkg-source.1:755
-#, fuzzy, no-wrap
-#| msgid "debian/source/local-patch-header and debian/source/patch-header"
+#, no-wrap
 msgid "debian/source/local-patch-header R<and> debian/source/patch-header"
-msgstr "debian/source/local-patch-header et debian/source/patch-header"
+msgstr "debian/source/local-patch-header R<et> debian/source/patch-header"
 
 # type: Plain text
 #. type: Plain text
@@ -18010,10 +17926,9 @@ msgstr "dselect"
 
 #. type: TH
 #: dselect.1:22
-#, fuzzy, no-wrap
-#| msgid "2011-08-14"
+#, no-wrap
 msgid "2014-08-11"
-msgstr "14-08-2011"
+msgstr "11-08-2014"
 
 #. type: Plain text
 #: dselect.1:25
@@ -18496,15 +18411,6 @@ msgstr ""
 
 #. type: Plain text
 #: dselect.1:206
-#, fuzzy
-#| msgid ""
-#| "If an error occurred during install, it is usually advisable to run "
-#| "install again. In most cases, the problems will disappear or be solved.  "
-#| "If problems persist or the installation performed was incorrect, please "
-#| "investigate into the causes and circumstances, and file a bug in the "
-#| "Debian bug tracking system. Instructions on how to do this can be found "
-#| "at http://bugs.debian.org/ or by reading the documentation for B<bug>(1) "
-#| "or B<reportbug>(1), if these are installed."
 msgid ""
 "If an error occurred during install, it is usually advisable to run install "
 "again. In most cases, the problems will disappear or be solved.  If problems "
@@ -18520,7 +18426,7 @@ msgstr ""
 "l'installation n'est pas correcte, veuillez examiner les causes et "
 "circonstances puis soumettez un rapport de bogue au système de suivi des "
 "bogues Debian. Les instructions pour soumettre ces rapports de bogues se "
-"trouvent sur http://bugs.debian.org/ ou dans la page de manuel de "
+"trouvent sur https://bugs.debian.org/ ou dans la page de manuel de "
 "B<reportbug>(1), si ce paquet est installé."
 
 #. type: Plain text
@@ -18719,14 +18625,6 @@ msgstr ""
 
 #. type: Plain text
 #: dselect.1:293
-#, fuzzy
-#| msgid ""
-#| "For every package, the list shows the package's status, priority, "
-#| "section, installed and available versions, the package name and its short "
-#| "description, all in one line. By pressing the B<'V'> key, the display of "
-#| "the installed and available version can be toggled between on an off. By "
-#| "pressing the B<'v'> key, the package status display is toggled between "
-#| "verbose and shorthand.  Shorthand display is the default."
 msgid ""
 "For every package, the list shows the package's status, priority, section, "
 "installed and available architecture, installed and available versions, the "
@@ -18738,9 +18636,11 @@ msgid ""
 "verbose and shorthand.  Shorthand display is the default."
 msgstr ""
 "Pour tous les paquets, la liste affiche sur une ligne l'état du paquet, sa "
-"priorité, sa section, les versions installées et disponibles, le nom du "
-"paquet et sa description courte. En appuyant sur la touche « B<V> », on peut "
-"activer ou désactiver l'affichage des versions installées et disponibles. En "
+"priorité, sa section, les architectures installée et disponible, les versions installée et disponible, le nom du "
+"paquet et sa description courte. En appuyant sur la touche « B<A> », "
+"on peut activer ou désactiver l'affichage des architectures installée et disponible."
+"En appuyant sur la touche « B<V> », on peut "
+"activer ou désactiver l'affichage des versions installée et disponible. En "
 "appuyant sur la touche « B<v> », l'affichage de l'état passe d'un mode "
 "bavard à un mode raccourci. Par défaut, l'état raccourci est utilisé."
 
