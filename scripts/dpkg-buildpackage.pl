@@ -191,6 +191,15 @@ sub build_opt {
     }
 }
 
+sub set_build_type
+{
+    my ($build_type, $build_option) = @_;
+
+    usageerr(_g('cannot combine %s and %s'), build_opt(), $build_option)
+        if not build_is_default;
+    $include = $build_type;
+}
+
 my $build_opts = Dpkg::BuildOptions->new();
 
 if ($build_opts->has('nocheck')) {
@@ -271,39 +280,25 @@ while (@ARGV) {
     } elsif (/^-nc$/) {
 	$noclean = 1;
     } elsif (/^-b$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_BINARY;
+	set_build_type(BUILD_BINARY, $_);
 	push @changes_opts, '-b';
     } elsif (/^-B$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_ARCH_DEP;
+	set_build_type(BUILD_ARCH_DEP, $_);
 	push @changes_opts, '-B';
     } elsif (/^-A$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_ARCH_INDEP;
+	set_build_type(BUILD_ARCH_INDEP, $_);
 	push @changes_opts, '-A';
     } elsif (/^-S$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_SOURCE;
+	set_build_type(BUILD_SOURCE, $_);
 	push @changes_opts, '-S';
     } elsif (/^-G$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_SOURCE_DEP;
+	set_build_type(BUILD_SOURCE_DEP, $_);
 	push @changes_opts, '-G';
     } elsif (/^-g$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_SOURCE_INDEP;
+	set_build_type(BUILD_SOURCE_INDEP, $_);
 	push @changes_opts, '-g';
     } elsif (/^-F$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_ALL;
+	set_build_type(BUILD_ALL, $_);
     } elsif (/^-v(.*)$/) {
 	$since = $1;
     } elsif (/^-m(.*)$/) {

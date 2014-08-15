@@ -109,6 +109,15 @@ sub build_opt {
     }
 }
 
+sub set_build_type
+{
+    my ($build_type, $build_option) = @_;
+
+    usageerr(_g('cannot combine %s and %s'), build_opt(), $build_option)
+        if not build_is_default;
+    $include = $build_type;
+}
+
 sub version {
     printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
@@ -155,29 +164,17 @@ sub usage {
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-b$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_BINARY;
+	set_build_type(BUILD_BINARY, $_);
     } elsif (m/^-B$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_ARCH_DEP;
+	set_build_type(BUILD_ARCH_DEP, $_);
     } elsif (m/^-A$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_ARCH_INDEP;
+	set_build_type(BUILD_ARCH_INDEP, $_);
     } elsif (m/^-S$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_SOURCE;
+	set_build_type(BUILD_SOURCE, $_);
     } elsif (m/^-G$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_SOURCE_DEP;
+	set_build_type(BUILD_SOURCE_DEP, $_);
     } elsif (m/^-g$/) {
-	usageerr(_g('cannot combine %s and %s'), build_opt(), $_)
-	    if not build_is_default;
-	$include = BUILD_SOURCE_INDEP;
+	set_build_type(BUILD_SOURCE_INDEP, $_);
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
     } elsif (m/^-q$/) {
