@@ -26,8 +26,10 @@
 
 #define _(str) gettext(str)
 
-#ifndef HAVE_STRERROR
+#if !HAVE_DECL_SYS_ERRLIST
 extern const char *const sys_errlist[];
+#endif
+#if !HAVE_DECL_SYS_NERR
 extern const int sys_nerr;
 #endif
 

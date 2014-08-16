@@ -12,13 +12,16 @@ libcompat_test_la_SOURCES = \
 	compat.h \
 	strnlen.c \
 	strndup.c \
-	strerror.c \
 	strsignal.c \
 	snprintf.c vsnprintf.c \
 	asprintf.c vasprintf.c \
 	alphasort.c \
 	scandir.c \
 	unsetenv.c
+
+if HAVE_SYS_ERRLIST
+libcompat_test_la_SOURCES += strerror.c
+endif
 
 if WITH_SELINUX
 libcompat_test_la_SOURCES += selinux.c

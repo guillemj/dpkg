@@ -45,6 +45,22 @@ AC_CHECK_DECLS([sys_siglist],,,
 ])dnl
 ])# DPKG_DECL_SYS_SIGLIST
 
+# DPKG_DECL_SYS_ERRLIST
+# ---------------------
+# Check for the sys_errlist and sys_nerr variables in either errno.h or
+# stdio.h
+AC_DEFUN([DPKG_DECL_SYS_ERRLIST],
+[
+  AC_CHECK_DECLS([sys_errlist, sys_nerr],,, [[
+#include <errno.h>
+/* glibc declares sys_errlist in stdio.h.  */
+#include <stdio.h>
+]])
+AM_CONDITIONAL([HAVE_SYS_ERRLIST],
+  [test "x$ac_cv_have_decl_sys_errlist" = "xyes" && \
+   test "x$ac_cv_have_decl_sys_nerr" = "xyes"])
+])# DPKG_DECL_SYS_SIGLIST
+
 # DPKG_CHECK_DECL([DECL], [HEADER])
 # -----------------
 # Define HAVE_DECL to 1 if declared in HEADER
