@@ -23,7 +23,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH dpkg 1 "2014-05-23" "Debian Project" "dpkg suite"
+.TH dpkg 1 "2014-08-16" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg \- package manager for Debian
 .
@@ -175,22 +175,14 @@ once each where necessary. Use of this option may leave packages in the
 improper \fBtriggers\-awaited\fP and \fBtriggers\-pending\fP states. This
 can be fixed later by running: \fBdpkg \-\-configure \-\-pending\fP.
 .TP
-\fB\-r\fP, \fB\-\-remove\fP, \fB\-P\fP, \fB\-\-purge \fP\fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
-Remove an installed package. \fB\-r\fP or \fB\-\-remove\fP remove
-everything except conffiles. This may avoid having to
-reconfigure the package if it is reinstalled later. (Conffiles are configuration
-files that are listed in the \fIDEBIAN/conffiles\fP control
-file). \fB\-P\fP or \fB\-\-purge\fP removes everything, including
-conffiles. If \fB\-a\fP or \fB\-\-pending\fP is given instead of a package
-name, then all packages unpacked, but marked to be removed or purged
-in file \fI/var/lib/dpkg/status\fP, are removed or purged,
-respectively. Note: some configuration files might be unknown to
-\fBdpkg\fP because they are created and handled separately through the
-configuration scripts. In that case, \fBdpkg\fP won't remove them by
-itself, but the package's \fIpostrm\fP script (which is called by
-\fBdpkg\fP), has to take care of their removal during purge. Of course,
-this only applies to files in system directories, not configuration files
-written to individual users' home directories.
+\fB\-r\fP, \fB\-\-remove\fP \fP\fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
+Remove an installed package. This removes everything except conffiles,
+which may avoid having to reconfigure the package if it is reinstalled
+later (conffiles are configuration files that are listed in the
+\fIDEBIAN/conffiles\fP control file).
+If \fB\-a\fP or \fB\-\-pending\fP is given instead of a package name,
+then all packages unpacked, but marked to be removed in file
+\fI/var/lib/dpkg/status\fP, are removed.
 
 Removing of a package consists of the following steps:
 .br
@@ -202,6 +194,32 @@ Removing of a package consists of the following steps:
 .br
 
 \fB3.\fP Run \fIpostrm\fP script
+.br
+
+.TP
+\fB\-P\fP, \fB\-\-purge \fP\fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
+Purge an installed or already removed package. This removes everything,
+including conffiles.
+If \fB\-a\fP or \fB\-\-pending\fP is given instead of a package name,
+then all packages unpacked or removed, but marked to be purged in file
+\fI/var/lib/dpkg/status\fP, are purged.
+
+Note: some configuration files might be unknown to \fBdpkg\fP because they
+are created and handled separately through the configuration scripts. In
+that case, \fBdpkg\fP won't remove them by itself, but the package's
+\fIpostrm\fP script (which is called by \fBdpkg\fP), has to take care of
+their removal during purge. Of course, this only applies to files in
+system directories, not configuration files written to individual users'
+home directories.
+
+Purging of a package consists of the following steps:
+.br
+
+\fB1.\fP Remove the package, if not already removed. See \fB\-\-remove\fP
+for detailed information about how this is done.
+.br
+
+\fB2.\fP Run \fIpostrm\fP script.
 .br
 .TP
 .BR \-V ", " \-\-verify " [\fIpackage-name\fP...]
