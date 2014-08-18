@@ -197,9 +197,10 @@ scripts:
     dpkg\-maintscript\-helper dir_to_symlink \\
         \fIpathname\fP \fInew-target\fP \fIprior-version\fP \fIpackage\fP \-\- "$@"
 .P
-\fIpathname\fP is the name of the old directory (the path will be a
-symlink at the end of the installation) and \fInew-target\fP is the target
-of the new symlink at \fIpathname\fP.
+\fIpathname\fP is the absolute name of the old directory (the path
+will be a symlink at the end of the installation) and \fInew-target\fP is
+the target of the new symlink at \fIpathname\fP. It can either be absolute
+or relative to the directory containing \fIpathname\fP.
 .P
 Current implementation: the \fBpreinst\fP checks if the directory
 exists, does not contain conffiles, pathnames owned by other packages,

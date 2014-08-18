@@ -325,6 +325,8 @@ dir_to_symlink() {
 		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
 	[ -n "$PACKAGE" ] || error "cannot identify the package"
 	[ -n "$PATHNAME" ] || error "directory parameter is missing"
+	[ "${PATHNAME#/}" = "$PATHNAME" ] && \
+		error "directory parameter is not an absolute path"
 	[ -n "$SYMLINK_TARGET" ] || error "new symlink target is missing"
 	[ -n "$1" ] || error "maintainer script parameters are missing"
 
@@ -364,7 +366,7 @@ dir_to_symlink() {
 		   [ \( ! -h "$PATHNAME" -a -d "$PATHNAME" -a \
 		        -f "$PATHNAME/.dpkg-staging-dir" \) -o \
 		     \( -h "$PATHNAME" -a \
-		        "$(readlink -f $PATHNAME)" = "$SYMLINK_TARGET" \) ] &&
+		        "$(readlink $PATHNAME)" = "$SYMLINK_TARGET" \) ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			abort_dir_to_symlink "$PATHNAME"
 		fi
@@ -429,9 +431,15 @@ finish_dir_to_symlink()
 	# Move the contents of the staging directory to the symlink target,
 	# as those are all new files installed between this package being
 	# unpacked and configured.
+	local ABS_SYMLINK_TARGET
+	if [ "${SYMLINK_TARGET#/}" = "$SYMLINK_TARGET" ]; then
+		ABS_SYMLINK_TARGET="$(dirname "$PATHNAME")/$SYMLINK_TARGET"
+	else
+		ABS_SYMLINK_TARGET="$SYMLINK_TARGET"
+	fi
 	rm "$PATHNAME/.dpkg-staging-dir"
 	find "$PATHNAME" -mindepth 1 -print0 | \
-		xargs -0 -i% mv -f "%" "$SYMLINK_TARGET/"
+		xargs -0 -i% mv -f "%" "$ABS_SYMLINK_TARGET/"
 
 	# Remove the staging directory.
 	rmdir "$PATHNAME"
