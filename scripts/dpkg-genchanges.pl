@@ -53,6 +53,7 @@ my $uploadfilesdir = '..';
 my $sourcestyle = 'i';
 my $quiet = 0;
 my $host_arch = get_host_arch();
+my @profiles = get_build_profiles();
 my $changes_format = '1.8';
 
 my %p2f;           # - package to file map, has entries for "packagename"
@@ -346,6 +347,7 @@ if ($include & BUILD_BINARY) {
 foreach my $pkg ($control->get_packages()) {
     my $p = $pkg->{'Package'};
     my $a = $pkg->{'Architecture'} // '';
+    my $bp = $pkg->{'Build-Profiles'};
     my $d = $pkg->{'Description'} || 'no description available';
     $d = $1 if $d =~ /^(.*)\n/;
     my $pkg_type = $pkg->{'Package-Type'} ||
@@ -359,11 +361,17 @@ foreach my $pkg ($control->get_packages()) {
     $desc .= ' (udeb)' if $pkg_type eq 'udeb';
     push @descriptions, $desc;
 
+    my @restrictions;
+    @restrictions = parse_build_profiles($bp) if defined $bp;
+
     if (not defined($p2f{$p})) {
 	# No files for this package... warn if it's unexpected
-	if ((debarch_eq('all', $a) and ($include & BUILD_ARCH_INDEP)) ||
+	if (((debarch_eq('all', $a) and ($include & BUILD_ARCH_INDEP)) ||
 	    ((any { debarch_is($host_arch, $_) } split /\s+/, $a)
-		  and ($include & BUILD_ARCH_DEP))) {
+		  and ($include & BUILD_ARCH_DEP))) and
+	    (@restrictions == 0 or
+	     evaluate_restriction_formula(\@restrictions, \@profiles)))
+	{
 	    warning(_g('package %s in control file but not in files list'),
 		    $p);
 	}

@@ -19,7 +19,8 @@ use strict;
 use warnings;
 
 our $VERSION = '0.01';
-our @EXPORT_OK = qw(get_build_profiles set_build_profiles parse_build_profiles);
+our @EXPORT_OK = qw(get_build_profiles set_build_profiles parse_build_profiles
+                    evaluate_restriction_formula);
 
 use Exporter qw(import);
 
@@ -85,6 +86,45 @@ sub parse_build_profiles {
     my $string = shift;
 
     return map { lc } split /\s+/, $string;
+}
+
+=item evaluate_restriction_formula(\@formula, \@profiles)
+
+Evaluate whether a restriction list, is true or false, given the array of
+enabled build profiles.
+
+=cut
+
+sub evaluate_restriction_formula {
+    my ($restrictions, $build_profiles) = @_;
+
+    my $seen_profile = 0;
+    foreach my $restriction (@{$restrictions}) {
+        # Determine if this restriction is negated, and within the "profile"
+        # namespace, otherwise it does not concern this check.
+        next if $restriction !~ m/^(!)?profile\.(.*)/;
+
+        my $negated = defined $1 && $1 eq '!';
+        my $profile = $2;
+
+        # Determine if the restriction matches any of the specified profiles.
+        my $found = any { $_ eq $profile } @{$build_profiles};
+
+        if ($negated) {
+            if ($found) {
+                $seen_profile = 0;
+                last;
+            } else {
+                # "!profile.this" includes by default all other profiles
+                # unless they also appear in a "!profile.other".
+                $seen_profile = 1;
+            }
+        } elsif ($found) {
+            $seen_profile = 1;
+            last;
+        }
+    }
+    return $seen_profile;
 }
 
 =back

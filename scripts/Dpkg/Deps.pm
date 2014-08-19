@@ -541,7 +541,7 @@ use warnings;
 use Carp;
 
 use Dpkg::Arch qw(debarch_is);
-use Dpkg::BuildProfiles qw(parse_build_profiles);
+use Dpkg::BuildProfiles qw(parse_build_profiles evaluate_restriction_formula);
 use Dpkg::Version;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -857,34 +857,7 @@ sub profile_is_concerned {
 
     return 0 if not defined $self->{package}; # Empty dep
     return 1 if not defined $self->{restrictions}; # Dep without restrictions
-
-    my $seen_profile = 0;
-    foreach my $restriction (@{$self->{restrictions}}) {
-        # Determine if this restriction is negated, and within the "profile"
-        # namespace, otherwise it does not concern this check.
-        next if $restriction !~ m/^(!)?profile\.(.*)/;
-
-        my $negated = defined $1 && $1 eq '!';
-        my $profile = $2;
-
-        # Determine if the restriction matches any of the specified profiles.
-        my $found = any { $_ eq $profile } @{$build_profiles};
-
-        if ($negated) {
-            if ($found) {
-                $seen_profile = 0;
-                last;
-            } else {
-                # "!profile.this" includes by default all other profiles
-                # unless they also appear in a "!profile.other".
-                $seen_profile = 1;
-            }
-        } elsif ($found) {
-            $seen_profile = 1;
-            last;
-        }
-    }
-    return $seen_profile;
+    return evaluate_restriction_formula($self->{restrictions}, $build_profiles);
 }
 
 sub reduce_profiles {
