@@ -252,7 +252,11 @@ symlink_to_dir() {
 		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
 	[ -n "$PACKAGE" ] || error "cannot identify the package"
 	[ -n "$SYMLINK" ] || error "symlink parameter is missing"
+	[ "${SYMLINK#/}" = "$SYMLINK" ] && \
+		error "symlink pathname is not an absolute path"
 	[ -n "$SYMLINK_TARGET" ] || error "original symlink target is missing"
+	[ "${SYMLINK_TARGET#/}" = "$SYMLINK_TARGET" ] && \
+		error "original symlink target is not an absolute path"
 	[ -n "$1" ] || error "maintainer script parameters are missing"
 
 	debug "Executing $0 symlink_to_dir in $DPKG_MAINTSCRIPT_NAME" \
