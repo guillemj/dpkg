@@ -209,15 +209,16 @@ Define the active build profiles. By default no profile is defined.
 =item reduce_profiles (defaults to 0)
 
 If set to 1, ignore dependencies that do not concern the current build
-profile. This implicitly strips off the profile restriction list so
+profile. This implicitly strips off the profile restriction formula so
 that the resulting dependencies are directly applicable to the current
 profiles.
 
 =item reduce_restrictions (defaults to 0)
 
 If set to 1, ignore dependencies that do not concern the current set of
-restrictions. This implicitly strips off any restriction list so that the
-resulting dependencies are directly applicable to the current restriction.
+restrictions. This implicitly strips off any architecture restriction list
+or restriction formula so that the resulting dependencies are directly
+applicable to the current restriction.
 This currently implies C<reduce_arch> and C<reduce_profiles>, and overrides
 them if set.
 
@@ -601,7 +602,7 @@ sub parse_string {
               )?                            # end of optional architecture
               (?:                           # start of optional restriction
                 \s* <                       # open bracket for restriction
-                \s* (.*?)                   # don't parse restrictions now
+                \s* (.*)                    # do not parse restrictions now
                 \s* >                       # closing bracket
               )?                            # end of optional restriction
               \s*$                          # trailing spaces at end
@@ -636,7 +637,9 @@ sub output {
 	$res .= ' [' . join(' ', @{$self->{arches}}) . ']';
     }
     if (defined($self->{restrictions})) {
-	$res .= ' <' . join(' ', @{$self->{restrictions}}) . '>';
+        for my $restrlist (@{$self->{restrictions}}) {
+            $res .= ' <' . join(' ', @{$restrlist}) . '>';
+        }
     }
     if (defined($fh)) {
 	print { $fh } $res;

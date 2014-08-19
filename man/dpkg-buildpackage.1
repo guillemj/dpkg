@@ -150,11 +150,11 @@ of \-a or as a complement to override the default GNU system type
 of the target Debian architecture.
 .TP
 .BR \-P \fIprofile\fP[ , ...]
-Specify the profile(s) we build, as a comma-separated list, without the
-"\fBprofile.\fP" namespace prefix. The default behavior is to build for
-no specific profile. Also adds them (as a space separated list) to the
-\fBDEB_BUILD_PROFILES\fP environment variable which allows, for example,
-\fBdebian/rules\fP files to use this information for conditional builds.
+Specify the profile(s) we build, as a comma-separated list. The default
+behavior is to build for no specific profile. Also sets them (as a space
+separated list) as the \fBDEB_BUILD_PROFILES\fP environment variable which
+allows, for example, \fBdebian/rules\fP files to use this information for
+conditional builds.
 .TP
 .BR \-j [\fIjobs\fP|\fBauto\fP]
 Number of jobs allowed to be run simultaneously, number of jobs matching
@@ -341,8 +341,8 @@ will be ignored.
 .TP
 .B DEB_BUILD_PROFILES
 If set, it will be used as the active build profile(s) for the package
-being built. It is a space separated list of profile names, without the
-"\fBprofile.\fP" namespace prefix. Overridden by the \fB\-P\fP option.
+being built. It is a space separated list of profile names. Overridden
+by the \fB\-P\fP option.
 
 .SS Reliance on exported environment flags
 Even if \fBdpkg\-buildpackage\fP exports some variables, \fBdebian/rules\fP

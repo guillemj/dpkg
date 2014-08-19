@@ -187,8 +187,8 @@ of packages separated by vertical bar (or "pipe") symbols, "|". The
 groups are separated by commas. Commas are to be read as "AND", and pipes
 as "OR", with pipes binding more tightly. Each package name is
 optionally followed by a version number specification in parentheses, an
-architecture specification in square brackets, and a profile specification
-in angle brackets.
+architecture specification in square brackets, and a restriction formula
+consisting of one or more lists of profile names in angle brackets.
 
 The syntax of the
 .BR Build\-Conflicts ,
@@ -198,8 +198,9 @@ and
 fields is a list of comma-separated package names, where the comma is read
 as an "AND". Specifying alternative packages using a "pipe" is not supported.
 Each package name is optionally followed by a version number specification in
-parentheses, an architecture specification in square brackets, and a profile
-specification in angle brackets.
+parentheses, an architecture specification in square brackets, and a
+restriction formula consisting of one or more lists of profile names in
+angle brackets.
 
 A version number may start with a ">>", in which case any later version
 will match, and may specify or omit the Debian packaging revision (separated
@@ -211,9 +212,11 @@ An architecture specification consists of one or more architecture names,
 separated by whitespace. Exclamation marks may be prepended to each of the
 names, meaning "NOT".
 
-A profile specification consists of one or more profile names, prefixed
-with the "\fBprofile.\fP" namespace, separated by whitespace. Exclamation
-marks may be prepended to each of the names, meaning "NOT".
+A restriction formula consists of one or more restriction lists, separated
+by whitespace. Each restriction list is enclosed in angle brackets. Items
+in the restriction list are build profile names, separated by whitespace
+and can be prefixed with an exclamation mark, meaning "NOT". A restriction
+formula represents a disjunctive normal form expression.
 
 Note that dependencies on packages in the
 .B build\-essential

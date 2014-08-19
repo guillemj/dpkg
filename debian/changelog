@@ -72,6 +72,17 @@ dpkg (1.17.14) UNRELEASED; urgency=low
   * Map i786 to i386 also for the multiarch pathname in dpkg-architecture.
   * Handle omitted binary packages due to build profiles in dpkg-genchanges.
     Based on a patch by Johannes Schauer <j.schauer@email.de>. Closes: #758191
+  * Update restriction formula syntax for build profiles:
+    - Restriction lists are now restriction formulas.
+    - Restriction formulas are given in disjunctive normal form expression:
+      <foo> <bar baz> <blub>
+    - Removal of the implicit prefix/namespace mechanic.
+    - Construct the profiles entry of the Packages-List field by converting
+      the "<bar baz> <blub>" syntax into "bar,baz+blub".
+    - Include a temporary compatibility mapping with the old way to write
+      the Build-Profiles field in binary packages which can be removed once
+      all affected source packages have moved to the new syntax.
+    Thanks to Johannes Schauer <j.schauer@email.de>. Closes: #760158
 
   [ Raphaël Hertzog ]
   * Explain better in deb-triggers(5) why interest/activate-noawait should be

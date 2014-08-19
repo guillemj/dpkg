@@ -24,6 +24,7 @@ our @EXPORT_OK = qw(get_build_profiles set_build_profiles parse_build_profiles
 
 use Exporter qw(import);
 
+use Dpkg::Util qw(:list);
 use Dpkg::BuildEnv;
 
 my $cache_profiles;
@@ -78,53 +79,53 @@ sub set_build_profiles {
 
 =item my @profiles = parse_build_profiles($string)
 
-Parses a build profiles specification, into an array.
+Parses a build profiles specification, into an array of array references.
 
 =cut
 
 sub parse_build_profiles {
     my $string = shift;
 
-    return map { lc } split /\s+/, $string;
+    $string =~ s/^\s*<(.*)>\s*$/$1/;
+
+    return map { [ split /\s+/ ] } split />\s+</, $string;
 }
 
 =item evaluate_restriction_formula(\@formula, \@profiles)
 
-Evaluate whether a restriction list, is true or false, given the array of
-enabled build profiles.
+Evaluate whether a restriction formula of the form "<foo bar> <baz>", given as
+a nested array, is true or false, given the array of enabled build profiles.
 
 =cut
 
 sub evaluate_restriction_formula {
-    my ($restrictions, $build_profiles) = @_;
+    my ($formula, $profiles) = @_;
 
-    my $seen_profile = 0;
-    foreach my $restriction (@{$restrictions}) {
-        # Determine if this restriction is negated, and within the "profile"
-        # namespace, otherwise it does not concern this check.
-        next if $restriction !~ m/^(!)?profile\.(.*)/;
+    # Restriction formulas are in disjunctive normal form:
+    # (foo AND bar) OR (blub AND bla)
+    foreach my $restrlist (@{$formula}) {
+        my $seen_profile = 1;
 
-        my $negated = defined $1 && $1 eq '!';
-        my $profile = $2;
+        foreach my $restriction (@$restrlist) {
+            next if $restriction !~ m/^(!)?(.+)/;
 
-        # Determine if the restriction matches any of the specified profiles.
-        my $found = any { $_ eq $profile } @{$build_profiles};
+            my $negated = defined $1 && $1 eq '!';
+            my $profile = $2;
+            my $found = any { $_ eq $profile } @{$profiles};
 
-        if ($negated) {
-            if ($found) {
+            # If a negative set profile is encountered, stop processing.
+            # If a positive unset profile is encountered, stop processing.
+            if ($found == $negated) {
                 $seen_profile = 0;
                 last;
-            } else {
-                # "!profile.this" includes by default all other profiles
-                # unless they also appear in a "!profile.other".
-                $seen_profile = 1;
             }
-        } elsif ($found) {
-            $seen_profile = 1;
-            last;
         }
+
+        # This conjunction evaluated to true so we don't have to evaluate
+        # the others.
+        return 1 if $seen_profile;
     }
-    return $seen_profile;
+    return 0;
 }
 
 =back

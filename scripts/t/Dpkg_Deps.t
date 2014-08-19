@@ -70,20 +70,26 @@ is($dep_i386->output(), 'libc6 (>= 2.5)', 'Arch reduce 1/3');
 is($dep_alpha->output(), 'libc6.1', 'Arch reduce 2/3');
 is($dep_hurd->output(), 'libc0.1', 'Arch reduce 3/3');
 
-my $field_profile = 'dep1 <!profile.stage1 !profile.notest>, ' .
-'dep2 <profile.stage1 !profile.notest>, ' .
-'dep3 <profile.notest !profile.stage1>, ' .
-'dep4 <profile.stage1 profile.notest>, ' .
-'dep5 <profile.stage1>, dep6 <!profile.stage1>, ' .
-'dep7 <profile.stage1> | dep8 <profile.notest>';
+my $field_profile = 'dep1 <!stage1 !notest>, ' .
+'dep2 <stage1 !notest>, ' .
+'dep3 <notest !stage1>, ' .
+'dep4 <stage1 notest>, ' .
+'dep5 <stage1>, dep6 <!stage1>, ' .
+'dep7 <stage1> | dep8 <notest>, ' .
+'dep9 <!stage1> <!notest>, ' .
+'dep10 <stage1> <!notest>, ' .
+'dep11 <stage1> <notest>, '.
+'dep12 <!notest> <!stage1>, ' .
+'dep13 <notest> <!stage1>, ' .
+'dep14 <notest> <stage1>';
 my $dep_noprof = deps_parse($field_profile, reduce_profiles => 1, build_profiles => []);
 my $dep_stage1 = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['stage1']);
 my $dep_notest = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['notest']);
 my $dep_stage1notest = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['stage1', 'notest']);
-is($dep_noprof->output(), 'dep1, dep2, dep3, dep6', 'Profile reduce 1/4');
-is($dep_stage1->output(), 'dep2, dep4, dep5, dep7', 'Profile reduce 2/4');
-is($dep_notest->output(), 'dep3, dep4, dep6, dep8', 'Profile reduce 3/4');
-is($dep_stage1notest->output(), 'dep2, dep3, dep4, dep5, dep7 | dep8', 'Profile reduce 4/4');
+is($dep_noprof->output(), 'dep1, dep6, dep9, dep10, dep12, dep13', 'Profile reduce 1/4');
+is($dep_stage1->output(), 'dep2, dep5, dep7, dep9, dep10, dep11, dep12, dep14', 'Profile reduce 2/4');
+is($dep_notest->output(), 'dep3, dep6, dep8, dep9, dep11, dep12, dep13, dep14', 'Profile reduce 3/4');
+is($dep_stage1notest->output(), 'dep4, dep5, dep7 | dep8, dep10, dep11, dep13, dep14', 'Profile reduce 4/4');
 
 $dep_noprof = deps_parse($field_profile);
 $dep_noprof->reduce_profiles([]);
@@ -93,21 +99,23 @@ $dep_notest = deps_parse($field_profile);
 $dep_notest->reduce_profiles(['notest']);
 $dep_stage1notest = deps_parse($field_profile);
 $dep_stage1notest->reduce_profiles(['stage1', 'notest']);
-is($dep_noprof->output(), 'dep1, dep2, dep3, dep6', 'Profile post-reduce 1/4');
-is($dep_stage1->output(), 'dep2, dep4, dep5, dep7', 'Profile post-reduce 2/4');
-is($dep_notest->output(), 'dep3, dep4, dep6, dep8', 'Profile post-reduce 3/4');
-is($dep_stage1notest->output(), 'dep2, dep3, dep4, dep5, dep7 | dep8', 'Profile post-reduce 4/4');
+is($dep_noprof->output(), 'dep1, dep6, dep9, dep10, dep12, dep13', 'Profile post-reduce 1/4');
+is($dep_stage1->output(), 'dep2, dep5, dep7, dep9, dep10, dep11, dep12, dep14', 'Profile post-reduce 2/4');
+is($dep_notest->output(), 'dep3, dep6, dep8, dep9, dep11, dep12, dep13, dep14', 'Profile post-reduce 3/4');
+is($dep_stage1notest->output(), 'dep4, dep5, dep7 | dep8, dep10, dep11, dep13, dep14', 'Profile post-reduce 4/4');
 
-my $field_restrict = 'dep1 <!profile.bootstrap !other.restrict>, ' .
-'dep2 <profile.bootstrap other.restrict>, ' .
-'dep3 <!other.restrict>, ' .
-'dep4 <other.restrict>';
+my $field_restrict = 'dep1 <!bootstrap !restrict>, ' .
+'dep2 <bootstrap restrict>, ' .
+'dep3 <!restrict>, ' .
+'dep4 <restrict>, ' .
+'dep5 <!bootstrap> <!restrict>, ' .
+'dep6 <bootstrap> <restrict>';
 my $dep_restrict = deps_parse($field_restrict, reduce_restrictions => 1, build_profiles => []);
-is($dep_restrict->output(), 'dep1', 'Unknown restrictions reduce');
+is($dep_restrict->output(), 'dep1, dep3, dep5', 'Unknown restrictions reduce');
 
 $dep_restrict = deps_parse($field_restrict);
 $dep_restrict->reduce_profiles([]);
-is($dep_restrict->output(), 'dep1', 'Unknown restrictions post-reduce');
+is($dep_restrict->output(), 'dep1, dep3, dep5', 'Unknown restrictions post-reduce');
 
 my $facts = Dpkg::Deps::KnownFacts->new();
 $facts->add_installed_package('mypackage', '1.3.4-1', get_host_arch(), 'no');
