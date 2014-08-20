@@ -3,7 +3,7 @@
 .\" Copyright © 1995-1996 Ian Jackson <ian@chiark.chu.cam.ac.uk>
 .\" Copyright © 1999 Wichert Akkerman <wakkerma@debian.org>
 .\" Copyright © 2006 Frank Lichtenheld <djpig@debian.org>
-.\" Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2007-2014 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH dpkg\-deb 1 "2013-03-27" "Debian Project" "dpkg suite"
+.TH dpkg\-deb 1 "2014-08-20" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-deb \- Debian package archive (.deb) manipulation tool
 .
@@ -169,6 +169,15 @@ directory, and the control information files into a DEBIAN subdirectory
 of the specified directory.
 
 The target directory (but not its parents) will be created if necessary.
+.TP
+.BR \-\-ctrl\-tarfile " \fIarchive\fP"
+Extracts the control data from a binary package and sends it to standard
+output in
+.B tar
+format. Together with
+.BR tar (1)
+this can be used to extract a particular control file from a package archive.
+The input archive will always be processed sequentially.
 .TP
 .BR \-\-fsys\-tarfile " \fIarchive\fP"
 Extracts the filesystem tree data from a binary package and sends it

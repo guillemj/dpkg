@@ -82,6 +82,7 @@ usage(const struct cmdinfo *cip, const char *value)
 "  -X|--vextract <deb> <directory>  Extract & list files.\n"
 "  -R|--raw-extract <deb> <directory>\n"
 "                                   Extract control info and files.\n"
+"  --ctrl-tarfile <deb>             Output control tarfile.\n"
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"));
 
@@ -228,6 +229,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION("extract",       'x', 0, do_extract),
   ACTION("vextract",      'X', 0, do_vextract),
   ACTION("raw-extract",   'R', 0, do_raw_extract),
+  ACTION("ctrl-tarfile",  0,   0, do_ctrltarfile),
   ACTION("fsys-tarfile",  0,   0, do_fsystarfile),
   ACTION("show",          'W', 0, do_showinfo),
 

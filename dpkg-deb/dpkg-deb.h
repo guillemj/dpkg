@@ -33,6 +33,7 @@ action_func do_field;
 action_func do_extract;
 action_func do_vextract;
 action_func do_raw_extract;
+action_func do_ctrltarfile;
 action_func do_fsystarfile;
 
 extern int opt_verbose;

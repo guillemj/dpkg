@@ -377,6 +377,23 @@ extracthalf(const char *debar, const char *dir,
 }
 
 int
+do_ctrltarfile(const char *const *argv)
+{
+  const char *debar;
+
+  debar = *argv++;
+  if (debar == NULL)
+    badusage(_("--%s needs a .deb filename argument"), cipaction->olong);
+  if (*argv)
+    badusage(_("--%s takes only one argument (.deb filename)"),
+             cipaction->olong);
+
+  extracthalf(debar, NULL, DPKG_TAR_PASSTHROUGH, 1);
+
+  return 0;
+}
+
+int
 do_fsystarfile(const char *const *argv)
 {
   const char *debar;
