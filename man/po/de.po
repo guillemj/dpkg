@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-08-17 15:46+0200\n"
-"PO-Revision-Date: 2014-08-15 15:31+0200\n"
+"POT-Creation-Date: 2014-08-22 09:17+0200\n"
+"PO-Revision-Date: 2014-08-22 09:54+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -3325,10 +3325,9 @@ msgstr "dpkg"
 
 #. type: TH
 #: dpkg.1:26
-#, fuzzy, no-wrap
-#| msgid "2014-08-11"
+#, no-wrap
 msgid "2014-08-16"
-msgstr "2014-08-11"
+msgstr "2014-08-16"
 
 #. type: TH
 #: dpkg.1:26 dpkg.cfg.5:19 dpkg-buildflags.1:20 dpkg-deb.1:21
@@ -3785,10 +3784,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1:177
-#, fuzzy, no-wrap
-#| msgid "B<-r>, B<--remove>, B<-P>, B<--purge >I<package>...|B<-a>|B<--pending>"
+#, no-wrap
 msgid "B<-r>, B<--remove> I<package>B<...|-a|--pending>"
-msgstr "B<-r>, B<--remove>, B<-P>, B<--purge >I<Paket> …|B<-a>|B<--pending>"
+msgstr "B<-r>, B<--remove> I<Paket>B<…|-a|--pending>"
 
 #. type: Plain text
 #: dpkg.1:186
@@ -3800,11 +3798,18 @@ msgid ""
 "package name, then all packages unpacked, but marked to be removed in file "
 "I</var/lib/dpkg/status>, are removed."
 msgstr ""
+"Entfernt ein installiertes Paket. Dies entfernt alles außer Conffiles, da "
+"damit eine erneute Konfiguration des Paketes vermieden wird, falls es später "
+"nochmals installiert wird. Conffiles sind Konfigurationsdateien, die in der "
+"Steuerdatei I<DEBIAN/conffiles> aufgeführt sind. Falls statt des Paketnamens "
+"B<-a> oder B<--pending> angegeben wird, werden alle Pakete, die entpackt, "
+"aber in der Datei I</var/lib/dpkg/status> zur Entfernung vorgemerkt sind, "
+"entfernt."
 
 #. type: Plain text
 #: dpkg.1:188
 msgid "Removing of a package consists of the following steps:"
-msgstr "Entfernung eines Paketes besteht aus den folgenden Schritte:"
+msgstr "Entfernung eines Paketes besteht aus den folgenden Schritten:"
 
 #. type: Plain text
 #: dpkg.1:191
@@ -3823,10 +3828,9 @@ msgstr "B<3.> Führe das I<postrm>-Skript aus"
 
 #. type: TP
 #: dpkg.1:199
-#, fuzzy, no-wrap
-#| msgid "B<--configure >I<package>...|B<-a>|B<--pending>"
+#, no-wrap
 msgid "B<-P>, B<--purge >I<package>...|B<-a>|B<--pending>"
-msgstr "B<--configure >I<Paket> …|B<-a>|B<--pending>"
+msgstr "B<-P>, B<--purge >I<Paket>…|B<-a>|B<--pending>"
 
 #. type: Plain text
 #: dpkg.1:206
@@ -3836,25 +3840,15 @@ msgid ""
 "name, then all packages unpacked or removed, but marked to be purged in file "
 "I</var/lib/dpkg/status>, are purged."
 msgstr ""
+"Löscht ein installiertes oder bereits entferntes Paket vollständig. Damit "
+"wird alles entfernt, auch Conffiles. Falls statt des Paketnamens B<-a> oder "
+"B<--pending> angegeben wird, werden alle Pakete, die entpackt oder entfernt, "
+"aber in der Datei I</var/lib/dpkg/status> zum vollständigen Löschen "
+"vorgemerkt sind, vollständig gelöscht."
+
 
 #. type: Plain text
 #: dpkg.1:214
-#, fuzzy
-#| msgid ""
-#| "Remove an installed package. B<-r> or B<--remove> remove everything "
-#| "except conffiles. This may avoid having to reconfigure the package if it "
-#| "is reinstalled later. (Conffiles are configuration files that are listed "
-#| "in the I<DEBIAN/conffiles> control file). B<-P> or B<--purge> removes "
-#| "everything, including conffiles. If B<-a> or B<--pending> is given "
-#| "instead of a package name, then all packages unpacked, but marked to be "
-#| "removed or purged in file I</var/lib/dpkg/status>, are removed or purged, "
-#| "respectively. Note: some configuration files might be unknown to B<dpkg> "
-#| "because they are created and handled separately through the configuration "
-#| "scripts. In that case, B<dpkg> won't remove them by itself, but the "
-#| "package's I<postrm> script (which is called by B<dpkg>), has to take care "
-#| "of their removal during purge. Of course, this only applies to files in "
-#| "system directories, not configuration files written to individual users' "
-#| "home directories."
 msgid ""
 "Note: some configuration files might be unknown to B<dpkg> because they are "
 "created and handled separately through the configuration scripts. In that "
@@ -3863,14 +3857,6 @@ msgid ""
 "during purge. Of course, this only applies to files in system directories, "
 "not configuration files written to individual users' home directories."
 msgstr ""
-"Entferne ein installiertes Paket. B<-r> oder B<--remove> entfernen alles "
-"außer Conffiles. Dies könnte die Rekonfiguration vermeiden, falls das Paket "
-"später wieder reinstalliert wird. (Conffiles sind die Konfigurationsdateien, "
-"die in der I<debian/conffiles>-Steuerdatei aufgeführt sind). B<-P> oder B<--"
-"purge> entfernt alles, auch Conffiles. Falls B<-a> oder B<--pending> anstatt "
-"eines Paketnamens angegeben werden, dann werden alle Pakete, die entpackt "
-"aber zur Entfernung oder vollständigen Löschung in der Datei I</var/lib/dpkg/"
-"status> markiert sind, entfernt beziehungsweise vollständig gelöscht. "
 "Hinweis: Einige Konfigurationsdateien können B<dpkg> nicht bekannt sein, da "
 "sie separat durch die Konfigurationsskripte angelegt und verwaltet werden. "
 "In diesem Fall wird B<dpkg> sie nicht selbst entfernen sondern das Skript "
@@ -3881,30 +3867,22 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.1:216
-#, fuzzy
-#| msgid "Removing of a package consists of the following steps:"
 msgid "Purging of a package consists of the following steps:"
-msgstr "Entfernung eines Paketes besteht aus den folgenden Schritte:"
+msgstr "Entgültiges Löschen eines Paketes besteht aus den folgenden Schritten:"
 
 #. type: Plain text
 #: dpkg.1:220
-#, fuzzy
-#| msgid ""
-#| "B<6.> Configure the package. See B<--configure> for detailed information "
-#| "about how this is done."
 msgid ""
 "B<1.> Remove the package, if not already removed. See B<--remove> for "
 "detailed information about how this is done."
 msgstr ""
-"B<6.> Konfiguriere das Paket. Lesen Sie B<--configure> für detaillierte "
-"Informationen wie dies geschieht."
+"B<1.> Entfernen des Pakets, falls es noch nicht entfernt ist. Lesen Sie "
+"B<--remove> für detaillierte Informationen, wie dies erfolgt."
 
 #. type: Plain text
 #: dpkg.1:223
-#, fuzzy
-#| msgid "B<3.> Run I<postrm> script"
 msgid "B<2.> Run I<postrm> script."
-msgstr "B<3.> Führe das I<postrm>-Skript aus"
+msgstr "B<2.> Führe das I<postrm>-Skript aus"
 
 #. type: TP
 #: dpkg.1:224
@@ -12268,12 +12246,12 @@ msgstr ""
 #. type: Plain text
 #: dpkg-maintscript-helper.1:175
 msgid ""
-"I<pathname> is the name of the old symlink (the path will be a directory at "
-"the end of the installation) and I<old-target> the target of the former "
-"symlink at I<pathname>."
+"I<pathname> is the absolute name of the old symlink (the path will be a "
+"directory at the end of the installation) and I<old-target> the absolute "
+"target name of the former symlink at I<pathname>."
 msgstr ""
-"I<Pfadname> ist der Name des alten Symlinks (der Pfad wird am Ende der "
-"Installation ein Verzeichnis sein) und I<altes_Ziel> das Ziel des bisherigen "
+"I<Pfadname> ist der absolute Name des alten Symlinks (der Pfad wird am Ende der "
+"Installation ein Verzeichnis sein) und I<altes_Ziel> der absolute Name des Ziels des bisherigen "
 "Symlinks unter I<Pfadname>."
 
 #. type: Plain text
@@ -12336,18 +12314,20 @@ msgstr ""
 "        I<Pfadname> I<neues_Ziel> I<vorhergehende_Version> I<Paket> -- \"$@\"\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:203
+#: dpkg-maintscript-helper.1:204
 msgid ""
-"I<pathname> is the name of the of the old directory (the path will be a "
+"I<pathname> is the absolute name of the old directory (the path will be a "
 "symlink at the end of the installation) and I<new-target> is the target of "
-"the new symlink at I<pathname>."
+"the new symlink at I<pathname>. It can either be absolute or relative to the "
+"directory containing I<pathname>."
 msgstr ""
-"I<Pfadname> ist der Name des alten Verzeichnisses (der Pfad wird am Ende der "
+"I<Pfadname> ist der absolute Name des alten Verzeichnisses (der Pfad wird am Ende der "
 "Installation ein Symlink sein) und I<neues_Ziel> ist das Ziel des neuen "
-"Symlinks unter I<Pfadname>."
+"Symlinks unter I<Pfadname>. Es kann entweder absolut oder relativ zum "
+"Verzeichnis, das I<Pfadname> enthält, sein."
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:218
+#: dpkg-maintscript-helper.1:219
 msgid ""
 "Current implementation: the B<preinst> checks if the directory exists, does "
 "not contain conffiles, pathnames owned by other packages, or locally created "
@@ -12379,13 +12359,13 @@ msgstr ""
 "notwendig."
 
 #. type: SH
-#: dpkg-maintscript-helper.1:219
+#: dpkg-maintscript-helper.1:220
 #, no-wrap
 msgid "INTEGRATION IN PACKAGES"
 msgstr "INTEGRATION IN PAKETE"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:227
+#: dpkg-maintscript-helper.1:228
 msgid ""
 "Given that B<dpkg-maintscript-helper> is used in the B<preinst>, using it "
 "unconditionally requires a pre-dependency to ensure that the required "
@@ -12401,13 +12381,13 @@ msgstr ""
 "B<dir_to_symlink> lautet sie 1.17.5:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:229
+#: dpkg-maintscript-helper.1:230
 #, no-wrap
 msgid "    B<Pre-Depends:> dpkg (E<gt>= 1.17.5)\n"
 msgstr "    B<Pre-Depends:> dpkg (E<gt>= 1.17.5)\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:234
+#: dpkg-maintscript-helper.1:235
 msgid ""
 "But in many cases the operation done by the program is not critical for the "
 "package, and instead of using a pre-dependency we can call the program only "
@@ -12420,7 +12400,7 @@ msgstr ""
 "installierten B<dpkg> unterstützt wird:"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:238
+#: dpkg-maintscript-helper.1:239
 #, no-wrap
 msgid ""
 "    if dpkg-maintscript-helper supports I<command>; then\n"
@@ -12432,7 +12412,7 @@ msgstr ""
 "    fi\n"
 
 #. type: Plain text
-#: dpkg-maintscript-helper.1:242
+#: dpkg-maintscript-helper.1:243
 msgid ""
 "The command B<supports> will return 0 on success, 1 otherwise. The "
 "B<supports> command will check if the environment variables as set by dpkg "
@@ -13803,6 +13783,10 @@ msgid ""
 "only be present if the package has a B<Multi-Arch> field with a value of "
 "B<same>. This makes the package name unambiguous."
 msgstr ""
+"Es enthält den Binärpaketnamen mit einem möglichen Architektur-Kennzeichner "
+"wie »libc6:amd64« (seit Dpkg 1.16.2). Der Architektur-Kennzeichner wird nur "
+"vorhanden sein, falls das Paket ein Feld B<Multi-Arch> mit dem Wert B<same> "
+"trägt. Damit wird der Name eindeutig."
 
 #. type: TP
 #: dpkg-query.1:235
@@ -13897,17 +13881,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-query.1:269
-#, fuzzy
-#| msgid ""
-#| "The default format string is \\(lqB<${binary:Package}\\et${Version}\\en>"
-#| "\\(rq.  Actually, all other fields found in the status file (i.e. user "
-#| "defined fields) can be requested, too. They will be printed as-is, "
-#| "though, no conversion nor error checking is done on them. B<binary:"
-#| "Package> is a special field that will print the package name with an "
-#| "architecture qualifier (like \"libc6:amd64\") if the package has a "
-#| "B<Multi-Arch> field with a value of B<same>, and as such its name could "
-#| "be ambiguous.  To get the name of the B<dpkg> maintainer and the "
-#| "installed version, you could run:"
 msgid ""
 "The default format string is \\(lqB<${binary:Package}\\et${Version}\\en>"
 "\\(rq.  Actually, all other fields found in the status file (i.e. user "
@@ -13919,10 +13892,7 @@ msgstr ""
 "${Version}\\en>\\(rq. Tatsächlich können auch alle anderen Felder, die in "
 "der Statusdatei gefunden werden können (d.h. benutzerdefinierte Felder), "
 "abgefragt werden. Sie werden so dargestellt, wie sie gefunden werden, es "
-"erfolgt keine Umwandlung oder Fehlerüberprüfung. B<binary:Package> ist ein "
-"besonderes Feld, das den Paketnamen mit einem Architektur-Kennzeichner (wie "
-"»libc6:amd64«) ausgibt, falls das Paket ein Feld B<Multi-Arch> mit dem Wert "
-"B<same> trägt und daher der Name mehrdeutig sein könnte. Um den Namen des "
+"erfolgt keine Umwandlung oder Fehlerüberprüfung. Um den Namen des "
 "B<dpkg>-Betreuers und die installierte Version zu erhalten, könnten Sie "
 "folgendes ausführen:"
 
