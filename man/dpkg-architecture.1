@@ -2,7 +2,7 @@
 .\"
 .\" Copyright © 2005 Marcus Brinkmann <brinkmd@debian.org>
 .\" Copyright © 2005 Scott James Remnant <scott@netsplit.com>
-.\" Copyright © 2006-2013 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
 .\" Copyright © 2009-2012 Raphaël Hertzog <hertzog@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
@@ -94,6 +94,14 @@ Set the Debian architecture.
 .BI \-t gnu-system-type
 Set the GNU system type.
 .TP
+.BI \-A debian-architecture
+Set the target Debian architecture. This is only needed when building a
+cross-toolchain, one that will be built on the build architecture, to be
+run on the host architecture, and to build code for the target architecture.
+.TP
+.BI \-T gnu-system-type
+Set the target GNU system type.
+.TP
 .B \-f
 Values set by existing environment variables with the same name as used by
 the scripts are honored (i.e. used by \fBdpkg\-architecture\fP), except if
@@ -106,6 +114,8 @@ in some other script (for example \fBdpkg\-buildpackage\fP(1)).
 The machine the package is built on.
 .IP "host machine" 4
 The machine the package is built for.
+.IP "target machine" 4
+The machine the compiler is building for.
 .IP "Debian architecture" 4
 The Debian architecture string, which specifies the binary tree in the
 FTP archive. Examples: i386, sparc, hurd\-i386.
@@ -158,6 +168,25 @@ The GNU system type of the host machine.
 .IP "\fBDEB_HOST_MULTIARCH\fP" 4
 The clarified GNU system type of the host machine, used for filesystem
 paths (since dpkg 1.16.0).
+.IP "\fBDEB_TARGET_ARCH\fP" 4
+The Debian architecture of the target machine (since dpkg 1.17.14).
+.IP "\fBDEB_TARGET_ARCH_OS\fP" 4
+The Debian system name of the target machine (since dpkg 1.17.14).
+.IP "\fBDEB_TARGET_ARCH_CPU\fP" 4
+The Debian cpu name of the target machine (since dpkg 1.17.14).
+.IP "\fBDEB_TARGET_ARCH_BITS\fP" 4
+The pointer size of the target machine (in bits; since dpkg 1.17.14).
+.IP "\fBDEB_TARGET_ARCH_ENDIAN\fP" 4
+The endianness of the target machine (little / big; since dpkg 1.17.14).
+.IP "\fBDEB_TARGET_GNU_CPU\fP" 4
+The CPU part of \fBDEB_TARGET_GNU_TYPE\fP (since dpkg 1.17.14).
+.IP "\fBDEB_TARGET_GNU_SYSTEM\fP" 4
+The System part of \fBDEB_TARGET_GNU_TYPE\fP (since dpkg 1.17.14).
+.IP "\fBDEB_TARGET_GNU_TYPE\fP" 4
+The GNU system type of the target machine (since dpkg 1.17.14).
+.IP "\fBDEB_TARGET_MULTIARCH\fP" 4
+The clarified GNU system type of the target machine, used for filesystem
+paths (since dpkg 1.17.14).
 .
 .SH FILES
 .SS Architecture tables
