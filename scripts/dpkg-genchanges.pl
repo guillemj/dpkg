@@ -366,10 +366,8 @@ for my $p (keys %p2f) {
     foreach my $f (@f) {
 	my $file = $dist->get_file($f);
 
-	my $sec = $f2seccf{$f};
-	$sec ||= $sourcedefault{'Section'};
-	if (!defined($sec)) {
-	    $sec = '-';
+	my $sec = $f2seccf{$f} || $sourcedefault{'Section'} // '-';
+	if ($sec eq '-') {
 	    warning(_g("missing Section for binary package %s; using '-'"), $p);
 	}
 	if ($sec ne $file->{section}) {
@@ -377,10 +375,8 @@ for my $p (keys %p2f) {
 	             'files list'), $p, $sec, $file->{section});
 	}
 
-	my $pri = $f2pricf{$f};
-	$pri ||= $sourcedefault{'Priority'};
-	if (!defined($pri)) {
-	    $pri = '-';
+	my $pri = $f2pricf{$f} || $sourcedefault{'Priority'} // '-';
+	if ($pri eq '-') {
 	    warning(_g("missing Priority for binary package %s; using '-'"), $p);
 	}
 	if ($pri ne $file->{priority}) {
@@ -393,16 +389,10 @@ for my $p (keys %p2f) {
 my $origsrcmsg;
 
 if ($include & BUILD_SOURCE) {
-    my $sec = $sourcedefault{'Section'};
-    if (!defined($sec)) {
-	$sec = '-';
-	warning(_g('missing Section for source files'));
-    }
-    my $pri = $sourcedefault{'Priority'};
-    if (!defined($pri)) {
-	$pri = '-';
-	warning(_g('missing Priority for source files'));
-    }
+    my $sec = $sourcedefault{'Section'} // '-';
+    my $pri = $sourcedefault{'Priority'} // '-';
+    warning(_g('missing Section for source files')) if $sec eq '-';
+    warning(_g('missing Priority for source files')) if $pri eq '-';
 
     my $spackage = get_source_package();
     (my $sversion = $substvars->get('source:Version')) =~ s/^\d+://;
