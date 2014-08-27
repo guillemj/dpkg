@@ -69,7 +69,6 @@ my %remove;        # - fields to remove
 my %override;
 my %archadded;
 my @archvalues;
-my $dsc;
 my $changesdescription;
 my $forcemaint;
 my $forcechangedby;
@@ -396,11 +395,12 @@ if ($include & BUILD_SOURCE) {
 
     my $spackage = get_source_package();
     (my $sversion = $substvars->get('source:Version')) =~ s/^\d+://;
-    $dsc= "$uploadfilesdir/${spackage}_${sversion}.dsc";
 
+    my $dsc = "${spackage}_${sversion}.dsc";
+    my $dsc_pathname = "$uploadfilesdir/$dsc";
     my $dsc_fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
-    $dsc_fields->load($dsc) or error(_g('%s is empty', $dsc));
-    $checksums->add_from_file($dsc, key => "$spackage\_$sversion.dsc");
+    $dsc_fields->load($dsc_pathname) or error(_g('%s is empty', $dsc_pathname));
+    $checksums->add_from_file($dsc_pathname, key => $dsc);
     $checksums->add_from_control($dsc_fields, use_files_for_md5 => 1);
 
     # Compare upstream version to previous upstream version to decide if
