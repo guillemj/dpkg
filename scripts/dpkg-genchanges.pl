@@ -246,7 +246,80 @@ if (defined($prev_changelog) and
         unless $changelog->{'Version'} =~ /~(?:bpo|vola)/;
 }
 
+# Scan control info of source package
+my $src_fields = $control->get_source();
+foreach (keys %{$src_fields}) {
+    my $v = $src_fields->{$_};
+    if (m/^Source$/) {
+        set_source_package($v);
+    } elsif (m/^Section$|^Priority$/i) {
+        $sourcedefault{$_} = $v;
+    } else {
+        field_transfer_single($src_fields, $fields);
+    }
+}
+
 my $dist = Dpkg::Dist::Files->new();
+my $origsrcmsg;
+
+if ($include & BUILD_SOURCE) {
+    my $sec = $sourcedefault{'Section'} // '-';
+    my $pri = $sourcedefault{'Priority'} // '-';
+    warning(_g('missing Section for source files')) if $sec eq '-';
+    warning(_g('missing Priority for source files')) if $pri eq '-';
+
+    my $spackage = get_source_package();
+    (my $sversion = $substvars->get('source:Version')) =~ s/^\d+://;
+
+    my $dsc = "${spackage}_${sversion}.dsc";
+    my $dsc_pathname = "$uploadfilesdir/$dsc";
+    my $dsc_fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
+    $dsc_fields->load($dsc_pathname) or error(_g('%s is empty', $dsc_pathname));
+    $checksums->add_from_file($dsc_pathname, key => $dsc);
+    $checksums->add_from_control($dsc_fields, use_files_for_md5 => 1);
+
+    # Compare upstream version to previous upstream version to decide if
+    # the .orig tarballs must be included
+    my $include_tarball;
+    if (defined($prev_changelog)) {
+        my $cur = Dpkg::Version->new($changelog->{'Version'});
+        my $prev = Dpkg::Version->new($prev_changelog->{'Version'});
+        $include_tarball = ($cur->version() ne $prev->version()) ? 1 : 0;
+    } else {
+        # No previous entry means first upload, tarball required
+        $include_tarball = 1;
+    }
+
+    my $ext = compression_get_file_extension_regex();
+    if ((($sourcestyle =~ m/i/ && !$include_tarball) ||
+         $sourcestyle =~ m/d/) &&
+        any { m/\.(?:debian\.tar|diff)\.$ext$/ } $checksums->get_files())
+    {
+        $origsrcmsg = _g('not including original source code in upload');
+        foreach my $f (grep { m/\.orig(-.+)?\.tar\.$ext$/ } $checksums->get_files()) {
+            $checksums->remove_file($f);
+        }
+    } else {
+        if ($sourcestyle =~ m/d/ &&
+            none { m/\.(?:debian\.tar|diff)\.$ext$/ } $checksums->get_files()) {
+            warning(_g('ignoring -sd option for native Debian package'));
+        }
+        $origsrcmsg = _g('including full source code in upload');
+    }
+
+    # Only add attributes for files being distributed.
+    for my $f ($checksums->get_files()) {
+        $dist->add_file($f, $sec, $pri);
+    }
+} elsif ($include == BUILD_ARCH_DEP) {
+    $origsrcmsg = _g('binary-only arch-specific upload ' .
+                     '(source code and arch-indep packages not included)');
+} elsif ($include == BUILD_ARCH_INDEP) {
+    $origsrcmsg = _g('binary-only arch-indep upload ' .
+                     '(source code and arch-specific packages not included)');
+} else {
+    $origsrcmsg = _g('binary-only upload (no source code included)');
+}
 
 if ($include & BUILD_BINARY) {
     my $dist_count = 0;
@@ -266,19 +339,6 @@ if ($include & BUILD_BINARY) {
             push @archvalues, $file->{arch}
                 if $file->{arch} and not $archadded{$file->{arch}}++;
         }
-    }
-}
-
-# Scan control info of source package
-my $src_fields = $control->get_source();
-foreach (keys %{$src_fields}) {
-    my $v = $src_fields->{$_};
-    if (m/^Source$/) {
-	set_source_package($v);
-    } elsif (m/^Section$|^Priority$/i) {
-	$sourcedefault{$_} = $v;
-    } else {
-        field_transfer_single($src_fields, $fields);
     }
 }
 
@@ -383,67 +443,6 @@ for my $p (keys %p2f) {
 	             'files list'), $p, $pri, $file->{priority});
 	}
     }
-}
-
-my $origsrcmsg;
-
-if ($include & BUILD_SOURCE) {
-    my $sec = $sourcedefault{'Section'} // '-';
-    my $pri = $sourcedefault{'Priority'} // '-';
-    warning(_g('missing Section for source files')) if $sec eq '-';
-    warning(_g('missing Priority for source files')) if $pri eq '-';
-
-    my $spackage = get_source_package();
-    (my $sversion = $substvars->get('source:Version')) =~ s/^\d+://;
-
-    my $dsc = "${spackage}_${sversion}.dsc";
-    my $dsc_pathname = "$uploadfilesdir/$dsc";
-    my $dsc_fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
-    $dsc_fields->load($dsc_pathname) or error(_g('%s is empty', $dsc_pathname));
-    $checksums->add_from_file($dsc_pathname, key => $dsc);
-    $checksums->add_from_control($dsc_fields, use_files_for_md5 => 1);
-
-    # Compare upstream version to previous upstream version to decide if
-    # the .orig tarballs must be included
-    my $include_tarball;
-    if (defined($prev_changelog)) {
-	my $cur = Dpkg::Version->new($changelog->{'Version'});
-	my $prev = Dpkg::Version->new($prev_changelog->{'Version'});
-	$include_tarball = ($cur->version() ne $prev->version()) ? 1 : 0;
-    } else {
-	# No previous entry means first upload, tarball required
-	$include_tarball = 1;
-    }
-
-    my $ext = compression_get_file_extension_regex();
-    if ((($sourcestyle =~ m/i/ && !$include_tarball) ||
-	 $sourcestyle =~ m/d/) &&
-	any { m/\.(?:debian\.tar|diff)\.$ext$/ } $checksums->get_files())
-    {
-	$origsrcmsg= _g('not including original source code in upload');
-	foreach my $f (grep { m/\.orig(-.+)?\.tar\.$ext$/ } $checksums->get_files()) {
-	    $checksums->remove_file($f);
-	}
-    } else {
-	if ($sourcestyle =~ m/d/ &&
-	    none { m/\.(?:debian\.tar|diff)\.$ext$/ } $checksums->get_files()) {
-	    warning(_g('ignoring -sd option for native Debian package'));
-	}
-        $origsrcmsg= _g('including full source code in upload');
-    }
-
-    # Only add attributes for files being distributed.
-    for my $f ($checksums->get_files()) {
-        $dist->add_file($f, $sec, $pri);
-    }
-} elsif ($include == BUILD_ARCH_DEP) {
-    $origsrcmsg = _g('binary-only arch-specific upload ' .
-                     '(source code and arch-indep packages not included)');
-} elsif ($include == BUILD_ARCH_INDEP) {
-    $origsrcmsg = _g('binary-only arch-indep upload ' .
-                     '(source code and arch-specific packages not included)');
-} else {
-    $origsrcmsg = _g('binary-only upload (no source code included)');
 }
 
 print { *STDERR } "$Dpkg::PROGNAME: $origsrcmsg\n"
