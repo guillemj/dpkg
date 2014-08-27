@@ -496,8 +496,7 @@ for my $file ($dist->get_files()) {
         next if (not ($include & BUILD_ARCH_INDEP) and $arch_all);
         next if (not ($include & BUILD_ARCH_DEP) and not $arch_all);
     }
-    my $uf = "$uploadfilesdir/$f";
-    $checksums->add_from_file($uf, key => $f);
+    $checksums->add_from_file("$uploadfilesdir/$f", key => $f);
     $fields->{'Files'} .= "\n" . $checksums->get_checksum($f, 'md5') .
 			  ' ' . $checksums->get_size($f) .
 			  " $file->{section} $file->{priority} $f";
