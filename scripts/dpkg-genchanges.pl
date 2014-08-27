@@ -89,8 +89,6 @@ use constant BUILD_ALL        => BUILD_BINARY | BUILD_SOURCE;
 my $include = BUILD_ALL;
 
 sub build_is_default() { return ($include & BUILD_ALL) == BUILD_ALL; }
-sub is_sourceonly() { return $include == BUILD_SOURCE; }
-sub is_binaryonly() { return !($include & BUILD_SOURCE); }
 sub build_opt {
     if ($include == BUILD_BINARY) {
        return '-b';
@@ -251,7 +249,7 @@ if (defined($prev_changelog) and
 
 my $dist = Dpkg::Dist::Files->new();
 
-if (not is_sourceonly) {
+if ($include & BUILD_BINARY) {
     my $dist_count = 0;
 
     $dist_count = $dist->load($fileslistfile) if -e $fileslistfile;
@@ -394,7 +392,7 @@ for my $p (keys %p2f) {
 
 my $origsrcmsg;
 
-if (!is_binaryonly) {
+if ($include & BUILD_SOURCE) {
     my $sec = $sourcedefault{'Section'};
     if (!defined($sec)) {
 	$sec = '-';
@@ -475,7 +473,7 @@ if (length($fields->{'Binary'}) > 980) {
     $fields->{'Binary'} =~ s/(.{0,980}) /$1\n/g;
 }
 
-unshift @archvalues, 'source' unless is_binaryonly;
+unshift @archvalues, 'source' if $include & BUILD_SOURCE;
 @archvalues = ('all') if $include == BUILD_ARCH_INDEP;
 @archvalues = grep { !debarch_eq('all', $_) } @archvalues
     unless $include & BUILD_ARCH_INDEP;
