@@ -72,6 +72,38 @@ sub list_arches()
     }
 }
 
+sub check_arch_coherency
+{
+    my ($arch, $gnu_type) = @_;
+
+    if ($arch ne '' && $gnu_type eq '') {
+        $gnu_type = debarch_to_gnutriplet($arch);
+        error(_g('unknown Debian architecture %s, you must specify ' .
+                 'GNU system type, too'), $arch)
+            unless defined $gnu_type;
+    }
+
+    if ($gnu_type ne '' && $arch eq '') {
+        $arch = gnutriplet_to_debarch($gnu_type);
+        error(_g('unknown GNU system type %s, you must specify ' .
+                 'Debian architecture, too'), $gnu_type)
+            unless defined $arch;
+    }
+
+    if ($gnu_type ne '' && $arch ne '') {
+        my $dfl_gnu_type = debarch_to_gnutriplet($arch);
+        error(_g('unknown default GNU system type for Debian architecture %s'),
+              $arch)
+            unless defined $dfl_gnu_type;
+        warning(_g('default GNU system type %s for Debian arch %s does not ' .
+                   'match specified GNU system type %s'), $dfl_gnu_type,
+                $arch, $gnu_type)
+            if $dfl_gnu_type ne $gnu_type;
+    }
+
+    return ($arch, $gnu_type);
+}
+
 use constant {
     DEB_NONE => 0,
     DEB_BUILD => 1,
@@ -194,30 +226,7 @@ if (action_needs(DEB_BUILD | DEB_GNU_INFO)) {
 
 # First perform some sanity checks on the host arguments passed.
 
-if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
-    $req_host_gnu_type = debarch_to_gnutriplet($req_host_arch);
-    error(_g('unknown Debian architecture %s, you must specify ' .
-             'GNU system type, too'), $req_host_arch)
-        unless defined $req_host_gnu_type;
-}
-
-if ($req_host_gnu_type ne '' && $req_host_arch eq '') {
-    $req_host_arch = gnutriplet_to_debarch($req_host_gnu_type);
-    error(_g('unknown GNU system type %s, you must specify ' .
-             'Debian architecture, too'), $req_host_gnu_type)
-        unless defined $req_host_arch;
-}
-
-if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
-    my $dfl_host_gnu_type = debarch_to_gnutriplet($req_host_arch);
-    error(_g('unknown default GNU system type for Debian architecture %s'),
-          $req_host_arch)
-	unless defined $dfl_host_gnu_type;
-    warning(_g('default GNU system type %s for Debian arch %s does not ' .
-               'match specified GNU system type %s'), $dfl_host_gnu_type,
-            $req_host_arch, $req_host_gnu_type)
-        if $dfl_host_gnu_type ne $req_host_gnu_type;
-}
+($req_host_arch, $req_host_gnu_type) = check_arch_coherency($req_host_arch, $req_host_gnu_type);
 
 # Proceed to compute the host variables if needed.
 
