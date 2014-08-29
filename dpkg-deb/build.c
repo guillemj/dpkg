@@ -332,36 +332,6 @@ check_conffiles(const char *dir)
   fclose(cf);
 }
 
-static const char *arbitrary_fields[] = {
-  "Built-For-Profiles",
-  "Built-Using",
-  "Package-Type",
-  "Subarchitecture",
-  "Kernel-Version",
-  "Installer-Menu-Item",
-  "Homepage",
-  "Tag",
-  NULL
-};
-
-static const char private_prefix[] = "Private-";
-
-static bool
-known_arbitrary_field(const struct arbitraryfield *field)
-{
-  const char **known;
-
-  /* Always accept fields starting with a private field prefix. */
-  if (strncasecmp(field->name, private_prefix, strlen(private_prefix)) == 0)
-    return true;
-
-  for (known = arbitrary_fields; *known; known++)
-    if (strcasecmp(field->name, *known) == 0)
-      return true;
-
-  return false;
-}
-
 /**
  * Perform some sanity checks on the to-be-built package.
  *
@@ -371,7 +341,6 @@ static struct pkginfo *
 check_new_pkg(const char *dir)
 {
   struct pkginfo *pkg;
-  struct arbitraryfield *field;
   char *controlfile;
   int warns;
 
@@ -385,13 +354,6 @@ check_new_pkg(const char *dir)
   if (pkg->priority == PKG_PRIO_OTHER)
     warning(_("'%s' contains user-defined Priority value '%s'"),
             controlfile, pkg->otherpriority);
-  for (field = pkg->available.arbs; field; field = field->next) {
-    if (known_arbitrary_field(field))
-      continue;
-
-    warning(_("'%s' contains user-defined field '%s'"), controlfile,
-            field->name);
-  }
 
   free(controlfile);
 
