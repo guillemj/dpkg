@@ -1317,6 +1317,8 @@ Creates a new object.
 use strict;
 use warnings;
 
+use Carp;
+
 use Dpkg::Version;
 
 sub new {
@@ -1386,6 +1388,10 @@ methods where appropriate, but it should not be directly queried.
 
 sub check_package {
     my ($self, $pkg) = @_;
+
+    carp 'obsolete function, pass Dpkg::Deps::KnownFacts to Dpkg::Deps ' .
+         'methods instead';
+
     if (exists $self->{pkg}{$pkg}) {
 	return (1, $self->{pkg}{$pkg}[0]{version});
     }
