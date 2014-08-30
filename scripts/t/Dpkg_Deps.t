@@ -16,8 +16,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 36;
+use Test::More tests => 41;
 use Dpkg::Arch qw(get_host_arch);
+use Dpkg::Version;
 
 use_ok('Dpkg::Deps');
 
@@ -117,6 +118,8 @@ $facts->add_installed_package('pkg-ma-allowed', '1.3.4-1', 'somearch', 'allowed'
 $facts->add_installed_package('pkg-ma-allowed2', '1.3.4-1', 'somearch', 'allowed');
 $facts->add_installed_package('pkg-ma-allowed3', '1.3.4-1', get_host_arch(), 'allowed');
 $facts->add_provided_package('myvirtual', undef, undef, 'mypackage');
+$facts->add_provided_package('myvirtual2', REL_EQ, '1.0-1', 'mypackage');
+$facts->add_provided_package('myvirtual3', REL_GE, '2.0-1', 'mypackage');
 
 my $field_duplicate = 'libc6 (>= 2.3), libc6 (>= 2.6-1), mypackage (>=
 1.3), myvirtual | something, python (>= 2.5), mypackage2, pkg-ma-foreign,
@@ -124,6 +127,36 @@ pkg-ma-foreign2, pkg-ma-allowed:any, pkg-ma-allowed2, pkg-ma-allowed3';
 my $dep_dup = deps_parse($field_duplicate);
 $dep_dup->simplify_deps($facts, $dep_opposite);
 is($dep_dup->output(), 'libc6 (>= 2.6-1), mypackage2, pkg-ma-allowed2', 'Simplify deps');
+
+my $field_virtual = 'myvirtual | other';
+my $dep_virtual = deps_parse($field_virtual);
+$dep_virtual->simplify_deps($facts);
+is($dep_virtual->output(), '',
+   'Simplify unversioned depends with unversioned virtual (satisfied)');
+
+$field_virtual = 'myvirtual (>= 1.0) | other';
+$dep_virtual = deps_parse($field_virtual);
+$dep_virtual->simplify_deps($facts);
+is($dep_virtual->output(), 'myvirtual (>= 1.0) | other',
+   'Simplify versioned depends on unversioned virtual (unsatisfied)');
+
+$field_virtual = 'myvirtual2 (>= 0.0) | other';
+$dep_virtual = deps_parse($field_virtual);
+$dep_virtual->simplify_deps($facts);
+is($dep_virtual->output(), '',
+   'Simplify versioned depends on versioned virtual (satisfied)');
+
+$field_virtual = 'myvirtual2 (>= 2.0) | other';
+$dep_virtual = deps_parse($field_virtual);
+$dep_virtual->simplify_deps($facts);
+is($dep_virtual->output(), 'myvirtual2 (>= 2.0) | other',
+   'Simplify versioned depends on versioned virtual (unsatisfied)');
+
+$field_virtual = 'myvirtual3 (= 2.0-1)';
+$dep_virtual = deps_parse($field_virtual);
+$dep_virtual->simplify_deps($facts);
+is($dep_virtual->output(), 'myvirtual3 (= 2.0-1)',
+   'Simplify versioned depends on GT versioned virtual (unsatisfied/ignored)');
 
 my $field_dup_union = 'libc6 (>> 2.3), libc6 (>= 2.6-1), fake (<< 2.0),
 fake(>> 3.0), fake (= 2.5), python (<< 2.5), python (= 2.4)';

@@ -1360,7 +1360,7 @@ sub add_installed_package {
 
 Records that the "$by" package provides the $virtual package. $relation
 and $version correspond to the associated relation given in the Provides
-field. This might be used in the future for versioned provides.
+field (if present).
 
 =cut
 
@@ -1453,10 +1453,16 @@ sub _evaluate_simple_dep {
 	}
     }
     foreach my $virtpkg ($self->_find_virtual_packages($pkg)) {
-	# XXX: Adapt when versioned provides are allowed
-	next if defined $virtpkg->[1];
-	next if defined $dep->{relation}; # Provides don't satisfy versioned deps
-	return 1;
+	next if defined $virtpkg->[1] and $virtpkg->[1] ne REL_EQ;
+
+	if (defined $dep->{relation}) {
+	    next if not defined $virtpkg->[2];
+	    return 1 if version_compare_relation($virtpkg->[2],
+	                                         $dep->{relation},
+	                                         $dep->{version});
+	} else {
+	    return 1;
+	}
     }
     return if $lackinfos;
     return 0;
