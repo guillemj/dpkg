@@ -163,7 +163,7 @@ joining them with ", " if appropriate, and always returning a valid string.
 sub deps_concat {
     my (@dep_list) = @_;
 
-    return join(', ', grep { defined $_ } @dep_list);
+    return join ', ', grep { defined } @dep_list;
 }
 
 =item my $dep = deps_parse($line, %options)

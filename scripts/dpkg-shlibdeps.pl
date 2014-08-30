@@ -851,8 +851,8 @@ sub find_packages {
 	exec('dpkg', '--search', '--', @files)
 	    or syserr(_g('unable to execute %s'), 'dpkg');
     }
-    while (defined($_ = <$dpkg_fh>)) {
-	chomp($_);
+    while (<$dpkg_fh>) {
+	chomp;
 	if (m/^local diversion |^diversion by/) {
 	    warning(_g('diversions involved - output may be incorrect'));
 	    print { *STDERR } " $_\n"

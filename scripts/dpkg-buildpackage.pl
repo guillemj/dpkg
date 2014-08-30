@@ -411,7 +411,7 @@ if ($changedby) {
 
 open my $arch_env, '-|', 'dpkg-architecture', "-a$targetarch",
     "-t$targetgnusystem", '-f' or subprocerr('dpkg-architecture');
-while ($_ = <$arch_env>) {
+while (<$arch_env>) {
     chomp;
     my ($key, $value) = split /=/, $_, 2;
     $ENV{$key} = $value;

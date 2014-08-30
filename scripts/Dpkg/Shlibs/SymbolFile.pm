@@ -216,8 +216,8 @@ sub parse {
         $$obj_ref = undef;
     }
 
-    while (defined($_ = <$fh>)) {
-	chomp($_);
+    while (<$fh>) {
+	chomp;
 
 	if (/^(?:\s+|#(?:DEPRECATED|MISSING): ([^#]+)#\s*)(.*)/) {
 	    if (not defined ($$obj_ref)) {

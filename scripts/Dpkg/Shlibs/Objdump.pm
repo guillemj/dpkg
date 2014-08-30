@@ -191,7 +191,7 @@ sub parse_objdump_output {
     my ($self, $fh) = @_;
 
     my $section = 'none';
-    while (defined($_ = <$fh>)) {
+    while (<$fh>) {
 	chomp;
 	next if /^\s*$/;
 

@@ -365,10 +365,10 @@ sub restore_quilt_backup_files {
     find({
         no_chdir => 1,
         wanted => sub {
-            return if -d $_;
+            return if -d;
             my $relpath_in_srcpkg = File::Spec->abs2rel($_, $patch_dir);
             my $target = File::Spec->catfile($self->{dir}, $relpath_in_srcpkg);
-            if (-s $_) {
+            if (-s) {
                 unlink($target);
                 make_path(dirname($target));
                 unless (link($_, $target)) {

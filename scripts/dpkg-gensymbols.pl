@@ -195,7 +195,7 @@ if (not scalar @files) {
 	opendir(my $libdir_dh, "$libdir")
 	    or syserr(_g("can't read directory %s: %s"), $libdir, $!);
 	push @files, grep {
-	    /(\.so\.|\.so$)/ && -f $_ &&
+	    /(\.so\.|\.so$)/ && -f &&
 	    Dpkg::Shlibs::Objdump::is_elf($_);
 	} map { "$libdir/$_" } readdir($libdir_dh);
 	closedir $libdir_dh;

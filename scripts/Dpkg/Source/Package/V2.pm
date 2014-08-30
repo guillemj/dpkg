@@ -173,7 +173,7 @@ sub do_extract {
     # symlink
     my @exclude_symlinks;
     my $wanted = sub {
-        return if not -l $_;
+        return if not -l;
         my $fn = File::Spec->abs2rel($_, $newdirectory);
         push @exclude_symlinks, '--exclude', $fn;
     };
@@ -437,7 +437,7 @@ sub do_build {
     my $binaryfiles = Dpkg::Source::Package::V2::BinaryFiles->new($dir);
     my $unwanted_binaries = 0;
     my $check_binary = sub {
-        if (-f $_ and is_binary($_)) {
+        if (-f and is_binary($_)) {
             my $fn = File::Spec->abs2rel($_, $dir);
             $binaryfiles->new_binary_found($fn);
             unless ($include_binaries or $binaryfiles->binary_is_allowed($fn)) {
@@ -709,7 +709,7 @@ sub load_allowed_binaries {
     if (-f $incbin_file) {
         open(my $incbin_fh, '<', $incbin_file)
             or syserr(_g('cannot read %s'), $incbin_file);
-        while (defined($_ = <$incbin_fh>)) {
+        while (<$incbin_fh>) {
             chomp; s/^\s*//; s/\s*$//;
             next if /^#/ or /^$/;
             $self->{allowed_binaries}{$_} = 1;

@@ -164,7 +164,7 @@ sub add_from_file {
     my $key = exists $opts{key} ? $opts{key} : $file;
     my @alg;
     if (exists $opts{checksums}) {
-	push @alg, map { lc($_) } @{$opts{checksums}};
+	push @alg, map { lc } @{$opts{checksums}};
     } else {
 	push @alg, checksums_get_list();
     }

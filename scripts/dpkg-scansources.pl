@@ -180,7 +180,7 @@ sub load_src_override {
 	next if /^\s*$/;
 	s/\s+$//;
 
-	my @data = split ' ', $_;
+	my @data = split ' ';
 	unless (@data == 2) {
 	    warning(_g('invalid source override entry at line %d (%d fields)'),
 	            $., 0 + @data);

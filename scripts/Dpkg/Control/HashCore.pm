@@ -235,8 +235,8 @@ sub parse {
 	} elsif (m/^$/ || ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----$/)) {
 	    if ($expect_pgp_sig) {
 		# Skip empty lines
-		$_ = <$fh> while defined($_) && $_ =~ /^\s*$/;
-		unless (length $_) {
+		$_ = <$fh> while defined && m/^\s*$/;
+		unless (length) {
 		    $self->parse_error($desc, _g('expected OpenPGP signature, ' .
 		                                 'found EOF after blank line'));
 		}
@@ -250,7 +250,7 @@ sub parse {
 		    s/\s*\n$//;
 		    last if m/^-----END PGP SIGNATURE-----$/;
 		}
-		unless (defined($_)) {
+		unless (defined) {
 		    $self->parse_error($desc, _g('unfinished OpenPGP signature'));
                 }
 		# This does not mean the signature is correct, that needs to
@@ -500,7 +500,7 @@ sub DELETE {
     $key = lc($key);
     if (exists $self->[0]->{$key}) {
 	delete $self->[0]->{$key};
-	@$in_order = grep { lc($_) ne $key } @$in_order;
+	@{$in_order} = grep { lc ne $key } @{$in_order};
 	return 1;
     } else {
 	return 0;
