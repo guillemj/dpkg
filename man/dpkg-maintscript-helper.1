@@ -1,6 +1,7 @@
 .\" dpkg manual page - dpkg-maintscript-helper(1)
 .\"
 .\" Copyright © 2010-2012 Raphaël Hertzog <hertzog@debian.org>
+.\" Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -15,7 +16,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH dpkg\-maintscript\-helper 1 "2014-04-28" "Debian Project" "dpkg suite"
+.TH dpkg\-maintscript\-helper 1 "2014-09-01" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer scripts
 .
@@ -219,6 +220,10 @@ abort\-upgrade/abort\-install, the \fBpostrm\fP renames
 .
 .SH INTEGRATION IN PACKAGES
 .P
+When using a packaging helper, please check if it has native
+\fBdpkg-maintscript-helper\fP integration, which might make your life
+easier. See for example \fBdh_installdeb\fP(1).
+.P
 Given that \fBdpkg\-maintscript\-helper\fP is used in the \fBpreinst\fP,
 using it unconditionally requires a pre-dependency to ensure that the
 required version of \fBdpkg\fP has been unpacked before. The required version
@@ -241,3 +246,7 @@ The command \fBsupports\fP will return 0 on success, 1 otherwise. The
 \fBsupports\fP command will check if the environment variables as set
 by dpkg and required by the script are present, and will consider it a
 failure in case the environment is not sufficient.
+.SH SEE ALSO
+.ad l
+.nh
+.BR dh_installdeb (1).
