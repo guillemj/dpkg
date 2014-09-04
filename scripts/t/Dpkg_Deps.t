@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 41;
+use Test::More tests => 43;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
 
@@ -183,3 +183,20 @@ $SIG{__WARN__} = sub {};
 my $dep_bad_multiline = deps_parse("a, foo\nbar, c");
 ok(!defined($dep_bad_multiline), 'invalid dependency split over multiple line');
 delete $SIG{__WARN__};
+
+my $dep_iter = deps_parse('a, b:armel, c | d:armhf, d:mips (>> 1.2)');
+my %dep_arches;
+my %dep_pkgs;
+deps_iterate($dep_iter, sub {
+    my ($dep) = @_;
+
+    $dep_pkgs{$dep->{package}} = 1;
+    if ($dep->{archqual}) {
+        $dep_arches{$dep->{archqual}} = 1;
+    }
+    return 1;
+});
+my @dep_arches = sort keys %dep_arches;
+my @dep_pkgs = sort keys %dep_pkgs;
+is("@dep_arches", 'armel armhf mips', 'Dependency iterator, get arches');
+is("@dep_pkgs", 'a b c d', 'Dependency iterator, get packages');

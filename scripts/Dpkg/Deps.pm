@@ -49,7 +49,7 @@ All the deps_* functions are exported by default.
 use strict;
 use warnings;
 
-our $VERSION = '1.04';
+our $VERSION = '1.05';
 
 use Dpkg::Version;
 use Dpkg::Arch qw(get_host_arch get_build_arch);
@@ -58,7 +58,8 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use Exporter qw(import);
-our @EXPORT = qw(deps_concat deps_parse deps_eval_implication deps_compare);
+our @EXPORT = qw(deps_concat deps_parse deps_eval_implication
+                deps_iterate deps_compare);
 
 =item deps_eval_implication($rel_p, $v_p, $rel_q, $v_q)
 
@@ -306,6 +307,38 @@ sub deps_parse {
         $dep_and->add($dep);
     }
     return $dep_and;
+}
+
+=item my $bool = deps_iterate($deps, $callback_func)
+
+This function visits all elements of the dependency object, calling the
+callback function for each element.
+
+The callback function is expected to return true when everything is fine,
+or false if something went wrong, in which case the iteration will stop.
+
+Return the same value as the callback function.
+
+=cut
+
+sub deps_iterate {
+    my ($deps, $callback_func) = @_;
+
+    my $visitor_func;
+    $visitor_func = sub {
+        foreach my $dep (@_) {
+            return unless defined $dep;
+
+            if ($dep->isa('Dpkg::Deps::Simple')) {
+                return unless &{$callback_func}($dep);
+            } else {
+                return unless &{$visitor_func}($dep->get_deps());
+            }
+        }
+        return 1;
+    };
+
+    return &{$visitor_func}($deps);
 }
 
 =item deps_compare($a, $b)
@@ -1469,6 +1502,10 @@ sub _evaluate_simple_dep {
 }
 
 =head1 CHANGES
+
+=head2 Version 1.05
+
+New function: Dpkg::Deps::deps_iterate().
 
 =head2 Version 1.04
 
