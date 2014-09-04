@@ -255,8 +255,6 @@ symlink_to_dir() {
 	[ "${SYMLINK#/}" = "$SYMLINK" ] && \
 		error "symlink pathname is not an absolute path"
 	[ -n "$SYMLINK_TARGET" ] || error "original symlink target is missing"
-	[ "${SYMLINK_TARGET#/}" = "$SYMLINK_TARGET" ] && \
-		error "original symlink target is not an absolute path"
 	[ -n "$1" ] || error "maintainer script parameters are missing"
 
 	debug "Executing $0 symlink_to_dir in $DPKG_MAINTSCRIPT_NAME" \
@@ -268,7 +266,7 @@ symlink_to_dir() {
 	preinst)
 		if [ "$1" = "install" -o "$1" = "upgrade" ] &&
 		   [ -n "$2" ] && [ -h "$SYMLINK" ] &&
-		   [ "$(readlink -f $SYMLINK)" = "$SYMLINK_TARGET" ] &&
+		   symlink_match "$SYMLINK" "$SYMLINK_TARGET" &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			mv -f "$SYMLINK" "${SYMLINK}.dpkg-backup"
 		fi
@@ -279,7 +277,7 @@ symlink_to_dir() {
 		# have been unpacked, then upgraded with an unpack and thus
 		# never been configured before.
 		if [ "$1" = "configure" ] && [ -h "${SYMLINK}.dpkg-backup" ] &&
-		   [ "$(readlink -f ${SYMLINK}.dpkg-backup)" = "$SYMLINK_TARGET" ]
+		   symlink_match "${SYMLINK}.dpkg-backup" "$SYMLINK_TARGET"
 		then
 			rm -f "${SYMLINK}.dpkg-backup"
 		fi
@@ -291,7 +289,7 @@ symlink_to_dir() {
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
 		   [ -n "$2" ] &&
 		   [ ! -e "$SYMLINK" ] && [ -h "${SYMLINK}.dpkg-backup" ] &&
-		   [ "$(readlink -f ${SYMLINK}.dpkg-backup)" = "$SYMLINK_TARGET" ] &&
+		   symlink_match "${SYMLINK}.dpkg-backup" "$SYMLINK_TARGET" &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			echo "Restoring backup of $SYMLINK ..."
 			mv "${SYMLINK}.dpkg-backup" "$SYMLINK"
@@ -370,7 +368,8 @@ dir_to_symlink() {
 		   [ \( ! -h "$PATHNAME" -a -d "$PATHNAME" -a \
 		        -f "$PATHNAME/.dpkg-staging-dir" \) -o \
 		     \( -h "$PATHNAME" -a \
-		        "$(readlink $PATHNAME)" = "$SYMLINK_TARGET" \) ] &&
+		        \( "$(readlink $PATHNAME)" = "$SYMLINK_TARGET" -o \
+		           "$(readlink -f $PATHNAME)" = "$SYMLINK_TARGET" \) \) ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			abort_dir_to_symlink "$PATHNAME"
 		fi
@@ -484,6 +483,15 @@ ensure_package_owns_file() {
 		return 1
 	fi
 	return 0
+}
+
+symlink_match()
+{
+	local SYMLINK="$1"
+	local SYMLINK_TARGET="$2"
+
+	[ "$(readlink $SYMLINK)" = "$SYMLINK_TARGET" ] || \
+	[ "$(readlink -f $SYMLINK)" = "$SYMLINK_TARGET" ]
 }
 
 debug() {
