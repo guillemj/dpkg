@@ -67,7 +67,7 @@ sub run_hook {
 	    $$textref .= "Bug-Ubuntu: https://bugs.launchpad.net/bugs/$bug\n";
 	}
     } elsif ($hook eq 'update-buildflags') {
-	$self->add_hardening_flags(@params);
+	$self->_add_hardening_flags(@params);
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }
@@ -98,7 +98,7 @@ sub _parse_feature_area {
     }
 }
 
-sub add_hardening_flags {
+sub _add_hardening_flags {
     my ($self, $flags) = @_;
     my $arch = get_host_arch();
     my ($abi, $os, $cpu) = debarch_to_debtriplet($arch);
