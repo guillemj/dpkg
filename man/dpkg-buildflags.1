@@ -2,7 +2,7 @@
 .\"
 .\" Copyright © 2010-2011 Raphaël Hertzog <hertzog@debian.org>
 .\" Copyright © 2011 Kees Cook <kees@debian.org>
-.\" Copyright © 2011-2013 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH dpkg\-buildflags 1 "2013-10-20" "Debian Project" "dpkg suite"
+.TH dpkg\-buildflags 1 "2014-09-04" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-buildflags \- returns build flags to use during package build
 .
@@ -135,7 +135,8 @@ the flag is set/modified by an environment-specific configuration.
 .TP
 .BI \-\-query\-features " area"
 Print the features enabled for a given area. The only currently recognized
-area is \fBhardening\fP, see the \fBFEATURE AREAS\fP section for more details.
+areas are \fBqa\fP and \fBhardening\fP, see the \fBFEATURE AREAS\fP section
+for more details.
 Exits with 0 if the area is known otherwise exits with 1.
 .IP
 The output is in RFC822 format, with one section per feature.
@@ -211,6 +212,10 @@ Thus disabling everything in the \fBhardening\fP area and enabling only
 "format" and "fortify" can be achieved with:
 .P
   export DEB_BUILD_MAINT_OPTIONS=hardening=\-all,+format,+fortify
+.
+.SS Quality Assurance (QA)
+Several compile-time options (detailed below) can be used to help detect
+problems in the source code or build system.
 .
 .SS Hardening
 Several compile-time options (detailed below) can be used to help harden

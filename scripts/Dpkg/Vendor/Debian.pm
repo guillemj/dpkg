@@ -67,6 +67,7 @@ sub run_hook {
 	    $$textref .= "Bug-Ubuntu: https://bugs.launchpad.net/bugs/$bug\n";
 	}
     } elsif ($hook eq 'update-buildflags') {
+	$self->_add_qa_flags(@params);
 	$self->_add_hardening_flags(@params);
     } else {
         return $self->SUPER::run_hook($hook, @params);
@@ -95,6 +96,22 @@ sub _parse_feature_area {
 	    warning(_g('incorrect value in %s option of ' .
 	               'DEB_BUILD_MAINT_OPTIONS: %s'), $area, $feature);
 	}
+    }
+}
+
+sub _add_qa_flags {
+    my ($self, $flags) = @_;
+
+    # Default feature states.
+    my %use_feature = (
+    );
+
+    # Adjust features based on Maintainer's desires.
+    $self->_parse_feature_area('qa', \%use_feature);
+
+    # Store the feature usage.
+    while (my ($feature, $enabled) = each %use_feature) {
+        $flags->set_feature('qa', $feature, $enabled);
     }
 }
 
