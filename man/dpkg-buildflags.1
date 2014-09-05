@@ -196,26 +196,28 @@ New flags might be added in the future if the need arises (for example
 to support other languages).
 .
 .SH FEATURE AREAS
-.SS Hardening
-Several compile-time options (detailed below) can be used to help harden
-a resulting binary against memory corruption attacks, or provide
-additional warning messages during compilation. Except as noted below,
-these are enabled by default for architectures that support them.
 .P
-Each hardening feature can be enabled and disabled in the
-\fBDEB_BUILD_MAINT_OPTIONS\fP environment variable's \fBhardening\fP
-value with the "+" and "\-" modifier. For example, to enable the
-"pie" feature and disable the "fortify" feature you can do this
-in \fBdebian/rules\fP:
+Each area feature can be enabled and disabled in the
+\fBDEB_BUILD_MAINT_OPTIONS\fP environment variable's area value with the
+"+" and "\-" modifier.
+For example, to enable the \fBhardening\fP "pie" feature and disable the
+"fortify" feature you can do this in \fBdebian/rules\fP:
 .P
   export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,\-fortify
 .P
-The special feature \fBall\fP can be used to enable or disable all
-hardening features at the same time. Thus disabling everything and
-enabling only "format" and "fortify" can be achieved with:
+The special feature \fBall\fP (valid in any area) can be used to enable or
+disable all area features at the same time.
+Thus disabling everything in the \fBhardening\fP area and enabling only
+"format" and "fortify" can be achieved with:
 .P
   export DEB_BUILD_MAINT_OPTIONS=hardening=\-all,+format,+fortify
 .
+.SS Hardening
+Several compile-time options (detailed below) can be used to help harden
+a resulting binary against memory corruption attacks, or provide
+additional warning messages during compilation.
+Except as noted below, these are enabled by default for architectures
+that support them.
 .TP
 .B format
 This setting (enabled by default) adds
