@@ -104,10 +104,20 @@ sub _add_qa_flags {
 
     # Default feature states.
     my %use_feature = (
+        bug => 0,
     );
 
     # Adjust features based on Maintainer's desires.
     $self->_parse_feature_area('qa', \%use_feature);
+
+    # Warnings that detect actual bugs.
+    if ($use_feature{bug}) {
+        foreach my $warnflag (qw(array-bounds clobbered volatile-register-var
+                                 implicit-function-declaration)) {
+            $flags->append('CFLAGS', "-Werror=$warnflag");
+            $flags->append('CXXFLAGS', "-Werror=$warnflag");
+        }
+    }
 
     # Store the feature usage.
     while (my ($feature, $enabled) = each %use_feature) {
