@@ -105,6 +105,7 @@ sub _add_qa_flags {
     # Default feature states.
     my %use_feature = (
         bug => 0,
+        canary => 0,
     );
 
     # Adjust features based on Maintainer's desires.
@@ -117,6 +118,17 @@ sub _add_qa_flags {
             $flags->append('CFLAGS', "-Werror=$warnflag");
             $flags->append('CXXFLAGS', "-Werror=$warnflag");
         }
+    }
+
+    # Inject dummy canary options to detect issues with build flag propagation.
+    if ($use_feature{canary}) {
+        require Digest::MD5;
+        my $id = Digest::MD5::md5_hex(int rand 4096);
+
+        foreach my $flag (qw(CPPFLAGS CFLAGS OBJCFLAGS CXXFLAGS OBJCXXFLAGS)) {
+            $flags->append($flag, "-D__DEB_CANARY_${flag}_${id}__");
+        }
+        $flags->append('LDFLAGS', "-Wl,-z,deb-canary-${id}");
     }
 
     # Store the feature usage.

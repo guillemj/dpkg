@@ -220,6 +220,15 @@ problems in the source code or build system.
 .B bug
 This setting (disabled by default) adds any warning option that reliably
 detects problematic source code. The warnings are fatal.
+.TP
+.B canary
+This setting (disabled by default) adds dummy canary options to the build
+flags, so that the build logs can be checked for how the build flags
+propagate and to allow finding any omission of normal build flag settings.
+The only currently supported flags are \fBCPPFLAGS\fP, \fBCFLAGS\fP,
+\fBOBJCFLAGS\fP, \fBCXXFLAGS\fP and \fBOBJCXXFLAGS\fP with flags set
+to \fB\-D__DEB_CANARY_\fP\fIflag\fP_\fIrandom-id\fP\fB__\fP, and
+\fBLDFLAGS\fP set to \fB\-Wl,\-z,deb-canary\-\fP\fIrandom-id\fP.
 .
 .SS Hardening
 Several compile-time options (detailed below) can be used to help harden
