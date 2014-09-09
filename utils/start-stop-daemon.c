@@ -352,7 +352,9 @@ detach_controlling_tty(void)
 static pid_t
 setsid(void)
 {
-	setpgid(0, 0);
+	if (setpgid(0, 0) < 0)
+		return -1:
+
 	detach_controlling_tty();
 
 	return 0;
@@ -374,7 +376,8 @@ daemonize(void)
 		_exit(0);
 
 	/* Create a new session. */
-	setsid();
+	if (setsid() < 0)
+		fatal("cannot set session ID");
 
 	pid = fork();
 	if (pid < 0)
