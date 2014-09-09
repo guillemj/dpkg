@@ -447,6 +447,11 @@ daemonize(void)
 	if (pid < 0)
 		fatal("unable to do second fork");
 	else if (pid) { /* Second parent. */
+		/* Set a default umask for dumb programs, which might get
+		 * overridden by the --umask option later on, so that we get
+		 * a defined umask when creating the pidfille. */
+		umask(022);
+
 		if (mpidfile && pidfile != NULL)
 			/* User wants _us_ to make the pidfile. */
 			write_pidfile(pidfile, pid);
@@ -1865,10 +1870,6 @@ do_start(int argc, char **argv)
 			if (setuid(runas_uid))
 				fatal("unable to set uid to %s", changeuser);
 	}
-
-	/* Set a default umask for dumb programs. */
-	if (background && umask_value < 0)
-		umask(022);
 
 	if (background && close_io) {
 		int i;
