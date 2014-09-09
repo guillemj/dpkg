@@ -55,6 +55,9 @@ dpkg (1.17.14) UNRELEASED; urgency=low
   * Remove lpia architecture support.
   * Improvements and portability fixes to start-stop-daemon:
     - Abort if the system or compatibility setsid() fails.
+    - Do not exit from the first parent before the pidfile has been created,
+      when using --background and --make-pidfile, to avoid the race condition.
+      Based on a patch by Nir Soffer <nirs@hyperms.com>. Closes: #686420
 
   [ Raphaël Hertzog ]
   * Explain better in deb-triggers(5) why interest/activate-noawait should be

@@ -66,6 +66,7 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <sys/ioctl.h>
 
 #include <assert.h>
@@ -362,6 +363,33 @@ setsid(void)
 #endif
 
 static void
+wait_for_child(pid_t pid)
+{
+	pid_t child;
+	int status;
+
+	do {
+		child = waitpid(pid, &status, 0);
+	} while (child == -1 && errno == EINTR);
+
+	if (child != pid)
+		fatal("error waiting for child");
+
+	if (WIFEXITED(status)) {
+		int err = WEXITSTATUS(status);
+
+		if (err != 0)
+			fatal("child returned error exit status %d", err);
+	} else if (WIFSIGNALED(status)) {
+		int signo = WTERMSIG(status);
+
+		fatal("child was killed by signal %d", signo);
+	} else {
+		fatal("unexpected status %d waiting for child", status);
+	}
+}
+
+static void
 write_pidfile(const char *filename, pid_t pid)
 {
 	FILE *fp;
@@ -386,15 +414,30 @@ static void
 daemonize(void)
 {
 	pid_t pid;
+	sigset_t mask;
+	sigset_t oldmask;
 
 	if (quietmode < 0)
 		printf("Detaching to start %s...", startas);
 
+	/* Block SIGCHLD to allow waiting for the child process while it is
+	 * performing actions, such as creating a pidfile. */
+	sigemptyset(&mask);
+	sigaddset(&mask, SIGCHLD);
+	if (sigprocmask(SIG_BLOCK, &mask, &oldmask) == -1)
+		fatal("cannot block SIGCHLD");
+
 	pid = fork();
 	if (pid < 0)
 		fatal("unable to do first fork");
-	else if (pid) /* Parent. */
+	else if (pid) { /* First Parent. */
+		/* Wait for the second parent to exit, so that if we need to
+		 * perform any actions there, like creating a pidfile, we do
+		 * not suffer from race conditions on return. */
+		wait_for_child(pid);
+
 		_exit(0);
+	}
 
 	/* Create a new session. */
 	if (setsid() < 0)
@@ -403,8 +446,16 @@ daemonize(void)
 	pid = fork();
 	if (pid < 0)
 		fatal("unable to do second fork");
-	else if (pid) /* Parent. */
+	else if (pid) { /* Second parent. */
+		if (mpidfile && pidfile != NULL)
+			/* User wants _us_ to make the pidfile. */
+			write_pidfile(pidfile, pid);
+
 		_exit(0);
+	}
+
+	if (sigprocmask(SIG_SETMASK, &oldmask, NULL) == -1)
+		fatal("cannot restore signal mask");
 
 	if (quietmode < 0)
 		printf("done.\n");
@@ -1785,9 +1836,6 @@ do_start(int argc, char **argv)
 		set_io_schedule(io_sched);
 	if (umask_value >= 0)
 		umask(umask_value);
-	if (mpidfile && pidfile != NULL)
-		/* User wants _us_ to make the pidfile. */
-		write_pidfile(pidfile, getpid());
 	if (changeroot != NULL) {
 		if (chdir(changeroot) < 0)
 			fatal("unable to chdir() to %s", changeroot);
