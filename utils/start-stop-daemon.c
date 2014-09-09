@@ -362,6 +362,27 @@ setsid(void)
 #endif
 
 static void
+write_pidfile(const char *filename, pid_t pid)
+{
+	FILE *fp;
+	int fd;
+
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC | O_NOFOLLOW, 0666);
+	if (fd < 0)
+		fp = NULL;
+	else
+		fp = fdopen(fd, "w");
+
+	if (fp == NULL)
+		fatal("unable to open pidfile '%s' for writing", filename);
+
+	fprintf(fp, "%d\n", pid);
+
+	if (fclose(fp))
+		fatal("unable to close pidfile '%s'", filename);
+}
+
+static void
 daemonize(void)
 {
 	pid_t pid;
@@ -387,27 +408,6 @@ daemonize(void)
 
 	if (quietmode < 0)
 		printf("done.\n");
-}
-
-static void
-write_pidfile(const char *filename, pid_t pid)
-{
-	FILE *fp;
-	int fd;
-
-	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC | O_NOFOLLOW, 0666);
-	if (fd < 0)
-		fp = NULL;
-	else
-		fp = fdopen(fd, "w");
-
-	if (fp == NULL)
-		fatal("unable to open pidfile '%s' for writing", filename);
-
-	fprintf(fp, "%d\n", pid);
-
-	if (fclose(fp))
-		fatal("unable to close pidfile '%s'", filename);
 }
 
 static void
