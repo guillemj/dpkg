@@ -65,7 +65,7 @@ static void cu_info_prepare(int argc, void **argv) {
     execlp(RM, "rm", "-rf", dir, NULL);
     ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
   }
-  subproc_wait_check(pid, _("rm command for cleanup"), 0);
+  subproc_reap(pid, _("rm command for cleanup"), 0);
 }
 
 static void info_prepare(const char *const **argvp,

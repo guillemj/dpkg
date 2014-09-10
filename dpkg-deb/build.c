@@ -207,7 +207,7 @@ file_treewalk_feed(const char *dir, int fd_out)
   }
 
   close(pipefd[0]);
-  subproc_wait_check(pid, "find", 0);
+  subproc_reap(pid, "find", 0);
 
   for (fi = symlist; fi; fi = fi->next)
     if (fd_write(fd_out, fi->fn, strlen(fi->fn) + 1) < 0)
@@ -494,8 +494,8 @@ do_build(const char *const *argv)
     exit(0);
   }
   close(p1[0]);
-  subproc_wait_check(c2, "gzip -9c", 0);
-  subproc_wait_check(c1, "tar -cf", 0);
+  subproc_reap(c2, "gzip -9c", 0);
+  subproc_reap(c1, "tar -cf", 0);
 
   if (lseek(gzfd, 0, SEEK_SET))
     ohshite(_("failed to rewind temporary file (%s)"), _("control member"));
@@ -582,8 +582,8 @@ do_build(const char *const *argv)
 
   /* All done, clean up wait for tar and gzip to finish their job. */
   close(p1[1]);
-  subproc_wait_check(c2, _("<compress> from tar -cf"), 0);
-  subproc_wait_check(c1, "tar -cf", 0);
+  subproc_reap(c2, _("<compress> from tar -cf"), 0);
+  subproc_reap(c1, "tar -cf", 0);
   /* Okay, we have data.tar as well now, add it to the ar wrapper. */
   if (deb_format.major == 2) {
     char datamember[16 + 1];

@@ -103,7 +103,7 @@ deb_reassemble(const char **filename, const char **pfilename)
     ohshite(_("unable to execute %s (%s)"),
             _("split package reassembly"), SPLITTER);
   }
-  status = subproc_wait_check(pid, SPLITTER, PROCNOERR);
+  status = subproc_reap(pid, SPLITTER, PROCNOERR);
   switch (status) {
   case 0:
     /* It was a part - is it complete? */
@@ -145,7 +145,7 @@ deb_verify(const char *filename)
   } else {
     int status;
 
-    status = subproc_wait_check(pid, "debsig-verify", PROCNOCHECK);
+    status = subproc_reap(pid, "debsig-verify", PROCNOCHECK);
     if (!(WIFEXITED(status) && WEXITSTATUS(status) == 0)) {
       if (!fc_badverify)
         ohshit(_("verification on package %s failed!"), filename);
@@ -565,7 +565,7 @@ void process_archive(const char *filename) {
     ohshite(_("unable to execute %s (%s)"),
             _("package control information extraction"), BACKEND);
   }
-  subproc_wait_check(pid, BACKEND " --control", 0);
+  subproc_reap(pid, BACKEND " --control", 0);
 
   /* We want to guarantee the extracted files are on the disk, so that the
    * subsequent renames to the info database do not end up with old or zero
@@ -978,7 +978,7 @@ void process_archive(const char *filename) {
     ohshit(_("cannot zap possible trailing zeros from dpkg-deb: %s"), err.str);
   close(p1[0]);
   p1[0] = -1;
-  subproc_wait_check(pid, BACKEND " --fsys-tarfile", PROCPIPE);
+  subproc_reap(pid, BACKEND " --fsys-tarfile", PROCPIPE);
 
   tar_deferred_extract(newfileslist, pkg);
 

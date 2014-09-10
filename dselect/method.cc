@@ -150,7 +150,7 @@ falliblesubprocess(struct command *cmd)
 
   fprintf(stderr, "\n");
 
-  i = subproc_wait_check(pid, cmd->name, PROCWARN);
+  i = subproc_reap(pid, cmd->name, PROCWARN);
 
   pop_cleanup(ehflag_normaltidy);
 

@@ -81,7 +81,7 @@ fd_fd_filter(int fd_in, int fd_out, const char *desc, const char *delenv[],
 
 		command_exec(&cmd);
 	}
-	subproc_wait_check(pid, desc, 0);
+	subproc_reap(pid, desc, 0);
 }
 #endif
 

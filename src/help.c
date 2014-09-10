@@ -393,7 +393,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
   }
   debug(dbg_eachfile, "ensure_pathname_nonexisting running rm -rf '%s'",
         pathname);
-  subproc_wait_check(pid, "rm cleanup", 0);
+  subproc_reap(pid, "rm cleanup", 0);
 }
 
 void

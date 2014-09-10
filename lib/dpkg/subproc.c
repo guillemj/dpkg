@@ -155,7 +155,7 @@ subproc_wait(pid_t pid, const char *desc)
 }
 
 int
-subproc_wait_check(pid_t pid, const char *desc, int flags)
+subproc_reap(pid_t pid, const char *desc, int flags)
 {
 	int status, rc;
 

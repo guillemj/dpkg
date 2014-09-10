@@ -41,38 +41,38 @@ test_subproc_fork(void)
 	pid = subproc_fork();
 	if (pid == 0)
 		exit(0);
-	ret = subproc_wait_check(pid, "subproc exit pass", PROCNOERR);
+	ret = subproc_reap(pid, "subproc exit pass", PROCNOERR);
 	test_pass(ret == 0);
 
 	pid = subproc_fork();
 	if (pid == 0)
 		exit(128);
-	ret = subproc_wait_check(pid, "subproc exit fail", PROCNOERR);
+	ret = subproc_reap(pid, "subproc exit fail", PROCNOERR);
 	test_pass(ret == 128);
 
 	/* Test signals. */
 	pid = subproc_fork();
 	if (pid == 0)
 		raise(SIGINT);
-	ret = subproc_wait_check(pid, "subproc signal", PROCWARN);
+	ret = subproc_reap(pid, "subproc signal", PROCWARN);
 	test_pass(ret == -1);
 
 	pid = subproc_fork();
 	if (pid == 0)
 		raise(SIGTERM);
-	ret = subproc_wait_check(pid, "subproc signal", PROCWARN);
+	ret = subproc_reap(pid, "subproc signal", PROCWARN);
 	test_pass(ret == -1);
 
 	pid = subproc_fork();
 	if (pid == 0)
 		raise(SIGPIPE);
-	ret = subproc_wait_check(pid, "subproc SIGPIPE", PROCWARN | PROCPIPE);
+	ret = subproc_reap(pid, "subproc SIGPIPE", PROCWARN | PROCPIPE);
 	test_pass(ret == 0);
 
 	pid = subproc_fork();
 	if (pid == 0)
 		raise(SIGPIPE);
-	ret = subproc_wait_check(pid, "subproc SIGPIPE", PROCWARN);
+	ret = subproc_reap(pid, "subproc SIGPIPE", PROCWARN);
 	test_pass(ret == -1);
 }
 

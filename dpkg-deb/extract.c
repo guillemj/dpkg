@@ -62,7 +62,7 @@ static void movecontrolfiles(const char *thing) {
   if (pid == 0) {
     command_shell(buf, _("shell command to move files"));
   }
-  subproc_wait_check(pid, _("shell command to move files"), 0);
+  subproc_reap(pid, _("shell command to move files"), 0);
 }
 
 static void DPKG_ATTR_NORET
@@ -356,12 +356,12 @@ extracthalf(const char *debar, const char *dir,
       command_exec(&cmd);
     }
     close(p2[0]);
-    subproc_wait_check(c3, "tar", 0);
+    subproc_reap(c3, "tar", 0);
   }
 
-  subproc_wait_check(c2, _("<decompress>"), PROCPIPE);
+  subproc_reap(c2, _("<decompress>"), PROCPIPE);
   if (c1 != -1)
-    subproc_wait_check(c1, _("paste"), 0);
+    subproc_reap(c1, _("paste"), 0);
   if (version.major == 0 && admininfo) {
     /* Handle the version as a float to preserve the behaviour of old code,
      * because even if the format is defined to be padded by 0's that might

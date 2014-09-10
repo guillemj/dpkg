@@ -178,7 +178,7 @@ test_command_exec(void)
 	if (pid == 0)
 		command_exec(&cmd);
 
-	ret = subproc_wait_check(pid, "command exec test", 0);
+	ret = subproc_reap(pid, "command exec test", 0);
 	test_pass(ret == 0);
 }
 
@@ -191,20 +191,20 @@ test_command_shell(void)
 	pid = subproc_fork();
 	if (pid == 0)
 		command_shell("true", "command shell pass test");
-	ret = subproc_wait_check(pid, "command shell pass test", 0);
+	ret = subproc_reap(pid, "command shell pass test", 0);
 	test_pass(ret == 0);
 
 	pid = subproc_fork();
 	if (pid == 0)
 		command_shell("false", "command shell fail test");
-	ret = subproc_wait_check(pid, "command shell fail test", PROCNOERR);
+	ret = subproc_reap(pid, "command shell fail test", PROCNOERR);
 	test_fail(ret == 0);
 
 	unsetenv("SHELL");
 	pid = subproc_fork();
 	if (pid == 0)
 		command_shell("true", "command default shell test");
-	ret = subproc_wait_check(pid, "command default shell test", 0);
+	ret = subproc_reap(pid, "command default shell test", 0);
 	test_pass(ret == 0);
 }
 
