@@ -136,7 +136,7 @@ static urqresult
 falliblesubprocess(struct command *cmd)
 {
   pid_t pid;
-  int status, i, c;
+  int i, c;
 
   cursesoff();
 
@@ -148,12 +148,12 @@ falliblesubprocess(struct command *cmd)
     command_exec(cmd);
   }
 
-  status = subproc_wait(pid, cmd->name);
+  fprintf(stderr, "\n");
+
+  i = subproc_wait_check(pid, cmd->name, PROCWARN);
 
   pop_cleanup(ehflag_normaltidy);
 
-  fprintf(stderr, "\n");
-  i = subproc_check(status, cmd->name, PROCWARN);
   if (i == 0) {
     sleep(1);
     return urqr_normal;

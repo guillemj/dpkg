@@ -103,8 +103,8 @@ deb_reassemble(const char **filename, const char **pfilename)
     ohshite(_("unable to execute %s (%s)"),
             _("split package reassembly"), SPLITTER);
   }
-  status = subproc_wait(pid, SPLITTER);
-  switch (WIFEXITED(status) ? WEXITSTATUS(status) : -1) {
+  status = subproc_wait_check(pid, SPLITTER, PROCNOERR);
+  switch (status) {
   case 0:
     /* It was a part - is it complete? */
     if (!stat(reasmbuf, &stab)) {
@@ -120,7 +120,7 @@ deb_reassemble(const char **filename, const char **pfilename)
     /* No, it wasn't a part. */
     break;
   default:
-    subproc_check(status, SPLITTER, 0);
+    internerr("unexpected exit status %d from %s", status, SPLITTER);
   }
 
   return true;
