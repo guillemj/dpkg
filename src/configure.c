@@ -212,7 +212,7 @@ show_diff(const char *old, const char *new)
 	}
 
 	/* Parent process. */
-	subproc_wait(pid, _("conffile difference visualizer"));
+	subproc_wait_check(pid, _("conffile difference visualizer"), PROCNOCHECK);
 }
 
 /**
@@ -242,7 +242,7 @@ spawn_shell(const char *confold, const char *confnew)
 	}
 
 	/* Parent process. */
-	subproc_wait(pid, _("conffile shell"));
+	subproc_wait_check(pid, _("conffile shell"), PROCNOCHECK);
 }
 
 /**

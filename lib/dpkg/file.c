@@ -173,5 +173,5 @@ file_show(const char *filename)
 		command_add_arg(&cmd, filename);
 		command_exec(&cmd);
 	}
-	subproc_wait(pid, _("showing file on pager"));
+	subproc_wait_check(pid, _("showing file on pager"), PROCNOCHECK);
 }

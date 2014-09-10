@@ -157,9 +157,14 @@ subproc_wait(pid_t pid, const char *desc)
 int
 subproc_wait_check(pid_t pid, const char *desc, int flags)
 {
-	int status;
+	int status, rc;
 
 	status = subproc_wait(pid, desc);
 
-	return subproc_check(status, desc, flags);
+	if (flags & PROCNOCHECK)
+		rc = status;
+	else
+		rc = subproc_check(status, desc, flags);
+
+	return rc;
 }
