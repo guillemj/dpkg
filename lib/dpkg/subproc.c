@@ -98,7 +98,7 @@ subproc_fork(void)
 	return pid;
 }
 
-int
+static int
 subproc_check(int status, const char *desc, int flags)
 {
 	void (*out)(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
@@ -138,7 +138,7 @@ subproc_check(int status, const char *desc, int flags)
 	return -1;
 }
 
-int
+static int
 subproc_wait(pid_t pid, const char *desc)
 {
 	pid_t dead_pid;

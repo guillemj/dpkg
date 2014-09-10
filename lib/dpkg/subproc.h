@@ -42,8 +42,6 @@ void subproc_signals_cleanup(int argc, void **argv);
 #define PROCNOCHECK 8
 
 pid_t subproc_fork(void);
-int subproc_wait(pid_t pid, const char *desc);
-int subproc_check(int status, const char *desc, int flags);
 int subproc_wait_check(pid_t pid, const char *desc, int flags);
 
 /** @} */
