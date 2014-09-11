@@ -115,7 +115,7 @@ sub do_extract {
     my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);
 
-    my ($tarfile, $debianfile, %origtar, %seen);
+    my ($tarfile, $debianfile, %addonfile, %seen);
     my $re_ext = compression_get_file_extension_regex();
     foreach my $file ($self->get_files()) {
         (my $uncompressed = $file) =~ s/\.$re_ext$//;
@@ -125,7 +125,7 @@ sub do_extract {
         if ($file =~ /^\Q$basename\E\.orig\.tar\.$re_ext$/) {
             $tarfile = $file;
         } elsif ($file =~ /^\Q$basename\E\.orig-([[:alnum:]-]+)\.tar\.$re_ext$/) {
-            $origtar{$1} = $file;
+            $addonfile{$1} = $file;
         } elsif ($file =~ /^\Q$basenamerev\E\.debian\.tar\.$re_ext$/) {
             $debianfile = $file;
         } else {
@@ -151,8 +151,8 @@ sub do_extract {
     # that would be blindly followed when applying the patches
 
     # Extract additional orig tarballs
-    foreach my $subdir (sort keys %origtar) {
-        my $file = $origtar{$subdir};
+    foreach my $subdir (sort keys %addonfile) {
+        my $file = $addonfile{$subdir};
         info(_g('unpacking %s'), $file);
         if (-e "$newdirectory/$subdir") {
             warning(_g("required removal of `%s' installed by original tarball"), $subdir);
@@ -330,7 +330,7 @@ sub generate_patch {
     $basedirname =~ s/_/-/;
 
     # Identify original tarballs
-    my ($tarfile, %origtar);
+    my ($tarfile, %addonfile);
     my $comp_ext_regex = compression_get_file_extension_regex();
     my @origtarballs;
     foreach my $file (sort $self->find_original_tarballs()) {
@@ -343,7 +343,7 @@ sub generate_patch {
             push @origtarballs, $file;
             $self->add_file($file);
         } elsif ($file =~ /\.orig-([[:alnum:]-]+)\.tar\.$comp_ext_regex$/) {
-            $origtar{$1} = $file;
+            $addonfile{$1} = $file;
             push @origtarballs, $file;
             $self->add_file($file);
         }
@@ -366,8 +366,8 @@ sub generate_patch {
     $tar->extract($tmp);
 
     # Extract additional orig tarballs
-    foreach my $subdir (keys %origtar) {
-        my $file = $origtar{$subdir};
+    foreach my $subdir (keys %addonfile) {
+        my $file = $addonfile{$subdir};
         $tar = Dpkg::Source::Archive->new(filename => $file);
         $tar->extract("$tmp/$subdir");
     }
