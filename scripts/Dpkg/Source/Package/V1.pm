@@ -71,13 +71,13 @@ sub parse_cmdline_option {
         $o->{sourcestyle} = $1;
         $o->{copy_orig_tarballs} = 0 if $1 eq 'n'; # Extract option -sn
         return 1;
-    } elsif ($opt =~ m/^--skip-debianization$/) {
+    } elsif ($opt eq '--skip-debianization') {
         $o->{skip_debianization} = 1;
         return 1;
-    } elsif ($opt =~ m/^--ignore-bad-version$/) {
+    } elsif ($opt eq '--ignore-bad-version') {
         $o->{ignore_bad_version} = 1;
         return 1;
-    } elsif ($opt =~ m/^--abort-on-upstream-changes$/) {
+    } elsif ($opt eq '--abort-on-upstream-changes') {
         $o->{abort_on_upstream_changes} = 1;
         return 1;
     }

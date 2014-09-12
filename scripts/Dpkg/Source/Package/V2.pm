@@ -66,40 +66,40 @@ sub init_options {
 
 sub parse_cmdline_option {
     my ($self, $opt) = @_;
-    if ($opt =~ /^--include-removal$/) {
+    if ($opt eq '--include-removal') {
         $self->{options}{include_removal} = 1;
         return 1;
-    } elsif ($opt =~ /^--include-timestamp$/) {
+    } elsif ($opt eq '--include-timestamp') {
         $self->{options}{include_timestamp} = 1;
         return 1;
-    } elsif ($opt =~ /^--include-binaries$/) {
+    } elsif ($opt eq '--include-binaries') {
         $self->{options}{include_binaries} = 1;
         return 1;
-    } elsif ($opt =~ /^--no-preparation$/) {
+    } elsif ($opt eq '--no-preparation') {
         $self->{options}{preparation} = 0;
         return 1;
-    } elsif ($opt =~ /^--skip-patches$/) {
+    } elsif ($opt eq '--skip-patches') {
         $self->{options}{skip_patches} = 1;
         return 1;
-    } elsif ($opt =~ /^--unapply-patches$/) {
+    } elsif ($opt eq '--unapply-patches') {
         $self->{options}{unapply_patches} = 'yes';
         return 1;
-    } elsif ($opt =~ /^--no-unapply-patches$/) {
+    } elsif ($opt eq '--no-unapply-patches') {
         $self->{options}{unapply_patches} = 'no';
         return 1;
-    } elsif ($opt =~ /^--skip-debianization$/) {
+    } elsif ($opt eq '--skip-debianization') {
         $self->{options}{skip_debianization} = 1;
         return 1;
-    } elsif ($opt =~ /^--create-empty-orig$/) {
+    } elsif ($opt eq '--create-empty-orig') {
         $self->{options}{create_empty_orig} = 1;
         return 1;
-    } elsif ($opt =~ /^--abort-on-upstream-changes$/) {
+    } elsif ($opt eq '--abort-on-upstream-changes') {
         $self->{options}{auto_commit} = 0;
         return 1;
-    } elsif ($opt =~ /^--auto-commit$/) {
+    } elsif ($opt eq '--auto-commit') {
         $self->{options}{auto_commit} = 1;
         return 1;
-    } elsif ($opt =~ /^--ignore-bad-version$/) {
+    } elsif ($opt eq '--ignore-bad-version') {
         $self->{options}{ignore_bad_version} = 1;
         return 1;
     }
