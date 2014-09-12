@@ -515,10 +515,14 @@ sub analyze {
 		}
 		next if /^\\ /;
 		# Check stats
-		if    (/^ / || /^$/)  { --$olines; --$nlines; }
-		elsif (/^-/)  { --$olines; }
-		elsif (/^\+/) { --$nlines; }
-		else {
+		if (/^ / or length == 0) {
+		    --$olines;
+		    --$nlines;
+		} elsif (/^-/) {
+		    --$olines;
+		} elsif (/^\+/) {
+		    --$nlines;
+		} else {
 		    error(_g("expected [ +-] at start of line %d of diff `%s'"),
 		          $., $diff);
 		}

@@ -197,7 +197,7 @@ sub parse {
 
     while (<$fh>) {
 	s/\s*\n$//;
-	next if (m/^$/ and $paraborder);
+	next if length == 0 and $paraborder;
 	next if (m/^#/);
 	$paraborder = 0;
 	if (m/^(\S+?)\s*:\s*(.*)$/) {
@@ -232,7 +232,7 @@ sub parse {
 	    } else {
 		$self->parse_error($desc, _g('OpenPGP signature not allowed here'));
 	    }
-	} elsif (m/^$/ || ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----$/)) {
+	} elsif (length == 0 || ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----$/)) {
 	    if ($expect_pgp_sig) {
 		# Skip empty lines
 		$_ = <$fh> while defined && m/^\s*$/;
@@ -356,7 +356,7 @@ sub output {
 	    $kv .= "\n";
 	    foreach (@lines) {
 		s/\s+$//;
-		if (/^$/ or /^\.+$/) {
+		if (length == 0 or /^\.+$/) {
 		    $kv .= " .$_\n";
 		} else {
 		    $kv .= " $_\n";

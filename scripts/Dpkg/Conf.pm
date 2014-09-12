@@ -102,7 +102,8 @@ sub parse {
 	s/^\s+//; s/\s+$//;   # Strip leading/trailing spaces
 	s/\s+=\s+/=/;         # Remove spaces around the first =
 	s/\s+/=/ unless m/=/; # First spaces becomes = if no =
-	next if /^#/ or /^$/; # Skip empty lines and comments
+	# Skip empty lines and comments
+	next if /^#/ or length == 0;
 	if (/^-[^-]/ and not $self->{allow_short}) {
 	    warning(_g('short option not allowed in %s, line %d'), $desc, $.);
 	    next;

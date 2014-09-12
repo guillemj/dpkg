@@ -85,13 +85,13 @@ sub getblk {
     my %flds;
     my $fld;
     while (<$fh>) {
-	if ( ! /^$/ ) {
+	if (length != 0) {
 	    FLDLOOP: while (1) {
 		if ( /^(\S+):\s*(.*)\s*$/ ) {
 		    $fld = lc($1);
 		    $flds{$fld} = $2;
 		    while (<$fh>) {
-			if ( /^$/ ) {
+			if (length == 0) {
 			    return %flds;
 			} elsif ( /^(\s.*)$/ ) {
 			    $flds{$fld} = $flds{$fld} . "\n" . $1;

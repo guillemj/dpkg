@@ -711,7 +711,7 @@ sub load_allowed_binaries {
             or syserr(_g('cannot read %s'), $incbin_file);
         while (<$incbin_fh>) {
             chomp; s/^\s*//; s/\s*$//;
-            next if /^#/ or /^$/;
+            next if /^#/ or length == 0;
             $self->{allowed_binaries}{$_} = 1;
         }
         close($incbin_fh);
