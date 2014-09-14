@@ -47,8 +47,8 @@ sub usage {
 'Usage: %s [<option>...] [<command>]')
     . "\n\n" . _g(
 'Options:
-  -a<debian-arch>    set current Debian architecture.
-  -t<gnu-system>     set current GNU system type.
+  -a<debian-arch>    set host Debian architecture.
+  -t<gnu-system>     set host GNU system type.
   -A<debian-arch>    set target Debian architecture.
   -T<gnu-system>     set target GNU system type.
   -f                 force flag (override variables set in environment).')
@@ -56,8 +56,8 @@ sub usage {
 'Commands:
   -l                 list variables (default).
   -L                 list valid architectures.
-  -e<debian-arch>    compare with current Debian architecture.
-  -i<arch-alias>     check if current Debian architecture is <arch-alias>.
+  -e<debian-arch>    compare with host Debian architecture.
+  -i<arch-alias>     check if host Debian architecture is <arch-alias>.
   -q<variable>       prints only the value of <variable>.
   -s                 print command to set environment variables.
   -u                 print command to unset environment variables.

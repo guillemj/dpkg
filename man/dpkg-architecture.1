@@ -51,16 +51,18 @@ Print the environment variables, one each line, in the format
 \fIVARIABLE=value\fP. This is the default action.
 .TP
 .BI \-e debian-architecture
-Check for equality of architecture (since dpkg 1.13.13). By default
-\fIdebian-architecture\fP is compared against the current Debian architecture,
-being the host. This action will not expand the architecture wildcards.
+Check for equality of architecture (since dpkg 1.13.13).
+It compares the current or specified Debian host architecture against
+\fIdebian-architecture\fP, to check if they are equal.
+This action will not expand the architecture wildcards.
 Command finishes with an exit status of 0 if matched, 1 if not matched.
 
 .TP
 .BI \-i architecture-wildcard
-Check for identity of architecture by expanding \fIarchitecture-wildcard\fP
-as an architecture wildcard and comparing against the current Debian
-architecture (since dpkg 1.13.13).
+Check for identity of architecture (since dpkg 1.13.13).
+It compares the current or specified Debian host architecture against
+\fIarchitecture-wildcard\fP after having expanded it as an architecture
+wildcard, to check if they match.
 Command finishes with an exit status of 0 if matched, 1 if not matched.
 .TP
 .BI \-q variable-name
@@ -89,10 +91,10 @@ Show the version and exit.
 .SH OPTIONS
 .TP
 .BI \-a debian-architecture
-Set the Debian architecture.
+Set the host Debian architecture.
 .TP
 .BI \-t gnu-system-type
-Set the GNU system type.
+Set the host GNU system type.
 .TP
 .BI \-A debian-architecture
 Set the target Debian architecture. This is only needed when building a
@@ -217,15 +219,14 @@ CC=i386\-gnu\-gcc dpkg\-architecture \-c debian/rules build
 .IP
 eval \`dpkg\-architecture \-u\`
 .PP
-Check if an architecture is equal to the current architecture or a given
-one:
+Check if the current or specified host architecture is equal to an
+architecture:
 .IP
 dpkg\-architecture \-elinux\-alpha
 .IP
 dpkg\-architecture \-amips \-elinux\-mips
 .PP
-Check if the current architecture or an architecture provided with \fB\-a\fP
-are Linux systems:
+Check if the current or specified host architecture is a Linux system:
 .IP
 dpkg\-architecture \-ilinux\-any
 .IP
