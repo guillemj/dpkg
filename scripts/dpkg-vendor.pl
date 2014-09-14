@@ -41,16 +41,16 @@ sub usage {
     printf _g(
 'Usage: %s [<option>...] [<command>]')
     . "\n\n" . _g(
-'Options:
-  --vendor <vendor>       assume <vendor> is the current vendor')
-    . "\n\n" . _g(
 'Commands:
   --is <vendor>           returns true if current vendor is <vendor>.
   --derives-from <vendor> returns true if current vendor derives from <vendor>.
   --query <field>         print the content of the vendor-specific field.
   --help                  show this help message.
-  --version               show the version.
-'), $Dpkg::PROGNAME;
+  --version               show the version.')
+    . "\n\n" . _g(
+'Options:
+  --vendor <vendor>       assume <vendor> is the current vendor.')
+    . "\n", $Dpkg::PROGNAME;
 }
 
 my ($vendor, $param, $action);
