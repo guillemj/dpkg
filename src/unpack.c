@@ -1084,7 +1084,6 @@ void process_archive(const char *filename) {
 
 	  varbuf_reset(&cfilename);
 	  varbuf_add_str(&cfilename, instdir);
-	  varbuf_add_char(&cfilename, '/');
 	  varbuf_add_str(&cfilename, cfile->namenode->name);
 	  varbuf_end_str(&cfilename);
 

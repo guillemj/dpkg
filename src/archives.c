@@ -390,7 +390,6 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
   case TAR_FILETYPE_HARDLINK:
     varbuf_reset(&hardlinkfn);
     varbuf_add_str(&hardlinkfn, instdir);
-    varbuf_add_char(&hardlinkfn, '/');
     linknode = findnamenode(te->linkname, 0);
     varbuf_add_str(&hardlinkfn,
                    namenodetouse(linknode, tc->pkg, &tc->pkg->available)->name);
@@ -832,7 +831,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     st = &ti->stat;
 
   usenode = namenodetouse(nifd->namenode, tc->pkg, &tc->pkg->available);
-  usename = usenode->name + 1; /* Skip the leading '/'. */
+  usename = usenode->name;
 
   trig_file_activate(usenode, tc->pkg);
 
@@ -1196,16 +1195,14 @@ tar_writeback_barrier(struct fileinlist *files, struct pkginfo *pkg)
 
   for (cfile = files; cfile; cfile = cfile->next) {
     struct filenamenode *usenode;
-    const char *usename;
     int fd;
 
     if (!(cfile->namenode->flags & fnnf_deferred_fsync))
       continue;
 
     usenode = namenodetouse(cfile->namenode, pkg, &pkg->available);
-    usename = usenode->name + 1; /* Skip the leading '/'. */
 
-    setupfnamevbs(usename);
+    setupfnamevbs(usenode->name);
 
     fd = open(fnamenewvb.buf, O_WRONLY);
     if (fd < 0)
@@ -1230,7 +1227,6 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
 {
   struct fileinlist *cfile;
   struct filenamenode *usenode;
-  const char *usename;
 
   tar_writeback_barrier(files, pkg);
 
@@ -1241,9 +1237,8 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
       continue;
 
     usenode = namenodetouse(cfile->namenode, pkg, &pkg->available);
-    usename = usenode->name + 1; /* Skip the leading '/'. */
 
-    setupfnamevbs(usename);
+    setupfnamevbs(usenode->name);
 
     if (cfile->namenode->flags & fnnf_deferred_fsync) {
       int fd;
@@ -1646,11 +1641,8 @@ archivefiles(const char *const *argv)
   varbuf_reset(&fnamenewvb);
 
   varbuf_add_str(&fnamevb, instdir);
-  varbuf_add_char(&fnamevb, '/');
   varbuf_add_str(&fnametmpvb, instdir);
-  varbuf_add_char(&fnametmpvb, '/');
   varbuf_add_str(&fnamenewvb, instdir);
-  varbuf_add_char(&fnamenewvb, '/');
   fnameidlu= fnamevb.used;
 
   ensure_diversions();

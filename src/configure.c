@@ -716,8 +716,6 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 
 	varbuf_reset(result);
 	varbuf_add_str(result, instdir);
-	if (*in != '/')
-		varbuf_add_char(result, '/');
 	varbuf_add_str(result, in);
 	varbuf_end_str(result);
 
