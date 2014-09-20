@@ -303,6 +303,13 @@ removal_bulk_remove_files(struct pkginfo *pkg)
         }
         if (dir_is_used_by_others(namenode, pkg))
           continue;
+
+        if (strcmp(usenode->name, "/.") == 0) {
+          debug(dbg_eachfiledetail,
+                "removal_bulk '%s' root directory, cannot remove", fnvb.buf);
+          push_leftover(&leftover, namenode);
+          continue;
+        }
       }
 
       trig_path_activate(usenode, pkg);
@@ -335,11 +342,6 @@ removal_bulk_remove_files(struct pkginfo *pkg)
                   "%s - directory may be a mount point?"),
                 pkg_name(pkg, pnaw_nonambig), namenode->name, strerror(errno));
         push_leftover(&leftover,namenode);
-        continue;
-      } else if (errno == EINVAL && strcmp(usenode->name, "/.") == 0) {
-        debug(dbg_eachfiledetail, "removal_bulk '%s' root directory, cannot remove",
-              fnvb.buf);
-        push_leftover(&leftover, namenode);
         continue;
       }
       if (errno != ENOTDIR) ohshite(_("cannot remove `%.250s'"),fnvb.buf);
@@ -410,6 +412,13 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
       }
       if (dir_is_used_by_others(namenode, pkg))
         continue;
+
+      if (strcmp(usenode->name, "/.") == 0) {
+        debug(dbg_eachfiledetail,
+              "removal_bulk '%s' root directory, cannot remove", fnvb.buf);
+        push_leftover(&leftover, namenode);
+        continue;
+      }
     }
 
     trig_path_activate(usenode, pkg);
@@ -426,11 +435,6 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
                 "%s - directory may be a mount point?"),
               pkg_name(pkg, pnaw_nonambig), namenode->name, strerror(errno));
       push_leftover(&leftover,namenode);
-      continue;
-    } else if (errno == EINVAL && strcmp(usenode->name, "/.") == 0) {
-      debug(dbg_eachfiledetail, "removal_bulk '%s' root directory, cannot remove",
-            fnvb.buf);
-      push_leftover(&leftover, namenode);
       continue;
     }
     if (errno != ENOTDIR) ohshite(_("cannot remove `%.250s'"),fnvb.buf);

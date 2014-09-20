@@ -86,6 +86,9 @@ dpkg (1.17.14) UNRELEASED; urgency=low
   * Normalize instdir in dpkg by removing trailing «/» and «/.». This gets
     rid of several inconsistencies and doubled «/» in syscalls and output
     messages.
+  * Never try to remove the root directory or its backups. There's no point in
+    it, and makes life more difficult for a read-only root with a read-write
+    overlay or a symlink farm. Requested by sepero111@gmx.com.
 
   [ Raphaël Hertzog ]
   * Explain better in deb-triggers(5) why interest/activate-noawait should be

@@ -1042,6 +1042,10 @@ void process_archive(const char *filename) {
     if (S_ISDIR(oldfs.st_mode)) {
       trig_path_activate(usenode, pkg);
 
+      /* Do not try to remove the root directory. */
+      if (strcmp(usenode->name, "/.") == 0)
+        continue;
+
       if (rmdir(fnamevb.buf)) {
 	warning(_("unable to delete old directory '%.250s': %s"),
 	        namenode->name, strerror(errno));
@@ -1444,6 +1448,10 @@ void process_archive(const char *filename) {
     if (cfile->namenode->flags & fnnf_new_conff) continue;
 
     usenode = namenodetouse(cfile->namenode, pkg, &pkg->installed);
+
+    /* Do not try to remove backups for the root directory. */
+    if (strcmp(usenode->name, "/.") == 0)
+      continue;
 
     varbuf_trunc(&fnametmpvb, fnameidlu);
     varbuf_add_str(&fnametmpvb, usenode->name);
