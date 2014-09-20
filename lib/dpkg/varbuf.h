@@ -89,6 +89,13 @@ int varbuf_printf(struct varbuf *v, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
 int varbuf_vprintf(struct varbuf *v, const char *fmt, va_list va)
 	DPKG_ATTR_VPRINTF(2);
 
+struct varbuf_state {
+	size_t used;
+};
+
+void varbuf_snapshot(struct varbuf *v, struct varbuf_state *vs);
+void varbuf_rollback(struct varbuf *v, struct varbuf_state *vs);
+
 /** @} */
 
 DPKG_END_DECLS

@@ -3,7 +3,7 @@
  * varbuf.c - variable length expandable buffer handling
  *
  * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
- * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -147,6 +147,18 @@ varbuf_trunc(struct varbuf *v, size_t used_size)
     internerr("varbuf new_used(%zu) > size(%zu)", used_size, v->size);
 
   v->used = used_size;
+}
+
+void
+varbuf_snapshot(struct varbuf *v, struct varbuf_state *vs)
+{
+  vs->used = v->used;
+}
+
+void
+varbuf_rollback(struct varbuf *v, struct varbuf_state *vs)
+{
+  varbuf_trunc(v, vs->used);
 }
 
 char *

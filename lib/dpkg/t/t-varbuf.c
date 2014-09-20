@@ -269,6 +269,37 @@ test_varbuf_reset(void)
 }
 
 static void
+test_varbuf_snapshot(void)
+{
+	struct varbuf vb;
+	struct varbuf_state vbs;
+
+	varbuf_init(&vb, 0);
+
+	test_pass(vb.used == 0);
+	varbuf_snapshot(&vb, &vbs);
+	test_pass(vb.used == 0);
+	test_pass(vb.used == vbs.used);
+
+	varbuf_add_buf(&vb, "1234567890", 10);
+	test_pass(vb.used == 10);
+	varbuf_rollback(&vb, &vbs);
+	test_pass(vb.used == 0);
+
+	varbuf_add_buf(&vb, "1234567890", 10);
+	test_pass(vb.used == 10);
+	varbuf_snapshot(&vb, &vbs);
+	test_pass(vb.used == 10);
+
+	varbuf_add_buf(&vb, "1234567890", 10);
+	test_pass(vb.used == 20);
+	varbuf_rollback(&vb, &vbs);
+	test_pass(vb.used == 10);
+
+	varbuf_destroy(&vb);
+}
+
+static void
 test_varbuf_detach(void)
 {
 	struct varbuf vb;
@@ -291,7 +322,7 @@ test_varbuf_detach(void)
 static void
 test(void)
 {
-	test_plan(99);
+	test_plan(108);
 
 	test_varbuf_init();
 	test_varbuf_prealloc();
@@ -304,6 +335,7 @@ test(void)
 	test_varbuf_end_str();
 	test_varbuf_printf();
 	test_varbuf_reset();
+	test_varbuf_snapshot();
 	test_varbuf_detach();
 
 	/* FIXME: Complete. */

@@ -78,12 +78,12 @@ pkg_infodb_link_multiarch_files(void)
 	struct varbuf pkgname = VARBUF_INIT;
 	struct varbuf oldname = VARBUF_INIT;
 	struct varbuf newname = VARBUF_INIT;
-	size_t db_path_len;
+	struct varbuf_state db_path_state;
 
 	varbuf_add_str(&oldname, pkg_infodb_get_dir());
 	varbuf_add_char(&oldname, '/');
-	db_path_len = oldname.used;
 	varbuf_end_str(&oldname);
+	varbuf_snapshot(&oldname, &db_path_state);
 
 	varbuf_add_buf(&newname, oldname.buf, oldname.used);
 	varbuf_end_str(&newname);
@@ -132,11 +132,11 @@ pkg_infodb_link_multiarch_files(void)
 		/* Skip past the full stop. */
 		filetype = dot + 1;
 
-		varbuf_trunc(&oldname, db_path_len);
+		varbuf_rollback(&oldname, &db_path_state);
 		varbuf_add_str(&oldname, db_de->d_name);
 		varbuf_end_str(&oldname);
 
-		varbuf_trunc(&newname, db_path_len);
+		varbuf_rollback(&newname, &db_path_state);
 		varbuf_add_pkgbin_name(&newname, pkg, &pkg->installed, pnaw_always);
 		varbuf_add_char(&newname, '.');
 		varbuf_add_str(&newname, filetype);

@@ -268,7 +268,7 @@ tarobject_skip_entry(struct tarcontext *tc, struct tar_entry *ti)
   }
 }
 
-int fnameidlu;
+struct varbuf_state fname_state;
 struct varbuf fnamevb;
 struct varbuf fnametmpvb;
 struct varbuf fnamenewvb;
@@ -549,16 +549,16 @@ tarobject_matches(struct tarcontext *tc,
 }
 
 void setupfnamevbs(const char *filename) {
-  varbuf_trunc(&fnamevb, fnameidlu);
+  varbuf_rollback(&fnamevb, &fname_state);
   varbuf_add_str(&fnamevb, filename);
   varbuf_end_str(&fnamevb);
 
-  varbuf_trunc(&fnametmpvb, fnameidlu);
+  varbuf_rollback(&fnametmpvb, &fname_state);
   varbuf_add_str(&fnametmpvb, filename);
   varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
   varbuf_end_str(&fnametmpvb);
 
-  varbuf_trunc(&fnamenewvb, fnameidlu);
+  varbuf_rollback(&fnamenewvb, &fname_state);
   varbuf_add_str(&fnamenewvb, filename);
   varbuf_add_str(&fnamenewvb, DPKGNEWEXT);
   varbuf_end_str(&fnamenewvb);
@@ -1519,7 +1519,8 @@ archivefiles(const char *const *argv)
   varbuf_add_str(&fnamevb, instdir);
   varbuf_add_str(&fnametmpvb, instdir);
   varbuf_add_str(&fnamenewvb, instdir);
-  fnameidlu= fnamevb.used;
+
+  varbuf_snapshot(&fnamevb, &fname_state);
 
   ensure_diversions();
   ensure_statoverrides(STATDB_PARSE_NORMAL);

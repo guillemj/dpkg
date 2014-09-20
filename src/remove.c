@@ -57,7 +57,7 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
   struct deppossi *possi;
   struct pkginfo *depender;
   enum dep_check ok;
-  int before;
+  struct varbuf_state raemsgs_state;
 
   for (possi = pkgdepcheck->depended.installed; possi; possi = possi->rev_next) {
     if (possi->up->type != dep_depends && possi->up->type != dep_predepends) continue;
@@ -72,14 +72,14 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
       continue;
     }
     if (dependtry > 1) { if (findbreakcycle(pkgtoremove)) sincenothing= 0; }
-    before= raemsgs->used;
+    varbuf_snapshot(raemsgs, &raemsgs_state);
     ok= dependencies_ok(depender,pkgtoremove,raemsgs);
     if (ok == DEP_CHECK_HALT &&
         depender->clientdata->istobe == PKG_ISTOBE_REMOVE)
       ok = DEP_CHECK_DEFER;
     if (ok == DEP_CHECK_DEFER)
       /* Don't burble about reasons for deferral. */
-      varbuf_trunc(raemsgs, before);
+      varbuf_rollback(raemsgs, &raemsgs_state);
     if (ok < *rokp) *rokp= ok;
   }
 }
@@ -247,11 +247,11 @@ removal_bulk_file_is_shared(struct pkginfo *pkg, struct filenamenode *namenode)
 static void
 removal_bulk_remove_files(struct pkginfo *pkg)
 {
-  int before;
   struct reversefilelistiter rlistit;
   struct fileinlist *leftover;
   struct filenamenode *namenode;
   static struct varbuf fnvb;
+  struct varbuf_state fnvb_state;
   struct stat stab;
 
     pkg_set_status(pkg, PKG_STAT_HALFINSTALLED);
@@ -273,7 +273,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
       varbuf_add_str(&fnvb, instdir);
       varbuf_add_str(&fnvb, usenode->name);
       varbuf_end_str(&fnvb);
-      before= fnvb.used;
+      varbuf_snapshot(&fnvb, &fnvb_state);
 
       is_dir = stat(fnvb.buf, &stab) == 0 && S_ISDIR(stab.st_mode);
 
@@ -315,19 +315,19 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 
       trig_path_activate(usenode, pkg);
 
-      varbuf_trunc(&fnvb, before);
+      varbuf_rollback(&fnvb, &fnvb_state);
       varbuf_add_str(&fnvb, DPKGTEMPEXT);
       varbuf_end_str(&fnvb);
       debug(dbg_eachfiledetail, "removal_bulk cleaning temp '%s'", fnvb.buf);
       path_remove_tree(fnvb.buf);
 
-      varbuf_trunc(&fnvb, before);
+      varbuf_rollback(&fnvb, &fnvb_state);
       varbuf_add_str(&fnvb, DPKGNEWEXT);
       varbuf_end_str(&fnvb);
       debug(dbg_eachfiledetail, "removal_bulk cleaning new '%s'", fnvb.buf);
       path_remove_tree(fnvb.buf);
 
-      varbuf_trunc(&fnvb, before);
+      varbuf_rollback(&fnvb, &fnvb_state);
       varbuf_end_str(&fnvb);
 
       debug(dbg_eachfiledetail, "removal_bulk removing '%s'", fnvb.buf);
@@ -462,7 +462,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
 
 static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
   static const char *const removeconffexts[] = { REMOVECONFFEXTS, NULL };
-  int rc, removevbbase;
+  int rc;
   int conffnameused, conffbasenamelen;
   char *conffbasename;
   struct conffile *conff, **lconffp;
@@ -515,6 +515,8 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
 
     for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
     static struct varbuf fnvb, removevb;
+      struct varbuf_state removevb_state;
+
       if (conff->obsolete) {
 	debug(dbg_conffdetail, "removal_bulk conffile obsolete %s",
 	      conff->name);
@@ -534,8 +536,9 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       varbuf_reset(&removevb);
       varbuf_add_str(&removevb, fnvb.buf);
       varbuf_add_char(&removevb, '/');
-      removevbbase= removevb.used;
       varbuf_end_str(&removevb);
+      varbuf_snapshot(&removevb, &removevb_state);
+
       dsd= opendir(removevb.buf);
       if (!dsd) {
         int e=errno;
@@ -574,7 +577,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
         debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry not it");
         continue;
       yes_remove:
-        varbuf_trunc(&removevb, removevbbase);
+        varbuf_rollback(&removevb, &removevb_state);
         varbuf_add_str(&removevb, de->d_name);
         varbuf_end_str(&removevb);
         debug(dbg_conffdetail, "removal_bulk conffile dsd entry removing '%s'",

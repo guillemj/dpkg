@@ -59,9 +59,9 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 {
 	DIR *db_dir;
 	struct dirent *db_de;
+	struct varbuf_state db_path_state;
 	struct varbuf db_path = VARBUF_INIT;
 	const char *pkgname;
-	size_t db_path_len;
 	enum pkg_infodb_format db_format;
 
 	/* Make sure to always read and verify the format version. */
@@ -76,7 +76,7 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	varbuf_add_str(&db_path, pkg_infodb_get_dir());
 	varbuf_add_char(&db_path, '/');
 	varbuf_end_str(&db_path);
-	db_path_len = db_path.used;
+	varbuf_snapshot(&db_path, &db_path_state);
 
 	db_dir = opendir(db_path.buf);
 	if (!db_dir)
@@ -108,7 +108,7 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 		/* Skip past the full stop. */
 		filetype = dot + 1;
 
-		varbuf_trunc(&db_path, db_path_len);
+		varbuf_rollback(&db_path, &db_path_state);
 		varbuf_add_str(&db_path, db_de->d_name);
 		varbuf_end_str(&db_path);
 		filename = db_path.buf;

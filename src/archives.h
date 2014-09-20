@@ -40,7 +40,7 @@ struct pkg_deconf_list {
   struct pkginfo *pkg_removal;
 };
 
-extern int fnameidlu;
+extern struct varbuf_state fname_state;
 extern struct varbuf fnamevb;
 extern struct varbuf fnametmpvb;
 extern struct varbuf fnamenewvb;

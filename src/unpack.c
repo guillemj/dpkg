@@ -1022,7 +1022,7 @@ void process_archive(const char *filename) {
 
     usenode = namenodetouse(namenode, pkg, &pkg->installed);
 
-    varbuf_trunc(&fnamevb, fnameidlu);
+    varbuf_rollback(&fnamevb, &fname_state);
     varbuf_add_str(&fnamevb, usenode->name);
     varbuf_end_str(&fnamevb);
 
@@ -1454,7 +1454,7 @@ void process_archive(const char *filename) {
     if (strcmp(usenode->name, "/.") == 0)
       continue;
 
-    varbuf_trunc(&fnametmpvb, fnameidlu);
+    varbuf_rollback(&fnametmpvb, &fname_state);
     varbuf_add_str(&fnametmpvb, usenode->name);
     varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
     varbuf_end_str(&fnametmpvb);
