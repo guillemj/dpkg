@@ -75,8 +75,8 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 	varbuf_add_str(&db_path, pkg_infodb_get_dir());
 	varbuf_add_char(&db_path, '/');
+	varbuf_end_str(&db_path);
 	db_path_len = db_path.used;
-	varbuf_add_char(&db_path, '\0');
 
 	db_dir = opendir(db_path.buf);
 	if (!db_dir)
