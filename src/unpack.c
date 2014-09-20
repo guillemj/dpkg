@@ -1440,10 +1440,14 @@ void process_archive(const char *filename) {
    * They stay recorded as obsolete conffiles and will eventually
    * (if not taken over by another package) be forgotten. */
   for (cfile= newfileslist; cfile; cfile= cfile->next) {
+    struct filenamenode *usenode;
+
     if (cfile->namenode->flags & fnnf_new_conff) continue;
+
+    usenode = namenodetouse(cfile->namenode, pkg, &pkg->installed);
+
     varbuf_trunc(&fnametmpvb, fnameidlu);
-    varbuf_add_str(&fnametmpvb,
-                   namenodetouse(cfile->namenode, pkg, &pkg->installed)->name);
+    varbuf_add_str(&fnametmpvb, usenode->name);
     varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
     varbuf_end_str(&fnametmpvb);
     ensure_pathname_nonexisting(fnametmpvb.buf);
