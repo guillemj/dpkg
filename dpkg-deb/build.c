@@ -121,8 +121,6 @@ file_info_get(const char *root, int fd)
       break;
 
     varbuf_trunc(&fn, fn.used + 1);
-    if (fn.used >= MAXFILENAME)
-      ohshit(_("file name '%.50s...' is too long"), fn.buf + root_len);
   }
 
   fi = file_info_new(fn.buf + root_len);
