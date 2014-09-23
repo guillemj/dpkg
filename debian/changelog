@@ -91,6 +91,9 @@ dpkg (1.17.14) UNRELEASED; urgency=low
     overlay or a symlink farm. Requested by sepero111@gmx.com.
   * Remove arbitrary filename limit from dpkg-deb, which was lifted some
     time ago when the code switched to a dynamic string via varbuf.
+  * Do not pipe the files to sign from dpkg-buildpackage to GnuPG. When GnuPG
+    uses the gpg-agent it is unable to detect the correct tty configuration
+    if stdin is a pipe instead of the current terminal. Closes: #762391
 
   [ Raphaël Hertzog ]
   * Explain better in deb-triggers(5) why interest/activate-noawait should be

@@ -25,7 +25,9 @@ use warnings;
 
 use Carp;
 use Cwd;
+use File::Temp qw(tempdir);
 use File::Basename;
+use File::Copy;
 use POSIX qw(:sys_wait_h);
 
 use Dpkg ();
@@ -663,21 +665,27 @@ sub run_hook {
 
 sub signfile {
     my ($file) = @_;
-    print { *STDERR } " signfile $file\n";
-    my $qfile = quotemeta($file);
 
-    system("(cat ../$qfile ; echo '') | " .
-           "$signcommand --utf8-strings --local-user " .
-           quotemeta($signkey || $maintainer) .
-           " --clearsign --armor --textmode  > ../$qfile.asc");
+    print { *STDERR } " signfile $file\n";
+
+    my $signdir = tempdir('dpkg-sign.XXXXXXXX', CLEANUP => 1);
+    my $signfile = "$signdir/$file";
+
+    # Make sure the file to sign ends with a newline.
+    copy("../$file", $signfile);
+    open my $signfh, '>>', $signfile or syserr(_g('cannot open %s'), $signfile);
+    print { $signfh } "\n";
+    close $signfh or syserr(_g('cannot close %s'), $signfile);
+
+    system($signcommand, '--utf8-strings', '--textmode', '--armor',
+           '--local-user', $signkey || $maintainer, '--clearsign',
+           '--output', "$signfile.asc", $signfile);
     my $status = $?;
-    unless ($status) {
-	system('mv', '--', "../$file.asc", "../$file")
+    if ($status == 0) {
+	system('mv', '--', "$signfile.asc", "../$file")
 	    and subprocerr('mv');
-    } else {
-	system('rm', '-f', "../$file.asc")
-	    and subprocerr('rm -f');
     }
+
     print "\n";
     return $status
 }
