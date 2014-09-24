@@ -50,7 +50,7 @@ sub usage {
   -l                 list variables (default).
   -L                 list valid architectures (matching some criteria).
   -e<debian-arch>    compare with host Debian architecture.
-  -i<arch-alias>     check if host Debian architecture is <arch-alias>.
+  -i<arch-wildcard>  check if host Debian architecture is <arch-wildcard>.
   -q<variable>       prints only the value of <variable>.
   -s                 print command to set environment variables.
   -u                 print command to unset environment variables.
