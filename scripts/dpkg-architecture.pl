@@ -48,7 +48,7 @@ sub usage {
     . "\n\n" . _g(
 'Commands:
   -l                 list variables (default).
-  -L                 list valid architectures.
+  -L                 list valid architectures (matching some criteria).
   -e<debian-arch>    compare with host Debian architecture.
   -i<arch-alias>     check if host Debian architecture is <arch-alias>.
   -q<variable>       prints only the value of <variable>.
@@ -63,6 +63,9 @@ sub usage {
   -t<gnu-system>     set host GNU system type.
   -A<debian-arch>    set target Debian architecture.
   -T<gnu-system>     set target GNU system type.
+  -W<arch-wildcard>  restrict listed architectures matching <arch-wildcard>.
+  -B<arch-bits>      restrict listed architectures matching <arch-bits>.
+  -E<arch-endian>    restrict listed architectures matching <arch-endian>.
   -f                 force flag (override variables set in environment).')
     . "\n", $Dpkg::PROGNAME;
 }
@@ -151,6 +154,9 @@ my $req_target_arch = '';
 my $req_target_gnu_type = '';
 my $req_eq_arch = '';
 my $req_is_arch = '';
+my $req_match_wildcard = '';
+my $req_match_bits = '';
+my $req_match_endian = '';
 my $req_variable_to_print;
 my $action = 'l';
 my $force = 0;
@@ -170,6 +176,12 @@ while (@ARGV) {
 	$req_target_arch = ${^POSTMATCH};
     } elsif (m/^-T/p) {
 	$req_target_gnu_type = ${^POSTMATCH};
+    } elsif (m/^-W/p) {
+	$req_match_wildcard = ${^POSTMATCH};
+    } elsif (m/^-B/p) {
+	$req_match_bits = ${^POSTMATCH};
+    } elsif (m/^-E/p) {
+	$req_match_endian = ${^POSTMATCH};
     } elsif (m/^-e/p) {
 	$req_eq_arch = ${^POSTMATCH};
 	$req_vars = $arch_vars{DEB_HOST_ARCH};
@@ -334,6 +346,12 @@ if ($action eq 'l') {
     print "$v{$req_variable_to_print}\n";
 } elsif ($action eq 'L') {
     foreach my $arch (get_valid_arches()) {
-       print "$arch\n";
+        my ($bits, $endian) = debarch_to_cpuattrs($arch);
+
+        next if $req_match_endian and $endian ne $req_match_endian;
+        next if $req_match_bits and $bits ne $req_match_bits;
+        next if $req_match_wildcard and not debarch_is($arch, $req_match_wildcard);
+
+        print "$arch\n";
     }
 }

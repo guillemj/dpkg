@@ -81,6 +81,8 @@ the determined value.
 .TP
 .B \-L
 Print a list of valid architecture names.
+Possibly restricted by one or more of the matching options \fB\-W\fP,
+\fB\-B\fP or \fB\-E\fP (since dpkg 1.17.14).
 .TP
 .BR \-? ", " \-\-help
 Show the usage message and exit.
@@ -103,6 +105,18 @@ run on the host architecture, and to build code for the target architecture.
 .TP
 .BI \-T gnu-system-type
 Set the target GNU system type.
+.TP
+.BI \-W architecture-wildcard
+Restrict the architectures listed by \fB\-L\fP to ones matching the specified
+architecture wildcard (since dpkg 1.17.14).
+.TP
+.BI \-B architecture-bits
+Restrict the architectures listed by \fB\-L\fP to ones with the specified
+CPU bits (since dpkg 1.17.14). Either \fB32\fP or \fB64\fP.
+.TP
+.BI \-E architecture-endianness
+Restrict the architectures listed by \fB\-L\fP to ones with the specified
+endianness (since dpkg 1.17.14). Either \fBlittle\fP or \fBbig\fP.
 .TP
 .B \-f
 Values set by existing environment variables with the same name as used by
