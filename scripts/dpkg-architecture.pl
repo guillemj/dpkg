@@ -67,13 +67,6 @@ sub usage {
     . "\n", $Dpkg::PROGNAME;
 }
 
-sub list_arches()
-{
-    foreach my $arch (get_valid_arches()) {
-	print "$arch\n";
-    }
-}
-
 sub check_arch_coherency
 {
     my ($arch, $gnu_type) = @_;
@@ -204,8 +197,8 @@ while (@ARGV) {
        $action = 'c';
        last;
     } elsif (m/^-L$/) {
-        list_arches();
-        exit unless @ARGV;
+        $req_vars = 0;
+        $action = 'L';
     } elsif (m/^-(?:\?|-help)$/) {
         usage();
        exit 0;
@@ -339,4 +332,8 @@ if ($action eq 'l') {
     exec @ARGV;
 } elsif ($action eq 'q') {
     print "$v{$req_variable_to_print}\n";
+} elsif ($action eq 'L') {
+    foreach my $arch (get_valid_arches()) {
+       print "$arch\n";
+    }
 }
