@@ -48,6 +48,7 @@ my %options = (help            => sub { usage(); exit 0; },
 	       version         => \&version,
 	       type            => undef,
 	       arch            => undef,
+	       hash            => undef,
 	       multiversion    => 0,
 	       'extra-override'=> undef,
                medium          => undef,
@@ -58,6 +59,7 @@ my @options_spec = (
     'version',
     'type|t=s',
     'arch|a=s',
+    'hash|h=s',
     'multiversion|m!',
     'extra-override|e=s',
     'medium|M=s',
@@ -75,6 +77,7 @@ sub usage {
 Options:
   -t, --type <type>        scan for <type> packages (default is 'deb').
   -a, --arch <arch>        architecture to scan for.
+  -h, --hash <hash-list>   only generate hashes for the specified list.
   -m, --multiversion       allow multiple versions of a single package.
   -e, --extra-override <file>
                            use extra override file.
@@ -163,6 +166,13 @@ if (not (@ARGV >= 1 and @ARGV <= 3)) {
 
 my $type = $options{type} // 'deb';
 my $arch = $options{arch};
+my %hash = map { $_ => 1 } split /,/, $options{hash} // '';
+
+foreach my $alg (keys %hash) {
+    if (not checksums_is_supported($alg)) {
+        usageerr(_g('unsupported checksum \'%s\''), $alg);
+    }
+}
 
 my @find_args;
 if ($options{arch}) {
@@ -233,6 +243,8 @@ FILE:
         my $sums = Dpkg::Checksums->new();
 	$sums->add_from_file($fn);
         foreach my $alg (checksums_get_list()) {
+            next if %hash and not $hash{$alg};
+
             if ($alg eq 'md5') {
 	        $fields->{'MD5sum'} = $sums->get_checksum($fn, $alg);
             } else {
