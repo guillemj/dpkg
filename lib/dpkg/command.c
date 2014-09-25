@@ -77,6 +77,9 @@ command_destroy(struct command *cmd)
 static void
 command_grow_argv(struct command *cmd, int need)
 {
+	/* We need a ghost byte for the NUL character. */
+	need++;
+
 	/* Check if we already have enough room. */
 	if ((cmd->argv_size - cmd->argc) >= need)
 		return;
