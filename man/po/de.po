@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-08-22 09:17+0200\n"
-"PO-Revision-Date: 2014-08-22 09:54+0200\n"
+"POT-Creation-Date: 2014-09-25 23:06+0200\n"
+"PO-Revision-Date: 2014-09-25 23:24+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -310,7 +310,7 @@ msgstr "application/x-deb"
 #: deb.5:117 deb-control.5:288 deb-src-control.5:371 deb-split.5:67
 #: deb-version.5:131 deb-old.5:70 deb-origin.5:56 deb-override.5:66
 #: deb-extra-override.5:54 deb-shlibs.5:66 deb-substvars.5:168
-#: deb-symbols.5:88 deb-triggers.5:85 dpkg.1:893 dpkg-architecture.1:263
+#: deb-symbols.5:88 deb-triggers.5:92 dpkg.1:893 dpkg-architecture.1:263
 #: dpkg.cfg.5:41 dpkg-buildpackage.1:374 dpkg-deb.1:299 dpkg-divert.8:153
 #: dpkg-gensymbols.1:487 dpkg-name.1:109 dpkg-query.1:294
 #: dpkg-scanpackages.1:113 dpkg-scansources.1:90 dpkg-shlibdeps.1:364
@@ -3298,7 +3298,25 @@ msgstr ""
 "verhindert."
 
 #. type: Plain text
-#: deb-triggers.5:84
+#: deb-triggers.5:86
+msgid ""
+"The \"-noawait\" variants should always be favored when possible since "
+"triggering packages are not put in triggers-awaited state and can thus be "
+"immediately configured without requiring the processing of the trigger.  If "
+"the triggering packages are dependencies of other upgraded packages, it will "
+"avoid an early trigger processing run and make it possible to run the "
+"trigger only once as one of the last steps of the upgrade."
+msgstr ""
+"Die Variante »-noawait« sollte stets wenn möglich bevorzugt werden, da die "
+"Trigger-auslösenden Pakete nicht in den Zustand »triggers-awaited« überführt "
+"werden und daher sofort konfiguriert werden können, ohne die Verarbeitung des "
+"Triggers zu verlangen. Falls die Trigger-auslösenden Pakete Abhängigkeiten "
+"von anderen, im Upgrade befindlichen Paketen sind, wird dies einen "
+"frühzeitigen Lauf der Trigger-Verarbeitung vermeiden und es ermöglichen, den "
+"Trigger nur einmal als einen der letzten Schrittes des Upgrades auszuführen."
+
+#. type: Plain text
+#: deb-triggers.5:91
 msgid ""
 "The \"-noawait\" variants are only supported since dpkg 1.16.1, and will "
 "lead to errors if used with an older dpkg. It is thus recommended to add a "
@@ -3311,7 +3329,7 @@ msgstr ""
 "Direktiven nutzen möchte."
 
 #. type: Plain text
-#: deb-triggers.5:88
+#: deb-triggers.5:95
 msgid ""
 "B<dpkg-trigger>(1), B<dpkg>(1), B</usr/share/doc/dpkg-dev/triggers.txt.gz>."
 msgstr ""
@@ -3846,7 +3864,6 @@ msgstr ""
 "aber in der Datei I</var/lib/dpkg/status> zum vollständigen Löschen "
 "vorgemerkt sind, vollständig gelöscht."
 
-
 #. type: Plain text
 #: dpkg.1:214
 msgid ""
@@ -3876,8 +3893,8 @@ msgid ""
 "B<1.> Remove the package, if not already removed. See B<--remove> for "
 "detailed information about how this is done."
 msgstr ""
-"B<1.> Entfernen des Pakets, falls es noch nicht entfernt ist. Lesen Sie "
-"B<--remove> für detaillierte Informationen, wie dies erfolgt."
+"B<1.> Entfernen des Pakets, falls es noch nicht entfernt ist. Lesen Sie B<--"
+"remove> für detaillierte Informationen, wie dies erfolgt."
 
 #. type: Plain text
 #: dpkg.1:223
@@ -12250,9 +12267,9 @@ msgid ""
 "directory at the end of the installation) and I<old-target> the absolute "
 "target name of the former symlink at I<pathname>."
 msgstr ""
-"I<Pfadname> ist der absolute Name des alten Symlinks (der Pfad wird am Ende der "
-"Installation ein Verzeichnis sein) und I<altes_Ziel> der absolute Name des Ziels des bisherigen "
-"Symlinks unter I<Pfadname>."
+"I<Pfadname> ist der absolute Name des alten Symlinks (der Pfad wird am Ende "
+"der Installation ein Verzeichnis sein) und I<altes_Ziel> der absolute Name "
+"des Ziels des bisherigen Symlinks unter I<Pfadname>."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:183
@@ -12321,9 +12338,9 @@ msgid ""
 "the new symlink at I<pathname>. It can either be absolute or relative to the "
 "directory containing I<pathname>."
 msgstr ""
-"I<Pfadname> ist der absolute Name des alten Verzeichnisses (der Pfad wird am Ende der "
-"Installation ein Symlink sein) und I<neues_Ziel> ist das Ziel des neuen "
-"Symlinks unter I<Pfadname>. Es kann entweder absolut oder relativ zum "
+"I<Pfadname> ist der absolute Name des alten Verzeichnisses (der Pfad wird am "
+"Ende der Installation ein Symlink sein) und I<neues_Ziel> ist das Ziel des "
+"neuen Symlinks unter I<Pfadname>. Es kann entweder absolut oder relativ zum "
 "Verzeichnis, das I<Pfadname> enthält, sein."
 
 #. type: Plain text
@@ -13892,9 +13909,9 @@ msgstr ""
 "${Version}\\en>\\(rq. Tatsächlich können auch alle anderen Felder, die in "
 "der Statusdatei gefunden werden können (d.h. benutzerdefinierte Felder), "
 "abgefragt werden. Sie werden so dargestellt, wie sie gefunden werden, es "
-"erfolgt keine Umwandlung oder Fehlerüberprüfung. Um den Namen des "
-"B<dpkg>-Betreuers und die installierte Version zu erhalten, könnten Sie "
-"folgendes ausführen:"
+"erfolgt keine Umwandlung oder Fehlerüberprüfung. Um den Namen des B<dpkg>-"
+"Betreuers und die installierte Version zu erhalten, könnten Sie folgendes "
+"ausführen:"
 
 #. type: Plain text
 #: dpkg-query.1:272
