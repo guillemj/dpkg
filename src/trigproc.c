@@ -294,7 +294,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 
 	/* We give up on the _earliest_ package involved. */
 	giveup = tortoise->pkgs->pkg;
-	debug(dbg_triggers, "check_triggers_cycle pnow=%s giveup=%p",
+	debug(dbg_triggers, "check_triggers_cycle pnow=%s giveup=%s",
 	      pkg_name(processing_now, pnaw_always),
 	      pkg_name(giveup, pnaw_always));
 	assert(giveup->status == PKG_STAT_TRIGGERSAWAITED ||

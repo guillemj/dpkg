@@ -327,8 +327,8 @@ void oldconffsetflags(const struct conffile *searchconff) {
     namenode->flags |= fnnf_old_conff;
     if (!namenode->oldhash)
       namenode->oldhash= searchconff->hash;
-    debug(dbg_conffdetail, "oldconffsetflags '%s' namenode %p flags %o",
-          searchconff->name, namenode, namenode->flags);
+    debug(dbg_conffdetail, "oldconffsetflags '%s' namenode '%s' flags %o",
+          searchconff->name, namenode->name, namenode->flags);
     searchconff= searchconff->next;
   }
 }
