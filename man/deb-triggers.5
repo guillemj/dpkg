@@ -1,7 +1,7 @@
 .\" dpkg manual page - deb-triggers(5)
 .\"
 .\" Copyright © 2008, 2013 Guillem Jover <guillem@debian.org>
-.\" Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
+.\" Copyright © 2011, 2014 Raphaël Hertzog <hertzog@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -76,6 +76,13 @@ versions of the package will be activated.
 .PP
 Unknown directives are an error which will prevent installation of the
 package.
+.PP
+The "\-noawait" variants should always be favored when possible since
+triggering packages are not put in triggers\-awaited state and can thus
+be immediately configured without requiring the processing of the trigger.
+If the triggering packages are dependencies of other upgraded packages,
+it will avoid an early trigger processing run and make it possible
+to run the trigger only once as one of the last steps of the upgrade.
 .PP
 The "\-noawait" variants are only supported since dpkg 1.16.1, and
 will lead to errors if used with an older dpkg. It is thus recommended
