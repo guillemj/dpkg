@@ -21,7 +21,7 @@ use Test::More tests => 3;
 use Dpkg::IPC;
 use File::Spec;
 use File::Compare;
-use File::Temp qw(tempfile);
+use File::Temp;
 
 my $srcdir = $ENV{srcdir} || '.';
 my $datadir = "$srcdir/t/merge_changelogs";
@@ -29,16 +29,15 @@ my $datadir = "$srcdir/t/merge_changelogs";
 my $res;
 sub test_merge {
     my ($expected_file, @options) = @_;
-    my ($fh, $filename) = tempfile();
+    my $fh = File::Temp->new();
     spawn(exec => ["$srcdir/dpkg-mergechangelogs.pl", @options],
 	  to_handle => $fh, error_to_file => '/dev/null',
 	  wait_child => 1, nocheck => 1);
-    my $res = compare($expected_file, $filename);
+    my $res = compare($expected_file, $fh->filename);
     if ($res) {
-	system("diff -u $expected_file $filename >&2");
+	system("diff -u $expected_file $fh->filename >&2");
     }
     ok($res == 0, "merged changelog matches expected one ($expected_file)");
-    unlink($filename);
 }
 
 my $has_alg_merge = 1;

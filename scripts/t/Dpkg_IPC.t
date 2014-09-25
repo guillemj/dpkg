@@ -23,8 +23,8 @@ use_ok('Dpkg::IPC');
 
 $/ = undef;
 
-my ($tmp1_fh, $tmp1_name) = tempfile;
-my ($tmp2_fh, $tmp2_name) = tempfile;
+my ($tmp1_fh, $tmp1_name) = tempfile(UNLINK => 1);
+my ($tmp2_fh, $tmp2_name) = tempfile(UNLINK => 1);
 my $tmp_fh;
 
 my $string1 = "foo\nbar\n";
@@ -79,6 +79,3 @@ eval {
 	         timeout => 5);
 };
 ok($@, 'fails on timeout');
-
-unlink($tmp1_name);
-unlink($tmp2_name);
