@@ -114,6 +114,9 @@ dpkg (1.17.14) UNRELEASED; urgency=low
   * Switch the dpkg files database string hashing function from what appears
     to be a custom hash function to the libdpkg FNV-1a implementation. As a
     side effect this fixes an integer overflow. Addresses: #760741
+  * Double the dpkg files database hash table size to the closest 2^18 prime.
+    Times have changed, and it's common to have at least these many files.
+    This reduces the amount of collisions.
 
   [ Raphaël Hertzog ]
   * Explain better in deb-triggers(5) why interest/activate-noawait should be

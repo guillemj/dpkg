@@ -525,8 +525,8 @@ struct fileiterator {
 };
 
 /* This must always be a prime for optimal performance.
- * This is the closest one to 2^17 (131072). */
-#define BINS 131071
+ * This is the closest one to 2^18 (262144). */
+#define BINS 262139
 
 static struct filenamenode *bins[BINS];
 
