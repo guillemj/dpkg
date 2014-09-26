@@ -32,34 +32,17 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 #include <dpkg/arch.h>
 
 /* This must always be a prime for optimal performance.
  * With 4093 buckets, we glean a 20% speedup, for 8191 buckets
  * we get 23%. The nominal increase in memory usage is a mere
- * sizeof(void *) * 8063 (i.e. less than 32 KiB on 32bit systems). */
+ * sizeof(void *) * 8191 (i.e. less than 32 KiB on 32bit systems). */
 #define BINS 8191
 
 static struct pkgset *bins[BINS];
 static int npkg, nset;
-
-#define FNV_offset_basis 2166136261ul
-#define FNV_mixing_prime 16777619ul
-
-/**
- * Fowler/Noll/Vo -- simple string hash.
- *
- * For more info, see <http://www.isthe.com/chongo/tech/comp/fnv/index.html>.
- */
-static unsigned int hash(const char *name) {
-  register unsigned int h = FNV_offset_basis;
-  register unsigned int p = FNV_mixing_prime;
-  while( *name ) {
-    h *= p;
-    h ^= *name++;
-  }
-  return h;
-}
 
 /**
  * Return the package set with the given name.
@@ -86,7 +69,7 @@ pkg_db_find_set(const char *inname)
   p= name;
   while(*p) { *p= tolower(*p); p++; }
 
-  setp = bins + (hash(name) % (BINS));
+  setp = bins + (str_fnv_hash(name) % (BINS));
   while (*setp && strcasecmp((*setp)->name, name))
     setp = &(*setp)->next;
   if (*setp) {

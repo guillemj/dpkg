@@ -84,6 +84,7 @@ libdpkg_la_SOURCES = \
 	progress.c \
 	report.c \
 	string.c \
+	strhash.c \
 	strwide.c \
 	subproc.c \
 	tarfn.c \

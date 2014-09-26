@@ -54,6 +54,8 @@ str_is_set(const char *str)
 
 bool str_match_end(const char *str, const char *end);
 
+unsigned int str_fnv_hash(const char *str);
+
 char *str_escape_fmt(char *dest, const char *src, size_t n);
 char *str_quote_meta(const char *src);
 char *str_strip_quotes(char *str);
