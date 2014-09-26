@@ -27,6 +27,7 @@ DPKG_BUILDFLAGS_EXPORT_ENVVAR += $(1)="$(value $(1))"
 endif
 endef
 
+$(eval $(call dpkg_buildflags_export_envvar,DEB_BUILD_OPTIONS))
 $(eval $(call dpkg_buildflags_export_envvar,DEB_BUILD_MAINT_OPTIONS))
 $(foreach flag,$(DPKG_BUILDFLAGS_LIST),\
   $(foreach operation,SET STRIP APPEND PREPEND,\
