@@ -198,8 +198,8 @@ to support other languages).
 .
 .SH FEATURE AREAS
 .P
-Each area feature can be enabled and disabled in the
-\fBDEB_BUILD_MAINT_OPTIONS\fP environment variable's area value with the
+Each area feature can be enabled and disabled in the \fBDEB_BUILD_OPTIONS\fP
+and \fBDEB_BUILD_MAINT_OPTIONS\fP environment variable's area value with the
 "+" and "\-" modifier.
 For example, to enable the \fBhardening\fP "pie" feature and disable the
 "fortify" feature you can do this in \fBdebian/rules\fP:
@@ -372,10 +372,14 @@ returned for the given \fIflag\fP.
 This variable can be used to prepend supplementary options to the value
 returned for the given \fIflag\fP.
 .TP
+.B DEB_BUILD_OPTIONS
+.TQ
 .B DEB_BUILD_MAINT_OPTIONS
-This variable can be used to disable/enable various hardening build
-flags through the \fBhardening\fP option. See the \fBFEATURE AREAS\fP section
-for details.
+These variables can be used by a user or maintainer to disable/enable
+various area features that affect build flags.
+The \fBDEB_BUILD_MAINT_OPTIONS\fP variable overrides any setting in the
+\fBDEB_BUILD_OPTIONS\fP feature areas.
+See the \fBFEATURE AREAS\fP section for details.
 .
 .SH FILES
 .SS Configuration files

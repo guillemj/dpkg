@@ -74,11 +74,11 @@ sub run_hook {
     }
 }
 
-sub _parse_feature_area {
-    my ($self, $area, $use_feature) = @_;
+sub _parse_build_options {
+    my ($self, $variable, $area, $use_feature) = @_;
 
-    # Adjust features based on Maintainer's desires.
-    my $opts = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_MAINT_OPTIONS');
+    # Adjust features based on user or maintainer's desires.
+    my $opts = Dpkg::BuildOptions->new(envvar => $variable);
     foreach my $feature (split(/,/, $opts->get($area) // '')) {
 	$feature = lc($feature);
 	if ($feature =~ s/^([+-])//) {
@@ -89,14 +89,22 @@ sub _parse_feature_area {
 		if (exists $use_feature->{$feature}) {
 		    $use_feature->{$feature} = $value;
 		} else {
-		    warning(_g('unknown %s feature: %s'), $area, $feature);
+		    warning(_g('unknown %s feature in %s variable: %s'),
+		            $area, $variable, $feature);
 		}
 	    }
 	} else {
-	    warning(_g('incorrect value in %s option of ' .
-	               'DEB_BUILD_MAINT_OPTIONS: %s'), $area, $feature);
+	    warning(_g('incorrect value in %s option of %s variable: %s'),
+	            $area, $variable, $feature);
 	}
     }
+}
+
+sub _parse_feature_area {
+    my ($self, $area, $use_feature) = @_;
+
+    $self->_parse_build_options('DEB_BUILD_OPTIONS', $area, $use_feature);
+    $self->_parse_build_options('DEB_BUILD_MAINT_OPTIONS', $area, $use_feature);
 }
 
 sub _add_qa_flags {
