@@ -44,6 +44,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 #include <dpkg/path.h>
 #include <dpkg/dir.h>
 #include <dpkg/fdio.h>
@@ -523,9 +524,9 @@ struct fileiterator {
   int nbinn;
 };
 
-/* This must always be a power of two. If you change it consider changing
- * the per-character hashing factor (currently 1785 = 137 * 13) too. */
-#define BINS (1 << 17)
+/* This must always be a prime for optimal performance.
+ * This is the closest one to 2^17 (131072). */
+#define BINS 131071
 
 static struct filenamenode *bins[BINS];
 
@@ -576,12 +577,6 @@ void filesdbinit(void) {
     }
 }
 
-static int hash(const char *name) {
-  int v= 0;
-  while (*name) { v *= 1787; v += *name; name++; }
-  return v;
-}
-
 struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   struct filenamenode **pointerp, *newnode;
   const char *orig_name = name;
@@ -590,7 +585,7 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
    * leading slash. */
   name = path_skip_slash_dotslash(name);
 
-  pointerp= bins + (hash(name) & (BINS-1));
+  pointerp = bins + (str_fnv_hash(name) % (BINS));
   while (*pointerp) {
     /* XXX: Why is the assert needed? It's checking already added entries. */
     assert((*pointerp)->name[0] == '/');

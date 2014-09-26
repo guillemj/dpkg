@@ -111,6 +111,9 @@ dpkg (1.17.14) UNRELEASED; urgency=low
     Based on a patch by Bálint Réczey <balint@balintreczey.hu>. Closes: #760690
   * Switch the libdpkg string hashing function from FNV-1 to the recommended
     FNV-1a variant.
+  * Switch the dpkg files database string hashing function from what appears
+    to be a custom hash function to the libdpkg FNV-1a implementation. As a
+    side effect this fixes an integer overflow. Addresses: #760741
 
   [ Raphaël Hertzog ]
   * Explain better in deb-triggers(5) why interest/activate-noawait should be
