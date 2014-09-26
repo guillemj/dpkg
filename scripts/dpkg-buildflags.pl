@@ -62,6 +62,7 @@ sub usage {
 }
 
 my ($param, $action);
+my $load_config = 1;
 
 while (@ARGV) {
     $_ = shift(@ARGV);
@@ -82,6 +83,7 @@ while (@ARGV) {
         usageerr(_g('two commands specified: --%s and --%s'), $1, $action)
             if defined($action);
         $action = $1;
+        $load_config = 0 if $action eq 'list';
     } elsif (m/^-(?:\?|-help)$/) {
         usage();
         exit 0;
@@ -97,16 +99,15 @@ $action //= 'dump';
 
 my $build_flags = Dpkg::BuildFlags->new();
 
+$build_flags->load_config() if $load_config;
+
 if ($action eq 'list') {
     foreach my $flag ($build_flags->list()) {
 	print "$flag\n";
     }
     exit(0);
-}
+} elsif ($action eq 'get') {
 
-$build_flags->load_config();
-
-if ($action eq 'get') {
     if ($build_flags->has($param)) {
 	print $build_flags->get($param) . "\n";
 	exit(0);
