@@ -21,6 +21,7 @@
 #ifndef LIBDPKG_STRING_H
 #define LIBDPKG_STRING_H
 
+#include <stddef.h>
 #include <stdbool.h>
 
 #include <dpkg/macros.h>
