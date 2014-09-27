@@ -116,7 +116,7 @@ sub _add_qa_flags {
         canary => 0,
     );
 
-    # Adjust features based on Maintainer's desires.
+    # Adjust features based on user or maintainer's desires.
     $self->_parse_feature_area('qa', \%use_feature);
 
     # Warnings that detect actual bugs.
@@ -155,7 +155,7 @@ sub _add_hardening_flags {
         ($abi, $os, $cpu) = ('', '', '');
     }
 
-    # Features enabled by default for all builds.
+    # Default feature states.
     my %use_feature = (
 	pie => 0,
 	stackprotector => 1,
@@ -166,7 +166,7 @@ sub _add_hardening_flags {
 	bindnow => 0,
     );
 
-    # Adjust features based on Maintainer's desires.
+    # Adjust features based on user or maintainer's desires.
     $self->_parse_feature_area('hardening', \%use_feature);
 
     # Mask features that are not available on certain architectures.
