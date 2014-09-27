@@ -151,10 +151,16 @@ sub _add_reproducible_flags {
 
     # Default feature states.
     my %use_feature = (
+        timeless => 0,
     );
 
     # Adjust features based on user or maintainer's desires.
     $self->_parse_feature_area('reproducible', \%use_feature);
+
+    # Warn when the __TIME__, __DATE__ and __TIMESTAMP__ macros are used.
+    if ($use_feature{timeless}) {
+       $flags->append('CPPFLAGS', '-Wdate-time');
+    }
 
     # Store the feature usage.
     while (my ($feature, $enabled) = each %use_feature) {
