@@ -27,7 +27,7 @@
 #define FNV_MIXING_PRIME 16777619UL
 
 /**
- * Fowler/Noll/Vo -- FNV-1 simple string hash.
+ * Fowler/Noll/Vo -- FNV-1a simple string hash.
  *
  * For more info, @see <http://www.isthe.com/chongo/tech/comp/fnv/index.html>.
  *
@@ -42,8 +42,8 @@ str_fnv_hash(const char *str)
 	register unsigned int p = FNV_MIXING_PRIME;
 
 	while (*str) {
-		h *= p;
 		h ^= *str++;
+		h *= p;
 	}
 
 	return h;
