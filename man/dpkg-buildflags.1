@@ -135,8 +135,8 @@ the flag is set/modified by an environment-specific configuration.
 .TP
 .BI \-\-query\-features " area"
 Print the features enabled for a given area. The only currently recognized
-areas are \fBqa\fP and \fBhardening\fP, see the \fBFEATURE AREAS\fP section
-for more details.
+areas are \fBqa\fP, \fBreproducible\fP and \fBhardening\fP,
+see the \fBFEATURE AREAS\fP section for more details.
 Exits with 0 if the area is known otherwise exits with 1.
 .IP
 The output is in RFC822 format, with one section per feature.
@@ -338,6 +338,11 @@ architectures (most notably i386) can see performance losses of up to
 15% in very text-segment-heavy application workloads; most workloads
 see less than 1%. Architectures with more general registers (e.g. amd64)
 do not see as high a worst-case penalty.
+.SS Reproducibility
+The compile-time options detailed below can be used to help improve
+build reproducibility or provide additional warning messages during
+compilation. Except as noted below, these are enabled by default for
+architectures that support them.
 .
 .SH ENVIRONMENT
 There are 2 sets of environment variables doing the same operations, the

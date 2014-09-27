@@ -68,6 +68,7 @@ sub run_hook {
 	}
     } elsif ($hook eq 'update-buildflags') {
 	$self->_add_qa_flags(@params);
+	$self->_add_reproducible_flags(@params);
 	$self->_add_hardening_flags(@params);
     } else {
         return $self->SUPER::run_hook($hook, @params);
@@ -142,6 +143,22 @@ sub _add_qa_flags {
     # Store the feature usage.
     while (my ($feature, $enabled) = each %use_feature) {
         $flags->set_feature('qa', $feature, $enabled);
+    }
+}
+
+sub _add_reproducible_flags {
+    my ($self, $flags) = @_;
+
+    # Default feature states.
+    my %use_feature = (
+    );
+
+    # Adjust features based on user or maintainer's desires.
+    $self->_parse_feature_area('reproducible', \%use_feature);
+
+    # Store the feature usage.
+    while (my ($feature, $enabled) = each %use_feature) {
+       $flags->set_feature('reproducible', $feature, $enabled);
     }
 }
 
