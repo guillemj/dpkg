@@ -143,12 +143,12 @@ coverage-clean:
 endif
 
 test_scripts = \
-	test/pod.t \
-	test/critic.t \
+	t/pod.t \
+	t/critic.t \
 	$(nil)
 
 test_data = \
-	test/critic/perlcriticrc \
+	t/critic/perlcriticrc \
 	$(nil)
 
 include $(top_srcdir)/check.am

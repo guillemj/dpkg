@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = . test
+SUBDIRS = . t
 
 localedir = $(datadir)/locale
 pkgconfdir = $(sysconfdir)/@PACKAGE@

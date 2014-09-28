@@ -122,13 +122,13 @@ my @policies = qw(
 );
 
 Test::Perl::Critic->import(
-    -profile => 'test/critic/perlcriticrc',
+    -profile => 't/critic/perlcriticrc',
     -verbose => 8,
     -include => \@policies,
     -only => 1,
 );
 
-my @dirs = qw(test src/t utils/t scripts/t dselect scripts/Dpkg);
+my @dirs = qw(t src/t utils/t scripts/t dselect scripts/Dpkg);
 my @files = glob 'scripts/Dpkg.pm scripts/*.pl scripts/changelog/*.pl';
 push @files, Perl::Critic::Utils::all_perl_files(@dirs);
 
