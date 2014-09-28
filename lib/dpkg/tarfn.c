@@ -101,6 +101,7 @@ get_unix_mode(struct tar_header *h)
 	switch (type) {
 	case TAR_FILETYPE_FILE0:
 	case TAR_FILETYPE_FILE:
+	case TAR_FILETYPE_HARDLINK:
 		mode = S_IFREG;
 		break;
 	case TAR_FILETYPE_SYMLINK:
@@ -118,7 +119,6 @@ get_unix_mode(struct tar_header *h)
 	case TAR_FILETYPE_FIFO:
 		mode = S_IFIFO;
 		break;
-	case TAR_FILETYPE_HARDLINK:
 	default:
 		mode = 0;
 		break;
