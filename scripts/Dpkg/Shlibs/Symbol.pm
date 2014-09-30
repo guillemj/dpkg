@@ -33,9 +33,8 @@ use Dpkg::Shlibs::Cppfilt;
 use constant ALIAS_TYPES => qw(c++ symver);
 
 sub new {
-    my $this = shift;
+    my ($this, %args) = @_;
     my $class = ref($this) || $this;
-    my %args = @_;
     my $self = bless {
 	symbol => undef,
 	symbol_templ => undef,
@@ -51,12 +50,9 @@ sub new {
 
 # Deep clone
 sub clone {
-    my $self = shift;
+    my ($self, %args) = @_;
     my $clone = Storable::dclone($self);
-    if (@_) {
-	my %args=@_;
-	$clone->{$_} = $args{$_} foreach keys %args;
-    }
+    $clone->{$_} = $args{$_} foreach keys %args;
     return $clone;
 }
 

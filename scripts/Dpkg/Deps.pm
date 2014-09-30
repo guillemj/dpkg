@@ -237,8 +237,8 @@ This should be set whenever working with build-deps.
 =cut
 
 sub deps_parse {
-    my $dep_line = shift;
-    my %options = (@_);
+    my ($dep_line, %options) = @_;
+
     $options{use_arch} //= 1;
     $options{reduce_arch} //= 0;
     $options{host_arch} //= get_host_arch();

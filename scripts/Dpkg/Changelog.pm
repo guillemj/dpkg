@@ -116,9 +116,8 @@ specified with $error and a copy of the line can be recorded in $line.
 
 sub parse_error {
     my ($self, $file, $line_nr, $error, $line) = @_;
-    shift;
 
-    push @{$self->{parse_errors}}, [ @_ ];
+    push @{$self->{parse_errors}}, [ $file, $line_nr, $error, $line ];
 
     if ($self->{verbose}) {
 	if ($line) {

@@ -147,8 +147,9 @@ properly close the sub-process (and verify that it exited without error).
 =cut
 
 sub compress {
-    my $self = shift;
-    my %opts = $self->_sanity_check(@_);
+    my ($self, %opts) = @_;
+
+    $self->_sanity_check(%opts);
     my @prog = $self->get_compress_cmdline();
     $opts{exec} = \@prog;
     $self->{cmdline} = "@prog";
@@ -169,8 +170,9 @@ properly close the sub-process (and verify that it exited without error).
 =cut
 
 sub uncompress {
-    my $self = shift;
-    my %opts = $self->_sanity_check(@_);
+    my ($self, %opts) = @_;
+
+    $self->_sanity_check(%opts);
     my @prog = $self->get_uncompress_cmdline();
     $opts{exec} = \@prog;
     $self->{cmdline} = "@prog";

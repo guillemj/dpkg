@@ -88,8 +88,7 @@ sub symbol_is_blacklisted {
 }
 
 sub new {
-    my $this = shift;
-    my %opts=@_;
+    my ($this, %opts) = @_;
     my $class = ref($this) || $this;
     my $self = \%opts;
     bless $self, $class;

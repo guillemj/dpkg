@@ -202,9 +202,11 @@ sub _sanity_check_opts {
 }
 
 sub spawn {
-    my (%opts) = _sanity_check_opts(@_);
-    $opts{close_in_child} //= [];
+    my (%opts) = @_;
     my @prog;
+
+    _sanity_check_opts(%opts);
+    $opts{close_in_child} //= [];
     if (ref($opts{exec}) =~ /ARRAY/) {
 	push @prog, @{$opts{exec}};
     } elsif (not ref($opts{exec})) {
