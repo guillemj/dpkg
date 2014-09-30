@@ -369,12 +369,10 @@ sub download() {
               #Try to find another file or this package
 	      print "Looking for another version of the package...\n";
 	      my ($dir, $package) = ($fn =~ m{^(.*)/([^/]+)_[^/]+.deb$});
-	      my $protected = $package;
-	      $protected =~ s/\+/\\\+/g;
 	      my $list = $ftp->ls("$pre$dir");
 	      if ($ftp->ok() && ref($list)) {
 		foreach my $file (@{$list}) {
-		  if ($file =~ m/($dir\/${protected}_[^\/]+.deb)/i) {
+		  if ($file =~ m/($dir\/\Q$package\E_[^\/]+.deb)/i) {
 		    print "Package found : $file\n";
 		    print "getting: $file (size not known)\n";
 		    $res = $ftp->get($file, "$dldir/$1");
