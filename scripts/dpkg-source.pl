@@ -508,10 +508,12 @@ sub set_testsuite_field
 }
 
 sub setopmode {
+    my $opmode = shift;
+
     if (defined($options{opmode})) {
 	usageerr(_g('only one of -x, -b or --print-format allowed, and only once'));
     }
-    $options{opmode} = $_[0];
+    $options{opmode} = $opmode;
 }
 
 sub version {

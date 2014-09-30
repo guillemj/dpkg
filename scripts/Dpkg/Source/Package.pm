@@ -457,8 +457,7 @@ that if $targetdir already exists, it will be erased.
 =cut
 
 sub extract {
-    my $self = shift;
-    my $newdirectory = $_[0];
+    my ($self, $newdirectory) = @_;
 
     my ($ok, $error) = version_check($self->{fields}{'Version'});
     if (not $ok) {
@@ -488,7 +487,7 @@ sub extract {
     }
 
     # Try extract
-    eval { $self->do_extract(@_) };
+    eval { $self->do_extract($newdirectory) };
     if ($@) {
         run_exit_handlers();
         die $@;

@@ -379,7 +379,9 @@ return ("1", ".", "024", "~beta", "1", "+svn", "234").
 =cut
 
 sub version_split_digits($) {
-    return split(/(?<=\d)(?=\D)|(?<=\D)(?=\d)/, $_[0]);
+    my $version = shift;
+
+    return split /(?<=\d)(?=\D)|(?<=\D)(?=\d)/, $version;
 }
 
 =item my ($ok, $msg) = version_check($version)

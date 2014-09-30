@@ -110,7 +110,8 @@ my @result; # Lines to output
 my $exitcode = 0; # 1 if conflict encountered
 
 unless (merge_block($cho, $cha, $chb, sub {
-			my $tail = $_[0]->get_unparsed_tail();
+			my $changes = shift;
+			my $tail = $changes->get_unparsed_tail();
 			chomp $tail if defined $tail;
 			return $tail;
 		    }))
@@ -214,8 +215,9 @@ sub merge_entries($$$) {
 		       $a->get_part('changes'), $b->get_part('changes'),
 		       {
 			   CONFLICT => sub {
+				my ($ca, $cb) = @_;
 				$exitcode = 1;
-				return get_conflict_block($_[0], $_[1]);
+				return get_conflict_block($ca, $cb);
 			   }
 		       });
     unshift @result, @merged;

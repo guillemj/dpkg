@@ -106,7 +106,9 @@ known and supported.
 =cut
 
 sub compression_is_supported {
-    return exists $COMP->{$_[0]};
+    my $comp = shift;
+
+    return exists $COMP->{$comp};
 }
 
 =item compression_get_property($comp, $property)

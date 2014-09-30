@@ -428,7 +428,9 @@ Returns true if the field is official and known.
 =cut
 
 sub field_is_official($) {
-    return exists $FIELDS{field_capitalize($_[0])};
+    my $field = field_capitalize(shift);
+
+    return exists $FIELDS{$field};
 }
 
 =item field_is_allowed_in($fname, @types)
@@ -589,7 +591,8 @@ Breaks, ...). Returns undef for fields which are not dependencies.
 =cut
 
 sub field_get_dep_type($) {
-    my $field = field_capitalize($_[0]);
+    my $field = field_capitalize(shift);
+
     return unless field_is_official($field);
     return $FIELDS{$field}{dependency} if exists $FIELDS{$field}{dependency};
     return;
@@ -603,7 +606,7 @@ FIELD_SEP_SPACE, FIELD_SEP_COMMA or FIELD_SEP_LINE.
 =cut
 
 sub field_get_sep_type($) {
-    my $field = field_capitalize($_[0]);
+    my $field = field_capitalize(shift);
 
     return $FIELDS{$field}{separator} if exists $FIELDS{$field}{separator};
     return FIELD_SEP_UNKNOWN;

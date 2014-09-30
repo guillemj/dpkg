@@ -38,10 +38,11 @@ BEGIN {
             sub textdomain {
             }
             sub ngettext {
-                if ($_[2] == 1) {
-                    return $_[0];
+                my ($msgid, $msgid_plural, $n) = @_;
+                if ($n == 1) {
+                    return $msgid;
                 } else {
-                    return $_[1];
+                    return $msgid_plural;
                 }
             }
             sub P_ {
