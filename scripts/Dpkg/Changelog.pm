@@ -344,8 +344,8 @@ sub _is_full_range {
     return 1 if $range->{all};
 
     # If no range delimiter is specified, we want everything.
-    foreach (qw(since until from to count offset)) {
-        return 0 if exists $range->{$_};
+    foreach my $delim (qw(since until from to count offset)) {
+        return 0 if exists $range->{$delim};
     }
 
     return 1;
@@ -388,12 +388,12 @@ sub _data_range {
     my @result;
     my $include = 1;
     $include = 0 if defined($range->{to}) or defined($range->{until});
-    foreach (@$data) {
-	my $v = $_->get_version();
+    foreach my $entry (@{$data}) {
+	my $v = $entry->get_version();
 	$include = 1 if defined($range->{to}) and $v eq $range->{to};
 	last if defined($range->{since}) and $v eq $range->{since};
 
-	push @result, $_ if $include;
+	push @result, $entry if $include;
 
 	$include = 1 if defined($range->{until}) and $v eq $range->{until};
 	last if defined($range->{from}) and $v eq $range->{from};
@@ -431,8 +431,8 @@ sub abort_early {
     }
 
     return unless defined($r->{since}) or defined($r->{from});
-    foreach (@$data) {
-	my $v = $_->get_version();
+    foreach my $entry (@{$data}) {
+	my $v = $entry->get_version();
 	return 1 if defined($r->{since}) and $v eq $r->{since};
 	return 1 if defined($r->{from}) and $v eq $r->{from};
     }

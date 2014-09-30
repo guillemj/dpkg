@@ -510,8 +510,8 @@ sub DELETE {
 sub FIRSTKEY {
     my $self = shift;
     my $parent = $self->[1];
-    foreach (@{$parent->{in_order}}) {
-	return $_ if exists $self->[0]->{lc($_)};
+    foreach my $key (@{$parent->{in_order}}) {
+	return $key if exists $self->[0]->{lc $key};
     }
 }
 
@@ -519,11 +519,11 @@ sub NEXTKEY {
     my ($self, $last) = @_;
     my $parent = $self->[1];
     my $found = 0;
-    foreach (@{$parent->{in_order}}) {
+    foreach my $key (@{$parent->{in_order}}) {
 	if ($found) {
-	    return $_ if exists $self->[0]->{lc($_)};
+	    return $key if exists $self->[0]->{lc $key};
 	} else {
-	    $found = 1 if $_ eq $last;
+	    $found = 1 if $key eq $last;
 	}
     }
     return;

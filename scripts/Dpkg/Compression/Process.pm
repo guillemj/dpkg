@@ -125,9 +125,9 @@ sub _sanity_check {
 	    if $self->{pid};
     # Check options
     my $to = my $from = 0;
-    foreach (qw(file handle string pipe)) {
-        $to++ if $opts{"to_$_"};
-        $from++ if $opts{"from_$_"};
+    foreach my $thing (qw(file handle string pipe)) {
+        $to++ if $opts{"to_$thing"};
+        $from++ if $opts{"from_$thing"};
     }
     croak 'exactly one to_* parameter is needed' if $to != 1;
     croak 'exactly one from_* parameter is needed' if $from != 1;

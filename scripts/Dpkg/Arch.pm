@@ -328,16 +328,13 @@ sub debtriplet_to_debarch(@)
 
 sub debarch_to_debtriplet($)
 {
-    local ($_) = @_;
-    my $arch;
+    my $arch = shift;
 
     read_triplettable();
 
-    if (/^linux-([^-]*)/) {
+    if ($arch =~ /^linux-([^-]*)/) {
 	# XXX: Might disappear in the future, not sure yet.
 	$arch = $1;
-    } else {
-	$arch = $_;
     }
 
     my $triplet = $debarch_to_debtriplet{$arch};

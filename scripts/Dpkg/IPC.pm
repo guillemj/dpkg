@@ -149,10 +149,10 @@ sub _sanity_check_opts {
 	unless $opts{exec};
 
     my $to = my $error_to = my $from = 0;
-    foreach (qw(file handle string pipe)) {
-	$to++ if $opts{"to_$_"};
-	$error_to++ if $opts{"error_to_$_"};
-	$from++ if $opts{"from_$_"};
+    foreach my $thing (qw(file handle string pipe)) {
+	$to++ if $opts{"to_$thing"};
+	$error_to++ if $opts{"error_to_$thing"};
+	$from++ if $opts{"from_$thing"};
     }
     croak 'not more than one of to_* parameters is allowed'
 	if $to > 1;
@@ -161,18 +161,18 @@ sub _sanity_check_opts {
     croak 'not more than one of from_* parameters is allowed'
 	if $from > 1;
 
-    foreach (qw(to_string error_to_string from_string)) {
-	if (exists $opts{$_} and
-	    (not ref($opts{$_}) or ref($opts{$_}) ne 'SCALAR')) {
-	    croak "parameter $_ must be a scalar reference";
+    foreach my $param (qw(to_string error_to_string from_string)) {
+	if (exists $opts{$param} and
+	    (not ref $opts{$param} or ref $opts{$param} ne 'SCALAR')) {
+	    croak "parameter $param must be a scalar reference";
 	}
     }
 
-    foreach (qw(to_pipe error_to_pipe from_pipe)) {
-	if (exists $opts{$_} and
-	    (not ref($opts{$_}) or (ref($opts{$_}) ne 'SCALAR' and
-				 not $opts{$_}->isa('IO::Handle')))) {
-	    croak "parameter $_ must be a scalar reference or " .
+    foreach my $param (qw(to_pipe error_to_pipe from_pipe)) {
+	if (exists $opts{$param} and
+	    (not ref $opts{$param} or (ref $opts{$param} ne 'SCALAR' and
+	     not $opts{$param}->isa('IO::Handle')))) {
+	    croak "parameter $param must be a scalar reference or " .
 	          'an IO::Handle object';
 	}
     }

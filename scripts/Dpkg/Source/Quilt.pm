@@ -321,12 +321,16 @@ sub read_patch_list {
     $opts{warn_options} //= 0;
     my @patches;
     open(my $series_fh, '<' , $file) or syserr(_g('cannot read %s'), $file);
-    while (defined($_ = <$series_fh>)) {
-        chomp; s/^\s+//; s/\s+$//; # Strip leading/trailing spaces
-        s/(?:^|\s+)#.*$//; # Strip comment
-        next unless $_;
-        if (/^(\S+)\s+(.*)$/) {
-            $_ = $1;
+    while (defined(my $line = <$series_fh>)) {
+        chomp $line;
+        # Strip leading/trailing spaces
+        $line =~ s/^\s+//;
+        $line =~ s/\s+$//;
+        # Strip comment
+        $line =~ s/(?:^|\s+)#.*$//;
+        next unless $line;
+        if ($line =~ /^(\S+)\s+(.*)$/) {
+            $line = $1;
             if ($2 ne '-p1') {
                 warning(_g('the series file (%s) contains unsupported ' .
                            "options ('%s', line %s); dpkg-source might " .
@@ -334,8 +338,10 @@ sub read_patch_list {
                         $file, $2, $.) if $opts{warn_options};
             }
         }
-        error(_g('%s contains an insecure path: %s'), $file, $_) if m{(^|/)\.\./};
-        CORE::push @patches, $_;
+        if ($line =~ m{(^|/)\.\./}) {
+            error(_g('%s contains an insecure path: %s'), $file, $line);
+        }
+        CORE::push @patches, $line;
     }
     close($series_fh);
     return @patches;

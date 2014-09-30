@@ -400,42 +400,48 @@ sub analyze {
     my $patch_header = '';
     my $diff_count = 0;
 
-    $_ = _getline($self);
+    my $line = _getline($self);
 
   HUNK:
-    while (defined($_) or not eof($self)) {
+    while (defined $line or not eof $self) {
 	my (%path, %fn);
 
 	# Skip comments leading up to the patch (if any). Although we do not
 	# look for an Index: pseudo-header in the comments, because we would
 	# not use it anyway, as we require both ---/+++ filename headers.
 	while (1) {
-	    if (/^(?:--- |\+\+\+ |@@ -)/) {
+	    if ($line =~ /^(?:--- |\+\+\+ |@@ -)/) {
 		last;
 	    } else {
-		$patch_header .= "$_\n";
+		$patch_header .= "$line\n";
 	    }
-	    last HUNK if not defined($_ = _getline($self));
+	    $line = _getline($self);
+	    last HUNK if not defined $line;
 	}
 	$diff_count++;
 	# read file header (---/+++ pair)
-	unless (s/^--- //) {
+	unless ($line =~ s/^--- //) {
 	    error(_g("expected ^--- in line %d of diff `%s'"), $., $diff);
 	}
-	$path{old} = $_ = _fetch_filename($diff, $_);
-	$fn{old} = $_ if $_ ne '/dev/null' and s{^[^/]*/+}{$destdir/};
-	if (/\.dpkg-orig$/) {
+	$path{old} = $line = _fetch_filename($diff, $line);
+	if ($line ne '/dev/null' and $line =~ s{^[^/]*/+}{$destdir/}) {
+	    $fn{old} = $line;
+	}
+	if ($line =~ /\.dpkg-orig$/) {
 	    error(_g("diff `%s' patches file with name ending .dpkg-orig"), $diff);
 	}
 
-	unless (defined($_ = _getline($self))) {
+	$line = _getline($self);
+	unless (defined $line) {
 	    error(_g("diff `%s' finishes in middle of ---/+++ (line %d)"), $diff, $.);
 	}
-	unless (s/^\+\+\+ //) {
+	unless ($line =~ s/^\+\+\+ //) {
 	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
 	}
-	$path{new} = $_ = _fetch_filename($diff, $_);
-	$fn{new} = $_ if $_ ne '/dev/null' and s{^[^/]*/+}{$destdir/};
+	$path{new} = $line = _fetch_filename($diff, $line);
+	if ($line ne '/dev/null' and $line =~ s{^[^/]*/+}{$destdir/}) {
+	    $fn{new} = $line;
+	}
 
 	unless (defined $fn{old} or defined $fn{new}) {
 	    error(_g("none of the filenames in ---/+++ are valid in diff '%s' (line %d)"),

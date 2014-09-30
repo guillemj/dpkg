@@ -188,9 +188,8 @@ my $find_h = IO::Handle->new();
 open($find_h, '-|', 'find', '-L', "$binarydir/", @find_args, '-print')
      or syserr(_g("couldn't open %s for reading"), $binarydir);
 FILE:
-    while (<$find_h>) {
-	chomp;
-	my $fn = $_;
+    while (my $fn = <$find_h>) {
+	chomp $fn;
 	my $output;
 	my $pid = spawn(exec => [ 'dpkg-deb', '-I', $fn, 'control' ],
 	                to_pipe => \$output);
@@ -209,19 +208,19 @@ FILE:
 	my $p = $fields->{'Package'};
 
 	if (defined($packages{$p}) and not $options{multiversion}) {
-	    foreach (@{$packages{$p}}) {
+	    foreach my $pkg (@{$packages{$p}}) {
 		if (version_compare_relation($fields->{'Version'}, REL_GT,
-					     $_->{'Version'}))
+		                             $pkg->{'Version'}))
                 {
 		    warning(_g('package %s (filename %s) is repeat but newer version;'),
 		            $p, $fn);
 		    warning(_g('used that one and ignored data from %s!'),
-		            $_->{Filename});
+		            $pkg->{Filename});
 		    $packages{$p} = [];
 		} else {
 		    warning(_g('package %s (filename %s) is repeat;'), $p, $fn);
 		    warning(_g('ignored that one and using data from %s!'),
-		            $_->{Filename});
+		            $pkg->{Filename});
 		    next FILE;
 		}
 	    }

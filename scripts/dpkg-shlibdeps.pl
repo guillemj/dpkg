@@ -303,14 +303,14 @@ foreach my $file (keys %exec) {
     # Scan all undefined symbols of the binary and resolve to a
     # dependency
     my %soname_used;
-    foreach (@sonames) {
+    foreach my $soname (@sonames) {
         # Initialize statistics
-        $soname_used{$_} = 0;
-        $global_soname_used{$_} //= 0;
-        if (exists $global_soname_needed{$_}) {
-            push @{$global_soname_needed{$_}}, $file;
+        $soname_used{$soname} = 0;
+        $global_soname_used{$soname} //= 0;
+        if (exists $global_soname_needed{$soname}) {
+            push @{$global_soname_needed{$soname}}, $file;
         } else {
-            $global_soname_needed{$_} = [ $file ];
+            $global_soname_needed{$soname} = [ $file ];
         }
     }
     my $nb_warnings = 0;
@@ -829,13 +829,13 @@ sub find_packages {
     my @files;
     my $pkgmatch = {};
 
-    foreach (@_) {
-	if (exists $cached_pkgmatch{$_}) {
-	    $pkgmatch->{$_} = $cached_pkgmatch{$_};
+    foreach my $path (@_) {
+	if (exists $cached_pkgmatch{$path}) {
+	    $pkgmatch->{$path} = $cached_pkgmatch{$path};
 	} else {
-	    push @files, $_;
-	    $cached_pkgmatch{$_} = ['']; # placeholder to cache misses too.
-	    $pkgmatch->{$_} = [''];        # might be replaced later on
+	    push @files, $path;
+	    $cached_pkgmatch{$path} = ['']; # placeholder to cache misses too.
+	    $pkgmatch->{$path} = [''];      # might be replaced later on
 	}
     }
     return $pkgmatch unless scalar(@files);

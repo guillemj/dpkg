@@ -438,9 +438,9 @@ sub check_signature {
 
 sub parse_cmdline_options {
     my ($self, @opts) = @_;
-    foreach (@opts) {
-        if (not $self->parse_cmdline_option($_)) {
-            warning(_g('%s is not a valid option for %s'), $_, ref($self));
+    foreach my $option (@opts) {
+        if (not $self->parse_cmdline_option($option)) {
+            warning(_g('%s is not a valid option for %s'), $option, ref $self);
         }
     }
 }

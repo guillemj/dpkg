@@ -373,11 +373,11 @@ sub download() {
 	      $protected =~ s/\+/\\\+/g;
 	      my $list = $ftp->ls("$pre$dir");
 	      if ($ftp->ok() && ref($list)) {
-                foreach (@{$list}) {
-                  if (m/($dir\/${protected}_[^\/]+.deb)/i) {
-		    print "Package found : $_\n";
-		    print "getting: $_ (size not known)\n";
-                    $res = $ftp->get($_, "$dldir/$1");
+		foreach my $file (@{$list}) {
+		  if ($file =~ m/($dir\/${protected}_[^\/]+.deb)/i) {
+		    print "Package found : $file\n";
+		    print "getting: $file (size not known)\n";
+		    $res = $ftp->get($file, "$dldir/$1");
 		    if (! $res) {
                       $r = $ftp->code();
 		      print $ftp->message() . "\n";
@@ -563,10 +563,10 @@ if (yesno('y', "\nDo you want to install the files fetched")) {
     #Installing pre-dependent package before !
     my (@flds, $package, @filename, $r);
     while (@flds = `dpkg --predep-package`, $? == 0) {
-      foreach (@flds) {
-        s/\s*\n//;
-	$package= $_ if s/^Package: //i;
-	@filename= split(/ +/,$_) if s/^Filename: //i;
+      foreach my $field (@flds) {
+        $field =~ s/\s*\n//;
+        $package = $field if $field =~ s/^Package: //i;
+        @filename = split / +/, $field if $field =~ s/^Filename: //i;
       }
       @filename = map { "$dldir/$_" } @filename;
       next if (! @filename);
@@ -621,9 +621,9 @@ if (yesno('n', "\nDo you want to remove $dldir directory?")) {
 }
 
 #Store useful md5sums
-foreach (keys %md5sums) {
-  next if (-f $_);
-  delete $md5sums{$_};
+foreach my $file (keys %md5sums) {
+  next if -f $file;
+  delete $md5sums{$file};
 }
 open(my $md5sums_fh, '>', "$methdir/md5sums")
   or die "can't open $methdir/md5sums in write mode: $!\n";

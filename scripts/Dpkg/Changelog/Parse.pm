@@ -126,15 +126,15 @@ sub changelog_parse {
 
     # Create the arguments for the changelog parser
     my @exec = ($parser, "-l$changelogfile");
-    foreach (keys %options) {
-	if (m/^-/) {
+    foreach my $option (keys %options) {
+	if ($option =~ m/^-/) {
 	    # Options passed untouched
-	    push @exec, $_;
+	    push @exec, $option;
 	} else {
 	    # Non-options are mapped to long options
-	    push @exec, "--$_";
+	    push @exec, "--$option";
 	}
-	push @exec, $options{$_} if defined($options{$_});
+	push @exec, $options{$option} if defined $options{$option};
     }
 
     # Fork and call the parser

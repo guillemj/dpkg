@@ -333,19 +333,19 @@ sub generate_patch {
     my ($tarfile, %origtar);
     my $comp_ext_regex = compression_get_file_extension_regex();
     my @origtarballs;
-    foreach (sort $self->find_original_tarballs()) {
-        if (/\.orig\.tar\.$comp_ext_regex$/) {
+    foreach my $file (sort $self->find_original_tarballs()) {
+        if ($file =~ /\.orig\.tar\.$comp_ext_regex$/) {
             if (defined($tarfile)) {
                 error(_g('several orig.tar files found (%s and %s) but only ' .
-                         'one is allowed'), $tarfile, $_);
+                         'one is allowed'), $tarfile, $file);
             }
-            $tarfile = $_;
-            push @origtarballs, $_;
-            $self->add_file($_);
-        } elsif (/\.orig-([[:alnum:]-]+)\.tar\.$comp_ext_regex$/) {
-            $origtar{$1} = $_;
-            push @origtarballs, $_;
-            $self->add_file($_);
+            $tarfile = $file;
+            push @origtarballs, $file;
+            $self->add_file($file);
+        } elsif ($file =~ /\.orig-([[:alnum:]-]+)\.tar\.$comp_ext_regex$/) {
+            $origtar{$1} = $file;
+            push @origtarballs, $file;
+            $self->add_file($file);
         }
     }
 
