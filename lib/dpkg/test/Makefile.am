@@ -9,9 +9,13 @@ LDADD = \
 	$(top_builddir)/lib/dpkg/libdpkg.la \
 	$(LIBINTL)
 
+EXTRA_DIST = \
+	$(test_scripts) \
+	$(nil)
+
 
 # The tests are sorted in order of increasing complexity.
-check_PROGRAMS = \
+test_programs = \
 	t-test \
 	t-test-skip \
 	t-macros \
@@ -31,8 +35,20 @@ check_PROGRAMS = \
 	t-pkg-list \
 	t-pkg-queue \
 	t-trigger \
-	t-mod-db
+	t-mod-db \
+	$(nil)
 
-test_programs = $(check_PROGRAMS)
+test_scripts = \
+	t-tar.t \
+	$(nil)
+
+check_PROGRAMS = \
+	$(test_programs) \
+	t-tarextract \
+	$(nil)
+
+test_tmpdir = t.tmp
 
 include $(top_srcdir)/check.am
+
+clean-local: check-clean
