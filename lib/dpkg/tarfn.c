@@ -250,6 +250,15 @@ tar_gnu_long(void *ctx, const struct tar_operations *ops, struct tar_entry *te,
 }
 
 static void
+tar_entry_copy(struct tar_entry *dst, struct tar_entry *src)
+{
+	memcpy(dst, src, sizeof(struct tar_entry));
+
+	dst->name = m_strdup(src->name);
+	dst->linkname = m_strdup(src->linkname);
+}
+
+static void
 tar_entry_destroy(struct tar_entry *te)
 {
 	free(te->name);
@@ -335,10 +344,8 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 			break;
 		case TAR_FILETYPE_SYMLINK:
 			symlink_node = m_malloc(sizeof(*symlink_node));
-			memcpy(&symlink_node->h, &h, sizeof(struct tar_entry));
-			symlink_node->h.name = m_strdup(h.name);
-			symlink_node->h.linkname = m_strdup(h.linkname);
 			symlink_node->next = NULL;
+			tar_entry_copy(&symlink_node->h, &h);
 
 			if (symlink_head)
 				symlink_tail->next = symlink_node;
