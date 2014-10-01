@@ -123,12 +123,12 @@ statdb_node_new(const char *user, const char *group, const char *mode)
 
 	filestat->uid = statdb_parse_uid(user);
 	if (filestat->uid == (uid_t)-1)
-		filestat->uname = user;
+		filestat->uname = nfstrsave(user);
 	else
 		filestat->uname = NULL;
 	filestat->gid = statdb_parse_gid(group);
 	if (filestat->gid == (gid_t)-1)
-		filestat->gname = group;
+		filestat->gname = nfstrsave(group);
 	else
 		filestat->gname = NULL;
 	filestat->mode = statdb_parse_mode(mode);

@@ -204,7 +204,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 
 		fso->uid = statdb_parse_uid(thisline);
 		if (fso->uid == (uid_t)-1)
-			fso->uname = thisline;
+			fso->uname = nfstrsave(thisline);
 		else
 			fso->uname = NULL;
 
@@ -225,7 +225,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 
 		fso->gid = statdb_parse_gid(thisline);
 		if (fso->gid == (gid_t)-1)
-			fso->gname = thisline;
+			fso->gname = nfstrsave(thisline);
 		else
 			fso->gname = NULL;
 
