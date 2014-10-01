@@ -150,7 +150,7 @@ falliblesubprocess(struct command *cmd)
 
   fprintf(stderr, "\n");
 
-  i = subproc_reap(pid, cmd->name, PROCWARN);
+  i = subproc_reap(pid, cmd->name, SUBPROC_WARN);
 
   subproc_signals_restore();
 

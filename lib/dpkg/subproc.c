@@ -3,7 +3,7 @@
  * subproc.c - subprocess helper routines
  *
  * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -119,12 +119,12 @@ subproc_fork(void)
 }
 
 static int
-subproc_check(int status, const char *desc, int flags)
+subproc_check(int status, const char *desc, enum subproc_flags flags)
 {
 	void (*out)(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 	int n;
 
-	if (flags & PROCWARN)
+	if (flags & SUBPROC_WARN)
 		out = warning;
 	else
 		out = ohshit;
@@ -133,7 +133,7 @@ subproc_check(int status, const char *desc, int flags)
 		n = WEXITSTATUS(status);
 		if (!n)
 			return 0;
-		if (flags & PROCNOERR)
+		if (flags & SUBPROC_RETERROR)
 			return n;
 
 		out(_("subprocess %s returned error exit status %d"), desc, n);
@@ -141,7 +141,7 @@ subproc_check(int status, const char *desc, int flags)
 		n = WTERMSIG(status);
 		if (!n)
 			return 0;
-		if ((flags & PROCPIPE) && n == SIGPIPE)
+		if ((flags & SUBPROC_NOPIPE) && n == SIGPIPE)
 			return 0;
 
 		if (n == SIGINT)
@@ -175,13 +175,13 @@ subproc_wait(pid_t pid, const char *desc)
 }
 
 int
-subproc_reap(pid_t pid, const char *desc, int flags)
+subproc_reap(pid_t pid, const char *desc, enum subproc_flags flags)
 {
 	int status, rc;
 
 	status = subproc_wait(pid, desc);
 
-	if (flags & PROCNOCHECK)
+	if (flags & SUBPROC_NOCHECK)
 		rc = status;
 	else
 		rc = subproc_check(status, desc, flags);

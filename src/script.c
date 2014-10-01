@@ -328,7 +328,7 @@ maintscript_fallback(struct pkginfo *pkg,
 		warning(_("unable to stat %s '%.250s': %s"),
 		        cmd.name, oldscriptpath, strerror(errno));
 	} else {
-		if (!maintscript_exec(pkg, &pkg->installed, &cmd, &stab, PROCWARN)) {
+		if (!maintscript_exec(pkg, &pkg->installed, &cmd, &stab, SUBPROC_WARN)) {
 			command_destroy(&cmd);
 			post_script_tasks();
 			return 1;

@@ -103,7 +103,7 @@ deb_reassemble(const char **filename, const char **pfilename)
     ohshite(_("unable to execute %s (%s)"),
             _("split package reassembly"), SPLITTER);
   }
-  status = subproc_reap(pid, SPLITTER, PROCNOERR);
+  status = subproc_reap(pid, SPLITTER, SUBPROC_RETERROR);
   switch (status) {
   case 0:
     /* It was a part - is it complete? */
@@ -145,7 +145,7 @@ deb_verify(const char *filename)
   } else {
     int status;
 
-    status = subproc_reap(pid, "debsig-verify", PROCNOCHECK);
+    status = subproc_reap(pid, "debsig-verify", SUBPROC_NOCHECK);
     if (!(WIFEXITED(status) && WEXITSTATUS(status) == 0)) {
       if (!fc_badverify)
         ohshit(_("verification on package %s failed!"), filename);
@@ -978,7 +978,7 @@ void process_archive(const char *filename) {
     ohshit(_("cannot zap possible trailing zeros from dpkg-deb: %s"), err.str);
   close(p1[0]);
   p1[0] = -1;
-  subproc_reap(pid, BACKEND " --fsys-tarfile", PROCPIPE);
+  subproc_reap(pid, BACKEND " --fsys-tarfile", SUBPROC_NOPIPE);
 
   tar_deferred_extract(newfileslist, pkg);
 

@@ -359,7 +359,7 @@ extracthalf(const char *debar, const char *dir,
     subproc_reap(c3, "tar", 0);
   }
 
-  subproc_reap(c2, _("<decompress>"), PROCPIPE);
+  subproc_reap(c2, _("<decompress>"), SUBPROC_NOPIPE);
   if (c1 != -1)
     subproc_reap(c1, _("paste"), 0);
   if (version.major == 0 && admininfo) {

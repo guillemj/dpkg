@@ -197,7 +197,7 @@ test_command_shell(void)
 	pid = subproc_fork();
 	if (pid == 0)
 		command_shell("false", "command shell fail test");
-	ret = subproc_reap(pid, "command shell fail test", PROCNOERR);
+	ret = subproc_reap(pid, "command shell fail test", SUBPROC_RETERROR);
 	test_fail(ret == 0);
 
 	unsetenv("SHELL");

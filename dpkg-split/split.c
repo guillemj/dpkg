@@ -82,7 +82,7 @@ deb_field(const char *filename, const char *field)
 
 	close(p[0]);
 
-	subproc_reap(pid, _("package field value extraction"), PROCPIPE);
+	subproc_reap(pid, _("package field value extraction"), SUBPROC_NOPIPE);
 
 	/* Trim down trailing junk. */
 	for (end = buf.buf + strlen(buf.buf) - 1; end - buf.buf >= 1; end--)

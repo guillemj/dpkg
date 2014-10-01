@@ -1616,7 +1616,7 @@ archivefiles(const char *const *argv)
     }
     if (ferror(pf)) ohshite(_("error reading find's pipe"));
     if (fclose(pf)) ohshite(_("error closing find's pipe"));
-    rc = subproc_reap(pid, "find", PROCNOERR);
+    rc = subproc_reap(pid, "find", SUBPROC_RETERROR);
     if (rc != 0)
       ohshit(_("find for --recursive returned unhandled error %i"), rc);
 
