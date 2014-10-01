@@ -50,6 +50,8 @@ struct tar_header {
 	char checksum[8];
 	char linkflag;
 	char linkname[100];
+
+	/* Only valid on ustar and gnu. */
 	char magic[8];
 	char user[32];
 	char group[32];
@@ -182,15 +184,23 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 	d->dev = makedev(OtoM(h->devmajor, sizeof(h->devmajor)),
 			 OtoM(h->devminor, sizeof(h->devminor)));
 
-	if (*h->user)
+	if (*h->user) {
 		passwd = getpwnam(h->user);
+		d->stat.uname = m_strndup(h->user, sizeof(h->user));
+	} else {
+		d->stat.uname = NULL;
+	}
 	if (passwd)
 		d->stat.uid = passwd->pw_uid;
 	else
 		d->stat.uid = (uid_t)OtoM(h->uid, sizeof(h->uid));
 
-	if (*h->group)
+	if (*h->group) {
 		group = getgrnam(h->group);
+		d->stat.gname = m_strndup(h->group, sizeof(h->group));
+	} else {
+		d->stat.gname = NULL;
+	}
 	if (group)
 		d->stat.gid = group->gr_gid;
 	else
@@ -256,6 +266,11 @@ tar_entry_copy(struct tar_entry *dst, struct tar_entry *src)
 
 	dst->name = m_strdup(src->name);
 	dst->linkname = m_strdup(src->linkname);
+
+	if (src->stat.uname)
+		dst->stat.uname = m_strdup(src->stat.uname);
+	if (src->stat.gname)
+		dst->stat.gname = m_strdup(src->stat.gname);
 }
 
 static void
@@ -263,6 +278,8 @@ tar_entry_destroy(struct tar_entry *te)
 {
 	free(te->name);
 	free(te->linkname);
+	free(te->stat.uname);
+	free(te->stat.gname);
 }
 
 struct symlinkList {
@@ -286,6 +303,8 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 
 	h.name = NULL;
 	h.linkname = NULL;
+	h.stat.uname = NULL;
+	h.stat.gname = NULL;
 
 	while ((status = ops->read(ctx, buffer, TARBLKSZ)) == TARBLKSZ) {
 		int name_len;
