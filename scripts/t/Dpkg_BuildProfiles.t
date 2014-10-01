@@ -16,12 +16,17 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 BEGIN {
-    use_ok('Dpkg::BuildProfiles');
+    use_ok('Dpkg::BuildProfiles', qw(parse_build_profiles));
 }
 
 # TODO: Add actual test cases.
+
+my @build_profiles = qw(nocheck nodoc stage1);
+
+is(parse_build_profiles('nocheck nodoc stage1'), @build_profiles,
+   'parse build profiles');
 
 1;

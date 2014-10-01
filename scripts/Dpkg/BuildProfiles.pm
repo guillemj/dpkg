@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 our $VERSION = '0.01';
-our @EXPORT_OK = qw(get_build_profiles set_build_profiles);
+our @EXPORT_OK = qw(get_build_profiles set_build_profiles parse_build_profiles);
 
 use Exporter qw(import);
 
@@ -73,6 +73,18 @@ sub set_build_profiles {
 
     @build_profiles = @profiles;
     Dpkg::BuildEnv::set('DEB_BUILD_PROFILES', join ' ', @profiles);
+}
+
+=item my @profiles = parse_build_profiles($string)
+
+Parses a build profiles specification, into an array.
+
+=cut
+
+sub parse_build_profiles {
+    my $string = shift;
+
+    return map { lc } split /\s+/, $string;
 }
 
 =back

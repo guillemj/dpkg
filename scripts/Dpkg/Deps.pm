@@ -541,6 +541,7 @@ use warnings;
 use Carp;
 
 use Dpkg::Arch qw(debarch_is);
+use Dpkg::BuildProfiles qw(parse_build_profiles);
 use Dpkg::Version;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -618,7 +619,7 @@ sub parse_string {
 	$self->{arches} = [ split(/\s+/, $5) ];
     }
     if (defined($6)) {
-	$self->{restrictions} = [ map { lc } split /\s+/, $6 ];
+	$self->{restrictions} = [ parse_build_profiles($6) ];
     }
 }
 
