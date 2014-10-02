@@ -151,6 +151,9 @@ subproc_check(int status, const char *desc, enum subproc_flags flags)
 			    desc, strsignal(n),
 			    WCOREDUMP(status) ? _(", core dumped") : "");
 	} else {
+		if (flags & SUBPROC_RETERROR)
+			return -1;
+
 		out(_("subprocess %s failed with wait status code %d"), desc,
 		    status);
 	}
