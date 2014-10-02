@@ -38,8 +38,10 @@ separate argument.
 .
 .SH COMMANDS
 .TP
-.BI "\-x " filename ".dsc " \fR[\fPoutput-directory\fR]\fP
-Extract a source package. One non-option argument must be supplied,
+.BR \-x ", " \-\-extract " \fIfilename\fP.dsc [\fIoutput-directory\fP]"
+Extract a source package.
+The \fB\-\-extract\fP alias was added in dpkg 1.17.14.
+One non-option argument must be supplied,
 the name of the Debian source control file
 .RB ( .dsc ).
 An optional second non-option argument may be supplied to specify the
@@ -68,8 +70,10 @@ formats except "1.0"), its name will be stored in
 package use the same format by default.
 
 .TP
-.RI "\fB\-b\fP " directory " [" format-specific-parameters ]
-Build a source package. The first non-option argument is taken as the
+.BR \-b ", " \-\-build " \fIdirectory\fP [\fIformat-specific-parameters\fP]"
+Build a source package.
+The \fB\-\-build\fP alias was added in dpkg 1.17.14.
+The first non-option argument is taken as the
 name of the directory containing the debianized source tree (i.e. with a
 debian sub-directory and maybe changes to the original files).
 Depending on the source package format used to build the package,
@@ -87,8 +91,8 @@ for an extensive description of the various source package formats.
 .TP
 .RI "\fB\-\-print\-format\fP " directory
 Print the source format that would be used to build the source package if
-\fBdpkg\-source \-b \fIdirectory\fR was called (in the same conditions and
-with the same parameters).
+\fBdpkg\-source \-\-build \fIdirectory\fR was called (in the same conditions
+and with the same parameters).
 
 .TP
 .RI "\fB\-\-before\-build\fP " directory
@@ -287,7 +291,7 @@ extracting the original tarball in a separate ".orig" directory and
 regenerating the \fB.diff.gz\fP by comparing the source package
 \fIdirectory\fP with the .orig directory.
 
-.B Build options (with \-b):
+.B Build options (with \-\-build):
 
 If a second non-option argument is supplied it should be the name of the
 original source directory or tarfile or the empty string if the package is
@@ -381,7 +385,7 @@ outside of the debian sub-directory. This option is not allowed in
 \fBdebian/source/local\-options\fP.
 .PP
 
-.B Extract options (with \-x):
+.B Extract options (with \-\-extract):
 
 In all cases any existing original source tree will be removed.
 .TP
@@ -500,7 +504,7 @@ files as well as many temporary files (see default value associated to
 \fB.pc\fP directory used by \fBquilt\fP is ignored during generation of the
 automatic patch.
 
-Note: \fBdpkg\-source\fP \fB\-\-before\-build\fP (and \fB\-b\fP) will
+Note: \fBdpkg\-source\fP \fB\-\-before\-build\fP (and \fB\-\-build\fP) will
 ensure that all patches listed in the series file are applied so that a
 package build always has all patches applied. It does this by finding
 unapplied patches (they are listed in the \fBseries\fP file but not in
@@ -530,7 +534,7 @@ patch must not have supplementary unrecorded changes.
 If the patch generation detects modified binary files, they will be
 automatically added to \fBdebian/source/include\-binaries\fP so that
 they end up in the debian tarball (exactly like \fBdpkg-source
-\-\-include\-binaries \-b\fP would do).
+\-\-include\-binaries \-\-build\fP would do).
 .PP
 .B Build options
 .TP
@@ -726,7 +730,7 @@ included in the debian tarball. Leading and trailing spaces are stripped.
 Lines starting with "#" are comments and are skipped. Empty lines are ignored.
 .SS debian/source/options
 This file contains a list of long options that should be automatically
-prepended to the set of command line options of a \fBdpkg\-source \-b\fR
+prepended to the set of command line options of a \fBdpkg\-source \-\-build\fR
 or \fBdpkg\-source \-\-print\-format\fR call. Options like
 \fB\-\-compression\fR and \fB\-\-compression\-level\fR are well suited for
 this file.
