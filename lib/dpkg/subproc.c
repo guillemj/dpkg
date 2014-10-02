@@ -143,6 +143,8 @@ subproc_check(int status, const char *desc, enum subproc_flags flags)
 			return 0;
 		if ((flags & SUBPROC_NOPIPE) && n == SIGPIPE)
 			return 0;
+		if (flags & SUBPROC_RETSIGNO)
+			return n;
 
 		if (n == SIGINT)
 			out(_("subprocess %s was interrupted"), desc);

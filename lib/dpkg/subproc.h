@@ -44,6 +44,8 @@ enum subproc_flags {
 	SUBPROC_NOCHECK		= DPKG_BIT(2),
 	/** Do not emit errors, just return the exit status. */
 	SUBPROC_RETERROR	= DPKG_BIT(3),
+	/** Do not emit errors, just return the signal number. */
+	SUBPROC_RETSIGNO	= DPKG_BIT(3),
 };
 
 void subproc_signals_ignore(const char *name);
