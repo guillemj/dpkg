@@ -2041,6 +2041,10 @@ run_stop_schedule(void)
 		set_what_stop(execname);
 	else if (pidfile)
 		sprintf(what_stop, "process in pidfile '%.200s'", pidfile);
+	else if (match_pid > 0)
+		sprintf(what_stop, "process with pid %d", match_pid);
+	else if (match_ppid > 0)
+		sprintf(what_stop, "process(es) with parent pid %d", match_ppid);
 	else if (userspec)
 		sprintf(what_stop, "process(es) owned by '%.200s'", userspec);
 	else
