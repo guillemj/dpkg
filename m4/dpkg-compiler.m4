@@ -21,7 +21,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
   ])
   AC_CACHE_CHECK([whether ]dpkg_compiler[ accepts $1], [dpkg_varname_cache], [
     AS_VAR_COPY([dpkg_varname_save], [dpkg_varname])
-    AS_VAR_SET([dpkg_varname], [$1])
+    AS_VAR_SET([dpkg_varname], ["$1 -Werror"])
     AC_COMPILE_IFELSE([
       AC_LANG_SOURCE([[]])
     ], [
