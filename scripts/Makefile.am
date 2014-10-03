@@ -44,7 +44,7 @@ EXTRA_DIST = \
 	dpkg-source.pl \
 	dpkg-vendor.pl \
 	changelog/debian.pl \
-	$(test_cases) \
+	$(test_scripts) \
 	$(test_data)
 
 
@@ -188,7 +188,7 @@ TEST_COVERAGE = $(PERL_COVERAGE)
 
 test_tmpdir = t.tmp
 
-test_cases = \
+test_scripts = \
 	t/Dpkg_Version.t \
 	t/Dpkg_Arch.t \
 	t/Dpkg_Package.t \

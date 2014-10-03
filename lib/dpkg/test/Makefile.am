@@ -33,8 +33,6 @@ check_PROGRAMS = \
 	t-trigger \
 	t-mod-db
 
-TEST_PREFIX = $(builddir)
-
-test_cases = $(check_PROGRAMS)
+test_programs = $(check_PROGRAMS)
 
 include $(top_srcdir)/check.am

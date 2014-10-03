@@ -15,7 +15,8 @@ LDADD = \
 
 
 EXTRA_DIST = \
-	$(test_cases)
+	$(test_scripts) \
+	$(nil)
 
 bin_PROGRAMS = \
 	dpkg \
@@ -89,7 +90,7 @@ install-data-local:
 
 test_tmpdir = t.tmp
 
-test_cases = \
+test_scripts = \
 	t/dpkg_divert.t
 
 include $(top_srcdir)/check.am

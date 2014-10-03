@@ -75,7 +75,7 @@ EXTRA_DIST = \
 	debian/rules \
 	debian/shlibs.default \
 	debian/shlibs.override \
-	$(test_cases) \
+	$(test_scripts) \
 	$(test_data) \
 	$(nil)
 
@@ -141,7 +141,7 @@ coverage:
 coverage-clean:
 endif
 
-test_cases = \
+test_scripts = \
 	test/pod.t \
 	test/critic.t \
 	$(nil)

@@ -12,7 +12,8 @@ AM_CPPFLAGS = \
 
 EXTRA_DIST = \
 	README.alternatives \
-	$(test_cases)
+	$(test_scripts) \
+	$(nil)
 
 bin_PROGRAMS =
 
@@ -54,7 +55,7 @@ uninstall-local:
 TEST_ENV_VARS = DPKG_DATADIR=$(top_srcdir)
 
 test_tmpdir = t.tmp
-test_cases = \
+test_scripts = \
 	t/update_alternatives.t
 
 include $(top_srcdir)/check.am
