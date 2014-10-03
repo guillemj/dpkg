@@ -103,6 +103,11 @@
 
 #ifdef HAVE_KVM_H
 #include <kvm.h>
+#if defined(OSFreeBSD)
+#define KVM_MEMFILE "/dev/null"
+#else
+#define KVM_MEMFILE NULL
+#endif
 #endif
 
 #ifdef _POSIX_PRIORITY_SCHEDULING
@@ -1229,7 +1234,7 @@ ssd_kvm_open(void)
 	kvm_t *kd;
 	char errbuf[_POSIX2_LINE_MAX];
 
-	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
+	kd = kvm_openfiles(NULL, KVM_MEMFILE, NULL, O_RDONLY, errbuf);
 	if (kd == NULL)
 		errx(1, "%s", errbuf);
 

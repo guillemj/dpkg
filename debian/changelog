@@ -62,6 +62,9 @@ dpkg (1.17.14) UNRELEASED; urgency=low
       Reported by Will Conley <willconley3@gmail.com>. Closes: #760222
     - Do not abort on --stop when only --pid or --ppid options are specified.
       Thanks to Christos Trochalakis <yatiohi@ideopolis.gr>. Closes: #763767
+    - On kFreeBSD systems do not unnecessarily make kvm_openfiles() open
+      /dev/mem. This causes issues on FreeBSD jails for example.
+      Reported by Steven Chamberlain <steven@pyro.eu.org>.
 
   [ Raphaël Hertzog ]
   * Explain better in deb-triggers(5) why interest/activate-noawait should be
