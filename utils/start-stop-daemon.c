@@ -1252,7 +1252,7 @@ ssd_kvm_get_procs(kvm_t *kd, int op, int arg, int *count)
 	*count = 0;
 
 	kp = kvm_getprocs(kd, op, arg, count);
-	if (kp == NULL)
+	if (kp == NULL && errno != ESRCH)
 		errx(1, "%s", kvm_geterr(kd));
 
 	return kp;
@@ -1361,6 +1361,8 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 
 	kd = ssd_kvm_open();
 	kp = ssd_kvm_get_procs(kd, KERN_PROC_PID, pid, NULL);
+	if (kp == NULL)
+		return false;
 
 	pid_argv_p = kvm_getargv(kd, kp, argv_len);
 	if (pid_argv_p == NULL)
@@ -1445,6 +1447,8 @@ pid_is_child(pid_t pid, pid_t ppid)
 
 	kd = ssd_kvm_open();
 	kp = ssd_kvm_get_procs(kd, KERN_PROC_PID, pid, NULL);
+	if (kp == NULL)
+		return false;
 
 #if defined(OSFreeBSD)
 	proc_ppid = kp->ki_ppid;
@@ -1501,6 +1505,8 @@ pid_is_user(pid_t pid, uid_t uid)
 
 	kd = ssd_kvm_open();
 	kp = ssd_kvm_get_procs(kd, KERN_PROC_PID, pid, NULL);
+	if (kp == NULL)
+		return false;
 
 #if defined(OSFreeBSD)
 	proc_uid = kp->ki_ruid;
@@ -1583,6 +1589,8 @@ pid_is_cmd(pid_t pid, const char *name)
 
 	kd = ssd_kvm_open();
 	kp = ssd_kvm_get_procs(kd, KERN_PROC_PID, pid, NULL);
+	if (kp == NULL)
+		return false;
 
 #if defined(OSFreeBSD)
 	process_name = kp->ki_comm;
