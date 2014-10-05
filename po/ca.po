@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15.8.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-08-17 15:46+0200\n"
+"POT-Creation-Date: 2014-10-06 00:49+0200\n"
 "PO-Revision-Date: 2014-06-02 11:19+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -125,7 +125,7 @@ msgstr ""
 
 #: lib/dpkg/atomic-file.c:103 lib/dpkg/atomic-file.c:105
 #: lib/dpkg/triglib.c:447 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
-#: src/infodb-upgrade.c:200 src/remove.c:345 src/remove.c:436
+#: src/infodb-upgrade.c:200 src/remove.c:347 src/remove.c:440
 #, c-format
 msgid "cannot remove `%.250s'"
 msgstr "no es pot esborrar «%.250s»"
@@ -143,7 +143,7 @@ msgstr "no s'ha pogut escriure"
 msgid "failed to read"
 msgstr "no s'ha pogut llegir"
 
-#: lib/dpkg/buffer.c:227
+#: lib/dpkg/buffer.c:229
 msgid "unexpected end of file or stream"
 msgstr "s'ha trobat una fi de fitxer o flux inesperada"
 
@@ -151,9 +151,9 @@ msgstr "s'ha trobat una fi de fitxer o flux inesperada"
 msgid "failed to seek"
 msgstr "no s'ha pogut reposicionar"
 
-#: lib/dpkg/command.c:179 lib/dpkg/command.c:226 src/help.c:392
-#: src/unpack.c:103 src/unpack.c:143 src/unpack.c:467 src/unpack.c:926
-#: dpkg-deb/build.c:192 dpkg-deb/build.c:505 dpkg-deb/build.c:604
+#: lib/dpkg/command.c:182 lib/dpkg/command.c:229 src/help.c:392
+#: src/unpack.c:103 src/unpack.c:143 src/unpack.c:565 src/unpack.c:956
+#: dpkg-deb/build.c:190 dpkg-deb/build.c:465 dpkg-deb/build.c:564
 #: dpkg-deb/info.c:66 dpkg-split/split.c:71 utils/update-alternatives.c:414
 #, c-format
 msgid "unable to execute %s (%s)"
@@ -316,7 +316,7 @@ msgstr "no es pot analitzar el directori d'actualitzacions «%.255s»"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "no s'ha pogut eliminar el fitxer d'actualització incorporat %.255s"
 
-#: lib/dpkg/dbmodify.c:122 dpkg-deb/build.c:493
+#: lib/dpkg/dbmodify.c:122 dpkg-deb/build.c:453
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "no es pot crear «%.255s»"
@@ -442,14 +442,14 @@ msgid "unable to open file '%s'"
 msgstr "no es pot obrir el fitxer «%s»"
 
 # No es pot sincronitzar, o no es pot fer «sync»? jm
-#: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:640
+#: lib/dpkg/dir.c:111 src/divertcmd.c:232 dpkg-deb/build.c:600
 #: dpkg-split/join.c:70 dpkg-split/queue.c:203
 #: utils/update-alternatives.c:1425
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "no es pot fer «sync» sobre el fitxer «%s»"
 
-#: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:642
+#: lib/dpkg/dir.c:113 src/divertcmd.c:234 dpkg-deb/build.c:602
 #: dpkg-split/join.c:72 dpkg-split/queue.c:205
 #: utils/update-alternatives.c:1333 utils/update-alternatives.c:1427
 #, c-format
@@ -1179,7 +1179,7 @@ msgstr "caràcter invàlid al número de versió"
 msgid "invalid character in revision number"
 msgstr "caràcter invàlid al número de revisió"
 
-#: lib/dpkg/pkg-db.c:164 lib/dpkg/pkg-spec.c:98
+#: lib/dpkg/pkg-db.c:147 lib/dpkg/pkg-spec.c:98
 #, c-format
 msgid "ambiguous package name '%s' with more than one installed instance"
 msgstr "amb més d'una instancia instaŀlada el nom del paquet «%s» és ambigu"
@@ -1228,50 +1228,50 @@ msgstr ""
 msgid "cannot convert multibyte sequence '%s' to a wide character"
 msgstr "no es pot convertir la seqüencia multi-byte «%s» a un caràcter ample"
 
-#: lib/dpkg/subproc.c:55
-#, c-format
-msgid "unable to ignore signal %s before running %.250s"
-msgstr "no es pot descartar el senyal %s abans d'executar %.250s"
-
-#: lib/dpkg/subproc.c:68
+#: lib/dpkg/subproc.c:46
 #, c-format
 msgid "error un-catching signal %s: %s\n"
 msgstr "s'ha produït un error en desassignar el senyal %s: %s\n"
 
-#: lib/dpkg/subproc.c:78
+#: lib/dpkg/subproc.c:57
+#, c-format
+msgid "unable to ignore signal %s before running %.250s"
+msgstr "no es pot descartar el senyal %s abans d'executar %.250s"
+
+#: lib/dpkg/subproc.c:98
 #, c-format
 msgid "%s (subprocess): %s\n"
 msgstr "%s (subprocés): %s\n"
 
-#: lib/dpkg/subproc.c:89 utils/update-alternatives.c:411
+#: lib/dpkg/subproc.c:109 utils/update-alternatives.c:411
 msgid "fork failed"
 msgstr "ha fallat el «fork»"
 
-#: lib/dpkg/subproc.c:119
+#: lib/dpkg/subproc.c:139
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "el subprocés %s retornà el codi d'eixida d'error %d"
 
-#: lib/dpkg/subproc.c:128
+#: lib/dpkg/subproc.c:150
 #, c-format
 msgid "subprocess %s was interrupted"
 msgstr "el subprocés %s ha estat interromput"
 
-#: lib/dpkg/subproc.c:130
+#: lib/dpkg/subproc.c:152
 #, c-format
 msgid "subprocess %s was killed by signal (%s)%s"
 msgstr "el subprocés %s ha estat finalitzat pel senyal (%s)%s"
 
-#: lib/dpkg/subproc.c:132
+#: lib/dpkg/subproc.c:154
 msgid ", core dumped"
 msgstr ", s'ha generat un fitxer «core»"
 
-#: lib/dpkg/subproc.c:134
+#: lib/dpkg/subproc.c:159
 #, c-format
 msgid "subprocess %s failed with wait status code %d"
 msgstr "el subprocés %s ha fallat amb codi d'estat en espera %d"
 
-#: lib/dpkg/subproc.c:151 utils/update-alternatives.c:418
+#: lib/dpkg/subproc.c:176 utils/update-alternatives.c:418
 #, c-format
 msgid "wait for subprocess %s failed"
 msgstr "el «wait» per al subprocés %s ha fallat"
@@ -1280,7 +1280,8 @@ msgstr "el «wait» per al subprocés %s ha fallat"
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
-"el nom del paquet «%.250s» és invàlid al fitxer d'activadors ajornats «%.250s»"
+"el nom del paquet «%.250s» és invàlid al fitxer d'activadors ajornats "
+"«%.250s»"
 
 #: lib/dpkg/trigdeferred.l:84
 #, c-format
@@ -1490,17 +1491,17 @@ msgstr "no s'ha pogut crear «%.255s» (en processar «%.255s»)"
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr "no es poden copiar les dades extretes de «%.250s» a «%.250s»: %s"
 
-#: src/archives.c:363 src/archives.c:480 src/statcmd.c:167
+#: src/archives.c:363 src/archives.c:479 src/statcmd.c:167
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "s'ha produït un error en establir el propietari de «%.255s»"
 
-#: src/archives.c:365 src/archives.c:482 src/statcmd.c:169
+#: src/archives.c:365 src/archives.c:481 src/statcmd.c:169
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "s'ha produït un error en establir els permisos de «%.255s»"
 
-#: src/archives.c:373 src/archives.c:1218 src/archives.c:1259
+#: src/archives.c:373 src/archives.c:1215 src/archives.c:1254
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "s'ha produït un error en tancar/escriure «%.255s»"
@@ -1515,62 +1516,62 @@ msgstr "s'ha produït un error en crear el conducte «%.255s»"
 msgid "error creating device `%.255s'"
 msgstr "s'ha produït un error en crear el dispositiu «%.255s»"
 
-#: src/archives.c:401 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
+#: src/archives.c:400 src/infodb-upgrade.c:146 src/infodb-upgrade.c:166
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "s'ha produït un error en crear l'enllaç dur «%.255s»"
 
-#: src/archives.c:408 utils/update-alternatives.c:481
+#: src/archives.c:407 utils/update-alternatives.c:481
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "s'ha produït un error en crear l'enllaç simbòlic «%.255s»"
 
-#: src/archives.c:414
+#: src/archives.c:413
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "s'ha produït un error en crear el directori «%.255s»"
 
-#: src/archives.c:433
+#: src/archives.c:432
 #, c-format
 msgid "cannot compute MD5 hash for tar file '%.255s': %s"
 msgstr "no es pot calcular el resum MD5 pel fitxer tar «%.250s»: %s"
 
-#: src/archives.c:461 src/archives.c:465
+#: src/archives.c:460 src/archives.c:464
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "s'ha produït un error en establir les dates de «%.255s»"
 
-#: src/archives.c:477
+#: src/archives.c:476
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr ""
 "s'ha produït un error en establir el propietari de l'enllaç simbòlic «%.255s»"
 
-#: src/archives.c:514
+#: src/archives.c:513
 msgid "cannot open security status notification channel"
 msgstr "no es pot obrir el canal de notificació de l'estat de seguretat"
 
-#: src/archives.c:529
+#: src/archives.c:528
 msgid "cannot get security labeling handle"
 msgstr "no es pot obtenir l'identificador d'etiquetatge de seguretat"
 
-#: src/archives.c:577
+#: src/archives.c:576
 #, c-format
 msgid "cannot set security context for file object '%s'"
 msgstr ""
 "no es pot establir el context de seguretat per a l'objecte de fitxer «%s»"
 
-#: src/archives.c:606 src/archives.c:1142 utils/update-alternatives.c:319
+#: src/archives.c:605 src/archives.c:1141 utils/update-alternatives.c:319
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "no es pot llegir l'enllaç «%.255s»"
 
-#: src/archives.c:608 src/archives.c:1144 src/configure.c:762
+#: src/archives.c:607 src/archives.c:1143 src/configure.c:760
 #, c-format
 msgid "symbolic link '%.250s' size has changed from %jd to %zd"
 msgstr "la mida de l'enllaç simbòlic «%.250s» ha canviat de %jd a %zd"
 
-#: src/archives.c:645
+#: src/archives.c:644
 #, c-format
 msgid ""
 "trying to overwrite shared '%.250s', which is different from other instances "
@@ -1579,14 +1580,14 @@ msgstr ""
 "s'està intentant sobreescriure «%.250s» compartit, que és diferent d'altres "
 "instancies del paquet %.250s"
 
-#: src/archives.c:737
+#: src/archives.c:736
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
 msgstr ""
 "no s'ha pogut fer «stat» (dereferència) sobre l'enllaç simbòlic existent "
 "«%.250s»"
 
-#: src/archives.c:759
+#: src/archives.c:758
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
@@ -1595,7 +1596,7 @@ msgstr ""
 "no s'ha pogut fer «stat» (dereferència) sobre l'objectiu del nou enllaç "
 "simbòlic proposat «%.250s» per a l'enllaç simbòlic «%.250s»"
 
-#: src/archives.c:817
+#: src/archives.c:816
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
@@ -1604,20 +1605,20 @@ msgstr ""
 "s'està intentant sobreescriure «%.250s», que és la versió desviada de "
 "«%.250s» (paquet: %.100s)"
 
-#: src/archives.c:823
+#: src/archives.c:822
 #, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr ""
 "s'està intentant sobreescriure «%.250s», que és la versió desviada de "
 "«%.250s»"
 
-#: src/archives.c:853
+#: src/archives.c:852
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr ""
 "no es pot fer «stat» sobre «%.255s» (que és el que s'anava a instaŀlar)"
 
-#: src/archives.c:861
+#: src/archives.c:860
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -1625,19 +1626,19 @@ msgid ""
 msgstr ""
 "no es pot netejar el desordre de «%.255s» abans d'instaŀlar una altra versió"
 
-#: src/archives.c:867
+#: src/archives.c:866
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 "no es pot fer «stat» sobre el «%.255s» restablert abans d'instaŀlar una "
 "altra versió"
 
-#: src/archives.c:903
+#: src/archives.c:902
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "l'arxiu conté l'objecte «%.255s» de tipus 0x%x desconegut"
 
-#: src/archives.c:985 src/divertcmd.c:148 utils/update-alternatives.c:623
+#: src/archives.c:984 src/divertcmd.c:148 utils/update-alternatives.c:623
 #: utils/update-alternatives.c:1232 utils/update-alternatives.c:1310
 #: utils/update-alternatives.c:1461 utils/update-alternatives.c:1725
 #: utils/update-alternatives.c:2223 utils/update-alternatives.c:2271
@@ -1646,17 +1647,17 @@ msgstr "l'arxiu conté l'objecte «%.255s» de tipus 0x%x desconegut"
 msgid "cannot stat file '%s'"
 msgstr "no es pot fer «stat» sobre el fitxer «%s»"
 
-#: src/archives.c:1000
+#: src/archives.c:999
 #, c-format
 msgid "Replacing files in old package %s (%s) ...\n"
 msgstr "S'està reemplaçant fitxers del paquet antic %s (%s)…\n"
 
-#: src/archives.c:1006
+#: src/archives.c:1005
 #, c-format
 msgid "Replaced by files in installed package %s (%s) ...\n"
 msgstr "Reemplaçat pels fitxers al paquet instaŀlat %s (%s)…\n"
 
-#: src/archives.c:1016
+#: src/archives.c:1015
 #, c-format
 msgid ""
 "trying to overwrite directory '%.250s' in package %.250s %.250s with "
@@ -1665,54 +1666,54 @@ msgstr ""
 "s'està intentant sobreescriure el directori «%.250s» del paquet %.250s "
 "%.250s amb un no directori"
 
-#: src/archives.c:1023
+#: src/archives.c:1022
 #, c-format
 msgid "trying to overwrite '%.250s', which is also in package %.250s %.250s"
 msgstr ""
 "s'està intentant sobreescriure «%.250s», que també està en el paquet %.250s "
 "%.250s"
 
-#: src/archives.c:1132
+#: src/archives.c:1131
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "no es pot moure «%.255s» per a instaŀlar una versió nova"
 
-#: src/archives.c:1149
+#: src/archives.c:1148
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr ""
 "no es pot fer una còpia de seguretat de l'enllaç simbòlic per a «%.255s»"
 
-#: src/archives.c:1151
+#: src/archives.c:1150
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr ""
 "no es pot fer «chown» sobre l'enllaç simbòlic de la còpia de seguretat de "
 "«%.255s»"
 
-#: src/archives.c:1156
+#: src/archives.c:1155
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "no es pot crear un enllaç de seguretat de «%.255s» abans d'instaŀlar la "
 "versió nova"
 
-#: src/archives.c:1173 src/archives.c:1267
+#: src/archives.c:1172 src/archives.c:1262
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "no es pot instaŀlar una versió nova de «%.255s»"
 
-#: src/archives.c:1212 src/archives.c:1255
+#: src/archives.c:1209 src/archives.c:1250
 #, c-format
 msgid "unable to open '%.255s'"
 msgstr "no es pot obrir «%.255s»"
 
-#: src/archives.c:1257
+#: src/archives.c:1252
 #, c-format
 msgid "unable to sync file '%.255s'"
 msgstr "no es pot fer «sync» al fitxer «%.255s»"
 
-#: src/archives.c:1334
+#: src/archives.c:1329
 #, c-format
 msgid ""
 "ignoring dependency problem with %s:\n"
@@ -1721,7 +1722,7 @@ msgstr ""
 "no es tindrà en compte el problema de dependència amb %s:\n"
 "%s"
 
-#: src/archives.c:1339
+#: src/archives.c:1334
 #, c-format
 msgid ""
 "considering deconfiguration of essential\n"
@@ -1730,7 +1731,7 @@ msgstr ""
 "es considera la desconfiguració del paquet\n"
 " essencial %s, per a habilitar %s"
 
-#: src/archives.c:1343
+#: src/archives.c:1338
 #, c-format
 msgid ""
 "no, %s is essential, will not deconfigure\n"
@@ -1739,7 +1740,7 @@ msgstr ""
 "no, %s és essencial, no serà desconfigurat\n"
 " per a habilitar %s"
 
-#: src/archives.c:1352
+#: src/archives.c:1347
 #, c-format
 msgid ""
 "no, cannot proceed with %s (--auto-deconfigure will help):\n"
@@ -1748,27 +1749,27 @@ msgstr ""
 "no, no es pot continuar amb %s (--auto-deconfigure ajudarà):\n"
 "%s"
 
-#: src/archives.c:1362
+#: src/archives.c:1357
 #, c-format
 msgid "removal of %.250s"
 msgstr "supressió de %.250s"
 
-#: src/archives.c:1387
+#: src/archives.c:1382
 #, c-format
 msgid "installation of %.250s"
 msgstr "instaŀlació de «%.255s»"
 
-#: src/archives.c:1389
+#: src/archives.c:1384
 #, c-format
 msgid "considering deconfiguration of %s, which would be broken by %s ..."
 msgstr "es considera la desinstaŀlació de %s, que seria trencat per %s…"
 
-#: src/archives.c:1395
+#: src/archives.c:1390
 #, c-format
 msgid "yes, will deconfigure %s (broken by %s)"
 msgstr "sí, es desconfigurarà %s (trencat per %s)"
 
-#: src/archives.c:1400 src/archives.c:1523
+#: src/archives.c:1395 src/archives.c:1518
 #, c-format
 msgid ""
 "regarding %s containing %s:\n"
@@ -1777,11 +1778,11 @@ msgstr ""
 "referent a %s que conté %s:\n"
 "%s"
 
-#: src/archives.c:1408
+#: src/archives.c:1403
 msgid "ignoring breakage, may proceed anyway!"
 msgstr "s'ignorarà el trencament, es pot procedir igualment!"
 
-#: src/archives.c:1413
+#: src/archives.c:1408
 #, c-format
 msgid ""
 "installing %.250s would break %.250s, and\n"
@@ -1790,29 +1791,29 @@ msgstr ""
 "instaŀlar %.250s trencaria %.250s, i\n"
 " la deconfiguració no és permesa (--auto-deconfigure podria ajudar)"
 
-#: src/archives.c:1418
+#: src/archives.c:1413
 #, c-format
 msgid "installing %.250s would break existing software"
 msgstr "la instaŀlació del paquet %.250s trencaria el programari existent"
 
-#: src/archives.c:1450
+#: src/archives.c:1445
 #, c-format
 msgid "considering removing %s in favour of %s ..."
 msgstr "es considera la desinstaŀlació de %s en favor de %s…"
 
-#: src/archives.c:1456
+#: src/archives.c:1451
 #, c-format
 msgid "%s is not properly installed; ignoring any dependencies on it"
 msgstr ""
 "%s no està correctament instaŀlat; no es tindrà en compte cap dependència "
 "d'aquest"
 
-#: src/archives.c:1485
+#: src/archives.c:1480
 #, c-format
 msgid "may have trouble removing %s, as it provides %s ..."
 msgstr "poden haver-hi problemes en desinstaŀlar %s, donat que proveeix %s…"
 
-#: src/archives.c:1500
+#: src/archives.c:1495
 #, c-format
 msgid ""
 "package %s requires reinstallation, but will remove anyway as you requested"
@@ -1820,103 +1821,103 @@ msgstr ""
 "el paquet %s requereix ser reinstaŀlat, però es desinstaŀlarà tal i com heu "
 "demanat"
 
-#: src/archives.c:1504
+#: src/archives.c:1499
 #, c-format
 msgid "package %s requires reinstallation, will not remove"
 msgstr "el paquet %s requereix ser reinstaŀlat, no es desinstaŀlarà"
 
-#: src/archives.c:1513
+#: src/archives.c:1508
 #, c-format
 msgid "yes, will remove %s in favour of %s"
 msgstr "sí, es desinstaŀlarà %s en favor de %s"
 
-#: src/archives.c:1526
+#: src/archives.c:1521
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "paquets en conflicte - no s'instaŀlarà %.250s"
 
-#: src/archives.c:1528
+#: src/archives.c:1523
 msgid "ignoring conflict, may proceed anyway!"
 msgstr "s'ignorarà el conflicte, es pot procedir igualment!"
 
-#: src/archives.c:1580
+#: src/archives.c:1575
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive necessita almenys un camí com a argument"
 
-#: src/archives.c:1590
+#: src/archives.c:1585
 msgid "find for dpkg --recursive"
 msgstr "«find» per a --recursive"
 
-#: src/archives.c:1611
+#: src/archives.c:1606
 msgid "failed to fdopen find's pipe"
 msgstr "no s'ha pogut fer «fdopen» al conducte de find"
 
-#: src/archives.c:1617
+#: src/archives.c:1612
 msgid "error reading find's pipe"
 msgstr "s'ha produït un error en llegir el conducte de find"
 
-#: src/archives.c:1618
+#: src/archives.c:1613
 msgid "error closing find's pipe"
 msgstr "s'ha produït un error en tancar el conducte de find"
 
-#: src/archives.c:1621
+#: src/archives.c:1616
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "La recerca emprant --recursive ha tornat l'eixida no gestionada %i"
 
-#: src/archives.c:1624
+#: src/archives.c:1619
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 "s'ha buscat, però no s'han trobat paquets (fitxers que coincidisquen amb *."
 "deb)"
 
-#: src/archives.c:1635
+#: src/archives.c:1630
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s necessita almenys un paquet arxiu com a argument"
 
-#: src/archives.c:1672 src/divertcmd.c:76 src/divertcmd.c:116
+#: src/archives.c:1664 src/divertcmd.c:76 src/divertcmd.c:116
 #: src/enquiry.c:234 src/enquiry.c:355 src/enquiry.c:557 src/enquiry.c:559
-#: src/enquiry.c:572 src/enquiry.c:602 src/main.c:66 src/main.c:170
-#: src/main.c:321 src/main.c:609 src/packages.c:266 src/querycmd.c:329
+#: src/enquiry.c:572 src/enquiry.c:602 src/main.c:67 src/main.c:171
+#: src/main.c:322 src/main.c:622 src/packages.c:266 src/querycmd.c:329
 #: src/querycmd.c:431 src/querycmd.c:473 src/querycmd.c:482 src/querycmd.c:528
 #: src/querycmd.c:612 src/querycmd.c:785 src/querycmd.c:833 src/select.c:101
 #: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:57 src/trigcmd.c:89
-#: dpkg-deb/build.c:487 dpkg-deb/extract.c:234 dpkg-deb/extract.c:270
+#: dpkg-deb/build.c:447 dpkg-deb/extract.c:234 dpkg-deb/extract.c:270
 #: dpkg-deb/info.c:206 dpkg-deb/info.c:244 dpkg-deb/main.c:61
-#: dpkg-deb/main.c:134 dpkg-split/info.c:266 dpkg-split/main.c:55
+#: dpkg-deb/main.c:135 dpkg-split/info.c:266 dpkg-split/main.c:55
 #: dpkg-split/main.c:99 dpkg-split/queue.c:156 dpkg-split/queue.c:298
 msgid "<standard output>"
 msgstr "<eixida estàndard>"
 
-#: src/archives.c:1673 src/packages.c:267 src/querycmd.c:330
+#: src/archives.c:1665 src/packages.c:267 src/querycmd.c:330
 #: src/querycmd.c:429 src/querycmd.c:534 src/querycmd.c:613 src/select.c:102
 #: dpkg-split/main.c:170 dpkg-split/queue.c:234
 msgid "<standard error>"
 msgstr "<error estàndard>"
 
-#: src/archives.c:1716
+#: src/archives.c:1708
 #, c-format
 msgid "Selecting previously unselected package %s.\n"
 msgstr "S'està seleccionant el paquet %s prèviament no seleccionat.\n"
 
-#: src/archives.c:1720
+#: src/archives.c:1712
 #, c-format
 msgid "Skipping unselected package %s.\n"
 msgstr "S'està ometent el paquet no seleccionat %s.\n"
 
-#: src/archives.c:1737
+#: src/archives.c:1729
 #, c-format
 msgid "version %.250s of %.250s already installed, skipping"
 msgstr "la versió %.250s de %.250s ja és instaŀlada, es descarta"
 
-#: src/archives.c:1746
+#: src/archives.c:1738
 #, c-format
 msgid "downgrading %.250s from %.250s to %.250s"
 msgstr "s'està desactualitzant %.250s de %.250s a %.250s"
 
-#: src/archives.c:1752
+#: src/archives.c:1744
 #, c-format
 msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
 msgstr "no es desactualitzarà %.250s de %.250s a %.250s, es descarta"
@@ -2217,7 +2218,7 @@ msgstr ""
 msgid "Setting up %s (%s) ...\n"
 msgstr "S'està configurant %s (%s)…\n"
 
-#: src/configure.c:731
+#: src/configure.c:729
 #, c-format
 msgid ""
 "%s: unable to stat config file '%s'\n"
@@ -2226,7 +2227,7 @@ msgstr ""
 "%s: no es pot fer «stat» sobre el fitxer de configuració «%s»\n"
 " (= «%s»): %s"
 
-#: src/configure.c:745
+#: src/configure.c:743
 #, c-format
 msgid ""
 "%s: config file '%s' is a circular link\n"
@@ -2235,7 +2236,7 @@ msgstr ""
 "%s: el fitxer de configuració «%s» és un enllaç circular\n"
 " (= «%s»)"
 
-#: src/configure.c:756
+#: src/configure.c:754
 #, c-format
 msgid ""
 "%s: unable to readlink conffile '%s'\n"
@@ -2244,7 +2245,7 @@ msgstr ""
 "%s: no es pot llegir el valor de l'enllaç simbòlic del conffile «%s»\n"
 " (= «%s»): %s"
 
-#: src/configure.c:783
+#: src/configure.c:781
 #, c-format
 msgid ""
 "%s: conffile '%.250s' resolves to degenerate filename\n"
@@ -2253,19 +2254,19 @@ msgstr ""
 "%s: el conffile «%.250s» apunta a un nom de fitxer corromput\n"
 " («%s» és un enllaç simbòlic a «%s»)"
 
-#: src/configure.c:799
+#: src/configure.c:797
 #, c-format
 msgid "%s: conffile '%.250s' is not a plain file or symlink (= '%s')"
 msgstr ""
 "%s: el conffile «%.250s» no és un fitxer normal o un enllaç simbòlic (= «%s»)"
 
-#: src/configure.c:827 dpkg-split/split.c:143
+#: src/configure.c:825 dpkg-split/split.c:143
 #, c-format
 msgid "cannot compute MD5 hash for file '%s': %s"
 msgstr "no es pot calcular el resum MD5 del fitxer «%s»: %s"
 
 # FIXME hash. Cal traduir-ho. jm
-#: src/configure.c:834
+#: src/configure.c:832
 #, c-format
 msgid "%s: unable to open %s for hash: %s"
 msgstr "%s: no es pot obrir %s pel «hash»: %s"
@@ -2394,7 +2395,7 @@ msgstr "Empreu --help per a obtenir ajuda sobre la desviació de fitxers."
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s versió %s.\n"
 
-#: src/divertcmd.c:73 src/main.c:63 src/querycmd.c:782 src/statcmd.c:61
+#: src/divertcmd.c:73 src/main.c:64 src/querycmd.c:782 src/statcmd.c:61
 #: src/trigcmd.c:54 dpkg-deb/main.c:58 dpkg-split/main.c:52
 #: utils/update-alternatives.c:84
 #, c-format
@@ -2405,7 +2406,7 @@ msgstr ""
 "Això és programari lliure, vegeu la Llicència Pública General GNU versió 2\n"
 "o posterior per a les condicions de còpia. No hi ha CAP garantia.\n"
 
-#: src/divertcmd.c:85 src/main.c:81 src/querycmd.c:794 src/statcmd.c:73
+#: src/divertcmd.c:85 src/main.c:82 src/querycmd.c:794 src/statcmd.c:73
 #: dpkg-deb/main.c:70 dpkg-split/main.c:64 utils/update-alternatives.c:92
 #, c-format
 msgid ""
@@ -2847,7 +2848,7 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "no es pot satisfer la predependència per a %.250s (necessària per a %.250s)"
 
-#: src/enquiry.c:580 dpkg-deb/main.c:171 dpkg-deb/main.c:180
+#: src/enquiry.c:580 dpkg-deb/main.c:172 dpkg-deb/main.c:181
 #, c-format
 msgid "obsolete option '--%s'; please use '--%s' instead"
 msgstr "l'opció «--%s» és obsoleta, empreu  «--%s» en el seu lloc"
@@ -2921,12 +2922,12 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "no es tindrà en compte el problema per estar activa una opció --force:"
 
-#: src/filesdb.c:235
+#: src/filesdb.c:236
 #, c-format
 msgid "unable to open files list file for package `%.250s'"
 msgstr "no es pot obrir el fitxer de la llista de fitxers del paquet «%.250s»"
 
-#: src/filesdb.c:240
+#: src/filesdb.c:241
 #, c-format
 msgid ""
 "files list file for package '%.250s' missing; assuming package has no files "
@@ -2935,52 +2936,52 @@ msgstr ""
 "manca el fitxer de la llista de fitxers del paquet «%.250s», s'assumirà que "
 "el paquet no té cap fitxer actualment instaŀlat"
 
-#: src/filesdb.c:252
+#: src/filesdb.c:253
 #, c-format
 msgid "unable to stat files list file for package '%.250s'"
 msgstr ""
 "no es pot fer «stat» sobre el fitxer de la llista de fitxers del paquet "
 "«%.250s»"
 
-#: src/filesdb.c:256
+#: src/filesdb.c:257
 #, c-format
 msgid "files list for package '%.250s' is not a regular file"
 msgstr ""
 "el fitxer de la llista de fitxers del paquet «%.250s» no és un fitxer regular"
 
-#: src/filesdb.c:264
+#: src/filesdb.c:265
 #, c-format
 msgid "reading files list for package '%.250s'"
 msgstr ""
 "s'ha produït un error en llegir el fitxer de la llista de fitxers del paquet "
 "«%.250s»"
 
-#: src/filesdb.c:274
+#: src/filesdb.c:275
 #, c-format
 msgid "files list file for package '%.250s' is missing final newline"
 msgstr ""
 "el fitxer de la llista de fitxers del paquet «%.250s» manca una línia nova "
 "al final"
 
-#: src/filesdb.c:282
+#: src/filesdb.c:283
 #, c-format
 msgid "files list file for package `%.250s' contains empty filename"
 msgstr ""
 "el fitxer de la llista de fitxers del paquet «%.250s» conté un nom de fitxer "
 "buit"
 
-#: src/filesdb.c:293
+#: src/filesdb.c:294
 #, c-format
 msgid "error closing files list file for package `%.250s'"
 msgstr ""
 "s'ha produït un error en tancar el fitxer de la llista de fitxers del paquet "
 "«%.250s»"
 
-#: src/filesdb.c:405
+#: src/filesdb.c:406
 msgid "(Reading database ... "
 msgstr "(S'està llegint la base de dades… "
 
-#: src/filesdb.c:426
+#: src/filesdb.c:427
 #, c-format
 msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
@@ -3115,7 +3116,7 @@ msgstr "no es pot comprovar l'existència de «%.250s»"
 msgid "cannot read info directory"
 msgstr "no es pot llegir el directori «info»"
 
-#: src/infodb-format.c:52 src/unpack.c:692
+#: src/infodb-format.c:52 src/unpack.c:214
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "s'ha produït un error en intentar obrir %.250s"
@@ -3142,13 +3143,49 @@ msgstr "el fitxer d'informació %s/%s no està associat a cap paquet"
 msgid "error while writing '%s'"
 msgstr "s'ha produït un error en escriure «%s»"
 
-#: src/main.c:60
+#: src/main.c:61
 #, c-format
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Programa de gestió de paquets «%s» de Debian versió %s.\n"
 
-#: src/main.c:85
-#, c-format
+#: src/main.c:86
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -i|--install       <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --unpack           <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --configure        <package> ... | -a|--pending\n"
+#| "  --triggers-only    <package> ... | -a|--pending\n"
+#| "  -r|--remove        <package> ... | -a|--pending\n"
+#| "  -P|--purge         <package> ... | -a|--pending\n"
+#| "  -V|--verify <package> ...        Verify the integrity of package(s).\n"
+#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+#| "  --set-selections                 Set package selections from stdin.\n"
+#| "  --clear-selections               Deselect every non-essential package.\n"
+#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
+#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
+#| "  --clear-avail                    Erase existing available info.\n"
+#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "  -C|--audit                       Check for broken package(s).\n"
+#| "  --add-architecture <arch>        Add <arch> to the list of "
+#| "architectures.\n"
+#| "  --remove-architecture <arch>     Remove <arch> from the list of "
+#| "architectures.\n"
+#| "  --print-architecture             Print dpkg architecture.\n"
+#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+#| "  --force-help                     Show help on forcing.\n"
+#| "  -Dh|--debug=help                 Show help on debugging.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3171,7 +3208,7 @@ msgid ""
 "  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"  -C|--audit                       Check for broken package(s).\n"
+"  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -3227,7 +3264,7 @@ msgstr ""
 "  -Dh|--debug=help                 Mostra l'ajuda sobre la depuració.\n"
 "\n"
 
-#: src/main.c:117 src/querycmd.c:813 src/trigcmd.c:76 dpkg-deb/main.c:89
+#: src/main.c:118 src/querycmd.c:813 src/trigcmd.c:76 dpkg-deb/main.c:90
 #: dpkg-split/main.c:78
 #, c-format
 msgid ""
@@ -3239,7 +3276,7 @@ msgstr ""
 "      --version                    Mostra la versió.\n"
 "\n"
 
-#: src/main.c:122
+#: src/main.c:123
 #, c-format
 msgid ""
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
@@ -3250,7 +3287,7 @@ msgstr ""
 " -x|--extract|-X|--vextract|--fsys-tarfile  en arxius (vegeu %s --help).\n"
 "\n"
 
-#: src/main.c:127
+#: src/main.c:128
 #, fuzzy, c-format
 #| msgid ""
 #| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
@@ -3271,7 +3308,7 @@ msgstr ""
 "  --assert-multi-arch.\n"
 "\n"
 
-#: src/main.c:133
+#: src/main.c:134
 #, c-format
 msgid ""
 "Options:\n"
@@ -3354,7 +3391,7 @@ msgstr ""
 "  --abort-after <n>          Interromp després de trobar <n> errors.\n"
 "\n"
 
-#: src/main.c:161
+#: src/main.c:162
 #, c-format
 msgid ""
 "Comparison operators for --compare-versions are:\n"
@@ -3377,14 +3414,14 @@ msgstr ""
 "                          del fitxer de control).\n"
 "\n"
 
-#: src/main.c:168
+#: src/main.c:169
 #, c-format
 msgid "Use 'apt' or 'aptitude' for user-friendly package management.\n"
 msgstr ""
 "Empreu «apt» o «aptitude» si voleu un programa de gestió de paquets més "
 "amigable.\n"
 
-#: src/main.c:176
+#: src/main.c:177
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use 'apt' or 'aptitude' for user-friendly package management;\n"
@@ -3408,63 +3445,63 @@ msgstr ""
 "Les opcions marcades amb ([*]) produeixen una eixida estesa - canalitzeu-la "
 "a través de «less» o «more»!"
 
-#: src/main.c:225
+#: src/main.c:226
 msgid "Set all force options"
 msgstr "Activa totes les opcions de forçat"
 
-#: src/main.c:227
+#: src/main.c:228
 msgid "Replace a package with a lower version"
 msgstr "Reemplaça un paquet amb una versió menor"
 
-#: src/main.c:229
+#: src/main.c:230
 msgid "Configure any package which may help this one"
 msgstr "Configura qualsevol paquet que pugui ajudar a aquest"
 
-#: src/main.c:231
+#: src/main.c:232
 msgid "Process incidental packages even when on hold"
 msgstr "Processa paquets accessori fins i tot si són retinguts"
 
-#: src/main.c:233
+#: src/main.c:234
 msgid "Try to (de)install things even when not root"
 msgstr "Intenta (des)instaŀlar coses fins i tot sense ser root"
 
-#: src/main.c:235
+#: src/main.c:236
 msgid "PATH is missing important programs, problems likely"
 msgstr "Falten programes importants al PATH, poden haver-hi problemes"
 
-#: src/main.c:237
+#: src/main.c:238
 msgid "Install a package even if it fails authenticity check"
 msgstr "Instaŀla un paquet fins i tot si falla la comprovació"
 
-#: src/main.c:239
+#: src/main.c:240
 msgid "Process even packages with wrong versions"
 msgstr "Processa fins i tot els paquets amb versions errònies"
 
-#: src/main.c:241
+#: src/main.c:242
 msgid "Overwrite a file from one package with another"
 msgstr "Sobreescriu un fitxer d'un paquet amb un altre"
 
-#: src/main.c:243
+#: src/main.c:244
 msgid "Overwrite a diverted file with an undiverted version"
 msgstr "Sobreescriu un fitxer desviat amb una versió no desviada"
 
-#: src/main.c:245
+#: src/main.c:246
 msgid "Overwrite one package's directory with another's file"
 msgstr "Sobreescriu el directori d'un paquet amb el fitxer"
 
-#: src/main.c:247
+#: src/main.c:248
 msgid "Do not perform safe I/O operations when unpacking"
 msgstr "No realitza operacions d'E/S segures al desempaquetar"
 
-#: src/main.c:249
+#: src/main.c:250
 msgid "Always use the new config files, don't prompt"
 msgstr "Utilitza sempre els conffiles nous, sense preguntar"
 
-#: src/main.c:251
+#: src/main.c:252
 msgid "Always use the old config files, don't prompt"
 msgstr "Utilitza sempre els conffiles antics, sense preguntar"
 
-#: src/main.c:253
+#: src/main.c:254
 msgid ""
 "Use the default option for new config files if one\n"
 "is available, don't prompt. If no default can be found,\n"
@@ -3476,95 +3513,95 @@ msgstr ""
 "cap de predeterminat preguntarà, a menys que també\n"
 "li doneu alguna de les opcions confold o confnew"
 
-#: src/main.c:258
+#: src/main.c:259
 msgid "Always install missing config files"
 msgstr "Instaŀla sempre els conffiles que falten"
 
-#: src/main.c:260
+#: src/main.c:261
 msgid "Offer to replace config files with no new versions"
 msgstr "Ofereix reemplaçar els fitxer de configuració per cap versió nova"
 
-#: src/main.c:262
+#: src/main.c:263
 msgid "Process even packages with wrong or no architecture"
 msgstr "Processa fins i tot els paquets amb arquitectura errònia"
 
-#: src/main.c:264
+#: src/main.c:265
 msgid "Install even if it would break another package"
 msgstr "Instaŀla fins i tot si hagués de trencar un altre paquet"
 
-#: src/main.c:266
+#: src/main.c:267
 msgid "Allow installation of conflicting packages"
 msgstr "Permet la instaŀlació de paquets en conflicte"
 
-#: src/main.c:268
+#: src/main.c:269
 msgid "Turn all dependency problems into warnings"
 msgstr "Converteix en avisos tots els problemes de dependències"
 
-#: src/main.c:270
+#: src/main.c:271
 msgid "Turn dependency version problems into warnings"
 msgstr "Converteix en avisos els problemes de dependència de versió"
 
-#: src/main.c:272
+#: src/main.c:273
 msgid "Remove packages which require installation"
 msgstr "Suprimeix els paquets que precisen instaŀlació"
 
-#: src/main.c:274
+#: src/main.c:275
 msgid "Remove an essential package"
 msgstr "Suprimeix un paquet essencial"
 
-#: src/main.c:286
+#: src/main.c:287
 msgid "Generally helpful progress information"
 msgstr "Informació de progrés generalment útil"
 
-#: src/main.c:287
+#: src/main.c:288
 msgid "Invocation and status of maintainer scripts"
 msgstr "Invocació i estat dels scripts del mantenidor"
 
-#: src/main.c:288
+#: src/main.c:289
 msgid "Output for each file processed"
 msgstr "Eixida per cada fitxer processat"
 
-#: src/main.c:289
+#: src/main.c:290
 msgid "Lots of output for each file processed"
 msgstr "Molta eixida per cada fitxer processat"
 
-#: src/main.c:290
+#: src/main.c:291
 msgid "Output for each configuration file"
 msgstr "Eixida per cada conffile"
 
-#: src/main.c:291
+#: src/main.c:292
 msgid "Lots of output for each configuration file"
 msgstr "Molta eixida per cada conffile"
 
-#: src/main.c:292
+#: src/main.c:293
 msgid "Dependencies and conflicts"
 msgstr "Dependències i conflictes"
 
-#: src/main.c:293
+#: src/main.c:294
 msgid "Lots of dependencies/conflicts output"
 msgstr "Molta eixida sobre dependències i conflictes"
 
-#: src/main.c:294
+#: src/main.c:295
 msgid "Trigger activation and processing"
 msgstr "Activació i processat dels activadors"
 
-#: src/main.c:295
+#: src/main.c:296
 msgid "Lots of output regarding triggers"
 msgstr "Molta eixida sobre activadors"
 
-#: src/main.c:296
+#: src/main.c:297
 msgid "Silly amounts of output regarding triggers"
 msgstr "Quantitat absurda d'eixida sobre activadors"
 
-#: src/main.c:297
+#: src/main.c:298
 msgid "Lots of drivel about eg the dpkg/info directory"
 msgstr "Molts detalls sobre p. ex. el directori dpkg/info"
 
-#: src/main.c:298
+#: src/main.c:299
 msgid "Insane amounts of drivel"
 msgstr "Quantitats ingents de detall"
 
-#: src/main.c:311
+#: src/main.c:312
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -3575,7 +3612,7 @@ msgstr ""
 "\n"
 " Número  Ref. al font     Descripció\n"
 
-#: src/main.c:318
+#: src/main.c:319
 #, c-format
 msgid ""
 "\n"
@@ -3586,63 +3623,63 @@ msgstr ""
 "Les opcions de depuració es barregen fent l'OR bit a bit.\n"
 "Teniu en compte que els significats i els valors estan subjectes a canvis.\n"
 
-#: src/main.c:328
+#: src/main.c:329
 #, c-format
 msgid "--%s requires a positive octal argument"
 msgstr "--%s requereix d'un número octal positiu com a paràmetre"
 
-#: src/main.c:343
+#: src/main.c:344
 #, c-format
 msgid "unknown verify output format '%s'"
 msgstr "l'opció del format de sortida de verificació «%s» és desconeguda"
 
-#: src/main.c:367
+#: src/main.c:380
 #, c-format
 msgid "null package name in --%s comma-separated list '%.250s'"
 msgstr ""
 "nom de paquet buit en la llista separada per comes «%2$.250s» de --%1$s"
 
 # hook -> lligam, segons el Termcat. jm
-#: src/main.c:451
+#: src/main.c:464
 #, c-format
 msgid "error executing hook '%s', exit code %d"
 msgstr "s'ha produït un error en executar el lligam «%s», codi d'eixida %d"
 
-#: src/main.c:490
+#: src/main.c:503
 msgid "status logger"
 msgstr "registre d'estat"
 
-#: src/main.c:502 src/main.c:532 src/main.c:767 dpkg-deb/info.c:311
+#: src/main.c:515 src/main.c:545 src/main.c:780 dpkg-deb/info.c:311
 #, c-format
 msgid "--%s takes exactly one argument"
 msgstr "--%s accepta exactament un argument"
 
-#: src/main.c:512
+#: src/main.c:525
 #, c-format
 msgid "architecture '%s' is illegal: %s"
 msgstr "l'arquitectura «%s» és iŀlegal: %s"
 
-#: src/main.c:515
+#: src/main.c:528
 #, c-format
 msgid "architecture '%s' is reserved and cannot be added"
 msgstr "l'arquitectura «%s» és reservada i no es pot afegir"
 
-#: src/main.c:538
+#: src/main.c:551
 #, c-format
 msgid "cannot remove non-foreign architecture '%s'"
 msgstr "no es pot esborrar l'arquitectura no forania «%s»"
 
-#: src/main.c:549
+#: src/main.c:562
 #, c-format
 msgid "removing architecture '%s' currently in use by database"
 msgstr "s'esta esborrant l'arquitectura «%s» que és en ús a la base de dades"
 
-#: src/main.c:552
+#: src/main.c:565
 #, c-format
 msgid "cannot remove architecture '%s' currently in use by the database"
 msgstr "no es pot esborrar l'arquitectura «%s» que és en ús a la base de dades"
 
-#: src/main.c:597
+#: src/main.c:610
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -3656,7 +3693,7 @@ msgstr ""
 "  atura't amb error:        --refuse-<cosa>,<cosa>,… | --no-force-<cosa>,…\n"
 " Forçat de coses:\n"
 
-#: src/main.c:606
+#: src/main.c:619
 #, c-format
 msgid ""
 "\n"
@@ -3668,32 +3705,32 @@ msgstr ""
 "seriosament la instaŀlació. Les opcions de forçat marcades amb [*] estan\n"
 "activades per defecte.\n"
 
-#: src/main.c:621
+#: src/main.c:634
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "l'opció de forçat/refusat «%.*s» és desconeguda"
 
-#: src/main.c:630
+#: src/main.c:643
 #, c-format
 msgid "obsolete force/refuse option '%s'\n"
 msgstr "l'opció de forçat/refusat «%s» és obsoleta\n"
 
-#: src/main.c:772
+#: src/main.c:785
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "no s'ha pogut obrir «%i» per a un flux"
 
-#: src/main.c:797
+#: src/main.c:810
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "EOF inesperat abans de la fi de la línia %d"
 
-#: src/main.c:840 src/main.c:858 src/querycmd.c:875 src/statcmd.c:368
-#: dpkg-deb/main.c:258 dpkg-split/main.c:166
+#: src/main.c:853 src/main.c:871 src/querycmd.c:875 src/statcmd.c:368
+#: dpkg-deb/main.c:260 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "es necessita una opció d'acció"
 
-#: src/main.c:864 src/script.c:106
+#: src/main.c:877 src/script.c:106
 msgid "unable to setenv for subprocesses"
 msgstr "no es pot fer «setenv» per al subprocés"
 
@@ -3936,7 +3973,7 @@ msgstr "el format de mostra és erroni: %s"
 msgid "control file contains %c"
 msgstr "el fitxer de control conté %c"
 
-#: src/querycmd.c:694 dpkg-deb/build.c:454
+#: src/querycmd.c:694 dpkg-deb/build.c:414
 #, c-format
 msgid "--%s takes at most two arguments"
 msgstr "--%s accepta com a molt dos arguments"
@@ -4016,7 +4053,7 @@ msgstr ""
 "                                     --show.\n"
 "\n"
 
-#: src/querycmd.c:825 dpkg-deb/main.c:120
+#: src/querycmd.c:825 dpkg-deb/main.c:121
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -4104,12 +4141,12 @@ msgstr "Desinstaŀlaria o purgaria %s (%s)…\n"
 msgid "Removing %s (%s) ...\n"
 msgstr "S'està desinstaŀlant %s (%s)…\n"
 
-#: src/remove.c:214 src/unpack.c:212
+#: src/remove.c:214 src/unpack.c:312
 #, c-format
 msgid "unable to delete control info file `%.250s'"
 msgstr "no es pot eliminar el fitxer d'info. de control «%.250s»"
 
-#: src/remove.c:334 src/remove.c:425
+#: src/remove.c:341 src/remove.c:434
 #, c-format
 msgid ""
 "while removing %.250s, unable to remove directory '%.250s': %s - directory "
@@ -4118,52 +4155,52 @@ msgstr ""
 "al desinstaŀlar %.250s, no es pot esborrar el directori «%.250s»: %s - el "
 "directori podria ser un punt de muntatge?"
 
-#: src/remove.c:348
+#: src/remove.c:350
 #, c-format
 msgid "unable to securely remove '%.250s'"
 msgstr "no es pot esborrar «%.250s» de forma segura"
 
-#: src/remove.c:420
+#: src/remove.c:429
 #, c-format
 msgid "while removing %.250s, directory '%.250s' not empty so not removed"
 msgstr ""
 "al desinstaŀlar %.250s, el directori «%.250s» no està buit, no s'esborra"
 
-#: src/remove.c:442
+#: src/remove.c:446
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "no es pot esborrar «%.250s»"
 
-#: src/remove.c:468
+#: src/remove.c:472
 #, c-format
 msgid "Purging configuration files for %s (%s) ...\n"
 msgstr "S'estan purgant els fitxers de configuració de %s (%s)…\n"
 
-#: src/remove.c:523
+#: src/remove.c:527
 #, c-format
 msgid "cannot remove old config file `%.250s' (= `%.250s')"
 msgstr ""
 "no es pot eliminar el fitxer de configuració antic «%.250s» (= «%.250s»)"
 
-#: src/remove.c:538
+#: src/remove.c:542
 #, c-format
 msgid "cannot read config file dir `%.250s' (from `%.250s')"
 msgstr ""
 "no es pot llegir el directori del fitxer de configuració «%.250s» (a partir "
 "de «%.250s»)"
 
-#: src/remove.c:575
+#: src/remove.c:579
 #, c-format
 msgid "cannot remove old backup config file `%.250s' (of `%.250s')"
 msgstr ""
 "no es pot eliminar l'antiga còpia de seguretat del fitxer de configuració "
 "«%.250s» (de «%.250s»)"
 
-#: src/remove.c:634
+#: src/remove.c:638
 msgid "cannot remove old files list"
 msgstr "no es pot eliminar la llista de fitxers antiga"
 
-#: src/remove.c:640
+#: src/remove.c:644
 msgid "can't remove old postrm script"
 msgstr "no es pot eliminar la seqüència postrm antiga"
 
@@ -4181,8 +4218,8 @@ msgstr "per al bon funcionament de dpkg, l'admindir ha d'estar dins d'instdir"
 msgid "failed to chroot to `%.250s'"
 msgstr "no s'ha pogut fer «chroot» a «%.250s»"
 
-#: src/script.c:114 dpkg-deb/build.c:188 dpkg-deb/build.c:501
-#: dpkg-deb/build.c:503 dpkg-deb/build.c:601
+#: src/script.c:114 dpkg-deb/build.c:186 dpkg-deb/build.c:461
+#: dpkg-deb/build.c:463 dpkg-deb/build.c:561
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "no s'ha pogut canviar al directori «%.255s»"
@@ -4597,80 +4634,97 @@ msgstr "correcte\n"
 msgid "unable to create temporary directory"
 msgstr "no s'ha pogut crear el directori temporal"
 
-#: src/unpack.c:223
+#: src/unpack.c:230 dpkg-deb/build.c:297
+#, c-format
+msgid "conffile name '%s' is too long, or missing final newline"
+msgstr ""
+"el nom de conffile «%s» és massa llarg, o li manca el caràcter de línia nova "
+"final"
+
+#: src/unpack.c:294 utils/update-alternatives.c:2159
+#, c-format
+msgid "read error in %.250s"
+msgstr "error de lectura en %.250s"
+
+#: src/unpack.c:297
+#, c-format
+msgid "error closing %.250s"
+msgstr "s'ha produït un error en tancar %.250s"
+
+#: src/unpack.c:323
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "la versió antiga del paquet té un nom de fitxer d'informació llarguíssim que "
 "comença per «%.250s»"
 
-#: src/unpack.c:261
+#: src/unpack.c:361
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "no es pot esborrar el fitxer d'info. obsolet «%.250s»"
 
-#: src/unpack.c:266
+#: src/unpack.c:366
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr "no es pot instaŀlar el (suposat) fitxer d'info. nou «%.250s»"
 
-#: src/unpack.c:276
+#: src/unpack.c:376
 msgid "unable to open temp control directory"
 msgstr "no es pot obrir el directori de control temporal"
 
-#: src/unpack.c:287
+#: src/unpack.c:387
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "el paquet conté un nom de fitxer d'info. llarguíssim (comença per «%.50s»)"
 
-#: src/unpack.c:294
+#: src/unpack.c:394
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "la info. de control del paquet conté el directori «%.250s»"
 
 # FIXME: Què collons vol dir això, i què collons vol dir la traducció?! jm
-#: src/unpack.c:296
+#: src/unpack.c:396
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "a l'esborrar el directori «%.250s» amb la informació de control del paquet "
 "ocorregué un error diferent com de no ser un directori"
 
-#: src/unpack.c:306
+#: src/unpack.c:406
 #, c-format
 msgid "package %s contained list as info file"
 msgstr "el paquet %s conté «list» com a fitxer d'informació"
 
-#: src/unpack.c:314
+#: src/unpack.c:414
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "no es pot instaŀlar el fitxer d'info. nou «%.250s» com a «%.250s»"
 
-#: src/unpack.c:339
+#: src/unpack.c:439
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Noteu la desaparició de %s, que ha estat completament reemplaçat.)\n"
 
-#: src/unpack.c:446
+#: src/unpack.c:544
 msgid "cannot access archive"
 msgstr "no es pot accedir a l'arxiu"
 
-#: src/unpack.c:468
+#: src/unpack.c:566
 msgid "package control information extraction"
 msgstr "extracció de la informació de control del paquet"
 
-#: src/unpack.c:503
+#: src/unpack.c:601
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr "S'ha registrat la informació sobre %s a partir de %s.\n"
 
-#: src/unpack.c:513
+#: src/unpack.c:611
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "l'arquitectura del paquet (%s) no correspon amb la del sistema (%s)"
 
-#: src/unpack.c:577
+#: src/unpack.c:675
 #, c-format
 msgid ""
 "regarding %s containing %s, pre-dependency problem:\n"
@@ -4679,99 +4733,82 @@ msgstr ""
 "referent a %s que conté %s, problema de predependència:\n"
 "%s"
 
-#: src/unpack.c:581
+#: src/unpack.c:679
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "problema de predependència - no s'instaŀlarà %.250s"
 
-#: src/unpack.c:583
+#: src/unpack.c:681
 msgid "ignoring pre-dependency problem!"
 msgstr "s'està ignorant el problema de predependència!"
 
-#: src/unpack.c:598
+#: src/unpack.c:696
 #, c-format
 msgid "Preparing to unpack %s ...\n"
 msgstr "S'està preparant per a desempaquetar %s…\n"
 
-#: src/unpack.c:634 dpkg-deb/build.c:299
-#, c-format
-msgid "conffile name '%s' is too long, or missing final newline"
-msgstr ""
-"el nom de conffile «%s» és massa llarg, o li manca el caràcter de línia nova "
-"final"
-
-#: src/unpack.c:688 utils/update-alternatives.c:2159
-#, c-format
-msgid "read error in %.250s"
-msgstr "error de lectura en %.250s"
-
-#: src/unpack.c:690
-#, c-format
-msgid "error closing %.250s"
-msgstr "s'ha produït un error en tancar %.250s"
-
-#: src/unpack.c:737
+#: src/unpack.c:767
 #, c-format
 msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
 msgstr ""
 "S'està desconfigurant %s (%s), per a permetre la supressió de %s (%s)…\n"
 
-#: src/unpack.c:743
+#: src/unpack.c:773
 #, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "S'està desconfigurant %s (%s)…\n"
 
-#: src/unpack.c:835
+#: src/unpack.c:865
 #, c-format
 msgid "Unpacking %s (%s) ...\n"
 msgstr "S'està desempaquetant %s (%s)…\n"
 
-#: src/unpack.c:839
+#: src/unpack.c:869
 #, c-format
 msgid "Unpacking %s (%s) over (%s) ...\n"
 msgstr "S'està desempaquetant %s (%s) sobre (%s)…\n"
 
-#: src/unpack.c:927
+#: src/unpack.c:957
 msgid "package filesystem archive extraction"
 msgstr "extracció de l'arxiu de sistema de fitxers del paquet"
 
-#: src/unpack.c:942
+#: src/unpack.c:972
 msgid "error reading dpkg-deb tar output"
 msgstr "s'ha produït un error en llegir l'eixida tar de dpkg-deb"
 
-#: src/unpack.c:944
+#: src/unpack.c:974
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr ""
 "sistema de fitxers de l'arxiu tar corromput - arxiu del paquet corromput"
 
-#: src/unpack.c:948
+#: src/unpack.c:978
 #, c-format
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "no es poden esborrar els possibles zeros finals de dpkg-deb: %s"
 
-#: src/unpack.c:1008
+#: src/unpack.c:1038
 #, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 "no es pot fer «stat» sobre el fitxer antic «%.250s» així doncs no "
 "s'eliminarà: %s"
 
-#: src/unpack.c:1016
+#: src/unpack.c:1050
 #, c-format
 msgid "unable to delete old directory '%.250s': %s"
 msgstr "no es pot esborrar el directori antic «%.250s»: %s"
 
-#: src/unpack.c:1019
+#: src/unpack.c:1053
 #, c-format
 msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
 msgstr "el conffile antic «%.250s» era un directori buit (i s'ha eliminat)"
 
-#: src/unpack.c:1066
+#: src/unpack.c:1099
 #, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr "no es pot fer «stat» sobre el fitxer nou «%.250s»"
 
-#: src/unpack.c:1077
+#: src/unpack.c:1110
 #, c-format
 msgid ""
 "old file '%.250s' is the same as several new files! (both '%.250s' and "
@@ -4780,7 +4817,7 @@ msgstr ""
 "el fitxer antic «%.250s» és igual que diversos fitxers nous! («%.250s» i "
 "«%.250s»)"
 
-#: src/unpack.c:1118
+#: src/unpack.c:1151
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "no es pot esborrar el fitxer antic «%.250s» de format segura: %s"
@@ -4828,46 +4865,41 @@ msgstr ""
 "l'opció «--%s» és obsoleta; els paquets no disponibles es netegen "
 "automàticament"
 
-#: dpkg-deb/build.c:125
-#, c-format
-msgid "file name '%.50s...' is too long"
-msgstr "el nom del fitxer «%.50s…» és massa llarg"
-
-#: dpkg-deb/build.c:130
+#: dpkg-deb/build.c:128
 #, c-format
 msgid "unable to stat file name '%.250s'"
 msgstr "no es pot fer «stat» sobre el nom de fitxer «%.250s»"
 
-#: dpkg-deb/build.c:203 dpkg-deb/build.c:214
+#: dpkg-deb/build.c:201 dpkg-deb/build.c:212
 #, c-format
 msgid "failed to write filename to tar pipe (%s)"
 msgstr "no s'ha pogut escriure el nom del fitxer al conducte de tar (%s)"
 
-#: dpkg-deb/build.c:204 dpkg-deb/build.c:214 dpkg-deb/build.c:584
-#: dpkg-deb/build.c:587 dpkg-deb/build.c:633
+#: dpkg-deb/build.c:202 dpkg-deb/build.c:212 dpkg-deb/build.c:544
+#: dpkg-deb/build.c:547 dpkg-deb/build.c:593
 msgid "data member"
 msgstr "element de dades"
 
-#: dpkg-deb/build.c:239
+#: dpkg-deb/build.c:237
 msgid "unable to stat control directory"
 msgstr "no es pot fer «stat» sobre el directori de control"
 
-#: dpkg-deb/build.c:241
+#: dpkg-deb/build.c:239
 msgid "control directory is not a directory"
 msgstr "el directori de control no és un directori"
 
-#: dpkg-deb/build.c:243
+#: dpkg-deb/build.c:241
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "el directori de control té permisos erronis %03lo (ha de ser >=0755 i <=0775)"
 
-#: dpkg-deb/build.c:254
+#: dpkg-deb/build.c:252
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr "la seqüència «%.50s» no és un fitxer normal o un enllaç simbòlic"
 
-#: dpkg-deb/build.c:257
+#: dpkg-deb/build.c:255
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -4875,145 +4907,140 @@ msgid ""
 msgstr ""
 "la seqüència «%.50s» té permisos erronis %03lo (ha de ser >=0555 i <=0775)"
 
-#: dpkg-deb/build.c:261
+#: dpkg-deb/build.c:259
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "no es pot fer «stat» sobre la seqüència «%.50s»"
 
-#: dpkg-deb/build.c:287
+#: dpkg-deb/build.c:285
 msgid "error opening conffiles file"
 msgstr "s'ha produït un error en obrir el fitxer de conffiles"
 
-#: dpkg-deb/build.c:296
+#: dpkg-deb/build.c:294
 msgid "empty string from fgets reading conffiles"
 msgstr "cadena buida de «fgets» en llegir conffiles"
 
-#: dpkg-deb/build.c:308
+#: dpkg-deb/build.c:306
 #, c-format
 msgid "conffile filename '%s' contains trailing white spaces"
 msgstr "el nom del conffile «%s» conté espais en blanc al final"
 
-#: dpkg-deb/build.c:310
+#: dpkg-deb/build.c:308
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "el conffile «%.250s» no està dins del paquet"
 
-#: dpkg-deb/build.c:312
+#: dpkg-deb/build.c:310
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "no es pot fer «stat» sobre el conffile «%.250s»"
 
-#: dpkg-deb/build.c:314
+#: dpkg-deb/build.c:312
 #, c-format
 msgid "conffile '%s' is not a plain file"
 msgstr "el conffile «%s» no és un fitxer normal"
 
-#: dpkg-deb/build.c:318
+#: dpkg-deb/build.c:316
 #, c-format
 msgid "conffile name '%s' is duplicated"
 msgstr "el nom del conffile «%s» està duplicat"
 
-#: dpkg-deb/build.c:331
+#: dpkg-deb/build.c:329
 msgid "error reading conffiles file"
 msgstr "s'ha produït un error en llegir el fitxer de conffiles"
 
-#: dpkg-deb/build.c:384
+#: dpkg-deb/build.c:351
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr ""
 "el nom del paquet té caràcters que no són minúscules, alfanumèrics o «-+»."
 
-#: dpkg-deb/build.c:386
+#: dpkg-deb/build.c:353
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "«%s» conté un valor Priority «%s» definit per l'usuari"
 
-#: dpkg-deb/build.c:392
-#, c-format
-msgid "'%s' contains user-defined field '%s'"
-msgstr "«%s» conté un camp «%s» definit per l'usuari"
-
-#: dpkg-deb/build.c:403
+#: dpkg-deb/build.c:363
 #, c-format
 msgid "ignoring %d warning about the control file(s)"
 msgid_plural "ignoring %d warnings about the control file(s)"
 msgstr[0] "s'omet %d avís sobre els fitxers de control"
 msgstr[1] "s'ometen %d avisos sobre els fitxers de control"
 
-#: dpkg-deb/build.c:447 utils/update-alternatives.c:2647
+#: dpkg-deb/build.c:407 utils/update-alternatives.c:2647
 #: utils/update-alternatives.c:2654
 #, c-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s necessita un <directori> com a paràmetre"
 
-#: dpkg-deb/build.c:458
+#: dpkg-deb/build.c:418
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "no es pot comprovar l'existència de l'arxiu «%.250s»"
 
-#: dpkg-deb/build.c:475
+#: dpkg-deb/build.c:435
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "l'objectiu és un directori - no es pot ometre la comprovació del fitxer de "
 "control"
 
-#: dpkg-deb/build.c:476
+#: dpkg-deb/build.c:436
 msgid "not checking contents of control area"
 msgstr "no es comprova el contingut de l'àrea de control"
 
-#: dpkg-deb/build.c:477
+#: dpkg-deb/build.c:437
 #, c-format
 msgid "dpkg-deb: building an unknown package in '%s'.\n"
 msgstr "dpkg-deb: s'està construint un paquet desconegut en «%s».\n"
 
-#: dpkg-deb/build.c:484
+#: dpkg-deb/build.c:444
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: s'està construint el paquet «%s» en «%s».\n"
 
-#: dpkg-deb/build.c:513 dpkg-deb/build.c:584
+#: dpkg-deb/build.c:473 dpkg-deb/build.c:544
 #, c-format
 msgid "failed to make temporary file (%s)"
 msgstr "no s'ha pogut crear el fitxer temporal (%s)"
 
-#: dpkg-deb/build.c:513 dpkg-deb/build.c:516 dpkg-deb/build.c:539
-#: dpkg-deb/build.c:548 dpkg-deb/build.c:554
+#: dpkg-deb/build.c:473 dpkg-deb/build.c:476 dpkg-deb/build.c:499
+#: dpkg-deb/build.c:508 dpkg-deb/build.c:514
 msgid "control member"
 msgstr "element de control"
 
-#: dpkg-deb/build.c:516 dpkg-deb/build.c:587
+#: dpkg-deb/build.c:476 dpkg-deb/build.c:547
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "no s'ha pogut esborrar el fitxer temporal (%s), %s"
 
-#: dpkg-deb/build.c:531
+#: dpkg-deb/build.c:491
 msgid "compressing control member"
 msgstr "comprimint l'element de control"
 
-#: dpkg-deb/build.c:539 dpkg-deb/build.c:633
+#: dpkg-deb/build.c:499 dpkg-deb/build.c:593
 #, c-format
 msgid "failed to rewind temporary file (%s)"
 msgstr "no s'ha pogut tornar al principi del fitxer temporal (%s)"
 
-#: dpkg-deb/build.c:548
+#: dpkg-deb/build.c:508
 #, c-format
 msgid "failed to stat temporary file (%s)"
 msgstr "no s'ha pogut fer «stat» del fitxer temporal (%s)"
 
-#: dpkg-deb/build.c:552
+#: dpkg-deb/build.c:512
 #, c-format
 msgid "error writing `%s'"
 msgstr "s'ha produït un error en escriure «%s»"
 
-#: dpkg-deb/build.c:554
+#: dpkg-deb/build.c:514
 #, c-format
 msgid "cannot copy '%s' into archive '%s': %s"
 msgstr "no es pot copiar «%s» a l'arxiu «%s»: %s"
 
-#: dpkg-deb/build.c:612
+#: dpkg-deb/build.c:572
 msgid "compressing data member"
 msgstr "comprimint l'element de dates"
 
-#: dpkg-deb/build.c:623
+#: dpkg-deb/build.c:583
 msgid "<compress> from tar -cf"
 msgstr "<compressió> des de tar -cf"
 
@@ -5184,27 +5211,28 @@ msgstr "<descompressió>"
 msgid "paste"
 msgstr "enganxa"
 
-#: dpkg-deb/extract.c:386 dpkg-deb/extract.c:401 dpkg-deb/info.c:78
+#: dpkg-deb/extract.c:386 dpkg-deb/extract.c:403 dpkg-deb/extract.c:418
+#: dpkg-deb/info.c:78
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s necessita un nom de fitxer .deb com a argument"
 
-#: dpkg-deb/extract.c:388
+#: dpkg-deb/extract.c:388 dpkg-deb/extract.c:405
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s només pren un argument (fitxer .deb)"
 
-#: dpkg-deb/extract.c:407 dpkg-deb/extract.c:435 dpkg-deb/extract.c:469
+#: dpkg-deb/extract.c:424 dpkg-deb/extract.c:452 dpkg-deb/extract.c:486
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s pren com a molt dos arguments (.deb i directori)"
 
-#: dpkg-deb/extract.c:426 dpkg-deb/extract.c:460
+#: dpkg-deb/extract.c:443 dpkg-deb/extract.c:477
 #, c-format
 msgid "--%s needs .deb filename and directory arguments"
 msgstr "--%s necessita un nom de fitxer .deb i un directori com a arguments"
 
-#: dpkg-deb/extract.c:431 dpkg-deb/extract.c:465
+#: dpkg-deb/extract.c:448 dpkg-deb/extract.c:482
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -5281,7 +5309,21 @@ msgid "Debian `%s' package archive backend version %s.\n"
 msgstr "Rerefons d'arxius de paquets «%s» de Debian versió %s.\n"
 
 #: dpkg-deb/main.c:74
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -b|--build <directory> [<deb>]   Build an archive.\n"
+#| "  -c|--contents <deb>              List contents.\n"
+#| "  -I|--info <deb> [<cfile> ...]    Show info to stdout.\n"
+#| "  -W|--show <deb>                  Show information on package(s)\n"
+#| "  -f|--field <deb> [<cfield> ...]  Show field(s) to stdout.\n"
+#| "  -e|--control <deb> [<directory>] Extract control info.\n"
+#| "  -x|--extract <deb> <directory>   Extract files.\n"
+#| "  -X|--vextract <deb> <directory>  Extract & list files.\n"
+#| "  -R|--raw-extract <deb> <directory>\n"
+#| "                                   Extract control info and files.\n"
+#| "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -b|--build <directory> [<deb>]   Build an archive.\n"
@@ -5294,6 +5336,7 @@ msgid ""
 "  -X|--vextract <deb> <directory>  Extract & list files.\n"
 "  -R|--raw-extract <deb> <directory>\n"
 "                                   Extract control info and files.\n"
+"  --ctrl-tarfile <deb>             Output control tarfile.\n"
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
 msgstr ""
@@ -5314,7 +5357,7 @@ msgstr ""
 "                                     fitxers.\n"
 "\n"
 
-#: dpkg-deb/main.c:94
+#: dpkg-deb/main.c:95
 #, c-format
 msgid ""
 "<deb> is the filename of a Debian format archive.\n"
@@ -5327,7 +5370,7 @@ msgstr ""
 "<campc> és el nom d'un camp en el fitxer de «control» principal.\n"
 "\n"
 
-#: dpkg-deb/main.c:100
+#: dpkg-deb/main.c:101
 #, c-format
 msgid ""
 "Options:\n"
@@ -5375,7 +5418,7 @@ msgstr ""
 "                               filtered, huffman, rle, fixed (gzip).\n"
 "\n"
 
-#: dpkg-deb/main.c:129
+#: dpkg-deb/main.c:130
 #, c-format
 msgid ""
 "\n"
@@ -5389,7 +5432,7 @@ msgstr ""
 "Els paquets desempaquetats emprant «dpkg-deb --extract» estaran instaŀlats\n"
 "incorrectament!\n"
 
-#: dpkg-deb/main.c:140
+#: dpkg-deb/main.c:141
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -5399,47 +5442,47 @@ msgstr ""
 "Escriviu dpkg --help per a obtindre ajuda a sobre de com instaŀlar i "
 "desinstaŀlar paquets."
 
-#: dpkg-deb/main.c:157
+#: dpkg-deb/main.c:158
 #, c-format
 msgid "invalid deb format version: %s"
 msgstr "número de versió de format deb invàlida: %s"
 
-#: dpkg-deb/main.c:163
+#: dpkg-deb/main.c:164
 #, c-format
 msgid "unknown deb format version: %s"
 msgstr "número de versió de format deb desconeguda: %s"
 
-#: dpkg-deb/main.c:197
+#: dpkg-deb/main.c:198
 #, c-format
 msgid "invalid compression level for -%c: %ld"
 msgstr "nivell de compressió invàlid per a -%c: %ld"
 
-#: dpkg-deb/main.c:207
+#: dpkg-deb/main.c:208
 #, c-format
 msgid "unknown compression strategy '%s'!"
 msgstr "el tipus d'estratègia de compressió «%s» és desconegut!"
 
-#: dpkg-deb/main.c:215
+#: dpkg-deb/main.c:216
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "el tipus de compressió «%s» és desconegut!"
 
-#: dpkg-deb/main.c:217
+#: dpkg-deb/main.c:218
 #, c-format
 msgid "deprecated compression type '%s'; use xz instead"
 msgstr "tipus de compressió «%s» obsolet; useu xz en el seu lloc"
 
-#: dpkg-deb/main.c:219
+#: dpkg-deb/main.c:220
 #, c-format
 msgid "deprecated compression type '%s'; use xz or gzip instead"
 msgstr "tipus de compressió «%s» obsolet; useu xz o gzip en el seu lloc"
 
-#: dpkg-deb/main.c:261
+#: dpkg-deb/main.c:263
 #, c-format
 msgid "invalid compressor parameters: %s"
 msgstr "paràmetres de compressió invàlids: %s"
 
-#: dpkg-deb/main.c:267
+#: dpkg-deb/main.c:269
 #, c-format
 msgid "unsupported compression type '%s' with uniform compression"
 msgstr "el tipus de compressió «%s» no està admès amb compressió uniforme"
@@ -6516,6 +6559,12 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "per tornar a activar les actualitzacions automàtiques, utilitzeu «%s --auto "
 "%s»"
+
+#~ msgid "file name '%.50s...' is too long"
+#~ msgstr "el nom del fitxer «%.50s…» és massa llarg"
+
+#~ msgid "'%s' contains user-defined field '%s'"
+#~ msgstr "«%s» conté un camp «%s» definit per l'usuari"
 
 #~ msgid "--%s takes one argument"
 #~ msgstr "--%s només accepta un argument"
