@@ -152,8 +152,8 @@ void process_archive(const char *filename);
 bool wanttoinstall(struct pkginfo *pkg);
 
 struct fileinlist *
-newconff_append(struct filenamenode_queue *queue,
-                struct filenamenode *namenode);
+filenamenode_queue_push(struct filenamenode_queue *queue,
+                        struct filenamenode *namenode);
 
 /* from update.c */
 

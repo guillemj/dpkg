@@ -639,7 +639,7 @@ void process_archive(const char *filename) {
       *p = '\0';
       namenode= findnamenode(conffilenamebuf, 0);
       namenode->oldhash= NEWCONFFILEFLAG;
-      newconff = newconff_append(&newconffiles, namenode);
+      newconff = filenamenode_queue_push(&newconffiles, namenode);
 
       /* Let's see if any packages have this file. If they do we
        * check to see if they listed it as a conffile, and if they did
@@ -1104,7 +1104,7 @@ void process_archive(const char *filename) {
 	  debug(dbg_eachfile, "process_archive: old conff %s"
 		" is disappearing", namenode->name);
 	  namenode->flags |= fnnf_obs_conff;
-	  newconff_append(&newconffiles, namenode);
+	  filenamenode_queue_push(&newconffiles, namenode);
 	  addfiletolist(&tc, namenode);
 	}
 	continue;

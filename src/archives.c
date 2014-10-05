@@ -1759,17 +1759,17 @@ wanttoinstall(struct pkginfo *pkg)
 }
 
 struct fileinlist *
-newconff_append(struct filenamenode_queue *queue,
-                struct filenamenode *namenode)
+filenamenode_queue_push(struct filenamenode_queue *queue,
+                        struct filenamenode *namenode)
 {
-  struct fileinlist *newconff;
+  struct fileinlist *node;
 
-  newconff= m_malloc(sizeof(struct fileinlist));
-  newconff->next = NULL;
-  newconff->namenode= namenode;
+  node = m_malloc(sizeof(*node));
+  node->next = NULL;
+  node->namenode = namenode;
 
-  *queue->tail = newconff;
-  queue->tail = &newconff->next;
+  *queue->tail = node;
+  queue->tail = &node->next;
 
-  return newconff;
+  return node;
 }
