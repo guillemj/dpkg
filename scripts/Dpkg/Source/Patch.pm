@@ -497,14 +497,14 @@ sub analyze {
 
 	# read hunks
 	my $hunk = 0;
-	while (defined($_ = _getline($self))) {
+	while (defined($line = _getline($self))) {
 	    # read hunk header (@@)
-	    next if /^\\ /;
-	    last unless (/^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@(?: .*)?$/);
+	    next if $line =~ /^\\ /;
+	    last unless $line =~ /^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@(?: .*)?$/;
 	    my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
 	    # read hunk
 	    while ($olines || $nlines) {
-		unless (defined($_ = _getline($self))) {
+		unless (defined($line = _getline($self))) {
                     if (($olines == $nlines) and ($olines < 3)) {
                         warning(_g("unexpected end of diff `%s'"), $diff)
                             if $opts{verbose};
@@ -513,14 +513,14 @@ sub analyze {
                         error(_g("unexpected end of diff `%s'"), $diff);
                     }
 		}
-		next if /^\\ /;
+		next if $line =~ /^\\ /;
 		# Check stats
-		if (/^ / or length == 0) {
+		if ($line =~ /^ / or length $line == 0) {
 		    --$olines;
 		    --$nlines;
-		} elsif (/^-/) {
+		} elsif ($line =~ /^-/) {
 		    --$olines;
-		} elsif (/^\+/) {
+		} elsif ($line =~ /^\+/) {
 		    --$nlines;
 		} else {
 		    error(_g("expected [ +-] at start of line %d of diff `%s'"),
