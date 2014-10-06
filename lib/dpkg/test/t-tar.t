@@ -32,6 +32,9 @@ my $srcdir = $ENV{srcdir} || '.';
 my $builddir = $ENV{builddir} || '.';
 my $tmpdir = 't.tmp/t-tar';
 
+# Set a known umask.
+umask 0022;
+
 sub create {
     my ($pathname) = @_;
 
