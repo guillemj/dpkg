@@ -75,6 +75,7 @@ PO4A_V_0 = @echo "  PO4A   $@";
 
 PO4A_OPTS = --previous --srcdir $(srcdir) --destdir $(CURDIR) --no-backups \
             --package-name dpkg-man --package-version $(PACKAGE_VERSION) \
+            --copyright-holder "$(PACKAGE_COPYRIGHT_HOLDER)" \
             --msgid-bugs-address $(PACKAGE_BUGREPORT)
 
 all-local: all-local-@USE_PO4A@
