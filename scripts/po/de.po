@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-10-06 00:49+0200\n"
-"PO-Revision-Date: 2014-08-15 14:10+0200\n"
+"POT-Creation-Date: 2014-10-06 20:17+0200\n"
+"PO-Revision-Date: 2014-10-06 21:15+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -74,13 +74,13 @@ msgid ""
 "  -u                 print command to unset environment variables.\n"
 "  -c <command>       set environment and run the command in it.\n"
 "  -?, --help         show this help message.\n"
-"      --version      show the version."
+"      --version      show the version\n."
 msgstr ""
 "Befehle:\n"
 "  -l                 Variablen auflisten (voreingestellt).\n"
-"  -L                 gültige Architekturen auflisten.\n"
-"  -e<Debian-Arch>    mit aktueller Debian-Architektur vergleichen.\n"
-"  -i<Arch-Alias>     prüfen, ob aktuelle Debian-Architektur <Arch-Alias> "
+"  -L                 gültige Architekturen auflisten (passend auf bestimmte Kriterien).\n"
+"  -e<Debian-Arch>    mit Host-Debian-Architektur vergleichen.\n"
+"  -i<Arch-FIXME>     prüfen, ob aktuelle Debian-Architektur <Arch-FIXME> "
 "ist.\n"
 "  -q<Variable>       nur den Wert von <Variable> ausgeben.\n"
 "  -s                 den Befehl zum Setzen von Umgebungsvariablen ausgeben.\n"
@@ -1309,21 +1309,7 @@ msgid "takes no non-option arguments"
 msgstr "akzeptiert kein nicht-Options-Argument"
 
 #: scripts/dpkg-scanpackages.pl:75
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
-#| "Packages\n"
-#| "\n"
-#| "Options:\n"
-#| "  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
-#| "  -a, --arch <arch>        architecture to scan for.\n"
-#| "  -m, --multiversion       allow multiple versions of a single package.\n"
-#| "  -e, --extra-override <file>\n"
-#| "                           use extra override file.\n"
-#| "  -M, --medium <medium>    add X-Medium field for dselect multicd access "
-#| "method\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
 "Packages\n"
@@ -1346,6 +1332,7 @@ msgstr ""
 "Optionen:\n"
 "  -t, --type <Typ>         nach <Typ>-Paketen suchen (standardmäßig »deb«).\n"
 "  -a, --arch <Arch>        Architektur, nach der gesucht werden soll.\n"
+"  -h, --hash <Hash-Liste>  nur Hashes für die angegebene Liste erzeugen.\n"
 "  -m, --multiversion       mehrere Versionen eines einzelnen Pakets "
 "erlauben.\n"
 "  -e, --extra-override <Datei>\n"
@@ -1373,7 +1360,7 @@ msgstr "ein bis drei Argumente erwartet"
 #: scripts/dpkg-scanpackages.pl:173
 #, perl-format
 msgid "unsupported checksum '%s'"
-msgstr ""
+msgstr "nicht unterstützte Prüfsumme »%s«"
 
 #: scripts/dpkg-scanpackages.pl:189
 #, perl-format
@@ -1787,10 +1774,9 @@ msgid "unknown output from dpkg --search: '%s'"
 msgstr "unbekannte Ausgabe von »dpkg --search«: »%s«"
 
 #: scripts/dpkg-source.pl:106
-#, fuzzy, perl-format
-#| msgid "%s needs a directory"
+#, perl-format
 msgid "--%s needs a directory"
-msgstr "%s benötigt ein Verzeichnis"
+msgstr "--%s benötigt ein Verzeichnis"
 
 #: scripts/dpkg-source.pl:112
 #, perl-format
@@ -1896,22 +1882,19 @@ msgid "building %s in %s"
 msgstr "%s wird in %s gebaut"
 
 #: scripts/dpkg-source.pl:449
-#, fuzzy, perl-format
-#| msgid "-x needs at least one argument, the .dsc"
+#, perl-format
 msgid "--%s needs at least one argument, the .dsc"
-msgstr "-x benötigt mindestens ein Argument, die .dsc"
+msgstr "--%s benötigt mindestens ein Argument, die .dsc"
 
 #: scripts/dpkg-source.pl:453
-#, fuzzy, perl-format
-#| msgid "-x takes no more than two arguments"
+#, perl-format
 msgid "--%s takes no more than two arguments"
-msgstr "-x akzeptiert nicht mehr als zwei Argumente"
+msgstr "--%s akzeptiert nicht mehr als zwei Argumente"
 
 #: scripts/dpkg-source.pl:457
-#, fuzzy, perl-format
-#| msgid "-x needs the .dsc file as first argument, not a directory"
+#, perl-format
 msgid "--%s needs the .dsc file as first argument, not a directory"
-msgstr "-x benötigt die .dsc-Datei als erstes Argument, kein Verzeichnis"
+msgstr "--%s benötigt die .dsc-Datei als erstes Argument, kein Verzeichnis"
 
 #: scripts/dpkg-source.pl:474
 #, perl-format
@@ -1944,16 +1927,6 @@ msgid "Usage: %s [<option>...] <command>"
 msgstr "Aufruf: %s [<Option>...] [<Befehl>]"
 
 #: scripts/dpkg-source.pl:538
-#, fuzzy
-#| msgid ""
-#| "Commands:\n"
-#| "  -x <filename>.dsc [<output-dir>]\n"
-#| "                           extract source package.\n"
-#| "  -b <dir>                 build source package.\n"
-#| "  --print-format <dir>     print the source format that would be\n"
-#| "                           used to build the source package.\n"
-#| "  --commit [<dir> [<patch-name>]]\n"
-#| "                           store upstream changes in a new patch."
 msgid ""
 "Commands:\n"
 "  -x, --extract <filename>.dsc [<output-dir>]\n"
@@ -1965,14 +1938,14 @@ msgid ""
 "                           store upstream changes in a new patch."
 msgstr ""
 "Befehle:\n"
-"  -x <Dateiname>.dsc [<Ausgabe-Verz>]\n"
-"                           Quellpaket extrahieren.\n"
-"  -b <Verz>                Quellpaket bauen.\n"
-"  --print-format <Verz>    das Quellformat ausgeben, das zum Bau des\n"
-"                           Quellpakets verwandt würde.\n"
+"  -x, --extract <Dateiname>.dsc [<Ausgabe-Verz>]\n"
+"                      Quellpaket extrahieren.\n"
+"  -b, --build <Verz>  Quellpaket bauen.\n"
+"      --print-format <Verz> \n"
+"                      das für das Quellpaket zu verwendene Format ausgeben.\n"
 "  --commit [<Verz> [<Patch-Name>]]\n"
-"                           Änderungen der Originalautoren in einem neuen\n"
-"                           Patch speichern."
+"                      Änderungen der Originalautoren in einem neuen\n"
+"                      Patch speichern."
 
 #: scripts/dpkg-source.pl:546
 #, perl-format
@@ -3593,16 +3566,14 @@ msgid "source package has two conflicting values - %s and %s"
 msgstr "Zwei widersprüchliche Werte für Quellpaket - %s und %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm:93
-#, fuzzy, perl-format
-#| msgid "unknown %s feature: %s"
+#, perl-format
 msgid "unknown %s feature in %s variable: %s"
-msgstr "unbekannte %s-Funktionalität: %s"
+msgstr "unbekannte Funktionalität %s in Variable %s: %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm:98
-#, fuzzy, perl-format
-#| msgid "incorrect value in %s option of DEB_BUILD_MAINT_OPTIONS: %s"
+#, perl-format
 msgid "incorrect value in %s option of %s variable: %s"
-msgstr "ungültiger Wert in den %s-Optionen von DEB_BUILD_MAINT_OPTIONS: %s"
+msgstr "ungültiger Wert in der Option %s der Variablen %s: %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm:177
 #, perl-format
