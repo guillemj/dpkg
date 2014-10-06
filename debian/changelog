@@ -4,6 +4,11 @@ dpkg (1.17.16) UNRELEASED; urgency=low
   * Switch remaining topic to named variable in Dpkg::Source::Patch:analyze(),
     otherwise the loop was expecting values in one variable but storing them
     in another. Regression introduced in dpkg 1.17.14. Closes: #764206
+  * Set umask to 0 when creating symlinks in tar test case, to normalize
+    results. POSIX specifies that symlinks have undefined permissions in
+    their mode, so their setting is system dependent. Linux does not honor
+    the umask for symlinks, other systems like Hurd or kFreeBSD do.
+    Regression introduced in dpkg 1.17.14. Closes: #764171
 
  -- Guillem Jover <guillem@debian.org>  Mon, 06 Oct 2014 03:37:15 +0200
 

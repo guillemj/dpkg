@@ -59,12 +59,20 @@ sub tar_create_tree {
     make_path("$long_a/$long_b/$long_c/$long_d/$long_e/");
     make_path("$long_a/$long_b/$long_c/$long_d/$long_e/$long_f/");
     create("$long_a/$long_b/$long_c/$long_d/$long_e/$long_f/long");
+
+    # POSIX specifies that symlinks have undefined permissions in their
+    # mode, so their handling is system dependent. Linux does not honor
+    # the umask for symlinks, other systems like GNU/Hurd or kFreeBSD do,
+    # which means we get different results due to this.
+    my $umask = umask 0;
+
     symlink "$long_a/$long_b/$long_c/$long_d/$long_e/$long_f/long",
             'symlink-long';
-
     symlink 'file', 'symlink-a';
     symlink 'hardlink', 'symlink-b';
     symlink 'dangling', 'symlink-c';
+
+    umask $umask;
 
     mkdir 'directory';
     mkfifo('fifo', 0770);
