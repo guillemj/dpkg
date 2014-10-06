@@ -31,7 +31,8 @@ use Dpkg::Util qw(:list);
 use Dpkg::File;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
-use Dpkg::BuildProfiles qw(get_build_profiles);
+use Dpkg::BuildProfiles qw(get_build_profiles parse_build_profiles
+                           evaluate_restriction_formula);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Compression;
 use Dpkg::Control::Info;
