@@ -1518,6 +1518,27 @@ pid_is_child(pid_t pid, pid_t ppid)
 
 	return pst.pst_ppid == ppid;
 }
+#elif defined(OSFreeBSD)
+static bool
+pid_is_child(pid_t pid, pid_t ppid)
+{
+	struct kinfo_proc kp;
+	int rc, name[4];
+	size_t len = 0;
+
+	name[0] = CTL_KERN;
+	name[1] = KERN_PROC;
+	name[2] = KERN_PROC_PID;
+	name[3] = pid;
+
+	rc = sysctl(name, 4, &kp, &len, NULL, 0);
+	if (rc != 0 && errno != ESRCH)
+		return false;
+	if (len == 0 || len != sizeof(kp))
+		return false;
+
+	return kp.ki_ppid == ppid;
+}
 #elif defined(HAVE_KVM_H)
 static bool
 pid_is_child(pid_t pid, pid_t ppid)
@@ -1581,6 +1602,27 @@ pid_is_user(pid_t pid, uid_t uid)
 	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
 		return false;
 	return ((uid_t)pst.pst_uid == uid);
+}
+#elif defined(OSFreeBSD)
+static bool
+pid_is_user(pid_t pid, uid_t uid)
+{
+	struct kinfo_proc kp;
+	int rc, name[4];
+	size_t len = 0;
+
+	name[0] = CTL_KERN;
+	name[1] = KERN_PROC;
+	name[2] = KERN_PROC_PID;
+	name[3] = pid;
+
+	rc = sysctl(name, 4, &kp, &len, NULL, 0);
+	if (rc != 0 && errno != ESRCH)
+		return false;
+	if (len == 0 || len != sizeof(kp))
+		return false;
+
+	return kp.ki_ruid == uid;
 }
 #elif defined(HAVE_KVM_H)
 static bool
@@ -1671,6 +1713,27 @@ pid_is_cmd(pid_t pid, const char *name)
 	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
 		return false;
 	return (strcmp(pst.pst_ucomm, name) == 0);
+}
+#elif defined(OSFreeBSD)
+static bool
+pid_is_cmd(pid_t pid, const char *name)
+{
+	struct kinfo_proc kp;
+	int rc, name[4];
+	size_t len = 0;
+
+	name[0] = CTL_KERN;
+	name[1] = KERN_PROC;
+	name[2] = KERN_PROC_PID;
+	name[3] = pid;
+
+	rc = sysctl(name, 4, &kp, &len, NULL, 0);
+	if (rc != 0 && errno != ESRCH)
+		return false;
+	if (len == 0 || len != sizeof(kp))
+		return false;
+
+	return strcmp(kp.ki_comm, name) == 0;
 }
 #elif defined(HAVE_KVM_H)
 static bool
@@ -1844,6 +1907,45 @@ do_procinit(void)
 		}
 		idx = pst[count - 1].pst_idx + 1;
 	}
+
+	return prog_status;
+}
+#elif defined(OSFreeBSD)
+static enum status_code
+do_procinit(void)
+{
+	struct kinfo_proc *kp;
+	int rc, name[3];
+	size_t len = 0;
+	int nentries, i;
+	enum status_code prog_status = STATUS_DEAD;
+
+	name[0] = CTL_KERN;
+	name[1] = KERN_PROC;
+	name[2] = KERN_PROC_PROC;
+
+	rc = sysctl(name, 3, NULL, &len, NULL, 0);
+	if (rc != 0 && errno != ESRCH)
+		return false;
+	if (len == 0)
+		return false;
+
+	kp = xmalloc(len);
+	rc = sysctl(name, 3, kp, &len, NULL, 0);
+	if (rc != 0 && errno != ESRCH)
+		return false;
+	if (len == 0)
+		return false;
+
+	for (i = 0; i < nentries; i++) {
+		enum status_code pid_status;
+
+		pid_status = pid_check(kp[i].ki_pid);
+		if (pid_status < prog_status)
+			prog_status = pid_status;
+	}
+
+	free(kp);
 
 	return prog_status;
 }
