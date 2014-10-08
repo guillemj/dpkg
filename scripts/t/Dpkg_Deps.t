@@ -70,39 +70,39 @@ is($dep_i386->output(), 'libc6 (>= 2.5)', 'Arch reduce 1/3');
 is($dep_alpha->output(), 'libc6.1', 'Arch reduce 2/3');
 is($dep_hurd->output(), 'libc0.1', 'Arch reduce 3/3');
 
-my $field_profile = 'dep1 <!stage1 !notest>, ' .
-'dep2 <stage1 !notest>, ' .
-'dep3 <notest !stage1>, ' .
-'dep4 <stage1 notest>, ' .
+my $field_profile = 'dep1 <!stage1 !nocheck>, ' .
+'dep2 <stage1 !nocheck>, ' .
+'dep3 <nocheck !stage1>, ' .
+'dep4 <stage1 nocheck>, ' .
 'dep5 <stage1>, dep6 <!stage1>, ' .
-'dep7 <stage1> | dep8 <notest>, ' .
-'dep9 <!stage1> <!notest>, ' .
-'dep10 <stage1> <!notest>, ' .
-'dep11 <stage1> <notest>, '.
-'dep12 <!notest> <!stage1>, ' .
-'dep13 <notest> <!stage1>, ' .
-'dep14 <notest> <stage1>';
+'dep7 <stage1> | dep8 <nocheck>, ' .
+'dep9 <!stage1> <!nocheck>, ' .
+'dep10 <stage1> <!nocheck>, ' .
+'dep11 <stage1> <nocheck>, '.
+'dep12 <!nocheck> <!stage1>, ' .
+'dep13 <nocheck> <!stage1>, ' .
+'dep14 <nocheck> <stage1>';
 my $dep_noprof = deps_parse($field_profile, reduce_profiles => 1, build_profiles => []);
 my $dep_stage1 = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['stage1']);
-my $dep_notest = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['notest']);
-my $dep_stage1notest = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['stage1', 'notest']);
+my $dep_nocheck = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['nocheck']);
+my $dep_stage1nocheck = deps_parse($field_profile, reduce_profiles => 1, build_profiles => ['stage1', 'nocheck']);
 is($dep_noprof->output(), 'dep1, dep6, dep9, dep10, dep12, dep13', 'Profile reduce 1/4');
 is($dep_stage1->output(), 'dep2, dep5, dep7, dep9, dep10, dep11, dep12, dep14', 'Profile reduce 2/4');
-is($dep_notest->output(), 'dep3, dep6, dep8, dep9, dep11, dep12, dep13, dep14', 'Profile reduce 3/4');
-is($dep_stage1notest->output(), 'dep4, dep5, dep7 | dep8, dep10, dep11, dep13, dep14', 'Profile reduce 4/4');
+is($dep_nocheck->output(), 'dep3, dep6, dep8, dep9, dep11, dep12, dep13, dep14', 'Profile reduce 3/4');
+is($dep_stage1nocheck->output(), 'dep4, dep5, dep7 | dep8, dep10, dep11, dep13, dep14', 'Profile reduce 4/4');
 
 $dep_noprof = deps_parse($field_profile);
 $dep_noprof->reduce_profiles([]);
 $dep_stage1 = deps_parse($field_profile);
 $dep_stage1->reduce_profiles(['stage1']);
-$dep_notest = deps_parse($field_profile);
-$dep_notest->reduce_profiles(['notest']);
-$dep_stage1notest = deps_parse($field_profile);
-$dep_stage1notest->reduce_profiles(['stage1', 'notest']);
+$dep_nocheck = deps_parse($field_profile);
+$dep_nocheck->reduce_profiles(['nocheck']);
+$dep_stage1nocheck = deps_parse($field_profile);
+$dep_stage1nocheck->reduce_profiles(['stage1', 'nocheck']);
 is($dep_noprof->output(), 'dep1, dep6, dep9, dep10, dep12, dep13', 'Profile post-reduce 1/4');
 is($dep_stage1->output(), 'dep2, dep5, dep7, dep9, dep10, dep11, dep12, dep14', 'Profile post-reduce 2/4');
-is($dep_notest->output(), 'dep3, dep6, dep8, dep9, dep11, dep12, dep13, dep14', 'Profile post-reduce 3/4');
-is($dep_stage1notest->output(), 'dep4, dep5, dep7 | dep8, dep10, dep11, dep13, dep14', 'Profile post-reduce 4/4');
+is($dep_nocheck->output(), 'dep3, dep6, dep8, dep9, dep11, dep12, dep13, dep14', 'Profile post-reduce 3/4');
+is($dep_stage1nocheck->output(), 'dep4, dep5, dep7 | dep8, dep10, dep11, dep13, dep14', 'Profile post-reduce 4/4');
 
 my $field_restrict = 'dep1 <!bootstrap !restrict>, ' .
 'dep2 <bootstrap restrict>, ' .
