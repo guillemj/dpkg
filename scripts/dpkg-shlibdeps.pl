@@ -511,13 +511,14 @@ foreach my $field (reverse @depfields) {
 	$dep = join ', ',
 	    map {
 		# Translate dependency templates into real dependencies
-		if ($dependencies{$field}{$_}) {
-		    s/#MINVER#/(>= $dependencies{$field}{$_})/g;
+		my $templ = $_;
+		if ($dependencies{$field}{$templ}) {
+		    $templ =~ s/#MINVER#/(>= $dependencies{$field}{$templ})/g;
 		} else {
-		    s/#MINVER#//g;
+		    $templ =~ s/#MINVER#//g;
 		}
-		s/\s+/ /g;
-		$_;
+		$templ =~ s/\s+/ /g;
+		$templ;
 	    } grep { filter_deps($_, $field) }
 	    keys %{$dependencies{$field}};
     }
