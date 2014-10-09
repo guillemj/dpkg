@@ -18,7 +18,7 @@ package Dpkg::BuildProfiles;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '1.00';
 our @EXPORT_OK = qw(get_build_profiles set_build_profiles parse_build_profiles
                     evaluate_restriction_formula);
 
@@ -129,6 +129,12 @@ sub evaluate_restriction_formula {
 }
 
 =back
+
+=head1 CHANGES
+
+=head2 Version 1.00
+
+Mark the module as public.
 
 =cut
 
