@@ -24,6 +24,7 @@ use warnings;
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_gcc_host_gnu_type
                   debarch_to_cpuattrs
@@ -166,59 +167,63 @@ sub action_needs($) {
   return (($req_vars & $bits) == $bits);
 }
 
+@ARGV = normalize_options(@ARGV);
+
 while (@ARGV) {
-    $_=shift(@ARGV);
-    if (m/^-a/p) {
-	$req_host_arch = ${^POSTMATCH};
-    } elsif (m/^-t/p) {
-	$req_host_gnu_type = ${^POSTMATCH};
-    } elsif (m/^-A/p) {
-	$req_target_arch = ${^POSTMATCH};
-    } elsif (m/^-T/p) {
-	$req_target_gnu_type = ${^POSTMATCH};
-    } elsif (m/^-W/p) {
-	$req_match_wildcard = ${^POSTMATCH};
-    } elsif (m/^-B/p) {
-	$req_match_bits = ${^POSTMATCH};
-    } elsif (m/^-E/p) {
-	$req_match_endian = ${^POSTMATCH};
-    } elsif (m/^-e/p) {
-	$req_eq_arch = ${^POSTMATCH};
+    my $arg = shift;
+
+    if ($arg eq '-a') {
+	$req_host_arch = shift;
+    } elsif ($arg eq '-t') {
+	$req_host_gnu_type = shift;
+    } elsif ($arg eq '-A') {
+	$req_target_arch = shift;
+    } elsif ($arg eq '-T') {
+	$req_target_gnu_type = shift;
+    } elsif ($arg eq '-W') {
+	$req_match_wildcard = shift;
+    } elsif ($arg eq '-B') {
+	$req_match_bits = shift;
+    } elsif ($arg eq '-E') {
+	$req_match_endian = shift;
+    } elsif ($arg eq '-e') {
+	$req_eq_arch = shift;
 	$req_vars = $arch_vars{DEB_HOST_ARCH};
 	$action = 'e';
-    } elsif (m/^-i/p) {
-	$req_is_arch = ${^POSTMATCH};
+    } elsif ($arg eq '-i') {
+	$req_is_arch = shift;
 	$req_vars = $arch_vars{DEB_HOST_ARCH};
 	$action = 'i';
-    } elsif (m/^-u$/) {
+    } elsif ($arg eq '-u') {
 	$req_vars = DEB_NONE;
 	$action = 'u';
-    } elsif (m/^-[ls]$/) {
-	$action = $_;
-	$action =~ s/^-//;
-    } elsif (m/^-f$/) {
+    } elsif ($arg eq '-l') {
+	$action = 'l';
+    } elsif ($arg eq '-s') {
+	$action = 's';
+    } elsif ($arg eq '-f') {
         $force=1;
-    } elsif (m/^-q/p) {
-	my $varname = ${^POSTMATCH};
+    } elsif ($arg eq '-q') {
+	my $varname = shift;
 	error(_g('%s is not a supported variable name'), $varname)
 	    unless (exists $arch_vars{$varname});
 	$req_variable_to_print = "$varname";
 	$req_vars = $arch_vars{$varname};
         $action = 'q';
-    } elsif (m/^-c$/) {
+    } elsif ($arg eq '-c') {
        $action = 'c';
        last;
-    } elsif (m/^-L$/) {
+    } elsif ($arg eq '-L') {
         $req_vars = 0;
         $action = 'L';
-    } elsif (m/^-(?:\?|-help)$/) {
+    } elsif ($arg eq '-?' or $arg eq '--help') {
         usage();
        exit 0;
-    } elsif (m/^--version$/) {
+    } elsif ($arg eq '--version') {
         version();
        exit 0;
     } else {
-	usageerr(_g("unknown option \`%s'"), $_);
+        usageerr(_g("unknown option \`%s'"), $arg);
     }
 }
 
