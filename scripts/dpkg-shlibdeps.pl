@@ -481,22 +481,22 @@ sub filter_deps {
 	return 0 if $dep =~ /^\s*\Q$exc\E\b/;
     }
     # Don't include dependencies if they are already
-    # mentionned in a higher priority field
+    # mentioned in a higher priority field
     if (not exists($depseen{$dep})) {
 	$depseen{$dep} = $dependencies{$field}{$dep};
 	return 1;
     } else {
-	# Since dependencies can be versionned, we have to
+	# Since dependencies can be versioned, we have to
 	# verify if the dependency is stronger than the
 	# previously seen one
 	my $stronger;
 	if ($depseen{$dep} eq $dependencies{$field}{$dep}) {
-	    # If both versions are the same (possibly unversionned)
+	    # If both versions are the same (possibly unversioned)
 	    $stronger = 0;
 	} elsif ($dependencies{$field}{$dep} eq '') {
-	    $stronger = 0; # If the dep is unversionned
+	    $stronger = 0; # If the dep is unversioned
 	} elsif ($depseen{$dep} eq '') {
-	    $stronger = 1; # If the dep seen is unversionned
+	    $stronger = 1; # If the dep seen is unversioned
 	} elsif (version_compare_relation($depseen{$dep}, REL_GT,
                                           $dependencies{$field}{$dep})) {
 	    # The version of the dep seen is stronger...
