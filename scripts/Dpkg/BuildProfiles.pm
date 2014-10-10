@@ -56,7 +56,7 @@ sub get_build_profiles {
     return @build_profiles if $cache_profiles;
 
     if (Dpkg::BuildEnv::has('DEB_BUILD_PROFILES')) {
-        @build_profiles = split / /, Dpkg::BuildEnv::get('DEB_BUILD_PROFILES');
+        @build_profiles = split /\s+/, Dpkg::BuildEnv::get('DEB_BUILD_PROFILES');
     }
     $cache_profiles = 1;
 
