@@ -255,13 +255,9 @@ foreach my $file (keys %exec) {
                 # package and we really need it)
 		my $dep = $symfile->get_dependency($soname);
 		my $minver = $symfile->get_smallest_version($soname) || '';
-		foreach my $subdep (split /\s*,\s*/, $dep) {
-		    if (not exists $dependencies{$cur_field}{$subdep}) {
-			$dependencies{$cur_field}{$subdep} = Dpkg::Version->new($minver);
-                        print " Initialize dependency ($subdep) with minimal " .
-                              "version ($minver)\n" if $debug > 1;
-		    }
-		}
+		update_dependency_version($dep, $minver);
+		print " Minimal version of ($dep) initialized with ($minver)\n"
+		    if $debug > 1;
 	    } else {
 		# No symbol file found, fall back to standard shlibs
                 print "Using shlibs+objdump for $soname (file $lib)\n" if $debug;
