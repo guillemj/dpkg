@@ -44,9 +44,9 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf g_(
-"Usage: %s [<option>...] [<changelogfile>]
-
-Options:
+'Usage: %s [<option>...] [<changelog-file>]')
+    . "\n\n" . g_(
+"Options:
       --file <file>       changelog <file> to parse (defaults to '-').
   -l, --label <file>      changelog <file> name to use in error messages.
       --format <output-format>
