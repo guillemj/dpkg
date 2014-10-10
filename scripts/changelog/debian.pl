@@ -47,27 +47,23 @@ sub usage {
 "Usage: %s [<option>...] [<changelogfile>]
 
 Options:
-    -?, --help                  print usage information
-    --version, -V               print version information
-    --label, -l <file>          name of the changelog file to
-                                use in error messages
-    --file <file>               changelog file to parse, defaults
-                                to '-' (standard input)
-    --format <outputformat>     see man page for list of available
-                                output formats, defaults to 'dpkg'
-                                for compatibility with dpkg-dev
-    --since, -s, -v <version>   include all changes later than version
-    --until, -u <version>       include all changes earlier than version
-    --from, -f <version>        include all changes equal or later
-                                than version
-    --to, -t <version>          include all changes up to or equal
-                                than version
-    --count, -c, -n <number>    include <number> entries from the top
-                                (or the tail if <number> is lower than 0)
-    --offset, -o <number>       change the starting point for --count,
-                                counted from the top (or the tail if
-                                <number> is lower than 0)
-    --all                       include all changes
+      --file <file>       changelog <file> to parse (defaults to '-').
+  -l, --label <file>      changelog <file> name to use in error messages.
+      --format <output-format>
+                          set the output format (defaults to 'dpkg').
+      --all               include all changes.
+  -s, --since <version>   include all changes later than <version>.
+  -v <version>            ditto.
+  -u, --until <version>   include all changes earlier than <version>.
+  -f, --from <version>    include all changes equal or later than <version>.
+  -t, --to <version>      include all changes up to or equal than <version>.
+  -c, --count <number>    include <number> entries from the top (or tail if
+                            <number> is lower than 0).
+  -n <number>             ditto.
+  -o, --offset <number>   change starting point for --count, counted from
+                            the top (or tail if <number> is lower than 0).
+  -?, --help              print usage information.
+  -V, --version           print version information.
 "), $Dpkg::PROGNAME;
 }
 

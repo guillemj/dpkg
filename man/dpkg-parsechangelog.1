@@ -35,19 +35,19 @@ form.
 .
 .SH OPTIONS
 .TP
-.BI \-l changelog-file
+.BR \-l " \fIchangelog-file\fP"
 Specifies the changelog file to read information from. A '\-' can be
 used to specify reading from standard input. The
 default is
 .BR debian/changelog .
 .TP
-.BI \-F changelog-format
+.BR \-F " \fIchangelog-format\fP"
 Specifies the format of the changelog. By default the format is read
 from a special line near the bottom of the changelog or failing that
 defaults to the \fIdebian\fP standard format. See also
 \fBCHANGELOG FORMATS\fP.
 .TP
-.BI \-L libdir
+.BR \-L " \fIlibdir\fP"
 Specify an additional directory to search for parser scripts.
 This directory is searched before the default directories
 which are currently
@@ -120,23 +120,27 @@ The \fBrfc822\fP format uses the same fields but outputs
 a separate paragraph for each changelog entry so that all
 metadata for each entry is preserved.
 .TP
-.BR \-\-since " \fIversion\fP, " \-s \fIversion\fP, " \-v" \fIversion\fP
+.BR \-s ", " \-\-since " \fIversion\fP"
+.TQ
+.BR \-v " \fIversion\fP"
 include all changes later than \fIversion\fP.
 .TP
-.BR \-\-until " \fIversion\fP, " \-u \fIversion\fP
+.BR \-u ", " \-\-until " \fIversion\fP"
 include all changes earlier than \fIversion\fP.
 .TP
-.BR \-\-from " \fIversion\fP, " \-f \fIversion\fP
+.BR \-f ", " \-\-from " \fIversion\fP"
 include all changes equal or later than \fIversion\fP.
 .TP
-.BR \-\-to " \fIversion\fP, " \-t \fIversion\fP
+.BR \-t ", " \-\-to " \fIversion\fP"
 include all changes up to or equal than \fIversion\fP.
 .TP
-.BR \-\-count " \fInumber\fP, " \-c "\fInumber\fP, " \-n \fInumber\fP
+.BR \-c ", " \-\-count " \fInumber\fP"
+.TQ
+.BR \-n " \fInumber\fP"
 include \fInumber\fP entries from the top (or the tail
 if \fInumber\fP is lower than 0).
 .TP
-.BR \-\-offset " \fInumber\fP, " \-o \fInumber\fP
+.BR \-o ", " \-\-offset " \fInumber\fP"
 change the starting point for \fB\-\-count\fP, counted from the top
 (or the tail if \fInumber\fP is lower than 0).
 .TP
@@ -189,6 +193,8 @@ All \fBParser Options\fP except for \fB\-v\fP are only supported
 since dpkg 1.14.16. Third party parsers for
 changelog formats other than \fIdebian\fP might not support
 all options.
+.PP
+Short option parsing with non-bundled values available only since dpkg 1.18.0.
 .
 .SH FILES
 .TP

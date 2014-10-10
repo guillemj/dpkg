@@ -24,6 +24,7 @@ use warnings;
 
 use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
 use Dpkg::Changelog::Parse;
 
@@ -46,75 +47,78 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 'Options:
-  -l<changelog-file>       get per-version info from this file.
-  -F<changelog-format>     force changelog format.
-  -L<libdir>               look for changelog parsers in <libdir>.
+  -l <changelog-file>      get per-version info from this file.
+  -F <changelog-format>    force changelog format.
+  -L <libdir>              look for changelog parsers in <libdir>.
   -S, --show-field <field> show the values for <field>.
   -?, --help               show this help message.
       --version            show the version.')
     . "\n\n" . g_(
 "Parser options:
-    --format <output-format>    see man page for list of available
-                                output formats, defaults to 'dpkg'
-                                for compatibility with dpkg-dev
-    --since <version>,          include all changes later than version
-      -s<version>, -v<version>
-    --until <version>,          include all changes earlier than version
-      -u<version>
-    --from <version>,           include all changes equal or later
-      -f<version>               than version
-    --to <version>, -t<version> include all changes up to or equal
-                                than version
-    --count <number>,           include <number> entries from the top
-      -c<number>, -n<number>    (or the tail if <number> is lower than 0)
-    --offset <number>,          change the starting point for --count,
-      -o<number>                counted from the top (or the tail if
-                                <number> is lower than 0)
-    --all                       include all changes
+      --format <output-format>
+                           set output format (defaults to 'dpkg').
+      --all                include all changes.
+  -s, --since <version>    include all changes later than <version>.
+  -v <version>             ditto.
+  -u, --until <version>    include all changes earlier than <version>.
+  -f, --from <version>     include all changes equal or later than <version>.
+  -t, --to <version>       include all changes up to or equal than <version>.
+  -c, --count <number>     include <number> entries from the top (or tail
+                             if <number> is lower than 0).
+  -n <number>              ditto.
+  -o, --offset <number>    change starting point for --count, counted from
+                             the top (or tail if <number> is lower than 0).
 "), $Dpkg::PROGNAME;
 }
 
+@ARGV = normalize_options(@ARGV);
+
 while (@ARGV) {
     last unless $ARGV[0] =~ m/^-/;
-    $_ = shift(@ARGV);
-    if (m/^-L(.+)$/) {
-	$options{libdir} = $1;
-    } elsif (m/^-F([0-9a-z]+)$/) {
-	$options{changelogformat} = $1;
-    } elsif (m/^-l(.+)$/) {
-	$options{file} = $1;
-    } elsif (m/^-S(.+)?$/) {
-	$fieldname = $1 // shift;
-    } elsif (m/^--show-field(?:=(.+))?$/) {
-	$fieldname = $1 // shift(@ARGV);
-    } elsif (m/^--$/) {
-	last;
-    } elsif (m/^-([cfnostuv])(.*)$/) {
-	if (($1 eq 'c') or ($1 eq 'n')) {
-	    $options{count} = $2;
-	} elsif ($1 eq 'f') {
-	    $options{from} = $2;
-	} elsif ($1 eq 'o') {
-	    $options{offset} = $2;
-	} elsif (($1 eq 's') or ($1 eq 'v')) {
-	    $options{since} = $2;
-	} elsif ($1 eq 't') {
-	    $options{to} = $2;
-	} elsif ($1 eq 'u') {
-	    ## no critic (ControlStructures::ProhibitUntilBlocks)
-	    $options{until} = $2;
-	    ## use critic
-	}
-    } elsif (m/^--(count|file|format|from|offset|since|to|until)(?:=(.+))?$/) {
-        $options{$1} = $2 // shift;
-    } elsif (m/^--all$/) {
+
+    my $arg = shift;
+
+    if ($arg eq '--') {
+        last;
+    } elsif ($arg eq '-L') {
+        $options{libdir} = shift;
+        usageerr(g_('missing library directory'))
+            unless length $options{libdir};
+    } elsif ($arg eq '-F') {
+        $options{changelogformat} = shift;
+        usageerr(g_('bad changelog format name'))
+            unless length $options{changelogformat} and
+                          $options{changelogformat} =~ m/^([0-9a-z]+)$/;
+    } elsif ($arg eq '--format') {
+        $options{format} = shift;
+    } elsif ($arg eq '-l' or $arg eq '--file') {
+        $options{file} = shift;
+        usageerr(g_('missing changelog filename'))
+            unless length $options{file};
+    } elsif ($arg eq '-S' or $arg eq '--show-field') {
+        $fieldname = shift;
+    } elsif ($arg eq '-c' or $arg eq '--count' or $arg eq '-n') {
+        $options{count} = shift;
+    } elsif ($arg eq '-f' or $arg eq '--from') {
+        $options{from} = shift;
+    } elsif ($arg eq '-o' or $arg eq '--offset') {
+        $options{offset} = shift;
+    } elsif ($arg eq '-s' or $arg eq '--since' or $arg eq '-v') {
+        $options{since} = shift;
+    } elsif ($arg eq '-t' or $arg eq '--to') {
+        $options{to} = shift;
+    } elsif ($arg eq '-u' or $arg eq '--until') {
+        ## no critic (ControlStructures::ProhibitUntilBlocks)
+        $options{until} = shift;
+        ## use critic
+    } elsif ($arg eq '--all') {
 	$options{all} = undef;
-    } elsif (m/^-(?:\?|-help)$/) {
+    } elsif ($arg eq '-?' or $arg eq '--help') {
 	usage(); exit(0);
-    } elsif (m/^--version$/) {
+    } elsif ($arg eq '--version') {
 	version(); exit(0);
     } else {
-	usageerr(g_("unknown option \`%s'"), $_);
+	usageerr(g_("unknown option \`%s'"), $arg);
     }
 }
 usageerr(g_('takes no non-option arguments')) if @ARGV;
