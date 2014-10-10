@@ -79,7 +79,7 @@ static void cu_unlockmethod(int, void**) {
   assert(methlockfd);
   fl.l_type=F_UNLCK; fl.l_whence= SEEK_SET; fl.l_start=fl.l_len=0;
   if (fcntl(methlockfd,F_SETLK,&fl) == -1)
-    sthfailed("unable to unlock access method area");
+    sthfailed(_("cannot unlock access method area"));
 }
 
 static enum urqresult ensureoptions(void) {
@@ -93,7 +93,7 @@ static enum urqresult ensureoptions(void) {
     for (ccpp= methoddirectories; *ccpp; ccpp++)
       readmethods(*ccpp, &newoptions, &nread);
     if (!newoptions) {
-      sthfailed("no access methods are available");
+      sthfailed(_("no access methods are available"));
       return urqr_fail;
     }
     options= newoptions;
@@ -112,20 +112,20 @@ static enum urqresult lockmethod(void) {
     methlockfd= open(methodlockfile, O_RDWR|O_CREAT|O_TRUNC, 0660);
     if (methlockfd == -1) {
       if ((errno == EPERM) || (errno == EACCES)) {
-        sthfailed("requested operation requires superuser privilege");
+        sthfailed(_("requested operation requires superuser privilege"));
         return urqr_fail;
       }
-      sthfailed("unable to open/create access method lockfile");
+      sthfailed(_("cannot open or create access method lockfile"));
       return urqr_fail;
     }
   }
   fl.l_type=F_WRLCK; fl.l_whence=SEEK_SET; fl.l_start=fl.l_len=0;
   if (fcntl(methlockfd,F_SETLK,&fl) == -1) {
     if (errno == EWOULDBLOCK || errno == EAGAIN) {
-      sthfailed("the access method area is already locked");
+      sthfailed(_("the access method area is already locked"));
       return urqr_fail;
       }
-    sthfailed("unable to lock access method area");
+    sthfailed(_("cannot lock access method area"));
     return urqr_fail;
   }
   push_cleanup(cu_unlockmethod, ~0, nullptr, 0, 0);
@@ -184,7 +184,7 @@ static urqresult runscript(const char *exepath, const char *name) {
     ur = falliblesubprocess(&cmd);
     command_destroy(&cmd);
   } else {
-    sthfailed("no access method is selected/configured");
+    sthfailed(_("no access method is selected or configured"));
     ur= urqr_fail;
   }
   pop_cleanup(ehflag_normaltidy);
