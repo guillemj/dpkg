@@ -109,6 +109,7 @@ getselections(const char *const *argv)
 int
 setselections(const char *const *argv)
 {
+  enum modstatdb_rw msdbflags;
   const struct namevalue *nv;
   struct pkginfo *pkg;
   int c, lno;
@@ -119,7 +120,13 @@ setselections(const char *const *argv)
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  modstatdb_open(msdbrw_write | msdbrw_available_readonly);
+  msdbflags = msdbrw_available_readonly;
+  if (f_noact)
+    msdbflags |= msdbrw_readonly;
+  else
+    msdbflags |= msdbrw_write;
+
+  modstatdb_open(msdbflags);
   pkg_infodb_upgrade();
 
   lno= 1;
@@ -194,13 +201,19 @@ setselections(const char *const *argv)
 int
 clearselections(const char *const *argv)
 {
+  enum modstatdb_rw msdbflags;
   struct pkgiterator *it;
   struct pkginfo *pkg;
 
   if (*argv)
     badusage(_("--%s takes no arguments"), cipaction->olong);
 
-  modstatdb_open(msdbrw_write);
+  if (f_noact)
+    msdbflags = msdbrw_readonly;
+  else
+    msdbflags = msdbrw_write;
+
+  modstatdb_open(msdbflags);
   pkg_infodb_upgrade();
 
   it = pkg_db_iter_new();
