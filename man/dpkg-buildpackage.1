@@ -139,15 +139,24 @@ run with root rights.
 .BI \-e maintainer-address
 Passed unchanged to \fBdpkg\-genchanges\fP. See its manual page.
 .TP
-.BI \-a architecture
+.BR \-a ", " \-\-host\-arch " \fIarchitecture\fP"
 Specify the Debian architecture we build for. The architecture of the
 machine we build on is determined automatically, and is also the default
 for the host machine.
 .TP
-.BI \-t gnu-system-type
+.BR \-t ", " \-\-host\-type " \fIgnu-system-type\fP"
 Specify the GNU system type we build for. It can be used in place
-of \-a or as a complement to override the default GNU system type
-of the target Debian architecture.
+of \-\-host\-arch or as a complement to override the default GNU system type
+of the host Debian architecture.
+.TP
+.BR \-\-target\-arch " \fIarchitecture\fP"
+Specify the Debian architecture the binaries built will build for.
+The default value is the host machine.
+.TP
+.BR \-\-target\-type " \fIgnu-system-type\fP"
+Specify the GNU system type the binaries built will build for. It can be
+used in place of \-\-target\-arch or as a complement to override the
+default GNU system type of the target Debian architecture.
 .TP
 .BR \-P \fIprofile\fP[ , ...]
 Specify the profile(s) we build, as a comma-separated list. The default
