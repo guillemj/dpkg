@@ -181,6 +181,12 @@ sub find_launchpad_closes {
 
 =back
 
+=head1 CHANGES
+
+=head2 Version 0.xx
+
+This is a semi-private module. Only documented functions are public.
+
 =cut
 
 1;

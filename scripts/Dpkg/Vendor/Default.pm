@@ -131,6 +131,12 @@ sub run_hook {
 
 =back
 
+=head1 CHANGES
+
+=head2 Version 0.xx
+
+This is a private module.
+
 =cut
 
 1;

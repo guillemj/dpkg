@@ -53,6 +53,12 @@ use constant {
     CTRL_CHANGELOG => 512,   # Output of dpkg-parsechangelog
 };
 
+=head1 CHANGES
+
+=head2 Version 0.xx
+
+This is a private module.
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>.
