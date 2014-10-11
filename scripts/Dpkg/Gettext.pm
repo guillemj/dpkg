@@ -27,6 +27,9 @@ use strict;
 use warnings;
 
 our $VERSION = '1.00';
+our @EXPORT = qw(_g P_ textdomain ngettext);
+
+use Exporter qw(import);
 
 =encoding utf8
 
@@ -91,9 +94,6 @@ BEGIN {
         };
     }
 }
-
-use Exporter qw(import);
-our @EXPORT=qw(_g P_ textdomain ngettext);
 
 =head1 CHANGES
 
