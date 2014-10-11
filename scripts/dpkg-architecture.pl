@@ -48,26 +48,29 @@ sub usage {
 'Usage: %s [<option>...] [<command>]')
     . "\n\n" . _g(
 'Commands:
-  -l                 list variables (default).
-  -L                 list valid architectures (matching some criteria).
-  -e<debian-arch>    compare with host Debian architecture.
-  -i<arch-wildcard>  check if host Debian architecture is <arch-wildcard>.
-  -q<variable>       prints only the value of <variable>.
-  -s                 print command to set environment variables.
-  -u                 print command to unset environment variables.
-  -c <command>       set environment and run the command in it.
-  -?, --help         show this help message.
-      --version      show the version.')
+  -l, --list                list variables (default).
+  -L, --list-known          list valid architectures (matching some criteria).
+  -e, --equal <arch>        compare with host Debian architecture.
+  -i, --is <arch-wildcard>  match against host Debian architecture.
+  -q, --query <variable>    prints only the value of <variable>.
+  -s, --print-set           print command to set environment variables.
+  -u, --print-unset         print command to unset environment variables.
+  -c, --command <command>   set environment and run the command in it.
+  -?, --help                show this help message.
+      --version             show the version.')
     . "\n\n" . _g(
 'Options:
-  -a<debian-arch>    set host Debian architecture.
-  -t<gnu-system>     set host GNU system type.
-  -A<debian-arch>    set target Debian architecture.
-  -T<gnu-system>     set target GNU system type.
-  -W<arch-wildcard>  restrict listed architectures matching <arch-wildcard>.
-  -B<arch-bits>      restrict listed architectures matching <arch-bits>.
-  -E<arch-endian>    restrict listed architectures matching <arch-endian>.
-  -f                 force flag (override variables set in environment).')
+  -a, --host-arch <arch>    set host Debian architecture.
+  -t, --host-type <type>    set host GNU system type.
+  -A, --target-arch <arch>  set target Debian architecture.
+  -T, --target-type <type>  set target GNU system type.
+  -W, --match-wildcard <arch-wildcard>
+                            restrict architecture list matching <arch-wildcard>.
+  -B, --match-bits <arch-bits>
+                            restrict architecture list matching <arch-bits>.
+  -E, --match-endian <arch-endian>
+                            restrict architecture list matching <arch-endian>.
+  -f, --force               force flag (override variables set in environment).')
     . "\n", $Dpkg::PROGNAME;
 }
 
@@ -159,7 +162,7 @@ my $req_match_wildcard = '';
 my $req_match_bits = '';
 my $req_match_endian = '';
 my $req_variable_to_print;
-my $action = 'l';
+my $action = 'list';
 my $force = 0;
 
 sub action_needs($) {
@@ -172,50 +175,50 @@ sub action_needs($) {
 while (@ARGV) {
     my $arg = shift;
 
-    if ($arg eq '-a') {
+    if ($arg eq '-a' or $arg eq '--host-arch') {
 	$req_host_arch = shift;
-    } elsif ($arg eq '-t') {
+    } elsif ($arg eq '-t' or $arg eq '--host-type') {
 	$req_host_gnu_type = shift;
-    } elsif ($arg eq '-A') {
+    } elsif ($arg eq '-A' or $arg eq '--target-arch') {
 	$req_target_arch = shift;
-    } elsif ($arg eq '-T') {
+    } elsif ($arg eq '-T' or $arg eq '--target-type') {
 	$req_target_gnu_type = shift;
-    } elsif ($arg eq '-W') {
+    } elsif ($arg eq '-W' or $arg eq '--match-wildcard') {
 	$req_match_wildcard = shift;
-    } elsif ($arg eq '-B') {
+    } elsif ($arg eq '-B' or $arg eq '--match-bits') {
 	$req_match_bits = shift;
-    } elsif ($arg eq '-E') {
+    } elsif ($arg eq '-E' or $arg eq '--match-endian') {
 	$req_match_endian = shift;
-    } elsif ($arg eq '-e') {
+    } elsif ($arg eq '-e' or $arg eq '--equal') {
 	$req_eq_arch = shift;
 	$req_vars = $arch_vars{DEB_HOST_ARCH};
-	$action = 'e';
-    } elsif ($arg eq '-i') {
+	$action = 'equal';
+    } elsif ($arg eq '-i' or $arg eq '--is') {
 	$req_is_arch = shift;
 	$req_vars = $arch_vars{DEB_HOST_ARCH};
-	$action = 'i';
-    } elsif ($arg eq '-u') {
+	$action = 'is';
+    } elsif ($arg eq '-u' or $arg eq '--print-unset') {
 	$req_vars = DEB_NONE;
-	$action = 'u';
-    } elsif ($arg eq '-l') {
-	$action = 'l';
-    } elsif ($arg eq '-s') {
-	$action = 's';
-    } elsif ($arg eq '-f') {
+	$action = 'print-unset';
+    } elsif ($arg eq '-l' or $arg eq '--list') {
+	$action = 'list';
+    } elsif ($arg eq '-s' or $arg eq '--print-set') {
+	$action = 'print-set';
+    } elsif ($arg eq '-f' or $arg eq '--force') {
         $force=1;
-    } elsif ($arg eq '-q') {
+    } elsif ($arg eq '-q' or $arg eq '--query') {
 	my $varname = shift;
 	error(_g('%s is not a supported variable name'), $varname)
 	    unless (exists $arch_vars{$varname});
 	$req_variable_to_print = "$varname";
 	$req_vars = $arch_vars{$varname};
-        $action = 'q';
-    } elsif ($arg eq '-c') {
-       $action = 'c';
+        $action = 'query';
+    } elsif ($arg eq '-c' or $arg eq '--command') {
+       $action = 'command';
        last;
-    } elsif ($arg eq '-L') {
+    } elsif ($arg eq '-L' or $arg eq '--list-known') {
         $req_vars = 0;
-        $action = 'L';
+        $action = 'list-known';
     } elsif ($arg eq '-?' or $arg eq '--help') {
         usage();
        exit 0;
@@ -319,27 +322,27 @@ for my $k (keys %arch_vars) {
     $v{$k} = $ENV{$k} if (length $ENV{$k} && !$force);
 }
 
-if ($action eq 'l') {
+if ($action eq 'list') {
     foreach my $k (sort keys %arch_vars) {
 	print "$k=$v{$k}\n";
     }
-} elsif ($action eq 's') {
+} elsif ($action eq 'print-set') {
     foreach my $k (sort keys %arch_vars) {
 	print "$k=$v{$k}; ";
     }
     print 'export ' . join(' ', sort keys %arch_vars) . "\n";
-} elsif ($action eq 'u') {
+} elsif ($action eq 'print-unset') {
     print 'unset ' . join(' ', sort keys %arch_vars) . "\n";
-} elsif ($action eq 'e') {
+} elsif ($action eq 'equal') {
     exit !debarch_eq($v{DEB_HOST_ARCH}, $req_eq_arch);
-} elsif ($action eq 'i') {
+} elsif ($action eq 'is') {
     exit !debarch_is($v{DEB_HOST_ARCH}, $req_is_arch);
-} elsif ($action eq 'c') {
+} elsif ($action eq 'command') {
     @ENV{keys %v} = values %v;
     exec @ARGV;
-} elsif ($action eq 'q') {
+} elsif ($action eq 'query') {
     print "$v{$req_variable_to_print}\n";
-} elsif ($action eq 'L') {
+} elsif ($action eq 'list-known') {
     foreach my $arch (get_valid_arches()) {
         my ($bits, $endian) = debarch_to_cpuattrs($arch);
 
