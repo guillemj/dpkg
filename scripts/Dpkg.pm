@@ -13,6 +13,19 @@
 
 package Dpkg;
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg - module with core variables
+
+=head1 DESCRIPTION
+
+The Dpkg module provides a set of variables with information concerning
+this system installation.
+
+=cut
+
 use strict;
 use warnings;
 
@@ -21,6 +34,38 @@ our $VERSION = '1.01';
 use Exporter qw(import);
 our @EXPORT_OK = qw($PROGNAME $PROGVERSION $CONFDIR $ADMINDIR $LIBDIR $DATADIR);
 our @EXPORT = qw($version $progname $admindir $dpkglibdir $pkgdatadir);
+
+=head1 VARIABLES
+
+=over 4
+
+=item $Dpkg::PROGNAME
+
+Contains the name of the current program.
+
+=item $Dpkg::PROGVERSION
+
+Contains the version of the dpkg suite.
+
+=item $Dpkg::CONFDIR
+
+Contains the path to the dpkg system configuration directory.
+
+=item $Dpkg::ADMINDIR
+
+Contains the path to the dpkg database directory.
+
+=item $Dpkg::LIBDIR
+
+Contains the path to the dpkg methods and plugins directory.
+
+=item $Dpkg::DATADIR
+
+Contains the path to the dpkg architecture tables directory.
+
+=back
+
+=cut
 
 our ($PROGNAME) = $0 =~ m{(?:.*/)?([^/]*)};
 
@@ -39,5 +84,20 @@ our $admindir = $ADMINDIR;
 our $dpkglibdir = $LIBDIR;
 our $pkgdatadir = $DATADIR;
 ## use critic
+
+=head1 CHANGES
+
+=head2 Version 1.01
+
+New variables: $PROGNAME, $PROGVERSION, $CONFDIR, $ADMINDIR, $LIBDIR and
+$DATADIR.
+
+Deprecated variables: $version, $admindir, $dpkglibdir and $pkgdatadir.
+
+=head2 Version 1.00
+
+Mark the module as public.
+
+=cut
 
 1;
