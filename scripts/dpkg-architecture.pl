@@ -254,13 +254,8 @@ if (action_needs(DEB_BUILD | DEB_GNU_INFO)) {
 
 # Proceed to compute the host variables if needed.
 
-if (action_needs(DEB_HOST)) {
-    if ($req_host_arch eq '') {
-        $v{DEB_HOST_ARCH} = get_raw_host_arch();
-    } else {
-        $v{DEB_HOST_ARCH} = $req_host_arch;
-    }
-}
+$v{DEB_HOST_ARCH} = $req_host_arch || get_raw_host_arch()
+    if (action_needs(DEB_HOST));
 ($abi, $v{DEB_HOST_ARCH_OS}, $v{DEB_HOST_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_HOST_ARCH})
     if (action_needs(DEB_HOST | DEB_ARCH_INFO));
 ($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_HOST_ARCH})
@@ -295,13 +290,8 @@ if (action_needs(DEB_HOST | DEB_GNU_INFO)) {
 
 # Proceed to compute the target variables if needed.
 
-if (action_needs(DEB_TARGET)) {
-    if ($req_target_arch eq '') {
-        $v{DEB_TARGET_ARCH} = $req_host_arch || get_raw_host_arch();
-    } else {
-        $v{DEB_TARGET_ARCH} = $req_target_arch;
-    }
-}
+$v{DEB_TARGET_ARCH} = $req_target_arch || $req_host_arch || get_raw_host_arch()
+    if (action_needs(DEB_TARGET));
 ($abi, $v{DEB_TARGET_ARCH_OS}, $v{DEB_TARGET_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_TARGET_ARCH})
     if (action_needs(DEB_TARGET | DEB_ARCH_INFO));
 ($v{DEB_TARGET_ARCH_BITS}, $v{DEB_TARGET_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_TARGET_ARCH})
