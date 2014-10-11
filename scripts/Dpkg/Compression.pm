@@ -83,7 +83,7 @@ my $regex = join '|', map { $_->{file_ext} } values %$COMP;
 our $compression_re_file_ext = qr/(?:$regex)/;
 ## use critic
 
-=head1 EXPORTED FUNCTIONS
+=head1 FUNCTIONS
 
 =over 4
 

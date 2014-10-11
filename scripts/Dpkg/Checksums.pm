@@ -43,7 +43,7 @@ This module provides an object that can generate and manipulate
 various file checksums as well as some methods to query information
 about supported checksums.
 
-=head1 EXPORTED FUNCTIONS
+=head1 FUNCTIONS
 
 =over 4
 
