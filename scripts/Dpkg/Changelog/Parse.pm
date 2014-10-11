@@ -162,6 +162,12 @@ sub changelog_parse {
 
 =back
 
+=head1 CHANGES
+
+=head2 Version 1.00
+
+Mark the module as public.
+
 =cut
 
 1;

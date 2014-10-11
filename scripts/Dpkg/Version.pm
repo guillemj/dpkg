@@ -436,6 +436,10 @@ New argument: Accept an options argument in $v->as_string().
 
 New method: $v->is_native().
 
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Don Armstrong <don@donarmstrong.com>, Colin Watson

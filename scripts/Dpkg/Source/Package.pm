@@ -630,6 +630,10 @@ get_default_tar_ignore_pattern()
 
 Deprecated variables: $diff_ignore_default_regexp, @tar_ignore_default_pattern
 
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Raphaël Hertzog, E<lt>hertzog@debian.orgE<gt>

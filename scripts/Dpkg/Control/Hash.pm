@@ -37,6 +37,12 @@ Dpkg::Control::Hash - parse and manipulate a block of RFC822-like fields
 This module is just like Dpkg::Control::HashCore, with vendor-specific
 field knowledge.
 
+=head1 CHANGES
+
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>.

@@ -401,6 +401,10 @@ __END__
 
 New options: spawn() now accepts 'sig' and 'delete_sig'.
 
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHORS
 
 Written by Raphaël Hertzog <hertzog@debian.org> and

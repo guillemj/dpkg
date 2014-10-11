@@ -1513,6 +1513,10 @@ supplementary parameters ($arch and $multiarch).
 Deprecated method: Dpkg::Deps::KnownFacts->check_package() is obsolete,
 it should not have been part of the public API.
 
+=head2 Version 1.00
+
+Mark the module as public.
+
 =cut
 
 1;

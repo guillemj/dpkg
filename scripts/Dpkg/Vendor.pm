@@ -188,6 +188,10 @@ sub run_vendor_hook {
 
 New function: get_vendor_dir().
 
+=head2 Version 1.00
+
+Mark the module as public.
+
 =cut
 
 1;

@@ -56,6 +56,12 @@ with associated meta-data explaining in which type of control information
 they are allowed. The vendor-neutral fieldnames and all functions are
 inherited from Dpkg::Control::FieldsCore.
 
+=head1 CHANGES
+
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>.

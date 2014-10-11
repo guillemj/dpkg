@@ -462,6 +462,10 @@ C<*$self->{...}> to access the associated hash like in the example below:
 
 New argument: $fh->ensure_open() accepts an %opts argument.
 
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>

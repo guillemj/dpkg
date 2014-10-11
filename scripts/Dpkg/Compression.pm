@@ -237,6 +237,10 @@ and $compression_re_file_ext
 
 Default compression level is not global any more, it is per compressor type.
 
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>.

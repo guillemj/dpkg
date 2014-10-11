@@ -385,6 +385,10 @@ Deprecated method: $s->no_warn(), use $s->mark_as_used() instead.
 
 New method: $s->set_as_used().
 
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>.

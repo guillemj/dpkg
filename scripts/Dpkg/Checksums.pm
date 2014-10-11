@@ -383,6 +383,10 @@ New argument: Accept an options argument in $ck->export_to_string().
 New option: Accept new option 'update' in $ck->add_from_file() and
 $ck->add_from_control().
 
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>.

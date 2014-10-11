@@ -201,6 +201,12 @@ Dpkg::Changelog
 Description of the Debian changelog format in the Debian policy:
 L<https://www.debian.org/doc/debian-policy/ch-source.html#s-dpkgchangelog>.
 
+=head1 CHANGES
+
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHORS
 
 Frank Lichtenheld, E<lt>frank@lichtenheld.deE<gt>

@@ -195,6 +195,10 @@ sub export {
 Enable to use another environment variable instead of DEB_BUILD_OPTIONS.
 Thus add support for the "envvar" option at creation time.
 
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>

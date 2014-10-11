@@ -138,6 +138,12 @@ sub _stringify {
 
 =back
 
+=head1 CHANGES
+
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>.

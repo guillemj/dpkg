@@ -458,6 +458,10 @@ the prepend operation everywhere.
 New method: $bf->load_maintainer_config() that update the build flags
 based on the package maintainer directives.
 
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>

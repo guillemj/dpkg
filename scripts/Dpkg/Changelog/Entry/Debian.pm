@@ -315,6 +315,10 @@ New functions: match_header(), match_trailer()
 
 Deprecated variables: $regex_header, $regex_trailer
 
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Raphaël Hertzog <hertzog@debian.org>.

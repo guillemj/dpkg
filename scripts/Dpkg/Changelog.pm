@@ -694,6 +694,12 @@ Any combination of one option of C<since> and C<from> and one of
 C<until> and C<to> returns the intersection of the two results
 with only one of the options specified.
 
+=head1 CHANGES
+
+=head2 Version 1.00
+
+Mark the module as public.
+
 =head1 AUTHOR
 
 Frank Lichtenheld, E<lt>frank@lichtenheld.deE<gt>
