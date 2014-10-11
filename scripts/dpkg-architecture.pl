@@ -297,7 +297,7 @@ if (action_needs(DEB_HOST | DEB_GNU_INFO)) {
 
 if (action_needs(DEB_TARGET)) {
     if ($req_target_arch eq '') {
-        $v{DEB_TARGET_ARCH} = $v{DEB_HOST_ARCH};
+        $v{DEB_TARGET_ARCH} = $req_host_arch || get_raw_host_arch();
     } else {
         $v{DEB_TARGET_ARCH} = $req_target_arch;
     }
