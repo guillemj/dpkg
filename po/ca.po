@@ -7,10 +7,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.15.8.6\n"
+"Project-Id-Version: dpkg 1.17.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2014-10-12 05:21+0200\n"
-"PO-Revision-Date: 2014-06-02 11:19+0200\n"
+"PO-Revision-Date: 2014-10-12 15:39+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "Language: ca\n"
@@ -2831,7 +2831,7 @@ msgstr "multi-arquitectura"
 
 #: src/enquiry.c:440
 msgid "versioned Provides"
-msgstr ""
+msgstr "Provides amb versió"
 
 #: src/enquiry.c:541
 #, c-format
@@ -3149,43 +3149,7 @@ msgid "Debian `%s' package management program version %s.\n"
 msgstr "Programa de gestió de paquets «%s» de Debian versió %s.\n"
 
 #: src/main.c:86
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -i|--install       <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --unpack           <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --configure        <package> ... | -a|--pending\n"
-#| "  --triggers-only    <package> ... | -a|--pending\n"
-#| "  -r|--remove        <package> ... | -a|--pending\n"
-#| "  -P|--purge         <package> ... | -a|--pending\n"
-#| "  -V|--verify <package> ...        Verify the integrity of package(s).\n"
-#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
-#| "  --set-selections                 Set package selections from stdin.\n"
-#| "  --clear-selections               Deselect every non-essential package.\n"
-#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
-#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
-#| "  --clear-avail                    Erase existing available info.\n"
-#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-#| "  -s|--status <package> ...        Display package status details.\n"
-#| "  -p|--print-avail <package> ...   Display available version details.\n"
-#| "  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
-#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
-#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-#| "  -C|--audit                       Check for broken package(s).\n"
-#| "  --add-architecture <arch>        Add <arch> to the list of "
-#| "architectures.\n"
-#| "  --remove-architecture <arch>     Remove <arch> from the list of "
-#| "architectures.\n"
-#| "  --print-architecture             Print dpkg architecture.\n"
-#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
-#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
-#| "  --force-help                     Show help on forcing.\n"
-#| "  -Dh|--debug=help                 Show help on debugging.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3250,7 +3214,7 @@ msgstr ""
 "  -l|--list [<patró>…]             Llista breument els paquets.\n"
 "  -S|--search <patró>…             Cerca els paquets que contenen aquests\n"
 "                                     fitxers.\n"
-"  -C|--audit                       Verifica els paquets trencats.\n"
+"  -C|--audit [<paquet>…]           Verifica els paquets trencats.\n"
 "  --add-architecture <arq>         Afegeix <arq> a la llista "
 "d'arquitectures.\n"
 "  --remove-architecture <arq>      Esborra <arq> de la llista "
@@ -3288,13 +3252,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:128
-#, fuzzy, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep |\n"
-#| "  --assert-multi-arch.\n"
-#| "\n"
+#, c-format
 msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
@@ -3305,7 +3263,7 @@ msgstr ""
 "Per a ús intern: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
 "|\n"
-"  --assert-multi-arch.\n"
+"  --assert-multi-arch | --assert-versioned-provides.\n"
 "\n"
 
 #: src/main.c:134
@@ -3786,10 +3744,9 @@ msgid "  Package %s is to be removed.\n"
 msgstr "  El paquet %s serà desinstaŀlat.\n"
 
 #: src/packages.c:370
-#, fuzzy, c-format
-#| msgid "  Version of %s on system is %s.\n"
+#, c-format
 msgid "  Version of %s on system, provided by %s, is %s.\n"
-msgstr "  La versió del paquet «%s» al sistema és %s.\n"
+msgstr "  La versió del paquet «%s» al sistema, proveïda per «%s», és %s.\n"
 
 #: src/packages.c:383
 #, c-format
@@ -4455,20 +4412,18 @@ msgid "syntax error in statoverride file"
 msgstr "error de sintaxi al fitxer de statoverride"
 
 #: src/statdb.c:212
-#, fuzzy, c-format
-#| msgid "syntax error: unknown user '%s' in statoverride file"
+#, c-format
 msgid "unknown user '%s' in statoverride file"
-msgstr "error de sintaxi: l'usuari «%s» és desconegut al fitxer statoverride"
+msgstr "l'usuari «%s» és desconegut al fitxer statoverride"
 
 #: src/statdb.c:218 src/statdb.c:239 src/statdb.c:252
 msgid "unexpected end of line in statoverride file"
 msgstr "s'ha trobat una fi de línia inesperada al fitxer de statoverride"
 
 #: src/statdb.c:233
-#, fuzzy, c-format
-#| msgid "syntax error: unknown group '%s' in statoverride file"
+#, c-format
 msgid "unknown group '%s' in statoverride file"
-msgstr "error de sintaxi: el grup «%s» és desconegut al fitxer statoverride"
+msgstr "el grup «%s» és desconegut al fitxer statoverride"
 
 #: src/statdb.c:256
 #, c-format
@@ -5309,21 +5264,7 @@ msgid "Debian `%s' package archive backend version %s.\n"
 msgstr "Rerefons d'arxius de paquets «%s» de Debian versió %s.\n"
 
 #: dpkg-deb/main.c:74
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -b|--build <directory> [<deb>]   Build an archive.\n"
-#| "  -c|--contents <deb>              List contents.\n"
-#| "  -I|--info <deb> [<cfile> ...]    Show info to stdout.\n"
-#| "  -W|--show <deb>                  Show information on package(s)\n"
-#| "  -f|--field <deb> [<cfield> ...]  Show field(s) to stdout.\n"
-#| "  -e|--control <deb> [<directory>] Extract control info.\n"
-#| "  -x|--extract <deb> <directory>   Extract files.\n"
-#| "  -X|--vextract <deb> <directory>  Extract & list files.\n"
-#| "  -R|--raw-extract <deb> <directory>\n"
-#| "                                   Extract control info and files.\n"
-#| "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -b|--build <directory> [<deb>]   Build an archive.\n"
@@ -5353,6 +5294,7 @@ msgstr ""
 "  -R|--raw-extract <deb> <directori>\n"
 "                                   Extreu la informació de control i els\n"
 "                                     fitxers.\n"
+"  --ctrl-tarfile <deb>             Mostra el fitxer tar de control.\n"
 "  --fsys-tarfile <deb>             Mostra el fitxer tar del sistema de\n"
 "                                     fitxers.\n"
 "\n"
