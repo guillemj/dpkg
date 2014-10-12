@@ -617,7 +617,7 @@ sub update_dependency_version {
 	if (exists $dependencies{$cur_field}{$subdep} and
 	    defined($dependencies{$cur_field}{$subdep}))
 	{
-	    if ($dependencies{$cur_field}{$subdep} eq '' or
+	    if ($dependencies{$cur_field}{$subdep} eq '' or $minver ne '' and
 		version_compare_relation($minver, REL_GT,
 				         $dependencies{$cur_field}{$subdep}))
 	    {
