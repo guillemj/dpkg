@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-10-12 05:21+0200\n"
-"PO-Revision-Date: 2014-09-25 23:24+0200\n"
+"POT-Creation-Date: 2014-10-12 08:02+0200\n"
+"PO-Revision-Date: 2014-10-12 21:21+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -1342,16 +1342,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.5:192
-#, fuzzy
-#| msgid ""
-#| "The syntax of the B<Build-Depends>, B<Build-Depends-Arch> and B<Build-"
-#| "Depends-Indep> fields is a list of groups of alternative packages. Each "
-#| "group is a list of packages separated by vertical bar (or \"pipe\") "
-#| "symbols, \"|\". The groups are separated by commas. Commas are to be read "
-#| "as \"AND\", and pipes as \"OR\", with pipes binding more tightly. Each "
-#| "package name is optionally followed by a version number specification in "
-#| "parentheses, an architecture specification in square brackets, and a "
-#| "profile specification in angle brackets."
 msgid ""
 "The syntax of the B<Build-Depends>, B<Build-Depends-Arch> and B<Build-"
 "Depends-Indep> fields is a list of groups of alternative packages. Each "
@@ -1369,20 +1359,11 @@ msgstr ""
 "müssen als »UND«, vertikale Striche als »ODER« gelesen werden, wobei die "
 "vertikalen Striche stärker binden. Jeder Paketname wird optional gefolgt von "
 "einer Versionsnummer-Spezifikation in Klammern, einer "
-"Architekturspezifikation in eckigen Klammern und einer Profilspezifikation "
-"in spitzen Klammern."
+"Architekturspezifikation in eckigen Klammern und einer Einschränkungsformel, "
+"die aus einer oder mehr Listen von Profilnamen in spitzen Klammern besteht."
 
 #. type: Plain text
 #: deb-src-control.5:204
-#, fuzzy
-#| msgid ""
-#| "The syntax of the B<Build-Conflicts>, B<Build-Conflicts-Arch> and B<Build-"
-#| "Conflicts-Indep> fields is a list of comma-separated package names, where "
-#| "the comma is read as an \"AND\". Specifying alternative packages using a "
-#| "\"pipe\" is not supported.  Each package name is optionally followed by a "
-#| "version number specification in parentheses, an architecture "
-#| "specification in square brackets, and a profile specification in angle "
-#| "brackets."
 msgid ""
 "The syntax of the B<Build-Conflicts>, B<Build-Conflicts-Arch> and B<Build-"
 "Conflicts-Indep> fields is a list of comma-separated package names, where "
@@ -1397,8 +1378,8 @@ msgstr ""
 "Paketnamen dargestellt, wobei das Komma als »UND« verstanden wird. Die "
 "Angabe alternativer Pakete mit dem »Pipe«-Symbol wird nicht unterstützt. "
 "Jedem Paketnamen folgt optional eine Versionnummerangabe in Klammern, eine "
-"Architekturspezifikation in eckigen Klammern und ein Profilspezifikation in "
-"spitzen Klammern."
+"Architekturspezifikation in eckigen Klammern und einer Einschränkungsformel, "
+"die aus einer oder mehr Listen von Profilnamen in spitzen Klammern besteht."
 
 #. type: Plain text
 #: deb-src-control.5:210
@@ -1427,6 +1408,7 @@ msgstr ""
 "Leerzeichen getrennten Architekturnamen. Jedem Namen darf ein Ausrufezeichen "
 "vorangestellt werden, das »NICHT« bedeutet."
 
+# FIXME: Check paragraph on debian-dpkg
 #. type: Plain text
 #: deb-src-control.5:220
 msgid ""
@@ -1436,6 +1418,12 @@ msgid ""
 "can be prefixed with an exclamation mark, meaning \"NOT\". A restriction "
 "formula represents a disjunctive normal form expression."
 msgstr ""
+"Eine Einschränkungsformel besteht aus einer oder mehrerer durch Leeraum "
+"getrennten Einschränkungslisten. Jede Einschränkungsliste wird in spitze "
+"Klammern eingeschlossen. Einträge in den Einschränkungslisten sind "
+"Bauprofilnamen, getrennt durch Leerraum. Diesen Listen kann ein "
+"Ausrufezeichen vorangestellt werden, das »NICHT« bedeutet. Eine "
+"Einschränkungsformel stellt einen Ausdruck in einer disjunkte Normalform dar."
 
 #. type: Plain text
 #: deb-src-control.5:225
@@ -1591,14 +1579,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.5:333
-#, fuzzy
-#| msgid ""
-#| "Take into account that these user-defined fields will be using the global "
-#| "namespace, which might at some point in the future collide with "
-#| "officially recognized fields. To avoid such potential situation you can "
-#| "prefix those fields with B<Private->, such as B<XB-Private-New-Field>, "
-#| "which as a side effect will make B<dpkg-deb> not warn on them as unknown "
-#| "fields."
 msgid ""
 "Take into account that these user-defined fields will be using the global "
 "namespace, which might at some point in the future collide with officially "
@@ -1609,8 +1589,6 @@ msgstr ""
 "nutzen werden und somit in der Zukunft mit offiziell erkannten Feldern "
 "kollidieren könnten. Um solche möglichen Situationen zu vermeiden, können "
 "Sie den Feldern B<Private->, wie in B<XB-Private-Neues-Feld>, voranstellen. "
-"Als Seiteneffekt wird in diesem Fall B<dpkg-deb> sie nicht mit der Warnung "
-"eines unbekannten Feldes ausgeben."
 
 #. type: Plain text
 #: deb-src-control.5:350
@@ -5892,15 +5870,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-architecture.1:48
-#, fuzzy
-#| msgid ""
-#| "You can specify the host architecture by providing one or both of the "
-#| "options B<-a> and B<-t>. The default is determined by an external call to "
-#| "B<gcc>(1), or the same as the build architecture if B<CC> or gcc are both "
-#| "not available. One out of B<-a> and B<-t> is sufficient, the value of the "
-#| "other will be set to a usable default. Indeed, it is often better to only "
-#| "specify one, because B<dpkg-architecture> will warn you if your choice "
-#| "does not match the default."
 msgid ""
 "You can specify the host architecture by providing one or both of the "
 "options B<--host-arch> and B<--host-type>. The default is determined by an "
@@ -5911,10 +5880,10 @@ msgid ""
 "will warn you if your choice does not match the default."
 msgstr ""
 "Sie können die Host-Architektur (Wirt-Architektur) spezifizieren, indem Sie "
-"eine oder beide der Optionen B<-a> oder B<-t> verwenden. Der Standardwert "
+"eine oder beide der Optionen B<--host-arch> oder B<--host-type> verwenden. Der Standardwert "
 "wird über einen externen Aufruf an B<gcc>(1) ermittelt oder ist identisch "
 "mit der Bauarchitektur, falls sowohl B<CC> als auch Gcc nicht verfügbar "
-"sind. Einer von B<-a> oder B<-t> ist ausreichend, der Wert des anderen wird "
+"sind. Einer von B<--host-arch> oder B<--host-type> ist ausreichend, der Wert des anderen wird "
 "auf einen brauchbaren Wert gesetzt. Tatsächlich ist es oft besser, nur einen "
 "der beiden anzugeben, da B<dpkg-architecture> Sie warnen wird, falls Ihre "
 "Wahl nicht mit dem Standardwert übereinstimmt."
@@ -5930,10 +5899,9 @@ msgstr "BEFEHLE"
 
 #. type: TP
 #: dpkg-architecture.1:50
-#, fuzzy, no-wrap
-#| msgid "B<-l>, B<--listq>"
+#, no-wrap
 msgid "B<-l>, B<--list>"
-msgstr "B<-l>, B<--listq>"
+msgstr "B<-l>, B<--list>"
 
 #. type: Plain text
 #: dpkg-architecture.1:54
@@ -5946,20 +5914,12 @@ msgstr ""
 
 #. type: TP
 #: dpkg-architecture.1:54
-#, fuzzy, no-wrap
-#| msgid "B<-a>, B<--no-architecture>"
+#, no-wrap
 msgid "B<-e>, B<--equal> I<architecture>"
-msgstr "B<-a>, B<--no-architecture>"
+msgstr "B<-e>, B<--equal> I<Architektur>"
 
 #. type: Plain text
 #: dpkg-architecture.1:61
-#, fuzzy
-#| msgid ""
-#| "Check for equality of architecture (since dpkg 1.13.13). By default "
-#| "I<debian-architecture> is compared against the current Debian "
-#| "architecture, being the host. This action will not expand the "
-#| "architecture wildcards.  Command finishes with an exit status of 0 if "
-#| "matched, 1 if not matched."
 msgid ""
 "Check for equality of architecture (since dpkg 1.13.13).  It compares the "
 "current or specified Debian host architecture against I<architecture>, to "
@@ -5967,28 +5927,20 @@ msgid ""
 "wildcards.  Command finishes with an exit status of 0 if matched, 1 if not "
 "matched."
 msgstr ""
-"Überprüfe auf Gleichheit der Architekturen (seit Dpkg 1.13.13). "
-"Standardmäßig wird I<Debian-Architektur> gegen die aktuelle Debian-"
-"Architektur auf dem Host geprüft. Diese Aktion expandiert nicht die "
-"Architektur-Platzhalter (Wildcards). Der Befehl beendet sich mit einem Exit-"
-"Status von 0, falls eine Übereinstimmung besteht, andernfalls mit 1."
+"Überprüfe auf Gleichheit der Architekturen (seit Dpkg 1.13.13). Es prüft die "
+"aktuelle oder angegebene Debian-Host-Architektur mit I<Architektur> "
+"auf Gleichheit. Diese Aktion expandiert nicht die Architektur-Platzhalter "
+"(Wildcards). Der Befehl beendet sich mit einem Exit-Status von 0, falls eine "
+"Übereinstimmung besteht, andernfalls mit 1."
 
 #. type: TP
 #: dpkg-architecture.1:62
-#, fuzzy, no-wrap
-#| msgid "B<-i>I<architecture-wildcard>"
+#, no-wrap
 msgid "B<-i>, B<--is> I<architecture-wildcard>"
-msgstr "B<-i>I<Architektur-Platzhalter>"
+msgstr "B<-i>, B<--is> I<Architektur-Platzhalter>"
 
 #. type: Plain text
 #: dpkg-architecture.1:69
-#, fuzzy
-#| msgid ""
-#| "Check for equality of architecture (since dpkg 1.13.13). By default "
-#| "I<debian-architecture> is compared against the current Debian "
-#| "architecture, being the host. This action will not expand the "
-#| "architecture wildcards.  Command finishes with an exit status of 0 if "
-#| "matched, 1 if not matched."
 msgid ""
 "Check for identity of architecture (since dpkg 1.13.13).  It compares the "
 "current or specified Debian host architecture against I<architecture-"
@@ -5996,18 +5948,17 @@ msgid ""
 "they match.  Command finishes with an exit status of 0 if matched, 1 if not "
 "matched."
 msgstr ""
-"Überprüfe auf Gleichheit der Architekturen (seit Dpkg 1.13.13). "
-"Standardmäßig wird I<Debian-Architektur> gegen die aktuelle Debian-"
-"Architektur auf dem Host geprüft. Diese Aktion expandiert nicht die "
-"Architektur-Platzhalter (Wildcards). Der Befehl beendet sich mit einem Exit-"
+"Überprüfe auf Gleichheit der Architekturen (seit Dpkg 1.13.13). Es prüft die "
+"aktuelle oder angegebene Debian-Host-Architektur mit I<Architektur-"
+"Platzhalter>, nachdem dieser zu einem Architektur-Platzhalter expandiert "
+"wurde und prüft, ob sie passen. Der Befehl beendet sich mit einem Exit-"
 "Status von 0, falls eine Übereinstimmung besteht, andernfalls mit 1."
 
 #. type: TP
 #: dpkg-architecture.1:69
-#, fuzzy, no-wrap
-#| msgid "B<-q>I<variable-name>"
+#, no-wrap
 msgid "B<-q>, B<--query> I<variable-name>"
-msgstr "B<-q>I<Variablenname>"
+msgstr "B<-q>, B<--query> I<Variablenname>"
 
 #. type: Plain text
 #: dpkg-architecture.1:72
@@ -6016,10 +5967,9 @@ msgstr "Zeige den Wert einer einzelnen Variablen an."
 
 #. type: TP
 #: dpkg-architecture.1:72
-#, fuzzy, no-wrap
-#| msgid "B<-t>, B<--test>"
+#, no-wrap
 msgid "B<-s>, B<--print-set>"
-msgstr "B<-t>, B<--test>"
+msgstr "B<-s>, B<--print-set>"
 
 #. type: Plain text
 #: dpkg-architecture.1:76
@@ -6032,25 +5982,21 @@ msgstr ""
 
 #. type: TP
 #: dpkg-architecture.1:76
-#, fuzzy, no-wrap
-#| msgid "B<-u>, B<--udeb>"
+#, no-wrap
 msgid "B<-u>, B<--print-unset>"
-msgstr "B<-u>, B<--udeb>"
+msgstr "B<-u>, B<--print-unset>"
 
 #. type: Plain text
 #: dpkg-architecture.1:79
-#, fuzzy
-#| msgid "Print a similar command to B<-s> but to unset all variables."
 msgid "Print a similar command to B<--print-unset> but to unset all variables."
 msgstr ""
-"Ähnlich wie B<-s>, gebe einen Export-Befehl aus, der alle Variablen löscht."
+"Ähnlich wie B<--print-unset>, gebe einen Export-Befehl aus, der alle Variablen löscht."
 
 #. type: TP
 #: dpkg-architecture.1:79
-#, fuzzy, no-wrap
-#| msgid "B<--check-command=>I<check-command>"
+#, no-wrap
 msgid "B<-c>, B<--command> I<command>"
-msgstr "B<--check-command=>I<Prüfbefehl>"
+msgstr "B<-c>, B<--command> I<Befehl>"
 
 #. type: Plain text
 #: dpkg-architecture.1:83
@@ -6063,10 +6009,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-architecture.1:83
-#, fuzzy, no-wrap
-#| msgid "B<-l>, B<--listq>"
+#, no-wrap
 msgid "B<-L>, B<--list-known>"
-msgstr "B<-l>, B<--listq>"
+msgstr "B<-L>, B<--list-known>"
 
 #. type: Plain text
 #: dpkg-architecture.1:89
@@ -6075,6 +6020,9 @@ msgid ""
 "more of the matching options B<--match-wildcard>, B<--match-bits> or B<--"
 "match-endian> (since dpkg 1.17.14)."
 msgstr ""
+"Gib eine Liste von gültigen Architekturnamen aus. Möglicherweise durch eine "
+"oder mehrere der Abgleich-Optionen B<--match-wildcard>, B<--match-bits> oder B<--match-endian> eingeschränkt "
+"(seit Dpkg 1.17.14)."
 
 #. type: Plain text
 #: dpkg-architecture.1:92 dpkg-buildflags.1:155 dpkg-buildpackage.1:333
@@ -6102,38 +6050,31 @@ msgstr "Gebe die Version aus und beende sich."
 
 #. type: TP
 #: dpkg-architecture.1:97 dpkg-buildpackage.1:141
-#, fuzzy, no-wrap
-#| msgid "B<-a>, B<--no-architecture>"
+#, no-wrap
 msgid "B<-a>, B<--host-arch> I<architecture>"
-msgstr "B<-a>, B<--no-architecture>"
+msgstr "B<-a>, B<--host-arch> I<Architektur>"
 
 #. type: Plain text
 #: dpkg-architecture.1:100
-#, fuzzy
-#| msgid "Set the Debian architecture."
 msgid "Set the host Debian architecture."
-msgstr "Setze die Debian-Architektur."
+msgstr "Setzt die Debian-Host-Architektur."
 
 #. type: TP
 #: dpkg-architecture.1:100 dpkg-buildpackage.1:146
-#, fuzzy, no-wrap
-#| msgid "B<-t>, B<--type> I<type>"
+#, no-wrap
 msgid "B<-t>, B<--host-type> I<gnu-system-type>"
-msgstr "B<-t>, B<--type> I<Typ>"
+msgstr "B<-t>, B<--host-type> I<GNU-Systemtyp>"
 
 #. type: Plain text
 #: dpkg-architecture.1:103
-#, fuzzy
-#| msgid "Set the GNU system type."
 msgid "Set the host GNU system type."
-msgstr "Setze den GNU-Systemtyp."
+msgstr "Setzt den Host-GNU-Systemtyp."
 
 #. type: TP
 #: dpkg-architecture.1:103
-#, fuzzy, no-wrap
-#| msgid "B<-a>, B<--arch> I<arch>"
+#, no-wrap
 msgid "B<-A>, B<--target-arch> I<architecture>"
-msgstr "B<-a>, B<--arch> I<arch>"
+msgstr "B<-A>, B<--target-arch> I<Architektur>"
 
 #. type: Plain text
 #: dpkg-architecture.1:108
@@ -6142,27 +6083,27 @@ msgid ""
 "cross-toolchain, one that will be built on the build architecture, to be run "
 "on the host architecture, and to build code for the target architecture."
 msgstr ""
+"Setzt die Ziel-Debian-Architektur. Dies wird nur beim Bau einer Cross-"
+"Toolchain und zum Bau von Code für die Ziel-Architektur benötigt. Die Cross-"
+"Toolchain wird auf der Bauarchitektur gebaut und läuft dann auf der Host-"
+"Architektur."
 
 #. type: TP
 #: dpkg-architecture.1:108
-#, fuzzy, no-wrap
-#| msgid "B<-t>I<gnu-system-type>"
+#, no-wrap
 msgid "B<-T>, B<--target-type> I<gnu-system-type>"
-msgstr "B<-t>I<GNU-Systemtyp>"
+msgstr "B<-T>, B<--target-type> I<GNU-Systemtyp>"
 
 #. type: Plain text
 #: dpkg-architecture.1:111
-#, fuzzy
-#| msgid "Set the GNU system type."
 msgid "Set the target GNU system type."
-msgstr "Setze den GNU-Systemtyp."
+msgstr "Setzt den Ziel-GNU-Systemtyp."
 
 #. type: TP
 #: dpkg-architecture.1:111
-#, fuzzy, no-wrap
-#| msgid "B<-i>I<architecture-wildcard>"
+#, no-wrap
 msgid "B<-W>, B<--match-wildcard> I<architecture-wildcard>"
-msgstr "B<-i>I<Architektur-Platzhalter>"
+msgstr "B<-W>, B<--match-wildcard> I<Architektur-Platzhalter>"
 
 #. type: Plain text
 #: dpkg-architecture.1:115
@@ -6170,13 +6111,14 @@ msgid ""
 "Restrict the architectures listed by B<--list-known> to ones matching the "
 "specified architecture wildcard (since dpkg 1.17.14)."
 msgstr ""
+"Begrenzt die mit B<--list-known> aufgeführten Architekturen auf solche, die auf den "
+"angegebenen Architektur-Platzhalter passen (seit Dpkg 1.17.14)."
 
 #. type: TP
 #: dpkg-architecture.1:115
-#, fuzzy, no-wrap
-#| msgid "B<-a>I<architecture>"
+#, no-wrap
 msgid "B<-B>, B<--match-bits> I<architecture-bits>"
-msgstr "B<-a>I<Architektur>"
+msgstr "B<-B>, B<--match-bits> I<Architektur-Bits>"
 
 #. type: Plain text
 #: dpkg-architecture.1:119
@@ -6184,13 +6126,14 @@ msgid ""
 "Restrict the architectures listed by B<--list-known> to ones with the "
 "specified CPU bits (since dpkg 1.17.14). Either B<32> or B<64>."
 msgstr ""
+"Begrenzt die mit B<--list-known> aufgeführten Architekturen auf solche mit den "
+"angegebenen CPU-Bits (seit Dpkg 1.17.14). Entweder B<32> oder B<64>."
 
 #. type: TP
 #: dpkg-architecture.1:119
-#, fuzzy, no-wrap
-#| msgid "B<-a>I<architecture>"
+#, no-wrap
 msgid "B<-E>, B<--match-endian> I<architecture-endianness>"
-msgstr "B<-a>I<Architektur>"
+msgstr "B<-E>, B<--match-endian> I<Architektur-Endianness>"
 
 #. type: Plain text
 #: dpkg-architecture.1:123
@@ -6198,13 +6141,14 @@ msgid ""
 "Restrict the architectures listed by B<--list-known> to ones with the "
 "specified endianness (since dpkg 1.17.14). Either B<little> or B<big>."
 msgstr ""
+"Begrenzt die mit B<--list-known> aufgeführten Architekturen auf solche mit der "
+"angegebenen Endianness (seit Dpkg 1.17.14). Entweder B<little> oder B<big>."
 
 #. type: TP
 #: dpkg-architecture.1:123
-#, fuzzy, no-wrap
-#| msgid "B<-C>, B<--no-close>"
+#, no-wrap
 msgid "B<-f>, B<--force>"
-msgstr "B<-C>, B<--no-close>"
+msgstr "B<-f>, B<--force>"
 
 #. type: Plain text
 #: dpkg-architecture.1:130
@@ -6252,17 +6196,14 @@ msgstr "Die Maschine, für die das Paket gebaut ist."
 
 #. type: IP
 #: dpkg-architecture.1:136
-#, fuzzy, no-wrap
-#| msgid "host machine"
+#, no-wrap
 msgid "target machine"
-msgstr "Host-Maschine"
+msgstr "Ziel-Maschine"
 
 #. type: Plain text
 #: dpkg-architecture.1:138
-#, fuzzy
-#| msgid "The machine the package is built for."
 msgid "The machine the compiler is building for."
-msgstr "Die Maschine, für die das Paket gebaut ist."
+msgstr "Die Maschine, für die der Compiler baut."
 
 #. type: IP
 #: dpkg-architecture.1:138
@@ -6533,137 +6474,107 @@ msgstr ""
 
 #. type: IP
 #: dpkg-architecture.1:190
-#, fuzzy, no-wrap
-#| msgid "B<DEB_HOST_ARCH>"
+#, no-wrap
 msgid "B<DEB_TARGET_ARCH>"
-msgstr "B<DEB_HOST_ARCH>"
+msgstr "B<DEB_TARGET_ARCH>"
 
 #. type: Plain text
 #: dpkg-architecture.1:192
-#, fuzzy
-#| msgid "The Debian cpu name of the host machine (since dpkg 1.13.2)."
 msgid "The Debian architecture of the target machine (since dpkg 1.17.14)."
-msgstr "Der Debian-CPU-Name der Host-Maschine. (Seit Dpkg 1.13.2)."
+msgstr "Die Debian-Architektur der Ziel-Maschine (seit Dpkg 1.17.14)."
 
 #. type: IP
 #: dpkg-architecture.1:192
-#, fuzzy, no-wrap
-#| msgid "B<DEB_HOST_ARCH_OS>"
+#, no-wrap
 msgid "B<DEB_TARGET_ARCH_OS>"
-msgstr "B<DEB_HOST_ARCH_OS>"
+msgstr "B<DEB_TARGET_ARCH_OS>"
 
 #. type: Plain text
 #: dpkg-architecture.1:194
-#, fuzzy
-#| msgid "The Debian system name of the host machine (since dpkg 1.13.2)."
 msgid "The Debian system name of the target machine (since dpkg 1.17.14)."
-msgstr "Der Debian-Systemname der Host-Maschine. (Seit Dpkg 1.13.2)."
+msgstr "Der Debian-Systemname der Ziel-Maschine. (Seit Dpkg 1.17.14)."
 
 #. type: IP
 #: dpkg-architecture.1:194
-#, fuzzy, no-wrap
-#| msgid "B<DEB_HOST_ARCH_CPU>"
+#, no-wrap
 msgid "B<DEB_TARGET_ARCH_CPU>"
-msgstr "B<DEB_HOST_ARCH_CPU>"
+msgstr "B<DEB_TARGET_ARCH_CPU>"
 
 #. type: Plain text
 #: dpkg-architecture.1:196
-#, fuzzy
-#| msgid "The Debian cpu name of the host machine (since dpkg 1.13.2)."
 msgid "The Debian cpu name of the target machine (since dpkg 1.17.14)."
-msgstr "Der Debian-CPU-Name der Host-Maschine. (Seit Dpkg 1.13.2)."
+msgstr "Der Debian-CPU-Name der Ziel-Maschine. (Seit Dpkg 1.17.14)."
 
 #. type: IP
 #: dpkg-architecture.1:196
-#, fuzzy, no-wrap
-#| msgid "B<DEB_HOST_ARCH_BITS>"
+#, no-wrap
 msgid "B<DEB_TARGET_ARCH_BITS>"
-msgstr "B<DEB_HOST_ARCH_BITS>"
+msgstr "B<DEB_TARGET_ARCH_BITS>"
 
 #. type: Plain text
 #: dpkg-architecture.1:198
-#, fuzzy
-#| msgid "The pointer size of the host machine (in bits; since dpkg 1.15.4)."
 msgid "The pointer size of the target machine (in bits; since dpkg 1.17.14)."
-msgstr "Die Zeigergröße der Host-Maschine in Bits. (Seit Dpkg 1.15.4)."
+msgstr "Die Zeigergröße der Ziel-Maschine in Bits. (Seit Dpkg 1.17.14)."
 
 #. type: IP
 #: dpkg-architecture.1:198
-#, fuzzy, no-wrap
-#| msgid "B<DEB_HOST_ARCH_ENDIAN>"
+#, no-wrap
 msgid "B<DEB_TARGET_ARCH_ENDIAN>"
-msgstr "B<DEB_HOST_ARCH_ENDIAN>"
+msgstr "B<DEB_TARGET_ARCH_ENDIAN>"
 
 #. type: Plain text
 #: dpkg-architecture.1:200
-#, fuzzy
-#| msgid ""
-#| "The endianness of the host machine (little / big; since dpkg 1.15.4)."
 msgid ""
 "The endianness of the target machine (little / big; since dpkg 1.17.14)."
-msgstr "Die Endianness der Host-Maschine (little/big; seit Dpkg 1.15.4)."
+msgstr "Die Endianness der Ziel-Maschine (little/big; seit Dpkg 1.17.14)."
 
 #. type: IP
 #: dpkg-architecture.1:200
-#, fuzzy, no-wrap
-#| msgid "B<DEB_HOST_GNU_CPU>"
+#, no-wrap
 msgid "B<DEB_TARGET_GNU_CPU>"
-msgstr "B<DEB_HOST_GNU_CPU>"
+msgstr "B<DEB_TARGET_GNU_CPU>"
 
 #. type: Plain text
 #: dpkg-architecture.1:202
-#, fuzzy
-#| msgid "The CPU part of B<DEB_HOST_GNU_TYPE>."
 msgid "The CPU part of B<DEB_TARGET_GNU_TYPE> (since dpkg 1.17.14)."
-msgstr "Der CPU-Teil von B<DEB_HOST_GNU_TYPE>."
+msgstr "Der CPU-Teil von B<DEB_TARGET_GNU_TYPE>. (Seit Dpkg 1.17.14)."
 
 #. type: IP
 #: dpkg-architecture.1:202
-#, fuzzy, no-wrap
-#| msgid "B<DEB_HOST_GNU_SYSTEM>"
+#, no-wrap
 msgid "B<DEB_TARGET_GNU_SYSTEM>"
-msgstr "B<DEB_HOST_GNU_SYSTEM>"
+msgstr "B<DEB_TARGET_GNU_SYSTEM>"
 
 #. type: Plain text
 #: dpkg-architecture.1:204
-#, fuzzy
-#| msgid "The System part of B<DEB_HOST_GNU_TYPE>."
 msgid "The System part of B<DEB_TARGET_GNU_TYPE> (since dpkg 1.17.14)."
-msgstr "Der System-Teil von B<DEB_HOST_GNU_TYPE>."
+msgstr "Der System-Teil von B<DEB_TARGET_GNU_TYPE>. (Seit Dpkg 1.17.14)."
 
 #. type: IP
 #: dpkg-architecture.1:204
-#, fuzzy, no-wrap
-#| msgid "B<DEB_HOST_GNU_TYPE>"
+#, no-wrap
 msgid "B<DEB_TARGET_GNU_TYPE>"
-msgstr "B<DEB_HOST_GNU_TYPE>"
+msgstr "B<DEB_TARGET_GNU_TYPE>"
 
 #. type: Plain text
 #: dpkg-architecture.1:206
-#, fuzzy
-#| msgid "The Debian system name of the host machine (since dpkg 1.13.2)."
 msgid "The GNU system type of the target machine (since dpkg 1.17.14)."
-msgstr "Der Debian-Systemname der Host-Maschine. (Seit Dpkg 1.13.2)."
+msgstr "Der GNU-Systemtyp der Ziel-Maschine. (Seit Dpkg 1.17.14)."
 
 #. type: IP
 #: dpkg-architecture.1:206
-#, fuzzy, no-wrap
-#| msgid "B<DEB_HOST_MULTIARCH>"
+#, no-wrap
 msgid "B<DEB_TARGET_MULTIARCH>"
-msgstr "B<DEB_HOST_MULTIARCH>"
+msgstr "B<DEB_TARGET_MULTIARCH>"
 
 #. type: Plain text
 #: dpkg-architecture.1:209
-#, fuzzy
-#| msgid ""
-#| "The clarified GNU system type of the host machine, used for filesystem "
-#| "paths (since dpkg 1.16.0)."
 msgid ""
 "The clarified GNU system type of the target machine, used for filesystem "
 "paths (since dpkg 1.17.14)."
 msgstr ""
-"Der klargestellte GNU-Systemtyp der Host-Maschine, wird für Dateisystempfade "
-"benutzt. (Seit Dpkg 1.16.0)."
+"Der klargestellte GNU-Systemtyp der Ziel-Maschine, wird für Dateisystempfade "
+"benutzt. (Seit Dpkg 1.17.14)."
 
 #. type: SS
 #: dpkg-architecture.1:211
@@ -6761,16 +6672,12 @@ msgstr "eval \\`dpkg-architecture -u\\`"
 
 #. type: Plain text
 #: dpkg-architecture.1:241
-#, fuzzy
-#| msgid ""
-#| "Check if an architecture is equal to the current architecture or a given "
-#| "one:"
 msgid ""
 "Check if the current or specified host architecture is equal to an "
 "architecture:"
 msgstr ""
-"Überprüfe, ob eine Architektur identisch zu der aktuellen Architektur oder "
-"einer übergebenen ist:"
+"Überprüfe, ob die aktuelle oder angegebene Host-Architektur identisch zu "
+"einer Architektur ist:"
 
 #. type: Plain text
 #: dpkg-architecture.1:243
@@ -6784,14 +6691,10 @@ msgstr "dpkg-architecture -amips -elinux-mips"
 
 #. type: Plain text
 #: dpkg-architecture.1:247
-#, fuzzy
-#| msgid ""
-#| "Check if the current architecture or an architecture provided with B<-a> "
-#| "are Linux systems:"
 msgid "Check if the current or specified host architecture is a Linux system:"
 msgstr ""
-"Überprüfe, ob die aktuelle oder eine mit B<-a> übergebene Architektur Linux-"
-"Systeme sind:"
+"Überprüfe, ob die aktuelle oder angegebene Host-Architektur ein Linux-System "
+"ist:"
 
 #. type: Plain text
 #: dpkg-architecture.1:249
@@ -6919,8 +6822,8 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-architecture.1:312
-msgid "All long name commands and options available only since dpkg 1.17.17."
-msgstr ""
+msgid "All long command and option names available only since dpkg 1.17.17."
+msgstr "Alle langen Befehle und Optionennamen sind seit Dpkg 1.17.17 verfügbar."
 
 #. type: Plain text
 #: dpkg-architecture.1:315
@@ -6984,10 +6887,9 @@ msgstr "dpkg-buildflags"
 
 #. type: TH
 #: dpkg-buildflags.1:20
-#, fuzzy, no-wrap
-#| msgid "2014-05-24"
+#, no-wrap
 msgid "2014-09-04"
-msgstr "2014-05-24"
+msgstr "2014-09-04"
 
 #. type: Plain text
 #: dpkg-buildflags.1:23
@@ -7385,11 +7287,6 @@ msgstr "B<--query-features>I< Bereich>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:141
-#, fuzzy
-#| msgid ""
-#| "Print the features enabled for a given area. The only currently "
-#| "recognized area is B<hardening>, see the B<FEATURE AREAS> section for "
-#| "more details.  Exits with 0 if the area is known otherwise exits with 1."
 msgid ""
 "Print the features enabled for a given area. The only currently recognized "
 "areas are B<qa>, B<reproducible> and B<hardening>, see the B<FEATURE AREAS> "
@@ -7397,9 +7294,10 @@ msgid ""
 "with 1."
 msgstr ""
 "Gibt die Funktionalitäten, die für den übergebenen Bereich aktiviert sind, "
-"aus. Der einzige derzeit erkannte Bereich ist B<hardening>. Lesen Sie den "
-"Abschnitt B<FUNKTIONALITÄTSBEREICHE> für weitere Details. Beendet sich mit "
-"0, falls der Bereich bekannt ist, andernfalls mit 1."
+"aus. Die einzigen derzeit erkannten Bereiche sind B<qa>, B<reproducible> und "
+"B<hardening>. Lesen Sie den Abschnitt B<FUNKTIONALITÄTSBEREICHE> für weitere "
+"Details. Beendet sich mit 0, falls der Bereich bekannt ist, andernfalls mit "
+"1."
 
 #. type: Plain text
 #: dpkg-buildflags.1:144
@@ -7573,12 +7471,6 @@ msgstr "FUNKTIONALITÄTSBEREICHE"
 
 #. type: Plain text
 #: dpkg-buildflags.1:206
-#, fuzzy
-#| msgid ""
-#| "Each hardening feature can be enabled and disabled in the "
-#| "B<DEB_BUILD_MAINT_OPTIONS> environment variable's B<hardening> value with "
-#| "the \"+\" and \"-\" modifier. For example, to enable the \"pie\" feature "
-#| "and disable the \"fortify\" feature you can do this in B<debian/rules>:"
 msgid ""
 "Each area feature can be enabled and disabled in the B<DEB_BUILD_OPTIONS> "
 "and B<DEB_BUILD_MAINT_OPTIONS> environment variable's area value with the \"+"
@@ -7586,11 +7478,12 @@ msgid ""
 "feature and disable the \"fortify\" feature you can do this in B<debian/"
 "rules>:"
 msgstr ""
-"Jede Härtungsfunktionalität kann durch den entsprechenden B<Härtungs->-Wert "
-"in der Umgebungsvariablen B<DEB_BUILD_MAINT_OPTIONS> mit den »+«- und »-«-"
-"Schaltern aktiviert und deaktiviert werden. Soll beispielsweise die »pie«-"
-"Funktionalität aktiviert und die »fortify«-Funktionalität deaktiviert "
-"werden, können Sie Folgendes in B<debian/rules> verwenden:"
+"Jede Bereichsfunktionalität kann durch den entsprechenden Bereichswert in "
+"den Umgebungsvariablen B<DEB_BUILD_OPTIONS> und B<DEB_BUILD_MAINT_OPTIONS> "
+"mit den »+«- und »-«-Schaltern aktiviert und deaktiviert werden. Soll "
+"beispielsweise für B<hardening> die »pie«-Funktionalität aktiviert und die "
+"»fortify«-Funktionalität deaktiviert werden, können Sie Folgendes in "
+"B<debian/rules> verwenden:"
 
 #. type: Plain text
 #: dpkg-buildflags.1:208
@@ -7600,21 +7493,16 @@ msgstr "  export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,-fortify\n"
 
 #. type: Plain text
 #: dpkg-buildflags.1:213
-#, fuzzy
-#| msgid ""
-#| "The special feature B<all> can be used to enable or disable all hardening "
-#| "features at the same time. Thus disabling everything and enabling only "
-#| "\"format\" and \"fortify\" can be achieved with:"
 msgid ""
 "The special feature B<all> (valid in any area) can be used to enable or "
 "disable all area features at the same time.  Thus disabling everything in "
 "the B<hardening> area and enabling only \"format\" and \"fortify\" can be "
 "achieved with:"
 msgstr ""
-"Die spezielle Funktionalität B<all> kann dazu verwandt werden, alle "
-"Härtungsfunktionalitäten auf einmal zu aktivieren oder zu deaktiveren. Um "
-"daher alles zu deaktiveren und nur »format« und »fortify« zu aktiveren, kann "
-"Folgendes eingesetzt werden:"
+"Die spezielle Funktionalität B<all> (in allen Bereichen gültig) kann dazu "
+"verwandt werden, alle Bereichsfunktionalitäten auf einmal zu aktivieren oder "
+"zu deaktiveren. Um daher alles im Bereich B<hardening> zu deaktiveren und "
+"nur »format« und »fortify« zu aktiveren, kann Folgendes eingesetzt werden:"
 
 #. type: Plain text
 #: dpkg-buildflags.1:215
@@ -7626,7 +7514,7 @@ msgstr "  export DEB_BUILD_MAINT_OPTIONS=hardening=-all,+format,+fortify\n"
 #: dpkg-buildflags.1:216
 #, no-wrap
 msgid "Quality Assurance (QA)"
-msgstr ""
+msgstr "Qualitätssicherung (QS)"
 
 #. type: Plain text
 #: dpkg-buildflags.1:219
@@ -7634,13 +7522,15 @@ msgid ""
 "Several compile-time options (detailed below) can be used to help detect "
 "problems in the source code or build system."
 msgstr ""
+"Mehrere Optionen zur Kompilierung (Details weiter unten) können verwandt "
+"werden, um dabei zu helfen, Probleme im Quellcode oder im Bausystem zu "
+"erkennen."
 
 #. type: TP
 #: dpkg-buildflags.1:219
-#, fuzzy, no-wrap
-#| msgid "B<--debug>"
+#, no-wrap
 msgid "B<bug>"
-msgstr "B<--debug>"
+msgstr "B<bug>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:223
@@ -7648,13 +7538,16 @@ msgid ""
 "This setting (disabled by default) adds any warning option that reliably "
 "detects problematic source code. The warnings are fatal."
 msgstr ""
+"Diese Einstellung (standardmäßig deaktiviert) fügt Warnoptionen hinzu, die "
+"zuverlässig problematischen Quellcode erkennen. Diese Warnungen sind fatal."
 
 #. type: TP
 #: dpkg-buildflags.1:223
 #, no-wrap
 msgid "B<canary>"
-msgstr ""
+msgstr "B<canary>"
 
+# FIXME: Difficult wording
 #. type: Plain text
 #: dpkg-buildflags.1:232
 msgid ""
@@ -7666,6 +7559,14 @@ msgid ""
 "D__DEB_CANARY_>I<flag>_I<random-id>B<__>, and B<LDFLAGS> set to B<-Wl,-z,deb-"
 "canary->I<random-id>."
 msgstr ""
+"Diese Einstellung (standardmäßig deaktiviert) fügt Pseudo-Kanarienvögel-"
+"Optionen zu den Bauschaltern hinzu, so dass die Bauprotokolle überprüft "
+"werden können, wie die Bauschalter sich fortpflanzen. Dies erlaubt, "
+"Auslassungen in den normalen Bauschaltereinstellungen zu finden. Derzeit "
+"werden nur die Schalter B<CPPFLAGS>, B<CFLAGS>, B<OBJCFLAGS>, B<CXXFLAGS> "
+"und B<OBJCXXFLAGS> unterstützt, wobei die Schalter auf B<-"
+"D__DEB_CANARY_>I<Schalter>_I<Zufallskennung>B<__> gesetzt werden, und "
+"B<LDFLAGS>, das auf B<-Wl,-z,deb-canary->I<Zufallskennung> gesetzt wird."
 
 #. type: SS
 #: dpkg-buildflags.1:233
@@ -7675,12 +7576,6 @@ msgstr "Härtung"
 
 #. type: Plain text
 #: dpkg-buildflags.1:239
-#, fuzzy
-#| msgid ""
-#| "Several compile-time options (detailed below) can be used to help harden "
-#| "a resulting binary against memory corruption attacks, or provide "
-#| "additional warning messages during compilation. Except as noted below, "
-#| "these are enabled by default for architectures that support them."
 msgid ""
 "Several compile-time options (detailed below) can be used to help harden a "
 "resulting binary against memory corruption attacks, or provide additional "
@@ -7942,34 +7837,27 @@ msgstr ""
 #: dpkg-buildflags.1:341
 #, no-wrap
 msgid "Reproducibility"
-msgstr ""
+msgstr "Reproduzierbarkeit"
 
 #. type: Plain text
 #: dpkg-buildflags.1:346
-#, fuzzy
-#| msgid ""
-#| "Several compile-time options (detailed below) can be used to help harden "
-#| "a resulting binary against memory corruption attacks, or provide "
-#| "additional warning messages during compilation. Except as noted below, "
-#| "these are enabled by default for architectures that support them."
 msgid ""
 "The compile-time options detailed below can be used to help improve build "
 "reproducibility or provide additional warning messages during compilation. "
 "Except as noted below, these are enabled by default for architectures that "
 "support them."
 msgstr ""
-"Mehrere Kompilierzeit-Optionen (weiter unten beschrieben) können dazu "
-"verwandt werden, ein erstelltes Programm gegen Speicherverfälschungsangriffe "
-"zu härten, oder zusätzliche Warnungsmeldungen während der Übersetzung "
-"auszugeben. Sie werden für Architekturen, die diese unterstützen, "
-"standardmäßig aktiviert; die Ausnahmen sind unten angegeben."
+"Die Kompilierzeit-Optionen (weiter unten beschrieben) können dazu verwandt "
+"werden, die Reproduzierbarkeit zu verbessern oder zusätzliche "
+"Warnungsmeldungen während der Übersetzung auszugeben. Sie werden für "
+"Architekturen, die diese unterstützen, standardmäßig aktiviert; die "
+"Ausnahmen sind unten angegeben."
 
 #. type: TP
 #: dpkg-buildflags.1:346
-#, fuzzy, no-wrap
-#| msgid "B<title>"
+#, no-wrap
 msgid "B<timeless>"
-msgstr "B<title>"
+msgstr "B<timeless>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:353
@@ -7978,6 +7866,9 @@ msgid ""
 "will cause warnings when the B<__TIME__>, B<__DATE__> and B<__TIMESTAMP__> "
 "macros are used."
 msgstr ""
+"Diese (standardmäßig deaktivierte) Einstellung fügt B<-Wdate-time> zu "
+"B<CPPFLAGS> hinzu. Dies führt zu Warnungen, wenn die Makros B<__TIME__>, "
+"B<__DATE__> und B<__TIMESTAMP__> verwandt werden."
 
 #. type: Plain text
 #: dpkg-buildflags.1:361
@@ -8094,11 +7985,6 @@ msgstr "B<DEB_BUILD_MAINT_OPTIONS>"
 
 #. type: Plain text
 #: dpkg-buildflags.1:395
-#, fuzzy
-#| msgid ""
-#| "This variable can be used to disable/enable various hardening build flags "
-#| "through the B<hardening> option. See the B<FEATURE AREAS> section for "
-#| "details."
 msgid ""
 "These variables can be used by a user or maintainer to disable/enable "
 "various area features that affect build flags.  The "
@@ -8106,9 +7992,12 @@ msgid ""
 "B<DEB_BUILD_OPTIONS> feature areas.  See the B<FEATURE AREAS> section for "
 "details."
 msgstr ""
-"Diese Variable kann zum Deaktivieren oder Aktivieren verschiedener "
-"Härtungsbauschalter durch die Option B<hardening> verwandt werden. Lesen Sie "
-"den Abschnitt B<FUNKTIONALITÄTSBEREICHE> für weitere Details."
+"Diese Variablen können von Benutzern oder Betreuern zum Deaktivieren oder "
+"Aktivieren verschiedener Bereichsfunktionalitäten benutzt werden, die "
+"Bauschalter beeinflussen. Die Variable B<DEB_BUILD_MAINT_OPTIONS> setzt jede "
+"Einstellung in den Funktionalitätsbereichen B<DEB_BUILD_OPTIONS> außer "
+"Kraft. Lesen Sie den Abschnitt B<FUNKTIONALITÄTSBEREICHE> für weitere "
+"Details."
 
 #. type: SS
 #: dpkg-buildflags.1:397
@@ -8723,63 +8612,46 @@ msgstr ""
 "die Voreinstellung für die Gastgebermaschine (»host machine«)."
 
 #. type: Plain text
+# FIXME No I<> or B<>? (auch in folgenden)
 #: dpkg-buildpackage.1:151
-#, fuzzy
-#| msgid ""
-#| "Specify the GNU system type we build for. It can be used in place of -a "
-#| "or as a complement to override the default GNU system type of the target "
-#| "Debian architecture."
 msgid ""
 "Specify the GNU system type we build for. It can be used in place of --host-"
 "arch or as a complement to override the default GNU system type of the host "
 "Debian architecture."
 msgstr ""
-"Spezifiziere den GNU-Systemtyp, für den wir bauen. Er kann anstelle von -a "
-"oder als Ergänzung verwandt werden, um den Standard GNU-Systemtyp der Ziel-"
-"Debian-Architektur zu überschreiben."
+"Spezifiziere den GNU-Systemtyp, für den wir bauen. Er kann anstelle von --host-arch "
+"oder als Ergänzung verwandt werden, um den Standard GNU-Systemtyp der Host-"
+"Debian-Architektur außer Kraft zu setzen."
 
 #. type: TP
 #: dpkg-buildpackage.1:151
-#, fuzzy, no-wrap
-#| msgid "B<-a>I<architecture>"
+#, no-wrap
 msgid "B<--target-arch> I<architecture>"
-msgstr "B<-a>I<Architektur>"
+msgstr "B<--target-arch> I<Architektur>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:155
-#, fuzzy
-#| msgid ""
-#| "Specify the Debian architecture we build for. The architecture of the "
-#| "machine we build on is determined automatically, and is also the default "
-#| "for the host machine."
 msgid ""
 "Specify the Debian architecture the binaries built will build for.  The "
 "default value is the host machine."
 msgstr ""
-"Spezifiziert die Debian-Architektur, für die gebaut wird. Die Architektur "
-"der Maschine, auf der gebaut wird, wird automatisch bestimmt, und ist auch "
-"die Voreinstellung für die Gastgebermaschine (»host machine«)."
+"Spezifiziert die Debian-Architektur, für die die gebauten Programme bauen "
+"werden. Die Voreinstellung ist die Host-Maschine."
 
 #. type: TP
 #: dpkg-buildpackage.1:155
-#, fuzzy, no-wrap
-#| msgid "B<-t>I<gnu-system-type>"
+#, no-wrap
 msgid "B<--target-type> I<gnu-system-type>"
-msgstr "B<-t>I<GNU-Systemtyp>"
+msgstr "B<--target-type> I<GNU-Systemtyp>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:160
-#, fuzzy
-#| msgid ""
-#| "Specify the GNU system type we build for. It can be used in place of -a "
-#| "or as a complement to override the default GNU system type of the target "
-#| "Debian architecture."
 msgid ""
 "Specify the GNU system type the binaries built will build for. It can be "
 "used in place of --target-arch or as a complement to override the default "
 "GNU system type of the target Debian architecture."
 msgstr ""
-"Spezifiziere den GNU-Systemtyp, für den wir bauen. Er kann anstelle von -a "
+"Spezifiziere den GNU-Systemtyp, für den die gebauten Programme bauen werden. Er kann anstelle von --target-arch "
 "oder als Ergänzung verwandt werden, um den Standard GNU-Systemtyp der Ziel-"
 "Debian-Architektur zu überschreiben."
 
@@ -8791,13 +8663,6 @@ msgstr "B<-P>I<Profil>[B<,>…]"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:167
-#, fuzzy
-#| msgid ""
-#| "Specify the profile(s) we build, as a comma-separated list, without the "
-#| "\"B<profile.>\" namespace prefix. The default behavior is to build for no "
-#| "specific profile. Also adds them (as a space separated list) to the "
-#| "B<DEB_BUILD_PROFILES> environment variable which allows, for example, "
-#| "B<debian/rules> files to use this information for conditional builds."
 msgid ""
 "Specify the profile(s) we build, as a comma-separated list. The default "
 "behavior is to build for no specific profile. Also sets them (as a space "
@@ -8805,12 +8670,11 @@ msgid ""
 "allows, for example, B<debian/rules> files to use this information for "
 "conditional builds."
 msgstr ""
-"Gibt als Kommata-getrennte Liste (ohne den Namensraum-Präfix »B<profile.>«) "
-"die zu bauenden Profile an. Standardmäßig wird für kein bestimmtes Profil "
-"gebaut. Fügt sie auch (als durch Leerzeichen getrennte Liste) zu der "
-"Umgebungsvariablen B<DEB_BUILD_PROFILES> hinzu. Dies erlaubt beispielsweise "
-"B<debian/rules>-Dateien, diese Information für den Bau unter bestimmten "
-"Bedingungen zu nutzen."
+"Gibt als Kommata-getrennte Liste die zu bauenden Profile an. Standardmäßig "
+"wird für kein bestimmtes Profil gebaut. Setzt sie auch (als durch "
+"Leerzeichen getrennte Liste) in die Umgebungsvariable "
+"B<DEB_BUILD_PROFILES>. Dies erlaubt beispielsweise B<debian/rules>-Dateien, "
+"diese Information für den Bau unter bestimmten Bedingungen zu nutzen."
 
 #. type: TP
 #: dpkg-buildpackage.1:167
@@ -9300,20 +9164,14 @@ msgstr "B<DEB_BUILD_PROFILES>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1:355 dpkg-checkbuilddeps.1:80
-#, fuzzy
-#| msgid ""
-#| "If set, it will be used as the active build profile(s) for the package "
-#| "being built. It is a space separated list of profile names, without the "
-#| "\"B<profile.>\" namespace prefix. Overridden by the B<-P> option."
 msgid ""
 "If set, it will be used as the active build profile(s) for the package being "
 "built. It is a space separated list of profile names. Overridden by the B<-"
 "P> option."
 msgstr ""
 "Falls gesetzt, wird sie als aktive(s) Bau-Profil(e) für das zu bauende Paket "
-"verwandt. Es ist eine durch Leerzeichen getrennte Liste von Profilnamen ohne "
-"den Namensraum-Präfix »B<profile>«. Wird durch die Option B<-P> außer Kraft "
-"gesetzt."
+"verwandt. Es ist eine durch Leerzeichen getrennte Liste von Profilnamen. "
+"Wird durch die Option B<-P> außer Kraft gesetzt."
 
 #. type: SS
 #: dpkg-buildpackage.1:356
@@ -9518,12 +9376,6 @@ msgstr "B<-P >I<Profil>[B<,>…]"
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1:68
-#, fuzzy
-#| msgid ""
-#| "Check build dependencies/conflicts assuming that the package described in "
-#| "the control file is to be built for the given build profile(s). The "
-#| "argument is a comma-separated list of profile names, without the "
-#| "\"B<profile.>\" namespace prefix."
 msgid ""
 "Check build dependencies/conflicts assuming that the package described in "
 "the control file is to be built for the given build profile(s). The argument "
@@ -9531,8 +9383,7 @@ msgid ""
 msgstr ""
 "Überprüfe Bauabhängigkeiten/-konflikte unter der Annahme, dass das Paket in "
 "der Datei »control« für das/die angegebene(n) Bauprofile gebaut werden soll. "
-"Das Argument ist eine Kommata-getrennte Liste von Profilnamen ohne den "
-"Namensraum-Präfix »B<profile.>«."
+"Das Argument ist eine Kommata-getrennte Liste von Profilnamen."
 
 #. type: TH
 #: dpkg-distaddfile.1:19
@@ -9623,10 +9474,9 @@ msgstr "dpkg-deb"
 
 #. type: TH
 #: dpkg-deb.1:21
-#, fuzzy, no-wrap
-#| msgid "2014-08-16"
+#, no-wrap
 msgid "2014-08-20"
-msgstr "2014-08-16"
+msgstr "2014-08-20"
 
 #. type: Plain text
 #: dpkg-deb.1:24
@@ -9918,28 +9768,21 @@ msgstr ""
 
 #. type: TP
 #: dpkg-deb.1:172
-#, fuzzy, no-wrap
-#| msgid "B<--fsys-tarfile> I<archive>"
+#, no-wrap
 msgid "B<--ctrl-tarfile> I<archive>"
-msgstr "B<--fsys-tarfile> I<Archiv>"
+msgstr "B<--ctrl-tarfile> I<Archiv>"
 
 #. type: Plain text
 #: dpkg-deb.1:181
-#, fuzzy
-#| msgid ""
-#| "Extracts the filesystem tree data from a binary package and sends it to "
-#| "standard output in B<tar> format. Together with B<tar>(1)  this can be "
-#| "used to extract a particular file from a package archive.  The input "
-#| "archive will always be processed sequentially."
 msgid ""
 "Extracts the control data from a binary package and sends it to standard "
 "output in B<tar> format. Together with B<tar>(1)  this can be used to "
 "extract a particular control file from a package archive.  The input archive "
 "will always be processed sequentially."
 msgstr ""
-"Extrahiert die Dateisystembaum-Daten aus einem Binärpaket und schickt sie "
-"zur Standardausgabe im B<tar>-Format. Dies kann zusammen mit B<tar>(1) "
-"verwendet werden, um eine bestimmte Datei aus einem Paketarchiv zu "
+"Extrahiert die Steuerdaten aus einem Binärpaket und schickt sie zur "
+"Standardausgabe im B<tar>-Format. Dies kann zusammen mit B<tar>(1) verwendet "
+"werden, um eine bestimmte control-Datei aus einem Paketarchiv zu "
 "extrahieren. Das Eingabearchiv wird immer sequenziell verarbeitet."
 
 #. type: TP
@@ -12351,10 +12194,9 @@ msgstr "dpkg-maintscript-helper"
 
 #. type: TH
 #: dpkg-maintscript-helper.1:19
-#, fuzzy, no-wrap
-#| msgid "2014-08-16"
+#, no-wrap
 msgid "2014-09-01"
-msgstr "2014-08-16"
+msgstr "2014-09-01"
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:22
@@ -12772,22 +12614,16 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:177
-#, fuzzy
-#| msgid ""
-#| "I<pathname> is the absolute name of the old directory (the path will be a "
-#| "symlink at the end of the installation) and I<new-target> is the target "
-#| "of the new symlink at I<pathname>. It can either be absolute or relative "
-#| "to the directory containing I<pathname>."
 msgid ""
 "I<pathname> is the absolute name of the old symlink (the path will be a "
 "directory at the end of the installation) and I<old-target> is the target "
 "name of the former symlink at I<pathname>. It can either be absolute or "
 "relative to the directory containing I<pathname>."
 msgstr ""
-"I<Pfadname> ist der absolute Name des alten Verzeichnisses (der Pfad wird am "
-"Ende der Installation ein Symlink sein) und I<neues_Ziel> ist das Ziel des "
-"neuen Symlinks unter I<Pfadname>. Es kann entweder absolut oder relativ zum "
-"Verzeichnis, das I<Pfadname> enthält, sein."
+"I<Pfadname> ist der absolute Name des alten Symlinks (der Pfad wird am Ende "
+"der Installation ein Verzeichnis sein) und I<altes_Ziel> ist der Name des "
+"Ziels des vorherigen Symlinks unter I<Pfadname>. Es kann entweder absolut "
+"oder relativ zum Verzeichnis, das I<Pfadname> enthält, sein."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:185
@@ -12906,6 +12742,9 @@ msgid ""
 "maintscript-helper> integration, which might make your life easier. See for "
 "example B<dh_installdeb>(1)."
 msgstr ""
+"Bei der Benutzung der Paketierungshelfer prüfen Sie bitte, ob eine native "
+"B<dpkg-maintscript-helper>-Integration existiert. Hierdurch könnte Ihr "
+"Aufwand verringert werden. Lesen Sie beispielsweise B<dh_installdeb>(1)."
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:234
@@ -12969,10 +12808,8 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-maintscript-helper.1:253
-#, fuzzy
-#| msgid "B<installed>"
 msgid "B<dh_installdeb>(1)."
-msgstr "B<installed> (installiert)"
+msgstr "B<dh_installdeb>(1)."
 
 #. type: TH
 #: dpkg-mergechangelogs.1:18
@@ -14644,10 +14481,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-scanpackages.1:91
-#, fuzzy, no-wrap
-#| msgid "B<-a>, B<--arch> I<arch>"
+#, no-wrap
 msgid "B<-h>, B<--hash> I<hash-list>"
-msgstr "B<-a>, B<--arch> I<arch>"
+msgstr "B<-h>, B<--hash> I<Hash-Liste>"
 
 #. type: Plain text
 #: dpkg-scanpackages.1:96
@@ -14656,6 +14492,9 @@ msgid ""
 "default is to generate all currently supported hashes.  Supported values: "
 "B<md5>, B<sha1>, B<sha256>."
 msgstr ""
+"Datei-Hashes nur für angegebene, durch Kommata-getrennte Liste erzeugen. "
+"Standardmäßig werden alle derzeit unterstützten Hashes erstellt. "
+"Unterstützte Werte: B<md5>, B<sha1>, B<sha256>."
 
 #. type: TP
 #: dpkg-scanpackages.1:96
@@ -15724,21 +15563,12 @@ msgstr ""
 
 #. type: TP
 #: dpkg-source.1:40
-#, fuzzy, no-wrap
-#| msgid "B<-x >I<filename>B<.dsc >[I<output-directory>]"
+#, no-wrap
 msgid "B<-x>, B<--extract> I<filename>.dsc [I<output-directory>]"
-msgstr "B<-x >I<Dateiname>B<.dsc> [I<Ausgabe-Verzeichnis>]"
+msgstr "B<-x>, B<--extract> I<Dateiname>.dsc [I<Ausgabe-Verzeichnis>]"
 
 #. type: Plain text
 #: dpkg-source.1:52
-#, fuzzy
-#| msgid ""
-#| "Extract a source package. One non-option argument must be supplied, the "
-#| "name of the Debian source control file (B<.dsc>).  An optional second non-"
-#| "option argument may be supplied to specify the directory to extract the "
-#| "source package to, this must not exist. If no output directory is "
-#| "specified, the source package is extracted into a directory named "
-#| "I<source>-I<version> under the current working directory."
 msgid ""
 "Extract a source package.  The B<--extract> alias was added in dpkg "
 "1.17.14.  One non-option argument must be supplied, the name of the Debian "
@@ -15748,10 +15578,11 @@ msgid ""
 "extracted into a directory named I<source>-I<version> under the current "
 "working directory."
 msgstr ""
-"Extrahiere ein Quellpaket. Ein nicht-Options-Argument muss angegeben werden, "
-"der Name der Debian Quell-Steuer-Datei (B<.dsc>). Optional kann ein zweites "
-"nicht-Options-Argument angegeben werden, um das Verzeichnis anzugeben, in "
-"das das Quellpaket extrahiert werden soll. Dieses Verzeichis darf dann nicht "
+"Extrahiere ein Quellpaket. Der Alias B<--extract> wurde in Dpkg 1.17.14 "
+"hinzugefügt. Ein nicht-Options-Argument muss angegeben werden, der Name der "
+"Debian Quell-Steuer-Datei (B<.dsc>). Optional kann ein zweites nicht-Options-"
+"Argument angegeben werden, um das Verzeichnis anzugeben, in das das "
+"Quellpaket extrahiert werden soll. Dieses Verzeichis darf dann nicht "
 "existieren. Falls kein Ausgabeverzeichnis angegeben ist, wird das Quellpaket "
 "in das Verzeichnis namens I<Quelle>-I<Version> unterhalb des aktuellen "
 "Arbeitsverzeichnisses extrahiert."
@@ -15800,20 +15631,12 @@ msgstr ""
 
 #. type: TP
 #: dpkg-source.1:72
-#, fuzzy, no-wrap
-#| msgid "B<-b> I<directory> [I<format-specific-parameters>]"
+#, no-wrap
 msgid "B<-b>, B<--build> I<directory> [I<format-specific-parameters>]"
-msgstr "B<-b> I<Verzeichnis> [I<Format-abhängige-Parameter>]"
+msgstr "B<-b>, B<--build> I<Verzeichnis> [I<Format-abhängige-Parameter>]"
 
 #. type: Plain text
 #: dpkg-source.1:81
-#, fuzzy
-#| msgid ""
-#| "Build a source package. The first non-option argument is taken as the "
-#| "name of the directory containing the debianized source tree (i.e. with a "
-#| "debian sub-directory and maybe changes to the original files).  Depending "
-#| "on the source package format used to build the package, additional "
-#| "parameters might be accepted."
 msgid ""
 "Build a source package.  The B<--build> alias was added in dpkg 1.17.14.  "
 "The first non-option argument is taken as the name of the directory "
@@ -15821,11 +15644,12 @@ msgid ""
 "maybe changes to the original files).  Depending on the source package "
 "format used to build the package, additional parameters might be accepted."
 msgstr ""
-"Baue ein Quellpaket. Das erste nicht-Options-Argument wird als Name des "
-"Verzeichnisses verwandt, das den debianisierten (d.h. mit einem "
-"Unterverzeichnis debian und ggf. Änderungen an den Originaldateien "
-"versehenen) Quellbaum enthält. Abhängig vom dem zum Bau verwandten "
-"Quellpaketformat könnten zusätzliche Parameter akzeptiert werden."
+"Baue ein Quellpaket. Der Alias B<--build> wurde in Dpkg 1.17.14 hinzugefügt. "
+"Das erste nicht-Options-Argument wird als Name des Verzeichnisses verwandt, "
+"das den debianisierten (d.h. mit einem Unterverzeichnis debian und ggf. "
+"Änderungen an den Originaldateien versehenen) Quellbaum enthält. Abhängig "
+"vom dem zum Bau verwandten Quellpaketformat könnten zusätzliche Parameter "
+"akzeptiert werden."
 
 #. type: Plain text
 #: dpkg-source.1:90
@@ -15854,18 +15678,13 @@ msgstr "B<--print-format> I<Verzeichnis>"
 
 #. type: Plain text
 #: dpkg-source.1:96
-#, fuzzy
-#| msgid ""
-#| "Print the source format that would be used to build the source package if "
-#| "B<dpkg-source -b >I<directory> was called (in the same conditions and "
-#| "with the same parameters)."
 msgid ""
 "Print the source format that would be used to build the source package if "
 "B<dpkg-source --build >I<directory> was called (in the same conditions and "
 "with the same parameters)."
 msgstr ""
 "Gibt das Quellformat aus, dass zum Bau des Quellpakets verwandt würde, falls "
-"B<dpkg-source -b >I<Verzeichnis> aufgerufen würde (unter den gleichen "
+"B<dpkg-source --build >I<Verzeichnis> aufgerufen würde (unter den gleichen "
 "Bedingungen und mit den gleichen Parametern)."
 
 #. type: TP
@@ -16330,10 +16149,8 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:295
-#, fuzzy
-#| msgid "B<Build options (with -b):>"
 msgid "B<Build options (with --build):>"
-msgstr "B<Bau-Optionen (mit -b):>"
+msgstr "B<Bau-Optionen (mit --build):>"
 
 #. type: Plain text
 #: dpkg-source.1:306
@@ -16521,10 +16338,8 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:389
-#, fuzzy
-#| msgid "B<Extract options (with -x):>"
 msgid "B<Extract options (with --extract):>"
-msgstr "B<Extrahierungs-Optionen (mit -x):>"
+msgstr "B<Extrahierungs-Optionen (mit --extract):>"
 
 #. type: Plain text
 #: dpkg-source.1:391
@@ -16810,15 +16625,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:515
-#, fuzzy
-#| msgid ""
-#| "Note: B<dpkg-source> B<--before-build> (and B<-b>) will ensure that all "
-#| "patches listed in the series file are applied so that a package build "
-#| "always has all patches applied. It does this by finding unapplied patches "
-#| "(they are listed in the B<series> file but not in B<.pc/applied-"
-#| "patches>), and if the first patch in that set can be applied without "
-#| "errors, it will apply them all. The option B<--no-preparation> can be "
-#| "used to disable this behavior."
 msgid ""
 "Note: B<dpkg-source> B<--before-build> (and B<--build>) will ensure that all "
 "patches listed in the series file are applied so that a package build always "
@@ -16827,9 +16633,9 @@ msgid ""
 "first patch in that set can be applied without errors, it will apply them "
 "all. The option B<--no-preparation> can be used to disable this behavior."
 msgstr ""
-"Hinweis: B<dpkg-source> B<--before-build> (und B<-b>) stellen sicher, dass "
-"alle in der Series-Datei aufgeführten Patches angewendet sind, so dss ein "
-"Paketbau immer mit allen angewandten Patches durchgeführt wird. Dies "
+"Hinweis: B<dpkg-source> B<--before-build> (und B<--build>) stellen sicher, "
+"dass alle in der Series-Datei aufgeführten Patches angewendet sind, so dass "
+"ein Paketbau immer mit allen angewandten Patches durchgeführt wird. Dies "
 "erfolgt, indem nicht angewandte Patches ermittelt werden (sie sind in der "
 "Datei B<series>, aber nicht in der Datei B<.pc/applied-patches> aufgeführt) "
 "und wenn der erste Patch in dem Satz ohne Fehler angewandt werden kann, "
@@ -16883,12 +16689,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1:538
-#, fuzzy
-#| msgid ""
-#| "If the patch generation detects modified binary files, they will be "
-#| "automatically added to B<debian/source/include-binaries> so that they end "
-#| "up in the debian tarball (exactly like B<dpkg-source --include-binaries -"
-#| "b> would do)."
 msgid ""
 "If the patch generation detects modified binary files, they will be "
 "automatically added to B<debian/source/include-binaries> so that they end up "
@@ -16897,8 +16697,8 @@ msgid ""
 msgstr ""
 "Falls die Patch-Erzeugung veränderte Binärdateien erkennt, werden diese "
 "automatisch zu B<debian/source/include-binaries> hinzugefügt, so dass sie im "
-"Debian-Tarball landen (genau wie dies B<dpkg-source --include-binaries -b> "
-"machen würde)."
+"Debian-Tarball landen (genau wie dies B<dpkg-source --include-binaries --"
+"build> machen würde)."
 
 #. type: Plain text
 #: dpkg-source.1:540 dpkg-source.1:615 dpkg-source.1:654
@@ -17478,12 +17278,6 @@ msgstr "debian/source/options"
 
 #. type: Plain text
 #: dpkg-source.1:737
-#, fuzzy
-#| msgid ""
-#| "This file contains a list of long options that should be automatically "
-#| "prepended to the set of command line options of a B<dpkg-source -b> or "
-#| "B<dpkg-source --print-format> call. Options like B<--compression> and B<--"
-#| "compression-level> are well suited for this file."
 msgid ""
 "This file contains a list of long options that should be automatically "
 "prepended to the set of command line options of a B<dpkg-source --build> or "
@@ -17491,9 +17285,9 @@ msgid ""
 "compression-level> are well suited for this file."
 msgstr ""
 "Diese Datei enhält eine Liste an Optionen, die automatisch vor den Satz an "
-"Befehlszeilenoptionen bei einem Aufruf B<dpkg-source -b> oder B<dpkg-source "
-"--print-format> gesetzt werden sollen. Optionen wie B<-compression> und B<--"
-"compression-level> sind für diese Datei gut geeignet."
+"Befehlszeilenoptionen bei einem Aufruf B<dpkg-source --build> oder B<dpkg-"
+"source --print-format> gesetzt werden sollen. Optionen wie B<-compression> "
+"und B<--compression-level> sind für diese Datei gut geeignet."
 
 #. type: Plain text
 #: dpkg-source.1:743
@@ -20577,13 +20371,6 @@ msgstr ""
 
 #. type: Plain text
 #: update-alternatives.8:89
-#, fuzzy
-#| msgid ""
-#| "When each package providing a file with a particular functionality is "
-#| "installed, changed or removed, B<update-alternatives> is called to update "
-#| "information about that file in the alternatives system.  B<update-"
-#| "alternatives> is usually called from the B<postinst> (configure) or "
-#| "B<prerm> (install) scripts in Debian packages."
 msgid ""
 "When each package providing a file with a particular functionality is "
 "installed, changed or removed, B<update-alternatives> is called to update "
@@ -20595,8 +20382,8 @@ msgstr ""
 "bereitstellt, wird bei der Installation, der Änderung oder der Entfernung "
 "B<update-alternatives> aufgerufen, um die Informationen über diese Datei im "
 "Alternativ-System zu aktualisieren. B<update-alternatives> wird gewöhnlich "
-"vom Skript B<postinst> (configure) oder B<prerm> (install) eines Debian-"
-"Paketes aufgerufen."
+"vom Skript B<postinst> (configure) oder B<prerm> (remove und deconfigure) "
+"eines Debian-Paketes aufgerufen."
 
 #. type: Plain text
 #: update-alternatives.8:108
@@ -21557,10 +21344,8 @@ msgstr ""
 #~ msgid "B<-a>I<debian-architecture>"
 #~ msgstr "B<-a>I<Debian-Architektur>"
 
-#, fuzzy
-#~| msgid "B<-e>I<debian-architecture>"
 #~ msgid "B<-A>I<debian-architecture>"
-#~ msgstr "B<-e>I<Debian-Architektur>"
+#~ msgstr "B<-A>I<Debian-Architektur>"
 
 #~ msgid "B<-f>"
 #~ msgstr "B<-f>"
