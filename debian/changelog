@@ -3,6 +3,10 @@ dpkg (1.17.19) UNRELEASED; urgency=low
   [ Guillem Jover ]
   * Bump the Breaks on devscripts to 2.14.10 due to the new dpkg-architecture
     command-line parsing strictness introduced in 1.17.17. Closes: #764965
+  * Create pidfiles even when start-stop-daemon is not asked to background
+    the process itself. Although a bit of a dubious usage, because any error
+    before executing the program will not be properly reported to the caller.
+    Regression introduced in dpkg 1.17.14. Closes: #765110
 
   [ Updated programs translations ]
   * Turkish (Mert Dirik). Closes: #764942

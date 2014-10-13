@@ -1843,6 +1843,9 @@ do_start(int argc, char **argv)
 	if (background)
 		/* Ok, we need to detach this process. */
 		daemonize();
+	else if (mpidfile && pidfile != NULL)
+		/* User wants _us_ to make the pidfile, but detach themself! */
+		write_pidfile(pidfile, getpid());
 	if (background && close_io) {
 		devnull_fd = open("/dev/null", O_RDWR);
 		if (devnull_fd < 0)
