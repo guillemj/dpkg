@@ -24,9 +24,8 @@ Dpkg::Changelog::Debian - parse Debian changelogs
 
 =head1 DESCRIPTION
 
-Dpkg::Changelog::Debian parses Debian changelogs as described in the Debian
-policy (version 3.6.2.1 at the time of this writing). See section
-L<"SEE ALSO"> for locations where to find this definition.
+Dpkg::Changelog::Debian parses Debian changelogs as described in
+deb-changelog(5).
 
 The parser tries to ignore most cruft like # or /* */ style comments,
 CVS comments, vim variables, emacs local variables and stuff from
@@ -249,9 +248,6 @@ __END__
 =head1 SEE ALSO
 
 Dpkg::Changelog
-
-Description of the Debian changelog format in the Debian policy:
-L<https://www.debian.org/doc/debian-policy/ch-source.html#s-dpkgchangelog>.
 
 =head1 CHANGES
 
