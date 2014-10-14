@@ -116,16 +116,23 @@ sub do_extract {
     my $basenamerev = $self->get_basename(1);
 
     my ($tarfile, $debianfile, %addonfile, %seen);
+    my ($tarsign, %addonsign);
     my $re_ext = compression_get_file_extension_regex();
     foreach my $file ($self->get_files()) {
-        (my $uncompressed = $file) =~ s/\.$re_ext$//;
-        error(_g('duplicate files in %s source package: %s.*'), 'v2.0',
+        my $uncompressed = $file;
+        $uncompressed =~ s/\.$re_ext$/.*/;
+        $uncompressed =~ s/\.$re_ext\.asc$/.*.asc/;
+        error(_g('duplicate files in %s source package: %s'), 'v2.0',
               $uncompressed) if $seen{$uncompressed};
         $seen{$uncompressed} = 1;
         if ($file =~ /^\Q$basename\E\.orig\.tar\.$re_ext$/) {
             $tarfile = $file;
+        } elsif ($file =~ /^\Q$basename\E\.orig\.tar\.$re_ext\.asc$/) {
+            $tarsign = $file;
         } elsif ($file =~ /^\Q$basename\E\.orig-([[:alnum:]-]+)\.tar\.$re_ext$/) {
             $addonfile{$1} = $file;
+        } elsif ($file =~ /^\Q$basename\E\.orig-([[:alnum:]-]+)\.tar\.$re_ext\.asc$/) {
+            $addonsign{$1} = $file;
         } elsif ($file =~ /^\Q$basenamerev\E\.debian\.tar\.$re_ext$/) {
             $debianfile = $file;
         } else {
@@ -136,6 +143,18 @@ sub do_extract {
 
     unless ($tarfile and $debianfile) {
         error(_g('missing orig.tar or debian.tar file in v2.0 source package'));
+    }
+    if ($tarsign and $tarfile ne substr $tarsign, 0, -4) {
+        error(_g('mismatched orig.tar %s for signature %s in source package'),
+              $tarfile, $tarsign);
+    }
+    foreach my $name (keys %addonsign) {
+        error(_g('missing addon orig.tar for signature %s in source package'),
+              $addonsign{$name})
+            if not exists $addonfile{$name};
+        error(_g('mismatched addon orig.tar %s for signature %s in source package'),
+              $addonfile{$name}, $addonsign{$name})
+            if $addonfile{$name} ne substr $addonsign{$name}, 0, -4;
     }
 
     erasedir($newdirectory);
