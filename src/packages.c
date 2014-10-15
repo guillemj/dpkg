@@ -414,6 +414,24 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
         debug(dbg_depcondetail, "      triggers-awaited, no fixbytrig");
         goto unsuitable;
       }
+      /* If we have a dependency cycle where a package A awaits trigger
+       * processing and package P has them pending, and both depend on each
+       * other, the dependency cycle breaking code is not smart enough to
+       * break it at the correct place, as the relationship is directional.
+       * So we handle it specially here.
+       *
+       * Otherwise we just defer it, but do not record that it can be fixed
+       * by trigger processing, because we would get into an inifite loop. */
+      if (requiredby == possdependee->trigaw.head->pend) {
+        if (dependtry > 1) {
+          debug(dbg_depcondetail, "      triggers-awaited, fixed by us, "
+                                  "break cycle so ok and found");
+          return FOUND_OK;
+        } else {
+          debug(dbg_depcondetail, "      triggers-awaited, fixed by us, defer");
+          return FOUND_DEFER;
+        }
+      }
       /* We don't check the status of trigaw.head->pend here, just in case
        * we get into the pathological situation where Triggers-Awaited but
        * the named package doesn't actually have any pending triggers. In
