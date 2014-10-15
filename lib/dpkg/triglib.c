@@ -306,6 +306,10 @@ trk_explicit_activate_awaiter(struct pkginfo *aw)
 			noawait = true;
 			*slash = '\0';
 		}
+		if (slash && strcmp("/await", slash) == 0) {
+			noawait = false;
+			*slash = '\0';
+		}
 
 		pend = pkg_spec_parse_pkg(buf, &err);
 		if (pend == NULL)
@@ -518,6 +522,10 @@ trig_file_interests_ensure(void)
 			trig_opts = TRIG_NOAWAIT;
 			*slash = '\0';
 		}
+		if (slash && strcmp("/await", slash) == 0) {
+			trig_opts = TRIG_AWAIT;
+			*slash = '\0';
+		}
 
 		pkg = pkg_spec_parse_pkg(space, &err);
 		if (pkg == NULL)
@@ -699,11 +707,13 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 		*spc++ = '\0';
 		while (cisspace(*spc))
 			spc++;
-		if (strcmp(cmd, "interest") == 0) {
+		if (strcmp(cmd, "interest") == 0 ||
+		    strcmp(cmd, "interest-await") == 0) {
 			parse_ci_call(file, cmd, interest, spc, pkg, pkgbin, TRIG_AWAIT);
 		} else if (strcmp(cmd, "interest-noawait") == 0) {
 			parse_ci_call(file, cmd, interest, spc, pkg, pkgbin, TRIG_NOAWAIT);
-		} else if (strcmp(cmd, "activate") == 0) {
+		} else if (strcmp(cmd, "activate") == 0 ||
+		           strcmp(cmd, "activate-await") == 0) {
 			parse_ci_call(file, cmd, activate, spc, pkg, pkgbin, TRIG_AWAIT);
 		} else if (strcmp(cmd, "activate-noawait") == 0) {
 			parse_ci_call(file, cmd, activate, spc, pkg, pkgbin, TRIG_NOAWAIT);

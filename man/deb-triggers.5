@@ -1,6 +1,6 @@
 .\" dpkg manual page - deb-triggers(5)
 .\"
-.\" Copyright © 2008, 2013 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2008, 2013, 2014 Guillem Jover <guillem@debian.org>
 .\" Copyright © 2011, 2014 Raphaël Hertzog <hertzog@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH deb\-triggers 5 "2013-04-02" "Debian Project" "dpkg utilities"
+.TH deb\-triggers 5 "2014-10-15" "Debian Project" "dpkg utilities"
 .SH NAME
 deb\-triggers \- package triggers
 .
@@ -39,6 +39,10 @@ The trigger control directives currently supported are:
 .I trigger-name
 .PP
 .in +5
+.B interest\-await
+.I trigger-name
+.PP
+.in +5
 .B interest\-noawait
 .I trigger-name
 .PP
@@ -51,6 +55,10 @@ be used when the functionality provided by the trigger is not crucial.
 .PP
 .in +5
 .B activate
+.I trigger-name
+.PP
+.in +5
+.B activate\-await
 .I trigger-name
 .PP
 .in +5
@@ -87,6 +95,11 @@ to run the trigger only once as one of the last steps of the upgrade.
 The "\-noawait" variants are only supported since dpkg 1.16.1, and
 will lead to errors if used with an older dpkg. It is thus recommended
 to add a "Pre\-Depends: dpkg (>= 1.16.1)" to any package that wish to use
+those directives.
+.PP
+The "\-await" alias variants are only supported since dpkg 1.17.21, and
+will lead to errors if used with an older dpkg. It is thus recommended
+to add a "Pre\-Depends: dpkg (>= 1.17.21)" to any package that wish to use
 those directives.
 .
 .SH SEE ALSO

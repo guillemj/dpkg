@@ -82,6 +82,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
+"  --await                          Package needs to await the processing.\n"
 "  --no-await                       No package needs to await the processing.\n"
 "  --no-act                         Just test - don't actually change anything.\n"
 "\n"), ADMINDIR);
@@ -93,15 +94,10 @@ usage(const struct cmdinfo *ci, const char *value)
 
 static const char *admindir;
 static int f_noact, f_check;
+static int f_await = 1;
 
 static const char *bypackage, *activate;
 static bool done_trig, ctrig;
-
-static void
-noawait(const struct cmdinfo *ci, const char *value)
-{
-	bypackage = "-";
-}
 
 static void
 yespackage(const char *awname)
@@ -114,6 +110,9 @@ parse_awaiter_package(void)
 {
 	struct dpkg_error err = DPKG_ERROR_INIT;
 	struct pkginfo *pkg;
+
+	if (!f_await)
+		bypackage = "-";
 
 	if (bypackage == NULL) {
 		const char *pkgname, *archname;
@@ -193,7 +192,8 @@ do_check(void)
 static const struct cmdinfo cmdinfos[] = {
 	{ "admindir",        0,   1, NULL,     &admindir },
 	{ "by-package",      'f', 1, NULL,     &bypackage },
-	{ "no-await",        0,   0, NULL,     &bypackage, noawait },
+	{ "await",           0,   0, &f_await, NULL,       NULL, 1 },
+	{ "no-await",        0,   0, &f_await, NULL,       NULL, 0 },
 	{ "no-act",          0,   0, &f_noact, NULL,       NULL, 1 },
 	{ "check-supported", 0,   0, &f_check, NULL,       NULL, 1 },
 	{ "help",            '?', 0, NULL,     NULL,       usage   },
