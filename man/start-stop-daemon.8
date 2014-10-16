@@ -286,13 +286,22 @@ option will make
 create the file referenced with
 .B \-\-pidfile
 and place the pid into it just before executing the process. Note, the
-file will not be removed when stopping the program.
+file will only be removed when stopping the program if
+\fB\-\-remove\-pidfile\fP is used.
 .B NOTE:
 This feature may not work in all cases. Most notably when the program
 being executed forks from its main process. Because of this, it is usually
 only useful when combined with the
 .B \-\-background
 option.
+.TP
+.B \-\-remove\-pidfile
+Used when stopping a program that does not remove its own pid file. This
+option will make
+.B start\-stop\-daemon
+remove the file referenced with
+.B \-\-pidfile
+after terminating the process.
 .TP
 .BR \-v ", " \-\-verbose
 Print verbose informational messages.

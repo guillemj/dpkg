@@ -174,6 +174,7 @@ static int exitnodo = 1;
 static bool background = false;
 static bool close_io = true;
 static bool mpidfile = false;
+static bool rpidfile = false;
 static int signal_nr = SIGTERM;
 static int user_id = -1;
 static int runas_uid = -1;
@@ -416,6 +417,13 @@ write_pidfile(const char *filename, pid_t pid)
 }
 
 static void
+remove_pidfile(const char *filename)
+{
+	if (unlink(filename) < 0 && errno != ENOENT)
+		fatal("cannot remove pidfile '%s'", filename);
+}
+
+static void
 daemonize(void)
 {
 	pid_t pid;
@@ -535,6 +543,7 @@ usage(void)
 "  -b|--background               force the process to detach\n"
 "  -C|--no-close                 do not close any file descriptor\n"
 "  -m|--make-pidfile             create the pidfile before starting\n"
+"    |--remove-pidfile           delete the pidfile after stopping\n"
 "  -R|--retry <schedule>         check whether processes die, and retry\n"
 "  -t|--test                     test mode, don't do anything\n"
 "  -o|--oknodo                   exit status 0 (not 1) if nothing done\n"
@@ -878,6 +887,7 @@ set_action(enum action_code new_action)
 
 #define OPT_PID		500
 #define OPT_PPID	501
+#define OPT_RM_PIDFILE	502
 
 static void
 parse_options(int argc, char * const *argv)
@@ -910,6 +920,7 @@ parse_options(int argc, char * const *argv)
 		{ "background",	  0, NULL, 'b'},
 		{ "no-close",	  0, NULL, 'C'},
 		{ "make-pidfile", 0, NULL, 'm'},
+		{ "remove-pidfile", 0, NULL, OPT_RM_PIDFILE},
 		{ "retry",	  1, NULL, 'R'},
 		{ "chdir",	  1, NULL, 'd'},
 		{ NULL,		  0, NULL, 0  }
@@ -1015,6 +1026,9 @@ parse_options(int argc, char * const *argv)
 		case 'm':  /* --make-pidfile */
 			mpidfile = true;
 			break;
+		case OPT_RM_PIDFILE: /* --remove-pidfile */
+			rpidfile = true;
+			break;
 		case 'R':  /* --retry <schedule>|<timeout> */
 			schedule_str = optarg;
 			break;
@@ -1080,6 +1094,8 @@ parse_options(int argc, char * const *argv)
 
 	if (mpidfile && pidfile == NULL)
 		badusage("--make-pidfile requires --pidfile");
+	if (rpidfile && pidfile == NULL)
+		badusage("--remove-pidfile requires --pidfile");
 
 	if (pid_str && pidfile)
 		badusage("need either --pid of --pidfile, not both");
@@ -2033,6 +2049,9 @@ do_stop_timeout(int timeout, int *n_killed, int *n_notkilled)
 static int
 finish_stop_schedule(bool anykilled)
 {
+	if (rpidfile && pidfile && !testmode)
+		remove_pidfile(pidfile);
+
 	if (anykilled)
 		return 0;
 
