@@ -419,6 +419,8 @@ is_invoke_action(enum action action)
   case act_triggers:
   case act_remove:
   case act_purge:
+  case act_arch_add:
+  case act_arch_remove:
     return true;
   default:
     return false;
