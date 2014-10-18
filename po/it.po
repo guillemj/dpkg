@@ -1,5 +1,5 @@
 # Italian translation of dpkg
-# Copyright (C) 2000-2011, 2012 Free Software Foundation, Inc.
+# Copyright (C) 2000-2011, 2012, 2013, 2014 Free Software Foundation, Inc.
 # This file is distributed under the same license as the dpkg package.
 # Lele Gaifax <lele@seldati.it>, 2000, 2001, 2002, 2003, 2004, 2005, 2006.
 # Stefano Canepa <sc@linux.it>, 2004, 2005.
@@ -19,14 +19,14 @@
 # Collegamento utile
 #
 # https://lists.ubuntu.com/archives/ubuntu-devel/2007-January/023212.html
-# Milo Casagrande <milo@ubuntu.com>, 2009, 2010, 2011, 2012.
+# Milo Casagrande <milo@milo.name>, 2009, 2010, 2011, 2012, 2013, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.17.9\n"
+"Project-Id-Version: dpkg 1.17.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-10-12 05:21+0200\n"
-"PO-Revision-Date: 2014-06-02 22:27+0200\n"
+"POT-Creation-Date: 2014-10-18 04:53+0200\n"
+"PO-Revision-Date: 2014-10-18 04:52+0200\n"
 "Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Launchpad-Export-Date: 2012-07-01 14:32+0000\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.6.10\n"
 
 #: lib/dpkg/ar.c:78
 #, c-format
@@ -2796,7 +2796,6 @@ msgstr ""
 "modificarlo.\n"
 "Alcuni dei seguenti problemi potrebbero essere causati da ciò.\n"
 
-# (ndt) dovrebbe essere relativa alla "sezione"
 #: src/enquiry.c:263
 msgctxt "section"
 msgid "<unknown>"
@@ -2859,7 +2858,7 @@ msgstr "multi-arch"
 
 #: src/enquiry.c:440
 msgid "versioned Provides"
-msgstr ""
+msgstr "Provides con numero di versione"
 
 # (ndt) è un po' libera e diversa da quella dopo
 # oppure:
@@ -3190,43 +3189,7 @@ msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian \"%s\", programma di gestione dei pacchetti versione %s.\n"
 
 #: src/main.c:86
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -i|--install       <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --unpack           <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --configure        <package> ... | -a|--pending\n"
-#| "  --triggers-only    <package> ... | -a|--pending\n"
-#| "  -r|--remove        <package> ... | -a|--pending\n"
-#| "  -P|--purge         <package> ... | -a|--pending\n"
-#| "  -V|--verify <package> ...        Verify the integrity of package(s).\n"
-#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
-#| "  --set-selections                 Set package selections from stdin.\n"
-#| "  --clear-selections               Deselect every non-essential package.\n"
-#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
-#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
-#| "  --clear-avail                    Erase existing available info.\n"
-#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-#| "  -s|--status <package> ...        Display package status details.\n"
-#| "  -p|--print-avail <package> ...   Display available version details.\n"
-#| "  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
-#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
-#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-#| "  -C|--audit                       Check for broken package(s).\n"
-#| "  --add-architecture <arch>        Add <arch> to the list of "
-#| "architectures.\n"
-#| "  --remove-architecture <arch>     Remove <arch> from the list of "
-#| "architectures.\n"
-#| "  --print-architecture             Print dpkg architecture.\n"
-#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
-#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
-#| "  --force-help                     Show help on forcing.\n"
-#| "  -Dh|--debug=help                 Show help on debugging.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3289,7 +3252,7 @@ msgstr ""
 "  -L|--listfiles <pacchetto> ...     Elenca i file contenuti nei pacchetti\n"
 "  -l|--list [<modello> ...]          Elenca i pacchetti concisamente\n"
 "  -S|--search <modello> ...          Trova i pacchetti contenenti i file\n"
-"  -C|--audit                         Verifica la presenza di pacchetti\n"
+"  -C|--audit [<pacchetto> ...]       Verifica la presenza di pacchetti\n"
 "                                     difettosi\n"
 "  --add-architecture <arch>          Aggiunge <arch> all'elenco delle\n"
 "                                     architetture\n"
@@ -3331,13 +3294,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:128
-#, fuzzy, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep |\n"
-#| "  --assert-multi-arch.\n"
-#| "\n"
+#, c-format
 msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
@@ -3348,7 +3305,7 @@ msgstr ""
 "Per uso interno: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
 "|\n"
-"  --assert-multi-arch.\n"
+"  --assert-multi-arch | --assert-versioned-provides.\n"
 "\n"
 
 #: src/main.c:134
@@ -3615,7 +3572,7 @@ msgstr "Dipendenze e conflitti"
 
 #: src/main.c:294
 msgid "Lots of dependencies/conflicts output"
-msgstr "Stampa molto output riguardo le dipendenze e i conflitti"
+msgstr "Stampa molto output riguardo alle dipendenze e i conflitti"
 
 #: src/main.c:295
 msgid "Trigger activation and processing"
@@ -3623,16 +3580,16 @@ msgstr "Attivazione ed elaborazione dei trigger"
 
 #: src/main.c:296
 msgid "Lots of output regarding triggers"
-msgstr "Stampa molto output riguardo i trigger"
+msgstr "Stampa molto output riguardo ai trigger"
 
 #: src/main.c:297
 msgid "Silly amounts of output regarding triggers"
-msgstr "Quantità folli di output riguardo i trigger"
+msgstr "Quantità folli di output riguardo ai trigger"
 
 # (ndt) mah...
 #: src/main.c:298
 msgid "Lots of drivel about eg the dpkg/info directory"
-msgstr "Molte stupidaggini riguardo la directory dpkg/info"
+msgstr "Molte stupidaggini riguardo alla directory dpkg/info"
 
 #: src/main.c:299
 msgid "Insane amounts of drivel"
@@ -3813,84 +3770,83 @@ msgstr ""
 "il pacchetto %.250s non è pronto per l'elaborazione dei trigger\n"
 " (stato attuale \"%.250s\" con nessun trigger in attesa)"
 
-#: src/packages.c:346
+#: src/packages.c:347
 #, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
 msgstr "  Il pacchetto %s che fornisce %s sta per essere rimosso.\n"
 
-#: src/packages.c:350
+#: src/packages.c:351
 #, c-format
 msgid "  Package %s is to be removed.\n"
 msgstr "  Il pacchetto %s sta per essere rimosso.\n"
 
-#: src/packages.c:370
-#, fuzzy, c-format
-#| msgid "  Version of %s on system is %s.\n"
+#: src/packages.c:371
+#, c-format
 msgid "  Version of %s on system, provided by %s, is %s.\n"
-msgstr "  La versione di %s nel sistema è %s.\n"
+msgstr "  La versione di %s nel sistema, fornita da %s, è %s.\n"
 
-#: src/packages.c:383
+#: src/packages.c:384
 #, c-format
 msgid "  Version of %s on system is %s.\n"
 msgstr "  La versione di %s nel sistema è %s.\n"
 
-#: src/packages.c:406
+#: src/packages.c:407
 #, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
 msgstr ""
 "  Il pacchetto %s che fornisce %s è in attesa dell'elaborazione dei "
 "trigger.\n"
 
-#: src/packages.c:411
+#: src/packages.c:412
 #, c-format
 msgid "  Package %s awaits trigger processing.\n"
 msgstr "  Il pacchetto %s è in attesa dell'elaborazione dei trigger.\n"
 
-#: src/packages.c:440
+#: src/packages.c:445
 #, c-format
 msgid "also configuring '%s' (required by '%s')"
 msgstr "viene configurato anche \"%s\" (richiesto da \"%s\")"
 
-#: src/packages.c:449
+#: src/packages.c:454
 #, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
 msgstr "  Il pacchetto %s che fornisce %s non è ancora configurato.\n"
 
-#: src/packages.c:453
+#: src/packages.c:458
 #, c-format
 msgid "  Package %s is not configured yet.\n"
 msgstr "  Il pacchetto %s non è ancora configurato.\n"
 
-#: src/packages.c:464
+#: src/packages.c:469
 #, c-format
 msgid "  Package %s which provides %s is not installed.\n"
 msgstr "  Il pacchetto %s che fornisce %s non è installato.\n"
 
-#: src/packages.c:468
+#: src/packages.c:473
 #, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "  Il pacchetto %s non è installato.\n"
 
-#: src/packages.c:511
+#: src/packages.c:516
 #, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
 msgstr " %s (%s) danneggia %s ed è %s.\n"
 
-#: src/packages.c:518
+#: src/packages.c:523
 #, c-format
 msgid "  %s (%s) provides %s.\n"
 msgstr "  %s (%s) fornisce %s.\n"
 
-#: src/packages.c:523
+#: src/packages.c:528
 #, c-format
 msgid "  Version of %s to be configured is %s.\n"
 msgstr "  La versione di %s da configurare è %s.\n"
 
-#: src/packages.c:670
+#: src/packages.c:676
 msgid " depends on "
 msgstr " dipende da "
 
-#: src/packages.c:676
+#: src/packages.c:682
 msgid "; however:\n"
 msgstr "; comunque:\n"
 
@@ -4493,20 +4449,18 @@ msgid "syntax error in statoverride file"
 msgstr "errore di sintassi nel file statoverride"
 
 #: src/statdb.c:212
-#, fuzzy, c-format
-#| msgid "syntax error: unknown user '%s' in statoverride file"
+#, c-format
 msgid "unknown user '%s' in statoverride file"
-msgstr "errore di sintassi: utente \"%s\" sconosciuto nel file statoverride"
+msgstr "utente \"%s\" sconosciuto nel file statoverride"
 
 #: src/statdb.c:218 src/statdb.c:239 src/statdb.c:252
 msgid "unexpected end of line in statoverride file"
 msgstr "EOL inatteso nel file statoverride"
 
 #: src/statdb.c:233
-#, fuzzy, c-format
-#| msgid "syntax error: unknown group '%s' in statoverride file"
+#, c-format
 msgid "unknown group '%s' in statoverride file"
-msgstr "errore di sintassi: gruppo \"%s\" sconosciuto nel file statoverride"
+msgstr "gruppo \"%s\" sconosciuto nel file statoverride"
 
 #: src/statdb.c:256
 #, c-format
@@ -4515,7 +4469,7 @@ msgstr "presenti molteplici statoverride per il file \"%.250s\""
 
 #: src/trigcmd.c:45
 msgid "Type dpkg-trigger --help for help about this utility."
-msgstr "Usare \"dpkg-trigger --help\" per l'aiuto riguardo questa utilità."
+msgstr "Usare \"dpkg-trigger --help\" per l'aiuto riguardo a questa utilità."
 
 #: src/trigcmd.c:50
 #, c-format
@@ -4616,7 +4570,19 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr "ciclo nei trigger, abbandono"
 
-#: src/trigproc.c:359
+#: src/trigproc.c:363
+#, fuzzy, c-format
+#| msgid ""
+#| "%s: dependency problems, but removing anyway as you requested:\n"
+#| "%s"
+msgid ""
+"%s: dependency problems, but processing triggers anyway as you requested:\n"
+"%s"
+msgstr ""
+"%s: problemi con le dipendenze, ma viene rimosso comunque:\n"
+"%s"
+
+#: src/trigproc.c:368
 #, c-format
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "Elaborazione dei trigger per %s (%s)...\n"
@@ -4758,7 +4724,7 @@ msgstr "estrazione informazioni di controllo del pacchetto"
 #: src/unpack.c:601
 #, c-format
 msgid "Recorded info about %s from %s.\n"
-msgstr "Informazioni riguardo %s provenienti da %s registrate.\n"
+msgstr "Informazioni riguardo a %s provenienti da %s registrate.\n"
 
 #: src/unpack.c:611
 #, c-format
@@ -4897,8 +4863,8 @@ msgstr ""
 #, c-format
 msgid "Information about %d package was updated.\n"
 msgid_plural "Information about %d packages was updated.\n"
-msgstr[0] "Le informazioni \triguardo %d pacchetto sono state aggiornate.\n"
-msgstr[1] "Le informazioni riguardo %d pacchetti sono state aggiornate.\n"
+msgstr[0] "Le informazioni \triguardo a %d pacchetto sono state aggiornate.\n"
+msgstr[1] "Le informazioni riguardo a %d pacchetti sono state aggiornate.\n"
 
 #: src/update.c:116
 #, c-format
@@ -5368,21 +5334,7 @@ msgstr ""
 "Debian \"%s\", backend di gestione degli archivi di pacchetti versione %s.\n"
 
 #: dpkg-deb/main.c:74
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -b|--build <directory> [<deb>]   Build an archive.\n"
-#| "  -c|--contents <deb>              List contents.\n"
-#| "  -I|--info <deb> [<cfile> ...]    Show info to stdout.\n"
-#| "  -W|--show <deb>                  Show information on package(s)\n"
-#| "  -f|--field <deb> [<cfield> ...]  Show field(s) to stdout.\n"
-#| "  -e|--control <deb> [<directory>] Extract control info.\n"
-#| "  -x|--extract <deb> <directory>   Extract files.\n"
-#| "  -X|--vextract <deb> <directory>  Extract & list files.\n"
-#| "  -R|--raw-extract <deb> <directory>\n"
-#| "                                   Extract control info and files.\n"
-#| "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -b|--build <directory> [<deb>]   Build an archive.\n"
@@ -5411,6 +5363,7 @@ msgstr ""
 "  -R|--raw-extract <deb> <directory>\n"
 "                                   Estrae i file e le informazioni di "
 "controllo\n"
+"  --ctrl-tarfile <deb>             Crea un file tar di controllo\n"
 "  --fsys-tarfile <deb>             Crea un file tar\n"
 "\n"
 
@@ -6089,7 +6042,7 @@ msgstr ""
 "sistema\n"
 "  --auto <nome>            Imposta il collegamento master <nome> in modalità "
 "automatica\n"
-"  --display <nome>         Visualizza informazioni riguardo il gruppo "
+"  --display <nome>         Visualizza informazioni riguardo al gruppo "
 "<nome>\n"
 "  --query <nome>           Versione analizzabile da computer di --display "
 "<nome>\n"
