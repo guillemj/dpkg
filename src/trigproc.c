@@ -337,23 +337,19 @@ trigproc(struct pkginfo *pkg)
 				sincenothing = 0;
 
 		ok = dependencies_ok(pkg, NULL, &depwhynot);
-		if (ok == DEP_CHECK_OK) {
-			debug(dbg_triggers, "trigproc %s dependencies satisfied, "
-			      "processing", pkg_name(pkg, pnaw_always));
-		} else if (ok == DEP_CHECK_DEFER) {
-			debug(dbg_triggers, "trigproc %s dependencies unsatisfied, "
-			      "defer processing", pkg_name(pkg, pnaw_always));
+		if (ok == DEP_CHECK_DEFER) {
 			varbuf_destroy(&depwhynot);
-
 			enqueue_package(pkg);
 			return;
 		} else if (ok == DEP_CHECK_HALT) {
-			varbuf_end_str(&depwhynot);
-			debug(dbg_triggers, "trigproc %s dependencies unsatisfied, "
-			      "skipping due to:\n %s",
-			      pkg_name(pkg, pnaw_always), depwhynot.buf);
 			varbuf_destroy(&depwhynot);
 			return;
+		} else if (depwhynot.used) {
+			varbuf_end_str(&depwhynot);
+			notice(_("%s: dependency problems, but processing "
+			         "triggers anyway as you requested:\n%s"),
+			       pkg_name(pkg, pnaw_nonambig), depwhynot.buf);
+			varbuf_destroy(&depwhynot);
 		}
 
 		gaveup = check_trigger_cycle(pkg);
