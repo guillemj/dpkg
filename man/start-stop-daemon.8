@@ -35,14 +35,16 @@ Using one of the matching options, \fBstart\-stop\-daemon\fP
 can be configured to find existing instances of a running process.
 .PP
 Note: unless
+.B \-\-pid
+or
 .B \-\-pidfile
-is specified,
+are specified,
 .B start\-stop\-daemon
 behaves similar to
 .BR killall (1).
 .B start\-stop\-daemon
 will scan the process table looking for any processes which
-match the process name, uid, and/or gid (if specified). Any
+match the process name, parent pid, uid, and/or gid (if specified). Any
 matching process will prevent
 .BR \-\-start
 from starting the daemon. All matching processes will be sent the TERM
