@@ -81,15 +81,15 @@ verify_output_rpm(struct filenamenode *namenode, struct verify_checks *checks)
 
 static verify_output_func *verify_output = verify_output_rpm;
 
-int
+bool
 verify_set_output(const char *name)
 {
 	if (strcmp(name, "rpm") == 0)
 		verify_output = verify_output_rpm;
 	else
-		return 1;
+		return false;
 
-	return 0;
+	return true;
 }
 
 static void

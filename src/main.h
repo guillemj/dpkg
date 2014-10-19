@@ -178,7 +178,7 @@ int cmpversions(const char *const *argv);
 
 /* from verify.c */
 
-int verify_set_output(const char *name);
+bool verify_set_output(const char *name);
 int verify(const char *const *argv);
 
 /* from select.c */
