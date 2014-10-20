@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-10-12 05:21+0200\n"
+"POT-Creation-Date: 2014-10-20 15:20+0200\n"
 "PO-Revision-Date: 2014-03-23 20:54+0200\n"
 "Last-Translator: Beatrice Torracca <beatricet@libero.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
@@ -322,7 +322,7 @@ msgstr ""
 #: deb.5:117 deb-control.5:288 deb-src-control.5:373 deb-split.5:67
 #: deb-version.5:131 deb-old.5:70 deb-origin.5:56 deb-override.5:66
 #: deb-extra-override.5:54 deb-shlibs.5:66 deb-substvars.5:168
-#: deb-symbols.5:88 deb-triggers.5:92 dpkg.1:893 dpkg-architecture.1:313
+#: deb-symbols.5:88 deb-triggers.5:92 dpkg.1:894 dpkg-architecture.1:313
 #: dpkg.cfg.5:41 dpkg-buildpackage.1:383 dpkg-deb.1:308 dpkg-divert.8:153
 #: dpkg-gensymbols.1:487 dpkg-maintscript-helper.1:250 dpkg-name.1:109
 #: dpkg-query.1:294 dpkg-scanpackages.1:118 dpkg-scansources.1:90
@@ -951,7 +951,7 @@ msgstr ""
 
 #. type: SH
 #: deb-control.5:262 deb-src-control.5:334 deb-origin.5:50
-#: start-stop-daemon.8:343
+#: start-stop-daemon.8:354
 #, no-wrap
 msgid "EXAMPLE"
 msgstr "ESEMPIO"
@@ -2669,7 +2669,7 @@ msgstr ""
 "Debian Policy per ulteriori dettagli."
 
 #. type: SH
-#: deb-shlibs.5:46 deb-symbols.5:70 dpkg.1:824 dpkg-architecture.1:231
+#: deb-shlibs.5:46 deb-symbols.5:70 dpkg.1:825 dpkg-architecture.1:231
 #: dpkg-buildflags.1:410 dpkg-divert.8:132 dpkg-name.1:88
 #: update-alternatives.8:486
 #, no-wrap
@@ -3063,7 +3063,7 @@ msgstr ""
 "generato un avvertimento e viene assunto un valore vuoto."
 
 #. type: SH
-#: deb-substvars.5:163 dpkg.1:780 dpkg-architecture.1:210 dpkg.cfg.5:30
+#: deb-substvars.5:163 dpkg.1:781 dpkg-architecture.1:210 dpkg.cfg.5:30
 #: dpkg-buildflags.1:396 dpkg-distaddfile.1:57 dpkg-divert.8:109
 #: dpkg-genchanges.1:157 dpkg-gencontrol.1:148 dpkg-parsechangelog.1:193
 #: dpkg-split.1:216 dpkg-statoverride.8:93 dselect.cfg.5:30
@@ -4472,7 +4472,7 @@ msgstr ""
 #: dpkg-parsechangelog.1:36 dpkg-query.1:154 dpkg-scanpackages.1:77
 #: dpkg-scansources.1:63 dpkg-shlibdeps.1:129 dpkg-source.1:128
 #: dpkg-split.1:150 dpkg-statoverride.8:70 dpkg-trigger.1:55 dpkg-vendor.1:52
-#: dselect.1:57 start-stop-daemon.8:103 update-alternatives.8:340
+#: dselect.1:57 start-stop-daemon.8:105 update-alternatives.8:340
 #, no-wrap
 msgid "OPTIONS"
 msgstr "OPZIONI"
@@ -5052,16 +5052,27 @@ msgid "B<--post-invoke=>I<command>"
 msgstr "B<--post-invoke=>I<comando>"
 
 #. type: Plain text
-#: dpkg.1:624
+#: dpkg.1:625
+#, fuzzy
+#| msgid ""
+#| "Set an invoke hook I<command> to be run via ``sh -c'' before or after the "
+#| "B<dpkg> run for the I<unpack>, I<configure>, I<install>, I<triggers-"
+#| "only>, I<remove> and I<purge> B<dpkg> actions. This option can be "
+#| "specified multiple times. The order the options are specified is "
+#| "preserved, with the ones from the configuration files taking precedence.  "
+#| "The environment variable B<DPKG_HOOK_ACTION> is set for the hooks to the "
+#| "current B<dpkg> action. Note: front-ends might call B<dpkg> several times "
+#| "per invocation, which might run the hooks more times than expected."
 msgid ""
 "Set an invoke hook I<command> to be run via ``sh -c'' before or after the "
 "B<dpkg> run for the I<unpack>, I<configure>, I<install>, I<triggers-only>, "
-"I<remove> and I<purge> B<dpkg> actions. This option can be specified "
-"multiple times. The order the options are specified is preserved, with the "
-"ones from the configuration files taking precedence.  The environment "
-"variable B<DPKG_HOOK_ACTION> is set for the hooks to the current B<dpkg> "
-"action. Note: front-ends might call B<dpkg> several times per invocation, "
-"which might run the hooks more times than expected."
+"I<remove>, I<purge>, I<add-architecture> and I<remove-architecture> B<dpkg> "
+"actions. This option can be specified multiple times. The order the options "
+"are specified is preserved, with the ones from the configuration files "
+"taking precedence.  The environment variable B<DPKG_HOOK_ACTION> is set for "
+"the hooks to the current B<dpkg> action. Note: front-ends might call B<dpkg> "
+"several times per invocation, which might run the hooks more times than "
+"expected."
 msgstr ""
 "Imposta un hook per invocare I<comando>, da essere eseguito usando «sh -c» "
 "prima o dopo l'esecuzione delle azioni I<unpack>, I<configure>, I<install>, "
@@ -5074,19 +5085,19 @@ msgstr ""
 "quanto ci si aspetti."
 
 #. type: TP
-#: dpkg.1:624
+#: dpkg.1:625
 #, no-wrap
 msgid "B<--path-exclude=>I<glob-pattern>"
 msgstr "B<--path-exclude=>I<modello-glob>"
 
 #. type: TQ
-#: dpkg.1:626
+#: dpkg.1:627
 #, no-wrap
 msgid "B<--path-include=>I<glob-pattern>"
 msgstr "B<--path-include=>I<modello-glob>"
 
 #. type: Plain text
-#: dpkg.1:630
+#: dpkg.1:631
 msgid ""
 "Set I<glob-pattern> as a path filter, either by excluding or re-including "
 "previously excluded paths matching the specified patterns during install."
@@ -5096,7 +5107,7 @@ msgstr ""
 "corrispondono ai modelli specificati."
 
 #. type: Plain text
-#: dpkg.1:633
+#: dpkg.1:634
 msgid ""
 "I<Warning: take into account that depending on the excluded paths you might "
 "completely break your system, use with caution.>"
@@ -5105,7 +5116,7 @@ msgstr ""
 "danneggiare l'intero sistema; usare con cautela.>"
 
 #. type: Plain text
-#: dpkg.1:643
+#: dpkg.1:644
 msgid ""
 "The glob patterns use the same wildcards used in the shell, were '*' matches "
 "any sequence of characters, including the empty string and also '/'. For "
@@ -5130,7 +5141,7 @@ msgstr ""
 "potrebbero risolvere questo aspetto."
 
 #. type: Plain text
-#: dpkg.1:646
+#: dpkg.1:647
 msgid ""
 "This can be used to remove all paths except some particular ones; a typical "
 "case is:"
@@ -5139,7 +5150,7 @@ msgstr ""
 "caso tipico è:"
 
 #. type: Plain text
-#: dpkg.1:650
+#: dpkg.1:651
 #, no-wrap
 msgid ""
 "B<--path-exclude=/usr/share/doc/*>\n"
@@ -5149,13 +5160,13 @@ msgstr ""
 "B<--path-include=/usr/share/doc/*/copyright>\n"
 
 #. type: Plain text
-#: dpkg.1:653
+#: dpkg.1:654
 msgid "to remove all documentation files except the copyright files."
 msgstr ""
 "per rimuovere tutti i file di documentazione tranne i file di copyright."
 
 #. type: Plain text
-#: dpkg.1:657
+#: dpkg.1:658
 msgid ""
 "These two options can be specified multiple times, and interleaved with each "
 "other. Both are processed in the given order, with the last rule that "
@@ -5166,18 +5177,18 @@ msgstr ""
 "regola che corrisponde ad un nome di file determina la decisione."
 
 #. type: TP
-#: dpkg.1:657
+#: dpkg.1:658
 #, no-wrap
 msgid "B<--verify-format>I< format-name>"
 msgstr "B<--verify-format>I< nome-formato>"
 
 #. type: Plain text
-#: dpkg.1:660
+#: dpkg.1:661
 msgid "Sets the output format for the B<--verify> command."
 msgstr "Imposta il formato di output per il comando B<--verify>."
 
 #. type: Plain text
-#: dpkg.1:670
+#: dpkg.1:671
 #, fuzzy
 #| msgid ""
 #| "The only currently supported output format is B<rpm>, which consists of a "
@@ -5211,13 +5222,13 @@ msgstr ""
 "configurazione), un altro spazio e il nome del percorso."
 
 #. type: TP
-#: dpkg.1:670
+#: dpkg.1:671
 #, no-wrap
 msgid "B<--status-fd >I<n>"
 msgstr "B<--status-fd >I<n>"
 
 #. type: Plain text
-#: dpkg.1:676
+#: dpkg.1:677
 msgid ""
 "Send machine-readable package status and progress information to file "
 "descriptor I<n>. This option can be specified multiple times. The "
@@ -5229,24 +5240,24 @@ msgstr ""
 "in una delle forme seguenti:"
 
 #. type: TP
-#: dpkg.1:677
+#: dpkg.1:678
 #, no-wrap
 msgid "B<status: >I<package>B<: >I<status>"
 msgstr "B<status: >I<pacchetto>B<: >I<stato>"
 
 #. type: Plain text
-#: dpkg.1:680
+#: dpkg.1:681
 msgid "Package status changed; I<status> is as in the status file."
 msgstr "Lo stato del pacchetto è cambiato; I<stato> è come nel file di stato."
 
 #. type: TP
-#: dpkg.1:680
+#: dpkg.1:681
 #, no-wrap
 msgid "B<status: >I<package>B< : error : >I<extended-error-message>"
 msgstr "B<status: >I<pacchetto>B< : error : >I<messaggio-esteso-di-errore>"
 
 #. type: Plain text
-#: dpkg.1:684
+#: dpkg.1:685
 msgid ""
 "An error occurred. Any possible newlines in I<extended-error-message> will "
 "be converted to spaces before output."
@@ -5256,26 +5267,26 @@ msgstr ""
 "passato in output."
 
 #. type: TP
-#: dpkg.1:684
+#: dpkg.1:685
 #, no-wrap
 msgid "B<status: >I<file>B< : conffile-prompt : '>I<real-old>B<' '>I<real-new>B<' >I<useredited>B< >I<distedited>"
 msgstr "B<status: >I<file>B< : conffile-prompt : '>I<reale-vecchio>B<' '>I<reale-nuovo>B<' >I<modificato-da-utente>B< >I<modificato-da-distribuzione>"
 
 #. type: Plain text
-#: dpkg.1:687
+#: dpkg.1:688
 msgid "User is being asked a conffile question."
 msgstr ""
 "È stata chiesta all'utente una risposta riguardo ad un file di "
 "configurazione."
 
 #. type: TP
-#: dpkg.1:687
+#: dpkg.1:688
 #, no-wrap
 msgid "B<processing: >I<stage>B<: >I<package>"
 msgstr "B<processing: >I<stadio>B<: >I<pacchetto>"
 
 #. type: Plain text
-#: dpkg.1:692
+#: dpkg.1:693
 msgid ""
 "Sent just before a processing stage starts. I<stage> is one of B<upgrade>, "
 "B<install> (both sent before unpacking), B<configure>, B<trigproc>, "
@@ -5287,13 +5298,13 @@ msgstr ""
 "B<purge>."
 
 #. type: TP
-#: dpkg.1:693
+#: dpkg.1:694
 #, no-wrap
 msgid "B<--status-logger>=I<command>"
 msgstr "B<--status-logger>=I<comando>"
 
 #. type: Plain text
-#: dpkg.1:698
+#: dpkg.1:699
 msgid ""
 "Send machine-readable package status and progress information to the shell "
 "I<command>'s standard input. This option can be specified multiple times. "
@@ -5305,13 +5316,13 @@ msgstr ""
 "fd>."
 
 #. type: TP
-#: dpkg.1:699
+#: dpkg.1:700
 #, no-wrap
 msgid "B<--log=>I<filename>"
 msgstr "B<--log=>I<nomefile>"
 
 #. type: Plain text
-#: dpkg.1:711
+#: dpkg.1:712
 msgid ""
 "Log status change updates and actions to I<filename>, instead of the default "
 "I</var/log/dpkg.log>. If this option is given multiple times, the last "
@@ -5334,24 +5345,24 @@ msgstr ""
 "I<decisione> è B<install> o B<keep>."
 
 #. type: TP
-#: dpkg.1:711
+#: dpkg.1:712
 #, no-wrap
 msgid "B<--no-debsig>"
 msgstr "B<--no-debsig>"
 
 #. type: Plain text
-#: dpkg.1:714
+#: dpkg.1:715
 msgid "Do not try to verify package signatures."
 msgstr "Non cerca di verificare le firme dei pacchetti."
 
 #. type: TP
-#: dpkg.1:714
+#: dpkg.1:715
 #, no-wrap
 msgid "B<--no-triggers>"
 msgstr "B<--no-triggers>"
 
 #. type: Plain text
-#: dpkg.1:723
+#: dpkg.1:724
 msgid ""
 "Do not run any triggers in this run (activations will still be recorded).  "
 "If used with B<--configure> I<package> or B<--triggers-only> I<package> then "
@@ -5369,18 +5380,18 @@ msgstr ""
 "sistemato eseguendo B<dpkg --configure --pending>."
 
 #. type: TP
-#: dpkg.1:723
+#: dpkg.1:724
 #, no-wrap
 msgid "B<--triggers>"
 msgstr "B<--triggers>"
 
 #. type: Plain text
-#: dpkg.1:726
+#: dpkg.1:727
 msgid "Cancels a previous B<--no-triggers>."
 msgstr "Annulla un'opzione B<--no-triggers> precedente."
 
 #. type: SH
-#: dpkg.1:727 dpkg-buildflags.1:354 dpkg-buildpackage.1:337
+#: dpkg.1:728 dpkg-buildflags.1:354 dpkg-buildpackage.1:337
 #: dpkg-checkbuilddeps.1:75 dpkg-deb.1:280 dpkg-divert.8:99 dpkg-query.1:284
 #: dpkg-statoverride.8:87 dpkg-trigger.1:77 dpkg-vendor.1:59 dselect.1:447
 #: update-alternatives.8:380
@@ -5389,13 +5400,13 @@ msgid "ENVIRONMENT"
 msgstr "AMBIENTE"
 
 #. type: TP
-#: dpkg.1:728 dselect.1:448
+#: dpkg.1:729 dselect.1:448
 #, no-wrap
 msgid "B<HOME>"
 msgstr "B<HOME>"
 
 #. type: Plain text
-#: dpkg.1:732
+#: dpkg.1:733
 msgid ""
 "If set, B<dpkg> will use it as the directory from which to read the user "
 "specific configuration file."
@@ -5404,13 +5415,13 @@ msgstr ""
 "configurazione specifico dell'utente."
 
 #. type: TP
-#: dpkg.1:732 dpkg-deb.1:281
+#: dpkg.1:733 dpkg-deb.1:281
 #, no-wrap
 msgid "B<TMPDIR>"
 msgstr "B<TMPDIR>"
 
 #. type: Plain text
-#: dpkg.1:736
+#: dpkg.1:737
 msgid ""
 "If set, B<dpkg> will use it as the directory in which to create temporary "
 "files and directories."
@@ -5419,36 +5430,36 @@ msgstr ""
 "directory temporanee."
 
 #. type: TP
-#: dpkg.1:736
+#: dpkg.1:737
 #, no-wrap
 msgid "B<PAGER>"
 msgstr "B<PAGER>"
 
 #. type: Plain text
-#: dpkg.1:739
+#: dpkg.1:740
 msgid "The program B<dpkg> will execute when displaying the conffiles."
 msgstr ""
 "Il programma che B<dpkg> eseguirà per visualizzare i file di configurazione."
 
 #. type: TP
-#: dpkg.1:739
+#: dpkg.1:740
 #, no-wrap
 msgid "B<SHELL>"
 msgstr "B<SHELL>"
 
 #. type: Plain text
-#: dpkg.1:742
+#: dpkg.1:743
 msgid "The program B<dpkg> will execute when starting a new shell."
 msgstr "Il programma che B<dpkg> eseguirà per avviare una nuova shell."
 
 #. type: TP
-#: dpkg.1:742 dpkg-query.1:289
+#: dpkg.1:743 dpkg-query.1:289
 #, no-wrap
 msgid "B<COLUMNS>"
 msgstr "B<COLUMNS>"
 
 #. type: Plain text
-#: dpkg.1:746
+#: dpkg.1:747
 msgid ""
 "Sets the number of columns B<dpkg> should use when displaying formatted "
 "text. Currently only used by -l."
@@ -5457,13 +5468,13 @@ msgstr ""
 "formattato. Attualmente è usata solo da -l."
 
 #. type: TP
-#: dpkg.1:746
+#: dpkg.1:747
 #, no-wrap
 msgid "B<DPKG_SHELL_REASON>"
 msgstr "B<DPKG_SHELL_REASON>"
 
 #. type: Plain text
-#: dpkg.1:750
+#: dpkg.1:751
 msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Current valid value: B<conffile-prompt>."
@@ -5473,13 +5484,13 @@ msgstr ""
 "B<conffile-prompt>."
 
 #. type: TP
-#: dpkg.1:750
+#: dpkg.1:751
 #, no-wrap
 msgid "B<DPKG_CONFFILE_OLD>"
 msgstr "B<DPKG_CONFFILE_OLD>"
 
 #. type: Plain text
-#: dpkg.1:754
+#: dpkg.1:755
 msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Contains the path to the old conffile."
@@ -5489,13 +5500,13 @@ msgstr ""
 "vecchio file di configurazione."
 
 #. type: TP
-#: dpkg.1:754
+#: dpkg.1:755
 #, no-wrap
 msgid "B<DPKG_CONFFILE_NEW>"
 msgstr "B<DPKG_CONFFILE_NEW>"
 
 #. type: Plain text
-#: dpkg.1:758
+#: dpkg.1:759
 msgid ""
 "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
 "the situation. Contains the path to the new conffile."
@@ -5505,13 +5516,13 @@ msgstr ""
 "nuovo file di configurazione."
 
 #. type: TP
-#: dpkg.1:758
+#: dpkg.1:759
 #, no-wrap
 msgid "B<DPKG_RUNNING_VERSION>"
 msgstr "B<DPKG_RUNNING_VERSION>"
 
 #. type: Plain text
-#: dpkg.1:762
+#: dpkg.1:763
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the version of "
 "the currently running B<dpkg> instance."
@@ -5520,13 +5531,13 @@ msgstr ""
 "alla versione dell'istanza di B<dpkg> attualmente in esecuzione."
 
 #. type: TP
-#: dpkg.1:762 dpkg-divert.8:104
+#: dpkg.1:763 dpkg-divert.8:104
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_PACKAGE>"
 msgstr "B<DPKG_MAINTSCRIPT_PACKAGE>"
 
 #. type: Plain text
-#: dpkg.1:766
+#: dpkg.1:767
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the (non-arch-"
 "qualified) package name being handled."
@@ -5536,13 +5547,13 @@ msgstr ""
 "elaborazione."
 
 #. type: TP
-#: dpkg.1:766
+#: dpkg.1:767
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_PACKAGE_REFCOUNT>"
 msgstr "B<DPKG_MAINTSCRIPT_PACKAGE_REFCOUNT>"
 
 #. type: Plain text
-#: dpkg.1:771
+#: dpkg.1:772
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the package "
 "reference count, i.e. the number of package instances with a state greater "
@@ -5554,13 +5565,13 @@ msgstr ""
 "1.17.2."
 
 #. type: TP
-#: dpkg.1:771
+#: dpkg.1:772
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_ARCH>"
 msgstr "B<DPKG_MAINTSCRIPT_ARCH>"
 
 #. type: Plain text
-#: dpkg.1:775
+#: dpkg.1:776
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the architecture "
 "the package got built for."
@@ -5569,13 +5580,13 @@ msgstr ""
 "all'architettura per la quale è stato compilato il pacchetto."
 
 #. type: TP
-#: dpkg.1:775
+#: dpkg.1:776
 #, no-wrap
 msgid "B<DPKG_MAINTSCRIPT_NAME>"
 msgstr "B<DPKG_MAINTSCRIPT_NAME>"
 
 #. type: Plain text
-#: dpkg.1:779
+#: dpkg.1:780
 msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the name of the "
 "script running (preinst, postinst, prerm, postrm)."
@@ -5584,42 +5595,42 @@ msgstr ""
 "al nome dello script in esecuzione (preinst, postinst, prerm, postrm)."
 
 #. type: Plain text
-#: dpkg.1:781 dpkg.cfg.5:32
+#: dpkg.1:782 dpkg.cfg.5:32
 #, no-wrap
 msgid "I</etc/dpkg/dpkg.cfg.d/[0-9a-zA-Z_-]*>"
 msgstr "I</etc/dpkg/dpkg.cfg.d/[0-9a-zA-Z_-]*>"
 
 #. type: Plain text
-#: dpkg.1:784
+#: dpkg.1:785
 msgid "Configuration fragment files."
 msgstr "File con frammenti di configurazione."
 
 #. type: Plain text
-#: dpkg.1:784 dpkg.cfg.5:34
+#: dpkg.1:785 dpkg.cfg.5:34
 #, no-wrap
 msgid "I</etc/dpkg/dpkg.cfg>"
 msgstr "I</etc/dpkg/dpkg.cfg>"
 
 #. type: Plain text
-#: dpkg.1:787
+#: dpkg.1:788
 msgid "Configuration file with default options."
 msgstr "File di configurazione con le opzioni predefinite."
 
 #. type: TP
-#: dpkg.1:787
+#: dpkg.1:788
 #, no-wrap
 msgid "I</var/log/dpkg.log>"
 msgstr "I</var/log/dpkg.log>"
 
 #. type: Plain text
-#: dpkg.1:791
+#: dpkg.1:792
 msgid "Default log file (see I</etc/dpkg/dpkg.cfg>(5) and option B<--log>)."
 msgstr ""
 "File di registro predefinito (vedere I</etc/dpkg/dpkg.cfg>(5) e l'opzione "
 "B<--log>)."
 
 #. type: Plain text
-#: dpkg.1:794
+#: dpkg.1:795
 msgid ""
 "The other files listed below are in their default directories, see option "
 "B<--admindir> to see how to change locations of these files."
@@ -5629,24 +5640,24 @@ msgstr ""
 "questi file."
 
 #. type: TP
-#: dpkg.1:794
+#: dpkg.1:795
 #, no-wrap
 msgid "I</var/lib/dpkg/available>"
 msgstr "I</var/lib/dpkg/available>"
 
 #. type: Plain text
-#: dpkg.1:797
+#: dpkg.1:798
 msgid "List of available packages."
 msgstr "Elenco di pacchetti disponibili."
 
 #. type: TP
-#: dpkg.1:797
+#: dpkg.1:798
 #, no-wrap
 msgid "I</var/lib/dpkg/status>"
 msgstr "I</var/lib/dpkg/status>"
 
 #. type: Plain text
-#: dpkg.1:803
+#: dpkg.1:804
 msgid ""
 "Statuses of available packages. This file contains information about whether "
 "a package is marked for removing or not, whether it is installed or not, "
@@ -5658,7 +5669,7 @@ msgstr ""
 "B<INFORMAZIONI SUI PACCHETTI>."
 
 #. type: Plain text
-#: dpkg.1:806
+#: dpkg.1:807
 msgid ""
 "The status file is backed up daily in I</var/backups>. It can be useful if "
 "it's lost or corrupted due to filesystems troubles."
@@ -5668,7 +5679,7 @@ msgstr ""
 "file system."
 
 #. type: Plain text
-#: dpkg.1:809
+#: dpkg.1:810
 msgid ""
 "The following files are components of a binary package. See B<deb>(5)  for "
 "more information about them:"
@@ -5677,7 +5688,7 @@ msgstr ""
 "informazioni su di essi, vedere B<deb>(5)."
 
 #. type: Plain text
-#: dpkg.1:818
+#: dpkg.1:819
 #, no-wrap
 msgid ""
 "I<control>\n"
@@ -5697,20 +5708,20 @@ msgstr ""
 "I<triggers>\n"
 
 #. type: SH
-#: dpkg.1:821 dpkg-buildpackage.1:378 dpkg-deb.1:294 dpkg-name.1:78
+#: dpkg.1:822 dpkg-buildpackage.1:378 dpkg-deb.1:294 dpkg-name.1:78
 #: dpkg-source.1:772 dpkg-split.1:227 dselect.1:453
 #, no-wrap
 msgid "BUGS"
 msgstr "BUG"
 
 #. type: Plain text
-#: dpkg.1:823
+#: dpkg.1:824
 msgid "B<--no-act> usually gives less information than might be helpful."
 msgstr ""
 "B<--no-act> normalmente fornisce meno informazioni di quanto sarebbe utile."
 
 #. type: Plain text
-#: dpkg.1:829
+#: dpkg.1:830
 msgid ""
 "To list installed packages related to the editor B<vi>(1) (note that B<dpkg-"
 "query> does not load the I<available> file anymore by default, and the "
@@ -5722,47 +5733,47 @@ msgstr ""
 "query>):"
 
 #. type: Plain text
-#: dpkg.1:831
+#: dpkg.1:832
 #, no-wrap
 msgid "     B<dpkg -l \\(aq*vi*\\(aq>\n"
 msgstr "     B<dpkg -l \\(aq*vi*\\(aq>\n"
 
 #. type: Plain text
-#: dpkg.1:834
+#: dpkg.1:835
 msgid "To see the entries in I</var/lib/dpkg/available> of two packages:"
 msgstr ""
 "Per vedere le voci riguardanti due pacchetti in I</var/lib/dpkg/available>:"
 
 #. type: Plain text
-#: dpkg.1:836
+#: dpkg.1:837
 #, no-wrap
 msgid "     B<dpkg --print-avail elvis vim | less>\n"
 msgstr "     B<dpkg --print-avail elvis vim | less>\n"
 
 #. type: Plain text
-#: dpkg.1:839
+#: dpkg.1:840
 msgid "To search the listing of packages yourself:"
 msgstr "Per cercare direttamente nell'elenco dei pacchetti:"
 
 #. type: Plain text
-#: dpkg.1:841
+#: dpkg.1:842
 #, no-wrap
 msgid "     B<less /var/lib/dpkg/available>\n"
 msgstr "     B<less /var/lib/dpkg/available>\n"
 
 #. type: Plain text
-#: dpkg.1:844
+#: dpkg.1:845
 msgid "To remove an installed elvis package:"
 msgstr "Per rimuovere un pacchetto elvis installato:"
 
 #. type: Plain text
-#: dpkg.1:846
+#: dpkg.1:847
 #, no-wrap
 msgid "     B<dpkg -r elvis>\n"
 msgstr "     B<dpkg -r elvis>\n"
 
 #. type: Plain text
-#: dpkg.1:851
+#: dpkg.1:852
 msgid ""
 "To install a package, you first need to find it in an archive or CDROM. The "
 "I<available> file shows that the vim package is in section \"editors\":"
@@ -5772,7 +5783,7 @@ msgstr ""
 "«editors»:"
 
 #. type: Plain text
-#: dpkg.1:854
+#: dpkg.1:855
 #, no-wrap
 msgid ""
 "     B<cd /media/cdrom/pool/main/v/vim>\n"
@@ -5782,18 +5793,18 @@ msgstr ""
 "     B<dpkg -i vim_4.5-3.deb>\n"
 
 #. type: Plain text
-#: dpkg.1:857
+#: dpkg.1:858
 msgid "To make a local copy of the package selection states:"
 msgstr "Per fare una copia locale degli stati di selezione dei pacchetti:"
 
 #. type: Plain text
-#: dpkg.1:859
+#: dpkg.1:860
 #, no-wrap
 msgid "     B<dpkg --get-selections E<gt>myselections>\n"
 msgstr "     B<dpkg --get-selections E<gt>mieselezioni>\n"
 
 #. type: Plain text
-#: dpkg.1:864
+#: dpkg.1:865
 msgid ""
 "You might transfer this file to another computer, and after having updated "
 "the I<available> file there with your package manager frontend of choice "
@@ -5805,18 +5816,18 @@ msgstr ""
 "dettagli), per esempio:"
 
 #. type: Plain text
-#: dpkg.1:866
+#: dpkg.1:867
 #, no-wrap
 msgid "     B<apt-cache dumpavail | dpkg --merge-avail>\n"
 msgstr ""
 
 #. type: Plain text
-#: dpkg.1:868
+#: dpkg.1:869
 msgid "or with dpkg 1.17.6 and earlier:"
 msgstr ""
 
 #. type: Plain text
-#: dpkg.1:873
+#: dpkg.1:874
 #, no-wrap
 msgid ""
 "     B<avail=`mktemp`>\n"
@@ -5830,12 +5841,12 @@ msgstr ""
 "     B<rm \"$avail\">\n"
 
 #. type: Plain text
-#: dpkg.1:875
+#: dpkg.1:876
 msgid "you can install it with:"
 msgstr "lo si può installare con:"
 
 #. type: Plain text
-#: dpkg.1:878
+#: dpkg.1:879
 #, no-wrap
 msgid ""
 "     B<dpkg --clear-selections>\n"
@@ -5845,7 +5856,7 @@ msgstr ""
 "     B<dpkg --set-selections E<lt>mieselezioni>\n"
 
 #. type: Plain text
-#: dpkg.1:884
+#: dpkg.1:885
 msgid ""
 "Note that this will not actually install or remove anything, but just set "
 "the selection state on the requested packages. You will need some other "
@@ -5858,7 +5869,7 @@ msgstr ""
 "pacchetti richiesti. Per esempio, eseguire B<apt-get dselect-upgrade>."
 
 #. type: Plain text
-#: dpkg.1:887
+#: dpkg.1:888
 msgid ""
 "Ordinarily, you will find that B<dselect>(1) provides a more convenient way "
 "to modify the package selection states."
@@ -5867,13 +5878,13 @@ msgstr ""
 "modificare gli stati di selezione dei pacchetti."
 
 #. type: SH
-#: dpkg.1:889
+#: dpkg.1:890
 #, no-wrap
 msgid "ADDITIONAL FUNCTIONALITY"
 msgstr "FUNZIONALITÀ AGGIUNTIVE"
 
 #. type: Plain text
-#: dpkg.1:892
+#: dpkg.1:893
 msgid ""
 "Additional functionality can be gained by installing any of the following "
 "packages: B<apt>, B<aptitude> and B<debsums>."
@@ -5882,7 +5893,7 @@ msgstr ""
 "pacchetti: B<apt>, B<aptitude> e B<debsums>."
 
 #. type: Plain text
-#: dpkg.1:906
+#: dpkg.1:907
 msgid ""
 "B<aptitude>(1), B<apt>(1), B<dselect>(1), B<dpkg-deb>(1), B<dpkg-query>(1), "
 "B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5), and B<dpkg-reconfigure>(8)."
@@ -5891,13 +5902,13 @@ msgstr ""
 "B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5) e B<dpkg-reconfigure>(8)."
 
 #. type: SH
-#: dpkg.1:907
+#: dpkg.1:908
 #, no-wrap
 msgid "AUTHORS"
 msgstr "AUTORI"
 
 #. type: Plain text
-#: dpkg.1:909 dpkg.cfg.5:40
+#: dpkg.1:910 dpkg.cfg.5:40
 msgid ""
 "See I</usr/share/doc/dpkg/THANKS> for the list of people who have "
 "contributed to B<dpkg>."
@@ -5963,7 +5974,7 @@ msgstr ""
 #. type: SH
 #: dpkg-architecture.1:49 dpkg-buildflags.1:64 dpkg-deb.1:47 dpkg-divert.8:44
 #: dpkg-query.1:33 dpkg-source.1:39 dpkg-split.1:48 dpkg-statoverride.8:42
-#: dpkg-trigger.1:41 dpkg-vendor.1:31 start-stop-daemon.8:56
+#: dpkg-trigger.1:41 dpkg-vendor.1:31 start-stop-daemon.8:58
 #: update-alternatives.8:219
 #, no-wrap
 msgid "COMMANDS"
@@ -6867,7 +6878,7 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-architecture.1:312
-msgid "All long name commands and options available only since dpkg 1.17.17."
+msgid "All long command and option names available only since dpkg 1.17.17."
 msgstr ""
 
 #. type: Plain text
@@ -9913,7 +9924,7 @@ msgstr ""
 "indipendentemente da quanto sia difettoso."
 
 #. type: TP
-#: dpkg-deb.1:272 start-stop-daemon.8:296
+#: dpkg-deb.1:272 start-stop-daemon.8:307
 #, no-wrap
 msgid "B<-v>, B<--verbose>"
 msgstr "B<-v>, B<--verbose>"
@@ -13503,15 +13514,15 @@ msgid "  B<dpkg-query -W -f=\\(aq${binary:Package} ${Version}\\et${Maintainer}\\
 msgstr "  B<dpkg-query -W -f=\\(aq${binary:Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
 
 #. type: SH
-#: dpkg-query.1:274 dpkg-split.1:196 start-stop-daemon.8:300
+#: dpkg-query.1:274 dpkg-split.1:196 start-stop-daemon.8:311
 #: update-alternatives.8:371
 #, no-wrap
 msgid "EXIT STATUS"
 msgstr "STATO D'USCITA"
 
 #. type: TP
-#: dpkg-query.1:275 dpkg-split.1:197 start-stop-daemon.8:301
-#: start-stop-daemon.8:330 update-alternatives.8:372
+#: dpkg-query.1:275 dpkg-split.1:197 start-stop-daemon.8:312
+#: start-stop-daemon.8:341 update-alternatives.8:372
 #, no-wrap
 msgid "B<0>"
 msgstr "B<0>"
@@ -13522,8 +13533,8 @@ msgid "The requested query was successfully performed."
 msgstr "L'interrogazione richiesta è stata effettuata con successo."
 
 #. type: TP
-#: dpkg-query.1:278 dpkg-split.1:203 start-stop-daemon.8:311
-#: start-stop-daemon.8:333
+#: dpkg-query.1:278 dpkg-split.1:203 start-stop-daemon.8:322
+#: start-stop-daemon.8:344
 #, no-wrap
 msgid "B<1>"
 msgstr "B<1>"
@@ -16551,7 +16562,7 @@ msgstr ""
 "parte di un pacchetto binario."
 
 #. type: TP
-#: dpkg-split.1:210 start-stop-daemon.8:316 update-alternatives.8:375
+#: dpkg-split.1:210 start-stop-daemon.8:327 update-alternatives.8:375
 #, no-wrap
 msgid "B<2>"
 msgstr "B<2>"
@@ -18279,16 +18290,26 @@ msgstr ""
 "istanze esistenti di un processo in esecuzione."
 
 #. type: Plain text
-#: start-stop-daemon.8:55
+#: start-stop-daemon.8:57
+#, fuzzy
+#| msgid ""
+#| "Note: unless B<--pidfile> is specified, B<start-stop-daemon> behaves "
+#| "similar to B<killall>(1).  B<start-stop-daemon> will scan the process "
+#| "table looking for any processes which match the process name, uid, and/or "
+#| "gid (if specified). Any matching process will prevent B<--start> from "
+#| "starting the daemon. All matching processes will be sent the TERM signal "
+#| "(or the one specified via B<--signal> or B<--retry>) if B<--stop> is "
+#| "specified. For daemons which have long-lived children which need to live "
+#| "through a B<--stop>, you must specify a pidfile."
 msgid ""
-"Note: unless B<--pidfile> is specified, B<start-stop-daemon> behaves similar "
-"to B<killall>(1).  B<start-stop-daemon> will scan the process table looking "
-"for any processes which match the process name, uid, and/or gid (if "
-"specified). Any matching process will prevent B<--start> from starting the "
-"daemon. All matching processes will be sent the TERM signal (or the one "
-"specified via B<--signal> or B<--retry>) if B<--stop> is specified. For "
-"daemons which have long-lived children which need to live through a B<--"
-"stop>, you must specify a pidfile."
+"Note: unless B<--pid> or B<--pidfile> are specified, B<start-stop-daemon> "
+"behaves similar to B<killall>(1).  B<start-stop-daemon> will scan the "
+"process table looking for any processes which match the process name, parent "
+"pid, uid, and/or gid (if specified). Any matching process will prevent B<--"
+"start> from starting the daemon. All matching processes will be sent the "
+"TERM signal (or the one specified via B<--signal> or B<--retry>) if B<--"
+"stop> is specified. For daemons which have long-lived children which need to "
+"live through a B<--stop>, you must specify a pidfile."
 msgstr ""
 "Nota: a meno che non venga specificata l'opzione B<--pidfile>, B<start-stop-"
 "daemon> si comporta in modo simile a B<killall>(1). B<start-stop-daemon> "
@@ -18301,13 +18322,13 @@ msgstr ""
 "B<--stop> è necessario specificare un file PID."
 
 #. type: TP
-#: start-stop-daemon.8:57
+#: start-stop-daemon.8:59
 #, no-wrap
 msgid "B<-S>, B<--start> [B<-->] I<arguments>"
 msgstr "B<-S>, B<--start> [B<-->] I<argomenti>"
 
 #. type: Plain text
-#: start-stop-daemon.8:74
+#: start-stop-daemon.8:76
 msgid ""
 "Check for the existence of a specified process.  If such a process exists, "
 "B<start-stop-daemon> does nothing, and exits with error status 1 (0 if B<--"
@@ -18324,13 +18345,13 @@ msgstr ""
 "comando vengono passati immutati al programma che viene avviato."
 
 #. type: TP
-#: start-stop-daemon.8:74
+#: start-stop-daemon.8:76
 #, no-wrap
 msgid "B<-K>, B<--stop>"
 msgstr "B<-K>, B<--stop>"
 
 #. type: Plain text
-#: start-stop-daemon.8:92
+#: start-stop-daemon.8:94
 msgid ""
 "Checks for the existence of a specified process.  If such a process exists, "
 "B<start-stop-daemon> sends it the signal specified by B<--signal>, and exits "
@@ -18347,13 +18368,13 @@ msgstr ""
 "che i processi siano stati terminati."
 
 #. type: TP
-#: start-stop-daemon.8:92
+#: start-stop-daemon.8:94
 #, no-wrap
 msgid "B<-T>, B<--status>"
 msgstr "B<-T>, B<--status>"
 
 #. type: Plain text
-#: start-stop-daemon.8:96
+#: start-stop-daemon.8:98
 msgid ""
 "Check for the existence of a specified process, and returns an exit status "
 "code, according to the LSB Init Script Actions."
@@ -18362,41 +18383,41 @@ msgstr ""
 "stato di uscita in base alle LSB Init Script Actions."
 
 #. type: TP
-#: start-stop-daemon.8:96
+#: start-stop-daemon.8:98
 #, no-wrap
 msgid "B<-H>, B<--help>"
 msgstr "B<-H>, B<--help>"
 
 #. type: Plain text
-#: start-stop-daemon.8:99
+#: start-stop-daemon.8:101
 msgid "Show usage information and exit."
 msgstr "Visualizza informazioni sull'uso ed esce."
 
 #. type: TP
-#: start-stop-daemon.8:99
+#: start-stop-daemon.8:101
 #, no-wrap
 msgid "B<-V>, B<--version>"
 msgstr "B<-V>, B<--version>"
 
 #. type: Plain text
-#: start-stop-daemon.8:102
+#: start-stop-daemon.8:104
 msgid "Show the program version and exit."
 msgstr "Visualizza la versione del programma ed esce."
 
 #. type: SS
-#: start-stop-daemon.8:104
+#: start-stop-daemon.8:106
 #, no-wrap
 msgid "Matching options"
 msgstr "Opzioni per corrispondenze"
 
 #. type: TP
-#: start-stop-daemon.8:105
+#: start-stop-daemon.8:107
 #, no-wrap
 msgid "B<--pid> I<pid>"
 msgstr "B<--pid> I<pid>"
 
 #. type: Plain text
-#: start-stop-daemon.8:109
+#: start-stop-daemon.8:111
 msgid ""
 "Check for a process with the specified I<pid>. The I<pid> must be a number "
 "greater than 0."
@@ -18405,14 +18426,14 @@ msgstr ""
 "numero maggiore di 0."
 
 #. type: TP
-#: start-stop-daemon.8:109
+#: start-stop-daemon.8:111
 #, fuzzy, no-wrap
 #| msgid "B<--pid> I<pid>"
 msgid "B<--ppid> I<ppid>"
 msgstr "B<--pid> I<pid>"
 
 #. type: Plain text
-#: start-stop-daemon.8:113
+#: start-stop-daemon.8:115
 #, fuzzy
 #| msgid ""
 #| "Check for a process with the specified I<pid>. The I<pid> must be a "
@@ -18425,13 +18446,13 @@ msgstr ""
 "numero maggiore di 0."
 
 #. type: TP
-#: start-stop-daemon.8:113
+#: start-stop-daemon.8:115
 #, no-wrap
 msgid "B<-p>, B<--pidfile> I<pid-file>"
 msgstr "B<-p>, B<--pidfile> I<file-pid>"
 
 #. type: Plain text
-#: start-stop-daemon.8:118
+#: start-stop-daemon.8:120
 msgid ""
 "Check whether a process has created the file I<pid-file>. Note: using this "
 "matching option alone might cause unintended processes to be acted on, if "
@@ -18443,13 +18464,13 @@ msgstr ""
 "rimuovere il I<file-pid>."
 
 #. type: TP
-#: start-stop-daemon.8:118
+#: start-stop-daemon.8:120
 #, no-wrap
 msgid "B<-x>, B<--exec> I<executable>"
 msgstr "B<-x>, B<--exec> I<eseguibile>"
 
 #. type: Plain text
-#: start-stop-daemon.8:125
+#: start-stop-daemon.8:127
 msgid ""
 "Check for processes that are instances of this I<executable>. The "
 "I<executable> argument should be an absolute pathname. Note: this might not "
@@ -18465,13 +18486,13 @@ msgstr ""
 "potrebbero essere necessarie altre restrizioni della corrispondenza."
 
 #. type: TP
-#: start-stop-daemon.8:125
+#: start-stop-daemon.8:127
 #, no-wrap
 msgid "B<-n>, B<--name> I<process-name>"
 msgstr "B<-n>, B<--name> I<nome-processo>"
 
 #. type: Plain text
-#: start-stop-daemon.8:132
+#: start-stop-daemon.8:134
 msgid ""
 "Check for processes with the name I<process-name>. The I<process-name> is "
 "usually the process filename, but it could have been changed by the process "
@@ -18487,13 +18508,13 @@ msgstr ""
 "siano portabili)."
 
 #. type: TP
-#: start-stop-daemon.8:132
+#: start-stop-daemon.8:134
 #, no-wrap
 msgid "B<-u>, B<--user> I<username>|I<uid>"
 msgstr "B<-u>, B<--user> I<nomeutente>|I<uid>"
 
 #. type: Plain text
-#: start-stop-daemon.8:137
+#: start-stop-daemon.8:139
 msgid ""
 "Check for processes owned by the user specified by I<username> or I<uid>. "
 "Note: using this matching option alone will cause all processes matching the "
@@ -18504,30 +18525,30 @@ msgstr ""
 "l'azione abbia effetto su tutti i processi corrispondenti all'utente."
 
 #. type: SS
-#: start-stop-daemon.8:138
+#: start-stop-daemon.8:140
 #, no-wrap
 msgid "Generic options"
 msgstr "Opzioni generiche"
 
 #. type: TP
-#: start-stop-daemon.8:139
+#: start-stop-daemon.8:141
 #, no-wrap
 msgid "B<-g>, B<--group> I<group>|I<gid>"
 msgstr "B<-g>, B<--group> I<gruppo>|I<gid>"
 
 #. type: Plain text
-#: start-stop-daemon.8:142
+#: start-stop-daemon.8:144
 msgid "Change to I<group> or I<gid> when starting the process."
 msgstr "Modifica in I<group> o I<gid> quando avvia il processo."
 
 #. type: TP
-#: start-stop-daemon.8:142
+#: start-stop-daemon.8:144
 #, no-wrap
 msgid "B<-s>, B<--signal> I<signal>"
 msgstr "B<-s>, B<--signal> I<segnale>"
 
 #. type: Plain text
-#: start-stop-daemon.8:147
+#: start-stop-daemon.8:149
 msgid ""
 "With B<--stop>, specifies the signal to send to processes being stopped "
 "(default TERM)."
@@ -18536,13 +18557,13 @@ msgstr ""
 "fermati (quello predefinito è TERM)."
 
 #. type: TP
-#: start-stop-daemon.8:147
+#: start-stop-daemon.8:149
 #, no-wrap
 msgid "B<-R>, B<--retry> I<timeout>|I<schedule>"
 msgstr "B<-R>, B<--retry> I<scadenza>|I<pianificazione>"
 
 #. type: Plain text
-#: start-stop-daemon.8:157
+#: start-stop-daemon.8:159
 msgid ""
 "With B<--stop>, specifies that B<start-stop-daemon> is to check whether the "
 "process(es)  do finish. It will check repeatedly whether any matching "
@@ -18555,7 +18576,7 @@ msgstr ""
 "processi non terminano, effettua altre azioni in base alla pianificazione."
 
 #. type: Plain text
-#: start-stop-daemon.8:168
+#: start-stop-daemon.8:170
 msgid ""
 "If I<timeout> is specified instead of I<schedule>, then the schedule "
 "I<signal>B</>I<timeout>B</KILL/>I<timeout> is used, where I<signal> is the "
@@ -18566,7 +18587,7 @@ msgstr ""
 "dove I<segnale> è il segnale specificato da B<--signal>."
 
 #. type: Plain text
-#: start-stop-daemon.8:184
+#: start-stop-daemon.8:186
 msgid ""
 "I<schedule> is a list of at least two items separated by slashes (B</>); "
 "each item may be B<->I<signal-number> or [B<->]I<signal-name>, which means "
@@ -18582,7 +18603,7 @@ msgstr ""
 "all'infinito, se necessario."
 
 #. type: Plain text
-#: start-stop-daemon.8:194
+#: start-stop-daemon.8:196
 msgid ""
 "If the end of the schedule is reached and B<forever> is not specified, then "
 "B<start-stop-daemon> exits with error status 2.  If a schedule is specified, "
@@ -18594,13 +18615,13 @@ msgstr ""
 "specificato con B<--signal>."
 
 #. type: TP
-#: start-stop-daemon.8:194
+#: start-stop-daemon.8:196
 #, no-wrap
 msgid "B<-a>, B<--startas> I<pathname>"
 msgstr "B<-a>, B<--startas> I<nomepercorso>"
 
 #. type: Plain text
-#: start-stop-daemon.8:202
+#: start-stop-daemon.8:204
 msgid ""
 "With B<--start>, start the process specified by I<pathname>.  If not "
 "specified, defaults to the argument given to B<--exec>."
@@ -18609,13 +18630,13 @@ msgstr ""
 "specificato, viene usato in modo predefinito l'argomento fornito a B<--exec>."
 
 #. type: TP
-#: start-stop-daemon.8:202
+#: start-stop-daemon.8:204
 #, no-wrap
 msgid "B<-t>, B<--test>"
 msgstr "B<-t>, B<--test>"
 
 #. type: Plain text
-#: start-stop-daemon.8:206
+#: start-stop-daemon.8:208
 msgid ""
 "Print actions that would be taken and set appropriate return value, but take "
 "no action."
@@ -18624,37 +18645,37 @@ msgstr ""
 "appropriato, ma non fa alcuna azione."
 
 #. type: TP
-#: start-stop-daemon.8:206
+#: start-stop-daemon.8:208
 #, no-wrap
 msgid "B<-o>, B<--oknodo>"
 msgstr "B<-o>, B<--oknodo>"
 
 #. type: Plain text
-#: start-stop-daemon.8:209
+#: start-stop-daemon.8:211
 msgid "Return exit status 0 instead of 1 if no actions are (would be) taken."
 msgstr ""
 "Restituisce lo stato di uscita 0 invece di 1 se non viene (o non verrebbe) "
 "fatta alcuna azione."
 
 #. type: TP
-#: start-stop-daemon.8:209
+#: start-stop-daemon.8:211
 #, no-wrap
 msgid "B<-q>, B<--quiet>"
 msgstr "B<-q>, B<--quiet>"
 
 #. type: Plain text
-#: start-stop-daemon.8:212
+#: start-stop-daemon.8:214
 msgid "Do not print informational messages; only display error messages."
 msgstr "Non visualizza messaggi informativi; mostra solo i messaggi di errore."
 
 #. type: TP
-#: start-stop-daemon.8:212
+#: start-stop-daemon.8:214
 #, no-wrap
 msgid "B<-c>, B<--chuid> I<username>|I<uid>[B<:>I<group>|I<gid>]"
 msgstr "B<-c>, B<--chuid> I<nomeutente>|I<uid>[B<:>I<gruppo>|I<gid>]"
 
 #. type: Plain text
-#: start-stop-daemon.8:230
+#: start-stop-daemon.8:232
 msgid ""
 "Change to this username/uid before starting the process. You can also "
 "specify a group by appending a B<:>, then the group or gid in the same way "
@@ -18677,13 +18698,13 @@ msgstr ""
 "utenti generici come B<nobody>)."
 
 #. type: TP
-#: start-stop-daemon.8:230
+#: start-stop-daemon.8:232
 #, no-wrap
 msgid "B<-r>, B<--chroot> I<root>"
 msgstr "B<-r>, B<--chroot> I<root>"
 
 #. type: Plain text
-#: start-stop-daemon.8:236
+#: start-stop-daemon.8:238
 msgid ""
 "Chdir and chroot to I<root> before starting the process. Please note that "
 "the pidfile is also written after the chroot."
@@ -18692,13 +18713,13 @@ msgstr ""
 "Notare che anche il filepid viene scritto dopo chroot."
 
 #. type: TP
-#: start-stop-daemon.8:236
+#: start-stop-daemon.8:238
 #, no-wrap
 msgid "B<-d>, B<--chdir> I<path>"
 msgstr "B<-d>, B<--chdir> I<percorso>"
 
 #. type: Plain text
-#: start-stop-daemon.8:244
+#: start-stop-daemon.8:246
 msgid ""
 "Chdir to I<path> before starting the process. This is done after the chroot "
 "if the B<-r>|B<--chroot> option is set. When not specified, B<start-stop-"
@@ -18710,13 +18731,13 @@ msgstr ""
 "di avviare il processo."
 
 #. type: TP
-#: start-stop-daemon.8:244
+#: start-stop-daemon.8:246
 #, no-wrap
 msgid "B<-b>, B<--background>"
 msgstr "B<-b>, B<--background>"
 
 #. type: Plain text
-#: start-stop-daemon.8:256
+#: start-stop-daemon.8:258
 msgid ""
 "Typically used with programs that don't detach on their own. This option "
 "will force B<start-stop-daemon> to fork before starting the process, and "
@@ -18735,13 +18756,13 @@ msgstr ""
 "possibile aggiungere il codice per far sì che lo facciano da soli."
 
 #. type: TP
-#: start-stop-daemon.8:256
+#: start-stop-daemon.8:258
 #, no-wrap
 msgid "B<-C>, B<--no-close>"
 msgstr "B<-C>, B<--no-close>"
 
 #. type: Plain text
-#: start-stop-daemon.8:262
+#: start-stop-daemon.8:264
 msgid ""
 "Do not close any file descriptor when forcing the daemon into the "
 "background.  Used for debugging purposes to see the process output, or to "
@@ -18754,24 +18775,24 @@ msgstr ""
 "quando viene usato B<--background>."
 
 #. type: TP
-#: start-stop-daemon.8:262
+#: start-stop-daemon.8:264
 #, no-wrap
 msgid "B<-N>, B<--nicelevel> I<int>"
 msgstr "B<-N>, B<--nicelevel> I<int>"
 
 #. type: Plain text
-#: start-stop-daemon.8:265
+#: start-stop-daemon.8:267
 msgid "This alters the priority of the process before starting it."
 msgstr "Modifica la priorità del processo prima di avviarlo."
 
 #. type: TP
-#: start-stop-daemon.8:265
+#: start-stop-daemon.8:267
 #, no-wrap
 msgid "B<-P>, B<--procsched> I<policy>B<:>I<priority>"
 msgstr "B<-P>, B<--procsched> I<politica>B<:>I<priorità>"
 
 #. type: Plain text
-#: start-stop-daemon.8:271
+#: start-stop-daemon.8:273
 msgid ""
 "This alters the process scheduler policy and priority of the process before "
 "starting it. The priority can be optionally specified by appending a B<:> "
@@ -18785,13 +18806,13 @@ msgstr ""
 "B<other>, B<fifo> e B<rr>."
 
 #. type: TP
-#: start-stop-daemon.8:271
+#: start-stop-daemon.8:273
 #, no-wrap
 msgid "B<-I>, B<--iosched> I<class>B<:>I<priority>"
 msgstr "B<-I>, B<--iosched> I<classe>B<:>I<priorità>"
 
 #. type: Plain text
-#: start-stop-daemon.8:278
+#: start-stop-daemon.8:280
 msgid ""
 "This alters the IO scheduler class and priority of the process before "
 "starting it. The priority can be optionally specified by appending a B<:> "
@@ -18807,32 +18828,42 @@ msgstr ""
 "B<idle>, B<best-effort> e B<real-time>."
 
 #. type: TP
-#: start-stop-daemon.8:278
+#: start-stop-daemon.8:280
 #, no-wrap
 msgid "B<-k>, B<--umask> I<mask>"
 msgstr "B<-k>, B<--umask> I<maschera>"
 
 #. type: Plain text
-#: start-stop-daemon.8:281
+#: start-stop-daemon.8:283
 msgid "This sets the umask of the process before starting it."
 msgstr "Imposta l'umask del processo prima di avviarlo."
 
 #. type: TP
-#: start-stop-daemon.8:281
+#: start-stop-daemon.8:283
 #, no-wrap
 msgid "B<-m>, B<--make-pidfile>"
 msgstr "B<-m>, B<--make-pidfile>"
 
 #. type: Plain text
-#: start-stop-daemon.8:296
+#: start-stop-daemon.8:299
+#, fuzzy
+#| msgid ""
+#| "Used when starting a program that does not create its own pid file. This "
+#| "option will make B<start-stop-daemon> create the file referenced with B<--"
+#| "pidfile> and place the pid into it just before executing the process. "
+#| "Note, the file will not be removed when stopping the program.  B<NOTE:> "
+#| "This feature may not work in all cases. Most notably when the program "
+#| "being executed forks from its main process. Because of this, it is "
+#| "usually only useful when combined with the B<--background> option."
 msgid ""
 "Used when starting a program that does not create its own pid file. This "
 "option will make B<start-stop-daemon> create the file referenced with B<--"
 "pidfile> and place the pid into it just before executing the process. Note, "
-"the file will not be removed when stopping the program.  B<NOTE:> This "
-"feature may not work in all cases. Most notably when the program being "
-"executed forks from its main process. Because of this, it is usually only "
-"useful when combined with the B<--background> option."
+"the file will only be removed when stopping the program if B<--remove-"
+"pidfile> is used.  B<NOTE:> This feature may not work in all cases. Most "
+"notably when the program being executed forks from its main process. Because "
+"of this, it is usually only useful when combined with the B<--background> "
+"option."
 msgstr ""
 "Usata quando si avvia un processo che non crea il proprio file PID. Questa "
 "opzione fa sì che B<start-stop-daemon> crei il file specificato con B<--"
@@ -18843,13 +18874,28 @@ msgstr ""
 "principale. Per questo è di solito utile solo quando usato in combinazione "
 "con l'opzione B<--background>."
 
-#. type: Plain text
+#. type: TP
 #: start-stop-daemon.8:299
+#, fuzzy, no-wrap
+#| msgid "B<--remove>I< file>"
+msgid "B<--remove-pidfile>"
+msgstr "B<--remove>I< file>"
+
+#. type: Plain text
+#: start-stop-daemon.8:307
+msgid ""
+"Used when stopping a program that does not remove its own pid file. This "
+"option will make B<start-stop-daemon> remove the file referenced with B<--"
+"pidfile> after terminating the process."
+msgstr ""
+
+#. type: Plain text
+#: start-stop-daemon.8:310
 msgid "Print verbose informational messages."
 msgstr "Visualizza messaggi informativi dettagliati."
 
 #. type: Plain text
-#: start-stop-daemon.8:311
+#: start-stop-daemon.8:322
 msgid ""
 "The requested action was performed. If B<--oknodo> was specified, it's also "
 "possible that nothing had to be done.  This can happen when B<--start> was "
@@ -18863,12 +18909,12 @@ msgstr ""
 "processo corrispondente."
 
 #. type: Plain text
-#: start-stop-daemon.8:316
+#: start-stop-daemon.8:327
 msgid "If B<--oknodo> was not specified and nothing was done."
 msgstr "Se non è stata specificata B<--oknodo> e non è stato fatto nulla."
 
 #. type: Plain text
-#: start-stop-daemon.8:324
+#: start-stop-daemon.8:335
 msgid ""
 "If B<--stop> and B<--retry> were specified, but the end of the schedule was "
 "reached and the processes were still running."
@@ -18877,18 +18923,18 @@ msgstr ""
 "fine della pianificazione e il processo era ancora in esecuzione."
 
 #. type: TP
-#: start-stop-daemon.8:324 start-stop-daemon.8:336
+#: start-stop-daemon.8:335 start-stop-daemon.8:347
 #, no-wrap
 msgid "B<3>"
 msgstr "B<3>"
 
 #. type: Plain text
-#: start-stop-daemon.8:327
+#: start-stop-daemon.8:338
 msgid "Any other error."
 msgstr "Qualsiasi altro errore."
 
 #. type: Plain text
-#: start-stop-daemon.8:330
+#: start-stop-daemon.8:341
 msgid ""
 "When using the B<--status> command, the following status codes are returned:"
 msgstr ""
@@ -18896,33 +18942,33 @@ msgstr ""
 "di stato:"
 
 #. type: Plain text
-#: start-stop-daemon.8:333
+#: start-stop-daemon.8:344
 msgid "Program is running."
 msgstr "Il programma è in esecuzione."
 
 #. type: Plain text
-#: start-stop-daemon.8:336
+#: start-stop-daemon.8:347
 msgid "Program is not running and the pid file exists."
 msgstr "Il programma non è in esecuzione e il file PID esiste."
 
 #. type: Plain text
-#: start-stop-daemon.8:339
+#: start-stop-daemon.8:350
 msgid "Program is not running."
 msgstr "Il programma non è in esecuzione."
 
 #. type: TP
-#: start-stop-daemon.8:339
+#: start-stop-daemon.8:350
 #, no-wrap
 msgid "B<4>"
 msgstr "B<4>"
 
 #. type: Plain text
-#: start-stop-daemon.8:342
+#: start-stop-daemon.8:353
 msgid "Unable to determine program status."
 msgstr "Non è stato possibile determinare lo stato del programma."
 
 #. type: Plain text
-#: start-stop-daemon.8:346
+#: start-stop-daemon.8:357
 msgid ""
 "Start the B<food> daemon, unless one is already running (a process named "
 "food, running as user food, with pid in food.pid):"
@@ -18932,7 +18978,7 @@ msgstr ""
 "pippod.pid):"
 
 #. type: Plain text
-#: start-stop-daemon.8:351
+#: start-stop-daemon.8:362
 #, no-wrap
 msgid ""
 "start-stop-daemon --start --oknodo --user food --name food \\e\n"
@@ -18944,13 +18990,13 @@ msgstr ""
 "\t--chuid pippod -- --daemon\n"
 
 #. type: Plain text
-#: start-stop-daemon.8:354
+#: start-stop-daemon.8:365
 msgid "Send B<SIGTERM> to B<food> and wait up to 5 seconds for it to stop:"
 msgstr ""
 "Invia B<SIGTERM> a B<pippod> e attende fino a 5 secondi che esso si fermi:"
 
 #. type: Plain text
-#: start-stop-daemon.8:358
+#: start-stop-daemon.8:369
 #, no-wrap
 msgid ""
 "start-stop-daemon --stop --oknodo --user food --name food \\e\n"
@@ -18960,13 +19006,13 @@ msgstr ""
 "\t--pidfile /run/pippod.pid --retry 5\n"
 
 #. type: Plain text
-#: start-stop-daemon.8:361
+#: start-stop-daemon.8:372
 msgid "Demonstration of a custom schedule for stopping B<food>:"
 msgstr ""
 "Dimostrazione di una pianificazione personalizzata per fermare B<pippod>:"
 
 #. type: Plain text
-#: start-stop-daemon.8:365
+#: start-stop-daemon.8:376
 #, no-wrap
 msgid ""
 "start-stop-daemon --stop --oknodo --user food --name food \\e\n"
