@@ -105,6 +105,7 @@ ensure_package_clientdata(struct pkginfo *pkg)
   pkg->clientdata = nfmalloc(sizeof(struct perpackagestate));
   pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
   pkg->clientdata->color = PKG_CYCLE_WHITE;
+  pkg->clientdata->enqueued = false;
   pkg->clientdata->fileslistvalid = false;
   pkg->clientdata->files = NULL;
   pkg->clientdata->replacingfilesandsaid = 0;

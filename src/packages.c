@@ -56,6 +56,10 @@ int sincenothing = 0, dependtry = 0;
 void
 enqueue_package(struct pkginfo *pkg)
 {
+  ensure_package_clientdata(pkg);
+  if (pkg->clientdata->enqueued)
+    return;
+  pkg->clientdata->enqueued = true;
   pkg_queue_push(&queue, pkg);
 }
 
@@ -207,6 +211,9 @@ void process_queue(void) {
     pkg = pkg_queue_pop(&queue);
     if (!pkg)
       continue; /* Duplicate, which we removed earlier. */
+
+    ensure_package_clientdata(pkg);
+    pkg->clientdata->enqueued = false;
 
     action_todo = cipaction->arg_int;
 

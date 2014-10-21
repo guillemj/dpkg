@@ -50,6 +50,8 @@ struct perpackagestate {
   /** Used during cycle detection. */
   enum pkg_cycle_color color;
 
+  bool enqueued;
+
   /**
    * filelistvalid  files  Meaning
    * -------------  -----  -------
