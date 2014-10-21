@@ -135,8 +135,9 @@ the flag is set/modified by an environment-specific configuration.
 .TP
 .BI \-\-query\-features " area"
 Print the features enabled for a given area. The only currently recognized
-areas on Debian and derivatives are \fBqa\fP, \fBreproducible\fP and
-\fBhardening\fP, see the \fBFEATURE AREAS\fP section for more details.
+areas on Debian and derivatives are \fBqa\fP, \fBreproducible\fP,
+\fBsanitize\fP and \fBhardening\fP, see the \fBFEATURE AREAS\fP
+section for more details.
 Exits with 0 if the area is known otherwise exits with 1.
 .IP
 The output is in RFC822 format, with one section per feature.
@@ -230,6 +231,28 @@ The only currently supported flags are \fBCPPFLAGS\fP, \fBCFLAGS\fP,
 to \fB\-D__DEB_CANARY_\fP\fIflag\fP_\fIrandom-id\fP\fB__\fP, and
 \fBLDFLAGS\fP set to \fB\-Wl,\-z,deb-canary\-\fP\fIrandom-id\fP.
 .
+.SS Sanitize
+Several compile-time options (detailed below) can be used to help sanitize
+a resulting binary against memory corruptions, memory leaks, use after free,
+threading data races and undefined behavior bugs.
+.TP
+.B address
+This setting (disabled by default) adds \fB\-fsanitize=address\fP to
+\fBLDFLAGS\fP and \fB\-fsanitize=address \-fno\-omit\-frame\-pointer\fP to
+\fBCFLAGS\fP and \fBCXXFLAGS\fP.
+.TP
+.B thread
+This setting (disabled by default) adds \fB\-fsanitize=thread\fP to
+\fBCFLAGS\fP, \fBCXXFLAGS\fP and \fBLDFLAGS\fP.
+.TP
+.B leak
+This setting (disabled by default) adds \fB\-fsanitize=leak\fP to
+\fBLDFLAGS\fP. It gets automatically disabled if either the \fBaddress\fP
+or the \fBthread\fP features are enabled, as they imply it.
+.TP
+.B undefined
+This setting (disabled by default) adds \fB\-fsanitize=undefined\fP to
+\fBCFLAGS\fP, \fBCXXFLAGS\fP and \fBLDFLAGS\fP.
 .SS Hardening
 Several compile-time options (detailed below) can be used to help harden
 a resulting binary against memory corruption attacks, or provide

@@ -69,6 +69,7 @@ sub run_hook {
     } elsif ($hook eq 'update-buildflags') {
 	$self->_add_qa_flags(@params);
 	$self->_add_reproducible_flags(@params);
+	$self->_add_sanitize_flags(@params);
 	$self->_add_hardening_flags(@params);
     } else {
         return $self->SUPER::run_hook($hook, @params);
@@ -165,6 +166,57 @@ sub _add_reproducible_flags {
     # Store the feature usage.
     while (my ($feature, $enabled) = each %use_feature) {
        $flags->set_feature('reproducible', $feature, $enabled);
+    }
+}
+
+sub _add_sanitize_flags {
+    my ($self, $flags) = @_;
+
+    # Default feature states.
+    my %use_feature = (
+        address => 0,
+        thread => 0,
+        leak => 0,
+        undefined => 0,
+    );
+
+    # Adjust features based on user or maintainer's desires.
+    $self->_parse_feature_area('sanitize', \%use_feature);
+
+    # Handle logical feature interactions.
+    if ($use_feature{address} or $use_feature{thread}) {
+        # Disable leak sanitizer, it is implied by the address or thread ones.
+        $use_feature{leak} = 0;
+    }
+
+    if ($use_feature{address}) {
+        my $flag = '-fsanitize=address -fno-omit-frame-pointer';
+        $flags->append('CFLAGS', $flag);
+        $flags->append('CXXFLAGS', $flag);
+        $flags->append('LDFLAGS', '-fsanitize=address');
+    }
+
+    if ($use_feature{thread}) {
+        my $flag = '-fsanitize=thread';
+        $flags->append('CFLAGS', $flag);
+        $flags->append('CXXFLAGS', $flag);
+        $flags->append('LDFLAGS', $flag);
+    }
+
+    if ($use_feature{leak}) {
+        $flags->append('LDFLAGS', '-fsanitize=leak');
+    }
+
+    if ($use_feature{undefined}) {
+        my $flag = '-fsanitize=undefined';
+        $flags->append('CFLAGS', $flag);
+        $flags->append('CXXFLAGS', $flag);
+        $flags->append('LDFLAGS', $flag);
+    }
+
+    # Store the feature usage.
+    while (my ($feature, $enabled) = each %use_feature) {
+       $flags->set_feature('sanitize', $feature, $enabled);
     }
 }
 
