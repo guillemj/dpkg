@@ -229,6 +229,9 @@ void process_queue(void) {
       }
     }
 
+    debug(dbg_general, "process queue pkg %s queue.len %d progress %d, try %d",
+          pkg_name(pkg, pnaw_always), queue.length, sincenothing, dependtry);
+
     if (pkg->status > PKG_STAT_INSTALLED)
       internerr("package status (%d) > PKG_STAT_INSTALLED", pkg->status);
 
