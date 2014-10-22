@@ -51,7 +51,7 @@
 static struct pkginfo *progress_bytrigproc;
 static struct pkg_queue queue = PKG_QUEUE_INIT;
 
-int sincenothing = 0, dependtry = 0;
+int sincenothing = 0, dependtry = 1;
 
 void
 enqueue_package(struct pkginfo *pkg)
