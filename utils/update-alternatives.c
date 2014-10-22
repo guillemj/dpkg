@@ -2331,9 +2331,12 @@ alternative_update(struct alternative *a,
 	    (!current_choice || strcmp(new_choice, current_choice) != 0)) {
 		log_msg("link group %s updated to point to %s", a->master_name,
 		        new_choice);
-		info(_("using %s to provide %s (%s) in %s"), new_choice,
-		     a->master_link, a->master_name,
-		     alternative_status_describe(a->status));
+		if (a->status == ALT_ST_AUTO)
+			info(_("using %s to provide %s (%s) in auto mode"),
+			     new_choice, a->master_link, a->master_name);
+		else
+			info(_("using %s to provide %s (%s) in manual mode"),
+			     new_choice, a->master_link, a->master_name);
 		debug("prepare_install(%s)", new_choice);
 		alternative_prepare_install(a, new_choice);
 	} else if ((reason = alternative_needs_update(a))) {
