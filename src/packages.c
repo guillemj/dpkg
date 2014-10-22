@@ -217,7 +217,15 @@ void process_queue(void) {
 
     action_todo = cipaction->arg_int;
 
-    if (sincenothing++ > queue.length * 2 + 2) {
+    if (sincenothing++ > queue.length * 3 + 2) {
+      /* Make sure that even if we have exceeded the queue since not having
+       * made any progress, we are not getting stuck trying to progress by
+       * trigger processing, w/o jumping into the next dependtry. */
+      dependtry++;
+      sincenothing = 0;
+      assert(dependtry <= 4);
+    } else if (sincenothing > queue.length * 2 + 2) {
+      /* XXX: This probably needs moving into a new dependtry instead. */
       if (progress_bytrigproc && progress_bytrigproc->trigpend_head) {
         enqueue_package(pkg);
         pkg = progress_bytrigproc;

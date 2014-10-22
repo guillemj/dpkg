@@ -2,6 +2,10 @@ dpkg (1.17.20) UNRELEASED; urgency=low
 
   [ Guillem Jover ]
   * Add a requeueing insertion protection for process_queue().
+  * Make sure to always switch to the next dependtry after we have made no
+    progress for a while. Regression stemming from non future proof changes
+    introduced with the initial triggers implementation in dpkg 1.14.17
+    combined with changes in dpkg 1.17.19. Closes: #766242, #766322
 
   [ Updated programs translations ]
   * German (Sven Joachim).
