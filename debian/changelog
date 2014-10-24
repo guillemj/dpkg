@@ -5,6 +5,9 @@ dpkg (1.17.21) UNRELEASED; urgency=low
     patch Depends, and a Breaks patch (<< 2.7) to libdpkg-perl.
   * Error out on obsolete Build-Profiles field syntax.
   * Document -g and -G options in dpkg-genchanges(1). Closes: #766568
+  * Do not accept values bundled with long options in dpkg-parsechangelog.
+    The parser was accepting things like «--count10», which is just broken.
+    Instead allow only «--count=10» in addition to «--count 10».
 
   [ Updated programs translations ]
   * Catalan (Guillem Jover).

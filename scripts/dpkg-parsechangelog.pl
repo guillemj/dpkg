@@ -105,12 +105,8 @@ while (@ARGV) {
 	    $options{until} = $2;
 	    ## use critic
 	}
-    } elsif (m/^--(count|file|format|from|offset|since|to|until)(.*)$/) {
-	if ($2) {
-	    $options{$1} = $2;
-	} else {
-	    $options{$1} = shift(@ARGV);
-	}
+    } elsif (m/^--(count|file|format|from|offset|since|to|until)(?:=(.+))?$/) {
+        $options{$1} = $2 // shift;
     } elsif (m/^--all$/) {
 	$options{all} = undef;
     } elsif (m/^-(?:\?|-help)$/) {
