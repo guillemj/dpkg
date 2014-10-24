@@ -1,11 +1,13 @@
-TESTS_DEB := pkg-triggers pkg-triggers-noawait pkg-trig-file \
-             pkg-trig-explicit pkg-trig-cmd
+TESTS_DEB := pkg-triggers pkg-triggers-await pkg-triggers-noawait \
+             pkg-trig-file pkg-trig-explicit pkg-trig-cmd
 
 include ../Test.mk
 
 TEST_CASES += test-trigger-file
 TEST_CASES += test-trigger-explicit
 TEST_CASES += test-trigger-cmd
+TEST_CASES += test-trigger-await-file
+TEST_CASES += test-trigger-await-cmd
 TEST_CASES += test-trigger-noawait-file
 TEST_CASES += test-trigger-noawait-explicit
 TEST_CASES += test-trigger-noawait-cmd
@@ -13,8 +15,12 @@ TEST_CASES += test-internal-db
 
 test-case: $(TEST_CASES)
 
-test-trigger-file:
-	$(DPKG_UNPACK) pkg-triggers.deb
+test-trigger-file test-trigger-await-file:
+	if [ "$@" = "test-trigger-file" ]; then \
+	  $(DPKG_UNPACK) pkg-triggers.deb; \
+	else \
+	  $(DPKG_UNPACK) pkg-triggers-await.deb; \
+	fi
 	$(BEROOT) rm -f /a-trigger-ok /triggers/ok
 	# When unpacked, triggers are not active
 	$(DPKG_INSTALL) --no-triggers pkg-trig-file.deb
@@ -217,7 +223,10 @@ test-trigger-noawait-explicit:
 	$(DPKG_PURGE) pkg-triggers
 	$(DPKG_PURGE) pkg-trig-explicit
 
-test-trigger-cmd:
+test-trigger-cmd test-trigger-await-cmd:
+	if [ "$@" = "test-trigger-await-cmd" ]; then \
+	  $(BEROOT) touch /trigger-await; \
+	fi
 	$(DPKG_UNPACK) pkg-triggers.deb
 	$(BEROOT) rm -f /a-trigger-ok /triggers/ok
 	# When unpacked, triggers are not active
@@ -281,6 +290,7 @@ test-trigger-cmd:
 	test -f /a-trigger-ok && $(BEROOT) rm -f /a-trigger-ok
 	$(BEROOT) rm -f /trigger-postrm
 	# Cleanup
+	$(BEROOT) rm -f /trigger-await
 	$(DPKG_PURGE) pkg-triggers
 	$(DPKG_PURGE) pkg-trig-cmd
 
