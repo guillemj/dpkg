@@ -14,6 +14,12 @@ dpkg (1.17.21) UNRELEASED; urgency=low
     And a new --await option to dpkg-trigger. This might allow possibly
     switching the default meaning after a transition period no shorter than
     two minor versions, so in 1.19.x or 1.20.x. Perhaps.
+  * Do trigger cycle detection after dependency checks in dependtry <= 1,
+    and before dependency cycle breaking in dependtry > 1. This makes sure
+    to always catch trigger cycles, but still gives the opportunity to try
+    to process triggers for packages that are not yet ready in the first
+    dependtry, but which might be a bit later on, without wrongly detecting
+    avoidable and bogus trigger cycles. Closes: #766557
 
   [ Updated programs translations ]
   * Catalan (Guillem Jover).

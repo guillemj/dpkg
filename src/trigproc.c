@@ -332,9 +332,14 @@ trigproc(struct pkginfo *pkg)
 		assert(pkg->status == PKG_STAT_TRIGGERSPENDING ||
 		       pkg->status == PKG_STAT_TRIGGERSAWAITED);
 
-		if (dependtry > 1)
+		if (dependtry > 1) {
+			gaveup = check_trigger_cycle(pkg);
+			if (gaveup == pkg)
+				return;
+
 			if (findbreakcycle(pkg))
 				sincenothing = 0;
+		}
 
 		ok = dependencies_ok(pkg, NULL, &depwhynot);
 		if (ok == DEP_CHECK_DEFER) {
@@ -352,9 +357,11 @@ trigproc(struct pkginfo *pkg)
 			varbuf_destroy(&depwhynot);
 		}
 
-		gaveup = check_trigger_cycle(pkg);
-		if (gaveup == pkg)
-			return;
+		if (dependtry <= 1) {
+			gaveup = check_trigger_cycle(pkg);
+			if (gaveup == pkg)
+				return;
+		}
 
 		printf(_("Processing triggers for %s (%s) ...\n"),
 		       pkg_name(pkg, pnaw_nonambig),
