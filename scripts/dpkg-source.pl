@@ -279,15 +279,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
         if (defined $profile) {
             # If the string does not contain brackets then it is using the
-            # old syntax (glibc, file, dbus and doxygen are affected).
-            # Thus we convert the old syntax to the new one. This conversion
-            # can be dropped once the old syntax is not in the archive anymore.
-            # <http://codesearch.debian.net/search?q=Build-Profiles%3A\s%2B[^<]+path%3Adebian%2Fcontrol>
+            # old syntax. Emit a fatal error.
             if ($profile !~ m/^\s*<.*>\s*$/) {
-                # Issue an ephemereal non-translatable warning.
-                warning('binary package stanza %s is using an obsolete ' .
-                        'Build-Profiles syntax', $p);
-                $profile =~ s/([!a-z0-9]+)/<$1>/g;
+                error(_g('binary package stanza %s is using an obsolete ' .
+                         'Build-Profiles field syntax'), $p);
             }
 
             # Instead of splitting twice and then joining twice, we just do
