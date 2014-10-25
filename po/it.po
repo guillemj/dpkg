@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-10-23 01:04+0200\n"
+"POT-Creation-Date: 2014-10-25 02:52+0200\n"
 "PO-Revision-Date: 2014-10-18 04:52+0200\n"
 "Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -139,7 +139,7 @@ msgid "error creating new backup file '%s'"
 msgstr "errore nel creare il nuvo file di backup \"%s\""
 
 #: lib/dpkg/atomic-file.c:103 lib/dpkg/atomic-file.c:105
-#: lib/dpkg/triglib.c:447 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
+#: lib/dpkg/triglib.c:451 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
 #: src/infodb-upgrade.c:200 src/remove.c:347 src/remove.c:440
 #, c-format
 msgid "cannot remove `%.250s'"
@@ -1374,7 +1374,7 @@ msgid "failed to rewind trigger interest file `%.250s'"
 msgstr ""
 "impossibile tornare all'inizio del file dei trigger di interesse \"%.250s\""
 
-#: lib/dpkg/triglib.c:312
+#: lib/dpkg/triglib.c:316
 #, c-format
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
@@ -1383,7 +1383,7 @@ msgstr ""
 "errore di sintassi nel file dei trigger di interesse \"%.250s\", non di "
 "pacchetto \"%250s\" non valido: %.250s"
 
-#: lib/dpkg/triglib.c:430
+#: lib/dpkg/triglib.c:434
 #, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
@@ -1391,17 +1391,17 @@ msgstr ""
 "file del trigger di interesse duplicato per il nome file \"%.250s\" e il "
 "pacchetto \"%.250s\""
 
-#: lib/dpkg/triglib.c:501
+#: lib/dpkg/triglib.c:505
 #, c-format
 msgid "unable to read file triggers file `%.250s'"
 msgstr "impossibile leggere il file dei trigger \"%.250s\""
 
-#: lib/dpkg/triglib.c:512
+#: lib/dpkg/triglib.c:516
 #, c-format
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "errore di sintassi nel file dei trigger \"%.250s\""
 
-#: lib/dpkg/triglib.c:524
+#: lib/dpkg/triglib.c:532
 #, c-format
 msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
@@ -1410,7 +1410,7 @@ msgstr ""
 "il record nel file dei trigger indica un nome di pacchetto \"%.250s\" non "
 "valido (per l'interesse nel file \"%.250s\"): %.250s"
 
-#: lib/dpkg/triglib.c:663
+#: lib/dpkg/triglib.c:671
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
@@ -1419,27 +1419,27 @@ msgstr ""
 "il file dei trigger \"ci\" \"%.250s\" contiene una sintassi non valida nel "
 "nome del trigger \"%.250s\": %.250s"
 
-#: lib/dpkg/triglib.c:683
+#: lib/dpkg/triglib.c:691
 #, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "impossibile aprire il file dei trigger \"ci\" \"%.250s\""
 
-#: lib/dpkg/triglib.c:698
+#: lib/dpkg/triglib.c:706
 msgid "triggers ci file contains unknown directive syntax"
 msgstr "il file dei trigger \"ci\" contiene una sintassi sconosciuta"
 
-#: lib/dpkg/triglib.c:711
+#: lib/dpkg/triglib.c:721
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr ""
 "il file dei trigger \"ci\" contiene una direttiva \"%.250s\" sconosciuta"
 
-#: lib/dpkg/triglib.c:777
+#: lib/dpkg/triglib.c:787
 #, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "impossibile creare la directory di stato dei trigger \"%.250s\""
 
-#: lib/dpkg/triglib.c:780
+#: lib/dpkg/triglib.c:790
 #, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr ""
@@ -1900,7 +1900,7 @@ msgstr "--%s richiede almeno un archivio di pacchetto come argomento"
 #: src/main.c:322 src/main.c:624 src/packages.c:284 src/querycmd.c:329
 #: src/querycmd.c:431 src/querycmd.c:473 src/querycmd.c:482 src/querycmd.c:528
 #: src/querycmd.c:612 src/querycmd.c:785 src/querycmd.c:833 src/select.c:101
-#: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:57 src/trigcmd.c:89
+#: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:57 src/trigcmd.c:90
 #: dpkg-deb/build.c:447 dpkg-deb/extract.c:234 dpkg-deb/extract.c:270
 #: dpkg-deb/info.c:206 dpkg-deb/info.c:244 dpkg-deb/main.c:61
 #: dpkg-deb/main.c:135 dpkg-split/info.c:266 dpkg-split/main.c:55
@@ -4500,12 +4500,24 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c:81
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  --by-package=<package>           Override trigger awaiter (normally "
+#| "set\n"
+#| "                                     by dpkg).\n"
+#| "  --no-await                       No package needs to await the "
+#| "processing.\n"
+#| "  --no-act                         Just test - don't actually change "
+#| "anything.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
+"  --await                          Package needs to await the processing.\n"
 "  --no-await                       No package needs to await the "
 "processing.\n"
 "  --no-act                         Just test - don't actually change "
@@ -4521,17 +4533,17 @@ msgstr ""
 "  --no-act                         Esegue solo i test, non modifica nulla\n"
 "\n"
 
-#: src/trigcmd.c:124
+#: src/trigcmd.c:123
 msgid "must be called from a maintainer script (or with a --by-package option)"
 msgstr ""
 "deve essere invocato da uno script del responsabile (oppure con un'opzione --"
 "by-package)"
 
-#: src/trigcmd.c:180
+#: src/trigcmd.c:179
 msgid "triggers data directory not yet created"
 msgstr "%la directory dei dati dei trigger non è stata ancora creata"
 
-#: src/trigcmd.c:183
+#: src/trigcmd.c:182
 msgid "trigger records not yet in existence"
 msgstr "i record del trigger non esistono ancora"
 
@@ -4570,7 +4582,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr "ciclo nei trigger, abbandono"
 
-#: src/trigproc.c:349
+#: src/trigproc.c:354
 #, fuzzy, c-format
 #| msgid ""
 #| "%s: dependency problems, but removing anyway as you requested:\n"
@@ -4582,7 +4594,7 @@ msgstr ""
 "%s: problemi con le dipendenze, ma viene rimosso comunque:\n"
 "%s"
 
-#: src/trigproc.c:359
+#: src/trigproc.c:366
 #, c-format
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "Elaborazione dei trigger per %s (%s)...\n"

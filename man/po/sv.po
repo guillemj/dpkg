@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.11\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-10-23 01:04+0200\n"
+"POT-Creation-Date: 2014-10-25 02:52+0200\n"
 "PO-Revision-Date: 2014-06-14 20:58+0100\n"
 "Last-Translator: Peter Krefting <peterk@debian.org>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -303,12 +303,12 @@ msgstr "application/x-deb"
 #: deb.5:117 deb-control.5:288 deb-src-control.5:373 deb-split.5:67
 #: deb-version.5:131 deb-old.5:70 deb-origin.5:56 deb-override.5:66
 #: deb-extra-override.5:54 deb-shlibs.5:66 deb-substvars.5:168
-#: deb-symbols.5:88 deb-triggers.5:92 dpkg.1:894 dpkg-architecture.1:313
+#: deb-symbols.5:88 deb-triggers.5:105 dpkg.1:894 dpkg-architecture.1:313
 #: dpkg.cfg.5:41 dpkg-buildpackage.1:383 dpkg-deb.1:308 dpkg-divert.8:153
 #: dpkg-gensymbols.1:487 dpkg-maintscript-helper.1:250 dpkg-name.1:109
 #: dpkg-query.1:294 dpkg-scanpackages.1:118 dpkg-scansources.1:90
 #: dpkg-shlibdeps.1:364 dpkg-source.1:775 dpkg-split.1:234
-#: dpkg-statoverride.8:103 dpkg-trigger.1:83 dpkg-vendor.1:65 dselect.1:469
+#: dpkg-statoverride.8:103 dpkg-trigger.1:87 dpkg-vendor.1:65 dselect.1:469
 #: dselect.cfg.5:41 update-alternatives.8:513
 #, no-wrap
 msgid "SEE ALSO"
@@ -1813,7 +1813,7 @@ msgid "deb-version"
 msgstr "deb-version"
 
 #. type: TH
-#: deb-version.5:20 deb-triggers.5:19
+#: deb-version.5:20
 #, no-wrap
 msgid "2013-04-02"
 msgstr "2013-04-02"
@@ -2911,7 +2911,7 @@ msgstr ""
 #. type: SH
 #: deb-substvars.5:163 dpkg.1:781 dpkg-architecture.1:210 dpkg.cfg.5:30
 #: dpkg-buildflags.1:396 dpkg-distaddfile.1:57 dpkg-divert.8:109
-#: dpkg-genchanges.1:157 dpkg-gencontrol.1:148 dpkg-parsechangelog.1:193
+#: dpkg-genchanges.1:165 dpkg-gencontrol.1:148 dpkg-parsechangelog.1:193
 #: dpkg-split.1:216 dpkg-statoverride.8:93 dselect.cfg.5:30
 #: update-alternatives.8:386
 #, no-wrap
@@ -3143,6 +3143,13 @@ msgstr "B<dpkg-shlibdeps>(1), B<dpkg-gensymbols>(1)."
 msgid "deb-triggers"
 msgstr "deb-triggers"
 
+#. type: TH
+#: deb-triggers.5:19
+#, fuzzy, no-wrap
+#| msgid "2011-08-14"
+msgid "2014-10-15"
+msgstr "2011-08-14"
+
 #. type: Plain text
 #: deb-triggers.5:22
 msgid "deb-triggers - package triggers"
@@ -3187,11 +3194,18 @@ msgstr "B<interest> I<utlösarnamn>"
 
 #. type: Plain text
 #: deb-triggers.5:44
+#, fuzzy
+#| msgid "B<interest-noawait> I<trigger-name>"
+msgid "B<interest-await> I<trigger-name>"
+msgstr "B<interest-noawait> I<utlösarnamn>"
+
+#. type: Plain text
+#: deb-triggers.5:48
 msgid "B<interest-noawait> I<trigger-name>"
 msgstr "B<interest-noawait> I<utlösarnamn>"
 
 #. type: Plain text
-#: deb-triggers.5:51
+#: deb-triggers.5:55
 msgid ""
 "Specifies that the package is interested in the named trigger. All triggers "
 "in which a package is interested must be listed using this directive in the "
@@ -3206,17 +3220,24 @@ msgstr ""
 "funktionaliteten som tillhandahålls av utlösaren inte är avgörande."
 
 #. type: Plain text
-#: deb-triggers.5:55
+#: deb-triggers.5:59
 msgid "B<activate> I<trigger-name>"
 msgstr "B<activate> I<utlösarnamn>"
 
 #. type: Plain text
-#: deb-triggers.5:59
+#: deb-triggers.5:63
+#, fuzzy
+#| msgid "B<activate-noawait> I<trigger-name>"
+msgid "B<activate-await> I<trigger-name>"
+msgstr "B<activate-noawait> I<utlösarnamn>"
+
+#. type: Plain text
+#: deb-triggers.5:67
 msgid "B<activate-noawait> I<trigger-name>"
 msgstr "B<activate-noawait> I<utlösarnamn>"
 
 #. type: Plain text
-#: deb-triggers.5:68
+#: deb-triggers.5:76
 msgid ""
 "Arranges that changes to this package's state will activate the specified "
 "trigger. The trigger will be activated at the start of the following "
@@ -3234,7 +3255,7 @@ msgstr ""
 "utlösaren inte är avgörande."
 
 #. type: Plain text
-#: deb-triggers.5:76
+#: deb-triggers.5:84
 msgid ""
 "If this package disappears during the unpacking of another package the "
 "trigger will be activated when the disappearance is noted towards the end of "
@@ -3249,7 +3270,7 @@ msgstr ""
 "som omnämns i gamla och nya versioner av paketet att aktiveras."
 
 #. type: Plain text
-#: deb-triggers.5:79
+#: deb-triggers.5:87
 msgid ""
 "Unknown directives are an error which will prevent installation of the "
 "package."
@@ -3257,7 +3278,7 @@ msgstr ""
 "Okända direktiv är ett fel som förhindrar paketet från att installeras."
 
 #. type: Plain text
-#: deb-triggers.5:86
+#: deb-triggers.5:94
 msgid ""
 "The \"-noawait\" variants should always be favored when possible since "
 "triggering packages are not put in triggers-awaited state and can thus be "
@@ -3268,7 +3289,7 @@ msgid ""
 msgstr ""
 
 #. type: Plain text
-#: deb-triggers.5:91
+#: deb-triggers.5:99
 msgid ""
 "The \"-noawait\" variants are only supported since dpkg 1.16.1, and will "
 "lead to errors if used with an older dpkg. It is thus recommended to add a "
@@ -3281,7 +3302,26 @@ msgstr ""
 "paket som vill använda dessa direktiv."
 
 #. type: Plain text
-#: deb-triggers.5:95
+#: deb-triggers.5:104
+#, fuzzy
+#| msgid ""
+#| "The \"-noawait\" variants are only supported since dpkg 1.16.1, and will "
+#| "lead to errors if used with an older dpkg. It is thus recommended to add "
+#| "a \"Pre-Depends: dpkg (E<gt>= 1.16.1)\" to any package that wish to use "
+#| "those directives."
+msgid ""
+"The \"-await\" alias variants are only supported since dpkg 1.17.21, and "
+"will lead to errors if used with an older dpkg. It is thus recommended to "
+"add a \"Pre-Depends: dpkg (E<gt>= 1.17.21)\" to any package that wish to use "
+"those directives."
+msgstr ""
+"Varianterna med \"-noawait\" stöds endast sedan dpkg 1.16.1, och kommer leda "
+"till fel om de används med äldre versioner av dpkg. Det rekommenderas därför "
+"att du lägger till ett \"Pre-Depends: dpkg (E<gt>= 1.16.1)\" till eventuella "
+"paket som vill använda dessa direktiv."
+
+#. type: Plain text
+#: deb-triggers.5:108
 msgid ""
 "B<dpkg-trigger>(1), B<dpkg>(1), B</usr/share/doc/dpkg-dev/triggers.txt.gz>."
 msgstr ""
@@ -4197,7 +4237,7 @@ msgstr ""
 #. type: TP
 #: dpkg.1:340 dpkg-architecture.1:89 dpkg-buildpackage.1:330
 #: dpkg-checkbuilddeps.1:68 dpkg-distaddfile.1:50 dpkg-deb.1:201
-#: dpkg-divert.8:92 dpkg-genchanges.1:150 dpkg-gencontrol.1:141
+#: dpkg-divert.8:92 dpkg-genchanges.1:158 dpkg-gencontrol.1:141
 #: dpkg-gensymbols.1:480 dpkg-name.1:71 dpkg-parsechangelog.1:60
 #: dpkg-query.1:147 dpkg-scanpackages.1:104 dpkg-shlibdeps.1:250
 #: dpkg-source.1:121 dpkg-split.1:143 dpkg-trigger.1:48
@@ -4235,7 +4275,7 @@ msgstr "Ger hjälp om felsökningsflaggorna."
 #. type: TP
 #: dpkg.1:349 dpkg-architecture.1:92 dpkg-buildflags.1:155
 #: dpkg-buildpackage.1:333 dpkg-checkbuilddeps.1:71 dpkg-distaddfile.1:53
-#: dpkg-deb.1:204 dpkg-divert.8:95 dpkg-genchanges.1:153 dpkg-gencontrol.1:144
+#: dpkg-deb.1:204 dpkg-divert.8:95 dpkg-genchanges.1:161 dpkg-gencontrol.1:144
 #: dpkg-gensymbols.1:483 dpkg-mergechangelogs.1:58 dpkg-parsechangelog.1:63
 #: dpkg-query.1:150 dpkg-scanpackages.1:107 dpkg-scansources.1:87
 #: dpkg-shlibdeps.1:253 dpkg-source.1:124 dpkg-split.1:146
@@ -4796,7 +4836,7 @@ msgstr ""
 "tillsammans med B<-i>, B<-A>, B<--install>, B<--unpack> och B<--avail>."
 
 #. type: TP
-#: dpkg.1:582 dpkg-buildpackage.1:87
+#: dpkg.1:582 dpkg-buildpackage.1:87 dpkg-genchanges.1:42
 #, no-wrap
 msgid "B<-G>"
 msgstr "B<-G>"
@@ -5238,7 +5278,7 @@ msgstr "Överstyr ett tidigare B<--no-triggers>."
 #. type: SH
 #: dpkg.1:728 dpkg-buildflags.1:354 dpkg-buildpackage.1:337
 #: dpkg-checkbuilddeps.1:75 dpkg-deb.1:280 dpkg-divert.8:99 dpkg-query.1:284
-#: dpkg-statoverride.8:87 dpkg-trigger.1:77 dpkg-vendor.1:59 dselect.1:447
+#: dpkg-statoverride.8:87 dpkg-trigger.1:81 dpkg-vendor.1:59 dselect.1:447
 #: update-alternatives.8:380
 #, no-wrap
 msgid "ENVIRONMENT"
@@ -5979,7 +6019,7 @@ msgstr ""
 #. type: Plain text
 #: dpkg-architecture.1:92 dpkg-buildflags.1:155 dpkg-buildpackage.1:333
 #: dpkg-checkbuilddeps.1:71 dpkg-distaddfile.1:53 dpkg-deb.1:204
-#: dpkg-divert.8:95 dpkg-genchanges.1:153 dpkg-gencontrol.1:144
+#: dpkg-divert.8:95 dpkg-genchanges.1:161 dpkg-gencontrol.1:144
 #: dpkg-gensymbols.1:483 dpkg-mergechangelogs.1:58 dpkg-name.1:74
 #: dpkg-parsechangelog.1:63 dpkg-query.1:150 dpkg-scanpackages.1:107
 #: dpkg-scansources.1:87 dpkg-shlibdeps.1:253 dpkg-source.1:124
@@ -5991,7 +6031,7 @@ msgstr "Visar hjälpskärm och avslutar."
 #. type: Plain text
 #: dpkg-architecture.1:95 dpkg-buildflags.1:158 dpkg-buildpackage.1:336
 #: dpkg-checkbuilddeps.1:74 dpkg-distaddfile.1:56 dpkg-deb.1:207
-#: dpkg-divert.8:98 dpkg-genchanges.1:156 dpkg-gencontrol.1:147
+#: dpkg-divert.8:98 dpkg-genchanges.1:164 dpkg-gencontrol.1:147
 #: dpkg-gensymbols.1:486 dpkg-mergechangelogs.1:61 dpkg-name.1:77
 #: dpkg-parsechangelog.1:66 dpkg-query.1:153 dpkg-scanpackages.1:110
 #: dpkg-scansources.1:89 dpkg-shlibdeps.1:256 dpkg-source.1:127
@@ -8400,7 +8440,7 @@ msgid "It runs the B<done> hook."
 msgstr ""
 
 #. type: TP
-#: dpkg-buildpackage.1:83
+#: dpkg-buildpackage.1:83 dpkg-genchanges.1:38
 #, no-wrap
 msgid "B<-g>"
 msgstr ""
@@ -8477,7 +8517,7 @@ msgstr ""
 "arkitekturoberoende paket. Sänds vidare till B<dpkg-genchanges>."
 
 #. type: TP
-#: dpkg-buildpackage.1:103 dpkg-genchanges.1:47
+#: dpkg-buildpackage.1:103 dpkg-genchanges.1:55
 #, no-wrap
 msgid "B<-S>"
 msgstr "B<-S>"
@@ -8553,44 +8593,44 @@ msgstr ""
 "root-behörighet."
 
 #. type: TP
-#: dpkg-buildpackage.1:126 dpkg-genchanges.1:56
+#: dpkg-buildpackage.1:126 dpkg-genchanges.1:64
 #, no-wrap
 msgid "B<-si>"
 msgstr "B<-si>"
 
 #. type: TP
-#: dpkg-buildpackage.1:128 dpkg-genchanges.1:62
+#: dpkg-buildpackage.1:128 dpkg-genchanges.1:70
 #, no-wrap
 msgid "B<-sa>"
 msgstr "B<-sa>"
 
 #. type: TP
-#: dpkg-buildpackage.1:130 dpkg-genchanges.1:65
+#: dpkg-buildpackage.1:130 dpkg-genchanges.1:73
 #, no-wrap
 msgid "B<-sd>"
 msgstr "B<-sd>"
 
 #. type: TP
-#: dpkg-buildpackage.1:132 dpkg-genchanges.1:69 dpkg-gencontrol.1:58
+#: dpkg-buildpackage.1:132 dpkg-genchanges.1:77 dpkg-gencontrol.1:58
 #: dpkg-gensymbols.1:410
 #, no-wrap
 msgid "B<-v>I<version>"
 msgstr "B<-v>I<version>"
 
 #. type: TP
-#: dpkg-buildpackage.1:134 dpkg-genchanges.1:74
+#: dpkg-buildpackage.1:134 dpkg-genchanges.1:82
 #, no-wrap
 msgid "B<-C>I<changes-description>"
 msgstr "B<-C>I<ändringsbeskrivning>"
 
 #. type: TP
-#: dpkg-buildpackage.1:136 dpkg-genchanges.1:80
+#: dpkg-buildpackage.1:136 dpkg-genchanges.1:88
 #, no-wrap
 msgid "B<-m>I<maintainer-address>"
 msgstr "B<-m>I<paketansvarige-adress>"
 
 #. type: TP
-#: dpkg-buildpackage.1:138 dpkg-genchanges.1:86
+#: dpkg-buildpackage.1:138 dpkg-genchanges.1:94
 #, no-wrap
 msgid "B<-e>I<maintainer-address>"
 msgstr "B<-e>I<paketansvarige-adress>"
@@ -9423,7 +9463,7 @@ msgid "dpkg-distaddfile"
 msgstr "dpkg-distaddfile"
 
 #. type: TH
-#: dpkg-distaddfile.1:19 dpkg-genchanges.1:21
+#: dpkg-distaddfile.1:19
 #, no-wrap
 msgid "2012-05-04"
 msgstr "2012-05-04"
@@ -9466,7 +9506,7 @@ msgstr ""
 "aktuella katalogen när B<dpkg-distaddfile> körs."
 
 #. type: TP
-#: dpkg-distaddfile.1:46 dpkg-genchanges.1:123 dpkg-gencontrol.1:89
+#: dpkg-distaddfile.1:46 dpkg-genchanges.1:131 dpkg-gencontrol.1:89
 #, no-wrap
 msgid "B<-f>I<files-list-file>"
 msgstr "B<-f>I<fillistfil>"
@@ -9481,7 +9521,7 @@ msgstr ""
 "använda B<debian/file>."
 
 #. type: TP
-#: dpkg-distaddfile.1:58 dpkg-genchanges.1:158 dpkg-gencontrol.1:154
+#: dpkg-distaddfile.1:58 dpkg-genchanges.1:166 dpkg-gencontrol.1:154
 #, no-wrap
 msgid "B<debian/files>"
 msgstr "B<debian/files>"
@@ -10310,14 +10350,14 @@ msgstr ""
 "Testläge, dvs. utför inga faktiska ändringar, bara visa vad som skulle hända."
 
 #. type: TP
-#: dpkg-divert.8:100 dpkg-query.1:285 dpkg-statoverride.8:88 dpkg-trigger.1:78
+#: dpkg-divert.8:100 dpkg-query.1:285 dpkg-statoverride.8:88 dpkg-trigger.1:82
 #: update-alternatives.8:381
 #, no-wrap
 msgid "B<DPKG_ADMINDIR>"
 msgstr "B<DPKG_ADMINDIR>"
 
 #. type: Plain text
-#: dpkg-divert.8:104 dpkg-query.1:289 dpkg-statoverride.8:92 dpkg-trigger.1:82
+#: dpkg-divert.8:104 dpkg-query.1:289 dpkg-statoverride.8:92 dpkg-trigger.1:86
 msgid ""
 "If set and the B<--admindir> option has not been specified, it will be used "
 "as the B<dpkg> data directory."
@@ -10447,6 +10487,13 @@ msgstr "dpkg-divert --package wibble --rename --remove /usr/bin/exempel"
 msgid "dpkg-genchanges"
 msgstr "dpkg-genchanges"
 
+#. type: TH
+#: dpkg-genchanges.1:21
+#, fuzzy, no-wrap
+#| msgid "2014-05-24"
+msgid "2014-09-24"
+msgstr "2014-05-24"
+
 #. type: Plain text
 #: dpkg-genchanges.1:24
 msgid "dpkg-genchanges - generate Debian .changes files"
@@ -10468,14 +10515,36 @@ msgstr ""
 "Debiankällkodsträd och från de filer det har genererat, och genererar en "
 "styrfil för insändning till Debian (B<.changes>-fil)."
 
+#. type: Plain text
+#: dpkg-genchanges.1:42
+#, fuzzy
+#| msgid ""
+#| "Specifies that only the source should be uploaded (no binary packages "
+#| "will be included)."
+msgid ""
+"Specifies that only source and architecture independent packages should be "
+"uploaded (no architecture specific packages will be included)."
+msgstr "Anger att endast källkoden skall sändas in (inga binärpaket tas med)."
+
+#. type: Plain text
+#: dpkg-genchanges.1:46
+#, fuzzy
+#| msgid ""
+#| "Specifies that only the source should be uploaded (no binary packages "
+#| "will be included)."
+msgid ""
+"Specifies that only source and architecture specific packages should be "
+"uploaded (no architecture independent packages will be included)."
+msgstr "Anger att endast källkoden skall sändas in (inga binärpaket tas med)."
+
 #. type: TP
-#: dpkg-genchanges.1:38
+#: dpkg-genchanges.1:46
 #, no-wrap
 msgid "B<-b>, B<-B>, B<-A>"
 msgstr "B<-b>, B<-B>, B<-A>"
 
 #. type: Plain text
-#: dpkg-genchanges.1:47
+#: dpkg-genchanges.1:55
 msgid ""
 "Specifies that a binary-only build is taking place (no source files are to "
 "be included). There's no distinction between B<-b>, B<-B> and B<-A>, the "
@@ -10487,14 +10556,14 @@ msgstr ""
 "innehåller alla filer som skapats av B<binary-*>-målen i det byggda paketet."
 
 #. type: Plain text
-#: dpkg-genchanges.1:51
+#: dpkg-genchanges.1:59
 msgid ""
 "Specifies that only the source should be uploaded (no binary packages will "
 "be included)."
 msgstr "Anger att endast källkoden skall sändas in (inga binärpaket tas med)."
 
 #. type: Plain text
-#: dpkg-genchanges.1:56
+#: dpkg-genchanges.1:64
 msgid ""
 "The B<-s>I<x> options control whether the original source archive is "
 "included in the upload if any source is being generated (i.e.  B<-b> or B<-"
@@ -10505,7 +10574,7 @@ msgstr ""
 "har använts)."
 
 #. type: Plain text
-#: dpkg-genchanges.1:62
+#: dpkg-genchanges.1:70
 msgid ""
 "By default, or if specified, the original source will be included only if "
 "the upstream version number (the version without epoch and without Debian "
@@ -10518,17 +10587,17 @@ msgstr ""
 "föregående ändringsloggspost."
 
 #. type: Plain text
-#: dpkg-genchanges.1:65
+#: dpkg-genchanges.1:73
 msgid "Forces the inclusion of the original source."
 msgstr "Bifogar alltid originalkällkoden."
 
 #. type: Plain text
-#: dpkg-genchanges.1:68
+#: dpkg-genchanges.1:76
 msgid "Forces the exclusion of the original source and includes only the diff."
 msgstr "Bifogar inte originalkällkoden, utan enbart differensfilen."
 
 #. type: Plain text
-#: dpkg-genchanges.1:74
+#: dpkg-genchanges.1:82
 msgid ""
 "Causes changelog information from all versions strictly later than "
 "I<version> to be used."
@@ -10537,7 +10606,7 @@ msgstr ""
 "senare än I<version>."
 
 #. type: Plain text
-#: dpkg-genchanges.1:80
+#: dpkg-genchanges.1:88
 msgid ""
 "Read the description of the changes from the file I<changes-description> "
 "rather than using the information from the source tree's changelog file."
@@ -10546,7 +10615,7 @@ msgstr ""
 "för att använda information från källkodsträdets changelog-fil."
 
 #. type: Plain text
-#: dpkg-genchanges.1:86
+#: dpkg-genchanges.1:94
 msgid ""
 "Use I<maintainer-address> as the name and email address of the maintainer "
 "for this package, rather than using the information from the source tree's "
@@ -10557,7 +10626,7 @@ msgstr ""
 "control-fil."
 
 #. type: Plain text
-#: dpkg-genchanges.1:92
+#: dpkg-genchanges.1:100
 msgid ""
 "Use I<maintainer-address> as the name and email address of the maintainer "
 "for this upload, rather than using the information from the source tree's "
@@ -10568,13 +10637,13 @@ msgstr ""
 "källkodsträdets changelog-fil."
 
 #. type: TP
-#: dpkg-genchanges.1:92 dpkg-gencontrol.1:61 dpkg-source.1:152
+#: dpkg-genchanges.1:100 dpkg-gencontrol.1:61 dpkg-source.1:152
 #, no-wrap
 msgid "B<-V>I<name>B<=>I<value>"
 msgstr "B<-V>I<namn>B<=>I<värde>"
 
 #. type: Plain text
-#: dpkg-genchanges.1:96 dpkg-source.1:156
+#: dpkg-genchanges.1:104 dpkg-source.1:156
 msgid ""
 "Set an output substitution variable.  See B<deb-substvars>(5) for a "
 "discussion of output substitution."
@@ -10583,14 +10652,14 @@ msgstr ""
 "beskrivning av utdatasubstituering."
 
 #. type: TP
-#: dpkg-genchanges.1:96 dpkg-gencontrol.1:65 dpkg-shlibdeps.1:204
+#: dpkg-genchanges.1:104 dpkg-gencontrol.1:65 dpkg-shlibdeps.1:204
 #: dpkg-source.1:156
 #, no-wrap
 msgid "B<-T>I<substvars-file>"
 msgstr "B<-T>I<substvars-fil>"
 
 #. type: Plain text
-#: dpkg-genchanges.1:106
+#: dpkg-genchanges.1:114
 msgid ""
 "Read substitution variables in I<substvars-file>; the default is B<debian/"
 "substvars>.  No variable substitution is done on any of the fields that are "
@@ -10605,35 +10674,35 @@ msgstr ""
 "substitutionsvariabler från flera filer."
 
 #. type: TP
-#: dpkg-genchanges.1:107 dpkg-gencontrol.1:73 dpkg-source.1:162
+#: dpkg-genchanges.1:115 dpkg-gencontrol.1:73 dpkg-source.1:162
 #, no-wrap
 msgid "B<-D>I<field>B<=>I<value>"
 msgstr "B<-D>I<fält>B<=>I<värde>"
 
 #. type: Plain text
-#: dpkg-genchanges.1:110 dpkg-gencontrol.1:76 dpkg-source.1:165
+#: dpkg-genchanges.1:118 dpkg-gencontrol.1:76 dpkg-source.1:165
 msgid "Override or add an output control file field."
 msgstr "Ersätt eller lägg till ett fält i den genererade control-filen."
 
 #. type: TP
-#: dpkg-genchanges.1:110 dpkg-gencontrol.1:76 dpkg-source.1:165
+#: dpkg-genchanges.1:118 dpkg-gencontrol.1:76 dpkg-source.1:165
 #, no-wrap
 msgid "B<-U>I<field>"
 msgstr "B<-U>I<fält>"
 
 #. type: Plain text
-#: dpkg-genchanges.1:113 dpkg-gencontrol.1:79 dpkg-source.1:168
+#: dpkg-genchanges.1:121 dpkg-gencontrol.1:79 dpkg-source.1:168
 msgid "Remove an output control file field."
 msgstr "Ta bort ett fält ur den genererade control-filen."
 
 #. type: TP
-#: dpkg-genchanges.1:113
+#: dpkg-genchanges.1:121
 #, no-wrap
 msgid "B<-c>I<controlfile>"
 msgstr "B<-c>I<control-fil>"
 
 #. type: Plain text
-#: dpkg-genchanges.1:118 dpkg-gencontrol.1:84
+#: dpkg-genchanges.1:126 dpkg-gencontrol.1:84
 msgid ""
 "Specifies the main source control file to read information from. The default "
 "is B<debian/control>."
@@ -10642,14 +10711,14 @@ msgstr ""
 "Standardvärdet är B<debian/control>."
 
 #. type: TP
-#: dpkg-genchanges.1:118 dpkg-gencontrol.1:84 dpkg-parsechangelog.1:37
+#: dpkg-genchanges.1:126 dpkg-gencontrol.1:84 dpkg-parsechangelog.1:37
 #: dpkg-source.1:137
 #, no-wrap
 msgid "B<-l>I<changelog-file>"
 msgstr "B<-l>I<ändringsloggfil>"
 
 #. type: Plain text
-#: dpkg-genchanges.1:123 dpkg-gencontrol.1:89
+#: dpkg-genchanges.1:131 dpkg-gencontrol.1:89
 msgid ""
 "Specifies the changelog file to read information from. The default is "
 "B<debian/changelog>."
@@ -10658,7 +10727,7 @@ msgstr ""
 "B<debian/changelog>."
 
 #. type: Plain text
-#: dpkg-genchanges.1:127
+#: dpkg-genchanges.1:135
 msgid ""
 "Read the list of files to be uploaded here, rather than using B<debian/"
 "files>."
@@ -10667,14 +10736,14 @@ msgstr ""
 "använda B<debian/files>."
 
 #. type: TP
-#: dpkg-genchanges.1:127 dpkg-gencontrol.1:93 dpkg-parsechangelog.1:43
+#: dpkg-genchanges.1:135 dpkg-gencontrol.1:93 dpkg-parsechangelog.1:43
 #: dpkg-source.1:144
 #, no-wrap
 msgid "B<-F>I<changelog-format>"
 msgstr "B<-F>I<ändringsloggformat>"
 
 #. type: Plain text
-#: dpkg-genchanges.1:131 dpkg-gencontrol.1:97 dpkg-source.1:148
+#: dpkg-genchanges.1:139 dpkg-gencontrol.1:97 dpkg-source.1:148
 msgid ""
 "Specifies the format of the changelog. See B<dpkg-parsechangelog>(1)  for "
 "information about alternative formats."
@@ -10683,13 +10752,13 @@ msgstr ""
 "om alternativa format."
 
 #. type: TP
-#: dpkg-genchanges.1:131
+#: dpkg-genchanges.1:139
 #, no-wrap
 msgid "B<-u>I<upload-files-dir>"
 msgstr "B<-u>I<insändningskatalog>"
 
 #. type: Plain text
-#: dpkg-genchanges.1:142
+#: dpkg-genchanges.1:150
 msgid ""
 "Look for the files to be uploaded in I<upload-files-dir> rather than B<..> "
 "(B<dpkg-genchanges> needs to find these files so that it can include their "
@@ -10700,13 +10769,13 @@ msgstr ""
 "deras storlekar och kontrollsummor i B<.changes>-filen)."
 
 #. type: TP
-#: dpkg-genchanges.1:142 dpkg-gensymbols.1:458
+#: dpkg-genchanges.1:150 dpkg-gensymbols.1:458
 #, no-wrap
 msgid "B<-q>"
 msgstr "B<-q>"
 
 #. type: Plain text
-#: dpkg-genchanges.1:150
+#: dpkg-genchanges.1:158
 msgid ""
 "Usually B<dpkg-genchanges> will produce informative messages on standard "
 "error, for example about how many of the package's source files are being "
@@ -10717,7 +10786,7 @@ msgstr ""
 "undertrycker dessa meddelanden."
 
 #. type: Plain text
-#: dpkg-genchanges.1:165
+#: dpkg-genchanges.1:173
 msgid ""
 "The list of generated files which are part of the upload being prepared.  "
 "B<dpkg-genchanges> reads the data here when producing a B<.changes> file."
@@ -18026,17 +18095,31 @@ msgstr ""
 
 #. type: TP
 #: dpkg-trigger.1:73
+#, fuzzy, no-wrap
+#| msgid "B<--no-await>"
+msgid "B<--await>"
+msgstr "B<--no-await>"
+
+#. type: Plain text
+#: dpkg-trigger.1:77
+msgid ""
+"This option does the inverse of B<--no-await>. It is currently the default "
+"behavior."
+msgstr ""
+
+#. type: TP
+#: dpkg-trigger.1:77
 #, no-wrap
 msgid "B<--no-act>"
 msgstr "B<--no-act>"
 
 #. type: Plain text
-#: dpkg-trigger.1:76
+#: dpkg-trigger.1:80
 msgid "Just test, do not actually change anything."
 msgstr "Bara testa, ändra inte på någonting."
 
 #. type: Plain text
-#: dpkg-trigger.1:86
+#: dpkg-trigger.1:90
 msgid ""
 "B<dpkg>(1), B<deb-triggers>(5), B</usr/share/doc/dpkg-dev/triggers.txt.gz>."
 msgstr ""

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-10-23 01:04+0200\n"
+"POT-Creation-Date: 2014-10-25 02:52+0200\n"
 "PO-Revision-Date: 2012-09-08 19:16+0200\n"
 "Last-Translator: imacat <imac@mail.imacat.idv.tw>\n"
 "Language-Team: Chinese (traditional) <debian-chinese-big5@lists.debian.org>\n"
@@ -121,7 +121,7 @@ msgid "error creating new backup file '%s'"
 msgstr "建立新備份檔發生錯誤 '%s'"
 
 #: lib/dpkg/atomic-file.c:103 lib/dpkg/atomic-file.c:105
-#: lib/dpkg/triglib.c:447 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
+#: lib/dpkg/triglib.c:451 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
 #: src/infodb-upgrade.c:200 src/remove.c:347 src/remove.c:440
 #, c-format
 msgid "cannot remove `%.250s'"
@@ -1328,30 +1328,30 @@ msgstr "無法開啟觸發條件檔 `%.250s'"
 msgid "failed to rewind trigger interest file `%.250s'"
 msgstr "無法回到觸發條件檔 `%.250s' 的開頭"
 
-#: lib/dpkg/triglib.c:312
+#: lib/dpkg/triglib.c:316
 #, c-format
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr "觸發條件檔 `%.250s' 的語法有誤；不合法的套件名稱 `%.250s'：%.250s"
 
-#: lib/dpkg/triglib.c:430
+#: lib/dpkg/triglib.c:434
 #, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr "檔名 `%.250s' 和套件 `%.250s' 的檔案觸發條件重複"
 
-#: lib/dpkg/triglib.c:501
+#: lib/dpkg/triglib.c:505
 #, c-format
 msgid "unable to read file triggers file `%.250s'"
 msgstr "無法讀取 file trigger 檔 `%.250s'"
 
-#: lib/dpkg/triglib.c:512
+#: lib/dpkg/triglib.c:516
 #, c-format
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "在 file trigger 檔 `%.255s' 裡的語法有誤"
 
-#: lib/dpkg/triglib.c:524
+#: lib/dpkg/triglib.c:532
 #, c-format
 msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
@@ -1360,7 +1360,7 @@ msgstr ""
 "檔案觸發記錄中，包含不合法的套件名稱 `%.250s'（在檔案 `%.250s' 的觸發條件"
 "裡）：%.250s"
 
-#: lib/dpkg/triglib.c:663
+#: lib/dpkg/triglib.c:671
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
@@ -1368,26 +1368,26 @@ msgid ""
 msgstr ""
 "觸發程式 ci 檔 `%.250s' 的觸發程式名稱 `%.250s' 不合於觸發程式的語法：%.250s"
 
-#: lib/dpkg/triglib.c:683
+#: lib/dpkg/triglib.c:691
 #, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "無法開啟觸發程式 ci 檔 `%.250s'"
 
-#: lib/dpkg/triglib.c:698
+#: lib/dpkg/triglib.c:706
 msgid "triggers ci file contains unknown directive syntax"
 msgstr "觸發程式 ci 檔包含了未知的指令語法"
 
-#: lib/dpkg/triglib.c:711
+#: lib/dpkg/triglib.c:721
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr "觸發程式 ci 檔包含了未知的指令 `%.250s'"
 
-#: lib/dpkg/triglib.c:777
+#: lib/dpkg/triglib.c:787
 #, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "無法建立觸發程式狀態目錄 `%.250s'"
 
-#: lib/dpkg/triglib.c:780
+#: lib/dpkg/triglib.c:790
 #, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr "無法設定觸發程式狀態目錄 `%.250s' 的所有權"
@@ -1813,7 +1813,7 @@ msgstr "--%s 需要至少一個套件壓縮檔作為參數"
 #: src/main.c:322 src/main.c:624 src/packages.c:284 src/querycmd.c:329
 #: src/querycmd.c:431 src/querycmd.c:473 src/querycmd.c:482 src/querycmd.c:528
 #: src/querycmd.c:612 src/querycmd.c:785 src/querycmd.c:833 src/select.c:101
-#: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:57 src/trigcmd.c:89
+#: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:57 src/trigcmd.c:90
 #: dpkg-deb/build.c:447 dpkg-deb/extract.c:234 dpkg-deb/extract.c:270
 #: dpkg-deb/info.c:206 dpkg-deb/info.c:244 dpkg-deb/main.c:61
 #: dpkg-deb/main.c:135 dpkg-split/info.c:266 dpkg-split/main.c:55
@@ -4397,12 +4397,24 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c:81
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  --by-package=<package>           Override trigger awaiter (normally "
+#| "set\n"
+#| "                                     by dpkg).\n"
+#| "  --no-await                       No package needs to await the "
+#| "processing.\n"
+#| "  --no-act                         Just test - don't actually change "
+#| "anything.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
+"  --await                          Package needs to await the processing.\n"
 "  --no-await                       No package needs to await the "
 "processing.\n"
 "  --no-act                         Just test - don't actually change "
@@ -4417,15 +4429,15 @@ msgstr ""
 "  --no-act                         只有測試 - 不要真的有任何異動。\n"
 "\n"
 
-#: src/trigcmd.c:124
+#: src/trigcmd.c:123
 msgid "must be called from a maintainer script (or with a --by-package option)"
 msgstr "須由維護者程式（或以 --by-package 選項）呼叫"
 
-#: src/trigcmd.c:180
+#: src/trigcmd.c:179
 msgid "triggers data directory not yet created"
 msgstr "還沒建立觸發資料目錄"
 
-#: src/trigcmd.c:183
+#: src/trigcmd.c:182
 msgid "trigger records not yet in existence"
 msgstr "還沒有觸發記錄"
 
@@ -4464,7 +4476,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr "觸發程式陷入迴圈，已放棄執行"
 
-#: src/trigproc.c:349
+#: src/trigproc.c:354
 #, fuzzy, c-format
 #| msgid ""
 #| "%s: dependency problems, but removing anyway as you requested:\n"
@@ -4476,7 +4488,7 @@ msgstr ""
 "%s：發生相依上的問題，但還是應您要求強制移除：\n"
 "%s"
 
-#: src/trigproc.c:359
+#: src/trigproc.c:366
 #, fuzzy, c-format
 #| msgid "Processing triggers for %s ...\n"
 msgid "Processing triggers for %s (%s) ...\n"

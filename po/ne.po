@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-10-23 01:04+0200\n"
+"POT-Creation-Date: 2014-10-25 02:52+0200\n"
 "PO-Revision-Date: 2007-08-05 17:41+0545\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -128,7 +128,7 @@ msgid "error creating new backup file '%s'"
 msgstr "पाइप `%.255s' सिर्जना गर्दा त्रुटि"
 
 #: lib/dpkg/atomic-file.c:103 lib/dpkg/atomic-file.c:105
-#: lib/dpkg/triglib.c:447 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
+#: lib/dpkg/triglib.c:451 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
 #: src/infodb-upgrade.c:200 src/remove.c:347 src/remove.c:440
 #, c-format
 msgid "cannot remove `%.250s'"
@@ -1388,63 +1388,63 @@ msgstr "नयाँ डिपोट फाइल `%.250s' खोल्न अ�
 msgid "failed to rewind trigger interest file `%.250s'"
 msgstr "भाग फाइल `%.250s' पढ्दा त्रुटि"
 
-#: lib/dpkg/triglib.c:312
+#: lib/dpkg/triglib.c:316
 #, c-format
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
 
-#: lib/dpkg/triglib.c:430
+#: lib/dpkg/triglib.c:434
 #, fuzzy, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr "नयाँ सूचना फाइल `%.250s' को रुपमा `%.250s' स्थापना गर्न अक्षम"
 
-#: lib/dpkg/triglib.c:501
+#: lib/dpkg/triglib.c:505
 #, fuzzy, c-format
 msgid "unable to read file triggers file `%.250s'"
 msgstr "भाग फाइल `%.250s' पढ्दा त्रुटि"
 
-#: lib/dpkg/triglib.c:512
+#: lib/dpkg/triglib.c:516
 #, fuzzy, c-format
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "कन्फिगरेसन`%.255s' फाइलमा त्रुटि पढ्नुहोस्"
 
-#: lib/dpkg/triglib.c:524
+#: lib/dpkg/triglib.c:532
 #, c-format
 msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
 
-#: lib/dpkg/triglib.c:663
+#: lib/dpkg/triglib.c:671
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
 
-#: lib/dpkg/triglib.c:683
+#: lib/dpkg/triglib.c:691
 #, fuzzy, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "स्रोत फाइल `%.250s' खोल्न अक्षम"
 
-#: lib/dpkg/triglib.c:698
+#: lib/dpkg/triglib.c:706
 msgid "triggers ci file contains unknown directive syntax"
 msgstr ""
 
-#: lib/dpkg/triglib.c:711
+#: lib/dpkg/triglib.c:721
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr ""
 
-#: lib/dpkg/triglib.c:777
+#: lib/dpkg/triglib.c:787
 #, fuzzy, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "डिपोट डाइरेक्ट्री `%.250s' पढ्न अक्षम"
 
-#: lib/dpkg/triglib.c:780
+#: lib/dpkg/triglib.c:790
 #, fuzzy, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr "डिपोट डाइरेक्ट्री `%.250s' पढ्न अक्षम"
@@ -1887,7 +1887,7 @@ msgstr "--%s लाई कम्तिमा एउटा प्याकेज 
 #: src/main.c:322 src/main.c:624 src/packages.c:284 src/querycmd.c:329
 #: src/querycmd.c:431 src/querycmd.c:473 src/querycmd.c:482 src/querycmd.c:528
 #: src/querycmd.c:612 src/querycmd.c:785 src/querycmd.c:833 src/select.c:101
-#: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:57 src/trigcmd.c:89
+#: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:57 src/trigcmd.c:90
 #: dpkg-deb/build.c:447 dpkg-deb/extract.c:234 dpkg-deb/extract.c:270
 #: dpkg-deb/info.c:206 dpkg-deb/info.c:244 dpkg-deb/main.c:61
 #: dpkg-deb/main.c:135 dpkg-split/info.c:266 dpkg-split/main.c:55
@@ -4479,28 +4479,50 @@ msgid ""
 msgstr ""
 
 #: src/trigcmd.c:81
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
+#| "  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
+#| "  -o|--output <file>               For -j (default is <package>-<version>."
+#| "deb).\n"
+#| "  -Q|--npquiet                     Be quiet when -a is not a part.\n"
+#| "  --msdos                          Generate 8.3 filenames.\n"
+#| "\n"
+#| "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
+"  --await                          Package needs to await the processing.\n"
 "  --no-await                       No package needs to await the "
 "processing.\n"
 "  --no-act                         Just test - don't actually change "
 "anything.\n"
 "\n"
 msgstr ""
+"विकल्पहरू:\n"
+"  --depotdir <directory>           %s/%s को सट्टामा <directory> प्रयोग गर्नुहोस् "
+"।\n"
+"  -S|--भाग साइज <size>              KiB मा, -s का लागि (पूर्वनिर्धारित ४५० हो) "
+"।\n"
+"  -o|--निर्गात <file>               -j का लागि (पूर्वनिर्धारित <package>-"
+"<version>.deb हो) ।\n"
+"  -Q|--npquiet                      -a  भाग नहुँदा स्थिर रहनुहोस् ।\n"
+"  --msdos                          ८.३ फाइलनामहरू सिर्जना गर्नुहोस् ।\n"
+"\n"
+"वस्तुस्थिति बन्द गर्नुहोस्: 0 = OK;  1 = -a भाग हो;  2 = समस्या !\n"
 
-#: src/trigcmd.c:124
+#: src/trigcmd.c:123
 msgid "must be called from a maintainer script (or with a --by-package option)"
 msgstr ""
 
-#: src/trigcmd.c:180
+#: src/trigcmd.c:179
 msgid "triggers data directory not yet created"
 msgstr ""
 
-#: src/trigcmd.c:183
+#: src/trigcmd.c:182
 msgid "trigger records not yet in existence"
 msgstr ""
 
@@ -4536,7 +4558,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr ""
 
-#: src/trigproc.c:349
+#: src/trigproc.c:354
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
@@ -4548,7 +4570,7 @@ msgstr ""
 "dpkg: %s: निर्भरता समस्याहरु, तर तपाईँको अनुरोधमा जे भए पनि हटाउदैछ:\n"
 "%s"
 
-#: src/trigproc.c:359
+#: src/trigproc.c:366
 #, fuzzy, c-format
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr " %s ... का लागि कन्फिगरेसन फाइलहरू पर्जगर्दै\n"

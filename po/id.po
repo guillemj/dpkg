@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-10-23 01:04+0200\n"
+"POT-Creation-Date: 2014-10-25 02:52+0200\n"
 "PO-Revision-Date: 2010-11-28 20:35+0700\n"
 "Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
 "Language-Team: Indonesian <debian-l10n-id@gurame.fisika.ui.ac.id>\n"
@@ -133,7 +133,7 @@ msgid "error creating new backup file '%s'"
 msgstr "Ada kesalahan saat membuat pipe '%.255s'"
 
 #: lib/dpkg/atomic-file.c:103 lib/dpkg/atomic-file.c:105
-#: lib/dpkg/triglib.c:447 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
+#: lib/dpkg/triglib.c:451 src/infodb-upgrade.c:169 src/infodb-upgrade.c:174
 #: src/infodb-upgrade.c:200 src/remove.c:347 src/remove.c:440
 #, c-format
 msgid "cannot remove `%.250s'"
@@ -1422,7 +1422,7 @@ msgstr "gagal membuka berkas daftar tujuan pemicu '%.250s' "
 msgid "failed to rewind trigger interest file `%.250s'"
 msgstr "gagal mengulang berkas tujuan pemicu '%.250s'"
 
-#: lib/dpkg/triglib.c:312
+#: lib/dpkg/triglib.c:316
 #, c-format
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
@@ -1431,24 +1431,24 @@ msgstr ""
 "ada kesalahan berkas tujuan pemicu '%.250s'; nama paket tidak sah '%.250s': "
 "%.250s"
 
-#: lib/dpkg/triglib.c:430
+#: lib/dpkg/triglib.c:434
 #, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
 msgstr ""
 "berkas tujuan pemicu ganda untuk nama berkas '%.250s' dan paket '%.250s'"
 
-#: lib/dpkg/triglib.c:501
+#: lib/dpkg/triglib.c:505
 #, c-format
 msgid "unable to read file triggers file `%.250s'"
 msgstr "gagal membaca berkas pemicu berkas '%.250s'"
 
-#: lib/dpkg/triglib.c:512
+#: lib/dpkg/triglib.c:516
 #, c-format
 msgid "syntax error in file triggers file `%.250s'"
 msgstr "ada galat sintaks dalam berkas pemicu berkas '%.250s'"
 
-#: lib/dpkg/triglib.c:524
+#: lib/dpkg/triglib.c:532
 #, c-format
 msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
@@ -1457,7 +1457,7 @@ msgstr ""
 "rekam berkas pemicu berisi nama paket tidak sah '%s.250s' (untuk tujuan di "
 "berkas '%.250s): %.250s"
 
-#: lib/dpkg/triglib.c:663
+#: lib/dpkg/triglib.c:671
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
@@ -1466,26 +1466,26 @@ msgstr ""
 "berkas ci pemicu '%.250s' berisi sintaks pemicu tidak sah di nama pemicu "
 "'%.250s': %.250s"
 
-#: lib/dpkg/triglib.c:683
+#: lib/dpkg/triglib.c:691
 #, c-format
 msgid "unable to open triggers ci file `%.250s'"
 msgstr "gagal membuka berkas ci pemicu: '%.250s'"
 
-#: lib/dpkg/triglib.c:698
+#: lib/dpkg/triglib.c:706
 msgid "triggers ci file contains unknown directive syntax"
 msgstr "berkas ci pemicu berisi sintaks konfigurasi yang tak dikenal"
 
-#: lib/dpkg/triglib.c:711
+#: lib/dpkg/triglib.c:721
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr "berkas ci pemicu berisi konfigurasi tak dikenal '%.250s'"
 
-#: lib/dpkg/triglib.c:777
+#: lib/dpkg/triglib.c:787
 #, c-format
 msgid "unable to create triggers state directory `%.250s'"
 msgstr "gagal membuat direktori status pemicu: '%.250s'"
 
-#: lib/dpkg/triglib.c:780
+#: lib/dpkg/triglib.c:790
 #, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
 msgstr "gagal menata kepemilikan direktori status pemicu: '%.250s'"
@@ -1955,7 +1955,7 @@ msgstr "--%s butuh sedikitnya satu argumen berkas arsip paket"
 #: src/main.c:322 src/main.c:624 src/packages.c:284 src/querycmd.c:329
 #: src/querycmd.c:431 src/querycmd.c:473 src/querycmd.c:482 src/querycmd.c:528
 #: src/querycmd.c:612 src/querycmd.c:785 src/querycmd.c:833 src/select.c:101
-#: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:57 src/trigcmd.c:89
+#: src/statcmd.c:64 src/statcmd.c:94 src/trigcmd.c:57 src/trigcmd.c:90
 #: dpkg-deb/build.c:447 dpkg-deb/extract.c:234 dpkg-deb/extract.c:270
 #: dpkg-deb/info.c:206 dpkg-deb/info.c:244 dpkg-deb/main.c:61
 #: dpkg-deb/main.c:135 dpkg-split/info.c:266 dpkg-split/main.c:55
@@ -4687,12 +4687,24 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c:81
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
+#| "  --by-package=<package>           Override trigger awaiter (normally "
+#| "set\n"
+#| "                                     by dpkg).\n"
+#| "  --no-await                       No package needs to await the "
+#| "processing.\n"
+#| "  --no-act                         Just test - don't actually change "
+#| "anything.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
+"  --await                          Package needs to await the processing.\n"
 "  --no-await                       No package needs to await the "
 "processing.\n"
 "  --no-act                         Just test - don't actually change "
@@ -4708,7 +4720,7 @@ msgstr ""
 "  --no-act                    Hanya ujicoba - jangan lakukan apapun.\n"
 "\n"
 
-#: src/trigcmd.c:124
+#: src/trigcmd.c:123
 #, fuzzy
 #| msgid ""
 #| "dpkg-trigger must be called from a maintainer script (or with a --by-"
@@ -4718,13 +4730,13 @@ msgstr ""
 "dpkg-trigger harus dijalankan dari script pengelola paket (atau dengan "
 "pilihan --by-package)"
 
-#: src/trigcmd.c:180
+#: src/trigcmd.c:179
 #, fuzzy
 #| msgid "%s: triggers data directory not yet created\n"
 msgid "triggers data directory not yet created"
 msgstr "%s: direktori data pemicu belum dibuat\n"
 
-#: src/trigcmd.c:183
+#: src/trigcmd.c:182
 #, fuzzy
 #| msgid "%s: trigger records not yet in existence\n"
 msgid "trigger records not yet in existence"
@@ -4770,7 +4782,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr "pemicu berulang; dihentikan saja."
 
-#: src/trigproc.c:349
+#: src/trigproc.c:354
 #, fuzzy, c-format
 #| msgid ""
 #| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
@@ -4783,7 +4795,7 @@ msgstr ""
 "permintaan: \n"
 "%s"
 
-#: src/trigproc.c:359
+#: src/trigproc.c:366
 #, fuzzy, c-format
 #| msgid "Processing triggers for %s ...\n"
 msgid "Processing triggers for %s (%s) ...\n"
