@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-10-25 02:52+0200\n"
-"PO-Revision-Date: 2014-08-15 14:22+0200\n"
+"POT-Creation-Date: 2014-10-27 10:02+0100\n"
+"PO-Revision-Date: 2014-10-12 12:24+0200\n"
 "Last-Translator: Steve Petruzzello <dlist@bluewin.ch>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -61,16 +61,16 @@ msgstr "Usage: %s [<option>...] [<commande>]"
 #| msgid ""
 #| "Commands:\n"
 #| "  -l                 list variables (default).\n"
-#| "  -L                 list valid architectures.\n"
-#| "  -e<debian-arch>    compare with current Debian architecture.\n"
-#| "  -i<arch-alias>     check if current Debian architecture is <arch-"
-#| "alias>.\n"
+#| "  -L                 list valid architectures (matching some criteria).\n"
+#| "  -e<debian-arch>    compare with host Debian architecture.\n"
+#| "  -i<arch-wildcard>  check if host Debian architecture is <arch-"
+#| "wildcard>.\n"
 #| "  -q<variable>       prints only the value of <variable>.\n"
 #| "  -s                 print command to set environment variables.\n"
 #| "  -u                 print command to unset environment variables.\n"
 #| "  -c <command>       set environment and run the command in it.\n"
 #| "  -?, --help         show this help message.\n"
-#| "      --version      show the version.\n"
+#| "      --version      show the version."
 msgid ""
 "Commands:\n"
 "  -l, --list                list variables (default).\n"
@@ -87,21 +87,35 @@ msgid ""
 msgstr ""
 "Actions :\n"
 "  -l                 lister les variables (défaut).\n"
-"  -L                 lister les architectures valides.\n"
+"  -L                 lister les architectures valides (en fonction de "
+"critères).\n"
 "  -e<debian-arch>    comparer avec l'architecture Debian en cours.\n"
-"  -i<arch-alias>     vérifier que l'architecture Debian en cours est <arch-"
-"alias>.\n"
+"  -i<arch-joker>     vérifier que l'architecture Debian en cours est <arch-"
+"joker>.\n"
 "  -q<variable>       n'afficher que la valeur de <variable>.\n"
 "  -s                 afficher la commande pour définir les variables "
 "d'environnement.\n"
 "  -u                 afficher la commande pour annuler les variables "
 "d'environnement.\n"
-"  -c <commande>      mettre en place l'environnement et exécuter la "
+"  -c <commande>      mettre en place l'environnement et y exécuter la "
 "commande.\n"
 "  -?, --help         afficher ce message d'aide.\n"
-"      --version      afficher la version.\n"
+"      --version      afficher la version."
 
 #: scripts/dpkg-architecture.pl:62
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  -a<debian-arch>    set host Debian architecture.\n"
+#| "  -t<gnu-system>     set host GNU system type.\n"
+#| "  -A<debian-arch>    set target Debian architecture.\n"
+#| "  -T<gnu-system>     set target GNU system type.\n"
+#| "  -W<arch-wildcard>  restrict listed architectures matching <arch-"
+#| "wildcard>.\n"
+#| "  -B<arch-bits>      restrict listed architectures matching <arch-bits>.\n"
+#| "  -E<arch-endian>    restrict listed architectures matching <arch-"
+#| "endian>.\n"
+#| "  -f                 force flag (override variables set in environment)."
 msgid ""
 "Options:\n"
 "  -a, --host-arch <arch>    set host Debian architecture.\n"
@@ -120,6 +134,19 @@ msgid ""
 "  -f, --force               force flag (override variables set in "
 "environment)."
 msgstr ""
+"Options :\n"
+"  -a<debian-arch>    définir l'architecture Debian de l'hôte.\n"
+"  -t<gnu-system>     définir le type de système GNU de l'hôte.\n"
+"  -A<debian-arch>    définir l'architecture Debian cible.\n"
+"  -T<gnu-system>     définir le type de système GNU de la cible.\n"
+"  -W<arch-wildcard>  restreindre aux architectures listées correspondant à "
+"<arch-wildcard>.\n"
+"  -B<arch-bits>      restreindre aux architectures listées correspondant à "
+"<arch-bits>.\n"
+"  -E<arch-endian>    restreindre aux architectures listées correspondant à "
+"<arch-endian>.\n"
+"  -f                 drapeau de forçage (outrepasse les variables définies "
+"dans l'environnement)."
 
 #: scripts/dpkg-architecture.pl:83
 #, perl-format
@@ -1393,21 +1420,7 @@ msgid "takes no non-option arguments"
 msgstr "ne prend pas de paramètre sans option"
 
 #: scripts/dpkg-scanpackages.pl:75
-#, fuzzy, perl-format
-#| msgid ""
-#| "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
-#| "Packages\n"
-#| "\n"
-#| "Options:\n"
-#| "  -t, --type <type>        scan for <type> packages (default is 'deb').\n"
-#| "  -a, --arch <arch>        architecture to scan for.\n"
-#| "  -m, --multiversion       allow multiple versions of a single package.\n"
-#| "  -e, --extra-override <file>\n"
-#| "                           use extra override file.\n"
-#| "  -M, --medium <medium>    add X-Medium field for dselect multicd access "
-#| "method\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version.\n"
+#, perl-format
 msgid ""
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > "
 "Packages\n"
@@ -1424,18 +1437,20 @@ msgid ""
 "  -?, --help               show this help message.\n"
 "      --version            show the version.\n"
 msgstr ""
-"Syntaxe : %s [<option> ...] <rep-de-binaires> <fichier-d'override> [<chemin-"
-"à-préfixer>] >\n"
+"Syntaxe : %s [<option> ...] <rep-de-binaires> <fichier-d'override> [<préfixe-"
+"de-chemin>] >\n"
 "Packages\n"
 "\n"
 "Options :\n"
-"  -t, --type <type>     rechercher les paquets de <type> (par défaut, "
-"« deb »).\n"
+"  -t, --type <type>     rechercher les paquets de <type> (« deb » par "
+"défaut).\n"
 "  -a, --arch <arch>     architecture à rechercher.\n"
-"  -m, --multiversion    permettre plusieurs versions d'un paquet.\n"
-"  -e, --extra-override <fichier\n"
-"                           utiliser un fichier supplémentaire "
-"d'« override ».\n"
+"  -h, --hash <liste-hachage>\n"
+"                        générer les hachages uniquement pour la liste "
+"spécifiée. \n"
+"  -m, --multiversion    permettre plusieurs versions d'un même paquet.\n"
+"  -e, --extra-override <fichier>\n"
+"                        utiliser un fichier d'« override » supplémentaire.\n"
 "  -M, --medium <medium> ajouter le champ X-Medium pour la méthode d'accès\n"
 "                        multicd de dselect.\n"
 "  -?, --help            afficher ce message d'aide.\n"
@@ -1458,7 +1473,7 @@ msgstr "de un à trois paramètres sont attendus"
 #: scripts/dpkg-scanpackages.pl:173
 #, perl-format
 msgid "unsupported checksum '%s'"
-msgstr ""
+msgstr "somme de contrôle non supportée « %s »"
 
 #: scripts/dpkg-scanpackages.pl:189
 #, perl-format
@@ -1875,10 +1890,9 @@ msgid "unknown output from dpkg --search: '%s'"
 msgstr "résultat de dpkg --search inconnu : %s"
 
 #: scripts/dpkg-source.pl:106
-#, fuzzy, perl-format
-#| msgid "%s needs a directory"
+#, perl-format
 msgid "--%s needs a directory"
-msgstr "répertoire nécessaire pour %s"
+msgstr "--%s requiert un répertoire"
 
 #: scripts/dpkg-source.pl:112
 #, perl-format
@@ -1991,22 +2005,20 @@ msgid "building %s in %s"
 msgstr "construction de %s dans %s"
 
 #: scripts/dpkg-source.pl:444
-#, fuzzy, perl-format
-#| msgid "-x needs at least one argument, the .dsc"
+#, perl-format
 msgid "--%s needs at least one argument, the .dsc"
-msgstr "-x demande au moins un paramètre, le fichier .dsc"
+msgstr "--%s requiert au moins un paramètre, le fichier .dsc"
 
 #: scripts/dpkg-source.pl:448
-#, fuzzy, perl-format
-#| msgid "-x takes no more than two arguments"
+#, perl-format
 msgid "--%s takes no more than two arguments"
-msgstr "-x ne prend pas plus de deux paramètres"
+msgstr "--%s ne prend pas plus de deux paramètres"
 
 #: scripts/dpkg-source.pl:452
-#, fuzzy, perl-format
-#| msgid "-x needs the .dsc file as first argument, not a directory"
+#, perl-format
 msgid "--%s needs the .dsc file as first argument, not a directory"
-msgstr "-x demande le fichier .dsc comme premier paramètre, pas un répertoire"
+msgstr ""
+"--%s requiert le fichier .dsc comme premier paramètre et non un répertoire"
 
 #: scripts/dpkg-source.pl:469
 #, perl-format
@@ -2041,16 +2053,6 @@ msgid "Usage: %s [<option>...] <command>"
 msgstr "Usage: %s [<option>...] <commande>"
 
 #: scripts/dpkg-source.pl:533
-#, fuzzy
-#| msgid ""
-#| "Commands:\n"
-#| "  -x <filename>.dsc [<output-dir>]\n"
-#| "                           extract source package.\n"
-#| "  -b <dir>                 build source package.\n"
-#| "  --print-format <dir>     print the source format that would be\n"
-#| "                           used to build the source package.\n"
-#| "  --commit [<dir> [<patch-name>]]\n"
-#| "                           store upstream changes in a new patch."
 msgid ""
 "Commands:\n"
 "  -x, --extract <filename>.dsc [<output-dir>]\n"
@@ -2062,15 +2064,14 @@ msgid ""
 "                           store upstream changes in a new patch."
 msgstr ""
 "Commandes :\n"
-"  -x <fichier>.dsc [<rep_sortie]\n"
+"  -x, --extract <fichier>.dsc [<rep_sortie]\n"
 "                             extraire le paquet source.\n"
-"  -b <rep>\n"
-"                             construire le paquet source.\n"
-"  --print-format <rep>     afficher le format source qui serait\n"
-"                           utilisé pour construire le paquet source.\n"
-"  --commit [<rep> [nom-de-correctif]]\n"
-"                           conserve les modifications amont dans\n"
-"                           un nouveau correctif."
+"  -b, --build <rep>          construire le paquet source.\n"
+"      --print-format <rep>   afficher le format à utiliser pour construire "
+"le paquet source.\n"
+"      --commit [<rep> [nom-de-correctif]]\n"
+"                             conserve les modifications amont dans un "
+"nouveau correctif."
 
 #: scripts/dpkg-source.pl:541
 #, perl-format
@@ -3159,7 +3160,7 @@ msgstr "%s : modifications non représentables des sources"
 #, fuzzy, perl-format
 #| msgid "duplicate files in %s source package: %s.*"
 msgid "duplicate files in %s source package: %s"
-msgstr "fichiers mentionnés deux fois dans le paquet source %s : %s"
+msgstr "fichiers mentionnés deux fois dans le paquet source %s : %s.*"
 
 #: scripts/Dpkg/Source/Package/V2.pm:145
 msgid "missing orig.tar or debian.tar file in v2.0 source package"
@@ -3783,16 +3784,14 @@ msgid "source package has two conflicting values - %s and %s"
 msgstr "le paquet source a deux valeurs en conflit : %s et %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm:93
-#, fuzzy, perl-format
-#| msgid "unknown %s feature: %s"
+#, perl-format
 msgid "unknown %s feature in %s variable: %s"
-msgstr "fonctionnalité %s inconnue : %s"
+msgstr "fonctionnalité %s inconnue dans la variable %s : %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm:98
-#, fuzzy, perl-format
-#| msgid "incorrect value in %s option of DEB_BUILD_MAINT_OPTIONS: %s"
+#, perl-format
 msgid "incorrect value in %s option of %s variable: %s"
-msgstr "valeur incorrecte dans l'option %s de DEB_BUILD_MAINT_OPTIONS : %s"
+msgstr "valeur incorrecte dans l'option %s de la variable %s : %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm:177
 #, perl-format
