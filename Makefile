@@ -42,6 +42,7 @@ TESTS_PASS += t-disappear-empty
 TESTS_PASS += t-provides
 TESTS_PASS += t-provides-arch-implicit
 TESTS_PASS += t-provides-arch-qualified
+TESTS_PASS += t-breaks-queue-dupe
 TESTS_PASS += t-conflict
 TESTS_PASS += t-conflict-provide-replace-real
 TESTS_PASS += t-conflict-provide-replace-virtual
