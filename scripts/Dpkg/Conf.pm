@@ -100,6 +100,61 @@ sub set {
 
 Read options from a file. Return the number of options parsed.
 
+=item $conf->load_system_config($file)
+
+Read options from a system configuration file.
+
+Return the number of options parsed.
+
+=cut
+
+sub load_system_config {
+    my ($self, $file) = @_;
+
+    return 0 unless -e "$Dpkg::CONFDIR/$file";
+    return $self->load("$Dpkg::CONFDIR/$file");
+}
+
+=item $conf->load_user_config($file)
+
+Read options from a user configuration file. It will try to use the XDG
+directory, either $XDG_CONFIG_HOME/dpkg/ or $HOME/.config/dpkg/.
+
+Return the number of options parsed.
+
+=cut
+
+sub load_user_config {
+    my ($self, $file) = @_;
+
+    my $confdir = $ENV{XDG_CONFIG_HOME};
+    $confdir ||= $ENV{HOME} . '/.config' if length $ENV{HOME};
+
+    return 0 unless length $confdir;
+    return 0 unless -e "$confdir/dpkg/$file";
+    return $self->load("$confdir/dpkg/$file") if length $confdir;
+    return 0;
+}
+
+=item $conf->load_config($file)
+
+Read options from system and user configuration files.
+
+Return the number of options parsed.
+
+=cut
+
+sub load_config {
+    my ($self, $file) = @_;
+
+    my $nopts = 0;
+
+    $nopts += $self->load_system_config($file);
+    $nopts += $self->load_user_config($file);
+
+    return $nopts;
+}
+
 =item $conf->parse($fh)
 
 Parse options from a file handle. Return the number of options parsed.
@@ -195,6 +250,9 @@ sub output {
 Obsolete option: 'format_argv' in $conf->filter().
 
 Obsolete methods: $conf->get(), $conf->set().
+
+New methods: $conf->load_system_config(), $conf->load_system_user(),
+$conf->load_config().
 
 =head2 Version 1.02 (dpkg 1.18.5)
 
