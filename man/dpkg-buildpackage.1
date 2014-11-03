@@ -85,6 +85,12 @@ UNRELEASED builds).
 It runs the \fBdone\fP hook.
 .
 .SH OPTIONS
+All long options can be specified both on the command line and in the
+\fBdpkg\-buildpackage\fP system and user configuration files.
+Each line in the configuration file is either an option (exactly the same
+as the command line option but without leading hyphens) or a comment (if
+it starts with a \(oq\fB#\fP\(cq).
+
 .TP
 .BI \-\-build= type
 Specifies the build \fItype\fP from a comma-separated list of components
@@ -464,6 +470,16 @@ standalone should be supported.
 \fBdpkg\-architecture\fP is called with the \fB\-a\fP and \fB\-t\fP
 parameters forwarded. Any variable that is output by its \fB\-s\fP
 option is integrated in the build environment.
+.
+.SH FILES
+.TP
+.I /etc/dpkg/buildpackage.conf
+System wide configuration file
+.TP
+.IR $XDG_CONFIG_HOME/dpkg/buildflags.conf " or"
+.TQ
+.I $HOME/.config/dpkg/buildflags.conf
+User configuration file.
 .
 .SH NOTES
 .SS Compiler flags are no longer exported

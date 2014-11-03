@@ -35,6 +35,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Build::Types;
 use Dpkg::BuildOptions;
 use Dpkg::BuildProfiles qw(set_build_profiles);
+use Dpkg::Conf;
 use Dpkg::Compression;
 use Dpkg::Checksums;
 use Dpkg::Version;
@@ -172,6 +173,13 @@ my @hook_names = qw(
 );
 my %hook;
 $hook{$_} = undef foreach @hook_names;
+
+
+my $conf = Dpkg::Conf->new();
+$conf->load_config('buildpackage.conf');
+
+# Inject config options for command-line parser.
+unshift @ARGV, @{$conf};
 
 my $build_opts = Dpkg::BuildOptions->new();
 
