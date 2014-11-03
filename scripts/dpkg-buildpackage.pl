@@ -59,76 +59,78 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 'Options:
-  --build=<type>[,...]
-                 specify the build <type>: full, source, binary, any, all
-                   (default is \'full\').
-  -F             normal full build (binaries and sources, default).
-  -g             source and arch-indep build.
-  -G             source and arch-specific build.
-  -b             binary-only, no source files.
-  -B             binary-only, only arch-specific files.
-  -A             binary-only, only arch-indep files.
-  -S             source-only, no binary files.
-  -nc            do not clean source tree (implies -b).
-  -tc            clean source tree when finished.
-  -D             check build dependencies and conflicts (default).
-  -d             do not check build dependencies and conflicts.
-  -P<profiles>   assume given build profiles as active (comma-separated list).
-  -R<rules>      rules file to execute (default is debian/rules).
-  -T<target>     call debian/rules <target> with the proper environment.
-      --as-root  ensure -T calls the target with root rights.
-  -j[<number>]   jobs to run simultaneously (passed to <rules>), forced mode.
-  -J[<number>]   jobs to run simultaneously (passed to <rules>), opt-in mode.
-  -r<gain-root-command>
-                 command to gain root privileges (default is fakeroot).
-  --check-command=<check-command>
-                 command to check the .changes file (no default).
-  --check-option=<opt>
-                 pass <opt> to <check-command>.
-  --hook-<hook-name>=<hook-command>
-                 set <hook-command> as the hook <hook-name>, known hooks:
-                   init preclean source build binary changes postclean
-                   check sign done
-  -p<sign-command>
-                 command to sign .dsc and/or .changes files
-                   (default is gpg2 or gpg).
-  -k<keyid>      the key to use for signing.
-  -ap            add pause before starting signature process.
-  -us            unsigned source package.
-  -uc            unsigned .changes file.
-      --force-sign
-                 force signing the resulting files.
-      --admindir=<directory>
-                 change the administrative directory.
-  -?, --help     show this help message.
-      --version  show the version.')
+      --build=<type>[,...]    specify the build <type>: full, source, binary,
+                                any, all (default is \'full\').
+  -F                          normal full build (source and binary; default).
+  -g                          source and arch-indep build.
+  -G                          source and arch-specific build.
+  -b                          binary-only, no source files.
+  -B                          binary-only, only arch-specific files.
+  -A                          binary-only, only arch-indep files.
+  -S                          source-only, no binary files.
+  -nc, --no-pre-clean         do not pre clean source tree (implies -b).
+       --pre-clean            pre clean source tree (default).
+  -tc, --post-clean           clean source tree when finished.
+  -D                          check build dependencies and conflicts (default).
+  -d                          do not check build dependencies and conflicts.
+      --[no-]check-builddeps  ditto.
+  -P, --build-profiles=<profiles>
+                              assume comma-separated build profiles as active.
+  -R, --rules-file=<rules>    rules file to execute (default is debian/rules).
+  -T, --rules-target=<target> call debian/rules <target>.
+      --as-root               ensure -T calls the target with root rights.
+  -j, --jobs[=<number>|auto]  jobs to run simultaneously (passed to <rules>),
+                                forced mode.
+  -J, --jobs-try[=<number>|auto]
+                              jobs to run simultaneously (passed to <rules>),
+                                opt-in mode.
+  -r, --root-command=<command>
+                              command to gain root rights (default is fakeroot).
+      --check-command=<command>
+                              command to check the .changes file (no default).
+      --check-option=<opt>    pass <opt> to check <command>.
+      --hook-<name>=<command> set <command> as the hook <name>, known hooks:
+                                init preclean source build binary changes
+                                postclean check sign done
+  -p, --sign-command=<command>
+                              command to sign .dsc and/or .changes files
+                                (default is gpg2 or gpg).
+  -k, --sign-key=<keyid>      the key to use for signing.
+  -ap, --sign-pause           add pause before starting signature process.
+  -us, --unsigned-source      unsigned source package.
+  -uc, --unsigned-changes     unsigned .changes file.
+      --force-sign            force signing the resulting files.
+      --admindir=<directory>  change the administrative directory.
+  -?, --help                  show this help message.
+      --version               show the version.')
     . "\n\n" . g_(
 'Options passed to dpkg-architecture:
-  -a, --host-arch <arch>    set the host Debian architecture.
-  -t, --host-type <type>    set the host GNU system type.
-      --target-arch <arch>  set the target Debian architecture.
-      --target-type <type>  set the target GNU system type.')
+  -a, --host-arch <arch>      set the host Debian architecture.
+  -t, --host-type <type>      set the host GNU system type.
+      --target-arch <arch>    set the target Debian architecture.
+      --target-type <type>    set the target GNU system type.')
     . "\n\n" . g_(
 'Options passed to dpkg-genchanges:
-  -si            source includes orig, if new upstream (default).
-  -sa            source includes orig, always.
-  -sd            source is diff and .dsc only.
-  -v<version>    changes since version <version>.
-  -m<maint>      maintainer for package is <maint>.
-  -e<maint>      maintainer for release is <maint>.
-  -C<descfile>   changes are described in <descfile>.
-      --changes-option=<opt>
-                 pass option <opt> to dpkg-genchanges.')
+  -si                         source includes orig, if new upstream (default).
+  -sa                         source includes orig, always.
+  -sd                         source is diff and .dsc only.
+  -v<version>                 changes since version <version>.
+  -m, --release-by=<maint>    maintainer for this release is <maint>.
+  -e, --build-by=<maint>      maintainer for this build is <maint>.
+  -C<descfile>                changes are described in <descfile>.
+      --changes-option=<opt>  pass option <opt> to dpkg-genchanges.')
     . "\n\n" . g_(
 'Options passed to dpkg-source:
-  -sn            force Debian native source format.
-  -s[sAkurKUR]   see dpkg-source for explanation.
-  -z<level>      compression level to use for source.
-  -Z<compressor> compression to use for source (gz|xz|bzip2|lzma).
-  -i[<regex>]    ignore diffs of files matching regex.
-  -I[<pattern>]  filter out files when building tarballs.
-      --source-option=<opt>
-                 pass option <opt> to dpkg-source.
+  -sn                         force Debian native source format.
+  -s[sAkurKUR]                see dpkg-source for explanation.
+  -z, --compression-level=<level>
+                              compression level to use for source.
+  -Z, --compression=<compressor>
+                              compression to use for source (gz|xz|bzip2|lzma).
+  -i, --diff-ignore[=<regex>] ignore diffs of files matching <regex>.
+  -I, --tar-ignore[=<pattern>]
+                              filter out files when building tarballs.
+      --source-option=<opt>   pass option <opt> to dpkg-source.
 '), $Dpkg::PROGNAME;
 }
 
@@ -196,13 +198,13 @@ while (@ARGV) {
 	push @source_opts, $1;
     } elsif (/^--changes-option=(.*)$/) {
 	push @changes_opts, $1;
-    } elsif (/^-j(\d*|auto)$/) {
+    } elsif (/^(?:-j|--jobs=)(\d*|auto)$/) {
 	$parallel = $1 || '';
 	$parallel_force = 1;
-    } elsif (/^-J(\d*|auto)$/) {
+    } elsif (/^(?:-J|--jobs-try=)(\d*|auto)$/) {
 	$parallel = $1 || '';
 	$parallel_force = 0;
-    } elsif (/^-r(.*)$/) {
+    } elsif (/^(?:-r|--root-command=)(.*)$/) {
 	my $arg = $1;
 	@rootcommand = split /\s+/, $arg;
     } elsif (/^--check-command=(.*)$/) {
@@ -216,10 +218,12 @@ while (@ARGV) {
 	usageerr(g_('missing hook %s command'), $hook_name)
 	    if not defined $hook_cmd;
 	$hook{$hook_name} = $hook_cmd;
-    } elsif (/^-p(.*)$/) {
+    } elsif (/^(?:-p|--sign-command=)(.*)$/) {
 	$signcommand = $1;
-    } elsif (/^-k(.*)$/) {
+    } elsif (/^(?:-k|--sign-key=)(.*)$/) {
 	$signkey = $1;
+    } elsif (/^--(no-)?check-builddeps$/) {
+	$checkbuilddep = !(defined $1 and $1 eq 'no-');
     } elsif (/^-([dD])$/) {
 	$checkbuilddep = ($1 eq 'D');
     } elsif (/^--ignore-builtin-builddeps$/) {
@@ -229,24 +233,28 @@ while (@ARGV) {
 	warning(g_('-s%s is deprecated; always using gpg style interface'), $1);
     } elsif (/^--force-sign$/) {
 	$signforce = 1;
-    } elsif (/^-us$/) {
+    } elsif (/^-us$/ or /^--unsigned-source$/) {
 	$signsource = 0;
-    } elsif (/^-uc$/) {
+    } elsif (/^-uc$/ or /^--unsigned-changes$/) {
 	$signchanges = 0;
-    } elsif (/^-ap$/) {
+    } elsif (/^-ap$/ or /^--sign-pausa$/) {
 	$signpause = 1;
     } elsif (/^-a$/ or /^--host-arch$/) {
 	$host_arch = shift;
     } elsif (/^-a(.*)$/ or /^--host-arch=(.*)$/) {
 	$host_arch = $1;
-    } elsif (/^-P(.*)$/) {
+    } elsif (/^-P(.*)$/ or /^--build-profiles=(.*)$/) {
 	my $arg = $1;
 	@build_profiles = split /,/, $arg;
     } elsif (/^-s[iad]$/) {
 	push @changes_opts, $_;
+    } elsif (/^--(?:compression-level|compression)=.+$/) {
+	push @source_opts, $_;
+    } elsif (/^--(?:diff-ignore|tar-ignore)(?:=.+)?$/) {
+	push @source_opts, $_;
     } elsif (/^-(?:s[nsAkurKUR]|[zZ].*|i.*|I.*)$/) {
 	push @source_opts, $_; # passed to dpkg-source
-    } elsif (/^-tc$/) {
+    } elsif (/^-tc$/ or /^--post-clean$/) {
 	$cleansource = 1;
     } elsif (/^-t$/ or /^--host-type$/) {
 	$host_type = shift; # Order DOES matter!
@@ -260,13 +268,15 @@ while (@ARGV) {
 	$target_type = shift;
     } elsif (/^--target-type=(.*)$/) {
 	$target_type = $1;
-    } elsif (/^(?:--target|-T)$/) {
+    } elsif (/^(?:--target|--rules-target|-T)$/) {
         $call_target = shift @ARGV;
-    } elsif (/^(?:--target=|-T)(.+)$/) {
+    } elsif (/^(?:--target=|--rules-target=|-T)(.+)$/) {
         $call_target = $1;
     } elsif (/^--as-root$/) {
         $call_target_as_root = 1;
-    } elsif (/^-nc$/) {
+    } elsif (/^--pre-clean$/) {
+	$noclean = 0;
+    } elsif (/^-nc$/ or /^--no-pre-clean$/) {
 	$noclean = 1;
     } elsif (/^--build=(.*)$/) {
         set_build_type_from_options($1, $_);
@@ -286,16 +296,16 @@ while (@ARGV) {
 	set_build_type(BUILD_FULL, $_);
     } elsif (/^-v(.*)$/) {
 	$since = $1;
-    } elsif (/^-m(.*)$/) {
+    } elsif (/^-m(.*)$/ or /^--release-by=(.*)$/) {
 	$maint = $1;
-    } elsif (/^-e(.*)$/) {
+    } elsif (/^-e(.*)$/ or /^--build-by=(.*)$/) {
 	$changedby = $1;
     } elsif (/^-C(.*)$/) {
 	$desc = $1;
     } elsif (m/^-[EW]$/) {
 	# Deprecated option
 	warning(g_('-E and -W are deprecated, they are without effect'));
-    } elsif (/^-R(.*)$/) {
+    } elsif (/^-R(.*)$/ or /^--rules-target=(.*)$/) {
 	my $arg = $1;
 	@debian_rules = split /\s+/, $arg;
     } else {

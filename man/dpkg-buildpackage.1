@@ -38,12 +38,13 @@ variables (see \fBENVIRONMENT\fP), runs the \fBinit\fP hook, and calls
 has been used).
 .IP \fB2.\fP 3
 It checks that the build-dependencies and build-conflicts
-are satisfied (unless \fB\-d\fP is specified).
+are satisfied (unless \fB\-d\fP or \fB\-\-no\-check\-builddeps\fP is specified).
 .IP \fB3.\fP 3
 If a specific target has been selected with the \fB\-T\fP or \fB\-\-target\fP
 option, it calls that target and stops here. Otherwise it runs the
 \fBpreclean\fP hook and calls \fBfakeroot debian/rules clean\fP to
-clean the build-tree (unless \fB\-nc\fP is specified).
+clean the build-tree (unless \fB\-nc\fP or \fB\-\-no\-pre\-clean\fP
+is specified).
 .IP \fB4.\fP 3
 It runs the \fBsource\fP hook and calls \fBdpkg\-source \-b\fP to generate
 the source package (if a \fBsource\fP build has been requested with
@@ -66,8 +67,8 @@ generate a \fB.changes\fP file.
 Many \fBdpkg\-buildpackage\fP options are forwarded to
 \fBdpkg\-genchanges\fP.
 .IP \fB7.\fP 3
-It runs the \fBpostclean\fP hook and if \fB\-tc\fP is specified, it will
-call \fBfakeroot debian/rules clean\fP again.
+It runs the \fBpostclean\fP hook and if \fB\-tc\fP or \fB\-\-post\-clean\fP
+is specified, it will call \fBfakeroot debian/rules clean\fP again.
 .IP \fB8.\fP 3
 It calls \fBdpkg\-source \-\-after\-build\fP.
 .IP \fB9.\fP 3
@@ -76,8 +77,9 @@ It runs the \fBcheck\fP hook and calls a package checker for the
 with \fB\-\-check\-command\fP).
 .IP \fB10.\fP 3
 It runs the \fBsign\fP hook and calls \fBgpg2\fP or \fBgpg\fP to sign
-the \fB.dsc\fP file (if any, unless \fB\-us\fP is specified or on UNRELEASED
-builds), and the \fB.changes\fP file (unless \fB\-uc\fP is specified or on
+the \fB.dsc\fP file (if any, unless \fB\-us\fP or \fB\-\-unsigned\-source\fP
+is specified or on UNRELEASED builds), and the \fB.changes\fP file
+(unless \fB\-uc\fP or \fB\-\-unsigned\-changes\fP is specified or on
 UNRELEASED builds).
 .IP \fB11.\fP 3
 It runs the \fBdone\fP hook.
@@ -141,11 +143,13 @@ Equivalent to \fB\-\-build=full\fP, \fB\-\-build=source,binary\fP or
 .TQ
 .BI "\-\-target " target
 .TQ
-.BI \-T target
+.BR \-T ", " \-\-rules\-target= \fItarget\fP
 Calls \fBdebian/rules\fP \fItarget\fP after having setup the build
-environment and stops the package build process here (since dpkg 1.15.0).
+environment and stops the package build process here (since dpkg 1.15.0,
+long option since dpkg 1.18.8).
 If \fB\-\-as\-root\fP is also given, then the command is executed
-as root (see \fB\-r\fP). Note that known targets that are required to
+as root (see \fB\-\-root\-command\fP).
+Note that known targets that are required to
 be run as root do not need this option (i.e. the \fBclean\fP, \fBbinary\fP,
 \fBbinary\-arch\fP and \fBbinary\-indep\fP targets).
 .TP
@@ -163,9 +167,9 @@ Requires that the target be run with root rights.
 .TQ
 .BI \-C changes-description
 .TQ
-.BI \-m maintainer-address
+.BR \-m ", " \-\-release\-by= \fImaintainer-address\fP
 .TQ
-.BI \-e maintainer-address
+.BR \-e ", " \-\-build\-by= \fImaintainer-address\fP
 Passed unchanged to \fBdpkg\-genchanges\fP. See its manual page.
 .TP
 .BR \-a ", " \-\-host\-arch " \fIarchitecture\fP"
@@ -192,21 +196,22 @@ It can be
 used in place of \fB\-\-target\-arch\fP or as a complement to override the
 default GNU system type of the target Debian architecture.
 .TP
-.BR \-P \fIprofile\fP[ , ...]
-Specify the profile(s) we build, as a comma-separated list (since dpkg 1.17.2).
+.BR \-P ", " \-\-build\-profiles= \fIprofile\fP[ , ...]
+Specify the profile(s) we build, as a comma-separated list (since dpkg 1.17.2,
+long option since dpkg 1.18.8).
 The default
 behavior is to build for no specific profile. Also sets them (as a space
 separated list) as the \fBDEB_BUILD_PROFILES\fP environment variable which
 allows, for example, \fBdebian/rules\fP files to use this information for
 conditional builds.
 .TP
-.BR \-j [\fIjobs\fP|\fBauto\fP]
+.BR \-j ", " \-\-jobs [=\fIjobs\fP|\fBauto\fP]
 Number of jobs allowed to be run simultaneously, number of jobs matching
 the number of online processors if \fBauto\fP is specified
 (since dpkg 1.17.10), or unlimited number if \fIjobs\fP is not specified,
 equivalent to the
 .BR make (1)
-option of the same name (since dpkg 1.14.7).
+option of the same name (since dpkg 1.14.7, long option since dpkg 1.18.8).
 Will add itself to the \fB\%MAKEFLAGS\fP
 environment variable, which should cause all subsequent make
 invocations to inherit the option, thus forcing the parallel setting on
@@ -223,43 +228,48 @@ currently active processors, and as such will not get propagated to any
 child process. If the number of online processors cannot be inferred then
 the code will fallback to using an unlimited number.
 .TP
-.BR \-J [\fIjobs\fP|\fBauto\fP]
-This option (since dpkg 1.18.2) is equivalent to the \fB\-j\fP option
-except that it does not set the \fB\%MAKEFLAGS\fP environment variable,
-and as such it is safer to use with any package including those that are
-not parallel-build safe.
+.BR \-J ", " \-\-jobs\-try [=\fIjobs\fP|\fBauto\fP]
+This option (since dpkg 1.18.2, long option since dpkg 1.18.8) is equivalent
+to the \fB\-j\fP option except that it does not set the \fB\%MAKEFLAGS\fP
+environment variable, and as such it is safer to use with any package
+including those that are not parallel-build safe.
 .TP
-.B \-D
-Check build dependencies and conflicts; abort if unsatisfied. This is the
-default behavior.
+.BR \-D ", " \-\-check\-builddeps
+Check build dependencies and conflicts; abort if unsatisfied (long option
+since dpkg 1.18.8).
+This is the default behavior.
 .TP
-.B \-d
-Do not check build dependencies and conflicts.
+.BR \-d ", " \-\-no\-check\-builddeps
+Do not check build dependencies and conflicts (long option since dpkg 1.18.8).
 .TP
 .B \-\-ignore\-builtin\-builddeps
 Do not check built-in build dependencies and conflicts (since dpkg 1.18.2).
 These are the distribution specific implicit build dependencies usually
 required in a build environment, the so called Build-Essential package set.
 .TP
-.B \-nc
-Do not clean the source tree.
+.BR \-nc ", " \-\-no\-pre\-clean
+Do not clean the source tree (long option since dpkg 1.18.8).
 Implies \fB\-b\fP if nothing else has been selected among \fB\-F\fP,
 \fB\-g\fP, \fB\-G\fP, \fB\-B\fP, \fB\-A\fP or \fB\-S\fP.
 Implies \fB\-d\fP with \fB\-S\fP (since dpkg 1.18.0).
 .TP
-.B \-tc
+.BR \-\-pre\-clean
+Clean the source tree before building (since dpkg 1.18.8).
+.TP
+.BR \-tc ", " \-\-post\-clean
 Clean the source tree (using
 .I gain-root-command
 .BR "debian/rules clean" )
-after the package has been built.
+after the package has been built (long option since dpkg 1.18.8).
 .TP
-.BI \-r gain-root-command
+.BR \-r ", " \-\-root\-command= \fIgain-root-command\fP
 When
 .B dpkg\-buildpackage
 needs to execute part of the build process as root, it prefixes the
 command it executes with
 .I gain-root-command
-if one has been specified. Otherwise, if none has been specified,
+if one has been specified (long option since dpkg 1.18.8).
+Otherwise, if none has been specified,
 \fBfakeroot\fP will be used by default, if the command is present.
 .I gain-root-command
 should start with the name of a program on the
@@ -277,10 +287,11 @@ is not suitable, since it can only invoke the user's shell with
 .B \-c
 instead of passing arguments individually to the command to be run.
 .TP
-.BI \-R rules-file
+.BR \-R ", " \-\-rules-file= \fIrules-file\fP
 Building a Debian package usually involves invoking
 .B debian/rules
-as a command with several standard parameters (since dpkg 1.14.17).
+as a command with several standard parameters (since dpkg 1.14.17,
+long option since dpkg 1.18.8).
 With this option it's
 possible to use another program invocation to build the package (it can
 include space separated parameters).
@@ -339,34 +350,54 @@ The source package version (without the epoch).
 The upstream version.
 .RE
 .TP
-.BI \-p sign-command
+.BR \-p ", " \-\-sign\-command= \fIsign-command\fP
 When \fBdpkg\-buildpackage\fP needs to execute GPG to sign a source
 control (\fB.dsc\fP) file or a \fB.changes\fP file it will run
 \fIsign-command\fP (searching the \fBPATH\fP if necessary) instead of
-\fBgpg2\fP or \fBgpg\fP. \fIsign-command\fP will get all the arguments
+\fBgpg2\fP or \fBgpg\fP (long option since dpkg 1.18.8).
+\fIsign-command\fP will get all the arguments
 that \fBgpg2\fP or \fBgpg\fP would have gotten. \fIsign-command\fP
 should not contain spaces or any other shell metacharacters.
 .TP
-.BI \-k key-id
-Specify a key-ID to use when signing packages.
+.BR \-k ", " \-\-sign\-key= \fIkey-id\fP
+Specify a key-ID to use when signing packages (long option since dpkg 1.18.8).
 .TP
-.BR \-us
-Do not sign the source package.
+.BR \-us ", " \-\-unsigned\-source
+Do not sign the source package (long option since dpkg 1.18.8).
 .TP
-.BR \-uc
-Do not sign the \fB.changes\fP file.
+.BR \-uc ", " \-\-unsigned\-changes
+Do not sign the \fB.changes\fP file (long option since dpkg 1.18.8).
 .TP
 .BR \-\-force\-sign
-Force the signing of the resulting files (since dpkg 1.17.0),
-regardless of \fB\-us\fP or \fB\-uc\fP or other internal heuristics.
+Force the signing of the resulting files (since dpkg 1.17.0), regardless of
+\fB\-us\fP, \fB\-\-unsigned\-source\fP, \fB\-uc\fP, \fB\-\-unsigned\-changes\fP
+or other internal heuristics.
 .TP
-.BR \-i [\fIregex\fP]
+.BR \-sn
 .TQ
-.BR \-I [\fIpattern\fP]
+.BR \-ss
 .TQ
-.BR \-s [ nsAkurKUR ]
+.BR \-sA
 .TQ
-.BR \-z ", " \-Z
+.BR \-sk
+.TQ
+.BR \-su
+.TQ
+.BR \-sr
+.TQ
+.BR \-sK
+.TQ
+.BR \-sU
+.TQ
+.BR \-sR
+.TQ
+.BR \-i ", " \-\-diff\-ignore [=\fIregex\fP]
+.TQ
+.BR \-I ", " \-\-tar\-ignore [=\fIpattern\fP]
+.TQ
+.BR \-z ", " \-\-compression\-level= \fIlevel\fP
+.TQ
+.BR \-Z ", " \-\-compression= \fIcompressor\fP
 Passed unchanged to \fBdpkg\-source\fP. See its manual page.
 .TP
 .BI \-\-source\-option= opt
@@ -400,7 +431,7 @@ Overridden by the \fB\-\-check\-command\fP option.
 .B DEB_SIGN_KEYID
 If set, it will be used to sign the \fB.changes\fP and \fB.dsc\fP files
 (since dpkg 1.17.2).
-Overridden by the \fB\-k\fP option.
+Overridden by the \fB\-\-sign\-key\fP option.
 .TP
 .B DEB_BUILD_OPTIONS
 If set, and containing \fBnocheck\fP the \fBDEB_CHECK_COMMAND\fP variable
