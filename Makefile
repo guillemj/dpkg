@@ -33,6 +33,7 @@ TESTS_PASS += t-unpack-divert-nowarn
 TESTS_PASS += t-unpack-divert-hardlink
 TESTS_PASS += t-unpack-fifo
 TESTS_PASS += t-unpack-device
+TESTS_PASS += t-maintscript-leak
 TESTS_PASS += t-filtering
 TESTS_PASS += t-depends
 TESTS_PASS += t-dir-leftover-parents
