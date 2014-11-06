@@ -87,11 +87,13 @@ dpkg_options_load_file(const char *fn, const struct cmdinfo *cmdinfos)
 
     line_num++;
 
-    if ((linebuf[0] == '#') || (linebuf[0] == '\n') || (linebuf[0] == '\0'))
+    l = strlen(linebuf);
+    while (l && c_isspace(linebuf[l - 1]))
+      l--;
+    linebuf[l] = '\0';
+
+    if ((linebuf[0] == '#') || (linebuf[0] == '\0'))
       continue;
-    l=strlen(linebuf);
-    if (linebuf[l - 1] == '\n')
-      linebuf[l - 1] = '\0';
     for (opt = linebuf; c_isalnum(*opt) || *opt == '-'; opt++) ;
     if (*opt == '\0')
       opt=NULL;
