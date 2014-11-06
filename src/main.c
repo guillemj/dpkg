@@ -642,7 +642,7 @@ set_force(const struct cmdinfo *cip, const char *value)
     } else if (fip->opt) {
       *fip->opt = cip->arg_int;
     } else {
-      warning(_("obsolete force/refuse option '%s'\n"), fip->name);
+      warning(_("obsolete force/refuse option '%s'"), fip->name);
     }
 
     if (!comma) break;

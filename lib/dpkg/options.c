@@ -292,7 +292,7 @@ dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str)
 void
 setobsolete(const struct cmdinfo *cip, const char *value)
 {
-  warning(_("obsolete option '--%s'\n"), cip->olong);
+  warning(_("obsolete option '--%s'"), cip->olong);
 }
 
 const struct cmdinfo *cipaction = NULL;
