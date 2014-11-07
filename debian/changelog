@@ -24,6 +24,11 @@ dpkg (1.16.15+nmu1) UNRELEASED; urgency=low
     Closes: #731530
   * Fix off-by-one error in libdpkg command argv size calculation.
     Based on a patch by Bálint Réczey <balint@balintreczey.hu>. Closes: #760690
+  * Escape package and architecture names on control file parsing warning,
+    as those get injected into a variable that is used as a format string,
+    and they come from the package fields, which are under user control.
+    Regression introduced in dpkg 1.16.0. Fixes CVE-2014-8625. Closes: #768485
+    Reported by Joshua Rogers <megamansec@gmail.com>.
 
   [ Updated scripts translations ]
   * Fix typos in German (Helge Kreutzmann)
