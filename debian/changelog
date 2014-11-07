@@ -10,6 +10,11 @@ dpkg (1.17.22) UNRELEASED; urgency=low
     so this got removed prematurely.
   * Add Breaks on old man-db, fontconfig and readahead-fedora packages using
     awaiting triggers, as they produce trigger cycles. Closes: #768599
+  * Escape package and architecture names on control file parsing warning,
+    as those get injected into a variable that is used as a format string,
+    and they come from the package fields, which are under user control.
+    Regression introduced in dpkg 1.16.0. Fixes CVE-2014-8625. Closes: #768485
+    Reported by Joshua Rogers <megamansec@gmail.com>.
 
   [ Updated programs translations ]
   * German (Sven Joachim).
