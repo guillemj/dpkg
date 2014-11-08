@@ -31,10 +31,15 @@ struct filenamenode_queue;
 struct filenamenode;
 
 enum pkg_istobe {
+	/** Package is to be left in a normal state. */
 	PKG_ISTOBE_NORMAL,
+	/** Package is to be removed. */
 	PKG_ISTOBE_REMOVE,
+	/** Package is to be installed, configured or triggered. */
 	PKG_ISTOBE_INSTALLNEW,
+	/** Package is to be deconfigured. */
 	PKG_ISTOBE_DECONFIGURE,
+	/** Package is to be checked for Pre-Depends satisfiability. */
 	PKG_ISTOBE_PREINSTALL,
 };
 
