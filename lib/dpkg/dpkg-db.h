@@ -379,6 +379,10 @@ const char *pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
                         enum pkg_name_arch_when pnaw);
 const char *pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw);
 
+void
+varbuf_add_source_version(struct varbuf *vb,
+                          const struct pkginfo *pkg, const struct pkgbin *pkgbin);
+
 const char *pkg_want_name(const struct pkginfo *pkg);
 const char *pkg_status_name(const struct pkginfo *pkg);
 const char *pkg_eflag_name(const struct pkginfo *pkg);

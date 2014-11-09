@@ -303,23 +303,7 @@ virt_source_version(struct varbuf *vb,
                     const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                     enum fwriteflags flags, const struct fieldinfo *fip)
 {
-	const char *version;
-	size_t len;
-
-	if (pkgbin->source)
-		version = strchr(pkgbin->source, '(');
-	else
-		version = NULL;
-
-	if (version == NULL) {
-		varbufversion(vb, &pkgbin->version, vdew_nonambig);
-	} else {
-		version++;
-
-		len = strcspn(version, ")");
-
-		varbuf_add_buf(vb, version, len);
-	}
+	varbuf_add_source_version(vb, pkg, pkgbin);
 }
 
 static const struct fieldinfo virtinfos[] = {
