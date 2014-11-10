@@ -3,7 +3,7 @@
 .\" Copyright © 1995 Raul Miller, Ian Jackson, Ian Murdock
 .\" Copyright © 1999 Ben Collins <bcollins@debian.org>
 .\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
-.\" Copyright © 2007-2011, 2013 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2007-2011, 2013-2014 Guillem Jover <guillem@debian.org>
 .\" Copyright © 2008-2012 Raphaël Hertzog <hertzog@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
@@ -126,8 +126,8 @@ of a different architecture from itself. The value \fBforeign\fP means that
 the package is not co-installable with itself, but should be allowed to
 satisfy the dependency of a package of a different arch from itself. The
 value \fBallowed\fP allows reverse-dependencies to indicate in their
-Depends field that they accept a package from a foreign architecture, but
-has no effect otherwise.
+Depends field that they accept a package from a foreign architecture by
+qualifying the package name with \fB:any\fP, but has no effect otherwise.
 The value \fBno\fP is the default when the field is omitted, in which case
 adding the field with an explicit \fBno\fP value is generally not needed.
 .TP
@@ -187,7 +187,15 @@ fields is a list of groups of alternative packages. Each group is a list
 of packages separated by vertical bar (or `pipe') symbols, `|'. The
 groups are separated by commas. Commas are to be read as `AND', and pipes
 as `OR', with pipes binding more tightly. Each package name is
+optionally followed by an architecture qualifier appended after a colon ":",
 optionally followed by a version number specification in parentheses.
+.LP
+An architecture qualifier name can be a real Debian architecture name
+(since dpkg 1.16.5) or \fBany\fP (since dpkg 1.16.2).
+If omitted, the default is the current binary package architecture.
+A real Debian architecture name will match exactly that architecture for
+that package name, \fBany\fP will match any architecture for that package
+name if the package has been marked as \fBMulti\-Arch: allowed\fP.
 .LP
 A version number may start with a `>>', in which case any later version
 will match, and may specify or omit the Debian packaging revision (separated
@@ -240,8 +248,11 @@ In the
 .B Breaks
 and
 .B Conflicts
-fields, the comma should be read as `OR'. An optional version can also be
-given with the same syntax as above for the
+fields, the comma should be read as `OR'.
+An optional architecture qualifier can also be appended to the package name
+with the same syntax as above, but the default is \fBany\fP instead of the
+binary package architecture.
+An optional version can also be given with the same syntax as above for the
 .BR Breaks ,
 .B Conflicts
 and

@@ -2,7 +2,7 @@
 .\"
 .\" Copyright © 2010 Oxan van Leeuwen <oxan@oxanvanleeuwen.nl>
 .\" Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
-.\" Copyright © 2011-2013 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -186,6 +186,7 @@ fields is a list of groups of alternative packages. Each group is a list
 of packages separated by vertical bar (or "pipe") symbols, "|". The
 groups are separated by commas. Commas are to be read as "AND", and pipes
 as "OR", with pipes binding more tightly. Each package name is
+optionally followed by an architecture qualifier appended after a colon ":",
 optionally followed by a version number specification in parentheses, an
 architecture specification in square brackets, and a restriction formula
 consisting of one or more lists of profile names in angle brackets.
@@ -201,6 +202,17 @@ Each package name is optionally followed by a version number specification in
 parentheses, an architecture specification in square brackets, and a
 restriction formula consisting of one or more lists of profile names in
 angle brackets.
+
+An architecture qualifier name can be a real Debian architecture name
+(since dpkg 1.16.5), \fBany\fP (since dpkg 1.16.2) or \fBnative\fP
+(since dpkg 1.16.5).
+If omitted, the default for \fBBuild\-Depends\fP fields is the current host
+architecture, the default for \fBBuild\-Conflicts\fP fields is \fBany\fP.
+A real Debian architecture name will match exactly that architecture for
+that package name, \fBany\fP will match any architecture for that package
+name if the package is marked with \fBMulti\-Arch: allowed\fP, and
+\fBnative\fP will match the current build architecture if the package
+is not marked with \fBMulti\-Arch: foreign\fP.
 
 A version number may start with a ">>", in which case any later version
 will match, and may specify or omit the Debian packaging revision (separated
