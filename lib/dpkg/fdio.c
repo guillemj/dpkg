@@ -109,13 +109,13 @@ fd_allocate_size(int fd, off_t offset, off_t len)
 	/* On Mac OS X. */
 	fstore_t fs;
 
-	fs_preallocate_setup(&fs, F_ALLOCATECONTIG, offset, len);
-	rc = fcntl(fd, F_PREALLOCATE, &fs)
+	fd_preallocate_setup(&fs, F_ALLOCATECONTIG, offset, len);
+	rc = fcntl(fd, F_PREALLOCATE, &fs);
 	if (rc < 0 && errno == ENOSPC) {
 		/* If we cannot get a contiguous allocation, then try
 		 * non-contiguous. */
-		fs_preallocate_setup(&fs, F_ALLOCATEALL, offset, len);
-		rc = fcntl(fd, F_PREALLOCATE, &fs)
+		fd_preallocate_setup(&fs, F_ALLOCATEALL, offset, len);
+		rc = fcntl(fd, F_PREALLOCATE, &fs);
 	}
 #elif defined(HAVE_F_ALLOCSP64)
 	/* On Solaris. */
