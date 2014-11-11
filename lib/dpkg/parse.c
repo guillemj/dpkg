@@ -130,7 +130,8 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
   }
 
   for (fip = fieldinfos, ip = fs->fieldencountered; fip->name; fip++, ip++)
-    if (strncasecmp(fip->name, fs->fieldstart, fs->fieldlen) == 0)
+    if (strncasecmp(fip->name, fs->fieldstart, fs->fieldlen) == 0 &&
+        fip->name[fs->fieldlen] == '\0')
       break;
   if (fip->name) {
     if ((*ip)++)
@@ -151,7 +152,8 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
                   fs->fieldlen, fs->fieldstart);
     larpp = &pkg_obj->pkgbin->arbs;
     while ((arp = *larpp) != NULL) {
-      if (strncasecmp(arp->name, fs->fieldstart, fs->fieldlen) == 0)
+      if (strncasecmp(arp->name, fs->fieldstart, fs->fieldlen) == 0 &&
+          arp->name[fs->fieldlen] == '\0')
         parse_error(ps,
                    _("duplicate value for user-defined field `%.*s'"),
                    fs->fieldlen, fs->fieldstart);
