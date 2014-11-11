@@ -63,6 +63,13 @@ enqueue_package(struct pkginfo *pkg)
   pkg_queue_push(&queue, pkg);
 }
 
+void
+enqueue_package_mark_seen(struct pkginfo *pkg)
+{
+  enqueue_package(pkg);
+  pkg->clientdata->cmdline_seen++;
+}
+
 static void
 enqueue_pending(void)
 {
@@ -119,7 +126,7 @@ enqueue_specified(const char *const *argv)
       badusage(_("you must specify packages by their own names, "
                  "not by quoting the names of the files they come in"));
     }
-    enqueue_package(pkg);
+    enqueue_package_mark_seen(pkg);
   }
 }
 
@@ -185,8 +192,10 @@ void process_queue(void) {
   }
   for (rundown = queue.head; rundown; rundown = rundown->next) {
     ensure_package_clientdata(rundown->pkg);
-    if (rundown->pkg->clientdata->istobe == istobe) {
-      /* Erase the queue entry - this is a second copy! */
+
+    /* We have processed this package more than once. There are no duplicates
+     * as we make sure of that when enqueuing them. */
+    if (rundown->pkg->clientdata->cmdline_seen > 1) {
       switch (cipaction->arg_int) {
       case act_triggers:
       case act_configure: case act_remove: case act_purge:
@@ -201,10 +210,8 @@ void process_queue(void) {
       default:
         internerr("unknown action '%d'", cipaction->arg_int);
       }
-      rundown->pkg = NULL;
-   } else {
-      rundown->pkg->clientdata->istobe= istobe;
     }
+    rundown->pkg->clientdata->istobe = istobe;
   }
 
   while (!pkg_queue_is_empty(&queue)) {

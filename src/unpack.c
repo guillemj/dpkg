@@ -1480,5 +1480,5 @@ void process_archive(const char *filename) {
   }
 
   if (cipaction->arg_int == act_install)
-    enqueue_package(pkg);
+    enqueue_package_mark_seen(pkg);
 }

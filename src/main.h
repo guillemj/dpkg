@@ -64,6 +64,7 @@ struct perpackagestate {
   bool fileslistvalid;
   struct fileinlist *files;
   int replacingfilesandsaid;
+  int cmdline_seen;
 
   off_t listfile_phys_offs;
 
@@ -193,6 +194,7 @@ int clearselections(const char *const *argv);
 
 void md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn);
 void enqueue_package(struct pkginfo *pkg);
+void enqueue_package_mark_seen(struct pkginfo *pkg);
 void process_queue(void);
 int packages(const char *const *argv);
 void removal_bulk(struct pkginfo *pkg);
