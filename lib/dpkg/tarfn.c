@@ -157,8 +157,6 @@ tar_header_checksum(struct tar_header *h)
 static int
 tar_header_decode(struct tar_header *h, struct tar_entry *d)
 {
-	struct passwd *passwd = NULL;
-	struct group *group = NULL;
 	long checksum;
 
 	if (memcmp(h->magic, TAR_MAGIC_GNU, 6) == 0)
@@ -185,26 +183,18 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 			 OtoM(h->devminor, sizeof(h->devminor)));
 
 	if (*h->user) {
-		passwd = getpwnam(h->user);
 		d->stat.uname = m_strndup(h->user, sizeof(h->user));
 	} else {
 		d->stat.uname = NULL;
 	}
-	if (passwd)
-		d->stat.uid = passwd->pw_uid;
-	else
-		d->stat.uid = (uid_t)OtoM(h->uid, sizeof(h->uid));
+	d->stat.uid = (uid_t)OtoM(h->uid, sizeof(h->uid));
 
 	if (*h->group) {
-		group = getgrnam(h->group);
 		d->stat.gname = m_strndup(h->group, sizeof(h->group));
 	} else {
 		d->stat.gname = NULL;
 	}
-	if (group)
-		d->stat.gid = group->gr_gid;
-	else
-		d->stat.gid = (gid_t)OtoM(h->gid, sizeof(h->gid));
+	d->stat.gid = (gid_t)OtoM(h->gid, sizeof(h->gid));
 
 	checksum = OtoM(h->checksum, sizeof(h->checksum));
 
@@ -286,6 +276,29 @@ struct symlinkList {
 	struct symlinkList *next;
 	struct tar_entry h;
 };
+
+/**
+ * Update the tar entry from system information.
+ *
+ * Normalize UID and GID relative to the current system.
+ */
+void
+tar_entry_update_from_system(struct tar_entry *te)
+{
+	struct passwd *passwd;
+	struct group *group;
+
+	if (te->stat.uname) {
+		passwd = getpwnam(te->stat.uname);
+		if (passwd)
+			te->stat.uid = passwd->pw_uid;
+	}
+	if (te->stat.gname) {
+		group = getgrnam(te->stat.gname);
+		if (group)
+			te->stat.gid = group->gr_gid;
+	}
+}
 
 int
 tar_extractor(void *ctx, const struct tar_operations *ops)

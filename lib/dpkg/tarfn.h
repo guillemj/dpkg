@@ -87,6 +87,9 @@ struct tar_operations {
 	tar_make_func *mknod;
 };
 
+void
+tar_entry_update_from_system(struct tar_entry *te);
+
 int tar_extractor(void *ctx, const struct tar_operations *ops);
 
 /** @} */

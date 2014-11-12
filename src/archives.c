@@ -789,6 +789,8 @@ tarobject(void *ctx, struct tar_entry *ti)
 
   ensureobstackinit();
 
+  tar_entry_update_from_system(ti);
+
   /* Append to list of files.
    * The trailing ‘/’ put on the end of names in tarfiles has already
    * been stripped by tar_extractor(). */
