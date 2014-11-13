@@ -124,7 +124,7 @@ trigproc_run_deferred(void)
 		                        pkg_name(pkg, pnaw_nonambig));
 
 		pkg->clientdata->trigprocdeferred = NULL;
-		trigproc(pkg);
+		trigproc(pkg, TRIGPROC_TRY);
 
 		pop_error_context(ehflag_normaltidy);
 	}
@@ -312,7 +312,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
  * that case does nothing but fix up any stale awaiters.
  */
 void
-trigproc(struct pkginfo *pkg)
+trigproc(struct pkginfo *pkg, enum trigproc_type type)
 {
 	static struct varbuf namesarg;
 
@@ -347,8 +347,22 @@ trigproc(struct pkginfo *pkg)
 			enqueue_package(pkg);
 			return;
 		} else if (ok == DEP_CHECK_HALT) {
+			/* When doing opportunistic trigger processig, nothing
+			 * requires us to be able to make progress; skip the
+			 * package and silently ignore the error due to
+			 * unsatisfiable dependencies. */
+			if (type == TRIGPROC_TRY) {
+				varbuf_destroy(&depwhynot);
+				return;
+			}
+
+			sincenothing = 0;
+			varbuf_end_str(&depwhynot);
+			notice(_("dependency problems prevent processing "
+			         "triggers for %s:\n%s"),
+			       pkg_name(pkg, pnaw_nonambig), depwhynot.buf);
 			varbuf_destroy(&depwhynot);
-			return;
+			ohshit(_("dependency problems - leaving triggers unprocessed"));
 		} else if (depwhynot.used) {
 			varbuf_end_str(&depwhynot);
 			notice(_("%s: dependency problems, but processing "

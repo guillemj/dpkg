@@ -278,7 +278,7 @@ void process_queue(void) {
     case act_configure:
       /* Do whatever is most needed. */
       if (pkg->trigpend_head)
-        trigproc(pkg);
+        trigproc(pkg, TRIGPROC_REQUIRED);
       else
         deferred_configure(pkg);
       break;

@@ -669,7 +669,7 @@ void process_archive(const char *filename) {
       if (!depisok(dsearch, &depprobwhy, NULL, &fixbytrigaw, true)) {
         if (fixbytrigaw) {
           while (fixbytrigaw->trigaw.head)
-            trigproc(fixbytrigaw->trigaw.head->pend);
+            trigproc(fixbytrigaw->trigaw.head->pend, TRIGPROC_REQUIRED);
         } else {
           varbuf_end_str(&depprobwhy);
           notice(_("regarding %s containing %s, pre-dependency problem:\n%s"),

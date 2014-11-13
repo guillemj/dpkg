@@ -272,11 +272,18 @@ void log_action(const char *action, struct pkginfo *pkg, struct pkgbin *pkgbin);
 
 /* from trigproc.c */
 
+enum trigproc_type {
+	/** Opportunistic trigger processing. */
+	TRIGPROC_TRY,
+	/** Required trigger processing. */
+	TRIGPROC_REQUIRED,
+};
+
 void trigproc_install_hooks(void);
 void trigproc_run_deferred(void);
 void trigproc_reset_cycle(void);
 
-void trigproc(struct pkginfo *pkg);
+void trigproc(struct pkginfo *pkg, enum trigproc_type type);
 
 void trig_activate_packageprocessing(struct pkginfo *pkg);
 
