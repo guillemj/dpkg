@@ -280,6 +280,7 @@ enum trigproc_type {
 };
 
 void trigproc_install_hooks(void);
+void trigproc_populate_deferred(void);
 void trigproc_run_deferred(void);
 void trigproc_reset_cycle(void);
 

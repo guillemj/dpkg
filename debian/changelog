@@ -28,6 +28,11 @@ dpkg (1.17.22) UNRELEASED; urgency=low
     should only fail on the former but ignore the latter. Closes: #768852
   * Do not ignore trigger cycles for direct dependencies, these are just
     normal trigger cycles, and as such should not be special cased.
+  * Register all pending triggers for deferred processing when being called
+    as «dpkg --configure pkgname…». This is a mostly conformant workaround
+    for frontends like apt that do not correctly call «dpkg --configure -a»
+    or «dpkg --triggers-only -a» after their normal runs, and leave packages
+    in triggers-pending and triggers-awaited states. Closes: #766758
 
   [ Updated programs translations ]
   * German (Sven Joachim).

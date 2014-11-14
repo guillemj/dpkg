@@ -128,6 +128,9 @@ enqueue_specified(const char *const *argv)
     }
     enqueue_package_mark_seen(pkg);
   }
+
+  if (cipaction->arg_int == act_configure)
+    trigproc_populate_deferred();
 }
 
 int
