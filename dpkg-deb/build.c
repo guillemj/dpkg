@@ -621,5 +621,7 @@ do_build(const char *const *argv)
   if (close(arfd))
     ohshite(_("unable to close file '%s'"), debar);
 
+  free(debar);
+
   return 0;
 }

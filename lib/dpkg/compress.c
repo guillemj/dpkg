@@ -829,6 +829,8 @@ decompress_filter(enum compressor_type type, int fd_in, int fd_out,
 	va_end(args);
 
 	compressor(type)->decompress(fd_in, fd_out, desc.buf);
+
+	varbuf_destroy(&desc);
 }
 
 void
@@ -843,4 +845,6 @@ compress_filter(struct compress_params *params, int fd_in, int fd_out,
 	va_end(args);
 
 	compressor(params->type)->compress(fd_in, fd_out, params, desc.buf);
+
+	varbuf_destroy(&desc);
 }

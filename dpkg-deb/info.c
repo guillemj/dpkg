@@ -66,6 +66,8 @@ static void cu_info_prepare(int argc, void **argv) {
     ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
   }
   subproc_reap(pid, _("rm command for cleanup"), 0);
+
+  free(dir);
 }
 
 static void info_prepare(const char *const **argvp,
