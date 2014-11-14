@@ -10,12 +10,12 @@ test-case:
 	$(DPKG_INSTALL) pkg-depends-0.deb
 	$(DPKG_INSTALL) pkg-trigger.deb pkg-files-0.deb
 	$(DPKG_UNPACK) pkg-files-1.deb
-	$(BEROOT) $(DPKG) --configure --pending
+	! $(BEROOT) $(DPKG) --configure --pending
 
-	# Make sure everything is left in a correct state.
+	# Make sure everything is left in the expected state.
 	$(call pkg_is_installed,pkg-files)
 	$(call pkg_is_installed,pkg-depends)
-	$(call pkg_is_installed,pkg-trigger)
+	$(call pkg_status_is,pkg-trigger,install ok half-configured)
 
 	# Cleanup.
 	$(DPKG_PURGE) pkg-trigger pkg-files
