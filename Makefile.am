@@ -144,11 +144,19 @@ endif
 
 test_scripts = \
 	t/pod.t \
+	t/strict.t \
 	t/critic.t \
 	$(nil)
 
 test_data = \
 	t/critic/perlcriticrc \
+	$(nil)
+
+# We need to use absolute paths here due to strict.t invoking a sub-perl,
+# while changing dir to source dir on out-of-tree builds.
+TEST_ENV_VARS = \
+	DPKG_DATADIR=$(abs_top_srcdir) \
+	PERL5LIB=$(abs_top_srcdir)/scripts:$(abs_top_srcdir)/dselect/methods \
 	$(nil)
 
 include $(top_srcdir)/check.am
