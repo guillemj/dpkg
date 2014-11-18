@@ -194,20 +194,14 @@ sub abitable_load()
     local $_;
     local $/ = "\n";
 
-    # Because the abitable is only for override information, do not fail if
-    # it does not exist, as that will only mean the other tables do not have
-    # an entry needing to be overridden. This way we do not require a newer
-    # dpkg by libdpkg-perl.
-    if (open my $abitable_fh, '<', "$Dpkg::DATADIR/abitable") {
-        while (<$abitable_fh>) {
-            if (m/^(?!\#)(\S+)\s+(\S+)/) {
-                $abibits{$1} = $2;
-            }
+    open my $abitable_fh, '<', "$Dpkg::DATADIR/abitable"
+        or syserr(g_('cannot open %s'), 'abitable');
+    while (<$abitable_fh>) {
+        if (m/^(?!\#)(\S+)\s+(\S+)/) {
+            $abibits{$1} = $2;
         }
-        close $abitable_fh;
-    } elsif ($! != ENOENT) {
-        syserr(g_('cannot open %s'), 'abitable');
     }
+    close $abitable_fh;
 
     $abitable_loaded = 1;
 }
