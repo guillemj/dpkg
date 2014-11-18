@@ -140,17 +140,29 @@ sub get_valid_arches()
     return @arches;
 }
 
-my $cputable_loaded = 0;
-sub read_cputable
+my %table_loaded;
+sub load_table
 {
-    return if ($cputable_loaded);
+    my ($table, $loader) = @_;
+
+    return if $table_loaded{$table};
 
     local $_;
     local $/ = "\n";
 
-    open my $cputable_fh, '<', "$Dpkg::DATADIR/cputable"
-	or syserr(g_('cannot open %s'), 'cputable');
-    while (<$cputable_fh>) {
+    open my $table_fh, '<', "$Dpkg::DATADIR/$table"
+	or syserr(g_('cannot open %s'), $table);
+    while (<$table_fh>) {
+	$loader->($_);
+    }
+    close $table_fh;
+
+    $table_loaded{$table} = 1;
+}
+
+sub read_cputable
+{
+    load_table('cputable', sub {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/) {
 	    $cputable{$1} = $2;
 	    $cputable_re{$1} = $3;
@@ -158,67 +170,34 @@ sub read_cputable
 	    $cpuendian{$1} = $5;
 	    push @cpu, $1;
 	}
-    }
-    close $cputable_fh;
-
-    $cputable_loaded = 1;
+    });
 }
 
-my $ostable_loaded = 0;
 sub read_ostable
 {
-    return if ($ostable_loaded);
-
-    local $_;
-    local $/ = "\n";
-
-    open my $ostable_fh, '<', "$Dpkg::DATADIR/ostable"
-	or syserr(g_('cannot open %s'), 'ostable');
-    while (<$ostable_fh>) {
+    load_table('ostable', sub {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
 	    $ostable{$1} = $2;
 	    $ostable_re{$1} = $3;
 	    push @os, $1;
 	}
-    }
-    close $ostable_fh;
-
-    $ostable_loaded = 1;
+    });
 }
 
-my $abitable_loaded = 0;
 sub abitable_load()
 {
-    return if ($abitable_loaded);
-
-    local $_;
-    local $/ = "\n";
-
-    open my $abitable_fh, '<', "$Dpkg::DATADIR/abitable"
-        or syserr(g_('cannot open %s'), 'abitable');
-    while (<$abitable_fh>) {
+    load_table('abitable', sub {
         if (m/^(?!\#)(\S+)\s+(\S+)/) {
             $abibits{$1} = $2;
         }
-    }
-    close $abitable_fh;
-
-    $abitable_loaded = 1;
+    });
 }
 
-my $triplettable_loaded = 0;
 sub read_triplettable()
 {
-    return if ($triplettable_loaded);
-
     read_cputable();
 
-    local $_;
-    local $/ = "\n";
-
-    open my $triplettable_fh, '<', "$Dpkg::DATADIR/triplettable"
-	or syserr(g_('cannot open %s'), 'triplettable');
-    while (<$triplettable_fh>) {
+    load_table('triplettable', sub {
 	if (m/^(?!\#)(\S+)\s+(\S+)/) {
 	    my $debtriplet = $1;
 	    my $debarch = $2;
@@ -239,10 +218,7 @@ sub read_triplettable()
 		$debtriplet_to_debarch{$1} = $2;
 	    }
 	}
-    }
-    close $triplettable_fh;
-
-    $triplettable_loaded = 1;
+    });
 }
 
 sub debtriplet_to_gnutriplet(@)
