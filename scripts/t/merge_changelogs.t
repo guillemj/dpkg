@@ -18,10 +18,11 @@ use warnings;
 
 use Test::More tests => 3;
 
-use Dpkg::IPC;
 use File::Spec;
 use File::Compare;
 use File::Temp;
+
+use Dpkg::IPC;
 
 my $srcdir = $ENV{srcdir} || '.';
 my $datadir = "$srcdir/t/merge_changelogs";

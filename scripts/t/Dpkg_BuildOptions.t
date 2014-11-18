@@ -17,6 +17,7 @@ use strict;
 use warnings;
 
 use Test::More tests => 24;
+
 use Dpkg::ErrorHandling;
 
 use_ok('Dpkg::BuildOptions');

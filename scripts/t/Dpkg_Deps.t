@@ -17,6 +17,7 @@ use strict;
 use warnings;
 
 use Test::More tests => 45;
+
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
 

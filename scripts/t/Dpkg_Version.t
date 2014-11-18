@@ -17,6 +17,7 @@ use strict;
 use warnings;
 
 use Test::More;
+
 use Dpkg::ErrorHandling;
 
 report_options(quiet_warnings => 1);

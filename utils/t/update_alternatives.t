@@ -13,13 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use Dpkg::IPC;
-use Dpkg::Path qw(find_command);
-use File::Spec;
-use Test::More;
-
 use strict;
 use warnings;
+
+use Test::More;
+
+use File::Spec;
+
+use Dpkg::IPC;
+use Dpkg::Path qw(find_command);
 
 my $srcdir = $ENV{srcdir} || '.';
 my $tmpdir = 't.tmp/update_alternatives';

@@ -19,6 +19,7 @@ use warnings;
 use Test::More tests => 84;
 
 use File::Basename;
+
 use Dpkg::File;
 
 BEGIN {

@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use Test::More tests => 42;
-
 use strict;
 use warnings;
+
+use Test::More tests => 42;
 
 use_ok('Dpkg::Arch', qw(debarch_to_debtriplet debarch_to_multiarch
                         debarch_eq debarch_is debarch_is_wildcard));

@@ -13,13 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use Test::More;
-use File::Spec;
-use Dpkg::File;
-use Dpkg::IPC;
-
 use strict;
 use warnings;
+
+use Test::More;
+
+use File::Spec;
+
+use Dpkg::File;
+use Dpkg::IPC;
 
 # Cleanup environment from variables that pollute the test runs.
 delete $ENV{DPKG_MAINTSCRIPT_PACKAGE};
