@@ -75,10 +75,14 @@ maintainer scripts in version \fB3.0\-1\fP, should set \fIprior-version\fP
 to \fB3.0\-1~\fP.
 .TP
 .I package
-The package name. When the package is "Multi-Arch: same", this parameter
-must include the architecture qualifier. If empty or omitted, the
-\fBDPKG_MAINTSCRIPT_PACKAGE\fP environment variable (as set by
-\fBdpkg\fP) will be used.
+The package name. When the package is "Multi-Arch: same" this parameter
+must include the architecture qualifier, otherwise it should \fBnot\fP
+usually include the architecture qualifier (as it would disallow
+cross-grades, or switching from being architecture specific to
+architecture \fBall\fP or vice versa).
+If the parameter is empty or omitted, the \fBDPKG_MAINTSCRIPT_PACKAGE\fP
+and \fBDPKG_MAINTSCRIPT_ARCH\fP environment variables (as set by \fBdpkg\fP)
+will be used to generate an arch-qualified package name.
 .TP
 .B \-\-
 All the parameters of the maintainer scripts have to be forwarded to the
