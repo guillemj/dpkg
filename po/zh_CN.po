@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.15.8.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2014-10-25 02:52+0200\n"
-"PO-Revision-Date: 2014-10-25 08:30+0000\n"
+"PO-Revision-Date: 2014-11-20 06:30+0000\n"
 "Last-Translator: Zhou Mo <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -28,7 +28,7 @@ msgstr ""
 #: lib/dpkg/ar.c:78
 #, c-format
 msgid "invalid character '%c' in archive '%.250s' member '%.16s' size"
-msgstr "在归档 %2$.250s 的成员 %3$.16s 的尺寸信息中发现无效的字符 '%1$c'"
+msgstr "归档 %2$.250s 的成员 %3$.16s 的尺寸中有无效字符 '%1$c'"
 
 #: lib/dpkg/ar.c:99 lib/dpkg/ar.c:122 lib/dpkg/ar.c:136 lib/dpkg/ar.c:140
 #: lib/dpkg/ar.c:168 utils/update-alternatives.c:1169
@@ -49,7 +49,7 @@ msgstr "ar 成员尺寸 %jd 过大"
 #: lib/dpkg/ar.c:119
 #, c-format
 msgid "generated corrupt ar header for '%s'"
-msgstr "为 %s 生成了损坏的的 ar 头部"
+msgstr "为 %s 生成的 ar 头部损坏"
 
 #: lib/dpkg/ar.c:154
 #, c-format
@@ -63,7 +63,7 @@ msgstr "无法追加 ar 成员文件(%s) 到 %s: %s"
 
 #: lib/dpkg/arch.c:64 lib/dpkg/parsehelp.c:109 lib/dpkg/pkg-format.c:212
 msgid "may not be empty string"
-msgstr "不应当为空字符串"
+msgstr "不能为空字符串"
 
 #: lib/dpkg/arch.c:66
 msgid "must start with an alphanumeric"
@@ -72,7 +72,7 @@ msgstr "必须以字母开头"
 #: lib/dpkg/arch.c:73 lib/dpkg/parsehelp.c:117
 #, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
-msgstr "不允许出现字符 %c (只能使用字母、数字和这些字符 %s)"
+msgstr "不允许出现字符 ‘%c’ (只能使用字母、数字和 ‘%s’)"
 
 #: lib/dpkg/arch.c:236
 msgctxt "architecture"
@@ -86,7 +86,7 @@ msgstr "<空>"
 
 #: lib/dpkg/arch.c:328
 msgid "error writing to architecture list"
-msgstr "写入体系结构列表出错"
+msgstr "写入体系结构列表时出错"
 
 #: lib/dpkg/atomic-file.c:57
 #, c-format
@@ -128,7 +128,7 @@ msgstr "新建备份文件 '%s' 时出错"
 #: src/infodb-upgrade.c:200 src/remove.c:347 src/remove.c:440
 #, c-format
 msgid "cannot remove `%.250s'"
-msgstr "无法卸载 %.250s"
+msgstr "无法移除 %.250s"
 
 #: lib/dpkg/atomic-file.c:115
 #, c-format
@@ -145,11 +145,11 @@ msgstr "读取失败"
 
 #: lib/dpkg/buffer.c:229
 msgid "unexpected end of file or stream"
-msgstr "未预期的文件结束符"
+msgstr "未预期的文件结束或流结束"
 
 #: lib/dpkg/buffer.c:271
 msgid "failed to seek"
-msgstr "seek 失败"
+msgstr "重定位文件读写偏移失败"
 
 #: lib/dpkg/command.c:182 lib/dpkg/command.c:229 src/help.c:392
 #: src/unpack.c:103 src/unpack.c:143 src/unpack.c:565 src/unpack.c:956
@@ -162,12 +162,12 @@ msgstr "无法执行 %s (%s)"
 #: lib/dpkg/compress.c:113 lib/dpkg/compress.c:122
 #, c-format
 msgid "%s: pass-through copy error: %s"
-msgstr "%s: pass-through 拷贝失败: %s"
+msgstr "%s: 对等拷贝出错: %s"
 
 #: lib/dpkg/compress.c:156
 #, c-format
 msgid "%s: error binding input to gzip stream"
-msgstr "%s：绑定输入到 gzip 流失败"
+msgstr "%s：将输入绑定到 gzip 流出错"
 
 #: lib/dpkg/compress.c:168
 #, c-format
@@ -182,7 +182,7 @@ msgstr "%s：内部 gzip 写入错误"
 #: lib/dpkg/compress.c:206
 #, c-format
 msgid "%s: error binding output to gzip stream"
-msgstr "%s：绑定输出到 gzip 流出错"
+msgstr "%s：将输出绑定到 gzip 流出错"
 
 #: lib/dpkg/compress.c:213
 #, c-format
@@ -202,7 +202,7 @@ msgstr "%s：内部 gzip 写入错误：%s"
 #: lib/dpkg/compress.c:289
 #, c-format
 msgid "%s: error binding input to bzip2 stream"
-msgstr "%s：绑定输入到 bzip2 流失败"
+msgstr "%s：将输入绑定到 bzip2 流失败"
 
 #: lib/dpkg/compress.c:301
 #, c-format
@@ -217,7 +217,7 @@ msgstr "%s：内部 bzip2 写入错误"
 #: lib/dpkg/compress.c:327
 #, c-format
 msgid "%s: error binding output to bzip2 stream"
-msgstr "%s：绑定输出到 bzip2 流出错"
+msgstr "%s：将输出绑定到 bzip2 流出错"
 
 #: lib/dpkg/compress.c:334
 #, c-format
@@ -247,11 +247,11 @@ msgstr "不支持的压缩预设"
 
 #: lib/dpkg/compress.c:425
 msgid "unsupported options in file header"
-msgstr "文件头中的选项不被支持"
+msgstr "不支持的文件头选项"
 
 #: lib/dpkg/compress.c:429
 msgid "compressed data is corrupt"
-msgstr "压缩的数据已损坏"
+msgstr "压缩数据已损坏"
 
 #: lib/dpkg/compress.c:433
 msgid "unexpected end of input"
@@ -294,13 +294,13 @@ msgstr "未知的压缩策略"
 msgid ""
 "updates directory contains file `%.250s' whose name is too long (length=%d, "
 "max=%d)"
-msgstr "更新目录中包含文件 %.250s，其文件名太长(长度为 %d，但最大不能超过 %d)"
+msgstr "更新目录中包含文件 %.250s，其文件名过长（长度为 %d，最大为 %d）"
 
 #: lib/dpkg/dbmodify.c:73
 #, c-format
 msgid ""
 "updates directory contains files with different length names (both %d and %d)"
-msgstr "更新目录中含有不同长度名称的文件(分别为 %d 和 %d)"
+msgstr "更新目录中的文件长度名称不一致（分别为 %d 和 %d）"
 
 #: lib/dpkg/dbmodify.c:87
 #, c-format
@@ -310,7 +310,7 @@ msgstr "无法扫描更新目录 %.255s "
 #: lib/dpkg/dbmodify.c:101
 #, c-format
 msgid "failed to remove incorporated update file %.255s"
-msgstr "删除合并的更新文件 %.255s 失败"
+msgstr "删除合并后的更新文件 %.255s 失败"
 
 #: lib/dpkg/dbmodify.c:122 dpkg-deb/build.c:453
 #, c-format
@@ -320,30 +320,30 @@ msgstr "无法创建 %.255s"
 #: lib/dpkg/dbmodify.c:126
 #, c-format
 msgid "unable to fill %.250s with padding"
-msgstr "无法以 padding 填充 %.250s"
+msgstr "无法填充 %.250s"
 
 #: lib/dpkg/dbmodify.c:128
 #, c-format
 msgid "unable to flush %.250s after padding"
-msgstr "无法在 padding 后清空 %.250s"
+msgstr "填充后无法清空 %.250s"
 
 #: lib/dpkg/dbmodify.c:130
 #, c-format
 msgid "unable to seek to start of %.250s after padding"
-msgstr "无法在填充 %.250s 后找到起始位置"
+msgstr "在填充后无法找到 %.250s 的起始位置"
 
 #: lib/dpkg/dbmodify.c:196
 #, c-format
 msgid "unable to open lock file %s for testing"
-msgstr "无法打开锁文件 %s 以测试"
+msgstr "无法打开锁文件 %s 以进行测试"
 
 #: lib/dpkg/dbmodify.c:222
 msgid "unable to open/create status database lockfile"
-msgstr "无法打开或建立状态数据库的锁文件"
+msgstr "无法打开/创建状态数据库的锁文件"
 
 #: lib/dpkg/dbmodify.c:232
 msgid "you do not have permission to lock the dpkg status database"
-msgstr "您没有为 dpkg 的状态数据库加锁的权限"
+msgstr "您没有锁定 dpkg 的状态数据库的权限"
 
 #: lib/dpkg/dbmodify.c:234
 msgid "dpkg status database"
@@ -351,15 +351,15 @@ msgstr "dpkg 状态数据库"
 
 #: lib/dpkg/dbmodify.c:258
 msgid "requested operation requires superuser privilege"
-msgstr "该操作需要超级用户权限"
+msgstr "所请求的操作需要超级用户权限"
 
 #: lib/dpkg/dbmodify.c:263
 msgid "unable to access dpkg status area"
-msgstr "无法访问 dpkg 状态区"
+msgstr "无法访问 dpkg 状态区域"
 
 #: lib/dpkg/dbmodify.c:265
 msgid "operation requires read/write access to dpkg status area"
-msgstr "该操作需要用户对 dpkg 状态区有读写权限"
+msgstr "该操作需要读写 dpkg 状态区域的权限"
 
 #: lib/dpkg/dbmodify.c:316
 #, c-format
@@ -369,36 +369,36 @@ msgstr "删除自身的更新文件 %.255s 失败"
 #: lib/dpkg/dbmodify.c:354
 #, c-format
 msgid "unable to write updated status of `%.250s'"
-msgstr "无法写入 %.250s 更新的状态"
+msgstr "无法写入 %.250s 的更新状态"
 
 #: lib/dpkg/dbmodify.c:357
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
-msgstr "无法刷新 %.250s 更新的状态"
+msgstr "无法刷新 %.250s 的更新状态"
 
 #: lib/dpkg/dbmodify.c:360
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
-msgstr "无法截断 %.250s 更新的状态"
+msgstr "无法截断 %.250s 的更新状态"
 
 #: lib/dpkg/dbmodify.c:363
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
-msgstr "无法同步 %.250s 更新的状态"
+msgstr "无法同步 %.250s 的更新状态"
 
 #: lib/dpkg/dbmodify.c:366
 #, c-format
 msgid "unable to close updated status of `%.250s'"
-msgstr "无法关闭 %.250s 更新的状态"
+msgstr "无法关闭 %.250s 的更新状态"
 
 #: lib/dpkg/dbmodify.c:370
 #, c-format
 msgid "unable to install updated status of `%.250s'"
-msgstr "无法安装 %.250s 更新的状态"
+msgstr "无法安装 %.250s 的更新状态"
 
 #: lib/dpkg/deb-version.c:55
 msgid "format version with empty major component"
-msgstr "主成分为空的格式版本"
+msgstr "格式版本的主版本为空"
 
 #: lib/dpkg/deb-version.c:57
 msgid "format version has no dot"
@@ -406,11 +406,11 @@ msgstr "格式版本没有点号"
 
 #: lib/dpkg/deb-version.c:63
 msgid "format version with empty minor component"
-msgstr "次要成分为空的格式版本"
+msgstr "格式版本的次版本为空"
 
 #: lib/dpkg/deb-version.c:65
 msgid "format version followed by junk"
-msgstr "格式版本有多余后缀"
+msgstr "格式版本后缀多余"
 
 #: lib/dpkg/dir.c:50
 #, c-format
@@ -450,7 +450,7 @@ msgstr "无法关闭文件 %s"
 #: lib/dpkg/dump.c:472
 #, c-format
 msgid "failed to write details of `%.50s' to `%.250s'"
-msgstr "将 %.50s 详情写入至 %.250s 失败"
+msgstr "将 %.50s 的详情写入至 %.250s 失败"
 
 #: lib/dpkg/dump.c:496
 #, c-format
@@ -460,7 +460,7 @@ msgstr "无法为数据库文件 %s 设置缓冲区"
 #: lib/dpkg/dump.c:508
 #, c-format
 msgid "failed to write %s database record about '%.50s' to '%.250s'"
-msgstr "写入 %s 数据库记录失败(%.50s 到 %.250s)"
+msgstr "将从 %2$.50s 到 %3$.250s 的资料写入 %1$s 数据库记录失败"
 
 #: lib/dpkg/ehandle.c:98
 #, c-format
@@ -477,12 +477,12 @@ msgid ""
 "%s: outside error context, aborting:\n"
 " %s\n"
 msgstr ""
-"%s: 外部的错误上下文，中止：\n"
+"%s: 处于错误上下文之外，中止：\n"
 " %s\n"
 
 #: lib/dpkg/ehandle.c:124
 msgid "out of memory for new error context"
-msgstr "新建错误上下文时内存不足"
+msgstr "内存不足，无法新建错误上下文"
 
 #: lib/dpkg/ehandle.c:189
 #, c-format
@@ -500,11 +500,11 @@ msgstr "%s：在错误恢复过程中发生了过多的嵌套错误！！\n"
 
 #: lib/dpkg/ehandle.c:275 lib/dpkg/ehandle.c:314
 msgid "out of memory for new cleanup entry"
-msgstr "新建清理条目时内存不足"
+msgstr "内存不足，无法新建清理条目"
 
 #: lib/dpkg/ehandle.c:298
 msgid "out of memory for new cleanup entry with many arguments"
-msgstr "新建清理条目参数太多，内存不足"
+msgstr "内存不足，建立清理条目的参数过多"
 
 #: lib/dpkg/ehandle.c:359
 #, c-format
@@ -544,17 +544,17 @@ msgstr "文件描述字段 %s 为空"
 #: lib/dpkg/fields.c:112
 #, c-format
 msgid "file details field `%s' not allowed in status file"
-msgstr "状态文件不允许文件描述字段 %s "
+msgstr "状态文件不允许文件描述字段 ‘%s’ "
 
 #: lib/dpkg/fields.c:125
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
-msgstr "文件描述字段 %s 中的值太多(和其他的相比)"
+msgstr "文件描述字段 %s 的值过多(和其他的相比)"
 
 #: lib/dpkg/fields.c:139
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
-msgstr "文件描述字段 %s 中的值太少(和其他的相比)"
+msgstr "文件描述字段 %s 的值过少(和其他的相比)"
 
 #: lib/dpkg/fields.c:162
 msgid "yes/no in boolean field"
@@ -562,12 +562,12 @@ msgstr "布尔型字段的 yes/no"
 
 #: lib/dpkg/fields.c:177
 msgid "foreign/allowed/same/no in quadstate field"
-msgstr "foreign/allowed/same/no 在 quadstate 字段"
+msgstr "四态字段的 foreign/allowed/same/no"
 
 #: lib/dpkg/fields.c:189
 #, c-format
 msgid "'%s' is not a valid architecture name: %s"
-msgstr "'%s' 不是有效的体系结构名： %s"
+msgstr "'%s' 不是有效的体系结构名称： %s"
 
 #: lib/dpkg/fields.c:208
 msgid "word in 'Priority' field"
@@ -577,7 +577,7 @@ msgstr " Priority 字段中的文字"
 #: lib/dpkg/fields.c:647
 #, c-format
 msgid "value for '%s' field not allowed in this context"
-msgstr "该环境中不允许 '%s' 字段的值"
+msgstr "此处不允许 '%s' 字段的值"
 
 #: lib/dpkg/fields.c:226
 msgid "first (want) word in 'Status' field"
@@ -599,28 +599,28 @@ msgstr "'%s' 字段的字符串 %.250s 中有错误"
 #: lib/dpkg/fields.c:252
 #, c-format
 msgid "obsolete '%s' or '%s' field used"
-msgstr "使用了已废弃的字段 %s 或者 %s "
+msgstr "使用了废弃字段 %s 或者 %s "
 
 #: lib/dpkg/fields.c:305
 #, c-format
 msgid "value for '%s' field has malformatted line '%.*s'"
-msgstr "'%s' 字段的值包含了格式错误的行: '%.*s'"
+msgstr "'%s' 字段的值有行格式有误: '%.*s'"
 
 #: lib/dpkg/fields.c:327
 #, c-format
 msgid "value for '%s' has line starting with non-space '%c'"
-msgstr "'%s' 字段的值中，有以非空格字符 '%c' 开头的行"
+msgstr "'%s' 字段的值有以非空格字符 '%c' 开头的行"
 
 #: lib/dpkg/fields.c:344
 msgid "root or null directory is listed as a conffile"
-msgstr "根目录或是空目录也被列为了 conffile"
+msgstr "根目录或是空目录也被列为 conffile"
 
 #: lib/dpkg/fields.c:405
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
 msgstr ""
-"%s\" 字段缺少软件包名，也可能是在本该填写软件包名的地方发现了无意义的数据"
+"%s\" 字段缺少软件包名，或者填写的软件包名无意义"
 
 #: lib/dpkg/fields.c:415
 #, c-format
@@ -632,13 +632,13 @@ msgstr "%s 字段，无效的软件包名 %.255s :%s"
 msgid ""
 "'%s' field, missing architecture name, or garbage where architecture name "
 "expected"
-msgstr "'%s' 字段缺少体系结构名，或者在期望体系结构名的位置发现无意义数据"
+msgstr "'%s' 字段缺少体系结构名，或者填写的体系结构名称无意义"
 
 #: lib/dpkg/fields.c:457
 #, c-format
 msgid ""
 "'%s' field, reference to '%.255s': invalid architecture name '%.255s': %s"
-msgstr "%s 字段，于 %.255s : 无效的体系结构名 '%.255s': %s"
+msgstr "%s 字段，引用 %.255s : 无效的体系结构名 '%.255s': %s"
 
 #: lib/dpkg/fields.c:491
 #, c-format
@@ -665,12 +665,12 @@ msgid ""
 " implicit exact match on version number, suggest using `=' instead"
 msgstr ""
 "%s 字段，引用 %.255s :\n"
-" 未明确要求版本号完全一致，建议使用 = "
+" 未明确要求版本号完全一致，建议使用 ‘=‘"
 
 #: lib/dpkg/fields.c:515
 #, c-format
 msgid "only exact versions may be used for '%s' field"
-msgstr "'%s' 字段中只能指明具体的版本"
+msgstr "'%s' 字段中只能指明确切版本"
 
 #: lib/dpkg/fields.c:520
 #, c-format
@@ -679,7 +679,7 @@ msgid ""
 " version value starts with non-alphanumeric, suggest adding a space"
 msgstr ""
 "%s 字段，引用 %.255s :\n"
-" 版本号以一个不是字母的字符开头，建议加一个空格"
+" 版本号以非字母字符开头，建议加一个空格"
 
 #: lib/dpkg/fields.c:537 lib/dpkg/fields.c:541
 #, c-format
@@ -689,22 +689,22 @@ msgstr "%s 字段，引用 %.255s ：版本号含有 %c "
 #: lib/dpkg/fields.c:545
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
-msgstr "%s 字段，引用 %.255s ：版本号不应就此终止"
+msgstr "%s 字段，引用 %.255s ：版本号未终止"
 
 #: lib/dpkg/fields.c:551
 #, c-format
 msgid "'%s' field, reference to '%.255s': error in version"
-msgstr "%s 字段，引用 %.255s ：解析版本号出错"
+msgstr "%s 字段，引用 %.255s ：版本号错误"
 
 #: lib/dpkg/fields.c:561
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
-msgstr "%s 字段，在引用软件包 %.255s 后发现语法错误"
+msgstr "%s 字段，在引用软件包 %.255s 后有语法错误"
 
 #: lib/dpkg/fields.c:568
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
-msgstr "在 %s 字段中不能含有候选项('|')"
+msgstr "%s 字段不能含有可替换符('|')"
 
 #: lib/dpkg/fields.c:629
 #, c-format
@@ -724,17 +724,17 @@ msgstr "在等待触发器 %.255s 中包含非法的软件包名：%s"
 #: lib/dpkg/fields.c:661
 #, c-format
 msgid "duplicate awaited trigger package `%.255s'"
-msgstr "重复的等待触发包 %.255s "
+msgstr "重复的待命触发包 %.255s "
 
 #: lib/dpkg/file.c:53
 #, c-format
 msgid "unable to stat source file '%.250s'"
-msgstr "无法获得源文件 %.250s 的状态"
+msgstr "无法获取源文件 %.250s 的状态"
 
 #: lib/dpkg/file.c:57
 #, c-format
 msgid "unable to change ownership of target file '%.250s'"
-msgstr "无法改变目标文件 %.250s 的所有权"
+msgstr "无法改变目标文件 %.250s 的所有者"
 
 #: lib/dpkg/file.c:61
 #, c-format
@@ -763,7 +763,7 @@ msgstr "无法锁定 %s"
 
 #: lib/dpkg/file.c:171 lib/dpkg/file.c:176
 msgid "showing file on pager"
-msgstr "在 pager 中显示文件内容"
+msgstr "在分页器中显示文件内容"
 
 #: lib/dpkg/log.c:53
 #, c-format
@@ -787,31 +787,31 @@ msgstr "分配内存失败"
 #: lib/dpkg/mlib.c:110
 #, c-format
 msgid "failed to dup for std%s"
-msgstr "无法复制 std%s"
+msgstr "无法 dup std%s"
 
 #: lib/dpkg/mlib.c:111
 #, c-format
 msgid "failed to dup for fd %d"
-msgstr "无法复制文件描述符 %d"
+msgstr "无法 dup 文件描述符 %d"
 
 #: lib/dpkg/mlib.c:117
 msgid "failed to create pipe"
-msgstr "无法新建管道"
+msgstr "无法建立管道"
 
 #: lib/dpkg/mlib.c:125
 #, c-format
 msgid "error writing to '%s'"
-msgstr "写入到 %s 出错"
+msgstr "写入 %s 出错"
 
 #: lib/dpkg/mlib.c:135
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
-msgstr "在 %.250s 时，无法读取 filedescriptor 标志位"
+msgstr "无法读取 %.250s 的 filedescriptor 标志位"
 
 #: lib/dpkg/mlib.c:137
 #, c-format
 msgid "unable to set close-on-exec flag for %.250s"
-msgstr "在 %.250s 时，无法设置 close-on-exec 标志位"
+msgstr "无法设置 %.250s 的 close-on-exec 标志位"
 
 #: lib/dpkg/options.c:64
 #, c-format
@@ -821,12 +821,12 @@ msgstr "配置错误：%s:%d：%s"
 #: lib/dpkg/options.c:78
 #, c-format
 msgid "failed to open configuration file '%.255s' for reading: %s"
-msgstr "无法打开配置文件 %.255s 以备读取：%s"
+msgstr "无法打开配置文件 %.255s 以便读取：%s"
 
 #: lib/dpkg/options.c:105
 #, c-format
 msgid "unbalanced quotes in '%s'"
-msgstr "%s 中引号没有闭合"
+msgstr "%s 中引号不平衡"
 
 #: lib/dpkg/options.c:121
 #, c-format
@@ -896,12 +896,12 @@ msgstr "--%s 有一个无效的整数： %.250s"
 #: lib/dpkg/options.c:294
 #, c-format
 msgid "obsolete option '--%s'\n"
-msgstr "废弃的选项 --%s \n"
+msgstr "废弃选项 ’--%s‘\n"
 
 #: lib/dpkg/options.c:310
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
-msgstr "-%c (--%s) 和 -%c (--%s) 两个操作之间有矛盾"
+msgstr "操作 -%c (--%s) 和 -%c (--%s) 互相冲突"
 
 #: lib/dpkg/options-parsers.c:49
 #, c-format
@@ -916,7 +916,7 @@ msgstr "有多个值对应于字段 %s "
 #: lib/dpkg/parse.c:151
 #, c-format
 msgid "user-defined field name `%.*s' too short"
-msgstr "用户自定义的字段名 %.*s 太短"
+msgstr "用户自定的字段名 %.*s 过短"
 
 #: lib/dpkg/parse.c:157
 #, c-format
@@ -936,7 +936,7 @@ msgstr "%s 的值为空"
 #: lib/dpkg/parse.c:213
 #, c-format
 msgid "package has field '%s' but is missing architecture"
-msgstr "软件包具有 '%s' 字段，但找不到架构"
+msgstr "软件包有 '%s' 字段，但缺失体系结构"
 
 #: lib/dpkg/parse.c:217
 #, c-format
@@ -945,25 +945,25 @@ msgstr "软件包有 %s 字段，但体系结构为“全部”"
 
 #: lib/dpkg/parse.c:236
 msgid "Config-Version for package with inappropriate Status"
-msgstr "软件包有 Config-Version 的标志，但是它安装状态却与之不符"
+msgstr "软件包有 Config-Version 的标志，但与安装状态不符"
 
 #: lib/dpkg/parse.c:247
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr "软件包有 %s 状态但触发器在等待"
+msgstr "软件包有 %s 状态，但触发器在待命"
 
 #: lib/dpkg/parse.c:251
 msgid "package has status triggers-awaited but no triggers awaited"
-msgstr "软件包有触发器等待状态但没有触发器在等待"
+msgstr "软件包处于触发器待命状态，但没有触发器在待命"
 
 #: lib/dpkg/parse.c:257
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr "软件包有 %s 状态但是触发器处于未决状态"
+msgstr "软件包处于 %s 状态，但是触发器处于未决状态"
 
 #: lib/dpkg/parse.c:261
 msgid "package has status triggers-pending but no triggers pending"
-msgstr "软件包有触发器未决状态但没有触发器处于未决状态"
+msgstr "软件包处于触发器未决状态，但没有触发器处于未决状态"
 
 #: lib/dpkg/parse.c:271
 msgid "Package which in state not-installed has conffiles, forgetting them"
@@ -973,47 +973,47 @@ msgstr "该软件包的状态是尚未安装，但它有 conffiles ，忽略它�
 msgid ""
 "multiple non-coinstallable package instances present; most probably due to "
 "an upgrade from an unofficial dpkg"
-msgstr "现有多个不可共存的软件包实例；很有可能是因为从非官方 dpkg 进行了升级"
+msgstr "现有多个不可共存的软件包实例；很有可能是因为从非官方 dpkg 进行过升级"
 
 #: lib/dpkg/parse.c:353
 msgid ""
 "mixed non-coinstallable and coinstallable package instances present; most "
 "probably due to an upgrade from an unofficial dpkg"
 msgstr ""
-"现有多个混合的‘不可共存’和‘可共存’的软件包实例很有可能是因为从非官方 dpkg 进"
-"行的升级"
+"现有多个混合的‘不可共存’和‘可共存’的软件包实例；很有可能是因为从非官方 dpkg 进"
+"行过升级"
 
 #: lib/dpkg/parse.c:413
 #, c-format
 msgid ""
 "%s %s (Multi-Arch: %s) is not co-installable with %s which has multiple "
 "installed instances"
-msgstr "%s %s (Multi-Arch: %s) 不能与 %s 共存，它有多个安装的实例"
+msgstr "%s %s (多体系结构: %s) 不能与 %s 共存，它有多个安装实例"
 
 #: lib/dpkg/parse.c:543
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
-msgstr "无法打开软件包的信息文件 %.255s 进行读取"
+msgstr "无法打开软件包的 info 文件 %.255s 以便读取"
 
 #: lib/dpkg/parse.c:562
 #, c-format
 msgid "can't stat package info file `%.255s'"
-msgstr "无法获得软件包信息文件 %.255s 的状态"
+msgstr "无法获得软件包 info 文件 %.255s 的状态"
 
 #: lib/dpkg/parse.c:571
 #, c-format
 msgid "reading package info file '%s': %s"
-msgstr "正在读取软件包信息文件 '%s': %s"
+msgstr "正在读取软件包 info 文件 '%s': %s"
 
 #: lib/dpkg/parse.c:581
 #, c-format
 msgid "can't mmap package info file `%.255s'"
-msgstr "无法 mmap 软件包的信息文件 %.255s "
+msgstr "无法 mmap 软件包的 info 文件 %.255s "
 
 #: lib/dpkg/parse.c:586
 #, c-format
 msgid "reading package info file '%.255s'"
-msgstr "正在读取软件包信息文件 '%.255s'"
+msgstr "正在读取软件包 info 文件 '%.255s'"
 
 #: lib/dpkg/parse.c:626
 msgid "empty field name"
@@ -1027,47 +1027,47 @@ msgstr "字段名 '%.*s' 不能以连字符开头"
 #: lib/dpkg/parse.c:638
 #, c-format
 msgid "EOF after field name `%.*s'"
-msgstr "在字段名 %.*s 后发现 EOF"
+msgstr "在字段名 %.*s 后有 EOF"
 
 #: lib/dpkg/parse.c:641
 #, c-format
 msgid "newline in field name `%.*s'"
-msgstr "在字段名 %.*s 中发现换行符"
+msgstr "在字段名 %.*s 中有换行符"
 
 #: lib/dpkg/parse.c:644
 #, c-format
 msgid "MSDOS EOF (^Z) in field name `%.*s'"
-msgstr "在字段名 %.*s 中发现 MSDOS EOF (^Z)"
+msgstr "在字段名 %.*s 中有 MSDOS EOF (^Z)"
 
 #: lib/dpkg/parse.c:648
 #, c-format
 msgid "field name `%.*s' must be followed by colon"
-msgstr "字段名 %.*s 后必须紧跟冒号"
+msgstr "字段名 %.*s 后必须跟冒号"
 
 #: lib/dpkg/parse.c:659
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
-msgstr "在字段 %.*s 的值的前面发现了 EOF(缺少最后结尾的换行符)"
+msgstr "在字段 %.*s 的值的前面有 EOF(缺失结尾的换行符)"
 
 #: lib/dpkg/parse.c:663
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
-msgstr "在字段 %.*s 的值中间发现了 MSDOS EOF 字符(缺少最后结尾的换行符？)"
+msgstr "在字段 %.*s 的值中间有 MSDOS EOF 字符(缺少最后结尾的换行符？)"
 
 #: lib/dpkg/parse.c:674
 #, c-format
 msgid "blank line in value of field '%.*s'"
-msgstr "在字段 %.*s 的值中发现空行"
+msgstr "在字段 %.*s 的值中有空行"
 
 #: lib/dpkg/parse.c:694
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
-msgstr "在字段 %.*s 的值中间发现了 EOF 字符(缺少最后结尾的换行符)"
+msgstr "在字段 %.*s 的值中间发有 EOF 字符(缺失结尾的换行符)"
 
 #: lib/dpkg/parse.c:727
 #, c-format
 msgid "failed to close after read: `%.255s'"
-msgstr "读取完毕 %.255s 后，无法关闭该文件"
+msgstr "读取 %.255s 后无法关闭"
 
 #: lib/dpkg/parse.c:784
 msgid "several package info entries found, only one allowed"
@@ -1084,7 +1084,7 @@ msgid ""
 "parsing file '%.255s' near line %d package '%.255s':\n"
 " %.255s"
 msgstr ""
-"解析文件 '%.255s' 第 %d 行附近，软件包 '%.255s' :\n"
+"正在解析文件 '%.255s' 第 %d 行附近，软件包 '%.255s' :\n"
 " %.255s"
 
 #: lib/dpkg/parsehelp.c:52
@@ -1098,7 +1098,7 @@ msgstr ""
 
 #: lib/dpkg/parsehelp.c:111
 msgid "must start with an alphanumeric character"
-msgstr "必须以字母字符开头"
+msgstr "必须以字母或数字开头"
 
 #: lib/dpkg/parsehelp.c:159
 msgctxt "version"
@@ -1135,16 +1135,16 @@ msgstr "版本号没有以数字开头"
 
 #: lib/dpkg/parsehelp.c:238
 msgid "invalid character in version number"
-msgstr "版本号后的字符无效"
+msgstr "版本号含无效字符"
 
 #: lib/dpkg/parsehelp.c:242
 msgid "invalid character in revision number"
-msgstr "修订号后的字符无效"
+msgstr "修订号含无效字符"
 
 #: lib/dpkg/pkg-db.c:147 lib/dpkg/pkg-spec.c:98
 #, c-format
 msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr "模糊的软件包名 '%s'， 它有一个以上的安装实例"
+msgstr "软件包名 '%s' 含糊不清， 它有一个以上的安装实例"
 
 #: lib/dpkg/pkg-format.c:87
 #, c-format
@@ -1171,7 +1171,7 @@ msgstr "在说明符 '%s%s%s' 中包含非法软件包名: %s"
 #: lib/dpkg/pkg-spec.c:82
 #, c-format
 msgid "illegal architecture name in specifier '%s:%s': %s"
-msgstr "在说明符 '%s:%s' 中有非法的架构名: %s"
+msgstr "在说明符 '%s:%s' 中有非法体系结构名: %s"
 
 #: lib/dpkg/report.c:66
 #, c-format
@@ -1191,7 +1191,7 @@ msgstr "无法将多字节序列 '%s' 转换为一个宽字符"
 #: lib/dpkg/subproc.c:46
 #, c-format
 msgid "error un-catching signal %s: %s\n"
-msgstr "当恢复处理信号 %s 时出错：%s\n"
+msgstr "复原 %s 信号行为出错：%s\n"
 
 #: lib/dpkg/subproc.c:57
 #, c-format
@@ -1210,7 +1210,7 @@ msgstr "fork 失败"
 #: lib/dpkg/subproc.c:139
 #, c-format
 msgid "subprocess %s returned error exit status %d"
-msgstr "子进程 %s 返回了错误号 %d"
+msgstr "子进程 %s 返回错误状态 %d"
 
 #: lib/dpkg/subproc.c:150
 #, c-format
@@ -1229,17 +1229,17 @@ msgstr "，核心已转储"
 #: lib/dpkg/subproc.c:159
 #, c-format
 msgid "subprocess %s failed with wait status code %d"
-msgstr "子进程 %s 出错，所获得的等待状态数为 %d"
+msgstr "子进程 %s 失败，获得的等待状态号为 %d"
 
 #: lib/dpkg/subproc.c:176 utils/update-alternatives.c:418
 #, c-format
 msgid "wait for subprocess %s failed"
-msgstr "等待子进程 %s 时出错"
+msgstr "等待子进程 %s 失败"
 
 #: lib/dpkg/trigdeferred.l:75
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
-msgstr "无效的软件包名 %.250s 出现在触发推迟文件 %.250s"
+msgstr "无效的软件包名 %.250s 出现于触发推迟文件 %.250s"
 
 #: lib/dpkg/trigdeferred.l:84
 #, c-format
@@ -1249,7 +1249,7 @@ msgstr "已截断触发推迟文件 %.250s"
 #: lib/dpkg/trigdeferred.l:88
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
-msgstr "触发推迟文件 %.250s 中有语法错误，在字符 %s %s"
+msgstr "触发推迟文件 %.250s 中有语法错误，位于字符 ’%s‘ %s"
 
 #: lib/dpkg/trigdeferred.l:134
 #, c-format
@@ -1258,7 +1258,7 @@ msgstr "无法打开/创建触发器锁文件 %.250s"
 
 #: lib/dpkg/trigdeferred.l:141
 msgid "triggers area"
-msgstr "触发器区"
+msgstr "触发器区域"
 
 #: lib/dpkg/trigdeferred.l:154
 #, c-format
@@ -1268,7 +1268,7 @@ msgstr "无法打开触发推迟文件 %.250s"
 #: lib/dpkg/trigdeferred.l:168
 #, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
-msgstr "无法获取触发推迟文件 %.250s 的信息"
+msgstr "无法获取触发推迟文件 %.250s 的状态"
 
 #: lib/dpkg/trigdeferred.l:183
 #, c-format
@@ -1278,7 +1278,7 @@ msgstr "无法打开/创建新的触发推迟文件 %.250s"
 #: lib/dpkg/trigdeferred.l:221
 #, c-format
 msgid "error reading triggers deferred file `%.250s'"
-msgstr "读取触发推迟文件 %.250s 时出错"
+msgstr "读取触发推迟文件 %.250s 出错"
 
 #: lib/dpkg/trigdeferred.l:229
 #, c-format
@@ -1301,7 +1301,7 @@ msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s')"
 msgstr ""
-"触发器名 %.250s 包含无效或者未知的语法(在对软件包 %.250s 感兴趣的触发器中)"
+"触发器名 %.250s 包含无效或者未知的语法（位于触发关注软件包 %.250s）"
 
 #: lib/dpkg/triglib.c:269
 #, c-format
@@ -1334,7 +1334,7 @@ msgstr "无法读取文件触发文件 %.250s"
 #: lib/dpkg/triglib.c:516
 #, c-format
 msgid "syntax error in file triggers file `%.250s'"
-msgstr "文件触发文件 %.250s 中有语法错误"
+msgstr "文件触发文件 %.250s 有语法错误"
 
 #: lib/dpkg/triglib.c:532
 #, c-format
@@ -1354,16 +1354,16 @@ msgstr "触发器配置项文件`%.250s'在触发器名 %.250s 中包含非法�
 #: lib/dpkg/triglib.c:691
 #, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "无法打开触发器配置项文件 %.250s"
+msgstr "无法打开触发器 ci 文件 %.250s"
 
 #: lib/dpkg/triglib.c:706
 msgid "triggers ci file contains unknown directive syntax"
-msgstr "触发器配置项文件包含位置指令语法"
+msgstr "触发器 ci 文件包含位置指令语法"
 
 #: lib/dpkg/triglib.c:721
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
-msgstr "触发器配置项文件包含位置指令 %.250s"
+msgstr "触发器 ci 文件包含位置指令 %.250s"
 
 #: lib/dpkg/triglib.c:787
 #, c-format
@@ -1373,11 +1373,11 @@ msgstr "无法创建触发器状态目录 %.250s"
 #: lib/dpkg/triglib.c:790
 #, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
-msgstr "无法设置触发器状态目录 %.250s 的所有权"
+msgstr "无法设置触发器状态目录 %.250s 的所有者"
 
 #: lib/dpkg/trigname.c:34
 msgid "empty trigger names are not permitted"
-msgstr "不允许空的触发器名"
+msgstr "触发器名不能为空"
 
 #: lib/dpkg/trigname.c:38
 msgid "trigger name contains invalid character"
@@ -1391,17 +1391,17 @@ msgstr "读取 %.250s 出错"
 #: lib/dpkg/utils.c:61
 #, c-format
 msgid "fgets gave an empty string from `%.250s'"
-msgstr "fgets 从 %.250s 取回了一个空的字符串"
+msgstr "fgets 从 %.250s 取回了一个空字符串"
 
 #: lib/dpkg/utils.c:63
 #, c-format
 msgid "too-long line or missing newline in `%.250s'"
-msgstr "文件 %.250s 中的行太长或者缺少换行符"
+msgstr "文件 %.250s 中的行太长，或者缺少换行符"
 
 #: lib/dpkg/utils.c:75
 #, c-format
 msgid "unexpected eof reading `%.250s'"
-msgstr "读取 %.250s 时发现未预期的文件结束符"
+msgstr "读取 %.250s 时遇到意外的文件结束符"
 
 #: lib/dpkg/varbuf.c:82 lib/dpkg/varbuf.c:88
 msgid "error formatting string into varbuf variable"
@@ -1409,12 +1409,12 @@ msgstr "将字符串格式化为 varbuf 变量时出错"
 
 #: src/archives.c:244
 msgid "error reading from dpkg-deb pipe"
-msgstr "从 dpkg-deb 的管道读取数据时出错"
+msgstr "从 dpkg-deb 管道读取错误"
 
 #: src/archives.c:259
 #, c-format
 msgid "cannot skip padding for file '%.255s': %s"
-msgstr "无法跳过 padding 文件 %.255s ： %s "
+msgstr "无法跳过文件 %.255s 的填充部分： %s "
 
 #: src/archives.c:272
 #, c-format
@@ -1694,7 +1694,7 @@ msgstr ""
 
 #: src/archives.c:1403
 msgid "ignoring breakage, may proceed anyway!"
-msgstr "忽视软件包间的破坏，无论怎样，继续安装！"
+msgstr "忽视软件包间的破坏，无论如何继续安装！"
 
 #: src/archives.c:1408
 #, c-format
@@ -1748,12 +1748,12 @@ msgstr "软件包相互冲突 - 将不安装 %.250s"
 
 #: src/archives.c:1523
 msgid "ignoring conflict, may proceed anyway!"
-msgstr "忽视软件包间的冲突，无论怎样，继续安装！"
+msgstr "忽视软件包间的冲突，无论如何继续安装！"
 
 #: src/archives.c:1575
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
-msgstr "--%s --递归执行需要至少一个路径作为参数"
+msgstr "--%s --recursive 递归执行需要至少一个路径作为参数"
 
 #: src/archives.c:1585
 msgid "find for dpkg --recursive"
@@ -1828,14 +1828,14 @@ msgstr "即将把 %.250s 从 %.250s 降级到 %.250s"
 #: src/archives.c:1744
 #, c-format
 msgid "will not downgrade %.250s from %.250s to %.250s, skipping"
-msgstr "由于不希望把 %.250s 从 %.250s 降级到 %.250s，因而将跳过它"
+msgstr "不会将 %.250s 从 %.250s 降级到 %.250s，因而将跳过它"
 
 #: src/cleanup.c:87
 #, c-format
 msgid ""
 "unable to remove newly-installed version of `%.250s' to allow reinstallation "
 "of backup copy"
-msgstr "无法把新近安装版本的 %.250s 卸载，卸载它能就能重新安装备份复制"
+msgstr "无法把新近安装的 %.250s 卸载，以允许安装备份"
 
 #: src/cleanup.c:94
 #, c-format
@@ -1980,17 +1980,17 @@ msgstr "当您完成操作后，请输入 exit。\n"
 
 #: src/configure.c:241 src/configure.c:245
 msgid "conffile shell"
-msgstr "conffile 命令行(shell)"
+msgstr "conffile Shell"
 
 #: src/configure.c:403
 #, c-format
 msgid "unable to stat new distributed conffile '%.250s'"
-msgstr "无法获取新发布版的 conffile  %.250s"
+msgstr "无法获取新发布版的 conffile %.250s"
 
 #: src/configure.c:413
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
-msgstr "无法获取当前已被安装的 conffile  %.250s 的信息"
+msgstr "无法获取当前已安装的 conffile %.250s 的信息"
 
 #: src/configure.c:425
 #, c-format
@@ -2036,12 +2036,12 @@ msgstr "%s：将 %.250s 链接到 %.250s 失败：%s"
 #: src/configure.c:505
 #, c-format
 msgid "Installing new version of config file %s ...\n"
-msgstr "正在安装新版本的配置文件 %s ...\n"
+msgstr "正在安装新版本配置文件 %s ...\n"
 
 #: src/configure.c:512 utils/update-alternatives.c:488
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
-msgstr "无法把 %.250s 安装到 %.250s"
+msgstr "无法将 %.250s 安装到 %.250s"
 
 #: src/configure.c:564
 #, c-format
@@ -2183,12 +2183,12 @@ msgstr "%s 建议 %s"
 #: src/depcon.c:259
 #, c-format
 msgid "%s breaks %s"
-msgstr "%s 破坏 %s"
+msgstr "%s 会破坏 %s"
 
 #: src/depcon.c:262
 #, c-format
 msgid "%s conflicts with %s"
-msgstr "%s 冲突于 %s"
+msgstr "%s 与之冲突 %s"
 
 #: src/depcon.c:265
 #, c-format
@@ -2398,12 +2398,12 @@ msgstr "无法重命名 %s 为 %s"
 #: src/divertcmd.c:254
 #, c-format
 msgid "rename: remove duplicate old link '%s'"
-msgstr "改名：移除重复的旧连接 %s"
+msgstr "重命名：移除重复的旧连接 %s"
 
 #: src/divertcmd.c:264
 #, c-format
 msgid "unable to remove copied source file '%s'"
-msgstr "无法删除复制的源码文件 %s"
+msgstr "无法删除源码文件副本 %s"
 
 #: src/divertcmd.c:273 src/divertcmd.c:737
 #, c-format
@@ -2615,11 +2615,11 @@ msgstr ""
 
 #: src/enquiry.c:147
 msgid "The following packages do not have an architecture:\n"
-msgstr "下列软件包没有架构：\n"
+msgstr "下列软件包没有体系结构：\n"
 
 #: src/enquiry.c:151
 msgid "The following packages have an illegal architecture:\n"
-msgstr "下列软件包的架构非法：\n"
+msgstr "下列软件包有非法体系结构：\n"
 
 #: src/enquiry.c:156
 msgid ""
@@ -2629,7 +2629,7 @@ msgid ""
 msgstr ""
 "下列软件包具有未知的外来架构，这些架构会在前端中\n"
 "引发依赖问题。您可以通过 dpkg --add-architecture\n"
-"添加这个外来架构以修复此问题：\n"
+"添加这个外来体系结构以修复此问题：\n"
 
 #: src/enquiry.c:185 src/querycmd.c:488 src/querycmd.c:703 src/querycmd.c:730
 #: src/querycmd.c:762
@@ -2700,11 +2700,12 @@ msgstr "多个冲突和替换"
 
 #: src/enquiry.c:432
 msgid "multi-arch"
-msgstr "多架构"
+msgstr "多体系结构"
 
 #: src/enquiry.c:440
+#, fuzzy
 msgid "versioned Provides"
-msgstr ""
+msgstr "版本（提供/要求/假设/覆盖）"
 
 #: src/enquiry.c:541
 #, c-format
@@ -2738,7 +2739,7 @@ msgstr "--compare-versions 错误的比较关系"
 #: src/enquiry.c:659 src/enquiry.c:661 src/enquiry.c:670 src/enquiry.c:672
 #, c-format
 msgid "version '%s' has bad syntax: %s"
-msgstr "版本号 %s 有语法错误：%s"
+msgstr "版本号 %s 语法错误：%s"
 
 #: src/errors.c:65
 #, c-format
@@ -2849,47 +2850,47 @@ msgstr[0] "系统当前共安装有 %d 个文件和目录。)\n"
 #: src/filesdb-hash.c:95
 #, c-format
 msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "软件包 %s 的控制文件 %s 缺少最后结尾的换行符"
+msgstr "软件包 %s 的 control 文件 %s 缺少最后结尾的换行符"
 
 #: src/filesdb-hash.c:104
 #, c-format
 msgid "control file '%s' missing value"
-msgstr "控制文件 %s 中缺少值"
+msgstr "control 文件 %s 中缺少值"
 
 #: src/filesdb-hash.c:107
 #, c-format
 msgid "control file '%s' missing value separator"
-msgstr "控制文件 %s 中缺少值之间的分隔符"
+msgstr "control 文件 %s 缺少值分隔符"
 
 #: src/filesdb-hash.c:120
 #, c-format
 msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "软件包 %2$s 的控制文件 %1$s 含有空的文件名"
+msgstr "软件包 %2$s 的 control 文件 %1$s 含有空的文件名"
 
 #: src/filesdb-hash.c:146
 #, c-format
 msgid "cannot open '%s' control file for package '%s'"
-msgstr "无法打开软件包 %2$s 的 %1$s 控制文件"
+msgstr "无法打开软件包 %2$s 的 %1$s control 文件"
 
 #: src/filesdb-hash.c:151
 #, c-format
 msgid "cannot stat '%s' control file for package '%s'"
-msgstr "无法取得软件包 %2$s 的 %1$s 控制文件状态"
+msgstr "无法取得软件包 %2$s 的 %1$s control 文件状态"
 
 #: src/filesdb-hash.c:155
 #, c-format
 msgid "'%s' file for package '%s' is not a regular file"
-msgstr "软件包 %2$s 的 %1$s 文件不是普通文件"
+msgstr "软件包 %2$s 的 %1$s 文件不是常规文件"
 
 #: src/filesdb-hash.c:165
 #, c-format
 msgid "cannot read '%s' control file for package '%s'"
-msgstr "无法读取软件包 %2$s 的 %1$s 控制文件"
+msgstr "无法读取软件包 %2$s 的 %1$s control 文件"
 
 #: src/filesdb-hash.c:172
 #, c-format
 msgid "cannot close '%s' control file for package '%s'"
-msgstr "无法关闭软件包 %2$s 的 %1$s 控制文件"
+msgstr "无法关闭软件包 %2$s 的 %1$s control 文件"
 
 #: src/help.c:44
 msgid "not installed"
@@ -2966,7 +2967,7 @@ msgstr "无法判断 %.250s 是否存在"
 
 #: src/infodb-access.c:83 src/infodb-upgrade.c:93
 msgid "cannot read info directory"
-msgstr "无法读取信息(info)目录"
+msgstr "无法读取 info 目录"
 
 #: src/infodb-format.c:52 src/unpack.c:214
 #, c-format
@@ -2986,7 +2987,7 @@ msgstr "信息数据库格式(%d)是伪造的或者太新；建议尝试新版�
 #: src/infodb-upgrade.c:123
 #, c-format
 msgid "info file %s/%s not associated to any package"
-msgstr "信息文件 %s/%s 与任何软件包都无关"
+msgstr "info 文件 %s/%s 与任何软件包都无关"
 
 #: src/infodb-upgrade.c:183
 #, c-format
@@ -3419,27 +3420,27 @@ msgstr "--%s 需要且仅需一个参数"
 #: src/main.c:527
 #, c-format
 msgid "architecture '%s' is illegal: %s"
-msgstr "%s 架构是非法的：%s"
+msgstr "%s 体系结构非法：%s"
 
 #: src/main.c:530
 #, c-format
 msgid "architecture '%s' is reserved and cannot be added"
-msgstr "%s 架构已被保留，并且不能被添加"
+msgstr "%s 体系结构已被保留，并且不能被添加"
 
 #: src/main.c:553
 #, c-format
 msgid "cannot remove non-foreign architecture '%s'"
-msgstr "无法移除非外来架构 %s"
+msgstr "无法移除非外来体系结构 %s"
 
 #: src/main.c:564
 #, c-format
 msgid "removing architecture '%s' currently in use by database"
-msgstr "正被移除的架构 %s ，它当前仍为数据库所使用"
+msgstr "将要移除的体系结构 %s ，当前仍被数据库使用"
 
 #: src/main.c:567
 #, c-format
 msgid "cannot remove architecture '%s' currently in use by the database"
-msgstr "无法移除架构 %s ，它当前仍为数据库所使用"
+msgstr "无法移除体系 %s ，当前它仍被数据库使用"
 
 #: src/main.c:612
 #, c-format
@@ -3478,7 +3479,7 @@ msgstr "废弃的强制或拒绝选项 %s \n"
 #: src/main.c:787
 #, c-format
 msgid "couldn't open `%i' for stream"
-msgstr "无法打开 %i，并把它作为字符流操作"
+msgstr "无法为流打开 %i"
 
 #: src/main.c:812
 #, c-format
@@ -3640,7 +3641,7 @@ msgstr "版本"
 
 #: src/querycmd.c:196
 msgid "Architecture"
-msgstr "架构："
+msgstr "体系结构："
 
 #: src/querycmd.c:196
 msgid "Description"
@@ -3654,22 +3655,22 @@ msgstr "没有找到与 %s 相匹配的软件包"
 #: src/querycmd.c:350
 #, c-format
 msgid "diversion by %s from: %s\n"
-msgstr "%s 导致本地修改自：%s\n"
+msgstr "%s 导致转移自：%s\n"
 
 #: src/querycmd.c:352
 #, c-format
 msgid "diversion by %s to: %s\n"
-msgstr "%s 导致本地修改至：%s\n"
+msgstr "%s 导致转移至：%s\n"
 
 #: src/querycmd.c:355
 #, c-format
 msgid "local diversion from: %s\n"
-msgstr "本地修改自：%s\n"
+msgstr "本地转移自：%s\n"
 
 #: src/querycmd.c:356
 #, c-format
 msgid "local diversion to: %s\n"
-msgstr "本地修改至：%s\n"
+msgstr "本地转移至：%s\n"
 
 #: src/querycmd.c:386
 msgid "--search needs at least one file name pattern argument"
@@ -3698,17 +3699,17 @@ msgstr "软件包 %s 未含有任何文件(!)\n"
 #: src/querycmd.c:505
 #, c-format
 msgid "locally diverted to: %s\n"
-msgstr "本地修改到：%s\n"
+msgstr "本地转移至：%s\n"
 
 #: src/querycmd.c:508
 #, c-format
 msgid "package diverts others to: %s\n"
-msgstr "软件包本地修改其他到：%s\n"
+msgstr "软件包将其他的包转移至：%s\n"
 
 #: src/querycmd.c:511
 #, c-format
 msgid "diverted by %s to: %s\n"
-msgstr "被 %s 本地修改到了：%s\n"
+msgstr "被 %s 转移至：%s\n"
 
 #: src/querycmd.c:532
 msgid ""
@@ -3726,7 +3727,7 @@ msgstr "显示格式有误：%s"
 #: src/querycmd.c:644
 #, c-format
 msgid "control file contains %c"
-msgstr "主控文件包含 %c"
+msgstr "control 文件包含 %c"
 
 #: src/querycmd.c:694 dpkg-deb/build.c:414
 #, c-format
@@ -3746,7 +3747,7 @@ msgstr "--%s 需要且仅需两个参数"
 #: src/querycmd.c:767
 #, c-format
 msgid "control file '%s' does not exist"
-msgstr "控制文件 %s 不存在"
+msgstr "control 文件 %s 不存在"
 
 #: src/querycmd.c:779
 #, c-format
@@ -4393,7 +4394,7 @@ msgstr "无法安装文件 %.250s，该文件被认定是新的信息文件"
 
 #: src/unpack.c:376
 msgid "unable to open temp control directory"
-msgstr "无法打开临时主控目录"
+msgstr "无法打开临时的 control 目录"
 
 #: src/unpack.c:387
 #, c-format
@@ -4431,7 +4432,7 @@ msgstr "无法访问归档文件"
 
 #: src/unpack.c:566
 msgid "package control information extraction"
-msgstr "软件包控制信息抽取"
+msgstr "软件包 control 信息抽取"
 
 #: src/unpack.c:601
 #, c-format
@@ -4441,7 +4442,7 @@ msgstr "从 %2$s 获得的关于 %1$s 的信息。\n"
 #: src/unpack.c:611
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
-msgstr "软件包的体系架构(%s)与本机系统的架构(%s)不符"
+msgstr "软件包的体系架构(%s)与本机系统的体系结构(%s)不符"
 
 #: src/unpack.c:675
 #, c-format
@@ -4568,7 +4569,7 @@ msgstr[0] "共更新了 %d 个软件包的相关信息。\n"
 #, c-format
 msgid ""
 "obsolete '--%s' option; unavailable packages are automatically cleaned up"
-msgstr "已废弃的 --%s 选项；现在不可用软件包将被自动清理。"
+msgstr "废弃的 --%s 选项；现在不可用软件包将被自动清理。"
 
 #: dpkg-deb/build.c:128
 #, c-format
@@ -4587,16 +4588,16 @@ msgstr "数据成员"
 
 #: dpkg-deb/build.c:237
 msgid "unable to stat control directory"
-msgstr "无法获得控制目录信息"
+msgstr "无法获得 control 目录信息"
 
 #: dpkg-deb/build.c:239
 msgid "control directory is not a directory"
-msgstr "控制目录不是目录"
+msgstr "control 目录不是目录"
 
 #: dpkg-deb/build.c:241
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
-msgstr "控制目录的的权限位是 %03lo (必须 >=0755 且 <=0755)"
+msgstr "control目录的的权限位是 %03lo (必须 >=0755 且 <=0755)"
 
 #: dpkg-deb/build.c:252
 #, c-format
@@ -4684,7 +4685,7 @@ msgstr "目标是一个目录 - 无法忽略主控文件的检查步骤"
 
 #: dpkg-deb/build.c:436
 msgid "not checking contents of control area"
-msgstr "不检查控制区(area)的内容"
+msgstr "不检查控制区域的内容"
 
 #: dpkg-deb/build.c:437
 #, c-format
@@ -4704,7 +4705,7 @@ msgstr "新建临时文件(%s)失败"
 #: dpkg-deb/build.c:473 dpkg-deb/build.c:476 dpkg-deb/build.c:499
 #: dpkg-deb/build.c:508 dpkg-deb/build.c:514
 msgid "control member"
-msgstr "控制信息成员"
+msgstr "control 成员"
 
 #: dpkg-deb/build.c:476 dpkg-deb/build.c:547
 #, c-format
@@ -4777,7 +4778,7 @@ msgstr "归档成员头"
 #: dpkg-deb/extract.c:150
 #, c-format
 msgid "file '%.250s' is corrupt - bad archive header magic"
-msgstr "文件 %.250s 已经损毁 - 归档头部魔数无效"
+msgstr "文件 %.250s 损毁 - 归档头部魔数无效"
 
 #: dpkg-deb/extract.c:156
 #, c-format
@@ -4833,17 +4834,17 @@ msgstr ""
 
 #: dpkg-deb/extract.c:250
 msgid "archive control member size"
-msgstr "归档控制成员大小"
+msgstr "归档 control 成员尺寸"
 
 #: dpkg-deb/extract.c:253
 #, c-format
 msgid "archive has malformatted control member size '%s'"
-msgstr "压缩文件中的控制成员尺寸 %s 有误"
+msgstr "归档 control 成员尺寸 %s 有误"
 
 #: dpkg-deb/extract.c:260
 #, c-format
 msgid "cannot skip archive control member from '%s': %s"
-msgstr "无法跳过 %s 中的归档控制成员：%s"
+msgstr "无法跳过 %s 中的归档 control 成员：%s"
 
 #: dpkg-deb/extract.c:265
 #, c-format
@@ -4852,7 +4853,7 @@ msgid ""
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " 旧格式的 debian 软件包，版本 %d.%d。\n"
-" 大小 %jd 字节：主控包= %jd 字节，数据及程序包= %jd。\n"
+" 大小 %jd 字节：control 包= %jd 字节，数据及程序包= %jd。\n"
 
 #: dpkg-deb/extract.c:274
 msgid ""
@@ -4983,11 +4984,11 @@ msgstr " %7jd 字节，%5d 行   %c  %-20.127s %.127s\n"
 #: dpkg-deb/info.c:177
 #, c-format
 msgid "     not a plain file          %.255s\n"
-msgstr "     不是普通文件          %.255s\n"
+msgstr "     不是平文文件                %.255s\n"
 
 #: dpkg-deb/info.c:189
 msgid "(no `control' file in control archive!)\n"
-msgstr "(在主控包中没有发现 control 文件！)\n"
+msgstr "(在 control 归档中没有发现 “control” 文件！)\n"
 
 #: dpkg-deb/main.c:55
 #, c-format
@@ -5791,12 +5792,12 @@ msgstr "重复的次要名称 %s"
 
 #: utils/update-alternatives.c:1189
 msgid "slave link"
-msgstr "次要链接"
+msgstr "从链接"
 
 #: utils/update-alternatives.c:1193
 #, c-format
 msgid "slave link same as main link %s"
-msgstr "次要的链接与主要链接 %s 相同"
+msgstr "从链接与主链接 %s 相同"
 
 #: utils/update-alternatives.c:1200 utils/update-alternatives.c:2633
 #, c-format
@@ -5805,12 +5806,12 @@ msgstr "重复的从链接 %s"
 
 #: utils/update-alternatives.c:1218
 msgid "master file"
-msgstr "主要文件"
+msgstr "主文件"
 
 #: utils/update-alternatives.c:1226
 #, c-format
 msgid "duplicate path %s"
-msgstr "重复的路径 %s"
+msgstr "重复路径 %s"
 
 #: utils/update-alternatives.c:1236
 #, c-format
