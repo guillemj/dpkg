@@ -55,7 +55,7 @@ until one has been successfully parsed or built from scratch.
 =cut
 
 sub new {
-    my ($this) = @_;
+    my $this = shift;
     my $class = ref($this) || $this;
 
     my $self = {
@@ -176,7 +176,7 @@ parts.
 =cut
 
 sub is_empty {
-    my ($self) = @_;
+    my $self = shift;
     return !(defined($self->{header}) || defined($self->{trailer}) ||
 	     scalar(@{$self->{changes}}));
 }
@@ -189,7 +189,7 @@ empty line to separate each part.
 =cut
 
 sub normalize {
-    my ($self) = @_;
+    my $self = shift;
     if (defined($self->{header})) {
 	$self->{header} =~ s/\s+$//g;
 	$self->{blank_after_header} = [''];
@@ -289,7 +289,7 @@ in the output format of C<dpkg-parsechangelog>.
 =cut
 
 sub get_dpkg_changes {
-    my ($self) = @_;
+    my $self = shift;
     my $header = $self->get_part('header') // '';
     $header =~ s/\s+$//;
     return "\n$header\n\n" . join("\n", @{$self->get_part('changes')});

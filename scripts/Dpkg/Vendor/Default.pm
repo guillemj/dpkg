@@ -56,7 +56,7 @@ if they don't need any specific initialization at object creation time.
 =cut
 
 sub new {
-    my ($this) = @_;
+    my $this = shift;
     my $class = ref($this) || $this;
     my $self = {};
     bless $self, $class;

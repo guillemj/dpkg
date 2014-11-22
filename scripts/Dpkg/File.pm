@@ -50,7 +50,7 @@ sub file_lock($$) {
 }
 
 sub file_slurp {
-    my ($fh) = @_;
+    my $fh = shift;
 
     local $/;
     my $data = <$fh>;

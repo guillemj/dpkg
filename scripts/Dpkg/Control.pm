@@ -185,7 +185,7 @@ set during new().
 =cut
 
 sub get_type {
-    my ($self) = @_;
+    my $self = shift;
     return $$self->{type};
 }
 

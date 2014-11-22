@@ -67,7 +67,7 @@ sub check_compressed {
 }
 
 sub test_read {
-    my ($filename) = @_;
+    my $filename = shift;
 
     $fh = Dpkg::Compression::FileHandle->new();
     open($fh, '<', $filename) or die 'open failed';

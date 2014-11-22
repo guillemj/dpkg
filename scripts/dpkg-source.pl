@@ -493,7 +493,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
 sub set_testsuite_field
 {
-    my ($fields) = @_;
+    my $fields = shift;
 
     my $testsuite_field = $fields->{'Testsuite'} // '';
     my %testsuite = map { $_ => 1 } split /\s*,\s*/, $testsuite_field;

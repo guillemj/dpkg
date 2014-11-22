@@ -70,7 +70,7 @@ Reset the object to not have any option (it's empty).
 =cut
 
 sub reset {
-    my ($self) = @_;
+    my $self = shift;
     $self->{options} = {};
     $self->{source} = {};
 }

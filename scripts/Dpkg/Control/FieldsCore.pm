@@ -540,7 +540,7 @@ The list might be empty for types where the order does not matter much.
 =cut
 
 sub field_ordered_list($) {
-    my ($type) = @_;
+    my $type = shift;
     return @{$FIELD_ORDER{$type}} if exists $FIELD_ORDER{$type};
     return ();
 }

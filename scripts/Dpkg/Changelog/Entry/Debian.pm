@@ -78,7 +78,7 @@ following line necessarily starts a new item).
 =cut
 
 sub get_change_items {
-    my ($self) = @_;
+    my $self = shift;
     my (@items, @blanks, $item);
     foreach my $line (@{$self->get_part('changes')}) {
 	if ($line =~ /^\s*\*/) {
@@ -115,7 +115,7 @@ have been found.
 =cut
 
 sub check_header {
-    my ($self) = @_;
+    my $self = shift;
     my @errors;
     if (defined($self->{header}) and $self->{header} =~ $regex_header) {
 	my ($version, $options) = ($2, $4);
@@ -153,7 +153,7 @@ sub check_header {
 }
 
 sub check_trailer {
-    my ($self) = @_;
+    my $self = shift;
     my @errors;
     if (defined($self->{trailer}) and $self->{trailer} =~ $regex_trailer) {
 	if ($3 ne '  ') {
@@ -176,13 +176,13 @@ empty line to separate each part.
 =cut
 
 sub normalize {
-    my ($self) = @_;
+    my $self = shift;
     $self->SUPER::normalize();
     #XXX: recreate header/trailer
 }
 
 sub get_source {
-    my ($self) = @_;
+    my $self = shift;
     if (defined($self->{header}) and $self->{header} =~ $regex_header) {
 	return $1;
     }
@@ -190,7 +190,7 @@ sub get_source {
 }
 
 sub get_version {
-    my ($self) = @_;
+    my $self = shift;
     if (defined($self->{header}) and $self->{header} =~ $regex_header) {
 	return Dpkg::Version->new($2);
     }
@@ -198,7 +198,7 @@ sub get_version {
 }
 
 sub get_distributions {
-    my ($self) = @_;
+    my $self = shift;
     if (defined($self->{header}) and $self->{header} =~ $regex_header) {
 	my $value = $3;
 	$value =~ s/^\s+//;
@@ -210,7 +210,7 @@ sub get_distributions {
 }
 
 sub get_optional_fields {
-    my ($self) = @_;
+    my $self = shift;
     my $f = Dpkg::Control::Changelog->new();
     if (defined($self->{header}) and $self->{header} =~ $regex_header) {
 	my $options = $4;
@@ -229,7 +229,7 @@ sub get_optional_fields {
 }
 
 sub get_urgency {
-    my ($self) = @_;
+    my $self = shift;
     my $f = $self->get_optional_fields();
     if (exists $f->{Urgency}) {
 	$f->{Urgency} =~ s/\s.*$//;
@@ -239,7 +239,7 @@ sub get_urgency {
 }
 
 sub get_maintainer {
-    my ($self) = @_;
+    my $self = shift;
     if (defined($self->{trailer}) and $self->{trailer} =~ $regex_trailer) {
 	return "$1 <$2>";
     }
@@ -247,7 +247,7 @@ sub get_maintainer {
 }
 
 sub get_timestamp {
-    my ($self) = @_;
+    my $self = shift;
     if (defined($self->{trailer}) and $self->{trailer} =~ $regex_trailer) {
 	return $4;
     }
@@ -267,7 +267,7 @@ Checks if the line matches a valid changelog header line.
 =cut
 
 sub match_header {
-    my ($line) = @_;
+    my $line = shift;
 
     return $line =~ /$regex_header/;
 }
@@ -279,7 +279,7 @@ Checks if the line matches a valid changelog trailing line.
 =cut
 
 sub match_trailer {
-    my ($line) = @_;
+    my $line = shift;
 
     return $line =~ /$regex_trailer/;
 }

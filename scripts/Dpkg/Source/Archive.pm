@@ -87,7 +87,8 @@ sub add_directory {
 }
 
 sub finish {
-    my ($self) = @_;
+    my $self = shift;
+
     close(*$self->{tar_input}) or syserr(g_('close on tar input'));
     wait_child(*$self->{pid}, cmdline => 'tar -cf -');
     delete *$self->{pid};

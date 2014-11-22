@@ -396,7 +396,7 @@ sub convert_to_alias {
 }
 
 sub get_tagspec {
-    my ($self) = @_;
+    my $self = shift;
     if ($self->has_tags()) {
 	my @tags;
 	for my $tagname (@{$self->{tagorder}}) {

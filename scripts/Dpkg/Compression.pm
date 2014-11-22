@@ -175,7 +175,7 @@ sub compression_get_default {
 }
 
 sub compression_set_default {
-    my ($method) = @_;
+    my $method = shift;
     error(g_('%s is not a supported compression'), $method)
             unless compression_is_supported($method);
     $default_compression = $method;
@@ -204,7 +204,7 @@ sub compression_get_default_level {
 }
 
 sub compression_set_default_level {
-    my ($level) = @_;
+    my $level = shift;
     error(g_('%s is not a compression level'), $level)
         if defined($level) and not compression_is_valid_level($level);
     $default_compression_level = $level;
@@ -218,7 +218,7 @@ Returns a boolean indicating whether $level is a valid compression level
 =cut
 
 sub compression_is_valid_level {
-    my ($level) = @_;
+    my $level = shift;
     return $level =~ /^([1-9]|fast|best)$/;
 }
 

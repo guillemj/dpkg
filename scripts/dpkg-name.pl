@@ -67,7 +67,7 @@ according to the 'underscores convention'.
 
 sub fileexists($)
 {
-    my ($filename) = @_;
+    my $filename = shift;
 
     if (-f $filename) {
         return 1;
@@ -89,7 +89,7 @@ sub filesame($$)
 
 sub getfields($)
 {
-    my ($filename) = @_;
+    my $filename = shift;
 
     # Read the fields
     open(my $cdata_fh, '-|', 'dpkg-deb', '-f', '--', $filename)
@@ -165,7 +165,7 @@ sub getdir($$$)
 
 sub move($)
 {
-    my ($filename) = @_;
+    my $filename = shift;
 
     if (fileexists($filename)) {
         my $fields = getfields($filename);

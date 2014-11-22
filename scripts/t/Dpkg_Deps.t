@@ -197,7 +197,7 @@ my $dep_iter = deps_parse('a, b:armel, c | d:armhf, d:mips (>> 1.2)');
 my %dep_arches;
 my %dep_pkgs;
 deps_iterate($dep_iter, sub {
-    my ($dep) = @_;
+    my $dep = shift;
 
     $dep_pkgs{$dep->{package}} = 1;
     if ($dep->{archqual}) {

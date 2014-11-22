@@ -41,7 +41,8 @@ use File::Spec;
 our $CURRENT_MINOR_VERSION = '0';
 
 sub init_options {
-    my ($self) = @_;
+    my $self = shift;
+
     # Don't call $self->SUPER::init_options() on purpose, V1.0 has no
     # ignore by default
     if ($self->{options}{diff_ignore_regex}) {

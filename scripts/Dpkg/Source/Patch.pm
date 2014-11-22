@@ -298,13 +298,13 @@ sub add_diff_directory {
 }
 
 sub finish {
-    my ($self) = @_;
+    my $self = shift;
     close($self) or syserr(g_('cannot close %s'), $self->get_filename());
     return not *$self->{errors};
 }
 
 sub register_error {
-    my ($self) = @_;
+    my $self = shift;
     *$self->{errors}++;
 }
 sub _fail_with_msg {

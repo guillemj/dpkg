@@ -166,7 +166,7 @@ numbers in an array reference.
 =cut
 
 sub find_launchpad_closes {
-    my ($changes) = @_;
+    my $changes = shift;
     my %closes;
 
     while ($changes &&

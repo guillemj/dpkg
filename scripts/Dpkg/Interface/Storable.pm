@@ -129,7 +129,7 @@ Return a string representation of the object.
 =cut
 
 sub _stringify {
-    my ($self) = @_;
+    my $self = shift;
     unless ($self->can('output')) {
 	croak ref($self) . ' cannot be stringified, it lacks the output method';
     }

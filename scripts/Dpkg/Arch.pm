@@ -235,7 +235,7 @@ sub debtriplet_to_gnutriplet(@)
 
 sub gnutriplet_to_debtriplet($)
 {
-    my ($gnu) = @_;
+    my $gnu = shift;
     return unless defined($gnu);
     my ($gnu_cpu, $gnu_os) = split(/-/, $gnu, 2);
     return unless defined($gnu_cpu) && defined($gnu_os);
@@ -265,7 +265,7 @@ sub gnutriplet_to_debtriplet($)
 
 sub gnutriplet_to_multiarch($)
 {
-    my ($gnu) = @_;
+    my $gnu = shift;
     my ($cpu, $cdr) = split(/-/, $gnu, 2);
 
     if ($cpu =~ /^i[4567]86$/) {
@@ -277,7 +277,7 @@ sub gnutriplet_to_multiarch($)
 
 sub debarch_to_multiarch($)
 {
-    my ($arch) = @_;
+    my $arch = shift;
 
     return gnutriplet_to_multiarch(debarch_to_gnutriplet($arch));
 }
@@ -319,21 +319,21 @@ sub debarch_to_debtriplet($)
 
 sub debarch_to_gnutriplet($)
 {
-    my ($arch) = @_;
+    my $arch = shift;
 
     return debtriplet_to_gnutriplet(debarch_to_debtriplet($arch));
 }
 
 sub gnutriplet_to_debarch($)
 {
-    my ($gnu) = @_;
+    my $gnu = shift;
 
     return debtriplet_to_debarch(gnutriplet_to_debtriplet($gnu));
 }
 
 sub debwildcard_to_debtriplet($)
 {
-    my ($arch) = @_;
+    my $arch = shift;
     my @tuple = split /-/, $arch, 3;
 
     if (any { $_ eq 'any' } @tuple) {
@@ -351,7 +351,7 @@ sub debwildcard_to_debtriplet($)
 
 sub debarch_to_cpuattrs($)
 {
-    my ($arch) = @_;
+    my $arch = shift;
     my ($abi, $os, $cpu) = debarch_to_debtriplet($arch);
 
     if (defined($cpu)) {
@@ -399,7 +399,7 @@ sub debarch_is($$)
 
 sub debarch_is_wildcard($)
 {
-    my ($arch) = @_;
+    my $arch = shift;
 
     return 0 if $arch eq 'all';
 

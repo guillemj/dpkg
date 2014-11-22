@@ -363,7 +363,7 @@ method.
 =cut
 
 sub use_compression {
-    my ($self) = @_;
+    my $self = shift;
     my $comp = *$self->{compression};
     if ($comp eq 'none') {
 	return 0;
@@ -382,7 +382,7 @@ along in a derived object.
 =cut
 
 sub get_filehandle {
-    my ($self) = @_;
+    my $self = shift;
     return *$self->{file} if exists *$self->{file};
 }
 
@@ -426,7 +426,7 @@ sub open_for_read {
 }
 
 sub cleanup {
-    my ($self) = @_;
+    my $self = shift;
     my $cmdline = *$self->{compressor}{cmdline} // '';
     *$self->{compressor}->wait_end_process(nocheck => *$self->{allow_sigpipe});
     if (*$self->{allow_sigpipe}) {

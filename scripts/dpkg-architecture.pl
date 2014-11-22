@@ -166,7 +166,7 @@ my $action = 'list';
 my $force = 0;
 
 sub action_needs($) {
-  my ($bits) = @_;
+  my $bits = shift;
   return (($req_vars & $bits) == $bits);
 }
 

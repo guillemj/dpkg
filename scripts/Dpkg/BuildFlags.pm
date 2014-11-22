@@ -67,7 +67,8 @@ Reset the flags stored to the default set provided by the vendor.
 =cut
 
 sub load_vendor_defaults {
-    my ($self) = @_;
+    my $self = shift;
+
     $self->{options} = {};
     $self->{source} = {};
     $self->{features} = {};
@@ -118,7 +119,8 @@ Update flags from the system configuration.
 =cut
 
 sub load_system_config {
-    my ($self) = @_;
+    my $self = shift;
+
     $self->update_from_conffile("$Dpkg::CONFDIR/buildflags.conf", 'system');
 }
 
@@ -129,7 +131,8 @@ Update flags from the user configuration.
 =cut
 
 sub load_user_config {
-    my ($self) = @_;
+    my $self = shift;
+
     my $confdir = $ENV{XDG_CONFIG_HOME};
     $confdir ||= $ENV{HOME} . '/.config' if length $ENV{HOME};
     if (length $confdir) {
@@ -145,7 +148,8 @@ dpkg-buildflags(1) for details.
 =cut
 
 sub load_environment_config {
-    my ($self) = @_;
+    my $self = shift;
+
     foreach my $flag (keys %{$self->{flags}}) {
 	my $envvar = 'DEB_' . $flag . '_SET';
 	if (Dpkg::BuildEnv::has($envvar)) {
@@ -174,7 +178,8 @@ dpkg-buildflags(1) for details.
 =cut
 
 sub load_maintainer_config {
-    my ($self) = @_;
+    my $self = shift;
+
     foreach my $flag (keys %{$self->{flags}}) {
 	my $envvar = 'DEB_' . $flag . '_MAINT_SET';
 	if (Dpkg::BuildEnv::has($envvar)) {
@@ -205,7 +210,8 @@ default build flags defined by the vendor.
 =cut
 
 sub load_config {
-    my ($self) = @_;
+    my $self = shift;
+
     $self->load_system_config();
     $self->load_user_config();
     $self->load_environment_config();
@@ -360,7 +366,8 @@ true for).
 =cut
 
 sub get_feature_areas {
-    my ($self) = @_;
+    my $self = shift;
+
     return keys %{$self->{features}};
 }
 
@@ -429,7 +436,7 @@ Returns the list of flags stored in the object.
 =cut
 
 sub list {
-    my ($self) = @_;
+    my $self = shift;
     my @list = sort keys %{$self->{flags}};
     return @list;
 }

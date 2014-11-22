@@ -49,7 +49,7 @@ sub new {
 }
 
 sub setup_db {
-    my ($self) = @_;
+    my $self = shift;
     my $db_dir = $self->get_db_file();
     if (not -d $db_dir) {
         mkdir $db_dir or syserr(g_('cannot mkdir %s'), $db_dir);
@@ -80,14 +80,14 @@ sub setup_db {
 }
 
 sub load_db {
-    my ($self) = @_;
+    my $self = shift;
 
     my $pc_applied = $self->get_db_file('applied-patches');
     $self->{applied_patches} = [ $self->read_patch_list($pc_applied) ];
 }
 
 sub save_db {
-    my ($self) = @_;
+    my $self = shift;
 
     $self->setup_db();
     my $pc_applied = $self->get_db_file('applied-patches');
@@ -102,17 +102,17 @@ sub load_series {
 }
 
 sub series {
-    my ($self) = @_;
+    my $self = shift;
     return @{$self->{series}};
 }
 
 sub applied {
-    my ($self) = @_;
+    my $self = shift;
     return @{$self->{applied_patches}};
 }
 
 sub top {
-    my ($self) = @_;
+    my $self = shift;
     my $count = scalar @{$self->{applied_patches}};
     return $self->{applied_patches}[$count - 1] if $count;
     return;
@@ -155,7 +155,7 @@ sub unregister {
 }
 
 sub next {
-    my ($self) = @_;
+    my $self = shift;
     my $count_applied = scalar @{$self->{applied_patches}};
     my $count_series = scalar @{$self->{series}};
     return $self->{series}[$count_applied] if ($count_series > $count_applied);
@@ -226,7 +226,7 @@ sub pop {
 }
 
 sub get_db_version {
-    my ($self) = @_;
+    my $self = shift;
     my $pc_ver = $self->get_db_file('.version');
     if (-f $pc_ver) {
         open(my $ver_fh, '<', $pc_ver) or syserr(g_('cannot read %s'), $pc_ver);
@@ -239,7 +239,7 @@ sub get_db_version {
 }
 
 sub find_problems {
-    my ($self) = @_;
+    my $self = shift;
     my $patch_dir = $self->get_patch_file();
     if (-e $patch_dir and not -d _) {
         return sprintf(g_('%s should be a directory or non-existing'), $patch_dir);
@@ -252,7 +252,7 @@ sub find_problems {
 }
 
 sub get_series_file {
-    my ($self) = @_;
+    my $self = shift;
     my $vendor = lc(get_current_vendor() || 'debian');
     # Series files are stored alongside patches
     my $default_series = $self->get_patch_file('series');
@@ -267,7 +267,7 @@ sub get_db_file {
 }
 
 sub get_db_dir {
-    my ($self) = @_;
+    my $self = shift;
     return $self->get_db_file();
 }
 
@@ -277,7 +277,7 @@ sub get_patch_file {
 }
 
 sub get_patch_dir {
-    my ($self) = @_;
+    my $self = shift;
     return $self->get_patch_file();
 }
 

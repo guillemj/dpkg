@@ -104,7 +104,7 @@ and its standard output.
 =cut
 
 sub get_compress_cmdline {
-    my ($self) = @_;
+    my $self = shift;
     my @prog = (@{compression_get_property($self->{compression}, 'comp_prog')});
     my $level = '-' . $self->{compression_level};
     $level = '--' . $self->{compression_level}
@@ -114,7 +114,7 @@ sub get_compress_cmdline {
 }
 
 sub get_uncompress_cmdline {
-    my ($self) = @_;
+    my $self = shift;
     return (@{compression_get_property($self->{compression}, 'decomp_prog')});
 }
 

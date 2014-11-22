@@ -50,7 +50,7 @@ use File::Copy;
 our $CURRENT_MINOR_VERSION = '0';
 
 sub init_options {
-    my ($self) = @_;
+    my $self = shift;
     $self->SUPER::init_options();
     $self->{options}{include_removal} //= 0;
     $self->{options}{include_timestamp} //= 0;
@@ -270,7 +270,7 @@ sub unapply_patches {
 }
 
 sub upstream_tarball_template {
-    my ($self) = @_;
+    my $self = shift;
     my $ext = '{' . join(',',
         sort map {
             compression_get_property($_, 'file_ext')
@@ -723,7 +723,7 @@ sub new_binary_found {
 }
 
 sub load_allowed_binaries {
-    my ($self) = @_;
+    my $self = shift;
     my $incbin_file = $self->{include_binaries_path};
     if (-f $incbin_file) {
         open(my $incbin_fh, '<', $incbin_file)
@@ -744,7 +744,7 @@ sub binary_is_allowed {
 }
 
 sub update_debian_source_include_binaries {
-    my ($self) = @_;
+    my $self = shift;
 
     my @unknown_binaries = $self->get_unknown_binaries();
     return unless scalar(@unknown_binaries);
@@ -762,12 +762,12 @@ sub update_debian_source_include_binaries {
 }
 
 sub get_unknown_binaries {
-    my ($self) = @_;
+    my $self = shift;
     return grep { not $self->binary_is_allowed($_) } $self->get_seen_binaries();
 }
 
 sub get_seen_binaries {
-    my ($self) = @_;
+    my $self = shift;
     my @seen = sort keys %{$self->{seen_binaries}};
     return @seen;
 }

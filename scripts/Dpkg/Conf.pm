@@ -78,7 +78,7 @@ Returns the list of options that can be parsed like @ARGV.
 =cut
 
 sub get_options {
-    my ($self) = @_;
+    my $self = shift;
     return @{$self->{options}};
 }
 

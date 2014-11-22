@@ -121,7 +121,7 @@ Returns true if the version is valid, false otherwise.
 =cut
 
 sub is_valid {
-    my ($self) = @_;
+    my $self = shift;
     return scalar version_check($self);
 }
 
@@ -313,7 +313,7 @@ of the character is used to sort between characters.
 =cut
 
 sub _version_order {
-    my ($x) = @_;
+    my $x = shift;
 
     if ($x eq '~') {
         return -1;

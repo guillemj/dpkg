@@ -101,12 +101,12 @@ sub new {
 }
 
 sub get_arch {
-    my ($self) = @_;
+    my $self = shift;
     return $self->{arch};
 }
 
 sub clear {
-    my ($self) = @_;
+    my $self = shift;
     $self->{objects} = {};
 }
 
@@ -120,7 +120,7 @@ sub clear_except {
 }
 
 sub get_sonames {
-    my ($self) = @_;
+    my $self = shift;
     return keys %{$self->{objects}};
 }
 
@@ -457,7 +457,7 @@ sub merge_symbols {
 }
 
 sub is_empty {
-    my ($self) = @_;
+    my $self = shift;
     return scalar(keys %{$self->{objects}}) ? 0 : 1;
 }
 

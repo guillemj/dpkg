@@ -121,7 +121,7 @@ sub has_object {
 }
 
 sub is_elf {
-    my ($file) = @_;
+    my $file = shift;
     open(my $file_fh, '<', $file) or syserr(g_('cannot read %s'), $file);
     my ($header, $result) = ('', 0);
     if (read($file_fh, $header, 4) == 4) {
@@ -152,7 +152,7 @@ sub new {
 }
 
 sub reset {
-    my ($self) = @_;
+    my $self = shift;
 
     $self->{file} = '';
     $self->{id} = '';
@@ -346,7 +346,7 @@ sub parse_dynamic_symbol {
 }
 
 sub apply_relocations {
-    my ($self) = @_;
+    my $self = shift;
     foreach my $sym (values %{$self->{dynsyms}}) {
 	# We want to mark as undefined symbols those which are currently
 	# defined but that depend on a copy relocation
@@ -388,13 +388,13 @@ sub get_symbol {
 }
 
 sub get_exported_dynamic_symbols {
-    my ($self) = @_;
+    my $self = shift;
     return grep { $_->{defined} && $_->{dynamic} && !$_->{local} }
 	    values %{$self->{dynsyms}};
 }
 
 sub get_undefined_dynamic_symbols {
-    my ($self) = @_;
+    my $self = shift;
     return grep { (!$_->{defined}) && $_->{dynamic} }
 	    values %{$self->{dynsyms}};
 }

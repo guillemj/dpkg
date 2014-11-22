@@ -251,7 +251,7 @@ This will never be warned about when unused.
 =cut
 
 sub set_arch_substvars {
-    my ($self) = @_;
+    my $self = shift;
 
     my $attr = SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_AUTO;
 

@@ -671,7 +671,7 @@ sub run_hook {
     );
 
     my $subst_hook_var = sub {
-        my ($var) = @_;
+        my $var = shift;
 
         if (exists $hook_vars{$var}) {
             return $hook_vars{$var};
@@ -687,7 +687,7 @@ sub run_hook {
 }
 
 sub signfile {
-    my ($file) = @_;
+    my $file = shift;
 
     print { *STDERR } " signfile $file\n";
 
@@ -720,7 +720,7 @@ sub fileomitted {
 }
 
 sub describe_build {
-    my ($files) = @_;
+    my $files = shift;
     my $ext = compression_get_file_extension_regex();
 
     if (fileomitted($files, qr/\.deb/)) {

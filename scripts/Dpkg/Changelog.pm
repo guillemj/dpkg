@@ -103,7 +103,7 @@ previous L<parse> runs.
 =cut
 
 sub reset_parse_errors {
-    my ($self) = @_;
+    my $self = shift;
     $self->{parse_errors} = [];
 }
 
@@ -159,7 +159,7 @@ the original line
 =cut
 
 sub get_parse_errors {
-    my ($self) = @_;
+    my $self = shift;
 
     if (wantarray) {
 	return @{$self->{parse_errors}};
@@ -194,7 +194,7 @@ sub set_unparsed_tail {
 }
 
 sub get_unparsed_tail {
-    my ($self) = @_;
+    my $self = shift;
     return $self->{unparsed_tail};
 }
 
@@ -411,7 +411,7 @@ entries selected by the range set at creation (or with set_options).
 =cut
 
 sub abort_early {
-    my ($self) = @_;
+    my $self = shift;
 
     my $data = $self->{data} or return;
     my $r = $self->{range} or return;

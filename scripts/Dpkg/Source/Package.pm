@@ -140,7 +140,7 @@ Set a regex as the new default diff ignore regex.
 =cut
 
 sub set_default_diff_ignore_regex {
-    my ($regex) = @_;
+    my $regex = shift;
 
     $diff_ignore_default_regex = $regex;
 }
@@ -209,7 +209,7 @@ sub new {
 }
 
 sub init_options {
-    my ($self) = @_;
+    my $self = shift;
     # Use full ignore list by default
     # note: this function is not called by V1 packages
     $self->{options}{diff_ignore_regex} ||= $diff_ignore_default_regex;
@@ -298,7 +298,7 @@ Returns the filename of the DSC file.
 =cut
 
 sub get_filename {
-    my ($self) = @_;
+    my $self = shift;
     return $self->{basedir} . $self->{filename};
 }
 
@@ -310,7 +310,7 @@ usually do not have any path information.
 =cut
 
 sub get_files {
-    my ($self) = @_;
+    my $self = shift;
     return $self->{checksums}->get_files();
 }
 
@@ -323,7 +323,7 @@ discovered, it immediately errors out.
 =cut
 
 sub check_checksums {
-    my ($self) = @_;
+    my $self = shift;
     my $checksums = $self->{checksums};
     # add_from_file verify the checksums if they are already existing
     foreach my $file ($checksums->get_files()) {
@@ -386,7 +386,7 @@ then any problem will result in a fatal error.
 =cut
 
 sub check_signature {
-    my ($self) = @_;
+    my $self = shift;
     my $dsc = $self->get_filename();
     my @exec;
 

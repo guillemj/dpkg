@@ -133,7 +133,7 @@ sub new {
 # that everything gets garbage-collected.
 
 sub DESTROY {
-    my ($self) = @_;
+    my $self = shift;
     delete $$self->{fields};
 }
 

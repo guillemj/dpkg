@@ -108,7 +108,7 @@ sub parse_ldso_conf {
 }
 
 sub add_library_dir {
-    my ($dir) = @_;
+    my $dir = shift;
     unshift @librarypaths, $dir;
 }
 

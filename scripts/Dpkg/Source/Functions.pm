@@ -28,7 +28,7 @@ use Dpkg::IPC;
 use POSIX qw(:errno_h);
 
 sub erasedir {
-    my ($dir) = @_;
+    my $dir = shift;
     if (not lstat($dir)) {
         return if $! == ENOENT;
         syserr(g_('cannot stat directory %s (before removal)'), $dir);
@@ -43,7 +43,7 @@ sub erasedir {
 }
 
 sub fixperms {
-    my ($dir) = @_;
+    my $dir = shift;
     my ($mode, $modes_set);
     # Unfortunately tar insists on applying our umask _to the original
     # permissions_ rather than mostly-ignoring the original
@@ -72,7 +72,7 @@ sub fixperms {
 # used to set file timestamps. This avoids confusion when an
 # NFS server and NFS client disagree about what time it is.
 sub fs_time($) {
-    my ($file) = @_;
+    my $file = shift;
     my $is_temp = 0;
     if (not -e $file) {
 	open(my $temp_fh, '>', $file) or syserr(g_('cannot write %s'));
@@ -89,7 +89,7 @@ sub fs_time($) {
 }
 
 sub is_binary($) {
-    my ($file) = @_;
+    my $file = shift;
 
     # TODO: might want to reimplement what diff does, aka checking if the
     # file contains \0 in the first 4Kb of data

@@ -39,7 +39,7 @@ use File::Copy;
 our $CURRENT_MINOR_VERSION = '0';
 
 sub init_options {
-    my ($self) = @_;
+    my $self = shift;
     $self->{options}{single_debian_patch} //= 0;
     $self->{options}{allow_version_of_quilt_db} //= [];
 
@@ -84,7 +84,7 @@ sub can_build {
 }
 
 sub get_autopatch_name {
-    my ($self) = @_;
+    my $self = shift;
     if ($self->{options}{single_debian_patch}) {
         return 'debian-changes';
     } else {

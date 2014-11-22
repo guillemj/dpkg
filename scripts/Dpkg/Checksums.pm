@@ -83,7 +83,7 @@ supported. The checksum algorithm is case-insensitive.
 =cut
 
 sub checksums_is_supported($) {
-    my ($alg) = @_;
+    my $alg = shift;
     return exists $CHECKSUMS->{lc($alg)};
 }
 
@@ -137,7 +137,8 @@ as if it was newly created.
 =cut
 
 sub reset {
-    my ($self) = @_;
+    my $self = shift;
+
     $self->{files} = [];
     $self->{checksums} = {};
     $self->{size} = {};
@@ -272,7 +273,7 @@ Return the list of files whose checksums are stored in the object.
 =cut
 
 sub get_files {
-    my ($self) = @_;
+    my $self = shift;
     return @{$self->{files}};
 }
 

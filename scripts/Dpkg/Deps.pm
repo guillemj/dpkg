@@ -564,7 +564,7 @@ sub new {
 }
 
 sub reset {
-    my ($self) = @_;
+    my $self = shift;
     $self->{package} = undef;
     $self->{relation} = undef;
     $self->{version} = undef;
@@ -826,7 +826,7 @@ sub reduce_arch {
 }
 
 sub has_arch_restriction {
-    my ($self) = @_;
+    my $self = shift;
     if (defined $self->{arches}) {
 	return $self->{package};
     } else {
@@ -940,7 +940,7 @@ sub new {
 }
 
 sub reset {
-    my ($self) = @_;
+    my $self = shift;
     $self->{list} = [];
 }
 
@@ -981,7 +981,7 @@ sub reduce_arch {
 }
 
 sub has_arch_restriction {
-    my ($self) = @_;
+    my $self = shift;
     my @res;
     foreach my $dep (@{$self->{list}}) {
 	push @res, $dep->has_arch_restriction();

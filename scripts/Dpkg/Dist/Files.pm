@@ -84,7 +84,7 @@ sub parse {
 }
 
 sub get_files {
-    my ($self) = @_;
+    my $self = shift;
 
     return map { $self->{files}->{$_} } @{$self->{order}};
 }

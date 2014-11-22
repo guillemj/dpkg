@@ -60,7 +60,7 @@ accessed.
 =cut
 
 sub get {
-    my ($varname) = @_;
+    my $varname = shift;
     $env_accessed{$varname} = 1;
     return $ENV{$varname};
 }
@@ -73,7 +73,7 @@ Record it as being accessed.
 =cut
 
 sub has {
-    my ($varname) = @_;
+    my $varname = shift;
     $env_accessed{$varname} = 1;
     return exists $ENV{$varname};
 }

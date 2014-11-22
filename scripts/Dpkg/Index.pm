@@ -127,7 +127,7 @@ set during new().
 =cut
 
 sub get_type {
-    my ($self) = @_;
+    my $self = shift;
     return $self->{type};
 }
 
@@ -187,7 +187,7 @@ object.
 =cut
 
 sub new_item {
-    my ($self) = @_;
+    my $self = shift;
     return Dpkg::Control->new(type => $self->{type});
 }
 

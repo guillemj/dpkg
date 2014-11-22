@@ -28,7 +28,7 @@ my $srcdir = $ENV{srcdir} || '.';
 my $datadir = $srcdir . '/t/Dpkg_Control';
 
 sub parse_dsc {
-    my ($path) = @_;
+    my $path = shift;
 
     my $dsc = Dpkg::Control->new(type => CTRL_PKG_SRC);
     eval {
