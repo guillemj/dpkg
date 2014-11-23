@@ -22,8 +22,7 @@ our $VERSION = '0.02';
 
 use Exporter qw(import);
 our @EXPORT_OK = qw(blank_library_paths add_library_dir get_library_paths
-                    find_library);
-
+                    find_library setup_library_paths);
 
 use File::Spec;
 
@@ -39,46 +38,8 @@ use constant DEFAULT_LIBRARY_PATH =>
     qw(/lib /usr/lib /lib32 /usr/lib32 /lib64 /usr/lib64
        /emul/ia32-linux/lib /emul/ia32-linux/usr/lib);
 
-# Adjust set of directories to consider when we're in a situation of a
-# cross-build or a build of a cross-compiler
-my @crosslibrarypaths;
-my ($crossprefix, $multiarch);
-# Detect cross compiler builds
-if ($ENV{GCC_TARGET}) {
-    $crossprefix = debarch_to_gnutriplet($ENV{GCC_TARGET});
-    $multiarch = debarch_to_multiarch($ENV{GCC_TARGET});
-}
-if ($ENV{DEB_TARGET_GNU_TYPE} and
-    ($ENV{DEB_TARGET_GNU_TYPE} ne $ENV{DEB_BUILD_GNU_TYPE}))
-{
-    $crossprefix = $ENV{DEB_TARGET_GNU_TYPE};
-    $multiarch = gnutriplet_to_multiarch($ENV{DEB_TARGET_GNU_TYPE});
-}
-# host for normal cross builds.
-if (get_build_arch() ne get_host_arch()) {
-    $crossprefix = debarch_to_gnutriplet(get_host_arch());
-    $multiarch = debarch_to_multiarch(get_host_arch());
-}
-# Define list of directories containing crossbuilt libraries
-if ($crossprefix) {
-    push @crosslibrarypaths, "/lib/$multiarch", "/usr/lib/$multiarch",
-            "/$crossprefix/lib", "/usr/$crossprefix/lib",
-            "/$crossprefix/lib32", "/usr/$crossprefix/lib32",
-            "/$crossprefix/lib64", "/usr/$crossprefix/lib64";
-}
-
-my @librarypaths = (DEFAULT_LIBRARY_PATH, @crosslibrarypaths);
-
-# XXX: Deprecated. Update library paths with LD_LIBRARY_PATH
-if ($ENV{LD_LIBRARY_PATH}) {
-    foreach my $path (reverse split( /:/, $ENV{LD_LIBRARY_PATH} )) {
-	$path =~ s{/+$}{};
-	add_library_dir($path);
-    }
-}
-
-# Update library paths with ld.so config
-parse_ldso_conf('/etc/ld.so.conf') if -e '/etc/ld.so.conf';
+my @librarypaths;
+my $librarypaths_init;
 
 my %visited;
 sub parse_ldso_conf {
@@ -109,6 +70,53 @@ sub parse_ldso_conf {
 
 sub blank_library_paths {
     @librarypaths = ();
+    $librarypaths_init = 1;
+}
+
+sub setup_library_paths {
+    # Adjust set of directories to consider when we're in a situation of a
+    # cross-build or a build of a cross-compiler.
+    my @crosslibrarypaths;
+    my ($crossprefix, $multiarch);
+
+    # Detect cross compiler builds.
+    if ($ENV{GCC_TARGET}) {
+        $crossprefix = debarch_to_gnutriplet($ENV{GCC_TARGET});
+        $multiarch = debarch_to_multiarch($ENV{GCC_TARGET});
+    }
+    if ($ENV{DEB_TARGET_GNU_TYPE} and
+        ($ENV{DEB_TARGET_GNU_TYPE} ne $ENV{DEB_BUILD_GNU_TYPE}))
+    {
+        $crossprefix = $ENV{DEB_TARGET_GNU_TYPE};
+        $multiarch = gnutriplet_to_multiarch($ENV{DEB_TARGET_GNU_TYPE});
+    }
+    # Host for normal cross builds.
+    if (get_build_arch() ne get_host_arch()) {
+        $crossprefix = debarch_to_gnutriplet(get_host_arch());
+        $multiarch = debarch_to_multiarch(get_host_arch());
+    }
+    # Define list of directories containing crossbuilt libraries.
+    if ($crossprefix) {
+        push @crosslibrarypaths, "/lib/$multiarch", "/usr/lib/$multiarch",
+             "/$crossprefix/lib", "/usr/$crossprefix/lib",
+             "/$crossprefix/lib32", "/usr/$crossprefix/lib32",
+             "/$crossprefix/lib64", "/usr/$crossprefix/lib64";
+    }
+
+    @librarypaths = (DEFAULT_LIBRARY_PATH, @crosslibrarypaths);
+
+    # XXX: Deprecated. Update library paths with LD_LIBRARY_PATH.
+    if ($ENV{LD_LIBRARY_PATH}) {
+        foreach my $path (reverse split( /:/, $ENV{LD_LIBRARY_PATH})) {
+            $path =~ s{/+$}{};
+            add_library_dir($path);
+        }
+    }
+
+    # Update library paths with ld.so config.
+    parse_ldso_conf('/etc/ld.so.conf') if -e '/etc/ld.so.conf';
+
+    $librarypaths_init = 1;
 }
 
 sub add_library_dir {
@@ -117,12 +125,17 @@ sub add_library_dir {
 }
 
 sub get_library_paths {
+    setup_library_paths() if not $librarypaths_init;
+
     return @librarypaths;
 }
 
 # find_library ($soname, \@rpath, $format, $root)
 sub find_library {
     my ($lib, $rpath, $format, $root) = @_;
+
+    setup_library_paths() if not $librarypaths_init;
+
     $root //= '';
     $root =~ s{/+$}{};
     my @rpath = @{$rpath};
