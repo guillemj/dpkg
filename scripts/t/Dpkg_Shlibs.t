@@ -26,7 +26,6 @@ my $tmp;
 my @tmp;
 my %tmp;
 
-my @save_paths = Dpkg::Shlibs::get_library_paths();
 Dpkg::Shlibs::reset_library_paths();
 
 my $srcdir = $ENV{srcdir} || '.';
