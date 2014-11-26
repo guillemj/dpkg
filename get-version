@@ -24,7 +24,7 @@ if [ -f .dist-version ]; then
 elif [ -d .git ]; then
   # Get the version from the git repository. Since tags can't contain
   # tildes, we use underscore instead. Reverse that switch here.
-  version=$(git describe --abbrev=4 HEAD 2>/dev/null | sed -e 's/_/~/g')
+  version=$(git describe --abbrev=4 HEAD 2>/dev/null | tr _ ~)
 
   # Check if we are on a dirty checkout.
   git update-index --refresh -q >/dev/null
