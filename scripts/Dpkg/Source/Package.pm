@@ -71,7 +71,7 @@ my $diff_ignore_default_regex = '
 # File or directory names that should be ignored
 (?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|
 \.hg(?:tags|sigs)?|_darcs|\.git(?:attributes|modules)?|
-\.shelf|_MTN|\.be|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
+\.mailmap|\.shelf|_MTN|\.be|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
 ';
 # Take out comments and newlines
 $diff_ignore_default_regex =~ s/^#.*$//mg;
@@ -110,6 +110,7 @@ our @tar_ignore_default_pattern = qw(
 .hgignore
 .hgsigs
 .hgtags
+.mailmap
 .shelf
 .svn
 CVS
