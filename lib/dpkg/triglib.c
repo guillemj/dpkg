@@ -337,9 +337,9 @@ trk_explicit_interest_change(const char *trig,  struct pkginfo *pkg,
 
 	while (trk_explicit_f && trk_explicit_fgets(buf, sizeof(buf)) >= 0) {
 		const char *pkgname = pkgbin_name(pkg, pkgbin, pnaw_nonambig);
-		int len = strlen(pkgname);
+		size_t len = strlen(pkgname);
 
-		if (strncmp(buf, pkgname, len) == 0 &&
+		if (strncmp(buf, pkgname, len) == 0 && len < sizeof(buf) &&
 		    (buf[len] == '\0' || buf[len] == '/'))
 			continue;
 		fprintf(file->fp, "%s\n", buf);
