@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2014-11-26 19:57+0100\n"
-"PO-Revision-Date: 2014-10-05 06:16+0200\n"
+"PO-Revision-Date: 2014-11-29 11:49+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "Language: cs\n"
@@ -3050,43 +3050,7 @@ msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian „%s“ - program pro správu balíků verze %s.\n"
 
 #: src/main.c:86
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -i|--install       <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --unpack           <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --configure        <package> ... | -a|--pending\n"
-#| "  --triggers-only    <package> ... | -a|--pending\n"
-#| "  -r|--remove        <package> ... | -a|--pending\n"
-#| "  -P|--purge         <package> ... | -a|--pending\n"
-#| "  -V|--verify <package> ...        Verify the integrity of package(s).\n"
-#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
-#| "  --set-selections                 Set package selections from stdin.\n"
-#| "  --clear-selections               Deselect every non-essential package.\n"
-#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
-#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
-#| "  --clear-avail                    Erase existing available info.\n"
-#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-#| "  -s|--status <package> ...        Display package status details.\n"
-#| "  -p|--print-avail <package> ...   Display available version details.\n"
-#| "  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
-#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
-#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-#| "  -C|--audit                       Check for broken package(s).\n"
-#| "  --add-architecture <arch>        Add <arch> to the list of "
-#| "architectures.\n"
-#| "  --remove-architecture <arch>     Remove <arch> from the list of "
-#| "architectures.\n"
-#| "  --print-architecture             Print dpkg architecture.\n"
-#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
-#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
-#| "  --force-help                     Show help on forcing.\n"
-#| "  -Dh|--debug=help                 Show help on debugging.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3142,7 +3106,7 @@ msgstr ""
 "  -L|--listfiles <balík> …         vypíše soubory vlastněné balíkem\n"
 "  -l|--list [<vzor> …]             stručný seznam balíků\n"
 "  -S|--search <vzor> …             nalezne balík, který vlastní soubor(y)\n"
-"  -C|--audit                       vyhledá porušené balíky\n"
+"  -C|--audit [<balík> …]           vyhledá porušené balíky\n"
 "  --add-architecture <arch>        přidá <arch> do seznamu architektur\n"
 "  --remove-architecture <arch>     odstraní <arch> ze seznamu architektur\n"
 "  --print-architecture             vypíše dpkg architekturu\n"
@@ -4319,18 +4283,7 @@ msgstr ""
 "\n"
 
 #: src/trigcmd.c:81
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir=<directory>           Use <directory> instead of %s.\n"
-#| "  --by-package=<package>           Override trigger awaiter (normally "
-#| "set\n"
-#| "                                     by dpkg).\n"
-#| "  --no-await                       No package needs to await the "
-#| "processing.\n"
-#| "  --no-act                         Just test - don't actually change "
-#| "anything.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
@@ -4347,6 +4300,7 @@ msgstr ""
 "  --admindir=<adresář>        místo %s použije <adresář>\n"
 "  --by-package=<balík>        změní, který balík čeká na spouštěč\n"
 "                              (normálně to dpkg nastavuje automaticky)\n"
+"  --await                     balík vyžaduje počkat na zpracování\n"
 "  --no-await                  žádný balík nevyžaduje počkat na zpracování\n"
 "  --no-act                    pouze testuje, nic nemění\n"
 "\n"
@@ -4400,33 +4354,25 @@ msgid "triggers looping, abandoned"
 msgstr "spouštěče tvoří cyklus, přerušeno"
 
 #: src/trigproc.c:399
-#, fuzzy, c-format
-#| msgid ""
-#| "dependency problems prevent configuration of %s:\n"
-#| "%s"
+#, c-format
 msgid ""
 "dependency problems prevent processing triggers for %s:\n"
 "%s"
 msgstr ""
-"nesplněné závislosti zamezily konfiguraci balíku %s:\n"
+"problém se závislostmi zamezily zpracování spouštěčů pro %s:\n"
 "%s"
 
 #: src/trigproc.c:403
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
 msgid "dependency problems - leaving triggers unprocessed"
-msgstr "problém se závislostmi - nechávám nezkonfigurované"
+msgstr "problém se závislostmi - nechávám spouštěče nezpracované"
 
 #: src/trigproc.c:406
-#, fuzzy, c-format
-#| msgid ""
-#| "%s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
+#, c-format
 msgid ""
 "%s: dependency problems, but processing triggers anyway as you requested:\n"
 "%s"
 msgstr ""
-"%s: problém se závislostmi, nicméně bude odstraněn dle požadavku:\n"
+"%s: problém se závislostmi, nicméně zpracovávám spouštěče dle požadavku:\n"
 "%s"
 
 #: src/trigproc.c:418
@@ -4450,7 +4396,7 @@ msgstr "sestavení rozděleného balíku"
 
 #: src/unpack.c:113
 msgid "reassembled package file"
-msgstr "spojený balík"
+msgstr "sestavený balík"
 
 #: src/unpack.c:138
 #, c-format
@@ -5130,21 +5076,7 @@ msgid "Debian `%s' package archive backend version %s.\n"
 msgstr "Debian „%s“ - backend pro práci s archivy verze %s.\n"
 
 #: dpkg-deb/main.c:74
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -b|--build <directory> [<deb>]   Build an archive.\n"
-#| "  -c|--contents <deb>              List contents.\n"
-#| "  -I|--info <deb> [<cfile> ...]    Show info to stdout.\n"
-#| "  -W|--show <deb>                  Show information on package(s)\n"
-#| "  -f|--field <deb> [<cfield> ...]  Show field(s) to stdout.\n"
-#| "  -e|--control <deb> [<directory>] Extract control info.\n"
-#| "  -x|--extract <deb> <directory>   Extract files.\n"
-#| "  -X|--vextract <deb> <directory>  Extract & list files.\n"
-#| "  -R|--raw-extract <deb> <directory>\n"
-#| "                                   Extract control info and files.\n"
-#| "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -b|--build <directory> [<deb>]   Build an archive.\n"
@@ -5172,6 +5104,7 @@ msgstr ""
 "  -X|--vextract <deb> <adresář>   rozbalí a vypíše soubory\n"
 "  -R|--raw-extract <deb> <adresář>\n"
 "                                  rozbalí řídící informace a soubory\n"
+"  --ctrl-tarfile <deb>            vypíše řídící tar.\n"
 "  --fsys-tarfile <deb>            vypíše tar se soubory\n"
 "\n"
 
@@ -6152,16 +6085,14 @@ msgid "renaming %s link from %s to %s"
 msgstr "přejmenovávám odkaz %s z %s na %s"
 
 #: utils/update-alternatives.c:2335
-#, fuzzy, c-format
-#| msgid "using %s to provide %s (%s) in %s"
+#, c-format
 msgid "using %s to provide %s (%s) in auto mode"
-msgstr "používám %s pro poskytnutí %s (%s), %s"
+msgstr "používám %s pro poskytnutí %s (%s) v automatickém režimu"
 
 #: utils/update-alternatives.c:2338
-#, fuzzy, c-format
-#| msgid "using %s to provide %s (%s) in %s"
+#, c-format
 msgid "using %s to provide %s (%s) in manual mode"
-msgstr "používám %s pro poskytnutí %s (%s), %s"
+msgstr "používám %s pro poskytnutí %s (%s) v ručním režimu"
 
 #: utils/update-alternatives.c:2346
 #, c-format
