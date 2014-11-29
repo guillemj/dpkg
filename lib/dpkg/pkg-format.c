@@ -294,11 +294,11 @@ virt_source_version(struct varbuf *vb,
 }
 
 const struct fieldinfo virtinfos[] = {
-	{ "binary:Package", NULL, virt_package },
-	{ "binary:Summary", NULL, virt_summary },
-	{ "db:Status-Abbrev", NULL, virt_status_abbrev },
-	{ "source:Package", NULL, virt_source_package },
-	{ "source:Version", NULL, virt_source_version },
+	{ FIELD("binary:Package"), NULL, virt_package },
+	{ FIELD("binary:Summary"), NULL, virt_summary },
+	{ FIELD("db:Status-Abbrev"), NULL, virt_status_abbrev },
+	{ FIELD("source:Package"), NULL, virt_source_package },
+	{ FIELD("source:Version"), NULL, virt_source_version },
 	{ NULL },
 };
 

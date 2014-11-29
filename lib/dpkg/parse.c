@@ -51,49 +51,49 @@
  */
 const struct fieldinfo fieldinfos[]= {
   /* Note: Capitalization of field name strings is important. */
-  { "Package",          f_name,            w_name                                     },
-  { "Essential",        f_boolean,         w_booleandefno,   PKGIFPOFF(essential)     },
-  { "Status",           f_status,          w_status                                   },
-  { "Priority",         f_priority,        w_priority                                 },
-  { "Section",          f_section,         w_section                                  },
-  { "Installed-Size",   f_charfield,       w_charfield,      PKGIFPOFF(installedsize) },
-  { "Origin",           f_charfield,       w_charfield,      PKGIFPOFF(origin)        },
-  { "Maintainer",       f_charfield,       w_charfield,      PKGIFPOFF(maintainer)    },
-  { "Bugs",             f_charfield,       w_charfield,      PKGIFPOFF(bugs)          },
-  { "Architecture",     f_architecture,    w_architecture                             },
-  { "Multi-Arch",       f_multiarch,       w_multiarch,      PKGIFPOFF(multiarch)     },
-  { "Source",           f_charfield,       w_charfield,      PKGIFPOFF(source)        },
-  { "Version",          f_version,         w_version,        PKGIFPOFF(version)       },
-  { "Revision",         f_revision,        w_null                                     },
-  { "Config-Version",   f_configversion,   w_configversion                            },
-  { "Replaces",         f_dependency,      w_dependency,     dep_replaces             },
-  { "Provides",         f_dependency,      w_dependency,     dep_provides             },
-  { "Depends",          f_dependency,      w_dependency,     dep_depends              },
-  { "Pre-Depends",      f_dependency,      w_dependency,     dep_predepends           },
-  { "Recommends",       f_dependency,      w_dependency,     dep_recommends           },
-  { "Suggests",         f_dependency,      w_dependency,     dep_suggests             },
-  { "Breaks",           f_dependency,      w_dependency,     dep_breaks               },
-  { "Conflicts",        f_dependency,      w_dependency,     dep_conflicts            },
-  { "Enhances",         f_dependency,      w_dependency,     dep_enhances             },
-  { "Conffiles",        f_conffiles,       w_conffiles                                },
-  { "Filename",         f_filecharf,       w_filecharf,      FILEFOFF(name)           },
-  { "Size",             f_filecharf,       w_filecharf,      FILEFOFF(size)           },
-  { "MD5sum",           f_filecharf,       w_filecharf,      FILEFOFF(md5sum)         },
-  { "MSDOS-Filename",   f_filecharf,       w_filecharf,      FILEFOFF(msdosname)      },
-  { "Description",      f_charfield,       w_charfield,      PKGIFPOFF(description)   },
-  { "Triggers-Pending", f_trigpend,        w_trigpend                                 },
-  { "Triggers-Awaited", f_trigaw,          w_trigaw                                   },
+  { FIELD("Package"),          f_name,            w_name                                     },
+  { FIELD("Essential"),        f_boolean,         w_booleandefno,   PKGIFPOFF(essential)     },
+  { FIELD("Status"),           f_status,          w_status                                   },
+  { FIELD("Priority"),         f_priority,        w_priority                                 },
+  { FIELD("Section"),          f_section,         w_section                                  },
+  { FIELD("Installed-Size"),   f_charfield,       w_charfield,      PKGIFPOFF(installedsize) },
+  { FIELD("Origin"),           f_charfield,       w_charfield,      PKGIFPOFF(origin)        },
+  { FIELD("Maintainer"),       f_charfield,       w_charfield,      PKGIFPOFF(maintainer)    },
+  { FIELD("Bugs"),             f_charfield,       w_charfield,      PKGIFPOFF(bugs)          },
+  { FIELD("Architecture"),     f_architecture,    w_architecture                             },
+  { FIELD("Multi-Arch"),       f_multiarch,       w_multiarch,      PKGIFPOFF(multiarch)     },
+  { FIELD("Source"),           f_charfield,       w_charfield,      PKGIFPOFF(source)        },
+  { FIELD("Version"),          f_version,         w_version,        PKGIFPOFF(version)       },
+  { FIELD("Revision"),         f_revision,        w_null                                     },
+  { FIELD("Config-Version"),   f_configversion,   w_configversion                            },
+  { FIELD("Replaces"),         f_dependency,      w_dependency,     dep_replaces             },
+  { FIELD("Provides"),         f_dependency,      w_dependency,     dep_provides             },
+  { FIELD("Depends"),          f_dependency,      w_dependency,     dep_depends              },
+  { FIELD("Pre-Depends"),      f_dependency,      w_dependency,     dep_predepends           },
+  { FIELD("Recommends"),       f_dependency,      w_dependency,     dep_recommends           },
+  { FIELD("Suggests"),         f_dependency,      w_dependency,     dep_suggests             },
+  { FIELD("Breaks"),           f_dependency,      w_dependency,     dep_breaks               },
+  { FIELD("Conflicts"),        f_dependency,      w_dependency,     dep_conflicts            },
+  { FIELD("Enhances"),         f_dependency,      w_dependency,     dep_enhances             },
+  { FIELD("Conffiles"),        f_conffiles,       w_conffiles                                },
+  { FIELD("Filename"),         f_filecharf,       w_filecharf,      FILEFOFF(name)           },
+  { FIELD("Size"),             f_filecharf,       w_filecharf,      FILEFOFF(size)           },
+  { FIELD("MD5sum"),           f_filecharf,       w_filecharf,      FILEFOFF(md5sum)         },
+  { FIELD("MSDOS-Filename"),   f_filecharf,       w_filecharf,      FILEFOFF(msdosname)      },
+  { FIELD("Description"),      f_charfield,       w_charfield,      PKGIFPOFF(description)   },
+  { FIELD("Triggers-Pending"), f_trigpend,        w_trigpend                                 },
+  { FIELD("Triggers-Awaited"), f_trigaw,          w_trigaw                                   },
   /* Note that aliases are added to the nicknames table. */
   {  NULL                                                                             }
 };
 
 static const struct nickname nicknames[] = {
   /* Note: Capitalization of these strings is important. */
-  { .nick = "Recommended",      .canon = "Recommends" },
-  { .nick = "Optional",         .canon = "Suggests" },
-  { .nick = "Class",            .canon = "Priority" },
-  { .nick = "Package-Revision", .canon = "Revision" },
-  { .nick = "Package_Revision", .canon = "Revision" },
+  { NICK("Recommended"),      .canon = "Recommends" },
+  { NICK("Optional"),         .canon = "Suggests" },
+  { NICK("Class"),            .canon = "Priority" },
+  { NICK("Package-Revision"), .canon = "Revision" },
+  { NICK("Package_Revision"), .canon = "Revision" },
   { .nick = NULL }
 };
 
@@ -121,8 +121,8 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
   int *ip;
 
   for (nick = nicknames; nick->nick; nick++)
-    if (strncasecmp(nick->nick, fs->fieldstart, fs->fieldlen) == 0 &&
-        nick->nick[fs->fieldlen] == '\0')
+    if (nick->nicklen == (size_t)fs->fieldlen &&
+        strncasecmp(nick->nick, fs->fieldstart, fs->fieldlen) == 0)
       break;
   if (nick->nick) {
     fs->fieldstart = nick->canon;
@@ -130,8 +130,8 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
   }
 
   for (fip = fieldinfos, ip = fs->fieldencountered; fip->name; fip++, ip++)
-    if (strncasecmp(fip->name, fs->fieldstart, fs->fieldlen) == 0 &&
-        fip->name[fs->fieldlen] == '\0')
+    if (fip->namelen == (size_t)fs->fieldlen &&
+        strncasecmp(fip->name, fs->fieldstart, fs->fieldlen) == 0)
       break;
   if (fip->name) {
     if ((*ip)++)
@@ -153,7 +153,7 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
     larpp = &pkg_obj->pkgbin->arbs;
     while ((arp = *larpp) != NULL) {
       if (strncasecmp(arp->name, fs->fieldstart, fs->fieldlen) == 0 &&
-          arp->name[fs->fieldlen] == '\0')
+          strlen(arp->name) == (size_t)fs->fieldlen)
         parse_error(ps,
                    _("duplicate value for user-defined field `%.*s'"),
                    fs->fieldlen, fs->fieldstart);

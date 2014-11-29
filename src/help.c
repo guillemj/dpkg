@@ -221,7 +221,7 @@ dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
       if (conff->obsolete)
         continue;
       if (strncmp(file->name, conff->name, namelen) == 0 &&
-          conff->name[namelen] == '/') {
+          strlen(conff->name) > namelen && conff->name[namelen] == '/') {
 	debug(dbg_veryverbose, "directory %s has conffile %s from %s",
 	      file->name, conff->name, pkg_name(pkg, pnaw_always));
 	return true;
@@ -281,6 +281,7 @@ dir_is_used_by_pkg(struct filenamenode *file, struct pkginfo *pkg,
           node->namenode->name);
 
     if (strncmp(file->name, node->namenode->name, namelen) == 0 &&
+        strlen(node->namenode->name) > namelen &&
         node->namenode->name[namelen] == '/') {
       debug(dbg_veryverbose, "dir_is_used_by_pkg yes");
       return true;
