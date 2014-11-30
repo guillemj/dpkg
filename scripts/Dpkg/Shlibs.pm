@@ -77,9 +77,12 @@ sub blank_library_paths {
 }
 
 sub setup_library_paths {
+    @librarypaths = DEFAULT_LIBRARY_PATH;
+
+    push @librarypaths, DEFAULT_MULTILIB_PATH;
+
     # Adjust set of directories to consider when we're in a situation of a
     # cross-build or a build of a cross-compiler.
-    my @crosslibrarypaths;
     my ($crossprefix, $multiarch);
 
     # Detect cross compiler builds.
@@ -96,14 +99,11 @@ sub setup_library_paths {
     }
     # Define list of directories containing crossbuilt libraries.
     if ($crossprefix) {
-        push @crosslibrarypaths, "/lib/$multiarch", "/usr/lib/$multiarch",
+        push @librarypaths, "/lib/$multiarch", "/usr/lib/$multiarch",
              "/$crossprefix/lib", "/usr/$crossprefix/lib",
              "/$crossprefix/lib32", "/usr/$crossprefix/lib32",
              "/$crossprefix/lib64", "/usr/$crossprefix/lib64";
     }
-
-    @librarypaths = (DEFAULT_LIBRARY_PATH, DEFAULT_MULTILIB_PATH,
-                     @crosslibrarypaths);
 
     # XXX: Deprecated. Update library paths with LD_LIBRARY_PATH.
     if ($ENV{LD_LIBRARY_PATH}) {
