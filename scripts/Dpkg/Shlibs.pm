@@ -35,7 +35,10 @@ use Dpkg::Arch qw(debarch_to_gnutriplet get_build_arch get_host_arch
                   gnutriplet_to_multiarch debarch_to_multiarch);
 
 use constant DEFAULT_LIBRARY_PATH =>
-    qw(/lib /usr/lib /lib32 /usr/lib32 /lib64 /usr/lib64
+    qw(/lib /usr/lib);
+# XXX: Deprecated multilib paths.
+use constant DEFAULT_MULTILIB_PATH =>
+    qw(/lib32 /usr/lib32 /lib64 /usr/lib64
        /emul/ia32-linux/lib /emul/ia32-linux/usr/lib);
 
 my @librarypaths;
@@ -99,7 +102,8 @@ sub setup_library_paths {
              "/$crossprefix/lib64", "/usr/$crossprefix/lib64";
     }
 
-    @librarypaths = (DEFAULT_LIBRARY_PATH, @crosslibrarypaths);
+    @librarypaths = (DEFAULT_LIBRARY_PATH, DEFAULT_MULTILIB_PATH,
+                     @crosslibrarypaths);
 
     # XXX: Deprecated. Update library paths with LD_LIBRARY_PATH.
     if ($ENV{LD_LIBRARY_PATH}) {
