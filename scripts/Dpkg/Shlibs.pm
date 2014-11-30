@@ -80,10 +80,6 @@ sub setup_library_paths {
     my ($crossprefix, $multiarch);
 
     # Detect cross compiler builds.
-    if ($ENV{GCC_TARGET}) {
-        $crossprefix = debarch_to_gnutriplet($ENV{GCC_TARGET});
-        $multiarch = debarch_to_multiarch($ENV{GCC_TARGET});
-    }
     if ($ENV{DEB_TARGET_GNU_TYPE} and
         ($ENV{DEB_TARGET_GNU_TYPE} ne $ENV{DEB_BUILD_GNU_TYPE}))
     {
