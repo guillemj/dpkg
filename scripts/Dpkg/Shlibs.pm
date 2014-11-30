@@ -98,8 +98,12 @@ sub setup_library_paths {
         $multiarch = debarch_to_multiarch(get_host_arch());
     }
     # Define list of directories containing crossbuilt libraries.
+    if ($multiarch) {
+        push @librarypaths, "/lib/$multiarch", "/usr/lib/$multiarch";
+    }
+    # XXX: Add deprecated sysroot and toolchain cross-compilation paths.
     if ($crossprefix) {
-        push @librarypaths, "/lib/$multiarch", "/usr/lib/$multiarch",
+        push @librarypaths,
              "/$crossprefix/lib", "/usr/$crossprefix/lib",
              "/$crossprefix/lib32", "/usr/$crossprefix/lib32",
              "/$crossprefix/lib64", "/usr/$crossprefix/lib64";
