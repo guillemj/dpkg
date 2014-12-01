@@ -402,7 +402,7 @@ sub generate_patch {
 
     # Create a patch
     my ($difffh, $tmpdiff) = tempfile($self->get_basename(1) . '.diff.XXXXXX',
-                                      DIR => File::Spec->tmpdir(), UNLINK => 0);
+                                      TMPDIR => 1, UNLINK => 0);
     push_exit_handler(sub { unlink($tmpdiff) });
     my $diff = Dpkg::Source::Patch->new(filename => $tmpdiff,
                                         compression => 'none');
