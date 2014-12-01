@@ -42,7 +42,7 @@ use POSIX qw(:errno_h);
 use Cwd;
 use File::Basename;
 use File::Temp qw(tempfile tempdir);
-use File::Path;
+use File::Path qw(make_path);
 use File::Spec;
 use File::Find;
 use File::Copy;
@@ -537,7 +537,7 @@ sub do_build {
 
     # Install the diff as the new autopatch
     if ($self->{options}{auto_commit}) {
-        mkpath(File::Spec->catdir($dir, 'debian', 'patches'));
+        make_path(File::Spec->catdir($dir, 'debian', 'patches'));
         $autopatch = $self->register_patch($dir, $tmpdiff,
                                            $self->get_autopatch_name());
         info(g_('local changes have been recorded in a new patch: %s'),
@@ -679,7 +679,7 @@ sub do_commit {
         $patch_name =~ s/\s+/-/g;
         $patch_name =~ s/\///g;
     }
-    mkpath(File::Spec->catdir($dir, 'debian', 'patches'));
+    make_path(File::Spec->catdir($dir, 'debian', 'patches'));
     my $patch = $self->register_patch($dir, $tmpdiff, $patch_name);
     my @editors = ('sensible-editor', $ENV{VISUAL}, $ENV{EDITOR}, 'vi');
     my $editor = first { find_command($_) } @editors;
@@ -750,7 +750,7 @@ sub update_debian_source_include_binaries {
     return unless scalar(@unknown_binaries);
 
     my $incbin_file = $self->{include_binaries_path};
-    mkpath(File::Spec->catdir($self->{dir}, 'debian', 'source'));
+    make_path(File::Spec->catdir($self->{dir}, 'debian', 'source'));
     open(my $incbin_fh, '>>', $incbin_file)
         or syserr(g_('cannot write %s'), $incbin_file);
     foreach my $binary (@unknown_binaries) {

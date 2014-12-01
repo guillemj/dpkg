@@ -21,7 +21,7 @@ use warnings;
 
 eval q{
     use Net::FTP;
-    use File::Path;
+    use File::Path qw(make_path remove_tree);
     use File::Basename;
     use File::Find;
     use Data::Dumper;
@@ -56,7 +56,7 @@ my $methdir = "$vardir/methods/ftp";
 read_config("$methdir/vars");
 
 chdir "$methdir";
-mkpath(["$methdir/$CONFIG{dldir}"], 0, 0755);
+make_path("$methdir/$CONFIG{dldir}", { mode => 0755 });
 
 
 #Read md5sums already calculated
@@ -230,7 +230,7 @@ foreach my $pkg (keys(%pkgs)) {
 	}
 	$dir = dirname($fn);
 	if(! -d "$dldir/$dir") {
-	    mkpath(["$dldir/$dir"], 0, 0755);
+	    make_path("$dldir/$dir", { mode => 0755 });
 	}
 	@info = @{$pkgfiles{$fn}};
 	$csize = int($info[1]/1024)+1;
@@ -615,7 +615,7 @@ if (yesno('y', "\nDo you wish to delete the installed package (.deb) files?")) {
 
 # remove whole ./debian directory if user wants to
 if (yesno('n', "\nDo you want to remove $dldir directory?")) {
-    rmtree("$dldir");
+    remove_tree($dldir);
 }
 
 #Store useful md5sums

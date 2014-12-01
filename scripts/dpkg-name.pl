@@ -22,7 +22,7 @@ use warnings;
 use strict;
 
 use File::Basename;
-use File::Path;
+use File::Path qw(make_path);
 
 use Dpkg ();
 use Dpkg::Gettext;
@@ -183,7 +183,7 @@ sub move($)
         my $dir = getdir($filename, $fields, $arch);
         if (! -d $dir) {
             if ($options{createdir}) {
-                if (mkpath($dir)) {
+                if (make_path($dir)) {
                     info(g_("created directory '%s'"), $dir);
                 } else {
                     error(g_("cannot create directory '%s'"), $dir);

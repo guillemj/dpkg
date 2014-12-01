@@ -30,7 +30,7 @@ use POSIX qw(:errno_h :sys_wait_h);
 use File::Find;
 use File::Basename;
 use File::Spec;
-use File::Path;
+use File::Path qw(make_path);
 use File::Compare;
 use Fcntl ':mode';
 #XXX: Needed for sub-second timestamps, require recent perl
@@ -549,7 +549,7 @@ sub prepare_apply {
     my ($self, $analysis, %opts) = @_;
     if ($opts{create_dirs}) {
 	foreach my $dir (keys %{$analysis->{dirtocreate}}) {
-	    eval { mkpath($dir, 0, 0777); };
+	    eval { make_path($dir, { mode => 0777 }); };
 	    syserr(g_('cannot create directory %s'), $dir) if $@;
 	}
     }
