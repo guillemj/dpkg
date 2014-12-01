@@ -33,8 +33,7 @@ use File::Spec;
 use File::Path qw(make_path);
 use File::Compare;
 use Fcntl ':mode';
-#XXX: Needed for sub-second timestamps, require recent perl
-#use Time::HiRes qw(stat);
+use Time::HiRes qw(stat);
 
 use parent qw(Dpkg::Compression::FileHandle);
 
