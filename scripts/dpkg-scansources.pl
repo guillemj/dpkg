@@ -238,7 +238,7 @@ sub process_dsc {
     $checksums->add_from_control($fields, use_files_for_md5 => 1);
 
     my $source = $fields->{Source};
-    my @binary = split /\s*,\s*/, $fields->{Binary};
+    my @binary = split /\s*,\s*/, $fields->{Binary} // '';
 
     error(g_('no binary packages specified in %s'), $file) unless (@binary);
 
