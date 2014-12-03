@@ -177,7 +177,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 		return;
 	}
 
-	loaded_list = nfmalloc(sb_next.st_size);
+	loaded_list = m_malloc(sb_next.st_size);
 	loaded_list_end = loaded_list + sb_next.st_size;
 
 	if (fd_read(fileno(file), loaded_list, sb_next.st_size) < 0)
@@ -260,6 +260,8 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 		/* Moving on... */
 		thisline = nextline;
 	}
+
+	free(loaded_list);
 
 	onerr_abort--;
 }
