@@ -385,6 +385,13 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			enqueue_package(pkg);
 			return;
 		} else if (ok == DEP_CHECK_HALT) {
+			/* We cannot process this package on this dpkg run,
+			 * and we can get here repeatedly if this package is
+			 * required to make progress for other packages. So
+			 * reset the trigger cycles tracking to avoid bogus
+			 * cycle detections. */
+			trigproc_reset_cycle();
+
 			/* When doing opportunistic trigger processig, nothing
 			 * requires us to be able to make progress; skip the
 			 * package and silently ignore the error due to
