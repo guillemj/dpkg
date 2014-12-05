@@ -140,6 +140,6 @@ sub capit {
 sub p {
     my ($k, $v) = @_;
 
-    $v =~ s/["\\]/\\${^MATCH}/pg;
+    $v =~ s/(["\\])/\\$1/g;
     printf("  { %-15s \"%-20s },\n", $k . ',', $v . '"') or die $!;
 }
