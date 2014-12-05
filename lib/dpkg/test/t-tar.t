@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use Test::More tests => 12;
+use Test::More;
 use Cwd;
 use File::Path qw(make_path remove_tree);
 use File::Temp qw(tempdir);
@@ -27,10 +27,21 @@ use Dpkg::IPC;
 
 use strict;
 use warnings;
+use version;
 
 my $srcdir = $ENV{srcdir} || '.';
 my $builddir = $ENV{builddir} || '.';
 my $tmpdir = 't.tmp/t-tar';
+
+# We require GNU tar >= 1.27 for --owner=NAME:ID and --group=NAME:ID.
+my $tar_version = qx(tar --version 2>/dev/null);
+if ($tar_version and $tar_version =~ m/^tar \(GNU tar\) (\d+\.\d+)/ and
+    qv("v$1") >= qv('v1.27'))
+{
+    plan tests => 12;
+} else {
+    plan skip_all => 'needs GNU tar >= 1.27';
+}
 
 # Set a known umask.
 umask 0022;
