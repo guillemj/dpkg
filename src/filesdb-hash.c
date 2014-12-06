@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * filesdb-hash.c - management of database of files installed on system
  *
- * Copyright © 2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2012-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -85,6 +85,7 @@ parse_filehash_buffer(char *buf, char *buf_end,
                       struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
 	char *thisline, *nextline;
+	const char *pkgname = pkg_name(pkg, pnaw_nonambig);
 
 	for (thisline = buf; thisline < buf_end; thisline = nextline) {
 		struct filenamenode *namenode;
@@ -93,19 +94,19 @@ parse_filehash_buffer(char *buf, char *buf_end,
 		endline = memchr(thisline, '\n', buf_end - thisline);
 		if (endline == NULL)
 			ohshit(_("control file '%s' for package '%s' is "
-			         "missing final newline"),
-			       HASHFILE, pkg_name(pkg, pnaw_nonambig));
+			         "missing final newline"), HASHFILE, pkgname);
 
 		/* The md5sum hash has a constant length. */
 		hash_end = thisline + MD5HASHLEN;
 
 		filename = hash_end + 2;
 		if (filename + 1 > endline)
-			ohshit(_("control file '%s' missing value"), HASHFILE);
+			ohshit(_("control file '%s' for package '%s' is "
+			         "missing value"), HASHFILE, pkgname);
 
 		if (hash_end[0] != ' ' || hash_end[1] != ' ')
-			ohshit(_("control file '%s' missing value separator"),
-			       HASHFILE);
+			ohshit(_("control file '%s' for package '%s' is "
+			         "missing value separator"), HASHFILE, pkgname);
 		hash_end[0] = '\0';
 
 		/* Where to start next time around. */
@@ -117,8 +118,8 @@ parse_filehash_buffer(char *buf, char *buf_end,
 		*endline = '\0';
 
 		if (endline == thisline)
-			ohshit(_("control file '%s' for package '%s' contains empty filename"),
-			       HASHFILE, pkg_name(pkg, pnaw_nonambig));
+			ohshit(_("control file '%s' for package '%s' "
+			         "contains empty filename"), HASHFILE, pkgname);
 
 		debug(dbg_eachfiledetail, "load hash '%s' for filename '%s'",
 		      thisline, filename);
@@ -143,16 +144,16 @@ parse_filehash(struct pkginfo *pkg, struct pkgbin *pkgbin)
 		if (errno == ENOENT)
 			return;
 
-		ohshite(_("cannot open '%s' control file for package '%s'"),
+		ohshite(_("cannot open control file '%s' for package '%s'"),
 		        HASHFILE, pkg_name(pkg, pnaw_nonambig));
 	}
 
 	if (fstat(fd, &st) < 0)
-		ohshite(_("cannot stat '%s' control file for package '%s'"),
+		ohshite(_("cannot stat control file '%s' for package '%s'"),
 		        HASHFILE, pkg_name(pkg, pnaw_nonambig));
 
 	if (!S_ISREG(st.st_mode))
-		ohshit(_("'%s' file for package '%s' is not a regular file"),
+		ohshit(_("control file '%s' for package '%s' is not a regular file"),
 		       HASHFILE, pkg_name(pkg, pnaw_nonambig));
 
 	if (st.st_size > 0) {
@@ -162,13 +163,13 @@ parse_filehash(struct pkginfo *pkg, struct pkgbin *pkgbin)
 		buf_end = buf + st.st_size;
 
 		if (fd_read(fd, buf, st.st_size) < 0)
-			ohshite(_("cannot read '%s' control file for package '%s'"),
+			ohshite(_("cannot read control file '%s' for package '%s'"),
 			        HASHFILE, pkg_name(pkg, pnaw_nonambig));
 
 		parse_filehash_buffer(buf, buf_end, pkg, pkgbin);
 	}
 
 	if (close(fd))
-		ohshite(_("cannot close '%s' control file for package '%s'"),
+		ohshite(_("cannot close control file '%s' for package '%s'"),
 		        HASHFILE, pkg_name(pkg, pnaw_nonambig));
 }
