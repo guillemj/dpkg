@@ -79,6 +79,9 @@ sub blank_library_paths {
 sub setup_library_paths {
     @librarypaths = DEFAULT_LIBRARY_PATH;
 
+    # Update library paths with ld.so config.
+    parse_ldso_conf('/etc/ld.so.conf') if -e '/etc/ld.so.conf';
+
     push @librarypaths, DEFAULT_MULTILIB_PATH;
 
     # Adjust set of directories to consider when we're in a situation of a
@@ -116,9 +119,6 @@ sub setup_library_paths {
             add_library_dir($path);
         }
     }
-
-    # Update library paths with ld.so config.
-    parse_ldso_conf('/etc/ld.so.conf') if -e '/etc/ld.so.conf';
 
     $librarypaths_init = 1;
 }
