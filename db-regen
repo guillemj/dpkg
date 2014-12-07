@@ -5,7 +5,7 @@
 # Copyright © 2011-2012 Guillem Jover <guillem@debian.org>
 #
 
-dbdir=dpkgdb
+dbdir=${1:-dpkgdb}
 
 rm -rf $dbdir/arch
 rm -f $dbdir/status*
@@ -17,11 +17,13 @@ rm -rf $dbdir/parts
 rm -rf $dbdir/updates
 rm -rf $dbdir/triggers
 
+mkdir -p $dbdir
 touch $dbdir/lock
 touch $dbdir/status
 touch $dbdir/available
 touch $dbdir/diversions
 touch $dbdir/statoverride
+mkdir -p $dbdir/info
 mkdir $dbdir/parts
 mkdir $dbdir/updates
 mkdir $dbdir/triggers
