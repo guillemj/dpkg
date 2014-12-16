@@ -54,6 +54,7 @@ TESTS_PASS += t-triggers-path
 TESTS_PASS += t-triggers-depends
 TESTS_PASS += t-triggers-depcycle
 TESTS_PASS += t-triggers-depfarcycle
+TESTS_PASS += t-triggers-selfcycle
 TESTS_PASS += t-triggers-cycle
 TESTS_PASS += t-file-replaces
 TESTS_PASS += t-file-replaces-disappear
