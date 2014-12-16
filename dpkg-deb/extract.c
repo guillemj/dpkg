@@ -123,7 +123,10 @@ extracthalf(const char *debar, const char *dir,
   bool header_done;
   enum compressor_type decompressor = COMPRESSOR_TYPE_GZIP;
 
-  arfd = open(debar, O_RDONLY);
+  if (strcmp(debar, "-") == 0)
+    arfd = STDIN_FILENO;
+  else
+    arfd = open(debar, O_RDONLY);
   if (arfd < 0)
     ohshite(_("failed to read archive `%.255s'"), debar);
   if (fstat(arfd, &stab))
@@ -474,6 +477,9 @@ do_raw_extract(const char *const *argv)
   debar = *argv++;
   if (debar == NULL)
     badusage(_("--%s needs .deb filename and directory arguments"),
+             cipaction->olong);
+  else if (strcmp(debar, "-") == 0)
+    badusage(_("--%s does not support (yet) reading the .deb from standard input"),
              cipaction->olong);
 
   dir = *argv++;
