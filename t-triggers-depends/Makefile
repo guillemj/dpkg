@@ -8,7 +8,7 @@ test-case:
 	$(DPKG_INSTALL) pkg-files.deb
 	$(DPKG_UNPACK) pkg-depends-1.deb
 	$(DPKG_UNPACK) pkg-files.deb
-	$(BEROOT) $(DPKG) --configure --pending
+	$(DPKG_CONFIGURE) --pending
 
 	# Make sure everything is left in a correct state.
 	$(call pkg_is_installed,pkg-files)

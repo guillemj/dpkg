@@ -10,7 +10,7 @@ test-case:
 	$(DPKG_INSTALL) pkg-depends-a.deb pkg-files-0.deb \
 	                pkg-depends-b.deb pkg-trigger.deb
 	$(DPKG_UNPACK) pkg-files-1.deb
-	$(BEROOT) $(DPKG) --configure --pending
+	$(DPKG_CONFIGURE) --pending
 
 	# Make sure everything is left in a correct state.
 	$(call pkg_is_installed,pkg-files)

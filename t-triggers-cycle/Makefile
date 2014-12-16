@@ -6,7 +6,7 @@ test-case:
 	$(DPKG_INSTALL) pkg-depends.deb
 	# Should fail due to a trigger cycle.
 	! $(DPKG_INSTALL) pkg-trigger-a.deb pkg-trigger-b.deb
-	! $(BEROOT) $(DPKG) --configure --pending
+	! $(DPKG_CONFIGURE) --pending
 
 	# Make sure everything is left in a correct state.
 	$(call pkg_is_installed,pkg-depends)
