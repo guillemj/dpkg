@@ -1,24 +1,25 @@
-TESTS_DEB := pkg-depends-0 pkg-depends-1 pkg-files pkg-trigger
+TESTS_DEB := pkg-depended pkg-interest pkg-activate
 
 include ../Test.mk
 
 test-case:
-	$(DPKG_INSTALL) pkg-depends-0.deb
-	$(DPKG_INSTALL) pkg-trigger.deb
-	$(DPKG_INSTALL) pkg-files.deb
-	$(DPKG_UNPACK) pkg-depends-1.deb
-	$(DPKG_UNPACK) pkg-files.deb
+	# Should pass due to satisfied dependencies.
+	$(DPKG_INSTALL) pkg-depended.deb pkg-interest.deb
+	$(DPKG_INSTALL) pkg-activate.deb
 	$(DPKG_CONFIGURE) --pending
 
-	# Make sure everything is left in a correct state.
-	$(call pkg_is_installed,pkg-files)
-	$(call pkg_is_installed,pkg-depends)
-	$(call pkg_is_installed,pkg-trigger)
+	# Should fail due to unsatisfied dependencies.
+	$(DPKG_UNPACK) --no-triggers pkg-depended.deb
+	$(DPKG_INSTALL) --no-triggers pkg-activate.deb
+	! $(DPKG_CONFIGURE) pkg-interest
+
+	# Should pass now due to satisfied dependencies.
+	$(DPKG_CONFIGURE) --no-triggers pkg-depended
+	$(DPKG_CONFIGURE) pkg-interest
 
 	# Cleanup.
-	$(DPKG_PURGE) pkg-files
-	$(DPKG_PURGE) pkg-trigger
+	$(DPKG_PURGE) pkg-trigger-a pkg-trigger-b
 	$(DPKG_PURGE) pkg-depends
 
 test-clean:
-	-$(DPKG_PURGE) pkg-depends pkg-files pkg-trigger
+	-$(DPKG_PURGE) pkg-activate pkg-interest pkg-depended
