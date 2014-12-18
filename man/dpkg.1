@@ -702,11 +702,16 @@ multiple times. The output format used is the same as in \fB\-\-status\-fd.
 Log status change updates and actions to \fIfilename\fP, instead of
 the default \fI/var/log/dpkg.log\fP. If this option is given multiple
 times, the last filename is used. Log messages are of the form
+`YYYY-MM-DD HH:MM:SS startup \fItype\fP \fIcommand\fP' for each dpkg
+invocation where \fItype\fP is \fBarchives\fP (with a \fIcommand\fP of
+\fBunpack\fP or \fBinstall\fP) or \fBpackages\fP (with a \fIcommand\fP of
+\fBconfigure\fP, \fBtriggers\-only\fP, \fBremove\fP or \fBpurge\fP);
 `YYYY-MM-DD HH:MM:SS status \fIstate\fP \fIpkg\fP \fIinstalled-version\fP'
 for status change updates;
 `YYYY-MM-DD HH:MM:SS \fIaction\fP \fIpkg\fP \fIinstalled-version\fP
 \fIavailable-version\fP' for actions where \fIaction\fP is one of
-\fBinstall\fP, \fBupgrade\fP, \fBremove\fP, \fBpurge\fP; and
+\fBinstall\fP, \fBupgrade\fP, \fBconfigure\fP, \fBtrigproc\fP,
+\fBdisappear\fP, \fBremove\fP or \fBpurge\fP; and
 `YYYY-MM-DD HH:MM:SS conffile \fIfilename\fP \fIdecision\fP' for conffile
 changes where \fIdecision\fP is either \fBinstall\fP or \fBkeep\fP.
 .TP
