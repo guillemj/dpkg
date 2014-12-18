@@ -1533,6 +1533,11 @@ alternative_display_user(struct alternative *a)
 	struct slave_link *sl;
 
 	pr("%s - %s", a->master_name, alternative_status_describe(a->status));
+	fs = alternative_get_best(a);
+	if (fs)
+		pr(_("  link best version is %s"), fs->master_file);
+	else
+		pr(_("  link best version not available"));
 	current = alternative_get_current(a);
 	if (current) {
 		pr(_("  link currently points to %s"), current);
@@ -1551,12 +1556,6 @@ alternative_display_user(struct alternative *a)
 				   fileset_get_slave(fs, sl->name));
 		}
 	}
-
-	fs = alternative_get_best(a);
-	if (fs)
-		pr(_("Current 'best' version is '%s'."), fs->master_file);
-	else
-		pr(_("No versions available."));
 }
 
 static void
