@@ -1539,6 +1539,9 @@ alternative_display_user(struct alternative *a)
 	} else {
 		pr(_("  link currently absent"));
 	}
+	pr(_("  link %s is %s"), a->master_name, a->master_link);
+	for (sl = a->slaves; sl; sl = sl->next)
+		pr(_("  slave %s is %s"), sl->name, sl->link);
 
 	for (fs = a->choices; fs; fs = fs->next) {
 		pr(_("%s - priority %d"), fs->master_file, fs->priority);
