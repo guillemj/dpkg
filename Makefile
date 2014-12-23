@@ -56,6 +56,7 @@ TESTS_PASS += t-triggers-depcycle
 TESTS_PASS += t-triggers-depfarcycle
 TESTS_PASS += t-triggers-selfcycle
 TESTS_PASS += t-triggers-cycle
+TESTS_PASS += t-triggers-halt
 TESTS_PASS += t-file-replaces
 TESTS_PASS += t-file-replaces-disappear
 TESTS_PASS += t-file-replaces-versioned
