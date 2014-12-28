@@ -2,8 +2,6 @@
  * libdpkg - Debian packaging suite library routines
  * utils.c - helper functions for dpkg
  *
- * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
- *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of version 2 of the GNU General Public
  * License version 2 as published by the Free Software Foundation.
@@ -24,27 +22,6 @@
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
-
-/*
- * Reimplementation of the standard ctype.h is* functions. Since gettext
- * has overloaded the meaning of LC_CTYPE we can't use that to force C
- * locale, so use these cis* functions instead.
- */
-
-
-int cisdigit(int c) {
-	return (c>='0') && (c<='9');
-}
-
-int cisalpha(int c) {
-	return ((c>='a') && (c<='z')) || ((c>='A') && (c<='Z'));
-}
-
-int
-cisspace(int c)
-{
-	return (c == '\n' || c == '\t' || c == ' ');
-}
 
 int
 fgets_checked(char *buf, size_t bufsz, FILE *f, const char *fn)
