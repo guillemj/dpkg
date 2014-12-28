@@ -44,6 +44,7 @@ libdpkg_la_SOURCES = \
 	arch.c \
 	atomic-file.c \
 	buffer.c \
+	c-ctype.c \
 	cleanup.c \
 	command.c \
 	compress.c \
@@ -102,6 +103,7 @@ pkginclude_HEADERS = \
 	arch.h \
 	atomic-file.h \
 	buffer.h \
+	c-ctype.h \
 	command.h \
 	compress.h \
 	deb-version.h \
