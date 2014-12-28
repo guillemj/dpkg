@@ -31,7 +31,6 @@
 #include <locale.h>
 #endif
 #include <errno.h>
-#include <ctype.h>
 #include <string.h>
 #include <dirent.h>
 #include <unistd.h>

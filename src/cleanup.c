@@ -26,7 +26,6 @@
 #include <sys/stat.h>
 
 #include <errno.h>
-#include <ctype.h>
 #include <string.h>
 #include <time.h>
 #include <utime.h>

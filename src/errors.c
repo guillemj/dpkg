@@ -28,7 +28,6 @@
 
 #include <errno.h>
 #include <limits.h>
-#include <ctype.h>
 #include <string.h>
 #include <dirent.h>
 #include <unistd.h>

@@ -30,7 +30,6 @@
 #include <assert.h>
 #include <errno.h>
 #include <limits.h>
-#include <ctype.h>
 #include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
