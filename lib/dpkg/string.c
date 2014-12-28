@@ -24,6 +24,7 @@
 
 #include <string.h>
 
+#include <dpkg/c-ctype.h>
 #include <dpkg/string.h>
 #include <dpkg/dpkg.h>
 
@@ -100,7 +101,7 @@ str_quote_meta(const char *src)
 	new_dst = dst = m_malloc(strlen(src) * 2);
 
 	while (*src) {
-		if (!cisdigit(*src) && !cisalpha(*src))
+		if (!c_isdigit(*src) && !c_isalpha(*src))
 			*dst++ = '\\';
 
 		*dst++ = *src++;

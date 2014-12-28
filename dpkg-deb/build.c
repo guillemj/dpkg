@@ -29,7 +29,6 @@
 
 #include <errno.h>
 #include <limits.h>
-#include <ctype.h>
 #include <string.h>
 #include <dirent.h>
 #include <fcntl.h>
@@ -40,6 +39,7 @@
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
@@ -302,7 +302,7 @@ check_conffiles(const char *dir)
     varbuf_printf(&controlfile, "%s/%s", dir, conffilename);
     if (lstat(controlfile.buf, &controlstab)) {
       if (errno == ENOENT) {
-        if ((n > 1) && isspace(conffilename[n - 2]))
+        if ((n > 1) && c_isspace(conffilename[n - 2]))
           warning(_("conffile filename '%s' contains trailing white spaces"),
                   conffilename);
         ohshit(_("conffile `%.250s' does not appear in package"), conffilename);

@@ -22,7 +22,7 @@
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/dpkg.h> /* cis* */
+#include <dpkg/c-ctype.h>
 #include <dpkg/ehandle.h>
 #include <dpkg/string.h>
 #include <dpkg/version.h>
@@ -66,9 +66,9 @@ dpkg_version_is_informative(const struct dpkg_version *version)
 static int
 order(int c)
 {
-	if (cisdigit(c))
+	if (c_isdigit(c))
 		return 0;
-	else if (cisalpha(c))
+	else if (c_isalpha(c))
 		return c;
 	else if (c == '~')
 		return -1;
@@ -89,7 +89,7 @@ verrevcmp(const char *a, const char *b)
 	while (*a || *b) {
 		int first_diff = 0;
 
-		while ((*a && !cisdigit(*a)) || (*b && !cisdigit(*b))) {
+		while ((*a && !c_isdigit(*a)) || (*b && !c_isdigit(*b))) {
 			int ac = order(*a);
 			int bc = order(*b);
 
@@ -103,16 +103,16 @@ verrevcmp(const char *a, const char *b)
 			a++;
 		while (*b == '0')
 			b++;
-		while (cisdigit(*a) && cisdigit(*b)) {
+		while (c_isdigit(*a) && c_isdigit(*b)) {
 			if (!first_diff)
 				first_diff = *a - *b;
 			a++;
 			b++;
 		}
 
-		if (cisdigit(*a))
+		if (c_isdigit(*a))
 			return 1;
-		if (cisdigit(*b))
+		if (c_isdigit(*b))
 			return -1;
 		if (first_diff)
 			return first_diff;

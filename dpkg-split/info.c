@@ -26,7 +26,6 @@
 
 #include <errno.h>
 #include <limits.h>
-#include <ctype.h>
 #include <string.h>
 #include <unistd.h>
 #include <ar.h>
@@ -36,6 +35,7 @@
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/ar.h>
@@ -67,7 +67,8 @@ static char *nextline(char **ripp, const char *fn, const char *what) {
   if (!newline)
     ohshit(_("file `%.250s' is corrupt - missing newline after %.250s"),fn,what);
   *ripp= newline+1;
-  while (newline > rip && isspace(newline[-1])) newline--;
+  while (newline > rip && c_isspace(newline[-1]))
+    newline--;
   *newline = '\0';
   return rip;
 }

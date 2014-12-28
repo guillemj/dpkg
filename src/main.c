@@ -32,7 +32,6 @@
 #if HAVE_LOCALE_H
 #include <locale.h>
 #endif
-#include <ctype.h>
 #include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
@@ -43,6 +42,7 @@
 
 #include <dpkg/macros.h>
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/arch.h>
@@ -793,7 +793,11 @@ commandfd(const char *const *argv)
 
     push_error_context();
 
-    do { c= getc(in); if (c == '\n') lno++; } while (c != EOF && isspace(c));
+    do {
+      c = getc(in);
+      if (c == '\n')
+        lno++;
+    } while (c != EOF && c_isspace(c));
     if (c == EOF) break;
     if (c == '#') {
       do { c= getc(in); if (c == '\n') lno++; } while (c != EOF && c != '\n');
@@ -806,7 +810,7 @@ commandfd(const char *const *argv)
       if (c == '\n') lno++;
 
       /* This isn't fully accurate, but overestimating can't hurt. */
-      if (isspace(c))
+      if (c_isspace(c))
         argc++;
     } while (c != EOF && c != '\n');
     if (c == EOF) ohshit(_("unexpected eof before end of line %d"),lno);
@@ -825,7 +829,7 @@ commandfd(const char *const *argv)
 	endptr--;
 	skipchar = true;
 	continue;
-      } else if (isspace(*ptr)) {
+      } else if (c_isspace(*ptr)) {
 	if (mode == true) {
 	  *ptr = '\0';
 	  mode = false;

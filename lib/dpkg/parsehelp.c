@@ -23,13 +23,13 @@
 #include <compat.h>
 
 #include <errno.h>
-#include <ctype.h>
 #include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/string.h>
@@ -110,10 +110,11 @@ pkg_name_is_illegal(const char *p)
   int c;
 
   if (!*p) return _("may not be empty string");
-  if (!isalnum(*p))
+  if (!c_isalnum(*p))
     return _("must start with an alphanumeric character");
   while ((c = *p++) != '\0')
-    if (!isalnum(c) && !strchr(alsoallowed,c)) break;
+    if (!c_isalnum(c) && !strchr(alsoallowed, c))
+      break;
   if (!c) return NULL;
 
   snprintf(buf, sizeof(buf), _(
@@ -189,7 +190,7 @@ parseversion(struct dpkg_version *rversion, const char *string,
   const char *end, *ptr;
 
   /* Trim leading and trailing space. */
-  while (*string && isblank(*string))
+  while (*string && c_isblank(*string))
     string++;
 
   if (!*string)
@@ -198,11 +199,11 @@ parseversion(struct dpkg_version *rversion, const char *string,
   /* String now points to the first non-whitespace char. */
   end = string;
   /* Find either the end of the string, or a whitespace char. */
-  while (*end && !isblank(*end))
+  while (*end && !c_isblank(*end))
     end++;
   /* Check for extra chars after trailing space. */
   ptr = end;
-  while (*ptr && isblank(*ptr))
+  while (*ptr && c_isblank(*ptr))
     ptr++;
   if (*ptr)
     return dpkg_put_error(err, _("version string has embedded spaces"));
@@ -234,14 +235,14 @@ parseversion(struct dpkg_version *rversion, const char *string,
 
   /* XXX: Would be faster to use something like cisversion and cisrevision. */
   ptr = rversion->version;
-  if (*ptr && !cisdigit(*ptr++))
+  if (*ptr && !c_isdigit(*ptr++))
     return dpkg_put_warn(err, _("version number does not start with digit"));
   for (; *ptr; ptr++) {
-    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~:", *ptr) == NULL)
+    if (!c_isdigit(*ptr) && !c_isalpha(*ptr) && strchr(".-+~:", *ptr) == NULL)
       return dpkg_put_warn(err, _("invalid character in version number"));
   }
   for (ptr = rversion->revision; *ptr; ptr++) {
-    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".+~", *ptr) == NULL)
+    if (!c_isdigit(*ptr) && !c_isalpha(*ptr) && strchr(".+~", *ptr) == NULL)
       return dpkg_put_warn(err, _("invalid character in revision number"));
   }
 

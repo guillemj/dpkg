@@ -26,11 +26,11 @@
 #include <config.h>
 #include <compat.h>
 
-#include <ctype.h>
 #include <string.h>
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/arch.h>
@@ -60,7 +60,7 @@ parse_nv_next(struct parsedb_state *ps,
     str_end = NULL;
   } else {
     str_end = str_start + nv->length;
-    while (isspace(str_end[0]))
+    while (c_isspace(str_end[0]))
       str_end++;
   }
   *strp = str_end;
@@ -115,7 +115,9 @@ f_filecharf(struct pkginfo *pkg, struct pkgbin *pkgbin,
   fdpp = &pkg->files;
   cpos= nfstrsave(value);
   while (*cpos) {
-    space= cpos; while (*space && !isspace(*space)) space++;
+    space = cpos;
+    while (*space && !c_isspace(*space))
+      space++;
     if (*space)
       *space++ = '\0';
     fdp= *fdpp;
@@ -131,7 +133,8 @@ f_filecharf(struct pkginfo *pkg, struct pkgbin *pkgbin,
     }
     STRUCTFIELD(fdp, fip->integer, const char *) = cpos;
     fdpp= &fdp->next;
-    while (*space && isspace(*space)) space++;
+    while (*space && c_isspace(*space))
+      space++;
     cpos= space;
   }
   if (*fdpp)
@@ -396,7 +399,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
     for (;;) {
       depnamestart= p;
       /* Skip over package name characters. */
-      while (*p && !isspace(*p) && *p != ':' && *p != '(' && *p != ',' &&
+      while (*p && !c_isspace(*p) && *p != ':' && *p != '(' && *p != ',' &&
              *p != '|')
         p++;
       depnamelength= p - depnamestart ;
@@ -437,7 +440,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
         int archlength;
 
         archstart = ++p;
-        while (*p && !isspace(*p) && *p != '(' && *p != ',' && *p != '|')
+        while (*p && !c_isspace(*p) && *p != '(' && *p != ',' && *p != '|')
           p++;
         archlength = p - archstart;
         if (archlength == 0)
@@ -471,11 +474,14 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
       }
 
       /* Skip whitespace after package name. */
-      while (isspace(*p)) p++;
+      while (c_isspace(*p))
+        p++;
 
       /* See if we have a versioned relation. */
       if (*p == '(') {
-        p++; while (isspace(*p)) p++;
+        p++;
+        while (c_isspace(*p))
+          p++;
         c1= *p;
         if (c1 == '<' || c1 == '>') {
           c2= *++p;
@@ -515,7 +521,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
                      _("only exact versions may be used for '%s' field"),
                      "Provides");
 
-        if (!isspace(*p) && !isalnum(*p)) {
+        if (!c_isspace(*p) && !c_isalnum(*p)) {
           parse_warn(ps,
                      _("`%s' field, reference to `%.255s':\n"
                        " version value starts with non-alphanumeric, "
@@ -523,15 +529,18 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
                      fip->name, depname.buf);
         }
         /* Skip spaces between the relation and the version. */
-        while (isspace(*p)) p++;
+        while (c_isspace(*p))
+          p++;
 
 	versionstart= p;
         while (*p && *p != ')' && *p != '(') {
-          if (isspace(*p)) break;
+          if (c_isspace(*p))
+            break;
           p++;
         }
 	versionlength= p - versionstart;
-        while (isspace(*p)) p++;
+        while (c_isspace(*p))
+          p++;
         if (*p == '(')
           parse_error(ps,
                       _("`%s' field, reference to `%.255s': "
@@ -550,7 +559,9 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
         parse_db_version(ps, &dop->version, version.buf,
                          _("'%s' field, reference to '%.255s': "
                            "error in version"), fip->name, depname.buf);
-        p++; while (isspace(*p)) p++;
+        p++;
+        while (c_isspace(*p))
+          p++;
       } else {
         dop->verrel = DPKG_RELATION_NONE;
         dpkg_version_blank(&dop->version);
@@ -566,10 +577,14 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
           fip->integer == dep_replaces)
         parse_error(ps,
                     _("alternatives (`|') not allowed in %s field"), fip->name);
-      p++; while (isspace(*p)) p++;
+      p++;
+      while (c_isspace(*p))
+        p++;
     }
     if (!*p) break;
-    p++; while (isspace(*p)) p++;
+    p++;
+    while (c_isspace(*p))
+      p++;
   }
 }
 
@@ -585,7 +600,7 @@ scan_word(const char **valp)
       *valp = p;
       return NULL;
     }
-    if (cisspace(*p)) {
+    if (c_iswhite(*p)) {
       p++;
       continue;
     }
@@ -593,7 +608,7 @@ scan_word(const char **valp)
     break;
   }
   for (;;) {
-    if (*p && !cisspace(*p)) {
+    if (*p && !c_iswhite(*p)) {
       p++;
       continue;
     }

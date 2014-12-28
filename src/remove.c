@@ -26,7 +26,6 @@
 #include <sys/stat.h>
 
 #include <errno.h>
-#include <ctype.h>
 #include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
@@ -35,6 +34,7 @@
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
@@ -558,7 +558,8 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
               goto yes_remove;
           p= de->d_name+conffbasenamelen;
           if (*p++ == '~') {
-            while (*p && cisdigit(*p)) p++;
+            while (*p && c_isdigit(*p))
+              p++;
             if (*p == '~' && !*++p) goto yes_remove;
           }
         }

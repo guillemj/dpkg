@@ -30,7 +30,6 @@
 #include <assert.h>
 #include <errno.h>
 #include <limits.h>
-#include <ctype.h>
 #include <string.h>
 #include <time.h>
 #include <fcntl.h>
@@ -41,6 +40,7 @@
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/file.h>
@@ -64,7 +64,8 @@ static int ulist_select(const struct dirent *de) {
   const char *p;
   int l;
   for (p= de->d_name, l=0; *p; p++, l++)
-    if (!cisdigit(*p)) return 0;
+    if (!c_isdigit(*p))
+      return 0;
   if (l > IMPORTANTMAXLEN)
     ohshit(_("updates directory contains file `%.250s' whose name is too long "
            "(length=%d, max=%d)"), de->d_name, l, IMPORTANTMAXLEN);

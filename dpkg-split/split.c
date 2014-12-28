@@ -30,7 +30,6 @@
 #include <fcntl.h>
 #include <libgen.h>
 #include <string.h>
-#include <ctype.h>
 #include <time.h>
 #include <unistd.h>
 #include <stdint.h>
@@ -38,6 +37,7 @@
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
@@ -86,7 +86,7 @@ deb_field(const char *filename, const char *field)
 
 	/* Trim down trailing junk. */
 	for (end = buf.buf + strlen(buf.buf) - 1; end - buf.buf >= 1; end--)
-		if (isspace(*end))
+		if (c_isspace(*end))
 			*end = '\0';
 		else
 			break;
@@ -103,9 +103,9 @@ clean_msdos_filename(char *filename)
 	for (s = d = filename; *s; d++, s++) {
 		if (*s == '+')
 			*d = 'x';
-		else if (isupper(*s))
-			*d = tolower(*s);
-		else if (islower(*s) || isdigit(*s))
+		else if (c_isupper(*s))
+			*d = c_tolower(*s);
+		else if (c_islower(*s) || c_isdigit(*s))
 			*d = *s;
 		else
 			s++;

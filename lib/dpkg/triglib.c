@@ -32,6 +32,7 @@
 #include <unistd.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
@@ -693,19 +694,19 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 	push_cleanup(cu_closestream, ~0, NULL, 0, 1, f);
 
 	while ((l = fgets_checked(linebuf, sizeof(linebuf), f, file)) >= 0) {
-		for (cmd = linebuf; cisspace(*cmd); cmd++);
+		for (cmd = linebuf; c_iswhite(*cmd); cmd++) ;
 		if (*cmd == '#')
 			continue;
-		for (eol = linebuf + l; eol > cmd && cisspace(eol[-1]); eol--);
+		for (eol = linebuf + l; eol > cmd && c_iswhite(eol[-1]); eol--) ;
 		if (eol == cmd)
 			continue;
 		*eol = '\0';
 
-		for (spc = cmd; *spc && !cisspace(*spc); spc++);
+		for (spc = cmd; *spc && !c_iswhite(*spc); spc++) ;
 		if (!*spc)
 			ohshit(_("triggers ci file contains unknown directive syntax"));
 		*spc++ = '\0';
-		while (cisspace(*spc))
+		while (c_iswhite(*spc))
 			spc++;
 		if (strcmp(cmd, "interest") == 0 ||
 		    strcmp(cmd, "interest-await") == 0) {

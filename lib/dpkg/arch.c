@@ -25,13 +25,13 @@
 
 #include <assert.h>
 #include <limits.h>
-#include <ctype.h>
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/ehandle.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
@@ -62,10 +62,10 @@ dpkg_arch_name_is_illegal(const char *name)
 	assert(name);
 	if (!*p)
 		return _("may not be empty string");
-	if (!isalnum(*p))
+	if (!c_isalnum(*p))
 		return _("must start with an alphanumeric");
 	while (*++p != '\0')
-		if (!isalnum(*p) && *p != '-')
+		if (!c_isalnum(*p) && *p != '-')
 			break;
 	if (*p == '\0')
 		return NULL;

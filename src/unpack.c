@@ -30,7 +30,6 @@
 
 #include <assert.h>
 #include <errno.h>
-#include <ctype.h>
 #include <string.h>
 #include <time.h>
 #include <utime.h>
@@ -42,6 +41,7 @@
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
@@ -229,7 +229,7 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
     if (p[-1] != '\n')
       ohshit(_("conffile name '%s' is too long, or missing final newline"),
              conffilenamebuf);
-    while (p > conffilenamebuf && isspace(p[-1]))
+    while (p > conffilenamebuf && c_isspace(p[-1]))
       --p;
     if (p == conffilenamebuf)
       continue;

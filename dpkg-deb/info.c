@@ -28,7 +28,6 @@
 
 #include <errno.h>
 #include <limits.h>
-#include <ctype.h>
 #include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
@@ -38,6 +37,7 @@
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/parsedump.h>
@@ -159,7 +159,7 @@ info_list(const char *debar, const char *dir)
         if (getc(cc) == '!') {
           while ((c= getc(cc))== ' ');
           p=interpreter; *p++='#'; *p++='!'; il=2;
-          while (il<INTERPRETER_MAX && !isspace(c) && c!=EOF) {
+          while (il < INTERPRETER_MAX && !c_isspace(c) && c != EOF) {
             *p++= c; il++; c= getc(cc);
           }
           *p = '\0';

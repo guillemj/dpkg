@@ -28,7 +28,6 @@
 #include <assert.h>
 #include <errno.h>
 #include <limits.h>
-#include <ctype.h>
 #include <string.h>
 #include <dirent.h>
 #include <unistd.h>
@@ -36,6 +35,7 @@
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 
@@ -99,9 +99,10 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
     c= dent->d_name[0];
     debug(dbg_general, "readmethods('%s',...) considering '%s' ...",
           pathbase, dent->d_name);
-    if (c != '_' && !isalpha(c)) continue;
+    if (c != '_' && !c_isalpha(c))
+      continue;
     char *p = dent->d_name + 1;
-    while ((c = *p) != 0 && isalnum(c) && c != '_')
+    while ((c = *p) != 0 && c_isalnum(c) && c != '_')
       p++;
     if (c) continue;
     methodlen= strlen(dent->d_name);
@@ -142,16 +143,18 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
           pathbase, meth->name, meth->path, meth->pathinmeth);
 
     while ((c= fgetc(names)) != EOF) {
-      if (isspace(c)) continue;
+      if (c_isspace(c))
+        continue;
       opt= new dselect_option;
       opt->meth= meth;
       vb.reset();
       do {
-        if (!isdigit(c)) badmethod(pathbuf,_("non-digit where digit wanted"));
+        if (!c_isdigit(c))
+          badmethod(pathbuf, _("non-digit where digit wanted"));
         vb(c);
         c= fgetc(names);
         if (c == EOF) eofmethod(pathbuf,names,_("EOF in index string"));
-      } while (!isspace(c));
+      } while (!c_isspace(c));
       if (strlen(vb.string()) > OPTIONINDEXMAXLEN)
         badmethod(pathbuf,_("index string too long"));
       strcpy(opt->index,vb.string());
@@ -159,23 +162,24 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
         if (c == '\n') badmethod(pathbuf,_("newline before option name start"));
         c= fgetc(names);
         if (c == EOF) eofmethod(pathbuf,names,_("EOF before option name start"));
-      } while (isspace(c));
+      } while (c_isspace(c));
       vb.reset();
-      if (!isalpha(c) && c != '_')
+      if (!c_isalpha(c) && c != '_')
         badmethod(pathbuf,_("nonalpha where option name start wanted"));
       do {
-        if (!isalnum(c) && c != '_') badmethod(pathbuf,_("non-alphanum in option name"));
+        if (!c_isalnum(c) && c != '_')
+          badmethod(pathbuf, _("non-alphanum in option name"));
         vb(c);
         c= fgetc(names);
         if (c == EOF) eofmethod(pathbuf,names,_("EOF in option name"));
-      } while (!isspace(c));
+      } while (!c_isspace(c));
       opt->name= new char[strlen(vb.string())+1];
       strcpy(opt->name,vb.string());
       do {
         if (c == '\n') badmethod(pathbuf,_("newline before summary"));
         c= fgetc(names);
         if (c == EOF) eofmethod(pathbuf,names,_("EOF before summary"));
-      } while (isspace(c));
+      } while (c_isspace(c));
       vb.reset();
       do {
         vb(c);

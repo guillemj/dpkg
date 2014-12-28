@@ -27,13 +27,13 @@
 
 #include <assert.h>
 #include <errno.h>
-#include <ctype.h>
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 
@@ -367,7 +367,8 @@ void baselist::wordwrapinfo(int offset, const char *m) {
     int offleft=offset; while (*m == ' ' && offleft>0) { m++; offleft--; }
     const char *p= strchr(m,'\n');
     int l= p ? (int)(p-m) : strlen(m);
-    while (l && isspace(m[l-1])) l--;
+    while (l && c_isspace(m[l - 1]))
+      l--;
     if (!l || (*m == '.' && l == 1)) {
       if (wrapping) waddch(infopad,'\n');
       waddch(infopad, '\n');

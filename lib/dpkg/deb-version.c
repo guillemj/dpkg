@@ -25,6 +25,7 @@
 #include <stdlib.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/deb-version.h>
 
@@ -48,7 +49,7 @@ deb_version_parse(struct deb_version *version, const char *str)
 	int major = 0;
 	int minor = 0;
 
-	for (end = str; *end && cisdigit(*end); end++)
+	for (end = str; *end && c_isdigit(*end); end++)
 		major = major * 10  + *end - '0';
 
 	if (end == str)
@@ -56,7 +57,7 @@ deb_version_parse(struct deb_version *version, const char *str)
 	if (*end != '.')
 		return _("format version has no dot");
 
-	for (end = str_minor = end + 1; *end && cisdigit(*end); end++)
+	for (end = str_minor = end + 1; *end && c_isdigit(*end); end++)
 		minor = minor * 10 + *end - '0';
 
 	if (end == str_minor)

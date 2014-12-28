@@ -30,7 +30,6 @@
 
 #include <assert.h>
 #include <fcntl.h>
-#include <ctype.h>
 #include <string.h>
 #include <unistd.h>
 #include <stdarg.h>
@@ -39,6 +38,7 @@
 
 #include <dpkg/macros.h>
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/string.h>
@@ -621,7 +621,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 
     /* Scan field name. */
     fs->fieldstart = ps->dataptr - 1;
-    while (!parse_EOF(ps) && !isspace(c) && c != ':' && c != MSDOS_EOF_CHAR)
+    while (!parse_EOF(ps) && !c_isspace(c) && c != ':' && c != MSDOS_EOF_CHAR)
       c = parse_getc(ps);
     fs->fieldlen = ps->dataptr - fs->fieldstart - 1;
     if (fs->fieldlen == 0)
@@ -631,7 +631,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
                   fs->fieldlen, fs->fieldstart);
 
     /* Skip spaces before ‘:’. */
-    while (!parse_EOF(ps) && c != '\n' && isspace(c))
+    while (!parse_EOF(ps) && c != '\n' && c_isspace(c))
       c = parse_getc(ps);
 
     /* Validate ‘:’. */
@@ -653,7 +653,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
     /* Skip space after ‘:’ but before value and EOL. */
     while (!parse_EOF(ps)) {
       c = parse_getc(ps);
-      if (c == '\n' || !isspace(c))
+      if (c == '\n' || !c_isspace(c))
         break;
     }
     if (parse_EOF(ps))
@@ -682,12 +682,12 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
         c = parse_getc(ps);
 
         /* Found double EOL, or start of new field. */
-        if (parse_EOF(ps) || c == '\n' || !isspace(c))
+        if (parse_EOF(ps) || c == '\n' || !c_isspace(c))
           break;
 
         parse_ungetc(c, ps);
         blank_line = true;
-      } else if (blank_line && !isspace(c)) {
+      } else if (blank_line && !c_isspace(c)) {
         blank_line = false;
       }
 
@@ -701,7 +701,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
     fs->valuelen = ps->dataptr - fs->valuestart - 1;
 
     /* Trim ending space on value. */
-    while (fs->valuelen && isspace(*(fs->valuestart + fs->valuelen - 1)))
+    while (fs->valuelen && c_isspace(*(fs->valuestart + fs->valuelen - 1)))
       fs->valuelen--;
 
     parse_field(ps, fs, parse_obj);

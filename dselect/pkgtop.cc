@@ -23,11 +23,11 @@
 #include <compat.h>
 
 #include <assert.h>
-#include <ctype.h>
 #include <string.h>
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 
@@ -190,7 +190,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
         for (i = col_priority.width, p = pkg->otherpriority;
              i > 0 && *p;
              i--, p++)
-          waddch(listpad, tolower(*p));
+          waddch(listpad, c_tolower(*p));
         while (i-- > 0) waddch(listpad,' ');
       } else {
         wprintw(listpad, "%-*.*s", col_priority.width, col_priority.width,

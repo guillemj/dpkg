@@ -25,11 +25,11 @@
 #include <compat.h>
 
 #include <assert.h>
-#include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/string.h>
@@ -67,7 +67,10 @@ pkg_db_find_set(const char *inname)
   char *name = m_strdup(inname), *p;
 
   p= name;
-  while(*p) { *p= tolower(*p); p++; }
+  while (*p) {
+    *p = c_tolower(*p);
+    p++;
+  }
 
   setp = bins + (str_fnv_hash(name) % (BINS));
   while (*setp && strcasecmp((*setp)->name, name))
