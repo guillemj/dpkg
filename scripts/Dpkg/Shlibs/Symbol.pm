@@ -22,9 +22,9 @@ use warnings;
 our $VERSION = '0.01';
 
 use Dpkg::Gettext;
-use Dpkg::Deps;
 use Dpkg::ErrorHandling;
 use Dpkg::Util qw(:list);
+use Dpkg::Arch qw(debarch_is_concerned);
 use Dpkg::Version;
 use Storable ();
 use Dpkg::Shlibs::Cppfilt;
@@ -295,11 +295,7 @@ sub arch_is_concerned {
     my $arches = $self->{tags}{arch};
 
     if (defined $arch && defined $arches) {
-	my $dep = Dpkg::Deps::Simple->new();
-	my @arches = split(/[\s,]+/, $arches);
-	$dep->{package} = 'dummy';
-	$dep->{arches} = \@arches;
-	return $dep->arch_is_concerned($arch);
+        return debarch_is_concerned($arch, split /[\s,]+/, $arches);
     }
 
     return 1;
