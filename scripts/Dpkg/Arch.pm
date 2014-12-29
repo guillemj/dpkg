@@ -24,6 +24,7 @@ use Exporter qw(import);
 our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch
                     get_build_arch get_host_arch get_gcc_host_gnu_type
                     get_valid_arches debarch_eq debarch_is debarch_is_wildcard
+                    debarch_is_concerned
                     debarch_to_cpuattrs
                     debarch_to_gnutriplet gnutriplet_to_debarch
                     debtriplet_to_gnutriplet gnutriplet_to_debtriplet
@@ -437,6 +438,34 @@ sub debarch_is_wildcard($)
     return 0 if scalar @triplet != 3;
     return 1 if any { $_ eq 'any' } @triplet;
     return 0;
+}
+
+sub debarch_is_concerned
+{
+    my ($host_arch, @arches) = @_;
+
+    my $seen_arch = 0;
+    foreach my $arch (@arches) {
+        $arch = lc $arch;
+
+        if ($arch =~ /^!/) {
+            my $not_arch = $arch;
+            $not_arch =~ s/^!//;
+
+            if (debarch_is($host_arch, $not_arch)) {
+                $seen_arch = 0;
+                last;
+            } else {
+                # !arch includes by default all other arches
+                # unless they also appear in a !otherarch
+                $seen_arch = 1;
+            }
+        } elsif (debarch_is($host_arch, $arch)) {
+            $seen_arch = 1;
+            last;
+        }
+    }
+    return $seen_arch;
 }
 
 1;

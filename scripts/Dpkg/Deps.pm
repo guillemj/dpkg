@@ -541,7 +541,7 @@ use warnings;
 
 use Carp;
 
-use Dpkg::Arch qw(debarch_is);
+use Dpkg::Arch qw(debarch_is_concerned);
 use Dpkg::BuildProfiles qw(parse_build_profiles evaluate_restriction_formula);
 use Dpkg::Version;
 use Dpkg::ErrorHandling;
@@ -813,28 +813,7 @@ sub arch_is_concerned {
     return 0 if not defined $self->{package}; # Empty dep
     return 1 if not defined $self->{arches};  # Dep without arch spec
 
-    my $seen_arch = 0;
-    foreach my $arch (@{$self->{arches}}) {
-	$arch=lc($arch);
-
-	if ($arch =~ /^!/) {
-	    my $not_arch = $arch;
-	    $not_arch =~ s/^!//;
-
-	    if (debarch_is($host_arch, $not_arch)) {
-		$seen_arch = 0;
-		last;
-	    } else {
-		# !arch includes by default all other arches
-		# unless they also appear in a !otherarch
-		$seen_arch = 1;
-	    }
-	} elsif (debarch_is($host_arch, $arch)) {
-	    $seen_arch = 1;
-	    last;
-	}
-    }
-    return $seen_arch;
+    return debarch_is_concerned($host_arch, @{$self->{arches}});
 }
 
 sub reduce_arch {
