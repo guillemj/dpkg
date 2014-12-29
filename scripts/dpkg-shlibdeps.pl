@@ -102,13 +102,13 @@ foreach (@ARGV) {
     } elsif (m/^--admindir=(.*)$/) {
 	$admindir = $1;
 	if (not -d $admindir) {
-	    error(_g("administrative directory '%s' does not exist"), $admindir);
+	    error(g_("administrative directory '%s' does not exist"), $admindir);
 	}
 	$ENV{DPKG_ADMINDIR} = $admindir;
     } elsif (m/^-d(.*)$/) {
 	$dependencyfield = field_capitalize($1);
 	if (not defined $depstrength{$dependencyfield}) {
-	    warning(_g("unrecognized dependency field '%s'"), $dependencyfield);
+	    warning(g_("unrecognized dependency field '%s'"), $dependencyfield);
 	}
     } elsif (m/^-e(.*)$/) {
 	if (exists $exec{$1}) {
@@ -130,7 +130,7 @@ foreach (@ARGV) {
     } elsif (m/^-x(.*)$/) {
 	push @exclude, $1;
     } elsif (m/^-/) {
-	usageerr(_g("unknown option \`%s'"), $_);
+	usageerr(g_("unknown option \`%s'"), $_);
     } else {
 	if (exists $exec{$_}) {
 	    # Affect the binary to the most important field
@@ -142,13 +142,13 @@ foreach (@ARGV) {
 	}
     }
 }
-usageerr(_g('need at least one executable')) unless scalar keys %exec;
+usageerr(g_('need at least one executable')) unless scalar keys %exec;
 
 my $control = Dpkg::Control::Info->new();
 my $fields = $control->get_source();
 my $bd_value = deps_concat($fields->{'Build-Depends'}, $fields->{'Build-Depends-Arch'});
 my $build_deps = deps_parse($bd_value, build_dep => 1, reduce_restrictions => 1);
-error(_g('error occurred while parsing %s'), 'Build-Depends/Build-Depends-Arch')
+error(g_('error occurred while parsing %s'), 'Build-Depends/Build-Depends-Arch')
     unless defined $build_deps;
 
 my %dependencies;
@@ -185,7 +185,7 @@ foreach my $file (keys %exec) {
 	unless (defined $lib) {
 	    $soname_notfound{$soname} = 1;
 	    $global_soname_notfound{$soname} = 1;
-	    my $msg = _g("couldn't find library %s needed by %s (ELF " .
+	    my $msg = g_("couldn't find library %s needed by %s (ELF " .
 			 "format: '%s'; RPATH: '%s')");
 	    if (scalar(split_soname($soname))) {
 		errormsg($msg, $soname, $file, $obj->{format}, join(':', @{$obj->{RPATH}}));
@@ -265,7 +265,7 @@ foreach my $file (keys %exec) {
                 my $libobj = $objdump_cache{$lib};
                 my $id = $dumplibs_wo_symfile->add_object($libobj);
 		if (($id ne $soname) and ($id ne $lib)) {
-		    warning(_g('%s has an unexpected SONAME (%s)'), $lib, $id);
+		    warning(g_('%s has an unexpected SONAME (%s)'), $lib, $id);
 		    $alt_soname{$id} = $soname;
 		}
 		push @soname_wo_symfile, $soname;
@@ -286,7 +286,7 @@ foreach my $file (keys %exec) {
 		    $ignore++ unless scalar(split_soname($soname));
 		    # 3/ when we have been asked to do so
 		    $ignore++ if $ignore_missing_info;
-		    error(_g('no dependency information found for %s ' .
+		    error(g_('no dependency information found for %s ' .
 		             "(used by %s)\n" .
 		             'Hint: check if the library actually comes ' .
 		             'from a package.'), $lib, $file)
@@ -319,7 +319,7 @@ foreach my $file (keys %exec) {
         my $parent_dir = '/' . dirname($relname);
         $in_public_dir = any { $parent_dir eq $_ } get_library_paths();
     } else {
-        warning(_g('binaries to analyze should already be ' .
+        warning(g_('binaries to analyze should already be ' .
                    "installed in their package's directory"));
     }
     print "Analyzing all undefined symbols\n" if $debug > 1;
@@ -362,10 +362,10 @@ foreach my $file (keys %exec) {
                             or (not $in_public_dir and $nb_warnings < 1))
                         {
                             if ($in_public_dir) {
-			        warning(_g('symbol %s used by %s found in none of the ' .
+			        warning(g_('symbol %s used by %s found in none of the ' .
 				           'libraries'), $print_name, $file);
                             } else {
-			        warning(_g('%s contains an unresolvable reference to ' .
+			        warning(g_('%s contains an unresolvable reference to ' .
                                            "symbol %s: it's probably a plugin"),
                                         $file, $print_name);
                             }
@@ -414,7 +414,7 @@ foreach my $file (keys %exec) {
 	    next if ($soname =~ /^libm\.so\.\d+$/ and
 	             any { m/^libstdc\+\+\.so\.\d+/ } @sonames);
             next unless ($warnings & WARN_NOT_NEEDED);
-	    warning(_g('%s should not be linked against %s (it uses none of ' .
+	    warning(g_('%s should not be linked against %s (it uses none of ' .
 	               "the library's symbols)"), $file, $soname);
 	}
     }
@@ -438,7 +438,7 @@ foreach my $soname (keys %global_soname_needed) {
 
 # Quit now if any missing libraries
 if ($error_count >= 1) {
-    my $note = _g('Note: libraries are not searched in other binary packages ' .
+    my $note = g_('Note: libraries are not searched in other binary packages ' .
 	"that do not have any shlibs or symbols file.\nTo help dpkg-shlibdeps " .
 	'find private libraries, you might need to use -l.');
     error(P_('cannot continue due to the error above',
@@ -452,14 +452,14 @@ if ($stdout) {
     $fh = \*STDOUT;
 } else {
     open(my $new_fh, '>', "$varlistfile.new")
-        or syserr(_g("open new substvars file \`%s'"), "$varlistfile.new");
+        or syserr(g_("open new substvars file \`%s'"), "$varlistfile.new");
     if (-e $varlistfile) {
 	open(my $old_fh, '<', $varlistfile)
-	    or syserr(_g("open old varlist file \`%s' for reading"), $varlistfile);
+	    or syserr(g_("open old varlist file \`%s' for reading"), $varlistfile);
 	while (my $entry = <$old_fh>) {
 	    next if $entry =~ m/^\Q$varnameprefix\E:/;
 	    print { $new_fh } $entry
-	        or syserr(_g("copy old entry to new varlist file \`%s'"),
+	        or syserr(g_("copy old entry to new varlist file \`%s'"),
 	                  "$varlistfile.new");
 	}
 	close($old_fh);
@@ -524,7 +524,7 @@ foreach my $field (reverse @depfields) {
     }
     if ($dep) {
         my $obj = deps_parse($dep);
-        error(_g('invalid dependency got generated: %s'), $dep) unless defined $obj;
+        error(g_('invalid dependency got generated: %s'), $dep) unless defined $obj;
         $obj->sort();
 	print { $fh } "$varnameprefix:$field=$obj\n";
     }
@@ -532,9 +532,9 @@ foreach my $field (reverse @depfields) {
 
 # Replace old file by new one
 if (!$stdout) {
-    close($fh) or syserr(_g('cannot close %s'), "$varlistfile.new");
+    close($fh) or syserr(g_('cannot close %s'), "$varlistfile.new");
     rename "$varlistfile.new", $varlistfile
-        or syserr(_g("install new varlist file \`%s'"), $varlistfile);
+        or syserr(g_("install new varlist file \`%s'"), $varlistfile);
 }
 
 ##
@@ -542,23 +542,23 @@ if (!$stdout) {
 ##
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    printf _g('
+    printf g_('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ');
 }
 
 sub usage {
-    printf _g(
+    printf g_(
 'Usage: %s [<option>...] <executable>|-e<executable> [<option>...]')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 "Positional options (order is significant):
   <executable>             include dependencies for <executable>,
   -e<executable>           (use -e if <executable> starts with '-')
   -d<dependency-field>     next executable(s) set shlibs:<dependency-field>.")
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 "Options:
   -l<library-dir>          add directory to private shared library search list.
   -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.
@@ -575,7 +575,7 @@ sub usage {
   --admindir=<directory>   change the administrative directory.
   -?, --help               show this help message.
       --version            show the version.")
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'Dependency fields recognized are:
   %s
 '), $Dpkg::PROGNAME, join('/', @depfields);
@@ -680,19 +680,19 @@ sub extract_from_shlibs {
     # Split soname in name/version
     my ($libname, $libversion) = split_soname($soname);
     unless (defined $libname) {
-	warning(_g("can't extract name and version from library name '%s'"),
+	warning(g_("can't extract name and version from library name '%s'"),
 	        $soname);
 	return;
     }
     # Open shlibs file
     open(my $shlibs_fh, '<', $shlibfile)
-        or syserr(_g("unable to open shared libs info file \`%s'"), $shlibfile);
+        or syserr(g_("unable to open shared libs info file \`%s'"), $shlibfile);
     my $dep;
     while (<$shlibs_fh>) {
 	s/\s*\n$//;
 	next if m/^\#/;
 	if (!m/^\s*(?:(\S+):\s+)?(\S+)\s+(\S+)(?:\s+(\S.*\S))?\s*$/) {
-	    warning(_g("shared libs info file \`%s' line %d: bad line \`%s'"),
+	    warning(g_("shared libs info file \`%s' line %d: bad line \`%s'"),
 	            $shlibfile, $., $_);
 	    next;
 	}
@@ -751,7 +751,7 @@ sub symfile_has_soname {
     }
 
     open(my $symfile_fh, '<', $file)
-        or syserr(_g('cannot open file %s'), $file);
+        or syserr(g_('cannot open file %s'), $file);
     my $result = 0;
     while (<$symfile_fh>) {
 	if (/^\Q$soname\E /) {
@@ -785,7 +785,7 @@ sub my_find_library {
 		$path =~ s/\$ORIGIN/$origin/g;
 		$path =~ s/\$\{ORIGIN\}/$origin/g;
 	    } else {
-		warning(_g('$ORIGIN is used in RPATH of %s and the corresponding ' .
+		warning(g_('$ORIGIN is used in RPATH of %s and the corresponding ' .
 		'directory could not be identified due to lack of DEBIAN ' .
 		"sub-directory in the root of package's build tree"), $execfile);
 	    }
@@ -838,27 +838,27 @@ sub find_packages {
     return $pkgmatch unless scalar(@files);
 
     my $pid = open(my $dpkg_fh, '-|');
-    syserr(_g('cannot fork for %s'), 'dpkg --search') unless defined($pid);
+    syserr(g_('cannot fork for %s'), 'dpkg --search') unless defined($pid);
     if (!$pid) {
 	# Child process running dpkg --search and discarding errors
 	close STDERR;
 	open STDERR, '>', '/dev/null'
-	    or syserr(_g('cannot open file %s'), '/dev/null');
+	    or syserr(g_('cannot open file %s'), '/dev/null');
 	$ENV{LC_ALL} = 'C';
 	exec('dpkg', '--search', '--', @files)
-	    or syserr(_g('unable to execute %s'), 'dpkg');
+	    or syserr(g_('unable to execute %s'), 'dpkg');
     }
     while (<$dpkg_fh>) {
 	chomp;
 	if (m/^local diversion |^diversion by/) {
-	    warning(_g('diversions involved - output may be incorrect'));
+	    warning(g_('diversions involved - output may be incorrect'));
 	    print { *STDERR } " $_\n"
-		or syserr(_g('write diversion info to stderr'));
+		or syserr(g_('write diversion info to stderr'));
 	} elsif (m/^([-a-z0-9+.:, ]+): (\/.*)$/) {
 	    my ($pkgs, $path) = ($1, $2);
 	    $cached_pkgmatch{$path} = $pkgmatch->{$path} = [ split /, /, $pkgs ];
 	} else {
-	    warning(_g("unknown output from dpkg --search: '%s'"), $_);
+	    warning(g_("unknown output from dpkg --search: '%s'"), $_);
 	}
     }
     close($dpkg_fh);

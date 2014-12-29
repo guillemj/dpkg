@@ -34,16 +34,16 @@ my $fileslistfile = 'debian/files';
 
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    printf _g('
+    printf g_('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ');
 }
 
 sub usage {
-    printf _g(
+    printf g_(
 'Usage: %s [<option>...] <filename> <section> <priority>
 
 Options:
@@ -66,22 +66,22 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     } elsif (m/^--$/) {
         last;
     } else {
-        usageerr(_g("unknown option \`%s'"), $_);
+        usageerr(g_("unknown option \`%s'"), $_);
     }
 }
-usageerr(_g('need exactly a filename, section and priority')) if @ARGV != 3;
+usageerr(g_('need exactly a filename, section and priority')) if @ARGV != 3;
 
 my ($file, $section, $priority) = @ARGV;
 
 ($file =~ m/\s/ || $section =~ m/\s/ || $priority =~ m/\s/) &&
-    error(_g('filename, section and priority may contain no whitespace'));
+    error(g_('filename, section and priority may contain no whitespace'));
 
 # Obtain a lock on debian/control to avoid simultaneous updates
 # of debian/files when parallel building is in use
 my $lockfh;
 my $lockfile = 'debian/control';
 sysopen($lockfh, $lockfile, O_WRONLY)
-    or syserr(_g('cannot write %s'), $lockfile);
+    or syserr(g_('cannot write %s'), $lockfile);
 file_lock($lockfh, $lockfile);
 
 my $dist = Dpkg::Dist::Files->new();
@@ -90,7 +90,7 @@ $dist->add_file($file, $section, $priority);
 $dist->save("$fileslistfile.new");
 
 rename("$fileslistfile.new", $fileslistfile)
-    or syserr(_g('install new files list file'));
+    or syserr(g_('install new files list file'));
 
 # Release the lock
-close($lockfh) or syserr(_g('cannot close %s'), $lockfile);
+close($lockfh) or syserr(g_('cannot close %s'), $lockfile);

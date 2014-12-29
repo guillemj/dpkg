@@ -237,7 +237,7 @@ sub init_options {
 sub initialize {
     my ($self, $filename) = @_;
     my ($fn, $dir) = fileparse($filename);
-    error(_g('%s is not the name of a file'), $filename) unless $fn;
+    error(g_('%s is not the name of a file'), $filename) unless $fn;
     $self->{basedir} = $dir || './';
     $self->{filename} = $fn;
 
@@ -249,7 +249,7 @@ sub initialize {
 
     foreach my $f (qw(Source Version Files)) {
         unless (defined($fields->{$f})) {
-            error(_g('missing critical source control field %s'), $f);
+            error(g_('missing critical source control field %s'), $f);
         }
     }
 
@@ -268,8 +268,8 @@ sub upgrade_object_type {
         my ($version, $variant, $major, $minor) = ($1, $2, $1, undef);
 
         if (defined $variant and $variant ne lc $variant) {
-            error(_g("source package format '%s' is not supported: %s"),
-                  $format, _g('format variant must be in lowercase'));
+            error(g_("source package format '%s' is not supported: %s"),
+                  $format, g_('format variant must be in lowercase'));
         }
 
         $major =~ s/\.[\d\.]+$//;
@@ -282,12 +282,12 @@ sub upgrade_object_type {
             $self->{fields}{'Format'} .= " ($variant)" if defined $variant;
         }
         if ($@) {
-            error(_g("source package format '%s' is not supported: %s"),
+            error(g_("source package format '%s' is not supported: %s"),
                   $format, $@);
         }
         bless $self, $module;
     } else {
-        error(_g("invalid Format field `%s'"), $format);
+        error(g_("invalid Format field `%s'"), $format);
     }
 }
 
@@ -335,7 +335,7 @@ sub get_basename {
     my ($self, $with_revision) = @_;
     my $f = $self->{fields};
     unless (exists $f->{'Source'} and exists $f->{'Version'}) {
-        error(_g('source and version are required to compute the source basename'));
+        error(g_('source and version are required to compute the source basename'));
     }
     my $v = Dpkg::Version->new($f->{'Version'});
     my $vs = $v->as_string(omit_epoch => 1, omit_revision => !$with_revision);
@@ -351,7 +351,7 @@ sub find_original_tarballs {
     my @tar;
     foreach my $dir ('.', $self->{basedir}, $self->{options}{origtardir}) {
         next unless defined($dir) and -d $dir;
-        opendir(my $dir_dh, $dir) or syserr(_g('cannot opendir %s'), $dir);
+        opendir(my $dir_dh, $dir) or syserr(g_('cannot opendir %s'), $dir);
         push @tar, map { "$dir/$_" } grep {
 		($opts{include_main} and
 		 /^\Q$basename\E\.orig\.tar\.$opts{extension}$/) or
@@ -420,18 +420,18 @@ sub check_signature {
             if ($gpg_status == 1 or ($gpg_status &&
                 $self->{options}{require_valid_signature}))
             {
-                error(_g('failed to verify signature on %s'), $dsc);
+                error(g_('failed to verify signature on %s'), $dsc);
             } elsif ($gpg_status) {
-                warning(_g('failed to verify signature on %s'), $dsc);
+                warning(g_('failed to verify signature on %s'), $dsc);
             }
         } else {
             subprocerr("@exec");
         }
     } else {
         if ($self->{options}{require_valid_signature}) {
-            error(_g("could not verify signature on %s since gpg isn't installed"), $dsc);
+            error(g_("could not verify signature on %s since gpg isn't installed"), $dsc);
         } else {
-            warning(_g("could not verify signature on %s since gpg isn't installed"), $dsc);
+            warning(g_("could not verify signature on %s since gpg isn't installed"), $dsc);
         }
     }
 }
@@ -440,7 +440,7 @@ sub parse_cmdline_options {
     my ($self, @opts) = @_;
     foreach my $option (@opts) {
         if (not $self->parse_cmdline_option($option)) {
-            warning(_g('%s is not a valid option for %s'), $option, ref $self);
+            warning(g_('%s is not a valid option for %s'), $option, ref $self);
         }
     }
 }
@@ -502,7 +502,7 @@ sub extract {
 	unless (-e $format_file) {
 	    mkdir($srcdir) unless -e $srcdir;
 	    open(my $format_fh, '>', $format_file)
-	        or syserr(_g('cannot write %s'), $format_file);
+	        or syserr(g_('cannot write %s'), $format_file);
 	    print { $format_fh } $self->{fields}{'Format'} . "\n";
 	    close($format_fh);
 	}
@@ -513,15 +513,15 @@ sub extract {
     my @s = lstat($rules);
     if (not scalar(@s)) {
         unless ($! == ENOENT) {
-            syserr(_g('cannot stat %s'), $rules);
+            syserr(g_('cannot stat %s'), $rules);
         }
-        warning(_g('%s does not exist'), $rules)
+        warning(g_('%s does not exist'), $rules)
             unless $self->{options}{skip_debianization};
     } elsif (-f _) {
         chmod($s[2] | 0111, $rules)
-            or syserr(_g('cannot make %s executable'), $rules);
+            or syserr(g_('cannot make %s executable'), $rules);
     } else {
-        warning(_g('%s is not a plain file'), $rules);
+        warning(g_('%s is not a plain file'), $rules);
     }
 }
 
@@ -581,7 +581,7 @@ sub commit {
 
 sub do_commit {
     my ($self, $dir) = @_;
-    info(_g("'%s' is not supported by the source format '%s'"),
+    info(g_("'%s' is not supported by the source format '%s'"),
          'dpkg-source --commit', $self->{fields}{'Format'});
 }
 
@@ -596,12 +596,12 @@ sub write_dsc {
     unless ($opts{nocheck}) {
         foreach my $f (qw(Source Version)) {
             unless (defined($fields->{$f})) {
-                error(_g('missing information for critical output field %s'), $f);
+                error(g_('missing information for critical output field %s'), $f);
             }
         }
         foreach my $f (qw(Maintainer Architecture Standards-Version)) {
             unless (defined($fields->{$f})) {
-                warning(_g('missing information for output field %s'), $f);
+                warning(g_('missing information for output field %s'), $f);
             }
         }
     }
@@ -613,7 +613,7 @@ sub write_dsc {
     my $filename = $opts{filename};
     $filename //= $self->get_basename(1) . '.dsc';
     open(my $dsc_fh, '>', $filename)
-        or syserr(_g('cannot write %s'), $filename);
+        or syserr(g_('cannot write %s'), $filename);
     $fields->apply_substvars($opts{substvars});
     $fields->output($dsc_fh);
     close($dsc_fh);

@@ -400,7 +400,7 @@ sub open_for_write {
 		to_file => $self->get_filename(), %opts);
     } else {
 	CORE::open($filehandle, '>', $self->get_filename)
-	    or syserr(_g('cannot write %s'), $self->get_filename());
+	    or syserr(g_('cannot write %s'), $self->get_filename());
     }
     *$self->{mode} = 'w';
     *$self->{file} = $filehandle;
@@ -419,7 +419,7 @@ sub open_for_read {
         *$self->{allow_sigpipe} = 1;
     } else {
 	CORE::open($filehandle, '<', $self->get_filename)
-	    or syserr(_g('cannot read %s'), $self->get_filename());
+	    or syserr(g_('cannot read %s'), $self->get_filename());
     }
     *$self->{mode} = 'r';
     *$self->{file} = $filehandle;

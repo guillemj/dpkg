@@ -270,7 +270,7 @@ sub deps_parse {
 	                                             build_dep =>
 	                                             $options{build_dep});
 	    if (not defined $dep_simple->{package}) {
-		warning(_g("can't parse dependency %s"), $dep_or);
+		warning(g_("can't parse dependency %s"), $dep_or);
 		return;
 	    }
 	    $dep_simple->{arches} = undef if not $options{use_arch};
@@ -302,7 +302,7 @@ sub deps_parse {
     }
     foreach my $dep (@dep_list) {
         if ($options{union} and not $dep->isa('Dpkg::Deps::Simple')) {
-            warning(_g('an union dependency can only contain simple dependencies'));
+            warning(g_('an union dependency can only contain simple dependencies'));
             return;
         }
         $dep_and->add($dep);

@@ -230,25 +230,25 @@ sub spawn {
     my ($input_pipe, $output_pipe, $error_pipe);
     if ($opts{from_pipe}) {
 	pipe($opts{from_handle}, $input_pipe)
-	    or syserr(_g('pipe for %s'), "@prog");
+	    or syserr(g_('pipe for %s'), "@prog");
 	${$opts{from_pipe}} = $input_pipe;
 	push @{$opts{close_in_child}}, $input_pipe;
     }
     if ($opts{to_pipe}) {
 	pipe($output_pipe, $opts{to_handle})
-	    or syserr(_g('pipe for %s'), "@prog");
+	    or syserr(g_('pipe for %s'), "@prog");
 	${$opts{to_pipe}} = $output_pipe;
 	push @{$opts{close_in_child}}, $output_pipe;
     }
     if ($opts{error_to_pipe}) {
 	pipe($error_pipe, $opts{error_to_handle})
-	    or syserr(_g('pipe for %s'), "@prog");
+	    or syserr(g_('pipe for %s'), "@prog");
 	${$opts{error_to_pipe}} = $error_pipe;
 	push @{$opts{close_in_child}}, $error_pipe;
     }
     # Fork and exec
     my $pid = fork();
-    syserr(_g('cannot fork for %s'), "@prog") unless defined $pid;
+    syserr(g_('cannot fork for %s'), "@prog") unless defined $pid;
     if (not $pid) {
 	# Define environment variables
 	if ($opts{env}) {
@@ -270,39 +270,39 @@ sub spawn {
 	}
 	# Change the current directory
 	if ($opts{chdir}) {
-	    chdir($opts{chdir}) or syserr(_g('chdir to %s'), $opts{chdir});
+	    chdir($opts{chdir}) or syserr(g_('chdir to %s'), $opts{chdir});
 	}
 	# Redirect STDIN if needed
 	if ($opts{from_file}) {
 	    open(STDIN, '<', $opts{from_file})
-	        or syserr(_g('cannot open %s'), $opts{from_file});
+	        or syserr(g_('cannot open %s'), $opts{from_file});
 	} elsif ($opts{from_handle}) {
 	    open(STDIN, '<&', $opts{from_handle})
-		or syserr(_g('reopen stdin'));
+		or syserr(g_('reopen stdin'));
 	    close($opts{from_handle}); # has been duped, can be closed
 	}
 	# Redirect STDOUT if needed
 	if ($opts{to_file}) {
 	    open(STDOUT, '>', $opts{to_file})
-	        or syserr(_g('cannot write %s'), $opts{to_file});
+	        or syserr(g_('cannot write %s'), $opts{to_file});
 	} elsif ($opts{to_handle}) {
 	    open(STDOUT, '>&', $opts{to_handle})
-		or syserr(_g('reopen stdout'));
+		or syserr(g_('reopen stdout'));
 	    close($opts{to_handle}); # has been duped, can be closed
 	}
 	# Redirect STDERR if needed
 	if ($opts{error_to_file}) {
 	    open(STDERR, '>', $opts{error_to_file})
-	        or syserr(_g('cannot write %s'), $opts{error_to_file});
+	        or syserr(g_('cannot write %s'), $opts{error_to_file});
 	} elsif ($opts{error_to_handle}) {
 	    open(STDERR, '>&', $opts{error_to_handle})
-	        or syserr(_g('reopen stdout'));
+	        or syserr(g_('reopen stdout'));
 	    close($opts{error_to_handle}); # has been duped, can be closed
 	}
 	# Close some inherited filehandles
 	close($_) foreach (@{$opts{close_in_child}});
 	# Execute the program
-	exec({ $prog[0] } @prog) or syserr(_g('unable to execute %s'), "@prog");
+	exec({ $prog[0] } @prog) or syserr(g_('unable to execute %s'), "@prog");
     }
     # Close handle that we can't use any more
     close($opts{from_handle}) if exists $opts{from_handle};
@@ -370,12 +370,12 @@ with an error message.
 
 sub wait_child {
     my ($pid, %opts) = @_;
-    $opts{cmdline} //= _g('child process');
+    $opts{cmdline} //= g_('child process');
     croak 'no PID set, cannot wait end of process' unless $pid;
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" };
         alarm($opts{timeout}) if defined($opts{timeout});
-        $pid == waitpid($pid, 0) or syserr(_g('wait for %s'), $opts{cmdline});
+        $pid == waitpid($pid, 0) or syserr(g_('wait for %s'), $opts{cmdline});
         alarm(0) if defined($opts{timeout});
     };
     if ($@) {

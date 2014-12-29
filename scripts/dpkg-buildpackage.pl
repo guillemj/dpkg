@@ -46,18 +46,18 @@ use Dpkg::IPC;
 textdomain('dpkg-dev');
 
 sub showversion {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    print _g('
+    print g_('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ');
 }
 
 sub usage {
-    printf _g(
+    printf g_(
 'Usage: %s [<option>...]')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'Options:
   -F (default)   normal full build (binaries and sources).
   -g             source and arch-indep build.
@@ -98,13 +98,13 @@ sub usage {
                  change the administrative directory.
   -?, --help     show this help message.
       --version  show the version.')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'Options passed to dpkg-architecture:
   -a, --host-arch <arch>    set the host Debian architecture.
   -t, --host-type <type>    set the host GNU system type.
       --target-arch <arch>  set the target Debian architecture.
       --target-type <type>  set the target GNU system type.')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'Options passed to dpkg-genchanges:
   -si (default)  source includes orig, if new upstream.
   -sa            source includes orig, always.
@@ -115,7 +115,7 @@ sub usage {
   -C<descfile>   changes are described in <descfile>.
       --changes-option=<opt>
                  pass option <opt> to dpkg-genchanges.')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'Options passed to dpkg-source:
   -sn            force Debian native source format.
   -s[sAkurKUR]   see dpkg-source for explanation.
@@ -201,7 +201,7 @@ sub set_build_type
 {
     my ($build_type, $build_option) = @_;
 
-    usageerr(_g('cannot combine %s and %s'), build_opt(), $build_option)
+    usageerr(g_('cannot combine %s and %s'), build_opt(), $build_option)
         if not build_is_default and $include != $build_type;
     $include = $build_type;
 }
@@ -242,9 +242,9 @@ while (@ARGV) {
 	push @check_opts, $1;
     } elsif (/^--hook-(.+)=(.*)$/) {
 	my ($hook_name, $hook_cmd) = ($1, $2);
-	usageerr(_g('unknown hook name %s'), $hook_name)
+	usageerr(g_('unknown hook name %s'), $hook_name)
 	    if not exists $hook{$hook_name};
-	usageerr(_g('missing hook %s command'), $hook_name)
+	usageerr(g_('missing hook %s command'), $hook_name)
 	    if not defined $hook_cmd;
 	$hook{$hook_name} = $hook_cmd;
     } elsif (/^-p(.*)$/) {
@@ -255,7 +255,7 @@ while (@ARGV) {
 	$checkbuilddep = ($1 eq 'D');
     } elsif (/^-s(gpg|pgp)$/) {
 	# Deprecated option
-	warning(_g('-s%s is deprecated; always using gpg style interface'), $1);
+	warning(g_('-s%s is deprecated; always using gpg style interface'), $1);
     } elsif (/^--force-sign$/) {
 	$signforce = 1;
     } elsif (/^-us$/) {
@@ -327,12 +327,12 @@ while (@ARGV) {
 	$desc = $1;
     } elsif (m/^-[EW]$/) {
 	# Deprecated option
-	warning(_g('-E and -W are deprecated, they are without effect'));
+	warning(g_('-E and -W are deprecated, they are without effect'));
     } elsif (/^-R(.*)$/) {
 	my $arg = $1;
 	@debian_rules = split /\s+/, $arg;
     } else {
-	usageerr(_g('unknown option or argument %s'), $_);
+	usageerr(g_('unknown option or argument %s'), $_);
     }
 }
 
@@ -353,28 +353,28 @@ if ($noclean) {
 }
 
 if ($< == 0) {
-    warning(_g('using a gain-root-command while being root')) if (@rootcommand);
+    warning(g_('using a gain-root-command while being root')) if (@rootcommand);
 } else {
     push @rootcommand, 'fakeroot' unless @rootcommand;
 }
 
 if (@rootcommand and not find_command($rootcommand[0])) {
     if ($rootcommand[0] eq 'fakeroot' and $< != 0) {
-        error(_g("fakeroot not found, either install the fakeroot\n" .
+        error(g_("fakeroot not found, either install the fakeroot\n" .
                  'package, specify a command with the -r option, ' .
                  'or run this as root'));
     } else {
-        error(_g("gain-root-commmand '%s' not found"), $rootcommand[0]);
+        error(g_("gain-root-commmand '%s' not found"), $rootcommand[0]);
     }
 }
 
 if ($check_command and not find_command($check_command)) {
-    error(_g("check-commmand '%s' not found"), $check_command);
+    error(g_("check-commmand '%s' not found"), $check_command);
 }
 
 if ($signcommand) {
     if (!find_command($signcommand)) {
-        error(_g("sign-commmand '%s' not found"), $signcommand);
+        error(g_("sign-commmand '%s' not found"), $signcommand);
     }
 } elsif (($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) ||
          ($ENV{HOME} && -e "$ENV{HOME}/.gnupg")) {
@@ -407,8 +407,8 @@ my $dir = basename($cwd);
 
 my $changelog = changelog_parse();
 
-my $pkg = mustsetvar($changelog->{source}, _g('source package'));
-my $version = mustsetvar($changelog->{version}, _g('source version'));
+my $pkg = mustsetvar($changelog->{source}, g_('source package'));
+my $version = mustsetvar($changelog->{version}, g_('source version'));
 my $v = Dpkg::Version->new($version);
 my ($ok, $error) = version_check($v);
 error($error) unless $ok;
@@ -416,7 +416,7 @@ error($error) unless $ok;
 my $sversion = $v->as_string(omit_epoch => 1);
 my $uversion = $v->version();
 
-my $distribution = mustsetvar($changelog->{distribution}, _g('source distribution'));
+my $distribution = mustsetvar($changelog->{distribution}, g_('source distribution'));
 
 my $maintainer;
 if ($changedby) {
@@ -424,7 +424,7 @@ if ($changedby) {
 } elsif ($maint) {
     $maintainer = $maint;
 } else {
-    $maintainer = mustsetvar($changelog->{maintainer}, _g('source changed by'));
+    $maintainer = mustsetvar($changelog->{maintainer}, g_('source changed by'));
 }
 
 
@@ -449,7 +449,7 @@ if (build_sourceonly) {
 } elsif (build_binaryindep) {
     $arch = 'all';
 } else {
-    $arch = mustsetvar($ENV{DEB_HOST_ARCH}, _g('host architecture'));
+    $arch = mustsetvar($ENV{DEB_HOST_ARCH}, g_('host architecture'));
 }
 
 my $pv = "${pkg}_$sversion";
@@ -478,7 +478,7 @@ if ($signsource && build_binaryonly) {
 run_hook('init', 1);
 
 if (not -x 'debian/rules') {
-    warning(_g('debian/rules is not executable; fixing that'));
+    warning(g_('debian/rules is not executable; fixing that'));
     chmod(0755, 'debian/rules'); # No checks of failures, non fatal
 }
 
@@ -499,11 +499,11 @@ if ($checkbuilddep) {
     if (not WIFEXITED($?)) {
         subprocerr('dpkg-checkbuilddeps');
     } elsif (WEXITSTATUS($?)) {
-	warning(_g('build dependencies/conflicts unsatisfied; aborting'));
-	warning(_g('(Use -d flag to override.)'));
+	warning(g_('build dependencies/conflicts unsatisfied; aborting'));
+	warning(g_('(Use -d flag to override.)'));
 
 	if (build_sourceonly) {
-	    warning(_g('this is currently a non-fatal warning with -S, but ' .
+	    warning(g_('this is currently a non-fatal warning with -S, but ' .
 	               'will probably become fatal in the future'));
 	} else {
 	    exit 3;
@@ -531,7 +531,7 @@ unless ($noclean) {
 run_hook('source', $include & BUILD_SOURCE);
 
 if ($include & BUILD_SOURCE) {
-    warning(_g('building a source package without cleaning up as you asked; ' .
+    warning(g_('building a source package without cleaning up as you asked; ' .
                'it might contain undesired files')) if $noclean;
     chdir('..') or syserr('chdir ..');
     withecho('dpkg-source', @source_opts, '-b', $dir);
@@ -551,7 +551,7 @@ if ($buildtarget ne 'build' and scalar(@debian_rules) == 1) {
     my $exitcode = WEXITSTATUS($?);
     subprocerr($cmdline) unless WIFEXITED($?);
     if ($exitcode == 2) {
-        warning(_g("%s must be updated to support the 'build-arch' and " .
+        warning(g_("%s must be updated to support the 'build-arch' and " .
                    "'build-indep' targets (at least '%s' seems to be " .
                    'missing)'), "@debian_rules", $buildtarget);
         $buildtarget = 'build';
@@ -578,9 +578,9 @@ print { *STDERR } " dpkg-genchanges @changes_opts >$chg\n";
 
 open my $changes_fh, '-|', 'dpkg-genchanges', @changes_opts
     or subprocerr('dpkg-genchanges');
-$changes->parse($changes_fh, _g('parse changes file'));
+$changes->parse($changes_fh, g_('parse changes file'));
 $changes->save($chg);
-close $changes_fh or subprocerr(_g('dpkg-genchanges'));
+close $changes_fh or subprocerr(g_('dpkg-genchanges'));
 
 run_hook('postclean', $cleansource);
 
@@ -601,7 +601,7 @@ if ($check_command) {
 }
 
 if ($signpause && ($signchanges || $signsource)) {
-    print _g("Press the return key to start signing process\n");
+    print g_("Press the return key to start signing process\n");
     getc();
 }
 
@@ -609,7 +609,7 @@ run_hook('sign', $signsource || $signchanges);
 
 if ($signsource) {
     if (signfile("$pv.dsc")) {
-        error(_g('failed to sign .dsc and .changes file'));
+        error(g_('failed to sign .dsc and .changes file'));
     }
 
     # Recompute the checksums as the .dsc has changed now.
@@ -628,11 +628,11 @@ if ($signsource) {
     $changes->save($chg);
 }
 if ($signchanges && signfile("$pva.changes")) {
-    error(_g('failed to sign .changes file'));
+    error(g_('failed to sign .changes file'));
 }
 
 if (not $signreleased) {
-    warning(_g('not signing UNRELEASED build; use --force-sign to override'));
+    warning(g_('not signing UNRELEASED build; use --force-sign to override'));
 }
 
 run_hook('done', 1);
@@ -640,7 +640,7 @@ run_hook('done', 1);
 sub mustsetvar {
     my ($var, $text) = @_;
 
-    error(_g('unable to determine %s'), $text)
+    error(g_('unable to determine %s'), $text)
 	unless defined($var);
 
     print "$Dpkg::PROGNAME: $text $var\n";
@@ -676,7 +676,7 @@ sub run_hook {
         if (exists $hook_vars{$var}) {
             return $hook_vars{$var};
         } else {
-            warning(_g('unknown %% substitution in hook: %%%s'), $var);
+            warning(g_('unknown %% substitution in hook: %%%s'), $var);
             return "\%$var";
         }
     };
@@ -696,9 +696,9 @@ sub signfile {
 
     # Make sure the file to sign ends with a newline.
     copy("../$file", $signfile);
-    open my $signfh, '>>', $signfile or syserr(_g('cannot open %s'), $signfile);
+    open my $signfh, '>>', $signfile or syserr(g_('cannot open %s'), $signfile);
     print { $signfh } "\n";
-    close $signfh or syserr(_g('cannot close %s'), $signfile);
+    close $signfh or syserr(g_('cannot close %s'), $signfile);
 
     system($signcommand, '--utf8-strings', '--textmode', '--armor',
            '--local-user', $signkey || $maintainer, '--clearsign',
@@ -727,20 +727,20 @@ sub describe_build {
         # source-only upload
         if (fileomitted($files, qr/\.diff\.$ext/) and
             fileomitted($files, qr/\.debian\.tar\.$ext/)) {
-            return _g('source-only upload: Debian-native package');
+            return g_('source-only upload: Debian-native package');
         } elsif (fileomitted($files, qr/\.orig\.tar\.$ext/)) {
-            return _g('source-only, diff-only upload (original source NOT included)');
+            return g_('source-only, diff-only upload (original source NOT included)');
         } else {
-            return _g('source-only upload (original source is included)');
+            return g_('source-only upload (original source is included)');
         }
     } elsif (fileomitted($files, qr/\.dsc/)) {
-        return _g('binary-only upload (no source included)');
+        return g_('binary-only upload (no source included)');
     } elsif (fileomitted($files, qr/\.diff\.$ext/) and
              fileomitted($files, qr/\.debian\.tar\.$ext/)) {
-        return _g('full upload; Debian-native package (full source is included)');
+        return g_('full upload; Debian-native package (full source is included)');
     } elsif (fileomitted($files, qr/\.orig\.tar\.$ext/)) {
-        return _g('binary and diff upload (original source NOT included)');
+        return g_('binary and diff upload (original source NOT included)');
     } else {
-        return _g('full upload (original source is included)');
+        return g_('full upload (original source is included)');
     }
 }

@@ -105,7 +105,7 @@ sub parse_symbolspec {
 		$rest = $2;
 	    }
 	}
-	error(_g('symbol name unspecified: %s'), $symbolspec) if (!$symbol);
+	error(g_('symbol name unspecified: %s'), $symbolspec) if (!$symbol);
     } else {
 	# No tag specification. Symbol name is up to the first space
 	# foobarsymbol@Base 1.0 1
@@ -162,7 +162,7 @@ sub initialize {
 	# name@version string.
 	$type = (defined $type) ? 'generic' : 'alias-symver';
 	if ($self->get_symbolname() eq 'Base') {
-	    error(_g("you can't use symver tag to catch unversioned symbols: %s"),
+	    error(g_("you can't use symver tag to catch unversioned symbols: %s"),
 	          $self->get_symbolspec(1));
 	}
     }

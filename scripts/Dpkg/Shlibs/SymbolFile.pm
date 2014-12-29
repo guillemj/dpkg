@@ -220,7 +220,7 @@ sub parse {
 
 	if (/^(?:\s+|#(?:DEPRECATED|MISSING): ([^#]+)#\s*)(.*)/) {
 	    if (not defined ($$obj_ref)) {
-		error(_g('symbol information must be preceded by a header (file %s, line %s)'), $file, $.);
+		error(g_('symbol information must be preceded by a header (file %s, line %s)'), $file, $.);
 	    }
 	    # Symbol specification
 	    my $deprecated = ($1) ? $1 : 0;
@@ -228,7 +228,7 @@ sub parse {
 	    if ($self->create_symbol($2, base => $sym)) {
 		$self->add_symbol($sym, $$obj_ref);
 	    } else {
-		warning(_g('failed to parse line in %s: %s'), $file, $_);
+		warning(g_('failed to parse line in %s: %s'), $file, $_);
 	    }
 	} elsif (/^(\(.*\))?#include\s+"([^"]+)"/) {
 	    my $tagspec = $1;
@@ -260,7 +260,7 @@ sub parse {
 		$self->create_object($$obj_ref, "$2");
 	    }
 	} else {
-	    warning(_g('failed to parse a line in %s: %s'), $file, $_);
+	    warning(g_('failed to parse a line in %s: %s'), $file, $_);
 	}
     }
     delete $seen->{$file};
@@ -273,7 +273,7 @@ sub merge_object_from_symfile {
     if (not $self->has_object($objid)) {
         $self->{objects}{$objid} = $src->get_object($objid);
     } else {
-        warning(_g('tried to merge the same object (%s) twice in a symfile'), $objid);
+        warning(g_('tried to merge the same object (%s) twice in a symfile'), $objid);
     }
 }
 
@@ -392,7 +392,7 @@ sub merge_symbols {
     my ($self, $object, $minver) = @_;
 
     my $soname = $object->{SONAME};
-    error(_g('cannot merge symbols from objects without SONAME'))
+    error(g_('cannot merge symbols from objects without SONAME'))
         unless $soname;
 
     my %include_groups = ();

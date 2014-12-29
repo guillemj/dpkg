@@ -103,20 +103,20 @@ my $dir;
 if (defined($options{opmode}) &&
     $options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     if (not scalar(@ARGV)) {
-	usageerr(_g('--%s needs a directory'), $options{opmode})
+	usageerr(g_('--%s needs a directory'), $options{opmode})
 	    unless $1 eq 'commit';
 	$dir = '.';
     } else {
 	$dir = File::Spec->catdir(shift(@ARGV));
     }
-    stat($dir) or syserr(_g('cannot stat directory %s'), $dir);
+    stat($dir) or syserr(g_('cannot stat directory %s'), $dir);
     if (not -d $dir) {
-	error(_g('directory argument %s is not a directory'), $dir);
+	error(g_('directory argument %s is not a directory'), $dir);
     }
     if ($dir eq '.') {
 	# . is never correct, adjust automatically
 	$dir = basename(cwd());
-	chdir('..') or syserr(_g("unable to chdir to `%s'"), '..');
+	chdir('..') or syserr(g_("unable to chdir to `%s'"), '..');
     }
     # --format options are not allowed, they would take precedence
     # over real command line options, debian/source/format should be used
@@ -134,7 +134,7 @@ if (defined($options{opmode}) &&
 	$conf->load($optfile);
 	$conf->filter(remove => sub { $_[0] =~ $forbidden_opts_re->{$filename} });
 	if (@$conf) {
-	    info(_g('using options from %s: %s'), $optfile, join(' ', @$conf))
+	    info(g_('using options from %s: %s'), $optfile, join(' ', @$conf))
 		unless $options{opmode} eq 'print-format';
 	    unshift @options, @$conf;
 	}
@@ -148,13 +148,13 @@ while (@options) {
     } elsif (m/^-(?:Z|-compression=)(.*)$/) {
 	my $compression = $1;
 	$options{compression} = $compression;
-	usageerr(_g('%s is not a supported compression'), $compression)
+	usageerr(g_('%s is not a supported compression'), $compression)
 	    unless compression_is_supported($compression);
 	compression_set_default($compression);
     } elsif (m/^-(?:z|-compression-level=)(.*)$/) {
 	my $comp_level = $1;
 	$options{comp_level} = $comp_level;
-	usageerr(_g('%s is not a compression level'), $comp_level)
+	usageerr(g_('%s is not a compression level'), $comp_level)
 	    unless compression_is_valid_level($comp_level);
 	compression_set_default_level($comp_level);
     } elsif (m/^-c(.*)$/) {
@@ -201,7 +201,7 @@ while (@options) {
         exit(0);
     } elsif (m/^-[EW]$/) {
         # Deprecated option
-        warning(_g('-E and -W are deprecated, they are without effect'));
+        warning(g_('-E and -W are deprecated, they are without effect'));
     } elsif (m/^-q$/) {
         report_options(quiet_warnings => 1);
         $options{quiet} = 1;
@@ -213,7 +213,7 @@ while (@options) {
 }
 
 unless (defined($options{opmode})) {
-    usageerr(_g('need an action option'));
+    usageerr(g_('need an action option'));
 }
 
 if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
@@ -237,7 +237,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
     # Scan control info of source package
     my $src_fields = $control->get_source();
-    error(_g("%s doesn't contain any information about the source package"),
+    error(g_("%s doesn't contain any information about the source package"),
           $controlfile) unless defined $src_fields;
     my $src_sect = $src_fields->{'Section'} || 'unknown';
     my $src_prio = $src_fields->{'Priority'} || 'unknown';
@@ -252,7 +252,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 	    my $dep;
 	    my $type = field_get_dep_type($_);
 	    $dep = deps_parse($v, build_dep => 1, union => $type eq 'union');
-	    error(_g('error occurred while parsing %s'), $_) unless defined $dep;
+	    error(g_('error occurred while parsing %s'), $_) unless defined $dep;
 	    my $facts = Dpkg::Deps::KnownFacts->new();
 	    $dep->simplify_deps($facts);
 	    $dep->sort() if $type eq 'union';
@@ -281,7 +281,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             # If the string does not contain brackets then it is using the
             # old syntax. Emit a fatal error.
             if ($profile !~ m/^\s*<.*>\s*$/) {
-                error(_g('binary package stanza %s is using an obsolete ' .
+                error(g_('binary package stanza %s is using an obsolete ' .
                          'Build-Profiles field syntax'), $p);
             }
 
@@ -309,10 +309,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
                     push(@sourcearch, $v) unless $archadded{$v}++;
                 } else {
                     for my $a (split(/\s+/, $v)) {
-                        error(_g("`%s' is not a legal architecture string"),
+                        error(g_("`%s' is not a legal architecture string"),
                               $a)
                             unless $a =~ /^[\w-]+$/;
-                        error(_g('architecture %s only allowed on its ' .
+                        error(g_('architecture %s only allowed on its ' .
                                  "own (list for package %s is `%s')"),
                               $a, $p, $a)
                             if $a eq 'any' or $a eq 'all';
@@ -327,7 +327,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 	}
     }
     unless (scalar(@pkglist)) {
-	error(_g("%s doesn't list any binary package"), $controlfile);
+	error(g_("%s doesn't list any binary package"), $controlfile);
     }
     if (any { $_ eq 'any' } @sourcearch) {
         # If we encounter one 'any' then the other arches become insignificant
@@ -366,7 +366,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             error($error) unless $ok;
 	    $fields->{$_} = $v;
 	} elsif (m/^Binary-Only$/) {
-	    error(_g('building source for a binary-only release'))
+	    error(g_('building source for a binary-only release'))
 	        if $v eq 'yes' and $options{opmode} eq 'build';
 	} elsif (m/^Maintainer$/i) {
             # Do not replace the field coming from the source entry
@@ -385,14 +385,14 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     if (not defined $build_format) {
 	if (-e "$dir/debian/source/format") {
 	    open(my $format_fh, '<', "$dir/debian/source/format")
-	        or syserr(_g('cannot read %s'), "$dir/debian/source/format");
+	        or syserr(g_('cannot read %s'), "$dir/debian/source/format");
 	    $build_format = <$format_fh>;
 	    chomp($build_format) if defined $build_format;
-	    error(_g('%s is empty'), "$dir/debian/source/format")
+	    error(g_('%s is empty'), "$dir/debian/source/format")
 		unless defined $build_format and length $build_format;
 	    close($format_fh);
 	} else {
-	    warning(_g('no source format specified in %s, ' .
+	    warning(g_('no source format specified in %s, ' .
 	               'see dpkg-source(1)'), 'debian/source/format')
 		if $options{opmode} eq 'build';
 	    $build_format = '1.0';
@@ -420,17 +420,17 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
     # Verify pre-requisites are met
     my ($res, $msg) = $srcpkg->can_build($dir);
-    error(_g("can't build with source format '%s': %s"), $build_format, $msg) unless $res;
+    error(g_("can't build with source format '%s': %s"), $build_format, $msg) unless $res;
 
     # Only -b left
-    info(_g("using source format `%s'"), $fields->{'Format'});
+    info(g_("using source format `%s'"), $fields->{'Format'});
     run_vendor_hook('before-source-build', $srcpkg);
     # Build the files (.tar.gz, .diff.gz, etc)
     $srcpkg->build($dir);
 
     # Write the .dsc
     my $dscname = $srcpkg->get_basename(1) . '.dsc';
-    info(_g('building %s in %s'), get_source_package(), $dscname);
+    info(g_('building %s in %s'), get_source_package(), $dscname);
     $srcpkg->write_dsc(filename => $dscname,
 		       remove => \%remove,
 		       override => \%override,
@@ -441,15 +441,15 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
     # Check command line
     unless (scalar(@ARGV)) {
-        usageerr(_g('--%s needs at least one argument, the .dsc'),
+        usageerr(g_('--%s needs at least one argument, the .dsc'),
                  $options{opmode});
     }
     if (scalar(@ARGV) > 2) {
-        usageerr(_g('--%s takes no more than two arguments'), $options{opmode});
+        usageerr(g_('--%s takes no more than two arguments'), $options{opmode});
     }
     my $dsc = shift(@ARGV);
     if (-d $dsc) {
-        usageerr(_g('--%s needs the .dsc file as first argument, not a directory'),
+        usageerr(g_('--%s needs the .dsc file as first argument, not a directory'),
                  $options{opmode});
     }
 
@@ -466,7 +466,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     if (@ARGV) {
 	$newdirectory = File::Spec->catdir(shift(@ARGV));
 	if (-e $newdirectory) {
-	    error(_g('unpack target exists: %s'), $newdirectory);
+	    error(g_('unpack target exists: %s'), $newdirectory);
 	}
     }
 
@@ -476,16 +476,16 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             $srcpkg->check_signature();
         } else {
             if ($options{require_valid_signature}) {
-                error(_g("%s doesn't contain a valid OpenPGP signature"), $dsc);
+                error(g_("%s doesn't contain a valid OpenPGP signature"), $dsc);
             } else {
-                warning(_g('extracting unsigned source package (%s)'), $dsc);
+                warning(g_('extracting unsigned source package (%s)'), $dsc);
             }
         }
         $srcpkg->check_checksums();
     }
 
     # Unpack the source package (delegated to Dpkg::Source::Package::*)
-    info(_g('extracting %s in %s'), $srcpkg->{fields}{'Source'}, $newdirectory);
+    info(g_('extracting %s in %s'), $srcpkg->{fields}{'Source'}, $newdirectory);
     $srcpkg->extract($newdirectory);
 
     exit(0);
@@ -500,7 +500,7 @@ sub set_testsuite_field
     if (-e "$dir/debian/tests/control") {
         $testsuite{autopkgtest} = 1;
     } elsif ($testsuite{autopkgtest}) {
-        warning(_g('%s field contains value %s, but no tests control file %s'),
+        warning(g_('%s field contains value %s, but no tests control file %s'),
                 'Testsuite', 'autopkgtest', 'debian/tests/control');
         delete $testsuite{autopkgtest};
     }
@@ -511,25 +511,25 @@ sub setopmode {
     my $opmode = shift;
 
     if (defined($options{opmode})) {
-        usageerr(_g('two commands specified: --%s and --%s'),
+        usageerr(g_('two commands specified: --%s and --%s'),
                  $options{opmode}, $opmode);
     }
     $options{opmode} = $opmode;
 }
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    print _g('
+    print g_('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ');
 }
 
 sub usage {
-    printf _g(
+    printf g_(
 'Usage: %s [<option>...] <command>')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'Commands:
   -x, --extract <filename>.dsc [<output-dir>]
                            extract source package.
@@ -537,7 +537,7 @@ sub usage {
       --print-format <dir> print the format to be used for the source package.
       --commit [<dir> [<patch-name>]]
                            store upstream changes in a new patch.')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 "Build options:
   -c<control-file>         get control info from this file.
   -l<changelog-file>       get per-version info from this file.
@@ -556,17 +556,17 @@ sub usage {
                              supported are: %s).
   -z<level>                compression level to use (defaults to '%d',
                              supported are: '1'-'9', 'best', 'fast')")
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 "Extract options:
   --no-copy                don't copy .orig tarballs
   --no-check               don't check signature and checksums before unpacking
   --require-valid-signature abort if the package doesn't have a valid signature
   --ignore-bad-version     allow bad source package versions.")
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'General options:
   -?, --help               show this help message.
       --version            show the version.')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'More options are available but they depend on the source package format.
 See dpkg-source(1) for more info.') . "\n",
     $Dpkg::PROGNAME,

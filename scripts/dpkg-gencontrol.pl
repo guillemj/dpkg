@@ -63,18 +63,18 @@ my $substvars_loaded = 0;
 
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    printf _g('
+    printf g_('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ');
 }
 
 sub usage {
-    printf _g(
+    printf g_(
 'Usage: %s [<option>...]')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'Options:
   -p<package>              print control file for package.
   -c<control-file>         get control info from this file.
@@ -100,7 +100,7 @@ while (@ARGV) {
     if (m/^-p/p) {
         $oppackage = ${^POSTMATCH};
         my $err = pkg_name_is_illegal($oppackage);
-        error(_g("illegal package name '%s': %s"), $oppackage, $err) if $err;
+        error(g_("illegal package name '%s': %s"), $oppackage, $err) if $err;
     } elsif (m/^-c/p) {
         $controlfile = ${^POSTMATCH};
     } elsif (m/^-l/p) {
@@ -116,7 +116,7 @@ while (@ARGV) {
     } elsif (m/^-O(.+)$/) {
         $outputfile = $1;
     } elsif (m/^-i([sp][sp]?)$/) {
-        warning(_g('-i%s is deprecated; it is without effect'), $1);
+        warning(g_('-i%s is deprecated; it is without effect'), $1);
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat=$1;
     } elsif (m/^-D([^\=:]+)[=:]/p) {
@@ -137,7 +137,7 @@ while (@ARGV) {
         version();
         exit(0);
     } else {
-        usageerr(_g("unknown option \`%s'"), $_);
+        usageerr(g_("unknown option \`%s'"), $_);
     }
 }
 
@@ -175,19 +175,19 @@ my $pkg;
 if (defined($oppackage)) {
     $pkg = $control->get_pkg_by_name($oppackage);
     if (not defined $pkg) {
-        error(_g('package %s not in control info'), $oppackage)
+        error(g_('package %s not in control info'), $oppackage)
     }
 } else {
     my @packages = map { $_->{'Package'} } $control->get_packages();
     if (@packages == 0) {
-        error(_g('no package stanza found in control info'));
+        error(g_('no package stanza found in control info'));
     } elsif (@packages > 1) {
-        error(_g('must specify package since control info has many (%s)'),
+        error(g_('must specify package since control info has many (%s)'),
               "@packages");
     }
     $pkg = $control->get_pkg_by_idx(1);
 }
-$substvars->set_msg_prefix(sprintf(_g('package %s: '), $pkg->{Package}));
+$substvars->set_msg_prefix(sprintf(g_('package %s: '), $pkg->{Package}));
 
 # Scan source package
 my $src_fields = $control->get_source();
@@ -218,7 +218,7 @@ foreach (keys %{$pkg}) {
 		    join("' `", @invalid_archs))
 		if @invalid_archs >= 1;
 	    if (none { debarch_is($host_arch, $_) } @archlist) {
-		error(_g("current host architecture '%s' does not " .
+		error(g_("current host architecture '%s' does not " .
 			 "appear in package's architecture list (%s)"),
 		      $host_arch, "@archlist");
 	    }
@@ -274,12 +274,12 @@ foreach my $field (field_list_pkg_dep()) {
     if (exists $pkg->{$field}) {
 	my $dep;
 	my $field_value = $substvars->substvars($pkg->{$field},
-	    msg_prefix => sprintf(_g('%s field of package %s: '), $field, $pkg->{Package}));
+	    msg_prefix => sprintf(g_('%s field of package %s: '), $field, $pkg->{Package}));
 	if (field_get_dep_type($field) eq 'normal') {
 	    $dep = deps_parse($field_value, use_arch => 1,
 	                      reduce_arch => $reduce_arch,
 	                      reduce_profiles => 1);
-	    error(_g('error occurred while parsing %s field: %s'), $field,
+	    error(g_('error occurred while parsing %s field: %s'), $field,
                   $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts, @seen_deps);
 	    # Remember normal deps to simplify even further weaker deps
@@ -288,12 +288,12 @@ foreach my $field (field_list_pkg_dep()) {
 	    $dep = deps_parse($field_value, use_arch => 1,
 	                      reduce_arch => $reduce_arch,
 	                      reduce_profiles => 1, union => 1);
-	    error(_g('error occurred while parsing %s field: %s'), $field,
+	    error(g_('error occurred while parsing %s field: %s'), $field,
                   $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts);
             $dep->sort();
 	}
-	error(_g('the %s field contains an arch-specific dependency but the ' .
+	error(g_('the %s field contains an arch-specific dependency but the ' .
 	         'package is architecture all'), $field)
 	    if $dep->has_arch_restriction();
 	$fields->{$field} = $dep->output();
@@ -304,11 +304,11 @@ foreach my $field (field_list_pkg_dep()) {
 $fields->{'Built-For-Profiles'} = join ' ', get_build_profiles();
 
 for my $f (qw(Package Version)) {
-    error(_g('missing information for output field %s'), $f)
+    error(g_('missing information for output field %s'), $f)
         unless defined $fields->{$f};
 }
 for my $f (qw(Maintainer Description Architecture)) {
-    warning(_g('missing information for output field %s'), $f)
+    warning(g_('missing information for output field %s'), $f)
         unless defined $fields->{$f};
 }
 $oppackage = $fields->{'Package'};
@@ -321,7 +321,7 @@ if ($pkg_type eq 'udeb') {
     delete $fields->{'Homepage'};
 } else {
     for my $f (qw(Subarchitecture Kernel-Version Installer-Menu-Item)) {
-        warning(_g('%s package with udeb specific field %s'), $pkg_type, $f)
+        warning(g_('%s package with udeb specific field %s'), $pkg_type, $f)
             if defined($fields->{$f});
     }
 }
@@ -336,22 +336,22 @@ if ($oppackage ne $sourcepackage || $verdiff) {
 if (!defined($substvars->get('Installed-Size'))) {
     my $c = open(my $du_fh, '-|');
     if (not defined $c) {
-        syserr(_g('cannot fork for %s'), 'du');
+        syserr(g_('cannot fork for %s'), 'du');
     }
     if (!$c) {
         chdir("$packagebuilddir")
-            or syserr(_g("chdir for du to \`%s'"), $packagebuilddir);
+            or syserr(g_("chdir for du to \`%s'"), $packagebuilddir);
         exec('du', '-k', '-s', '--apparent-size', '.')
-            or syserr(_g('unable to execute %s'), 'du');
+            or syserr(g_('unable to execute %s'), 'du');
     }
     my $duo = '';
     while (<$du_fh>) {
 	$duo .= $_;
     }
     close($du_fh);
-    subprocerr(_g("du in \`%s'"), $packagebuilddir) if $?;
+    subprocerr(g_("du in \`%s'"), $packagebuilddir) if $?;
     if ($duo !~ m/^(\d+)\s+\.$/) {
-        error(_g("du gave unexpected output \`%s'"), $duo);
+        error(g_("du gave unexpected output \`%s'"), $duo);
     }
     $substvars->set_as_auto('Installed-Size', $1);
 }
@@ -385,7 +385,7 @@ my $lockfile = 'debian/control';
 $lockfile = $controlfile if not -e $lockfile;
 
 sysopen($lockfh, $lockfile, O_WRONLY)
-    or syserr(_g('cannot write %s'), $lockfile);
+    or syserr(g_('cannot write %s'), $lockfile);
 file_lock($lockfh, $lockfile);
 
 my $dist = Dpkg::Dist::Files->new();
@@ -405,17 +405,17 @@ $dist->add_file($forcefilename, $section, $priority);
 $dist->save("$fileslistfile.new");
 
 rename("$fileslistfile.new", $fileslistfile)
-    or syserr(_g('install new files list file'));
+    or syserr(g_('install new files list file'));
 
 # Release the lock
-close($lockfh) or syserr(_g('cannot close %s'), $lockfile);
+close($lockfh) or syserr(g_('cannot close %s'), $lockfile);
 
 my $cf;
 my $fh_output;
 if (!$stdout) {
     $cf = $outputfile // "$packagebuilddir/DEBIAN/control";
     open($fh_output, '>', "$cf.new")
-        or syserr(_g("cannot open new output control file \`%s'"), "$cf.new");
+        or syserr(g_("cannot open new output control file \`%s'"), "$cf.new");
 } else {
     $fh_output = \*STDOUT;
 }
@@ -424,9 +424,9 @@ $fields->apply_substvars($substvars);
 $fields->output($fh_output);
 
 if (!$stdout) {
-    close($fh_output) or syserr(_g('cannot close %s'), "$cf.new");
+    close($fh_output) or syserr(g_('cannot close %s'), "$cf.new");
     rename("$cf.new", "$cf")
-        or syserr(_g("cannot install output control file \`%s'"), $cf);
+        or syserr(g_("cannot install output control file \`%s'"), $cf);
 }
 
 $substvars->warn_about_unused();

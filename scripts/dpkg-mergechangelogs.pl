@@ -51,16 +51,16 @@ BEGIN {
 }
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    printf "\n" . _g(
+    printf "\n" . g_(
 'This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ');
 }
 
 sub usage {
-    printf(_g(
+    printf g_(
 "Usage: %s [<option>...] <old> <new-a> <new-b> [<out>]
 
 Options:
@@ -68,7 +68,7 @@ Options:
                            after the last '~' in the version.
   -?, --help               show this help message.
       --version            show the version.
-"), $Dpkg::PROGNAME);
+"), $Dpkg::PROGNAME;
 }
 
 my $merge_prereleases;
@@ -87,11 +87,11 @@ my @options_spec = (
 my ($old, $new_a, $new_b, $out_file) = @ARGV;
 unless (defined $old and defined $new_a and defined $new_b)
 {
-    usageerr(_g('needs at least three arguments'));
+    usageerr(g_('needs at least three arguments'));
 }
 unless (-e $old and -e $new_a and -e $new_b)
 {
-    usageerr(_g('file arguments need to exist'));
+    usageerr(g_('file arguments need to exist'));
 }
 
 my ($cho, $cha, $chb);
@@ -135,9 +135,9 @@ while (1) {
 
 if (defined($out_file) and $out_file ne '-') {
     open(my $out_fh, '>', $out_file)
-        or syserr(_g('cannot write %s'), $out_file);
+        or syserr(g_('cannot write %s'), $out_file);
     print { $out_fh } ((blessed $_) ? "$_" : "$_\n") foreach @result;
-    close($out_fh) or syserr(_g('cannot write %s'), $out_file);
+    close($out_fh) or syserr(g_('cannot write %s'), $out_file);
 } else {
     print ((blessed $_) ? "$_" : "$_\n") foreach @result;
 }

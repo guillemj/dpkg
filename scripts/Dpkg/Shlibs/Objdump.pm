@@ -122,7 +122,7 @@ sub has_object {
 
 sub is_elf {
     my ($file) = @_;
-    open(my $file_fh, '<', $file) or syserr(_g('cannot read %s'), $file);
+    open(my $file_fh, '<', $file) or syserr(g_('cannot read %s'), $file);
     my ($header, $result) = ('', 0);
     if (read($file_fh, $header, 4) == 4) {
 	$result = 1 if ($header =~ /^\177ELF$/);
@@ -181,7 +181,7 @@ sub analyze {
 
     local $ENV{LC_ALL} = 'C';
     open(my $objdump, '-|', $OBJDUMP, '-w', '-f', '-p', '-T', '-R', $file)
-        or syserr(_g('cannot fork for %s'), $OBJDUMP);
+        or syserr(g_('cannot fork for %s'), $OBJDUMP);
     my $ret = $self->parse_objdump_output($objdump);
     close($objdump);
     return $ret;
@@ -222,7 +222,7 @@ sub parse_objdump_output {
 	    if (/^\S+\s+(\S+)\s+(\S+)\s*$/) {
 		$self->{dynrelocs}{$2} = $1;
 	    } else {
-		warning(_g("couldn't parse dynamic relocation record: %s"), $_);
+		warning(g_("couldn't parse dynamic relocation record: %s"), $_);
 	    }
 	} elsif ($section eq 'dyninfo') {
 	    if (/^\s*NEEDED\s+(\S+)/) {
@@ -341,7 +341,7 @@ sub parse_dynamic_symbol {
 	# Ignore some s390-specific output like
 	# REG_G6           g     R *UND*      0000000000000000              #scratch
     } else {
-	warning(_g("couldn't parse dynamic symbol definition: %s"), $line);
+	warning(g_("couldn't parse dynamic symbol definition: %s"), $line);
     }
 }
 

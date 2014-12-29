@@ -43,14 +43,14 @@ my %options = (
 
 sub version()
 {
-    printf(_g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION);
+    printf(g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION);
 }
 
 sub usage()
 {
-    printf(_g("Usage: %s [<option>...] <file>...\n"), $Dpkg::PROGNAME);
+    printf(g_("Usage: %s [<option>...] <file>...\n"), $Dpkg::PROGNAME);
 
-    print(_g("
+    print(g_("
 Options:
   -a, --no-architecture    no architecture part in filename.
   -o, --overwrite          overwrite if file exists.
@@ -72,7 +72,7 @@ sub fileexists($)
     if (-f $filename) {
         return 1;
     } else {
-        warning(_g("cannot find '%s'"), $filename);
+        warning(g_("cannot find '%s'"), $filename);
         return 0;
     }
 }
@@ -93,9 +93,9 @@ sub getfields($)
 
     # Read the fields
     open(my $cdata_fh, '-|', 'dpkg-deb', '-f', '--', $filename)
-        or syserr(_g('cannot open %s'), $filename);
+        or syserr(g_('cannot open %s'), $filename);
     my $fields = Dpkg::Control->new(type => CTRL_PKG_DEB);
-    $fields->parse($cdata_fh, sprintf(_g('binary control file %s'), $filename));
+    $fields->parse($cdata_fh, sprintf(g_('binary control file %s'), $filename));
     close($cdata_fh);
 
     return $fields;
@@ -108,7 +108,7 @@ sub getarch($$)
     my $arch = $fields->{Architecture};
     if (not $fields->{Architecture} and $options{architecture}) {
         $arch = get_host_arch();
-        warning(_g("assuming architecture '%s' for '%s'"), $arch, $filename);
+        warning(g_("assuming architecture '%s' for '%s'"), $arch, $filename);
     }
 
     return $arch;
@@ -130,7 +130,7 @@ sub getname($$$)
     }
     (my $name = $tname) =~ s/ //g;
     if ($tname ne $name) { # control fields have spaces
-        warning(_g("bad package control information for '%s'"), $filename);
+        warning(g_("bad package control information for '%s'"), $filename);
     }
     return $name;
 }
@@ -146,7 +146,7 @@ sub getdir($$$)
             my $section = $fields->{Section};
             if (!$section) {
                 $section = 'no-section';
-                warning(_g("assuming section '%s' for '%s'"), $section,
+                warning(g_("assuming section '%s' for '%s'"), $section,
                         $filename);
             }
             if ($section ne 'non-free' and $section ne 'contrib' and
@@ -171,7 +171,7 @@ sub move($)
         my $fields = getfields($filename);
 
         unless (exists $fields->{Package}) {
-            warning(_g("no Package field found in '%s', skipping it"),
+            warning(g_("no Package field found in '%s', skipping it"),
                     $filename);
             return;
         }
@@ -184,12 +184,12 @@ sub move($)
         if (! -d $dir) {
             if ($options{createdir}) {
                 if (mkpath($dir)) {
-                    info(_g("created directory '%s'"), $dir);
+                    info(g_("created directory '%s'"), $dir);
                 } else {
-                    error(_g("cannot create directory '%s'"), $dir);
+                    error(g_("cannot create directory '%s'"), $dir);
                 }
             } else {
-                error(_g("no such directory '%s', try --create-dir (-c) option"),
+                error(g_("no such directory '%s', try --create-dir (-c) option"),
                       $dir);
             }
         }
@@ -204,13 +204,13 @@ sub move($)
         }
 
         if (filesame($newname, $filename)) {
-            warning(_g("skipping '%s'"), $filename);
+            warning(g_("skipping '%s'"), $filename);
         } elsif (-f $newname and not $options{overwrite}) {
-            warning(_g("cannot move '%s' to existing file"), $filename);
+            warning(g_("cannot move '%s' to existing file"), $filename);
         } elsif (system(@command, $filename, $newname) == 0) {
-            info(_g("moved '%s' to '%s'"), basename($filename), $newname);
+            info(g_("moved '%s' to '%s'"), basename($filename), $newname);
         } else {
-            error(_g('mkdir can be used to create directory'));
+            error(g_('mkdir can be used to create directory'));
         }
     }
 }
@@ -242,13 +242,13 @@ while (@ARGV) {
         push @files, @ARGV;
         last;
     } elsif (m/^-/) {
-        usageerr(_g("unknown option \`%s'"), $_);
+        usageerr(g_("unknown option \`%s'"), $_);
     } else {
         push @files, $_;
     }
 }
 
-@files or usageerr(_g('need at least a filename'));
+@files or usageerr(g_('need at least a filename'));
 
 foreach my $file (@files) {
     move($file);

@@ -34,16 +34,16 @@ textdomain('dpkg-dev');
 $Dpkg::PROGNAME = "parsechangelog/$Dpkg::PROGNAME";
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    printf _g('
+    printf g_('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ');
 }
 
 sub usage {
-    printf _g(
+    printf g_(
 "Usage: %s [<option>...] [<changelogfile>]
 
 Options:
@@ -83,7 +83,7 @@ sub set_format {
     my ($opt, $val) = @_;
 
     unless ($allowed_formats{$val}) {
-	usageerr(_g('output format %s not supported'), $val );
+	usageerr(g_('output format %s not supported'), $val );
     }
 
     $format = $val;
@@ -113,7 +113,7 @@ usageerr('too many arguments') if @ARGV > 1;
 
 if (@ARGV) {
     if ($file && ($file ne $ARGV[0])) {
-	usageerr(_g('more than one file specified (%s and %s)'),
+	usageerr(g_('more than one file specified (%s and %s)'),
 		 $file, $ARGV[0] );
     }
     $file = $ARGV[0];
@@ -137,7 +137,7 @@ my $range = {
 my $changes = Dpkg::Changelog::Debian->new(reportfile => $label, range => $range);
 
 $changes->load($file)
-    or error(_g('fatal error occurred while parsing %s'), $file);
+    or error(g_('fatal error occurred while parsing %s'), $file);
 
 eval qq{
     my \$output = \$changes->$format(\$range);

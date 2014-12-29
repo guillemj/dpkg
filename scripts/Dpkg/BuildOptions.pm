@@ -92,7 +92,7 @@ sub merge {
     my $count = 0;
     foreach (split(/\s+/, $content)) {
 	unless (/^([a-z][a-z0-9_-]*)(?:=(\S*))?$/) {
-            warning(_g('invalid flag in %s: %s'), $source, $_);
+            warning(g_('invalid flag in %s: %s'), $source, $_);
             next;
         }
 	$count += $self->set($1, $2, $source);

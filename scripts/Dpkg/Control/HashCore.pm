@@ -174,7 +174,7 @@ sub parse_error {
     my ($self, $file, $msg) = (shift, shift, shift);
 
     $msg = sprintf($msg, @_) if (@_);
-    error(_g('syntax error in %s at line %d: %s'), $file, $., $msg);
+    error(g_('syntax error in %s at line %d: %s'), $file, $., $msg);
 }
 
 =item $c->parse($fh, $description)
@@ -204,11 +204,11 @@ sub parse {
 	    $parabody = 1;
 	    my ($name, $value) = ($1, $2);
 	    if ($name =~ m/^-/) {
-		$self->parse_error($desc, _g('field cannot start with a hyphen'));
+		$self->parse_error($desc, g_('field cannot start with a hyphen'));
 	    }
 	    if (exists $self->{$name}) {
 		unless ($$self->{allow_duplicate}) {
-		    $self->parse_error($desc, _g('duplicate field %s found'), $name);
+		    $self->parse_error($desc, g_('duplicate field %s found'), $name);
 		}
 	    }
 	    $self->{$name} = $value;
@@ -216,7 +216,7 @@ sub parse {
 	} elsif (m/^\s(\s*\S.*)$/) {
 	    my $line = $1;
 	    unless (defined($cf)) {
-		$self->parse_error($desc, _g('continued value line not in field'));
+		$self->parse_error($desc, g_('continued value line not in field'));
             }
 	    if ($line =~ /^\.+$/) {
 		$line = substr $line, 1;
@@ -230,19 +230,19 @@ sub parse {
 		    last if m/^\s*$/;
 		}
 	    } else {
-		$self->parse_error($desc, _g('OpenPGP signature not allowed here'));
+		$self->parse_error($desc, g_('OpenPGP signature not allowed here'));
 	    }
 	} elsif (length == 0 || ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----$/)) {
 	    if ($expect_pgp_sig) {
 		# Skip empty lines
 		$_ = <$fh> while defined && m/^\s*$/;
 		unless (length) {
-		    $self->parse_error($desc, _g('expected OpenPGP signature, ' .
+		    $self->parse_error($desc, g_('expected OpenPGP signature, ' .
 		                                 'found EOF after blank line'));
 		}
 		s/\s*\n$//;
 		unless (m/^-----BEGIN PGP SIGNATURE-----$/) {
-		    $self->parse_error($desc, _g('expected OpenPGP signature, ' .
+		    $self->parse_error($desc, g_('expected OpenPGP signature, ' .
 		                                 "found something else \`%s'"), $_);
                 }
 		# Skip OpenPGP signature
@@ -251,7 +251,7 @@ sub parse {
 		    last if m/^-----END PGP SIGNATURE-----$/;
 		}
 		unless (defined) {
-		    $self->parse_error($desc, _g('unfinished OpenPGP signature'));
+		    $self->parse_error($desc, g_('unfinished OpenPGP signature'));
                 }
 		# This does not mean the signature is correct, that needs to
 		# be verified by gnupg.
@@ -260,12 +260,12 @@ sub parse {
 	    last; # Finished parsing one block
 	} else {
 	    $self->parse_error($desc,
-	                       _g('line with unknown format (not field-colon-value)'));
+	                       g_('line with unknown format (not field-colon-value)'));
 	}
     }
 
     if ($expect_pgp_sig and not $$self->{is_pgp_signed}) {
-	$self->parse_error($desc, _g('unfinished OpenPGP signature'));
+	$self->parse_error($desc, g_('unfinished OpenPGP signature'));
     }
 
     return defined($cf);
@@ -365,7 +365,7 @@ sub output {
 	    # Print it out
             if ($fh) {
 	        print { $fh } $kv
-	            or syserr(_g('write error on control data'));
+	            or syserr(g_('write error on control data'));
             }
 	    $str .= $kv if defined wantarray;
 	}

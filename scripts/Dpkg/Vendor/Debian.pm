@@ -90,12 +90,12 @@ sub _parse_build_options {
 		if (exists $use_feature->{$feature}) {
 		    $use_feature->{$feature} = $value;
 		} else {
-		    warning(_g('unknown %s feature in %s variable: %s'),
+		    warning(g_('unknown %s feature in %s variable: %s'),
 		            $area, $variable, $feature);
 		}
 	    }
 	} else {
-	    warning(_g('incorrect value in %s option of %s variable: %s'),
+	    warning(g_('incorrect value in %s option of %s variable: %s'),
 	            $area, $variable, $feature);
 	}
     }
@@ -174,7 +174,7 @@ sub _add_hardening_flags {
     my ($abi, $os, $cpu) = debarch_to_debtriplet($arch);
 
     unless (defined $abi and defined $os and defined $cpu) {
-        warning(_g("unknown host architecture '%s'"), $arch);
+        warning(g_("unknown host architecture '%s'"), $arch);
         ($abi, $os, $cpu) = ('', '', '');
     }
 

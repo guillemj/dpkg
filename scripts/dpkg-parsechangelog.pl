@@ -33,18 +33,18 @@ my %options;
 my $fieldname;
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    printf _g('
+    printf g_('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ');
 }
 
 sub usage {
-    printf _g(
+    printf g_(
 'Usage: %s [<option>...]')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'Options:
   -l<changelog-file>       get per-version info from this file.
   -F<changelog-format>     force changelog format.
@@ -52,7 +52,7 @@ sub usage {
   -S, --show-field <field> show the values for <field>.
   -?, --help               show this help message.
       --version            show the version.')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 "Parser options:
     --format <output-format>    see man page for list of available
                                 output formats, defaults to 'dpkg'
@@ -114,10 +114,10 @@ while (@ARGV) {
     } elsif (m/^--version$/) {
 	version(); exit(0);
     } else {
-	usageerr(_g("unknown option \`%s'"), $_);
+	usageerr(g_("unknown option \`%s'"), $_);
     }
 }
-usageerr(_g('takes no non-option arguments')) if @ARGV;
+usageerr(g_('takes no non-option arguments')) if @ARGV;
 
 my $count = 0;
 my @fields = changelog_parse(%options);

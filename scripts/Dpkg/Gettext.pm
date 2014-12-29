@@ -26,8 +26,8 @@ package Dpkg::Gettext;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
-our @EXPORT = qw(_g P_ textdomain ngettext);
+our $VERSION = '1.01';
+our @EXPORT = qw(g_ P_ textdomain ngettext _g);
 
 use Exporter qw(import);
 
@@ -47,7 +47,7 @@ some commonly used aliases.
 
 =over 4
 
-=item my $trans = _g($msgid)
+=item my $trans = g_($msgid)
 
 Calls gettext() on the $msgid and returns its translation for the current
 locale. If gettext() is not available, simply returns $msgid.
@@ -66,7 +66,7 @@ BEGIN {
     eval 'use Locale::gettext';
     if ($@) {
         eval q{
-            sub _g {
+            sub g_ {
                 return shift;
             }
             sub textdomain {
@@ -85,7 +85,7 @@ BEGIN {
         };
     } else {
         eval q{
-            sub _g {
+            sub g_ {
                 return gettext(shift);
             }
             sub P_ {
@@ -95,7 +95,24 @@ BEGIN {
     }
 }
 
+# XXX: Backwards compatibility, to be removed on VERSION 2.00.
+sub _g ## no critic (Subroutines::ProhibitUnusedPrivateSubroutines)
+{
+    my $msgid = shift;
+
+    require Carp;
+    Carp::carp 'obsolete _g() function, please use g_() instead';
+
+    return g_($msgid);
+}
+
 =head1 CHANGES
+
+=head2 Version 1.01
+
+New function: g_().
+
+Deprecated function: _g().
 
 =head2 Version 1.00
 

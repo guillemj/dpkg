@@ -37,13 +37,13 @@ sub parse_cmdline_option {
     return 0;
 }
 sub do_extract {
-    error(_g("Format `3.0 (custom)' is only used to create source packages"));
+    error(g_("Format `3.0 (custom)' is only used to create source packages"));
 }
 
 sub can_build {
     my ($self, $dir) = @_;
 
-    return (0, _g('no files indicated on command line'))
+    return (0, g_('no files indicated on command line'))
         unless scalar(@{$self->{options}{ARGV}});
     return 1;
 }
@@ -52,7 +52,7 @@ sub do_build {
     my ($self, $dir) = @_;
     # Update real target format
     my $format = $self->{options}{target_format};
-    error(_g('--target-format option is missing')) unless $format;
+    error(g_('--target-format option is missing')) unless $format;
     $self->{fields}{'Format'} = $format;
     # Add all files
     foreach my $file (@{$self->{options}{ARGV}}) {

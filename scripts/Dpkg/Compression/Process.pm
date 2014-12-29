@@ -70,7 +70,7 @@ B<Dpkg::Compression>).
 
 sub set_compression {
     my ($self, $method) = @_;
-    error(_g('%s is not a supported compression method'), $method)
+    error(g_('%s is not a supported compression method'), $method)
 	    unless compression_is_supported($method);
     $self->{compression} = $method;
 }
@@ -85,7 +85,7 @@ B<Dpkg::Compression>).
 
 sub set_compression_level {
     my ($self, $level) = @_;
-    error(_g('%s is not a compression level'), $level)
+    error(g_('%s is not a compression level'), $level)
 	    unless compression_is_valid_level($level);
     $self->{compression_level} = $level;
 }
@@ -121,7 +121,7 @@ sub get_uncompress_cmdline {
 sub _sanity_check {
     my ($self, %opts) = @_;
     # Check for proper cleaning before new start
-    error(_g('Dpkg::Compression::Process can only start one subprocess at a time'))
+    error(g_('Dpkg::Compression::Process can only start one subprocess at a time'))
 	    if $self->{pid};
     # Check options
     my $to = my $from = 0;

@@ -51,28 +51,28 @@ sub report(@)
 
 sub info($;@)
 {
-    print { $info_fh } report(_g('info'), @_) if (!$quiet_warnings);
+    print { $info_fh } report(g_('info'), @_) if (!$quiet_warnings);
 }
 
 sub warning($;@)
 {
-    warn report(_g('warning'), @_) if (!$quiet_warnings);
+    warn report(g_('warning'), @_) if (!$quiet_warnings);
 }
 
 sub syserr($;@)
 {
     my $msg = shift;
-    die report(_g('error'), "$msg: $!", @_);
+    die report(g_('error'), "$msg: $!", @_);
 }
 
 sub error($;@)
 {
-    die report(_g('error'), @_);
+    die report(g_('error'), @_);
 }
 
 sub errormsg($;@)
 {
-    print { *STDERR } report(_g('error'), @_);
+    print { *STDERR } report(g_('error'), @_);
 }
 
 sub subprocerr(@)
@@ -84,15 +84,15 @@ sub subprocerr(@)
     require POSIX;
 
     if (POSIX::WIFEXITED($?)) {
-	error(_g('%s gave error exit status %s'), $p, POSIX::WEXITSTATUS($?));
+	error(g_('%s gave error exit status %s'), $p, POSIX::WEXITSTATUS($?));
     } elsif (POSIX::WIFSIGNALED($?)) {
-	error(_g('%s died from signal %s'), $p, POSIX::WTERMSIG($?));
+	error(g_('%s died from signal %s'), $p, POSIX::WTERMSIG($?));
     } else {
-	error(_g('%s failed with unknown exit code %d'), $p, $?);
+	error(g_('%s failed with unknown exit code %d'), $p, $?);
     }
 }
 
-my $printforhelp = _g('Use --help for program usage information.');
+my $printforhelp = g_('Use --help for program usage information.');
 
 sub usageerr(@)
 {

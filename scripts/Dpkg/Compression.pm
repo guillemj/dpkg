@@ -176,7 +176,7 @@ sub compression_get_default {
 
 sub compression_set_default {
     my ($method) = @_;
-    error(_g('%s is not a supported compression'), $method)
+    error(g_('%s is not a supported compression'), $method)
             unless compression_is_supported($method);
     $default_compression = $method;
 }
@@ -205,7 +205,7 @@ sub compression_get_default_level {
 
 sub compression_set_default_level {
     my ($level) = @_;
-    error(_g('%s is not a compression level'), $level)
+    error(g_('%s is not a compression level'), $level)
         if defined($level) and not compression_is_valid_level($level);
     $default_compression_level = $level;
 }

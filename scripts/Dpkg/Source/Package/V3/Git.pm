@@ -52,7 +52,7 @@ sub import {
             return 1;
         }
     }
-    error(_g('cannot unpack git-format source package because ' .
+    error(g_('cannot unpack git-format source package because ' .
              'git is not in the PATH'));
 }
 
@@ -60,12 +60,12 @@ sub sanity_check {
     my $srcdir = shift;
 
     if (! -d "$srcdir/.git") {
-        error(_g('source directory is not the top directory of a git ' .
+        error(g_('source directory is not the top directory of a git ' .
                  'repository (%s/.git not present), but Format git was ' .
                  'specified'), $srcdir);
     }
     if (-s "$srcdir/.gitmodules") {
-        error(_g('git repository %s uses submodules; this is not yet supported'),
+        error(g_('git repository %s uses submodules; this is not yet supported'),
               $srcdir);
     }
 
@@ -88,7 +88,7 @@ sub parse_cmdline_option {
 sub can_build {
     my ($self, $dir) = @_;
 
-    return (0, _g("doesn't contain a git repository")) unless -d "$dir/.git";
+    return (0, g_("doesn't contain a git repository")) unless -d "$dir/.git";
     return 1;
 }
 
@@ -103,7 +103,7 @@ sub do_build {
     sanity_check($dir);
 
     my $old_cwd = getcwd();
-    chdir($dir) or syserr(_g("unable to chdir to `%s'"), $dir);
+    chdir($dir) or syserr(g_("unable to chdir to `%s'"), $dir);
 
     # Check for uncommitted files.
     # To support dpkg-source -i, get a list of files
@@ -132,9 +132,9 @@ sub do_build {
           }
       }
     }
-    close($git_ls_files_fh) or syserr(_g('git ls-files exited nonzero'));
+    close($git_ls_files_fh) or syserr(g_('git ls-files exited nonzero'));
     if (@files) {
-        error(_g('uncommitted, not-ignored changes in working directory: %s'),
+        error(g_('uncommitted, not-ignored changes in working directory: %s'),
               join(' ', @files));
     }
 
@@ -143,19 +143,19 @@ sub do_build {
     my $tmp;
     my $shallowfile;
     if ($self->{options}{git_depth}) {
-        chdir($old_cwd) or syserr(_g("unable to chdir to `%s'"), $old_cwd);
+        chdir($old_cwd) or syserr(g_("unable to chdir to `%s'"), $old_cwd);
         $tmp = tempdir("$dirname.git.XXXXXX", DIR => $updir);
         push_exit_handler(sub { erasedir($tmp) });
         my $clone_dir = "$tmp/repo.git";
         # file:// is needed to avoid local cloning, which does not
         # create a shallow clone.
-        info(_g('creating shallow clone with depth %s'),
+        info(g_('creating shallow clone with depth %s'),
                 $self->{options}{git_depth});
         system('git', 'clone', '--depth=' . $self->{options}{git_depth},
                '--quiet', '--bare', 'file://' . abs_path($dir), $clone_dir);
         subprocerr('git clone') if $?;
         chdir($clone_dir)
-            or syserr(_g("unable to chdir to `%s'"), $clone_dir);
+            or syserr(g_("unable to chdir to `%s'"), $clone_dir);
         $shallowfile = "$basenamerev.gitshallow";
         system('cp', '-f', 'shallow', "$old_cwd/$shallowfile");
         subprocerr('cp shallow') if $?;
@@ -165,7 +165,7 @@ sub do_build {
     my $bundlefile = "$basenamerev.git";
     my @bundle_arg=$self->{options}{git_ref} ?
         (@{$self->{options}{git_ref}}) : '--all';
-    info(_g('bundling: %s'), join(' ', @bundle_arg));
+    info(g_('bundling: %s'), join(' ', @bundle_arg));
     system('git', 'bundle', 'create', "$old_cwd/$bundlefile",
            @bundle_arg,
            'HEAD', # ensure HEAD is included no matter what
@@ -173,7 +173,7 @@ sub do_build {
     );
     subprocerr('git bundle') if $?;
 
-    chdir($old_cwd) or syserr(_g("unable to chdir to `%s'"), $old_cwd);
+    chdir($old_cwd) or syserr(g_("unable to chdir to `%s'"), $old_cwd);
 
     if (defined $tmp) {
         erasedir($tmp);
@@ -200,33 +200,33 @@ sub do_extract {
             if (! defined $bundle) {
                 $bundle = $file;
             } else {
-                error(_g('format v3.0 (git) uses only one .git file'));
+                error(g_('format v3.0 (git) uses only one .git file'));
             }
         } elsif ($file =~ /^\Q$basenamerev\E\.gitshallow$/) {
             if (! defined $shallow) {
                 $shallow = $file;
             } else {
-                error(_g('format v3.0 (git) uses only one .gitshallow file'));
+                error(g_('format v3.0 (git) uses only one .gitshallow file'));
             }
         } else {
-            error(_g('format v3.0 (git) unknown file: %s', $file));
+            error(g_('format v3.0 (git) unknown file: %s', $file));
         }
     }
     if (! defined $bundle) {
-        error(_g('format v3.0 (git) expected %s'), "$basenamerev.git");
+        error(g_('format v3.0 (git) expected %s'), "$basenamerev.git");
     }
 
     erasedir($newdirectory);
 
     # Extract git bundle.
-    info(_g('cloning %s'), $bundle);
+    info(g_('cloning %s'), $bundle);
     system('git', 'clone', '--quiet', $dscdir . $bundle, $newdirectory);
     subprocerr('git bundle') if $?;
 
     if (defined $shallow) {
         # Move shallow info file into place, so git does not
         # try to follow parents of shallow refs.
-        info(_g('setting up shallow clone'));
+        info(g_('setting up shallow clone'));
         system('cp', '-f',  $dscdir . $shallow, "$newdirectory/.git/shallow");
         subprocerr('cp') if $?;
     }

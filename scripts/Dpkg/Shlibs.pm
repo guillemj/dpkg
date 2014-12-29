@@ -85,7 +85,7 @@ sub parse_ldso_conf {
     my $file = shift;
     local $_;
 
-    open my $fh, '<', $file or syserr(_g('cannot open %s'), $file);
+    open my $fh, '<', $file or syserr(g_('cannot open %s'), $file);
     $visited{$file}++;
     while (<$fh>) {
 	next if /^\s*$/;

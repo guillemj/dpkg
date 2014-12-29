@@ -105,7 +105,7 @@ sub parse {
 	# Skip empty lines and comments
 	next if /^#/ or length == 0;
 	if (/^-[^-]/ and not $self->{allow_short}) {
-	    warning(_g('short option not allowed in %s, line %d'), $desc, $.);
+	    warning(g_('short option not allowed in %s, line %d'), $desc, $.);
 	    next;
 	}
 	if (/^([^=]+)(?:=(.*))?$/) {
@@ -119,7 +119,7 @@ sub parse {
 	    }
 	    $count++;
 	} else {
-	    warning(_g('invalid syntax for option in %s, line %d'), $desc, $.);
+	    warning(g_('invalid syntax for option in %s, line %d'), $desc, $.);
 	}
     }
     return $count;

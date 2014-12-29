@@ -506,8 +506,8 @@ sub field_transfer_single($$;$) {
 	    return $field;
 	}
     } elsif (not field_is_allowed_in($field, $from_type)) {
-        warning(_g("unknown information field '%s' in input data in %s"),
-                $field, $from->get_option('name') || _g('control information'));
+        warning(g_("unknown information field '%s' in input data in %s"),
+                $field, $from->get_option('name') || g_('control information'));
     }
     return;
 }

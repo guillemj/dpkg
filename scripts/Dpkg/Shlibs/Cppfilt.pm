@@ -47,7 +47,7 @@ sub get_cppfilt {
 	$filt->{pid} = spawn(exec => [ 'c++filt', "--format=$type" ],
 	                     from_pipe => \$filt->{from},
 	                     to_pipe => \$filt->{to});
-	syserr(_g('unable to execute %s'), 'c++filt')
+	syserr(g_('unable to execute %s'), 'c++filt')
 	    unless defined $filt->{from};
 	$filt->{from}->autoflush(1);
 

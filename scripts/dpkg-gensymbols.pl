@@ -50,18 +50,18 @@ my $debug = 0;
 my $host_arch = get_host_arch();
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    printf _g('
+    printf g_('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ');
 }
 
 sub usage {
-    printf _g(
+    printf g_(
 'Usage: %s [<option>...]')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'Options:
   -p<package>              generate symbols file for package.
   -P<package-build-dir>    temporary build dir instead of debian/tmp.
@@ -96,7 +96,7 @@ while (@ARGV) {
     if (m/^-p/p) {
 	$oppackage = ${^POSTMATCH};
 	my $err = pkg_name_is_illegal($oppackage);
-	error(_g("illegal package name '%s': %s"), $oppackage, $err) if $err;
+	error(g_("illegal package name '%s': %s"), $oppackage, $err) if $err;
     } elsif (m/^-c(\d)?$/) {
 	$compare = $1 // 1;
     } elsif (m/^-q$/) {
@@ -112,7 +112,7 @@ while (@ARGV) {
 	} else {
 	    my @to_add = glob($file);
 	    push @files, @to_add;
-	    warning(_g("pattern '%s' did not match any file"), $file)
+	    warning(g_("pattern '%s' did not match any file"), $file)
 		unless scalar(@to_add);
 	}
     } elsif (m/^-P(.+)$/) {
@@ -137,7 +137,7 @@ while (@ARGV) {
 	version();
 	exit(0);
     } else {
-	usageerr(_g("unknown option \`%s'"), $_);
+	usageerr(g_("unknown option \`%s'"), $_);
     }
 }
 
@@ -155,9 +155,9 @@ if (not defined($oppackage)) {
     my $control = Dpkg::Control::Info->new();
     my @packages = map { $_->{'Package'} } $control->get_packages();
     if (@packages == 0) {
-	error(_g('no package stanza found in control info'));
+	error(g_('no package stanza found in control info'));
     } elsif (@packages > 1) {
-	error(_g('must specify package since control info has many (%s)'),
+	error(g_('must specify package since control info has many (%s)'),
 	      "@packages");
     }
     $oppackage = $packages[0];
@@ -193,7 +193,7 @@ if (not scalar @files) {
             next PATH if -l $updir;
         }
 	opendir(my $libdir_dh, "$libdir")
-	    or syserr(_g("can't read directory %s: %s"), $libdir, $!);
+	    or syserr(g_("can't read directory %s: %s"), $libdir, $!);
 	push @files, grep {
 	    /(\.so\.|\.so$)/ && -f &&
 	    Dpkg::Shlibs::Objdump::is_elf($_);
@@ -208,7 +208,7 @@ foreach my $file (@files) {
     print "Scanning $file for symbol information\n" if $debug;
     my $objid = $od->analyze($file);
     unless (defined($objid) && $objid) {
-	warning(_g("Dpkg::Shlibs::Objdump couldn't parse %s\n"), $file);
+	warning(g_("Dpkg::Shlibs::Objdump couldn't parse %s\n"), $file);
 	next;
     }
     my $object = $od->get_object($objid);
@@ -226,7 +226,7 @@ $symfile->clear_except(keys %{$od->{objects}});
 
 # Write out symbols files
 if ($stdout) {
-    $output = _g('<standard output>');
+    $output = g_('<standard output>');
     $symfile->output(\*STDOUT, package => $oppackage,
                      template_mode => $template_mode,
                      with_pattern_matches => $verbose_output,
@@ -254,23 +254,23 @@ my $exitcode = 0;
 if ($compare || ! $quiet) {
     # Compare
     if (my @libs = $symfile->get_new_libs($ref_symfile)) {
-	warning(_g('new libraries appeared in the symbols file: %s'), "@libs")
+	warning(g_('new libraries appeared in the symbols file: %s'), "@libs")
 	    unless $quiet;
 	$exitcode = 4 if ($compare >= 4);
     }
     if (my @libs = $symfile->get_lost_libs($ref_symfile)) {
-	warning(_g('some libraries disappeared in the symbols file: %s'), "@libs")
+	warning(g_('some libraries disappeared in the symbols file: %s'), "@libs")
 	    unless $quiet;
 	$exitcode = 3 if ($compare >= 3);
     }
     if ($symfile->get_new_symbols($ref_symfile)) {
-	warning(_g('some new symbols appeared in the symbols file: %s'),
-		_g('see diff output below')) unless $quiet;
+	warning(g_('some new symbols appeared in the symbols file: %s'),
+		g_('see diff output below')) unless $quiet;
 	$exitcode = 2 if ($compare >= 2);
     }
     if ($symfile->get_lost_symbols($ref_symfile)) {
-	warning(_g('some symbols or patterns disappeared in the symbols file: %s'),
-	        _g('see diff output below')) unless $quiet;
+	warning(g_('some symbols or patterns disappeared in the symbols file: %s'),
+	        g_('see diff output below')) unless $quiet;
 	$exitcode = 1 if ($compare >= 1);
     }
 }
@@ -290,12 +290,12 @@ unless ($quiet) {
     # Output diffs between symbols files if any
     if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
 	if (not defined($output)) {
-	    warning(_g('the generated symbols file is empty'));
+	    warning(g_('the generated symbols file is empty'));
 	} elsif (defined($ref_symfile->{file})) {
-	    warning(_g("%s doesn't match completely %s"),
+	    warning(g_("%s doesn't match completely %s"),
 		    $output, $ref_symfile->{file});
 	} else {
-	    warning(_g('no debian/symbols file used as basis for generating %s'),
+	    warning(g_('no debian/symbols file used as basis for generating %s'),
 		    $output);
 	}
 	my ($a, $b) = ($before->filename, $after->filename);

@@ -36,14 +36,14 @@ textdomain('dpkg-dev');
 
 sub version()
 {
-	printf(_g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION);
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 	exit(0);
 }
 
 sub usage {
-	printf _g(
+    printf g_(
 'Usage: %s [<option>...] [<control-file>]')
-	. "\n\n" . _g(
+    . "\n\n" . g_(
 'Options:
   -A             ignore Build-Depends-Arch and Build-Conflicts-Arch.
   -B             ignore Build-Depends-Indep and Build-Conflicts-Indep.
@@ -57,7 +57,7 @@ sub usage {
                  change the administrative directory.
   -?, --help     show this help message.
       --version  show the version.')
-	. "\n\n" . _g(
+    . "\n\n" . g_(
 '<control-file> is the control file to process (default: debian/control).')
 	. "\n", $Dpkg::PROGNAME;
 }
@@ -113,7 +113,7 @@ if ($bd_value) {
     my $dep = deps_parse($bd_value, reduce_restrictions => 1,
                          build_dep => 1, build_profiles => \@build_profiles,
                          host_arch => $host_arch);
-    error(_g('error occurred while parsing %s'),
+    error(g_('error occurred while parsing %s'),
           'Build-Depends/Build-Depends-Arch/Build-Depends-Indep')
         unless defined $dep;
     push @unmet, build_depends($dep, $facts);
@@ -122,18 +122,18 @@ if ($bc_value) {
     my $dep = deps_parse($bc_value, reduce_restrictions => 1, union => 1,
                          build_dep => 1, build_profiles => \@build_profiles,
                          host_arch => $host_arch);
-    error(_g('error occurred while parsing %s'),
+    error(g_('error occurred while parsing %s'),
           'Build-Conflicts/Build-Conflicts-Arch/Build-Conflicts-Indep')
         unless defined $dep;
     push @conflicts, build_conflicts($dep, $facts);
 }
 
 if (@unmet) {
-	printf { *STDERR } _g('%s: Unmet build dependencies: '), $Dpkg::PROGNAME;
+	printf { *STDERR } g_('%s: Unmet build dependencies: '), $Dpkg::PROGNAME;
 	print { *STDERR } join(' ', map { $_->output() } @unmet), "\n";
 }
 if (@conflicts) {
-	printf { *STDERR } _g('%s: Build conflicts: '), $Dpkg::PROGNAME;
+	printf { *STDERR } g_('%s: Build conflicts: '), $Dpkg::PROGNAME;
 	print { *STDERR } join(' ', map { $_->output() } @conflicts), "\n";
 }
 exit 1 if @unmet || @conflicts;
@@ -145,7 +145,7 @@ sub parse_status {
 	my $facts = Dpkg::Deps::KnownFacts->new();
 	local $/ = '';
 	open(my $status_fh, '<', $status)
-		or syserr(_g('cannot open %s'), $status);
+		or syserr(g_('cannot open %s'), $status);
 	while (<$status_fh>) {
 		next unless /^Status: .*ok installed$/m;
 

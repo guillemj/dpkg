@@ -31,15 +31,15 @@ sub erasedir {
     my ($dir) = @_;
     if (not lstat($dir)) {
         return if $! == ENOENT;
-        syserr(_g('cannot stat directory %s (before removal)'), $dir);
+        syserr(g_('cannot stat directory %s (before removal)'), $dir);
     }
     system 'rm', '-rf', '--', $dir;
     subprocerr("rm -rf $dir") if $?;
     if (not stat($dir)) {
         return if $! == ENOENT;
-        syserr(_g("unable to check for removal of dir `%s'"), $dir);
+        syserr(g_("unable to check for removal of dir `%s'"), $dir);
     }
-    error(_g("rm -rf failed to remove `%s'"), $dir);
+    error(g_("rm -rf failed to remove `%s'"), $dir);
 }
 
 sub fixperms {
@@ -75,14 +75,14 @@ sub fs_time($) {
     my ($file) = @_;
     my $is_temp = 0;
     if (not -e $file) {
-	open(my $temp_fh, '>', $file) or syserr(_g('cannot write %s'));
+	open(my $temp_fh, '>', $file) or syserr(g_('cannot write %s'));
 	close($temp_fh);
 	$is_temp = 1;
     } else {
 	utime(undef, undef, $file) or
-	    syserr(_g('cannot change timestamp for %s'), $file);
+	    syserr(g_('cannot change timestamp for %s'), $file);
     }
-    stat($file) or syserr(_g('cannot read timestamp from %s'), $file);
+    stat($file) or syserr(g_('cannot read timestamp from %s'), $file);
     my $mtime = (stat(_))[9];
     unlink($file) if $is_temp;
     return $mtime;

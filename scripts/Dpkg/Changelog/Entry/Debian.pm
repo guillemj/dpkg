@@ -123,31 +123,31 @@ sub check_header {
 	my %optdone;
 	foreach my $opt (split(/\s*,\s*/, $options)) {
 	    unless ($opt =~ m/^([-0-9a-z]+)\=\s*(.*\S)$/i) {
-		push @errors, sprintf(_g("bad key-value after \`;': \`%s'"), $opt);
+		push @errors, sprintf(g_("bad key-value after \`;': \`%s'"), $opt);
 		next;
 	    }
 	    my ($k, $v) = (field_capitalize($1), $2);
 	    if ($optdone{$k}) {
-		push @errors, sprintf(_g('repeated key-value %s'), $k);
+		push @errors, sprintf(g_('repeated key-value %s'), $k);
 	    }
 	    $optdone{$k} = 1;
 	    if ($k eq 'Urgency') {
-		push @errors, sprintf(_g('badly formatted urgency value: %s'), $v)
+		push @errors, sprintf(g_('badly formatted urgency value: %s'), $v)
 		    unless ($v =~ m/^([-0-9a-z]+)((\s+.*)?)$/i);
 	    } elsif ($k eq 'Binary-Only') {
-		push @errors, sprintf(_g('bad binary-only value: %s'), $v)
+		push @errors, sprintf(g_('bad binary-only value: %s'), $v)
 		    unless ($v eq 'yes');
 	    } elsif ($k =~ m/^X[BCS]+-/i) {
 	    } else {
-		push @errors, sprintf(_g('unknown key-value %s'), $k);
+		push @errors, sprintf(g_('unknown key-value %s'), $k);
 	    }
 	}
 	my ($ok, $msg) = version_check($version);
 	unless ($ok) {
-	    push @errors, sprintf(_g("version '%s' is invalid: %s"), $version, $msg);
+	    push @errors, sprintf(g_("version '%s' is invalid: %s"), $version, $msg);
 	}
     } else {
-	push @errors, _g("the header doesn't match the expected regex");
+	push @errors, g_("the header doesn't match the expected regex");
     }
     return @errors;
 }
@@ -157,13 +157,13 @@ sub check_trailer {
     my @errors;
     if (defined($self->{trailer}) and $self->{trailer} =~ $regex_trailer) {
 	if ($3 ne '  ') {
-	    push @errors, _g('badly formatted trailer line');
+	    push @errors, g_('badly formatted trailer line');
 	}
 	unless (defined str2time($4)) {
-	    push @errors, sprintf(_g("couldn't parse date %s"), $4);
+	    push @errors, sprintf(g_("couldn't parse date %s"), $4);
 	}
     } else {
-	push @errors, _g("the trailer doesn't match the expected regex");
+	push @errors, g_("the trailer doesn't match the expected regex");
     }
     return @errors;
 }

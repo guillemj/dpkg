@@ -170,10 +170,10 @@ sub add_from_file {
     }
 
     push @{$self->{files}}, $key unless exists $self->{size}{$key};
-    (my @s = stat($file)) or syserr(_g('cannot fstat file %s'), $file);
+    (my @s = stat($file)) or syserr(g_('cannot fstat file %s'), $file);
     if (not $opts{update} and exists $self->{size}{$key} and
         $self->{size}{$key} != $s[7]) {
-	error(_g('file %s has size %u instead of expected %u'),
+	error(g_('file %s has size %u instead of expected %u'),
 	      $file, $s[7], $self->{size}{$key});
     }
     $self->{size}{$key} = $s[7];
@@ -187,12 +187,12 @@ sub add_from_file {
 	    my $newsum = $1;
 	    if (not $opts{update} and exists $self->{checksums}{$key}{$alg} and
 		$self->{checksums}{$key}{$alg} ne $newsum) {
-		error(_g('file %s has checksum %s instead of expected %s (algorithm %s)'),
+		error(g_('file %s has checksum %s instead of expected %s (algorithm %s)'),
 		      $file, $newsum, $self->{checksums}{$key}{$alg}, $alg);
 	    }
 	    $self->{checksums}{$key}{$alg} = $newsum;
 	} else {
-	    error(_g("checksum program gave bogus output `%s'"), $output);
+	    error(g_("checksum program gave bogus output `%s'"), $output);
 	}
     }
 }
@@ -221,18 +221,18 @@ sub add_from_string {
     for my $checksum (split /\n */, $fieldtext) {
 	next if $checksum eq '';
 	unless ($checksum =~ m/^($regex)\s+(\d+)\s+($rx_fname)$/) {
-	    error(_g('invalid line in %s checksums string: %s'),
+	    error(g_('invalid line in %s checksums string: %s'),
 		  $alg, $checksum);
 	}
 	my ($sum, $size, $file) = ($1, $2, $3);
 	if (not $opts{update} and  exists($checksums->{$file}{$alg})
 	    and $checksums->{$file}{$alg} ne $sum) {
-	    error(_g("conflicting checksums '%s' and '%s' for file '%s'"),
+	    error(g_("conflicting checksums '%s' and '%s' for file '%s'"),
 		  $checksums->{$file}{$alg}, $sum, $file);
 	}
 	if (not $opts{update} and exists $self->{size}{$file}
 	    and $self->{size}{$file} != $size) {
-	    error(_g("conflicting file sizes '%u' and '%u' for file '%s'"),
+	    error(g_("conflicting file sizes '%u' and '%u' for file '%s'"),
 		  $self->{size}{$file}, $size, $file);
 	}
 	push @{$self->{files}}, $file unless exists $self->{size}{$file};

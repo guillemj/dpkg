@@ -35,18 +35,18 @@ use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_gcc_host_gnu_type
 textdomain('dpkg-dev');
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    printf _g('
+    printf g_('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ');
 }
 
 sub usage {
-    printf _g(
+    printf g_(
 'Usage: %s [<option>...] [<command>]')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'Commands:
   -l, --list                list variables (default).
   -L, --list-known          list valid architectures (matching some criteria).
@@ -58,7 +58,7 @@ sub usage {
   -c, --command <command>   set environment and run the command in it.
   -?, --help                show this help message.
       --version             show the version.')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'Options:
   -a, --host-arch <arch>    set host Debian architecture.
   -t, --host-type <type>    set host GNU system type.
@@ -80,24 +80,24 @@ sub check_arch_coherency
 
     if ($arch ne '' && $gnu_type eq '') {
         $gnu_type = debarch_to_gnutriplet($arch);
-        error(_g('unknown Debian architecture %s, you must specify ' .
+        error(g_('unknown Debian architecture %s, you must specify ' .
                  'GNU system type, too'), $arch)
             unless defined $gnu_type;
     }
 
     if ($gnu_type ne '' && $arch eq '') {
         $arch = gnutriplet_to_debarch($gnu_type);
-        error(_g('unknown GNU system type %s, you must specify ' .
+        error(g_('unknown GNU system type %s, you must specify ' .
                  'Debian architecture, too'), $gnu_type)
             unless defined $arch;
     }
 
     if ($gnu_type ne '' && $arch ne '') {
         my $dfl_gnu_type = debarch_to_gnutriplet($arch);
-        error(_g('unknown default GNU system type for Debian architecture %s'),
+        error(g_('unknown default GNU system type for Debian architecture %s'),
               $arch)
             unless defined $dfl_gnu_type;
-        warning(_g('default GNU system type %s for Debian arch %s does not ' .
+        warning(g_('default GNU system type %s for Debian arch %s does not ' .
                    'match specified GNU system type %s'), $dfl_gnu_type,
                 $arch, $gnu_type)
             if $dfl_gnu_type ne $gnu_type;
@@ -208,7 +208,7 @@ while (@ARGV) {
         $force=1;
     } elsif ($arg eq '-q' or $arg eq '--query') {
 	my $varname = shift;
-	error(_g('%s is not a supported variable name'), $varname)
+	error(g_('%s is not a supported variable name'), $varname)
 	    unless (exists $arch_vars{$varname});
 	$req_variable_to_print = "$varname";
 	$req_vars = $arch_vars{$varname};
@@ -226,7 +226,7 @@ while (@ARGV) {
         version();
        exit 0;
     } else {
-        usageerr(_g("unknown option \`%s'"), $arg);
+        usageerr(g_("unknown option \`%s'"), $arg);
     }
 }
 
@@ -282,7 +282,7 @@ if (action_needs(DEB_HOST | DEB_GNU_INFO)) {
 
     my $gcc = get_gcc_host_gnu_type();
 
-    warning(_g('specified GNU system type %s does not match gcc system ' .
+    warning(g_('specified GNU system type %s does not match gcc system ' .
                'type %s, try setting a correct CC environment variable'),
             $v{DEB_HOST_GNU_TYPE}, $gcc)
         if ($gcc ne '') && ($gcc ne $v{DEB_HOST_GNU_TYPE});

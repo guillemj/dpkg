@@ -50,17 +50,17 @@ sub do_extract {
     my $comp_ext_regex = compression_get_file_extension_regex();
     foreach my $file ($self->get_files()) {
 	if ($file =~ /^\Q$basenamerev\E\.tar\.$comp_ext_regex$/) {
-            error(_g('multiple tarfiles in v1.0 source package')) if $tarfile;
+            error(g_('multiple tarfiles in v1.0 source package')) if $tarfile;
             $tarfile = $file;
 	} else {
-	    error(_g('unrecognized file for a native source package: %s'), $file);
+	    error(g_('unrecognized file for a native source package: %s'), $file);
 	}
     }
 
-    error(_g('no tarfile in Files field')) unless $tarfile;
+    error(g_('no tarfile in Files field')) unless $tarfile;
 
     erasedir($newdirectory);
-    info(_g('unpacking %s'), $tarfile);
+    info(g_('unpacking %s'), $tarfile);
     my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
     $tar->extract($newdirectory);
 }
@@ -69,7 +69,7 @@ sub can_build {
     my ($self, $dir) = @_;
 
     my $v = Dpkg::Version->new($self->{fields}->{'Version'});
-    return (0, _g('native package version may not have a revision'))
+    return (0, g_('native package version may not have a revision'))
         unless $v->is_native();
 
     return 1;
@@ -81,7 +81,7 @@ sub do_build {
     my @argv = @{$self->{options}{ARGV}};
 
     if (scalar(@argv)) {
-        usageerr(_g("-b takes only one parameter with format `%s'"),
+        usageerr(g_("-b takes only one parameter with format `%s'"),
                  $self->{fields}{'Format'});
     }
 
@@ -89,7 +89,7 @@ sub do_build {
     my $basenamerev = $self->get_basename(1);
     my $tarname = "$basenamerev.tar." . $self->{options}{comp_ext};
 
-    info(_g('building %s in %s'), $sourcepackage, $tarname);
+    info(g_('building %s in %s'), $sourcepackage, $tarname);
 
     my ($ntfh, $newtar) = tempfile("$tarname.new.XXXXXX",
                                    DIR => getcwd(), UNLINK => 0);
@@ -103,11 +103,11 @@ sub do_build {
     $tar->add_directory($dirname);
     $tar->finish();
     rename($newtar, $tarname)
-        or syserr(_g("unable to rename `%s' (newly created) to `%s'"),
+        or syserr(g_("unable to rename `%s' (newly created) to `%s'"),
                   $newtar, $tarname);
     pop_exit_handler();
     chmod(0666 &~ umask(), $tarname)
-        or syserr(_g("unable to change permission of `%s'"), $tarname);
+        or syserr(g_("unable to change permission of `%s'"), $tarname);
 
     $self->add_file($tarname);
 }

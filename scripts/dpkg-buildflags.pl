@@ -30,18 +30,18 @@ use Dpkg::Vendor qw(get_current_vendor);
 textdomain('dpkg-dev');
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    printf _g('
+    printf g_('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
 ');
 }
 
 sub usage {
-    printf _g(
+    printf g_(
 'Usage: %s [<command>]')
-    . "\n\n" . _g(
+    . "\n\n" . g_(
 'Commands:
   --get <flag>       output the requested flag to stdout.
   --origin <flag>    output the origin of the flag to stdout:
@@ -67,20 +67,20 @@ my $load_config = 1;
 while (@ARGV) {
     $_ = shift(@ARGV);
     if (m/^--(get|origin|query-features)$/) {
-        usageerr(_g('two commands specified: --%s and --%s'), $1, $action)
+        usageerr(g_('two commands specified: --%s and --%s'), $1, $action)
             if defined($action);
         $action = $1;
         $param = shift(@ARGV);
-	usageerr(_g('%s needs a parameter'), $_) unless defined $param;
+	usageerr(g_('%s needs a parameter'), $_) unless defined $param;
     } elsif (m/^--export(?:=(sh|make|cmdline|configure))?$/) {
-        usageerr(_g('two commands specified: --%s and --%s'), 'export', $action)
+        usageerr(g_('two commands specified: --%s and --%s'), 'export', $action)
             if defined($action);
         my $type = $1 || 'sh';
         # Map legacy aliases.
         $type = 'cmdline' if $type eq 'configure';
         $action = "export-$type";
     } elsif (m/^--(list|status|dump)$/) {
-        usageerr(_g('two commands specified: --%s and --%s'), $1, $action)
+        usageerr(g_('two commands specified: --%s and --%s'), $1, $action)
             if defined($action);
         $action = $1;
         $load_config = 0 if $action eq 'list';
@@ -91,7 +91,7 @@ while (@ARGV) {
         version();
         exit 0;
     } else {
-	usageerr(_g("unknown option \`%s'"), $_);
+	usageerr(g_("unknown option \`%s'"), $_);
     }
 }
 

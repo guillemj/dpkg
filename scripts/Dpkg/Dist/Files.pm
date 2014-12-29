@@ -67,11 +67,11 @@ sub parse {
             $file{section} = $2;
             $file{priority} = $3;
         } else {
-            error(_g('badly formed line in files list file, line %d'), $.);
+            error(g_('badly formed line in files list file, line %d'), $.);
         }
 
         if (defined $self->{files}->{$file{filename}}) {
-            warning(_g('duplicate files list entry for file %s (line %d)'),
+            warning(g_('duplicate files list entry for file %s (line %d)'),
                     $file{filename}, $.);
         } else {
             $count++;

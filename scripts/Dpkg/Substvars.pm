@@ -203,7 +203,7 @@ sub parse {
 	next if m/^\s*\#/ || !m/\S/;
 	s/\s*\n$//;
 	if (! m/^(\w[-:0-9A-Za-z]*)\=(.*)$/) {
-	    error(_g('bad line in substvars file %s at line %d'),
+	    error(g_('bad line in substvars file %s at line %d'),
 		  $varlistfile, $.);
 	}
 	$self->set($1, $2);
@@ -280,7 +280,7 @@ sub substvars {
 
         if ($count >= $maxsubsts) {
             error($opts{msg_prefix} .
-	          _g("too many substitutions - recursive ? - in \`%s'"), $v);
+	          g_("too many substitutions - recursive ? - in \`%s'"), $v);
         }
         $lhs = $1; $vn = $2; $rhs = $3;
         if (defined($self->{vars}{$vn})) {
@@ -290,10 +290,10 @@ sub substvars {
 
             if (not $opts{no_warn} and $self->{attr}{$vn} & SUBSTVAR_ATTR_OLD) {
                 warning($opts{msg_prefix} .
-                        _g('deprecated substitution variable ${%s}'), $vn);
+                        g_('deprecated substitution variable ${%s}'), $vn);
             }
         } else {
-            warning($opts{msg_prefix} . _g('unknown substitution variable ${%s}'),
+            warning($opts{msg_prefix} . g_('unknown substitution variable ${%s}'),
 	            $vn) unless $opts{no_warn};
             $v = $lhs . $rhs;
         }
@@ -317,7 +317,7 @@ sub warn_about_unused {
         # that they are not required in the current situation
         # (example: debhelper's misc:Depends in many cases)
         next if $self->{vars}{$vn} eq '';
-        warning($opts{msg_prefix} . _g('unused substitution variable ${%s}'),
+        warning($opts{msg_prefix} . g_('unused substitution variable ${%s}'),
                 $vn);
     }
 }

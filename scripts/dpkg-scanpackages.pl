@@ -66,12 +66,12 @@ my @options_spec = (
 );
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
     exit;
 }
 
 sub usage {
-    printf _g(
+    printf g_(
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Packages
 
 Options:
@@ -112,7 +112,7 @@ sub load_override
 		    my $debmaint = $$package{Maintainer};
 		    if (none { $debmaint eq $_ } split m{\s*//\s*}, $oldmaint) {
 			push(@changedmaint,
-			     sprintf(_g('  %s (package says %s, not %s)'),
+			     sprintf(g_('  %s (package says %s, not %s)'),
 			             $p, $$package{Maintainer}, $oldmaint));
 		    } else {
 			$$package{Maintainer} = $newmaint;
@@ -120,7 +120,7 @@ sub load_override
 		} elsif ($$package{Maintainer} eq $maintainer) {
 		    push(@samemaint, "  $p ($maintainer)");
 		} else {
-		    warning(_g('unconditional maintainer override for %s'), $p);
+		    warning(g_('unconditional maintainer override for %s'), $p);
 		    $$package{Maintainer} = $maintainer;
 		}
 	    }
@@ -161,7 +161,7 @@ sub load_override_extra
 }
 
 if (not (@ARGV >= 1 and @ARGV <= 3)) {
-    usageerr(_g('one to three arguments expected'));
+    usageerr(g_('one to three arguments expected'));
 }
 
 my $type = $options{type} // 'deb';
@@ -170,7 +170,7 @@ my %hash = map { $_ => 1 } split /,/, $options{hash} // '';
 
 foreach my $alg (keys %hash) {
     if (not checksums_is_supported($alg)) {
-        usageerr(_g('unsupported checksum \'%s\''), $alg);
+        usageerr(g_('unsupported checksum \'%s\''), $alg);
     }
 }
 
@@ -186,17 +186,17 @@ else {
 my ($binarydir, $override, $pathprefix) = @ARGV;
 
 if (not -d $binarydir) {
-    error(_g('binary dir %s not found'), $binarydir);
+    error(g_('binary dir %s not found'), $binarydir);
 }
 if (defined $override and not -e $override) {
-    error(_g('override file %s not found'), $override);
+    error(g_('override file %s not found'), $override);
 }
 
 $pathprefix //= '';
 
 my $find_h = IO::Handle->new();
 open($find_h, '-|', 'find', '-L', "$binarydir/", @find_args, '-print')
-     or syserr(_g("couldn't open %s for reading"), $binarydir);
+     or syserr(g_("couldn't open %s for reading"), $binarydir);
 FILE:
     while (my $fn = <$find_h>) {
 	chomp $fn;
@@ -205,16 +205,16 @@ FILE:
 	                to_pipe => \$output);
 	my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
 	$fields->parse($output, $fn)
-	    or error(_g("couldn't parse control information from %s"), $fn);
+	    or error(g_("couldn't parse control information from %s"), $fn);
 	wait_child($pid, nocheck => 1);
 	if ($?) {
-	    warning(_g("\`dpkg-deb -I %s control' exited with %d, skipping package"),
+	    warning(g_("\`dpkg-deb -I %s control' exited with %d, skipping package"),
 	            $fn, $?);
 	    next;
 	}
 
 	defined($fields->{'Package'})
-	    or error(_g('no Package field in control file of %s'), $fn);
+	    or error(g_('no Package field in control file of %s'), $fn);
 	my $p = $fields->{'Package'};
 
 	if (defined($packages{$p}) and not $options{multiversion}) {
@@ -222,20 +222,20 @@ FILE:
 		if (version_compare_relation($fields->{'Version'}, REL_GT,
 		                             $pkg->{'Version'}))
                 {
-		    warning(_g('package %s (filename %s) is repeat but newer version;'),
+		    warning(g_('package %s (filename %s) is repeat but newer version;'),
 		            $p, $fn);
-		    warning(_g('used that one and ignored data from %s!'),
+		    warning(g_('used that one and ignored data from %s!'),
 		            $pkg->{Filename});
 		    $packages{$p} = [];
 		} else {
-		    warning(_g('package %s (filename %s) is repeat;'), $p, $fn);
-		    warning(_g('ignored that one and using data from %s!'),
+		    warning(g_('package %s (filename %s) is repeat;'), $p, $fn);
+		    warning(g_('ignored that one and using data from %s!'),
 		            $pkg->{Filename});
 		    next FILE;
 		}
 	    }
 	}
-	warning(_g('package %s (filename %s) has Filename field!'), $p, $fn)
+	warning(g_('package %s (filename %s) has Filename field!'), $p, $fn)
 	    if defined($fields->{'Filename'});
 
 	$fields->{'Filename'} = "$pathprefix$fn";
@@ -269,27 +269,27 @@ for my $p (sort keys %packages) {
         push @missingover, $p;
     }
     for my $package (@{$packages{$p}}) {
-         print("$package\n") or syserr(_g('failed when writing stdout'));
+         print("$package\n") or syserr(g_('failed when writing stdout'));
          $records_written++;
     }
 }
-close(STDOUT) or syserr(_g("couldn't close stdout"));
+close(STDOUT) or syserr(g_("couldn't close stdout"));
 
 if (@changedmaint) {
-    warning(_g('Packages in override file with incorrect old maintainer value:'));
+    warning(g_('Packages in override file with incorrect old maintainer value:'));
     warning($_) foreach (@changedmaint);
 }
 if (@samemaint) {
-    warning(_g('Packages specifying same maintainer as override file:'));
+    warning(g_('Packages specifying same maintainer as override file:'));
     warning($_) foreach (@samemaint);
 }
 if (@missingover) {
-    warning(_g('Packages in archive but missing from override file:'));
+    warning(g_('Packages in archive but missing from override file:'));
     warning('  %s', join(' ', @missingover));
 }
 if (@spuriousover) {
-    warning(_g('Packages in override file but not in archive:'));
+    warning(g_('Packages in override file but not in archive:'));
     warning('  %s', join(' ', @spuriousover));
 }
 
-info(_g('Wrote %s entries to output Packages file.'), $records_written);
+info(g_('Wrote %s entries to output Packages file.'), $records_written);

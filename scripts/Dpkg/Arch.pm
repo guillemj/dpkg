@@ -94,7 +94,7 @@ my %debarch_to_debtriplet;
 	$gcc_host_gnu_type = get_gcc_host_gnu_type();
 
 	if ($gcc_host_gnu_type eq '') {
-	    warning(_g("couldn't determine gcc system type, falling back to " .
+	    warning(g_("couldn't determine gcc system type, falling back to " .
 	               'default (native compilation)'));
 	} else {
 	    my (@host_archtriplet) = gnutriplet_to_debtriplet($gcc_host_gnu_type);
@@ -103,7 +103,7 @@ my %debarch_to_debtriplet;
 	    if (defined $host_arch) {
 		$gcc_host_gnu_type = debtriplet_to_gnutriplet(@host_archtriplet);
 	    } else {
-		warning(_g('unknown gcc system type %s, falling back to ' .
+		warning(g_('unknown gcc system type %s, falling back to ' .
 		           'default (native compilation)'), $gcc_host_gnu_type);
 		$gcc_host_gnu_type = '';
 	    }
@@ -149,7 +149,7 @@ sub read_cputable
     local $/ = "\n";
 
     open my $cputable_fh, '<', "$Dpkg::DATADIR/cputable"
-	or syserr(_g('cannot open %s'), 'cputable');
+	or syserr(g_('cannot open %s'), 'cputable');
     while (<$cputable_fh>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/) {
 	    $cputable{$1} = $2;
@@ -173,7 +173,7 @@ sub read_ostable
     local $/ = "\n";
 
     open my $ostable_fh, '<', "$Dpkg::DATADIR/ostable"
-	or syserr(_g('cannot open %s'), 'ostable');
+	or syserr(g_('cannot open %s'), 'ostable');
     while (<$ostable_fh>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
 	    $ostable{$1} = $2;
@@ -206,7 +206,7 @@ sub abitable_load()
         }
         close $abitable_fh;
     } elsif ($! != ENOENT) {
-        syserr(_g('cannot open %s'), 'abitable');
+        syserr(g_('cannot open %s'), 'abitable');
     }
 
     $abitable_loaded = 1;
@@ -223,7 +223,7 @@ sub read_triplettable()
     local $/ = "\n";
 
     open my $triplettable_fh, '<', "$Dpkg::DATADIR/triplettable"
-	or syserr(_g('cannot open %s'), 'triplettable');
+	or syserr(g_('cannot open %s'), 'triplettable');
     while (<$triplettable_fh>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)/) {
 	    my $debtriplet = $1;

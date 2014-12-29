@@ -49,7 +49,7 @@ sub import {
             return 1;
         }
     }
-    error(_g('cannot unpack bzr-format source package because ' .
+    error(g_('cannot unpack bzr-format source package because ' .
              'bzr is not in the PATH'));
 }
 
@@ -57,20 +57,20 @@ sub sanity_check {
     my $srcdir = shift;
 
     if (! -d "$srcdir/.bzr") {
-        error(_g('source directory is not the top directory of a bzr repository (%s/.bzr not present), but Format bzr was specified'),
+        error(g_('source directory is not the top directory of a bzr repository (%s/.bzr not present), but Format bzr was specified'),
               $srcdir);
     }
 
     # Symlinks from .bzr to outside could cause unpack failures, or
     # point to files they shouldn't, so check for and don't allow.
     if (-l "$srcdir/.bzr") {
-        error(_g('%s is a symlink'), "$srcdir/.bzr");
+        error(g_('%s is a symlink'), "$srcdir/.bzr");
     }
     my $abs_srcdir = Cwd::abs_path($srcdir);
     find(sub {
         if (-l) {
             if (Cwd::abs_path(readlink) !~ /^\Q$abs_srcdir\E(?:\/|$)/) {
-                error(_g('%s is a symlink to outside %s'),
+                error(g_('%s is a symlink to outside %s'),
                       $File::Find::name, $srcdir);
             }
         }
@@ -82,7 +82,7 @@ sub sanity_check {
 sub can_build {
     my ($self, $dir) = @_;
 
-    return (0, _g("doesn't contain a bzr repository")) unless -d "$dir/.bzr";
+    return (0, g_("doesn't contain a bzr repository")) unless -d "$dir/.bzr";
     return 1;
 }
 
@@ -97,7 +97,7 @@ sub do_build {
     my ($dirname, $updir) = fileparse($dir);
 
     if (scalar(@argv)) {
-        usageerr(_g("-b takes only one parameter with format `%s'"),
+        usageerr(g_("-b takes only one parameter with format `%s'"),
                  $self->{fields}{'Format'});
     }
 
@@ -110,7 +110,7 @@ sub do_build {
     sanity_check($dir);
 
     my $old_cwd = getcwd();
-    chdir($dir) or syserr(_g("unable to chdir to `%s'"), $dir);
+    chdir($dir) or syserr(g_("unable to chdir to `%s'"), $dir);
 
     local $_;
 
@@ -128,13 +128,13 @@ sub do_build {
             push @files, $_;
         }
     }
-    close($bzr_status_fh) or syserr(_g('bzr status exited nonzero'));
+    close($bzr_status_fh) or syserr(g_('bzr status exited nonzero'));
     if (@files) {
-        error(_g('uncommitted, not-ignored changes in working directory: %s'),
+        error(g_('uncommitted, not-ignored changes in working directory: %s'),
               join(' ', @files));
     }
 
-    chdir($old_cwd) or syserr(_g("unable to chdir to `%s'"), $old_cwd);
+    chdir($old_cwd) or syserr(g_("unable to chdir to `%s'"), $old_cwd);
 
     my $tmp = tempdir("$dirname.bzr.XXXXXX", DIR => $updir);
     push_exit_handler(sub { erasedir($tmp) });
@@ -153,7 +153,7 @@ sub do_build {
 
     # Create the tar file
     my $debianfile = "$basenamerev.bzr.tar." . $self->{options}{comp_ext};
-    info(_g('building %s in %s'),
+    info(g_('building %s in %s'),
          $sourcepackage, $debianfile);
     my $tar = Dpkg::Source::Archive->new(filename => $debianfile,
                                          compression => $self->{options}{compression},
@@ -180,19 +180,19 @@ sub do_extract {
 
     my @files = $self->get_files();
     if (@files > 1) {
-        error(_g('format v3.0 uses only one source file'));
+        error(g_('format v3.0 uses only one source file'));
     }
     my $tarfile = $files[0];
     my $comp_ext_regex = compression_get_file_extension_regex();
     if ($tarfile !~ /^\Q$basenamerev\E\.bzr\.tar\.$comp_ext_regex$/) {
-        error(_g('expected %s, got %s'),
+        error(g_('expected %s, got %s'),
               "$basenamerev.bzr.tar.$comp_ext_regex", $tarfile);
     }
 
     erasedir($newdirectory);
 
     # Extract main tarball
-    info(_g('unpacking %s'), $tarfile);
+    info(g_('unpacking %s'), $tarfile);
     my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
     $tar->extract($newdirectory);
 
@@ -200,13 +200,13 @@ sub do_extract {
 
     my $old_cwd = getcwd();
     chdir($newdirectory)
-        or syserr(_g("unable to chdir to `%s'"), $newdirectory);
+        or syserr(g_("unable to chdir to `%s'"), $newdirectory);
 
     # Reconstitute the working tree.
     system('bzr', 'checkout');
     subprocerr('bzr checkout') if $?;
 
-    chdir($old_cwd) or syserr(_g("unable to chdir to `%s'"), $old_cwd);
+    chdir($old_cwd) or syserr(g_("unable to chdir to `%s'"), $old_cwd);
 }
 
 1;

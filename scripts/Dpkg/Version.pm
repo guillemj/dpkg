@@ -232,9 +232,9 @@ If $a or $b are not valid version numbers, it dies with an error.
 sub version_compare($$) {
     my ($a, $b) = @_;
     my $va = Dpkg::Version->new($a, check => 1);
-    defined($va) || error(_g('%s is not a valid version'), "$a");
+    defined($va) || error(g_('%s is not a valid version'), "$a");
     my $vb = Dpkg::Version->new($b, check => 1);
-    defined($vb) || error(_g('%s is not a valid version'), "$b");
+    defined($vb) || error(g_('%s is not a valid version'), "$b");
     return $va <=> $vb;
 }
 
@@ -402,22 +402,22 @@ sub version_check($) {
         $version = Dpkg::Version->new($str) unless ref($version);
     }
     if (not defined($str) or not length($str)) {
-        my $msg = _g('version number cannot be empty');
+        my $msg = g_('version number cannot be empty');
         return (0, $msg) if wantarray;
         return 0;
     }
     if ($version->version() =~ m/^[^\d]/) {
-        my $msg = _g('version number does not start with digit');
+        my $msg = g_('version number does not start with digit');
         return (0, $msg) if wantarray;
         return 0;
     }
     if ($str =~ m/([^-+:.0-9a-zA-Z~])/o) {
-        my $msg = sprintf(_g("version number contains illegal character `%s'"), $1);
+        my $msg = sprintf(g_("version number contains illegal character `%s'"), $1);
         return (0, $msg) if wantarray;
         return 0;
     }
     if ($version->epoch() !~ /^\d*$/) {
-        my $msg = sprintf(_g('epoch part of the version number ' .
+        my $msg = sprintf(g_('epoch part of the version number ' .
                              "is not a number: '%s'"), $version->epoch());
         return (0, $msg) if wantarray;
         return 0;

@@ -313,7 +313,7 @@ sub update_from_conffile {
     local $_;
 
     return unless -e $file;
-    open(my $conf_fh, '<', $file) or syserr(_g('cannot read %s'), $file);
+    open(my $conf_fh, '<', $file) or syserr(g_('cannot read %s'), $file);
     while (<$conf_fh>) {
         chomp;
         next if /^\s*#/; # Skip comments
@@ -321,7 +321,7 @@ sub update_from_conffile {
         if (/^(append|prepend|set|strip)\s+(\S+)\s+(\S.*\S)\s*$/i) {
             my ($op, $flag, $value) = ($1, $2, $3);
             unless (exists $self->{flags}->{$flag}) {
-                warning(_g('line %d of %s mentions unknown flag %s'), $., $file, $flag);
+                warning(g_('line %d of %s mentions unknown flag %s'), $., $file, $flag);
                 $self->{flags}->{$flag} = '';
             }
             if (lc($op) eq 'set') {
@@ -334,7 +334,7 @@ sub update_from_conffile {
                 $self->prepend($flag, $value, $src);
             }
         } else {
-            warning(_g('line %d of %s is invalid, it has been ignored'), $., $file);
+            warning(g_('line %d of %s is invalid, it has been ignored'), $., $file);
         }
     }
     close($conf_fh);

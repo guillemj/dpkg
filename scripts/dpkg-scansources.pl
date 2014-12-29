@@ -76,12 +76,12 @@ sub debug {
 }
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
     exit;
 }
 
 sub usage {
-    printf _g(
+    printf g_(
 "Usage: %s [<option>...] <binary-path> [<override-file> [<path-prefix>]] > Sources
 
 Options:
@@ -101,7 +101,7 @@ See the man page for the full documentation.
 
 sub close_msg {
     my $name = shift;
-    return sprintf(_g("error closing %s (\$? %d, \$! `%s')"),
+    return sprintf(g_("error closing %s (\$? %d, \$! `%s')"),
                    $name, $?, $!)."\n";
 }
 
@@ -117,18 +117,18 @@ sub load_override {
 
 	my @data = split ' ', $_, 4;
 	unless (@data == 3 || @data == 4) {
-	    warning(_g('invalid override entry at line %d (%d fields)'),
+	    warning(g_('invalid override entry at line %d (%d fields)'),
 	            $., 0 + @data);
 	    next;
 	}
 	my ($package, $priority, $section, $maintainer) = @data;
 	if (exists $override{$package}) {
-	    warning(_g('ignoring duplicate override entry for %s at line %d'),
+	    warning(g_('ignoring duplicate override entry for %s at line %d'),
 	            $package, $.);
 	    next;
 	}
 	if (!$priority{$priority}) {
-	    warning(_g('ignoring override entry for %s, invalid priority %s'),
+	    warning(g_('ignoring override entry for %s, invalid priority %s'),
 	            $package, $priority);
 	    next;
 	}
@@ -182,7 +182,7 @@ sub load_src_override {
 
 	my @data = split ' ';
 	unless (@data == 2) {
-	    warning(_g('invalid source override entry at line %d (%d fields)'),
+	    warning(g_('invalid source override entry at line %d (%d fields)'),
 	            $., 0 + @data);
 	    next;
 	}
@@ -190,7 +190,7 @@ sub load_src_override {
 	my ($package, $section) = @data;
 	my $key = "source/$package";
 	if (exists $override{$key}) {
-	    warning(_g('ignoring duplicate source override entry for %s at line %d'),
+	    warning(g_('ignoring duplicate source override entry for %s at line %d'),
 	            $package, $.);
 	    next;
 	}
@@ -240,7 +240,7 @@ sub process_dsc {
     my $source = $fields->{Source};
     my @binary = split /\s*,\s*/, $fields->{Binary};
 
-    error(_g('no binary packages specified in %s'), $file) unless (@binary);
+    error(g_('no binary packages specified in %s'), $file) unless (@binary);
 
     # Rename the source field to package.
     $fields->{Package} = $fields->{Source};
@@ -301,7 +301,7 @@ sub main {
         local $SIG{__WARN__} = sub { usageerr($_[0]) };
         GetOptions(@option_spec);
     }
-    usageerr(_g('one to three arguments expected'))
+    usageerr(g_('one to three arguments expected'))
         if @ARGV < 1 or @ARGV > 3;
 
     push @ARGV, undef if @ARGV < 2;
@@ -313,7 +313,7 @@ sub main {
     load_override_extra $extra_override_file if defined $extra_override_file;
 
     open my $find_fh, '-|', "find -L \Q$dir\E -name '*.dsc' -print"
-        or syserr(_g('cannot fork for %s'), 'find');
+        or syserr(g_('cannot fork for %s'), 'find');
     while (<$find_fh>) {
     	chomp;
 	s{^\./+}{};
