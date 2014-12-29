@@ -2,7 +2,7 @@
 .\"
 .\" Copyright © 2007-2011 Raphaël Hertzog <hertzog@debian.org>
 .\" Copyright © 2009-2010 Modestas Vainius <modestas@vainius.eu>
-.\" Copyright © 2012-2013 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2012-2014 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH dpkg\-gensymbols 1 "2013-09-06" "Debian Project" "dpkg utilities"
+.TH dpkg\-gensymbols 1 "2014-12-29" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-gensymbols \- generate symbols files (shared library dependency information)
 .
@@ -158,18 +158,25 @@ not cause ABI breakage. For example, most of C++ template instantiations fall
 into this category. Like any other tag, this one may also have an arbitrary
 value: it could be used to indicate why the symbol is considered optional.
 .TP
-.B arch=\fIarchitecture list\fR
-This tag allows one to restrict the set of architectures where the symbol
-is supposed to exist. When the symbols list is updated with the symbols
+.B arch=\fIarchitecture-list\fR
+.TQ
+.B arch\-bits=\fIarchitecture-bits\fR
+.TQ
+.B arch\-endian=\fIarchitecture-endianness\fR
+These tags allow one to restrict the set of architectures where the symbol
+is supposed to exist. The \fBarch\-bits\fP and \fBarch\-endian\fP tags
+are supported since dpkg 1.18.0. When the symbols list is updated with
+the symbols
 discovered in the library, all arch-specific symbols which do not concern
 the current host architecture are treated as if they did not exist. If an
 arch-specific symbol matching the current host architecture does not exist
 in the library, normal procedures for missing symbols apply and it may
 cause \fBdpkg\-gensymbols\fR to fail. On the other hand, if the
 arch-specific symbol is found when it was not supposed to exist (because
-the current host architecture is not listed in the tag), it is made arch
-neutral (i.e. the arch tag is dropped and the symbol will appear in the
-diff due to this change), but it is not considered as new.
+the current host architecture is not listed in the tag or does not match
+the endianness and bits), it is made arch neutral (i.e. the arch, arch-bits
+and arch-endian tags are dropped and the symbol will appear in the diff due
+to this change), but it is not considered as new.
 
 When operating in the default non-template mode, among arch-specific symbols
 only those that match the current host architecture are written to the
@@ -177,7 +184,7 @@ symbols file. On the contrary, all arch-specific symbols (including those
 from foreign arches) are always written to the symbol file when operating
 in template mode.
 
-The format of \fIarchitecture list\fR is the same as the one used in the
+The format of \fIarchitecture-list\fR is the same as the one used in the
 \fBBuild\-Depends\fP field of \fIdebian/control\fR (except the enclosing
 square brackets []). For example, the first symbol from the list below
 will be considered only on alpha, any\-amd64 and ia64 architectures,
@@ -187,6 +194,20 @@ except on armel.
  (arch=alpha any\-amd64 ia64)a_64bit_specific_symbol@Base 1.0
  (arch=linux\-any)linux_specific_symbol@Base 1.0
  (arch=!armel)symbol_armel_does_not_have@Base 1.0
+
+The \fIarchitecture-bits\fP is either \fB32\fP or \fB64\fP.
+
+ (arch-bits=32)a_32bit_specific_symbol@Base 1.0
+ (arch-bits=64)a_64bit_specific_symbol@Base 1.0
+
+The \fIarchitecture-endianness\fP is either \fBlittle\fP or \fBbig\fP.
+
+ (arch-endian=little)a_little_endian_specific_symbol@Base 1.0
+ (arch-endian=big)a_big_endian_specific_symbol@Base 1.0
+
+Multiple restrictions can be chained.
+
+ (arch-bits=32|arch-endian=little)a_32bit_le_symbol@Base 1.0
 .TP
 .B ignore\-blacklist
 dpkg\-gensymbols has an internal blacklist of symbols that should not

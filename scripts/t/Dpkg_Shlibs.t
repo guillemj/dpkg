@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 118;
+use Test::More tests => 122;
 use Cwd;
 use IO::String;
 
@@ -355,9 +355,27 @@ is(${$io->string_ref()},
 | libbasictags1 (>= 1.1)
  symbol11_optional@Base 1.1 1
  symbol21_amd64@Base 2.1
+ symbol25_64@Base 2.5
+ symbol26_little@Base 2.6
  symbol31_randomtag@Base 3.1
  symbol51_untagged@Base 5.1
 ', 'template vs. non-template on amd64');
+
+# Dumping in non-template mode (mips) (test for arch tags)
+$io = IO::String->new();
+$sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/basictags.symbols", arch => 'mips');
+$sym_file->output($io);
+is(${$io->string_ref()},
+'libbasictags.so.1 libbasictags1 #MINVER#
+| libbasictags1 (>= 1.1)
+ symbol11_optional@Base 1.1 1
+ symbol23_mips@Base 2.3
+ symbol24_32@Base 2.4
+ symbol27_big@Base 2.7
+ symbol31_randomtag@Base 3.1
+ symbol42_mips_and_optional@Base 4.2
+ symbol51_untagged@Base 5.1
+', 'template vs. non-template on mips');
 
 # Dumping in non-template mode (i386) (test for arch tags)
 $io = IO::String->new();
@@ -369,6 +387,9 @@ is(${$io->string_ref()},
 | libbasictags1 (>= 1.1)
  symbol11_optional@Base 1.1 1
  symbol22_i386@Base 2.2
+ symbol24_32@Base 2.4
+ symbol26_little@Base 2.6
+ symbol28_little_32@Base 2.8
  symbol31_randomtag@Base 3.1
  symbol41_i386_and_optional@Base 4.1
  symbol51_untagged@Base 5.1
@@ -443,6 +464,9 @@ is( $sym->get_symbolspec(1), ' symbol21_amd64@Base 2.1', 'no tags => no quotes i
 
 # - arch specific symbol disappears
 delete $tags_obj_i386->{dynsyms}{'symbol22_i386@Base'};
+delete $tags_obj_i386->{dynsyms}{'symbol24_32@Base'};
+delete $tags_obj_i386->{dynsyms}{'symbol26_little@Base'};
+delete $tags_obj_i386->{dynsyms}{'symbol28_little_32@Base'};
 delete $tags_obj_i386->{dynsyms}{'symbol41_i386_and_optional@Base'};
 $sym_file->merge_symbols($tags_obj_i386, '100.MISSING');
 
@@ -450,9 +474,30 @@ $sym = $sym_file->lookup_symbol('symbol22_i386@Base', ['libbasictags.so.1'], 1);
 is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol22_i386@Base',
 		  symbol_templ => 'symbol22_i386@Base',
 		  minver => '2.2', dep_id => 0, deprecated => '100.MISSING',
-		  tags => { arch => '!amd64 !ia64 !alpha' },
+		  tags => { arch => '!amd64 !ia64 !mips' },
 		  tagorder => [ 'arch' ]),
 	    'disappeared arch specific symbol gets deprecated');
+$sym = $sym_file->lookup_symbol('symbol24_32@Base', ['libbasictags.so.1'], 1);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol24_32@Base',
+		  symbol_templ => 'symbol24_32@Base',
+		  minver => '2.4', dep_id => 0, deprecated => '100.MISSING',
+		  tags => { 'arch-bits' => '32' },
+		  tagorder => [ 'arch-bits' ]),
+	    'disappeared arch bits specific symbol gets deprecated');
+$sym = $sym_file->lookup_symbol('symbol26_little@Base', ['libbasictags.so.1'], 1);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol26_little@Base',
+		  symbol_templ => 'symbol26_little@Base',
+		  minver => '2.6', dep_id => 0, deprecated => '100.MISSING',
+		  tags => { 'arch-endian' => 'little' },
+		  tagorder => [ 'arch-endian' ]),
+	    'disappeared arch endian specific symbol gets deprecated');
+$sym = $sym_file->lookup_symbol('symbol28_little_32@Base', ['libbasictags.so.1'], 1);
+is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol28_little_32@Base',
+		  symbol_templ => 'symbol28_little_32@Base',
+		  minver => '2.8', dep_id => 0, deprecated => '100.MISSING',
+		  tags => { 'arch-bits' => '32', 'arch-endian' => 'little' },
+		  tagorder => [ 'arch-bits', 'arch-endian' ]),
+	    'disappeared arch bits and endian specific symbol gets deprecated');
 $sym = $sym_file->lookup_symbol('symbol41_i386_and_optional@Base', ['libbasictags.so.1'], 1);
 is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol41_i386_and_optional@Base',
 		  symbol_templ => 'symbol41_i386_and_optional@Base',
@@ -461,8 +506,10 @@ is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol41_i386_and_optional@
 		  tags => { arch => 'i386', optional => 'reason' },
 		  tagorder => [ 'arch', 'optional' ]),
 	    'disappeared optional arch specific symbol gets deprecated');
-@tmp = map { $_->{symbol}->get_symbolname() } $sym_file->get_lost_symbols($sym_file_dup);
-is_deeply( \@tmp, [ 'symbol22_i386@Base' ], "missing arch specific is LOST, but optional arch specific isn't");
+@tmp = sort map { $_->{symbol}->get_symbolname() } $sym_file->get_lost_symbols($sym_file_dup);
+is_deeply(\@tmp, [ 'symbol22_i386@Base', 'symbol24_32@Base',
+                   'symbol26_little@Base', 'symbol28_little_32@Base' ],
+          "missing arch specific is LOST, but optional arch specific isn't");
 
 # Tests for tagged #includes
 $sym_file = Dpkg::Shlibs::SymbolFile->new(file => "$datadir/symbols.include-3", arch => 'i386');

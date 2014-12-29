@@ -24,7 +24,7 @@ our $VERSION = '0.01';
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Util qw(:list);
-use Dpkg::Arch qw(debarch_is_concerned);
+use Dpkg::Arch qw(debarch_is_concerned debarch_to_cpuattrs);
 use Dpkg::Version;
 use Storable ();
 use Dpkg::Shlibs::Cppfilt;
@@ -294,9 +294,14 @@ sub arch_is_concerned {
     my ($self, $arch) = @_;
     my $arches = $self->{tags}{arch};
 
-    if (defined $arch && defined $arches) {
-        return debarch_is_concerned($arch, split /[\s,]+/, $arches);
-    }
+    return 0 if defined $arch && defined $arches &&
+                !debarch_is_concerned($arch, split /[\s,]+/, $arches);
+
+    my ($bits, $endian) = debarch_to_cpuattrs($arch);
+    return 0 if defined $bits && defined $self->{tags}{'arch-bits'} &&
+                $bits ne $self->{tags}{'arch-bits'};
+    return 0 if defined $endian && defined $self->{tags}{'arch-endian'} &&
+                $endian ne $self->{tags}{'arch-endian'};
 
     return 1;
 }
@@ -447,8 +452,10 @@ sub mark_found_in_library {
     # Never remove arch tags from patterns
     if (not $self->is_pattern()) {
 	if (not $self->arch_is_concerned($arch)) {
-	    # Remove arch tag because it is incorrect.
+	    # Remove arch tags because they are incorrect.
 	    $self->delete_tag('arch');
+	    $self->delete_tag('arch-bits');
+	    $self->delete_tag('arch-endian');
 	}
     }
 }

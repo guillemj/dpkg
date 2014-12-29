@@ -251,6 +251,7 @@ test_data = \
 	t/Dpkg_Shlibs/objdump.space \
 	t/Dpkg_Shlibs/objdump.basictags-amd64 \
 	t/Dpkg_Shlibs/objdump.basictags-i386 \
+	t/Dpkg_Shlibs/objdump.basictags-mips \
 	t/Dpkg_Shlibs/objdump.blacklisted \
 	t/Dpkg_Shlibs/objdump.patterns \
 	t/Dpkg_Shlibs/objdump.glib-ia64 \
@@ -299,15 +300,20 @@ test_data = \
 test_data_objects = \
 	t/Dpkg_Shlibs/libobjdump.basictags-amd64.so \
 	t/Dpkg_Shlibs/libobjdump.basictags-i386.so \
+	t/Dpkg_Shlibs/libobjdump.basictags-mips.so \
 	t/Dpkg_Shlibs/libobjdump.patterns.so
 
 $(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-amd64.so: $(srcdir)/t/Dpkg_Shlibs/basictags.c
 	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \
 	  -DAMD64 -o $@
 
+$(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-mips.so: $(srcdir)/t/Dpkg_Shlibs/basictags.c
+	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \
+	  -DMIPS -o $@
+
 $(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-i386.so: $(srcdir)/t/Dpkg_Shlibs/basictags.c
 	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \
-	  -o $@
+	  -DI386 -o $@
 
 $(srcdir)/t/Dpkg_Shlibs/libobjdump.patterns.so: $(srcdir)/t/Dpkg_Shlibs/patterns.cpp $(srcdir)/t/Dpkg_Shlibs/patterns.map
 	$(CXX) $(CXXFLAGS) -shared -fPIC -Wl,-soname -Wl,libpatterns.so.1 \
@@ -323,6 +329,8 @@ refresh-test-data: $(test_data_objects)
 	  >$(srcdir)/t/Dpkg_Shlibs/objdump.basictags-amd64
 	$(OBJDUMP) $(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-i386.so \
 	  >$(srcdir)/t/Dpkg_Shlibs/objdump.basictags-i386
+	$(OBJDUMP) $(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-mips.so \
+	  >$(srcdir)/t/Dpkg_Shlibs/objdump.basictags-mips
 	$(OBJDUMP) $(srcdir)/t/Dpkg_Shlibs/libobjdump.patterns.so \
 	  >$(srcdir)/t/Dpkg_Shlibs/objdump.patterns
 	$(OBJDUMP) `which ls` >$(srcdir)/t/Dpkg_Shlibs/objdump.ls

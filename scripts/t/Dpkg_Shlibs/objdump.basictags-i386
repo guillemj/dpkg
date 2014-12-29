@@ -2,72 +2,84 @@
 ./t/Dpkg_Shlibs/libobjdump.basictags-i386.so:     file format elf32-i386
 architecture: i386, flags 0x00000150:
 HAS_SYMS, DYNAMIC, D_PAGED
-start address 0x00000440
+start address 0x000004e0
 
 Program Header:
     LOAD off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**12
-         filesz 0x00000684 memsz 0x00000684 flags r-x
-    LOAD off    0x00000684 vaddr 0x00001684 paddr 0x00001684 align 2**12
-         filesz 0x00000108 memsz 0x00000110 flags rw-
- DYNAMIC off    0x00000698 vaddr 0x00001698 paddr 0x00001698 align 2**2
-         filesz 0x000000d0 memsz 0x000000d0 flags rw-
+         filesz 0x000007dc memsz 0x000007dc flags r-x
+    LOAD off    0x000007dc vaddr 0x000017dc paddr 0x000017dc align 2**12
+         filesz 0x00000120 memsz 0x00000124 flags rw-
+ DYNAMIC off    0x000007e8 vaddr 0x000017e8 paddr 0x000017e8 align 2**2
+         filesz 0x000000e8 memsz 0x000000e8 flags rw-
     NOTE off    0x000000f4 vaddr 0x000000f4 paddr 0x000000f4 align 2**2
          filesz 0x00000024 memsz 0x00000024 flags r--
-EH_FRAME off    0x000005a4 vaddr 0x000005a4 paddr 0x000005a4 align 2**2
-         filesz 0x0000003c memsz 0x0000003c flags r--
-   STACK off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**2
+EH_FRAME off    0x000006a8 vaddr 0x000006a8 paddr 0x000006a8 align 2**2
+         filesz 0x00000054 memsz 0x00000054 flags r--
+   STACK off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**4
          filesz 0x00000000 memsz 0x00000000 flags rw-
 
 Dynamic Section:
   NEEDED               libc.so.6
   SONAME               libbasictags.so.1
-  INIT                 0x000003dc
-  FINI                 0x00000588
-  HASH                 0x00000118
-  GNU_HASH             0x00000164
-  STRTAB               0x00000290
-  SYMTAB               0x000001b0
-  STRSZ                0x000000df
+  INIT                 0x00000484
+  FINI                 0x00000694
+  INIT_ARRAY           0x000017dc
+  INIT_ARRAYSZ         0x00000004
+  FINI_ARRAY           0x000017e0
+  FINI_ARRAYSZ         0x00000004
+  GNU_HASH             0x00000118
+  STRTAB               0x000002a8
+  SYMTAB               0x00000178
+  STRSZ                0x00000144
   SYMENT               0x00000010
-  PLTGOT               0x00001774
+  PLTGOT               0x000018e4
   PLTRELSZ             0x00000010
   PLTREL               0x00000011
-  JMPREL               0x000003cc
-  REL                  0x000003ac
-  RELSZ                0x00000020
+  JMPREL               0x00000474
+  REL                  0x00000434
+  RELSZ                0x00000040
   RELENT               0x00000008
-  VERNEED              0x0000038c
+  VERNEED              0x00000414
   VERNEEDNUM           0x00000001
-  VERSYM               0x00000370
-  RELCOUNT             0x00000001
+  VERSYM               0x000003ec
+  RELCOUNT             0x00000003
 
 Version References:
   required from libc.so.6:
     0x09691f73 0x00 02 GLIBC_2.1.3
 
 DYNAMIC SYMBOL TABLE:
+00000000  w   D  *UND*	00000000              _ITM_deregisterTMCloneTable
 00000000  w   DF *UND*	00000000  GLIBC_2.1.3 __cxa_finalize
 00000000  w   D  *UND*	00000000              __gmon_start__
 00000000  w   D  *UND*	00000000              _Jv_RegisterClasses
-0000178c g    D  *ABS*	00000000  Base        _edata
-00001794 g    D  *ABS*	00000000  Base        _end
-00000530 g    DF .text	00000002  Base        symbol41_i386_and_optional
-00000510 g    DF .text	00000002  Base        symbol22_i386
-0000178c g    D  *ABS*	00000000  Base        __bss_start
-000003dc g    DF .init	00000000  Base        _init
-00000520 g    DF .text	00000002  Base        symbol31_randomtag
-00000588 g    DF .fini	00000000  Base        _fini
-00000540 g    DF .text	00000002  Base        symbol51_untagged
-00000500 g    DF .text	00000002  Base        symbol11_optional
+00000000  w   D  *UND*	00000000              _ITM_registerTMCloneTable
+000018fc g    D  .data	00000000  Base        _edata
+00000650 g    DF .text	00000002  Base        symbol26_little
+00001900 g    D  .bss	00000000  Base        _end
+00000680 g    DF .text	00000002  Base        symbol41_i386_and_optional
+00000630 g    DF .text	00000002  Base        symbol22_i386
+00000660 g    DF .text	00000002  Base        symbol28_little_32
+000018fc g    D  .bss	00000000  Base        __bss_start
+00000484 g    DF .init	00000000  Base        _init
+00000670 g    DF .text	00000002  Base        symbol31_randomtag
+00000640 g    DF .text	00000002  Base        symbol24_32
+00000694 g    DF .fini	00000000  Base        _fini
+00000690 g    DF .text	00000002  Base        symbol51_untagged
+00000620 g    DF .text	00000002  Base        symbol11_optional
 
 
 DYNAMIC RELOCATION RECORDS
 OFFSET   TYPE              VALUE 
-00001788 R_386_RELATIVE    *ABS*
-00001768 R_386_GLOB_DAT    __cxa_finalize
-0000176c R_386_GLOB_DAT    __gmon_start__
-00001770 R_386_GLOB_DAT    _Jv_RegisterClasses
-00001780 R_386_JUMP_SLOT   __cxa_finalize
-00001784 R_386_JUMP_SLOT   __gmon_start__
+000017dc R_386_RELATIVE    *ABS*
+000017e0 R_386_RELATIVE    *ABS*
+000018f8 R_386_RELATIVE    *ABS*
+000018d0 R_386_GLOB_DAT    _ITM_deregisterTMCloneTable
+000018d4 R_386_GLOB_DAT    __cxa_finalize
+000018d8 R_386_GLOB_DAT    __gmon_start__
+000018dc R_386_GLOB_DAT    _Jv_RegisterClasses
+000018e0 R_386_GLOB_DAT    _ITM_registerTMCloneTable
+000018f0 R_386_JUMP_SLOT   __cxa_finalize
+000018f4 R_386_JUMP_SLOT   __gmon_start__
 
 
