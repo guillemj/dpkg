@@ -27,6 +27,9 @@ our %EXPORT_TAGS = (list => [ qw(any none) ]);
 # XXX: Ideally we would use List::MoreUtils, but that's not a core module,
 # so to avoid the additional dependency we'll make do with the following
 # trivial reimplementations.
+#
+# These got added to List::Util 1.33, which got merged into perl 5.20.0,
+# once that is in Debian oldstable we can switch to that core module.
 
 sub any(&@) {
     my $code = shift;
