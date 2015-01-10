@@ -290,7 +290,7 @@ listpackages(const char *const *argv)
     struct pkg_spec *ps;
 
     for (argc = 0; argv[argc]; argc++);
-    found = m_calloc(sizeof(int) * argc);
+    found = m_calloc(argc, sizeof(int));
 
     ps = m_malloc(sizeof(*ps) * argc);
     for (ip = 0; ip < argc; ip++) {
@@ -571,7 +571,7 @@ showpackages(const char *const *argv)
     struct pkg_spec *ps;
 
     for (argc = 0; argv[argc]; argc++);
-    found = m_calloc(sizeof(int) * argc);
+    found = m_calloc(argc, sizeof(int));
 
     ps = m_malloc(sizeof(*ps) * argc);
     for (ip = 0; ip < argc; ip++) {

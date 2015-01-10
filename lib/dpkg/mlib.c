@@ -62,9 +62,9 @@ void *m_malloc(size_t amount) {
 }
 
 void *
-m_calloc(size_t size)
+m_calloc(size_t nmemb, size_t size)
 {
-  return must_alloc(calloc(1, size));
+  return must_alloc(calloc(nmemb, size));
 }
 
 void *m_realloc(void *r, size_t amount) {

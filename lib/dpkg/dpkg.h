@@ -140,7 +140,7 @@ void cu_filename(int argc, void **argv);
 
 void setcloexec(int fd, const char *fn);
 void *m_malloc(size_t);
-void *m_calloc(size_t);
+void *m_calloc(size_t nmemb, size_t size);
 void *m_realloc(void *, size_t);
 char *m_strdup(const char *str);
 char *m_strndup(const char *str, size_t n);
