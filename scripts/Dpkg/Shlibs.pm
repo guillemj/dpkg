@@ -21,7 +21,7 @@ use warnings;
 our $VERSION = '0.02';
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(add_library_dir get_library_paths reset_library_paths
+our @EXPORT_OK = qw(blank_library_paths add_library_dir get_library_paths
                     find_library);
 
 
@@ -107,6 +107,10 @@ sub parse_ldso_conf {
     close $fh;
 }
 
+sub blank_library_paths {
+    @librarypaths = ();
+}
+
 sub add_library_dir {
     my $dir = shift;
     unshift @librarypaths, $dir;
@@ -114,10 +118,6 @@ sub add_library_dir {
 
 sub get_library_paths {
     return @librarypaths;
-}
-
-sub reset_library_paths {
-    @librarypaths = ();
 }
 
 # find_library ($soname, \@rpath, $format, $root)

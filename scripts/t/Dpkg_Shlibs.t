@@ -26,10 +26,10 @@ my $tmp;
 my @tmp;
 my %tmp;
 
-Dpkg::Shlibs::reset_library_paths();
-
 my $srcdir = $ENV{srcdir} || '.';
 my $datadir = $srcdir . '/t/Dpkg_Shlibs';
+
+Dpkg::Shlibs::blank_library_paths();
 
 # We want relative paths inside the ld.so.conf fragments to work, and $srcdir
 # is usually a relative path, so let's temporarily switch directory.
