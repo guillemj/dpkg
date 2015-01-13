@@ -5,7 +5,7 @@
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000 Wichert Akkerman
 # Copyright © 2006 Frank Lichtenheld
-# Copyright © 2006-2010,2012-2013 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2010,2012-2015 Guillem Jover <guillem@debian.org>
 # Copyright © 2007 Raphaël Hertzog
 #
 # This program is free software; you can redistribute it and/or modify
@@ -838,14 +838,14 @@ sub find_packages {
     return $pkgmatch unless scalar(@files);
 
     my $pid = open(my $dpkg_fh, '-|');
-    syserr(g_('cannot fork for %s'), 'dpkg --search') unless defined($pid);
+    syserr(g_('cannot fork for %s'), 'dpkg-query --search') unless defined $pid;
     if (!$pid) {
 	# Child process running dpkg --search and discarding errors
 	close STDERR;
 	open STDERR, '>', '/dev/null'
 	    or syserr(g_('cannot open file %s'), '/dev/null');
 	$ENV{LC_ALL} = 'C';
-	exec('dpkg', '--search', '--', @files)
+	exec 'dpkg-query', '--search', '--', @files
 	    or syserr(g_('unable to execute %s'), 'dpkg');
     }
     while (<$dpkg_fh>) {
