@@ -4,7 +4,7 @@
  *
  * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -392,18 +392,6 @@ searchfiles(const char *const *argv)
   while ((thisarg = *argv++) != NULL) {
     found= 0;
 
-    /* Trim trailing ‘/’ and ‘/.’ from the argument if it's
-     * not a pattern, just a path. */
-    if (!strpbrk(thisarg, "*[?\\")) {
-      varbuf_reset(&path);
-      varbuf_add_str(&path, thisarg);
-      varbuf_end_str(&path);
-
-      varbuf_trunc(&path, path_trim_slash_slashdot(path.buf));
-
-      thisarg = path.buf;
-    }
-
     if (!strchr("*[?/",*thisarg)) {
       varbuf_reset(&vb);
       varbuf_add_char(&vb, '*');
@@ -413,7 +401,14 @@ searchfiles(const char *const *argv)
       thisarg= vb.buf;
     }
     if (!strpbrk(thisarg, "*[?\\")) {
-      namenode= findnamenode(thisarg, 0);
+      /* Trim trailing ‘/’ and ‘/.’ from the argument if it is not
+       * a pattern, just a pathname. */
+      varbuf_reset(&path);
+      varbuf_add_str(&path, thisarg);
+      varbuf_end_str(&path);
+      varbuf_trunc(&path, path_trim_slash_slashdot(path.buf));
+
+      namenode = findnamenode(path.buf, 0);
       found += searchoutput(namenode);
     } else {
       iter = files_db_iter_new();
