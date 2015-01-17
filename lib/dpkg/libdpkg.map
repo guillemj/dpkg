@@ -195,6 +195,7 @@ LIBDPKG_PRIVATE {
 
 	# Tar support
 	tar_extractor;
+	tar_entry_update_from_system;
 
 	# Non-freeing malloc (pool/arena)
 	nfmalloc;
@@ -269,6 +270,11 @@ LIBDPKG_PRIVATE {
 	pkg_queue_push;
 	pkg_queue_pop;
 
+	# Package field handling
+	fieldinfos;		# XXX variable, do not export
+	find_field_info;
+	find_arbfield_info;
+
 	# Package field format handling
 	pkg_format_parse;
 	pkg_format_show;
@@ -300,11 +306,13 @@ LIBDPKG_PRIVATE {
 	pkg_db_iter_free;
 
 	# Dependency and Conflict functions
+	pkg_virtual_deppossi_satisfied;
 	deparchsatisfied;
 	archsatisfied;
 	versionsatisfied;
 
 	# Package on-disk database functions
+	wantinfos;		# XXX variable, do not export
 	varbuf_add_arbfield;
 	varbufdependency;
 	varbufrecord;
