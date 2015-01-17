@@ -2,7 +2,7 @@
 .\"
 .\" Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
 .\" Copyright © 2006-2007 Frank Lichtenheld <djpig@debian.org>
-.\" Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
 .\" Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH dpkg\-query 1 "2012-04-03" "Debian Project" "dpkg suite"
+.TH dpkg\-query 1 "2015-01-17" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-query \- a tool to query the dpkg database
 .
@@ -130,7 +130,17 @@ for that, this command will not get removed.
 .TP
 .BR \-S ", " \-\-search " \fIfilename-search-pattern\fP..."
 Search for packages that own files corresponding to the given pattern.
-Standard shell wildcard characters can be used in the pattern.
+Standard shell wildcard characters can be used in the pattern, where
+asterisk (*) and question mark (?) will match a slash, and blackslash
+(\\) will be used as an escape character.
+
+If the first character in the \fIfilename-search-pattern\fP is none of
+"*[?/" then it will be considered a substring match and will be implicitly
+surrounded by "*" (as in *\fIfilename-search-pattern\fP*).
+If the subsequent string contains any of "*[?\\", then it will handled
+like a glob pattern, otherwise any trailing "/" or "/." will be removed
+and a literal path lookup will be performed.
+
 This command will not list extra files created by maintainer scripts,
 nor will it list alternatives.
 .TP
