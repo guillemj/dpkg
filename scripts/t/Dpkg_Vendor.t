@@ -18,7 +18,6 @@ use warnings;
 
 use Test::More tests => 6;
 
-use Dpkg;
 use_ok('Dpkg::Vendor', qw(get_vendor_dir get_current_vendor get_vendor_object));
 
 is(get_vendor_dir(), $ENV{DPKG_ORIGINS_DIR}, 'Check vendor dir');

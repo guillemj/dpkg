@@ -23,7 +23,6 @@ our $VERSION = '0.01';
 # Based on wig&pen implementation
 use parent qw(Dpkg::Source::Package::V2);
 
-use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Util qw(:list);

@@ -22,7 +22,6 @@ use warnings;
 
 our $VERSION = '1.01';
 
-use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;

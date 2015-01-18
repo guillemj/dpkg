@@ -30,7 +30,6 @@ use Cwd qw(abs_path getcwd);
 use File::Basename;
 use File::Temp qw(tempdir);
 
-use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Exit qw(push_exit_handler pop_exit_handler);

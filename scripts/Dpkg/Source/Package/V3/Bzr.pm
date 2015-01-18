@@ -33,7 +33,6 @@ use File::Basename;
 use File::Find;
 use File::Temp qw(tempdir);
 
-use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::Compression;
 use Dpkg::ErrorHandling;
