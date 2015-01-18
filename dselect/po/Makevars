@@ -8,7 +8,8 @@ subdir = dselect/po
 top_builddir = ../..
 
 # These options get passed to xgettext.
-XGETTEXT_OPTIONS = --from-code=UTF-8 --keyword --keyword=_ --keyword=N_ \
+XGETTEXT_OPTIONS = --from-code=UTF-8 --add-location=file \
+                   --keyword --keyword=_ --keyword=N_ \
                    --keyword=P_:1,2 --keyword=C_:1c,2
 
 # This is the copyright holder that gets inserted into the header of the
@@ -51,6 +52,6 @@ USE_MSGCTXT = yes
 # Useful options are in particular:
 #   --previous            to keep previous msgids of translated messages,
 #   --quiet               to reduce the verbosity.
-MSGMERGE_OPTIONS = --previous --quiet
+MSGMERGE_OPTIONS = --previous --add-location=file --quiet
 
 DISTFILES.extra1 = ChangeLog.old
