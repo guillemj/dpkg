@@ -14,4 +14,4 @@ install-data-hook:
 	cp -p $(DESTDIR)$(pkgdatadir)/default.mk $(DESTDIR)$(pkgdatadir)/default.mk.tmp
 	$(do_path_subst) <$(DESTDIR)$(pkgdatadir)/default.mk.tmp \
 			 >$(DESTDIR)$(pkgdatadir)/default.mk
-	rm $(DESTDIR)$(pkgdatadir)/default.mk.tmp
+	rm -f $(DESTDIR)$(pkgdatadir)/default.mk.tmp

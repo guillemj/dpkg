@@ -166,7 +166,7 @@ install-data-hook:
 	      $(DESTDIR)$(perllibdir)/Dpkg.pm.tmp
 	$(do_perl_subst) <$(DESTDIR)$(perllibdir)/Dpkg.pm.tmp \
 	                 >$(DESTDIR)$(perllibdir)/Dpkg.pm
-	rm $(DESTDIR)$(perllibdir)/Dpkg.pm.tmp
+	rm -f $(DESTDIR)$(perllibdir)/Dpkg.pm.tmp
 
 uninstall-local:
 if BUILD_POD_DOC
