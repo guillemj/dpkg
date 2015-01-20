@@ -1,5 +1,5 @@
 # Copyright © 2008 Frank Lichtenheld <djpig@debian.org>
-# Copyright © 2008, 2012-2014 Guillem Jover <guillem@debian.org>
+# Copyright © 2008, 2012-2015 Guillem Jover <guillem@debian.org>
 # Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -20,11 +20,13 @@ package Dpkg::Checksums;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
+
+use Carp;
+use Digest;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::IPC;
 
 use Exporter qw(import);
 our @EXPORT = qw(checksums_get_list checksums_is_supported
@@ -50,15 +52,15 @@ about supported checksums.
 
 my $CHECKSUMS = {
     md5 => {
-	program => [ 'md5sum' ],
+	name => 'MD5',
 	regex => qr/[0-9a-f]{32}/,
     },
     sha1 => {
-	program => [ 'sha1sum' ],
+	name => 'SHA-1',
 	regex => qr/[0-9a-f]{40}/,
     },
     sha256 => {
-	program => [ 'sha256sum' ],
+	name => 'SHA-256',
 	regex => qr/[0-9a-f]{64}/,
     },
 };
@@ -90,16 +92,15 @@ sub checksums_is_supported($) {
 
 Returns the requested property of the checksum algorithm. Returns undef if
 either the property or the checksum algorithm doesn't exist. Valid
-properties currently include "program" (returns an array reference with
-a program name and parameters required to compute the checksum of the
-filename given as last parameter) and "regex" for the regular expression
-describing the common string representation of the checksum (as output
-by the program that generates it).
+properties currently include "name" (returns the name of the digest
+algorithm) and "regex" for the regular expression describing the common
+string representation of the checksum.
 
 =cut
 
 sub checksums_get_property($$) {
     my ($alg, $property) = @_;
+    carp 'obsolete checksums program property' if $property eq 'program';
     return unless checksums_is_supported($alg);
     return $CHECKSUMS->{lc($alg)}{$property};
 }
@@ -179,21 +180,18 @@ sub add_from_file {
     $self->{size}{$key} = $s[7];
 
     foreach my $alg (@alg) {
-	my @exec = (@{$CHECKSUMS->{$alg}{program}}, $file);
-	my $regex = $CHECKSUMS->{$alg}{regex};
-	my $output;
-	spawn(exec => \@exec, to_string => \$output);
-	if ($output =~ /^($regex)(\s|$)/m) {
-	    my $newsum = $1;
-	    if (not $opts{update} and exists $self->{checksums}{$key}{$alg} and
-		$self->{checksums}{$key}{$alg} ne $newsum) {
-		error(g_('file %s has checksum %s instead of expected %s (algorithm %s)'),
-		      $file, $newsum, $self->{checksums}{$key}{$alg}, $alg);
-	    }
-	    $self->{checksums}{$key}{$alg} = $newsum;
-	} else {
-	    error(g_("checksum program gave bogus output `%s'"), $output);
-	}
+        my $digest = Digest->new($CHECKSUMS->{$alg}{name});
+        open my $fh, '<', $file or syserr(g_('cannot open file %s'), $file);
+        $digest->addfile($fh);
+        close $fh;
+
+        my $newsum = $digest->hexdigest;
+        if (not $opts{update} and exists $self->{checksums}{$key}{$alg} and
+            $self->{checksums}{$key}{$alg} ne $newsum) {
+            error(g_('file %s has checksum %s instead of expected %s (algorithm %s)'),
+                  $file, $newsum, $self->{checksums}{$key}{$alg}, $alg);
+        }
+        $self->{checksums}{$key}{$alg} = $newsum;
     }
 }
 
@@ -375,6 +373,14 @@ sub export_to_control {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02
+
+Obsolete property: Getting the 'program' checksum property will carp() and
+return undef, the Digest module is used internally now.
+
+New property: Add new 'name' property with the name of the Digest algorithm
+to use.
 
 =head2 Version 1.01
 
