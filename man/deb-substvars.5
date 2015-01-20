@@ -18,7 +18,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
-.TH deb\-substvars 5 "2009-07-15" "Debian Project" "dpkg utilities"
+.TH deb\-substvars 5 "2015-01-20" "Debian Project" "dpkg utilities"
 .SH NAME
 deb\-substvars \- Debian source substitution variables
 .
@@ -111,13 +111,18 @@ The source package version (from the changelog file). This variable is now
 the \fBsource:Version\fP or \fBbinary:Version\fP as appropriate.
 .TP
 .B Installed\-Size
-The total size of the package's installed files. This value is copied
-into the corresponding control file field; setting it will modify the
-value of that field. If this variable isn't set
+The approximate total size of the package's installed files. This value is
+copied into the corresponding control file field; setting it will modify
+the value of that field. If this variable is not set
 .B dpkg\-gencontrol
-will use
-.B du \-k debian/tmp
-to find the default value.
+will compute the default value by accumulating the size of each regular
+file and symlink rounded to 1 KiB used units, and a baseline of 1 KiB for
+any other filesystem object type.
+
+\fBNote:\fP Take into account that this can only ever be an approximation,
+as the actual size used on the installed system will depend greatly on the
+filesystem used and its parameters, which might end up using either more
+or less space than the specified in this field.
 .TP
 .B Extra\-Size
 Additional disk space used when the package is installed. If this

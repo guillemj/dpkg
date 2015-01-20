@@ -4,7 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000,2002 Wichert Akkerman
-# Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@ use strict;
 use warnings;
 
 use POSIX qw(:errno_h :fcntl_h);
+use File::Find;
+
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -334,26 +336,25 @@ if ($oppackage ne $sourcepackage || $verdiff) {
 }
 
 if (!defined($substvars->get('Installed-Size'))) {
-    my $c = open(my $du_fh, '-|');
-    if (not defined $c) {
-        syserr(g_('cannot fork for %s'), 'du');
-    }
-    if (!$c) {
-        chdir("$packagebuilddir")
-            or syserr(g_("chdir for du to \`%s'"), $packagebuilddir);
-        exec('du', '-k', '-s', '--apparent-size', '.')
-            or syserr(g_('unable to execute %s'), 'du');
-    }
-    my $duo = '';
-    while (<$du_fh>) {
-	$duo .= $_;
-    }
-    close($du_fh);
-    subprocerr(g_("du in \`%s'"), $packagebuilddir) if $?;
-    if ($duo !~ m/^(\d+)\s+\.$/) {
-        error(g_("du gave unexpected output \`%s'"), $duo);
-    }
-    $substvars->set_as_auto('Installed-Size', $1);
+    my $installed_size = 0;
+    my $scan_installed_size = sub {
+        lstat or syserr(g_('cannot stat %s'), $File::Find::name);
+
+        if (-f _ or -l _) {
+            # For filesystem objects with actual content accumulate the size
+            # in 1 KiB units.
+            $installed_size += POSIX::ceil((-s _) / 1024);
+        } else {
+            # For other filesystem objects assume a minimum 1 KiB baseline,
+            # as directories are shared resources between packages, and other
+            # object types are mainly metadata-only, supposedly consuming
+            # at most an inode.
+            $installed_size += 1;
+        }
+    };
+    find($scan_installed_size, $packagebuilddir);
+
+    $substvars->set_as_auto('Installed-Size', $installed_size);
 }
 if (defined($substvars->get('Extra-Size'))) {
     my $size = $substvars->get('Extra-Size') + $substvars->get('Installed-Size');
