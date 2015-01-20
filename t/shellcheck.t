@@ -24,12 +24,12 @@ test_needs_command('shellcheck');
 test_needs_srcdir_switch();
 
 my @todofiles = qw(
-    dselect/methods/disk/install
-    dselect/methods/disk/setup
-    dselect/methods/disk/update
-    dselect/methods/multicd/install
-    dselect/methods/multicd/setup
-    dselect/methods/multicd/update
+    dselect/methods/disk/install.sh
+    dselect/methods/disk/setup.sh
+    dselect/methods/disk/update.sh
+    dselect/methods/multicd/install.sh
+    dselect/methods/multicd/setup.sh
+    dselect/methods/multicd/update.sh
 );
 my @files = qw(
     autogen

@@ -12,26 +12,30 @@ nobase_dist_methods_DATA = \
 	$(nil)
 
 nobase_methods_SCRIPTS = \
-	ftp/setup \
-	ftp/update \
-	ftp/install \
-	$(nil)
-
-nobase_dist_methods_SCRIPTS = \
+	disk/install \
 	disk/setup \
 	disk/update \
-	disk/install \
+	ftp/install \
+	ftp/setup \
+	ftp/update \
+	multicd/install \
 	multicd/setup \
 	multicd/update \
-	multicd/install
+	$(nil)
 
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = Dselect/Ftp.pm
 
 EXTRA_DIST = \
+	disk/setup.sh \
+	disk/update.sh \
+	disk/install.sh \
 	ftp/setup.pl \
 	ftp/update.pl \
 	ftp/install.pl \
+	multicd/setup.sh \
+	multicd/update.sh \
+	multicd/install.sh \
 	multicd/README.multicd
 
 CLEANFILES = \
@@ -41,11 +45,19 @@ CLEANFILES = \
 do_perl_subst = $(AM_V_GEN) $(SED) \
 	-e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):"
 
-SUFFIXES = .pl
+SUFFIXES = .pl .sh
 
 .pl:
 	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
 	$(do_perl_subst) <$< >$@
+	$(AM_V_at) chmod +x $@
+
+do_shell_subst = $(AM_V_GEN) \
+	cat
+
+.sh: Makefile
+	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
+	$(do_shell_subst) <$< >$@
 	$(AM_V_at) chmod +x $@
 
 install-data-local:
