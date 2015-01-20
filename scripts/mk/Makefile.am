@@ -11,7 +11,8 @@ do_path_subst = $(AM_V_GEN) \
                 sed -e "s:dpkg_datadir[[:space:]]*=[[:space:]]*[^[:space:]]*:dpkg_datadir = $(pkgdatadir):"
 
 install-data-hook:
-	cp -p $(DESTDIR)$(pkgdatadir)/default.mk $(DESTDIR)$(pkgdatadir)/default.mk.tmp
+	mv $(DESTDIR)$(pkgdatadir)/default.mk \
+	   $(DESTDIR)$(pkgdatadir)/default.mk.tmp
 	$(do_path_subst) <$(DESTDIR)$(pkgdatadir)/default.mk.tmp \
 			 >$(DESTDIR)$(pkgdatadir)/default.mk
 	rm -f $(DESTDIR)$(pkgdatadir)/default.mk.tmp

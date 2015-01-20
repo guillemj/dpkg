@@ -162,8 +162,8 @@ endif
 
 # Ideally we'd use 'sed -i', but unfortunately that's not portable.
 install-data-hook:
-	cp -p $(DESTDIR)$(perllibdir)/Dpkg.pm \
-	      $(DESTDIR)$(perllibdir)/Dpkg.pm.tmp
+	mv $(DESTDIR)$(perllibdir)/Dpkg.pm \
+	   $(DESTDIR)$(perllibdir)/Dpkg.pm.tmp
 	$(do_perl_subst) <$(DESTDIR)$(perllibdir)/Dpkg.pm.tmp \
 	                 >$(DESTDIR)$(perllibdir)/Dpkg.pm
 	rm -f $(DESTDIR)$(perllibdir)/Dpkg.pm.tmp
