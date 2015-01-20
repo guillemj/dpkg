@@ -26,6 +26,7 @@ use File::Basename qw(basename);
 use File::Spec;
 use Cwd;
 
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
@@ -50,7 +51,7 @@ sub create {
     my $mtime = $opts{source_date} // $ENV{SOURCE_DATE_EPOCH} // time;
     # Call tar creation process
     $spawn_opts{delete_env} = [ 'TAR_OPTIONS' ];
-    $spawn_opts{exec} = [ 'tar', '-cf', '-', '--format=gnu', '--sort=name',
+    $spawn_opts{exec} = [ $Dpkg::PROGTAR, '-cf', '-', '--format=gnu', '--sort=name',
                           '--mtime', "\@$mtime", '--clamp-mtime', '--null',
                           '--numeric-owner', '--owner=0', '--group=0',
                           @{$opts{options}}, '-T', '-' ];
@@ -129,7 +130,7 @@ sub extract {
 
     # Call tar extraction process
     $spawn_opts{delete_env} = [ 'TAR_OPTIONS' ];
-    $spawn_opts{exec} = [ 'tar', '-xf', '-', '--no-same-permissions',
+    $spawn_opts{exec} = [ $Dpkg::PROGTAR, '-xf', '-', '--no-same-permissions',
                           '--no-same-owner', @{$opts{options}} ];
     spawn(%spawn_opts);
     $self->close();

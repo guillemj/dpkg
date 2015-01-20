@@ -23,6 +23,7 @@ use File::Spec;
 use File::Find;
 use POSIX qw(mkfifo);
 
+use Dpkg ();
 use Dpkg::IPC;
 
 use strict;
@@ -34,7 +35,7 @@ my $builddir = $ENV{builddir} || '.';
 my $tmpdir = 't.tmp/t-tarextract';
 
 # We require GNU tar >= 1.27 for --owner=NAME:ID and --group=NAME:ID.
-my $tar_version = qx(tar --version 2>/dev/null);
+my $tar_version = qx($Dpkg::PROGTAR --version 2>/dev/null);
 if ($tar_version and $tar_version =~ m/^tar \(GNU tar\) (\d+\.\d+)/ and
     qv("v$1") >= qv('v1.27'))
 {
@@ -140,7 +141,8 @@ TAR
         chdir $cwd;
 
         my $paths_list = join "\0", @paths;
-        spawn(exec => [ 'tar', '-cf', "$dirtree.tar", '--format', $type,
+        spawn(exec => [ $Dpkg::PROGTAR, '-cf', "$dirtree.tar",
+                        '--format', $type,
                         '-C', $dirtree, '--mtime=@100000000',
                         '--owner=user:100', '--group=group:200',
                         '--null', '--no-unquote', '--no-recursion', '-T-' ],

@@ -29,10 +29,11 @@ this system installation.
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our @EXPORT_OK = qw(
     $PROGNAME
     $PROGVERSION
+    $PROGTAR
     $CONFDIR
     $ADMINDIR
     $LIBDIR
@@ -60,6 +61,10 @@ Contains the name of the current program.
 
 Contains the version of the dpkg suite.
 
+=item $Dpkg::PROGTAR
+
+Contains the name of the system GNU tar program.
+
 =item $Dpkg::CONFDIR
 
 Contains the path to the dpkg system configuration directory.
@@ -84,6 +89,8 @@ our ($PROGNAME) = $0 =~ m{(?:.*/)?([^/]*)};
 
 # The following lines are automatically fixed at install time
 our $PROGVERSION = '1.18.x';
+our $PROGTAR = $ENV{DPKG_PROGTAR} // 'tar';
+
 our $CONFDIR = '/etc/dpkg';
 our $ADMINDIR = '/var/lib/dpkg';
 our $LIBDIR = '.';
@@ -98,6 +105,10 @@ our $pkgdatadir = $DATADIR;
 ## use critic
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.18.11)
+
+New variable: $PROGTAR.
 
 =head2 Version 1.01 (dpkg 1.17.0)
 

@@ -13,6 +13,9 @@ EXTRA_DIST = \
 	$(test_scripts) \
 	$(nil)
 
+TEST_ENV_VARS = \
+	DPKG_PROGTAR=$(TAR) \
+	$(nil)
 
 # The tests are sorted in order of increasing complexity.
 test_programs = \

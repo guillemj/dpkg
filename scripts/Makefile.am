@@ -127,6 +127,7 @@ do_perl_subst = $(AM_V_GEN) sed \
 	-e "s:\$$ADMINDIR = .*;:\$$ADMINDIR = '$(admindir)';:" \
 	-e "s:\$$LIBDIR = .*;:\$$LIBDIR = '$(pkglibdir)';:" \
 	-e "s:\$$DATADIR = .*;:\$$DATADIR = '$(pkgdatadir)';:" \
+	-e "s:\$$PROGTAR = .*;:\$$PROGTAR = '$(TAR)';:" \
 	-e "s:\$$PROGVERSION = .*;:\$$PROGVERSION = '$(PACKAGE_VERSION)';:"
 
 do_shell_subst = $(AM_V_GEN) sed \
@@ -187,6 +188,7 @@ coverage-clean:
 	rm -rf cover_db
 
 TEST_ENV_VARS = \
+	DPKG_PROGTAR=$(TAR) \
 	DPKG_DATADIR=$(top_srcdir)/data \
 	DPKG_ORIGINS_DIR=$(srcdir)/t/origins
 TEST_COVERAGE = $(PERL_COVERAGE)
