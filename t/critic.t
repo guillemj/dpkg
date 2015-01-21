@@ -17,6 +17,7 @@ use strict;
 use warnings;
 
 use Test::More;
+use Test::Dpkg;
 
 unless (defined $ENV{DPKG_DEVEL_MODE}) {
     plan skip_all => 'not running in development mode';
@@ -28,9 +29,6 @@ if (defined $ENV{srcdir}) {
 
 if (not eval { require Test::Perl::Critic }) {
     plan skip_all => 'Test::Perl::Critic required to criticize code';
-}
-if (not eval { require Perl::Critic::Utils }) {
-    plan skik_all => 'Perl::Critic::Utils required to criticize code';
 }
 
 my @policies = qw(
@@ -128,9 +126,7 @@ Test::Perl::Critic->import(
     -only => 1,
 );
 
-my @dirs = qw(t src/t utils/t scripts/t dselect scripts/Dpkg);
-my @files = glob 'scripts/Dpkg.pm scripts/*.pl scripts/changelog/*.pl';
-push @files, Perl::Critic::Utils::all_perl_files(@dirs);
+my @files = Test::Dpkg::all_perl_files();
 
 plan tests => scalar @files;
 

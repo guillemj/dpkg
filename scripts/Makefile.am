@@ -116,6 +116,10 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Version.pm \
 	Dpkg.pm
 
+EXTRA_DIST += \
+	Test/Dpkg.pm \
+	$(nil)
+
 # Keep it even if empty to have man3dir correctly set
 man3_MANS =
 
