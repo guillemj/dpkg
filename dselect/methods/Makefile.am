@@ -18,6 +18,12 @@ nobase_dist_methods_DATA = \
 	multicd/desc.multi_mount \
 	multicd/desc.multi_nfs
 
+nobase_methods_SCRIPTS = \
+	ftp/setup \
+	ftp/update \
+	ftp/install \
+	$(nil)
+
 nobase_dist_methods_SCRIPTS = \
 	disk/setup \
 	disk/update \
@@ -25,9 +31,6 @@ nobase_dist_methods_SCRIPTS = \
 	floppy/setup \
 	floppy/update \
 	floppy/install \
-	ftp/setup \
-	ftp/update \
-	ftp/install \
 	multicd/setup \
 	multicd/update \
 	multicd/install
@@ -35,7 +38,23 @@ nobase_dist_methods_SCRIPTS = \
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = Dselect/Ftp.pm
 
-EXTRA_DIST = multicd/README.multicd
+EXTRA_DIST = \
+	ftp/setup.pl \
+	ftp/update.pl \
+	ftp/install.pl \
+	multicd/README.multicd
+
+CLEANFILES = \
+	$(nobase_methods_SCRIPTS) \
+	$(nil)
+
+do_perl_subst = $(AM_V_GEN) \
+	sed -e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):"
+
+%: %.pl Makefile
+	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
+	$(do_perl_subst) <$< >$@
+	$(AM_V_at) chmod +x $@
 
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/mnt

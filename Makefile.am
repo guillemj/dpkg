@@ -34,7 +34,7 @@ EXTRA_DIST = \
 	doc/README.feature-removal-schedule \
 	doc/coding-style.txt \
 	doc/frontend.txt \
-	doc/lcov-inject \
+	doc/lcov-inject.pl \
 	doc/triggers.txt \
 	debian/changelog \
 	debian/compat \
@@ -98,7 +98,7 @@ LCOV_CAPTURE_OPTS = $(LCOV_OPTS) --no-recursion \
 	-d $(top_builddir)/lib/dpkg \
 	-d $(top_builddir)/src \
 	-d $(top_builddir)/utils
-LCOV_INJECT = $(PERL) -i $(top_srcdir)/doc/lcov-inject
+LCOV_INJECT = $(PERL) -i $(top_srcdir)/doc/lcov-inject.pl
 
 coverage: all
 	: # Remove coverage data from any previous run

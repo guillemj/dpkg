@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# lcov-inject
+# lcov-inject.pl
 #
 # Copyright © 2014 Guillem Jover <guillem@debian.org>
 #
