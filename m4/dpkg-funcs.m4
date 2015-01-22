@@ -1,5 +1,5 @@
 # Copyright © 2005 Scott James Remnant <scott@netsplit.com>
-# Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+# Copyright © 2008-2009,2015 Guillem Jover <guillem@debian.org>
 
 # DPKG_FUNC_VA_COPY
 # -----------------
@@ -60,7 +60,22 @@ int main()
 	]])],
 	[dpkg_cv_c99_snprintf=yes],
 	[dpkg_cv_c99_snprintf=no],
-	[dpkg_cv_c99_snprintf=no])])
+	[dpkg_cv_c99_snprintf=maybe])
+
+  AS_IF([test "x$dpkg_cv_c99_snprintf" = "xmaybe"],
+    AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
+#define _GNU_SOURCE 1
+#include <unistd.h>
+#if !defined(_XOPEN_VERSION) || _XOPEN_VERSION < 600
+#error "snprintf() has conflicting semantics with C99 on SUSv2 and earlier"
+#endif
+]]
+      )],
+      [dpkg_cv_c99_snprintf=yes],
+      [dpkg_cv_c99_snprintf=no]
+    )
+  )
+])
 AS_IF([test "x$dpkg_cv_c99_snprintf" = "xyes"],
 	[AC_DEFINE([HAVE_C99_SNPRINTF], 1,
 	           [Define to 1 if the 'snprintf' family is C99 conformant])],
