@@ -47,8 +47,11 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wmissing-declarations])
   DPKG_CHECK_COMPILER_FLAG([-Wmissing-format-attribute])
   DPKG_CHECK_COMPILER_FLAG([-Wformat -Wformat-security])
+  DPKG_CHECK_COMPILER_FLAG([-Wsizeof-array-argument])
   DPKG_CHECK_COMPILER_FLAG([-Wpointer-arith])
   DPKG_CHECK_COMPILER_FLAG([-Wlogical-op])
+  DPKG_CHECK_COMPILER_FLAG([-Wlogical-not-parentheses])
+  DPKG_CHECK_COMPILER_FLAG([-Wswitch-bool])
   DPKG_CHECK_COMPILER_FLAG([-Wvla])
   DPKG_CHECK_COMPILER_FLAG([-Winit-self])
   DPKG_CHECK_COMPILER_FLAG([-Wwrite-strings])
@@ -63,6 +66,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
     DPKG_CHECK_COMPILER_FLAG([-Wstrict-prototypes])
     DPKG_CHECK_COMPILER_FLAG([-Wmissing-prototypes])
     DPKG_CHECK_COMPILER_FLAG([-Wold-style-definition])
+    DPKG_CHECK_COMPILER_FLAG([-Wc99-c11-compat])
   ],
   [C++], [
     DPKG_CHECK_COMPILER_FLAG([-Wc++11-compat])
