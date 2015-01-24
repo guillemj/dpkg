@@ -348,6 +348,7 @@ maintscript_fallback(struct pkginfo *pkg,
 	command_init(&cmd, cidir, buf);
 	command_add_args(&cmd, scriptname, iffallback,
 	                 versiondescribe(&pkg->installed.version, vdew_nonambig),
+	                 versiondescribe(&pkg->available.version, vdew_nonambig),
 	                 NULL);
 
 	if (stat(cidir, &stab)) {

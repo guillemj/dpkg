@@ -1299,6 +1299,7 @@ void process_archive(const char *filename) {
     maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
                     "install",
                     versiondescribe(&pkg->installed.version, vdew_nonambig),
+                    versiondescribe(&pkg->available.version, vdew_nonambig),
                     NULL);
   } else {
     push_cleanup(cu_preinstupgrade, ~ehflag_normaltidy, NULL, 0,
@@ -1306,6 +1307,7 @@ void process_archive(const char *filename) {
     maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
                     "upgrade",
                     versiondescribe(&pkg->installed.version, vdew_nonambig),
+                    versiondescribe(&pkg->available.version, vdew_nonambig),
                     NULL);
   }
 

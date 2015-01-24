@@ -209,6 +209,7 @@ void cu_preinstnew(int argc, void **argv) {
   maintscript_new(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
                   "abort-install",
                   versiondescribe(&pkg->installed.version, vdew_nonambig),
+                  versiondescribe(&pkg->available.version, vdew_nonambig),
                   NULL);
   pkg_set_status(pkg, PKG_STAT_CONFIGFILES);
   pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
@@ -226,6 +227,7 @@ void cu_preinstupgrade(int argc, void **argv) {
   maintscript_new(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
                   "abort-upgrade",
                   versiondescribe(&pkg->installed.version, vdew_nonambig),
+                  versiondescribe(&pkg->available.version, vdew_nonambig),
                   NULL);
   pkg_set_status(pkg, *oldstatusp);
   pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
