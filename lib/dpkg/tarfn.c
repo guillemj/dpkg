@@ -244,7 +244,7 @@ tar_gnu_long(void *ctx, const struct tar_operations *ops, struct tar_entry *te,
 		copysize = min(long_read, TARBLKSZ);
 		memcpy(bp, buf, copysize);
 		bp += copysize;
-	};
+	}
 
 	return status;
 }
