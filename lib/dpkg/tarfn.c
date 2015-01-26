@@ -182,18 +182,16 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 	d->dev = makedev(OtoM(h->devmajor, sizeof(h->devmajor)),
 			 OtoM(h->devminor, sizeof(h->devminor)));
 
-	if (*h->user) {
+	if (*h->user)
 		d->stat.uname = m_strndup(h->user, sizeof(h->user));
-	} else {
+	else
 		d->stat.uname = NULL;
-	}
 	d->stat.uid = (uid_t)OtoM(h->uid, sizeof(h->uid));
 
-	if (*h->group) {
+	if (*h->group)
 		d->stat.gname = m_strndup(h->group, sizeof(h->group));
-	} else {
+	else
 		d->stat.gname = NULL;
-	}
 	d->stat.gid = (gid_t)OtoM(h->gid, sizeof(h->gid));
 
 	checksum = OtoM(h->checksum, sizeof(h->checksum));
