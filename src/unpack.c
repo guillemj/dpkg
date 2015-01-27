@@ -618,8 +618,8 @@ void process_archive(const char *filename) {
   if (wanttoinstall(pkg)) {
     pkg_set_want(pkg, PKG_WANT_INSTALL);
   } else {
-      pop_cleanup(ehflag_normaltidy);
-      return;
+    pop_cleanup(ehflag_normaltidy);
+    return;
   }
 
   /* Deconfigure other instances from a pkgset if they are not in sync. */
