@@ -97,7 +97,7 @@ sub test_tar_extractor {
     my $stdout;
     my $stderr;
 
-    my $expected_tar = <<TAR;
+    my $expected_tar = <<'TAR';
 . mode=40755 time=100000000.000000000 uid=100 gid=200 uname=user gname=group type=dir
 ./fifo mode=10750 time=100000000.000000000 uid=100 gid=200 uname=user gname=group type=fifo
 ./file mode=100644 time=100000000.000000000 uid=100 gid=200 uname=user gname=group type=file size=0
@@ -141,8 +141,8 @@ TAR
 
         my $paths_list = join "\0", @paths;
         spawn(exec => [ 'tar', '-cf', "$dirtree.tar", '--format', $type,
-                        '-C', $dirtree, "--mtime=\@100000000",
-                        "--owner=user:100", "--group=group:200",
+                        '-C', $dirtree, '--mtime=@100000000',
+                        '--owner=user:100', '--group=group:200',
                         '--null', '--no-unquote', '--no-recursion', '-T-' ],
               wait_child => 1, from_string => \$paths_list);
 
