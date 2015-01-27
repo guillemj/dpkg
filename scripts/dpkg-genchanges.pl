@@ -24,7 +24,7 @@ use warnings;
 
 use Carp;
 use Encode;
-use POSIX qw(:errno_h);
+use POSIX qw(:errno_h :locale_h);
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::Util qw(:list);
@@ -460,9 +460,9 @@ print { *STDERR } "$Dpkg::PROGNAME: $origsrcmsg\n"
 $fields->{'Format'} = $substvars->get('Format');
 
 if (!defined($fields->{'Date'})) {
-    chomp(my $date822 = `date -R`);
-    subprocerr('date -R') if $?;
-    $fields->{'Date'}= $date822;
+    setlocale(LC_TIME, 'C');
+    $fields->{'Date'} = POSIX::strftime('%a, %d %b %Y %T %z', localtime);
+    setlocale(LC_TIME, '');
 }
 
 $fields->{'Binary'} = join(' ', map { $_->{'Package'} } $control->get_packages());
