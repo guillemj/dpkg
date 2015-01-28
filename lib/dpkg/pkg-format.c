@@ -326,7 +326,7 @@ virt_source_version(struct varbuf *vb,
 	}
 }
 
-const struct fieldinfo virtinfos[] = {
+static const struct fieldinfo virtinfos[] = {
 	{ FIELD("binary:Package"), NULL, virt_package },
 	{ FIELD("binary:Summary"), NULL, virt_summary },
 	{ FIELD("db:Status-Abbrev"), NULL, virt_status_abbrev },
