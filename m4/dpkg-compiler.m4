@@ -46,7 +46,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wno-missing-field-initializers])
   DPKG_CHECK_COMPILER_FLAG([-Wmissing-declarations])
   DPKG_CHECK_COMPILER_FLAG([-Wmissing-format-attribute])
-  DPKG_CHECK_COMPILER_FLAG([-Wformat-security])
+  DPKG_CHECK_COMPILER_FLAG([-Wformat -Wformat-security])
   DPKG_CHECK_COMPILER_FLAG([-Wpointer-arith])
   DPKG_CHECK_COMPILER_FLAG([-Wlogical-op])
   DPKG_CHECK_COMPILER_FLAG([-Wvla])
