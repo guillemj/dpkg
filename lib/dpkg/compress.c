@@ -503,7 +503,7 @@ filter_lzma(struct io_lzma *io, int fd_in, int fd_out)
 		ohshite(_("%s: lzma close error"), io->desc);
 }
 
-static void
+static void DPKG_ATTR_NORET
 filter_lzma_error(struct io_lzma *io, lzma_ret ret)
 {
 	ohshit(_("%s: lzma error: %s"), io->desc,
