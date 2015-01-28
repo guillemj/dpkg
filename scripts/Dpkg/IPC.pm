@@ -46,7 +46,7 @@ from you.
 
 =over 4
 
-=item spawn
+=item my $pid = spawn(%opts)
 
 Creates a child process and executes another program in it.
 The arguments are interpreted as a hash of options, specifying
@@ -337,7 +337,7 @@ sub spawn {
 }
 
 
-=item wait_child
+=item wait_child($pid, %opts)
 
 Takes as first argument the pid of the process to wait for.
 Remaining arguments are taken as a hash of options. Returns
