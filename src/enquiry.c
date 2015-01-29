@@ -612,6 +612,7 @@ cmpversions(const char *const *argv)
     /* These values are exit status codes, so 0 = true, 1 = false. */
     int if_lesser, if_equal, if_greater;
     int if_none_a, if_none_both, if_none_b;
+    bool obsolete;
   };
 
   static const struct relationinfo relationinfos[]= {
@@ -630,11 +631,11 @@ cmpversions(const char *const *argv)
     { "gt-nl",     1,1,0, 0,1,1  },
 
     /* For compatibility with dpkg control file syntax. */
-    { "<",         0,0,1, 0,0,1  },
+    { "<",         0,0,1, 0,0,1, .obsolete = true },
     { "<=",        0,0,1, 0,0,1  },
     { "<<",        0,1,1, 0,1,1  },
     { "=",         1,0,1, 1,0,1  },
-    { ">",         1,0,0, 1,0,0  },
+    { ">",         1,0,0, 1,0,0, .obsolete = true },
     { ">=",        1,0,0, 1,0,0  },
     { ">>",        1,1,0, 1,1,0  },
     { NULL                       }
@@ -652,6 +653,10 @@ cmpversions(const char *const *argv)
   for (rip=relationinfos; rip->string && strcmp(rip->string,argv[1]); rip++);
 
   if (!rip->string) badusage(_("--compare-versions bad relation"));
+
+  if (rip->obsolete)
+    warning(_("--%s used with obsolete relation operator '%s'"),
+            cipaction->olong, rip->string);
 
   if (*argv[0] && strcmp(argv[0],"<unknown>")) {
     if (parseversion(&a, argv[0], &err) < 0) {
