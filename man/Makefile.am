@@ -20,7 +20,7 @@ dist_man_MANS = \
 	dpkg-checkbuilddeps.1 \
 	dpkg-deb.1 \
 	dpkg-distaddfile.1 \
-	dpkg-divert.8 \
+	dpkg-divert.1 \
 	dpkg-genchanges.1 \
 	dpkg-gencontrol.1 \
 	dpkg-gensymbols.1 \
@@ -34,7 +34,7 @@ dist_man_MANS = \
 	dpkg-shlibdeps.1 \
 	dpkg-source.1 \
 	dpkg-split.1 \
-	dpkg-statoverride.8 \
+	dpkg-statoverride.1 \
 	dpkg-trigger.1 \
 	dpkg-vendor.1 \
 	dpkg.1 \
@@ -53,7 +53,7 @@ endif
 
 if BUILD_UPDATE_ALTERNATIVES
 dist_man_MANS += \
-	update-alternatives.8
+	update-alternatives.1
 endif
 
 EXTRA_DIST = \
