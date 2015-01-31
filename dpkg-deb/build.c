@@ -368,6 +368,43 @@ check_new_pkg(const char *dir)
 }
 
 /**
+ * Generate the pathname for the destination binary package.
+ *
+ * If the pathname cannot be computed, because the destination is a directory,
+ * then NULL will be returned.
+ *
+ * @param dir	The directory from where to build the binary package.
+ * @param dest	The destination name, either a file or directory name.
+ * @return	The pathname for the package being built.
+ */
+static char *
+gen_dest_pathname(const char *dir, const char *dest)
+{
+  if (dest) {
+    struct stat dest_stab;
+
+    if (stat(dest, &dest_stab)) {
+      if (errno != ENOENT)
+        ohshite(_("unable to check for existence of archive `%.250s'"), dest);
+    } else if (S_ISDIR(dest_stab.st_mode)) {
+      /* Need to compute the destination name from the package control file. */
+      return NULL;
+    }
+
+    return m_strdup(dest);
+  } else {
+    char *pathname;
+
+    pathname = m_malloc(strlen(dir) + sizeof(DEBEXT));
+    strcpy(pathname, dir);
+    path_trim_slash_slashdot(pathname);
+    strcat(pathname, DEBEXT);
+
+    return pathname;
+  }
+}
+
+/**
  * Generate the pathname for the to-be-built package.
  *
  * @return The pathname for the package being built.
@@ -394,8 +431,8 @@ do_build(const char *const *argv)
 {
   struct compress_params control_compress_params;
   struct dpkg_error err;
-  const char *debar, *dir;
-  bool subdir;
+  const char *dir, *dest;
+  char *debar;
   char *tfbuf;
   int arfd;
   int p1[2], p2[2], gzfd;
@@ -405,33 +442,16 @@ do_build(const char *const *argv)
   dir = *argv++;
   if (!dir)
     badusage(_("--%s needs a <directory> argument"), cipaction->olong);
-  subdir = false;
-  debar = *argv++;
-  if (debar != NULL) {
-    struct stat debarstab;
 
-    if (*argv)
-      badusage(_("--%s takes at most two arguments"), cipaction->olong);
+  dest = *argv++;
+  if (dest && *argv)
+    badusage(_("--%s takes at most two arguments"), cipaction->olong);
 
-    if (stat(debar, &debarstab)) {
-      if (errno != ENOENT)
-        ohshite(_("unable to check for existence of archive `%.250s'"), debar);
-    } else if (S_ISDIR(debarstab.st_mode)) {
-      subdir = true;
-    }
-  } else {
-    char *m;
-
-    m= m_malloc(strlen(dir) + sizeof(DEBEXT));
-    strcpy(m, dir);
-    path_trim_slash_slashdot(m);
-    strcat(m, DEBEXT);
-    debar= m;
-  }
+  debar = gen_dest_pathname(dir, dest);
 
   /* Perform some sanity checks on the to-be-build package. */
   if (nocheckflag) {
-    if (subdir)
+    if (debar == NULL)
       ohshit(_("target is directory - cannot skip control file check"));
     warning(_("not checking contents of control area"));
     printf(_("dpkg-deb: building an unknown package in '%s'.\n"), debar);
@@ -439,8 +459,8 @@ do_build(const char *const *argv)
     struct pkginfo *pkg;
 
     pkg = check_new_pkg(dir);
-    if (subdir)
-      debar = pkg_get_pathname(debar, pkg);
+    if (debar == NULL)
+      debar = pkg_get_pathname(dest, pkg);
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"),
            pkg->set->name, debar);
   }
