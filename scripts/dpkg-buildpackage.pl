@@ -395,7 +395,6 @@ if (defined $parallel) {
         $parallel = qx(getconf _NPROC_ONLN 2>/dev/null) if $?;
         chomp $parallel;
     }
-    $parallel = $build_opts->get('parallel') if $build_opts->has('parallel');
     $ENV{MAKEFLAGS} //= '';
     $ENV{MAKEFLAGS} .= " -j$parallel";
     $build_opts->set('parallel', $parallel);
