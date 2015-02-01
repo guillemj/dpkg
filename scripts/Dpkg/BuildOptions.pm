@@ -102,7 +102,7 @@ sub merge {
 
 =item $bo->set($option, $value, [$source])
 
-Store the given option in the objet with the given value. It's legitimate
+Store the given option in the object with the given value. It's legitimate
 for a value to be undefined if the option is a simple boolean (its
 presence means true, its absence means false). The $source is optional
 and indicates where the option comes from.
