@@ -123,14 +123,12 @@ statdb_node_new(const char *user, const char *group, const char *mode)
 
 	filestat->uid = statdb_parse_uid(user);
 	if (filestat->uid == (uid_t)-1)
-		filestat->uname = nfstrsave(user);
-	else
-		filestat->uname = NULL;
+		ohshit(_("user '%s' does not exist"), user);
+	filestat->uname = NULL;
 	filestat->gid = statdb_parse_gid(group);
 	if (filestat->gid == (gid_t)-1)
-		filestat->gname = nfstrsave(group);
-	else
-		filestat->gname = NULL;
+		ohshit(_("group '%s' does not exist"), group);
+	filestat->gname = NULL;
 	filestat->mode = statdb_parse_mode(mode);
 
 	return filestat;
