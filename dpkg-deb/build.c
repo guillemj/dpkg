@@ -331,12 +331,12 @@ check_conffiles(const char *dir)
 }
 
 /**
- * Perform some sanity checks on the to-be-built package.
+ * Perform some sanity checks on the to-be-built package control area.
  *
  * @return The pkginfo struct from the parsed control file.
  */
 static struct pkginfo *
-check_new_pkg(const char *dir)
+check_control_area(const char *dir)
 {
   struct pkginfo *pkg;
   char *controlfile;
@@ -458,7 +458,7 @@ do_build(const char *const *argv)
   } else {
     struct pkginfo *pkg;
 
-    pkg = check_new_pkg(dir);
+    pkg = check_control_area(dir);
     if (debar == NULL)
       debar = gen_dest_pathname_from_pkg(dest, pkg);
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"),
