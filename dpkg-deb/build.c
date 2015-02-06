@@ -331,18 +331,17 @@ check_conffiles(const char *dir)
 }
 
 /**
- * Perform some sanity checks on the to-be-built package control area.
+ * Check the control file.
  *
- * @return The pkginfo struct from the parsed control file.
+ * @param dir	The directory from where to build the binary package.
+ * @return	The pkginfo struct from the parsed control file.
  */
 static struct pkginfo *
-check_control_area(const char *dir)
+check_control_file(const char *dir)
 {
   struct pkginfo *pkg;
   char *controlfile;
-  int warns;
 
-  /* Start by reading in the control file so we can check its contents. */
   m_asprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONTROLFILE);
   parsedb(controlfile, pdb_parse_binary, &pkg);
 
@@ -355,6 +354,23 @@ check_control_area(const char *dir)
 
   free(controlfile);
 
+  return pkg;
+}
+
+/**
+ * Perform some sanity checks on the to-be-built package control area.
+ *
+ * @param dir	The directory from where to build the binary package.
+ * @return	The pkginfo struct from the parsed control file.
+ */
+static struct pkginfo *
+check_control_area(const char *dir)
+{
+  struct pkginfo *pkg;
+  int warns;
+
+  /* Start by reading in the control file so we can check its contents. */
+  pkg = check_control_file(dir);
   check_file_perms(dir);
   check_conffiles(dir);
 
