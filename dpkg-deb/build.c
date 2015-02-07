@@ -533,7 +533,7 @@ do_build(const char *const *argv)
     exit(0);
   }
   close(p1[0]);
-  subproc_reap(c2, "gzip -9c", 0);
+  subproc_reap(c2, _("<compress> from tar -cf"), 0);
   subproc_reap(c1, "tar -cf", 0);
 
   if (lseek(gzfd, 0, SEEK_SET))
@@ -619,7 +619,7 @@ do_build(const char *const *argv)
    * filenames to tar. */
   file_treewalk_feed(dir, p1[1]);
 
-  /* All done, clean up wait for tar and gzip to finish their job. */
+  /* All done, clean up wait for tar and <compress> to finish their job. */
   close(p1[1]);
   subproc_reap(c2, _("<compress> from tar -cf"), 0);
   subproc_reap(c1, "tar -cf", 0);
