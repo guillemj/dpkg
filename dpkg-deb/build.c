@@ -432,7 +432,12 @@ gen_dest_pathname_from_pkg(const char *dir, struct pkginfo *pkg)
   const char *versionstring, *arch_sep;
 
   versionstring = versiondescribe(&pkg->available.version, vdew_never);
-  arch_sep = pkg->available.arch->type == DPKG_ARCH_NONE ? "" : "_";
+  if (pkg->available.arch->type == DPKG_ARCH_NONE ||
+      pkg->available.arch->type == DPKG_ARCH_EMPTY)
+    arch_sep = "";
+  else
+    arch_sep = "_";
+
   m_asprintf(&path, "%s/%s_%s%s%s%s", dir, pkg->set->name, versionstring,
              arch_sep, pkg->available.arch->name, DEBEXT);
 
