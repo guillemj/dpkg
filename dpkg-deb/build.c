@@ -428,17 +428,17 @@ gen_dest_pathname(const char *dir, const char *dest)
 static char *
 gen_dest_pathname_from_pkg(const char *dir, struct pkginfo *pkg)
 {
+  const char *arch_sep;
   char *path;
-  const char *versionstring, *arch_sep;
 
-  versionstring = versiondescribe(&pkg->available.version, vdew_never);
   if (pkg->available.arch->type == DPKG_ARCH_NONE ||
       pkg->available.arch->type == DPKG_ARCH_EMPTY)
     arch_sep = "";
   else
     arch_sep = "_";
 
-  m_asprintf(&path, "%s/%s_%s%s%s%s", dir, pkg->set->name, versionstring,
+  m_asprintf(&path, "%s/%s_%s%s%s%s", dir, pkg->set->name,
+             versiondescribe(&pkg->available.version, vdew_never),
              arch_sep, pkg->available.arch->name, DEBEXT);
 
   return path;
