@@ -405,12 +405,12 @@ gen_dest_pathname(const char *dir, const char *dest)
 }
 
 /**
- * Generate the pathname for the to-be-built package.
+ * Generate the pathname for the destination binary package from control file.
  *
  * @return The pathname for the package being built.
  */
 static char *
-pkg_get_pathname(const char *dir, struct pkginfo *pkg)
+gen_dest_pathname_from_pkg(const char *dir, struct pkginfo *pkg)
 {
   char *path;
   const char *versionstring, *arch_sep;
@@ -460,7 +460,7 @@ do_build(const char *const *argv)
 
     pkg = check_new_pkg(dir);
     if (debar == NULL)
-      debar = pkg_get_pathname(dest, pkg);
+      debar = gen_dest_pathname_from_pkg(dest, pkg);
     printf(_("dpkg-deb: building package `%s' in `%s'.\n"),
            pkg->set->name, debar);
   }
