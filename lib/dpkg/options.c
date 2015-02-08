@@ -221,7 +221,7 @@ dpkg_options_parse(const char *const **argvp, const struct cmdinfo *cmdinfos,
   printforhelp = help_str;
 
   ++(*argvp);
-  while ((p= **argvp) && *p == '-') {
+  while ((p = **argvp) && p[0] == '-' && p[1] != '\0') {
     ++(*argvp);
     if (strcmp(p, "--") == 0)
       break;
