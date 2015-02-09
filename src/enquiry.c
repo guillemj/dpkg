@@ -143,7 +143,7 @@ static const struct audit_problem audit_problems[] = {
     "database, they need to be reinstalled:\n")
   }, {
     .check = audit_arch,
-    .value.number = DPKG_ARCH_NONE,
+    .value.number = DPKG_ARCH_EMPTY,
     .explanation = N_("The following packages do not have an architecture:\n")
   }, {
     .check = audit_arch,
