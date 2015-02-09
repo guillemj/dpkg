@@ -67,11 +67,19 @@ pkg_spec_is_illegal(struct pkg_spec *ps)
 
 	if (!ps->name_is_pattern &&
 	    (emsg = pkg_name_is_illegal(ps->name))) {
+		const char *arch_sep;
+
+		/* Only check for DPKG_ARCH_NONE, because for everything else
+		 * we want to see the passed package specification, even if
+		 * the architecture is empty. */
+		if (ps->arch->type == DPKG_ARCH_NONE)
+			arch_sep = "";
+		else
+			arch_sep = ":";
+
 		snprintf(msg, sizeof(msg),
 		         _("illegal package name in specifier '%s%s%s': %s"),
-		         ps->name,
-		         (ps->arch->type != DPKG_ARCH_NONE) ? ":" : "",
-		         ps->arch->name, emsg);
+		         ps->name, arch_sep, ps->arch->name, emsg);
 		return msg;
 	}
 
