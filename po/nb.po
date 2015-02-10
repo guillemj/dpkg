@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-12-23 18:12+0100\n"
+"POT-Creation-Date: 2015-02-22 22:28+0100\n"
 "PO-Revision-Date: 2010-09-02 02:38+0200\n"
 "Last-Translator: Hans Fredrik Nordhaug <hans@nordhaug.priv.no>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -1550,12 +1550,12 @@ msgstr "klarte ikke opprette «%.255s» (under behandling av «%.255s»)"
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr "%s: klarte ikke endre navnet på «%.250s» til «%.250s»: %s"
 
-#: src/archives.c:363 src/archives.c:479 src/statcmd.c:167
+#: src/archives.c:363 src/archives.c:479 src/statcmd.c:165
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "feil ved setting av eierskap for «%.255s»"
 
-#: src/archives.c:365 src/archives.c:481 src/statcmd.c:169
+#: src/archives.c:365 src/archives.c:481 src/statcmd.c:167
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "feil ved setting av rettigheter for «%.255s»"
@@ -2671,7 +2671,7 @@ msgid "any diversion of %s to %s"
 msgstr "enhver omdirigering av %s til %s"
 
 #: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
-#: src/divertcmd.c:699 src/statcmd.c:283
+#: src/divertcmd.c:699 src/statcmd.c:281
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s krever en enkel parameter"
@@ -3863,7 +3863,7 @@ msgstr "klarte ikke åpne «%i» for strøm"
 msgid "unexpected eof before end of line %d"
 msgstr "uventet slutt på fil før slutten av linje %d"
 
-#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:368
+#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:366
 #: dpkg-deb/main.c:260 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "trenger et handlingsvalg"
@@ -4553,19 +4553,31 @@ msgstr ""
 msgid "stripping trailing /"
 msgstr "fjerner avsluttende /"
 
-#: src/statcmd.c:239
+#: src/statcmd.c:126
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "user '%s' does not exist"
+msgstr "fant ikke fil «%s»"
+
+#: src/statcmd.c:130
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "group '%s' does not exist"
+msgstr "fant ikke fil «%s»"
+
+#: src/statcmd.c:237
 #, fuzzy, c-format
 #| msgid "--add needs four arguments"
 msgid "--%s needs four arguments"
 msgstr "--add krever fire parametre"
 
-#: src/statcmd.c:242
+#: src/statcmd.c:240
 #, fuzzy
 #| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
 msgstr "pakke kan ikke inneholde linjeskift"
 
-#: src/statcmd.c:249
+#: src/statcmd.c:247
 #, fuzzy, c-format
 #| msgid ""
 #| "An override for '%s' already exists, but --force specified so will be "
@@ -4576,24 +4588,24 @@ msgstr ""
 "En tilsidesettelse for «%s» finnes allerede, men --force oppgitt så det vil "
 "bli ignorert."
 
-#: src/statcmd.c:253
+#: src/statcmd.c:251
 #, fuzzy, c-format
 #| msgid "An override for '%s' already exists, aborting."
 msgid "an override for '%s' already exists; aborting"
 msgstr "En tilsidesettelse for «%s» eksisterer allerede, avbryter."
 
-#: src/statcmd.c:265
+#: src/statcmd.c:263
 #, c-format
 msgid "--update given but %s does not exist"
 msgstr "--update oppgitt men %s eksisterer ikke"
 
-#: src/statcmd.c:289
+#: src/statcmd.c:287
 #, fuzzy
 #| msgid "No override present."
 msgid "no override present"
 msgstr "Ingen tilsidesettelse tilstede."
 
-#: src/statcmd.c:297
+#: src/statcmd.c:295
 msgid "--update is useless for --remove"
 msgstr "--update er meningsløs for --remove"
 
@@ -4785,37 +4797,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr "utløsere i løkke, forlatt"
 
-#: src/trigproc.c:406
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: dependency problems prevent configuration of %s:\n"
-#| "%s"
-msgid ""
-"dependency problems prevent processing triggers for %s:\n"
-"%s"
-msgstr ""
-"dpkg: Kravproblem hindrer oppsettet av %s:\n"
-"%s"
-
-#: src/trigproc.c:410
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
-msgid "dependency problems - leaving triggers unprocessed"
-msgstr "kravproblem - setter ikke opp pakken"
-
-#: src/trigproc.c:413
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
-msgid ""
-"%s: dependency problems, but processing triggers anyway as you requested:\n"
-"%s"
-msgstr ""
-"dpkg: %s: Kravproblem, men fjerner likevel siden du ønsker det:\n"
-"%s"
-
-#: src/trigproc.c:425
+#: src/trigproc.c:374
 #, fuzzy, c-format
 #| msgid "Processing triggers for %s ...\n"
 msgid "Processing triggers for %s (%s) ...\n"
@@ -6965,6 +6947,34 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "for å gå tilbake til automatiske oppdateringer bruk «update-alternatives --"
 "auto %s»."
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: dependency problems prevent configuration of %s:\n"
+#~| "%s"
+#~ msgid ""
+#~ "dependency problems prevent processing triggers for %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: Kravproblem hindrer oppsettet av %s:\n"
+#~ "%s"
+
+#, fuzzy
+#~| msgid "dependency problems - leaving unconfigured"
+#~ msgid "dependency problems - leaving triggers unprocessed"
+#~ msgstr "kravproblem - setter ikke opp pakken"
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
+#~| "%s"
+#~ msgid ""
+#~ "%s: dependency problems, but processing triggers anyway as you "
+#~ "requested:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: %s: Kravproblem, men fjerner likevel siden du ønsker det:\n"
+#~ "%s"
 
 #~ msgid "file name '%.50s...' is too long"
 #~ msgstr "filnavn «%.50s...» er for langt"

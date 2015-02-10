@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-12-23 18:12+0100\n"
+"POT-Creation-Date: 2015-02-22 22:28+0100\n"
 "PO-Revision-Date: 2012-09-08 19:16+0200\n"
 "Last-Translator: imacat <imac@mail.imacat.idv.tw>\n"
 "Language-Team: Chinese (traditional) <debian-l10n-chinese@lists.debian.org>\n"
@@ -1448,12 +1448,12 @@ msgstr "處理 `%2$.255s' 時，無法產生 `%1$.255s'"
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr "無法將 '%.255s' 的解壓縮資料複製到 '%.250s'：%s"
 
-#: src/archives.c:363 src/archives.c:479 src/statcmd.c:167
+#: src/archives.c:363 src/archives.c:479 src/statcmd.c:165
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "在替 `%.255s' 設定所有權時發生錯誤"
 
-#: src/archives.c:365 src/archives.c:481 src/statcmd.c:169
+#: src/archives.c:365 src/archives.c:481 src/statcmd.c:167
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "在替 `%.255s' 設定權限時發生錯誤"
@@ -2500,7 +2500,7 @@ msgid "any diversion of %s to %s"
 msgstr "任一由 %s 移轉至 %ss"
 
 #: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
-#: src/divertcmd.c:699 src/statcmd.c:283
+#: src/divertcmd.c:699 src/statcmd.c:281
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s 需要一個參數"
@@ -3636,7 +3636,7 @@ msgstr "無法開啟 `%i' 讀取資料串流"
 msgid "unexpected eof before end of line %d"
 msgstr "在第 %d 行結束之前有預期之外的 eof"
 
-#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:368
+#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:366
 #: dpkg-deb/main.c:260 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "欠缺操作選項"
@@ -4271,38 +4271,50 @@ msgstr ""
 msgid "stripping trailing /"
 msgstr "除去結尾的 /"
 
-#: src/statcmd.c:239
+#: src/statcmd.c:126
+#, fuzzy, c-format
+#| msgid "control file '%s' does not exist"
+msgid "user '%s' does not exist"
+msgstr "查無控制檔 '%s'"
+
+#: src/statcmd.c:130
+#, fuzzy, c-format
+#| msgid "control file '%s' does not exist"
+msgid "group '%s' does not exist"
+msgstr "查無控制檔 '%s'"
+
+#: src/statcmd.c:237
 #, c-format
 msgid "--%s needs four arguments"
 msgstr "--%s 需要四個參數"
 
-#: src/statcmd.c:242
+#: src/statcmd.c:240
 #, fuzzy
 #| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
 msgstr "<套件> 不該包含換行符號"
 
-#: src/statcmd.c:249
+#: src/statcmd.c:247
 #, c-format
 msgid ""
 "an override for '%s' already exists, but --force specified so will be ignored"
 msgstr "設定了 '%s' 的優先選項，但加上 --force 後，會被忽略"
 
-#: src/statcmd.c:253
+#: src/statcmd.c:251
 #, c-format
 msgid "an override for '%s' already exists; aborting"
 msgstr "已設定了 '%s' 的強制選項，放棄"
 
-#: src/statcmd.c:265
+#: src/statcmd.c:263
 #, c-format
 msgid "--update given but %s does not exist"
 msgstr "要 --update 但找不到 %s"
 
-#: src/statcmd.c:289
+#: src/statcmd.c:287
 msgid "no override present"
 msgstr "沒有設定強制選項"
 
-#: src/statcmd.c:297
+#: src/statcmd.c:295
 msgid "--update is useless for --remove"
 msgstr "--remove 時 --update 無效"
 
@@ -4476,37 +4488,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr "觸發程式陷入迴圈，已放棄執行"
 
-#: src/trigproc.c:406
-#, fuzzy, c-format
-#| msgid ""
-#| "dependency problems prevent configuration of %s:\n"
-#| "%s"
-msgid ""
-"dependency problems prevent processing triggers for %s:\n"
-"%s"
-msgstr ""
-"因相依問題，無法設定 %s：\n"
-"%s"
-
-#: src/trigproc.c:410
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
-msgid "dependency problems - leaving triggers unprocessed"
-msgstr "相依問題 - 保留未設定"
-
-#: src/trigproc.c:413
-#, fuzzy, c-format
-#| msgid ""
-#| "%s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
-msgid ""
-"%s: dependency problems, but processing triggers anyway as you requested:\n"
-"%s"
-msgstr ""
-"%s：發生相依上的問題，但還是應您要求強制移除：\n"
-"%s"
-
-#: src/trigproc.c:425
+#: src/trigproc.c:374
 #, fuzzy, c-format
 #| msgid "Processing triggers for %s ...\n"
 msgid "Processing triggers for %s (%s) ...\n"
@@ -6426,6 +6408,34 @@ msgstr "%s/%s 的自動更新已停用，不做異動"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "若要回復成自動更新，請執行 '%s --auto %s'"
+
+#, fuzzy
+#~| msgid ""
+#~| "dependency problems prevent configuration of %s:\n"
+#~| "%s"
+#~ msgid ""
+#~ "dependency problems prevent processing triggers for %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "因相依問題，無法設定 %s：\n"
+#~ "%s"
+
+#, fuzzy
+#~| msgid "dependency problems - leaving unconfigured"
+#~ msgid "dependency problems - leaving triggers unprocessed"
+#~ msgstr "相依問題 - 保留未設定"
+
+#, fuzzy
+#~| msgid ""
+#~| "%s: dependency problems, but removing anyway as you requested:\n"
+#~| "%s"
+#~ msgid ""
+#~ "%s: dependency problems, but processing triggers anyway as you "
+#~ "requested:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "%s：發生相依上的問題，但還是應您要求強制移除：\n"
+#~ "%s"
 
 #~ msgid "file name '%.50s...' is too long"
 #~ msgstr "檔名 '%.50s...' 太長了"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-12-23 18:12+0100\n"
+"POT-Creation-Date: 2015-02-22 22:28+0100\n"
 "PO-Revision-Date: 2008-05-02 15:45+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -1504,12 +1504,12 @@ msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr ""
 "dpkg: %s: figyelem - nem sikerült átnevezni `%.250s'-t erre: `%.250s': %s\n"
 
-#: src/archives.c:363 src/archives.c:479 src/statcmd.c:167
+#: src/archives.c:363 src/archives.c:479 src/statcmd.c:165
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "nem sikerült beállítani `%.255s' tulajdonosát"
 
-#: src/archives.c:365 src/archives.c:481 src/statcmd.c:169
+#: src/archives.c:365 src/archives.c:481 src/statcmd.c:167
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "nem sikerült beállítani `%.255s' jogait"
@@ -2603,7 +2603,7 @@ msgid "any diversion of %s to %s"
 msgstr "eltérítve %s által ide: %s\n"
 
 #: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
-#: src/divertcmd.c:699 src/statcmd.c:283
+#: src/divertcmd.c:699 src/statcmd.c:281
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s 1 argumentumot vár"
@@ -3685,7 +3685,7 @@ msgstr "`%i' nem nyitható meg az áramoltatásra"
 msgid "unexpected eof before end of line %d"
 msgstr "váratlan eof e sor vége előtt: %d"
 
-#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:368
+#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:366
 #: dpkg-deb/main.c:260 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "egy művelet opciót igényel"
@@ -4339,41 +4339,53 @@ msgstr ""
 msgid "stripping trailing /"
 msgstr "/ leszedése"
 
-#: src/statcmd.c:239
+#: src/statcmd.c:126
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "user '%s' does not exist"
+msgstr "a régi `%s' név nem található: %s"
+
+#: src/statcmd.c:130
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "group '%s' does not exist"
+msgstr "a régi `%s' név nem található: %s"
+
+#: src/statcmd.c:237
 #, fuzzy, c-format
 #| msgid "--add needs four arguments"
 msgid "--%s needs four arguments"
 msgstr "a --add 4 argumentumot vár"
 
-#: src/statcmd.c:242
+#: src/statcmd.c:240
 #, fuzzy
 #| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
 msgstr "csomag nem tartalmazhat újsorokat"
 
-#: src/statcmd.c:249
+#: src/statcmd.c:247
 #, fuzzy, c-format
 msgid ""
 "an override for '%s' already exists, but --force specified so will be ignored"
 msgstr "de --force miatt figyelmen kívül hagyom"
 
-#: src/statcmd.c:253
+#: src/statcmd.c:251
 #, fuzzy, c-format
 msgid "an override for '%s' already exists; aborting"
 msgstr "\"%s\" egy felülbírálása már létezik, "
 
-#: src/statcmd.c:265
+#: src/statcmd.c:263
 #, fuzzy, c-format
 msgid "--update given but %s does not exist"
 msgstr "figyelem: --update megadva, de %s nem létezik"
 
-#: src/statcmd.c:289
+#: src/statcmd.c:287
 #, fuzzy
 #| msgid "No override present."
 msgid "no override present"
 msgstr "Nincs felülbírálás."
 
-#: src/statcmd.c:297
+#: src/statcmd.c:295
 #, fuzzy
 msgid "--update is useless for --remove"
 msgstr "figyelem: a --update értelmetlen --remove esetén"
@@ -4548,37 +4560,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr ""
 
-#: src/trigproc.c:406
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: dependency problems prevent configuration of %s:\n"
-#| "%s"
-msgid ""
-"dependency problems prevent processing triggers for %s:\n"
-"%s"
-msgstr ""
-"dpkg: függőségi gondok miatt nem beállítható e csomag: %s:\n"
-"%s"
-
-#: src/trigproc.c:410
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
-msgid "dependency problems - leaving triggers unprocessed"
-msgstr "függőségi hibák - e csomag beállítatlan maradt"
-
-#: src/trigproc.c:413
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
-msgid ""
-"%s: dependency problems, but processing triggers anyway as you requested:\n"
-"%s"
-msgstr ""
-"dpkg: %s: függőségi gondok vannak, de kérésedre törlöm:\n"
-"%s"
-
-#: src/trigproc.c:425
+#: src/trigproc.c:374
 #, fuzzy, c-format
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "%s beállító fájlok törlése ...\n"
@@ -6574,6 +6556,34 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "Az automatikus frissítésekhez való visszatéréshez használd az `update-"
 "alternatives --auto %s'-t"
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: dependency problems prevent configuration of %s:\n"
+#~| "%s"
+#~ msgid ""
+#~ "dependency problems prevent processing triggers for %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: függőségi gondok miatt nem beállítható e csomag: %s:\n"
+#~ "%s"
+
+#, fuzzy
+#~| msgid "dependency problems - leaving unconfigured"
+#~ msgid "dependency problems - leaving triggers unprocessed"
+#~ msgstr "függőségi hibák - e csomag beállítatlan maradt"
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
+#~| "%s"
+#~ msgid ""
+#~ "%s: dependency problems, but processing triggers anyway as you "
+#~ "requested:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: %s: függőségi gondok vannak, de kérésedre törlöm:\n"
+#~ "%s"
 
 #, fuzzy
 #~ msgid "'%s' contains user-defined field '%s'"

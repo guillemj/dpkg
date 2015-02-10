@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-12-23 18:12+0100\n"
+"POT-Creation-Date: 2015-02-22 22:28+0100\n"
 "PO-Revision-Date: 2007-06-29 04:06+0530\n"
 "Last-Translator: Tshewang Norbu <bumthap2006@hotmail.com>\n"
 "Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
@@ -1513,12 +1513,12 @@ msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr ""
 "dpkg: %s: ཉེན་བརྡ་ -  `%.250s' འདི་ `%.250s' ལུ་བསྐྱར་མིང་བཏགས་ནི་འཐུས་ཤོར་བྱུང་ཡོད་: %s\n"
 
-#: src/archives.c:363 src/archives.c:479 src/statcmd.c:167
+#: src/archives.c:363 src/archives.c:479 src/statcmd.c:165
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "`%.255s' གི་བདག་པོ་གཞི་སྒྲིག་གི་འཛོལ་བ།"
 
-#: src/archives.c:365 src/archives.c:481 src/statcmd.c:169
+#: src/archives.c:365 src/archives.c:481 src/statcmd.c:167
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "`%.255s' གི་གནང་བ་གཞི་སྒྲིག་གི་འཛོལ་བ།"
@@ -2630,7 +2630,7 @@ msgid "any diversion of %s to %s"
 msgstr "%s གིས་ : %s ལུ་ཁ་ཕྱོགས་སྒྱུར་ཡོདཔ་\n"
 
 #: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
-#: src/divertcmd.c:699 src/statcmd.c:283
+#: src/divertcmd.c:699 src/statcmd.c:281
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s་ལུ་སྒྲུབ་རྟགས་རྐྱང་པ་ཅིག་དགོཔ་འདུག"
@@ -3715,7 +3715,7 @@ msgstr "རྒྱུན་རིམ་གྱི་དོན་ལུ་ `%i' ཁ
 msgid "unexpected eof before end of line %d"
 msgstr "གྲལ་ཐིག་ %d གི་མཇུག་གི་ཧེ་མ་རེ་བ་མེད་པའི་ཨི་ཨོ་ཨེཕ།"
 
-#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:368
+#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:366
 #: dpkg-deb/main.c:260 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "བྱ་བའི་གདམ་ཁ་གཅིག་དགོ"
@@ -4380,41 +4380,53 @@ msgstr ""
 msgid "stripping trailing /"
 msgstr "བཤུབ་ནི་རྒྱབ་ལུས་/"
 
-#: src/statcmd.c:239
+#: src/statcmd.c:126
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "user '%s' does not exist"
+msgstr "མིང་རྙིངམ་ `%s' སི་ཊེཊི་འབད་མ་ཚུགས: %s"
+
+#: src/statcmd.c:130
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "group '%s' does not exist"
+msgstr "མིང་རྙིངམ་ `%s' སི་ཊེཊི་འབད་མ་ཚུགས: %s"
+
+#: src/statcmd.c:237
 #, fuzzy, c-format
 #| msgid "--add needs four arguments"
 msgid "--%s needs four arguments"
 msgstr "--ཁ་སྐོང་རྐྱབས་ནི་ལུ་ སྒྲུབ་རྟགས་བཞི་དགོ"
 
-#: src/statcmd.c:242
+#: src/statcmd.c:240
 #, fuzzy
 #| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
 msgstr "ཐུམ་སྒྲིལ་ལུ་གྲལ་ཐིག་གསརཔ་མེདཔ་འོང་།"
 
-#: src/statcmd.c:249
+#: src/statcmd.c:247
 #, fuzzy, c-format
 msgid ""
 "an override for '%s' already exists, but --force specified so will be ignored"
 msgstr "དེ་འབདཝ་ད་ --བང་བཙོང་འདི་གསལ་བཀོད་འབད་ཡོདཔ་ལས་ སྣང་མེད་བཞག་འོང་།"
 
-#: src/statcmd.c:253
+#: src/statcmd.c:251
 #, fuzzy, c-format
 msgid "an override for '%s' already exists; aborting"
 msgstr "\"%s\" གི་དོན་ལུ་ཟུར་བཞག་འད་ཧེ་མ་ལས་རང་ཡོདཔ་ཨིན།"
 
-#: src/statcmd.c:265
+#: src/statcmd.c:263
 #, fuzzy, c-format
 msgid "--update given but %s does not exist"
 msgstr "ཉེན་བརྡ་: --དུས་མཐུན་བྱིན་ཡོད་ དེ་འབདཝ་ད་  %s འདི་མེད།"
 
-#: src/statcmd.c:289
+#: src/statcmd.c:287
 #, fuzzy
 #| msgid "No override present."
 msgid "no override present"
 msgstr "ཟུར་བཞག་གཅིག་ཡང་མེད།"
 
-#: src/statcmd.c:297
+#: src/statcmd.c:295
 #, fuzzy
 msgid "--update is useless for --remove"
 msgstr "ཉེན་བརྡ: --དུས་མཐུན་འདི་ --རྩ་བསྐྲད་ཀྱི་དོན་ལུ་ཁུངས་མེདཔ་ཨིན།"
@@ -4590,37 +4602,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr ""
 
-#: src/trigproc.c:406
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: dependency problems prevent configuration of %s:\n"
-#| "%s"
-msgid ""
-"dependency problems prevent processing triggers for %s:\n"
-"%s"
-msgstr ""
-"dpkg: རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་གྱིས་ %s གི་རིམ་སྒྲིག་སྔོན་བཀག་འབདཝ་ཨིན།:\n"
-"%s"
-
-#: src/trigproc.c:410
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
-msgid "dependency problems - leaving triggers unprocessed"
-msgstr "རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་ཚུ་ - རིམ་སྒྲིག་མ་འབད་བར་བཞག་དོ།"
-
-#: src/trigproc.c:413
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
-msgid ""
-"%s: dependency problems, but processing triggers anyway as you requested:\n"
-"%s"
-msgstr ""
-"dpkg: %s: རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་ཚུ་ དེ་འབདཝ་ད་ ཁྱོད་ཀྱི་ཞུ་བ་འབད་དོ་བཟུམ་སྦེ་རྩ བསྐྲད་གཏང་དོ:\n"
-"%s"
-
-#: src/trigproc.c:425
+#: src/trigproc.c:374
 #, fuzzy, c-format
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "%s གི་དོན་ལུ་རིམ་སྒྲིག་ཡིག་སྣོད་ཕྱིར་བསྐྲད་གཏང་དོ་...\n"
@@ -6679,6 +6661,34 @@ msgstr "%s གི་རང་བཞིན་དུས་མཐུན་ཚུ་
 #, fuzzy, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "རང་བཞིན་ཚུ་ལུ་སླར་ལོག་ནིའི་དོན་ལས་  `དུས་མཐུན་-སྤེལ་མ་ --རང་བཞིན %s' ལག་ལེན་འཐབ།"
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: dependency problems prevent configuration of %s:\n"
+#~| "%s"
+#~ msgid ""
+#~ "dependency problems prevent processing triggers for %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་གྱིས་ %s གི་རིམ་སྒྲིག་སྔོན་བཀག་འབདཝ་ཨིན།:\n"
+#~ "%s"
+
+#, fuzzy
+#~| msgid "dependency problems - leaving unconfigured"
+#~ msgid "dependency problems - leaving triggers unprocessed"
+#~ msgstr "རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་ཚུ་ - རིམ་སྒྲིག་མ་འབད་བར་བཞག་དོ།"
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
+#~| "%s"
+#~ msgid ""
+#~ "%s: dependency problems, but processing triggers anyway as you "
+#~ "requested:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: %s: རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་ཚུ་ དེ་འབདཝ་ད་ ཁྱོད་ཀྱི་ཞུ་བ་འབད་དོ་བཟུམ་སྦེ་རྩ བསྐྲད་གཏང་དོ:\n"
+#~ "%s"
 
 #~ msgid "file name '%.50s...' is too long"
 #~ msgstr "ཡིག་སྣོད་ཀྱི་མིང '%.50s...'གནམ་མེད་ས་མེད་རིངམ"

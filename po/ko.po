@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-12-23 18:12+0100\n"
+"POT-Creation-Date: 2015-02-22 22:28+0100\n"
 "PO-Revision-Date: 2010-09-05 10:11+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -1548,12 +1548,12 @@ msgstr "`%.255s' 파일을 만들 수 없습니다 (`%.255s' 처리 중)"
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr "%s: '%.250s' 파일을 '%.250s' 파일로 이름 바꾸는데 실패했습니다: %s"
 
-#: src/archives.c:363 src/archives.c:479 src/statcmd.c:167
+#: src/archives.c:363 src/archives.c:479 src/statcmd.c:165
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "`%.255s'의 소유권을 설정하는데 오류가 발생했습니다"
 
-#: src/archives.c:365 src/archives.c:481 src/statcmd.c:169
+#: src/archives.c:365 src/archives.c:481 src/statcmd.c:167
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "`%.255s'의 권한을 설정하는데 오류가 발생했습니다"
@@ -2676,7 +2676,7 @@ msgid "any diversion of %s to %s"
 msgstr "%s의 %s(으)로 모든 전환"
 
 #: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
-#: src/divertcmd.c:699 src/statcmd.c:283
+#: src/divertcmd.c:699 src/statcmd.c:281
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s 옵션은 인수를 하나만 받습니다"
@@ -3857,7 +3857,7 @@ msgstr "`%i' 파일디스크립터를 스트림으로 열 수 없습니다"
 msgid "unexpected eof before end of line %d"
 msgstr "%d번째 줄이 끝나기 전에 예상치 못하게 파일이 끝났습니다"
 
-#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:368
+#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:366
 #: dpkg-deb/main.c:260 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "명령 옵션이 필요합니다"
@@ -4552,19 +4552,31 @@ msgstr ""
 msgid "stripping trailing /"
 msgstr "맨 끝에 있는 /를 지웁니다"
 
-#: src/statcmd.c:239
+#: src/statcmd.c:126
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "user '%s' does not exist"
+msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
+
+#: src/statcmd.c:130
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "group '%s' does not exist"
+msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
+
+#: src/statcmd.c:237
 #, fuzzy, c-format
 #| msgid "--add needs four arguments"
 msgid "--%s needs four arguments"
 msgstr "--add 옵션은 인수가 4개 필요합니다"
 
-#: src/statcmd.c:242
+#: src/statcmd.c:240
 #, fuzzy
 #| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
 msgstr "패키지에 줄바꿈이 있으면 안 됩니다"
 
-#: src/statcmd.c:249
+#: src/statcmd.c:247
 #, fuzzy, c-format
 #| msgid ""
 #| "An override for '%s' already exists, but --force specified so will be "
@@ -4575,24 +4587,24 @@ msgstr ""
 "'%s'을(를) 위한 override가 이미 있지만, --force 옵션을 사용했으므로 무시합니"
 "다."
 
-#: src/statcmd.c:253
+#: src/statcmd.c:251
 #, fuzzy, c-format
 #| msgid "An override for '%s' already exists, aborting."
 msgid "an override for '%s' already exists; aborting"
 msgstr "\"%s\"을(를) 위한 override가 이미 있음. 중지."
 
-#: src/statcmd.c:265
+#: src/statcmd.c:263
 #, c-format
 msgid "--update given but %s does not exist"
 msgstr "--update 옵션을 사용했지만 %s이(가) 없습니다"
 
-#: src/statcmd.c:289
+#: src/statcmd.c:287
 #, fuzzy
 #| msgid "No override present."
 msgid "no override present"
 msgstr "override가 없습니다."
 
-#: src/statcmd.c:297
+#: src/statcmd.c:295
 msgid "--update is useless for --remove"
 msgstr "--remove 명령에서는 --update 옵션이 무의미합니다"
 
@@ -4784,37 +4796,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr "트리거가 반복하고 있으므로 지웁니다"
 
-#: src/trigproc.c:406
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: dependency problems prevent configuration of %s:\n"
-#| "%s"
-msgid ""
-"dependency problems prevent processing triggers for %s:\n"
-"%s"
-msgstr ""
-"dpkg: 의존성 문제로 %s을(를) 설정할 수 없습니다:\n"
-"%s"
-
-#: src/trigproc.c:410
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
-msgid "dependency problems - leaving triggers unprocessed"
-msgstr "의존성 문제 - 설정하지 않고 남겨둠"
-
-#: src/trigproc.c:413
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
-msgid ""
-"%s: dependency problems, but processing triggers anyway as you requested:\n"
-"%s"
-msgstr ""
-"dpkg: %s: 의존성 문제가 있지만, 어쨌든 요청한 대로 지웁니다:\n"
-"%s"
-
-#: src/trigproc.c:425
+#: src/trigproc.c:374
 #, fuzzy, c-format
 #| msgid "Processing triggers for %s ...\n"
 msgid "Processing triggers for %s (%s) ...\n"
@@ -6981,6 +6963,34 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "다시 자동 업데이트를 하려면 `update-alternatives --auto %s' 명령을 사용하십시"
 "오."
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: dependency problems prevent configuration of %s:\n"
+#~| "%s"
+#~ msgid ""
+#~ "dependency problems prevent processing triggers for %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: 의존성 문제로 %s을(를) 설정할 수 없습니다:\n"
+#~ "%s"
+
+#, fuzzy
+#~| msgid "dependency problems - leaving unconfigured"
+#~ msgid "dependency problems - leaving triggers unprocessed"
+#~ msgstr "의존성 문제 - 설정하지 않고 남겨둠"
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
+#~| "%s"
+#~ msgid ""
+#~ "%s: dependency problems, but processing triggers anyway as you "
+#~ "requested:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: %s: 의존성 문제가 있지만, 어쨌든 요청한 대로 지웁니다:\n"
+#~ "%s"
 
 #~ msgid "file name '%.50s...' is too long"
 #~ msgstr "'%.50s...' 파일명이 너무 깁니다"

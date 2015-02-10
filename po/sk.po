@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-12-23 18:12+0100\n"
+"POT-Creation-Date: 2015-02-22 22:28+0100\n"
 "PO-Revision-Date: 2012-10-14 12:18+0100\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <debian-l10n-slovak@lists.debian.org>\n"
@@ -1477,12 +1477,12 @@ msgstr "nie je možné vytvoriť „%.255s“ (počas spracovania „%.255s“)"
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr "nie je možné skopírovať dáta „%.250s“ do „%.250s“: %s"
 
-#: src/archives.c:363 src/archives.c:479 src/statcmd.c:167
+#: src/archives.c:363 src/archives.c:479 src/statcmd.c:165
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "chyba pri nastavovaní vlastníckych práv u „%.255s“"
 
-#: src/archives.c:365 src/archives.c:481 src/statcmd.c:169
+#: src/archives.c:365 src/archives.c:481 src/statcmd.c:167
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "chyba pri nastavovaní prístupových práv u „%.255s“"
@@ -2560,7 +2560,7 @@ msgid "any diversion of %s to %s"
 msgstr "ľubovoľné odklonenie %s na %s"
 
 #: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
-#: src/divertcmd.c:699 src/statcmd.c:283
+#: src/divertcmd.c:699 src/statcmd.c:281
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s vyžaduje jediný parameter"
@@ -3759,7 +3759,7 @@ msgstr "nie je možné otvoriť „%i“ pre tok"
 msgid "unexpected eof before end of line %d"
 msgstr "nečakaný koniec súboru pred koncom riadka %d"
 
-#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:368
+#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:366
 #: dpkg-deb/main.c:260 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "vyžaduje sa zadanie voľby určujúcej operáciu"
@@ -4412,39 +4412,51 @@ msgstr ""
 msgid "stripping trailing /"
 msgstr "odstraňujú sa koncové /"
 
-#: src/statcmd.c:239
+#: src/statcmd.c:126
+#, fuzzy, c-format
+#| msgid "control file '%s' does not exist"
+msgid "user '%s' does not exist"
+msgstr "riadiaci súbor „%s“ neexistuje"
+
+#: src/statcmd.c:130
+#, fuzzy, c-format
+#| msgid "control file '%s' does not exist"
+msgid "group '%s' does not exist"
+msgstr "riadiaci súbor „%s“ neexistuje"
+
+#: src/statcmd.c:237
 #, c-format
 msgid "--%s needs four arguments"
 msgstr "--%s vyžaduje štyri parametre"
 
-#: src/statcmd.c:242
+#: src/statcmd.c:240
 #, fuzzy
 #| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
 msgstr "názov balíka nemôže obsahovať znaky nového riadka"
 
-#: src/statcmd.c:249
+#: src/statcmd.c:247
 #, c-format
 msgid ""
 "an override for '%s' already exists, but --force specified so will be ignored"
 msgstr ""
 "prekonanie „%s“ už existuje, ale kvôli uvedenému --force bude ignorované"
 
-#: src/statcmd.c:253
+#: src/statcmd.c:251
 #, c-format
 msgid "an override for '%s' already exists; aborting"
 msgstr "prekonanie „%s“ už existuje, prerušuje sa"
 
-#: src/statcmd.c:265
+#: src/statcmd.c:263
 #, c-format
 msgid "--update given but %s does not exist"
 msgstr "bolo zadané --update, ale %s neexistuje"
 
-#: src/statcmd.c:289
+#: src/statcmd.c:287
 msgid "no override present"
 msgstr "nie je prítomné žiadne prekonanie"
 
-#: src/statcmd.c:297
+#: src/statcmd.c:295
 msgid "--update is useless for --remove"
 msgstr "--update je nepoužiteľný pri --remove"
 
@@ -4620,37 +4632,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr "spúšťače v slučke, ignorujú sa"
 
-#: src/trigproc.c:406
-#, fuzzy, c-format
-#| msgid ""
-#| "dependency problems prevent configuration of %s:\n"
-#| "%s"
-msgid ""
-"dependency problems prevent processing triggers for %s:\n"
-"%s"
-msgstr ""
-"problémy so závislosťami zabránili konfigurácii balíka %s:\n"
-"%s"
-
-#: src/trigproc.c:410
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
-msgid "dependency problems - leaving triggers unprocessed"
-msgstr "problémy so závislosťami - po necháva sa nenakonfigurované"
-
-#: src/trigproc.c:413
-#, fuzzy, c-format
-#| msgid ""
-#| "%s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
-msgid ""
-"%s: dependency problems, but processing triggers anyway as you requested:\n"
-"%s"
-msgstr ""
-"%s: problémy so závislosťami, ale odstraňuje sa podľa požiadavky:\n"
-"%s"
-
-#: src/trigproc.c:425
+#: src/trigproc.c:374
 #, fuzzy, c-format
 #| msgid "Processing triggers for %s ...\n"
 msgid "Processing triggers for %s (%s) ...\n"
@@ -6625,6 +6607,34 @@ msgstr "automatické aktualizácie %s/%s sú zakázané, zmeny sa nevykonajú"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "použitím „%s --auto %s“ sa vrátite späť na automatické aktualizácie"
+
+#, fuzzy
+#~| msgid ""
+#~| "dependency problems prevent configuration of %s:\n"
+#~| "%s"
+#~ msgid ""
+#~ "dependency problems prevent processing triggers for %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "problémy so závislosťami zabránili konfigurácii balíka %s:\n"
+#~ "%s"
+
+#, fuzzy
+#~| msgid "dependency problems - leaving unconfigured"
+#~ msgid "dependency problems - leaving triggers unprocessed"
+#~ msgstr "problémy so závislosťami - po necháva sa nenakonfigurované"
+
+#, fuzzy
+#~| msgid ""
+#~| "%s: dependency problems, but removing anyway as you requested:\n"
+#~| "%s"
+#~ msgid ""
+#~ "%s: dependency problems, but processing triggers anyway as you "
+#~ "requested:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "%s: problémy so závislosťami, ale odstraňuje sa podľa požiadavky:\n"
+#~ "%s"
 
 #~ msgid "file name '%.50s...' is too long"
 #~ msgstr "názov súboru „%.50s...“ je príliš dlhý"

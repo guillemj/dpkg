@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.9.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-12-23 18:12+0100\n"
+"POT-Creation-Date: 2015-02-22 22:28+0100\n"
 "PO-Revision-Date: 2007-05-10 16:19+0100\n"
 "Last-Translator: Bart Cornelis <cobaco@skolelinux.no>\n"
 "Language-Team: Dutch <debian-l10n-dutch@lists.debian.org>\n"
@@ -1518,12 +1518,12 @@ msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr ""
 "dpkg: %s: waarschuwing - kan `%.250s' niet hernoemen naar `%.250s': %s\n"
 
-#: src/archives.c:363 src/archives.c:479 src/statcmd.c:167
+#: src/archives.c:363 src/archives.c:479 src/statcmd.c:165
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "fout bij het instellen van de eigenaar van `%.255s'"
 
-#: src/archives.c:365 src/archives.c:481 src/statcmd.c:169
+#: src/archives.c:365 src/archives.c:481 src/statcmd.c:167
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "fout bij het instellen van de permissies op `%.255s'"
@@ -2663,7 +2663,7 @@ msgid "any diversion of %s to %s"
 msgstr "omgeleid door %s naar: %s\n"
 
 #: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
-#: src/divertcmd.c:699 src/statcmd.c:283
+#: src/divertcmd.c:699 src/statcmd.c:281
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s heeft een enkel argument nodig"
@@ -3758,7 +3758,7 @@ msgstr "kan `%i' niet openen voor stream"
 msgid "unexpected eof before end of line %d"
 msgstr "onverwacht bestandseinde voor einde regel %d"
 
-#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:368
+#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:366
 #: dpkg-deb/main.c:260 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "heb een actie-optie nodig"
@@ -4421,41 +4421,53 @@ msgstr ""
 msgid "stripping trailing /"
 msgstr "/ op einde wordt weggehaald"
 
-#: src/statcmd.c:239
+#: src/statcmd.c:126
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "user '%s' does not exist"
+msgstr "kan de status van de oude naam '%s' niet opvragen: %s"
+
+#: src/statcmd.c:130
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "group '%s' does not exist"
+msgstr "kan de status van de oude naam '%s' niet opvragen: %s"
+
+#: src/statcmd.c:237
 #, fuzzy, c-format
 #| msgid "--add needs four arguments"
 msgid "--%s needs four arguments"
 msgstr "--add heeft een vier argumenten nodig"
 
-#: src/statcmd.c:242
+#: src/statcmd.c:240
 #, fuzzy
 #| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
 msgstr "pakketnaam mag geen regeleinden bevatten"
 
-#: src/statcmd.c:249
+#: src/statcmd.c:247
 #, fuzzy, c-format
 msgid ""
 "an override for '%s' already exists, but --force specified so will be ignored"
 msgstr "maar --force is opgegeven waardoor dit genegeerd wordt."
 
-#: src/statcmd.c:253
+#: src/statcmd.c:251
 #, fuzzy, c-format
 msgid "an override for '%s' already exists; aborting"
 msgstr "Er bestaat reeds een overstijging '%s'"
 
-#: src/statcmd.c:265
+#: src/statcmd.c:263
 #, fuzzy, c-format
 msgid "--update given but %s does not exist"
 msgstr "waarschuwing: --update is opgegeven maar %s bestaat niet"
 
-#: src/statcmd.c:289
+#: src/statcmd.c:287
 #, fuzzy
 #| msgid "No override present."
 msgid "no override present"
 msgstr "Geen overstijging aanwezig"
 
-#: src/statcmd.c:297
+#: src/statcmd.c:295
 #, fuzzy
 msgid "--update is useless for --remove"
 msgstr "waarschuwing: --update is waardeloos voor --remove"
@@ -4630,37 +4642,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr ""
 
-#: src/trigproc.c:406
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: dependency problems prevent configuration of %s:\n"
-#| "%s"
-msgid ""
-"dependency problems prevent processing triggers for %s:\n"
-"%s"
-msgstr ""
-"dpkg: vereistenproblemen verhinderen de configuratie van %s:\n"
-"%s"
-
-#: src/trigproc.c:410
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
-msgid "dependency problems - leaving triggers unprocessed"
-msgstr "vereistenproblemen - blijft ongeconfigureerd"
-
-#: src/trigproc.c:413
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
-msgid ""
-"%s: dependency problems, but processing triggers anyway as you requested:\n"
-"%s"
-msgstr ""
-"dpkg: %s: vereistenproblemen, maar wordt op verzoek toch verwijderd:\n"
-"%s"
-
-#: src/trigproc.c:425
+#: src/trigproc.c:374
 #, fuzzy, c-format
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "Wissen van configuratiebestanden voor %s ...\n"
@@ -6729,6 +6711,34 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "Om automatische opwaarderingen terug in te schakelen kunt 'update-"
 "alternatives --auto %s' gebruiken."
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: dependency problems prevent configuration of %s:\n"
+#~| "%s"
+#~ msgid ""
+#~ "dependency problems prevent processing triggers for %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: vereistenproblemen verhinderen de configuratie van %s:\n"
+#~ "%s"
+
+#, fuzzy
+#~| msgid "dependency problems - leaving unconfigured"
+#~ msgid "dependency problems - leaving triggers unprocessed"
+#~ msgstr "vereistenproblemen - blijft ongeconfigureerd"
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
+#~| "%s"
+#~ msgid ""
+#~ "%s: dependency problems, but processing triggers anyway as you "
+#~ "requested:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: %s: vereistenproblemen, maar wordt op verzoek toch verwijderd:\n"
+#~ "%s"
 
 #~ msgid "file name '%.50s...' is too long"
 #~ msgstr "bestandsnaam '%.50s...' is te lang"

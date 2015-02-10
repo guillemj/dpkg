@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-12-23 18:12+0100\n"
+"POT-Creation-Date: 2015-02-22 22:28+0100\n"
 "PO-Revision-Date: 2008-12-17 21:51+0100\n"
 "Last-Translator: mvillarino <mvillarino@users.sourceforge.net>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
@@ -1579,12 +1579,12 @@ msgstr ""
 "dpkg: %s: aviso - non se puido cambiar o nome de \"%.250s\" a \"%.250s\": "
 "%s\n"
 
-#: src/archives.c:363 src/archives.c:479 src/statcmd.c:167
+#: src/archives.c:363 src/archives.c:479 src/statcmd.c:165
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "erro ao establecer o propietario de \"%.255s\""
 
-#: src/archives.c:365 src/archives.c:481 src/statcmd.c:169
+#: src/archives.c:365 src/archives.c:481 src/statcmd.c:167
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "erro ao establecer os permisos de \"%.255s\""
@@ -2731,7 +2731,7 @@ msgid "any diversion of %s to %s"
 msgstr "desvío feito por %s a: %s\n"
 
 #: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
-#: src/divertcmd.c:699 src/statcmd.c:283
+#: src/divertcmd.c:699 src/statcmd.c:281
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s precisa dun só argumento"
@@ -3900,7 +3900,7 @@ msgstr "non se puido abrir \"%i\" para fluxo"
 msgid "unexpected eof before end of line %d"
 msgstr "fin de ficheiro inesperada antes da fin da liña %d"
 
-#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:368
+#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:366
 #: dpkg-deb/main.c:260 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "precísase dunha opción de acción"
@@ -4570,41 +4570,53 @@ msgstr ""
 msgid "stripping trailing /"
 msgstr "omítese o \"/\" ao final"
 
-#: src/statcmd.c:239
+#: src/statcmd.c:126
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "user '%s' does not exist"
+msgstr "non se atopa o nome antigo \"%s\": %s"
+
+#: src/statcmd.c:130
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "group '%s' does not exist"
+msgstr "non se atopa o nome antigo \"%s\": %s"
+
+#: src/statcmd.c:237
 #, fuzzy, c-format
 #| msgid "--add needs four arguments"
 msgid "--%s needs four arguments"
 msgstr "--add precisa de catro argumentos"
 
-#: src/statcmd.c:242
+#: src/statcmd.c:240
 #, fuzzy
 #| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
 msgstr "o nome do paquete non pode conter saltos de liña"
 
-#: src/statcmd.c:249
+#: src/statcmd.c:247
 #, fuzzy, c-format
 msgid ""
 "an override for '%s' already exists, but --force specified so will be ignored"
 msgstr "pero indicouse --force, así que se ha ignorar."
 
-#: src/statcmd.c:253
+#: src/statcmd.c:251
 #, fuzzy, c-format
 msgid "an override for '%s' already exists; aborting"
 msgstr "Xa existe unha substitución para \"%s\", "
 
-#: src/statcmd.c:265
+#: src/statcmd.c:263
 #, fuzzy, c-format
 msgid "--update given but %s does not exist"
 msgstr "aviso: indicouse --update pero %s non existe"
 
-#: src/statcmd.c:289
+#: src/statcmd.c:287
 #, fuzzy
 #| msgid "No override present."
 msgid "no override present"
 msgstr "Non hai unha substitución presente."
 
-#: src/statcmd.c:297
+#: src/statcmd.c:295
 #, fuzzy
 msgid "--update is useless for --remove"
 msgstr "aviso: --update é inútil con --remove"
@@ -4801,37 +4813,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr "os disparadores están nun ciclo, abandónanse"
 
-#: src/trigproc.c:406
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: dependency problems prevent configuration of %s:\n"
-#| "%s"
-msgid ""
-"dependency problems prevent processing triggers for %s:\n"
-"%s"
-msgstr ""
-"dpkg: problemas de dependencias impiden a configuración de %s:\n"
-"%s"
-
-#: src/trigproc.c:410
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
-msgid "dependency problems - leaving triggers unprocessed"
-msgstr "problemas de dependencias - déixase sen configurar"
-
-#: src/trigproc.c:413
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
-msgid ""
-"%s: dependency problems, but processing triggers anyway as you requested:\n"
-"%s"
-msgstr ""
-"dpkg: %s: problemas de dependencias, pero elimínase pola súa petición:\n"
-"%s"
-
-#: src/trigproc.c:425
+#: src/trigproc.c:374
 #, fuzzy, c-format
 #| msgid "Processing triggers for %s ...\n"
 msgid "Processing triggers for %s (%s) ...\n"
@@ -6979,6 +6961,34 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "Para voltar ás actualizacións automáticas empregue \"update-alternatives --"
 "auto %s\"."
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: dependency problems prevent configuration of %s:\n"
+#~| "%s"
+#~ msgid ""
+#~ "dependency problems prevent processing triggers for %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: problemas de dependencias impiden a configuración de %s:\n"
+#~ "%s"
+
+#, fuzzy
+#~| msgid "dependency problems - leaving unconfigured"
+#~ msgid "dependency problems - leaving triggers unprocessed"
+#~ msgstr "problemas de dependencias - déixase sen configurar"
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
+#~| "%s"
+#~ msgid ""
+#~ "%s: dependency problems, but processing triggers anyway as you "
+#~ "requested:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: %s: problemas de dependencias, pero elimínase pola súa petición:\n"
+#~ "%s"
 
 #~ msgid "file name '%.50s...' is too long"
 #~ msgstr "o nome de ficheiro \"%.50s...\" é longo de máis"

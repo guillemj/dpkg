@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-12-23 18:12+0100\n"
+"POT-Creation-Date: 2015-02-22 22:28+0100\n"
 "PO-Revision-Date: 2007-08-05 17:41+0545\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -1506,12 +1506,12 @@ msgstr "`%.255s'लाई (`%.255s'मा ) पढ्न असफल"
 msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr "dpkg: %s: चेतावनी - नाम फेर्न असफल`%.250s' to `%.250s': %s\n"
 
-#: src/archives.c:363 src/archives.c:479 src/statcmd.c:167
+#: src/archives.c:363 src/archives.c:479 src/statcmd.c:165
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "`%.255s' को स्यामित्व सेट गर्दा त्रुटि"
 
-#: src/archives.c:365 src/archives.c:481 src/statcmd.c:169
+#: src/archives.c:365 src/archives.c:481 src/statcmd.c:167
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "`%.255s'को सेटिङ् अनुमति त्रुटि"
@@ -2606,7 +2606,7 @@ msgid "any diversion of %s to %s"
 msgstr "%s द्धारा %s मा फेरिएको\n"
 
 #: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
-#: src/divertcmd.c:699 src/statcmd.c:283
+#: src/divertcmd.c:699 src/statcmd.c:281
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s लाई एकल तर्क आवश्यक पर्दछ"
@@ -3692,7 +3692,7 @@ msgstr "प्रवाहका लागि`%i' खोोल्न सके�
 msgid "unexpected eof before end of line %d"
 msgstr "लाइनको समाप्ती पहिले %d अप्रत्यासित eof"
 
-#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:368
+#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:366
 #: dpkg-deb/main.c:260 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "एउटा कार्य विकल्प आवश्यक"
@@ -4347,41 +4347,53 @@ msgstr ""
 msgid "stripping trailing /"
 msgstr "अनावृत ट्रेलिङ"
 
-#: src/statcmd.c:239
+#: src/statcmd.c:126
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "user '%s' does not exist"
+msgstr "पुरानो नाम `%s' तोक्न सकिदैन: %s"
+
+#: src/statcmd.c:130
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "group '%s' does not exist"
+msgstr "पुरानो नाम `%s' तोक्न सकिदैन: %s"
+
+#: src/statcmd.c:237
 #, fuzzy, c-format
 #| msgid "--add needs four arguments"
 msgid "--%s needs four arguments"
 msgstr "--आवश्यक चार तर्क थप्नुहोस्"
 
-#: src/statcmd.c:242
+#: src/statcmd.c:240
 #, fuzzy
 #| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
 msgstr "प्याकेजले नयाँरेखा समावेश नगर्न सक्छ"
 
-#: src/statcmd.c:249
+#: src/statcmd.c:247
 #, fuzzy, c-format
 msgid ""
 "an override for '%s' already exists, but --force specified so will be ignored"
 msgstr "तर--निर्दिष्ट बल त्यसै कारणलै उपेक्षा गरिनेछ ।"
 
-#: src/statcmd.c:253
+#: src/statcmd.c:251
 #, fuzzy, c-format
 msgid "an override for '%s' already exists; aborting"
 msgstr "\"%s\"का लागि अधिलेखन पहिले नै अवस्थित छ,"
 
-#: src/statcmd.c:265
+#: src/statcmd.c:263
 #, fuzzy, c-format
 msgid "--update given but %s does not exist"
 msgstr "चेतावनी--अद्यावधिक दिइएको छ तर %s अवस्थित छैन"
 
-#: src/statcmd.c:289
+#: src/statcmd.c:287
 #, fuzzy
 #| msgid "No override present."
 msgid "no override present"
 msgstr "अधिलेखन अवस्थित छैन"
 
-#: src/statcmd.c:297
+#: src/statcmd.c:295
 #, fuzzy
 msgid "--update is useless for --remove"
 msgstr "चेतावनी:--हटाउन--अद्यावधिक उपयोगि छैन"
@@ -4558,37 +4570,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr ""
 
-#: src/trigproc.c:406
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: dependency problems prevent configuration of %s:\n"
-#| "%s"
-msgid ""
-"dependency problems prevent processing triggers for %s:\n"
-"%s"
-msgstr ""
-"dpkg:%s को कन्फिगरेसन निर्भरता समस्याका कारणले रोक्दछ :\n"
-"%s"
-
-#: src/trigproc.c:410
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
-msgid "dependency problems - leaving triggers unprocessed"
-msgstr "निर्भरता समस्याहरू - कन्फिगरेसन नगरेको छोड्दै"
-
-#: src/trigproc.c:413
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
-msgid ""
-"%s: dependency problems, but processing triggers anyway as you requested:\n"
-"%s"
-msgstr ""
-"dpkg: %s: निर्भरता समस्याहरु, तर तपाईँको अनुरोधमा जे भए पनि हटाउदैछ:\n"
-"%s"
-
-#: src/trigproc.c:425
+#: src/trigproc.c:374
 #, fuzzy, c-format
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr " %s ... का लागि कन्फिगरेसन फाइलहरू पर्जगर्दै\n"
@@ -6620,6 +6602,34 @@ msgstr " %s को स्वचालित अद्यावधिक अक�
 #, fuzzy, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "स्वचालित अद्यावधिक फर्काउन अद्यावधिक-विकल्पहरू--स्वत %s' प्रयोग गर्नुहोस् ।"
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: dependency problems prevent configuration of %s:\n"
+#~| "%s"
+#~ msgid ""
+#~ "dependency problems prevent processing triggers for %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg:%s को कन्फिगरेसन निर्भरता समस्याका कारणले रोक्दछ :\n"
+#~ "%s"
+
+#, fuzzy
+#~| msgid "dependency problems - leaving unconfigured"
+#~ msgid "dependency problems - leaving triggers unprocessed"
+#~ msgstr "निर्भरता समस्याहरू - कन्फिगरेसन नगरेको छोड्दै"
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
+#~| "%s"
+#~ msgid ""
+#~ "%s: dependency problems, but processing triggers anyway as you "
+#~ "requested:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: %s: निर्भरता समस्याहरु, तर तपाईँको अनुरोधमा जे भए पनि हटाउदैछ:\n"
+#~ "%s"
 
 #~ msgid "file name '%.50s...' is too long"
 #~ msgstr "फाइल नाम '%.50s...' धेरै लामो छ"

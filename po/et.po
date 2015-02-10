@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-12-23 18:12+0100\n"
+"POT-Creation-Date: 2015-02-22 22:28+0100\n"
 "PO-Revision-Date: 2007-07-12 22:06+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -1474,12 +1474,12 @@ msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr ""
 "dpkg: %s: hoiatus - tõrge `%.250s' ümbernimetamisel nimega `%.250s': %s\n"
 
-#: src/archives.c:363 src/archives.c:479 src/statcmd.c:167
+#: src/archives.c:363 src/archives.c:479 src/statcmd.c:165
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "viga `%.255s' omaniku sättimisel"
 
-#: src/archives.c:365 src/archives.c:481 src/statcmd.c:169
+#: src/archives.c:365 src/archives.c:481 src/statcmd.c:167
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "viga `%.255s' pääsuõiguste sättimisel"
@@ -2529,7 +2529,7 @@ msgid "any diversion of %s to %s"
 msgstr "paki %s diversioonid"
 
 #: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
-#: src/divertcmd.c:699 src/statcmd.c:283
+#: src/divertcmd.c:699 src/statcmd.c:281
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s vajab ainult ühte argumenti"
@@ -3513,7 +3513,7 @@ msgstr ""
 msgid "unexpected eof before end of line %d"
 msgstr ""
 
-#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:368
+#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:366
 #: dpkg-deb/main.c:260 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "tegevuse võti on vajalik"
@@ -4138,39 +4138,51 @@ msgstr ""
 msgid "stripping trailing /"
 msgstr "lõpus olev kaldkriips eemaldatakse"
 
-#: src/statcmd.c:239
+#: src/statcmd.c:126
+#, fuzzy, c-format
+#| msgid "unable to read %s: %s"
+msgid "user '%s' does not exist"
+msgstr "faili `%s' pole võimalik lugeda: %s"
+
+#: src/statcmd.c:130
+#, fuzzy, c-format
+#| msgid "unable to read %s: %s"
+msgid "group '%s' does not exist"
+msgstr "faili `%s' pole võimalik lugeda: %s"
+
+#: src/statcmd.c:237
 #, fuzzy, c-format
 #| msgid "--add needs four arguments"
 msgid "--%s needs four arguments"
 msgstr "--add vajab nelja argumenti"
 
-#: src/statcmd.c:242
+#: src/statcmd.c:240
 #, fuzzy
 #| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
 msgstr "pakk ei tohi sisaldada reavahetusi"
 
-#: src/statcmd.c:249
+#: src/statcmd.c:247
 #, c-format
 msgid ""
 "an override for '%s' already exists, but --force specified so will be ignored"
 msgstr ""
 
-#: src/statcmd.c:253
+#: src/statcmd.c:251
 #, c-format
 msgid "an override for '%s' already exists; aborting"
 msgstr ""
 
-#: src/statcmd.c:265
+#: src/statcmd.c:263
 #, c-format
 msgid "--update given but %s does not exist"
 msgstr ""
 
-#: src/statcmd.c:289
+#: src/statcmd.c:287
 msgid "no override present"
 msgstr ""
 
-#: src/statcmd.c:297
+#: src/statcmd.c:295
 #, fuzzy
 msgid "--update is useless for --remove"
 msgstr "hoiatus: --update on --remove puhul kasutu"
@@ -4325,38 +4337,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr ""
 
-#: src/trigproc.c:406
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: dependency problems prevent configuration of %s:\n"
-#| "%s"
-msgid ""
-"dependency problems prevent processing triggers for %s:\n"
-"%s"
-msgstr ""
-"dpkg: sõltuvusprobleemid takistavad %s seadistamist:\n"
-"%s"
-
-#: src/trigproc.c:410
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
-msgid "dependency problems - leaving triggers unprocessed"
-msgstr "sõltuvusprobleemid - jäetakse seadistamata"
-
-#: src/trigproc.c:413
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
-msgid ""
-"%s: dependency problems, but processing triggers anyway as you requested:\n"
-"%s"
-msgstr ""
-"dpkg: %s: sõltuvusprobleemid, kuid vastavalt nõudmisele eemaldatakse "
-"ikkagi:\n"
-"%s"
-
-#: src/trigproc.c:425
+#: src/trigproc.c:374
 #, fuzzy, c-format
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "Paki %s seadistusfailide eemaldamine ...\n"
@@ -6261,6 +6242,35 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "Automaatsetele uuendustele tagasilülitumiseks kasuta `update-alternatives --"
 "auto %s'."
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: dependency problems prevent configuration of %s:\n"
+#~| "%s"
+#~ msgid ""
+#~ "dependency problems prevent processing triggers for %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: sõltuvusprobleemid takistavad %s seadistamist:\n"
+#~ "%s"
+
+#, fuzzy
+#~| msgid "dependency problems - leaving unconfigured"
+#~ msgid "dependency problems - leaving triggers unprocessed"
+#~ msgstr "sõltuvusprobleemid - jäetakse seadistamata"
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
+#~| "%s"
+#~ msgid ""
+#~ "%s: dependency problems, but processing triggers anyway as you "
+#~ "requested:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg: %s: sõltuvusprobleemid, kuid vastavalt nõudmisele eemaldatakse "
+#~ "ikkagi:\n"
+#~ "%s"
 
 #~ msgid "file name '%.50s...' is too long"
 #~ msgstr "failinimi '%.50s...' on liiga pikk"

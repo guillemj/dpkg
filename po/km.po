@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2014-12-23 18:12+0100\n"
+"POT-Creation-Date: 2015-02-22 22:28+0100\n"
 "PO-Revision-Date: 2006-10-04 09:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -1503,12 +1503,12 @@ msgid "cannot copy extracted data for '%.255s' to '%.255s': %s"
 msgstr ""
 "dpkg ៖ %s ៖ ព្រមាន - បាន​បរាជ័យ​ក្នុង​ការ​ប្ដូរ​ឈ្មោះ `%.250s' ទៅ​ជា `%.250s' ៖ %s\n"
 
-#: src/archives.c:363 src/archives.c:479 src/statcmd.c:167
+#: src/archives.c:363 src/archives.c:479 src/statcmd.c:165
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "កំហុស​ក្នុង​ការ​កំណត់​ភាព​ជា​ម្ចាស់​របស់ `%.255s'"
 
-#: src/archives.c:365 src/archives.c:481 src/statcmd.c:169
+#: src/archives.c:365 src/archives.c:481 src/statcmd.c:167
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "កំហុស​ក្នុង​ការ​កំណត់​សិទ្ធិ​របស់ `%.255s'"
@@ -2602,7 +2602,7 @@ msgid "any diversion of %s to %s"
 msgstr "បាន​បង្វែរ​ដោយ %s ទៅ ៖ %s\n"
 
 #: src/divertcmd.c:427 src/divertcmd.c:559 src/divertcmd.c:677
-#: src/divertcmd.c:699 src/statcmd.c:283
+#: src/divertcmd.c:699 src/statcmd.c:281
 #, c-format
 msgid "--%s needs a single argument"
 msgstr "--%s ត្រូវការ​អាគុយម៉ង់​តែ​មួយ"
@@ -3660,7 +3660,7 @@ msgstr "មិនអាចបើក​ `%i' សម្រាប់​ស្ទ្
 msgid "unexpected eof before end of line %d"
 msgstr "ចុង​ឯកសា​រដែល​មិន​បាន​រំពឹង​ទុក​មុន​ចុង​បន្ទាត់ %d"
 
-#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:368
+#: src/main.c:855 src/main.c:873 src/querycmd.c:875 src/statcmd.c:366
 #: dpkg-deb/main.c:260 dpkg-split/main.c:166
 msgid "need an action option"
 msgstr "ត្រូវ​ការ​ជម្រើស​សកម្មភាព​មួយ"
@@ -4312,41 +4312,53 @@ msgstr ""
 msgid "stripping trailing /"
 msgstr "ស្នាម​ឆ្នូត​ /"
 
-#: src/statcmd.c:239
+#: src/statcmd.c:126
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "user '%s' does not exist"
+msgstr "មិន​អាច​ចាប់​ផ្ដើម​ឈ្មោះ​ចាស់ `%s' ៖ %s"
+
+#: src/statcmd.c:130
+#, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "group '%s' does not exist"
+msgstr "មិន​អាច​ចាប់​ផ្ដើម​ឈ្មោះ​ចាស់ `%s' ៖ %s"
+
+#: src/statcmd.c:237
 #, fuzzy, c-format
 #| msgid "--add needs four arguments"
 msgid "--%s needs four arguments"
 msgstr "--add ត្រូវការ​អាគុយម៉ង់​បួន"
 
-#: src/statcmd.c:242
+#: src/statcmd.c:240
 #, fuzzy
 #| msgid "package may not contain newlines"
 msgid "path may not contain newlines"
 msgstr "កញ្ចប់​មិនអាច​មាន​បន្ទាត់​ថ្មី"
 
-#: src/statcmd.c:249
+#: src/statcmd.c:247
 #, fuzzy, c-format
 msgid ""
 "an override for '%s' already exists, but --force specified so will be ignored"
 msgstr "ប៉ុន្តែ --force បាន​បញ្ជាក់ ដូច្នេះ​អាច​មិន​អើពើ​វា ។"
 
-#: src/statcmd.c:253
+#: src/statcmd.c:251
 #, fuzzy, c-format
 msgid "an override for '%s' already exists; aborting"
 msgstr "ការ​បដិសេធ​សម្រាប់ \"%s\" មាន​រួច​ហើយ"
 
-#: src/statcmd.c:265
+#: src/statcmd.c:263
 #, fuzzy, c-format
 msgid "--update given but %s does not exist"
 msgstr "ព្រមាន ៖ --update បាន​ផ្ដល់ ប៉ុន្តែ %s មិន​ទាន់​មាន"
 
-#: src/statcmd.c:289
+#: src/statcmd.c:287
 #, fuzzy
 #| msgid "No override present."
 msgid "no override present"
 msgstr "គ្មាន​ការ​បដិសេធ​លេច​ឡើង ។"
 
-#: src/statcmd.c:297
+#: src/statcmd.c:295
 #, fuzzy
 msgid "--update is useless for --remove"
 msgstr "ព្រមាន ៖ --update គឺ​គ្មាន​ប្រយោជន៍​សម្រាប់ --remove"
@@ -4521,37 +4533,7 @@ msgstr ""
 msgid "triggers looping, abandoned"
 msgstr ""
 
-#: src/trigproc.c:406
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: dependency problems prevent configuration of %s:\n"
-#| "%s"
-msgid ""
-"dependency problems prevent processing triggers for %s:\n"
-"%s"
-msgstr ""
-"dpkg ៖ បញ្ហា​ភាព​អាស្រ័យ​ការពារ​ពី​ការ​កំណត់​រចនាសម្ព័ន្ធ​របស់ %s ៖\n"
-"%s"
-
-#: src/trigproc.c:410
-#, fuzzy
-#| msgid "dependency problems - leaving unconfigured"
-msgid "dependency problems - leaving triggers unprocessed"
-msgstr "បញ្ហា​ភាព​អាស្រ័យ - មិន​បាន​កំណត់​រចនាសម្ព័ន្ធ"
-
-#: src/trigproc.c:413
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
-#| "%s"
-msgid ""
-"%s: dependency problems, but processing triggers anyway as you requested:\n"
-"%s"
-msgstr ""
-"dpkg ៖ %s ៖ បញ្ហា​ភាព​អាស្រ័យ ប៉ុន្តែ​ទោះ​ជា​យ៉ាងណាក៏ដោយ​យកចេញ​តាម​សំណើ​របស់​អ្នក ៖:\n"
-"%s"
-
-#: src/trigproc.c:425
+#: src/trigproc.c:374
 #, fuzzy, c-format
 msgid "Processing triggers for %s (%s) ...\n"
 msgstr "កំពុង​លុប​បំបាត់​ឯកសារ​កំណត់​រចនាសម្ព័ន្ធ​សម្រាប់ %s ...\n"
@@ -6565,6 +6547,34 @@ msgstr "ការ​ធ្វើឲ្យ​ទាន់​សម័យ​ដោ
 #, fuzzy, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "ដើម្បី​ត្រឡ​ប់ទៅ​ការ​ធ្វើ​ឲ្យ​ទាន់​សម័យ​ដោយ​ស្វ័យប្រវត្តិ ប្រើ `ជម្រើស​ធ្វើ​ឲ្យទាន់​សម័យ --auto %s'."
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: dependency problems prevent configuration of %s:\n"
+#~| "%s"
+#~ msgid ""
+#~ "dependency problems prevent processing triggers for %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg ៖ បញ្ហា​ភាព​អាស្រ័យ​ការពារ​ពី​ការ​កំណត់​រចនាសម្ព័ន្ធ​របស់ %s ៖\n"
+#~ "%s"
+
+#, fuzzy
+#~| msgid "dependency problems - leaving unconfigured"
+#~ msgid "dependency problems - leaving triggers unprocessed"
+#~ msgstr "បញ្ហា​ភាព​អាស្រ័យ - មិន​បាន​កំណត់​រចនាសម្ព័ន្ធ"
+
+#, fuzzy
+#~| msgid ""
+#~| "dpkg: %s: dependency problems, but removing anyway as you requested:\n"
+#~| "%s"
+#~ msgid ""
+#~ "%s: dependency problems, but processing triggers anyway as you "
+#~ "requested:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "dpkg ៖ %s ៖ បញ្ហា​ភាព​អាស្រ័យ ប៉ុន្តែ​ទោះ​ជា​យ៉ាងណាក៏ដោយ​យកចេញ​តាម​សំណើ​របស់​អ្នក ៖:\n"
+#~ "%s"
 
 #, fuzzy
 #~ msgid "'%s' contains user-defined field '%s'"
