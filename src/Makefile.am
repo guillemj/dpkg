@@ -51,6 +51,7 @@ dpkg_SOURCES = \
 	remove.c \
 	script.c \
 	select.c \
+	selinux.c \
 	trigproc.c \
 	unpack.c \
 	update.c \

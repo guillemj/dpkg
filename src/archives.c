@@ -56,12 +56,6 @@
 #include <dpkg/options.h>
 #include <dpkg/triglib.h>
 
-#ifdef WITH_SELINUX
-#include <selinux/selinux.h>
-#include <selinux/avc.h>
-#include <selinux/label.h>
-#endif
-
 #include "filesdb.h"
 #include "main.h"
 #include "archives.h"
@@ -481,101 +475,10 @@ tarobject_set_perms(struct tar_entry *te, const char *path, struct file_stat *st
   }
 }
 
-#ifdef WITH_SELINUX
-static struct selabel_handle *dpkg_sehandle;
-
-static struct selabel_handle *
-dpkg_selabel_get_handle(void)
-{
-  return dpkg_sehandle;
-}
-#endif
-
-static void
-dpkg_selabel_load(void)
-{
-#ifdef WITH_SELINUX
-  static int selinux_enabled = -1;
-
-  if (selinux_enabled < 0) {
-    int rc;
-
-    /* Set selinux_enabled if it is not already set (singleton). */
-    selinux_enabled = (is_selinux_enabled() > 0);
-    if (!selinux_enabled)
-      return;
-
-    /* Open the SELinux status notification channel, with fallback enabled
-     * for older kernels. */
-    rc = selinux_status_open(1);
-    if (rc < 0)
-      ohshit(_("cannot open security status notification channel"));
-
-    /* XXX: We could use selinux_set_callback() to redirect the errors from
-     * the other SELinux calls, but that does not seem worth it right now. */
-  } else if (selinux_enabled && selinux_status_updated()) {
-    /* The SELinux policy got updated in the kernel, usually after upgrading
-     * the package shipping it, we need to reload. */
-    selabel_close(dpkg_sehandle);
-  } else {
-    /* SELinux is either disabled or it does not need a reload. */
-    return;
-  }
-
-  dpkg_sehandle = selabel_open(SELABEL_CTX_FILE, NULL, 0);
-  if (dpkg_sehandle == NULL)
-    ohshite(_("cannot get security labeling handle"));
-#endif
-}
-
-static void
-dpkg_selabel_close(void)
-{
-#ifdef WITH_SELINUX
-  if (dpkg_sehandle == NULL)
-    return;
-
-  selinux_status_close();
-  selabel_close(dpkg_sehandle);
-  dpkg_sehandle = NULL;
-#endif
-}
-
 static void
 tarobject_set_se_context(const char *matchpath, const char *path, mode_t mode)
 {
-#ifdef WITH_SELINUX
-  struct selabel_handle *sehandle;
-  security_context_t scontext = NULL;
-  int ret;
-
-  /* If there's no file type, just give up. */
-  if ((mode & S_IFMT) == 0)
-    return;
-
-  /* If SELinux is not enabled just do nothing. */
-  sehandle = dpkg_selabel_get_handle();
-  if (sehandle == NULL)
-    return;
-
-  /*
-   * We use the _raw function variants here so that no translation happens
-   * from computer to human readable forms, to avoid issues when mcstransd
-   * has disappeared during the unpack process.
-   */
-
-  /* Do nothing if we can't figure out what the context is, or if it has
-   * no context; in which case the default context shall be applied. */
-  ret = selabel_lookup_raw(sehandle, &scontext, matchpath, mode & S_IFMT);
-  if (ret == -1 || (ret == 0 && scontext == NULL))
-    return;
-
-  ret = lsetfilecon_raw(path, scontext);
-  if (ret < 0 && errno != ENOTSUP)
-    ohshite(_("cannot set security context for file object '%s'"), path);
-
-  freecon(scontext);
-#endif /* WITH_SELINUX */
+  dpkg_selabel_set_context(matchpath, path, mode);
 }
 
 static void

@@ -275,6 +275,12 @@ bool dir_has_conffiles(struct filenamenode *namenode, struct pkginfo *pkg);
 
 void log_action(const char *action, struct pkginfo *pkg, struct pkgbin *pkgbin);
 
+/* From selinux.c */
+
+void dpkg_selabel_load(void);
+void dpkg_selabel_set_context(const char *matchpath, const char *path, mode_t mode);
+void dpkg_selabel_close(void);
+
 /* from trigproc.c */
 
 enum trigproc_type {
