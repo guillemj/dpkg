@@ -222,8 +222,9 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
 }
 
 static void
-list1package(struct pkginfo *pkg, struct list_format *fmt, struct pkg_array *array)
+pkg_array_list_item(struct pkg_array *array, struct pkginfo *pkg, void *pkg_data)
 {
+  struct list_format *fmt = pkg_data;
   int l;
   const char *pdesc;
 
@@ -241,21 +242,6 @@ list1package(struct pkginfo *pkg, struct list_format *fmt, struct pkg_array *arr
                     versiondescribe(&pkg->installed.version, vdew_nonambig),
                     dpkg_arch_describe(pkg->installed.arch),
                     pdesc, l);
-}
-
-static void
-list_found_packages(struct list_format *fmt, struct pkg_array *array)
-{
-  int i;
-
-  for (i = 0; i < array->n_pkgs; i++) {
-    struct pkginfo *pkg = array->pkgs[i];
-
-    if (pkg == NULL)
-      continue;
-
-    list1package(pkg, fmt, array);
-  }
 }
 
 static int
@@ -284,7 +270,7 @@ listpackages(const char *const *argv)
         array.pkgs[i] = NULL;
     }
 
-    list_found_packages(&fmt, &array);
+    pkg_array_foreach(&array, pkg_array_list_item, &fmt);
   } else {
     int argc, ip, *found;
     struct pkg_spec *ps;
@@ -310,7 +296,7 @@ listpackages(const char *const *argv)
         array.pkgs[i] = NULL;
     }
 
-    list_found_packages(&fmt, &array);
+    pkg_array_foreach(&array, pkg_array_list_item, &fmt);
 
     /* FIXME: we might get non-matching messages for sub-patterns specified
      * after their super-patterns, due to us skipping on first match. */
