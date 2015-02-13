@@ -285,21 +285,21 @@ listpackages(const char *const *argv)
     }
 
     for (i = 0; i < array.n_pkgs; i++) {
+      bool pkg_found = false;
+
       pkg = array.pkgs[i];
       for (ip = 0; ip < argc; ip++) {
         if (pkg_spec_match_pkg(&ps[ip], pkg, &pkg->installed)) {
+          pkg_found = true;
           found[ip]++;
-          break;
         }
       }
-      if (ip == argc)
+      if (!pkg_found)
         array.pkgs[i] = NULL;
     }
 
     pkg_array_foreach(&array, pkg_array_list_item, &fmt);
 
-    /* FIXME: we might get non-matching messages for sub-patterns specified
-     * after their super-patterns, due to us skipping on first match. */
     for (ip = 0; ip < argc; ip++) {
       if (!found[ip]) {
         notice(_("no packages found matching %s"), argv[ip]);
@@ -519,6 +519,14 @@ enqperpackage(const char *const *argv)
   return failures;
 }
 
+static void
+pkg_array_show_item(struct pkg_array *array, struct pkginfo *pkg, void *pkg_data)
+{
+  struct pkg_format_node *fmt = pkg_data;
+
+  pkg_format_show(fmt, pkg, &pkg->installed);
+}
+
 static int
 showpackages(const char *const *argv)
 {
@@ -566,18 +574,21 @@ showpackages(const char *const *argv)
     }
 
     for (i = 0; i < array.n_pkgs; i++) {
+      bool pkg_found = false;
+
       pkg = array.pkgs[i];
       for (ip = 0; ip < argc; ip++) {
         if (pkg_spec_match_pkg(&ps[ip], pkg, &pkg->installed)) {
-          pkg_format_show(fmt, pkg, &pkg->installed);
+          pkg_found = true;
           found[ip]++;
-          break;
         }
       }
+      if (!pkg_found)
+        array.pkgs[i] = NULL;
     }
 
-    /* FIXME: we might get non-matching messages for sub-patterns specified
-     * after their super-patterns, due to us skipping on first match. */
+    pkg_array_foreach(&array, pkg_array_show_item, fmt);
+
     for (ip = 0; ip < argc; ip++) {
       if (!found[ip]) {
         notice(_("no packages found matching %s"), argv[ip]);
