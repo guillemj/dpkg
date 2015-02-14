@@ -660,10 +660,7 @@ cmpversions(const char *const *argv)
 
   if (*argv[0] && strcmp(argv[0],"<unknown>")) {
     if (parseversion(&a, argv[0], &err) < 0) {
-      if (err.type == DPKG_MSG_WARN)
-        warning(_("version '%s' has bad syntax: %s"), argv[0], err.str);
-      else
-        ohshit(_("version '%s' has bad syntax: %s"), argv[0], err.str);
+      dpkg_error_print(&err, _("version '%s' has bad syntax"), argv[0]);
       dpkg_error_destroy(&err);
     }
   } else {
@@ -671,10 +668,7 @@ cmpversions(const char *const *argv)
   }
   if (*argv[2] && strcmp(argv[2],"<unknown>")) {
     if (parseversion(&b, argv[2], &err) < 0) {
-      if (err.type == DPKG_MSG_WARN)
-        warning(_("version '%s' has bad syntax: %s"), argv[2], err.str);
-      else
-        ohshit(_("version '%s' has bad syntax: %s"), argv[2], err.str);
+      dpkg_error_print(&err, _("version '%s' has bad syntax"), argv[2]);
       dpkg_error_destroy(&err);
     }
   } else {
