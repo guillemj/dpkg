@@ -85,6 +85,24 @@ dpkg_put_errno(struct dpkg_error *err, const char *fmt, ...)
 }
 
 void
+dpkg_error_print(struct dpkg_error *err, const char *fmt, ...)
+{
+	va_list args;
+	char *str;
+
+	va_start(args, fmt);
+	m_vasprintf(&str, fmt, args);
+	va_end(args);
+
+	if (err->type == DPKG_MSG_WARN)
+		warning("%s: %s", str, err->str);
+	else
+		ohshit("%s: %s", str, err->str);
+
+	free(str);
+}
+
+void
 dpkg_error_destroy(struct dpkg_error *err)
 {
 	err->type = DPKG_MSG_NONE;
