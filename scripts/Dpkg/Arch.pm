@@ -19,19 +19,31 @@ use strict;
 use warnings;
 
 our $VERSION = '0.01';
+our @EXPORT_OK = qw(
+    get_raw_build_arch
+    get_raw_host_arch
+    get_build_arch
+    get_host_arch
+    get_gcc_host_gnu_type
+    get_valid_arches
+    debarch_eq
+    debarch_is
+    debarch_is_wildcard
+    debarch_is_concerned
+    debarch_to_cpuattrs
+    debarch_to_gnutriplet
+    debarch_to_debtriplet
+    debarch_to_multiarch
+    debtriplet_to_debarch
+    debtriplet_to_gnutriplet
+    gnutriplet_to_debarch
+    gnutriplet_to_debtriplet
+    gnutriplet_to_multiarch
+);
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch
-                    get_build_arch get_host_arch get_gcc_host_gnu_type
-                    get_valid_arches debarch_eq debarch_is debarch_is_wildcard
-                    debarch_is_concerned
-                    debarch_to_cpuattrs
-                    debarch_to_gnutriplet gnutriplet_to_debarch
-                    debtriplet_to_gnutriplet gnutriplet_to_debtriplet
-                    debtriplet_to_debarch debarch_to_debtriplet
-                    gnutriplet_to_multiarch debarch_to_multiarch);
-
 use POSIX qw(:errno_h);
+
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;

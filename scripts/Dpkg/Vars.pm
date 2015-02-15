@@ -20,13 +20,16 @@ use strict;
 use warnings;
 
 our $VERSION = '0.03';
+our @EXPORT = qw(
+    get_source_package
+    set_source_package
+);
+
+use Exporter qw(import);
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Package;
-
-use Exporter qw(import);
-our @EXPORT = qw(get_source_package set_source_package);
 
 my $sourcepackage;
 

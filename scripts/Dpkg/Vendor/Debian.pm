@@ -24,13 +24,13 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use parent qw(Dpkg::Vendor::Default);
-
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Types;
 use Dpkg::BuildOptions;
 use Dpkg::Arch qw(get_host_arch debarch_to_debtriplet);
+
+use parent qw(Dpkg::Vendor::Default);
 
 =encoding utf8
 

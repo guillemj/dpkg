@@ -21,7 +21,15 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use parent qw(Dpkg::Source::Package);
+use POSIX qw(:errno_h);
+use List::Util qw(first);
+use Cwd;
+use File::Basename;
+use File::Temp qw(tempfile tempdir);
+use File::Path qw(make_path);
+use File::Spec;
+use File::Find;
+use File::Copy;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -36,15 +44,7 @@ use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::Control;
 use Dpkg::Changelog::Parse;
 
-use List::Util qw(first);
-use POSIX qw(:errno_h);
-use Cwd;
-use File::Basename;
-use File::Temp qw(tempfile tempdir);
-use File::Path qw(make_path);
-use File::Spec;
-use File::Find;
-use File::Copy;
+use parent qw(Dpkg::Source::Package);
 
 our $CURRENT_MINOR_VERSION = '0';
 

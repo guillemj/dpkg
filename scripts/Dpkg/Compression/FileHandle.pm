@@ -21,13 +21,13 @@ use warnings;
 
 our $VERSION = '1.01';
 
+use POSIX qw(:signal_h :sys_wait_h);
+use Carp;
+
 use Dpkg::Compression;
 use Dpkg::Compression::Process;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-
-use Carp;
-use POSIX qw(:signal_h :sys_wait_h);
 
 use parent qw(FileHandle Tie::Handle);
 

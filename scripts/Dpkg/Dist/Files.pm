@@ -20,10 +20,10 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use parent qw(Dpkg::Interface::Storable);
-
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+
+use parent qw(Dpkg::Interface::Storable);
 
 sub new {
     my ($this, %opts) = @_;

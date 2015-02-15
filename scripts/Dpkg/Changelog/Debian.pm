@@ -49,8 +49,9 @@ our $VERSION = '1.00';
 use Dpkg::Gettext;
 use Dpkg::File;
 use Dpkg::Changelog qw(:util);
-use parent qw(Dpkg::Changelog);
 use Dpkg::Changelog::Entry::Debian qw(match_header match_trailer);
+
+use parent qw(Dpkg::Changelog);
 
 use constant {
     FIRST_HEADING => g_('first heading'),

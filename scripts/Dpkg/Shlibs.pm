@@ -19,11 +19,15 @@ use strict;
 use warnings;
 
 our $VERSION = '0.02';
+our @EXPORT_OK = qw(
+    blank_library_paths
+    setup_library_paths
+    get_library_paths
+    add_library_dir
+    find_library
+);
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(blank_library_paths add_library_dir get_library_paths
-                    find_library setup_library_paths);
-
 use File::Spec;
 
 use Dpkg::Gettext;

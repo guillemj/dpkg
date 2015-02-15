@@ -20,19 +20,24 @@ use strict;
 use warnings;
 
 our $VERSION = '1.01';
+our @EXPORT_OK = qw(
+    $regex_header
+    $regex_trailer
+    match_header
+    match_trailer
+    find_closes
+);
 
 use Exporter qw(import);
-use Dpkg::Changelog::Entry;
-use parent qw(Dpkg::Changelog::Entry);
-our @EXPORT_OK = qw(match_header match_trailer find_closes
-                    $regex_header $regex_trailer);
-
 use Date::Parse;
 
 use Dpkg::Gettext;
 use Dpkg::Control::Fields;
 use Dpkg::Control::Changelog;
+use Dpkg::Changelog::Entry;
 use Dpkg::Version;
+
+use parent qw(Dpkg::Changelog::Entry);
 
 =encoding utf8
 

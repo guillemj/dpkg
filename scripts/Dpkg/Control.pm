@@ -19,6 +19,21 @@ use strict;
 use warnings;
 
 our $VERSION = '1.00';
+our @EXPORT = qw(
+    CTRL_UNKNOWN
+    CTRL_INFO_SRC
+    CTRL_INFO_PKG
+    CTRL_INDEX_SRC
+    CTRL_INDEX_PKG
+    CTRL_PKG_SRC
+    CTRL_PKG_DEB
+    CTRL_FILE_CHANGES
+    CTRL_FILE_VENDOR
+    CTRL_FILE_STATUS
+    CTRL_CHANGELOG
+);
+
+use Exporter qw(import);
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -26,13 +41,7 @@ use Dpkg::Control::Types;
 use Dpkg::Control::Hash;
 use Dpkg::Control::Fields;
 
-use Exporter qw(import);
-
 use parent qw(Dpkg::Control::Hash);
-
-our @EXPORT = qw(CTRL_UNKNOWN CTRL_INFO_SRC CTRL_INFO_PKG CTRL_INDEX_SRC
-                 CTRL_INDEX_PKG CTRL_PKG_SRC CTRL_PKG_DEB CTRL_FILE_CHANGES
-                 CTRL_FILE_VENDOR CTRL_FILE_STATUS CTRL_CHANGELOG);
 
 =encoding utf8
 

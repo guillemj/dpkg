@@ -19,10 +19,15 @@ use strict;
 use warnings;
 
 our $VERSION = '0.01';
+our @EXPORT_OK = qw(
+    any
+    none
+);
+our %EXPORT_TAGS = (
+    list => [ qw(any none) ],
+);
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(any none);
-our %EXPORT_TAGS = (list => [ qw(any none) ]);
 
 # XXX: Ideally we would use List::MoreUtils, but that's not a core module,
 # so to avoid the additional dependency we'll make do with the following

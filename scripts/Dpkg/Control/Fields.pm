@@ -19,14 +19,13 @@ use strict;
 use warnings;
 
 our $VERSION = '1.00';
+our @EXPORT = @Dpkg::Control::FieldsCore::EXPORT;
 
 use Carp;
 use Exporter qw(import);
 
 use Dpkg::Control::FieldsCore;
 use Dpkg::Vendor qw(run_vendor_hook);
-
-our @EXPORT = @Dpkg::Control::FieldsCore::EXPORT;
 
 # Register vendor specifics fields
 foreach my $op (run_vendor_hook('register-custom-fields')) {

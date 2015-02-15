@@ -20,13 +20,16 @@ use strict;
 use warnings;
 
 our $VERSION = '0.01';
-
-use Fcntl qw(:flock);
-use Dpkg::Gettext;
-use Dpkg::ErrorHandling;
+our @EXPORT = qw(
+    file_lock
+    file_slurp
+);
 
 use Exporter qw(import);
-our @EXPORT = qw(file_lock file_slurp);
+use Fcntl qw(:flock);
+
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
 
 sub file_lock($$) {
     my ($fh, $filename) = @_;

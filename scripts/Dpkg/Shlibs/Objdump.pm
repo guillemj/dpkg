@@ -18,13 +18,13 @@ package Dpkg::Shlibs::Objdump;
 use strict;
 use warnings;
 
+our $VERSION = '0.01';
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Path qw(find_command);
 use Dpkg::Arch qw(debarch_to_gnutriplet get_build_arch get_host_arch);
 use Dpkg::IPC;
-
-our $VERSION = '0.01';
 
 # Decide which objdump to call
 our $OBJDUMP = 'objdump';

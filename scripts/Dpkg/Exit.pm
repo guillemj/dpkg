@@ -20,10 +20,13 @@ use strict;
 use warnings;
 
 our $VERSION = '1.01';
+our @EXPORT_OK = qw(
+    push_exit_handler
+    pop_exit_handler
+    run_exit_handlers
+);
 
 use Exporter qw(import);
-
-our @EXPORT_OK = qw(push_exit_handler pop_exit_handler run_exit_handlers);
 
 # XXX: Backwards compatibility, stop exporting on VERSION 2.00.
 ## no critic (Variables::ProhibitPackageVars)

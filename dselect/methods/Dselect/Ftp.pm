@@ -16,15 +16,24 @@ use strict;
 use warnings;
 
 our $VERSION = '0.02';
+our @EXPORT = qw(
+    %CONFIG
+    yesno
+    nb
+    do_connect
+    do_mdtm
+    view_mirrors
+    add_site
+    edit_site
+    edit_config
+    read_config
+    store_config
+);
 
 use Exporter qw(import);
-
 use Carp;
 use Net::FTP;
 use Data::Dumper;
-
-our @EXPORT = qw(%CONFIG yesno do_connect do_mdtm add_site edit_site
-                 edit_config read_config store_config view_mirrors nb);
 
 my %CONFIG;
 

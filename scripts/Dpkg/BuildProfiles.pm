@@ -19,8 +19,12 @@ use strict;
 use warnings;
 
 our $VERSION = '1.00';
-our @EXPORT_OK = qw(get_build_profiles set_build_profiles parse_build_profiles
-                    evaluate_restriction_formula);
+our @EXPORT_OK = qw(
+    get_build_profiles
+    set_build_profiles
+    parse_build_profiles
+    evaluate_restriction_formula
+);
 
 use Exporter qw(import);
 

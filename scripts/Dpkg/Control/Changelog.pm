@@ -21,6 +21,7 @@ use warnings;
 our $VERSION = '1.00';
 
 use Dpkg::Control;
+
 use parent qw(Dpkg::Control);
 
 =encoding utf8

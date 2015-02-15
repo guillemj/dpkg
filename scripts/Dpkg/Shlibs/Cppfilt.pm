@@ -19,15 +19,18 @@ use strict;
 use warnings;
 
 our $VERSION = '0.01';
+our @EXPORT = qw(
+    cppfilt_demangle_cpp
+);
+our @EXPORT_OK = qw(
+    cppfilt_demangle
+);
 
 use Exporter qw(import);
+use IO::Handle;
 
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
-use IO::Handle;
-
-our @EXPORT = qw(cppfilt_demangle_cpp);
-our @EXPORT_OK = qw(cppfilt_demangle);
 
 # A hash of 'objects' referring to preforked c++filt processes for the distinct
 # demangling types.

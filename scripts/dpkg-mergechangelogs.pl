@@ -19,14 +19,14 @@
 use warnings;
 use strict;
 
+use Scalar::Util qw(blessed);
+use Getopt::Long qw(:config posix_default bundling no_ignorecase);
+
 use Dpkg ();
 use Dpkg::Changelog::Debian;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::Version;
-
-use Getopt::Long qw(:config posix_default bundling no_ignorecase);
-use Scalar::Util qw(blessed);
 
 textdomain('dpkg-dev');
 

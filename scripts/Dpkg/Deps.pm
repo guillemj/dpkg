@@ -50,16 +50,21 @@ use strict;
 use warnings;
 
 our $VERSION = '1.05';
+our @EXPORT = qw(
+    deps_concat
+    deps_parse
+    deps_eval_implication
+    deps_iterate
+    deps_compare
+);
+
+use Exporter qw(import);
 
 use Dpkg::Version;
 use Dpkg::Arch qw(get_host_arch get_build_arch);
 use Dpkg::BuildProfiles qw(get_build_profiles);
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
-
-use Exporter qw(import);
-our @EXPORT = qw(deps_concat deps_parse deps_eval_implication
-                deps_iterate deps_compare);
 
 =item deps_eval_implication($rel_p, $v_p, $rel_q, $v_q)
 

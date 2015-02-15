@@ -17,6 +17,7 @@ use strict;
 use warnings;
 
 use Test::More tests => 23;
+
 use IO::String;
 
 BEGIN {

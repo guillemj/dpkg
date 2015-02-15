@@ -25,6 +25,7 @@ use warnings;
 use Carp;
 use Encode;
 use POSIX qw(:errno_h :locale_h);
+
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::Util qw(:list);

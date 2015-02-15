@@ -21,16 +21,18 @@ use strict;
 use warnings;
 
 our $VERSION = '1.02';
+our @EXPORT = qw(
+    checksums_is_supported
+    checksums_get_list
+    checksums_get_property
+);
 
+use Exporter qw(import);
 use Carp;
 use Digest;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-
-use Exporter qw(import);
-our @EXPORT = qw(checksums_get_list checksums_is_supported
-		 checksums_get_property);
 
 =encoding utf8
 

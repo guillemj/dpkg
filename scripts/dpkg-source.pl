@@ -28,6 +28,10 @@
 use strict;
 use warnings;
 
+use Cwd;
+use File::Basename;
+use File::Spec;
+
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -46,10 +50,6 @@ use Dpkg::Source::Package qw(get_default_diff_ignore_regex
                              set_default_diff_ignore_regex
                              get_default_tar_ignore_pattern);
 use Dpkg::Vendor qw(run_vendor_hook);
-
-use Cwd;
-use File::Basename;
-use File::Spec;
 
 textdomain('dpkg-dev');
 

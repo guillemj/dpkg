@@ -20,11 +20,6 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use Dpkg::Gettext;
-use Dpkg::IPC;
-use Dpkg::ErrorHandling;
-use Dpkg::Source::Functions qw(fs_time);
-
 use POSIX qw(:errno_h :sys_wait_h);
 use File::Find;
 use File::Basename;
@@ -33,6 +28,11 @@ use File::Path qw(make_path);
 use File::Compare;
 use Fcntl ':mode';
 use Time::HiRes qw(stat);
+
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
+use Dpkg::IPC;
+use Dpkg::Source::Functions qw(fs_time);
 
 use parent qw(Dpkg::Compression::FileHandle);
 

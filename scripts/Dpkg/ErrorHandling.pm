@@ -17,14 +17,24 @@ use strict;
 use warnings;
 
 our $VERSION = '0.02';
+our @EXPORT_OK = qw(
+    report
+);
+our @EXPORT = qw(
+    report_options
+    info
+    warning
+    error
+    errormsg
+    syserr
+    subprocerr
+    usageerr
+);
+
+use Exporter qw(import);
 
 use Dpkg ();
 use Dpkg::Gettext;
-
-use Exporter qw(import);
-our @EXPORT = qw(report_options info warning error errormsg
-                 syserr subprocerr usageerr);
-our @EXPORT_OK = qw(report);
 
 my $quiet_warnings = 0;
 my $info_fh = \*STDOUT;

@@ -20,18 +20,18 @@ use warnings;
 
 our $VERSION = '0.02';
 
+use File::Spec;
+use File::Copy;
+use File::Find;
+use File::Path qw(make_path);
+use File::Basename;
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Util qw(:list);
 use Dpkg::Source::Patch;
 use Dpkg::Source::Functions qw(erasedir fs_time);
 use Dpkg::Vendor qw(get_current_vendor);
-
-use File::Spec;
-use File::Copy;
-use File::Find;
-use File::Path qw(make_path);
-use File::Basename;
 
 sub new {
     my ($this, $dir, %opts) = @_;

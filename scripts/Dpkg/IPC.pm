@@ -21,13 +21,16 @@ use strict;
 use warnings;
 
 our $VERSION = '1.01';
-
-use Dpkg::ErrorHandling;
-use Dpkg::Gettext;
+our @EXPORT = qw(
+    spawn
+    wait_child
+);
 
 use Carp;
 use Exporter qw(import);
-our @EXPORT = qw(spawn wait_child);
+
+use Dpkg::ErrorHandling;
+use Dpkg::Gettext;
 
 =encoding utf8
 

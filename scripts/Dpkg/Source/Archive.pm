@@ -20,16 +20,16 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use Dpkg::Source::Functions qw(erasedir fixperms);
-use Dpkg::Gettext;
-use Dpkg::IPC;
-use Dpkg::ErrorHandling;
-
 use Carp;
 use File::Temp qw(tempdir);
 use File::Basename qw(basename);
 use File::Spec;
 use Cwd;
+
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
+use Dpkg::IPC;
+use Dpkg::Source::Functions qw(erasedir fixperms);
 
 use parent qw(Dpkg::Compression::FileHandle);
 

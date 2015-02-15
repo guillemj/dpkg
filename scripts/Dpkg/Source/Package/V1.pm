@@ -20,7 +20,11 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use parent qw(Dpkg::Source::Package);
+use POSIX qw(:errno_h);
+use Cwd;
+use File::Basename;
+use File::Temp qw(tempfile);
+use File::Spec;
 
 use Dpkg ();
 use Dpkg::Gettext;
@@ -32,11 +36,7 @@ use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
 use Dpkg::Source::Functions qw(erasedir);
 use Dpkg::Source::Package::V3::Native;
 
-use POSIX qw(:errno_h);
-use Cwd;
-use File::Basename;
-use File::Temp qw(tempfile);
-use File::Spec;
+use parent qw(Dpkg::Source::Package);
 
 our $CURRENT_MINOR_VERSION = '0';
 

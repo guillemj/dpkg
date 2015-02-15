@@ -20,10 +20,10 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use parent qw(Dpkg::Source::Package);
-
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+
+use parent qw(Dpkg::Source::Package);
 
 our $CURRENT_MINOR_VERSION = '0';
 

@@ -20,19 +20,24 @@ use strict;
 use warnings;
 
 our $VERSION = '1.02';
+our @EXPORT = qw(
+    $compression_re_file_ext
+    compression_is_supported
+    compression_get_list
+    compression_get_property
+    compression_guess_from_filename
+    compression_get_file_extension_regex
+    compression_get_default
+    compression_set_default
+    compression_get_default_level
+    compression_set_default_level
+    compression_is_valid_level
+);
+
+use Exporter qw(import);
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
-
-use Exporter qw(import);
-our @EXPORT = qw($compression_re_file_ext compression_get_list
-		 compression_is_supported compression_get_property
-		 compression_guess_from_filename
-		 compression_get_file_extension_regex
-		 compression_get_default compression_set_default
-		 compression_get_default_level
-		 compression_set_default_level
-		 compression_is_valid_level);
 
 =encoding utf8
 

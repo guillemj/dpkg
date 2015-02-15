@@ -20,6 +20,17 @@ use strict;
 use warnings;
 
 our $VERSION = '1.04';
+our @EXPORT_OK = qw(
+    canonpath
+    resolve_symlink
+    check_files_are_the_same
+    find_command
+    find_build_file
+    get_control_path
+    get_pkg_root_dir
+    guess_pkg_root_dir
+    relative_to_pkg_root
+);
 
 use Exporter qw(import);
 use File::Spec;
@@ -27,11 +38,6 @@ use Cwd qw(realpath);
 
 use Dpkg::Arch qw(get_host_arch debarch_to_debtriplet);
 use Dpkg::IPC;
-
-our @EXPORT_OK = qw(get_pkg_root_dir relative_to_pkg_root
-		    guess_pkg_root_dir check_files_are_the_same
-		    resolve_symlink canonpath find_command
-		    get_control_path find_build_file);
 
 =encoding utf8
 

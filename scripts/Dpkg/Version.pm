@@ -22,16 +22,26 @@ use strict;
 use warnings;
 
 our $VERSION = '1.01';
+our @EXPORT = qw(
+    version_compare
+    version_compare_relation
+    version_normalize_relation
+    version_compare_string
+    version_compare_part
+    version_split_digits
+    version_check
+    REL_LT
+    REL_LE
+    REL_EQ
+    REL_GE
+    REL_GT
+);
 
-use Dpkg::ErrorHandling;
-use Dpkg::Gettext;
-
-use Carp;
 use Exporter qw(import);
-our @EXPORT = qw(version_compare version_compare_relation
-                 version_normalize_relation version_compare_string
-                 version_compare_part version_split_digits version_check
-                 REL_LT REL_LE REL_EQ REL_GE REL_GT);
+use Carp;
+
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
 
 use constant {
     REL_LT => '<<',

@@ -35,14 +35,16 @@ use strict;
 use warnings;
 
 our $VERSION = '1.00';
+our @EXPORT = qw(
+    changelog_parse
+);
+
+use Exporter qw(import);
 
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Changelog;
-
-use Exporter qw(import);
-our @EXPORT = qw(changelog_parse);
 
 =over 4
 

@@ -19,7 +19,9 @@ use strict;
 use warnings;
 
 our $VERSION = '0.00';
-our @EXPORT_OK = qw(all_perl_files);
+our @EXPORT_OK = qw(
+    all_perl_files
+);
 
 use Exporter qw(import);
 use File::Find;

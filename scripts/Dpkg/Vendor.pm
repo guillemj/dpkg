@@ -19,16 +19,22 @@ use strict;
 use warnings;
 
 our $VERSION = '1.01';
+our @EXPORT_OK = qw(
+    get_current_vendor
+    get_vendor_info
+    get_vendor_file
+    get_vendor_dir
+    get_vendor_object
+    run_vendor_hook
+);
+
+use Exporter qw(import);
 
 use Dpkg ();
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::BuildEnv;
 use Dpkg::Control::HashCore;
-
-use Exporter qw(import);
-our @EXPORT_OK = qw(get_vendor_info get_current_vendor get_vendor_file
-                    get_vendor_dir get_vendor_object run_vendor_hook);
 
 my $origins = "$Dpkg::CONFDIR/origins";
 $origins = $ENV{DPKG_ORIGINS_DIR} if $ENV{DPKG_ORIGINS_DIR};

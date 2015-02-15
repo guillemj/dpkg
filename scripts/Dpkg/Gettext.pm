@@ -27,7 +27,13 @@ use strict;
 use warnings;
 
 our $VERSION = '1.01';
-our @EXPORT = qw(g_ P_ textdomain ngettext _g);
+our @EXPORT = qw(
+    textdomain
+    ngettext
+    g_
+    P_
+    _g
+);
 
 use Exporter qw(import);
 

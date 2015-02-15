@@ -19,7 +19,9 @@ use strict;
 use warnings;
 
 our $VERSION = '0.01';
-our @EXPORT = qw(normalize_options);
+our @EXPORT = qw(
+    normalize_options
+);
 
 use Exporter qw(import);
 

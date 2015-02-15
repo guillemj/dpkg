@@ -20,8 +20,8 @@ use warnings;
 
 our $VERSION = '0.01';
 
-# Based on wig&pen implementation
-use parent qw(Dpkg::Source::Package::V2);
+use File::Spec;
+use File::Copy;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -32,8 +32,8 @@ use Dpkg::Source::Functions qw(erasedir fs_time);
 use Dpkg::Source::Quilt;
 use Dpkg::Exit;
 
-use File::Spec;
-use File::Copy;
+# Based on wig&pen implementation
+use parent qw(Dpkg::Source::Package::V2);
 
 our $CURRENT_MINOR_VERSION = '0';
 

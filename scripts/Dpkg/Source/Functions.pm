@@ -17,15 +17,19 @@ use strict;
 use warnings;
 
 our $VERSION = '0.01';
+our @EXPORT_OK = qw(
+    erasedir
+    fixperms
+    fs_time
+    is_binary
+);
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(erasedir fixperms fs_time is_binary);
+use POSIX qw(:errno_h);
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 use Dpkg::IPC;
-
-use POSIX qw(:errno_h);
 
 sub erasedir {
     my $dir = shift;

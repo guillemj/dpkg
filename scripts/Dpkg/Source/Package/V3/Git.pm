@@ -24,8 +24,6 @@ use warnings;
 
 our $VERSION = '0.02';
 
-use parent qw(Dpkg::Source::Package);
-
 use Cwd qw(abs_path getcwd);
 use File::Basename;
 use File::Temp qw(tempdir);
@@ -34,6 +32,8 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
 use Dpkg::Source::Functions qw(erasedir);
+
+use parent qw(Dpkg::Source::Package);
 
 our $CURRENT_MINOR_VERSION = '0';
 

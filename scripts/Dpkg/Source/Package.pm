@@ -36,6 +36,16 @@ use strict;
 use warnings;
 
 our $VERSION = '1.01';
+our @EXPORT_OK = qw(
+    get_default_diff_ignore_regex
+    set_default_diff_ignore_regex
+    get_default_tar_ignore_pattern
+);
+
+use Exporter qw(import);
+use POSIX qw(:errno_h :sys_wait_h);
+use Carp;
+use File::Basename;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -47,15 +57,6 @@ use Dpkg::Exit qw(run_exit_handlers);
 use Dpkg::Path qw(check_files_are_the_same find_command);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(run_vendor_hook);
-
-use Carp;
-use POSIX qw(:errno_h :sys_wait_h);
-use File::Basename;
-
-use Exporter qw(import);
-our @EXPORT_OK = qw(get_default_diff_ignore_regex
-                    set_default_diff_ignore_regex
-                    get_default_tar_ignore_pattern);
 
 my $diff_ignore_default_regex = '
 # Ignore general backup files

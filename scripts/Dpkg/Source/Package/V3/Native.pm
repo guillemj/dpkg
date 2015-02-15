@@ -20,7 +20,9 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use parent qw(Dpkg::Source::Package);
+use Cwd;
+use File::Basename;
+use File::Temp qw(tempfile);
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -30,9 +32,7 @@ use Dpkg::Version;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Functions qw(erasedir);
 
-use Cwd;
-use File::Basename;
-use File::Temp qw(tempfile);
+use parent qw(Dpkg::Source::Package);
 
 our $CURRENT_MINOR_VERSION = '0';
 

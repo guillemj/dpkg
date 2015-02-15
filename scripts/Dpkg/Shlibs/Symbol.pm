@@ -21,12 +21,13 @@ use warnings;
 
 our $VERSION = '0.01';
 
+use Storable ();
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Util qw(:list);
 use Dpkg::Arch qw(debarch_is_concerned debarch_to_cpuattrs);
 use Dpkg::Version;
-use Storable ();
 use Dpkg::Shlibs::Cppfilt;
 
 # Supported alias types in the order of matching preference

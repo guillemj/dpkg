@@ -21,13 +21,13 @@ use warnings;
 
 our $VERSION = '1.03';
 
+use POSIX qw(:errno_h);
+use Carp;
+
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
-
-use Carp;
-use POSIX qw(:errno_h);
 
 use parent qw(Dpkg::Interface::Storable);
 

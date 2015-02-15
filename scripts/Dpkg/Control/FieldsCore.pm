@@ -19,21 +19,32 @@ use strict;
 use warnings;
 
 our $VERSION = '1.00';
+our @EXPORT = qw(
+    field_capitalize
+    field_is_official
+    field_is_allowed_in
+    field_transfer_single
+    field_transfer_all
+    field_list_src_dep
+    field_list_pkg_dep
+    field_get_dep_type
+    field_get_sep_type
+    field_ordered_list
+    field_register
+    field_insert_after
+    field_insert_before
+    FIELD_SEP_UNKNOWN
+    FIELD_SEP_SPACE
+    FIELD_SEP_COMMA
+    FIELD_SEP_LINE
+);
 
 use Exporter qw(import);
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Types;
 use Dpkg::Checksums;
-
-our @EXPORT = qw(field_capitalize field_is_official field_is_allowed_in
-                 field_transfer_single field_transfer_all
-                 field_list_src_dep field_list_pkg_dep field_get_dep_type
-                 field_get_sep_type
-                 field_ordered_list field_register
-                 field_insert_after field_insert_before
-                 FIELD_SEP_UNKNOWN FIELD_SEP_SPACE FIELD_SEP_COMMA
-                 FIELD_SEP_LINE);
 
 use constant {
     ALL_PKG => CTRL_INFO_PKG | CTRL_INDEX_PKG | CTRL_PKG_DEB | CTRL_FILE_STATUS,

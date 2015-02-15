@@ -20,11 +20,13 @@ use strict;
 use warnings;
 
 our $VERSION = '0.01';
-
-use Dpkg::Gettext;
+our @EXPORT = qw(
+    pkg_name_is_illegal
+);
 
 use Exporter qw(import);
-our @EXPORT = qw(pkg_name_is_illegal);
+
+use Dpkg::Gettext;
 
 sub pkg_name_is_illegal($) {
     my $name = shift // '';
