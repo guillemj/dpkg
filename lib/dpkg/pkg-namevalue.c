@@ -45,7 +45,6 @@ const struct namevalue priorityinfos[] = {
 	NAMEVALUE_DEF("standard",		PKG_PRIO_STANDARD),
 	NAMEVALUE_DEF("optional",		PKG_PRIO_OPTIONAL),
 	NAMEVALUE_DEF("extra",			PKG_PRIO_EXTRA),
-	NAMEVALUE_FALLBACK_DEF("this is a bug - please report", PKG_PRIO_OTHER),
 	NAMEVALUE_DEF("unknown",		PKG_PRIO_UNKNOWN),
 	{ .name = NULL }
 };

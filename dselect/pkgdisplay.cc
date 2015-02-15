@@ -63,7 +63,6 @@ const char
 			       N_("Standard"),
 			       N_("Optional"),
 			       N_("Extra"),
-			       N_("!Bug!"),
 			       N_("Unclassified"),
 			       nullptr },
 

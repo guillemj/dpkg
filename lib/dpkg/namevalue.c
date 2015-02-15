@@ -29,16 +29,12 @@
 const struct namevalue *
 namevalue_find_by_name(const struct namevalue *head, const char *str)
 {
-	const struct namevalue *nv, *nv_fallback = NULL;
+	const struct namevalue *nv;
 
 	for (nv = head; nv->name; nv++) {
-		if (nv->length == 0) {
-			nv_fallback = nv;
-			continue;
-		}
 		if (strncasecmp(str, nv->name, nv->length) == 0)
 			return nv;
 	}
 
-	return nv_fallback;
+	return NULL;
 }

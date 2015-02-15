@@ -40,44 +40,56 @@
 #include <dpkg/pkg-spec.h>
 #include <dpkg/triglib.h>
 
+/**
+ * Flags to parse a name associated to a value.
+ */
+enum parse_nv_flags {
+  /** Expect no more words (default). */
+  PARSE_NV_LAST		= 0,
+  /** Expect another word after the parsed name. */
+  PARSE_NV_NEXT		= DPKG_BIT(0),
+  /** Do not fail if there is no name with an associated value found. */
+  PARSE_NV_FALLBACK	= DPKG_BIT(1),
+};
+
+/**
+ * Parses a name and returns its associated value.
+ *
+ * Gets a pointer to the string to parse in @a strp, and modifies the pointer
+ * to the string to point to the end of the parsed text. If no value is found
+ * for the name and #PARSE_NV_FALLBACK is set in @a flags then @a strp is set
+ * to NULL and returns -1, otherwise a parse error is emitted.
+ */
 static int
-parse_nv_next(struct parsedb_state *ps,
-              const char *what, const struct namevalue *nv_head,
-              const char **strp)
+parse_nv(struct parsedb_state *ps, enum parse_nv_flags flags,
+         const char **strp, const struct namevalue *nv_head, const char *what)
 {
   const char *str_start = *strp, *str_end;
   const struct namevalue *nv;
+  int value;
 
   if (str_start[0] == '\0')
     parse_error(ps, _("%s is missing"), what);
 
   nv = namevalue_find_by_name(nv_head, str_start);
-  if (nv == NULL)
-    parse_error(ps, _("'%.50s' is not allowed for %s"), str_start, what);
+  if (nv == NULL) {
+    /* We got no match, skip further string validation. */
+    if (!(flags & PARSE_NV_FALLBACK))
+      parse_error(ps, _("'%.50s' is not allowed for %s"), str_start, what);
 
-  /* We got the fallback value, skip further string validation. */
-  if (nv->length == 0) {
     str_end = NULL;
+    value = -1;
   } else {
     str_end = str_start + nv->length;
     while (c_isspace(str_end[0]))
       str_end++;
+    value = nv->value;
   }
-  *strp = str_end;
 
-  return nv->value;
-}
-
-static int
-parse_nv_last(struct parsedb_state *ps,
-              const char *what, const struct namevalue *nv_head,
-              const char *str)
-{
-  int value;
-
-  value = parse_nv_next(ps, what, nv_head, &str);
-  if (str_is_set(str))
+  if (!(flags & PARSE_NV_NEXT) && str_is_set(str_end))
     parse_error(ps, _("junk after %s"), what);
+
+  *strp = str_end;
 
   return value;
 }
@@ -162,8 +174,8 @@ f_boolean(struct pkginfo *pkg, struct pkgbin *pkgbin,
   if (!*value)
     return;
 
-  boolean = parse_nv_last(ps, _("yes/no in boolean field"),
-                          booleaninfos, value);
+  boolean = parse_nv(ps, PARSE_NV_LAST, &value, booleaninfos,
+                     _("yes/no in boolean field"));
   STRUCTFIELD(pkgbin, fip->integer, bool) = boolean;
 }
 
@@ -177,8 +189,8 @@ f_multiarch(struct pkginfo *pkg, struct pkgbin *pkgbin,
   if (!*value)
     return;
 
-  multiarch = parse_nv_last(ps, _("foreign/allowed/same/no in quadstate field"),
-                            multiarchinfos, value);
+  multiarch = parse_nv(ps, PARSE_NV_LAST, &value, multiarchinfos,
+                       _("foreign/allowed/same/no in quadstate field"));
   STRUCTFIELD(pkgbin, fip->integer, int) = multiarch;
 }
 
@@ -207,11 +219,20 @@ f_priority(struct pkginfo *pkg, struct pkgbin *pkgbin,
            struct parsedb_state *ps,
            const char *value, const struct fieldinfo *fip)
 {
+  const char *str = value;
+  int priority;
+
   if (!*value) return;
-  pkg->priority = parse_nv_last(ps, _("word in 'Priority' field"),
-                                priorityinfos, value);
-  if (pkg->priority == PKG_PRIO_OTHER)
+
+  priority = parse_nv(ps, PARSE_NV_LAST | PARSE_NV_FALLBACK, &str,
+                      priorityinfos, _("word in 'Priority' field"));
+
+  if (str == NULL) {
+    pkg->priority = PKG_PRIO_OTHER;
     pkg->otherpriority = nfstrsave(value);
+  } else {
+    pkg->priority = priority;
+  }
 }
 
 void
@@ -226,12 +247,12 @@ f_status(struct pkginfo *pkg, struct pkgbin *pkgbin,
   if (ps->flags & pdb_recordavailable)
     return;
 
-  pkg->want = parse_nv_next(ps, _("first (want) word in 'Status' field"),
-                            wantinfos, &value);
-  pkg->eflag = parse_nv_next(ps, _("second (error) word in 'Status' field"),
-                             eflaginfos, &value);
-  pkg->status = parse_nv_last(ps, _("third (status) word in 'Status' field"),
-                              statusinfos, value);
+  pkg->want = parse_nv(ps, PARSE_NV_NEXT, &value, wantinfos,
+                       _("first (want) word in 'Status' field"));
+  pkg->eflag = parse_nv(ps, PARSE_NV_NEXT, &value, eflaginfos,
+                        _("second (error) word in 'Status' field"));
+  pkg->status = parse_nv(ps, PARSE_NV_LAST, &value, statusinfos,
+                         _("third (status) word in 'Status' field"));
 }
 
 void
