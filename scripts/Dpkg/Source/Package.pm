@@ -337,7 +337,8 @@ sub get_basename {
     my ($self, $with_revision) = @_;
     my $f = $self->{fields};
     unless (exists $f->{'Source'} and exists $f->{'Version'}) {
-        error(g_('source and version are required to compute the source basename'));
+        error(g_('%s and %s fields are required to compute the source basename'),
+              'Source', 'Version');
     }
     my $v = Dpkg::Version->new($f->{'Version'});
     my $vs = $v->as_string(omit_epoch => 1, omit_revision => !$with_revision);

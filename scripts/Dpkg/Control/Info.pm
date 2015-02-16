@@ -100,7 +100,7 @@ sub parse {
     return if not $cdata->parse($fh, $desc);
     $self->{source} = $cdata;
     unless (exists $cdata->{Source}) {
-	$cdata->parse_error($desc, g_('first block lacks a source field'));
+	$cdata->parse_error($desc, g_('first block lacks a Source field'));
     }
     while (1) {
 	$cdata = Dpkg::Control->new(type => CTRL_INFO_PKG);
