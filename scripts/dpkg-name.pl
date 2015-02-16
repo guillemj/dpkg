@@ -171,7 +171,7 @@ sub move($)
         my $fields = getfields($filename);
 
         unless (exists $fields->{Package}) {
-            warning(g_("no Package field found in '%s', skipping it"),
+            warning(g_("no Package field found in '%s', skipping package"),
                     $filename);
             return;
         }
