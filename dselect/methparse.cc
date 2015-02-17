@@ -153,7 +153,8 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
           badmethod(pathbuf, _("non-digit where digit wanted"));
         vb(c);
         c= fgetc(names);
-        if (c == EOF) eofmethod(pathbuf,names,_("EOF in index string"));
+        if (c == EOF)
+          eofmethod(pathbuf, names, _("end of file in index string"));
       } while (!c_isspace(c));
       if (strlen(vb.string()) > OPTIONINDEXMAXLEN)
         badmethod(pathbuf,_("index string too long"));
@@ -161,7 +162,8 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
       do {
         if (c == '\n') badmethod(pathbuf,_("newline before option name start"));
         c= fgetc(names);
-        if (c == EOF) eofmethod(pathbuf,names,_("EOF before option name start"));
+        if (c == EOF)
+          eofmethod(pathbuf, names, _("end of file before option name start"));
       } while (c_isspace(c));
       vb.reset();
       if (!c_isalpha(c) && c != '_')
@@ -171,20 +173,23 @@ void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
           badmethod(pathbuf, _("non-alphanum in option name"));
         vb(c);
         c= fgetc(names);
-        if (c == EOF) eofmethod(pathbuf,names,_("EOF in option name"));
+        if (c == EOF)
+          eofmethod(pathbuf, names, _("end of file in option name"));
       } while (!c_isspace(c));
       opt->name= new char[strlen(vb.string())+1];
       strcpy(opt->name,vb.string());
       do {
         if (c == '\n') badmethod(pathbuf,_("newline before summary"));
         c= fgetc(names);
-        if (c == EOF) eofmethod(pathbuf,names,_("EOF before summary"));
+        if (c == EOF)
+          eofmethod(pathbuf, names, _("end of file before summary"));
       } while (c_isspace(c));
       vb.reset();
       do {
         vb(c);
         c= fgetc(names);
-        if (c == EOF) eofmethod(pathbuf,names,_("EOF in summary - missing newline"));
+        if (c == EOF)
+          eofmethod(pathbuf, names, _("end of file in summary - missing newline"));
       } while (c != '\n');
       opt->summary= new char[strlen(vb.string())+1];
       strcpy(opt->summary,vb.string());

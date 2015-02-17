@@ -813,7 +813,8 @@ commandfd(const char *const *argv)
       if (c_isspace(c))
         argc++;
     } while (c != EOF && c != '\n');
-    if (c == EOF) ohshit(_("unexpected eof before end of line %d"),lno);
+    if (c == EOF)
+      ohshit(_("unexpected end of file before end of line %d"), lno);
     if (!argc) continue;
     varbuf_end_str(&linevb);
     newargs = m_realloc(newargs, sizeof(const char *) * (argc + 1));

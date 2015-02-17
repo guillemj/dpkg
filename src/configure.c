@@ -175,7 +175,7 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 	if (c == EOF) {
 		if (ferror(stdin))
 			ohshite(_("read error on stdin at conffile prompt"));
-		ohshit(_("EOF on stdin at conffile prompt"));
+		ohshit(_("end of file on stdin at conffile prompt"));
 	}
 
 	if (!cc) {

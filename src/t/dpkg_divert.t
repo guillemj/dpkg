@@ -564,7 +564,8 @@ install_diversions(<<'EOF');
 EOF
 
 call_divert_sort(['--list'], expect_failure => 1,
-            expect_stderr_like => qr/(corrupt|unexpected eof)/, expect_stdout => '');
+                 expect_stderr_like => qr/(corrupt|unexpected end of file)/,
+                 expect_stdout => '');
 
 install_diversions(<<'EOF');
 /bin/sh
@@ -572,7 +573,8 @@ bash
 EOF
 
 call_divert_sort(['--list'], expect_failure => 1,
-            expect_stderr_like => qr/(corrupt|unexpected eof)/, expect_stdout => '');
+                 expect_stderr_like => qr/(corrupt|unexpected end of file)/,
+                 expect_stdout => '');
 
 cleanup();
 

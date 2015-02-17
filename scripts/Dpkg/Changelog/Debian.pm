@@ -55,7 +55,7 @@ use parent qw(Dpkg::Changelog);
 
 use constant {
     FIRST_HEADING => g_('first heading'),
-    NEXT_OR_EOF => g_('next heading or eof'),
+    NEXT_OR_EOF => g_('next heading or end of file'),
     START_CHANGES => g_('start of change data'),
     CHANGES_OR_TRAILER => g_('more change data or trailer'),
 };
@@ -180,8 +180,9 @@ sub parse {
     }
 
     unless ($expect eq NEXT_OR_EOF) {
-	$self->parse_error($file, $., sprintf(g_('found eof where expected %s'),
-					      $expect));
+        $self->parse_error($file, $.,
+                           sprintf(g_('found end of file where expected %s'),
+                                   $expect));
     }
     unless ($entry->is_empty) {
 	push @{$self->{data}}, $entry;

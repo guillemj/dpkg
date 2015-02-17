@@ -49,7 +49,7 @@ fgets_must(char *buf, size_t bufsz, FILE *f, const char *fn)
 	int l = fgets_checked(buf, bufsz, f, fn);
 
 	if (l < 0)
-		ohshit(_("unexpected eof reading `%.250s'"), fn);
+		ohshit(_("unexpected end of file reading '%.250s'"), fn);
 
 	return l;
 }

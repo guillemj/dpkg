@@ -238,7 +238,7 @@ sub parse {
 		$_ = <$fh> while defined && m/^\s*$/;
 		unless (length) {
 		    $self->parse_error($desc, g_('expected OpenPGP signature, ' .
-		                                 'found EOF after blank line'));
+		                                 'found end of file after blank line'));
 		}
 		s/\s*\n$//;
 		unless (m/^-----BEGIN PGP SIGNATURE-----$/) {
