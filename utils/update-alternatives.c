@@ -1614,7 +1614,7 @@ alternative_select_choice(struct alternative *a)
 		for (fs = a->choices; fs; fs = fs->next, idx++)
 			alternative_print_choice(a, ALT_ST_MANUAL, fs, idx, len);
 		printf("\n");
-		printf(_("Press enter to keep the current choice[*], "
+		printf(_("Press <enter> to keep the current choice[*], "
 		         "or type selection number: "));
 		ret = fgets(selection, sizeof(selection), stdin);
 		if (ret == NULL || strlen(selection) == 0) {

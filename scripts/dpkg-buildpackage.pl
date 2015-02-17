@@ -601,7 +601,7 @@ if ($check_command) {
 }
 
 if ($signpause && ($signchanges || $signsource)) {
-    print g_("Press the return key to start signing process\n");
+    print g_("Press <enter> to start the signing process.\n");
     getc();
 }
 
