@@ -55,8 +55,8 @@ Options:
   -a, --no-architecture    no architecture part in filename.
   -o, --overwrite          overwrite if file exists.
   -k, --symlink            don't create a new file, but a symlink.
-  -s, --subdir [dir]       move file into subdir (use with care).
-  -c, --create-dir         create target dir if not there (use with care).
+  -s, --subdir [dir]       move file into subdirectory (use with care).
+  -c, --create-dir         create target directory if not there (use with care).
   -?, --help               show this help message.
   -v, --version            show the version.
 

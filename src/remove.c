@@ -539,7 +539,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
         debug(dbg_conffdetail, "removal_bulk conffile no dsd %s %s",
               fnvb.buf, strerror(e)); errno= e;
         if (errno == ENOENT || errno == ENOTDIR) continue;
-        ohshite(_("cannot read config file dir `%.250s' (from `%.250s')"),
+        ohshite(_("cannot read config file directory '%.250s' (from '%.250s')"),
                 fnvb.buf, conff->name);
       }
       debug(dbg_conffdetail, "removal_bulk conffile cleaning dsd %s", fnvb.buf);

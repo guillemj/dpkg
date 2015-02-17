@@ -84,7 +84,7 @@ sub usage {
   -F<changelog-format>     force changelog format.
   -v<force-version>        set version of binary package.
   -f<files-list-file>      write files here instead of debian/files.
-  -P<package-build-dir>    temporary build dir instead of debian/tmp.
+  -P<package-build-dir>    temporary build directory instead of debian/tmp.
   -n<filename>             assume the package filename will be <filename>.
   -O[<file>]               write to stdout (or <file>), not .../DEBIAN/control.
   -is, -ip, -isp, -ips     deprecated, ignored for compatibility.

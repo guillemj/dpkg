@@ -41,7 +41,7 @@ sub erasedir {
     subprocerr("rm -rf $dir") if $?;
     if (not stat($dir)) {
         return if $! == ENOENT;
-        syserr(g_("unable to check for removal of dir `%s'"), $dir);
+        syserr(g_("unable to check for removal of directory '%s'"), $dir);
     }
     error(g_("rm -rf failed to remove `%s'"), $dir);
 }

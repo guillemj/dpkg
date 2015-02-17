@@ -339,7 +339,7 @@ sub do_build {
     if ($sourcestyle =~ m/[kpKP]/) {
         if (stat($origdir)) {
             unless ($sourcestyle =~ m/[KP]/) {
-                error(g_("orig dir `%s' already exists, not overwriting, ".
+                error(g_("orig directory '%s' already exists, not overwriting, ".
                          'giving up; use -sA, -sK or -sP to override'),
                       $origdir);
             }
@@ -347,7 +347,7 @@ sub do_build {
             erasedir($origdir);
             pop_exit_handler();
         } elsif ($! != ENOENT) {
-            syserr(g_("unable to check for existence of orig dir `%s'"),
+            syserr(g_("unable to check for existence of orig directory '%s'"),
                     $origdir);
         }
 
