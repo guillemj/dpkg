@@ -2,7 +2,7 @@
 #
 # dpkg-scanpackages
 #
-# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -222,15 +222,14 @@ FILE:
 		if (version_compare_relation($fields->{'Version'}, REL_GT,
 		                             $pkg->{'Version'}))
                 {
-		    warning(g_('package %s (filename %s) is repeat but newer version;'),
-		            $p, $fn);
-		    warning(g_('used that one and ignored data from %s!'),
-		            $pkg->{Filename});
+                    warning(g_('package %s (filename %s) is repeat but newer ' .
+                               'version; used that one and ignored data from %s!'),
+                            $p, $fn, $pkg->{Filename});
 		    $packages{$p} = [];
 		} else {
-		    warning(g_('package %s (filename %s) is repeat;'), $p, $fn);
-		    warning(g_('ignored that one and using data from %s!'),
-		            $pkg->{Filename});
+                    warning(g_('package %s (filename %s) is repeat; ' .
+                               'ignored that one and using data from %s!'),
+                            $p, $fn, $pkg->{Filename});
 		    next FILE;
 		}
 	    }
