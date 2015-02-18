@@ -93,17 +93,17 @@ const char wantchars[]=     "n*=-_";
 const char
   *const ssaabbrevs[]= { N_("Broken"),
                          N_("New"),
-                         N_("Updated"),
+                         N_("Upgradable"),
                          N_("Obsolete/local"),
-                         N_("Up-to-date"),
+                         N_("Installed"),
                          N_("Available"),
                          N_("Removed") },
   *const ssastrings[]= { N_("Brokenly installed packages"),
                          N_("Newly available packages"),
-                         N_("Updated packages (newer version is available)"),
-                         N_("Obsolete and local packages present on system"),
-                         N_("Up to date installed packages"),
-                         N_("Available packages (not currently installed)"),
+                         N_("Upgradable packages"),
+                         N_("Obsolete and locally created packages"),
+                         N_("Installed packages"),
+                         N_("Available not installed packages"),
                          N_("Removed and no longer available packages") };
 
 const char
