@@ -426,7 +426,8 @@ sub analyze {
 	    $fn{old} = $line;
 	}
 	if ($line =~ /\.dpkg-orig$/) {
-	    error(g_("diff `%s' patches file with name ending .dpkg-orig"), $diff);
+	    error(g_("diff '%s' patches file with name ending in .dpkg-orig"),
+	          $diff);
 	}
 
 	$line = _getline($self);
