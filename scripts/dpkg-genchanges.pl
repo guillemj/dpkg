@@ -419,7 +419,7 @@ foreach (keys %{$changelog}) {
 
 if ($changesdescription) {
     open(my $changes_fh, '<', $changesdescription)
-        or syserr(g_('read changesdescription'));
+        or syserr(g_('cannot read %s'), $changesdescription);
     $fields->{'Changes'} = "\n" . file_slurp($changes_fh);
     close($changes_fh);
 }
