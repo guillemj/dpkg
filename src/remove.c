@@ -318,13 +318,13 @@ removal_bulk_remove_files(struct pkginfo *pkg)
       varbuf_add_str(&fnvb, DPKGTEMPEXT);
       varbuf_end_str(&fnvb);
       debug(dbg_eachfiledetail, "removal_bulk cleaning temp '%s'", fnvb.buf);
-      ensure_pathname_nonexisting(fnvb.buf);
+      path_remove_tree(fnvb.buf);
 
       varbuf_trunc(&fnvb, before);
       varbuf_add_str(&fnvb, DPKGNEWEXT);
       varbuf_end_str(&fnvb);
       debug(dbg_eachfiledetail, "removal_bulk cleaning new '%s'", fnvb.buf);
-      ensure_pathname_nonexisting(fnvb.buf);
+      path_remove_tree(fnvb.buf);
 
       varbuf_trunc(&fnvb, before);
       varbuf_end_str(&fnvb);

@@ -189,7 +189,7 @@ get_control_dir(char *cidir)
     strcat(cidir, "/" CONTROLDIRTMP);
 
     /* Make sure the control information directory is empty. */
-    ensure_pathname_nonexisting(cidir);
+    path_remove_tree(cidir);
   }
 
   strcat(cidir, "/");
@@ -1457,7 +1457,7 @@ void process_archive(const char *filename) {
     varbuf_add_str(&fnametmpvb, usenode->name);
     varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
     varbuf_end_str(&fnametmpvb);
-    ensure_pathname_nonexisting(fnametmpvb.buf);
+    path_remove_tree(fnametmpvb.buf);
   }
 
   /* OK, we're now fully done with the main package.

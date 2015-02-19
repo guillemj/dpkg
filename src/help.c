@@ -366,14 +366,16 @@ secure_unlink_statted(const char *pathname, const struct stat *stab)
   return 0;
 }
 
-void ensure_pathname_nonexisting(const char *pathname) {
+void
+path_remove_tree(const char *pathname)
+{
   pid_t pid;
   const char *u;
 
   u = path_skip_slash_dotslash(pathname);
   assert(*u);
 
-  debug(dbg_eachfile, "ensure_pathname_nonexisting '%s'", pathname);
+  debug(dbg_eachfile, "%s '%s'", __func__, pathname);
   if (!rmdir(pathname))
     return; /* Deleted it OK, it was a directory. */
   if (errno == ENOENT || errno == ELOOP) return;
@@ -392,8 +394,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
     execlp(RM, "rm", "-rf", "--", pathname, NULL);
     ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
   }
-  debug(dbg_eachfile, "ensure_pathname_nonexisting running rm -rf '%s'",
-        pathname);
+  debug(dbg_eachfile, "%s running rm -rf '%s'", __func__, pathname);
   subproc_reap(pid, _("rm command for cleanup"), 0);
 }
 

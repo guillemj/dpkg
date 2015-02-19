@@ -225,7 +225,7 @@ md5hash_prev_conffile(struct pkginfo *pkg, char *oldhash, const char *oldname,
 }
 
 void cu_pathname(int argc, void **argv) {
-  ensure_pathname_nonexisting((char*)(argv[0]));
+  path_remove_tree((char*)(argv[0]));
 }
 
 int tarfileread(void *ud, char *buf, int len) {
@@ -974,8 +974,8 @@ tarobject(void *ctx, struct tar_entry *ti)
   } else {
     /* Now, at this stage we want to make sure neither of .dpkg-new and
      * .dpkg-tmp are hanging around. */
-    ensure_pathname_nonexisting(fnamenewvb.buf);
-    ensure_pathname_nonexisting(fnametmpvb.buf);
+    path_remove_tree(fnamenewvb.buf);
+    path_remove_tree(fnametmpvb.buf);
 
     /* Now we start to do things that we need to be able to undo
      * if something goes wrong. Watch out for the CLEANUP comments to
@@ -1434,7 +1434,7 @@ void cu_cidir(int argc, void **argv) {
   char *cidir= (char*)argv[0];
   char *cidirrest= (char*)argv[1];
   cidirrest[-1] = '\0';
-  ensure_pathname_nonexisting(cidir);
+  path_remove_tree(cidir);
 }
 
 void cu_fileslist(int argc, void **argv) {
