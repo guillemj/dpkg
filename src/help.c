@@ -35,7 +35,6 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
-#include <dpkg/subproc.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -332,70 +331,6 @@ void oldconffsetflags(const struct conffile *searchconff) {
           searchconff->name, namenode->name, namenode->flags);
     searchconff= searchconff->next;
   }
-}
-
-/*
- * If the pathname to remove is:
- *
- * 1. a sticky or set-id file, or
- * 2. an unknown object (i.e., not a file, link, directory, fifo or socket)
- *
- * we change its mode so that a malicious user cannot use it, even if it's
- * linked to another file.
- */
-int
-secure_unlink(const char *pathname)
-{
-  struct stat stab;
-
-  if (lstat(pathname,&stab)) return -1;
-
-  return secure_unlink_statted(pathname, &stab);
-}
-
-int
-secure_unlink_statted(const char *pathname, const struct stat *stab)
-{
-  if (S_ISREG(stab->st_mode) ? (stab->st_mode & 07000) :
-      !(S_ISLNK(stab->st_mode) || S_ISDIR(stab->st_mode) ||
-	S_ISFIFO(stab->st_mode) || S_ISSOCK(stab->st_mode))) {
-    if (chmod(pathname, 0600))
-      return -1;
-  }
-  if (unlink(pathname)) return -1;
-  return 0;
-}
-
-void
-path_remove_tree(const char *pathname)
-{
-  pid_t pid;
-  const char *u;
-
-  u = path_skip_slash_dotslash(pathname);
-  assert(*u);
-
-  debug(dbg_eachfile, "%s '%s'", __func__, pathname);
-  if (!rmdir(pathname))
-    return; /* Deleted it OK, it was a directory. */
-  if (errno == ENOENT || errno == ELOOP) return;
-  if (errno == ENOTDIR) {
-    /* Either it's a file, or one of the path components is. If one
-     * of the path components is this will fail again ... */
-    if (secure_unlink(pathname) == 0)
-      return; /* OK, it was. */
-    if (errno == ENOTDIR) return;
-  }
-  if (errno != ENOTEMPTY && errno != EEXIST) { /* Huh? */
-    ohshite(_("unable to securely remove '%.255s'"), pathname);
-  }
-  pid = subproc_fork();
-  if (pid == 0) {
-    execlp(RM, "rm", "-rf", "--", pathname, NULL);
-    ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
-  }
-  debug(dbg_eachfile, "%s running rm -rf '%s'", __func__, pathname);
-  subproc_reap(pid, _("rm command for cleanup"), 0);
 }
 
 void

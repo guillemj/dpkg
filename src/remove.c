@@ -38,6 +38,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
+#include <dpkg/path.h>
 #include <dpkg/dir.h>
 #include <dpkg/options.h>
 #include <dpkg/triglib.h>

@@ -21,6 +21,8 @@
 #ifndef LIBDPKG_PATH_H
 #define LIBDPKG_PATH_H
 
+#include <sys/stat.h>
+
 #include <stddef.h>
 
 #include <dpkg/macros.h>
@@ -39,6 +41,12 @@ const char *path_basename(const char *path);
 char *path_quote_filename(char *dst, const char *src, size_t size);
 
 char *path_make_temp_template(const char *suffix);
+
+int secure_unlink_statted(const char *pathname, const struct stat *stab);
+int secure_unlink(const char *pathname);
+int secure_remove(const char *pathname);
+
+void path_remove_tree(const char *pathname);
 
 /** @} */
 

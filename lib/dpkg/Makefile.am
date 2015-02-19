@@ -71,6 +71,7 @@ libdpkg_la_SOURCES = \
 	parse.c \
 	parsehelp.c \
 	path.c \
+	path-remove.c \
 	pkg.c \
 	pkg-db.c \
 	pkg-array.c \

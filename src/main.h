@@ -242,9 +242,6 @@ bool force_depends(struct deppossi *possi);
 bool force_conflicts(struct deppossi *possi);
 void conffile_mark_obsolete(struct pkginfo *pkg, struct filenamenode *namenode);
 void oldconffsetflags(const struct conffile *searchconff);
-void path_remove_tree(const char *pathname);
-int secure_unlink(const char *pathname);
-int secure_unlink_statted(const char *pathname, const struct stat *stab);
 void checkpath(void);
 
 struct filenamenode *namenodetouse(struct filenamenode *namenode,

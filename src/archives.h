@@ -68,8 +68,6 @@ void ok_prermdeconfigure(int argc, void **argv);
 
 void setupfnamevbs(const char *filename);
 
-int secure_remove(const char *filename);
-
 int tarobject(void *ctx, struct tar_entry *ti);
 int tarfileread(void *ud, char *buf, int len);
 void tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg);

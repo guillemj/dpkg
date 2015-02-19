@@ -567,41 +567,6 @@ void setupfnamevbs(const char *filename) {
         fnamevb.buf, fnametmpvb.buf, fnamenewvb.buf);
 }
 
-/**
- * Securely remove a pathname.
- *
- * This is a secure version of remove(3) using secure_unlink() instead of
- * unlink(2).
- *
- * @retval  0 On success.
- * @retval -1 On failure, just like unlink(2) & rmdir(2).
- */
-int
-secure_remove(const char *filename)
-{
-  int rc, e;
-
-  if (!rmdir(filename)) {
-    debug(dbg_eachfiledetail, "secure_remove '%s' rmdir OK", filename);
-    return 0;
-  }
-
-  if (errno != ENOTDIR) {
-    e= errno;
-    debug(dbg_eachfiledetail, "secure_remove '%s' rmdir %s", filename,
-          strerror(e));
-    errno= e; return -1;
-  }
-
-  rc = secure_unlink(filename);
-  e = errno;
-  debug(dbg_eachfiledetail, "secure_remove '%s' unlink %s",
-        filename, rc ? strerror(e) : "OK");
-  errno = e;
-
-  return rc;
-}
-
 struct fileinlist *addfiletolist(struct tarcontext *tc,
 				 struct filenamenode *namenode) {
   struct fileinlist *nifd;
