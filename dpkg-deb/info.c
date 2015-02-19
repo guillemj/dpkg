@@ -44,29 +44,15 @@
 #include <dpkg/pkg-format.h>
 #include <dpkg/buffer.h>
 #include <dpkg/path.h>
-#include <dpkg/subproc.h>
 #include <dpkg/options.h>
 
 #include "dpkg-deb.h"
 
 static void cu_info_prepare(int argc, void **argv) {
-  pid_t pid;
   char *dir;
-  struct stat stab;
 
   dir = argv[0];
-  if (lstat(dir, &stab) && errno == ENOENT)
-    return;
-
-  pid = subproc_fork();
-  if (pid == 0) {
-    if (chdir("/"))
-      ohshite(_("failed to chdir to `/' for cleanup"));
-    execlp(RM, "rm", "-rf", dir, NULL);
-    ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
-  }
-  subproc_reap(pid, _("rm command for cleanup"), 0);
-
+  path_remove_tree(dir);
   free(dir);
 }
 
