@@ -14,6 +14,10 @@ dpkg (1.17.24) UNRELEASED; urgency=low
   * Check that HAVE_DECL_SYS_SIGLIST is 0 instead of undefined, to fix a
     build failure on uclibc based systems. Closes: #777044
     Based on a patch by Alex Potapenko <opotapenko@gmail.com>.
+  * Disable dependency checks on trigger processing. There are still trigger
+    cycles showing up this close to the Debian release, which are hard to
+    detect automatically as they are caused by maintainer script actions.
+    Requested by Niels Thykier <niels@thykier.net> (Debian Release Manager).
 
   [ Updated manpages translations ]
   * German (Helge Kreutzmann).

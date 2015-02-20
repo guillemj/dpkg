@@ -354,7 +354,6 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 {
 	static struct varbuf namesarg;
 
-	struct varbuf depwhynot = VARBUF_INIT;
 	struct trigpend *tp;
 	struct pkginfo *gaveup;
 
@@ -365,62 +364,12 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 	pkg->clientdata->trigprocdeferred = NULL;
 
 	if (pkg->trigpend_head) {
-		enum dep_check ok;
-
 		assert(pkg->status == PKG_STAT_TRIGGERSPENDING ||
 		       pkg->status == PKG_STAT_TRIGGERSAWAITED);
 
-		if (dependtry > 1) {
-			gaveup = check_trigger_cycle(pkg);
-			if (gaveup == pkg)
-				return;
-
-			if (findbreakcycle(pkg))
-				sincenothing = 0;
-		}
-
-		ok = dependencies_ok(pkg, NULL, &depwhynot);
-		if (ok == DEP_CHECK_DEFER) {
-			varbuf_destroy(&depwhynot);
-			enqueue_package(pkg);
+		gaveup = check_trigger_cycle(pkg);
+		if (gaveup == pkg)
 			return;
-		} else if (ok == DEP_CHECK_HALT) {
-			/* We cannot process this package on this dpkg run,
-			 * and we can get here repeatedly if this package is
-			 * required to make progress for other packages. So
-			 * reset the trigger cycles tracking to avoid bogus
-			 * cycle detections. */
-			trigproc_reset_cycle();
-
-			/* When doing opportunistic trigger processig, nothing
-			 * requires us to be able to make progress; skip the
-			 * package and silently ignore the error due to
-			 * unsatisfiable dependencies. */
-			if (type == TRIGPROC_TRY) {
-				varbuf_destroy(&depwhynot);
-				return;
-			}
-
-			sincenothing = 0;
-			varbuf_end_str(&depwhynot);
-			notice(_("dependency problems prevent processing "
-			         "triggers for %s:\n%s"),
-			       pkg_name(pkg, pnaw_nonambig), depwhynot.buf);
-			varbuf_destroy(&depwhynot);
-			ohshit(_("dependency problems - leaving triggers unprocessed"));
-		} else if (depwhynot.used) {
-			varbuf_end_str(&depwhynot);
-			notice(_("%s: dependency problems, but processing "
-			         "triggers anyway as you requested:\n%s"),
-			       pkg_name(pkg, pnaw_nonambig), depwhynot.buf);
-			varbuf_destroy(&depwhynot);
-		}
-
-		if (dependtry <= 1) {
-			gaveup = check_trigger_cycle(pkg);
-			if (gaveup == pkg)
-				return;
-		}
 
 		printf(_("Processing triggers for %s (%s) ...\n"),
 		       pkg_name(pkg, pnaw_nonambig),
