@@ -724,11 +724,11 @@ void process_archive(const char *filename) {
 
   /* All the old conffiles are marked with a flag, so that we don't delete
    * them if they seem to disappear completely. */
-  oldconffsetflags(pkg->installed.conffiles);
+  pkg_conffiles_mark_old(pkg);
   for (conflictor_iter = conflictors.head;
        conflictor_iter;
        conflictor_iter = conflictor_iter->next)
-    oldconffsetflags(conflictor_iter->pkg->installed.conffiles);
+    pkg_conffiles_mark_old(conflictor_iter->pkg);
 
   oldversionstatus= pkg->status;
 

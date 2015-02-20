@@ -319,17 +319,24 @@ conffile_mark_obsolete(struct pkginfo *pkg, struct filenamenode *namenode)
   }
 }
 
-void oldconffsetflags(const struct conffile *searchconff) {
+/**
+ * Mark all package conffiles as old.
+ *
+ * @param pkg		The package owning the conffiles.
+ */
+void
+pkg_conffiles_mark_old(struct pkginfo *pkg)
+{
+  const struct conffile *conff;
   struct filenamenode *namenode;
 
-  while (searchconff) {
-    namenode= findnamenode(searchconff->name, 0); /* XXX */
+  for (conff = pkg->installed.conffiles; conff; conff = conff->next) {
+    namenode = findnamenode(conff->name, 0); /* XXX */
     namenode->flags |= fnnf_old_conff;
     if (!namenode->oldhash)
-      namenode->oldhash= searchconff->hash;
-    debug(dbg_conffdetail, "oldconffsetflags '%s' namenode '%s' flags %o",
-          searchconff->name, namenode->name, namenode->flags);
-    searchconff= searchconff->next;
+      namenode->oldhash = conff->hash;
+    debug(dbg_conffdetail, "%s '%s' namenode '%s' flags %o", __func__,
+          conff->name, namenode->name, namenode->flags);
   }
 }
 

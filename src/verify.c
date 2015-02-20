@@ -99,7 +99,7 @@ verify_package(struct pkginfo *pkg)
 
 	ensure_packagefiles_available(pkg);
 	parse_filehash(pkg, &pkg->installed);
-	oldconffsetflags(pkg->installed.conffiles);
+	pkg_conffiles_mark_old(pkg);
 
 	for (file = pkg->clientdata->files; file; file = file->next) {
 		struct verify_checks checks;

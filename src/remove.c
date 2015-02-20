@@ -169,7 +169,7 @@ void deferred_remove(struct pkginfo *pkg) {
     return;
   }
 
-  oldconffsetflags(pkg->installed.conffiles);
+  pkg_conffiles_mark_old(pkg);
 
   printf(_("Removing %s (%s) ...\n"), pkg_name(pkg, pnaw_nonambig),
          versiondescribe(&pkg->installed.version, vdew_nonambig));
