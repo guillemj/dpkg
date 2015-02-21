@@ -26,7 +26,7 @@ package Dpkg::Gettext;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our @EXPORT = qw(
     textdomain
     ngettext
@@ -49,19 +49,39 @@ The Dpkg::Gettext module is a convenience wrapper over the Locale::gettext
 module, to guarantee we always have working gettext functions, and to add
 some commonly used aliases.
 
+=head1 VARIABLES
+
+=over 4
+
+=item $Dpkg::Gettext::DEFAULT_TEXT_DOMAIN
+
+Specifies the default text domain name to be used with the short function
+aliases. This is intended to be used by the Dpkg modules, so that they
+can produce localized messages even when the calling program has set the
+current domain with textdomain(). If you would like to use the aliases
+for your own modules, you might want to set this variable to undef, or
+to another domain, but then the Dpkg modules will not produce localized
+messages.
+
+=back
+
+=cut
+
+our $DEFAULT_TEXT_DOMAIN = 'dpkg-dev';
+
 =head1 FUNCTIONS
 
 =over 4
 
 =item my $trans = g_($msgid)
 
-Calls gettext() on the $msgid and returns its translation for the current
-locale. If gettext() is not available, simply returns $msgid.
+Calls dgettext() on the $msgid and returns its translation for the current
+locale. If dgettext() is not available, simply returns $msgid.
 
 =item my $trans = P_($msgid, $msgid_plural, $n)
 
-Calls ngettext(), returning the correct translation for the plural form
-dependent on $n. If gettext() is not available, returns $msgid if $n is 1
+Calls dngettext(), returning the correct translation for the plural form
+dependent on $n. If dngettext() is not available, returns $msgid if $n is 1
 or $msgid_plural otherwise.
 
 =back
@@ -92,10 +112,10 @@ BEGIN {
     } else {
         eval q{
             sub g_ {
-                return gettext(shift);
+                return dgettext($DEFAULT_TEXT_DOMAIN, shift);
             }
             sub P_ {
-                return ngettext(@_);
+                return dngettext($DEFAULT_TEXT_DOMAIN, @_);
             }
         };
     }
@@ -113,6 +133,11 @@ sub _g ## no critic (Subroutines::ProhibitUnusedPrivateSubroutines)
 }
 
 =head1 CHANGES
+
+=head2 Version 1.02
+
+Now the short aliases (g_ and P_) will call domain aware functions with
+$DEFAULT_TEXT_DOMAIN.
 
 =head2 Version 1.01
 
