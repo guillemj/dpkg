@@ -52,11 +52,16 @@ TESTS_PASS += t-predepends-no-triggers
 TESTS_PASS += t-triggers
 TESTS_PASS += t-triggers-path
 TESTS_PASS += t-triggers-depends
+# This only works with dpkg >= 1.18.x
+ifdef DPKG_TRIGPROC_DEPCHECK
 TESTS_PASS += t-triggers-depcycle
 TESTS_PASS += t-triggers-depfarcycle
+endif
 TESTS_PASS += t-triggers-selfcycle
 TESTS_PASS += t-triggers-cycle
+ifdef DPKG_TRIGPROC_DEPCHECK
 TESTS_PASS += t-triggers-halt
+endif
 TESTS_PASS += t-file-replaces
 TESTS_PASS += t-file-replaces-disappear
 TESTS_PASS += t-file-replaces-versioned
