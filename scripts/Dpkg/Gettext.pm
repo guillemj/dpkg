@@ -78,6 +78,11 @@ our $DEFAULT_TEXT_DOMAIN = 'dpkg-dev';
 Calls dgettext() on the $msgid and returns its translation for the current
 locale. If dgettext() is not available, simply returns $msgid.
 
+=item my $trans = C_($msgctxt, $msgid)
+
+Calls dgettext() on the $msgid and returns its translation for the specific
+$msgctxt supplied. If dgettext() is not available, simply returns $msgid.
+
 =item my $trans = P_($msgid, $msgid_plural, $n)
 
 Calls dngettext(), returning the correct translation for the plural form
@@ -87,6 +92,8 @@ or $msgid_plural otherwise.
 =back
 
 =cut
+
+use constant GETTEXT_CONTEXT_GLUE => "\004";
 
 BEGIN {
     eval 'use Locale::gettext';
@@ -105,6 +112,10 @@ BEGIN {
                     return $msgid_plural;
                 }
             }
+            sub C_ {
+                my ($msgctxt, $msgid) = @_;
+                return $msgid;
+            }
             sub P_ {
                 return ngettext(@_);
             }
@@ -113,6 +124,11 @@ BEGIN {
         eval q{
             sub g_ {
                 return dgettext($DEFAULT_TEXT_DOMAIN, shift);
+            }
+            sub C_ {
+                my ($msgctxt, $msgid) = @_;
+                return dgettext($DEFAULT_TEXT_DOMAIN,
+                                $msgctxt . GETTEXT_CONTEXT_GLUE . $msgid);
             }
             sub P_ {
                 return dngettext($DEFAULT_TEXT_DOMAIN, @_);
@@ -138,6 +154,8 @@ sub _g ## no critic (Subroutines::ProhibitUnusedPrivateSubroutines)
 
 Now the short aliases (g_ and P_) will call domain aware functions with
 $DEFAULT_TEXT_DOMAIN.
+
+New function: C_().
 
 =head2 Version 1.01
 
