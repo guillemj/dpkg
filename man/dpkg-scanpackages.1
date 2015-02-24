@@ -64,7 +64,8 @@ this string.
 .PP
 .I override-file
 is the name of a file to read which contains information about how the
-package fits into the distribution (it can be a compressed file); see
+package fits into the distribution (the file can compressed
+since dpkg 1.15.5); see
 .BR deb\-override (5).
 .PP
 .I path-prefix
@@ -81,7 +82,8 @@ Scan for *.\fItype\fP packages, instead of *.deb.
 .TP
 .BR \-e ", " \-\-extra\-override " \fIfile\fP"
 Scan \fIfile\fP to find supplementary overrides (the file can be
-compressed). See
+compressed since dpkg 1.15.5).
+See
 .BR deb\-extra\-override (5)
 for more information on its format.
 .TP
@@ -90,7 +92,8 @@ Use a pattern consisting of \fI*_all.deb\fP and \fI*_arch.deb\fP instead of
 scanning for all debs.
 .TP
 .BR \-h ", " \-\-hash " \fIhash-list\fP"
-Only generate file hashes for the comma-specified list specified.
+Only generate file hashes for the comma-specified list specified
+(since dpkg 1.17.14).
 The default is to generate all currently supported hashes.
 Supported values: \fBmd5\fP, \fBsha1\fP, \fBsha256\fP.
 .TP
@@ -98,9 +101,10 @@ Supported values: \fBmd5\fP, \fBsha1\fP, \fBsha256\fP.
 Include all found packages in the output.
 .TP
 .BR \-M ", " \-\-medium " \fIid-string\fP"
-Add an X\-Medium field containing the value \fIid-string\fP. This field
-is required if you want to generate \fBPackages.cd\fP files for use
-by the multicd access method of dselect.
+Add an X\-Medium field containing the value \fIid-string\fP
+(since dpkg 1.15.5).
+This field is required if you want to generate \fBPackages.cd\fP files
+for use by the multicd access method of dselect.
 .TP
 .BR \-? ", " \-\-help
 Show the usage message and exit.

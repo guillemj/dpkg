@@ -169,7 +169,9 @@ something goes wrong.
 \fB2.\fP Run \fIpostinst\fP script, if provided by the package.
 .TP
 \fB\-\-triggers\-only\fP \fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
-Processes only triggers. All pending triggers will be processed. If package
+Processes only triggers (since dpkg 1.14.17).
+All pending triggers will be processed.
+If package
 names are supplied only those packages' triggers will be processed, exactly
 once each where necessary. Use of this option may leave packages in the
 improper \fBtriggers\-awaited\fP and \fBtriggers\-pending\fP states. This
@@ -225,7 +227,9 @@ for detailed information about how this is done.
 .BR \-V ", " \-\-verify " [\fIpackage-name\fP...]
 Verifies the integrity of \fIpackage-name\fP or all packages if omitted,
 by comparing information from the files installed by a package with the
-files metadata information stored in the \fBdpkg\fP database. The origin
+files metadata information stored in the \fBdpkg\fP database
+(since dpkg 1.17.2).
+The origin
 of the files metadata information in the database is the binary packages
 themselves. That metadata gets collected at package unpack time during
 the installation process.
@@ -264,14 +268,14 @@ must refer to a directory instead.
 .TP
 .B \-\-forget\-old\-unavail
 Now \fBobsolete\fP and a no-op as \fBdpkg\fP will automatically forget
-uninstalled unavailable packages.
+uninstalled unavailable packages (since dpkg 1.15.4).
 .TP
 .B \-\-clear\-avail
 Erase the existing information about what packages are available.
 .TP
 .BR \-C ", " \-\-audit " [\fIpackage-name\fP...]
 Performs database sanity and consistency checks for \fIpackage-name\fP
-or all packages if omitted.
+or all packages if omitted (per package checks since dpkg 1.17.10).
 For example, searches for packages that have been installed only partially
 on your system or that have missing, wrong or obsolete control data or
 files. \fBdpkg\fP will suggest what to do with them to get them fixed.
@@ -293,7 +297,8 @@ the \fB\-\-update\-avail\fP and \fB\-\-merge\-avail\fP commands for more
 information.
 .TP
 .B \-\-clear\-selections
-Set the requested state of every non-essential package to deinstall.
+Set the requested state of every non-essential package to deinstall
+(since dpkg 1.13.18).
 This is intended to be used immediately before \fB\-\-set\-selections\fP,
 to deinstall any packages not in list given to \fB\-\-set\-selections\fP.
 .TP
@@ -303,13 +308,15 @@ reason still haven't been installed.
 .TP
 .B \-\-add\-architecture \fIarchitecture\fP
 Add \fIarchitecture\fP to the list of architectures for which packages can
-be installed without using \fB\-\-force\-architecture\fP. The architecture
+be installed without using \fB\-\-force\-architecture\fP (since dpkg 1.16.2).
+The architecture
 \fBdpkg\fP is built for (i.e. the output of \fB\-\-print\-architecture\fP)
 is always part of that list.
 .TP
 .B \-\-remove\-architecture \fIarchitecture\fP
 Remove \fIarchitecture\fP from the list of architectures for which packages
-can be installed without using \fB\-\-force\-architecture\fP. If the
+can be installed without using \fB\-\-force\-architecture\fP
+(since dpkg 1.16.2). If the
 architecture is currently in use in the database then the operation will
 be refused, except if \fB\-\-force\-architecture\fP is specified. The
 architecture \fBdpkg\fP is built for (i.e. the output of
@@ -320,7 +327,7 @@ Print architecture of packages \fBdpkg\fP installs (for example, "i386").
 .TP
 .B \-\-print\-foreign\-architectures
 Print a newline-separated list of the extra architectures \fBdpkg\fP is
-configured to allow packages to be installed for.
+configured to allow packages to be installed for (since dpkg 1.16.2).
 .TP
 .B \-\-compare\-versions \fIver1 op ver2\fP
 Compare version numbers, where \fIop\fP is a binary operator. \fBdpkg\fP
@@ -483,7 +490,7 @@ Turn all dependency problems into warnings.
 Don't care about versions when checking dependencies.
 
 \fBbreaks\fP:
-Install, even if this would break another package.
+Install, even if this would break another package (since dpkg 1.14.6).
 
 \fBconflicts\fP:
 Install, even if it conflicts with another package. This is dangerous,
@@ -516,7 +523,8 @@ that to decide the final action.
 \fBconfask\fP:
 If a conffile has been modified always offer to replace it with the
 version in the package, even if the version in the package did not
-change. If any of \fB\-\-force\-confmiss\fP, \fB\-\-force\-confnew\fP,
+change (since dpkg 1.15.8).
+If any of \fB\-\-force\-confmiss\fP, \fB\-\-force\-confnew\fP,
 \fB\-\-force\-confold\fP, or \fB\-\-force\-confdef\fP is also given,
 it will be used to decide the final action.
 
@@ -530,7 +538,8 @@ Overwrite one package's directory with another's file.
 Overwrite a diverted file with an undiverted version.
 
 \fBunsafe\-io\fP:
-Do not perform safe I/O operations when unpacking. Currently this
+Do not perform safe I/O operations when unpacking (since dpkg 1.15.8.6).
+Currently this
 implies not performing file system syncs before file renames, which is
 known to cause substantial performance degradation on some file systems,
 unfortunately the ones that require the safe I/O on the first place due
@@ -550,7 +559,7 @@ losing data, use with care.\fP
 Process even packages with wrong or no architecture.
 
 \fBbad\-version\fP:
-Process even packages with wrong versions.
+Process even packages with wrong versions (since dpkg 1.16.1).
 
 \fBbad\-path\fP:
 \fBPATH\fP is missing important programs, so problems are likely.
@@ -618,7 +627,7 @@ installed.
 Set an invoke hook \fIcommand\fP to be run via \*(lqsh \-c\*(rq before or
 after the \fBdpkg\fP run for the \fIunpack\fP, \fIconfigure\fP, \fIinstall\fP,
 \fItriggers\-only\fP, \fIremove\fP, \fIpurge\fP, \fIadd\-architecture\fP and
-\fIremove\-architecture\fP \fBdpkg\fP actions. This
+\fIremove\-architecture\fP \fBdpkg\fP actions (since dpkg 1.15.4). This
 option can be specified multiple times. The order the options are specified
 is preserved, with the ones from the configuration files taking precedence.
 The environment variable \fBDPKG_HOOK_ACTION\fP is set for the hooks to the
@@ -629,7 +638,8 @@ times per invocation, which might run the hooks more times than expected.
 .TQ
 .BI \-\-path\-include= glob-pattern
 Set \fIglob-pattern\fP as a path filter, either by excluding or re-including
-previously excluded paths matching the specified patterns during install.
+previously excluded paths matching the specified patterns during install
+(since dpkg 1.15.8).
 
 \fIWarning: take into account that depending on the excluded paths you
 might completely break your system, use with caution.\fP
@@ -659,7 +669,7 @@ each other. Both are processed in the given order, with the last rule that
 matches a file name making the decision.
 .TP
 .BI \-\-verify\-format " format-name"
-Sets the output format for the \fB\-\-verify\fP command.
+Sets the output format for the \fB\-\-verify\fP command (since dpkg 1.17.2).
 
 The only currently supported output format is \fBrpm\fP, which consists
 of a line for every path that failed any check. The lines start with 9
@@ -696,8 +706,9 @@ Sent just before a processing stage starts. \fIstage\fR is one of
 .TP
 \fB\-\-status\-logger\fR=\fIcommand\fR
 Send machine-readable package status and progress information to the
-shell \fIcommand\fR's standard input. This option can be specified
-multiple times. The output format used is the same as in \fB\-\-status\-fd\fP.
+shell \fIcommand\fR's standard input (since dpkg 1.16.0).
+This option can be specified multiple times.
+The output format used is the same as in \fB\-\-status\-fd\fP.
 .RE
 .TP
 \fB\-\-log=\fP\fIfilename\fP
@@ -721,7 +732,8 @@ changes where \fIdecision\fP is either \fBinstall\fP or \fBkeep\fP.
 Do not try to verify package signatures.
 .TP
 \fB\-\-no\-triggers\fP
-Do not run any triggers in this run (activations will still be recorded).
+Do not run any triggers in this run (since dpkg 1.14.17), but activations
+will still be recorded.
 If used with \fB\-\-configure\fP \fIpackage\fP or
 \fB\-\-triggers\-only\fP \fIpackage\fP then the named package postinst
 will still be run even if only a triggers run is needed. Use of this option
@@ -730,7 +742,7 @@ may leave packages in the improper \fBtriggers\-awaited\fP and
 \fBdpkg \-\-configure \-\-pending\fP.
 .TP
 \fB\-\-triggers\fP
-Cancels a previous \fB\-\-no\-triggers\fP.
+Cancels a previous \fB\-\-no\-triggers\fP (since dpkg 1.14.17).
 .
 .SH ENVIRONMENT
 .TP
@@ -754,41 +766,45 @@ text. Currently only used by \-l.
 .TP
 .B DPKG_SHELL_REASON
 Defined by \fBdpkg\fP on the shell spawned on the conffile prompt to
-examine the situation. Current valid value: \fBconffile\-prompt\fP.
+examine the situation (since dpkg 1.15.6).
+Current valid value: \fBconffile\-prompt\fP.
 .TP
 .B DPKG_CONFFILE_OLD
 Defined by \fBdpkg\fP on the shell spawned on the conffile prompt to
-examine the situation. Contains the path to the old conffile.
+examine the situation (since dpkg 1.15.6).
+Contains the path to the old conffile.
 .TP
 .B DPKG_CONFFILE_NEW
 Defined by \fBdpkg\fP on the shell spawned on the conffile prompt to
-examine the situation. Contains the path to the new conffile.
+examine the situation (since dpkg 1.15.6).
+Contains the path to the new conffile.
 .TP
 .B DPKG_RUNNING_VERSION
 Defined by \fBdpkg\fP on the maintainer script environment to the
-version of the currently running \fBdpkg\fP instance.
+version of the currently running \fBdpkg\fP instance (since dpkg 1.14.17).
 .TP
 .B DPKG_MAINTSCRIPT_PACKAGE
 Defined by \fBdpkg\fP on the maintainer script environment to the
-(non-arch-qualified) package name being handled.
+(non-arch-qualified) package name being handled (since dpkg 1.14.17).
 .TP
 .B DPKG_MAINTSCRIPT_PACKAGE_REFCOUNT
 Defined by \fBdpkg\fP on the maintainer script environment to the
 package reference count, i.e. the number of package instances with
-a state greater than \fBnot\-installed\fP. Since dpkg 1.17.2.
+a state greater than \fBnot\-installed\fP (since dpkg 1.17.2).
 .TP
 .B DPKG_MAINTSCRIPT_ARCH
 Defined by \fBdpkg\fP on the maintainer script environment to the
-architecture the package got built for.
+architecture the package got built for (since dpkg 1.15.4).
 .TP
 .B DPKG_MAINTSCRIPT_NAME
 Defined by \fBdpkg\fP on the maintainer script environment to the
-name of the script running (preinst, postinst, prerm, postrm).
+name of the script running, one of \fBpreinst\fP, \fBpostinst\fP,
+\fBprerm\fP or \fBpostrm\fP (since dpkg 1.15.7).
 .
 .SH FILES
 .TP
 .I /etc/dpkg/dpkg.cfg.d/[0-9a-zA-Z_-]*
-Configuration fragment files.
+Configuration fragment files (since dpkg 1.15.4).
 .TP
 .I /etc/dpkg/dpkg.cfg
 Configuration file with default options.

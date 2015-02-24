@@ -38,24 +38,27 @@ file
 .TP
 .B \-g
 Specifies that only source and architecture independent packages should
-be uploaded (no architecture specific packages will be included).
+be uploaded, thus no architecture specific packages will be included
+(since dpkg 1.17.11).
 .TP
 .B \-G
 Specifies that only source and architecture specific packages should
-be uploaded (no architecture independent packages will be included).
+be uploaded, thus no architecture independent packages will be included
+(since dpkg 1.17.11).
 .TP
 .BR \-b ", " \-B ", " \-A
-Specifies that a binary-only build is taking place (no source files are
-to be included). There's no distinction between \fB\-b\fP, \fB\-B\fP and
-\fB\-A\fP, the produced
+Specifies that a binary-only build is taking place, thus no source
+files are to be included.
+There's no distinction between \fB\-b\fP, \fB\-B\fP and \fB\-A\fP,
+the produced
 .B .changes
 file will include whatever files were created by the
 .B binary\-*
 target(s) of the package being built.
 .TP
 .B \-S
-Specifies that only the source should be uploaded (no binary packages
-will be included).
+Specifies that only the source should be uploaded, thus no binary
+packages will be included.
 .PP
 The \fB\-s\fP\fIx\fP options control whether the original source archive is
 included in the upload if any source is being generated (i.e.
@@ -110,7 +113,7 @@ the default is
 No variable substitution is done on any of the fields that are output,
 however the special variable \fIFormat\fR will override the field of the
 same name. This option can be used multiple times to read substitution
-variables from multiple files.
+variables from multiple files (since dpkg 1.15.6).
 
 .TP
 .BI \-D field = value

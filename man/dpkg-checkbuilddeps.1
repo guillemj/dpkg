@@ -37,12 +37,13 @@ may be specified on the command line.
 .SH OPTIONS
 .TP
 .BI \-\-admindir= dir
-Change the location of the \fBdpkg\fR database. The default location is
-\fI/var/lib/dpkg\fP.
+Change the location of the \fBdpkg\fR database (since dpkg 1.14.0).
+The default location is \fI/var/lib/dpkg\fP.
 .TP
 .B \-A
 Ignore \fBBuild\-Depends\-Arch\fP and \fBBuild\-Conflicts\-Arch\fP
-lines. Use when only arch-indep packages will be built, or combine with
+lines (since dpkg 1.16.4).
+Use when only arch-indep packages will be built, or combine with
 \fB\-B\fP when only a source package is to be built.
 .TP
 .B \-B
@@ -54,17 +55,18 @@ lines. Use when only arch-dep packages will be built, or combine with
 .TP
 .BI "\-c " build-conflicts-string
 Use the given build dependencies/conflicts instead of those contained in the
-\fIdebian/control\fP file.
+\fIdebian/control\fP file (since dpkg 1.14.17).
 .TP
 .BI "\-a " arch
 Check build dependencies/conflicts assuming that the package described in
 the control file is to be built for the given host architecture instead of
-the architecture of the current system.
+the architecture of the current system (since dpkg 1.16.2).
 .TP
 .BR "\-P " \fIprofile\fP[ , ...]
 Check build dependencies/conflicts assuming that the package described
-in the control file is to be built for the given build profile(s). The
-argument is a comma-separated list of profile names.
+in the control file is to be built for the given build profile(s)
+(since dpkg 1.17.2).
+The argument is a comma-separated list of profile names.
 .TP
 .BR \-? ", " \-\-help
 Show the usage message and exit.

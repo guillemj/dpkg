@@ -94,7 +94,7 @@ will check that the process(es) have terminated.
 .TP
 .BR \-T ", " \-\-status
 Check for the existence of a specified process, and returns an exit status
-code, according to the LSB Init Script Actions.
+code, according to the LSB Init Script Actions (since version 1.16.1).
 .TP
 .BR \-H ", " \-\-help
 Show usage information and exit.
@@ -106,11 +106,12 @@ Show the program version and exit.
 .SS Matching options
 .TP
 .BR \-\-pid " \fIpid\fP"
-Check for a process with the specified \fIpid\fP. The \fIpid\fP must be a
-number greater than 0.
+Check for a process with the specified \fIpid\fP (since version 1.17.6).
+The \fIpid\fP must be a number greater than 0.
 .TP
 .BR \-\-ppid " \fIppid\fP"
-Check for a process with the specified \fIppid\fP (parent pid).
+Check for a process with the specified parent pid \fIppid\fP
+(since version 1.17.7).
 The \fIppid\fP must be a number greater than 0.
 .TP
 .BR \-p ", " \-\-pidfile " \fIpid-file\fP"
@@ -257,7 +258,8 @@ make no sense forking on their own, or where it's not feasible to add the
 code for them to do this themselves.
 .TP
 .BR \-C ", " \-\-no\-close
-Do not close any file descriptor when forcing the daemon into the background.
+Do not close any file descriptor when forcing the daemon into the background
+(since version 1.16.5).
 Used for debugging purposes to see the process output, or to redirect file
 descriptors to log the process output.
 Only relevant when using \fB\-\-background\fP.
@@ -267,19 +269,21 @@ This alters the priority of the process before starting it.
 .TP
 .BR \-P ", " \-\-procsched " \fIpolicy\fP\fB:\fP\fIpriority\fP"
 This alters the process scheduler policy and priority of the process before
-starting it. The priority can be optionally specified by appending a \fB:\fP
+starting it (since version 1.15.0).
+The priority can be optionally specified by appending a \fB:\fP
 followed by the value. The default \fIpriority\fP is 0. The currently
 supported policy values are \fBother\fP, \fBfifo\fP and \fBrr\fP.
 .TP
 .BR \-I ", " \-\-iosched " \fIclass\fP\fB:\fP\fIpriority\fP"
 This alters the IO scheduler class and priority of the process before starting
-it. The priority can be optionally specified by appending a \fB:\fP followed
+it (since version 1.15.0).
+The priority can be optionally specified by appending a \fB:\fP followed
 by the value. The default \fIpriority\fP is 4, unless \fIclass\fP is \fBidle\fP,
 then \fIpriority\fP will always be 7. The currently supported values for
 \fIclass\fP are \fBidle\fP, \fBbest-effort\fP and \fBreal-time\fP.
 .TP
 .BR \-k ", " \-\-umask " \fImask\fP"
-This sets the umask of the process before starting it.
+This sets the umask of the process before starting it (since version 1.13.22).
 .TP
 .BR \-m ", " \-\-make\-pidfile
 Used when starting a program that does not create its own pid file. This
@@ -298,8 +302,9 @@ only useful when combined with the
 option.
 .TP
 .B \-\-remove\-pidfile
-Used when stopping a program that does not remove its own pid file. This
-option will make
+Used when stopping a program that does not remove its own pid file
+(since version 1.17.19).
+This option will make
 .B start\-stop\-daemon
 remove the file referenced with
 .B \-\-pidfile

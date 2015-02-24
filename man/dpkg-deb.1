@@ -245,13 +245,15 @@ dpkg 1.16.4), \fIfiltered\fP, \fIhuffman\fP, \fIrle\fP and \fIfixed\fP for
 gzip (since dpkg 1.17.0) and \fIextreme\fP for xz.
 .TP
 .BI \-Z compress-type
-Specify which compression type to use when building a package. Allowed
-values are \fIgzip\fP, \fIxz\fP, \fIbzip2\fP (deprecated), \fIlzma\fP
-(deprecated), and \fInone\fP (default is \fIxz\fP).
+Specify which compression type to use when building a package.
+Allowed values are \fIgzip\fP, \fIxz\fP (since dpkg 1.15.6),
+\fIbzip2\fP (deprecated), \fIlzma\fP (since dpkg 1.14.0; deprecated),
+and \fInone\fP (default is \fIxz\fP).
 .TP
 .B \-\-uniform\-compression
 Specify that the same compression parameters should be used for all archive
-members (i.e. \fBcontrol.tar\fP and \fBdata.tar\fP). Otherwise only the
+members (i.e. \fBcontrol.tar\fP and \fBdata.tar\fP; since dpkg 1.17.6).
+Otherwise only the
 \fBdata.tar\fP member will use those parameters. The only supported
 compression types allowed to be uniformly used are \fInone\fP, \fIgzip\fP
 and \fIxz\fP.
@@ -279,8 +281,9 @@ usual checks on the proposed contents of an archive. You can build
 any archive you want, no matter how broken, this way.
 .TP
 .BR \-v ", " \-\-verbose
-Enables verbose output. This currently only affects \fB\-\-extract\fP making
-it behave like \fB\-\-vextract\fP.
+Enables verbose output (since dpkg 1.16.1).
+This currently only affects \fB\-\-extract\fP making it behave like
+\fB\-\-vextract\fP.
 .TP
 .BR \-D ", " \-\-debug
 Enables debugging output. This is not very interesting.

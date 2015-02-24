@@ -82,11 +82,13 @@ It runs the \fBdone\fP hook.
 .SH OPTIONS
 .TP
 .B \-g
-Specifies a build limited to source and architecture independent packages.
+Specifies a build limited to source and architecture independent packages
+(since dpkg 1.17.11).
 Passed to \fBdpkg\-genchanges\fP.
 .TP
 .B \-G
-Specifies a build limited to source and architecture specific packages.
+Specifies a build limited to source and architecture specific packages
+(since dpkg 1.17.11).
 Passed to \fBdpkg\-genchanges\fP.
 .TP
 .B \-b
@@ -106,7 +108,8 @@ Specifies a source-only build, no binary packages need to be made.
 Passed to \fBdpkg\-genchanges\fP.
 .TP
 .B \-F
-Specifies a normal full build, binary and source packages will be built.
+Specifies a normal full build, binary and source packages will be built
+(since dpkg 1.15.8).
 This is the same as the default case when no build option is specified.
 .TP
 .BI \-\-target= target
@@ -115,14 +118,14 @@ This is the same as the default case when no build option is specified.
 .TQ
 .BI \-T target
 Calls \fBdebian/rules\fP \fItarget\fP after having setup the build
-environment and stops the package build process here. If
-\fB\-\-as\-root\fP is also given, then the command is executed
+environment and stops the package build process here (since dpkg 1.15.0).
+If \fB\-\-as\-root\fP is also given, then the command is executed
 as root (see \fB\-r\fP). Note that official targets that are required to
 be run as root by the Debian policy do not need this option.
 .TP
 .B \-\-as\-root
-Only meaningful together with \fB\-\-target\fP. Requires that the target be
-run with root rights.
+Only meaningful together with \fB\-\-target\fP (since dpkg 1.15.0).
+Requires that the target be run with root rights.
 .TP
 .B \-si
 .TQ
@@ -140,26 +143,32 @@ run with root rights.
 Passed unchanged to \fBdpkg\-genchanges\fP. See its manual page.
 .TP
 .BR \-a ", " \-\-host\-arch " \fIarchitecture\fP"
-Specify the Debian architecture we build for. The architecture of the
+Specify the Debian architecture we build for (long option since dpkg 1.17.17).
+The architecture of the
 machine we build on is determined automatically, and is also the default
 for the host machine.
 .TP
 .BR \-t ", " \-\-host\-type " \fIgnu-system-type\fP"
-Specify the GNU system type we build for. It can be used in place
+Specify the GNU system type we build for (long option since dpkg 1.17.17).
+It can be used in place
 of \-\-host\-arch or as a complement to override the default GNU system type
 of the host Debian architecture.
 .TP
 .BR \-\-target\-arch " \fIarchitecture\fP"
-Specify the Debian architecture the binaries built will build for.
+Specify the Debian architecture the binaries built will build for
+(since dpkg1.17.17).
 The default value is the host machine.
 .TP
 .BR \-\-target\-type " \fIgnu-system-type\fP"
-Specify the GNU system type the binaries built will build for. It can be
+Specify the GNU system type the binaries built will build for
+(since dpkg 1.17.17).
+It can be
 used in place of \-\-target\-arch or as a complement to override the
 default GNU system type of the target Debian architecture.
 .TP
 .BR \-P \fIprofile\fP[ , ...]
-Specify the profile(s) we build, as a comma-separated list. The default
+Specify the profile(s) we build, as a comma-separated list (since dpkg 1.17.2).
+The default
 behavior is to build for no specific profile. Also sets them (as a space
 separated list) as the \fBDEB_BUILD_PROFILES\fP environment variable which
 allows, for example, \fBdebian/rules\fP files to use this information for
@@ -167,10 +176,12 @@ conditional builds.
 .TP
 .BR \-j [\fIjobs\fP|\fBauto\fP]
 Number of jobs allowed to be run simultaneously, number of jobs matching
-the number of online processors if \fBauto\fP is specified, or unlimited
-number if \fIjobs\fP is not specified, equivalent to the
+the number of online processors if \fBauto\fP is specified
+(since dpkg 1.17.10), or unlimited number if \fIjobs\fP is not specified,
+equivalent to the
 .BR make (1)
-option of the same name. Will add itself to the \fBMAKEFLAGS\fP
+option of the same name (since dpkg 1.14.7).
+Will add itself to the \fBMAKEFLAGS\fP
 environment variable, which should cause all subsequent make
 invocations to inherit the option. Also adds \fBparallel=\fP\fIjobs\fP or
 \fBparallel=\fP to the \fBDEB_BUILD_OPTIONS\fP environment variable which
@@ -228,7 +239,8 @@ instead of passing arguments individually to the command to be run.
 .BI \-R rules-file
 Building a Debian package usually involves invoking
 .B debian/rules
-as a command with several standard parameters. With this option it's
+as a command with several standard parameters (since dpkg 1.14.17).
+With this option it's
 possible to use another program invocation to build the package (it can
 include space separated parameters).
 Alternatively it can be used to execute the standard rules file with
@@ -238,17 +250,19 @@ as \fIrules-file\fR).
 .TP
 .BI \-\-check\-command= check-command
 Command used to check the \fB.changes\fP file itself and any artifact built
-referenced in the file. The command should take the \fB.changes\fP pathname
+referenced in the file (since dpkg 1.17.6).
+The command should take the \fB.changes\fP pathname
 as an argument. This command will usually be \fBlintian\fP.
 .TP
 .BI \-\-check\-option= opt
 Pass option \fIopt\fP to the \fIcheck-command\fP specified with
-\fBDEB_CHECK_COMMAND\fP or \fB\-\-check\-command\fP.
+\fBDEB_CHECK_COMMAND\fP or \fB\-\-check\-command\fP (since dpkg 1.17.6).
 Can be used multiple times.
 .TP
 .BI \-\-hook\- hook-name = hook-command
 Set the specified shell code \fIhook-command\fP as the hook \fIhook-name\fP,
-which will run at the times specified in the run steps. The hooks will
+which will run at the times specified in the run steps (since dpkg 1.17.6).
+The hooks will
 always be executed even if the following action is not performed (except
 for the \fBbinary\fP hook).
 
@@ -315,18 +329,18 @@ regardless of \fB\-us\fP or \fB\-uc\fP or other internal heuristics.
 Passed unchanged to \fBdpkg\-source\fP. See its manual page.
 .TP
 .BI \-\-source\-option= opt
-Pass option \fIopt\fP to \fBdpkg\-source\fP.
+Pass option \fIopt\fP to \fBdpkg\-source\fP (since dpkg 1.15.6).
 Can be used multiple times.
 .TP
 .BI \-\-changes\-option= opt
-Pass option \fIopt\fP to \fBdpkg\-genchanges\fP.
+Pass option \fIopt\fP to \fBdpkg\-genchanges\fP (since dpkg 1.15.6).
 Can be used multiple times.
 .TP
 .BI \-\-admindir= dir
 .TQ
 .BI "\-\-admindir " dir
-Change the location of the \fBdpkg\fR database. The default location is
-\fI/var/lib/dpkg\fP.
+Change the location of the \fBdpkg\fR database (since dpkg 1.14.0).
+The default location is \fI/var/lib/dpkg\fP.
 .TP
 .BR \-? ", " \-\-help
 Show the usage message and exit.
@@ -337,11 +351,13 @@ Show the version and exit.
 .SH ENVIRONMENT
 .TP
 .B DEB_CHECK_COMMAND
-If set, it will be used as the command to check the \fB.changes\fP file.
+If set, it will be used as the command to check the \fB.changes\fP file
+(since dpkg 1.17.6).
 Overridden by the \fB\-\-check\-command\fP option.
 .TP
 .B DEB_SIGN_KEYID
-If set, it will be used to sign the \fB.changes\fP and \fB.dsc\fP files.
+If set, it will be used to sign the \fB.changes\fP and \fB.dsc\fP files
+(since dpkg 1.17.2).
 Overridden by the \fB\-k\fP option.
 .TP
 .B DEB_BUILD_OPTIONS
@@ -350,8 +366,9 @@ will be ignored.
 .TP
 .B DEB_BUILD_PROFILES
 If set, it will be used as the active build profile(s) for the package
-being built. It is a space separated list of profile names. Overridden
-by the \fB\-P\fP option.
+being built.
+It is a space separated list of profile names (since dpkg 1.17.2).
+Overridden by the \fB\-P\fP option.
 
 .SS Reliance on exported environment flags
 Even if \fBdpkg\-buildpackage\fP exports some variables, \fBdebian/rules\fP

@@ -185,7 +185,8 @@ are removed from the the substitution variables file.
 .TP
 .BR \-O [\fIfilename\fP]
 Print substitution variable settings to standard output (or \fIfilename\fP
-if specified), rather than being added to the substitution variables file
+if specified, since dpkg 1.17.2), rather than being added to the
+substitution variables file
 .RB ( debian/substvars
 by default).
 .TP
@@ -209,33 +210,38 @@ the default is
 .BR debian/substvars .
 .TP
 .BI \-v
-Enable verbose mode. Numerous messages are displayed to explain what
+Enable verbose mode (since dpkg 1.14.8).
+Numerous messages are displayed to explain what
 .B dpkg\-shlibdeps
 does.
 .TP
 .BI \-x package
-Exclude the package from the generated dependencies. This is useful to
+Exclude the package from the generated dependencies (since dpkg 1.14.8).
+This is useful to
 avoid self-dependencies for packages which provide ELF binaries
 (executables or library plugins) using a library contained in the same
 package. This option can be used multiple times to exclude several
 packages.
 .TP
 .BI \-S package-build-dir
-Look into \fIpackage-build-dir\fP first when trying to find a library. This is
+Look into \fIpackage-build-dir\fP first when trying to find a library
+(since dpkg 1.14.15).
+This is
 useful when the source package builds multiple flavors of the same library
 and you want to ensure that you get the dependency from a given binary
 package. You can use this option multiple times: directories will be
 tried in the same order before directories of other binary packages.
 .TP
 .BI \-\-ignore\-missing\-info
-Do not fail if dependency information can't be found for a shared library.
+Do not fail if dependency information can't be found for a shared library
+(since dpkg 1.14.8).
 Usage of this option is discouraged, all libraries should provide
 dependency information (either with shlibs files, or with symbols files)
 even if they are not yet used by other packages.
 .TP
 .BI \-\-warnings= value
 \fIvalue\fP is a bit field defining the set of warnings that
-can be emitted by \fBdpkg\-shlibdeps\fP.
+can be emitted by \fBdpkg\-shlibdeps\fP (since dpkg 1.14.17).
 Bit 0 (value=1) enables the warning "symbol \fIsym\fP used by \fIbinary\fP
 found in none of the libraries", bit 1 (value=2) enables the warning
 "package could avoid a useless dependency" and bit 2 (value=4)
@@ -245,8 +251,8 @@ default, the last one is not. Set \fIvalue\fP to 7 if you want all
 warnings to be active.
 .TP
 .BI \-\-admindir= dir
-Change the location of the \fBdpkg\fR database. The default location is
-\fI/var/lib/dpkg\fP.
+Change the location of the \fBdpkg\fR database (since dpkg 1.14.0).
+The default location is \fI/var/lib/dpkg\fP.
 .TP
 .BR \-? ", " \-\-help
 Show the usage message and exit.
