@@ -270,8 +270,8 @@ tar_entry_destroy(struct tar_entry *te)
 	free(te->stat.gname);
 }
 
-struct symlinkList {
-	struct symlinkList *next;
+struct tar_symlink_entry {
+	struct tar_symlink_entry *next;
 	struct tar_entry h;
 };
 
@@ -306,7 +306,7 @@ tar_extractor(void *ctx, const struct tar_operations *ops)
 	struct tar_entry h;
 
 	char *next_long_name, *next_long_link;
-	struct symlinkList *symlink_head, *symlink_tail, *symlink_node;
+	struct tar_symlink_entry *symlink_head, *symlink_tail, *symlink_node;
 
 	next_long_name = NULL;
 	next_long_link = NULL;
