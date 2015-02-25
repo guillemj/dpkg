@@ -210,7 +210,9 @@ finish_mv_conffile() {
 	ensure_package_owns_file "$PACKAGE" "$OLDCONFFILE" || return 0
 
 	echo "Preserving user changes to $NEWCONFFILE (renamed from $OLDCONFFILE)..."
-	mv -f "$NEWCONFFILE" "$NEWCONFFILE.dpkg-new"
+	if [ -e "$NEWCONFFILE" ]; then
+		mv -f "$NEWCONFFILE" "$NEWCONFFILE.dpkg-new"
+	fi
 	mv -f "$OLDCONFFILE" "$NEWCONFFILE"
 }
 
