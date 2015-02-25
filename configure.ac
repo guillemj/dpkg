@@ -108,7 +108,6 @@ DPKG_CHECK_PROGNAME
 DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free \
                          strnlen strndup strerror strsignal asprintf \
                          scandir alphasort unsetenv])
-AC_CHECK_DECLS([strnlen], [[#include <string.h>]])
 AC_CHECK_FUNCS([memcpy lchown],
                [], [AC_MSG_ERROR([missing required function])])
 AC_CHECK_FUNCS([strtoimax isascii setsid getdtablesize \
