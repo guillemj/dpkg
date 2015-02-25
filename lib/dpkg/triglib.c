@@ -164,7 +164,7 @@ static const struct trigkindinfo tki_explicit, tki_file, tki_unknown;
 static const struct trigkindinfo *dtki;
 
 /* As passed into activate_start. */
-static const char *trig_activating_name;
+static char *trig_activating_name;
 
 static const struct trigkindinfo *
 trig_classify_byname(const char *name)
@@ -200,7 +200,7 @@ static void
 trig_activate_start(const char *name)
 {
 	dtki = trig_classify_byname(name);
-	trig_activating_name = name;
+	trig_activating_name = nfstrsave(name);
 	dtki->activate_start();
 }
 
@@ -282,7 +282,7 @@ static void
 trk_explicit_activate_start(void)
 {
 	trk_explicit_start(trig_activating_name);
-	trk_explicit_trig = nfstrsave(trig_activating_name);
+	trk_explicit_trig = trig_activating_name;
 }
 
 static void
@@ -601,7 +601,7 @@ static const char *trk_file_trig;
 static void
 trk_file_activate_start(void)
 {
-	trk_file_trig = nfstrsave(trig_activating_name);
+	trk_file_trig = trig_activating_name;
 }
 
 static void
