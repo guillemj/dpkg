@@ -191,10 +191,10 @@ invalid:
 
 /*
  * Calling sequence is:
- *  trig_activate_start(triggername)
- *  dtki->activate_awaiter(awaiting_package) } zero or more times
- *  dtki->activate_awaiter(0)                }  in any order
- *  dtki->activate_done(0)
+ *  trig_activate_start(triggername);
+ *  dtki->activate_awaiter(awaiting_package); } zero or more times
+ *  dtki->activate_awaiter(NULL);             }  in any order
+ *  dtki->activate_done();
  */
 static void
 trig_activate_start(const char *name)
