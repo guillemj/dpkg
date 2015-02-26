@@ -503,13 +503,7 @@ if ($checkbuilddep) {
     } elsif (WEXITSTATUS($?)) {
 	warning(g_('build dependencies/conflicts unsatisfied; aborting'));
 	warning(g_('(Use -d flag to override.)'));
-
-	if (build_sourceonly) {
-	    warning(g_('this is currently a non-fatal warning with -S, but ' .
-	               'will probably become fatal in the future'));
-	} else {
-	    exit 3;
-	}
+	exit 3;
     }
 }
 
