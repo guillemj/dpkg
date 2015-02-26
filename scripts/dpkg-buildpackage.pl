@@ -350,6 +350,8 @@ if (($include & BUILD_BINARY) == BUILD_BINARY) {
 if ($noclean) {
     # -nc without -b/-B/-A/-S/-F implies -b
     $include = BUILD_BINARY if build_is_default;
+    # -nc with -S implies no dependency checks
+    $checkbuilddep = 0 if build_sourceonly;
 }
 
 if ($< == 0) {
