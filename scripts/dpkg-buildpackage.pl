@@ -59,7 +59,7 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 'Options:
-  -F (default)   normal full build (binaries and sources).
+  -F             normal full build (binaries and sources, default).
   -g             source and arch-indep build.
   -G             source and arch-specific build.
   -b             binary-only, no source files.
@@ -68,7 +68,7 @@ sub usage {
   -S             source-only, no binary files.
   -nc            do not clean source tree (implies -b).
   -tc            clean source tree when finished.
-  -D (default)   check build dependencies and conflicts.
+  -D             check build dependencies and conflicts (default).
   -d             do not check build dependencies and conflicts.
   -P<profiles>   assume given build profiles as active (comma-separated list).
   -R<rules>      rules file to execute (default is debian/rules).
@@ -106,7 +106,7 @@ sub usage {
       --target-type <type>  set the target GNU system type.')
     . "\n\n" . g_(
 'Options passed to dpkg-genchanges:
-  -si (default)  source includes orig, if new upstream.
+  -si            source includes orig, if new upstream (default).
   -sa            source includes orig, always.
   -sd            source is diff and .dsc only.
   -v<version>    changes since version <version>.

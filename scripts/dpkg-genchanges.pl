@@ -146,7 +146,7 @@ sub usage {
   -m<maintainer>           override control's maintainer value.
   -e<maintainer>           override changelog's maintainer value.
   -u<upload-files-dir>     directory with files (default is '..').
-  -si (default)            source includes orig, if new upstream.
+  -si                      source includes orig, if new upstream (default).
   -sa                      source includes orig, always.
   -sd                      source is diff and .dsc only.
   -q                       quiet - no informational messages on stderr.
