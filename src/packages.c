@@ -269,7 +269,7 @@ void process_queue(void) {
     case act_triggers:
       if (!pkg->trigpend_head)
         ohshit(_("package %.250s is not ready for trigger processing\n"
-                 " (current status `%.250s' with no pending triggers)"),
+                 " (current status '%.250s' with no pending triggers)"),
                pkg_name(pkg, pnaw_nonambig), pkg_status_name(pkg));
       /* Fall through. */
     case act_install:

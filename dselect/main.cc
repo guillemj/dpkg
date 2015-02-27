@@ -154,7 +154,7 @@ static const menuentry menuentries[]= {
 };
 
 static const char programdesc[]=
-      N_("Debian `%s' package handling frontend version %s.\n");
+      N_("Debian '%s' package handling frontend version %s.\n");
 
 static const char licensestring[]= N_(
       "This is free software; see the GNU General Public License version 2 or\n"
@@ -231,7 +231,7 @@ extern "C" {
 
     fp = fopen(v, "a");
     if (!fp)
-      ohshite(_("couldn't open debug file `%.255s'\n"), v);
+      ohshite(_("couldn't open debug file '%.255s'\n"), v);
 
     debug_set_output(fp, v);
     debug_set_mask(dbg_general | dbg_depcon);
@@ -537,7 +537,8 @@ main(int, const char *const *argv)
       const menuentry *me = menuentries;
       while (me->command && strcmp(me->command, a))
         me++;
-      if (!me->command) badusage(_("unknown action string `%.50s'"),a);
+      if (!me->command)
+        badusage(_("unknown action string '%.50s'"), a);
       me->fn();
     }
   } else {

@@ -198,8 +198,8 @@ check_rename(struct file *src, struct file *dst)
 	    dst->stat_state == FILE_STAT_VALID &&
 	    !(src->stat.st_dev == dst->stat.st_dev &&
 	      src->stat.st_ino == dst->stat.st_ino))
-		ohshit(_("rename involves overwriting `%s' with\n"
-		         "  different file `%s', not allowed"),
+		ohshit(_("rename involves overwriting '%s' with\n"
+		         "  different file '%s', not allowed"),
 		        dst->name, src->name);
 
 	return true;
@@ -471,7 +471,7 @@ diversion_add(const char *const *argv)
 			exit(0);
 		}
 
-		ohshit(_("`%s' clashes with `%s'"),
+		ohshit(_("'%s' clashes with '%s'"),
 		       diversion_current(filename),
 		       fnn_from->divert ?
 		       diversion_describe(fnn_from->divert) :
@@ -581,15 +581,15 @@ diversion_remove(const char *const *argv)
 	if (opt_divertto != NULL &&
 	    strcmp(opt_divertto, contest->useinstead->name) != 0)
 		ohshit(_("mismatch on divert-to\n"
-		         "  when removing `%s'\n"
-		         "  found `%s'"),
+		         "  when removing '%s'\n"
+		         "  found '%s'"),
 		       diversion_current(filename),
 		       diversion_describe(contest));
 
 	if (!opt_pkgname_match_any && pkgset != contest->pkgset)
 		ohshit(_("mismatch on package\n"
-		         "  when removing `%s'\n"
-		         "  found `%s'"),
+		         "  when removing '%s'\n"
+		         "  found '%s'"),
 		       diversion_current(filename),
 		       diversion_describe(contest));
 

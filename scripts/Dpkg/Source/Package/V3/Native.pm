@@ -80,7 +80,7 @@ sub do_build {
     my @argv = @{$self->{options}{ARGV}};
 
     if (scalar(@argv)) {
-        usageerr(g_("-b takes only one parameter with format `%s'"),
+        usageerr(g_("-b takes only one parameter with format '%s'"),
                  $self->{fields}{'Format'});
     }
 
@@ -102,11 +102,11 @@ sub do_build {
     $tar->add_directory($dirname);
     $tar->finish();
     rename($newtar, $tarname)
-        or syserr(g_("unable to rename `%s' (newly created) to `%s'"),
+        or syserr(g_("unable to rename '%s' (newly created) to '%s'"),
                   $newtar, $tarname);
     pop_exit_handler();
     chmod(0666 &~ umask(), $tarname)
-        or syserr(g_("unable to change permission of `%s'"), $tarname);
+        or syserr(g_("unable to change permission of '%s'"), $tarname);
 
     $self->add_file($tarname);
 }

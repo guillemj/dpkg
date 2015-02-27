@@ -242,7 +242,7 @@ while (@ARGV) {
         push @files, @ARGV;
         last;
     } elsif (m/^-/) {
-        usageerr(g_("unknown option \`%s'"), $_);
+        usageerr(g_("unknown option '%s'"), $_);
     } else {
         push @files, $_;
     }

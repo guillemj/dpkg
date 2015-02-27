@@ -102,7 +102,7 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
              debar, component);
       re++;
     } else {
-      ohshite(_("open component `%.255s' (in %.255s) failed in an unexpected way"),
+      ohshite(_("open component '%.255s' (in %.255s) failed in an unexpected way"),
               component, dir);
     }
   }
@@ -127,7 +127,7 @@ info_list(const char *debar, const char *dir)
 
   cdn = scandir(dir, &cdlist, &ilist_select, alphasort);
   if (cdn == -1)
-    ohshite(_("cannot scan directory `%.255s'"), dir);
+    ohshite(_("cannot scan directory '%.255s'"), dir);
 
   for (n = 0; n < cdn; n++) {
     cdep = cdlist[n];
@@ -136,11 +136,11 @@ info_list(const char *debar, const char *dir)
     varbuf_printf(&controlfile, "%s/%s", dir, cdep->d_name);
 
     if (stat(controlfile.buf, &stab))
-      ohshite(_("cannot stat `%.255s' (in `%.255s')"), cdep->d_name, dir);
+      ohshite(_("cannot stat '%.255s' (in '%.255s')"), cdep->d_name, dir);
     if (S_ISREG(stab.st_mode)) {
       cc = fopen(controlfile.buf, "r");
       if (!cc)
-        ohshite(_("cannot open `%.255s' (in `%.255s')"), cdep->d_name, dir);
+        ohshite(_("cannot open '%.255s' (in '%.255s')"), cdep->d_name, dir);
       lines = 0;
       interpreter[0] = '\0';
       if (getc(cc) == '#') {
@@ -155,8 +155,8 @@ info_list(const char *debar, const char *dir)
         }
       }
       while ((c= getc(cc))!= EOF) { if (c == '\n') lines++; }
-      if (ferror(cc)) ohshite(_("failed to read `%.255s' (in `%.255s')"),
-                              cdep->d_name, dir);
+      if (ferror(cc))
+        ohshite(_("failed to read '%.255s' (in '%.255s')"), cdep->d_name, dir);
       fclose(cc);
       printf(_(" %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"),
              (intmax_t)stab.st_size, lines, S_IXUSR & stab.st_mode ? '*' : ' ',
@@ -173,8 +173,8 @@ info_list(const char *debar, const char *dir)
   cc = fopen(controlfile.buf, "r");
   if (!cc) {
     if (errno != ENOENT)
-      ohshite(_("failed to read `%.255s' (in `%.255s')"), CONTROLFILE, dir);
-    fputs(_("(no `control' file in control archive!)\n"), stdout);
+      ohshite(_("failed to read '%.255s' (in '%.255s')"), CONTROLFILE, dir);
+    fputs(_("(no 'control' file in control archive!)\n"), stdout);
   } else {
     lines= 1;
     while ((c= getc(cc))!= EOF) {
@@ -187,7 +187,7 @@ info_list(const char *debar, const char *dir)
       putc('\n', stdout);
 
     if (ferror(cc))
-      ohshite(_("failed to read `%.255s' (in `%.255s')"), CONTROLFILE, dir);
+      ohshite(_("failed to read '%.255s' (in '%.255s')"), CONTROLFILE, dir);
     fclose(cc);
   }
 

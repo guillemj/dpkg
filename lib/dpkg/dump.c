@@ -468,7 +468,7 @@ writerecord(FILE *file, const char *filename,
     varbuf_add_pkgbin_name(&pkgname, pkg, pkgbin, pnaw_nonambig);
 
     errno = errno_saved;
-    ohshite(_("failed to write details of `%.50s' to `%.250s'"),
+    ohshite(_("failed to write details of '%.50s' to '%.250s'"),
             pkgname.buf, filename);
   }
 

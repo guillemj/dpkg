@@ -120,7 +120,7 @@ sub add_diff_file {
                        'original or modified version)'), $new);
         } else {
             chomp;
-            error(g_("unknown line from diff -u on %s: `%s'"), $new, $_);
+            error(g_("unknown line from diff -u on %s: '%s'"), $new, $_);
         }
 	if (*$self->{empty} and defined(*$self->{header})) {
 	    $self->print(*$self->{header}) or syserr(g_('failed to write'));
@@ -419,7 +419,7 @@ sub analyze {
 	$diff_count++;
 	# read file header (---/+++ pair)
 	unless ($line =~ s/^--- //) {
-	    error(g_("expected ^--- in line %d of diff `%s'"), $., $diff);
+	    error(g_("expected ^--- in line %d of diff '%s'"), $., $diff);
 	}
 	$path{old} = $line = _fetch_filename($diff, $line);
 	if ($line ne '/dev/null' and $line =~ s{^[^/]*/+}{$destdir/}) {
@@ -432,10 +432,12 @@ sub analyze {
 
 	$line = _getline($self);
 	unless (defined $line) {
-	    error(g_("diff `%s' finishes in middle of ---/+++ (line %d)"), $diff, $.);
+	    error(g_("diff '%s' finishes in middle of ---/+++ (line %d)"),
+	          $diff, $.);
 	}
 	unless ($line =~ s/^\+\+\+ //) {
-	    error(g_("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
+	    error(g_("line after --- isn't as expected in diff '%s' (line %d)"),
+	          $diff, $.);
 	}
 	$path{new} = $line = _fetch_filename($diff, $line);
 	if ($line ne '/dev/null' and $line =~ s{^[^/]*/+}{$destdir/}) {
@@ -465,10 +467,10 @@ sub analyze {
 	}
 
         if ($path{old} eq '/dev/null' and $path{new} eq '/dev/null') {
-            error(g_("original and modified files are /dev/null in diff `%s' (line %d)"),
+            error(g_("original and modified files are /dev/null in diff '%s' (line %d)"),
                   $diff, $.);
         } elsif ($path{new} eq '/dev/null') {
-            error(g_("file removal without proper filename in diff `%s' (line %d)"),
+            error(g_("file removal without proper filename in diff '%s' (line %d)"),
                   $diff, $. - 1) unless defined $fn{old};
             if ($opts{verbose}) {
                 warning(g_('diff %s removes a non-existing file %s (line %d)'),
@@ -483,11 +485,12 @@ sub analyze {
 	}
 
 	if (-e $fn and not -f _) {
-	    error(g_("diff `%s' patches something which is not a plain file"), $diff);
+	    error(g_("diff '%s' patches something which is not a plain file"),
+	          $diff);
 	}
 
 	if ($filepatched{$fn}) {
-	    warning(g_("diff `%s' patches file %s twice"), $diff, $fn)
+	    warning(g_("diff '%s' patches file %s twice"), $diff, $fn)
 		if $opts{verbose};
 	} else {
 	    $filepatched{$fn} = 1;
@@ -505,11 +508,11 @@ sub analyze {
 	    while ($olines || $nlines) {
 		unless (defined($line = _getline($self))) {
                     if (($olines == $nlines) and ($olines < 3)) {
-                        warning(g_("unexpected end of diff `%s'"), $diff)
+                        warning(g_("unexpected end of diff '%s'"), $diff)
                             if $opts{verbose};
                         last;
                     } else {
-                        error(g_("unexpected end of diff `%s'"), $diff);
+                        error(g_("unexpected end of diff '%s'"), $diff);
                     }
 		}
 		next if $line =~ /^\\ /;
@@ -522,19 +525,19 @@ sub analyze {
 		} elsif ($line =~ /^\+/) {
 		    --$nlines;
 		} else {
-		    error(g_("expected [ +-] at start of line %d of diff `%s'"),
+		    error(g_("expected [ +-] at start of line %d of diff '%s'"),
 		          $., $diff);
 		}
 	    }
 	    $hunk++;
 	}
 	unless ($hunk) {
-	    error(g_("expected ^\@\@ at line %d of diff `%s'"), $., $diff);
+	    error(g_("expected ^\@\@ at line %d of diff '%s'"), $., $diff);
 	}
     }
     close($self);
     unless ($diff_count) {
-	warning(g_("diff `%s' doesn't contain any patch"), $diff)
+	warning(g_("diff '%s' doesn't contain any patch"), $diff)
 	    if $opts{verbose};
     }
     *$self->{analysis}{$destdir}{dirtocreate} = \%dirtocreate;

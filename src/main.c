@@ -58,7 +58,7 @@
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
-  printf(_("Debian `%s' package management program version %s.\n"),
+  printf(_("Debian '%s' package management program version %s.\n"),
          DPKG, DPKG_VERSION_ARCH);
   printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -101,7 +101,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
 "  -s|--status <package> ...        Display package status details.\n"
 "  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
+"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
@@ -634,7 +634,7 @@ set_force(const struct cmdinfo *cip, const char *value)
         break;
 
     if (!fip->name) {
-      badusage(_("unknown force/refuse option `%.*s'"),
+      badusage(_("unknown force/refuse option '%.*s'"),
                (int)min(l, 250), value);
     } else if (strcmp(fip->name, "all") == 0) {
       for (fip = forceinfos; fip->name; fip++)
@@ -786,7 +786,7 @@ commandfd(const char *const *argv)
   infd = dpkg_options_parse_arg_int(cipaction, pipein);
   in = fdopen(infd, "r");
   if (in == NULL)
-    ohshite(_("couldn't open `%i' for stream"), (int) infd);
+    ohshite(_("couldn't open '%i' for stream"), (int)infd);
 
   for (;;) {
     bool mode = false;

@@ -375,7 +375,7 @@ sub restore_quilt_backup_files {
                     copy($_, $target)
                         or syserr(g_('failed to copy %s to %s'), $_, $target);
                     chmod((stat(_))[2], $target)
-                        or syserr(g_("unable to change permission of `%s'"), $target);
+                        or syserr(g_("unable to change permission of '%s'"), $target);
                 }
             } else {
                 # empty files are "backups" for new files that patch created

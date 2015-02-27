@@ -235,7 +235,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
   if (fd==-1) {
     if (errno != ENOENT)
-      ohshite(_("unable to open files list file for package `%.250s'"),
+      ohshite(_("unable to open files list file for package '%.250s'"),
               pkg_name(pkg, pnaw_nonambig));
     onerr_abort--;
     if (pkg->status != PKG_STAT_CONFIGFILES &&
@@ -282,7 +282,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
       if (ptr > thisline && ptr[-1] == '/') ptr--;
       /* Add the file to the list. */
       if (ptr == thisline)
-        ohshit(_("files list file for package `%.250s' contains empty filename"),
+        ohshit(_("files list file for package '%.250s' contains empty filename"),
                pkg_name(pkg, pnaw_nonambig));
       *ptr = '\0';
 
@@ -293,7 +293,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
   }
   pop_cleanup(ehflag_normaltidy); /* fd = open() */
   if (close(fd))
-    ohshite(_("error closing files list file for package `%.250s'"),
+    ohshite(_("error closing files list file for package '%.250s'"),
             pkg_name(pkg, pnaw_nonambig));
 
   onerr_abort--;

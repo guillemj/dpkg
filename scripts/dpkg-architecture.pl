@@ -226,7 +226,7 @@ while (@ARGV) {
         version();
        exit 0;
     } else {
-        usageerr(g_("unknown option \`%s'"), $arg);
+        usageerr(g_("unknown option '%s'"), $arg);
     }
 }
 

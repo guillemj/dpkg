@@ -101,7 +101,7 @@ See the man page for the full documentation.
 
 sub close_msg {
     my $name = shift;
-    return sprintf(g_("error closing %s (\$? %d, \$! `%s')"),
+    return sprintf(g_("error closing %s (\$? %d, \$! '%s')"),
                    $name, $?, $!)."\n";
 }
 

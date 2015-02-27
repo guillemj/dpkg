@@ -131,7 +131,7 @@ sub do_extract {
         erasedir($newdirectory);
         if (-e $expectprefix) {
             rename($expectprefix, "$newdirectory.tmp-keep")
-                or syserr(g_("unable to rename `%s' to `%s'"), $expectprefix,
+                or syserr(g_("unable to rename '%s' to '%s'"), $expectprefix,
                           "$newdirectory.tmp-keep");
         }
 
@@ -211,7 +211,7 @@ sub do_build {
     my $origtargz = $self->get_basename() . '.orig.tar.gz';
     if (-e $origtargz) {
         unless (-f $origtargz) {
-            error(g_("packed orig `%s' exists but is not a plain file"), $origtargz);
+            error(g_("packed orig '%s' exists but is not a plain file"), $origtargz);
         }
     } else {
         $origtargz = undef;
@@ -262,12 +262,12 @@ sub do_build {
 	} else {
 	    if (stat($origdir)) {
 		unless (-d _) {
-                    error(g_("unpacked orig `%s' exists but is not a directory"),
+                    error(g_("unpacked orig '%s' exists but is not a directory"),
 		          $origdir);
                 }
 		$sourcestyle =~ y/aA/rR/; # .orig directory
 	    } elsif ($! != ENOENT) {
-		syserr(g_("unable to stat putative unpacked orig `%s'"), $origdir);
+		syserr(g_("unable to stat putative unpacked orig '%s'"), $origdir);
 	    } else {
 		$sourcestyle =~ y/aA/nn/; # Native tar.gz
 	    }
@@ -306,11 +306,11 @@ sub do_build {
     } elsif ($sourcestyle =~ m/[nurUR]/) {
         if (stat($tarname)) {
             unless ($sourcestyle =~ m/[nUR]/) {
-		error(g_("tarfile `%s' already exists, not overwriting, " .
+		error(g_("tarfile '%s' already exists, not overwriting, " .
 		         'giving up; use -sU or -sR to override'), $tarname);
             }
         } elsif ($! != ENOENT) {
-	    syserr(g_("unable to check for existence of `%s'"), $tarname);
+	    syserr(g_("unable to check for existence of '%s'"), $tarname);
         }
 
 	info(g_('building %s in %s'),
@@ -325,10 +325,10 @@ sub do_build {
 	$tar->add_directory($tardirname);
 	$tar->finish();
 	rename($newtar, $tarname)
-	    or syserr(g_("unable to rename `%s' (newly created) to `%s'"),
+	    or syserr(g_("unable to rename '%s' (newly created) to '%s'"),
 	              $newtar, $tarname);
 	chmod(0666 &~ umask(), $tarname)
-	    or syserr(g_("unable to change permission of `%s'"), $tarname);
+	    or syserr(g_("unable to change permission of '%s'"), $tarname);
     } else {
 	info(g_('building %s using existing %s'),
 	     $sourcepackage, $tarname);
@@ -389,10 +389,10 @@ sub do_build {
 	}
 
 	rename($newdiffgz, $diffname)
-	    or syserr(g_("unable to rename `%s' (newly created) to `%s'"),
+	    or syserr(g_("unable to rename '%s' (newly created) to '%s'"),
 	              $newdiffgz, $diffname);
 	chmod(0666 &~ umask(), $diffname)
-	    or syserr(g_("unable to change permission of `%s'"), $diffname);
+	    or syserr(g_("unable to change permission of '%s'"), $diffname);
 
 	$self->add_file($diffname);
     }

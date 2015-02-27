@@ -96,7 +96,7 @@ sub do_build {
     my ($dirname, $updir) = fileparse($dir);
 
     if (scalar(@argv)) {
-        usageerr(g_("-b takes only one parameter with format `%s'"),
+        usageerr(g_("-b takes only one parameter with format '%s'"),
                  $self->{fields}{'Format'});
     }
 
@@ -109,7 +109,7 @@ sub do_build {
     sanity_check($dir);
 
     my $old_cwd = getcwd();
-    chdir($dir) or syserr(g_("unable to chdir to `%s'"), $dir);
+    chdir $dir or syserr(g_("unable to chdir to '%s'"), $dir);
 
     local $_;
 
@@ -133,7 +133,7 @@ sub do_build {
               join(' ', @files));
     }
 
-    chdir($old_cwd) or syserr(g_("unable to chdir to `%s'"), $old_cwd);
+    chdir $old_cwd or syserr(g_("unable to chdir to '%s'"), $old_cwd);
 
     my $tmp = tempdir("$dirname.bzr.XXXXXX", DIR => $updir);
     push_exit_handler(sub { erasedir($tmp) });
@@ -199,13 +199,13 @@ sub do_extract {
 
     my $old_cwd = getcwd();
     chdir($newdirectory)
-        or syserr(g_("unable to chdir to `%s'"), $newdirectory);
+        or syserr(g_("unable to chdir to '%s'"), $newdirectory);
 
     # Reconstitute the working tree.
     system('bzr', 'checkout');
     subprocerr('bzr checkout') if $?;
 
-    chdir($old_cwd) or syserr(g_("unable to chdir to `%s'"), $old_cwd);
+    chdir $old_cwd or syserr(g_("unable to chdir to '%s'"), $old_cwd);
 }
 
 1;

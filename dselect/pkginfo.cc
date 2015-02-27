@@ -88,7 +88,7 @@ void packagelist::severalinfoblurb()
      "If you move the highlight to a line for a particular package "
      "you will see information about that package displayed here."
      "\n"
-     "You can use `o' and `O' to change the sort order and give yourself "
+     "You can use 'o' and 'O' to change the sort order and give yourself "
      "the opportunity to mark packages in different kinds of groups."));
   wordwrapinfo(0,vb.string());
 }

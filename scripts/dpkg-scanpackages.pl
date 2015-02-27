@@ -208,7 +208,7 @@ FILE:
 	    or error(g_("couldn't parse control information from %s"), $fn);
 	wait_child($pid, nocheck => 1);
 	if ($?) {
-	    warning(g_("\`dpkg-deb -I %s control' exited with %d, skipping package"),
+	    warning(g_("'dpkg-deb -I %s control' exited with %d, skipping package"),
 	            $fn, $?);
 	    next;
 	}

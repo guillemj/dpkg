@@ -102,7 +102,7 @@ sub do_build {
     sanity_check($dir);
 
     my $old_cwd = getcwd();
-    chdir($dir) or syserr(g_("unable to chdir to `%s'"), $dir);
+    chdir $dir or syserr(g_("unable to chdir to '%s'"), $dir);
 
     # Check for uncommitted files.
     # To support dpkg-source -i, get a list of files
@@ -142,7 +142,7 @@ sub do_build {
     my $tmp;
     my $shallowfile;
     if ($self->{options}{git_depth}) {
-        chdir($old_cwd) or syserr(g_("unable to chdir to `%s'"), $old_cwd);
+        chdir $old_cwd or syserr(g_("unable to chdir to '%s'"), $old_cwd);
         $tmp = tempdir("$dirname.git.XXXXXX", DIR => $updir);
         push_exit_handler(sub { erasedir($tmp) });
         my $clone_dir = "$tmp/repo.git";
@@ -154,7 +154,7 @@ sub do_build {
                '--quiet', '--bare', 'file://' . abs_path($dir), $clone_dir);
         subprocerr('git clone') if $?;
         chdir($clone_dir)
-            or syserr(g_("unable to chdir to `%s'"), $clone_dir);
+            or syserr(g_("unable to chdir to '%s'"), $clone_dir);
         $shallowfile = "$basenamerev.gitshallow";
         system('cp', '-f', 'shallow', "$old_cwd/$shallowfile");
         subprocerr('cp shallow') if $?;
@@ -172,7 +172,7 @@ sub do_build {
     );
     subprocerr('git bundle') if $?;
 
-    chdir($old_cwd) or syserr(g_("unable to chdir to `%s'"), $old_cwd);
+    chdir $old_cwd or syserr(g_("unable to chdir to '%s'"), $old_cwd);
 
     if (defined $tmp) {
         erasedir($tmp);

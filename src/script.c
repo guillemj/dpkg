@@ -87,7 +87,7 @@ setexecute(const char *path, struct stat *stab)
 		return;
 	if (!chmod(path, 0755))
 		return;
-	ohshite(_("unable to set execute permissions on `%.250s'"), path);
+	ohshite(_("unable to set execute permissions on '%.250s'"), path);
 }
 
 /**
@@ -106,12 +106,12 @@ maintscript_pre_exec(struct command *cmd)
 			ohshite(_("unable to setenv for subprocesses"));
 
 		if (chroot(instdir))
-			ohshite(_("failed to chroot to `%.250s'"), instdir);
+			ohshite(_("failed to chroot to '%.250s'"), instdir);
 	}
 	/* Switch to a known good directory to give the maintainer script
 	 * a saner environment, also needed after the chroot(). */
 	if (chdir("/"))
-		ohshite(_("failed to chdir to `%.255s'"), "/");
+		ohshite(_("failed to chdir to '%.255s'"), "/");
 	if (debug_has_flag(dbg_scripts)) {
 		struct varbuf args = VARBUF_INIT;
 		const char **argv = cmd->argv;
@@ -216,7 +216,7 @@ vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
 			      scriptname);
 			return 0;
 		}
-		ohshite(_("unable to stat %s `%.250s'"), buf, scriptpath);
+		ohshite(_("unable to stat %s '%.250s'"), buf, scriptpath);
 	}
 	maintscript_exec(pkg, &pkg->installed, &cmd, &stab, 0);
 
@@ -288,7 +288,7 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 			      scriptname, cidir);
 			return 0;
 		}
-		ohshite(_("unable to stat %s `%.250s'"), buf, cidir);
+		ohshite(_("unable to stat %s '%.250s'"), buf, cidir);
 	}
 	maintscript_exec(pkg, &pkg->available, &cmd, &stab, 0);
 
@@ -350,7 +350,7 @@ maintscript_fallback(struct pkginfo *pkg,
 		if (errno == ENOENT)
 			ohshit(_("there is no script in the new version of the package - giving up"));
 		else
-			ohshite(_("unable to stat %s `%.250s'"), buf, cidir);
+			ohshite(_("unable to stat %s '%.250s'"), buf, cidir);
 	}
 
 	maintscript_exec(pkg, &pkg->available, &cmd, &stab, 0);

@@ -67,7 +67,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     } elsif (m/^--$/) {
         last;
     } else {
-        usageerr(g_("unknown option \`%s'"), $_);
+        usageerr(g_("unknown option '%s'"), $_);
     }
 }
 usageerr(g_('need exactly a filename, section and priority')) if @ARGV != 3;

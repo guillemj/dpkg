@@ -143,7 +143,7 @@ pkg_infodb_link_multiarch_files(void)
 		varbuf_end_str(&newname);
 
 		if (link(oldname.buf, newname.buf) && errno != EEXIST)
-			ohshite(_("error creating hard link `%.255s'"),
+			ohshite(_("error creating hard link '%.255s'"),
 			        newname.buf);
 		rename_head = rename_node_new(oldname.buf, newname.buf, rename_head);
 	}
@@ -163,15 +163,15 @@ cu_abort_db_upgrade(int argc, void **argv)
 	while (rename_head) {
 		next = rename_head->next;
 		if (link(rename_head->new, rename_head->old) && errno != EEXIST)
-			ohshite(_("error creating hard link `%.255s'"),
+			ohshite(_("error creating hard link '%.255s'"),
 			        rename_head->old);
 		if (unlink(rename_head->new))
-			ohshite(_("cannot remove `%.250s'"), rename_head->new);
+			ohshite(_("cannot remove '%.250s'"), rename_head->new);
 		rename_node_free(rename_head);
 		rename_head = next;
 	}
 	if (unlink(file->name_new) && errno != ENOENT)
-		ohshite(_("cannot remove `%.250s'"), file->name_new);
+		ohshite(_("cannot remove '%.250s'"), file->name_new);
 
 	atomic_file_free(file);
 }
@@ -197,7 +197,7 @@ pkg_infodb_unlink_monoarch_files(void)
 	while (rename_head) {
 		next = rename_head->next;
 		if (unlink(rename_head->old))
-			ohshite(_("cannot remove `%.250s'"), rename_head->old);
+			ohshite(_("cannot remove '%.250s'"), rename_head->old);
 		rename_node_free(rename_head);
 		rename_head = next;
 	}

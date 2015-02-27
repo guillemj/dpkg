@@ -232,7 +232,7 @@ main(int argc, const char *const *argv)
 	activate = argv[0];
 	badname = trig_name_is_illegal(activate);
 	if (badname)
-		badusage(_("invalid trigger name `%.250s': %.250s"),
+		badusage(_("invalid trigger name '%.250s': %.250s"),
 		         activate, badname);
 
 	trigdef_set_methods(&tdm_add);

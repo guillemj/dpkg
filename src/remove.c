@@ -212,7 +212,7 @@ removal_bulk_remove_file(const char *filename, const char *filetype)
   debug(dbg_stupidlyverbose, "removal_bulk info not postrm or list");
 
   if (unlink(filename))
-    ohshite(_("unable to delete control info file `%.250s'"), filename);
+    ohshite(_("unable to delete control info file '%.250s'"), filename);
 
   debug(dbg_scripts, "removal_bulk info unlinked %s", filename);
 }
@@ -345,7 +345,8 @@ removal_bulk_remove_files(struct pkginfo *pkg)
         push_leftover(&leftover,namenode);
         continue;
       }
-      if (errno != ENOTDIR) ohshite(_("cannot remove `%.250s'"),fnvb.buf);
+      if (errno != ENOTDIR)
+        ohshite(_("cannot remove '%.250s'"), fnvb.buf);
       debug(dbg_eachfiledetail, "removal_bulk unlinking '%s'", fnvb.buf);
       if (secure_unlink(fnvb.buf))
         ohshite(_("unable to securely remove '%.250s'"), fnvb.buf);
@@ -438,7 +439,8 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
       push_leftover(&leftover,namenode);
       continue;
     }
-    if (errno != ENOTDIR) ohshite(_("cannot remove `%.250s'"),fnvb.buf);
+    if (errno != ENOTDIR)
+      ohshite(_("cannot remove '%.250s'"), fnvb.buf);
 
     if (lstat(fnvb.buf, &stab) == 0 && S_ISLNK(stab.st_mode)) {
       debug(dbg_eachfiledetail, "removal_bulk is a symlink to a directory");
@@ -525,7 +527,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
         continue;
       conffnameused = fnvb.used;
       if (unlink(fnvb.buf) && errno != ENOENT && errno != ENOTDIR)
-        ohshite(_("cannot remove old config file `%.250s' (= `%.250s')"),
+        ohshite(_("cannot remove old config file '%.250s' (= '%.250s')"),
                 conff->name, fnvb.buf);
       p= strrchr(fnvb.buf,'/'); if (!p) continue;
       *p = '\0';
@@ -578,7 +580,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
         debug(dbg_conffdetail, "removal_bulk conffile dsd entry removing '%s'",
               removevb.buf);
         if (unlink(removevb.buf) && errno != ENOENT && errno != ENOTDIR)
-          ohshite(_("cannot remove old backup config file `%.250s' (of `%.250s')"),
+          ohshite(_("cannot remove old backup config file '%.250s' (of '%.250s')"),
                   removevb.buf, conff->name);
       }
       pop_cleanup(ehflag_normaltidy); /* closedir */

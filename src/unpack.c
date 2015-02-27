@@ -93,7 +93,7 @@ deb_reassemble(const char **filename, const char **pfilename)
   if (!reasmbuf)
     reasmbuf = dpkg_db_get_path(REASSEMBLETMP);
   if (unlink(reasmbuf) && errno != ENOENT)
-    ohshite(_("error ensuring `%.250s' doesn't exist"), reasmbuf);
+    ohshite(_("error ensuring '%.250s' doesn't exist"), reasmbuf);
 
   push_cleanup(cu_pathname, ~0, NULL, 0, 1, (void *)reasmbuf);
 
@@ -309,7 +309,7 @@ static void
 pkg_infodb_remove_file(const char *filename, const char *filetype)
 {
   if (unlink(filename))
-    ohshite(_("unable to delete control info file `%.250s'"), filename);
+    ohshite(_("unable to delete control info file '%.250s'"), filename);
 
   debug(dbg_scripts, "removal_bulk info unlinked %s", filename);
 }
@@ -320,7 +320,7 @@ static void
 pkg_infodb_update_file(const char *filename, const char *filetype)
 {
   if (strlen(filetype) > MAXCONTROLFILENAME)
-    ohshit(_("old version of package has overly-long info file name starting `%.250s'"),
+    ohshit(_("old version of package has overly-long info file name starting '%.250s'"),
            filename);
 
   /* We do the list separately. */
@@ -358,12 +358,12 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
     } else if (errno == ENOENT) {
       /* Right, no new version. */
       if (unlink(match_node->filename))
-        ohshite(_("unable to remove obsolete info file `%.250s'"),
+        ohshite(_("unable to remove obsolete info file '%.250s'"),
                 match_node->filename);
       debug(dbg_scripts, "process_archive info unlinked %s",
             match_node->filename);
     } else {
-      ohshite(_("unable to install (supposed) new info file `%.250s'"), cidir);
+      ohshite(_("unable to install (supposed) new info file '%.250s'"), cidir);
     }
     match_head = match_node->next;
     match_node_free(match_node);
@@ -384,16 +384,16 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
       continue;
     }
     if (strlen(de->d_name) > MAXCONTROLFILENAME)
-      ohshit(_("package contains overly-long control info file name (starting `%.50s')"),
+      ohshit(_("package contains overly-long control info file name (starting '%.50s')"),
              de->d_name);
 
     strcpy(cidirrest, de->d_name);
 
     /* First we check it's not a directory. */
     if (rmdir(cidir) == 0)
-      ohshit(_("package control info contained directory `%.250s'"), cidir);
+      ohshit(_("package control info contained directory '%.250s'"), cidir);
     else if (errno != ENOTDIR)
-      ohshite(_("package control info rmdir of `%.250s' didn't say not a dir"),
+      ohshite(_("package control info rmdir of '%.250s' didn't say not a dir"),
               de->d_name);
 
     /* Ignore the control file. */
@@ -411,7 +411,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
     /* Right, install it */
     newinfofilename = pkg_infodb_get_file(pkg, &pkg->available, de->d_name);
     if (rename(cidir, newinfofilename))
-      ohshite(_("unable to install new info file `%.250s' as `%.250s'"),
+      ohshite(_("unable to install new info file '%.250s' as '%.250s'"),
               cidir, newinfofilename);
 
     debug(dbg_scripts,
@@ -1096,7 +1096,7 @@ void process_archive(const char *filename) {
 	    memcpy(cfile->namenode->filestat, &tmp_stat, sizeof(struct stat));
 	  } else {
 	    if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
-	      ohshite(_("unable to stat other new file `%.250s'"),
+	      ohshite(_("unable to stat other new file '%.250s'"),
 		      cfile->namenode->name);
 	    cfile->namenode->filestat = &empty_stat;
 	    continue;

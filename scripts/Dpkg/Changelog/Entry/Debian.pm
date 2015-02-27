@@ -128,7 +128,7 @@ sub check_header {
 	my %optdone;
 	foreach my $opt (split(/\s*,\s*/, $options)) {
 	    unless ($opt =~ m/^([-0-9a-z]+)\=\s*(.*\S)$/i) {
-		push @errors, sprintf(g_("bad key-value after \`;': \`%s'"), $opt);
+		push @errors, sprintf(g_("bad key-value after ';': '%s'"), $opt);
 		next;
 	    }
 	    my ($k, $v) = (field_capitalize($1), $2);

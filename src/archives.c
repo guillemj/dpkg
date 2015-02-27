@@ -324,7 +324,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
      * it until we apply the proper mode, which might be a statoverride. */
     fd = open(path, O_CREAT | O_EXCL | O_WRONLY, 0);
     if (fd < 0)
-      ohshite(_("unable to create `%.255s' (while processing `%.255s')"),
+      ohshite(_("unable to create '%.255s' (while processing '%.255s')"),
               path, te->name);
     push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
     debug(dbg_eachfiledetail, "tarobject file open size=%jd",
@@ -353,9 +353,9 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
             namenode->statoverride->gid,
             namenode->statoverride->mode);
     if (fchown(fd, st->uid, st->gid))
-      ohshite(_("error setting ownership of `%.255s'"), te->name);
+      ohshite(_("error setting ownership of '%.255s'"), te->name);
     if (fchmod(fd, st->mode & ~S_IFMT))
-      ohshite(_("error setting permissions of `%.255s'"), te->name);
+      ohshite(_("error setting permissions of '%.255s'"), te->name);
 
     /* Postpone the fsync, to try to avoid massive I/O degradation. */
     if (!fc_unsafe_io)
@@ -363,21 +363,21 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
 
     pop_cleanup(ehflag_normaltidy); /* fd = open(path) */
     if (close(fd))
-      ohshite(_("error closing/writing `%.255s'"), te->name);
+      ohshite(_("error closing/writing '%.255s'"), te->name);
     break;
   case TAR_FILETYPE_FIFO:
     if (mkfifo(path, 0))
-      ohshite(_("error creating pipe `%.255s'"), te->name);
+      ohshite(_("error creating pipe '%.255s'"), te->name);
     debug(dbg_eachfiledetail, "tarobject fifo");
     break;
   case TAR_FILETYPE_CHARDEV:
     if (mknod(path, S_IFCHR, te->dev))
-      ohshite(_("error creating device `%.255s'"), te->name);
+      ohshite(_("error creating device '%.255s'"), te->name);
     debug(dbg_eachfiledetail, "tarobject chardev");
     break;
   case TAR_FILETYPE_BLOCKDEV:
     if (mknod(path, S_IFBLK, te->dev))
-      ohshite(_("error creating device `%.255s'"), te->name);
+      ohshite(_("error creating device '%.255s'"), te->name);
     debug(dbg_eachfiledetail, "tarobject blockdev");
     break;
   case TAR_FILETYPE_HARDLINK:
@@ -390,20 +390,20 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
       varbuf_add_str(&hardlinkfn, DPKGNEWEXT);
     varbuf_end_str(&hardlinkfn);
     if (link(hardlinkfn.buf, path))
-      ohshite(_("error creating hard link `%.255s'"), te->name);
+      ohshite(_("error creating hard link '%.255s'"), te->name);
     namenode->newhash = linknode->newhash;
     debug(dbg_eachfiledetail, "tarobject hardlink hash=%s", namenode->newhash);
     break;
   case TAR_FILETYPE_SYMLINK:
     /* We've already checked for an existing directory. */
     if (symlink(te->linkname, path))
-      ohshite(_("error creating symbolic link `%.255s'"), te->name);
+      ohshite(_("error creating symbolic link '%.255s'"), te->name);
     debug(dbg_eachfiledetail, "tarobject symlink creating");
     break;
   case TAR_FILETYPE_DIR:
     /* We've already checked for an existing directory. */
     if (mkdir(path, 0))
-      ohshite(_("error creating directory `%.255s'"), te->name);
+      ohshite(_("error creating directory '%.255s'"), te->name);
     debug(dbg_eachfiledetail, "tarobject directory creating");
     break;
   default:
@@ -450,11 +450,11 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
   if (te->type == TAR_FILETYPE_SYMLINK) {
 #ifdef HAVE_LUTIMES
     if (lutimes(path, tv) && errno != ENOSYS)
-      ohshite(_("error setting timestamps of `%.255s'"), path);
+      ohshite(_("error setting timestamps of '%.255s'"), path);
 #endif
   } else {
     if (utimes(path, tv))
-      ohshite(_("error setting timestamps of `%.255s'"), path);
+      ohshite(_("error setting timestamps of '%.255s'"), path);
   }
 }
 
@@ -466,12 +466,12 @@ tarobject_set_perms(struct tar_entry *te, const char *path, struct file_stat *st
 
   if (te->type == TAR_FILETYPE_SYMLINK) {
     if (lchown(path, st->uid, st->gid))
-      ohshite(_("error setting ownership of symlink `%.255s'"), path);
+      ohshite(_("error setting ownership of symlink '%.255s'"), path);
   } else {
     if (chown(path, st->uid, st->gid))
-      ohshite(_("error setting ownership of `%.255s'"), path);
+      ohshite(_("error setting ownership of '%.255s'"), path);
     if (chmod(path, st->mode & ~S_IFMT))
-      ohshite(_("error setting permissions of `%.255s'"), path);
+      ohshite(_("error setting permissions of '%.255s'"), path);
   }
 }
 
@@ -504,7 +504,7 @@ tarobject_matches(struct tarcontext *tc,
     linkname = m_malloc(stab->st_size + 1);
     linksize = readlink(fn_old, linkname, stab->st_size + 1);
     if (linksize < 0)
-      ohshite(_("unable to read link `%.255s'"), fn_old);
+      ohshite(_("unable to read link '%.255s'"), fn_old);
     else if (linksize != stab->st_size)
       ohshit(_("symbolic link '%.250s' size has changed from %jd to %zd"),
              fn_old, stab->st_size, linksize);
@@ -600,7 +600,7 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
   statr= stat(fname, &oldstab);
   if (statr) {
     if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
-      ohshite(_("failed to stat (dereference) existing symlink `%.250s'"),
+      ohshite(_("failed to stat (dereference) existing symlink '%.250s'"),
               fname);
     return false;
   }
@@ -623,7 +623,7 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
   if (statr) {
     if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
       ohshite(_("failed to stat (dereference) proposed new symlink target"
-                " `%.250s' for symlink `%.250s'"), symlinkfn->buf, fname);
+                " '%.250s' for symlink '%.250s'"), symlinkfn->buf, fname);
     return false;
   }
   if (!S_ISDIR(newstab.st_mode))
@@ -682,14 +682,14 @@ tarobject(void *ctx, struct tar_entry *ti)
 
     if (divpkgset) {
       forcibleerr(fc_overwritediverted,
-                  _("trying to overwrite `%.250s', which is the "
-                    "diverted version of `%.250s' (package: %.100s)"),
+                  _("trying to overwrite '%.250s', which is the "
+                    "diverted version of '%.250s' (package: %.100s)"),
                   nifd->namenode->name, nifd->namenode->divert->camefrom->name,
                   divpkgset->name);
     } else {
       forcibleerr(fc_overwritediverted,
-                  _("trying to overwrite `%.250s', which is the "
-                    "diverted version of `%.250s'"),
+                  _("trying to overwrite '%.250s', which is the "
+                    "diverted version of '%.250s'"),
                   nifd->namenode->name, nifd->namenode->divert->camefrom->name);
     }
   }
@@ -718,7 +718,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   if (statr) {
     /* The lstat failed. */
     if (errno != ENOENT && errno != ENOTDIR)
-      ohshite(_("unable to stat `%.255s' (which I was about to install)"),
+      ohshite(_("unable to stat '%.255s' (which I was about to install)"),
               ti->name);
     /* OK, so it doesn't exist.
      * However, it's possible that we were in the middle of some other
@@ -726,14 +726,15 @@ tarobject(void *ctx, struct tar_entry *ti)
      * So, we see if we have .dpkg-tmp, and if so we restore it. */
     if (rename(fnametmpvb.buf,fnamevb.buf)) {
       if (errno != ENOENT && errno != ENOTDIR)
-        ohshite(_("unable to clean up mess surrounding `%.255s' before "
+        ohshite(_("unable to clean up mess surrounding '%.255s' before "
                   "installing another version"), ti->name);
       debug(dbg_eachfiledetail,"tarobject nonexistent");
     } else {
       debug(dbg_eachfiledetail,"tarobject restored tmp to main");
       statr= lstat(fnamevb.buf,&stab);
-      if (statr) ohshite(_("unable to stat restored `%.255s' before installing"
-                           " another version"), ti->name);
+      if (statr)
+        ohshite(_("unable to stat restored '%.255s' before installing"
+                  " another version"), ti->name);
     }
   } else {
     debug(dbg_eachfiledetail,"tarobject already exists");
@@ -768,7 +769,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   case TAR_FILETYPE_HARDLINK:
     break;
   default:
-    ohshit(_("archive contained object `%.255s' of unknown type 0x%x"),
+    ohshit(_("archive contained object '%.255s' of unknown type 0x%x"),
            ti->name, ti->type);
   }
 
@@ -997,7 +998,7 @@ tarobject(void *ctx, struct tar_entry *ti)
       debug(dbg_eachfiledetail,"tarobject directory, nonatomic");
       nifd->namenode->flags |= fnnf_no_atomic_overwrite;
       if (rename(fnamevb.buf,fnametmpvb.buf))
-        ohshite(_("unable to move aside `%.255s' to install new version"),
+        ohshite(_("unable to move aside '%.255s' to install new version"),
                 ti->name);
     } else if (S_ISLNK(stab.st_mode)) {
       /* We can't make a symlink with two hardlinks, so we'll have to
@@ -1007,21 +1008,21 @@ tarobject(void *ctx, struct tar_entry *ti)
       varbuf_grow(&symlinkfn, stab.st_size + 1);
       r = readlink(fnamevb.buf, symlinkfn.buf, symlinkfn.size);
       if (r < 0)
-        ohshite(_("unable to read link `%.255s'"), ti->name);
+        ohshite(_("unable to read link '%.255s'"), ti->name);
       else if (r != stab.st_size)
         ohshit(_("symbolic link '%.250s' size has changed from %jd to %zd"),
                fnamevb.buf, stab.st_size, r);
       varbuf_trunc(&symlinkfn, r);
       varbuf_end_str(&symlinkfn);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
-        ohshite(_("unable to make backup symlink for `%.255s'"), ti->name);
+        ohshite(_("unable to make backup symlink for '%.255s'"), ti->name);
       if (lchown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
-        ohshite(_("unable to chown backup symlink for `%.255s'"), ti->name);
+        ohshite(_("unable to chown backup symlink for '%.255s'"), ti->name);
       tarobject_set_se_context(fnamevb.buf, fnametmpvb.buf, stab.st_mode);
     } else {
       debug(dbg_eachfiledetail, "tarobject nondirectory, 'link' backup");
       if (link(fnamevb.buf,fnametmpvb.buf))
-        ohshite(_("unable to make backup link of `%.255s' before installing new version"),
+        ohshite(_("unable to make backup link of '%.255s' before installing new version"),
                 ti->name);
     }
   }
@@ -1038,7 +1039,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     debug(dbg_eachfiledetail, "tarobject done and installation deferred");
   } else {
     if (rename(fnamenewvb.buf, fnamevb.buf))
-      ohshite(_("unable to install new version of `%.255s'"), ti->name);
+      ohshite(_("unable to install new version of '%.255s'"), ti->name);
 
     /*
      * CLEANUP: Now the new file is in the destination file, and the
@@ -1081,7 +1082,7 @@ tar_writeback_barrier(struct fileinlist *files, struct pkginfo *pkg)
      * anyway. */
     sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WAIT_BEFORE);
     if (close(fd))
-      ohshite(_("error closing/writing `%.255s'"), fnamenewvb.buf);
+      ohshite(_("error closing/writing '%.255s'"), fnamenewvb.buf);
   }
 }
 #else
@@ -1120,7 +1121,7 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
       if (fsync(fd))
         ohshite(_("unable to sync file '%.255s'"), fnamenewvb.buf);
       if (close(fd))
-        ohshite(_("error closing/writing `%.255s'"), fnamenewvb.buf);
+        ohshite(_("error closing/writing '%.255s'"), fnamenewvb.buf);
 
       cfile->namenode->flags &= ~fnnf_deferred_fsync;
     }
@@ -1128,7 +1129,7 @@ tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg)
     debug(dbg_eachfiledetail, "deferred extract needs rename");
 
     if (rename(fnamenewvb.buf, fnamevb.buf))
-      ohshite(_("unable to install new version of `%.255s'"),
+      ohshite(_("unable to install new version of '%.255s'"),
               cfile->namenode->name);
 
     cfile->namenode->flags &= ~fnnf_deferred_rename;

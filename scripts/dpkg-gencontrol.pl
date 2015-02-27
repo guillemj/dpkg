@@ -139,7 +139,7 @@ while (@ARGV) {
         version();
         exit(0);
     } else {
-        usageerr(g_("unknown option \`%s'"), $_);
+        usageerr(g_("unknown option '%s'"), $_);
     }
 }
 
@@ -214,10 +214,10 @@ foreach (keys %{$pkg}) {
 	} else {
 	    my @archlist = split(/\s+/, $v);
 	    my @invalid_archs = grep { m/[^\w-]/ } @archlist;
-	    warning(P_("`%s' is not a legal architecture string.",
-	               "`%s' are not legal architecture strings.",
+	    warning(P_("'%s' is not a legal architecture string.",
+	               "'%s' are not legal architecture strings.",
 	               scalar(@invalid_archs)),
-		    join("' `", @invalid_archs))
+	            join("' '", @invalid_archs))
 		if @invalid_archs >= 1;
 	    if (none { debarch_is($host_arch, $_) } @archlist) {
 		error(g_("current host architecture '%s' does not " .
@@ -416,7 +416,7 @@ my $fh_output;
 if (!$stdout) {
     $cf = $outputfile // "$packagebuilddir/DEBIAN/control";
     open($fh_output, '>', "$cf.new")
-        or syserr(g_("cannot open new output control file \`%s'"), "$cf.new");
+        or syserr(g_("cannot open new output control file '%s'"), "$cf.new");
 } else {
     $fh_output = \*STDOUT;
 }
@@ -427,7 +427,7 @@ $fields->output($fh_output);
 if (!$stdout) {
     close($fh_output) or syserr(g_('cannot close %s'), "$cf.new");
     rename("$cf.new", "$cf")
-        or syserr(g_("cannot install output control file \`%s'"), $cf);
+        or syserr(g_("cannot install output control file '%s'"), $cf);
 }
 
 $substvars->warn_about_unused();

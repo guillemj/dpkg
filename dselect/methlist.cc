@@ -79,7 +79,7 @@ void methodlist::redrawthisstate() {
   if (!thisstate_height) return;
   mywerase(thisstatepad);
   wprintw(thisstatepad,
-          _("Access method `%s'."),
+          _("Access method '%s'."),
           table[cursorline]->name);
   pnoutrefresh(thisstatepad, 0,0, thisstate_row,0,
                thisstate_row, min(total_width - 1, xmax - 1));

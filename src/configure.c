@@ -229,7 +229,7 @@ spawn_shell(const char *confold, const char *confnew)
 {
 	pid_t pid;
 
-	fputs(_("Type `exit' when you're done.\n"), stderr);
+	fputs(_("Type 'exit' when you're done.\n"), stderr);
 
 	pid = subproc_fork();
 	if (!pid) {
@@ -410,7 +410,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	if (!stat(cdr.buf, &stab))
 		file_copy_perms(cdr.buf, cdr2.buf);
 	else if (errno != ENOENT)
-		ohshite(_("unable to stat current installed conffile `%.250s'"),
+		ohshite(_("unable to stat current installed conffile '%.250s'"),
 		        cdr.buf);
 
 	/* Select what to do. */
@@ -423,7 +423,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	} else if (strcmp(currenthash, NONEXISTENTFLAG) == 0 && fc_conff_miss) {
 		fprintf(stderr,
 		        _("\n"
-		          "Configuration file `%s', does not exist on system.\n"
+		          "Configuration file '%s', does not exist on system.\n"
 		          "Installing new config file as you requested.\n"),
 		        usenode->name);
 		what = CFO_NEW_CONFF;
@@ -509,7 +509,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 		strcpy(cdr2rest, DPKGNEWEXT);
 		trig_path_activate(usenode, pkg);
 		if (rename(cdr2.buf, cdr.buf))
-			ohshite(_("unable to install `%.250s' as `%.250s'"),
+			ohshite(_("unable to install '%.250s' as '%.250s'"),
 			        cdr2.buf, cdr.buf);
 		break;
 	default:
@@ -561,7 +561,7 @@ deferred_configure(struct pkginfo *pkg)
 	enum dep_check ok;
 
 	if (pkg->status == PKG_STAT_NOTINSTALLED)
-		ohshit(_("no package named `%s' is installed, cannot configure"),
+		ohshit(_("no package named '%s' is installed, cannot configure"),
 		       pkg_name(pkg, pnaw_nonambig));
 	if (pkg->status == PKG_STAT_INSTALLED)
 		ohshit(_("package %.250s is already installed and configured"),
@@ -569,7 +569,7 @@ deferred_configure(struct pkginfo *pkg)
 	if (pkg->status != PKG_STAT_UNPACKED &&
 	    pkg->status != PKG_STAT_HALFCONFIGURED)
 		ohshit(_("package %.250s is not ready for configuration\n"
-		         " cannot configure (current status `%.250s')"),
+		         " cannot configure (current status '%.250s')"),
 		       pkg_name(pkg, pnaw_nonambig),
 		       pkg_status_name(pkg));
 

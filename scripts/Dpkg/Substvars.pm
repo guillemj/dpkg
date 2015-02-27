@@ -280,7 +280,7 @@ sub substvars {
 
         if ($count >= $maxsubsts) {
             error($opts{msg_prefix} .
-	          g_("too many substitutions - recursive ? - in \`%s'"), $v);
+                  g_("too many substitutions - recursive ? - in '%s'"), $v);
         }
         $lhs = $1; $vn = $2; $rhs = $3;
         if (defined($self->{vars}{$vn})) {

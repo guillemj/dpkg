@@ -137,7 +137,7 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
   if (fip->name) {
     if ((*ip)++)
       parse_error(ps,
-                  _("duplicate value for `%s' field"), fip->name);
+                  _("duplicate value for '%s' field"), fip->name);
 
     varbuf_reset(&fs->value);
     varbuf_add_buf(&fs->value, fs->valuestart, fs->valuelen);
@@ -149,14 +149,14 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
 
     if (fs->fieldlen < 2)
       parse_error(ps,
-                  _("user-defined field name `%.*s' too short"),
+                  _("user-defined field name '%.*s' too short"),
                   fs->fieldlen, fs->fieldstart);
     larpp = &pkg_obj->pkgbin->arbs;
     while ((arp = *larpp) != NULL) {
       if (strncasecmp(arp->name, fs->fieldstart, fs->fieldlen) == 0 &&
           strlen(arp->name) == (size_t)fs->fieldlen)
         parse_error(ps,
-                   _("duplicate value for user-defined field `%.*s'"),
+                   _("duplicate value for user-defined field '%.*s'"),
                    fs->fieldlen, fs->fieldstart);
       larpp = &arp->next;
     }
@@ -542,7 +542,7 @@ parsedb_open(const char *filename, enum parsedbflags flags)
 
   fd = open(filename, O_RDONLY);
   if (fd == -1)
-    ohshite(_("failed to open package info file `%.255s' for reading"),
+    ohshite(_("failed to open package info file '%.255s' for reading"),
             filename);
 
   ps = parsedb_new(filename, fd, flags | pdb_close_fd);
@@ -561,7 +561,7 @@ parsedb_load(struct parsedb_state *ps)
   struct stat st;
 
   if (fstat(ps->fd, &st) == -1)
-    ohshite(_("can't stat package info file `%.255s'"), ps->filename);
+    ohshite(_("can't stat package info file '%.255s'"), ps->filename);
 
   if (S_ISFIFO(st.st_mode)) {
     struct varbuf buf = VARBUF_INIT;
@@ -580,7 +580,7 @@ parsedb_load(struct parsedb_state *ps)
 #ifdef USE_MMAP
     ps->dataptr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, ps->fd, 0);
     if (ps->dataptr == MAP_FAILED)
-      ohshite(_("can't mmap package info file `%.255s'"), ps->filename);
+      ohshite(_("can't mmap package info file '%.255s'"), ps->filename);
 #else
     ps->dataptr = m_malloc(st.st_size);
 
@@ -640,13 +640,13 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
                   fs->fieldlen, fs->fieldstart);
     if (c == '\n')
       parse_error(ps,
-                  _("newline in field name `%.*s'"), fs->fieldlen, fs->fieldstart);
+                  _("newline in field name '%.*s'"), fs->fieldlen, fs->fieldstart);
     if (c == MSDOS_EOF_CHAR)
       parse_error(ps, _("MSDOS end of file (^Z) in field name '%.*s'"),
                   fs->fieldlen, fs->fieldstart);
     if (c != ':')
       parse_error(ps,
-                  _("field name `%.*s' must be followed by colon"),
+                  _("field name '%.*s' must be followed by colon"),
                   fs->fieldlen, fs->fieldstart);
 
     /* Skip space after ‘:’ but before value and EOL. */
@@ -722,7 +722,7 @@ parsedb_close(struct parsedb_state *ps)
     pop_cleanup(ehflag_normaltidy);
 
     if (close(ps->fd))
-      ohshite(_("failed to close after read: `%.255s'"), ps->filename);
+      ohshite(_("failed to close after read: '%.255s'"), ps->filename);
   }
 
   if (ps->data != NULL) {
@@ -805,7 +805,7 @@ parsedb_parse(struct parsedb_state *ps, struct pkginfo **donep)
 
   varbuf_destroy(&fs.value);
   if (donep && !pdone)
-    ohshit(_("no package information in `%.255s'"), ps->filename);
+    ohshit(_("no package information in '%.255s'"), ps->filename);
 
   return pdone;
 }

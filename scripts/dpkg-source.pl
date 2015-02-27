@@ -116,7 +116,7 @@ if (defined($options{opmode}) &&
     if ($dir eq '.') {
 	# . is never correct, adjust automatically
 	$dir = basename(cwd());
-	chdir('..') or syserr(g_("unable to chdir to `%s'"), '..');
+	chdir '..' or syserr(g_("unable to chdir to '%s'"), '..');
     }
     # --format options are not allowed, they would take precedence
     # over real command line options, debian/source/format should be used
@@ -309,11 +309,11 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
                     push(@sourcearch, $v) unless $archadded{$v}++;
                 } else {
                     for my $a (split(/\s+/, $v)) {
-                        error(g_("`%s' is not a legal architecture string"),
+                        error(g_("'%s' is not a legal architecture string"),
                               $a)
                             unless $a =~ /^[\w-]+$/;
                         error(g_('architecture %s only allowed on its ' .
-                                 "own (list for package %s is `%s')"),
+                                 "own (list for package %s is '%s')"),
                               $a, $p, $a)
                             if $a eq 'any' or $a eq 'all';
                         push(@sourcearch, $a) unless $archadded{$a}++;
@@ -423,7 +423,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     error(g_("can't build with source format '%s': %s"), $build_format, $msg) unless $res;
 
     # Only -b left
-    info(g_("using source format `%s'"), $fields->{'Format'});
+    info(g_("using source format '%s'"), $fields->{'Format'});
     run_vendor_hook('before-source-build', $srcpkg);
     # Build the files (.tar.gz, .diff.gz, etc)
     $srcpkg->build($dir);

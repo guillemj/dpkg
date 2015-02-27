@@ -70,8 +70,8 @@ dpkg_arch_name_is_illegal(const char *name)
 	if (*p == '\0')
 		return NULL;
 
-	snprintf(buf, sizeof(buf), _("character `%c' not allowed (only "
-	                             "letters, digits and characters `%s')"),
+	snprintf(buf, sizeof(buf), _("character '%c' not allowed (only "
+	                             "letters, digits and characters '%s')"),
 	         *p, "-");
 	return buf;
 }

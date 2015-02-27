@@ -78,7 +78,7 @@ atomic_file_close(struct atomic_file *file)
 	pop_cleanup(ehflag_normaltidy); /* fopen */
 
 	if (fclose(file->fp))
-		ohshite(_("unable to close new file `%.250s'"), file->name_new);
+		ohshite(_("unable to close new file '%.250s'"), file->name_new);
 }
 
 static void
@@ -100,9 +100,9 @@ void
 atomic_file_remove(struct atomic_file *file)
 {
 	if (unlink(file->name_new))
-		ohshite(_("cannot remove `%.250s'"), file->name_new);
+		ohshite(_("cannot remove '%.250s'"), file->name_new);
 	if (unlink(file->name) && errno != ENOENT)
-		ohshite(_("cannot remove `%.250s'"), file->name);
+		ohshite(_("cannot remove '%.250s'"), file->name);
 }
 
 void

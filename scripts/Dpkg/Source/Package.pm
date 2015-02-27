@@ -289,7 +289,7 @@ sub upgrade_object_type {
         }
         bless $self, $module;
     } else {
-        error(g_("invalid Format field `%s'"), $format);
+        error(g_("invalid Format field '%s'"), $format);
     }
 }
 

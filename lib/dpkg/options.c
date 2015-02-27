@@ -137,8 +137,10 @@ dpkg_options_load_file(const char *fn, const struct cmdinfo *cmdinfos)
         *cip->iassignto = cip->arg_int;
     }
   }
-  if (ferror(file)) ohshite(_("read error in configuration file `%.255s'"), fn);
-  if (fclose(file)) ohshite(_("error closing configuration file `%.255s'"), fn);
+  if (ferror(file))
+    ohshite(_("read error in configuration file '%.255s'"), fn);
+  if (fclose(file))
+    ohshite(_("error closing configuration file '%.255s'"), fn);
 }
 
 static int
@@ -286,7 +288,7 @@ dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str)
   errno = 0;
   value = strtol(str, &end, 0);
   if (str == end || *end || value < 0 || value > INT_MAX || errno != 0)
-    badusage(_("invalid integer for --%s: `%.250s'"), cmd->olong, str);
+    badusage(_("invalid integer for --%s: '%.250s'"), cmd->olong, str);
 
   return value;
 }

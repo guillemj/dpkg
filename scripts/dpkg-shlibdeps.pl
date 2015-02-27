@@ -130,7 +130,7 @@ foreach (@ARGV) {
     } elsif (m/^-x(.*)$/) {
 	push @exclude, $1;
     } elsif (m/^-/) {
-	usageerr(g_("unknown option \`%s'"), $_);
+	usageerr(g_("unknown option '%s'"), $_);
     } else {
 	if (exists $exec{$_}) {
 	    # Affect the binary to the most important field
@@ -452,14 +452,14 @@ if ($stdout) {
     $fh = \*STDOUT;
 } else {
     open(my $new_fh, '>', "$varlistfile.new")
-        or syserr(g_("open new substvars file \`%s'"), "$varlistfile.new");
+        or syserr(g_("open new substvars file '%s'"), "$varlistfile.new");
     if (-e $varlistfile) {
 	open(my $old_fh, '<', $varlistfile)
-	    or syserr(g_("open old varlist file \`%s' for reading"), $varlistfile);
+	    or syserr(g_("open old varlist file '%s' for reading"), $varlistfile);
 	while (my $entry = <$old_fh>) {
 	    next if $entry =~ m/^\Q$varnameprefix\E:/;
 	    print { $new_fh } $entry
-	        or syserr(g_("copy old entry to new varlist file \`%s'"),
+	        or syserr(g_("copy old entry to new varlist file '%s'"),
 	                  "$varlistfile.new");
 	}
 	close($old_fh);
@@ -534,7 +534,7 @@ foreach my $field (reverse @depfields) {
 if (!$stdout) {
     close($fh) or syserr(g_('cannot close %s'), "$varlistfile.new");
     rename "$varlistfile.new", $varlistfile
-        or syserr(g_("install new varlist file \`%s'"), $varlistfile);
+        or syserr(g_("install new varlist file '%s'"), $varlistfile);
 }
 
 ##
@@ -686,13 +686,13 @@ sub extract_from_shlibs {
     }
     # Open shlibs file
     open(my $shlibs_fh, '<', $shlibfile)
-        or syserr(g_("unable to open shared libs info file \`%s'"), $shlibfile);
+        or syserr(g_("unable to open shared libs info file '%s'"), $shlibfile);
     my $dep;
     while (<$shlibs_fh>) {
 	s/\s*\n$//;
 	next if m/^\#/;
 	if (!m/^\s*(?:(\S+):\s+)?(\S+)\s+(\S+)(?:\s+(\S.*\S))?\s*$/) {
-	    warning(g_("shared libs info file \`%s' line %d: bad line \`%s'"),
+	    warning(g_("shared libs info file '%s' line %d: bad line '%s'"),
 	            $shlibfile, $., $_);
 	    next;
 	}

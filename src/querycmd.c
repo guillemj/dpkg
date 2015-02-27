@@ -475,7 +475,7 @@ enqperpackage(const char *const *argv)
         ensure_diversions();
         file= pkg->clientdata->files;
         if (!file) {
-          printf(_("Package `%s' does not contain any files (!)\n"),
+          printf(_("Package '%s' does not contain any files (!)\n"),
                  pkg_name(pkg, pnaw_nonambig));
         } else {
           while (file) {
@@ -790,7 +790,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "Commands:\n"
 "  -s|--status <package> ...        Display package status details.\n"
 "  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
+"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -W|--show [<pattern> ...]        Show information on package(s).\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"

@@ -316,7 +316,7 @@ xreadlink(const char *linkname)
 
 	buf = areadlink(linkname);
 	if (buf == NULL)
-		syserr(_("unable to read link `%.255s'"), linkname);
+		syserr(_("unable to read link '%.255s'"), linkname);
 
 	return buf;
 }
@@ -478,14 +478,14 @@ static void
 checked_symlink(const char *filename, const char *linkname)
 {
 	if (symlink(filename, linkname))
-		syserr(_("error creating symbolic link `%.255s'"), linkname);
+		syserr(_("error creating symbolic link '%.255s'"), linkname);
 }
 
 static void
 checked_mv(const char *src, const char *dst)
 {
 	if (!rename_mv(src, dst))
-		syserr(_("unable to install `%.250s' as `%.250s'"), src, dst);
+		syserr(_("unable to install '%.250s' as '%.250s'"), src, dst);
 }
 
 static void
@@ -1087,7 +1087,7 @@ altdb_get_namelist(struct dirent ***table)
 
 	count = scandir(admdir, table, altdb_filter_namelist, alphasort);
 	if (count < 0)
-		syserr(_("cannot scan directory `%.255s'"), admdir);
+		syserr(_("cannot scan directory '%.255s'"), admdir);
 
 	return count;
 }
@@ -2529,7 +2529,7 @@ main(int argc, char **argv)
 
 	for (i = 1; i < argc; i++) {
 		if (strstr(argv[i], "--") != argv[i]) {
-			error(_("unknown argument `%s'"), argv[i]);
+			error(_("unknown argument '%s'"), argv[i]);
 		} else if (strcmp("--help", argv[i]) == 0) {
 			usage();
 			exit(0);
@@ -2666,7 +2666,7 @@ main(int argc, char **argv)
 			opt_force = 1;
 			PUSH_OPT(argv[i]);
 		} else {
-			badusage(_("unknown option `%s'"), argv[i]);
+			badusage(_("unknown option '%s'"), argv[i]);
 		}
 	}
 

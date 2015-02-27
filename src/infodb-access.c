@@ -50,7 +50,7 @@ pkg_infodb_has_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	else if (errno == ENOENT)
 		return false;
 	else
-		ohshite(_("unable to check existence of `%.250s'"), filename);
+		ohshite(_("unable to check existence of '%.250s'"), filename);
 }
 
 void

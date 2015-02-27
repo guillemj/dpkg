@@ -30,14 +30,14 @@ fgets_checked(char *buf, size_t bufsz, FILE *f, const char *fn)
 
 	if (!fgets(buf, bufsz, f)) {
 		if (ferror(f))
-			ohshite(_("read error in `%.250s'"), fn);
+			ohshite(_("read error in '%.250s'"), fn);
 		return -1;
 	}
 	l = strlen(buf);
 	if (l == 0)
-		ohshit(_("fgets gave an empty string from `%.250s'"), fn);
+		ohshit(_("fgets gave an empty string from '%.250s'"), fn);
 	if (buf[--l] != '\n')
-		ohshit(_("too-long line or missing newline in `%.250s'"), fn);
+		ohshit(_("too-long line or missing newline in '%.250s'"), fn);
 	buf[l] = '\0';
 
 	return l;

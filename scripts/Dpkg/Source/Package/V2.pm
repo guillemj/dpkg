@@ -173,7 +173,8 @@ sub do_extract {
         my $file = $addonfile{$subdir};
         info(g_('unpacking %s'), $file);
         if (-e "$newdirectory/$subdir") {
-            warning(g_("required removal of `%s' installed by original tarball"), $subdir);
+            warning(g_("required removal of '%s' installed by original tarball"),
+                    $subdir);
             erasedir("$newdirectory/$subdir");
         }
         $tar = Dpkg::Source::Archive->new(filename => "$dscdir$file");
@@ -440,7 +441,7 @@ sub do_build {
     my ($self, $dir) = @_;
     my @argv = @{$self->{options}{ARGV}};
     if (scalar(@argv)) {
-        usageerr(g_("-b takes only one parameter with format `%s'"),
+        usageerr(g_("-b takes only one parameter with format '%s'"),
                  $self->{fields}{'Format'});
     }
     $self->prepare_build($dir);
@@ -477,13 +478,13 @@ sub do_build {
         my $reldir = File::Spec->abs2rel($File::Find::dir, $dir);
         my $cwd = getcwd();
         # Apply the pattern both from the top dir and from the inspected dir
-        chdir($dir) or syserr(g_("unable to chdir to `%s'"), $dir);
+        chdir $dir or syserr(g_("unable to chdir to '%s'"), $dir);
         $exclude{$_} = 1 foreach glob($tar_ignore_glob);
-        chdir($cwd) or syserr(g_("unable to chdir to `%s'"), $cwd);
+        chdir $cwd or syserr(g_("unable to chdir to '%s'"), $cwd);
         chdir($File::Find::dir)
-            or syserr(g_("unable to chdir to `%s'"), $File::Find::dir);
+            or syserr(g_("unable to chdir to '%s'"), $File::Find::dir);
         $exclude{$_} = 1 foreach glob($tar_ignore_glob);
-        chdir($cwd) or syserr(g_("unable to chdir to `%s'"), $cwd);
+        chdir $cwd or syserr(g_("unable to chdir to '%s'"), $cwd);
         my @result;
         foreach my $fn (@_) {
             unless (exists $exclude{$fn} or exists $exclude{"$reldir/$fn"}) {
@@ -611,7 +612,7 @@ sub register_patch {
         copy($patch_file, $patch)
             or syserr(g_('failed to copy %s to %s'), $patch_file, $patch);
         chmod(0666 & ~ umask(), $patch)
-            or syserr(g_("unable to change permission of `%s'"), $patch);
+            or syserr(g_("unable to change permission of '%s'"), $patch);
         my $applied = File::Spec->catfile($dir, 'debian', 'patches', '.dpkg-source-applied');
         open(my $applied_fh, '>>', $applied)
             or syserr(g_('cannot write %s'), $applied);

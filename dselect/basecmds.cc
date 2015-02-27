@@ -198,8 +198,8 @@ _("Press ? for help menu, . for next topic, <space> to exit help."));
         mvaddstr(i+3,6, gettext(hme->msg->title));
       }
       mvaddstr(i+4,1,
-               _("Press a key from the list above, <space> or `q' to exit help,\n"
-               "  or `.' (full stop) to read each help page in turn. "));
+               _("Press a key from the list above, <space> or 'q' to exit help,\n"
+                 "  or '.' (full stop) to read each help page in turn. "));
       nextkey= helpmenu[0].key;
     }
     refresh();

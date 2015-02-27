@@ -36,7 +36,7 @@ sub parse_cmdline_option {
     return 0;
 }
 sub do_extract {
-    error(g_("Format `3.0 (custom)' is only used to create source packages"));
+    error(g_("Format '3.0 (custom)' is only used to create source packages"));
 }
 
 sub can_build {

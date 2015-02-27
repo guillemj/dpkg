@@ -183,7 +183,7 @@ file_treewalk_feed(const char *dir, int fd_out)
     close(pipefd[1]);
 
     if (chdir(dir))
-      ohshite(_("failed to chdir to `%.255s'"), dir);
+      ohshite(_("failed to chdir to '%.255s'"), dir);
 
     execlp(FIND, "find", ".", "-path", "./" BUILDCONTROLDIR, "-prune", "-o",
            "-print0", NULL);
@@ -249,14 +249,14 @@ check_file_perms(const char *dir)
       if (S_ISLNK(mscriptstab.st_mode))
         continue;
       if (!S_ISREG(mscriptstab.st_mode))
-        ohshit(_("maintainer script `%.50s' is not a plain file or symlink"),
+        ohshit(_("maintainer script '%.50s' is not a plain file or symlink"),
                *mscriptp);
       if ((mscriptstab.st_mode & 07557) != 0555)
-        ohshit(_("maintainer script `%.50s' has bad permissions %03lo "
+        ohshit(_("maintainer script '%.50s' has bad permissions %03lo "
                  "(must be >=0555 and <=0775)"),
                *mscriptp, (unsigned long)(mscriptstab.st_mode & 07777));
     } else if (errno != ENOENT) {
-      ohshite(_("maintainer script `%.50s' is not stattable"), *mscriptp);
+      ohshite(_("maintainer script '%.50s' is not stattable"), *mscriptp);
     }
   }
 
@@ -305,9 +305,9 @@ check_conffiles(const char *dir)
         if ((n > 1) && c_isspace(conffilename[n - 2]))
           warning(_("conffile filename '%s' contains trailing white spaces"),
                   conffilename);
-        ohshit(_("conffile `%.250s' does not appear in package"), conffilename);
+        ohshit(_("conffile '%.250s' does not appear in package"), conffilename);
       } else
-        ohshite(_("conffile `%.250s' is not stattable"), conffilename);
+        ohshite(_("conffile '%.250s' is not stattable"), conffilename);
     } else if (!S_ISREG(controlstab.st_mode)) {
       warning(_("conffile '%s' is not a plain file"), conffilename);
     }
@@ -347,7 +347,7 @@ check_control_file(const char *dir)
 
   if (strspn(pkg->set->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
       strlen(pkg->set->name))
-    ohshit(_("package name has characters that aren't lowercase alphanums or `-+.'"));
+    ohshit(_("package name has characters that aren't lowercase alphanums or '-+.'"));
   if (pkg->priority == PKG_PRIO_OTHER)
     warning(_("'%s' contains user-defined Priority value '%s'"),
             controlfile, pkg->otherpriority);
@@ -401,7 +401,7 @@ gen_dest_pathname(const char *dir, const char *dest)
 
     if (stat(dest, &dest_stab)) {
       if (errno != ENOENT)
-        ohshite(_("unable to check for existence of archive `%.250s'"), dest);
+        ohshite(_("unable to check for existence of archive '%.250s'"), dest);
     } else if (S_ISDIR(dest_stab.st_mode)) {
       /* Need to compute the destination name from the package control file. */
       return NULL;
@@ -482,7 +482,7 @@ do_build(const char *const *argv)
     pkg = check_control_area(dir);
     if (debar == NULL)
       debar = gen_dest_pathname_from_pkg(dest, pkg);
-    printf(_("dpkg-deb: building package `%s' in `%s'.\n"),
+    printf(_("dpkg-deb: building package '%s' in '%s'.\n"),
            pkg->set->name, debar);
   }
   m_output(stdout, _("<standard output>"));
@@ -491,7 +491,7 @@ do_build(const char *const *argv)
    * build something. Let's start by making the ar-wrapper. */
   arfd = creat(debar, 0644);
   if (arfd < 0)
-    ohshite(_("unable to create `%.255s'"), debar);
+    ohshite(_("unable to create '%.255s'"), debar);
   /* Fork a tar to package the control-section of the package. */
   unsetenv("TAR_OPTIONS");
   m_pipe(p1);
@@ -499,9 +499,9 @@ do_build(const char *const *argv)
   if (!c1) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
     if (chdir(dir))
-      ohshite(_("failed to chdir to `%.255s'"), dir);
+      ohshite(_("failed to chdir to '%.255s'"), dir);
     if (chdir(BUILDCONTROLDIR))
-      ohshite(_("failed to chdir to `%.255s'"), ".../DEBIAN");
+      ohshite(_("failed to chdir to '%.255s'"), ".../DEBIAN");
     execlp(TAR, "tar", "-cf", "-", "--format=gnu", ".", NULL);
     ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
   }
@@ -550,7 +550,7 @@ do_build(const char *const *argv)
     sprintf(versionbuf, "%-8s\n%jd\n", OLDARCHIVEVERSION,
             (intmax_t)controlstab.st_size);
     if (fd_write(arfd, versionbuf, strlen(versionbuf)) < 0)
-      ohshite(_("error writing `%s'"), debar);
+      ohshite(_("error writing '%s'"), debar);
     if (fd_fd_copy(gzfd, arfd, -1, &err) < 0)
       ohshit(_("cannot copy '%s' into archive '%s': %s"), _("control member"),
              debar, err.str);
@@ -599,7 +599,7 @@ do_build(const char *const *argv)
     m_dup2(p1[0],0); close(p1[0]); close(p1[1]);
     m_dup2(p2[1],1); close(p2[0]); close(p2[1]);
     if (chdir(dir))
-      ohshite(_("failed to chdir to `%.255s'"), dir);
+      ohshite(_("failed to chdir to '%.255s'"), dir);
     execlp(TAR, "tar", "-cf", "-", "--format=gnu", "--null", "--no-unquote",
                        "-T", "-", "--no-recursion", NULL);
     ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);

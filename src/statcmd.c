@@ -162,9 +162,9 @@ static void
 statdb_node_apply(const char *filename, struct file_stat *filestat)
 {
 	if (chown(filename, filestat->uid, filestat->gid) < 0)
-		ohshite(_("error setting ownership of `%.255s'"), filename);
+		ohshite(_("error setting ownership of '%.255s'"), filename);
 	if (chmod(filename, filestat->mode))
-		ohshite(_("error setting permissions of `%.255s'"), filename);
+		ohshite(_("error setting permissions of '%.255s'"), filename);
 
 	dpkg_selabel_load();
 	dpkg_selabel_set_context(filename, filename, filestat->mode);

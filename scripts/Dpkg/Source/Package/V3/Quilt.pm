@@ -230,7 +230,7 @@ sub register_patch {
         copy($tmpdiff, $patch)
             or syserr(g_('failed to copy %s to %s'), $tmpdiff, $patch);
         chmod(0666 & ~ umask(), $patch)
-            or syserr(g_("unable to change permission of `%s'"), $patch);
+            or syserr(g_("unable to change permission of '%s'"), $patch);
     } elsif (-e $patch) {
         unlink($patch) or syserr(g_('cannot remove %s'), $patch);
     }

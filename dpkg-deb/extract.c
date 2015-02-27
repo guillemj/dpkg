@@ -128,7 +128,7 @@ extracthalf(const char *debar, const char *dir,
   else
     arfd = open(debar, O_RDONLY);
   if (arfd < 0)
-    ohshite(_("failed to read archive `%.255s'"), debar);
+    ohshite(_("failed to read archive '%.255s'"), debar);
   if (fstat(arfd, &stab))
     ohshite(_("failed to fstat archive"));
 
@@ -155,7 +155,8 @@ extracthalf(const char *debar, const char *dir,
         char *infobuf;
 
         if (strncmp(arh.ar_name, DEBMAGIC, sizeof(arh.ar_name)) != 0)
-          ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
+          ohshit(_("file '%.250s' is not a debian binary archive (try dpkg-split?)"),
+                 debar);
         infobuf= m_malloc(memberlen+1);
         r = fd_read(arfd, infobuf, memberlen + (memberlen & 1));
         if (r != (memberlen + (memberlen & 1)))
@@ -277,7 +278,7 @@ extracthalf(const char *debar, const char *dir,
                " corrupted by being downloaded in ASCII mode"));
     }
 
-    ohshit(_("`%.255s' is not a debian format archive"),debar);
+    ohshit(_("'%.255s' is not a debian format archive"), debar);
   }
 
   m_pipe(p1);

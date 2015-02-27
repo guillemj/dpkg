@@ -118,7 +118,7 @@ while (@ARGV) {
     } elsif ($arg eq '--version') {
 	version(); exit(0);
     } else {
-	usageerr(g_("unknown option \`%s'"), $arg);
+	usageerr(g_("unknown option '%s'"), $arg);
     }
 }
 usageerr(g_('takes no non-option arguments')) if @ARGV;

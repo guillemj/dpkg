@@ -51,7 +51,7 @@ const char *showformat = "${Package}\t${Version}\n";
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)
 {
-  printf(_("Debian `%s' package archive backend version %s.\n"),
+  printf(_("Debian '%s' package archive backend version %s.\n"),
          BACKEND, DPKG_VERSION_ARCH);
   printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -93,7 +93,7 @@ usage(const struct cmdinfo *cip, const char *value)
   printf(_(
 "<deb> is the filename of a Debian format archive.\n"
 "<cfile> is the name of an administrative file component.\n"
-"<cfield> is the name of a field in the main `control' file.\n"
+"<cfield> is the name of a field in the main 'control' file.\n"
 "\n"));
 
   printf(_(
@@ -212,7 +212,7 @@ set_compress_type(const struct cmdinfo *cip, const char *value)
 {
   compress_params.type = compressor_find_by_name(value);
   if (compress_params.type == COMPRESSOR_TYPE_UNKNOWN)
-    ohshit(_("unknown compression type `%s'!"), value);
+    ohshit(_("unknown compression type '%s'!"), value);
   if (compress_params.type == COMPRESSOR_TYPE_LZMA)
     warning(_("deprecated compression type '%s'; use xz instead"), value);
   if (compress_params.type == COMPRESSOR_TYPE_BZIP2)
