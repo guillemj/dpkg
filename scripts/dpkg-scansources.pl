@@ -37,14 +37,15 @@ textdomain('dpkg-dev');
 # exit code. Only errors which affect everything cause a non-zero exit.
 my $exit = 0;
 
-# %override is a hash of lists.  The subs following describe what's in
-# the lists.
-
+# Hash of lists. The constants below describe what is in the lists.
 my %override;
-sub O_PRIORITY          () { 0 }
-sub O_SECTION           () { 1 }
-sub O_MAINT_FROM        () { 2 } # undef for non-specific, else listref
-sub O_MAINT_TO          () { 3 } # undef if there's no maint override
+use constant {
+    O_PRIORITY      => 0,
+    O_SECTION       => 1,
+    O_MAINT_FROM    => 2,   # undef for non-specific, else listref
+    O_MAINT_TO      => 3,   # undef if there's no maint override
+};
+
 my %extra_override;
 
 my %priority = (
