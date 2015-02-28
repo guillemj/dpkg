@@ -43,6 +43,7 @@ my (@samemaint, @changedmaint);
 my @spuriousover;
 my %packages;
 my %overridden;
+my %hash;
 
 my %options = (help            => sub { usage(); exit 0; },
 	       version         => \&version,
@@ -155,6 +156,65 @@ sub load_override_extra
     close($comp_file);
 }
 
+sub process_deb {
+    my ($pathprefix, $fn) = @_;
+
+    my $output;
+    my $pid = spawn(exec => [ 'dpkg-deb', '-I', $fn, 'control' ],
+                    to_pipe => \$output);
+    my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
+    $fields->parse($output, $fn)
+        or error(g_("couldn't parse control information from %s"), $fn);
+    wait_child($pid, nocheck => 1);
+    if ($?) {
+        warning(g_("'dpkg-deb -I %s control' exited with %d, skipping package"),
+                $fn, $?);
+        return;
+    }
+
+    defined($fields->{'Package'})
+        or error(g_('no Package field in control file of %s'), $fn);
+    my $p = $fields->{'Package'};
+
+    if (defined($packages{$p}) and not $options{multiversion}) {
+        foreach my $pkg (@{$packages{$p}}) {
+            if (version_compare_relation($fields->{'Version'}, REL_GT,
+                                         $pkg->{'Version'}))
+            {
+                warning(g_('package %s (filename %s) is repeat but newer ' .
+                           'version; used that one and ignored data from %s!'),
+                        $p, $fn, $pkg->{Filename});
+                $packages{$p} = [];
+            } else {
+                warning(g_('package %s (filename %s) is repeat; ' .
+                           'ignored that one and using data from %s!'),
+                        $p, $fn, $pkg->{Filename});
+                return;
+            }
+        }
+    }
+
+    warning(g_('package %s (filename %s) has Filename field!'), $p, $fn)
+        if defined($fields->{'Filename'});
+    $fields->{'Filename'} = "$pathprefix$fn";
+
+    my $sums = Dpkg::Checksums->new();
+    $sums->add_from_file($fn);
+    foreach my $alg (checksums_get_list()) {
+        next if %hash and not $hash{$alg};
+
+        if ($alg eq 'md5') {
+            $fields->{'MD5sum'} = $sums->get_checksum($fn, $alg);
+        } else {
+            $fields->{$alg} = $sums->get_checksum($fn, $alg);
+        }
+    }
+    $fields->{'Size'} = $sums->get_size($fn);
+    $fields->{'X-Medium'} = $options{medium} if defined $options{medium};
+
+    push @{$packages{$p}}, $fields;
+}
+
 {
     local $SIG{__WARN__} = sub { usageerr($_[0]) };
     GetOptions(\%options, @options_spec);
@@ -166,7 +226,7 @@ if (not (@ARGV >= 1 and @ARGV <= 3)) {
 
 my $type = $options{type} // 'deb';
 my $arch = $options{arch};
-my %hash = map { $_ => 1 } split /,/, $options{hash} // '';
+%hash = map { $_ => 1 } split /,/, $options{hash} // '';
 
 foreach my $alg (keys %hash) {
     if (not checksums_is_supported($alg)) {
@@ -197,64 +257,10 @@ $pathprefix //= '';
 my $find_h = IO::Handle->new();
 open($find_h, '-|', 'find', '-L', "$binarydir/", @find_args, '-print')
      or syserr(g_("couldn't open %s for reading"), $binarydir);
-FILE:
-    while (my $fn = <$find_h>) {
-	chomp $fn;
-	my $output;
-	my $pid = spawn(exec => [ 'dpkg-deb', '-I', $fn, 'control' ],
-	                to_pipe => \$output);
-	my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
-	$fields->parse($output, $fn)
-	    or error(g_("couldn't parse control information from %s"), $fn);
-	wait_child($pid, nocheck => 1);
-	if ($?) {
-	    warning(g_("'dpkg-deb -I %s control' exited with %d, skipping package"),
-	            $fn, $?);
-	    next;
-	}
-
-	defined($fields->{'Package'})
-	    or error(g_('no Package field in control file of %s'), $fn);
-	my $p = $fields->{'Package'};
-
-	if (defined($packages{$p}) and not $options{multiversion}) {
-	    foreach my $pkg (@{$packages{$p}}) {
-		if (version_compare_relation($fields->{'Version'}, REL_GT,
-		                             $pkg->{'Version'}))
-                {
-                    warning(g_('package %s (filename %s) is repeat but newer ' .
-                               'version; used that one and ignored data from %s!'),
-                            $p, $fn, $pkg->{Filename});
-		    $packages{$p} = [];
-		} else {
-                    warning(g_('package %s (filename %s) is repeat; ' .
-                               'ignored that one and using data from %s!'),
-                            $p, $fn, $pkg->{Filename});
-		    next FILE;
-		}
-	    }
-	}
-	warning(g_('package %s (filename %s) has Filename field!'), $p, $fn)
-	    if defined($fields->{'Filename'});
-
-	$fields->{'Filename'} = "$pathprefix$fn";
-
-        my $sums = Dpkg::Checksums->new();
-	$sums->add_from_file($fn);
-        foreach my $alg (checksums_get_list()) {
-            next if %hash and not $hash{$alg};
-
-            if ($alg eq 'md5') {
-	        $fields->{'MD5sum'} = $sums->get_checksum($fn, $alg);
-            } else {
-                $fields->{$alg} = $sums->get_checksum($fn, $alg);
-            }
-        }
-	$fields->{'Size'} = $sums->get_size($fn);
-        $fields->{'X-Medium'} = $options{medium} if defined $options{medium};
-
-	push @{$packages{$p}}, $fields;
-    }
+while (my $fn = <$find_h>) {
+    chomp $fn;
+    process_deb($pathprefix, $fn);
+}
 close($find_h);
 
 load_override($override) if defined $override;
