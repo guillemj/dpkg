@@ -172,9 +172,9 @@ sub process_deb {
         return;
     }
 
-    defined($fields->{'Package'})
-        or error(g_('no Package field in control file of %s'), $fn);
     my $p = $fields->{'Package'};
+    error(g_('no Package field in control file of %s'), $fn)
+        if not defined $p;
 
     if (defined($packages{$p}) and not $options{multiversion}) {
         foreach my $pkg (@{$packages{$p}}) {
