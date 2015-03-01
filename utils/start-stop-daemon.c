@@ -1374,11 +1374,12 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 	char buf[_POSIX2_LINE_MAX];
 	char **pid_argv_p;
 	char *start_argv_0_p, *end_argv_0_p;
+	bool res = false;
 
 	kd = ssd_kvm_open();
 	kp = ssd_kvm_get_procs(kd, KERN_PROC_PID, pid, NULL);
 	if (kp == NULL)
-		return false;
+		goto cleanup;
 
 	pid_argv_p = kvm_getargv(kd, kp, argv_len);
 	if (pid_argv_p == NULL)
@@ -1403,9 +1404,14 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 	}
 
 	if (stat(start_argv_0_p, &sb) != 0)
-		return false;
+		goto cleanup;
 
-	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
+	res = (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
+
+cleanup:
+	kvm_close(kd);
+
+	return res;
 }
 #endif
 
@@ -1460,11 +1466,12 @@ pid_is_child(pid_t pid, pid_t ppid)
 	kvm_t *kd;
 	struct kinfo_proc *kp;
 	pid_t proc_ppid;
+	bool res = false;
 
 	kd = ssd_kvm_open();
 	kp = ssd_kvm_get_procs(kd, KERN_PROC_PID, pid, NULL);
 	if (kp == NULL)
-		return false;
+		goto cleanup;
 
 #if defined(OSFreeBSD)
 	proc_ppid = kp->ki_ppid;
@@ -1476,7 +1483,12 @@ pid_is_child(pid_t pid, pid_t ppid)
 	proc_ppid = kp->kp_proc.p_ppid;
 #endif
 
-	return proc_ppid == ppid;
+	res = (proc_ppid == ppid);
+
+cleanup:
+	kvm_close(kd);
+
+	return res;
 }
 #endif
 
@@ -1518,11 +1530,12 @@ pid_is_user(pid_t pid, uid_t uid)
 	kvm_t *kd;
 	uid_t proc_uid;
 	struct kinfo_proc *kp;
+	bool res = false;
 
 	kd = ssd_kvm_open();
 	kp = ssd_kvm_get_procs(kd, KERN_PROC_PID, pid, NULL);
 	if (kp == NULL)
-		return false;
+		goto cleanup;
 
 #if defined(OSFreeBSD)
 	proc_uid = kp->ki_ruid;
@@ -1535,10 +1548,15 @@ pid_is_user(pid_t pid, uid_t uid)
 		kvm_read(kd, (u_long)&(kp->kp_proc.p_cred->p_ruid),
 		         &proc_uid, sizeof(uid_t));
 	else
-		return false;
+		goto cleanup;
 #endif
 
-	return (proc_uid == (uid_t)uid);
+	res = (proc_uid == (uid_t)uid);
+
+cleanup:
+	kvm_close(kd);
+
+	return res;
 }
 #endif
 
@@ -1602,11 +1620,12 @@ pid_is_cmd(pid_t pid, const char *name)
 	kvm_t *kd;
 	struct kinfo_proc *kp;
 	char *process_name;
+	bool res = false;
 
 	kd = ssd_kvm_open();
 	kp = ssd_kvm_get_procs(kd, KERN_PROC_PID, pid, NULL);
 	if (kp == NULL)
-		return false;
+		goto cleanup;
 
 #if defined(OSFreeBSD)
 	process_name = kp->ki_comm;
@@ -1618,7 +1637,12 @@ pid_is_cmd(pid_t pid, const char *name)
 	process_name = kp->kp_proc.p_comm;
 #endif
 
-	return (strcmp(name, process_name) == 0);
+	res = (strcmp(name, process_name) == 0);
+
+cleanup:
+	kvm_close(kd);
+
+	return res;
 }
 #endif
 
