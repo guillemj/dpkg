@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 6;
 use File::Spec::Functions qw(rel2abs);
 
 use Dpkg ();
@@ -78,6 +78,32 @@ my %buildflag = cmd_get_vars($ENV{PERL}, "$srcdir/dpkg-buildflags.pl");
 delete $ENV{$_} foreach keys %buildflag;
 $ENV{"TEST_$_"} = $buildflag{$_} foreach keys %buildflag;
 test_makefile('buildflags.mk');
+
+my %buildtools = (
+    CPP => 'gcc -E',
+    CC => 'gcc',
+    CXX => 'g++',
+    OBJC => 'gcc',
+    OBJCXX => 'g++',
+    GCJ => 'gcj',
+    F77 => 'f77',
+    FC => 'f77',
+    LD => 'ld',
+    PKG_CONFIG => 'pkg-config',
+);
+
+foreach my $tool (keys %buildtools) {
+    delete $ENV{$tool};
+    $ENV{"TEST_$tool"} = "$ENV{DEB_HOST_GNU_TYPE}-$buildtools{$tool}";
+    delete $ENV{"${tool}_FOR_BUILD"};
+    $ENV{"TEST_${tool}_FOR_BUILD"} = "$ENV{DEB_BUILD_GNU_TYPE}-$buildtools{$tool}";
+}
+test_makefile('buildtools.mk');
+
+foreach my $tool (keys %buildtools) {
+    delete $ENV{${tool}};
+    delete $ENV{"${tool}_FOR_BUILD"};
+}
 
 test_makefile('pkg-info.mk');
 

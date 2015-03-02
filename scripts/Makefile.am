@@ -346,6 +346,7 @@ test_data = \
 	t/mk/debian/changelog \
 	t/mk/architecture.mk \
 	t/mk/buildflags.mk \
+	t/mk/buildtools.mk \
 	t/mk/pkg-info.mk \
 	t/mk/vendor.mk \
 	t/origins/debian \
