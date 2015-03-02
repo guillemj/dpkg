@@ -27,7 +27,6 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
-use IO::Handle;
 
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
