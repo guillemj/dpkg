@@ -20,7 +20,6 @@
 use warnings;
 use strict;
 
-use IO::Handle;
 use Getopt::Long qw(:config posix_default bundling no_ignorecase);
 
 use Dpkg ();
@@ -253,8 +252,7 @@ if (defined $override and not -e $override) {
 
 $pathprefix //= '';
 
-my $find_h = IO::Handle->new();
-open($find_h, '-|', 'find', '-L', "$binarydir/", @find_args, '-print')
+open my $find_h, '-|', 'find', '-L', "$binarydir/", @find_args, '-print'
      or syserr(g_("couldn't open %s for reading"), $binarydir);
 while (my $fn = <$find_h>) {
     chomp $fn;
