@@ -100,12 +100,6 @@ See the man page for the full documentation.
 "), $Dpkg::PROGNAME;
 }
 
-sub close_msg {
-    my $name = shift;
-    return sprintf(g_("error closing %s (\$? %d, \$! '%s')"),
-                   $name, $?, $!)."\n";
-}
-
 sub load_override {
     my $file = shift;
     local $_;
@@ -338,7 +332,7 @@ sub main {
             push @out, $fields;
 	}
     }
-    close $find_fh or error(close_msg, 'find');
+    close $find_fh or syserr(g_('error closing %s (%s)'), 'find', $!);
 
     if (@out) {
         foreach my $dsc (sort { $a->{Package} cmp $b->{Package} } @out) {
