@@ -44,7 +44,7 @@ my %overridden;
 my %hash;
 
 my %options = (help            => sub { usage(); exit 0; },
-	       version         => \&version,
+	       version         => sub { version(); exit 0; },
 	       type            => undef,
 	       arch            => undef,
 	       hash            => undef,
@@ -66,7 +66,6 @@ my @options_spec = (
 
 sub version {
     printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-    exit;
 }
 
 sub usage {

@@ -37,7 +37,6 @@ textdomain('dpkg-dev');
 sub version()
 {
     printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
-	exit(0);
 }
 
 sub usage {
@@ -70,7 +69,7 @@ my $host_arch = get_host_arch();
 my $admindir = $Dpkg::ADMINDIR;
 my @options_spec = (
     'help|?' => sub { usage(); exit(0); },
-    'version' => \&version,
+    'version' => sub { version(); exit 0; },
     'A' => \$ignore_bd_arch,
     'B' => \$ignore_bd_indep,
     'd=s' => \$bd_value,
