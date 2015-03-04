@@ -455,11 +455,12 @@ if ($stdout) {
         or syserr(g_("open new substvars file '%s'"), "$varlistfile.new");
     if (-e $varlistfile) {
 	open(my $old_fh, '<', $varlistfile)
-	    or syserr(g_("open old varlist file '%s' for reading"), $varlistfile);
+	    or syserr(g_("open old substvars file '%s' for reading"),
+	              $varlistfile);
 	while (my $entry = <$old_fh>) {
 	    next if $entry =~ m/^\Q$varnameprefix\E:/;
 	    print { $new_fh } $entry
-	        or syserr(g_("copy old entry to new varlist file '%s'"),
+	        or syserr(g_("copy old entry to new substvars file '%s'"),
 	                  "$varlistfile.new");
 	}
 	close($old_fh);
