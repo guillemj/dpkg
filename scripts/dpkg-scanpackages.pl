@@ -30,7 +30,6 @@ use Dpkg::Control;
 use Dpkg::Version;
 use Dpkg::Checksums;
 use Dpkg::Compression::FileHandle;
-use Dpkg::IPC;
 
 textdomain('dpkg-dev');
 
@@ -156,13 +155,13 @@ sub load_override_extra
 sub process_deb {
     my ($pathprefix, $fn) = @_;
 
-    my $output;
-    my $pid = spawn(exec => [ 'dpkg-deb', '-I', $fn, 'control' ],
-                    to_pipe => \$output);
     my $fields = Dpkg::Control->new(type => CTRL_INDEX_PKG);
-    $fields->parse($output, $fn)
+
+    open my $output_fh, '-|', 'dpkg-deb', '-I', $fn, 'control'
+        or syserr(g_('cannot fork for %s'), 'dpkg-deb');
+    $fields->parse($output_fh, $fn)
         or error(g_("couldn't parse control information from %s"), $fn);
-    wait_child($pid, nocheck => 1);
+    close $output_fh;
     if ($?) {
         warning(g_("'dpkg-deb -I %s control' exited with %d, skipping package"),
                 $fn, $?);
