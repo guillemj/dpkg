@@ -33,10 +33,6 @@ use Dpkg::Compression;
 
 textdomain('dpkg-dev');
 
-# Errors with a single package are warned about but don't affect the
-# exit code. Only errors which affect everything cause a non-zero exit.
-my $exit = 0;
-
 # Hash of lists. The constants below describe what is in the lists.
 my %override;
 use constant {
@@ -289,50 +285,45 @@ sub process_dsc {
     push @sources, $fields;
 }
 
-sub main {
-    {
-        local $SIG{__WARN__} = sub { usageerr($_[0]) };
-        GetOptions(@option_spec);
-    }
-    usageerr(g_('one to three arguments expected'))
-        if @ARGV < 1 or @ARGV > 3;
+### Main
 
-    push @ARGV, undef if @ARGV < 2;
-    push @ARGV, '' if @ARGV < 3;
-    my ($dir, $override, $prefix) = @ARGV;
-
-    load_override $override if defined $override;
-    load_src_override $src_override, $override;
-    load_override_extra $extra_override_file if defined $extra_override_file;
-
-    open my $find_fh, '-|', 'find', '-L', $dir, '-name', '*.dsc', '-print'
-        or syserr(g_('cannot fork for %s'), 'find');
-    while (<$find_fh>) {
-    	chomp;
-	s{^\./+}{};
-
-        # FIXME: Fix it instead to not die on syntax and general errors?
-        eval {
-            process_dsc($prefix, $_);
-        };
-        if ($@) {
-            warn $@;
-            next;
-        }
-    }
-    close $find_fh or syserr(g_('error closing %s (%s)'), 'find', $!);
-
-    if (not $no_sort) {
-        @sources = sort { $a->{Package} cmp $b->{Package} } @sources;
-    }
-    foreach my $dsc (@sources) {
-        $dsc->output(\*STDOUT);
-        print "\n";
-    }
-
-    return 0;
+{
+    local $SIG{__WARN__} = sub { usageerr($_[0]) };
+    GetOptions(@option_spec);
 }
 
-$exit = main || $exit;
-$exit = 1 if $exit and not $exit % 256;
-exit $exit;
+usageerr(g_('one to three arguments expected'))
+    if @ARGV < 1 or @ARGV > 3;
+
+push @ARGV, undef if @ARGV < 2;
+push @ARGV, '' if @ARGV < 3;
+my ($dir, $override, $prefix) = @ARGV;
+
+load_override $override if defined $override;
+load_src_override $src_override, $override;
+load_override_extra $extra_override_file if defined $extra_override_file;
+
+open my $find_fh, '-|', 'find', '-L', $dir, '-name', '*.dsc', '-print'
+    or syserr(g_('cannot fork for %s'), 'find');
+while (<$find_fh>) {
+    chomp;
+    s{^\./+}{};
+
+    # FIXME: Fix it instead to not die on syntax and general errors?
+    eval {
+        process_dsc($prefix, $_);
+    };
+    if ($@) {
+        warn $@;
+        next;
+    }
+}
+close $find_fh or syserr(g_('error closing %s (%s)'), 'find', $!);
+
+if (not $no_sort) {
+    @sources = sort { $a->{Package} cmp $b->{Package} } @sources;
+}
+foreach my $dsc (@sources) {
+    $dsc->output(\*STDOUT);
+    print "\n";
+}
