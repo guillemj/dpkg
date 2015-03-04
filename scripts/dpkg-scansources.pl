@@ -62,6 +62,7 @@ my $debug = 0;
 my $no_sort = 0;
 my $src_override = undef;
 my $extra_override_file = undef;
+my @sources;
 
 my @option_spec = (
     'debug!' => \$debug,
@@ -285,12 +286,10 @@ sub process_dsc {
 
     $checksums->export_to_control($fields, use_files_for_md5 => 1);
 
-    return $fields;
+    push @sources, $fields;
 }
 
 sub main {
-    my (@out);
-
     {
         local $SIG{__WARN__} = sub { usageerr($_[0]) };
         GetOptions(@option_spec);
@@ -312,32 +311,23 @@ sub main {
     	chomp;
 	s{^\./+}{};
 
-        my $fields;
-
         # FIXME: Fix it instead to not die on syntax and general errors?
         eval {
-            $fields = process_dsc($prefix, $_);
+            process_dsc($prefix, $_);
         };
         if ($@) {
             warn $@;
             next;
         }
-
-	if ($no_sort) {
-            $fields->output(\*STDOUT);
-            print "\n";
-	}
-	else {
-            push @out, $fields;
-	}
     }
     close $find_fh or syserr(g_('error closing %s (%s)'), 'find', $!);
 
-    if (@out) {
-        foreach my $dsc (sort { $a->{Package} cmp $b->{Package} } @out) {
-            $dsc->output(\*STDOUT);
-            print "\n";
-        }
+    if (not $no_sort) {
+        @sources = sort { $a->{Package} cmp $b->{Package} } @sources;
+    }
+    foreach my $dsc (@sources) {
+        $dsc->output(\*STDOUT);
+        print "\n";
     }
 
     return 0;
