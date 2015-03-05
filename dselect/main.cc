@@ -187,12 +187,12 @@ usage(const struct cmdinfo *ci, const char *value)
 
   printf(_(
 "Options:\n"
-"  --admindir <directory>     Use <directory> instead of %s.\n"
-"  --expert                   Turn on expert mode.\n"
-"  --debug <file> | -D<file>  Turn on debugging, sending output to <file>.\n"
-"  --color <color-spec>       Configure screen colors.\n"
-"  --colour <color-spec>      Ditto.\n"
-"\n"), ADMINDIR);
+"      --admindir <directory>       Use <directory> instead of %s.\n"
+"      --expert                     Turn on expert mode.\n"
+"  -D, --debug <file>               Turn on debugging, send output to <file>.\n"
+"      --color <color-spec>         Configure screen colors.\n"
+"      --colour <color-spec>        Ditto.\n"
+), ADMINDIR);
 
   printf(_(
 "  -?, --help                       Show this help message.\n"
