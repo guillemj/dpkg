@@ -27,6 +27,7 @@ use File::Path qw(make_path);
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Version;
 use Dpkg::Control;
 use Dpkg::Arch qw(get_host_arch);
 
@@ -119,7 +120,8 @@ sub getname($$$)
     my ($filename, $fields, $arch) = @_;
 
     my $pkg = $fields->{Package};
-    (my $version = $fields->{Version}) =~ s/.*://;
+    my $v = Dpkg::Version->new($fields->{Version});
+    my $version = $v->as_string(omit_epoch => 1);
     my $type = $fields->{'Package-Type'} || 'deb';
 
     my $tname;
