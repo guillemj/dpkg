@@ -47,16 +47,16 @@ sub usage {
   --get <flag>       output the requested flag to stdout.
   --origin <flag>    output the origin of the flag to stdout:
                      value is one of vendor, system, user, env.
+  --status           output a synopsis with all parameters affecting the
+                     program behaviour, the resulting flags and their origin.
+  --query            like --status, but in deb822 format.
   --query-features <area>
                      output the status of features for the given area.
   --list             output a list of the flags supported by the current vendor.
   --export=(sh|make|cmdline|configure)
                      output something convenient to import the compilation
                      flags in a shell script, in make, or in a command line.
-  --dump             output all compilation flags with their values
-  --status           print a synopsis with all parameters affecting the
-                     behaviour of dpkg-buildflags and the resulting flags
-                     and their origin.
+  --dump             output all compilation flags with their values.
   --help             show this help message.
   --version          show the version.
 '), $Dpkg::PROGNAME;
@@ -80,7 +80,7 @@ while (@ARGV) {
         # Map legacy aliases.
         $type = 'cmdline' if $type eq 'configure';
         $action = "export-$type";
-    } elsif (m/^--(list|status|dump)$/) {
+    } elsif (m/^--(list|status|dump|query)$/) {
         usageerr(g_('two commands specified: --%s and --%s'), $1, $action)
             if defined($action);
         $action = $1;
@@ -143,6 +143,38 @@ if ($action eq 'list') {
     foreach my $flag ($build_flags->list()) {
 	my $value = $build_flags->get($flag);
 	print "$flag=$value\n";
+    }
+} elsif ($action eq 'query') {
+    # First print all environment variables that might have changed the
+    # results (only existing ones, might make sense to add an option to
+    # also show which ones could have set to modify it).
+    printf "Vendor: %s\n", Dpkg::Vendor::get_current_vendor() || 'undefined';
+    print "Environment:\n";
+    for my $envvar (Dpkg::Build::Env::list_accessed()) {
+        print " $envvar=$ENV{$envvar}\n" if exists $ENV{$envvar};
+    }
+
+    # Then the resulting features:
+    foreach my $area (sort $build_flags->get_feature_areas()) {
+        print "\n";
+        print "Area: $area\n";
+        print "Features:\n";
+        my %features = $build_flags->get_features($area);
+        foreach my $feature (sort keys %features) {
+            printf " %s=%s\n", $feature, $features{$feature} ? 'yes' : 'no';
+        }
+    }
+
+    # Then the resulting values (with their origin):
+    foreach my $flag ($build_flags->list()) {
+        print "\n";
+        print "Flag: $flag\n";
+        printf "Value: %s\n", $build_flags->get($flag);
+        my $origin = $build_flags->get_origin($flag);
+        if ($build_flags->is_maintainer_modified($flag)) {
+            $origin .= '+maintainer';
+        }
+        print "Origin: $origin\n";
     }
 } elsif ($action eq 'status') {
     # Prefix everything with "dpkg-buildflags: status: " to allow easy

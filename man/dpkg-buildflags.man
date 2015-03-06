@@ -134,6 +134,36 @@ the flag is set/modified by a user-specific configuration;
 the flag is set/modified by an environment-specific configuration.
 .RE
 .TP
+.BI \-\-query
+Print any information that can be useful to explain the behaviour of the
+program: current vendor, relevant environment variables, feature areas,
+state of all feature flags, and the compiler flags with their origin
+(since dpkg 1.19.0).
+.IP
+For example:
+.nf
+  Vendor: Debian
+  Environment:
+   DEB_CFLAGS_SET=-O0 -Wall
+
+  Area: qa
+  Features:
+   bug=no
+   canary=no
+
+  Area: reproducible
+  Features:
+   timeless=no
+
+  Flag: CFLAGS
+  Value: -O0 -Wall
+  Origin: env
+
+  Flag: CPPFLAGS
+  Value: -D_FORTIFY_SOURCE=2
+  Origin: vendor
+.fi
+.TP
 .BI \-\-query\-features " area"
 Print the features enabled for a given area (since dpkg 1.16.2).
 The only currently recognized
