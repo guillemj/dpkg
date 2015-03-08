@@ -64,7 +64,7 @@ software that was packaged.
 .BI " " "long-description"
 .br
 The format for the package description is a short brief summary on the
-first line (after the "Description" field). The following lines should be
+first line (after the \fBDescription\fP field). The following lines should be
 used as a longer, more detailed description. Each line of the long description
 must be preceded by a space, and blank lines in the long description must
 contain a single '.' following the preceding space.
@@ -127,7 +127,7 @@ of a different architecture from itself. The value \fBforeign\fP means that
 the package is not co-installable with itself, but should be allowed to
 satisfy the dependency of a package of a different arch from itself. The
 value \fBallowed\fP allows reverse-dependencies to indicate in their
-Depends field that they accept a package from a foreign architecture by
+\fBDepends\fP field that they accept a package from a foreign architecture by
 qualifying the package name with \fB:any\fP, but has no effect otherwise.
 The value \fBno\fP is the default when the field is omitted, in which case
 adding the field with an explicit \fBno\fP value is generally not needed.
@@ -154,10 +154,10 @@ non-trivial amount of functionality. The package maintenance software
 will not allow a package to be installed if the packages listed in its
 .B Depends
 field aren't installed (at least not without using the force options).
-In an installation, the postinst scripts of packages listed in Depends:
+In an installation, the postinst scripts of packages listed in \fBDepends\fP
 fields are run before those of the packages which depend on them. On the
 opposite, in a removal, the prerm script of a package is run before
-those of the packages listed in its Depends: field.
+those of the packages listed in its \fBDepends\fP field.
 .TP
 .BI Pre\-Depends: " package-list"
 List of packages that must be installed
