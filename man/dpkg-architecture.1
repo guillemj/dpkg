@@ -43,7 +43,7 @@ or the same as the build architecture if \fBCC\fP or gcc are both not
 available. One out of \fB\-\-host\-arch\fR and \fB\-\-host\-type\fR is
 sufficient, the value of the
 other will be set to a usable default. Indeed, it is often better to only
-specify one, because \fBdpkg\-architecture\fP will warn you if your choice
+specify one, because \fB\%dpkg\-architecture\fP will warn you if your choice
 does not match the default.
 .
 .SH COMMANDS
@@ -124,10 +124,10 @@ specified endianness (since dpkg 1.17.14). Either \fBlittle\fP or \fBbig\fP.
 .TP
 .BR \-f ", " \-\-force
 Values set by existing environment variables with the same name as used by
-the scripts are honored (i.e. used by \fBdpkg\-architecture\fP), except if
+the scripts are honored (i.e. used by \fB\%dpkg\-architecture\fP), except if
 this force flag is present. This allows the user
-to override a value even when the call to \fBdpkg\-architecture\fP is buried
-in some other script (for example \fBdpkg\-buildpackage\fP(1)).
+to override a value even when the call to \fB\%dpkg\-architecture\fP is buried
+in some other script (for example \fB\%dpkg\-buildpackage\fP(1)).
 .
 .SH TERMS
 .IP "build machine" 4
@@ -231,7 +231,7 @@ Makefile snippet that properly sets and exports all the variables that
 .
 .SH EXAMPLES
 \fBdpkg\-buildpackage\fP accepts the \fB\-a\fR option and passes it to
-\fBdpkg\-architecture\fP. Other examples:
+\fB\%dpkg\-architecture\fP. Other examples:
 .IP
 CC=i386\-gnu\-gcc dpkg\-architecture \-c debian/rules build
 .IP
@@ -255,7 +255,7 @@ The environment variables set by \fBdpkg\-architecture\fP are passed to
 \fIdebian/rules\fP as make variables (see make documentation). However,
 you should not rely on them, as this breaks manual invocation of the
 script. Instead, you should always initialize them using
-\fBdpkg\-architecture\fP with the \fB\-q\fP option. Here are some examples,
+\fB\%dpkg\-architecture\fP with the \fB\-q\fP option. Here are some examples,
 which also show how you can improve the cross compilation support in your
 package:
 .PP
