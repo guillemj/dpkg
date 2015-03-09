@@ -25,8 +25,9 @@ deb\-src\-control \- Debian source packages' master control file format
 control
 .
 .SH DESCRIPTION
-Each Debian source package contains the master "control" file, which contains
-at least 2 paragraphs, separated by a blank line. The first paragraph lists
+Each Debian source package contains the master \(Focontrol\(Fc file,
+which contains at least 2 paragraphs, separated by a blank line.
+The first paragraph lists
 all information about the source package in general, while each following
 paragraph describes exactly one binary package. Each paragraph consists of at
 least one field. A field starts with a fieldname, such as
@@ -40,8 +41,8 @@ fields is generally joined to a single line by the tools (except in the case of
 the
 .B Description
 field, see below). To insert empty lines into a multi-line
-field, insert a dot after the space. Lines starting with a \fB'#'\fP are
-treated as comments.
+field, insert a dot after the space.
+Lines starting with a \(oq\fB#\fP\(cq are treated as comments.
 .
 .SH SOURCE FIELDS
 .TP
@@ -54,7 +55,7 @@ long and must start with an alphanumeric character.
 
 .TP
 .BR Maintainer: " \fIfullname-email\fP (required)"
-Should be in the format "Joe Bloggs <jbloggs@foo.com>", and references the
+Should be in the format \(FoJoe Bloggs <jbloggs@foo.com>\(Fc, and references the
 person who currently maintains the package, as opposed to the author of the
 software or the original packager.
 
@@ -116,13 +117,15 @@ usually not needed.
 .TP
 .BI Section: " section"
 This is a general field that gives the package a category based on the
-software that it installs. Some common sections are "utils", "net",
-"mail", "text", "x11", etc.
+software that it installs.
+Some common sections are \fButils\fP, \fBnet\fP, \fBmail\fP, \fBtext\fP,
+\fBx11\fP, etc.
 
 .TP
 .BI Priority: " priority"
 Sets the importance of this package in relation to the system as a whole.
-Common priorities are "required", "standard", "optional", "extra", etc.
+Common priorities are \fBrequired\fP, \fBstandard\fP, \fBoptional\fP,
+\fBextra\fP, etc.
 
 In Debian, the
 .B Section
@@ -182,11 +185,14 @@ The syntax of the
 .B Build\-Depends\-Arch
 and
 .B Build\-Depends\-Indep
-fields is a list of groups of alternative packages. Each group is a list
-of packages separated by vertical bar (or "pipe") symbols, "|". The
-groups are separated by commas. Commas are to be read as "AND", and pipes
-as "OR", with pipes binding more tightly. Each package name is
-optionally followed by an architecture qualifier appended after a colon ":",
+fields is a list of groups of alternative packages.
+Each group is a list of packages separated by vertical bar (or \(lqpipe\(rq)
+symbols, \(oq\fB|\fP\(cq.
+The groups are separated by commas.
+Commas are to be read as \(lqAND\(rq, and pipes as \(lqOR\(rq, with pipes
+binding more tightly.
+Each package name is optionally followed by an architecture qualifier
+appended after a colon \(oq\fB:\fP\(cq,
 optionally followed by a version number specification in parentheses, an
 architecture specification in square brackets, and a restriction formula
 consisting of one or more lists of profile names in angle brackets.
@@ -197,7 +203,8 @@ The syntax of the
 and
 .B Build\-Conflicts\-Indep
 fields is a list of comma-separated package names, where the comma is read
-as an "AND". Specifying alternative packages using a "pipe" is not supported.
+as an \(lqAND\(rq.
+Specifying alternative packages using a \(lqpipe\(rq is not supported.
 Each package name is optionally followed by a version number specification in
 parentheses, an architecture specification in square brackets, and a
 restriction formula consisting of one or more lists of profile names in
@@ -214,21 +221,23 @@ name if the package is marked with \fBMulti\-Arch: allowed\fP, and
 \fBnative\fP will match the current build architecture if the package
 is not marked with \fBMulti\-Arch: foreign\fP.
 
-A version number may start with a ">>", in which case any later version
-will match, and may specify or omit the Debian packaging revision (separated
-by a hyphen). Accepted version relationships are ">>" for greater than,
-"<<" for less than, ">=" for greater than or equal to, "<=" for less than
-or equal to, and "=" for equal to.
+A version number may start with a \(oq\fB>>\fP\(cq, in which case any
+later version will match, and may specify or omit the Debian packaging
+revision (separated by a hyphen).
+Accepted version relationships are \(oq\fB>>\fP\(cq for greater than,
+\(oq\fB<<\fP\(cq for less than, \(oq\fB>=\fP\(cq for greater than or
+equal to, \(oq\fB<=\fP\(cq for less than or equal to, and \(oq\fB=\fP\(cq
+for equal to.
 
 An architecture specification consists of one or more architecture names,
 separated by whitespace. Exclamation marks may be prepended to each of the
-names, meaning "NOT".
+names, meaning \(lqNOT\(rq.
 
 A restriction formula consists of one or more restriction lists, separated
 by whitespace. Each restriction list is enclosed in angle brackets. Items
 in the restriction list are build profile names, separated by whitespace
-and can be prefixed with an exclamation mark, meaning "NOT". A restriction
-formula represents a disjunctive normal form expression.
+and can be prefixed with an exclamation mark, meaning \(lqNOT\(rq.
+A restriction formula represents a disjunctive normal form expression.
 
 Note that dependencies on packages in the
 .B build\-essential
@@ -267,9 +276,10 @@ for more information about them).
 
 .TP
 .BR Package\-Type: " \fBdeb\fP|\fBudeb\fP"
-This field defines the type of the package. "udeb" is for size-constrained
-packages used by the debian installer. "deb" is the default value, it's
-assumed if the field is absent. More types might be added in the future.
+This field defines the type of the package.
+\fBudeb\fP is for size-constrained packages used by the debian installer.
+\fBdeb\fP is the default value, it is assumed if the field is absent.
+More types might be added in the future.
 
 .TP
 .BI Subarchitecture: " value"

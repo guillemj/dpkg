@@ -74,16 +74,17 @@ from the minimal version so that backports with a lower version number
 but the same upstream version still satisfy the generated dependencies.
 If the Debian revision can't be dropped because the symbol really got
 added by the Debian specific change, then one should suffix the version
-with "~".
+with \(oq\fB~\fP\(cq.
 .P
 Before applying any patch to the symbols file, the maintainer should
 double-check that it's sane. Public symbols are not supposed to disappear,
 so the patch should ideally only add new lines.
 .P
-Note that you can put comments in symbols files: any line with '#' as the
-first character is a comment except if it starts with '#include' (see
-section \fBUsing includes\fP). Lines starting with '#MISSING:' are special
-comments documenting symbols that have disappeared.
+Note that you can put comments in symbols files: any line with \(oq#\(cq as
+the first character is a comment except if it starts with \(oq#include\(cq
+(see section \fBUsing includes\fP).
+Lines starting with \(oq#MISSING:\(cq are special comments documenting
+symbols that have disappeared.
 .P
 Do not forget to check if old symbol versions need to be increased.
 There is no way \fBdpkg\-gensymbols\fP can warn about this. Blindly
@@ -150,7 +151,7 @@ symbols will continuously appear as MISSING in the diff in each new package
 revision.  This behaviour serves as a reminder for the maintainer that such a
 symbol needs to be removed from the symbol file or readded to the library. When
 the optional symbol, which was previously declared as MISSING, suddenly
-reappears in the next revision, it will be upgraded back to the "existing"
+reappears in the next revision, it will be upgraded back to the \(lqexisting\(rq
 status with its minimum version unchanged.
 
 This tag is useful for symbols which are private where their disappearance do

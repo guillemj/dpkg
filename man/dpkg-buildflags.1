@@ -66,7 +66,7 @@ The configuration files can contain comments on lines starting with a hash
 .BI \-\-dump
 Print to standard output all compilation flags and their values. It prints
 one flag per line separated from its value by an equal sign
-("\fIflag\fP=\fIvalue\fP"). This is the default action.
+(\(lq\fIflag\fP=\fIvalue\fP\(rq). This is the default action.
 .TP
 .BI \-\-list
 Print the list of flags supported by the current vendor
@@ -202,16 +202,16 @@ to support other languages).
 .P
 Each area feature can be enabled and disabled in the \fBDEB_BUILD_OPTIONS\fP
 and \fBDEB_BUILD_MAINT_OPTIONS\fP environment variable's area value with the
-"+" and "\-" modifier.
-For example, to enable the \fBhardening\fP "pie" feature and disable the
-"fortify" feature you can do this in \fBdebian/rules\fP:
+\(oq\fB+\fP\(cq and \(oq\fB\-\fP\(cq modifier.
+For example, to enable the \fBhardening\fP \(lqpie\(rq feature and disable the
+\(lqfortify\(rq feature you can do this in \fBdebian/rules\fP:
 .P
   export DEB_BUILD_MAINT_OPTIONS=hardening=+pie,\-fortify
 .P
 The special feature \fBall\fP (valid in any area) can be used to enable or
 disable all area features at the same time.
 Thus disabling everything in the \fBhardening\fP area and enabling only
-"format" and "fortify" can be achieved with:
+\(lqformat\(rq and \(lqfortify\(rq can be achieved with:
 .P
   export DEB_BUILD_MAINT_OPTIONS=hardening=\-all,+format,+fortify
 .
@@ -272,7 +272,7 @@ calls to \fBprintf\fP and \fBscanf\fP functions where the format string is
 not a string literal and there are no format arguments, as in
 \fBprintf(foo);\fP instead of \fPprintf("%s", foo);\fP
 This may be a security hole if the format string came from untrusted
-input and contains "%n".
+input and contains \(oq%n\(cq.
 .
 .TP
 .B fortify
@@ -282,7 +282,7 @@ to \fBCPPFLAGS\fP. During code generation the compiler
 knows a great deal of information about buffer sizes (where possible), and
 attempts to replace insecure unlimited length buffer function calls with
 length-limited ones. This is especially useful for old, crufty code.
-Additionally, format strings in writable memory that contain '%n' are
+Additionally, format strings in writable memory that contain \(oq%n\(cq are
 blocked. If an application depends on such a format string, it will need
 to be worked around.
 
@@ -450,7 +450,7 @@ $(MAKE) $(shell dpkg\-buildflags \-\-export=cmdline)
 .fi
 .RE
 .PP
-To set build flags in a shell script or shell fragment, "eval" can be
+To set build flags in a shell script or shell fragment, \fBeval\fP can be
 used to interpret the output and to export the flags in the environment:
 .PP
 .RS 4

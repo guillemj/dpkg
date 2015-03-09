@@ -40,11 +40,11 @@ in these files is:
 The \fIlibrary-soname\fR is exactly the value of the SONAME field
 as exported by \fBobjdump\fR(1). A \fIdependency-template\fR is a
 dependency where \fI#MINVER#\fR is dynamically replaced either by
-a version check like "(>= \fIminimal-version\fR)" or by nothing (if
+a version check like \(lq(>= \fIminimal-version\fR)\(rq or by nothing (if
 an unversioned dependency is deemed sufficient).
 .P
 Each exported \fIsymbol\fR (listed as \fIname\fR@\fIversion\fR, with
-\fIversion\fR being "Base" if the library is not versioned) is associated
+\fIversion\fR being \(lqBase\(rq if the library is not versioned) is associated
 to a \fIminimal-version\fR of its dependency template (the main dependency
 template is always used and will end up being combined with the dependency
 template referenced by \fIid-of-dependency-template\fR if present). The
@@ -56,7 +56,7 @@ Those fields are stored on lines starting with an asterisk. Currently,
 the only valid fields are:
 .TP
 .B Build\-Depends\-Package
-It indicates the name of the "\-dev" package associated to the library
+It indicates the name of the \(lq\-dev\(rq package associated to the library
 and is used by \fBdpkg\-shlibdeps\fP to make sure that the dependency
 generated is at least as strict as the corresponding build dependency
 (since dpkg 1.14.13).

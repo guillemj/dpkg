@@ -57,12 +57,13 @@ Files will be moved into a subdirectory. If the directory given as argument exis
 the files will be moved into that directory otherwise the name of
 the target directory is extracted from the section field in the
 control part of the package. The target directory will be
-`unstable/binary\-\fIarchitecture\fP/\fIsection\fP'. If the section is
-not found in the control, then `no\-section' is assumed, and in this case,
-as well as for sections `non\-free' and `contrib' the target directory is
-`\fIsection\fP/binary\-\fIarchitecture\fP'. The section field isn't required
-so a lot of packages will find their way to the `no\-section' area. Use
-this option with care, it's messy.
+\(Founstable/binary\-\fIarchitecture\fP/\fIsection\fP\(Fc.
+If the section is not found in the control, then \fBno\-section\fP is assumed,
+and in this case, as well as for sections \fBnon\-free\fP and \fBcontrib\fP
+the target directory is \(Fo\fIsection\fP/binary\-\fIarchitecture\fP\(Fc.
+The section field is not required so a lot of packages will find their way
+to the \fBno\-section\fP area.
+Use this option with care, it's messy.
 .TP
 .BR \-c ", " \-\-create\-dir
 This option can used together with the \fB\-s\fP option. If a target
@@ -88,12 +89,12 @@ might depend on this naming structure.
 .SH EXAMPLES
 .TP
 .B dpkg\-name bar\-foo.deb
-The file `bar\-foo.deb' will be renamed to bar\-foo_1.0\-2_i386.deb or
+The file \fBbar\-foo.deb\fP will be renamed to bar\-foo_1.0\-2_i386.deb or
 something similar (depending on whatever information is in the control
-part of `bar\-foo.deb').
+part of \fBbar\-foo.deb\fP).
 .TP
 .B find /root/debian/ \-name \(aq*.deb\(aq | xargs \-n 1 dpkg\-name \-a
-All files with the extension `deb' in the directory /root/debian and its
+All files with the extension \fBdeb\fP in the directory /root/debian and its
 subdirectory's will be renamed by \fBdpkg\-name\fP if required into names
 with no architecture information.
 .TP

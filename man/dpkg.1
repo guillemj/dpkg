@@ -287,9 +287,9 @@ not be shown.
 .TP
 .B \-\-set\-selections
 Set package selections using file read from stdin. This file should be
-in the format '\fIpackage\fP \fIstate\fP', where state is one of
+in the format \(lq\fIpackage\fP \fIstate\fP\(rq, where state is one of
 \fBinstall\fP, \fBhold\fP, \fBdeinstall\fP or \fBpurge\fP. Blank lines
-and comment lines beginning with '#' are also permitted.
+and comment lines beginning with \(oq#\(cq are also permitted.
 
 The \fIavailable\fP file needs to be up-to-date for this command to be
 useful, otherwise unknown packages will be ignored with a warning. See
@@ -323,7 +323,7 @@ architecture \fBdpkg\fP is built for (i.e. the output of
 \fB\-\-print\-architecture\fP) can never be removed from that list.
 .TP
 .B \-\-print\-architecture
-Print architecture of packages \fBdpkg\fP installs (for example, "i386").
+Print architecture of packages \fBdpkg\fP installs (for example, \(lqi386\(rq).
 .TP
 .B \-\-print\-foreign\-architectures
 Print a newline-separated list of the extra architectures \fBdpkg\fP is
@@ -473,7 +473,7 @@ Configure also any unpacked but unconfigured packages on which the current
 package depends.
 
 \fBhold\fP:
-Process packages even when marked "hold".
+Process packages even when marked \(lqhold\(rq.
 
 \fBremove\-reinstreq\fP:
 Remove a package, even if it's broken and marked to require
@@ -646,10 +646,13 @@ previously excluded paths matching the specified patterns during install
 \fIWarning: take into account that depending on the excluded paths you
 might completely break your system, use with caution.\fP
 
-The glob patterns use the same wildcards used in the shell, were '*' matches
-any sequence of characters, including the empty string and also '/'. For
-example, \fI'/usr/*/READ*'\fP matches \fI'/usr/share/doc/package/README'\fP.
-As usual, '?' matches any single character (again, including '/'). And '['
+The glob patterns use the same wildcards used in the shell, were
+\(oq*\(cq matches any sequence of characters, including the empty string
+and also \(oq/\(cq.
+For example, \(Fo\fI/usr/*/READ*\fP\(Fc matches
+\(Fo\fI/usr/share/doc/package/README\fP\(Fc.
+As usual, \(oq?\(cq matches any single character (again, including \(oq/\(cq).
+And \(oq[\(cq
 starts a character class, which can contain a list of characters, ranges
 and complementations. See \fBglob\fP(7) for detailed information about
 globbing. Note: the current implementation might re-include more directories
@@ -674,14 +677,14 @@ matches a file name making the decision.
 Sets the output format for the \fB\-\-verify\fP command (since dpkg 1.17.2).
 
 The only currently supported output format is \fBrpm\fP, which consists
-of a line for every path that failed any check. The lines start with 9
-characters to report each specific check result, a '\fB?\fP' implies the
-check could not be done (lack of support, file permissions, etc), '\fB.\fP'
-implies the check passed, and an alphanumeric character implies a specific
-check failed; the md5sum verification is denoted with a '\fB5\fP' on
-the third character. The line is followed by a space and an attribute
-character (currently '\fBc\fP' for conffiles), another
-space and the pathname.
+of a line for every path that failed any check.
+The lines start with 9 characters to report each specific check result,
+a \(oq\fB?\fP\(cq implies the check could not be done (lack of support,
+file permissions, etc), \(oq\fB.\fP\(cq implies the check passed, and
+an alphanumeric character implies a specific check failed; the md5sum
+verification is denoted with a \(oq\fB5\fP\(cq on the third character.
+The line is followed by a space and an attribute character (currently
+\(oq\fBc\fP\(cq for conffiles), another space and the pathname.
 .TP
 \fB\-\-status\-fd \fR\fIn\fR
 Send machine-readable package status and progress information to file
@@ -717,17 +720,17 @@ The output format used is the same as in \fB\-\-status\-fd\fP.
 Log status change updates and actions to \fIfilename\fP, instead of
 the default \fI/var/log/dpkg.log\fP. If this option is given multiple
 times, the last filename is used. Log messages are of the form
-`YYYY-MM-DD HH:MM:SS startup \fItype\fP \fIcommand\fP' for each dpkg
+\(oqYYYY-MM-DD HH:MM:SS startup \fItype\fP \fIcommand\fP\(cq for each dpkg
 invocation where \fItype\fP is \fBarchives\fP (with a \fIcommand\fP of
 \fBunpack\fP or \fBinstall\fP) or \fBpackages\fP (with a \fIcommand\fP of
 \fBconfigure\fP, \fBtriggers\-only\fP, \fBremove\fP or \fBpurge\fP);
-`YYYY-MM-DD HH:MM:SS status \fIstate\fP \fIpkg\fP \fIinstalled-version\fP'
+\(oqYYYY-MM-DD HH:MM:SS status \fIstate\fP \fIpkg\fP \fIinstalled-version\fP\(cq
 for status change updates;
-`YYYY-MM-DD HH:MM:SS \fIaction\fP \fIpkg\fP \fIinstalled-version\fP
-\fIavailable-version\fP' for actions where \fIaction\fP is one of
+\(oqYYYY-MM-DD HH:MM:SS \fIaction\fP \fIpkg\fP \fIinstalled-version\fP
+\fIavailable-version\fP\(cq for actions where \fIaction\fP is one of
 \fBinstall\fP, \fBupgrade\fP, \fBconfigure\fP, \fBtrigproc\fP,
 \fBdisappear\fP, \fBremove\fP or \fBpurge\fP; and
-`YYYY-MM-DD HH:MM:SS conffile \fIfilename\fP \fIdecision\fP' for conffile
+\(oqYYYY-MM-DD HH:MM:SS conffile \fIfilename\fP \fIdecision\fP\(cq for conffile
 changes where \fIdecision\fP is either \fBinstall\fP or \fBkeep\fP.
 .TP
 \fB\-\-no\-debsig\fP
@@ -878,7 +881,7 @@ To remove an installed elvis package:
 
 To install a package, you first need to find it in an archive or
 CDROM. The \fIavailable\fP file shows that the vim package is in section
-"editors":
+\fBeditors\fP:
 .br
 \fB     cd /media/cdrom/pool/main/v/vim\fP
 \fB     dpkg \-i vim_4.5\-3.deb\fP

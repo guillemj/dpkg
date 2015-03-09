@@ -137,11 +137,12 @@ asterisk (*) and question mark (?) will match a slash, and blackslash
 (\\) will be used as an escape character.
 
 If the first character in the \fIfilename-search-pattern\fP is none of
-"*[?/" then it will be considered a substring match and will be implicitly
-surrounded by "*" (as in *\fIfilename-search-pattern\fP*).
-If the subsequent string contains any of "*[?\\", then it will handled
-like a glob pattern, otherwise any trailing "/" or "/." will be removed
-and a literal path lookup will be performed.
+\(oq\fB*[?/\fP\(cq then it will be considered a substring match and will be
+implicitly surrounded by \(oq\fB*\fP\(cq (as in
+\fB*\fP\fIfilename-search-pattern\fP\fB*\fP).
+If the subsequent string contains any of \(oq\fB*[?\\\fP\(cq, then it will
+handled like a glob pattern, otherwise any trailing \(oq\fB/\fP\(cq or
+\(oq\fB/.\fP\(cq will be removed and a literal path lookup will be performed.
 
 This command will not list extra files created by maintainer scripts,
 nor will it list alternatives.
@@ -242,9 +243,10 @@ fields in control files):
 .TP
 .B binary:Package
 It contains the binary package name with a possible architecture qualifier
-like "libc6:amd64" (since dpkg 1.16.2). The architecture qualifier will
-only be present if the package has a \fBMulti\-Arch\fP field with a value
-of \fBsame\fP. This makes the package name unambiguous.
+like \(lqlibc6:amd64\(rq (since dpkg 1.16.2).
+The architecture qualifier will only be present if the package has a
+\fBMulti\-Arch\fP field with a value of \fBsame\fP.
+This makes the package name unambiguous.
 .TP
 .B binary:Summary
 It contains the package short description (since dpkg 1.16.2).

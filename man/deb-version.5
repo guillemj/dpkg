@@ -39,7 +39,7 @@ previous version numbering schemes, to be left behind.
 .TP
 .I upstream-version
 This is the main part of the version number.  It is
-usually the version number of the original ("upstream")
+usually the version number of the original (\(lqupstream\(rq)
 package from which the \fI.deb\fP file has been made,
 if this is applicable.  Usually this will be in the same
 format as that specified by the upstream author(s);
@@ -53,7 +53,7 @@ described below. The \fIupstream-version\fP
 portion of the version number is mandatory.
 .IP
 The \fIupstream-version\fP may contain only
-alphanumerics ("A-Za-z0-9") and the characters
+alphanumerics (\(lqA-Za-z0-9\(rq) and the characters
 .BR . " " + " " \- " " : " " ~
 (full stop, plus, hyphen, colon, tilde) and should
 start with a digit.  If there is no
@@ -74,11 +74,11 @@ It is optional; if it isn't present then the
 \fIupstream-version\fP may not contain a hyphen.
 This format represents the case where a piece of
 software was written specifically to be turned into a
-Debian package, and so there is only one "debianisation"
+Debian package, and so there is only one \(lqdebianisation\(rq
 of it and therefore no revision indication is required.
 .IP
 It is conventional to restart the
-\fIdebian-revision\fP at '1' each time time the
+\fIdebian-revision\fP at \(oq1\(cq each time time the
 \fIupstream-version\fP is increased.
 .IP
 Dpkg will break the version
@@ -102,8 +102,8 @@ is found it is returned.  The lexical comparison is a
 comparison of ASCII values modified so that all the letters
 sort earlier than all the non-letters and so that a tilde
 sorts before anything, even the end of a part.  For example,
-the following parts are in sorted order: '~~', '~~a', '~',
-the empty part, 'a'.
+the following parts are in sorted order: \(oq~~\(cq, \(oq~~a\(cq, \(oq~\(cq,
+the empty part, \(oqa\(cq.
 .PP
 Then the initial part of the remainder of each string which
 consists entirely of digit characters is determined.  The
@@ -122,7 +122,7 @@ mistakes in version numbering, and to cope with situations
 where the version numbering scheme changes.  It is
 \fBnot\fP intended to cope with version numbers containing
 strings of letters which the package management system cannot
-interpret (such as 'ALPHA' or 'pre\-'), or with
+interpret (such as \(oqALPHA\(cq or \(oqpre\-\(cq), or with
 silly orderings.
 .SH NOTES
 The tilde character and its special sorting properties were introduced
