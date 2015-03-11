@@ -19,6 +19,7 @@ use warnings;
 use Test::More;
 
 use Dpkg::ErrorHandling;
+use Dpkg::IPC;
 
 report_options(quiet_warnings => 1);
 
@@ -33,7 +34,13 @@ plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 13;
 
 sub dpkg_vercmp {
      my ($a, $cmp, $b) = @_;
-     return system('dpkg', '--compare-versions', '--', $a, $cmp, $b) == 0;
+     my $stderr;
+
+     spawn(exec => [ 'dpkg', '--compare-versions', '--', $a, $cmp, $b ],
+           error_to_string => \$stderr, wait_child => 1, nocheck => 1);
+     diag("dpkg --compare-versions error=$?: $stderr") if $? and $? != 256;
+
+     return $? == 0;
 }
 
 sub obj_vercmp {
