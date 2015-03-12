@@ -204,7 +204,7 @@ set_compress_strategy(const struct cmdinfo *cip, const char *value)
 {
   compress_params.strategy = compressor_get_strategy(value);
   if (compress_params.strategy == COMPRESSOR_STRATEGY_UNKNOWN)
-    ohshit(_("unknown compression strategy '%s'!"), value);
+    badusage(_("unknown compression strategy '%s'!"), value);
 }
 
 static void
@@ -212,7 +212,7 @@ set_compress_type(const struct cmdinfo *cip, const char *value)
 {
   compress_params.type = compressor_find_by_name(value);
   if (compress_params.type == COMPRESSOR_TYPE_UNKNOWN)
-    ohshit(_("unknown compression type '%s'!"), value);
+    badusage(_("unknown compression type '%s'!"), value);
   if (compress_params.type == COMPRESSOR_TYPE_LZMA)
     warning(_("deprecated compression type '%s'; use xz instead"), value);
   if (compress_params.type == COMPRESSOR_TYPE_BZIP2)

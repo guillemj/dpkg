@@ -120,8 +120,8 @@ parse_awaiter_package(void)
 		pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 		archname = getenv("DPKG_MAINTSCRIPT_ARCH");
 		if (pkgname == NULL || archname == NULL)
-			ohshit(_("must be called from a maintainer script"
-			         " (or with a --by-package option)"));
+			badusage(_("must be called from a maintainer script"
+			           " (or with a --by-package option)"));
 
 		pkg = pkg_spec_find_pkg(pkgname, archname, &err);
 	} else if (strcmp(bypackage, "-") == 0) {
@@ -226,8 +226,8 @@ main(int argc, const char *const *argv)
 
 	badname = parse_awaiter_package();
 	if (badname)
-		ohshit(_("illegal awaited package name '%.250s': %.250s"),
-		       bypackage, badname);
+		badusage(_("illegal awaited package name '%.250s': %.250s"),
+		         bypackage, badname);
 
 	activate = argv[0];
 	badname = trig_name_is_illegal(activate);
