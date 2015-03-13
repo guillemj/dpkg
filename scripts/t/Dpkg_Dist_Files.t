@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 15;
+use Test::More tests => 17;
 
 use_ok('Dpkg::Dist::Files');
 
@@ -62,6 +62,11 @@ my %expected = (
         section => 'webdocs',
         priority => 'optional',
     },
+    'added-on-the-fly' => {
+        filename => 'added-on-the-fly',
+        section => 'void',
+        priority => 'wish',
+    },
 );
 
 my $dist = Dpkg::Dist::Files->new();
@@ -96,7 +101,16 @@ pkg-templ_1.2.3_arch.type section priority
 FILES
 
 $dist->add_file('added-on-the-fly', 'void', 'wish');
+is_deeply($dist->get_file('added-on-the-fly'), $expected{'added-on-the-fly'},
+    'Get added file added-on-the-fly');
+
 $dist->add_file('pkg-arch_2.0.0_amd64.deb', 'void', 'imperative');
+my %expected_pkg_arch = %{$expected{'pkg-arch_2.0.0_amd64.deb'}};
+$expected_pkg_arch{section} = 'void';
+$expected_pkg_arch{priority} = 'imperative';
+is_deeply($dist->get_file('pkg-arch_2.0.0_amd64.deb'), \%expected_pkg_arch,
+    'Get modified file pkg-arch_2.0.0_amd64.deb');
+
 $dist->del_file('pkg-indep_0.0.1-2_all.deb');
 is($dist->get_file('unknown'), undef, 'Get unknown file');
 is($dist->get_file('pkg-indep_0.0.1-2_all.deb'), undef, 'Get deleted file');

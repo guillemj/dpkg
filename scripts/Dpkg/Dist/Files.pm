@@ -110,15 +110,12 @@ sub get_file {
 sub add_file {
     my ($self, $filename, $section, $priority) = @_;
 
-    # XXX: Ideally we'd need to parse the filename, to match the behaviour
-    # on parse(), and initialize the other attributes, although no code is
-    # in need of this for now, at least in dpkg-dev.
+    my $file = $self->parse_filename($filename);
+    error(g_('invalid filename %s'), $filename) unless defined $file;
+    $file->{section} = $section;
+    $file->{priority} = $priority;
 
-    $self->{files}->{$filename} = {
-        filename => $filename,
-        section => $section,
-        priority => $priority,
-    };
+    $self->{files}->{$filename} = $file;
 }
 
 sub del_file {
