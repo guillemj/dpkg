@@ -41,6 +41,26 @@ sub new {
     return $self;
 }
 
+sub parse_filename {
+    my ($self, $fn) = @_;
+
+    my $file;
+
+    if ($fn =~ m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.([a-z0-9.]+))$/) {
+        $file->{filename} = $1;
+        $file->{package} = $2;
+        $file->{version} = $3;
+        $file->{arch} = $4;
+        $file->{package_type} = $5;
+    } elsif ($fn =~ m/^([-+.,_0-9a-zA-Z]+)$/) {
+        $file->{filename} = $1;
+    } else {
+        $file = undef;
+    }
+
+    return $file;
+}
+
 sub parse {
     my ($self, $fh, $desc) = @_;
     my $count = 0;
@@ -51,30 +71,24 @@ sub parse {
     while (<$fh>) {
         chomp;
 
-        my %file;
+        my $file;
 
-        if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.([a-z0-9.]+)) (\S+) (\S+)$/) {
-            $file{filename} = $1;
-            $file{package} = $2;
-            $file{version} = $3;
-            $file{arch} = $4;
-            $file{package_type} = $5;
-            $file{section} = $6;
-            $file{priority} = $7;
-        } elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
-            $file{filename} = $1;
-            $file{section} = $2;
-            $file{priority} = $3;
+        if (m/^(\S+) (\S+) (\S+)$/) {
+            $file = $self->parse_filename($1);
+            error(g_('badly formed package name in files list file, line %d'), $.)
+                unless defined $file;
+            $file->{section} = $2;
+            $file->{priority} = $3;
         } else {
             error(g_('badly formed line in files list file, line %d'), $.);
         }
 
-        if (defined $self->{files}->{$file{filename}}) {
+        if (defined $self->{files}->{$file->{filename}}) {
             warning(g_('duplicate files list entry for file %s (line %d)'),
-                    $file{filename}, $.);
+                    $file->{filename}, $.);
         } else {
             $count++;
-            $self->{files}->{$file{filename}} = \%file;
+            $self->{files}->{$file->{filename}} = $file;
         }
     }
 
