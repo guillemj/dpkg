@@ -77,6 +77,40 @@ namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg,
   return r;
 }
 
+bool
+find_command(const char *prog)
+{
+  struct varbuf filename = VARBUF_INIT;
+  struct stat stab;
+  const char *path_list;
+  const char *path, *path_end;
+  size_t path_len;
+
+  path_list = getenv("PATH");
+  if (!path_list)
+    ohshit(_("PATH is not set"));
+
+  for (path = path_list; path; path = path_end ? path_end + 1 : NULL) {
+    path_end = strchr(path, ':');
+    path_len = path_end ? (size_t)(path_end - path) : strlen(path);
+
+    varbuf_reset(&filename);
+    varbuf_add_buf(&filename, path, path_len);
+    if (path_len)
+      varbuf_add_char(&filename, '/');
+    varbuf_add_str(&filename, prog);
+    varbuf_end_str(&filename);
+
+    if (stat(filename.buf, &stab) == 0 && (stab.st_mode & 0111)) {
+      varbuf_destroy(&filename);
+      return true;
+    }
+  }
+
+  varbuf_destroy(&filename);
+  return false;
+}
+
 /**
  * Verify that some programs can be found in the PATH.
  */
@@ -101,40 +135,14 @@ void checkpath(void) {
   };
 
   const char *const *prog;
-  const char *path_list;
-  struct varbuf filename = VARBUF_INIT;
   int warned= 0;
 
-  path_list = getenv("PATH");
-  if (!path_list)
-    ohshit(_("PATH is not set"));
-
   for (prog = prog_list; *prog; prog++) {
-    struct stat stab;
-    const char *path, *path_end;
-    size_t path_len;
-
-    for (path = path_list; path; path = path_end ? path_end + 1 : NULL) {
-      path_end = strchr(path, ':');
-      path_len = path_end ? (size_t)(path_end - path) : strlen(path);
-
-      varbuf_reset(&filename);
-      varbuf_add_buf(&filename, path, path_len);
-      if (path_len)
-        varbuf_add_char(&filename, '/');
-      varbuf_add_str(&filename, *prog);
-      varbuf_end_str(&filename);
-
-      if (stat(filename.buf, &stab) == 0 && (stab.st_mode & 0111))
-        break;
-    }
-    if (!path) {
+    if (!find_command(*prog)) {
       warning(_("'%s' not found in PATH or not executable"), *prog);
       warned++;
     }
   }
-
-  varbuf_destroy(&filename);
 
   if (warned)
     forcibleerr(fc_badpath,

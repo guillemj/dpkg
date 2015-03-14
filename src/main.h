@@ -241,6 +241,7 @@ bool force_depends(struct deppossi *possi);
 bool force_conflicts(struct deppossi *possi);
 void conffile_mark_obsolete(struct pkginfo *pkg, struct filenamenode *namenode);
 void pkg_conffiles_mark_old(struct pkginfo *pkg);
+bool find_command(const char *prog);
 void checkpath(void);
 
 struct filenamenode *namenodetouse(struct filenamenode *namenode,
