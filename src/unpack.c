@@ -129,17 +129,18 @@ deb_reassemble(const char **filename, const char **pfilename)
 static void
 deb_verify(const char *filename)
 {
-  struct stat stab;
   pid_t pid;
 
-  if (stat(DEBSIGVERIFY, &stab) < 0)
+  /* We have to check on every unpack, in case the debsig-verify package
+   * gets installed or removed. */
+  if (!find_command(DEBSIGVERIFY))
     return;
 
   printf(_("Authenticating %s ...\n"), filename);
   fflush(stdout);
   pid = subproc_fork();
   if (!pid) {
-    execl(DEBSIGVERIFY, DEBSIGVERIFY, "-q", filename, NULL);
+    execlp(DEBSIGVERIFY, DEBSIGVERIFY, "-q", filename, NULL);
     ohshite(_("unable to execute %s (%s)"),
             _("package signature verification"), DEBSIGVERIFY);
   } else {
