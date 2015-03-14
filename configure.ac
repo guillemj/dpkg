@@ -123,6 +123,8 @@ DPKG_COMPILER_WARNINGS
 DPKG_COMPILER_OPTIMISATIONS
 DPKG_LINKER_OPTIMISATIONS
 DPKG_ARCHITECTURE
+AC_DEFINE([PACKAGE_RELEASE], [PACKAGE_VERSION " (" ARCHITECTURE ")"],
+          [Define the project release information, version and architecture])
 
 AC_CONFIG_FILES([ Makefile
 		  dpkg-deb/Makefile
