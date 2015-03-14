@@ -48,7 +48,7 @@ static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
 	printf(_("Debian %s package trigger utility version %s.\n"),
-	       dpkg_get_progname(), DPKG_VERSION_ARCH);
+	       dpkg_get_progname(), PACKAGE_RELEASE);
 
 	printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"

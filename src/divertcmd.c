@@ -67,7 +67,7 @@ static void
 printversion(const struct cmdinfo *cip, const char *value)
 {
 	printf(_("Debian %s version %s.\n"), dpkg_get_progname(),
-	       DPKG_VERSION_ARCH);
+	       PACKAGE_RELEASE);
 
 	printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"

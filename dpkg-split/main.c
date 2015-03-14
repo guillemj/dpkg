@@ -45,7 +45,7 @@ static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)
 {
   printf(_("Debian '%s' package split/join tool; version %s.\n"),
-         SPLITTER, DPKG_VERSION_ARCH);
+         SPLITTER, PACKAGE_RELEASE);
 
   printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"

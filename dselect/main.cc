@@ -163,7 +163,7 @@ static const char licensestring[]= N_(
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
-  printf(gettext(programdesc), DSELECT, DPKG_VERSION_ARCH);
+  printf(gettext(programdesc), DSELECT, PACKAGE_RELEASE);
   printf("%s", gettext(licensestring));
 
   m_output(stdout, _("<standard output>"));
@@ -415,7 +415,7 @@ refreshmenu(void)
 
   clear();
   attrset(A_BOLD);
-  sprintf(buf, gettext(programdesc), DSELECT, DPKG_VERSION_ARCH);
+  sprintf(buf, gettext(programdesc), DSELECT, PACKAGE_RELEASE);
   mvaddnstr(0,0,buf,x-1);
 
   attrset(A_NORMAL);

@@ -56,7 +56,7 @@ DPKG_BEGIN_DECLS
 #define REMOVECONFFEXTS    "~", ".bak", "%", \
                            DPKGTEMPEXT, DPKGNEWEXT, DPKGOLDEXT, DPKGDISTEXT
 
-#define DPKG_VERSION_ARCH  PACKAGE_VERSION " (" ARCHITECTURE ")"
+#define PACKAGE_RELEASE    PACKAGE_VERSION " (" ARCHITECTURE ")"
 
 #define NEWCONFFILEFLAG    "newconffile"
 #define NONEXISTENTFLAG    "nonexistent"

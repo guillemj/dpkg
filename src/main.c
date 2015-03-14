@@ -59,7 +59,7 @@ static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
   printf(_("Debian '%s' package management program version %s.\n"),
-         DPKG, DPKG_VERSION_ARCH);
+         DPKG, PACKAGE_RELEASE);
   printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"));
