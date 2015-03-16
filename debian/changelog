@@ -52,6 +52,10 @@ dpkg (1.18.0) UNRELEASED; urgency=low
   * Update amd64 GNU cpu regex in cputable to match amd64 too, in addition
     to x86_64. This is required for FreeBSD.
   * Use badusage() instead of ohshit() for command-line errors.
+  * Use the original template symbols file when diffing in dpkg-gensymbols.
+    We should not create a new template symbols file, because the output
+    might change (different sorting order for example) relative to the
+    original. Closes: #773718
 
   * Perl modules:
     - Rename and deprecate Dpkg::Gettext _g function with new g_.
