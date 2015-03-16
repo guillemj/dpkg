@@ -658,6 +658,10 @@ tarobject(void *ctx, struct tar_entry *ti)
 
   tar_entry_update_from_system(ti);
 
+  /* Perform some sanity checks on the tar entry. */
+  if (strchr(ti->name, '\n'))
+    ohshit(_("newline not allowed in archive object name '%.255s'"), ti->name);
+
   /* Append to list of files.
    * The trailing ‘/’ put on the end of names in tarfiles has already
    * been stripped by tar_extractor(). */

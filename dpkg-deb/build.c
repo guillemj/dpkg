@@ -194,6 +194,8 @@ file_treewalk_feed(const char *dir, int fd_out)
   /* We need to reorder the files so we can make sure that symlinks
    * will not appear before their target. */
   while ((fi = file_info_get(dir, pipefd[0])) != NULL) {
+    if (strchr(fi->fn, '\n'))
+      ohshit(_("newline not allowed in pathname '%s'"), fi->fn);
     if (S_ISLNK(fi->st.st_mode)) {
       file_info_list_append(&symlist, &symlist_end, fi);
     } else {
