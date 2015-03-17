@@ -283,7 +283,9 @@ unless ($quiet) {
     my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
     $ref_symfile->output($before, package => $oppackage, template_mode => 1);
     $symfile->output($after, package => $oppackage, template_mode => 1);
-    seek($before, 0, 0); seek($after, 0, 0);
+
+    seek $before, 0, 0;
+    seek $after, 0, 0;
     my ($md5_before, $md5_after) = (Digest::MD5->new(), Digest::MD5->new());
     $md5_before->addfile($before);
     $md5_after->addfile($after);

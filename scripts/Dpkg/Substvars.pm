@@ -282,7 +282,9 @@ sub substvars {
             error($opts{msg_prefix} .
                   g_("too many substitutions - recursive ? - in '%s'"), $v);
         }
-        $lhs = $1; $vn = $2; $rhs = $3;
+        $lhs = $1;
+        $vn = $2;
+        $rhs = $3;
         if (defined($self->{vars}{$vn})) {
             $v = $lhs . $self->{vars}{$vn} . $rhs;
             $self->mark_as_used($vn);

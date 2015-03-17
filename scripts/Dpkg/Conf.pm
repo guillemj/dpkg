@@ -99,7 +99,8 @@ sub parse {
 
     while (<$fh>) {
 	chomp;
-	s/^\s+//; s/\s+$//;   # Strip leading/trailing spaces
+	s/^\s+//;             # Strip leading spaces
+	s/\s+$//;             # Strip trailing spaces
 	s/\s+=\s+/=/;         # Remove spaces around the first =
 	s/\s+/=/ unless m/=/; # First spaces becomes = if no =
 	# Skip empty lines and comments

@@ -552,7 +552,7 @@ sub prepare_apply {
     my ($self, $analysis, %opts) = @_;
     if ($opts{create_dirs}) {
 	foreach my $dir (keys %{$analysis->{dirtocreate}}) {
-	    eval { make_path($dir, { mode => 0777 }); };
+	    eval { make_path($dir, { mode => 0777 }) };
 	    syserr(g_('cannot create directory %s'), $dir) if $@;
 	}
     }
