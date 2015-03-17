@@ -280,6 +280,9 @@ if ($compare || ! $quiet) {
 unless ($quiet) {
     require File::Temp;
     require Digest::MD5;
+
+    my $file_label;
+
     # Compare template symbols files before and after
     my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
     my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
@@ -288,6 +291,9 @@ unless ($quiet) {
         # trying to regenerate it, as the output might differ in sort order
         # or similar.
         copy($ref_symfile->{file}, $before);
+        $file_label = $ref_symfile->{file};
+    } else {
+        $file_label = 'new_symbol_file';
     }
     $symfile->output($after, package => $oppackage, template_mode => 1);
 
@@ -296,6 +302,7 @@ unless ($quiet) {
     my ($md5_before, $md5_after) = (Digest::MD5->new(), Digest::MD5->new());
     $md5_before->addfile($before);
     $md5_after->addfile($after);
+
     # Output diffs between symbols files if any
     if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
 	if (not defined($output)) {
@@ -308,9 +315,8 @@ unless ($quiet) {
 		    $output);
 	}
 	my ($a, $b) = ($before->filename, $after->filename);
-	my $diff_label = sprintf('%s (%s_%s_%s)',
-	($ref_symfile->{file}) ? $ref_symfile->{file} : 'new_symbol_file',
-	$oppackage, $sourceversion, $host_arch);
+	my $diff_label = sprintf('%s (%s_%s_%s)', $file_label, $oppackage,
+	                         $sourceversion, $host_arch);
 	system('diff', '-u', '-L', $diff_label, $a, $b) if find_command('diff');
     }
 }
