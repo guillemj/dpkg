@@ -38,6 +38,7 @@ use Dpkg::Version;
 use Dpkg::Shlibs qw(find_library get_library_paths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
+use Dpkg::Substvars;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Deps;
 use Dpkg::Control::Info;
@@ -63,6 +64,7 @@ my $shlibslocal = 'debian/shlibs.local';
 my $packagetype = 'deb';
 my $dependencyfield = 'Depends';
 my $varlistfile = 'debian/substvars';
+my $varlistfilenew;
 my $varnameprefix = 'shlibs';
 my $ignore_missing_info = 0;
 my $warnings = 3;
@@ -447,25 +449,15 @@ if ($error_count >= 1) {
 }
 
 # Open substvars file
-my $fh;
+
+my $substvars = Dpkg::Substvars->new();
 if ($stdout) {
-    $fh = \*STDOUT;
+    $varlistfilenew = '-';
 } else {
-    open(my $new_fh, '>', "$varlistfile.new")
-        or syserr(g_("open new substvars file '%s'"), "$varlistfile.new");
-    if (-e $varlistfile) {
-	open(my $old_fh, '<', $varlistfile)
-	    or syserr(g_("open old substvars file '%s' for reading"),
-	              $varlistfile);
-	while (my $entry = <$old_fh>) {
-	    next if $entry =~ m/^\Q$varnameprefix\E:/;
-	    print { $new_fh } $entry
-	        or syserr(g_("copy old entry to new substvars file '%s'"),
-	                  "$varlistfile.new");
-	}
-	close($old_fh);
-    }
-    $fh = $new_fh;
+    $substvars->load($varlistfile) if -e $varlistfile;
+    $substvars->filter(remove => sub { $_[0] =~ m/^\Q$varnameprefix\E:/ });
+
+    $varlistfilenew = "$varlistfile.new";
 }
 
 # Write out the shlibs substvars
@@ -527,14 +519,15 @@ foreach my $field (reverse @depfields) {
         my $obj = deps_parse($dep);
         error(g_('invalid dependency got generated: %s'), $dep) unless defined $obj;
         $obj->sort();
-	print { $fh } "$varnameprefix:$field=$obj\n";
+        $substvars->set_as_used("$varnameprefix:$field", "$obj");
     }
 }
 
+$substvars->save($varlistfilenew);
+
 # Replace old file by new one
 if (!$stdout) {
-    close($fh) or syserr(g_('cannot close %s'), "$varlistfile.new");
-    rename "$varlistfile.new", $varlistfile
+    rename $varlistfilenew, $varlistfile
         or syserr(g_("install new varlist file '%s'"), $varlistfile);
 }
 
