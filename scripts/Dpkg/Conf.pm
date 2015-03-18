@@ -137,14 +137,11 @@ return true when &$rmfunc($option) or &keepfunc($option) is called.
 
 sub filter {
     my ($self, %opts) = @_;
-    if (defined($opts{remove})) {
-	@{$self->{options}} = grep { not &{$opts{remove}}($_) }
-				     @{$self->{options}};
-    }
-    if (defined($opts{keep})) {
-	@{$self->{options}} = grep { &{$opts{keep}}($_) }
-				     @{$self->{options}};
-    }
+    my $remove = $opts{remove} // sub { 0 };
+    my $keep = $opts{keep} // sub { 1 };
+
+    @{$self->{options}} = grep { not &$remove($_) and &$keep($_) }
+                               @{$self->{options}};
 }
 
 =item $string = $conf->output($fh)
