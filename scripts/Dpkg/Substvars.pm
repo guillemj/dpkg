@@ -1,4 +1,4 @@
-# Copyright © 2006-2009,2012-2014 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2009, 2012-2015 Guillem Jover <guillem@debian.org>
 # Copyright © 2007-2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@ package Dpkg::Substvars;
 use strict;
 use warnings;
 
-our $VERSION = '1.03';
+our $VERSION = '1.04';
 
 use POSIX qw(:errno_h);
 use Carp;
@@ -336,6 +336,25 @@ sub set_msg_prefix {
     $self->{msg_prefix} = $prefix;
 }
 
+=item $s->filter(remove => $rmfunc)
+=item $s->filter(keep => $keepfun)
+
+Filter the substitution variables, either removing or keeping all those
+that return true when &$rmfunc($key) or &keepfunc($key) is called.
+
+=cut
+
+sub filter {
+    my ($self, %opts) = @_;
+
+    my $remove = $opts{remove} // sub { 0 };
+    my $keep = $opts{keep} // sub { 1 };
+
+    foreach my $vn (keys %{$self->{vars}}) {
+        $self->delete($vn) if &$remove($vn) or not &$keep($vn);
+    }
+}
+
 =item $s->save($file)
 
 Store all substitutions variables except the automatic ones in the
@@ -369,6 +388,10 @@ sub output {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.04
+
+New method: $s->filter().
 
 =head2 Version 1.03
 

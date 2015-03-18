@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 32;
+use Test::More tests => 35;
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
@@ -25,6 +25,8 @@ use_ok('Dpkg::Substvars');
 
 my $srcdir = $ENV{srcdir} || '.';
 my $datadir = $srcdir . '/t/Dpkg_Substvars';
+
+my $expected;
 
 my $s = Dpkg::Substvars->new();
 
@@ -109,3 +111,35 @@ $SIG{__WARN__} = sub { $output .= $_[0] };
 $s->warn_about_unused();
 delete $SIG{__WARN__};
 is($output, '', 'disabled unused variables warnings');
+
+# Variable filters
+my $sf;
+
+$expected = <<'VARS';
+name3=Yet another value
+name4=Name value
+otherprefix:var7=Quux
+var1=Some value
+var2=Some other value
+VARS
+$sf = Dpkg::Substvars->new("$datadir/substvars2");
+$sf->filter(remove => sub { $_[0] =~ m/^prefix:/ });
+is($sf->output(), $expected, 'Filter remove variables');
+
+$expected = <<'VARS';
+otherprefix:var7=Quux
+prefix:var5=Foo
+var1=Some value
+var2=Some other value
+VARS
+$sf = Dpkg::Substvars->new("$datadir/substvars2");
+$sf->filter(keep => sub { $_[0] =~ m/var/ });
+is($sf->output(), $expected, 'Filter keep variables');
+
+$expected = <<'VARS';
+prefix:name6=Bar
+VARS
+$sf = Dpkg::Substvars->new("$datadir/substvars2");
+$sf->filter(remove => sub { $_[0] =~ m/var/ },
+            keep => sub { $_[0] =~ m/^prefix:/ });
+is($sf->output(), $expected, 'Filter keep and remove variables');
