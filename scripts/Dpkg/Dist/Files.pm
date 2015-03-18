@@ -130,6 +130,20 @@ sub del_file {
     delete $self->{files}->{$filename};
 }
 
+sub filter {
+    my ($self, %opts) = @_;
+    my $remove = $opts{remove} // sub { 0 };
+    my $keep = $opts{keep} // sub { 1 };
+
+    foreach my $filename (keys %{$self->{files}}) {
+        my $file = $self->{files}->{$filename};
+
+        if (not &$keep($file) or &$remove($file)) {
+            delete $self->{files}->{$filename};
+        }
+    }
+}
+
 sub output {
     my ($self, $fh) = @_;
     my $str = '';

@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 17;
+use Test::More tests => 20;
 
 use_ok('Dpkg::Dist::Files');
 
@@ -115,5 +115,36 @@ $dist->del_file('pkg-indep_0.0.1-2_all.deb');
 is($dist->get_file('unknown'), undef, 'Get unknown file');
 is($dist->get_file('pkg-indep_0.0.1-2_all.deb'), undef, 'Get deleted file');
 is($dist->output(), $expected, 'Modified dist object');
+
+$expected = <<'FILES';
+pkg-arch_2.0.0_amd64.deb admin required
+pkg-indep_0.0.1-2_all.deb net standard
+pkg-templ_1.2.3_arch.type section priority
+FILES
+
+$dist->reset();
+$dist->load("$datadir/files-byhand") or error('cannot parse file');
+$dist->filter(remove => sub { $_[0]->{priority} eq 'optional' });
+is($dist->output(), $expected, 'Filter remove piority optional');
+
+$expected = <<'FILES';
+BY-HAND-file webdocs optional
+other_0.txt text optional
+FILES
+
+$dist->reset();
+$dist->load("$datadir/files-byhand") or error('cannot parse file');
+$dist->filter(keep => sub { $_[0]->{priority} eq 'optional' });
+is($dist->output(), $expected, 'Filter keep priority optional');
+
+$expected = <<'FILES';
+BY-HAND-file webdocs optional
+FILES
+
+$dist->reset();
+$dist->load("$datadir/files-byhand") or error('cannot parse file');
+$dist->filter(remove => sub { $_[0]->{section} eq 'text' },
+              keep => sub { $_[0]->{priority} eq 'optional' });
+is($dist->output(), $expected, 'Filter remove section text, keep priority optional');
 
 1;
