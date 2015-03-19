@@ -35,6 +35,11 @@ dpkg (1.16.15+nmu1) UNRELEASED; urgency=low
     names or checking package ownership of conffiles and directories.
     Reported by Joshua Rogers <megamansec@gmail.com>.
   * Add powerpcel support to cputable. Thanks to Jae Junh <jaejunh@embian.com>.
+  * Fix OpenPGP Armor Header Line parsing in Dpkg::Control::Hash. We should
+    only accept [\r\t ] as trailing whitespace, although RFC4880 does not
+    clarify what whitespace really maps to, we should really match the GnuPG
+    implementation anyway, as that's what we use to verify the signatures.
+    Reported by Jann Horn <jann@thejh.net>. Fixes CVE-2015-0840.
 
   [ Updated scripts translations ]
   * Fix typos in German (Helge Kreutzmann)

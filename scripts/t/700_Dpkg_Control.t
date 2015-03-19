@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More tests => 22;
+use Test::More tests => 23;
 
 use strict;
 use warnings;
@@ -117,6 +117,9 @@ is($dsc, undef, 'Signed .dsc w/ bogus OpenPGP armor trailer');
 
 $dsc = parse_dsc("$datadir/bogus-armor-inline.dsc");
 is($dsc, undef, 'Signed .dsc w/ bogus OpenPGP inline armor');
+
+$dsc = parse_dsc("$datadir/bogus-armor-formfeed.dsc");
+is($dsc, undef, 'Signed .dsc w/ bogus OpenPGP armor line');
 
 $dsc = parse_dsc("$datadir/bogus-armor-double.dsc");
 ok(defined $dsc, 'Signed .dsc w/ two OpenPGP armor signatures');

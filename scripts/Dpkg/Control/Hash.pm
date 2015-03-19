@@ -175,19 +175,21 @@ sub parse {
     my $pgp_signed = 0;
 
     while (<$fh>) {
-	s/\s*\n$//;
-	next if (m/^$/ and $paraborder);
+	chomp;
+	next if m/^\s*$/ and $paraborder;
 	next if (m/^#/);
 	$paraborder = 0;
 	if (m/^(\S+?)\s*:\s*(.*)$/) {
 	    $parabody = 1;
-	    if (exists $self->{$1}) {
+	    my ($name, $value) = ($1, $2);
+	    if (exists $self->{$name}) {
 		unless ($$self->{'allow_duplicate'}) {
-		    syntaxerr($desc, sprintf(_g("duplicate field %s found"), $1));
+		    syntaxerr($desc, sprintf(_g("duplicate field %s found"), $name));
 		}
 	    }
-	    $self->{$1} = $2;
-	    $cf = $1;
+	    $value =~ s/\s*$//;
+	    $self->{$name} = $value;
+	    $cf = $name;
 	} elsif (m/^\s(\s*\S.*)$/) {
 	    my $line = $1;
 	    unless (defined($cf)) {
@@ -196,8 +198,9 @@ sub parse {
 	    if ($line =~ /^\.+$/) {
 		$line = substr $line, 1;
 	    }
+	    $line =~ s/\s*$//;
 	    $self->{$cf} .= "\n$line";
-	} elsif (m/^-----BEGIN PGP SIGNED MESSAGE-----$/) {
+	} elsif (m/^-----BEGIN PGP SIGNED MESSAGE-----[\r\t ]*$/) {
 	    $expect_pgp_sig = 1;
 	    if ($$self->{'allow_pgp'} and not $parabody) {
 		# Skip PGP headers
@@ -207,22 +210,23 @@ sub parse {
 	    } else {
 		syntaxerr($desc, _g("PGP signature not allowed here"));
 	    }
-	} elsif (m/^$/ || ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----$/)) {
+	} elsif (m/^\s*$/ ||
+	         ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----[\r\t ]*$/)) {
 	    if ($expect_pgp_sig) {
 		# Skip empty lines
 		$_ = <$fh> while defined($_) && $_ =~ /^\s*$/;
 		length($_) ||
                     syntaxerr($desc, _g("expected PGP signature, found EOF " .
                                         "after blank line"));
-		s/\s*\n$//;
-		unless (m/^-----BEGIN PGP SIGNATURE-----$/) {
+		chomp;
+		unless (m/^-----BEGIN PGP SIGNATURE-----[\r\t ]*$/) {
 		    syntaxerr($desc, sprintf(_g("expected PGP signature, " .
                                                 "found something else \`%s'"), $_));
                 }
 		# Skip PGP signature
 		while (<$fh>) {
-		    s/\s*\n$//;
-		    last if m/^-----END PGP SIGNATURE-----$/;
+		    chomp;
+		    last if m/^-----END PGP SIGNATURE-----[\r\t ]*$/;
 		}
 		unless (defined($_)) {
                     syntaxerr($desc, _g("unfinished PGP signature"));
