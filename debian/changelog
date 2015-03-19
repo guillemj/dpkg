@@ -3,6 +3,11 @@ dpkg (1.17.25) UNRELEASED; urgency=low
   [ Guillem Jover ]
   * Do not leak kvm descriptors in start-stop-daemon on GNU/kFreeBSD systems.
     Based on a patch by Jeff Epler <jepler@unpythonic.net>. Closes: #779467
+  * Fix OpenPGP Armor Header Line parsing in Dpkg::Control::Hash. We should
+    only accept [\r\t ] as trailing whitespace, although RFC4880 does not
+    clarify what whitespace really maps to, we should really match the GnuPG
+    implementation anyway, as that's what we use to verify the signatures.
+    Reported by Jann Horn <jann@thejh.net>. Fixes CVE-2015-0840.
 
   [ Updated programs translations ]
   * Dutch (Frans Spiesschaert). Closes: #779953

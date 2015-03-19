@@ -196,8 +196,8 @@ sub parse {
     local $_;
 
     while (<$fh>) {
-	s/\s*\n$//;
-	next if length == 0 and $paraborder;
+	chomp;
+	next if m/^\s*$/ and $paraborder;
 	next if (m/^#/);
 	$paraborder = 0;
 	if (m/^(\S+?)\s*:\s*(.*)$/) {
@@ -211,6 +211,7 @@ sub parse {
 		    $self->parse_error($desc, _g('duplicate field %s found'), $name);
 		}
 	    }
+	    $value =~ s/\s*$//;
 	    $self->{$name} = $value;
 	    $cf = $name;
 	} elsif (m/^\s(\s*\S.*)$/) {
@@ -221,8 +222,9 @@ sub parse {
 	    if ($line =~ /^\.+$/) {
 		$line = substr $line, 1;
 	    }
+	    $line =~ s/\s*$//;
 	    $self->{$cf} .= "\n$line";
-	} elsif (m/^-----BEGIN PGP SIGNED MESSAGE-----$/) {
+	} elsif (m/^-----BEGIN PGP SIGNED MESSAGE-----[\r\t ]*$/) {
 	    $expect_pgp_sig = 1;
 	    if ($$self->{allow_pgp} and not $parabody) {
 		# Skip OpenPGP headers
@@ -232,7 +234,8 @@ sub parse {
 	    } else {
 		$self->parse_error($desc, _g('OpenPGP signature not allowed here'));
 	    }
-	} elsif (length == 0 || ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----$/)) {
+	} elsif (m/^\s*$/ ||
+	         ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----[\r\t ]*$/)) {
 	    if ($expect_pgp_sig) {
 		# Skip empty lines
 		$_ = <$fh> while defined && m/^\s*$/;
@@ -240,15 +243,15 @@ sub parse {
 		    $self->parse_error($desc, _g('expected OpenPGP signature, ' .
 		                                 'found EOF after blank line'));
 		}
-		s/\s*\n$//;
-		unless (m/^-----BEGIN PGP SIGNATURE-----$/) {
+		chomp;
+		unless (m/^-----BEGIN PGP SIGNATURE-----[\r\t ]*$/) {
 		    $self->parse_error($desc, _g('expected OpenPGP signature, ' .
 		                                 "found something else \`%s'"), $_);
                 }
 		# Skip OpenPGP signature
 		while (<$fh>) {
-		    s/\s*\n$//;
-		    last if m/^-----END PGP SIGNATURE-----$/;
+		    chomp;
+		    last if m/^-----END PGP SIGNATURE-----[\r\t ]*$/;
 		}
 		unless (defined) {
 		    $self->parse_error($desc, _g('unfinished OpenPGP signature'));
