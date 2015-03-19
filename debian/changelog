@@ -77,6 +77,11 @@ dpkg (1.18.0) UNRELEASED; urgency=low
       Digest modules. Obsolete the 'program' property, and add a 'name' one.
     - Add support for $DEFAULT_TEXT_DOMAIN to Dpkg::Gettext, so that the Dpkg
       perl modules can always produce localized messages.
+    - Fix OpenPGP Armor Header Line parsing in Dpkg::Control::Hash. We should
+      only accept [\r\t ] as trailing whitespace, although RFC4880 does not
+      clarify what whitespace really maps to, we should really match the GnuPG
+      implementation anyway, as that's what we use to verify the signatures.
+      Reported by Jann Horn <jann@thejh.net>. Fixes CVE-2015-0840.
   * Test suite:
     - Check perl code compilation, warnings and strictness.
     - Fix dpkg-divert unit test to work on BSD «rm -rf» that cannot traverse
