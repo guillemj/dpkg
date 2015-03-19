@@ -27,8 +27,14 @@
 static void
 test_progname(void)
 {
+	const char *progname;
+
 	/* Test initially empty progname. */
-	test_str(dpkg_get_progname(), ==, "t-progname");
+	progname = dpkg_get_progname();
+	/* Handle libtool exectuables. */
+	if (strncmp(progname, "lt-", 3) == 0)
+		progname += 3;
+	test_str(progname, ==, "t-progname");
 
 	/* Test setting a new progname. */
 	dpkg_set_progname("newname");
