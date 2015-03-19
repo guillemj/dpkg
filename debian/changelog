@@ -10,6 +10,11 @@ dpkg (1.15.12) UNRELEASED; urgency=high
     input, including source package control files. Closes: #695919
   * Make sure the OpenGPG armor contains a signature block, even on EOF.
   * Do not accept Armor Header Lines inside a paragraph.
+  * Fix OpenPGP Armor Header Line parsing in Dpkg::Control::Hash. We should
+    only accept [\r\t ] as trailing whitespace, although RFC4880 does not
+    clarify what whitespace really maps to, we should really match the GnuPG
+    implementation anyway, as that's what we use to verify the signatures.
+    Reported by Jann Horn <jann@thejh.net>. Fixes CVE-2015-0840.
 
  -- Guillem Jover <guillem@debian.org>  Fri, 01 May 2015 22:02:43 +0200
 

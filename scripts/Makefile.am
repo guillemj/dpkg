@@ -231,6 +231,7 @@ test_data = \
 	t/700_Dpkg_Control/control-1 \
 	t/700_Dpkg_Control/bogus-unsigned.dsc \
 	t/700_Dpkg_Control/bogus-armor-double.dsc \
+	t/700_Dpkg_Control/bogus-armor-formfeed.dsc \
 	t/700_Dpkg_Control/bogus-armor-no-sig.dsc \
 	t/700_Dpkg_Control/bogus-armor-trail.dsc \
 	t/700_Dpkg_Control/bogus-armor-inline.dsc \
