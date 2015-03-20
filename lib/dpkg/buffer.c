@@ -54,12 +54,12 @@ buffer_md5_init(struct buffer_data *data)
 }
 
 static off_t
-buffer_filter_init(struct buffer_data *data)
+buffer_digest_init(struct buffer_data *data)
 {
 	switch (data->type) {
-	case BUFFER_FILTER_NULL:
+	case BUFFER_DIGEST_NULL:
 		break;
-	case BUFFER_FILTER_MD5:
+	case BUFFER_DIGEST_MD5:
 		buffer_md5_init(data);
 		break;
 	}
@@ -67,19 +67,19 @@ buffer_filter_init(struct buffer_data *data)
 }
 
 static off_t
-buffer_filter_update(struct buffer_data *filter, const void *buf, off_t length)
+buffer_digest_update(struct buffer_data *digest, const void *buf, off_t length)
 {
 	off_t ret = length;
 
-	switch (filter->type) {
-	case BUFFER_FILTER_NULL:
+	switch (digest->type) {
+	case BUFFER_DIGEST_NULL:
 		break;
-	case BUFFER_FILTER_MD5:
-		MD5Update(&(((struct buffer_md5_ctx *)filter->arg.ptr)->ctx),
+	case BUFFER_DIGEST_MD5:
+		MD5Update(&(((struct buffer_md5_ctx *)digest->arg.ptr)->ctx),
 		          buf, length);
 		break;
 	default:
-		internerr("unknown data type %i", filter->type);
+		internerr("unknown data type %i", digest->type);
 	}
 
 	return ret;
@@ -105,12 +105,12 @@ buffer_md5_done(struct buffer_data *data)
 }
 
 static off_t
-buffer_filter_done(struct buffer_data *data)
+buffer_digest_done(struct buffer_data *data)
 {
 	switch (data->type) {
-	case BUFFER_FILTER_NULL:
+	case BUFFER_DIGEST_NULL:
 		break;
-	case BUFFER_FILTER_MD5:
+	case BUFFER_DIGEST_MD5:
 		buffer_md5_done(data);
 		break;
 	}
@@ -161,21 +161,21 @@ buffer_read(struct buffer_data *data, void *buf, off_t length,
 }
 
 off_t
-buffer_filter(const void *input, void *output, int type, off_t limit)
+buffer_digest(const void *input, void *output, int type, off_t limit)
 {
 	struct buffer_data data = { .arg.ptr = output, .type = type };
 	off_t ret;
 
-	buffer_filter_init(&data);
-	ret = buffer_filter_update(&data, input, limit);
-	buffer_filter_done(&data);
+	buffer_digest_init(&data);
+	ret = buffer_digest_update(&data, input, limit);
+	buffer_digest_done(&data);
 
 	return ret;
 }
 
 static off_t
 buffer_copy(struct buffer_data *read_data,
-            struct buffer_data *filter,
+            struct buffer_data *digest,
             struct buffer_data *write_data,
             off_t limit, struct dpkg_error *err)
 {
@@ -191,7 +191,7 @@ buffer_copy(struct buffer_data *read_data,
 	else
 		buf = m_malloc(bufsize);
 
-	buffer_filter_init(filter);
+	buffer_digest_init(digest);
 
 	while (bufsize > 0) {
 		bytesread = buffer_read(read_data, buf, bufsize, err);
@@ -208,7 +208,7 @@ buffer_copy(struct buffer_data *read_data,
 				bufsize = limit;
 		}
 
-		buffer_filter_update(filter, buf, bytesread);
+		buffer_digest_update(digest, buf, bytesread);
 
 		byteswritten = buffer_write(write_data, buf, bytesread, err);
 		if (byteswritten < 0)
@@ -219,7 +219,7 @@ buffer_copy(struct buffer_data *read_data,
 		totalwritten += byteswritten;
 	}
 
-	buffer_filter_done(filter);
+	buffer_digest_done(digest);
 
 	free(buf);
 
@@ -233,35 +233,35 @@ buffer_copy(struct buffer_data *read_data,
 
 off_t
 buffer_copy_IntInt(int Iin, int Tin,
-                   void *Pfilter, int Tfilter,
+                   void *Pdigest, int Tdigest,
                    int Iout, int Tout,
                    off_t limit, struct dpkg_error *err)
 {
 	struct buffer_data read_data = { .type = Tin, .arg.i = Iin };
-	struct buffer_data filter = { .type = Tfilter, .arg.ptr = Pfilter };
+	struct buffer_data digest = { .type = Tdigest, .arg.ptr = Pdigest };
 	struct buffer_data write_data = { .type = Tout, .arg.i = Iout };
 
-	return buffer_copy(&read_data, &filter, &write_data, limit, err);
+	return buffer_copy(&read_data, &digest, &write_data, limit, err);
 }
 
 off_t
 buffer_copy_IntPtr(int Iin, int Tin,
-                   void *Pfilter, int Tfilter,
+                   void *Pdigest, int Tdigest,
                    void *Pout, int Tout,
                    off_t limit, struct dpkg_error *err)
 {
 	struct buffer_data read_data = { .type = Tin, .arg.i = Iin };
-	struct buffer_data filter = { .type = Tfilter, .arg.ptr = Pfilter };
+	struct buffer_data digest = { .type = Tdigest, .arg.ptr = Pdigest };
 	struct buffer_data write_data = { .type = Tout, .arg.ptr = Pout };
 
-	return buffer_copy(&read_data, &filter, &write_data, limit, err);
+	return buffer_copy(&read_data, &digest, &write_data, limit, err);
 }
 
 static off_t
 buffer_skip(struct buffer_data *input, off_t limit, struct dpkg_error *err)
 {
 	struct buffer_data output;
-	struct buffer_data filter;
+	struct buffer_data digest;
 
 	switch (input->type) {
 	case BUFFER_READ_FD:
@@ -276,10 +276,10 @@ buffer_skip(struct buffer_data *input, off_t limit, struct dpkg_error *err)
 
 	output.type = BUFFER_WRITE_NULL;
 	output.arg.ptr = NULL;
-	filter.type = BUFFER_FILTER_NULL;
-	filter.arg.ptr = NULL;
+	digest.type = BUFFER_DIGEST_NULL;
+	digest.arg.ptr = NULL;
 
-	return buffer_copy(input, &filter, &output, limit, err);
+	return buffer_copy(input, &digest, &output, limit, err);
 }
 
 off_t
