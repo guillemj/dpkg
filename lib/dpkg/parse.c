@@ -604,7 +604,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
   int c;
 
   /* Skip adjacent new lines. */
-  while (!parse_EOF(ps)) {
+  while (!parse_at_eof(ps)) {
     c = parse_getc(ps);
     if (c != '\n' && c != MSDOS_EOF_CHAR)
       break;
@@ -612,7 +612,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
   }
 
   /* Nothing relevant parsed, bail out. */
-  if (parse_EOF(ps))
+  if (parse_at_eof(ps))
     return false;
 
   /* Loop per field. */
@@ -621,7 +621,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 
     /* Scan field name. */
     fs->fieldstart = ps->dataptr - 1;
-    while (!parse_EOF(ps) && !c_isspace(c) && c != ':' && c != MSDOS_EOF_CHAR)
+    while (!parse_at_eof(ps) && !c_isspace(c) && c != ':' && c != MSDOS_EOF_CHAR)
       c = parse_getc(ps);
     fs->fieldlen = ps->dataptr - fs->fieldstart - 1;
     if (fs->fieldlen == 0)
@@ -631,11 +631,11 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
                   fs->fieldlen, fs->fieldstart);
 
     /* Skip spaces before ‘:’. */
-    while (!parse_EOF(ps) && c != '\n' && c_isspace(c))
+    while (!parse_at_eof(ps) && c != '\n' && c_isspace(c))
       c = parse_getc(ps);
 
     /* Validate ‘:’. */
-    if (parse_EOF(ps))
+    if (parse_at_eof(ps))
       parse_error(ps, _("end of file after field name '%.*s'"),
                   fs->fieldlen, fs->fieldstart);
     if (c == '\n')
@@ -650,12 +650,12 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
                   fs->fieldlen, fs->fieldstart);
 
     /* Skip space after ‘:’ but before value and EOL. */
-    while (!parse_EOF(ps)) {
+    while (!parse_at_eof(ps)) {
       c = parse_getc(ps);
       if (c == '\n' || !c_isspace(c))
         break;
     }
-    if (parse_EOF(ps))
+    if (parse_at_eof(ps))
       parse_error(ps, _("end of file before value of field '%.*s' (missing final newline)"),
                   fs->fieldlen, fs->fieldstart);
     if (c == MSDOS_EOF_CHAR)
@@ -674,12 +674,12 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
                       fs->fieldlen, fs->fieldstart);
         ps->lno++;
 
-        if (parse_EOF(ps))
+        if (parse_at_eof(ps))
           break;
         c = parse_getc(ps);
 
         /* Found double EOL, or start of new field. */
-        if (parse_EOF(ps) || c == '\n' || !c_isspace(c))
+        if (parse_at_eof(ps) || c == '\n' || !c_isspace(c))
           break;
 
         parse_ungetc(c, ps);
@@ -688,7 +688,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
         blank_line = false;
       }
 
-      if (parse_EOF(ps))
+      if (parse_at_eof(ps))
         parse_error(ps, _("end of file during value of field '%.*s' (missing final newline)"),
                     fs->fieldlen, fs->fieldstart);
 
@@ -702,7 +702,7 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 
     parse_field(ps, fs, parse_obj);
 
-    if (parse_EOF(ps) || c == '\n' || c == MSDOS_EOF_CHAR)
+    if (parse_at_eof(ps) || c == '\n' || c == MSDOS_EOF_CHAR)
       break;
   } /* Loop per field. */
 
@@ -799,7 +799,7 @@ parsedb_parse(struct parsedb_state *ps, struct pkginfo **donep)
     if (donep)
       *donep = db_pkg;
     pdone++;
-    if (parse_EOF(ps))
+    if (parse_at_eof(ps))
       break;
   }
 

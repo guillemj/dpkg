@@ -56,7 +56,7 @@ struct parsedb_state {
 	int lno;
 };
 
-#define parse_EOF(ps)		((ps)->dataptr >= (ps)->endptr)
+#define parse_at_eof(ps)	((ps)->dataptr >= (ps)->endptr)
 #define parse_getc(ps)		*(ps)->dataptr++
 #define parse_ungetc(c, ps)	(ps)->dataptr--
 
