@@ -489,7 +489,7 @@ $fields->{'Files'} = '';
 for my $file ($dist->get_files()) {
     my $f = $file->{filename};
 
-    if (defined $file->{package}) {
+    if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
         my $arch_all = debarch_eq('all', $p2arch{$file->{package}});
 
         next if (not ($include & BUILD_ARCH_INDEP) and $arch_all);
