@@ -1,4 +1,5 @@
 # Copyright © 2007 Frank Lichtenheld <djpig@debian.org>
+# Copyright © 2008, 2012-2015 Guillem Jover <guillem@debian.org>
 # Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify

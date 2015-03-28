@@ -4,7 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2005,2007 Frank Lichtenheld
-# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

@@ -3,7 +3,7 @@
 # dpkg-name
 #
 # Copyright © 1995,1996 Erick Branderhorst <branderh@debian.org>.
-# Copyright © 2006-2010,2012-2013 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2010, 2012-2015 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

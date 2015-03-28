@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright © 2007,2011-2013 Guillem Jover <guillem@debian.org>
+# Copyright © 2007, 2011-2015 Guillem Jover <guillem@debian.org>
 # Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
 # Copyright © 2008 Joey Hess <joeyh@debian.org>
 # Copyright © 2005 Scott James Remnant (original implementation on www.dpkg.org)

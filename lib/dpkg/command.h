@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * command.h - command execution support
  *
- * Copyright © 2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2010, 2012, 2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

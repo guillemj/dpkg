@@ -1,4 +1,5 @@
 # Copyright © 2009-2011 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2009, 2011-2015 Guillem Jover <guillem@debian.org>
 #
 # Hardening build flags handling derived from work of:
 # Copyright © 2009-2011 Kees Cook <kees@debian.org>

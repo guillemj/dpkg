@@ -1,4 +1,5 @@
 # Copyright © 2009-2010 Modestas Vainius <modax@debian.org>
+# Copyright © 2010, 2012-2015 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

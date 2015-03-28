@@ -3,7 +3,7 @@
 # dpkg-checkbuilddeps
 #
 # Copyright © 2001 Joey Hess <joeyh@debian.org>
-# Copyright © 2006-2009,2011-2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2009, 2011-2015 Guillem Jover <guillem@debian.org>
 # Copyright © 2007-2011 Raphael Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify

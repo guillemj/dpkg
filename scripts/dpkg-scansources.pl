@@ -2,7 +2,7 @@
 #
 # Copyright © 1999 Roderick Schertler
 # Copyright © 2002 Wichert Akkerman <wakkerma@debian.org>
-# Copyright © 2006-2009,2011-2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2009, 2011-2015 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

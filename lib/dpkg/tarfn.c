@@ -3,7 +3,7 @@
  * tarfn.c - tar archive extraction functions
  *
  * Copyright © 1995 Bruce Perens
- * Copyright © 2007-2011,2013-2014 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2011, 2013-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
