@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.18.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-02-11 18:25+0100\n"
-"PO-Revision-Date: 2015-02-11 20:24+0100\n"
+"POT-Creation-Date: 2015-04-01 18:09+0200\n"
+"PO-Revision-Date: 2015-04-01 18:28+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -7386,13 +7386,13 @@ msgstr "B<--query-features>I< Bereich>"
 #: dpkg-buildflags.1
 msgid ""
 "Print the features enabled for a given area. The only currently recognized "
-"areas on Debian and derivatives are B<qa>, B<reproducible> and B<hardening>, "
-"see the B<FEATURE AREAS> section for more details.  Exits with 0 if the area "
-"is known otherwise exits with 1."
+"areas on Debian and derivatives are B<qa>, B<reproducible>, B<sanitize> and "
+"B<hardening>, see the B<FEATURE AREAS> section for more details.  Exits with "
+"0 if the area is known otherwise exits with 1."
 msgstr ""
 "Gibt die Funktionalitäten, die für den übergebenen Bereich aktiviert sind, "
 "aus. Die einzigen unter Debian und abgeleiteten Distributionen derzeit "
-"erkannten Bereiche sind B<qa>, B<reproducible> und B<hardening>. Lesen Sie "
+"erkannten Bereiche sind B<qa>, B<reproducible>, B<sanitize> und B<hardening>. Lesen Sie "
 "den Abschnitt B<FUNKTIONALITÄTSBEREICHE> für weitere Details. Beendet sich "
 "mit 0, falls der Bereich bekannt ist, andernfalls mit 1."
 
@@ -7663,6 +7663,89 @@ msgstr ""
 "und B<OBJCXXFLAGS> unterstützt, wobei die Schalter auf B<-"
 "D__DEB_CANARY_>I<Schalter>_I<Zufallskennung>B<__> gesetzt werden, und "
 "B<LDFLAGS>, das auf B<-Wl,-z,deb-canary->I<Zufallskennung> gesetzt wird."
+
+#. type: SS
+#: dpkg-buildflags.1
+#, no-wrap
+msgid "Sanitize"
+msgstr "Bereinigung"
+
+#. type: Plain text
+#: dpkg-buildflags.1
+msgid ""
+"Several compile-time options (detailed below) can be used to help sanitize a "
+"resulting binary against memory corruptions, memory leaks, use after free, "
+"threading data races and undefined behavior bugs."
+msgstr ""
+"Mehrere Kompilierzeit-Optionen (weiter unten beschrieben) können dazu "
+"verwandt werden, ein erstelltes Programm vor Speicherverfälschungsangriffen "
+"Speicherlecks, Verwendung nach Freigabe, Daten-Zugriffswettläufen (»races«) "
+"in Threads und Fehlern durch undefiniertes Verhalten zu bereinigen."
+
+#. type: TP
+#: dpkg-buildflags.1
+#, no-wrap
+msgid "B<address>"
+msgstr "B<address>"
+
+#. type: Plain text
+#: dpkg-buildflags.1
+msgid ""
+"This setting (disabled by default) adds B<-fsanitize=address> to B<LDFLAGS> "
+"and B<-fsanitize=address -fno-omit-frame-pointer> to B<CFLAGS> and "
+"B<CXXFLAGS>."
+msgstr ""
+"Diese Einstellung (standardmäßig deaktiviert) fügt B<-fsanitize=address> zu "
+"B<LDFLAGS> und B<-fsanitize=address -fno-omit-frame-pointer> zu B<CFLAGS> und "
+"B<CXXFLAGS> hinzu."
+
+#. type: TP
+#: dpkg-buildflags.1
+#, no-wrap
+msgid "B<thread>"
+msgstr "B<thread>"
+
+#. type: Plain text
+#: dpkg-buildflags.1
+msgid ""
+"This setting (disabled by default) adds B<-fsanitize=thread> to B<CFLAGS>, "
+"B<CXXFLAGS> and B<LDFLAGS>."
+msgstr ""
+"Diese Einstellung (standardmäßig deaktiviert) fügt B<-fsanitize=thread> zu "
+"B<CFLAGS>, B<CXXFLAGS> und B<LDFLAGS> hinzu."
+
+#. type: TP
+#: dpkg-buildflags.1
+#, no-wrap
+msgid "B<leak>"
+msgstr "B<leak>"
+
+#. type: Plain text
+#: dpkg-buildflags.1
+msgid ""
+"This setting (disabled by default) adds B<-fsanitize=leak> to B<LDFLAGS>. It "
+"gets automatically disabled if either the B<address> or the B<thread> "
+"features are enabled, as they imply it."
+msgstr ""
+"Diese Einstellung (standardmäßig deaktiviert) fügt B<-fsanitize=leak> zu "
+"B<LDFLAGS> hinzu. Sie wird automatisch deaktiviert, falls entweder die "
+"Funktionalitäten B<address> oder B<thread> aktiviert werden, da diese sie "
+"einschließen."
+
+#. type: TP
+#: dpkg-buildflags.1
+#, no-wrap
+msgid "B<undefined>"
+msgstr "B<undefined>"
+
+#. type: Plain text
+#: dpkg-buildflags.1
+msgid ""
+"This setting (disabled by default) adds B<-fsanitize=undefined> to "
+"B<CFLAGS>, B<CXXFLAGS> and B<LDFLAGS>."
+msgstr ""
+"Diese Einstellung (standardmäßig deaktiviert) fügt B<-fsanitize=undefined> zu "
+"B<CFLAGS>, B<CXXFLAGS> und B<LDFLAGS> hinzu."
 
 #. type: SS
 #: dpkg-buildflags.1
