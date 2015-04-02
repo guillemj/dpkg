@@ -120,8 +120,9 @@ usage(const struct cmdinfo *ci, const char *value)
 "\n"));
 
   printf(_(
-"Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-" -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
+"Use dpkg with -b, --build, -c, --contents, -e, --control, -I, --info,\n"
+"  -f, --field, -x, --extract, -X, --vextract, --ctrl-tarfile, --fsys-tarfile\n"
+"on archives (type %s --help).\n"
 "\n"), BACKEND);
 
   printf(_(
@@ -740,6 +741,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTIONBACKEND( "field",		'f', BACKEND),
   ACTIONBACKEND( "extract",		'x', BACKEND),
   ACTIONBACKEND( "vextract",		'X', BACKEND),
+  ACTIONBACKEND( "ctrl-tarfile",	0,   BACKEND),
   ACTIONBACKEND( "fsys-tarfile",	0,   BACKEND),
   { NULL,                0,   0, NULL,          NULL,      NULL,          0 }
 };
