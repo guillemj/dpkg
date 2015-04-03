@@ -21,7 +21,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <time.h>
 #include <unistd.h>
