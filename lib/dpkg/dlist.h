@@ -46,20 +46,7 @@
   } while (0)
 
 
-#define LIST_CHECKNODE_PART(list, node, part)				\
-  do {									\
-    if ((node)->next) \
-      assert((node)->part next->part prev == (node));	\
-    else \
-      assert((node) == (list).tail);					\
-    if ((node)->prev) \
-      assert((node)->part prev->part next == (node));	\
-    else \
-      assert((node) == (list).head);					\
-  } while (0)
-
 #define LIST_UNLINK(list, node) LIST_UNLINK_PART(list, node,)
 #define LIST_LINK_TAIL(list, node) LIST_LINK_TAIL_PART(list, node,)
-#define LIST_CHECKNODE(list, node) LIST_CHECKNODE_PART(list, node,)
 
 #endif
