@@ -51,7 +51,7 @@
  *
  * The function will abort if you pass it a NULL pointer.
  *
- * @param name The architectute name to verify.
+ * @param name The architecture name to verify.
  */
 const char *
 dpkg_arch_name_is_illegal(const char *name)
