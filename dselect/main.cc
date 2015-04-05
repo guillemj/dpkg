@@ -190,8 +190,8 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --admindir <directory>     Use <directory> instead of %s.\n"
 "  --expert                   Turn on expert mode.\n"
 "  --debug <file> | -D<file>  Turn on debugging, sending output to <file>.\n"
-"  --colour | --color screenpart:[foreground],[background][:attr[+attr+...]]\n"
-"                             Configure screen colours.\n"
+"  --color <color-spec>       Configure screen colors.\n"
+"  --colour <color-spec>      Ditto.\n"
 "\n"), ADMINDIR);
 
   printf(_(
@@ -199,21 +199,22 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --version                  Show the version.\n"
 "\n"));
 
+  printf(_("<color-spec> is <screen-part>:[<foreground>],[<background>][:<attr>[+<attr>]...]\n"));
 
-  printf(_("Screenparts:\n"));
+  printf(_("<screen-part> is:"));
   for (i=0; screenparttable[i].name; i++)
-    printf("  %s", screenparttable[i].name);
-  fputs("\n\n", stdout);
+    printf(" %s", screenparttable[i].name);
+  fputs("\n", stdout);
 
-  printf(_("Colours:\n"));
+  printf(_("<color> is:"));
   for (i=0; colourtable[i].name; i++)
-    printf("  %s", colourtable[i].name);
-  fputs("\n\n", stdout);
+    printf(" %s", colourtable[i].name);
+  fputs("\n", stdout);
 
-  printf(_("Attributes:\n"));
+  printf(_("<attr> is:"));
   for (i=0; attrtable[i].name; i++)
-    printf("  %s", attrtable[i].name);
-  fputs("\n\n", stdout);
+    printf(" %s", attrtable[i].name);
+  fputs("\n", stdout);
 
   m_output(stdout, _("<standard output>"));
 
