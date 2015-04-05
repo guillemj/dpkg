@@ -195,8 +195,8 @@ usage(const struct cmdinfo *ci, const char *value)
 "\n"), ADMINDIR);
 
   printf(_(
-"  --help                     Show this help message.\n"
-"  --version                  Show the version.\n"
+"  -?, --help                       Show this help message.\n"
+"      --version                    Show the version.\n"
 "\n"));
 
   printf(_("<color-spec> is <screen-part>:[<foreground>],[<background>][:<attr>[+<attr>]...]\n"));
