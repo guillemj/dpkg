@@ -180,6 +180,11 @@ usage(const struct cmdinfo *ci, const char *value)
 "Usage: %s [<option>...] [<command>...]\n"
 "\n"), DSELECT);
 
+  printf(_("Commands:\n"));
+  for (i = 0; menuentries[i].command; i++)
+    printf("  %-10s  %s\n", menuentries[i].command, menuentries[i].menuent);
+  fputs("\n", stdout);
+
   printf(_(
 "Options:\n"
 "  --admindir <directory>     Use <directory> instead of %s.\n"
@@ -194,10 +199,6 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --version                  Show the version.\n"
 "\n"));
 
-  printf(_("Commands:\n"));
-  for (i = 0; menuentries[i].command; i++)
-    printf("  %s", menuentries[i].command);
-  fputs("\n\n", stdout);
 
   printf(_("Screenparts:\n"));
   for (i=0; screenparttable[i].name; i++)
