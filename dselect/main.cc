@@ -177,7 +177,7 @@ usage(const struct cmdinfo *ci, const char *value)
   int i;
 
   printf(_(
-"Usage: %s [<option> ...] [<action> ...]\n"
+"Usage: %s [<option>...] [<command>...]\n"
 "\n"), DSELECT);
 
   printf(_(
@@ -194,7 +194,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --version                  Show the version.\n"
 "\n"));
 
-  printf(_("Actions:\n"));
+  printf(_("Commands:\n"));
   for (i = 0; menuentries[i].command; i++)
     printf("  %s", menuentries[i].command);
   fputs("\n\n", stdout);
