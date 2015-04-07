@@ -127,14 +127,14 @@ on one line, separated by a tabulator.
 Extracts control file information from a binary package archive.
 
 If no
-.BR control-field-name s
+.IR control-field-name s
 are specified then it will print the whole control file.
 
 If any are specified then
 .B dpkg\-deb
 will print their contents, in the order in which they appear in the
 control file. If more than one
-.BR control-field-name
+.IR control-field-name
 is specified then
 .B dpkg\-deb
 will precede each with its field name (and a colon and space).
@@ -170,8 +170,9 @@ which prints a listing of the files extracted as it goes.
 .TP
 .BR \-R ", " \-\-raw\-extract " \fIarchive directory\fP"
 Extracts the filesystem tree from a package archive into a specified
-directory, and the control information files into a DEBIAN subdirectory
-of the specified directory (since dpkg 1.16.1).
+directory, and the control information files into a
+.B DEBIAN
+subdirectory of the specified directory (since dpkg 1.16.1).
 
 The target directory (but not its parents) will be created if necessary.
 
@@ -240,28 +241,28 @@ equivalent to compressor none for all compressors.
 .TP
 .BI \-S compress-strategy
 Specify which compression strategy to use on the compressor backend, when
-building a package (since dpkg 1.16.2). Allowed values are \fInone\fP (since
-dpkg 1.16.4), \fIfiltered\fP, \fIhuffman\fP, \fIrle\fP and \fIfixed\fP for
-gzip (since dpkg 1.17.0) and \fIextreme\fP for xz.
+building a package (since dpkg 1.16.2). Allowed values are \fBnone\fP (since
+dpkg 1.16.4), \fBfiltered\fP, \fBhuffman\fP, \fBrle\fP and \fBfixed\fP for
+gzip (since dpkg 1.17.0) and \fBextreme\fP for xz.
 .TP
 .BI \-Z compress-type
 Specify which compression type to use when building a package.
-Allowed values are \fIgzip\fP, \fIxz\fP (since dpkg 1.15.6),
-\fIbzip2\fP (deprecated), \fIlzma\fP (since dpkg 1.14.0; deprecated),
-and \fInone\fP (default is \fIxz\fP).
+Allowed values are \fBgzip\fP, \fBxz\fP (since dpkg 1.15.6),
+\fBbzip2\fP (deprecated), \fBlzma\fP (since dpkg 1.14.0; deprecated),
+and \fBnone\fP (default is \fBxz\fP).
 .TP
 .B \-\-uniform\-compression
 Specify that the same compression parameters should be used for all archive
 members (i.e. \fBcontrol.tar\fP and \fBdata.tar\fP; since dpkg 1.17.6).
 Otherwise only the
 \fBdata.tar\fP member will use those parameters. The only supported
-compression types allowed to be uniformly used are \fInone\fP, \fIgzip\fP
-and \fIxz\fP.
+compression types allowed to be uniformly used are \fBnone\fP, \fBgzip\fP
+and \fBxz\fP.
 .TP
 .BI \-\-deb\-format= format
 Set the archive format version used when building (since dpkg 1.17.0).
-Allowed values are \fI2.0\fP for the new format, and \fI0.939000\fP
-for the old one (default is \fI2.0\fP).
+Allowed values are \fB2.0\fP for the new format, and \fB0.939000\fP
+for the old one (default is \fB2.0\fP).
 
 The old archive format is less easily parsed by non-Debian tools and is
 now obsolete; its only use is when building packages to be parsed by
