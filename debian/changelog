@@ -1,69 +1,24 @@
 dpkg (1.18.0) UNRELEASED; urgency=low
 
   [ Guillem Jover ]
-  * Document arch-qualifiers for dependency fields in deb-control(5) and
-    deb-src-control(5). Reported by Johannes Schauer <j.schauer@email.de>.
-    Closes: #768842
-  * Document versioned Provides in deb-control(5).
-  * Document the version when dpkg-deb --raw-extract got introduced.
-  * Document dpkg --log format, add missing actions and describe the startup
-    messages. Closes: #773398
-  * Document when and how the dpkg-maintscript-helper package name argument
-    is or should be arch-qualified. Closes: #776072
-  * Fix and update Arch substvar description in deb-substvars(5).
-  * Document that current build flag feature areas only work on Debian and
-    derivatives in dpkg-buildflags(1).
-  * Use “wildcard characters” instead of “wildchars” in dpkg-query(1).
   * Only trim trailing “/” and “/.” from «dpkg-query --search» arguments if
     they are a pathname, and not a pattern or a substring match.
-  * Document dpkg-query --search behavior in man page. Closes: #775379
-  * Document postinst “triggered” argument in debian/dpkg.postinst comment
-    header.
   * Switch C/C++ code to use a new set of C locale character type functions
     independent of the current locale.
   * Add support for arch-bits and arch-endian dpkg-gensymbols tags.
     Closes: #630342
-  * Rename and deprecate Dpkg::Gettext _g function with new g_.
-  * Remove trailing newline from string literal in warning calls.
-  * Test suite:
-    - Check perl code compilation, warnings and strictness.
-  * Assume in Dpkg::Arch that the abitable is always present, and bump
-    libdpkg-perl Depends on dpkg to 1.16.3, the version introducing the file.
-  * Remove support for GCC_TARGET environment variable from Dpkg::Shlibs.
-    This was a temporary workaround for very old gcc toolchains. See #453267.
-  * Prefer multiarch paths to multilib ones in Dpkg::Shlibs.
-    Thanks to Helmut Grohne <helmut@subdivi.de>. Closes: #772184
   * Switch perl code from legacy File::Path functions to new ones.
-  * Enable sub-second timestamps in Dpkg::Source::Patch by using Time::HiRes.
-  * Use TMPDIR instead of manually setting DIR on tempfile() call in
-    Dpkg::Source::Package::V2.
-  * Document Dpkg::IPC function signatures.
   * Fix perl uninitialized value usage in dpkg-scansources when the Binary
     field is missing.
   * Use dpkg-query instead of dpkg for --search in dpkg-shlibdeps so that
     the subprocesses get the correct admindir. Closes: #775258
-  * Bump gettext version to 0.19:
-    - Use --add-location=file in msgmerge and xgettext commands.
-    - Use --porefs=noline for po4a command.
-  * Wrap file references in man page PO files.
-  * Switch Dpkg::Checksums from using checksum programs to the more portable
-    Digest modules. Obsolete the 'program' property, and add a 'name' one.
   * Rework the Installed-Size field default value computation to make it
     reproducible regardless of the build system filesystem, and document
     how the value is computed and that it is just an approximation.
     Closes: #650077
-  * Fix support for cross-building dpkg:
-    - Assume a working C99 snprintf on SUS >= v3.
-    - Do not try to run the va_copy configure check, just check that the
-      symbol is available.
   * Use strftime() instead of «date -R» in dpkg-genchanges, as the latter
     is not specified by POSIX and is not widely portable.
   * Warn on obsolete '<' and '>' operators in dpkg --compare-versions.
-  * Document the obsolete --compare-versions '<' and '>' operators in the
-    dpkg(1) man page. Thanks to Tomas Pospisek <tpo_hp@sourcepole.ch>.
-    Closes: #776551
-  * Move dpkg-divert, dpkg-statoverride and update-alternatives man pages
-    from section 8 to 1, to match their installation path.
   * Trim end of line whitespace from dpkg and dselect config file parsers.
     Reported by Christoph Biedl <debian.axhn@manchmal.in-ulm.de>.
   * Do not silently eat a standalone ‘-’ in the libdpkg command-line parser.
@@ -76,12 +31,93 @@ dpkg (1.18.0) UNRELEASED; urgency=low
     except for --raw-extract which does not yet support it. Closes: #616614
     Based on a patch by Johannes Schauer <j.schauer@email.de>.
   * Add ‘.mailmap’ to the default dpkg-source ignore lists.
-  * Remove old trigger related Breaks and Conflicts from dpkg.
   * Set the SE Linux context on «dpkg-statoverride --update». Closes: #690361
-  * Only use stackprotectorstrong when building dpkg with gcc >= 4.9.
   * Do not fail on dpkg-query -W and -l when multiple arguments match the
     same package. Closes: #588505
-  * Output strings fixes and improvements:
+  * Change dpkg-maintscript-helper to handle symlinks and pathnames ending in
+    slash. For the former error out, for the latter strip it. Closes: #771752
+  * Support moving a conffile not being shipped anymore. Closes: #767003
+    Thanks to Mathias Behrle <mathiasb@m9s.biz>.
+  * Add a new dpkg-buildflags sanitize feature area:
+    - Add new “address”, “thread”, “leak” and “undefined” features, all
+      disabled by default. Closes: #760741
+  * Do not accept unknown user or group names on «dpkg-statoverride --add».
+    Regression introduced in dpkg 1.17.11. Closes: #775124
+  * Normalize dpkg-parsechangelog command-line parsing, so that «-ovalue»,
+    «-o value», «--option=value» and «--option value» will all be accepted.
+    Closes: #693951
+  * Add dpkg --ctrl-tarfile forwarding command for dpkg-deb.
+  * Disable dependency checks on dpkg-buildpackage -S -nc.
+  * Make dependency checks fatal for dpkg-buildpackage -S.
+
+  * Perl modules:
+    - Rename and deprecate Dpkg::Gettext _g function with new g_.
+    - Assume in Dpkg::Arch that the abitable is always present, and bump
+      libdpkg-perl Depends on dpkg to 1.16.3, the version introducing the file.
+    - Remove support for GCC_TARGET environment variable from Dpkg::Shlibs.
+      This was a temporary workaround for very old gcc toolchains. See #453267.
+    - Prefer multiarch paths to multilib ones in Dpkg::Shlibs.
+      Thanks to Helmut Grohne <helmut@subdivi.de>. Closes: #772184
+    - Enable sub-second timestamps in Dpkg::Source::Patch by using Time::HiRes.
+    - Use TMPDIR instead of manually setting DIR on tempfile() call in
+      Dpkg::Source::Package::V2.
+    - Switch Dpkg::Checksums from using checksum programs to the more portable
+      Digest modules. Obsolete the 'program' property, and add a 'name' one.
+    - Add support for $DEFAULT_TEXT_DOMAIN to Dpkg::Gettext, so that the Dpkg
+      perl modules can always produce localized messages.
+  * Test suite:
+    - Check perl code compilation, warnings and strictness.
+  * Build system:
+    - Bump gettext version to 0.19:
+      + Use --add-location=file in msgmerge and xgettext commands.
+      + Use --porefs=noline for po4a command.
+    - Wrap file references in man page PO files with po4a --porefs=wrap.
+    - Fix support for cross-building dpkg:
+      + Assume a working C99 snprintf on SUS >= v3.
+      + Do not try to run the va_copy configure check, just check that the
+        symbol is available.
+    - Check that HAVE_DECL_SYS_SIGLIST is 0 instead of undefined, to fix a
+      build failure on uclibc based systems. Closes: #777044
+      Based on a patch by Alex Potapenko <opotapenko@gmail.com>.
+  * Packaging:
+    - Remove old trigger related Breaks and Conflicts from dpkg.
+    - Only use stackprotectorstrong when building dpkg with gcc >= 4.9.
+  * Documentation:
+    - Document arch-qualifiers for dependency fields in deb-control(5) and
+      deb-src-control(5). Reported by Johannes Schauer <j.schauer@email.de>.
+      Closes: #768842
+    - Document versioned Provides in deb-control(5).
+    - Document the version when dpkg-deb --raw-extract got introduced.
+    - Document dpkg --log format, add missing actions and describe the startup
+      messages. Closes: #773398
+    - Document when and how the dpkg-maintscript-helper package name argument
+      is or should be arch-qualified. Closes: #776072
+    - Fix and update Arch substvar description in deb-substvars(5).
+    - Document that current build flag feature areas only work on Debian and
+      derivatives in dpkg-buildflags(1).
+    - Use “wildcard characters” instead of “wildchars” in dpkg-query(1).
+    - Document dpkg-query --search behavior in man page. Closes: #775379
+    - Document postinst “triggered” argument in debian/dpkg.postinst comment
+      header.
+    - Document Dpkg::IPC function signatures.
+    - Document the obsolete --compare-versions '<' and '>' operators in the
+      dpkg(1) man page. Thanks to Tomas Pospisek <tpo_hp@sourcepole.ch>.
+      Closes: #776551
+    - Move dpkg-divert, dpkg-statoverride and update-alternatives man pages
+      from section 8 to 1, to match their installation path.
+    - Capitalize dpkg-parsechangelog(1) option descriptions.
+    - Mark dpkg-parsechangelog(1) --format values in bold.
+    - Place short options before long ones in dpkg-mergechangelogs(1) and
+      dselect(1) man pages.
+    - Properly terminate a bold marking in dpkg(1).
+    - Document in man pages the dpkg version when new features were introduced.
+    - Document that timestamps are reset for files patched with source format
+      “3.0 (quilt)” too.
+    - Document in dpkg-buildpackage(1) that using dpkg-source is sometimes
+      better than -S. Suggested by Johannes Schauer <j.schauer@email.de>.
+    - Document dselect -? option.
+  * Output message fixes and improvements:
+    - Remove trailing newline from string literal in warning calls.
     - Say “execute” instead of “exec” in Dpkg::Changelog::Parse error message.
     - Say “package” instead of “it” in dpkg-name warning message.
     - Uppercase field names in error messages.
@@ -94,42 +130,11 @@ dpkg (1.18.0) UNRELEASED; urgency=low
     - Improve available state sorting order strings in dselect panel.
     - Say “changelog-file” instead of “changelogfile” in --help output.
     - Say “command“ instead of “action“ for dselect.
-  * Change dpkg-maintscript-helper to handle symlinks and pathnames ending in
-    slash. For the former error out, for the latter strip it. Closes: #771752
-  * Support moving a conffile not being shipped anymore. Closes: #767003
-    Thanks to Mathias Behrle <mathiasb@m9s.biz>.
-  * Add support for $DEFAULT_TEXT_DOMAIN to Dpkg::Gettext, so that the Dpkg
-    perl modules can always produce localized messages.
-  * Add a new dpkg-buildflags sanitize feature area:
-    - Add new “address”, “thread”, “leak” and “undefined” features, all
-      disabled by default. Closes: #760741
-  * Do not accept unknown user or group names on «dpkg-statoverride --add».
-    Regression introduced in dpkg 1.17.11. Closes: #775124
-  * Check that HAVE_DECL_SYS_SIGLIST is 0 instead of undefined, to fix a
-    build failure on uclibc based systems. Closes: #777044
-    Based on a patch by Alex Potapenko <opotapenko@gmail.com>.
-  * Normalize dpkg-parsechangelog command-line parsing, so that «-ovalue»,
-    «-o value», «--option=value» and «--option value» will all be accepted.
-    Closes: #693951
-  * Improve commands listing in «dselect --help» output, by printing them
-    before options and listing them one on each line with a description.
-  * Improve dselect color-spec --help output.
-  * Document dselect -? option.
-  * Capitalize dpkg-parsechangelog(1) option descriptions.
-  * Mark dpkg-parsechangelog(1) --format values in bold.
-  * Place short options before long ones in dpkg-mergechangelogs(1) and
-    dselect(1) man pages.
-  * Properly terminate a bold marking in dpkg(1).
-  * Document in man pages the dpkg version when new features were introduced.
-  * Document that timestamps are reset for files patched with source format
-    “3.0 (quilt)” too.
-  * Add dpkg --ctrl-tarfile forwarding command for dpkg-deb.
-  * Disable dependency checks on dpkg-buildpackage -S -nc.
-  * Make dependency checks fatal for dpkg-buildpackage -S.
-  * Move "(default)" annotations in scripts --help output after option
-    description.
-  * Document in dpkg-buildpackage(1) that using dpkg-source is sometimes
-    better than -S. Suggested by Johannes Schauer <j.schauer@email.de>.
+    - Improve commands listing in «dselect --help» output, by printing them
+      before options and listing them one on each line with a description.
+    - Improve dselect color-spec --help output.
+    - Move "(default)" annotations in scripts --help output after option
+      description.
 
   [ Raphaël Hertzog ]
   * Drop myself from Uploaders.
