@@ -4,7 +4,43 @@
 # Copyright © 2008-2013 Guillem Jover <guillem@debian.org>
 #
 
+DPKG_SERIES := 1.18.x
+
 -include .pkg-tests.conf
+
+## Feature checks setup ##
+
+CHECK_VERSION = $(shell dpkg --compare-versions $(1) $(2) $(3) && echo yes)
+
+# dpkg == 1.16.x
+ifeq ($(call CHECK_VERSION,$(DPKG_SERIES),eq,1.16.x),yes)
+$(info using dpkg == 1.16.x)
+export DPKG_HAS_CONFIGURE_WITH_IMPLICIT_TRIGGER_PENDING := 1
+endif
+
+# dpkg >= 1.17.x
+ifeq ($(call CHECK_VERSION,$(DPKG_SERIES),ge,1.17.x),yes)
+$(info using dpkg >= 1.17.x)
+export DPKG_HAS_STRICT_CONFFILE_PARSER := 1
+export DPKG_HAS_STRICT_DEB_PARSER := 1
+export DPKG_HAS_DEB_CONTROL_UNIFORM_SUPPORT := 1
+export DPKG_HAS_VERSIONED_PROVIDES := 1
+export DPKG_HAS_PREDEPENDS_PROVIDES := 1
+export DPKG_HAS_TRIGGERS_AWAIT := 1
+export DPKG_HAS_MAINTSCRIPT_SWITCH_DIR_SYMLINK := 1
+export DPKG_HAS_CONFIGURE_WITH_IMPLICIT_TRIGGER_PENDING :=
+endif
+
+# dpkg >= 1.18.x
+ifeq ($(call CHECK_VERSION,$(DPKG_SERIES),ge,1.18.x),yes)
+$(info using dpkg >= 1.18.x)
+export DPKG_HAS_TRIGPROC_DEPCHECK := 1
+# once apt is fixed:
+#export DPKG_HAS_CONFIGURE_WITH_IMPLICIT_TRIGGER_PENDING := 1
+endif
+
+
+## Test cases ##
 
 TESTS_MANUAL :=
 TESTS_MANUAL += t-deb-lfs
@@ -53,13 +89,13 @@ TESTS_PASS += t-triggers
 TESTS_PASS += t-triggers-path
 TESTS_PASS += t-triggers-depends
 # This only works with dpkg >= 1.18.x
-ifdef DPKG_TRIGPROC_DEPCHECK
+ifdef DPKG_HAS_TRIGPROC_DEPCHECK
 TESTS_PASS += t-triggers-depcycle
 TESTS_PASS += t-triggers-depfarcycle
 endif
 TESTS_PASS += t-triggers-selfcycle
 TESTS_PASS += t-triggers-cycle
-ifdef DPKG_TRIGPROC_DEPCHECK
+ifdef DPKG_HAS_TRIGPROC_DEPCHECK
 TESTS_PASS += t-triggers-halt
 endif
 TESTS_PASS += t-file-replaces
@@ -83,10 +119,13 @@ TESTS_PASS += t-conffile-rename
 TESTS_PASS += t-queue-process-deconf-dupe
 TESTS_PASS += t-package-type
 TESTS_PASS += t-symlink-dir
+# This only works with dpkg >= 1.17.x
+ifdef DPKG_HAS_MAINTSCRIPT_SWITCH_DIR_SYMLINK
 TESTS_PASS += t-switch-symlink-abs-to-dir
 TESTS_PASS += t-switch-symlink-rel-to-dir
 TESTS_PASS += t-switch-dir-to-symlink-abs
 TESTS_PASS += t-switch-dir-to-symlink-rel
+endif
 TESTS_PASS += t-substvars
 TESTS_PASS += t-failinst-failrm
 TESTS_PASS += t-dir-extension-check

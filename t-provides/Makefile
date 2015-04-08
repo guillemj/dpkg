@@ -33,6 +33,7 @@ test-depends:
 
 	$(PURGE_DEPENDS)
 
+ifdef DPKG_HAS_VERSIONED_PROVIDES
 	# Install the providing package (pkg-virtual 10)
 	$(DPKG_INSTALL) pkg-provides-10.deb
 	$(DPKG_INSTALL) pkg-depends.deb
@@ -65,6 +66,7 @@ test-depends:
 	$(DPKG_INSTALL) pkg-provides-10-20.deb
 
 	$(PURGE_DEPENDS)
+endif
 
 	# The provided dependency is removed, pass
 	$(DPKG_PURGE) pkg-provides
@@ -83,6 +85,7 @@ test-predepends:
 	! $(DPKG_UNPACK) pkg-predepends-le.deb
 	! $(DPKG_UNPACK) pkg-predepends-ge.deb
 
+ifdef DPKG_HAS_PREDEPENDS_PROVIDES
 	# Install the providing package (versionless)
 	$(DPKG_INSTALL) pkg-provides.deb
 	$(DPKG_UNPACK) pkg-predepends.deb
@@ -94,7 +97,9 @@ test-predepends:
 	! $(DPKG_PURGE) pkg-provides
 
 	$(PURGE_PREDEPENDS)
+endif
 
+ifdef DPKG_HAS_VERSIONED_PROVIDES
 	# Install the providing package (pkg-virtual 10)
 	$(DPKG_INSTALL) pkg-provides-10.deb
 	$(DPKG_UNPACK) pkg-predepends.deb
@@ -127,6 +132,7 @@ test-predepends:
 	$(DPKG_INSTALL) pkg-provides-10-20.deb
 
 	$(PURGE_PREDEPENDS)
+endif
 
 	# The provided predependency is removed, pass
 	$(DPKG_PURGE) pkg-provides
@@ -159,6 +165,7 @@ test-breaks:
 
 	$(PURGE_BREAKS)
 
+ifdef DPKG_HAS_VERSIONED_PROVIDES
 	# Install the providing package (pkg-virtual 10)
 	$(DPKG_INSTALL) pkg-provides-10.deb
 	! $(DPKG_INSTALL) pkg-breaks.deb
@@ -191,6 +198,7 @@ test-breaks:
 	$(DPKG_INSTALL) pkg-provides-10-20.deb
 
 	$(PURGE_BREAKS)
+endif
 
 	# The provided dependency is removed, pass
 	$(DPKG_PURGE) pkg-provides
@@ -223,6 +231,7 @@ test-conflicts:
 
 	$(PURGE_CONFLICTS)
 
+ifdef DPKG_HAS_VERSIONED_PROVIDES
 	# Install the providing package (pkg-virtual 10)
 	$(DPKG_INSTALL) pkg-provides-10.deb
 	! $(DPKG_UNPACK) pkg-conflicts.deb
@@ -255,6 +264,7 @@ test-conflicts:
 	$(DPKG_INSTALL) pkg-provides-10-20.deb
 
 	$(PURGE_CONFLICTS)
+endif
 
 	# The provided predependency is removed, pass
 	$(DPKG_PURGE) pkg-provides

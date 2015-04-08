@@ -2,10 +2,10 @@ include ../Test.mk
 
 test-case:
 	# extract the base members
-	$(DPKG_DEB) --uniform-compression -Znone -b pkg-templ
+	$(DPKG_DEB) -Zgzip -b pkg-templ
 	ar x pkg-templ.deb
-	gzip -c control.tar >control.tar.gz
-	gzip -c data.tar >data.tar.gz
+	gunzip -c control.tar.gz >control.tar
+	gunzip -c data.tar.gz >data.tar
 	xz -c control.tar >control.tar.xz
 	xz -c data.tar >data.tar.xz
 	bzip2 -c data.tar >data.tar.bz2
@@ -37,13 +37,13 @@ test-case:
 
 	# test missing control member
 	cp pkg-templ.deb pkg-missing-control.deb
-	ar d pkg-missing-control.deb control.tar
+	ar d pkg-missing-control.deb control.tar.gz
 	ar t pkg-missing-control.deb
 	! $(DPKG_DEB) -I pkg-missing-control.deb
 
 	# test missing data member
 	cp pkg-templ.deb pkg-missing-data.deb
-	ar d pkg-missing-data.deb data.tar
+	ar d pkg-missing-data.deb data.tar.gz
 	ar t pkg-missing-data.deb
 	! $(DPKG_DEB) -c pkg-missing-data.deb
 
@@ -55,15 +55,17 @@ test-case:
 
 	# test mixed member (index 2)
 	cp pkg-templ.deb pkg-mixed-2-member.deb
-	ar ra control.tar pkg-mixed-2-member.deb unknown
+	ar ra control.tar.gz pkg-mixed-2-member.deb unknown
 	ar t pkg-mixed-2-member.deb
 	! $(DPKG_DEB) -c pkg-mixed-2-member.deb
 
+ifdef DPKG_HAS_STRICT_DEB_PARSER
 	# test swapped control and data members
 	cp pkg-templ.deb pkg-swap-members.deb
-	ar ma data.tar pkg-swap-members.deb control.tar
+	ar ma data.tar.gz pkg-swap-members.deb control.tar.gz
 	ar t pkg-swap-members.deb
 	! $(DPKG_DEB) -I pkg-swap-members.deb
+endif
 
 	# test extra member
 	cp pkg-templ.deb pkg-extra-member.deb
@@ -83,6 +85,7 @@ test-case:
 	ar t pkg-data-bad.deb
 	! $(DPKG_DEB) -c pkg-data-bad.deb
 
+ifdef DPKG_HAS_DEB_CONTROL_UNIFORM_SUPPORT
 	# test control.tar member
 	ar rc pkg-control-none.deb debian-binary control.tar data.tar
 	ar t pkg-control-none.deb
@@ -92,6 +95,7 @@ test-case:
 	ar rc pkg-control-xz.deb debian-binary control.tar.xz data.tar.xz
 	ar t pkg-control-xz.deb
 	$(DPKG_DEB) -c pkg-control-xz.deb
+endif
 
 	# test data.tar member
 	ar rc pkg-data-none.deb debian-binary control.tar.gz data.tar
@@ -118,11 +122,13 @@ test-case:
 	ar t pkg-data-lzma.deb
 	$(DPKG_DEB) -c pkg-data-lzma.deb
 
+ifdef DPKG_HAS_DEB_CONTROL_UNIFORM_SUPPORT
 	# test non-uniform data.tar/control.tar member compression
 	ar rc pkg-mixed-comp.deb debian-binary control.tar.xz data.tar.gz
 	ar t pkg-mixed-comp.deb
 	$(DPKG_DEB) -I pkg-mixed-comp.deb
 	$(DPKG_DEB) -c pkg-mixed-comp.deb
+endif
 
 test-clean:
 	$(RM) _ignore unknown debian-binary control.tar* data.tar*

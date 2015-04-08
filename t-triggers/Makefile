@@ -6,8 +6,10 @@ include ../Test.mk
 TEST_CASES += test-trigger-file
 TEST_CASES += test-trigger-explicit
 TEST_CASES += test-trigger-cmd
+ifdef DPKG_HAS_TRIGGERS_AWAIT
 TEST_CASES += test-trigger-await-file
 TEST_CASES += test-trigger-await-cmd
+endif
 TEST_CASES += test-trigger-noawait-file
 TEST_CASES += test-trigger-noawait-explicit
 TEST_CASES += test-trigger-noawait-cmd
@@ -63,7 +65,7 @@ test-trigger-file test-trigger-await-file:
 	$(DPKG_CONFIGURE) pkg-trig-file
 	# FIXME: Remove ifdef during dpkg 1.18.x cycle, after the apt
 	# workaround has been reverted.
-ifdef DPKG_CONFIGURE_WITH_IMPLICIT_TRIGGER_PENDING
+ifdef DPKG_HAS_CONFIGURE_WITH_IMPLICIT_TRIGGER_PENDING
 	$(call pkg_status_is,pkg-trig-file,install ok triggers-awaited)
 	$(BEROOT) $(DPKG) --triggers-only pkg-triggers
 endif
