@@ -63,6 +63,58 @@ sub init_options {
     $self->{options}{ignore_bad_version} //= 0;
 }
 
+my @module_cmdline = (
+    {
+        name => '--include-removal',
+        help => N_('include removed files in the patch'),
+        when => 'build',
+    }, {
+        name => '--include-timestamp',
+        help => N_('include timestamp in the patch'),
+        when => 'build',
+    }, {
+        name => '--include-binaries',
+        help => N_('include binary files in the tarball'),
+        when => 'build',
+    }, {
+        name => '--no-preparation',
+        help => N_('do not prepare build tree by applying patches'),
+        when => 'build',
+    }, {
+        name => '--no-unapply-patches',
+        help => N_('do not unapply patches if previously applied'),
+        when => 'build',
+    }, {
+        name => '--unapply-patches',
+        help => N_('unapply patches if previously applied (default)'),
+        when => 'build',
+    }, {
+        name => '--create-empty-orig',
+        help => N_('create an empty original tarball if missing'),
+        when => 'build',
+    }, {
+        name => '--abort-on-upstream-changes',
+        help => N_('abort if generated diff has upstream files changes'),
+        when => 'build',
+    }, {
+        name => '--auto-commit',
+        help => N_('record generated patches, instead of aborting'),
+        when => 'build',
+    }, {
+        name => '--skip-debianization',
+        help => N_('do not extract debian tarball into upstream sources'),
+        when => 'extract',
+    }, {
+        name => '--skip-patches',
+        help => N_('do not apply patches at the end of the extraction'),
+        when => 'extract',
+    }
+);
+
+sub describe_cmdline_options {
+    return @module_cmdline;
+}
+
 sub parse_cmdline_option {
     my ($self, $opt) = @_;
     if ($opt eq '--include-removal') {

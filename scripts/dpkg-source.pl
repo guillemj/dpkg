@@ -521,6 +521,48 @@ sub setopmode {
     $options{opmode} = $opmode;
 }
 
+sub print_option {
+    my $opt = shift;
+    my $help;
+
+    if (length $opt->{name} > 25) {
+        $help .= sprintf "  %-25s\n%s%s.\n", $opt->{name}, ' ' x 27, $opt->{help};
+    } else {
+        $help .= sprintf "  %-25s%s.\n", $opt->{name}, $opt->{help};
+    }
+}
+
+sub get_format_help {
+    $build_format //= '1.0';
+
+    my $srcpkg = Dpkg::Source::Package->new();
+    $srcpkg->{fields}->{'Format'} = $build_format;
+    $srcpkg->upgrade_object_type(); # Fails if format is unsupported
+
+    my @cmdline = $srcpkg->describe_cmdline_options();
+
+    my $help_build = my $help_extract = '';
+    my $help;
+
+    foreach my $opt (@cmdline) {
+        $help_build .= print_option($opt) if $opt->{when} eq 'build';
+        $help_extract .= print_option($opt) if $opt->{when} eq 'extract';
+    }
+
+    if ($help_build) {
+        $help .= "\n";
+        $help .= "Build format $build_format options:\n";
+        $help .= $help_build || g_("<none>");
+    }
+    if ($help_extract) {
+        $help .= "\n";
+        $help .= "Extract format $build_format options:\n";
+        $help .= $help_extract || g_("<none>");
+    }
+
+    return $help;
+}
+
 sub version {
     printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
@@ -566,13 +608,15 @@ sub usage {
   --no-check               don't check signature and checksums before unpacking
   --require-valid-signature abort if the package doesn't have a valid signature
   --ignore-bad-version     allow bad source package versions.")
-    . "\n\n" . g_(
+    . "\n" .
+    get_format_help()
+    . "\n" . g_(
 'General options:
   -?, --help               show this help message.
       --version            show the version.')
     . "\n\n" . g_(
-'More options are available but they depend on the source package format.
-See dpkg-source(1) for more info.') . "\n",
+'Source format specific build and extract options are available;
+use --format with --help to see them.') . "\n",
     $Dpkg::PROGNAME,
     get_default_diff_ignore_regex(),
     join(' ', map { "-I$_" } get_default_tar_ignore_pattern()),

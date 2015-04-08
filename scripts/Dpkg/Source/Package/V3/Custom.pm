@@ -27,6 +27,18 @@ use parent qw(Dpkg::Source::Package);
 
 our $CURRENT_MINOR_VERSION = '0';
 
+my @module_cmdline = (
+    {
+        name => '--target-format=<value>',
+        help => N_('define the format of the generated source package'),
+        when => 'build',
+    }
+);
+
+sub describe_cmdline_options {
+    return @module_cmdline;
+}
+
 sub parse_cmdline_option {
     my ($self, $opt) = @_;
     if ($opt =~ /^--target-format=(.*)$/) {

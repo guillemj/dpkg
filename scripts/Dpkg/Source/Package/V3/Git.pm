@@ -71,6 +71,26 @@ sub sanity_check {
     return 1;
 }
 
+my @module_cmdline = (
+    {
+        name => '--git-ref=<ref>',
+        help => N_('specify a git <ref> to include in the git bundle'),
+        when => 'build',
+    }, {
+        name => '--git-depth=<number>',
+        help => N_('create a shallow clone with <number> depth'),
+        when => 'build',
+    }
+);
+
+sub describe_cmdline_options {
+    my $self = shift;
+
+    my @cmdline = ( $self->SUPER::describe_cmdline_options(), @module_cmdline );
+
+    return @cmdline;
+}
+
 sub parse_cmdline_option {
     my ($self, $opt) = @_;
     return 1 if $self->SUPER::parse_cmdline_option($opt);

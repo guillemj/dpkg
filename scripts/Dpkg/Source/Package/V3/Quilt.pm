@@ -45,6 +45,26 @@ sub init_options {
     $self->SUPER::init_options();
 }
 
+my @module_cmdline = (
+    {
+        name => '--single-debian-patch',
+        help => N_('use a single debianization patch'),
+        when => 'build',
+    }, {
+        name => '--allow-version-of-quilt-db=<version>',
+        help => N_('accept quilt metadata <version> even if unknown'),
+        when => 'build',
+    }
+);
+
+sub describe_cmdline_options {
+    my $self = shift;
+
+    my @cmdline = ( $self->SUPER::describe_cmdline_options(), @module_cmdline );
+
+    return @cmdline;
+}
+
 sub parse_cmdline_option {
     my ($self, $opt) = @_;
     return 1 if $self->SUPER::parse_cmdline_option($opt);

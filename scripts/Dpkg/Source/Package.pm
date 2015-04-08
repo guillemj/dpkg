@@ -447,6 +447,10 @@ sub check_signature {
     }
 }
 
+sub describe_cmdline_options {
+    return;
+}
+
 sub parse_cmdline_options {
     my ($self, @opts) = @_;
     foreach my $option (@opts) {
