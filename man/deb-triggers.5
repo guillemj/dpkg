@@ -33,39 +33,32 @@ and everything after the first \fB#\fP on any line will be trimmed, and
 empty lines will be ignored.
 .PP
 The trigger control directives currently supported are:
-.PP
-.in +5
+.IP "" 5
 .B interest
 .I trigger-name
-.PP
-.in +5
+.br
 .B interest\-await
 .I trigger-name
-.PP
-.in +5
+.br
 .B interest\-noawait
 .I trigger-name
-.PP
-.in +5
+.IP
 Specifies that the package is interested in the named trigger. All
 triggers in which a package is interested must be listed using this
 directive in the triggers control file. The \(lqnoawait\(rq variant does
 not put the triggering packages in triggers\-awaited state. This should
 be used when the functionality provided by the trigger is not crucial.
-.PP
-.in +5
+.IP
 .B activate
 .I trigger-name
-.PP
-.in +5
+.br
 .B activate\-await
 .I trigger-name
-.PP
-.in +5
+.br
 .B activate\-noawait
 .I trigger-name
-.PP
-.in +5
+.br
+.IP
 Arranges that changes to this package's state will activate the
 specified trigger. The trigger will be activated at the start of
 the following operations: unpack, configure, remove (including for
@@ -73,8 +66,7 @@ the benefit of a conflicting package), purge and deconfigure.
 The \(lqnoawait\(rq variant does not put the triggering packages in
 triggers\-awaited state. This should be used when the functionality
 provided by the trigger is not crucial.
-.PP
-.in +5
+.IP
 If this package disappears during the unpacking of another package
 the trigger will be activated when the disappearance is noted
 towards the end of the unpack. Trigger processing, and transition
