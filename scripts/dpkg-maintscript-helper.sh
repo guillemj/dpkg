@@ -256,7 +256,7 @@ symlink_to_dir() {
 	[ -n "$SYMLINK" ] || error "symlink parameter is missing"
 	[ "${SYMLINK#/}" = "$SYMLINK" ] && \
 		error "symlink pathname is not an absolute path"
-	[ "${SYMLINK%/}" = "$SYMLINK" ] && \
+	[ "${SYMLINK%/}" = "$SYMLINK" ] || \
 		error "symlink pathname ends with a slash"
 	[ -n "$SYMLINK_TARGET" ] || error "original symlink target is missing"
 	[ -n "$1" ] || error "maintainer script parameters are missing"
