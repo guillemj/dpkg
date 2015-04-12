@@ -4,12 +4,20 @@
 # (C) Florian Rehnisch <eixman@gmx.de>, 2007.
 # (C) Sven Joachim <svenjoac@gmx.de>, 2008.
 #
+# FIXME: Alle \\-Ausdrücke prüfen (in generierten Handbuchseiten) und ggf. ersetzen
+# \\(lq
+# \\(rq
+# \\(oq
+# \\(cq
+# \\(Fo
+# \\(Fc
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.18.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-04-06 09:37+0200\n"
-"PO-Revision-Date: 2015-04-01 18:28+0200\n"
+"POT-Creation-Date: 2015-04-12 05:12+0200\n"
+"PO-Revision-Date: 2015-04-12 18:56+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -199,15 +207,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb.5
-#, fuzzy
-#| msgid ""
-#| "The second required member is named B<control.tar>.  It is a tar archive "
-#| "containing the package control information, either not compressed "
-#| "(supported since dpkg 1.17.6), or compressed with gzip (with B<.gz> "
-#| "extension) or xz (with B<.xz> extension, supported since 1.17.6), as a "
-#| "series of plain files, of which the file B<control> is mandatory and "
-#| "contains the core control information. The control tarball may optionally "
-#| "contain an entry for `B<.>', the current directory."
 msgid ""
 "The second required member is named B<control.tar>.  It is a tar archive "
 "containing the package control information, either not compressed (supported "
@@ -223,7 +222,7 @@ msgstr ""
 "1.17.6 unterstützt) komprimiert), das die Steuerinformationen als eine Reihe "
 "von normalen Dateien enthält, von denen die Datei B<control> zwingend "
 "erforderlich ist und die Kern-Steuerinformationen enthält. Der Steuer-"
-"Tarball kann optional einen Eintrag für »B<.>«, das aktuelle Verzeichnis, "
+"Tarball kann optional einen Eintrag für \\(oqB<.>\\(cq, das aktuelle Verzeichnis, "
 "enthalten."
 
 #. type: Plain text
@@ -245,15 +244,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb.5
-#, fuzzy
-#| msgid ""
-#| "These members must occur in this exact order. Current implementations "
-#| "should ignore any additional members after B<data.tar>.  Further members "
-#| "may be defined in the future, and (if possible) will be placed after "
-#| "these three. Any additional members that may need to be inserted after "
-#| "B<debian-binary> and before B<control.tar> or B<data.tar> and which "
-#| "should be safely ignored by older programs, will have names starting with "
-#| "an underscore, `B<_>'."
 msgid ""
 "These members must occur in this exact order. Current implementations should "
 "ignore any additional members after B<data.tar>.  Further members may be "
@@ -269,7 +259,7 @@ msgstr ""
 "möglich) nach diesen drei platziert. Alle zusätzlichen Mitglieder, die nach "
 "B<debian-binary> und vor B<control.tar> oder B<data.tar> eingefügt werden "
 "könnten und die problemlos von älteren Programmen ignoriert werden sollten, "
-"werden Namen haben, die mit einem Unterstrich »B<_>« anfangen."
+"werden Namen haben, die mit einem Unterstrich \\(oqB<_>\\(cq anfangen."
 
 #. type: Plain text
 #: deb.5
@@ -359,16 +349,6 @@ msgstr "control"
 
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "Each Debian package contains the master `control' file, which contains a "
-#| "number of fields, or comments when the line starts with B<'#'>. Each "
-#| "field begins with a tag, such as B<Package> or B<Version> (case "
-#| "insensitive), followed by a colon, and the body of the field.  Fields are "
-#| "delimited only by field tags. In other words, field text may be multiple "
-#| "lines in length, but the installation tools will generally join lines "
-#| "when processing the body of the field (except in the case of the "
-#| "B<Description> field, see below)."
 msgid ""
 "Each Debian package contains the master I<control> file, which contains a "
 "number of fields, or comments when the line starts with \\(oqB<#>\\(cq.  "
@@ -379,8 +359,8 @@ msgid ""
 "processing the body of the field (except in the case of the B<Description> "
 "field, see below)."
 msgstr ""
-"Jedes Debian-Paket enthält die Hauptsteuerdatei »control«, die eine Reihe "
-"von Feldern oder Kommentaren (wenn die Zeile mit B<»#«> beginnt) enthält. "
+"Jedes Debian-Paket enthält die Hauptsteuerdatei I<control>, die eine Reihe "
+"von Feldern oder Kommentaren (wenn die Zeile mit \\(oqB<#>\\(cq beginnt) enthält. "
 "Jedes Feld beginnt mit einer Markierung, wie B<Package> oder B<Version> "
 "(Groß-/Kleinschreibung egal), gefolgt von einem Doppelpunkt und dem Körper "
 "des Feldes. Felder werden nur durch die Feldmarkierungen abgegrenzt. Mit "
@@ -437,17 +417,12 @@ msgstr "B<Maintainer:>I< Vollständiger-Name-und-E-Mail>"
 
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "Should be in the format `Joe Bloggs E<lt>jbloggs@foo.comE<gt>', and is "
-#| "typically the person who created the package, as opposed to the author of "
-#| "the software that was packaged."
 msgid ""
 "Should be in the format \\(lqJoe Bloggs E<lt>jbloggs@foo.comE<gt>\\(rq, and "
 "is typically the person who created the package, as opposed to the author of "
 "the software that was packaged."
 msgstr ""
-"Sollte in dem Format »Joe Bloggs E<lt>jbloggs@foo.comE<gt>« sein und ist "
+"Sollte in dem Format \\(lqJoe Bloggs E<lt>jbloggs@foo.comE<gt>\\(rq sein und ist "
 "typischerweise die Person, die das Paket erstellt hat, im Gegensatz zum "
 "Autor der Software, die paketiert wurde."
 
@@ -465,13 +440,6 @@ msgstr "B< >I<Langbeschreibung>"
 
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "The format for the package description is a short brief summary on the "
-#| "first line (after the \"Description\" field). The following lines should "
-#| "be used as a longer, more detailed description. Each line of the long "
-#| "description must be preceded by a space, and blank lines in the long "
-#| "description must contain a single '.' following the preceding space."
 msgid ""
 "The format for the package description is a short brief summary on the first "
 "line (after the B<Description> field). The following lines should be used as "
@@ -480,10 +448,10 @@ msgid ""
 "a single \\(oqB<.>\\(cq following the preceding space."
 msgstr ""
 "Das Format der Paketbeschreibung ist eine kurze knappe Zusammenfassung auf "
-"der ersten Zeile (nach dem »Description«-Feld). Die folgenden Zeilen sollten "
+"der ersten Zeile (nach dem Feld B<Description>). Die folgenden Zeilen sollten "
 "als längere, detailliertere Beschreibung verwendet werden. Jede Zeile der "
 "Langbeschreibung muss von einem Leerzeichen begonnen werden, und Leerzeilen "
-"in der Langbeschreibung müssen einen einzelnen ».« hinter dem einleitenden "
+"in der Langbeschreibung müssen einen einzelnen \\(oqB<.>\\(cq hinter dem einleitenden "
 "Leerzeichen enthalten."
 
 #. type: SH
@@ -500,19 +468,14 @@ msgstr "B<Section:>I< Bereich>"
 
 #. type: Plain text
 #: deb-control.5 deb-src-control.5
-#, fuzzy
-#| msgid ""
-#| "This is a general field that gives the package a category based on the "
-#| "software that it installs. Some common sections are \"utils\", \"net\", "
-#| "\"mail\", \"text\", \"x11\", etc."
 msgid ""
 "This is a general field that gives the package a category based on the "
 "software that it installs.  Some common sections are B<utils>, B<net>, "
 "B<mail>, B<text>, B<x11>, etc."
 msgstr ""
 "Dies ist ein allgemeines Feld, das dem Paket eine Kategorie gibt, basierend "
-"auf der Software, die es installiert. Einige übliche Bereiche sind »utils«, "
-"»net«, »mail«, »text«, »x11« usw."
+"auf der Software, die es installiert. Einige übliche Bereiche sind B<utils>, "
+"B<net>, B<mail>, B<text>, B<x11> usw."
 
 #. type: TP
 #: deb-control.5 deb-src-control.5
@@ -522,17 +485,12 @@ msgstr "B<Priority:>I< Priorität>"
 
 #. type: Plain text
 #: deb-control.5 deb-src-control.5
-#, fuzzy
-#| msgid ""
-#| "Sets the importance of this package in relation to the system as a "
-#| "whole.  Common priorities are \"required\", \"standard\", \"optional\", "
-#| "\"extra\", etc."
 msgid ""
 "Sets the importance of this package in relation to the system as a whole.  "
 "Common priorities are B<required>, B<standard>, B<optional>, B<extra>, etc."
 msgstr ""
 "Setzt die Bedeutung dieses Pakets in Bezug zu dem Gesamtsystem. Übliche "
-"Prioritäten sind »required«, »standard«, »optional«, »extra« usw."
+"Prioritäten sind B<required>, B<standard>, B<optional>, B<extra> usw."
 
 #. type: Plain text
 #: deb-control.5 deb-src-control.5
@@ -574,13 +532,6 @@ msgstr "B<Architecture:> I<arch>|B<all>"
 
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "The architecture specifies which type of hardware this package was "
-#| "compiled for. Common architectures are `i386', `m68k', `sparc', `alpha', "
-#| "`powerpc' etc. Note that the B<all> option is meant for packages that are "
-#| "architecture independent. Some examples of this are shell and Perl "
-#| "scripts, and documentation."
 msgid ""
 "The architecture specifies which type of hardware this package was compiled "
 "for.  Common architectures are B<amd64>, B<armel>, B<i386>, B<powerpc>, "
@@ -589,8 +540,8 @@ msgid ""
 "and documentation."
 msgstr ""
 "Die Architektur spezifiziert den Hardwaretyp für den dieses Paket kompiliert "
-"wurde. Geläufige Architekturen sind »i386«, »m68k«, »sparc«, »alpha«, "
-"»powerpc« usw. Beachten Sie, dass die Option B<all> für Pakete gedacht ist, "
+"wurde. Geläufige Architekturen sind B<amd64>, B<armel>, B<i386>, B<powerpc> "
+"usw. Beachten Sie, dass die Option B<all> für Pakete gedacht ist, "
 "die Architektur-unabhängig sind. Einige Beispiele hierfür sind Shell- und "
 "Perl-Skripte und Dokumentation."
 
@@ -613,18 +564,13 @@ msgstr "B<Bugs:>I< URL>"
 
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "The I<url> of the bug tracking system for this package. The current used "
-#| "format is I<bts-type>B<://>I<bts-address>, like B<debbugs://bugs.debian."
-#| "org>."
 msgid ""
 "The I<url> of the bug tracking system for this package. The current used "
 "format is I<bts-type>B<://>I<bts-address>, like B<\\%debbugs://bugs.debian."
 "org>."
 msgstr ""
 "Die I<URL> der Fehlerdatenbank für dieses Paket. Das derzeit verwendete "
-"Format ist I<BTS-Art>B<://>I<BTS-Adresse> wie in B<debbugs://bugs.debian."
+"Format ist I<BTS-Art>B<://>I<BTS-Adresse> wie in B<\\%debbugs://bugs.debian."
 "org>."
 
 #. type: TP
@@ -646,17 +592,13 @@ msgstr "B<Tag:> I< Liste-von-Markierungen>"
 
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "List of tags describing the qualities of the package. The description and "
-#| "list of supported tags can be found in the B<debtags> package."
 msgid ""
 "List of tags describing the qualities of the package. The description and "
 "list of supported tags can be found in the B<\\%debtags> package."
 msgstr ""
 "Liste der unterstützten Markierungen (»Tags«), die die Eigenschaften des "
 "Pakets beschreiben. Die Beschreibung und die Liste der unterstützten "
-"Markierungen kann in dem Paket B<debtags> gefunden werden."
+"Markierungen kann in dem Paket B<\\%debtags> gefunden werden."
 
 #. type: TQ
 #: deb-control.5 deb-src-control.5
@@ -664,22 +606,9 @@ msgstr ""
 msgid "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>|B<no>"
 msgstr "B<Multi-Arch:> B<same>|B<foreign>|B<allowed>|B<no>"
 
+# FIXME: Komma in »erlaubt es invers Abhängigen«
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "This field is used to indicate how this package should behave on a multi-"
-#| "arch installations. The value B<same> means that the package is co-"
-#| "installable with itself, but it must not be used to satisfy the "
-#| "dependency of any package of a different architecture from itself. The "
-#| "value B<foreign> means that the package is not co-installable with "
-#| "itself, but should be allowed to satisfy the dependency of a package of a "
-#| "different arch from itself. The value B<allowed> allows reverse-"
-#| "dependencies to indicate in their Depends field that they accept a "
-#| "package from a foreign architecture by qualifying the package name with "
-#| "B<:any>, but has no effect otherwise.  The value B<no> is the default "
-#| "when the field is omitted, in which case adding the field with an "
-#| "explicit B<no> value is generally not needed."
 msgid ""
 "This field is used to indicate how this package should behave on a multi-"
 "arch installations. The value B<same> means that the package is co-"
@@ -701,7 +630,7 @@ msgstr ""
 "zu erfüllen. Der Wert B<foreign> bedeutet, dass das Paket nicht mit sich "
 "selbst koinstallierbar ist, aber es erlaubt sein soll, die Abhängigkeit "
 "eines Pakets von einer anderen Architektur mit ihm selbst zu erfüllen. Der "
-"Wert B<allowed> erlaubt es invers Abhängigen in ihrem Feld »Depends« "
+"Wert B<allowed> erlaubt es, invers Abhängigen in ihrem Feld B<Depends> "
 "anzuzeigen, dass sie ein Paket von einer fremden Architektur akzeptieren, "
 "indem sie es mit B<:any> spezifizieren, hat aber ansonsten keinen Effekt. "
 "Der Wert B<no> ist der Standardwert, wenn das Feld nicht verwandt wurde. In "
@@ -760,16 +689,6 @@ msgstr "B<Depends:> I< Paketliste>"
 
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "List of packages that are required for this package to provide a non-"
-#| "trivial amount of functionality. The package maintenance software will "
-#| "not allow a package to be installed if the packages listed in its "
-#| "B<Depends> field aren't installed (at least not without using the force "
-#| "options).  In an installation, the postinst scripts of packages listed in "
-#| "Depends: fields are run before those of the packages which depend on "
-#| "them. On the opposite, in a removal, the prerm script of a package is run "
-#| "before those of the packages listed in its Depends: field."
 msgid ""
 "List of packages that are required for this package to provide a non-trivial "
 "amount of functionality. The package maintenance software will not allow a "
@@ -785,10 +704,10 @@ msgstr ""
 "wird es nicht erlauben, dass ein Paket installiert wird, falls die in seinem "
 "B<Depends>-Feld aufgeführten Pakete nicht installiert sind (zumindestens "
 "nicht ohne Verwendung der »Force«-Optionen). Bei einer Installation werden "
-"Postinst-Skripte von Paketen, die im Feld »Depends:« aufgeführt sind, vor "
+"Postinst-Skripte von Paketen, die im Feld B<Depends> aufgeführt sind, vor "
 "den Postinst-Skripten der eigentlichen Pakete ausgeführt. Bei der "
 "gegenteiligen Operation, der Paket-Entfernung, wird das Prerm-Skript eines "
-"Paketes vor den Prerm-Skripten der Pakete ausgeführt, die im Feld »Depends:« "
+"Paketes vor den Prerm-Skripten der Pakete ausgeführt, die im Feld B<Depends> "
 "aufgeführt sind."
 
 #. type: TQ
@@ -846,15 +765,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "The syntax of B<Depends>, B<Pre-Depends>, B<Recommends> and B<Suggests> "
-#| "fields is a list of groups of alternative packages. Each group is a list "
-#| "of packages separated by vertical bar (or `pipe') symbols, `|'. The "
-#| "groups are separated by commas. Commas are to be read as `AND', and pipes "
-#| "as `OR', with pipes binding more tightly. Each package name is optionally "
-#| "followed by an architecture qualifier appended after a colon \":\", "
-#| "optionally followed by a version number specification in parentheses."
 msgid ""
 "The syntax of B<Depends>, B<Pre-Depends>, B<Recommends> and B<Suggests> "
 "fields is a list of groups of alternative packages. Each group is a list of "
@@ -867,9 +777,9 @@ msgid ""
 msgstr ""
 "Die Syntax der B<Depends>, B<Pre-Depends>, B<Recommends> und B<Suggests>-"
 "Felder ist eine Liste von Gruppen von alternativen Paketen. Jede Gruppe ist "
-"eine Liste von durch vertikale Striche (oder »Pipe«-Symbole) »|« getrennte "
-"Pakete. Die Gruppen werden durch Kommata getrennt. Kommata müssen als »UND«, "
-"vertikale Striche als »ODER« gelesen werden, wobei die vertikalen Striche "
+"eine Liste von durch vertikale Striche (oder \\(lqPipe\\(rq-Symbole) \\(oqB<|>\\(cq getrennte "
+"Pakete. Die Gruppen werden durch Kommata getrennt. Kommata müssen als \\(lqUND\\(rq, "
+"vertikale Striche als \\(lqODER\\(rq gelesen werden, wobei die vertikalen Striche "
 "stärker binden. Jeder Paketname wird optional gefolgt von einer Architektur-"
 "Spezifikation, die nach einem Doppelpunkt »:« angehängt wird, optional "
 "gefolgt von einer Versionsnummer-Spezifikation in Klammern."
@@ -893,14 +803,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-control.5 deb-src-control.5
-#, fuzzy
-#| msgid ""
-#| "A version number may start with a `E<gt>E<gt>', in which case any later "
-#| "version will match, and may specify or omit the Debian packaging revision "
-#| "(separated by a hyphen). Accepted version relationships are \"E<gt>E<gt>"
-#| "\" for greater than, \"E<lt>E<lt>\" for less than, \"E<gt>=\" for greater "
-#| "than or equal to, \"E<lt>=\" for less than or equal to, and \"=\" for "
-#| "equal to."
 msgid ""
 "A version number may start with a \\(oqB<E<gt>E<gt>>\\(cq, in which case any "
 "later version will match, and may specify or omit the Debian packaging "
@@ -909,12 +811,12 @@ msgid ""
 "than, \\(oqB<E<gt>=>\\(cq for greater than or equal to, \\(oqB<E<lt>=>\\(cq "
 "for less than or equal to, and \\(oqB<=>\\(cq for equal to."
 msgstr ""
-"Eine Versionsnummer kann mit »E<gt>E<gt>« beginnen, in diesem Falle passen "
+"Eine Versionsnummer kann mit \\(oqB<E<gt>E<gt>>\\(cq beginnen, in diesem Falle passen "
 "alle neueren Versionen, und kann die Debian-Paketrevision (getrennt durch "
 "einen Bindestrich) enthalten oder auch nicht. Akzeptierte "
-"Versionsbeziehungen sind »E<gt>E<gt>« für größer als, »E<lt>E<lt>« für "
-"kleiner als, »E<gt>=« für größer als oder identisch zu, »E<lt>=« für kleiner "
-"als oder identisch zu und »=« für identisch zu."
+"Versionsbeziehungen sind \\(oqB<E<gt>E<gt>>\\(cq für größer als, \\(oqB<E<lt>E<lt>>\\(cq für "
+"kleiner als, \\(oqB<E<gt>=>\\(cq für größer als oder identisch zu, \\(oqB<E<lt>=>\\(cq für kleiner "
+"als oder identisch zu und \\(oqB<=>\\(cq für identisch zu."
 
 #. type: TQ
 #: deb-control.5 deb-src-control.5
@@ -945,13 +847,6 @@ msgstr "B<Conflicts:> I< Paketliste>"
 
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "Lists packages that conflict with this one, for example by containing "
-#| "files with the same names. The package maintenance software will not "
-#| "allow conflicting packages to be installed at the same time. Two "
-#| "conflicting packages should each include a B<Conflicts> line mentioning "
-#| "the other."
 msgid ""
 "Lists packages that conflict with this one, for example by containing files "
 "with the same names. The package maintenance software will not allow "
@@ -962,7 +857,7 @@ msgstr ""
 "beide Dateien den gleichen Namen enthalten. Die Paketverwaltungssoftware "
 "wird es nicht erlauben, Pakete, die in Konflikt stehen, gleichzeitig zu "
 "installieren. Zwei in Konflikt stehende Pakete sollten jeweils eine "
-"B<Conflicts>-Zeile enthalten, die das andere Paket erwähnen."
+"B<\\%Conflicts>-Zeile enthalten, die das andere Paket erwähnen."
 
 #. type: TQ
 #: deb-control.5 deb-src-control.5
@@ -992,16 +887,6 @@ msgstr "B<Provides:> I< Paketliste>"
 
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "This is a list of virtual packages that this one provides. Usually this "
-#| "is used in the case of several packages all providing the same service.  "
-#| "For example, sendmail and exim can serve as a mail server, so they "
-#| "provide a common package (`mail-transport-agent') on which other packages "
-#| "can depend. This will allow sendmail or exim to serve as a valid option "
-#| "to satisfy the dependency. This prevents the packages that depend on a "
-#| "mail server from having to know the package names for all of them, and "
-#| "using `|' to separate the list."
 msgid ""
 "This is a list of virtual packages that this one provides. Usually this is "
 "used in the case of several packages all providing the same service.  For "
@@ -1015,27 +900,15 @@ msgstr ""
 "Dies ist eine Liste von virtuellen Paketen, die dieses Paket bereitstellt. "
 "Gewöhnlich wird dies verwendet, wenn mehrere Pakete alle den gleichen Dienst "
 "bereitstellen. Beispielsweise können Sendmail und Exim als Mailserver "
-"dienen, daher stellen sie ein gemeinsames Paket (»mail-transport-agent«) "
+"dienen, daher stellen sie ein gemeinsames Paket (\\(lqmail-transport-agent\\(rq) "
 "bereit, von dem andere Pakete abhängen können. Dies erlaubt es Sendmail oder "
 "Exim als gültige Optionen zur Erfüllung der Abhängigkeit zu dienen. Dies "
 "verhindert, dass Pakete, die von einem E-Mail-Server abhängen, alle "
-"Paketnamen für alle E-Mail-Server wissen und »|« zur Unterteilung der Liste "
+"Paketnamen für alle E-Mail-Server wissen und \\(oqB<|>\\(cq zur Unterteilung der Liste "
 "verwenden müssen."
 
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "The syntax of B<Breaks>, B<Conflicts>, B<Replaces> and B<Provides> is a "
-#| "list of package names, separated by commas (and optional whitespace).  In "
-#| "the B<Breaks> and B<Conflicts> fields, the comma should be read as `OR'.  "
-#| "An optional architecture qualifier can also be appended to the package "
-#| "name with the same syntax as above, but the default is B<any> instead of "
-#| "the binary package architecture.  An optional version can also be given "
-#| "with the same syntax as above for the B<Breaks>, B<Conflicts> and "
-#| "B<Replaces> fields, and an optional exact (equal to) version can also be "
-#| "given with the same syntax as above for the B<Provides> field (since dpkg "
-#| "1.17.11)."
 msgid ""
 "The syntax of B<Breaks>, B<Conflicts>, B<Replaces> and B<Provides> is a list "
 "of package names, separated by commas (and optional whitespace).  In the "
@@ -1050,7 +923,7 @@ msgid ""
 msgstr ""
 "Die Syntax von B<Breaks>, B<Conflicts>, B<Replaces> und B<Provides> ist eine "
 "Liste von Paketnamen, getrennt durch Kommata (und optionalen Leerzeichen). "
-"Im B<Breaks>- und B<Conflicts>-Feld sollte das Komma als »ODER« gelesen "
+"Im B<Breaks>- und B<Conflicts>-Feld sollte das Komma als \\(lqODER\\(rq gelesen "
 "werden. Eine optionale Architektur-Spezifikation kann mit der gleichen "
 "Syntax wie oben an den Paketnamen angehängt werden; der Vorgabewert ist "
 "allerdings B<any> statt der Architektur des Programms. Eine optionale "
@@ -1067,16 +940,6 @@ msgstr "B<Built-Using:> I< Paketliste>"
 
 #. type: Plain text
 #: deb-control.5
-#, fuzzy
-#| msgid ""
-#| "This field lists extra source packages that were used during the build of "
-#| "this binary package.  This is an indication to the archive maintenance "
-#| "software that these extra source packages must be kept whilst this binary "
-#| "package is maintained.  This field must be a list of source package names "
-#| "with strict (=)  version relationships.  Note that the archive "
-#| "maintenance software is likely to refuse to accept an upload which "
-#| "declares a B<Built-Using> relationship which cannot be satisfied within "
-#| "the archive."
 msgid ""
 "This field lists extra source packages that were used during the build of "
 "this binary package.  This is an indication to the archive maintenance "
@@ -1090,7 +953,7 @@ msgstr ""
 "Binärpakets verwandt wurden. Dies dient als Hinweis für die "
 "Archivverwaltungssoftware, dass zusätzliche Quellpakete vorhanden bleiben "
 "müssen, während dieses Binärpaket betreut wird. Dieses Feld muss eine Liste "
-"von Quellpaketnamen enthalten, bei denen eine strenge Versionsbeziehung (=) "
+"von Quellpaketnamen enthalten, bei denen eine strenge Versionsbeziehung \\(oqB<=>\\(cq "
 "angegeben ist. Beachten Sie, dass die Archivverwaltungssoftware "
 "wahrscheinlich einen Upload ablehnen wird, bei dem eine B<Built-Using>-"
 "Beziehung angegeben wurde, die innerhalb des Archivs nicht erfüllt werden "
@@ -1170,21 +1033,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.5
-#, fuzzy
-#| msgid ""
-#| "Each Debian source package contains the master \"control\" file, which "
-#| "contains at least 2 paragraphs, separated by a blank line. The first "
-#| "paragraph lists all information about the source package in general, "
-#| "while each following paragraph describes exactly one binary package. Each "
-#| "paragraph consists of at least one field. A field starts with a "
-#| "fieldname, such as B<Package> or B<Section> (case insensitive), followed "
-#| "by a colon, the body of the field and a newline.  Multi-line fields are "
-#| "also allowed, but each supplementary line, without a fieldname, should "
-#| "start with at least one space. The content of the multi-line fields is "
-#| "generally joined to a single line by the tools (except in the case of the "
-#| "B<Description> field, see below). To insert empty lines into a multi-line "
-#| "field, insert a dot after the space. Lines starting with a B<'#'> are "
-#| "treated as comments."
 msgid ""
 "Each Debian source package contains the master \\(Focontrol\\(Fc file, which "
 "contains at least 2 paragraphs, separated by a blank line.  The first "
@@ -1200,7 +1048,7 @@ msgid ""
 "after the space.  Lines starting with a \\(oqB<#>\\(cq are treated as "
 "comments."
 msgstr ""
-"Jedes Debian-Quellpaket enhält die Hauptsteuerdatei »control«, die "
+"Jedes Debian-Quellpaket enhält die Hauptsteuerdatei \\(Focontrol\\(Fc, die "
 "mindestens zwei Absätze enthält, die durch eine Leerzeile getrennt werden. "
 "Der erste Absatz führt alle allgemeinen Informationen über das Quellpaket "
 "auf, während jeder folgende Absatz genau ein Binärpaket beschreibt. Jeder "
@@ -1212,7 +1060,7 @@ msgstr ""
 "Inhalt des mehrzeiligen Feldes wird durch die Werkzeuge im Allgemeinen zu "
 "einer Zeile zusammengeführt (das Feld B<Description> ist eine Ausnahme, "
 "siehe unten). Um Leerzeilen in ein mehrzeiliges Feld einzufügen, verwenden "
-"Sie einen Satzpunkt nach dem Leerzeichen. Zeilen, die mit B<»#«> beginnen, "
+"Sie einen Satzpunkt nach dem Leerzeichen. Zeilen, die mit \\(oqB<#>\\(cq beginnen, "
 "werden als Kommentare betrachtet."
 
 #. type: SH
@@ -1250,17 +1098,12 @@ msgstr "B<Maintainer:> I<Vollständiger-Name-und-E-Mail> (verpflichtend)"
 
 #. type: Plain text
 #: deb-src-control.5
-#, fuzzy
-#| msgid ""
-#| "Should be in the format \"Joe Bloggs E<lt>jbloggs@foo.comE<gt>\", and "
-#| "references the person who currently maintains the package, as opposed to "
-#| "the author of the software or the original packager."
 msgid ""
 "Should be in the format \\(FoJoe Bloggs E<lt>jbloggs@foo.comE<gt>\\(Fc, and "
 "references the person who currently maintains the package, as opposed to the "
 "author of the software or the original packager."
 msgstr ""
-"Sollte in dem Format »Joe Bloggs E<lt>jbloggs@foo.comE<gt>« sein und "
+"Sollte in dem Format \\(FoJoe Bloggs E<lt>jbloggs@foo.comE<gt>\\(Fc sein und "
 "verweist auf die Person, die derzeit das Paket betreut, im Gegensatz zum "
 "Autor der Software, die paketiert wurde, oder dem ursprünglichen Paketierer."
 
@@ -1305,18 +1148,13 @@ msgstr "Die URL des Original- (Upstream-)Projekts."
 
 #. type: Plain text
 #: deb-src-control.5
-#, fuzzy
-#| msgid ""
-#| "The I<url> of the bug tracking system for this package. The current used "
-#| "format is I<bts-type>B<://>I<bts-address>, like B<debbugs://bugs.debian."
-#| "org>. This field is usually not needed."
 msgid ""
 "The I<url> of the bug tracking system for this package. The current used "
 "format is I<bts-type>B<://>I<bts-address>, like B<\\%debbugs://bugs.debian."
 "org>. This field is usually not needed."
 msgstr ""
 "Die I<URL> der Fehlerdatenbank für dieses Paket. Das derzeit verwendete "
-"Format ist I<BTS-Art>B<://>I<BTS-Adresse> wie in B<debbugs://bugs.debian."
+"Format ist I<BTS-Art>B<://>I<BTS-Adresse> wie in B<\\%debbugs://bugs.debian."
 "org>. Dieses Feld wird normalerweise nicht benötigt."
 
 #. type: TP
@@ -1518,18 +1356,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.5
-#, fuzzy
-#| msgid ""
-#| "The syntax of the B<Build-Depends>, B<Build-Depends-Arch> and B<Build-"
-#| "Depends-Indep> fields is a list of groups of alternative packages. Each "
-#| "group is a list of packages separated by vertical bar (or \"pipe\") "
-#| "symbols, \"|\". The groups are separated by commas. Commas are to be read "
-#| "as \"AND\", and pipes as \"OR\", with pipes binding more tightly. Each "
-#| "package name is optionally followed by an architecture qualifier appended "
-#| "after a colon \":\", optionally followed by a version number "
-#| "specification in parentheses, an architecture specification in square "
-#| "brackets, and a restriction formula consisting of one or more lists of "
-#| "profile names in angle brackets."
 msgid ""
 "The syntax of the B<Build-Depends>, B<Build-Depends-Arch> and B<Build-"
 "Depends-Indep> fields is a list of groups of alternative packages.  Each "
@@ -1544,11 +1370,11 @@ msgid ""
 msgstr ""
 "Die Syntax der Felder B<Build-Depends>, B<Build-Depends-Arch> und B<Build-"
 "Depends-Indep> ist eine Liste von Gruppen von alternativen Paketen. Jede "
-"Gruppe ist eine Liste von durch vertikale Striche (oder »Pipe«-Symbole) »|« "
+"Gruppe ist eine Liste von durch vertikale Striche (oder \\(lqPipe\\(rq-Symbole) \\(oqB<|>\\(cq "
 "getrennten Paketen. Die Gruppen werden durch Kommata getrennt. Kommata "
-"müssen als »UND«, vertikale Striche als »ODER« gelesen werden, wobei die "
-"vertikalen Striche stärker binden. Jeder Paketname wird optional gefolgt von "
-"einer Architektur-Spezifikation, die nach einem Doppelpunkt »:« angehängt "
+"müssen als \\(lqUND\\(rq, vertikale Striche als \\(lqODER\\(rq gelesen werden, wobei die "
+"vertikalen Striche stärker binden. Jeder Paketname wird optional von "
+"einer Architektur-Spezifikation gefolgt, die nach einem Doppelpunkt \\(oqB<:>\\(cq angehängt "
 "wird, optional gefolgt von einer Versionsnummer-Spezifikation in Klammern, "
 "einer Architekturspezifikation in eckigen Klammern und einer "
 "Einschränkungsformel, die aus einer oder mehr Listen von Profilnamen in "
@@ -1556,15 +1382,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.5
-#, fuzzy
-#| msgid ""
-#| "The syntax of the B<Build-Conflicts>, B<Build-Conflicts-Arch> and B<Build-"
-#| "Conflicts-Indep> fields is a list of comma-separated package names, where "
-#| "the comma is read as an \"AND\". Specifying alternative packages using a "
-#| "\"pipe\" is not supported.  Each package name is optionally followed by a "
-#| "version number specification in parentheses, an architecture "
-#| "specification in square brackets, and a restriction formula consisting of "
-#| "one or more lists of profile names in angle brackets."
 msgid ""
 "The syntax of the B<Build-Conflicts>, B<Build-Conflicts-Arch> and B<Build-"
 "Conflicts-Indep> fields is a list of comma-separated package names, where "
@@ -1576,8 +1393,8 @@ msgid ""
 msgstr ""
 "Syntaxtisch werden die Felder B<Build-Conflicts>, B<Build-Conflicts-Arch> "
 "und B<Build-Conflicts-Indep> durch eine Komma-separierte Liste von "
-"Paketnamen dargestellt, wobei das Komma als »UND« verstanden wird. Die "
-"Angabe alternativer Pakete mit dem »Pipe«-Symbol wird nicht unterstützt. "
+"Paketnamen dargestellt, wobei das Komma als \\(lqUND\\(rq verstanden wird. Die "
+"Angabe alternativer Pakete mit dem \\(lqPipe\\(rq-Symbol wird nicht unterstützt. "
 "Jedem Paketnamen folgt optional eine Versionnummerangabe in Klammern, eine "
 "Architekturspezifikation in eckigen Klammern und einer Einschränkungsformel, "
 "die aus einer oder mehr Listen von Profilnamen in spitzen Klammern besteht."
@@ -1607,11 +1424,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.5
-#, fuzzy
-#| msgid ""
-#| "An architecture specification consists of one or more architecture names, "
-#| "separated by whitespace. Exclamation marks may be prepended to each of "
-#| "the names, meaning \"NOT\"."
 msgid ""
 "An architecture specification consists of one or more architecture names, "
 "separated by whitespace. Exclamation marks may be prepended to each of the "
@@ -1619,19 +1431,11 @@ msgid ""
 msgstr ""
 "Eine Architekturspezifikation besteht aus einer oder mehreren durch "
 "Leerzeichen getrennten Architekturnamen. Jedem Namen darf ein Ausrufezeichen "
-"vorangestellt werden, das »NICHT« bedeutet."
+"vorangestellt werden, das \\(lqNICHT\\(rq bedeutet."
 
 # FIXME: Check paragraph on debian-dpkg
 #. type: Plain text
 #: deb-src-control.5
-#, fuzzy
-#| msgid ""
-#| "A restriction formula consists of one or more restriction lists, "
-#| "separated by whitespace. Each restriction list is enclosed in angle "
-#| "brackets. Items in the restriction list are build profile names, "
-#| "separated by whitespace and can be prefixed with an exclamation mark, "
-#| "meaning \"NOT\". A restriction formula represents a disjunctive normal "
-#| "form expression."
 msgid ""
 "A restriction formula consists of one or more restriction lists, separated "
 "by whitespace. Each restriction list is enclosed in angle brackets. Items in "
@@ -1643,7 +1447,7 @@ msgstr ""
 "getrennten Einschränkungslisten. Jede Einschränkungsliste wird in spitze "
 "Klammern eingeschlossen. Einträge in den Einschränkungslisten sind "
 "Bauprofilnamen, getrennt durch Leerraum. Diesen Listen kann ein "
-"Ausrufezeichen vorangestellt werden, das »NICHT« bedeutet. Eine "
+"Ausrufezeichen vorangestellt werden, das \\(lqNICHT\\(rq bedeutet. Eine "
 "Einschränkungsformel stellt einen Ausdruck in einer disjunkte Normalform dar."
 
 #. type: Plain text
@@ -1722,19 +1526,13 @@ msgstr "B<Package-Type:> B<deb>|B<udeb>"
 
 #. type: Plain text
 #: deb-src-control.5
-#, fuzzy
-#| msgid ""
-#| "This field defines the type of the package. \"udeb\" is for size-"
-#| "constrained packages used by the debian installer. \"deb\" is the default "
-#| "value, it's assumed if the field is absent. More types might be added in "
-#| "the future."
 msgid ""
 "This field defines the type of the package.  B<udeb> is for size-constrained "
 "packages used by the debian installer.  B<deb> is the default value, it is "
 "assumed if the field is absent.  More types might be added in the future."
 msgstr ""
-"Dieses Feld definiert die Art des Pakets. »udeb« ist für größenbegrenzte "
-"Pakete, wie sie vom Debian-Installer verwandt werden. »deb« ist der "
+"Dieses Feld definiert die Art des Pakets. B<udeb> ist für größenbegrenzte "
+"Pakete, wie sie vom Debian-Installer verwandt werden. B<deb> ist der "
 "Standardwert, er wird angenommen, falls das Feld fehlt. Weitere Typen "
 "könnten in der Zukunft hinzugefügt werden."
 
@@ -2112,14 +1910,6 @@ msgstr "I<Upstream-Version>"
 
 #. type: Plain text
 #: deb-version.5
-#, fuzzy
-#| msgid ""
-#| "This is the main part of the version number.  It is usually the version "
-#| "number of the original (\"upstream\")  package from which the I<.deb> "
-#| "file has been made, if this is applicable.  Usually this will be in the "
-#| "same format as that specified by the upstream author(s); however, it may "
-#| "need to be reformatted to fit into the package management system's format "
-#| "and comparison scheme."
 msgid ""
 "This is the main part of the version number.  It is usually the version "
 "number of the original (\\(lqupstream\\(rq)  package from which the I<.deb> "
@@ -2129,7 +1919,7 @@ msgid ""
 "comparison scheme."
 msgstr ""
 "Dies ist der Hauptteil der Versionsnummer. Normalerweise ist dies die "
-"Versionsnummer des Originalpakets (»Upstream«), aus dem die I<.deb>-Datei "
+"Versionsnummer des Originalpakets (\\(lqUpstream\\(rq), aus dem die I<.deb>-Datei "
 "erstellt wurde, falls dies zutrifft. Normalerweise wird diese im gleichen "
 "Format vorliegen, wie sie von den Originalautoren angegeben wurde; "
 "allerdings mag es notwendig sein, sie umzuformatieren, damit sie in das "
@@ -2148,13 +1938,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-version.5
-#, fuzzy
-#| msgid ""
-#| "The I<upstream-version> may contain only alphanumerics (\"A-Za-z0-9\") "
-#| "and the characters B<.> B<+> B<-> B<:> B<~> (full stop, plus, hyphen, "
-#| "colon, tilde) and should start with a digit.  If there is no I<debian-"
-#| "revision> then hyphens are not allowed; if there is no I<epoch> then "
-#| "colons are not allowed."
 msgid ""
 "The I<upstream-version> may contain only alphanumerics (\\(lqA-Za-z0-9\\(rq) "
 "and the characters B<.> B<+> B<-> B<:> B<~> (full stop, plus, hyphen, colon, "
@@ -2162,7 +1945,7 @@ msgid ""
 "then hyphens are not allowed; if there is no I<epoch> then colons are not "
 "allowed."
 msgstr ""
-"I<Upstream-Version> darf nur alphanumerische Zeichen (»A-Za-z0-9«) und B<.> "
+"I<Upstream-Version> darf nur alphanumerische Zeichen (\\(lqA-Za-z0-9\\(rq) und B<.> "
 "B<+> B<-> B<:> B<~> (Satzpunkt, Plus, Bindestrich, Doppelpunkt, Tilde) "
 "enthalten und sollte mit einer Zahl beginnen. Falls es keine I<Debian-"
 "Revision> gibt, sind Bindestriche nicht erlaubt; falls es keine I<Epoche> "
@@ -2189,13 +1972,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-version.5
-#, fuzzy
-#| msgid ""
-#| "It is optional; if it isn't present then the I<upstream-version> may not "
-#| "contain a hyphen.  This format represents the case where a piece of "
-#| "software was written specifically to be turned into a Debian package, and "
-#| "so there is only one \"debianisation\" of it and therefore no revision "
-#| "indication is required."
 msgid ""
 "It is optional; if it isn't present then the I<upstream-version> may not "
 "contain a hyphen.  This format represents the case where a piece of software "
@@ -2206,20 +1982,16 @@ msgstr ""
 "Dieser Teil ist optional; falls er nicht vorhanden ist, darf I<Upstream-"
 "Version> keinen Bindestrich enthalten. Dieses Format ist für den Fall, dass "
 "ein Stück Software speziell dafür geschrieben wurde, ein Debian-Paket zu "
-"werden und es daher nur eine »Debianisierung« gibt und somit keine "
+"werden und es daher nur eine \\(lqDebianisierung\\(rq gibt und somit keine "
 "Revisionsanzeige notwendig ist."
 
 #. type: Plain text
 #: deb-version.5
-#, fuzzy
-#| msgid ""
-#| "It is conventional to restart the I<debian-revision> at '1' each time "
-#| "time the I<upstream-version> is increased."
 msgid ""
 "It is conventional to restart the I<debian-revision> at \\(oq1\\(cq each "
 "time time the I<upstream-version> is increased."
 msgstr ""
-"Es ist üblich, die I<Debian-Revision> jedesmal bei »1« neu zu starten, wenn "
+"Es ist üblich, die I<Debian-Revision> jedesmal bei \\(oq1\\(cq neu zu starten, wenn "
 "die I<Upstream-Version> erhöht wird."
 
 #. type: Plain text
@@ -2260,16 +2032,6 @@ msgstr "Die Zeichenketten werden von links nach rechts verglichen."
 
 #. type: Plain text
 #: deb-version.5
-#, fuzzy
-#| msgid ""
-#| "First the initial part of each string consisting entirely of non-digit "
-#| "characters is determined.  These two parts (one of which may be empty) "
-#| "are compared lexically.  If a difference is found it is returned.  The "
-#| "lexical comparison is a comparison of ASCII values modified so that all "
-#| "the letters sort earlier than all the non-letters and so that a tilde "
-#| "sorts before anything, even the end of a part.  For example, the "
-#| "following parts are in sorted order: '~~', '~~a', '~', the empty part, "
-#| "'a'."
 msgid ""
 "First the initial part of each string consisting entirely of non-digit "
 "characters is determined.  These two parts (one of which may be empty) are "
@@ -2287,7 +2049,7 @@ msgstr ""
 "Vergleich von ASCII-Werten, bei denen Buchstaben vor allen nicht-Buchstaben "
 "sortiert werden und die Tilde vor allem sortiert wird, sogar vor dem Ende "
 "eines Teiles. So sind zum Beispiel die folgenden Teile in sortierter "
-"Reihenfolge: »~~«, »~~a«, »~«, der leere Teil, »a«."
+"Reihenfolge: \\(oq~~\\(cq, \\(oq~~a\\(cq, \\(oq~\\(cq, der leere Teil, \\(oqa\\(cq."
 
 #. type: Plain text
 #: deb-version.5
@@ -2318,13 +2080,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-version.5
-#, fuzzy
-#| msgid ""
-#| "Note that the purpose of epochs is to allow us to leave behind mistakes "
-#| "in version numbering, and to cope with situations where the version "
-#| "numbering scheme changes.  It is B<not> intended to cope with version "
-#| "numbers containing strings of letters which the package management system "
-#| "cannot interpret (such as 'ALPHA' or 'pre-'), or with silly orderings."
 msgid ""
 "Note that the purpose of epochs is to allow us to leave behind mistakes in "
 "version numbering, and to cope with situations where the version numbering "
@@ -2337,8 +2092,8 @@ msgstr ""
 "zurückzulassen, und mit Situationen umzugehen, in denen sich das Schema der "
 "Versionsnummerierung ändert. Sie sind B<nicht> dazu gedacht, mit "
 "Versionsnummern umzugehen, die Zeichenketten aus Buchstaben enthalten, die "
-"das Paketverwaltungssystem nicht interpretieren kann (wie »ALPHA« oder "
-"»pre«) oder mit unklugen Reihenfolgen."
+"das Paketverwaltungssystem nicht interpretieren kann (wie \\(oqALPHA\\(cq oder "
+"\\(oqpre-\\(cq)) oder mit unklugen Reihenfolgen."
 
 #. type: SH
 #: deb-version.5 dpkg-architecture.1 dpkg-buildpackage.1 dpkg-deb.1
@@ -2439,13 +2194,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-old.5
-#, fuzzy
-#| msgid ""
-#| "In some very old archives, the files in the control tarfile may "
-#| "optionally be in a B<DEBIAN> subdirectory. In that case, the B<DEBIAN> "
-#| "subdirectory will be in the control tarfile too, and the control tarfile "
-#| "will have only files in that directory. Optionally the control tarfile "
-#| "may contain an entry for `B<.>', that is, the current directory."
 msgid ""
 "In some very old archives, the files in the control tarfile may optionally "
 "be in a B<DEBIAN> subdirectory. In that case, the B<DEBIAN> subdirectory "
@@ -2457,7 +2205,7 @@ msgstr ""
 "optional in einem B<DEBIAN>-Unterverzeichnis sein. In diesem Fall ist das "
 "B<DEBIAN>-Unterverzeichnis auch in der Steuer-Tar-Datei, und die Steuer-Tar-"
 "Datei hat nur Dateien in diesem Verzeichnis. Optional kann die Steuer-Tar-"
-"Datei einen Eintrag für »B<.>« enthalten, d.h. für das aktuelle Verzeichnis."
+"Datei einen Eintrag für \\(oqB<.>\\(cq enthalten, d.h. für das aktuelle Verzeichnis."
 
 #. type: Plain text
 #: deb-old.5
@@ -2499,15 +2247,6 @@ msgstr "B</etc/dpkg/origins/>I<Dateiname>"
 
 #. type: Plain text
 #: deb-origin.5
-#, fuzzy
-#| msgid ""
-#| "The files in B</etc/dpkg/origins> can provide information about various "
-#| "vendors who are providing Debian packages. They contain a number of "
-#| "fields, or comments when the line starts with B<'#'>.  Each field begins "
-#| "with a tag, such as B<Vendor> or B<Parent>, followed by a colon and the "
-#| "body of the field. Fields are delimited only by field tags. In other "
-#| "words, field text may be multiple lines in length, but the tools will "
-#| "join lines when processing the body of the field."
 msgid ""
 "The files in B</etc/dpkg/origins> can provide information about various "
 "vendors who are providing Debian packages. They contain a number of fields, "
@@ -2519,7 +2258,7 @@ msgid ""
 msgstr ""
 "Die Dateien in B</etc/dpkg/origins> können Informationen über verschiedene "
 "Lieferanten enthalten, die Debian-Pakete bereitstellen. Sie enthalten eine "
-"Reihe von Feldern oder Kommentaren (wenn die Zeile mit B<»#«> beginnt). "
+"Reihe von Feldern oder Kommentaren (wenn die Zeile mit \\(oqB<#>\\(cq beginnt). "
 "Jedes Feld beginnt mit einer Markierung, wie B<Vendor> oder B<Parent> (Groß-/"
 "Kleinschreibung egal), gefolgt von einem Doppelpunkt und dem Körper des "
 "Feldes. Felder werden nur durch die Feldmarkierungen abgegrenzt. Mit anderen "
@@ -3333,13 +3072,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-symbols.5
-#, fuzzy
-#| msgid ""
-#| "The I<library-soname> is exactly the value of the SONAME field as "
-#| "exported by B<objdump>(1). A I<dependency-template> is a dependency where "
-#| "I<#MINVER#> is dynamically replaced either by a version check like "
-#| "\"(E<gt>= I<minimal-version>)\" or by nothing (if an unversioned "
-#| "dependency is deemed sufficient)."
 msgid ""
 "The I<library-soname> is exactly the value of the SONAME field as exported "
 "by B<objdump>(1). A I<dependency-template> is a dependency where I<#MINVER#> "
@@ -3350,21 +3082,12 @@ msgstr ""
 "Der I<Bibliotheks-Soname> ist genau der Wert des SONAME-Feldes, wie er von "
 "B<objdump>(1) exportiert wird. Eine I<Abhängigkeitsvorlage> ist eine "
 "Abhängigkeit, in der I<#MINVER#> dynamisch entweder von einer "
-"Versionsprüfung der Art »(E<gt>= I<Minimalversion>)« oder durch nichts "
+"Versionsprüfung der Art \\(lq(E<gt>= I<Minimalversion>)\\(rq oder durch nichts "
 "ersetzt wird, falls eine nicht-versionierte Abhängigkeit als ausreichend "
 "erachtet wird."
 
 #. type: Plain text
 #: deb-symbols.5
-#, fuzzy
-#| msgid ""
-#| "Each exported I<symbol> (listed as I<name>@I<version>, with I<version> "
-#| "being \"Base\" if the library is not versioned) is associated to a "
-#| "I<minimal-version> of its dependency template (the main dependency "
-#| "template is always used and will end up being combined with the "
-#| "dependency template referenced by I<id-of-dependency-template> if "
-#| "present). The first alternative dependency template is numbered 1, the "
-#| "second one 2, etc."
 msgid ""
 "Each exported I<symbol> (listed as I<name>@I<version>, with I<version> being "
 "\\(lqBase\\(rq if the library is not versioned) is associated to a I<minimal-"
@@ -3374,7 +3097,7 @@ msgid ""
 "dependency template is numbered 1, the second one 2, etc."
 msgstr ""
 "Jedem exportierten I<Symbol> (aufgeführt als I<Name>@I<Version>, mit "
-"I<Version> als »Base«, falls die Bibliothek nicht versioniert ist) wird eine "
+"I<Version> als \\(lqBase\\(rq, falls die Bibliothek nicht versioniert ist) wird eine "
 "I<Minimalversion> seiner Abhängigkeitsvorlage zugeordnet (die "
 "Hauptabhängigkeitsvorlage wird immer verwandt und wird am Ende mit der "
 "abhängigen, in I<id-of-dependency-template> referenzierten Vorlage (falls "
@@ -3400,21 +3123,16 @@ msgstr "B<Build-Depends-Package>"
 
 #. type: Plain text
 #: deb-symbols.5
-#, fuzzy
-#| msgid ""
-#| "It indicates the name of the \"-dev\" package associated to the library "
-#| "and is used by B<dpkg-shlibdeps> to make sure that the dependency "
-#| "generated is at least as strict as the corresponding build dependency."
 msgid ""
 "It indicates the name of the \\(lq-dev\\(rq package associated to the "
 "library and is used by B<dpkg-shlibdeps> to make sure that the dependency "
 "generated is at least as strict as the corresponding build dependency (since "
 "dpkg 1.14.13)."
 msgstr ""
-"Es gibt den Namen des »-dev«-Pakets an, das der Bibliothek zugeordnet ist, "
+"Es gibt den Namen des \\(lq-dev\\(rq-Pakets an, das der Bibliothek zugeordnet ist, "
 "und wird von B<dpkg-shlibdeps> verwandt, um sicherzustellen, dass die "
 "erstellte Abhängigkeit mindestens genauso strikt ist wie die zugehörige Bau-"
-"Abhängigkeit."
+"Abhängigkeit (seit Dpkg 1.14.13)."
 
 #. type: TP
 #: deb-symbols.5
@@ -3424,14 +3142,6 @@ msgstr "B<Ignore-Blacklist-Groups>"
 
 #. type: Plain text
 #: deb-symbols.5
-#, fuzzy
-#| msgid ""
-#| "It indicates what blacklist groups should be ignored, as a whitespace "
-#| "separated list, so that the symbols contained in those groups get "
-#| "included in the output file. This should only be necessary for toolchain "
-#| "packages providing those blacklisted symbols. The available groups are "
-#| "system dependent, for ELF and GNU-based systems these are B<aeabi> and "
-#| "B<gomp>."
 msgid ""
 "It indicates what blacklist groups should be ignored, as a whitespace "
 "separated list, so that the symbols contained in those groups get included "
@@ -3442,7 +3152,7 @@ msgid ""
 msgstr ""
 "Es gibt in einer durch Leerzeichen getrennten Liste an, welche Blacklist-"
 "Gruppen ignoriert werden sollten, so dass Symbole, die in diesen Gruppen "
-"enthalten sind, in die Ausgabedatei aufgenommen werden. Dies sollte nur für "
+"enthalten sind, in die Ausgabedatei aufgenommen werden (seit Dpkg 1.17.6). Dies sollte nur für "
 "Toolchain-Pakete notwendig sein, die solche Symbole in Blacklists "
 "bereitstellen. Die verfügbaren Gruppen sind systemabhängig, für ELF- und GNU-"
 "basierte Systeme sind dies B<aeabi> und B<gomp>."
@@ -3575,13 +3285,6 @@ msgstr "B<interest-noawait> I<Trigger-Name>"
 
 #. type: Plain text
 #: deb-triggers.5
-#, fuzzy
-#| msgid ""
-#| "Specifies that the package is interested in the named trigger. All "
-#| "triggers in which a package is interested must be listed using this "
-#| "directive in the triggers control file. The \"noawait\" variant does not "
-#| "put the triggering packages in triggers-awaited state. This should be "
-#| "used when the functionality provided by the trigger is not crucial."
 msgid ""
 "Specifies that the package is interested in the named trigger. All triggers "
 "in which a package is interested must be listed using this directive in the "
@@ -3591,7 +3294,7 @@ msgid ""
 msgstr ""
 "Gibt an, dass das Paket an dem benannten Trigger interessiert ist. Alle "
 "Trigger, an denen ein Paket interessiert ist, müssen mit dieser Direktive in "
-"der Trigger-Steuerdatei aufgeführt werden. Die Variante »noawait« setzt die "
+"der Trigger-Steuerdatei aufgeführt werden. Die Variante \\(lqnoawait\\(rq setzt die "
 "triggernden Pakete nicht in den Zustand »triggers-awaited«. Dies sollte "
 "verwandt werden, wenn die von den Triggern bereitgestellte Funktionalität "
 "nicht äußerst wichtig ist."
@@ -3613,15 +3316,6 @@ msgstr "B<activate-noawait> I<Trigger-Name>"
 
 #. type: Plain text
 #: deb-triggers.5
-#, fuzzy
-#| msgid ""
-#| "Arranges that changes to this package's state will activate the specified "
-#| "trigger. The trigger will be activated at the start of the following "
-#| "operations: unpack, configure, remove (including for the benefit of a "
-#| "conflicting package), purge and deconfigure.  The \"noawait\" variant "
-#| "does not put the triggering packages in triggers-awaited state. This "
-#| "should be used when the functionality provided by the trigger is not "
-#| "crucial."
 msgid ""
 "Arranges that changes to this package's state will activate the specified "
 "trigger. The trigger will be activated at the start of the following "
@@ -3634,7 +3328,7 @@ msgstr ""
 "spezifizierten Trigger aktiviert. Der Trigger wird am Beginn folgender "
 "Operationen aktiviert: unpack, configure, remove (hinzugefügt zum Nutzen von "
 "Paketen, die im Konflikt zueinander stehen), purge und deconfigure. Die "
-"Variante »noawait« setzt die triggernden Pakete nicht in den Zustand "
+"Variante \\(lqnoawait\\(rq setzt die triggernden Pakete nicht in den Zustand "
 "»triggers-awaited«. Dies sollte verwandt werden, wenn die von den Triggern "
 "bereitgestellte Funktionalität nicht äußerst wichtig ist."
 
@@ -3665,14 +3359,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-triggers.5
-#, fuzzy
-#| msgid ""
-#| "The \"-noawait\" variants should always be favored when possible since "
-#| "triggering packages are not put in triggers-awaited state and can thus be "
-#| "immediately configured without requiring the processing of the trigger.  "
-#| "If the triggering packages are dependencies of other upgraded packages, "
-#| "it will avoid an early trigger processing run and make it possible to run "
-#| "the trigger only once as one of the last steps of the upgrade."
 msgid ""
 "The \\(lq-noawait\\(rq variants should always be favored when possible since "
 "triggering packages are not put in triggers-awaited state and can thus be "
@@ -3681,7 +3367,7 @@ msgid ""
 "avoid an early trigger processing run and make it possible to run the "
 "trigger only once as one of the last steps of the upgrade."
 msgstr ""
-"Die Variante »-noawait« sollte stets wenn möglich bevorzugt werden, da die "
+"Die Variante \\(lq-noawait\\(rq sollte stets wenn möglich bevorzugt werden, da die "
 "Trigger-auslösenden Pakete nicht in den Zustand »triggers-awaited« überführt "
 "werden und daher sofort konfiguriert werden können, ohne die Verarbeitung "
 "des Triggers zu verlangen. Falls die Trigger-auslösenden Pakete "
@@ -3692,40 +3378,28 @@ msgstr ""
 
 #. type: Plain text
 #: deb-triggers.5
-#, fuzzy
-#| msgid ""
-#| "The \"-noawait\" variants are only supported since dpkg 1.16.1, and will "
-#| "lead to errors if used with an older dpkg. It is thus recommended to add "
-#| "a \"Pre-Depends: dpkg (E<gt>= 1.16.1)\" to any package that wish to use "
-#| "those directives."
 msgid ""
 "The \\(lq-noawait\\(rq variants are only supported since dpkg 1.16.1, and "
 "will lead to errors if used with an older dpkg. It is thus recommended to "
 "add a \\(lqPre-Depends: dpkg (E<gt>= 1.16.1)\\(rq to any package that wish "
 "to use those directives."
 msgstr ""
-"Die Varianten »-noawait« werden nur seit Dpkg 1.16.1 unterstützt und werden "
-"bei älteren Dpkg zu Fehlern führen. Es wird daher empfohlen, ein »Pre-"
-"Depends: dpkg (E<gt>= 1.16.1)« zu jedem Paket hinzuzufügen, dass diese "
+"Die Varianten \\(lq-noawait\\(rq werden nur seit Dpkg 1.16.1 unterstützt und werden "
+"bei älteren Dpkg zu Fehlern führen. Es wird daher empfohlen, ein \\(lqPre-"
+"Depends: dpkg (E<gt>= 1.16.1)\\(rq zu jedem Paket hinzuzufügen, dass diese "
 "Direktiven nutzen möchte."
 
 #. type: Plain text
 #: deb-triggers.5
-#, fuzzy
-#| msgid ""
-#| "The \"-await\" alias variants are only supported since dpkg 1.17.21, and "
-#| "will lead to errors if used with an older dpkg. It is thus recommended to "
-#| "add a \"Pre-Depends: dpkg (E<gt>= 1.17.21)\" to any package that wish to "
-#| "use those directives."
 msgid ""
 "The \\(lq-await\\(rq alias variants are only supported since dpkg 1.17.21, "
 "and will lead to errors if used with an older dpkg. It is thus recommended "
 "to add a \\(lqPre-Depends: dpkg (E<gt>= 1.17.21)\\(rq to any package that "
 "wish to use those directives."
 msgstr ""
-"Die Alias-Varianten »-await« werden nur seit Dpkg 1.17.21 unterstützt und "
-"werden bei älteren Dpkg zu Fehlern führen. Es wird daher empfohlen, ein »Pre-"
-"Depends: dpkg (E<gt>= 1.17.21)« zu jedem Paket hinzuzufügen, dass diese "
+"Die Alias-Varianten \\(lq-await\\(rq werden nur seit Dpkg 1.17.21 unterstützt und "
+"werden bei älteren Dpkg zu Fehlern führen. Es wird daher empfohlen, ein \\(lqPre-"
+"Depends: dpkg (E<gt>= 1.17.21)\\(rq zu jedem Paket hinzuzufügen, dass diese "
 "Direktiven nutzen möchte."
 
 #. type: Plain text
@@ -4186,14 +3860,6 @@ msgstr "B<--triggers-only> I<Paket> …|B<-a>|B<--pending>"
 
 #. type: Plain text
 #: dpkg.1
-#, fuzzy
-#| msgid ""
-#| "Processes only triggers. All pending triggers will be processed. If "
-#| "package names are supplied only those packages' triggers will be "
-#| "processed, exactly once each where necessary. Use of this option may "
-#| "leave packages in the improper B<triggers-awaited> and B<triggers-"
-#| "pending> states. This can be fixed later by running: B<dpkg --configure --"
-#| "pending>."
 msgid ""
 "Processes only triggers (since dpkg 1.14.17).  All pending triggers will be "
 "processed.  If package names are supplied only those packages' triggers will "
@@ -4201,7 +3867,7 @@ msgid ""
 "leave packages in the improper B<triggers-awaited> and B<triggers-pending> "
 "states. This can be fixed later by running: B<dpkg --configure --pending>."
 msgstr ""
-"Verarbeite nur Trigger. Alle ausstehenden Trigger werden verarbeitet. Falls "
+"Verarbeite nur Trigger (seit Dpkg 1.14.17). Alle ausstehenden Trigger werden verarbeitet. Falls "
 "Paketnamen übergeben werden, werden nur die Trigger dieser Pakete "
 "verarbeitet, jedes genau einmal wo notwendig. Die Verwendung dieser Option "
 "kann Pakete in die unzulässigen Stati B<triggers-awaited> und B<triggers-"
@@ -4317,14 +3983,6 @@ msgstr "B<-V>, B<--verify> [I<Paketname> …]"
 
 #. type: Plain text
 #: dpkg.1
-#, fuzzy
-#| msgid ""
-#| "Verifies the integrity of I<package-name> or all packages if omitted, by "
-#| "comparing information from the files installed by a package with the "
-#| "files metadata information stored in the B<dpkg> database. The origin of "
-#| "the files metadata information in the database is the binary packages "
-#| "themselves. That metadata gets collected at package unpack time during "
-#| "the installation process."
 msgid ""
 "Verifies the integrity of I<package-name> or all packages if omitted, by "
 "comparing information from the files installed by a package with the files "
@@ -4336,7 +3994,7 @@ msgstr ""
 "Überprüft die Integrität von I<Paketname> oder allen Paketen, falls nicht "
 "angegeben, indem Informationen aus den durch ein Paket installierten Dateien "
 "mit den in der B<dpkg>-Datenbank gespeicherten Dateimetadateninformationen "
-"verglichen werden. Die Quelle der Dateimetadateninformationen in der "
+"verglichen werden (seit Dpkg 1.17.2). Die Quelle der Dateimetadateninformationen in der "
 "Datenbank ist das Binärpaket selbst. Diese Metadaten werden zum Zeitpunkt "
 "des Entpackens während des Installationsprozesses gesammelt."
 
@@ -4369,8 +4027,14 @@ msgstr ""
 #. type: TP
 #: dpkg.1
 #, no-wrap
-msgid "B<--update-avail>, B<--merge-avail> [I<Packages-file>]"
-msgstr "B<--update-avail>, B<--merge-avail> [I<Packages-Datei>]"
+msgid "B<--update-avail> [I<Packages-file>]"
+msgstr "B<--update-avail> [I<Packages-Datei>]"
+
+#. type: TQ
+#: dpkg.1
+#, no-wrap
+msgid "B<--merge-avail> [I<Packages-file>]"
+msgstr "B<--merge-avail> [I<Packages-Datei>]"
 
 #. type: Plain text
 #: dpkg.1
@@ -4434,16 +4098,12 @@ msgstr "B<--forget-old-unavail>"
 
 #. type: Plain text
 #: dpkg.1
-#, fuzzy
-#| msgid ""
-#| "Now B<obsolete> and a no-op as B<dpkg> will automatically forget "
-#| "uninstalled unavailable packages."
 msgid ""
 "Now B<obsolete> and a no-op as B<dpkg> will automatically forget uninstalled "
 "unavailable packages (since dpkg 1.15.4)."
 msgstr ""
 "Jetzt B<veraltet> und ohne Funktion, da B<dpkg> automatisch nicht "
-"installierte nicht verfügbare Pakete vergisst."
+"installierte nicht verfügbare Pakete vergisst (seit Dpkg 1.15.4)."
 
 #. type: TP
 #: dpkg.1
@@ -4465,13 +4125,6 @@ msgstr "B<-C>, B<--audit> [I<Paketname> …]"
 
 #. type: Plain text
 #: dpkg.1
-#, fuzzy
-#| msgid ""
-#| "Performs database sanity and consistency checks for I<package-name> or "
-#| "all packages if omitted.  For example, searches for packages that have "
-#| "been installed only partially on your system or that have missing, wrong "
-#| "or obsolete control data or files. B<dpkg> will suggest what to do with "
-#| "them to get them fixed."
 msgid ""
 "Performs database sanity and consistency checks for I<package-name> or all "
 "packages if omitted (per package checks since dpkg 1.17.10).  For example, "
@@ -4480,7 +4133,7 @@ msgid ""
 "suggest what to do with them to get them fixed."
 msgstr ""
 "Führt Plausibilitäts- und Konsistenzprüfungen der Datenbank für I<Paketname> "
-"oder alle Pakete, falls das Argument fehlt, durch. Sucht beispielsweise nach "
+"oder alle Pakete, falls das Argument fehlt, durch (pro-Paket-Prüfungen seit Dpkg 1.17.10). Sucht beispielsweise nach "
 "Paketen die auf Ihrem System nur teilweise installiert wurden oder fehlende, "
 "falsch oder veraltete Steuerdaten oder -Dateien haben. B<dpkg> wird einen "
 "Vorschlag machen, was mit Ihnen zur Korrektur gemacht werden sollte."
@@ -4510,12 +4163,6 @@ msgstr "B<--set-selections>"
 
 #. type: Plain text
 #: dpkg.1
-#, fuzzy
-#| msgid ""
-#| "Set package selections using file read from stdin. This file should be in "
-#| "the format 'I<package> I<state>', where state is one of B<install>, "
-#| "B<hold>, B<deinstall> or B<purge>. Blank lines and comment lines "
-#| "beginning with '#' are also permitted."
 msgid ""
 "Set package selections using file read from stdin. This file should be in "
 "the format \\(lqI<package> I<state>\\(rq, where state is one of B<install>, "
@@ -4523,9 +4170,9 @@ msgid ""
 "with \\(oq#\\(cq are also permitted."
 msgstr ""
 "Setze die Paketauswahl durch Einlesen einer Datei von der Standardeingabe. "
-"Diese Datei sollte im Format »I<Paket> I<Zustand>« sein, wobei Zustand einer "
+"Diese Datei sollte im Format \\(lqI<Paket> I<Zustand>\\(rq sein, wobei Zustand einer "
 "aus B<install>, B<hold>, B<deinstall> oder B<purge> ist. Leerzeilen und "
-"Kommentarzeilen (beginnend mit »#«) sind auch erlaubt."
+"Kommentarzeilen (beginnend mit \\(oq#\\(cq) sind auch erlaubt."
 
 #. type: Plain text
 #: dpkg.1
@@ -4548,11 +4195,6 @@ msgstr "B<--clear-selections>"
 # FIMXE dass → das auch in älteren Versionen korrigieren
 #. type: Plain text
 #: dpkg.1
-#, fuzzy
-#| msgid ""
-#| "Set the requested state of every non-essential package to deinstall.  "
-#| "This is intended to be used immediately before B<--set-selections>, to "
-#| "deinstall any packages not in list given to B<--set-selections>."
 msgid ""
 "Set the requested state of every non-essential package to deinstall (since "
 "dpkg 1.13.18).  This is intended to be used immediately before B<--set-"
@@ -4560,7 +4202,7 @@ msgid ""
 "selections>."
 msgstr ""
 "Setze den erbetenen Zustand von jedem nicht-essenziellen Paket auf "
-"»Deinstallation«. Dies ist dazu gedacht, direkt vor B<--set-selections> "
+"»Deinstallation« (seit Dpkg 1.13.18). Dies ist dazu gedacht, direkt vor B<--set-selections> "
 "verwendet zu werden, um jedes Paket, das nicht in der Liste von B<--set-"
 "selections> vorkommt, zu deinstallieren."
 
@@ -4587,12 +4229,6 @@ msgstr "B<--add-architecture >I<Architektur>"
 
 #. type: Plain text
 #: dpkg.1
-#, fuzzy
-#| msgid ""
-#| "Add I<architecture> to the list of architectures for which packages can "
-#| "be installed without using B<--force-architecture>. The architecture "
-#| "B<dpkg> is built for (i.e. the output of B<--print-architecture>)  is "
-#| "always part of that list."
 msgid ""
 "Add I<architecture> to the list of architectures for which packages can be "
 "installed without using B<--force-architecture> (since dpkg 1.16.2).  The "
@@ -4600,7 +4236,7 @@ msgid ""
 "architecture>)  is always part of that list."
 msgstr ""
 "Fügt I<Architektur> zu der Liste von Architekturen hinzu, für die Pakete "
-"ohne die Verwendung von B<--force-architecture> installiert werden können. "
+"ohne die Verwendung von B<--force-architecture> installiert werden können (seit Dpkg 1.16.2). "
 "Die Architektur, für die B<dpkg> gebaut wurde (d.h. der Ausgabe von B<--"
 "print-architecture>), ist immer Teil der Liste."
 
@@ -4612,14 +4248,6 @@ msgstr "B<--remove-architecture >I<Architektur>"
 
 #. type: Plain text
 #: dpkg.1
-#, fuzzy
-#| msgid ""
-#| "Remove I<architecture> from the list of architectures for which packages "
-#| "can be installed without using B<--force-architecture>. If the "
-#| "architecture is currently in use in the database then the operation will "
-#| "be refused, except if B<--force-architecture> is specified. The "
-#| "architecture B<dpkg> is built for (i.e. the output of B<--print-"
-#| "architecture>) can never be removed from that list."
 msgid ""
 "Remove I<architecture> from the list of architectures for which packages can "
 "be installed without using B<--force-architecture> (since dpkg 1.16.2). If "
@@ -4629,7 +4257,7 @@ msgid ""
 "be removed from that list."
 msgstr ""
 "Entfernt I<Architektur> von der Liste von Architekturen, für die Pakete ohne "
-"die Verwendung von B<--force-architecture> installiert werden können. Falls "
+"die Verwendung von B<--force-architecture> installiert werden können (seit Dpkg 1.16.2). Falls "
 "die Architektur derzeit in der Datenbank benutzt wird, dann wird die "
 "Durchführung verweigert, falls nicht B<--force-architecture> verwandt wird. "
 "Die Architektur, für die B<dpkg> gebaut wurde (d.h. der Ausgabe von B<--"
@@ -4643,15 +4271,12 @@ msgstr "B<--print-architecture>"
 
 #. type: Plain text
 #: dpkg.1
-#, fuzzy
-#| msgid ""
-#| "Print architecture of packages B<dpkg> installs (for example, \"i386\")."
 msgid ""
 "Print architecture of packages B<dpkg> installs (for example, "
 "\\(lqi386\\(rq)."
 msgstr ""
 "Gebe die Architektur der Pakete aus, die B<dpkg> installiert (beispielsweise "
-"»i386«)."
+"\\(lqi386\\(rq)."
 
 #. type: TP
 #: dpkg.1
@@ -4805,7 +4430,7 @@ msgid ""
 "    Build a deb package.\n"
 "B<-c>, B<--contents> I<archive>\n"
 "    List contents of a deb package.\n"
-"B<-e>, B<--control> I<filename> [I<directory>]\n"
+"B<-e>, B<--control> I<archive> [I<directory>]\n"
 "    Extract control-information from a package.\n"
 "B<-x>, B<--extract> I<archive directory>\n"
 "    Extract the files contained by package.\n"
@@ -4817,8 +4442,7 @@ msgid ""
 "B<--ctrl-tarfile> I<archive>\n"
 "    Output the control tar-file contained in a Debian package.\n"
 "B<--fsys-tarfile> I<archive>\n"
-"    Display the filesystem tar-file contained by a\n"
-"    Debian package.\n"
+"    Output the filesystem tar-file contained by a Debian package.\n"
 "B<-I>, B<--info> I<archive> [I<control-file>...]\n"
 "    Show information about a package.\n"
 msgstr ""
@@ -4996,8 +4620,16 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1
-#, no-wrap
-msgid "B<--force->I<things>, B<--no-force->I<things>, B<--refuse->I<things>"
+#, fuzzy, no-wrap
+#| msgid "B<--force-sign>"
+msgid "B<--force->I<things>"
+msgstr "B<--force-sign>"
+
+#. type: TQ
+#: dpkg.1
+#, fuzzy, no-wrap
+#| msgid "B<--force->I<things>, B<--no-force->I<things>, B<--refuse->I<things>"
+msgid "B<--no-force->I<things>, B<--refuse->I<things>"
 msgstr "B<--force->I<Sachen>, B<--no-force->I<Sachen>, B<--refuse->I<Sachen>"
 
 #. type: Plain text
@@ -5885,10 +5517,8 @@ msgstr "B<--triggers>"
 
 #. type: Plain text
 #: dpkg.1
-#, fuzzy
-#| msgid "Cancels a previous B<--no-triggers>."
 msgid "Cancels a previous B<--no-triggers> (since dpkg 1.14.17)."
-msgstr "Annulliert ein vorheriges B<--no-triggers>."
+msgstr "Annulliert ein vorheriges B<--no-triggers> (seit Dpkg 1.14.17)."
 
 #. type: SH
 #: dpkg.1 dpkg-buildflags.1 dpkg-buildpackage.1 dpkg-checkbuilddeps.1
@@ -5900,10 +5530,9 @@ msgstr "UMGEBUNG"
 
 #. type: TP
 #: dpkg.1
-#, fuzzy, no-wrap
-#| msgid "B<PAGER>"
+#, no-wrap
 msgid "B<PATH>"
-msgstr "B<PAGER>"
+msgstr "B<PATH>"
 
 #. type: Plain text
 #: dpkg.1
@@ -5912,6 +5541,10 @@ msgid ""
 "system paths where several required programs are to be found. If it's not "
 "set or the programs are not found, B<dpkg> will abort."
 msgstr ""
+"Es wird erwartet, dass diese Variable in der Umgebung gesetzt ist und auf die "
+"Systempfade zeigt, in denen eine Reihe von benötigten Programmen gefunden "
+"werden können. Falls sie nicht gesetzt ist oder die Programme nicht gefunden "
+"werden können, wird B<dpkg> die Bearbeitung abbrechen."
 
 #. type: TP
 #: dpkg.1 dselect.1
@@ -9364,6 +8997,11 @@ msgid ""
 "any build dependencies to be installed to be able to call the B<clean> "
 "target."
 msgstr ""
+"Spezifiziert einen reinen Quellbau, es werden keine Binärpakete erstellt. "
+"Wird an B<dpkg-genchanges> weitergegeben. Hinweis: Falls Sie einfach das "
+"Quellpaket (neu) bauen möchten, ist die Verwendung von B<dpkg-source> immer "
+"besser, da dafür keine Bauabhängigkeiten installiert sein müssen, um das Ziel "
+"B<clean> aufzurufen."
 
 #. type: TP
 #: dpkg-buildpackage.1
@@ -9373,17 +9011,13 @@ msgstr "B<-F>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid ""
-#| "Specifies a normal full build, binary and source packages will be built.  "
-#| "This is the same as the default case when no build option is specified."
 msgid ""
 "Specifies a normal full build, binary and source packages will be built "
 "(since dpkg 1.15.8).  This is the same as the default case when no build "
 "option is specified."
 msgstr ""
 "Spezifiziert einen normalen kompletten Bau, Binär- und Quellpakete werden "
-"gebaut. Dies ist identisch zum Standardfall, wenn keine Bauoption "
+"gebaut (seit Dpkg 1.15.8). Dies ist identisch zum Standardfall, wenn keine Bauoption "
 "spezifiziert wird."
 
 #. type: TP
@@ -10677,8 +10311,12 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-deb.1
+#, fuzzy
+#| msgid ""
+#| "If no B<control-file-field>s are specified then it will print the whole "
+#| "control file."
 msgid ""
-"If no B<control-file-field>s are specified then it will print the whole "
+"If no I<control-field-name>s are specified then it will print the whole "
 "control file."
 msgstr ""
 "Falls keine B<Steuerdatei-Feld>er angegeben sind, gibt es die gesamte "
@@ -10686,10 +10324,16 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-deb.1
+#, fuzzy
+#| msgid ""
+#| "If any are specified then B<dpkg-deb> will print their contents, in the "
+#| "order in which they appear in the control file. If more than one "
+#| "B<control-file-field> is specified then B<dpkg-deb> will precede each "
+#| "with its field name (and a colon and space)."
 msgid ""
 "If any are specified then B<dpkg-deb> will print their contents, in the "
-"order in which they appear in the control file. If more than one B<control-"
-"file-field> is specified then B<dpkg-deb> will precede each with its field "
+"order in which they appear in the control file. If more than one I<control-"
+"field-name> is specified then B<dpkg-deb> will precede each with its field "
 "name (and a colon and space)."
 msgstr ""
 "Falls welche angegeben sind, gibt B<dpkg-deb> ihren Inhalt in der "
@@ -10778,10 +10422,15 @@ msgstr "B<-R>, B<--raw-extract> I<Archiv-Verzeichnis>"
 
 #. type: Plain text
 #: dpkg-deb.1
+#, fuzzy
+#| msgid ""
+#| "Extracts the filesystem tree from a package archive into a specified "
+#| "directory, and the control information files into a DEBIAN subdirectory "
+#| "of the specified directory (since dpkg 1.16.1)."
 msgid ""
 "Extracts the filesystem tree from a package archive into a specified "
-"directory, and the control information files into a DEBIAN subdirectory of "
-"the specified directory (since dpkg 1.16.1)."
+"directory, and the control information files into a B<DEBIAN> subdirectory "
+"of the specified directory (since dpkg 1.16.1)."
 msgstr ""
 "Extrahiert den Dateisystembaum aus einem Paketarchiv in ein angegebenes "
 "Verzeichnis und die Steuerinformationensdateien in das DEBIAN-"
@@ -10944,11 +10593,17 @@ msgstr "B<-S>I<Komprimierstrategie>"
 
 #. type: Plain text
 #: dpkg-deb.1
+#, fuzzy
+#| msgid ""
+#| "Specify which compression strategy to use on the compressor backend, when "
+#| "building a package (since dpkg 1.16.2). Allowed values are I<none> (since "
+#| "dpkg 1.16.4), I<filtered>, I<huffman>, I<rle> and I<fixed> for gzip "
+#| "(since dpkg 1.17.0) and I<extreme> for xz."
 msgid ""
 "Specify which compression strategy to use on the compressor backend, when "
-"building a package (since dpkg 1.16.2). Allowed values are I<none> (since "
-"dpkg 1.16.4), I<filtered>, I<huffman>, I<rle> and I<fixed> for gzip (since "
-"dpkg 1.17.0) and I<extreme> for xz."
+"building a package (since dpkg 1.16.2). Allowed values are B<none> (since "
+"dpkg 1.16.4), B<filtered>, B<huffman>, B<rle> and B<fixed> for gzip (since "
+"dpkg 1.17.0) and B<extreme> for xz."
 msgstr ""
 "Gibt die zu verwendende Komprimierstrategie an, die für den Komprimierer-"
 "Backend beim Bau eines Pakets verwandt werden soll (seit Dpkg 1.16.2). "
@@ -10970,8 +10625,8 @@ msgstr "B<-Z>I<Komprimierart>"
 #| "and I<none> (default is I<xz>)."
 msgid ""
 "Specify which compression type to use when building a package.  Allowed "
-"values are I<gzip>, I<xz> (since dpkg 1.15.6), I<bzip2> (deprecated), "
-"I<lzma> (since dpkg 1.14.0; deprecated), and I<none> (default is I<xz>)."
+"values are B<gzip>, B<xz> (since dpkg 1.15.6), B<bzip2> (deprecated), "
+"B<lzma> (since dpkg 1.14.0; deprecated), and B<none> (default is B<xz>)."
 msgstr ""
 "Gibt die Art der Komprimierung beim Bau eines Pakets an. Erlaubte Werte sind "
 "I<gzip>, I<xz>, I<bzip2> (veraltet), I<lzma> (veraltet) und I<none> "
@@ -10996,8 +10651,8 @@ msgid ""
 "Specify that the same compression parameters should be used for all archive "
 "members (i.e. B<control.tar> and B<data.tar>; since dpkg 1.17.6).  Otherwise "
 "only the B<data.tar> member will use those parameters. The only supported "
-"compression types allowed to be uniformly used are I<none>, I<gzip> and "
-"I<xz>."
+"compression types allowed to be uniformly used are B<none>, B<gzip> and "
+"B<xz>."
 msgstr ""
 "Gibt an, dass die gleichen Komprimierungsparameter für alle Archivteile (d."
 "h. B<control.tar> und B<data.tar>) verwandt werden sollen. Andernfalls wird "
@@ -11013,10 +10668,15 @@ msgstr "B<--deb-format=>I<Format>"
 
 #. type: Plain text
 #: dpkg-deb.1
+#, fuzzy
+#| msgid ""
+#| "Set the archive format version used when building (since dpkg 1.17.0).  "
+#| "Allowed values are I<2.0> for the new format, and I<0.939000> for the old "
+#| "one (default is I<2.0>)."
 msgid ""
 "Set the archive format version used when building (since dpkg 1.17.0).  "
-"Allowed values are I<2.0> for the new format, and I<0.939000> for the old "
-"one (default is I<2.0>)."
+"Allowed values are B<2.0> for the new format, and B<0.939000> for the old "
+"one (default is B<2.0>)."
 msgstr ""
 "Setzt das beim Bau verwandte Archivformat (seit Dpkg 1.17.0). Erlaubte Werte "
 "sind I<2.0> für das neue Format und I<0.939000> für das alte Format (Vorgabe "
@@ -18435,14 +18095,6 @@ msgstr "B<--allow-version-of-quilt-db=>I<Version>"
 
 #. type: Plain text
 #: dpkg-source.1
-#, fuzzy
-#| msgid ""
-#| "Allow B<dpkg-source> to build the source package if the version of the "
-#| "B<quilt> metadata is the one specified, even if B<dpkg-source> doesn't "
-#| "know about it. Effectively this says that the given version of the "
-#| "B<quilt> metadata is compatible with the version 2 that B<dpkg-source> "
-#| "currently supports. The version of the B<quilt> metadata is stored in B<."
-#| "pc/.version>."
 msgid ""
 "Allow B<dpkg-source> to build the source package if the version of the "
 "B<quilt> metadata is the one specified, even if B<dpkg-source> doesn't know "
@@ -18453,7 +18105,7 @@ msgid ""
 msgstr ""
 "Erlaubt es B<dpkg-source>, ein Quellpaket zu bauen, falls die Version der "
 "B<quilt>-Metadaten die angegebene ist, selbst falls B<dpkg-source> nichts "
-"davon weiß. Effektiv teilt dies mit, dass die angegebene Version der "
+"davon weiß (seit Dpkg 1.15.5.4). Effektiv teilt dies mit, dass die angegebene Version der "
 "B<quilt>-Metadaten zu Version 2, die B<dpkg-source> derzeit unterstützt, "
 "kompatibel ist. Die Version der B<quilt>-Metadaten wird in B<.pc/.version> "
 "gespeichert."
@@ -20555,8 +20207,8 @@ msgid ""
 "Optionally, after the color specification is another colon, and an attribute "
 "specification. This is a list of one or more attributes, separated by plus "
 "(\\(oq+\\(cq) characters.  Available attributes include (not all of these "
-"will work on all terminals): normal, standout, underline, reverse, blink, "
-"bright, dim, bold"
+"will work on all terminals): B<normal>, B<standout>, B<underline>, "
+"B<reverse>, B<blink>, B<bright>, B<dim>, B<bold>"
 msgstr ""
 "Optional kann nach der Farbangabe ein weiterer Doppelpunkt und eine Attribut-"
 "Angabe folgen. Dies ist eine Liste von einem oder mehreren Attribut(en), "
@@ -20830,7 +20482,9 @@ msgstr "Beenden"
 
 #. type: Plain text
 #: dselect.1
-msgid "Quit B<dselect>"
+#, fuzzy
+#| msgid "Quit B<dselect>"
+msgid "Quit B<dselect>."
 msgstr "B<Dselect> beenden"
 
 #. type: Plain text
@@ -22066,10 +21720,19 @@ msgstr "B<-b>, B<--background>"
 
 #. type: Plain text
 #: start-stop-daemon.8
+#, fuzzy
+#| msgid ""
+#| "Typically used with programs that don't detach on their own. This option "
+#| "will force B<start-stop-daemon> to fork before starting the process, and "
+#| "force it into the background.  B<WARNING: start-stop-daemon> cannot check "
+#| "the exit status if the process fails to execute for B<any> reason. This "
+#| "is a last resort, and is only meant for programs that either make no "
+#| "sense forking on their own, or where it's not feasible to add the code "
+#| "for them to do this themselves."
 msgid ""
 "Typically used with programs that don't detach on their own. This option "
 "will force B<start-stop-daemon> to fork before starting the process, and "
-"force it into the background.  B<WARNING: start-stop-daemon> cannot check "
+"force it into the background.  B<Warning: start-stop-daemon> cannot check "
 "the exit status if the process fails to execute for B<any> reason. This is a "
 "last resort, and is only meant for programs that either make no sense "
 "forking on their own, or where it's not feasible to add the code for them to "
@@ -22198,12 +21861,22 @@ msgstr "B<-m>, B<--make-pidfile>"
 
 #. type: Plain text
 #: start-stop-daemon.8
+#, fuzzy
+#| msgid ""
+#| "Used when starting a program that does not create its own pid file. This "
+#| "option will make B<start-stop-daemon> create the file referenced with B<--"
+#| "pidfile> and place the pid into it just before executing the process. "
+#| "Note, the file will only be removed when stopping the program if B<--"
+#| "remove-pidfile> is used.  B<NOTE:> This feature may not work in all "
+#| "cases. Most notably when the program being executed forks from its main "
+#| "process. Because of this, it is usually only useful when combined with "
+#| "the B<--background> option."
 msgid ""
 "Used when starting a program that does not create its own pid file. This "
 "option will make B<start-stop-daemon> create the file referenced with B<--"
 "pidfile> and place the pid into it just before executing the process. Note, "
 "the file will only be removed when stopping the program if B<--remove-"
-"pidfile> is used.  B<NOTE:> This feature may not work in all cases. Most "
+"pidfile> is used.  B<Note:> This feature may not work in all cases. Most "
 "notably when the program being executed forks from its main process. Because "
 "of this, it is usually only useful when combined with the B<--background> "
 "option."
@@ -22935,14 +22608,6 @@ msgstr "B<--get-selections>"
 
 #. type: Plain text
 #: update-alternatives.1
-#, fuzzy
-#| msgid ""
-#| "List all master alternative names (those controlling a link group)  and "
-#| "their status. Each line contains up to 3 fields (separated by one or more "
-#| "spaces). The first field is the alternative name, the second one is the "
-#| "status (either \"auto\" or \"manual\"), and the last one contains the "
-#| "current choice in the alternative (beware: it's a filename and thus might "
-#| "contain spaces)."
 msgid ""
 "List all master alternative names (those controlling a link group)  and "
 "their status (since version 1.15.0).  Each line contains up to 3 fields "
@@ -22952,19 +22617,14 @@ msgid ""
 "thus might contain spaces)."
 msgstr ""
 "Führe alle Master-Alternativ-Namen (die eine Linkgruppe steuern) mit ihrem "
-"Status auf. Jede Zeile enthält bis zu 3 Felder (getrennt durch mindestens "
+"Status auf (seit Version 1.15.0). Jede Zeile enthält bis zu 3 Felder (getrennt durch mindestens "
 "ein Leerzeichen). Im ersten Feld steht der Alternativ-Name, im zweiten der "
-"Status (entweder »auto« oder »manual«) und im letzten die derzeitige Wahl "
+"Status (entweder B<auto> oder B<manual>) und im letzten die derzeitige Wahl "
 "der Alternative (Achtung: Dies ist ein Dateiname, der Leerzeichen enthalten "
 "kann)."
 
 #. type: Plain text
 #: update-alternatives.1
-#, fuzzy
-#| msgid ""
-#| "Read configuration of alternatives on standard input in the format "
-#| "generated by B<update-alternatives --get-selections> and reconfigure them "
-#| "accordingly."
 msgid ""
 "Read configuration of alternatives on standard input in the format generated "
 "by B<update-alternatives --get-selections> and reconfigure them accordingly "
@@ -22972,7 +22632,7 @@ msgid ""
 msgstr ""
 "Lese eine Konfiguration von Alternativen über die Standardeingabe im von "
 "B<update-alternatives --get-selections> generierten Format und konfiguriere "
-"die Alternativen entsprechend neu."
+"die Alternativen entsprechend neu (seit Version 1.15.0)."
 
 #. type: TP
 #: update-alternatives.1
@@ -22982,17 +22642,13 @@ msgstr "B<--query> I<Name>"
 
 #. type: Plain text
 #: update-alternatives.1
-#, fuzzy
-#| msgid ""
-#| "Display information about the link group like --display does, but in a "
-#| "machine parseable way (see section B<QUERY FORMAT> below)."
 msgid ""
 "Display information about the link group like --display does, but in a "
 "machine parseable way (since version 1.15.0, see section B<QUERY FORMAT> "
 "below)."
 msgstr ""
 "Zeige alle Informationen über die Linkgruppe an, wie dies auch von --display "
-"erfolgt, allerdings in einem maschinenlesbaren Format (siehe Abschnitt "
+"erfolgt, allerdings in einem maschinenlesbaren Format (seit Version 1.15.0, siehe Abschnitt "
 "B<ABFRAGE-FORMAT> unten)."
 
 #. type: TP
@@ -23054,15 +22710,11 @@ msgstr "B<--log>I< Datei>"
 
 #. type: Plain text
 #: update-alternatives.1
-#, fuzzy
-#| msgid ""
-#| "Specifies the log file, when this is to be different from the default (/"
-#| "var/log/alternatives.log)."
 msgid ""
 "Specifies the log file (since version 1.15.0), when this is to be different "
 "from the default (/var/log/alternatives.log)."
 msgstr ""
-"Gibt die Protokolldatei an, wenn diese sich von der Vorgabe (/var/log/"
+"Gibt die Protokolldatei an (seit Version 1.15.0), wenn diese sich von der Vorgabe (/var/log/"
 "alternatives.log) unterscheiden soll."
 
 #. type: Plain text
@@ -23574,15 +23226,6 @@ msgstr ""
 #~ msgid "Print a list of valid architecture names."
 #~ msgstr "Zeige eine Liste von gültigen Architekturnamen."
 
-#~ msgid "2013-10-20"
-#~ msgstr "2013-10-20"
-
-#~ msgid "2013-03-27"
-#~ msgstr "2013-03-27"
-
-#~ msgid "2014-04-28"
-#~ msgstr "2014-04-28"
-
 #~ msgid ""
 #~ "I<pathname> is the absolute name of the old symlink (the path will be a "
 #~ "directory at the end of the installation) and I<old-target> the absolute "
@@ -23591,9 +23234,6 @@ msgstr ""
 #~ "I<Pfadname> ist der absolute Name des alten Symlinks (der Pfad wird am "
 #~ "Ende der Installation ein Verzeichnis sein) und I<altes_Ziel> der "
 #~ "absolute Name des Ziels des bisherigen Symlinks unter I<Pfadname>."
-
-#~ msgid "2014-05-23"
-#~ msgstr "2014-05-23"
 
 #~ msgid ""
 #~ "It contains the binary package name, in a multiarch conformant form, arch-"
@@ -23621,12 +23261,6 @@ msgstr ""
 #~ "    B<source:Package>\n"
 #~ "    B<source:Version>\n"
 
-#~ msgid "2012-04-07"
-#~ msgstr "2012-04-07"
-
-#~ msgid "2013-08-08"
-#~ msgstr "2013-08-08"
-
 #~ msgid " B<-C>, B<--audit>"
 #~ msgstr "B<-C>, B<--audit>"
 
@@ -23638,9 +23272,6 @@ msgstr ""
 #~ "B<dpkg> wird Vorschläge machen, was mit ihnen geschehen soll, um sie in "
 #~ "Funktion zu bringen."
 
-#~ msgid "2013-07-28"
-#~ msgstr "2013-07-28"
-
 #~ msgid ""
 #~ "Verifies the integrity of I<package-name> or all packages if omitted, by "
 #~ "comparing information from the installed paths with the database metadata."
@@ -23648,12 +23279,6 @@ msgstr ""
 #~ "Verifiziert die Integrität von I<Paketname> (oder aller Pakete, falls das "
 #~ "Argument fehlt). Hierzu werden Informationen aus installierten Pfaden mit "
 #~ "den Metadaten der Datenbank verglichen."
-
-#~ msgid "2013-12-11"
-#~ msgstr "2013-12-11"
-
-#~ msgid "2013-12-14"
-#~ msgstr "2013-12-14"
 
 #~ msgid ""
 #~ "It calls B<gpg2> or B<gpg> to sign the B<.changes> file (unless B<-uc> is "
@@ -23670,20 +23295,8 @@ msgstr ""
 #~ "Falls B<-tc> angegeben ist, wird B<fakeroot debian/rules clean> erneut "
 #~ "aufgerufen. Schließlich ruft es B<dpkg-source --after-build> auf."
 
-#~ msgid "2012-06-17"
-#~ msgstr "2012-06-17"
-
-#~ msgid "2013-08-31"
-#~ msgstr "2013-08-31"
-
-#~ msgid "2012-05-22"
-#~ msgstr "2012-05-22"
-
 #~ msgid "B<-O>"
 #~ msgstr "B<-O>"
-
-#~ msgid "2012-04-22"
-#~ msgstr "2012-04-22"
 
 #~ msgid ""
 #~ "Print the generated symbols file to standard output, rather than being "
@@ -23699,9 +23312,6 @@ msgstr ""
 #~ "Sie können diese Datei zu einem anderen Computer bringen und sie dort mit "
 #~ "folgenden Befehlen installieren:"
 
-#~ msgid "2012-06-16"
-#~ msgstr "2012-06-16"
-
 #~ msgid "B<DM-Upload-Allowed:> B<yes>|B<no>"
 #~ msgstr "B<DM-Upload-Allowed:> B<yes>|B<no>"
 
@@ -23716,9 +23326,6 @@ msgstr ""
 
 #~ msgid "CAVEATS"
 #~ msgstr "WARNUNG"
-
-#~ msgid "2012-06-05"
-#~ msgstr "2012-06-05"
 
 #~ msgid "PACKAGE STATES"
 #~ msgstr "PAKETZUSTÄNDE"
@@ -23789,9 +23396,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Beachten Sie, dass die Quellen auch mit B<-O1> oder höher kompiliert "
 #~ "werden müssen, damit diese Option einen Effekt hat."
-
-#~ msgid "2012-05-27"
-#~ msgstr "2012-05-27"
 
 #~ msgid ""
 #~ "Ensures that B<dpkg-deb> builds a `new' format archive. This is the "
@@ -23926,12 +23530,6 @@ msgstr ""
 #~ msgid "To list packages related to the editor B<vi>(1):"
 #~ msgstr "Um Pakete mit Bezug zum B<vi>(1)-Editor aufzulisten:"
 
-#~ msgid "2011-11-22"
-#~ msgstr "2011-11-22"
-
-#~ msgid "2012-04-30"
-#~ msgstr "2012-04-30"
-
 #~ msgid "B<-P>I<packagebuilddir>"
 #~ msgstr "B<-P>I<Paketbauverzeichnis>"
 
@@ -23940,9 +23538,6 @@ msgstr ""
 
 #~ msgid "B<-S>I<pkgbuilddir>"
 #~ msgstr "B<-S>I<Paketbauverzeichnis>"
-
-#~ msgid "2011-11-27"
-#~ msgstr "2011-11-27"
 
 #~ msgid "The highest urgency of all included entries is used."
 #~ msgstr ""
@@ -23954,9 +23549,6 @@ msgstr ""
 #~ msgstr ""
 #~ "B<dpkg-architecture> und diese Handbuchseite wurden ursprünglich von "
 #~ "Marcus Brinkmann E<lt>brinkmd@debian.orgE<gt> geschrieben."
-
-#~ msgid "2011-09-13"
-#~ msgstr "2011-09-13"
 
 #~ msgid "Copyright \\(co 2001 Joey Hess"
 #~ msgstr "Copyright \\(co 2001 Joey Hess"
@@ -23971,18 +23563,12 @@ msgstr ""
 #~ msgid "Copyright \\(co 1995 Ian Jackson"
 #~ msgstr "Copyright \\(co 1995 Ian Jackson"
 
-#~ msgid "2012-01-11"
-#~ msgstr "2012-01-11"
-
 # Kodierung ist hier nicht richtig!
 #~ msgid "Copyright \\(co 1996,1997,1998 Ian Jackson and Christian Schwarz"
 #~ msgstr "Copyright \\(co 1996,1997,1998 Ian Jackson and Christian Schwarz"
 
 #~ msgid "Copyright \\(co 2007 Frank Lichtenheld"
 #~ msgstr "Copyright \\(co 2007 Frank Lichtenheld"
-
-#~ msgid "2008-02-17"
-#~ msgstr "2008-02-17"
 
 #~ msgid "See the Debian Policy Manual for further details."
 #~ msgstr ""
@@ -24386,9 +23972,6 @@ msgstr ""
 #~ "werden, sie sind für Benutzer gedacht, die ein Debian-Paket neu "
 #~ "übersetzen und die Übersetzungsschalter ändern wollen."
 
-#~ msgid "2010-07-29"
-#~ msgstr "2010-07-29"
-
 #~ msgid "Compiler flags"
 #~ msgstr "Compiler-Schalter"
 
@@ -24406,39 +23989,6 @@ msgstr ""
 
 #~ msgid "B<Multi-Arch:> E<lt>same|foreign|allowedE<gt> "
 #~ msgstr "B<Multi-Arch:> E<lt>same|foreign|allowedE<gt> "
-
-#~ msgid "2008-08-18"
-#~ msgstr "2008-08-18"
-
-#~ msgid "2009-08-15"
-#~ msgstr "2009-08-15"
-
-#~ msgid "2009-11-21"
-#~ msgstr "2009-11-21"
-
-#~ msgid "2011-04-26"
-#~ msgstr "2011-04-26"
-
-#~ msgid "2010-10-12"
-#~ msgstr "2010-10-12"
-
-#~ msgid "2009-08-07"
-#~ msgstr "2009-08-07"
-
-#~ msgid "2010-04-16"
-#~ msgstr "2010-04-16"
-
-#~ msgid "2009-05-19"
-#~ msgstr "2009-05-19"
-
-#~ msgid "2009-10-01"
-#~ msgstr "2009-10-01"
-
-#~ msgid "2009-06-26"
-#~ msgstr "2009-06-26"
-
-#~ msgid "2009-05-10"
-#~ msgstr "2009-05-10"
 
 #~ msgid ""
 #~ "B<dselect> [B<--admindir> I<E<lt>directoryE<gt>>] [B<--help>] [B<--"
@@ -24484,9 +24034,6 @@ msgstr ""
 #~ "angewandt. Die Option B<--no-preparation> kann zum Abschalten dieses "
 #~ "Verhaltens verwandt werden. Dieser Ablauf passiert normalerweise als Teil "
 #~ "des Befehls B<--prepare-build>."
-
-#~ msgid "2011-02-05"
-#~ msgstr "2011-02-05"
 
 #~ msgid ""
 #~ "B<dpkg> can also be used as a front-end to B<dpkg-deb>(1).  The following "
@@ -24538,9 +24085,6 @@ msgstr ""
 #~ "Lese oder überprüfe den Inhalt der Steuerdatei beim Paketbau nicht. Dies "
 #~ "ist eine B<dpkg-deb>(1)-Option."
 
-#~ msgid "2011-04-20"
-#~ msgstr "2011-04-20"
-
 #~ msgid "0"
 #~ msgstr "0"
 
@@ -24585,9 +24129,6 @@ msgstr ""
 #~ "den Steuer-Informationen der enthaltenen Binärpaket-Datei, und sie ist "
 #~ "nicht in den erzeugten Dateinamen wiedergegeben."
 
-#~ msgid "2010-01-28"
-#~ msgstr "2010-01-28"
-
 #~ msgid ""
 #~ "The first member is named B<debian-split> and contains a series of lines, "
 #~ "separated by newlines. Currently seven lines are present.  The first is "
@@ -24608,20 +24149,8 @@ msgstr ""
 #~ "einem Schrägstrich und der Gesamtanzahl von Teilen (wie in "
 #~ "\\(oq1/10\\(cq)."
 
-#~ msgid "2009-03-08"
-#~ msgstr "2009-03-08"
-
 #~ msgid "File"
 #~ msgstr "Datei"
-
-#~ msgid "2009-11-11"
-#~ msgstr "2009-11-11"
-
-#~ msgid "2009-02-26"
-#~ msgstr "2009-02-26"
-
-#~ msgid "2009-04-13"
-#~ msgstr "2009-04-13"
 
 #~ msgid "I<admindir>/info/I<package>.symbols"
 #~ msgstr "I<adminverz>/info/I<Paket>.symbols"
@@ -24649,12 +24178,6 @@ msgstr ""
 
 #~ msgid "The bundle is cloned to a new git repository."
 #~ msgstr "Das Bündel wird in ein neues Git-Depot geklont."
-
-#~ msgid "2007-10-08"
-#~ msgstr "2007-10-08"
-
-#~ msgid "2010-04-11"
-#~ msgstr "2010-04-11"
 
 #~ msgid ""
 #~ "Defined by B<dpkg> on the maintainer script environment to the private "
@@ -24842,15 +24365,6 @@ msgstr ""
 #~ msgid "ENVIRONMENT VARIABLES"
 #~ msgstr "UMGEBUNGSVARIABLEN"
 
-#~ msgid "2009-06-13"
-#~ msgstr "2009-06-13"
-
-#~ msgid "2009-01-07"
-#~ msgstr "2009-01-07"
-
-#~ msgid "2009-09-06"
-#~ msgstr "2009-09-16"
-
 #~ msgid ""
 #~ "Print the source format that would be used to build the source package if "
 #~ "B<dpkg-source -b >I<directory> was called (in the same conditions and "
@@ -24862,12 +24376,6 @@ msgstr ""
 #~ "gleichen Bedingungen und mit den gleichen Optionen). Insbesondere ist es "
 #~ "wichtig, dass der Tarball der Originalautoren (falls vorhanden) im "
 #~ "aktuellen Verzeichnis gefunden werden kann."
-
-#~ msgid "2009-08-20"
-#~ msgstr "2009-08-20"
-
-#~ msgid "2009-11-12"
-#~ msgstr "2009-11-12"
 
 #~ msgid "B<--licence>, B<--license>"
 #~ msgstr "B<--licence>, B<--license>"
@@ -24899,14 +24407,8 @@ msgstr ""
 #~ "Lese Substitutionsvariablen aus I<substvardatei>; standardmäßig ist dies "
 #~ "B<debian/substvars>."
 
-#~ msgid "B<-l>, B<--license>"
-#~ msgstr "B<-l>, B<--license>"
-
 #~ msgid "B<-I>[I<file-pattern>]"
 #~ msgstr "B<-I>[I<Dateimuster>]"
-
-#~ msgid "B<--licence>|B<--license>"
-#~ msgstr "B<--licence>|B<--license>"
 
 #~ msgid ""
 #~ "Displays the B<dselect> copyright and license information and exits "
@@ -24914,9 +24416,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Zeige die Copyright- und Lizenzinformationen von B<dselect> und beende "
 #~ "sich erfolgreich."
-
-#~ msgid "2009-12-31"
-#~ msgstr "2009-12-31"
 
 #~ msgid ""
 #~ "The file is an B<ar> archive with a magic value of B<!E<lt>archE<gt>>."
@@ -25013,23 +24512,8 @@ msgstr ""
 #~ "  compression = \"bzip2\"\n"
 #~ "  compression-level = 9\n"
 
-#~ msgid "2008-04-09"
-#~ msgstr "2008-04-09"
-
-#~ msgid "2007-03-06"
-#~ msgstr "2007-03-06"
-
-#~ msgid "2007-06-12"
-#~ msgstr "2007-06-12"
-
 #~ msgid "B<-z>I<level>"
 #~ msgstr "B<-z>I<Stufe>"
-
-#~ msgid "2009-01-04"
-#~ msgstr "2009-01-04"
-
-#~ msgid "2009-02-18"
-#~ msgstr "2009-02-18"
 
 #~ msgid ""
 #~ "I<overridefile> is the name of a file to read which contains information "
@@ -25101,9 +24585,6 @@ msgstr ""
 #~ "zusätzliche Original-Tarbälle (B<.orig->I<Komponente>B<.tar.>I<erw>)) "
 #~ "enthalten. I<Komponente> kann nur alphanumerische Zeichen und "
 #~ "Gedankenstriche (»-«) enthalten."
-
-#~ msgid "2008-04-06"
-#~ msgstr "2008-04-06"
 
 #~ msgid ""
 #~ "All options can be specified both on the command line and in the B<dpkg> "
@@ -25615,9 +25096,6 @@ msgstr ""
 #~ msgid "822-date"
 #~ msgstr "822-date"
 
-#~ msgid "2007-01-24"
-#~ msgstr "2007-01-24"
-
 #~ msgid "822-date - Print date and time in RFC2822 format"
 #~ msgstr "822-date - Datum und Uhrzeit im RFC2822-Format ausgeben"
 
@@ -25777,9 +25255,6 @@ msgstr ""
 #~ "Das dritte, letzte benötigte Mitglied heißt B<data.tar.gz>. Es enthält "
 #~ "das Dateisystemarchiv als gezipptes Tar-Archiv."
 
-#~ msgid "2008-01-30"
-#~ msgstr "2008-01-30"
-
 #~ msgid "generic name"
 #~ msgstr "generischer Name"
 
@@ -25812,15 +25287,6 @@ msgstr ""
 
 #~ msgid "E<lt>wakkerma@debian.orgE<gt>"
 #~ msgstr "E<lt>wakkerma@debian.orgE<gt>"
-
-#~ msgid "2007-07-18"
-#~ msgstr "2007-07-18"
-
-#~ msgid "2007-10-06"
-#~ msgstr "2007-10-06"
-
-#~ msgid "2008-03-14"
-#~ msgstr "2008-03-14"
 
 #~ msgid ""
 #~ "B<dpkg-buildpackage> is a control script which can be used to help "
@@ -25876,24 +25342,12 @@ msgstr ""
 #~ "aber B<dpkg-buildpackage> erkennt es und leitet es an B<dpkg-source> "
 #~ "weiter."
 
-#~ msgid "2007-09-08"
-#~ msgstr "2007-09-08"
-
 #~ msgid ""
 #~ "There is no authentication on B<.deb> files; in fact, there isn't even a "
 #~ "straightforward checksum."
 #~ msgstr ""
 #~ "Es gibt keine Authentifizierung von B<.deb>-Dateien; in der Tat gibt es "
 #~ "sogar noch nicht mal eine direkte Prüfsumme."
-
-#~ msgid "2008-03-02"
-#~ msgstr "2008-03-02"
-
-#~ msgid "2008-03-16"
-#~ msgstr "2008-03-16"
-
-#~ msgid "2008-04-08"
-#~ msgstr "2008-04-08"
 
 #~ msgid ""
 #~ "A simpler one-shot command to retrieve and update the I<available> file "
@@ -25947,9 +25401,6 @@ msgstr ""
 #~ "berichtet. Konfigurationsdateikonflikte werden als »status: Conffile-"
 #~ "Eingabeaufforderung: conffile : »aktuelle-conffile« »neue-conffile« "
 #~ "useredited distedited« berichtet."
-
-#~ msgid "2008-01-03"
-#~ msgstr "2008-01-03"
 
 #~ msgid ""
 #~ "Furthermore, in some cases, this will lead to a non-versioned dependency "
