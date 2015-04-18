@@ -340,6 +340,11 @@ depisok(struct dependency *dep, struct varbuf *whynot,
     case PKG_STAT_HALFCONFIGURED:
     case PKG_STAT_UNPACKED:
     case PKG_STAT_HALFINSTALLED:
+      if (dep->type == dep_predepends ||
+          dep->type == dep_conflicts ||
+          dep->type == dep_breaks)
+        break;
+      /* Fall through. */
     case PKG_STAT_CONFIGFILES:
     case PKG_STAT_NOTINSTALLED:
       return true;
