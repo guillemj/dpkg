@@ -81,12 +81,15 @@ sub blank_library_paths {
 }
 
 sub setup_library_paths {
-    @librarypaths = DEFAULT_LIBRARY_PATH;
+    @librarypaths = ();
 
-    # Update library paths with ld.so config.
-    parse_ldso_conf('/etc/ld.so.conf') if -e '/etc/ld.so.conf';
-
-    push @librarypaths, DEFAULT_MULTILIB_PATH;
+    # XXX: Deprecated. Update library paths with LD_LIBRARY_PATH.
+    if ($ENV{LD_LIBRARY_PATH}) {
+        foreach my $path (split /:/, $ENV{LD_LIBRARY_PATH}) {
+            $path =~ s{/+$}{};
+            push @librarypaths, $path;
+        }
+    }
 
     # Adjust set of directories to consider when we're in a situation of a
     # cross-build or a build of a cross-compiler.
@@ -107,13 +110,12 @@ sub setup_library_paths {
         push @librarypaths, "/lib/$multiarch", "/usr/lib/$multiarch";
     }
 
-    # XXX: Deprecated. Update library paths with LD_LIBRARY_PATH.
-    if ($ENV{LD_LIBRARY_PATH}) {
-        foreach my $path (reverse split( /:/, $ENV{LD_LIBRARY_PATH})) {
-            $path =~ s{/+$}{};
-            add_library_dir($path);
-        }
-    }
+    push @librarypaths, DEFAULT_LIBRARY_PATH;
+
+    # Update library paths with ld.so config.
+    parse_ldso_conf('/etc/ld.so.conf') if -e '/etc/ld.so.conf';
+
+    push @librarypaths, DEFAULT_MULTILIB_PATH;
 
     $librarypaths_init = 1;
 }
