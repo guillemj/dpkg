@@ -127,10 +127,12 @@ list of supported tags can be found in the \fB\%debtags\fP package.
 This field is used to indicate how this package should behave on a multi-arch
 installations. The value \fBsame\fP means that the package is co-installable
 with itself, but it must not be used to satisfy the dependency of any package
-of a different architecture from itself. The value \fBforeign\fP means that
-the package is not co-installable with itself, but should be allowed to
-satisfy the dependency of a package of a different arch from itself. The
-value \fBallowed\fP allows reverse-dependencies to indicate in their
+of a different architecture from itself.
+The value \fBforeign\fP means that the package is not co-installable with
+itself, but should be allowed to satisfy a non-arch-qualified dependency of
+a package of a different arch from itself (if a dependency has an explicit
+arch-qualifier then the value \fBforeign\fP is ignored).
+The value \fBallowed\fP allows reverse-dependencies to indicate in their
 \fBDepends\fP field that they accept a package from a foreign architecture by
 qualifying the package name with \fB:any\fP, but has no effect otherwise.
 The value \fBno\fP is the default when the field is omitted, in which case
