@@ -236,24 +236,12 @@ is usually used with the
 .B Conflicts
 field to force removal of the other package, if this one also has the
 same files as the conflicted package.
-.TP
-.BI Provides: " package-list"
-This is a list of virtual packages that this one provides. Usually this is
-used in the case of several packages all providing the same service.
-For example, sendmail and exim can serve as a mail server, so they
-provide a common package (\(lqmail\-transport\-agent\(rq) on which other
-packages can depend.
-This will allow sendmail or exim to serve as a valid option
-to satisfy the dependency. This prevents the packages that depend on a mail
-server from having to know the package names for all of them, and using
-\(oq\fB|\fP\(cq to separate the list.
 .LP
 The syntax of
 .BR Breaks ,
-.BR Conflicts ,
-.B Replaces
+.B Conflicts
 and
-.B Provides
+.B Replaces
 is a list of package names, separated by commas (and optional whitespace).
 In the
 .B Breaks
@@ -268,8 +256,30 @@ An optional version can also be given with the same syntax as above for the
 .B Conflicts
 and
 .B Replaces
-fields, and an optional exact (equal to) version can also be given with the
-same syntax as above for the \fBProvides\fP field (since dpkg 1.17.11).
+fields.
+.
+.TP
+.BI Provides: " package-list"
+This is a list of virtual packages that this one provides.
+Usually this is used in the case of several packages all providing the
+same service.
+For example, sendmail and exim can serve as a mail server, so they
+provide a common package (\(lqmail\-transport\-agent\(rq) on which
+other packages can depend.
+This will allow sendmail or exim to serve as a valid option to satisfy
+the dependency.
+This prevents the packages that depend on a mail server from having to
+know the package names for all of them, and using \(oq\fB|\fP\(cq to
+separate the list.
+.LP
+The syntax of
+.B Provides
+is a list of package names, separated by commas (and optional whitespace).
+An optional architecture qualifier can also be appended to the package
+name with the same syntax as above.
+If omitted, the default is the current binary package architecture.
+An optional exact (equal to) version can also be given with the same
+syntax as above (honored since dpkg 1.17.11).
 .
 .TP
 .BI Built\-Using: " package-list"
