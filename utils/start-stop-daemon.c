@@ -73,6 +73,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <limits.h>
+#include <time.h>
 #include <fcntl.h>
 #include <dirent.h>
 #include <ctype.h>
@@ -309,6 +310,11 @@ xstrdup(const char *str)
 static void
 timespec_gettime(struct timespec *ts)
 {
+#if defined(_POSIX_TIMERS) && _POSIX_TIMERS > 0 && \
+    defined(_POSIX_MONOTONIC_CLOCK) && _POSIX_MONOTONIC_CLOCK > 0
+	if (clock_gettime(CLOCK_MONOTONIC, ts) < 0)
+		fatal("clock_gettime failed");
+#else
 	struct timeval tv;
 
 	if (gettimeofday(&tv, NULL) != 0)
@@ -316,6 +322,7 @@ timespec_gettime(struct timespec *ts)
 
 	ts->tv_sec = tv.tv_sec;
 	ts->tv_nsec = tv.tv_usec * NANOSEC_IN_MICROSEC;
+#endif
 }
 
 #define timespec_cmp(a, b, OP) \
