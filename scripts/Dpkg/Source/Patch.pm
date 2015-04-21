@@ -565,7 +565,7 @@ sub apply {
     $opts{remove_backup} //= 1;
     $opts{create_dirs} //= 1;
     $opts{options} ||= [ '-t', '-F', '0', '-N', '-p1', '-u',
-            '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
+            '-V', 'never', '-b', '-z', '.dpkg-orig'];
     $opts{add_options} //= [];
     push @{$opts{options}}, @{$opts{add_options}};
     # Check the diff and create missing directories
@@ -577,7 +577,7 @@ sub apply {
     spawn(
 	exec => [ 'patch', @{$opts{options}} ],
 	chdir => $destdir,
-	env => { LC_ALL => 'C', LANG => 'C' },
+	env => { LC_ALL => 'C', LANG => 'C', PATCH_GET => '0' },
 	delete_env => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
 	wait_child => 1,
 	nocheck => 1,
@@ -616,7 +616,7 @@ sub check_apply {
     # Set default values to options
     $opts{create_dirs} //= 1;
     $opts{options} ||= [ '--dry-run', '-s', '-t', '-F', '0', '-N', '-p1', '-u',
-            '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
+            '-V', 'never', '-b', '-z', '.dpkg-orig'];
     $opts{add_options} //= [];
     push @{$opts{options}}, @{$opts{add_options}};
     # Check the diff and create missing directories
@@ -627,7 +627,7 @@ sub check_apply {
     my $patch_pid = spawn(
 	exec => [ 'patch', @{$opts{options}} ],
 	chdir => $destdir,
-	env => { LC_ALL => 'C', LANG => 'C' },
+	env => { LC_ALL => 'C', LANG => 'C', PATCH_GET => '0' },
 	delete_env => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
 	from_handle => $self->get_filehandle(),
 	to_file => '/dev/null',

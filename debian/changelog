@@ -82,6 +82,9 @@ dpkg (1.18.0) UNRELEASED; urgency=low
       clarify what whitespace really maps to, we should really match the GnuPG
       implementation anyway, as that's what we use to verify the signatures.
       Reported by Jann Horn <jann@thejh.net>. Fixes CVE-2015-0840.
+    - Pass PATCH_GET environment varialbe instead of -g0 to the patch command
+      in Dpkg::Source::Patch. This allows using non-GNU patch programs, like
+      FreeBSD's patch.
   * Test suite:
     - Check perl code compilation, warnings and strictness.
     - Fix dpkg-divert unit test to work on BSD «rm -rf» that cannot traverse

@@ -179,7 +179,7 @@ sub push {
                     verbose => $opts{verbose},
                     force_timestamp => 1, create_dirs => 1, remove_backup => 0,
                     options => [ '-t', '-F', '0', '-N', '-p1', '-u',
-                                 '-V', 'never', '-g0', '-E', '-b',
+                                 '-V', 'never', '-E', '-b',
                                  '-B', ".pc/$patch/", '--reject-file=-' ]);
     };
     if ($@) {
@@ -216,7 +216,7 @@ sub pop {
         $obj->apply($self->{dir}, timestamp => $opts{timestamp},
                     verbose => 0, force_timestamp => 1, remove_backup => 0,
                     options => [ '-R', '-t', '-N', '-p1',
-                                 '-u', '-V', 'never', '-g0', '-E',
+                                 '-u', '-V', 'never', '-E',
                                  '--no-backup-if-mismatch' ]);
     }
 
