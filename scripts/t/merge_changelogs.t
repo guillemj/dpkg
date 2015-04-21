@@ -36,7 +36,7 @@ sub test_merge {
 	  wait_child => 1, nocheck => 1);
     my $res = compare($expected_file, $fh->filename);
     if ($res) {
-	system("diff -u $expected_file $fh->filename >&2");
+	system('diff', '-u', $expected_file, $fh->filename);
     }
     ok($res == 0, "merged changelog matches expected one ($expected_file)");
 }

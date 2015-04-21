@@ -180,7 +180,7 @@ sub save_load_test {
 
     is_deeply($dup, $symfile, $comment);
     if (-f $symfile->{file}) {
-	is( system(sprintf("diff -u '%s' '%s' >&2", $symfile->{file}, $save_file->filename)), 0,
+	is(system('diff', '-u', $symfile->{file}, $save_file->filename), 0,
 	    basename($symfile->{file}) . ' dumped identical');
     }
 }
