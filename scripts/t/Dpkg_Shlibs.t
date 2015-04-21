@@ -21,6 +21,8 @@ use Test::More tests => 122;
 use Cwd;
 use IO::String;
 
+use Dpkg::Path qw(find_command);
+
 use_ok('Dpkg::Shlibs');
 
 my $tmp;
@@ -543,6 +545,11 @@ is ( $sym->{teststruct}{foo}, 1, 'original field "foo" not changed' );
 is ( $sym->{testfield}, 1, 'original field "testfield" not changed' );
 
 ############ Test symbol patterns ###########
+
+SKIP: {
+
+skip 'c++filt not available', 41 if not find_command('c++filt');
+
 sub load_patterns_obj {
     $obj = Dpkg::Shlibs::Objdump::Object->new();
     open $objdump, '<', "$datadir/objdump.patterns"
@@ -715,4 +722,6 @@ is_deeply( \@tmp, [ $pat->get_symbolspec(1) ],
 foreach my $sym ($pat->get_pattern_matches()) {
     ok(!$sym->{deprecated}, $sym->get_symbolname() . ': not deprecated');
     is($sym->{minver}, '100.FOUND', $sym->get_symbolname() . ': version bumped');
+}
+
 }
