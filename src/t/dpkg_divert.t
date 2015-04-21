@@ -619,8 +619,14 @@ SKIP: {
 
     system("chmod 500 $admindir");
     call_divert(["$testdir/foo"], expect_failure => 1, expect_stderr_like => qr/create.*new/);
-    system("chmod 755 $admindir; ln -s /dev/full $admindir/diversions-new");
-    call_divert(["$testdir/foo"], expect_failure => 1, expect_stderr_like => qr/(write|flush|close).*new/);
+
+    SKIP: {
+        skip 'device /dev/full is not available', 2 if not -c '/dev/full';
+
+        system("chmod 755 $admindir; ln -s /dev/full $admindir/diversions-new");
+        call_divert(["$testdir/foo"], expect_failure => 1,
+                    expect_stderr_like => qr/(write|flush|close).*new/);
+    }
 }
 
 system("rm -f $admindir/diversions-new; mkdir $admindir/diversions-old");
