@@ -19,7 +19,7 @@ package Dpkg::Control::Info;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Dpkg::Control;
 use Dpkg::ErrorHandling;
@@ -45,26 +45,36 @@ syntax as F<debian/control>.
 
 =over 4
 
-=item $c = Dpkg::Control::Info->new($file)
+=item $c = Dpkg::Control::Info->new(%opts)
 
-Create a new Dpkg::Control::Info object for $file. If $file is omitted, it
-loads F<debian/control>. If file is "-", it parses the standard input.
+Create a new Dpkg::Control::Info object. Loads the file from the filename
+option, if no option is specified filename defaults to F<debian/control>.
+If a scalar is passed instead, it will be used as the filename. If filename
+is "-", it parses the standard input. If filename is undef no loading will
+be performed.
 
 =cut
 
 sub new {
-    my ($this, $arg) = @_;
+    my ($this, @args) = @_;
     my $class = ref($this) || $this;
     my $self = {
 	source => undef,
 	packages => [],
     };
     bless $self, $class;
-    if ($arg) {
-	$self->load($arg);
+
+    my %opts;
+    if (scalar @args == 0) {
+        $opts{filename} = 'debian/control';
+    } elsif (scalar @args == 1) {
+        $opts{filename} = $args[0];
     } else {
-	$self->load('debian/control');
+        %opts = @args;
     }
+
+    $self->load($opts{filename}) if $opts{filename};
+
     return $self;
 }
 
@@ -202,6 +212,10 @@ information.
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.01
+
+New argument: The $c->new() constructor accepts an %opts argument.
 
 =head2 Version 1.00
 
