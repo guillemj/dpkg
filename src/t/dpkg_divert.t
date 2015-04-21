@@ -43,6 +43,8 @@ if (! -x "@dd") {
 plan tests => 257;
 
 sub cleanup {
+    # On FreeBSD «rm -rf» cannot traverse a directory with mode 000.
+    system("test -d $testdir/nadir && rmdir $testdir/nadir");
     system("rm -rf $tmpdir && mkdir -p $testdir");
     system("mkdir -p $admindir/updates");
     system("rm -f $admindir/status && touch $admindir/status");
