@@ -67,6 +67,7 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <sys/select.h>
 #include <sys/ioctl.h>
 
 #include <assert.h>
@@ -136,8 +137,6 @@
 #define PROCESS_NAME_SIZE MAXCOMLEN
 #endif
 
-#define MIN_POLL_INTERVAL 20000 /* µs */
-
 #if defined(SYS_ioprio_set) && defined(linux)
 #define HAVE_IOPRIO_SET
 #endif
@@ -166,6 +165,16 @@ enum action_code {
 	ACTION_STOP,
 	ACTION_STATUS,
 };
+
+/* Time conversion constants. */
+enum {
+	NANOSEC_IN_SEC      = 1000000000L,
+	NANOSEC_IN_MILLISEC = 1000000L,
+	NANOSEC_IN_MICROSEC = 1000L,
+};
+
+/* The minimum polling interval, 20ms. */
+static const long MIN_POLL_INTERVAL = 20 * NANOSEC_IN_MILLISEC;
 
 static enum action_code action;
 static bool testmode = false;
@@ -298,19 +307,40 @@ xstrdup(const char *str)
 }
 
 static void
-xgettimeofday(struct timeval *tv)
+timespec_gettime(struct timespec *ts)
 {
-	if (gettimeofday(tv, NULL) != 0)
+	struct timeval tv;
+
+	if (gettimeofday(&tv, NULL) != 0)
 		fatal("gettimeofday failed");
+
+	ts->tv_sec = tv.tv_sec;
+	ts->tv_nsec = tv.tv_usec * NANOSEC_IN_MICROSEC;
+}
+
+#define timespec_cmp(a, b, OP) \
+	(((a)->tv_sec == (b)->tv_sec) ? \
+	 ((a)->tv_nsec OP (b)->tv_nsec) : \
+	 ((a)->tv_sec OP (b)->tv_sec))
+
+static void
+timespec_sub(struct timespec *a, struct timespec *b, struct timespec *res)
+{
+	res->tv_sec = a->tv_sec - b->tv_sec;
+	res->tv_nsec = a->tv_nsec - b->tv_nsec;
+	if (res->tv_nsec < 0) {
+		res->tv_sec--;
+		res->tv_nsec += NANOSEC_IN_SEC;
+	}
 }
 
 static void
-tmul(struct timeval *a, int b)
+timespec_mul(struct timespec *a, int b)
 {
 	a->tv_sec *= b;
-	a->tv_usec *= b;
-	a->tv_sec = a->tv_sec + a->tv_usec / 1000000;
-	a->tv_usec %= 1000000;
+	a->tv_nsec *= b;
+	a->tv_sec = a->tv_sec + a->tv_nsec / NANOSEC_IN_SEC;
+	a->tv_nsec %= NANOSEC_IN_SEC;
 }
 
 static char *
@@ -2027,44 +2057,44 @@ set_what_stop(const char *str)
 static bool
 do_stop_timeout(int timeout, int *n_killed, int *n_notkilled)
 {
-	struct timeval stopat, before, after, interval, maxinterval;
+	struct timespec stopat, before, after, interval, maxinterval;
 	int rc, ratio;
 
-	xgettimeofday(&stopat);
+	timespec_gettime(&stopat);
 	stopat.tv_sec += timeout;
 	ratio = 1;
 	for (;;) {
-		xgettimeofday(&before);
-		if (timercmp(&before, &stopat, >))
+		timespec_gettime(&before);
+		if (timespec_cmp(&before, &stopat, >))
 			return false;
 
 		do_stop(0, n_killed, n_notkilled);
 		if (!*n_killed)
 			return true;
 
-		xgettimeofday(&after);
+		timespec_gettime(&after);
 
-		if (!timercmp(&after, &stopat, <))
+		if (!timespec_cmp(&after, &stopat, <))
 			return false;
 
 		if (ratio < 10)
 			ratio++;
 
-		timersub(&stopat, &after, &maxinterval);
-		timersub(&after, &before, &interval);
-		tmul(&interval, ratio);
+		timespec_sub(&stopat, &after, &maxinterval);
+		timespec_sub(&after, &before, &interval);
+		timespec_mul(&interval, ratio);
 
-		if (interval.tv_sec < 0 || interval.tv_usec < 0)
-			interval.tv_sec = interval.tv_usec = 0;
+		if (interval.tv_sec < 0 || interval.tv_nsec < 0)
+			interval.tv_sec = interval.tv_nsec = 0;
 
-		if (timercmp(&interval, &maxinterval, >))
+		if (timespec_cmp(&interval, &maxinterval, >))
 			interval = maxinterval;
 
 		if (interval.tv_sec == 0 &&
-		    interval.tv_usec <= MIN_POLL_INTERVAL)
-			interval.tv_usec = MIN_POLL_INTERVAL;
+		    interval.tv_nsec <= MIN_POLL_INTERVAL)
+			interval.tv_nsec = MIN_POLL_INTERVAL;
 
-		rc = select(0, NULL, NULL, NULL, &interval);
+		rc = pselect(0, NULL, NULL, NULL, &interval, NULL);
 		if (rc < 0 && errno != EINTR)
 			fatal("select() failed for pause");
 	}
