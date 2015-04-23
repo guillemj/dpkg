@@ -22,6 +22,7 @@ DPKG_DIST_CHECK([test "$GMSGFMT" = ":" && test "$USE_NLS" = "yes"],
 # Shared libraries are disabled on purpose, currently there is no ABI stability
 # guarantee, and it will be broken at will. The infrastructure is in place just
 # to be able to test that its future activation will work.
+AM_PROG_AR
 LT_INIT([disable-shared])
 DPKG_BUILD_SHARED_LIBS
 DPKG_LINKER_VERSION_SCRIPT
