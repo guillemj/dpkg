@@ -344,10 +344,11 @@ timespec_sub(struct timespec *a, struct timespec *b, struct timespec *res)
 static void
 timespec_mul(struct timespec *a, int b)
 {
+	long nsec = a->tv_nsec * b;
+
 	a->tv_sec *= b;
-	a->tv_nsec *= b;
-	a->tv_sec = a->tv_sec + a->tv_nsec / NANOSEC_IN_SEC;
-	a->tv_nsec %= NANOSEC_IN_SEC;
+	a->tv_sec += nsec / NANOSEC_IN_SEC;
+	a->tv_nsec = nsec % NANOSEC_IN_SEC;
 }
 
 static char *
