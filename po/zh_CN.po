@@ -9,14 +9,14 @@
 # Anthony Wong <ypwong@debian.org.hk>, 2007.
 # Deng Xiyue <manphiz-guest@users.alioth.debian.org>, 2007, 2008, 2009.
 # Aron Xu <happyaron.xu@gmail.com>, 2009, 2010.
-# Zhou Mo <cdluminate@gmail.com>, 2014.
+# Zhou Mo <cdluminate@gmail.com>, 2014, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.15.8.7\n"
+"Project-Id-Version: dpkg 1.18.x\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2015-04-07 09:46+0200\n"
-"PO-Revision-Date: 2015-04-07 19:11+0200\n"
+"PO-Revision-Date: 2015-04-10 12:45+0000\n"
 "Last-Translator: Zhou Mo <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
 "Language: zh_CN\n"
@@ -884,10 +884,9 @@ msgid "invalid integer for --%s: '%.250s'"
 msgstr "--%s 有一个无效的整数： %.250s"
 
 #: lib/dpkg/options.c
-#, fuzzy, c-format
-#| msgid "obsolete option '--%s'\n"
+#, c-format
 msgid "obsolete option '--%s'"
-msgstr "废弃选项 ’--%s‘\n"
+msgstr "废弃的选项 ’--%s‘"
 
 #: lib/dpkg/options.c
 #, c-format
@@ -1016,8 +1015,7 @@ msgid "field name '%.*s' cannot start with hyphen"
 msgstr "字段名 '%.*s' 不能以连字符开头"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "EOF after field name `%.*s'"
+#, c-format
 msgid "end of file after field name '%.*s'"
 msgstr "在字段名 %.*s 后有 EOF"
 
@@ -1027,8 +1025,7 @@ msgid "newline in field name '%.*s'"
 msgstr "在字段名 %.*s 中有换行符"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "MSDOS EOF (^Z) in field name `%.*s'"
+#, c-format
 msgid "MSDOS end of file (^Z) in field name '%.*s'"
 msgstr "在字段名 %.*s 中有 MSDOS EOF (^Z)"
 
@@ -1038,14 +1035,12 @@ msgid "field name '%.*s' must be followed by colon"
 msgstr "字段名 %.*s 后必须跟冒号"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "EOF before value of field `%.*s' (missing final newline)"
+#, c-format
 msgid "end of file before value of field '%.*s' (missing final newline)"
-msgstr "在字段 %.*s 的值的前面有 EOF(缺失结尾的换行符)"
+msgstr "在字段 %.*s 的值的前面有 EOF (缺失结尾的换行符)"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
+#, c-format
 msgid "MSDOS end of file char in value of field '%.*s' (missing newline?)"
 msgstr "在字段 %.*s 的值中间有 MSDOS EOF 字符(缺少最后结尾的换行符？)"
 
@@ -1055,8 +1050,7 @@ msgid "blank line in value of field '%.*s'"
 msgstr "在字段 %.*s 的值中有空行"
 
 #: lib/dpkg/parse.c
-#, fuzzy, c-format
-#| msgid "EOF during value of field `%.*s' (missing final newline)"
+#, c-format
 msgid "end of file during value of field '%.*s' (missing final newline)"
 msgstr "在字段 %.*s 的值中间发有 EOF 字符(缺失结尾的换行符)"
 
@@ -1403,10 +1397,9 @@ msgid "too-long line or missing newline in '%.250s'"
 msgstr "文件 %.250s 中的行太长，或者缺少换行符"
 
 #: lib/dpkg/utils.c
-#, fuzzy, c-format
-#| msgid "unexpected end of file in %.250s"
+#, c-format
 msgid "unexpected end of file reading '%.250s'"
-msgstr "在 %.250s 中发现未预期的文件结束符"
+msgstr "读取 %.250s 时遭遇未预期的文件结束符"
 
 #: lib/dpkg/varbuf.c
 msgid "error formatting string into varbuf variable"
@@ -1947,10 +1940,8 @@ msgid "read error on stdin at conffile prompt"
 msgstr "在 conffile 提示输入时读取标准输入出错"
 
 #: src/configure.c
-#, fuzzy
-#| msgid "read error on stdin at conffile prompt"
 msgid "end of file on stdin at conffile prompt"
-msgstr "在 conffile 提示输入时读取标准输入出错"
+msgstr "在 conffile 提示时读取标准输入时遭遇 EOF"
 
 #: src/configure.c
 msgid "conffile difference visualizer"
@@ -2715,13 +2706,12 @@ msgstr "--compare-versions 错误的比较关系"
 #: src/enquiry.c
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
-msgstr ""
+msgstr "--%s 使用了废弃的关系操作符 '%s' "
 
 #: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "version '%s' has bad syntax: %s"
+#, c-format
 msgid "version '%s' has bad syntax"
-msgstr "版本号 %s 语法错误：%s"
+msgstr "版本号 '%s' 语法错误"
 
 #: src/errors.c
 #, c-format
@@ -3049,12 +3039,7 @@ msgstr ""
 "\n"
 
 #: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-#| " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --"
-#| "help).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Use dpkg with -b, --build, -c, --contents, -e, --control, -I, --info,\n"
 "  -f, --field, -x, --extract, -X, --vextract, --ctrl-tarfile, --fsys-"
@@ -3062,9 +3047,10 @@ msgid ""
 "on archives (type %s --help).\n"
 "\n"
 msgstr ""
-"对归档文件使用 dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--"
-"field|\n"
-"  -x|--extract|-X|--vextract|--fsys-tarfile (输入 %s --help)。\n"
+"调用 dpkg 并带参数 -b, --build, -c, --contents, -e, --control, -I, --info,\n"
+"  -f, --field, -x, --extract, -X, --vextract, --ctrl-tarfile, --fsys-"
+"tarfile\n"
+"是针对归档文件的。 (输入 %s --help 获取帮助)\n"
 "\n"
 
 #: src/main.c
@@ -3451,10 +3437,9 @@ msgid "unknown force/refuse option '%.*s'"
 msgstr "无法识别的 force/refuse 选项 %.*s "
 
 #: src/main.c
-#, fuzzy, c-format
-#| msgid "obsolete force/refuse option '%s'\n"
+#, c-format
 msgid "obsolete force/refuse option '%s'"
-msgstr "废弃的强制或拒绝选项 %s \n"
+msgstr "废弃的强制或拒绝选项 '%s'"
 
 #: src/main.c
 #, c-format
@@ -3462,10 +3447,9 @@ msgid "couldn't open '%i' for stream"
 msgstr "无法为流打开 %i"
 
 #: src/main.c
-#, fuzzy, c-format
-#| msgid "unexpected eof before end of line %d"
+#, c-format
 msgid "unexpected end of file before end of line %d"
-msgstr "在第 %d 行还未结束时，发现未预料的 eof"
+msgstr "在第 %d 行还未结束时，遭遇未预料的文件结束"
 
 #: src/main.c src/querycmd.c src/statcmd.c dpkg-deb/main.c dpkg-split/main.c
 msgid "need an action option"
@@ -3896,7 +3880,7 @@ msgid "cannot remove old config file '%.250s' (= '%.250s')"
 msgstr "无法删除原有的配置文件 %.250s  (= %.250s )"
 
 #: src/remove.c
-#, fuzzy, c-format
+#, c-format
 #| msgid "cannot read config file dir `%.250s' (from `%.250s')"
 msgid "cannot read config file directory '%.250s' (from '%.250s')"
 msgstr "无法读取配置文件所在目录 %.250s (从 %.250s )"
@@ -3979,21 +3963,19 @@ msgid "... it looks like that went OK"
 msgstr "... 它看起来没有问题"
 
 #: src/select.c
-#, fuzzy, c-format
-#| msgid "unexpected end of line in package name at line %d"
+#, c-format
 msgid "unexpected end of file in package name at line %d"
-msgstr "在第 %d 行的软件包名中发现该行在此结束，这出乎我们的意料"
+msgstr "在第 %d 行的软件包名中遭遇未预期的文件结束"
 
 #: src/select.c
 #, c-format
 msgid "unexpected end of line in package name at line %d"
-msgstr "在第 %d 行的软件包名中发现该行在此结束，这出乎我们的意料"
+msgstr "在第 %d 行的软件包名中遭遇未预期的行结束"
 
 #: src/select.c
-#, fuzzy, c-format
-#| msgid "unexpected end of line after package name at line %d"
+#, c-format
 msgid "unexpected end of file after package name at line %d"
-msgstr "在第 %d 行的软件包名后发现该行在此结束，这出乎我们的意料"
+msgstr "在第 %d 行的软件包名后遭遇未预期的文件结束"
 
 #: src/select.c
 #, c-format
@@ -4091,16 +4073,14 @@ msgid "stripping trailing /"
 msgstr "移除后面的 /"
 
 #: src/statcmd.c
-#, fuzzy, c-format
-#| msgid "control file '%s' does not exist"
+#, c-format
 msgid "user '%s' does not exist"
-msgstr "control 文件 %s 不存在"
+msgstr "用户 '%s' 不存在"
 
 #: src/statcmd.c
-#, fuzzy, c-format
-#| msgid "control file '%s' does not exist"
+#, c-format
 msgid "group '%s' does not exist"
-msgstr "control 文件 %s 不存在"
+msgstr "用户组 '%s' 不存在"
 
 #: src/statcmd.c
 #, c-format
@@ -4934,7 +4914,7 @@ msgstr ""
 #: dpkg-deb/extract.c
 #, c-format
 msgid "--%s does not support (yet) reading the .deb from standard input"
-msgstr ""
+msgstr "--%s 到目前为止仍不支持从标准输入读取 .deb 文件"
 
 #: dpkg-deb/info.c
 #, c-format
@@ -5585,7 +5565,7 @@ msgstr "软件包字段值提取"
 
 #: dpkg-split/split.c
 msgid "<dpkg-deb --info pipe>"
-msgstr ""
+msgstr "<dpkg-deb --info pipe>"
 
 #: dpkg-split/split.c
 #, c-format
@@ -5911,11 +5891,9 @@ msgid "Status"
 msgstr "状态"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Press enter to keep the current choice[*], or type selection number: "
+#, c-format
 msgid "Press <enter> to keep the current choice[*], or type selection number: "
-msgstr "要维持当前值[*]请按回车键，或者键入选择的编号："
+msgstr "要维持当前值[*]请按<回车键>，或者键入选择的编号："
 
 #: utils/update-alternatives.c
 #, c-format
