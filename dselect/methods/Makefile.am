@@ -51,7 +51,9 @@ CLEANFILES = \
 do_perl_subst = $(AM_V_GEN) \
 	sed -e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):"
 
-%: %.pl Makefile
+SUFFIXES = .pl
+
+.pl: Makefile
 	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
 	$(do_perl_subst) <$< >$@
 	$(AM_V_at) chmod +x $@
