@@ -29,6 +29,7 @@ check-local: $(test_data) $(test_programs) $(test_scripts)
 	  LC_ALL=C \
 	  $(TEST_ENV_VARS) \
 	  srcdir=$(srcdir) builddir=$(builddir) \
+	  CC=$(CC) \
 	  PERL_DL_NONLAZY=1 \
 	  PERL5OPT=$(TEST_COVERAGE) \
 	  $(PERL) -MTAP::Harness -e $(TEST_RUNNER) \
