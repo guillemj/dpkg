@@ -218,6 +218,7 @@ AC_CHECK_FUNCS([\
   getprogname \
   getexecname \
   lutimes \
+  utimensat \
   fallocate \
   posix_fallocate \
   posix_fadvise \
