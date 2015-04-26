@@ -482,6 +482,28 @@ static void
 tarobject_set_mtime(struct tar_entry *te, const char *path)
 {
   struct timeval tv[2];
+#ifdef HAVE_UTIMENSAT
+  struct timespec ts[2];
+  int rc, flags;
+
+  ts[0].tv_sec = currenttime;
+  ts[0].tv_nsec = 0;
+  ts[1].tv_sec = te->mtime;
+  ts[1].tv_nsec = 0;
+
+  if (te->type == TAR_FILETYPE_SYMLINK)
+    flags = AT_SYMLINK_NOFOLLOW;
+  else
+    flags = 0;
+
+  /* Try to use the POSIX.1-2008 interface, and fallback to the old code in
+   * case it's not supported by the system at run-time. */
+  rc = utimensat(AT_FDCWD, path, ts, flags);
+  if (rc == 0)
+    return;
+  else if (rc < 0 && errno != ENOSYS)
+    ohshite(_("error setting timestamps of '%.255s'"), path);
+#endif
 
   tv[0].tv_sec = currenttime;
   tv[0].tv_usec = 0;
