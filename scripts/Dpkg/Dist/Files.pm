@@ -1,4 +1,4 @@
-# Copyright © 2014 Guillem Jover <guillem@debian.org>
+# Copyright © 2014-2015 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,7 +32,6 @@ sub new {
     my $self = {
         options => [],
         files => {},
-        order => [],
     };
     foreach my $opt (keys %opts) {
         $self->{$opt} = $opts{$opt};
@@ -76,7 +75,6 @@ sub parse {
         } else {
             $count++;
             $self->{files}->{$file{filename}} = \%file;
-            push @{$self->{order}}, $file{filename};
         }
     }
 
@@ -86,7 +84,7 @@ sub parse {
 sub get_files {
     my $self = shift;
 
-    return map { $self->{files}->{$_} } @{$self->{order}};
+    return map { $self->{files}->{$_} } sort keys %{$self->{files}};
 }
 
 sub get_file {
@@ -102,10 +100,6 @@ sub add_file {
     # on parse(), and initialize the other attributes, although no code is
     # in need of this for now, at least in dpkg-dev.
 
-    if (not defined $self->{files}->{$filename}) {
-        push @{$self->{order}}, $filename;
-    }
-
     $self->{files}->{$filename} = {
         filename => $filename,
         section => $section,
@@ -117,8 +111,6 @@ sub del_file {
     my ($self, $filename) = @_;
 
     delete $self->{files}->{$filename};
-
-    @{$self->{order}} = grep { $_ ne $filename } @{$self->{order}};
 }
 
 sub output {
@@ -127,7 +119,7 @@ sub output {
 
     binmode $fh if defined $fh;
 
-    foreach my $filename (@{$self->{order}}) {
+    foreach my $filename (sort keys %{$self->{files}}) {
         my $file = $self->{files}->{$filename};
         my $entry = "$filename $file->{section} $file->{priority}\n";
 

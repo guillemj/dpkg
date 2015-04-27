@@ -67,12 +67,13 @@ my %expected = (
 my $dist = Dpkg::Dist::Files->new();
 $dist->load("$datadir/files-byhand") or error('cannot parse file');
 
-$expected = 'pkg-templ_1.2.3_arch.type section priority
+$expected = <<'FILES';
+BY-HAND-file webdocs optional
+other_0.txt text optional
 pkg-arch_2.0.0_amd64.deb admin required
 pkg-indep_0.0.1-2_all.deb net standard
-other_0.txt text optional
-BY-HAND-file webdocs optional
-';
+pkg-templ_1.2.3_arch.type section priority
+FILES
 
 is($dist->output(), $expected, 'Parsed dist file');
 foreach my $f ($dist->get_files()) {
@@ -86,12 +87,13 @@ foreach my $f ($dist->get_files()) {
               "Detail for individual dist file $filename, via get_file()");
 }
 
-$expected = 'pkg-templ_1.2.3_arch.type section priority
-pkg-arch_2.0.0_amd64.deb void imperative
-other_0.txt text optional
+$expected = <<'FILES';
 BY-HAND-file webdocs optional
 added-on-the-fly void wish
-';
+other_0.txt text optional
+pkg-arch_2.0.0_amd64.deb void imperative
+pkg-templ_1.2.3_arch.type section priority
+FILES
 
 $dist->add_file('added-on-the-fly', 'void', 'wish');
 $dist->add_file('pkg-arch_2.0.0_amd64.deb', 'void', 'imperative');
