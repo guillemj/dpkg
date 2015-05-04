@@ -59,7 +59,6 @@ my @profiles = get_build_profiles();
 my $changes_format = '1.8';
 
 my %p2f;           # - package to file map, has entries for "packagename"
-my %p2arch;        # - package to arch map
 my %f2seccf;       # - package to section map, from control file
 my %f2pricf;       # - package to priority map, from control file
 my %sourcedefault; # - default values as taken from source (used for Section,
@@ -380,8 +379,6 @@ foreach my $pkg ($control->get_packages()) {
 	next; # and skip it
     }
 
-    $p2arch{$p} = $a;
-
     foreach (keys %{$pkg}) {
 	my $v = $pkg->{$_};
 
@@ -490,7 +487,7 @@ for my $file ($dist->get_files()) {
     my $f = $file->{filename};
 
     if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
-        my $arch_all = debarch_eq('all', $p2arch{$file->{package}});
+        my $arch_all = debarch_eq('all', $file->{arch});
 
         next if (not ($include & BUILD_ARCH_INDEP) and $arch_all);
         next if (not ($include & BUILD_ARCH_DEP) and not $arch_all);
