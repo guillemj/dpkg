@@ -424,9 +424,7 @@ if ($changesdescription) {
 for my $p (keys %p2f) {
     warning(g_('package %s listed in files list but not in control info'), $p)
         unless defined $control->get_pkg_by_name($p);
-}
 
-for my $p (keys %p2f) {
     my @f = @{$p2f{$p}};
 
     foreach my $f (@f) {
