@@ -277,7 +277,7 @@ if ($include & BUILD_SOURCE) {
     my $dsc = "${spackage}_${sversion}.dsc";
     my $dsc_pathname = "$uploadfilesdir/$dsc";
     my $dsc_fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
-    $dsc_fields->load($dsc_pathname) or error(g_('%s is empty', $dsc_pathname));
+    $dsc_fields->load($dsc_pathname) or error(g_('%s is empty'), $dsc_pathname);
     $checksums->add_from_file($dsc_pathname, key => $dsc);
     $checksums->add_from_control($dsc_fields, use_files_for_md5 => 1);
 
