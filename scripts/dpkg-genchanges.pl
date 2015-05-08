@@ -359,7 +359,7 @@ foreach my $pkg ($control->get_packages()) {
 
     # Add description of all binary packages
     my $desc = encode_utf8(sprintf('%-10s - %-.65s', $p, decode_utf8($d)));
-    $desc .= ' (udeb)' if $pkg_type eq 'udeb';
+    $desc .= " ($pkg_type)" if $pkg_type ne 'deb';
     push @descriptions, $desc;
 
     my @restrictions;
