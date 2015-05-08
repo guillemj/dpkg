@@ -427,9 +427,7 @@ for my $p (keys %p2f) {
         next;
     }
 
-    my @f = @{$p2f{$p}};
-
-    foreach my $f (@f) {
+    foreach my $f (@{$p2f{$p}}) {
 	my $file = $dist->get_file($f);
 
 	my $sec = $f2seccf{$f} || $sourcedefault{'Section'} // '-';
