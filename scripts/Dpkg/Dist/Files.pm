@@ -41,6 +41,12 @@ sub new {
     return $self;
 }
 
+sub reset {
+    my $self = shift;
+
+    $self->{files} = {};
+}
+
 sub parse_filename {
     my ($self, $fn) = @_;
 
