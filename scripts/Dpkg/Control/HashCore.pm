@@ -247,7 +247,7 @@ sub parse {
 		chomp;
 		unless (m/^-----BEGIN PGP SIGNATURE-----[\r\t ]*$/) {
 		    $self->parse_error($desc, g_('expected OpenPGP signature, ' .
-		                                 "found something else \`%s'"), $_);
+		                                 "found something else '%s'"), $_);
                 }
 		# Skip OpenPGP signature
 		while (<$fh>) {
