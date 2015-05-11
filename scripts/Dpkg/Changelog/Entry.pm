@@ -43,7 +43,7 @@ This object represents a changelog entry. It is composed
 of a set of lines with specific purpose: an header line, changes lines, a
 trailer line. Blank lines can be between those kind of lines.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
 =over 4
 

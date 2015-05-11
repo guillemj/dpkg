@@ -41,7 +41,7 @@ Dpkg::Control::Info - parse files like debian/control
 It provides an object to access data of files that follow the same
 syntax as F<debian/control>.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
 =over 4
 

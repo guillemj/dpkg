@@ -61,7 +61,7 @@ modified. Empty lines and lines containing only dots are prefixed with
 During parsing, trailing spaces are stripped on all lines while leading
 spaces are stripped only on the first line of each field.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
 =over 4
 

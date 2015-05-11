@@ -27,8 +27,6 @@ as an array of changelog entries (Dpkg::Changelog::Entry).
 By deriving this object and implementing its parse method, you
 add the ability to fill this object with changelog entries.
 
-=head2 FUNCTIONS
-
 =cut
 
 package Dpkg::Changelog;
@@ -51,6 +49,8 @@ use parent qw(Dpkg::Interface::Storable);
 
 use overload
     '@{}' => sub { return $_[0]->{data} };
+
+=head1 METHODS
 
 =over 4
 

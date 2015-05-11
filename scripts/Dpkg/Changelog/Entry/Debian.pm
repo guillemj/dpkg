@@ -68,7 +68,7 @@ our $regex_trailer = qr/^ \-\- (.*) <(.*)>(  ?)((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}
 
 ## use critic
 
-=head1 FUNCTIONS
+=head1 METHODS
 
 =over 4
 

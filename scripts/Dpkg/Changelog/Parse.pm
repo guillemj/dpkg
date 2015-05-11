@@ -26,8 +26,6 @@ Dpkg::Changelog::Parse - generic changelog parser for dpkg-parsechangelog
 This module provides a single function changelog_parse() which reproduces
 all the features of dpkg-parsechangelog.
 
-=head2 FUNCTIONS
-
 =cut
 
 package Dpkg::Changelog::Parse;
@@ -46,6 +44,8 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Changelog;
+
+=head1 FUNCTIONS
 
 =over 4
 

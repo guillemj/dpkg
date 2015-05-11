@@ -44,7 +44,7 @@ extended period. If you run an important distribution that makes use
 of vendor hooks, you'd better submit them for integration so that
 we avoid breaking your code.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
 =over 4
 

@@ -113,7 +113,7 @@ Corresponds to the output of dpkg-parsechangelog.
 
 =back
 
-=head1 FUNCTIONS
+=head1 METHODS
 
 All the methods of Dpkg::Control::Hash are available. Those listed below
 are either new or overridden with a different behaviour.

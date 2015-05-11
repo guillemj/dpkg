@@ -38,7 +38,7 @@ The Dpkg::BuildOptions object can be used to manipulate options stored
 in environment variables like DEB_BUILD_OPTIONS and
 DEB_BUILD_MAINT_OPTIONS.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
 =over 4
 

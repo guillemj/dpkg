@@ -109,7 +109,7 @@ sub checksums_get_property($$) {
 
 =back
 
-=head1 OBJECT METHODS
+=head1 METHODS
 
 =over 4
 

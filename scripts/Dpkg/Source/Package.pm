@@ -29,8 +29,6 @@ packages. While it supports both the extraction and the creation
 of source packages, the only API that is officially supported
 is the one that supports the extraction of the source package.
 
-=head1 FUNCTIONS
-
 =cut
 
 use strict;
@@ -124,6 +122,8 @@ _darcs
 );
 ## use critic
 
+=head1 FUNCTIONS
+
 =over 4
 
 =item my $string = get_default_diff_ignore_regex()
@@ -157,6 +157,12 @@ Returns the default tar ignore pattern, as an array.
 sub get_default_tar_ignore_pattern {
     return @tar_ignore_default_pattern;
 }
+
+=back
+
+=head1 METHODS
+
+=over 4
 
 =item $p = Dpkg::Source::Package->new(filename => $dscfile, options => {})
 

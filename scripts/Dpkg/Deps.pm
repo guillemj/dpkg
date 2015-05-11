@@ -410,7 +410,7 @@ dependencies and while trying to simplify them. It represents a set of
 installed packages along with the virtual packages that they might
 provide.
 
-=head2 COMMON FUNCTIONS
+=head2 COMMON METHODS
 
 =over 4
 

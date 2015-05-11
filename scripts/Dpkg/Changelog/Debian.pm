@@ -35,8 +35,6 @@ NOTE: most of these are ignored silently currently, there is no
 parser error issued for them. This should become configurable in the
 future.
 
-=head2 METHODS
-
 =cut
 
 package Dpkg::Changelog::Debian;
@@ -59,6 +57,8 @@ use constant {
     START_CHANGES => g_('start of change data'),
     CHANGES_OR_TRAILER => g_('more change data or trailer'),
 };
+
+=head1 METHODS
 
 =over 4
 

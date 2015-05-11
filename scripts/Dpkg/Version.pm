@@ -72,7 +72,7 @@ an object oriented interface overriding perl operators
 to do the right thing when you compare Dpkg::Version object between
 them.
 
-=head1 OBJECT INTERFACE
+=head1 METHODS
 
 =over 4
 

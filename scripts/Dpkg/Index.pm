@@ -40,7 +40,7 @@ Dpkg::Index - generic index of control information
 
 This object represent a set of Dpkg::Control objects.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
 =over 4
 
