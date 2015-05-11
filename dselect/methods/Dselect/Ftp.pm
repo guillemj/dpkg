@@ -88,13 +88,10 @@ sub store_config {
 }
 
 sub view_mirrors {
-  if (-f '/usr/lib/dpkg/methods/ftp/README.mirrors.txt') {
-    system('pager', '/usr/lib/dpkg/methods/ftp/README.mirrors.txt');
-  } elsif (-f '/usr/lib/dpkg/methods/ftp/README.mirrors.txt.gz') {
-    system('gzip -dc /usr/lib/dpkg/methods/ftp/README.mirrors.txt.gz | pager');
-  } else {
-    print "/usr/lib/dpkg/methods/ftp/README.mirrors.txt(.gz): file not found.\n";
-  }
+  print <<'MIRRORS';
+Please see <http://ftp.debian.org/debian/README.mirrors.txt> for a current
+list of Debian mirror sites.
+MIRRORS
 }
 
 sub edit_config {

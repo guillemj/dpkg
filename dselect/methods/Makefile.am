@@ -12,7 +12,6 @@ nobase_dist_methods_DATA = \
 	floppy/desc.floppy \
 	ftp/names \
 	ftp/desc.ftp \
-	ftp/README.mirrors.txt \
 	multicd/names \
 	multicd/desc.multi_cd \
 	multicd/desc.multi_mount \
