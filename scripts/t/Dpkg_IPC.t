@@ -76,6 +76,6 @@ is($string2, $string1, '{from,to}_file');
 eval {
     $pid = spawn(exec => ['sleep', '10'],
 	         wait_child => 1,
-	         timeout => 5);
+	         timeout => 1);
 };
 ok($@, 'fails on timeout');
