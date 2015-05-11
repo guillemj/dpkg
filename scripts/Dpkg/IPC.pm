@@ -20,7 +20,7 @@ package Dpkg::IPC;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our @EXPORT = qw(
     spawn
     wait_child
@@ -364,8 +364,8 @@ non-zero return code).
 
 =item timeout
 
-Set a maximum time to wait for the process, after that fail
-with an error message.
+Set a maximum time to wait for the process, after that kill the process and
+fail with an error message.
 
 =back
 
@@ -383,6 +383,7 @@ sub wait_child {
     };
     if ($@) {
         die $@ unless $@ eq "alarm\n";
+        kill 'TERM', $pid;
         error(P_("%s didn't complete in %d second",
                  "%s didn't complete in %d seconds",
                  $opts{timeout}),
@@ -399,6 +400,10 @@ __END__
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02
+
+Change options: wait_child() now kills the process when reaching the 'timeout'.
 
 =head2 Version 1.01
 
