@@ -276,6 +276,7 @@ test_data = \
 	t/Dpkg_Changelog/misplaced-tz \
 	t/Dpkg_Changelog/regressions \
 	t/Dpkg_Changelog/shadow \
+	t/Dpkg_Conf/config-mixed \
 	t/Dpkg_Control/control-1 \
 	t/Dpkg_Control/bogus-unsigned.dsc \
 	t/Dpkg_Control/bogus-armor-double.dsc \
