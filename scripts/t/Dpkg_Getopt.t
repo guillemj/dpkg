@@ -32,6 +32,4 @@ is_deeply(\@ARGV, \@expect_argv, 'unbundle short options');
 @expect_argv = qw(--option-a --option-b value --option-c value);
 is_deeply(\@ARGV, \@expect_argv, 'unbundle long options');
 
-# TODO: Add actual test cases.
-
 1;
