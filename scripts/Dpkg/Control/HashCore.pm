@@ -539,11 +539,11 @@ sub NEXTKEY {
 
 =head1 CHANGES
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.17.2)
 
 New method: $c->parse_error().
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.17.0)
 
 Mark the module as public.
 

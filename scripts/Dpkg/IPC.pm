@@ -401,15 +401,15 @@ __END__
 
 =head1 CHANGES
 
-=head2 Version 1.02
+=head2 Version 1.02 (dpkg 1.18.0)
 
 Change options: wait_child() now kills the process when reaching the 'timeout'.
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.17.11)
 
 New options: spawn() now accepts 'sig' and 'delete_sig'.
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 

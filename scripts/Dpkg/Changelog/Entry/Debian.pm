@@ -314,13 +314,13 @@ sub find_closes {
 
 =head1 CHANGES
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.17.2)
 
 New functions: match_header(), match_trailer()
 
 Deprecated variables: $regex_header, $regex_trailer
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 

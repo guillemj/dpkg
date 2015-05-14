@@ -213,11 +213,11 @@ information.
 
 =head1 CHANGES
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.18.0)
 
 New argument: The $c->new() constructor accepts an %opts argument.
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 

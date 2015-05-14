@@ -136,7 +136,7 @@ sub evaluate_restriction_formula {
 
 =head1 CHANGES
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.17.17)
 
 Mark the module as public.
 

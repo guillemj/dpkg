@@ -1464,11 +1464,11 @@ sub _evaluate_simple_dep {
 
 =head1 CHANGES
 
-=head2 Version 1.05
+=head2 Version 1.05 (dpkg 1.17.14)
 
 New function: Dpkg::Deps::deps_iterate().
 
-=head2 Version 1.04
+=head2 Version 1.04 (dpkg 1.17.10)
 
 New options: Add use_profiles, build_profiles, reduce_profiles and
 reduce_restrictions to Dpkg::Deps::deps_parse().
@@ -1476,15 +1476,15 @@ reduce_restrictions to Dpkg::Deps::deps_parse().
 New methods: Add $dep->profile_is_concerned() and $dep->reduce_profiles()
 for all dependency objects.
 
-=head2 Version 1.03
+=head2 Version 1.03 (dpkg 1.17.0)
 
 New option: Add build_arch option to Dpkg::Deps::deps_parse().
 
-=head2 Version 1.02
+=head2 Version 1.02 (dpkg 1.17.0)
 
 New function: Dpkg::Deps::deps_concat()
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.16.1)
 
 New method: Add $dep->reset() for all dependency objects.
 
@@ -1497,7 +1497,7 @@ supplementary parameters ($arch and $multiarch).
 Deprecated method: Dpkg::Deps::KnownFacts->check_package() is obsolete,
 it should not have been part of the public API.
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 

@@ -440,13 +440,13 @@ sub version_check($) {
 
 =head1 CHANGES
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.17.0)
 
 New argument: Accept an options argument in $v->as_string().
 
 New method: $v->is_native().
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 

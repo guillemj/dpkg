@@ -675,7 +675,7 @@ sub field_insert_before($$@) {
 
 =head1 CHANGES
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.17.0)
 
 Mark the module as public.
 

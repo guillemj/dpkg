@@ -231,18 +231,18 @@ sub compression_is_valid_level {
 
 =head1 CHANGES
 
-=head2 Version 1.02
+=head2 Version 1.02 (dpkg 1.17.2)
 
 New function: compression_get_file_extension_regex()
 
 Deprecated variables: $default_compression, $default_compression_level
 and $compression_re_file_ext
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.16.1)
 
 Default compression level is not global any more, it is per compressor type.
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 

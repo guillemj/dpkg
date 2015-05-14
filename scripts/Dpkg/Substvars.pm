@@ -389,15 +389,15 @@ sub output {
 
 =head1 CHANGES
 
-=head2 Version 1.04
+=head2 Version 1.04 (dpkg 1.18.0)
 
 New method: $s->filter().
 
-=head2 Version 1.03
+=head2 Version 1.03 (dpkg 1.17.11)
 
 New method: $s->set_as_auto().
 
-=head2 Version 1.02
+=head2 Version 1.02 (dpkg 1.16.5)
 
 New argument: Accept a $binaryversion in $s->set_version_substvars(),
 passing a single argument is still supported.
@@ -406,11 +406,11 @@ New method: $s->mark_as_used().
 
 Deprecated method: $s->no_warn(), use $s->mark_as_used() instead.
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.16.4)
 
 New method: $s->set_as_used().
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 

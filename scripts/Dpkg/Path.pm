@@ -281,23 +281,23 @@ sub find_build_file($) {
 
 =head1 CHANGES
 
-=head2 Version 1.04
+=head2 Version 1.04 (dpkg 1.17.11)
 
 Update semantics: find_command() now handles an empty or undef argument.
 
-=head2 Version 1.03
+=head2 Version 1.03 (dpkg 1.16.1)
 
 New function: find_build_file()
 
-=head2 Version 1.02
+=head2 Version 1.02 (dpkg 1.16.0)
 
 New function: get_control_path()
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.15.8)
 
 New function: find_command()
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 

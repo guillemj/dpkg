@@ -100,14 +100,14 @@ our $pkgdatadir = $DATADIR;
 
 =head1 CHANGES
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.17.0)
 
 New variables: $PROGNAME, $PROGVERSION, $CONFDIR, $ADMINDIR, $LIBDIR and
 $DATADIR.
 
 Deprecated variables: $version, $admindir, $dpkglibdir and $pkgdatadir.
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 

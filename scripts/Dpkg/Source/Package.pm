@@ -633,14 +633,14 @@ sub write_dsc {
 
 =head1 CHANGES
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.17.2)
 
 New functions: get_default_diff_ignore_regex(), set_default_diff_ignore_regex(),
 get_default_tar_ignore_pattern()
 
 Deprecated variables: $diff_ignore_default_regexp, @tar_ignore_default_pattern
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.16.1)
 
 Mark the module as public.
 

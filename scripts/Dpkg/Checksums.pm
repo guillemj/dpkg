@@ -376,7 +376,7 @@ sub export_to_control {
 
 =head1 CHANGES
 
-=head2 Version 1.02
+=head2 Version 1.02 (dpkg 1.18.0)
 
 Obsolete property: Getting the 'program' checksum property will carp() and
 return undef, the Digest module is used internally now.
@@ -384,14 +384,14 @@ return undef, the Digest module is used internally now.
 New property: Add new 'name' property with the name of the Digest algorithm
 to use.
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.17.6)
 
 New argument: Accept an options argument in $ck->export_to_string().
 
 New option: Accept new option 'update' in $ck->add_from_file() and
 $ck->add_from_control().
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 

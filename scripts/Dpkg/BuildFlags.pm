@@ -445,7 +445,7 @@ sub list {
 
 =head1 CHANGES
 
-=head2 Version 1.03
+=head2 Version 1.03 (dpkg 1.16.5)
 
 New method: $bf->get_feature_areas() to list possible values for
 $bf->get_features.
@@ -453,11 +453,11 @@ $bf->get_features.
 New method $bf->is_maintainer_modified() and new optional parameter to
 $bf->set(), $bf->append(), $bf->prepend(), $bf->strip().
 
-=head2 Version 1.02
+=head2 Version 1.02 (dpkg 1.16.2)
 
 New methods: $bf->get_features(), $bf->has_features(), $bf->set_feature().
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.16.1)
 
 New method: $bf->prepend() very similar to append(). Implement support of
 the prepend operation everywhere.
@@ -465,7 +465,7 @@ the prepend operation everywhere.
 New method: $bf->load_maintainer_config() that update the build flags
 based on the package maintainer directives.
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.7)
 
 Mark the module as public.
 

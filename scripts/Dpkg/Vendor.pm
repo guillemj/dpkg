@@ -190,11 +190,11 @@ sub run_vendor_hook {
 
 =head1 CHANGES
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.17.0)
 
 New function: get_vendor_dir().
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.16.1)
 
 Mark the module as public.
 

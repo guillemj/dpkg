@@ -191,12 +191,12 @@ sub export {
 
 =head1 CHANGES
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.16.1)
 
 Enable to use another environment variable instead of DEB_BUILD_OPTIONS.
 Thus add support for the "envvar" option at creation time.
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 

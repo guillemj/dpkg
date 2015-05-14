@@ -458,11 +458,11 @@ C<*$self->{...}> to access the associated hash like in the example below:
 
 =head1 CHANGES
 
-=head2 Version 1.01
+=head2 Version 1.01 (dpkg 1.17.11)
 
 New argument: $fh->ensure_open() accepts an %opts argument.
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 

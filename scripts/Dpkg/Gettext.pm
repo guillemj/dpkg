@@ -26,7 +26,7 @@ package Dpkg::Gettext;
 use strict;
 use warnings;
 
-our $VERSION = '1.02';
+our $VERSION = '1.01';
 our @EXPORT = qw(
     textdomain
     ngettext
@@ -150,20 +150,16 @@ sub _g ## no critic (Subroutines::ProhibitUnusedPrivateSubroutines)
 
 =head1 CHANGES
 
-=head2 Version 1.02
+=head2 Version 1.01 (dpkg 1.18.0)
 
 Now the short aliases (g_ and P_) will call domain aware functions with
 $DEFAULT_TEXT_DOMAIN.
 
-New function: C_().
-
-=head2 Version 1.01
-
-New function: g_().
+New functions: g_(), C_().
 
 Deprecated function: _g().
 
-=head2 Version 1.00
+=head2 Version 1.00 (dpkg 1.15.6)
 
 Mark the module as public.
 
