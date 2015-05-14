@@ -58,7 +58,7 @@ sub parse_filename {
         $file->{version} = $3;
         $file->{arch} = $4;
         $file->{package_type} = $5;
-    } elsif ($fn =~ m/^([-+.,_0-9a-zA-Z]+)$/) {
+    } elsif ($fn =~ m/^([-+.,_0-9a-zA-Z~]+)$/) {
         $file->{filename} = $1;
     } else {
         $file = undef;

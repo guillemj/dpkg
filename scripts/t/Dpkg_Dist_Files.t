@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 20;
+use Test::More tests => 23;
 
 use_ok('Dpkg::Dist::Files');
 
@@ -25,6 +25,16 @@ my $datadir = $srcdir . '/t/Dpkg_Dist_Files';
 
 my $expected;
 my %expected = (
+    'pkg-src_2.0+1A~rc1-1.dsc' => {
+        filename => 'pkg-src_2.0+1A~rc1-1.dsc',
+        section => 'source',
+        priority => 'extra',
+    },
+    'pkg-src_2.0+1A~rc1-1.tar.xz' => {
+        filename => 'pkg-src_2.0+1A~rc1-1.tar.xz',
+        section => 'source',
+        priority => 'extra',
+    },
     'pkg-templ_1.2.3_arch.type' => {
         filename => 'pkg-templ_1.2.3_arch.type',
         package => 'pkg-templ',
@@ -115,6 +125,23 @@ $dist->del_file('pkg-indep_0.0.1-2_all.deb');
 is($dist->get_file('unknown'), undef, 'Get unknown file');
 is($dist->get_file('pkg-indep_0.0.1-2_all.deb'), undef, 'Get deleted file');
 is($dist->output(), $expected, 'Modified dist object');
+
+$expected = <<'FILES';
+pkg-src_2.0+1A~rc1-1.dsc source extra
+pkg-src_2.0+1A~rc1-1.tar.xz source extra
+FILES
+
+$dist->reset();
+$dist->add_file('pkg-src_2.0+1A~rc1-1.dsc', 'source', 'extra');
+$dist->add_file('pkg-src_2.0+1A~rc1-1.tar.xz', 'source', 'extra');
+
+is_deeply($dist->get_file('pkg-src_2.0+1A~rc1-1.dsc'),
+          $expected{'pkg-src_2.0+1A~rc1-1.dsc'},
+          'Get added file pkg-src_2.0+1A~rc1-1.dsc');
+is_deeply($dist->get_file('pkg-src_2.0+1A~rc1-1.tar.xz'),
+          $expected{'pkg-src_2.0+1A~rc1-1.tar.xz'},
+          'Get added file pkg-src_2.0+1A~rc1-1.tar.xz');
+is($dist->output, $expected, 'Added source files');
 
 $expected = <<'FILES';
 pkg-arch_2.0.0_amd64.deb admin required
