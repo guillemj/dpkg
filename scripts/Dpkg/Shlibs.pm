@@ -43,8 +43,7 @@ use constant DEFAULT_LIBRARY_PATH =>
     qw(/lib /usr/lib);
 # XXX: Deprecated multilib paths.
 use constant DEFAULT_MULTILIB_PATH =>
-    qw(/lib32 /usr/lib32 /lib64 /usr/lib64
-       /emul/ia32-linux/lib /emul/ia32-linux/usr/lib);
+    qw(/lib32 /usr/lib32 /lib64 /usr/lib64);
 
 my @librarypaths;
 my $librarypaths_init;
