@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 122;
+use Test::More tests => 124;
 
 use Cwd;
 use IO::String;
@@ -32,6 +32,17 @@ my %tmp;
 my $srcdir = $ENV{srcdir} || '.';
 my $datadir = $srcdir . '/t/Dpkg_Shlibs';
 
+my @librarypaths;
+
+Dpkg::Shlibs::add_library_dir('/test-b');
+@librarypaths = Dpkg::Shlibs::get_library_paths();
+is($librarypaths[0], '/test-b', 'add_library_dir() does not get lost');
+
+Dpkg::Shlibs::add_library_dir('/test-a');
+@librarypaths = Dpkg::Shlibs::get_library_paths();
+is_deeply([ @librarypaths[0, 1] ] , [ '/test-a', '/test-b' ],
+          'add_library_dir() prepends');
+
 Dpkg::Shlibs::blank_library_paths();
 
 # We want relative paths inside the ld.so.conf fragments to work, and $srcdir
@@ -42,7 +53,7 @@ chdir($srcdir);
 Dpkg::Shlibs::parse_ldso_conf('t/Dpkg_Shlibs/ld.so.conf');
 chdir($cwd);
 
-my @librarypaths = Dpkg::Shlibs::get_library_paths();
+@librarypaths = Dpkg::Shlibs::get_library_paths();
 is_deeply(\@librarypaths,
           [ qw(/nonexistant32 /nonexistant/lib64
                /usr/local/lib /nonexistant/lib128) ], 'parsed library paths');

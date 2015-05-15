@@ -130,6 +130,9 @@ sub setup_library_paths {
 
 sub add_library_dir {
     my $dir = shift;
+
+    setup_library_paths() if not $librarypaths_init;
+
     unshift @librarypaths, $dir;
 }
 
