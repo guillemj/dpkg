@@ -91,30 +91,21 @@ sub setup_library_paths {
 
     # Adjust set of directories to consider when we're in a situation of a
     # cross-build or a build of a cross-compiler.
-    my ($crossprefix, $multiarch);
+    my $multiarch;
 
     # Detect cross compiler builds.
     if ($ENV{DEB_TARGET_GNU_TYPE} and
         ($ENV{DEB_TARGET_GNU_TYPE} ne $ENV{DEB_BUILD_GNU_TYPE}))
     {
-        $crossprefix = $ENV{DEB_TARGET_GNU_TYPE};
         $multiarch = gnutriplet_to_multiarch($ENV{DEB_TARGET_GNU_TYPE});
     }
     # Host for normal cross builds.
     if (get_build_arch() ne get_host_arch()) {
-        $crossprefix = debarch_to_gnutriplet(get_host_arch());
         $multiarch = debarch_to_multiarch(get_host_arch());
     }
     # Define list of directories containing crossbuilt libraries.
     if ($multiarch) {
         push @librarypaths, "/lib/$multiarch", "/usr/lib/$multiarch";
-    }
-    # XXX: Add deprecated sysroot and toolchain cross-compilation paths.
-    if ($crossprefix) {
-        push @librarypaths,
-             "/$crossprefix/lib", "/usr/$crossprefix/lib",
-             "/$crossprefix/lib32", "/usr/$crossprefix/lib32",
-             "/$crossprefix/lib64", "/usr/$crossprefix/lib64";
     }
 
     # XXX: Deprecated. Update library paths with LD_LIBRARY_PATH.
