@@ -42,8 +42,6 @@ chdir($srcdir);
 Dpkg::Shlibs::parse_ldso_conf('t/Dpkg_Shlibs/ld.so.conf');
 chdir($cwd);
 
-use Data::Dumper;
-
 my @librarypaths = Dpkg::Shlibs::get_library_paths();
 is_deeply(\@librarypaths,
           [ qw(/nonexistant32 /nonexistant/lib64
