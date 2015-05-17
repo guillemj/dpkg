@@ -36,14 +36,14 @@ pkgbin_name_needs_arch(const struct pkgbin *pkgbin,
 	switch (pnaw) {
 	case pnaw_never:
 		break;
+	case pnaw_nonambig:
+		if (pkgbin->multiarch == PKG_MULTIARCH_SAME)
+			return true;
+	/* Fall through. */
 	case pnaw_foreign:
 		if (pkgbin->arch->type == DPKG_ARCH_NATIVE ||
 		    pkgbin->arch->type == DPKG_ARCH_ALL ||
 		    pkgbin->arch->type == DPKG_ARCH_NONE)
-			break;
-		return true;
-	case pnaw_nonambig:
-		if (pkgbin->multiarch != PKG_MULTIARCH_SAME)
 			break;
 	/* Fall through. */
 	case pnaw_always:
