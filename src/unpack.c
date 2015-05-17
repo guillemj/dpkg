@@ -1239,6 +1239,7 @@ void process_archive(const char *filename) {
   pkg->installed.maintainer= pkg->available.maintainer;
   pkg->installed.source= pkg->available.source;
   pkg->installed.arch = pkg->available.arch;
+  pkg->installed.pkgname_archqual = pkg->available.pkgname_archqual;
   pkg->installed.installedsize= pkg->available.installedsize;
   pkg->installed.version= pkg->available.version;
   pkg->installed.origin = pkg->available.origin;

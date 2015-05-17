@@ -79,6 +79,8 @@ dpkg (1.18.0) UNRELEASED; urgency=low
     - Reorder directory precedence to:
       «dpkg-shlibdeps -l» > ENV{LD_LIBRARY_PATHS} > cross-multiarch >
       DEFAULT_LIBRARY_PATH > ld.so.conf > DEFAULT_MULTILIB_PATH
+  * When upgrading, copy over the cached arch-qualified package name. This
+    fixes wrong output when cross-grading.
 
   * Perl modules:
     - Rename and deprecate Dpkg::Gettext _g function with new g_.
