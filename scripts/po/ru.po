@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-04-07 06:08+0200\n"
+"POT-Creation-Date: 2015-05-18 15:17+0200\n"
 "PO-Revision-Date: 2015-04-07 07:02+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -588,9 +588,8 @@ msgid "cannot open %s"
 msgstr "не удалось открыть %s"
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-shlibdeps.pl
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Package/V2.pm
-#: scripts/Dpkg/Source/Patch.pm
+#: scripts/dpkg-gencontrol.pl scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "cannot close %s"
 msgstr "не удалось закрыть %s"
@@ -1542,29 +1541,11 @@ msgid "unconditional maintainer override for %s"
 msgstr "безусловное переназначение сопровождающего для %s"
 
 #: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-msgid "one to three arguments expected"
-msgstr "ожидается от 1 до 3 аргументов"
-
-#: scripts/dpkg-scanpackages.pl
+#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
-msgid "unsupported checksum '%s'"
-msgstr "неподдерживаемая контрольная сумма «%s»"
-
-#: scripts/dpkg-scanpackages.pl
-#, fuzzy, perl-format
-#| msgid "binary dir %s not found"
-msgid "binary directory %s not found"
-msgstr "каталог двоичных пакетов %s не найден"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "override file %s not found"
-msgstr "файл переназначений %s не найден"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "couldn't open %s for reading"
-msgstr "не удалось открыть %s на чтение"
+msgid "cannot fork for %s"
+msgstr "не удалось выполнить fork для %s"
 
 #: scripts/dpkg-scanpackages.pl
 #, perl-format
@@ -1600,6 +1581,31 @@ msgstr "данный файл игнорируется и используютс
 #, perl-format
 msgid "package %s (filename %s) has Filename field!"
 msgstr "пакет %s (файл %s) содержит поле Filename!"
+
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
+msgid "one to three arguments expected"
+msgstr "ожидается от 1 до 3 аргументов"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "unsupported checksum '%s'"
+msgstr "неподдерживаемая контрольная сумма «%s»"
+
+#: scripts/dpkg-scanpackages.pl
+#, fuzzy, perl-format
+#| msgid "binary dir %s not found"
+msgid "binary directory %s not found"
+msgstr "каталог двоичных пакетов %s не найден"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "override file %s not found"
+msgstr "файл переназначений %s не найден"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "couldn't open %s for reading"
+msgstr "не удалось открыть %s на чтение"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "failed when writing stdout"
@@ -1671,11 +1677,6 @@ msgstr ""
 
 #: scripts/dpkg-scansources.pl
 #, perl-format
-msgid "error closing %s ($? %d, $! '%s')"
-msgstr "ошибка при закрытии %s ($? %d, $! «%s»)"
-
-#: scripts/dpkg-scansources.pl
-#, perl-format
 msgid "invalid override entry at line %d (%d fields)"
 msgstr "неправильная запись переназначения в строке %d (%d полей)"
 
@@ -1705,12 +1706,11 @@ msgstr ""
 msgid "no binary packages specified in %s"
 msgstr "не задано двоичное поле в %s"
 
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl
-#: scripts/Dpkg/Changelog/Parse.pm scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm
-#, perl-format
-msgid "cannot fork for %s"
-msgstr "не удалось выполнить fork для %s"
+#: scripts/dpkg-scansources.pl
+#, fuzzy, perl-format
+#| msgid "error closing %s ($? %d, $! '%s')"
+msgid "error closing %s (%s)"
+msgstr "ошибка при закрытии %s ($? %d, $! «%s»)"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -1820,21 +1820,6 @@ msgid_plural "cannot continue due to the errors listed above"
 msgstr[0] "невозможно продолжать из-за ошибки, указанной выше"
 msgstr[1] "невозможно продолжать из-за ошибок, указанных выше"
 msgstr[2] "невозможно продолжать из-за ошибок, указанных выше"
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "open new substvars file '%s'"
-msgstr "открытие нового файла подстановок «%s»"
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "open old varlist file '%s' for reading"
-msgstr "открытие старого файла со списком переменных «%s» на чтение"
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "copy old entry to new varlist file '%s'"
-msgstr "копирование старой записи в новый файл со списком переменных «%s»"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2726,6 +2711,12 @@ msgid "an union dependency can only contain simple dependencies"
 msgstr "в объединяющей зависимости могут быть только простые зависимости"
 
 #: scripts/Dpkg/Dist/Files.pm
+#, fuzzy, perl-format
+#| msgid "badly formed line in files list file, line %d"
+msgid "badly formed package name in files list file, line %d"
+msgstr "неверный формат строки в файле со списком файлов, строка %d"
+
+#: scripts/Dpkg/Dist/Files.pm
 #, perl-format
 msgid "badly formed line in files list file, line %d"
 msgstr "неверный формат строки в файле со списком файлов, строка %d"
@@ -2734,6 +2725,12 @@ msgstr "неверный формат строки в файле со списк
 #, perl-format
 msgid "duplicate files list entry for file %s (line %d)"
 msgstr "повторная запись в списке файлов для файла %s (строка %d)"
+
+#: scripts/Dpkg/Dist/Files.pm
+#, fuzzy, perl-format
+#| msgid "invalid flag in %s: %s"
+msgid "invalid filename %s"
+msgstr "неправильный флаг в %s: %s"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
@@ -3884,6 +3881,15 @@ msgstr "номер версии содержит недопустимый сим
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "часть эпохи в номере версии не является числом: «%s»"
+
+#~ msgid "open new substvars file '%s'"
+#~ msgstr "открытие нового файла подстановок «%s»"
+
+#~ msgid "open old varlist file '%s' for reading"
+#~ msgstr "открытие старого файла со списком переменных «%s» на чтение"
+
+#~ msgid "copy old entry to new varlist file '%s'"
+#~ msgstr "копирование старой записи в новый файл со списком переменных «%s»"
 
 #~ msgid ""
 #~ "this is currently a non-fatal warning with -S, but will probably become "

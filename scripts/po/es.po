@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.16.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-04-07 06:08+0200\n"
+"POT-Creation-Date: 2015-05-18 15:17+0200\n"
 "PO-Revision-Date: 2014-12-02 20:24+0100\n"
 "Last-Translator: Omar Campagne <ocampagne@gmail.com>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -630,9 +630,8 @@ msgid "cannot open %s"
 msgstr "no se puede abrir «%s»"
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-shlibdeps.pl
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Package/V2.pm
-#: scripts/Dpkg/Source/Patch.pm
+#: scripts/dpkg-gencontrol.pl scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "cannot close %s"
 msgstr "no se puede cerrar «%s»"
@@ -1634,31 +1633,11 @@ msgid "unconditional maintainer override for %s"
 msgstr "Sustitución («override») incondicional del encargado para %s"
 
 #: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-msgid "one to three arguments expected"
-msgstr "Se esperan de uno a tres argumentos"
-
-#: scripts/dpkg-scanpackages.pl
+#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
-msgid "unsupported checksum '%s'"
-msgstr "suma de control no soportada `%s'"
-
-#: scripts/dpkg-scanpackages.pl
-#, fuzzy, perl-format
-#| msgid "Binary dir %s not found"
-msgid "binary directory %s not found"
-msgstr "No se ha encontrado el directorio binario «%s» "
-
-#: scripts/dpkg-scanpackages.pl
-#, fuzzy, perl-format
-#| msgid "Override file %s not found"
-msgid "override file %s not found"
-msgstr "No se ha encontrado el fichero de sustituciones («override») «%s»"
-
-#: scripts/dpkg-scanpackages.pl
-#, fuzzy, perl-format
-#| msgid "Couldn't open %s for reading"
-msgid "couldn't open %s for reading"
-msgstr "No se ha podido abrir «%s» para su lectura"
+msgid "cannot fork for %s"
+msgstr "no se puede crear un proceso hijo para %s"
 
 #: scripts/dpkg-scanpackages.pl
 #, perl-format
@@ -1698,6 +1677,33 @@ msgstr "¡se ha ignorado ese y se usarán los datos de %s!"
 #| msgid "Package %s (filename %s) has Filename field!"
 msgid "package %s (filename %s) has Filename field!"
 msgstr "¡El paquete %s (fichero «%s») tiene el campo «Filename»!"
+
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
+msgid "one to three arguments expected"
+msgstr "Se esperan de uno a tres argumentos"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "unsupported checksum '%s'"
+msgstr "suma de control no soportada `%s'"
+
+#: scripts/dpkg-scanpackages.pl
+#, fuzzy, perl-format
+#| msgid "Binary dir %s not found"
+msgid "binary directory %s not found"
+msgstr "No se ha encontrado el directorio binario «%s» "
+
+#: scripts/dpkg-scanpackages.pl
+#, fuzzy, perl-format
+#| msgid "Override file %s not found"
+msgid "override file %s not found"
+msgstr "No se ha encontrado el fichero de sustituciones («override») «%s»"
+
+#: scripts/dpkg-scanpackages.pl
+#, fuzzy, perl-format
+#| msgid "Couldn't open %s for reading"
+msgid "couldn't open %s for reading"
+msgstr "No se ha podido abrir «%s» para su lectura"
 
 #: scripts/dpkg-scanpackages.pl
 #, fuzzy
@@ -1775,11 +1781,6 @@ msgstr ""
 
 #: scripts/dpkg-scansources.pl
 #, perl-format
-msgid "error closing %s ($? %d, $! '%s')"
-msgstr "se ha detectado un fallo al cerrar «%s» ($? %d, $! `%s')"
-
-#: scripts/dpkg-scansources.pl
-#, perl-format
 msgid "invalid override entry at line %d (%d fields)"
 msgstr ""
 "entrada de sustitución («override») inválida en la línea %d (%d campos)"
@@ -1817,12 +1818,11 @@ msgstr ""
 msgid "no binary packages specified in %s"
 msgstr "no se han definido paquetes binarios en %s"
 
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl
-#: scripts/Dpkg/Changelog/Parse.pm scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm
-#, perl-format
-msgid "cannot fork for %s"
-msgstr "no se puede crear un proceso hijo para %s"
+#: scripts/dpkg-scansources.pl
+#, fuzzy, perl-format
+#| msgid "error closing %s ($? %d, $! '%s')"
+msgid "error closing %s (%s)"
+msgstr "se ha detectado un fallo al cerrar «%s» ($? %d, $! `%s')"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -1935,21 +1935,6 @@ msgid "cannot continue due to the error above"
 msgid_plural "cannot continue due to the errors listed above"
 msgstr[0] "No se puede continuar debido al fallo mostrado"
 msgstr[1] "No se puede continuar debido a los fallos anteriores"
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "open new substvars file '%s'"
-msgstr "abrir el nuevo fichero de sustitución de variables «%s»"
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "open old varlist file '%s' for reading"
-msgstr "abrir el antiguo fichero de lista de variables %s para su lectura"
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "copy old entry to new varlist file '%s'"
-msgstr "copiar la entrada antigua al nuevo fichero de lista de variables «%s»"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2942,6 +2927,12 @@ msgstr ""
 "una dependencia de unión (OR - «|») sólo puede contener dependencias simples"
 
 #: scripts/Dpkg/Dist/Files.pm
+#, fuzzy, perl-format
+#| msgid "badly formed line in files list file, line %d"
+msgid "badly formed package name in files list file, line %d"
+msgstr "línea inválida en el fichero de lista de ficheros, línea %d"
+
+#: scripts/Dpkg/Dist/Files.pm
 #, perl-format
 msgid "badly formed line in files list file, line %d"
 msgstr "línea inválida en el fichero de lista de ficheros, línea %d"
@@ -2951,6 +2942,12 @@ msgstr "línea inválida en el fichero de lista de ficheros, línea %d"
 msgid "duplicate files list entry for file %s (line %d)"
 msgstr ""
 "entrada duplicada en la lista de ficheros para el fichero %s (línea %d)"
+
+#: scripts/Dpkg/Dist/Files.pm
+#, fuzzy, perl-format
+#| msgid "invalid flag in %s: %s"
+msgid "invalid filename %s"
+msgstr "se ha detectado una opción inválida en %s: %s"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
@@ -4125,6 +4122,16 @@ msgstr "el número de versión contiene el carácter ilegal «%s»"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "la sección «epoch» del número de versión no es un número: «%s»"
+
+#~ msgid "open new substvars file '%s'"
+#~ msgstr "abrir el nuevo fichero de sustitución de variables «%s»"
+
+#~ msgid "open old varlist file '%s' for reading"
+#~ msgstr "abrir el antiguo fichero de lista de variables %s para su lectura"
+
+#~ msgid "copy old entry to new varlist file '%s'"
+#~ msgstr ""
+#~ "copiar la entrada antigua al nuevo fichero de lista de variables «%s»"
 
 #~ msgid ""
 #~ "this is currently a non-fatal warning with -S, but will probably become "

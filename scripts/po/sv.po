@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-04-07 06:08+0200\n"
+"POT-Creation-Date: 2015-05-18 15:17+0200\n"
 "PO-Revision-Date: 2014-10-30 15:04+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -574,9 +574,8 @@ msgid "cannot open %s"
 msgstr "kan inte öppna %s"
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-shlibdeps.pl
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Package/V2.pm
-#: scripts/Dpkg/Source/Patch.pm
+#: scripts/dpkg-gencontrol.pl scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "cannot close %s"
 msgstr "kan inte stänga %s"
@@ -1507,29 +1506,11 @@ msgid "unconditional maintainer override for %s"
 msgstr "ovillkorlig överstyrning från paketansvariga för %s"
 
 #: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-msgid "one to three arguments expected"
-msgstr "ett till tre argument förväntades"
-
-#: scripts/dpkg-scanpackages.pl
+#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
-msgid "unsupported checksum '%s'"
-msgstr "kontrollsumman \"%s\" stöds ej"
-
-#: scripts/dpkg-scanpackages.pl
-#, fuzzy, perl-format
-#| msgid "binary dir %s not found"
-msgid "binary directory %s not found"
-msgstr "binärkatalogen %s hittades inte"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "override file %s not found"
-msgstr "överstyrningsfilen %s hittades inte"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "couldn't open %s for reading"
-msgstr "kunde inte öppna %s för läsning"
+msgid "cannot fork for %s"
+msgstr "kan inte grena för %s"
 
 #: scripts/dpkg-scanpackages.pl
 #, perl-format
@@ -1565,6 +1546,31 @@ msgstr "ignorerade den och använde data från %s!"
 #, perl-format
 msgid "package %s (filename %s) has Filename field!"
 msgstr "paketet %s (filnamn %s) har Filename-fält!"
+
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
+msgid "one to three arguments expected"
+msgstr "ett till tre argument förväntades"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "unsupported checksum '%s'"
+msgstr "kontrollsumman \"%s\" stöds ej"
+
+#: scripts/dpkg-scanpackages.pl
+#, fuzzy, perl-format
+#| msgid "binary dir %s not found"
+msgid "binary directory %s not found"
+msgstr "binärkatalogen %s hittades inte"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "override file %s not found"
+msgstr "överstyrningsfilen %s hittades inte"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "couldn't open %s for reading"
+msgstr "kunde inte öppna %s för läsning"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "failed when writing stdout"
@@ -1636,11 +1642,6 @@ msgstr ""
 
 #: scripts/dpkg-scansources.pl
 #, perl-format
-msgid "error closing %s ($? %d, $! '%s')"
-msgstr "fel vid stängning av %s ($? %d, $! \"%s\")"
-
-#: scripts/dpkg-scansources.pl
-#, perl-format
 msgid "invalid override entry at line %d (%d fields)"
 msgstr "felaktig överstyrningspost på rad %d (%d fält)"
 
@@ -1669,12 +1670,11 @@ msgstr "ignorerar duplicerad källkodsöverstyrningspost för %s på rad %d"
 msgid "no binary packages specified in %s"
 msgstr "inget binärpaket angivet i %s"
 
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl
-#: scripts/Dpkg/Changelog/Parse.pm scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm
-#, perl-format
-msgid "cannot fork for %s"
-msgstr "kan inte grena för %s"
+#: scripts/dpkg-scansources.pl
+#, fuzzy, perl-format
+#| msgid "error closing %s: %s"
+msgid "error closing %s (%s)"
+msgstr "fel vid stängning av %s: %s"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -1779,21 +1779,6 @@ msgid "cannot continue due to the error above"
 msgid_plural "cannot continue due to the errors listed above"
 msgstr[0] "kan inte fortsätta på grund av ovanstående fel"
 msgstr[1] "kan inte fortsätta på grund av ovanstående fel"
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "open new substvars file '%s'"
-msgstr "öppna ny substvar-fil \"%s\""
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "open old varlist file '%s' for reading"
-msgstr "öppna gammal varlistefil \"%s\" för läsning"
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "copy old entry to new varlist file '%s'"
-msgstr "kopiera gammal post till ny varlistefil \"%s\""
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2670,6 +2655,12 @@ msgid "an union dependency can only contain simple dependencies"
 msgstr "ett unionsberoende kan endast innehålla enkla beroenden"
 
 #: scripts/Dpkg/Dist/Files.pm
+#, fuzzy, perl-format
+#| msgid "badly formed line in files list file, line %d"
+msgid "badly formed package name in files list file, line %d"
+msgstr "felformaterad rad i fillistfilen, rad %d"
+
+#: scripts/Dpkg/Dist/Files.pm
 #, perl-format
 msgid "badly formed line in files list file, line %d"
 msgstr "felformaterad rad i fillistfilen, rad %d"
@@ -2678,6 +2669,12 @@ msgstr "felformaterad rad i fillistfilen, rad %d"
 #, perl-format
 msgid "duplicate files list entry for file %s (line %d)"
 msgstr "duplicerad fillistpost för filen %s (rad %d)"
+
+#: scripts/Dpkg/Dist/Files.pm
+#, fuzzy, perl-format
+#| msgid "invalid flag in %s: %s"
+msgid "invalid filename %s"
+msgstr "felaktig flagga i %s: %s"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
@@ -3799,6 +3796,18 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
 
+#~ msgid "error closing %s ($? %d, $! '%s')"
+#~ msgstr "fel vid stängning av %s ($? %d, $! \"%s\")"
+
+#~ msgid "open new substvars file '%s'"
+#~ msgstr "öppna ny substvar-fil \"%s\""
+
+#~ msgid "open old varlist file '%s' for reading"
+#~ msgstr "öppna gammal varlistefil \"%s\" för läsning"
+
+#~ msgid "copy old entry to new varlist file '%s'"
+#~ msgstr "kopiera gammal post till ny varlistefil \"%s\""
+
 #~ msgid ""
 #~ "this is currently a non-fatal warning with -S, but will probably become "
 #~ "fatal in the future"
@@ -4342,9 +4351,6 @@ msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
 
 #~ msgid "can't read %s: %s"
 #~ msgstr "kan inte läsa %s: %s"
-
-#~ msgid "error closing %s: %s"
-#~ msgstr "fel vid stängning av %s: %s"
 
 #~ msgid "%s invalid (contains blank line)"
 #~ msgstr "%s ogiltig (innehåller blank rad)"

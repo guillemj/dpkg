@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-04-07 06:08+0200\n"
+"POT-Creation-Date: 2015-05-18 15:17+0200\n"
 "PO-Revision-Date: 2014-10-27 10:38-0400\n"
 "Last-Translator: Sébastien Poher <sbphr@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -611,9 +611,8 @@ msgid "cannot open %s"
 msgstr "impossible d'ouvrir %s"
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-shlibdeps.pl
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Package/V2.pm
-#: scripts/Dpkg/Source/Patch.pm
+#: scripts/dpkg-gencontrol.pl scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "cannot close %s"
 msgstr "impossible de fermer %s"
@@ -1614,29 +1613,11 @@ msgid "unconditional maintainer override for %s"
 msgstr "annulation inconditionnelle du responsable pour %s"
 
 #: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-msgid "one to three arguments expected"
-msgstr "de un à trois paramètres sont attendus"
-
-#: scripts/dpkg-scanpackages.pl
+#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
-msgid "unsupported checksum '%s'"
-msgstr "somme de contrôle non supportée « %s »"
-
-#: scripts/dpkg-scanpackages.pl
-#, fuzzy, perl-format
-#| msgid "binary dir %s not found"
-msgid "binary directory %s not found"
-msgstr "répertoire de binaires %s non trouvé"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "override file %s not found"
-msgstr "fichier override %s non trouvé"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "couldn't open %s for reading"
-msgstr "lecture de %s impossible"
+msgid "cannot fork for %s"
+msgstr "fork impossible pour %s"
 
 #: scripts/dpkg-scanpackages.pl
 #, perl-format
@@ -1672,6 +1653,31 @@ msgstr "celui-ci a été ignoré et les données de %s ont été utilisées !"
 #, perl-format
 msgid "package %s (filename %s) has Filename field!"
 msgstr "le paquet %s (nom %s) a un champ Filename !"
+
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
+msgid "one to three arguments expected"
+msgstr "de un à trois paramètres sont attendus"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "unsupported checksum '%s'"
+msgstr "somme de contrôle non supportée « %s »"
+
+#: scripts/dpkg-scanpackages.pl
+#, fuzzy, perl-format
+#| msgid "binary dir %s not found"
+msgid "binary directory %s not found"
+msgstr "répertoire de binaires %s non trouvé"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "override file %s not found"
+msgstr "fichier override %s non trouvé"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "couldn't open %s for reading"
+msgstr "lecture de %s impossible"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "failed when writing stdout"
@@ -1742,11 +1748,6 @@ msgstr ""
 
 #: scripts/dpkg-scansources.pl
 #, perl-format
-msgid "error closing %s ($? %d, $! '%s')"
-msgstr "erreur en fermant %s ($? %d, $! `%s')"
-
-#: scripts/dpkg-scansources.pl
-#, perl-format
 msgid "invalid override entry at line %d (%d fields)"
 msgstr "entrée invalide, ligne %d (champs %d)"
 
@@ -1779,12 +1780,11 @@ msgstr ""
 msgid "no binary packages specified in %s"
 msgstr "pas de paquet binaire indiqué dans %s"
 
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl
-#: scripts/Dpkg/Changelog/Parse.pm scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm
-#, perl-format
-msgid "cannot fork for %s"
-msgstr "fork impossible pour %s"
+#: scripts/dpkg-scansources.pl
+#, fuzzy, perl-format
+#| msgid "error closing %s: %s"
+msgid "error closing %s (%s)"
+msgstr "erreur en fermant %s : %s"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -1891,21 +1891,6 @@ msgid "cannot continue due to the error above"
 msgid_plural "cannot continue due to the errors listed above"
 msgstr[0] "impossible de continuer à causer de l'erreur ci-dessus"
 msgstr[1] "Impossible de continuer à cause des erreurs ci-dessus"
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "open new substvars file '%s'"
-msgstr "ouverture du nouveau fichier substvars %s"
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "open old varlist file '%s' for reading"
-msgstr "lecture de l'ancien fichier varlist %s"
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "copy old entry to new varlist file '%s'"
-msgstr "copie d'une ancienne entrée dans le nouveau fichier varlist %s"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2821,6 +2806,12 @@ msgid "an union dependency can only contain simple dependencies"
 msgstr "Une union de dépendances ne peut pas contenir de simple dépendances"
 
 #: scripts/Dpkg/Dist/Files.pm
+#, fuzzy, perl-format
+#| msgid "badly formed line in files list file, line %d"
+msgid "badly formed package name in files list file, line %d"
+msgstr "ligne %d mal formée dans le fichier de liste des fichiers"
+
+#: scripts/Dpkg/Dist/Files.pm
 #, perl-format
 msgid "badly formed line in files list file, line %d"
 msgstr "ligne %d mal formée dans le fichier de liste des fichiers"
@@ -2831,6 +2822,12 @@ msgid "duplicate files list entry for file %s (line %d)"
 msgstr ""
 "entrée en double dans le fichier de liste des fichiers pour le fichier %s "
 "(ligne %d)"
+
+#: scripts/Dpkg/Dist/Files.pm
+#, fuzzy, perl-format
+#| msgid "invalid flag in %s: %s"
+msgid "invalid filename %s"
+msgstr "drapeau non valable dans %s : %s"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
@@ -3997,6 +3994,18 @@ msgid "epoch part of the version number is not a number: '%s'"
 msgstr ""
 "la partie d'ère (« epoch ») du numéro de version n'est pas un nombre : « %s »"
 
+#~ msgid "error closing %s ($? %d, $! '%s')"
+#~ msgstr "erreur en fermant %s ($? %d, $! `%s')"
+
+#~ msgid "open new substvars file '%s'"
+#~ msgstr "ouverture du nouveau fichier substvars %s"
+
+#~ msgid "open old varlist file '%s' for reading"
+#~ msgstr "lecture de l'ancien fichier varlist %s"
+
+#~ msgid "copy old entry to new varlist file '%s'"
+#~ msgstr "copie d'une ancienne entrée dans le nouveau fichier varlist %s"
+
 #~ msgid ""
 #~ "this is currently a non-fatal warning with -S, but will probably become "
 #~ "fatal in the future"
@@ -4562,9 +4571,6 @@ msgstr ""
 
 #~ msgid "can't read %s: %s"
 #~ msgstr "impossible de lire %s : %s"
-
-#~ msgid "error closing %s: %s"
-#~ msgstr "erreur en fermant %s : %s"
 
 #~ msgid "%s invalid (contains blank line)"
 #~ msgstr "%s invalide (contient une ligne blanche)"

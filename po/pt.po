@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-04-07 09:46+0200\n"
+"POT-Creation-Date: 2015-05-18 15:17+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -1064,7 +1064,7 @@ msgstr "EOF antes do valor do campo `%.*s' (falta o newline final)"
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
-msgid "MSDOS end of file char in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
 msgstr "caractere MSDOS EOF no valor do campo `%.*s' (falta newline?)"
 
 #: lib/dpkg/parse.c
@@ -4306,16 +4306,20 @@ msgid "--update is useless for --remove"
 msgstr "--update é inútil para --remove"
 
 #: src/statdb.c
-msgid "syntax error: invalid uid in statoverride file"
-msgstr "erro de sintaxe: uid inválido no ficheiro statoverride"
+#, fuzzy, c-format
+#| msgid "invalid status"
+msgid "invalid statoverride uid %s"
+msgstr "estado inválido"
 
 #: src/statdb.c
-msgid "syntax error: invalid gid in statoverride file"
-msgstr "erro de sintaxe: gid inválido no ficheiro statoverride"
+#, fuzzy, c-format
+msgid "invalid statoverride gid %s"
+msgstr "ficheiro statoverride `%.250s'"
 
 #: src/statdb.c
-msgid "syntax error: invalid mode in statoverride file"
-msgstr "erro de sintaxe: modo inválido no ficheiro statoverride"
+#, fuzzy, c-format
+msgid "invalid statoverride mode %s"
+msgstr "ficheiro statoverride `%.250s'"
 
 #: src/statdb.c
 msgid "failed to open statoverride file"
@@ -6443,6 +6447,15 @@ msgstr ""
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "para voltar às actualizações automáticas utilize '%s --auto %s'"
 
+#~ msgid "syntax error: invalid uid in statoverride file"
+#~ msgstr "erro de sintaxe: uid inválido no ficheiro statoverride"
+
+#~ msgid "syntax error: invalid gid in statoverride file"
+#~ msgstr "erro de sintaxe: gid inválido no ficheiro statoverride"
+
+#~ msgid "syntax error: invalid mode in statoverride file"
+#~ msgstr "erro de sintaxe: modo inválido no ficheiro statoverride"
+
 #~ msgid "unknown option `%s'"
 #~ msgstr "opção desconhecida `%s'"
 
@@ -7862,10 +7875,6 @@ msgstr "para voltar às actualizações automáticas utilize '%s --auto %s'"
 #, fuzzy
 #~ msgid "--remove needs one arguments"
 #~ msgstr "--%s não leva argumentos"
-
-#, fuzzy
-#~ msgid "dpkg-statoverride: %s"
-#~ msgstr "ficheiro statoverride `%.250s'"
 
 #, fuzzy
 #~ msgid "--admindir needs a <directory> argument"

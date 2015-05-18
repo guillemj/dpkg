@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.15.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-04-07 06:08+0200\n"
+"POT-Creation-Date: 2015-05-18 15:17+0200\n"
 "PO-Revision-Date: 2015-04-07 07:05+0200\n"
 "Last-Translator: Łukasz Dulny <BartekChom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -582,9 +582,8 @@ msgid "cannot open %s"
 msgstr "nie można otworzyć %s"
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-shlibdeps.pl
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Package/V2.pm
-#: scripts/Dpkg/Source/Patch.pm
+#: scripts/dpkg-gencontrol.pl scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "cannot close %s"
 msgstr "nie można zamknąć %s"
@@ -1531,29 +1530,11 @@ msgid "unconditional maintainer override for %s"
 msgstr "bezwarunkowe nadpisanie opiekuna dla %s"
 
 #: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-msgid "one to three arguments expected"
-msgstr "oczekiwano od 1 do 3 argumentów"
-
-#: scripts/dpkg-scanpackages.pl
+#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
-msgid "unsupported checksum '%s'"
-msgstr "niewspierana suma kontrolna \"%s\""
-
-#: scripts/dpkg-scanpackages.pl
-#, fuzzy, perl-format
-#| msgid "binary dir %s not found"
-msgid "binary directory %s not found"
-msgstr "nie znaleziono katalogu binarnego %s"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "override file %s not found"
-msgstr "nie znaleziono pliku nadpisań %s"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "couldn't open %s for reading"
-msgstr "nie można otworzyć %s do odczytu"
+msgid "cannot fork for %s"
+msgstr "nie można wykonać funkcji fork dla %s"
 
 #: scripts/dpkg-scanpackages.pl
 #, perl-format
@@ -1590,6 +1571,31 @@ msgstr "zignorowanie tej wersji i użycie danych z %s!"
 #, perl-format
 msgid "package %s (filename %s) has Filename field!"
 msgstr "pakiet %s (plik %s) zawiera pole Filename!"
+
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
+msgid "one to three arguments expected"
+msgstr "oczekiwano od 1 do 3 argumentów"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "unsupported checksum '%s'"
+msgstr "niewspierana suma kontrolna \"%s\""
+
+#: scripts/dpkg-scanpackages.pl
+#, fuzzy, perl-format
+#| msgid "binary dir %s not found"
+msgid "binary directory %s not found"
+msgstr "nie znaleziono katalogu binarnego %s"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "override file %s not found"
+msgstr "nie znaleziono pliku nadpisań %s"
+
+#: scripts/dpkg-scanpackages.pl
+#, perl-format
+msgid "couldn't open %s for reading"
+msgstr "nie można otworzyć %s do odczytu"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "failed when writing stdout"
@@ -1661,11 +1667,6 @@ msgstr ""
 
 #: scripts/dpkg-scansources.pl
 #, perl-format
-msgid "error closing %s ($? %d, $! '%s')"
-msgstr "nie można zamknąć %s ($? %d, $! \"%s\")"
-
-#: scripts/dpkg-scansources.pl
-#, perl-format
 msgid "invalid override entry at line %d (%d fields)"
 msgstr "niepoprawny wpis pliku nadpisań w linii %d (%d pól)"
 
@@ -1696,12 +1697,11 @@ msgstr ""
 msgid "no binary packages specified in %s"
 msgstr "nie podano żadnych pakietów binarnych w %s"
 
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl
-#: scripts/Dpkg/Changelog/Parse.pm scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm
-#, perl-format
-msgid "cannot fork for %s"
-msgstr "nie można wykonać funkcji fork dla %s"
+#: scripts/dpkg-scansources.pl
+#, fuzzy, perl-format
+#| msgid "error closing %s: %s"
+msgid "error closing %s (%s)"
+msgstr "błąd zamykania %s: %s"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -1811,21 +1811,6 @@ msgid_plural "cannot continue due to the errors listed above"
 msgstr[0] "nie można kontynuować z powodu powyższego błędu"
 msgstr[1] "nie można kontynuować z powodu powyższych błędów"
 msgstr[2] "nie można kontynuować z powodu powyższych błędów"
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "open new substvars file '%s'"
-msgstr "otwieranie nowego pliku podstawień \"%s\""
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "open old varlist file '%s' for reading"
-msgstr "otwieranie do odczytu pliku listy zmiennych \"%s\""
-
-#: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "copy old entry to new varlist file '%s'"
-msgstr "kopiowanie starego wpisu do nowego pliku z listą zmiennych \"%s\""
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2705,6 +2690,12 @@ msgid "an union dependency can only contain simple dependencies"
 msgstr "suma zależności może zawierać jedynie proste zależności"
 
 #: scripts/Dpkg/Dist/Files.pm
+#, fuzzy, perl-format
+#| msgid "badly formed line in files list file, line %d"
+msgid "badly formed package name in files list file, line %d"
+msgstr "niepoprawna linia w pliku z listą plików w linii %d"
+
+#: scripts/Dpkg/Dist/Files.pm
 #, perl-format
 msgid "badly formed line in files list file, line %d"
 msgstr "niepoprawna linia w pliku z listą plików w linii %d"
@@ -2713,6 +2704,12 @@ msgstr "niepoprawna linia w pliku z listą plików w linii %d"
 #, perl-format
 msgid "duplicate files list entry for file %s (line %d)"
 msgstr "zduplikowany wpis o pliku %s w liście plików (linia %d)"
+
+#: scripts/Dpkg/Dist/Files.pm
+#, fuzzy, perl-format
+#| msgid "invalid flag in %s: %s"
+msgid "invalid filename %s"
+msgstr "niepoprawna flaga w %s: %s"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
@@ -3852,6 +3849,18 @@ msgstr "numer wersji zawiera niepoprawny znak \"%s\""
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "częśc epoki w numerze wersji nie jest liczbą: \"%s\""
 
+#~ msgid "error closing %s ($? %d, $! '%s')"
+#~ msgstr "nie można zamknąć %s ($? %d, $! \"%s\")"
+
+#~ msgid "open new substvars file '%s'"
+#~ msgstr "otwieranie nowego pliku podstawień \"%s\""
+
+#~ msgid "open old varlist file '%s' for reading"
+#~ msgstr "otwieranie do odczytu pliku listy zmiennych \"%s\""
+
+#~ msgid "copy old entry to new varlist file '%s'"
+#~ msgstr "kopiowanie starego wpisu do nowego pliku z listą zmiennych \"%s\""
+
 #~ msgid ""
 #~ "this is currently a non-fatal warning with -S, but will probably become "
 #~ "fatal in the future"
@@ -4381,9 +4390,6 @@ msgstr "częśc epoki w numerze wersji nie jest liczbą: \"%s\""
 
 #~ msgid "can't read %s: %s"
 #~ msgstr "nie można odczytać %s: %s"
-
-#~ msgid "error closing %s: %s"
-#~ msgstr "błąd zamykania %s: %s"
 
 #~ msgid "%s invalid (contains blank line)"
 #~ msgstr "niepoprawny %s (zawiera pustą linię)"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-04-07 09:46+0200\n"
+"POT-Creation-Date: 2015-05-18 15:17+0200\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Hans Fredrik Nordhaug <hans@nordhaug.priv.no>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -1131,7 +1131,7 @@ msgstr ""
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
-msgid "MSDOS end of file char in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
 msgstr ""
 "MSDOS-tegn for slutt på fil i verdien for feltet «%.*s» (mangler linjeskift?)"
 
@@ -4602,16 +4602,20 @@ msgid "--update is useless for --remove"
 msgstr "--update er meningsløs for --remove"
 
 #: src/statdb.c
-msgid "syntax error: invalid uid in statoverride file"
-msgstr "syntaksfeil: ugyldig uid i statoverride-fil"
+#, fuzzy, c-format
+#| msgid "invalid status"
+msgid "invalid statoverride uid %s"
+msgstr "ugyldig status"
 
 #: src/statdb.c
-msgid "syntax error: invalid gid in statoverride file"
-msgstr "syntaksfeil: ugyldig gid i statoverride-fil"
+#, fuzzy, c-format
+msgid "invalid statoverride gid %s"
+msgstr "«statoverride»-fil «%.250s»"
 
 #: src/statdb.c
-msgid "syntax error: invalid mode in statoverride file"
-msgstr "syntaksfeil: ugyldig modues i statoverride-fil"
+#, fuzzy, c-format
+msgid "invalid statoverride mode %s"
+msgstr "«statoverride»-fil «%.250s»"
 
 #: src/statdb.c
 msgid "failed to open statoverride file"
@@ -6961,6 +6965,15 @@ msgstr ""
 "for å gå tilbake til automatiske oppdateringer bruk «update-alternatives --"
 "auto %s»."
 
+#~ msgid "syntax error: invalid uid in statoverride file"
+#~ msgstr "syntaksfeil: ugyldig uid i statoverride-fil"
+
+#~ msgid "syntax error: invalid gid in statoverride file"
+#~ msgstr "syntaksfeil: ugyldig gid i statoverride-fil"
+
+#~ msgid "syntax error: invalid mode in statoverride file"
+#~ msgstr "syntaksfeil: ugyldig modues i statoverride-fil"
+
 #~ msgid "unknown option `%s'"
 #~ msgstr "ukjent valg «%s»"
 
@@ -8337,10 +8350,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "--remove needs one arguments"
 #~ msgstr "--%s tar ingen argumenter"
-
-#, fuzzy
-#~ msgid "dpkg-statoverride: %s"
-#~ msgstr "«statoverride»-fil «%.250s»"
 
 #, fuzzy
 #~ msgid "--admindir needs a <directory> argument"

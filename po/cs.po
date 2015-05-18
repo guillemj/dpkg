@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-04-07 09:46+0200\n"
+"POT-Creation-Date: 2015-05-18 15:17+0200\n"
 "PO-Revision-Date: 2015-04-07 09:54+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -1053,7 +1053,7 @@ msgstr "EOF před hodnotou v položce „%.*s“ (chybí závěrečný nový ř�
 #: lib/dpkg/parse.c
 #, fuzzy, c-format
 #| msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
-msgid "MSDOS end of file char in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
 msgstr "položka „%.*s“ obsahuje MSDOS EOF znaky (chybějící nový řádek?)"
 
 #: lib/dpkg/parse.c
@@ -4200,16 +4200,22 @@ msgid "--update is useless for --remove"
 msgstr "pro --remove je --update zbytečné"
 
 #: src/statdb.c
-msgid "syntax error: invalid uid in statoverride file"
-msgstr "syntaktická chyba: neplatné uid v souboru statoverride: %s"
+#, fuzzy, c-format
+#| msgid "invalid status"
+msgid "invalid statoverride uid %s"
+msgstr "neplatný stav"
 
 #: src/statdb.c
-msgid "syntax error: invalid gid in statoverride file"
-msgstr "syntaktická chyba: neplatné gid v souboru statoverride: %s"
+#, fuzzy, c-format
+#| msgid "dpkg-statoverride: %s"
+msgid "invalid statoverride gid %s"
+msgstr "dpkg-statoverride: %s"
 
 #: src/statdb.c
-msgid "syntax error: invalid mode in statoverride file"
-msgstr "syntaktická chyba: neplatný režim v souboru statoverride"
+#, fuzzy, c-format
+#| msgid "dpkg-statoverride: %s"
+msgid "invalid statoverride mode %s"
+msgstr "dpkg-statoverride: %s"
 
 #: src/statdb.c
 msgid "failed to open statoverride file"
@@ -6272,6 +6278,15 @@ msgstr "automatické aktualizace %s/%s jsou zakázány, ponechávám bez změn"
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "k automatickým aktualizacím se vrátíte příkazem „%s --auto %s“"
 
+#~ msgid "syntax error: invalid uid in statoverride file"
+#~ msgstr "syntaktická chyba: neplatné uid v souboru statoverride: %s"
+
+#~ msgid "syntax error: invalid gid in statoverride file"
+#~ msgstr "syntaktická chyba: neplatné gid v souboru statoverride: %s"
+
+#~ msgid "syntax error: invalid mode in statoverride file"
+#~ msgstr "syntaktická chyba: neplatný režim v souboru statoverride"
+
 #~ msgid "unknown option `%s'"
 #~ msgstr "neznámá volba „%s“"
 
@@ -7606,9 +7621,6 @@ msgstr "k automatickým aktualizacím se vrátíte příkazem „%s --auto %s“
 
 #~ msgid "--remove needs one arguments"
 #~ msgstr "--remove vyžaduje jeden argument"
-
-#~ msgid "dpkg-statoverride: %s"
-#~ msgstr "dpkg-statoverride: %s"
 
 #~ msgid "You need --help."
 #~ msgstr "Hledáte --help."

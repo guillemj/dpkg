@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.x\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-04-07 09:46+0200\n"
+"POT-Creation-Date: 2015-05-18 15:17+0200\n"
 "PO-Revision-Date: 2015-04-10 12:45+0000\n"
 "Last-Translator: Zhou Mo <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -1040,8 +1040,9 @@ msgid "end of file before value of field '%.*s' (missing final newline)"
 msgstr "在字段 %.*s 的值的前面有 EOF (缺失结尾的换行符)"
 
 #: lib/dpkg/parse.c
-#, c-format
-msgid "MSDOS end of file char in value of field '%.*s' (missing newline?)"
+#, fuzzy, c-format
+#| msgid "MSDOS end of file char in value of field '%.*s' (missing newline?)"
+msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
 msgstr "在字段 %.*s 的值中间有 MSDOS EOF 字符(缺少最后结尾的换行符？)"
 
 #: lib/dpkg/parse.c
@@ -3881,7 +3882,6 @@ msgstr "无法删除原有的配置文件 %.250s  (= %.250s )"
 
 #: src/remove.c
 #, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
 msgid "cannot read config file directory '%.250s' (from '%.250s')"
 msgstr "无法读取配置文件所在目录 %.250s (从 %.250s )"
 
@@ -4116,16 +4116,22 @@ msgid "--update is useless for --remove"
 msgstr "对于 --remove，--update 是无效的"
 
 #: src/statdb.c
-msgid "syntax error: invalid uid in statoverride file"
-msgstr "语法错误： statoverride 文件有无效的 uid"
+#, fuzzy, c-format
+#| msgid "invalid status"
+msgid "invalid statoverride uid %s"
+msgstr "无效状态"
 
 #: src/statdb.c
-msgid "syntax error: invalid gid in statoverride file"
-msgstr "语法错误：statoverride 文件有无效的 gid"
+#, fuzzy, c-format
+#| msgid "reading statoverride file '%.250s'"
+msgid "invalid statoverride gid %s"
+msgstr "读取 statoverride 文件  %.250s"
 
 #: src/statdb.c
-msgid "syntax error: invalid mode in statoverride file"
-msgstr "语法错误：statoverride 文件有无效权限模式"
+#, fuzzy, c-format
+#| msgid "reading statoverride file '%.250s'"
+msgid "invalid statoverride mode %s"
+msgstr "读取 statoverride 文件  %.250s"
 
 #: src/statdb.c
 msgid "failed to open statoverride file"
@@ -6149,6 +6155,15 @@ msgstr "%s/%s 的自动更新功能已禁用；保持现状"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "要恢复成自动更新请执行 %s --auto %s。"
+
+#~ msgid "syntax error: invalid uid in statoverride file"
+#~ msgstr "语法错误： statoverride 文件有无效的 uid"
+
+#~ msgid "syntax error: invalid gid in statoverride file"
+#~ msgstr "语法错误：statoverride 文件有无效的 gid"
+
+#~ msgid "syntax error: invalid mode in statoverride file"
+#~ msgstr "语法错误：statoverride 文件有无效权限模式"
 
 #~ msgid "unknown option `%s'"
 #~ msgstr "未知选项  %s "
