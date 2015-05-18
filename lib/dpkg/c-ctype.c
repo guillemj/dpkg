@@ -182,5 +182,5 @@ static unsigned short int c_ctype[256] = {
 bool
 c_isbits(int c, enum c_ctype_bit bits)
 {
-	return ((c_ctype[c] & bits) != 0);
+	return ((c_ctype[(unsigned char)c] & bits) != 0);
 }
