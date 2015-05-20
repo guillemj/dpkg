@@ -286,19 +286,25 @@ sub output {
     foreach my $soname (sort $self->get_sonames()) {
 	my @deps = $self->get_dependencies($soname);
 	my $dep_first = shift @deps;
-	$dep_first =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
+	if (exists $opts{package} and not $opts{template_mode}) {
+	    $dep_first =~ s/#PACKAGE#/$opts{package}/g;
+	}
 	print { $fh } "$soname $dep_first\n" if defined $fh;
 	$res .= "$soname $dep_first\n" if defined wantarray;
 
 	foreach my $dep_next (@deps) {
-	    $dep_next =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
+	    if (exists $opts{package} and not $opts{template_mode}) {
+	        $dep_next =~ s/#PACKAGE#/$opts{package}/g;
+	    }
 	    print { $fh } "| $dep_next\n" if defined $fh;
 	    $res .= "| $dep_next\n" if defined wantarray;
 	}
 	my $f = $self->{objects}{$soname}{fields};
 	foreach my $field (sort keys %{$f}) {
 	    my $value = $f->{$field};
-	    $value =~ s/#PACKAGE#/$opts{package}/g if exists $opts{package};
+	    if (exists $opts{package} and not $opts{template_mode}) {
+	        $value =~ s/#PACKAGE#/$opts{package}/g;
+	    }
 	    print { $fh } "* $field: $value\n" if defined $fh;
 	    $res .= "* $field: $value\n" if defined wantarray;
 	}
