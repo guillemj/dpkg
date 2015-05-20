@@ -17,6 +17,7 @@ package Dpkg::Arch;
 
 use strict;
 use warnings;
+use feature qw(state);
 
 our $VERSION = '0.01';
 our @EXPORT_OK = qw(
@@ -59,31 +60,31 @@ my %abibits;
 my %debtriplet_to_debarch;
 my %debarch_to_debtriplet;
 
+sub get_raw_build_arch()
 {
-    my $build_arch;
-    my $host_arch;
+    state $build_arch;
+
+    return $build_arch if defined $build_arch;
+
+    # Note: We *always* require an installed dpkg when inferring the
+    # build architecture. The bootstrapping case is handled by
+    # dpkg-architecture itself, by avoiding computing the DEB_BUILD_
+    # variables when they are not requested.
+
+    $build_arch = `dpkg --print-architecture`;
+    syserr('dpkg --print-architecture failed') if $? >> 8;
+
+    chomp $build_arch;
+    return $build_arch;
+}
+
+sub get_build_arch()
+{
+    return Dpkg::BuildEnv::get('DEB_BUILD_ARCH') || get_raw_build_arch();
+}
+
+{
     my $gcc_host_gnu_type;
-
-    sub get_raw_build_arch()
-    {
-	return $build_arch if defined $build_arch;
-
-	# Note: We *always* require an installed dpkg when inferring the
-	# build architecture. The bootstrapping case is handled by
-	# dpkg-architecture itself, by avoiding computing the DEB_BUILD_
-	# variables when they are not requested.
-
-	$build_arch = `dpkg --print-architecture`;
-	syserr('dpkg --print-architecture failed') if $? >> 8;
-
-	chomp $build_arch;
-	return $build_arch;
-    }
-
-    sub get_build_arch()
-    {
-	return Dpkg::BuildEnv::get('DEB_BUILD_ARCH') || get_raw_build_arch();
-    }
 
     sub get_gcc_host_gnu_type()
     {
@@ -101,6 +102,8 @@ my %debarch_to_debtriplet;
 
     sub get_raw_host_arch()
     {
+        state $host_arch;
+
 	return $host_arch if defined $host_arch;
 
 	$gcc_host_gnu_type = get_gcc_host_gnu_type();
@@ -128,11 +131,11 @@ my %debarch_to_debtriplet;
 
 	return $host_arch;
     }
+}
 
-    sub get_host_arch()
-    {
-	return Dpkg::BuildEnv::get('DEB_HOST_ARCH') || get_raw_host_arch();
-    }
+sub get_host_arch()
+{
+    return Dpkg::BuildEnv::get('DEB_HOST_ARCH') || get_raw_host_arch();
 }
 
 sub get_valid_arches()

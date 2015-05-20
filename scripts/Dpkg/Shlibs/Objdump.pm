@@ -17,6 +17,7 @@ package Dpkg::Shlibs::Objdump;
 
 use strict;
 use warnings;
+use feature qw(state);
 
 our $VERSION = '0.01';
 
@@ -82,41 +83,39 @@ sub has_object {
     return exists $self->{objects}{$objid};
 }
 
-{
-    my %format; # Cache of result
-    sub get_format {
-	my ($file, $objdump) = @_;
+sub get_format {
+    my ($file, $objdump) = @_;
+    state %format;
 
-	$objdump //= $OBJDUMP;
+    $objdump //= $OBJDUMP;
 
-	if (exists $format{$file}) {
-	    return $format{$file};
-	} else {
-	    my ($output, %opts, $pid, $res);
-	    local $_;
+    if (exists $format{$file}) {
+        return $format{$file};
+    } else {
+        my ($output, %opts, $pid, $res);
+        local $_;
 
-	    if ($objdump ne 'objdump') {
-		$opts{error_to_file} = '/dev/null';
-	    }
-	    $pid = spawn(exec => [ $objdump, '-a', '--', $file ],
-			 env => { LC_ALL => 'C' },
-			 to_pipe => \$output, %opts);
-	    while (<$output>) {
-		chomp;
-		if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
-		    $format{$file} = $1;
-		    $res = $format{$file};
-		    last;
-		}
-	    }
-	    close($output);
-	    wait_child($pid, nocheck => 1);
-	    if ($?) {
-		subprocerr('objdump') if $objdump eq 'objdump';
-		$res = get_format($file, 'objdump');
-	    }
-	    return $res;
-	}
+        if ($objdump ne 'objdump') {
+            $opts{error_to_file} = '/dev/null';
+        }
+        $pid = spawn(exec => [ $objdump, '-a', '--', $file ],
+                     env => { LC_ALL => 'C' },
+                     to_pipe => \$output, %opts);
+        while (<$output>) {
+            chomp;
+            if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
+                $format{$file} = $1;
+                $res = $format{$file};
+                last;
+            }
+        }
+        close($output);
+        wait_child($pid, nocheck => 1);
+        if ($?) {
+            subprocerr('objdump') if $objdump eq 'objdump';
+            $res = get_format($file, 'objdump');
+        }
+        return $res;
     }
 }
 

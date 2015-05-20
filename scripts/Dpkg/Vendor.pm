@@ -17,6 +17,7 @@ package Dpkg::Vendor;
 
 use strict;
 use warnings;
+use feature qw(state);
 
 our $VERSION = '1.01';
 our @EXPORT_OK = qw(
@@ -87,9 +88,9 @@ if there's no file for the given vendor.
 
 =cut
 
-my %VENDOR_CACHE;
 sub get_vendor_info(;$) {
     my $vendor = shift || 'default';
+    state %VENDOR_CACHE;
     return $VENDOR_CACHE{$vendor} if exists $VENDOR_CACHE{$vendor};
 
     my $file = get_vendor_file($vendor);
@@ -148,9 +149,9 @@ object.
 
 =cut
 
-my %OBJECT_CACHE;
 sub get_vendor_object {
     my $vendor = shift || get_current_vendor() || 'Default';
+    state %OBJECT_CACHE;
     return $OBJECT_CACHE{$vendor} if exists $OBJECT_CACHE{$vendor};
 
     my ($obj, @names);

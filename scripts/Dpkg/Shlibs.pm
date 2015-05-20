@@ -18,6 +18,7 @@ package Dpkg::Shlibs;
 
 use strict;
 use warnings;
+use feature qw(state);
 
 our $VERSION = '0.02';
 our @EXPORT_OK = qw(
@@ -48,9 +49,9 @@ use constant DEFAULT_MULTILIB_PATH =>
 my @librarypaths;
 my $librarypaths_init;
 
-my %visited;
 sub parse_ldso_conf {
     my $file = shift;
+    state %visited;
     local $_;
 
     open my $fh, '<', $file or syserr(g_('cannot open %s'), $file);
