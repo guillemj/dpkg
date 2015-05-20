@@ -321,7 +321,9 @@ while (<$find_fh>) {
 close $find_fh or syserr(g_('error closing %s (%s)'), 'find', $!);
 
 if (not $no_sort) {
-    @sources = sort { $a->{Package} cmp $b->{Package} } @sources;
+    @sources = sort {
+        $a->{Package} . $a->{Version} cmp $b->{Package} . $b->{Version}
+    } @sources;
 }
 foreach my $dsc (@sources) {
     $dsc->output(\*STDOUT);
