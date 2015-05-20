@@ -268,7 +268,7 @@ for my $p (sort keys %packages) {
     if (defined($override) and not defined($overridden{$p})) {
         push @missingover, $p;
     }
-    for my $package (@{$packages{$p}}) {
+    for my $package (sort { $a->{Version} cmp $b->{Version} } @{$packages{$p}}) {
          print("$package\n") or syserr(g_('failed when writing stdout'));
          $records_written++;
     }
