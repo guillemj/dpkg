@@ -133,6 +133,9 @@ sub is_elf {
 
 package Dpkg::Shlibs::Objdump::Object;
 
+use strict;
+use warnings;
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 

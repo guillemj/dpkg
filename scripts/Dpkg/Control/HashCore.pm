@@ -441,6 +441,9 @@ package Dpkg::Control::HashCore::Tie;
 # same order. But the order information is stored in a parent object of
 # type Dpkg::Control.
 
+use strict;
+use warnings;
+
 use Dpkg::Checksums;
 use Dpkg::Control::FieldsCore;
 
