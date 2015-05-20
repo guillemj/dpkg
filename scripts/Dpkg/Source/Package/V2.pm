@@ -466,11 +466,7 @@ sub do_build {
         }
     };
     my $tar_ignore_glob = '{' . join(',',
-        map {
-            my $copy = $_;
-            $copy =~ s/,/\\,/g;
-            $copy;
-        } @{$self->{options}{tar_ignore}}) . '}';
+        map { s/,/\\,/rg } @{$self->{options}{tar_ignore}}) . '}';
     my $filter_ignore = sub {
         # Filter out files that are not going to be included in the debian
         # tarball due to ignores.

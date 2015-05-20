@@ -378,7 +378,7 @@ sub do_build {
 
 	my $analysis = $diff->analyze($origdir);
 	my @files = grep { ! m{^debian/} }
-		    map { my $file = $_; $file =~ s{^[^/]+/+}{}; $file }
+		    map { s{^[^/]+/+}{}r }
 		    sort keys %{$analysis->{filepatched}};
 	if (scalar @files) {
 	    warning(g_('the diff modifies the following upstream files: %s'),
