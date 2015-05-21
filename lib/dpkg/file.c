@@ -57,7 +57,7 @@ file_copy_perms(const char *src, const char *dst)
 		ohshite(_("unable to change ownership of target file '%.250s'"),
 		        dst);
 
-	if (chmod(dst, (stab.st_mode & 07777)) == -1)
+	if (chmod(dst, (stab.st_mode & ~S_IFMT)) == -1)
 		ohshite(_("unable to set mode of target file '%.250s'"), dst);
 }
 
