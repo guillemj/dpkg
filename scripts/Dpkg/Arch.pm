@@ -71,7 +71,7 @@ sub get_raw_build_arch()
     # dpkg-architecture itself, by avoiding computing the DEB_BUILD_
     # variables when they are not requested.
 
-    $build_arch = `dpkg --print-architecture`;
+    $build_arch = qx(dpkg --print-architecture);
     syserr('dpkg --print-architecture failed') if $? >> 8;
 
     chomp $build_arch;
@@ -90,7 +90,7 @@ sub get_build_arch()
     {
 	return $gcc_host_gnu_type if defined $gcc_host_gnu_type;
 
-	$gcc_host_gnu_type = `\${CC:-gcc} -dumpmachine`;
+	$gcc_host_gnu_type = qx(\${CC:-gcc} -dumpmachine);
 	if ($? >> 8) {
 	    $gcc_host_gnu_type = '';
 	} else {

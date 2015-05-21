@@ -109,7 +109,7 @@ sub do_build {
     # equivalent to the ones git status finds, and remove any
     # ignored files from it.
     my @ignores = '--exclude-per-directory=.gitignore';
-    my $core_excludesfile = `git config --get core.excludesfile`;
+    my $core_excludesfile = qx(git config --get core.excludesfile);
     chomp $core_excludesfile;
     if (length $core_excludesfile && -e $core_excludesfile) {
         push @ignores, "--exclude-from=$core_excludesfile";

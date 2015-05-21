@@ -52,7 +52,7 @@ if ($option eq 'manual') {
 
 #print "vardir: $vardir, method: $method, option: $option\n";
 
-my $arch=`dpkg --print-architecture`;
+my $arch = qx(dpkg --print-architecture);
 $arch='i386' if $?;
 chomp $arch;
 my $exit = 0;

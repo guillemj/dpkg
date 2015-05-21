@@ -39,13 +39,13 @@ if ($option eq 'manual') {
 #print "vardir: $vardir, method: $method, option: $option\n";
 
 #Defaults
-my $arch=`dpkg --print-architecture`;
+my $arch = qx(dpkg --print-architecture);
 $arch='i386' if $?;
 chomp $arch;
 
-my $logname = `whoami`;
+my $logname = qx(whoami);
 chomp $logname;
-my $host = `cat /etc/mailname || dnsdomainname`;
+my $host = qx(cat /etc/mailname || dnsdomainname);
 chomp $host;
 
 $CONFIG{dldir} = 'debian';

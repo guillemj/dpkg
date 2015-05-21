@@ -155,9 +155,9 @@ sub edit_config {
 sub add_site {
   my $pas = 1;
   my $user = 'anonymous';
-  my $email = `whoami`;
+  my $email = qx(whoami);
   chomp $email;
-  $email .= '@' . `cat /etc/mailname || dnsdomainname`;
+  $email .= '@' . qx(cat /etc/mailname || dnsdomainname);
   chomp $email;
   my $dir = '/debian';
 

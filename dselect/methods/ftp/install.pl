@@ -208,7 +208,7 @@ my $dldir = $CONFIG{dldir};
 # md5sum
 sub md5sum($) {
     my $fn = shift;
-    my $m = `md5sum $fn`;
+    my $m = qx(md5sum $fn);
     $m = (split(' ', $m))[0];
     $md5sums{"$dldir/$fn"} = $m;
     return $m;
@@ -269,13 +269,13 @@ foreach my $pkg (keys(%pkgs)) {
     }
 }
 
-my $avsp = `df -Pk $dldir| awk '{ print \$4}' | tail -n 1`;
+my $avsp = qx(df -Pk $dldir| awk '{ print \$4}' | tail -n 1);
 chomp $avsp;
 
 print "\nApproximate total space required: ${totsize}k\n";
 print "Available space in $dldir: ${avsp}k\n";
 
-#$avsp = `df -k $::dldir| paste -s | awk '{ print \$11}'`;
+#$avsp = qx(df -k $::dldir| paste -s | awk '{ print \$11});
 #chomp $avsp;
 
 if($totsize == 0) {
@@ -560,7 +560,7 @@ if (yesno('y', "\nDo you want to install the files fetched")) {
     print "Installing files...\n";
     #Installing pre-dependent package before !
     my (@flds, $package, @filename, $r);
-    while (@flds = `dpkg --predep-package`, $? == 0) {
+    while (@flds = qx(dpkg --predep-package), $? == 0) {
       foreach my $field (@flds) {
         $field =~ s/\s*\n//;
         $package = $field if $field =~ s/^Package: //i;
