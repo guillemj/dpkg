@@ -649,7 +649,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   int statr;
   ssize_t r;
   struct stat stab, stabtmp;
-  struct file_stat *st;
+  struct file_stat nodestat;
   struct fileinlist *nifd, **oldnifd;
   struct pkgset *divpkgset;
   struct pkginfo *otherpkg;
@@ -698,10 +698,12 @@ tarobject(void *ctx, struct tar_entry *ti)
     }
   }
 
-  if (nifd->namenode->statoverride)
-    st = nifd->namenode->statoverride;
-  else
-    st = &ti->stat;
+  if (nifd->namenode->statoverride) {
+    nodestat = *nifd->namenode->statoverride;
+    nodestat.mode |= ti->stat.mode & S_IFMT;
+  } else {
+    nodestat = ti->stat;
+  }
 
   usenode = namenodetouse(nifd->namenode, tc->pkg, &tc->pkg->available);
   usename = usenode->name;
@@ -958,7 +960,7 @@ tarobject(void *ctx, struct tar_entry *ti)
      */
 
     /* Extract whatever it is as .dpkg-new ... */
-    tarobject_extract(tc, ti, fnamenewvb.buf, st, nifd->namenode);
+    tarobject_extract(tc, ti, fnamenewvb.buf, &nodestat, nifd->namenode);
   }
 
   /* For shared files, check now if the object matches. */
@@ -970,9 +972,9 @@ tarobject(void *ctx, struct tar_entry *ti)
   if (refcounting && !fc_overwrite)
     return 0;
 
-  tarobject_set_perms(ti, fnamenewvb.buf, st);
+  tarobject_set_perms(ti, fnamenewvb.buf, &nodestat);
   tarobject_set_mtime(ti, fnamenewvb.buf);
-  tarobject_set_se_context(fnamevb.buf, fnamenewvb.buf, st->mode);
+  tarobject_set_se_context(fnamevb.buf, fnamenewvb.buf, nodestat.mode);
 
   /*
    * CLEANUP: Now we have extracted the new object in .dpkg-new (or,

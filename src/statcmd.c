@@ -163,7 +163,7 @@ statdb_node_apply(const char *filename, struct file_stat *filestat)
 {
 	if (chown(filename, filestat->uid, filestat->gid) < 0)
 		ohshite(_("error setting ownership of '%.255s'"), filename);
-	if (chmod(filename, filestat->mode))
+	if (chmod(filename, filestat->mode & ~S_IFMT))
 		ohshite(_("error setting permissions of '%.255s'"), filename);
 
 	dpkg_selabel_load();
@@ -197,7 +197,7 @@ statdb_node_print(FILE *out, struct filenamenode *file)
 	else
 		fprintf(out, "#%d ", filestat->gid);
 
-	fprintf(out, "%o %s\n", filestat->mode, file->name);
+	fprintf(out, "%o %s\n", filestat->mode & ~S_IFMT, file->name);
 }
 
 static void
@@ -261,11 +261,13 @@ statoverride_add(const char *const *argv)
 	if (opt_update) {
 		struct stat st;
 
-		if (stat(filename, &st) == 0)
+		if (stat(filename, &st) == 0) {
+			(*filestat)->mode |= st.st_mode & S_IFMT;
 			statdb_node_apply(filename, *filestat);
-		else if (opt_verbose)
+		} else if (opt_verbose) {
 			warning(_("--update given but %s does not exist"),
 			        filename);
+		}
 	}
 
 	statdb_write();
