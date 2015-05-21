@@ -165,7 +165,7 @@ sub compression_get_file_extension_regex {
 
 =item my $comp = compression_get_default()
 
-Return the default compression method. It's "gzip" unless
+Return the default compression method. It is "xz" unless
 C<compression_set_default> has been used to change it.
 
 =item compression_set_default($comp)
