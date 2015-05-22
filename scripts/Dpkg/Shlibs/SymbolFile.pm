@@ -112,8 +112,8 @@ sub clear {
 
 sub clear_except {
     my ($self, @ids) = @_;
-    my %has;
-    $has{$_} = 1 foreach (@ids);
+
+    my %has = map { $_ => 1 } @ids;
     foreach my $objid (keys %{$self->{objects}}) {
 	delete $self->{objects}{$objid} unless exists $has{$objid};
     }
