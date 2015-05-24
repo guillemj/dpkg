@@ -35,6 +35,7 @@ endif
 ifeq ($(call CHECK_VERSION,$(DPKG_SERIES),ge,1.18.x),yes)
 $(info using dpkg >= 1.18.x)
 export DPKG_HAS_TRIGPROC_DEPCHECK := 1
+export DPKG_HAS_SAME_RUN_BIDIRECTIONAL_CONFLICTS := 1
 # once apt is fixed:
 #export DPKG_HAS_CONFIGURE_WITH_IMPLICIT_TRIGGER_PENDING := 1
 endif
@@ -79,6 +80,10 @@ TESTS_PASS += t-disappear-empty
 TESTS_PASS += t-provides
 TESTS_PASS += t-provides-arch-implicit
 TESTS_PASS += t-provides-arch-qualified
+# This only works with dpkg >= 1.18.x
+ifdef DPKG_HAS_SAME_RUN_BIDIRECTIONAL_CONFLICTS
+TESTS_PASS += t-conflicts
+endif
 TESTS_PASS += t-conflict-file
 TESTS_PASS += t-conflict-provide-replace-real
 TESTS_PASS += t-conflict-provide-replace-virtual
