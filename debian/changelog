@@ -17,6 +17,10 @@ dpkg (1.18.1) UNRELEASED; urgency=low
     Thanks to Maximilian Schwerin <maximilian.schwerin@tigris.de>.
   * Sort dpkg-scansources output by package name and version.
     Thanks to Maximilian Schwerin <maximilian.schwerin@tigris.de>.
+  * Set the correct default compression value in dpkg-deb for control.tar.gz
+    member. This meant using compression level 1 when using the zlib shared
+    library to compress the control.tar member, and always failing when using
+    the gzip command. Regression introduced in dpkg 1.17.6. Closes: #786654
   * Perl modules:
     - Add missing strict and warnings pragmas for submodules.
     - Use non-destructive substitutions inside map.

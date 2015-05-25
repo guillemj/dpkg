@@ -527,6 +527,8 @@ do_build(const char *const *argv)
     control_compress_params.type = COMPRESSOR_TYPE_GZIP;
     control_compress_params.strategy = COMPRESSOR_STRATEGY_NONE;
     control_compress_params.level = -1;
+    if (!compressor_check_params(&control_compress_params, &err))
+      internerr("invalid control member compressor params: %s", err.str);
   }
 
   c2 = subproc_fork();
