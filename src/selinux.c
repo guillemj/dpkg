@@ -95,10 +95,6 @@ dpkg_selabel_set_context(const char *matchpath, const char *path, mode_t mode)
 	security_context_t scontext = NULL;
 	int ret;
 
-	/* If there's no file type, just give up. */
-	if ((mode & S_IFMT) == 0)
-		return;
-
 	/* If SELinux is not enabled just do nothing. */
 	sehandle = dpkg_selabel_get_handle();
 	if (sehandle == NULL)
