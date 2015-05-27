@@ -67,7 +67,7 @@ my $varlistfile = 'debian/substvars';
 my $varlistfilenew;
 my $varnameprefix = 'shlibs';
 my $ignore_missing_info = 0;
-my $warnings = 3;
+my $warnings = WARN_SYM_NOT_FOUND | WARN_DEP_AVOIDABLE;
 my $debug = 0;
 my @exclude = ();
 my @pkg_dir_to_search = ();
