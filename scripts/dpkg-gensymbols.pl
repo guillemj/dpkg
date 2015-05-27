@@ -21,8 +21,6 @@
 use strict;
 use warnings;
 
-use File::Copy;
-
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Package;
@@ -287,14 +285,11 @@ unless ($quiet) {
     my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
     my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
     if ($ref_symfile->{file}) {
-        # If the original template symbols file exists, use it instead of
-        # trying to regenerate it, as the output might differ in sort order
-        # or similar.
-        copy($ref_symfile->{file}, $before);
         $file_label = $ref_symfile->{file};
     } else {
         $file_label = 'new_symbol_file';
     }
+    $ref_symfile->output($before, package => $oppackage, template_mode => 1);
     $symfile->output($after, package => $oppackage, template_mode => 1);
 
     seek $before, 0, 0;

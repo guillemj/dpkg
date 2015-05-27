@@ -21,6 +21,10 @@ dpkg (1.18.1) UNRELEASED; urgency=low
     member. This meant using compression level 1 when using the zlib shared
     library to compress the control.tar member, and always failing when using
     the gzip command. Regression introduced in dpkg 1.17.6. Closes: #786654
+  * Use the generated template file instead of the original one when looking
+    for changes in dpkg-gensymbols. There's too much information not being
+    preserved in the symbols files to be able to regenerate templates for
+    them. Closes: #785937, #786840
   * Perl modules:
     - Add missing strict and warnings pragmas for submodules.
     - Use non-destructive substitutions inside map.
