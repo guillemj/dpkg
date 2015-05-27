@@ -40,13 +40,7 @@
 #include "main.h"
 
 #ifdef WITH_SELINUX
-static struct selabel_handle *dpkg_sehandle;
-
-static struct selabel_handle *
-dpkg_selabel_get_handle(void)
-{
-	return dpkg_sehandle;
-}
+static struct selabel_handle *sehandle;
 #endif
 
 void
@@ -75,14 +69,14 @@ dpkg_selabel_load(void)
 	} else if (selinux_enabled && selinux_status_updated()) {
 		/* The SELinux policy got updated in the kernel, usually after
 		 * upgrading the package shipping it, we need to reload. */
-		selabel_close(dpkg_sehandle);
+		selabel_close(sehandle);
 	} else {
 		/* SELinux is either disabled or it does not need a reload. */
 		return;
 	}
 
-	dpkg_sehandle = selabel_open(SELABEL_CTX_FILE, NULL, 0);
-	if (dpkg_sehandle == NULL)
+	sehandle = selabel_open(SELABEL_CTX_FILE, NULL, 0);
+	if (sehandle == NULL)
 		ohshite(_("cannot get security labeling handle"));
 #endif
 }
@@ -91,12 +85,10 @@ void
 dpkg_selabel_set_context(const char *matchpath, const char *path, mode_t mode)
 {
 #ifdef WITH_SELINUX
-	struct selabel_handle *sehandle;
 	security_context_t scontext = NULL;
 	int ret;
 
 	/* If SELinux is not enabled just do nothing. */
-	sehandle = dpkg_selabel_get_handle();
 	if (sehandle == NULL)
 		return;
 
@@ -125,11 +117,11 @@ void
 dpkg_selabel_close(void)
 {
 #ifdef WITH_SELINUX
-	if (dpkg_sehandle == NULL)
+	if (sehandle == NULL)
 		return;
 
 	selinux_status_close();
-	selabel_close(dpkg_sehandle);
-	dpkg_sehandle = NULL;
+	selabel_close(sehandle);
+	sehandle = NULL;
 #endif
 }
