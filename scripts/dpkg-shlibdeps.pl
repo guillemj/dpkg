@@ -512,8 +512,9 @@ foreach my $field (reverse @depfields) {
 		}
 		$templ =~ s/\s+/ /g;
 		$templ;
-	    } grep { filter_deps($_, $field) }
-	    keys %{$dependencies{$field}};
+	    } grep {
+		filter_deps($_, $field)
+	    } keys %{$dependencies{$field}};
     }
     if ($dep) {
         my $obj = deps_parse($dep);
