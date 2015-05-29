@@ -77,6 +77,7 @@ the environment variable B<DEB_BUILD_PROFILES>.
 sub set_build_profiles {
     my (@profiles) = @_;
 
+    $cache_profiles = 1;
     @build_profiles = @profiles;
     Dpkg::BuildEnv::set('DEB_BUILD_PROFILES', join ' ', @profiles);
 }
