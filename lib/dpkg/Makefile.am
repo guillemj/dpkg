@@ -23,10 +23,12 @@ pkgconfig_DATA = libdpkg.pc
 
 lib_LTLIBRARIES = libdpkg.la
 
+libdpkg_la_LDFLAGS =
 if HAVE_LINKER_VERSION_SCRIPT
-libdpkg_la_LDFLAGS = \
+libdpkg_la_LDFLAGS += \
 	-Wl,--version-script=$(srcdir)/libdpkg.map
 endif
+libdpkg_la_LDFLAGS += $(MD_LIBS)
 libdpkg_la_LIBADD = \
 	../compat/libcompat.la
 if BUILD_SHARED

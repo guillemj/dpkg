@@ -1,6 +1,20 @@
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>
 # Copyright © 2007 Nicolas François <nicolas.francois@centraliens.net>
-# Copyright © 2006, 2009 Guillem Jover <guillem@debian.org>
+# Copyright © 2006, 2009-2012, 2014-2015 Guillem Jover <guillem@debian.org>
+
+# DPKG_LIB_MD
+# -----------
+# Check for the message digest library.
+AC_DEFUN([DPKG_LIB_MD], [
+  AC_ARG_VAR([MD_LIBS], [linker flags for md library])
+  AC_CHECK_HEADERS([md5.h], [
+    AC_CHECK_LIB([md], [MD5Init], [have_libmd=yes], [
+      AC_MSG_FAILURE([md5 digest not found in libmd])
+    ])
+  ])
+  AS_IF([test "x$have_libmd" = "xyes"], [MD_LIBS="-lmd"])
+  AM_CONDITIONAL([HAVE_LIBMD_MD5], [test "x$ac_cv_lib_md_MD5Init" = "xyes"])
+])# DPKG_LIB_MD
 
 # DPKG_WITH_COMPRESS_LIB(NAME, HEADER, FUNC, LINK)
 # -------------------------------------------------

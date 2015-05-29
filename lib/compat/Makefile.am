@@ -32,8 +32,9 @@ libcompat_la_SOURCES = \
 	compat.h \
 	gettext.h
 
-# FIXME: unconditionally include these for now.
+if !HAVE_LIBMD_MD5
 libcompat_la_SOURCES += md5.c md5.h
+endif
 
 if !HAVE_GETOPT
 libcompat_la_SOURCES += getopt.c getopt.h
