@@ -84,7 +84,6 @@ TESTS_PASS += t-provides-arch-qualified
 ifdef DPKG_HAS_SAME_RUN_BIDIRECTIONAL_CONFLICTS
 TESTS_PASS += t-conflicts
 endif
-TESTS_PASS += t-conflict-file
 TESTS_PASS += t-conflict-provide-replace-real
 TESTS_PASS += t-conflict-provide-replace-virtual
 TESTS_PASS += t-conflict-provide-replace-virtual-multiarch
@@ -103,6 +102,7 @@ TESTS_PASS += t-triggers-cycle
 ifdef DPKG_HAS_TRIGPROC_DEPCHECK
 TESTS_PASS += t-triggers-halt
 endif
+TESTS_PASS += t-file-conflicts
 TESTS_PASS += t-file-replaces
 TESTS_PASS += t-file-replaces-disappear
 TESTS_PASS += t-file-replaces-versioned
