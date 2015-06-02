@@ -29,7 +29,7 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
-use Date::Parse;
+use Time::Piece;
 
 use Dpkg::Gettext;
 use Dpkg::Control::Fields;
@@ -164,7 +164,13 @@ sub check_trailer {
 	if ($3 ne '  ') {
 	    push @errors, g_('badly formatted trailer line');
 	}
-	unless (defined str2time($4)) {
+
+	my $fmt = '';
+	$fmt .= '%a, ' if defined $5;
+	$fmt .= '%d %b %Y %T %z';
+
+	local $ENV{LC_ALL} = 'C';
+	unless (defined Time::Piece->strptime($4, $fmt)) {
 	    push @errors, sprintf(g_("couldn't parse date %s"), $4);
 	}
     } else {

@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 84;
+use Test::More tests => 92;
 
 use File::Basename;
 
@@ -36,7 +36,7 @@ my $vendor = get_current_vendor();
 #########################
 
 foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
-    "$datadir/regressions") {
+    "$datadir/regressions", "$datadir/date-format") {
 
     my $changes = Dpkg::Changelog::Debian->new(verbose => 0);
     $changes->load($file);
@@ -287,6 +287,14 @@ Xb-Userfield2: foobar
     - implements b
 ', 'change items 2');
 	is($items[5], "  * Update S-V.\n", 'change items 3');
+    }
+    if ($file eq "$datadir/date-format") {
+        is($data[0]->get_timestamp(), '01 Jul 2100 23:59:59 -1200',
+           'get date w/o DoW, and negative timezone offset');
+        is($data[1]->get_timestamp(), 'Tue, 27 Feb 2050 12:00:00 +1245',
+           'get date w/ DoW, and positive timezone offset');
+        is($data[2]->get_timestamp(), 'Mon, 01 Jan 2000 00:00:00 +0000',
+           'get date w/ DoW, and zero timezone offset');
     }
     if ($file eq "$datadir/regressions") {
 	my $f = $changes->dpkg();

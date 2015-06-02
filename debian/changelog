@@ -5,6 +5,9 @@ dpkg (1.18.2) UNRELEASED; urgency=low
   * Perl modules:
     - Remove non-functional timezone name support from
       Dpkg::Changelog::Entry::Debian.
+    - Use Time::Piece (part of the perl core distribution) instead of
+      Date::Parse in Dpkg::Changelog::Entry::Debian. This reduces the build
+      and run-time dependencies, and helps architecture bootstrapping.
   * Documentation:
     - Fix grammar in dpkg-architecture(1).
       Thanks to Chris Lamb <lamby@debian.org>. Closes: #787616
