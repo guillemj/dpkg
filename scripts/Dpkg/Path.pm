@@ -203,7 +203,7 @@ sub resolve_symlink($) {
 }
 
 
-=item my $cmdpath = find_command($command)
+=item $cmdpath = find_command($command)
 
 Return the path of the command if defined and available on an absolute or
 relative path or on the $PATH, undef otherwise.
@@ -224,12 +224,12 @@ sub find_command($) {
     return;
 }
 
-=item my $control_file = get_control_path($pkg, $filetype)
+=item $control_file = get_control_path($pkg, $filetype)
 
 Return the path of the control file of type $filetype for the given
 package.
 
-=item my @control_files = get_control_path($pkg)
+=item @control_files = get_control_path($pkg)
 
 Return the path of all available control files for the given package.
 
@@ -250,14 +250,14 @@ sub get_control_path($;$) {
     return split(/\n/, $control_file);
 }
 
-=item my $file = find_build_file($basename)
+=item $file = find_build_file($basename)
 
 Selects the right variant of the given file: the arch-specific variant
 ("$basename.$arch") has priority over the OS-specific variant
 ("$basename.$os") which has priority over the default variant
 ("$basename"). If none of the files exists, then it returns undef.
 
-=item my @files = find_build_file($basename)
+=item @files = find_build_file($basename)
 
 Return the available variants of the given file. Returns an empty
 list if none of the files exists.

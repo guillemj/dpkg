@@ -49,7 +49,7 @@ from you.
 
 =over 4
 
-=item my $pid = spawn(%opts)
+=item $pid = spawn(%opts)
 
 Creates a child process and executes another program in it.
 The arguments are interpreted as a hash of options, specifying

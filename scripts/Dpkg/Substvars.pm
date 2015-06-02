@@ -56,7 +56,7 @@ use constant {
 
 =over 8
 
-=item my $s = Dpkg::Substvars->new($file)
+=item $s = Dpkg::Substvars->new($file)
 
 Create a new object that can do substitutions. By default it contains
 generic substitutions like ${Newline}, ${Space}, ${Tab}, ${dpkg:Version}

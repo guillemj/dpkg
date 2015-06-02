@@ -126,7 +126,7 @@ _darcs
 
 =over 4
 
-=item my $string = get_default_diff_ignore_regex()
+=item $string = get_default_diff_ignore_regex()
 
 Returns the default diff ignore regex.
 
@@ -148,7 +148,7 @@ sub set_default_diff_ignore_regex {
     $diff_ignore_default_regex = $regex;
 }
 
-=item my @array = get_default_tar_ignore_pattern()
+=item @array = get_default_tar_ignore_pattern()
 
 Returns the default tar ignore pattern, as an array.
 

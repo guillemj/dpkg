@@ -44,7 +44,7 @@ This object represent a set of Dpkg::Control objects.
 
 =over 4
 
-=item my $index = Dpkg::Index->new(%opts)
+=item $index = Dpkg::Index->new(%opts)
 
 Creates a new empty index. See set_options() for more details.
 
@@ -178,7 +178,7 @@ sub parse {
 Writes the content of the index in a file. Auto-compresses files
 based on their extensions.
 
-=item my $item = $index->new_item()
+=item $item = $index->new_item()
 
 Creates a new item. Mainly useful for derived objects that would want
 to override this method to return something else than a Dpkg::Control
@@ -191,7 +191,7 @@ sub new_item {
     return Dpkg::Control->new(type => $self->{type});
 }
 
-=item my $item = $index->get_by_key($key)
+=item $item = $index->get_by_key($key)
 
 Returns the item identified by $key or undef.
 
@@ -203,7 +203,7 @@ sub get_by_key {
     return;
 }
 
-=item my @keys = $index->get_keys(%criteria)
+=item @keys = $index->get_keys(%criteria)
 
 Returns the keys of items that matches all the criteria. The key of the
 %criteria hash is a field name and the value is either a regex that needs
@@ -234,7 +234,7 @@ sub get_keys {
     return @selected;
 }
 
-=item my @items = $index->get(%criteria)
+=item @items = $index->get(%criteria)
 
 Returns all the items that matches all the criteria.
 
@@ -257,7 +257,7 @@ sub remove_by_key {
     return delete $self->{items}{$key};
 }
 
-=item my @items = $index->remove(%criteria)
+=item @items = $index->remove(%criteria)
 
 Returns and removes all the items that matches all the criteria.
 
@@ -312,7 +312,7 @@ sub sort {
     }
 }
 
-=item my $str = $index->output()
+=item $str = $index->output()
 
 =item "$index"
 

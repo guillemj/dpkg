@@ -42,7 +42,7 @@ to query the same information.
 
 =over 4
 
-=item my $bf = Dpkg::BuildFlags->new()
+=item $bf = Dpkg::BuildFlags->new()
 
 Create a new Dpkg::BuildFlags object. It will be initialized based
 on the value of several configuration files and environment variables.
@@ -429,7 +429,7 @@ sub has {
     return exists $self->{flags}{$key};
 }
 
-=item my @flags = $bf->list()
+=item @flags = $bf->list()
 
 Returns the list of flags stored in the object.
 

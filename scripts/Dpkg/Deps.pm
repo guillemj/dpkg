@@ -159,7 +159,7 @@ sub deps_eval_implication {
     return;
 }
 
-=item my $dep = deps_concat(@dep_list)
+=item $dep = deps_concat(@dep_list)
 
 This function concatenates multiple dependency lines into a single line,
 joining them with ", " if appropriate, and always returning a valid string.
@@ -172,7 +172,7 @@ sub deps_concat {
     return join ', ', grep { defined } @dep_list;
 }
 
-=item my $dep = deps_parse($line, %options)
+=item $dep = deps_parse($line, %options)
 
 This function parses the dependency line and returns an object, either a
 Dpkg::Deps::AND or a Dpkg::Deps::Union. Various options can alter the
@@ -315,7 +315,7 @@ sub deps_parse {
     return $dep_and;
 }
 
-=item my $bool = deps_iterate($deps, $callback_func)
+=item $bool = deps_iterate($deps, $callback_func)
 
 This function visits all elements of the dependency object, calling the
 callback function for each element.
@@ -1302,7 +1302,7 @@ packages provided (by the set of installed packages).
 
 =over 4
 
-=item my $facts = Dpkg::Deps::KnownFacts->new();
+=item $facts = Dpkg::Deps::KnownFacts->new();
 
 Creates a new object.
 
@@ -1365,7 +1365,7 @@ sub add_provided_package {
     push @{$self->{virtualpkg}{$pkg}}, [ $by, $rel, $ver ];
 }
 
-=item my ($check, $param) = $facts->check_package($package)
+=item ($check, $param) = $facts->check_package($package)
 
 $check is one when the package is found. For a real package, $param
 contains the version. For a virtual package, $param contains an array

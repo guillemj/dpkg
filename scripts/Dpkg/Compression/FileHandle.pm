@@ -109,7 +109,7 @@ may be exceptions though.
 
 =over 4
 
-=item my $fh = Dpkg::Compression::FileHandle->new(%opts)
+=item $fh = Dpkg::Compression::FileHandle->new(%opts)
 
 Creates a new filehandle supporting on-the-fly compression/decompression.
 Supported options are "filename", "compression", "compression_level" (see
@@ -325,7 +325,7 @@ sub set_filename {
     }
 }
 
-=item my $file = $fh->get_filename()
+=item $file = $fh->get_filename()
 
 Returns the filename that would be used when the filehandle must
 be opened (both in read and write mode). This function errors out
@@ -374,7 +374,7 @@ sub use_compression {
     return $comp;
 }
 
-=item my $real_fh = $fh->get_filehandle()
+=item $real_fh = $fh->get_filehandle()
 
 Returns the real underlying filehandle. Useful if you want to pass it
 along in a derived object.

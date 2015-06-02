@@ -120,7 +120,7 @@ are either new or overridden with a different behaviour.
 
 =over 4
 
-=item my $c = Dpkg::Control->new(%opts)
+=item $c = Dpkg::Control->new(%opts)
 
 If the "type" option is given, it's used to setup default values
 for other options. See set_options() for more details.

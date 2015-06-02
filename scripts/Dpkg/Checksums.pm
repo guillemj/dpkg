@@ -113,7 +113,7 @@ sub checksums_get_property($$) {
 
 =over 4
 
-=item my $ck = Dpkg::Checksums->new()
+=item $ck = Dpkg::Checksums->new()
 
 Create a new Dpkg::Checksums object. This object is able to store
 the checksums of several files to later export them or verify them.

@@ -47,7 +47,7 @@ trailer line. Blank lines can be between those kind of lines.
 
 =over 4
 
-=item my $entry = Dpkg::Changelog::Entry->new()
+=item $entry = Dpkg::Changelog::Entry->new()
 
 Creates a new object. It doesn't represent a real changelog entry
 until one has been successfully parsed or built from scratch.
@@ -70,7 +70,7 @@ sub new {
     return $self;
 }
 
-=item my $str = $entry->output()
+=item $str = $entry->output()
 
 =item "$entry"
 
@@ -210,7 +210,7 @@ sub normalize {
     }
 }
 
-=item my $src = $entry->get_source()
+=item $src = $entry->get_source()
 
 Return the name of the source package associated to the changelog entry.
 
@@ -220,7 +220,7 @@ sub get_source {
     return;
 }
 
-=item my $ver = $entry->get_version()
+=item $ver = $entry->get_version()
 
 Return the version associated to the changelog entry.
 
@@ -230,7 +230,7 @@ sub get_version {
     return;
 }
 
-=item my @dists = $entry->get_distributions()
+=item @dists = $entry->get_distributions()
 
 Return a list of target distributions for this version.
 
@@ -261,7 +261,7 @@ sub get_urgency {
     return;
 }
 
-=item my $maint = $entry->get_maintainer()
+=item $maint = $entry->get_maintainer()
 
 Return the string identifying the person who signed this changelog entry.
 
@@ -271,7 +271,7 @@ sub get_maintainer {
     return;
 }
 
-=item my $time = $entry->get_timestamp()
+=item $time = $entry->get_timestamp()
 
 Return the timestamp of the changelog entry.
 
@@ -281,7 +281,7 @@ sub get_timestamp {
     return;
 }
 
-=item my $str = $entry->get_dpkg_changes()
+=item $str = $entry->get_dpkg_changes()
 
 Returns a string that is suitable for usage in a C<Changes> field
 in the output format of C<dpkg-parsechangelog>.

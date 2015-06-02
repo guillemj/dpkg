@@ -76,7 +76,7 @@ them.
 
 =over 4
 
-=item my $v = Dpkg::Version->new($version, %opts)
+=item $v = Dpkg::Version->new($version, %opts)
 
 Create a new Dpkg::Version object corresponding to the version indicated in
 the string (scalar) $version. By default it will accepts any string
@@ -278,7 +278,7 @@ sub version_compare_relation($$$) {
     }
 }
 
-=item my $rel = version_normalize_relation($rel_string)
+=item $rel = version_normalize_relation($rel_string)
 
 Returns the normalized constant of the relation $rel (a value
 among REL_GT, REL_GE, REL_EQ, REL_LE and REL_LT). Supported
@@ -380,7 +380,7 @@ sub version_compare_part($$) {
     }
 }
 
-=item my @items = version_split_digits($version)
+=item @items = version_split_digits($version)
 
 Splits a string in items that are each entirely composed either
 of digits or of non-digits. For instance for "1.024~beta1+svn234" it would
@@ -394,9 +394,9 @@ sub version_split_digits($) {
     return split /(?<=\d)(?=\D)|(?<=\D)(?=\d)/, $version;
 }
 
-=item my ($ok, $msg) = version_check($version)
+=item ($ok, $msg) = version_check($version)
 
-=item my $ok = version_check($version)
+=item $ok = version_check($version)
 
 Checks the validity of $version as a version number. Returns 1 in $ok
 if the version is valid, 0 otherwise. In the latter case, $msg

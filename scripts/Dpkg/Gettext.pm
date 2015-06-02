@@ -73,17 +73,17 @@ our $DEFAULT_TEXT_DOMAIN = 'dpkg-dev';
 
 =over 4
 
-=item my $trans = g_($msgid)
+=item $trans = g_($msgid)
 
 Calls dgettext() on the $msgid and returns its translation for the current
 locale. If dgettext() is not available, simply returns $msgid.
 
-=item my $trans = C_($msgctxt, $msgid)
+=item $trans = C_($msgctxt, $msgid)
 
 Calls dgettext() on the $msgid and returns its translation for the specific
 $msgctxt supplied. If dgettext() is not available, simply returns $msgid.
 
-=item my $trans = P_($msgid, $msgid_plural, $n)
+=item $trans = P_($msgid, $msgid_plural, $n)
 
 Calls dngettext(), returning the correct translation for the plural form
 dependent on $n. If dngettext() is not available, returns $msgid if $n is 1

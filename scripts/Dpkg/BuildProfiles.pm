@@ -49,7 +49,7 @@ profiles.
 
 =over 4
 
-=item my @profiles = get_build_profiles()
+=item @profiles = get_build_profiles()
 
 Get an array with the currently active build profiles, taken from
 the environment variable B<DEB_BUILD_PROFILES>.
@@ -82,7 +82,7 @@ sub set_build_profiles {
     Dpkg::BuildEnv::set('DEB_BUILD_PROFILES', join ' ', @profiles);
 }
 
-=item my @profiles = parse_build_profiles($string)
+=item @profiles = parse_build_profiles($string)
 
 Parses a build profiles specification, into an array of array references.
 

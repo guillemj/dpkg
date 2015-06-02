@@ -44,7 +44,7 @@ file. It can exports an array that can then be parsed exactly like @ARGV.
 
 =over 4
 
-=item my $conf = Dpkg::Conf->new(%opts)
+=item $conf = Dpkg::Conf->new(%opts)
 
 Create a new Dpkg::Conf object. Some options can be set through %opts:
 if allow_short evaluates to true (it defaults to false), then short

@@ -92,7 +92,7 @@ our $compression_re_file_ext = qr/(?:$regex)/;
 
 =over 4
 
-=item my @list = compression_get_list()
+=item @list = compression_get_list()
 
 Returns a list of supported compression methods (sorted alphabetically).
 
@@ -152,7 +152,7 @@ sub compression_guess_from_filename {
     return;
 }
 
-=item my $regex = compression_get_file_extension_regex()
+=item $regex = compression_get_file_extension_regex()
 
 Returns a regex that matches a file extension of a file compressed with
 one of the supported compression methods.
@@ -163,7 +163,7 @@ sub compression_get_file_extension_regex {
     return $compression_re_file_ext;
 }
 
-=item my $comp = compression_get_default()
+=item $comp = compression_get_default()
 
 Return the default compression method. It is "xz" unless
 C<compression_set_default> has been used to change it.
@@ -186,7 +186,7 @@ sub compression_set_default {
     $default_compression = $method;
 }
 
-=item my $level = compression_get_default_level()
+=item $level = compression_get_default_level()
 
 Return the default compression level used when compressing data. It's "9"
 for "gzip" and "bzip2", "6" for "xz" and "lzma", unless

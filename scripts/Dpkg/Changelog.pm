@@ -54,7 +54,7 @@ use overload
 
 =over 4
 
-=item my $c = Dpkg::Changelog->new(%options)
+=item $c = Dpkg::Changelog->new(%options)
 
 Creates a new changelog object.
 
@@ -471,7 +471,7 @@ sub output {
     return $str;
 }
 
-=item my $control = $c->dpkg($range)
+=item $control = $c->dpkg($range)
 
 Returns a Dpkg::Control::Changelog object representing the entries selected
 by the optional range specifier (see L<"RANGE SELECTION"> for details).
@@ -578,7 +578,7 @@ sub dpkg {
     return $f;
 }
 
-=item my @controls = $c->rfc822($range)
+=item @controls = $c->rfc822($range)
 
 Returns a Dpkg::Index containing Dpkg::Control::Changelog objects where
 each object represents one entry in the changelog that is part of the

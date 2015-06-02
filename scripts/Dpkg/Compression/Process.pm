@@ -42,7 +42,7 @@ compression/decompression processes.
 
 =over 4
 
-=item my $proc = Dpkg::Compression::Process->new(%opts)
+=item $proc = Dpkg::Compression::Process->new(%opts)
 
 Create a new instance of the object. Supported options are "compression"
 and "compression_level" (see corresponding set_* functions).
@@ -90,9 +90,9 @@ sub set_compression_level {
     $self->{compression_level} = $level;
 }
 
-=item my @exec = $proc->get_compress_cmdline()
+=item @exec = $proc->get_compress_cmdline()
 
-=item my @exec = $proc->get_uncompress_cmdline()
+=item @exec = $proc->get_uncompress_cmdline()
 
 Returns a list ready to be passed to C<exec>, its first element is the
 program name (either for compression or decompression) and the following

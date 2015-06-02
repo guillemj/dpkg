@@ -42,7 +42,7 @@ DEB_BUILD_MAINT_OPTIONS.
 
 =over 4
 
-=item my $bo = Dpkg::BuildOptions->new(%opts)
+=item $bo = Dpkg::BuildOptions->new(%opts)
 
 Create a new Dpkg::BuildOptions object. It will be initialized based
 on the value of the environment variable named $opts{envvar} (or

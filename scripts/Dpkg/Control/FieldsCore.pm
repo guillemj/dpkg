@@ -416,7 +416,7 @@ CTRL_* constants exported by Dpkg::Control.
 
 =over 4
 
-=item my $f = field_capitalize($field_name)
+=item $f = field_capitalize($field_name)
 
 Returns the field name properly capitalized. All characters are lowercase,
 except the first of each word (words are separated by a hyphen in field names).

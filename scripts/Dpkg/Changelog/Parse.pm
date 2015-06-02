@@ -49,7 +49,7 @@ use Dpkg::Control::Changelog;
 
 =over 4
 
-=item my $fields = changelog_parse(%opt)
+=item $fields = changelog_parse(%opt)
 
 This function will parse a changelog. In list context, it return as many
 Dpkg::Control object as the parser did output. In scalar context, it will

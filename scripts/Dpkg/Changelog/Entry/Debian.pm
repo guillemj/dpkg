@@ -72,7 +72,7 @@ our $regex_trailer = qr/^ \-\- (.*) <(.*)>(  ?)((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}
 
 =over 4
 
-=item my @items = $entry->get_change_items()
+=item @items = $entry->get_change_items()
 
 Return a list of change items. Each item contains at least one line.
 A change line starting with an asterisk denotes the start of a new item.
@@ -109,9 +109,9 @@ sub get_change_items {
     return @items;
 }
 
-=item my @errors = $entry->check_header()
+=item @errors = $entry->check_header()
 
-=item my @errors = $entry->check_trailer()
+=item @errors = $entry->check_trailer()
 
 Return a list of errors. Each item in the list is an error message
 describing the problem. If the empty list is returned, no errors
@@ -265,7 +265,7 @@ sub get_timestamp {
 
 =over 4
 
-=item my $bool = match_header($line)
+=item $bool = match_header($line)
 
 Checks if the line matches a valid changelog header line.
 
@@ -277,7 +277,7 @@ sub match_header {
     return $line =~ /$regex_header/;
 }
 
-=item my $bool = match_trailer($line)
+=item $bool = match_trailer($line)
 
 Checks if the line matches a valid changelog trailing line.
 
@@ -289,7 +289,7 @@ sub match_trailer {
     return $line =~ /$regex_trailer/;
 }
 
-=item my @closed_bugs = find_closes($changes)
+=item @closed_bugs = find_closes($changes)
 
 Takes one string as argument and finds "Closes: #123456, #654321" statements
 as supported by the Debian Archive software in it. Returns all closed bug

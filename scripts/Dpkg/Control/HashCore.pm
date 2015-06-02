@@ -65,7 +65,7 @@ spaces are stripped only on the first line of each field.
 
 =over 4
 
-=item my $c = Dpkg::Control::Hash->new(%opts)
+=item $c = Dpkg::Control::Hash->new(%opts)
 
 Creates a new object with the indicated options. Supported options
 are:
@@ -149,7 +149,7 @@ sub set_options {
     $$self->{$_} = $opts{$_} foreach keys %opts;
 }
 
-=item my $value = $c->get_option($option)
+=item $value = $c->get_option($option)
 
 Returns the value of the corresponding option.
 
@@ -309,7 +309,7 @@ sub get_custom_field {
 Write the string representation of the control information to a
 file.
 
-=item my $str = $c->output()
+=item $str = $c->output()
 
 =item "$c"
 
