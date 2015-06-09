@@ -215,7 +215,7 @@ Thus disabling everything in the \fBhardening\fP area and enabling only
 .P
   export DEB_BUILD_MAINT_OPTIONS=hardening=\-all,+format,+fortify
 .
-.SS Quality Assurance (QA)
+.SS qa
 Several compile-time options (detailed below) can be used to help detect
 problems in the source code or build system.
 .TP
@@ -232,7 +232,7 @@ The only currently supported flags are \fBCPPFLAGS\fP, \fBCFLAGS\fP,
 to \fB\-D__DEB_CANARY_\fP\fIflag\fP_\fIrandom-id\fP\fB__\fP, and
 \fBLDFLAGS\fP set to \fB\-Wl,\-z,deb-canary\-\fP\fIrandom-id\fP.
 .
-.SS Sanitize
+.SS sanitize
 Several compile-time options (detailed below) can be used to help sanitize
 a resulting binary against memory corruptions, memory leaks, use after free,
 threading data races and undefined behavior bugs.
@@ -254,7 +254,7 @@ or the \fBthread\fP features are enabled, as they imply it.
 .B undefined
 This setting (disabled by default) adds \fB\-fsanitize=undefined\fP to
 \fBCFLAGS\fP, \fBCXXFLAGS\fP and \fBLDFLAGS\fP.
-.SS Hardening
+.SS hardening
 Several compile-time options (detailed below) can be used to help harden
 a resulting binary against memory corruption attacks, or provide
 additional warning messages during compilation.
@@ -362,7 +362,7 @@ architectures (most notably i386) can see performance losses of up to
 15% in very text-segment-heavy application workloads; most workloads
 see less than 1%. Architectures with more general registers (e.g. amd64)
 do not see as high a worst-case penalty.
-.SS Reproducibility
+.SS reproducible
 The compile-time options detailed below can be used to help improve
 build reproducibility or provide additional warning messages during
 compilation. Except as noted below, these are enabled by default for
