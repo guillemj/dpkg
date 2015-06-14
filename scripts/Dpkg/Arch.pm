@@ -405,7 +405,14 @@ sub debarch_to_debtuple($)
     my $tuple = $debarch_to_debtuple{$arch};
 
     if (defined($tuple)) {
-	return split(/-/, $tuple, 4);
+        my @tuple = split /-/, $tuple, 4;
+        return @tuple if wantarray;
+        return {
+            abi => $tuple[0],
+            libc => $tuple[1],
+            os => $tuple[2],
+            cpu => $tuple[3],
+        };
     } else {
 	return;
     }
