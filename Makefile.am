@@ -23,7 +23,8 @@ dist_pkgdata_DATA = \
 	data/cputable \
 	data/ostable \
 	data/abitable \
-	data/triplettable
+	data/tupletable \
+	$(nil)
 
 EXTRA_DIST = \
 	.mailmap \

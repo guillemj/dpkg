@@ -18,30 +18,30 @@ use warnings;
 
 use Test::More tests => 64;
 
-use_ok('Dpkg::Arch', qw(debarch_to_debtriplet debarch_to_multiarch
+use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         debarch_eq debarch_is debarch_is_wildcard
                         debarch_is_illegal
                         debarch_to_cpuattrs
                         debarch_list_parse
-                        debtriplet_to_debarch gnutriplet_to_debarch
+                        debtuple_to_debarch gnutriplet_to_debarch
                         get_host_gnu_type
                         get_valid_arches));
 
 my @tuple_new;
 my @tuple_ref;
 
-@tuple_new = debarch_to_debtriplet('unknown');
-is_deeply(\@tuple_new, [], 'unknown triplet');
+@tuple_new = debarch_to_debtuple('unknown');
+is_deeply(\@tuple_new, [], 'unknown tuple');
 
-@tuple_ref = qw(gnu linux amd64);
-@tuple_new = debarch_to_debtriplet('amd64');
-is_deeply(\@tuple_new, \@tuple_ref, 'valid triplet');
+@tuple_ref = qw(base gnu linux amd64);
+@tuple_new = debarch_to_debtuple('amd64');
+is_deeply(\@tuple_new, \@tuple_ref, 'valid tuple');
 
-@tuple_ref = qw(gnu linux amd64);
-@tuple_new = debarch_to_debtriplet('amd64');
-is_deeply(\@tuple_new, \@tuple_ref, 'valid triplet');
-@tuple_new = debarch_to_debtriplet('linux-amd64');
-is_deeply(\@tuple_new, \@tuple_ref, 'valid triplet');
+@tuple_ref = qw(base gnu linux amd64);
+@tuple_new = debarch_to_debtuple('amd64');
+is_deeply(\@tuple_new, \@tuple_ref, 'valid tuple');
+@tuple_new = debarch_to_debtuple('linux-amd64');
+is_deeply(\@tuple_new, \@tuple_ref, 'valid tuple');
 
 is(debarch_to_multiarch('i386'), 'i386-linux-gnu',
    'normalized i386 multiarch triplet');
@@ -112,9 +112,9 @@ ok($@, 'parse concatenated arches failed');
 is(debarch_to_cpuattrs(undef), undef, 'undef cpu attrs');
 is_deeply([ debarch_to_cpuattrs('amd64') ], [ qw(64 little) ], 'amd64 cpu attrs');
 
-is(debtriplet_to_debarch(undef, undef, undef), undef, 'undef debtriplet');
-is(debtriplet_to_debarch('gnu', 'linux', 'amd64'), 'amd64', 'known debtriplet');
-is(debtriplet_to_debarch('unknown', 'unknown', 'unknown'), undef, 'unknown debtriplet');
+is(debtuple_to_debarch(undef, undef, undef, undef), undef, 'undef debtuple');
+is(debtuple_to_debarch('base', 'gnu', 'linux', 'amd64'), 'amd64', 'known debtuple');
+is(debtuple_to_debarch('unknown', 'unknown', 'unknown', 'unknown'), undef, 'unknown debtuple');
 
 is(gnutriplet_to_debarch(undef), undef, 'undef gnutriplet');
 is(gnutriplet_to_debarch('unknown-unknown-unknown'), undef, 'unknown gnutriplet');

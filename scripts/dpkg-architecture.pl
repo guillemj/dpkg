@@ -28,7 +28,7 @@ use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_host_gnu_type
                   debarch_to_cpuattrs
-                  get_valid_arches debarch_eq debarch_is debarch_to_debtriplet
+                  get_valid_arches debarch_eq debarch_is debarch_to_debtuple
                   debarch_to_gnutriplet gnutriplet_to_debarch
                   debarch_to_multiarch);
 
@@ -233,6 +233,7 @@ while (@ARGV) {
 
 my %v;
 my $abi;
+my $libc;
 
 #
 # Set build variables
@@ -240,7 +241,7 @@ my $abi;
 
 $v{DEB_BUILD_ARCH} = get_raw_build_arch()
     if (action_needs(DEB_BUILD));
-($abi, $v{DEB_BUILD_ARCH_OS}, $v{DEB_BUILD_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_BUILD_ARCH})
+($abi, $libc, $v{DEB_BUILD_ARCH_OS}, $v{DEB_BUILD_ARCH_CPU}) = debarch_to_debtuple($v{DEB_BUILD_ARCH})
     if (action_needs(DEB_BUILD | DEB_ARCH_INFO));
 ($v{DEB_BUILD_ARCH_BITS}, $v{DEB_BUILD_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_BUILD_ARCH})
     if (action_needs(DEB_BUILD | DEB_ARCH_ATTR));
@@ -265,7 +266,7 @@ if (action_needs(DEB_BUILD | DEB_GNU_INFO)) {
 
 $v{DEB_HOST_ARCH} = $req_host_arch || get_raw_host_arch()
     if (action_needs(DEB_HOST));
-($abi, $v{DEB_HOST_ARCH_OS}, $v{DEB_HOST_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_HOST_ARCH})
+($abi, $libc, $v{DEB_HOST_ARCH_OS}, $v{DEB_HOST_ARCH_CPU}) = debarch_to_debtuple($v{DEB_HOST_ARCH})
     if (action_needs(DEB_HOST | DEB_ARCH_INFO));
 ($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_HOST_ARCH})
     if (action_needs(DEB_HOST | DEB_ARCH_ATTR));
@@ -301,7 +302,7 @@ if (action_needs(DEB_HOST | DEB_GNU_INFO)) {
 
 $v{DEB_TARGET_ARCH} = $req_target_arch || $req_host_arch || get_raw_host_arch()
     if (action_needs(DEB_TARGET));
-($abi, $v{DEB_TARGET_ARCH_OS}, $v{DEB_TARGET_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_TARGET_ARCH})
+($abi, $libc, $v{DEB_TARGET_ARCH_OS}, $v{DEB_TARGET_ARCH_CPU}) = debarch_to_debtuple($v{DEB_TARGET_ARCH})
     if (action_needs(DEB_TARGET | DEB_ARCH_INFO));
 ($v{DEB_TARGET_ARCH_BITS}, $v{DEB_TARGET_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_TARGET_ARCH})
     if (action_needs(DEB_TARGET | DEB_ARCH_ATTR));

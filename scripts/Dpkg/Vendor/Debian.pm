@@ -29,7 +29,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Types;
 use Dpkg::BuildOptions;
-use Dpkg::Arch qw(get_host_arch debarch_to_debtriplet);
+use Dpkg::Arch qw(get_host_arch debarch_to_debtuple);
 
 use parent qw(Dpkg::Vendor::Default);
 
@@ -269,9 +269,9 @@ sub _add_sanitize_flags {
 sub _add_hardening_flags {
     my ($self, $flags) = @_;
     my $arch = get_host_arch();
-    my ($abi, $os, $cpu) = debarch_to_debtriplet($arch);
+    my ($abi, $libc, $os, $cpu) = debarch_to_debtuple($arch);
 
-    unless (defined $abi and defined $os and defined $cpu) {
+    unless (defined $abi and defined $libc and defined $os and defined $cpu) {
         warning(g_("unknown host architecture '%s'"), $arch);
         ($abi, $os, $cpu) = ('', '', '');
     }

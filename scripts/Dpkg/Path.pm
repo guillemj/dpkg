@@ -36,7 +36,7 @@ use Exporter qw(import);
 use File::Spec;
 use Cwd qw(realpath);
 
-use Dpkg::Arch qw(get_host_arch debarch_to_debtriplet);
+use Dpkg::Arch qw(get_host_arch debarch_to_debtuple);
 use Dpkg::IPC;
 
 =encoding utf8
@@ -267,7 +267,7 @@ list if none of the files exists.
 sub find_build_file($) {
     my $base = shift;
     my $host_arch = get_host_arch();
-    my ($abi, $host_os, $cpu) = debarch_to_debtriplet($host_arch);
+    my ($abi, $libc, $host_os, $cpu) = debarch_to_debtuple($host_arch);
     my @files;
     foreach my $f ("$base.$host_arch", "$base.$host_os", "$base") {
         push @files, $f if -f $f;

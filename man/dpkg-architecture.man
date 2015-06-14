@@ -140,10 +140,27 @@ code for the target architecture.
 .IP "Debian architecture" 4
 The Debian architecture string, which specifies the binary tree in the
 FTP archive. Examples: i386, sparc, hurd\-i386.
+.IP "Debian architecture tuple" 4
+A Debian architecture tuple is the fully qualified architecture with all its
+components spelled out.
+This differs with Debian architectures in that at least the \fIcpu\fP
+component does not embed the \fIabi\fP.
+The current tuple has the form \fIabi\fP\-\fIlibc\fP\-\fIos\fP\-\fIcpu\fP.
+Examples: base\-gnu\-linux\-amd64, eabihf\-musl\-linux\-arm.
 .IP "Debian architecture wildcard" 4
-A Debian architecture wildcard is a special architecture string that will match
-any real architecture being part of it. The general form is <kernel>\-<cpu>.
-Examples: linux\-any, any\-i386, hurd\-any.
+A Debian architecture wildcard is a special architecture string that will
+match any real architecture being part of it.
+The general form is a Debian architecture tuple with four or less elements,
+and with at least one of them being \fBany\fP.
+Missing elements of the tuple are prefixed implicitly as \fBany\fP, and thus
+the following pairs are equivalent:
+.nf
+    \fBany\fP\-\fBany\fP\-\fBany\fP\-\fBany\fP = \fBany\fP
+    \fBany\fP\-\fBany\fP\-\fIos\fP\-\fBany\fP = \fIos\fP\-\fBany\fP
+    \fBany\fP\-\fIlibc\fP\-\fBany\fP\-\fBany\fP = \fIlibc\fP\-\fBany\fP\-\fBany\fP
+.fi
+Examples: linux\-any, any\-i386, hurd\-any, eabi\-any\-any\-arm,
+musl\-any\-any.
 .IP "GNU system type" 4
 An architecture specification string consisting of two parts separated by
 a hyphen: cpu and system.
@@ -232,16 +249,16 @@ Format version 1.0 (since dpkg 1.13.2).
 .TP
 .I %PKGDATADIR%/ostable
 Table of known operating system names and mapping to their GNU name.
-Format version 1.0 (since dpkg 1.13.2).
+Format version 2.0 (since dpkg 1.18.11).
 .TP
-.I %PKGDATADIR%/triplettable
-Mapping between Debian architecture triplets and Debian architecture
+.I %PKGDATADIR%/tupletable
+Mapping between Debian architecture tuples and Debian architecture
 names.
-Format version 1.0 (since dpkg 1.14.0).
+Format version 1.0 (since dpkg 1.18.11).
 .TP
 .I %PKGDATADIR%/abitable
 Table of Debian architecture ABI attribute overrides.
-Format version 1.0 (since dpkg 1.16.3).
+Format version 2.0 (since dpkg 1.18.11).
 .SS Packaging support
 .TP
 .I %PKGDATADIR%/architecture.mk
