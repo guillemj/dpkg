@@ -17,6 +17,9 @@ dpkg (1.18.2) UNRELEASED; urgency=low
   * Use string_to_security_class() instead of a literal SECCLASS value in
     the setexecfilecon() libcompat function, as <selinux/flask.h> is now
     deprecated.
+  * Switch libdpkg xz compressor to use CRC64 for integrity checks, to match
+    the default on the command-line tool, which should provide slightly better
+    detection against damaged data, at a negligible speed difference.
   * Perl modules:
     - Remove non-functional timezone name support from
       Dpkg::Changelog::Entry::Debian.

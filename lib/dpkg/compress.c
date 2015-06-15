@@ -534,7 +534,7 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 	preset = io->params->level;
 	if (io->params->strategy == COMPRESSOR_STRATEGY_EXTREME)
 		preset |= LZMA_PRESET_EXTREME;
-	ret = lzma_easy_encoder(s, preset, LZMA_CHECK_CRC32);
+	ret = lzma_easy_encoder(s, preset, LZMA_CHECK_CRC64);
 	if (ret != LZMA_OK)
 		filter_lzma_error(io, ret);
 }
