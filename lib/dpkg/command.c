@@ -216,14 +216,16 @@ command_shell(const char *cmd, const char *name)
 	const char *shell;
 	const char *mode;
 
-	shell = getenv("SHELL");
+	if (cmd == NULL) {
+		mode = "-i";
+		shell = getenv("SHELL");
+	} else {
+		mode = "-c";
+		shell = NULL;
+	}
+
 	if (str_is_unset(shell))
 		shell = DEFAULTSHELL;
-
-	if (cmd == NULL)
-		mode = "-i";
-	else
-		mode = "-c";
 
 	execlp(shell, shell, mode, cmd, NULL);
 	ohshite(_("unable to execute %s (%s)"), name, cmd);
