@@ -13,6 +13,9 @@ dpkg (1.18.2) UNRELEASED; urgency=low
     - Add new function changelog_parse_debian() in Dpkg::Changelog::Parse, and
       use it in changelog_parse() instead of the external plugin parser when
       the input format is “debian”. This significantly speeds up the parsing.
+    - Remove trailing space before handling blank line dot-separator in
+      Dpkg::Control::HashCore. Regression introduced in dpkg 1.18.0.
+      Reported by Jakub Wilk <jwilk@debian.org>. Closes: #789580
   * Documentation:
     - Fix grammar in dpkg-architecture(1).
       Thanks to Chris Lamb <lamby@debian.org>. Closes: #787616
