@@ -50,7 +50,9 @@ secure_unlink_statted(const char *pathname, const struct stat *stab)
 	return 0;
 }
 
-/*
+/**
+ * Securely unlink a pathname.
+ *
  * If the pathname to remove is:
  *
  * 1. a sticky or set-id file, or
@@ -107,6 +109,11 @@ secure_remove(const char *pathname)
 	return rc;
 }
 
+/**
+ * Remove a pathname and anything below it.
+ *
+ * This function removes pathname and all its contents recursively.
+ */
 void
 path_remove_tree(const char *pathname)
 {
