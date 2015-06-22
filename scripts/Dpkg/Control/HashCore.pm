@@ -219,10 +219,10 @@ sub parse {
 	    unless (defined($cf)) {
 		$self->parse_error($desc, _g('continued value line not in field'));
             }
+	    $line =~ s/\s*$//;
 	    if ($line =~ /^\.+$/) {
 		$line = substr $line, 1;
 	    }
-	    $line =~ s/\s*$//;
 	    $self->{$cf} .= "\n$line";
 	} elsif (m/^-----BEGIN PGP SIGNED MESSAGE-----[\r\t ]*$/) {
 	    $expect_pgp_sig = 1;
