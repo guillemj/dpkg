@@ -51,6 +51,7 @@ Long-Field: line1
  line 2 line 2 line 2
  .
    line 3 line 3 line 3
+ .
  ..
  line 4
 Empty-Field: 
@@ -80,6 +81,7 @@ is($src->{'long-field'},
 line 2 line 2 line 2
 
   line 3 line 3 line 3
+
 .
 line 4', "Get multi-line field");
 is($src->{'Empty-field'}, "", "Get empty field");
