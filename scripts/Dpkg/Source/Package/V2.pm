@@ -695,6 +695,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
 use File::Path qw(make_path);
+use File::Spec;
 
 sub new {
     my ($this, $dir) = @_;
