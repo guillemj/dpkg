@@ -694,7 +694,7 @@ package Dpkg::Source::Package::V2::BinaryFiles;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
-use File::Path;
+use File::Path qw(make_path);
 
 sub new {
     my ($this, $dir) = @_;
