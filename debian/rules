@@ -20,6 +20,7 @@ dpkg_buildflags = \
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_HOST_ARCH_OS    ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
+DEB_HOST_MULTIARCH  ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 # Support cross-compiling.
 ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
@@ -54,6 +55,7 @@ build-tree/config.status: configure
 		--infodir=\$${datadir}/info \
 		--sysconfdir=/etc \
 		--sbindir=/sbin \
+		--libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH) \
 		--localstatedir=/var \
 		--with-zlib \
 		--with-liblzma \
