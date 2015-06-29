@@ -4,7 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000 Wichert Akkerman
-# Copyright © 2006-2010,2012-2014 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2010, 2012-2015 Guillem Jover <guillem@debian.org>
 # Copyright © 2007 Frank Lichtenheld
 #
 # This program is free software; you can redistribute it and/or modify
@@ -74,7 +74,8 @@ sub usage {
   -R<rules>      rules file to execute (default is debian/rules).
   -T<target>     call debian/rules <target> with the proper environment.
       --as-root  ensure -T calls the target with root rights.
-  -j[<number>]   specify jobs to run simultaneously (passed to <rules>).
+  -j[<number>]   jobs to run simultaneously (passed to <rules>), forced mode.
+  -J[<number>]   jobs to run simultaneously (passed to <rules>), opt-in mode.
   -r<gain-root-command>
                  command to gain root privileges (default is fakeroot).
   --check-command=<check-command>
@@ -135,6 +136,7 @@ my $signcommand;
 my $noclean;
 my $cleansource;
 my $parallel;
+my $parallel_force;
 my $checkbuilddep = 1;
 my @source_opts;
 my $check_command = $ENV{DEB_CHECK_COMMAND};
@@ -233,6 +235,10 @@ while (@ARGV) {
 	push @changes_opts, $1;
     } elsif (/^-j(\d*|auto)$/) {
 	$parallel = $1 || '';
+	$parallel_force = 1;
+    } elsif (/^-J(\d*|auto)$/) {
+	$parallel = $1 || '';
+	$parallel_force = 0;
     } elsif (/^-r(.*)$/) {
 	my $arg = $1;
 	@rootcommand = split /\s+/, $arg;
@@ -395,8 +401,10 @@ if (defined $parallel) {
         $parallel = qx(getconf _NPROC_ONLN 2>/dev/null) if $?;
         chomp $parallel;
     }
-    $ENV{MAKEFLAGS} //= '';
-    $ENV{MAKEFLAGS} .= " -j$parallel";
+    if ($parallel_force) {
+        $ENV{MAKEFLAGS} //= '';
+        $ENV{MAKEFLAGS} .= " -j$parallel";
+    }
     $build_opts->set('parallel', $parallel);
     $build_opts->export();
 }

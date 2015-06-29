@@ -200,6 +200,12 @@ currently active processors, and as such will not get propagated to any
 child process. If the number of online processors cannot be inferred then
 the code will fallback to using an unlimited number.
 .TP
+.BR \-J [\fIjobs\fP|\fBauto\fP]
+This option (since dpkg 1.18.2) is equivalent to the \fB\-j\fP option
+except that it does not set the \fB\%MAKEFLAGS\fP environment variable,
+and as such it is safer to use with any package including those that are
+not parallel-build safe.
+.TP
 .B \-D
 Check build dependencies and conflicts; abort if unsatisfied. This is the
 default behavior.
