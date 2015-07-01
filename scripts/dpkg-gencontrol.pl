@@ -313,7 +313,6 @@ for my $f (qw(Maintainer Description Architecture)) {
     warning(g_('missing information for output field %s'), $f)
         unless defined $fields->{$f};
 }
-$oppackage = $fields->{'Package'};
 
 my $pkg_type = $pkg->{'Package-Type'} ||
                $pkg->get_custom_field('Package-Type') || 'deb';
@@ -329,8 +328,9 @@ if ($pkg_type eq 'udeb') {
 }
 
 my $sourcepackage = get_source_package();
+my $binarypackage = $fields->{'Package'};
 my $verdiff = $binaryversion ne $sourceversion;
-if ($oppackage ne $sourcepackage || $verdiff) {
+if ($binarypackage ne $sourcepackage || $verdiff) {
     $fields->{'Source'} = $sourcepackage;
     $fields->{'Source'} .= ' (' . $sourceversion . ')' if $verdiff;
 }
@@ -373,7 +373,7 @@ for my $f (keys %remove) {
 
 my $sversion = $fields->{'Version'};
 $sversion =~ s/^\d+://;
-$forcefilename //= sprintf('%s_%s_%s.%s', $oppackage, $sversion,
+$forcefilename //= sprintf('%s_%s_%s.%s', $fields->{'Package'}, $sversion,
                            $fields->{'Architecture'} || '', $pkg_type);
 $forcefilename = $substvars->substvars($forcefilename);
 my $section = $substvars->substvars($fields->{'Section'} || '-');
@@ -394,7 +394,7 @@ $dist->load($fileslistfile) if -e $fileslistfile;
 
 foreach my $file ($dist->get_files()) {
     if (defined $file->{package} &&
-        ($file->{package} eq $oppackage) &&
+        ($file->{package} eq $fields->{'Package'}) &&
         ($file->{package_type} eq $pkg_type) &&
         (debarch_eq($file->{arch}, $fields->{'Architecture'} || '') ||
          debarch_eq($file->{arch}, 'all'))) {
