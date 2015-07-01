@@ -10,6 +10,9 @@ dpkg (1.18.2) UNRELEASED; urgency=low
       and run-time dependencies, and helps architecture bootstrapping.
     - Simplify distribution splitting in Dpkg::Changelog::Entry::Debian.
     - Add new function changelog_parse_plugin() in Dpkg::Changelog::Parse.
+    - Add new function changelog_parse_debian() in Dpkg::Changelog::Parse, and
+      use it in changelog_parse() instead of the external plugin parser when
+      the input format is “debian”. This significantly speeds up the parsing.
   * Documentation:
     - Fix grammar in dpkg-architecture(1).
       Thanks to Chris Lamb <lamby@debian.org>. Closes: #787616

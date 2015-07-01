@@ -35,6 +35,7 @@ use warnings;
 
 our $VERSION = '1.01';
 our @EXPORT = qw(
+    changelog_parse_debian
     changelog_parse_plugin
     changelog_parse
 );
@@ -44,13 +45,73 @@ use Exporter qw(import);
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Changelog::Debian;
 use Dpkg::Control::Changelog;
 
 =head1 FUNCTIONS
 
 =over 4
 
+=item $fields = changelog_parse_debian(%opt)
+
+This function will parse a changelog. In list context, it returns as many
+Dpkg::Control objects as the parser did create. In scalar context, it will
+return only the first one. If the parser did not return any data, it will
+return an empty list in list context or undef on scalar context. If the
+parser failed, it will die.
+
+The changelog file that is parsed is F<debian/changelog> by default but it
+can be overridden with $opt{file}. The default output format is "dpkg" but
+it can be overridden with $opt{format}.
+
+The parsing itself is done by Dpkg::Changelog::Debian.
+
 =cut
+
+sub changelog_parse_debian {
+    my (%options) = @_;
+
+    # Setup and sanity checks.
+    $options{file} //= 'debian/changelog';
+    $options{label} //= $options{file};
+    $options{format} //= 'dpkg';
+    $options{all} = 1 if exists $options{all};
+
+    unless (defined $options{since} or defined $options{until} or
+            defined $options{from} or defined $options{to} or
+            defined $options{offset} or defined $options{count} or
+            defined $options{all})
+    {
+        $options{count} = 1;
+    }
+
+    my $range;
+    foreach my $opt (qw(since until from to offset count all)) {
+        $range->{$opt} = $options{$opt} if exists $options{$opt};
+    }
+
+    my $changes = Dpkg::Changelog::Debian->new(reportfile => $options{label},
+                                               range => $range);
+    $changes->load($options{file})
+        or error(g_('fatal error occurred while parsing %s'), $options{file});
+
+    # Get the output into several Dpkg::Control objects.
+    my @res;
+    if ($options{format} eq 'dpkg') {
+        push @res, $changes->dpkg($range);
+    } elsif ($options{format} eq 'rfc822') {
+        push @res, $changes->rfc822($range)->get();
+    } else {
+        error(g_('unknown output format %s'), $options{format});
+    }
+
+    if (wantarray) {
+        return @res;
+    } else {
+        return $res[0] if @res;
+        return;
+    }
+}
 
 sub _changelog_detect_format {
     my $file = shift;
@@ -112,6 +173,7 @@ sub changelog_parse_plugin {
 
     # Extract and remove options that do not concern the changelog parser
     # itself (and that we shouldn't forward)
+    delete $options{forceplugin};
     if (exists $options{libdir}) {
 	unshift @parserpath, $options{libdir};
 	delete $options{libdir};
@@ -181,6 +243,10 @@ return only the first one. If the parser did not return any data, it will
 return an empty list in list context or undef on scalar context. If the
 parser failed, it will die.
 
+If $opt{forceplugin} is false and $opt{changelogformat} is "debian", then
+changelog_parse_debian() is called to perform the parsing. Otherwise
+changelog_parse_plugin() is used.
+
 The changelog file that is parsed is F<debian/changelog> by default but it
 can be overridden with $opt{file}.
 
@@ -189,7 +255,15 @@ can be overridden with $opt{file}.
 sub changelog_parse {
     my (%options) = @_;
 
-    return changelog_parse_plugin(%options);
+    $options{forceplugin} //= 0;
+    $options{changelogformat} //= _changelog_detect_format($options{file});
+
+    if (not $options{forceplugin} and
+        $options{changelogformat} eq 'debian') {
+        return changelog_parse_debian(%options);
+    } else {
+        return changelog_parse_plugin(%options);
+    }
 }
 
 =back
@@ -198,7 +272,7 @@ sub changelog_parse {
 
 =head2 Version 1.01 (dpkg 1.18.2)
 
-New functions: changelog_parse_plugin().
+New functions: changelog_parse_debian(), changelog_parse_plugin().
 
 =head2 Version 1.00 (dpkg 1.15.6)
 
