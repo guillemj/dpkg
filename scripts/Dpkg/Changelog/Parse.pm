@@ -51,17 +51,17 @@ use Dpkg::Control::Changelog;
 
 =item $fields = changelog_parse(%opt)
 
-This function will parse a changelog. In list context, it return as many
-Dpkg::Control object as the parser did output. In scalar context, it will
-return only the first one. If the parser didn't return any data, it will
-return an empty in list context or undef on scalar context. If the parser
-failed, it will die.
+This function will parse a changelog. In list context, it returns as many
+Dpkg::Control objects as the parser did output. In scalar context, it will
+return only the first one. If the parser did not return any data, it will
+return an empty list in list context or undef on scalar context. If the
+parser failed, it will die.
 
 The parsing itself is done by an external program (searched in the
 following list of directories: $opt{libdir},
-F</usr/local/lib/dpkg/parsechangelog>, F</usr/lib/dpkg/parsechangelog>) That
-program is named according to the format that it's able to parse. By
-default it's either "debian" or the format name lookep up in the 40 last
+F</usr/local/lib/dpkg/parsechangelog>, F</usr/lib/dpkg/parsechangelog>).
+That program is named according to the format that it is able to parse. By
+default it is either "debian" or the format name looked up in the 40 last
 lines of the changelog itself (extracted with this perl regular expression
 "\schangelog-format:\s+([0-9a-z]+)\W"). But it can be overridden
 with $opt{changelogformat}. The program expects the content of the
@@ -71,9 +71,9 @@ The changelog file that is parsed is F<debian/changelog> by default but it
 can be overridden with $opt{file}.
 
 All the other keys in %opt are forwarded as parameter to the external
-parser. If the key starts with "-", it's passed as is. If not, it's passed
+parser. If the key starts with "-", it is passed as is. If not, it is passed
 as "--<key>". If the value of the corresponding hash entry is defined, then
-it's passed as the parameter that follows.
+it is passed as the parameter that follows.
 
 =cut
 
