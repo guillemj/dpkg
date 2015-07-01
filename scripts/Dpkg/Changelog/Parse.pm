@@ -23,8 +23,8 @@ Dpkg::Changelog::Parse - generic changelog parser for dpkg-parsechangelog
 
 =head1 DESCRIPTION
 
-This module provides a single function changelog_parse() which reproduces
-all the features of dpkg-parsechangelog.
+This module provides a set of functions which reproduce all the features
+of dpkg-parsechangelog.
 
 =cut
 
@@ -33,8 +33,9 @@ package Dpkg::Changelog::Parse;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 our @EXPORT = qw(
+    changelog_parse_plugin
     changelog_parse
 );
 
@@ -49,7 +50,7 @@ use Dpkg::Control::Changelog;
 
 =over 4
 
-=item $fields = changelog_parse(%opt)
+=item $fields = changelog_parse_plugin(%opt)
 
 This function will parse a changelog. In list context, it returns as many
 Dpkg::Control objects as the parser did output. In scalar context, it will
@@ -77,7 +78,7 @@ it is passed as the parameter that follows.
 
 =cut
 
-sub changelog_parse {
+sub changelog_parse_plugin {
     my (%options) = @_;
     my @parserpath = ('/usr/local/lib/dpkg/parsechangelog',
                       "$Dpkg::LIBDIR/parsechangelog",
@@ -163,9 +164,32 @@ sub changelog_parse {
     }
 }
 
+=item $fields = changelog_parse(%opt)
+
+This function will parse a changelog. In list context, it returns as many
+Dpkg::Control objects as the parser did create. In scalar context, it will
+return only the first one. If the parser did not return any data, it will
+return an empty list in list context or undef on scalar context. If the
+parser failed, it will die.
+
+The changelog file that is parsed is F<debian/changelog> by default but it
+can be overridden with $opt{file}.
+
+=cut
+
+sub changelog_parse {
+    my (%options) = @_;
+
+    return changelog_parse_plugin(%options);
+}
+
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.01 (dpkg 1.18.2)
+
+New functions: changelog_parse_plugin().
 
 =head2 Version 1.00 (dpkg 1.15.6)
 
