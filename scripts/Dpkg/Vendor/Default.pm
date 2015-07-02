@@ -81,6 +81,18 @@ The hook is called when dpkg-source is checking a signature on a source
 package. It takes no parameters, but returns a (possibly empty) list of
 vendor-specific keyrings.
 
+=item builtin-build-depends ()
+
+The hook is called when dpkg-checkbuilddeps is initializing the source
+package build dependencies (since dpkg 1.18.2). It takes no parameters,
+but returns a (possibly empty) list of vendor-specific Build-Depends.
+
+=item builtin-build-conflicts ()
+
+The hook is called when dpkg-checkbuilddeps is initializing the source
+package build conflicts (since dpkg 1.18.2). It takes no parameters,
+but returns a (possibly empty) list of vendor-specific Build-Conflicts.
+
 =item register-custom-fields ()
 
 The hook is called in Dpkg::Control::Fields to register custom fields.
@@ -116,6 +128,10 @@ sub run_hook {
     } elsif ($hook eq 'keyrings') {
         return ();
     } elsif ($hook eq 'register-custom-fields') {
+        return ();
+    } elsif ($hook eq 'builtin-build-depends') {
+        return ();
+    } elsif ($hook eq 'builtin-build-conflicts') {
         return ();
     } elsif ($hook eq 'post-process-changelog-entry') {
         my $fields = shift @params;

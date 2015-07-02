@@ -52,6 +52,10 @@ sub run_hook {
     if ($hook eq 'keyrings') {
         return ('/usr/share/keyrings/debian-keyring.gpg',
                 '/usr/share/keyrings/debian-maintainers.gpg');
+    } elsif ($hook eq 'builtin-build-depends') {
+        return qw(build-essential:native);
+    } elsif ($hook eq 'builtin-build-conflicts') {
+        return ();
     } elsif ($hook eq 'register-custom-fields') {
     } elsif ($hook eq 'extend-patch-header') {
         my ($textref, $ch_info) = @params;

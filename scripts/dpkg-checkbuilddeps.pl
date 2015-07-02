@@ -28,6 +28,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_host_arch);
+use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::BuildProfiles qw(get_build_profiles set_build_profiles);
 use Dpkg::Deps;
 use Dpkg::Control::Info;
@@ -96,12 +97,16 @@ my $fields = $control->get_source();
 my $facts = parse_status("$admindir/status");
 
 unless (defined($bd_value) or defined($bc_value)) {
-    my @bd_list = ('build-essential:native', $fields->{'Build-Depends'});
+    my @bd_list;
+    push @bd_list, run_vendor_hook('builtin-build-depends');
+    push @bd_list, $fields->{'Build-Depends'};
     push @bd_list, $fields->{'Build-Depends-Arch'} if not $ignore_bd_arch;
     push @bd_list, $fields->{'Build-Depends-Indep'} if not $ignore_bd_indep;
     $bd_value = deps_concat(@bd_list);
 
-    my @bc_list = ($fields->{'Build-Conflicts'});
+    my @bc_list;
+    push @bc_list, run_vendor_hook('builtin-build-conflicts');
+    push @bc_list, $fields->{'Build-Conflicts'};
     push @bc_list, $fields->{'Build-Conflicts-Arch'} if not $ignore_bd_arch;
     push @bc_list, $fields->{'Build-Conflicts-Indep'} if not $ignore_bd_indep;
     $bc_value = deps_concat(@bc_list);
