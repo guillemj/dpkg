@@ -185,6 +185,11 @@ sub _add_sanitize_flags {
     $self->_parse_feature_area('sanitize', \%use_feature);
 
     # Handle logical feature interactions.
+    if ($use_feature{address} and $use_feature{thread}) {
+        # Disable the thread sanitizer when the address one is active, they
+        # are mutually incompatible.
+        $use_feature{thread} = 0;
+    }
     if ($use_feature{address} or $use_feature{thread}) {
         # Disable leak sanitizer, it is implied by the address or thread ones.
         $use_feature{leak} = 0;
