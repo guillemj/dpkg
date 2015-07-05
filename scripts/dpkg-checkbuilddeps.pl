@@ -47,6 +47,7 @@ sub usage {
 'Options:
   -A             ignore Build-Depends-Arch and Build-Conflicts-Arch.
   -B             ignore Build-Depends-Indep and Build-Conflicts-Indep.
+  -I             ignore built-in build dependencies and conflicts.
   -d build-deps  use given string as build dependencies instead of
                  retrieving them from control file
   -c build-conf  use given string for build conflicts instead of
@@ -64,6 +65,7 @@ sub usage {
 
 my $ignore_bd_arch = 0;
 my $ignore_bd_indep = 0;
+my $ignore_bd_builtin = 0;
 my ($bd_value, $bc_value);
 my $bp_value;
 my $host_arch = get_host_arch();
@@ -73,6 +75,7 @@ my @options_spec = (
     'version' => sub { version(); exit 0; },
     'A' => \$ignore_bd_arch,
     'B' => \$ignore_bd_indep,
+    'I' => \$ignore_bd_builtin,
     'd=s' => \$bd_value,
     'c=s' => \$bc_value,
     'a=s' => \$host_arch,
@@ -98,14 +101,16 @@ my $facts = parse_status("$admindir/status");
 
 unless (defined($bd_value) or defined($bc_value)) {
     my @bd_list;
-    push @bd_list, run_vendor_hook('builtin-build-depends');
+    push @bd_list, run_vendor_hook('builtin-build-depends')
+        if not $ignore_bd_builtin;
     push @bd_list, $fields->{'Build-Depends'};
     push @bd_list, $fields->{'Build-Depends-Arch'} if not $ignore_bd_arch;
     push @bd_list, $fields->{'Build-Depends-Indep'} if not $ignore_bd_indep;
     $bd_value = deps_concat(@bd_list);
 
     my @bc_list;
-    push @bc_list, run_vendor_hook('builtin-build-conflicts');
+    push @bc_list, run_vendor_hook('builtin-build-conflicts')
+        if not $ignore_bd_builtin;
     push @bc_list, $fields->{'Build-Conflicts'};
     push @bc_list, $fields->{'Build-Conflicts-Arch'} if not $ignore_bd_arch;
     push @bc_list, $fields->{'Build-Conflicts-Indep'} if not $ignore_bd_indep;

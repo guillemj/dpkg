@@ -138,6 +138,7 @@ my $cleansource;
 my $parallel;
 my $parallel_force;
 my $checkbuilddep = 1;
+my $check_builtin_builddep = 1;
 my @source_opts;
 my $check_command = $ENV{DEB_CHECK_COMMAND};
 my @check_opts;
@@ -259,6 +260,8 @@ while (@ARGV) {
 	$signkey = $1;
     } elsif (/^-([dD])$/) {
 	$checkbuilddep = ($1 eq 'D');
+    } elsif (/^--ignore-builtin-builddeps$/) {
+	$check_builtin_builddep = 0;
     } elsif (/^-s(gpg|pgp)$/) {
 	# Deprecated option
 	warning(g_('-s%s is deprecated; always using gpg style interface'), $1);
@@ -502,6 +505,7 @@ if ($checkbuilddep) {
 
     push @checkbuilddep_opts, '-A' if ($include & BUILD_ARCH_DEP) == 0;
     push @checkbuilddep_opts, '-B' if ($include & BUILD_ARCH_INDEP) == 0;
+    push @checkbuilddep_opts, '-I' if not $check_builtin_builddep;
     push @checkbuilddep_opts, "--admindir=$admindir" if $admindir;
 
     system('dpkg-checkbuilddeps', @checkbuilddep_opts);
