@@ -24,7 +24,6 @@
 #include <stdlib.h>
 
 #include <selinux/selinux.h>
-#include <selinux/flask.h>
 #include <selinux/context.h>
 
 #include "compat.h"
@@ -35,6 +34,7 @@ setexecfilecon(const char *filename, const char *fallback)
 	int rc;
 
 	security_context_t curcon = NULL, newcon = NULL, filecon = NULL;
+	security_class_t seclass;
 	context_t tmpcon = NULL;
 
 	if (is_selinux_enabled() < 1)
@@ -48,7 +48,11 @@ setexecfilecon(const char *filename, const char *fallback)
 	if (rc < 0)
 		goto out;
 
-	rc = security_compute_create(curcon, filecon, SECCLASS_PROCESS, &newcon);
+	seclass = string_to_security_class("process");
+	if (seclass == 0)
+		goto out;
+
+	rc = security_compute_create(curcon, filecon, seclass, &newcon);
 	if (rc < 0)
 		goto out;
 
