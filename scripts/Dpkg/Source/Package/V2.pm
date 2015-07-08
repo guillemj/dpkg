@@ -187,20 +187,8 @@ sub do_extract {
     # Extract debian tarball after removing the debian directory
     info(g_('unpacking %s'), $debianfile);
     erasedir("$newdirectory/debian");
-    # Exclude existing symlinks from extraction of debian.tar.gz as we
-    # don't want to overwrite something outside of $newdirectory due to a
-    # symlink
-    my @exclude_symlinks;
-    my $wanted = sub {
-        return if not -l;
-        my $fn = File::Spec->abs2rel($_, $newdirectory);
-        push @exclude_symlinks, '--exclude', $fn;
-    };
-    find({ wanted => $wanted, no_chdir => 1 }, $newdirectory);
     $tar = Dpkg::Source::Archive->new(filename => "$dscdir$debianfile");
-    $tar->extract($newdirectory, in_place => 1,
-                  options => [ '--anchored', '--no-wildcards',
-                  @exclude_symlinks ]);
+    $tar->extract($newdirectory, in_place => 1);
 
     # Apply patches (in a separate method as it might be overridden)
     $self->apply_patches($newdirectory, usage => 'unpack')
