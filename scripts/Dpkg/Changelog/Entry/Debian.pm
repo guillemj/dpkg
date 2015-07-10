@@ -211,9 +211,7 @@ sub get_version {
 sub get_distributions {
     my $self = shift;
     if (defined($self->{header}) and $self->{header} =~ $regex_header) {
-	my $value = $3;
-	$value =~ s/^\s+//;
-	my @dists = split(/\s+/, $value);
+	my @dists = split ' ', $3;
 	return @dists if wantarray;
 	return $dists[0];
     }
