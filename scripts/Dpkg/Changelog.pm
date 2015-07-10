@@ -677,17 +677,18 @@ wasn't given as well.
 Some examples for the above options. Imagine an example changelog with
 entries for the versions 1.2, 1.3, 2.0, 2.1, 2.2, 3.0 and 3.1.
 
-            Range                           Included entries
- C<{ since =E<gt> '2.0' }>                  3.1, 3.0, 2.2
- C<{ until =E<gt> '2.0' }>                  1.3, 1.2
- C<{ from =E<gt> '2.0' }>                   3.1, 3.0, 2.2, 2.1, 2.0
- C<{ to =E<gt> '2.0' }>                     2.0, 1.3, 1.2
- C<{ count =E<gt> 2 }>                      3.1, 3.0
- C<{ count =E<gt> -2 }>	                    1.3, 1.2
- C<{ count =E<gt> 3, offset=E<gt> 2 }>      2.2, 2.1, 2.0
- C<{ count =E<gt> 2, offset=E<gt> -3 }>     2.0, 1.3
- C<{ count =E<gt> -2, offset=E<gt> 3 }>     3.0, 2.2
- C<{ count =E<gt> -2, offset=E<gt> -3 }>    2.2, 2.1
+  Range                        Included entries
+  -----                        ----------------
+  since => '2.0'               3.1, 3.0, 2.2
+  until => '2.0'               1.3, 1.2
+  from  => '2.0'               3.1, 3.0, 2.2, 2.1, 2.0
+  to    => '2.0'               2.0, 1.3, 1.2
+  count =>  2                  3.1, 3.0
+  count => -2                  1.3, 1.2
+  count =>  3, offset => 2     2.2, 2.1, 2.0
+  count =>  2, offset => -3    2.0, 1.3
+  count => -2, offset => 3     3.0, 2.2
+  count => -2, offset => -3    2.2, 2.1
 
 Any combination of one option of C<since> and C<from> and one of
 C<until> and C<to> returns the intersection of the two results
