@@ -154,7 +154,7 @@ sub parse {
 		last if $self->abort_early();
 	    }
 	    $entry->set_part('header', $_);
-	    foreach my $error ($entry->check_header()) {
+	    foreach my $error ($entry->parse_header()) {
 		$self->parse_error($file, $., $error, $_);
 	    }
 	    $expect= START_CHANGES;
@@ -184,7 +184,7 @@ sub parse {
 	    $entry->set_part('trailer', $_);
 	    $entry->extend_part('blank_after_changes', [ @blanklines ]);
 	    @blanklines = ();
-	    foreach my $error ($entry->check_trailer()) {
+	    foreach my $error ($entry->parse_trailer()) {
 		$self->parse_error($file, $., $error, $_);
 	    }
 	    $expect = NEXT_OR_EOF;

@@ -19,7 +19,7 @@ package Dpkg::Changelog::Entry::Debian;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our @EXPORT_OK = qw(
     $regex_header
     $regex_trailer
@@ -29,6 +29,7 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
+use Carp;
 use Time::Piece;
 
 use Dpkg::Gettext;
@@ -143,9 +144,9 @@ sub get_change_items {
     return @items;
 }
 
-=item @errors = $entry->check_header()
+=item @errors = $entry->parse_header()
 
-=item @errors = $entry->check_trailer()
+=item @errors = $entry->parse_trailer()
 
 Return a list of errors. Each item in the list is an error message
 describing the problem. If the empty list is returned, no errors
@@ -153,23 +154,36 @@ have been found.
 
 =cut
 
-sub check_header {
+sub parse_header {
     my $self = shift;
     my @errors;
     if (defined($self->{header}) and $self->{header} =~ $regex_header) {
-	my ($version, $options) = ($2, $4);
+	$self->{header_source} = $1;
+
+	my $version = Dpkg::Version->new($2);
+	my ($ok, $msg) = version_check($version);
+	if ($ok) {
+	    $self->{header_version} = $version;
+	} else {
+	    push @errors, sprintf(g_("version '%s' is invalid: %s"), $version, $msg);
+	}
+
+	@{$self->{header_dists}} = split ' ', $3;
+
+	my $options = $4;
 	$options =~ s/^\s+//;
-	my %optdone;
+	my $f = Dpkg::Control::Changelog->new();
 	foreach my $opt (split(/\s*,\s*/, $options)) {
 	    unless ($opt =~ m/^([-0-9a-z]+)\=\s*(.*\S)$/i) {
 		push @errors, sprintf(g_("bad key-value after ';': '%s'"), $opt);
 		next;
 	    }
 	    my ($k, $v) = (field_capitalize($1), $2);
-	    if ($optdone{$k}) {
+	    if (exists $f->{$k}) {
 		push @errors, sprintf(g_('repeated key-value %s'), $k);
+	    } else {
+		$f->{$k} = $v;
 	    }
-	    $optdone{$k} = 1;
 	    if ($k eq 'Urgency') {
 		push @errors, sprintf(g_('badly formatted urgency value: %s'), $v)
 		    unless ($v =~ m/^([-0-9a-z]+)((\s+.*)?)$/i);
@@ -181,20 +195,19 @@ sub check_header {
 		push @errors, sprintf(g_('unknown key-value %s'), $k);
 	    }
 	}
-	my ($ok, $msg) = version_check($version);
-	unless ($ok) {
-	    push @errors, sprintf(g_("version '%s' is invalid: %s"), $version, $msg);
-	}
+	$self->{header_fields} = $f;
     } else {
 	push @errors, g_("the header doesn't match the expected regex");
     }
     return @errors;
 }
 
-sub check_trailer {
+sub parse_trailer {
     my $self = shift;
     my @errors;
     if (defined($self->{trailer}) and $self->{trailer} =~ $regex_trailer) {
+	$self->{trailer_maintainer} = "$1 <$2>";
+
 	if ($3 ne '  ') {
 	    push @errors, g_('badly formatted trailer line');
 	}
@@ -221,10 +234,37 @@ sub check_trailer {
 	    }
 	    push @errors, sprintf(g_("cannot parse non-comformant date '%s'"), $7);
 	};
+	$self->{trailer_timestamp_date} = $4;
     } else {
 	push @errors, g_("the trailer doesn't match the expected regex");
     }
     return @errors;
+}
+
+=item $entry->check_header()
+
+Obsolete method. Use parse_header() instead.
+
+=cut
+
+sub check_header {
+    my $self = shift;
+
+    carp 'obsolete check_header(), use parse_header() instead';
+    return $self->parse_header();
+}
+
+=item $entry->check_trailer()
+
+Obsolete method. Use parse_trailer() instead.
+
+=cut
+
+sub check_trailer {
+    my $self = shift;
+
+    carp 'obsolete check_trailer(), use parse_trailer() instead';
+    return $self->parse_header();
 }
 
 =item $entry->normalize()
@@ -242,46 +282,41 @@ sub normalize {
 
 sub get_source {
     my $self = shift;
-    if (defined($self->{header}) and $self->{header} =~ $regex_header) {
-	return $1;
-    }
-    return;
+
+    return $self->{header_source};
 }
 
 sub get_version {
     my $self = shift;
-    if (defined($self->{header}) and $self->{header} =~ $regex_header) {
-	return Dpkg::Version->new($2);
-    }
-    return;
+
+    return $self->{header_version};
 }
 
 sub get_distributions {
     my $self = shift;
-    if (defined($self->{header}) and $self->{header} =~ $regex_header) {
-	my @dists = split ' ', $3;
-	return @dists if wantarray;
-	return $dists[0];
+
+    if (defined $self->{header_dists}) {
+        return @{$self->{header_dists}} if wantarray;
+        return $self->{header_dists}[0];
     }
     return;
 }
 
 sub get_optional_fields {
     my $self = shift;
-    my $f = Dpkg::Control::Changelog->new();
-    if (defined($self->{header}) and $self->{header} =~ $regex_header) {
-	my $options = $4;
-	$options =~ s/^\s+//;
-	foreach my $opt (split(/\s*,\s*/, $options)) {
-	    if ($opt =~ m/^([-0-9a-z]+)\=\s*(.*\S)$/i) {
-		$f->{$1} = $2;
-	    }
-	}
+    my $f;
+
+    if (defined $self->{header_fields}) {
+        $f = $self->{header_fields};
+    } else {
+        $f = Dpkg::Control::Changelog->new();
     }
+
     my @closes = find_closes(join("\n", @{$self->{changes}}));
     if (@closes) {
 	$f->{Closes} = join(' ', @closes);
     }
+
     return $f;
 }
 
@@ -297,18 +332,14 @@ sub get_urgency {
 
 sub get_maintainer {
     my $self = shift;
-    if (defined($self->{trailer}) and $self->{trailer} =~ $regex_trailer) {
-	return "$1 <$2>";
-    }
-    return;
+
+    return $self->{trailer_maintainer};
 }
 
 sub get_timestamp {
     my $self = shift;
-    if (defined($self->{trailer}) and $self->{trailer} =~ $regex_trailer) {
-	return $4;
-    }
-    return;
+
+    return $self->{trailer_timestamp_date};
 }
 
 =back
@@ -368,6 +399,12 @@ sub find_closes {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.18.5)
+
+New methods: $entry->parse_header(), $entry->parse_trailer().
+
+Deprecated methods: $entry->check_header(), $entry->check_trailer().
 
 =head2 Version 1.01 (dpkg 1.17.2)
 
