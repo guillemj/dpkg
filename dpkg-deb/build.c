@@ -474,6 +474,20 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
   subproc_reap(pid_tar, "tar -cf", 0);
 }
 
+static time_t
+parse_timestamp(const char *value)
+{
+  time_t timestamp;
+  char *end;
+
+  errno = 0;
+  timestamp = strtol(value, &end, 10);
+  if (value == end || *end || errno != 0)
+    ohshite(_("unable to parse timestamp '%.255s'"), value);
+
+  return timestamp;
+}
+
 /**
  * Overly complex function that builds a .deb file.
  */
@@ -484,6 +498,7 @@ do_build(const char *const *argv)
   struct dpkg_error err;
   struct dpkg_ar *ar;
   time_t timestamp;
+  const char *timestamp_str;
   const char *dir, *dest;
   char *ctrldir;
   char *debar;
@@ -518,7 +533,11 @@ do_build(const char *const *argv)
   }
   m_output(stdout, _("<standard output>"));
 
-  timestamp = time(NULL);
+  timestamp_str = getenv("SOURCE_DATE_EPOCH");
+  if (timestamp_str)
+    timestamp = parse_timestamp(timestamp_str);
+  else
+    timestamp = time(NULL);
 
   /* Now that we have verified everything its time to actually
    * build something. Let's start by making the ar-wrapper. */
