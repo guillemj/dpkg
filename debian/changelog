@@ -5,6 +5,11 @@ dpkg (1.16.18) UNRELEASED; urgency=medium
     Reported by Jakub Wilk <jwilk@debian.org>. Closes: #789580
   * Only use the SHELL environment variable for interactive shells.
     Closes: #788819
+  * Move tar option --no-recursion before -T in dpkg-deb. With tar > 1.28 the
+    --no-recursion option is now positional, and needs to be passed before
+    the -T option, otherwise the tarball will end up with duplicated entries.
+    Thanks to Richard Purdie <richard.purdie@linuxfoundation.org>.
+    Closes: #807940
 
  -- Guillem Jover <guillem@debian.org>  Sat, 19 Mar 2016 19:13:34 +0100
 
