@@ -48,9 +48,9 @@ sub create {
     $spawn_opts{from_pipe} = \*$self->{tar_input};
     # Call tar creation process
     $spawn_opts{delete_env} = [ 'TAR_OPTIONS' ];
-    $spawn_opts{exec} = [ 'tar', '--null', '-T', '-', '--numeric-owner',
-                            '--owner', '0', '--group', '0', '--format=gnu',
-                            @{$opts{options}}, '-cf', '-' ];
+    $spawn_opts{exec} = [ 'tar', '-cf', '-', '--format=gnu', '--null',
+                          '--numeric-owner', '--owner=0', '--group=0',
+                          @{$opts{options}}, '-T', '-' ];
     *$self->{pid} = spawn(%spawn_opts);
     *$self->{cwd} = getcwd();
 }
@@ -126,8 +126,8 @@ sub extract {
 
     # Call tar extraction process
     $spawn_opts{delete_env} = [ 'TAR_OPTIONS' ];
-    $spawn_opts{exec} = [ 'tar', '--no-same-owner', '--no-same-permissions',
-                            @{$opts{options}}, '-xf', '-' ];
+    $spawn_opts{exec} = [ 'tar', '-xf', '-', '--no-same-permissions',
+                          '--no-same-owner', @{$opts{options}} ];
     spawn(%spawn_opts);
     $self->close();
 
