@@ -524,6 +524,8 @@ do_build(const char *const *argv)
    * build something. Let's start by making the ar-wrapper. */
   ar = dpkg_ar_create(debar, 0644);
 
+  dpkg_ar_set_mtime(ar, timestamp);
+
   unsetenv("TAR_OPTIONS");
 
   /* Create a temporary file to store the control data in. Immediately
