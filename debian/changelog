@@ -26,6 +26,9 @@ dpkg (1.18.2) UNRELEASED; urgency=low
     - Disable the thread sanitizer when the address sanitizer is enabled
       in Dpkg::Vendor::Debian as these are mutually incompatible, and make
       sanitize=+all not work at all.
+    - Allow colons (:) in added filenames in Dpkg::Dist::Files, which can be
+      present when the upstream version contains colons. Regression introduced
+      in dpkg 1.18.0. Reported by Jakub Wilk <jwilk@debian.org>.
   * Documentation:
     - Fix grammar in dpkg-architecture(1).
       Thanks to Chris Lamb <lamby@debian.org>. Closes: #787616

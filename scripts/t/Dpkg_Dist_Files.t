@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 23;
+use Test::More tests => 24;
 
 use_ok('Dpkg::Dist::Files');
 
@@ -25,13 +25,13 @@ my $datadir = $srcdir . '/t/Dpkg_Dist_Files';
 
 my $expected;
 my %expected = (
-    'pkg-src_2.0+1A~rc1-1.dsc' => {
-        filename => 'pkg-src_2.0+1A~rc1-1.dsc',
+    'pkg-src_4:2.0+1A~rc1-1.dsc' => {
+        filename => 'pkg-src_4:2.0+1A~rc1-1.dsc',
         section => 'source',
         priority => 'extra',
     },
-    'pkg-src_2.0+1A~rc1-1.tar.xz' => {
-        filename => 'pkg-src_2.0+1A~rc1-1.tar.xz',
+    'pkg-src_4:2.0+1A~rc1-1.tar.xz' => {
+        filename => 'pkg-src_4:2.0+1A~rc1-1.tar.xz',
         section => 'source',
         priority => 'extra',
     },
@@ -71,6 +71,11 @@ my %expected = (
         filename => 'BY-HAND-file',
         section => 'webdocs',
         priority => 'optional',
+    },
+    'another:filename' => {
+        filename => 'another:filename',
+        section => 'by-hand',
+        priority => 'extra',
     },
     'added-on-the-fly' => {
         filename => 'added-on-the-fly',
@@ -127,20 +132,25 @@ is($dist->get_file('pkg-indep_0.0.1-2_all.deb'), undef, 'Get deleted file');
 is($dist->output(), $expected, 'Modified dist object');
 
 $expected = <<'FILES';
-pkg-src_2.0+1A~rc1-1.dsc source extra
-pkg-src_2.0+1A~rc1-1.tar.xz source extra
+another:filename by-hand extra
+pkg-src_4:2.0+1A~rc1-1.dsc source extra
+pkg-src_4:2.0+1A~rc1-1.tar.xz source extra
 FILES
 
 $dist->reset();
-$dist->add_file('pkg-src_2.0+1A~rc1-1.dsc', 'source', 'extra');
-$dist->add_file('pkg-src_2.0+1A~rc1-1.tar.xz', 'source', 'extra');
+$dist->add_file('pkg-src_4:2.0+1A~rc1-1.dsc', 'source', 'extra');
+$dist->add_file('pkg-src_4:2.0+1A~rc1-1.tar.xz', 'source', 'extra');
+$dist->add_file('another:filename', 'by-hand', 'extra');
 
-is_deeply($dist->get_file('pkg-src_2.0+1A~rc1-1.dsc'),
-          $expected{'pkg-src_2.0+1A~rc1-1.dsc'},
-          'Get added file pkg-src_2.0+1A~rc1-1.dsc');
-is_deeply($dist->get_file('pkg-src_2.0+1A~rc1-1.tar.xz'),
-          $expected{'pkg-src_2.0+1A~rc1-1.tar.xz'},
-          'Get added file pkg-src_2.0+1A~rc1-1.tar.xz');
+is_deeply($dist->get_file('pkg-src_4:2.0+1A~rc1-1.dsc'),
+          $expected{'pkg-src_4:2.0+1A~rc1-1.dsc'},
+          'Get added file pkg-src_4:2.0+1A~rc1-1.dsc');
+is_deeply($dist->get_file('pkg-src_4:2.0+1A~rc1-1.tar.xz'),
+          $expected{'pkg-src_4:2.0+1A~rc1-1.tar.xz'},
+          'Get added file pkg-src_4:2.0+1A~rc1-1.tar.xz');
+is_deeply($dist->get_file('another:filename'),
+          $expected{'another:filename'},
+          'Get added file another:filename');
 is($dist->output, $expected, 'Added source files');
 
 $expected = <<'FILES';

@@ -52,13 +52,13 @@ sub parse_filename {
 
     my $file;
 
-    if ($fn =~ m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.([a-z0-9.]+))$/) {
+    if ($fn =~ m/^(([-+:.0-9a-z]+)_([^_]+)_([-\w]+)\.([a-z0-9.]+))$/) {
         $file->{filename} = $1;
         $file->{package} = $2;
         $file->{version} = $3;
         $file->{arch} = $4;
         $file->{package_type} = $5;
-    } elsif ($fn =~ m/^([-+.,_0-9a-zA-Z~]+)$/) {
+    } elsif ($fn =~ m/^([-+:.,_0-9a-zA-Z~]+)$/) {
         $file->{filename} = $1;
     } else {
         $file = undef;
