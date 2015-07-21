@@ -213,7 +213,7 @@ our %FIELDS = (
         allowed => (ALL_PKG | ALL_SRC) & (~CTRL_INFO_PKG),
     },
     'Maintainer' => {
-        allowed => CTRL_PKG_DEB | ALL_SRC | ALL_CHANGES,
+        allowed => CTRL_PKG_DEB| CTRL_FILE_STATUS | ALL_SRC  | ALL_CHANGES,
     },
     'Multi-Arch' => {
         allowed => ALL_PKG,
