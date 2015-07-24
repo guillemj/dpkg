@@ -15,11 +15,24 @@
 
 package Dpkg::Arch;
 
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Arch - handle architectures
+
+=head1 DESCRIPTION
+
+The Dpkg::Arch module provides functions to handle Debian architectures,
+wildcards, and mapping from and to GNU triplets.
+
+=cut
+
 use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '0.01';
+our $VERSION = '1.00';
 our @EXPORT_OK = qw(
     get_raw_build_arch
     get_raw_host_arch
@@ -60,6 +73,17 @@ my %abibits;
 my %debtriplet_to_debarch;
 my %debarch_to_debtriplet;
 
+=head1 FUNCTIONS
+
+=over 4
+
+=item $arch = get_raw_build_arch()
+
+Get the raw build Debian architecture, without taking into account variables
+from the environment.
+
+=cut
+
 sub get_raw_build_arch()
 {
     state $build_arch;
@@ -77,6 +101,13 @@ sub get_raw_build_arch()
     chomp $build_arch;
     return $build_arch;
 }
+
+=item $arch = get_build_arch()
+
+Get the build Debian architecture, using DEB_BUILD_ARCH from the environment
+if available.
+
+=cut
 
 sub get_build_arch()
 {
@@ -99,6 +130,13 @@ sub get_build_arch()
 
 	return $gcc_host_gnu_type;
     }
+
+=item $arch = get_raw_host_arch()
+
+Get the raw host Debian architecture, without taking into account variables
+from the environment.
+
+=cut
 
     sub get_raw_host_arch()
     {
@@ -133,10 +171,23 @@ sub get_build_arch()
     }
 }
 
+=item $arch = get_host_arch()
+
+Get the host Debian architecture, using DEB_HOST_ARCH from the environment
+if available.
+
+=cut
+
 sub get_host_arch()
 {
     return Dpkg::BuildEnv::get('DEB_HOST_ARCH') || get_raw_host_arch();
 }
+
+=item @arch_list = get_valid_arches()
+
+Get an array with all currently known Debian architectures.
+
+=cut
 
 sub get_valid_arches()
 {
@@ -278,6 +329,12 @@ sub gnutriplet_to_debtriplet($)
     return (split(/-/, $os, 2), $cpu);
 }
 
+=item $multiarch = gnutriplet_to_multiarch($gnutriplet)
+
+Map a GNU triplet into a Debian multiarch triplet.
+
+=cut
+
 sub gnutriplet_to_multiarch($)
 {
     my $gnu = shift;
@@ -289,6 +346,12 @@ sub gnutriplet_to_multiarch($)
 	return $gnu;
     }
 }
+
+=item $multiarch = debarch_to_multiarch($arch)
+
+Map a Debian architecture into a Debian multiarch triplet.
+
+=cut
 
 sub debarch_to_multiarch($)
 {
@@ -332,12 +395,24 @@ sub debarch_to_debtriplet($)
     }
 }
 
+=item $gnutriplet = debarch_to_gnutriplet($arch)
+
+Map a Debian architecture into a GNU triplet.
+
+=cut
+
 sub debarch_to_gnutriplet($)
 {
     my $arch = shift;
 
     return debtriplet_to_gnutriplet(debarch_to_debtriplet($arch));
 }
+
+=item $arch = gnutriplet_to_debarch($gnutriplet)
+
+Map a GNU triplet into a Debian architecture.
+
+=cut
 
 sub gnutriplet_to_debarch($)
 {
@@ -378,6 +453,13 @@ sub debarch_to_cpuattrs($)
     }
 }
 
+=item $bool = debarch_eq($arch_a, $arch_b)
+
+Evaluate the equality of a Debian architecture, by comparing with another
+Debian architecture. No wildcard matching is performed.
+
+=cut
+
 sub debarch_eq($$)
 {
     my ($a, $b) = @_;
@@ -391,6 +473,13 @@ sub debarch_eq($$)
 
     return ($a[0] eq $b[0] && $a[1] eq $b[1] && $a[2] eq $b[2]);
 }
+
+=item $bool = debarch_is($arch, $arch_wildcard)
+
+Evaluate the identity of a Debian architecture, by matchings with an
+architecture wildcard.
+
+=cut
 
 sub debarch_is($$)
 {
@@ -412,6 +501,12 @@ sub debarch_is($$)
     return 0;
 }
 
+=item $bool = debarch_is_wildcard($arch)
+
+Evaluate whether a Debian architecture is an architecture wildcard.
+
+=cut
+
 sub debarch_is_wildcard($)
 {
     my $arch = shift;
@@ -424,6 +519,13 @@ sub debarch_is_wildcard($)
     return 1 if any { $_ eq 'any' } @triplet;
     return 0;
 }
+
+=item $bool = debarch_is_concerned($arch, @arches)
+
+Evaluate whether a Debian architecture applies to the list of architecture
+restrictions, as usually found in dependencies inside square brackets.
+
+=cut
 
 sub debarch_is_concerned
 {
@@ -454,3 +556,17 @@ sub debarch_is_concerned
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 CHANGES
+
+=head2 Version 1.00 (dpkg 1.18.2)
+
+Mark the module as public.
+
+=head1 SEE ALSO
+
+dpkg-architecture(1).
