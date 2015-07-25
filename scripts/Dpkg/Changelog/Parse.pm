@@ -50,6 +50,27 @@ use Dpkg::Control::Changelog;
 
 =over 4
 
+=cut
+
+sub _changelog_detect_format {
+    my $file = shift;
+    my $format = 'debian';
+
+    # Extract the format from the changelog file if possible
+    if ($file ne '-') {
+        local $_;
+
+        open my $format_fh, '-|', 'tail', '-n', '40', $file
+            or syserr(g_('cannot create pipe for %s'), 'tail');
+        while (<$format_fh>) {
+            $format = $1 if m/\schangelog-format:\s+([0-9a-z]+)\W/;
+        }
+        close $format_fh or subprocerr(g_('tail of %s'), $file);
+    }
+
+    return $format;
+}
+
 =item $fields = changelog_parse_plugin(%opt)
 
 This function will parse a changelog. In list context, it returns as many
@@ -88,8 +109,7 @@ sub changelog_parse_plugin {
     my @parserpath = ('/usr/local/lib/dpkg/parsechangelog',
                       "$Dpkg::LIBDIR/parsechangelog",
                       '/usr/lib/dpkg/parsechangelog');
-    my $format = 'debian';
-    my $force = 0;
+    my $format;
 
     # Extract and remove options that do not concern the changelog parser
     # itself (and that we shouldn't forward)
@@ -100,19 +120,8 @@ sub changelog_parse_plugin {
     if (exists $options{changelogformat}) {
 	$format = $options{changelogformat};
 	delete $options{changelogformat};
-	$force = 1;
-    }
-
-    # Extract the format from the changelog file if possible
-    unless ($force or ($changelogfile eq '-')) {
-	local $_;
-
-	open(my $format_fh, '-|', 'tail', '-n', '40', $changelogfile)
-	    or syserr(g_('cannot create pipe for %s'), 'tail');
-	while (<$format_fh>) {
-	    $format = $1 if m/\schangelog-format:\s+([0-9a-z]+)\W/;
-	}
-	close($format_fh) or subprocerr(g_('tail of %s'), $changelogfile);
+    } else {
+	$format = _changelog_detect_format($changelogfile);
     }
 
     # Find the right changelog parser
