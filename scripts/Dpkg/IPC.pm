@@ -45,7 +45,7 @@ other programs in an easy, yet flexible way, while hiding
 all the gory details of IPC (Inter-Process Communication)
 from you.
 
-=head1 METHODS
+=head1 FUNCTIONS
 
 =over 4
 

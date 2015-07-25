@@ -49,7 +49,7 @@ Dpkg::Path - some common path handling functions
 
 It provides some functions to handle various path.
 
-=head1 METHODS
+=head1 FUNCTIONS
 
 =over 8
 
