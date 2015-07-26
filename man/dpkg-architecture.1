@@ -145,8 +145,16 @@ any real architecture being part of it. The general form is <kernel>\-<cpu>.
 Examples: linux\-any, any\-i386, hurd\-any.
 .IP "GNU system type" 4
 An architecture specification string consisting of two parts separated by
-a hyphen: cpu and system. Examples: i386\-linux\-gnu, sparc\-linux\-gnu,
-i386\-gnu, x86_64\-netbsd.
+a hyphen: cpu and system.
+Examples: i586\-linux\-gnu, sparc\-linux\-gnu, i686\-gnu, x86_64\-netbsd.
+.IP "multiarch triplet" 4
+The clarified GNU system type, used for filesystem paths.
+This triplet does not change even when the baseline ISA gets bumped,
+so that the resulting paths are stable over time.
+The only current difference with the GNU system type is that the CPU part
+for i386 based systems is always i386.
+Examples: i386\-linux\-gnu, x86_64\-linux\-gnu.
+Example paths: /lib/powerpc64le-linux-gnu/, /usr/lib/i386-kfreebsd-gnu/.
 .
 .SH VARIABLES
 The following variables are set by \fBdpkg\-architecture\fP:
