@@ -71,7 +71,6 @@ printversion(const struct cmdinfo *ci, const char *value)
 
 /*
  * FIXME: Options that need fixing:
- * dpkg --yet-to-unpack
  * dpkg --command-fd
  */
 
@@ -105,10 +104,13 @@ usage(const struct cmdinfo *ci, const char *value)
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
+"  --yet-to-unpack                  Print packages selected for installation.\n"
+"  --predep-packages                Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-<feature>               Assert support for the specified feature.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -120,16 +122,15 @@ usage(const struct cmdinfo *ci, const char *value)
 "\n"));
 
   printf(_(
+"Assertable features: support-predepends, working-epoch, long-filenames,\n"
+"  multi-conrep, multi-arch, versioned-provides.\n"
+"\n"));
+
+  printf(_(
 "Use dpkg with -b, --build, -c, --contents, -e, --control, -I, --info,\n"
 "  -f, --field, -x, --extract, -X, --vextract, --ctrl-tarfile, --fsys-tarfile\n"
 "on archives (type %s --help).\n"
 "\n"), BACKEND);
-
-  printf(_(
-"For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep |\n"
-"  --assert-multi-arch | --assert-versioned-provides.\n"
-"\n"));
 
   printf(_(
 "Options:\n"
