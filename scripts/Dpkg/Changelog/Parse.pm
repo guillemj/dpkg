@@ -104,7 +104,6 @@ sub changelog_parse_plugin {
 
     # Setup and sanity checks.
     $options{file} //= 'debian/changelog';
-    my $changelogfile = $options{file};
 
     my @parserpath = ('/usr/local/lib/dpkg/parsechangelog',
                       "$Dpkg::LIBDIR/parsechangelog",
@@ -121,7 +120,7 @@ sub changelog_parse_plugin {
 	$format = $options{changelogformat};
 	delete $options{changelogformat};
     } else {
-	$format = _changelog_detect_format($changelogfile);
+	$format = _changelog_detect_format($options{file});
     }
 
     # Find the right changelog parser
@@ -139,7 +138,7 @@ sub changelog_parse_plugin {
     error(g_('changelog format %s is unknown'), $format) if not defined $parser;
 
     # Create the arguments for the changelog parser
-    my @exec = ($parser, "-l$changelogfile");
+    my @exec = ($parser, "-l$options{file}");
     foreach my $option (keys %options) {
 	if ($option =~ m/^-/) {
 	    # Options passed untouched
