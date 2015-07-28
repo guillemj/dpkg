@@ -80,6 +80,11 @@ it is passed as the parameter that follows.
 
 sub changelog_parse_plugin {
     my (%options) = @_;
+
+    # Setup and sanity checks.
+    $options{file} //= 'debian/changelog';
+    my $changelogfile = $options{file};
+
     my @parserpath = ('/usr/local/lib/dpkg/parsechangelog',
                       "$Dpkg::LIBDIR/parsechangelog",
                       '/usr/lib/dpkg/parsechangelog');
@@ -97,10 +102,6 @@ sub changelog_parse_plugin {
 	delete $options{changelogformat};
 	$force = 1;
     }
-
-    # Set a default filename
-    $options{file} //= 'debian/changelog';
-    my $changelogfile = $options{file};
 
     # Extract the format from the changelog file if possible
     unless ($force or ($changelogfile eq '-')) {
