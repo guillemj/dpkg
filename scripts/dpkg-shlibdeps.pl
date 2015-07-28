@@ -695,7 +695,7 @@ sub extract_from_shlibs {
 	if (($libname eq $2) && ($libversion eq $3)) {
 	    # Define dep and end here if the package type explicitly
 	    # matches. Otherwise if the packagetype is not specified, use
-	    # the dep only as a default that can be overriden by a later
+	    # the dep only as a default that can be overridden by a later
 	    # line
 	    if (defined($1)) {
 		if ($1 eq $packagetype) {

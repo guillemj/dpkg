@@ -202,7 +202,7 @@ sub do_extract {
                   options => [ '--anchored', '--no-wildcards',
                   @exclude_symlinks ]);
 
-    # Apply patches (in a separate method as it might be overriden)
+    # Apply patches (in a separate method as it might be overridden)
     $self->apply_patches($newdirectory, usage => 'unpack')
         unless $self->{options}{skip_patches};
 }
