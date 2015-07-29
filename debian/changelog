@@ -25,6 +25,9 @@ dpkg (1.17.27) UNRELEASED; urgency=medium
     - Set PERL5LIB globally for the test suite to the local modules directory,
       to avoid using the system modules. Regression introduced in dpkg 1.17.8.
       Reported by Jérémy Bobbio <lunar@debian.org>. Closes: #801329
+    - When sys_siglist is defined in the system, try to use NSIG as we cannot
+      compute the array size with sizeof(). If NSIG is missing fallback to 32
+      items. Prompted by Igor Pashev <pashev.igor@gmail.com>.
 
   [ Updated scripts translations ]
   * German (Helge Kreutzmann). (Various fixes)
