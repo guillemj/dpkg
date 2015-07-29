@@ -54,7 +54,12 @@ const char *const sys_siglist[] = {
 	"SIGTTIN",	/* 21 */
 	"SIGTTOU",	/* 22 */
 };
+# define COMPAT_NSIGLIST (int)(sizeof(sys_siglist) / sizeof(sys_siglist[0]))
 #else
+# ifndef NSIG
+#  define NSIG 32
+# endif
+# define COMPAT_NSIGLIST NSIG
 extern const char *const sys_siglist[];
 #endif
 
@@ -63,7 +68,7 @@ strsignal(int s)
 {
 	static char buf[100];
 
-	if (s > 0 && s < (int)(sizeof(sys_siglist) / sizeof(sys_siglist[0])))
+	if (s > 0 && s < COMPAT_NSIGLIST)
 		return sys_siglist[s];
 
 	sprintf(buf, _("Unknown signal %d"), s);

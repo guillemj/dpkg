@@ -11,6 +11,9 @@ dpkg (1.18.2) UNRELEASED; urgency=low
   * Add support for ignoring built-in build dependencies and conflicts
     with the new «dpkg-buildpackage --ignore-builtin-builddeps» and
     «dpkg-checkbuilddeps -I» options. Closes: #480638, #571671
+  * When sys_siglist is defined in the system, try to use NSIG as we cannot
+    compute the array size with sizeof(). If NSIG is missing fallback to 32
+    items. Prompted by Igor Pashev <pashev.igor@gmail.com>.
   * Perl modules:
     - Remove non-functional timezone name support from
       Dpkg::Changelog::Entry::Debian.
