@@ -272,6 +272,7 @@ test_data = \
 	t/Dpkg_Source_Patch/index-inert.patch \
 	t/Dpkg_Source_Patch/partial.patch \
 	t/Dpkg_Changelog/countme \
+	t/Dpkg_Changelog/date-format \
 	t/Dpkg_Changelog/fields \
 	t/Dpkg_Changelog/misplaced-tz \
 	t/Dpkg_Changelog/regressions \
