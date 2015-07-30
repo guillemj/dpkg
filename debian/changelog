@@ -26,6 +26,9 @@ dpkg (1.18.2) UNRELEASED; urgency=low
     --no-recursion option is now positional, and needs to be passed before
     the -T option, otherwise the tarball will end up with duplicated entries.
     Thanks to Richard Purdie <richard.purdie@linuxfoundation.org>.
+  * Add an extra level of escaping for double $(evals) in architecture.mk
+    and buildflags.mk, so that the variables are computed lazily again.
+    Regression introduced in dpkg 1.16.2. Closes: #793330
   * Perl modules:
     - Remove non-functional timezone name support from
       Dpkg::Changelog::Entry::Debian.

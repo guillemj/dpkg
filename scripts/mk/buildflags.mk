@@ -16,14 +16,14 @@
 # This list is kept in sync with the default set of flags returned
 # by dpkg-buildflags.
 
-dpkg_late_eval ?= $(or $(value DPKG_CACHE_$(1)),$(eval DPKG_CACHE_$(1) := $(shell $(2)))$(value DPKG_CACHE_$(1)))
+dpkg_lazy_eval ?= $$(or $$(value DPKG_CACHE_$(1)),$$(eval DPKG_CACHE_$(1) := $$(shell $(2)))$$(value DPKG_CACHE_$(1)))
 
 DPKG_BUILDFLAGS_LIST = CFLAGS CPPFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS \
                        GCJFLAGS FFLAGS FCFLAGS LDFLAGS
 
 define dpkg_buildflags_export_envvar
 ifdef $(1)
-DPKG_BUILDFLAGS_EXPORT_ENVVAR += $(1)="$(value $(1))"
+DPKG_BUILDFLAGS_EXPORT_ENVVAR += $(1)="$$(value $(1))"
 endif
 endef
 
@@ -33,7 +33,7 @@ $(foreach flag,$(DPKG_BUILDFLAGS_LIST),\
   $(foreach operation,SET STRIP APPEND PREPEND,\
     $(eval $(call dpkg_buildflags_export_envvar,DEB_$(flag)_MAINT_$(operation)))))
 
-dpkg_buildflags_setvar = $(1) = $(call dpkg_late_eval,$(1),$(DPKG_BUILDFLAGS_EXPORT_ENVVAR) dpkg-buildflags --get $(1))
+dpkg_buildflags_setvar = $(1) = $(call dpkg_lazy_eval,$(1),$(DPKG_BUILDFLAGS_EXPORT_ENVVAR) dpkg-buildflags --get $(1))
 
 $(foreach flag,$(DPKG_BUILDFLAGS_LIST),\
   $(eval $(call dpkg_buildflags_setvar,$(flag))))
