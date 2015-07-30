@@ -256,6 +256,7 @@ sub changelog_parse {
     my (%options) = @_;
 
     $options{forceplugin} //= 0;
+    $options{file} //= 'debian/changelog';
     $options{changelogformat} //= _changelog_detect_format($options{file});
 
     if (not $options{forceplugin} and
