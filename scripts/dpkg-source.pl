@@ -297,6 +297,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
             $pkg_summary .= " profile=$profile";
         }
 
+        if (defined $pkg->{'Essential'} and $pkg->{'Essential'} eq 'yes') {
+            $pkg_summary .= ' essential=yes';
+        }
+
         push @pkglist, $pkg_summary;
 	push @binarypackages, $p;
 	foreach (keys %{$pkg}) {
