@@ -366,26 +366,31 @@ my %relation_ordering = (
 );
 
 sub deps_compare {
-    my ($a, $b) = @_;
-    return -1 if $a->is_empty();
-    return 1 if $b->is_empty();
-    while ($a->isa('Dpkg::Deps::Multiple')) {
-	return -1 if $a->is_empty();
-	my @deps = $a->get_deps();
-	$a = $deps[0];
+    my ($aref, $bref) = @_;
+
+    my (@as, @bs);
+    deps_iterate($aref, sub { push @as, @_ });
+    deps_iterate($bref, sub { push @bs, @_ });
+
+    while (1) {
+        my ($a, $b) = (shift @as, shift @bs);
+        my $aundef = not defined $a or $a->is_empty();
+        my $bundef = not defined $b or $b->is_empty();
+
+        return  0 if $aundef and $bundef;
+        return -1 if $aundef;
+        return  1 if $bundef;
+
+        my $ar = $a->{relation} // 'undef';
+        my $br = $b->{relation} // 'undef';
+        my $av = $a->{version} // '';
+        my $bv = $b->{version} // '';
+
+        my $res = (($a->{package} cmp $b->{package}) ||
+                   ($relation_ordering{$ar} <=> $relation_ordering{$br}) ||
+                   ($av cmp $bv));
+        return $res if $res != 0;
     }
-    while ($b->isa('Dpkg::Deps::Multiple')) {
-	return 1 if $b->is_empty();
-	my @deps = $b->get_deps();
-	$b = $deps[0];
-    }
-    my $ar = $a->{relation} // 'undef';
-    my $br = $b->{relation} // 'undef';
-    my $av = $a->{version} // '';
-    my $bv = $a->{version} // '';
-    return (($a->{package} cmp $b->{package}) ||
-	    ($relation_ordering{$ar} <=> $relation_ordering{$br}) ||
-	    ($av cmp $bv));
 }
 
 

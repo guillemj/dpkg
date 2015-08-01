@@ -62,6 +62,9 @@ dpkg (1.18.2) UNRELEASED; urgency=low
     - Future-proof tar invocations in Dpkg::Source::Archive for options that
       might become positional in the future, and by always placing function
       options first.
+    - Make the dependency comparison deep by comparing not only the first
+      dependency alternative, to get them sorted in a reproducible way.
+      Based on a patch by Chris Lamb <lamby@debian.org>. Closes: #792491
   * Test suite:
     - Set SIGINT, SIGTERM and SIGPIPE to their default actions to get
       deterministic behavior.
