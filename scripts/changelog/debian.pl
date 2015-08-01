@@ -25,6 +25,7 @@ use warnings;
 use Getopt::Long qw(:config posix_default bundling no_ignorecase);
 
 use Dpkg ();
+use Dpkg::Util qw(none);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Changelog::Debian;
@@ -117,18 +118,16 @@ if (@ARGV) {
 
 $file //= $default_file;
 $label //= $file;
-unless (defined($since) or defined($until) or defined($from) or
-        defined($to) or defined($offset) or defined($count) or
-        defined($all))
-{
-    $count = 1;
-}
+
 my %all = $all ? ( all => $all ) : ();
 my $range = {
     since => $since, until => $until, from => $from, to => $to,
     count => $count, offset => $offset,
     %all
 };
+if (none { defined $range->{$_} } qw(since until from to offset count all)) {
+    $range->{count} = 1;
+}
 
 my $changes = Dpkg::Changelog::Debian->new(reportfile => $label, range => $range);
 

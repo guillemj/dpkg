@@ -43,6 +43,7 @@ our @EXPORT = qw(
 use Exporter qw(import);
 
 use Dpkg ();
+use Dpkg::Util qw(none);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Changelog::Debian;
@@ -77,11 +78,7 @@ sub changelog_parse_debian {
     $options{format} //= 'dpkg';
     $options{all} = 1 if exists $options{all};
 
-    unless (defined $options{since} or defined $options{until} or
-            defined $options{from} or defined $options{to} or
-            defined $options{offset} or defined $options{count} or
-            defined $options{all})
-    {
+    if (none { defined $options{$_} } qw(since until from to offset count all)) {
         $options{count} = 1;
     }
 
