@@ -34,8 +34,15 @@
 static void
 test_subproc_fork(void)
 {
+	struct sigaction sa;
 	pid_t pid;
 	int ret;
+
+	memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = SIG_DFL;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGTERM, &sa, NULL);
+	sigaction(SIGPIPE, &sa, NULL);
 
 	/* Test exit(). */
 	pid = subproc_fork();
