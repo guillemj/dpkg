@@ -255,6 +255,7 @@ test_data = \
 	t/Dpkg_Shlibs/ld.so.conf.d/inf_recurse.conf \
 	t/Dpkg_Shlibs/ld.so.conf.d/recursive.conf \
 	t/Dpkg_Shlibs/objdump.space \
+	t/Dpkg_Shlibs/objdump.spacesyms \
 	t/Dpkg_Shlibs/objdump.basictags-amd64 \
 	t/Dpkg_Shlibs/objdump.basictags-i386 \
 	t/Dpkg_Shlibs/objdump.basictags-mips \
@@ -265,6 +266,9 @@ test_data = \
 	t/Dpkg_Shlibs/objdump.libc6-2.6 \
 	t/Dpkg_Shlibs/objdump.dbd-pg \
 	t/Dpkg_Shlibs/objdump.ls \
+	t/Dpkg_Shlibs/spacesyms.map \
+	t/Dpkg_Shlibs/spacesyms-c-gen.pl \
+	t/Dpkg_Shlibs/spacesyms-o-map.pl \
 	t/Dpkg_Source_Patch/c-style.patch \
 	t/Dpkg_Source_Patch/ghost-hunk.patch \
 	t/Dpkg_Source_Patch/index-+++.patch \
@@ -314,7 +318,9 @@ test_data_objects = \
 	t/Dpkg_Shlibs/libobjdump.basictags-amd64.so \
 	t/Dpkg_Shlibs/libobjdump.basictags-i386.so \
 	t/Dpkg_Shlibs/libobjdump.basictags-mips.so \
-	t/Dpkg_Shlibs/libobjdump.patterns.so
+	t/Dpkg_Shlibs/libobjdump.patterns.so \
+	t/Dpkg_Shlibs/libobjdump.spacesyms.so \
+	$(nil)
 
 $(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-amd64.so: $(srcdir)/t/Dpkg_Shlibs/basictags.c
 	$(CC) $(CFLAGS) -shared -fPIC -Wl,-soname -Wl,libbasictags.so.1 $< \
@@ -333,6 +339,19 @@ $(srcdir)/t/Dpkg_Shlibs/libobjdump.patterns.so: $(srcdir)/t/Dpkg_Shlibs/patterns
 	    -Wl,--version-script=$(srcdir)/t/Dpkg_Shlibs/patterns.map $< \
 	    -o $@
 
+$(srcdir)/t/Dpkg_Shlibs/spacesyms.c: $(srcdir)/t/Dpkg_Shlibs/spacesyms-c-gen.pl
+	$(srcdir)/t/Dpkg_Shlibs/spacesyms-c-gen.pl > $@
+
+$(srcdir)/t/Dpkg_Shlibs/spacesyms.o: $(srcdir)/t/Dpkg_Shlibs/spacesyms.c $(srcdir)/t/Dpkg_Shlibs/spacesyms-o-map.pl
+	$(CC) $(CFLAGS) -c -fPIC -o $@.tmp $<
+	$(srcdir)/t/Dpkg_Shlibs/spacesyms-o-map.pl $@.tmp $@
+	rm -f $@.tmp
+
+$(srcdir)/t/Dpkg_Shlibs/libobjdump.spacesyms.so: $(srcdir)/t/Dpkg_Shlibs/spacesyms.o $(srcdir)/t/Dpkg_Shlibs/spacesyms.map
+	$(CC) -shared -Wl,-soname -Wl,libspacesyms.so.1 \
+	    -Wl,--version-script=$(srcdir)/t/Dpkg_Shlibs/spacesyms.map $< \
+	    -o $@
+
 .PHONY: refresh-test-data
 
 OBJDUMP = objdump -w -f -p -T -R
@@ -346,6 +365,8 @@ refresh-test-data: $(test_data_objects)
 	  >$(srcdir)/t/Dpkg_Shlibs/objdump.basictags-mips
 	$(OBJDUMP) $(srcdir)/t/Dpkg_Shlibs/libobjdump.patterns.so \
 	  >$(srcdir)/t/Dpkg_Shlibs/objdump.patterns
+	$(OBJDUMP) $(srcdir)/t/Dpkg_Shlibs/libobjdump.spacesyms.so \
+	  >$(srcdir)/t/Dpkg_Shlibs/objdump.spacesyms
 	$(OBJDUMP) `which ls` >$(srcdir)/t/Dpkg_Shlibs/objdump.ls
 
 include $(top_srcdir)/check.am

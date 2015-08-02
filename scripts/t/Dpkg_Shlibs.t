@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 124;
+use Test::More tests => 148;
 
 use Cwd;
 use IO::String;
@@ -350,6 +350,42 @@ is_deeply( $sym, { name => 'IA__g_free', version => '',
 		   local => 1, global => '', visibility => 'hidden',
 		   hidden => '', defined => 1 },
 		   'symbol with visibility without version' );
+
+# Check parsing of objdump output when symbol names contain spaces
+$obj = Dpkg::Shlibs::Objdump::Object->new;
+
+open $objdump, '<', "$datadir/objdump.spacesyms"
+    or die "$datadir/objdump.spacesyms: $!";
+$obj->parse_objdump_output($objdump);
+close $objdump;
+
+sub check_spacesym {
+    my ($name, $version, $visibility) = @_;
+
+    $visibility //= '';
+    $sym = $obj->get_symbol($name . "@" . $version);
+    is_deeply($sym, { name => $name, version => $version,
+                      soname => 'libspacesyms.so.1',
+                      objid => 'libspacesyms.so.1',
+                      section => '.text', dynamic => 1,
+                      debug => '', type => 'F', weak => '',
+                      local => '', global => 1, visibility => $visibility,
+                      hidden => '', defined => 1 }, $name);
+    ok(defined $obj->{dynrelocs}{$name}, "dynreloc found for $name");
+}
+
+check_spacesym('symdefaultvernospacedefault', 'Base');
+check_spacesym('symdefaultvernospaceprotected', 'Base', 'protected');
+check_spacesym('symlongvernospacedefault', 'VERY_LONG_VERSION_1');
+check_spacesym('symlongvernospaceprotected', 'VERY_LONG_VERSION_1', 'protected');
+check_spacesym('symshortvernospacedefault', 'V1');
+check_spacesym('symshortvernospaceprotected', 'V1', 'protected');
+check_spacesym('symdefaultverSPA CEdefault', 'Base');
+check_spacesym('symdefaultverSPA CEprotected', 'Base', 'protected');
+check_spacesym('symlongverSPA CEdefault', 'VERY_LONG_VERSION_1');
+check_spacesym('symlongverSPA CEprotected', 'VERY_LONG_VERSION_1', 'protected');
+check_spacesym('symshortverSPA CEdefault', 'V1');
+check_spacesym('symshortverSPA CEprotected', 'V1', 'protected');
 
 ####### Test symbol tagging support  ######
 

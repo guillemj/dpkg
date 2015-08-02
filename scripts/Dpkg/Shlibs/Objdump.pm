@@ -194,8 +194,8 @@ sub parse_objdump_output {
 
     my $section = 'none';
     while (<$fh>) {
-	chomp;
-	next if /^\s*$/;
+	s/\s*$//;
+	next if length == 0;
 
 	if (/^DYNAMIC SYMBOL TABLE:/) {
 	    $section = 'dynsym';
@@ -221,7 +221,7 @@ sub parse_objdump_output {
 	if ($section eq 'dynsym') {
 	    $self->parse_dynamic_symbol($_);
 	} elsif ($section eq 'dynreloc') {
-	    if (/^\S+\s+(\S+)\s+(\S+)\s*$/) {
+	    if (/^\S+\s+(\S+)\s+(.+)$/) {
 		$self->{dynrelocs}{$2} = $1;
 	    } else {
 		warning(g_("couldn't parse dynamic relocation record: %s"), $_);
@@ -248,9 +248,9 @@ sub parse_objdump_output {
                 }
 	    }
 	} elsif ($section eq 'none') {
-	    if (/^\s*.+:\s*file\s+format\s+(\S+)\s*$/) {
+	    if (/^\s*.+:\s*file\s+format\s+(\S+)$/) {
 		$self->{format} = $1;
-	    } elsif (/^architecture:\s*\S+,\s*flags\s*\S+:\s*$/) {
+	    } elsif (/^architecture:\s*\S+,\s*flags\s*\S+:$/) {
 		# Parse 2 lines of "-f"
 		# architecture: i386, flags 0x00000112:
 		# EXEC_P, HAS_SYMS, D_PAGED
@@ -299,7 +299,7 @@ sub parse_objdump_output {
 sub parse_dynamic_symbol {
     my ($self, $line) = @_;
     my $vis_re = '(\.protected|\.hidden|\.internal|0x\S+)';
-    if ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+(?:\s+(\S+))?(?:\s+$vis_re)?\s+(\S+)/) {
+    if ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+(?:\s+(\S+))?(?:\s+$vis_re)?\s+(.+)/) {
 
 	my ($flags, $sect, $ver, $vis, $name) = ($1, $2, $3, $4, $5);
 
