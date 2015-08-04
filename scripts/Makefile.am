@@ -231,7 +231,9 @@ test_scripts = \
 	t/Dpkg_Source_Archive.t \
 	t/Dpkg_Source_Package.t \
 	t/Dpkg_Dist_Files.t \
-	t/merge_changelogs.t
+	t/merge_changelogs.t \
+	t/mk.t \
+	$(nil)
 
 test_data = \
 	t/Dpkg_Shlibs/symbols.blacklisted \
@@ -309,6 +311,11 @@ test_data = \
 	t/merge_changelogs/ch-merged-basic \
 	t/merge_changelogs/ch-merged-pr \
 	t/merge_changelogs/ch-merged-pr-basic \
+	t/mk/debian/changelog \
+	t/mk/architecture.mk \
+	t/mk/buildflags.mk \
+	t/mk/pkg-info.mk \
+	t/mk/vendor.mk \
 	t/origins/debian \
 	t/origins/default \
 	t/origins/gnewsense \
