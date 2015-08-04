@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-05-30 03:02+0200\n"
+"POT-Creation-Date: 2015-08-04 20:59+0200\n"
 "PO-Revision-Date: 2015-04-18 18:11+0200\n"
 "Last-Translator: Sébastien Poher <sbphr@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -4595,6 +4595,34 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1
+#, fuzzy, no-wrap
+#| msgid "B<-p>I<package>"
+msgid "B<--predep-packages>"
+msgstr "B<-p>I<paquet>"
+
+#. type: Plain text
+#: dpkg.1
+msgid ""
+"Print a single package which is the target of one or more relevant pre-"
+"dependencies and has itself no unsatisfied pre-dependencies."
+msgstr ""
+
+#. type: Plain text
+#: dpkg.1
+msgid ""
+"If such a package is present, output it as a Packages file entry, which can "
+"be massaged as appropriate."
+msgstr ""
+
+#. type: Plain text
+#: dpkg.1
+msgid ""
+"Returns 0 when a package is printed, 1 when no suitable package is available "
+"and 2 on error."
+msgstr ""
+
+#. type: TP
+#: dpkg.1
 #, no-wrap
 msgid "B<--add-architecture >I<architecture>"
 msgstr "B<--add-architecture >I<architecture>"
@@ -4686,6 +4714,94 @@ msgstr ""
 
 #. type: TP
 #: dpkg.1
+#, fuzzy, no-wrap
+#| msgid "B<--export=>I<format>"
+msgid "B<--assert->I<feature>"
+msgstr "B<--export=>I<format>"
+
+#. type: Plain text
+#: dpkg.1
+msgid ""
+"Asserts that B<dpkg> supports the requested feature.  Returns 0 if the "
+"feature is fully supported, 1 if the feature is known but B<dpkg> cannot "
+"provide support for it yet, and 2 if the feature is unknown.  The current "
+"list of assertable features is:"
+msgstr ""
+
+#. type: TP
+#: dpkg.1
+#, no-wrap
+msgid "B<support-predepends>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg.1
+msgid "Supports the B<Pre-Depends> field (since dpkg 1.1.0)."
+msgstr ""
+
+#. type: TP
+#: dpkg.1
+#, no-wrap
+msgid "B<working-epoch>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg.1
+msgid "Supports epochs in version strings (since dpkg 1.4.0.7)."
+msgstr ""
+
+#. type: TP
+#: dpkg.1
+#, fuzzy, no-wrap
+#| msgid "B<--log=>I<filename>"
+msgid "B<long-filenames>"
+msgstr "B<--log=>I<fichier>"
+
+#. type: Plain text
+#: dpkg.1
+msgid "Supports long filenames in B<deb>(5) archives (since dpkg 1.4.1.17)."
+msgstr ""
+
+#. type: TP
+#: dpkg.1
+#, fuzzy, no-wrap
+#| msgid "B<half-configured>"
+msgid "B<multi-conrep>"
+msgstr "B<half-configured>"
+
+#. type: Plain text
+#: dpkg.1
+msgid "Supports multiple B<Conflicts> and B<Replaces> (since dpkg 1.4.1.19)."
+msgstr ""
+
+#. type: TP
+#: dpkg.1
+#, fuzzy, no-wrap
+#| msgid "B<-a>I<arch>"
+msgid "B<multi-arch>"
+msgstr "B<-a>I<arch>"
+
+#. type: Plain text
+#: dpkg.1
+msgid "Supports multi-arch fields and semantics (since dpkg 1.16.2)."
+msgstr ""
+
+#. type: TP
+#: dpkg.1
+#, fuzzy, no-wrap
+#| msgid "B<--version>"
+msgid "B<versioned-provides>"
+msgstr "B<--version>"
+
+#. type: Plain text
+#: dpkg.1
+#, fuzzy
+#| msgid "Cancels a previous B<--no-triggers>."
+msgid "Supports versioned B<Provides> (since dpkg 1.17.11)."
+msgstr "Annule un précédent B<--no-triggers>."
+
+#. type: TP
+#: dpkg.1
 #, no-wrap
 msgid "B<--compare-versions >I<ver1 op ver2>"
 msgstr "B<--compare-versions >I<ver1 op ver2>"
@@ -4734,8 +4850,8 @@ msgstr ""
 #: dpkg.1 dpkg-architecture.1 dpkg-buildpackage.1 dpkg-checkbuilddeps.1
 #: dpkg-distaddfile.1 dpkg-deb.1 dpkg-divert.1 dpkg-genchanges.1
 #: dpkg-gencontrol.1 dpkg-gensymbols.1 dpkg-name.1 dpkg-parsechangelog.1
-#: dpkg-query.1 dpkg-scanpackages.1 dpkg-shlibdeps.1 dpkg-source.1
-#: dpkg-split.1 dpkg-trigger.1 dselect.1
+#: dpkg-query.1 dpkg-scanpackages.1 dpkg-shlibdeps.1 dpkg-source.1 dpkg-split.1
+#: dpkg-trigger.1 dselect.1
 #, no-wrap
 msgid "B<-?>, B<--help>"
 msgstr "B<-?>, B<--help>"
@@ -4770,11 +4886,10 @@ msgstr "Donne des renseignements sur les options de débogage."
 #. type: TP
 #: dpkg.1 dpkg-architecture.1 dpkg-buildflags.1 dpkg-buildpackage.1
 #: dpkg-checkbuilddeps.1 dpkg-distaddfile.1 dpkg-deb.1 dpkg-divert.1
-#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-gensymbols.1
-#: dpkg-mergechangelogs.1 dpkg-parsechangelog.1 dpkg-query.1
-#: dpkg-scanpackages.1 dpkg-scansources.1 dpkg-shlibdeps.1 dpkg-source.1
-#: dpkg-split.1 dpkg-statoverride.1 dpkg-trigger.1 dpkg-vendor.1 dselect.1
-#: update-alternatives.1
+#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-gensymbols.1 dpkg-mergechangelogs.1
+#: dpkg-parsechangelog.1 dpkg-query.1 dpkg-scanpackages.1 dpkg-scansources.1
+#: dpkg-shlibdeps.1 dpkg-source.1 dpkg-split.1 dpkg-statoverride.1
+#: dpkg-trigger.1 dpkg-vendor.1 dselect.1 update-alternatives.1
 #, no-wrap
 msgid "B<--version>"
 msgstr "B<--version>"
@@ -5242,7 +5357,11 @@ msgstr "B<overwrite> : Remplace un fichier par un fichier d'un autre paquet."
 
 #. type: Plain text
 #: dpkg.1
-msgid "B<overwrite-dir> Overwrite one package's directory with another's file."
+#, fuzzy
+#| msgid ""
+#| "B<overwrite-dir> Overwrite one package's directory with another's file."
+msgid ""
+"B<overwrite-dir>: Overwrite one package's directory with another's file."
 msgstr ""
 "B<overwrite-dir> : Remplace un répertoire par un répertoire d'un autre "
 "paquet."
@@ -5537,7 +5656,8 @@ msgid ""
 "Set an invoke hook I<command> to be run via ``sh -c'' before or after the "
 "B<dpkg> run for the I<unpack>, I<configure>, I<install>, I<triggers-only>, "
 "I<remove>, I<purge>, I<add-architecture> and I<remove-architecture> B<dpkg> "
-"actions (since dpkg 1.15.4). This option can be specified multiple times. "
+"actions (since dpkg 1.15.4; I<add-architecture> and I<remove-architecture> "
+"actions since dpkg 1.17.19). This option can be specified multiple times. "
 "The order the options are specified is preserved, with the ones from the "
 "configuration files taking precedence.  The environment variable "
 "B<DPKG_HOOK_ACTION> is set for the hooks to the current B<dpkg> action. "
@@ -5805,9 +5925,9 @@ msgstr "B<--status-logger>=I<commande>"
 #| "times. The output format used is the same as in B<--status-fd.>"
 msgid ""
 "Send machine-readable package status and progress information to the shell "
-"I<command>'s standard input (since dpkg 1.16.0).  This option can be "
-"specified multiple times.  The output format used is the same as in B<--"
-"status-fd>."
+"I<command>'s standard input, to be run via ``sh -c'' (since dpkg 1.16.0).  "
+"This option can be specified multiple times.  The output format used is the "
+"same as in B<--status-fd>."
 msgstr ""
 "Envoie un état du paquet compréhensible par la machine et met à jour "
 "l'information de progression sur l'entrée standard du processeur de "
@@ -5989,7 +6109,9 @@ msgstr "B<SHELL>"
 
 #. type: Plain text
 #: dpkg.1
-msgid "The program B<dpkg> will execute when starting a new shell."
+#, fuzzy
+#| msgid "The program B<dpkg> will execute when starting a new shell."
+msgid "The program B<dpkg> will execute when starting a new interactive shell."
 msgstr ""
 "Le programme exécuté par B<dpkg> quand il lance un nouvel interpréteur de "
 "commandes."
@@ -6068,6 +6190,27 @@ msgstr ""
 "Cette variable est définie pour le shell lancé par B<dpkg> lorsqu'il lui est "
 "demandé d'« examiner la situation » lors du traitement des fichiers de "
 "configuration. Elle contient le nom du nouveau fichier de configuration."
+
+#. type: TP
+#: dpkg.1
+#, fuzzy, no-wrap
+#| msgid "B<DPKG_SHELL_REASON>"
+msgid "B<DPKG_HOOK_ACTION>"
+msgstr "B<DPKG_SHELL_REASON>"
+
+#. type: Plain text
+#: dpkg.1
+#, fuzzy
+#| msgid ""
+#| "Defined by B<dpkg> on the shell spawned on the conffile prompt to examine "
+#| "the situation. Contains the path to the old conffile."
+msgid ""
+"Defined by B<dpkg> on the shell spawned when executing a hook action (since "
+"dpkg 1.15.4).  Contains the current B<dpkg> action."
+msgstr ""
+"Cette variable est définie pour le shell lancé par B<dpkg> lorsqu'il lui est "
+"demandé d'«  examiner la situation » lors du traitement des fichiers de "
+"configuration. Elle contient le nom de l'ancien fichier de configuration."
 
 #. type: TP
 #: dpkg.1
@@ -6288,8 +6431,8 @@ msgstr ""
 "I<triggers>\n"
 
 #. type: SH
-#: dpkg.1 dpkg-buildpackage.1 dpkg-deb.1 dpkg-name.1 dpkg-source.1
-#: dpkg-split.1 dselect.1
+#: dpkg.1 dpkg-buildpackage.1 dpkg-deb.1 dpkg-name.1 dpkg-source.1 dpkg-split.1
+#: dselect.1
 #, no-wrap
 msgid "BUGS"
 msgstr "BOGUES"
@@ -6527,8 +6670,8 @@ msgstr "B<dpkg-architecture> [I<option>...] [I<commande>]"
 #. type: Plain text
 #: dpkg-architecture.1
 msgid ""
-"B<dpkg-architecture> provides a facility to determine and set the build "
-"and host architecture for package building."
+"B<dpkg-architecture> provides a facility to determine and set the build and "
+"host architecture for package building."
 msgstr ""
 "B<dpkg-architecture> aide à déterminer et à fixer l'architecture de "
 "construction et l'architecture hôte pour la création d'un paquet."
@@ -6710,22 +6853,20 @@ msgstr ""
 #. type: Plain text
 #: dpkg-architecture.1 dpkg-buildflags.1 dpkg-buildpackage.1
 #: dpkg-checkbuilddeps.1 dpkg-distaddfile.1 dpkg-deb.1 dpkg-divert.1
-#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-gensymbols.1
-#: dpkg-mergechangelogs.1 dpkg-name.1 dpkg-parsechangelog.1 dpkg-query.1
-#: dpkg-scanpackages.1 dpkg-scansources.1 dpkg-shlibdeps.1 dpkg-source.1
-#: dpkg-split.1 dpkg-statoverride.1 dpkg-trigger.1 dpkg-vendor.1
-#: update-alternatives.1
+#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-gensymbols.1 dpkg-mergechangelogs.1
+#: dpkg-name.1 dpkg-parsechangelog.1 dpkg-query.1 dpkg-scanpackages.1
+#: dpkg-scansources.1 dpkg-shlibdeps.1 dpkg-source.1 dpkg-split.1
+#: dpkg-statoverride.1 dpkg-trigger.1 dpkg-vendor.1 update-alternatives.1
 msgid "Show the usage message and exit."
 msgstr "Affiche un message d'aide puis quitte."
 
 #. type: Plain text
 #: dpkg-architecture.1 dpkg-buildflags.1 dpkg-buildpackage.1
 #: dpkg-checkbuilddeps.1 dpkg-distaddfile.1 dpkg-deb.1 dpkg-divert.1
-#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-gensymbols.1
-#: dpkg-mergechangelogs.1 dpkg-name.1 dpkg-parsechangelog.1 dpkg-query.1
-#: dpkg-scanpackages.1 dpkg-scansources.1 dpkg-shlibdeps.1 dpkg-source.1
-#: dpkg-split.1 dpkg-statoverride.1 dpkg-trigger.1 dpkg-vendor.1
-#: update-alternatives.1
+#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-gensymbols.1 dpkg-mergechangelogs.1
+#: dpkg-name.1 dpkg-parsechangelog.1 dpkg-query.1 dpkg-scanpackages.1
+#: dpkg-scansources.1 dpkg-shlibdeps.1 dpkg-source.1 dpkg-split.1
+#: dpkg-statoverride.1 dpkg-trigger.1 dpkg-vendor.1 update-alternatives.1
 msgid "Show the version and exit."
 msgstr "Affiche le numéro de version puis quitte."
 
@@ -6921,16 +7062,22 @@ msgstr ""
 
 #. type: IP
 #: dpkg-architecture.1
-#, no-wrap
-msgid "architecture wildcard"
+#, fuzzy, no-wrap
+#| msgid "architecture wildcard"
+msgid "Debian architecture wildcard"
 msgstr "Architecture joker"
 
 #. type: Plain text
 #: dpkg-architecture.1
+#, fuzzy
+#| msgid ""
+#| "An architecture wildcard is a special architecture string that will match "
+#| "any real architecture being part of it. The general form is "
+#| "E<lt>kernelE<gt>-E<lt>cpuE<gt>.  Examples: linux-any, any-i386, hurd-any."
 msgid ""
-"An architecture wildcard is a special architecture string that will match "
-"any real architecture being part of it. The general form is E<lt>kernelE<gt>-"
-"E<lt>cpuE<gt>.  Examples: linux-any, any-i386, hurd-any."
+"A Debian architecture wildcard is a special architecture string that will "
+"match any real architecture being part of it. The general form is "
+"E<lt>kernelE<gt>-E<lt>cpuE<gt>.  Examples: linux-any, any-i386, hurd-any."
 msgstr ""
 "Une architecture joker est une architecture spéciale qui correspond à toutes "
 "les architectures réelles qui en font partie. Il est en général de la forme "
@@ -6945,14 +7092,36 @@ msgstr "Type de système GNU"
 
 #. type: Plain text
 #: dpkg-architecture.1
+#, fuzzy
+#| msgid ""
+#| "An architecture specification string consisting of two parts separated by "
+#| "a hyphen: cpu and system. Examples: i386-linux-gnu, sparc-linux-gnu, i386-"
+#| "gnu, x86_64-netbsd."
 msgid ""
 "An architecture specification string consisting of two parts separated by a "
-"hyphen: cpu and system. Examples: i386-linux-gnu, sparc-linux-gnu, i386-gnu, "
-"x86_64-netbsd."
+"hyphen: cpu and system.  Examples: i586-linux-gnu, sparc-linux-gnu, i686-"
+"gnu, x86_64-netbsd."
 msgstr ""
 "Chaîne de caractères définissant l'architecture et constituée de deux "
 "parties séparées par un tiret : processeur et système. Par exemple : i386-"
 "linux-gnu, sparc-linux-gnu, i386-gnu, x86_64-netbsd."
+
+#. type: IP
+#: dpkg-architecture.1
+#, no-wrap
+msgid "multiarch triplet"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-architecture.1
+msgid ""
+"The clarified GNU system type, used for filesystem paths.  This triplet does "
+"not change even when the baseline ISA gets bumped, so that the resulting "
+"paths are stable over time.  The only current difference with the GNU system "
+"type is that the CPU part for i386 based systems is always i386.  Examples: "
+"i386-linux-gnu, x86_64-linux-gnu.  Example paths: /lib/powerpc64le-linux-"
+"gnu/, /usr/lib/i386-kfreebsd-gnu/."
+msgstr ""
 
 #. type: SH
 #: dpkg-architecture.1
@@ -7334,6 +7503,20 @@ msgid ""
 msgstr ""
 "Correspondances entre les triplets de l'architecture Debian et les noms des "
 "architectures Debian."
+
+#. type: TP
+#: dpkg-architecture.1
+#, fuzzy, no-wrap
+#| msgid "I</usr/share/dpkg/ostable>"
+msgid "I</usr/share/dpkg/abitable>"
+msgstr "I</usr/share/dpkg/ostable>"
+
+#. type: Plain text
+#: dpkg-architecture.1
+#, fuzzy
+#| msgid "The Debian architecture of the host machine."
+msgid "Table of Debian architecture ABI attribute overrides."
+msgstr "Architecture Debian de la machine hôte."
 
 #. type: SS
 #: dpkg-architecture.1 dpkg-buildflags.1
@@ -7831,9 +8014,9 @@ msgstr "B<--status>"
 #| "origin."
 msgid ""
 "Display any information that can be useful to explain the behaviour of "
-"B<dpkg-buildflags>: relevant environment variables, current vendor, state of "
-"all feature flags (since dpkg 1.16.5).  Also print the resulting compiler "
-"flags with their origin."
+"B<dpkg-buildflags> (since dpkg 1.16.5): relevant environment variables, "
+"current vendor, state of all feature flags.  Also print the resulting "
+"compiler flags with their origin."
 msgstr ""
 "Affiche toute information utile pour expliquer le comportement de B<dpkg-"
 "buildflags> : variables  d'environnement, éditeur actuel, état de tous les "
@@ -8265,8 +8448,8 @@ msgstr "  export DEB_BUILD_MAINT_OPTIONS=hardening=-all,+format,+fortify\n"
 #. type: SS
 #: dpkg-buildflags.1
 #, no-wrap
-msgid "Quality Assurance (QA)"
-msgstr "Assurance Qualité « AQ »"
+msgid "qa"
+msgstr ""
 
 #. type: Plain text
 #: dpkg-buildflags.1
@@ -8324,7 +8507,7 @@ msgstr ""
 #. type: SS
 #: dpkg-buildflags.1
 #, no-wrap
-msgid "Sanitize"
+msgid "sanitize"
 msgstr ""
 
 #. type: Plain text
@@ -8405,8 +8588,9 @@ msgstr ""
 
 #. type: SS
 #: dpkg-buildflags.1
-#, no-wrap
-msgid "Hardening"
+#, fuzzy, no-wrap
+#| msgid "Hardening"
+msgid "hardening"
 msgstr "Compilation renforcée"
 
 #. type: Plain text
@@ -8697,8 +8881,9 @@ msgstr ""
 
 #. type: SS
 #: dpkg-buildflags.1
-#, no-wrap
-msgid "Reproducibility"
+#, fuzzy, no-wrap
+#| msgid "Reproducibility"
+msgid "reproducible"
 msgstr "Reproductibilité"
 
 #. type: Plain text
@@ -9101,10 +9286,11 @@ msgid "dpkg-buildpackage"
 msgstr "dpkg-buildpackage"
 
 #. type: TH
-#: dpkg-buildpackage.1
-#, no-wrap
-msgid "2013-12-12"
-msgstr "12-12-2013"
+#: dpkg-buildpackage.1 dpkg-checkbuilddeps.1
+#, fuzzy, no-wrap
+#| msgid "2012-01-20"
+msgid "2015-07-05"
+msgstr "20-01-2012"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
@@ -9554,7 +9740,7 @@ msgstr ""
 #| "the host Debian architecture."
 msgid ""
 "Specify the GNU system type we build for (long option since dpkg 1.17.17).  "
-"It can be used in place of --host-arch or as a complement to override the "
+"It can be used in place of B<--host-arch> or as a complement to override the "
 "default GNU system type of the host Debian architecture."
 msgstr ""
 "Précise le type de système GNU pour lequel construire. Il peut être utilisé "
@@ -9595,7 +9781,7 @@ msgstr "B<--target-type> I<type-de-système-gnu>"
 #| "GNU system type of the target Debian architecture."
 msgid ""
 "Specify the GNU system type the binaries built will build for (since dpkg "
-"1.17.17).  It can be used in place of --target-arch or as a complement to "
+"1.17.17).  It can be used in place of B<--target-arch> or as a complement to "
 "override the default GNU system type of the target Debian architecture."
 msgstr ""
 "Précise le type de système GNU pour lequel les binaires compilés vont "
@@ -9691,6 +9877,22 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+#| msgid "B<-j>[I<jobs>|B<auto>]"
+msgid "B<-J>[I<jobs>|B<auto>]"
+msgstr "B<-j>[I<jobs>|B<auto>]"
+
+#. type: Plain text
+#: dpkg-buildpackage.1
+msgid ""
+"This option (since dpkg 1.18.2) is equivalent to the B<-j> option except "
+"that it does not set the B<\\%MAKEFLAGS> environment variable, and as such "
+"it is safer to use with any package including those that are not parallel-"
+"build safe."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildpackage.1
 #, no-wrap
 msgid "B<-D>"
 msgstr "B<-D>"
@@ -9714,6 +9916,21 @@ msgstr "B<-d>"
 #: dpkg-buildpackage.1
 msgid "Do not check build dependencies and conflicts."
 msgstr "Pas de vérification des dépendances de constructions et des conflits."
+
+#. type: TP
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+#| msgid "B<--ignore-missing-info>"
+msgid "B<--ignore-builtin-builddeps>"
+msgstr "B<--ignore-missing-info>"
+
+#. type: Plain text
+#: dpkg-buildpackage.1
+msgid ""
+"Do not check built-in build dependencies and conflicts (since dpkg 1.18.2).  "
+"These are the distribution specific implicit build dependencies usually "
+"required in a build environment, the so called Build-Essential package set."
+msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1
@@ -10191,7 +10408,7 @@ msgstr "B<DEB_BUILD_PROFILES>"
 #| "the B<-P> option."
 msgid ""
 "If set, it will be used as the active build profile(s) for the package being "
-"built.  It is a space separated list of profile names (since dpkg 1.17.2).  "
+"built (since dpkg 1.17.2).  It is a space separated list of profile names.  "
 "Overridden by the B<-P> option."
 msgstr ""
 "Si cette option est utilisée, elle sera utilisée comme profil(s) de "
@@ -10297,12 +10514,6 @@ msgstr ""
 msgid "dpkg-checkbuilddeps"
 msgstr "dpkg-checkbuilddeps"
 
-#. type: TH
-#: dpkg-checkbuilddeps.1
-#, no-wrap
-msgid "2013-09-17"
-msgstr "17-09-2013"
-
 #. type: Plain text
 #: dpkg-checkbuilddeps.1
 msgid "dpkg-checkbuilddeps - check build dependencies and conflicts"
@@ -10362,6 +10573,20 @@ msgstr ""
 "Ignore les lignes B<Build-Depends-Indep> et B<Build-Conflicts-Indep>. À "
 "utiliser lorsque seuls des paquets dépendants de l'architecture sont "
 "construits ou à combiner avec B<-A> si seul un paquet source est construit."
+
+#. type: TP
+#: dpkg-checkbuilddeps.1
+#, no-wrap
+msgid "B<-I>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-checkbuilddeps.1
+msgid ""
+"Ignore built-in build depends and conflicts (since dpkg 1.18.2).  These are "
+"implicit dependencies that are usually required on a specific distribution, "
+"the so called Build-Essential package set."
+msgstr ""
 
 #. type: TP
 #: dpkg-checkbuilddeps.1
@@ -15942,7 +16167,7 @@ msgstr ""
 #| "file); see B<deb-override>(5)."
 msgid ""
 "I<override-file> is the name of a file to read which contains information "
-"about how the package fits into the distribution (the file can compressed "
+"about how the package fits into the distribution (the file can be compressed "
 "since dpkg 1.15.5); see B<deb-override>(5)."
 msgstr ""
 "I<fichier-d'override> est le nom du fichier qui contient les renseignements "
@@ -23555,6 +23780,30 @@ msgstr "B<update-alternatives --auto vi>"
 #: update-alternatives.1
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS, le standard pour l'organisation du système de fichiers."
+
+#~ msgid "Quality Assurance (QA)"
+#~ msgstr "Assurance Qualité « AQ »"
+
+#~ msgid "2013-12-12"
+#~ msgstr "12-12-2013"
+
+#, fuzzy
+#~| msgid ""
+#~| "If set, it will be used as the active build profile(s) for the package "
+#~| "being built. It is a space separated list of profile names. Overridden "
+#~| "by the B<-P> option."
+#~ msgid ""
+#~ "If set, it will be used as the active build profile(s) for the package "
+#~ "being built.  It is a space separated list of profile names (since dpkg "
+#~ "1.17.2).  Overridden by the B<-P> option."
+#~ msgstr ""
+#~ "Si cette option est utilisée, elle sera utilisée comme profil(s) de "
+#~ "construction actif(s) pour le paquet à construire. C'est une liste "
+#~ "séparée par des espaces de noms de profil. Cette option est outrepassée "
+#~ "par l'option B<-P>."
+
+#~ msgid "2013-09-17"
+#~ msgstr "17-09-2013"
 
 #~ msgid ""
 #~ "This is a general field that gives the package a category based on the "

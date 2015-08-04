@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-05-30 00:17+0200\n"
+"POT-Creation-Date: 2015-08-04 20:59+0200\n"
 "PO-Revision-Date: 2014-10-27 10:38-0400\n"
 "Last-Translator: Sébastien Poher <sbphr@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -27,8 +27,8 @@ msgstr ""
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
 #: scripts/dpkg-mergechangelogs.pl scripts/dpkg-name.pl
 #: scripts/dpkg-parsechangelog.pl scripts/dpkg-scanpackages.pl
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl
-#: scripts/dpkg-source.pl scripts/dpkg-vendor.pl scripts/changelog/debian.pl
+#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl
+#: scripts/dpkg-vendor.pl scripts/changelog/debian.pl
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s version %s.\n"
@@ -304,7 +304,10 @@ msgid ""
 "  -R<rules>      rules file to execute (default is debian/rules).\n"
 "  -T<target>     call debian/rules <target> with the proper environment.\n"
 "      --as-root  ensure -T calls the target with root rights.\n"
-"  -j[<number>]   specify jobs to run simultaneously (passed to <rules>).\n"
+"  -j[<number>]   jobs to run simultaneously (passed to <rules>), forced "
+"mode.\n"
+"  -J[<number>]   jobs to run simultaneously (passed to <rules>), opt-in "
+"mode.\n"
 "  -r<gain-root-command>\n"
 "                 command to gain root privileges (default is fakeroot).\n"
 "  --check-command=<check-command>\n"
@@ -655,10 +658,26 @@ msgid "Usage: %s [<option>...] [<control-file>]"
 msgstr "Utilisation : %s [<option>...] <fichier de contrôle>"
 
 #: scripts/dpkg-checkbuilddeps.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  -A             ignore Build-Depends-Arch and Build-Conflicts-Arch.\n"
+#| "  -B             ignore Build-Depends-Indep and Build-Conflicts-Indep.\n"
+#| "  -d build-deps  use given string as build dependencies instead of\n"
+#| "                 retrieving them from control file\n"
+#| "  -c build-conf  use given string for build conflicts instead of\n"
+#| "                 retrieving them from control file\n"
+#| "  -a arch        assume given host architecture\n"
+#| "  -P profiles    assume given build profiles (comma-separated list)\n"
+#| "  --admindir=<directory>\n"
+#| "                 change the administrative directory.\n"
+#| "  -?, --help     show this help message.\n"
+#| "      --version  show the version."
 msgid ""
 "Options:\n"
 "  -A             ignore Build-Depends-Arch and Build-Conflicts-Arch.\n"
 "  -B             ignore Build-Depends-Indep and Build-Conflicts-Indep.\n"
+"  -I             ignore built-in build dependencies and conflicts.\n"
 "  -d build-deps  use given string as build dependencies instead of\n"
 "                 retrieving them from control file\n"
 "  -c build-conf  use given string for build conflicts instead of\n"
@@ -910,10 +929,10 @@ msgstr ""
 "paquet %s dans le fichier de contrôle mais pas dans le fichier de liste des "
 "fichiers"
 
-#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl
-#: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Shlibs/Objdump.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl scripts/Dpkg/BuildFlags.pm
+#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/Package/V2.pm
+#: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot read %s"
 msgstr "impossible de lire %s"
@@ -2011,8 +2030,7 @@ msgstr ""
 "pas pu être identifié en raison de l'absence de sous-répertoire DEBIAN dans "
 "la racine de l'arborescence de construction du paquet"
 
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Shlibs/Cppfilt.pm
+#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Cppfilt.pm
 #, perl-format
 msgid "unable to execute %s"
 msgstr "impossible d'exécuter %s"
@@ -2400,7 +2418,7 @@ msgstr "format de sortie %s non géré"
 msgid "more than one file specified (%s and %s)"
 msgstr "plus d'un fichier indiqué (%s et %s)"
 
-#: scripts/changelog/debian.pl
+#: scripts/changelog/debian.pl scripts/Dpkg/Changelog/Parse.pm
 #, perl-format
 msgid "fatal error occurred while parsing %s"
 msgstr "erreur fatale rencontrée lors de l'analyse de %s"
@@ -2606,6 +2624,12 @@ msgid "the trailer doesn't match the expected regex"
 msgstr ""
 "la partie finale (« trailer ») ne correspond pas à l'expression régulière "
 "attendue"
+
+#: scripts/Dpkg/Changelog/Parse.pm
+#, fuzzy, perl-format
+#| msgid "unknown option or argument %s"
+msgid "unknown output format %s"
+msgstr "option ou paramètre inconnu %s"
 
 #: scripts/Dpkg/Changelog/Parse.pm
 #, perl-format

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.18.1\n"
+"Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-05-30 00:17+0200\n"
+"POT-Creation-Date: 2015-08-04 20:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,8 +24,8 @@ msgstr ""
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
 #: scripts/dpkg-mergechangelogs.pl scripts/dpkg-name.pl
 #: scripts/dpkg-parsechangelog.pl scripts/dpkg-scanpackages.pl
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl
-#: scripts/dpkg-source.pl scripts/dpkg-vendor.pl scripts/changelog/debian.pl
+#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl
+#: scripts/dpkg-vendor.pl scripts/changelog/debian.pl
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr ""
@@ -189,7 +189,10 @@ msgid ""
 "  -R<rules>      rules file to execute (default is debian/rules).\n"
 "  -T<target>     call debian/rules <target> with the proper environment.\n"
 "      --as-root  ensure -T calls the target with root rights.\n"
-"  -j[<number>]   specify jobs to run simultaneously (passed to <rules>).\n"
+"  -j[<number>]   jobs to run simultaneously (passed to <rules>), forced "
+"mode.\n"
+"  -J[<number>]   jobs to run simultaneously (passed to <rules>), opt-in "
+"mode.\n"
 "  -r<gain-root-command>\n"
 "                 command to gain root privileges (default is fakeroot).\n"
 "  --check-command=<check-command>\n"
@@ -436,6 +439,7 @@ msgid ""
 "Options:\n"
 "  -A             ignore Build-Depends-Arch and Build-Conflicts-Arch.\n"
 "  -B             ignore Build-Depends-Indep and Build-Conflicts-Indep.\n"
+"  -I             ignore built-in build dependencies and conflicts.\n"
 "  -d build-deps  use given string as build dependencies instead of\n"
 "                 retrieving them from control file\n"
 "  -c build-conf  use given string for build conflicts instead of\n"
@@ -587,10 +591,10 @@ msgstr ""
 msgid "package %s in control file but not in files list"
 msgstr ""
 
-#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl
-#: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Shlibs/Objdump.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl scripts/Dpkg/BuildFlags.pm
+#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/Package/V2.pm
+#: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot read %s"
 msgstr ""
@@ -1338,8 +1342,7 @@ msgid ""
 "build tree"
 msgstr ""
 
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Shlibs/Cppfilt.pm
+#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Cppfilt.pm
 #, perl-format
 msgid "unable to execute %s"
 msgstr ""
@@ -1616,7 +1619,7 @@ msgstr ""
 msgid "more than one file specified (%s and %s)"
 msgstr ""
 
-#: scripts/changelog/debian.pl
+#: scripts/changelog/debian.pl scripts/Dpkg/Changelog/Parse.pm
 #, perl-format
 msgid "fatal error occurred while parsing %s"
 msgstr ""
@@ -1804,6 +1807,11 @@ msgstr ""
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 msgid "the trailer doesn't match the expected regex"
+msgstr ""
+
+#: scripts/Dpkg/Changelog/Parse.pm
+#, perl-format
+msgid "unknown output format %s"
 msgstr ""
 
 #: scripts/Dpkg/Changelog/Parse.pm
