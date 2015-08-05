@@ -64,7 +64,9 @@ our $regex_header = qr/^(\w$name_chars*) \(([^\(\) \t]+)\)((?:\s+$name_chars+)+)
 
 # The matched content is the maintainer name ($1), its email ($2),
 # some blanks ($3) and the timestamp ($4).
-our $regex_trailer = qr/^ \-\- (.*) <(.*)>(  ?)((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4})\s*$/o;
+our $regex_trailer = qr/^ \-\- (.*) <(.*)>(  ?)(((\w+)\,\s*)?(\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}))\s*$/o;
+
+my %week_day = map { $_ => 1 } qw(Mon Tue Wed Thu Fri Sat Sun);
 
 ## use critic
 
@@ -165,12 +167,15 @@ sub check_trailer {
 	    push @errors, g_('badly formatted trailer line');
 	}
 
-	my $fmt = '';
-	$fmt .= '%a, ' if defined $5;
-	$fmt .= '%d %b %Y %T %z';
+	# Validate the week day. Date::Parse used to ignore it, but Time::Piece
+	# is much more strict and it does not gracefully handle bogus values.
+	if (defined $5 and not exists $week_day{$6}) {
+	    push @errors, sprintf(g_('ignoring invalid week day \'%s\''), $6);
+	}
 
+	# Ignore the week day ('%a, '), as we have validated it above.
 	local $ENV{LC_ALL} = 'C';
-	unless (defined Time::Piece->strptime($4, $fmt)) {
+	unless (defined Time::Piece->strptime($7, '%d %b %Y %T %z')) {
 	    push @errors, sprintf(g_("couldn't parse date %s"), $4);
 	}
     } else {
