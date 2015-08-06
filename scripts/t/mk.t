@@ -66,6 +66,10 @@ test_makefile('architecture.mk');
 $ENV{$_} = $arch{$_} foreach keys %arch;
 test_makefile('architecture.mk');
 
+my %buildflag = cmd_get_vars("$srcdir/dpkg-buildflags.pl");
+
+delete $ENV{$_} foreach keys %buildflag;
+$ENV{"TEST_$_"} = $buildflag{$_} foreach keys %buildflag;
 test_makefile('buildflags.mk');
 
 test_makefile('pkg-info.mk');
