@@ -1842,7 +1842,7 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 }
 
 static void
-alternative_remove(struct alternative *a)
+alternative_remove_files(struct alternative *a)
 {
 	struct slave_link *sl;
 
@@ -2324,7 +2324,7 @@ alternative_update(struct alternative *a,
 	/* No choice left, remove everything. */
 	if (!alternative_choices_count(a)) {
 		log_msg("link group %s fully removed", a->master_name);
-		alternative_remove(a);
+		alternative_remove_files(a);
 		return;
 	}
 
