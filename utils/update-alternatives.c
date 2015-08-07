@@ -1678,20 +1678,6 @@ alternative_config(struct alternative *a, const char *current_choice)
 }
 
 static void
-alternative_config_all(void)
-{
-	struct dirent **table;
-	int i, count;
-
-	count = altdb_get_namelist(&table);
-	for (i = 0; i < count; i++) {
-		subcall(prog_path, "--config", table[i]->d_name, NULL);
-		printf("\n");
-	}
-	altdb_free_namelist(table, count);
-}
-
-static void
 alternative_add_commit_op(struct alternative *a, enum opcode opcode,
                           const char *arg_a, const char *arg_b)
 {
@@ -2343,6 +2329,30 @@ alternative_update(struct alternative *a,
 }
 
 static void
+alternative_config_all(void)
+{
+	struct alternative_map *alt_map_obj;
+	struct alternative_map *am;
+
+	alt_map_obj = alternative_map_new(NULL, NULL);
+	alternative_map_load_names(alt_map_obj);
+
+	for (am = alt_map_obj; am && am->item; am = am->next) {
+		const char *current_choice;
+		const char *new_choice;
+
+		current_choice = alternative_get_current(am->item);
+		alternative_select_mode(am->item, current_choice);
+
+		new_choice = alternative_config(am->item, current_choice);
+
+		alternative_update(am->item, current_choice, new_choice);
+	}
+
+	alternative_map_free(alt_map_obj);
+}
+
+static void
 alternative_get_selections(void)
 {
 	struct alternative_map *alt_map_obj;
@@ -2790,6 +2800,7 @@ main(int argc, char **argv)
 
 	/* Handle actions. */
 	if (strcmp(action, "all") == 0) {
+		log_msg("run with %s", get_argv_string(argc, argv));
 		alternative_config_all();
 		exit(0);
 	} else if (strcmp(action, "get-selections") == 0) {
