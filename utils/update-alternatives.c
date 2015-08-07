@@ -1653,6 +1653,30 @@ alternative_select_choice(struct alternative *a)
 	}
 }
 
+static const char *
+alternative_config(struct alternative *a, const char *current_choice)
+{
+	const char *new_choice = NULL;
+
+	if (alternative_choices_count(a) == 0) {
+		pr(_("There is no program which provides %s."),
+		   a->master_name);
+		pr(_("Nothing to configure."));
+	} else if (opt_skip_auto && a->status == ALT_ST_AUTO) {
+		alternative_display_user(a);
+	} else if (alternative_choices_count(a) == 1 &&
+	           a->status == ALT_ST_AUTO &&
+	           current_choice != NULL) {
+		pr(_("There is only one alternative in link group %s (providing %s): %s"),
+		   a->master_name, a->master_link, current_choice);
+		pr(_("Nothing to configure."));
+	} else {
+		new_choice = alternative_select_choice(a);
+	}
+
+	return new_choice;
+}
+
 static void
 alternative_config_all(void)
 {
@@ -1865,6 +1889,37 @@ alternative_remove_files(struct alternative *a)
 	checked_rm_args("%s/%s", admdir, a->master_name);
 }
 
+static const char *
+alternative_remove(struct alternative *a, const char *current_choice,
+                   const char *path)
+{
+	const char *new_choice = NULL;
+
+	if (alternative_has_choice(a, path))
+		alternative_remove_choice(a, path);
+	else
+		verbose(_("alternative %s for %s not registered; not removing"),
+		        path, a->master_name);
+
+	if (current_choice && strcmp(current_choice, path) == 0) {
+		struct fileset *best;
+
+		/* Current choice is removed. */
+		if (a->status == ALT_ST_MANUAL) {
+			/* And it was manual, switch to auto. */
+			info(_("removing manually selected alternative "
+			       "- switching %s to auto mode"),
+			     a->master_name);
+			alternative_set_status(a, ALT_ST_AUTO);
+		}
+		best = alternative_get_best(a);
+		if (best)
+			new_choice = best->master_file;
+	}
+
+	return new_choice;
+}
+
 static bool
 alternative_has_broken_slave(struct slave_link *sl, struct fileset *fs)
 {
@@ -2062,6 +2117,36 @@ alternative_map_free(struct alternative_map *am)
 		free(am);
 		am = am_next;
 	}
+}
+
+static const char *
+alternative_set_manual(struct alternative *a, const char *path)
+{
+	const char *new_choice = NULL;
+
+	if (alternative_has_choice(a, path))
+		new_choice = path;
+	else
+		error(_("alternative %s for %s not registered; "
+		        "not setting"), path, a->master_name);
+	alternative_set_status(a, ALT_ST_MANUAL);
+
+	return new_choice;
+}
+
+static const char *
+alternative_set_auto(struct alternative *a)
+{
+	const char *new_choice = NULL;
+
+	alternative_set_status(a, ALT_ST_AUTO);
+	if (alternative_choices_count(a) == 0)
+		pr(_("There is no program which provides %s."),
+		   a->master_name);
+	else
+		new_choice = alternative_get_best(a)->master_file;
+
+	return new_choice;
 }
 
 static const char *
@@ -2731,56 +2816,13 @@ main(int argc, char **argv)
 	alternative_select_mode(a, current_choice);
 
 	if (strcmp(action, "set") == 0) {
-		if (alternative_has_choice(a, path))
-			new_choice = path;
-		else
-			error(_("alternative %s for %s not registered; "
-			        "not setting"), path, a->master_name);
-		alternative_set_status(a, ALT_ST_MANUAL);
+		new_choice = alternative_set_manual(a, path);
 	} else if (strcmp(action, "auto") == 0) {
-		alternative_set_status(a, ALT_ST_AUTO);
-		if (alternative_choices_count(a) == 0)
-			pr(_("There is no program which provides %s."),
-			   a->master_name);
-		else
-			new_choice = alternative_get_best(a)->master_file;
+		new_choice = alternative_set_auto(a);
 	} else if (strcmp(action, "config") == 0) {
-		if (alternative_choices_count(a) == 0) {
-			pr(_("There is no program which provides %s."),
-			   a->master_name);
-			pr(_("Nothing to configure."));
-		} else if (opt_skip_auto && a->status == ALT_ST_AUTO) {
-			alternative_display_user(a);
-		} else if (alternative_choices_count(a) == 1 &&
-		           a->status == ALT_ST_AUTO &&
-		           current_choice != NULL) {
-			pr(_("There is only one alternative in link group %s (providing %s): %s"),
-			   a->master_name, a->master_link, current_choice);
-			pr(_("Nothing to configure."));
-		} else {
-			new_choice = alternative_select_choice(a);
-		}
+		new_choice = alternative_config(a, current_choice);
 	} else if (strcmp(action, "remove") == 0) {
-		if (alternative_has_choice(a, path))
-			alternative_remove_choice(a, path);
-		else
-			verbose(_("alternative %s for %s not registered; not "
-			          "removing"), path, a->master_name);
-		if (current_choice && strcmp(current_choice, path) == 0) {
-			struct fileset *best;
-
-			/* Current choice is removed. */
-			if (a->status == ALT_ST_MANUAL) {
-				/* And it was manual, switch to auto. */
-				info(_("removing manually selected alternative "
-				       "- switching %s to auto mode"),
-				     a->master_name);
-				alternative_set_status(a, ALT_ST_AUTO);
-			}
-			best = alternative_get_best(a);
-			if (best)
-				new_choice = best->master_file;
-		}
+		new_choice = alternative_remove(a, current_choice, path);
 	} else if (strcmp(action, "remove-all") == 0) {
 		alternative_choices_free(a);
 	} else if (strcmp(action, "install") == 0) {
