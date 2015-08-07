@@ -294,8 +294,6 @@ virt_source_package(struct varbuf *vb,
 		name = pkg->set->name;
 
 	len = strcspn(name, " ");
-	if (len == 0)
-		len = strlen(name);
 
 	varbuf_add_buf(vb, name, len);
 }
@@ -319,8 +317,6 @@ virt_source_version(struct varbuf *vb,
 		version++;
 
 		len = strcspn(version, ")");
-		if (len == 0)
-			len = strlen(version);
 
 		varbuf_add_buf(vb, version, len);
 	}

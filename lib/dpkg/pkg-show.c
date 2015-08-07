@@ -131,20 +131,15 @@ pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
 }
 
 const char *
-pkg_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin, int *len_ret)
+pkg_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin, int *len)
 {
 	const char *pdesc;
-	size_t len;
 
 	pdesc = pkgbin->description;
 	if (!pdesc)
 		pdesc = _("(no description available)");
 
-	len = strcspn(pdesc, "\n");
-	if (len == 0)
-		len = strlen(pdesc);
-
-	*len_ret = len;
+	*len = strcspn(pdesc, "\n");
 
 	return pdesc;
 }
