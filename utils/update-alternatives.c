@@ -2382,22 +2382,24 @@ alternative_set_selection(struct alternative_map *all, const char *name,
 	debug("set_selection(%s, %s, %s)", name, status, choice);
 	a = alternative_map_find(all, name);
 	if (a) {
-		char *cmd;
+		const char *new_choice = NULL;
 
 		if (strcmp(status, "auto") == 0) {
-			xasprintf(&cmd, "%s --auto %s", PROGNAME, name);
-			pr(_("Call %s."), cmd);
-			free(cmd);
-			subcall(prog_path, "--auto", name, NULL);
+			new_choice = alternative_set_auto(a);
 		} else if (alternative_has_choice(a, choice)) {
-			xasprintf(&cmd, "%s --set %s %s", PROGNAME,
-			          name, choice);
-			pr(_("Call %s."), cmd);
-			free(cmd);
-			subcall(prog_path, "--set", name, choice, NULL);
+			new_choice = alternative_set_manual(a, choice);
 		} else {
 			pr(_("Alternative %s unchanged because choice "
 			     "%s is not available."), name, choice);
+		}
+
+		if (new_choice) {
+			const char *current_choice;
+
+			current_choice = alternative_get_current(a);
+			alternative_select_mode(a, current_choice);
+
+			alternative_update(a, current_choice, new_choice);
 		}
 	} else {
 		pr(_("Skip unknown alternative %s."), name);
