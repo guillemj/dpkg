@@ -63,11 +63,6 @@ static int opt_skip_auto = 0;
 static int opt_verbose = 0;
 static int opt_force = 0;
 
-#define MAX_OPTS 128
-#define PUSH_OPT(a) if (nb_opts < MAX_OPTS) pass_opts[nb_opts++] = a;
-static char *pass_opts[MAX_OPTS];
-static int nb_opts = 0;
-
 #define ALT_TMP_EXT ".dpkg-tmp"
 
 /*
@@ -418,42 +413,6 @@ spawn(const char *prog, const char *args[])
 		error(_("wait for subprocess %s failed"), prog);
 
 	return status;
-}
-
-static void DPKG_ATTR_SENTINEL
-subcall(const char *prog, ...)
-{
-	va_list args;
-	const char **cmd;
-	int res, i, j, count;
-
-	/* Count the arguments */
-	va_start(args, prog);
-	count = 0;
-	while (va_arg(args, char *))
-		count++;
-	va_end(args);
-
-	/* Prepare table for all parameters */
-	cmd = xmalloc(sizeof(*cmd) * (nb_opts + count + 2));
-	i = 0;
-	cmd[i++] = prog;
-	for (j = 0; j < nb_opts; j++)
-		cmd[i++] = pass_opts[j];
-	va_start(args, prog);
-	for (j = 0; j < count; j++)
-		cmd[i++] = va_arg(args, char *);
-	va_end(args);
-	cmd[i++] = NULL;
-
-	/* Run the command */
-	res = spawn(prog, cmd);
-	free(cmd);
-	if (WIFEXITED(res) && WEXITSTATUS(res) == 0)
-		return;
-	if (WIFEXITED(res))
-		exit(WEXITSTATUS(res));
-	exit(128);
 }
 
 static bool
@@ -2637,10 +2596,8 @@ main(int argc, char **argv)
 			exit(0);
 		} else if (strcmp("--verbose", argv[i]) == 0) {
 			opt_verbose++;
-			PUSH_OPT(argv[i]);
 		} else if (strcmp("--quiet", argv[i]) == 0) {
 			opt_verbose--;
-			PUSH_OPT(argv[i]);
 		} else if (strcmp("--install", argv[i]) == 0) {
 			char *prio_str, *prio_end;
 			long prio;
@@ -2740,30 +2697,22 @@ main(int argc, char **argv)
 		} else if (strcmp("--log", argv[i]) == 0) {
 			if (MISSING_ARGS(1))
 				badusage(_("--%s needs a <file> argument"), "log");
-			PUSH_OPT(argv[i]);
-			PUSH_OPT(argv[i + 1]);
 			log_file = argv[i + 1];
 			i++;
 		} else if (strcmp("--altdir", argv[i]) == 0) {
 			if (MISSING_ARGS(1))
 				badusage(_("--%s needs a <directory> argument"), "log");
-			PUSH_OPT(argv[i]);
-			PUSH_OPT(argv[i + 1]);
 			altdir = argv[i + 1];
 			i++;
 		} else if (strcmp("--admindir", argv[i]) == 0) {
 			if (MISSING_ARGS(1))
 				badusage(_("--%s needs a <directory> argument"), "log");
-			PUSH_OPT(argv[i]);
-			PUSH_OPT(argv[i + 1]);
 			admdir = argv[i + 1];
 			i++;
 		} else if (strcmp("--skip-auto", argv[i]) == 0) {
 			opt_skip_auto = 1;
-			PUSH_OPT(argv[i]);
 		} else if (strcmp("--force", argv[i]) == 0) {
 			opt_force = 1;
-			PUSH_OPT(argv[i]);
 		} else {
 			badusage(_("unknown option '%s'"), argv[i]);
 		}
