@@ -37,6 +37,8 @@ ifeq (,$(filter maintainer-build,$(DEB_BUILD_OPTIONS)))
 	confflags += --disable-silent-rules
 endif
 
+D := $(CURDIR)/debian/tmp
+
 # Create configure script if necessary, automake handles rebuilding it.
 configure:
 	dh_testdir
@@ -82,13 +84,13 @@ install: check
 	dh_prep
 	dh_installdirs
 
-	cd build-tree && $(MAKE) DESTDIR="$(CURDIR)/debian/tmp" install
+	cd build-tree && $(MAKE) DESTDIR=$(D) install
 
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 	# Ubuntu's «i386» architecture is built for i686 (the Debian default
 	# is i586).
 	sed -ri 's/^(i386[[:space:]]+)[^[:space:]]+/\1i686/' \
-	        $(CURDIR)/debian/tmp/usr/share/dpkg/cputable
+	        $(D)/usr/share/dpkg/cputable
 endif
 
 define dpkg-installmanl10n
