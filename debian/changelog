@@ -18,6 +18,9 @@ dpkg (1.18.3) UNRELEASED; urgency=low
       Reported by Jakub Wilk <jwilk@debian.org>.
     - Do not warn when removing an empty subdirectory on source package
       extraction in Dpkg::Source::Package::V2. Closes: #796671
+    - Do not abort on parse errors from Time::Piece->strptime() for the
+      changelog trailer date, just queue them so that the caller can decide
+      if they should be warnings or actual errors. Closes: #795936
   * Test suite:
     - Get the reference build flags from dpkg-buildflags.pl, instead of
       hardcoding them, which might not match depending on the architecture.

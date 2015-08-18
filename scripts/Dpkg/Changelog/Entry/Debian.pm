@@ -175,9 +175,11 @@ sub check_trailer {
 
 	# Ignore the week day ('%a, '), as we have validated it above.
 	local $ENV{LC_ALL} = 'C';
-	unless (defined Time::Piece->strptime($7, '%d %b %Y %T %z')) {
-	    push @errors, sprintf(g_("couldn't parse date %s"), $4);
-	}
+	eval {
+	    Time::Piece->strptime($7, '%d %b %Y %T %z');
+	} or do {
+	    push @errors, sprintf(g_("cannot parse non-comformant date '%s'"), $7);
+	};
     } else {
 	push @errors, g_("the trailer doesn't match the expected regex");
     }
