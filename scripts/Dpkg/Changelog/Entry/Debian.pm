@@ -63,10 +63,18 @@ my $name_chars = qr/[-+0-9a-z.]/i;
 our $regex_header = qr/^(\w$name_chars*) \(([^\(\) \t]+)\)((?:\s+$name_chars+)+)\;(.*?)\s*$/i;
 
 # The matched content is the maintainer name ($1), its email ($2),
-# some blanks ($3) and the timestamp ($4).
-our $regex_trailer = qr/^ \-\- (.*) <(.*)>(  ?)(((\w+)\,\s*)?(\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}))\s*$/o;
+# some blanks ($3) and the timestamp ($4), which is decomposed into
+# day of week ($6), date-time ($7) and this into month name ($8).
+our $regex_trailer = qr/^ \-\- (.*) <(.*)>(  ?)(((\w+)\,\s*)?(\d{1,2}\s+(\w+)\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}))\s*$/o;
 
 my %week_day = map { $_ => 1 } qw(Mon Tue Wed Thu Fri Sat Sun);
+my %month_abbrev = map { $_ => 1 } qw(
+    Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+);
+my %month_name = map { $_ => } qw(
+    January February March April May June July
+    August September October November December
+);
 
 ## use critic
 
@@ -178,6 +186,15 @@ sub check_trailer {
 	eval {
 	    Time::Piece->strptime($7, '%d %b %Y %T %z');
 	} or do {
+	    # Validate the month. Date::Parse used to accept both abbreviated
+	    # and full months, but Time::Piece strptime() implementation only
+	    # matches the abbreviated one with %b, which is what we want anyway.
+	    if (exists $month_name{$8}) {
+	        push @errors, sprintf(g_('uses full instead of abbreviated month name \'%s\''),
+	                              $8, $month_name{$8});
+	    } elsif (not exists $month_abbrev{$8}) {
+	        push @errors, sprintf(g_('invalid abbreviated month name \'%s\''), $8);
+	    }
 	    push @errors, sprintf(g_("cannot parse non-comformant date '%s'"), $7);
 	};
     } else {

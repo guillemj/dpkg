@@ -21,6 +21,8 @@ dpkg (1.18.3) UNRELEASED; urgency=low
     - Do not abort on parse errors from Time::Piece->strptime() for the
       changelog trailer date, just queue them so that the caller can decide
       if they should be warnings or actual errors. Closes: #795936
+    - Validate the changelog trailer date, and catch and warn or error on
+      bogus month names, such as unknown or unabbreviated ones.
   * Test suite:
     - Get the reference build flags from dpkg-buildflags.pl, instead of
       hardcoding them, which might not match depending on the architecture.
