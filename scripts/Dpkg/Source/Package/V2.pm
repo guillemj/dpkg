@@ -172,6 +172,10 @@ sub do_extract {
     foreach my $subdir (sort keys %addonfile) {
         my $file = $addonfile{$subdir};
         info(g_('unpacking %s'), $file);
+
+        # If the pathname is an empty directory, just silently remove it, as
+        # it might be part of a git repository, as a submodule for example.
+        rmdir "$newdirectory/$subdir";
         if (-e "$newdirectory/$subdir") {
             warning(g_("required removal of '%s' installed by original tarball"),
                     $subdir);
