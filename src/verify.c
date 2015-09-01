@@ -96,6 +96,7 @@ static void
 verify_package(struct pkginfo *pkg)
 {
 	struct fileinlist *file;
+	struct varbuf filename = VARBUF_INIT;
 
 	ensure_packagefiles_available(pkg);
 	parse_filehash(pkg, &pkg->installed);
@@ -116,9 +117,14 @@ verify_package(struct pkginfo *pkg)
 				fnn->newhash = fnn->oldhash;
 		}
 
+		varbuf_reset(&filename);
+		varbuf_add_str(&filename, instdir);
+		varbuf_add_str(&filename, fnn->name);
+		varbuf_end_str(&filename);
+
 		memset(&checks, 0, sizeof(checks));
 
-		md5hash(pkg, hash, fnn->name);
+		md5hash(pkg, hash, filename.buf);
 		if (strcmp(hash, fnn->newhash) != 0) {
 			checks.md5sum = VERIFY_FAIL;
 			failures++;
