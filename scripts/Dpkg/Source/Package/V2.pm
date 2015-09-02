@@ -405,10 +405,12 @@ sub generate_patch {
             $tarfile = $file;
             push @origtarballs, $file;
             $self->add_file($file);
+            $self->add_file("$file.asc") if -e "$file.asc";
         } elsif ($file =~ /\.orig-([[:alnum:]-]+)\.tar\.$comp_ext_regex$/) {
             $addonfile{$1} = $file;
             push @origtarballs, $file;
             $self->add_file($file);
+            $self->add_file("$file.asc") if -e "$file.asc";
         }
     }
 

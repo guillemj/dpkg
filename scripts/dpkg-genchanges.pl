@@ -270,6 +270,7 @@ if (build_has_any(BUILD_SOURCE)) {
         $origsrcmsg = g_('not including original source code in upload');
         foreach my $f (grep { m/\.orig(-.+)?\.tar\.$ext$/ } $checksums->get_files()) {
             $checksums->remove_file($f);
+            $checksums->remove_file("$f.asc");
         }
     } else {
         if ($sourcestyle =~ m/d/ &&

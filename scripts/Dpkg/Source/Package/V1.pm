@@ -345,6 +345,7 @@ sub do_build {
     }
 
     my ($tarname, $tardirname, $tardirbase);
+    my $tarsign;
     if ($sourcestyle ne 'n') {
 	my ($origdirname, $origdirbase) = fileparse($origdir);
 
@@ -357,6 +358,7 @@ sub do_build {
         $tardirname = $origdirname;
 
 	$tarname = $origtargz || "$basename.orig.tar.gz";
+	$tarsign = "$tarname.asc";
 	unless ($tarname =~ /\Q$basename\E\.orig\.tar\.gz/) {
 	    warning(g_('.orig.tar name %s is not <package>_<upstreamversion>' .
 	               '.orig.tar (wanted %s)'),
@@ -399,6 +401,7 @@ sub do_build {
     }
 
     $self->add_file($tarname) if $tarname;
+    $self->add_file($tarsign) if $tarsign and -e $tarsign;
 
     if ($sourcestyle =~ m/[kpKP]/) {
         if (stat($origdir)) {
