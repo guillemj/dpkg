@@ -131,7 +131,7 @@ extracthalf(const char *debar, const char *dir,
   if (fstat(arfd, &stab))
     ohshite(_("failed to fstat archive"));
 
-  r = read_line(arfd, versionbuf, strlen(DPKG_AR_MAGIC), sizeof(versionbuf));
+  r = read_line(arfd, versionbuf, strlen(DPKG_AR_MAGIC), sizeof(versionbuf) - 1);
   if (r < 0)
     read_fail(r, debar, _("archive magic version number"));
 
