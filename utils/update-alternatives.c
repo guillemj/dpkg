@@ -2175,129 +2175,6 @@ get_argv_string(int argc, char **argv)
 }
 
 static void
-alternative_get_selections(void)
-{
-	struct alternative_map *alt_map_obj;
-	struct alternative_map *am;
-
-	alt_map_obj = alternative_map_new(NULL, NULL);
-	alternative_map_load_names(alt_map_obj);
-
-	for (am = alt_map_obj; am && am->item; am = am->next) {
-		const char *current;
-
-		current = alternative_get_current(am->item);
-		printf("%-30s %-8s %s\n", am->key,
-		       alternative_status_string(am->item->status),
-		       current ? current : "");
-	}
-
-	alternative_map_free(alt_map_obj);
-}
-
-static void
-alternative_set_selection(struct alternative_map *all, const char *name,
-                          const char *status, const char *choice)
-{
-	struct alternative *a;
-
-	debug("set_selection(%s, %s, %s)", name, status, choice);
-	a = alternative_map_find(all, name);
-	if (a) {
-		char *cmd;
-
-		if (strcmp(status, "auto") == 0) {
-			xasprintf(&cmd, "%s --auto %s", PROGNAME, name);
-			pr(_("Call %s."), cmd);
-			free(cmd);
-			subcall(prog_path, "--auto", name, NULL);
-		} else if (alternative_has_choice(a, choice)) {
-			xasprintf(&cmd, "%s --set %s %s", PROGNAME,
-			          name, choice);
-			pr(_("Call %s."), cmd);
-			free(cmd);
-			subcall(prog_path, "--set", name, choice, NULL);
-		} else {
-			pr(_("Alternative %s unchanged because choice "
-			     "%s is not available."), name, choice);
-		}
-	} else {
-		pr(_("Skip unknown alternative %s."), name);
-	}
-}
-
-static void
-alternative_set_selections(FILE *input, const char *desc)
-{
-	struct alternative_map *alt_map_obj;
-
-	alt_map_obj = alternative_map_new(NULL, NULL);
-	alternative_map_load_names(alt_map_obj);
-
-	for (;;) {
-		char line[1024], *res, *name, *status, *choice;
-		size_t len, i;
-
-		errno = 0;
-		/* Can't use scanf("%s %s %s") because choice can
-		 * contain a space */
-		res = fgets(line, sizeof(line), input);
-		if (res == NULL && errno) {
-			syserr(_("read error in %.250s"), desc);
-		} else if (res == NULL) {
-			break;
-		}
-		len = strlen(line);
-		if (len == 0 || line[len - 1] != '\n') {
-			error(_("line too long or not terminated while "
-			        "trying to read %s"), desc);
-		}
-		line[len - 1] = '\0';
-		len--;
-
-		/* Delimit name string in line */
-		i = 0;
-		name = line;
-		while (i < len && !isblank(line[i]))
-			i++;
-		if (i >= len) {
-			printf("[%s %s] ", PROGNAME, "--set-selections");
-			pr(_("Skip invalid line: %s"), line);
-			continue;
-		}
-		line[i++] = '\0';
-		while (i < len && isblank(line[i]))
-			i++;
-
-		/* Delimit status string in line */
-		status = line + i;
-		while (i < len && !isblank(line[i]))
-			i++;
-		if (i >= len) {
-			printf("[%s %s] ", PROGNAME, "--set-selections");
-			pr(_("Skip invalid line: %s"), line);
-			continue;
-		}
-		line[i++] = '\0';
-		while (i < len && isblank(line[i]))
-			i++;
-
-		/* Delimit choice string in the line */
-		if (i >= len) {
-			printf("[%s %s] ", PROGNAME, "--set-selections");
-			pr(_("Skip invalid line: %s"), line);
-			continue;
-		}
-		choice = line + i;
-
-		printf("[%s %s] ", PROGNAME, "--set-selections");
-		alternative_set_selection(alt_map_obj, name, status, choice);
-	}
-
-	alternative_map_free(alt_map_obj);
-}
-
-static void
 alternative_select_mode(struct alternative *a, const char *current_choice)
 {
 	if (current_choice) {
@@ -2463,6 +2340,129 @@ alternative_update(struct alternative *a,
 
 	/* Replace all symlinks in one pass. */
 	alternative_commit(a);
+}
+
+static void
+alternative_get_selections(void)
+{
+	struct alternative_map *alt_map_obj;
+	struct alternative_map *am;
+
+	alt_map_obj = alternative_map_new(NULL, NULL);
+	alternative_map_load_names(alt_map_obj);
+
+	for (am = alt_map_obj; am && am->item; am = am->next) {
+		const char *current;
+
+		current = alternative_get_current(am->item);
+		printf("%-30s %-8s %s\n", am->key,
+		       alternative_status_string(am->item->status),
+		       current ? current : "");
+	}
+
+	alternative_map_free(alt_map_obj);
+}
+
+static void
+alternative_set_selection(struct alternative_map *all, const char *name,
+                          const char *status, const char *choice)
+{
+	struct alternative *a;
+
+	debug("set_selection(%s, %s, %s)", name, status, choice);
+	a = alternative_map_find(all, name);
+	if (a) {
+		char *cmd;
+
+		if (strcmp(status, "auto") == 0) {
+			xasprintf(&cmd, "%s --auto %s", PROGNAME, name);
+			pr(_("Call %s."), cmd);
+			free(cmd);
+			subcall(prog_path, "--auto", name, NULL);
+		} else if (alternative_has_choice(a, choice)) {
+			xasprintf(&cmd, "%s --set %s %s", PROGNAME,
+			          name, choice);
+			pr(_("Call %s."), cmd);
+			free(cmd);
+			subcall(prog_path, "--set", name, choice, NULL);
+		} else {
+			pr(_("Alternative %s unchanged because choice "
+			     "%s is not available."), name, choice);
+		}
+	} else {
+		pr(_("Skip unknown alternative %s."), name);
+	}
+}
+
+static void
+alternative_set_selections(FILE *input, const char *desc)
+{
+	struct alternative_map *alt_map_obj;
+
+	alt_map_obj = alternative_map_new(NULL, NULL);
+	alternative_map_load_names(alt_map_obj);
+
+	for (;;) {
+		char line[1024], *res, *name, *status, *choice;
+		size_t len, i;
+
+		errno = 0;
+		/* Can't use scanf("%s %s %s") because choice can
+		 * contain a space */
+		res = fgets(line, sizeof(line), input);
+		if (res == NULL && errno) {
+			syserr(_("read error in %.250s"), desc);
+		} else if (res == NULL) {
+			break;
+		}
+		len = strlen(line);
+		if (len == 0 || line[len - 1] != '\n') {
+			error(_("line too long or not terminated while "
+			        "trying to read %s"), desc);
+		}
+		line[len - 1] = '\0';
+		len--;
+
+		/* Delimit name string in line */
+		i = 0;
+		name = line;
+		while (i < len && !isblank(line[i]))
+			i++;
+		if (i >= len) {
+			printf("[%s %s] ", PROGNAME, "--set-selections");
+			pr(_("Skip invalid line: %s"), line);
+			continue;
+		}
+		line[i++] = '\0';
+		while (i < len && isblank(line[i]))
+			i++;
+
+		/* Delimit status string in line */
+		status = line + i;
+		while (i < len && !isblank(line[i]))
+			i++;
+		if (i >= len) {
+			printf("[%s %s] ", PROGNAME, "--set-selections");
+			pr(_("Skip invalid line: %s"), line);
+			continue;
+		}
+		line[i++] = '\0';
+		while (i < len && isblank(line[i]))
+			i++;
+
+		/* Delimit choice string in the line */
+		if (i >= len) {
+			printf("[%s %s] ", PROGNAME, "--set-selections");
+			pr(_("Skip invalid line: %s"), line);
+			continue;
+		}
+		choice = line + i;
+
+		printf("[%s %s] ", PROGNAME, "--set-selections");
+		alternative_set_selection(alt_map_obj, name, status, choice);
+	}
+
+	alternative_map_free(alt_map_obj);
 }
 
 static void
