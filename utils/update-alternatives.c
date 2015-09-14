@@ -1583,7 +1583,7 @@ alternative_select_choice(struct alternative *a)
 		}
 		selection[strlen(selection) - 1] = '\0';
 		if (strlen(selection) == 0)
-			return current;
+			return xstrdup(current);
 		errno = 0;
 		idx = strtol(selection, &ret, 10);
 		if (idx < 0 || errno != 0)
@@ -2306,6 +2306,8 @@ alternative_config_all(void)
 		new_choice = alternative_config(am->item, current_choice);
 
 		alternative_update(am->item, current_choice, new_choice);
+
+		free(new_choice);
 	}
 
 	alternative_map_free(alt_map_obj);
