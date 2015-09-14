@@ -18,10 +18,10 @@ EXTRA_DIST = \
 	libdpkg.map \
 	libdpkg.pc.in
 
-pkgconfigdir = $(libdir)/pkgconfig
+pkgconfigdir = $(devlibdir)/pkgconfig
 pkgconfig_DATA = libdpkg.pc
 
-lib_LTLIBRARIES = libdpkg.la
+devlib_LTLIBRARIES = libdpkg.la
 
 libdpkg_la_LDFLAGS =
 if HAVE_LINKER_VERSION_SCRIPT
