@@ -1052,7 +1052,7 @@ parse_options(int argc, char * const *argv)
 			if (optarg[changeuser_len] == ':' &&
 			    optarg[changeuser_len + 1] == '\0')
 				fatal("missing group name");
-			changegroup = xstrdup(optarg + changeuser_len + 1);
+			changegroup = optarg + changeuser_len + 1;
 			break;
 		case 'g':  /* --group <group>|<gid> */
 			changegroup = optarg;
