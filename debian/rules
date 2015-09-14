@@ -38,7 +38,6 @@ ifeq (,$(filter maintainer-build,$(DEB_BUILD_OPTIONS)))
 endif
 
 D := $(CURDIR)/debian/tmp
-D_MA := $(D)/usr/lib/$(DEB_HOST_MULTIARCH)
 
 # Create configure script if necessary, automake handles rebuilding it.
 configure:
@@ -59,6 +58,7 @@ build-tree/config.status: configure
 		--sysconfdir=/etc \
 		--sbindir=/sbin \
 		--localstatedir=/var \
+		--with-devlibdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH) \
 		--with-zlib \
 		--with-liblzma \
 		--with-bz2
@@ -85,11 +85,6 @@ install: check
 	dh_installdirs
 
 	cd build-tree && $(MAKE) DESTDIR=$(D) install
-
-	# Passing --libdir to configure has too many side effects, install
-	# the paths into Multi-Arch directories here instead.
-	mkdir -p $(D_MA)
-	mv $(D)/usr/lib/libdpkg.a $(D_MA)
 
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 	# Ubuntu's «i386» architecture is built for i686 (the Debian default
