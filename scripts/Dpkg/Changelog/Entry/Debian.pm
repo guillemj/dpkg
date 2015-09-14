@@ -60,12 +60,36 @@ my $name_chars = qr/[-+0-9a-z.]/i;
 
 # The matched content is the source package name ($1), the version ($2),
 # the target distributions ($3) and the options on the rest of the line ($4).
-our $regex_header = qr/^(\w$name_chars*) \(([^\(\) \t]+)\)((?:\s+$name_chars+)+)\;(.*?)\s*$/i;
+our $regex_header = qr{
+    ^
+    (\w$name_chars*)                    # Package name
+    \ \(([^\(\) \t]+)\)                 # Package version
+    ((?:\s+$name_chars+)+)              # Target distribution
+    \;                                  # Separator
+    (.*?)                               # Key=Value options
+    \s*$                                # Trailing space
+}xi;
 
 # The matched content is the maintainer name ($1), its email ($2),
 # some blanks ($3) and the timestamp ($4), which is decomposed into
 # day of week ($6), date-time ($7) and this into month name ($8).
-our $regex_trailer = qr/^ \-\- (.*) <(.*)>(  ?)(((\w+)\,\s*)?(\d{1,2}\s+(\w+)\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}))\s*$/o;
+our $regex_trailer = qr<
+    ^
+    \ \-\-                              # Trailer marker
+    \ (.*)                              # Maintainer name
+    \ \<(.*)\>                          # Maintainer email
+    (\ \ ?)                             # Blanks
+    (
+      ((\w+)\,\s*)?                     # Day of week (abbreviated)
+      (
+        \d{1,2}\s+                      # Day of month
+        (\w+)\s+                        # Month name (abbreviated)
+        \d{4}\s+                        # Year
+        \d{1,2}:\d\d:\d\d\s+[-+]\d{4}   # ISO 8601 date
+      )
+    )
+    \s*$                                # Trailing space
+>xo;
 
 my %week_day = map { $_ => 1 } qw(Mon Tue Wed Thu Fri Sat Sun);
 my %month_abbrev = map { $_ => 1 } qw(
@@ -329,8 +353,11 @@ sub find_closes {
     my $changes = shift;
     my %closes;
 
-    while ($changes &&
-           ($changes =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/pig)) {
+    while ($changes && ($changes =~ m{
+               closes:\s*
+               (?:bug)?\#?\s?\d+
+               (?:,\s*(?:bug)?\#?\s?\d+)*
+           }pigx)) {
         $closes{$_} = 1 foreach (${^MATCH} =~ /\#?\s?(\d+)/g);
     }
 

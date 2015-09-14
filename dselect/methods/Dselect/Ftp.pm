@@ -314,6 +314,14 @@ my %months = ('Jan', 0,
 	      'Nov', 10,
 	      'Dec', 11);
 
+my $ls_l_re = qr<
+    ([^ ]+\ *){5}                       # Perms, Links, User, Group, Size
+    [^ ]+                               # Blanks
+    \ ([A-Z][a-z]{2})                   # Month name (abbreviated)
+    \ ([0-9 ][0-9])                     # Day of month
+    \ ([0-9 ][0-9][:0-9][0-9]{2})       # Filename
+>x;
+
 sub do_mdtm {
     my ($ftp, $file) = @_;
     my ($time);
@@ -347,8 +355,7 @@ sub do_mdtm {
 #	print "[$#files]";
 
 	# get the date components from the output of 'ls -l'
-	if ($files[0] =~
-	    /([^ ]+ *){5}[^ ]+ ([A-Z][a-z]{2}) ([ 0-9][0-9]) ([0-9 ][0-9][:0-9][0-9]{2})/) {
+	if ($files[0] =~ $ls_l_re) {
 
             my($month_name, $day, $year_or_time, $month, $hours, $minutes,
 	       $year);

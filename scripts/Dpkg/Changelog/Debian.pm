@@ -58,6 +58,63 @@ use constant {
     CHANGES_OR_TRAILER => g_('more change data or trailer'),
 };
 
+my $ancient_delimiter_re = qr{
+    ^
+    (?: # Ancient GNU style changelog entry with expanded date
+      (?:
+        \w+\s+                          # Day of week (abbreviated)
+        \w+\s+                          # Month name (abbreviated)
+        \d{1,2}                         # Day of month
+        \Q \E
+        \d{1,2}:\d{1,2}:\d{1,2}\s+      # Time
+        [\w\s]*                         # Timezone
+        \d{4}                           # Year
+      )
+      \s+
+      (?:.*)                            # Maintainer name
+      \s+
+      [<\(]
+        (?:.*)                          # Maintainer email
+      [\)>]
+    | # Old GNU style changelog entry with expanded date
+      (?:
+        \w+\s+                          # Day of week (abbreviated)
+        \w+\s+                          # Month name (abbreviated)
+        \d{1,2},?\s*                    # Day of month
+        \d{4}                           # Year
+      )
+      \s+
+      (?:.*)                            # Maintainer name
+      \s+
+      [<\(]
+        (?:.*)                          # Maintainer email
+      [\)>]
+    | # Ancient changelog header w/o key=value options
+      (?:\w[-+0-9a-z.]*)                # Package name
+      \Q \E
+      \(
+        (?:[^\(\) \t]+)                 # Package version
+      \)
+      \;?
+    | # Ancient changelog header
+      (?:[\w.+-]+)                      # Package name
+      [- ]
+      (?:\S+)                           # Package version
+      \ Debian
+      \ (?:\S+)                         # Package revision
+    |
+      Changes\ from\ version\ (?:.*)\ to\ (?:.*):
+    |
+      Changes\ for\ [\w.+-]+-[\w.+-]+:?\s*$
+    |
+      Old\ Changelog:\s*$
+    |
+      (?:\d+:)?
+      \w[\w.+~-]*:?
+      \s*$
+    )
+}xi;
+
 =head1 METHODS
 
 =over 4
@@ -113,14 +170,7 @@ sub parse {
 	    next; # skip comments, even that's not supported
 	} elsif (m{^/\*.*\*/}o) {
 	    next; # more comments
-	} elsif (m/^(?:\w+\s+\w+\s+\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}\s+[\w\s]*\d{4})\s+(?:.*)\s+[<\(](?:.*)[\)>]/o
-		 || m/^(?:\w+\s+\w+\s+\d{1,2},?\s*\d{4})\s+(?:.*)\s+[<\(](?:.*)[\)>]/o
-		 || m/^(?:\w[-+0-9a-z.]*) \((?:[^\(\) \t]+)\)\;?/io
-		 || m/^(?:[\w.+-]+)[- ](?:\S+) Debian (?:\S+)/io
-		 || m/^Changes from version (?:.*) to (?:.*):/io
-		 || m/^Changes for [\w.+-]+-[\w.+-]+:?\s*$/io
-		 || m/^Old Changelog:\s*$/io
-		 || m/^(?:\d+:)?\w[\w.+~-]*:?\s*$/o) {
+	} elsif (m/$ancient_delimiter_re/) {
 	    # save entries on old changelog format verbatim
 	    # we assume the rest of the file will be in old format once we
 	    # hit it for the first time

@@ -296,10 +296,21 @@ sub parse_objdump_output {
 # (GLIBC_2.2) is the same but the symbol is hidden, a newer version of the
 # symbol exist
 
+my $vis_re = qr/(\.protected|\.hidden|\.internal|0x\S+)/;
+my $dynsym_re = qr<
+    ^
+    [0-9a-f]+                   # Symbol size
+    \ (.{7})                    # Flags
+    \s+(\S+)                    # Section name
+    \s+[0-9a-f]+                # Alignment
+    (?:\s+(\S+))?               # Version string
+    (?:\s+$vis_re)?             # Visibility
+    \s+(.+)                     # Symbol name
+>x;
+
 sub parse_dynamic_symbol {
     my ($self, $line) = @_;
-    my $vis_re = '(\.protected|\.hidden|\.internal|0x\S+)';
-    if ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+(?:\s+(\S+))?(?:\s+$vis_re)?\s+(.+)/) {
+    if ($line =~ $dynsym_re) {
 
 	my ($flags, $sect, $ver, $vis, $name) = ($1, $2, $3, $4, $5);
 

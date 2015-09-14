@@ -84,6 +84,7 @@ my @policies = qw(
     RegularExpressions::ProhibitUnusualDelimiters
     RegularExpressions::ProhibitUselessTopic
     RegularExpressions::RequireBracesForMultiline
+    RegularExpressions::RequireExtendedFormatting
     Subroutines::ProhibitExplicitReturnUndef
     Subroutines::ProhibitNestedSubs
     Subroutines::ProhibitReturnSort
