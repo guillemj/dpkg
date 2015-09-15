@@ -31,7 +31,7 @@ my $datadir = "$srcdir/t/mk";
 $ENV{$_} = rel2abs($ENV{$_}) foreach qw(srcdir DPKG_DATADIR DPKG_ORIGINS_DIR);
 
 # Delete variables that can affect the tests.
-delete $ENV{DEB_VENDOR};
+delete $ENV{$_} foreach grep { m/^DEB_/ } keys %ENV;
 
 sub test_makefile {
     my $makefile = shift;
