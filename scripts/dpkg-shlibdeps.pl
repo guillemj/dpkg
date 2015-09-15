@@ -670,20 +670,21 @@ sub split_soname {
     }
 }
 
-my $shlibs_re = qr{
-    ^\s*
-    (?:(\S+):\s+)?              # Optional type
-    (\S+)\s+                    # Library
-    (\S+)                       # Version
-    (?:
-      \s+
-      (\S.*\S)                  # Dependencies
-    )?
-    \s*$
-}x;
-
 sub extract_from_shlibs {
     my ($soname, $shlibfile) = @_;
+
+    my $shlibs_re = qr{
+        ^\s*
+        (?:(\S+):\s+)?              # Optional type
+        (\S+)\s+                    # Library
+        (\S+)                       # Version
+        (?:
+          \s+
+          (\S.*\S)                  # Dependencies
+        )?
+        \s*$
+    }x;
+
     # Split soname in name/version
     my ($libname, $libversion) = split_soname($soname);
     unless (defined $libname) {
