@@ -1543,7 +1543,7 @@ alternative_print_choice(struct alternative *a, enum alternative_status status,
 	   fs->master_file, fs->priority, alternative_status_describe(status));
 }
 
-static const char *
+static char *
 alternative_select_choice(struct alternative *a)
 {
 	const char *current;
@@ -1612,10 +1612,10 @@ alternative_select_choice(struct alternative *a)
 	}
 }
 
-static const char *
+static char *
 alternative_config(struct alternative *a, const char *current_choice)
 {
-	const char *new_choice = NULL;
+	char *new_choice = NULL;
 
 	if (alternative_choices_count(a) == 0) {
 		pr(_("There is no program which provides %s."),
@@ -2298,7 +2298,7 @@ alternative_config_all(void)
 
 	for (am = alt_map_obj; am && am->item; am = am->next) {
 		const char *current_choice;
-		const char *new_choice;
+		char *new_choice;
 
 		current_choice = alternative_get_current(am->item);
 		alternative_select_mode(am->item, current_choice);
