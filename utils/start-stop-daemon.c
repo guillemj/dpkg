@@ -297,17 +297,6 @@ xmalloc(int size)
 }
 
 static char *
-xstrdup(const char *str)
-{
-	char *new_str;
-
-	new_str = strdup(str);
-	if (new_str)
-		return new_str;
-	fatal("strdup(%s) failed", str);
-}
-
-static char *
 xstrndup(const char *str, size_t n)
 {
 	char *new_str;
