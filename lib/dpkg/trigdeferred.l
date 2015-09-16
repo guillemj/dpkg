@@ -139,9 +139,6 @@ trigdef_update_start(enum trigdef_update_flags uf)
 		}
 
 		file_lock(&lock_fd, FILE_LOCK_WAIT, fn.buf, _("triggers area"));
-	} else {
-		/* Dummy for pop_cleanups. */
-		push_cleanup(NULL, 0, NULL, 0, 0);
 	}
 
 	constructfn(&fn, triggersdir, TRIGGERSDEFERREDFILE);
@@ -154,7 +151,8 @@ trigdef_update_start(enum trigdef_update_flags uf)
 			ohshite(_("unable to open triggers deferred file '%.250s'"),
 			        fn.buf);
 		if (!(uf & TDUF_WRITE_IF_ENOENT)) {
-			pop_cleanup(ehflag_normaltidy);
+			if (uf & TDUF_WRITE)
+				pop_cleanup(ehflag_normaltidy);
 			return TDUS_ERROR_NO_DEFERRED;
 		}
 	} else {
@@ -169,7 +167,8 @@ trigdef_update_start(enum trigdef_update_flags uf)
 			        fn.buf);
 
 		if (stab.st_size == 0 && !(uf & TDUF_WRITE_IF_EMPTY)) {
-			pop_cleanup(ehflag_normaltidy);
+			if (uf & TDUF_WRITE)
+				pop_cleanup(ehflag_normaltidy);
 			return TDUS_ERROR_EMPTY_DEFERRED;
 		}
 	}
@@ -245,5 +244,6 @@ trigdef_process_done(void)
 	triggersdir = NULL;
 
 	/* Unlock. */
-	pop_cleanup(ehflag_normaltidy);
+	if (lock_fd >= 0)
+		pop_cleanup(ehflag_normaltidy);
 }
