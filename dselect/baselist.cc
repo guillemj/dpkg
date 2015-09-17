@@ -76,10 +76,25 @@ static void cu_sigwinch(int, void **argv) {
   delete oblockedp;
 }
 
-void baselist::setupsigwinch() {
+void
+baselist::sigwinch_mask(int how)
+{
+  sigset_t sigwinchset;
   sigemptyset(&sigwinchset);
   sigaddset(&sigwinchset,SIGWINCH);
 
+  int rc = sigprocmask(how, &sigwinchset, nullptr);
+  if (rc < 0) {
+    if (how == SIG_UNBLOCK)
+      ohshite(_("failed to unblock SIGWINCH"));
+    else
+      ohshite(_("failed to block SIGWINCH"));
+  }
+}
+
+void
+baselist::setupsigwinch()
+{
   osigactp= new(struct sigaction);
   oblockedp= new(sigset_t);
   if (sigprocmask(0, nullptr, oblockedp))
@@ -89,8 +104,8 @@ void baselist::setupsigwinch() {
 
   push_cleanup(cu_sigwinch, ~0, nullptr, 0, 2, osigactp, oblockedp);
 
-  if (sigprocmask(SIG_BLOCK, &sigwinchset, nullptr))
-    ohshite(_("failed to block SIGWINCH"));
+  sigwinch_mask(SIG_BLOCK);
+
   memset(&nsigact,0,sizeof(nsigact));
   nsigact.sa_handler= sigwinchhandler;
   sigemptyset(&nsigact.sa_mask);

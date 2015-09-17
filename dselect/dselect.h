@@ -99,7 +99,8 @@ protected:
 
   // SIGWINCH handling
   struct sigaction *osigactp, nsigact;
-  sigset_t *oblockedp, sigwinchset;
+  sigset_t *oblockedp;
+  void sigwinch_mask(int how);
   void setupsigwinch();
 
   static baselist *signallist;
