@@ -48,6 +48,7 @@ libdpkg_la_SOURCES = \
 	buffer.c \
 	c-ctype.c \
 	cleanup.c \
+	color.c \
 	command.c \
 	compress.c \
 	dbdir.c \
@@ -108,6 +109,7 @@ pkginclude_HEADERS = \
 	atomic-file.h \
 	buffer.h \
 	c-ctype.h \
+	color.h \
 	command.h \
 	compress.h \
 	deb-version.h \

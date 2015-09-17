@@ -32,6 +32,7 @@
 #include <dpkg/macros.h>
 #include <dpkg/i18n.h>
 #include <dpkg/progname.h>
+#include <dpkg/color.h>
 #include <dpkg/ehandle.h>
 
 /* 6x255 for inserted strings (%.255s &c in fmt; and %s with limited length arg)
@@ -355,7 +356,9 @@ catch_fatal_error(void)
 void
 print_fatal_error(const char *emsg, const void *data)
 {
-  fprintf(stderr, _("%s: error: %s\n"), dpkg_get_progname(), emsg);
+  fprintf(stderr, "%s%s:%s %s%s:%s %s\n",
+          color_get(COLOR_PROG), dpkg_get_progname(), color_reset(),
+          color_get(COLOR_ERROR), _("error"), color_reset(), emsg);
 }
 
 void
@@ -391,8 +394,9 @@ do_internerr(const char *file, int line, const char *func, const char *fmt, ...)
   vsnprintf(buf, sizeof(buf), fmt, args);
   va_end(args);
 
-  fprintf(stderr, _("%s:%s:%d:%s: internal error: %s\n"),
-          dpkg_get_progname(), file, line, func, buf);
+  fprintf(stderr, "%s%s:%s:%d:%s:%s %s%s:%s %s\n", color_get(COLOR_PROG),
+          dpkg_get_progname(), file, line, func, color_reset(),
+          color_get(COLOR_ERROR), _("internal error"), color_reset(), buf);
 
   abort();
 }

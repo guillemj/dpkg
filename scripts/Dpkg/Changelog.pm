@@ -37,7 +37,7 @@ use warnings;
 our $VERSION = '1.00';
 
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(:DEFAULT report);
+use Dpkg::ErrorHandling qw(:DEFAULT report REPORT_WARN);
 use Dpkg::Control;
 use Dpkg::Control::Changelog;
 use Dpkg::Control::Fields;
@@ -166,9 +166,9 @@ sub get_parse_errors {
 	my $res = '';
 	foreach my $e (@{$self->{parse_errors}}) {
 	    if ($e->[3]) {
-		$res .= report(g_('warning'), g_("%s(l%s): %s\nLINE: %s"), @$e);
+		$res .= report(REPORT_WARN, g_("%s(l%s): %s\nLINE: %s"), @$e);
 	    } else {
-		$res .= report(g_('warning'), g_('%s(l%s): %s'), @$e);
+		$res .= report(REPORT_WARN, g_('%s(l%s): %s'), @$e);
 	    }
 	}
 	return $res;

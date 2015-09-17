@@ -27,6 +27,7 @@ check-local: $(test_data) $(test_programs) $(test_scripts)
 	[ -z "$(test_tmpdir)" ] || $(MKDIR_P) $(test_tmpdir)
 	PATH="$(abs_top_builddir)/src:$(abs_top_builddir)/scripts:$(abs_top_builddir)/utils:$(PATH)" \
 	  LC_ALL=C \
+	  DPKG_COLORS=never \
 	  $(TEST_ENV_VARS) \
 	  srcdir=$(srcdir) builddir=$(builddir) \
 	  CC=$(CC) \

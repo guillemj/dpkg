@@ -23,7 +23,7 @@ use warnings;
 
 use Dpkg ();
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(:DEFAULT report);
+use Dpkg::ErrorHandling qw(:DEFAULT report REPORT_STATUS);
 use Dpkg::Build::Env;
 use Dpkg::BuildFlags;
 use Dpkg::Vendor qw(get_current_vendor);
@@ -155,12 +155,12 @@ if ($action eq 'list') {
     my @envvars = Dpkg::Build::Env::list_accessed();
     for my $envvar (@envvars) {
 	if (exists $ENV{$envvar}) {
-	    printf report('status', 'environment variable %s=%s',
+	    printf report(REPORT_STATUS, 'environment variable %s=%s',
 	           $envvar, $ENV{$envvar});
 	}
     }
     my $vendor = Dpkg::Vendor::get_current_vendor() || 'undefined';
-    print report('status', "vendor is $vendor");
+    print report(REPORT_STATUS, "vendor is $vendor");
     # Then the resulting features:
     foreach my $area (sort $build_flags->get_feature_areas()) {
 	my $fs;
@@ -168,13 +168,13 @@ if ($action eq 'list') {
 	foreach my $feature (sort keys %features) {
 	    $fs .= sprintf(' %s=%s', $feature, $features{$feature} ? 'yes' : 'no');
 	}
-	print report('status', "$area features:$fs");
+	print report(REPORT_STATUS, "$area features:$fs");
     }
     # Then the resulting values (with their origin):
     foreach my $flag ($build_flags->list()) {
 	my $value = $build_flags->get($flag);
 	my $origin = $build_flags->get_origin($flag);
 	my $maintainer = $build_flags->is_maintainer_modified($flag) ? '+maintainer' : '';
-	print report('status', "$flag [$origin$maintainer]: $value");
+	print report(REPORT_STATUS, "$flag [$origin$maintainer]: $value");
     }
 }

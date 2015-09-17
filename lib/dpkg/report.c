@@ -29,6 +29,7 @@
 #include <dpkg/macros.h>
 #include <dpkg/i18n.h>
 #include <dpkg/progname.h>
+#include <dpkg/color.h>
 #include <dpkg/report.h>
 
 static int piped_mode = _IOLBF;
@@ -63,7 +64,9 @@ warningv(const char *fmt, va_list args)
 
 	warn_count++;
 	vsnprintf(buf, sizeof(buf), fmt, args);
-	fprintf(stderr, _("%s: warning: %s\n"), dpkg_get_progname(), buf);
+	fprintf(stderr, "%s%s:%s %s%s:%s %s\n",
+	        color_get(COLOR_PROG), dpkg_get_progname(), color_reset(),
+	        color_get(COLOR_WARN), _("warning"), color_reset(), buf);
 }
 
 void
@@ -86,7 +89,8 @@ notice(const char *fmt, ...)
 	vsnprintf(buf, sizeof(buf), fmt, args);
 	va_end(args);
 
-	fprintf(stderr, "%s: %s\n", dpkg_get_progname(), buf);
+	fprintf(stderr, "%s%s:%s %s\n",
+	        color_get(COLOR_PROG), dpkg_get_progname(), color_reset(), buf);
 }
 
 void
@@ -99,5 +103,6 @@ info(const char *fmt, ...)
 	vsnprintf(buf, sizeof(buf), fmt, args);
 	va_end(args);
 
-	printf("%s: %s\n", dpkg_get_progname(), buf);
+	printf("%s%s:%s %s\n",
+	       color_get(COLOR_PROG), dpkg_get_progname(), color_reset(), buf);
 }
