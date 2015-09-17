@@ -1,5 +1,8 @@
 # Copied from /usr/share/perl5/Debconf/Gettext.pm
 #
+# Copyright © 2000 Joey Hess <joeyh@debian.org>
+# Copyright © 2007, 2009-2010, 2012-2015 Guillem Jover <guillem@debian.org>
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -26,12 +29,13 @@ package Dpkg::Gettext;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our @EXPORT = qw(
     textdomain
     ngettext
     g_
     P_
+    N_
     _g
 );
 
@@ -89,8 +93,6 @@ Calls dngettext(), returning the correct translation for the plural form
 dependent on $n. If dngettext() is not available, returns $msgid if $n is 1
 or $msgid_plural otherwise.
 
-=back
-
 =cut
 
 use constant GETTEXT_CONTEXT_GLUE => "\004";
@@ -137,6 +139,22 @@ BEGIN {
     }
 }
 
+=item $msgid = N_($msgid)
+
+A pseudo function that servers as a marked for automated extraction of
+messages, but does not call gettext(). The run-time translation is done
+at a different place in the code.
+
+=back
+
+=cut
+
+sub N_
+{
+    my $msgid = shift;
+    return $msgid;
+}
+
 # XXX: Backwards compatibility, to be removed on VERSION 2.00.
 sub _g ## no critic (Subroutines::ProhibitUnusedPrivateSubroutines)
 {
@@ -149,6 +167,10 @@ sub _g ## no critic (Subroutines::ProhibitUnusedPrivateSubroutines)
 }
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.18.3)
+
+New function: N_().
 
 =head2 Version 1.01 (dpkg 1.18.0)
 
