@@ -98,8 +98,6 @@ protected:
   // so none of the auto-displaying update routines need to display.
 
   // SIGWINCH handling
-  struct sigaction *osigactp, nsigact;
-  sigset_t *oblockedp;
   void sigwinch_mask(int how);
   void setupsigwinch();
 

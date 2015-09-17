@@ -95,8 +95,8 @@ baselist::sigwinch_mask(int how)
 void
 baselist::setupsigwinch()
 {
-  osigactp= new(struct sigaction);
-  oblockedp= new(sigset_t);
+  struct sigaction *osigactp = new(struct sigaction);
+  sigset_t *oblockedp = new(sigset_t);
   if (sigprocmask(0, nullptr, oblockedp))
     ohshite(_("failed to get old signal mask"));
   if (sigaction(SIGWINCH, nullptr, osigactp))
@@ -106,6 +106,7 @@ baselist::setupsigwinch()
 
   sigwinch_mask(SIG_BLOCK);
 
+  struct sigaction nsigact;
   memset(&nsigact,0,sizeof(nsigact));
   nsigact.sa_handler= sigwinchhandler;
   sigemptyset(&nsigact.sa_mask);
