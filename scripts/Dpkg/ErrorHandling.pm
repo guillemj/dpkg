@@ -28,6 +28,7 @@ our @EXPORT = qw(
     error
     errormsg
     syserr
+    printcmd
     subprocerr
     usageerr
 );
@@ -89,6 +90,13 @@ sub error($;@)
 sub errormsg($;@)
 {
     print { *STDERR } report(g_('error'), @_);
+}
+
+sub printcmd
+{
+    my (@cmd) = @_;
+
+    print { *STDERR } " @cmd\n";
 }
 
 sub subprocerr(@)

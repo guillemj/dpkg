@@ -540,7 +540,7 @@ push @changes_opts, "-C$desc" if defined $desc;
 my $chg = "../$pva.changes";
 my $changes = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
 
-print { *STDERR } " dpkg-genchanges @changes_opts >$chg\n";
+printcmd("dpkg-genchanges @changes_opts >$chg");
 
 open my $changes_fh, '-|', 'dpkg-genchanges', @changes_opts
     or subprocerr('dpkg-genchanges');
@@ -614,7 +614,7 @@ sub mustsetvar {
 }
 
 sub withecho {
-    print { *STDERR } " @_\n";
+    printcmd(@_);
     system(@_)
 	and subprocerr("@_");
 }
@@ -655,7 +655,7 @@ sub run_hook {
 sub signfile {
     my $file = shift;
 
-    print { *STDERR } " signfile $file\n";
+    printcmd("signfile $file");
 
     my $signdir = tempdir('dpkg-sign.XXXXXXXX', CLEANUP => 1);
     my $signfile = "$signdir/$file";
