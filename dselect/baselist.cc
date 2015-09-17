@@ -301,10 +301,37 @@ baselist::baselist(keybindings *kb) {
   total_width = max(TOTAL_LIST_WIDTH, COLS);
 
   xmax= -1;
-  list_height=0; info_height=0;
-  topofscreen= 0; leftofscreen= 0;
+  ymax = -1;
+
+  list_height = 0;
+  info_height = 0;
+  title_height = 0;
+  whatinfo_height = 0;
+  colheads_height = 0;
+  thisstate_height = 0;
+
+  list_row = 0;
+  info_row = 0;
+  whatinfo_row = 0;
+  colheads_row = 0;
+  thisstate_row = 0;
+
+  topofscreen = 0;
+  leftofscreen = 0;
+  infotopofscreen = 0;
+  infolines = 0;
+
   listpad = nullptr;
+  infopad = nullptr;
+  colheadspad = nullptr;
+  thisstatepad = nullptr;
+  titlewin = nullptr;
+  querywin = nullptr;
+  whatinfowin = nullptr;
+
   cursorline = -1;
+  ldrawnstart = 0;
+  ldrawnend = 0;
   showinfo= 1;
 
   searchstring[0]= 0;
