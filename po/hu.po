@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-06-26 16:11+0200\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -3193,7 +3193,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6253,6 +6253,17 @@ msgstr "nem lehet kiüríteni a vsnprintf-ben"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+msgid "  link best version is %s"
+msgstr "A jelenlegi `legjobb' verzió: %s"
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Nincs elérhető verzió."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 msgid "  link currently points to %s"
 msgstr " lánc most ide mutat: %s"
 
@@ -6260,6 +6271,17 @@ msgstr " lánc most ide mutat: %s"
 #, fuzzy
 msgid "  link currently absent"
 msgstr " lánc most hiányzik"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "  slave %s is %s"
+msgstr " %s szolga: %s"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6271,15 +6293,6 @@ msgstr "%s - %s elsőbbség"
 #, fuzzy, c-format
 msgid "  slave %s: %s"
 msgstr " %s szolga: %s"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "A jelenlegi `legjobb' verzió: %s"
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Nincs elérhető verzió."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6311,6 +6324,22 @@ msgid "Press <enter> to keep the current choice[*], or type selection number: "
 msgstr "Üss entert az alap[*]-hoz, vagy a választás számát: "
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "There is no program which provides %s."
+msgstr ""
+"Nincs program, mely ezt adja: %s.\n"
+"Nincs beállítandó.\n"
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr ""
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "not replacing %s with a link"
 msgstr ""
@@ -6333,29 +6362,19 @@ msgid "not removing %s since it's not a symlink"
 msgstr ""
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Call %s."
-msgstr ""
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr ""
+#, fuzzy, c-format
+msgid "alternative %s for %s not registered; not removing"
+msgstr "%s kiválasztása ehhez: %s nincs bejegyezve, nem törlöm"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Nem találom a `%s' kiválasztást"
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr "Kézi kiválasztás törlése - automata módra váltok"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "váratlan fájl vége jel itt: %.250s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr ""
+msgid "alternative %s for %s not registered; not setting"
+msgstr "%s kiválasztása ehhez: %s nincs bejegyezve, nem törlöm"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6410,6 +6429,26 @@ msgstr ""
 #: utils/update-alternatives.c
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Nem találom a `%s' kiválasztást"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "váratlan fájl vége jel itt: %.250s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
 msgstr ""
 
 #: utils/update-alternatives.c
@@ -6533,37 +6572,6 @@ msgstr "Nincs kiválasztás erre: %s."
 #| msgid "read error on standard input"
 msgid "<standard input>"
 msgstr "olvasási hiba a szabvány bemeneten"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "%s kiválasztása ehhez: %s nincs bejegyezve, nem törlöm"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "There is no program which provides %s."
-msgstr ""
-"Nincs program, mely ezt adja: %s.\n"
-"Nincs beállítandó.\n"
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr ""
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr ""
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "%s kiválasztása ehhez: %s nincs bejegyezve, nem törlöm"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr "Kézi kiválasztás törlése - automata módra váltok"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format

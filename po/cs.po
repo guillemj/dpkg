@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 09:54+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -3094,7 +3094,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6014,6 +6014,18 @@ msgid "unable to flush file '%s'"
 msgstr "nelze vyprázdnit soubor „%s“"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "Momentální „nejlepší“ verze je „%s“."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Nejsou k dispozici žádné verze."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  odkaz momentálně ukazuje na %s"
@@ -6021,6 +6033,18 @@ msgstr "  odkaz momentálně ukazuje na %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr "  odkaz momentálně chybí"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s je %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  závislost %s: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6031,15 +6055,6 @@ msgstr "%s - priorita %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  závislost %s: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "Momentální „nejlepší“ verze je „%s“."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Nejsou k dispozici žádné verze."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6074,6 +6089,20 @@ msgstr "Pro aktuální možnost[*] stiskněte enter, jinak zadejte číslo: "
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "There is no program which provides %s."
+msgstr "Neexistuje program poskytující %s."
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "Nic k nastavení."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr "Ve skupině odkazů %s (poskytující %s) je jen jedna alternativa: %s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "not replacing %s with a link"
 msgstr "nenahrazuji %s odkazem"
 
@@ -6098,28 +6127,19 @@ msgstr "neodstraňuji %s, protože to není symbolický odkaz"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Call %s."
-msgstr "Volá se %s."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "alternativa %s pro %s není registrována, neodstraňuji"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "Alternativa %s nebyla změněna, protože volba %s není dostupná."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr ""
+"odstraňuji ručně zvolenou alternativu - přepínám %s do automatického režimu"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Přeskočení neznámé alternativy %s."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "příliš dlouhý nebo neukončený řádek při pokusu o čtení %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "Přeskočení neplatného řádku: %s"
+msgid "alternative %s for %s not registered; not setting"
+msgstr "alternativa %s pro %s není registrována, nenastavuji"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6178,6 +6198,26 @@ msgstr ""
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "současná alternativa %s neexistuje, přepínám na %s pro skupinu odkazů %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "Alternativa %s nebyla změněna, protože volba %s není dostupná."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Přeskočení neznámé alternativy %s."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "příliš dlouhý nebo neukončený řádek při pokusu o čtení %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "Přeskočení neplatného řádku: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6297,36 +6337,6 @@ msgstr "<standardní vstup>"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "alternativa %s pro %s není registrována, nenastavuji"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "Neexistuje program poskytující %s."
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "Nic k nastavení."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr "Ve skupině odkazů %s (poskytující %s) je jen jedna alternativa: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "alternativa %s pro %s není registrována, neodstraňuji"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"odstraňuji ručně zvolenou alternativu - přepínám %s do automatického režimu"
-
-#: utils/update-alternatives.c
-#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "automatické aktualizace %s/%s jsou zakázány, ponechávám bez změn"
 
@@ -6334,6 +6344,9 @@ msgstr "automatické aktualizace %s/%s jsou zakázány, ponechávám bez změn"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "k automatickým aktualizacím se vrátíte příkazem „%s --auto %s“"
+
+#~ msgid "Call %s."
+#~ msgstr "Volá se %s."
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "syntaktická chyba: neplatné uid v souboru statoverride: %s"

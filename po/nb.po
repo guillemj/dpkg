@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Hans Fredrik Nordhaug <hans@nordhaug.priv.no>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -3315,7 +3315,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6624,6 +6624,18 @@ msgid "unable to flush file '%s'"
 msgstr "klarte ikke tømme fila «%s»"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "Nåværende «beste» versjon er «%s»."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Ingen versjoner tilgjengelig."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  lenke peker for øyeblikket til %s"
@@ -6631,6 +6643,18 @@ msgstr "  lenke peker for øyeblikket til %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr "  lenke er borte for øyeblikket "
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "%.250s er %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  slave %s: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6641,15 +6665,6 @@ msgstr "%s - prioritet %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  slave %s: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "Nåværende «beste» versjon er «%s»."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Ingen versjoner tilgjengelig."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6683,6 +6698,21 @@ msgstr ""
 "Trykk Enter for å beholde det gjeldende valget[*] eller skriv et valgnummer:"
 
 #: utils/update-alternatives.c
+#, c-format
+msgid "There is no program which provides %s."
+msgstr "Det er ingen program som tilbyr %s."
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "Ingenting å sette opp."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "There is only one alternative in link group %s: %s"
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr "Det er bare et alternativ i lenkegruppa %s: %s"
+
+#: utils/update-alternatives.c
 #, fuzzy, c-format
 #| msgid "not replacing %s with a link."
 msgid "not replacing %s with a link"
@@ -6712,29 +6742,21 @@ msgid "not removing %s since it's not a symlink"
 msgstr "bytter ikke ut %s med en lenke."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Call %s."
-msgstr "Kjør %s."
+#, fuzzy, c-format
+#| msgid "alternative %s for %s not registered, not removing."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "alternativ %s for %s er ikke registrert, fjernes ikke."
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "Alternative %s uendret fordi valg %s ikke er tilgjengelig."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr "fjerner manuelt valgte alternativ - bytter %s til automatisk modus"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Hopp over ukjent alternativ %s."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "linje for lang eller ikke avsluttet under lesing av %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "Hoppet over ugyldig linje: %s"
+#, fuzzy, c-format
+#| msgid "alternative %s for %s not registered, not setting."
+msgid "alternative %s for %s not registered; not setting"
+msgstr "alternativ %s for %s er ikke registrert, settes ikke."
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6807,6 +6829,26 @@ msgstr ""
 #| "current alternative %s is unknown, switching to %s for link group %s."
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr "gjeldende alternativ %s er ukjent, bytter til %s for lenkegruppa %s."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "Alternative %s uendret fordi valg %s ikke er tilgjengelig."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Hopp over ukjent alternativ %s."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "linje for lang eller ikke avsluttet under lesing av %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "Hoppet over ugyldig linje: %s"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6936,38 +6978,6 @@ msgstr "<standard inndata>"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-#| msgid "alternative %s for %s not registered, not setting."
-msgid "alternative %s for %s not registered; not setting"
-msgstr "alternativ %s for %s er ikke registrert, settes ikke."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "Det er ingen program som tilbyr %s."
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "Ingenting å sette opp."
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "There is only one alternative in link group %s: %s"
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr "Det er bare et alternativ i lenkegruppa %s: %s"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative %s for %s not registered, not removing."
-msgid "alternative %s for %s not registered; not removing"
-msgstr "alternativ %s for %s er ikke registrert, fjernes ikke."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr "fjerner manuelt valgte alternativ - bytter %s til automatisk modus"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
 #| msgid "automatic updates of %s are disabled, leaving it alone."
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "automatiske oppdateringer av %s er slått av, lar den være i fred."
@@ -6979,6 +6989,9 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "for å gå tilbake til automatiske oppdateringer bruk «update-alternatives --"
 "auto %s»."
+
+#~ msgid "Call %s."
+#~ msgstr "Kjør %s."
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "syntaksfeil: ugyldig uid i statoverride-fil"

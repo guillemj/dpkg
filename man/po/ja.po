@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-18 18:11+0200\n"
 "Last-Translator: TAKAHASHI Motonobu <monyo@monyo.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -384,15 +384,17 @@ msgstr ""
 
 #. type: SH
 #: deb-control.5 deb-origin.5
-#, no-wrap
-msgid "REQUIRED FIELDS"
-msgstr "必須フィールド"
+#, fuzzy, no-wrap
+#| msgid "SOURCE FIELDS"
+msgid "FIELDS"
+msgstr "SOURCE フィールド"
 
 #. type: TP
 #: deb-control.5
-#, no-wrap
-msgid "B<Package:>I< package-name>"
-msgstr "B<Package:>I< パッケージ名>"
+#, fuzzy, no-wrap
+#| msgid "B<Package:> I<binary-package-name> (required)"
+msgid "B<Package:> I<package-name> (required)"
+msgstr "B<Package:> I<バイナリパッケージ名> (必須)"
 
 #. type: Plain text
 #: deb-control.5
@@ -405,8 +407,9 @@ msgstr ""
 
 #. type: TP
 #: deb-control.5
-#, no-wrap
-msgid "B<Version:>I< version-string>"
+#, fuzzy, no-wrap
+#| msgid "B<Version:>I< version-string>"
+msgid "B<Version:> I<version-string> (required)"
 msgstr "B<Version:>I<バージョン文字列>"
 
 #. type: Plain text
@@ -423,10 +426,10 @@ msgstr ""
 "細は、B<deb-version>(5) で説明されている。"
 
 #. type: TP
-#: deb-control.5
+#: deb-control.5 deb-src-control.5
 #, no-wrap
-msgid "B<Maintainer:>I< fullname-email>"
-msgstr "B<Maintainer:>I< fullname-email>"
+msgid "B<Maintainer:> I<fullname-email> (required)"
+msgstr "B<Maintainer:> I<fullname-email> (必須)"
 
 #. type: Plain text
 #: deb-control.5
@@ -443,11 +446,11 @@ msgstr ""
 "`Joe Bloggs E<lt>jbloggs@foo.comE<gt>' 形式で設定すること。パッケージ化された"
 "ソフトウェアの開発者ではなく、パッケージ作成者の情報を設定する。"
 
-#. type: TP
-#: deb-control.5
+#. type: TQ
+#: deb-control.5 deb-src-control.5
 #, no-wrap
-msgid "B<Description:>I< short-description>"
-msgstr "B<Description:>I< 短い説明>"
+msgid "B<Description:> I<short-description> (required)"
+msgstr "B<Description:> I<短い説明> (必須)"
 
 #. type: TQ
 #: deb-control.5
@@ -475,12 +478,6 @@ msgstr ""
 "それ以降の行に詳細な長い説明というものである。長い説明の各行は、スペースから"
 "始まる必要がある。空行は、行頭のスペースに続けて '.' を 1 つだけ記述する必要"
 "がある。"
-
-#. type: SH
-#: deb-control.5 deb-origin.5
-#, no-wrap
-msgid "OPTIONAL FIELDS"
-msgstr "オプションフィールド"
 
 #. type: TP
 #: deb-control.5 deb-src-control.5
@@ -1207,12 +1204,6 @@ msgstr ""
 "ができる。パッケージ名は最低 2 文字以上の長さとし、英数字で始めなければならな"
 "い。"
 
-#. type: TP
-#: deb-src-control.5
-#, no-wrap
-msgid "B<Maintainer:> I<fullname-email> (required)"
-msgstr "B<Maintainer:> I<fullname-email> (必須)"
-
 #. type: Plain text
 #: deb-src-control.5
 #, fuzzy
@@ -1397,8 +1388,9 @@ msgstr ""
 
 #. type: TP
 #: deb-src-control.5
-#, no-wrap
-msgid "B<Build-Depends-Arch:>I< package list>"
+#, fuzzy, no-wrap
+#| msgid "B<Build-Depends-Arch:>I< package list>"
+msgid "B<Build-Depends-Arch:>I< package-list>"
 msgstr "B<Build-Depends-Arch:>I< パッケージのリスト>"
 
 #. type: Plain text
@@ -1439,8 +1431,9 @@ msgstr ""
 
 #. type: TP
 #: deb-src-control.5
-#, no-wrap
-msgid "B<Build-Conflicts:>I< package list>"
+#, fuzzy, no-wrap
+#| msgid "B<Build-Conflicts:>I< package list>"
+msgid "B<Build-Conflicts:>I< package-list>"
 msgstr "B<Build-Conflicts:>I< パッケージのリスト>"
 
 #. type: Plain text
@@ -1459,8 +1452,9 @@ msgstr ""
 
 #. type: TP
 #: deb-src-control.5
-#, no-wrap
-msgid "B<Build-Conflicts-Arch:>I< package list>"
+#, fuzzy, no-wrap
+#| msgid "B<Build-Conflicts-Arch:>I< package list>"
+msgid "B<Build-Conflicts-Arch:>I< package-list>"
 msgstr "B<Build-Conflicts-Arch:>I< パッケージのリスト>"
 
 #. type: Plain text
@@ -1681,12 +1675,6 @@ msgstr ""
 "が使用するサイズの制約があるパッケージである。\"deb\" はデフォルトの値であ"
 "り、フィールドが存在しなかった場合に仮定される値である。将来的にはこれ以外の"
 "タイプが追加されるかもしれない。"
-
-#. type: TQ
-#: deb-src-control.5
-#, no-wrap
-msgid "B<Description:> I<short-description> (required)"
-msgstr "B<Description:> I<短い説明> (必須)"
 
 #. type: Plain text
 #: deb-src-control.5
@@ -2468,8 +2456,9 @@ msgstr ""
 
 #. type: TP
 #: deb-origin.5
-#, no-wrap
-msgid "B<Vendor:>I< vendor-name>"
+#, fuzzy, no-wrap
+#| msgid "B<Vendor:>I< vendor-name>"
+msgid "B<Vendor:> I<vendor-name> (required)"
 msgstr "B<Vendor:>I< vendor-name>"
 
 #. type: Plain text
@@ -4459,7 +4448,7 @@ msgstr ""
 #: dpkg.1
 #, fuzzy, no-wrap
 #| msgid "B<-p>I<package>"
-msgid "B<--predep-packages>"
+msgid "B<--predep-package>"
 msgstr "B<-p>I<package>"
 
 #. type: Plain text
@@ -23010,12 +22999,19 @@ msgstr "B<--display> I<name>"
 
 #. type: Plain text
 #: update-alternatives.1
+#, fuzzy
+#| msgid ""
+#| "Display information about the link group.  Information displayed includes "
+#| "the group's mode (auto or manual), which alternative the master link "
+#| "currently points to, what other alternatives are available (and their "
+#| "corresponding slave alternatives), and the highest priority alternative "
+#| "currently installed."
 msgid ""
 "Display information about the link group.  Information displayed includes "
-"the group's mode (auto or manual), which alternative the master link "
-"currently points to, what other alternatives are available (and their "
-"corresponding slave alternatives), and the highest priority alternative "
-"currently installed."
+"the group's mode (auto or manual), the master and slave links, which "
+"alternative the master link currently points to, what other alternatives are "
+"available (and their corresponding slave alternatives), and the highest "
+"priority alternative currently installed."
 msgstr ""
 "リンクグループの情報を表示する。表示される情報は、グループのモード (auto か "
 "manual か)、master リンクの現在の参照先となる選択肢、他に利用可能な選択肢 (と"
@@ -23549,6 +23545,21 @@ msgstr "B<update-alternatives --auto vi>"
 #: update-alternatives.1
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
+
+#~ msgid "REQUIRED FIELDS"
+#~ msgstr "必須フィールド"
+
+#~ msgid "B<Package:>I< package-name>"
+#~ msgstr "B<Package:>I< パッケージ名>"
+
+#~ msgid "B<Maintainer:>I< fullname-email>"
+#~ msgstr "B<Maintainer:>I< fullname-email>"
+
+#~ msgid "B<Description:>I< short-description>"
+#~ msgstr "B<Description:>I< 短い説明>"
+
+#~ msgid "OPTIONAL FIELDS"
+#~ msgstr "オプションフィールド"
 
 #, fuzzy
 #~| msgid "2012-04-09"

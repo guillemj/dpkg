@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -3156,7 +3156,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6203,6 +6203,18 @@ msgid "unable to flush file '%s'"
 msgstr "не удалось сбросить на диск файл «%s»"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "Текущая «лучшая» версия: «%s»."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Нет доступных версий."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  ссылка сейчас указывает на %s"
@@ -6210,6 +6222,18 @@ msgstr "  ссылка сейчас указывает на %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr "  ссылка сейчас отсутствует"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  пакет %.250s %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  подчинённый %s: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6220,15 +6244,6 @@ msgstr "%s — приоритет %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  подчинённый %s: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "Текущая «лучшая» версия: «%s»."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Нет доступных версий."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6265,6 +6280,21 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "There is no program which provides %s."
+msgstr "Нет программы, которая предоставляет %s."
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "Настраивать нечего."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr ""
+"Есть только одна альтернатива в группе ссылок %s (предоставляющая %s): %s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "not replacing %s with a link"
 msgstr "%s на ссылку не заменён"
 
@@ -6289,28 +6319,20 @@ msgstr "%s не удаляется, так как это не символьна
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Call %s."
-msgstr "Вызов %s."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "альтернатива %s для %s не зарегистрирована; не удаляется"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "Альтернатива %s не изменена, так как вариант %s недоступен."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr ""
+"удаляется альтернатива, выбранная вручную — переключение %s в автоматический "
+"режим"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Пропуск неизвестной альтернативы %s."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "при попытке чтения %s найдена слишком длинная или незакрытая строка"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "Пропускается некорректная строка: %s"
+msgid "alternative %s for %s not registered; not setting"
+msgstr "альтернатива %s для %s не зарегистрирована; не выбирается"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6372,6 +6394,26 @@ msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "текущая альтернатива %s неизвестна, в группе ссылок %s выполняется "
 "переключение на %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "Альтернатива %s не изменена, так как вариант %s недоступен."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Пропуск неизвестной альтернативы %s."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "при попытке чтения %s найдена слишком длинная или незакрытая строка"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "Пропускается некорректная строка: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6491,38 +6533,6 @@ msgstr "<стандартный ввод>"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "альтернатива %s для %s не зарегистрирована; не выбирается"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "Нет программы, которая предоставляет %s."
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "Настраивать нечего."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr ""
-"Есть только одна альтернатива в группе ссылок %s (предоставляющая %s): %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "альтернатива %s для %s не зарегистрирована; не удаляется"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"удаляется альтернатива, выбранная вручную — переключение %s в автоматический "
-"режим"
-
-#: utils/update-alternatives.c
-#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "автоматические обновления %s/%s выключены; оставляем как есть"
 
@@ -6532,6 +6542,9 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "чтобы вернуться к автоматическим обновлениям, выполните команду «%s --auto "
 "%s»"
+
+#~ msgid "Call %s."
+#~ msgstr "Вызов %s."
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "синтаксическая ошибка: неправильный uid в файле statoverride"

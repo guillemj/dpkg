@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.3~\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-09 09:14+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-08-09 09:19+0200\n"
 "Last-Translator: Sven Joachim <svenjoac@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -6163,6 +6163,18 @@ msgid "unable to flush file '%s'"
 msgstr "Datei »%s« kann nicht zurückgeschrieben werden"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "Gegenwärtig »beste« Version ist »%s«."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Keine Versionen verfügbar."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  Link verweist zur Zeit auf %s"
@@ -6170,6 +6182,18 @@ msgstr "  Link verweist zur Zeit auf %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr "  Link zur Zeit nicht vorhanden"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s ist %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  Slave %s: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6180,15 +6204,6 @@ msgstr "%s - Priorität %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  Slave %s: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "Gegenwärtig »beste« Version ist »%s«."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Keine Versionen verfügbar."
 
 # CHECKME: bereitstellt oder bereitstellen?
 #: utils/update-alternatives.c
@@ -6227,6 +6242,21 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "There is no program which provides %s."
+msgstr "Es gibt kein Programm, welches %s bereitstellt."
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "Nichts zu konfigurieren."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr ""
+"Es gibt nur eine Alternative in Link-Gruppe %s (die %s bereitstellt): %s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "not replacing %s with a link"
 msgstr "%s wird nicht durch einen Link ersetzt"
 
@@ -6251,28 +6281,20 @@ msgstr "%s wird nicht entfernt, da sie kein Symlink ist"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Call %s."
-msgstr "%s wird aufgerufen."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "Alternative %s für %s ist nicht registriert; wird nicht entfernt"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "Alternative %s nicht verändert, weil Auswahl %s nicht verfügbar ist."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr ""
+"Manuell ausgewählte Alternative wird entfernt - Umschaltung von %s in Auto-"
+"Modus"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Unbekannte Alternative %s wird übersprungen."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "Zeile zu lang oder nicht beendet beim Versuch, %s zu lesen"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "Ungültige Zeile wird übersprungen: %s"
+msgid "alternative %s for %s not registered; not setting"
+msgstr "Alternative %s für %s ist nicht registriert; wird nicht gesetzt"
 
 # CHECKME: it -> »er« oder »sie« (Symlink oder Alternative)?
 #: utils/update-alternatives.c
@@ -6334,6 +6356,26 @@ msgstr ""
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "Aktuelle Alternative %s ist unbekannt, Linkgruppe %s wird zu %s umgeschaltet"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "Alternative %s nicht verändert, weil Auswahl %s nicht verfügbar ist."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Unbekannte Alternative %s wird übersprungen."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "Zeile zu lang oder nicht beendet beim Versuch, %s zu lesen"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "Ungültige Zeile wird übersprungen: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6455,38 +6497,6 @@ msgstr "<Standardeingabe>"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "Alternative %s für %s ist nicht registriert; wird nicht gesetzt"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "Es gibt kein Programm, welches %s bereitstellt."
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "Nichts zu konfigurieren."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr ""
-"Es gibt nur eine Alternative in Link-Gruppe %s (die %s bereitstellt): %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "Alternative %s für %s ist nicht registriert; wird nicht entfernt"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"Manuell ausgewählte Alternative wird entfernt - Umschaltung von %s in Auto-"
-"Modus"
-
-#: utils/update-alternatives.c
-#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr ""
 "Automatische Aktualisierungen von %s/%s sind deaktiviert; wird nicht "
@@ -6498,6 +6508,9 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "Um zu automatischen Aktualisierungen zurückzukehren,\n"
 "verwenden Sie »%s --auto %s«"
+
+#~ msgid "Call %s."
+#~ msgstr "%s wird aufgerufen."
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "Syntaxfehler: ungültige UID in statoverride-Datei"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -3083,7 +3083,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -5942,6 +5942,17 @@ msgstr "tõrge puhvrite tühjendamisel funktsioonis vsnprintf"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+msgid "  link best version is %s"
+msgstr "Käesolevaga on `parim' versioon %s."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Versioone pole saadaval."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 msgid "  link currently points to %s"
 msgstr " viit osutab hetkel failile %s"
 
@@ -5949,6 +5960,17 @@ msgstr " viit osutab hetkel failile %s"
 #, fuzzy
 msgid "  link currently absent"
 msgstr " viit osutab hetkel failile %s"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s on %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "  slave %s is %s"
+msgstr "faili %s pole võimalik sulgeda: %s"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -5960,15 +5982,6 @@ msgstr "%s - tähtsus %s"
 #, fuzzy, c-format
 msgid "  slave %s: %s"
 msgstr "faili %s pole võimalik sulgeda: %s"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "Käesolevaga on `parim' versioon %s."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Versioone pole saadaval."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6002,6 +6015,22 @@ msgstr ""
 "number: "
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "There is no program which provides %s."
+msgstr ""
+"Süsteemis pole ühtegi programmi, mis tagaks %s.\n"
+"Pole midagi seadistada.\n"
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr ""
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "not replacing %s with a link"
 msgstr ""
@@ -6024,29 +6053,20 @@ msgid "not removing %s since it's not a symlink"
 msgstr ""
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Call %s."
-msgstr ""
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr ""
+#, fuzzy, c-format
+msgid "alternative %s for %s not registered; not removing"
+msgstr "Alternatiivi %s pole %s jaoks registreeritud, ei eemalda."
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Alternatiivi `%s' pole võimalik leida."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr ""
+"Käsitsi valitud alternatiivi eemaldamine - lülitumine automaatrežiimile"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "ootamatu %s lõpp failis %.255s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr ""
+msgid "alternative %s for %s not registered; not setting"
+msgstr "Alternatiivi %s pole %s jaoks registreeritud, ei eemalda."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6099,6 +6119,26 @@ msgstr ""
 #: utils/update-alternatives.c
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Alternatiivi `%s' pole võimalik leida."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "ootamatu %s lõpp failis %.255s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
 msgstr ""
 
 #: utils/update-alternatives.c
@@ -6220,38 +6260,6 @@ msgstr "%s jaoks pole alternatiive."
 #| msgid "read error on standard input"
 msgid "<standard input>"
 msgstr "viga standardsisendist lugemisel"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "Alternatiivi %s pole %s jaoks registreeritud, ei eemalda."
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "There is no program which provides %s."
-msgstr ""
-"Süsteemis pole ühtegi programmi, mis tagaks %s.\n"
-"Pole midagi seadistada.\n"
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr ""
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr ""
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "Alternatiivi %s pole %s jaoks registreeritud, ei eemalda."
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"Käsitsi valitud alternatiivi eemaldamine - lülitumine automaatrežiimile"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format

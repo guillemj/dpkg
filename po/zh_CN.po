@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.x\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-06-07 05:45+0000\n"
 "Last-Translator: Zhou Mo <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -3030,7 +3030,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -5898,6 +5898,18 @@ msgid "unable to flush file '%s'"
 msgstr "无法清空文件 %s"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "目前“最佳”的版本为 %s。"
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "无适用版本。"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr " 链接目前指向 %s"
@@ -5905,6 +5917,18 @@ msgstr " 链接目前指向 %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr " 链接目前不存在"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s 现在 %s。\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  次要 %s：%s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -5915,15 +5939,6 @@ msgstr "%s - 优先级 %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  次要 %s：%s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "目前“最佳”的版本为 %s。"
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "无适用版本。"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -5954,6 +5969,20 @@ msgstr "要维持当前值[*]请按<回车键>，或者键入选择的编号："
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "There is no program which provides %s."
+msgstr "没有程序提供 %s。"
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "无需配置。"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr "链接组 %s (提供 %s)中只有一个候选项：%s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "not replacing %s with a link"
 msgstr "将不会把 %s 替换为链接"
 
@@ -5976,28 +6005,18 @@ msgstr "鉴于 %s 不是符号链接，将不移除它"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Call %s."
-msgstr "调用 %s。"
+msgid "alternative %s for %s not registered; not removing"
+msgstr "%2$s 的候选项 %1$s 没有注册，不予移除。"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "候选项 %s 未改变，因为选项 %s 不可用。"
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr "正在移除手动选择的候选项 - 切换 %s 到自动模式"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "跳过位置候选项 %s。"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "尝试读取 %s 时行过长或没有结束"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "跳过无效行：%s"
+msgid "alternative %s for %s not registered; not setting"
+msgstr "%2$s 的候选项 %1$s 没有注册，不予设置"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6051,6 +6070,26 @@ msgstr "链接组 %2$s 已损坏，故强制重新安装候选项 %1$s"
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr "当前候选项 %1$s 未知，为链接组 %3$s 切换至 %2$s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "候选项 %s 未改变，因为选项 %s 不可用。"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "跳过位置候选项 %s。"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "尝试读取 %s 时行过长或没有结束"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "跳过无效行：%s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6170,35 +6209,6 @@ msgstr "<标准输入>"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "%2$s 的候选项 %1$s 没有注册，不予设置"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "没有程序提供 %s。"
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "无需配置。"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr "链接组 %s (提供 %s)中只有一个候选项：%s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "%2$s 的候选项 %1$s 没有注册，不予移除。"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr "正在移除手动选择的候选项 - 切换 %s 到自动模式"
-
-#: utils/update-alternatives.c
-#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "%s/%s 的自动更新功能已禁用；保持现状"
 
@@ -6206,6 +6216,9 @@ msgstr "%s/%s 的自动更新功能已禁用；保持现状"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "要恢复成自动更新请执行 %s --auto %s。"
+
+#~ msgid "Call %s."
+#~ msgstr "调用 %s。"
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "语法错误： statoverride 文件有无效的 uid"

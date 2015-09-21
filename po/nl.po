@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-06-25 17:47+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -3167,7 +3167,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6172,6 +6172,18 @@ msgid "unable to flush file '%s'"
 msgstr "kan bestand '%s' niet doorspoelen"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "Huidige 'beste' versie is '%s'."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Geen versies beschikbaar."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  koppeling verwijst momenteel naar %s"
@@ -6179,6 +6191,18 @@ msgstr "  koppeling verwijst momenteel naar %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr "  koppeling is momenteel afwezig"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s is %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  secundaire %s: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6189,15 +6213,6 @@ msgstr "%s - prioriteit %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  secundaire %s: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "Huidige 'beste' versie is '%s'."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Geen versies beschikbaar."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6234,6 +6249,21 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "There is no program which provides %s."
+msgstr "Er is geen programma dat %s voorziet"
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "Er is niets in te stellen."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr ""
+"Koppelingsgroep %s (die voorziet in %s) bevat slechts één alternatief: %s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "not replacing %s with a link"
 msgstr "%s wordt niet vervangen door een koppelling"
 
@@ -6258,28 +6288,20 @@ msgstr "%s wordt niet verwijderd omdat het geen symbolische koppeling is"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Call %s."
-msgstr "Aanroepen van %s."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "alternatief %s voor %s is niet geregistreerd, wordt niet verwijderd"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "Alternatief %s niet gewijzigd want keuze %s is niet beschikbaar."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr ""
+"handmatig geselecteerd alternatief wordt verwijderd - %s wordt omgeschakeld "
+"naar automatische modus"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Onbekend alternatief %s overslaan."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "te lange regel of geen regeleinde bij een poging %s te lezen"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "Ongeldige regel wordt overgeslagen: %s"
+msgid "alternative %s for %s not registered; not setting"
+msgstr "alternatief %s voor %s is niet geregistreerd; wordt niet ingesteld"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6343,6 +6365,26 @@ msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "huidig alternatief %s is onbekend; er wordt overgeschakeld op %s voor "
 "koppelingsgroep %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "Alternatief %s niet gewijzigd want keuze %s is niet beschikbaar."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Onbekend alternatief %s overslaan."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "te lange regel of geen regeleinde bij een poging %s te lezen"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "Ongeldige regel wordt overgeslagen: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6470,38 +6512,6 @@ msgstr "<standaardinvoer>"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "alternatief %s voor %s is niet geregistreerd; wordt niet ingesteld"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "Er is geen programma dat %s voorziet"
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "Er is niets in te stellen."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr ""
-"Koppelingsgroep %s (die voorziet in %s) bevat slechts één alternatief: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "alternatief %s voor %s is niet geregistreerd, wordt niet verwijderd"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"handmatig geselecteerd alternatief wordt verwijderd - %s wordt omgeschakeld "
-"naar automatische modus"
-
-#: utils/update-alternatives.c
-#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr ""
 "automatische opwaarderingen van %s/%s zijn uitgeschakeld; het wordt met rust "
@@ -6513,6 +6523,9 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "om automatische opwaarderingen terug in te schakelen kunt u '%s --auto %s' "
 "gebruiken."
+
+#~ msgid "Call %s."
+#~ msgstr "Aanroepen van %s."
 
 #, fuzzy
 #~ msgid "syntax error: invalid uid in statoverride file"

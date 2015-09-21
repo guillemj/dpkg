@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-18 18:11+0200\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -314,14 +314,16 @@ msgstr ""
 
 #. type: SH
 #: deb-control.5 deb-origin.5
-#, no-wrap
-msgid "REQUIRED FIELDS"
+#, fuzzy, no-wrap
+#| msgid "REQUIRED FIELDS"
+msgid "FIELDS"
 msgstr "ОБЯЗАТЕЛЬНЫЕ ПОЛЯ"
 
 #. type: TP
 #: deb-control.5
 #, fuzzy, no-wrap
-msgid "B<Package:>I< package-name>"
+#| msgid "B<Package:> E<lt>package nameE<gt>"
+msgid "B<Package:> I<package-name> (required)"
 msgstr "B<Package:> E<lt>имя пакетаE<gt>"
 
 #. type: Plain text
@@ -337,7 +339,7 @@ msgstr ""
 #: deb-control.5
 #, fuzzy, no-wrap
 #| msgid "B<Version:> E<lt>version stringE<gt>"
-msgid "B<Version:>I< version-string>"
+msgid "B<Version:> I<version-string> (required)"
 msgstr "B<Version:> E<lt>строка с версиейE<gt>"
 
 #. type: Plain text
@@ -356,10 +358,10 @@ msgstr ""
 "версии не может содержать в себе дефис."
 
 #. type: TP
-#: deb-control.5
+#: deb-control.5 deb-src-control.5
 #, fuzzy, no-wrap
 #| msgid "B<Maintainer:> E<lt>fullname emailE<gt>"
-msgid "B<Maintainer:>I< fullname-email>"
+msgid "B<Maintainer:> I<fullname-email> (required)"
 msgstr "B<Maintainer:> E<lt>полное имя и адрес эл.почтыE<gt>"
 
 #. type: Plain text
@@ -378,11 +380,11 @@ msgstr ""
 "обычно представляет собой имя создателя пакета, а не имя автора программы, "
 "которая была упакована."
 
-#. type: TP
-#: deb-control.5
+#. type: TQ
+#: deb-control.5 deb-src-control.5
 #, fuzzy, no-wrap
 #| msgid "B<Description:> E<lt>short descriptionE<gt>"
-msgid "B<Description:>I< short-description>"
+msgid "B<Description:> I<short-description> (required)"
 msgstr "B<Description:> E<lt>короткое описаниеE<gt>"
 
 #. type: TQ
@@ -407,12 +409,6 @@ msgstr ""
 "длинное, более детальное описание. В начале каждой строки длинного описания "
 "должен находиться пробел, а пустые строки в длинном описании должны "
 "содержать одну точку '.', следующую сразу после начального пробела."
-
-#. type: SH
-#: deb-control.5 deb-origin.5
-#, no-wrap
-msgid "OPTIONAL FIELDS"
-msgstr "НЕОБЯЗАТЕЛЬНЫЕ ПОЛЯ"
 
 #. type: TP
 #: deb-control.5 deb-src-control.5
@@ -1050,13 +1046,6 @@ msgid ""
 "characters long and must start with an alphanumeric character."
 msgstr ""
 
-#. type: TP
-#: deb-src-control.5
-#, fuzzy, no-wrap
-#| msgid "B<Maintainer:> E<lt>fullname emailE<gt>"
-msgid "B<Maintainer:> I<fullname-email> (required)"
-msgstr "B<Maintainer:> E<lt>полное имя и адрес эл.почтыE<gt>"
-
 #. type: Plain text
 #: deb-src-control.5
 #, fuzzy
@@ -1213,7 +1202,7 @@ msgstr ""
 #: deb-src-control.5
 #, fuzzy, no-wrap
 #| msgid "B<Depends:> E<lt>package listE<gt>"
-msgid "B<Build-Depends-Arch:>I< package list>"
+msgid "B<Build-Depends-Arch:>I< package-list>"
 msgstr "B<Depends:> E<lt>список пакетовE<gt>"
 
 #. type: Plain text
@@ -1244,7 +1233,7 @@ msgstr ""
 #: deb-src-control.5
 #, fuzzy, no-wrap
 #| msgid "B<Conflicts:> E<lt>package listE<gt>"
-msgid "B<Build-Conflicts:>I< package list>"
+msgid "B<Build-Conflicts:>I< package-list>"
 msgstr "B<Conflicts:> E<lt>список пакетовE<gt>"
 
 #. type: Plain text
@@ -1261,7 +1250,7 @@ msgstr ""
 #: deb-src-control.5
 #, fuzzy, no-wrap
 #| msgid "B<Conflicts:> E<lt>package listE<gt>"
-msgid "B<Build-Conflicts-Arch:>I< package list>"
+msgid "B<Build-Conflicts-Arch:>I< package-list>"
 msgstr "B<Conflicts:> E<lt>список пакетовE<gt>"
 
 #. type: Plain text
@@ -1428,13 +1417,6 @@ msgid ""
 "packages used by the debian installer.  B<deb> is the default value, it is "
 "assumed if the field is absent.  More types might be added in the future."
 msgstr ""
-
-#. type: TQ
-#: deb-src-control.5
-#, fuzzy, no-wrap
-#| msgid "B<Description:> E<lt>short descriptionE<gt>"
-msgid "B<Description:> I<short-description> (required)"
-msgstr "B<Description:> E<lt>короткое описаниеE<gt>"
 
 #. type: Plain text
 #: deb-src-control.5
@@ -2011,7 +1993,7 @@ msgstr ""
 #. type: TP
 #: deb-origin.5
 #, fuzzy, no-wrap
-msgid "B<Vendor:>I< vendor-name>"
+msgid "B<Vendor:> I<vendor-name> (required)"
 msgstr "B<Priority:> E<lt>приоритетE<gt>"
 
 #. type: Plain text
@@ -3755,7 +3737,7 @@ msgstr ""
 #. type: TP
 #: dpkg.1
 #, fuzzy, no-wrap
-msgid "B<--predep-packages>"
+msgid "B<--predep-package>"
 msgstr "B<unpacked>"
 
 #. type: Plain text
@@ -17861,10 +17843,10 @@ msgstr "B<--log=>I<имя файла>"
 #: update-alternatives.1
 msgid ""
 "Display information about the link group.  Information displayed includes "
-"the group's mode (auto or manual), which alternative the master link "
-"currently points to, what other alternatives are available (and their "
-"corresponding slave alternatives), and the highest priority alternative "
-"currently installed."
+"the group's mode (auto or manual), the master and slave links, which "
+"alternative the master link currently points to, what other alternatives are "
+"available (and their corresponding slave alternatives), and the highest "
+"priority alternative currently installed."
 msgstr ""
 
 #. type: TP
@@ -18299,6 +18281,26 @@ msgstr ""
 #: update-alternatives.1
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
+
+#~ msgid "REQUIRED FIELDS"
+#~ msgstr "ОБЯЗАТЕЛЬНЫЕ ПОЛЯ"
+
+#, fuzzy
+#~ msgid "B<Package:>I< package-name>"
+#~ msgstr "B<Package:> E<lt>имя пакетаE<gt>"
+
+#, fuzzy
+#~| msgid "B<Maintainer:> E<lt>fullname emailE<gt>"
+#~ msgid "B<Maintainer:>I< fullname-email>"
+#~ msgstr "B<Maintainer:> E<lt>полное имя и адрес эл.почтыE<gt>"
+
+#, fuzzy
+#~| msgid "B<Description:> E<lt>short descriptionE<gt>"
+#~ msgid "B<Description:>I< short-description>"
+#~ msgstr "B<Description:> E<lt>короткое описаниеE<gt>"
+
+#~ msgid "OPTIONAL FIELDS"
+#~ msgstr "НЕОБЯЗАТЕЛЬНЫЕ ПОЛЯ"
 
 #, fuzzy
 #~| msgid "2006-02-28"

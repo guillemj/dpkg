@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 09:47+0200\n"
 "Last-Translator: Marcos Alvarez Costales <marcos.alvarez.costales@gmail."
 "com>\n"
@@ -3400,7 +3400,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6692,6 +6692,17 @@ msgstr "nun pue escosase vsnprintf"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+msgid "  link best version is %s"
+msgstr "Anguaño la «meyor» versión ye %s."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Nun hai denguna versión disponible."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 msgid "  link currently points to %s"
 msgstr " l'enllaz apunta anguaño a %s"
 
@@ -6699,6 +6710,17 @@ msgstr " l'enllaz apunta anguaño a %s"
 #, fuzzy
 msgid "  link currently absent"
 msgstr " nun hai enllaz"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s ye %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "  slave %s is %s"
+msgstr " esclavu %s: %s"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6710,15 +6732,6 @@ msgstr "%s - prioridá %s"
 #, fuzzy, c-format
 msgid "  slave %s: %s"
 msgstr " esclavu %s: %s"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "Anguaño la «meyor» versión ye %s."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Nun hai denguna versión disponible."
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6754,6 +6767,21 @@ msgstr ""
 "seleición: "
 
 #: utils/update-alternatives.c
+#, c-format
+msgid "There is no program which provides %s."
+msgstr "Nun hai dengún programa qu'apurra %s."
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "Ren que configurar."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "There is only one alternative in link group %s: %s"
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr "Hai namái una alternativa nel grupu enllaz %s: %s"
+
+#: utils/update-alternatives.c
 #, fuzzy, c-format
 #| msgid "not replacing %s with a link."
 msgid "not replacing %s with a link"
@@ -6783,30 +6811,21 @@ msgid "not removing %s since it's not a symlink"
 msgstr "nun se troca %s con un enllaz."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Call %s."
-msgstr "Llamada %s."
+#, fuzzy, c-format
+#| msgid "alternative %s for %s not registered, not removing."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "alternativa %s pa %s nun ta rexistrada, nun se desaniciará."
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "Alternativa %s ensin camudar porque la eleición %s nun ta disponible."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Nun s'alcuentra una alternativa %s."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr ""
+"desaniciando l'alternativa escoyida a mano, camudando %s a mou automáticu"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-#| msgid "unexpected end of file in %s while trying to read %s"
-msgid "line too long or not terminated while trying to read %s"
-msgstr "fin de ficheru inesperáu en %s al lleer %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr ""
+msgid "alternative %s for %s not registered; not setting"
+msgstr "alternativa %s pa %s nun ta rexistrada, nun se desaniciará."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6871,6 +6890,27 @@ msgstr "Hai namái una alternativa nel grupu enllaz %s: %s"
 #: utils/update-alternatives.c
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "Alternativa %s ensin camudar porque la eleición %s nun ta disponible."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Nun s'alcuentra una alternativa %s."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "unexpected end of file in %s while trying to read %s"
+msgid "line too long or not terminated while trying to read %s"
+msgstr "fin de ficheru inesperáu en %s al lleer %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
 msgstr ""
 
 #: utils/update-alternatives.c
@@ -7007,38 +7047,6 @@ msgstr "fallu de llectura na entrada estándar"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "alternativa %s pa %s nun ta rexistrada, nun se desaniciará."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "Nun hai dengún programa qu'apurra %s."
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "Ren que configurar."
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "There is only one alternative in link group %s: %s"
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr "Hai namái una alternativa nel grupu enllaz %s: %s"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative %s for %s not registered, not removing."
-msgid "alternative %s for %s not registered; not removing"
-msgstr "alternativa %s pa %s nun ta rexistrada, nun se desaniciará."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"desaniciando l'alternativa escoyida a mano, camudando %s a mou automáticu"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
 #| msgid "automatic updates of %s are disabled, leaving it alone."
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "tán deshabilitaos los anovamientos automáticos de %s, nun se va tocar."
@@ -7050,6 +7058,9 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "pa volver a facer anovamientos automáticos usa `update-alternatives --auto "
 "%s'."
+
+#~ msgid "Call %s."
+#~ msgstr "Llamada %s."
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "error de sintaxis: uid inválidu en ficheru statoverride"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -3102,7 +3102,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6046,6 +6046,18 @@ msgid "unable to flush file '%s'"
 msgstr "kunde inte tömma (flush) filen \"%s\""
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "\"Bästa\" version är för närvarande \"%s\"."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Inga versioner tillgängliga."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  länken pekar för närvarande på %s"
@@ -6053,6 +6065,18 @@ msgstr "  länken pekar för närvarande på %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr "  länken saknas för närvarande"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s är %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  slav %s: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6063,15 +6087,6 @@ msgstr "%s - prioritet %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  slav %s: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "\"Bästa\" version är för närvarande \"%s\"."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Inga versioner tillgängliga."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6107,6 +6122,21 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "There is no program which provides %s."
+msgstr "Det finns inga program som tillhandahåller %s."
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "Inget att konfigurera."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr ""
+"Det finns bara ett alternativ i länkgruppen %s (tillhandahåller %s): %s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "not replacing %s with a link"
 msgstr "ersätter inte %s med en länk"
 
@@ -6131,28 +6161,18 @@ msgstr "tar inte bort %s eftersom det inte är en symbolisk länk"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Call %s."
-msgstr "Anropa %s."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "alternativet %s för %s har inte registrerats; tar inte bort"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "Alternativet %s oändrat eftersom valet %s inte är tillgängligt."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr "tar bort manuellt valda alternativ - växlar %s till autoläge"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Hoppar över okänt alternativ \"%s\"."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "rad för lång eller inte avslutad när %s försökte läsas"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "Hoppar över trasig rad: %s"
+msgid "alternative %s for %s not registered; not setting"
+msgstr "alternativet %s för %s har inte registrerats; ställer inte in"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6209,6 +6229,26 @@ msgstr "tvingar ominstallation av alternativet %s då länkgruppen %s är trasig
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "det nuvarande alternativet %s är okänt, växlar till %s för länkgruppen %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "Alternativet %s oändrat eftersom valet %s inte är tillgängligt."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Hoppar över okänt alternativ \"%s\"."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "rad för lång eller inte avslutad när %s försökte läsas"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "Hoppar över trasig rad: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6329,36 +6369,6 @@ msgstr "<standard in>"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "alternativet %s för %s har inte registrerats; ställer inte in"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "Det finns inga program som tillhandahåller %s."
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "Inget att konfigurera."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr ""
-"Det finns bara ett alternativ i länkgruppen %s (tillhandahåller %s): %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "alternativet %s för %s har inte registrerats; tar inte bort"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr "tar bort manuellt valda alternativ - växlar %s till autoläge"
-
-#: utils/update-alternatives.c
-#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "automatiska uppdateringar av %s/%s är inaktiverad; låter den vara."
 
@@ -6366,6 +6376,9 @@ msgstr "automatiska uppdateringar av %s/%s är inaktiverad; låter den vara."
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "för att återgå till automatiska uppdateringar, använd \"%s --auto %s\""
+
+#~ msgid "Call %s."
+#~ msgstr "Anropa %s."
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "syntaxfel: ogiltig användar-id i statoverride-fil"

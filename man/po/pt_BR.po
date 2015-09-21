@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-18 18:11+0200\n"
 "Last-Translator: Andre Luis Lopes  <andrelop@debian.org>\n"
 "Language-Team: Portuguese <debian-l10n-portuguese@lists.debian.org>\n"
@@ -299,15 +299,15 @@ msgstr ""
 
 #. type: SH
 #: deb-control.5 deb-origin.5
-#, no-wrap
-msgid "REQUIRED FIELDS"
-msgstr ""
+#, fuzzy, no-wrap
+msgid "FIELDS"
+msgstr "OPÇÕES"
 
 #. type: TP
 #: deb-control.5
 #, fuzzy, no-wrap
-msgid "B<Package:>I< package-name>"
-msgstr "B<--status-fd >I<E<lt>nE<gt>>"
+msgid "B<Package:> I<package-name> (required)"
+msgstr "B<--log=>I<filename>"
 
 #. type: Plain text
 #: deb-control.5
@@ -319,7 +319,7 @@ msgstr ""
 #. type: TP
 #: deb-control.5
 #, fuzzy, no-wrap
-msgid "B<Version:>I< version-string>"
+msgid "B<Version:> I<version-string> (required)"
 msgstr "B<--log=>I<filename>"
 
 #. type: Plain text
@@ -332,9 +332,9 @@ msgid ""
 msgstr ""
 
 #. type: TP
-#: deb-control.5
+#: deb-control.5 deb-src-control.5
 #, fuzzy, no-wrap
-msgid "B<Maintainer:>I< fullname-email>"
+msgid "B<Maintainer:> I<fullname-email> (required)"
 msgstr "B<--log=>I<filename>"
 
 #. type: Plain text
@@ -345,10 +345,10 @@ msgid ""
 "the software that was packaged."
 msgstr ""
 
-#. type: TP
-#: deb-control.5
+#. type: TQ
+#: deb-control.5 deb-src-control.5
 #, fuzzy, no-wrap
-msgid "B<Description:>I< short-description>"
+msgid "B<Description:> I<short-description> (required)"
 msgstr "B<--log=>I<filename>"
 
 #. type: TQ
@@ -366,12 +366,6 @@ msgid ""
 "be preceded by a space, and blank lines in the long description must contain "
 "a single \\(oqB<.>\\(cq following the preceding space."
 msgstr ""
-
-#. type: SH
-#: deb-control.5 deb-origin.5
-#, fuzzy, no-wrap
-msgid "OPTIONAL FIELDS"
-msgstr "OPÇÕES"
 
 #. type: TP
 #: deb-control.5 deb-src-control.5
@@ -844,12 +838,6 @@ msgid ""
 "characters long and must start with an alphanumeric character."
 msgstr ""
 
-#. type: TP
-#: deb-src-control.5
-#, fuzzy, no-wrap
-msgid "B<Maintainer:> I<fullname-email> (required)"
-msgstr "B<--log=>I<filename>"
-
 #. type: Plain text
 #: deb-src-control.5
 msgid ""
@@ -994,7 +982,7 @@ msgstr ""
 #. type: TP
 #: deb-src-control.5
 #, fuzzy, no-wrap
-msgid "B<Build-Depends-Arch:>I< package list>"
+msgid "B<Build-Depends-Arch:>I< package-list>"
 msgstr "B<--log=>I<filename>"
 
 #. type: Plain text
@@ -1023,7 +1011,7 @@ msgstr ""
 #. type: TP
 #: deb-src-control.5
 #, fuzzy, no-wrap
-msgid "B<Build-Conflicts:>I< package list>"
+msgid "B<Build-Conflicts:>I< package-list>"
 msgstr "B<--log=>I<filename>"
 
 #. type: Plain text
@@ -1039,7 +1027,7 @@ msgstr ""
 #. type: TP
 #: deb-src-control.5
 #, fuzzy, no-wrap
-msgid "B<Build-Conflicts-Arch:>I< package list>"
+msgid "B<Build-Conflicts-Arch:>I< package-list>"
 msgstr "B<--log=>I<filename>"
 
 #. type: Plain text
@@ -1187,12 +1175,6 @@ msgid ""
 "packages used by the debian installer.  B<deb> is the default value, it is "
 "assumed if the field is absent.  More types might be added in the future."
 msgstr ""
-
-#. type: TQ
-#: deb-src-control.5
-#, fuzzy, no-wrap
-msgid "B<Description:> I<short-description> (required)"
-msgstr "B<--log=>I<filename>"
 
 #. type: Plain text
 #: deb-src-control.5
@@ -1762,7 +1744,7 @@ msgstr ""
 #. type: TP
 #: deb-origin.5
 #, fuzzy, no-wrap
-msgid "B<Vendor:>I< vendor-name>"
+msgid "B<Vendor:> I<vendor-name> (required)"
 msgstr "B<--status-fd >I<E<lt>nE<gt>>"
 
 #. type: Plain text
@@ -3477,7 +3459,7 @@ msgstr ""
 #. type: TP
 #: dpkg.1
 #, fuzzy, no-wrap
-msgid "B<--predep-packages>"
+msgid "B<--predep-package>"
 msgstr "B<unpacked>"
 
 #. type: Plain text
@@ -17525,10 +17507,10 @@ msgstr "B<--display> I<ligação>"
 #, fuzzy
 msgid ""
 "Display information about the link group.  Information displayed includes "
-"the group's mode (auto or manual), which alternative the master link "
-"currently points to, what other alternatives are available (and their "
-"corresponding slave alternatives), and the highest priority alternative "
-"currently installed."
+"the group's mode (auto or manual), the master and slave links, which "
+"alternative the master link currently points to, what other alternatives are "
+"available (and their corresponding slave alternatives), and the highest "
+"priority alternative currently installed."
 msgstr ""
 "Mostra informação sobre a ligação em grupo para qual cada I<ligação> é a "
 "ligação master.  A informação exibida inclui o modo do grupo (auto ou "
@@ -18002,6 +17984,22 @@ msgstr "update-alternatives --auto vi"
 #, fuzzy
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS, o Padrão da Hierarquia do Sistema de Arquivos."
+
+#, fuzzy
+#~ msgid "B<Package:>I< package-name>"
+#~ msgstr "B<--status-fd >I<E<lt>nE<gt>>"
+
+#, fuzzy
+#~ msgid "B<Maintainer:>I< fullname-email>"
+#~ msgstr "B<--log=>I<filename>"
+
+#, fuzzy
+#~ msgid "B<Description:>I< short-description>"
+#~ msgstr "B<--log=>I<filename>"
+
+#, fuzzy
+#~ msgid "OPTIONAL FIELDS"
+#~ msgstr "OPÇÕES"
 
 #, fuzzy
 #~ msgid "2013-12-12"

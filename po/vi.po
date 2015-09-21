@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-09-17 09:34+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
@@ -3059,7 +3059,7 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Chương trình quản lý gói Debian “%s”, phiên bản %s.\n"
 
 #: src/main.c
-#, c-format
+#, fuzzy, c-format
 #| msgid ""
 #| "Commands:\n"
 #| "  -i|--install       <.deb file name> ... | -R|--recursive "
@@ -3086,12 +3086,17 @@ msgstr "Chương trình quản lý gói Debian “%s”, phiên bản %s.\n"
 #| "  -l|--list [<pattern> ...]        List packages concisely.\n"
 #| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 #| "  -C|--audit [<package> ...]       Check for broken package(s).\n"
+#| "  --yet-to-unpack                  Print packages selected for "
+#| "installation.\n"
+#| "  --predep-packages                Print pre-dependencies to unpack.\n"
 #| "  --add-architecture <arch>        Add <arch> to the list of "
 #| "architectures.\n"
 #| "  --remove-architecture <arch>     Remove <arch> from the list of "
 #| "architectures.\n"
 #| "  --print-architecture             Print dpkg architecture.\n"
 #| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+#| "  --assert-<feature>               Assert support for the specified "
+#| "feature.\n"
 #| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 #| "  --force-help                     Show help on forcing.\n"
 #| "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3121,7 +3126,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -3191,12 +3196,6 @@ msgstr ""
 
 #: src/main.c
 #, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep |\n"
-#| "  --assert-multi-arch | --assert-versioned-provides.\n"
-#| "\n"
 msgid ""
 "Assertable features: support-predepends, working-epoch, long-filenames,\n"
 "  multi-conrep, multi-arch, versioned-provides.\n"
@@ -6115,6 +6114,18 @@ msgid "unable to flush file '%s'"
 msgstr "không thể đẩy dữ liệu của tập tin “%s” lên đĩa"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "Phiên bản “tốt nhất” hiện tại là “%s”."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Không có phiên bản sẵn sàng."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  liên kết hiện nay chỉ đến %s"
@@ -6122,6 +6133,18 @@ msgstr "  liên kết hiện nay chỉ đến %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr "  hiện tại không có liên kết"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s là %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  %s lệ thuộc: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6132,15 +6155,6 @@ msgstr "%s — ưu tiên %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  %s lệ thuộc: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "Phiên bản “tốt nhất” hiện tại là “%s”."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Không có phiên bản sẵn sàng."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6172,6 +6186,20 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "There is no program which provides %s."
+msgstr "Không có chương trình nào cung cấp %s."
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "Không có gì cần cấu hình."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr "Chỉ có một cái thay thế trong nhóm liên kết (cung cấp %s) %s: %s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "not replacing %s with a link"
 msgstr "không thay thế %s bằng một liên kết"
 
@@ -6196,28 +6224,20 @@ msgstr "không xóa bỏ %s vì nó không phải là một liên kết mềm"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Call %s."
-msgstr "Gọi %s."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "gói thay thế %s cho %s không được đăng ký nên không gỡ bỏ"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "Cái thay thế %s chưa thay đổi vì sự chọn %s không sẵn sàng."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr ""
+"đang gỡ bỏ sự xen kẽ được chọn bằng tay — đang chuyển đổi %s sang chế độ tự "
+"động"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Bỏ qua cái thay thế không hiểu %s."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "gặp dòng quá dài hoặc dòng không có chấm dứt, trong khi thử đọc %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "Bỏ qua dòng sai: %s"
+msgid "alternative %s for %s not registered; not setting"
+msgstr "sự thay thế %s cho %s không được đăng ký nên không đặt"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6277,6 +6297,26 @@ msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "không hiểu cái thay thế hiện thời %s nên chuyển đổi sang %s cho nhóm liên "
 "kết %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "Cái thay thế %s chưa thay đổi vì sự chọn %s không sẵn sàng."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Bỏ qua cái thay thế không hiểu %s."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "gặp dòng quá dài hoặc dòng không có chấm dứt, trong khi thử đọc %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "Bỏ qua dòng sai: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6409,37 +6449,6 @@ msgstr "<đầu vào tiêu chuẩn>"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "sự thay thế %s cho %s không được đăng ký nên không đặt"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "Không có chương trình nào cung cấp %s."
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "Không có gì cần cấu hình."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr "Chỉ có một cái thay thế trong nhóm liên kết (cung cấp %s) %s: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "gói thay thế %s cho %s không được đăng ký nên không gỡ bỏ"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"đang gỡ bỏ sự xen kẽ được chọn bằng tay — đang chuyển đổi %s sang chế độ tự "
-"động"
-
-#: utils/update-alternatives.c
-#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "khả năng tự động cập nhật của %s/%s bị tắt nên không làm gì"
 
@@ -6448,6 +6457,9 @@ msgstr "khả năng tự động cập nhật của %s/%s bị tắt nên không
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "để quay lại lại tính năng tự động cập nhật, hãy dùng lệnh “%s --auto %s”"
+
+#~ msgid "Call %s."
+#~ msgstr "Gọi %s."
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "lỗi cú pháp: gặp UID sai trong tập tin stateoverride"

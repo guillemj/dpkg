@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -3148,7 +3148,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6143,6 +6143,18 @@ msgid "unable to flush file '%s'"
 msgstr "ファイル '%s' をフラッシュできません"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "現在の '最適' バージョンは '%s' です。"
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "利用可能なバージョンはありません。"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  リンクは現在 %s を指しています"
@@ -6150,6 +6162,18 @@ msgstr "  リンクは現在 %s を指しています"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr "  リンクは現在ありません"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s は %s です。\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  スレーブ %s: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6160,15 +6184,6 @@ msgstr "%s - 優先度 %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  スレーブ %s: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "現在の '最適' バージョンは '%s' です。"
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "利用可能なバージョンはありません。"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6203,6 +6218,20 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "There is no program which provides %s."
+msgstr "%s を提供するプログラムがありません。"
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "設定は行いません。"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr "リンクグループ %s に 1 つの alternative のみがあります (%s が提供): %s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "not replacing %s with a link"
 msgstr "%s をリンクで置き換えません"
 
@@ -6227,29 +6256,20 @@ msgstr "シンボリックリンクではないので、%s を削除しません
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Call %s."
-msgstr "%s を呼び出します。"
+msgid "alternative %s for %s not registered; not removing"
+msgstr "%2$s の alternative %1$s は登録されていません。削除は行いません"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr ""
-"選択肢 %2$s が利用できないので、alternative %1$s は変更されませんでした。"
+"手動で選択された alternative を削除しています - %s を自動モードに切り替えてい"
+"ます"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "未知の alternative %s をスキップします。"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "%s の読み取り試行中、行が長すぎるか完了していませんでした"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "無効な行をスキップします: %s"
+msgid "alternative %s for %s not registered; not setting"
+msgstr "%2$s の alternative %1$s は登録されていません。設定は行いません"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6311,6 +6331,27 @@ msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "現在の alternative %1$s が未知なので、リンクグループ %3$s のために %2$s に切"
 "り替えています"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr ""
+"選択肢 %2$s が利用できないので、alternative %1$s は変更されませんでした。"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "未知の alternative %s をスキップします。"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "%s の読み取り試行中、行が長すぎるか完了していませんでした"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "無効な行をスキップします: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6436,37 +6477,6 @@ msgstr "<標準入力>"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "%2$s の alternative %1$s は登録されていません。設定は行いません"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "%s を提供するプログラムがありません。"
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "設定は行いません。"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr "リンクグループ %s に 1 つの alternative のみがあります (%s が提供): %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "%2$s の alternative %1$s は登録されていません。削除は行いません"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"手動で選択された alternative を削除しています - %s を自動モードに切り替えてい"
-"ます"
-
-#: utils/update-alternatives.c
-#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "%s/%s の自動更新は無効になっています。そのままにしておきます"
 
@@ -6474,6 +6484,9 @@ msgstr "%s/%s の自動更新は無効になっています。そのままにし
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "自動更新に戻るには、'%s --auto %s' を使ってください"
+
+#~ msgid "Call %s."
+#~ msgstr "%s を呼び出します。"
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "文法エラー: statoverride ファイルに無効な uid があります"

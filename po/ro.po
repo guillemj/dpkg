@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: ioan-eugen STAN <stan.ieugen@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -3412,7 +3412,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6799,6 +6799,18 @@ msgid "unable to flush file '%s'"
 msgstr "eșec la flush pentru fișierul „%s”"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "Cea mai „bună” versiune în prezent este „%s”."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Nici o versiune disponibilă."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr " legătura indică acum spre %s"
@@ -6806,6 +6818,18 @@ msgstr " legătura indică acum spre %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr " legătura este absentă acum"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s este %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  sclav %s: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6816,15 +6840,6 @@ msgstr "%s - prioritatea %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  sclav %s: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "Cea mai „bună” versiune în prezent este „%s”."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Nici o versiune disponibilă."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6860,6 +6875,21 @@ msgstr ""
 "selecției: "
 
 #: utils/update-alternatives.c
+#, c-format
+msgid "There is no program which provides %s."
+msgstr "Nu există nici un program care să furnizeze %s"
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "Nimic de configurat."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "There is only one alternative in link group %s: %s"
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr "Există o singură alternativă în grupul de legături %s: %s"
+
+#: utils/update-alternatives.c
 #, fuzzy, c-format
 #| msgid "not replacing %s with a link."
 msgid "not replacing %s with a link"
@@ -6889,29 +6919,21 @@ msgid "not removing %s since it's not a symlink"
 msgstr "nu se înlocuiește %s cu o legătură."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Call %s."
-msgstr "Cheamă %s."
+#, fuzzy, c-format
+#| msgid "alternative %s for %s not registered, not removing."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "alternativa %s pentru %s nu este înregistrată, nu se șterge."
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "Alternativa %s neschimbată deoarece opțiunea %s nu este disponibilă."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr "se șterge alternativa selectată manual - se comută %s pe modul automat"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Omite alternativa necunoscută „%s”."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "linie prea lungă sau neterminată în timp ce se încerca citirea %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "Omite linie nevalidă: %s"
+#, fuzzy, c-format
+#| msgid "alternative %s for %s not registered, not setting."
+msgid "alternative %s for %s not registered; not setting"
+msgstr "alternativa %s pentru %s nu este înregistrată, nu se configurează."
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6988,6 +7010,26 @@ msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "alternativa curentă %s este necunoscută, se comută pe %s pentru grupul de "
 "legături %s."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "Alternativa %s neschimbată deoarece opțiunea %s nu este disponibilă."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Omite alternativa necunoscută „%s”."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "linie prea lungă sau neterminată în timp ce se încerca citirea %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "Omite linie nevalidă: %s"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -7117,38 +7159,6 @@ msgstr "<standard input>"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-#| msgid "alternative %s for %s not registered, not setting."
-msgid "alternative %s for %s not registered; not setting"
-msgstr "alternativa %s pentru %s nu este înregistrată, nu se configurează."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "Nu există nici un program care să furnizeze %s"
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "Nimic de configurat."
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "There is only one alternative in link group %s: %s"
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr "Există o singură alternativă în grupul de legături %s: %s"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative %s for %s not registered, not removing."
-msgid "alternative %s for %s not registered; not removing"
-msgstr "alternativa %s pentru %s nu este înregistrată, nu se șterge."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr "se șterge alternativa selectată manual - se comută %s pe modul automat"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
 #| msgid "automatic updates of %s are disabled, leaving it alone."
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr ""
@@ -7161,6 +7171,9 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "pentru a reveni la actualizarea automată folosiți „update-alternatives --"
 "auto %s”."
+
+#~ msgid "Call %s."
+#~ msgstr "Cheamă %s."
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "eroare de sintaxă: uid nevalid în fișierul statoverride"

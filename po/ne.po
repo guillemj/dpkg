@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -3195,7 +3195,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6307,6 +6307,17 @@ msgstr "vsnprintf मा फ्लस गर्न अक्षम"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+msgid "  link best version is %s"
+msgstr "हालको उपयुक्त संस्करण %s हो ।"
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "संस्करण उपलब्ध छैन"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 msgid "  link currently points to %s"
 msgstr "%s मा हालैको बिन्दुमा लिङ्क गर्नुहोस्"
 
@@ -6314,6 +6325,17 @@ msgstr "%s मा हालैको बिन्दुमा लिङ्क �
 #, fuzzy
 msgid "  link currently absent"
 msgstr "हालै अनुपस्थित लिङ्क गर्नुहोस्"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s  %s हो ।\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "  slave %s is %s"
+msgstr "स्लेभ %s: %s"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6325,15 +6347,6 @@ msgstr "%s - प्राथमिकता %s"
 #, fuzzy, c-format
 msgid "  slave %s: %s"
 msgstr "स्लेभ %s: %s"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "हालको उपयुक्त संस्करण %s हो ।"
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "संस्करण उपलब्ध छैन"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6366,6 +6379,22 @@ msgid "Press <enter> to keep the current choice[*], or type selection number: "
 msgstr "पूर्वनिर्धारित [*] राख्न 'प्रविष्ट गर्नुहोस्' थिच्नुहोस्, वा चयन सङ्ख्या टाइप गर्नुहोस्"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "There is no program which provides %s."
+msgstr ""
+"त्यहाँ %s उपलब्ध गर्ने कार्यक्रम छैन ।\n"
+"कन्फिगर गर्नलाई केही छैन ।\n"
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr ""
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "not replacing %s with a link"
 msgstr ""
@@ -6388,29 +6417,19 @@ msgid "not removing %s since it's not a symlink"
 msgstr ""
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Call %s."
-msgstr ""
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr ""
+#, fuzzy, c-format
+msgid "alternative %s for %s not registered; not removing"
+msgstr "%s का लागि %s विकल्प दर्ता गरिएको छैन, हटाइएको छैन ।"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "Skip unknown alternative %s."
-msgstr "`%s' विकल्प फेला पार्न सकिदैन ।"
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr "म्यानुअली चयन गरिएको विकल्प हटाउदैछ - स्वत: मोडमा स्विच गर्दैछ"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "%.255s मा %s मा फाइलको अप्रत्यासित समाप्ति"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr ""
+msgid "alternative %s for %s not registered; not setting"
+msgstr "%s का लागि %s विकल्प दर्ता गरिएको छैन, हटाइएको छैन ।"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6465,6 +6484,26 @@ msgstr ""
 #: utils/update-alternatives.c
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "Skip unknown alternative %s."
+msgstr "`%s' विकल्प फेला पार्न सकिदैन ।"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "%.255s मा %s मा फाइलको अप्रत्यासित समाप्ति"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
 msgstr ""
 
 #: utils/update-alternatives.c
@@ -6586,37 +6625,6 @@ msgstr "%s का लागि विकल्प छैन"
 #| msgid "read error on standard input"
 msgid "<standard input>"
 msgstr "मानक आगतमा त्रुटि पढ्नुहोस्"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "%s का लागि %s विकल्प दर्ता गरिएको छैन, हटाइएको छैन ।"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "There is no program which provides %s."
-msgstr ""
-"त्यहाँ %s उपलब्ध गर्ने कार्यक्रम छैन ।\n"
-"कन्फिगर गर्नलाई केही छैन ।\n"
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr ""
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr ""
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "%s का लागि %s विकल्प दर्ता गरिएको छैन, हटाइएको छैन ।"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr "म्यानुअली चयन गरिएको विकल्प हटाउदैछ - स्वत: मोडमा स्विच गर्दैछ"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format

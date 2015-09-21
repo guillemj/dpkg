@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-09-14 21:12+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-09-16 22:31+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -22,8 +22,8 @@ msgstr ""
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
 #: scripts/dpkg-mergechangelogs.pl scripts/dpkg-name.pl
 #: scripts/dpkg-parsechangelog.pl scripts/dpkg-scanpackages.pl
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl
-#: scripts/dpkg-source.pl scripts/dpkg-vendor.pl scripts/changelog/debian.pl
+#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl
+#: scripts/dpkg-vendor.pl scripts/changelog/debian.pl
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s Version %s.\n"
@@ -621,13 +621,15 @@ msgid "error occurred while parsing %s"
 msgstr "Fehler beim Parsen von %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "%s: Unmet build dependencies: "
+#, fuzzy, perl-format
+#| msgid "%s: Unmet build dependencies: "
+msgid "Unmet build dependencies: %s"
 msgstr "%s: Nicht erfüllte Bauabhängigkeiten: "
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "%s: Build conflicts: "
+#, fuzzy, perl-format
+#| msgid "%s: Build conflicts: "
+msgid "Build conflicts: %s"
 msgstr "%s: Baukonflikte: "
 
 #: scripts/dpkg-distaddfile.pl
@@ -790,10 +792,10 @@ msgstr "binärer Bau ohne binäre Produkte gefunden; kann nicht verteilt werden"
 msgid "package %s in control file but not in files list"
 msgstr "Paket %s in Steuerdatei, aber nicht in Dateiliste"
 
-#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl
-#: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Shlibs/Objdump.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl scripts/Dpkg/BuildFlags.pm
+#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/Package/V2.pm
+#: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot read %s"
 msgstr "%s kann nicht gelesen werden"
@@ -1746,8 +1748,7 @@ msgstr ""
 "nicht identifiziert werden, da das DEBIAN-Unterverzeichnis in der Wurzel des "
 "Paketbaubaums fehlt."
 
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Shlibs/Cppfilt.pm
+#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Cppfilt.pm
 #, perl-format
 msgid "unable to execute %s"
 msgstr "%s konnte nicht ausgeführt werden"
@@ -3005,10 +3006,9 @@ msgstr ""
 msgid "aborting due to --abort-on-upstream-changes"
 msgstr "Abbruch aufgrund von --abort-on-upstream-changes"
 
-#: scripts/Dpkg/Source/Package/V1.pm
-#, perl-format
-msgid "%s: unrepresentable changes to source"
-msgstr "%s: nicht darstellbare Änderungen an den Quellen"
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "unrepresentable changes to source"
+msgstr "nicht darstellbare Änderungen an den Quellen"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
@@ -3062,10 +3062,6 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "copy of the debian directory"
 msgstr "Kopie des debian-Verzeichnisses"
-
-#: scripts/Dpkg/Source/Package/V2.pm
-msgid "unrepresentable changes to source"
-msgstr "nicht darstellbare Änderungen an den Quellen"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "local changes detected, the modified files are:"
@@ -3664,6 +3660,9 @@ msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
+
+#~ msgid "%s: unrepresentable changes to source"
+#~ msgstr "%s: nicht darstellbare Änderungen an den Quellen"
 
 #~ msgid "couldn't parse date %s"
 #~ msgstr "Datum %s konnte nicht ausgewertet werden"

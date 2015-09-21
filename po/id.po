@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
 "Language-Team: Indonesian <debian-l10n-indonesian@lists.debian.org>\n"
@@ -3319,7 +3319,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6626,6 +6626,18 @@ msgid "unable to flush file '%s'"
 msgstr "gagal mengosongkan berkas '%s'"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "Versi terbaik saat ini adalah '%s'."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Tiada versi yang tersedia."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr "   nara saat ini mengacu ke %s"
@@ -6633,6 +6645,18 @@ msgstr "   nara saat ini mengacu ke %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr "   nara saat ini lenyap"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s adalah %s. \n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  tiruan %s: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6643,15 +6667,6 @@ msgstr "%s - prioritas %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  tiruan %s: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "Versi terbaik saat ini adalah '%s'."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Tiada versi yang tersedia."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6683,6 +6698,21 @@ msgid "Press <enter> to keep the current choice[*], or type selection number: "
 msgstr "Tekan enter untuk pilihan saat ini [*], atau ketik nomor pilihan: "
 
 #: utils/update-alternatives.c
+#, c-format
+msgid "There is no program which provides %s."
+msgstr "tidak ada program yang menyediakan %s."
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "Tiada yang dikonfigurasi"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "There is only one alternative in link group %s: %s"
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr "Hanya ada satu alternatif di grup nara %s: %s"
+
+#: utils/update-alternatives.c
 #, fuzzy, c-format
 #| msgid "not replacing %s with a link."
 msgid "not replacing %s with a link"
@@ -6712,29 +6742,23 @@ msgid "not removing %s since it's not a symlink"
 msgstr "tidak mengganti %s dengan suatu nara."
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Call %s."
-msgstr "Jalankan %s."
+#, fuzzy, c-format
+#| msgid "alternative %s for %s not registered, not removing."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "alternatif %s untuk %s tidak terdaftar, tidak menghapusnya."
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "Alternatif %s tidak diubah karena pilihan %s tidak tersedia."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr ""
+"sedang menghapus alternatif terpilih secara manual - memindah %s ke modus "
+"otomatis"
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Lewati alternatif %s yang tak dikenal."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "baris terlalu panjang atau tak diakhiri saat membaca %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "Hindari baris tidak sah: %s"
+#, fuzzy, c-format
+#| msgid "alternative %s for %s not registered, not setting."
+msgid "alternative %s for %s not registered; not setting"
+msgstr "alternatif %s untuk %s tidak terdaftar, tidak dikonfigurasi."
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6806,6 +6830,26 @@ msgstr "memaksa pemasangan ulang alternatif %s karena grup nara %s rusak."
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "alternatif %s saat ini tidak dikenal, berpindah ke %s untuk grup nara %s."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "Alternatif %s tidak diubah karena pilihan %s tidak tersedia."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Lewati alternatif %s yang tak dikenal."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "baris terlalu panjang atau tak diakhiri saat membaca %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "Hindari baris tidak sah: %s"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6935,40 +6979,6 @@ msgstr "ada galat baca di masukan standar"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-#| msgid "alternative %s for %s not registered, not setting."
-msgid "alternative %s for %s not registered; not setting"
-msgstr "alternatif %s untuk %s tidak terdaftar, tidak dikonfigurasi."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "tidak ada program yang menyediakan %s."
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "Tiada yang dikonfigurasi"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "There is only one alternative in link group %s: %s"
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr "Hanya ada satu alternatif di grup nara %s: %s"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "alternative %s for %s not registered, not removing."
-msgid "alternative %s for %s not registered; not removing"
-msgstr "alternatif %s untuk %s tidak terdaftar, tidak menghapusnya."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"sedang menghapus alternatif terpilih secara manual - memindah %s ke modus "
-"otomatis"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
 #| msgid "automatic updates of %s are disabled, leaving it alone."
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "pembaruan %s secara otomatis dimatikan, biarkan apa adanya."
@@ -6980,6 +6990,9 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "untuk kembali ke modus pembaruan otomatis, gunakan 'update-alternatives --"
 "auto %s'"
+
+#~ msgid "Call %s."
+#~ msgstr "Jalankan %s."
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "salah sintaks: uid tidak sah dalam berkas 'statoverride'"

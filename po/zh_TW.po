@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 19:10+0200\n"
 "Last-Translator: imacat <imac@mail.imacat.idv.tw>\n"
 "Language-Team: Chinese (traditional) <debian-l10n-chinese@lists.debian.org>\n"
@@ -3104,7 +3104,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6128,6 +6128,18 @@ msgid "unable to flush file '%s'"
 msgstr "無法清除檔案 '%s' 的寫入緩衝"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "目前 '最佳' 的版本為 '%s'。"
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "沒有可用的版本。"
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  目前連結指向 %s"
@@ -6135,6 +6147,18 @@ msgstr "  目前連結指向 %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr "  目前連結失效"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s 現為 %s。\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  次要項目 %s：%s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6145,15 +6169,6 @@ msgstr "%s - 優先權 %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  次要項目 %s：%s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "目前 '最佳' 的版本為 '%s'。"
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "沒有可用的版本。"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6186,6 +6201,20 @@ msgstr "按 [enter] 保留目前選項 [*]，或輸入選項編號："
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "There is no program which provides %s."
+msgstr "沒有程式有提供 %s。"
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "無可設定。"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr "替換群組 %s（提供 %s）只有一個替換項目：%s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "not replacing %s with a link"
 msgstr "不會把 %s 換成連結"
 
@@ -6208,28 +6237,18 @@ msgstr "%s 不是符號連結，不會刪除"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Call %s."
-msgstr "呼叫 %s。"
+msgid "alternative %s for %s not registered; not removing"
+msgstr "%2$s 的替換項目 %1$s 未註冊，不加刪除"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "選項 %s 不能用，替代項目 %s 不變。"
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr "移除手選的替代項目 - 將 %s 切為自動模式"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "略過未知的替代項目 %s。"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "讀取 %s 時，行太長或沒有結束"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "忽略無效的行：%s"
+msgid "alternative %s for %s not registered; not setting"
+msgstr "%2$s 的替換項目 %1$s 沒有註冊，無可設定"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6287,6 +6306,26 @@ msgstr "連結群組 %2$s 損壞，強制重新安裝替換項目 %1$s"
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr "%1$s 的替換項目不明，切換為 %3$s 連結群組的 %2$s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "選項 %s 不能用，替代項目 %s 不變。"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "略過未知的替代項目 %s。"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "讀取 %s 時，行太長或沒有結束"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "忽略無效的行：%s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6408,35 +6447,6 @@ msgstr "<標準輸入>"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "%2$s 的替換項目 %1$s 沒有註冊，無可設定"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "沒有程式有提供 %s。"
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "無可設定。"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr "替換群組 %s（提供 %s）只有一個替換項目：%s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "%2$s 的替換項目 %1$s 未註冊，不加刪除"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr "移除手選的替代項目 - 將 %s 切為自動模式"
-
-#: utils/update-alternatives.c
-#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "%s/%s 的自動更新已停用，不做異動"
 
@@ -6444,6 +6454,9 @@ msgstr "%s/%s 的自動更新已停用，不做異動"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "若要回復成自動更新，請執行 '%s --auto %s'"
+
+#~ msgid "Call %s."
+#~ msgstr "呼叫 %s。"
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "語法錯誤：statoverride 檔的 uid 無效"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -3142,7 +3142,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6175,6 +6175,18 @@ msgid "unable to flush file '%s'"
 msgstr "não foi possível fazer flush ao ficheiro '%s'"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "A 'melhor' versão actual é %s."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Sem versões disponíveis."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  o link actualmente aponta para %s"
@@ -6182,6 +6194,18 @@ msgstr "  o link actualmente aponta para %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr "  link actualmente inexistente"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s é %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  escravo %s: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6192,15 +6216,6 @@ msgstr "%s - prioridade %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  escravo %s: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "A 'melhor' versão actual é %s."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Sem versões disponíveis."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6236,6 +6251,22 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "There is no program which provides %s."
+msgstr "Não existe um programa que disponibiliza %s."
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "Nada para configurar."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr ""
+"Existe apenas uma alternativa no grupo de ligação %s (que disponibiliza %s: "
+"%s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "not replacing %s with a link"
 msgstr "não substituir %s por uma ligação"
 
@@ -6260,28 +6291,20 @@ msgstr "a não remover %s já que não é um symlink"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Call %s."
-msgstr "Chamar %s."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "alternativa %s para %s não registada, a não remover"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "Alternativa %s inalterada porque a escolha %s não está disponível."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr ""
+"a remover alternativa seleccionada manualmente - a passar %s para modo "
+"automático"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Saltar alternativa %s desconhecida."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "linha demasiado comprida ou não terminada ao tentar ler %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "Saltar linha inválida: %s"
+msgid "alternative %s for %s not registered; not setting"
+msgstr "a alternativa %s para %s não registada, a não definir"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6343,6 +6366,26 @@ msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "a alternativa %s actual é desconhecida, a mudar para %s para a ligação de "
 "grupo %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "Alternativa %s inalterada porque a escolha %s não está disponível."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Saltar alternativa %s desconhecida."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "linha demasiado comprida ou não terminada ao tentar ler %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "Saltar linha inválida: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6462,39 +6505,6 @@ msgstr "<entrada standard>"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "a alternativa %s para %s não registada, a não definir"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "Não existe um programa que disponibiliza %s."
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "Nada para configurar."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr ""
-"Existe apenas uma alternativa no grupo de ligação %s (que disponibiliza %s: "
-"%s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "alternativa %s para %s não registada, a não remover"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"a remover alternativa seleccionada manualmente - a passar %s para modo "
-"automático"
-
-#: utils/update-alternatives.c
-#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr ""
 "actualizações automáticas de %s/%s estão desactivadas; a deixar como está"
@@ -6503,6 +6513,9 @@ msgstr ""
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "para voltar às actualizações automáticas utilize '%s --auto %s'"
+
+#~ msgid "Call %s."
+#~ msgstr "Chamar %s."
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "erro de sintaxe: uid inválido no ficheiro statoverride"

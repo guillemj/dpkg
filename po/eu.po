@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
@@ -3154,7 +3154,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6198,6 +6198,18 @@ msgid "unable to flush file '%s'"
 msgstr "ezin da '%s' fitxategia garbitu"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "Uneko bertsio 'onena' %s da."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Ez dago bertsiorik eskuragarri."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr " estekak unean %s(e)ra darama"
@@ -6205,6 +6217,18 @@ msgstr " estekak unean %s(e)ra darama"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr " esteka ez dago une honetan"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s %s da.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  %s morroia: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6215,15 +6239,6 @@ msgstr "%s - %d lehentasuna"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  %s morroia: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "Uneko bertsio 'onena' %s da."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Ez dago bertsiorik eskuragarri."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6258,6 +6273,21 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "There is no program which provides %s."
+msgstr "Ez dago %s hornitzen duen programarik."
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "Ezer ez konfiguratzeko."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr ""
+"alternatiboa bat bakarrik dago %s esteken taldean (%s hornitzen duena): %s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "not replacing %s with a link"
 msgstr "ez da %s esteka batekin ordeztuko"
 
@@ -6282,28 +6312,19 @@ msgstr "ez da %s kenduko ez baita esteka bat"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Call %s."
-msgstr "Deitu %s."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "%2$s(r)en %1$s alternatiboa ez dago erregistratuta, ez da kentzen ari"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr "%s alternatiboa ez da aldatu %s hautapena ez baitago eskuragarri."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr ""
+"eskuz hautatutako alternatiboa ezabatzen - %s modu automatikora aldatzen"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Utzi alde batera %s alternatiboa ezezaguna."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "lerroa luzeegia da edo ez dago amaituta %s irakurtzen saiatzean"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "Saltatu lerro baliogabea: %s"
+msgid "alternative %s for %s not registered; not setting"
+msgstr "%2$s(r)en %1$s alternatiboa ez dago erregistratuta, ez da ezartzen ari"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6364,6 +6385,26 @@ msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "uneko %s alternatiboa ezezaguna da, %s(e)ra aldatzen %s esteken "
 "taldearentzako"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr "%s alternatiboa ez da aldatu %s hautapena ez baitago eskuragarri."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Utzi alde batera %s alternatiboa ezezaguna."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "lerroa luzeegia da edo ez dago amaituta %s irakurtzen saiatzean"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "Saltatu lerro baliogabea: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6484,37 +6525,6 @@ msgstr "<sarrera estandarra>"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "%2$s(r)en %1$s alternatiboa ez dago erregistratuta, ez da ezartzen ari"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "Ez dago %s hornitzen duen programarik."
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "Ezer ez konfiguratzeko."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr ""
-"alternatiboa bat bakarrik dago %s esteken taldean (%s hornitzen duena): %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "%2$s(r)en %1$s alternatiboa ez dago erregistratuta, ez da kentzen ari"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"eskuz hautatutako alternatiboa ezabatzen - %s modu automatikora aldatzen"
-
-#: utils/update-alternatives.c
-#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr "%s/%s-(r)en eguneraketa automatikoak desgaituta daude, ez da ukituko"
 
@@ -6522,6 +6532,9 @@ msgstr "%s/%s-(r)en eguneraketa automatikoak desgaituta daude, ez da ukituko"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "eguneraketa automatikoetara itzultzeko erabili '%s --auto %s'"
+
+#~ msgid "Call %s."
+#~ msgstr "Deitu %s."
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "sintaxi-errorea: uid baliogabea statoverride fitxategian"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.15.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 07:05+0200\n"
 "Last-Translator: Łukasz Dulny <BartekChom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -684,13 +684,15 @@ msgid "error occurred while parsing %s"
 msgstr "wystąpił błąd podczas przetwarzania %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "%s: Unmet build dependencies: "
+#, fuzzy, perl-format
+#| msgid "%s: Unmet build dependencies: "
+msgid "Unmet build dependencies: %s"
 msgstr "%s: Niespełnione zależności budowania pakietu:"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "%s: Build conflicts: "
+#, fuzzy, perl-format
+#| msgid "%s: Build conflicts: "
+msgid "Build conflicts: %s"
 msgstr "%s: Konfliktu budowania pakietu:"
 
 #: scripts/dpkg-distaddfile.pl
@@ -2507,8 +2509,25 @@ msgstr "nagłówek nie pasuje do oczekiwanego wyrażenia regularnego"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 #, perl-format
-msgid "couldn't parse date %s"
-msgstr "nie można przetworzyć daty %s"
+msgid "ignoring invalid week day '%s'"
+msgstr ""
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "uses full instead of abbreviated month name '%s'"
+msgstr ""
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, fuzzy, perl-format
+#| msgid "invalid flag in %s: %s"
+msgid "invalid abbreviated month name '%s'"
+msgstr "niepoprawna flaga w %s: %s"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, fuzzy, perl-format
+#| msgid "cannot exec format parser: %s"
+msgid "cannot parse non-comformant date '%s'"
+msgstr "nie można uruchomić parsera formatu: %s"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 msgid "the trailer doesn't match the expected regex"
@@ -3204,10 +3223,9 @@ msgstr ""
 msgid "aborting due to --abort-on-upstream-changes"
 msgstr "przerywanie ze względu na --abort-on-upstream-changes"
 
-#: scripts/Dpkg/Source/Package/V1.pm
-#, perl-format
-msgid "%s: unrepresentable changes to source"
-msgstr "%s: niereprezentowalne zmiany w źródle"
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "unrepresentable changes to source"
+msgstr "niereprezentowalne zmiany w źródle"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
@@ -3263,10 +3281,6 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "copy of the debian directory"
 msgstr "kopia katalogu debian"
-
-#: scripts/Dpkg/Source/Package/V2.pm
-msgid "unrepresentable changes to source"
-msgstr "niereprezentowalne zmiany w źródle"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "local changes detected, the modified files are:"
@@ -3872,6 +3886,12 @@ msgstr "numer wersji zawiera niepoprawny znak \"%s\""
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "częśc epoki w numerze wersji nie jest liczbą: \"%s\""
+
+#~ msgid "couldn't parse date %s"
+#~ msgstr "nie można przetworzyć daty %s"
+
+#~ msgid "%s: unrepresentable changes to source"
+#~ msgstr "%s: niereprezentowalne zmiany w źródle"
 
 #~ msgid "error closing %s ($? %d, $! '%s')"
 #~ msgstr "nie można zamknąć %s ($? %d, $! \"%s\")"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 07:02+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -696,13 +696,15 @@ msgid "error occurred while parsing %s"
 msgstr "ошибка при анализе %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "%s: Unmet build dependencies: "
+#, fuzzy, perl-format
+#| msgid "%s: Unmet build dependencies: "
+msgid "Unmet build dependencies: %s"
 msgstr "%s: Неудовлетворённые сборочные зависимости: "
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "%s: Build conflicts: "
+#, fuzzy, perl-format
+#| msgid "%s: Build conflicts: "
+msgid "Build conflicts: %s"
 msgstr "%s: Сборочные конфликты: "
 
 #: scripts/dpkg-distaddfile.pl
@@ -2527,8 +2529,25 @@ msgstr "заголовок не подходит под ожидаемое ре�
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 #, perl-format
-msgid "couldn't parse date %s"
-msgstr "не удалось выполнить анализ даты %s"
+msgid "ignoring invalid week day '%s'"
+msgstr ""
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "uses full instead of abbreviated month name '%s'"
+msgstr ""
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, fuzzy, perl-format
+#| msgid "invalid flag in %s: %s"
+msgid "invalid abbreviated month name '%s'"
+msgstr "неправильный флаг в %s: %s"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, fuzzy, perl-format
+#| msgid "cannot exec format parser: %s"
+msgid "cannot parse non-comformant date '%s'"
+msgstr "не удалось запустить анализатор формата: %s"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 msgid "the trailer doesn't match the expected regex"
@@ -3232,10 +3251,9 @@ msgstr ""
 msgid "aborting due to --abort-on-upstream-changes"
 msgstr "прерывание работы из-за --abort-on-upstream-changes"
 
-#: scripts/Dpkg/Source/Package/V1.pm
-#, perl-format
-msgid "%s: unrepresentable changes to source"
-msgstr "%s: нехарактерные изменения в исходнике"
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "unrepresentable changes to source"
+msgstr "нехарактерные изменения в исходнике"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
@@ -3293,10 +3311,6 @@ msgstr "найдено несколько файлов orig.tar (%s и %s), но
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "copy of the debian directory"
 msgstr "копирование каталога debian"
-
-#: scripts/Dpkg/Source/Package/V2.pm
-msgid "unrepresentable changes to source"
-msgstr "нехарактерные изменения в исходнике"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "local changes detected, the modified files are:"
@@ -3905,6 +3919,12 @@ msgstr "номер версии содержит недопустимый сим
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "часть эпохи в номере версии не является числом: «%s»"
+
+#~ msgid "couldn't parse date %s"
+#~ msgstr "не удалось выполнить анализ даты %s"
+
+#~ msgid "%s: unrepresentable changes to source"
+#~ msgstr "%s: нехарактерные изменения в исходнике"
 
 #~ msgid "open new substvars file '%s'"
 #~ msgstr "открытие нового файла подстановок «%s»"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-05-30 00:17+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-08-04 10:33+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -1074,12 +1074,16 @@ msgstr "el nom del camp «%.*s» ha d'estar seguit per dos punts"
 #: lib/dpkg/parse.c
 #, c-format
 msgid "end of file before value of field '%.*s' (missing final newline)"
-msgstr "final del fitxer abans del valor del camp «%.*s» (manca una línia nova al final)"
+msgstr ""
+"final del fitxer abans del valor del camp «%.*s» (manca una línia nova al "
+"final)"
 
 #: lib/dpkg/parse.c
 #, c-format
 msgid "MSDOS end of file (^Z) in value of field '%.*s' (missing newline?)"
-msgstr "final del fitxer d'MSDOS (^Z) dins del valor del camp «%.*s» (manca una línia nova?)"
+msgstr ""
+"final del fitxer d'MSDOS (^Z) dins del valor del camp «%.*s» (manca una "
+"línia nova?)"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1089,7 +1093,9 @@ msgstr "línia buida dins del valor del camp «%.*s»"
 #: lib/dpkg/parse.c
 #, c-format
 msgid "end of file during value of field '%.*s' (missing final newline)"
-msgstr "final del fitxer durant el valor del camp «%.*s» (manca una línia nova al final)"
+msgstr ""
+"final del fitxer durant el valor del camp «%.*s» (manca una línia nova al "
+"final)"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1804,8 +1810,8 @@ msgstr "poden haver-hi problemes en desinstal·lar %s, donat que proveeix %s…"
 msgid ""
 "package %s requires reinstallation, but will remove anyway as you requested"
 msgstr ""
-"el paquet %s requereix ser reinstal·lat, però es desinstal·larà tal i com heu "
-"demanat"
+"el paquet %s requereix ser reinstal·lat, però es desinstal·larà tal i com "
+"heu demanat"
 
 #: src/archives.c
 #, c-format
@@ -3116,7 +3122,43 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Programa de gestió de paquets «%s» de Debian versió %s.\n"
 
 #: src/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -i|--install       <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --unpack           <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --configure        <package> ... | -a|--pending\n"
+#| "  --triggers-only    <package> ... | -a|--pending\n"
+#| "  -r|--remove        <package> ... | -a|--pending\n"
+#| "  -P|--purge         <package> ... | -a|--pending\n"
+#| "  -V|--verify <package> ...        Verify the integrity of package(s).\n"
+#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+#| "  --set-selections                 Set package selections from stdin.\n"
+#| "  --clear-selections               Deselect every non-essential package.\n"
+#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
+#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
+#| "  --clear-avail                    Erase existing available info.\n"
+#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "  -C|--audit [<package> ...]       Check for broken package(s).\n"
+#| "  --add-architecture <arch>        Add <arch> to the list of "
+#| "architectures.\n"
+#| "  --remove-architecture <arch>     Remove <arch> from the list of "
+#| "architectures.\n"
+#| "  --print-architecture             Print dpkg architecture.\n"
+#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+#| "  --force-help                     Show help on forcing.\n"
+#| "  -Dh|--debug=help                 Show help on debugging.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3140,11 +3182,16 @@ msgid ""
 "  -l|--list [<pattern> ...]        List packages concisely.\n"
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
+"  --yet-to-unpack                  Print packages selected for "
+"installation.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+"  --assert-<feature>               Assert support for the specified "
+"feature.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3207,6 +3254,25 @@ msgstr ""
 "\n"
 
 #: src/main.c
+#, fuzzy, c-format
+#| msgid ""
+#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#| "conrep |\n"
+#| "  --assert-multi-arch | --assert-versioned-provides.\n"
+#| "\n"
+msgid ""
+"Assertable features: support-predepends, working-epoch, long-filenames,\n"
+"  multi-conrep, multi-arch, versioned-provides.\n"
+"\n"
+msgstr ""
+"Per a ús intern: dpkg --assert-support-predepends | --predep-package |\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
+"|\n"
+"  --assert-multi-arch | --assert-versioned-provides.\n"
+"\n"
+
+#: src/main.c
 #, c-format
 msgid ""
 "Use dpkg with -b, --build, -c, --contents, -e, --control, -I, --info,\n"
@@ -3216,23 +3282,9 @@ msgid ""
 "\n"
 msgstr ""
 "Empreu dpkg amb -b, --build, -c, --contents, -e, --control, -I, --info,\n"
-"  -f, --field, -x, --extract, -X, --vextract, --ctrl-tarfile, --fsys-tarfile\n"
+"  -f, --field, -x, --extract, -X, --vextract, --ctrl-tarfile, --fsys-"
+"tarfile\n"
 "en arxius (vegeu %s --help).\n"
-"\n"
-
-#: src/main.c
-#, c-format
-msgid ""
-"For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
-"|\n"
-"  --assert-multi-arch | --assert-versioned-provides.\n"
-"\n"
-msgstr ""
-"Per a ús intern: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
-"|\n"
-"  --assert-multi-arch | --assert-versioned-provides.\n"
 "\n"
 
 #: src/main.c
@@ -3280,7 +3332,8 @@ msgstr ""
 "  --instdir=<directori>      Canvia el directori d'instal·lació sense "
 "alterar\n"
 "                               el directori de gestió.\n"
-"  --path-exclude=<patró>     No instal·les camins que concorden amb un patró\n"
+"  --path-exclude=<patró>     No instal·les camins que concorden amb un "
+"patró\n"
 "                               d'intèrpret d'ordres.\n"
 "  --path-include=<patró>     Torna a incloure un patró després d'una "
 "exclusió\n"
@@ -3359,8 +3412,8 @@ msgid ""
 "Options marked [*] produce a lot of output - pipe it through 'less' or "
 "'more' !"
 msgstr ""
-"Escriviu dpkg --help per obtenir ajuda sobre la instal·lació i desinstal·lació "
-"de paquets [*];\n"
+"Escriviu dpkg --help per obtenir ajuda sobre la instal·lació i "
+"desinstal·lació de paquets [*];\n"
 "Empreu «apt» o «aptitude» per a gestionar els paquets d'una manera més "
 "amigable;\n"
 "Escriviu dpkg -Dhelp per a obtenir una llista dels valors dels senyaladors "
@@ -4045,8 +4098,8 @@ msgid ""
 "%s: dependency problems, but removing anyway as you requested:\n"
 "%s"
 msgstr ""
-"%s: problemes de dependències, però es desinstal·larà igualment tal i com heu "
-"demanat:\n"
+"%s: problemes de dependències, però es desinstal·larà igualment tal i com "
+"heu demanat:\n"
 "%s"
 
 #: src/remove.c
@@ -4106,7 +4159,9 @@ msgstr ""
 #: src/remove.c
 #, c-format
 msgid "cannot read config file directory '%.250s' (from '%.250s')"
-msgstr "no es pot llegir el directori de fitxers de configuració «%.250s» (a partir de «%.250s»)"
+msgstr ""
+"no es pot llegir el directori de fitxers de configuració «%.250s» (a partir "
+"de «%.250s»)"
 
 #: src/remove.c
 #, c-format
@@ -4192,7 +4247,8 @@ msgstr "… sembla que ha anat bé"
 #: src/select.c
 #, c-format
 msgid "unexpected end of file in package name at line %d"
-msgstr "s'ha trobat un final de fitxer inesperat en el nom del paquet en la línia %d"
+msgstr ""
+"s'ha trobat un final de fitxer inesperat en el nom del paquet en la línia %d"
 
 #: src/select.c
 #, c-format
@@ -4203,7 +4259,9 @@ msgstr ""
 #: src/select.c
 #, c-format
 msgid "unexpected end of file after package name at line %d"
-msgstr "s'ha trobat un final de fitxer inesperat després del nom del paquet en la línia %d"
+msgstr ""
+"s'ha trobat un final de fitxer inesperat després del nom del paquet en la "
+"línia %d"
 
 #: src/select.c
 #, c-format
@@ -4665,7 +4723,8 @@ msgstr "el paquet %s conté «list» com a fitxer d'informació"
 #: src/unpack.c
 #, c-format
 msgid "unable to install new info file '%.250s' as '%.250s'"
-msgstr "no es pot instal·lar el fitxer d'informació nou «%.250s» com a «%.250s»"
+msgstr ""
+"no es pot instal·lar el fitxer d'informació nou «%.250s» com a «%.250s»"
 
 #: src/unpack.c
 #, c-format
@@ -4717,7 +4776,8 @@ msgstr "S'està preparant per a desempaquetar %s…\n"
 #, c-format
 msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
 msgstr ""
-"S'està desconfigurant %s (%s), per a permetre la desinstal·lació de %s (%s)…\n"
+"S'està desconfigurant %s (%s), per a permetre la desinstal·lació de %s (%s)"
+"…\n"
 
 #: src/unpack.c
 #, c-format
@@ -5213,7 +5273,8 @@ msgstr ""
 #: dpkg-deb/extract.c
 #, c-format
 msgid "--%s does not support (yet) reading the .deb from standard input"
-msgstr "--%s no suporta (encara) la lectura del .deb des de l'entrada estàndard"
+msgstr ""
+"--%s no suporta (encara) la lectura del .deb des de l'entrada estàndard"
 
 #: dpkg-deb/info.c
 #, c-format
@@ -5384,7 +5445,8 @@ msgid ""
 "unpacked using 'dpkg-deb --extract' will be incorrectly installed !\n"
 msgstr ""
 "\n"
-"Empreu «dpkg» per a instal·lar i desinstal·lar paquets del vostre sistema, o\n"
+"Empreu «dpkg» per a instal·lar i desinstal·lar paquets del vostre sistema, "
+"o\n"
 "«apt» o «aptitude» per a gestionar els paquets d'una manera amigable.\n"
 "Els paquets desempaquetats emprant «dpkg-deb --extract» estaran instal·lats\n"
 "incorrectament!\n"
@@ -6184,6 +6246,18 @@ msgid "unable to flush file '%s'"
 msgstr "no es pot fer «flush» sobre el fitxer «%s»"
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "Current 'best' version is '%s'."
+msgid "  link best version is %s"
+msgstr "Actualment la «millor» versió és «%s»."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "No hi ha cap versió disponible."
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "  link currently points to %s"
 msgstr "  l'enllaç apunta actualment cap a %s"
@@ -6191,6 +6265,18 @@ msgstr "  l'enllaç apunta actualment cap a %s"
 #: utils/update-alternatives.c
 msgid "  link currently absent"
 msgstr "  l'enllaç està actualment absent"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s és %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  slave %s: %s"
+msgid "  slave %s is %s"
+msgstr "  esclau %s: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6201,15 +6287,6 @@ msgstr "%s - prioritat %d"
 #, c-format
 msgid "  slave %s: %s"
 msgstr "  esclau %s: %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "Actualment la «millor» versió és «%s»."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "No hi ha cap versió disponible."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6243,6 +6320,21 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "There is no program which provides %s."
+msgstr "No hi ha cap programa que proveeixi %s."
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr "No hi ha res a configurar."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr ""
+"Només hi ha una alternativa al grup d'enllaços %s (que proveeix %s): %s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "not replacing %s with a link"
 msgstr "no es reemplaça %s amb un enllaç"
 
@@ -6267,29 +6359,20 @@ msgstr "no s'esborrarà %s ja que no és un enllaç simbòlic"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Call %s."
-msgstr "Crida a %s."
+msgid "alternative %s for %s not registered; not removing"
+msgstr "l'alternativa %s per a %s no està registrada; no es suprimeix"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
+msgid "removing manually selected alternative - switching %s to auto mode"
 msgstr ""
-"No s'ha canviat l'alternativa %s perquè la selecció %s no és disponible."
+"s'està suprimint l'alternativa seleccionada manualment - s'està canviant %s "
+"a mode automàtic"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "Skip unknown alternative %s."
-msgstr "S'omet l'alternativa desconeguda %s."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "línia massa llarga o no terminada en llegir %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr "S'omet la línia invàlida: %s"
+msgid "alternative %s for %s not registered; not setting"
+msgstr "l'alternativa %s per a %s no està registrada; no s'estableix"
 
 # A coreutils, dangling symlink -> enllaç trencat. jm
 #: utils/update-alternatives.c
@@ -6352,6 +6435,27 @@ msgid "current alternative %s is unknown, switching to %s for link group %s"
 msgstr ""
 "l'alternativa actual %s és desconeguda, s'està canviant a %s per al grup "
 "d'enllaços %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr ""
+"No s'ha canviat l'alternativa %s perquè la selecció %s no és disponible."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip unknown alternative %s."
+msgstr "S'omet l'alternativa desconeguda %s."
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "línia massa llarga o no terminada en llegir %s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
+msgstr "S'omet la línia invàlida: %s"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6471,38 +6575,6 @@ msgstr "<entrada estàndard>"
 
 #: utils/update-alternatives.c
 #, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "l'alternativa %s per a %s no està registrada; no s'estableix"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is no program which provides %s."
-msgstr "No hi ha cap programa que proveeixi %s."
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr "No hi ha res a configurar."
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr ""
-"Només hi ha una alternativa al grup d'enllaços %s (que proveeix %s): %s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "l'alternativa %s per a %s no està registrada; no es suprimeix"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"s'està suprimint l'alternativa seleccionada manualment - s'està canviant %s "
-"a mode automàtic"
-
-#: utils/update-alternatives.c
-#, c-format
 msgid "automatic updates of %s/%s are disabled; leaving it alone"
 msgstr ""
 "les actualitzacions automàtiques de %s/%s estan desactivades; no hi haurà "
@@ -6514,6 +6586,9 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "per tornar a activar les actualitzacions automàtiques, utilitzeu «%s --auto "
 "%s»"
+
+#~ msgid "Call %s."
+#~ msgstr "Crida a %s."
 
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "error de sintaxi: l'uid és invàlid al fitxer statoverride"

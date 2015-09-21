@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2014-12-10 03:47+0100\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -703,13 +703,15 @@ msgid "error occurred while parsing %s"
 msgstr "s'ha produït un error en analitzar %s"
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "%s: Unmet build dependencies: "
+#, fuzzy, perl-format
+#| msgid "%s: Unmet build dependencies: "
+msgid "Unmet build dependencies: %s"
 msgstr "%s: Dependències de construcció no satisfetes: "
 
 #: scripts/dpkg-checkbuilddeps.pl
-#, perl-format
-msgid "%s: Build conflicts: "
+#, fuzzy, perl-format
+#| msgid "%s: Build conflicts: "
+msgid "Build conflicts: %s"
 msgstr "%s: Conflictes de construcció: "
 
 #: scripts/dpkg-distaddfile.pl
@@ -2551,8 +2553,25 @@ msgstr "la capçalera no coincideix amb la regex esperada"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 #, perl-format
-msgid "couldn't parse date %s"
-msgstr "no s'ha pogut analitzar la data %s"
+msgid "ignoring invalid week day '%s'"
+msgstr ""
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
+msgid "uses full instead of abbreviated month name '%s'"
+msgstr ""
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, fuzzy, perl-format
+#| msgid "invalid flag in %s: %s"
+msgid "invalid abbreviated month name '%s'"
+msgstr "senyalador invàlid a %s: %s"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, fuzzy, perl-format
+#| msgid "cannot exec format parser: %s"
+msgid "cannot parse non-comformant date '%s'"
+msgstr "no es pot executar l'analitzador de format: %s"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 msgid "the trailer doesn't match the expected regex"
@@ -3254,10 +3273,9 @@ msgstr ""
 msgid "aborting due to --abort-on-upstream-changes"
 msgstr "s'està interrompent a causa de --abort-on-upstream-changes"
 
-#: scripts/Dpkg/Source/Package/V1.pm
-#, perl-format
-msgid "%s: unrepresentable changes to source"
-msgstr "%s: hi ha canvis no representables al font"
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "unrepresentable changes to source"
+msgstr "hi ha canvis no representables al font"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
@@ -3316,10 +3334,6 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "copy of the debian directory"
 msgstr "copia del directori debian"
-
-#: scripts/Dpkg/Source/Package/V2.pm
-msgid "unrepresentable changes to source"
-msgstr "hi ha canvis no representables al font"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "local changes detected, the modified files are:"
@@ -3920,6 +3934,12 @@ msgstr "el número de versió conté un caràcter il·legal ‘%s‘"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "l'època en la versió no és un número: «%s»"
+
+#~ msgid "couldn't parse date %s"
+#~ msgstr "no s'ha pogut analitzar la data %s"
+
+#~ msgid "%s: unrepresentable changes to source"
+#~ msgstr "%s: hi ha canvis no representables al font"
 
 #~ msgid "open new substvars file '%s'"
 #~ msgstr "no es pot obrir el fitxer nou de variables de substitució «%s»"

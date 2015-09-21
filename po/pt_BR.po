@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-08-04 20:59+0200\n"
+"POT-Creation-Date: 2015-09-21 07:14+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Felipe Augusto van de Wiel (faw) <faw@debian.org>\n"
 "Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian."
@@ -3352,7 +3352,7 @@ msgid ""
 "  -C|--audit [<package> ...]       Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
-"  --predep-packages                Print pre-dependencies to unpack.\n"
+"  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
 "  --remove-architecture <arch>     Remove <arch> from the list of "
 "architectures.\n"
@@ -6626,6 +6626,17 @@ msgstr "impossível efetuar \"flush\" em vsnprintf "
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+msgid "  link best version is %s"
+msgstr "'Melhor' versão atual é %s."
+
+#: utils/update-alternatives.c
+#, fuzzy
+#| msgid "No versions available."
+msgid "  link best version not available"
+msgstr "Nenhuma versão disponível."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 msgid "  link currently points to %s"
 msgstr " ligação atualmente aponta para %s"
 
@@ -6633,6 +6644,17 @@ msgstr " ligação atualmente aponta para %s"
 #, fuzzy
 msgid "  link currently absent"
 msgstr " ligação atualmente ausente"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+#| msgid "  %.250s is %s.\n"
+msgid "  link %s is %s"
+msgstr "  %.250s está %s.\n"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "  slave %s is %s"
+msgstr " escravo %s: %s"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6644,15 +6666,6 @@ msgstr "%s - prioridade %s"
 #, fuzzy, c-format
 msgid "  slave %s: %s"
 msgstr " escravo %s: %s"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "Current 'best' version is '%s'."
-msgstr "'Melhor' versão atual é %s."
-
-#: utils/update-alternatives.c
-msgid "No versions available."
-msgstr "Nenhuma versão disponível."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6686,6 +6699,22 @@ msgstr ""
 "Pressione enter para manter o padrão[*] ou digite o número da seleção: "
 
 #: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "There is no program which provides %s."
+msgstr ""
+"Não há programa que forneça %s.\n"
+"Nada a ser configurado.\n"
+
+#: utils/update-alternatives.c
+msgid "Nothing to configure."
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "There is only one alternative in link group %s (providing %s): %s"
+msgstr ""
+
+#: utils/update-alternatives.c
 #, c-format
 msgid "not replacing %s with a link"
 msgstr ""
@@ -6708,29 +6737,20 @@ msgid "not removing %s since it's not a symlink"
 msgstr ""
 
 #: utils/update-alternatives.c
-#, c-format
-msgid "Call %s."
-msgstr ""
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Alternative %s unchanged because choice %s is not available."
-msgstr ""
+#, fuzzy, c-format
+msgid "alternative %s for %s not registered; not removing"
+msgstr "Alternativa %s para %s não registrada, não removendo."
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "Skip unknown alternative %s."
-msgstr "Não foi possível encontrar alternativa '%s'."
+msgid "removing manually selected alternative - switching %s to auto mode"
+msgstr ""
+"Removendo alternativa selecionada manualmente - mudando para modo automático"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
-msgid "line too long or not terminated while trying to read %s"
-msgstr "fim de arquivo inesperado em %s em %.255s"
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "Skip invalid line: %s"
-msgstr ""
+msgid "alternative %s for %s not registered; not setting"
+msgstr "Alternativa %s para %s não registrada, não removendo."
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6785,6 +6805,26 @@ msgstr ""
 #: utils/update-alternatives.c
 #, c-format
 msgid "current alternative %s is unknown, switching to %s for link group %s"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Alternative %s unchanged because choice %s is not available."
+msgstr ""
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "Skip unknown alternative %s."
+msgstr "Não foi possível encontrar alternativa '%s'."
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "line too long or not terminated while trying to read %s"
+msgstr "fim de arquivo inesperado em %s em %.255s"
+
+#: utils/update-alternatives.c
+#, c-format
+msgid "Skip invalid line: %s"
 msgstr ""
 
 #: utils/update-alternatives.c
@@ -6908,38 +6948,6 @@ msgstr "Nenhuma alternativa para %s."
 #| msgid "read error on standard input"
 msgid "<standard input>"
 msgstr "erro de leitura na entrada padrão"
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "alternative %s for %s not registered; not setting"
-msgstr "Alternativa %s para %s não registrada, não removendo."
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "There is no program which provides %s."
-msgstr ""
-"Não há programa que forneça %s.\n"
-"Nada a ser configurado.\n"
-
-#: utils/update-alternatives.c
-msgid "Nothing to configure."
-msgstr ""
-
-#: utils/update-alternatives.c
-#, c-format
-msgid "There is only one alternative in link group %s (providing %s): %s"
-msgstr ""
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "alternative %s for %s not registered; not removing"
-msgstr "Alternativa %s para %s não registrada, não removendo."
-
-#: utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "removing manually selected alternative - switching %s to auto mode"
-msgstr ""
-"Removendo alternativa selecionada manualmente - mudando para modo automático"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
