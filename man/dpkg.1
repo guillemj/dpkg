@@ -235,7 +235,8 @@ themselves. That metadata gets collected at package unpack time during
 the installation process.
 
 Currently the only functional check performed is an md5sum verification
-against the stored value in the files database. It will only get checked
+of the file contents against the stored value in the files database.
+It will only get checked
 if the database contains the file md5sum. To check for any missing
 metadata in the database, the \fB\-\-audit\fP command can be used.
 
@@ -722,7 +723,8 @@ The lines start with 9 characters to report each specific check result,
 a \(oq\fB?\fP\(cq implies the check could not be done (lack of support,
 file permissions, etc), \(oq\fB.\fP\(cq implies the check passed, and
 an alphanumeric character implies a specific check failed; the md5sum
-verification is denoted with a \(oq\fB5\fP\(cq on the third character.
+verification failure (the file contents have changed) is denoted with
+a \(oq\fB5\fP\(cq on the third character.
 The line is followed by a space and an attribute character (currently
 \(oq\fBc\fP\(cq for conffiles), another space and the pathname.
 .TP
