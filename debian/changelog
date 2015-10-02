@@ -1,6 +1,9 @@
 dpkg (1.18.4) UNRELEASED; urgency=low
 
   [ Guillem Jover ]
+  * Switch dpkg-scansources and dpkg-scanpackages to use File::Find instead
+    of find(1), as the former is more portable with more consistent behavior,
+    and always canonicalizes the pathnames. Closes: #800649
   * Documentation:
     - Move description for “target architecture” from the dpkg-architecture(1)
       ‘-A’ option to the TERMS section. Closes: #799046

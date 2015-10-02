@@ -21,6 +21,7 @@ use strict;
 use warnings;
 
 use Getopt::Long qw(:config posix_default bundling no_ignorecase);
+use File::Find;
 
 use Dpkg ();
 use Dpkg::Gettext;
@@ -303,22 +304,22 @@ load_override $override if defined $override;
 load_src_override $src_override, $override;
 load_override_extra $extra_override_file if defined $extra_override_file;
 
-open my $find_fh, '-|', 'find', '-L', $dir, '-name', '*.dsc', '-print'
-    or syserr(g_('cannot fork for %s'), 'find');
-while (<$find_fh>) {
-    chomp;
-    s{^\./+}{};
+my @dsc;
+my $scan_dsc = sub {
+    push @dsc, $File::Find::name if m/\.dsc$/;
+};
 
+find({ follow => 1, wanted => $scan_dsc }, $dir);
+foreach my $fn (@dsc) {
     # FIXME: Fix it instead to not die on syntax and general errors?
     eval {
-        process_dsc($prefix, $_);
+        process_dsc($prefix, $fn);
     };
     if ($@) {
         warn $@;
         next;
     }
 }
-close $find_fh or syserr(g_('error closing %s (%s)'), 'find', $!);
 
 if (not $no_sort) {
     @sources = sort {

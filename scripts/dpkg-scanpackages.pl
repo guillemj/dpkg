@@ -21,6 +21,7 @@ use warnings;
 use strict;
 
 use Getopt::Long qw(:config posix_default bundling no_ignorecase);
+use File::Find;
 
 use Dpkg ();
 use Dpkg::Gettext;
@@ -230,15 +231,6 @@ foreach my $alg (keys %hash) {
     }
 }
 
-my @find_args;
-if ($options{arch}) {
-     @find_args = ('(', '-name', "*_all.$type", '-o',
-			'-name', "*_${arch}.$type", ')');
-}
-else {
-     @find_args = ('-name', "*.$type");
-}
-
 my ($binarydir, $override, $pathprefix) = @ARGV;
 
 if (not -d $binarydir) {
@@ -250,13 +242,21 @@ if (defined $override and not -e $override) {
 
 $pathprefix //= '';
 
-open my $find_h, '-|', 'find', '-L', "$binarydir/", @find_args, '-print'
-     or syserr(g_("couldn't open %s for reading"), $binarydir);
-while (my $fn = <$find_h>) {
-    chomp $fn;
+my $find_filter;
+if ($options{arch}) {
+    $find_filter = qr/_(?:all|${arch})\.$type$/;
+} else {
+    $find_filter = qr/\.$type$/;
+}
+my @archives;
+my $scan_archives = sub {
+    push @archives, $File::Find::name if m/$find_filter/;
+};
+
+find({ follow => 1, wanted => $scan_archives}, $binarydir);
+foreach my $fn (@archives) {
     process_deb($pathprefix, $fn);
 }
-close($find_h);
 
 load_override($override) if defined $override;
 load_override_extra($options{'extra-override'}) if defined $options{'extra-override'};
