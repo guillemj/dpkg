@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * update.c - options which update the ‘available’ database
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

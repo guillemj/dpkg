@@ -1,4 +1,4 @@
-# Copyright © 2008 Ian Jackson <ian@davenant.greenend.org.uk>
+# Copyright © 2008 Ian Jackson <ijackson@chiark.greenend.org.uk>
 # Copyright © 2008 Canonical, Ltd.
 #   written by Colin Watson <cjwatson@ubuntu.com>
 # Copyright © 2008 James Westby <jw+debian@jameswestby.net>

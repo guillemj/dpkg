@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * dump.c - code to write in-core database to a file
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
  * Copyright © 2006,2008-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited

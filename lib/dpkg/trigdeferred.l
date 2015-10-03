@@ -3,7 +3,7 @@
  * trigdeferred.l - parsing of triggers/Deferred
  *
  * Copyright © 2007 Canonical Ltd
- * written by Ian Jackson <ian@chiark.greenend.org.uk>
+ * written by Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify

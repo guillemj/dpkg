@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * infodb-upgrade.c - package control information database format upgrade
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>

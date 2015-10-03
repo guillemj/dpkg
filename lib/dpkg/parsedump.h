@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * parsedump.h - declarations for in-core database reading/writing
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
  * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *

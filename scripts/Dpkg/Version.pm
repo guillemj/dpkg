@@ -1,5 +1,5 @@
 # Copyright © Colin Watson <cjwatson@debian.org>
-# Copyright © Ian Jackson <iwj@debian.org>
+# Copyright © Ian Jackson <ijackson@chiark.greenend.org.uk>
 # Copyright © 2007 Don Armstrong <don@donarmstrong.com>.
 # Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
 #

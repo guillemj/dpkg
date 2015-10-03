@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * baselist.cc - list of somethings
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2007-2013 Guillem Jover <guillem@debian.org>
  *

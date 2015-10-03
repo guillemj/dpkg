@@ -2,7 +2,7 @@
 #
 # dpkg-source
 #
-# Copyright © 1996 Ian Jackson <ian@davenant.greenend.org.uk>
+# Copyright © 1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
 # Copyright © 1997 Klee Dienes <klee@debian.org>
 # Copyright © 1999-2003 Wichert Akkerman <wakkerma@debian.org>
 # Copyright © 1999 Ben Collins <bcollins@debian.org>

@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * ehandle.h - error handling
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wichert@debian.org>
  *
  * This is free software; you can redistribute it and/or modify

@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * statdb.c - management of database of ownership and mode of files
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000, 2001 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *

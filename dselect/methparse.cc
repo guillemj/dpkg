@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * methparse.cc - access method list parsing
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2008-2011, 2013-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify

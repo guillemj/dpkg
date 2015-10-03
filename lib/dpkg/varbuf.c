@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * varbuf.c - variable length expandable buffer handling
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify

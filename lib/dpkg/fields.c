@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * fields.c - parsing of all the different fields, when reading in
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
  * Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
  * Copyright © 2009 Canonical Ltd.

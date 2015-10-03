@@ -1,7 +1,7 @@
 /*
  * dlist.h - macros for handling doubly linked lists
  *
- * Copyright © 1997-1999 Ian Jackson <ian@davenant.greenend.org.uk>
+ * Copyright © 1997-1999 Ian Jackson <ijackson@chiark.greenend.org.uk>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

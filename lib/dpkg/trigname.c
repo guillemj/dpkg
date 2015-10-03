@@ -3,7 +3,7 @@
  * trigname.c - trigger name handling
  *
  * Copyright © 2007 Canonical Ltd
- * Written by Ian Jackson <ian@chiark.greenend.org.uk>
+ * Written by Ian Jackson <ijackson@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

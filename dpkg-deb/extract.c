@@ -2,7 +2,7 @@
  * dpkg-deb - construction and deconstruction of *.deb archives
  * extract.c - extracting archives
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify

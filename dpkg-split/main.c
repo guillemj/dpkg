@@ -2,7 +2,7 @@
  * dpkg-split - splitting and joining of multipart *.deb archives
  * main.c - main program
  *
- * Copyright © 1994-1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994-1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify

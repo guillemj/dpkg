@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * remove.c - functionality for removing packages
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2007-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify

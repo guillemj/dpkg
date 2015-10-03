@@ -1,7 +1,7 @@
 /*
  * update-alternatives
  *
- * Copyright © 1995 Ian Jackson <ian@davenant.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000-2002 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
  * Copyright © 2008 Pierre Habouzit <madcoder@debian.org>

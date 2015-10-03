@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * dbmodify.c - routines for managing dpkg database updates
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman <wichert@debian.org>
  * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  *

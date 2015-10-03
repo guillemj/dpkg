@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * select.c - by-hand (rather than dselect-based) package selection
  *
- * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995,1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2006, 2008-2015 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>

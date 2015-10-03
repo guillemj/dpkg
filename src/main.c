@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * main.c - main program
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
  * Copyright © 2010 Canonical Ltd.
  *   written by Martin Pitt <martin.pitt@canonical.com>

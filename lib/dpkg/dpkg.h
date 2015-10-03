@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * dpkg.h - general header for Debian package handling
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wichert@debian.org>
  * Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
  *

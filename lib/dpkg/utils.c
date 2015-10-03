@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * utils.c - helper functions for dpkg
  *
- * Copyright © 1995, 2008 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995, 2008 Ian Jackson <ijackson@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * pkg-show.c - primitives for pkg information display
  *
- * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995,1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify

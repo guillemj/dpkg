@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * pkglist.cc - package list administration
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *

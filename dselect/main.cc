@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * main.cc - main program
  *
- * Copyright © 1994-1996 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994-1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
  *

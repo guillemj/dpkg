@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * dpkg-db.h - declarations for in-core package database management
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman
  * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  *

@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * file.c - file handling functions
  *
- * Copyright © 1994, 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994, 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify

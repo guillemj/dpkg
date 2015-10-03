@@ -2,7 +2,7 @@
  * dpkg-deb - construction and deconstruction of *.deb archives
  * build.c - building archives
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
  * Copyright © 2007-2015 Guillem Jover <guillem@debian.org>
  *

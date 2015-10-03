@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * depcon.c - dependency and conflict checking
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2009 Canonical Ltd.
  *

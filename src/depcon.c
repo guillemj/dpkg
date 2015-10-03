@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * depcon.c - dependency and conflict checking
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>

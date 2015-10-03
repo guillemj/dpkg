@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * main.h - external definitions for this program
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2006, 2008-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
