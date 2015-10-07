@@ -278,6 +278,21 @@ architecture wildcards in that list (see
 for more information about them).
 
 .TP
+.BR Build\-Profiles: " \fIrestriction-formula\fP"
+This field specifies the conditions for which this binary package does or
+does not build.
+To express that condition, the same restriction formula syntax from the
+\fBBuild\-Depends\fP field is used.
+
+If a binary package paragraph does not contain this field, then it implicitly
+means that it builds with all build profiles (including none at all).
+
+In other words, if a binary package paragraph is annotated with a non-empty
+\fBBuild\-Profiles\fP field, then this binary package is generated if and
+only if the condition expressed by the conjunctive normal form expression
+evaluates to true.
+
+.TP
 .BR Package\-Type: " \fBdeb\fP|\fBudeb\fP"
 This field defines the type of the package.
 \fBudeb\fP is for size-constrained packages used by the debian installer.
