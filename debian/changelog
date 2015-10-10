@@ -4,6 +4,10 @@ dpkg (1.18.4) UNRELEASED; urgency=low
   * Switch dpkg-scansources and dpkg-scanpackages to use File::Find instead
     of find(1), as the former is more portable with more consistent behavior,
     and always canonicalizes the pathnames. Closes: #800649
+  * Initialize Config-Version also for packages previously in triggers-pending
+    state, otherwise we end up not passing the previously configured version
+    to «postinst configure», which might consider this a first install instead
+    of an upgrade. Closes: #801156
   * Build system:
     - Set PERL5LIB globally for the test suite to the local modules directory,
       to avoid using the system modules. Regression introduced in dpkg 1.17.8.
