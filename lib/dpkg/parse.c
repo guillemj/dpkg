@@ -222,18 +222,24 @@ pkg_parse_verify(struct parsedb_state *ps,
       if (!dop->arch)
         dop->arch = pkgbin->arch;
 
-  /* Check the Config-Version information:
-   * If there is a Config-Version it is definitely to be used, but
-   * there shouldn't be one if the package is ‘installed’ (in which case
-   * the Version and/or Revision will be copied) or if the package is
-   * ‘not-installed’ (in which case there is no Config-Version). */
+  /*
+   * Check the Config-Version information:
+   *
+   * If there is a Config-Version it is definitely to be used, but there
+   * should not be one if the package is ‘installed’ or ‘triggers-pending’
+   * (in which case the Version will be copied) or if the package is
+   * ‘not-installed’ (in which case there is no Config-Version).
+   */
   if (!(ps->flags & pdb_recordavailable)) {
     if (pkg->configversion.version) {
-      if (pkg->status == stat_installed || pkg->status == stat_notinstalled)
+      if (pkg->status == stat_installed ||
+          pkg->status == stat_notinstalled ||
+          pkg->status == stat_triggerspending)
         parse_error(ps,
                     _("Configured-Version for package with inappropriate Status"));
     } else {
-      if (pkg->status == stat_installed)
+      if (pkg->status == stat_installed ||
+          pkg->status == stat_triggerspending)
         pkg->configversion = pkgbin->version;
     }
   }
