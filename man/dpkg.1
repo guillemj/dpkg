@@ -260,8 +260,8 @@ available. With action \fB\-\-merge\-avail\fP, old information is
 combined with information from \fIPackages-file\fP. With action
 \fB\-\-update\-avail\fP, old information is replaced with the information
 in the \fIPackages-file\fP. The \fIPackages-file\fP distributed with
-Debian is simply named \fIPackages\fP. If the \fIPackages-file\fP
-argument is missing or named \fB-\fP then it will be read from
+Debian is simply named \(Fo\fIPackages\fP\(Fc. If the \fIPackages-file\fP
+argument is missing or named \(Fo\fB\-\fP\(Fc then it will be read from
 standard input (since dpkg 1.17.7). \fBdpkg\fP keeps its record of
 available packages in \fI/var/lib/dpkg/available\fP.
 
@@ -292,7 +292,7 @@ not be shown.
 Set package selections using file read from stdin. This file should be
 in the format \(lq\fIpackage\fP \fIstate\fP\(rq, where state is one of
 \fBinstall\fP, \fBhold\fP, \fBdeinstall\fP or \fBpurge\fP. Blank lines
-and comment lines beginning with \(oq#\(cq are also permitted.
+and comment lines beginning with \(oq\fB#\fP\(cq are also permitted.
 
 The \fIavailable\fP file needs to be up-to-date for this command to be
 useful, otherwise unknown packages will be ignored with a warning. See
@@ -449,7 +449,7 @@ configuration file \fI/etc/dpkg/dpkg.cfg\fP or fragment files (with names
 matching this shell pattern \(aq[0-9a-zA-Z_-]*\(aq) on the configuration
 directory \fI/etc/dpkg/dpkg.cfg.d/\fP. Each line in the configuration
 file is either an option (exactly the same as the command line option but
-without leading hyphens) or a comment (if it starts with a \fB#\fR).
+without leading hyphens) or a comment (if it starts with a \(oq\fB#\fP\(cq).
 .br
 .TP
 \fB\-\-abort\-after=\fP\fInumber\fP
@@ -639,18 +639,18 @@ installed. This is an alias of \fB\-\-refuse\-downgrade\fP.
 .BI \-\-admindir= dir
 Change default administrative directory, which contains many files that
 give information about status of installed or uninstalled packages, etc.
-(Defaults to \fI/var/lib/dpkg\fP)
+(Defaults to \(Fo\fI/var/lib/dpkg\fP\(Fc)
 .TP
 .BI \-\-instdir= dir
 Change default installation directory which refers to the directory where
 packages are to be installed. \fBinstdir\fP is also the directory passed
 to \fBchroot\fP(2) before running package's installation scripts, which
 means that the scripts see \fBinstdir\fP as a root directory.
-(Defaults to \fI/\fP)
+(Defaults to \(Fo\fI/\fP\(Fc)
 .TP
 .BI \-\-root= dir
-Changing \fBroot\fP changes \fBinstdir\fP to \fIdir\fP and \fBadmindir\fP
-to \fIdir\fP\fB/var/lib/dpkg\fP.
+Changing \fBroot\fP changes \fBinstdir\fP to \(Fo\fIdir\fP\(Fc and
+\fBadmindir\fP to \(Fo\fIdir\fP\fB/var/lib/dpkg\fP\(Fc.
 .TP
 \fB\-O\fP, \fB\-\-selected\-only\fP
 Only process the packages that are selected for installation. The
@@ -816,7 +816,8 @@ The program \fBdpkg\fP will execute when starting a new interactive shell.
 .TP
 .B COLUMNS
 Sets the number of columns \fBdpkg\fP should use when displaying formatted
-text. Currently only used by \-l.
+text.
+Currently only used by \fB\-\-list\fP.
 .SS Internal environment
 .TP
 .B DPKG_SHELL_REASON
