@@ -1,7 +1,7 @@
 #
 # Dpkg functional testsuite (kind of)
 #
-# Copyright © 2008-2013 Guillem Jover <guillem@debian.org>
+# Copyright © 2008-2015 Guillem Jover <guillem@debian.org>
 #
 
 DPKG_SERIES := 1.18.x
@@ -36,6 +36,7 @@ ifeq ($(call CHECK_VERSION,$(DPKG_SERIES),ge,1.18.x),yes)
 $(info using dpkg >= 1.18.x)
 export DPKG_HAS_TRIGPROC_DEPCHECK := 1
 export DPKG_HAS_SAME_RUN_BIDIRECTIONAL_CONFLICTS := 1
+export DPKG_HAS_WORKING_TRIGGERS_PENDING_UPGRADE := 1
 # once apt is fixed:
 #export DPKG_HAS_CONFIGURE_WITH_IMPLICIT_TRIGGER_PENDING := 1
 endif
@@ -90,6 +91,9 @@ TESTS_PASS += t-conflict-provide-replace-virtual-multiarch
 TESTS_PASS += t-conflict-provide-replace-interface
 TESTS_PASS += t-predepends-no-triggers
 TESTS_PASS += t-triggers
+ifdef DPKG_HAS_WORKING_TRIGGERS_PENDING_UPGRADE
+TESTS_PASS += t-triggers-configure
+endif
 TESTS_PASS += t-triggers-path
 TESTS_PASS += t-triggers-depends
 # This only works with dpkg >= 1.18.x
