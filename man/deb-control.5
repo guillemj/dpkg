@@ -144,10 +144,13 @@ qualifying the package name with \fB:any\fP, but has no effect otherwise.
 The value \fBno\fP is the default when the field is omitted, in which case
 adding the field with an explicit \fBno\fP value is generally not needed.
 .TP
-.BI Source: " source-name"
-The name of the source package that this binary package came from, if
+.BR Source: " \fIsource-name\fP [\fB(\fP\fIsource-version\fP\fB)\fP]"
+The name of the source package that this binary package came from, if it is
 different than the name of the package itself.
-
+If the source version differs from the binary version, then the
+\fIsource-name\fP will be followed by a \fIsource-version\fP in parenthesis.
+This can happen for example on a binary-only non-maintainer upload, or when
+setting a different binary version via \(Fo\fBdpkg\-gencontrol \-v\fP\(Fc.
 .TP
 .BI Subarchitecture: " value"
 .TQ
