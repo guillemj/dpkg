@@ -446,6 +446,59 @@ gen_dest_pathname_from_pkg(const char *dir, struct pkginfo *pkg)
   return path;
 }
 
+typedef void filenames_feed_func(const char *dir, int fd_out);
+
+/**
+ * Pack the contents of a directory into a tarball.
+ */
+static void
+tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
+             struct compress_params *tar_compress_params, int fd_out)
+{
+  int pipe_filenames[2], pipe_tarball[2];
+  pid_t pid_tar, pid_comp;
+
+  /* Fork off a tar. We will feed it a list of filenames on stdin later. */
+  m_pipe(pipe_filenames);
+  m_pipe(pipe_tarball);
+  pid_tar = subproc_fork();
+  if (pid_tar == 0) {
+    m_dup2(pipe_filenames[0], 0);
+    close(pipe_filenames[0]);
+    close(pipe_filenames[1]);
+    m_dup2(pipe_tarball[1], 1);
+    close(pipe_tarball[0]);
+    close(pipe_tarball[1]);
+
+    if (chdir(dir))
+      ohshite(_("failed to chdir to '%.255s'"), dir);
+
+    execlp(TAR, "tar", "-cf", "-", "--format=gnu", "--null", "--no-unquote",
+                       "--no-recursion", "-T", "-", NULL);
+    ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
+  }
+  close(pipe_filenames[0]);
+  close(pipe_tarball[1]);
+
+  /* Of course we should not forget to compress the archive as well. */
+  pid_comp = subproc_fork();
+  if (pid_comp == 0) {
+    close(pipe_filenames[1]);
+    compress_filter(tar_compress_params, pipe_tarball[0], fd_out,
+                    _("compressing tar member"));
+    exit(0);
+  }
+  close(pipe_tarball[0]);
+
+  /* All the pipes are set, now lets start feeding filenames to tar. */
+  tar_filenames_feeder(dir, pipe_filenames[1]);
+
+  /* All done, clean up wait for tar and <compress> to finish their job. */
+  close(pipe_filenames[1]);
+  subproc_reap(pid_comp, _("<compress> from tar -cf"), 0);
+  subproc_reap(pid_tar, "tar -cf", 0);
+}
+
 /**
  * Overly complex function that builds a .deb file.
  */
@@ -459,7 +512,7 @@ do_build(const char *const *argv)
   char *debar;
   char *tfbuf;
   int arfd;
-  int p1[2], p2[2], gzfd;
+  int p1[2], gzfd;
   pid_t c1, c2;
 
   /* Decode our arguments. */
@@ -597,38 +650,10 @@ do_build(const char *const *argv)
   } else {
     internerr("unknown deb format version %d.%d", deb_format.major, deb_format.minor);
   }
-  /* Fork off a tar. We will feed it a list of filenames on stdin later. */
-  m_pipe(p1);
-  m_pipe(p2);
-  c1 = subproc_fork();
-  if (!c1) {
-    m_dup2(p1[0],0); close(p1[0]); close(p1[1]);
-    m_dup2(p2[1],1); close(p2[0]); close(p2[1]);
-    if (chdir(dir))
-      ohshite(_("failed to chdir to '%.255s'"), dir);
-    execlp(TAR, "tar", "-cf", "-", "--format=gnu", "--null", "--no-unquote",
-                       "--no-recursion", "-T", "-", NULL);
-    ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
-  }
-  close(p1[0]);
-  close(p2[1]);
-  /* Of course we should not forget to compress the archive as well. */
-  c2 = subproc_fork();
-  if (!c2) {
-    close(p1[1]);
-    compress_filter(&compress_params, p2[0], gzfd, _("compressing data member"));
-    exit(0);
-  }
-  close(p2[0]);
 
-  /* All the pipes are set, now lets walk the tree, and start feeding
-   * filenames to tar. */
-  file_treewalk_feed(dir, p1[1]);
+  /* Pack the directory into a tarball, feeding files from the callback. */
+  tarball_pack(dir, file_treewalk_feed, &compress_params, gzfd);
 
-  /* All done, clean up wait for tar and <compress> to finish their job. */
-  close(p1[1]);
-  subproc_reap(c2, _("<compress> from tar -cf"), 0);
-  subproc_reap(c1, "tar -cf", 0);
   /* Okay, we have data.tar as well now, add it to the ar wrapper. */
   if (deb_format.major == 2) {
     char datamember[16 + 1];
