@@ -228,13 +228,13 @@ static const char *const maintainerscripts[] = {
  * Check control directory and file permissions.
  */
 static void
-check_file_perms(const char *dir)
+check_file_perms(const char *ctrldir)
 {
   struct varbuf path = VARBUF_INIT;
   const char *const *mscriptp;
   struct stat mscriptstab;
 
-  varbuf_printf(&path, "%s/%s/", dir, BUILDCONTROLDIR);
+  varbuf_printf(&path, "%s/", ctrldir);
   if (lstat(path.buf, &mscriptstab))
     ohshite(_("unable to stat control directory"));
   if (!S_ISDIR(mscriptstab.st_mode))
@@ -246,7 +246,7 @@ check_file_perms(const char *dir)
 
   for (mscriptp = maintainerscripts; *mscriptp; mscriptp++) {
     varbuf_reset(&path);
-    varbuf_printf(&path, "%s/%s/%s", dir, BUILDCONTROLDIR, *mscriptp);
+    varbuf_printf(&path, "%s/%s", ctrldir, *mscriptp);
     if (!lstat(path.buf, &mscriptstab)) {
       if (S_ISLNK(mscriptstab.st_mode))
         continue;
@@ -269,7 +269,7 @@ check_file_perms(const char *dir)
  * Check if conffiles contains sane information.
  */
 static void
-check_conffiles(const char *dir)
+check_conffiles(const char *ctrldir, const char *rootdir)
 {
   FILE *cf;
   struct varbuf controlfile = VARBUF_INIT;
@@ -277,7 +277,7 @@ check_conffiles(const char *dir)
   struct file_info *conffiles_head = NULL;
   struct file_info *conffiles_tail = NULL;
 
-  varbuf_printf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONFFILESFILE);
+  varbuf_printf(&controlfile, "%s/%s", ctrldir, CONFFILESFILE);
 
   cf = fopen(controlfile.buf, "r");
   if (cf == NULL) {
@@ -301,7 +301,7 @@ check_conffiles(const char *dir)
 
     conffilename[n - 1] = '\0';
     varbuf_reset(&controlfile);
-    varbuf_printf(&controlfile, "%s/%s", dir, conffilename);
+    varbuf_printf(&controlfile, "%s/%s", rootdir, conffilename);
     if (lstat(controlfile.buf, &controlstab)) {
       if (errno == ENOENT) {
         if ((n > 1) && c_isspace(conffilename[n - 2]))
@@ -339,12 +339,12 @@ check_conffiles(const char *dir)
  * @return	The pkginfo struct from the parsed control file.
  */
 static struct pkginfo *
-check_control_file(const char *dir)
+check_control_file(const char *ctrldir)
 {
   struct pkginfo *pkg;
   char *controlfile;
 
-  m_asprintf(&controlfile, "%s/%s/%s", dir, BUILDCONTROLDIR, CONTROLFILE);
+  m_asprintf(&controlfile, "%s/%s", ctrldir, CONTROLFILE);
   parsedb(controlfile, pdb_parse_binary, &pkg);
 
   if (strspn(pkg->set->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
@@ -366,15 +366,15 @@ check_control_file(const char *dir)
  * @return	The pkginfo struct from the parsed control file.
  */
 static struct pkginfo *
-check_control_area(const char *dir)
+check_control_area(const char *ctrldir, const char *rootdir)
 {
   struct pkginfo *pkg;
   int warns;
 
   /* Start by reading in the control file so we can check its contents. */
-  pkg = check_control_file(dir);
-  check_file_perms(dir);
-  check_conffiles(dir);
+  pkg = check_control_file(ctrldir);
+  check_file_perms(ctrldir);
+  check_conffiles(ctrldir, rootdir);
 
   warns = warning_get_count();
   if (warns)
@@ -455,6 +455,7 @@ do_build(const char *const *argv)
   struct compress_params control_compress_params;
   struct dpkg_error err;
   const char *dir, *dest;
+  char *ctrldir;
   char *debar;
   char *tfbuf;
   int arfd;
@@ -471,6 +472,7 @@ do_build(const char *const *argv)
     badusage(_("--%s takes at most two arguments"), cipaction->olong);
 
   debar = gen_dest_pathname(dir, dest);
+  m_asprintf(&ctrldir, "%s/%s", dir, BUILDCONTROLDIR);
 
   /* Perform some sanity checks on the to-be-build package. */
   if (nocheckflag) {
@@ -481,7 +483,7 @@ do_build(const char *const *argv)
   } else {
     struct pkginfo *pkg;
 
-    pkg = check_control_area(dir);
+    pkg = check_control_area(ctrldir, dir);
     if (debar == NULL)
       debar = gen_dest_pathname_from_pkg(dest, pkg);
     printf(_("dpkg-deb: building package '%s' in '%s'.\n"),
@@ -500,14 +502,14 @@ do_build(const char *const *argv)
   c1 = subproc_fork();
   if (!c1) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
-    if (chdir(dir))
-      ohshite(_("failed to chdir to '%.255s'"), dir);
-    if (chdir(BUILDCONTROLDIR))
-      ohshite(_("failed to chdir to '%.255s'"), ".../DEBIAN");
+    if (chdir(ctrldir))
+      ohshite(_("failed to chdir to '%.255s'"), ctrldir);
     execlp(TAR, "tar", "-cf", "-", "--format=gnu", ".", NULL);
     ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
   }
   close(p1[1]);
+  free(ctrldir);
+
   /* Create a temporary file to store the control data in. Immediately
    * unlink our temporary file so others can't mess with it. */
   tfbuf = path_make_temp_template("dpkg-deb");
