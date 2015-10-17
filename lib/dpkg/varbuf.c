@@ -3,7 +3,7 @@
  * varbuf.c - variable length expandable buffer handling
  *
  * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
- * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -105,6 +105,14 @@ varbuf_end_str(struct varbuf *v)
 {
   varbuf_grow(v, 1);
   v->buf[v->used] = '\0';
+}
+
+const char *
+varbuf_get_str(struct varbuf *v)
+{
+  varbuf_end_str(v);
+
+  return v->buf;
 }
 
 void
