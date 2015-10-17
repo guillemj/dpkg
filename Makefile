@@ -32,6 +32,9 @@ TESTS_PASS += t-field-priority
 TESTS_PASS += t-deb-format
 TESTS_PASS += t-deb-split
 TESTS_PASS += t-deb-conffiles
+ifdef DPKG_HAS_STRICT_PATHNAME_WITHOUT_NEWLINES
+TESTS_PASS += t-deb-newline
+endif
 TESTS_PASS += t-option-dry-run
 TESTS_PASS += t-option-recursive
 TESTS_PASS += t-control-bogus
