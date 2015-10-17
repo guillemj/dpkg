@@ -149,6 +149,7 @@ pkg_infodb_link_multiarch_files(void)
 	}
 	pop_cleanup(ehflag_normaltidy); /* closedir */
 
+	varbuf_destroy(&pkgname);
 	varbuf_destroy(&newname);
 	varbuf_destroy(&oldname);
 }
