@@ -6,6 +6,12 @@
 
 -include ../.pkg-tests.conf
 
+## Feature checks setup ##
+
+include ../Feature.mk
+
+## Test case support ##
+
 ifneq (,$(filter debug,$(DPKG_TESTSUITE_OPTIONS)))
 DPKG_MAINTSCRIPT_DEBUG = DPKG_DEBUG=1
 endif
