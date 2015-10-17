@@ -133,6 +133,8 @@ verify_package(struct pkginfo *pkg)
 		if (failures)
 			verify_output(fnn, &checks);
 	}
+
+	varbuf_destroy(&filename);
 }
 
 int
