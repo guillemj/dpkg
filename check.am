@@ -25,7 +25,7 @@ check-clean:
 
 check-local: $(test_data) $(test_programs) $(test_scripts)
 	[ -z "$(test_tmpdir)" ] || $(MKDIR_P) $(test_tmpdir)
-	PATH="$(top_builddir)/src:$(top_builddir)/scripts:$(top_builddir)/utils:$(PATH)" \
+	PATH="$(abs_top_builddir)/src:$(abs_top_builddir)/scripts:$(abs_top_builddir)/utils:$(PATH)" \
 	  LC_ALL=C \
 	  $(TEST_ENV_VARS) \
 	  srcdir=$(srcdir) builddir=$(builddir) \
