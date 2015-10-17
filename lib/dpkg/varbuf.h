@@ -64,7 +64,6 @@ struct varbuf {
 	void destroy();
 	void operator()(int c);
 	void operator()(const char *s);
-	void terminate(void/*to shut 2.6.3 up*/);
 	const char *string();
 #endif
 };
@@ -144,17 +143,10 @@ varbuf::operator()(const char *s)
 	varbuf_add_str(this, s);
 }
 
-inline void
-varbuf::terminate(void/*to shut 2.6.3 up*/)
-{
-	varbuf_end_str(this);
-}
-
 inline const char *
 varbuf::string()
 {
-	terminate();
-	return buf;
+	return varbuf_get_str(this);
 }
 #endif
 

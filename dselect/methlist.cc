@@ -206,7 +206,6 @@ void methodlist::redrawinfo() {
 
   itd_description();
 
-  whatinfovb.terminate();
   int y,x;
   getyx(infopad, y,x);
   if (x) y++;

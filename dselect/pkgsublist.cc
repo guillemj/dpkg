@@ -76,7 +76,6 @@ void packagelist::add(pkginfo *pkg, const char *extrainfo, showpriority showimp)
   add(pkg);  if (!pkg->clientdata) return;
   if (pkg->clientdata->dpriority < showimp) pkg->clientdata->dpriority= showimp;
   pkg->clientdata->relations(extrainfo);
-  pkg->clientdata->relations.terminate();
 }
 
 bool
