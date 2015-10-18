@@ -316,29 +316,28 @@ xreadlink(const char *linkname)
 	return buf;
 }
 
-static int DPKG_ATTR_VPRINTF(2)
-xvasprintf(char **strp, const char *fmt, va_list args)
+static char * DPKG_ATTR_VPRINTF(1)
+xvasprintf(const char *fmt, va_list args)
 {
-	int ret;
+	char *str;
 
-	ret = vasprintf(strp, fmt, args);
-	if (ret < 0)
+	if (vasprintf(&str, fmt, args) < 0)
 		error(_("failed to allocate memory"));
 
-	return ret;
+	return str;
 }
 
-static int DPKG_ATTR_PRINTF(2)
-xasprintf(char **strp, const char *fmt, ...)
+static char * DPKG_ATTR_PRINTF(1)
+xasprintf(const char *fmt, ...)
 {
 	va_list args;
-	int ret;
+	char *str;
 
 	va_start(args, fmt);
-	ret = xvasprintf(strp, fmt, args);
+	str = xvasprintf(fmt, args);
 	va_end(args);
 
-	return ret;
+	return str;
 }
 
 static void
@@ -354,7 +353,6 @@ static const char *
 admindir_init(void)
 {
 	const char *basedir, *dpkg_basedir;
-	char *admindir;
 
 	dpkg_basedir = getenv("DPKG_ADMINDIR");
 	if (dpkg_basedir)
@@ -362,9 +360,7 @@ admindir_init(void)
 	else
 		basedir = ADMINDIR;
 
-	xasprintf(&admindir, "%s/%s", basedir, "alternatives");
-
-	return admindir;
+	return xasprintf("%s/%s", basedir, "alternatives");
 }
 
 static FILE *fh_log = NULL;
@@ -464,7 +460,7 @@ checked_rm_args(const char *fmt, ...)
 	char *path;
 
 	va_start(args, fmt);
-	xvasprintf(&path, fmt, args);
+	path = xvasprintf(fmt, args);
 	va_end(args);
 
 	checked_rm(path);
@@ -1105,7 +1101,7 @@ altdb_parse_error(struct altdb_context *ctx, const char *format, ...)
 	va_list args;
 
 	va_start(args, format);
-	xvasprintf(&msg, format, args);
+	msg = xvasprintf(format, args);
 	va_end(args);
 
 	error(_("%s corrupt: %s"), ctx->filename, msg);
@@ -1236,7 +1232,7 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 {
 	struct altdb_context ctx;
 	struct stat st;
-	char *fn, *status;
+	char *status;
 
 	/* Initialize parse context */
 	if (setjmp(ctx.on_error)) {
@@ -1252,8 +1248,7 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 		ctx.bad_format = altdb_parse_stop;
 	else
 		ctx.bad_format = altdb_parse_error;
-	xasprintf(&fn, "%s/%s", admdir, a->master_name);
-	ctx.filename = fn;
+	ctx.filename = xasprintf("%s/%s", admdir, a->master_name);
 
 	/* Open the alternative file. */
 	ctx.fh = fopen(ctx.filename, "r");
@@ -1342,8 +1337,8 @@ alternative_save(struct alternative *a)
 	alternative_sort_choices(a);
 
 	/* Write admin file. */
-	xasprintf(&file, "%s/%s", admdir, a->master_name);
-	xasprintf(&filenew, "%s" ALT_TMP_EXT, file);
+	file = xasprintf("%s/%s", admdir, a->master_name);
+	filenew = xasprintf("%s" ALT_TMP_EXT, file);
 
 	ctx.filename = filenew;
 	ctx.fh = fopen(ctx.filename, "w");
@@ -1363,7 +1358,7 @@ alternative_save(struct alternative *a)
 
 		altdb_print_line(&ctx, fs->master_file);
 
-		xasprintf(&prio, "%d", fs->priority);
+		prio = xasprintf("%d", fs->priority);
 		altdb_print_line(&ctx, prio);
 		free(prio);
 
@@ -1411,7 +1406,7 @@ alternative_get_current(struct alternative *a)
 	if (a->known_current)
 		return a->current;
 
-	xasprintf(&curlink, "%s/%s", altdir, a->master_name);
+	curlink = xasprintf("%s/%s", altdir, a->master_name);
 	if (lstat(curlink, &st)) {
 		if (errno == ENOENT) {
 			free(curlink);
@@ -1749,8 +1744,8 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 	char *fntmp, *fn;
 
 	/* Create link in /etc/alternatives. */
-	xasprintf(&fntmp, "%s/%s" ALT_TMP_EXT, altdir, name);
-	xasprintf(&fn, "%s/%s", altdir, name);
+	fntmp = xasprintf("%s/%s" ALT_TMP_EXT, altdir, name);
+	fn = xasprintf("%s/%s", altdir, name);
 	checked_rm(fntmp);
 	checked_symlink(file, fntmp);
 	alternative_add_commit_op(a, OPCODE_MV, fntmp, fn);
@@ -1758,7 +1753,7 @@ alternative_prepare_install_single(struct alternative *a, const char *name,
 
 	if (alternative_path_needs_update(linkname, fn)) {
 		/* Create alternative link. */
-		xasprintf(&fntmp, "%s" ALT_TMP_EXT, linkname);
+		fntmp = xasprintf("%s" ALT_TMP_EXT, linkname);
 		checked_rm(fntmp);
 		checked_symlink(fn, fntmp);
 		alternative_add_commit_op(a, OPCODE_MV, fntmp, linkname);
@@ -1799,7 +1794,7 @@ alternative_prepare_install(struct alternative *a, const char *choice)
 			        a->master_name);
 
 		/* Drop unused slave. */
-		xasprintf(&fn, "%s/%s", altdir, sl->name);
+		fn = xasprintf("%s/%s", altdir, sl->name);
 		if (alternative_path_can_remove(sl->link))
 			alternative_add_commit_op(a, OPCODE_RM, sl->link, NULL);
 		else
@@ -1876,7 +1871,7 @@ alternative_has_broken_slave(struct slave_link *sl, struct fileset *fs)
 		sl_altlnk = areadlink(sl->link);
 		if (!sl_altlnk)
 			return true;
-		xasprintf(&wanted, "%s/%s", altdir, sl->name);
+		wanted = xasprintf("%s/%s", altdir, sl->name);
 		if (strcmp(sl_altlnk, wanted) != 0) {
 			free(wanted);
 			free(sl_altlnk);
@@ -1899,7 +1894,7 @@ alternative_has_broken_slave(struct slave_link *sl, struct fileset *fs)
 		/* Slave link must not exist. */
 		if (alternative_path_classify(sl->link) != ALT_PATH_MISSING)
 			return true;
-		xasprintf(&sl_altlnk, "%s/%s", altdir, sl->name);
+		sl_altlnk = xasprintf("%s/%s", altdir, sl->name);
 		if (alternative_path_classify(sl_altlnk) != ALT_PATH_MISSING) {
 			free(sl_altlnk);
 			return true;
@@ -1923,7 +1918,7 @@ alternative_needs_update(struct alternative *a)
 	altlnk = areadlink(a->master_link);
 	if (!altlnk)
 		return ALT_UPDATE_LINK_BROKEN;
-	xasprintf(&wanted, "%s/%s", altdir, a->master_name);
+	wanted = xasprintf("%s/%s", altdir, a->master_name);
 	if (strcmp(altlnk, wanted) != 0) {
 		free(wanted);
 		free(altlnk);
@@ -2166,7 +2161,7 @@ alternative_evolve_slave(struct alternative *a, const char *cur_choice,
 	} else {
 		char *lnk;
 
-		xasprintf(&lnk, "%s/%s", altdir, sl->name);
+		lnk = xasprintf("%s/%s", altdir, sl->name);
 		new_file = areadlink(lnk);
 		free(lnk);
 	}
