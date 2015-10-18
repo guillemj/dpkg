@@ -360,11 +360,8 @@ set_instdir(const struct cmdinfo *cip, const char *value)
 static void
 set_root(const struct cmdinfo *cip, const char *value)
 {
-  char *p;
-
   set_instdir(cip, value);
-  m_asprintf(&p, "%s%s", instdir, ADMINDIR);
-  admindir= p;
+  admindir = str_fmt("%s%s", instdir, ADMINDIR);
 }
 
 static void
@@ -751,13 +748,10 @@ int
 execbackend(const char *const *argv)
 {
   struct command cmd;
-  char *arg;
 
   command_init(&cmd, cipaction->arg_ptr, NULL);
   command_add_arg(&cmd, cipaction->arg_ptr);
-
-  m_asprintf(&arg, "--%s", cipaction->olong);
-  command_add_arg(&cmd, arg);
+  command_add_arg(&cmd, str_fmt("--%s", cipaction->olong));
 
   /* Exlicitely separate arguments from options as any user-supplied
    * separator got stripped by the option parser */

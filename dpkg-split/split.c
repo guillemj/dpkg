@@ -173,7 +173,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 			char *refname;
 			int prefix_max;
 
-			m_asprintf(&refname, "%dof%d", curpart, nparts);
+			refname = str_fmt("%dof%d", curpart, nparts);
 			prefix_max = max(8 - strlen(refname), 0);
 			varbuf_printf(&file_dst, "%s/%.*s%.8s.deb",
 			              prefixdir, prefix_max, prefix, refname);

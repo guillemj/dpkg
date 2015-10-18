@@ -44,7 +44,7 @@ atomic_file_new(const char *filename, enum atomic_file_flags flags)
 	file->flags = flags;
 	file->fp = NULL;
 	file->name = m_strdup(filename);
-	m_asprintf(&file->name_new, "%s%s", filename, ATOMIC_FILE_NEW_EXT);
+	file->name_new = str_fmt("%s%s", filename, ATOMIC_FILE_NEW_EXT);
 
 	return file;
 }
@@ -86,7 +86,7 @@ atomic_file_backup(struct atomic_file *file)
 {
 	char *name_old;
 
-	m_asprintf(&name_old, "%s%s", file->name, ATOMIC_FILE_OLD_EXT);
+	name_old = str_fmt("%s%s", file->name, ATOMIC_FILE_OLD_EXT);
 
 	if (unlink(name_old) && errno != ENOENT)
 		ohshite(_("error removing old backup file '%s'"), name_old);

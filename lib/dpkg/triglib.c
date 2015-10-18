@@ -49,11 +49,7 @@ static char *triggersdir, *triggersfilefile;
 static char *
 trig_get_filename(const char *dir, const char *filename)
 {
-	char *path;
-
-	m_asprintf(&path, "%s/%s", dir, filename);
-
-	return path;
+	return str_fmt("%s/%s", dir, filename);
 }
 
 static struct trig_hooks trigh;

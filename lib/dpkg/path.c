@@ -103,15 +103,12 @@ char *
 path_make_temp_template(const char *suffix)
 {
 	const char *tmpdir;
-	char *template;
 
 	tmpdir = getenv("TMPDIR");
 	if (!tmpdir)
 		tmpdir = P_tmpdir;
 
-	m_asprintf(&template, "%s/%s.XXXXXX", tmpdir, suffix);
-
-	return template;
+	return str_fmt("%s/%s.XXXXXX", tmpdir, suffix);
 }
 
 /**

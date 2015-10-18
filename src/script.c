@@ -166,7 +166,7 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	if (pid == 0) {
 		char *pkg_count;
 
-		m_asprintf(&pkg_count, "%d", pkgset_installed_instances(pkg->set));
+		pkg_count = str_fmt("%d", pkgset_installed_instances(pkg->set));
 
 		if (setenv("DPKG_MAINTSCRIPT_PACKAGE", pkg->set->name, 1) ||
 		    setenv("DPKG_MAINTSCRIPT_PACKAGE_REFCOUNT", pkg_count, 1) ||

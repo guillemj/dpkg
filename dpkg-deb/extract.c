@@ -491,7 +491,7 @@ do_raw_extract(const char *const *argv)
     badusage(_("--%s takes at most two arguments (.deb and directory)"),
              cipaction->olong);
 
-  m_asprintf(&control_dir, "%s/%s", dir, EXTRACTCONTROLDIR);
+  control_dir = str_fmt("%s/%s", dir, EXTRACTCONTROLDIR);
 
   data_options = DPKG_TAR_EXTRACT | DPKG_TAR_PERMS;
   if (opt_verbose)

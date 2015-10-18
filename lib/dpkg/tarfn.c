@@ -84,12 +84,8 @@ OtoM(const char *s, int size)
 static char *
 get_prefix_name(struct tar_header *h)
 {
-	char *path;
-
-	m_asprintf(&path, "%.*s/%.*s", (int)sizeof(h->prefix), h->prefix,
-	           (int)sizeof(h->name), h->name);
-
-	return path;
+	return str_fmt("%.*s/%.*s", (int)sizeof(h->prefix), h->prefix,
+	               (int)sizeof(h->name), h->name);
 }
 
 static mode_t

@@ -84,9 +84,5 @@ dpkg_db_get_dir(void)
 char *
 dpkg_db_get_path(const char *pathpart)
 {
-	char *pathname;
-
-	m_asprintf(&pathname, "%s/%s", db_dir, pathpart);
-
-	return pathname;
+	return str_fmt("%s/%s", db_dir, pathpart);
 }

@@ -344,7 +344,7 @@ check_control_file(const char *ctrldir)
   struct pkginfo *pkg;
   char *controlfile;
 
-  m_asprintf(&controlfile, "%s/%s", ctrldir, CONTROLFILE);
+  controlfile = str_fmt("%s/%s", ctrldir, CONTROLFILE);
   parsedb(controlfile, pdb_parse_binary, &pkg);
 
   if (strspn(pkg->set->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
@@ -431,7 +431,6 @@ static char *
 gen_dest_pathname_from_pkg(const char *dir, struct pkginfo *pkg)
 {
   const char *arch_sep;
-  char *path;
 
   if (pkg->available.arch->type == DPKG_ARCH_NONE ||
       pkg->available.arch->type == DPKG_ARCH_EMPTY)
@@ -439,11 +438,9 @@ gen_dest_pathname_from_pkg(const char *dir, struct pkginfo *pkg)
   else
     arch_sep = "_";
 
-  m_asprintf(&path, "%s/%s_%s%s%s%s", dir, pkg->set->name,
-             versiondescribe(&pkg->available.version, vdew_never),
-             arch_sep, pkg->available.arch->name, DEBEXT);
-
-  return path;
+  return str_fmt("%s/%s_%s%s%s%s", dir, pkg->set->name,
+                 versiondescribe(&pkg->available.version, vdew_never),
+                 arch_sep, pkg->available.arch->name, DEBEXT);
 }
 
 typedef void filenames_feed_func(const char *dir, int fd_out);
@@ -525,7 +522,7 @@ do_build(const char *const *argv)
     badusage(_("--%s takes at most two arguments"), cipaction->olong);
 
   debar = gen_dest_pathname(dir, dest);
-  m_asprintf(&ctrldir, "%s/%s", dir, BUILDCONTROLDIR);
+  ctrldir = str_fmt("%s/%s", dir, BUILDCONTROLDIR);
 
   /* Perform some sanity checks on the to-be-build package. */
   if (nocheckflag) {

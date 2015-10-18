@@ -1463,10 +1463,7 @@ archivefiles(const char *const *argv)
 
       for (ap = argv; *ap; ap++) {
         if (strchr(FIND_EXPRSTARTCHARS,(*ap)[0])) {
-          char *a;
-
-          m_asprintf(&a, "./%s", *ap);
-          command_add_arg(&cmd, a);
+          command_add_arg(&cmd, str_fmt("./%s", *ap));
         } else {
           command_add_arg(&cmd, (const char *)*ap);
         }

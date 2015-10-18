@@ -102,7 +102,7 @@ dir_file_sync(const char *dir, const char *filename)
 	char *path;
 	int fd;
 
-	m_asprintf(&path, "%s/%s", dir, filename);
+	path = str_fmt("%s/%s", dir, filename);
 
 	fd = open(path, O_WRONLY);
 	if (fd < 0)

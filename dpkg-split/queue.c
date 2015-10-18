@@ -184,9 +184,9 @@ do_auto(const char *const *argv)
     int ap;
     char *p, *q;
 
-    m_asprintf(&p, "%s/t.%lx", opt_depotdir, (long)getpid());
-    m_asprintf(&q, "%s/%s.%jx.%x.%x", opt_depotdir, refi->md5sum,
-               (intmax_t)refi->maxpartlen, refi->thispartn, refi->maxpartn);
+    p = str_fmt("%s/t.%lx", opt_depotdir, (long)getpid());
+    q = str_fmt("%s/%s.%jx.%x.%x", opt_depotdir, refi->md5sum,
+                (intmax_t)refi->maxpartlen, refi->thispartn, refi->maxpartn);
 
     fd_src = open(partfile, O_RDONLY);
     if (fd_src < 0)

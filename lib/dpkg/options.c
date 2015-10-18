@@ -168,7 +168,7 @@ dpkg_options_load_dir(const char *prog, const struct cmdinfo *cmdinfos)
   struct dirent **dlist;
   int dlist_n, i;
 
-  m_asprintf(&dirname, "%s/%s.cfg.d", CONFIGDIR, prog);
+  dirname = str_fmt("%s/%s.cfg.d", CONFIGDIR, prog);
 
   dlist_n = scandir(dirname, &dlist, valid_config_filename, alphasort);
   if (dlist_n < 0) {
@@ -182,7 +182,7 @@ dpkg_options_load_dir(const char *prog, const struct cmdinfo *cmdinfos)
   for (i = 0; i < dlist_n; i++) {
     char *filename;
 
-    m_asprintf(&filename, "%s/%s", dirname, dlist[i]->d_name);
+    filename = str_fmt("%s/%s", dirname, dlist[i]->d_name);
     dpkg_options_load_file(filename, cmdinfos);
 
     free(dlist[i]);
@@ -200,13 +200,13 @@ dpkg_options_load(const char *prog, const struct cmdinfo *cmdinfos)
 
   dpkg_options_load_dir(prog, cmdinfos);
 
-  m_asprintf(&file, "%s/%s.cfg", CONFIGDIR, prog);
+  file = str_fmt("%s/%s.cfg", CONFIGDIR, prog);
   dpkg_options_load_file(file, cmdinfos);
   free(file);
 
   home = getenv("HOME");
   if (home != NULL) {
-    m_asprintf(&file, "%s/.%s.cfg", home, prog);
+    file = str_fmt("%s/.%s.cfg", home, prog);
     dpkg_options_load_file(file, cmdinfos);
     free(file);
   }

@@ -73,7 +73,7 @@ dpkg_put_errno(struct dpkg_error *err, const char *fmt, ...)
 	va_list args;
 	char *new_fmt;
 
-	m_asprintf(&new_fmt, "%s (%s)", fmt, strerror(errno));
+	new_fmt = str_fmt("%s (%s)", fmt, strerror(errno));
 
 	va_start(args, fmt);
 	dpkg_error_set(err, DPKG_MSG_ERROR, new_fmt, args);
