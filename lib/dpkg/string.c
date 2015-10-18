@@ -3,7 +3,7 @@
  * string.c - string handling routines
  *
  * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
- * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,6 +47,27 @@ str_match_end(const char *str, const char *end)
 		return true;
 	else
 		return false;
+}
+
+/**
+ * Print formatted output to an allocated string.
+ *
+ * @param fmt The format string.
+ * @param ... The format arguments.
+ *
+ * @return The new allocated formatted output string (never NULL).
+ */
+char *
+str_fmt(const char *fmt, ...)
+{
+	va_list args;
+	char *str;
+
+	va_start(args, fmt);
+	m_vasprintf(&str, fmt, args);
+	va_end(args);
+
+	return str;
 }
 
 /**

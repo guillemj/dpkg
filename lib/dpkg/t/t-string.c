@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * t-string.c - test string handling
  *
- * Copyright © 2009-2011, 2014 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2011, 2014-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -74,6 +74,20 @@ test_str_fnv_hash(void)
 	test_pass(str_fnv_hash("Test-string") == 0x00a54b81UL);
 	test_pass(str_fnv_hash("rest-string") == 0x1cdeebffUL);
 	test_pass(str_fnv_hash("Rest-string") == 0x20464b9fUL);
+}
+
+static void
+test_str_fmt(void)
+{
+	char *str;
+
+	str = str_fmt("%s", "abcde");
+	test_str(str, ==, "abcde");
+	free(str);
+
+	str = str_fmt("%d", 15);
+	test_str(str, ==, "15");
+	free(str);
 }
 
 static void
@@ -184,11 +198,12 @@ test_str_strip_quotes(void)
 static void
 test(void)
 {
-	test_plan(48);
+	test_plan(50);
 
 	test_str_is_set();
 	test_str_match_end();
 	test_str_fnv_hash();
+	test_str_fmt();
 	test_str_escape_fmt();
 	test_str_quote_meta();
 	test_str_strip_quotes();

@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * string.h - string handling routines
  *
- * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,6 +56,7 @@ bool str_match_end(const char *str, const char *end);
 
 unsigned int str_fnv_hash(const char *str);
 
+char *str_fmt(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 char *str_escape_fmt(char *dest, const char *src, size_t n);
 char *str_quote_meta(const char *src);
 char *str_strip_quotes(char *str);
