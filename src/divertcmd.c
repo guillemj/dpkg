@@ -464,7 +464,7 @@ diversion_add(const char *const *argv)
 			if (opt_verbose > 0)
 				printf(_("Leaving '%s'\n"),
 				       diversion_describe(fnn_from->divert));
-			exit(0);
+			return 0;
 		}
 
 		ohshit(_("'%s' clashes with '%s'"),
@@ -595,7 +595,7 @@ diversion_remove(const char *const *argv)
 		if (opt_verbose > 0)
 			printf(_("Ignoring request to remove shared diversion '%s'.\n"),
 			       diversion_describe(contest));
-		exit(0);
+		return 0;
 	}
 
 	if (opt_verbose > 0)
