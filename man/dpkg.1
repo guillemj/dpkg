@@ -370,8 +370,8 @@ Supports versioned \fBProvides\fP (since dpkg 1.17.11).
 .TP
 .B \-\-compare\-versions \fIver1 op ver2\fP
 Compare version numbers, where \fIop\fP is a binary operator. \fBdpkg\fP
-returns success (zero result) if the specified condition is satisfied,
-and failure (nonzero result) otherwise. There are
+returns true (\fB0\fP) if the specified condition is satisfied,
+and false (\fB1\fP) otherwise. There are
 two groups of operators, which differ in how they treat an empty
 \fIver1\fP or \fIver2\fP. These treat an empty version as earlier than any
 version: \fBlt le eq ne ge gt\fP. These treat an empty version as later
@@ -791,6 +791,20 @@ may leave packages in the improper \fBtriggers\-awaited\fP and
 .TP
 \fB\-\-triggers\fP
 Cancels a previous \fB\-\-no\-triggers\fP (since dpkg 1.14.17).
+.
+.SH EXIT STATUS
+.TP
+.B 0
+The requested action was successfully performed.
+Or a check or assertion command returned true.
+.TP
+.B 1
+A check or assertion command returned false.
+.TP
+.B 2
+Fatal or unrecoverable error due to invalid command-line usage, or
+interactions with the system, such as accesses to the database,
+memory allocations, etc.
 .
 .SH ENVIRONMENT
 .SS External environment

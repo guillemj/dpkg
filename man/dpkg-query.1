@@ -292,9 +292,15 @@ conversion nor error checking is done on them. To get the name of the
 The requested query was successfully performed.
 .TP
 .B 1
-Problems were encountered while parsing the command line or performing the
-query, including no file or package being found (except for
-\fB\-\-control\-path\fP).
+The requested query failed either fully or partially, due to no file or
+package being found (except for \fB\-\-control\-path\fP,
+\fB\-\-control\-list\fP and \fB\-\-control\-show\fP were such errors are
+fatal).
+.TP
+.B 2
+Fatal or unrecoverable error due to invalid command-line usage, or
+interactions with the system, such as accesses to the database,
+memory allocations, etc.
 .
 .SH ENVIRONMENT
 .TP

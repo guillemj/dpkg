@@ -58,8 +58,7 @@ unchanged by this command.
 .TP
 .BR \-\-list " [\fIglob-pattern\fP]"
 List all overrides. If a glob pattern is specified restrict the output
-to overrides which match the glob. If there are no overrides or none
-match the glob \fBdpkg\-statoverride\fR will exit with an exitcode of 1.
+to overrides which match the glob.
 .TP
 .B \-\-help
 Show the usage message and exit.
@@ -83,6 +82,20 @@ exists.
 .TP
 .B \-\-quiet
 Be less verbose about what we do.
+.
+.SH EXIT STATUS
+.TP
+.B 0
+The requested action was successfully performed.
+.TP
+.B 1
+For \fB\-\-list\fP, if there are no overrides or none match the supplied
+glob.
+.TP
+.B 2
+Fatal or unrecoverable error due to invalid command-line usage, or
+interactions with the system, such as accesses to the database,
+memory allocations, etc.
 .
 .SH ENVIRONMENT
 .TP
