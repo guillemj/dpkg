@@ -168,7 +168,7 @@ static const struct trigdefmeths tdm_add = {
 	.trig_end = tdm_add_trig_end,
 };
 
-static void DPKG_ATTR_NORET
+static int
 do_check(void)
 {
 	enum trigdef_update_status uf;
@@ -177,13 +177,13 @@ do_check(void)
 	switch (uf) {
 	case TDUS_ERROR_NO_DIR:
 		notice(_("triggers data directory not yet created"));
-		exit(1);
+		return 1;
 	case TDUS_ERROR_NO_DEFERRED:
 		notice(_("trigger records not yet in existence"));
-		exit(1);
+		return 1;
 	case TDUS_OK:
 	case TDUS_ERROR_EMPTY_DEFERRED:
-		exit(0);
+		return 0;
 	default:
 		internerr("unknown trigdef_update_start return value '%d'", uf);
 	}
@@ -218,7 +218,7 @@ main(int argc, const char *const *argv)
 		if (*argv)
 			badusage(_("--%s takes no arguments"),
 			         "check-supported");
-		do_check();
+		return do_check();
 	}
 
 	if (!*argv || argv[1])
