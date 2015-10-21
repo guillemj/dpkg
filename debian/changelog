@@ -9,6 +9,8 @@ dpkg (1.18.4) UNRELEASED; urgency=low
     to «postinst configure», which might consider this a first install instead
     of an upgrade. Closes: #801156
   * Fix memory leaks in «dpkg --verify» and dpkg infodb format upgrade logic.
+  * Merge all update-alternatives action handling into a single if-else-if
+    block, to unify the code an allow a future switch into a shared library.
   * Build system:
     - Set PERL5LIB globally for the test suite to the local modules directory,
       to avoid using the system modules. Regression introduced in dpkg 1.17.8.

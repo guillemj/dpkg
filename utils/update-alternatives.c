@@ -2569,6 +2569,8 @@ main(int argc, char **argv)
 	char *path = NULL;
 	const char *current_choice = NULL;
 	const char *new_choice = NULL;
+	bool modifies_alt = false;
+	bool modifies_sys = false;
 	int i = 0;
 
 	setlocale(LC_ALL, "");
@@ -2720,6 +2722,21 @@ main(int argc, char **argv)
 		           "--config, --set, --set-selections, --install, "
 		           "--remove, --all, --remove-all or --auto"));
 
+	/* The following actions might modify the current alternative. */
+	if (strcmp(action, "set") == 0 ||
+	    strcmp(action, "auto") == 0 ||
+	    strcmp(action, "config") == 0 ||
+	    strcmp(action, "remove") == 0 ||
+	    strcmp(action, "remove-all") == 0 ||
+	    strcmp(action, "install") == 0)
+		modifies_alt = true;
+
+	/* The following actions might modify the system somehow. */
+	if (modifies_alt ||
+	    strcmp(action, "all") == 0 ||
+	    strcmp(action, "set-selections") == 0)
+		modifies_sys = true;
+
 	if (strcmp(action, "install") == 0)
 		alternative_check_install_args(inst_alt, fileset);
 
@@ -2746,35 +2763,28 @@ main(int argc, char **argv)
 		alternative_load(a, ALTDB_WARN_PARSER);
 	}
 
-	/* Handle actions. */
-	if (strcmp(action, "all") == 0) {
+	if (modifies_sys)
 		log_msg("run with %s", get_argv_string(argc, argv));
-		alternative_config_all();
-		exit(0);
-	} else if (strcmp(action, "get-selections") == 0) {
-		alternative_get_selections();
-		exit(0);
-	} else if (strcmp(action, "set-selections") == 0) {
-		log_msg("run with %s", get_argv_string(argc, argv));
-		alternative_set_selections(stdin, _("<standard input>"));
-		exit(0);
-	} else if (strcmp(action, "display") == 0) {
-		alternative_display_user(a);
-		exit(0);
-	} else if (strcmp(action, "query") == 0) {
-		alternative_display_query(a);
-		exit(0);
-	} else if (strcmp(action, "list") == 0) {
-		alternative_display_list(a);
-		exit(0);
+
+	if (modifies_alt) {
+		current_choice = alternative_get_current(a);
+		alternative_select_mode(a, current_choice);
 	}
 
-	/* Actions below might modify the system. */
-	log_msg("run with %s", get_argv_string(argc, argv));
-	current_choice = alternative_get_current(a);
-	alternative_select_mode(a, current_choice);
-
-	if (strcmp(action, "set") == 0) {
+	/* Handle actions. */
+	if (strcmp(action, "all") == 0) {
+		alternative_config_all();
+	} else if (strcmp(action, "get-selections") == 0) {
+		alternative_get_selections();
+	} else if (strcmp(action, "set-selections") == 0) {
+		alternative_set_selections(stdin, _("<standard input>"));
+	} else if (strcmp(action, "display") == 0) {
+		alternative_display_user(a);
+	} else if (strcmp(action, "query") == 0) {
+		alternative_display_query(a);
+	} else if (strcmp(action, "list") == 0) {
+		alternative_display_list(a);
+	} else if (strcmp(action, "set") == 0) {
 		new_choice = alternative_set_manual(a, path);
 	} else if (strcmp(action, "auto") == 0) {
 		new_choice = alternative_set_auto(a);
@@ -2805,7 +2815,8 @@ main(int argc, char **argv)
 		}
 	}
 
-	alternative_update(a, current_choice, new_choice);
+	if (modifies_alt)
+		alternative_update(a, current_choice, new_choice);
 
 	return 0;
 }
