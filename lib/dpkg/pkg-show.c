@@ -131,7 +131,7 @@ pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
 }
 
 const char *
-pkg_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin, int *len)
+pkgbin_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin, int *len)
 {
 	const char *pdesc;
 

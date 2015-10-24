@@ -276,7 +276,7 @@ virt_summary(struct varbuf *vb,
 	const char *desc;
 	int len;
 
-	desc = pkg_summary(pkg, pkgbin, &len);
+	desc = pkgbin_summary(pkg, pkgbin, &len);
 
 	varbuf_add_buf(vb, desc, len);
 }

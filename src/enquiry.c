@@ -169,7 +169,7 @@ static void describebriefly(struct pkginfo *pkg) {
   l= strlen(pkg->set->name);
   if (l>20) maxl -= (l-20);
 
-  pdesc = pkg_summary(pkg, &pkg->installed, &l);
+  pdesc = pkgbin_summary(pkg, &pkg->installed, &l);
   l = min(l, maxl);
 
   printf(" %-20s %.*s\n", pkg_name(pkg, pnaw_nonambig), l, pdesc);
