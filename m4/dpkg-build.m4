@@ -29,6 +29,23 @@ AC_DEFUN([DPKG_BUILD_PROG], [
   AC_MSG_RESULT([$build_]AS_TR_SH([$1]))
 ])# DPKG_BUILD_PROG
 
+# DPKG_BUILD_DEVEL_DOCS()
+# ---------------------
+# Select what type of documentation to build. Either for development including
+# all symbol references, and extracting everything, or production documentation.
+AC_DEFUN([DPKG_BUILD_DEVEL_DOCS], [
+  AC_ARG_ENABLE([devel-docs],
+    AS_HELP_STRING([--disable-devel-docs], [build release docs]),
+    [build_devel_docs=$enable_devel_docs],
+    [build_devel_docs=yes]
+  )
+  AS_IF([test "x$build_devel_docs" = "xyes"], [
+    AC_DEFINE([BUILD_DEVEL_DOCS], [YES], [Define to YES if building devel docs.])
+  ], [
+    AC_DEFINE([BUILD_DEVEL_DOCS], [NO])
+  ])
+])# DPKG_BUILD_DOCS_MODE
+
 # DPKG_WITH_DIR(DIR, DEFAULT, DESCRIPTION)
 # -------------
 # Allow specifying alternate directories.
