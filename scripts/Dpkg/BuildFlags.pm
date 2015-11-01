@@ -108,7 +108,7 @@ sub load_vendor_defaults {
 	FCFLAGS  => 0,
 	LDFLAGS  => 0,
     };
-    # The Debian vendor hook will add hardening build flags
+    # The vendor hook will add the feature areas build flags.
     run_vendor_hook('update-buildflags', $self);
 }
 
@@ -236,8 +236,8 @@ sub set {
 =item $bf->set_feature($area, $feature, $enabled)
 
 Update the boolean state of whether a specific feature within a known
-feature area has been enabled. The only currently known feature area is
-"hardening".
+feature area has been enabled. The only currently known feature areas
+are "qa", "sanitize", "hardening" and "reproducible".
 
 =cut
 
@@ -409,7 +409,8 @@ sub is_maintainer_modified {
 =item $bf->has_features($area)
 
 Returns true if the given area of features is known, and false otherwise.
-The only currently recognized area is "hardening".
+The only currently recognized feature areas are "qa", "sanitize", "hardening"
+and "reproducible".
 
 =cut
 
