@@ -135,6 +135,7 @@ coverage-clean:
 	rm -rf doc/coverage/
 	find -name '*.gcno' -o -name '*.gcda' -o \
 	     -name '*.gcov' -o -name '*.lcov' | xargs rm -f
+	$(MAKE) -C scripts $@
 else
 coverage:
 	@echo "Need to reconfigure with --enable-coverage"
