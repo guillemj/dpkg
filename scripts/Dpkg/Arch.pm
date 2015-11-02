@@ -38,7 +38,7 @@ our @EXPORT_OK = qw(
     get_raw_host_arch
     get_build_arch
     get_host_arch
-    get_gcc_host_gnu_type
+    get_host_gnu_type
     get_valid_arches
     debarch_eq
     debarch_is
@@ -115,27 +115,30 @@ sub get_build_arch()
 }
 
 {
-    my $gcc_host_gnu_type;
+    my %cc_host_gnu_type;
 
-    sub get_gcc_host_gnu_type()
+    sub get_host_gnu_type()
     {
-	return $gcc_host_gnu_type if defined $gcc_host_gnu_type;
+        my $CC = $ENV{CC} || 'gcc';
 
-	$gcc_host_gnu_type = qx(\${CC:-gcc} -dumpmachine);
+        return $cc_host_gnu_type{$CC} if defined $cc_host_gnu_type{$CC};
+
+        $cc_host_gnu_type{$CC} = qx($CC -dumpmachine);
 	if ($? >> 8) {
-	    $gcc_host_gnu_type = '';
+            $cc_host_gnu_type{$CC} = '';
 	} else {
-	    chomp $gcc_host_gnu_type;
+            chomp $cc_host_gnu_type{$CC};
 	}
 
-	return $gcc_host_gnu_type;
+        return $cc_host_gnu_type{$CC};
     }
 
     sub set_host_gnu_type
     {
         my ($host_gnu_type) = @_;
+        my $CC = $ENV{CC} || 'gcc';
 
-        $gcc_host_gnu_type = $host_gnu_type;
+        $cc_host_gnu_type{$CC} = $host_gnu_type;
     }
 }
 
@@ -152,23 +155,23 @@ sub get_raw_host_arch()
 
     return $host_arch if defined $host_arch;
 
-    $gcc_host_gnu_type = get_gcc_host_gnu_type();
+    my $host_gnu_type = get_host_gnu_type();
 
-    if ($gcc_host_gnu_type eq '') {
-        warning(g_("couldn't determine gcc system type, falling back to " .
+    if ($host_gnu_type eq '') {
+        warning(g_('cannot determine CC system type, falling back to ' .
                    'default (native compilation)'));
     } else {
-        my (@host_archtriplet) = gnutriplet_to_debtriplet($gcc_host_gnu_type);
+        my (@host_archtriplet) = gnutriplet_to_debtriplet($host_gnu_type);
         $host_arch = debtriplet_to_debarch(@host_archtriplet);
 
         if (defined $host_arch) {
-            $gcc_host_gnu_type = debtriplet_to_gnutriplet(@host_archtriplet);
+            $host_gnu_type = debtriplet_to_gnutriplet(@host_archtriplet);
         } else {
-            warning(g_('unknown gcc system type %s, falling back to ' .
-                       'default (native compilation)'), $gcc_host_gnu_type);
-            $gcc_host_gnu_type = '';
+            warning(g_('unknown CC system type %s, falling back to ' .
+                       'default (native compilation)'), $host_gnu_type);
+            $host_gnu_type = '';
         }
-        set_host_gnu_type($gcc_host_gnu_type);
+        set_host_gnu_type($host_gnu_type);
     }
 
     if (!defined($host_arch)) {

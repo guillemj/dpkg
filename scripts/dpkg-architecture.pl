@@ -26,7 +26,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
-use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_gcc_host_gnu_type
+use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_host_gnu_type
                   debarch_to_cpuattrs
                   get_valid_arches debarch_eq debarch_is debarch_to_debtriplet
                   debarch_to_gnutriplet gnutriplet_to_debarch
@@ -280,12 +280,12 @@ if (action_needs(DEB_HOST | DEB_GNU_INFO)) {
     }
     ($v{DEB_HOST_GNU_CPU}, $v{DEB_HOST_GNU_SYSTEM}) = split(/-/, $v{DEB_HOST_GNU_TYPE}, 2);
 
-    my $gcc = get_gcc_host_gnu_type();
+    my $host_gnu_type = get_host_gnu_type();
 
-    warning(g_('specified GNU system type %s does not match gcc system ' .
+    warning(g_('specified GNU system type %s does not match CC system ' .
                'type %s, try setting a correct CC environment variable'),
-            $v{DEB_HOST_GNU_TYPE}, $gcc)
-        if ($gcc ne '') && ($gcc ne $v{DEB_HOST_GNU_TYPE});
+            $v{DEB_HOST_GNU_TYPE}, $host_gnu_type)
+        if ($host_gnu_type ne '') && ($host_gnu_type ne $v{DEB_HOST_GNU_TYPE});
 }
 
 #
