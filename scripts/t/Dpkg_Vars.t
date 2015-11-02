@@ -16,12 +16,23 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 6;
 
 BEGIN {
     use_ok('Dpkg::Vars');
 }
 
-# TODO: Add actual test cases.
+eval { set_source_package('foo%bar') };
+ok($@, 'cannot set invalid source package name');
+is(get_source_package(), undef, 'invalid source package name unset');
+
+set_source_package('source');
+is(get_source_package(), 'source', 'set/get source package name');
+
+set_source_package('source');
+is(get_source_package(), 'source', 'reset/get same source package name');
+
+eval { set_source_package('other') };
+ok($@, 'cannot set different source package name');
 
 1;

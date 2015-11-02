@@ -16,10 +16,14 @@
 use strict;
 use warnings;
 
-use Test::More tests => 42;
+use Test::More tests => 53;
 
 use_ok('Dpkg::Arch', qw(debarch_to_debtriplet debarch_to_multiarch
-                        debarch_eq debarch_is debarch_is_wildcard));
+                        debarch_eq debarch_is debarch_is_wildcard
+                        debarch_to_cpuattrs
+                        debtriplet_to_debarch gnutriplet_to_debarch
+                        get_host_gnu_type
+                        get_valid_arches));
 
 my @tuple_new;
 my @tuple_ref;
@@ -82,5 +86,27 @@ ok(debarch_is_wildcard('any-amd64'), 'any-<cpu> is a wildcard');
 ok(debarch_is_wildcard('gnu-any-any'), '<abi>-any-any is a wildcard');
 ok(debarch_is_wildcard('any-linux-any'), 'any-<os>-any is a wildcard');
 ok(debarch_is_wildcard('any-any-amd64'), 'any-any-<cpu> is a wildcard');
+
+is(debarch_to_cpuattrs(undef), undef, 'undef cpu attrs');
+is_deeply([ debarch_to_cpuattrs('amd64') ], [ qw(64 little) ], 'amd64 cpu attrs');
+
+is(debtriplet_to_debarch(undef, undef, undef), undef, 'undef debtriplet');
+is(debtriplet_to_debarch('gnu', 'linux', 'amd64'), 'amd64', 'known debtriplet');
+is(debtriplet_to_debarch('unknown', 'unknown', 'unknown'), undef, 'unknown debtriplet');
+
+is(gnutriplet_to_debarch(undef), undef, 'undef gnutriplet');
+is(gnutriplet_to_debarch('unknown-unknown-unknown'), undef, 'unknown gnutriplet');
+is(gnutriplet_to_debarch('x86_64-linux-gnu'), 'amd64', 'known gnutriplet');
+
+is(scalar get_valid_arches(), 403, 'expected amount of known architectures');
+
+{
+    local $ENV{CC} = 'false';
+    is(get_host_gnu_type(), '', 'CC does not support -dumpmachine');
+
+    $ENV{CC} = 'echo CC';
+    is(get_host_gnu_type(), 'CC -dumpmachine',
+       'CC does not report expected synthetic result for -dumpmachine');
+}
 
 1;

@@ -30,7 +30,7 @@ my @ops = ('<', '<<', 'lt',
 	   '>=', 'ge',
 	   '>', '>>', 'gt');
 
-plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 13;
+plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 18;
 
 sub dpkg_vercmp {
      my ($a, $cmp, $b) = @_;
@@ -99,6 +99,18 @@ $ver = Dpkg::Version->new('foo5.2');
 ok(!$ver->is_valid(), 'version does not start with digit 1/2');
 $ver = Dpkg::Version->new('0:foo5.2');
 ok(!$ver->is_valid(), 'version does not start with digit 2/2');
+
+# Native and non-native versions
+$ver = Dpkg::Version->new('1.0');
+ok($ver->is_native(), 'upstream version is native');
+$ver = Dpkg::Version->new('1:1.0');
+ok($ver->is_native(), 'upstream version w/ epoch is native');
+$ver = Dpkg::Version->new('1:1.0:1.0');
+ok($ver->is_native(), 'upstream version w/ epoch and colon is native');
+$ver = Dpkg::Version->new('1.0-1');
+ok(!$ver->is_native(), 'upstream version w/ revision is not native');
+$ver = Dpkg::Version->new('1.0-1.0-1');
+ok(!$ver->is_native(), 'upstream version w/ dash and revision is not native');
 
 # Other tests
 $ver = Dpkg::Version->new('1.2.3-4');

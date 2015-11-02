@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 35;
+use Test::More tests => 37;
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
@@ -37,6 +37,17 @@ is($s->get('var1'), 'Some value', 'var1');
 is($s->get('var2'), 'Some other value', 'var2');
 is($s->get('var3'), 'Yet another value', 'var3');
 is($s->get('var4'), undef, 'no var4');
+
+# Set automatic variable
+$s->set_as_auto('var_auto', 'auto');
+is($s->get('var_auto'), 'auto', 'get var_auto');
+
+$expected = <<'VARS';
+var1=Some value
+var2=Some other value
+var3=Yet another value
+VARS
+is($s->output(), $expected, 'No automatic variables output');
 
 # overriding
 $s->set('var1', 'New value');
@@ -76,14 +87,18 @@ is($s->substvars('This is a string ${var1} with variables ${binary:Version}'),
                  'This is a string New value with variables 1:2.3.4~5-6.7.8~nmu9+b0',
                  'substvars simple');
 
+# Add a test prefix to error and warning messages.
+$s->set_msg_prefix('test ');
+
 my $output;
 $SIG{__WARN__} = sub { $output .= $_[0] };
 is($s->substvars('This is a string with unknown variable ${blubb}'),
                  'This is a string with unknown variable ',
                  'substvars missing');
 delete $SIG{__WARN__};
-is($output, 'Dpkg_Substvars.t: warning: unknown substitution variable ${blubb}'."\n"
-          , 'missing variables warning');
+is($output,
+   'Dpkg_Substvars.t: warning: test unknown substitution variable ${blubb}' . "\n",
+   'missing variables warning');
 
 # Recursive replace
 $s->set('rvar', 'recursive ${var1}');
@@ -101,16 +116,20 @@ $output = '';
 $SIG{__WARN__} = sub { $output .= $_[0] };
 $s->warn_about_unused();
 delete $SIG{__WARN__};
-is($output, "Dpkg_Substvars.t: warning: unused substitution variable \${var2}\n",
-          , 'unused variables warnings');
+is($output,
+   'Dpkg_Substvars.t: warning: test unused substitution variable ${var2}' . "\n",
+   'unused variables warnings');
 
 # Disable warnings for a certain variable
+$s->set_as_used('var_used', 'used');
 $s->mark_as_used('var2');
 $output = '';
 $SIG{__WARN__} = sub { $output .= $_[0] };
 $s->warn_about_unused();
 delete $SIG{__WARN__};
 is($output, '', 'disabled unused variables warnings');
+
+$s->delete('var_used');
 
 # Variable filters
 my $sf;

@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 use_ok('Dpkg::Package');
 
@@ -25,5 +25,7 @@ ok(pkg_name_is_illegal(''), 'package name is empty');
 ok(pkg_name_is_illegal('%_&'), 'package name has invalid chars');
 ok(pkg_name_is_illegal('ABC'), 'package name has uppercase chars');
 ok(pkg_name_is_illegal('-abc'), 'package name has a dash');
+
+is(pkg_name_is_illegal('pkg+name-1.0'), undef, 'package name is valid');
 
 1;

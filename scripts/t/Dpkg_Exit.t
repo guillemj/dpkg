@@ -16,12 +16,43 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 5;
 
 BEGIN {
     use_ok('Dpkg::Exit');
 }
 
-# TODO: Add actual test cases.
+my $track = 0;
+
+sub test_handler {
+    $track++;
+}
+
+Dpkg::Exit::run_exit_handlers();
+
+is($track, 0, 'no handlers run');
+
+Dpkg::Exit::push_exit_handler(\&test_handler);
+Dpkg::Exit::pop_exit_handler();
+
+Dpkg::Exit::run_exit_handlers();
+
+is($track, 0, 'push/pop; no handlers run');
+
+Dpkg::Exit::push_exit_handler(\&test_handler);
+
+Dpkg::Exit::run_exit_handlers();
+
+is($track, 1, 'push; handler run');
+
+# Check the exit handlers, must be the last thing done.
+sub exit_handler {
+    pass('exit handler invoked');
+    exit 0;
+}
+
+Dpkg::Exit::push_exit_handler(\&exit_handler);
+
+kill 'INT', $$;
 
 1;

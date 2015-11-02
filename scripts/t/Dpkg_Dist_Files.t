@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 24;
+use Test::More tests => 25;
 
 use_ok('Dpkg::Dist::Files');
 
@@ -106,6 +106,8 @@ foreach my $f ($dist->get_files()) {
     is_deeply($fs, $expected{$filename},
               "Detail for individual dist file $filename, via get_file()");
 }
+
+is($dist->parse_filename('file%invalid'), undef, 'invalid filename');
 
 $expected = <<'FILES';
 BY-HAND-file webdocs optional
