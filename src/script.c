@@ -36,6 +36,7 @@
 #endif
 
 #include <dpkg/i18n.h>
+#include <dpkg/debug.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
@@ -165,13 +166,17 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	pid = subproc_fork();
 	if (pid == 0) {
 		char *pkg_count;
+		const char *maintscript_debug;
 
 		pkg_count = str_fmt("%d", pkgset_installed_instances(pkg->set));
+
+		maintscript_debug = debug_has_flag(dbg_scripts) ? "1" : "0";
 
 		if (setenv("DPKG_MAINTSCRIPT_PACKAGE", pkg->set->name, 1) ||
 		    setenv("DPKG_MAINTSCRIPT_PACKAGE_REFCOUNT", pkg_count, 1) ||
 		    setenv("DPKG_MAINTSCRIPT_ARCH", pkgbin->arch->name, 1) ||
 		    setenv("DPKG_MAINTSCRIPT_NAME", cmd->argv[0], 1) ||
+		    setenv("DPKG_MAINTSCRIPT_DEBUG", maintscript_debug, 1) ||
 		    setenv("DPKG_RUNNING_VERSION", PACKAGE_VERSION, 1))
 			ohshite(_("unable to setenv for maintainer script"));
 
