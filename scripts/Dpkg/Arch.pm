@@ -131,6 +131,14 @@ sub get_build_arch()
 	return $gcc_host_gnu_type;
     }
 
+    sub set_host_gnu_type
+    {
+        my ($host_gnu_type) = @_;
+
+        $gcc_host_gnu_type = $host_gnu_type;
+    }
+}
+
 =item $arch = get_raw_host_arch()
 
 Get the raw host Debian architecture, without taking into account variables
@@ -138,37 +146,37 @@ from the environment.
 
 =cut
 
-    sub get_raw_host_arch()
-    {
-        state $host_arch;
+sub get_raw_host_arch()
+{
+    state $host_arch;
 
-	return $host_arch if defined $host_arch;
+    return $host_arch if defined $host_arch;
 
-	$gcc_host_gnu_type = get_gcc_host_gnu_type();
+    $gcc_host_gnu_type = get_gcc_host_gnu_type();
 
-	if ($gcc_host_gnu_type eq '') {
-	    warning(g_("couldn't determine gcc system type, falling back to " .
-	               'default (native compilation)'));
-	} else {
-	    my (@host_archtriplet) = gnutriplet_to_debtriplet($gcc_host_gnu_type);
-	    $host_arch = debtriplet_to_debarch(@host_archtriplet);
+    if ($gcc_host_gnu_type eq '') {
+        warning(g_("couldn't determine gcc system type, falling back to " .
+                   'default (native compilation)'));
+    } else {
+        my (@host_archtriplet) = gnutriplet_to_debtriplet($gcc_host_gnu_type);
+        $host_arch = debtriplet_to_debarch(@host_archtriplet);
 
-	    if (defined $host_arch) {
-		$gcc_host_gnu_type = debtriplet_to_gnutriplet(@host_archtriplet);
-	    } else {
-		warning(g_('unknown gcc system type %s, falling back to ' .
-		           'default (native compilation)'), $gcc_host_gnu_type);
-		$gcc_host_gnu_type = '';
-	    }
-	}
-
-	if (!defined($host_arch)) {
-	    # Switch to native compilation.
-	    $host_arch = get_raw_build_arch();
-	}
-
-	return $host_arch;
+        if (defined $host_arch) {
+            $gcc_host_gnu_type = debtriplet_to_gnutriplet(@host_archtriplet);
+        } else {
+            warning(g_('unknown gcc system type %s, falling back to ' .
+                       'default (native compilation)'), $gcc_host_gnu_type);
+            $gcc_host_gnu_type = '';
+        }
+        set_host_gnu_type($gcc_host_gnu_type);
     }
+
+    if (!defined($host_arch)) {
+        # Switch to native compilation.
+        $host_arch = get_raw_build_arch();
+    }
+
+    return $host_arch;
 }
 
 =item $arch = get_host_arch()
