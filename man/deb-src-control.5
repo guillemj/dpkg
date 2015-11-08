@@ -139,11 +139,14 @@ package.
 .TP
 .BI Build\-Depends: " package-list"
 A list of packages that need to be installed and configured to be able
-to build the source package. Including a dependency in this list has
-the same effect as including it in both \fBBuild\-Depends\-Arch\fP and
-\fBBuild\-Depends\-Indep\fP, with the additional effect of being used
-for source-only builds.
-
+to build from source package.
+These dependencies need to be satisfied when building binary architecture
+dependent or independent packages and source packages.
+Including a dependency in this field does not have the exact same effect as
+including it in both \fBBuild\-Depends\-Arch\fP and \fBBuild\-Depends\-Indep\fP,
+because the dependency also needs to be satisfied when building the source
+package.
+.
 .TP
 .BI Build\-Depends\-Arch: " package-list"
 Same as \fBBuild\-Depends\fP, but they are only needed when building the
