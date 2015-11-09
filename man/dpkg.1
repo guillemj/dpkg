@@ -857,6 +857,16 @@ The currently accepted values are: \fBauto\fP, \fBalways\fP and
 \fBnever\fP (default).
 .SS Internal environment
 .TP
+.B DPKG_ROOT
+Defined by \fBdpkg\fP on the maintainer script environment to indicate
+which installation to act on (since dpkg 1.18.5).
+The value is intended to be prepended to any path maintainer scripts
+operate on.
+During normal operation, this variable is empy.
+When installing packages into a different \fBinstdir\fP, \fBdpkg\fP
+normally invokes maintainer scripts using \fBchroot\fP(2) and leaves
+this variable empty.
+.TP
 .B DPKG_SHELL_REASON
 Defined by \fBdpkg\fP on the shell spawned on the conffile prompt to
 examine the situation (since dpkg 1.15.6).

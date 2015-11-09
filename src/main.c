@@ -876,6 +876,8 @@ int main(int argc, const char *const *argv) {
   /* Always set environment, to avoid possible security risks. */
   if (setenv("DPKG_ADMINDIR", admindir, 1) < 0)
     ohshite(_("unable to setenv for subprocesses"));
+  if (setenv("DPKG_ROOT", instdir, 1) < 0)
+    ohshite(_("unable to setenv for subprocesses"));
 
   if (!f_triggers)
     f_triggers = (cipaction->arg_int == act_triggers && *argv) ? -1 : 1;

@@ -105,6 +105,8 @@ maintscript_pre_exec(struct command *cmd)
 			ohshit(_("admindir must be inside instdir for dpkg to work properly"));
 		if (setenv("DPKG_ADMINDIR", admindir + instdirl, 1) < 0)
 			ohshite(_("unable to setenv for subprocesses"));
+		if (setenv("DPKG_ROOT", "", 1) < 0)
+			ohshite(_("unable to setenv for subprocesses"));
 
 		if (chroot(instdir))
 			ohshite(_("failed to chroot to '%.250s'"), instdir);
