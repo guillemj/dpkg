@@ -98,9 +98,10 @@ static const char *
 maintscript_pre_exec(struct command *cmd)
 {
 	const char *admindir = dpkg_db_get_dir();
+	const char *changedir = fc_script_chrootless ? instdir : "/";
 	size_t instdirl = strlen(instdir);
 
-	if (*instdir) {
+	if (*instdir && !fc_script_chrootless) {
 		if (strncmp(admindir, instdir, instdirl) != 0)
 			ohshit(_("admindir must be inside instdir for dpkg to work properly"));
 		if (setenv("DPKG_ADMINDIR", admindir + instdirl, 1) < 0)
@@ -113,8 +114,8 @@ maintscript_pre_exec(struct command *cmd)
 	}
 	/* Switch to a known good directory to give the maintainer script
 	 * a saner environment, also needed after the chroot(). */
-	if (chdir("/"))
-		ohshite(_("failed to chdir to '%.255s'"), "/");
+	if (chdir(changedir))
+		ohshite(_("failed to chdir to '%.255s'"), changedir);
 	if (debug_has_flag(dbg_scripts)) {
 		struct varbuf args = VARBUF_INIT;
 		const char **argv = cmd->argv;
@@ -128,7 +129,7 @@ maintscript_pre_exec(struct command *cmd)
 		      args.buf);
 		varbuf_destroy(&args);
 	}
-	if (!instdirl)
+	if (!instdirl || fc_script_chrootless)
 		return cmd->filename;
 
 	assert(strlen(cmd->filename) >= instdirl);

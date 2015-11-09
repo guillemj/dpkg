@@ -196,6 +196,7 @@ int fc_conff_ask = 0;
 int fc_unsafe_io = 0;
 int fc_badverify = 0;
 int fc_badversion = 0;
+int fc_script_chrootless = 0;
 
 int errabort = 50;
 static const char *admindir = ADMINDIR;
@@ -248,6 +249,8 @@ static const struct forceinfo {
     '!', N_("Overwrite one package's directory with another's file") },
   { "unsafe-io",           &fc_unsafe_io,
     '!', N_("Do not perform safe I/O operations when unpacking") },
+  { "script-chrootless",   &fc_script_chrootless,
+    '!', N_("Do not chroot into maintainer script environment") },
   { "confnew",             &fc_conff_new,
     '!', N_("Always use the new config files, don't prompt") },
   { "confold",             &fc_conff_old,

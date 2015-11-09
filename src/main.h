@@ -141,6 +141,7 @@ extern int fc_conff_ask;
 extern int fc_badverify;
 extern int fc_badversion;
 extern int fc_unsafe_io;
+extern int fc_script_chrootless;
 
 extern bool abort_processing;
 extern int errabort;

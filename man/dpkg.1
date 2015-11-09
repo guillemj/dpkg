@@ -601,6 +601,12 @@ any software not doing syncs before atomic renames.
 \fIWarning: Using this option might improve performance at the cost of
 losing data, use with care.\fP
 
+\fBscript-chrootless\fP:
+Run maintainer scrips without \fBchroot\fP(2)ing into \fBinstdir\fP even
+if the package does not support this mode of operation (since dpkg 1.18.5).
+
+\fIWarning: This can destroy your host system, use with extreme care.\fP
+
 \fBarchitecture\fP:
 Process even packages with wrong or no architecture.
 
@@ -865,7 +871,9 @@ operate on.
 During normal operation, this variable is empy.
 When installing packages into a different \fBinstdir\fP, \fBdpkg\fP
 normally invokes maintainer scripts using \fBchroot\fP(2) and leaves
-this variable empty.
+this variable empty, but if \fB\-\-force\-script\-chrootless\fP is
+specified then the \fBchroot\fP(2) call is skipped and \fBinstdir\fP
+is non-empty.
 .TP
 .B DPKG_SHELL_REASON
 Defined by \fBdpkg\fP on the shell spawned on the conffile prompt to
