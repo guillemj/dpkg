@@ -379,6 +379,8 @@ sub debarch_to_debtriplet($)
 {
     my $arch = shift;
 
+    return if not defined $arch;
+
     read_triplettable();
 
     if ($arch =~ /^linux-([^-]*)/) {
