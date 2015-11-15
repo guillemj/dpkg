@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2015-10-06 19:20+0200\n"
-"PO-Revision-Date: 2015-11-11 21:03+0100\n"
+"PO-Revision-Date: 2015-11-15 20:29+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -1550,7 +1550,7 @@ msgid ""
 "are copied literally to the control file of the binary package."
 msgstr ""
 "Diese Felder sind in der Handbuchseite B<deb-control>(5) beschrieben, da sie "
-"wörtlich in die Steuerdatei des Binärpakets kopiert werden."
+"wörtlich in die control-Datei des Binärpakets kopiert werden."
 
 #. type: TQ
 #: deb-src-control.5
@@ -1589,7 +1589,7 @@ msgid ""
 "the changes file and will not appear in the binary or source package control "
 "files."
 msgstr ""
-"Es ist erlaubt, zusätzliche benutzerdefinierte Felder zu der Steuerdatei "
+"Es ist erlaubt, zusätzliche benutzerdefinierte Felder zu der control-Datei "
 "hinzuzufügen. Die Werkzeuge werden diese Felder ignorieren. Falls Sie "
 "möchten, dass die Felder in die Ausgabedateien, wie z.B. die Binärpakete, "
 "kopiert werden, müssen Sie ein angepasstes Namensschema verwenden: Die "
@@ -2375,7 +2375,7 @@ msgid ""
 "maintainer in order to offer some global consistency.  This information is "
 "found in the override file."
 msgstr ""
-"Während der Großteil der Informationen über ein Paket in der Steuerdatei "
+"Während der Großteil der Informationen über ein Paket in der control-Datei "
 "gefunden werden kann, wird ein Teil von den Distributionszaren zentral statt "
 "von den Betreuern verwaltet, um eine gewisse globael Konsistenz zu bieten. "
 "Diese Informationen finden sich in der override-Datei."
@@ -2410,7 +2410,7 @@ msgid ""
 "available in the .deb. The allowed values are listed in the Debian policy."
 msgstr ""
 "I<Priorität> und I<Sektion> entsprechen den Feldern I<priority> und "
-"I<section> der Steuerdatei in dem .deb. Die erlaubten Werte werden in den "
+"I<section> der control-Datei in dem .deb. Die erlaubten Werte werden in den "
 "Debian-Richtlinien (I<Debian policy>) aufgeführt."
 
 #. type: Plain text
@@ -2545,7 +2545,7 @@ msgid ""
 "have the format"
 msgstr ""
 "B<shlibs>-Dateien bilden Laufzeitbibliotheknamen und -versionen (I<sonames>) "
-"auf Abhängigkeiten ab, die für eine Paketsteuerdatei geeignet sind. Es gibt "
+"auf Abhängigkeiten ab, die für eine Paket-control-Datei geeignet sind. Es gibt "
 "einen Eintrag pro Zeile. Leerzeilen sind B<nicht> erlaubt. Zeilen, die mit "
 "B<#> beginnen, werden als Kommentarzeilen betrachtet und ignoriert. Alle "
 "anderen Zeilen müssen dem nachfolgenden Format folgen:"
@@ -2574,7 +2574,7 @@ msgid ""
 "Manual for further details."
 msgstr ""
 "Das Feld I<dependencies> hat die gleiche Syntax wie das Feld B<Depends> in "
-"einer binären Steuerdatei, siehe B<deb-control>(5). Lesen Sie auch die "
+"einer binären control-Datei, siehe B<deb-control>(5). Lesen Sie auch die "
 "Debian-Richtlinien für weitere Details."
 
 #. type: SH
@@ -2650,7 +2650,7 @@ msgid ""
 "perform some variable substitutions on the output file."
 msgstr ""
 "Bevor B<dpkg-source>, B<dpkg-gencontrol> und B<dpkg-genchanges> ihre "
-"Steuerinformationen (zu der Quellsteuer-Datei B<.dsc> für B<dpkg-source> und "
+"Steuerinformationen (zu der Quell-control-Datei B<.dsc> für B<dpkg-source> und "
 "zu der Standardausgabe für B<dpkg-gencontrol> und B<dpkg-genchanges>) "
 "schreiben, führen sie einige Variablensubstitutionen in der Ausgabedatei "
 "durch."
@@ -2689,7 +2689,7 @@ msgid ""
 "yet occur. That's why you can't use variables in the B<Package>, B<Source> "
 "and B<Architecture> fields."
 msgstr ""
-"Obwohl die Variablensubstitution bei allen Feldern der Steuerdatei "
+"Obwohl die Variablensubstitution bei allen Feldern der control-Datei "
 "vorgenommen wird, werden einige dieser Felder während des Bauens benötigt "
 "und verwendet, wenn die Substitution noch nicht erfolgt ist. Daher können "
 "Sie Variablen nicht in den Feldern B<Package>, B<Source> und B<Architecture> "
@@ -3741,7 +3741,7 @@ msgstr "Die Installation besteht aus folgenden Schritten:"
 #. type: Plain text
 #: dpkg.1
 msgid "B<1.> Extract the control files of the new package."
-msgstr "B<1.> Extrahiere die Steuerdateien aus dem neuen Paket."
+msgstr "B<1.> Extrahiere die control-Dateien aus dem neuen Paket."
 
 #. type: Plain text
 #: dpkg.1
@@ -3881,7 +3881,7 @@ msgstr ""
 #: dpkg.1
 #, no-wrap
 msgid "B<-r>, B<--remove> I<package>B<...|-a|--pending>"
-msgstr "B<-r>, B<--remove> I<Paket>B<…|-a|--pending>"
+msgstr "B<-r>, B<--remove> I<Paket> B<…|-a|--pending>"
 
 #. type: Plain text
 #: dpkg.1
@@ -3925,7 +3925,7 @@ msgstr "B<3.> Führe das I<postrm>-Skript aus"
 #: dpkg.1
 #, no-wrap
 msgid "B<-P>, B<--purge >I<package>...|B<-a>|B<--pending>"
-msgstr "B<-P>, B<--purge >I<Paket>…|B<-a>|B<--pending>"
+msgstr "B<-P>, B<--purge >I<Paket> …|B<-a>|B<--pending>"
 
 #. type: Plain text
 #: dpkg.1
@@ -9777,7 +9777,7 @@ msgid ""
 "met, it displays them and exits with a nonzero return code."
 msgstr ""
 "Dieses Programm überprüft die im System installierten Pakete gegen die "
-"Bauabhängigkeiten und Baukonflikte, die in der Steuerdatei aufgeführt sind. "
+"Bauabhängigkeiten und Baukonflikte, die in der control-Datei aufgeführt sind. "
 "Falls welche davon nicht erfüllt sind, zeigt es diese an und beendet sich "
 "mit einem von Null verschiedenen Rückgabewert."
 
@@ -9788,7 +9788,7 @@ msgid ""
 "be specified on the command line."
 msgstr ""
 "Standardmäßig wird B<debian/control> gelesen, aber ein alternativer "
-"Steuerdateiname kann auf der Befehlszeile angegeben werden."
+"control-Dateiname kann auf der Befehlszeile angegeben werden."
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1
@@ -10102,7 +10102,7 @@ msgid ""
 msgstr ""
 "Falls das zweite Argument ein Verzeichnis ist, wird B<dpkg-deb> in die Datei "
 "I<Paket>B<_>I<Version>B<_>I<arch>B<.deb> oder I<Paket>B<_>I<Version>B<.deb>, "
-"falls kein B<Architecture>-Feld in der Paket-Steuerdatei vorhanden ist, "
+"falls kein B<Architecture>-Feld in der Paket-control-Datei vorhanden ist, "
 "schreiben. Wenn ein Zielverzeichnis statt einer Datei angegeben ist, darf "
 "die Option B<--nocheck> nicht verwendet werden (da B<dpkg-deb> die "
 "Paketsteuerdatei lesen und parsen muss, um den zu verwendenden Dateinamen zu "
@@ -10126,7 +10126,7 @@ msgid ""
 "the contents of the package as well as its control file."
 msgstr ""
 "Falls keine I<Steuer-Dateiname>n angegeben sind, wird es eine "
-"Zusammenfassung des Inhalts des Pakets sowie dessen Steuerdatei ausgeben."
+"Zusammenfassung des Inhalts des Pakets sowie dessen control-Datei ausgeben."
 
 #. type: Plain text
 #: dpkg-deb.1
@@ -11171,7 +11171,7 @@ msgstr "B<-D>I<Feld>B<=>I<Wert>"
 #. type: Plain text
 #: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-source.1
 msgid "Override or add an output control file field."
-msgstr "Überschreibe oder ergänze ein Ausgabe-Steuerdatei-Feld."
+msgstr "Überschreibe oder ergänze ein Ausgabesteuerdateifeld."
 
 #. type: TP
 #: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-source.1
@@ -11182,7 +11182,7 @@ msgstr "B<-U>I<field>"
 #. type: Plain text
 #: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-source.1
 msgid "Remove an output control file field."
-msgstr "Entferne ein Ausgabe-Steuerdatei-Feld."
+msgstr "Entferne ein Ausgabesteuerdateifeld."
 
 #. type: TP
 #: dpkg-genchanges.1
@@ -11196,7 +11196,7 @@ msgid ""
 "Specifies the main source control file to read information from. The default "
 "is B<debian/control>."
 msgstr ""
-"Gibt die Haupt-Steuerdatei an, aus der Informationen gelesen werden sollen. "
+"Gibt die Haupt-control-Datei an, aus der Informationen gelesen werden sollen. "
 "Standardmäßig B<debian/control>."
 
 #. type: TP
@@ -11313,7 +11313,7 @@ msgid ""
 "control); during this process it will simplify the relation fields."
 msgstr ""
 "B<dpkg-gencontrol> liest Informationen aus einem entpackten Debian-"
-"Quellcodebaum und erzeugt eine binäre Paketsteuerdatei (standardmäßig debian/"
+"Quellcodebaum und erzeugt eine binäre Paket-control-Datei (standardmäßig debian/"
 "tmp/DEBIAN/control); dabei vereinfacht es die Felder mit Paketbeziehungen."
 
 #. type: Plain text
@@ -11483,7 +11483,7 @@ msgid ""
 "since dpkg 1.17.2), rather than to B<debian/tmp/DEBIAN/control> (or "
 "I<package-build-dir>B</DEBIAN/control> if B<-P> was used)."
 msgstr ""
-"Die Steuerdatei in die Standardausgabe (oder I<Dateiname> falls angegeben, "
+"Die control-Datei in die Standardausgabe (oder I<Dateiname> falls angegeben, "
 "seit Dpkg 1.17.2) statt nach B<debian/tmp/DEBIAN/control> (oder "
 "I<Paketbauverzeichnis>B</DEBIAN/control> falls B<-P> verwendet worden ist) "
 "ausgeben."
@@ -11500,7 +11500,7 @@ msgid ""
 "The main source control information file, giving version-independent "
 "information about the source package and the binary packages it can produce."
 msgstr ""
-"Die Haupt-Steuer-Informationsdatei für die Quellen. Sie gibt "
+"Die Hauptsteuerinformationsdatei für die Quellen. Sie gibt "
 "versionsunabhängige Informationen über das Quellpaket und die Binärpakete, "
 "die sie erstellen kann, an."
 
@@ -13897,7 +13897,7 @@ msgid ""
 "directory is searched before the default directories which are currently B</"
 "usr/local/lib/dpkg/parsechangelog> and B</usr/lib/dpkg/parsechangelog>."
 msgstr ""
-"Spezifiziere ein zusätzliches Verzeichnis, dass nach Parser-Skripten "
+"Spezifiziere ein zusätzliches Verzeichnis, dass nach Auswerter-Skripten "
 "durchsucht werden soll. Diese Verzeichnis wird vor den "
 "Standardverzeichnissen (derzeit B</usr/local/lib/dpkg/parsechangelog> und B</"
 "usr/lib/dpkg/parsechangelog>) durchsucht."
@@ -13921,7 +13921,7 @@ msgstr ""
 #: dpkg-parsechangelog.1
 #, no-wrap
 msgid "Parser Options"
-msgstr "Parser-Optionen:"
+msgstr "Auswerter-Optionen:"
 
 #. type: Plain text
 #: dpkg-parsechangelog.1
@@ -13931,8 +13931,8 @@ msgid ""
 "be supported by the parser script in question. See also B<NOTES>."
 msgstr ""
 "Die folgenden Optionen können verwendet werden, um die Ausgabe des Changelog-"
-"Parsers zu beinflussen, z.B. den Bereich der Einträge oder das Format der "
-"Ausgabe. Sie müssen vom in Frage kommenden Parser-Skript unterstützt werden. "
+"Auswerters zu beinflussen, z.B. den Bereich der Einträge oder das Format der "
+"Ausgabe. Sie müssen vom in Frage kommenden Auswerter-Skript unterstützt werden. "
 "Lesen Sie auch B<BEMERKUNGEN>."
 
 #. type: TP
@@ -14200,7 +14200,7 @@ msgid ""
 "parser for that alternative format."
 msgstr ""
 "Es ist möglich, ein anderes als das Standardformat zu verwenden, indem ein "
-"Parser für dieses alternative Format bereitgestellt wird."
+"Auswerter für dieses alternative Format bereitgestellt wird."
 
 #. type: Plain text
 #: dpkg-parsechangelog.1
@@ -14210,7 +14210,7 @@ msgid ""
 "regular expression: \\(lqB<\\eschangelog-format:\\es+([0-9a-z]+)\\eW>\\(rq.  "
 "The part in parentheses should be the name of the format. For example:"
 msgstr ""
-"Damit B<dpkg-parsechangelog> den neuen Parser ausführen kann, muss eine "
+"Damit B<dpkg-parsechangelog> den neuen Auswerter ausführen kann, muss eine "
 "Zeile innerhalb der letzten 40 Zeilen der Changelog-Datei enthalten sein, "
 "die auf den folgenden regulären Perl-Ausdruck passt: \\(lqB<\\eschangelog-"
 "format:\\es+([0-9a-z]+)\\eW>\\(rq. Der Anteil in Klammern sollte der Name "
@@ -14237,11 +14237,11 @@ msgid ""
 "and a parser for it is provided by default."
 msgstr ""
 "Falls eine solche Zeile existiert, wird B<dpkg-parsechangelog> nach dem "
-"Parser als B</usr/lib/dpkg/parsechangelog/>I<Anderesformat> oder B</usr/"
+"Auswerter als B</usr/lib/dpkg/parsechangelog/>I<Anderesformat> oder B</usr/"
 "local/lib/dpkg/parsechangelog/>I<Anderesformat> suchen. Es ist ein Fehler, "
 "wenn dieser nicht vorhanden oder kein ausführbares Programm ist. Das "
 "Standard-Änderungsprotokollformat ist B<debian>, hierfür wird standardmäßig "
-"ein Parser bereitgestellt."
+"ein Auswerter bereitgestellt."
 
 #. type: Plain text
 #: dpkg-parsechangelog.1
@@ -14256,7 +14256,7 @@ msgstr ""
 "der Datei aufgerufen. Er sollte die Datei lesen (er darf dafür suchen, falls "
 "gewünscht), um die benötigten Informationen zu ermitteln und die "
 "ausgewerteten Informationen auf der Standardausgabe in dem durch die Option "
-"B<--format> angegebenen Format auszugeben. Er sollte alle B<Parser-Optionen> "
+"B<--format> angegebenen Format auszugeben. Er sollte alle B<Auswerter-Optionen> "
 "akzeptieren."
 
 #. type: Plain text
@@ -14278,7 +14278,7 @@ msgid ""
 "attempt to synthesize it or find it from other sources."
 msgstr ""
 "Falls das Changelog-Format kein Datum oder keine Paketnamensinformationen "
-"enthält, sollte diese Information in der Ausgabe unterbleiben. Der Parser "
+"enthält, sollte diese Information in der Ausgabe unterbleiben. Der Auswerter "
 "soll nicht versuchen, diese Daten künstlich zu ermitteln oder sie in anderen "
 "Quellen zu finden."
 
@@ -14290,14 +14290,14 @@ msgid ""
 "possibly generating incorrect output."
 msgstr ""
 "Falls das Änderungsprotokoll nicht das erwartete Format hat, sollte sich der "
-"Parser mit einem von Null verschiedenen Exit-Status beenden, statt zu "
+"Auswerter mit einem von Null verschiedenen Exit-Status beenden, statt zu "
 "versuchen, sich irgendwie durchzuwurschteln und möglicherweise eine falsche "
 "Ausgabe zu erzeugen."
 
 #. type: Plain text
 #: dpkg-parsechangelog.1
 msgid "A changelog parser may not interact with the user at all."
-msgstr "Ein Changelog-Parser darf nicht mit dem Nutzer interagieren."
+msgstr "Ein Changelog-Auswerter darf nicht mit dem Benutzer interagieren."
 
 #. type: Plain text
 #: dpkg-parsechangelog.1
@@ -14306,8 +14306,8 @@ msgid ""
 "1.14.16. Third party parsers for changelog formats other than I<debian> "
 "might not support all options."
 msgstr ""
-"Alle B<Parser-Optionen> außer B<-v> werden seit Dpkg 1.14.16 unterstützt. "
-"Parser von Dritten für Changelog-Formate außer I<debian> könnten nicht alle "
+"Alle B<Auswerter-Optionen> außer B<-v> werden seit Dpkg 1.14.16 unterstützt. "
+"Auswerter von Dritten für Changelog-Formate außer I<debian> könnten nicht alle "
 "Optionen unterstützen."
 
 #. type: Plain text
@@ -15072,7 +15072,7 @@ msgid ""
 "prefix>]] B<E<gt>> I<Packages>"
 msgstr ""
 "B<dpkg-scanpackages> [I<Option> …] I<Binär-Verz> [I<override-Datei> [I<Pfad-"
-"Präfix>]] B<E<gt>> I<Pakete>"
+"Präfix>]] B<E<gt>> I<Packages>"
 
 #. type: Plain text
 #: dpkg-scanpackages.1
@@ -15092,7 +15092,6 @@ msgstr ""
 "scanpackages> verwenden, falls Sie ein Verzeichnis von lokalen Paketen zur "
 "Installation auf einem Cluster von Maschinen anlegen."
 
-# FIXME: die gzip-Variante fehlte !!
 #. type: Plain text
 #: dpkg-scanpackages.1
 msgid ""
@@ -19129,7 +19128,7 @@ msgstr "dselect - Debian-Paketverwaltungsoberfläche"
 #. type: Plain text
 #: dselect.1
 msgid "B<dselect> [I<option>...] [I<command>...]"
-msgstr "B<dselect> [I<Option>…] [I<Befehl>…]"
+msgstr "B<dselect> [I<Option> …] [I<Befehl> …]"
 
 #. type: Plain text
 #: dselect.1
