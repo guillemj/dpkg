@@ -229,7 +229,7 @@ extracthalf(const char *debar, const char *dir, const char *taroption,
     if (errstr)
       ohshit(_("archive has invalid format version: %s"), errstr);
 
-    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf));
+    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf) - 1);
     if (r < 0)
       read_fail(r, debar, _("archive control member size"));
     if (sscanf(ctrllenbuf, "%jd%c%d", &ctrllennum, &nlc, &dummy) != 2 ||
