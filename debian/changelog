@@ -1,4 +1,4 @@
-dpkg (1.18.4) UNRELEASED; urgency=low
+dpkg (1.18.4) UNRELEASED; urgency=medium
 
   [ Guillem Jover ]
   * Switch dpkg-scansources and dpkg-scanpackages to use File::Find instead
@@ -19,6 +19,9 @@ dpkg (1.18.4) UNRELEASED; urgency=low
   * Add support for DPKG_MAINTSCRIPT_DEBUG environment variable to dpkg.
   * Fix dpkg-checkbuilddeps exit code to be 1 instead of a random error value
     on unsatisfied dependencies. Regression introduced in dpkg 1.18.3.
+  * Fix an off-by-one write access in dpkg-deb when parsing the old format
+    .deb control member size. Thanks to Hanno Böck <hanno@hboeck.de>.
+    Fixes CVE-2015-0860.
   * Test suite:
     - Improve perl code test coverage.
   * Build system:
