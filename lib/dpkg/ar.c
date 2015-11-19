@@ -45,7 +45,7 @@ dpkg_ar_normalize_name(struct ar_hdr *arh)
 		name[i] = '\0';
 
 	/* Remove optional slash terminator (on GNU-style archives). */
-	if (name[i] == '/')
+	if (i >= 0 && name[i] == '/')
 		name[i] = '\0';
 }
 
