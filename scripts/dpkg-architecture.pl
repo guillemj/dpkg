@@ -203,6 +203,7 @@ while (@ARGV) {
     } elsif ($arg eq '-l' or $arg eq '--list') {
 	$action = 'list';
     } elsif ($arg eq '-s' or $arg eq '--print-set') {
+	$req_vars = DEB_ALL;
 	$action = 'print-set';
     } elsif ($arg eq '-f' or $arg eq '--force') {
         $force=1;
