@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-10-06 19:20+0200\n"
-"PO-Revision-Date: 2015-11-15 20:29+0100\n"
+"POT-Creation-Date: 2015-12-20 05:47+0100\n"
+"PO-Revision-Date: 2015-12-20 06:27+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -468,8 +468,8 @@ msgid ""
 "B<mail>, B<text>, B<x11>, etc."
 msgstr ""
 "Dies ist ein allgemeines Feld, das dem Paket eine Kategorie gibt, basierend "
-"auf der Software, die es installiert. Einige übliche Sektionen sind B<utils>, "
-"B<net>, B<mail>, B<text>, B<x11> usw."
+"auf der Software, die es installiert. Einige übliche Sektionen sind "
+"B<utils>, B<net>, B<mail>, B<text>, B<x11> usw."
 
 #. type: TP
 #: deb-control.5 deb-src-control.5
@@ -1259,15 +1259,20 @@ msgstr "B<Build-Depends:>I< Paketliste>"
 #: deb-src-control.5
 msgid ""
 "A list of packages that need to be installed and configured to be able to "
-"build the source package. Including a dependency in this list has the same "
+"build from source package.  These dependencies need to be satisfied when "
+"building binary architecture dependent or independent packages and source "
+"packages.  Including a dependency in this field does not have the exact same "
 "effect as including it in both B<Build-Depends-Arch> and B<Build-Depends-"
-"Indep>, with the additional effect of being used for source-only builds."
+"Indep>, because the dependency also needs to be satisfied when building the "
+"source package."
 msgstr ""
 "Eine Liste der Pakete, die installiert und konfiguriert sein müssen, um das "
-"Quellpaket zu bauen. Die Aufnahme einer Abhängigkeit in diese Liste hat den "
+"Paket aus den Quellen zu bauen. Diese Abhängigkeiten müssen erfüllt wein, "
+"wenn binäre architekturabhängige und unabhängige und Quellpakete gebaut "
+"werden. Die Aufnahme einer Abhängigkeit in diese Liste hat nicht den "
 "gleichen Effekt wie die Aufnahme in B<Build-Depends-Arch> und B<Build-"
-"Depends-Indep> mit dem zusätzlichen Effekt, dass es für reine Quellen-Bauten "
-"verwandt wird."
+"Depends-Indep>, da die Abhängigkeit auch beim Bau des Quellpaketes erfüllt "
+"sein muss."
 
 #. type: TP
 #: deb-src-control.5
@@ -1437,8 +1442,8 @@ msgid ""
 "names, meaning \\(lqNOT\\(rq."
 msgstr ""
 "Eine Architekturspezifikation besteht aus einer oder mehreren durch "
-"Leerraumzeichen getrennten Architekturnamen. Jedem Namen darf ein Ausrufezeichen "
-"vorangestellt werden, das \\(lqNICHT\\(rq bedeutet."
+"Leerraumzeichen getrennten Architekturnamen. Jedem Namen darf ein "
+"Ausrufezeichen vorangestellt werden, das \\(lqNICHT\\(rq bedeutet."
 
 # FIXME: Check paragraph on debian-dpkg
 #. type: Plain text
@@ -2386,8 +2391,8 @@ msgid ""
 "The override file has a simple whitespace-delimited format. Comments are "
 "allowed (denoted with a B<#>)."
 msgstr ""
-"Die override-Datei hat ein einfaches, durch Leerraumzeichen getrenntes Format. "
-"Kommentare sind erlaubt (angezeigt durch ein B<#>)."
+"Die override-Datei hat ein einfaches, durch Leerraumzeichen getrenntes "
+"Format. Kommentare sind erlaubt (angezeigt durch ein B<#>)."
 
 #. type: Plain text
 #: deb-override.5
@@ -2479,8 +2484,8 @@ msgid ""
 "The extra override file has a simple whitespace-delimited format. Comments "
 "are allowed (denoted with a B<#>)."
 msgstr ""
-"Die Zusatz-override-Datei hat ein einfaches, durch Leerraumzeichen getrenntes "
-"Format. Kommentare sind erlaubt (angezeigt durch ein B<#>)."
+"Die Zusatz-override-Datei hat ein einfaches, durch Leerraumzeichen "
+"getrenntes Format. Kommentare sind erlaubt (angezeigt durch ein B<#>)."
 
 #. type: Plain text
 #: deb-extra-override.5
@@ -2545,9 +2550,9 @@ msgid ""
 "have the format"
 msgstr ""
 "B<shlibs>-Dateien bilden Laufzeitbibliotheknamen und -versionen (I<sonames>) "
-"auf Abhängigkeiten ab, die für eine Paket-control-Datei geeignet sind. Es gibt "
-"einen Eintrag pro Zeile. Leerzeilen sind B<nicht> erlaubt. Zeilen, die mit "
-"B<#> beginnen, werden als Kommentarzeilen betrachtet und ignoriert. Alle "
+"auf Abhängigkeiten ab, die für eine Paket-control-Datei geeignet sind. Es "
+"gibt einen Eintrag pro Zeile. Leerzeilen sind B<nicht> erlaubt. Zeilen, die "
+"mit B<#> beginnen, werden als Kommentarzeilen betrachtet und ignoriert. Alle "
 "anderen Zeilen müssen dem nachfolgenden Format folgen:"
 
 #. type: Plain text
@@ -2562,9 +2567,9 @@ msgid ""
 "I<dependencies> field extends to the end of the line.  The I<type> field is "
 "optional and normally not needed."
 msgstr ""
-"Die Felder I<Bibliothek> und I<Version> werden durch Leerraumzeichen begrenzt, "
-"das Feld I<Abhängigkeiten> geht aber bis zum Ende der Zeile. Das Feld I<Typ> "
-"ist optional und wird normalerweise nicht benötigt."
+"Die Felder I<Bibliothek> und I<Version> werden durch Leerraumzeichen "
+"begrenzt, das Feld I<Abhängigkeiten> geht aber bis zum Ende der Zeile. Das "
+"Feld I<Typ> ist optional und wird normalerweise nicht benötigt."
 
 #. type: Plain text
 #: deb-shlibs.5
@@ -2650,8 +2655,8 @@ msgid ""
 "perform some variable substitutions on the output file."
 msgstr ""
 "Bevor B<dpkg-source>, B<dpkg-gencontrol> und B<dpkg-genchanges> ihre "
-"Steuerinformationen (zu der Quell-control-Datei B<.dsc> für B<dpkg-source> und "
-"zu der Standardausgabe für B<dpkg-gencontrol> und B<dpkg-genchanges>) "
+"Steuerinformationen (zu der Quell-control-Datei B<.dsc> für B<dpkg-source> "
+"und zu der Standardausgabe für B<dpkg-gencontrol> und B<dpkg-genchanges>) "
 "schreiben, führen sie einige Variablensubstitutionen in der Ausgabedatei "
 "durch."
 
@@ -2759,8 +2764,8 @@ msgstr ""
 "Variablen können über die allgemeine B<-V>-Option gesetzt werden. Sie können "
 "auch in der B<debian/substvars> (bzw. in der über die Option B<-T> gesetzten "
 "Datei) angegeben werden. Diese Datei besteht auch Zeilen der Form "
-"I<Name>B<=>I<Wert>. Leerraumzeichen am Zeilenende, leere Zeilen und Zeilen, die "
-"mit dem B<#>-Symbol starten (Kommentare) werden ignoriert."
+"I<Name>B<=>I<Wert>. Leerraumzeichen am Zeilenende, leere Zeilen und Zeilen, "
+"die mit dem B<#>-Symbol starten (Kommentare) werden ignoriert."
 
 #. type: Plain text
 #: deb-substvars.5
@@ -3262,8 +3267,8 @@ msgid ""
 "and everything after the first B<#> on any line will be trimmed, and empty "
 "lines will be ignored."
 msgstr ""
-"Diese Datei enthält Direktiven, eine pro Zeile. Leerraumzeichen am Anfang und "
-"Ende sowie alles nach dem ersten B<#> werden in jeder Zeile entfernt und "
+"Diese Datei enthält Direktiven, eine pro Zeile. Leerraumzeichen am Anfang "
+"und Ende sowie alles nach dem ersten B<#> werden in jeder Zeile entfernt und "
 "leere Zeilen werden ignoriert."
 
 #. type: Plain text
@@ -4010,10 +4015,11 @@ msgid ""
 "only get checked if the database contains the file md5sum. To check for any "
 "missing metadata in the database, the B<--audit> command can be used."
 msgstr ""
-"Derzeit ist die einzige funktionale Prüfung eine Md5sum-Überprüfung der Dateiinhalte mit "
-"den gespeicherten Wert in der Datei-Datenbank. Er wird nur geprüft, falls "
-"die Datenbank die Md5sum der Datei enthält. Um auf fehlende Metadaten in der "
-"Datenbank zu prüfen, kann der Befehl B<--audit> verwandt werden."
+"Derzeit ist die einzige funktionale Prüfung eine Md5sum-Überprüfung der "
+"Dateiinhalte mit den gespeicherten Wert in der Datei-Datenbank. Er wird nur "
+"geprüft, falls die Datenbank die Md5sum der Datei enthält. Um auf fehlende "
+"Metadaten in der Datenbank zu prüfen, kann der Befehl B<--audit> verwandt "
+"werden."
 
 #. type: Plain text
 #: dpkg.1
@@ -4494,7 +4500,7 @@ msgstr "B<-Dh>, B<--debug=help>"
 #. type: Plain text
 #: dpkg.1
 msgid "Give help about debugging options."
-msgstr "Gebe Hilfe über Debugging-Optionen aus."
+msgstr "Gibt Hilfe über Fehlersuchoptionen aus."
 
 #. type: TP
 #: dpkg.1 dpkg-architecture.1 dpkg-buildflags.1 dpkg-buildpackage.1
@@ -4685,10 +4691,10 @@ msgid ""
 "together from the list below (note that these values may change in future "
 "releases). B<-Dh> or B<--debug=help> display these debugging values."
 msgstr ""
-"Schalte Debugging ein. I<Oktal> wird durch bitweise Oder-Verknüpfung der "
+"Schalte Fehlersuche ein. I<Oktal> wird durch bitweise Oder-Verknüpfung der "
 "gewünschten Werte von der nachfolgenden Liste gebildet (beachten Sie, dass "
 "sich diese Werte in zukünftigen Veröffentlichungen verändern können). B<-Dh> "
-"oder B<--debug=help> zeigen diese Debugging-Werte an."
+"oder B<--debug=help> zeigen diese Fehlersuchwerte an."
 
 #. type: Plain text
 #: dpkg.1
@@ -5366,9 +5372,10 @@ msgstr ""
 "(keine Unterstützung dafür, Dateirechte usw.). \\(oqB<.>\\(cq impliziert, "
 "dass die Prüfung erfolgreich durchgeführt wurde und ein alphanumerisches "
 "Zeichen impliziert, dass eine angegebene Prüfung fehlschlug. Der Md5sum-"
-"Überprüfungsfehlschlag (die Dateiinhalte haben sich geändert) wird durch ein \\(oqB<5>\\(cq als drittes Zeichen angezeigt. Der "
-"Zeile folgt ein Leerzeichen und ein Attributszeichen (derzeit \\(oqB<c>\\(cq "
-"für Conffiles), ein weiteres Leerzeichen und der Pfadnmae."
+"Überprüfungsfehlschlag (die Dateiinhalte haben sich geändert) wird durch ein "
+"\\(oqB<5>\\(cq als drittes Zeichen angezeigt. Der Zeile folgt ein "
+"Leerzeichen und ein Attributszeichen (derzeit \\(oqB<c>\\(cq für Conffiles), "
+"ein weiteres Leerzeichen und der Pfadnmae."
 
 #. type: TP
 #: dpkg.1
@@ -5786,6 +5793,24 @@ msgstr ""
 "laufenden Skripts, eines von B<preinst>, B<postinst>, B<prerm> oder "
 "B<postrm> (seit Dpkg 1.15.7)."
 
+#. type: TP
+#: dpkg.1
+#, no-wrap
+msgid "B<DPKG_MAINTSCRIPT_DEBUG>"
+msgstr "B<DPKG_MAINTSCRIPT_DEBUG>"
+
+#. type: Plain text
+#: dpkg.1
+msgid ""
+"Defined by B<dpkg> on the maintainer script environment to a value (\\(oqB<0>"
+"\\(cq or \\(oqB<1>\\(cq) noting whether debugging has been requested (with "
+"the B<--debug> option) for the maintainer scripts (since dpkg 1.18.4)."
+msgstr ""
+"Wird von B<dpkg> für die Betreuer-Skript-Umgebung auf einen Wert "
+"(\\(oqB<0>\\(cq oder \\(oqB<1>\\(cq) gesetzt, der angibt, ob die Fehlersuche "
+"(mit der Option B<--debug>) für die Betreuerskripte angefordert wurde (seit "
+"Dpkg 1.18.4)."
+
 #. type: Plain text
 #: dpkg.1 dpkg.cfg.5
 #, no-wrap
@@ -5971,8 +5996,8 @@ msgid ""
 "I<available> file shows that the vim package is in section B<editors>:"
 msgstr ""
 "Um ein Paket zu installieren, müssen Sie es erst in einem Archiv oder auf "
-"einer CD-ROM finden. Die Datei I<available> zeigt, dass das vim-Paket in "
-"der Sektion B<editors> ist:"
+"einer CD-ROM finden. Die Datei I<available> zeigt, dass das vim-Paket in der "
+"Sektion B<editors> ist:"
 
 #. type: Plain text
 #: dpkg.1
@@ -6482,10 +6507,10 @@ msgid ""
 "a cross-toolchain, one that will be built on the build architecture, to be "
 "run on the host architecture, and to build code for the target architecture."
 msgstr ""
-"Die Maschine, für die der Compiler baut. Dies wird nur beim "
-"Bau einer Cross-Toolchain und zum Bau von Code für die Ziel-Architektur "
-"benötigt. Die Cross-Toolchain wird auf der Bauarchitektur gebaut und läuft "
-"dann auf der Host-Architektur."
+"Die Maschine, für die der Compiler baut. Dies wird nur beim Bau einer Cross-"
+"Toolchain und zum Bau von Code für die Ziel-Architektur benötigt. Die Cross-"
+"Toolchain wird auf der Bauarchitektur gebaut und läuft dann auf der Host-"
+"Architektur."
 
 #. type: IP
 #: dpkg-architecture.1
@@ -9233,11 +9258,13 @@ msgstr "B<-nc>"
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
-"Do not clean the source tree (implies B<-b> if nothing else has been "
-"selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-A> or B<-S>)."
+"Do not clean the source tree.  Implies B<-b> if nothing else has been "
+"selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-A> or B<-S>.  Implies B<-d> "
+"with B<-S> (since dpkg 1.18.0)."
 msgstr ""
-"Bereinige den Quellbaum nicht (impliziert B<-b>, falls ansonsten nichts aus "
-"B<-F>, B<-g>, B<-G>, B<-B>, B<-A> oder B<-S> gewählt wurde)."
+"Bereinige den Quellbaum nicht. Impliziert B<-b>, falls ansonsten nichts aus "
+"B<-F>, B<-g>, B<-G>, B<-B>, B<-A> oder B<-S> gewählt wurde. Impliziert B<-d> "
+"mit B<-S> (seit Dpkg 1.18.0)."
 
 #. type: TP
 #: dpkg-buildpackage.1
@@ -9777,9 +9804,9 @@ msgid ""
 "met, it displays them and exits with a nonzero return code."
 msgstr ""
 "Dieses Programm überprüft die im System installierten Pakete gegen die "
-"Bauabhängigkeiten und Baukonflikte, die in der control-Datei aufgeführt sind. "
-"Falls welche davon nicht erfüllt sind, zeigt es diese an und beendet sich "
-"mit einem von Null verschiedenen Rückgabewert."
+"Bauabhängigkeiten und Baukonflikte, die in der control-Datei aufgeführt "
+"sind. Falls welche davon nicht erfüllt sind, zeigt es diese an und beendet "
+"sich mit einem von Null verschiedenen Rückgabewert."
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1
@@ -9787,8 +9814,8 @@ msgid ""
 "By default, B<debian/control> is read, but an alternate control filename may "
 "be specified on the command line."
 msgstr ""
-"Standardmäßig wird B<debian/control> gelesen, aber ein alternativer "
-"control-Dateiname kann auf der Befehlszeile angegeben werden."
+"Standardmäßig wird B<debian/control> gelesen, aber ein alternativer control-"
+"Dateiname kann auf der Befehlszeile angegeben werden."
 
 #. type: Plain text
 #: dpkg-checkbuilddeps.1
@@ -10574,7 +10601,7 @@ msgstr "B<-D>, B<--debug>"
 #: dpkg-deb.1
 msgid "Enables debugging output. This is not very interesting."
 msgstr ""
-"Aktiviert Fehlersuch-Ausgaben (»debugging«). Dies ist nicht sehr interessant."
+"Aktiviert Fehlersuchausgaben (»debugging«). Dies ist nicht sehr interessant."
 
 #. type: Plain text
 #: dpkg-deb.1
@@ -11196,8 +11223,8 @@ msgid ""
 "Specifies the main source control file to read information from. The default "
 "is B<debian/control>."
 msgstr ""
-"Gibt die Haupt-control-Datei an, aus der Informationen gelesen werden sollen. "
-"Standardmäßig B<debian/control>."
+"Gibt die Haupt-control-Datei an, aus der Informationen gelesen werden "
+"sollen. Standardmäßig B<debian/control>."
 
 #. type: TP
 #: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-source.1
@@ -11313,8 +11340,9 @@ msgid ""
 "control); during this process it will simplify the relation fields."
 msgstr ""
 "B<dpkg-gencontrol> liest Informationen aus einem entpackten Debian-"
-"Quellcodebaum und erzeugt eine binäre Paket-control-Datei (standardmäßig debian/"
-"tmp/DEBIAN/control); dabei vereinfacht es die Felder mit Paketbeziehungen."
+"Quellcodebaum und erzeugt eine binäre Paket-control-Datei (standardmäßig "
+"debian/tmp/DEBIAN/control); dabei vereinfacht es die Felder mit "
+"Paketbeziehungen."
 
 #. type: Plain text
 #: dpkg-gencontrol.1
@@ -13932,8 +13960,8 @@ msgid ""
 msgstr ""
 "Die folgenden Optionen können verwendet werden, um die Ausgabe des Changelog-"
 "Auswerters zu beinflussen, z.B. den Bereich der Einträge oder das Format der "
-"Ausgabe. Sie müssen vom in Frage kommenden Auswerter-Skript unterstützt werden. "
-"Lesen Sie auch B<BEMERKUNGEN>."
+"Ausgabe. Sie müssen vom in Frage kommenden Auswerter-Skript unterstützt "
+"werden. Lesen Sie auch B<BEMERKUNGEN>."
 
 #. type: TP
 #: dpkg-parsechangelog.1
@@ -14252,12 +14280,12 @@ msgid ""
 "standard output in the format specified by the B<--format> option.  It "
 "should accept all B<Parser Options>."
 msgstr ""
-"Der Parser wird mit dem Änderungsprotokoll auf der Standardeingabe am Anfang "
+"Der Auswerter wird mit dem Änderungsprotokoll auf der Standardeingabe am Anfang "
 "der Datei aufgerufen. Er sollte die Datei lesen (er darf dafür suchen, falls "
 "gewünscht), um die benötigten Informationen zu ermitteln und die "
 "ausgewerteten Informationen auf der Standardausgabe in dem durch die Option "
-"B<--format> angegebenen Format auszugeben. Er sollte alle B<Auswerter-Optionen> "
-"akzeptieren."
+"B<--format> angegebenen Format auszugeben. Er sollte alle B<Auswerter-"
+"Optionen> akzeptieren."
 
 #. type: Plain text
 #: dpkg-parsechangelog.1
@@ -14307,8 +14335,8 @@ msgid ""
 "might not support all options."
 msgstr ""
 "Alle B<Auswerter-Optionen> außer B<-v> werden seit Dpkg 1.14.16 unterstützt. "
-"Auswerter von Dritten für Changelog-Formate außer I<debian> könnten nicht alle "
-"Optionen unterstützen."
+"Auswerter von Dritten für Changelog-Formate außer I<debian> könnten nicht "
+"alle Optionen unterstützen."
 
 #. type: Plain text
 #: dpkg-parsechangelog.1
@@ -15403,11 +15431,11 @@ msgid ""
 "the source override takes precedence for setting the section."
 msgstr ""
 "Die Quell-override-Datei hat ein anderes Format als die Binär-override-Datei."
-"Sie enthält nur zwei, durch Leerraumzeichen separierte Felder, der erste ist der "
-"Quellpaketname und der zweite die Sektion. Leerzeilen und Kommentarzeilen "
-"werden in normaler Art und Weise ignoriert. Falls ein Paket in beiden "
-"Dateien auftaucht, dann nimmt die Quell-override Vorrang für die Einstellung "
-"des Bereichs."
+"Sie enthält nur zwei, durch Leerraumzeichen separierte Felder, der erste ist "
+"der Quellpaketname und der zweite die Sektion. Leerzeilen und "
+"Kommentarzeilen werden in normaler Art und Weise ignoriert. Falls ein Paket "
+"in beiden Dateien auftaucht, dann nimmt die Quell-override Vorrang für die "
+"Einstellung des Bereichs."
 
 #. type: IP
 #: dpkg-scansources.1
@@ -15418,7 +15446,7 @@ msgstr "B<--debug>"
 #. type: Plain text
 #: dpkg-scansources.1
 msgid "Turn debugging on."
-msgstr "Schalte Debugging ein."
+msgstr "Schaltet Fehlersuche ein."
 
 #. type: Plain text
 #: dpkg-scansources.1
@@ -19229,7 +19257,7 @@ msgstr "B<-D>I<Datei>, B<--debug> I<Datei>"
 #: dselect.1
 msgid "Turn on debugging. Debugging information is sent to I<file>."
 msgstr ""
-"Aktiviere Debugging. Debug-Informationen werden nach I<Datei> gesendet."
+"Aktiviert Fehlersuche. Fehlersuchinformationen werden nach I<Datei> gesendet."
 
 #. type: TP
 #: dselect.1
@@ -22284,8 +22312,8 @@ msgstr ""
 #~ "marks may be prepended to each of the names, meaning \"NOT\"."
 #~ msgstr ""
 #~ "Eine Profilspezifikation besteht aus einer oder mehreren durch "
-#~ "Leerraumzeichen getrennten Profilnamen, denen der Namensraum »B<profile.>« "
-#~ "vorangestellt wird. Jedem Namen darf ein Ausrufezeichen vorangestellt "
+#~ "Leerraumzeichen getrennten Profilnamen, denen der Namensraum »B<profile."
+#~ ">« vorangestellt wird. Jedem Namen darf ein Ausrufezeichen vorangestellt "
 #~ "werden, das »NICHT« bedeutet."
 
 #~ msgid ""
@@ -22770,7 +22798,8 @@ msgstr ""
 
 #~ msgid ""
 #~ "Marek Michalkiewicz E<lt>marekm@i17linuxb.ists.pwr.wroc.plE<gt> based on "
-#~ "a previous version by Ian Jackson E<lt>ijackson@chiark.greenend.org.ukE<gt>."
+#~ "a previous version by Ian Jackson E<lt>ijackson@chiark.greenend.org."
+#~ "ukE<gt>."
 #~ msgstr ""
 #~ "Marek Michalkiewicz E<lt>marekm@i17linuxb.ists.pwr.wroc.plE<gt> basierend "
 #~ "auf einer vorherigen Version von Ian Jackson E<lt>ian@chiark.greenend.org."
@@ -23417,11 +23446,10 @@ msgstr ""
 #~ "various source package formats."
 #~ msgstr ""
 #~ "B<dpkg-source> wird das Quellpaket mit dem ersten gefundenen Format aus "
-#~ "der folgenden geordneten Liste bauen: dem mit der "
-#~ "Befehlszeilenoption(en) I<--format> angegeben Format, dem in B<debian/"
-#~ "source/format> angegebenen Format, »1.0«. Die verschiedenen "
-#~ "Quellpaketformate werden im Abschnitt B<QUELLPAKET-FORMATE> ausführlich "
-#~ "beschrieben."
+#~ "der folgenden geordneten Liste bauen: dem mit der Befehlszeilenoption(en) "
+#~ "I<--format> angegeben Format, dem in B<debian/source/format> angegebenen "
+#~ "Format, »1.0«. Die verschiedenen Quellpaketformate werden im Abschnitt "
+#~ "B<QUELLPAKET-FORMATE> ausführlich beschrieben."
 
 #~ msgid ""
 #~ "If you don't know what source format you should use, you should probably "
@@ -24161,7 +24189,7 @@ msgstr ""
 #~ "Enables debugging mode, in which the results of some internal processing "
 #~ "steps are shown."
 #~ msgstr ""
-#~ "Aktiviert den Fehlersuche-Modus, bei dem die Ergebnisse einiger interner "
+#~ "Aktiviert den Fehlersuchemodus, bei dem die Ergebnisse einiger interner "
 #~ "Bearbeitungsschritte angezeigt werden."
 
 #~ msgid "B<emacs>(1), B<info>(1), B<gzip(1).>"
