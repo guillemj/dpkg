@@ -527,6 +527,17 @@ static void
 filter_xz_init(struct io_lzma *io, lzma_stream *s)
 {
 	uint32_t preset;
+	lzma_check check = LZMA_CHECK_CRC64;
+#ifdef HAVE_LZMA_MT
+	lzma_mt mt_options = {
+		.flags = 0,
+		.threads = sysconf(_SC_NPROCESSORS_ONLN),
+		.block_size = 0,
+		.timeout = 0,
+		.filters = NULL,
+		.check = check,
+	};
+#endif
 	lzma_ret ret;
 
 	io->status |= DPKG_STREAM_COMPRESS;
@@ -534,7 +545,14 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 	preset = io->params->level;
 	if (io->params->strategy == COMPRESSOR_STRATEGY_EXTREME)
 		preset |= LZMA_PRESET_EXTREME;
-	ret = lzma_easy_encoder(s, preset, LZMA_CHECK_CRC64);
+
+#ifdef HAVE_LZMA_MT
+	mt_options.preset = preset;
+	ret = lzma_stream_encoder_mt(s, &mt_options);
+#else
+	ret = lzma_easy_encoder(s, preset, check);
+#endif
+
 	if (ret != LZMA_OK)
 		filter_lzma_error(io, ret);
 }

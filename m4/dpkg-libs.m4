@@ -61,6 +61,9 @@ AC_DEFUN([DPKG_LIB_ZLIB], [
 # Check for lzma library.
 AC_DEFUN([DPKG_LIB_LZMA], [
   DPKG_WITH_COMPRESS_LIB([liblzma], [lzma.h], [lzma_alone_decoder], [lzma])
+  AC_CHECK_LIB([lzma], [lzma_stream_encoder_mt],
+               [AC_DEFINE([HAVE_LZMA_MT], [1],
+                          [xz multithreaded compression support])])
 ])# DPKG_LIB_LZMA
 
 # DPKG_LIB_BZ2
