@@ -122,6 +122,9 @@ our %FIELDS = (
         dependency => 'normal',
         dep_order => 3,
     },
+    'Build-Essential' => {
+        allowed => ALL_PKG,
+    },
     'Build-Profiles' => {
         allowed => CTRL_INFO_PKG,
         separator => FIELD_SEP_SPACE,
