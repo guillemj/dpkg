@@ -157,7 +157,7 @@ sub _add_reproducible_flags {
 
     # Default feature states.
     my %use_feature = (
-        timeless => 0,
+        timeless => 1,
     );
 
     # Adjust features based on user or maintainer's desires.
