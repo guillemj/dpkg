@@ -98,7 +98,7 @@ is(gnutriplet_to_debarch(undef), undef, 'undef gnutriplet');
 is(gnutriplet_to_debarch('unknown-unknown-unknown'), undef, 'unknown gnutriplet');
 is(gnutriplet_to_debarch('x86_64-linux-gnu'), 'amd64', 'known gnutriplet');
 
-is(scalar get_valid_arches(), 403, 'expected amount of known architectures');
+is(scalar get_valid_arches(), 417, 'expected amount of known architectures');
 
 {
     local $ENV{CC} = 'false';
