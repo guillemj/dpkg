@@ -312,8 +312,10 @@ pkg_sorter_by_listfile_phys_offs(const void *a, const void *b)
    * INT_MAX. */
   if (pa->clientdata->listfile_phys_offs < pb->clientdata->listfile_phys_offs)
     return -1;
-  else
+  else if (pa->clientdata->listfile_phys_offs > pb->clientdata->listfile_phys_offs)
     return 1;
+  else
+    return 0;
 }
 
 static void
