@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-20 05:47+0100\n"
+"POT-Creation-Date: 2015-12-25 13:29+0100\n"
 "PO-Revision-Date: 2015-12-25 04:54+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -517,6 +517,21 @@ msgstr ""
 "benötigt wird. Dpkg oder jedes andere Installationswerkzeug wird es nicht "
 "erlauben, ein B<Essential>-Paket zu entfernen (zumindestens nicht ohne die "
 "Verwendung einer der »force«-Optionen)."
+
+#. type: TQ
+#: deb-control.5 deb-src-control.5
+#, fuzzy, no-wrap
+#| msgid "B<Essential:> B<yes>|B<no>"
+msgid "B<Build-Essential:> B<yes>|B<no>"
+msgstr "B<Essential:> B<yes>|B<no>"
+
+#. type: Plain text
+#: deb-control.5
+msgid ""
+"This field is usually only needed when the answer is B<yes>, and is commonly "
+"injected by the archive software.  It denotes a package that is required "
+"when building other packages."
+msgstr ""
 
 #. type: TP
 #: deb-control.5
@@ -4469,8 +4484,8 @@ msgstr ""
 #: dpkg.1 dpkg-architecture.1 dpkg-buildpackage.1 dpkg-checkbuilddeps.1
 #: dpkg-distaddfile.1 dpkg-deb.1 dpkg-divert.1 dpkg-genchanges.1
 #: dpkg-gencontrol.1 dpkg-gensymbols.1 dpkg-name.1 dpkg-parsechangelog.1
-#: dpkg-query.1 dpkg-scanpackages.1 dpkg-shlibdeps.1 dpkg-source.1
-#: dpkg-split.1 dpkg-trigger.1 dselect.1
+#: dpkg-query.1 dpkg-scanpackages.1 dpkg-shlibdeps.1 dpkg-source.1 dpkg-split.1
+#: dpkg-trigger.1 dselect.1
 #, no-wrap
 msgid "B<-?>, B<--help>"
 msgstr "B<-?>, B<--help>"
@@ -4505,11 +4520,10 @@ msgstr "Gibt Hilfe über Fehlersuchoptionen aus."
 #. type: TP
 #: dpkg.1 dpkg-architecture.1 dpkg-buildflags.1 dpkg-buildpackage.1
 #: dpkg-checkbuilddeps.1 dpkg-distaddfile.1 dpkg-deb.1 dpkg-divert.1
-#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-gensymbols.1
-#: dpkg-mergechangelogs.1 dpkg-parsechangelog.1 dpkg-query.1
-#: dpkg-scanpackages.1 dpkg-scansources.1 dpkg-shlibdeps.1 dpkg-source.1
-#: dpkg-split.1 dpkg-statoverride.1 dpkg-trigger.1 dpkg-vendor.1 dselect.1
-#: update-alternatives.1
+#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-gensymbols.1 dpkg-mergechangelogs.1
+#: dpkg-parsechangelog.1 dpkg-query.1 dpkg-scanpackages.1 dpkg-scansources.1
+#: dpkg-shlibdeps.1 dpkg-source.1 dpkg-split.1 dpkg-statoverride.1
+#: dpkg-trigger.1 dpkg-vendor.1 dselect.1 update-alternatives.1
 #, no-wrap
 msgid "B<--version>"
 msgstr "B<--version>"
@@ -5561,6 +5575,12 @@ msgstr "Annulliert ein vorheriges B<--no-triggers> (seit Dpkg 1.14.17)."
 msgid "ENVIRONMENT"
 msgstr "UMGEBUNG"
 
+#. type: SS
+#: dpkg.1
+#, no-wrap
+msgid "External environment"
+msgstr ""
+
 #. type: TP
 #: dpkg.1
 #, no-wrap
@@ -5648,6 +5668,12 @@ msgid ""
 msgstr ""
 "Setzt die Anzahl von Spalten die B<dpkg> verwenden soll, wenn es "
 "formatierten Text anzeigt. Derzeit nur von -l verwendet."
+
+#. type: SS
+#: dpkg.1
+#, no-wrap
+msgid "Internal environment"
+msgstr ""
 
 #. type: TP
 #: dpkg.1
@@ -5806,10 +5832,10 @@ msgid ""
 "\\(cq or \\(oqB<1>\\(cq) noting whether debugging has been requested (with "
 "the B<--debug> option) for the maintainer scripts (since dpkg 1.18.4)."
 msgstr ""
-"Wird von B<dpkg> für die Betreuer-Skript-Umgebung auf einen Wert "
-"(\\(oqB<0>\\(cq oder \\(oqB<1>\\(cq) gesetzt, der angibt, ob die Fehlersuche "
-"(mit der Option B<--debug>) für die Betreuerskripte angefordert wurde (seit "
-"Dpkg 1.18.4)."
+"Wird von B<dpkg> für die Betreuer-Skript-Umgebung auf einen Wert (\\(oqB<0>"
+"\\(cq oder \\(oqB<1>\\(cq) gesetzt, der angibt, ob die Fehlersuche (mit der "
+"Option B<--debug>) für die Betreuerskripte angefordert wurde (seit Dpkg "
+"1.18.4)."
 
 #. type: Plain text
 #: dpkg.1 dpkg.cfg.5
@@ -5925,8 +5951,8 @@ msgstr ""
 "I<triggers>\n"
 
 #. type: SH
-#: dpkg.1 dpkg-buildpackage.1 dpkg-deb.1 dpkg-name.1 dpkg-source.1
-#: dpkg-split.1 dselect.1
+#: dpkg.1 dpkg-buildpackage.1 dpkg-deb.1 dpkg-name.1 dpkg-source.1 dpkg-split.1
+#: dselect.1
 #, no-wrap
 msgid "BUGS"
 msgstr "FEHLER"
@@ -6335,22 +6361,20 @@ msgstr ""
 #. type: Plain text
 #: dpkg-architecture.1 dpkg-buildflags.1 dpkg-buildpackage.1
 #: dpkg-checkbuilddeps.1 dpkg-distaddfile.1 dpkg-deb.1 dpkg-divert.1
-#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-gensymbols.1
-#: dpkg-mergechangelogs.1 dpkg-name.1 dpkg-parsechangelog.1 dpkg-query.1
-#: dpkg-scanpackages.1 dpkg-scansources.1 dpkg-shlibdeps.1 dpkg-source.1
-#: dpkg-split.1 dpkg-statoverride.1 dpkg-trigger.1 dpkg-vendor.1
-#: update-alternatives.1
+#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-gensymbols.1 dpkg-mergechangelogs.1
+#: dpkg-name.1 dpkg-parsechangelog.1 dpkg-query.1 dpkg-scanpackages.1
+#: dpkg-scansources.1 dpkg-shlibdeps.1 dpkg-source.1 dpkg-split.1
+#: dpkg-statoverride.1 dpkg-trigger.1 dpkg-vendor.1 update-alternatives.1
 msgid "Show the usage message and exit."
 msgstr "Zeige den Bedienungshinweis und beende."
 
 #. type: Plain text
 #: dpkg-architecture.1 dpkg-buildflags.1 dpkg-buildpackage.1
 #: dpkg-checkbuilddeps.1 dpkg-distaddfile.1 dpkg-deb.1 dpkg-divert.1
-#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-gensymbols.1
-#: dpkg-mergechangelogs.1 dpkg-name.1 dpkg-parsechangelog.1 dpkg-query.1
-#: dpkg-scanpackages.1 dpkg-scansources.1 dpkg-shlibdeps.1 dpkg-source.1
-#: dpkg-split.1 dpkg-statoverride.1 dpkg-trigger.1 dpkg-vendor.1
-#: update-alternatives.1
+#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-gensymbols.1 dpkg-mergechangelogs.1
+#: dpkg-name.1 dpkg-parsechangelog.1 dpkg-query.1 dpkg-scanpackages.1
+#: dpkg-scansources.1 dpkg-shlibdeps.1 dpkg-source.1 dpkg-split.1
+#: dpkg-statoverride.1 dpkg-trigger.1 dpkg-vendor.1 update-alternatives.1
 msgid "Show the version and exit."
 msgstr "Gebe die Version aus und beende sich."
 
@@ -8291,8 +8315,13 @@ msgstr "B<timeless>"
 
 #. type: Plain text
 #: dpkg-buildflags.1
+#, fuzzy
+#| msgid ""
+#| "This setting (disabled by default) adds B<-Wdate-time> to B<CPPFLAGS>.  "
+#| "This will cause warnings when the B<__TIME__>, B<__DATE__> and B<\\"
+#| "%__TIMESTAMP__> macros are used."
 msgid ""
-"This setting (disabled by default) adds B<-Wdate-time> to B<CPPFLAGS>.  This "
+"This setting (enabled by default) adds B<-Wdate-time> to B<CPPFLAGS>.  This "
 "will cause warnings when the B<__TIME__>, B<__DATE__> and B<\\"
 "%__TIMESTAMP__> macros are used."
 msgstr ""
@@ -14280,11 +14309,11 @@ msgid ""
 "standard output in the format specified by the B<--format> option.  It "
 "should accept all B<Parser Options>."
 msgstr ""
-"Der Auswerter wird mit dem Änderungsprotokoll auf der Standardeingabe am Anfang "
-"der Datei aufgerufen. Er sollte die Datei lesen (er darf dafür suchen, falls "
-"gewünscht), um die benötigten Informationen zu ermitteln und die "
-"ausgewerteten Informationen auf der Standardausgabe in dem durch die Option "
-"B<--format> angegebenen Format auszugeben. Er sollte alle B<Auswerter-"
+"Der Auswerter wird mit dem Änderungsprotokoll auf der Standardeingabe am "
+"Anfang der Datei aufgerufen. Er sollte die Datei lesen (er darf dafür "
+"suchen, falls gewünscht), um die benötigten Informationen zu ermitteln und "
+"die ausgewerteten Informationen auf der Standardausgabe in dem durch die "
+"Option B<--format> angegebenen Format auszugeben. Er sollte alle B<Auswerter-"
 "Optionen> akzeptieren."
 
 #. type: Plain text
@@ -14908,11 +14937,19 @@ msgstr "B<binary:Package>"
 
 #. type: Plain text
 #: dpkg-query.1
+#, fuzzy
+#| msgid ""
+#| "It contains the binary package name with a possible architecture "
+#| "qualifier like \\(lqlibc6:amd64\\(rq (since dpkg 1.16.2).  The "
+#| "architecture qualifier will only be present if the package has a B<Multi-"
+#| "Arch> field with a value of B<same>.  This makes the package name "
+#| "unambiguous."
 msgid ""
 "It contains the binary package name with a possible architecture qualifier "
-"like \\(lqlibc6:amd64\\(rq (since dpkg 1.16.2).  The architecture qualifier "
-"will only be present if the package has a B<Multi-Arch> field with a value "
-"of B<same>.  This makes the package name unambiguous."
+"like \\(lqlibc6:amd64\\(rq (since dpkg 1.16.2).  An architecture qualifier "
+"will be present to make the package name unambiguous, for example if the "
+"package has a B<Multi-Arch> field with a value of B<same> or the package is "
+"of a foreign architecture."
 msgstr ""
 "Es enthält den Binärpaketnamen mit einem möglichen Architektur-Kennzeichner "
 "wie \\(lqlibc6:amd64\\(rq (seit Dpkg 1.16.2). Der Architektur-Kennzeichner "

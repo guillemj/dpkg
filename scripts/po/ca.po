@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-09-21 07:14+0200\n"
+"POT-Creation-Date: 2015-12-25 13:28+0100\n"
 "PO-Revision-Date: 2014-12-10 03:47+0100\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -164,10 +164,13 @@ msgid "unknown option '%s'"
 msgstr "l'opció «%s» és desconeguda"
 
 #: scripts/dpkg-architecture.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "specified GNU system type %s does not match gcc system type %s, try "
+#| "setting a correct CC environment variable"
 msgid ""
-"specified GNU system type %s does not match gcc system type %s, try setting "
-"a correct CC environment variable"
+"specified GNU system type %s does not match CC system type %s, try setting a "
+"correct CC environment variable"
 msgstr ""
 "el tipus de sistema GNU %s especificat no correspon amb el tipus de sistema "
 "del gcc %s, proveu a especificar una variable d'entorn CC correcta"
@@ -1587,9 +1590,9 @@ msgstr "  %s (el paquet especifica %s, i no %s)"
 msgid "unconditional maintainer override for %s"
 msgstr "substitució de mantenidor incondicional per a %s"
 
-#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-shlibdeps.pl
+#: scripts/Dpkg/Changelog/Parse.pm scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
 msgid "cannot fork for %s"
 msgstr "no es pot fer «fork» per a %s"
@@ -1648,11 +1651,6 @@ msgstr "no s'ha trobat el directori binari %s"
 #, perl-format
 msgid "override file %s not found"
 msgstr "no s'ha trobat el fitxer de substitució %s"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "couldn't open %s for reading"
-msgstr "no s'ha pogut obrir «%s» per a la lectura"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "failed when writing stdout"
@@ -1754,12 +1752,6 @@ msgstr ""
 #, perl-format
 msgid "no binary packages specified in %s"
 msgstr "no s'ha especificat cap paquet binari a %s"
-
-#: scripts/dpkg-scansources.pl
-#, fuzzy, perl-format
-#| msgid "error closing %s ($? %d, $! '%s')"
-msgid "error closing %s (%s)"
-msgstr "s'ha produït un error en tancar %s ($? %d, $! «%s»)"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2367,17 +2359,21 @@ msgid "fatal error occurred while parsing %s"
 msgstr "s'ha produït un error fatal en analitzar %s"
 
 #: scripts/Dpkg/Arch.pm
+#, fuzzy
+#| msgid ""
+#| "couldn't determine gcc system type, falling back to default (native "
+#| "compilation)"
 msgid ""
-"couldn't determine gcc system type, falling back to default (native "
-"compilation)"
+"cannot determine CC system type, falling back to default (native compilation)"
 msgstr ""
 "no es pot determinar el tipus de sistema de gcc, s'emprarà el predeterminat "
 "(construcció nadiua)"
 
 #: scripts/Dpkg/Arch.pm
-#, perl-format
-msgid ""
-"unknown gcc system type %s, falling back to default (native compilation)"
+#, fuzzy, perl-format
+#| msgid ""
+#| "unknown gcc system type %s, falling back to default (native compilation)"
+msgid "unknown CC system type %s, falling back to default (native compilation)"
 msgstr ""
 "el tipus de sistema de gcc %s és desconegut, s'emprarà el predeterminat "
 "(construcció nadiua)"
@@ -3934,6 +3930,14 @@ msgstr "el número de versió conté un caràcter il·legal ‘%s‘"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "l'època en la versió no és un número: «%s»"
+
+#~ msgid "couldn't open %s for reading"
+#~ msgstr "no s'ha pogut obrir «%s» per a la lectura"
+
+#, fuzzy
+#~| msgid "error closing %s ($? %d, $! '%s')"
+#~ msgid "error closing %s (%s)"
+#~ msgstr "s'ha produït un error en tancar %s ($? %d, $! «%s»)"
 
 #~ msgid "couldn't parse date %s"
 #~ msgstr "no s'ha pogut analitzar la data %s"

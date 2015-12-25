@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.15.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-09-21 07:14+0200\n"
+"POT-Creation-Date: 2015-12-25 13:28+0100\n"
 "PO-Revision-Date: 2015-04-07 07:05+0200\n"
 "Last-Translator: Łukasz Dulny <BartekChom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -158,10 +158,13 @@ msgid "unknown option '%s'"
 msgstr "nieznana opcja \"%s\""
 
 #: scripts/dpkg-architecture.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "specified GNU system type %s does not match gcc system type %s, try "
+#| "setting a correct CC environment variable"
 msgid ""
-"specified GNU system type %s does not match gcc system type %s, try setting "
-"a correct CC environment variable"
+"specified GNU system type %s does not match CC system type %s, try setting a "
+"correct CC environment variable"
 msgstr ""
 "podany typ systemu GNU %s nie odpowiada typowi systemu gcc %s, proszę "
 "spróbować ustawić poprawną zmienną środowiskową CC"
@@ -1550,9 +1553,9 @@ msgstr "  %s (pakiet zawiera %s, nie %s)"
 msgid "unconditional maintainer override for %s"
 msgstr "bezwarunkowe nadpisanie opiekuna dla %s"
 
-#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-shlibdeps.pl
+#: scripts/Dpkg/Changelog/Parse.pm scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
 msgid "cannot fork for %s"
 msgstr "nie można wykonać funkcji fork dla %s"
@@ -1612,11 +1615,6 @@ msgstr "nie znaleziono katalogu binarnego %s"
 #, perl-format
 msgid "override file %s not found"
 msgstr "nie znaleziono pliku nadpisań %s"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "couldn't open %s for reading"
-msgstr "nie można otworzyć %s do odczytu"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "failed when writing stdout"
@@ -1717,12 +1715,6 @@ msgstr ""
 #, perl-format
 msgid "no binary packages specified in %s"
 msgstr "nie podano żadnych pakietów binarnych w %s"
-
-#: scripts/dpkg-scansources.pl
-#, fuzzy, perl-format
-#| msgid "error closing %s: %s"
-msgid "error closing %s (%s)"
-msgstr "błąd zamykania %s: %s"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2325,16 +2317,20 @@ msgid "fatal error occurred while parsing %s"
 msgstr "wystąpił fatalny błąd podczas przetwarzania %s"
 
 #: scripts/Dpkg/Arch.pm
+#, fuzzy
+#| msgid ""
+#| "couldn't determine gcc system type, falling back to default (native "
+#| "compilation)"
 msgid ""
-"couldn't determine gcc system type, falling back to default (native "
-"compilation)"
+"cannot determine CC system type, falling back to default (native compilation)"
 msgstr ""
 "nie można określić typu systemu gcc, użycie domyślnego (kompilacja natywna)"
 
 #: scripts/Dpkg/Arch.pm
-#, perl-format
-msgid ""
-"unknown gcc system type %s, falling back to default (native compilation)"
+#, fuzzy, perl-format
+#| msgid ""
+#| "unknown gcc system type %s, falling back to default (native compilation)"
+msgid "unknown CC system type %s, falling back to default (native compilation)"
 msgstr "nieznany typ systemu gcc %s, użycie domyślnego (kompilacja natywna)"
 
 #: scripts/Dpkg/BuildFlags.pm
@@ -3886,6 +3882,14 @@ msgstr "numer wersji zawiera niepoprawny znak \"%s\""
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "częśc epoki w numerze wersji nie jest liczbą: \"%s\""
+
+#~ msgid "couldn't open %s for reading"
+#~ msgstr "nie można otworzyć %s do odczytu"
+
+#, fuzzy
+#~| msgid "error closing %s: %s"
+#~ msgid "error closing %s (%s)"
+#~ msgstr "błąd zamykania %s: %s"
 
 #~ msgid "couldn't parse date %s"
 #~ msgstr "nie można przetworzyć daty %s"

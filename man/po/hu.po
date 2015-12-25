@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-09-21 07:14+0200\n"
+"POT-Creation-Date: 2015-12-25 13:29+0100\n"
 "PO-Revision-Date: 2015-04-18 18:11+0200\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -490,6 +490,21 @@ msgstr ""
 "rendszer helyes működéséhez lényegesnek írja le. A dpkg vagy más telepítő "
 "eszköz alapértelmezetten nem hajtja végre az B<Essential> (lényeges) "
 "csomagok eltávolítását (csak kényszerítő lehetőségekkel)."
+
+#. type: TQ
+#: deb-control.5 deb-src-control.5
+#, fuzzy, no-wrap
+#| msgid "B<Essential:> E<lt>yes|noE<gt>"
+msgid "B<Build-Essential:> B<yes>|B<no>"
+msgstr "B<Essential:> E<lt>yes|noE<gt>"
+
+#. type: Plain text
+#: deb-control.5
+msgid ""
+"This field is usually only needed when the answer is B<yes>, and is commonly "
+"injected by the archive software.  It denotes a package that is required "
+"when building other packages."
+msgstr ""
 
 #. type: TP
 #: deb-control.5
@@ -1198,9 +1213,12 @@ msgstr "B<Depends:> E<lt>csomag listaE<gt>"
 #: deb-src-control.5
 msgid ""
 "A list of packages that need to be installed and configured to be able to "
-"build the source package. Including a dependency in this list has the same "
+"build from source package.  These dependencies need to be satisfied when "
+"building binary architecture dependent or independent packages and source "
+"packages.  Including a dependency in this field does not have the exact same "
 "effect as including it in both B<Build-Depends-Arch> and B<Build-Depends-"
-"Indep>, with the additional effect of being used for source-only builds."
+"Indep>, because the dependency also needs to be satisfied when building the "
+"source package."
 msgstr ""
 
 #. type: TP
@@ -3448,10 +3466,10 @@ msgstr ""
 #. type: Plain text
 #: dpkg.1
 msgid ""
-"Currently the only functional check performed is an md5sum verification "
-"against the stored value in the files database. It will only get checked if "
-"the database contains the file md5sum. To check for any missing metadata in "
-"the database, the B<--audit> command can be used."
+"Currently the only functional check performed is an md5sum verification of "
+"the file contents against the stored value in the files database.  It will "
+"only get checked if the database contains the file md5sum. To check for any "
+"missing metadata in the database, the B<--audit> command can be used."
 msgstr ""
 
 #. type: Plain text
@@ -4491,10 +4509,10 @@ msgid ""
 "characters to report each specific check result, a \\(oqB<?>\\(cq implies "
 "the check could not be done (lack of support, file permissions, etc), "
 "\\(oqB<.>\\(cq implies the check passed, and an alphanumeric character "
-"implies a specific check failed; the md5sum verification is denoted with a "
-"\\(oqB<5>\\(cq on the third character.  The line is followed by a space and "
-"an attribute character (currently \\(oqB<c>\\(cq for conffiles), another "
-"space and the pathname."
+"implies a specific check failed; the md5sum verification failure (the file "
+"contents have changed) is denoted with a \\(oqB<5>\\(cq on the third "
+"character.  The line is followed by a space and an attribute character "
+"(currently \\(oqB<c>\\(cq for conffiles), another space and the pathname."
 msgstr ""
 
 #. type: TP
@@ -4646,6 +4664,12 @@ msgstr ""
 msgid "ENVIRONMENT"
 msgstr ""
 
+#. type: SS
+#: dpkg.1
+#, no-wrap
+msgid "External environment"
+msgstr ""
+
 #. type: TP
 #: dpkg.1
 #, fuzzy, no-wrap
@@ -4719,6 +4743,12 @@ msgstr ""
 msgid ""
 "Sets the number of columns B<dpkg> should use when displaying formatted "
 "text. Currently only used by -l."
+msgstr ""
+
+#. type: SS
+#: dpkg.1
+#, no-wrap
+msgid "Internal environment"
 msgstr ""
 
 #. type: TP
@@ -4838,6 +4868,20 @@ msgid ""
 "Defined by B<dpkg> on the maintainer script environment to the name of the "
 "script running, one of B<preinst>, B<postinst>, B<prerm> or B<postrm> (since "
 "dpkg 1.15.7)."
+msgstr ""
+
+#. type: TP
+#: dpkg.1
+#, no-wrap
+msgid "B<DPKG_MAINTSCRIPT_DEBUG>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg.1
+msgid ""
+"Defined by B<dpkg> on the maintainer script environment to a value (\\(oqB<0>"
+"\\(cq or \\(oqB<1>\\(cq) noting whether debugging has been requested (with "
+"the B<--debug> option) for the maintainer scripts (since dpkg 1.18.4)."
 msgstr ""
 
 #. type: Plain text
@@ -5330,12 +5374,9 @@ msgstr "B<--show>, B<-W>"
 
 #. type: Plain text
 #: dpkg-architecture.1
-msgid ""
-"Set the target Debian architecture (since dpkg 1.17.14).  This is only "
-"needed when building a cross-toolchain, one that will be built on the build "
-"architecture, to be run on the host architecture, and to build code for the "
-"target architecture."
-msgstr ""
+#, fuzzy
+msgid "Set the target Debian architecture (since dpkg 1.17.14)."
+msgstr "Debian Project"
 
 #. type: TP
 #: dpkg-architecture.1
@@ -5439,7 +5480,10 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-architecture.1
-msgid "The machine the compiler is building for."
+msgid ""
+"The machine the compiler is building for.  This is only needed when building "
+"a cross-toolchain, one that will be built on the build architecture, to be "
+"run on the host architecture, and to build code for the target architecture."
 msgstr ""
 
 #. type: IP
@@ -6960,7 +7004,7 @@ msgstr ""
 #. type: Plain text
 #: dpkg-buildflags.1
 msgid ""
-"This setting (disabled by default) adds B<-Wdate-time> to B<CPPFLAGS>.  This "
+"This setting (enabled by default) adds B<-Wdate-time> to B<CPPFLAGS>.  This "
 "will cause warnings when the B<__TIME__>, B<__DATE__> and B<\\"
 "%__TIMESTAMP__> macros are used."
 msgstr ""
@@ -7766,8 +7810,9 @@ msgstr "B<--new>"
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
-"Do not clean the source tree (implies B<-b> if nothing else has been "
-"selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-A> or B<-S>)."
+"Do not clean the source tree.  Implies B<-b> if nothing else has been "
+"selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-A> or B<-S>.  Implies B<-d> "
+"with B<-S> (since dpkg 1.18.0)."
 msgstr ""
 
 #. type: TP
@@ -12269,9 +12314,10 @@ msgstr "B<--version>"
 #: dpkg-query.1
 msgid ""
 "It contains the binary package name with a possible architecture qualifier "
-"like \\(lqlibc6:amd64\\(rq (since dpkg 1.16.2).  The architecture qualifier "
-"will only be present if the package has a B<Multi-Arch> field with a value "
-"of B<same>.  This makes the package name unambiguous."
+"like \\(lqlibc6:amd64\\(rq (since dpkg 1.16.2).  An architecture qualifier "
+"will be present to make the package name unambiguous, for example if the "
+"package has a B<Multi-Arch> field with a value of B<same> or the package is "
+"of a foreign architecture."
 msgstr ""
 
 #. type: TP

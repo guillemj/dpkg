@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-09-21 07:14+0200\n"
+"POT-Creation-Date: 2015-12-25 13:29+0100\n"
 "PO-Revision-Date: 2015-04-18 18:11+0200\n"
 "Last-Translator: Beatrice Torracca <beatricet@libero.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
@@ -572,6 +572,21 @@ msgstr ""
 "sistema. dpkg o qualsiasi altro strumento di installazione non permetterà "
 "che un pacchetto B<Essential> venga rimosso (almeno non senza usare una "
 "delle opzioni di forzatura)."
+
+#. type: TQ
+#: deb-control.5 deb-src-control.5
+#, fuzzy, no-wrap
+#| msgid "B<Essential:> B<yes>|B<no>"
+msgid "B<Build-Essential:> B<yes>|B<no>"
+msgstr "B<Essential:> B<yes>|B<no>"
+
+#. type: Plain text
+#: deb-control.5
+msgid ""
+"This field is usually only needed when the answer is B<yes>, and is commonly "
+"injected by the archive software.  It denotes a package that is required "
+"when building other packages."
+msgstr ""
 
 #. type: TP
 #: deb-control.5
@@ -1442,11 +1457,21 @@ msgstr "B<Build-Depends:>I< elenco-pacchetti>"
 # solo in file deb-src-control
 #. type: Plain text
 #: deb-src-control.5
+#, fuzzy
+#| msgid ""
+#| "A list of packages that need to be installed and configured to be able to "
+#| "build the source package. Including a dependency in this list has the "
+#| "same effect as including it in both B<Build-Depends-Arch> and B<Build-"
+#| "Depends-Indep>, with the additional effect of being used for source-only "
+#| "builds."
 msgid ""
 "A list of packages that need to be installed and configured to be able to "
-"build the source package. Including a dependency in this list has the same "
+"build from source package.  These dependencies need to be satisfied when "
+"building binary architecture dependent or independent packages and source "
+"packages.  Including a dependency in this field does not have the exact same "
 "effect as including it in both B<Build-Depends-Arch> and B<Build-Depends-"
-"Indep>, with the additional effect of being used for source-only builds."
+"Indep>, because the dependency also needs to be satisfied when building the "
+"source package."
 msgstr ""
 "Un elenco di pacchetti che devono essere installati e configurati per poter "
 "creare il pacchetto sorgente. Includere una dipendenza in questo elenco ha "
@@ -4275,11 +4300,17 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.1
+#, fuzzy
+#| msgid ""
+#| "Currently the only functional check performed is an md5sum verification "
+#| "against the stored value in the files database. It will only get checked "
+#| "if the database contains the file md5sum. To check for any missing "
+#| "metadata in the database, the B<--audit> command can be used."
 msgid ""
-"Currently the only functional check performed is an md5sum verification "
-"against the stored value in the files database. It will only get checked if "
-"the database contains the file md5sum. To check for any missing metadata in "
-"the database, the B<--audit> command can be used."
+"Currently the only functional check performed is an md5sum verification of "
+"the file contents against the stored value in the files database.  It will "
+"only get checked if the database contains the file md5sum. To check for any "
+"missing metadata in the database, the B<--audit> command can be used."
 msgstr ""
 "Attualmente l'unico controllo funzionale effettuato è una verifica md5sum "
 "del valore memorizzato nel database dei file. Verrà controllato solamente se "
@@ -5745,10 +5776,10 @@ msgid ""
 "characters to report each specific check result, a \\(oqB<?>\\(cq implies "
 "the check could not be done (lack of support, file permissions, etc), "
 "\\(oqB<.>\\(cq implies the check passed, and an alphanumeric character "
-"implies a specific check failed; the md5sum verification is denoted with a "
-"\\(oqB<5>\\(cq on the third character.  The line is followed by a space and "
-"an attribute character (currently \\(oqB<c>\\(cq for conffiles), another "
-"space and the pathname."
+"implies a specific check failed; the md5sum verification failure (the file "
+"contents have changed) is denoted with a \\(oqB<5>\\(cq on the third "
+"character.  The line is followed by a space and an attribute character "
+"(currently \\(oqB<c>\\(cq for conffiles), another space and the pathname."
 msgstr ""
 "L'unico formato di output supportato per il momento è B<rpm>, che consiste "
 "di una riga per ogni percorso che ha fallito un qualsiasi controllo. Le "
@@ -5970,6 +6001,12 @@ msgstr "Annulla un'opzione B<--no-triggers> precedente."
 msgid "ENVIRONMENT"
 msgstr "AMBIENTE"
 
+#. type: SS
+#: dpkg.1
+#, no-wrap
+msgid "External environment"
+msgstr ""
+
 #. type: TP
 #: dpkg.1
 #, fuzzy, no-wrap
@@ -6054,6 +6091,12 @@ msgid ""
 msgstr ""
 "Imposta il numero di colonne che B<dpkg> userà per visualizzare il testo "
 "formattato. Attualmente è usata solo da -l."
+
+#. type: SS
+#: dpkg.1
+#, no-wrap
+msgid "Internal environment"
+msgstr ""
 
 #. type: TP
 #: dpkg.1
@@ -6236,6 +6279,27 @@ msgid ""
 msgstr ""
 "Definita da B<dpkg> nell'ambiente dello script del manutentore e impostata "
 "al nome dello script in esecuzione (preinst, postinst, prerm, postrm)."
+
+#. type: TP
+#: dpkg.1
+#, fuzzy, no-wrap
+#| msgid "B<DPKG_MAINTSCRIPT_NAME>"
+msgid "B<DPKG_MAINTSCRIPT_DEBUG>"
+msgstr "B<DPKG_MAINTSCRIPT_NAME>"
+
+#. type: Plain text
+#: dpkg.1
+#, fuzzy
+#| msgid ""
+#| "Defined by B<dpkg> on the maintainer script environment to the version of "
+#| "the currently running B<dpkg> instance."
+msgid ""
+"Defined by B<dpkg> on the maintainer script environment to a value (\\(oqB<0>"
+"\\(cq or \\(oqB<1>\\(cq) noting whether debugging has been requested (with "
+"the B<--debug> option) for the maintainer scripts (since dpkg 1.18.4)."
+msgstr ""
+"Definita da B<dpkg> nell'ambiente dello script del manutentore e impostata "
+"alla versione dell'istanza di B<dpkg> attualmente in esecuzione."
 
 #. type: Plain text
 #: dpkg.1 dpkg.cfg.5
@@ -6826,21 +6890,9 @@ msgstr "B<-A>, B<--target-arch> I<architettura>"
 #. type: Plain text
 #: dpkg-architecture.1
 #, fuzzy
-#| msgid ""
-#| "Set the target Debian architecture. This is only needed when building a "
-#| "cross-toolchain, one that will be built on the build architecture, to be "
-#| "run on the host architecture, and to build code for the target "
-#| "architecture."
-msgid ""
-"Set the target Debian architecture (since dpkg 1.17.14).  This is only "
-"needed when building a cross-toolchain, one that will be built on the build "
-"architecture, to be run on the host architecture, and to build code for the "
-"target architecture."
-msgstr ""
-"Imposta l'architettura Debian di destinazione. Ciò è necessario solamente "
-"quando si compila una cross-toolchain, una che sarà compilata "
-"sull'architettura di compilazione, da eseguire sull'architettura ospite per "
-"compilare codice per l'architettura di destinazione."
+#| msgid "Set the target GNU system type."
+msgid "Set the target Debian architecture (since dpkg 1.17.14)."
+msgstr "Imposta il tipo di sistema GNU di destinazione."
 
 #. type: TP
 #: dpkg-architecture.1
@@ -6966,8 +7018,21 @@ msgstr "macchina di destinazione"
 
 #. type: Plain text
 #: dpkg-architecture.1
-msgid "The machine the compiler is building for."
-msgstr "La macchina per cui compila il compilatore."
+#, fuzzy
+#| msgid ""
+#| "Set the target Debian architecture. This is only needed when building a "
+#| "cross-toolchain, one that will be built on the build architecture, to be "
+#| "run on the host architecture, and to build code for the target "
+#| "architecture."
+msgid ""
+"The machine the compiler is building for.  This is only needed when building "
+"a cross-toolchain, one that will be built on the build architecture, to be "
+"run on the host architecture, and to build code for the target architecture."
+msgstr ""
+"Imposta l'architettura Debian di destinazione. Ciò è necessario solamente "
+"quando si compila una cross-toolchain, una che sarà compilata "
+"sull'architettura di compilazione, da eseguire sull'architettura ospite per "
+"compilare codice per l'architettura di destinazione."
 
 #. type: IP
 #: dpkg-architecture.1
@@ -8614,7 +8679,7 @@ msgstr "B<timeless>"
 #. type: Plain text
 #: dpkg-buildflags.1
 msgid ""
-"This setting (disabled by default) adds B<-Wdate-time> to B<CPPFLAGS>.  This "
+"This setting (enabled by default) adds B<-Wdate-time> to B<CPPFLAGS>.  This "
 "will cause warnings when the B<__TIME__>, B<__DATE__> and B<\\"
 "%__TIMESTAMP__> macros are used."
 msgstr ""
@@ -9579,9 +9644,14 @@ msgstr "B<-nc>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
+#, fuzzy
+#| msgid ""
+#| "Do not clean the source tree (implies B<-b> if nothing else has been "
+#| "selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-A> or B<-S>)."
 msgid ""
-"Do not clean the source tree (implies B<-b> if nothing else has been "
-"selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-A> or B<-S>)."
+"Do not clean the source tree.  Implies B<-b> if nothing else has been "
+"selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-A> or B<-S>.  Implies B<-d> "
+"with B<-S> (since dpkg 1.18.0)."
 msgstr ""
 "Non pulisce l'albero dei sorgenti (implica B<-b> se non è stata selezionata "
 "un'altra opzione tra B<-F>, B<-g>, B<-G>, B<-B>, B<-A> o B<-S>)."
@@ -14992,9 +15062,10 @@ msgstr "B<binary:Package>"
 #| "with a value of B<same>. This makes the package name unambiguous."
 msgid ""
 "It contains the binary package name with a possible architecture qualifier "
-"like \\(lqlibc6:amd64\\(rq (since dpkg 1.16.2).  The architecture qualifier "
-"will only be present if the package has a B<Multi-Arch> field with a value "
-"of B<same>.  This makes the package name unambiguous."
+"like \\(lqlibc6:amd64\\(rq (since dpkg 1.16.2).  An architecture qualifier "
+"will be present to make the package name unambiguous, for example if the "
+"package has a B<Multi-Arch> field with a value of B<same> or the package is "
+"of a foreign architecture."
 msgstr ""
 "Contiene il nome del pacchetto binario con un possibile qualificatore di "
 "architettura come «libc6:amd64» (a partire da dpkg 1.16.2). Il qualificatore "
@@ -22482,6 +22553,9 @@ msgstr "B<update-alternatives --auto vi>"
 #: update-alternatives.1
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS: lo standard per la gerarchia del file system."
+
+#~ msgid "The machine the compiler is building for."
+#~ msgstr "La macchina per cui compila il compilatore."
 
 #~ msgid "REQUIRED FIELDS"
 #~ msgstr "CAMPI OBBLIGATORI"

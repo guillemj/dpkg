@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-09-21 07:14+0200\n"
+"POT-Creation-Date: 2015-12-25 13:28+0100\n"
 "PO-Revision-Date: 2015-04-07 07:02+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -161,10 +161,13 @@ msgid "unknown option '%s'"
 msgstr "неизвестный параметр «%s»"
 
 #: scripts/dpkg-architecture.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "specified GNU system type %s does not match gcc system type %s, try "
+#| "setting a correct CC environment variable"
 msgid ""
-"specified GNU system type %s does not match gcc system type %s, try setting "
-"a correct CC environment variable"
+"specified GNU system type %s does not match CC system type %s, try setting a "
+"correct CC environment variable"
 msgstr ""
 "указанный системный тип GNU %s не совпадает с системным типом gcc %s, "
 "попробуйте задать правильное значение в переменной окружения CC"
@@ -1561,9 +1564,9 @@ msgstr "  %s (в пакете указано %s, а не %s)"
 msgid "unconditional maintainer override for %s"
 msgstr "безусловное переназначение сопровождающего для %s"
 
-#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-shlibdeps.pl
+#: scripts/Dpkg/Changelog/Parse.pm scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
 msgid "cannot fork for %s"
 msgstr "не удалось выполнить fork для %s"
@@ -1622,11 +1625,6 @@ msgstr "каталог двоичных пакетов %s не найден"
 #, perl-format
 msgid "override file %s not found"
 msgstr "файл переназначений %s не найден"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "couldn't open %s for reading"
-msgstr "не удалось открыть %s на чтение"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "failed when writing stdout"
@@ -1726,12 +1724,6 @@ msgstr ""
 #, perl-format
 msgid "no binary packages specified in %s"
 msgstr "не задано двоичное поле в %s"
-
-#: scripts/dpkg-scansources.pl
-#, fuzzy, perl-format
-#| msgid "error closing %s ($? %d, $! '%s')"
-msgid "error closing %s (%s)"
-msgstr "ошибка при закрытии %s ($? %d, $! «%s»)"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2341,17 +2333,21 @@ msgid "fatal error occurred while parsing %s"
 msgstr "неустранимая ошибка при анализе %s"
 
 #: scripts/Dpkg/Arch.pm
+#, fuzzy
+#| msgid ""
+#| "couldn't determine gcc system type, falling back to default (native "
+#| "compilation)"
 msgid ""
-"couldn't determine gcc system type, falling back to default (native "
-"compilation)"
+"cannot determine CC system type, falling back to default (native compilation)"
 msgstr ""
 "Не удалось определить системный тип gcc, переход к использованию значения по "
 "умолчанию (родная компиляция)"
 
 #: scripts/Dpkg/Arch.pm
-#, perl-format
-msgid ""
-"unknown gcc system type %s, falling back to default (native compilation)"
+#, fuzzy, perl-format
+#| msgid ""
+#| "unknown gcc system type %s, falling back to default (native compilation)"
+msgid "unknown CC system type %s, falling back to default (native compilation)"
 msgstr ""
 "неизвестный системный тип gcc %s, переход к использованию значения по "
 "умолчанию (родная компиляция)"
@@ -3919,6 +3915,14 @@ msgstr "номер версии содержит недопустимый сим
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "часть эпохи в номере версии не является числом: «%s»"
+
+#~ msgid "couldn't open %s for reading"
+#~ msgstr "не удалось открыть %s на чтение"
+
+#, fuzzy
+#~| msgid "error closing %s ($? %d, $! '%s')"
+#~ msgid "error closing %s (%s)"
+#~ msgstr "ошибка при закрытии %s ($? %d, $! «%s»)"
 
 #~ msgid "couldn't parse date %s"
 #~ msgstr "не удалось выполнить анализ даты %s"

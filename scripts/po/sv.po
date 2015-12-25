@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-09-21 07:14+0200\n"
+"POT-Creation-Date: 2015-12-25 13:28+0100\n"
 "PO-Revision-Date: 2014-10-30 15:04+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -149,10 +149,13 @@ msgid "unknown option '%s'"
 msgstr "okänd flagga \"%s\""
 
 #: scripts/dpkg-architecture.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "specified GNU system type %s does not match gcc system type %s, try "
+#| "setting a correct CC environment variable"
 msgid ""
-"specified GNU system type %s does not match gcc system type %s, try setting "
-"a correct CC environment variable"
+"specified GNU system type %s does not match CC system type %s, try setting a "
+"correct CC environment variable"
 msgstr ""
 "Angiven GNU-systemtyp %s stämmer inte med gcc-systemtypen %s, försök sätta "
 "en korrekt CC-miljövariabel"
@@ -1526,9 +1529,9 @@ msgstr "  %s (paketet säger %s, inte %s)"
 msgid "unconditional maintainer override for %s"
 msgstr "ovillkorlig överstyrning från paketansvariga för %s"
 
-#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-shlibdeps.pl
+#: scripts/Dpkg/Changelog/Parse.pm scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
 msgid "cannot fork for %s"
 msgstr "kan inte grena för %s"
@@ -1587,11 +1590,6 @@ msgstr "binärkatalogen %s hittades inte"
 #, perl-format
 msgid "override file %s not found"
 msgstr "överstyrningsfilen %s hittades inte"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "couldn't open %s for reading"
-msgstr "kunde inte öppna %s för läsning"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "failed when writing stdout"
@@ -1690,12 +1688,6 @@ msgstr "ignorerar duplicerad källkodsöverstyrningspost för %s på rad %d"
 #, perl-format
 msgid "no binary packages specified in %s"
 msgstr "inget binärpaket angivet i %s"
-
-#: scripts/dpkg-scansources.pl
-#, fuzzy, perl-format
-#| msgid "error closing %s: %s"
-msgid "error closing %s (%s)"
-msgstr "fel vid stängning av %s: %s"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2288,17 +2280,21 @@ msgid "fatal error occurred while parsing %s"
 msgstr "ödesdigert fel vid tolkning av %s"
 
 #: scripts/Dpkg/Arch.pm
+#, fuzzy
+#| msgid ""
+#| "couldn't determine gcc system type, falling back to default (native "
+#| "compilation)"
 msgid ""
-"couldn't determine gcc system type, falling back to default (native "
-"compilation)"
+"cannot determine CC system type, falling back to default (native compilation)"
 msgstr ""
 "kunde inte bestämma gcc-systemtyp, faller tillbaka på standard (lokal "
 "kompilering)"
 
 #: scripts/Dpkg/Arch.pm
-#, perl-format
-msgid ""
-"unknown gcc system type %s, falling back to default (native compilation)"
+#, fuzzy, perl-format
+#| msgid ""
+#| "unknown gcc system type %s, falling back to default (native compilation)"
+msgid "unknown CC system type %s, falling back to default (native compilation)"
 msgstr ""
 "okänd gcc-systemtyp %s, faller tillbaka på standard (lokal kompilering)"
 
@@ -3833,6 +3829,14 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
+
+#~ msgid "couldn't open %s for reading"
+#~ msgstr "kunde inte öppna %s för läsning"
+
+#, fuzzy
+#~| msgid "error closing %s: %s"
+#~ msgid "error closing %s (%s)"
+#~ msgstr "fel vid stängning av %s: %s"
 
 #~ msgid "couldn't parse date %s"
 #~ msgstr "kunde inte tolka datumet %s"

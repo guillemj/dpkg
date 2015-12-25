@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-09-21 07:14+0200\n"
+"POT-Creation-Date: 2015-12-25 13:28+0100\n"
 "PO-Revision-Date: 2015-09-08 15:39+0200\n"
 "Last-Translator: Sébastien Poher <sbphr@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -168,10 +168,13 @@ msgid "unknown option '%s'"
 msgstr "option inconnue « %s »"
 
 #: scripts/dpkg-architecture.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "specified GNU system type %s does not match gcc system type %s, try "
+#| "setting a correct CC environment variable"
 msgid ""
-"specified GNU system type %s does not match gcc system type %s, try setting "
-"a correct CC environment variable"
+"specified GNU system type %s does not match CC system type %s, try setting a "
+"correct CC environment variable"
 msgstr ""
 "le type du système GNU indiqué %s ne correspond pas au type de gcc %s. Vous "
 "devriez essayer de définir une variable d'environnement CC correcte."
@@ -1433,9 +1436,9 @@ msgstr "  %s (le paquet dit %s, pas %s)"
 msgid "unconditional maintainer override for %s"
 msgstr "annulation inconditionnelle du responsable pour %s"
 
-#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-shlibdeps.pl
+#: scripts/Dpkg/Changelog/Parse.pm scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
 msgid "cannot fork for %s"
 msgstr "fork impossible pour %s"
@@ -1495,11 +1498,6 @@ msgstr "répertoire de binaires %s non trouvé"
 #, perl-format
 msgid "override file %s not found"
 msgstr "fichier override %s non trouvé"
-
-#: scripts/dpkg-scanpackages.pl
-#, perl-format
-msgid "couldn't open %s for reading"
-msgstr "lecture de %s impossible"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "failed when writing stdout"
@@ -1601,11 +1599,6 @@ msgstr ""
 #, perl-format
 msgid "no binary packages specified in %s"
 msgstr "pas de paquet binaire indiqué dans %s"
-
-#: scripts/dpkg-scansources.pl
-#, perl-format
-msgid "error closing %s (%s)"
-msgstr "erreur en fermant %s (%s)"
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
@@ -2208,17 +2201,21 @@ msgid "fatal error occurred while parsing %s"
 msgstr "erreur fatale rencontrée lors de l'analyse de %s"
 
 #: scripts/Dpkg/Arch.pm
+#, fuzzy
+#| msgid ""
+#| "couldn't determine gcc system type, falling back to default (native "
+#| "compilation)"
 msgid ""
-"couldn't determine gcc system type, falling back to default (native "
-"compilation)"
+"cannot determine CC system type, falling back to default (native compilation)"
 msgstr ""
 "impossible de déterminer le type de système gcc utilisé, retour au système "
 "par défaut (compilation native)"
 
 #: scripts/Dpkg/Arch.pm
-#, perl-format
-msgid ""
-"unknown gcc system type %s, falling back to default (native compilation)"
+#, fuzzy, perl-format
+#| msgid ""
+#| "unknown gcc system type %s, falling back to default (native compilation)"
+msgid "unknown CC system type %s, falling back to default (native compilation)"
 msgstr ""
 "type de système gcc %s inconnu, retour au système par défaut (compilation "
 "native)"
@@ -3795,6 +3792,12 @@ msgstr "le numéro de version contient un caractère « %s » non autorisé"
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr ""
 "la partie d'ère (« epoch ») du numéro de version n'est pas un nombre : « %s »"
+
+#~ msgid "couldn't open %s for reading"
+#~ msgstr "lecture de %s impossible"
+
+#~ msgid "error closing %s (%s)"
+#~ msgstr "erreur en fermant %s (%s)"
 
 #~ msgid "couldn't parse date %s"
 #~ msgstr "impossible d'analyser la date %s"
