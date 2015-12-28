@@ -287,8 +287,12 @@ dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str)
 
   errno = 0;
   value = strtol(str, &end, 0);
-  if (str == end || *end || value < 0 || value > INT_MAX || errno != 0)
-    badusage(_("invalid integer for --%s: '%.250s'"), cmd->olong, str);
+  if (str == end || *end || value < 0 || value > INT_MAX || errno != 0) {
+    if (cmd->olong)
+      badusage(_("invalid integer for --%s: '%.250s'"), cmd->olong, str);
+    else
+      badusage(_("invalid integer for -%c: '%.250s'"), cmd->oshort, str);
+  }
 
   return value;
 }
