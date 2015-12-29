@@ -309,7 +309,7 @@ my $scan_dsc = sub {
     push @dsc, $File::Find::name if m/\.dsc$/;
 };
 
-find({ follow => 1, wanted => $scan_dsc }, $dir);
+find({ follow => 1, follow_skip => 2, wanted => $scan_dsc }, $dir);
 foreach my $fn (@dsc) {
     # FIXME: Fix it instead to not die on syntax and general errors?
     eval {

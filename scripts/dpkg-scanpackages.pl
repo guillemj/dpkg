@@ -253,7 +253,7 @@ my $scan_archives = sub {
     push @archives, $File::Find::name if m/$find_filter/;
 };
 
-find({ follow => 1, wanted => $scan_archives}, $binarydir);
+find({ follow => 1, follow_skip => 2, wanted => $scan_archives}, $binarydir);
 foreach my $fn (@archives) {
     process_deb($pathprefix, $fn);
 }
