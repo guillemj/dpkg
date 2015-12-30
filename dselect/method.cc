@@ -120,10 +120,10 @@ static enum urqresult lockmethod(void) {
   }
   fl.l_type=F_WRLCK; fl.l_whence=SEEK_SET; fl.l_start=fl.l_len=0;
   if (fcntl(methlockfd,F_SETLK,&fl) == -1) {
-    if (errno == EWOULDBLOCK || errno == EAGAIN) {
+    if (errno == EACCES || errno == EAGAIN) {
       sthfailed(_("the access method area is already locked"));
       return urqr_fail;
-      }
+    }
     sthfailed(_("cannot lock access method area"));
     return urqr_fail;
   }
