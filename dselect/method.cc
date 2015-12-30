@@ -159,8 +159,10 @@ falliblesubprocess(struct command *cmd)
   }
   fprintf(stderr,_("Press <enter> to continue.\n"));
   m_output(stderr, _("<standard error>"));
-  do { c= fgetc(stdin); } while ((c == ERR && errno==EINTR) || ((c != '\n') && c != EOF));
-  if ((c == ERR) || (c == EOF))
+  do {
+    c = fgetc(stdin);
+  } while ((c == EOF && errno == EINTR) || (c != '\n' && c != EOF));
+  if (c == EOF)
     ohshite(_("error reading acknowledgement of program failure message"));
   return urqr_fail;
 }
