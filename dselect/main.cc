@@ -369,6 +369,12 @@ operator delete(void *p) DPKG_ATTR_NOEXCEPT
   free(p);
 }
 
+extern void
+operator delete(void *p, size_t size) DPKG_ATTR_NOEXCEPT
+{
+  free(p);
+}
+
 urqresult urq_list(void) {
   modstatdb_open((modstatdb_rw)(msdbrw_writeifposs |
                                 msdbrw_available_readonly));
