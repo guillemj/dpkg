@@ -101,6 +101,14 @@ sub set_options {
 	    $self->{get_key_func} = sub {
 		return $_[0]->{Source} . '_' . $_[0]->{Version};
 	    };
+        } elsif ($t == CTRL_COPYRIGHT_HEADER) {
+            # This is a bit pointless, because the value will almost always
+            # be the same, but guarantees that we use a known field.
+            $self->{get_key_func} = sub { return $_[0]->{Format}; };
+        } elsif ($t == CTRL_COPYRIGHT_FILES) {
+            $self->{get_key_func} = sub { return $_[0]->{Files}; };
+        } elsif ($t == CTRL_COPYRIGHT_LICENSE) {
+            $self->{get_key_func} = sub { return $_[0]->{License}; };
         } elsif ($t == CTRL_FILE_CHANGES) {
 	    $self->{get_key_func} = sub {
 		return $_[0]->{Source} . '_' . $_[0]->{Version} . '_' .

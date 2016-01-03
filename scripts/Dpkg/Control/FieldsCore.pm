@@ -50,6 +50,7 @@ use constant {
     ALL_PKG => CTRL_INFO_PKG | CTRL_INDEX_PKG | CTRL_PKG_DEB | CTRL_FILE_STATUS,
     ALL_SRC => CTRL_INFO_SRC | CTRL_INDEX_SRC | CTRL_PKG_SRC,
     ALL_CHANGES => CTRL_FILE_CHANGES | CTRL_CHANGELOG,
+    ALL_COPYRIGHT => CTRL_COPYRIGHT_HEADER | CTRL_COPYRIGHT_FILES | CTRL_COPYRIGHT_LICENSE,
 };
 
 use constant {
@@ -159,6 +160,9 @@ our %FIELDS = (
     'Codename' => {
         allowed => CTRL_REPO_RELEASE,
     },
+    'Comment' => {
+        allowed => ALL_COPYRIGHT,
+    },
     'Components' => {
         allowed => CTRL_REPO_RELEASE,
         separator => FIELD_SEP_SPACE,
@@ -176,6 +180,9 @@ our %FIELDS = (
         dependency => 'union',
         dep_order => 6,
     },
+    'Copyright' => {
+        allowed => CTRL_COPYRIGHT_HEADER | CTRL_COPYRIGHT_FILES,
+    },
     'Date' => {
         allowed => ALL_CHANGES | CTRL_REPO_RELEASE,
     },
@@ -187,6 +194,9 @@ our %FIELDS = (
     },
     'Description' => {
         allowed => ALL_PKG | CTRL_FILE_CHANGES | CTRL_REPO_RELEASE,
+    },
+    'Disclaimer' => {
+        allowed => CTRL_COPYRIGHT_HEADER,
     },
     'Directory' => {
         allowed => CTRL_INDEX_SRC,
@@ -208,11 +218,11 @@ our %FIELDS = (
         separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'Files' => {
-        allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES,
+        allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_COPYRIGHT_FILES,
         separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'Format' => {
-        allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES,
+        allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_COPYRIGHT_HEADER,
     },
     'Homepage' => {
         allowed => ALL_SRC | ALL_PKG,
@@ -228,6 +238,9 @@ our %FIELDS = (
     },
     'Label' => {
         allowed => CTRL_REPO_RELEASE,
+    },
+    'License' => {
+        allowed => ALL_COPYRIGHT,
     },
     'Origin' => {
         allowed => (ALL_PKG | ALL_SRC | CTRL_REPO_RELEASE) & (~CTRL_INFO_PKG),
@@ -286,7 +299,7 @@ our %FIELDS = (
         separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'Source' => {
-        allowed => (ALL_PKG | ALL_SRC | ALL_CHANGES) &
+        allowed => (ALL_PKG | ALL_SRC | ALL_CHANGES | CTRL_COPYRIGHT_HEADER) &
                    (~(CTRL_INDEX_SRC | CTRL_INFO_PKG)),
     },
     'Standards-Version' => {
@@ -330,6 +343,12 @@ our %FIELDS = (
     'Uploaders' => {
         allowed => ALL_SRC,
         separator => FIELD_SEP_COMMA,
+    },
+    'Upstream-Name' => {
+        allowed => CTRL_COPYRIGHT_HEADER,
+    },
+    'Upstream-Contact' => {
+        allowed => CTRL_COPYRIGHT_HEADER,
     },
     'Urgency' => {
         allowed => ALL_CHANGES,
@@ -418,6 +437,16 @@ our %FIELD_ORDER = (
     CTRL_REPO_RELEASE() => [
         qw(Origin Label Suite Codename Changelogs Date Valid-Until
         Architectures Components Description), @sum_fields
+    ],
+    CTRL_COPYRIGHT_HEADER() => [
+        qw(Format Upstream-Name Upstream-Contact Source Disclaimer Comment
+        License Copyright)
+    ],
+    CTRL_COPYRIGHT_FILES() => [
+        qw(Files Copyright License Comment)
+    ],
+    CTRL_COPYRIGHT_LICENSE() => [
+        qw(License Comment)
     ],
 );
 # Order for CTRL_INDEX_PKG is derived from CTRL_PKG_DEB

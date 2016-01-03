@@ -32,6 +32,9 @@ our @EXPORT = qw(
     CTRL_FILE_VENDOR
     CTRL_FILE_STATUS
     CTRL_CHANGELOG
+    CTRL_COPYRIGHT_HEADER
+    CTRL_COPYRIGHT_FILES
+    CTRL_COPYRIGHT_LICENSE
 );
 
 use Exporter qw(import);
@@ -116,6 +119,21 @@ Corresponds to an entry in dpkg's F<status> file ($Dpkg::ADMINDIR/status).
 
 Corresponds to the output of dpkg-parsechangelog.
 
+=item CTRL_COPYRIGHT_HEADER
+
+Corresponds to the header control block in a F<debian/copyright> file in
+machine readable format.
+
+=item CTRL_COPYRIGHT_FILES
+
+Corresponds to a files control block in a F<debian/copyright> file in
+machine readable format.
+
+=item CTRL_COPYRIGHT_LICENSE
+
+Corresponds to a license control block in a F<debian/copyright> file in
+machine readable format.
+
 =back
 
 =head1 METHODS
@@ -169,6 +187,12 @@ sub set_options {
             $$self->{name} = g_("package's section of control info file");
         } elsif ($t == CTRL_CHANGELOG) {
             $$self->{name} = g_('parsed version of changelog');
+        } elsif ($t == CTRL_COPYRIGHT_HEADER) {
+            $$self->{name} = g_('header stanza of copyright file');
+        } elsif ($t == CTRL_COPYRIGHT_FILES) {
+            $$self->{name} = g_('files stanza of copyright file');
+        } elsif ($t == CTRL_COPYRIGHT_HEADER) {
+            $$self->{name} = g_('license stanza of copyright file');
         } elsif ($t == CTRL_REPO_RELEASE) {
             $$self->{name} = sprintf(g_("repository's %s file"), 'Release');
         } elsif ($t == CTRL_INDEX_SRC) {
@@ -211,7 +235,8 @@ sub get_type {
 
 =head2 Version 1.01 (dpkg 1.18.5)
 
-New types: CTRL_REPO_RELEASE.
+New types: CTRL_REPO_RELEASE, CTRL_COPYRIGHT_HEADER, CTRL_COPYRIGHT_FILES,
+CTRL_COPYRIGHT_LICENSE.
 
 =head2 Version 1.00 (dpkg 1.15.6)
 

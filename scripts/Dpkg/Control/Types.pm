@@ -30,6 +30,9 @@ our @EXPORT = qw(
     CTRL_FILE_VENDOR
     CTRL_FILE_STATUS
     CTRL_CHANGELOG
+    CTRL_COPYRIGHT_HEADER
+    CTRL_COPYRIGHT_FILES
+    CTRL_COPYRIGHT_LICENSE
 );
 
 use Exporter qw(import);
@@ -64,6 +67,12 @@ use constant {
     CTRL_CHANGELOG => 512,   # Output of dpkg-parsechangelog
     # Repository's (In)Release file.
     CTRL_REPO_RELEASE => 1024,
+    # Header control block in debian/copyright.
+    CTRL_COPYRIGHT_HEADER => 2048,
+    # Files control block in debian/copyright.
+    CTRL_COPYRIGHT_FILES => 4096,
+    # License control block in debian/copyright.
+    CTRL_COPYRIGHT_LICENSE => 8192,
 };
 
 =head1 CHANGES
