@@ -47,7 +47,7 @@ Dpkg::Compression - simple database of available compression methods
 
 =head1 DESCRIPTION
 
-This modules provides a few public funcions and a public regex to
+This modules provides a few public functions and a public regex to
 interact with the set of supported compression methods.
 
 =cut

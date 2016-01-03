@@ -74,7 +74,7 @@ sub new {
 The "type" option is checked first to define default values for other
 options. Here are the relevant options: "get_key_func" is a function
 returning a key for the item passed in parameters. The index can only
-contain one item with a given key. The function used depend on the
+contain one item with a given key. The function used depends on the
 type: for CTRL_INFO_PKG, CTRL_INDEX_SRC, CTRL_INDEX_PKG and CTRL_PKG_DEB
 it's simply the Package field; for CTRL_PKG_SRC and CTRL_INFO_SRC, it's
 the Source field; for CTRL_CHANGELOG it's the Source and the Version
