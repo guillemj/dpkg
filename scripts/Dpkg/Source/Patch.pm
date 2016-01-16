@@ -491,12 +491,14 @@ sub analyze {
 	}
 
 	if ($filepatched{$fn}) {
+            $filepatched{$fn}++;
+
             if ($opts{fatal_dupes}) {
                 error(g_("diff '%s' patches files multiple times; split the " .
                          "diff in multiple files or merge the hunks into a " .
                          "single one"), $diff);
-            } elsif ($opts{verbose}) {
-                warning(g_("diff '%s' patches file %s twice"), $diff, $fn)
+            } elsif ($opts{verbose} and $filepatched{$fn} == 2) {
+                warning(g_("diff '%s' patches file %s more than once"), $diff, $fn)
             }
 	} else {
 	    $filepatched{$fn} = 1;
