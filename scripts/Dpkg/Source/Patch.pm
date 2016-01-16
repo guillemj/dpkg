@@ -491,8 +491,13 @@ sub analyze {
 	}
 
 	if ($filepatched{$fn}) {
-	    warning(g_("diff '%s' patches file %s twice"), $diff, $fn)
-		if $opts{verbose};
+            if ($opts{fatal_dupes}) {
+                error(g_("diff '%s' patches files multiple times; split the " .
+                         "diff in multiple files or merge the hunks into a " .
+                         "single one"), $diff);
+            } elsif ($opts{verbose}) {
+                warning(g_("diff '%s' patches file %s twice"), $diff, $fn)
+            }
 	} else {
 	    $filepatched{$fn} = 1;
 	    push @patchorder, $fn;

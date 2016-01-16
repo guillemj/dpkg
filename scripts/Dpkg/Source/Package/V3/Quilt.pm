@@ -215,7 +215,7 @@ sub check_patches_applied {
 
     my $first_patch = File::Spec->catfile($dir, 'debian', 'patches', $next);
     my $patch_obj = Dpkg::Source::Patch->new(filename => $first_patch);
-    return unless $patch_obj->check_apply($dir);
+    return unless $patch_obj->check_apply($dir, fatal_dupes => 1);
 
     $self->apply_patches($dir, usage => 'preparation', verbose => 1);
 }
