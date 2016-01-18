@@ -541,7 +541,8 @@ void process_archive(const char *filename) {
 
   pfilename = summarize_filename(filename);
 
-  if (stat(filename,&stab)) ohshite(_("cannot access archive"));
+  if (stat(filename, &stab))
+    ohshite(_("cannot access archive '%s'"), filename);
 
   /* We can't ‘tentatively-reassemble’ packages. */
   if (!f_noact) {
