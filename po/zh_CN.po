@@ -9,14 +9,14 @@
 # Anthony Wong <ypwong@debian.org.hk>, 2007.
 # Deng Xiyue <manphiz-guest@users.alioth.debian.org>, 2007, 2008, 2009.
 # Aron Xu <happyaron.xu@gmail.com>, 2009, 2010.
-# Zhou Mo <cdluminate@gmail.com>, 2014, 2015.
+# Zhou Mo <cdluminate@gmail.com>, 2014, 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.x\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2015-12-25 13:29+0100\n"
-"PO-Revision-Date: 2015-06-07 05:45+0000\n"
+"PO-Revision-Date: 2016-01-01 05:45+0000\n"
 "Last-Translator: Zhou Mo <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
 "Language: zh_CN\n"
@@ -230,7 +230,7 @@ msgstr "未预料的 bzip2 错误"
 
 #: lib/dpkg/compress.c
 msgid "internal error (bug)"
-msgstr "内部错误(bug)"
+msgstr "内部错误 (bug)"
 
 #: lib/dpkg/compress.c
 msgid "memory usage limit reached"
@@ -315,17 +315,17 @@ msgstr "无法创建 %.255s"
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
-msgstr "无法填充 %.250s"
+msgstr "无法补齐 %.250s"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to flush %.250s after padding"
-msgstr "填充后无法清空 %.250s"
+msgstr "无法在补齐后清空 %.250s"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to seek to start of %.250s after padding"
-msgstr "填充后无法找到 %.250s 的起始位置"
+msgstr "补齐后无法找到 %.250s 的起始位置"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -461,7 +461,7 @@ msgid ""
 "%s: unrecoverable fatal error, aborting:\n"
 " %s\n"
 msgstr ""
-"%s: 无法恢复的致命错误，中止：\n"
+"%s: 无法从致命错误中恢复，中止：\n"
 " %s\n"
 
 #: lib/dpkg/ehandle.c
@@ -1412,7 +1412,7 @@ msgstr "从 dpkg-deb 管道读取错误"
 #: src/archives.c
 #, c-format
 msgid "cannot skip padding for file '%.255s': %s"
-msgstr "无法跳过文件 %.255s 的填充部分： %s "
+msgstr "无法跳过文件 %.255s 的补齐部分： %s "
 
 #: src/archives.c
 #, c-format
@@ -2603,7 +2603,7 @@ msgid ""
 "cause dependency issues on front-ends. This can be fixed by registering\n"
 "the foreign architecture with dpkg --add-architecture:\n"
 msgstr ""
-"下列软件包具有未知的外来体系结构，这些体系结构会在前端中\n"
+"下列软件包具有未知的异质体系结构，这些体系结构会在前端中\n"
 "引发依赖问题。您可以通过 dpkg --add-architecture\n"
 "添加这个外来体系结构以修复此问题：\n"
 
@@ -2968,43 +2968,7 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Debian %s 软件包管理程序 %s 版。\n"
 
 #: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -i|--install       <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --unpack           <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --configure        <package> ... | -a|--pending\n"
-#| "  --triggers-only    <package> ... | -a|--pending\n"
-#| "  -r|--remove        <package> ... | -a|--pending\n"
-#| "  -P|--purge         <package> ... | -a|--pending\n"
-#| "  -V|--verify <package> ...        Verify the integrity of package(s).\n"
-#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
-#| "  --set-selections                 Set package selections from stdin.\n"
-#| "  --clear-selections               Deselect every non-essential package.\n"
-#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
-#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
-#| "  --clear-avail                    Erase existing available info.\n"
-#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-#| "  -s|--status <package> ...        Display package status details.\n"
-#| "  -p|--print-avail <package> ...   Display available version details.\n"
-#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
-#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-#| "  -C|--audit [<package> ...]       Check for broken package(s).\n"
-#| "  --add-architecture <arch>        Add <arch> to the list of "
-#| "architectures.\n"
-#| "  --remove-architecture <arch>     Remove <arch> from the list of "
-#| "architectures.\n"
-#| "  --print-architecture             Print dpkg architecture.\n"
-#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
-#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
-#| "  --force-help                     Show help on forcing.\n"
-#| "  -Dh|--debug=help                 Show help on debugging.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3059,15 +3023,18 @@ msgstr ""
 "  --merge-avail <软件包文件>       把文件中的信息合并到系统中。\n"
 "  --clear-avail                    清除现有的软件包信息。\n"
 "  --forget-old-unavail             忘却已被卸载的不可安装的软件包。\n"
-"  -s|--status <软件包名> ...       显示软件包详尽的状态信息。\n"
-"  -p|--print-avail <软件包名> ...  显示可供安装的版本详情。\n"
-"  -L|--listfiles <软件包名> ...    列出所有属于该个(或多个)软件包的文件。\n"
+"  -s|--status <软件包名> ...       显示指定软件包的详细状态。\n"
+"  -p|--print-avail <软件包名> ...  显示可供安装的软件版本。\n"
+"  -L|--listfiles <软件包名> ...    列出属于指定软件包的文件。\n"
 "  -l|--list [<表达式> ...]         简明地列出软件包的状态。\n"
-"  -S|--search <表达式> ...         搜寻拥有该文件(或多个文件)的包。\n"
-"  -C|--audit [<表达式> ...]        检查搜寻残损的软件包。\n"
+"  -S|--search <表达式> ...         搜索含有指定文件的软件包。\n"
+"  -C|--audit [<表达式> ...]        检查是否有软件包残损。\n"
+"  --yet-to-unpack                  列出标记为待解压的软件包。\n"
+"  --predep-package                 列出待解压的预依赖。\n"
 "  --add-architecture <体系结构>    添加 <体系结构> 到体系结构列表。\n"
 "  --remove-architecture <体系结构> 从架构列表中移除 <体系结构>。\n"
-"  --print-architecture             显示 dpkg 体系架构。\n"
+"  --print-architecture             显示 dpkg 体系结构。\n"
+"  --print-foreign-architectures    显示已启用的异质体系结构。\n"
 "  --compare-vesions <a> <关系> <b> 比较版本号 - 见下。\n"
 "  --force-help                     显示本强制选项的帮助信息。\n"
 "  -Dh|--debug=help                 显示有关出错调试的帮助信息。\n"
@@ -3085,22 +3052,14 @@ msgstr ""
 "\n"
 
 #: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#| "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#| "conrep |\n"
-#| "  --assert-multi-arch | --assert-versioned-provides.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Assertable features: support-predepends, working-epoch, long-filenames,\n"
 "  multi-conrep, multi-arch, versioned-provides.\n"
 "\n"
 msgstr ""
-"供内部使用：dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep "
-"|\n"
-"  --assert-multi-arch | --assert-versioned-provides.\n"
+"Assert 特性： support-predepends, working-epoch, long-filenames,\n"
+"  multi-conrep, multi-arch, versioned-provides.\n"
 "\n"
 
 #: src/main.c
@@ -3445,7 +3404,7 @@ msgstr "%s 体系结构已被保留，并且不能被添加"
 #: src/main.c
 #, c-format
 msgid "cannot remove non-foreign architecture '%s'"
-msgstr "无法移除非外来体系结构 %s"
+msgstr "无法移除非异质体系结构 %s"
 
 #: src/main.c
 #, c-format
@@ -3655,7 +3614,7 @@ msgstr "版本"
 
 #: src/querycmd.c
 msgid "Architecture"
-msgstr "体系结构："
+msgstr "体系结构"
 
 #: src/querycmd.c
 msgid "Description"
@@ -4714,10 +4673,8 @@ msgid "unable to check for existence of archive '%.250s'"
 msgstr "无法判断包文件 %.250s 存在与否"
 
 #: dpkg-deb/build.c
-#, fuzzy
-#| msgid "compressing data member"
 msgid "compressing tar member"
-msgstr "正在压缩数据成员"
+msgstr "正在压缩 tar 成员"
 
 #: dpkg-deb/build.c
 msgid "<compress> from tar -cf"
@@ -5226,7 +5183,7 @@ msgstr "文件 %.250s 已损毁 - 在第一个文件头末尾有错误的魔数(
 #: dpkg-split/info.c
 #, c-format
 msgid "file '%.250s' is corrupt - bad padding character (code %d)"
-msgstr "文件 %.250s 已经损毁 - 错误的padding字符(其代码为 %d)"
+msgstr "文件 %.250s 已经损毁 - 错误的补齐字符(其代码为 %d)"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5900,16 +5857,13 @@ msgid "unable to flush file '%s'"
 msgstr "无法清空文件 %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "Current 'best' version is '%s'."
+#, c-format
 msgid "  link best version is %s"
-msgstr "目前“最佳”的版本为 %s。"
+msgstr "  最佳链接版本为 %s"
 
 #: utils/update-alternatives.c
-#, fuzzy
-#| msgid "No versions available."
 msgid "  link best version not available"
-msgstr "无适用版本。"
+msgstr "  最佳链接版本不可用"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -5921,16 +5875,14 @@ msgid "  link currently absent"
 msgstr " 链接目前不存在"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "  %.250s is %s.\n"
+#, c-format
 msgid "  link %s is %s"
-msgstr "  %.250s 现在 %s。\n"
+msgstr "  链接 %s 指向 %s"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid "  slave %s: %s"
+#, c-format
 msgid "  slave %s is %s"
-msgstr "  次要 %s：%s"
+msgstr "  从链接 %s 指向 %s"
 
 #: utils/update-alternatives.c
 #, c-format
