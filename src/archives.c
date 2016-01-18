@@ -1416,8 +1416,8 @@ void cu_fileslist(int argc, void **argv) {
 int
 archivefiles(const char *const *argv)
 {
-  const char *volatile thisarg;
   const char *const *volatile argp;
+  int i;
   jmp_buf ejbuf;
   enum modstatdb_rw msdbflags;
 
@@ -1440,7 +1440,7 @@ archivefiles(const char *const *argv)
   log_message("startup archives %s", cipaction->olong);
 
   if (f_recursive) {
-    int pi[2], nfiles, c, i, rc;
+    int pi[2], nfiles, c, rc;
     pid_t pid;
     FILE *pf;
     static struct varbuf findoutput;
@@ -1505,6 +1505,15 @@ archivefiles(const char *const *argv)
     argp= argv;
   }
 
+  /* Perform some sanity checks on the passed archives. */
+  for (i = 0; argp[i]; i++) {
+    struct stat st;
+
+    /* We need the filename to exist. */
+    if (stat(argp[i], &st) < 0)
+      ohshite(_("cannot access archive '%s'"), argp[i]);
+  }
+
   currenttime = time(NULL);
 
   /* Initialize fname variables contents. */
@@ -1522,18 +1531,18 @@ archivefiles(const char *const *argv)
   ensure_diversions();
   ensure_statoverrides(STATDB_PARSE_NORMAL);
 
-  while ((thisarg = *argp++) != NULL) {
+  for (i = 0; argp[i]; i++) {
     if (setjmp(ejbuf)) {
       pop_error_context(ehflag_bombout);
       if (abort_processing)
         break;
       continue;
     }
-    push_error_context_jump(&ejbuf, print_error_perarchive, thisarg);
+    push_error_context_jump(&ejbuf, print_error_perarchive, argp[i]);
 
     dpkg_selabel_load();
 
-    process_archive(thisarg);
+    process_archive(argp[i]);
     onerr_abort++;
     m_output(stdout, _("<standard output>"));
     m_output(stderr, _("<standard error>"));
