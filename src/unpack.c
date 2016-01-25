@@ -120,7 +120,7 @@ deb_reassemble(const char **filename, const char **pfilename)
     /* No, it wasn't a part. */
     break;
   default:
-    internerr("unexpected exit status %d from %s", status, SPLITTER);
+    ohshit(_("subprocess %s returned error exit status %d"), SPLITTER, status);
   }
 
   return true;
