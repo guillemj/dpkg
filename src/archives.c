@@ -1512,6 +1512,10 @@ archivefiles(const char *const *argv)
     /* We need the filename to exist. */
     if (stat(argp[i], &st) < 0)
       ohshite(_("cannot access archive '%s'"), argp[i]);
+
+    /* We cannot work with anything that is not a regular file. */
+    if (!S_ISREG(st.st_mode))
+      ohshit(_("archive '%s' is not a regular file"), argp[i]);
   }
 
   currenttime = time(NULL);
