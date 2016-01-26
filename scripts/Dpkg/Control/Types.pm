@@ -55,16 +55,26 @@ between Dpkg::Control and Dpkg::Control::Fields.
 
 use constant {
     CTRL_UNKNOWN => 0,
-    CTRL_INFO_SRC => 1,      # First control block in debian/control
-    CTRL_INFO_PKG => 2,      # Subsequent control blocks in debian/control
-    CTRL_INDEX_SRC => 4,     # Entry in repository's Packages files
-    CTRL_INDEX_PKG => 8,     # Entry in repository's Sources files
-    CTRL_PKG_SRC => 16,      # .dsc file of source package
-    CTRL_PKG_DEB => 32,      # DEBIAN/control in binary packages
-    CTRL_FILE_CHANGES => 64, # .changes file
-    CTRL_FILE_VENDOR => 128, # File in $Dpkg::CONFDIR/origins
-    CTRL_FILE_STATUS => 256, # $Dpkg::ADMINDIR/status
-    CTRL_CHANGELOG => 512,   # Output of dpkg-parsechangelog
+    # First control block in debian/control.
+    CTRL_INFO_SRC => 1,
+    # Subsequent control blocks in debian/control.
+    CTRL_INFO_PKG => 2,
+    # Entry in repository's Packages files.
+    CTRL_INDEX_SRC => 4,
+    # Entry in repository's Sources files.
+    CTRL_INDEX_PKG => 8,
+    # .dsc file of source package.
+    CTRL_PKG_SRC => 16,
+    # DEBIAN/control in binary packages.
+    CTRL_PKG_DEB => 32,
+    # .changes file.
+    CTRL_FILE_CHANGES => 64,
+    # File in $Dpkg::CONFDIR/origins.
+    CTRL_FILE_VENDOR => 128,
+    # $Dpkg::ADMINDIR/status.
+    CTRL_FILE_STATUS => 256,
+    # Output of dpkg-parsechangelog.
+    CTRL_CHANGELOG => 512,
     # Repository's (In)Release file.
     CTRL_REPO_RELEASE => 1024,
     # Header control block in debian/copyright.
