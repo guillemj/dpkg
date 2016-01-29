@@ -23,7 +23,6 @@
 use strict;
 use warnings;
 
-use Carp;
 use Cwd;
 use File::Temp qw(tempdir);
 use File::Basename;
@@ -33,6 +32,7 @@ use POSIX qw(:sys_wait_h);
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Build::Types;
 use Dpkg::BuildOptions;
 use Dpkg::BuildProfiles qw(set_build_profiles);
 use Dpkg::Compression;
@@ -168,47 +168,6 @@ my @hook_names = qw(
 my %hook;
 $hook{$_} = undef foreach @hook_names;
 
-use constant BUILD_DEFAULT    => 1;
-use constant BUILD_SOURCE     => 2;
-use constant BUILD_ARCH_DEP   => 4;
-use constant BUILD_ARCH_INDEP => 8;
-use constant BUILD_BINARY     => BUILD_ARCH_DEP | BUILD_ARCH_INDEP;
-use constant BUILD_SOURCE_DEP => BUILD_SOURCE | BUILD_ARCH_DEP;
-use constant BUILD_SOURCE_INDEP => BUILD_SOURCE | BUILD_ARCH_INDEP;
-use constant BUILD_ALL        => BUILD_BINARY | BUILD_SOURCE;
-my $include = BUILD_ALL | BUILD_DEFAULT;
-
-sub build_is_default() { return $include & BUILD_DEFAULT; }
-sub build_sourceonly() { return $include == BUILD_SOURCE; }
-sub build_binaryonly() { return !($include & BUILD_SOURCE); }
-sub build_binaryindep() { return ($include == BUILD_ARCH_INDEP); }
-sub build_opt {
-    if ($include == BUILD_BINARY) {
-        return '-b';
-    } elsif ($include == BUILD_ARCH_DEP) {
-        return '-B';
-    } elsif ($include == BUILD_ARCH_INDEP) {
-        return '-A';
-    } elsif ($include == BUILD_SOURCE) {
-        return '-S';
-    } elsif ($include == BUILD_SOURCE_DEP) {
-        return '-G';
-    } elsif ($include == BUILD_SOURCE_INDEP) {
-        return '-g';
-    } else {
-        croak "build_opt called with include=$include";
-    }
-}
-
-sub set_build_type
-{
-    my ($build_type, $build_option) = @_;
-
-    usageerr(g_('cannot combine %s and %s'), build_opt(), $build_option)
-        if not build_is_default and $include != $build_type;
-    $include = $build_type;
-}
-
 my $build_opts = Dpkg::BuildOptions->new();
 
 if ($build_opts->has('nocheck')) {
@@ -325,7 +284,7 @@ while (@ARGV) {
 	set_build_type(BUILD_SOURCE_INDEP, $_);
 	push @changes_opts, '-g';
     } elsif (/^-F$/) {
-	set_build_type(BUILD_ALL, $_);
+	set_build_type(BUILD_FULL, $_);
     } elsif (/^-v(.*)$/) {
 	$since = $1;
     } elsif (/^-m(.*)$/) {
@@ -345,22 +304,22 @@ while (@ARGV) {
     }
 }
 
-if (($include & BUILD_BINARY) == BUILD_BINARY) {
+if (build_has(BUILD_BINARY)) {
     $buildtarget = 'build';
     $binarytarget = 'binary';
-} elsif ($include & BUILD_ARCH_DEP) {
+} elsif (build_has(BUILD_ARCH_DEP)) {
     $buildtarget = 'build-arch';
     $binarytarget = 'binary-arch';
-} elsif ($include & BUILD_ARCH_INDEP) {
+} elsif (build_has(BUILD_ARCH_INDEP)) {
     $buildtarget = 'build-indep';
     $binarytarget = 'binary-indep';
 }
 
 if ($noclean) {
     # -nc without -b/-B/-A/-S/-F implies -b
-    $include = BUILD_BINARY if build_is_default;
+    set_build_type(BUILD_BINARY) if build_has(BUILD_DEFAULT);
     # -nc with -S implies no dependency checks
-    $checkbuilddep = 0 if build_sourceonly;
+    $checkbuilddep = 0 if build_is(BUILD_SOURCE);
 }
 
 if ($< == 0) {
@@ -456,9 +415,9 @@ while (<$arch_env>) {
 close $arch_env or subprocerr('dpkg-architecture');
 
 my $arch;
-if (build_sourceonly) {
+if (build_is(BUILD_SOURCE)) {
     $arch = 'source';
-} elsif (build_binaryindep) {
+} elsif (build_is(BUILD_ARCH_INDEP)) {
     $arch = 'all';
 } else {
     $arch = mustsetvar($ENV{DEB_HOST_ARCH}, g_('host architecture'));
@@ -479,7 +438,7 @@ if (not $signcommand) {
     $signchanges = 0;
 }
 
-if ($signsource && build_binaryonly) {
+if ($signsource && build_has_not(BUILD_SOURCE)) {
     $signsource = 0;
 }
 
@@ -503,8 +462,8 @@ unless ($call_target) {
 if ($checkbuilddep) {
     my @checkbuilddep_opts;
 
-    push @checkbuilddep_opts, '-A' if ($include & BUILD_ARCH_DEP) == 0;
-    push @checkbuilddep_opts, '-B' if ($include & BUILD_ARCH_INDEP) == 0;
+    push @checkbuilddep_opts, '-A' if build_has_not(BUILD_ARCH_DEP);
+    push @checkbuilddep_opts, '-B' if build_has_not(BUILD_ARCH_INDEP);
     push @checkbuilddep_opts, '-I' if not $check_builtin_builddep;
     push @checkbuilddep_opts, "--admindir=$admindir" if $admindir;
 
@@ -535,9 +494,9 @@ unless ($noclean) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
 
-run_hook('source', $include & BUILD_SOURCE);
+run_hook('source', build_has(BUILD_SOURCE));
 
-if ($include & BUILD_SOURCE) {
+if (build_has(BUILD_SOURCE)) {
     warning(g_('building a source package without cleaning up as you asked; ' .
                'it might contain undesired files')) if $noclean;
     chdir('..') or syserr('chdir ..');
@@ -545,7 +504,7 @@ if ($include & BUILD_SOURCE) {
     chdir($dir) or syserr("chdir $dir");
 }
 
-run_hook('build', $include & BUILD_BINARY);
+run_hook('build', build_has(BUILD_BINARY));
 
 if ($buildtarget ne 'build' and scalar(@debian_rules) == 1) {
     # Verify that build-{arch,indep} are supported. If not, fallback to build.
@@ -565,7 +524,7 @@ if ($buildtarget ne 'build' and scalar(@debian_rules) == 1) {
     }
 }
 
-if ($include & BUILD_BINARY) {
+if (build_has(BUILD_BINARY)) {
     withecho(@debian_rules, $buildtarget);
     run_hook('binary', 1);
     withecho(@rootcommand, @debian_rules, $binarytarget);

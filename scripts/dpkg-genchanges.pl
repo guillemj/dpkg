@@ -22,7 +22,6 @@
 use strict;
 use warnings;
 
-use Carp;
 use Encode;
 use POSIX qw(:errno_h :locale_h);
 
@@ -32,6 +31,7 @@ use Dpkg::Util qw(:list);
 use Dpkg::File;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
+use Dpkg::Build::Types;
 use Dpkg::BuildProfiles qw(get_build_profiles parse_build_profiles
                            evaluate_restriction_formula);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
@@ -79,43 +79,6 @@ my $since;
 my $substvars_loaded = 0;
 my $substvars = Dpkg::Substvars->new();
 $substvars->set_as_auto('Format', $changes_format);
-
-use constant BUILD_SOURCE     => 1;
-use constant BUILD_ARCH_DEP   => 2;
-use constant BUILD_ARCH_INDEP => 4;
-use constant BUILD_BINARY     => BUILD_ARCH_DEP | BUILD_ARCH_INDEP;
-use constant BUILD_SOURCE_DEP => BUILD_SOURCE | BUILD_ARCH_DEP;
-use constant BUILD_SOURCE_INDEP => BUILD_SOURCE | BUILD_ARCH_INDEP;
-use constant BUILD_ALL        => BUILD_BINARY | BUILD_SOURCE;
-my $include = BUILD_ALL;
-
-sub build_is_default() { return ($include & BUILD_ALL) == BUILD_ALL; }
-sub build_opt {
-    if ($include == BUILD_BINARY) {
-       return '-b';
-    } elsif ($include == BUILD_ARCH_DEP) {
-        return '-B';
-    } elsif ($include == BUILD_ARCH_INDEP) {
-        return '-A';
-    } elsif ($include == BUILD_SOURCE) {
-        return '-S';
-    } elsif ($include == BUILD_SOURCE_DEP) {
-        return '-G';
-    } elsif ($include == BUILD_SOURCE_INDEP) {
-        return '-g';
-    } else {
-        croak "build_opt called with include=$include";
-    }
-}
-
-sub set_build_type
-{
-    my ($build_type, $build_option) = @_;
-
-    usageerr(g_('cannot combine %s and %s'), build_opt(), $build_option)
-        if not build_is_default and $include != $build_type;
-    $include = $build_type;
-}
 
 sub version {
     printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
@@ -264,7 +227,7 @@ foreach (keys %{$src_fields}) {
 my $dist = Dpkg::Dist::Files->new();
 my $origsrcmsg;
 
-if ($include & BUILD_SOURCE) {
+if (build_has(BUILD_SOURCE)) {
     my $sec = $sourcedefault{'Section'} // '-';
     my $pri = $sourcedefault{'Priority'} // '-';
     warning(g_('missing Section for source files')) if $sec eq '-';
@@ -313,17 +276,17 @@ if ($include & BUILD_SOURCE) {
     for my $f ($checksums->get_files()) {
         $dist->add_file($f, $sec, $pri);
     }
-} elsif ($include == BUILD_ARCH_DEP) {
+} elsif (build_is(BUILD_ARCH_DEP)) {
     $origsrcmsg = g_('binary-only arch-specific upload ' .
                      '(source code and arch-indep packages not included)');
-} elsif ($include == BUILD_ARCH_INDEP) {
+} elsif (build_is(BUILD_ARCH_INDEP)) {
     $origsrcmsg = g_('binary-only arch-indep upload ' .
                      '(source code and arch-specific packages not included)');
 } else {
     $origsrcmsg = g_('binary-only upload (no source code included)');
 }
 
-if ($include & BUILD_BINARY) {
+if (build_has(BUILD_BINARY)) {
     my $dist_count = 0;
 
     $dist_count = $dist->load($fileslistfile) if -e $fileslistfile;
@@ -367,9 +330,9 @@ foreach my $pkg ($control->get_packages()) {
 
     if (not defined($p2f{$p})) {
 	# No files for this package... warn if it's unexpected
-	if (((debarch_eq('all', $a) and ($include & BUILD_ARCH_INDEP)) ||
-	    ((any { debarch_is($host_arch, $_) } split /\s+/, $a)
-		  and ($include & BUILD_ARCH_DEP))) and
+	if (((debarch_eq('all', $a) and build_has(BUILD_ARCH_INDEP)) ||
+	     ((any { debarch_is($host_arch, $_) } split /\s+/, $a)
+	     and build_has(BUILD_ARCH_DEP))) and
 	    (@restrictions == 0 or
 	     evaluate_restriction_formula(\@restrictions, \@profiles)))
 	{
@@ -388,7 +351,7 @@ foreach my $pkg ($control->get_packages()) {
 	    $f2pricf{$_} = $v foreach (@f);
 	} elsif (m/^Architecture$/) {
 	    if ((any { debarch_is($host_arch, $_) } split /\s+/, $v)
-		and ($include & BUILD_ARCH_DEP)) {
+		and build_has(BUILD_ARCH_DEP)) {
 		$v = $host_arch;
 	    } elsif (!debarch_eq('all', $v)) {
 		$v = '';
@@ -467,12 +430,12 @@ if (length($fields->{'Binary'}) > 980) {
     $fields->{'Binary'} =~ s/(.{0,980}) /$1\n/g;
 }
 
-unshift @archvalues, 'source' if $include & BUILD_SOURCE;
-@archvalues = ('all') if $include == BUILD_ARCH_INDEP;
+unshift @archvalues, 'source' if build_has(BUILD_SOURCE);
+@archvalues = ('all') if build_is(BUILD_ARCH_INDEP);
 @archvalues = grep { !debarch_eq('all', $_) } @archvalues
-    unless $include & BUILD_ARCH_INDEP;
+    if build_has_not(BUILD_ARCH_INDEP);
 @archvalues = grep { !debarch_eq($host_arch, $_) } @archvalues
-    unless $include & BUILD_ARCH_DEP;
+    if build_has_not(BUILD_ARCH_DEP);
 $fields->{'Architecture'} = join ' ', @archvalues;
 
 $fields->{'Built-For-Profiles'} = join ' ', get_build_profiles();
@@ -487,8 +450,8 @@ for my $file ($dist->get_files()) {
     if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
         my $arch_all = debarch_eq('all', $file->{arch});
 
-        next if (not ($include & BUILD_ARCH_INDEP) and $arch_all);
-        next if (not ($include & BUILD_ARCH_DEP) and not $arch_all);
+        next if build_has_not(BUILD_ARCH_INDEP) and $arch_all;
+        next if build_has_not(BUILD_ARCH_DEP) and not $arch_all;
     }
     $checksums->add_from_file("$uploadfilesdir/$f", key => $f);
 }
