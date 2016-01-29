@@ -1,5 +1,21 @@
-Dpkg C coding style 2012-05-24
-===================
+Dpkg troff coding style 2016-01-29
+=======================
+
+General
+~~~~~~~
+
+Dashes that are relevant when copy & pasted need to be escaped (e.g. those
+present in program, file, argument and field names).
+
+New sentences inside a paragraph should start on a new line, so that we
+do not need to reflow the text when adding new content.
+
+Every new feature, option or behavior change needs to be documented with
+the version introducing the change.
+
+
+Dpkg C/C++ coding style 2016-01-29
+=======================
 
 C language extensions
 ~~~~~~~~~~~~~~~~~~~~~
@@ -16,6 +32,16 @@ The code base assumes C89 plus the following C99 extensions:
 
 Those are checked at build time, and it will abort in case a needed extension
 is not supported.
+
+C++ language extensions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The code base assumes C++03 plus the following C++11 extension:
+
+ * Null pointer keyword (nullptr).
+
+This is checked at build time, and it will use compatibility code in case the
+needed extension is not supported.
 
 General
 ~~~~~~~
@@ -207,35 +233,37 @@ see what operation is being done:
 		foo();
 
 
-Dpkg Perl coding style 2015-05-20
+Dpkg Perl coding style 2016-01-29
 ======================
 
 General
 ~~~~~~~
 
 In general you should follow the conventions listed in perlstyle(1).
-All the code should run with the “use strict” and “use warnings” pragmas.
+All the code should run with the “use strict” and “use warnings” pragmas,
+and pass «DPKG_DEVEL_MODE=1 make check».
 
 Code documentation
 ~~~~~~~~~~~~~~~~~~
 
 Public modules should be documented with POD (see perlpod(1)). Private
 code doesn't have to use POD, simple comment lines (starting with "#") are
-enough. Public scripts are documented in their corresponding manual pages.
+enough, but if they use POD they need to note the fact that the module is
+private in the CHANGES section and specify a version «0.xx». Public scripts
+are documented in their corresponding manual pages.
 
 Indentation, alignment and spacing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Lines should be 80 chars max. The indentation level is 4 characters, and
-indentation is done with hard tabs (which should be considered to take 8
-spaces width) and spaces.
+indentation is done with soft tabs (no hard tabs) and spaces.
 
 if ($foo) {
     if ($bar) {
-	print "Hello\n";
-	unless ($baz) {
-	    print "Who are you?\n";
-	}
+        print "Hello\n";
+        unless ($baz) {
+            print "Who are you?\n";
+        }
     }
 }
 
