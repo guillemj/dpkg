@@ -222,19 +222,26 @@ paths (since dpkg 1.17.14).
 All these files have to be present for \fBdpkg\-architecture\fP to
 work. Their location can be overridden at runtime with the environment
 variable \fBDPKG_DATADIR\fP.
+These tables contain a format \fBVersion\fP pseudo-field on their first
+line to mark their format, so that parsers can check if they understand
+it, such as "# Version=1.0".
 .TP
 .I %PKGDATADIR%/cputable
 Table of known CPU names and mapping to their GNU name.
+Format version 1.0 (since dpkg 1.13.2).
 .TP
 .I %PKGDATADIR%/ostable
 Table of known operating system names and mapping to their GNU name.
+Format version 1.0 (since dpkg 1.13.2).
 .TP
 .I %PKGDATADIR%/triplettable
 Mapping between Debian architecture triplets and Debian architecture
 names.
+Format version 1.0 (since dpkg 1.14.0).
 .TP
 .I %PKGDATADIR%/abitable
 Table of Debian architecture ABI attribute overrides.
+Format version 1.0 (since dpkg 1.16.3).
 .SS Packaging support
 .TP
 .I %PKGDATADIR%/architecture.mk
