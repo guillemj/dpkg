@@ -34,7 +34,7 @@ use Exporter qw(import);
 use Dpkg ();
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
-use Dpkg::BuildEnv;
+use Dpkg::Build::Env;
 use Dpkg::Control::HashCore;
 
 my $origins = "$Dpkg::CONFDIR/origins";
@@ -131,8 +131,8 @@ If that file doesn't exist, it returns undef.
 
 sub get_current_vendor() {
     my $f;
-    if (Dpkg::BuildEnv::has('DEB_VENDOR')) {
-        $f = get_vendor_info(Dpkg::BuildEnv::get('DEB_VENDOR'));
+    if (Dpkg::Build::Env::has('DEB_VENDOR')) {
+        $f = get_vendor_info(Dpkg::Build::Env::get('DEB_VENDOR'));
         return $f->{'Vendor'} if defined $f;
     }
     $f = get_vendor_info();

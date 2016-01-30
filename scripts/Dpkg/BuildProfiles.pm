@@ -29,7 +29,7 @@ our @EXPORT_OK = qw(
 use Exporter qw(import);
 
 use Dpkg::Util qw(:list);
-use Dpkg::BuildEnv;
+use Dpkg::Build::Env;
 
 my $cache_profiles;
 my @build_profiles;
@@ -59,8 +59,8 @@ the environment variable B<DEB_BUILD_PROFILES>.
 sub get_build_profiles {
     return @build_profiles if $cache_profiles;
 
-    if (Dpkg::BuildEnv::has('DEB_BUILD_PROFILES')) {
-        @build_profiles = split /\s+/, Dpkg::BuildEnv::get('DEB_BUILD_PROFILES');
+    if (Dpkg::Build::Env::has('DEB_BUILD_PROFILES')) {
+        @build_profiles = split /\s+/, Dpkg::Build::Env::get('DEB_BUILD_PROFILES');
     }
     $cache_profiles = 1;
 
@@ -79,7 +79,7 @@ sub set_build_profiles {
 
     $cache_profiles = 1;
     @build_profiles = @profiles;
-    Dpkg::BuildEnv::set('DEB_BUILD_PROFILES', join ' ', @profiles);
+    Dpkg::Build::Env::set('DEB_BUILD_PROFILES', join ' ', @profiles);
 }
 
 =item @profiles = parse_build_profiles($string)

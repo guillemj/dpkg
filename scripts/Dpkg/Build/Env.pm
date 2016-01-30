@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::BuildEnv;
+package Dpkg::Build::Env;
 
 use strict;
 use warnings;
@@ -27,11 +27,11 @@ my %env_accessed = ();
 
 =head1 NAME
 
-Dpkg::BuildEnv - track build environment
+Dpkg::Build::Env - track build environment
 
 =head1 DESCRIPTION
 
-The Dpkg::BuildEnv module is used by dpkg-buildflags to track the build
+The Dpkg::Build::Env module is used by dpkg-buildflags to track the build
 environment variables being used and modified.
 
 =head1 FUNCTIONS
