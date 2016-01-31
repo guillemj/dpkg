@@ -330,9 +330,9 @@ foreach my $pkg ($control->get_packages()) {
 
     if (not defined($p2f{$p})) {
 	# No files for this package... warn if it's unexpected
-	if (((debarch_eq('all', $a) and build_has(BUILD_ARCH_INDEP)) ||
-	     ((any { debarch_is($host_arch, $_) } split /\s+/, $a)
-	     and build_has(BUILD_ARCH_DEP))) and
+	if (((build_has(BUILD_ARCH_INDEP) and debarch_eq('all', $a)) or
+	     (build_has(BUILD_ARCH_DEP) and
+	      (any { debarch_is($host_arch, $_) } split /\s+/, $a))) and
 	    (@restrictions == 0 or
 	     evaluate_restriction_formula(\@restrictions, \@profiles)))
 	{
@@ -350,8 +350,8 @@ foreach my $pkg ($control->get_packages()) {
 	} elsif (m/^Priority$/) {
 	    $f2pricf{$_} = $v foreach (@f);
 	} elsif (m/^Architecture$/) {
-	    if ((any { debarch_is($host_arch, $_) } split /\s+/, $v)
-		and build_has(BUILD_ARCH_DEP)) {
+	    if (build_has(BUILD_ARCH_DEP) and
+	        (any { debarch_is($host_arch, $_) } split /\s+/, $v)) {
 		$v = $host_arch;
 	    } elsif (!debarch_eq('all', $v)) {
 		$v = '';
