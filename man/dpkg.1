@@ -698,7 +698,7 @@ starts a character class, which can contain a list of characters, ranges
 and complementations. See \fBglob\fP(7) for detailed information about
 globbing. Note: the current implementation might re-include more directories
 and symlinks than needed, to be on the safe side and avoid possible unpack
-failures, future work might fix this.
+failures; future work might fix this.
 
 This can be used to remove all paths except some particular ones; a typical
 case is:
@@ -713,6 +713,19 @@ to remove all documentation files except the copyright files.
 These two options can be specified multiple times, and interleaved with
 each other. Both are processed in the given order, with the last rule that
 matches a file name making the decision.
+
+The filters are applied when unpacking the binary packages, and as such
+only have knowledge of the type of object currently being filtered
+(e.g. a normal file or a directory) and have not visibility of what
+objects will come next.
+Because these filters have side effects (in contrast to \fBfind\fP(1)
+filters), excluding an exact pathname that happens to be a directory object
+like \fI/usr/share/doc\fP will not have the desired result, and only that
+pathname will be excluded (which could be automatically reincluded if the
+code sees the need).
+Any subsequent files contained within that directory will fail to unpack.
+
+Hint: make sure the globs are not expanded by your shell.
 .TP
 .BI \-\-verify\-format " format-name"
 Sets the output format for the \fB\-\-verify\fP command (since dpkg 1.17.2).
