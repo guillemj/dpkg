@@ -19,21 +19,32 @@ use warnings;
 use Test::More;
 use Test::Dpkg;
 
-eval q{
-    use Test::Strict;
-    $Test::Strict::TEST_WARNINGS = 1;
-};
-plan skip_all => 'Test::Strict required for testing syntax' if $@;
-
 if (defined $ENV{srcdir}) {
     chdir $ENV{srcdir} or die "cannot chdir to source directory: $!";
 }
 
 my @files = Test::Dpkg::all_perl_files();
 
-plan tests => scalar @files * 2;
+plan tests => scalar @files;
+
+my $PERL = $ENV{PERL} // $^X // 'perl';
+
+# Detect compilation warnings that are not found with just «use warnings»,
+# such as redefinition of symbols from multiple imports. We cannot use
+# Test::Strict::syntax_ok because it does not pass -w to perl, and does not
+# check for other issues whenever perl states the syntax is ok.
+sub syntax_ok {
+    my $file = shift;
+
+    my $eval = `$PERL -cw \"$file\" 2>&1`;
+    my $ok = ($eval =~ s{^\Q$file\E syntax OK\n$}{}ms) && length $eval == 0;
+
+    ok($ok, "Compilation check $file");
+    if (not $ok) {
+        diag($eval);
+    }
+}
 
 for my $file (@files) {
-    strict_ok($file);
-    warnings_ok($file);
+    syntax_ok($file);
 }

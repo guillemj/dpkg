@@ -145,6 +145,7 @@ endif
 
 test_scripts = \
 	t/pod.t \
+	t/syntax.t \
 	t/strict.t \
 	t/critic.t \
 	$(nil)
