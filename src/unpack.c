@@ -434,6 +434,88 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 }
 
 static void
+pkg_update_fields(struct pkginfo *pkg, struct filenamenode_queue *newconffiles)
+{
+  struct dependency *newdeplist, **newdeplistlastp;
+  struct dependency *newdep, *dep;
+  struct deppossi **newpossilastp, *possi, *newpossi;
+  struct conffile **iconffileslastp, *newiconff;
+  struct fileinlist *cfile;
+
+  /* The dependencies are the most difficult. We have to build
+   * a whole new forward dependency tree. At least the reverse
+   * links (linking our deppossi's into the reverse chains)
+   * can be done by copy_dependency_links. */
+  newdeplist = NULL;
+  newdeplistlastp = &newdeplist;
+  for (dep = pkg->available.depends; dep; dep = dep->next) {
+    newdep = nfmalloc(sizeof(struct dependency));
+    newdep->up = pkg;
+    newdep->next = NULL;
+    newdep->list = NULL;
+    newpossilastp = &newdep->list;
+
+    for (possi = dep->list; possi; possi = possi->next) {
+      newpossi = nfmalloc(sizeof(struct deppossi));
+      newpossi->up = newdep;
+      newpossi->ed = possi->ed;
+      newpossi->next = NULL;
+      newpossi->rev_next = newpossi->rev_prev = NULL;
+      newpossi->arch_is_implicit = possi->arch_is_implicit;
+      newpossi->arch = possi->arch;
+      newpossi->verrel = possi->verrel;
+      if (possi->verrel != DPKG_RELATION_NONE)
+        newpossi->version = possi->version;
+      else
+        dpkg_version_blank(&newpossi->version);
+      newpossi->cyclebreak = false;
+      *newpossilastp = newpossi;
+      newpossilastp = &newpossi->next;
+    }
+    newdep->type = dep->type;
+    *newdeplistlastp = newdep;
+    newdeplistlastp = &newdep->next;
+  }
+
+  /* Right, now we've replicated the forward tree, we
+   * get copy_dependency_links to remove all the old dependency
+   * structures from the reverse links and add the new dependency
+   * structures in instead. It also copies the new dependency
+   * structure pointer for this package into the right field. */
+  copy_dependency_links(pkg, &pkg->installed.depends, newdeplist, 0);
+
+  /* We copy the text fields. */
+  pkg->installed.essential = pkg->available.essential;
+  pkg->installed.multiarch = pkg->available.multiarch;
+  pkg->installed.description = pkg->available.description;
+  pkg->installed.maintainer = pkg->available.maintainer;
+  pkg->installed.source = pkg->available.source;
+  pkg->installed.arch = pkg->available.arch;
+  pkg->installed.pkgname_archqual = pkg->available.pkgname_archqual;
+  pkg->installed.installedsize = pkg->available.installedsize;
+  pkg->installed.version = pkg->available.version;
+  pkg->installed.origin = pkg->available.origin;
+  pkg->installed.bugs = pkg->available.bugs;
+
+  /* We have to generate our own conffiles structure. */
+  pkg->installed.conffiles = NULL;
+  iconffileslastp = &pkg->installed.conffiles;
+  for (cfile = newconffiles->head; cfile; cfile = cfile->next) {
+    newiconff = nfmalloc(sizeof(struct conffile));
+    newiconff->next = NULL;
+    newiconff->name = nfstrsave(cfile->namenode->name);
+    newiconff->hash = nfstrsave(cfile->namenode->oldhash);
+    newiconff->obsolete = !!(cfile->namenode->flags & fnnf_obs_conff);
+    *iconffileslastp = newiconff;
+    iconffileslastp = &newiconff->next;
+  }
+
+  /* We can just copy the arbitrary fields list, because it is
+   * never even rearranged. Phew! */
+  pkg->installed.arbs = pkg->available.arbs;
+}
+
+static void
 pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
 {
   printf(_("(Noting disappearance of %s, which has been completely replaced.)\n"),
@@ -724,10 +806,8 @@ void process_archive(const char *filename) {
   struct fileinlist *cfile;
   struct filenamenode_queue newconffiles, newfiles_queue;
   struct reversefilelistiter rlistit;
-  struct conffile **iconffileslastp, *newiconff;
-  struct dependency *dsearch, *newdeplist, **newdeplistlastp;
-  struct dependency *newdep, *dep;
-  struct deppossi *psearch, **newpossilastp, *possi, *newpossi;
+  struct dependency *dsearch;
+  struct deppossi *psearch;
   struct filenamenode *namenode;
   struct stat stab, oldfs;
   struct pkg_deconf_list *deconpil;
@@ -1389,76 +1469,7 @@ void process_archive(const char *filename) {
    * At least we don't have to copy any strings that are referred
    * to, because these are never modified and never freed.
    */
-
-  /* The dependencies are the most difficult. We have to build
-   * a whole new forward dependency tree. At least the reverse
-   * links (linking our deppossi's into the reverse chains)
-   * can be done by copy_dependency_links. */
-  newdeplist = NULL;
-  newdeplistlastp = &newdeplist;
-  for (dep= pkg->available.depends; dep; dep= dep->next) {
-    newdep= nfmalloc(sizeof(struct dependency));
-    newdep->up= pkg;
-    newdep->next = NULL;
-    newdep->list = NULL;
-    newpossilastp = &newdep->list;
-    for (possi= dep->list; possi; possi= possi->next) {
-      newpossi= nfmalloc(sizeof(struct deppossi));
-      newpossi->up= newdep;
-      newpossi->ed= possi->ed;
-      newpossi->next = NULL;
-      newpossi->rev_next = newpossi->rev_prev = NULL;
-      newpossi->arch_is_implicit = possi->arch_is_implicit;
-      newpossi->arch = possi->arch;
-      newpossi->verrel= possi->verrel;
-      if (possi->verrel != DPKG_RELATION_NONE)
-        newpossi->version= possi->version;
-      else
-        dpkg_version_blank(&newpossi->version);
-      newpossi->cyclebreak = false;
-      *newpossilastp= newpossi;
-      newpossilastp= &newpossi->next;
-    }
-    newdep->type= dep->type;
-    *newdeplistlastp= newdep;
-    newdeplistlastp= &newdep->next;
-  }
-  /* Right, now we've replicated the forward tree, we
-   * get copy_dependency_links to remove all the old dependency
-   * structures from the reverse links and add the new dependency
-   * structures in instead. It also copies the new dependency
-   * structure pointer for this package into the right field. */
-  copy_dependency_links(pkg,&pkg->installed.depends,newdeplist,0);
-
-  /* We copy the text fields. */
-  pkg->installed.essential= pkg->available.essential;
-  pkg->installed.multiarch = pkg->available.multiarch;
-  pkg->installed.description= pkg->available.description;
-  pkg->installed.maintainer= pkg->available.maintainer;
-  pkg->installed.source= pkg->available.source;
-  pkg->installed.arch = pkg->available.arch;
-  pkg->installed.pkgname_archqual = pkg->available.pkgname_archqual;
-  pkg->installed.installedsize= pkg->available.installedsize;
-  pkg->installed.version= pkg->available.version;
-  pkg->installed.origin = pkg->available.origin;
-  pkg->installed.bugs = pkg->available.bugs;
-
-  /* We have to generate our own conffiles structure. */
-  pkg->installed.conffiles = NULL;
-  iconffileslastp = &pkg->installed.conffiles;
-  for (cfile = newconffiles.head; cfile; cfile = cfile->next) {
-    newiconff= nfmalloc(sizeof(struct conffile));
-    newiconff->next = NULL;
-    newiconff->name= nfstrsave(cfile->namenode->name);
-    newiconff->hash= nfstrsave(cfile->namenode->oldhash);
-    newiconff->obsolete= !!(cfile->namenode->flags & fnnf_obs_conff);
-    *iconffileslastp= newiconff;
-    iconffileslastp= &newiconff->next;
-  }
-
-  /* We can just copy the arbitrary fields list, because it is
-   * never even rearranged. Phew! */
-  pkg->installed.arbs= pkg->available.arbs;
+  pkg_update_fields(pkg, &newconffiles);
 
   /* In case this was an architecture cross-grade, the in-core pkgset might
    * be in an inconsistent state, with two pkginfo entries having the same
