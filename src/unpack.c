@@ -434,6 +434,163 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 }
 
 static void
+pkg_remove_old_files(struct pkginfo *pkg,
+                     struct filenamenode_queue *newfiles_queue,
+                     struct filenamenode_queue *newconffiles)
+{
+  struct reversefilelistiter rlistit;
+  struct filenamenode *namenode;
+  struct stat stab, oldfs;
+
+  reversefilelist_init(&rlistit, pkg->clientdata->files);
+
+  while ((namenode = reversefilelist_next(&rlistit))) {
+    struct filenamenode *usenode;
+
+    if ((namenode->flags & fnnf_new_conff) ||
+        (namenode->flags & fnnf_new_inarchive))
+      continue;
+
+    usenode = namenodetouse(namenode, pkg, &pkg->installed);
+
+    varbuf_rollback(&fnamevb, &fname_state);
+    varbuf_add_str(&fnamevb, usenode->name);
+    varbuf_end_str(&fnamevb);
+
+    if (!stat(namenode->name, &stab) && S_ISDIR(stab.st_mode)) {
+      debug(dbg_eachfiledetail, "process_archive: %s is a directory",
+            namenode->name);
+      if (dir_is_used_by_others(namenode, pkg))
+        continue;
+    }
+
+    if (lstat(fnamevb.buf, &oldfs)) {
+      if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
+        warning(_("could not stat old file '%.250s' so not deleting it: %s"),
+                fnamevb.buf, strerror(errno));
+      continue;
+    }
+    if (S_ISDIR(oldfs.st_mode)) {
+      trig_path_activate(usenode, pkg);
+
+      /* Do not try to remove the root directory. */
+      if (strcmp(usenode->name, "/.") == 0)
+        continue;
+
+      if (rmdir(fnamevb.buf)) {
+        warning(_("unable to delete old directory '%.250s': %s"),
+                namenode->name, strerror(errno));
+      } else if ((namenode->flags & fnnf_old_conff)) {
+        warning(_("old conffile '%.250s' was an empty directory "
+                  "(and has now been deleted)"), namenode->name);
+      }
+    } else {
+      struct fileinlist *sameas = NULL;
+      struct fileinlist *cfile;
+      static struct stat empty_stat;
+      struct varbuf cfilename = VARBUF_INIT;
+
+      /*
+       * Ok, it's an old file, but is it really not in the new package?
+       * It might be known by a different name because of symlinks.
+       *
+       * We need to check to make sure, so we stat the file, then compare
+       * it to the new list. If we find a dev/inode match, we assume they
+       * are the same file, and leave it alone. NOTE: we don't check in
+       * other packages for sanity reasons (we don't want to stat _all_
+       * the files on the system).
+       *
+       * We run down the list of _new_ files in this package. This keeps
+       * the process a little leaner. We are only worried about new ones
+       * since ones that stayed the same don't really apply here.
+       */
+
+      /* If we can't stat the old or new file, or it's a directory,
+       * we leave it up to the normal code. */
+      debug(dbg_eachfile, "process_archive: checking %s for same files on "
+            "upgrade/downgrade", fnamevb.buf);
+
+      for (cfile = newfiles_queue->head; cfile; cfile = cfile->next) {
+        /* If the file has been filtered then treat it as if it didn't exist
+         * on the file system. */
+        if (cfile->namenode->flags & fnnf_filtered)
+          continue;
+
+        if (!cfile->namenode->filestat) {
+          struct stat tmp_stat;
+
+          varbuf_reset(&cfilename);
+          varbuf_add_str(&cfilename, instdir);
+          varbuf_add_str(&cfilename, cfile->namenode->name);
+          varbuf_end_str(&cfilename);
+
+          if (lstat(cfilename.buf, &tmp_stat) == 0) {
+            cfile->namenode->filestat = nfmalloc(sizeof(struct stat));
+            memcpy(cfile->namenode->filestat, &tmp_stat, sizeof(struct stat));
+          } else {
+            if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
+              ohshite(_("unable to stat other new file '%.250s'"),
+                      cfile->namenode->name);
+            cfile->namenode->filestat = &empty_stat;
+            continue;
+          }
+        }
+
+        if (cfile->namenode->filestat == &empty_stat)
+          continue;
+
+        if (oldfs.st_dev == cfile->namenode->filestat->st_dev &&
+            oldfs.st_ino == cfile->namenode->filestat->st_ino) {
+          if (sameas)
+            warning(_("old file '%.250s' is the same as several new files! "
+                      "(both '%.250s' and '%.250s')"), fnamevb.buf,
+                    sameas->namenode->name, cfile->namenode->name);
+          sameas = cfile;
+          debug(dbg_eachfile, "process_archive: not removing %s, "
+                "since it matches %s", fnamevb.buf, cfile->namenode->name);
+        }
+      }
+
+      varbuf_destroy(&cfilename);
+
+      if ((namenode->flags & fnnf_old_conff)) {
+        if (sameas) {
+          if (sameas->namenode->flags & fnnf_new_conff) {
+            if (strcmp(sameas->namenode->oldhash, NEWCONFFILEFLAG) == 0) {
+              sameas->namenode->oldhash = namenode->oldhash;
+              debug(dbg_eachfile, "process_archive: old conff %s "
+                    "is same as new conff %s, copying hash",
+                    namenode->name, sameas->namenode->name);
+            } else {
+              debug(dbg_eachfile, "process_archive: old conff %s "
+                    "is same as new conff %s but latter already has hash",
+                    namenode->name, sameas->namenode->name);
+            }
+          }
+        } else {
+          debug(dbg_eachfile, "process_archive: old conff %s "
+                "is disappearing", namenode->name);
+          namenode->flags |= fnnf_obs_conff;
+          tar_filenamenode_queue_push(newconffiles, namenode);
+          tar_filenamenode_queue_push(newfiles_queue, namenode);
+        }
+        continue;
+      }
+
+      if (sameas)
+        continue;
+
+      trig_path_activate(usenode, pkg);
+
+      if (secure_unlink_statted(fnamevb.buf, &oldfs)) {
+        warning(_("unable to securely remove old file '%.250s': %s"),
+                namenode->name, strerror(errno));
+      }
+    } /* !S_ISDIR */
+  }
+}
+
+static void
 pkg_update_fields(struct pkginfo *pkg, struct filenamenode_queue *newconffiles)
 {
   struct dependency *newdeplist, **newdeplistlastp;
@@ -803,13 +960,10 @@ void process_archive(const char *filename) {
   char *cidirrest;
   char *psize;
   const char *pfilename;
-  struct fileinlist *cfile;
   struct filenamenode_queue newconffiles, newfiles_queue;
-  struct reversefilelistiter rlistit;
   struct dependency *dsearch;
   struct deppossi *psearch;
-  struct filenamenode *namenode;
-  struct stat stab, oldfs;
+  struct stat stab;
   struct pkg_deconf_list *deconpil;
   struct pkginfo *fixbytrigaw;
 
@@ -1290,148 +1444,7 @@ void process_archive(const char *filename) {
   /* Now we delete all the files that were in the old version of
    * the package only, except (old or new) conffiles, which we leave
    * alone. */
-  reversefilelist_init(&rlistit,pkg->clientdata->files);
-  while ((namenode= reversefilelist_next(&rlistit))) {
-    struct filenamenode *usenode;
-
-    if ((namenode->flags & fnnf_new_conff) ||
-        (namenode->flags & fnnf_new_inarchive))
-      continue;
-
-    usenode = namenodetouse(namenode, pkg, &pkg->installed);
-
-    varbuf_rollback(&fnamevb, &fname_state);
-    varbuf_add_str(&fnamevb, usenode->name);
-    varbuf_end_str(&fnamevb);
-
-    if (!stat(namenode->name,&stab) && S_ISDIR(stab.st_mode)) {
-      debug(dbg_eachfiledetail, "process_archive: %s is a directory",
-	    namenode->name);
-      if (dir_is_used_by_others(namenode, pkg))
-        continue;
-    }
-
-    if (lstat(fnamevb.buf, &oldfs)) {
-      if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
-	warning(_("could not stat old file '%.250s' so not deleting it: %s"),
-	        fnamevb.buf, strerror(errno));
-      continue;
-    }
-    if (S_ISDIR(oldfs.st_mode)) {
-      trig_path_activate(usenode, pkg);
-
-      /* Do not try to remove the root directory. */
-      if (strcmp(usenode->name, "/.") == 0)
-        continue;
-
-      if (rmdir(fnamevb.buf)) {
-	warning(_("unable to delete old directory '%.250s': %s"),
-	        namenode->name, strerror(errno));
-      } else if ((namenode->flags & fnnf_old_conff)) {
-	warning(_("old conffile '%.250s' was an empty directory "
-	          "(and has now been deleted)"), namenode->name);
-      }
-    } else {
-      struct fileinlist *sameas = NULL;
-      static struct stat empty_stat;
-      struct varbuf cfilename = VARBUF_INIT;
-
-      /*
-       * Ok, it's an old file, but is it really not in the new package?
-       * It might be known by a different name because of symlinks.
-       *
-       * We need to check to make sure, so we stat the file, then compare
-       * it to the new list. If we find a dev/inode match, we assume they
-       * are the same file, and leave it alone. NOTE: we don't check in
-       * other packages for sanity reasons (we don't want to stat _all_
-       * the files on the system).
-       *
-       * We run down the list of _new_ files in this package. This keeps
-       * the process a little leaner. We are only worried about new ones
-       * since ones that stayed the same don't really apply here.
-       */
-
-      /* If we can't stat the old or new file, or it's a directory,
-       * we leave it up to the normal code. */
-      debug(dbg_eachfile, "process_archive: checking %s for same files on "
-	    "upgrade/downgrade", fnamevb.buf);
-
-      for (cfile = newfiles_queue.head; cfile; cfile = cfile->next) {
-	/* If the file has been filtered then treat it as if it didn't exist
-	 * on the file system. */
-	if (cfile->namenode->flags & fnnf_filtered)
-	  continue;
-	if (!cfile->namenode->filestat) {
-	  struct stat tmp_stat;
-
-	  varbuf_reset(&cfilename);
-	  varbuf_add_str(&cfilename, instdir);
-	  varbuf_add_str(&cfilename, cfile->namenode->name);
-	  varbuf_end_str(&cfilename);
-
-	  if (lstat(cfilename.buf, &tmp_stat) == 0) {
-	    cfile->namenode->filestat = nfmalloc(sizeof(struct stat));
-	    memcpy(cfile->namenode->filestat, &tmp_stat, sizeof(struct stat));
-	  } else {
-	    if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
-	      ohshite(_("unable to stat other new file '%.250s'"),
-		      cfile->namenode->name);
-	    cfile->namenode->filestat = &empty_stat;
-	    continue;
-	  }
-	}
-	if (cfile->namenode->filestat == &empty_stat)
-	  continue;
-	if (oldfs.st_dev == cfile->namenode->filestat->st_dev &&
-	    oldfs.st_ino == cfile->namenode->filestat->st_ino) {
-	  if (sameas)
-	    warning(_("old file '%.250s' is the same as several new files! "
-	              "(both '%.250s' and '%.250s')"), fnamevb.buf,
-		    sameas->namenode->name, cfile->namenode->name);
-	  sameas= cfile;
-	  debug(dbg_eachfile, "process_archive: not removing %s,"
-		" since it matches %s", fnamevb.buf, cfile->namenode->name);
-	}
-      }
-
-      varbuf_destroy(&cfilename);
-
-      if ((namenode->flags & fnnf_old_conff)) {
-	if (sameas) {
-	  if (sameas->namenode->flags & fnnf_new_conff) {
-	    if (strcmp(sameas->namenode->oldhash, NEWCONFFILEFLAG) == 0) {
-	      sameas->namenode->oldhash= namenode->oldhash;
-	      debug(dbg_eachfile, "process_archive: old conff %s"
-		    " is same as new conff %s, copying hash",
-		    namenode->name, sameas->namenode->name);
-	    } else {
-	      debug(dbg_eachfile, "process_archive: old conff %s"
-		    " is same as new conff %s but latter already has hash",
-		    namenode->name, sameas->namenode->name);
-	    }
-	  }
-	} else {
-	  debug(dbg_eachfile, "process_archive: old conff %s"
-		" is disappearing", namenode->name);
-	  namenode->flags |= fnnf_obs_conff;
-	  tar_filenamenode_queue_push(&newconffiles, namenode);
-	  tar_filenamenode_queue_push(&newfiles_queue, namenode);
-	}
-	continue;
-      }
-
-      if (sameas)
-	continue;
-
-      trig_path_activate(usenode, pkg);
-
-      if (secure_unlink_statted(fnamevb.buf, &oldfs)) {
-        warning(_("unable to securely remove old file '%.250s': %s"),
-                namenode->name, strerror(errno));
-      }
-
-    } /* !S_ISDIR */
-  }
+  pkg_remove_old_files(pkg, &newfiles_queue, &newconffiles);
 
   /* OK, now we can write the updated files-in-this package list,
    * since we've done away (hopefully) with all the old junk. */
