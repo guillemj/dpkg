@@ -469,6 +469,111 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
   modstatdb_note(pkg);
 }
 
+static void
+pkg_disappear_others(struct pkginfo *pkg)
+{
+  struct pkgiterator *it;
+  struct pkginfo *otherpkg;
+  struct fileinlist *cfile;
+  struct deppossi *pdep;
+  struct dependency *providecheck;
+  struct varbuf depprobwhy = VARBUF_INIT;
+
+  it = pkg_db_iter_new();
+  while ((otherpkg = pkg_db_iter_next_pkg(it)) != NULL) {
+    ensure_package_clientdata(otherpkg);
+
+    if (otherpkg == pkg ||
+        otherpkg->status == PKG_STAT_NOTINSTALLED ||
+        otherpkg->status == PKG_STAT_CONFIGFILES ||
+        otherpkg->clientdata->istobe == PKG_ISTOBE_REMOVE ||
+        !otherpkg->clientdata->files)
+      continue;
+
+    /* Do not try to disappear other packages from the same set
+     * if they are Multi-Arch: same */
+    if (pkg->installed.multiarch == PKG_MULTIARCH_SAME &&
+        otherpkg->installed.multiarch == PKG_MULTIARCH_SAME &&
+        otherpkg->set == pkg->set)
+      continue;
+
+    debug(dbg_veryverbose, "process_archive checking disappearance %s",
+          pkg_name(otherpkg, pnaw_always));
+    assert(otherpkg->clientdata->istobe == PKG_ISTOBE_NORMAL ||
+           otherpkg->clientdata->istobe == PKG_ISTOBE_DECONFIGURE);
+
+    for (cfile = otherpkg->clientdata->files;
+         cfile && strcmp(cfile->namenode->name, "/.") == 0;
+         cfile = cfile->next);
+    if (!cfile) {
+      debug(dbg_stupidlyverbose, "process_archive no non-root, no disappear");
+      continue;
+    }
+    for (cfile = otherpkg->clientdata->files;
+         cfile && !filesavespackage(cfile, otherpkg, pkg);
+         cfile = cfile->next);
+    if (cfile)
+      continue;
+
+    /* So dependency things will give right answers ... */
+    otherpkg->clientdata->istobe = PKG_ISTOBE_REMOVE;
+    debug(dbg_veryverbose, "process_archive disappear checking dependencies");
+    for (pdep = otherpkg->set->depended.installed;
+         pdep;
+         pdep = pdep->rev_next) {
+      if (pdep->up->type != dep_depends &&
+          pdep->up->type != dep_predepends &&
+          pdep->up->type != dep_recommends)
+        continue;
+
+      if (depisok(pdep->up, &depprobwhy, NULL, NULL, false))
+        continue;
+
+      varbuf_end_str(&depprobwhy);
+      debug(dbg_veryverbose,"process_archive cannot disappear: %s",
+            depprobwhy.buf);
+      break;
+    }
+    if (!pdep) {
+      /* If we haven't found a reason not to yet, let's look some more. */
+      for (providecheck = otherpkg->installed.depends;
+           providecheck;
+           providecheck = providecheck->next) {
+        if (providecheck->type != dep_provides)
+          continue;
+
+        for (pdep = providecheck->list->ed->depended.installed;
+             pdep;
+             pdep = pdep->rev_next) {
+          if (pdep->up->type != dep_depends &&
+              pdep->up->type != dep_predepends &&
+              pdep->up->type != dep_recommends)
+            continue;
+
+          if (depisok(pdep->up, &depprobwhy, NULL, NULL, false))
+            continue;
+
+          varbuf_end_str(&depprobwhy);
+          debug(dbg_veryverbose,
+                "process_archive cannot disappear (provides %s): %s",
+                providecheck->list->ed->name, depprobwhy.buf);
+          goto break_from_both_loops_at_once;
+        }
+      }
+      break_from_both_loops_at_once:;
+    }
+    otherpkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
+    if (pdep)
+      continue;
+
+    /* No, we're disappearing it. This is the wrong time to go and
+     * run maintainer scripts and things, as we can't back out. But
+     * what can we do ?  It has to be run this late. */
+    pkg_disappear(otherpkg, pkg);
+  } /* while (otherpkg= ... */
+  pkg_db_iter_free(it);
+}
+
 /**
  * Check if all instances of a pkgset are getting in sync.
  *
@@ -610,7 +715,6 @@ void process_archive(const char *filename) {
   enum parsedbflags parsedb_flags;
   int rc;
   pid_t pid;
-  struct pkgiterator *it;
   struct pkginfo *pkg, *otherpkg;
   struct pkg_list *conflictor_iter;
   char *cidir = NULL;
@@ -622,8 +726,8 @@ void process_archive(const char *filename) {
   struct reversefilelistiter rlistit;
   struct conffile **iconffileslastp, *newiconff;
   struct dependency *dsearch, *newdeplist, **newdeplistlastp;
-  struct dependency *newdep, *dep, *providecheck;
-  struct deppossi *psearch, **newpossilastp, *possi, *newpossi, *pdep;
+  struct dependency *newdep, *dep;
+  struct deppossi *psearch, **newpossilastp, *possi, *newpossi;
   struct filenamenode *namenode;
   struct stat stab, oldfs;
   struct pkg_deconf_list *deconpil;
@@ -1381,81 +1485,7 @@ void process_archive(const char *filename) {
    * as an argument, and remove their info/... files and status info.
    * Conffiles are ignored (the new package had better do something
    * with them!). */
-  it = pkg_db_iter_new();
-  while ((otherpkg = pkg_db_iter_next_pkg(it)) != NULL) {
-    ensure_package_clientdata(otherpkg);
-    if (otherpkg == pkg ||
-        otherpkg->status == PKG_STAT_NOTINSTALLED ||
-        otherpkg->status == PKG_STAT_CONFIGFILES ||
-        otherpkg->clientdata->istobe == PKG_ISTOBE_REMOVE ||
-        !otherpkg->clientdata->files) continue;
-    /* Do not try to disappear other packages from the same set
-     * if they are Multi-Arch: same */
-    if (pkg->installed.multiarch == PKG_MULTIARCH_SAME &&
-        otherpkg->installed.multiarch == PKG_MULTIARCH_SAME &&
-        otherpkg->set == pkg->set)
-      continue;
-    debug(dbg_veryverbose, "process_archive checking disappearance %s",
-          pkg_name(otherpkg, pnaw_always));
-    assert(otherpkg->clientdata->istobe == PKG_ISTOBE_NORMAL ||
-           otherpkg->clientdata->istobe == PKG_ISTOBE_DECONFIGURE);
-    for (cfile= otherpkg->clientdata->files;
-         cfile && strcmp(cfile->namenode->name, "/.") == 0;
-         cfile= cfile->next);
-    if (!cfile) {
-      debug(dbg_stupidlyverbose, "process_archive no non-root, no disappear");
-      continue;
-    }
-    for (cfile= otherpkg->clientdata->files;
-         cfile && !filesavespackage(cfile,otherpkg,pkg);
-         cfile= cfile->next);
-    if (cfile) continue;
-
-    /* So dependency things will give right answers ... */
-    otherpkg->clientdata->istobe = PKG_ISTOBE_REMOVE;
-    debug(dbg_veryverbose, "process_archive disappear checking dependencies");
-    for (pdep = otherpkg->set->depended.installed;
-         pdep;
-         pdep = pdep->rev_next) {
-      if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&
-          pdep->up->type != dep_recommends) continue;
-      if (depisok(pdep->up, &depprobwhy, NULL, NULL, false))
-        continue;
-      varbuf_end_str(&depprobwhy);
-      debug(dbg_veryverbose,"process_archive cannot disappear: %s",depprobwhy.buf);
-      break;
-    }
-    if (!pdep) {
-      /* If we haven't found a reason not to yet, let's look some more. */
-      for (providecheck= otherpkg->installed.depends;
-           providecheck;
-           providecheck= providecheck->next) {
-        if (providecheck->type != dep_provides) continue;
-        for (pdep = providecheck->list->ed->depended.installed;
-             pdep;
-             pdep = pdep->rev_next) {
-          if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&
-              pdep->up->type != dep_recommends)
-            continue;
-          if (depisok(pdep->up, &depprobwhy, NULL, NULL, false))
-            continue;
-          varbuf_end_str(&depprobwhy);
-          debug(dbg_veryverbose,"process_archive cannot disappear (provides %s): %s",
-                providecheck->list->ed->name, depprobwhy.buf);
-          goto break_from_both_loops_at_once;
-        }
-      }
-    break_from_both_loops_at_once:;
-    }
-    otherpkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
-    if (pdep) continue;
-
-    /* No, we're disappearing it. This is the wrong time to go and
-     * run maintainer scripts and things, as we can't back out. But
-     * what can we do ?  It has to be run this late. */
-    pkg_disappear(otherpkg, pkg);
-  } /* while (otherpkg= ... */
-  pkg_db_iter_free(it);
+  pkg_disappear_others(pkg);
 
   /* Delete files from any other packages' lists.
    * We have to do this before we claim this package is in any
