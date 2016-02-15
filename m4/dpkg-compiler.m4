@@ -57,6 +57,8 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wwrite-strings])
   DPKG_CHECK_COMPILER_FLAG([-Wcast-align])
   DPKG_CHECK_COMPILER_FLAG([-Wshadow])
+  DPKG_CHECK_COMPILER_FLAG([-Wduplicated-cond])
+  DPKG_CHECK_COMPILER_FLAG([-Wnull-dereference])
 
   AC_LANG_CASE(
   [C], [
