@@ -494,6 +494,74 @@ pkgset_getting_in_sync(struct pkginfo *pkg)
   return true;
 }
 
+static void
+pkg_remove_files_from_others(struct pkginfo *pkg, struct fileinlist *newfileslist)
+{
+  struct fileinlist *cfile;
+  struct pkginfo *otherpkg;
+
+  for (cfile = newfileslist; cfile; cfile = cfile->next) {
+    struct filepackages_iterator *iter;
+    struct pkgset *divpkgset;
+
+    if (!(cfile->namenode->flags & fnnf_elide_other_lists))
+      continue;
+
+    if (cfile->namenode->divert && cfile->namenode->divert->useinstead) {
+      divpkgset = cfile->namenode->divert->pkgset;
+      if (divpkgset == pkg->set) {
+        debug(dbg_eachfile,
+              "process_archive not overwriting any '%s' (overriding, '%s')",
+              cfile->namenode->name, cfile->namenode->divert->useinstead->name);
+        continue;
+      } else {
+        debug(dbg_eachfile,
+              "process_archive looking for overwriting '%s' (overridden by %s)",
+              cfile->namenode->name, divpkgset ? divpkgset->name : "<local>");
+      }
+    } else {
+      divpkgset = NULL;
+      debug(dbg_eachfile, "process_archive looking for overwriting '%s'",
+            cfile->namenode->name);
+    }
+
+    iter = filepackages_iter_new(cfile->namenode);
+    while ((otherpkg = filepackages_iter_next(iter))) {
+      debug(dbg_eachfiledetail, "process_archive ... found in %s",
+            pkg_name(otherpkg, pnaw_always));
+
+      /* A pkgset can share files between instances, so there's no point
+       * in rewriting the file that's already in place. */
+      if (otherpkg->set == pkg->set)
+        continue;
+
+      if (otherpkg->set == divpkgset) {
+        debug(dbg_eachfiledetail, "process_archive ... diverted, skipping");
+        continue;
+      }
+
+      if (cfile->namenode->flags & fnnf_new_conff)
+        conffile_mark_obsolete(otherpkg, cfile->namenode);
+
+      /* If !fileslistvalid then it's one of the disappeared packages above
+       * or we have already updated the files list file, and we don't bother
+       * with it here, clearly. */
+      if (!otherpkg->clientdata->fileslistvalid)
+        continue;
+
+      /* Found one. We delete the list entry for this file,
+       * (and any others in the same package) and then mark the package
+       * as requiring a reread. */
+      write_filelist_except(otherpkg, &otherpkg->installed,
+                            otherpkg->clientdata->files, fnnf_elide_other_lists);
+      ensure_package_clientdata(otherpkg);
+      debug(dbg_veryverbose, "process_archive overwrote from %s",
+            pkg_name(otherpkg, pnaw_always));
+    }
+    filepackages_iter_free(iter);
+  }
+}
+
 void process_archive(const char *filename) {
   static const struct tar_operations tf = {
     .read = tarfileread,
@@ -1371,62 +1439,7 @@ void process_archive(const char *filename) {
    * had the version we overwrote. To prevent this we make
    * sure that we don't claim this package is OK until we
    * have claimed ‘ownership’ of all its files. */
-  for (cfile = newfiles_queue.head; cfile; cfile = cfile->next) {
-    struct filepackages_iterator *iter;
-    struct pkgset *divpkgset;
-
-    if (!(cfile->namenode->flags & fnnf_elide_other_lists)) continue;
-    if (cfile->namenode->divert && cfile->namenode->divert->useinstead) {
-      divpkgset = cfile->namenode->divert->pkgset;
-      if (divpkgset == pkg->set) {
-        debug(dbg_eachfile,
-              "process_archive not overwriting any '%s' (overriding, '%s')",
-              cfile->namenode->name, cfile->namenode->divert->useinstead->name);
-        continue;
-      } else {
-        debug(dbg_eachfile,
-              "process_archive looking for overwriting '%s' (overridden by %s)",
-              cfile->namenode->name, divpkgset ? divpkgset->name : "<local>");
-      }
-    } else {
-      divpkgset = NULL;
-      debug(dbg_eachfile, "process_archive looking for overwriting '%s'",
-            cfile->namenode->name);
-    }
-    iter = filepackages_iter_new(cfile->namenode);
-    while ((otherpkg = filepackages_iter_next(iter))) {
-      debug(dbg_eachfiledetail, "process_archive ... found in %s",
-            pkg_name(otherpkg, pnaw_always));
-
-      /* A pkgset can share files between instances, so there's no point
-       * in rewriting the file that's already in place. */
-      if (otherpkg->set == pkg->set)
-        continue;
-      if (otherpkg->set == divpkgset) {
-        debug(dbg_eachfiledetail, "process_archive ... diverted, skipping");
-        continue;
-      }
-
-      if (cfile->namenode->flags & fnnf_new_conff)
-        conffile_mark_obsolete(otherpkg, cfile->namenode);
-
-      /* If !fileslistvalid then it's one of the disappeared packages above
-       * or we have already updated the files list file, and we don't bother
-       * with it here, clearly. */
-      if (!otherpkg->clientdata->fileslistvalid)
-        continue;
-
-      /* Found one. We delete the list entry for this file,
-       * (and any others in the same package) and then mark the package
-       * as requiring a reread. */
-      write_filelist_except(otherpkg, &otherpkg->installed,
-                            otherpkg->clientdata->files, fnnf_elide_other_lists);
-      ensure_package_clientdata(otherpkg);
-      debug(dbg_veryverbose, "process_archive overwrote from %s",
-            pkg_name(otherpkg, pnaw_always));
-    }
-    filepackages_iter_free(iter);
-  }
+  pkg_remove_files_from_others(pkg, newfiles_queue.head);
 
   /* Right, the package we've unpacked is now in a reasonable state.
    * The only thing that we have left to do with it is remove
