@@ -562,6 +562,31 @@ pkg_remove_files_from_others(struct pkginfo *pkg, struct fileinlist *newfileslis
   }
 }
 
+static void
+pkg_remove_backup_files(struct pkginfo *pkg, struct fileinlist *newfileslist)
+{
+  struct fileinlist *cfile;
+
+  for (cfile = newfileslist; cfile; cfile = cfile->next) {
+    struct filenamenode *usenode;
+
+    if (cfile->namenode->flags & fnnf_new_conff)
+      continue;
+
+    usenode = namenodetouse(cfile->namenode, pkg, &pkg->installed);
+
+    /* Do not try to remove backups for the root directory. */
+    if (strcmp(usenode->name, "/.") == 0)
+      continue;
+
+    varbuf_rollback(&fnametmpvb, &fname_state);
+    varbuf_add_str(&fnametmpvb, usenode->name);
+    varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
+    varbuf_end_str(&fnametmpvb);
+    path_remove_tree(fnametmpvb.buf);
+  }
+}
+
 void process_archive(const char *filename) {
   static const struct tar_operations tf = {
     .read = tarfileread,
@@ -1457,23 +1482,7 @@ void process_archive(const char *filename) {
    * package as a conffile and don't appear at all in the new.
    * They stay recorded as obsolete conffiles and will eventually
    * (if not taken over by another package) be forgotten. */
-  for (cfile = newfiles_queue.head; cfile; cfile = cfile->next) {
-    struct filenamenode *usenode;
-
-    if (cfile->namenode->flags & fnnf_new_conff) continue;
-
-    usenode = namenodetouse(cfile->namenode, pkg, &pkg->installed);
-
-    /* Do not try to remove backups for the root directory. */
-    if (strcmp(usenode->name, "/.") == 0)
-      continue;
-
-    varbuf_rollback(&fnametmpvb, &fname_state);
-    varbuf_add_str(&fnametmpvb, usenode->name);
-    varbuf_add_str(&fnametmpvb, DPKGTEMPEXT);
-    varbuf_end_str(&fnametmpvb);
-    path_remove_tree(fnametmpvb.buf);
-  }
+  pkg_remove_backup_files(pkg, newfiles_queue.head);
 
   /* OK, we're now fully done with the main package.
    * This is quite a nice state, so we don't unwind past here. */
