@@ -53,6 +53,7 @@ TESTS_PASS += t-dir-leftover-conffile
 TESTS_PASS += t-disappear
 TESTS_PASS += t-disappear-empty
 TESTS_PASS += t-provides
+TESTS_PASS += t-provides-self
 TESTS_PASS += t-provides-arch-implicit
 TESTS_PASS += t-provides-arch-qualified
 # This only works with dpkg >= 1.18.x
