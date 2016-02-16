@@ -449,6 +449,7 @@ write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
                       struct fileinlist *list, enum filenamenode_flags mask)
 {
   struct atomic_file *file;
+  struct fileinlist *node;
   const char *listfile;
 
   listfile = pkg_infodb_get_file(pkg, pkgbin, LISTFILE);
@@ -456,12 +457,11 @@ write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
   file = atomic_file_new(listfile, 0);
   atomic_file_open(file);
 
-  while (list) {
-    if (!(mask && (list->namenode->flags & mask))) {
-      fputs(list->namenode->name, file->fp);
+  for (node = list; node; node = node->next) {
+    if (!(mask && (node->namenode->flags & mask))) {
+      fputs(node->namenode->name, file->fp);
       putc('\n', file->fp);
     }
-    list= list->next;
   }
 
   atomic_file_sync(file);
