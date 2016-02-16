@@ -153,6 +153,10 @@ struct invoke_hook {
 	const char *command;
 };
 
+struct invoke_list {
+	struct invoke_hook *head, **tail;
+};
+
 /* from archives.c */
 
 int archivefiles(const char *const *argv);

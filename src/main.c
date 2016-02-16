@@ -426,17 +426,14 @@ is_invoke_action(enum action action)
   }
 }
 
-struct invoke_hook *pre_invoke_hooks = NULL;
-struct invoke_hook **pre_invoke_hooks_tail = &pre_invoke_hooks;
-struct invoke_hook *post_invoke_hooks = NULL;
-struct invoke_hook **post_invoke_hooks_tail = &post_invoke_hooks;
-struct invoke_hook *status_loggers = NULL;
-struct invoke_hook **status_loggers_tail = &status_loggers;
+struct invoke_list pre_invoke_hooks = { .head = NULL, .tail = &pre_invoke_hooks.head };
+struct invoke_list post_invoke_hooks = { .head = NULL, .tail = &post_invoke_hooks.head };
+struct invoke_list status_loggers = { .head = NULL, .tail = &status_loggers.head };
 
 static void
 set_invoke_hook(const struct cmdinfo *cip, const char *value)
 {
-  struct invoke_hook ***hook_tail = cip->arg_ptr;
+  struct invoke_list *hook_list = cip->arg_ptr;
   struct invoke_hook *hook_new;
 
   hook_new = nfmalloc(sizeof(struct invoke_hook));
@@ -444,18 +441,18 @@ set_invoke_hook(const struct cmdinfo *cip, const char *value)
   hook_new->next = NULL;
 
   /* Add the new hook at the tail of the list to preserve the order. */
-  **hook_tail = hook_new;
-  *hook_tail = &hook_new->next;
+  *hook_list->tail = hook_new;
+  hook_list->tail = &hook_new->next;
 }
 
 static void
-run_invoke_hooks(const char *action, struct invoke_hook *hook_head)
+run_invoke_hooks(const char *action, struct invoke_list *hook_list)
 {
   struct invoke_hook *hook;
 
   setenv("DPKG_HOOK_ACTION", action, 1);
 
-  for (hook = hook_head; hook; hook = hook->next) {
+  for (hook = hook_list->head; hook; hook = hook->next) {
     int status;
 
     /* XXX: As an optimization, use exec instead if no shell metachar are
@@ -494,11 +491,11 @@ run_logger(struct invoke_hook *hook, const char *name)
 }
 
 static void
-run_status_loggers(struct invoke_hook *hook_head)
+run_status_loggers(struct invoke_list *hook_list)
 {
   struct invoke_hook *hook;
 
-  for (hook = hook_head; hook; hook = hook->next) {
+  for (hook = hook_list->head; hook; hook = hook->next) {
     int fd;
 
     fd = run_logger(hook, _("status logger"));
@@ -698,12 +695,12 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "command-fd",                   'c', act_commandfd,   commandfd     ),
 */
 
-  { "pre-invoke",        0,   1, NULL,          NULL,      set_invoke_hook, 0, &pre_invoke_hooks_tail },
-  { "post-invoke",       0,   1, NULL,          NULL,      set_invoke_hook, 0, &post_invoke_hooks_tail },
+  { "pre-invoke",        0,   1, NULL,          NULL,      set_invoke_hook, 0, &pre_invoke_hooks },
+  { "post-invoke",       0,   1, NULL,          NULL,      set_invoke_hook, 0, &post_invoke_hooks },
   { "path-exclude",      0,   1, NULL,          NULL,      set_filter,     0 },
   { "path-include",      0,   1, NULL,          NULL,      set_filter,     1 },
   { "verify-format",     0,   1, NULL,          NULL,      set_verify_format },
-  { "status-logger",     0,   1, NULL,          NULL,      set_invoke_hook, 0, &status_loggers_tail },
+  { "status-logger",     0,   1, NULL,          NULL,      set_invoke_hook, 0, &status_loggers },
   { "status-fd",         0,   1, NULL,          NULL,      set_pipe, 0 },
   { "log",               0,   1, NULL,          &log_file, NULL,    0 },
   { "pending",           'a', 0, &f_pending,    NULL,      NULL,    1 },
@@ -884,8 +881,8 @@ int main(int argc, const char *const *argv) {
     f_triggers = (cipaction->arg_int == act_triggers && *argv) ? -1 : 1;
 
   if (is_invoke_action(cipaction->arg_int)) {
-    run_invoke_hooks(cipaction->olong, pre_invoke_hooks);
-    run_status_loggers(status_loggers);
+    run_invoke_hooks(cipaction->olong, &pre_invoke_hooks);
+    run_status_loggers(&status_loggers);
   }
 
   filesdbinit();
@@ -893,7 +890,7 @@ int main(int argc, const char *const *argv) {
   ret = cipaction->action(argv);
 
   if (is_invoke_action(cipaction->arg_int))
-    run_invoke_hooks(cipaction->olong, post_invoke_hooks);
+    run_invoke_hooks(cipaction->olong, &post_invoke_hooks);
 
   dpkg_program_done();
 
