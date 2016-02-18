@@ -73,6 +73,10 @@ int tarobject(void *ctx, struct tar_entry *ti);
 int tarfileread(void *ud, char *buf, int len);
 void tar_deferred_extract(struct fileinlist *files, struct pkginfo *pkg);
 
+struct fileinlist *
+tar_filenamenode_queue_push(struct filenamenode_queue *queue,
+                            struct filenamenode *namenode);
+
 bool filesavespackage(struct fileinlist *, struct pkginfo *,
                       struct pkginfo *pkgbeinginstalled);
 

@@ -237,7 +237,7 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
 
     namenode = findnamenode(conffilenamebuf, 0);
     namenode->oldhash = NEWCONFFILEFLAG;
-    newconff = filenamenode_queue_push(newconffiles, namenode);
+    newconff = tar_filenamenode_queue_push(newconffiles, namenode);
 
     /*
      * Let's see if any packages have this file.
@@ -1137,7 +1137,7 @@ void process_archive(const char *filename) {
 	  debug(dbg_eachfile, "process_archive: old conff %s"
 		" is disappearing", namenode->name);
 	  namenode->flags |= fnnf_obs_conff;
-	  filenamenode_queue_push(&newconffiles, namenode);
+	  tar_filenamenode_queue_push(&newconffiles, namenode);
 	  addfiletolist(&tc, namenode);
 	}
 	continue;

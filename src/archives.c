@@ -113,6 +113,22 @@ tar_pool_release(void)
   }
 }
 
+struct fileinlist *
+tar_filenamenode_queue_push(struct filenamenode_queue *queue,
+                            struct filenamenode *namenode)
+{
+  struct fileinlist *node;
+
+  node = tar_pool_alloc(sizeof(*node));
+  node->namenode = namenode;
+  node->next = NULL;
+
+  *queue->tail = node;
+  queue->tail = &node->next;
+
+  return node;
+}
+
 /**
  * Check if a file or directory will save a package from disappearance.
  *
@@ -1647,20 +1663,4 @@ wanttoinstall(struct pkginfo *pkg)
       return false;
     }
   }
-}
-
-struct fileinlist *
-filenamenode_queue_push(struct filenamenode_queue *queue,
-                        struct filenamenode *namenode)
-{
-  struct fileinlist *node;
-
-  node = tar_pool_alloc(sizeof(*node));
-  node->next = NULL;
-  node->namenode = namenode;
-
-  *queue->tail = node;
-  queue->tail = &node->next;
-
-  return node;
 }
