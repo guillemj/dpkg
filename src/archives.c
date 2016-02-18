@@ -1655,7 +1655,7 @@ filenamenode_queue_push(struct filenamenode_queue *queue,
 {
   struct fileinlist *node;
 
-  node = m_malloc(sizeof(*node));
+  node = tar_pool_alloc(sizeof(*node));
   node->next = NULL;
   node->namenode = namenode;
 
