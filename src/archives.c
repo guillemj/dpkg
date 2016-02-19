@@ -604,8 +604,8 @@ struct fileinlist *addfiletolist(struct tarcontext *tc,
   nifd = tar_pool_alloc(sizeof(*nifd));
   nifd->namenode= namenode;
   nifd->next = NULL;
-  *tc->newfilesp = nifd;
-  tc->newfilesp = &nifd->next;
+  *tc->newfiles_queue->tail = nifd;
+  tc->newfiles_queue->tail = &nifd->next;
   return nifd;
 }
 
@@ -615,7 +615,7 @@ remove_file_from_list(struct tarcontext *tc, struct tar_entry *ti,
                       struct fileinlist *nifd)
 {
   tar_pool_free(nifd);
-  tc->newfilesp = oldnifd;
+  *tc->newfiles_queue->tail = *oldnifd;
   *oldnifd = NULL;
 }
 
@@ -693,7 +693,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   /* Append to list of files.
    * The trailing ‘/’ put on the end of names in tarfiles has already
    * been stripped by tar_extractor(). */
-  oldnifd= tc->newfilesp;
+  oldnifd = tc->newfiles_queue->tail;
   nifd= addfiletolist(tc, findnamenode(ti->name, 0));
   nifd->namenode->flags |= fnnf_new_inarchive;
 

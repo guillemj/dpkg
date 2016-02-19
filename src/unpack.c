@@ -524,9 +524,8 @@ void process_archive(const char *filename) {
   char *cidirrest;
   char *psize;
   const char *pfilename;
-  struct fileinlist *newfileslist;
   struct fileinlist *cfile;
-  struct filenamenode_queue newconffiles;
+  struct filenamenode_queue newconffiles, newfiles_queue;
   struct reversefilelistiter rlistit;
   struct conffile **iconffileslastp, *newiconff;
   struct dependency *dsearch, *newdeplist, **newdeplistlastp;
@@ -960,8 +959,9 @@ void process_archive(const char *filename) {
   close(p1[1]);
   p1[1] = -1;
 
-  newfileslist = NULL;
-  tc.newfilesp = &newfileslist;
+  newfiles_queue.head = NULL;
+  newfiles_queue.tail = &newfiles_queue.head;
+  tc.newfiles_queue = &newfiles_queue;
   push_cleanup(cu_fileslist, ~0, NULL, 0, 0);
   tc.pkg= pkg;
   tc.backendpipe= p1[0];
@@ -981,7 +981,7 @@ void process_archive(const char *filename) {
   p1[0] = -1;
   subproc_reap(pid, BACKEND " --fsys-tarfile", SUBPROC_NOPIPE);
 
-  tar_deferred_extract(newfileslist, pkg);
+  tar_deferred_extract(newfiles_queue.head, pkg);
 
   if (oldversionstatus == PKG_STAT_HALFINSTALLED ||
       oldversionstatus == PKG_STAT_UNPACKED) {
@@ -1079,7 +1079,7 @@ void process_archive(const char *filename) {
       debug(dbg_eachfile, "process_archive: checking %s for same files on "
 	    "upgrade/downgrade", fnamevb.buf);
 
-      for (cfile= newfileslist; cfile; cfile= cfile->next) {
+      for (cfile = newfiles_queue.head; cfile; cfile = cfile->next) {
 	/* If the file has been filtered then treat it as if it didn't exist
 	 * on the file system. */
 	if (cfile->namenode->flags & fnnf_filtered)
@@ -1158,7 +1158,7 @@ void process_archive(const char *filename) {
 
   /* OK, now we can write the updated files-in-this package list,
    * since we've done away (hopefully) with all the old junk. */
-  write_filelist_except(pkg, &pkg->available, newfileslist, 0);
+  write_filelist_except(pkg, &pkg->available, newfiles_queue.head, 0);
 
   /* Trigger interests may have changed.
    * Firstly we go through the old list of interests deleting them.
@@ -1178,7 +1178,7 @@ void process_archive(const char *filename) {
   pkg_infodb_update(pkg, cidir, cidirrest);
 
   /* We store now the checksums dynamically computed while unpacking. */
-  write_filehash_except(pkg, &pkg->available, newfileslist, 0);
+  write_filehash_except(pkg, &pkg->available, newfiles_queue.head, 0);
 
   /*
    * Update the status database.
@@ -1371,7 +1371,7 @@ void process_archive(const char *filename) {
    * had the version we overwrote. To prevent this we make
    * sure that we don't claim this package is OK until we
    * have claimed ‘ownership’ of all its files. */
-  for (cfile= newfileslist; cfile; cfile= cfile->next) {
+  for (cfile = newfiles_queue.head; cfile; cfile = cfile->next) {
     struct filepackages_iterator *iter;
     struct pkgset *divpkgset;
 
@@ -1444,7 +1444,7 @@ void process_archive(const char *filename) {
    * package as a conffile and don't appear at all in the new.
    * They stay recorded as obsolete conffiles and will eventually
    * (if not taken over by another package) be forgotten. */
-  for (cfile= newfileslist; cfile; cfile= cfile->next) {
+  for (cfile = newfiles_queue.head; cfile; cfile = cfile->next) {
     struct filenamenode *usenode;
 
     if (cfile->namenode->flags & fnnf_new_conff) continue;

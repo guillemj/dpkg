@@ -29,7 +29,8 @@
 struct tarcontext {
   int backendpipe;
   struct pkginfo *pkg;
-  struct fileinlist **newfilesp;
+  /** A queue of filenamenode that have been extracted anew. */
+  struct filenamenode_queue *newfiles_queue;
   /** Are all “Multi-arch: same” instances about to be in sync? */
   bool pkgset_getting_in_sync;
 };
