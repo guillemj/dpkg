@@ -1138,7 +1138,7 @@ void process_archive(const char *filename) {
 		" is disappearing", namenode->name);
 	  namenode->flags |= fnnf_obs_conff;
 	  tar_filenamenode_queue_push(&newconffiles, namenode);
-	  addfiletolist(&tc, namenode);
+	  tar_filenamenode_queue_push(&newfiles_queue, namenode);
 	}
 	continue;
       }

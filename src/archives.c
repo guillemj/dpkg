@@ -607,18 +607,6 @@ void setupfnamevbs(const char *filename) {
         fnamevb.buf, fnametmpvb.buf, fnamenewvb.buf);
 }
 
-struct fileinlist *addfiletolist(struct tarcontext *tc,
-				 struct filenamenode *namenode) {
-  struct fileinlist *nifd;
-
-  nifd = tar_pool_alloc(sizeof(*nifd));
-  nifd->namenode= namenode;
-  nifd->next = NULL;
-  *tc->newfiles_queue->tail = nifd;
-  tc->newfiles_queue->tail = &nifd->next;
-  return nifd;
-}
-
 static bool
 linktosameexistingdir(const struct tar_entry *ti, const char *fname,
                       struct varbuf *symlinkfn)
@@ -694,7 +682,8 @@ tarobject(void *ctx, struct tar_entry *ti)
    * The trailing ‘/’ put on the end of names in tarfiles has already
    * been stripped by tar_extractor(). */
   oldnifd = tc->newfiles_queue->tail;
-  nifd= addfiletolist(tc, findnamenode(ti->name, 0));
+  nifd = tar_filenamenode_queue_push(tc->newfiles_queue,
+                                     findnamenode(ti->name, 0));
   nifd->namenode->flags |= fnnf_new_inarchive;
 
   debug(dbg_eachfile,
