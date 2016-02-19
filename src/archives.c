@@ -129,6 +129,16 @@ tar_filenamenode_queue_push(struct filenamenode_queue *queue,
   return node;
 }
 
+static void
+tar_filenamenode_queue_pop(struct filenamenode_queue *queue,
+                           struct fileinlist **tail_prev,
+                           struct fileinlist *node)
+{
+  tar_pool_free(node);
+  *queue->tail = *tail_prev;
+  *tail_prev = NULL;
+}
+
 /**
  * Check if a file or directory will save a package from disappearance.
  *
@@ -609,16 +619,6 @@ struct fileinlist *addfiletolist(struct tarcontext *tc,
   return nifd;
 }
 
-static void
-remove_file_from_list(struct tarcontext *tc, struct tar_entry *ti,
-                      struct fileinlist **oldnifd,
-                      struct fileinlist *nifd)
-{
-  tar_pool_free(nifd);
-  *tc->newfiles_queue->tail = *oldnifd;
-  *oldnifd = NULL;
-}
-
 static bool
 linktosameexistingdir(const struct tar_entry *ti, const char *fname,
                       struct varbuf *symlinkfn)
@@ -937,7 +937,7 @@ tarobject(void *ctx, struct tar_entry *ti)
   if (keepexisting) {
     if (nifd->namenode->flags & fnnf_new_conff)
       nifd->namenode->flags |= fnnf_obs_conff;
-    remove_file_from_list(tc, ti, oldnifd, nifd);
+    tar_filenamenode_queue_pop(tc->newfiles_queue, oldnifd, nifd);
     tarobject_skip_entry(tc, ti);
     return 0;
   }
