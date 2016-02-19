@@ -401,7 +401,7 @@ prepare_dir_to_symlink()
 	find "$PATHNAME" -print0 | xargs -0 -n1 sh -c '
 		package="$1"
 		file="$2"
-		if ! dpkg-query -L "$package" | grep -q -x "$file"; then
+		if ! dpkg-query -L "$package" | grep -F -q -x "$file"; then
 			exit 1
 		fi
 		exit 0
@@ -481,7 +481,7 @@ ensure_package_owns_file() {
 	local PACKAGE="$1"
 	local FILE="$2"
 
-	if ! dpkg-query -L "$PACKAGE" | grep -q -x "$FILE"; then
+	if ! dpkg-query -L "$PACKAGE" | grep -F -q -x "$FILE"; then
 		debug "File '$FILE' not owned by package " \
 		      "'$PACKAGE', skipping $command"
 		return 1
