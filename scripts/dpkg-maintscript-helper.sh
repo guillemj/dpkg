@@ -88,8 +88,8 @@ prepare_rm_conffile() {
 	[ -e "$CONFFILE" ] || return 0
 	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
-	local md5sum="$(md5sum $CONFFILE | sed -e 's/ .*//')"
-	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' $PACKAGE | \
+	local md5sum="$(md5sum "$CONFFILE" | sed -e 's/ .*//')"
+	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
 		sed -n -e "\' $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
 	if [ "$md5sum" != "$old_md5sum" ]; then
 		mv -f "$CONFFILE" "$CONFFILE.dpkg-backup"
@@ -191,8 +191,8 @@ prepare_mv_conffile() {
 
 	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
-	local md5sum="$(md5sum $CONFFILE | sed -e 's/ .*//')"
-	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' $PACKAGE | \
+	local md5sum="$(md5sum "$CONFFILE" | sed -e 's/ .*//')"
+	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
 		sed -n -e "\' $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
 	if [ "$md5sum" = "$old_md5sum" ]; then
 		mv -f "$CONFFILE" "$CONFFILE.dpkg-remove"
@@ -204,7 +204,7 @@ finish_mv_conffile() {
 	local NEWCONFFILE="$2"
 	local PACKAGE="$3"
 
-	rm -f $OLDCONFFILE.dpkg-remove
+	rm -f "$OLDCONFFILE.dpkg-remove"
 
 	[ -e "$OLDCONFFILE" ] || return 0
 	ensure_package_owns_file "$PACKAGE" "$OLDCONFFILE" || return 0
@@ -372,8 +372,8 @@ dir_to_symlink() {
 		   [ \( ! -h "$PATHNAME" -a -d "$PATHNAME" -a \
 		        -f "$PATHNAME/.dpkg-staging-dir" \) -o \
 		     \( -h "$PATHNAME" -a \
-		        \( "$(readlink $PATHNAME)" = "$SYMLINK_TARGET" -o \
-		           "$(readlink -f $PATHNAME)" = "$SYMLINK_TARGET" \) \) ] &&
+		        \( "$(readlink "$PATHNAME")" = "$SYMLINK_TARGET" -o \
+		           "$(readlink -f "$PATHNAME")" = "$SYMLINK_TARGET" \) \) ] &&
 		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
 			abort_dir_to_symlink "$PATHNAME"
 		fi
@@ -494,8 +494,8 @@ symlink_match()
 	local SYMLINK="$1"
 	local SYMLINK_TARGET="$2"
 
-	[ "$(readlink $SYMLINK)" = "$SYMLINK_TARGET" ] || \
-	[ "$(readlink -f $SYMLINK)" = "$SYMLINK_TARGET" ]
+	[ "$(readlink "$SYMLINK")" = "$SYMLINK_TARGET" ] || \
+	[ "$(readlink -f "$SYMLINK")" = "$SYMLINK_TARGET" ]
 }
 
 debug() {
@@ -546,7 +546,7 @@ badusage() {
 # Main code
 set -e
 
-PROGNAME=$(basename $0)
+PROGNAME=$(basename "$0")
 version="unknown"
 command="$1"
 [ $# -gt 0 ] || badusage "missing command"
