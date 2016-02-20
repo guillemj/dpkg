@@ -198,6 +198,73 @@ get_control_dir(char *cidir)
 }
 
 static void
+pkg_check_depcon(struct pkginfo *pkg, const char *pfilename)
+{
+  struct dependency *dsearch;
+  struct deppossi *psearch;
+  struct pkginfo *fixbytrigaw;
+  static struct varbuf depprobwhy;
+
+  /* Check if anything is installed that we conflict with, or not installed
+   * that we need. */
+  pkg->clientdata->istobe = PKG_ISTOBE_INSTALLNEW;
+
+  for (dsearch = pkg->available.depends; dsearch; dsearch = dsearch->next) {
+    switch (dsearch->type) {
+    case dep_conflicts:
+      /* Look for things we conflict with. */
+      check_conflict(dsearch, pkg, pfilename);
+      break;
+    case dep_breaks:
+      /* Look for things we break. */
+      check_breaks(dsearch, pkg, pfilename);
+      break;
+    case dep_provides:
+      /* Look for things that conflict with what we provide. */
+      for (psearch = dsearch->list->ed->depended.installed;
+           psearch;
+           psearch = psearch->rev_next) {
+        if (psearch->up->type != dep_conflicts)
+          continue;
+        check_conflict(psearch->up, pkg, pfilename);
+      }
+      break;
+    case dep_suggests:
+    case dep_recommends:
+    case dep_depends:
+    case dep_replaces:
+    case dep_enhances:
+      /* Ignore these here. */
+      break;
+    case dep_predepends:
+      if (!depisok(dsearch, &depprobwhy, NULL, &fixbytrigaw, true)) {
+        if (fixbytrigaw) {
+          while (fixbytrigaw->trigaw.head)
+            trigproc(fixbytrigaw->trigaw.head->pend, TRIGPROC_REQUIRED);
+        } else {
+          varbuf_end_str(&depprobwhy);
+          notice(_("regarding %s containing %s, pre-dependency problem:\n%s"),
+                 pfilename, pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+                 depprobwhy.buf);
+          if (!force_depends(dsearch->list))
+            ohshit(_("pre-dependency problem - not installing %.250s"),
+                   pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
+          warning(_("ignoring pre-dependency problem!"));
+        }
+      }
+    }
+  }
+
+  /* Look for things that conflict with us. */
+  for (psearch = pkg->set->depended.installed; psearch; psearch = psearch->rev_next) {
+    if (psearch->up->type != dep_conflicts)
+      continue;
+
+    check_conflict(psearch->up, pkg, pfilename);
+  }
+}
+
+static void
 pkg_deconfigure_others(struct pkginfo *pkg)
 {
   struct pkg_deconf_list *deconpil;
@@ -999,7 +1066,6 @@ void process_archive(const char *filename) {
    * variables had better still exist ... */
   static int p1[2];
   static enum pkgstatus oldversionstatus;
-  static struct varbuf depprobwhy;
   static struct tarcontext tc;
 
   struct dpkg_error err;
@@ -1013,10 +1079,7 @@ void process_archive(const char *filename) {
   char *psize;
   const char *pfilename;
   struct filenamenode_queue newconffiles, newfiles_queue;
-  struct dependency *dsearch;
-  struct deppossi *psearch;
   struct stat stab;
-  struct pkginfo *fixbytrigaw;
 
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
 
@@ -1116,60 +1179,7 @@ void process_archive(const char *filename) {
       enqueue_deconfigure(otherpkg, NULL);
   }
 
-  /* Check if anything is installed that we conflict with, or not installed
-   * that we need. */
-  pkg->clientdata->istobe = PKG_ISTOBE_INSTALLNEW;
-
-  for (dsearch= pkg->available.depends; dsearch; dsearch= dsearch->next) {
-    switch (dsearch->type) {
-    case dep_conflicts:
-      /* Look for things we conflict with. */
-      check_conflict(dsearch, pkg, pfilename);
-      break;
-    case dep_breaks:
-      /* Look for things we break. */
-      check_breaks(dsearch, pkg, pfilename);
-      break;
-    case dep_provides:
-      /* Look for things that conflict with what we provide. */
-      for (psearch = dsearch->list->ed->depended.installed;
-           psearch;
-           psearch = psearch->rev_next) {
-        if (psearch->up->type != dep_conflicts)
-          continue;
-        check_conflict(psearch->up, pkg, pfilename);
-      }
-      break;
-    case dep_suggests:
-    case dep_recommends:
-    case dep_depends:
-    case dep_replaces:
-    case dep_enhances:
-      /* Ignore these here. */
-      break;
-    case dep_predepends:
-      if (!depisok(dsearch, &depprobwhy, NULL, &fixbytrigaw, true)) {
-        if (fixbytrigaw) {
-          while (fixbytrigaw->trigaw.head)
-            trigproc(fixbytrigaw->trigaw.head->pend, TRIGPROC_REQUIRED);
-        } else {
-          varbuf_end_str(&depprobwhy);
-          notice(_("regarding %s containing %s, pre-dependency problem:\n%s"),
-                 pfilename, pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
-                 depprobwhy.buf);
-          if (!force_depends(dsearch->list))
-            ohshit(_("pre-dependency problem - not installing %.250s"),
-                   pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
-          warning(_("ignoring pre-dependency problem!"));
-        }
-      }
-    }
-  }
-  /* Look for things that conflict with us. */
-  for (psearch = pkg->set->depended.installed; psearch; psearch = psearch->rev_next) {
-    if (psearch->up->type != dep_conflicts) continue;
-    check_conflict(psearch->up, pkg, pfilename);
-  }
+  pkg_check_depcon(pkg, pfilename);
 
   ensure_allinstfiles_available();
   filesdbinit();
