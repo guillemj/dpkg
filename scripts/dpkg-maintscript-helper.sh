@@ -90,7 +90,7 @@ prepare_rm_conffile() {
 
 	local md5sum="$(md5sum "$CONFFILE" | sed -e 's/ .*//')"
 	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
-		sed -n -e "\' $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
+		sed -n -e "\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
 	if [ "$md5sum" != "$old_md5sum" ]; then
 		mv -f "$CONFFILE" "$CONFFILE.dpkg-backup"
 	else
@@ -193,7 +193,7 @@ prepare_mv_conffile() {
 
 	local md5sum="$(md5sum "$CONFFILE" | sed -e 's/ .*//')"
 	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
-		sed -n -e "\' $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
+		sed -n -e "\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
 	if [ "$md5sum" = "$old_md5sum" ]; then
 		mv -f "$CONFFILE" "$CONFFILE.dpkg-remove"
 	fi
@@ -391,7 +391,7 @@ prepare_dir_to_symlink()
 
 	# If there are conffiles we should not perform the switch.
 	if dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
-	   grep -q "$PATHNAME/."; then
+	   grep -q "^ $PATHNAME/."; then
 		error "directory '$PATHNAME' contains conffiles," \
 		      "cannot switch to symlink"
 	fi
