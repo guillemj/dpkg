@@ -197,6 +197,58 @@ get_control_dir(char *cidir)
   return cidir;
 }
 
+static void
+pkg_deconfigure_others(struct pkginfo *pkg)
+{
+  struct pkg_deconf_list *deconpil;
+
+  for (deconpil = deconfigure; deconpil; deconpil = deconpil->next) {
+    struct pkginfo *removing = deconpil->pkg_removal;
+
+    if (removing)
+      printf(_("De-configuring %s (%s), to allow removal of %s (%s) ...\n"),
+             pkg_name(deconpil->pkg, pnaw_nonambig),
+             versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig),
+             pkg_name(removing, pnaw_nonambig),
+             versiondescribe(&removing->installed.version, vdew_nonambig));
+    else
+      printf(_("De-configuring %s (%s) ...\n"),
+             pkg_name(deconpil->pkg, pnaw_nonambig),
+             versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig));
+
+    trig_activate_packageprocessing(deconpil->pkg);
+    pkg_set_status(deconpil->pkg, PKG_STAT_HALFCONFIGURED);
+    modstatdb_note(deconpil->pkg);
+
+    /* This means that we *either* go and run postinst abort-deconfigure,
+     * *or* queue the package for later configure processing, depending
+     * on which error cleanup route gets taken. */
+    push_cleanup(cu_prermdeconfigure, ~ehflag_normaltidy,
+                 ok_prermdeconfigure, ehflag_normaltidy,
+                 3, (void *)deconpil->pkg, (void *)removing, (void *)pkg);
+
+    if (removing) {
+      maintscript_installed(deconpil->pkg, PRERMFILE, "pre-removal",
+                            "deconfigure", "in-favour",
+                            pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+                            versiondescribe(&pkg->available.version,
+                                            vdew_nonambig),
+                            "removing",
+                            pkg_name(removing, pnaw_nonambig),
+                            versiondescribe(&removing->installed.version,
+                                            vdew_nonambig),
+                            NULL);
+    } else {
+      maintscript_installed(deconpil->pkg, PRERMFILE, "pre-removal",
+                            "deconfigure", "in-favour",
+                            pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
+                            versiondescribe(&pkg->available.version,
+                                            vdew_nonambig),
+                            NULL);
+    }
+  }
+}
+
 /**
  * Read the conffiles, and copy the hashes across.
  */
@@ -964,7 +1016,6 @@ void process_archive(const char *filename) {
   struct dependency *dsearch;
   struct deppossi *psearch;
   struct stat stab;
-  struct pkg_deconf_list *deconpil;
   struct pkginfo *fixbytrigaw;
 
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
@@ -1191,51 +1242,7 @@ void process_archive(const char *filename) {
     modstatdb_note(pkg);
   }
 
-  for (deconpil= deconfigure; deconpil; deconpil= deconpil->next) {
-    struct pkginfo *removing = deconpil->pkg_removal;
-
-    if (removing)
-      printf(_("De-configuring %s (%s), to allow removal of %s (%s) ...\n"),
-             pkg_name(deconpil->pkg, pnaw_nonambig),
-             versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig),
-             pkg_name(removing, pnaw_nonambig),
-             versiondescribe(&removing->installed.version, vdew_nonambig));
-    else
-      printf(_("De-configuring %s (%s) ...\n"),
-             pkg_name(deconpil->pkg, pnaw_nonambig),
-             versiondescribe(&deconpil->pkg->installed.version, vdew_nonambig));
-
-    trig_activate_packageprocessing(deconpil->pkg);
-    pkg_set_status(deconpil->pkg, PKG_STAT_HALFCONFIGURED);
-    modstatdb_note(deconpil->pkg);
-
-    /* This means that we *either* go and run postinst abort-deconfigure,
-     * *or* queue the package for later configure processing, depending
-     * on which error cleanup route gets taken. */
-    push_cleanup(cu_prermdeconfigure, ~ehflag_normaltidy,
-                 ok_prermdeconfigure, ehflag_normaltidy,
-                 3, (void*)deconpil->pkg, (void*)removing, (void*)pkg);
-
-    if (removing) {
-      maintscript_installed(deconpil->pkg, PRERMFILE, "pre-removal",
-                            "deconfigure", "in-favour",
-                            pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
-                            versiondescribe(&pkg->available.version,
-                                            vdew_nonambig),
-                            "removing",
-                            pkg_name(removing, pnaw_nonambig),
-                            versiondescribe(&removing->installed.version,
-                                            vdew_nonambig),
-                            NULL);
-    } else {
-      maintscript_installed(deconpil->pkg, PRERMFILE, "pre-removal",
-                            "deconfigure", "in-favour",
-                            pkgbin_name(pkg, &pkg->available, pnaw_nonambig),
-                            versiondescribe(&pkg->available.version,
-                                            vdew_nonambig),
-                            NULL);
-    }
-  }
+  pkg_deconfigure_others(pkg);
 
   for (conflictor_iter = conflictors.head;
        conflictor_iter;
