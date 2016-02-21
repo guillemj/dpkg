@@ -54,13 +54,13 @@ rm_conffile() {
 	case "$DPKG_MAINTSCRIPT_NAME" in
 	preinst)
 		if [ "$1" = "install" -o "$1" = "upgrade" ] && [ -n "$2" ] &&
-		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
 			prepare_rm_conffile "$CONFFILE" "$PACKAGE"
 		fi
 		;;
 	postinst)
 		if [ "$1" = "configure" ] && [ -n "$2" ] &&
-		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
 			finish_rm_conffile "$CONFFILE"
 		fi
 		;;
@@ -71,7 +71,7 @@ rm_conffile() {
 		fi
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
 		   [ -n "$2" ] &&
-		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
 			abort_rm_conffile "$CONFFILE" "$PACKAGE"
 		fi
 		;;
@@ -160,20 +160,20 @@ mv_conffile() {
 	case "$DPKG_MAINTSCRIPT_NAME" in
 	preinst)
 		if [ "$1" = "install" -o "$1" = "upgrade" ] && [ -n "$2" ] &&
-		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
 			prepare_mv_conffile "$OLDCONFFILE" "$PACKAGE"
 		fi
 		;;
 	postinst)
 		if [ "$1" = "configure" ] && [ -n "$2" ] &&
-		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
 			finish_mv_conffile "$OLDCONFFILE" "$NEWCONFFILE" "$PACKAGE"
 		fi
 		;;
 	postrm)
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
 		   [ -n "$2" ] &&
-		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
 			abort_mv_conffile "$OLDCONFFILE" "$PACKAGE"
 		fi
 		;;
@@ -271,7 +271,7 @@ symlink_to_dir() {
 		if [ "$1" = "install" -o "$1" = "upgrade" ] &&
 		   [ -n "$2" ] && [ -h "$SYMLINK" ] &&
 		   symlink_match "$SYMLINK" "$SYMLINK_TARGET" &&
-		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
 			mv -f "$SYMLINK" "${SYMLINK}.dpkg-backup"
 		fi
 		;;
@@ -294,7 +294,7 @@ symlink_to_dir() {
 		   [ -n "$2" ] &&
 		   [ ! -e "$SYMLINK" ] && [ -h "${SYMLINK}.dpkg-backup" ] &&
 		   symlink_match "${SYMLINK}.dpkg-backup" "$SYMLINK_TARGET" &&
-		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
 			echo "Restoring backup of $SYMLINK ..."
 			mv "${SYMLINK}.dpkg-backup" "$SYMLINK"
 		fi
@@ -346,7 +346,7 @@ dir_to_symlink() {
 		if [ "$1" = "install" -o "$1" = "upgrade" ] &&
 		   [ -n "$2" ] &&
 		   [ ! -h "$PATHNAME" ] && [ -d "$PATHNAME" ] &&
-		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
 			prepare_dir_to_symlink "$PACKAGE" "$PATHNAME"
 		fi
 		;;
@@ -374,7 +374,7 @@ dir_to_symlink() {
 		     \( -h "$PATHNAME" -a \
 		        \( "$(readlink "$PATHNAME")" = "$SYMLINK_TARGET" -o \
 		           "$(readlink -f "$PATHNAME")" = "$SYMLINK_TARGET" \) \) ] &&
-		   dpkg --compare-versions "$2" le-nl "$LASTVERSION"; then
+		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
 			abort_dir_to_symlink "$PATHNAME"
 		fi
 		;;
