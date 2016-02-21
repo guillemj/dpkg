@@ -40,9 +40,9 @@ AC_DEFUN([DPKG_BUILD_DEVEL_DOCS], [
     [build_devel_docs=yes]
   )
   AS_IF([test "x$build_devel_docs" = "xyes"], [
-    AC_DEFINE([BUILD_DEVEL_DOCS], [YES], [Define to YES if building devel docs.])
+    AC_SUBST([BUILD_DEVEL_DOCS], [YES])
   ], [
-    AC_DEFINE([BUILD_DEVEL_DOCS], [NO])
+    AC_SUBST([BUILD_DEVEL_DOCS], [NO])
   ])
 ])# DPKG_BUILD_DOCS_MODE
 
