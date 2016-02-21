@@ -227,7 +227,8 @@ sub get_keys {
     foreach my $s_crit (keys %crit) { # search criteria
 	if (ref($crit{$s_crit}) eq 'Regexp') {
 	    @selected = grep {
-		$self->{items}{$_}{$s_crit} =~ $crit{$s_crit}
+		exists $self->{items}{$_}{$s_crit} and
+		       $self->{items}{$_}{$s_crit} =~ $crit{$s_crit}
 	    } @selected;
 	} elsif (ref($crit{$s_crit}) eq 'CODE') {
 	    @selected = grep {
@@ -235,7 +236,8 @@ sub get_keys {
 	    } @selected;
 	} else {
 	    @selected = grep {
-		$self->{items}{$_}{$s_crit} eq $crit{$s_crit}
+		exists $self->{items}{$_}{$s_crit} and
+		       $self->{items}{$_}{$s_crit} eq $crit{$s_crit}
 	    } @selected;
 	}
     }
