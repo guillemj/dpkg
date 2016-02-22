@@ -2153,6 +2153,11 @@ alternative_evolve_slave(struct alternative *a, const char *cur_choice,
 	char *new_file = NULL;
 	const char *old, *new;
 
+	if (!alternative_has_slave(a, sl->name)) {
+		sl->updated = true;
+		return;
+	}
+
 	old = alternative_get_slave(a, sl->name)->link;
 	new = sl->link;
 
@@ -2208,11 +2213,7 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 	/* Check if new slaves have been added, or existing
 	 * ones renamed. */
 	for (sl = b->slaves; sl; sl = sl->next) {
-		if (alternative_has_slave(a, sl->name))
-			alternative_evolve_slave(a, cur_choice, sl, fs);
-		else
-			sl->updated = true;
-
+		alternative_evolve_slave(a, cur_choice, sl, fs);
 		alternative_copy_slave(a, sl);
 	}
 }
