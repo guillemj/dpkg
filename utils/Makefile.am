@@ -25,6 +25,7 @@ update_alternatives_SOURCES = \
 	update-alternatives.c
 
 update_alternatives_CPPFLAGS = \
+	-DALT_TMP_EXT=\".dpkg-tmp\" \
 	-DADMINDIR_ENVVAR=\"DPKG_ADMINDIR\" \
 	$(AM_CPPFLAGS)
 

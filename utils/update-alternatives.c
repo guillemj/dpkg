@@ -63,8 +63,6 @@ static int opt_skip_auto = 0;
 static int opt_verbose = 0;
 static int opt_force = 0;
 
-#define ALT_TMP_EXT ".dpkg-tmp"
-
 /*
  * Functions.
  */
