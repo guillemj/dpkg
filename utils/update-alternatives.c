@@ -352,11 +352,13 @@ set_action(const char *new_action)
 static const char *
 admindir_init(void)
 {
-	const char *basedir, *dpkg_basedir;
+	const char *basedir, *basedir_env;
 
-	dpkg_basedir = getenv("DPKG_ADMINDIR");
-	if (dpkg_basedir)
-		basedir = dpkg_basedir;
+	/* Try to get the admindir from an environment variable, usually set
+	 * by the system package manager. */
+	basedir_env = getenv(ADMINDIR_ENVVAR);
+	if (basedir_env)
+		basedir = basedir_env;
 	else
 		basedir = ADMINDIR;
 

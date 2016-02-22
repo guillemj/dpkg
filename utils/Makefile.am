@@ -24,6 +24,10 @@ endif
 update_alternatives_SOURCES = \
 	update-alternatives.c
 
+update_alternatives_CPPFLAGS = \
+	-DADMINDIR_ENVVAR=\"DPKG_ADMINDIR\" \
+	$(AM_CPPFLAGS)
+
 update_alternatives_LDADD = \
 	../lib/compat/libcompat.la \
 	$(LIBINTL) \
