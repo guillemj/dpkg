@@ -1135,8 +1135,8 @@ alternative_parse_slave(struct alternative *a, struct altdb_context *ctx)
 		free(name);
 		return false;
 	}
-	if (alternative_has_slave(a, name)) {
-		sl = alternative_get_slave(a, name);
+	sl = alternative_get_slave(a, name);
+	if (sl) {
 		free(name);
 		ctx->bad_format(ctx, _("duplicate slave name %s"), sl->name);
 	}
@@ -2149,16 +2149,18 @@ static void
 alternative_evolve_slave(struct alternative *a, const char *cur_choice,
                          struct slave_link *sl, struct fileset *fs)
 {
+	struct slave_link *sl_old;
 	struct stat st;
 	char *new_file = NULL;
 	const char *old, *new;
 
-	if (!alternative_has_slave(a, sl->name)) {
+	sl_old = alternative_get_slave(a, sl->name);
+	if (sl_old == NULL) {
 		sl->updated = true;
 		return;
 	}
 
-	old = alternative_get_slave(a, sl->name)->link;
+	old = sl_old->link;
 	new = sl->link;
 
 	if (cur_choice && strcmp(cur_choice, fs->master_file) == 0) {
