@@ -43,6 +43,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
+#include <dpkg/treewalk.h>
 #include <dpkg/varbuf.h>
 #include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
@@ -58,7 +59,6 @@
  */
 struct file_info {
   struct file_info *next;
-  struct stat st;
   char *fn;
 };
 
@@ -91,43 +91,6 @@ file_info_find_name(struct file_info *list, const char *filename)
       return node;
 
   return NULL;
-}
-
-/**
- * Read a filename from the file descriptor and create a file_info struct.
- *
- * @return A file_info struct or NULL if there is nothing to read.
- */
-static struct file_info *
-file_info_get(const char *root, int fd)
-{
-  static struct varbuf fn = VARBUF_INIT;
-  struct file_info *fi;
-  size_t root_len;
-
-  varbuf_reset(&fn);
-  root_len = varbuf_printf(&fn, "%s/", root);
-
-  while (1) {
-    int res;
-
-    varbuf_grow(&fn, 1);
-    res = fd_read(fd, (fn.buf + fn.used), 1);
-    if (res < 0)
-      return NULL;
-    if (res == 0) /* EOF -> parent died. */
-      return NULL;
-    if (fn.buf[fn.used] == '\0')
-      break;
-
-    varbuf_trunc(&fn, fn.used + 1);
-  }
-
-  fi = file_info_new(fn.buf + root_len);
-  if (lstat(fn.buf, &(fi->st)) != 0)
-    ohshite(_("unable to stat file name '%.250s'"), fn.buf);
-
-  return fi;
 }
 
 /**
@@ -168,46 +131,39 @@ file_info_list_free(struct file_info *fi)
 static void
 file_treewalk_feed(const char *dir, int fd_out)
 {
-  int pipefd[2];
-  pid_t pid;
+  struct treeroot *tree;
+  struct treenode *node;
   struct file_info *fi;
   struct file_info *symlist = NULL;
   struct file_info *symlist_end = NULL;
 
-  m_pipe(pipefd);
+  tree = treewalk_open(dir, TREEWALK_NONE, NULL);
+  for (node = treewalk_node(tree); node ; node = treewalk_next(tree)) {
+    const char *virtname = treenode_get_virtname(node);
+    char *nodename;
 
-  pid = subproc_fork();
-  if (pid == 0) {
-    m_dup2(pipefd[1], 1);
-    close(pipefd[0]);
-    close(pipefd[1]);
+    if (strncmp(virtname, BUILDCONTROLDIR, strlen(BUILDCONTROLDIR)) == 0)
+      continue;
 
-    if (chdir(dir))
-      ohshite(_("failed to chdir to '%.255s'"), dir);
+    nodename = str_fmt("./%s", virtname);
 
-    execlp(FIND, "find", ".", "-path", "./" BUILDCONTROLDIR, "-prune", "-o",
-           "-print0", NULL);
-    ohshite(_("unable to execute %s (%s)"), "find", FIND);
-  }
-  close(pipefd[1]);
+    if (strchr(nodename, '\n'))
+      ohshit(_("newline not allowed in pathname '%s'"), nodename);
 
-  /* We need to reorder the files so we can make sure that symlinks
-   * will not appear before their target. */
-  while ((fi = file_info_get(dir, pipefd[0])) != NULL) {
-    if (strchr(fi->fn, '\n'))
-      ohshit(_("newline not allowed in pathname '%s'"), fi->fn);
-    if (S_ISLNK(fi->st.st_mode)) {
+    /* We need to reorder the files so we can make sure that symlinks
+     * will not appear before their target. */
+    if (S_ISLNK(treenode_get_mode(node))) {
+      fi = file_info_new(nodename);
       file_info_list_append(&symlist, &symlist_end, fi);
     } else {
-      if (fd_write(fd_out, fi->fn, strlen(fi->fn) + 1) < 0)
+      if (fd_write(fd_out, nodename, strlen(nodename) + 1) < 0)
         ohshite(_("failed to write filename to tar pipe (%s)"),
                 _("data member"));
-      file_info_free(fi);
     }
-  }
 
-  close(pipefd[0]);
-  subproc_reap(pid, "find", 0);
+    free(nodename);
+  }
+  treewalk_close(tree);
 
   for (fi = symlist; fi; fi = fi->next)
     if (fd_write(fd_out, fi->fn, strlen(fi->fn) + 1) < 0)
