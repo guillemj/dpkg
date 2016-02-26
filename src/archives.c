@@ -52,6 +52,7 @@
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
 #include <dpkg/file.h>
+#include <dpkg/treewalk.h>
 #include <dpkg/tarfn.h>
 #include <dpkg/options.h>
 #include <dpkg/triglib.h>
@@ -1457,64 +1458,41 @@ archivefiles(const char *const *argv)
   log_message("startup archives %s", cipaction->olong);
 
   if (f_recursive) {
-    int pi[2], nfiles, c, rc;
-    pid_t pid;
-    FILE *pf;
-    static struct varbuf findoutput;
-    const char **arglist;
-    char *p;
+    const char **arglist = NULL;
+    const char *const *ap;
+    int nfiles = 0;
 
     if (!*argv)
       badusage(_("--%s --recursive needs at least one path argument"),cipaction->olong);
 
-    m_pipe(pi);
-    pid = subproc_fork();
-    if (pid == 0) {
-      struct command cmd;
-      const char *const *ap;
+    for (ap = argv; *ap; ap++) {
+      struct treeroot *tree;
+      struct treenode *node;
 
-      m_dup2(pi[1],1); close(pi[0]); close(pi[1]);
+      tree = treewalk_open((const char *)*ap, TREEWALK_FOLLOW_LINKS, NULL);
 
-      command_init(&cmd, FIND, _("find for dpkg --recursive"));
-      command_add_args(&cmd, FIND, "-L", NULL);
+      while ((node = treewalk_next(tree))) {
+        const char *nodename;
 
-      for (ap = argv; *ap; ap++) {
-        if (strchr(FIND_EXPRSTARTCHARS,(*ap)[0])) {
-          command_add_arg(&cmd, str_fmt("./%s", *ap));
-        } else {
-          command_add_arg(&cmd, (const char *)*ap);
-        }
+        if (!S_ISREG(treenode_get_mode(node)))
+          continue;
+
+        /* Check if it looks like a .deb file. */
+        nodename = treenode_get_pathname(node);
+        if (strcmp(nodename + strlen(nodename) - 4, ".deb") != 0)
+          continue;
+
+        arglist = m_realloc(arglist, sizeof(char *) * (nfiles + 1));
+        arglist[nfiles++] = strdup(nodename);
       }
 
-      command_add_args(&cmd, "-name", "*.deb", "-type", "f", "-print0", NULL);
-
-      command_exec(&cmd);
+      treewalk_close(tree);
     }
-    close(pi[1]);
-
-    nfiles= 0;
-    pf= fdopen(pi[0],"r");  if (!pf) ohshite(_("failed to fdopen find's pipe"));
-    varbuf_reset(&findoutput);
-    while ((c= fgetc(pf)) != EOF) {
-      varbuf_add_char(&findoutput, c);
-      if (!c) nfiles++;
-    }
-    if (ferror(pf)) ohshite(_("error reading find's pipe"));
-    if (fclose(pf)) ohshite(_("error closing find's pipe"));
-    rc = subproc_reap(pid, "find", SUBPROC_RETERROR);
-    if (rc != 0)
-      ohshit(_("find for --recursive returned unhandled error %i"), rc);
 
     if (!nfiles)
       ohshit(_("searched, but found no packages (files matching *.deb)"));
 
-    arglist= m_malloc(sizeof(char*)*(nfiles+1));
-    p = findoutput.buf;
-    for (i = 0; i < nfiles; i++) {
-      arglist[i] = p;
-      while (*p++ != '\0') ;
-    }
-    arglist[i] = NULL;
+    arglist[nfiles] = NULL;
     argp= arglist;
   } else {
     if (!*argv) badusage(_("--%s needs at least one package archive file argument"),

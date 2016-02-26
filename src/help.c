@@ -85,7 +85,7 @@ void checkpath(void) {
     DEFAULTSHELL,
     RM,
     TAR,
-    FIND,
+    DIFF,
     BACKEND,
     /* Mac OS X uses dyld (Mach-O) instead of ld.so (ELF), and does not have
      * an ldconfig. */

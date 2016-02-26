@@ -108,10 +108,7 @@ DPKG_BEGIN_DECLS
 
 #define RM		"rm"
 #define CAT		"cat"
-#define FIND		"find"
 #define DIFF		"diff"
-
-#define FIND_EXPRSTARTCHARS "-(),!"
 
 #include <dpkg/progname.h>
 #include <dpkg/ehandle.h>
