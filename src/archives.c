@@ -75,27 +75,41 @@ fd_writeback_init(int fd)
 #endif
 }
 
-static struct obstack tar_obs;
-static bool tarobs_init = false;
+static struct obstack tar_pool;
+static bool tar_pool_init = false;
 
 /**
- * Ensure the obstack is properly initialized.
+ * Allocate memory from the tar memory pool.
  */
-static void ensureobstackinit(void) {
-
-  if (!tarobs_init) {
-    obstack_init(&tar_obs);
-    tarobs_init = true;
+static void *
+tar_pool_alloc(size_t size)
+{
+  if (!tar_pool_init) {
+    obstack_init(&tar_pool);
+    tar_pool_init = true;
   }
+
+  return obstack_alloc(&tar_pool, size);
 }
 
 /**
- * Destroy the obstack.
+ * Free memory from the tar memory pool.
  */
-static void destroyobstack(void) {
-  if (tarobs_init) {
-    obstack_free(&tar_obs, NULL);
-    tarobs_init = false;
+static void
+tar_pool_free(void *ptr)
+{
+  obstack_free(&tar_pool, ptr);
+}
+
+/**
+ * Release the tar memory pool.
+ */
+static void
+tar_pool_release(void)
+{
+  if (tar_pool_init) {
+    obstack_free(&tar_pool, NULL);
+    tar_pool_init = false;
   }
 }
 
@@ -571,7 +585,7 @@ struct fileinlist *addfiletolist(struct tarcontext *tc,
 				 struct filenamenode *namenode) {
   struct fileinlist *nifd;
 
-  nifd= obstack_alloc(&tar_obs, sizeof(struct fileinlist));
+  nifd = tar_pool_alloc(sizeof(*nifd));
   nifd->namenode= namenode;
   nifd->next = NULL;
   *tc->newfilesp = nifd;
@@ -584,7 +598,7 @@ remove_file_from_list(struct tarcontext *tc, struct tar_entry *ti,
                       struct fileinlist **oldnifd,
                       struct fileinlist *nifd)
 {
-  obstack_free(&tar_obs, nifd);
+  tar_pool_free(nifd);
   tc->newfilesp = oldnifd;
   *oldnifd = NULL;
 }
@@ -653,8 +667,6 @@ tarobject(void *ctx, struct tar_entry *ti)
   struct fileinlist *nifd, **oldnifd;
   struct pkgset *divpkgset;
   struct pkginfo *otherpkg;
-
-  ensureobstackinit();
 
   tar_entry_update_from_system(ti);
 
@@ -1410,7 +1422,7 @@ void cu_cidir(int argc, void **argv) {
 }
 
 void cu_fileslist(int argc, void **argv) {
-  destroyobstack();
+  tar_pool_release();
 }
 
 int
