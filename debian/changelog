@@ -35,6 +35,9 @@ dpkg (1.18.5) UNRELEASED; urgency=medium
     Thanks to Carsten Hey <carsten@debian.org>.
   * Allow broken versions starting with a dash in dpkg-maintscript-helper.
     Thanks to Carsten Hey <carsten@debian.org>.
+  * Add a new treewalk module in libdpkg, with the nice properties of avoiding
+    duplicate stat(2) calls, not calling find(1), and sorting the output w/o
+    stalling on the entire input being slurped and sorted.
   * Portability:
     - Move DPKG_ADMINDIR environment variable name out from update-alternatives
       code, to make life easier for non-dpkg-based systems.

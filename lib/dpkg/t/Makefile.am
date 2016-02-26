@@ -41,11 +41,13 @@ test_programs = \
 
 test_scripts = \
 	t-tar.t \
+	t-tree.t \
 	$(nil)
 
 check_PROGRAMS = \
 	$(test_programs) \
 	t-tarextract \
+	t-treewalk \
 	$(nil)
 
 test_tmpdir = t.tmp
