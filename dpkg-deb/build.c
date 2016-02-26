@@ -54,6 +54,25 @@
 
 #include "dpkg-deb.h"
 
+static void
+control_treewalk_feed(const char *dir, int fd_out)
+{
+  struct treeroot *tree;
+  struct treenode *node;
+
+  tree = treewalk_open(dir, TREEWALK_NONE, NULL);
+  for (node = treewalk_node(tree); node; node = treewalk_next(tree)) {
+    char *nodename;
+
+    nodename = str_fmt("./%s", treenode_get_virtname(node));
+    if (fd_write(fd_out, nodename, strlen(nodename) + 1) < 0)
+      ohshite(_("failed to write filename to tar pipe (%s)"),
+              _("control member"));
+    free(nodename);
+  }
+  treewalk_close(tree);
+}
+
 /**
  * Simple structure to store information about a file.
  */
@@ -465,8 +484,7 @@ do_build(const char *const *argv)
   char *debar;
   char *tfbuf;
   int arfd;
-  int p1[2], gzfd;
-  pid_t c1, c2;
+  int gzfd;
 
   /* Decode our arguments. */
   dir = *argv++;
@@ -502,19 +520,7 @@ do_build(const char *const *argv)
   arfd = creat(debar, 0644);
   if (arfd < 0)
     ohshite(_("unable to create '%.255s'"), debar);
-  /* Fork a tar to package the control-section of the package. */
   unsetenv("TAR_OPTIONS");
-  m_pipe(p1);
-  c1 = subproc_fork();
-  if (!c1) {
-    m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
-    if (chdir(ctrldir))
-      ohshite(_("failed to chdir to '%.255s'"), ctrldir);
-    execlp(TAR, "tar", "-cf", "-", "--format=gnu", ".", NULL);
-    ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
-  }
-  close(p1[1]);
-  free(ctrldir);
 
   /* Create a temporary file to store the control data in. Immediately
    * unlink our temporary file so others can't mess with it. */
@@ -528,7 +534,7 @@ do_build(const char *const *argv)
            tfbuf);
   free(tfbuf);
 
-  /* And run the compressor on our control archive. */
+  /* Select the compressor to use for our control archive. */
   if (opt_uniform_compression) {
     control_compress_params = compress_params;
   } else {
@@ -539,14 +545,10 @@ do_build(const char *const *argv)
       internerr("invalid control member compressor params: %s", err.str);
   }
 
-  c2 = subproc_fork();
-  if (!c2) {
-    compress_filter(&control_compress_params, p1[0], gzfd, _("compressing control member"));
-    exit(0);
-  }
-  close(p1[0]);
-  subproc_reap(c2, _("<compress> from tar -cf"), 0);
-  subproc_reap(c1, "tar -cf", 0);
+  /* Fork a tar to package the control-section of the package. */
+  tarball_pack(ctrldir, control_treewalk_feed, &control_compress_params, gzfd);
+
+  free(ctrldir);
 
   if (lseek(gzfd, 0, SEEK_SET))
     ohshite(_("failed to rewind temporary file (%s)"), _("control member"));
