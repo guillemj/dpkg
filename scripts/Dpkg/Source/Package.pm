@@ -609,12 +609,12 @@ sub write_dsc {
     }
 
     unless ($opts{nocheck}) {
-        foreach my $f (qw(Source Version)) {
+        foreach my $f (qw(Source Version Architecture)) {
             unless (defined($fields->{$f})) {
                 error(g_('missing information for critical output field %s'), $f);
             }
         }
-        foreach my $f (qw(Maintainer Architecture Standards-Version)) {
+        foreach my $f (qw(Maintainer Standards-Version)) {
             unless (defined($fields->{$f})) {
                 warning(g_('missing information for output field %s'), $f);
             }

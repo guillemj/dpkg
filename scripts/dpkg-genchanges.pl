@@ -310,7 +310,7 @@ if (build_has(BUILD_BINARY)) {
 # Scan control info of all binary packages
 foreach my $pkg ($control->get_packages()) {
     my $p = $pkg->{'Package'};
-    my $a = $pkg->{'Architecture'} // '';
+    my $a = $pkg->{'Architecture'};
     my $bp = $pkg->{'Build-Profiles'};
     my $d = $pkg->{'Description'} || 'no description available';
     $d = $1 if $d =~ /^(.*)\n/;

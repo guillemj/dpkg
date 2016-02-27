@@ -325,6 +325,9 @@ check_control_file(const char *ctrldir)
   if (strspn(pkg->set->name, "abcdefghijklmnopqrstuvwxyz0123456789+-.") !=
       strlen(pkg->set->name))
     ohshit(_("package name has characters that aren't lowercase alphanums or '-+.'"));
+  if (pkg->available.arch->type == DPKG_ARCH_NONE ||
+      pkg->available.arch->type == DPKG_ARCH_EMPTY)
+    ohshit(_("package architecture is missing or empty"));
   if (pkg->priority == PKG_PRIO_OTHER)
     warning(_("'%s' contains user-defined Priority value '%s'"),
             controlfile, pkg->otherpriority);
@@ -405,17 +408,9 @@ gen_dest_pathname(const char *dir, const char *dest)
 static char *
 gen_dest_pathname_from_pkg(const char *dir, struct pkginfo *pkg)
 {
-  const char *arch_sep;
-
-  if (pkg->available.arch->type == DPKG_ARCH_NONE ||
-      pkg->available.arch->type == DPKG_ARCH_EMPTY)
-    arch_sep = "";
-  else
-    arch_sep = "_";
-
-  return str_fmt("%s/%s_%s%s%s%s", dir, pkg->set->name,
+  return str_fmt("%s/%s_%s_%s%s", dir, pkg->set->name,
                  versiondescribe(&pkg->available.version, vdew_never),
-                 arch_sep, pkg->available.arch->name, DEBEXT);
+                 pkg->available.arch->name, DEBEXT);
 }
 
 typedef void filenames_feed_func(const char *dir, int fd_out);

@@ -305,11 +305,11 @@ foreach my $field (field_list_pkg_dep()) {
 
 $fields->{'Built-For-Profiles'} = join ' ', get_build_profiles();
 
-for my $f (qw(Package Version)) {
+for my $f (qw(Package Version Architecture)) {
     error(g_('missing information for output field %s'), $f)
         unless defined $fields->{$f};
 }
-for my $f (qw(Maintainer Description Architecture)) {
+for my $f (qw(Maintainer Description)) {
     warning(g_('missing information for output field %s'), $f)
         unless defined $fields->{$f};
 }
@@ -374,7 +374,7 @@ for my $f (keys %remove) {
 my $sversion = $fields->{'Version'};
 $sversion =~ s/^\d+://;
 $forcefilename //= sprintf('%s_%s_%s.%s', $fields->{'Package'}, $sversion,
-                           $fields->{'Architecture'} || '', $pkg_type);
+                           $fields->{'Architecture'}, $pkg_type);
 $forcefilename = $substvars->substvars($forcefilename);
 my $section = $substvars->substvars($fields->{'Section'} || '-');
 my $priority = $substvars->substvars($fields->{'Priority'} || '-');
@@ -396,7 +396,7 @@ foreach my $file ($dist->get_files()) {
     if (defined $file->{package} &&
         ($file->{package} eq $fields->{'Package'}) &&
         ($file->{package_type} eq $pkg_type) &&
-        (debarch_eq($file->{arch}, $fields->{'Architecture'} || '') ||
+        (debarch_eq($file->{arch}, $fields->{'Architecture'}) ||
          debarch_eq($file->{arch}, 'all'))) {
         $dist->del_file($file->{filename});
     }
