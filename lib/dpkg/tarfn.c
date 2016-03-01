@@ -66,7 +66,7 @@ struct tar_header {
  * Convert an ASCII octal string to an intmax_t.
  */
 static intmax_t
-OtoM(const char *s, int size)
+tar_oct2int(const char *s, int size)
 {
 	intmax_t n = 0;
 
@@ -82,14 +82,14 @@ OtoM(const char *s, int size)
 }
 
 static char *
-get_prefix_name(struct tar_header *h)
+tar_header_get_prefix_name(struct tar_header *h)
 {
 	return str_fmt("%.*s/%.*s", (int)sizeof(h->prefix), h->prefix,
 	               (int)sizeof(h->name), h->name);
 }
 
 static mode_t
-get_unix_mode(struct tar_header *h)
+tar_header_get_unix_mode(struct tar_header *h)
 {
 	mode_t mode;
 	enum tar_filetype type;
@@ -122,7 +122,7 @@ get_unix_mode(struct tar_header *h)
 		break;
 	}
 
-	mode |= OtoM(h->mode, sizeof(h->mode));
+	mode |= tar_oct2int(h->mode, sizeof(h->mode));
 
 	return mode;
 }
@@ -168,29 +168,29 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 
 	/* Concatenate prefix and name to support ustar style long names. */
 	if (d->format == TAR_FORMAT_USTAR && h->prefix[0] != '\0')
-		d->name = get_prefix_name(h);
+		d->name = tar_header_get_prefix_name(h);
 	else
 		d->name = m_strndup(h->name, sizeof(h->name));
 	d->linkname = m_strndup(h->linkname, sizeof(h->linkname));
-	d->stat.mode = get_unix_mode(h);
-	d->size = (off_t)OtoM(h->size, sizeof(h->size));
-	d->mtime = (time_t)OtoM(h->mtime, sizeof(h->mtime));
-	d->dev = makedev(OtoM(h->devmajor, sizeof(h->devmajor)),
-			 OtoM(h->devminor, sizeof(h->devminor)));
+	d->stat.mode = tar_header_get_unix_mode(h);
+	d->size = (off_t)tar_oct2int(h->size, sizeof(h->size));
+	d->mtime = (time_t)tar_oct2int(h->mtime, sizeof(h->mtime));
+	d->dev = makedev(tar_oct2int(h->devmajor, sizeof(h->devmajor)),
+			 tar_oct2int(h->devminor, sizeof(h->devminor)));
 
 	if (*h->user)
 		d->stat.uname = m_strndup(h->user, sizeof(h->user));
 	else
 		d->stat.uname = NULL;
-	d->stat.uid = (uid_t)OtoM(h->uid, sizeof(h->uid));
+	d->stat.uid = (uid_t)tar_oct2int(h->uid, sizeof(h->uid));
 
 	if (*h->group)
 		d->stat.gname = m_strndup(h->group, sizeof(h->group));
 	else
 		d->stat.gname = NULL;
-	d->stat.gid = (gid_t)OtoM(h->gid, sizeof(h->gid));
+	d->stat.gid = (gid_t)tar_oct2int(h->gid, sizeof(h->gid));
 
-	checksum = OtoM(h->checksum, sizeof(h->checksum));
+	checksum = tar_oct2int(h->checksum, sizeof(h->checksum));
 
 	return tar_header_checksum(h) == checksum;
 }
