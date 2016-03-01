@@ -32,6 +32,8 @@
 #if HAVE_LOCALE_H
 #include <locale.h>
 #endif
+#include <errno.h>
+#include <limits.h>
 #include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
@@ -63,14 +65,17 @@ static int opt_loadavail = 0;
 
 static int getwidth(void) {
   int fd;
-  int res;
+  long res;
   struct winsize ws;
   const char *columns;
+  char *endptr;
 
   columns = getenv("COLUMNS");
   if (columns) {
-    res = atoi(columns);
-    if (res > 0)
+    errno = 0;
+    res = strtol(columns, &endptr, 10);
+    if (errno != 0 && columns != endptr && *endptr == '\0' &&
+        res > 0 && res < INT_MAX)
       return res;
   }
 
