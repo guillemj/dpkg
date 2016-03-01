@@ -1,10 +1,10 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * trigdeferred.l - parsing of triggers/Deferred
+ * trigdeferred.c - parsing of triggers/Deferred
  *
  * Copyright © 2007 Canonical Ltd
  * written by Ian Jackson <ijackson@chiark.greenend.org.uk>
- * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2016 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,77 +20,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-%option prefix="trigdef_yy"
-/* Reset the name to the default value (instead of using "trigdeferred.c")
- * so that automake (ylwrap) can find it. */
-%option outfile="lex.yy.c"
-%option noyywrap
-%option batch
-%option nodefault
-%option perf-report
-%option warn
-%option noinput
-%option nounput
-
-%x midline
-
-%top {
 #include <config.h>
 #include <compat.h>
-}
 
-%{
 #include <sys/stat.h>
 
+#include <errno.h>
 #include <fcntl.h>
+#include <limits.h>
+#include <stdlib.h>
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/file.h>
 #include <dpkg/dir.h>
 #include <dpkg/trigdeferred.h>
 #include <dpkg/triglib.h>
 
-#define YY_DECL int trigdef_parse(void)
-
 static struct varbuf fn, newfn;
 
 static const struct trigdefmeths *trigdef;
-
-%}
-
-%%
-
-[ \t\n]		/* whitespace */
-#.*\n		/* comments */
-[\x21-\x7e]+	{
-	trigdef->trig_begin(trigdef_yytext);
-	BEGIN(midline);
-	}
-
-<midline>[ \t]	/* whitespace */
-<midline>[-0-9a-z][-:+.0-9a-z]*	{
-	if (trigdef_yytext[0] == '-' && trigdef_yytext[1])
-		ohshit(_("invalid package name '%.250s' in triggers deferred "
-		         "file '%.250s'"), trigdef_yytext, fn.buf);
-	trigdef->package(trigdef_yytext);
-	}
-<midline>\n|#.*\n	{
-	trigdef->trig_end();
-	BEGIN(0);
-	}
-<midline><<EOF>>	{
-	ohshit(_("truncated triggers deferred file '%.250s'"), fn.buf);
-	}
-
-<*>.	{
-	ohshit(_("syntax error in triggers deferred file '%.250s' at "
-	         "character '%s'%s"),
-	       fn.buf, yytext, YY_START == midline ? " midline": "");
-	}
-
-%%
 
 /*---------- Deferred file handling ----------*/
 
@@ -188,9 +139,6 @@ trigdef_update_start(enum trigdef_update_flags uf)
 	if (!old_deferred)
 		return TDUS_NO_DEFERRED;
 
-	trigdef_yyrestart(old_deferred);
-	BEGIN(0);
-
 	return TDUS_OK;
 }
 
@@ -208,6 +156,93 @@ trigdef_update_printf(const char *format, ...)
 	va_start(ap, format);
 	vfprintf(trig_new_deferred, format, ap);
 	va_end(ap);
+}
+
+static void
+trigdef_parse_error(int line_num, const char *line, const char *ptr)
+{
+	ohshit(_("syntax error in triggers deferred file '%.250s' at "
+	         "line %d character %zd '%s'"),
+	       fn.buf, line_num, ptr - line + 1, ptr);
+}
+
+/* Trim leading space. */
+static char *
+trigdef_skip_whitespace(char *ptr)
+{
+	while (*ptr) {
+		if (!c_iswhite(*ptr))
+			break;
+		ptr++;
+	}
+
+	return ptr;
+}
+
+int
+trigdef_parse(void)
+{
+	char line[_POSIX2_LINE_MAX];
+	char *ptr, *ptr_ini;
+	int line_num = 0;
+
+	while (fgets_checked(line, sizeof(line), old_deferred, fn.buf) > 0) {
+		line_num++;
+
+		ptr = trigdef_skip_whitespace(line);
+
+		/* Skip comments and empty lines. */
+		if (*ptr == '\0' || *ptr == '#')
+			continue;
+
+		/* Parse the trigger directive. */
+		ptr_ini = ptr;
+		while (*ptr) {
+			if (*ptr < 0x21 || *ptr > 0x7e)
+				break;
+			ptr++;
+		}
+
+		if (*ptr == '\0' || ptr_ini == ptr)
+			trigdef_parse_error(line_num, line, ptr);
+		*ptr++ = '\0';
+
+		/* Set the trigger directive. */
+		trigdef->trig_begin(ptr_ini);
+
+		/* Parse the package names. */
+		while (*ptr) {
+			ptr = trigdef_skip_whitespace(ptr);
+
+			ptr_ini = ptr;
+			if (*ptr == '\0' ||
+			    !(c_isdigit(*ptr) || c_islower(*ptr) || *ptr == '-'))
+				trigdef_parse_error(line_num, line, ptr);
+
+			while (*++ptr) {
+				if (!c_isdigit(*ptr) && !c_islower(*ptr) &&
+				    *ptr != '-' && *ptr != ':' &&
+				    *ptr != '+' && *ptr != '.')
+					break;
+			}
+
+			if (*ptr != '\0' && *ptr != '#' && !c_iswhite(*ptr))
+				trigdef_parse_error(line_num, line, ptr);
+			*ptr++ = '\0';
+
+			if (ptr_ini[0] == '-' && ptr_ini[1])
+				ohshit(_("invalid package name '%.250s' in "
+				         "triggers deferred file '%.250s'"),
+				       ptr_ini, fn.buf);
+
+			/* Set the package name. */
+			trigdef->package(ptr_ini);
+		}
+
+		trigdef->trig_end();
+	}
+
+	return 0;
 }
 
 void

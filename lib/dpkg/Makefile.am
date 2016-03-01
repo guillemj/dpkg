@@ -97,7 +97,7 @@ libdpkg_la_SOURCES = \
 	trigname.c \
 	trignote.c \
 	triglib.c \
-	trigdeferred.l \
+	trigdeferred.c \
 	utils.c \
 	varbuf.c \
 	version.c

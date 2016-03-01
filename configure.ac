@@ -61,8 +61,6 @@ AC_PROG_CC
 DPKG_C_C99
 AC_PROG_CXX
 DPKG_CXX_CXX11
-AC_PROG_LEX
-DPKG_DIST_CHECK([test "$LEX" = ":"], [lex program required])
 AC_CHECK_PROGS([DOXYGEN], [doxygen])
 AC_CHECK_PROG([HAVE_DOT], [dot], [YES], [NO])
 DPKG_PROG_PO4A

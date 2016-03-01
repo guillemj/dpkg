@@ -46,6 +46,9 @@ dpkg (1.18.5) UNRELEASED; urgency=medium
   * Search for debsig-verify in PATH instead of using an absolute path.
   * Do not error out when failing to open the SE label db on permissive mode.
     Closes: #811037
+  * Rewrite the trigger deferred file parser from flex to manual. The format
+    is very simple, and a simple hand-written parser is smaller and avoids a
+    build dependency.
   * Portability:
     - Move DPKG_ADMINDIR environment variable name out from update-alternatives
       code, to make life easier for non-dpkg-based systems.
