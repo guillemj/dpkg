@@ -38,7 +38,7 @@ Dpkg::Conf - parse dpkg configuration files
 =head1 DESCRIPTION
 
 The Dpkg::Conf object can be used to read options from a configuration
-file. It can exports an array that can then be parsed exactly like @ARGV.
+file. It can export an array that can then be parsed exactly like @ARGV.
 
 =head1 METHODS
 

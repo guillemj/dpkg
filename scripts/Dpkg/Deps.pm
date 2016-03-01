@@ -198,7 +198,7 @@ Dpkg::Arch::get_build_arch() to identify the proper architecture.
 =item reduce_arch (defaults to 0)
 
 If set to 1, ignore dependencies that do not concern the current host
-architecture. This implicitely strips off the architecture restriction
+architecture. This implicitly strips off the architecture restriction
 list so that the resulting dependencies are directly applicable to the
 current architecture.
 
