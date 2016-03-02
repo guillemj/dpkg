@@ -42,10 +42,12 @@ test_programs = \
 test_scripts = \
 	t-tar.t \
 	t-tree.t \
+	t-trigdeferred.t \
 	$(nil)
 
 check_PROGRAMS = \
 	$(test_programs) \
+	c-trigdeferred \
 	t-tarextract \
 	t-treewalk \
 	$(nil)
