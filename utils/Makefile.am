@@ -32,7 +32,7 @@ update_alternatives_CPPFLAGS = \
 update_alternatives_LDADD = \
 	../lib/compat/libcompat.la \
 	$(LIBINTL) \
-	$(UA_LIBS)
+	$(nil)
 
 sbin_PROGRAMS =
 
