@@ -81,7 +81,8 @@ if test "x$build_dselect" = "xyes"; then
    DPKG_LIB_CURSES
 fi
 if test "x$build_start_stop_daemon" = "xyes"; then
-   DPKG_LIB_SSD
+   DPKG_LIB_PS
+   DPKG_LIB_KVM
 fi
 
 # Checks for header files.

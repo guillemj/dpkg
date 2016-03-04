@@ -44,7 +44,9 @@ start_stop_daemon_SOURCES = \
 
 start_stop_daemon_LDADD = \
 	../lib/compat/libcompat.la \
-	$(SSD_LIBS)
+	$(PS_LIBS) \
+	$(KVM_LIBS) \
+	$(nil)
 endif
 
 install-data-local:

@@ -153,11 +153,22 @@ if test "x$have_curses_header" != "xyes"; then
 fi
 ])# DPKG_LIB_CURSES
 
-# DPKG_LIB_SSD
+# DPKG_LIB_PS
+# -----------
+# Check for GNU/Hurd ps library
+AC_DEFUN([DPKG_LIB_PS], [
+  AC_ARG_VAR([PS_LIBS], [linker flags for ps library])dnl
+  AC_CHECK_LIB([ps], [proc_stat_list_create], [
+    PS_LIBS="-lps"
+  ])
+])# DPKG_LIB_PS
+
+# DPKG_LIB_KVM
 # ------------
-# Check for start-stop-daemon libraries.
-AC_DEFUN([DPKG_LIB_SSD],
-[AC_ARG_VAR([SSD_LIBS], [linker flags for start-stop-daemon])dnl
-AC_CHECK_LIB([ps], [proc_stat_list_create], [SSD_LIBS="${SSD_LIBS:+$SSD_LIBS }-lps"])
-AC_CHECK_LIB([kvm], [kvm_openfiles], [SSD_LIBS="${SSD_LIBS:+$SSD_LIBS }-lkvm"])
-])# DPKG_LIB_SSD
+# Check for BSD kvm library
+AC_DEFUN([DPKG_LIB_KVM], [
+  AC_ARG_VAR([KVM_LIBS], [linker flags for kvm library])dnl
+  AC_CHECK_LIB([kvm], [kvm_openfiles], [
+    KVM_LIBS="-lkvm"
+  ])
+])# DPKG_LIB_KVM
