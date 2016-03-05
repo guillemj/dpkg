@@ -7,12 +7,24 @@
 # Check for the message digest library.
 AC_DEFUN([DPKG_LIB_MD], [
   AC_ARG_VAR([MD_LIBS], [linker flags for md library])
-  AC_CHECK_HEADERS([md5.h], [
-    AC_CHECK_LIB([md], [MD5Init], [have_libmd=yes], [
-      AC_MSG_FAILURE([md5 digest not found in libmd])
-    ])
+  AC_ARG_WITH([libmd], [
+    AS_HELP_STRING([--with-libmd],
+                   [use libmd library for message digest functions])
+  ], [
+    with_libmd="$withval"
+  ], [
+    with_libmd="no"
   ])
-  AS_IF([test "x$have_libmd" = "xyes"], [MD_LIBS="-lmd"])
+  if test "x$with_libmd" != "xno"; then
+    AC_CHECK_HEADERS([md5.h], [
+      AC_CHECK_LIB([md], [MD5Init], [
+        with_libmd="yes"
+      ], [
+        AC_MSG_FAILURE([md5 digest not found in libmd])
+      ])
+    ])
+  fi
+  AS_IF([test "x$with_libmd" = "xyes"], [MD_LIBS="-lmd"])
   AM_CONDITIONAL([HAVE_LIBMD_MD5], [test "x$ac_cv_lib_md_MD5Init" = "xyes"])
 ])# DPKG_LIB_MD
 
