@@ -163,6 +163,7 @@ fi
 if test "x$have_curses_header" != "xyes"; then
   AC_MSG_FAILURE([curses header not found])
 fi
+have_libcurses=yes
 ])# DPKG_LIB_CURSES
 
 # DPKG_LIB_PS
@@ -172,6 +173,7 @@ AC_DEFUN([DPKG_LIB_PS], [
   AC_ARG_VAR([PS_LIBS], [linker flags for ps library])dnl
   AC_CHECK_LIB([ps], [proc_stat_list_create], [
     PS_LIBS="-lps"
+    have_libps=yes
   ])
 ])# DPKG_LIB_PS
 
@@ -182,5 +184,6 @@ AC_DEFUN([DPKG_LIB_KVM], [
   AC_ARG_VAR([KVM_LIBS], [linker flags for kvm library])dnl
   AC_CHECK_LIB([kvm], [kvm_openfiles], [
     KVM_LIBS="-lkvm"
+    have_libkvm=yes
   ])
 ])# DPKG_LIB_KVM
