@@ -36,7 +36,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Util qw(:list);
-use Dpkg::Arch qw(debarch_eq debarch_is debarch_is_wildcard);
+use Dpkg::Arch qw(debarch_eq debarch_is debarch_is_wildcard debarch_is_illegal);
 use Dpkg::Deps;
 use Dpkg::Compression;
 use Dpkg::Conf;
@@ -313,9 +313,8 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
                     push(@sourcearch, $v) unless $archadded{$v}++;
                 } else {
                     for my $a (split(/\s+/, $v)) {
-                        error(g_("'%s' is not a legal architecture string"),
-                              $a)
-                            unless $a =~ /^[\w-]+$/;
+                        error(g_("'%s' is not a legal architecture string"), $a)
+                            if debarch_is_illegal($a);
                         error(g_('architecture %s only allowed on its ' .
                                  "own (list for package %s is '%s')"),
                               $a, $p, $a)

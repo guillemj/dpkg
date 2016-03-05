@@ -551,7 +551,7 @@ use warnings;
 
 use Carp;
 
-use Dpkg::Arch qw(debarch_is_concerned);
+use Dpkg::Arch qw(debarch_is_concerned debarch_list_parse);
 use Dpkg::BuildProfiles qw(parse_build_profiles evaluate_restriction_formula);
 use Dpkg::Version;
 use Dpkg::ErrorHandling;
@@ -627,7 +627,7 @@ sub parse_string {
 	$self->{version} = Dpkg::Version->new($4);
     }
     if (defined($5)) {
-	$self->{arches} = [ split(/\s+/, $5) ];
+	$self->{arches} = [ debarch_list_parse($5) ];
     }
     if (defined($6)) {
 	$self->{restrictions} = [ parse_build_profiles($6) ];

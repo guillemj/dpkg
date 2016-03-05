@@ -30,7 +30,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Util qw(:list);
 use Dpkg::File;
-use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
+use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is debarch_list_parse);
 use Dpkg::Package;
 use Dpkg::BuildProfiles qw(get_build_profiles);
 use Dpkg::Deps;
@@ -212,13 +212,8 @@ foreach (keys %{$pkg}) {
 	if (debarch_eq('all', $v)) {
 	    $fields->{$_} = $v;
 	} else {
-	    my @archlist = split(/\s+/, $v);
-	    my @invalid_archs = grep { m/[^\w-]/ } @archlist;
-	    warning(P_("'%s' is not a legal architecture string.",
-	               "'%s' are not legal architecture strings.",
-	               scalar(@invalid_archs)),
-	            join("' '", @invalid_archs))
-		if @invalid_archs >= 1;
+	    my @archlist = debarch_list_parse($v);
+
 	    if (none { debarch_is($host_arch, $_) } @archlist) {
 		error(g_("current host architecture '%s' does not " .
 			 "appear in package's architecture list (%s)"),

@@ -34,7 +34,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Build::Types;
 use Dpkg::BuildProfiles qw(get_build_profiles parse_build_profiles
                            evaluate_restriction_formula);
-use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
+use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is debarch_list_parse);
 use Dpkg::Compression;
 use Dpkg::Control::Info;
 use Dpkg::Control::Fields;
@@ -332,7 +332,7 @@ foreach my $pkg ($control->get_packages()) {
 	# No files for this package... warn if it's unexpected
 	if (((build_has(BUILD_ARCH_INDEP) and debarch_eq('all', $a)) or
 	     (build_has(BUILD_ARCH_DEP) and
-	      (any { debarch_is($host_arch, $_) } split /\s+/, $a))) and
+	      (any { debarch_is($host_arch, $_) } debarch_list_parse($a)))) and
 	    (@restrictions == 0 or
 	     evaluate_restriction_formula(\@restrictions, \@profiles)))
 	{
@@ -351,7 +351,7 @@ foreach my $pkg ($control->get_packages()) {
 	    $f2pricf{$_} = $v foreach (@f);
 	} elsif (m/^Architecture$/) {
 	    if (build_has(BUILD_ARCH_DEP) and
-	        (any { debarch_is($host_arch, $_) } split /\s+/, $v)) {
+	        (any { debarch_is($host_arch, $_) } debarch_list_parse($v))) {
 		$v = $host_arch;
 	    } elsif (!debarch_eq('all', $v)) {
 		$v = '';
