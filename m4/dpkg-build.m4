@@ -58,7 +58,6 @@ AC_DEFUN([DPKG_WITH_DIR], [
             [$1="$with_$1"])
   )
   AC_SUBST([$1])
-  AC_MSG_NOTICE([using directory $1 = '$$1'])
 ])# DPKG_WITH_DIR
 
 # DPKG_DEB_COMPRESSOR(COMP)
@@ -75,7 +74,6 @@ AC_DEFUN([DPKG_DEB_COMPRESSOR], [
   AC_DEFINE_UNQUOTED([DPKG_DEB_DEFAULT_COMPRESSOR],
                      [COMPRESSOR_TYPE_]AS_TR_CPP(${with_dpkg_deb_compressor}),
                      [default dpkg-deb build compressor])
-  AC_MSG_NOTICE([using default dpkg-deb compressor = $with_dpkg_deb_compressor])
 ]) # DPKG_DEB_COMPRESSOR
 
 # DPKG_DIST_CHECK(COND, ERROR)

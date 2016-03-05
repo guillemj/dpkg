@@ -159,3 +159,40 @@ AC_CONFIG_FILES([ Makefile
 		  utils/Makefile ])
 AC_CONFIG_HEADERS([config.h])
 AC_OUTPUT
+
+# Print the current configuration
+cat <<CONFIG
+
+Configuration:
+  Features:
+    NLS . . . . . . . . . . . . . : $USE_NLS
+    unicode support . . . . . . . : $USE_UNICODE
+    development documentation . . : $build_devel_docs
+    code coverage . . . . . . . . : $enable_coverage
+    build shared libraries  . . . : $enable_shared
+    mmap loaders  . . . . . . . . : $enable_mmap
+    default dpkg-deb compressor . : $with_dpkg_deb_compressor
+
+  Paths:
+    devlibdir . . . . . . . . . . : $devlibdir
+    pkgconfdir  . . . . . . . . . : $pkgconfdir
+    admindir  . . . . . . . . . . : $admindir
+    logdir  . . . . . . . . . . . : $logdir
+    perl interpreter  . . . . . . : $PERL
+    perl libdir . . . . . . . . . : $PERL_LIBDIR
+
+  Programs:
+    update-alternatives . . . . . : $build_update_alternatives
+    start-stop-daemon . . . . . . : $build_start_stop_daemon
+    dselect . . . . . . . . . . . : $build_dselect
+
+  System Libraries:
+    libps . . . . . . . . . . . . : ${have_libps:-no}
+    libkvm  . . . . . . . . . . . : ${have_libkvm:-no}
+    libselinux  . . . . . . . . . : $with_selinux
+    libmd . . . . . . . . . . . . : $with_libmd
+    libz  . . . . . . . . . . . . : $with_zlib
+    liblzma . . . . . . . . . . . : $with_liblzma
+    libbz2  . . . . . . . . . . . : $with_bz2
+    libcurses . . . . . . . . . . : ${have_libcurses:-no}
+CONFIG
