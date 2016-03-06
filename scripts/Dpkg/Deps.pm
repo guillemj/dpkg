@@ -602,18 +602,20 @@ sub parse_string {
               (?:                           # start of optional part
                 \s* \(                      # open parenthesis for version part
                 \s* (<<|<=|=|>=|>>|[<>])    # relation part
-                \s* (.*?)                   # do not attempt to parse version
+                \s* ([^\)]+)                # do not attempt to parse version
                 \s* \)                      # closing parenthesis
               )?                            # end of optional part
               (?:                           # start of optional architecture
                 \s* \[                      # open bracket for architecture
-                \s* (.*?)                   # don't parse architectures now
+                \s* ([^\]]+)                # don't parse architectures now
                 \s* \]                      # closing bracket
               )?                            # end of optional architecture
-              (?:                           # start of optional restriction
+              (
+                (?:                         # start of optional restriction
                 \s* <                       # open bracket for restriction
-                \s* (.*)                    # do not parse restrictions now
+                \s* [^>]+                   # do not parse restrictions now
                 \s* >                       # closing bracket
+                )+
               )?                            # end of optional restriction
               \s*$                          # trailing spaces at end
             }x;

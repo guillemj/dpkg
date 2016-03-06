@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 45;
+use Test::More tests => 47;
 
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
@@ -189,8 +189,16 @@ my $dep_empty2 = deps_parse(' , , ', union => 1);
 is($dep_empty2->output(), '', "' , , ' is also an empty dependency");
 
 $SIG{__WARN__} = sub {};
+
+my $dep_bad_version = deps_parse('package (= 1.0) (>= 2.0)');
+is($dep_bad_version, undef, 'Bogus repeated version restriction');
+
+my $dep_bad_arch = deps_parse('package [alpha] [amd64]');
+is($dep_bad_arch, undef, 'Bogus repeated arch restriction');
+
 my $dep_bad_multiline = deps_parse("a, foo\nbar, c");
 ok(!defined($dep_bad_multiline), 'invalid dependency split over multiple line');
+
 delete $SIG{__WARN__};
 
 my $dep_iter = deps_parse('a, b:armel, c | d:armhf, d:mips (>> 1.2)');
