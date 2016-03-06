@@ -10,8 +10,8 @@ test-case:
 	xz -c data.tar >data.tar.xz
 	bzip2 -c data.tar >data.tar.bz2
 	lzma -c data.tar >data.tar.lzma
-	touch _ignore
-	touch unknown
+	echo ignore >_ignore
+	echo unknown >unknown
 
 	# test debian-binary with 2.x versions
 	cp pkg-templ.deb pkg-version-2x.deb
