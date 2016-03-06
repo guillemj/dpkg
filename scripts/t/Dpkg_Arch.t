@@ -16,11 +16,13 @@
 use strict;
 use warnings;
 
-use Test::More tests => 53;
+use Test::More tests => 64;
 
 use_ok('Dpkg::Arch', qw(debarch_to_debtriplet debarch_to_multiarch
                         debarch_eq debarch_is debarch_is_wildcard
+                        debarch_is_illegal
                         debarch_to_cpuattrs
+                        debarch_list_parse
                         debtriplet_to_debarch gnutriplet_to_debarch
                         get_host_gnu_type
                         get_valid_arches));
@@ -86,6 +88,26 @@ ok(debarch_is_wildcard('any-amd64'), 'any-<cpu> is a wildcard');
 ok(debarch_is_wildcard('gnu-any-any'), '<abi>-any-any is a wildcard');
 ok(debarch_is_wildcard('any-linux-any'), 'any-<os>-any is a wildcard');
 ok(debarch_is_wildcard('any-any-amd64'), 'any-any-<cpu> is a wildcard');
+
+ok(!debarch_is_illegal('0'), '');
+ok(!debarch_is_illegal('a'), '');
+ok(!debarch_is_illegal('amd64'), '');
+ok(!debarch_is_illegal('!arm64'), '');
+ok(!debarch_is_illegal('kfreebsd-any'), '');
+ok(debarch_is_illegal('!amd64!arm'), '');
+ok(debarch_is_illegal('arch%name'), '');
+ok(debarch_is_illegal('-any'), '');
+ok(debarch_is_illegal('!'), '');
+
+my @arch_new;
+my @arch_ref;
+
+@arch_ref = qw(amd64 !arm64 linux-i386 !kfreebsd-any);
+@arch_new = debarch_list_parse('amd64  !arm64   linux-i386 !kfreebsd-any');
+is_deeply(\@arch_new, \@arch_ref, 'parse valid arch list');
+
+eval { @arch_new = debarch_list_parse('!amd64!arm64') };
+ok($@, 'parse concatenated arches failed');
 
 is(debarch_to_cpuattrs(undef), undef, 'undef cpu attrs');
 is_deeply([ debarch_to_cpuattrs('amd64') ], [ qw(64 little) ], 'amd64 cpu attrs');

@@ -32,7 +32,7 @@ use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 our @EXPORT_OK = qw(
     get_raw_build_arch
     get_raw_host_arch
@@ -43,11 +43,13 @@ our @EXPORT_OK = qw(
     debarch_eq
     debarch_is
     debarch_is_wildcard
+    debarch_is_illegal
     debarch_is_concerned
     debarch_to_cpuattrs
     debarch_to_gnutriplet
     debarch_to_debtriplet
     debarch_to_multiarch
+    debarch_list_parse
     debtriplet_to_debarch
     debtriplet_to_gnutriplet
     gnutriplet_to_debarch
@@ -533,6 +535,19 @@ sub debarch_is_wildcard($)
     return 0;
 }
 
+=item $bool = debarch_is_illegal($arch)
+
+Validate an architecture name.
+
+=cut
+
+sub debarch_is_illegal
+{
+    my ($arch) = @_;
+
+    return $arch !~ m/^(!?[a-zA-Z0-9][a-zA-Z0-9-]*)$/;
+}
+
 =item $bool = debarch_is_concerned($arch, @arches)
 
 Evaluate whether a Debian architecture applies to the list of architecture
@@ -568,6 +583,27 @@ sub debarch_is_concerned
     return $seen_arch;
 }
 
+=item @array = debarch_list_parse($arch_list, %options)
+
+Parse an architecture list.
+
+=cut
+
+sub debarch_list_parse
+{
+    my $arch_list = shift;
+    my @arch_list = split /\s+/, $arch_list;
+
+    foreach my $arch (@arch_list) {
+        if (debarch_is_illegal($arch)) {
+            error(g_("'%s' is not a legal architecture in list '%s'"),
+                  $arch, $arch_list);
+        }
+    }
+
+    return @arch_list;
+}
+
 1;
 
 __END__
@@ -575,6 +611,10 @@ __END__
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.01 (dpkg 1.18.5)
+
+New functions: debarch_is_illegal(), debarch_list_parse().
 
 =head2 Version 1.00 (dpkg 1.18.2)
 
