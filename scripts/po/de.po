@@ -1,13 +1,13 @@
 # German translation of the scripts in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2015.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2016.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-dev 1.18.3\n"
+"Project-Id-Version: dpkg-dev 1.18.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:28+0100\n"
-"PO-Revision-Date: 2015-12-20 06:02+0100\n"
+"POT-Creation-Date: 2016-03-09 19:16+0100\n"
+"PO-Revision-Date: 2016-03-09 21:19+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -22,8 +22,8 @@ msgstr ""
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
 #: scripts/dpkg-mergechangelogs.pl scripts/dpkg-name.pl
 #: scripts/dpkg-parsechangelog.pl scripts/dpkg-scanpackages.pl
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl
-#: scripts/dpkg-vendor.pl scripts/changelog/debian.pl
+#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl
+#: scripts/dpkg-source.pl scripts/dpkg-vendor.pl scripts/changelog/debian.pl
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s Version %s\n"
@@ -203,7 +203,7 @@ msgstr ""
 "  --export=(sh|make|configure)\n"
 "                      etwas praktisches ausgeben, um die Kompilierschalter\n"
 "                      in einem Shell-Skript, in Make oder auf der\n"
-"                      Kommandozeile zu importieren\n"
+"                      Befehlszeile zu importieren\n"
 "  --dump              alle Kompilierschalter mit ihren Werten ausgeben\n"
 " --status             eine Zusammenfassung aller Parameter ausgeben, die "
 "das\n"
@@ -384,11 +384,6 @@ msgstr ""
 "  -I[<Muster>]   Dateien beim Tarball-Bauen herausfiltern\n"
 "  --source-option=<Opt>\n"
 "                 <Opt> an Dpkg-Source weitergeben\n"
-
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "cannot combine %s and %s"
-msgstr "%s und %s können nicht kombiniert werden"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -789,10 +784,10 @@ msgstr "binärer Bau ohne binäre Produkte gefunden; kann nicht verteilt werden"
 msgid "package %s in control file but not in files list"
 msgstr "Paket %s in Steuerdatei, aber nicht in Dateiliste"
 
-#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl scripts/Dpkg/BuildFlags.pm
-#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/Interface/Storable.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/Package/V2.pm
-#: scripts/Dpkg/Source/Quilt.pm
+#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl
+#: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
+#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Shlibs/Objdump.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot read %s"
 msgstr "%s kann nicht gelesen werden"
@@ -1730,7 +1725,8 @@ msgstr ""
 "nicht identifiziert werden, da das DEBIAN-Unterverzeichnis in der Wurzel des "
 "Paketbaubaums fehlt."
 
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Cppfilt.pm
+#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Shlibs/Cppfilt.pm
 #, perl-format
 msgid "unable to execute %s"
 msgstr "%s konnte nicht ausgeführt werden"
@@ -1884,6 +1880,10 @@ msgid "%s field contains value %s, but no tests control file %s"
 msgstr "%s-Feld enthält Wert %s, aber keine Teststeuerdatei %s"
 
 #: scripts/dpkg-source.pl
+msgid "<none>"
+msgstr "<keine>"
+
+#: scripts/dpkg-source.pl
 #, perl-format
 msgid "Usage: %s [<option>...] <command>"
 msgstr "Aufruf: %s [<Option> …] [<Befehl>]"
@@ -1988,11 +1988,11 @@ msgstr ""
 
 #: scripts/dpkg-source.pl
 msgid ""
-"More options are available but they depend on the source package format.\n"
-"See dpkg-source(1) for more info."
+"Source format specific build and extract options are available;\n"
+"use --format with --help to see them."
 msgstr ""
-"Abhängig vom Quellpaketformat sind weitere Optionen verfügbar.\n"
-"Weitere Informationen finden Sie in dpkg-source(1)."
+"Quellformat-spezifische Bau- und Entpackoptionen sind verfügbar;\n"
+"verwenden Sie »--format« mit »--help«, um sie anzuzeigen."
 
 #: scripts/dpkg-vendor.pl
 msgid ""
@@ -2104,7 +2104,7 @@ msgstr ""
 #, perl-format
 msgid "unknown CC system type %s, falling back to default (native compilation)"
 msgstr ""
-"Unbekannter CC-Systemtyp %s, zurück auf Standardeinstellung (native "
+"unbekannter CC-Systemtyp %s, zurück auf Standardeinstellung (native "
 "Übersetzung)"
 
 #: scripts/Dpkg/BuildFlags.pm
@@ -2121,6 +2121,11 @@ msgstr "Zeile %d von %s ist ungültig, sie wurde ignoriert."
 #, perl-format
 msgid "invalid flag in %s: %s"
 msgstr "ungültiger Schalter in %s: %s"
+
+#: scripts/Dpkg/Build/Types.pm
+#, perl-format
+msgid "cannot combine %s and %s"
+msgstr "%s und %s können nicht kombiniert werden"
 
 #: scripts/Dpkg/Changelog.pm scripts/Dpkg/ErrorHandling.pm
 msgid "warning"
@@ -2378,7 +2383,7 @@ msgstr "%s ist keine unterstützte Kompressionsmethode"
 #: scripts/Dpkg/Compression/Process.pm
 msgid "Dpkg::Compression::Process can only start one subprocess at a time"
 msgstr ""
-"Dpkg::Compression::Process kann nur einen Subprozess auf einmal starten"
+"Dpkg::Compression::Process kann nur einen Unterprozess auf einmal starten"
 
 #: scripts/Dpkg/Conf.pm
 #, perl-format
@@ -2400,7 +2405,24 @@ msgstr "Paketabschnitt der Steuer-Infodatei"
 
 #: scripts/Dpkg/Control.pm
 msgid "parsed version of changelog"
-msgstr "ausgewertete Version des changelogs"
+msgstr "ausgewertete Version des Changelogs"
+
+#: scripts/Dpkg/Control.pm
+msgid "header stanza of copyright file"
+msgstr "»header«-Anteil der Copyright-Datei"
+
+#: scripts/Dpkg/Control.pm
+msgid "files stanza of copyright file"
+msgstr "»files«-Anteil der Copyright-Datei"
+
+#: scripts/Dpkg/Control.pm
+msgid "license stanza of copyright file"
+msgstr "»license«-Anteil der Copyright-Datei"
+
+#: scripts/Dpkg/Control.pm
+#, perl-format
+msgid "repository's %s file"
+msgstr "Datei %s des Depots"
 
 #: scripts/Dpkg/Control.pm
 #, perl-format
@@ -2508,7 +2530,7 @@ msgstr "ungültige Zeile in Dateilistendatei, Zeile %d"
 #: scripts/Dpkg/Dist/Files.pm
 #, perl-format
 msgid "duplicate files list entry for file %s (line %d)"
-msgstr "doppelter Dateienliste-Eintrag für Datei %s (Zeile %d)"
+msgstr "doppelter Dateilisteneintrag für Datei %s (Zeile %d)"
 
 #: scripts/Dpkg/Dist/Files.pm
 #, perl-format
@@ -2606,7 +2628,7 @@ msgstr "muss mit einem alphanumerischen Zeichen beginnen"
 #: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
 msgid "couldn't parse dynamic relocation record: %s"
-msgstr "dynamischer Relozierungs-Eintrag konnte nicht ausgewertet werden: %s"
+msgstr "dynamischer Adressverschiebungseintrag konnte nicht ausgewertet werden: %s"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
@@ -2742,37 +2764,89 @@ msgstr "Fehler beim Überprüfen der Signatur von %s"
 #, perl-format
 msgid "could not verify signature on %s since gpg isn't installed"
 msgstr ""
-"Signatur von %s konnte nicht überprüft werden, da Gpg nicht installiert ist"
+"Signatur von %s konnte nicht überprüft werden, da GPG nicht installiert ist"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "%s is not a valid option for %s"
-msgstr "%s ist keine gültige Option für %s"
+msgstr "%s ist keine gültige Option für %s."
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "%s does not exist"
-msgstr "%s existiert nicht"
+msgstr "%s existiert nicht."
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "cannot make %s executable"
-msgstr "Programm %s kann nicht ausführbar gemacht werden"
+msgstr "Programm %s kann nicht ausführbar gemacht werden."
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "%s is not a plain file"
-msgstr "%s ist keine gewöhnliche Datei"
+msgstr "%s ist keine gewöhnliche Datei."
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "'%s' is not supported by the source format '%s'"
-msgstr "»%s« wird vom Quellformat »%s« nicht unterstützt"
+msgstr "»%s« wird vom Quellformat »%s« nicht unterstützt."
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "auto select original source"
+msgstr "automatisch ursprüngliche Quellen auswählen"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "use packed original source (unpack and keep)"
+msgstr "gepackte ursprüngliche Quellen verwenden (entpacken und behalten)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "use packed original source (unpack and remove)"
+msgstr "gepackte ursprüngliche Quellen verwenden (entpacken und entfernen)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "use unpacked original source (pack and keep)"
+msgstr "entpackte ursprüngliche Quellen verwenden (packen und behalten)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "use unpacked original source (pack and remove)"
+msgstr "entpackte ursprüngliche Quellen verwenden (packen und entfernen)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "trust packed and unpacked original sources are same"
+msgstr "vertrauen, dass ent- und gepackte ursprüngliche Quellen identisch sind"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "there is no diff, do main tarfile only"
+msgstr "Es gibt kein Diff, nur Haupt-Tar-Datei behandeln"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "like -sa, -sk, -sp, -su, -sr but may overwrite"
+msgstr "wie -sa, -sk, -sp, -su, -sr, kann aber überschreiben"
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "abort if generated diff has upstream files changes"
+msgstr "Abbruch, falls erstellter Diff Änderungen der Originalautoren enthält"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "leave original source packed in current directory"
+msgstr "ursprüngliche Quellen im aktuellen Verzeichnis gepackt lassen"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "do not copy original source to current directory"
+msgstr "ursprüngliche Quellen nicht ins aktuelle Verzeichnis kopieren"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "unpack original source tree too"
+msgstr "ursprüngliche Quellbaum entpacken nach"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "do not apply debian diff to upstream sources"
+msgstr "Debian-Diff nicht auf die Quellen der Originalautoren anwenden"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid "-s%s option overrides earlier -s%s option"
-msgstr "Option -s%s überschreibt vorhergehende Option -s%s"
+msgstr "Option -s%s überschreibt vorhergehende Option -s%s."
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -2781,7 +2855,7 @@ msgstr "Quellbearbeitungsstil -s%s mit -x nicht erlaubt"
 
 #: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
 msgid "multiple tarfiles in v1.0 source package"
-msgstr "mehrere Tardateien in v1.0-Quellpaket"
+msgstr "mehrere Tar-Dateien in v1.0-Quellpaket"
 
 #: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
@@ -2790,7 +2864,7 @@ msgstr "unerkannte Datei für ein %s-Quellpaket: %s"
 
 #: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V3/Native.pm
 msgid "no tarfile in Files field"
-msgstr "keine Tardatei im Feld Files"
+msgstr "keine Tar-Datei im Feld Files"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 msgid "native package with .orig.tar"
@@ -2866,7 +2940,7 @@ msgid ""
 "orig argument is unpacked but source handling style -s%s calls for packed (."
 "orig.tar.<ext>)"
 msgstr ""
-"Orig.-Argument ist ungepackt, aber bei Quellenhandhabungsstil -s%s wird ein "
+"Originalargument ist ungepackt, aber bei Quellenhandhabungsstil -s%s wird ein "
 "gepacktes Argument verlangt (.orig.tar.<endung>)"
 
 #: scripts/Dpkg/Source/Package/V1.pm
@@ -2875,13 +2949,13 @@ msgid ""
 "orig argument is packed but source handling style -s%s calls for unpacked (."
 "orig/)"
 msgstr ""
-"Orig. Argument ist gepackt, aber bei Quellenhandhabungsstil -s%s wird ein "
+"Originalargument ist gepackt, aber bei Quellenhandhabungsstil -s%s wird ein "
 "ungepacktes Argument verlangt (.orig/)"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid "orig argument %s is not a plain file or directory"
-msgstr "Orig. Argument %s ist keine gewöhnliche Datei oder Verzeichnis"
+msgstr "Originalargument %s ist keine gewöhnliche Datei oder Verzeichnis"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -2889,7 +2963,7 @@ msgid ""
 "orig argument is empty (means no orig, no diff) but source handling style -s"
 "%s wants something"
 msgstr ""
-"Orig. Argument ist leer (bedeutet kein Orig., kein Diff), aber bei "
+"Originalargument ist leer (bedeutet kein Orig., kein Diff), aber bei "
 "Quellenhandhabungsstil -s%s wird etwas verlangt"
 
 #: scripts/Dpkg/Source/Package/V1.pm
@@ -2906,7 +2980,7 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid "source directory '%s' is not <sourcepackage>-<upstreamversion> '%s'"
-msgstr "Quellverzeichnis »%s« lautet nicht <Quellpaket>-<UpstreamVersion> »%s«"
+msgstr "Quellverzeichnis »%s« lautet nicht <Quellpaket>-<Ursprungsversion> »%s«"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -2919,7 +2993,7 @@ msgstr ""
 msgid ""
 ".orig.tar name %s is not <package>_<upstreamversion>.orig.tar (wanted %s)"
 msgstr ""
-".orig.tar-Name %s lautet nicht <Paket>_<UpstreamVersion>.orig.tar (%s "
+".orig.tar-Name %s lautet nicht <Paket>_<Ursprungsversion>.orig.tar (%s "
 "erwünscht)"
 
 #: scripts/Dpkg/Source/Package/V1.pm
@@ -2928,7 +3002,7 @@ msgid ""
 "tarfile '%s' already exists, not overwriting, giving up; use -sU or -sR to "
 "override"
 msgstr ""
-"Tardatei »%s« existiert bereits, wird nicht überschrieben, Abbruch; "
+"Tar-Datei »%s« existiert bereits, wird nicht überschrieben, Abbruch; "
 "verwenden Sie -sU oder -sR zum Erzwingen"
 
 #: scripts/Dpkg/Source/Package/V1.pm
@@ -2991,6 +3065,46 @@ msgid "unrepresentable changes to source"
 msgstr "nicht darstellbare Änderungen an den Quellen"
 
 #: scripts/Dpkg/Source/Package/V2.pm
+msgid "include removed files in the patch"
+msgstr "entfernte Dateien in den Patch aufnehmen"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "include timestamp in the patch"
+msgstr "Zeitstempel in den Patch aufnehmen"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "include binary files in the tarball"
+msgstr "binäre Dateien in den Tarball aufnehmen"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not prepare build tree by applying patches"
+msgstr "Bau-Baum nicht durch Anwenden der Patches vorbereiten"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not unapply patches if previously applied"
+msgstr "Patches nicht entfernen, falls sie bereits angewandt wurden"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "unapply patches if previously applied (default)"
+msgstr "Patches entfernen, falls sie bereits angewandt wurden (Vorgabe)"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "create an empty original tarball if missing"
+msgstr "einen leeren ursprünglichen Tarball erstellen, falls er fehlt"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "record generated patches, instead of aborting"
+msgstr "angewandte Patches aufzeichnen statt abzubrechen"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not extract debian tarball into upstream sources"
+msgstr "Debian-Tarball nicht in die Quellen der Originalautoren extrahieren"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not apply patches at the end of the extraction"
+msgstr "Patches nicht am Ende der Extraktion anwenden"
+
+#: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
 msgid "duplicate files in %s source package: %s"
 msgstr "doppelte Dateien in Quellpaket %s: %s"
@@ -3031,7 +3145,7 @@ msgstr "unter %s wurde kein Tarball der Originalautoren gefunden"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "patches are not applied, applying them now"
-msgstr "Patches sind nicht angewandt, werden jetzt angewendet"
+msgstr "Patches sind nicht angewandt, dies wird nun erledigt"
 
 #: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
@@ -3149,7 +3263,7 @@ msgstr "%s wird zu %s hinzugefügt"
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
 msgid "cannot unpack bzr-format source package because bzr is not in the PATH"
 msgstr ""
-"kann bzr-formatiertes Quellpaket nicht entpacken, da Bzr nicht im PATH ist"
+"Bzr-formatiertes Quellpaket kann nicht entpackt werden, da Bzr nicht im PATH ist"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
 #, perl-format
@@ -3194,12 +3308,16 @@ msgid "expected %s, got %s"
 msgstr "%s erwartet, %s bekommen"
 
 #: scripts/Dpkg/Source/Package/V3/Custom.pm
+msgid "define the format of the generated source package"
+msgstr "Definieren Sie das Format des erstellten Quellpakets"
+
+#: scripts/Dpkg/Source/Package/V3/Custom.pm
 msgid "Format '3.0 (custom)' is only used to create source packages"
-msgstr "Format »3.0 (custom)« wird nur zur Anlegung von Quellpaketen verwandt"
+msgstr "Format »3.0 (custom)« wird nur zum Anlegen von Quellpaketen verwandt"
 
 #: scripts/Dpkg/Source/Package/V3/Custom.pm
 msgid "no files indicated on command line"
-msgstr "keine Dateien auf der Kommandozeile angegeben"
+msgstr "keine Dateien auf der Befehlszeile angegeben"
 
 #: scripts/Dpkg/Source/Package/V3/Custom.pm
 msgid "--target-format option is missing"
@@ -3208,7 +3326,7 @@ msgstr "Option --target-format fehlt"
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 msgid "cannot unpack git-format source package because git is not in the PATH"
 msgstr ""
-"kann git-formatiertes Quellpaket nicht entpacken, da Git nicht im PATH ist"
+"Git-formatiertes Quellpaket kann nicht entpackt werden, da Git nicht im PATH ist"
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 #, perl-format
@@ -3225,6 +3343,14 @@ msgid "git repository %s uses submodules; this is not yet supported"
 msgstr "Git-Depot %s verwendet Submodule; dies wird noch nicht unterstützt."
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
+msgid "specify a git <ref> to include in the git bundle"
+msgstr "geben Sie ein Git <ref> an, das in das Git-Bündel aufgenommen werden soll"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+msgid "create a shallow clone with <number> depth"
+msgstr "einen seichten (shallow) Klon mit Tiefe <number> erstellen"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
 msgid "doesn't contain a git repository"
 msgstr "kein Git-Depot enthalten"
 
@@ -3235,7 +3361,7 @@ msgstr "git ls-files mit nicht-Null-Status beendet"
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 #, perl-format
 msgid "creating shallow clone with depth %s"
-msgstr "ein seichter Klon mit Tiefe %s wird eingerichtet"
+msgstr "ein seichter (shallow) Klon mit Tiefe %s wird eingerichtet"
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 #, perl-format
@@ -3267,7 +3393,7 @@ msgstr "%s wird geklont"
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 msgid "setting up shallow clone"
-msgstr "ein seichter Klon wird eingerichtet"
+msgstr "ein seichter (shallow) Klon wird eingerichtet"
 
 #: scripts/Dpkg/Source/Package/V3/Native.pm
 #, perl-format
@@ -3277,6 +3403,14 @@ msgstr "unerkannte Datei für natives Quellpaket: %s"
 #: scripts/Dpkg/Source/Package/V3/Native.pm
 msgid "native package version may not have a revision"
 msgstr "native Paketversion darf keine Revision haben"
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
+msgid "use a single debianization patch"
+msgstr "einen einzigen Debianisierungs-Patch verwenden"
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
+msgid "accept quilt metadata <version> even if unknown"
+msgstr "Quilt-Metadaten <Version> akzeptieren, selbst falls unbekannt"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 msgid "non-native package version does not contain a revision"
@@ -3381,7 +3515,7 @@ msgstr "  alte Version ist %s"
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "diff %s patches file with C-style encoded filename"
-msgstr "Diff %s patcht Datei C-artig kodierten Dateinamen"
+msgstr "Diff %s patcht Datei C-artig kodiertem Dateinamen"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
@@ -3441,8 +3575,17 @@ msgstr "Diff »%s« patcht etwas, das keine gewöhnliche Datei ist"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
-msgid "diff '%s' patches file %s twice"
-msgstr "Diff »%s« patcht Datei %s zweifach"
+msgid ""
+"diff '%s' patches files multiple times; split the diff in multiple files or "
+"merge the hunks into a single one"
+msgstr ""
+"Diff »%s« patcht Dateien mehrfach; zerlegen Sie das Diff in mehrere Dateien "
+"oder fügen Sie die Stücke in einen Einzelnes zusammen"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, perl-format
+msgid "diff '%s' patches file %s more than once"
+msgstr "Diff »%s« patcht Datei %s mehr als einmal"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
@@ -3457,7 +3600,7 @@ msgstr "[ +-] wurde am Anfang der Zeile %d des Diffs »%s« erwartet"
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "expected ^@@ at line %d of diff '%s'"
-msgstr "^@@ wurde in Zeile %d des Diff »%s« erwartet"
+msgstr "^@@ wurde in Zeile %d des Diffs »%s« erwartet"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
@@ -3471,7 +3614,7 @@ msgstr "Patch-Sicherungskopiedatei %s entfernen"
 
 #: scripts/Dpkg/Source/Patch.pm
 msgid "nonexistent"
-msgstr "nicht existent"
+msgstr "nicht existierend"
 
 #: scripts/Dpkg/Source/Patch.pm
 msgid "plain file"
@@ -3492,7 +3635,7 @@ msgstr "Blockgerät"
 
 #: scripts/Dpkg/Source/Patch.pm
 msgid "character device"
-msgstr "Zeichengerät"
+msgstr "zeichenorientiertes Gerät"
 
 #: scripts/Dpkg/Source/Patch.pm
 msgid "named pipe"
@@ -3535,7 +3678,7 @@ msgid ""
 "source might fail when applying patches"
 msgstr ""
 "Die Seriendatei (%s) enthält nicht unterstützte Optionen (»%s«, Zeile %s), "
-"dpkg-source könnte beim Anwenden der Patches scheitern."
+"dpkg-source könnte beim Anwenden der Patche scheitern."
 
 #: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
@@ -3575,7 +3718,7 @@ msgstr "Quellpaketname »%s« ist ungültig: »%s«"
 #: scripts/Dpkg/Vars.pm
 #, perl-format
 msgid "source package has two conflicting values - %s and %s"
-msgstr "Zwei widersprüchliche Werte für Quellpaket - %s und %s"
+msgstr "zwei widersprüchliche Werte für Quellpaket - %s und %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
@@ -3597,7 +3740,7 @@ msgid ""
 "Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu "
 "address"
 msgstr ""
-"Versionsnummer lässt Ubuntu-Änderungen vermuten, aber Maintainer: enthält "
+"Versionsnummer lässt Ubuntu-Änderungen vermuten, aber »Maintainer:« enthält "
 "keine Ubuntu-Adresse"
 
 #: scripts/Dpkg/Vendor/Ubuntu.pm
@@ -3640,6 +3783,13 @@ msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
+
+#~ msgid ""
+#~ "More options are available but they depend on the source package format.\n"
+#~ "See dpkg-source(1) for more info."
+#~ msgstr ""
+#~ "Abhängig vom Quellpaketformat sind weitere Optionen verfügbar.\n"
+#~ "Weitere Informationen finden Sie in dpkg-source(1)."
 
 #~ msgid "couldn't open %s for reading"
 #~ msgstr "%s konnte nicht zum Lesen geöffnet werden"
@@ -3786,9 +3936,6 @@ msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 #~ msgid "binary-only upload - not including any source code"
 #~ msgstr "rein binärer Upload - es ist kein Quellcode hinzugefügt"
 
-#~ msgid "fuzz is not allowed when applying patches"
-#~ msgstr "beim Anwenden von Patches ist keine Unschärfe erlaubt"
-
 #~ msgid "diff %s patches file with unknown escape sequence \\%s"
 #~ msgstr "Diff %s patcht Datei mit unbekannter Maskierung \\%s"
 
@@ -3811,7 +3958,7 @@ msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 #~ msgstr "Dateilistendatei kann nicht gelesen werden"
 
 #~ msgid "duplicate files list entry for package %s (line %d)"
-#~ msgstr "doppelter Dateienliste-Eintrag für Paket %s (Zeile %d)"
+#~ msgstr "doppelter Dateilisteneintrag für Paket %s (Zeile %d)"
 
 #~ msgid "close old files list file"
 #~ msgstr "schließen der alten Dateilistendatei"
@@ -4217,7 +4364,7 @@ msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 
 #~ msgid "Dpkg::Source::Compressor can only start one subprocess at a time"
 #~ msgstr ""
-#~ "Dpkg::Source::Compressor kann nur einen Subprozess auf einmal starten"
+#~ "Dpkg::Source::Compressor kann nur einen Unterprozess auf einmal starten"
 
 #~ msgid "file `%s' listed twice in Files field"
 #~ msgstr "Datei »%s« zweimal im Feld Files aufgeführt"
@@ -4361,8 +4508,7 @@ msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 #~ msgstr "Fehlschlag"
 
 #~ msgid "field %s has newline then non whitespace >%s<"
-#~ msgstr ""
-#~ "Feld %s hat einen Zeilenumbruch und dann ein nicht-Leerraumzeichen >%s<"
+#~ msgstr "Feld %s hat einen Zeilenumbruch und dann ein Nichtleerraumzeichen >%s<"
 
 #~ msgid "field %s has blank lines >%s<"
 #~ msgstr "Feld %s hat Leerzeilen >%s<"
@@ -4488,10 +4634,10 @@ msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 #~ msgstr "Fork für tar -t"
 
 #~ msgid "tarfile `%s' contains file with name ending in .dpkg-orig"
-#~ msgstr "Tardatei »%s« enthält Datei deren Namen auf ».dpkg-orig« endet"
+#~ msgstr "Tar-Datei »%s« enthält Datei deren Namen auf ».dpkg-orig« endet"
 
 #~ msgid "tarfile `%s' contains object `debian' that isn't a directory"
-#~ msgstr "Tardatei »%s« enthält ein Objekt »debian« das kein Verzeichnis ist"
+#~ msgstr "Tar-Datei »%s« enthält ein Objekt »debian« das kein Verzeichnis ist"
 
 #~ msgid "Expected ^@@ in line %d of diff `%s'"
 #~ msgstr "Erwartete ^@@ in Zeile %d des Diffs »%s«"
@@ -4574,10 +4720,10 @@ msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 #~ "die »Source«-Zeile im Quell-Absatz der Steuerinformationsdatei fehlt"
 
 #~ msgid "fork for parse changelog"
-#~ msgstr "forke zum Auswerten des changelogs"
+#~ msgstr "forke zum Auswerten des Changelogs"
 
 #~ msgid "parse changelog"
-#~ msgstr "werte changelog aus"
+#~ msgstr "werte Changelog aus"
 
 #~ msgid "expected blank line before PGP signature"
 #~ msgstr "erwartete Leerzeile vor PGP-Signatur"
