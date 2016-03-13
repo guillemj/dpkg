@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2016-03-10 18:45+0100\n"
-"PO-Revision-Date: 2016-03-11 20:59+0100\n"
+"PO-Revision-Date: 2016-03-13 12:20+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -382,6 +382,16 @@ msgid ""
 "paragraphs refer to binary packages generated from the source.)  The "
 "ordering of the paragraphs in control files is significant."
 msgstr ""
+"Eine Steuerdatei besteht aus einem oder mehreren Absätzen mit Feldern. Die "
+"Absätze werden durch Leerzeilen getrennt. Auswertprogramme können Zeilen, die "
+"nur aus Leerzeichen, Tabulatoren und Absatztrennern bestehen, akzeptieren, "
+"allerdings sollten Steuerdateien nur Leerzeilen verwenden. Einige "
+"Steuerdateien erlauben nur einen Absatz, andere erlauben mehrere. In "
+"letzterem Fall bezieht sich jeder Absatz normalerweise auf ein anderes Paket. "
+"(Beispielsweise bezieht sich der erste Absatz in Quellpaketen auf das "
+"Quellpaket und spätere Absätze beziehen sich auf die Binärpakete, die aus "
+"dieser Quelle erstellt werden.) Die Reihenfolge der Absätze in Steuerdateien "
+"ist relevant."
 
 #. type: Plain text
 #: deb822.5
@@ -393,6 +403,13 @@ msgid ""
 "and 59-126, inclusive).  Field names must not begin with the comment "
 "character (\\(oqB<#>\\(cq), nor with the hyphen character (\\(oqB<->\\(cq)."
 msgstr ""
+"Jeder Absatz besteht aus einer Reihe von Datenfeldern. Jedes Feld besteht aus "
+"dem Feldnamen, gefolgt von einem Doppelpunkt und den Daten/Werten, die dem "
+"Feld zugeordnet sind. Der Feldname besteht aus US-ASCII-Zeichen, außer den "
+"Steuerzeichen, dem Leerzeichen und dem Doppelpunkt (d.h. Zeichen in den "
+"Bereichen 33-57 und 59-126 einschließlich). Feldnamen dürfen nicht mit dem "
+"Kommentarzeichen (\\(oqB<#>\\(cq) oder dem Gedankenstrich (\\(oqB<->\\(cq) "
+"beginnen."
 
 #. type: Plain text
 #: deb822.5
@@ -403,6 +420,11 @@ msgid ""
 "conventional to put a single space after the colon.  For example, a field "
 "might be:"
 msgstr ""
+"Das Feld endet am Zeilenende oder am Ende der letzten Fortsetzungszeile "
+"(siehe unten). Horizontaler Leerraum (Leerzeichen und Tabulatoren) können "
+"sofort nach oder vor dem Wert vorkommen und werden dort ignoriert; als "
+"Konvention wird ein einzelnes Leerzeichen nach dem Doppelpunkt gesetzt. Ein "
+"Feld könnte beispielsweise sein:"
 
 #. type: Plain text
 #: deb822.5
@@ -451,6 +473,9 @@ msgid ""
 "is not permitted.  This is the default field type if the definition of the "
 "field does not specify a different type."
 msgstr ""
+"Ein Feld, einschließlich des Wertes, muss eine einzelne Zeile sein. Falten "
+"(Umbrechen) des Feldes ist nicht erlaubt. Dies ist der Standardtyp, falls die "
+"Definition des Feldes nicht einen anderen Typ spezifiziert."
 
 #. type: TP
 #: deb822.5
@@ -466,6 +491,11 @@ msgid ""
 "a space or a tab.  Whitespace, including any newlines, is not significant in "
 "the field values of folded fields."
 msgstr ""
+"Der Wert des gefalteten Feldes ist eine logische Zeile, die sich über mehrere "
+"Zeilen erstrecken kann. Die Zeilen nach der ersten werden Fortsetzungszeilen "
+"genannt und müssen mit einem Leerzeichen oder Tabulator beginnen. Leerraum, "
+"darunter Zeilenumbrüche, ist für die Feldwerte gefalteter Zeilen nicht "
+"signifikant."
 
 #. type: Plain text
 #: deb822.5
@@ -474,6 +504,9 @@ msgid ""
 "contain only one paragraph and no multiline fields to be read by parsers "
 "written for RFC5322."
 msgstr ""
+"Diese Faltmethode ist ähnlich RFC5322 und erlaubt Steuerdateien, die nur "
+"einen Absatz und keine mehrzeiligen Absätze, die von für RFC5322 "
+"geschriebenen Auswertprogrammen eingelesen werden müssen, enthalten."
 
 #. type: TP
 #: deb822.5
@@ -567,6 +600,10 @@ msgid ""
 "package compared to the upstream one as well as other changes and updates to "
 "the package."
 msgstr ""
+"Änderungen in der paketierten Version eines Projekts werden in der Changelog-"
+"Datei I<debian/changelog> erläutert. Darunter fallen Änderungen, die am "
+"Quellpaket beim Paketieren vorgenommen wurden sowie andere Änderungen und "
+"Aktualisierungen am Paket."
 
 #. type: Plain text
 #: deb-changelog.5
@@ -575,6 +612,9 @@ msgid ""
 "discover which version of the package is being built and find out other "
 "release-specific information."
 msgstr ""
+"Das Format von I<debian/changelog> erlaubt den Paketbauwerkzeugen, die zu "
+"bauende Version des Pakets und andere, veröffentlichungsspezifische "
+"Information, zu ermitteln."
 
 #. type: Plain text
 #: deb-changelog.5
@@ -594,12 +634,21 @@ msgid ""
 "          [optional blank line(s), stripped]\n"
 " -- I<maintainer-name> E<lt>I<email-address>E<gt>  I<date>\n"
 msgstr ""
+"I<Paket> (I<Version>) I<Distributionen>; I<Metadaten>\n"
+"          [optionale leere Zeile(n), entfernt]\n"
+"  * I<Änderungsdetails>\n"
+"    I<weitere_Änderungsdetails>\n"
+"          [leere Zeile(n), in der Ausgabe von B<dpkg-parsechangelog>(1) enthalten]\n"
+"  * I<noch_weitere_Änderungsdetails>\n"
+"          [optionale leere Zeile(n), entfernt]\n"
+" -- I<Betreuername> E<lt>I<E-Mail-Adresse>E<gt>  I<Datum>\n"
 
 #. type: Plain text
 #: deb-changelog.5
 msgid ""
 "I<package> and I<version> are the source package name and version number."
 msgstr ""
+"I<Paket> und I<Version> sind der Quellpaketname und die Versionsnummer."
 
 #. type: Plain text
 #: deb-changelog.5
@@ -608,6 +657,9 @@ msgid ""
 "version should be installed when it is uploaded; it is copied to the "
 "B<Distribution> field in the I<.changes> file."
 msgstr ""
+"I<Distributionen> listet eine oder mehrere durch Leerzeichen getrennte "
+"Distributionen auf, in die diese Version nach dem Upload installiert werden "
+"soll. Es wird in das Feld B<Distribution> in der I<.changes>-Datei kopiert."
 
 #. type: Plain text
 #: deb-changelog.5
@@ -620,6 +672,13 @@ msgid ""
 "upload (an automatic binary rebuild with the only change being the changelog "
 "entry)."
 msgstr ""
+"I<Metadaten> ist eine durch Kommata getrennte Liste von I<Schlüssel>=I<Wert>-"
+"Objekten. Die einzigen von B<dpkg> derzeit verstandenen I<Schlüsselwörter> "
+"sind B<urgency> und B<binary-only>. Der Wert von B<urgency> wird für das Feld "
+"B<Urgency> in der Datei I<.changes> für den Upload verwandt. B<binary-only> "
+"mit einem Wert von B<yes> wird verwandt, um anzuzeigen, dass dieser Changelog-"
+"Eintrag für einen rein-binären nicht-Betreuer-Upload (ein automatischer "
+"binärer Neubau, wo die einzige Änderung der Changelog-Eintrag darstellt) ist."
 
 #. type: Plain text
 #: deb-changelog.5
@@ -639,11 +698,12 @@ msgid ""
 "into the distribution archive by including the string:"
 msgstr ""
 
+# FIXME: This is wrong: B<Closes: #>I<nnnnn>
 #. type: Plain text
 #: deb-changelog.5
 #, no-wrap
 msgid "  B<Closes: Bug#>I<nnnnn>\n"
-msgstr ""
+msgstr "  B<Closes: Fehler#>I<nnnnn>\n"
 
 #. type: Plain text
 #: deb-changelog.5
@@ -670,34 +730,38 @@ msgid ""
 "The I<date> has the following format (compatible and with the same semantics "
 "of RFC2822 and RFC5322, or what «date -R» generates):"
 msgstr ""
+"Das I<Datum> hat das folgende Format (kompatibel zu und mit der gleichen "
+"Semantik von RFC2822 und RFC5322 bzw. der Ausgabe von »date -R«):"
 
 #. type: Plain text
 #: deb-changelog.5
 msgid ""
 "I<day-of-week>B<,> I<dd> I<month> I<yyyy> I<hh>B<:>I<mm>B<:>I<ss> B<+>I<zzzz>"
 msgstr ""
+"I<Wochentag>B<,> I<tt> I<Monat> I<jjjj> I<hh>B<:>I<mm>B<:>I<ss> B<+>I<zzzz>"
 
 #. type: Plain text
 #: deb-changelog.5
 msgid "where:"
-msgstr ""
+msgstr "Hierbei sind:"
 
 #. type: TP
 #: deb-changelog.5
 #, no-wrap
 msgid "I<day-of-week>"
-msgstr ""
+msgstr "I<Wochentag>"
 
 #. type: Plain text
 #: deb-changelog.5
 msgid "Is one of: B<Mon>, B<Tue>, B<Wed>, B<Thu>, B<Fri>, B<Sat>, B<Sun>."
 msgstr ""
+"Dieser ist einer aus: B<Mon>, B<Tue>, B<Wed>, B<Thu>, B<Fri>, B<Sat>, B<Sun>."
 
 #. type: TP
 #: deb-changelog.5
 #, no-wrap
 msgid "I<dd>"
-msgstr ""
+msgstr "I<tt>"
 
 #. type: Plain text
 #: deb-changelog.5
@@ -708,7 +772,7 @@ msgstr ""
 #: deb-changelog.5
 #, no-wrap
 msgid "I<month>"
-msgstr ""
+msgstr "I<Monat>"
 
 #. type: Plain text
 #: deb-changelog.5
@@ -876,16 +940,6 @@ msgstr "I<Dateiname>B<.changes>"
 
 #. type: Plain text
 #: deb-changes.5
-#, fuzzy
-#| msgid ""
-#| "Each Debian package contains the master I<control> file, which contains a "
-#| "number of fields, or comments when the line starts with \\(oqB<#>\\(cq.  "
-#| "Each field begins with a tag, such as B<Package> or B<Version> (case "
-#| "insensitive), followed by a colon, and the body of the field.  Fields are "
-#| "delimited only by field tags. In other words, field text may be multiple "
-#| "lines in length, but the installation tools will generally join lines "
-#| "when processing the body of the field (except in the case of the "
-#| "B<Description> field, see below)."
 msgid ""
 "Each Debian source package is composed of a .dsc control file, which "
 "contains a number of fields.  Each field begins with a tag, such as "
@@ -896,15 +950,15 @@ msgid ""
 "of the multiline fields B<Description>, B<Changes>, B<Files>, B<Checksums-"
 "Sha1> and B<Checksums-Sha256>, see below)."
 msgstr ""
-"Jedes Debian-Paket enthält die Hauptsteuerdatei I<control>, die eine Reihe "
-"von Feldern oder Kommentaren (wenn die Zeile mit \\(oqB<#>\\(cq beginnt) "
-"enthält. Jedes Feld beginnt mit einer Markierung, wie B<Package> oder "
-"B<Version> (Groß-/Kleinschreibung egal), gefolgt von einem Doppelpunkt und "
-"dem Körper des Feldes. Felder werden nur durch die Feldmarkierungen "
-"abgegrenzt. Mit anderen Worten, Feldtexte können mehrere Zeilen überspannen, "
-"aber die Installationswerkzeuge werden im Allgemeinen die Zeilen bei der "
-"Verarbeitung des Feldkörpers zusammenfassen (mit Ausnahme des B<Description>-"
-"Feldes, sehen Sie dazu unten)."
+"Jedes Debian-Quellpaket besteht aus einer .dsc-Steuerdatei, die eine Reihe "
+"von Feldern enthält. Jedes Feld beginnt mit einer Markierung wie B<Source> "
+"oder B<Binary> (Groß-/Kleinschreibung ist egal), gefolgt von einem "
+"Doppelpunkt und dem Inhalt des Feldes. Felder werden nur durch "
+"Feldmarkierungen abgegrenzt. Mit anderen Worten: Der Feldtext kann über "
+"mehrere Zeilen gehen, wobei die Installationswerkzeuge die Zeilen bei der "
+"Verarbeitung des Feldinhaltes zusammenfügen werden (Ausnahmen sind die "
+"mehrzeiligen Felder B<Description>, B<Changes>, B<Files>, B<Checksums-Sha1> "
+"und B<Checksums-Sha256>, siehe unten)."
 
 #. type: Plain text
 #: deb-changes.5 dsc.5
@@ -912,6 +966,8 @@ msgid ""
 "The control data might be enclosed in an OpenPGP ASCII Armored signature, as "
 "specified in RFC4880."
 msgstr ""
+"Die Steuerdaten können in eine Signatur mit einer wie in RFC4880 "
+"spezifizierten OpenPGP-ASCII-Hülle eingeschlossen sein."
 
 #. type: SH
 #: deb-changes.5 deb-control.5 deb-origin.5 dsc.5
@@ -934,6 +990,12 @@ msgid ""
 "backward compatible changes (such as field additions) will bump the minor "
 "version.  The current format version is B<1.8>."
 msgstr ""
+"Das Wert dieses Feldes legt die Formatversion der Datei fest. Die Syntax des "
+"Feldwertes ist eine Versionsnummer mit einer Haupt- und einer "
+"Nebenkomponente. Rückwärtsinkompatible Änderungen im Format führen zu einer "
+"Erhöhung der Hauptversion und rückwärtskompatible Änderungen (wie die "
+"Aufnahme neuer Felder) führen zu einer Erhöhung der Nebenversion. Die "
+"aktuelle Formatversion ist B<1.8>."
 
 #. type: TP
 #: deb-changes.5
@@ -973,6 +1035,9 @@ msgid ""
 "version> in parenthesis.  This can happen when the upload is a binary-only "
 "non-maintainer upload."
 msgstr ""
+"Der Name des Quellpakets. Falls sich die Quellversion von der Binärversion "
+"unterscheidet folgt dem I<Quellname>n in Klammern eine I<Quellversion>. Dies "
+"kann passieren, falls dies ein rein-binärer-nicht-Betreuer-Upload ist."
 
 #. type: TP
 #: deb-changes.5
@@ -985,6 +1050,8 @@ msgstr "B<Binary:> I<Binärpaketliste> (verpflichtend)"
 msgid ""
 "This folded field is a space-separated list of binary packages to upload."
 msgstr ""
+"Dieses gefaltete Feld ist eine durch Leerzeichen getrennte Liste von "
+"hochzuladenen binären Paketen."
 
 #. type: TP
 #: deb-changes.5 dsc.5
@@ -994,13 +1061,6 @@ msgstr "B<Architecture:> I<Architekturliste>"
 
 #. type: Plain text
 #: deb-changes.5
-#, fuzzy
-#| msgid ""
-#| "The architecture specifies which type of hardware this package was "
-#| "compiled for.  Common architectures are B<amd64>, B<armel>, B<i386>, "
-#| "B<powerpc>, etc.  Note that the B<all> option is meant for packages that "
-#| "are architecture independent. Some examples of this are shell and Perl "
-#| "scripts, and documentation."
 msgid ""
 "Lists the architectures of the files currently being uploaded.  Common "
 "architectures are B<amd64>, B<armel>, B<i386>, etc.  Note that the B<all> "
@@ -1008,11 +1068,12 @@ msgid ""
 "source for the package is also being uploaded, the special entry B<source> "
 "is also present.  Architecture wildcards must never be present in the list."
 msgstr ""
-"Die Architektur spezifiziert den Hardwaretyp für den dieses Paket kompiliert "
-"wurde. Geläufige Architekturen sind B<amd64>, B<armel>, B<i386>, B<powerpc> "
-"usw. Beachten Sie, dass die Option B<all> für Pakete gedacht ist, die "
-"Architektur-unabhängig sind. Einige Beispiele hierfür sind Shell- und Perl-"
-"Skripte und Dokumentation."
+"Listet die Architekturen der derzeit hochgeladenen Dateien auf. Geläufige "
+"Architekturen sind B<amd64>, B<armel>, B<i386>, usw. Beachten Sie, dass der "
+"Wert B<all> für Pakete gedacht ist, die Architektur-unabhängig sind. Falls "
+"die Quellen für das Paket auch hochgeladen werden, ist der besondere Eintrag "
+"B<source> auch vorhanden. Architektur-Platzhalter dürfen in der Liste niemals "
+"auftauchen."
 
 #. type: TP
 #: deb-changes.5 deb-control.5 dsc.5
@@ -1187,7 +1248,7 @@ msgstr "B<Files:> (verpflichtend)"
 #: deb-changes.5
 #, no-wrap
 msgid " I<md5sum> I<size> I<section> I<priority> I<filename>"
-msgstr ""
+msgstr " I<Md5sum> I<Größe> I<Sektion> I<Priorität> I<Dateiname>"
 
 #. type: Plain text
 #: deb-changes.5
@@ -1224,13 +1285,13 @@ msgstr "B<Checksums-Sha1:> (verpflichtend)"
 #: deb-changes.5 dsc.5
 #, no-wrap
 msgid "B<Checksums-Sha256:> (required)"
-msgstr ""
+msgstr "B<Checksums-Sha256:> (verpflichtend)"
 
 #. type: TQ
 #: deb-changes.5 dsc.5
 #, no-wrap
 msgid " I<checksum> I<size> I<filename>"
-msgstr ""
+msgstr " I<Prüfsumme> I<Größe> I<Dateiname>"
 
 #. type: Plain text
 #: deb-changes.5
@@ -1425,19 +1486,12 @@ msgstr ""
 
 #. type: Plain text
 #: deb-control.5 deb-src-control.5
-#, fuzzy
-#| msgid ""
-#| "In Debian, the B<Section> and B<Priority> fields have a defined set of "
-#| "accepted values based on the Policy Manual.  A list of these values can "
-#| "be obtained from the latest version of the B<debian-policy> package."
 msgid ""
 "The B<Section> and B<Priority> fields usually have a defined set of accepted "
 "values based on the specific distribution policy."
 msgstr ""
-"In Debian haben die B<Section>- und B<Priority>-Felder einen definierten "
-"Satz an akzeptierten Werten, basierend auf dem Richtlinien-Handbuch. Eine "
-"Liste dieser Werte kann aus der neusten Version des Pakets B<debian-policy> "
-"erhalten werden."
+"Die Felder B<Section> und B<Priority> haben eine definierte Menge an Werten, "
+"abhängig von den jeweiligen Distributionsrichtlinien."
 
 #. type: TP
 #: deb-control.5
@@ -4604,10 +4658,9 @@ msgstr "B<Package-List:>"
 
 #. type: TQ
 #: dsc.5
-#, fuzzy, no-wrap
-#| msgid "I<package> I<priority> I<section> [I<maintainerinfo>]"
+#, no-wrap
 msgid " I<package> I<package-type> I<section> I<priority> I<key-value-list>"
-msgstr "I<Paket> I<Priorität> I<Sektion> [I<Betreuerinformation>]"
+msgstr " I<Paket> I<Pakettyp> I<Sektion> I<Priorität> I<Schlüssel-Wert-Liste>"
 
 #. type: Plain text
 #: dsc.5
@@ -4615,6 +4668,8 @@ msgid ""
 "This multiline field contains a list of binary packages generated by this "
 "source package."
 msgstr ""
+"Dieses mehrzeilige Feld enthält eine Liste von Binärpaketen, die von diesem "
+"Quellpaket erstellt werden."
 
 #. type: Plain text
 #: dsc.5
@@ -4636,6 +4691,8 @@ msgid ""
 "The I<section> and I<priority> match the binary package fields of the same "
 "name."
 msgstr ""
+"I<Sektion> und I<Priorität> entsprechen den Feldern I<section> und "
+"I<priority> des Binärpakets."
 
 #. type: Plain text
 #: dsc.5
@@ -5529,7 +5586,6 @@ msgstr ""
 msgid "B<--clear-selections>"
 msgstr "B<--clear-selections>"
 
-# FIMXE dass → das auch in älteren Versionen korrigieren
 #. type: Plain text
 #: dpkg.1
 msgid ""
@@ -9694,17 +9750,12 @@ msgstr "B<timeless>"
 
 #. type: Plain text
 #: dpkg-buildflags.1
-#, fuzzy
-#| msgid ""
-#| "This setting (disabled by default) adds B<-Wdate-time> to B<CPPFLAGS>.  "
-#| "This will cause warnings when the B<__TIME__>, B<__DATE__> and B<\\"
-#| "%__TIMESTAMP__> macros are used."
 msgid ""
 "This setting (enabled by default) adds B<-Wdate-time> to B<CPPFLAGS>.  This "
 "will cause warnings when the B<__TIME__>, B<__DATE__> and B<\\"
 "%__TIMESTAMP__> macros are used."
 msgstr ""
-"Diese (standardmäßig deaktivierte) Einstellung fügt B<-Wdate-time> zu "
+"Diese (standardmäßig aktivierte) Einstellung fügt B<-Wdate-time> zu "
 "B<CPPFLAGS> hinzu. Dies führt zu Warnungen, wenn die Makros B<__TIME__>, "
 "B<__DATE__> und B<\\%__TIMESTAMP__> verwandt werden."
 
@@ -10391,13 +10442,6 @@ msgstr "B<-T>I<Ziel>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid ""
-#| "Calls B<debian/rules> I<target> after having setup the build environment "
-#| "and stops the package build process here (since dpkg 1.15.0).  If B<--as-"
-#| "root> is also given, then the command is executed as root (see B<-r>). "
-#| "Note that official targets that are required to be run as root by the "
-#| "Debian policy do not need this option."
 msgid ""
 "Calls B<debian/rules> I<target> after having setup the build environment and "
 "stops the package build process here (since dpkg 1.15.0).  If B<--as-root> "
@@ -10408,9 +10452,9 @@ msgstr ""
 "Ruft B<debian/rules> I<Ziel> auf, nachdem die Bauumgebung eingerichtet wurde "
 "und beendet den Paketbauprozess hier (seit Dpkg 1.15.0). Falls auch B<--as-"
 "root> angegeben wurde, wird der Befehl mit root-Rechten ausgeführt (siehe B<-"
-"r>). Beachten Sie, dass offizielle Ziele, bei denen die Debian-Richtlinien "
-"verlangen, dass Sie mit root-Rechten ausgeführt werden, diese Option nicht "
-"benötigen."
+"r>). Beachten Sie, dass bekannte Ziele, die als Root ausgeführt werden "
+"müssen, diese Option nicht benötigen (d.h. die Ziele B<clean>, B<binary>, "
+"B<binary-arch> und B<binary-indep>)."
 
 #. type: TP
 #: dpkg-buildpackage.1
@@ -11470,12 +11514,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-deb.1
-#, fuzzy
-#| msgid ""
-#| "For most commands taking an input archive argument, the archive can be "
-#| "read from standard input if the archive name is given as a single minus "
-#| "character (B<->); otherwise lack of support will be documented in their "
-#| "respective command description."
 msgid ""
 "For most commands taking an input archive argument, the archive can be read "
 "from standard input if the archive name is given as a single minus character "
@@ -11484,7 +11522,7 @@ msgid ""
 msgstr ""
 "Bei den meisten Befehlen, die ein Archiv als Eingabeargument erwarten, kann "
 "der Archivname von der Standardeingabe gelesen werden, wenn er als einzelnes "
-"Minuszeichen (B<->) angegeben ist. Falls dies nicht unterstützt wird, ist "
+"Minuszeichen (\\(FoB<->\\(Fc) angegeben ist. Falls dies nicht unterstützt wird, ist "
 "dies in der jeweiligen Beschreibung des Befehls dokumentiert."
 
 #. type: TP
@@ -11741,16 +11779,12 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-deb.1
-#, fuzzy
-#| msgid ""
-#| "The input archive is not (currently) processed sequentially, so reading "
-#| "it from standard input (B<->) is B<not> supported."
 msgid ""
 "The input archive is not (currently) processed sequentially, so reading it "
 "from standard input (\\(FoB<->\\(Fc) is B<not> supported."
 msgstr ""
 "Das Eingebearchiv wird (derzeit) nicht sequenziell verarbeitet, daher wird "
-"das Einlesen von der Standardeingabe (B<->) B<nicht> unterstützt."
+"das Einlesen von der Standardeingabe (\\(FoB<->\\(Fc) B<nicht> unterstützt."
 
 #. type: TP
 #: dpkg-deb.1
@@ -12742,12 +12776,12 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-genchanges.1
-#, fuzzy
-#| msgid "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
 msgid ""
 "B<deb-substvars>(5), B<deb-src-control>(5), B<deb-changelog>(5), B<deb-"
 "changes>(5)."
-msgstr "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
+msgstr ""
+"B<deb-substvars>(5), B<deb-src-control>(5), B<deb-changelog>(5), B<deb-"
+"changes>(5)."
 
 #. type: TH
 #: dpkg-gencontrol.1
@@ -12984,12 +13018,12 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-gencontrol.1
-#, fuzzy
-#| msgid "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
 msgid ""
 "B<deb-substvars>(5), B<deb-src-control>(5), B<deb-changelog>(5), B<deb-"
 "control>(5)."
-msgstr "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
+msgstr ""
+"B<deb-substvars>(5), B<deb-src-control>(5), B<deb-changelog>(5), B<deb-"
+"control>(5)."
 
 #. type: TH
 #: dpkg-gensymbols.1
@@ -15348,13 +15382,10 @@ msgstr ""
 msgid "B<-F> I<changelog-format>"
 msgstr "B<-F> I<Changelog-Format>"
 
+# FIXME: Absatz auch in Stable korrigieren (Markup!)
+# FIXME: Warum ist das jetzt B??
 #. type: Plain text
 #: dpkg-parsechangelog.1
-#, fuzzy
-#| msgid ""
-#| "Specifies the format of the changelog. By default the format is read from "
-#| "a special line near the bottom of the changelog or failing that defaults "
-#| "to the I<debian> standard format. See also B<CHANGELOG FORMATS>."
 msgid ""
 "Specifies the format of the changelog. By default the format is read from a "
 "special line near the bottom of the changelog or failing that defaults to "
@@ -15363,7 +15394,7 @@ msgstr ""
 "Gibt das Format der Änderungsprotokolldatei an. Standardmäßig wird das "
 "Format aus einer speziellen Zeile in der Nähe des Endes der "
 "Änderungsprotokolldatei gelesen oder, falls dies fehlschlägt, wird das "
-"Debian-Standardformat angenommen. Siehe auch B<CHANGELOG-FORMATE>."
+"B<debian>-Standardformat angenommen. Siehe auch B<CHANGELOG-FORMATE>."
 
 #. type: TP
 #: dpkg-parsechangelog.1
@@ -15782,18 +15813,13 @@ msgstr "Ein Changelog-Auswerter darf nicht mit dem Benutzer interagieren."
 
 #. type: Plain text
 #: dpkg-parsechangelog.1
-#, fuzzy
-#| msgid ""
-#| "All B<Parser Options> except for B<-v> are only supported since dpkg "
-#| "1.14.16. Third party parsers for changelog formats other than I<debian> "
-#| "might not support all options."
 msgid ""
 "All B<Parser Options> except for B<-v> are only supported since dpkg "
 "1.14.16. Third party parsers for changelog formats other than B<debian> "
 "might not support all options."
 msgstr ""
 "Alle B<Auswerter-Optionen> außer B<-v> werden seit Dpkg 1.14.16 unterstützt. "
-"Auswerter von Dritten für Changelog-Formate außer I<debian> könnten nicht "
+"Auswerter von Dritten für Changelog-Formate außer B<debian> könnten nicht "
 "alle Optionen unterstützen."
 
 #. type: Plain text
@@ -15826,10 +15852,8 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-parsechangelog.1
-#, fuzzy
-#| msgid "B<debian/changelog>"
 msgid "B<deb-changelog>(5)."
-msgstr "B<debian/changelog>"
+msgstr "B<deb-changelog>(5)."
 
 #. type: TH
 #: dpkg-query.1
@@ -16130,12 +16154,6 @@ msgstr "B<-S>, B<--search> I<Dateiname-Suchmuster> …"
 
 #. type: Plain text
 #: dpkg-query.1
-#, fuzzy
-#| msgid ""
-#| "Search for packages that own files corresponding to the given pattern.  "
-#| "Standard shell wildcard characters can be used in the pattern, where "
-#| "asterisk (*) and question mark (?) will match a slash, and blackslash "
-#| "(\\e) will be used as an escape character."
 msgid ""
 "Search for packages that own files corresponding to the given pattern.  "
 "Standard shell wildcard characters can be used in the pattern, where "
@@ -16144,8 +16162,8 @@ msgid ""
 msgstr ""
 "Suche nach Paketen, denen Paketen, die auf ein bestimmtes Muster passen, "
 "gehören. Die normalen Jokerzeichen (»wildcards«) der Shell können in diesem "
-"Muster verwandt werden, wobei der Stern (*) und das Fragezeichen (?) auf "
-"einen Schrägstrich passen und der inverse Schrägstrich (\\e) als "
+"Muster verwandt werden, wobei der Stern (B<*>) und das Fragezeichen (B<?>) auf "
+"einen Schrägstrich passen und der inverse Schrägstrich (B<\\e>) als "
 "Maskierzeichen verwandt wird."
 
 # FIXME: Übersetzung verbessern
@@ -16379,13 +16397,6 @@ msgstr "B<binary:Package>"
 
 #. type: Plain text
 #: dpkg-query.1
-#, fuzzy
-#| msgid ""
-#| "It contains the binary package name with a possible architecture "
-#| "qualifier like \\(lqlibc6:amd64\\(rq (since dpkg 1.16.2).  The "
-#| "architecture qualifier will only be present if the package has a B<Multi-"
-#| "Arch> field with a value of B<same>.  This makes the package name "
-#| "unambiguous."
 msgid ""
 "It contains the binary package name with a possible architecture qualifier "
 "like \\(lqlibc6:amd64\\(rq (since dpkg 1.16.2).  An architecture qualifier "
@@ -16394,9 +16405,10 @@ msgid ""
 "of a foreign architecture."
 msgstr ""
 "Es enthält den Binärpaketnamen mit einem möglichen Architektur-Kennzeichner "
-"wie \\(lqlibc6:amd64\\(rq (seit Dpkg 1.16.2). Der Architektur-Kennzeichner "
-"wird nur vorhanden sein, falls das Paket ein Feld B<Multi-Arch> mit dem Wert "
-"B<same> trägt. Damit wird der Name eindeutig."
+"wie \\(lqlibc6:amd64\\(rq (seit Dpkg 1.16.2). Ein Architektur-Kennzeichner "
+"dient dazu, einen eindeutigen Paketnamen zu erzeugen, falls beispielsweise "
+"das Paket ein Feld B<Multi-Arch> mit dem Wert B<same> hat oder das Paket für "
+"eine fremde Architektur ist."
 
 #. type: TP
 #: dpkg-query.1
@@ -19681,10 +19693,8 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.1
-#, fuzzy
-#| msgid "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
 msgid "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
-msgstr "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
+msgstr "B<deb-src-control>(5), B<deb-changelog>(5), B<dsc>(5)."
 
 #. type: TH
 #: dpkg-split.1
@@ -20264,19 +20274,12 @@ msgstr "B<--list> [I<Glob-Muster>]"
 
 #. type: Plain text
 #: dpkg-statoverride.1
-#, fuzzy
-#| msgid ""
-#| "List all overrides. If a glob pattern is specified restrict the output to "
-#| "overrides which match the glob. If there are no overrides or none match "
-#| "the glob B<dpkg-statoverride> will exit with an exitcode of 1."
 msgid ""
 "List all overrides. If a glob pattern is specified restrict the output to "
 "overrides which match the glob."
 msgstr ""
 "Liste alle Hinwegsetzungen auf. Falls ein Glob-Muster spezifiziert wurde, "
-"begrenze die Ausgabe auf Hinwegsetzungen, die auf den Glob passen. Falles es "
-"keine Hinwegsetzungen gibt oder keine auf den Glob passt, wird sich B<dpkg-"
-"statoverride> mit einem Exit-Wert von 1 beenden."
+"begrenze die Ausgabe auf Hinwegsetzungen, die auf den Glob passen."
 
 #. type: Plain text
 #: dpkg-statoverride.1
@@ -20534,16 +20537,12 @@ msgstr "B<--is>I< Lieferant>"
 
 #. type: Plain text
 #: dpkg-vendor.1
-#, fuzzy
-#| msgid ""
-#| "Exits with B<0> if the current vendor is I<vendor>. Otherwise exits with "
-#| "non-zero."
 msgid ""
 "Exits with B<0> if the current vendor is I<vendor>. Otherwise exits with "
 "B<1>."
 msgstr ""
 "Beendet sich mit B<0>, falls der aktuelle Lieferant I<Lieferant> ist, "
-"ansonsten mit einem von Null verschiedenen Wert."
+"ansonsten mit B<1>."
 
 #. type: TP
 #: dpkg-vendor.1
@@ -20553,19 +20552,14 @@ msgstr "B<--derives-from>I< Lieferant>"
 
 #. type: Plain text
 #: dpkg-vendor.1
-#, fuzzy
-#| msgid ""
-#| "Exits with B<0> if the current vendor distribution is a derivative of "
-#| "I<vendor>, otherwise exits with non-zero. It uses the B<Parent> field to "
-#| "browse all ancestors of the current vendor."
 msgid ""
 "Exits with B<0> if the current vendor distribution is a derivative of "
 "I<vendor>, otherwise exits with B<1>.  It uses the B<Parent> field to browse "
 "all ancestors of the current vendor."
 msgstr ""
 "Beendet sich mit B<0>, falls die aktuelle Lieferant-Distribution von "
-"I<Lieferant> abgeleitet ist, ansonsten mit einem von Null verschiedenen "
-"Wert. Es verwendet das Feld B<Parent>, um alle Vorfahren des aktuellen "
+"I<Lieferant> abgeleitet ist, ansonsten mit B<1>. "
+"Es verwendet das Feld B<Parent>, um alle Vorfahren des aktuellen "
 "Lieferanten zu ermitteln."
 
 #. type: TP
@@ -21209,19 +21203,6 @@ msgstr "Einführung"
 
 #. type: Plain text
 #: dselect.1
-#, fuzzy
-#| msgid ""
-#| "B<dselect> directly exposes the administrator to some of the complexities "
-#| "involved with managing large sets of packages with many "
-#| "interdependencies. For a user who is unfamiliar with the concepts and the "
-#| "ways of the debian package management system, it can be quite "
-#| "overwhelming. Although B<dselect> is aimed at easing package management "
-#| "and administration, it is only instrumental in doing so and can not be "
-#| "assumed to be a sufficient substitute for administrator skill and "
-#| "understanding. The user is required to be familiar with the concepts "
-#| "underlying the Debian packaging system.  In case of doubt, consult the "
-#| "B<dpkg>(1) manpage and the Debian Policy manual, contained in the "
-#| "B<debian-policy> package."
 msgid ""
 "B<dselect> directly exposes the administrator to some of the complexities "
 "involved with managing large sets of packages with many interdependencies. "
@@ -21242,8 +21223,7 @@ msgstr ""
 "nicht ausreichende Administratorfähigkeiten und Administratorverständnis "
 "ersetzen. Es wird vom Benutzer erwartet, dass er mit den Konzepten des "
 "unterliegenden Debian-Paketsystems vertraut ist. Im Zweifelsfall ziehen Sie "
-"die Handbuchseite B<dpkg>(1) und das Debian-Richtlinien-Handbuch zu Rate. "
-"Letzteres ist auf Englisch im Paket B<debian-policy> enthalten."
+"die Handbuchseite B<dpkg>(1) und die Richtlinien der Distribution zu Rate."
 
 #. type: Plain text
 #: dselect.1
@@ -21744,10 +21724,8 @@ msgstr ""
 
 #. type: Plain text
 #: dselect.1
-#, fuzzy
-#| msgid "The requested action was successfully performed."
 msgid "The requested command was successfully performed."
-msgstr "Die angeforderte Aktion wurde erfolgreich ausgeführt."
+msgstr "Die angeforderte Befehl wurde erfolgreich ausgeführt."
 
 #. type: Plain text
 #: dselect.1
