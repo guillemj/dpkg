@@ -76,7 +76,7 @@ dpkg_selabel_load(void)
 	}
 
 	sehandle = selabel_open(SELABEL_CTX_FILE, NULL, 0);
-	if (sehandle == NULL)
+	if (sehandle == NULL && security_getenforce() == 1)
 		ohshite(_("cannot get security labeling handle"));
 #endif
 }
