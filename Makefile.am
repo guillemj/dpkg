@@ -181,6 +181,7 @@ dist-hook:
 				exit 1 ; \
 			fi ; \
 		done ; \
+		XDG_CONFIG_HOME= HOME= \
 		git log -C --stat 1.15.0.. >$(distdir)/ChangeLog; \
 	fi
 
