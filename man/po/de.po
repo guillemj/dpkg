@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2016-03-10 18:45+0100\n"
-"PO-Revision-Date: 2016-03-13 12:20+0100\n"
+"PO-Revision-Date: 2016-03-20 18:54+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -524,6 +524,12 @@ msgid ""
 "fields.  Whitespace, including newlines, is significant in the values of "
 "multiline fields."
 msgstr ""
+"Der Wert eines mehrzeiligen Feldes darf mehrere Fortsetzungszeilen enthalten. "
+"Die erstes des Wertes, der Teil der auf der gleichen Zeile wie der Feldname "
+"ist, hat oft eine spezielle Bedeutung oder könnte leer sein müssen. Weitere "
+"Zeilen werden hinzugefügt und folgen der gleichen Syntax wie die "
+"Fortsetzungszeilen von anderen gefalteten Feldern. Leerraum, inklusive "
+"Zeilenumbrüchen, ist im Wert von mehrzeiligen Feldern signifikant."
 
 #. type: Plain text
 #: deb822.5
@@ -532,6 +538,9 @@ msgid ""
 "or anything else) or version numbers, or between the characters of multi-"
 "character version relationships."
 msgstr ""
+"Leerraum darf nicht innerhalb von Namen (von Paketen, Architekturen, Dateien "
+"oder sonstigem) oder Versionsnummern oder zwischen den Zeichen einer "
+"Mehrzeichenversionsbeziehung auftauchen."
 
 #. type: Plain text
 #: deb822.5
@@ -539,6 +548,8 @@ msgid ""
 "The presence and purpose of a field, and the syntax of its value may differ "
 "between types of control files."
 msgstr ""
+"Die Existenz und der Zweck eines Feldes und die Syntax seines Wertes können "
+"zwischen den Arten der Steuerdateien variieren."
 
 #. type: Plain text
 #: deb822.5
@@ -547,6 +558,10 @@ msgid ""
 "names using mixed case as shown below.  Field values are case-sensitive "
 "unless the description of the field says otherwise."
 msgstr ""
+"Die Groß-/Kleinschreibung ist bei Feldnamen nicht relevant, aber "
+"normalerweise wird die Großschreibung eines Feldes in der unten gezeigten "
+"gemischten Weise vorgenommen. Bei den Feldwerten ist die "
+"Groß-/Kleinschreibung relevant, außer die Beschreibung sagt etwas anderes."
 
 #. type: Plain text
 #: deb822.5
@@ -556,7 +571,12 @@ msgid ""
 "field values are usually escaped by representing them by a space followed by "
 "a dot."
 msgstr ""
+"Absatztrenner (leere Zeilen) und Zeilen, die nur aus Leerzeichen und "
+"Tabulatoren bestehen sind in Feldwerten oder zwischen Feldern nicht erlaubt. "
+"Leere Zeilen und Feldwerte werden normalerweise maskiert, indem sie durch ein "
+"Leerzeichen gefolgt von einem Satzpunkt dargestellt werden."
 
+# FIXME: Missing open bracket?
 #. type: Plain text
 #: deb822.5
 msgid ""
@@ -565,6 +585,10 @@ msgid ""
 "I<debian/control>).  These comment lines are ignored, even between two "
 "continuation lines.  They do not end logical lines."
 msgstr ""
+"Zeilen, die mit \\(oqB<#>\\(cq ohne ein vorangestellten Leerraum beginnen, "
+"sind Kommentarzeilen, die nur in Quellpaketsteuerdateien (I<debian/control>) "
+"erlaubt sind. Diese Kommentarzeilen werden ignoriert, selbst zwischen zwei "
+"Fortsetzungszeilen. Sie beenden keine logischen Zeilen."
 
 #. type: Plain text
 #: deb822.5
@@ -712,6 +736,10 @@ msgid ""
 "\\es*(?:bug)?\\e#?\\es?\\ed+(?:,\\es*(?:bug)?\\e#?\\es?\\ed+)*/i>).  This "
 "information is conveyed via the B<Closes> field in the I<.changes> file."
 msgstr ""
+"in den Änderungsdetails auftaucht. Der genaue reguläre Perl-Ausdruck lautet "
+"B</closes:\\es*(?:bug)?\\e#?\\es?\\ed+(?:,\\es*(?:bug)?\\e#?\\es?\\ed+)*/i>). "
+"Diese Information wird über das Feld B<Closes> in der I<.changes>-Datei "
+"vermittelt."
 
 #. type: Plain text
 #: deb-changelog.5
@@ -766,7 +794,7 @@ msgstr "I<tt>"
 #. type: Plain text
 #: deb-changelog.5
 msgid "Is a one- or two-digit day of the month (B<01>-B<31>)."
-msgstr ""
+msgstr "Dies ist der Tag des Monats (B<01>-B<31>) aus einer oder zwei Ziffern."
 
 #. type: TP
 #: deb-changelog.5
@@ -780,12 +808,14 @@ msgid ""
 "Is one of: B<Jan>, B<Feb>, B<Mar>, B<Apr>, B<May>, B<Jun>, B<Jul>, B<Aug>, "
 "B<Sep>, B<Oct>, B<Nov>, B<Dec>."
 msgstr ""
+"Dies ist einer aus: B<Jan>, B<Feb>, B<Mar>, B<Apr>, B<May>, B<Jun>, B<Jul>, B<Aug>, "
+"B<Sep>, B<Oct>, B<Nov>, B<Dec>."
 
 #. type: TP
 #: deb-changelog.5
 #, no-wrap
 msgid "I<yyyy>"
-msgstr ""
+msgstr "I<jjjj>"
 
 #. type: Plain text
 #: deb-changelog.5
