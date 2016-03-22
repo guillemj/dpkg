@@ -245,10 +245,6 @@ __END__
 
 =back
 
-=head1 SEE ALSO
-
-Dpkg::Changelog
-
 =head1 CHANGES
 
 =head2 Version 1.00 (dpkg 1.15.6)
@@ -259,5 +255,9 @@ Mark the module as public.
 
 Frank Lichtenheld, E<lt>frank@lichtenheld.deE<gt>
 Raphaël Hertzog, E<lt>hertzog@debian.orgE<gt>
+
+=head1 SEE ALSO
+
+Dpkg::Changelog
 
 =cut
