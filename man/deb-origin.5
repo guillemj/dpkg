@@ -23,13 +23,22 @@ deb\-origin \- Vendor-specific information files
 .BI /etc/dpkg/origins/ filename
 .SH DESCRIPTION
 The files in \fB/etc/dpkg/origins\fP can provide information about
-various vendors who are providing Debian packages. They contain a
-number of fields, or comments when the line starts with \(oq\fB#\fP\(cq.
+various vendors who are providing Debian packages.
+
+They contain a number of fields, or comments when the line starts with
+\(oq\fB#\fP\(cq.
 Each field begins with a tag, such as \fBVendor\fP or \fBParent\fP,
 followed by a colon and the body of the field. Fields are delimited
 only by field tags. In other words, field text may be multiple lines
 in length, but the tools will join lines when processing the body of
 the field.
+
+The file should be named according to the vendor name.
+The usual convention is to name the vendor file using the vendor name
+in all lowercase, but some variation is permitted.
+Namely, spaces are mapped to dashes (\(oq\fB\-\fP\(cq), and the file
+can have the same casing as the value in \fBVendor\fP field, or it can
+be capitalized.
 .SH FIELDS
 .TP
 .BR Vendor: " \fIvendor-name\fP (required)"
