@@ -197,7 +197,7 @@ my $dep_bad_arch = deps_parse('package [alpha] [amd64]');
 is($dep_bad_arch, undef, 'Bogus repeated arch restriction');
 
 my $dep_bad_multiline = deps_parse("a, foo\nbar, c");
-ok(!defined($dep_bad_multiline), 'invalid dependency split over multiple line');
+is($dep_bad_multiline, undef, 'invalid dependency split over multiple line');
 
 delete $SIG{__WARN__};
 
