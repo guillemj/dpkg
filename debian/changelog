@@ -76,6 +76,9 @@ dpkg (1.18.5) UNRELEASED; urgency=medium
     - Add new functions to validate and parse architecture names in Dpkg::Arch.
     - Make the dependency parser more strict in Dpkg::Deps. Closes: #784806
     - Add strong digest marking support to Dpkg::Checksums.
+    - Error out on source packages without any strong digests in
+      Dpkg::Source::Package, used by dpkg-source --extract, which can still
+      be disabled with --no-check.
   * Build system:
     - Fix building development documentation.
     - Remove unused UA_LIBS variable.

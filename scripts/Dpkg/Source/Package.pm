@@ -328,15 +328,20 @@ sub get_files {
 
 Verify the checksums embedded in the DSC file. It requires the presence of
 the other files constituting the source package. If any inconsistency is
-discovered, it immediately errors out.
+discovered, it immediately errors out. It will make sure at least one strong
+checksum is present.
 
 =cut
 
 sub check_checksums {
     my $self = shift;
     my $checksums = $self->{checksums};
+
     # add_from_file verify the checksums if they are already existing
     foreach my $file ($checksums->get_files()) {
+        if (not $checksums->has_strong_checksums($file)) {
+            error(g_('source package uses only weak checksums'));
+        }
 	$checksums->add_from_file($self->{basedir} . $file, key => $file);
     }
 }
