@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 41;
+use Test::More tests => 44;
 
 BEGIN {
     use_ok('Dpkg::Checksums');
@@ -89,6 +89,7 @@ foreach my $c (@expected_checksums) {
 
     ok(defined checksums_get_property($c, 'name'), "Checksum $c has name");
     ok(defined checksums_get_property($c, 'regex'), "Checksum $c has regex");
+    ok(defined checksums_get_property($c, 'strong'), "Checksum $c has strong");
 }
 
 my $ck = Dpkg::Checksums->new();

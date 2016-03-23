@@ -20,7 +20,7 @@ package Dpkg::Checksums;
 use strict;
 use warnings;
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 our @EXPORT = qw(
     checksums_is_supported
     checksums_get_list
@@ -56,14 +56,17 @@ my $CHECKSUMS = {
     md5 => {
 	name => 'MD5',
 	regex => qr/[0-9a-f]{32}/,
+	strong => 0,
     },
     sha1 => {
 	name => 'SHA-1',
 	regex => qr/[0-9a-f]{40}/,
+	strong => 0,
     },
     sha256 => {
 	name => 'SHA-256',
 	regex => qr/[0-9a-f]{64}/,
+	strong => 1,
     },
 };
 
@@ -95,8 +98,9 @@ sub checksums_is_supported($) {
 Returns the requested property of the checksum algorithm. Returns undef if
 either the property or the checksum algorithm doesn't exist. Valid
 properties currently include "name" (returns the name of the digest
-algorithm) and "regex" for the regular expression describing the common
-string representation of the checksum.
+algorithm), "regex" for the regular expression describing the common
+string representation of the checksum, and "strong" for a boolean describing
+whether the checksum algorithm is considered cryptographically strong.
 
 =cut
 
@@ -335,6 +339,23 @@ sub get_size {
     return $self->{size}{$file};
 }
 
+=item $bool = $ck->has_strong_checksums($file)
+
+Return a boolean on whether the file has a strong checksum.
+
+=cut
+
+sub has_strong_checksums {
+    my ($self, $file) = @_;
+
+    foreach my $alg (checksums_get_list()) {
+        return 1 if defined $self->get_checksum($file, $alg) and
+                    checksums_get_property($alg, 'strong');
+    }
+
+    return 0;
+}
+
 =item $ck->export_to_string($alg, %opts)
 
 Return a multi-line string containing the checksums of type $alg. The
@@ -375,6 +396,12 @@ sub export_to_control {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.03 (dpkg 1.18.5)
+
+New property: Add new 'strong' property.
+
+New member: $ck->has_strong_checksums().
 
 =head2 Version 1.02 (dpkg 1.18.0)
 
