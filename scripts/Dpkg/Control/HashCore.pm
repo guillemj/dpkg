@@ -444,7 +444,6 @@ package Dpkg::Control::HashCore::Tie;
 use strict;
 use warnings;
 
-use Dpkg::Checksums;
 use Dpkg::Control::FieldsCore;
 
 use Carp;
