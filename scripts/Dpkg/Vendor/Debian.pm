@@ -158,6 +158,7 @@ sub _add_reproducible_flags {
     # Default feature states.
     my %use_feature = (
         timeless => 1,
+        fixdebugpath => 0,
     );
 
     # Adjust features based on user or maintainer's desires.
@@ -166,6 +167,19 @@ sub _add_reproducible_flags {
     # Warn when the __TIME__, __DATE__ and __TIMESTAMP__ macros are used.
     if ($use_feature{timeless}) {
        $flags->append('CPPFLAGS', '-Wdate-time');
+    }
+
+    # Avoid storing the build path in the debug symbols.
+    if ($use_feature{fixdebugpath}) {
+        require Cwd;
+        my $map = '-fdebug-prefix-map=' . Cwd::cwd() . '=.';
+        $flags->append('CFLAGS', $map);
+        $flags->append('CXXFLAGS', $map);
+        $flags->append('OBJCFLAGS', $map);
+        $flags->append('OBJCXXFLAGS', $map);
+        $flags->append('FFLAGS', $map);
+        $flags->append('FCFLAGS', $map);
+        $flags->append('GCJFLAGS', $map);
     }
 
     # Store the feature usage.
