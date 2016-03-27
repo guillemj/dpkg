@@ -18,7 +18,7 @@ package Dpkg::Conf;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -58,7 +58,7 @@ sub new {
     my $class = ref($this) || $this;
 
     my $self = {
-	options => [],
+	options => {},
 	allow_short => 0,
     };
     foreach my $opt (keys %opts) {
@@ -79,7 +79,46 @@ Returns the list of options that can be parsed like @ARGV.
 
 sub get_options {
     my $self = shift;
-    return @{$self->{options}};
+    my @options;
+
+    foreach my $name (sort keys %{$self->{options}}) {
+        my $value = $self->{options}->{$name};
+
+        $name = "--$name" unless $name =~ /^-/;
+        if (defined $value) {
+            push @options, "$name=$value";
+        } else {
+            push @options, $name;
+        }
+    }
+
+    return @options;
+}
+
+=item $value = $conf->get($name)
+
+Returns the value of option $name, where the option name should not have "--"
+prefixed. If the option is not present the function will return undef.
+
+=cut
+
+sub get {
+    my ($self, $name) = @_;
+
+    return $self->{options}->{$name};
+}
+
+=item $conf->set($name, $value)
+
+Set the $value of option $name, where the option name should not have "--"
+prefixed.
+
+=cut
+
+sub set {
+    my ($self, $name, $value) = @_;
+
+    $self->{options}->{$name} = $value;
 }
 
 =item $conf->load($file)
@@ -111,13 +150,11 @@ sub parse {
 	}
 	if (/^([^=]+)(?:=(.*))?$/) {
 	    my ($name, $value) = ($1, $2);
-	    $name = "--$name" unless $name =~ /^-/;
 	    if (defined $value) {
 		$value =~ s/^"(.*)"$/$1/ or $value =~ s/^'(.*)'$/$1/;
-		push @{$self->{options}}, "$name=$value";
-	    } else {
-		push @{$self->{options}}, $name;
 	    }
+	    $name =~ s/^--//;
+	    $self->{options}->{$name} = $value;
 	    $count++;
 	} else {
 	    warning(g_('invalid syntax for option in %s, line %d'), $desc, $.);
@@ -126,12 +163,12 @@ sub parse {
     return $count;
 }
 
-=item $conf->filter(remove => $rmfunc)
-
-=item $conf->filter(keep => $keepfunc)
+=item $conf->filter(%opts)
 
 Filter the list of options, either removing or keeping all those that
-return true when &$rmfunc($option) or &keepfunc($option) is called.
+return true when &$opts{remove}($option) or &opts{keep}($option) is called.
+If $opts{format_argv} is true the long options passed to the filter
+functions will have "--" prefixed.
 
 =cut
 
@@ -140,8 +177,16 @@ sub filter {
     my $remove = $opts{remove} // sub { 0 };
     my $keep = $opts{keep} // sub { 1 };
 
-    @{$self->{options}} = grep { not &$remove($_) and &$keep($_) }
-                               @{$self->{options}};
+    foreach my $name (keys %{$self->{options}}) {
+        my $option = $name;
+
+        if ($opts{format_argv}) {
+            $option = "--$name" unless $name =~ /^-/;
+        }
+        if (&$remove($option) or not &$keep($option)) {
+            delete $self->{options}->{$name};
+        }
+    }
 }
 
 =item $string = $conf->output($fh)
@@ -162,11 +207,12 @@ Save the options in a file.
 sub output {
     my ($self, $fh) = @_;
     my $ret = '';
-    foreach my $opt ($self->get_options()) {
-	$opt =~ s/^--//;
-	if ($opt =~ s/^([^=]+)=/$1 = "/) {
-	    $opt .= '"';
-	}
+
+    foreach my $name (sort keys %{$self->{options}}) {
+	my $value = $self->{options}->{$name};
+
+	my $opt = $name;
+	$opt .= " = \"$value\"" if defined $value;
 	$opt .= "\n";
 	print { $fh } $opt if defined $fh;
 	$ret .= $opt;
@@ -177,6 +223,12 @@ sub output {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.18.5)
+
+New option: Accept new option 'format_argv' in $conf->filter().
+
+New methods: $conf->get(), $conf->set().
 
 =head2 Version 1.01 (dpkg 1.15.8)
 
