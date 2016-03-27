@@ -23,6 +23,12 @@
 
 #include <dpkg/macros.h>
 
+#include <gettext.h>
+
+/* We need to include this because pgettext() uses LC_MESSAGES, but libintl.h
+ * which gets pulled by gettext.h only includes it if building optimized. */
+#include <locale.h>
+
 DPKG_BEGIN_DECLS
 
 /**
@@ -30,12 +36,6 @@ DPKG_BEGIN_DECLS
  * @ingroup dpkg-internal
  * @{
  */
-
-#include <gettext.h>
-
-/* We need to include this because pgettext() uses LC_MESSAGES, but libintl.h
- * which gets pulled by gettext.h only includes it if building optimized. */
-#include <locale.h>
 
 #define _(str) gettext(str)
 #define P_(str, str_plural, n) ngettext(str, str_plural, n)
