@@ -8,11 +8,11 @@ WFLAGS := -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
 # XXX: Stack Protector Strong is only available in gcc >= 4.9
 cc_version = $(shell $(CC) -dumpversion 2>/dev/null)
 cc_version_lt = $(shell dpkg --compare-versions "$(cc_version)" lt-nl "$(1)" && echo yes)
-hardening_old = DEB_BUILD_MAINT_OPTIONS="hardening=-stackprotectorstrong"
+hardening_old = $(if $(call cc_version_lt,4.9),-stackprotectorstrong)
 
 # Use the in-tree dpkg-buildflags
 dpkg_buildflags = \
-	$(if $(call cc_version_lt,4.9),$(hardening_old)) \
+	DEB_BUILD_MAINT_OPTIONS="hardening=+all,$(hardening_old)" \
 	DEB_CFLAGS_MAINT_APPEND="$(WFLAGS)" \
 	DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS)" \
 	$(CURDIR)/run-script scripts/dpkg-buildflags.pl
