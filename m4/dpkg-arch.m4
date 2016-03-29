@@ -8,7 +8,7 @@
 AC_DEFUN([_DPKG_ARCHITECTURE], [
 AC_REQUIRE([DPKG_PROG_PERL])dnl
 AC_REQUIRE([AC_CANONICAL_HOST])dnl
-$2=$($srcdir/run-script $PERL scripts/dpkg-architecture.pl -t$host -q$1 2>/dev/null)
+$2=$(PERL=$PERL $srcdir/run-script scripts/dpkg-architecture.pl -t$host -q$1 2>/dev/null)
 ])# _DPKG_ARCHITECURE
 
 # DPKG_CPU_TYPE
