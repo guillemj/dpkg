@@ -53,6 +53,10 @@ dpkg (1.18.5) UNRELEASED; urgency=medium
   * Make the Architecture field mandatory on package builds.
   * Use new Dpkg::Arch functions to validate and parse architectures when
     building source packages. Closes: #784808
+  * Do safe matching of directories containing conffiles in
+    dpkg-maintscript-helper, instead of using a variable pathname as a regex
+    with grep, which is susceptible to metacharacters acting as part of the
+    regex. Proposed by Carsten Hey <carsten@debian.org>.
   * Portability:
     - Move DPKG_ADMINDIR environment variable name out from update-alternatives
       code, to make life easier for non-dpkg-based systems.

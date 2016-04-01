@@ -389,12 +389,16 @@ prepare_dir_to_symlink()
 	local PACKAGE="$1"
 	local PATHNAME="$2"
 
+	local LINE
 	# If there are conffiles we should not perform the switch.
-	if dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
-	   grep -q "^ $PATHNAME/."; then
-		error "directory '$PATHNAME' contains conffiles," \
-		      "cannot switch to symlink"
-	fi
+	dpkg-query -W -f='${Conffiles}\n' "$PACKAGE" | while read -r LINE; do
+		case "$LINE" in
+		"$PATHNAME"/*)
+			error "directory '$PATHNAME' contains conffiles," \
+			      "cannot switch to symlink"
+			;;
+		esac
+	done
 
 	# If there are locally created files or files owned by another package
 	# we should not perform the switch.
