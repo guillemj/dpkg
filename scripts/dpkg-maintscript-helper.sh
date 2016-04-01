@@ -88,8 +88,9 @@ prepare_rm_conffile() {
 	[ -e "$CONFFILE" ] || return 0
 	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
-	local md5sum="$(md5sum "$CONFFILE" | sed -e 's/ .*//')"
-	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
+	local md5sum old_md5sum
+	md5sum="$(md5sum "$CONFFILE" | sed -e 's/ .*//')"
+	old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
 		sed -n -e "\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
 	if [ "$md5sum" != "$old_md5sum" ]; then
 		mv -f "$CONFFILE" "$CONFFILE.dpkg-backup"
@@ -191,8 +192,9 @@ prepare_mv_conffile() {
 
 	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
-	local md5sum="$(md5sum "$CONFFILE" | sed -e 's/ .*//')"
-	local old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
+	local md5sum old_md5sum
+	md5sum="$(md5sum "$CONFFILE" | sed -e 's/ .*//')"
+	old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
 		sed -n -e "\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
 	if [ "$md5sum" = "$old_md5sum" ]; then
 		mv -f "$CONFFILE" "$CONFFILE.dpkg-remove"
