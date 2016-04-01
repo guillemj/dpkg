@@ -445,9 +445,9 @@ sub check_signature {
         }
     } else {
         if ($self->{options}{require_valid_signature}) {
-            error(g_("could not verify signature on %s since gpg isn't installed"), $dsc);
+            error(g_('cannot verify signature on %s since GnuPG is not installed'), $dsc);
         } else {
-            warning(g_("could not verify signature on %s since gpg isn't installed"), $dsc);
+            warning(g_('cannot verify signature on %s since GnuPG is not installed'), $dsc);
         }
     }
 }
