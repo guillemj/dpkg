@@ -363,7 +363,8 @@ This is not compatible with \fB\-fPIC\fP so care must be taken when
 building shared objects.
 
 Additionally, since PIE is implemented via a general register, some
-architectures (most notably i386) can see performance losses of up to
+register starved architectures (but not including i386 anymore since
+optimizations implemented in gcc >= 5) can see performance losses of up to
 15% in very text-segment-heavy application workloads; most workloads
 see less than 1%. Architectures with more general registers (e.g. amd64)
 do not see as high a worst-case penalty.
