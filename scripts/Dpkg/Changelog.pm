@@ -495,6 +495,7 @@ sub _format_dpkg {
     $f->{Distribution} = join(' ', $src->get_distributions());
     $f->{Maintainer} = $src->get_maintainer() // '';
     $f->{Date} = $src->get_timestamp() // '';
+    $f->{Timestamp} = $src->get_timepiece->epoch // '';
     $f->{Changes} = $src->get_dpkg_changes();
 
     # handle optional fields
@@ -550,6 +551,7 @@ sub _format_rfc822 {
 	$f->{Distribution} = join(' ', $entry->get_distributions());
 	$f->{Maintainer} = $entry->get_maintainer() // '';
 	$f->{Date} = $entry->get_timestamp() // '';
+	$f->{Timestamp} = $entry->get_timepiece->epoch // '';
 	$f->{Changes} = $entry->get_dpkg_changes();
 
 	# handle optional fields
@@ -612,6 +614,10 @@ person that created the (selected) entry
 =item Date
 
 date of the (selected) entry
+
+=item Timestamp
+
+date of the (selected) entry as a timestamp in seconds since the epoch
 
 =item Closes
 
@@ -765,6 +771,8 @@ with only one of the options specified.
 New method: $c->format_range().
 
 Deprecated methods: $c->dpkg(), $c->rfc822().
+
+New field Timestamp in output formats.
 
 =head2 Version 1.00 (dpkg 1.15.6)
 

@@ -97,6 +97,17 @@ concatenated (space-separated) comments from all the versions requested.
 .BI Maintainer: " author"
 .TP
 .BI Date: " date"
+The date of the entry as a string, as it appears in the changelog.
+With a \fBstrptime\fP(3) format "\fB%a, %d %b %Y %T %z\fP", but where the
+day of the week might not actually correspond to the real day obtained
+from the rest of the date string.
+If you need a more accurate representation of the date, use the
+\fBTimestamp\fP field, but take into account it might not be possible to
+map it back to the exact value in this field.
+.TP
+.BI Timestamp: " timestamp"
+The date of the entry as a timestamp in seconds since the epoch
+(since dpkg 1.18.8).
 .TP
 .BI Closes: " bug-number"
 The Closes fields of all included entries are merged.

@@ -172,6 +172,7 @@ Version: 2.0-0etch1
 Distribution: stable
 Urgency: high
 Maintainer: Frank Lichtenheld <frank@lichtenheld.de>
+Timestamp: 1200235759
 Date: Sun, 13 Jan 2008 15:49:19 +0100
 Closes: 1000000 1111111 2222222
 Changes:
@@ -214,6 +215,7 @@ Version: 2.0-1
 Distribution: unstable frozen
 Urgency: medium
 Maintainer: Frank Lichtenheld <djpig@debian.org>
+Timestamp: 1200149359
 Date: Sun, 12 Jan 2008 15:49:19 +0100
 Closes: 1111111 2222222
 Changes:
@@ -246,6 +248,7 @@ Version: 2.0~b1-1
 Distribution: unstable
 Urgency: low
 Maintainer: Frank Lichtenheld <frank@lichtenheld.de>
+Timestamp: 1200062959
 Date: Sun, 11 Jan 2008 15:49:19 +0100
 Changes:
  fields (2.0~b1-1) unstable; urgency=low,xc-userfield=foobar
@@ -258,6 +261,7 @@ Version: 1.0
 Distribution: experimental
 Urgency: high
 Maintainer: Frank Lichtenheld <djpig@debian.org>
+Timestamp: 1199976559
 Date: Sun, 10 Jan 2008 15:49:19 +0100
 Closes: 1000000
 Changes:

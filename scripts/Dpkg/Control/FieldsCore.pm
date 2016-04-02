@@ -332,6 +332,9 @@ our %FIELDS = (
         allowed => ALL_SRC,
         separator => FIELD_SEP_COMMA,
     },
+    'Timestamp' => {
+        allowed => CTRL_CHANGELOG,
+    },
     'Triggers-Awaited' => {
         allowed => CTRL_FILE_STATUS,
         separator => FIELD_SEP_SPACE,
@@ -425,7 +428,7 @@ our %FIELD_ORDER = (
     ],
     CTRL_CHANGELOG() => [
         qw(Source Binary-Only Version Distribution Urgency Maintainer
-        Date Closes Changes)
+        Timestamp Date Closes Changes)
     ],
     CTRL_FILE_STATUS() => [ # Same as fieldinfos in lib/dpkg/parse.c
         qw(Package Essential Status Priority Section Installed-Size Origin
