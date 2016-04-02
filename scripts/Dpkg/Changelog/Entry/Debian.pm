@@ -19,7 +19,7 @@ package Dpkg::Changelog::Entry::Debian;
 use strict;
 use warnings;
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 our @EXPORT_OK = qw(
     $regex_header
     $regex_trailer
@@ -220,7 +220,8 @@ sub parse_trailer {
 	# Ignore the week day ('%a, '), as we have validated it above.
 	local $ENV{LC_ALL} = 'C';
 	eval {
-	    Time::Piece->strptime($7, '%d %b %Y %T %z');
+	    my $tp = Time::Piece->strptime($7, '%d %b %Y %T %z');
+	    $self->{trailer_timepiece} = $tp;
 	} or do {
 	    # Validate the month. Date::Parse used to accept both abbreviated
 	    # and full months, but Time::Piece strptime() implementation only
@@ -345,6 +346,12 @@ sub get_timestamp {
     return $self->{trailer_timestamp_date};
 }
 
+sub get_timepiece {
+    my $self = shift;
+
+    return $self->{trailer_timepiece};
+}
+
 =back
 
 =head1 UTILITY FUNCTIONS
@@ -402,6 +409,10 @@ sub find_closes {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.03 (dpkg 1.18.8)
+
+New methods: $entry->get_timepiece().
 
 =head2 Version 1.02 (dpkg 1.18.5)
 

@@ -18,7 +18,7 @@ package Dpkg::Changelog::Entry;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Carp;
 
@@ -281,6 +281,16 @@ sub get_timestamp {
     return;
 }
 
+=item $time = $entry->get_timepiece()
+
+Return the timestamp of the changelog entry as a Time::Piece object.
+
+=cut
+
+sub get_timepiece {
+    return;
+}
+
 =item $str = $entry->get_dpkg_changes()
 
 Returns a string that is suitable for usage in a C<Changes> field
@@ -298,6 +308,10 @@ sub get_dpkg_changes {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.01 (dpkg 1.18.8)
+
+New method: $entry->get_timepiece().
 
 =head2 Version 1.00 (dpkg 1.15.6)
 
