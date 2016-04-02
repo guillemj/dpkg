@@ -109,13 +109,13 @@ sub test_trigdeferred {
               nocheck => 1, to_string => \$stdout, error_to_string => \$stderr);
         my $exitcode = $? >> 8;
 
-        is($exitcode, $test->{exitcode}, "trigger deferred expected exitcode");
+        is($exitcode, $test->{exitcode}, 'trigger deferred expected exitcode');
         if ($test->{exitcode} == 0) {
-            is($stderr, '', "trigger deferred expected stderr");
-            is($stdout, $test->{expected}, "trigger deferred expected stdout");
+            is($stderr, '', 'trigger deferred expected stderr');
+            is($stdout, $test->{expected}, 'trigger deferred expected stdout');
         } else {
-            isnt($stderr, '', "trigger deferred expected stderr");
-            isnt($stdout, undef, "trigger deferred expected stdout");
+            isnt($stderr, '', 'trigger deferred expected stderr');
+            isnt($stdout, undef, 'trigger deferred expected stdout');
         }
     }
 }

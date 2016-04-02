@@ -545,7 +545,7 @@ sub debarch_is_illegal
 {
     my ($arch) = @_;
 
-    return $arch !~ m/^(!?[a-zA-Z0-9][a-zA-Z0-9-]*)$/;
+    return $arch !~ m/^!?[a-zA-Z0-9][a-zA-Z0-9-]*$/;
 }
 
 =item $bool = debarch_is_concerned($arch, @arches)

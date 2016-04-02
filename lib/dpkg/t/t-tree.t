@@ -124,7 +124,7 @@ sub test_treewalker {
 
         find({ no_chdir => 1, wanted => sub {
                    return if $type eq 'skip' and m{^\Q$dirtree\E/cccc};
-                   push @paths, $_ =~ s{\./}{}r;
+                   push @paths, s{\./}{}r;
                },
              }, $dirtree);
 

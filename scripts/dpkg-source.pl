@@ -551,12 +551,12 @@ sub get_format_help {
     if ($help_build) {
         $help .= "\n";
         $help .= "Build format $build_format options:\n";
-        $help .= $help_build || g_("<none>");
+        $help .= $help_build || g_('<none>');
     }
     if ($help_extract) {
         $help .= "\n";
         $help .= "Extract format $build_format options:\n";
-        $help .= $help_extract || g_("<none>");
+        $help .= $help_extract || g_('<none>');
     }
 
     return $help;
