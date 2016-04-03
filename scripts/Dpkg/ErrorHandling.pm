@@ -23,6 +23,7 @@ our @EXPORT_OK = qw(
 our @EXPORT = qw(
     report_options
     info
+    notice
     warning
     error
     errormsg
@@ -62,6 +63,11 @@ sub report(@)
 sub info($;@)
 {
     print { $info_fh } report(g_('info'), @_) if (!$quiet_warnings);
+}
+
+sub notice
+{
+    warn report(g_('notice'), @_) if not $quiet_warnings;
 }
 
 sub warning($;@)
