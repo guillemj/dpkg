@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.18.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-03-09 19:16+0100\n"
-"PO-Revision-Date: 2016-03-20 19:08+0100\n"
+"POT-Creation-Date: 2016-04-03 07:02+0200\n"
+"PO-Revision-Date: 2016-04-03 07:14+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -902,13 +902,6 @@ msgstr "Paket muss angegeben werden, da Steuer-Info viele (%s) enthält"
 #, perl-format
 msgid "package %s: "
 msgstr "Paket %s: "
-
-#: scripts/dpkg-gencontrol.pl
-#, perl-format
-msgid "'%s' is not a legal architecture string."
-msgid_plural "'%s' are not legal architecture strings."
-msgstr[0] "»%s« ist keine gültige Architektur-Zeichenkette."
-msgstr[1] "»%s« sind keine gültigen Architektur-Zeichenketten."
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
@@ -2107,6 +2100,11 @@ msgstr ""
 "unbekannter CC-Systemtyp %s, zurück auf Standardeinstellung (native "
 "Übersetzung)"
 
+#: scripts/Dpkg/Arch.pm
+#, perl-format
+msgid "'%s' is not a legal architecture in list '%s'"
+msgstr "»%s« ist keine gültige Architektur in der Liste »%s«"
+
 #: scripts/Dpkg/BuildFlags.pm
 #, perl-format
 msgid "line %d of %s mentions unknown flag %s"
@@ -2250,6 +2248,11 @@ msgstr "Dateiende gefunden, wo %s erwartet wurde"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 #, perl-format
+msgid "version '%s' is invalid: %s"
+msgstr "Version »%s« ist ungültig: %s"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
 msgid "bad key-value after ';': '%s'"
 msgstr "ungültiger Schlüsselwert nach »;«: %s"
 
@@ -2272,11 +2275,6 @@ msgstr "ungültiger reiner Binärwert: %s"
 #, perl-format
 msgid "unknown key-value %s"
 msgstr "unbekannter Schlüsselwert %s"
-
-#: scripts/Dpkg/Changelog/Entry/Debian.pm
-#, perl-format
-msgid "version '%s' is invalid: %s"
-msgstr "Version »%s« ist ungültig: %s"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 msgid "the header doesn't match the expected regex"
@@ -2628,7 +2626,8 @@ msgstr "muss mit einem alphanumerischen Zeichen beginnen"
 #: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
 msgid "couldn't parse dynamic relocation record: %s"
-msgstr "dynamischer Adressverschiebungseintrag konnte nicht ausgewertet werden: %s"
+msgstr ""
+"dynamischer Adressverschiebungseintrag konnte nicht ausgewertet werden: %s"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
@@ -2747,6 +2746,10 @@ msgstr "Formatvariante muss Kleinbuchstaben verwenden"
 #, perl-format
 msgid "invalid Format field '%s'"
 msgstr "ungültiges Formatfeld »%s«"
+
+#: scripts/Dpkg/Source/Package.pm
+msgid "source package uses only weak checksums"
+msgstr "Quellpaket verwendet nur schwache Prüfsummen"
 
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -2940,8 +2943,8 @@ msgid ""
 "orig argument is unpacked but source handling style -s%s calls for packed (."
 "orig.tar.<ext>)"
 msgstr ""
-"Originalargument ist ungepackt, aber bei Quellenhandhabungsstil -s%s wird ein "
-"gepacktes Argument verlangt (.orig.tar.<endung>)"
+"Originalargument ist ungepackt, aber bei Quellenhandhabungsstil -s%s wird "
+"ein gepacktes Argument verlangt (.orig.tar.<endung>)"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -2980,7 +2983,8 @@ msgstr ""
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
 msgid "source directory '%s' is not <sourcepackage>-<upstreamversion> '%s'"
-msgstr "Quellverzeichnis »%s« lautet nicht <Quellpaket>-<Ursprungsversion> »%s«"
+msgstr ""
+"Quellverzeichnis »%s« lautet nicht <Quellpaket>-<Ursprungsversion> »%s«"
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -3263,7 +3267,8 @@ msgstr "%s wird zu %s hinzugefügt"
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
 msgid "cannot unpack bzr-format source package because bzr is not in the PATH"
 msgstr ""
-"Bzr-formatiertes Quellpaket kann nicht entpackt werden, da Bzr nicht im PATH ist"
+"Bzr-formatiertes Quellpaket kann nicht entpackt werden, da Bzr nicht im PATH "
+"ist"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
 #, perl-format
@@ -3326,7 +3331,8 @@ msgstr "Option --target-format fehlt"
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 msgid "cannot unpack git-format source package because git is not in the PATH"
 msgstr ""
-"Git-formatiertes Quellpaket kann nicht entpackt werden, da Git nicht im PATH ist"
+"Git-formatiertes Quellpaket kann nicht entpackt werden, da Git nicht im PATH "
+"ist"
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 #, perl-format
@@ -3344,7 +3350,8 @@ msgstr "Git-Depot %s verwendet Submodule; dies wird noch nicht unterstützt."
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 msgid "specify a git <ref> to include in the git bundle"
-msgstr "geben Sie ein Git <ref> an, das in das Git-Bündel aufgenommen werden soll"
+msgstr ""
+"geben Sie ein Git <ref> an, das in das Git-Bündel aufgenommen werden soll"
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 msgid "create a shallow clone with <number> depth"
@@ -3783,6 +3790,11 @@ msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
+
+#~ msgid "'%s' is not a legal architecture string."
+#~ msgid_plural "'%s' are not legal architecture strings."
+#~ msgstr[0] "»%s« ist keine gültige Architektur-Zeichenkette."
+#~ msgstr[1] "»%s« sind keine gültigen Architektur-Zeichenketten."
 
 #~ msgid ""
 #~ "More options are available but they depend on the source package format.\n"
@@ -4508,7 +4520,8 @@ msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 #~ msgstr "Fehlschlag"
 
 #~ msgid "field %s has newline then non whitespace >%s<"
-#~ msgstr "Feld %s hat einen Zeilenumbruch und dann ein Nichtleerraumzeichen >%s<"
+#~ msgstr ""
+#~ "Feld %s hat einen Zeilenumbruch und dann ein Nichtleerraumzeichen >%s<"
 
 #~ msgid "field %s has blank lines >%s<"
 #~ msgstr "Feld %s hat Leerzeilen >%s<"
