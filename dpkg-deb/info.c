@@ -175,7 +175,7 @@ info_list(const char *debar, const char *dir)
   if (!cc) {
     if (errno != ENOENT)
       ohshite(_("failed to read '%.255s' (in '%.255s')"), CONTROLFILE, dir);
-    fputs(_("(no 'control' file in control archive!)\n"), stdout);
+    warning(_("no 'control' file in control archive!"));
   } else {
     lines= 1;
     while ((c= getc(cc))!= EOF) {
