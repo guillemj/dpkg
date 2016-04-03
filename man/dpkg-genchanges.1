@@ -36,29 +36,49 @@ file
 .
 .SH OPTIONS
 .TP
+.BI \-\-build= type
+Specifies the build \fItype\fP from a comma-separated list of components
+(since dpkg 1.18.5).
+
+The allowed values are:
+.RS
+.TP
+.B source
+Upload the source package.
+.TP
+.B any
+Upload the architecture specific binary packages.
+.TP
+.B all
+Upload the architecture independent binary packages.
+.TP
+.B binary
+Upload the architecture specific and independent binary packages.
+This is an alias for \fBany,all\fP.
+.TP
+.B full
+Upload everything.
+This is alias for \fBsource,any,all\fP, and the same as the default case
+when no build option is specified.
+.RE
+.TP
 .B \-g
-Specifies that only source and architecture independent packages should
-be uploaded, thus no architecture specific packages will be included
-(since dpkg 1.17.11).
+Equivalent to \fB\-\-build=source,all\fP (since dpkg 1.17.11).
 .TP
 .B \-G
-Specifies that only source and architecture specific packages should
-be uploaded, thus no architecture independent packages will be included
-(since dpkg 1.17.11).
+Equivalent to \fB\-\-build=source,any\fP (since dpkg 1.17.11).
 .TP
-.BR \-b ", " \-B ", " \-A
-Specifies that a binary-only build is taking place, thus no source
-files are to be included.
-There's no distinction between \fB\-b\fP, \fB\-B\fP and \fB\-A\fP,
-the produced
-.B .changes
-file will include whatever files were created by the
-.B binary\-*
-target(s) of the package being built.
+.B \-b
+Equivalent to \fB\-\-build=binary\fP or \fB\-\-build=any,all\fP.
+.TP
+.B \-B
+Equivalent to \fB\-\-build=any\fP.
+.TP
+.B \-A
+Equivalent to \fB\-\-build=all\fP.
 .TP
 .B \-S
-Specifies that only the source should be uploaded, thus no binary
-packages will be included.
+Equivalent to \fB\-\-build=source\fP.
 .PP
 The \fB\-s\fP\fIx\fP options control whether the original source archive is
 included in the upload if any source is being generated (i.e.

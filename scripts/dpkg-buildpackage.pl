@@ -59,6 +59,9 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 'Options:
+  --build=<type>[,...]
+                 specify the build <type>: full, source, binary, any, all
+                   (default is \'full\').
   -F             normal full build (binaries and sources, default).
   -g             source and arch-indep build.
   -G             source and arch-specific build.
@@ -265,24 +268,20 @@ while (@ARGV) {
         $call_target_as_root = 1;
     } elsif (/^-nc$/) {
 	$noclean = 1;
+    } elsif (/^--build=(.*)$/) {
+        set_build_type_from_options($1, $_);
     } elsif (/^-b$/) {
 	set_build_type(BUILD_BINARY, $_);
-	push @changes_opts, '-b';
     } elsif (/^-B$/) {
 	set_build_type(BUILD_ARCH_DEP, $_);
-	push @changes_opts, '-B';
     } elsif (/^-A$/) {
 	set_build_type(BUILD_ARCH_INDEP, $_);
-	push @changes_opts, '-A';
     } elsif (/^-S$/) {
 	set_build_type(BUILD_SOURCE, $_);
-	push @changes_opts, '-S';
     } elsif (/^-G$/) {
 	set_build_type(BUILD_SOURCE | BUILD_ARCH_DEP, $_);
-	push @changes_opts, '-G';
     } elsif (/^-g$/) {
 	set_build_type(BUILD_SOURCE | BUILD_ARCH_INDEP, $_);
-	push @changes_opts, '-g';
     } elsif (/^-F$/) {
 	set_build_type(BUILD_FULL, $_);
     } elsif (/^-v(.*)$/) {
@@ -532,6 +531,8 @@ if (build_has_any(BUILD_BINARY)) {
 
 run_hook('changes', 1);
 
+my $build_types = get_build_options_from_type();
+push @changes_opts, "--build=$build_types" if build_has_none(BUILD_DEFAULT);
 push @changes_opts, "-m$maint" if defined $maint;
 push @changes_opts, "-e$changedby" if defined $changedby;
 push @changes_opts, "-v$since" if defined $since;

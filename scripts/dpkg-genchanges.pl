@@ -94,6 +94,8 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 "Options:
+  --build=<type>[,...]     specify the build <type>: full, source, binary,
+                             any, all (default is \'full\').
   -g                       source and arch-indep build.
   -G                       source and arch-specific build.
   -b                       binary-only, no source files.
@@ -125,7 +127,9 @@ sub usage {
 
 while (@ARGV) {
     $_=shift(@ARGV);
-    if (m/^-b$/) {
+    if (m/^--build=(.*)$/) {
+        set_build_type_from_options($1, $_);
+    } elsif (m/^-b$/) {
 	set_build_type(BUILD_BINARY, $_);
     } elsif (m/^-B$/) {
 	set_build_type(BUILD_ARCH_DEP, $_);

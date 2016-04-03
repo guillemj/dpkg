@@ -16,20 +16,31 @@
 use strict;
 use warnings;
 
-use Test::More tests => 19;
+use Test::More tests => 26;
 
 BEGIN {
     use_ok('Dpkg::Build::Types');
 }
 
 ok(build_is(BUILD_DEFAULT | BUILD_FULL), 'build is default full');
+is(get_build_options_from_type(), 'full', 'build is full');
 
 set_build_type(BUILD_DEFAULT | BUILD_BINARY, '--default-binary');
-
+is(get_build_options_from_type(), 'any,all', 'build is any,all');
 ok(build_is(BUILD_DEFAULT | BUILD_BINARY), 'build is default binary');
 
 set_build_type(BUILD_SOURCE | BUILD_ARCH_INDEP, '--build=source,all');
+is(get_build_options_from_type(), 'source,all', 'build is source,all');
 
+set_build_type_from_options('any,all', '--build=any,all', nocheck => 1);
+is(get_build_options_from_type(), 'any,all', 'build is any,all');
+ok(build_is(BUILD_BINARY), 'build is any,all');
+
+set_build_type_from_options('binary', '--build=binary', nocheck => 1);
+is(get_build_options_from_type(), 'any,all', 'build is binary');
+ok(build_is(BUILD_BINARY), 'build is binary');
+
+set_build_type_from_options('source,all', '--build=source,all', nocheck => 1);
 ok(build_is(BUILD_SOURCE | BUILD_ARCH_INDEP), 'build source,all is source,all');
 ok(!build_is(BUILD_SOURCE | BUILD_ARCH_DEP), 'build source,all is not source,any');
 ok(build_has_any(BUILD_SOURCE), 'build source,all has_any source');

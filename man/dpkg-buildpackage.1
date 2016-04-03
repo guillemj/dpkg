@@ -46,17 +46,20 @@ option, it calls that target and stops here. Otherwise it runs the
 clean the build-tree (unless \fB\-nc\fP is specified).
 .IP \fB4.\fP 3
 It runs the \fBsource\fP hook and calls \fBdpkg\-source \-b\fP to generate
-the source package (unless a binary\-only build has been requested with
-\fB\-b\fP, \fB\-B\fP or \fB\-A\fP).
+the source package (if a \fBsource\fP build has been requested with
+\fB\-\-build\fP or equivalent options).
 .IP \fB5.\fP 3
 It runs the \fBbuild\fP hook and calls \fBdebian/rules\fP \fIbuild-target\fP,
 then runs the \fBbinary\fP hook followed by \fBfakeroot debian/rules\fP
 \fIbinary-target\fP (unless a source-only build has been requested with
-\fB\-S\fP). Note that \fIbuild-target\fR and \fIbinary-target\fP are either
-\fBbuild\fP and \fBbinary\fP (default case, or if \fB\-b\fP is specified),
-or \fBbuild\-arch\fP and \fBbinary\-arch\fP (if \fB\-B\fP or \fB\-G\fP are
-specified), or \fBbuild\-indep\fP and \fBbinary\-indep\fP (if \fB\-A\fP
-or \fB\-g\fP are specified).
+\fB\-\-build=source\fP or equivalent options).
+Note that \fIbuild-target\fR and \fIbinary-target\fP are either \fBbuild\fP
+and \fBbinary\fP (default case, or if an \fBany\fP and \fBall\fP build
+has been requested with \fB\-\-build\fP or equivalent options), or
+\fBbuild\-arch\fP and \fBbinary\-arch\fP (if an \fBany\fP and not \fBall\fP
+build has been requested with \fB\-\-build\fP or equivalent options), or
+\fBbuild\-indep\fP and \fBbinary\-indep\fP (if an \fBall\fP and not \fBany\fP
+build has been requested with \fB\-\-build\fP or equivalent options).
 .IP \fB6.\fP 3
 It runs the \fBchanges\fP hook and calls \fBdpkg\-genchanges\fP to
 generate a \fB.changes\fP file.
@@ -81,39 +84,58 @@ It runs the \fBdone\fP hook.
 .
 .SH OPTIONS
 .TP
-.B \-g
-Specifies a build limited to source and architecture independent packages
-(since dpkg 1.17.11).
+.BI \-\-build= type
+Specifies the build \fItype\fP from a comma-separated list of components
+(since dpkg 1.18.5).
 Passed to \fBdpkg\-genchanges\fP.
+
+The allowed values are:
+.RS
+.TP
+.B source
+Builds the source package.
+Note: when using this value standalone and if what you want is simply to
+(re-)build the source package, using \fBdpkg\-source\fP is always better
+as it does not require any build dependencies to be installed to be able
+to call the \fBclean\fP target.
+.TP
+.B any
+Builds the architecture specific binary packages.
+.TP
+.B all
+Builds the architecture independent binary packages.
+.TP
+.B binary
+Builds the architecture specific and independent binary packages.
+This is an alias for \fBany,all\fP.
+.TP
+.B full
+Builds everything.
+This is an alias for \fBsource,any,all\fP, and the same as the default
+case when no build option is specified.
+.RE
+.TP
+.B \-g
+Equivalent to \fB\-\-build=source,all\fP (since dpkg 1.17.11).
 .TP
 .B \-G
-Specifies a build limited to source and architecture specific packages
-(since dpkg 1.17.11).
-Passed to \fBdpkg\-genchanges\fP.
+Equivalent to \fB\-\-build=source,any\fP (since dpkg 1.17.11).
 .TP
 .B \-b
-Specifies a binary-only build, no source files are to be built and/or
-distributed. Passed to \fBdpkg\-genchanges\fP.
+Equivalent to \fB\-\-build=binary\fP or \fB\-\-build=any,all\fP.
 .TP
 .B \-B
-Specifies a binary-only build, limited to architecture dependent packages.
-Passed to \fBdpkg\-genchanges\fP.
+Equivalent to \fB\-\-build=any\fP.
 .TP
 .B \-A
-Specifies a binary-only build, limited to architecture independent
-packages. Passed to \fBdpkg\-genchanges\fP.
+Equivalent to \fB\-\-build=all\fP.
 .TP
 .B \-S
-Specifies a source-only build, no binary packages need to be made.
-Passed to \fBdpkg\-genchanges\fP.
-Note: if what you want is simply to (re-)build the source package, using
-\fBdpkg\-source\fP is always better as it does not require any build
-dependencies to be installed to be able to call the \fBclean\fP target.
+Equivalent to \fB\-\-build=source\fP.
 .TP
 .B \-F
-Specifies a normal full build, binary and source packages will be built
-(since dpkg 1.15.8).
-This is the same as the default case when no build option is specified.
+Equivalent to \fB\-\-build=full\fP, \fB\-\-build=source,binary\fP or
+\fB\-\-build=source,any,all\fP since dpkg 1.15.8).
 .TP
 .BI \-\-target= target
 .TQ

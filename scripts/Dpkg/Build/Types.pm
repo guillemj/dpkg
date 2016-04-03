@@ -19,7 +19,7 @@ package Dpkg::Build::Types;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 our @EXPORT = qw(
     BUILD_DEFAULT
     BUILD_SOURCE
@@ -32,6 +32,8 @@ our @EXPORT = qw(
     build_has_none
     build_is
     set_build_type
+    set_build_type_from_options
+    get_build_options_from_type
 );
 
 use Exporter qw(import);
@@ -97,6 +99,15 @@ use constant BUILD_FULL   => BUILD_BINARY | BUILD_SOURCE;
 
 my $current_type = BUILD_FULL | BUILD_DEFAULT;
 my $current_option = undef;
+
+my @build_types = qw(source any all);
+my %build_types = (
+    full => BUILD_FULL,
+    source => BUILD_SOURCE,
+    any => BUILD_ARCH_DEP,
+    all => BUILD_ARCH_INDEP,
+    binary => BUILD_BINARY,
+);
 
 =back
 
@@ -180,6 +191,47 @@ sub set_build_type
 
     $current_type = $build_type;
     $current_option = $build_option;
+}
+
+=item set_build_type_from_options($build_type, $build_option, %opts)
+
+Set the current build type from a list of build type components.
+
+The function will check and abort on incompatible build type assignments,
+this behavior can be disabled by using the boolean option "nocheck".
+
+=cut
+
+sub set_build_type_from_options
+{
+    my ($build_parts, $build_option, %opts) = @_;
+
+    my $build_type = 0;
+    foreach my $type (split /,/, $build_parts) {
+        usageerr(g_('unknown build type %s'), $type)
+            unless exists $build_types{$type};
+        $build_type |= $build_types{$type};
+    }
+
+    set_build_type($build_type, $build_option, %opts);
+}
+
+=item get_build_options_from_type()
+
+Get the current build type as a set of comma-separated string options.
+
+=cut
+
+sub get_build_options_from_type
+{
+    return 'full' if build_has_all(BUILD_FULL);
+
+    my @parts;
+    foreach my $type (@build_types) {
+        push @parts, $type if build_has_all($build_types{$type});
+    }
+
+    return join ',', @parts;
 }
 
 =back
