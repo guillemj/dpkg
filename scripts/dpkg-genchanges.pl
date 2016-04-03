@@ -179,6 +179,9 @@ while (@ARGV) {
     }
 }
 
+# Do not pollute STDOUT with info messages.
+report_options(info_fh => \*STDERR, quiet_warnings => $quiet);
+
 # Retrieve info from the current changelog entry
 my %options = (file => $changelogfile);
 $options{changelogformat} = $changelogformat if $changelogformat;
@@ -413,8 +416,7 @@ for my $p (keys %p2f) {
     }
 }
 
-print { *STDERR } "$Dpkg::PROGNAME: $origsrcmsg\n"
-    or syserr(g_('write original source message')) unless $quiet;
+info($origsrcmsg);
 
 $fields->{'Format'} = $substvars->get('Format');
 

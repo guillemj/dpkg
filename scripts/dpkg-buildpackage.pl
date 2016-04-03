@@ -558,7 +558,7 @@ chdir('..') or syserr('chdir ..');
 withecho('dpkg-source', @source_opts, '--after-build', $dir);
 chdir($dir) or syserr("chdir $dir");
 
-printf "$Dpkg::PROGNAME: %s\n", describe_build($changes->{'Files'});
+info(describe_build($changes->{'Files'}));
 
 run_hook('check', $check_command);
 
@@ -609,7 +609,7 @@ sub mustsetvar {
     error(g_('unable to determine %s'), $text)
 	unless defined($var);
 
-    print "$Dpkg::PROGNAME: $text $var\n";
+    info("$text $var");
     return $var;
 }
 
@@ -625,7 +625,7 @@ sub run_hook {
 
     return if not $cmd;
 
-    print { *STDERR } "$Dpkg::PROGNAME: running hook $name\n";
+    info("running hook $name");
 
     my %hook_vars = (
         '%' => '%',
