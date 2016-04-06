@@ -230,7 +230,7 @@ foreach (keys %{$src_fields}) {
 my $dist = Dpkg::Dist::Files->new();
 my $origsrcmsg;
 
-if (build_has(BUILD_SOURCE)) {
+if (build_has_any(BUILD_SOURCE)) {
     my $sec = $sourcedefault{'Section'} // '-';
     my $pri = $sourcedefault{'Priority'} // '-';
     warning(g_('missing Section for source files')) if $sec eq '-';
@@ -333,8 +333,8 @@ foreach my $pkg ($control->get_packages()) {
 
     if (not defined($p2f{$p})) {
 	# No files for this package... warn if it's unexpected
-	if (((build_has(BUILD_ARCH_INDEP) and debarch_eq('all', $a)) or
-	     (build_has(BUILD_ARCH_DEP) and
+	if (((build_has_any(BUILD_ARCH_INDEP) and debarch_eq('all', $a)) or
+	     (build_has_any(BUILD_ARCH_DEP) and
 	      (any { debarch_is($host_arch, $_) } debarch_list_parse($a)))) and
 	    (@restrictions == 0 or
 	     evaluate_restriction_formula(\@restrictions, \@profiles)))
@@ -353,7 +353,7 @@ foreach my $pkg ($control->get_packages()) {
 	} elsif (m/^Priority$/) {
 	    $f2pricf{$_} = $v foreach (@f);
 	} elsif (m/^Architecture$/) {
-	    if (build_has(BUILD_ARCH_DEP) and
+	    if (build_has_any(BUILD_ARCH_DEP) and
 	        (any { debarch_is($host_arch, $_) } debarch_list_parse($v))) {
 		$v = $host_arch;
 	    } elsif (!debarch_eq('all', $v)) {
@@ -432,12 +432,12 @@ if (length($fields->{'Binary'}) > 980) {
     $fields->{'Binary'} =~ s/(.{0,980}) /$1\n/g;
 }
 
-unshift @archvalues, 'source' if build_has(BUILD_SOURCE);
+unshift @archvalues, 'source' if build_has_any(BUILD_SOURCE);
 @archvalues = ('all') if build_is(BUILD_ARCH_INDEP);
 @archvalues = grep { !debarch_eq('all', $_) } @archvalues
-    if build_has_not(BUILD_ARCH_INDEP);
+    if build_has_none(BUILD_ARCH_INDEP);
 @archvalues = grep { !debarch_eq($host_arch, $_) } @archvalues
-    if build_has_not(BUILD_ARCH_DEP);
+    if build_has_none(BUILD_ARCH_DEP);
 $fields->{'Architecture'} = join ' ', @archvalues;
 
 $fields->{'Built-For-Profiles'} = join ' ', get_build_profiles();
@@ -452,8 +452,8 @@ for my $file ($dist->get_files()) {
     if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
         my $arch_all = debarch_eq('all', $file->{arch});
 
-        next if build_has_not(BUILD_ARCH_INDEP) and $arch_all;
-        next if build_has_not(BUILD_ARCH_DEP) and not $arch_all;
+        next if build_has_none(BUILD_ARCH_INDEP) and $arch_all;
+        next if build_has_none(BUILD_ARCH_DEP) and not $arch_all;
     }
     $checksums->add_from_file("$uploadfilesdir/$f", key => $f);
 }

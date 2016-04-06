@@ -32,13 +32,13 @@ set_build_type(BUILD_SOURCE | BUILD_ARCH_INDEP, '--build=source,all');
 
 ok(build_is(BUILD_SOURCE | BUILD_ARCH_INDEP), 'build source,all is source,all');
 ok(!build_is(BUILD_SOURCE | BUILD_ARCH_DEP), 'build source,all is not source,any');
-ok(build_has(BUILD_SOURCE), 'build source indep has source');
-ok(build_has(BUILD_ARCH_INDEP), 'build source indep has arch indep');
-ok(build_has_not(BUILD_DEFAULT), 'build source indep has not default');
-ok(build_has_not(BUILD_ARCH_DEP), 'build source indep has not arch dep');
-ok(build_has_not(BUILD_BINARY), 'build source indep has not binary');
-ok(build_has_not(BUILD_SOURCE | BUILD_ARCH_DEP),
-   'build source,all has_not source,any');
-ok(build_has_not(BUILD_FULL), 'build source indep has not full');
+ok(build_has_any(BUILD_SOURCE), 'build source,all has_any source');
+ok(build_has_any(BUILD_ARCH_INDEP), 'build source,all has_any any');
+ok(build_has_none(BUILD_DEFAULT), 'build source,all has_none default');
+ok(build_has_none(BUILD_ARCH_DEP), 'build source,all has_none any');
+ok(!build_has_all(BUILD_BINARY), 'build source,all not has_all binary');
+ok(!build_has_all(BUILD_SOURCE | BUILD_ARCH_DEP),
+   'build source,all not has_all source,any');
+ok(!build_has_all(BUILD_FULL), 'build source,all has_all full');
 
 1;

@@ -304,20 +304,20 @@ while (@ARGV) {
     }
 }
 
-if (build_has(BUILD_BINARY)) {
+if (build_has_all(BUILD_BINARY)) {
     $buildtarget = 'build';
     $binarytarget = 'binary';
-} elsif (build_has(BUILD_ARCH_DEP)) {
+} elsif (build_has_any(BUILD_ARCH_DEP)) {
     $buildtarget = 'build-arch';
     $binarytarget = 'binary-arch';
-} elsif (build_has(BUILD_ARCH_INDEP)) {
+} elsif (build_has_any(BUILD_ARCH_INDEP)) {
     $buildtarget = 'build-indep';
     $binarytarget = 'binary-indep';
 }
 
 if ($noclean) {
     # -nc without -b/-B/-A/-S/-F implies -b
-    set_build_type(BUILD_BINARY) if build_has(BUILD_DEFAULT);
+    set_build_type(BUILD_BINARY) if build_has_any(BUILD_DEFAULT);
     # -nc with -S implies no dependency checks
     $checkbuilddep = 0 if build_is(BUILD_SOURCE);
 }
@@ -438,7 +438,7 @@ if (not $signcommand) {
     $signchanges = 0;
 }
 
-if ($signsource && build_has_not(BUILD_SOURCE)) {
+if ($signsource && build_has_none(BUILD_SOURCE)) {
     $signsource = 0;
 }
 
@@ -462,8 +462,8 @@ unless ($call_target) {
 if ($checkbuilddep) {
     my @checkbuilddep_opts;
 
-    push @checkbuilddep_opts, '-A' if build_has_not(BUILD_ARCH_DEP);
-    push @checkbuilddep_opts, '-B' if build_has_not(BUILD_ARCH_INDEP);
+    push @checkbuilddep_opts, '-A' if build_has_none(BUILD_ARCH_DEP);
+    push @checkbuilddep_opts, '-B' if build_has_none(BUILD_ARCH_INDEP);
     push @checkbuilddep_opts, '-I' if not $check_builtin_builddep;
     push @checkbuilddep_opts, "--admindir=$admindir" if $admindir;
 
@@ -494,9 +494,9 @@ unless ($noclean) {
     withecho(@rootcommand, @debian_rules, 'clean');
 }
 
-run_hook('source', build_has(BUILD_SOURCE));
+run_hook('source', build_has_any(BUILD_SOURCE));
 
-if (build_has(BUILD_SOURCE)) {
+if (build_has_any(BUILD_SOURCE)) {
     warning(g_('building a source package without cleaning up as you asked; ' .
                'it might contain undesired files')) if $noclean;
     chdir('..') or syserr('chdir ..');

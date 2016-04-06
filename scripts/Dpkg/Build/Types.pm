@@ -28,8 +28,8 @@ our @EXPORT = qw(
     BUILD_BINARY
     BUILD_FULL
     build_has_any
-    build_has
-    build_has_not
+    build_has_all
+    build_has_none
     build_is
     set_build_type
 );
@@ -118,32 +118,32 @@ sub build_has_any
     return $current_type & $bits;
 }
 
-=item build_has($bits)
+=item build_has_all($bits)
 
 Return a boolean indicating whether the current build type has all the
 specified $bits.
 
 =cut
 
-sub build_has
+sub build_has_all
 {
     my ($bits) = @_;
 
     return ($current_type & $bits) == $bits;
 }
 
-=item build_has_not($bits)
+=item build_has_none($bits)
 
-Return a boolean indicating whether the current build type does not have the
+Return a boolean indicating whether the current build type has none of the
 specified $bits.
 
 =cut
 
-sub build_has_not
+sub build_has_none
 {
     my ($bits) = @_;
 
-    return ($current_type & $bits) != $bits;
+    return !($current_type & $bits);
 }
 
 =item build_is($bits)
@@ -172,7 +172,7 @@ sub set_build_type
     my ($build_type, $build_option) = @_;
 
     usageerr(g_('cannot combine %s and %s'), $current_option, $build_option)
-        if build_has_not(BUILD_DEFAULT) and $current_type != $build_type;
+        if build_has_none(BUILD_DEFAULT) and $current_type != $build_type;
 
     $current_type = $build_type;
     $current_option = $build_option;
