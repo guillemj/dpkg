@@ -27,6 +27,7 @@ our @EXPORT = qw(
     BUILD_ARCH_INDEP
     BUILD_BINARY
     BUILD_FULL
+    build_has_any
     build_has
     build_has_not
     build_is
@@ -103,10 +104,24 @@ my $current_option = undef;
 
 =over 4
 
+=item build_has_any($bits)
+
+Return a boolean indicating whether the current build type has any of the
+specified $bits.
+
+=cut
+
+sub build_has_any
+{
+    my ($bits) = @_;
+
+    return $current_type & $bits;
+}
+
 =item build_has($bits)
 
-Return a boolean indicating whether the current build type has the specified
-$bits.
+Return a boolean indicating whether the current build type has all the
+specified $bits.
 
 =cut
 

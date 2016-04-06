@@ -504,7 +504,7 @@ if (build_has(BUILD_SOURCE)) {
     chdir($dir) or syserr("chdir $dir");
 }
 
-run_hook('build', build_has(BUILD_BINARY));
+run_hook('build', build_has_any(BUILD_BINARY));
 
 if ($buildtarget ne 'build' and scalar(@debian_rules) == 1) {
     # Verify that build-{arch,indep} are supported. If not, fallback to build.
@@ -524,7 +524,7 @@ if ($buildtarget ne 'build' and scalar(@debian_rules) == 1) {
     }
 }
 
-if (build_has(BUILD_BINARY)) {
+if (build_has_any(BUILD_BINARY)) {
     withecho(@debian_rules, $buildtarget);
     run_hook('binary', 1);
     withecho(@rootcommand, @debian_rules, $binarytarget);

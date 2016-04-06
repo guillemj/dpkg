@@ -289,7 +289,7 @@ if (build_has(BUILD_SOURCE)) {
     $origsrcmsg = g_('binary-only upload (no source code included)');
 }
 
-if (build_has(BUILD_BINARY)) {
+if (build_has_any(BUILD_BINARY)) {
     my $dist_count = 0;
 
     $dist_count = $dist->load($fileslistfile) if -e $fileslistfile;
