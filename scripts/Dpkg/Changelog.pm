@@ -246,8 +246,10 @@ sub __sanity_check_range {
     # Handle non-existing versions
     my (%versions, @versions);
     foreach my $entry (@{$data}) {
-        $versions{$entry->get_version()->as_string()} = 1;
-        push @versions, $entry->get_version()->as_string();
+        my $version = $entry->get_version();
+        next unless defined $version;
+        $versions{$version->as_string()} = 1;
+        push @versions, $version->as_string();
     }
     if ((defined($r->{since}) and not exists $versions{$r->{since}})) {
         warning(g_("'%s' option specifies non-existing version"), 'since');
