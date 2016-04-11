@@ -498,15 +498,14 @@ do_build(const char *const *argv)
     if (debar == NULL)
       ohshit(_("target is directory - cannot skip control file check"));
     warning(_("not checking contents of control area"));
-    printf(_("dpkg-deb: building an unknown package in '%s'.\n"), debar);
+    info(_("building an unknown package in '%s'."), debar);
   } else {
     struct pkginfo *pkg;
 
     pkg = check_control_area(ctrldir, dir);
     if (debar == NULL)
       debar = gen_dest_pathname_from_pkg(dest, pkg);
-    printf(_("dpkg-deb: building package '%s' in '%s'.\n"),
-           pkg->set->name, debar);
+    info(_("building package '%s' in '%s'."), pkg->set->name, debar);
   }
   m_output(stdout, _("<standard output>"));
 
