@@ -88,3 +88,16 @@ notice(const char *fmt, ...)
 
 	fprintf(stderr, "%s: %s\n", dpkg_get_progname(), buf);
 }
+
+void
+info(const char *fmt, ...)
+{
+	char buf[1024];
+	va_list args;
+
+	va_start(args, fmt);
+	vsnprintf(buf, sizeof(buf), fmt, args);
+	va_end(args);
+
+	printf("%s: %s\n", dpkg_get_progname(), buf);
+}

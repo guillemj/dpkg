@@ -44,6 +44,8 @@ void warning(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 
 void notice(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 
+void info(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
+
 /** @} */
 
 DPKG_END_DECLS
