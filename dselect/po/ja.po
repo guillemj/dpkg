@@ -15,18 +15,22 @@
 # Copyright (C) 1998 Masato Taruishi <taru@debian.or.jp>
 # Copyright (C) 1999-2004 Keita Maehara <maehara@debian.org>
 # Copyright (C) 2004-2014 Kenshi Muto <kmuto@debian.org>
+# Copyright (C) 2016 Takuma Yamada <tyamada@takumayamada.com>
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: dselect 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2015-12-25 13:28+0100\n"
-"PO-Revision-Date: 2014-11-28 09:16+0900\n"
-"Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
+"PO-Revision-Date: 2016-03-31 12:44+0900\n"
+"Last-Translator: Takuma Yamada <tyamada@takumayamada.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: dselect/basecmds.cc
 msgid "Search for ? "
@@ -836,22 +840,24 @@ msgid "<standard output>"
 msgstr "<標準出力>"
 
 #: dselect/main.cc
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Usage: %s [<option> ...] [<action> ...]\n"
 #| "\n"
 msgid ""
 "Usage: %s [<option>...] [<command>...]\n"
 "\n"
-msgstr "使い方: %s [<オプション> ...] [<アクション> ...]\n"
+msgstr ""
+"使い方: %s [<オプション>...] [<コマンド>...]\n"
+"\n"
 
 #: dselect/main.cc
 #, c-format
 msgid "Commands:\n"
-msgstr ""
+msgstr "コマンド:\n"
 
 #: dselect/main.cc
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Options:\n"
 #| "  --admindir <directory>     Use <directory> instead of %s.\n"
@@ -872,16 +878,15 @@ msgid ""
 "      --colour <color-spec>        Ditto.\n"
 msgstr ""
 "オプション:\n"
-"  --admindir <ディレクトリ>  %s の代わりに <ディレクトリ> を使う\n"
-"  --expert                   上級者モードに切り替える\n"
-"  --debug <ファイル> | -D<ファイル>  デバッグモードに切り替え、出力を<ファイ"
-"ル>に送る\n"
-"  --colour | --color 画面:[前景],[背景][:属性[+属性+...]]\n"
-"                             画面の色を設定する\n"
-"\n"
+"      --admindir <ディレクトリ>    %s の代わりに <ディレクトリ> を使う\n"
+"      --expert                     上級者モードに切り替える\n"
+"  -D, --debug <ファイル>           デバッグモードに切り替え、出力を<ファイル>"
+"に送る\n"
+"      --color <色指定>             画面の色を設定する\n"
+"      --colour <色指定>            同上\n"
 
 #: dselect/main.cc
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "  --help                     Show this help message.\n"
 #| "  --version                  Show the version.\n"
@@ -891,8 +896,8 @@ msgid ""
 "      --version                    Show the version.\n"
 "\n"
 msgstr ""
-"  --help                     このヘルプメッセージを表示\n"
-"  --version                  バージョンを表示\n"
+"  -?, --help                       このヘルプメッセージを表示\n"
+"      --version                    バージョンを表示\n"
 "\n"
 
 #: dselect/main.cc
@@ -900,23 +905,23 @@ msgstr ""
 msgid ""
 "<color-spec> is <screen-part>:[<foreground>],[<background>][:"
 "<attr>[+<attr>]...]\n"
-msgstr ""
+msgstr "<色指定> は <画面部>:[<前景>],[<背景>][:<属性>[+<属性>]...]\n"
 
 #: dselect/main.cc
-#, fuzzy, c-format
+#, c-format
 #| msgid "Screenparts:\n"
 msgid "<screen-part> is:"
-msgstr "画面部:\n"
+msgstr "<画面部> は:"
 
 #: dselect/main.cc
 #, c-format
 msgid "<color> is:"
-msgstr ""
+msgstr "<色> は:"
 
 #: dselect/main.cc
 #, c-format
 msgid "<attr> is:"
-msgstr ""
+msgstr "<属性> は:"
 
 #: dselect/main.cc
 #, c-format
@@ -1146,10 +1151,9 @@ msgid "non-digit where digit wanted"
 msgstr "数字があるべきところに数字でない文字があります"
 
 #: dselect/methparse.cc
-#, fuzzy
 #| msgid "EOF in index string"
 msgid "end of file in index string"
-msgstr "インデックス文字列に EOF があります"
+msgstr "インデックス文字列にファイルの終わり (EOF) があります"
 
 #: dselect/methparse.cc
 msgid "index string too long"
@@ -1160,10 +1164,9 @@ msgid "newline before option name start"
 msgstr "オプション名が始まる前に改行があります"
 
 #: dselect/methparse.cc
-#, fuzzy
 #| msgid "newline before option name start"
 msgid "end of file before option name start"
-msgstr "オプション名が始まる前に改行があります"
+msgstr "オプション名が始まる前にファイルの終わり (EOF) があります"
 
 #: dselect/methparse.cc
 msgid "nonalpha where option name start wanted"
@@ -1174,26 +1177,23 @@ msgid "non-alphanum in option name"
 msgstr "オプション名が英数字ではありません"
 
 #: dselect/methparse.cc
-#, fuzzy
 #| msgid "EOF in option name"
 msgid "end of file in option name"
-msgstr "オプション名に EOF があります"
+msgstr "オプション名にファイルの終わり (EOF) があります"
 
 #: dselect/methparse.cc
 msgid "newline before summary"
 msgstr "要約の前に改行があります"
 
 #: dselect/methparse.cc
-#, fuzzy
 #| msgid "newline before summary"
 msgid "end of file before summary"
-msgstr "要約の前に改行があります"
+msgstr "要約の前にファイルの終わり (EOF) があります"
 
 #: dselect/methparse.cc
-#, fuzzy
 #| msgid "EOF in summary - missing newline"
 msgid "end of file in summary - missing newline"
-msgstr "要約の中に EOF があります - 改行がありません"
+msgstr "要約の中にファイルの終わり (EOF) があります - 改行がありません"
 
 #: dselect/methparse.cc
 #, c-format
@@ -1392,7 +1392,7 @@ msgstr "新規"
 
 #: dselect/pkgdisplay.cc
 msgid "Upgradable"
-msgstr ""
+msgstr "更新可能"
 
 #: dselect/pkgdisplay.cc
 msgid "Obsolete/local"
@@ -1419,26 +1419,23 @@ msgid "Newly available packages"
 msgstr "取得可能新パッケージ"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
 #| msgid "Newly available packages"
 msgid "Upgradable packages"
-msgstr "取得可能新パッケージ"
+msgstr "更新可能パッケージ"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
 #| msgid "Obsolete and local packages present on system"
 msgid "Obsolete and locally created packages"
-msgstr "システムに残っている、廃止されたまたはローカルなパッケージ"
+msgstr "廃止されたローカル作成のパッケージ"
 
 #: dselect/pkgdisplay.cc
 msgid "Installed packages"
 msgstr "インストール済みのパッケージ"
 
 #: dselect/pkgdisplay.cc
-#, fuzzy
 #| msgid "Up to date installed packages"
 msgid "Available not installed packages"
-msgstr "インストールされている最新パッケージ"
+msgstr "インストールされていない利用可能なパッケージ"
 
 #: dselect/pkgdisplay.cc
 msgid "Removed and no longer available packages"
