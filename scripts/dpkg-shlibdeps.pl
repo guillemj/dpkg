@@ -71,15 +71,10 @@ my $warnings = WARN_SYM_NOT_FOUND | WARN_DEP_AVOIDABLE;
 my $debug = 0;
 my @exclude = ();
 my @pkg_dir_to_search = ();
+my @pkg_dir_to_ignore = ();
 my $host_arch = get_host_arch();
 
 my (@pkg_shlibs, @pkg_symbols, @pkg_root_dirs);
-if (-d 'debian') {
-    push @pkg_symbols, glob 'debian/*/DEBIAN/symbols';
-    push @pkg_shlibs, glob 'debian/*/DEBIAN/shlibs';
-    my %uniq = map { guess_pkg_root_dir($_) => 1 } (@pkg_symbols, @pkg_shlibs);
-    push @pkg_root_dirs, keys %uniq;
-}
 
 my ($stdout, %exec);
 foreach (@ARGV) {
@@ -93,6 +88,8 @@ foreach (@ARGV) {
 	Dpkg::Shlibs::add_library_dir($1);
     } elsif (m/^-S(.*)$/) {
 	push @pkg_dir_to_search, $1;
+    } elsif (m/^-I(.*)$/) {
+	push @pkg_dir_to_ignore, $1;
     } elsif (m/^-O$/) {
 	$stdout = 1;
     } elsif (m/^-O(.+)$/) {
@@ -145,6 +142,18 @@ foreach (@ARGV) {
     }
 }
 usageerr(g_('need at least one executable')) unless scalar keys %exec;
+
+sub ignore_pkgdir {
+    my $path = shift;
+    return any { $path =~ /^\Q$_\E/ } @pkg_dir_to_ignore;
+}
+
+if (-d 'debian') {
+    push @pkg_symbols, grep { !ignore_pkgdir($_) } glob 'debian/*/DEBIAN/symbols';
+    push @pkg_shlibs, grep { !ignore_pkgdir($_) } glob 'debian/*/DEBIAN/shlibs';
+    my %uniq = map { guess_pkg_root_dir($_) => 1 } (@pkg_symbols, @pkg_shlibs);
+    push @pkg_root_dirs, keys %uniq;
+}
 
 my $control = Dpkg::Control::Info->new();
 my $fields = $control->get_source();
@@ -563,7 +572,9 @@ sub usage {
   -t<type>                 set package type (default is deb).
   -x<package>              exclude package from the generated dependencies.
   -S<package-build-dir>    search needed libraries in the given
-                           package build directory first.
+                             package build directory first.
+  -I<package-build-dir>    ignore needed libraries, shlibs and symbols files
+                             in the given build directory.
   -v                       enable verbose mode (can be used multiple times).
   --ignore-missing-info    don't fail if dependency information can't be found.
   --warnings=<value>       define set of active warnings (see manual page).
@@ -806,7 +817,10 @@ sub my_find_library {
     # - package build tree of the binary which is analyzed
     # - package build tree given on the command line (option -S)
     # - other package build trees that contain either a shlibs or a
-    # symbols file
+    #   symbols file
+    # But ignore:
+    # - package build tree given on the command line (option -I)
+
     my @builddirs;
     my $pkg_root = guess_pkg_root_dir($execfile);
     push @builddirs, $pkg_root if defined $pkg_root;
@@ -815,6 +829,7 @@ sub my_find_library {
     my %dir_checked;
     foreach my $builddir (@builddirs) {
 	next if defined($dir_checked{$builddir});
+	next if ignore_pkgdir($builddir);
 	$file = find_library($lib, \@RPATH, $format, $builddir);
 	return $file if defined($file);
 	$dir_checked{$builddir} = 1;
