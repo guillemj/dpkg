@@ -51,6 +51,7 @@ my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
 my $changelogformat;
 my $fileslistfile = 'debian/files';
+my $outputfile;
 my $uploadfilesdir = '..';
 my $sourcestyle = 'i';
 my $quiet = 0;
@@ -119,6 +120,7 @@ sub usage {
   -T<substvars-file>       read variables here, not debian/substvars.
   -D<field>=<value>        override or add a field and value.
   -U<field>                remove a field.
+  -O[<filename>]           write to stdout (default) or <filename>.
   -?, --help               show this help message.
       --version            show the version.
 "), $Dpkg::PROGNAME;
@@ -172,6 +174,8 @@ while (@ARGV) {
         $remove{$1} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {
 	$substvars->set($1, $2);
+    } elsif (m/^-O(.*)$/) {
+        $outputfile = $1;
     } elsif (m/^-(?:\?|-help)$/) {
 	usage();
 	exit(0);
@@ -183,8 +187,11 @@ while (@ARGV) {
     }
 }
 
-# Do not pollute STDOUT with info messages.
-report_options(info_fh => \*STDERR, quiet_warnings => $quiet);
+# Do not pollute STDOUT with info messages if the .changes file goes there.
+if (not defined $outputfile) {
+    report_options(info_fh => \*STDERR, quiet_warnings => $quiet);
+    $outputfile = '-';
+}
 
 # Retrieve info from the current changelog entry
 my %options = (file => $changelogfile);
@@ -500,4 +507,4 @@ for my $f (keys %remove) {
 
 # Note: do not perform substitution of variables, one of the reasons is that
 # they could interfere with field values, for example the Changes field.
-$fields->output(\*STDOUT);
+$fields->save($outputfile);
