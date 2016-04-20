@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2016-04-09 08:23+0200\n"
-"PO-Revision-Date: 2016-04-18 11:36+0200\n"
+"PO-Revision-Date: 2016-04-20 15:47+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -4715,6 +4715,9 @@ msgid ""
 "enough information about what binary packages are produced on which "
 "architecture, build-profile and other involved restrictions."
 msgstr ""
+"Dieses Feld wurde jetzt durch das Feld B<Package-List> ersetzt, das genug "
+"Informationen darüber, welche binären Pakete auf welcher Architektur erstellt "
+"werden sowie Bauprofile und andere zugehörige Einschränkungen, gibt."
 
 #. type: TP
 #: dsc.5
@@ -4730,6 +4733,11 @@ msgid ""
 "architecture names and architecture wildcards are B<amd64>, B<armel>, "
 "B<i386>, B<linux-any>, B<any-amd64>, etc."
 msgstr ""
+"Eine durch Leerzeichen getrennte Liste von Architekturen und "
+"Architekturplatzhaltern, die den Typ der Hardware festlegen, für die das "
+"Paket übersetzt werden kann. Typische Architekturnamen und "
+"Architekturplatzhalter sind B<amd64>, B<armel>, B<i386>, B<linux-any>, B<any-"
+"amd64> usw."
 
 #. type: Plain text
 #: dsc.5
@@ -4740,6 +4748,11 @@ msgid ""
 "list contains the architecture wildcard B<any>, the only other value allowed "
 "in the list is B<all>."
 msgstr ""
+"Beachten Sie, dass der Wert B<all> für Pakete gedacht ist, die unabhängig von "
+"der Achitektur sind und B<any> für Pakete, die architekturabhängig sind. Die "
+"Liste kann den Wert B<all> enthalten oder aus ihm alleine bestehen. Wenn die "
+"Liste den Architekturplatzhalter B<any> enthält, ist der einzig andere in der "
+"Liste erlaubte Wert B<all>."
 
 #. type: Plain text
 #: dsc.5
@@ -4798,6 +4811,12 @@ msgid ""
 "present, if the file is present but not the value, then B<dpkg-source> will "
 "automatically add it, preserving previous values."
 msgstr ""
+"Dieses Feld verkündigt, dass das Quellpaket die angegebene Testsammlung "
+"enthält. Der Wert ist eine durch Leerzeichen getrennte Liste von "
+"Testsammlungen. Falls der Wert B<autopkgtest> vorkommt, wird erwartet, dass "
+"I<debian/tests/control> vorhanden ist. Falls nur die Datei aber nicht der "
+"Wert vorhanden ist, wird B<dpkg-source> den Wert automatisch (unter "
+"Beibehaltung der vorherigen Werte) hinzufügen."
 
 #. type: Plain text
 #: dsc.5
@@ -4891,6 +4910,9 @@ msgid ""
 "B<Build-Profile> field, with ORs converted to \\(oq+\\(cq and ANDs to \\(oq,"
 "\\(cq."
 msgstr ""
+"Die normalisierte Bauprofileinschränkungsformel aus dem Feld B<Build-Profile> "
+"des Binärpakets, wobei »OR« in \\(oq+\\(cq und »AND« in \\(oq,\\(cq "
+"umgewandelt wurden."
 
 #. type: TP
 #: dsc.5
@@ -4941,6 +4963,9 @@ msgid ""
 "files in these fields must match the list of files in the other related "
 "fields."
 msgstr ""
+"Diese Felder führen alle Dateien auf, die das Quellpaket darstellen. Die "
+"Liste der Dateien in diesen Feldern muss auf die Liste der Dateien in den "
+"anderen dazugehörigen Feldern passen."
 
 #. type: Plain text
 #: dsc.5
@@ -4948,6 +4973,8 @@ msgid ""
 "The B<Format> field conflates the format for the B<.dsc> file itself and the "
 "format of the extracted source package."
 msgstr ""
+"Das Feld B<Format> fügt das Format für die Datei B<.dsc> und das Format des "
+"extrahierten Quellpakets zusammen."
 
 #. type: Plain text
 #: dsc.5
