@@ -31,8 +31,9 @@ files (\fBdpkg\fP's internal databases are in a similar format).
 A control file consists of one or more paragraphs of fields (the paragraphs
 are also sometimes referred to as stanzas).
 The paragraphs are separated by empty lines.
-Parsers may accept lines consisting solely of spaces and tabs as paragraph
-separators, but control files should use empty lines.
+Parsers may accept lines consisting solely of U+0020 \fBSPACE\fP and
+U+0009 \fBTAB\fP as paragraph separators, but control files should use
+empty lines.
 Some control files allow only one paragraph; others allow several, in which
 case each paragraph usually refers to a different package.
 (For example, in source packages, the first paragraph refers to the source
@@ -41,19 +42,21 @@ source.)
 The ordering of the paragraphs in control files is significant.
 
 Each paragraph consists of a series of data fields.
-Each field consists of the field name followed by a colon and then the
-data/value associated with that field.
+Each field consists of the field name followed by a colon
+(U+003A \(oq\fB:\fP\(cq), and then the data/value associated with that field.
 The field name is composed of US-ASCII characters excluding control
-characters, space, and colon (i.e., characters in the ranges 33-57 and
-59-126, inclusive).
-Field names must not begin with the comment character (\(oq\fB#\fP\(cq),
-nor with the hyphen character (\(oq\fB\-\fP\(cq).
+characters, space, and colon (i.e., characters in the ranges
+U+0021 \(oq\fB!\fP\(cq through U+0039 \(oq\fB9\fP\(cq, and
+U+003B \(oq\fB;\fP\(cq through U+007E \(oq\fB~\fP\(cq, inclusive).
+Field names must not begin with the comment character
+(U+0023 \(oq\fB#\fP\(cq), nor with the hyphen character
+(U+002D \(oq\fB\-\fP\(cq).
 
 The field ends at the end of the line or at the end of the last continuation
 line (see below).
-Horizontal whitespace (spaces and tabs) may occur immediately before or after
-the value and is ignored there; it is conventional to put a single space after
-the colon.
+Horizontal whitespace (U+0020 \fBSPACE\fP and U+0009 \fBTAB\fP) may occur
+immediately before or after the value and is ignored there; it is conventional
+to put a single space after the colon.
 For example, a field might be:
 .RS
 .nf
@@ -81,7 +84,7 @@ specify a different type.
 .B folded
 The value of a folded field is a logical line that may span several lines.
 The lines after the first are called continuation lines and must start with
-a space or a tab.
+a U+0020 \fBSPACE\fP or a U+0009 \fBTAB\fP.
 Whitespace, including any newlines, is not significant in the field values
 of folded fields.
 
@@ -111,13 +114,14 @@ names using mixed case as shown below.
 Field values are case-sensitive unless the description of the field says
 otherwise.
 
-Paragraph separators (empty lines) and lines consisting only of spaces and
-tabs are not allowed within field values or between fields.
+Paragraph separators (empty lines) and lines consisting only of
+U+0020 \fBSPACE\fP and U+0009 \fBTAB\fP, are not allowed within field
+values or between fields.
 Empty lines in field values are usually escaped by representing them by a
-space followed by a dot.
+U+0020 \fBSPACE\fP followed by a dot (U+002E \(oq\fB.\fP\(cq).
 
-Lines starting with \(oq\fB#\fP\(cq without any preceding whitespace are
-comments lines that are only permitted in source package control files
+Lines starting with U+0023 \(oq\fB#\fP\(cq, without any preceding whitespace
+are comments lines that are only permitted in source package control files
 (\fIdebian/control\fP) and in \fBdeb\-origin\fP(5) files.
 These comment lines are ignored, even between two continuation lines.
 They do not end logical lines.
