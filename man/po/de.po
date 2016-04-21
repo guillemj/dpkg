@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2016-04-09 08:23+0200\n"
-"PO-Revision-Date: 2016-04-20 15:47+0200\n"
+"PO-Revision-Date: 2016-04-21 11:11+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -6934,11 +6934,23 @@ msgid ""
 "code sees the need).  Any subsequent files contained within that directory "
 "will fail to unpack."
 msgstr ""
+"Die Filter werden beim Entpacken des Binärpakets angewandt und haben daher "
+"nur Wissen über den Typ des derzeit gefilterten Objekts (d.h. eine normale "
+"Datei oder ein Verzeichnis) und sehen daher nicht, welche Objekte als "
+"nächstes kommen. Da diese Filter Seiteneffekte haben (im Gegensatz zu "
+"B<find>(1)-Filtern) wird das Ausschließen eines genauen Pfadnamens, der ein "
+"Verzeichnisobjekt wie I</usr/share/doc> ist, nicht den gewünschten Effekt "
+"haben und nur der Pfadname wird ausgeschlossen (der automatisch wieder "
+"eingeschlossen werden könnte, falls der Code eine Notwendigkeit hierfür "
+"sieht). Alle folgenden Dateien innerhalb des Verzeichnisses werden beim "
+"Entpacken fehlschlagen."
 
 #. type: Plain text
 #: dpkg.1
 msgid "Hint: make sure the globs are not expanded by your shell."
 msgstr ""
+"Tipp: Stellen Sie sicher, dass die Metazeichen nicht durch Ihre Shell "
+"expandiert werden."
 
 #. type: TP
 #: dpkg.1
@@ -7170,12 +7182,12 @@ msgstr "B<0>"
 
 #. type: Plain text
 #: dpkg.1 dpkg-trigger.1
-#, fuzzy
-#| msgid "The requested action was successfully performed."
 msgid ""
 "The requested action was successfully performed.  Or a check or assertion "
 "command returned true."
-msgstr "Die angeforderte Aktion wurde erfolgreich ausgeführt."
+msgstr ""
+"Die angeforderte Aktion wurde erfolgreich ausgeführt. Oder ein Prüfausdruck "
+"oder eine Zusicherung (Assertion) lieferte Wahr zurück."
 
 #. type: TP
 #: dpkg.1 dpkg-query.1 dpkg-split.1 dpkg-statoverride.1 dpkg-trigger.1
@@ -7187,7 +7199,7 @@ msgstr "B<1>"
 #. type: Plain text
 #: dpkg.1 dpkg-trigger.1
 msgid "A check or assertion command returned false."
-msgstr ""
+msgstr "Ein Prüfausdruck oder eine Zusicherung lieferte Falsch zurück."
 
 #. type: TP
 #: dpkg.1 dpkg-deb.1 dpkg-divert.1 dpkg-query.1 dpkg-split.1
@@ -7205,6 +7217,9 @@ msgid ""
 "interactions with the system, such as accesses to the database, memory "
 "allocations, etc."
 msgstr ""
+"Fataler oder nicht behebbarer Fehler aufgrund ungültiger "
+"Befehlszeilenverwendung oder Interaktionen mit dem System, wie Zugriffe auf "
+"die Datenbank, Speicherzuweisungen usw."
 
 #. type: SH
 #: dpkg.1 dpkg-buildflags.1 dpkg-buildpackage.1 dpkg-checkbuilddeps.1
@@ -7218,7 +7233,7 @@ msgstr "UMGEBUNG"
 #: dpkg.1
 #, no-wrap
 msgid "External environment"
-msgstr ""
+msgstr "Externe Umgebung"
 
 #. type: TP
 #: dpkg.1
@@ -16742,6 +16757,9 @@ msgid ""
 "package being found (except for B<--control-path>, B<--control-list> and B<--"
 "control-show> were such errors are fatal)."
 msgstr ""
+"Die angeforderte Abfrage schlug entweder ganz oder teilweise fehl, da keine "
+"Datei oder kein Paket gefunden wurde (außer für B<--control-path>, B<--"
+"control-list> und B<--control-show>, bei denen solche Fehler fatal sind)."
 
 #. type: Plain text
 #: dpkg-query.1
@@ -18198,6 +18216,9 @@ msgid ""
 "Show the usage message and exit.  The format specific build and extract "
 "options can be shown by using the B<--format> option."
 msgstr ""
+"Zeigt die Verwendungsnachricht und beendet das Programm. Die "
+"formatspezifischen Bau- und Extrahierungsoptionen können mit der Option B<--"
+"format> angezeigt werden."
 
 #. type: SS
 #: dpkg-source.1
@@ -20318,6 +20339,10 @@ msgid ""
 "looked like a package part file but was corrupted, or interactions with the "
 "system, such as accesses to the database, memory allocations, etc."
 msgstr ""
+"Fataler oder nicht beehbarer Fehler aufgrund ungültiger "
+"Befehlszeilenverwendung, einer Datei, die wie ein Paketteil aussah aber "
+"beschädigt war oder Wechselwirkungen mit dem System, wie Zugriffe auf die "
+"Datenbank, Speicherzuweisungen usw."
 
 #. type: TP
 #: dpkg-split.1
@@ -20535,6 +20560,8 @@ msgstr "Sei nicht so ausführlich darüber, was wir machen."
 msgid ""
 "For B<--list>, if there are no overrides or none match the supplied glob."
 msgstr ""
+"Für B<--list>, falls es keine Hinwegsetzungen gab oder keine auf die "
+"angegebenen Metazeichen passte."
 
 #. type: TP
 #: dpkg-statoverride.1
