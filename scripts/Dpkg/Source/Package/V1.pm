@@ -369,9 +369,9 @@ sub do_build {
     if ($sourcestyle eq 'n') {
         $self->{options}{ARGV} = []; # ensure we have no error
         Dpkg::Source::Package::V3::Native::do_build($self, $dir);
-    } elsif ($sourcestyle =~ m/[nurUR]/) {
+    } elsif ($sourcestyle =~ m/[urUR]/) {
         if (stat($tarname)) {
-            unless ($sourcestyle =~ m/[nUR]/) {
+            unless ($sourcestyle =~ m/[UR]/) {
 		error(g_("tarfile '%s' already exists, not overwriting, " .
 		         'giving up; use -sU or -sR to override'), $tarname);
             }

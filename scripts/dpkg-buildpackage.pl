@@ -244,7 +244,7 @@ while (@ARGV) {
 	@build_profiles = split /,/, $arg;
     } elsif (/^-s[iad]$/) {
 	push @changes_opts, $_;
-    } elsif (/^-(?:s[insAkurKUR]|[zZ].*|i.*|I.*)$/) {
+    } elsif (/^-(?:s[nsAkurKUR]|[zZ].*|i.*|I.*)$/) {
 	push @source_opts, $_; # passed to dpkg-source
     } elsif (/^-tc$/) {
 	$cleansource = 1;
