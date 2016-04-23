@@ -164,10 +164,13 @@ sub do_extract {
 
     # V1.0 only supports gzip compression
     my ($tarfile, $difffile);
+    my $tarsign;
     foreach my $file ($self->get_files()) {
 	if ($file =~ /^(?:\Q$basename\E\.orig|\Q$basenamerev\E)\.tar\.gz$/) {
             error(g_('multiple tarfiles in v1.0 source package')) if $tarfile;
             $tarfile = $file;
+        } elsif ($file =~ /^\Q$basename\E\.orig\.tar\.gz\.asc$/) {
+            $tarsign = $file;
 	} elsif ($file =~ /^\Q$basenamerev\E\.diff\.gz$/) {
 	    $difffile = $file;
 	} else {
