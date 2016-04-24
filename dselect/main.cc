@@ -108,7 +108,7 @@ static const struct table_t screenparttable[]= {
   {"pkgstatesel",	selstatesel	},
   {"listhead",		colheads	},
   {"query",		query		},
-  {"info",		info		},
+  {"info",		info_body	},
   {"infodesc",		info_head	},
   {"infofoot",		whatinfo	},
   {"helpscreen",	helpscreen	},
@@ -127,7 +127,7 @@ struct colordata color[]= {
   {COLOR_WHITE,        COLOR_BLACK,    A_REVERSE | A_BOLD	}, // selstatesel
   {COLOR_WHITE,        COLOR_BLUE,     0			}, // colheads
   {COLOR_WHITE,        COLOR_RED,      0			}, // query
-  {COLOR_WHITE,        COLOR_BLACK,    0			}, // info
+  {COLOR_WHITE,        COLOR_BLACK,    0			}, // info_body
   {COLOR_WHITE,        COLOR_BLACK,    A_BOLD			}, // info_head
   {COLOR_WHITE,        COLOR_BLUE,     0			}, // whatinfo
   {COLOR_WHITE,        COLOR_BLACK,    0			}, // help

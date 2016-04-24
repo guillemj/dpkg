@@ -188,7 +188,7 @@ void methodlist::itd_description() {
   waddstr(infopad, table[cursorline]->name);
   waddstr(infopad," - ");
   waddstr(infopad, table[cursorline]->summary);
-  wattrset(infopad, part_attr[info]);
+  wattrset(infopad, part_attr[info_body]);
 
   const char *m= table[cursorline]->description;
   if (str_is_unset(m))

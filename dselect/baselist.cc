@@ -200,7 +200,7 @@ void baselist::startdisplay() {
     part_attr[selstatesel] = A_STANDOUT;
     part_attr[colheads]= A_BOLD;
     part_attr[query] = part_attr[title];
-    part_attr[info] = part_attr[list];
+    part_attr[info_body] = part_attr[list];
     part_attr[info_head] = A_BOLD;
     part_attr[whatinfo] = part_attr[thisstate];
     part_attr[helpscreen] = A_NORMAL;
@@ -236,8 +236,8 @@ void baselist::startdisplay() {
 
   infopad= newpad(MAX_DISPLAY_INFO, total_width);
   if (!infopad) ohshite(_("failed to create info pad"));
-  wattrset(infopad, part_attr[info]);
-  wbkgdset(infopad, ' ' | part_attr[info]);
+  wattrset(infopad, part_attr[info_body]);
+  wbkgdset(infopad, ' ' | part_attr[info_body]);
 
   querywin= newwin(1,xmax,ymax-1,0);
   if (!querywin) ohshite(_("failed to create query window"));

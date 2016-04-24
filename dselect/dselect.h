@@ -55,7 +55,7 @@ enum screenparts {
 	selstatesel,
 	colheads,
 	query,
-	info,
+	info_body,
 	info_head,
 	whatinfo,
 	helpscreen,

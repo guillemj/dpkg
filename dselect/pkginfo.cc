@@ -120,7 +120,7 @@ void packagelist::itd_description() {
     waddstr(infopad, table[cursorline]->pkg->set->name);
     waddstr(infopad," - ");
     waddnstr(infopad,m,l);
-    wattrset(infopad, part_attr[info]);
+    wattrset(infopad, part_attr[info_body]);
     if (p) {
       waddstr(infopad,"\n\n");
       wordwrapinfo(1,++p);
