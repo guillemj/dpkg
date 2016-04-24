@@ -119,45 +119,45 @@ packagelist::add(dependency *depends, showpriority displayimportance)
     return false;
 
   const char *comma= "";
-  varbuf info;
-  info(depends->up->set->name);
-  info(' ');
-  info(gettext(relatestrings[depends->type]));
-  info(' ');
+  varbuf depinfo;
+  depinfo(depends->up->set->name);
+  depinfo(' ');
+  depinfo(gettext(relatestrings[depends->type]));
+  depinfo(' ');
   deppossi *possi;
   for (possi=depends->list;
        possi;
        possi=possi->next, comma=(possi && possi->next ? ", " : _(" or "))) {
-    info(comma);
-    info(possi->ed->name);
+    depinfo(comma);
+    depinfo(possi->ed->name);
     if (possi->verrel != DPKG_RELATION_NONE) {
       switch (possi->verrel) {
       case DPKG_RELATION_LE:
-        info(" (<= ");
+        depinfo(" (<= ");
         break;
       case DPKG_RELATION_GE:
-        info(" (>= ");
+        depinfo(" (>= ");
         break;
       case DPKG_RELATION_LT:
-        info(" (<< ");
+        depinfo(" (<< ");
         break;
       case DPKG_RELATION_GT:
-        info(" (>> ");
+        depinfo(" (>> ");
         break;
       case DPKG_RELATION_EQ:
-        info(" (= ");
+        depinfo(" (= ");
         break;
       default:
         internerr("unknown dpkg_relation %d", possi->verrel);
       }
-      info(versiondescribe(&possi->version, vdew_nonambig));
-      info(")");
+      depinfo(versiondescribe(&possi->version, vdew_nonambig));
+      depinfo(")");
     }
   }
-  info('\n');
-  add(depends->up,info.string(),displayimportance);
+  depinfo('\n');
+  add(depends->up, depinfo.string(), displayimportance);
   for (possi=depends->list; possi; possi=possi->next) {
-    add(&possi->ed->pkg, info.string(), displayimportance);
+    add(&possi->ed->pkg, depinfo.string(), displayimportance);
     if (depends->type != dep_provides) {
       /* Providers are not relevant if we are looking at a provider
        * relationship already. */
@@ -166,7 +166,7 @@ packagelist::add(dependency *depends, showpriority displayimportance)
            provider;
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
-        add(provider->up->up,info.string(),displayimportance);
+        add(provider->up->up, depinfo.string(), displayimportance);
         add(provider->up,displayimportance);
       }
     }
