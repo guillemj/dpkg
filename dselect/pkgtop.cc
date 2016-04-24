@@ -140,7 +140,6 @@ void packagelist::redraw1itemsel(int index, int selected) {
   int i, indent, j;
   const char *p;
   const struct pkginfo *pkg= table[index]->pkg;
-  const struct pkgbin *info = &pkg->available;
   int screenline = index - topofscreen;
 
   wattrset(listpad, part_attr[selected ? listsel : list]);
@@ -238,8 +237,8 @@ void packagelist::redraw1itemsel(int index, int selected) {
     }
 
     i = col_description.width;
-    p= info->description ? info->description :
-       pkg->installed.description ? pkg->installed.description : "";
+    p = pkg->available.description ? pkg->available.description :
+        pkg->installed.description ? pkg->installed.description : "";
     while (i>0 && *p && *p != '\n') { waddnstr(listpad,p,1); i--; p++; }
   } else {
     const char *section= pkg->section;
