@@ -26,8 +26,6 @@ our @EXPORT = qw(
     BUILD_ARCH_DEP
     BUILD_ARCH_INDEP
     BUILD_BINARY
-    BUILD_SOURCE_DEP
-    BUILD_SOURCE_INDEP
     BUILD_FULL
     build_has
     build_has_not
@@ -78,14 +76,6 @@ This build includes architecture independent binary artifacts.
 
 This build includes binary artifacts.
 
-=item BUILD_SOURCE_DEP
-
-This build includes source and architecture dependent binary artifacts.
-
-=item BUILD_SOURCE_INDEP
-
-This build includes source and architecture independent binary artifacts.
-
 =item BUILD_FULL
 
 This build includes source and binary artifacts.
@@ -101,14 +91,8 @@ use constant {
 };
 
 # Composed types.
-use constant {
-    BUILD_BINARY       => BUILD_ARCH_DEP | BUILD_ARCH_INDEP,
-    BUILD_SOURCE_DEP   => BUILD_SOURCE | BUILD_ARCH_DEP,
-    BUILD_SOURCE_INDEP => BUILD_SOURCE | BUILD_ARCH_INDEP,
-};
-use constant {
-    BUILD_FULL         => BUILD_BINARY | BUILD_SOURCE,
-};
+use constant BUILD_BINARY => BUILD_ARCH_DEP | BUILD_ARCH_INDEP;
+use constant BUILD_FULL   => BUILD_BINARY | BUILD_SOURCE;
 
 my $current_type = BUILD_FULL | BUILD_DEFAULT;
 my $current_option = undef;

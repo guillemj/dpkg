@@ -134,9 +134,9 @@ while (@ARGV) {
     } elsif (m/^-S$/) {
 	set_build_type(BUILD_SOURCE, $_);
     } elsif (m/^-G$/) {
-	set_build_type(BUILD_SOURCE_DEP, $_);
+	set_build_type(BUILD_SOURCE | BUILD_ARCH_DEP, $_);
     } elsif (m/^-g$/) {
-	set_build_type(BUILD_SOURCE_INDEP, $_);
+	set_build_type(BUILD_SOURCE | BUILD_ARCH_INDEP, $_);
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
     } elsif (m/^-q$/) {

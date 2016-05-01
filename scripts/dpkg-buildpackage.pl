@@ -278,10 +278,10 @@ while (@ARGV) {
 	set_build_type(BUILD_SOURCE, $_);
 	push @changes_opts, '-S';
     } elsif (/^-G$/) {
-	set_build_type(BUILD_SOURCE_DEP, $_);
+	set_build_type(BUILD_SOURCE | BUILD_ARCH_DEP, $_);
 	push @changes_opts, '-G';
     } elsif (/^-g$/) {
-	set_build_type(BUILD_SOURCE_INDEP, $_);
+	set_build_type(BUILD_SOURCE | BUILD_ARCH_INDEP, $_);
 	push @changes_opts, '-g';
     } elsif (/^-F$/) {
 	set_build_type(BUILD_FULL, $_);

@@ -28,16 +28,17 @@ set_build_type(BUILD_DEFAULT | BUILD_BINARY, '--default-binary');
 
 ok(build_is(BUILD_DEFAULT | BUILD_BINARY), 'build is default binary');
 
-set_build_type(BUILD_SOURCE_INDEP, '--source-indep');
+set_build_type(BUILD_SOURCE | BUILD_ARCH_INDEP, '--build=source,all');
 
-ok(build_is(BUILD_SOURCE_INDEP), 'build is source indep');
-ok(!build_is(BUILD_SOURCE_DEP), 'build is not source dep');
+ok(build_is(BUILD_SOURCE | BUILD_ARCH_INDEP), 'build source,all is source,all');
+ok(!build_is(BUILD_SOURCE | BUILD_ARCH_DEP), 'build source,all is not source,any');
 ok(build_has(BUILD_SOURCE), 'build source indep has source');
 ok(build_has(BUILD_ARCH_INDEP), 'build source indep has arch indep');
 ok(build_has_not(BUILD_DEFAULT), 'build source indep has not default');
 ok(build_has_not(BUILD_ARCH_DEP), 'build source indep has not arch dep');
 ok(build_has_not(BUILD_BINARY), 'build source indep has not binary');
-ok(build_has_not(BUILD_SOURCE_DEP), 'build source indep has not source dep');
+ok(build_has_not(BUILD_SOURCE | BUILD_ARCH_DEP),
+   'build source,all has_not source,any');
 ok(build_has_not(BUILD_FULL), 'build source indep has not full');
 
 1;
