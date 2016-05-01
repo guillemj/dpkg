@@ -160,19 +160,23 @@ sub build_is
     return $current_type == $bits;
 }
 
-=item set_build_type($build_type, $build_option)
+=item set_build_type($build_type, $build_option, %opts)
 
 Set the current build type to $build_type, which was specified via the
 $build_option command-line option.
+
+The function will check and abort on incompatible build type assignments,
+this behavior can be disabled by using the boolean option "nocheck".
 
 =cut
 
 sub set_build_type
 {
-    my ($build_type, $build_option) = @_;
+    my ($build_type, $build_option, %opts) = @_;
 
     usageerr(g_('cannot combine %s and %s'), $current_option, $build_option)
-        if build_has_none(BUILD_DEFAULT) and $current_type != $build_type;
+        if not $opts{nocheck} and
+           build_has_none(BUILD_DEFAULT) and $current_type != $build_type;
 
     $current_type = $build_type;
     $current_option = $build_option;

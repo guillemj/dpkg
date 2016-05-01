@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 12;
+use Test::More tests => 19;
 
 BEGIN {
     use_ok('Dpkg::Build::Types');
@@ -40,5 +40,16 @@ ok(!build_has_all(BUILD_BINARY), 'build source,all not has_all binary');
 ok(!build_has_all(BUILD_SOURCE | BUILD_ARCH_DEP),
    'build source,all not has_all source,any');
 ok(!build_has_all(BUILD_FULL), 'build source,all has_all full');
+
+set_build_type(BUILD_BINARY, '--build=binary', nocheck => 1);
+ok(build_is(BUILD_BINARY), 'build binary is binary');
+ok(build_has_any(BUILD_ARCH_DEP), 'build binary has_any any');
+ok(build_has_any(BUILD_ARCH_INDEP), 'build binary has_any all');
+ok(build_has_all(BUILD_BINARY), 'build binary has_all binary');
+ok(build_has_none(BUILD_SOURCE), 'build binary has_none source');
+
+set_build_type(BUILD_FULL, '--build=full', nocheck => 1);
+ok(build_has_any(BUILD_SOURCE), 'build full has_any source');
+ok(build_has_all(BUILD_BINARY), 'build full has_all binary');
 
 1;
