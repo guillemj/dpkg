@@ -86,13 +86,6 @@ install: check
 
 	cd build-tree && $(MAKE) DESTDIR=$(D) install
 
-ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
-	# Ubuntu's «i386» architecture is built for i686 (the Debian default
-	# is i586).
-	sed -ri 's/^(i386[[:space:]]+)[^[:space:]]+/\1i686/' \
-	        $(D)/usr/share/dpkg/cputable
-endif
-
 define dpkg-installmanl10n
 for f in `sed -e 's:\*:*/*:' debian/$(1).manpages`; do \
 	test -e $$f && \
