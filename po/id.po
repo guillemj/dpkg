@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
 "Language-Team: Indonesian <debian-l10n-indonesian@lists.debian.org>\n"
@@ -547,17 +547,15 @@ msgstr "kehabisan memory untuk masukan 'cleanup' baru"
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "kehabisan memory untuk masukan 'cleanup' baru dengan banyak argumen"
 
-#: lib/dpkg/ehandle.c
-#, fuzzy, c-format
-#| msgid "%s: warning: %s\n"
-msgid "%s: error: %s\n"
-msgstr "%s: peringatan: %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+msgid "error"
+msgstr "galat proses 'parse'"
 
 #: lib/dpkg/ehandle.c
-#, fuzzy, c-format
-#| msgid "%s:%s:%d: internal error: %s\n"
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s: %s: %d: galat internal: %s\n"
+#, fuzzy
+#| msgid "%s: internal gzip read error"
+msgid "internal error"
+msgstr "%s: ada galat internal saat membaca gzip"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -965,6 +963,11 @@ msgid "invalid integer for --%s: '%.250s'"
 msgstr "integer untuk --%s tidak sah: '%.250s'"
 
 #: lib/dpkg/options.c
+#, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "integer untuk -%c tidak sah: '%.250s'"
+
+#: lib/dpkg/options.c
 #, fuzzy, c-format
 #| msgid "obsolete option '--%s'\n"
 msgid "obsolete option '--%s'"
@@ -1279,10 +1282,9 @@ msgstr "nama paket dalam pemicu tertunggu '%.255s': %s tidak sah"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "nama paket dalam pemicu tertunggu '%.255s': %s tidak sah"
 
-#: lib/dpkg/report.c
-#, c-format
-msgid "%s: warning: %s\n"
-msgstr "%s: peringatan: %s\n"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "PERINGATAN"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1313,7 +1315,7 @@ msgstr "%s (subproses): %s \n"
 msgid "fork failed"
 msgstr "'fork' gagal "
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "subproses %s menghasilkan kesalahan status keluaran: %d"
@@ -1344,67 +1346,82 @@ msgstr "subproses %s gagal dengan kode status tunggu %d"
 msgid "wait for subprocess %s failed"
 msgstr "gagal menunggu subproses %s"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat pathname '%s'"
+msgstr "gagal menata status '%s'"
+
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "gagal memindai direktori '%.255s'"
+
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "control directory is not a directory"
+msgid "treewalk root %s is not a directory"
+msgstr "direktori 'control' bukan sebuah direktori"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "unable to open/create triggers lockfile '%.250s'"
+msgstr "gagal membuka/membuat berkas-kunci pemicu '%.250s'"
+
+#: lib/dpkg/trigdeferred.c
+#, fuzzy
+#| msgid "triggered"
+msgid "triggers area"
+msgstr "dipicu"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "unable to open triggers deferred file '%.250s'"
+msgstr "gagal membuka berkas tunda pemicu '%.250s'"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "unable to stat triggers deferred file '%.250s'"
+msgstr "gagal menata status berkas tunda pemicu '%.250s'"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "unable to open/create new triggers deferred file '%.250s'"
+msgstr "gagal membuka/membuat berkas tunda pemicu '%.250s' yang baru"
+
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+#| msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr ""
+"kesalahan sintaks di pemicu menghalangi pemrosesan berkas '%.250s' di aksara "
+"'%s'%s"
+
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
 msgstr ""
 "name paket tidak sah '%.250s' di pemicu menghalangi pemrosesan berkas "
 "'%.250s'"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "berkas pemicu tertunda '%.250s' terpotong isinya"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr ""
-"kesalahan sintaks di pemicu menghalangi pemrosesan berkas '%.250s' di aksara "
-"'%s'%s"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "unable to open/create triggers lockfile '%.250s'"
-msgstr "gagal membuka/membuat berkas-kunci pemicu '%.250s'"
-
-#: lib/dpkg/trigdeferred.l
-#, fuzzy
-#| msgid "triggered"
-msgid "triggers area"
-msgstr "dipicu"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "unable to open triggers deferred file '%.250s'"
-msgstr "gagal membuka berkas tunda pemicu '%.250s'"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "unable to stat triggers deferred file '%.250s'"
-msgstr "gagal menata status berkas tunda pemicu '%.250s'"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "unable to open/create new triggers deferred file '%.250s'"
-msgstr "gagal membuka/membuat berkas tunda pemicu '%.250s' yang baru"
-
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr "ada galat saat membaca berkas tunda pemicu '%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr "gagal menulis ke berkas tunda pemicu '%.250s' yang baru"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr "gagal meutup berkas tunda pemicu '%.250s' yang baru"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr "gagal memasang berkas tunda pemicu '%.255s' yang baru"
@@ -1911,29 +1928,6 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive perlu sedikitnya satu argumen path"
 
 #: src/archives.c
-msgid "find for dpkg --recursive"
-msgstr "perintah 'find' untuk dpkg --recursive"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "Gagal membuka deskriptor-berkas pipe 'find'"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "Ada kesalahan saat membaca pipe 'find'"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "Ada kesalahan saat menutup pipe 'find'"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr ""
-"perintah 'find' untuk --recursive menghasilkan kesalahan yang tak teratasi: "
-"%i"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 "telah dicari, tetapi tidak menemukan suatu paket pun (berkas-berkas yang "
@@ -1943,6 +1937,18 @@ msgstr ""
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s butuh sedikitnya satu argumen berkas arsip paket"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "gagal mengakses arsip"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "archive '%s' is not a regular file"
+msgstr "berkas konfig '%s' bukan berkas biasa"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3625,6 +3631,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr ""
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr ""
 
@@ -3982,6 +3992,12 @@ msgstr " bergantung pada "
 msgid "; however:\n"
 msgstr "; tetapi:\n"
 
+#: src/querycmd.c src/select.c
+#, fuzzy, c-format
+#| msgid "No packages found matching %s.\n"
+msgid "no packages found matching %s"
+msgstr "Tidak ada paket yang cocok dengan %s. \n"
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -4017,12 +4033,6 @@ msgstr "nama paket"
 #: src/querycmd.c
 msgid "Description"
 msgstr "Keterangan"
-
-#: src/querycmd.c src/select.c
-#, fuzzy, c-format
-#| msgid "No packages found matching %s.\n"
-msgid "no packages found matching %s"
-msgstr "Tidak ada paket yang cocok dengan %s. \n"
 
 #: src/querycmd.c
 #, c-format
@@ -4890,6 +4900,39 @@ msgstr "dilewati\n"
 msgid "unable to create temporary directory"
 msgstr "gagal membuat direktori sementara"
 
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: regarding %s containing %s, pre-dependency problem:\n"
+#| "%s"
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"dpkg: memandang %s berisi %s, masalah pra-ketergantungan:\n"
+"%s"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "Ada masalah pra-ketergantungan - tidak akan memasang %.250s"
+
+#: src/unpack.c
+msgid "ignoring pre-dependency problem!"
+msgstr "mengabaikan masalah pra-ketergantungan! "
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s, to allow removal of %s ...\n"
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr "Sedang dekonfigurasi %s, agar dapat membuang %s ... \n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s ...\n"
+msgid "De-configuring %s (%s) ...\n"
+msgstr "Sedang dekonfigurasi %s ... \n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "conffile name '%.50s...' is too long, or missing final newline"
@@ -4958,102 +5001,6 @@ msgstr "gagal memasang berkas 'info' baru '%.250s' sebagai '%.250s'"
 
 #: src/unpack.c
 #, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(Mencatat lenyapnya %s, yang telah diganti seutuhnya.) \n"
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr "gagal mengakses arsip"
-
-#: src/unpack.c
-#, fuzzy
-#| msgid "control information length"
-msgid "package control information extraction"
-msgstr "panjang informasi 'control'"
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "Merekam info tentang %s dari %s.\n"
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "arsitektur paket (%s) tidak cocok dengan sistem (%s)"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: regarding %s containing %s, pre-dependency problem:\n"
-#| "%s"
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"dpkg: memandang %s berisi %s, masalah pra-ketergantungan:\n"
-"%s"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "Ada masalah pra-ketergantungan - tidak akan memasang %.250s"
-
-#: src/unpack.c
-msgid "ignoring pre-dependency problem!"
-msgstr "mengabaikan masalah pra-ketergantungan! "
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Preparing to replace %s %s (using %s) ...\n"
-msgid "Preparing to unpack %s ...\n"
-msgstr "Bersiap-siap mengganti %s %s (dengan %s) ... \n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "De-configuring %s, to allow removal of %s ...\n"
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr "Sedang dekonfigurasi %s, agar dapat membuang %s ... \n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "De-configuring %s ...\n"
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Sedang dekonfigurasi %s ... \n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Unpacking %s (from %s) ...\n"
-msgid "Unpacking %s (%s) ...\n"
-msgstr "Sedang membuka paket %s (dari %s) ... \n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Unpacking %s (from %s) ...\n"
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "Sedang membuka paket %s (dari %s) ... \n"
-
-#: src/unpack.c
-#, fuzzy
-#| msgid "dpkg-deb field extraction"
-msgid "package filesystem archive extraction"
-msgstr "dpkg-deb penguraian ruas isian"
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "ada kesalahan saat membaca keluaran tar dpkg-deb"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "berkas tar dari sistem berkas terkorupsi - arsip paket terkorupsi"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "dpkg-deb: zap possible trailing zeros"
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "dpkg-deb: kemungkinan 'zap' berakhiran banyak nol"
-
-#: src/unpack.c
-#, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "gagal menata status berkas '%.250s' yang lama, jadi tidak dibuang: %s"
 
@@ -5087,6 +5034,65 @@ msgstr ""
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "gagal secara hati-hati menghapus berkas lama '%.250s': %s"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(Mencatat lenyapnya %s, yang telah diganti seutuhnya.) \n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "control information length"
+msgid "package control information extraction"
+msgstr "panjang informasi 'control'"
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "Merekam info tentang %s dari %s.\n"
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "arsitektur paket (%s) tidak cocok dengan sistem (%s)"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Preparing to replace %s %s (using %s) ...\n"
+msgid "Preparing to unpack %s ...\n"
+msgstr "Bersiap-siap mengganti %s %s (dengan %s) ... \n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Unpacking %s (from %s) ...\n"
+msgid "Unpacking %s (%s) ...\n"
+msgstr "Sedang membuka paket %s (dari %s) ... \n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Unpacking %s (from %s) ...\n"
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr "Sedang membuka paket %s (dari %s) ... \n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "dpkg-deb field extraction"
+msgid "package filesystem archive extraction"
+msgstr "dpkg-deb penguraian ruas isian"
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr "ada kesalahan saat membaca keluaran tar dpkg-deb"
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr "berkas tar dari sistem berkas terkorupsi - arsip paket terkorupsi"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "dpkg-deb: zap possible trailing zeros"
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "dpkg-deb: kemungkinan 'zap' berakhiran banyak nol"
 
 #: src/update.c
 #, fuzzy, c-format
@@ -5131,21 +5137,22 @@ msgstr ""
 "Pilihan '%s' sudah usang. Paket-paket yang tak tersedia otomatis dibersihkan."
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "gagal menata status nama berkas '%.250s'"
+#, fuzzy, c-format
+#| msgid "failed to write filename to tar pipe (data)"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "gagal menulis nama berkas ke pipe tar (data)"
+
+#: dpkg-deb/build.c
+#, fuzzy
+#| msgid "control"
+msgid "control member"
+msgstr "control"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "newline in field name '%.*s'"
 msgid "newline not allowed in pathname '%s'"
 msgstr "ada baris-baru dalam nama ruas '%.*s'"
-
-#: dpkg-deb/build.c
-#, fuzzy, c-format
-#| msgid "failed to write filename to tar pipe (data)"
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "gagal menulis nama berkas ke pipe tar (data)"
 
 #: dpkg-deb/build.c
 #, fuzzy
@@ -5229,6 +5236,12 @@ msgid "package name has characters that aren't lowercase alphanums or '-+.'"
 msgstr "nama paket berisi aksara yang bukan huruf kecil atau `-+'"
 
 #: dpkg-deb/build.c
+#, fuzzy
+#| msgid "package name"
+msgid "package architecture is missing or empty"
+msgstr "nama paket"
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "'%s' berisi nilai Prioritas definisi pengguna '%s'"
@@ -5272,13 +5285,15 @@ msgid "not checking contents of control area"
 msgstr "tidak memeriksa isi area control."
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr "dpkg-deb: membuat paket tak dikenal di dalam '%s'.\n"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr "dpkg-deb: membuat paket '%s' di dalam '%s'.\n"
 
 #: dpkg-deb/build.c
@@ -5288,22 +5303,10 @@ msgid "failed to make temporary file (%s)"
 msgstr "gagal membuat berkas tmp (data)"
 
 #: dpkg-deb/build.c
-#, fuzzy
-#| msgid "control"
-msgid "control member"
-msgstr "control"
-
-#: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "failed to unlink tmpfile (data), %s"
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "gagal membuang link berkas tmp (data), %s"
-
-#: dpkg-deb/build.c
-#, fuzzy
-#| msgid "control"
-msgid "compressing control member"
-msgstr "control"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5601,7 +5604,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     bukan sebuah berkas biasa         %.255s\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(tidak ada berkas 'control' dalam arsip!) \n"
 
 #: dpkg-deb/main.c
@@ -6469,18 +6474,10 @@ msgstr ""
 "\n"
 
 #: utils/update-alternatives.c
-msgid "error"
-msgstr "galat proses 'parse'"
-
-#: utils/update-alternatives.c
 #, fuzzy, c-format
 #| msgid "Use --help for help about querying packages."
 msgid "Use '%s --help' for program usage information."
 msgstr "Gunakan --help untuk panduan tentang pencarian paket."
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "PERINGATAN"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6991,6 +6988,47 @@ msgstr ""
 "untuk kembali ke modus pembaruan otomatis, gunakan 'update-alternatives --"
 "auto %s'"
 
+#, fuzzy
+#~| msgid "%s: warning: %s\n"
+#~ msgid "%s: error: %s\n"
+#~ msgstr "%s: peringatan: %s\n"
+
+#, fuzzy
+#~| msgid "%s:%s:%d: internal error: %s\n"
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s: %s: %d: galat internal: %s\n"
+
+#~ msgid "%s: warning: %s\n"
+#~ msgstr "%s: peringatan: %s\n"
+
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "berkas pemicu tertunda '%.250s' terpotong isinya"
+
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "perintah 'find' untuk dpkg --recursive"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "Gagal membuka deskriptor-berkas pipe 'find'"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "Ada kesalahan saat membaca pipe 'find'"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "Ada kesalahan saat menutup pipe 'find'"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr ""
+#~ "perintah 'find' untuk --recursive menghasilkan kesalahan yang tak "
+#~ "teratasi: %i"
+
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "gagal menata status nama berkas '%.250s'"
+
+#, fuzzy
+#~| msgid "control"
+#~ msgid "compressing control member"
+#~ msgstr "control"
+
 #~ msgid "Call %s."
 #~ msgstr "Jalankan %s."
 
@@ -7073,9 +7111,6 @@ msgstr ""
 
 #~ msgid "Unpacking replacement %.250s ...\n"
 #~ msgstr "Sedang membuka pengganti %.250s ... \n"
-
-#~ msgid "invalid integer for -%c: '%.250s'"
-#~ msgstr "integer untuk -%c tidak sah: '%.250s'"
 
 #, fuzzy
 #~| msgid "--add needs four arguments"

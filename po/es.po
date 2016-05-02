@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Javier Fernandez-Sanguino <jfs@debian.org>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -581,15 +581,15 @@ msgstr ""
 "memoria agotada para la entrada de reorganización nueva con\n"
 "muchos parámetros"
 
-#: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s: error: %s\n"
-msgstr "%s: error: %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+msgid "error"
+msgstr "error"
 
 #: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s:%s:%d:%s: error interno: %s\n"
+#, fuzzy
+#| msgid "internal error (bug)"
+msgid "internal error"
+msgstr "error interno (errata)"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -982,6 +982,11 @@ msgid "invalid integer for --%s: '%.250s'"
 msgstr "entero inválido para --%s: `%.250s'"
 
 #: lib/dpkg/options.c
+#, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "entero inválido para -%c: `%.250s'"
+
+#: lib/dpkg/options.c
 #, fuzzy, c-format
 #| msgid "obsolete option '--%s'\n"
 msgid "obsolete option '--%s'"
@@ -1302,10 +1307,9 @@ msgstr "nombre de paquete ilegal en el valor '%s%s%s': %s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "nombre de arquitectura ilegal en el valor '%s:%s': %s"
 
-#: lib/dpkg/report.c
-#, c-format
-msgid "%s: warning: %s\n"
-msgstr "%s: aviso: %s\n"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "atención"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1337,7 +1341,7 @@ msgstr "%s (subproceso): %s\n"
 msgid "fork failed"
 msgstr "fallo en `fork'"
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "el subproceso %s devolvió el código de salida de error %d"
@@ -1366,72 +1370,88 @@ msgstr "el subproceso %s falló con código de estado de espera %d"
 msgid "wait for subprocess %s failed"
 msgstr "falló la orden `wait' para el subproceso %s"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
-msgstr ""
-"nombre de paquete inválido `%.250s' en la lista dereferenciada de "
-"disparadores `%.250s'"
+# FIXME: Traducción de 'stat'
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat pathname '%s'"
+msgstr "no se puede efectuar `stat' el fichero `%s'"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "fichero dereferenciado de disparadores truncado `%.250s'"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "no se puede examinar el directorio `%.255s'"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr ""
-"error sintáctico en la lista dereferenciada de disparadores `%.250s' en el "
-"carácter `%s'%s"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "control directory is not a directory"
+msgid "treewalk root %s is not a directory"
+msgstr "el directorio de control no es un directorio"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create triggers lockfile '%.250s'"
 msgstr ""
 "no se puede abrir/crear el fichero de bloqueo de los disparadores `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 msgid "triggers area"
 msgstr "area de disparadores"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open triggers deferred file '%.250s'"
 msgstr "no se puede abrir el fichero de disparadores dereferenciado `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to stat triggers deferred file '%.250s'"
 msgstr ""
 "no se puede efectuar `stat' sobre el fichero dereferenciado de disparadores `"
 "%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create new triggers deferred file '%.250s'"
 msgstr ""
 "no se puede abrir/crear el nuevo fichero de disparadores dereferenciado `"
 "%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+#| msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr ""
+"error sintáctico en la lista dereferenciada de disparadores `%.250s' en el "
+"carácter `%s'%s"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
+msgstr ""
+"nombre de paquete inválido `%.250s' en la lista dereferenciada de "
+"disparadores `%.250s'"
+
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr "error al leer los disparadores del fichero dereferenciado `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr ""
 "no se puede abrir el nuevo fichero dereferenciado de disparadores `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr ""
 "no se puede cerrar el nuevo fichero dereferenciado de disparadores `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr ""
@@ -1933,27 +1953,6 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive necesita al menos una ruta como parámetro"
 
 #: src/archives.c
-msgid "find for dpkg --recursive"
-msgstr "fallo al ejecutar `find' para dpkg --recursive"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "fallo al efectuar `fdopen' en la tubería de find"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "error al leer la tubería de find"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "error al cerrar la tubería de find"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr "La búsqueda usando --recursive devolvió el error no manejado %i"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 "se buscó, pero no se encontraron paquetes (ficheros que encajen con *.deb)"
@@ -1962,6 +1961,18 @@ msgstr ""
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s necesita al menos un archivo de paquete como parámetro"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "no se puede acceder al archivo"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "archive '%s' is not a regular file"
+msgstr "el conffile `%s' no es un fichero normal"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3595,6 +3606,10 @@ msgstr ""
 "No utiliza las operaciones seguras de E/S cuando se realiza desempaqueta."
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr "Utiliza siempre los archivos de configuración nuevos, no pregunta."
 
@@ -3962,6 +3977,11 @@ msgstr " depende de "
 msgid "; however:\n"
 msgstr "; sin embargo:\n"
 
+#: src/querycmd.c src/select.c
+#, c-format
+msgid "no packages found matching %s"
+msgstr "no se ha encontrado ningún paquete que corresponda con %s."
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -3995,11 +4015,6 @@ msgstr "Arquitectura"
 #: src/querycmd.c
 msgid "Description"
 msgstr "Descripción"
-
-#: src/querycmd.c src/select.c
-#, c-format
-msgid "no packages found matching %s"
-msgstr "no se ha encontrado ningún paquete que corresponda con %s."
 
 #: src/querycmd.c
 #, c-format
@@ -4805,6 +4820,34 @@ msgstr "correcto\n"
 msgid "unable to create temporary directory"
 msgstr "fallo al crear directorio temporal"
 
+#: src/unpack.c
+#, c-format
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"acerca de %s que contiene %s, problema de predependencia:\n"
+"%s"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "problema de predependencia - no se instala %.250s"
+
+#: src/unpack.c
+msgid "ignoring pre-dependency problem!"
+msgstr "¡descartando problema de predependencia!"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr "Desconfigurando %s (%s), para poder eliminar %s (%s) ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s) ...\n"
+msgstr "Desconfigurando %s (%s) ...\n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4877,91 +4920,6 @@ msgstr ""
 
 #: src/unpack.c
 #, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(Note la desaparición de %s, que ha sido completamente reemplazado.)\n"
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr "no se puede acceder al archivo"
-
-#: src/unpack.c
-msgid "package control information extraction"
-msgstr "extracción de la información de control del paquete"
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "Registrada la información sobre %s a partir de %s.\n"
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr ""
-"la arquitectura del paquete (%s) no corresponde con la del sistema (%s)"
-
-#: src/unpack.c
-#, c-format
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"acerca de %s que contiene %s, problema de predependencia:\n"
-"%s"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "problema de predependencia - no se instala %.250s"
-
-#: src/unpack.c
-msgid "ignoring pre-dependency problem!"
-msgstr "¡descartando problema de predependencia!"
-
-#: src/unpack.c
-#, c-format
-msgid "Preparing to unpack %s ...\n"
-msgstr "Preparando para desempaquetar %s ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr "Desconfigurando %s (%s), para poder eliminar %s (%s) ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Desconfigurando %s (%s) ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) ...\n"
-msgstr "Desempaquetando %s (%s) ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "Desempaquetando %s (%s) sobre (%s) ...\n"
-
-#: src/unpack.c
-msgid "package filesystem archive extraction"
-msgstr "extracción del archivo del sistema de ficheros del paquete"
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "error al leer la salida de tar de dpkg-deb"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "sistema de ficheros del archivo tar dañado - archivo de paquete dañado"
-
-# Please, que alguien me diga qué es eso de zap. sv
-#: src/unpack.c
-#, c-format
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "no se puede zapear los posibles ceros finales de dpkg-deb: %s"
-
-#: src/unpack.c
-#, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 "no se puede efectuar `stat' sobre el fichero antiguo `%.250s' por lo que no "
@@ -4997,6 +4955,59 @@ msgstr ""
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "no se puede borrar de forma segura el fichero antiguo `%.250s': %s"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(Note la desaparición de %s, que ha sido completamente reemplazado.)\n"
+
+#: src/unpack.c
+msgid "package control information extraction"
+msgstr "extracción de la información de control del paquete"
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "Registrada la información sobre %s a partir de %s.\n"
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr ""
+"la arquitectura del paquete (%s) no corresponde con la del sistema (%s)"
+
+#: src/unpack.c
+#, c-format
+msgid "Preparing to unpack %s ...\n"
+msgstr "Preparando para desempaquetar %s ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) ...\n"
+msgstr "Desempaquetando %s (%s) ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr "Desempaquetando %s (%s) sobre (%s) ...\n"
+
+#: src/unpack.c
+msgid "package filesystem archive extraction"
+msgstr "extracción del archivo del sistema de ficheros del paquete"
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr "error al leer la salida de tar de dpkg-deb"
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr "sistema de ficheros del archivo tar dañado - archivo de paquete dañado"
+
+# Please, que alguien me diga qué es eso de zap. sv
+#: src/unpack.c
+#, c-format
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "no se puede zapear los posibles ceros finales de dpkg-deb: %s"
 
 #: src/update.c
 #, c-format
@@ -5043,19 +5054,18 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "no se puede ejecutar «stat» sobre el nombre de fichero `%.250s'"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "fallo al escribir el fichero en la tubería de tar (%s)"
+
+#: dpkg-deb/build.c
+msgid "control member"
+msgstr "miembro de control"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "newline in field name '%.*s'"
 msgid "newline not allowed in pathname '%s'"
 msgstr "nueva línea dentro del nombre del campo `%.*s'"
-
-#: dpkg-deb/build.c
-#, c-format
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "fallo al escribir el fichero en la tubería de tar (%s)"
 
 #: dpkg-deb/build.c
 msgid "data member"
@@ -5139,6 +5149,12 @@ msgstr ""
 "o `-+.'"
 
 #: dpkg-deb/build.c
+#, fuzzy
+#| msgid "package architecture"
+msgid "package architecture is missing or empty"
+msgstr "arquitectura de paquete"
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "`%s' contiene un valor Priority `%s' definido por el usuario"
@@ -5182,13 +5198,15 @@ msgid "not checking contents of control area"
 msgstr "no se comprobarán los contenidos del área de control"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr "dpkg-deb: construyendo el paquete desconocido `%s'.\n"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr "dpkg-deb: construyendo el paquete `%s' en `%s'.\n"
 
 #: dpkg-deb/build.c
@@ -5197,17 +5215,9 @@ msgid "failed to make temporary file (%s)"
 msgstr "fallo al crear el fichero temporal (%s)"
 
 #: dpkg-deb/build.c
-msgid "control member"
-msgstr "miembro de control"
-
-#: dpkg-deb/build.c
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "fallo al borrar el fichero temporal (%s), %s"
-
-#: dpkg-deb/build.c
-msgid "compressing control member"
-msgstr "miembro de control de compresión"
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5486,7 +5496,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     no es un fichero normal   %.255s\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(¡no hay ningún fichero `control' en el archivo de control!)\n"
 
 # Si alguien me da una buena traducción, lo cambio. sv
@@ -6273,17 +6285,9 @@ msgstr ""
 "  --version                 muestra la versión.\n"
 
 #: utils/update-alternatives.c
-msgid "error"
-msgstr "error"
-
-#: utils/update-alternatives.c
 #, c-format
 msgid "Use '%s --help' for program usage information."
 msgstr "Utilice «%s --help» para obtener ayuda del uso del programa."
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "atención"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6763,6 +6767,39 @@ msgstr ""
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "para volver a hacer actualizaciones automáticas utilice «%s --auto %s»"
 
+#~ msgid "%s: error: %s\n"
+#~ msgstr "%s: error: %s\n"
+
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s:%s:%d:%s: error interno: %s\n"
+
+#~ msgid "%s: warning: %s\n"
+#~ msgstr "%s: aviso: %s\n"
+
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "fichero dereferenciado de disparadores truncado `%.250s'"
+
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "fallo al ejecutar `find' para dpkg --recursive"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "fallo al efectuar `fdopen' en la tubería de find"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "error al leer la tubería de find"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "error al cerrar la tubería de find"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr "La búsqueda usando --recursive devolvió el error no manejado %i"
+
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "no se puede ejecutar «stat» sobre el nombre de fichero `%.250s'"
+
+#~ msgid "compressing control member"
+#~ msgstr "miembro de control de compresión"
+
 #~ msgid "Call %s."
 #~ msgstr "Llamada a %s."
 
@@ -6849,9 +6886,6 @@ msgstr "para volver a hacer actualizaciones automáticas utilice «%s --auto %s�
 
 #~ msgid "Unpacking replacement %.250s ...\n"
 #~ msgstr "Desempaquetando el reemplazo de %.250s ...\n"
-
-#~ msgid "invalid integer for -%c: '%.250s'"
-#~ msgstr "entero inválido para -%c: `%.250s'"
 
 #~ msgid "priority is out of range: %s clamped to %ld"
 #~ msgstr "prioridad fuera de rango: %s se redujo a %ld"

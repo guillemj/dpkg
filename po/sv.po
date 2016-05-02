@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -497,15 +497,15 @@ msgstr "minnet slut för ny uppstädningspost"
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "minnet slut för ny uppstädningspost med många parametrar"
 
-#: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s: error: %s\n"
-msgstr "%s: fel: %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+msgid "error"
+msgstr "fel"
 
 #: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s:%s:%d:%s: internt fel: %s\n"
+#, fuzzy
+#| msgid "internal error (bug)"
+msgid "internal error"
+msgstr "internt fel (bugg)"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -888,6 +888,11 @@ msgid "invalid integer for --%s: '%.250s'"
 msgstr "ogiltigt heltal för --%s: \"%.250s\""
 
 #: lib/dpkg/options.c
+#, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "ogiltigt heltal för -%c: \"%.250s\""
+
+#: lib/dpkg/options.c
 #, fuzzy, c-format
 #| msgid "obsolete option '--%s'\n"
 msgid "obsolete option '--%s'"
@@ -1187,10 +1192,9 @@ msgstr "ogiltigt paketnamn i specificerare \"%s%s%s\": %s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "ogiltigt arkitekturnamn i specificerare \"%s:%s\": %s"
 
-#: lib/dpkg/report.c
-#, c-format
-msgid "%s: warning: %s\n"
-msgstr "%s: varning: %s\n"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "varning"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1221,7 +1225,7 @@ msgstr "%s (underprocess): %s\n"
 msgid "fork failed"
 msgstr "förgrening (fork) misslyckades"
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "underprocessen %s gav felkod %d"
@@ -1250,61 +1254,76 @@ msgstr "underprocessen %s misslyckades med statuskod %d"
 msgid "wait for subprocess %s failed"
 msgstr "väntan på underporcessen %s misslyckades"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
-msgstr "ogiltigt paketnamn \"%.250s\" i utlösarfördröjningsfilen \"%.250s\""
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat pathname '%s'"
+msgstr "kan inte ta status på filen \"%s\""
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "utlösarfördröjningsfilen \"%.250s\" är klippt"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "kan inte läsa katalogen \"%.255s\""
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr "syntaxfel i utlösarfördröjningsfilen \"%.250s\" vid tecknet \"%s\"%s"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "control directory is not a directory"
+msgid "treewalk root %s is not a directory"
+msgstr "kontrollkatalogen är inte en katalog"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create triggers lockfile '%.250s'"
 msgstr "kunde inte öppna/skapa utlösarlåsfilen \"%.250s\""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 msgid "triggers area"
 msgstr "område för utlösare"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open triggers deferred file '%.250s'"
 msgstr "kunde inte ta öppna fil för uppskjutna utlösare, \"%.250s\""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to stat triggers deferred file '%.250s'"
 msgstr "kunde inte ta status på fil för uppskjutna utlösare, \"%.250s\""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create new triggers deferred file '%.250s'"
 msgstr "kunde inte öppna/skapa ny fil för uppskjutna utlösare, \"%.250s\""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+#| msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr "syntaxfel i utlösarfördröjningsfilen \"%.250s\" vid tecknet \"%s\"%s"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
+msgstr "ogiltigt paketnamn \"%.250s\" i utlösarfördröjningsfilen \"%.250s\""
+
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr "fel vid läsning av fil för uppskjutna utlösare, \"%.250s\""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr "kunde inte skriva ny fil för uppskjutna utlösare, \"%.250s\""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr "kunde inte ta stänga ny fil för uppskjutna utlösare, \"%.250s\""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr "kunde inte installera ny fil för uppskjutna utlösare, \"%.250s\""
@@ -1790,27 +1809,6 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive kräver åtminstone ett sökvägsargument"
 
 #: src/archives.c
-msgid "find for dpkg --recursive"
-msgstr "find för dpkg --recursive"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "kunde inte ansluta fil till finds rör"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "kunde inte läsa från finds rör"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "fel vid stängning av finds rör"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr "find för --recursive returnerade ohanterat fel %i"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "sökte, men hittade inga paket (filer som matchar *.deb)"
 
@@ -1818,6 +1816,18 @@ msgstr "sökte, men hittade inga paket (filer som matchar *.deb)"
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s kräver åtminstone ett argument som är en paketfil"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "kan inte komma åt arkivet"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "archive '%s' is not a regular file"
+msgstr "konfigurationsfilen \"%s\" är inte en vanlig fil"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3355,6 +3365,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr "Utför ej säkra I/O-operationer vid uppackning"
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr "Använd alltid nya konfigurationsfiler, fråga ej"
 
@@ -3713,6 +3727,11 @@ msgstr " är beroende av "
 msgid "; however:\n"
 msgstr ", men:\n"
 
+#: src/querycmd.c src/select.c
+#, c-format
+msgid "no packages found matching %s"
+msgstr "inga paket hittades som matchar %s"
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -3747,11 +3766,6 @@ msgstr "Arkitektur"
 #: src/querycmd.c
 msgid "Description"
 msgstr "Beskrivning"
-
-#: src/querycmd.c src/select.c
-#, c-format
-msgid "no packages found matching %s"
-msgstr "inga paket hittades som matchar %s"
 
 #: src/querycmd.c
 #, c-format
@@ -4507,6 +4521,34 @@ msgstr "lyckades\n"
 msgid "unable to create temporary directory"
 msgstr "kunde inte skapa temporär katalog"
 
+#: src/unpack.c
+#, c-format
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"angående %s innehållandes %s, problem med för-beroenden:\n"
+"%s"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "för-beroendeproblem - installerar inte %.250s"
+
+#: src/unpack.c
+msgid "ignoring pre-dependency problem!"
+msgstr "ignorerar för-beroendeproblem!"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr "Avkonfigurerar %s (%s), så att vi kan ta bort %s (%s) ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s) ...\n"
+msgstr "Avkonfigurerar %s (%s) ...\n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4577,89 +4619,6 @@ msgstr "kunde inte installera ny informationsfil \"%.250s\" som \"%.250s\""
 
 #: src/unpack.c
 #, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(Noterar att %s försvunnit, vilken helt har ersatts.)\n"
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr "kan inte komma åt arkivet"
-
-#: src/unpack.c
-msgid "package control information extraction"
-msgstr "hämtning av paketkontrollinformation"
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "Lagrade information om %s från %s.\n"
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "paketarkitekturen (%s) matchar inte systemets (%s)"
-
-#: src/unpack.c
-#, c-format
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"angående %s innehållandes %s, problem med för-beroenden:\n"
-"%s"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "för-beroendeproblem - installerar inte %.250s"
-
-#: src/unpack.c
-msgid "ignoring pre-dependency problem!"
-msgstr "ignorerar för-beroendeproblem!"
-
-#: src/unpack.c
-#, c-format
-msgid "Preparing to unpack %s ...\n"
-msgstr "Förbereder att packa upp %s ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr "Avkonfigurerar %s (%s), så att vi kan ta bort %s (%s) ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Avkonfigurerar %s (%s) ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) ...\n"
-msgstr "Packar upp %s (%s) ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "Packar upp %s (%s) över (%s) ...\n"
-
-#: src/unpack.c
-msgid "package filesystem archive extraction"
-msgstr "extrahering av paketfilsystem"
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "kunde inte läsa dpkg-debs tar-utdata"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "trasig filsystemstarfil - trasigt paketarkiv"
-
-#: src/unpack.c
-#, c-format
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "kan inte döda möjliga avslutande nollor från dpkg-deb: %s"
-
-#: src/unpack.c
-#, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "kunde inte ta status på gammal fil \"%.250s\" så den tas inte bort: %s"
 
@@ -4693,6 +4652,57 @@ msgstr ""
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "kunde inte säkert ta bort gammal fil \"%.250s\": %s"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(Noterar att %s försvunnit, vilken helt har ersatts.)\n"
+
+#: src/unpack.c
+msgid "package control information extraction"
+msgstr "hämtning av paketkontrollinformation"
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "Lagrade information om %s från %s.\n"
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "paketarkitekturen (%s) matchar inte systemets (%s)"
+
+#: src/unpack.c
+#, c-format
+msgid "Preparing to unpack %s ...\n"
+msgstr "Förbereder att packa upp %s ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) ...\n"
+msgstr "Packar upp %s (%s) ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr "Packar upp %s (%s) över (%s) ...\n"
+
+#: src/unpack.c
+msgid "package filesystem archive extraction"
+msgstr "extrahering av paketfilsystem"
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr "kunde inte läsa dpkg-debs tar-utdata"
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr "trasig filsystemstarfil - trasigt paketarkiv"
+
+#: src/unpack.c
+#, c-format
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "kan inte döda möjliga avslutande nollor från dpkg-deb: %s"
 
 #: src/update.c
 #, c-format
@@ -4736,19 +4746,18 @@ msgstr "föråldrad flagga '--%s', otillgängliga paket rensas upp automatiskt"
 
 #: dpkg-deb/build.c
 #, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "kunde inte ta status på filnamnet \"%.250s\""
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "kunde inte skriva filnamn till tar-rör (%s)"
+
+#: dpkg-deb/build.c
+msgid "control member"
+msgstr "kontrolldel"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "newline in field name '%.*s'"
 msgid "newline not allowed in pathname '%s'"
 msgstr "nyradstecken i fältnamn \"%.*s\""
-
-#: dpkg-deb/build.c
-#, c-format
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "kunde inte skriva filnamn till tar-rör (%s)"
 
 #: dpkg-deb/build.c
 msgid "data member"
@@ -4830,6 +4839,12 @@ msgid "package name has characters that aren't lowercase alphanums or '-+.'"
 msgstr "paketnamnet har tecken som inte är gemena alfanumeriska eller \"-+.\""
 
 #: dpkg-deb/build.c
+#, fuzzy
+#| msgid "package architecture"
+msgid "package architecture is missing or empty"
+msgstr "paketarkitektur"
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "\"%s\" innehåller användardefinierat värde för Priority \"%s\""
@@ -4871,13 +4886,15 @@ msgid "not checking contents of control area"
 msgstr "kontrollerar inte innehållet i kontrollområdet"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr "dpkg-deb: bygger ett okänt paket i \"%s\".\n"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr "dpkg-deb: bygger paketet \"%s\" i \"%s\".\n"
 
 #: dpkg-deb/build.c
@@ -4886,17 +4903,9 @@ msgid "failed to make temporary file (%s)"
 msgstr "kunde inte skapa temporärfil (%s)"
 
 #: dpkg-deb/build.c
-msgid "control member"
-msgstr "kontrolldel"
-
-#: dpkg-deb/build.c
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "kunde inte ta bort temporärfil (%s), %s"
-
-#: dpkg-deb/build.c
-msgid "compressing control member"
-msgstr "komprimerar kontrolldel"
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5165,7 +5174,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     inte en vanlig fil        %.255s\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(ingen \"control\"-fil i kontrollarkivet!)\n"
 
 #: dpkg-deb/main.c
@@ -5901,17 +5912,9 @@ msgstr ""
 "  --version                visar versionsnummer.\n"
 
 #: utils/update-alternatives.c
-msgid "error"
-msgstr "fel"
-
-#: utils/update-alternatives.c
 #, c-format
 msgid "Use '%s --help' for program usage information."
 msgstr "Använd \"%s --help\" för hjälp om hur du använder programmet."
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "varning"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6379,6 +6382,39 @@ msgstr "automatiska uppdateringar av %s/%s är inaktiverad; låter den vara."
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "för att återgå till automatiska uppdateringar, använd \"%s --auto %s\""
 
+#~ msgid "%s: error: %s\n"
+#~ msgstr "%s: fel: %s\n"
+
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s:%s:%d:%s: internt fel: %s\n"
+
+#~ msgid "%s: warning: %s\n"
+#~ msgstr "%s: varning: %s\n"
+
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "utlösarfördröjningsfilen \"%.250s\" är klippt"
+
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "find för dpkg --recursive"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "kunde inte ansluta fil till finds rör"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "kunde inte läsa från finds rör"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "fel vid stängning av finds rör"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr "find för --recursive returnerade ohanterat fel %i"
+
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "kunde inte ta status på filnamnet \"%.250s\""
+
+#~ msgid "compressing control member"
+#~ msgstr "komprimerar kontrolldel"
+
 #~ msgid "Call %s."
 #~ msgstr "Anropa %s."
 
@@ -6463,9 +6499,6 @@ msgstr "för att återgå till automatiska uppdateringar, använd \"%s --auto %s
 
 #~ msgid "Unpacking replacement %.250s ...\n"
 #~ msgstr "Packar upp ersättande %.250s ...\n"
-
-#~ msgid "invalid integer for -%c: '%.250s'"
-#~ msgstr "ogiltigt heltal för -%c: \"%.250s\""
 
 #~ msgid "priority is out of range: %s clamped to %ld"
 #~ msgstr "prioriteten är utanför tillåtet område; %s tvingat till %ld"

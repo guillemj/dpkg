@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-06-26 16:13+0200\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -491,15 +491,15 @@ msgstr "หน่วยความจำไม่พอสำหรับสร
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "หน่วยความจำไม่พอสำหรับสร้างรายการเก็บกวาดที่มีอาร์กิวเมนต์หลายตัว"
 
-#: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s: error: %s\n"
-msgstr "%s: ข้อผิดพลาด: %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+msgid "error"
+msgstr "ข้อผิดพลาด"
 
 #: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s:%s:%d:%s: เกิดข้อผิดพลาดภายใน: %s\n"
+#, fuzzy
+#| msgid "internal error (bug)"
+msgid "internal error"
+msgstr "ข้อผิดพลาดภายใน (บั๊ก)"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -877,6 +877,11 @@ msgid "invalid integer for --%s: '%.250s'"
 msgstr "ค่าจำนวนเต็มผิดพลาดสำหรับ --%s: `%.250s'"
 
 #: lib/dpkg/options.c
+#, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "ค่าจำนวนเต็มผิดพลาดสำหรับ -%c: '%.250s'"
+
+#: lib/dpkg/options.c
 #, fuzzy, c-format
 #| msgid "obsolete option '--%s'\n"
 msgid "obsolete option '--%s'"
@@ -1173,10 +1178,9 @@ msgstr "ชื่อแพกเกจผิดรูปแบบในการ
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "ชื่อสถาปัตยกรรมผิดรูปแบบในการระบุชื่อ '%s:%s': %s"
 
-#: lib/dpkg/report.c
-#, c-format
-msgid "%s: warning: %s\n"
-msgstr "%s: คำเตือน: %s\n"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "คำเตือน"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1207,7 +1211,7 @@ msgstr "%s (โพรเซสย่อย): %s\n"
 msgid "fork failed"
 msgstr "fork ไม่สำเร็จ"
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "โพรเซสย่อย %s จบการทำงานโดยคืนค่าสถานะข้อผิดพลาด %d"
@@ -1236,61 +1240,76 @@ msgstr "โพรเซสย่อย %s ล้มเหลวด้วยร�
 msgid "wait for subprocess %s failed"
 msgstr "คอยโพรเซสย่อย %s ไม่สำเร็จ"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
-msgstr "ชื่อแพกเกจผิดรูปแบบ `%.250s' ในแฟ้มชะลอการสะกิด `%.250s'"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat pathname '%s'"
+msgstr "ไม่สามารถ stat แฟ้ม '%s'"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "แฟ้มชะลอการสะกิด `%.250s' ถูกตัดท้าย"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "ไม่สามารถตรวจข้อมูลไดเรกทอรี `%.255s'"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr "ไวยากรณ์ผิดพลาดในแฟ้มชะลอการสะกิด `%.250s' ที่อักขระ `%s'%s"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "control directory is not a directory"
+msgid "treewalk root %s is not a directory"
+msgstr "ไดเรกทอรีควบคุมไม่ได้เป็นไดเรกทอรี"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create triggers lockfile '%.250s'"
 msgstr "ไม่สามารถเปิดหรือสร้างแฟ้มล็อคการสะกิด `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 msgid "triggers area"
 msgstr "พื้นที่การสะกิด"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open triggers deferred file '%.250s'"
 msgstr "ไม่สามารถเปิดแฟ้มชะลอการสะกิด `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to stat triggers deferred file '%.250s'"
 msgstr "ไม่สามารถ stat แฟ้มชะลอการสะกิด `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create new triggers deferred file '%.250s'"
 msgstr "ไม่สามารถเปิดหรือสร้างแฟ้มชะลอการสะกิดแฟ้มใหม่ `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+#| msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr "ไวยากรณ์ผิดพลาดในแฟ้มชะลอการสะกิด `%.250s' ที่อักขระ `%s'%s"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
+msgstr "ชื่อแพกเกจผิดรูปแบบ `%.250s' ในแฟ้มชะลอการสะกิด `%.250s'"
+
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr "เกิดข้อผิดพลาดขณะอ่านแฟ้มชะลอการสะกิด `%.255s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr "ไม่สามารถเขียนแฟ้มชะลอการสะกิดแฟ้มใหม่ `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr "ไม่สามารถปิดแฟ้มชะลอการสะกิดแฟ้มใหม่ `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr "ไม่สามารถติดตั้งแฟ้มชะลอการสะกิดแฟ้มใหม่ `%.250s'"
@@ -1752,27 +1771,6 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive ต้องมีอาร์กิวเมนต์เป็นพาธอย่างน้อยหนึ่งพาธ"
 
 #: src/archives.c
-msgid "find for dpkg --recursive"
-msgstr "find สำหรับ dpkg --recursive"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "fdopen ไปป์ของ find ไม่สำเร็จ"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "เกิดข้อผิดพลาดขณะอ่านไปป์ของ find"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "เกิดข้อผิดพลาดขณะปิดไปป์ของ find"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr "find สำหรับ --recursive คืนค่าข้อผิดพลาด %i ซึ่งยังไม่จัดการ"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "ค้นหาแล้ว แต่ไม่พบแพกเกจ (แฟ้มซึ่งตรงกับรูปแบบ *.deb)"
 
@@ -1780,6 +1778,18 @@ msgstr "ค้นหาแล้ว แต่ไม่พบแพกเกจ (
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s ต้องการอาร์กิวเมนต์เป็นแฟ้มแพกเกจอย่างน้อยหนึ่งแฟ้ม"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "ไม่สามารถเข้าใช้แฟ้มแพกเกจ"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "archive '%s' is not a regular file"
+msgstr "แฟ้มค่าตั้ง '%s' ไม่ใช่แฟ้มปกติ"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3292,6 +3302,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr "ไม่ต้องใช้การกระทำ I/O แบบปลอดภัยเมื่อแตกแพกเกจ"
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr "ใช้แฟ้มค่าตั้งใหม่เสมอโดยไม่ต้องถาม"
 
@@ -3646,6 +3660,11 @@ msgstr " ต้องใช้ "
 msgid "; however:\n"
 msgstr "; แต่ว่า:\n"
 
+#: src/querycmd.c src/select.c
+#, c-format
+msgid "no packages found matching %s"
+msgstr "ไม่พบแพกเกจที่ตรงกับ %s"
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -3679,11 +3698,6 @@ msgstr "สถาปัตยกรรม"
 #: src/querycmd.c
 msgid "Description"
 msgstr "คำบรรยาย"
-
-#: src/querycmd.c src/select.c
-#, c-format
-msgid "no packages found matching %s"
-msgstr "ไม่พบแพกเกจที่ตรงกับ %s"
 
 #: src/querycmd.c
 #, c-format
@@ -4428,6 +4442,34 @@ msgstr "ผ่าน\n"
 msgid "unable to create temporary directory"
 msgstr "ไม่สามารถสร้างไดเรกทอรีชั่วคราว"
 
+#: src/unpack.c
+#, c-format
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"เกี่ยวกับ %s ที่บรรจุ %s: มีปัญหาของสิ่งที่ต้องใช้ขณะติดตั้ง:\n"
+"%s"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "มีปัญหาของสิ่งที่ต้องใช้ขณะติดตั้ง - จะไม่ติดตั้ง %.250s"
+
+#: src/unpack.c
+msgid "ignoring pre-dependency problem!"
+msgstr "จะละเลยปัญหาของสิ่งที่ต้องใช้ขณะติดตั้ง!"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr "กำลังถอนคืนค่าตั้งของ %s (%s) เพื่อให้สามารถถอดถอน %s (%s) ได้ ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s) ...\n"
+msgstr "กำลังถอนคืนค่าตั้งของ %s (%s) ...\n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4489,89 +4531,6 @@ msgstr "ไม่สามารถติดตั้งแฟ้มควบค
 
 #: src/unpack.c
 #, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(สังเกตการหายไปของ %s ซึ่งถูกแทนที่อย่างสมบูรณ์)\n"
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr "ไม่สามารถเข้าใช้แฟ้มแพกเกจ"
-
-#: src/unpack.c
-msgid "package control information extraction"
-msgstr "การแตกข้อมูลควบคุมของแพกเกจ"
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "บันทึกข้อมูลเกี่ยวกับ %s จาก %s\n"
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "สถาปัตยกรรมของแพกเกจ (%s) ไม่ตรงกับของระบบ (%s)"
-
-#: src/unpack.c
-#, c-format
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"เกี่ยวกับ %s ที่บรรจุ %s: มีปัญหาของสิ่งที่ต้องใช้ขณะติดตั้ง:\n"
-"%s"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "มีปัญหาของสิ่งที่ต้องใช้ขณะติดตั้ง - จะไม่ติดตั้ง %.250s"
-
-#: src/unpack.c
-msgid "ignoring pre-dependency problem!"
-msgstr "จะละเลยปัญหาของสิ่งที่ต้องใช้ขณะติดตั้ง!"
-
-#: src/unpack.c
-#, c-format
-msgid "Preparing to unpack %s ...\n"
-msgstr "กำลังเตรียมแตก %s ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr "กำลังถอนคืนค่าตั้งของ %s (%s) เพื่อให้สามารถถอดถอน %s (%s) ได้ ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "กำลังถอนคืนค่าตั้งของ %s (%s) ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) ...\n"
-msgstr "กำลังแตก %s (%s) ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "กำลังแตก %s (%s) ทับ (%s) ...\n"
-
-#: src/unpack.c
-msgid "package filesystem archive extraction"
-msgstr "การแตกส่วนระบบแฟ้มของแพกเกจ"
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "เกิดข้อผิดพลาดขณะอ่านผลลัพธ์ของ tar จาก dpkg-deb"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "แฟ้ม tar สำหรับแฟ้มที่จะติดตั้งในระบบแฟ้มเสียหาย - แฟ้มแพกเกจเสียหาย"
-
-#: src/unpack.c
-#, c-format
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "ไม่สามารถตัดไบต์ศูนย์ทั้งหลายข้างท้ายที่อาจจะมีจาก dpkg-deb: %s"
-
-#: src/unpack.c
-#, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "ไม่สามารถ stat แฟ้มเก่า '%.250s' จึงจะไม่มีการลบแฟ้มดังกล่าว: %s"
 
@@ -4601,6 +4560,57 @@ msgstr "แฟ้มเก่า '%.250s' เป็นแฟ้มเดีย�
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "ไม่สามารถลบแฟ้มเก่า '%.250s' อย่างปลอดภัยได้: %s"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(สังเกตการหายไปของ %s ซึ่งถูกแทนที่อย่างสมบูรณ์)\n"
+
+#: src/unpack.c
+msgid "package control information extraction"
+msgstr "การแตกข้อมูลควบคุมของแพกเกจ"
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "บันทึกข้อมูลเกี่ยวกับ %s จาก %s\n"
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "สถาปัตยกรรมของแพกเกจ (%s) ไม่ตรงกับของระบบ (%s)"
+
+#: src/unpack.c
+#, c-format
+msgid "Preparing to unpack %s ...\n"
+msgstr "กำลังเตรียมแตก %s ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) ...\n"
+msgstr "กำลังแตก %s (%s) ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr "กำลังแตก %s (%s) ทับ (%s) ...\n"
+
+#: src/unpack.c
+msgid "package filesystem archive extraction"
+msgstr "การแตกส่วนระบบแฟ้มของแพกเกจ"
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr "เกิดข้อผิดพลาดขณะอ่านผลลัพธ์ของ tar จาก dpkg-deb"
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr "แฟ้ม tar สำหรับแฟ้มที่จะติดตั้งในระบบแฟ้มเสียหาย - แฟ้มแพกเกจเสียหาย"
+
+#: src/unpack.c
+#, c-format
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "ไม่สามารถตัดไบต์ศูนย์ทั้งหลายข้างท้ายที่อาจจะมีจาก dpkg-deb: %s"
 
 #: src/update.c
 #, c-format
@@ -4639,19 +4649,18 @@ msgstr "ตัวเลือก '--%s' เลิกใช้แล้ว แพ
 
 #: dpkg-deb/build.c
 #, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "ไม่สามารถ stat ชื่อแฟ้ม '%.250s'"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "เขียนชื่อแฟ้มลงไปป์ไปยัง tar ไม่สำเร็จ (%s)"
+
+#: dpkg-deb/build.c
+msgid "control member"
+msgstr "สมาชิกส่วนควบคุม"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "newline in field name '%.*s'"
 msgid "newline not allowed in pathname '%s'"
 msgstr "พบอักขระขึ้นบรรทัดใหม่ในชื่อเขตข้อมูล `%.*s'"
-
-#: dpkg-deb/build.c
-#, c-format
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "เขียนชื่อแฟ้มลงไปป์ไปยัง tar ไม่สำเร็จ (%s)"
 
 #: dpkg-deb/build.c
 msgid "data member"
@@ -4731,6 +4740,12 @@ msgid "package name has characters that aren't lowercase alphanums or '-+.'"
 msgstr "ชื่อแพกเกจมีอักขระที่ไม่ใช่ตัวอักษรพิมพ์เล็ก ตัวเลข หรือ `-+.'"
 
 #: dpkg-deb/build.c
+#, fuzzy
+#| msgid "package architecture"
+msgid "package architecture is missing or empty"
+msgstr "สถาปัตยกรรมของแพกเกจ"
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "'%s' มีค่า Priority '%s' ที่ผู้ใช้กำหนดเอง"
@@ -4770,13 +4785,15 @@ msgid "not checking contents of control area"
 msgstr "จะไม่ตรวจสอบเนื้อหาของพื้นที่ควบคุม"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr "dpkg-deb: กำลังสร้างแพกเกจไม่ทราบชื่อใน '%s'\n"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr "dpkg-deb: กำลังสร้างแพกเกจ `%s' ใน `%s'\n"
 
 #: dpkg-deb/build.c
@@ -4785,17 +4802,9 @@ msgid "failed to make temporary file (%s)"
 msgstr "สร้างแฟ้มชั่วคราว (%s) ไม่สำเร็จ"
 
 #: dpkg-deb/build.c
-msgid "control member"
-msgstr "สมาชิกส่วนควบคุม"
-
-#: dpkg-deb/build.c
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "ลบแฟ้มชั่วคราว (%s) ไม่สำเร็จ: %s"
-
-#: dpkg-deb/build.c
-msgid "compressing control member"
-msgstr "การบีบอัดสมาชิกส่วนควบคุม"
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5060,7 +5069,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     ไม่ใช่แฟ้มปกติ                %.255s\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(ไม่มีแฟ้ม `control' ในแฟ้มจัดเก็บของส่วนควบคุม!)\n"
 
 #: dpkg-deb/main.c
@@ -5792,17 +5803,9 @@ msgstr ""
 "  --version                แสดงเลขรุ่น\n"
 
 #: utils/update-alternatives.c
-msgid "error"
-msgstr "ข้อผิดพลาด"
-
-#: utils/update-alternatives.c
 #, c-format
 msgid "Use '%s --help' for program usage information."
 msgstr "ใช้ '%s --help' เพื่อดูข้อมูลวิธีใช้โปรแกรม"
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "คำเตือน"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6259,6 +6262,39 @@ msgstr "การปรับข้อมูลแบบอัตโนมัต
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "หากต้องการกลับสู่การปรับข้อมูลแบบอัตโนมัติ ใช้คำสั่ง '%s --auto %s'"
 
+#~ msgid "%s: error: %s\n"
+#~ msgstr "%s: ข้อผิดพลาด: %s\n"
+
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s:%s:%d:%s: เกิดข้อผิดพลาดภายใน: %s\n"
+
+#~ msgid "%s: warning: %s\n"
+#~ msgstr "%s: คำเตือน: %s\n"
+
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "แฟ้มชะลอการสะกิด `%.250s' ถูกตัดท้าย"
+
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "find สำหรับ dpkg --recursive"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "fdopen ไปป์ของ find ไม่สำเร็จ"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "เกิดข้อผิดพลาดขณะอ่านไปป์ของ find"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "เกิดข้อผิดพลาดขณะปิดไปป์ของ find"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr "find สำหรับ --recursive คืนค่าข้อผิดพลาด %i ซึ่งยังไม่จัดการ"
+
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "ไม่สามารถ stat ชื่อแฟ้ม '%.250s'"
+
+#~ msgid "compressing control member"
+#~ msgstr "การบีบอัดสมาชิกส่วนควบคุม"
+
 #~ msgid "Call %s."
 #~ msgstr "เรียก %s"
 
@@ -6339,9 +6375,6 @@ msgstr "หากต้องการกลับสู่การปรับ
 
 #~ msgid "Unpacking replacement %.250s ...\n"
 #~ msgstr "กำลังแตกแพกเกจแทนที่ %.250s ...\n"
-
-#~ msgid "invalid integer for -%c: '%.250s'"
-#~ msgstr "ค่าจำนวนเต็มผิดพลาดสำหรับ -%c: '%.250s'"
 
 #~ msgid "priority is out of range: %s clamped to %ld"
 #~ msgstr "ลำดับความสำคัญออกนอกช่วงใช้งาน: %s จะถูกบีบเป็น %ld"

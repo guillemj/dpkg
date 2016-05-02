@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -527,17 +527,17 @@ msgstr ""
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr ""
 
-#: lib/dpkg/ehandle.c
-#, fuzzy, c-format
-msgid "%s: error: %s\n"
-msgstr ""
-"%s: viga puhastamisel:\n"
-" %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+#, fuzzy
+#| msgid "parse error"
+msgid "error"
+msgstr "parsimisviga"
 
 #: lib/dpkg/ehandle.c
-#, fuzzy, c-format
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s:%d: sisemine viga `%s'\n"
+#, fuzzy
+#| msgid "internal error - bad mode `%s'"
+msgid "internal error"
+msgstr "sisemine viga - vigane režiim `%s'"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -916,6 +916,11 @@ msgstr ""
 
 #: lib/dpkg/options.c
 #, fuzzy, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "väli `%s', vigane pakinimi `%.255s': %s"
+
+#: lib/dpkg/options.c
+#, fuzzy, c-format
 msgid "obsolete option '--%s'"
 msgstr "Hoiatus: aegunud võti `--%s'\n"
 
@@ -1217,12 +1222,9 @@ msgstr "vigane pakinimi real %d: %.250s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "vigane pakinimi real %d: %.250s"
 
-#: lib/dpkg/report.c
-#, fuzzy, c-format
-msgid "%s: warning: %s\n"
-msgstr ""
-"%s: viga puhastamisel:\n"
-" %s\n"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "hoiatus"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1253,7 +1255,7 @@ msgstr "%s (alamprotsess): %s\n"
 msgid "fork failed"
 msgstr "tõrge fork() funktsioonis"
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "alamprotsess %s tagastas lõpetamisel veakoodi %d"
@@ -1283,62 +1285,75 @@ msgstr "alamprotsess %s tagastas lõpetamisel veakoodi %d"
 msgid "wait for subprocess %s failed"
 msgstr "tõrge %s järel ootamisel"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
-msgstr ""
-
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
 #, fuzzy, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "lähtefaili `%.250s' pole võimalik avada"
+#| msgid "unable to read %s: %s"
+msgid "cannot stat pathname '%s'"
+msgstr "faili `%s' pole võimalik lugeda: %s"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr ""
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "kataloogi `%.255s' pole võimalik läbi vaadata"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+msgid "treewalk root %s is not a directory"
+msgstr "andmekataloogi pole võimalik lugeda"
+
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to open/create triggers lockfile '%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy
 msgid "triggers area"
 msgstr "luku %s vabastamine pole võimalik: %s"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to open triggers deferred file '%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to stat triggers deferred file '%.250s'"
 msgstr "osafaili `%.250s' olekut pole võimalik fstat funktsiooniga lugeda"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to open/create new triggers deferred file '%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr "viga %s lugemisel failist %.255s"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
+msgstr ""
+
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr "viga %s lugemisel failist %.255s"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr "lähtefaili `%.250s' pole võimalik avada"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr "failist `%.255s' pole võimalik uut versiooni paigaldada"
@@ -1802,29 +1817,6 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr ""
 
 #: src/archives.c
-#, fuzzy
-msgid "find for dpkg --recursive"
-msgstr "tõrge --recursive jaoks käsu `find' käivitamisel"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "tõrge käsu `find' toru avamisel funktsiooniga fdopen"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "viga find'i torust lugemisel"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "viga find'i toru sulgemisel"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr ""
-"--recursive jaoks kasutatav käsk `find' tagastas käsitlematu veakoodi %i"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 
@@ -1832,6 +1824,17 @@ msgstr ""
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s vajab argumendiks vähemalt ühte pakiarhiivi nime"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "arhiivile pole võimalik ligi pääseda"
+
+#: src/archives.c
+#, fuzzy, c-format
+msgid "archive '%s' is not a regular file"
+msgstr "lähtefail `%.250s' pole lihtfail"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3280,6 +3283,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr ""
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr ""
 
@@ -3625,6 +3632,12 @@ msgstr " sõltub pakist "
 msgid "; however:\n"
 msgstr "; igatahes:\n"
 
+#: src/querycmd.c src/select.c
+#, fuzzy, c-format
+#| msgid "No packages found matching %s.\n"
+msgid "no packages found matching %s"
+msgstr "Mustrile %s ei vasta ühtegi pakki.\n"
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -3655,12 +3668,6 @@ msgstr " (pakk: "
 #: src/querycmd.c
 msgid "Description"
 msgstr "Kirjeldus"
-
-#: src/querycmd.c src/select.c
-#, fuzzy, c-format
-#| msgid "No packages found matching %s.\n"
-msgid "no packages found matching %s"
-msgstr "Mustrile %s ei vasta ühtegi pakki.\n"
 
 #: src/querycmd.c
 #, fuzzy, c-format
@@ -4422,6 +4429,33 @@ msgstr "läbitud\n"
 msgid "unable to create temporary directory"
 msgstr "tõrge kataloogi loomisel"
 
+#: src/unpack.c
+#, fuzzy, c-format
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr "dpkg: hoiatus - eelsõltuvuse probleemi eiramine!\n"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "eelsõltuvuse probleem - %.250s jäetakse paigaldamata"
+
+#: src/unpack.c
+#, fuzzy
+msgid "ignoring pre-dependency problem!"
+msgstr "dpkg: hoiatus - eelsõltuvuse probleemi eiramine!\n"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "De-configuring %s (%s) ...\n"
+msgstr "Paki %s eemaldamine...\n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4483,93 +4517,6 @@ msgstr ""
 
 #: src/unpack.c
 #, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr ""
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr "arhiivile pole võimalik ligi pääseda"
-
-#: src/unpack.c
-#, fuzzy
-#| msgid "control information length"
-msgid "package control information extraction"
-msgstr "juhtandmete pikkus"
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "paki arhitektuur (%s) ei vasta süsteemile (%s)"
-
-#: src/unpack.c
-#, fuzzy, c-format
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr "dpkg: hoiatus - eelsõltuvuse probleemi eiramine!\n"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "eelsõltuvuse probleem - %.250s jäetakse paigaldamata"
-
-#: src/unpack.c
-#, fuzzy
-msgid "ignoring pre-dependency problem!"
-msgstr "dpkg: hoiatus - eelsõltuvuse probleemi eiramine!\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Preparing to replace %s %s (using %s) ...\n"
-msgid "Preparing to unpack %s ...\n"
-msgstr "Ettevalmistused paki %s %s asendamiseks (%s abil) ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr ""
-
-#: src/unpack.c
-#, fuzzy, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Paki %s eemaldamine...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Unpacking %s (from %s) ...\n"
-msgid "Unpacking %s (%s) ...\n"
-msgstr "Paki %s lahtipakkimine (failist %s) ...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Unpacking %s (from %s) ...\n"
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "Paki %s lahtipakkimine (failist %s) ...\n"
-
-#: src/unpack.c
-msgid "package filesystem archive extraction"
-msgstr ""
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "viga dpkg-deb tar väljundi lugemisel"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "vigase failisüsteemiga tar-fail - vigane pakiarhiiv"
-
-#: src/unpack.c
-#, c-format
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 
@@ -4601,6 +4548,62 @@ msgstr ""
 #, fuzzy, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "osafaili `%.250s' olekut pole võimalik fstat funktsiooniga lugeda"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "control information length"
+msgid "package control information extraction"
+msgstr "juhtandmete pikkus"
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr ""
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "paki arhitektuur (%s) ei vasta süsteemile (%s)"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Preparing to replace %s %s (using %s) ...\n"
+msgid "Preparing to unpack %s ...\n"
+msgstr "Ettevalmistused paki %s %s asendamiseks (%s abil) ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Unpacking %s (from %s) ...\n"
+msgid "Unpacking %s (%s) ...\n"
+msgstr "Paki %s lahtipakkimine (failist %s) ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Unpacking %s (from %s) ...\n"
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr "Paki %s lahtipakkimine (failist %s) ...\n"
+
+#: src/unpack.c
+msgid "package filesystem archive extraction"
+msgstr ""
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr "viga dpkg-deb tar väljundi lugemisel"
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr "vigase failisüsteemiga tar-fail - vigane pakiarhiiv"
+
+#: src/unpack.c
+#, c-format
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr ""
 
 #: src/update.c
 #, fuzzy, c-format
@@ -4642,20 +4645,19 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "lähtefaili `%.250s' pole võimalik avada"
+#| msgid "failed to write to pipe in copy"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "tõrge kopeerimise ajal torusse kirjutamisel"
+
+#: dpkg-deb/build.c
+msgid "control member"
+msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "newline in field name '%.*s'"
 msgid "newline not allowed in pathname '%s'"
 msgstr "reavahetus pärast kirje `%.*s' nime"
-
-#: dpkg-deb/build.c
-#, fuzzy, c-format
-#| msgid "failed to write to pipe in copy"
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "tõrge kopeerimise ajal torusse kirjutamisel"
 
 #: dpkg-deb/build.c
 #, fuzzy
@@ -4736,6 +4738,11 @@ msgid "package name has characters that aren't lowercase alphanums or '-+.'"
 msgstr ""
 
 #: dpkg-deb/build.c
+#, fuzzy
+msgid "package architecture is missing or empty"
+msgstr " (pakk: "
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr ""
@@ -4776,13 +4783,14 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr ""
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "error reading %s from file %.255s"
+msgid "building package '%s' in '%s'."
+msgstr "viga %s lugemisel failist %.255s"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
@@ -4790,17 +4798,9 @@ msgid "failed to make temporary file (%s)"
 msgstr "tõrge toru loomisel"
 
 #: dpkg-deb/build.c
-msgid "control member"
-msgstr ""
-
-#: dpkg-deb/build.c
 #, fuzzy, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "tõrge toru loomisel"
-
-#: dpkg-deb/build.c
-msgid "compressing control member"
-msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5096,7 +5096,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     pole lihtfail             %.255s\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(juhtarhiivis puudub fail `control'!)\n"
 
 #: dpkg-deb/main.c
@@ -5789,19 +5791,9 @@ msgid ""
 msgstr ""
 
 #: utils/update-alternatives.c
-#, fuzzy
-#| msgid "parse error"
-msgid "error"
-msgstr "parsimisviga"
-
-#: utils/update-alternatives.c
 #, c-format
 msgid "Use '%s --help' for program usage information."
 msgstr ""
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "hoiatus"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6274,6 +6266,47 @@ msgstr ""
 "auto %s'."
 
 #, fuzzy
+#~ msgid "%s: error: %s\n"
+#~ msgstr ""
+#~ "%s: viga puhastamisel:\n"
+#~ " %s\n"
+
+#, fuzzy
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s:%d: sisemine viga `%s'\n"
+
+#, fuzzy
+#~ msgid "%s: warning: %s\n"
+#~ msgstr ""
+#~ "%s: viga puhastamisel:\n"
+#~ " %s\n"
+
+#, fuzzy
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#, fuzzy
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "tõrge --recursive jaoks käsu `find' käivitamisel"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "tõrge käsu `find' toru avamisel funktsiooniga fdopen"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "viga find'i torust lugemisel"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "viga find'i toru sulgemisel"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr ""
+#~ "--recursive jaoks kasutatav käsk `find' tagastas käsitlematu veakoodi %i"
+
+#, fuzzy
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#, fuzzy
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "viga seadistusfaili `%.255s' lugemisel"
 
@@ -6337,10 +6370,6 @@ msgstr ""
 
 #~ msgid "Unpacking replacement %.250s ...\n"
 #~ msgstr "Paki %.250s asenduse lahtipakkimine ...\n"
-
-#, fuzzy
-#~ msgid "invalid integer for -%c: '%.250s'"
-#~ msgstr "väli `%s', vigane pakinimi `%.255s': %s"
 
 #, fuzzy
 #~| msgid "--add needs four arguments"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:28+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2014-12-10 03:47+0100\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -288,6 +288,9 @@ msgstr "Forma d'ús: %s [<opció>…]"
 #| "      --version  show the version."
 msgid ""
 "Options:\n"
+"  --build=<type>[,...]\n"
+"                 specify the build <type>: full, source, binary, any, all\n"
+"                   (default is 'full').\n"
 "  -F             normal full build (binaries and sources, default).\n"
 "  -g             source and arch-indep build.\n"
 "  -G             source and arch-specific build.\n"
@@ -455,11 +458,6 @@ msgstr ""
 "  -I[<patró>]    filtra fitxers al construir l'arxiu tar.\n"
 "      --source-option=<opció>\n"
 "                 passa l'opció <opció> a dpkg-source.\n"
-
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "cannot combine %s and %s"
-msgstr "no es pot combinar %s amb %s"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -788,6 +786,8 @@ msgstr "no es pot instal·lar la nova llista de fitxers"
 #| "      --version            show the version.\n"
 msgid ""
 "Options:\n"
+"  --build=<type>[,...]     specify the build <type>: full, source, binary,\n"
+"                             any, all (default is 'full').\n"
 "  -g                       source and arch-indep build.\n"
 "  -G                       source and arch-specific build.\n"
 "  -b                       binary-only, no source files.\n"
@@ -811,6 +811,7 @@ msgid ""
 "  -T<substvars-file>       read variables here, not debian/substvars.\n"
 "  -D<field>=<value>        override or add a field and value.\n"
 "  -U<field>                remove a field.\n"
+"  -O[<filename>]           write to stdout (default) or <filename>.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version.\n"
 msgstr ""
@@ -947,10 +948,6 @@ msgstr ""
 "el paquet %s té la prioritat %s en el fitxer de control però %s en la llista "
 "de fitxers"
 
-#: scripts/dpkg-genchanges.pl
-msgid "write original source message"
-msgstr "no es pot escriure el missatge de la font original"
-
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "missing information for critical output field %s"
@@ -1058,13 +1055,6 @@ msgstr ""
 #, perl-format
 msgid "package %s: "
 msgstr "paquet %s: "
-
-#: scripts/dpkg-gencontrol.pl
-#, perl-format
-msgid "'%s' is not a legal architecture string."
-msgid_plural "'%s' are not legal architecture strings."
-msgstr[0] "«%s» no és una cadena d'arquitectura vàlida."
-msgstr[1] "«%s» no són cadenes d'arquitectura vàlides"
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
@@ -1885,6 +1875,31 @@ msgstr ""
 "                             shlibs:<camp-dependència>."
 
 #: scripts/dpkg-shlibdeps.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  -l<library-dir>          add directory to private shared library search "
+#| "list.\n"
+#| "  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.\n"
+#| "  -O[<file>]               write variable settings to stdout (or "
+#| "<file>).\n"
+#| "  -L<local-shlibs-file>    shlibs override file, not debian/shlibs."
+#| "local.\n"
+#| "  -T<substvars-file>       update variables here, not debian/substvars.\n"
+#| "  -t<type>                 set package type (default is deb).\n"
+#| "  -x<package>              exclude package from the generated "
+#| "dependencies.\n"
+#| "  -S<package-build-dir>    search needed libraries in the given\n"
+#| "                           package build directory first.\n"
+#| "  -v                       enable verbose mode (can be used multiple "
+#| "times).\n"
+#| "  --ignore-missing-info    don't fail if dependency information can't be "
+#| "found.\n"
+#| "  --warnings=<value>       define set of active warnings (see manual "
+#| "page).\n"
+#| "  --admindir=<directory>   change the administrative directory.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version."
 msgid ""
 "Options:\n"
 "  -l<library-dir>          add directory to private shared library search "
@@ -1896,7 +1911,10 @@ msgid ""
 "  -t<type>                 set package type (default is deb).\n"
 "  -x<package>              exclude package from the generated dependencies.\n"
 "  -S<package-build-dir>    search needed libraries in the given\n"
-"                           package build directory first.\n"
+"                             package build directory first.\n"
+"  -I<package-build-dir>    ignore needed libraries, shlibs and symbols "
+"files\n"
+"                             in the given build directory.\n"
 "  -v                       enable verbose mode (can be used multiple "
 "times).\n"
 "  --ignore-missing-info    don't fail if dependency information can't be "
@@ -2130,6 +2148,11 @@ msgstr ""
 "existeix"
 
 #: scripts/dpkg-source.pl
+msgctxt "source options"
+msgid "<none>"
+msgstr ""
+
+#: scripts/dpkg-source.pl
 #, perl-format
 msgid "Usage: %s [<option>...] <command>"
 msgstr "Forma d'ús: %s [<opció>…] <ordre>"
@@ -2227,11 +2250,9 @@ msgstr ""
 
 #: scripts/dpkg-source.pl
 msgid ""
-"More options are available but they depend on the source package format.\n"
-"See dpkg-source(1) for more info."
+"Source format specific build and extract options are available;\n"
+"use --format with --help to see them."
 msgstr ""
-"Hi ha més opcions disponibles, però depenen del format de paquet font.\n"
-"Vegeu dpkg-source(1) per a més informació."
 
 #: scripts/dpkg-vendor.pl
 msgid ""
@@ -2378,6 +2399,12 @@ msgstr ""
 "el tipus de sistema de gcc %s és desconegut, s'emprarà el predeterminat "
 "(construcció nadiua)"
 
+#: scripts/Dpkg/Arch.pm
+#, fuzzy, perl-format
+#| msgid "'%s' is not a legal architecture string"
+msgid "'%s' is not a legal architecture in list '%s'"
+msgstr "«%s» no és una cadena d'arquitectura vàlida"
+
 #: scripts/Dpkg/BuildFlags.pm
 #, perl-format
 msgid "line %d of %s mentions unknown flag %s"
@@ -2393,9 +2420,16 @@ msgstr "la línia %d de %s no és valida, s'ha ignorat"
 msgid "invalid flag in %s: %s"
 msgstr "senyalador invàlid a %s: %s"
 
-#: scripts/Dpkg/Changelog.pm scripts/Dpkg/ErrorHandling.pm
-msgid "warning"
-msgstr "avís"
+#: scripts/Dpkg/Build/Types.pm
+#, perl-format
+msgid "cannot combine %s and %s"
+msgstr "no es pot combinar %s amb %s"
+
+#: scripts/Dpkg/Build/Types.pm
+#, fuzzy, perl-format
+#| msgid "unknown file type"
+msgid "unknown build type %s"
+msgstr "tipus de fitxer desconegut"
 
 #: scripts/Dpkg/Changelog.pm
 #, perl-format
@@ -2515,6 +2549,11 @@ msgstr "s'ha trobat el fi de fitxer on s'esperava %s"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 #, perl-format
+msgid "version '%s' is invalid: %s"
+msgstr "la versió «%s» no és vàlida: %s"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
 msgid "bad key-value after ';': '%s'"
 msgstr "clau-valor no vàlida després de ‘;’: «%s»"
 
@@ -2537,11 +2576,6 @@ msgstr "valor incorrecte de «binary-only»: %s"
 #, perl-format
 msgid "unknown key-value %s"
 msgstr "clau-valor %s desconeguda"
-
-#: scripts/Dpkg/Changelog/Entry/Debian.pm
-#, perl-format
-msgid "version '%s' is invalid: %s"
-msgstr "la versió «%s» no és vàlida: %s"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 msgid "the header doesn't match the expected regex"
@@ -2678,6 +2712,24 @@ msgid "parsed version of changelog"
 msgstr "versió analitzada del registre de canvis"
 
 #: scripts/Dpkg/Control.pm
+msgid "header stanza of copyright file"
+msgstr ""
+
+#: scripts/Dpkg/Control.pm
+msgid "files stanza of copyright file"
+msgstr ""
+
+#: scripts/Dpkg/Control.pm
+msgid "license stanza of copyright file"
+msgstr ""
+
+#: scripts/Dpkg/Control.pm
+#, fuzzy, perl-format
+#| msgid "entry in repository's %s file"
+msgid "repository's %s file"
+msgstr "entrada al fitxer de dipòsit %s"
+
+#: scripts/Dpkg/Control.pm
 #, perl-format
 msgid "entry in repository's %s file"
 msgstr "entrada al fitxer de dipòsit %s"
@@ -2800,6 +2852,14 @@ msgstr "senyalador invàlid a %s: %s"
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
 msgstr "info"
+
+#: scripts/Dpkg/ErrorHandling.pm
+msgid "notice"
+msgstr ""
+
+#: scripts/Dpkg/ErrorHandling.pm
+msgid "warning"
+msgstr "avís"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "error"
@@ -3008,6 +3068,10 @@ msgid "invalid Format field '%s'"
 msgstr "el camp Format no és vàlid «%s»"
 
 #: scripts/Dpkg/Source/Package.pm
+msgid "source package uses only weak checksums"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package.pm
 #, fuzzy, perl-format
 #| msgid "source and version are required to compute the source basename"
 msgid "%s and %s fields are required to compute the source basename"
@@ -3020,8 +3084,9 @@ msgid "failed to verify signature on %s"
 msgstr "no s'ha pogut verificar la signatura de %s"
 
 #: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "could not verify signature on %s since gpg isn't installed"
+#, fuzzy, perl-format
+#| msgid "could not verify signature on %s since gpg isn't installed"
+msgid "cannot verify signature on %s since GnuPG is not installed"
 msgstr ""
 "no s'ha pogut verificar la signatura de %s perquè gpg no està instal·lat"
 
@@ -3049,6 +3114,72 @@ msgstr "%s no és un fitxer normal"
 #, perl-format
 msgid "'%s' is not supported by the source format '%s'"
 msgstr "«%s» no és admès pel format de font «%s»"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "write original source message"
+msgid "auto select original source"
+msgstr "no es pot escriure el missatge de la font original"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "full upload (original source is included)"
+msgid "use packed original source (unpack and keep)"
+msgstr "pujada sencera (s'inclou el codi font original)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "full upload (original source is included)"
+msgid "use packed original source (unpack and remove)"
+msgstr "pujada sencera (s'inclou el codi font original)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "full upload (original source is included)"
+msgid "use unpacked original source (pack and keep)"
+msgstr "pujada sencera (s'inclou el codi font original)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "full upload (original source is included)"
+msgid "use unpacked original source (pack and remove)"
+msgstr "pujada sencera (s'inclou el codi font original)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "write original source message"
+msgid "trust packed and unpacked original sources are same"
+msgstr "no es pot escriure el missatge de la font original"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "there is no diff, do main tarfile only"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "like -sa, -sk, -sp, -su, -sr but may overwrite"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "abort if generated diff has upstream files changes"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "leave original source packed in current directory"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "do not copy original source to current directory"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "write original source message"
+msgid "unpack original source tree too"
+msgstr "no es pot escriure el missatge de la font original"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "do not apply debian diff to upstream sources"
+msgstr ""
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -3274,6 +3405,46 @@ msgid "unrepresentable changes to source"
 msgstr "hi ha canvis no representables al font"
 
 #: scripts/Dpkg/Source/Package/V2.pm
+msgid "include removed files in the patch"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "include timestamp in the patch"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "include binary files in the tarball"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not prepare build tree by applying patches"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not unapply patches if previously applied"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "unapply patches if previously applied (default)"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "create an empty original tarball if missing"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "record generated patches, instead of aborting"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not extract debian tarball into upstream sources"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not apply patches at the end of the extraction"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
 msgid "duplicate files in %s source package: %s"
 msgstr "fitxers duplicats en el paquet font %s: %s"
@@ -3482,6 +3653,12 @@ msgid "expected %s, got %s"
 msgstr "s'esperava %s, s'ha obtingut %s"
 
 #: scripts/Dpkg/Source/Package/V3/Custom.pm
+#, fuzzy
+#| msgid "unrecognized file for a native source package: %s"
+msgid "define the format of the generated source package"
+msgstr "fitxer no reconegut per un paquet font nadiu: %s"
+
+#: scripts/Dpkg/Source/Package/V3/Custom.pm
 msgid "Format '3.0 (custom)' is only used to create source packages"
 msgstr "el format «3.0 (custom)» només s'empra per crear paquets font"
 
@@ -3512,6 +3689,16 @@ msgstr ""
 #, perl-format
 msgid "git repository %s uses submodules; this is not yet supported"
 msgstr "el dipòsit git %s empra submòduls; això encara no està implementat"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+msgid "specify a git <ref> to include in the git bundle"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, fuzzy
+#| msgid "creating shallow clone with depth %s"
+msgid "create a shallow clone with <number> depth"
+msgstr "s'esta creant un clon amb profunditat %s"
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 msgid "doesn't contain a git repository"
@@ -3566,6 +3753,14 @@ msgstr "fitxer no reconegut per un paquet font nadiu: %s"
 #: scripts/Dpkg/Source/Package/V3/Native.pm
 msgid "native package version may not have a revision"
 msgstr "la versió del paquet nadiu no pot tenir una revisió"
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
+msgid "use a single debianization patch"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
+msgid "accept quilt metadata <version> even if unknown"
+msgstr ""
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 msgid "non-native package version does not contain a revision"
@@ -3730,7 +3925,15 @@ msgstr "el diff «%s» aplica pedaços a alguna cosa que no és un fitxer pla"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
-msgid "diff '%s' patches file %s twice"
+msgid ""
+"diff '%s' patches files multiple times; split the diff in multiple files or "
+"merge the hunks into a single one"
+msgstr ""
+
+#: scripts/Dpkg/Source/Patch.pm
+#, fuzzy, perl-format
+#| msgid "diff '%s' patches file %s twice"
+msgid "diff '%s' patches file %s more than once"
 msgstr "el diff «%s» aplica pedaços al fitxer %s dues vegades"
 
 #: scripts/Dpkg/Source/Patch.pm
@@ -3930,6 +4133,18 @@ msgstr "el número de versió conté un caràcter il·legal ‘%s‘"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "l'època en la versió no és un número: «%s»"
+
+#~ msgid "'%s' is not a legal architecture string."
+#~ msgid_plural "'%s' are not legal architecture strings."
+#~ msgstr[0] "«%s» no és una cadena d'arquitectura vàlida."
+#~ msgstr[1] "«%s» no són cadenes d'arquitectura vàlides"
+
+#~ msgid ""
+#~ "More options are available but they depend on the source package format.\n"
+#~ "See dpkg-source(1) for more info."
+#~ msgstr ""
+#~ "Hi ha més opcions disponibles, però depenen del format de paquet font.\n"
+#~ "Vegeu dpkg-source(1) per a més informació."
 
 #~ msgid "couldn't open %s for reading"
 #~ msgstr "no s'ha pogut obrir «%s» per a la lectura"

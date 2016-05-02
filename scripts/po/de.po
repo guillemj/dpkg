@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.18.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-04-03 07:02+0200\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2016-04-03 07:14+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -22,8 +22,8 @@ msgstr ""
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
 #: scripts/dpkg-mergechangelogs.pl scripts/dpkg-name.pl
 #: scripts/dpkg-parsechangelog.pl scripts/dpkg-scanpackages.pl
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl
-#: scripts/dpkg-source.pl scripts/dpkg-vendor.pl scripts/changelog/debian.pl
+#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl
+#: scripts/dpkg-vendor.pl scripts/changelog/debian.pl
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s Version %s\n"
@@ -230,8 +230,58 @@ msgid "Usage: %s [<option>...]"
 msgstr "Aufruf: %s [<Option> …]"
 
 #: scripts/dpkg-buildpackage.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  -F             normal full build (binaries and sources, default).\n"
+#| "  -g             source and arch-indep build.\n"
+#| "  -G             source and arch-specific build.\n"
+#| "  -b             binary-only, no source files.\n"
+#| "  -B             binary-only, only arch-specific files.\n"
+#| "  -A             binary-only, only arch-indep files.\n"
+#| "  -S             source-only, no binary files.\n"
+#| "  -nc            do not clean source tree (implies -b).\n"
+#| "  -tc            clean source tree when finished.\n"
+#| "  -D             check build dependencies and conflicts (default).\n"
+#| "  -d             do not check build dependencies and conflicts.\n"
+#| "  -P<profiles>   assume given build profiles as active (comma-separated "
+#| "list).\n"
+#| "  -R<rules>      rules file to execute (default is debian/rules).\n"
+#| "  -T<target>     call debian/rules <target> with the proper environment.\n"
+#| "      --as-root  ensure -T calls the target with root rights.\n"
+#| "  -j[<number>]   jobs to run simultaneously (passed to <rules>), forced "
+#| "mode.\n"
+#| "  -J[<number>]   jobs to run simultaneously (passed to <rules>), opt-in "
+#| "mode.\n"
+#| "  -r<gain-root-command>\n"
+#| "                 command to gain root privileges (default is fakeroot).\n"
+#| "  --check-command=<check-command>\n"
+#| "                 command to check the .changes file (no default).\n"
+#| "  --check-option=<opt>\n"
+#| "                 pass <opt> to <check-command>.\n"
+#| "  --hook-<hook-name>=<hook-command>\n"
+#| "                 set <hook-command> as the hook <hook-name>, known "
+#| "hooks:\n"
+#| "                   init preclean source build binary changes postclean\n"
+#| "                   check sign done\n"
+#| "  -p<sign-command>\n"
+#| "                 command to sign .dsc and/or .changes files\n"
+#| "                   (default is gpg2 or gpg).\n"
+#| "  -k<keyid>      the key to use for signing.\n"
+#| "  -ap            add pause before starting signature process.\n"
+#| "  -us            unsigned source package.\n"
+#| "  -uc            unsigned .changes file.\n"
+#| "      --force-sign\n"
+#| "                 force signing the resulting files.\n"
+#| "      --admindir=<directory>\n"
+#| "                 change the administrative directory.\n"
+#| "  -?, --help     show this help message.\n"
+#| "      --version  show the version."
 msgid ""
 "Options:\n"
+"  --build=<type>[,...]\n"
+"                 specify the build <type>: full, source, binary, any, all\n"
+"                   (default is 'full').\n"
 "  -F             normal full build (binaries and sources, default).\n"
 "  -g             source and arch-indep build.\n"
 "  -G             source and arch-specific build.\n"
@@ -664,8 +714,39 @@ msgid "install new files list file"
 msgstr "neue Dateilistendatei installieren"
 
 #: scripts/dpkg-genchanges.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  -g                       source and arch-indep build.\n"
+#| "  -G                       source and arch-specific build.\n"
+#| "  -b                       binary-only, no source files.\n"
+#| "  -B                       binary-only, only arch-specific files.\n"
+#| "  -A                       binary-only, only arch-indep files.\n"
+#| "  -S                       source-only, no binary files.\n"
+#| "  -c<control-file>         get control info from this file.\n"
+#| "  -l<changelog-file>       get per-version info from this file.\n"
+#| "  -f<files-list-file>      get .deb files list from this file.\n"
+#| "  -v<since-version>        include all changes later than version.\n"
+#| "  -C<changes-description>  use change description from this file.\n"
+#| "  -m<maintainer>           override control's maintainer value.\n"
+#| "  -e<maintainer>           override changelog's maintainer value.\n"
+#| "  -u<upload-files-dir>     directory with files (default is '..').\n"
+#| "  -si                      source includes orig, if new upstream "
+#| "(default).\n"
+#| "  -sa                      source includes orig, always.\n"
+#| "  -sd                      source is diff and .dsc only.\n"
+#| "  -q                       quiet - no informational messages on stderr.\n"
+#| "  -F<changelog-format>     force changelog format.\n"
+#| "  -V<name>=<value>         set a substitution variable.\n"
+#| "  -T<substvars-file>       read variables here, not debian/substvars.\n"
+#| "  -D<field>=<value>        override or add a field and value.\n"
+#| "  -U<field>                remove a field.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version.\n"
 msgid ""
 "Options:\n"
+"  --build=<type>[,...]     specify the build <type>: full, source, binary,\n"
+"                             any, all (default is 'full').\n"
 "  -g                       source and arch-indep build.\n"
 "  -G                       source and arch-specific build.\n"
 "  -b                       binary-only, no source files.\n"
@@ -689,6 +770,7 @@ msgid ""
 "  -T<substvars-file>       read variables here, not debian/substvars.\n"
 "  -D<field>=<value>        override or add a field and value.\n"
 "  -U<field>                remove a field.\n"
+"  -O[<filename>]           write to stdout (default) or <filename>.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version.\n"
 msgstr ""
@@ -784,10 +866,10 @@ msgstr "binärer Bau ohne binäre Produkte gefunden; kann nicht verteilt werden"
 msgid "package %s in control file but not in files list"
 msgstr "Paket %s in Steuerdatei, aber nicht in Dateiliste"
 
-#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl
-#: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
-#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Shlibs/Objdump.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl scripts/Dpkg/BuildFlags.pm
+#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/Package/V2.pm
+#: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot read %s"
 msgstr "%s kann nicht gelesen werden"
@@ -816,10 +898,6 @@ msgstr "fehlende Priorität für Binärpaket %s; »-« wird verwendet"
 #, perl-format
 msgid "package %s has priority %s in control file but %s in files list"
 msgstr "Paket %s hat Priorität %s in Steuerdatei, aber %s in Dateienliste"
-
-#: scripts/dpkg-genchanges.pl
-msgid "write original source message"
-msgstr "ursprüngliche Quell-Nachricht schreiben"
 
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Package.pm
 #, perl-format
@@ -1628,6 +1706,31 @@ msgstr ""
 "                           shlibs:<Abängigkeitsfeld>."
 
 #: scripts/dpkg-shlibdeps.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  -l<library-dir>          add directory to private shared library search "
+#| "list.\n"
+#| "  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.\n"
+#| "  -O[<file>]               write variable settings to stdout (or "
+#| "<file>).\n"
+#| "  -L<local-shlibs-file>    shlibs override file, not debian/shlibs."
+#| "local.\n"
+#| "  -T<substvars-file>       update variables here, not debian/substvars.\n"
+#| "  -t<type>                 set package type (default is deb).\n"
+#| "  -x<package>              exclude package from the generated "
+#| "dependencies.\n"
+#| "  -S<package-build-dir>    search needed libraries in the given\n"
+#| "                           package build directory first.\n"
+#| "  -v                       enable verbose mode (can be used multiple "
+#| "times).\n"
+#| "  --ignore-missing-info    don't fail if dependency information can't be "
+#| "found.\n"
+#| "  --warnings=<value>       define set of active warnings (see manual "
+#| "page).\n"
+#| "  --admindir=<directory>   change the administrative directory.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version."
 msgid ""
 "Options:\n"
 "  -l<library-dir>          add directory to private shared library search "
@@ -1639,7 +1742,10 @@ msgid ""
 "  -t<type>                 set package type (default is deb).\n"
 "  -x<package>              exclude package from the generated dependencies.\n"
 "  -S<package-build-dir>    search needed libraries in the given\n"
-"                           package build directory first.\n"
+"                             package build directory first.\n"
+"  -I<package-build-dir>    ignore needed libraries, shlibs and symbols "
+"files\n"
+"                             in the given build directory.\n"
 "  -v                       enable verbose mode (can be used multiple "
 "times).\n"
 "  --ignore-missing-info    don't fail if dependency information can't be "
@@ -1718,8 +1824,7 @@ msgstr ""
 "nicht identifiziert werden, da das DEBIAN-Unterverzeichnis in der Wurzel des "
 "Paketbaubaums fehlt."
 
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Shlibs/Cppfilt.pm
+#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs/Cppfilt.pm
 #, perl-format
 msgid "unable to execute %s"
 msgstr "%s konnte nicht ausgeführt werden"
@@ -1873,6 +1978,9 @@ msgid "%s field contains value %s, but no tests control file %s"
 msgstr "%s-Feld enthält Wert %s, aber keine Teststeuerdatei %s"
 
 #: scripts/dpkg-source.pl
+#, fuzzy
+#| msgid "<none>"
+msgctxt "source options"
 msgid "<none>"
 msgstr "<keine>"
 
@@ -2125,9 +2233,11 @@ msgstr "ungültiger Schalter in %s: %s"
 msgid "cannot combine %s and %s"
 msgstr "%s und %s können nicht kombiniert werden"
 
-#: scripts/Dpkg/Changelog.pm scripts/Dpkg/ErrorHandling.pm
-msgid "warning"
-msgstr "Warnung"
+#: scripts/Dpkg/Build/Types.pm
+#, fuzzy, perl-format
+#| msgid "unknown file type"
+msgid "unknown build type %s"
+msgstr "unbekannter Dateityp"
 
 #: scripts/Dpkg/Changelog.pm
 #, perl-format
@@ -2540,6 +2650,14 @@ msgid "info"
 msgstr "Information"
 
 #: scripts/Dpkg/ErrorHandling.pm
+msgid "notice"
+msgstr ""
+
+#: scripts/Dpkg/ErrorHandling.pm
+msgid "warning"
+msgstr "Warnung"
+
+#: scripts/Dpkg/ErrorHandling.pm
 msgid "error"
 msgstr "Fehler"
 
@@ -2764,8 +2882,9 @@ msgid "failed to verify signature on %s"
 msgstr "Fehler beim Überprüfen der Signatur von %s"
 
 #: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "could not verify signature on %s since gpg isn't installed"
+#, fuzzy, perl-format
+#| msgid "could not verify signature on %s since gpg isn't installed"
+msgid "cannot verify signature on %s since GnuPG is not installed"
 msgstr ""
 "Signatur von %s konnte nicht überprüft werden, da GPG nicht installiert ist"
 
@@ -3790,6 +3909,9 @@ msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
+
+#~ msgid "write original source message"
+#~ msgstr "ursprüngliche Quell-Nachricht schreiben"
 
 #~ msgid "'%s' is not a legal architecture string."
 #~ msgid_plural "'%s' are not legal architecture strings."

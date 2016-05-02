@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: ioan-eugen STAN <stan.ieugen@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -571,17 +571,15 @@ msgid "out of memory for new cleanup entry with many arguments"
 msgstr ""
 "memorie insuficientă pentru noua intrare de curățire cu multe argumente"
 
-#: lib/dpkg/ehandle.c
-#, fuzzy, c-format
-#| msgid "%s: warning: %s\n"
-msgid "%s: error: %s\n"
-msgstr "%s: avertisment: %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+msgid "error"
+msgstr "eroare"
 
 #: lib/dpkg/ehandle.c
-#, fuzzy, c-format
-#| msgid "%s:%s:%d: internal error: %s\n"
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s:%s:%d: eroare internă %s\n"
+#, fuzzy
+#| msgid "%s: internal gzip read error"
+msgid "internal error"
+msgstr "%s: eroare internă gzip la citire"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -994,6 +992,11 @@ msgid "invalid integer for --%s: '%.250s'"
 msgstr "întreg nevalid pentru --%s: „%.250s”"
 
 #: lib/dpkg/options.c
+#, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "întreg nevalid pentru -%c: „%.250s”"
+
+#: lib/dpkg/options.c
 #, fuzzy, c-format
 #| msgid "obsolete option '--%s'\n"
 msgid "obsolete option '--%s'"
@@ -1328,10 +1331,9 @@ msgstr "nume nelegal de pachet în declanșatorul așteptat „%.255s”: %s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "nume nelegal de pachet în declanșatorul așteptat „%.255s”: %s"
 
-#: lib/dpkg/report.c
-#, c-format
-msgid "%s: warning: %s\n"
-msgstr "%s: avertisment: %s\n"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "avertisment"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1363,7 +1365,7 @@ msgstr "%s (subproces): %s\n"
 msgid "fork failed"
 msgstr "fork a eșuat"
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "subprocesul %s a returnat starea de eroare la ieșire %d"
@@ -1394,67 +1396,82 @@ msgstr "subprocesul %s a eșuat cu codul stării de așteptare %d"
 msgid "wait for subprocess %s failed"
 msgstr "așteptarea după sub-procesul %s a eșuat"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
-msgstr ""
-"nume de pachet nevalid „%.250s” în fișierul de declanșatori amânați „%.250s”"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat pathname '%s'"
+msgstr "stat imposibil pentru fișierul „%s”"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "fișier trunchiat de declanșatori amânați „%.250s”"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "nu se poate examina directorul „%.255s”"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr ""
-"eroare de sintaxă în fișierul de declanșatori amânați „%.250s” la caracterul "
-"„%s”%s"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "control directory is not a directory"
+msgid "treewalk root %s is not a directory"
+msgstr "directorul de control nu este un director"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create triggers lockfile '%.250s'"
 msgstr ""
 "nu se poate deschide/crea fișierul de blocare pentru declanșatori „%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy
 #| msgid "triggered"
 msgid "triggers area"
 msgstr "declanșat"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open triggers deferred file '%.250s'"
 msgstr "nu se poate deschide fișierul cu declanșatori amânați „%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to stat triggers deferred file '%.250s'"
 msgstr "stat imposibil pentru fișierul cu declanșatori amânați „%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create new triggers deferred file '%.250s'"
 msgstr "nu se poate deschide/crea noul fișier cu declanșatori amânați „%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+#| msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr ""
+"eroare de sintaxă în fișierul de declanșatori amânați „%.250s” la caracterul "
+"„%s”%s"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
+msgstr ""
+"nume de pachet nevalid „%.250s” în fișierul de declanșatori amânați „%.250s”"
+
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr "eroare la citirea fișierului cu declanșatori amânați „%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr "nu se poate scrie noul fișier cu declanșatori amânați „%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr "nu se poate închide noul fișier cu declanșatori amânați „%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr "nu se poate instala noul fișier cu declanșatori amânați „%.250s”"
@@ -1977,27 +1994,6 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive necesită cel puțin o cale ca argument"
 
 #: src/archives.c
-msgid "find for dpkg --recursive"
-msgstr "„find” pentru „dpkg --recursive”"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "eșec la fdopen pentru pipa lui find"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "eroare la citirea pipei lui find"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "eroare la închiderea pipei lui find"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr "find pentru --recursive a returnat codul de eroare netratată %i"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "s-au căutat, dar nu s-au găsit pachete (fișiere de tip *.deb)"
 
@@ -2005,6 +2001,18 @@ msgstr "s-au căutat, dar nu s-au găsit pachete (fișiere de tip *.deb)"
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s necesită cel puțin un fișier-arhivă de pachet ca argument"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "nu se poate accesa arhiva"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "archive '%s' is not a regular file"
+msgstr "fișierul conffile „%s” nu este fișier propriu-zis"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3734,6 +3742,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr ""
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr ""
 
@@ -4095,6 +4107,12 @@ msgstr " depinde de "
 msgid "; however:\n"
 msgstr "; dar:\n"
 
+#: src/querycmd.c src/select.c
+#, fuzzy, c-format
+#| msgid "No packages found matching %s.\n"
+msgid "no packages found matching %s"
+msgstr "Nu au fost găsite pachete care să se potrivească cu %s.\n"
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -4130,12 +4148,6 @@ msgstr "numele pachetului"
 #: src/querycmd.c
 msgid "Description"
 msgstr "Descriere"
-
-#: src/querycmd.c src/select.c
-#, fuzzy, c-format
-#| msgid "No packages found matching %s.\n"
-msgid "no packages found matching %s"
-msgstr "Nu au fost găsite pachete care să se potrivească cu %s.\n"
 
 #: src/querycmd.c
 #, c-format
@@ -5021,6 +5033,39 @@ msgstr "verificat\n"
 msgid "unable to create temporary directory"
 msgstr "eșec la crearea directorului temporar"
 
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: regarding %s containing %s, pre-dependency problem:\n"
+#| "%s"
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"dpkg: referitor la %s conținând %s, probleme de ante-dependență:\n"
+"%s"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "problemă de ante-dependență - nu se instalează %.250s"
+
+#: src/unpack.c
+msgid "ignoring pre-dependency problem!"
+msgstr "se ignoră problema de ante-dependență!"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s, to allow removal of %s ...\n"
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr "Se deconfigurează %s, pentru a fi permite ștergerea lui %s ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "De-configuring %s ...\n"
+msgid "De-configuring %s (%s) ...\n"
+msgstr "Se deconfigurează %s ...\n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "conffile name '%.50s...' is too long, or missing final newline"
@@ -5090,12 +5135,43 @@ msgstr "nu se poate instala noul fișier info „%.250s” ca „%.250s”"
 
 #: src/unpack.c
 #, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(Se notează dispariția lui %s, care a fost înlocuit complet.)\n"
+msgid "could not stat old file '%.250s' so not deleting it: %s"
+msgstr "nu s-a putut accesa fișierul vechi „%.250s” așa că nu se șterge: %s"
 
 #: src/unpack.c
-msgid "cannot access archive"
-msgstr "nu se poate accesa arhiva"
+#, c-format
+msgid "unable to delete old directory '%.250s': %s"
+msgstr "nu se poate șterge directorul vechi „%.250s”: %s"
+
+#: src/unpack.c
+#, c-format
+msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
+msgstr ""
+"vechiul fișier conffile „%.250s” era un director gol (și a fost șters acum)"
+
+#: src/unpack.c
+#, c-format
+msgid "unable to stat other new file '%.250s'"
+msgstr "stat imposibil pentru alt fișier nou „%.250s”"
+
+#: src/unpack.c
+#, c-format
+msgid ""
+"old file '%.250s' is the same as several new files! (both '%.250s' and "
+"'%.250s')"
+msgstr ""
+"vechiul fișier „%.250s” este același cu alte câteva fișiere noi! (atât "
+"„%.250s” cât și „%.250s”)"
+
+#: src/unpack.c
+#, c-format
+msgid "unable to securely remove old file '%.250s': %s"
+msgstr "nu se poate șterge în siguranță fișierul vechi „%.250s”: „%s”"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(Se notează dispariția lui %s, care a fost înlocuit complet.)\n"
 
 #: src/unpack.c
 #, fuzzy
@@ -5115,42 +5191,9 @@ msgstr "arhitectura pachetului (%s) nu se potrivește cu sistemul (%s)"
 
 #: src/unpack.c
 #, fuzzy, c-format
-#| msgid ""
-#| "dpkg: regarding %s containing %s, pre-dependency problem:\n"
-#| "%s"
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"dpkg: referitor la %s conținând %s, probleme de ante-dependență:\n"
-"%s"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "problemă de ante-dependență - nu se instalează %.250s"
-
-#: src/unpack.c
-msgid "ignoring pre-dependency problem!"
-msgstr "se ignoră problema de ante-dependență!"
-
-#: src/unpack.c
-#, fuzzy, c-format
 #| msgid "Preparing to replace %s %s (using %s) ...\n"
 msgid "Preparing to unpack %s ...\n"
 msgstr "Se pregătește înlocuirea lui %s %s (folosind %s) ...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "De-configuring %s, to allow removal of %s ...\n"
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr "Se deconfigurează %s, pentru a fi permite ștergerea lui %s ...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "De-configuring %s ...\n"
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Se deconfigurează %s ...\n"
 
 #: src/unpack.c
 #, fuzzy, c-format
@@ -5185,41 +5228,6 @@ msgstr ""
 #| msgid "dpkg-deb: zap possible trailing zeros"
 msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr "dpkg-deb: ștergere a posibilelor zerouri de la sfârșit"
-
-#: src/unpack.c
-#, c-format
-msgid "could not stat old file '%.250s' so not deleting it: %s"
-msgstr "nu s-a putut accesa fișierul vechi „%.250s” așa că nu se șterge: %s"
-
-#: src/unpack.c
-#, c-format
-msgid "unable to delete old directory '%.250s': %s"
-msgstr "nu se poate șterge directorul vechi „%.250s”: %s"
-
-#: src/unpack.c
-#, c-format
-msgid "old conffile '%.250s' was an empty directory (and has now been deleted)"
-msgstr ""
-"vechiul fișier conffile „%.250s” era un director gol (și a fost șters acum)"
-
-#: src/unpack.c
-#, c-format
-msgid "unable to stat other new file '%.250s'"
-msgstr "stat imposibil pentru alt fișier nou „%.250s”"
-
-#: src/unpack.c
-#, c-format
-msgid ""
-"old file '%.250s' is the same as several new files! (both '%.250s' and "
-"'%.250s')"
-msgstr ""
-"vechiul fișier „%.250s” este același cu alte câteva fișiere noi! (atât "
-"„%.250s” cât și „%.250s”)"
-
-#: src/unpack.c
-#, c-format
-msgid "unable to securely remove old file '%.250s': %s"
-msgstr "nu se poate șterge în siguranță fișierul vechi „%.250s”: „%s”"
 
 #: src/update.c
 #, fuzzy, c-format
@@ -5267,21 +5275,22 @@ msgstr ""
 "opțiune învechită „--%s”, pachetele indisponibile sunt curățate automat."
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "stat imposibil pentru fișierul cu numele „%.250s”"
+#, fuzzy, c-format
+#| msgid "failed to write filename to tar pipe (data)"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "eșec la scrierea numelui de fișiere în pipa tar (data)"
+
+#: dpkg-deb/build.c
+#, fuzzy
+#| msgid "control"
+msgid "control member"
+msgstr "control"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "newline in field name '%.*s'"
 msgid "newline not allowed in pathname '%s'"
 msgstr "caracter newline în numele câmpului „%.*s”"
-
-#: dpkg-deb/build.c
-#, fuzzy, c-format
-#| msgid "failed to write filename to tar pipe (data)"
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "eșec la scrierea numelui de fișiere în pipa tar (data)"
 
 #: dpkg-deb/build.c
 #, fuzzy
@@ -5368,6 +5377,12 @@ msgstr ""
 "numele pachetului conține caractere care nu sunt litere mici, cifre sau „-+.”"
 
 #: dpkg-deb/build.c
+#, fuzzy
+#| msgid "package name"
+msgid "package architecture is missing or empty"
+msgstr "numele pachetului"
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "„%s” conține o valoare definită de utilizator pentru Priority „%s”"
@@ -5412,13 +5427,15 @@ msgid "not checking contents of control area"
 msgstr "nu se verifică conținutul zonei de control"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr "dpkg-deb: se construiește un pachet necunoscut în „%s”.\n"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr "dpkg-deb: se construiește pachetul „%s” în „%s”.\n"
 
 #: dpkg-deb/build.c
@@ -5428,22 +5445,10 @@ msgid "failed to make temporary file (%s)"
 msgstr "eșec la crearea tmpfile (data)"
 
 #: dpkg-deb/build.c
-#, fuzzy
-#| msgid "control"
-msgid "control member"
-msgstr "control"
-
-#: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "failed to unlink tmpfile (data), %s"
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "eșec la unlink tmpfile (data), %s"
-
-#: dpkg-deb/build.c
-#, fuzzy
-#| msgid "control"
-msgid "compressing control member"
-msgstr "control"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5748,7 +5753,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     nu este fișier simplu     %.255s\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(fișierul „control” lipsește din arhiva control!)\n"
 
 #: dpkg-deb/main.c
@@ -6641,18 +6648,10 @@ msgstr ""
 "  --version                afișează versiunea.\n"
 
 #: utils/update-alternatives.c
-msgid "error"
-msgstr "eroare"
-
-#: utils/update-alternatives.c
 #, fuzzy, c-format
 #| msgid "Use --help for help about querying packages."
 msgid "Use '%s --help' for program usage information."
 msgstr "Folosiți --help pentru ajutor despre interogarea pachetelor"
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "avertisment"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -7172,6 +7171,45 @@ msgstr ""
 "pentru a reveni la actualizarea automată folosiți „update-alternatives --"
 "auto %s”."
 
+#, fuzzy
+#~| msgid "%s: warning: %s\n"
+#~ msgid "%s: error: %s\n"
+#~ msgstr "%s: avertisment: %s\n"
+
+#, fuzzy
+#~| msgid "%s:%s:%d: internal error: %s\n"
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s:%s:%d: eroare internă %s\n"
+
+#~ msgid "%s: warning: %s\n"
+#~ msgstr "%s: avertisment: %s\n"
+
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "fișier trunchiat de declanșatori amânați „%.250s”"
+
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "„find” pentru „dpkg --recursive”"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "eșec la fdopen pentru pipa lui find"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "eroare la citirea pipei lui find"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "eroare la închiderea pipei lui find"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr "find pentru --recursive a returnat codul de eroare netratată %i"
+
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "stat imposibil pentru fișierul cu numele „%.250s”"
+
+#, fuzzy
+#~| msgid "control"
+#~ msgid "compressing control member"
+#~ msgstr "control"
+
 #~ msgid "Call %s."
 #~ msgstr "Cheamă %s."
 
@@ -7254,9 +7292,6 @@ msgstr ""
 # este vorba despre un nume de pachet( vezi sursa)
 #~ msgid "Unpacking replacement %.250s ...\n"
 #~ msgstr "Se dezarhivează pachetul înlocuitor (%.250s) ...\n"
-
-#~ msgid "invalid integer for -%c: '%.250s'"
-#~ msgstr "întreg nevalid pentru -%c: „%.250s”"
 
 #, fuzzy
 #~| msgid "--add needs four arguments"

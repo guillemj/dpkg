@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: Tshewang Norbu <bumthap2006@hotmail.com>\n"
 "Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
@@ -535,16 +535,17 @@ msgstr "གཙང་དག་བཟོ་ནིའི་ཐོ་བཀོད་
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "སྒྲུབ་རྟགས་ལེ་ཤ་དང་ཅིག་ཁར་གཙང་དག་བཟོ་ནིའི་ཐོ་བཀོད་གསརཔ་གི་དོན་ལུ་དྲན་ཚད་ལས་ཕྱི་ཁར།"
 
-#: lib/dpkg/ehandle.c
-#, fuzzy, c-format
-#| msgid "%s: error closing %s: %s"
-msgid "%s: error: %s\n"
-msgstr "%s: %s ཁ་བསྡམ་ནིའི་འཛོལ་བ: %s"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+#, fuzzy
+#| msgid "parse error"
+msgid "error"
+msgstr "མིང་དཔྱད་འབད་ནིའི་འཛོལ་བ།"
 
 #: lib/dpkg/ehandle.c
-#, fuzzy, c-format
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s:%d: ནང་འཁོད་འཛོལ་བ `%s'\n"
+#, fuzzy
+#| msgid "internal error - bad mode `%s'"
+msgid "internal error"
+msgstr "ནང་འཁོད་འཛོལ་བ་ - ཐབས་ལམ་བྱང་ཉེས་ `%s'"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -949,6 +950,11 @@ msgstr "--%s: `%.250s' གི་དོན་ལུ་ནུས་མེད་ཧ
 
 #: lib/dpkg/options.c
 #, fuzzy, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "--%s: `%.250s' གི་དོན་ལུ་ནུས་མེད་ཧྲིལ་ཨང་།"
+
+#: lib/dpkg/options.c
+#, fuzzy, c-format
 msgid "obsolete option '--%s'"
 msgstr "ཉེན་བརྡ་:ཕན་མེད་གདམ་ཁ་ `--%s'\n"
 
@@ -1257,10 +1263,9 @@ msgstr "གྲལ་ཐིག་ %d གུ་ལུ་ཁྲིམས་འག�
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "གྲལ་ཐིག་ %d གུ་ལུ་ཁྲིམས་འགལ་ཐུམ་སྒྲིལ་མིང་: %.250s"
 
-#: lib/dpkg/report.c
-#, fuzzy, c-format
-msgid "%s: warning: %s\n"
-msgstr "%s:  %s འབྲིཝ་ད་འཛོལ་བ་: %s"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "ཉེན་བརྡ།"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1291,7 +1296,7 @@ msgstr "%s (ལས་སྦྱོར་ཡན་ལག): %s\n"
 msgid "fork failed"
 msgstr "ཁ་སྤེལ་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "ལས་སྦྱོར་ཡན་ལག་ %s སླར་ལོག་ཡོད་པའི་འཛོལ་བ་ གནས་ཚད་ %d ཕྱིར་ཐོན་འབདཝ་ཨིན།"
@@ -1321,62 +1326,75 @@ msgstr "ལས་སྦྱོར་ཡན་ལག་ %s འདི་བསྒ�
 msgid "wait for subprocess %s failed"
 msgstr "%s གི་དོན་ལུ་བསྒུག་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
-msgstr ""
-
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
 #, fuzzy, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ `%.250s'"
+#| msgid "cannot stat old name `%s': %s"
+msgid "cannot stat pathname '%s'"
+msgstr "མིང་རྙིངམ་ `%s' སི་ཊེཊི་འབད་མ་ཚུགས: %s"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr ""
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "སྣོད་ཐོ་ `%.255s' ཞིབ་ལྟ་འབད་མི་ཚུགས།"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+msgid "treewalk root %s is not a directory"
+msgstr "བརྡ་དོན་སྣོད་ཐོ་ལྷག་མི་ཚུགས།"
+
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to open/create triggers lockfile '%.250s'"
 msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy
 msgid "triggers area"
 msgstr "ཁ་བསྡམ་མ་ཚུགས་ %s: %s"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to open triggers deferred file '%.250s'"
 msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to stat triggers deferred file '%.250s'"
 msgstr "གཞན་མི་ཡིག་སྣོད་གསརཔ་ `%.250s' སི་ཊེཊི་འབད་མ་ཚུགས།"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to open/create new triggers deferred file '%.250s'"
 msgstr "དོས་ཁང་ཡིག་སྣོད་གསརཔ་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr "ཡིག་སྣོད་ %.255s ལས་ %s ལྷགཔ་ད་འཛོལ་བ།"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
+msgstr ""
+
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr "ཡིག་སྣོད་ %.255s ལས་ %s ལྷགཔ་ད་འཛོལ་བ།"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr "དོས་ཁང་ཡིག་སྣོད་གསརཔ་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr "དོས་ཁང་ཡིག་སྣོད་གསརཔ་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr "`%.255s' གི་ཐོན་རིམ་གསརཔ་གཞི་བཙུགས་འབད་མ་ཚུགས།"
@@ -1859,28 +1877,6 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive ལུ་ཉུང་མཐའ་འགྲུལ་ལམ་སྒྲུབ་རྟགས་གཅིག་དགོ"
 
 #: src/archives.c
-#, fuzzy
-msgid "find for dpkg --recursive"
-msgstr "--recursive གི་དོན་ལུ་འཚོལ་ནི་ལག་ལེན་འཐབ་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོད།"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "འཚོལ་ནིའི་རྒྱུད་དུང་ཨེཕ་ཌི་ཨོ་པཱན་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "འཚོལ་ནིའི་རྒྱུད་དུང་ལྷག་ནིའི་འཛོལ་བ།"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "འཚོལ་ནིའི་རྒྱུད་དུང་ཁ་བསྡམ་ནིའི་འཛོལ་བ།"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr "--recursive གི་དོན་ལུ་འཚོལ་ནི་གིས་ལེགས་སྐྱོང་མ་འཐབ་པའི་འཛོལ་བ་ %i སླར་ལོག་འབད་ནུག"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "འཚོལ་ཞིབ་འབད་ཡོད་ དེ་འབདཝ་ད་ཐུམ་སྒྲིག་ཚུ་འཚོལ་མ་འཐོབ་(*.deb མཐུན་མི་ཡིག་སྣོད་ཚུ་)"
 
@@ -1888,6 +1884,17 @@ msgstr "འཚོལ་ཞིབ་འབད་ཡོད་ དེ་འབད�
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s ལུ་ཉུང་མཐའ་ཐུམ་སྒྲིལ་ཡིག་མཛོད་ཡིག་སྣོད་ཀྱི་སྒྲུབ་རྟགས་གཅིག་དགོཔ་ཨིན།"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "ཡིག་མཛོད་འཛུལ་སྤྱོད་འབད་མི་ཚུགས།"
+
+#: src/archives.c
+#, fuzzy, c-format
+msgid "archive '%s' is not a regular file"
+msgstr "ཉེན་བརྡ་ ཀཱོནཕ་ཕ་ཡིལ་ `%s' འདི་ཉག་རྐྱང་ཡིག་སྣོད་མེན།\n"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3481,6 +3488,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr ""
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr ""
 
@@ -3835,6 +3846,12 @@ msgstr "ལུ་རྟེནམ་ཨིན།"
 msgid "; however:\n"
 msgstr "གང་ལྟར་ཡང་:\n"
 
+#: src/querycmd.c src/select.c
+#, fuzzy, c-format
+#| msgid "No packages found matching %s.\n"
+msgid "no packages found matching %s"
+msgstr "%s ལུ་མཐུན་མི་ཐུམ་སྒྲིལ་ཚུ་མ་འཐོབ།\n"
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -3871,12 +3888,6 @@ msgstr "(ཐུམ་སྒྲིལ:"
 #: src/querycmd.c
 msgid "Description"
 msgstr "འགྲེལ་བཤད།"
-
-#: src/querycmd.c src/select.c
-#, fuzzy, c-format
-#| msgid "No packages found matching %s.\n"
-msgid "no packages found matching %s"
-msgstr "%s ལུ་མཐུན་མི་ཐུམ་སྒྲིལ་ཚུ་མ་འཐོབ།\n"
 
 #: src/querycmd.c
 #, fuzzy, c-format
@@ -4691,6 +4702,38 @@ msgstr "རྩིས་སྤྲོད་འབད་ཡོདཔ།\n"
 msgid "unable to create temporary directory"
 msgstr "གནས་སྐབས་སྣོད་ཐོ་མིང་བཟོ་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: regarding %s containing %s, pre-dependency problem:\n"
+#| "%s"
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"dpkg: %s ནང་ན་ %s ཡོད་མིའི་སྐོར་ལས་ སྔོན་-རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་:\n"
+"%s"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "སྔོན་-རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་-  %.250s གཞི་བཙུགས་མི་འབ་དབས།"
+
+#: src/unpack.c
+#, fuzzy
+msgid "ignoring pre-dependency problem!"
+msgstr "dpkg: ཉེན་བརྡ་ - སྔོན་-རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་སྣང་མེད་བཞག་དོ!\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr "%s རིམ་སྒྲིག་མ་བཟོ་  %s རྩ་བསྐྲད་གཏང་ཚུགས་ནིའི་དོན་ལུ་...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "De-configuring %s (%s) ...\n"
+msgstr "%s རྩ་བསྐྲད་གཏང་དོ་...\n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4756,99 +4799,6 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "བརྡ་དོན་ཡིག་སྣོད་ `%.250s' འདི་ `%.250s' སྦེ་གཞི་བཙུགས་འབད་མ་ཚུགས།"
 
 #: src/unpack.c
-#, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(%s གི་ཡལ་མི་ ཆ་ཚང་སྦེ་ཚབ་བཙུགས་ཡོད་མི་ ག་ཅི་ཡང་མེད།)\n"
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr "ཡིག་མཛོད་འཛུལ་སྤྱོད་འབད་མི་ཚུགས།"
-
-#: src/unpack.c
-#, fuzzy
-#| msgid "control information length"
-msgid "package control information extraction"
-msgstr "ཚད་འཛིན་བརྡ་དོན་རིང་ཚད།"
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "%s གི་སྐོར་ལས་བརྡ་དོན་འདི་ %s ལས་དྲན་ཐོ་བཀོད་ཡོད།\n"
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "ཐུམ་སྒྲིལ་གྱི་བཟོ་བཀོད(%s)འདི་རིམ་ལུགས་(%s)དང་མི་མཐུན་པས།"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: regarding %s containing %s, pre-dependency problem:\n"
-#| "%s"
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"dpkg: %s ནང་ན་ %s ཡོད་མིའི་སྐོར་ལས་ སྔོན་-རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་:\n"
-"%s"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "སྔོན་-རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་-  %.250s གཞི་བཙུགས་མི་འབ་དབས།"
-
-#: src/unpack.c
-#, fuzzy
-msgid "ignoring pre-dependency problem!"
-msgstr "dpkg: ཉེན་བརྡ་ - སྔོན་-རྟེན་འབྲེལ་གྱི་དཀའ་ངལ་སྣང་མེད་བཞག་དོ!\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Preparing to replace %s %s (using %s) ...\n"
-msgid "Preparing to unpack %s ...\n"
-msgstr "%s %s ཚབ་བཙུགས་ནི་ལུ་གྲ་སྒྲིག་འབད་དོ་(%s ལག་ལེན་འཐབ་ཐོག་)...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr "%s རིམ་སྒྲིག་མ་བཟོ་  %s རྩ་བསྐྲད་གཏང་ཚུགས་ནིའི་དོན་ལུ་...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "%s རྩ་བསྐྲད་གཏང་དོ་...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Unpacking %s (from %s) ...\n"
-msgid "Unpacking %s (%s) ...\n"
-msgstr "%s བཤུབ་དོ་(%s ལས་)...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Unpacking %s (from %s) ...\n"
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "%s བཤུབ་དོ་(%s ལས་)...\n"
-
-#: src/unpack.c
-msgid "package filesystem archive extraction"
-msgstr ""
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "dpkg-deb ཊར་ཨའུཊི་པུཏི་ ལྷག་པའི་སྐབས་འཛོལ་བ།"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "ངན་ཅན་བཟོ་ཡོད་པའི་ཡིག་སྣོད་རིམ་ལུགས་ཊར་ཡིག་སྣོད་ - ངན་ཅན་བཟོ་ཡོད་པའི་ཐུམ་སྒྲིལ་ཡིག་མཛོད།"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "dpkg-deb: zap possible trailing zeros"
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "dpkg-deb: སྲིད་པའི་རྒྱབ་ལུས་ཀླད་ཀོར་ཚུ་ཛཔ་འབད།"
-
-#: src/unpack.c
 #, fuzzy, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
@@ -4884,6 +4834,63 @@ msgstr ""
 #, fuzzy, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "dpkg: ཉེན་བརྡ་ - ཡིག་སྣོད་རྙིངམ་ `%%.250s': %%s   %s འབད་མ་ཚུགས།\n"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(%s གི་ཡལ་མི་ ཆ་ཚང་སྦེ་ཚབ་བཙུགས་ཡོད་མི་ ག་ཅི་ཡང་མེད།)\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "control information length"
+msgid "package control information extraction"
+msgstr "ཚད་འཛིན་བརྡ་དོན་རིང་ཚད།"
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "%s གི་སྐོར་ལས་བརྡ་དོན་འདི་ %s ལས་དྲན་ཐོ་བཀོད་ཡོད།\n"
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "ཐུམ་སྒྲིལ་གྱི་བཟོ་བཀོད(%s)འདི་རིམ་ལུགས་(%s)དང་མི་མཐུན་པས།"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Preparing to replace %s %s (using %s) ...\n"
+msgid "Preparing to unpack %s ...\n"
+msgstr "%s %s ཚབ་བཙུགས་ནི་ལུ་གྲ་སྒྲིག་འབད་དོ་(%s ལག་ལེན་འཐབ་ཐོག་)...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Unpacking %s (from %s) ...\n"
+msgid "Unpacking %s (%s) ...\n"
+msgstr "%s བཤུབ་དོ་(%s ལས་)...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Unpacking %s (from %s) ...\n"
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr "%s བཤུབ་དོ་(%s ལས་)...\n"
+
+#: src/unpack.c
+msgid "package filesystem archive extraction"
+msgstr ""
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr "dpkg-deb ཊར་ཨའུཊི་པུཏི་ ལྷག་པའི་སྐབས་འཛོལ་བ།"
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr "ངན་ཅན་བཟོ་ཡོད་པའི་ཡིག་སྣོད་རིམ་ལུགས་ཊར་ཡིག་སྣོད་ - ངན་ཅན་བཟོ་ཡོད་པའི་ཐུམ་སྒྲིལ་ཡིག་མཛོད།"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "dpkg-deb: zap possible trailing zeros"
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "dpkg-deb: སྲིད་པའི་རྒྱབ་ལུས་ཀླད་ཀོར་ཚུ་ཛཔ་འབད།"
 
 #: src/update.c
 #, fuzzy, c-format
@@ -4929,20 +4936,21 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
+#| msgid "failed to write filename to tar pipe (data)"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "ཊར་རྒྱུད་དུང་ལུ་ཡིག་སྣོད་མིང་འབྲི་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ་(གནད་སྡུད)"
+
+#: dpkg-deb/build.c
+#, fuzzy
+#| msgid "control area"
+msgid "control member"
+msgstr "ཚད་འཛིན་མངའ་ཁོངས།"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "newline in field name '%.*s'"
 msgid "newline not allowed in pathname '%s'"
 msgstr "ས་སྒོ་མིང་ `%.*s' ནང་གྲལ་ཐིག་གསརཔ།"
-
-#: dpkg-deb/build.c
-#, fuzzy, c-format
-#| msgid "failed to write filename to tar pipe (data)"
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "ཊར་རྒྱུད་དུང་ལུ་ཡིག་སྣོད་མིང་འབྲི་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ་(གནད་སྡུད)"
 
 #: dpkg-deb/build.c
 #, fuzzy
@@ -5025,6 +5033,11 @@ msgid "package name has characters that aren't lowercase alphanums or '-+.'"
 msgstr "ཐུམ་སྒྲིལ་གྱི་མིང་འདི་ལུ་ མགྱོགས་ཡིག་ཀ་ཁའི་ཨང་ཡིག་ཡང་ན་ `-+.' མེན་མི་ཡིག་འབྲུ་ཚུ་ཡོད།"
 
 #: dpkg-deb/build.c
+#, fuzzy
+msgid "package architecture is missing or empty"
+msgstr "(ཐུམ་སྒྲིལ:"
+
+#: dpkg-deb/build.c
 #, fuzzy, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr ""
@@ -5067,12 +5080,13 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr "ཌི་པི་ཀེ་ཇི་-ཌེབ་: `%s' ནང་ལུ་ཐུམ་སྒྲིལ་ `%s' བཟོ་བརྩིགས་འབད་དོ།\n"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr "ཌི་པི་ཀེ་ཇི་-ཌེབ་: `%s' ནང་ལུ་ཐུམ་སྒྲིལ་ `%s' བཟོ་བརྩིགས་འབད་དོ།\n"
 
 #: dpkg-deb/build.c
@@ -5082,22 +5096,10 @@ msgid "failed to make temporary file (%s)"
 msgstr "གནས་སྐབས་ཡིག་སྣོད་བཟོ་ནི་འཐུས་ཤོར་བྱུང་ཡོད་(གནད་སྡུད་)"
 
 #: dpkg-deb/build.c
-#, fuzzy
-#| msgid "control area"
-msgid "control member"
-msgstr "ཚད་འཛིན་མངའ་ཁོངས།"
-
-#: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "failed to unlink tmpfile (data), %s"
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "གནས་སྐབས་ཡིག་སྣོད་ལུ་འབྲེལ་མཐུད་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོད་(གནད་སྡུད་)   %s"
-
-#: dpkg-deb/build.c
-#, fuzzy
-#| msgid "control area"
-msgid "compressing control member"
-msgstr "ཚད་འཛིན་མངའ་ཁོངས།"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5400,7 +5402,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     ཉག་རྐྱང་ཡིག་སྣོད་          %.255s མེན་པས\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(ཚད་འཛིན་ཡིག་མཛོད་ནང་ལུ་ `control' ཡིག་སྣོད་མེད་!)\n"
 
 #: dpkg-deb/main.c
@@ -6208,19 +6212,9 @@ msgstr ""
 "  --ཐོན་རིམ་                ཐོན་རིམ་འདི་སྟོན།\n"
 
 #: utils/update-alternatives.c
-#, fuzzy
-#| msgid "parse error"
-msgid "error"
-msgstr "མིང་དཔྱད་འབད་ནིའི་འཛོལ་བ།"
-
-#: utils/update-alternatives.c
 #, c-format
 msgid "Use '%s --help' for program usage information."
 msgstr ""
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "ཉེན་བརྡ།"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6696,6 +6690,48 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "རང་བཞིན་ཚུ་ལུ་སླར་ལོག་ནིའི་དོན་ལས་  `དུས་མཐུན་-སྤེལ་མ་ --རང་བཞིན %s' ལག་ལེན་འཐབ།"
 
 #, fuzzy
+#~| msgid "%s: error closing %s: %s"
+#~ msgid "%s: error: %s\n"
+#~ msgstr "%s: %s ཁ་བསྡམ་ནིའི་འཛོལ་བ: %s"
+
+#, fuzzy
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s:%d: ནང་འཁོད་འཛོལ་བ `%s'\n"
+
+#, fuzzy
+#~ msgid "%s: warning: %s\n"
+#~ msgstr "%s:  %s འབྲིཝ་ད་འཛོལ་བ་: %s"
+
+#, fuzzy
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ `%.250s'"
+
+#, fuzzy
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "--recursive གི་དོན་ལུ་འཚོལ་ནི་ལག་ལེན་འཐབ་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོད།"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "འཚོལ་ནིའི་རྒྱུད་དུང་ཨེཕ་ཌི་ཨོ་པཱན་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "འཚོལ་ནིའི་རྒྱུད་དུང་ལྷག་ནིའི་འཛོལ་བ།"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "འཚོལ་ནིའི་རྒྱུད་དུང་ཁ་བསྡམ་ནིའི་འཛོལ་བ།"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr "--recursive གི་དོན་ལུ་འཚོལ་ནི་གིས་ལེགས་སྐྱོང་མ་འཐབ་པའི་འཛོལ་བ་ %i སླར་ལོག་འབད་ནུག"
+
+#, fuzzy
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
+
+#, fuzzy
+#~| msgid "control area"
+#~ msgid "compressing control member"
+#~ msgstr "ཚད་འཛིན་མངའ་ཁོངས།"
+
+#, fuzzy
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "སི་ཊེཊི་ཟུར་བཞག་གསརཔ་གཞི་བཙུགས་འབདཝ་ད་འཛོལ་བ་: %s"
 
@@ -6788,10 +6824,6 @@ msgstr "རང་བཞིན་ཚུ་ལུ་སླར་ལོག་ནི
 
 #~ msgid "Unpacking replacement %.250s ...\n"
 #~ msgstr "ཚབ་མ་ %.250s བཤུབ་དོ...\n"
-
-#, fuzzy
-#~ msgid "invalid integer for -%c: '%.250s'"
-#~ msgstr "--%s: `%.250s' གི་དོན་ལུ་ནུས་མེད་ཧྲིལ་ཨང་།"
 
 #, fuzzy
 #~| msgid "--add needs four arguments"

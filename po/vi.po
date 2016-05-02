@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2016-01-14 08:22+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
@@ -500,15 +500,15 @@ msgstr "không đủ bộ nhớ cho mục dọn dẹp mới"
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "không đủ bộ nhớ cho mục dọn dẹp mới có nhiều đối số"
 
-#: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s: error: %s\n"
-msgstr "%s: lỗi: %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+msgid "error"
+msgstr "lỗi"
 
 #: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s:%s:%d:%s: lỗi nội bộ: %s\n"
+#, fuzzy
+#| msgid "internal error (bug)"
+msgid "internal error"
+msgstr "lỗi nội bộ (đây là lỗi)"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -891,6 +891,11 @@ msgstr "số nguyên không hợp lệ cho “--%s”: “%.250s”"
 
 #: lib/dpkg/options.c
 #, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "số nguyên không hợp lệ cho -%c: “%.250s”"
+
+#: lib/dpkg/options.c
+#, c-format
 msgid "obsolete option '--%s'"
 msgstr "tùy chọn “--%s” đã lạc hậu"
 
@@ -1190,10 +1195,9 @@ msgstr "tên gói không hợp lệ trong định danh “%s%s%s”: %s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "tên kiến trúc không hợp lệ trong định danh “%s:%s”: %s"
 
-#: lib/dpkg/report.c
-#, c-format
-msgid "%s: warning: %s\n"
-msgstr "%s: cảnh báo: %s\n"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "cảnh báo"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1224,7 +1228,7 @@ msgstr "%s (tiến trình con): %s\n"
 msgid "fork failed"
 msgstr "gặp lỗi khi tạo tiến trình con"
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "tiến trình con %s trả lại lỗi, trạng thái thoát %d"
@@ -1253,61 +1257,76 @@ msgstr "tiến trình con %s bị lỗi với mã trạng thái chờ %d"
 msgid "wait for subprocess %s failed"
 msgstr "gặp lỗi chờ tiến trình con %s"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
-msgstr "tên gói không hợp lệ “%.250s” trong tập tin bẫy bị hoãn lại “%.250s”"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat pathname '%s'"
+msgstr "không thể lấy thống kê tập tin “%s”"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "tập tin bẫy trì hoãn bị cắt ngắn “%.250s”"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "không thể quét thư mục “%.255s”"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr "gặp lỗi cú pháp trong tập tin bẫy trì hoãn “%.250s” ở ký tự “%s”%s"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "control directory is not a directory"
+msgid "treewalk root %s is not a directory"
+msgstr "thư mục điều khiển không phải là một thư mục"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create triggers lockfile '%.250s'"
 msgstr "không thể mở/tạo tập tin khóa bẫy “%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 msgid "triggers area"
 msgstr "khu vực bẫy"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open triggers deferred file '%.250s'"
 msgstr "không thể mở tập tin bẫy trì hoãn “%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to stat triggers deferred file '%.250s'"
 msgstr "không thể lấy thống kê về tập tin bẫy trì hoãn “%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create new triggers deferred file '%.250s'"
 msgstr "không thể mở/tạo tập tin bẫy trì hoãn mới “%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+#| msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr "gặp lỗi cú pháp trong tập tin bẫy trì hoãn “%.250s” ở ký tự “%s”%s"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
+msgstr "tên gói không hợp lệ “%.250s” trong tập tin bẫy bị hoãn lại “%.250s”"
+
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr "gặp lỗi khi đọc tập tin bẫy trì hoãn “%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr "không thể mở tập tin bẫy trì hoãn mới “%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr "không thể mở tập tin bẫy trì hoãn mới “%.250s”"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr "không thể cài đặt tập tin bẫy trì hoãn mới “%.250s”"
@@ -1788,28 +1807,6 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive (đệ quy) cần ít nhất một tham số đường dẫn"
 
 #: src/archives.c
-msgid "find for dpkg --recursive"
-msgstr "tìm cho dpkg --recursive (đệ qui)"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "lỗi fdopen ống dẫn của find (tìm)"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "gặp lỗi khi đọc dữ liệu từ lệnh find (tìm) chuyển qua"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "gặp lỗi khi đóng ống dẫn của find (tìm)"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr ""
-"việc find (tìm) cho “--recursive” (đệ qui) trả lại lỗi không được quản lý %i"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "đã tìm kiếm, nhưng không tìm thấy gói nào (tập tin khớp với *.deb)"
 
@@ -1817,6 +1814,18 @@ msgstr "đã tìm kiếm, nhưng không tìm thấy gói nào (tập tin khớp 
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "“--%s” cần ít nhất một đối số kiểu tập tin kho lưu gói"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "không thể truy cập kho lưu"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "archive '%s' is not a regular file"
+msgstr "tập tin cấu hình “%s” không phải là một tập tin tiêu chuẩn"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3368,6 +3377,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr "Không thực hiện các thao tác I/O an toàn khi giải nén gói"
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr "Luôn dùng các tập tin cấu hình mới, không cần hỏi"
 
@@ -3728,6 +3741,11 @@ msgstr " phụ thuộc vào "
 msgid "; however:\n"
 msgstr "; tuy nhiên:\n"
 
+#: src/querycmd.c src/select.c
+#, c-format
+msgid "no packages found matching %s"
+msgstr "không tìm thấy gói nào khớp với %s"
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -3762,11 +3780,6 @@ msgstr "Kiến trúc"
 #: src/querycmd.c
 msgid "Description"
 msgstr "Mô tả"
-
-#: src/querycmd.c src/select.c
-#, c-format
-msgid "no packages found matching %s"
-msgstr "không tìm thấy gói nào khớp với %s"
 
 #: src/querycmd.c
 #, c-format
@@ -4522,6 +4535,34 @@ msgstr "đã qua\n"
 msgid "unable to create temporary directory"
 msgstr "không thể tạo thư mục tạm thời"
 
+#: src/unpack.c
+#, c-format
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"về %s chứa %s, vấn đề quan hệ phụ thuộc sẵn:\n"
+"%s"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "có vấn đề quan hệ phụ thuộc sẵn nên không cài đặt %.250s"
+
+#: src/unpack.c
+msgid "ignoring pre-dependency problem!"
+msgstr "đang lờ vấn đề về quan hệ phụ thuộc sẵn."
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr "Đang hủy cấu hình %s (%s), để cho phép gỡ bỏ %s (%s) …\n"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s) ...\n"
+msgstr "Đang hủy cấu hình %s (%s) …\n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4586,89 +4627,6 @@ msgstr "không thể cài đặt tập tin thông tin mới “%.250s” dưới
 
 #: src/unpack.c
 #, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(Đang ghi lưu sự biến mất của %s, mà đã hoàn toàn được thay thế.)\n"
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr "không thể truy cập kho lưu"
-
-#: src/unpack.c
-msgid "package control information extraction"
-msgstr "rút trích thông tin điều khiển gói"
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "Đã ghi lưu thông tin về %s từ %s.\n"
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "kiến trúc gói (%s) không khớp với hệ thống (%s)"
-
-#: src/unpack.c
-#, c-format
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"về %s chứa %s, vấn đề quan hệ phụ thuộc sẵn:\n"
-"%s"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "có vấn đề quan hệ phụ thuộc sẵn nên không cài đặt %.250s"
-
-#: src/unpack.c
-msgid "ignoring pre-dependency problem!"
-msgstr "đang lờ vấn đề về quan hệ phụ thuộc sẵn."
-
-#: src/unpack.c
-#, c-format
-msgid "Preparing to unpack %s ...\n"
-msgstr "Đang chuẩn bị mở gói %s …\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr "Đang hủy cấu hình %s (%s), để cho phép gỡ bỏ %s (%s) …\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Đang hủy cấu hình %s (%s) …\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) ...\n"
-msgstr "Đang mở gói %s (%s) …\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "Đang mở gói %s (%s) đè lên (%s)…\n"
-
-#: src/unpack.c
-msgid "package filesystem archive extraction"
-msgstr "sự rút trích hệ thống tập tin kho lưu của gói"
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "gặp lỗi khi đọc kết xuất tar của “dpkg-deb”"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "tập tin .tar của hệ thống tập tin bị hỏng — kho lưu gói bị hỏng"
-
-#: src/unpack.c
-#, c-format
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "không thể sửa đổi các số không chèn thêm có thể được từ dpkg-deb: %s"
-
-#: src/unpack.c
-#, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "không thể lấy thống kê về tập tin cũ “%.250s” nên không xóa bỏ nó: %s"
 
@@ -4700,6 +4658,57 @@ msgstr ""
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "không thể gỡ bỏ tập tin cũ “%.250s” một cách an toàn: %s"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(Đang ghi lưu sự biến mất của %s, mà đã hoàn toàn được thay thế.)\n"
+
+#: src/unpack.c
+msgid "package control information extraction"
+msgstr "rút trích thông tin điều khiển gói"
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "Đã ghi lưu thông tin về %s từ %s.\n"
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "kiến trúc gói (%s) không khớp với hệ thống (%s)"
+
+#: src/unpack.c
+#, c-format
+msgid "Preparing to unpack %s ...\n"
+msgstr "Đang chuẩn bị mở gói %s …\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) ...\n"
+msgstr "Đang mở gói %s (%s) …\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr "Đang mở gói %s (%s) đè lên (%s)…\n"
+
+#: src/unpack.c
+msgid "package filesystem archive extraction"
+msgstr "sự rút trích hệ thống tập tin kho lưu của gói"
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr "gặp lỗi khi đọc kết xuất tar của “dpkg-deb”"
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr "tập tin .tar của hệ thống tập tin bị hỏng — kho lưu gói bị hỏng"
+
+#: src/unpack.c
+#, c-format
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "không thể sửa đổi các số không chèn thêm có thể được từ dpkg-deb: %s"
 
 #: src/update.c
 #, c-format
@@ -4741,18 +4750,17 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "không thể lấy thống kê về tên tập tin “%.250s”"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "gặp lỗi khi ghi tên tập tin vào đường ống dẫn tar (%s)"
+
+#: dpkg-deb/build.c
+msgid "control member"
+msgstr "thành viên điều khiển"
 
 #: dpkg-deb/build.c
 #, c-format
 msgid "newline not allowed in pathname '%s'"
 msgstr "không cho phép ký hiệu dòng mới trong tên đường dẫn “%s”"
-
-#: dpkg-deb/build.c
-#, c-format
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "gặp lỗi khi ghi tên tập tin vào đường ống dẫn tar (%s)"
 
 #: dpkg-deb/build.c
 msgid "data member"
@@ -4835,6 +4843,12 @@ msgstr ""
 "trừ “-+”."
 
 #: dpkg-deb/build.c
+#, fuzzy
+#| msgid "package architecture"
+msgid "package architecture is missing or empty"
+msgstr "kiến trúc của gói"
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "“%s” chứa giá trị Ưu tiên “%s” được người dùng xác định"
@@ -4872,13 +4886,15 @@ msgid "not checking contents of control area"
 msgstr "không kiểm tra nội dung của vùng điều khiển"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr "dpkg-deb: đang biên dịch một gói không rõ trong “%s”.\n"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr "dpkg-deb: đang biên dịch gói “%s” trong “%s”.\n"
 
 #: dpkg-deb/build.c
@@ -4887,17 +4903,9 @@ msgid "failed to make temporary file (%s)"
 msgstr "gặp lỗi khi tạo tập tin tạm thời (%s)"
 
 #: dpkg-deb/build.c
-msgid "control member"
-msgstr "thành viên điều khiển"
-
-#: dpkg-deb/build.c
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "gặp lỗi khi bỏ liên kết tập tin tạm (%s), %s"
-
-#: dpkg-deb/build.c
-msgid "compressing control member"
-msgstr "nén thành viên điều khiển"
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5167,7 +5175,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     không phải tập tin thường  %.255s\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(không có tập tin “control” (điều khiển) trong kho lưu điều khiển!)\n"
 
 #: dpkg-deb/main.c
@@ -5928,17 +5938,9 @@ msgstr ""
 "\n"
 
 #: utils/update-alternatives.c
-msgid "error"
-msgstr "lỗi"
-
-#: utils/update-alternatives.c
 #, c-format
 msgid "Use '%s --help' for program usage information."
 msgstr "Dùng lệnh trợ giúp “%s --help” biết cách dùng."
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "cảnh báo"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6414,6 +6416,41 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "để quay lại lại tính năng tự động cập nhật, hãy dùng lệnh “%s --auto %s”"
 
+#~ msgid "%s: error: %s\n"
+#~ msgstr "%s: lỗi: %s\n"
+
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s:%s:%d:%s: lỗi nội bộ: %s\n"
+
+#~ msgid "%s: warning: %s\n"
+#~ msgstr "%s: cảnh báo: %s\n"
+
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "tập tin bẫy trì hoãn bị cắt ngắn “%.250s”"
+
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "tìm cho dpkg --recursive (đệ qui)"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "lỗi fdopen ống dẫn của find (tìm)"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "gặp lỗi khi đọc dữ liệu từ lệnh find (tìm) chuyển qua"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "gặp lỗi khi đóng ống dẫn của find (tìm)"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr ""
+#~ "việc find (tìm) cho “--recursive” (đệ qui) trả lại lỗi không được quản lý "
+#~ "%i"
+
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "không thể lấy thống kê về tên tập tin “%.250s”"
+
+#~ msgid "compressing control member"
+#~ msgstr "nén thành viên điều khiển"
+
 #~ msgid "Call %s."
 #~ msgstr "Gọi %s."
 
@@ -6474,9 +6511,6 @@ msgstr ""
 
 #~ msgid "package %s has too many Conflicts/Replaces pairs"
 #~ msgstr "gói %s có quá nhiều cặp Xung đột/Thay thế"
-
-#~ msgid "invalid integer for -%c: '%.250s'"
-#~ msgstr "số nguyên không hợp lệ cho -%c: “%.250s”"
 
 #~ msgid "value for `config-version' field not allowed in this context"
 #~ msgstr ""

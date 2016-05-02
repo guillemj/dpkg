@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
@@ -501,15 +501,15 @@ msgstr "memoriarik ez garbiketa-sarrera berriarentzat"
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "memoriarik ez argumentu ugaridun garbiketa-sarrerarentzat"
 
-#: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s: error: %s\n"
-msgstr "%s: errorea: %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+msgid "error"
+msgstr "errorea"
 
 #: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s:%s:%d:%s: barneko errorea: %s\n"
+#, fuzzy
+#| msgid "internal error (bug)"
+msgid "internal error"
+msgstr "barneko errorea (akatsa)"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -900,6 +900,11 @@ msgid "invalid integer for --%s: '%.250s'"
 msgstr "baliogabeko osokoa --%s: '%.250s'"
 
 #: lib/dpkg/options.c
+#, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "-%c aukeraren osokoa baliogabea: '%.250s'"
+
+#: lib/dpkg/options.c
 #, fuzzy, c-format
 #| msgid "obsolete option '--%s'\n"
 msgid "obsolete option '--%s'"
@@ -1206,10 +1211,9 @@ msgstr "legez kanpoko pakete-izena '%s%s%s' ezarpenean: %s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "legez kanpoko arkitektura-izena '%s:%s' ezarpenean: %s"
 
-#: lib/dpkg/report.c
-#, c-format
-msgid "%s: warning: %s\n"
-msgstr "%s: abisua: %s\n"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "abisua"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1240,7 +1244,7 @@ msgstr "%s (azpiprozesua): %s\n"
 msgid "fork failed"
 msgstr "huts egin du sardetzean"
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "%s azpiprozesuak %d errorea eman du irteeran"
@@ -1269,66 +1273,81 @@ msgstr "%s azpiprozesuak huts egin du itxaroteko %d egoera kodearekin"
 msgid "wait for subprocess %s failed"
 msgstr "huts egin du %s azpiprozesuari itxarotean"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat pathname '%s'"
+msgstr "ezin da '%s' fitxategia atzitu"
+
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "ezin da '%.255s' direktorioa aztertu"
+
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "control directory is not a directory"
+msgid "treewalk root %s is not a directory"
+msgstr "kontrol-direktorioa ez da direktorio bat"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "unable to open/create triggers lockfile '%.250s'"
+msgstr "ezin da '%.250s' abiarazleen blokeoko fitxategia ireki/sortu"
+
+#: lib/dpkg/trigdeferred.c
+msgid "triggers area"
+msgstr "abiarazleen area"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "unable to open triggers deferred file '%.250s'"
+msgstr "ezin da baztertutako abiarazleen '%.250s' fitxategia ireki"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "unable to stat triggers deferred file '%.250s'"
+msgstr ""
+"ezin da baztertutako abiarazleen '%.250s' fitxategiaren egoera eskuratu"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "unable to open/create new triggers deferred file '%.250s'"
+msgstr "ezin da baztertutako abiarazleen '%.250s' fitxategi berria ireki/sortu"
+
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+#| msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr ""
+"sintaxi-errorea baztertutako abiarazleen '%.250s' fitxategiko '%s'%s "
+"karakterean"
+
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
 msgstr ""
 "'%.250s' paketearen izen baliogabea baztertutako abiarazleen '%.250s' "
 "fitxategian"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "trunkatutako baztertutako abiarazleen '%.250s' fitxategia"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr ""
-"sintaxi-errorea baztertutako abiarazleen '%.250s' fitxategiko '%s'%s "
-"karakterean"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "unable to open/create triggers lockfile '%.250s'"
-msgstr "ezin da '%.250s' abiarazleen blokeoko fitxategia ireki/sortu"
-
-#: lib/dpkg/trigdeferred.l
-msgid "triggers area"
-msgstr "abiarazleen area"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "unable to open triggers deferred file '%.250s'"
-msgstr "ezin da baztertutako abiarazleen '%.250s' fitxategia ireki"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "unable to stat triggers deferred file '%.250s'"
-msgstr ""
-"ezin da baztertutako abiarazleen '%.250s' fitxategiaren egoera eskuratu"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "unable to open/create new triggers deferred file '%.250s'"
-msgstr "ezin da baztertutako abiarazleen '%.250s' fitxategi berria ireki/sortu"
-
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr "errorea baztertutako abiarazleen '%.250s' fitxategia irakurtzean"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr "ezin da baztertutako abiarazleen '%.250s' fitxategi berrian idatzi"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr "ezin da baztertutako abiarazleen '%.250s' fitxategi berria itxi"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr "ezin da baztertutako abiarazleen '%.250s' fitxategi berria instalatu"
@@ -1819,27 +1838,6 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive: bide-izenaren argumentu bat behar du gutxienez"
 
 #: src/archives.c
-msgid "find for dpkg --recursive"
-msgstr "'find' dpkg --recursive komandoarentzako"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "huts egin du fdopen-ek find-en kanalizazioarekin"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "errorea find-en kanalizazioa irakurtzean"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "errorea find-en kanalizazioa ixtean"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr "--recursive bilaketak kudeatu gabeko %i errorea itzuli du"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "bilatu bai, baina ez da paketerik aurkitu (*.deb fitxategiak)"
 
@@ -1847,6 +1845,18 @@ msgstr "bilatu bai, baina ez da paketerik aurkitu (*.deb fitxategiak)"
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s: paketearen fitxategiak argumentu bat behar du gutxienez"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "ezin da sartu artxiboan"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "archive '%s' is not a regular file"
+msgstr "'%s' konfigurazioko fitxategia ez da fitxategi arrunta"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3436,6 +3446,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr "Ez landu S/I-ko eragiketa seguruak deskonprimitzean"
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr "Erabili beti konfigurazio-fitxategi berriak, ez galdetu"
 
@@ -3797,6 +3811,11 @@ msgstr " honen mendekoa da: "
 msgid "; however:\n"
 msgstr "; nolanahi ere:\n"
 
+#: src/querycmd.c src/select.c
+#, c-format
+msgid "no packages found matching %s"
+msgstr "ez dago honekin bat datorren paketerik: %s"
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -3831,11 +3850,6 @@ msgstr "Arkitektura"
 #: src/querycmd.c
 msgid "Description"
 msgstr "Azalpena"
-
-#: src/querycmd.c src/select.c
-#, c-format
-msgid "no packages found matching %s"
-msgstr "ez dago honekin bat datorren paketerik: %s"
 
 #: src/querycmd.c
 #, c-format
@@ -4611,6 +4625,34 @@ msgstr "gaindituta\n"
 msgid "unable to create temporary directory"
 msgstr "ezin da aldi baterako direktorioa sortu"
 
+#: src/unpack.c
+#, c-format
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"%2$s daukan %1$s: aurremendekotasun arazoa:\n"
+"%3$s"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "aurremendekotasun arazoa: %.250s ez da instalatuko"
+
+#: src/unpack.c
+msgid "ignoring pre-dependency problem!"
+msgstr "aurremendekotasun arazoari ez ikusi egingo zaio!"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr "%s (%s) konfigurazioa kentzen, %s (%s) kendu ahal izateko...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s) ...\n"
+msgstr "%s (%s) konfigurazioa kentzen...\n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4679,91 +4721,6 @@ msgstr "ezin da '%.250s' informazio fitxategi berria '%.250s' gisa instalatu"
 
 #: src/unpack.c
 #, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(Kontuan hartu %s desagertu dela, guztiz ordeztu delako.)\n"
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr "ezin da sartu artxiboan"
-
-#: src/unpack.c
-msgid "package control information extraction"
-msgstr "paketearen kontrol-informazioaren erauzketa"
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "%s(r)i buruzko informazioa erregistratu da %s(e)tik.\n"
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "paketearen arkitektura (%s) ez dator bat sistemarekin (%s)"
-
-#: src/unpack.c
-#, c-format
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"%2$s daukan %1$s: aurremendekotasun arazoa:\n"
-"%3$s"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "aurremendekotasun arazoa: %.250s ez da instalatuko"
-
-#: src/unpack.c
-msgid "ignoring pre-dependency problem!"
-msgstr "aurremendekotasun arazoari ez ikusi egingo zaio!"
-
-#: src/unpack.c
-#, c-format
-msgid "Preparing to unpack %s ...\n"
-msgstr "%s deskonprimitzeko prestatzen...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr "%s (%s) konfigurazioa kentzen, %s (%s) kendu ahal izateko...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "%s (%s) konfigurazioa kentzen...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) ...\n"
-msgstr "%s (%s) deskonprimitzen...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "%s (%s) deskonprimitzen (%s) gainean...\n"
-
-#: src/unpack.c
-msgid "package filesystem archive extraction"
-msgstr "paketearen fitxategi-sistemaren artxiboa erauzketa"
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "errorea dpkg-deb tar irteera irakurtzean"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr ""
-"fitxategi-sistemaren tar fitxategia hondatu da - paketearen artxiboa "
-"hondatuta dago"
-
-#: src/unpack.c
-#, c-format
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "kendu amaierako zero posibleak 'dpkg-deb'-etik: %s"
-
-#: src/unpack.c
-#, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 "ezin izan da '%.250s' fitxategi zaharraren egoera eskuratu, beraz ez da "
@@ -4798,6 +4755,59 @@ msgstr ""
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "ezin da '%.250s' fitxategi zaharra segurtasunez kendu: %s"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(Kontuan hartu %s desagertu dela, guztiz ordeztu delako.)\n"
+
+#: src/unpack.c
+msgid "package control information extraction"
+msgstr "paketearen kontrol-informazioaren erauzketa"
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "%s(r)i buruzko informazioa erregistratu da %s(e)tik.\n"
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "paketearen arkitektura (%s) ez dator bat sistemarekin (%s)"
+
+#: src/unpack.c
+#, c-format
+msgid "Preparing to unpack %s ...\n"
+msgstr "%s deskonprimitzeko prestatzen...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) ...\n"
+msgstr "%s (%s) deskonprimitzen...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr "%s (%s) deskonprimitzen (%s) gainean...\n"
+
+#: src/unpack.c
+msgid "package filesystem archive extraction"
+msgstr "paketearen fitxategi-sistemaren artxiboa erauzketa"
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr "errorea dpkg-deb tar irteera irakurtzean"
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr ""
+"fitxategi-sistemaren tar fitxategia hondatu da - paketearen artxiboa "
+"hondatuta dago"
+
+#: src/unpack.c
+#, c-format
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "kendu amaierako zero posibleak 'dpkg-deb'-etik: %s"
 
 #: src/update.c
 #, c-format
@@ -4841,19 +4851,18 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "ezin da '%.250s' fitxategi-izena atzitu"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "huts egin du fitxategi-izena tar kanalizazioan idaztean (%s)"
+
+#: dpkg-deb/build.c
+msgid "control member"
+msgstr "kontrolaren kidea"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "newline in field name '%.*s'"
 msgid "newline not allowed in pathname '%s'"
 msgstr "lerro-jauzia '%.*s' eremu izenean"
-
-#: dpkg-deb/build.c
-#, c-format
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "huts egin du fitxategi-izena tar kanalizazioan idaztean (%s)"
 
 #: dpkg-deb/build.c
 msgid "data member"
@@ -4939,6 +4948,12 @@ msgstr ""
 "dauzka"
 
 #: dpkg-deb/build.c
+#, fuzzy
+#| msgid "package architecture"
+msgid "package architecture is missing or empty"
+msgstr "paketearen arkitektura"
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "'%s'(e)k erabiltzaileak definitutako '%s' lehentasun-balioa dauka"
@@ -4980,13 +4995,15 @@ msgid "not checking contents of control area"
 msgstr "ez da kontrol-arearen edukia egiaztatuko"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr "dpkg-deb: pakete ezezagun bat eraikitzen '%s'(e)n .\n"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr "dpkg-deb: '%s' paketea eraikitzen: '%s'.\n"
 
 #: dpkg-deb/build.c
@@ -4995,17 +5012,9 @@ msgid "failed to make temporary file (%s)"
 msgstr "huts egin du aldi baterako fitxategia sortzean (%s)"
 
 #: dpkg-deb/build.c
-msgid "control member"
-msgstr "kontrolaren kidea"
-
-#: dpkg-deb/build.c
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "huts egin du aldi baterako fitxategia desestekatzean (%s), %s"
-
-#: dpkg-deb/build.c
-msgid "compressing control member"
-msgstr "kontrolaren kidea konprimitzen"
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5282,7 +5291,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     ez da fitxategi arrunta   %.255s\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(ez dago 'control' fitxategirik kontrol-artxiboan!)\n"
 
 #: dpkg-deb/main.c
@@ -6053,17 +6064,9 @@ msgstr ""
 "  --version               erakutsi bertsioa.\n"
 
 #: utils/update-alternatives.c
-msgid "error"
-msgstr "errorea"
-
-#: utils/update-alternatives.c
 #, c-format
 msgid "Use '%s --help' for program usage information."
 msgstr "Erabili '%s --help' programaren erabilerari buruzko laguntza lortzeko."
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "abisua"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6535,6 +6538,39 @@ msgstr "%s/%s-(r)en eguneraketa automatikoak desgaituta daude, ez da ukituko"
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "eguneraketa automatikoetara itzultzeko erabili '%s --auto %s'"
 
+#~ msgid "%s: error: %s\n"
+#~ msgstr "%s: errorea: %s\n"
+
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s:%s:%d:%s: barneko errorea: %s\n"
+
+#~ msgid "%s: warning: %s\n"
+#~ msgstr "%s: abisua: %s\n"
+
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "trunkatutako baztertutako abiarazleen '%.250s' fitxategia"
+
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "'find' dpkg --recursive komandoarentzako"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "huts egin du fdopen-ek find-en kanalizazioarekin"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "errorea find-en kanalizazioa irakurtzean"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "errorea find-en kanalizazioa ixtean"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr "--recursive bilaketak kudeatu gabeko %i errorea itzuli du"
+
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "ezin da '%.250s' fitxategi-izena atzitu"
+
+#~ msgid "compressing control member"
+#~ msgstr "kontrolaren kidea konprimitzen"
+
 #~ msgid "Call %s."
 #~ msgstr "Deitu %s."
 
@@ -6621,9 +6657,6 @@ msgstr "eguneraketa automatikoetara itzultzeko erabili '%s --auto %s'"
 
 #~ msgid "Unpacking replacement %.250s ...\n"
 #~ msgstr "%.250s ordezpena deskonprimitzen...\n"
-
-#~ msgid "invalid integer for -%c: '%.250s'"
-#~ msgstr "-%c aukeraren osokoa baliogabea: '%.250s'"
 
 #, fuzzy
 #~| msgid "--add needs four arguments"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-06-26 16:11+0200\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -530,17 +530,17 @@ msgstr ""
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr ""
 
-#: lib/dpkg/ehandle.c
-#, fuzzy, c-format
-msgid "%s: error: %s\n"
-msgstr ""
-"%s: hibás feldolgozás: %s (--%s):\n"
-" %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+#, fuzzy
+#| msgid "parse error"
+msgid "error"
+msgstr "elemzési hiba"
 
 #: lib/dpkg/ehandle.c
-#, fuzzy, c-format
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s:%d: belső `%s' hiba\n"
+#, fuzzy
+#| msgid "internal error - bad mode `%s'"
+msgid "internal error"
+msgstr "belső hiba - rossz `%s' mód"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -942,6 +942,11 @@ msgstr "érvénytelem egész a --%s számára: `%.250s'"
 
 #: lib/dpkg/options.c
 #, fuzzy, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "érvénytelem egész a --%s számára: `%.250s'"
+
+#: lib/dpkg/options.c
+#, fuzzy, c-format
 msgid "obsolete option '--%s'"
 msgstr "Figyelem: elavult lehetőség `--%s'\n"
 
@@ -1249,10 +1254,9 @@ msgstr "rossz csomagnév a %d. sorban: %.250s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "rossz csomagnév a %d. sorban: %.250s"
 
-#: lib/dpkg/report.c
-#, fuzzy, c-format
-msgid "%s: warning: %s\n"
-msgstr "%s: hiba %s írásakor: %s"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "figyelj!"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1283,7 +1287,7 @@ msgstr "%s (alfolyamat): %s\n"
 msgid "fork failed"
 msgstr "fork hiba"
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "%s alfolyamat %d hibakóddal kilépett"
@@ -1313,62 +1317,75 @@ msgstr "%s alfolyamat meghiúsult %d állapot kódra várva"
 msgid "wait for subprocess %s failed"
 msgstr "%s kódra várakozás meghiúsult"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
-msgstr ""
-
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
 #, fuzzy, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "statoverride fájl: `%.250s'"
+#| msgid "cannot stat old name `%s': %s"
+msgid "cannot stat pathname '%s'"
+msgstr "a régi `%s' név nem található: %s"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr ""
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "`%.255s' könyvtár nem nézhető át"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+msgid "treewalk root %s is not a directory"
+msgstr "az info könyvtár nem olvasható"
+
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to open/create triggers lockfile '%.250s'"
 msgstr "e forrásfájl nem megnyitható: `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy
 msgid "triggers area"
 msgstr "nem tudom kioldani %s-t: %s"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to open triggers deferred file '%.250s'"
 msgstr "e forrásfájl nem megnyitható: `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to stat triggers deferred file '%.250s'"
 msgstr "nem találom a másik `%.250s' új fájlt"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to open/create new triggers deferred file '%.250s'"
 msgstr "sikertelen az új raktár fájl megnyitása: `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr "hibás %s olvasás e fájlból: %.255s"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
+msgstr ""
+
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr "hibás %s olvasás e fájlból: %.255s"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr "sikertelen az új raktár fájl megnyitása: `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr "sikertelen az új raktár fájl megnyitása: `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr "nem tudom telepíteni `%.255s' új verzióját"
@@ -1846,28 +1863,6 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive legalább 1 ösvény argumentumot vár"
 
 #: src/archives.c
-#, fuzzy
-msgid "find for dpkg --recursive"
-msgstr "find futtatása a --recursive-hoz sikertelen"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "sikertelen fdopen a find csőhöz"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "hiba a find cső olvasásakor"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "hiba a find cső lezárásakor"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr "a find a --recursive-hoz kezeletlen hibával tért vissza: %i"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "kerestem, de nem leltem csomagokat (*.deb fájlokat)"
 
@@ -1875,6 +1870,17 @@ msgstr "kerestem, de nem leltem csomagokat (*.deb fájlokat)"
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s legalább 1 csomagarchívum fájl argumentumot vár"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "az archívum nem elérhető"
+
+#: src/archives.c
+#, fuzzy, c-format
+msgid "archive '%s' is not a regular file"
+msgstr "figyelem, `%s' konffájl nem sima fájl\n"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3446,6 +3452,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr ""
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr ""
 
@@ -3798,6 +3808,12 @@ msgstr " függőségek: "
 msgid "; however:\n"
 msgstr "; ám:\n"
 
+#: src/querycmd.c src/select.c
+#, fuzzy, c-format
+#| msgid "No packages found matching %s.\n"
+msgid "no packages found matching %s"
+msgstr "Nincs ilyen csomag: %s.\n"
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -3834,12 +3850,6 @@ msgstr " (csomag: "
 #: src/querycmd.c
 msgid "Description"
 msgstr "Leírás"
-
-#: src/querycmd.c src/select.c
-#, fuzzy, c-format
-#| msgid "No packages found matching %s.\n"
-msgid "no packages found matching %s"
-msgstr "Nincs ilyen csomag: %s.\n"
 
 #: src/querycmd.c
 #, fuzzy, c-format
@@ -4646,6 +4656,33 @@ msgstr ""
 msgid "unable to create temporary directory"
 msgstr "hiba az átmeneti könyvtárnév létrehozásakor"
 
+#: src/unpack.c
+#, fuzzy, c-format
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr "dpkg: figyelem - elő-függőségi gondok átlépése !\n"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "elő-függőségi gond - %.250s nem települ"
+
+#: src/unpack.c
+#, fuzzy
+msgid "ignoring pre-dependency problem!"
+msgstr "dpkg: figyelem - elő-függőségi gondok átlépése !\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr "%s dekonfigurálása, így %s eltávolíthatóvá válik...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "De-configuring %s (%s) ...\n"
+msgstr "Eltávolítás: %s ...\n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4708,94 +4745,6 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "nem tudom telepíteni az új `%.250s' info fájlt, mint `%.250s'"
 
 #: src/unpack.c
-#, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr ""
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr "az archívum nem elérhető"
-
-#: src/unpack.c
-#, fuzzy
-#| msgid "control information length"
-msgid "package control information extraction"
-msgstr "ellenőrző információ hossz"
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "%s információit rögzítettem innen: %s.\n"
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "a csomag géptípusa (%s) eltér a rendszertől (%s)"
-
-#: src/unpack.c
-#, fuzzy, c-format
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr "dpkg: figyelem - elő-függőségi gondok átlépése !\n"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "elő-függőségi gond - %.250s nem települ"
-
-#: src/unpack.c
-#, fuzzy
-msgid "ignoring pre-dependency problem!"
-msgstr "dpkg: figyelem - elő-függőségi gondok átlépése !\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Preparing to replace %s %s (using %s) ...\n"
-msgid "Preparing to unpack %s ...\n"
-msgstr "%s %s cseréjének előkészítése (e csomaggal: %s) ...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr "%s dekonfigurálása, így %s eltávolíthatóvá válik...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Eltávolítás: %s ...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Unpacking %s (from %s) ...\n"
-msgid "Unpacking %s (%s) ...\n"
-msgstr "Kicsomagolás: %s innen: %s ...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Unpacking %s (from %s) ...\n"
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "Kicsomagolás: %s innen: %s ...\n"
-
-#: src/unpack.c
-msgid "package filesystem archive extraction"
-msgstr ""
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "hiba a dpkg-deb tar kimenet olvasásakor"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "hibás fájlrendszer tarfájl -- hibás csomag archívum"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "dpkg-deb: zap possible trailing zeros"
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "dpkg-deb: lehetséges vezető 0-ák levágása"
-
-#: src/unpack.c
 #, fuzzy, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "dpkg: figyelem - nem lelem a régi fájlt: `%.250s' így nem törlöm: %s"
@@ -4830,6 +4779,63 @@ msgstr ""
 #, fuzzy, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "dpkg: figyelem - nem tudom %s a régi fájlt `%%.250s': %%s\n"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr ""
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "control information length"
+msgid "package control information extraction"
+msgstr "ellenőrző információ hossz"
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "%s információit rögzítettem innen: %s.\n"
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "a csomag géptípusa (%s) eltér a rendszertől (%s)"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Preparing to replace %s %s (using %s) ...\n"
+msgid "Preparing to unpack %s ...\n"
+msgstr "%s %s cseréjének előkészítése (e csomaggal: %s) ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Unpacking %s (from %s) ...\n"
+msgid "Unpacking %s (%s) ...\n"
+msgstr "Kicsomagolás: %s innen: %s ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Unpacking %s (from %s) ...\n"
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr "Kicsomagolás: %s innen: %s ...\n"
+
+#: src/unpack.c
+msgid "package filesystem archive extraction"
+msgstr ""
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr "hiba a dpkg-deb tar kimenet olvasásakor"
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr "hibás fájlrendszer tarfájl -- hibás csomag archívum"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "dpkg-deb: zap possible trailing zeros"
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "dpkg-deb: lehetséges vezető 0-ák levágása"
 
 #: src/update.c
 #, fuzzy, c-format
@@ -4872,20 +4878,21 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "e forrásfájl nem megnyitható: `%.250s'"
+#| msgid "failed to write filename to tar pipe (data)"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "fájlnév írás a tar csőbe (adatok) meghiúsult"
+
+#: dpkg-deb/build.c
+#, fuzzy
+#| msgid "control area"
+msgid "control member"
+msgstr "ellenőrző terület"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "newline in field name '%.*s'"
 msgid "newline not allowed in pathname '%s'"
 msgstr "új sor e mezőben: `%.*s'"
-
-#: dpkg-deb/build.c
-#, fuzzy, c-format
-#| msgid "failed to write filename to tar pipe (data)"
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "fájlnév írás a tar csőbe (adatok) meghiúsult"
 
 #: dpkg-deb/build.c
 #, fuzzy
@@ -4971,6 +4978,11 @@ msgstr ""
 "a csomagnév kisbetűs alfanumerikus és `-+.'-tól eltérő karaktereket tartalmaz"
 
 #: dpkg-deb/build.c
+#, fuzzy
+msgid "package architecture is missing or empty"
+msgstr " (csomag: "
+
+#: dpkg-deb/build.c
 #, fuzzy, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "figyelem, `%s' felhasználói `%s' elsőbbségi értéket tartalmaz\n"
@@ -5011,12 +5023,13 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr "dpkg-deb: `%s' csomag építése itt: `%s'.\n"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr "dpkg-deb: `%s' csomag építése itt: `%s'.\n"
 
 #: dpkg-deb/build.c
@@ -5026,22 +5039,10 @@ msgid "failed to make temporary file (%s)"
 msgstr "tmpfájl létrehozása sikertelen (adat)"
 
 #: dpkg-deb/build.c
-#, fuzzy
-#| msgid "control area"
-msgid "control member"
-msgstr "ellenőrző terület"
-
-#: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "failed to unlink tmpfile (data), %s"
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "tmpfájl elláncolása sikertelen (adat), %s"
-
-#: dpkg-deb/build.c
-#, fuzzy
-#| msgid "control area"
-msgid "compressing control member"
-msgstr "ellenőrző terület"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5339,7 +5340,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     nem sima fájl             %.255s\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(nincs `control' fájl az ellenőrző archívumban!)\n"
 
 #: dpkg-deb/main.c
@@ -6095,19 +6098,9 @@ msgstr ""
 "  --version                verzió mutatása.\n"
 
 #: utils/update-alternatives.c
-#, fuzzy
-#| msgid "parse error"
-msgid "error"
-msgstr "elemzési hiba"
-
-#: utils/update-alternatives.c
 #, c-format
 msgid "Use '%s --help' for program usage information."
 msgstr ""
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "figyelj!"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6586,6 +6579,49 @@ msgstr ""
 "alternatives --auto %s'-t"
 
 #, fuzzy
+#~ msgid "%s: error: %s\n"
+#~ msgstr ""
+#~ "%s: hibás feldolgozás: %s (--%s):\n"
+#~ " %s\n"
+
+#, fuzzy
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s:%d: belső `%s' hiba\n"
+
+#, fuzzy
+#~ msgid "%s: warning: %s\n"
+#~ msgstr "%s: hiba %s írásakor: %s"
+
+#, fuzzy
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "statoverride fájl: `%.250s'"
+
+#, fuzzy
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "find futtatása a --recursive-hoz sikertelen"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "sikertelen fdopen a find csőhöz"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "hiba a find cső olvasásakor"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "hiba a find cső lezárásakor"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr "a find a --recursive-hoz kezeletlen hibával tért vissza: %i"
+
+#, fuzzy
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "e forrásfájl nem megnyitható: `%.250s'"
+
+#, fuzzy
+#~| msgid "control area"
+#~ msgid "compressing control member"
+#~ msgstr "ellenőrző terület"
+
+#, fuzzy
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "hiba az új statoverride telepítésekor: %s"
 
@@ -6667,10 +6703,6 @@ msgstr ""
 
 #~ msgid "Unpacking replacement %.250s ...\n"
 #~ msgstr "Csere kicsomagolása: %.250s ...\n"
-
-#, fuzzy
-#~ msgid "invalid integer for -%c: '%.250s'"
-#~ msgstr "érvénytelem egész a --%s számára: `%.250s'"
 
 #, fuzzy
 #~| msgid "--add needs four arguments"

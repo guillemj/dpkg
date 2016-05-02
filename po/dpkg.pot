@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.18.4\n"
+"Project-Id-Version: dpkg 1.18.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -486,14 +486,12 @@ msgstr ""
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr ""
 
-#: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s: error: %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+msgid "error"
 msgstr ""
 
 #: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s:%s:%d:%s: internal error: %s\n"
+msgid "internal error"
 msgstr ""
 
 #: lib/dpkg/fields.c
@@ -864,6 +862,11 @@ msgstr ""
 
 #: lib/dpkg/options.c
 #, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr ""
+
+#: lib/dpkg/options.c
+#, c-format
 msgid "obsolete option '--%s'"
 msgstr ""
 
@@ -1145,9 +1148,8 @@ msgstr ""
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr ""
 
-#: lib/dpkg/report.c
-#, c-format
-msgid "%s: warning: %s\n"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
 msgstr ""
 
 #: lib/dpkg/strwide.c
@@ -1179,7 +1181,7 @@ msgstr ""
 msgid "fork failed"
 msgstr ""
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr ""
@@ -1208,61 +1210,72 @@ msgstr ""
 msgid "wait for subprocess %s failed"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
 #, c-format
-msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
+msgid "cannot stat pathname '%s'"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
 #, c-format
-msgid "truncated triggers deferred file '%.250s'"
+msgid "cannot open directory '%s'"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
 #, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
+msgid "treewalk root %s is not a directory"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create triggers lockfile '%.250s'"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 msgid "triggers area"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open triggers deferred file '%.250s'"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to stat triggers deferred file '%.250s'"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create new triggers deferred file '%.250s'"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr ""
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
+msgstr ""
+
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr ""
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr ""
@@ -1703,33 +1716,22 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr ""
 
 #: src/archives.c
-msgid "find for dpkg --recursive"
-msgstr ""
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr ""
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr ""
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr ""
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr ""
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 
 #: src/archives.c
 #, c-format
 msgid "--%s needs at least one package archive file argument"
+msgstr ""
+
+#: src/archives.c src/unpack.c
+#, c-format
+msgid "cannot access archive '%s'"
+msgstr ""
+
+#: src/archives.c
+#, c-format
+msgid "archive '%s' is not a regular file"
 msgstr ""
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
@@ -3013,6 +3015,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr ""
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr ""
 
@@ -3344,6 +3350,11 @@ msgstr ""
 msgid "; however:\n"
 msgstr ""
 
+#: src/querycmd.c src/select.c
+#, c-format
+msgid "no packages found matching %s"
+msgstr ""
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -3372,11 +3383,6 @@ msgstr ""
 
 #: src/querycmd.c
 msgid "Description"
-msgstr ""
-
-#: src/querycmd.c src/select.c
-#, c-format
-msgid "no packages found matching %s"
 msgstr ""
 
 #: src/querycmd.c
@@ -4040,6 +4046,32 @@ msgstr ""
 msgid "unable to create temporary directory"
 msgstr ""
 
+#: src/unpack.c
+#, c-format
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr ""
+
+#: src/unpack.c
+msgid "ignoring pre-dependency problem!"
+msgstr ""
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr ""
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s) ...\n"
+msgstr ""
+
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4101,87 +4133,6 @@ msgstr ""
 
 #: src/unpack.c
 #, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr ""
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr ""
-
-#: src/unpack.c
-msgid "package control information extraction"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr ""
-
-#: src/unpack.c
-msgid "ignoring pre-dependency problem!"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
-msgid "Preparing to unpack %s ...\n"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) ...\n"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr ""
-
-#: src/unpack.c
-msgid "package filesystem archive extraction"
-msgstr ""
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr ""
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr ""
-
-#: src/unpack.c
-#, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 
@@ -4210,6 +4161,57 @@ msgstr ""
 #: src/unpack.c
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
+msgstr ""
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr ""
+
+#: src/unpack.c
+msgid "package control information extraction"
+msgstr ""
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr ""
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr ""
+
+#: src/unpack.c
+#, c-format
+msgid "Preparing to unpack %s ...\n"
+msgstr ""
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) ...\n"
+msgstr ""
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr ""
+
+#: src/unpack.c
+msgid "package filesystem archive extraction"
+msgstr ""
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr ""
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr ""
+
+#: src/unpack.c
+#, c-format
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
 msgstr ""
 
 #: src/update.c
@@ -4250,17 +4252,16 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
-msgid "unable to stat file name '%.250s'"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr ""
+
+#: dpkg-deb/build.c
+msgid "control member"
 msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
 msgid "newline not allowed in pathname '%s'"
-msgstr ""
-
-#: dpkg-deb/build.c
-#, c-format
-msgid "failed to write filename to tar pipe (%s)"
 msgstr ""
 
 #: dpkg-deb/build.c
@@ -4339,6 +4340,10 @@ msgid "package name has characters that aren't lowercase alphanums or '-+.'"
 msgstr ""
 
 #: dpkg-deb/build.c
+msgid "package architecture is missing or empty"
+msgstr ""
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr ""
@@ -4378,12 +4383,12 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr ""
 
 #: dpkg-deb/build.c
@@ -4392,16 +4397,8 @@ msgid "failed to make temporary file (%s)"
 msgstr ""
 
 #: dpkg-deb/build.c
-msgid "control member"
-msgstr ""
-
-#: dpkg-deb/build.c
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
-msgstr ""
-
-#: dpkg-deb/build.c
-msgid "compressing control member"
 msgstr ""
 
 #: dpkg-deb/build.c
@@ -4660,7 +4657,7 @@ msgid "     not a plain file          %.255s\n"
 msgstr ""
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr ""
 
 #: dpkg-deb/main.c
@@ -5277,16 +5274,8 @@ msgid ""
 msgstr ""
 
 #: utils/update-alternatives.c
-msgid "error"
-msgstr ""
-
-#: utils/update-alternatives.c
 #, c-format
 msgid "Use '%s --help' for program usage information."
-msgstr ""
-
-#: utils/update-alternatives.c
-msgid "warning"
 msgstr ""
 
 #: utils/update-alternatives.c

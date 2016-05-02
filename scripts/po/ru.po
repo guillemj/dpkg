@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:28+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-04-07 07:02+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -280,6 +280,9 @@ msgstr "Использование: %s [<параметр>...]"
 #| "      --version  show the version."
 msgid ""
 "Options:\n"
+"  --build=<type>[,...]\n"
+"                 specify the build <type>: full, source, binary, any, all\n"
+"                   (default is 'full').\n"
 "  -F             normal full build (binaries and sources, default).\n"
 "  -g             source and arch-indep build.\n"
 "  -G             source and arch-specific build.\n"
@@ -443,11 +446,6 @@ msgstr ""
 "  -I[<шаблон>]      при сборке tar, не включать файлы, попавшие в шаблон\n"
 "     --source-option=<пар>\n"
 "                    передать параметр <пар> в dpkg-source\n"
-
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-genchanges.pl
-#, perl-format
-msgid "cannot combine %s and %s"
-msgstr "не удалось объединить %s и %s"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -780,6 +778,8 @@ msgstr "установка нового файла с списком файло�
 #| "      --version            show the version.\n"
 msgid ""
 "Options:\n"
+"  --build=<type>[,...]     specify the build <type>: full, source, binary,\n"
+"                             any, all (default is 'full').\n"
 "  -g                       source and arch-indep build.\n"
 "  -G                       source and arch-specific build.\n"
 "  -b                       binary-only, no source files.\n"
@@ -803,6 +803,7 @@ msgid ""
 "  -T<substvars-file>       read variables here, not debian/substvars.\n"
 "  -D<field>=<value>        override or add a field and value.\n"
 "  -U<field>                remove a field.\n"
+"  -O[<filename>]           write to stdout (default) or <filename>.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version.\n"
 msgstr ""
@@ -936,10 +937,6 @@ msgstr "отсутствует Priority для двоичного пакета %
 msgid "package %s has priority %s in control file but %s in files list"
 msgstr "пакет %s имеет приоритет %s в управляющем файле, но %s в списке файлов"
 
-#: scripts/dpkg-genchanges.pl
-msgid "write original source message"
-msgstr "запись оригинального исходного сообщения"
-
 #: scripts/dpkg-genchanges.pl scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "missing information for critical output field %s"
@@ -1043,14 +1040,6 @@ msgstr ""
 #, perl-format
 msgid "package %s: "
 msgstr "пакет %s: "
-
-#: scripts/dpkg-gencontrol.pl
-#, perl-format
-msgid "'%s' is not a legal architecture string."
-msgid_plural "'%s' are not legal architecture strings."
-msgstr[0] "Неправильная строка архитектуры «%s»."
-msgstr[1] "Неправильные строки архитектуры «%s»."
-msgstr[2] "Неправильные строки архитектуры «%s»."
 
 #: scripts/dpkg-gencontrol.pl
 #, perl-format
@@ -1865,6 +1854,31 @@ msgstr ""
 "                           задать в shlibs:<поле-завис.>"
 
 #: scripts/dpkg-shlibdeps.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  -l<library-dir>          add directory to private shared library search "
+#| "list.\n"
+#| "  -p<varname-prefix>       set <varname-prefix>:* instead of shlibs:*.\n"
+#| "  -O[<file>]               write variable settings to stdout (or "
+#| "<file>).\n"
+#| "  -L<local-shlibs-file>    shlibs override file, not debian/shlibs."
+#| "local.\n"
+#| "  -T<substvars-file>       update variables here, not debian/substvars.\n"
+#| "  -t<type>                 set package type (default is deb).\n"
+#| "  -x<package>              exclude package from the generated "
+#| "dependencies.\n"
+#| "  -S<package-build-dir>    search needed libraries in the given\n"
+#| "                           package build directory first.\n"
+#| "  -v                       enable verbose mode (can be used multiple "
+#| "times).\n"
+#| "  --ignore-missing-info    don't fail if dependency information can't be "
+#| "found.\n"
+#| "  --warnings=<value>       define set of active warnings (see manual "
+#| "page).\n"
+#| "  --admindir=<directory>   change the administrative directory.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version."
 msgid ""
 "Options:\n"
 "  -l<library-dir>          add directory to private shared library search "
@@ -1876,7 +1890,10 @@ msgid ""
 "  -t<type>                 set package type (default is deb).\n"
 "  -x<package>              exclude package from the generated dependencies.\n"
 "  -S<package-build-dir>    search needed libraries in the given\n"
-"                           package build directory first.\n"
+"                             package build directory first.\n"
+"  -I<package-build-dir>    ignore needed libraries, shlibs and symbols "
+"files\n"
+"                             in the given build directory.\n"
 "  -v                       enable verbose mode (can be used multiple "
 "times).\n"
 "  --ignore-missing-info    don't fail if dependency information can't be "
@@ -2107,6 +2124,11 @@ msgid "%s field contains value %s, but no tests control file %s"
 msgstr "поле %s содержит значение %s, но не проверяется управляющим файлом %s"
 
 #: scripts/dpkg-source.pl
+msgctxt "source options"
+msgid "<none>"
+msgstr ""
+
+#: scripts/dpkg-source.pl
 #, perl-format
 msgid "Usage: %s [<option>...] <command>"
 msgstr "Использование: %s [<параметр>...] <команда>"
@@ -2205,11 +2227,9 @@ msgstr ""
 
 #: scripts/dpkg-source.pl
 msgid ""
-"More options are available but they depend on the source package format.\n"
-"See dpkg-source(1) for more info."
+"Source format specific build and extract options are available;\n"
+"use --format with --help to see them."
 msgstr ""
-"Также, есть ещё параметры, но они привязаны к формату пакета\n"
-"исходного кода. Подробней см. в dpkg-source(1)."
 
 #: scripts/dpkg-vendor.pl
 msgid ""
@@ -2352,6 +2372,12 @@ msgstr ""
 "неизвестный системный тип gcc %s, переход к использованию значения по "
 "умолчанию (родная компиляция)"
 
+#: scripts/Dpkg/Arch.pm
+#, fuzzy, perl-format
+#| msgid "'%s' is not a legal architecture string"
+msgid "'%s' is not a legal architecture in list '%s'"
+msgstr "«%s» не является разрешённой строкой архитектуры"
+
 #: scripts/Dpkg/BuildFlags.pm
 #, perl-format
 msgid "line %d of %s mentions unknown flag %s"
@@ -2367,9 +2393,16 @@ msgstr "неправильная строка %d из %s, она была про
 msgid "invalid flag in %s: %s"
 msgstr "неправильный флаг в %s: %s"
 
-#: scripts/Dpkg/Changelog.pm scripts/Dpkg/ErrorHandling.pm
-msgid "warning"
-msgstr "предупреждение"
+#: scripts/Dpkg/Build/Types.pm
+#, perl-format
+msgid "cannot combine %s and %s"
+msgstr "не удалось объединить %s и %s"
+
+#: scripts/Dpkg/Build/Types.pm
+#, fuzzy, perl-format
+#| msgid "unknown file type"
+msgid "unknown build type %s"
+msgstr "неизвестный тип файла"
 
 #: scripts/Dpkg/Changelog.pm
 #, perl-format
@@ -2491,6 +2524,11 @@ msgstr "найден символ eof где ожидалось %s"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 #, perl-format
+msgid "version '%s' is invalid: %s"
+msgstr "некорректная версия «%s»: %s"
+
+#: scripts/Dpkg/Changelog/Entry/Debian.pm
+#, perl-format
 msgid "bad key-value after ';': '%s'"
 msgstr "неверная пара ключ-значение после «;»: «%s»"
 
@@ -2513,11 +2551,6 @@ msgstr "нежелательный только двоичное значени�
 #, perl-format
 msgid "unknown key-value %s"
 msgstr "неизвестный ключ-значение %s"
-
-#: scripts/Dpkg/Changelog/Entry/Debian.pm
-#, perl-format
-msgid "version '%s' is invalid: %s"
-msgstr "некорректная версия «%s»: %s"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 msgid "the header doesn't match the expected regex"
@@ -2654,6 +2687,24 @@ msgid "parsed version of changelog"
 msgstr "получена версия changelog"
 
 #: scripts/Dpkg/Control.pm
+msgid "header stanza of copyright file"
+msgstr ""
+
+#: scripts/Dpkg/Control.pm
+msgid "files stanza of copyright file"
+msgstr ""
+
+#: scripts/Dpkg/Control.pm
+msgid "license stanza of copyright file"
+msgstr ""
+
+#: scripts/Dpkg/Control.pm
+#, fuzzy, perl-format
+#| msgid "entry in repository's %s file"
+msgid "repository's %s file"
+msgstr "элемент в файле репозитория %s"
+
+#: scripts/Dpkg/Control.pm
 #, perl-format
 msgid "entry in repository's %s file"
 msgstr "элемент в файле репозитория %s"
@@ -2774,6 +2825,14 @@ msgstr "неправильный флаг в %s: %s"
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "info"
 msgstr "инфо"
+
+#: scripts/Dpkg/ErrorHandling.pm
+msgid "notice"
+msgstr ""
+
+#: scripts/Dpkg/ErrorHandling.pm
+msgid "warning"
+msgstr "предупреждение"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "error"
@@ -2985,6 +3044,10 @@ msgid "invalid Format field '%s'"
 msgstr "неправильное поле Format «%s»"
 
 #: scripts/Dpkg/Source/Package.pm
+msgid "source package uses only weak checksums"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package.pm
 #, fuzzy, perl-format
 #| msgid "source and version are required to compute the source basename"
 msgid "%s and %s fields are required to compute the source basename"
@@ -2996,8 +3059,9 @@ msgid "failed to verify signature on %s"
 msgstr "проверка подписи для %s завершилась неудачно"
 
 #: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "could not verify signature on %s since gpg isn't installed"
+#, fuzzy, perl-format
+#| msgid "could not verify signature on %s since gpg isn't installed"
+msgid "cannot verify signature on %s since GnuPG is not installed"
 msgstr "невозможно проверить подпись для %s, так как gpg не установлена"
 
 #: scripts/Dpkg/Source/Package.pm
@@ -3024,6 +3088,72 @@ msgstr "%s не является простым файлом"
 #, perl-format
 msgid "'%s' is not supported by the source format '%s'"
 msgstr "«%s» не поддерживается форматом исходника %s"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "write original source message"
+msgid "auto select original source"
+msgstr "запись оригинального исходного сообщения"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "full upload (original source is included)"
+msgid "use packed original source (unpack and keep)"
+msgstr "закачка всего (с пакетом оригинального исходного кода)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "full upload (original source is included)"
+msgid "use packed original source (unpack and remove)"
+msgstr "закачка всего (с пакетом оригинального исходного кода)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "full upload (original source is included)"
+msgid "use unpacked original source (pack and keep)"
+msgstr "закачка всего (с пакетом оригинального исходного кода)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "full upload (original source is included)"
+msgid "use unpacked original source (pack and remove)"
+msgstr "закачка всего (с пакетом оригинального исходного кода)"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "write original source message"
+msgid "trust packed and unpacked original sources are same"
+msgstr "запись оригинального исходного сообщения"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "there is no diff, do main tarfile only"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "like -sa, -sk, -sp, -su, -sr but may overwrite"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V1.pm scripts/Dpkg/Source/Package/V2.pm
+msgid "abort if generated diff has upstream files changes"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "leave original source packed in current directory"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "do not copy original source to current directory"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V1.pm
+#, fuzzy
+#| msgid "write original source message"
+msgid "unpack original source tree too"
+msgstr "запись оригинального исходного сообщения"
+
+#: scripts/Dpkg/Source/Package/V1.pm
+msgid "do not apply debian diff to upstream sources"
+msgstr ""
 
 #: scripts/Dpkg/Source/Package/V1.pm
 #, perl-format
@@ -3252,6 +3382,48 @@ msgid "unrepresentable changes to source"
 msgstr "нехарактерные изменения в исходнике"
 
 #: scripts/Dpkg/Source/Package/V2.pm
+msgid "include removed files in the patch"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "include timestamp in the patch"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "include binary files in the tarball"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+#, fuzzy
+#| msgid "fuzz is not allowed when applying patches"
+msgid "do not prepare build tree by applying patches"
+msgstr "при наложении заплат расхождения (fuzz) запрещены"
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not unapply patches if previously applied"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "unapply patches if previously applied (default)"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "create an empty original tarball if missing"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "record generated patches, instead of aborting"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not extract debian tarball into upstream sources"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
+msgid "do not apply patches at the end of the extraction"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
 #, perl-format
 msgid "duplicate files in %s source package: %s"
 msgstr "повторение файла в пакете с исходным кодом %s: %s"
@@ -3464,6 +3636,12 @@ msgid "expected %s, got %s"
 msgstr "ожидалось %s, получено %s"
 
 #: scripts/Dpkg/Source/Package/V3/Custom.pm
+#, fuzzy
+#| msgid "unrecognized file for a native source package: %s"
+msgid "define the format of the generated source package"
+msgstr "нераспознанный файл для родного пакета с исходным кодом: %s"
+
+#: scripts/Dpkg/Source/Package/V3/Custom.pm
 msgid "Format '3.0 (custom)' is only used to create source packages"
 msgstr ""
 "Формат «3.0 (custom)» используется только для создания пакетов с исходным "
@@ -3497,6 +3675,16 @@ msgstr ""
 msgid "git repository %s uses submodules; this is not yet supported"
 msgstr ""
 "в репозитории git %s используются субмодули; это пока не поддерживается"
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+msgid "specify a git <ref> to include in the git bundle"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#, fuzzy
+#| msgid "creating shallow clone with depth %s"
+msgid "create a shallow clone with <number> depth"
+msgstr "создаётся поверхностный клон с глубиной %s"
 
 #: scripts/Dpkg/Source/Package/V3/Git.pm
 msgid "doesn't contain a git repository"
@@ -3551,6 +3739,14 @@ msgstr "нераспознанный файл для родного пакета
 #: scripts/Dpkg/Source/Package/V3/Native.pm
 msgid "native package version may not have a revision"
 msgstr "в версии родного пакета может отсутствовать ревизия"
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
+msgid "use a single debianization patch"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
+msgid "accept quilt metadata <version> even if unknown"
+msgstr ""
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 msgid "non-native package version does not contain a revision"
@@ -3715,7 +3911,15 @@ msgstr "diff «%s» латает что-то не являющееся прос�
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
-msgid "diff '%s' patches file %s twice"
+msgid ""
+"diff '%s' patches files multiple times; split the diff in multiple files or "
+"merge the hunks into a single one"
+msgstr ""
+
+#: scripts/Dpkg/Source/Patch.pm
+#, fuzzy, perl-format
+#| msgid "diff '%s' patches file %s twice"
+msgid "diff '%s' patches file %s more than once"
 msgstr "diff «%s» латает файл %s дважды"
 
 #: scripts/Dpkg/Source/Patch.pm
@@ -3916,6 +4120,19 @@ msgstr "номер версии содержит недопустимый сим
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "часть эпохи в номере версии не является числом: «%s»"
 
+#~ msgid "'%s' is not a legal architecture string."
+#~ msgid_plural "'%s' are not legal architecture strings."
+#~ msgstr[0] "Неправильная строка архитектуры «%s»."
+#~ msgstr[1] "Неправильные строки архитектуры «%s»."
+#~ msgstr[2] "Неправильные строки архитектуры «%s»."
+
+#~ msgid ""
+#~ "More options are available but they depend on the source package format.\n"
+#~ "See dpkg-source(1) for more info."
+#~ msgstr ""
+#~ "Также, есть ещё параметры, но они привязаны к формату пакета\n"
+#~ "исходного кода. Подробней см. в dpkg-source(1)."
+
 #~ msgid "couldn't open %s for reading"
 #~ msgstr "не удалось открыть %s на чтение"
 
@@ -4065,9 +4282,6 @@ msgstr "часть эпохи в номере версии не является
 
 #~ msgid "binary-only upload - not including any source code"
 #~ msgstr "закачка только двоичных пакетов, без пакетов исходных кодов"
-
-#~ msgid "fuzz is not allowed when applying patches"
-#~ msgstr "при наложении заплат расхождения (fuzz) запрещены"
 
 #, fuzzy
 #~| msgid "diff `%s' patches file with name ending .dpkg-orig"

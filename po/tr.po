@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-09-23 18:54+0300\n"
 "Last-Translator: Mert Dirik <mertdirik@gmail.com>\n"
 "Language-Team: Turkish <debian-l10n-turkish@lists.debian.org>\n"
@@ -500,15 +500,15 @@ msgstr "yeni temizlik girdisi için bellek yetersiz"
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "çok argümanlı yeni temizlik girdisi için bellek yetersiz"
 
-#: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s: error: %s\n"
-msgstr "%s: hata: %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+msgid "error"
+msgstr "hata"
 
 #: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s:%s:%d:%s: dâhilî hata: %s\n"
+#, fuzzy
+#| msgid "internal error (bug)"
+msgid "internal error"
+msgstr "dâhilî hata"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -892,6 +892,12 @@ msgid "invalid integer for --%s: '%.250s'"
 msgstr "--%s seçeneği için geçersiz tamsayı: '%.250s'"
 
 #: lib/dpkg/options.c
+#, fuzzy, c-format
+#| msgid "invalid integer for --%s: '%.250s'"
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "--%s seçeneği için geçersiz tamsayı: '%.250s'"
+
+#: lib/dpkg/options.c
 #, c-format
 msgid "obsolete option '--%s'"
 msgstr "'--%s' seçeneği kullanımdan kalkmıştır"
@@ -1199,10 +1205,9 @@ msgstr "'%s%s%s' tanımlayıcısında geçersiz paket adı: %s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "'%s:%s' tanımlayıcısında geçersiz mimari adı: %s"
 
-#: lib/dpkg/report.c
-#, c-format
-msgid "%s: warning: %s\n"
-msgstr "%s: uyarı: %s\n"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "uyarı"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1233,7 +1238,7 @@ msgstr "%s (alt süreç): %s\n"
 msgid "fork failed"
 msgstr "fork sistem çağrısı başarısız oldu"
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "alt süreç %s %d çıkış kodu ile sona erdi"
@@ -1262,63 +1267,78 @@ msgstr "alt süreç %s %d durum kodu döndürerek başarısız oldu"
 msgid "wait for subprocess %s failed"
 msgstr "%s alt süreci wait çağrısı başarısız oldu"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
-msgstr "tetikleyici erteleme dosyasında (%.250s) geçersiz paket adı (%.250s)"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat pathname '%s'"
+msgstr "'%s' dosyasına stat çağrısı başarısız"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "tetikleyici erteleme dosyası (%.250s) kısaltıldı"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "'%.255s' dizini taranamadı"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr ""
-"tetikleyici erteleme dosyasındaki (%.250s) '%s'%s karakterinde sözdizimi "
-"hatası"
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "control directory is not a directory"
+msgid "treewalk root %s is not a directory"
+msgstr "denetim dizini bir dizin değil"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create triggers lockfile '%.250s'"
 msgstr "yeni tetikleyici kilit dosyası (%.250s) açılamadı/oluşturulamadı"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 msgid "triggers area"
 msgstr "tetikleyici bölgesi"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open triggers deferred file '%.250s'"
 msgstr "tetikleyici erteleme dosyası (%.250s) açılamadı"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to stat triggers deferred file '%.250s'"
 msgstr "tetikleyici erteleme dosyasına (%.250s) stat çağrısı yapılamadı"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to open/create new triggers deferred file '%.250s'"
 msgstr "yeni tetikleyici erteleme dosyası (%.250s) açılamadı/oluşturulamadı"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+#| msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr ""
+"tetikleyici erteleme dosyasındaki (%.250s) '%s'%s karakterinde sözdizimi "
+"hatası"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
+msgstr "tetikleyici erteleme dosyasında (%.250s) geçersiz paket adı (%.250s)"
+
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr "tetikleyici erteleme dosyası (%.250s) okunurken sorun yaşandı"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr "yeni tetikleyici erteleme dosyasına (%.250s) yazılamadı"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr "yeni tetikleyici erteleme dosyası (%.250s) kapatılamadı"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr "yeni tetikleyici erteleme dosyası (%.250s) kurulamadı"
@@ -1811,29 +1831,6 @@ msgstr ""
 "--%s --recursive seçeneği en az bir adet yol argümanı kullanımını gerektirir"
 
 #: src/archives.c
-msgid "find for dpkg --recursive"
-msgstr "dpkg --recursive için find komutu"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "find sürecinin borusuna fdopen çağrısı başarısız oldu"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "find sürecinin borusu okunurken bir sorun yaşandı"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "find sürecinin borusu kapatılırken bir sorun yaşandı"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr ""
-"--recursive işlemi için açılan find süreci yakalanmayan bir hata ile döndü "
-"(%i)"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "arama yapıldı ama hiç (*.deb örüntüsüyle eşleşen) paket bulunamadı"
 
@@ -1842,6 +1839,18 @@ msgstr "arama yapıldı ama hiç (*.deb örüntüsüyle eşleşen) paket bulunam
 msgid "--%s needs at least one package archive file argument"
 msgstr ""
 "--%s seçeneği en az bir adet paket arşivi dosyası argümanına ihtiyaç duyar"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "arşive ulaşılamıyor"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "archive '%s' is not a regular file"
+msgstr "yapılandırma dosyası (%s) normal bir dosya değil"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3370,6 +3379,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr "Paket açarken güvenli G/Ç işlemlerini kullanma"
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr "Her zaman yeni yapılandırma dosyalarını kullan, soru sorma"
 
@@ -3731,6 +3744,11 @@ msgstr " şuna bağımlı: "
 msgid "; however:\n"
 msgstr ", ama:\n"
 
+#: src/querycmd.c src/select.c
+#, c-format
+msgid "no packages found matching %s"
+msgstr "%s ile eşleşen bir paket bulunamadı"
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -3765,11 +3783,6 @@ msgstr "Mimari"
 #: src/querycmd.c
 msgid "Description"
 msgstr "Açıklama"
-
-#: src/querycmd.c src/select.c
-#, c-format
-msgid "no packages found matching %s"
-msgstr "%s ile eşleşen bir paket bulunamadı"
 
 #: src/querycmd.c
 #, c-format
@@ -4531,6 +4544,36 @@ msgstr "geçti\n"
 msgid "unable to create temporary directory"
 msgstr "geçici dizin oluşturulamadı"
 
+#: src/unpack.c
+#, c-format
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"%s ile ilgili %s, önbağımlılık sorunu:\n"
+"%s"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "önbağımlılık sorunu - %.250s kurulmuyor"
+
+#: src/unpack.c
+msgid "ignoring pre-dependency problem!"
+msgstr "önbağımlılık sorunu gözardı ediliyor!"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr ""
+"%3$s (%4$s) paketinin kaldırılabilmesi için %1$s (%2$s) yapılandırması "
+"kaldırılıyor ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s) ...\n"
+msgstr "Yapılandırma kaldırılıyor: %s (%s) ...\n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4597,92 +4640,6 @@ msgstr "yeni bilgi dosyası (%.250s) '%.250s' olarak kurulamadı"
 
 #: src/unpack.c
 #, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr ""
-"(Tümüyle değiştirilmiş olan %s paketinin ortadan kalkışı kaydediliyor.)\n"
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr "arşive ulaşılamıyor"
-
-#: src/unpack.c
-msgid "package control information extraction"
-msgstr "paket denetim bilgisi açma"
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "%s paketinin bilgileri %s dosyasına kaydedildi.\n"
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "paket mimarisi (%s) sistemin mimarisi (%s) ile uyuşmuyor"
-
-#: src/unpack.c
-#, c-format
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"%s ile ilgili %s, önbağımlılık sorunu:\n"
-"%s"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "önbağımlılık sorunu - %.250s kurulmuyor"
-
-#: src/unpack.c
-msgid "ignoring pre-dependency problem!"
-msgstr "önbağımlılık sorunu gözardı ediliyor!"
-
-#: src/unpack.c
-#, c-format
-msgid "Preparing to unpack %s ...\n"
-msgstr "Paket açılacak: %s ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr ""
-"%3$s (%4$s) paketinin kaldırılabilmesi için %1$s (%2$s) yapılandırması "
-"kaldırılıyor ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "Yapılandırma kaldırılıyor: %s (%s) ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) ...\n"
-msgstr "Paket açılıyor: %s (%s) ...\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "Paket açılıyor: %1$s (%3$s) üzerine (%2$s) ...\n"
-
-#: src/unpack.c
-msgid "package filesystem archive extraction"
-msgstr "paket dosya sistemi arşiv açma"
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "dpkg-deb tar çıktısı okunamadı"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "bozuk dosya sistemi tar dosyası - bozuk paket arşivi"
-
-#: src/unpack.c
-#, c-format
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "olası izleyen sıfırlar dpkg-deb'den kaldırılamadı: %s"
-
-#: src/unpack.c
-#, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 "eski '%.250s' dosyasına stat çağrısı yapılamadı, dosya silinmeyecek: %s"
@@ -4714,6 +4671,58 @@ msgstr ""
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "eski '%.250s' dosyası güvenli biçimde kaldırılamadı: %s"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr ""
+"(Tümüyle değiştirilmiş olan %s paketinin ortadan kalkışı kaydediliyor.)\n"
+
+#: src/unpack.c
+msgid "package control information extraction"
+msgstr "paket denetim bilgisi açma"
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "%s paketinin bilgileri %s dosyasına kaydedildi.\n"
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "paket mimarisi (%s) sistemin mimarisi (%s) ile uyuşmuyor"
+
+#: src/unpack.c
+#, c-format
+msgid "Preparing to unpack %s ...\n"
+msgstr "Paket açılacak: %s ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) ...\n"
+msgstr "Paket açılıyor: %s (%s) ...\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr "Paket açılıyor: %1$s (%3$s) üzerine (%2$s) ...\n"
+
+#: src/unpack.c
+msgid "package filesystem archive extraction"
+msgstr "paket dosya sistemi arşiv açma"
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr "dpkg-deb tar çıktısı okunamadı"
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr "bozuk dosya sistemi tar dosyası - bozuk paket arşivi"
+
+#: src/unpack.c
+#, c-format
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "olası izleyen sıfırlar dpkg-deb'den kaldırılamadı: %s"
 
 #: src/update.c
 #, c-format
@@ -4759,18 +4768,17 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "dosya adına stat çağrısı yapılamadı (%.250s)"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "dosya adı tar borusuna yazılamadı (%s)"
+
+#: dpkg-deb/build.c
+msgid "control member"
+msgstr "denetim üyesi"
 
 #: dpkg-deb/build.c
 #, c-format
 msgid "newline not allowed in pathname '%s'"
 msgstr "dosya konumlarında (%s) yeni satır karakteri kullanılamaz"
-
-#: dpkg-deb/build.c
-#, c-format
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "dosya adı tar borusuna yazılamadı (%s)"
 
 #: dpkg-deb/build.c
 msgid "data member"
@@ -4853,6 +4861,12 @@ msgid "package name has characters that aren't lowercase alphanums or '-+.'"
 msgstr "paket adı küçük harf, rakam ya da `-+.` olmayan karakterler içeriyor"
 
 #: dpkg-deb/build.c
+#, fuzzy
+#| msgid "package architecture"
+msgid "package architecture is missing or empty"
+msgstr "paket mimarisi"
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "'%s' dosyası kullanıcı tanımlı bir Öncelik değeri (%s) içeriyor"
@@ -4893,13 +4907,15 @@ msgid "not checking contents of control area"
 msgstr "denetim alanının içeriği denetlenmeyecek"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr "dpkg-deb: bilinmeyen paket '%s' konumunda inşa ediliyor.\n"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr "dpkg-deb: '%s' paketi '%s' konumunda inşa ediliyor.\n"
 
 #: dpkg-deb/build.c
@@ -4908,17 +4924,9 @@ msgid "failed to make temporary file (%s)"
 msgstr "geçici dosya oluşturulamadı (%s)"
 
 #: dpkg-deb/build.c
-msgid "control member"
-msgstr "denetim üyesi"
-
-#: dpkg-deb/build.c
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "geçici dosyanın (%s) bağı kaldırılamadı, %s"
-
-#: dpkg-deb/build.c
-msgid "compressing control member"
-msgstr "denetim üyesi sıkıştırılıyor"
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5198,7 +5206,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     normal bir dosya değil    %.255s\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(denetim arşivinde `control' dosyası yok!)\n"
 
 #: dpkg-deb/main.c
@@ -5960,17 +5970,9 @@ msgstr ""
 "  --version                sürüm numarasını göster.\n"
 
 #: utils/update-alternatives.c
-msgid "error"
-msgstr "hata"
-
-#: utils/update-alternatives.c
 #, c-format
 msgid "Use '%s --help' for program usage information."
 msgstr "Programın kullanım bilgileri için '%s --help' komutunu kullanın."
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "uyarı"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6449,6 +6451,41 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "otomatik güncelleştirmeleri tekrar etkinleştirmek için '%s --auto %s' "
 "komutunu kullanın"
+
+#~ msgid "%s: error: %s\n"
+#~ msgstr "%s: hata: %s\n"
+
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s:%s:%d:%s: dâhilî hata: %s\n"
+
+#~ msgid "%s: warning: %s\n"
+#~ msgstr "%s: uyarı: %s\n"
+
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "tetikleyici erteleme dosyası (%.250s) kısaltıldı"
+
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "dpkg --recursive için find komutu"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "find sürecinin borusuna fdopen çağrısı başarısız oldu"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "find sürecinin borusu okunurken bir sorun yaşandı"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "find sürecinin borusu kapatılırken bir sorun yaşandı"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr ""
+#~ "--recursive işlemi için açılan find süreci yakalanmayan bir hata ile "
+#~ "döndü (%i)"
+
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "dosya adına stat çağrısı yapılamadı (%.250s)"
+
+#~ msgid "compressing control member"
+#~ msgstr "denetim üyesi sıkıştırılıyor"
 
 #~ msgid "Call %s."
 #~ msgstr "%s komutunu çağır."

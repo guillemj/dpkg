@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-08-04 10:33+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -511,15 +511,15 @@ msgstr "memòria exhaurida per a una entrada nova de neteja"
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "memòria exhaurida per a una entrada nova de neteja amb massa arguments"
 
-#: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s: error: %s\n"
-msgstr "%s: s'ha produït un error: %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+msgid "error"
+msgstr "s'ha produït un error"
 
 #: lib/dpkg/ehandle.c
-#, c-format
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s:%s:%d:%s: s'ha produït l'error intern «%s»\n"
+#, fuzzy
+#| msgid "internal error (bug)"
+msgid "internal error"
+msgstr "s'ha produït un error intern"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -911,6 +911,12 @@ msgid "invalid integer for --%s: '%.250s'"
 msgstr "enter invàlid per a --%s: «%.250s»"
 
 #: lib/dpkg/options.c
+#, fuzzy, c-format
+#| msgid "invalid integer for --%s: '%.250s'"
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "enter invàlid per a --%s: «%.250s»"
+
+#: lib/dpkg/options.c
 #, c-format
 msgid "obsolete option '--%s'"
 msgstr "l'opció «--%s» és obsoleta"
@@ -1216,10 +1222,9 @@ msgstr "el nom del paquet en l'especificador «%s%s%s» és il·legal: %s"
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "el nom de l'arquitectura en l'especificador «%s:%s» és il·legal: %s"
 
-#: lib/dpkg/report.c
-#, c-format
-msgid "%s: warning: %s\n"
-msgstr "%s: avís: %s\n"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "avís"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1252,7 +1257,7 @@ msgstr "%s (subprocés): %s\n"
 msgid "fork failed"
 msgstr "ha fallat el «fork»"
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "el subprocés %s retornà el codi d'eixida d'error %d"
@@ -1281,65 +1286,80 @@ msgstr "el subprocés %s ha fallat amb codi d'estat en espera %d"
 msgid "wait for subprocess %s failed"
 msgstr "el «wait» per al subprocés %s ha fallat"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat pathname '%s'"
+msgstr "no es pot fer «stat» sobre el fitxer «%s»"
+
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "no es pot examinar el directori «%.255s»"
+
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "control directory is not a directory"
+msgid "treewalk root %s is not a directory"
+msgstr "el directori de control no és un directori"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "unable to open/create triggers lockfile '%.250s'"
+msgstr "no es pot obrir el fitxer de blocatge d'activadors «%.250s»"
+
+#: lib/dpkg/trigdeferred.c
+msgid "triggers area"
+msgstr "àrea d'activadors"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "unable to open triggers deferred file '%.250s'"
+msgstr "no es pot obrir el fitxer d'activadors ajornats «%.250s»"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "unable to stat triggers deferred file '%.250s'"
+msgstr "no es pot fer «stat» sobre el fitxer d'activadors ajornats «%.250s»"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "unable to open/create new triggers deferred file '%.250s'"
+msgstr "no es pot obrir/crear el fitxer d'activadors ajornats nou «%.250s»"
+
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+#| msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr ""
+"error de sintaxi al fitxer d'activadors ajornats «%.250s» al caràcter «%s»%s"
+
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
 msgstr ""
 "el nom del paquet «%.250s» és invàlid al fitxer d'activadors ajornats "
 "«%.250s»"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "el fitxer d'activadors ajornats «%.250s» és truncat"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr ""
-"error de sintaxi al fitxer d'activadors ajornats «%.250s» al caràcter «%s»%s"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "unable to open/create triggers lockfile '%.250s'"
-msgstr "no es pot obrir el fitxer de blocatge d'activadors «%.250s»"
-
-#: lib/dpkg/trigdeferred.l
-msgid "triggers area"
-msgstr "àrea d'activadors"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "unable to open triggers deferred file '%.250s'"
-msgstr "no es pot obrir el fitxer d'activadors ajornats «%.250s»"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "unable to stat triggers deferred file '%.250s'"
-msgstr "no es pot fer «stat» sobre el fitxer d'activadors ajornats «%.250s»"
-
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "unable to open/create new triggers deferred file '%.250s'"
-msgstr "no es pot obrir/crear el fitxer d'activadors ajornats nou «%.250s»"
-
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr ""
 "s'ha produït un error en llegir el fitxer d'activadors ajornats «%.255s»"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr "no es pot escriure el fitxer d'activadors ajornats nou «%.250s»"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr "no es pot tancar el fitxer d'activadors ajornats nou «%.250s»"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr "no es pot instal·lar el fitxer d'activadors ajornats nou «%.250s»"
@@ -1838,27 +1858,6 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive necessita almenys un camí com a argument"
 
 #: src/archives.c
-msgid "find for dpkg --recursive"
-msgstr "«find» per a --recursive"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "no s'ha pogut fer «fdopen» al conducte de find"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "s'ha produït un error en llegir el conducte de find"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "s'ha produït un error en tancar el conducte de find"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr "La recerca emprant --recursive ha tornat l'eixida no gestionada %i"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 "s'ha buscat, però no s'han trobat paquets (fitxers que coincidisquen amb *."
@@ -1868,6 +1867,18 @@ msgstr ""
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s necessita almenys un paquet arxiu com a argument"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "no es pot accedir a l'arxiu"
+
+#: src/archives.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "archive '%s' is not a regular file"
+msgstr "el conffile «%s» no és un fitxer normal"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3474,6 +3485,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr "No realitza operacions d'E/S segures al desempaquetar"
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr "Utilitza sempre els conffiles nous, sense preguntar"
 
@@ -3834,6 +3849,11 @@ msgstr " depèn de "
 msgid "; however:\n"
 msgstr "; tot i així:\n"
 
+#: src/querycmd.c src/select.c
+#, c-format
+msgid "no packages found matching %s"
+msgstr "no s'ha trobat cap paquet que correspongui amb %s"
+
 # jm: Açò jo no se si traduir-ho. Ha de caber en una línia i hem de dir
 # jm: quina lletra correspon a cada estat.
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
@@ -3869,11 +3889,6 @@ msgstr "Arquitectura"
 #: src/querycmd.c
 msgid "Description"
 msgstr "Descripció"
-
-#: src/querycmd.c src/select.c
-#, c-format
-msgid "no packages found matching %s"
-msgstr "no s'ha trobat cap paquet que correspongui amb %s"
 
 #: src/querycmd.c
 #, c-format
@@ -4657,6 +4672,36 @@ msgstr "correcte\n"
 msgid "unable to create temporary directory"
 msgstr "no s'ha pogut crear el directori temporal"
 
+#: src/unpack.c
+#, c-format
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"referent a %s que conté %s, problema de predependència:\n"
+"%s"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "problema de predependència - no s'instal·larà %.250s"
+
+#: src/unpack.c
+msgid "ignoring pre-dependency problem!"
+msgstr "s'està ignorant el problema de predependència!"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr ""
+"S'està desconfigurant %s (%s), per a permetre la desinstal·lació de %s (%s)"
+"…\n"
+
+#: src/unpack.c
+#, c-format
+msgid "De-configuring %s (%s) ...\n"
+msgstr "S'està desconfigurant %s (%s)…\n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4728,92 +4773,6 @@ msgstr ""
 
 #: src/unpack.c
 #, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(Noteu la desaparició de %s, que ha estat completament reemplaçat.)\n"
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr "no es pot accedir a l'arxiu"
-
-#: src/unpack.c
-msgid "package control information extraction"
-msgstr "extracció de la informació de control del paquet"
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "S'ha registrat la informació sobre %s a partir de %s.\n"
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "l'arquitectura del paquet (%s) no correspon amb la del sistema (%s)"
-
-#: src/unpack.c
-#, c-format
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"referent a %s que conté %s, problema de predependència:\n"
-"%s"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "problema de predependència - no s'instal·larà %.250s"
-
-#: src/unpack.c
-msgid "ignoring pre-dependency problem!"
-msgstr "s'està ignorant el problema de predependència!"
-
-#: src/unpack.c
-#, c-format
-msgid "Preparing to unpack %s ...\n"
-msgstr "S'està preparant per a desempaquetar %s…\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr ""
-"S'està desconfigurant %s (%s), per a permetre la desinstal·lació de %s (%s)"
-"…\n"
-
-#: src/unpack.c
-#, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "S'està desconfigurant %s (%s)…\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) ...\n"
-msgstr "S'està desempaquetant %s (%s)…\n"
-
-#: src/unpack.c
-#, c-format
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "S'està desempaquetant %s (%s) sobre (%s)…\n"
-
-#: src/unpack.c
-msgid "package filesystem archive extraction"
-msgstr "extracció de l'arxiu de sistema de fitxers del paquet"
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "s'ha produït un error en llegir l'eixida tar de dpkg-deb"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr ""
-"sistema de fitxers de l'arxiu tar corromput - arxiu del paquet corromput"
-
-#: src/unpack.c
-#, c-format
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "no es poden esborrar els possibles zeros finals de dpkg-deb: %s"
-
-#: src/unpack.c
-#, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr ""
 "no es pot fer «stat» sobre el fitxer antic «%.250s» així doncs no "
@@ -4847,6 +4806,58 @@ msgstr ""
 #, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "no es pot esborrar el fitxer antic «%.250s» de format segura: %s"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(Noteu la desaparició de %s, que ha estat completament reemplaçat.)\n"
+
+#: src/unpack.c
+msgid "package control information extraction"
+msgstr "extracció de la informació de control del paquet"
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "S'ha registrat la informació sobre %s a partir de %s.\n"
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "l'arquitectura del paquet (%s) no correspon amb la del sistema (%s)"
+
+#: src/unpack.c
+#, c-format
+msgid "Preparing to unpack %s ...\n"
+msgstr "S'està preparant per a desempaquetar %s…\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) ...\n"
+msgstr "S'està desempaquetant %s (%s)…\n"
+
+#: src/unpack.c
+#, c-format
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr "S'està desempaquetant %s (%s) sobre (%s)…\n"
+
+#: src/unpack.c
+msgid "package filesystem archive extraction"
+msgstr "extracció de l'arxiu de sistema de fitxers del paquet"
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr "s'ha produït un error en llegir l'eixida tar de dpkg-deb"
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr ""
+"sistema de fitxers de l'arxiu tar corromput - arxiu del paquet corromput"
+
+#: src/unpack.c
+#, c-format
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "no es poden esborrar els possibles zeros finals de dpkg-deb: %s"
 
 #: src/update.c
 #, c-format
@@ -4893,18 +4904,17 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "no es pot fer «stat» sobre el nom de fitxer «%.250s»"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "no s'ha pogut escriure el nom del fitxer al conducte de tar (%s)"
+
+#: dpkg-deb/build.c
+msgid "control member"
+msgstr "element de control"
 
 #: dpkg-deb/build.c
 #, c-format
 msgid "newline not allowed in pathname '%s'"
 msgstr "no es permet una línia nova al nom del camí «%s»"
-
-#: dpkg-deb/build.c
-#, c-format
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "no s'ha pogut escriure el nom del fitxer al conducte de tar (%s)"
 
 #: dpkg-deb/build.c
 msgid "data member"
@@ -4987,6 +4997,12 @@ msgstr ""
 "el nom del paquet té caràcters que no són minúscules, alfanumèrics o «-+»."
 
 #: dpkg-deb/build.c
+#, fuzzy
+#| msgid "package architecture"
+msgid "package architecture is missing or empty"
+msgstr "arquitectura del paquet"
+
+#: dpkg-deb/build.c
 #, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "«%s» conté un valor Priority «%s» definit per l'usuari"
@@ -5029,13 +5045,15 @@ msgid "not checking contents of control area"
 msgstr "no es comprova el contingut de l'àrea de control"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr "dpkg-deb: s'està construint un paquet desconegut en «%s».\n"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr "dpkg-deb: s'està construint el paquet «%s» en «%s».\n"
 
 #: dpkg-deb/build.c
@@ -5044,17 +5062,9 @@ msgid "failed to make temporary file (%s)"
 msgstr "no s'ha pogut crear el fitxer temporal (%s)"
 
 #: dpkg-deb/build.c
-msgid "control member"
-msgstr "element de control"
-
-#: dpkg-deb/build.c
 #, c-format
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "no s'ha pogut esborrar el fitxer temporal (%s), %s"
-
-#: dpkg-deb/build.c
-msgid "compressing control member"
-msgstr "comprimint l'element de control"
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5333,7 +5343,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     no és un fitxer normal    %.255s\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(no hi ha cap fitxer «control» en l'arxiu de control!)\n"
 
 #: dpkg-deb/main.c
@@ -6100,17 +6112,9 @@ msgstr ""
 "  --version                mostra la versió.\n"
 
 #: utils/update-alternatives.c
-msgid "error"
-msgstr "s'ha produït un error"
-
-#: utils/update-alternatives.c
 #, c-format
 msgid "Use '%s --help' for program usage information."
 msgstr "Empreu «%s --help» per a obtenir informació d'ús del programa."
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "avís"
 
 #: utils/update-alternatives.c
 #, c-format
@@ -6588,6 +6592,39 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "per tornar a activar les actualitzacions automàtiques, utilitzeu «%s --auto "
 "%s»"
+
+#~ msgid "%s: error: %s\n"
+#~ msgstr "%s: s'ha produït un error: %s\n"
+
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s:%s:%d:%s: s'ha produït l'error intern «%s»\n"
+
+#~ msgid "%s: warning: %s\n"
+#~ msgstr "%s: avís: %s\n"
+
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "el fitxer d'activadors ajornats «%.250s» és truncat"
+
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "«find» per a --recursive"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "no s'ha pogut fer «fdopen» al conducte de find"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "s'ha produït un error en llegir el conducte de find"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "s'ha produït un error en tancar el conducte de find"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr "La recerca emprant --recursive ha tornat l'eixida no gestionada %i"
+
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "no es pot fer «stat» sobre el nom de fitxer «%.250s»"
+
+#~ msgid "compressing control member"
+#~ msgstr "comprimint l'element de control"
 
 #~ msgid "Call %s."
 #~ msgstr "Crida a %s."

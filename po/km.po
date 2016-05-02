@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2015-12-25 13:29+0100\n"
+"POT-Creation-Date: 2016-05-02 04:18+0200\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -527,17 +527,17 @@ msgstr "អស់​សតិ​សម្រាប់​ការ​សម្អ
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "អស់​សតិ​សម្រាប់​ការ​សម្អាត​ធាតុ​ថ្មី​ដែលមាន​អាគុយម៉ង់ជា​ច្រើន"
 
-#: lib/dpkg/ehandle.c
-#, fuzzy, c-format
-msgid "%s: error: %s\n"
-msgstr ""
-"%s ៖ កំហុស​ខណៈពេល​សម្អាត ៖\n"
-" %s\n"
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+#, fuzzy
+#| msgid "parse error"
+msgid "error"
+msgstr "ញែក​កំហុស"
 
 #: lib/dpkg/ehandle.c
-#, fuzzy, c-format
-msgid "%s:%s:%d:%s: internal error: %s\n"
-msgstr "%s ៖%d ៖ កំហុស​ខាង​ក្នុង%s'\n"
+#, fuzzy
+#| msgid "internal error - bad mode `%s'"
+msgid "internal error"
+msgstr "កំហុស​ខាង​ក្នុង - របៀប​មិន​ត្រឹមត្រូវ `%s'"
 
 #: lib/dpkg/fields.c
 #, c-format
@@ -939,6 +939,11 @@ msgstr "ចំនួន​គត់​មិន​ត្រឹមត្រូវ
 
 #: lib/dpkg/options.c
 #, fuzzy, c-format
+msgid "invalid integer for -%c: '%.250s'"
+msgstr "ចំនួន​គត់​មិន​ត្រឹមត្រូវ​សម្រាប់ --%s: `%.250s'"
+
+#: lib/dpkg/options.c
+#, fuzzy, c-format
 msgid "obsolete option '--%s'"
 msgstr "ព្រមាន ៖ ជម្រើសលែងប្រើ `--%s'\n"
 
@@ -1246,12 +1251,9 @@ msgstr "ឈ្មោះ​កញ្ចប់​មិន​ត្រឹមត្
 msgid "illegal architecture name in specifier '%s:%s': %s"
 msgstr "ឈ្មោះ​កញ្ចប់​មិន​ត្រឹមត្រូវ​នៅ​បន្ទាត់ %d ៖ %.250s"
 
-#: lib/dpkg/report.c
-#, fuzzy, c-format
-msgid "%s: warning: %s\n"
-msgstr ""
-"%s ៖ កំហុស​ខណៈពេល​សម្អាត ៖\n"
-" %s\n"
+#: lib/dpkg/report.c utils/update-alternatives.c
+msgid "warning"
+msgstr "ការ​ព្រមាន​"
 
 #: lib/dpkg/strwide.c
 #, c-format
@@ -1282,7 +1284,7 @@ msgstr "%s (ដំណើរ​កា​រ​រង​) ៖ %s\n"
 msgid "fork failed"
 msgstr "ចម្លង​ខ្លួនឯ​ង​បាន​បរាជ័យ"
 
-#: lib/dpkg/subproc.c
+#: lib/dpkg/subproc.c src/unpack.c
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "ដំណើរការ​រង %s បានត្រឡប់​កំហុស​ស្ថានភាព​ចេញ %d"
@@ -1312,62 +1314,75 @@ msgstr "ដំណើរការរង %s បានបរាជ័យដោយ�
 msgid "wait for subprocess %s failed"
 msgstr "រង់ចាំ​ %s បាន​បរាជ័យ​"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
-msgstr ""
-
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
 #, fuzzy, c-format
-msgid "truncated triggers deferred file '%.250s'"
-msgstr "ឯកសារ statoverride `%.250s'"
+#| msgid "cannot stat old name `%s': %s"
+msgid "cannot stat pathname '%s'"
+msgstr "មិន​អាច​ចាប់​ផ្ដើម​ឈ្មោះ​ចាស់ `%s' ៖ %s"
 
-#: lib/dpkg/trigdeferred.l
-#, c-format
-msgid "syntax error in triggers deferred file '%.250s' at character '%s'%s"
-msgstr ""
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+#| msgid "cannot scan directory '%.255s'"
+msgid "cannot open directory '%s'"
+msgstr "មិន​អាច​ស្កេន​ថត `%.255s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/treewalk.c
+#, fuzzy, c-format
+msgid "treewalk root %s is not a directory"
+msgstr "មិន​អាច​អាន​ថត​ព័ត៌មាន"
+
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to open/create triggers lockfile '%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy
 msgid "triggers area"
 msgstr "មិន​អាច​ដោះសោ %s ៖ %s"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to open triggers deferred file '%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to stat triggers deferred file '%.250s'"
 msgstr "មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ថ្មី​ផ្សេង​ទៀត​ទេ `%.250s'"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to open/create new triggers deferred file '%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ depot `%.250s' ថ្មី​បាន​ទេ"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
+#, fuzzy, c-format
+msgid ""
+"syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
+msgstr "កំហុស​ក្នុង​ការ​អាន %s ពី​ឯកសារ %.255s"
+
+#: lib/dpkg/trigdeferred.c
+#, c-format
+msgid "invalid package name '%.250s' in triggers deferred file '%.250s'"
+msgstr ""
+
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "error reading triggers deferred file '%.250s'"
 msgstr "កំហុស​ក្នុង​ការ​អាន %s ពី​ឯកសារ %.255s"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to write new triggers deferred file '%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ depot `%.250s' ថ្មី​បាន​ទេ"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to close new triggers deferred file '%.250s'"
 msgstr "មិន​អាច​បើក​ឯកសារ depot `%.250s' ថ្មី​បាន​ទេ"
 
-#: lib/dpkg/trigdeferred.l
+#: lib/dpkg/trigdeferred.c
 #, fuzzy, c-format
 msgid "unable to install new triggers deferred file '%.250s'"
 msgstr "មិន​អាច​ដំឡើង​កំណែ​ថ្មី​របស់ `%.255s'"
@@ -1838,28 +1853,6 @@ msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --រង្វិលជុំ ត្រូវការ​យ៉ាងហោចណាស់​​អាគុយម៉ង់​ផ្លូវ​មួ"
 
 #: src/archives.c
-#, fuzzy
-msgid "find for dpkg --recursive"
-msgstr "បានបរាជ័យក្នុងការប្រតិបត្តិរក --រង្វិលជុំ"
-
-#: src/archives.c
-msgid "failed to fdopen find's pipe"
-msgstr "បរាជ័យ​ក្នុងការ​ fdopen បំពង់​របស់​ការរក"
-
-#: src/archives.c
-msgid "error reading find's pipe"
-msgstr "កំហុស​ក្នុង​ការអាន​បំពង់​របស់​ការ​រក"
-
-#: src/archives.c
-msgid "error closing find's pipe"
-msgstr "កំហុស​ក្នុង​ការ​បិទ​បំពង់​របស់​ការ​រក"
-
-#: src/archives.c
-#, c-format
-msgid "find for --recursive returned unhandled error %i"
-msgstr "រកមើល --រង្វិលជុំ បានត្រឡប់​កំហុស​ដែលមិនបាន​ដោះស្រាយ %i"
-
-#: src/archives.c
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "បានស្វែងរក ប៉ុន្តែរកមិនឃើញកញ្ចប់ (ការផ្គូផ្គងឯកសារ *.deb)"
 
@@ -1867,6 +1860,17 @@ msgstr "បានស្វែងរក ប៉ុន្តែរកមិនឃ�
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s ត្រូវ​ការ​យ៉ាងហោច​ណាស់​អាគុយម៉ង់​ឯកសារ​ប័ណ្ណសារ​កញ្ចប់​មួយ"
+
+#: src/archives.c src/unpack.c
+#, fuzzy, c-format
+#| msgid "cannot access archive"
+msgid "cannot access archive '%s'"
+msgstr "មិន​អាច​ចូល​ដំណើរការ​ប័ណ្ណសារ"
+
+#: src/archives.c
+#, fuzzy, c-format
+msgid "archive '%s' is not a regular file"
+msgstr "ការព្រមាន conffile `%s' គ្មានឯកសារអត្ថបទធម្មតា\n"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
 #: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
@@ -3427,6 +3431,10 @@ msgid "Do not perform safe I/O operations when unpacking"
 msgstr ""
 
 #: src/main.c
+msgid "Do not chroot into maintainer script environment"
+msgstr ""
+
+#: src/main.c
 msgid "Always use the new config files, don't prompt"
 msgstr ""
 
@@ -3778,6 +3786,12 @@ msgstr "អាស្រ័យ​លើ​"
 msgid "; however:\n"
 msgstr "; ទោះ​ជា​យ៉ាងណា​ក៏ដោយ ៖\n"
 
+#: src/querycmd.c src/select.c
+#, fuzzy, c-format
+#| msgid "No packages found matching %s.\n"
+msgid "no packages found matching %s"
+msgstr "រក​មិន​ឃើញ​កញ្ចប់​ដែល​ផ្គូផ្គង​នឹង %s ។\n"
+
 #. TRANSLATORS: This is the header that appears on 'dpkg-query -l'. The
 #. * string should remain under 80 characters. The uppercase letters in
 #. * the state values denote the abbreviated letter that will appear on
@@ -3813,12 +3827,6 @@ msgstr " (កញ្ចប់ ៖ "
 #: src/querycmd.c
 msgid "Description"
 msgstr "សេចក្តី​ពិពណ៌នា"
-
-#: src/querycmd.c src/select.c
-#, fuzzy, c-format
-#| msgid "No packages found matching %s.\n"
-msgid "no packages found matching %s"
-msgstr "រក​មិន​ឃើញ​កញ្ចប់​ដែល​ផ្គូផ្គង​នឹង %s ។\n"
 
 #: src/querycmd.c
 #, fuzzy, c-format
@@ -4623,6 +4631,38 @@ msgstr "បានហុច\n"
 msgid "unable to create temporary directory"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្កើត​ឈ្មោះ​ថត​បណ្ដោះ​អាសន្ន"
 
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid ""
+#| "dpkg: regarding %s containing %s, pre-dependency problem:\n"
+#| "%s"
+msgid ""
+"regarding %s containing %s, pre-dependency problem:\n"
+"%s"
+msgstr ""
+"dpkg ៖ គិត​ថា %s មាន %s បញ្ហា​ភាព​អាស្រ័យ​ជា​មុន ៖\n"
+"%s"
+
+#: src/unpack.c
+#, c-format
+msgid "pre-dependency problem - not installing %.250s"
+msgstr "បញ្ហា​ភាព​អាស្រ័យ​ជា​មុន - មិន​ដំឡើង %.250s"
+
+#: src/unpack.c
+#, fuzzy
+msgid "ignoring pre-dependency problem!"
+msgstr "dpkg ៖ ព្រមាន - មិន​អើពើ​បញ្ហា​ភាព​អាស្រ័យ​ជាមុន !\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
+msgstr "មិន​កំពុង​កំណត់​រចនាសម្ព័ន្ធ %s ដូច្នេះ​យើង​មិន​អាច​យក %s ចេញ​បាន​ទេ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+msgid "De-configuring %s (%s) ...\n"
+msgstr "កំពុងយក %s ចេញ...\n"
+
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4683,99 +4723,6 @@ msgid "unable to install new info file '%.250s' as '%.250s'"
 msgstr "មិន​អាច​ដំឡើង​ឯកសារ​ព័ត៌មាន​ថ្មី `%.250s' ជា `%.250s' បាន​ទេ"
 
 #: src/unpack.c
-#, c-format
-msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
-msgstr "(ចំណាំ​ថា ការ​មិន​បង្ហាញ​របស់ %s ដែល​ត្រូវបាន​ជំនួស​ដោយ​ជោគជ័យ ។)\n"
-
-#: src/unpack.c
-msgid "cannot access archive"
-msgstr "មិន​អាច​ចូល​ដំណើរការ​ប័ណ្ណសារ"
-
-#: src/unpack.c
-#, fuzzy
-#| msgid "control information length"
-msgid "package control information extraction"
-msgstr "ប្រវែង​ព័ត៌មាន​វត្ថុ​បញ្ជា"
-
-#: src/unpack.c
-#, c-format
-msgid "Recorded info about %s from %s.\n"
-msgstr "ព័ត៌មានដែលបានកត់ត្រាអំពី %s ពី %s ។\n"
-
-#: src/unpack.c
-#, c-format
-msgid "package architecture (%s) does not match system (%s)"
-msgstr "ស្ថាបត្យកម្ម​កញ្ចប់ (%s) មិន​ផ្គូផ្គង​នឹង​ប្រព័ន្ធ (%s)"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid ""
-#| "dpkg: regarding %s containing %s, pre-dependency problem:\n"
-#| "%s"
-msgid ""
-"regarding %s containing %s, pre-dependency problem:\n"
-"%s"
-msgstr ""
-"dpkg ៖ គិត​ថា %s មាន %s បញ្ហា​ភាព​អាស្រ័យ​ជា​មុន ៖\n"
-"%s"
-
-#: src/unpack.c
-#, c-format
-msgid "pre-dependency problem - not installing %.250s"
-msgstr "បញ្ហា​ភាព​អាស្រ័យ​ជា​មុន - មិន​ដំឡើង %.250s"
-
-#: src/unpack.c
-#, fuzzy
-msgid "ignoring pre-dependency problem!"
-msgstr "dpkg ៖ ព្រមាន - មិន​អើពើ​បញ្ហា​ភាព​អាស្រ័យ​ជាមុន !\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Preparing to replace %s %s (using %s) ...\n"
-msgid "Preparing to unpack %s ...\n"
-msgstr "កំពុង​រៀបចំ​ជំនួស %s %s (ដោយ​ប្រើ %s) ...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-msgid "De-configuring %s (%s), to allow removal of %s (%s) ...\n"
-msgstr "មិន​កំពុង​កំណត់​រចនាសម្ព័ន្ធ %s ដូច្នេះ​យើង​មិន​អាច​យក %s ចេញ​បាន​ទេ...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-msgid "De-configuring %s (%s) ...\n"
-msgstr "កំពុងយក %s ចេញ...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Unpacking %s (from %s) ...\n"
-msgid "Unpacking %s (%s) ...\n"
-msgstr "កំពុង​ពន្លា %s (ពី %s) ...\n"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "Unpacking %s (from %s) ...\n"
-msgid "Unpacking %s (%s) over (%s) ...\n"
-msgstr "កំពុង​ពន្លា %s (ពី %s) ...\n"
-
-#: src/unpack.c
-msgid "package filesystem archive extraction"
-msgstr ""
-
-#: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "កំហុស​ក្នុង​ការ​អាន​លទ្ធផល dpkg-deb tar"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "ឯកសារ tar របស់​ប្រព័ន្ធ​ឯកសារ​ដែល​ខូច - ប័ណ្ណសារ​កញ្ចប់​ដែល​ខូច"
-
-#: src/unpack.c
-#, fuzzy, c-format
-#| msgid "dpkg-deb: zap possible trailing zeros"
-msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
-msgstr "dpkg-deb ៖ zap កំពុង​ទាញ​យក​សូន្យ​ដែល​អាច​ធ្វើ​ទៅ"
-
-#: src/unpack.c
 #, fuzzy, c-format
 msgid "could not stat old file '%.250s' so not deleting it: %s"
 msgstr "dpkg ៖ ព្រមាន - មិន​អាច​ចាប់ផ្ដើម​ឯកសារ​ចាស់ `%.250s' ដូច្នេះ​មិនលុប​វា ៖ %s"
@@ -4808,6 +4755,63 @@ msgstr ""
 #, fuzzy, c-format
 msgid "unable to securely remove old file '%.250s': %s"
 msgstr "dpkg ៖ ព្រមាន - មិនអាចឲ្យឯកសារចាស់ %s `%%.250s' ៖ %%s\n"
+
+#: src/unpack.c
+#, c-format
+msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
+msgstr "(ចំណាំ​ថា ការ​មិន​បង្ហាញ​របស់ %s ដែល​ត្រូវបាន​ជំនួស​ដោយ​ជោគជ័យ ។)\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "control information length"
+msgid "package control information extraction"
+msgstr "ប្រវែង​ព័ត៌មាន​វត្ថុ​បញ្ជា"
+
+#: src/unpack.c
+#, c-format
+msgid "Recorded info about %s from %s.\n"
+msgstr "ព័ត៌មានដែលបានកត់ត្រាអំពី %s ពី %s ។\n"
+
+#: src/unpack.c
+#, c-format
+msgid "package architecture (%s) does not match system (%s)"
+msgstr "ស្ថាបត្យកម្ម​កញ្ចប់ (%s) មិន​ផ្គូផ្គង​នឹង​ប្រព័ន្ធ (%s)"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Preparing to replace %s %s (using %s) ...\n"
+msgid "Preparing to unpack %s ...\n"
+msgstr "កំពុង​រៀបចំ​ជំនួស %s %s (ដោយ​ប្រើ %s) ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Unpacking %s (from %s) ...\n"
+msgid "Unpacking %s (%s) ...\n"
+msgstr "កំពុង​ពន្លា %s (ពី %s) ...\n"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "Unpacking %s (from %s) ...\n"
+msgid "Unpacking %s (%s) over (%s) ...\n"
+msgstr "កំពុង​ពន្លា %s (ពី %s) ...\n"
+
+#: src/unpack.c
+msgid "package filesystem archive extraction"
+msgstr ""
+
+#: src/unpack.c
+msgid "error reading dpkg-deb tar output"
+msgstr "កំហុស​ក្នុង​ការ​អាន​លទ្ធផល dpkg-deb tar"
+
+#: src/unpack.c
+msgid "corrupted filesystem tarfile - corrupted package archive"
+msgstr "ឯកសារ tar របស់​ប្រព័ន្ធ​ឯកសារ​ដែល​ខូច - ប័ណ្ណសារ​កញ្ចប់​ដែល​ខូច"
+
+#: src/unpack.c
+#, fuzzy, c-format
+#| msgid "dpkg-deb: zap possible trailing zeros"
+msgid "cannot zap possible trailing zeros from dpkg-deb: %s"
+msgstr "dpkg-deb ៖ zap កំពុង​ទាញ​យក​សូន្យ​ដែល​អាច​ធ្វើ​ទៅ"
 
 #: src/update.c
 #, fuzzy, c-format
@@ -4849,20 +4853,21 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
-msgid "unable to stat file name '%.250s'"
-msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
+#| msgid "failed to write filename to tar pipe (data)"
+msgid "failed to write filename to tar pipe (%s)"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​សរសេរ​ឈ្មោះ​ឯកសារ​ទៅជា​បំពង់ tar (ទិន្នន័យ)"
+
+#: dpkg-deb/build.c
+#, fuzzy
+#| msgid "control area"
+msgid "control member"
+msgstr "តំបន់​វត្ថុបញ្ជា​"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "newline in field name '%.*s'"
 msgid "newline not allowed in pathname '%s'"
 msgstr "បន្ទាត់​ថ្មី​នៅ​ក្នុង​ឈ្មោះ​វាល `%.*s'"
-
-#: dpkg-deb/build.c
-#, fuzzy, c-format
-#| msgid "failed to write filename to tar pipe (data)"
-msgid "failed to write filename to tar pipe (%s)"
-msgstr "បាន​បរាជ័យ​ក្នុង​ការ​សរសេរ​ឈ្មោះ​ឯកសារ​ទៅជា​បំពង់ tar (ទិន្នន័យ)"
 
 #: dpkg-deb/build.c
 #, fuzzy
@@ -4944,6 +4949,11 @@ msgid "package name has characters that aren't lowercase alphanums or '-+.'"
 msgstr "ឈ្មោះ​កញ្ចប់​មាន​តួអក្សរ​ដែល​មិនមែន​ជា​អក្សរ​ក្រម​លេខ​អក្សរតូច ឬ `-+.'"
 
 #: dpkg-deb/build.c
+#, fuzzy
+msgid "package architecture is missing or empty"
+msgstr " (កញ្ចប់ ៖ "
+
+#: dpkg-deb/build.c
 #, fuzzy, c-format
 msgid "'%s' contains user-defined Priority value '%s'"
 msgstr "ការ​ព្រមាន `%s' មាន​តម្លៃ​អាទិភាព​ដែល​បាន​កំណត់​ដោយ​អ្នក​ប្រើ `%s'\n"
@@ -4985,12 +4995,13 @@ msgstr ""
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
-msgid "dpkg-deb: building an unknown package in '%s'.\n"
+msgid "building an unknown package in '%s'."
 msgstr "dpkg-deb ៖ ការ​ស្ថាបនា​កញ្ចប់ `%s' នៅ​ក្នុង `%s' ។\n"
 
 #: dpkg-deb/build.c
-#, c-format
-msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, fuzzy, c-format
+#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+msgid "building package '%s' in '%s'."
 msgstr "dpkg-deb ៖ ការ​ស្ថាបនា​កញ្ចប់ `%s' នៅ​ក្នុង `%s' ។\n"
 
 #: dpkg-deb/build.c
@@ -5000,22 +5011,10 @@ msgid "failed to make temporary file (%s)"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្កើត tmpfile (ទិន្នន័យ)"
 
 #: dpkg-deb/build.c
-#, fuzzy
-#| msgid "control area"
-msgid "control member"
-msgstr "តំបន់​វត្ថុបញ្ជា​"
-
-#: dpkg-deb/build.c
 #, fuzzy, c-format
 #| msgid "failed to unlink tmpfile (data), %s"
 msgid "failed to unlink temporary file (%s), %s"
 msgstr "បានបរាជ័យក្នុងការមិនតភ្ជាប់ tmpfile (ទិន្នន័យ) %s"
-
-#: dpkg-deb/build.c
-#, fuzzy
-#| msgid "control area"
-msgid "compressing control member"
-msgstr "តំបន់​វត្ថុបញ្ជា​"
 
 #: dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5315,7 +5314,9 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     មិនមែ​នជា​ឯកសារ​អត្ថបទ​ធម្មតា          %.255s\n"
 
 #: dpkg-deb/info.c
-msgid "(no 'control' file in control archive!)\n"
+#, fuzzy
+#| msgid "(no 'control' file in control archive!)\n"
+msgid "no 'control' file in control archive!"
 msgstr "(គ្មាន​ឯកសារ `វត្ថុបញ្ជា' នៅ​ក្នុង​ប័ណ្ណសារ​វត្ថុបញ្ជា !)\n"
 
 #: dpkg-deb/main.c
@@ -6099,19 +6100,9 @@ msgstr ""
 "  --version                បង្ហាញ​កំណែ ។\n"
 
 #: utils/update-alternatives.c
-#, fuzzy
-#| msgid "parse error"
-msgid "error"
-msgstr "ញែក​កំហុស"
-
-#: utils/update-alternatives.c
 #, c-format
 msgid "Use '%s --help' for program usage information."
 msgstr ""
-
-#: utils/update-alternatives.c
-msgid "warning"
-msgstr "ការ​ព្រមាន​"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
@@ -6583,6 +6574,51 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "ដើម្បី​ត្រឡ​ប់ទៅ​ការ​ធ្វើ​ឲ្យ​ទាន់​សម័យ​ដោយ​ស្វ័យប្រវត្តិ ប្រើ `ជម្រើស​ធ្វើ​ឲ្យទាន់​សម័យ --auto %s'."
 
 #, fuzzy
+#~ msgid "%s: error: %s\n"
+#~ msgstr ""
+#~ "%s ៖ កំហុស​ខណៈពេល​សម្អាត ៖\n"
+#~ " %s\n"
+
+#, fuzzy
+#~ msgid "%s:%s:%d:%s: internal error: %s\n"
+#~ msgstr "%s ៖%d ៖ កំហុស​ខាង​ក្នុង%s'\n"
+
+#, fuzzy
+#~ msgid "%s: warning: %s\n"
+#~ msgstr ""
+#~ "%s ៖ កំហុស​ខណៈពេល​សម្អាត ៖\n"
+#~ " %s\n"
+
+#, fuzzy
+#~ msgid "truncated triggers deferred file '%.250s'"
+#~ msgstr "ឯកសារ statoverride `%.250s'"
+
+#, fuzzy
+#~ msgid "find for dpkg --recursive"
+#~ msgstr "បានបរាជ័យក្នុងការប្រតិបត្តិរក --រង្វិលជុំ"
+
+#~ msgid "failed to fdopen find's pipe"
+#~ msgstr "បរាជ័យ​ក្នុងការ​ fdopen បំពង់​របស់​ការរក"
+
+#~ msgid "error reading find's pipe"
+#~ msgstr "កំហុស​ក្នុង​ការអាន​បំពង់​របស់​ការ​រក"
+
+#~ msgid "error closing find's pipe"
+#~ msgstr "កំហុស​ក្នុង​ការ​បិទ​បំពង់​របស់​ការ​រក"
+
+#~ msgid "find for --recursive returned unhandled error %i"
+#~ msgstr "រកមើល --រង្វិលជុំ បានត្រឡប់​កំហុស​ដែលមិនបាន​ដោះស្រាយ %i"
+
+#, fuzzy
+#~ msgid "unable to stat file name '%.250s'"
+#~ msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
+
+#, fuzzy
+#~| msgid "control area"
+#~ msgid "compressing control member"
+#~ msgstr "តំបន់​វត្ថុបញ្ជា​"
+
+#, fuzzy
 #~ msgid "syntax error: invalid uid in statoverride file"
 #~ msgstr "កំហុស​ក្នុង​ការ​ដំឡើង statoverride ថ្មី ៖ %s"
 
@@ -6667,10 +6703,6 @@ msgstr "ដើម្បី​ត្រឡ​ប់ទៅ​ការ​ធ្វ
 
 #~ msgid "Unpacking replacement %.250s ...\n"
 #~ msgstr "កំពុង​ព​ន្លាការជំនួស %.250s ...\n"
-
-#, fuzzy
-#~ msgid "invalid integer for -%c: '%.250s'"
-#~ msgstr "ចំនួន​គត់​មិន​ត្រឹមត្រូវ​សម្រាប់ --%s: `%.250s'"
 
 #, fuzzy
 #~| msgid "--add needs four arguments"
