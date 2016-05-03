@@ -7,6 +7,9 @@ dpkg (1.18.6) UNRELEASED; urgency=medium
   * Use m_strdup() instead of strdup() in dpkg recursive installation code.
   * Fix off-by-one array allocation in dpkg recursive installation code that
     can cause segfaults.
+  * Rename sysctl() “name” variable to “mib”, to avoid a clash with the
+    call site function argument with the same name in start-stop-daemon.
+    This fixes a build failure on */kFreeBSD systems.
   * Packaging:
     - Bump Standards-Version to 3.9.8 (no changes needed).
 

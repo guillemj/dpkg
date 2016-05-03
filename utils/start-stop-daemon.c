@@ -1401,17 +1401,17 @@ static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
 {
 	struct stat sb;
-	int error, name[4];
+	int error, mib[4];
 	size_t len;
 	char pathname[PATH_MAX];
 
-	name[0] = CTL_KERN;
-	name[1] = KERN_PROC;
-	name[2] = KERN_PROC_PATHNAME;
-	name[3] = pid;
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_PROC;
+	mib[2] = KERN_PROC_PATHNAME;
+	mib[3] = pid;
 	len = sizeof(pathname);
 
-	error = sysctl(name, 4, pathname, &len, NULL, 0);
+	error = sysctl(mib, 4, pathname, &len, NULL, 0);
 	if (error != 0 && errno != ESRCH)
 		return false;
 	if (len == 0)
@@ -1523,15 +1523,15 @@ static bool
 pid_is_child(pid_t pid, pid_t ppid)
 {
 	struct kinfo_proc kp;
-	int rc, name[4];
+	int rc, mib[4];
 	size_t len = 0;
 
-	name[0] = CTL_KERN;
-	name[1] = KERN_PROC;
-	name[2] = KERN_PROC_PID;
-	name[3] = pid;
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_PROC;
+	mib[2] = KERN_PROC_PID;
+	mib[3] = pid;
 
-	rc = sysctl(name, 4, &kp, &len, NULL, 0);
+	rc = sysctl(mib, 4, &kp, &len, NULL, 0);
 	if (rc != 0 && errno != ESRCH)
 		return false;
 	if (len == 0 || len != sizeof(kp))
@@ -1608,15 +1608,15 @@ static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
 	struct kinfo_proc kp;
-	int rc, name[4];
+	int rc, mib[4];
 	size_t len = 0;
 
-	name[0] = CTL_KERN;
-	name[1] = KERN_PROC;
-	name[2] = KERN_PROC_PID;
-	name[3] = pid;
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_PROC;
+	mib[2] = KERN_PROC_PID;
+	mib[3] = pid;
 
-	rc = sysctl(name, 4, &kp, &len, NULL, 0);
+	rc = sysctl(mib, 4, &kp, &len, NULL, 0);
 	if (rc != 0 && errno != ESRCH)
 		return false;
 	if (len == 0 || len != sizeof(kp))
@@ -1719,15 +1719,15 @@ static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
 	struct kinfo_proc kp;
-	int rc, name[4];
+	int rc, mib[4];
 	size_t len = 0;
 
-	name[0] = CTL_KERN;
-	name[1] = KERN_PROC;
-	name[2] = KERN_PROC_PID;
-	name[3] = pid;
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_PROC;
+	mib[2] = KERN_PROC_PID;
+	mib[3] = pid;
 
-	rc = sysctl(name, 4, &kp, &len, NULL, 0);
+	rc = sysctl(mib, 4, &kp, &len, NULL, 0);
 	if (rc != 0 && errno != ESRCH)
 		return false;
 	if (len == 0 || len != sizeof(kp))
@@ -1915,23 +1915,23 @@ static enum status_code
 do_procinit(void)
 {
 	struct kinfo_proc *kp;
-	int rc, name[3];
+	int rc, mib[3];
 	size_t len = 0;
 	int nentries, i;
 	enum status_code prog_status = STATUS_DEAD;
 
-	name[0] = CTL_KERN;
-	name[1] = KERN_PROC;
-	name[2] = KERN_PROC_PROC;
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_PROC;
+	mib[2] = KERN_PROC_PROC;
 
-	rc = sysctl(name, 3, NULL, &len, NULL, 0);
+	rc = sysctl(mib, 3, NULL, &len, NULL, 0);
 	if (rc != 0 && errno != ESRCH)
 		return false;
 	if (len == 0)
 		return false;
 
 	kp = xmalloc(len);
-	rc = sysctl(name, 3, kp, &len, NULL, 0);
+	rc = sysctl(mib, 3, kp, &len, NULL, 0);
 	if (rc != 0 && errno != ESRCH)
 		return false;
 	if (len == 0)
