@@ -1483,7 +1483,7 @@ archivefiles(const char *const *argv)
           continue;
 
         arglist = m_realloc(arglist, sizeof(char *) * (nfiles + 1));
-        arglist[nfiles++] = strdup(nodename);
+        arglist[nfiles++] = m_strdup(nodename);
       }
 
       treewalk_close(tree);
