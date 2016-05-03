@@ -358,7 +358,7 @@ treeroot_visit_node(struct treeroot *tree, struct treenode *node)
  *
  * @param rootdir The root directory to start walking the tree.
  * @param options The options specifying how to walk the tree.
- * @param funcs   The functions callbacks.
+ * @param func    The functions callbacks.
  */
 struct treeroot *
 treewalk_open(const char *rootdir, enum treewalk_options options,
@@ -513,7 +513,7 @@ treewalk_close(struct treeroot *tree)
  *
  * @param rootdir The root directory to start walking the tree.
  * @param options The options specifying how to walk the tree.
- * @param funcs   The function callbacks.
+ * @param func    The function callbacks.
  */
 int
 treewalk(const char *rootdir, enum treewalk_options options,
