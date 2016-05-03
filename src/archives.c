@@ -1482,7 +1482,7 @@ archivefiles(const char *const *argv)
         if (strcmp(nodename + strlen(nodename) - 4, ".deb") != 0)
           continue;
 
-        arglist = m_realloc(arglist, sizeof(char *) * (nfiles + 1));
+        arglist = m_realloc(arglist, sizeof(char *) * (nfiles + 2));
         arglist[nfiles++] = m_strdup(nodename);
       }
 
