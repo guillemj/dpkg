@@ -136,7 +136,7 @@ tar_filenamenode_queue_pop(struct filenamenode_queue *queue,
                            struct fileinlist *node)
 {
   tar_pool_free(node);
-  *queue->tail = *tail_prev;
+  queue->tail = tail_prev;
   *tail_prev = NULL;
 }
 
