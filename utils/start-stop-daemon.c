@@ -1936,6 +1936,7 @@ do_procinit(void)
 		return false;
 	if (len == 0)
 		return false;
+	nentries = len;
 
 	for (i = 0; i < nentries; i++) {
 		enum status_code pid_status;
