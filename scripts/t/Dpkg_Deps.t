@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 47;
+use Test::More tests => 50;
 
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
@@ -187,6 +187,18 @@ is($dep_empty1->output(), '', 'Empty dependency');
 
 my $dep_empty2 = deps_parse(' , , ', union => 1);
 is($dep_empty2->output(), '', "' , , ' is also an empty dependency");
+
+# Check sloppy but acceptable dependencies
+
+my $dep_sloppy_version = deps_parse('package (=   1.0  )');
+is($dep_sloppy_version->output(), 'package (= 1.0)', 'sloppy version restriction');
+
+my $dep_sloppy_arch = deps_parse('package [  alpha    ]');
+is($dep_sloppy_arch->output(), 'package [alpha]', 'sloppy arch restriction');
+
+my $dep_sloppy_profile = deps_parse('package <  !profile    >   <  other  >');
+is($dep_sloppy_profile->output(), 'package <!profile> <other>',
+   'sloppy profile restriction');
 
 $SIG{__WARN__} = sub {};
 

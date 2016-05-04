@@ -91,9 +91,9 @@ Parses a build profiles specification, into an array of array references.
 sub parse_build_profiles {
     my $string = shift;
 
-    $string =~ s/^\s*<(.*)>\s*$/$1/;
+    $string =~ s/^\s*<\s*(.*)\s*>\s*$/$1/;
 
-    return map { [ split /\s+/ ] } split />\s+</, $string;
+    return map { [ split /\s+/ ] } split /\s*>\s+<\s*/, $string;
 }
 
 =item evaluate_restriction_formula(\@formula, \@profiles)
