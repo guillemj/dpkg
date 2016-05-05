@@ -41,11 +41,11 @@ static const char *printforhelp;
 void
 badusage(const char *fmt, ...)
 {
-  char buf[1024];
+  char *buf = NULL;
   va_list args;
 
   va_start(args, fmt);
-  vsnprintf(buf, sizeof(buf), fmt, args);
+  m_vasprintf(&buf, fmt, args);
   va_end(args);
 
   ohshit("%s\n\n%s", buf, gettext(printforhelp));
@@ -54,11 +54,11 @@ badusage(const char *fmt, ...)
 static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(3)
 config_error(const char *file_name, int line_num, const char *fmt, ...)
 {
-  char buf[1024];
+  char *buf = NULL;
   va_list args;
 
   va_start(args, fmt);
-  vsnprintf(buf, sizeof(buf), fmt, args);
+  m_vasprintf(&buf, fmt, args);
   va_end(args);
 
   ohshit(_("configuration error: %s:%d: %s"), file_name, line_num, buf);
