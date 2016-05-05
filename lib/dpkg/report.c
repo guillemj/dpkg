@@ -23,9 +23,11 @@
 #include <compat.h>
 
 #include <stdarg.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 
+#include <dpkg/dpkg.h>
 #include <dpkg/macros.h>
 #include <dpkg/i18n.h>
 #include <dpkg/progname.h>
@@ -60,13 +62,15 @@ warning_get_count(void)
 void
 warningv(const char *fmt, va_list args)
 {
-	char buf[1024];
+	char *buf = NULL;
 
 	warn_count++;
-	vsnprintf(buf, sizeof(buf), fmt, args);
+
+	m_vasprintf(&buf, fmt, args);
 	fprintf(stderr, "%s%s:%s %s%s:%s %s\n",
 	        color_get(COLOR_PROG), dpkg_get_progname(), color_reset(),
 	        color_get(COLOR_WARN), _("warning"), color_reset(), buf);
+	free(buf);
 }
 
 void
@@ -82,27 +86,31 @@ warning(const char *fmt, ...)
 void
 notice(const char *fmt, ...)
 {
-	char buf[1024];
+	char *buf = NULL;
 	va_list args;
 
 	va_start(args, fmt);
-	vsnprintf(buf, sizeof(buf), fmt, args);
+	m_vasprintf(&buf, fmt, args);
 	va_end(args);
 
 	fprintf(stderr, "%s%s:%s %s\n",
 	        color_get(COLOR_PROG), dpkg_get_progname(), color_reset(), buf);
+
+	free(buf);
 }
 
 void
 info(const char *fmt, ...)
 {
-	char buf[1024];
+	char *buf;
 	va_list args;
 
 	va_start(args, fmt);
-	vsnprintf(buf, sizeof(buf), fmt, args);
+	m_vasprintf(&buf, fmt, args);
 	va_end(args);
 
 	printf("%s%s:%s %s\n",
 	       color_get(COLOR_PROG), dpkg_get_progname(), color_reset(), buf);
+
+	free(buf);
 }
