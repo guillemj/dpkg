@@ -5,6 +5,10 @@ dpkg (1.18.7) UNRELEASED; urgency=medium
     There is no point in erroring out on this condition when signature issues
     are only warnings, because we cannot guarantee we have functional keys
     for old signatures. Regression introduced in dpkg 1.18.5. Closes: #823428
+  * Stop using several fixed sized buffers for program reporting, which in
+    many cases could cause confusing truncation of long messages. Use heap
+    allocated formatted strings instead:
+    - In start-stop-daemon to report what to stop.
   * Perl modules:
     - Relax dependency restrictions parsing to allow again sloppy spaces
       around versions, architectures and profile restrictions.

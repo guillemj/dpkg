@@ -200,7 +200,7 @@ static char *startas = NULL;
 static pid_t match_pid = -1;
 static pid_t match_ppid = -1;
 static const char *pidfile = NULL;
-static char what_stop[1024];
+static char *what_stop = NULL;
 static const char *progname = "";
 static int nicelevel = 0;
 static int umask_value = -1;
@@ -2159,11 +2159,18 @@ do_stop_summary(int retry_nr)
 	printf(".\n");
 }
 
-static void
-set_what_stop(const char *str)
+static void DPKG_ATTR_PRINTF(1)
+set_what_stop(const char *format, ...)
 {
-	strncpy(what_stop, str, sizeof(what_stop));
-	what_stop[sizeof(what_stop) - 1] = '\0';
+	va_list arglist;
+	int rc;
+
+	va_start(arglist, format);
+	rc = vasprintf(&what_stop, format, arglist);
+	va_end(arglist);
+
+	if (rc < 0)
+		fatal("cannot allocate formatted string");
 }
 
 /*
@@ -2262,17 +2269,17 @@ run_stop_schedule(void)
 	}
 
 	if (cmdname)
-		set_what_stop(cmdname);
+		set_what_stop("%s", cmdname);
 	else if (execname)
-		set_what_stop(execname);
+		set_what_stop("%s", execname);
 	else if (pidfile)
-		sprintf(what_stop, "process in pidfile '%.200s'", pidfile);
+		set_what_stop("process in pidfile '%s'", pidfile);
 	else if (match_pid > 0)
-		sprintf(what_stop, "process with pid %d", match_pid);
+		set_what_stop("process with pid %d", match_pid);
 	else if (match_ppid > 0)
-		sprintf(what_stop, "process(es) with parent pid %d", match_ppid);
+		set_what_stop("process(es) with parent pid %d", match_ppid);
 	else if (userspec)
-		sprintf(what_stop, "process(es) owned by '%.200s'", userspec);
+		set_what_stop("process(es) owned by '%s'", userspec);
 	else
 		fatal("internal error, no match option, please report");
 
