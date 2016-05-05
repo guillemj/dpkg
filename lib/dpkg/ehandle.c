@@ -35,12 +35,6 @@
 #include <dpkg/color.h>
 #include <dpkg/ehandle.h>
 
-/* 6x255 for inserted strings (%.255s &c in fmt; and %s with limited length arg)
- * 1x255 for constant text
- * 1x255 for strerror()
- * same again just in case. */
-static char errmsg[4096];
-
 /* Incremented when we do some kind of generally necessary operation,
  * so that loops &c know to quit if we take an error exit. Decremented
  * again afterwards. */
@@ -78,12 +72,33 @@ struct error_context {
   } printer;
 
   struct cleanup_entry *cleanups;
+
+  char *errmsg;
 };
 
 static struct error_context *volatile econtext = NULL;
+
+/**
+ * Emergency variables.
+ *
+ * These are used when the system is out of resources, and we want to be able
+ * to proceed anyway at least to the point of a controlled shutdown.
+ */
 static struct {
   struct cleanup_entry ce;
   void *args[20];
+
+  /**
+   * Emergency error message buffer.
+   *
+   * The size is estimated using the following heuristic:
+   * - 6x255 For inserted strings (%.255s &c in fmt; and %s with limited
+   *         length arg).
+   * - 1x255 For constant text.
+   * - 1x255 For strerror().
+   * - And the total doubled just in case.
+   */
+  char errmsg[4096];
 } emergency;
 
 /**
@@ -125,6 +140,7 @@ error_context_new(void)
     ohshite(_("out of memory for new error context"));
   necp->next= econtext;
   necp->cleanups= NULL;
+  necp->errmsg = NULL;
   econtext= necp;
 
   return necp;
@@ -150,6 +166,47 @@ set_jump_handler(struct error_context *ec, jmp_buf *jump)
 {
   ec->handler_type = HANDLER_TYPE_JUMP;
   ec->handler.jump = jump;
+}
+
+static void
+error_context_errmsg_free(struct error_context *ec)
+{
+  if (ec->errmsg != emergency.errmsg)
+    free(ec->errmsg);
+}
+
+static void
+error_context_errmsg_set(struct error_context *ec, char *errmsg)
+{
+  error_context_errmsg_free(ec);
+  ec->errmsg = errmsg;
+}
+
+static int DPKG_ATTR_VPRINTF(1)
+error_context_errmsg_format(const char *fmt, va_list args)
+{
+  va_list args_copy;
+  char *errmsg = NULL;
+  int rc;
+
+  va_copy(args_copy, args);
+  rc = vasprintf(&errmsg, fmt, args);
+  va_end(args_copy);
+
+  /* If the the message was constructed successfully, at least we have some
+   * error message, which is better than nothing. */
+  error_context_errmsg_set(econtext, errmsg);
+
+  if (rc < 0) {
+    /* If there was any error, just use the emergency error message buffer,
+     * even if it ends up being truncated, at least we will have a big part
+     * of the problem. */
+    vsnprintf(emergency.errmsg, sizeof(emergency.errmsg), fmt, args);
+
+    error_context_errmsg_set(econtext, emergency.errmsg);
+  }
+
+  return rc;
 }
 
 void
@@ -201,7 +258,7 @@ run_cleanups(struct error_context *econ, int flagsetin)
   volatile int i, flagset;
 
   if (econ->printer.func)
-    econ->printer.func(errmsg, econ->printer.data);
+    econ->printer.func(econ->errmsg, econ->printer.data);
 
   if (++preventrecurse > 3) {
     onerr_abort++;
@@ -326,6 +383,8 @@ pop_error_context(int flagset)
   if (flagset & ehflag_normaltidy)
     set_error_printer(tecp, NULL, NULL);
   run_cleanups(tecp, flagset);
+
+  error_context_errmsg_free(tecp);
   free(tecp);
 }
 
@@ -338,12 +397,12 @@ run_error_handler(void)
      * why we will not try to do any error unwinding either. We'll just
      * abort. Hopefully the user can fix the situation (out of disk, out
      * of memory, etc). */
-    print_abort_error(_("unrecoverable fatal error, aborting"), errmsg);
+    print_abort_error(_("unrecoverable fatal error, aborting"), econtext->errmsg);
     exit(2);
   }
 
   if (econtext == NULL) {
-    print_abort_error(_("outside error context, aborting"), errmsg);
+    print_abort_error(_("outside error context, aborting"), econtext->errmsg);
     exit(2);
   } else if (econtext->handler_type == HANDLER_TYPE_FUNC) {
     econtext->handler.func();
@@ -359,7 +418,7 @@ void ohshit(const char *fmt, ...) {
   va_list args;
 
   va_start(args, fmt);
-  vsnprintf(errmsg, sizeof(errmsg), fmt, args);
+  error_context_errmsg_format(fmt, args);
   va_end(args);
 
   run_error_handler();
@@ -368,22 +427,31 @@ void ohshit(const char *fmt, ...) {
 void
 ohshitv(const char *fmt, va_list args)
 {
-  vsnprintf(errmsg, sizeof(errmsg), fmt, args);
+  error_context_errmsg_format(fmt, args);
 
   run_error_handler();
 }
 
 void ohshite(const char *fmt, ...) {
-  int e;
+  int e, rc;
   va_list args;
-  char buf[1024];
 
   e=errno;
+
   va_start(args, fmt);
-  vsnprintf(buf, sizeof(buf), fmt, args);
+  rc = error_context_errmsg_format(fmt, args);
   va_end(args);
 
-  snprintf(errmsg, sizeof(errmsg), "%s: %s", buf, strerror(e));
+  /* If there was an error, just use the emergency error message buffer,
+   * and ignore the errno value, as we will probably have no space left
+   * anyway. Otherwise append the string for errno. */
+  if (rc > 0) {
+    char *errmsg = NULL;
+
+    rc = asprintf(&errmsg, "%s: %s", econtext->errmsg, strerror(e));
+    if (rc > 0)
+      error_context_errmsg_set(econtext, errmsg);
+  }
 
   run_error_handler();
 }
@@ -392,15 +460,15 @@ void
 do_internerr(const char *file, int line, const char *func, const char *fmt, ...)
 {
   va_list args;
-  char buf[1024];
 
   va_start(args, fmt);
-  vsnprintf(buf, sizeof(buf), fmt, args);
+  error_context_errmsg_format(fmt, args);
   va_end(args);
 
   fprintf(stderr, "%s%s:%s:%d:%s:%s %s%s:%s %s\n", color_get(COLOR_PROG),
           dpkg_get_progname(), file, line, func, color_reset(),
-          color_get(COLOR_ERROR), _("internal error"), color_reset(), buf);
+          color_get(COLOR_ERROR), _("internal error"), color_reset(),
+          econtext->errmsg);
 
   abort();
 }

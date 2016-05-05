@@ -12,6 +12,11 @@ dpkg (1.18.7) UNRELEASED; urgency=medium
     - In dselect to print main and access methods menu entries.
     - In libdpkg command-line option parsing errors.
     - In libdpkg warning, notice and info reporting.
+    - In libdpkg ohshit, ohshitv, ohshite and internerr. But in this case
+      fallback to a fixed-size emergency buffer in case of allocation or
+      formatting error, so that we can at least print something, even if
+      truncated.
+    Prompted by Manuel A. Fernandez Montecelo <mafm@debian.org>.
   * Colorize all fatal-error printing codepaths in libdpkg.
   * Perl modules:
     - Relax dependency restrictions parsing to allow again sloppy spaces
