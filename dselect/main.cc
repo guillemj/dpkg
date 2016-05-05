@@ -394,9 +394,10 @@ urqresult urq_list(void) {
 static void
 dme(int i, int so)
 {
-  char buf[120];
   const menuentry *me= &menuentries[i];
-  sprintf(buf," %c %d. %-11.11s %-80.80s ",
+
+  varbuf buf;
+  buf.fmt(" %c %d. %-11.11s %-80.80s ",
           so ? '*' : ' ', i,
           gettext(me->option),
           gettext(me->menuent));
@@ -405,24 +406,24 @@ dme(int i, int so)
   getmaxyx(stdscr,y,x);
 
   attrset(so ? A_REVERSE : A_NORMAL);
-  mvaddnstr(i+2,0, buf,x-1);
+  mvaddnstr(i + 2, 0, buf.string(), x - 1);
   attrset(A_NORMAL);
 }
 
 static int
 refreshmenu(void)
 {
-  char buf[2048];
-
   curseson(); cbreak(); noecho(); nonl(); keypad(stdscr,TRUE);
 
   int x, y DPKG_ATTR_UNUSED;
   getmaxyx(stdscr,y,x);
 
+  varbuf buf;
+  buf.fmt(gettext(programdesc), DSELECT, PACKAGE_RELEASE);
+
   clear();
   attrset(A_BOLD);
-  sprintf(buf, gettext(programdesc), DSELECT, PACKAGE_RELEASE);
-  mvaddnstr(0,0,buf,x-1);
+  mvaddnstr(0, 0, buf.string(), x - 1);
 
   attrset(A_NORMAL);
   const struct menuentry *mep; int i;

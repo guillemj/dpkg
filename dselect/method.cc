@@ -59,12 +59,9 @@ static int methlockfd= -1;
 static void
 sthfailed(const char * reasoning)
 {
-  char buf[2048];
-
   curseson();
   clear();
-  sprintf(buf,_("\n\n%s: %s\n"),DSELECT,reasoning);
-  addstr(buf);
+  printw(_("\n\n%s: %s\n"), DSELECT, reasoning);
   attrset(A_BOLD);
   addstr(_("\nPress <enter> to continue."));
   attrset(A_NORMAL);
