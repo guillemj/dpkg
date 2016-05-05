@@ -1,10 +1,15 @@
 dpkg (1.18.7) UNRELEASED; urgency=medium
 
   [ Guillem Jover ]
+  * Add new dpkg-source --require-strong-checksums option and change default.
+    There is no point in erroring out on this condition when signature issues
+    are only warnings, because we cannot guarantee we have functional keys
+    for old signatures. Regression introduced in dpkg 1.18.5. Closes: #823428
   * Perl modules:
     - Relax dependency restrictions parsing to allow again sloppy spaces
       around versions, architectures and profile restrictions.
       Regression introduced in 1.18.5. Closes: #823431
+    - Add new require_strong_checksums option to Dpkg::Source::Package.
   * Documentation:
     - Shorten example symbol names in dpkg-gensymbols to avoid a mandb
       warning due to unwrappable lines in translations.

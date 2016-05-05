@@ -66,6 +66,7 @@ my %options = (
     copy_orig_tarballs => 1,
     no_check => 0,
     require_valid_signature => 0,
+    require_strong_checksums => 0,
 );
 
 # Fields to remove/override
@@ -189,6 +190,8 @@ while (@options) {
         $options{no_check} = 1;
     } elsif (m/^--require-valid-signature$/) {
         $options{require_valid_signature} = 1;
+    } elsif (m/^--require-strong-checksums$/) {
+        $options{require_strong_checksums} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {
         $substvars->set($1, $2);
     } elsif (m/^-T(.*)$/) {
@@ -606,6 +609,8 @@ sub usage {
   --no-copy                don't copy .orig tarballs
   --no-check               don't check signature and checksums before unpacking
   --require-valid-signature abort if the package doesn't have a valid signature
+  --require-strong-checksums
+                           abort if the package contains no strong checksums
   --ignore-bad-version     allow bad source package versions.")
     . "\n" .
     get_format_help()

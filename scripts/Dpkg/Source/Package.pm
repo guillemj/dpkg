@@ -34,7 +34,7 @@ is the one that supports the extraction of the source package.
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our @EXPORT_OK = qw(
     get_default_diff_ignore_regex
     set_default_diff_ignore_regex
@@ -188,6 +188,11 @@ specific for source packages using format "2.0" and "3.0 (quilt)".
 If set to 1, the check_signature() method will be stricter and will error
 out if the signature can't be verified.
 
+=item require_strong_checksums
+
+If set to 1, the check_checksums() method will be stricter and will error
+out if there is no strong checksum.
+
 =item copy_orig_tarballs
 
 If set to 1, the extraction will copy the upstream tarballs next the
@@ -331,19 +336,29 @@ the other files constituting the source package. If any inconsistency is
 discovered, it immediately errors out. It will make sure at least one strong
 checksum is present.
 
+If the object has been created with the "require_strong_checksums" option,
+then any problem will result in a fatal error.
+
 =cut
 
 sub check_checksums {
     my $self = shift;
     my $checksums = $self->{checksums};
+    my $warn_on_weak = 0;
 
     # add_from_file verify the checksums if they are already existing
     foreach my $file ($checksums->get_files()) {
         if (not $checksums->has_strong_checksums($file)) {
-            error(g_('source package uses only weak checksums'));
+            if ($self->{options}{require_strong_checksums}) {
+                error(g_('source package uses only weak checksums'));
+            } else {
+                $warn_on_weak = 1;
+            }
         }
 	$checksums->add_from_file($self->{basedir} . $file, key => $file);
     }
+
+    warning(g_('source package uses only weak checksums')) if $warn_on_weak;
 }
 
 sub get_basename {
@@ -642,6 +657,10 @@ sub write_dsc {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.18.7)
+
+New option: require_strong_checksums in check_checksums().
 
 =head2 Version 1.01 (dpkg 1.17.2)
 
