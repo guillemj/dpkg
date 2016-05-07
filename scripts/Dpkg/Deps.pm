@@ -237,6 +237,12 @@ this when parsing non-dependency fields like Conflicts.
 If set to 1, allow build-dep only arch qualifiers, that is “:native”.
 This should be set whenever working with build-deps.
 
+=item tests_dep (defaults to 0)
+
+If set to 1, allow tests-specific package names in dependencies, that is
+"@" and "@builddeps@" (since dpkg 1.18.7). This should be set whenever
+working with dependency fields from F<debian/tests/control>.
+
 =back
 
 =cut
@@ -254,6 +260,7 @@ sub deps_parse {
     $options{reduce_restrictions} //= 0;
     $options{union} //= 0;
     $options{build_dep} //= 0;
+    $options{tests_dep} //= 0;
 
     if ($options{reduce_restrictions}) {
         $options{reduce_arch} = 1;
@@ -265,6 +272,7 @@ sub deps_parse {
         host_arch => $options{host_arch},
         build_arch => $options{build_arch},
         build_dep => $options{build_dep},
+        tests_dep => $options{tests_dep},
     );
 
     # Strip trailing/leading spaces
@@ -571,6 +579,7 @@ sub new {
     $self->{host_arch} = $opts{host_arch} || Dpkg::Arch::get_host_arch();
     $self->{build_arch} = $opts{build_arch} || Dpkg::Arch::get_build_arch();
     $self->{build_dep} = $opts{build_dep} // 0;
+    $self->{tests_dep} = $opts{tests_dep} // 0;
     $self->parse_string($arg) if defined($arg);
     return $self;
 }
@@ -594,9 +603,17 @@ sub parse {
 
 sub parse_string {
     my ($self, $dep) = @_;
+
+    my $pkgname_re;
+    if ($self->{tests_dep}) {
+        $pkgname_re = qr/[\@a-zA-Z0-9][\@a-zA-Z0-9+.-]*/;
+    } else {
+        $pkgname_re = qr/[a-zA-Z0-9][a-zA-Z0-9+.-]*/;
+    }
+
     return if not $dep =~
            m{^\s*                           # skip leading whitespace
-              ([a-zA-Z0-9][a-zA-Z0-9+.-]*)  # package name
+              ($pkgname_re)                 # package name
               (?:                           # start of optional part
                 :                           # colon for architecture
                 ([a-zA-Z0-9][a-zA-Z0-9-]*)  # architecture name
@@ -1472,6 +1489,10 @@ sub _evaluate_simple_dep {
 }
 
 =head1 CHANGES
+
+=head2 Version 1.06 (dpkg 1.18.7)
+
+New option: Add tests_dep option to Dpkg::Deps::deps_parse().
 
 =head2 Version 1.05 (dpkg 1.17.14)
 

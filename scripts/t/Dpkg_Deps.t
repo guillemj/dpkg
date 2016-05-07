@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 50;
+use Test::More tests => 52;
 
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
@@ -62,6 +62,14 @@ is($dep_ma_native->implies($dep_ma_any), 1, 'foo -> foo:any');
 is($dep_ma_native2->implies($dep_ma_any), 1, 'foo:native -> foo:any');
 is($dep_ma_any->implies($dep_ma_native), undef, 'foo:any !-> foo');
 is($dep_ma_any->implies($dep_ma_native2), undef, 'foo:any !-> foo:native');
+
+my $field_tests = 'self, @, @builddeps@';
+$SIG{__WARN__} = sub {};
+my $dep_tests_fail = deps_parse($field_tests);
+is($dep_tests_fail, undef, 'normal deps with @ in pkgname');
+delete $SIG{__WARN__};
+my $dep_tests_pass = deps_parse($field_tests, tests_dep => 1);
+is($dep_tests_pass->output(), $field_tests, 'tests deps with @ in pkgname');
 
 my $field_arch = 'libc6 (>= 2.5) [!alpha !hurd-i386], libc6.1 [alpha], libc0.1 [hurd-i386]';
 my $dep_i386 = deps_parse($field_arch, reduce_arch => 1, host_arch => 'i386');
