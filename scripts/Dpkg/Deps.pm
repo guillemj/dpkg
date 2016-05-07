@@ -260,6 +260,13 @@ sub deps_parse {
         $options{reduce_profiles} = 1;
     }
 
+    # Options for Dpkg::Deps::Simple.
+    my %deps_options = (
+        host_arch => $options{host_arch},
+        build_arch => $options{build_arch},
+        build_dep => $options{build_dep},
+    );
+
     # Strip trailing/leading spaces
     $dep_line =~ s/^\s+//;
     $dep_line =~ s/\s+$//;
@@ -268,12 +275,7 @@ sub deps_parse {
     foreach my $dep_and (split(/\s*,\s*/m, $dep_line)) {
         my @or_list = ();
         foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
-	    my $dep_simple = Dpkg::Deps::Simple->new($dep_or, host_arch =>
-	                                             $options{host_arch},
-	                                             build_arch =>
-	                                             $options{build_arch},
-	                                             build_dep =>
-	                                             $options{build_dep});
+	    my $dep_simple = Dpkg::Deps::Simple->new($dep_or, %deps_options);
 	    if (not defined $dep_simple->{package}) {
 		warning(g_("can't parse dependency %s"), $dep_or);
 		return;
