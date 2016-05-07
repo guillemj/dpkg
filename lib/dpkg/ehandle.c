@@ -86,32 +86,25 @@ static struct {
   void *args[20];
 } emergency;
 
-static void DPKG_ATTR_NORET
-run_error_handler(void)
+/**
+ * Default fatal error handler.
+ *
+ * This handler performs all error unwinding for the current context, and
+ * terminates the program with an error exit code.
+ */
+void
+catch_fatal_error(void)
 {
-  if (onerr_abort) {
-    /* We arrived here due to a fatal error from which we cannot recover,
-     * and trying to do so would most probably get us here again. That's
-     * why we will not try to do any error unwinding either. We'll just
-     * abort. Hopefully the user can fix the situation (out of disk, out
-     * of memory, etc). */
-    fprintf(stderr, _("%s: unrecoverable fatal error, aborting:\n %s\n"),
-            dpkg_get_progname(), errmsg);
-    exit(2);
-  }
+  pop_error_context(ehflag_bombout);
+  exit(2);
+}
 
-  if (econtext == NULL) {
-    fprintf(stderr, _("%s: outside error context, aborting:\n %s\n"),
-            dpkg_get_progname(), errmsg);
-    exit(2);
-  } else if (econtext->handler_type == HANDLER_TYPE_FUNC) {
-    econtext->handler.func();
-    internerr("error handler returned unexpectedly!");
-  } else if (econtext->handler_type == HANDLER_TYPE_JUMP) {
-    longjmp(*econtext->handler.jump, 1);
-  } else {
-    internerr("unknown error handler type %d!", econtext->handler_type);
-  }
+void
+print_fatal_error(const char *emsg, const void *data)
+{
+  fprintf(stderr, "%s%s:%s %s%s:%s %s\n",
+          color_get(COLOR_PROG), dpkg_get_progname(), color_reset(),
+          color_get(COLOR_ERROR), _("error"), color_reset(), emsg);
 }
 
 static struct error_context *
@@ -239,24 +232,6 @@ run_cleanups(struct error_context *econ, int flagsetin)
 }
 
 /**
- * Unwind the current error context by running its registered cleanups.
- */
-void
-pop_error_context(int flagset)
-{
-  struct error_context *tecp;
-
-  tecp= econtext;
-  econtext= tecp->next;
-
-  /* If we are cleaning up normally, do not print anything. */
-  if (flagset & ehflag_normaltidy)
-    set_error_printer(tecp, NULL, NULL);
-  run_cleanups(tecp,flagset);
-  free(tecp);
-}
-
-/**
  * Push an error cleanup checkpoint.
  *
  * This will arrange that when pop_error_context() is called, all previous
@@ -330,6 +305,52 @@ void pop_cleanup(int flagset) {
   if (cep != &emergency.ce) free(cep);
 }
 
+/**
+ * Unwind the current error context by running its registered cleanups.
+ */
+void
+pop_error_context(int flagset)
+{
+  struct error_context *tecp;
+
+  tecp = econtext;
+  econtext = tecp->next;
+
+  /* If we are cleaning up normally, do not print anything. */
+  if (flagset & ehflag_normaltidy)
+    set_error_printer(tecp, NULL, NULL);
+  run_cleanups(tecp, flagset);
+  free(tecp);
+}
+
+static void DPKG_ATTR_NORET
+run_error_handler(void)
+{
+  if (onerr_abort) {
+    /* We arrived here due to a fatal error from which we cannot recover,
+     * and trying to do so would most probably get us here again. That's
+     * why we will not try to do any error unwinding either. We'll just
+     * abort. Hopefully the user can fix the situation (out of disk, out
+     * of memory, etc). */
+    fprintf(stderr, _("%s: unrecoverable fatal error, aborting:\n %s\n"),
+            dpkg_get_progname(), errmsg);
+    exit(2);
+  }
+
+  if (econtext == NULL) {
+    fprintf(stderr, _("%s: outside error context, aborting:\n %s\n"),
+            dpkg_get_progname(), errmsg);
+    exit(2);
+  } else if (econtext->handler_type == HANDLER_TYPE_FUNC) {
+    econtext->handler.func();
+    internerr("error handler returned unexpectedly!");
+  } else if (econtext->handler_type == HANDLER_TYPE_JUMP) {
+    longjmp(*econtext->handler.jump, 1);
+  } else {
+    internerr("unknown error handler type %d!", econtext->handler_type);
+  }
+}
+
 void ohshit(const char *fmt, ...) {
   va_list args;
 
@@ -338,27 +359,6 @@ void ohshit(const char *fmt, ...) {
   va_end(args);
 
   run_error_handler();
-}
-
-/**
- * Default fatal error handler.
- *
- * This handler performs all error unwinding for the current context, and
- * terminates the program with an error exit code.
- */
-void
-catch_fatal_error(void)
-{
-  pop_error_context(ehflag_bombout);
-  exit(2);
-}
-
-void
-print_fatal_error(const char *emsg, const void *data)
-{
-  fprintf(stderr, "%s%s:%s %s%s:%s %s\n",
-          color_get(COLOR_PROG), dpkg_get_progname(), color_reset(),
-          color_get(COLOR_ERROR), _("error"), color_reset(), emsg);
 }
 
 void
