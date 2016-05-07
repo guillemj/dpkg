@@ -107,6 +107,14 @@ print_fatal_error(const char *emsg, const void *data)
           color_get(COLOR_ERROR), _("error"), color_reset(), emsg);
 }
 
+static void
+print_abort_error(const char *etype, const char *emsg)
+{
+  fprintf(stderr, _("%s%s%s: %s%s:%s\n %s\n"),
+          color_get(COLOR_PROG), dpkg_get_progname(), color_reset(),
+          color_get(COLOR_ERROR), etype, color_reset(), emsg);
+}
+
 static struct error_context *
 error_context_new(void)
 {
@@ -179,8 +187,7 @@ push_error_context(void)
 static void
 print_cleanup_error(const char *emsg, const void *data)
 {
-  fprintf(stderr, _("%s: error while cleaning up:\n %s\n"),
-          dpkg_get_progname(), emsg);
+  print_abort_error(_("error while cleaning up"), emsg);
 }
 
 static void
@@ -198,8 +205,7 @@ run_cleanups(struct error_context *econ, int flagsetin)
 
   if (++preventrecurse > 3) {
     onerr_abort++;
-    fprintf(stderr, _("%s: too many nested errors during error recovery!!\n"),
-            dpkg_get_progname());
+    print_cleanup_error(_("too many nested errors during error recovery"), NULL);
     flagset= 0;
   } else {
     flagset= flagsetin;
@@ -332,14 +338,12 @@ run_error_handler(void)
      * why we will not try to do any error unwinding either. We'll just
      * abort. Hopefully the user can fix the situation (out of disk, out
      * of memory, etc). */
-    fprintf(stderr, _("%s: unrecoverable fatal error, aborting:\n %s\n"),
-            dpkg_get_progname(), errmsg);
+    print_abort_error(_("unrecoverable fatal error, aborting"), errmsg);
     exit(2);
   }
 
   if (econtext == NULL) {
-    fprintf(stderr, _("%s: outside error context, aborting:\n %s\n"),
-            dpkg_get_progname(), errmsg);
+    print_abort_error(_("outside error context, aborting"), errmsg);
     exit(2);
   } else if (econtext->handler_type == HANDLER_TYPE_FUNC) {
     econtext->handler.func();
