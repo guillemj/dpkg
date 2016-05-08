@@ -14,10 +14,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.18.3\n"
+"Project-Id-Version: dpkg-man 1.18.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2016-05-05 17:48+0200\n"
-"PO-Revision-Date: 2016-05-05 20:25+0200\n"
+"PO-Revision-Date: 2016-05-08 13:54+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -10503,15 +10503,6 @@ msgstr "B<5.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid ""
-#| "It runs the B<build> hook and calls B<debian/rules> I<build-target>, then "
-#| "runs the B<binary> hook followed by B<fakeroot debian/rules> I<binary-"
-#| "target> (unless a source-only build has been requested with B<-S>). Note "
-#| "that I<build-target> and I<binary-target> are either B<build> and "
-#| "B<binary> (default case, or if B<-b> is specified), or B<build-arch> and "
-#| "B<binary-arch> (if B<-B> or B<-G> are specified), or B<build-indep> and "
-#| "B<binary-indep> (if B<-A> or B<-g> are specified)."
 msgid ""
 "It runs the B<build> hook and calls B<debian/rules> I<build-target>, then "
 "runs the B<binary> hook followed by B<fakeroot debian/rules> I<binary-"
@@ -10526,11 +10517,15 @@ msgid ""
 msgstr ""
 "Es führt den Hook B<build> aus und ruft B<debian/rules> I<Bauziel> auf. Dann "
 "führt es den Hook B<binary> aus, gefolgt von B<fakeroot debian/rules> "
-"I<Binärziel> auf (falls nicht ein reiner Quellbau mit B<-S> erbeten wurde). "
+"I<Binärziel> auf (falls nicht ein reiner Quellbau mit B<--build=source> oder "
+"äquivalenten Optionen erbeten wurde). "
 "Beachten Sie, dass I<Bauziel> und I<Binärziel> entweder B<build> und "
-"B<binary> (Standardfall, oder falls B<-b> angegeben ist) oder B<build-arch> "
-"und B<binary-arch> (falls B<-B> oder B<-G> angegeben ist) oder B<build-"
-"indep> und B<binary-indep> (falls B<-A> oder B<-g> angegeben ist) lauten."
+"B<binary> (Standardfall, oder falls B<any>- und B<all>-Bau mit B<--build> "
+"oder äquivalenten Optionen erbeten wurde) oder B<build-arch> und B<binary-"
+"arch> (falls ein B<any>- und nicht B<all>-Bau mit B<--build> oder "
+"äquivalenten Optionen erbeten wurde) oder B<build-indep> und B<binary-indep> "
+"(falls ein B<all>- und nicht B<any>-Bau mit B<--build> oder äquivalenten "
+"Optionen erbeten wurde)."
 
 #. type: IP
 #: dpkg-buildpackage.1
@@ -13134,6 +13129,8 @@ msgid ""
 "Print the changes file to standard output (the default) or to I<filename> if "
 "specified (since dpkg 1.18.5)."
 msgstr ""
+"Gibt die changes-Datei auf der Standardausgabe (Vorgabe) oder in "
+"I<Dateiname>, falls angegeben, aus (seit Dpkg 1.18.5)."
 
 #. type: Plain text
 #: dpkg-genchanges.1
@@ -17800,10 +17797,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-shlibdeps.1
-#, fuzzy, no-wrap
-#| msgid "B<-P>I<package-build-dir>"
+#, no-wrap
 msgid "B<-I>I<package-build-dir>"
-msgstr "B<-P>I<Paketbauverzeichnis>"
+msgstr "B<-I>I<Paketbauverzeichnis>"
 
 #. type: Plain text
 #: dpkg-shlibdeps.1
@@ -17811,6 +17807,9 @@ msgid ""
 "Ignore I<package-build-dir> when looking for shlibs, symbols, and shared "
 "library files (since dpkg 1.18.5).  You can use this option multiple times."
 msgstr ""
+"Ignoriert I<Paketbauverzeichnis> bei Schauen nach Shlibs, Symbolen und "
+"gemeinsam benutzten Bibliotheken (seit Dpkg 1.18.5). Sie können diese Option "
+"mehrfach verwenden."
 
 #. type: TP
 #: dpkg-shlibdeps.1
@@ -18723,11 +18722,6 @@ msgstr "Format: 1.0"
 
 #. type: Plain text
 #: dpkg-source.1
-#, fuzzy
-#| msgid ""
-#| "A source package in this format consists either of a B<.orig.tar.gz> "
-#| "associated to a B<.diff.gz> or a single B<.tar.gz> (in that case the "
-#| "package is said to be I<native>)."
 msgid ""
 "A source package in this format consists either of a B<.orig.tar.gz> "
 "associated to a B<.diff.gz> or a single B<.tar.gz> (in that case the package "
@@ -18737,7 +18731,9 @@ msgid ""
 msgstr ""
 "Ein Quellpaket in diesem Format besteht entweder aus einem B<.orig.tar.gz> "
 "mit zugehörigem B<.diff.gz> oder einem einzelnen B<.tar.gz> (in diesem Fall "
-"wird das Paket als I<nativ> bezeichnet)."
+"wird das Paket als I<nativ> bezeichnet). Optional kann der ursprüngliche "
+"Tarball von einer separaten Signatur der Originalautoren B<.orig.tar.gz.asc> "
+"begleitet werden. Das Entpacken und Bauen wird seit Dpkg 1.18.5 unterstützt."
 
 #. type: Plain text
 #: dpkg-source.1
@@ -19109,14 +19105,6 @@ msgstr "Format: 3.0 (quilt)"
 
 #. type: Plain text
 #: dpkg-source.1
-#, fuzzy
-#| msgid ""
-#| "Supported since dpkg 1.14.17.  A source package in this format contains "
-#| "at least an original tarball (B<.orig.tar.>I<ext> where I<ext> can be "
-#| "B<gz>, B<bz2>, B<lzma> and B<xz>) and a debian tarball (B<.debian.tar."
-#| ">I<ext>). It can also contain additional original tarballs (B<.orig-"
-#| ">I<component>B<.tar.>I<ext>).  I<component> can only contain alphanumeric "
-#| "characters and hyphens (\\(oq-\\(cq)."
 msgid ""
 "Supported since dpkg 1.14.17.  A source package in this format contains at "
 "least an original tarball (B<.orig.tar.>I<ext> where I<ext> can be B<gz>, "
@@ -19129,11 +19117,15 @@ msgid ""
 "1.17.20, building supported since dpkg 1.18.5."
 msgstr ""
 "Seit Dpkg 1.14.17 unterstützt. Ein Quellpaket in diesem Format enthält "
-"mindestens einen Original-Tarball (B<.orig.tar.>I<erw>, wobei I<erw> B<gz>, "
+"mindestens einen Original-Tarball (B<.orig.tar.>I<Erw>, wobei I<Erw> B<gz>, "
 "B<bz2>, B<lzma> und B<xz> sein kann) und einen Debian-Tarball (B<.debian.tar."
-">I<erw>). Es kann auch zusätzliche Original-Tarbälle (B<.orig-"
-">I<Komponente>B<.tar.>I<erw>)) enthalten. I<Komponente> kann nur "
-"alphanumerische Zeichen und Bindestriche (\\(oq-\\(cq) enthalten."
+">I<Erw>). Es kann auch zusätzliche Original-Tarbälle (B<.orig-"
+">I<Komponente>B<.tar.>I<Erw>) enthalten. I<Komponente> kann nur "
+"alphanumerische Zeichen und Bindestriche (\\(oq-\\(cq) enthalten. Optional "
+"kann jeder Original-Tarball von einer separaten Signatur der Originalautoren "
+"(B<.orig.tar.>I<Erw>B<.asc> und B<.orig->I<Komponente>B<.tar.>I<Erw>B<.asc>) "
+"begleitet werden. Das Entpacken wird seit Dpkg 1.17.20, das Bauen seit Dpkg "
+"1.18.5 unterstützt."
 
 #. type: Plain text
 #: dpkg-source.1
@@ -25670,9 +25662,9 @@ msgstr ""
 #~ "can only contain alphanumeric characters and dashes (\"-\")."
 #~ msgstr ""
 #~ "Ein Quellpaket in diesem Format enthält mindestens einen Original-Tarball "
-#~ "(B<.orig.tar.>I<erw>, wobei I<erw> B<gz>, B<bz2> und B<lzma> sein kann) "
-#~ "und einen Debian-Tarball (B<.debian.tar.>I<erw>). Es kann auch "
-#~ "zusätzliche Original-Tarbälle (B<.orig->I<Komponente>B<.tar.>I<erw>)) "
+#~ "(B<.orig.tar.>I<Erw>, wobei I<Erw> B<gz>, B<bz2> und B<lzma> sein kann) "
+#~ "und einen Debian-Tarball (B<.debian.tar.>I<Erw>). Es kann auch "
+#~ "zusätzliche Original-Tarbälle (B<.orig->I<Komponente>B<.tar.>I<Erw>)) "
 #~ "enthalten. I<Komponente> kann nur alphanumerische Zeichen und "
 #~ "Gedankenstriche (»-«) enthalten."
 
