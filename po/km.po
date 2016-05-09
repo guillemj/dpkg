@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-02 04:18+0200\n"
+"POT-Creation-Date: 2016-05-09 03:21+0200\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -484,17 +484,16 @@ msgstr "មិនអាចកំណត់សតិបណ្ដោះអាសន
 msgid "failed to write %s database record about '%.50s' to '%.250s'"
 msgstr "បាន​បរាជ័យ​ក្នុង​ការ​សរសេរ​កំណត់ត្រា %s អំពី `%.50s' ទៅ `%.250s'"
 
-#: lib/dpkg/ehandle.c
-#, c-format
-msgid ""
-"%s: unrecoverable fatal error, aborting:\n"
-" %s\n"
-msgstr ""
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+#, fuzzy
+#| msgid "parse error"
+msgid "error"
+msgstr "ញែក​កំហុស"
 
 #: lib/dpkg/ehandle.c
 #, c-format
 msgid ""
-"%s: outside error context, aborting:\n"
+"%s%s%s: %s%s:%s\n"
 " %s\n"
 msgstr ""
 
@@ -505,18 +504,19 @@ msgid "out of memory for new error context"
 msgstr "អស់​សតិ​សម្រាប់​ការ​សម្អាត​ធាតុ​ថ្មី"
 
 #: lib/dpkg/ehandle.c
-#, c-format
-msgid ""
-"%s: error while cleaning up:\n"
-" %s\n"
+#, fuzzy
+#| msgid ""
+#| "%s: error while cleaning up:\n"
+#| " %s\n"
+msgid "error while cleaning up"
 msgstr ""
 "%s ៖ កំហុស​ខណៈពេល​សម្អាត ៖\n"
 " %s\n"
 
 #: lib/dpkg/ehandle.c
-#, fuzzy, c-format
+#, fuzzy
 #| msgid "dpkg: too many nested errors during error recovery !!\n"
-msgid "%s: too many nested errors during error recovery!!\n"
+msgid "too many nested errors during error recovery"
 msgstr "dpkg ៖ មាន​កំហុស​ខាង​ក្នុង​ជា​ច្រើន កំឡុង​ពេល​សង្គ្រោះ​កំហុស !!\n"
 
 #: lib/dpkg/ehandle.c
@@ -527,11 +527,15 @@ msgstr "អស់​សតិ​សម្រាប់​ការ​សម្អ
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "អស់​សតិ​សម្រាប់​ការ​សម្អាត​ធាតុ​ថ្មី​ដែលមាន​អាគុយម៉ង់ជា​ច្រើន"
 
-#: lib/dpkg/ehandle.c utils/update-alternatives.c
+#: lib/dpkg/ehandle.c
+msgid "unrecoverable fatal error, aborting"
+msgstr ""
+
+#: lib/dpkg/ehandle.c
 #, fuzzy
-#| msgid "parse error"
-msgid "error"
-msgstr "ញែក​កំហុស"
+#| msgid "Multiple overrides for \"%s\", aborting"
+msgid "outside error context, aborting"
+msgstr "ការ​បដិសេធ​ជា​ច្រើន​សម្រាប់ \"%s\" បោះបង់"
 
 #: lib/dpkg/ehandle.c
 #, fuzzy
@@ -7481,9 +7485,6 @@ msgstr "ដើម្បី​ត្រឡ​ប់ទៅ​ការ​ធ្វ
 
 #~ msgid "cannot open statoverride: %s"
 #~ msgstr "មិន​អាច​បើក​ statoverride ៖%s"
-
-#~ msgid "Multiple overrides for \"%s\", aborting"
-#~ msgstr "ការ​បដិសេធ​ជា​ច្រើន​សម្រាប់ \"%s\" បោះបង់"
 
 #~ msgid "failed write during hashreport"
 #~ msgstr "បាន​បរាជ័​យក្នុ​ងការ​​សរសេរ​កំឡុង​ពេល hashreport"

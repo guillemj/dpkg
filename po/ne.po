@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-02 04:18+0200\n"
+"POT-Creation-Date: 2016-05-09 03:21+0200\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -487,17 +487,16 @@ msgstr "वस्तुस्थिति फाइलमा बफरिङ्�
 msgid "failed to write %s database record about '%.50s' to '%.250s'"
 msgstr "`%.50s' to `%.250s' बारेमा रेकर्ड  %s लेख्न असफल"
 
-#: lib/dpkg/ehandle.c
-#, c-format
-msgid ""
-"%s: unrecoverable fatal error, aborting:\n"
-" %s\n"
-msgstr ""
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+#, fuzzy
+#| msgid "parse error"
+msgid "error"
+msgstr "त्रुटि पदवर्णन गर्नुहोस्"
 
 #: lib/dpkg/ehandle.c
 #, c-format
 msgid ""
-"%s: outside error context, aborting:\n"
+"%s%s%s: %s%s:%s\n"
 " %s\n"
 msgstr ""
 
@@ -508,18 +507,19 @@ msgid "out of memory for new error context"
 msgstr "नयाँ सफा गर्ने प्रविष्टिका लागि स्मृति बाहिर"
 
 #: lib/dpkg/ehandle.c
-#, c-format
-msgid ""
-"%s: error while cleaning up:\n"
-" %s\n"
+#, fuzzy
+#| msgid ""
+#| "%s: error while cleaning up:\n"
+#| " %s\n"
+msgid "error while cleaning up"
 msgstr ""
 "%s: सफा गर्दा त्रुटि:\n"
 " %s\n"
 
 #: lib/dpkg/ehandle.c
-#, fuzzy, c-format
+#, fuzzy
 #| msgid "dpkg: too many nested errors during error recovery !!\n"
-msgid "%s: too many nested errors during error recovery!!\n"
+msgid "too many nested errors during error recovery"
 msgstr "dpkg: त्रुटि पुन: प्राप्तिको बेलामा धेरै नेष्टेड त्रुटि!!\n"
 
 #: lib/dpkg/ehandle.c
@@ -530,11 +530,15 @@ msgstr "नयाँ सफा गर्ने प्रविष्टिका
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "धेरै तर्कहरु सँग नयाँ सफा गर्ने प्रविष्टिका लागि स्मृति बाहिर"
 
-#: lib/dpkg/ehandle.c utils/update-alternatives.c
+#: lib/dpkg/ehandle.c
+msgid "unrecoverable fatal error, aborting"
+msgstr ""
+
+#: lib/dpkg/ehandle.c
 #, fuzzy
-#| msgid "parse error"
-msgid "error"
-msgstr "त्रुटि पदवर्णन गर्नुहोस्"
+#| msgid "Multiple overrides for \"%s\", aborting"
+msgid "outside error context, aborting"
+msgstr "\"%s\" का लागि बहुविध अधिलेखन, परित्याग गर्दैछ"
 
 #: lib/dpkg/ehandle.c
 #, fuzzy
@@ -7543,9 +7547,6 @@ msgstr "स्वचालित अद्यावधिक फर्काउ�
 
 #~ msgid "cannot open statoverride: %s"
 #~ msgstr "statoverride खोल्न असफल: %s"
-
-#~ msgid "Multiple overrides for \"%s\", aborting"
-#~ msgstr "\"%s\" का लागि बहुविध अधिलेखन, परित्याग गर्दैछ"
 
 #~ msgid "failed write during hashreport"
 #~ msgstr "ह्यासरिपोट बखत लेख्न असफल"

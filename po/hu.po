@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-02 04:18+0200\n"
+"POT-Creation-Date: 2016-05-09 03:21+0200\n"
 "PO-Revision-Date: 2015-06-26 16:11+0200\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -489,17 +489,16 @@ msgid "failed to write %s database record about '%.50s' to '%.250s'"
 msgstr ""
 "nem sikerült %s rekord kiírása a következőről: \"%.50s\" ide: \"%.250s\""
 
-#: lib/dpkg/ehandle.c
-#, c-format
-msgid ""
-"%s: unrecoverable fatal error, aborting:\n"
-" %s\n"
-msgstr ""
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+#, fuzzy
+#| msgid "parse error"
+msgid "error"
+msgstr "elemzési hiba"
 
 #: lib/dpkg/ehandle.c
 #, c-format
 msgid ""
-"%s: outside error context, aborting:\n"
+"%s%s%s: %s%s:%s\n"
 " %s\n"
 msgstr ""
 
@@ -508,18 +507,19 @@ msgid "out of memory for new error context"
 msgstr ""
 
 #: lib/dpkg/ehandle.c
-#, c-format
-msgid ""
-"%s: error while cleaning up:\n"
-" %s\n"
+#, fuzzy
+#| msgid ""
+#| "%s: error while cleaning up:\n"
+#| " %s\n"
+msgid "error while cleaning up"
 msgstr ""
 "%s: hiba a tisztítás során:\n"
 " %s\n"
 
 #: lib/dpkg/ehandle.c
-#, fuzzy, c-format
+#, fuzzy
 #| msgid "dpkg: too many nested errors during error recovery !!\n"
-msgid "%s: too many nested errors during error recovery!!\n"
+msgid "too many nested errors during error recovery"
 msgstr "dpkg: túl sok beágyazott hiba a hiba helyreállítása során!\n"
 
 #: lib/dpkg/ehandle.c
@@ -530,11 +530,15 @@ msgstr ""
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr ""
 
-#: lib/dpkg/ehandle.c utils/update-alternatives.c
+#: lib/dpkg/ehandle.c
+msgid "unrecoverable fatal error, aborting"
+msgstr ""
+
+#: lib/dpkg/ehandle.c
 #, fuzzy
-#| msgid "parse error"
-msgid "error"
-msgstr "elemzési hiba"
+#| msgid "Multiple overrides for \"%s\", aborting"
+msgid "outside error context, aborting"
+msgstr "\"%s\" többszöri felülbírálása, megszakítva"
 
 #: lib/dpkg/ehandle.c
 #, fuzzy
@@ -7469,9 +7473,6 @@ msgstr ""
 
 #~ msgid "cannot open statoverride: %s"
 #~ msgstr "nem megnyitható statoverride: %s"
-
-#~ msgid "Multiple overrides for \"%s\", aborting"
-#~ msgstr "\"%s\" többszöri felülbírálása, megszakítva"
 
 #~ msgid "failed write during hashreport"
 #~ msgstr "sikertelen írás hashreport közben"

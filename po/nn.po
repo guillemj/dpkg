@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-02 04:18+0200\n"
+"POT-Creation-Date: 2016-05-09 03:21+0200\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Håvard Korsvoll <korsvoll@skulelinux.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -484,17 +484,16 @@ msgstr "klarte ikkje mellomlagra statusfil"
 msgid "failed to write %s database record about '%.50s' to '%.250s'"
 msgstr "klarte ikkje skriva %s-post om «%.50s» til «%.250s»"
 
-#: lib/dpkg/ehandle.c
-#, c-format
-msgid ""
-"%s: unrecoverable fatal error, aborting:\n"
-" %s\n"
-msgstr ""
+#: lib/dpkg/ehandle.c utils/update-alternatives.c
+#, fuzzy
+#| msgid "parse error"
+msgid "error"
+msgstr "tolkingsfeil"
 
 #: lib/dpkg/ehandle.c
 #, c-format
 msgid ""
-"%s: outside error context, aborting:\n"
+"%s%s%s: %s%s:%s\n"
 " %s\n"
 msgstr ""
 
@@ -505,18 +504,19 @@ msgid "out of memory for new error context"
 msgstr "ikkje nok minne til ny oppryddingsoppføring"
 
 #: lib/dpkg/ehandle.c
-#, c-format
-msgid ""
-"%s: error while cleaning up:\n"
-" %s\n"
+#, fuzzy
+#| msgid ""
+#| "%s: error while cleaning up:\n"
+#| " %s\n"
+msgid "error while cleaning up"
 msgstr ""
 "%s: feil ved opprydding:\n"
 " %s\n"
 
 #: lib/dpkg/ehandle.c
-#, fuzzy, c-format
+#, fuzzy
 #| msgid "dpkg: too many nested errors during error recovery !!\n"
-msgid "%s: too many nested errors during error recovery!!\n"
+msgid "too many nested errors during error recovery"
 msgstr "dpkg: For mange samanfletta feil under feiloppretting\n"
 
 #: lib/dpkg/ehandle.c
@@ -527,11 +527,13 @@ msgstr "ikkje nok minne til ny oppryddingsoppføring"
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr "ikkje nok minne til ny oppryddingsoppføring med mange parametrar"
 
-#: lib/dpkg/ehandle.c utils/update-alternatives.c
-#, fuzzy
-#| msgid "parse error"
-msgid "error"
-msgstr "tolkingsfeil"
+#: lib/dpkg/ehandle.c
+msgid "unrecoverable fatal error, aborting"
+msgstr ""
+
+#: lib/dpkg/ehandle.c
+msgid "outside error context, aborting"
+msgstr ""
 
 #: lib/dpkg/ehandle.c
 #, fuzzy
