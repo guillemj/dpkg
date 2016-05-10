@@ -269,9 +269,9 @@ sub _add_hardening_flags {
     $self->_parse_feature_area('hardening', \%use_feature);
 
     # Mask features that are not available on certain architectures.
-    if ($os !~ /^(?:linux|knetbsd|hurd)$/ or
+    if ($os !~ /^(?:linux|kfreebsd|knetbsd|hurd)$/ or
 	$cpu =~ /^(?:hppa|avr32)$/) {
-	# Disabled on non-linux/knetbsd/hurd (see #430455 and #586215).
+	# Disabled on non-(linux/kfreebsd/knetbsd/hurd).
 	# Disabled on hppa, avr32
 	#  (#574716).
 	$use_feature{pie} = 0;
