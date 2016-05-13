@@ -390,6 +390,7 @@ Show the usage message and exit.
 Show the version and exit.
 .
 .SH ENVIRONMENT
+.SS External environment
 .TP
 .B DEB_CHECK_COMMAND
 If set, it will be used as the command to check the \fB.changes\fP file
@@ -416,11 +417,19 @@ Sets the color mode (since dpkg 1.18.5).
 The currently accepted values are: \fBauto\fP, \fBalways\fP and
 \fBnever\fP (default).
 
-.SS Reliance on exported environment flags
+.SS Internal environment
 Even if \fBdpkg\-buildpackage\fP exports some variables, \fBdebian/rules\fP
 should not rely on their presence and should instead use the
-respective interface to retrieve the needed values.
-.SS Variables set by dpkg\-architecture
+respective interface to retrieve the needed values, because that
+file is the main entry point to build packages and running it
+standalone should be supported.
+
+.TP
+.B DEB_BUILD_*
+.TQ
+.B DEB_HOST_*
+.TQ
+.B DEB_TARGET_*
 \fBdpkg\-architecture\fP is called with the \fB\-a\fP and \fB\-t\fP
 parameters forwarded. Any variable that is output by its \fB\-s\fP
 option is integrated in the build environment.
