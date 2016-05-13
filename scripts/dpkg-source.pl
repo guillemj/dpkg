@@ -41,7 +41,9 @@ use Dpkg::Deps;
 use Dpkg::Compression;
 use Dpkg::Conf;
 use Dpkg::Control::Info;
+use Dpkg::Control::Tests;
 use Dpkg::Control::Fields;
+use Dpkg::Index;
 use Dpkg::Substvars;
 use Dpkg::Version;
 use Dpkg::Vars;
@@ -359,6 +361,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
     # Check if we have a testsuite, and handle manual and automatic values.
     set_testsuite_field($fields);
+    set_testsuite_triggers_field($fields, @binarypackages);
 
     # Scan fields of dpkg-parsechangelog
     foreach (keys %{$changelog}) {
@@ -513,6 +516,34 @@ sub set_testsuite_field
         delete $testsuite{autopkgtest};
     }
     $fields->{'Testsuite'} = join ', ', sort keys %testsuite;
+}
+
+sub set_testsuite_triggers_field
+{
+    my ($fields, @binarypackages) = @_;
+    my %testdeps;
+
+    # Never overwrite a manually defined field.
+    return if $fields->{'Testsuite-Triggers'};
+
+    # We only support autopkgtests.
+    return unless -e "$dir/debian/tests/control";
+
+    my $tests = Dpkg::Control::Tests->new();
+    $tests->load("$dir/debian/tests/control");
+
+    foreach my $test ($tests->get()) {
+        next unless $test->{Depends};
+
+        my $deps = deps_parse($test->{Depends}, use_arch => 0, tests_dep => 1);
+        deps_iterate($deps, sub { $testdeps{$_[0]->{package}} = 1 });
+    }
+
+    # Remove our own binaries and meta-depends.
+    foreach my $pkg (@binarypackages, qw(@ @builddeps@)) {
+        delete $testdeps{$pkg};
+    }
+    $fields->{'Testsuite-Triggers'} = join ', ', sort keys %testdeps;
 }
 
 sub setopmode {
