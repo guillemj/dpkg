@@ -596,13 +596,17 @@ sub usage {
   -D<field>=<value>        override or add a .dsc field and value.
   -U<field>                remove a field.
   -q                       quiet mode.
-  -i[<regex>]              filter out files to ignore diffs of
+  -i, --diff-ignore[=<regex>]
+                           filter out files to ignore diffs of
                              (defaults to: '%s').
-  -I[<pattern>]            filter out files when building tarballs
+  -I, --tar-ignore[=<pattern>]
+                           filter out files when building tarballs
                              (defaults to: %s).
-  -Z<compression>          select compression to use (defaults to '%s',
+  -Z, --compression=<compression>
+                           select compression to use (defaults to '%s',
                              supported are: %s).
-  -z<level>                compression level to use (defaults to '%d',
+  -z, --compression-level=<level>
+                           compression level to use (defaults to '%d',
                              supported are: '1'-'9', 'best', 'fast')")
     . "\n\n" . g_(
 "Extract options:
