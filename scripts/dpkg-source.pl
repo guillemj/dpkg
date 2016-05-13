@@ -595,7 +595,6 @@ sub usage {
   -T<substvars-file>       read variables here.
   -D<field>=<value>        override or add a .dsc field and value.
   -U<field>                remove a field.
-  -q                       quiet mode.
   -i, --diff-ignore[=<regex>]
                            filter out files to ignore diffs of
                              (defaults to: '%s').
@@ -620,6 +619,7 @@ sub usage {
     get_format_help()
     . "\n" . g_(
 'General options:
+  -q                       quiet mode.
   -?, --help               show this help message.
       --version            show the version.')
     . "\n\n" . g_(
