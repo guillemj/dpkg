@@ -72,6 +72,8 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Control/Info.pm \
 	Dpkg/Control/HashCore.pm \
 	Dpkg/Control/Hash.pm \
+	Dpkg/Control/Tests.pm \
+	Dpkg/Control/Tests/Entry.pm \
 	Dpkg/Control/Types.pm \
 	Dpkg/Deps.pm \
 	Dpkg/Dist/Files.pm \
@@ -218,6 +220,7 @@ test_scripts = \
 	t/Dpkg_Changelog.t \
 	t/Dpkg_Changelog_Ubuntu.t \
 	t/Dpkg_Control.t \
+	t/Dpkg_Control_Tests.t \
 	t/Dpkg_Index.t \
 	t/Dpkg_Substvars.t \
 	t/Dpkg_IPC.t \
@@ -293,6 +296,9 @@ test_data = \
 	t/Dpkg_Control/bogus-armor-inline.dsc \
 	t/Dpkg_Control/bogus-armor-nested.dsc \
 	t/Dpkg_Control/bogus-armor-spaces.dsc \
+	t/Dpkg_Control_Tests/tests-missing-fields \
+	t/Dpkg_Control_Tests/tests-plain-text \
+	t/Dpkg_Control_Tests/tests-valid \
 	t/Dpkg_Source_Quilt/parse/debian/patches/series \
 	t/Dpkg_Substvars/substvars1 \
 	t/Dpkg_Substvars/substvars2 \

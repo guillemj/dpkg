@@ -78,7 +78,8 @@ contain one item with a given key. The function used depends on the
 type: for CTRL_INFO_PKG, CTRL_INDEX_SRC, CTRL_INDEX_PKG and CTRL_PKG_DEB
 it's simply the Package field; for CTRL_PKG_SRC and CTRL_INFO_SRC, it's
 the Source field; for CTRL_CHANGELOG it's the Source and the Version
-fields (concatenated with an intermediary "_"); for CTRL_FILE_CHANGES it's
+fields (concatenated with an intermediary "_"); for CTRL_TESTS is either
+the Tests or Test-Command fields; for CTRL_FILE_CHANGES it's
 the Source, Version and Architecture fields (concatenated with "_");
 for CTRL_FILE_VENDOR it's the Vendor field; for CTRL_FILE_STATUS it's the
 Package and Architecture fields (concatenated with "_"). Otherwise it's
@@ -109,6 +110,10 @@ sub set_options {
             $self->{get_key_func} = sub { return $_[0]->{Files}; };
         } elsif ($t == CTRL_COPYRIGHT_LICENSE) {
             $self->{get_key_func} = sub { return $_[0]->{License}; };
+        } elsif ($t == CTRL_TESTS) {
+            $self->{get_key_func} = sub {
+                return $_[0]->{Tests} || $_[0]->{'Test-Command'};
+            };
         } elsif ($t == CTRL_FILE_CHANGES) {
 	    $self->{get_key_func} = sub {
 		return $_[0]->{Source} . '_' . $_[0]->{Version} . '_' .

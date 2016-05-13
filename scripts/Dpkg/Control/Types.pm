@@ -33,6 +33,7 @@ our @EXPORT = qw(
     CTRL_COPYRIGHT_HEADER
     CTRL_COPYRIGHT_FILES
     CTRL_COPYRIGHT_LICENSE
+    CTRL_TESTS
 );
 
 use Exporter qw(import);
@@ -83,6 +84,8 @@ use constant {
     CTRL_COPYRIGHT_FILES => 4096,
     # License control block in debian/copyright.
     CTRL_COPYRIGHT_LICENSE => 8192,
+    # Package test suite control file in debian/tests/control.
+    CTRL_TESTS => 16384,
 };
 
 =head1 CHANGES

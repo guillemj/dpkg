@@ -153,6 +153,10 @@ our %FIELDS = (
     'Changes' => {
         allowed => ALL_CHANGES,
     },
+    'Classes' => {
+        allowed => CTRL_TESTS,
+        separator => FIELD_SEP_COMMA,
+    },
     'Closes' => {
         allowed => ALL_CHANGES,
         separator => FIELD_SEP_SPACE,
@@ -187,7 +191,7 @@ our %FIELDS = (
         allowed => ALL_CHANGES | CTRL_REPO_RELEASE,
     },
     'Depends' => {
-        allowed => ALL_PKG,
+        allowed => ALL_PKG | CTRL_TESTS,
         separator => FIELD_SEP_COMMA,
         dependency => 'normal',
         dep_order => 2,
@@ -212,6 +216,10 @@ our %FIELDS = (
     },
     'Essential' => {
         allowed => ALL_PKG,
+    },
+    'Features' => {
+        allowed => CTRL_TESTS,
+        separator => FIELD_SEP_SPACE,
     },
     'Filename' => {
         allowed => CTRL_INDEX_PKG,
@@ -291,6 +299,10 @@ our %FIELDS = (
         dependency => 'union',
         dep_order => 8,
     },
+    'Restrictions' => {
+        allowed => CTRL_TESTS,
+        separator => FIELD_SEP_SPACE,
+    },
     'Section' => {
         allowed => CTRL_INFO_SRC | CTRL_INDEX_SRC | ALL_PKG,
     },
@@ -327,6 +339,16 @@ our %FIELDS = (
     },
     'Task' => {
         allowed => ALL_PKG,
+    },
+    'Test-Command' => {
+        allowed => CTRL_TESTS,
+    },
+    'Tests' => {
+        allowed => CTRL_TESTS,
+        separator => FIELD_SEP_SPACE,
+    },
+    'Tests-Directory' => {
+        allowed => CTRL_TESTS,
     },
     'Testsuite' => {
         allowed => ALL_SRC,

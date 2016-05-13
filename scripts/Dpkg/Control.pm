@@ -18,7 +18,7 @@ package Dpkg::Control;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our @EXPORT = qw(
     CTRL_UNKNOWN
     CTRL_INFO_SRC
@@ -35,6 +35,7 @@ our @EXPORT = qw(
     CTRL_COPYRIGHT_HEADER
     CTRL_COPYRIGHT_FILES
     CTRL_COPYRIGHT_LICENSE
+    CTRL_TESTS
 );
 
 use Exporter qw(import);
@@ -134,6 +135,10 @@ machine readable format.
 Corresponds to a license control block in a F<debian/copyright> file in
 machine readable format.
 
+=item CTRL_TESTS
+
+Corresponds to a package tests control file in F<debian/tests/control>.
+
 =back
 
 =head1 METHODS
@@ -193,6 +198,8 @@ sub set_options {
             $$self->{name} = g_('files stanza of copyright file');
         } elsif ($t == CTRL_COPYRIGHT_HEADER) {
             $$self->{name} = g_('license stanza of copyright file');
+        } elsif ($t == CTRL_TESTS) {
+            $$self->{name} = g_("package's tests control file");
         } elsif ($t == CTRL_REPO_RELEASE) {
             $$self->{name} = sprintf(g_("repository's %s file"), 'Release');
         } elsif ($t == CTRL_INDEX_SRC) {
@@ -232,6 +239,10 @@ sub get_type {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.18.8)
+
+New type: CTRL_TESTS.
 
 =head2 Version 1.01 (dpkg 1.18.5)
 
