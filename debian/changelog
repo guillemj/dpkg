@@ -33,6 +33,9 @@ dpkg (1.18.8) UNRELEASED; urgency=medium
     in dpkg-deb.
   * Set ar timestamp and tar mtime clamping to SOURCE_DATE_EPOCH if defined
     in dpkg-deb. Base on a patch by Jérémy Bobbio <lunar@debian.org>.
+  * Preset build timestamp to latest changelog entry in dpkg-buildpackage,
+    by setting SOURCE_DATE_EPOCH environment variable if it is not already
+    defined. Based on a patch by Jérémy Bobbio <lunar@debian.org>.
     Closes: #759999
   * Perl modules:
     - Use warnings::warnif() instead of carp() for deprecated warnings.

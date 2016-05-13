@@ -415,6 +415,8 @@ if ($changedby) {
     $maintainer = mustsetvar($changelog->{maintainer}, g_('source changed by'));
 }
 
+# <https://reproducible-builds.org/specs/source-date-epoch/>
+$ENV{SOURCE_DATE_EPOCH} ||= $changelog->{timestamp};
 
 my @arch_opts;
 push @arch_opts, ('--host-arch', $host_arch) if $host_arch;
