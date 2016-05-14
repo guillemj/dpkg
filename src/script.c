@@ -98,13 +98,18 @@ static const char *
 maintscript_pre_exec(struct command *cmd)
 {
 	const char *admindir = dpkg_db_get_dir();
-	const char *changedir = (*instdir && fc_script_chrootless) ? instdir : "/";
-	size_t instdirl = strlen(instdir);
+	const char *changedir;
+	size_t instdirlen = strlen(instdir);
 
-	if (*instdir && !fc_script_chrootless) {
-		if (strncmp(admindir, instdir, instdirl) != 0)
+	if (instdirlen > 0 && fc_script_chrootless)
+		changedir = instdir;
+	else
+		changedir = "/";
+
+	if (instdirlen > 0 && !fc_script_chrootless) {
+		if (strncmp(admindir, instdir, instdirlen) != 0)
 			ohshit(_("admindir must be inside instdir for dpkg to work properly"));
-		if (setenv("DPKG_ADMINDIR", admindir + instdirl, 1) < 0)
+		if (setenv("DPKG_ADMINDIR", admindir + instdirlen, 1) < 0)
 			ohshite(_("unable to setenv for subprocesses"));
 		if (setenv("DPKG_ROOT", "", 1) < 0)
 			ohshite(_("unable to setenv for subprocesses"));
@@ -129,11 +134,11 @@ maintscript_pre_exec(struct command *cmd)
 		      args.buf);
 		varbuf_destroy(&args);
 	}
-	if (!instdirl || fc_script_chrootless)
+	if (instdirlen == 0 || fc_script_chrootless)
 		return cmd->filename;
 
-	assert(strlen(cmd->filename) >= instdirl);
-	return cmd->filename + instdirl;
+	assert(strlen(cmd->filename) >= instdirlen);
+	return cmd->filename + instdirlen;
 }
 
 /**
