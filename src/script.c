@@ -98,7 +98,7 @@ static const char *
 maintscript_pre_exec(struct command *cmd)
 {
 	const char *admindir = dpkg_db_get_dir();
-	const char *changedir = fc_script_chrootless ? instdir : "/";
+	const char *changedir = (*instdir && fc_script_chrootless) ? instdir : "/";
 	size_t instdirl = strlen(instdir);
 
 	if (*instdir && !fc_script_chrootless) {
