@@ -95,9 +95,9 @@ sub changelog_parse_debian {
     # Get the output into several Dpkg::Control objects.
     my @res;
     if ($options{format} eq 'dpkg') {
-        push @res, $changes->dpkg($range);
+        push @res, $changes->format_range('dpkg', $range);
     } elsif ($options{format} eq 'rfc822') {
-        push @res, $changes->rfc822($range)->get();
+        push @res, $changes->format_range('rfc822', $range);
     } else {
         error(g_('unknown output format %s'), $options{format});
     }

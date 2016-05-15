@@ -134,10 +134,5 @@ my $changes = Dpkg::Changelog::Debian->new(reportfile => $label, range => $range
 $changes->load($file)
     or error(g_('fatal error occurred while parsing %s'), $file);
 
-eval qq{
-    my \$output = \$changes->$format(\$range);
-    print \$output if defined \$output;
-};
-if ($@) {
-    error('%s', $@);
-}
+my $entries = $changes->format_range($format, $range);
+print $entries if defined $entries;

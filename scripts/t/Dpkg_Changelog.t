@@ -166,7 +166,7 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
 	#TODO: test combinations
     }
     if ($file eq "$datadir/fields") {
-	my $str = $changes->dpkg({ all => 1 });
+	my $str = $changes->format_range('dpkg', { all => 1 });
 	my $expected = 'Source: fields
 Version: 2.0-0etch1
 Distribution: stable
@@ -201,13 +201,14 @@ Changes:
    * First upload (Closes: #1000000)
 Xb-Userfield2: foobar
 Xc-Userfield: foobar
+
 ';
 	if ($vendor eq 'Ubuntu') {
 	    $expected =~ s/^(Closes:.*)/$1\nLaunchpad-Bugs-Fixed: 12345 54321 424242 2424242/m;
 	}
 	cmp_ok($str, 'eq', $expected, 'fields handling');
 
-	$str = $changes->dpkg({ offset => 1, count => 2 });
+	$str = $changes->format_range('dpkg', { offset => 1, count => 2 });
 	$expected = 'Source: fields
 Version: 2.0-1
 Distribution: unstable frozen
@@ -232,13 +233,14 @@ Changes:
  .
    * Beta
 Xc-Userfield: foobar
+
 ';
 	if ($vendor eq 'Ubuntu') {
 	    $expected =~ s/^(Closes:.*)/$1\nLaunchpad-Bugs-Fixed: 12345 424242/m;
 	}
 	cmp_ok($str, 'eq', $expected, 'fields handling 2');
 
-	$str = $changes->rfc822({ offset => 2, count => 2 });
+	$str = $changes->format_range('rfc822', { offset => 2, count => 2 });
 	$expected = 'Source: fields
 Version: 2.0~b1-1
 Distribution: unstable
@@ -297,7 +299,7 @@ Xb-Userfield2: foobar
            'get date w/ DoW, and zero timezone offset');
     }
     if ($file eq "$datadir/regressions") {
-	my $f = $changes->dpkg();
+	my $f = ($changes->format_range('dpkg'))[0];
 	is("$f->{Version}", '0', 'version 0 correctly parsed');
     }
 
@@ -306,13 +308,13 @@ Xb-Userfield2: foobar
 	    if @data == 1;
 
 	my $oldest_version = $data[-1]->{Version};
-	$str = $changes->dpkg({ since => $oldest_version });
+	$str = $changes->format_range('dpkg', { since => $oldest_version });
 
-	$str = $changes->rfc822();
+	$str = $changes->format_range('rfc822');
 
 	ok(1, 'TODO check rfc822 output');
 
-	$str = $changes->rfc822({ since => $oldest_version });
+	$str = $changes->format_range('rfc822', { since => $oldest_version });
 
 	ok(1, 'TODO check rfc822 output with ranges');
     }
