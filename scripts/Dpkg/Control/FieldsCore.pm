@@ -537,7 +537,7 @@ $from Dpkg::Control object to the $to Dpkg::Control object.
 Official fields are copied only if the field is allowed in both types of
 objects. Custom fields are treated in a specific manner. When the target
 is not among CTRL_PKG_SRC, CTRL_PKG_DEB or CTRL_FILE_CHANGES, then they
-are alway copied as is (the X- prefix is kept). Otherwise they are not
+are always copied as is (the X- prefix is kept). Otherwise they are not
 copied except if the target object matches the target destination encoded
 in the field name. The initial X denoting custom fields can be followed by
 one or more letters among "S" (Source: corresponds to CTRL_PKG_SRC), "B"

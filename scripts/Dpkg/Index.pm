@@ -328,7 +328,7 @@ sub sort {
 
 Get a string representation of the index. The Dpkg::Control objects are
 output in the order which they have been read or added except if the order
-hae been changed with sort().
+have been changed with sort().
 
 =item $index->output($fh)
 

@@ -491,7 +491,7 @@ sub debarch_eq($$)
 
 =item $bool = debarch_is($arch, $arch_wildcard)
 
-Evaluate the identity of a Debian architecture, by matchings with an
+Evaluate the identity of a Debian architecture, by matching with an
 architecture wildcard.
 
 =cut

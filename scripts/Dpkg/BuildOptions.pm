@@ -158,7 +158,7 @@ sub has {
 =item $string = $bo->output($fh)
 
 Return a string representation of the build options suitable to be
-assigned to an environment variable. Can optionnaly output that string to
+assigned to an environment variable. Can optionally output that string to
 the given filehandle.
 
 =cut

@@ -39,9 +39,9 @@ not be identified (see Dpkg::Vendor documentation).
 
 It provides some hooks that are called by various dpkg-* tools.
 If you need a new hook, please file a bug against dpkg-dev and explain
-your need. Note that the hook API has no guaranty to be stable over an
-extended period. If you run an important distribution that makes use
-of vendor hooks, you'd better submit them for integration so that
+your need. Note that the hook API has no guarantee to be stable over an
+extended period of time. If you run an important distribution that makes
+use of vendor hooks, you'd better submit them for integration so that
 we avoid breaking your code.
 
 =head1 METHODS

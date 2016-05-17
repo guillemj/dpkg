@@ -41,8 +41,8 @@ Dpkg::Vendor::Debian - Debian vendor object
 
 =head1 DESCRIPTION
 
-This vendor object customize the behaviour of dpkg scripts
-for Debian specific actions.
+This vendor object customizes the behaviour of dpkg scripts for Debian
+specific behavior and policies.
 
 =cut
 

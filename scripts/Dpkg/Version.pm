@@ -316,7 +316,7 @@ numbers. Returns -1 if $a is earlier than $b, 0 if they are equal and 1 if $a
 is later than $b.
 
 The "~" character always sort lower than anything else. Digits sort lower
-than non-digits. Among remaining characters alphabetic characters (A-Za-z)
+than non-digits. Among remaining characters alphabetic characters (A-Z, a-z)
 sort lower than the other ones. Within each range, the ASCII decimal value
 of the character is used to sort between characters.
 

@@ -41,8 +41,8 @@ Dpkg::Vendor::Ubuntu - Ubuntu vendor object
 
 =head1 DESCRIPTION
 
-This vendor object customize the behaviour of dpkg-source
-to check that Maintainers have been modified if necessary.
+This vendor object customizes the behaviour of dpkg scripts for Ubuntu
+specific behavior and policies.
 
 =cut
 

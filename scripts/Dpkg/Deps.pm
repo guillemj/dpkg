@@ -1273,7 +1273,7 @@ Those methods are not meaningful for this object and always return undef.
 
 =item $union->simplify_deps($facts)
 
-The simplication is done to generate an union of all the relationships.
+The simplification is done to generate an union of all the relationships.
 It uses $simple_dep->merge_union($other_dep) to get its job done.
 
 =back
