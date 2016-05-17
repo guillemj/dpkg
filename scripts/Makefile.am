@@ -21,10 +21,6 @@ bin_SCRIPTS = \
 	dpkg-source \
 	dpkg-vendor
 
-changelogdir = $(pkglibdir)/parsechangelog
-changelog_SCRIPTS = \
-	changelog/debian
-
 EXTRA_DIST = \
 	dpkg-architecture.pl \
 	dpkg-buildflags.pl \
@@ -43,14 +39,13 @@ EXTRA_DIST = \
 	dpkg-shlibdeps.pl \
 	dpkg-source.pl \
 	dpkg-vendor.pl \
-	changelog/debian.pl \
 	$(test_scripts) \
 	$(test_data)
 
 
 CLEANFILES = \
 	$(test_data_objects) \
-	$(bin_SCRIPTS) $(changelog_SCRIPTS)
+	$(bin_SCRIPTS)
 
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \

@@ -49,7 +49,6 @@ sub usage {
 'Options:
   -l <changelog-file>      get per-version info from this file.
   -F <changelog-format>    force changelog format.
-  -L <libdir>              look for changelog parsers in <libdir>.
   -S, --show-field <field> show the values for <field>.
   -?, --help               show this help message.
       --version            show the version.')
@@ -81,9 +80,7 @@ while (@ARGV) {
     if ($arg eq '--') {
         last;
     } elsif ($arg eq '-L') {
-        $options{libdir} = shift;
-        usageerr(g_('missing library directory'))
-            unless length $options{libdir};
+        warning(g_('-L is obsolete; it is without effect'));
     } elsif ($arg eq '-F') {
         $options{changelogformat} = shift;
         usageerr(g_('bad changelog format name'))

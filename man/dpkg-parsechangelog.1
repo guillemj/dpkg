@@ -48,11 +48,9 @@ defaults to the \fBdebian\fP standard format. See also
 \fBCHANGELOG FORMATS\fP.
 .TP
 .BR \-L " \fIlibdir\fP"
-Specify an additional directory to search for parser scripts.
-This directory is searched before the default directories
-which are currently
-.BR /usr/local/lib/dpkg/parsechangelog " and "
-.BR /usr/lib/dpkg/parsechangelog .
+Obsolete option without effect (since dpkg 1.18.8).
+Setting the perl environment variables \fBPERL5LIB\fP or \fBPERLLIB\fP
+has a similar effect when looking for the parser perl modules.
 .TP
 .BR \-S ", " \-\-show\-field " \fIfield\fP"
 Specifies the name of the field to show (since dpkg 1.17.0).
@@ -66,8 +64,7 @@ Show the version and exit.
 .SS Parser Options
 The following options can be used to influence the output of
 the changelog parser, e.g. the range of entries or the format
-of the output. They need to be supported by the parser script
-in question. See also \fBNOTES\fP.
+of the output.
 .TP
 .BI \-\-file " file"
 Set the changelog filename to parse.
@@ -162,17 +159,14 @@ The part in parentheses should be the name of the format. For example:
 Changelog format names are non-empty strings of alphanumerics.
 
 If such a line exists then \fBdpkg\-parsechangelog\fP will look for
-the parser as \fB/usr/lib/dpkg/parsechangelog/\fP\fIotherformat\fP
-or \fB/usr/local/lib/dpkg/parsechangelog/\fP\fIotherformat\fP; it is
-an error for it not being present or not being an executable program.
+the parser as a \fBDpkg::Changelog::\fP\fIOtherformat\fP perl module;
+it is an error for it not being present.
+The parser name in the perl module will be automatically capitalized.
 The default changelog format is \fBdebian\fP, and a parser for it is
 provided by default.
 
-The parser will be invoked with the changelog open on standard input at
-the start of the file. It should read the file (it may seek if it wishes)
-to determine the information required and return the parsed information
-to standard output in the format specified by the \fB\-\-format\fP option.
-It should accept all \fBParser Options\fP.
+The parser should be derived from the Dpkg::Changelog class and implement
+the required documented interface.
 
 If the changelog format which is being parsed always or almost always
 leaves a blank line between individual change notes, these blank lines
@@ -182,17 +176,15 @@ If the changelog format does not contain date or package name information
 this information should be omitted from the output. The parser should not
 attempt to synthesize it or find it from other sources.
 
-If the changelog does not have the expected format the parser should exit
-with a nonzero exit status, rather than trying to muddle through and
-possibly generating incorrect output.
+If the changelog does not have the expected format the parser should
+error out, rather than trying to muddle through and possibly generating
+incorrect output.
 
 A changelog parser may not interact with the user at all.
 .
 .SH NOTES
 All \fBParser Options\fP except for \fB\-v\fP are only supported
-since dpkg 1.14.16. Third party parsers for
-changelog formats other than \fBdebian\fP might not support
-all options.
+since dpkg 1.14.16.
 .PP
 Short option parsing with non-bundled values available only since dpkg 1.18.0.
 .

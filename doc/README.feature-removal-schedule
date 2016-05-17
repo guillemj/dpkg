@@ -75,6 +75,16 @@ Why:
  guarantee of what exact format version will be used to produce the
  output file. They have been replaced with a new --deb-format option.
 
+What: -L (dpkg-parsechangelog option)
+Status: obsolete
+Since: 1.18.8
+When: 1.19.x
+Warning: program
+Why:
+ The custom parsers have been switched from programs to perl modules,
+ and this option has no use any longer. The caller can set PERL5LIB or
+ PERLLIB to specify the perl module search path now.
+
 History of feature removals
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -145,3 +155,18 @@ When: 1.16.4
 Warning: program
 Why:
  This option has been superseded by -tudeb.
+
+What: support for custom changelog parsers as programs
+Status: removed
+Since: 1.18.8
+Why:
+ Using programs to implement the custom changelog parsers was very inefficient
+ as it required to parse the custom changelog, output deb822 formatted entries
+ to then parse that and output again with the desired format.
+ .
+ These were implemented as programs because at the time the perl code in dpkg
+ was not using perl modules, so it was not easy to extend. Using perl modules
+ now is cleaner and allows for a faster implementation.
+ .
+ In addition there's no known users in Debian, so it was deemed safe to remove
+ the support without a transition.
