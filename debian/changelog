@@ -27,6 +27,8 @@ dpkg (1.18.8) UNRELEASED; urgency=medium
     was obviously wrong. Reported by Helmut Grohne <helmut@subdivi.de>.
   * Fix strtol() errno check when parsing the COLUMNS envvar in dpkg-query.
     Thanks to Sven Joachim <svenjoac@gmx.de>. Closes: #827265
+  * Use new GNU tar --clamp-mtime option in dpkg-deb to make sure no file in
+    binary packages has an mtime later than the given time. Closes: #759886
   * Perl modules:
     - Use warnings::warnif() instead of carp() for deprecated warnings.
     - Add new format_range() method and deprecate dpkg() and rfc822() methods
