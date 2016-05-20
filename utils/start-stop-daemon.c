@@ -1524,12 +1524,13 @@ pid_is_child(pid_t pid, pid_t ppid)
 {
 	struct kinfo_proc kp;
 	int rc, mib[4];
-	size_t len = 0;
+	size_t len;
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_PROC;
 	mib[2] = KERN_PROC_PID;
 	mib[3] = pid;
+	len = sizeof(kp);
 
 	rc = sysctl(mib, 4, &kp, &len, NULL, 0);
 	if (rc != 0 && errno != ESRCH)
@@ -1609,12 +1610,13 @@ pid_is_user(pid_t pid, uid_t uid)
 {
 	struct kinfo_proc kp;
 	int rc, mib[4];
-	size_t len = 0;
+	size_t len;
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_PROC;
 	mib[2] = KERN_PROC_PID;
 	mib[3] = pid;
+	len = sizeof(kp);
 
 	rc = sysctl(mib, 4, &kp, &len, NULL, 0);
 	if (rc != 0 && errno != ESRCH)
@@ -1720,12 +1722,13 @@ pid_is_cmd(pid_t pid, const char *name)
 {
 	struct kinfo_proc kp;
 	int rc, mib[4];
-	size_t len = 0;
+	size_t len;
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_PROC;
 	mib[2] = KERN_PROC_PID;
 	mib[3] = pid;
+	len = sizeof(kp);
 
 	rc = sysctl(mib, 4, &kp, &len, NULL, 0);
 	if (rc != 0 && errno != ESRCH)
