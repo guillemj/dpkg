@@ -872,6 +872,12 @@ int main(int argc, const char *const *argv) {
   dpkg_options_load(DPKG, cmdinfos);
   dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
+  /* When running as root, make sure our primary group is also root, so
+   * that files created by maintainer scripts have correct ownership. */
+  if (!fc_nonroot && getuid() == 0)
+    if (setgid(0) < 0)
+      ohshite(_("cannot set primary group ID to root"));
+
   if (!cipaction) badusage(_("need an action option"));
 
   admindir = dpkg_db_set_dir(admindir);
