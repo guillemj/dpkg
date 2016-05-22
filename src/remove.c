@@ -514,6 +514,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
     modstatdb_note(pkg);
 
     for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
+      struct filenamenode *namenode, *usenode;
     static struct varbuf fnvb, removevb;
       struct varbuf_state removevb_state;
 
@@ -527,6 +528,12 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
             conff->name, rc == -1 ? "<rc == -1>" : fnvb.buf);
       if (rc == -1)
         continue;
+
+      namenode = findnamenode(fnvb.buf, fnn_nonew);
+      usenode = namenodetouse(namenode, pkg, &pkg->installed);
+
+      trig_path_activate(usenode, pkg);
+
       conffnameused = fnvb.used;
       if (unlink(fnvb.buf) && errno != ENOENT && errno != ENOTDIR)
         ohshite(_("cannot remove old config file '%.250s' (= '%.250s')"),

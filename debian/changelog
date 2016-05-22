@@ -22,6 +22,9 @@ dpkg (1.18.8) UNRELEASED; urgency=medium
     Thanks to Niall Walsh <niallwalsh@celtux.org>. Closes: #824542
   * Set primary group to 0 in dpkg when running as root.
     Reported by Stuart Prescott <stuart@debian.org>.
+  * Activate file triggers for conffiles on purge, which has never happened
+    before. Before dpkg 1.17.0, conffiles were triggered on removal, which
+    was obviously wrong. Reported by Helmut Grohne <helmut@subdivi.de>.
   * Perl modules:
     - Use warnings::warnif() instead of carp() for deprecated warnings.
     - Add new format_range() method and deprecate dpkg() and rfc822() methods
