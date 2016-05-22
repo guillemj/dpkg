@@ -362,6 +362,34 @@ locations to bounce off of during a memory corruption attack.
 This is not compatible with \fB\-fPIC\fP so care must be taken when
 building shared objects.
 
+Static libraries can be used by programs or other shared libraries.
+Depending on the flags used to compile all the objects within a static
+library, these libraries will be usable by different sets of objects:
+
+.RS
+.TP
+none
+Cannot be linked into a PIE program, nor a shared library.
+.TP
+.B \-fPIE
+Can be linked into any program, but not a shared library.
+.TP
+.B \-fPIC
+Can be linked into any program and shared library.
+.RE
+
+.IP
+Unconditionally passing \fB\-fPIE\fP, \fB\-fpie\fP or \fB\-pie\fP to a
+build-system using libtool is safe as these flags will get stripped when
+building shared libraries.
+Otherwise on projects that build both programs and shared libraries you
+might need to make sure that when building the shared libraries \fB\-fPIC\fP
+is always passed last (so that it overrides any previous \fB\-PIE\fP) to
+compilation flags such as \fBCFLAGS\fP, and \fB\-shared\fP is passed last
+(so that it overrides any previous \fB\-pie\fP) to linking flags such as
+\fBLDFLAGS\fP.
+
+.IP
 Additionally, since PIE is implemented via a general register, some
 register starved architectures (but not including i386 anymore since
 optimizations implemented in gcc >= 5) can see performance losses of up to
