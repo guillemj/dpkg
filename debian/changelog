@@ -13,6 +13,12 @@ dpkg (1.18.8) UNRELEASED; urgency=medium
       dpkg-parsechangelog's output.
     - Validate source version in set_version_substvars()'s Dpkg::Substvars
       method.
+    - Revert "Dpkg::Conf: Switch implementation to be hash based", as this
+      change broke backwards compatibility in multiple ways. The format_argv
+      option was set by default, the order was not preserved, which was
+      important for dpkg.cfg files, and duplicate option names stopped being
+      supported. Add regression tests to avoid similar changes in the future.
+      Closes: #824938
   * Test suite:
     - Bump perlcritic ValuesAndExpressions::RequireNumberSeparators minimum
       to 99999.
