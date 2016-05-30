@@ -722,6 +722,21 @@ sub build_target_fallback {
     return if $buildtarget eq 'build';
     return if scalar @debian_rules != 1;
 
+    # Check if we are building both arch:all and arch:any packages, in which
+    # case we now require working build-indep and build-arch targets.
+    my $pkg_arch = 0;
+    my $ctrl = Dpkg::Control::Info->new();
+
+    foreach my $bin ($ctrl->get_packages()) {
+        if ($bin->{Architecture} eq 'all') {
+            $pkg_arch |= BUILD_ARCH_INDEP;
+        } else {
+            $pkg_arch |= BUILD_ARCH_DEP;
+        }
+    }
+
+    return if $pkg_arch == BUILD_BINARY;
+
     # Check if the build-{arch,indep} targets are supported. If not, fallback
     # to build.
     my $pid = spawn(exec => [ 'make', '-f', @debian_rules, '-qn', $buildtarget ],

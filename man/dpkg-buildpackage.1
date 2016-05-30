@@ -496,9 +496,10 @@ by \fBdpkg\-buildflags\fP. This is no longer the case.
 \fBdpkg\-buildpackage\fP is using the \fBbuild\-arch\fP and
 \fBbuild\-indep\fP targets since dpkg 1.16.2. Those targets are thus
 mandatory. But to avoid breakages of existing packages, and ease
-the transition, it will fallback to using the \fBbuild\fP target
-if \fBmake \-f debian/rules \-qn\fP \fIbuild-target\fP returns 2 as
-exit code.
+the transition, if the source package does not build both architecture
+independent and dependent binary packages (since dpkg 1.18.8) it will
+fallback to use the \fBbuild\fP target if \fBmake \-f debian/rules \-qn\fP
+\fIbuild-target\fP returns 2 as exit code.
 .SH BUGS
 It should be possible to specify spaces and shell metacharacters
 and initial arguments for
