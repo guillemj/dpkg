@@ -2003,7 +2003,7 @@ do_findprocs(void)
 		return do_procinit();
 }
 
-static void
+static int
 do_start(int argc, char **argv)
 {
 	int devnull_fd = -1;
@@ -2015,7 +2015,7 @@ do_start(int argc, char **argv)
 	if (found) {
 		if (quietmode <= 0)
 			printf("%s already running.\n", execname ? execname : "process");
-		exit(exitnodo);
+		return exitnodo;
 	}
 	if (testmode && quietmode <= 0) {
 		printf("Would start %s ", startas);
@@ -2041,7 +2041,7 @@ do_start(int argc, char **argv)
 		printf(".\n");
 	}
 	if (testmode)
-		exit(0);
+		return 0;
 	if (quietmode < 0)
 		printf("Starting %s...\n", startas);
 	*--argv = startas;
@@ -2345,7 +2345,7 @@ main(int argc, char **argv)
 	argv += optind;
 
 	if (action == ACTION_START)
-		do_start(argc, argv);
+		return do_start(argc, argv);
 
 	if (action == ACTION_STOP) {
 		int i = run_stop_schedule();
