@@ -2346,18 +2346,10 @@ main(int argc, char **argv)
 
 	if (action == ACTION_START)
 		return do_start(argc, argv);
-
-	if (action == ACTION_STOP) {
-		int i = run_stop_schedule();
-		exit(i);
-	}
-
-	if (action == ACTION_STATUS) {
-		enum status_code prog_status;
-
-		prog_status = do_findprocs();
-		exit(prog_status);
-	}
+	else if (action == ACTION_STOP)
+		return run_stop_schedule();
+	else if (action == ACTION_STATUS)
+		return do_findprocs();
 
 	return 0;
 }
