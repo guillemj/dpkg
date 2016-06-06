@@ -25,6 +25,7 @@ use POSIX qw(:errno_h);
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
+use Dpkg::Version;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
 
@@ -231,8 +232,11 @@ sub set_version_substvars {
     # field on the changelog, always fix up the source version.
     $sourceversion =~ s/\+b[0-9]+$//;
 
-    my $upstreamversion = $sourceversion;
-    $upstreamversion =~ s/-[^-]*$//;
+    my $vs = Dpkg::Version->new($sourceversion, check => 1);
+    if (not defined $vs) {
+        error(g_('invalid source version %s'), $sourceversion);
+    }
+    my $upstreamversion = $vs->as_string(omit_revision => 1);
 
     my $attr = SUBSTVAR_ATTR_USED | SUBSTVAR_ATTR_AUTO;
 
