@@ -58,7 +58,12 @@ sub do_extract {
 
     error(g_('no tarfile in Files field')) unless $tarfile;
 
-    erasedir($newdirectory);
+    if ($self->{options}{no_overwrite_dir} and -e $newdirectory) {
+        error(g_('unpack target exists: %s'), $newdirectory);
+    } else {
+        erasedir($newdirectory);
+    }
+
     info(g_('unpacking %s'), $tarfile);
     my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
     $tar->extract($newdirectory);

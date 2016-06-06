@@ -487,7 +487,8 @@ sub parse_cmdline_option {
 =item $p->extract($targetdir)
 
 Extracts the source package in the target directory $targetdir. Beware
-that if $targetdir already exists, it will be erased.
+that if $targetdir already exists, it will be erased (as long as the
+no_overwrite_dir option is set).
 
 =cut
 

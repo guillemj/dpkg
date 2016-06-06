@@ -192,7 +192,11 @@ sub do_extract {
         my $expectprefix = $newdirectory;
         $expectprefix .= '.orig';
 
-        erasedir($newdirectory);
+        if ($self->{options}{no_overwrite_dir} and -e $newdirectory) {
+            error(g_('unpack target exists: %s'), $newdirectory);
+        } else {
+            erasedir($newdirectory);
+        }
         if (-e $expectprefix) {
             rename($expectprefix, "$newdirectory.tmp-keep")
                 or syserr(g_("unable to rename '%s' to '%s'"), $expectprefix,

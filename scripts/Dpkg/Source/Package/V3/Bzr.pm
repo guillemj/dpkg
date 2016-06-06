@@ -188,7 +188,11 @@ sub do_extract {
               "$basenamerev.bzr.tar.$comp_ext_regex", $tarfile);
     }
 
-    erasedir($newdirectory);
+    if ($self->{options}{no_overwrite_dir} and -e $newdirectory) {
+        error(g_('unpack target exists: %s'), $newdirectory);
+    } else {
+        erasedir($newdirectory);
+    }
 
     # Extract main tarball
     info(g_('unpacking %s'), $tarfile);

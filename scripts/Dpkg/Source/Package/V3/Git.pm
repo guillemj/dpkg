@@ -235,7 +235,11 @@ sub do_extract {
         error(g_('format v3.0 (git) expected %s'), "$basenamerev.git");
     }
 
-    erasedir($newdirectory);
+    if ($self->{options}{no_overwrite_dir} and -e $newdirectory) {
+        error(g_('unpack target exists: %s'), $newdirectory);
+    } else {
+        erasedir($newdirectory);
+    }
 
     # Extract git bundle.
     info(g_('cloning %s'), $bundle);

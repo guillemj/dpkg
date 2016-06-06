@@ -67,6 +67,7 @@ my %options = (
     # Misc options
     copy_orig_tarballs => 1,
     no_check => 0,
+    no_overwrite_dir => 1,
     require_valid_signature => 0,
     require_strong_checksums => 0,
 );
@@ -190,6 +191,8 @@ while (@options) {
         $options{copy_orig_tarballs} = 0;
     } elsif (m/^--no-check$/) {
         $options{no_check} = 1;
+    } elsif (m/^--no-overwrite-dir$/) {
+        $options{no_overwrite_dir} = 1;
     } elsif (m/^--require-valid-signature$/) {
         $options{require_valid_signature} = 1;
     } elsif (m/^--require-strong-checksums$/) {
@@ -644,6 +647,7 @@ sub usage {
 "Extract options:
   --no-copy                don't copy .orig tarballs
   --no-check               don't check signature and checksums before unpacking
+  --no-overwrite-dir       do not overwrite directory on extraction
   --require-valid-signature abort if the package doesn't have a valid signature
   --require-strong-checksums
                            abort if the package contains no strong checksums
