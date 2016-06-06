@@ -434,12 +434,12 @@ while (<$arch_env>) {
 close $arch_env or subprocerr('dpkg-architecture');
 
 my $arch;
-if (build_is(BUILD_SOURCE)) {
-    $arch = 'source';
-} elsif (build_is(BUILD_ARCH_INDEP)) {
-    $arch = 'all';
-} else {
+if (build_has_any(BUILD_ARCH_DEP)) {
     $arch = mustsetvar($ENV{DEB_HOST_ARCH}, g_('host architecture'));
+} elsif (build_has_any(BUILD_ARCH_INDEP)) {
+    $arch = 'all';
+} elsif (build_has_any(BUILD_SOURCE)) {
+    $arch = 'source';
 }
 
 my $pv = "${pkg}_$sversion";
