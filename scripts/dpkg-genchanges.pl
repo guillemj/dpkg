@@ -401,6 +401,10 @@ if ($changesdescription) {
 
 for my $p (keys %p2f) {
     if (not defined $control->get_pkg_by_name($p)) {
+        # XXX: Skip automatic debugging symbol packages. We should not be
+        # hardcoding packages names here, as this is distribution-specific.
+        # Instead we should use the Auto-Built-Package field.
+        next if $p =~ m/-dbgsym$/;
         warning(g_('package %s listed in files list but not in control info'), $p);
         next;
     }
