@@ -138,7 +138,7 @@ Include dependencies appropriate for the shared libraries required by
 This option can be used multiple times.
 .TP
 .BI \-l directory
-Add
+Prepend
 .I directory
 to the list of directories to search for private shared libraries
 (since dpkg 1.17.0). This option can be used multiple times.
@@ -323,11 +323,12 @@ The \fIbinary\fR uses a library called \fIlibrary-soname\fR but
 has been unable to find the library.
 .B dpkg\-shlibdeps
 creates a list of directories to check as following: directories listed in
-the RPATH of the binary, directories listed in /etc/ld.so.conf,
-directories added by the \fB\-l\fP option,
-directories listed in the \fBLD_LIBRARY_PATH\fP environment variable, and
-standard public directories (/lib, /usr/lib, /lib32, /usr/lib32, /lib64,
-/usr/lib64). Then it checks those directories in the package's build tree
+the RPATH of the binary, directories added by the \fB\-l\fP option, directories
+listed in the \fBLD_LIBRARY_PATH\fP environment variable, cross multiarch
+directories (ex. /lib/arm64-linux-gnu, /usr/lib/arm64-linux-gnu), standard
+public directories (/lib, /usr/lib), directories listed in /etc/ld.so.conf,
+and obsolete multilib directories (/lib32, /usr/lib32, /lib64, /usr/lib64).
+Then it checks those directories in the package's build tree
 of the binary being analyzed, in the packages' build trees indicated with
 the \fB\-S\fP command-line option, in other packages' build trees that contains
 a DEBIAN/shlibs or DEBIAN/symbols file and finally in the root directory.
