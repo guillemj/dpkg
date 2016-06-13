@@ -172,7 +172,8 @@ sub _add_reproducible_flags {
     # Avoid storing the build path in the debug symbols.
     if ($use_feature{fixdebugpath}) {
         require Cwd;
-        my $map = '-fdebug-prefix-map=' . Cwd::cwd() . '=.';
+        my $build_path = $ENV{DEB_BUILD_PATH} || Cwd::cwd();
+        my $map = '-fdebug-prefix-map=' . $build_path . '=.';
         $flags->append('CFLAGS', $map);
         $flags->append('CXXFLAGS', $map);
         $flags->append('OBJCFLAGS', $map);
