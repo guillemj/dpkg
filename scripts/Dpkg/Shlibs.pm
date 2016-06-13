@@ -46,7 +46,10 @@ use constant DEFAULT_LIBRARY_PATH =>
 use constant DEFAULT_MULTILIB_PATH =>
     qw(/lib32 /usr/lib32 /lib64 /usr/lib64);
 
-my @librarypaths;
+# Library paths set by the user.
+my @custom_librarypaths;
+# Library paths from the system.
+my @system_librarypaths;
 my $librarypaths_init;
 
 sub parse_ldso_conf {
@@ -68,8 +71,8 @@ sub parse_ldso_conf {
 	} elsif (m{^\s*/}) {
 	    s/^\s+//;
 	    my $libdir = $_;
-	    if (none { $_ eq $libdir } @librarypaths) {
-		push @librarypaths, $libdir;
+	    if (none { $_ eq $libdir } (@custom_librarypaths, @system_librarypaths)) {
+		push @system_librarypaths, $libdir;
 	    }
 	}
     }
@@ -77,18 +80,22 @@ sub parse_ldso_conf {
 }
 
 sub blank_library_paths {
-    @librarypaths = ();
+    @custom_librarypaths = ();
+    @system_librarypaths = ();
     $librarypaths_init = 1;
 }
 
 sub setup_library_paths {
-    @librarypaths = ();
+    @custom_librarypaths = ();
+    @system_librarypaths = ();
 
     # XXX: Deprecated. Update library paths with LD_LIBRARY_PATH.
     if ($ENV{LD_LIBRARY_PATH}) {
         foreach my $path (split /:/, $ENV{LD_LIBRARY_PATH}) {
             $path =~ s{/+$}{};
-            push @librarypaths, $path;
+            # XXX: This should be added to @custom_librarypaths, but as this
+            # is deprecated we do not care as the code will go away.
+            push @system_librarypaths, $path;
         }
     }
 
@@ -108,15 +115,15 @@ sub setup_library_paths {
     }
     # Define list of directories containing crossbuilt libraries.
     if ($multiarch) {
-        push @librarypaths, "/lib/$multiarch", "/usr/lib/$multiarch";
+        push @system_librarypaths, "/lib/$multiarch", "/usr/lib/$multiarch";
     }
 
-    push @librarypaths, DEFAULT_LIBRARY_PATH;
+    push @system_librarypaths, DEFAULT_LIBRARY_PATH;
 
     # Update library paths with ld.so config.
     parse_ldso_conf('/etc/ld.so.conf') if -e '/etc/ld.so.conf';
 
-    push @librarypaths, DEFAULT_MULTILIB_PATH;
+    push @system_librarypaths, DEFAULT_MULTILIB_PATH;
 
     $librarypaths_init = 1;
 }
@@ -126,13 +133,13 @@ sub add_library_dir {
 
     setup_library_paths() if not $librarypaths_init;
 
-    unshift @librarypaths, $dir;
+    push @custom_librarypaths, $dir;
 }
 
 sub get_library_paths {
     setup_library_paths() if not $librarypaths_init;
 
-    return @librarypaths;
+    return (@custom_librarypaths, @system_librarypaths);
 }
 
 # find_library ($soname, \@rpath, $format, $root)
@@ -141,10 +148,11 @@ sub find_library {
 
     setup_library_paths() if not $librarypaths_init;
 
+    my @librarypaths = (@{$rpath}, @custom_librarypaths, @system_librarypaths);
+
     $root //= '';
     $root =~ s{/+$}{};
-    my @rpath = @{$rpath};
-    foreach my $dir (@rpath, @librarypaths) {
+    foreach my $dir (@librarypaths) {
 	my $checkdir = "$root$dir";
 	# If the directory checked is a symlink, check if it doesn't
 	# resolve to another public directory (which is then the canonical
@@ -152,7 +160,7 @@ sub find_library {
 	# is /usr/lib64 -> /usr/lib on amd64.
 	if (-l $checkdir) {
 	    my $newdir = resolve_symlink($checkdir);
-	    if (any { "$root$_" eq "$newdir" } (@rpath, @librarypaths)) {
+	    if (any { "$root$_" eq "$newdir" } @librarypaths) {
 		$checkdir = $newdir;
 	    }
 	}

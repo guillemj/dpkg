@@ -34,14 +34,19 @@ my $datadir = $srcdir . '/t/Dpkg_Shlibs';
 
 my @librarypaths;
 
-Dpkg::Shlibs::add_library_dir('/test-b');
-@librarypaths = Dpkg::Shlibs::get_library_paths();
-is($librarypaths[0], '/test-b', 'add_library_dir() does not get lost');
+{
+    # XXX: Keep as long as we support the deprecated LD_LIBRARY_PATH.
+    local $ENV{LD_LIBRARY_PATH} = '/test-env';
 
-Dpkg::Shlibs::add_library_dir('/test-a');
-@librarypaths = Dpkg::Shlibs::get_library_paths();
-is_deeply([ @librarypaths[0, 1] ] , [ '/test-a', '/test-b' ],
-          'add_library_dir() prepends');
+    Dpkg::Shlibs::add_library_dir('/test-a');
+    @librarypaths = Dpkg::Shlibs::get_library_paths();
+    is($librarypaths[0], '/test-a', 'add_library_dir() does not get lost');
+
+    Dpkg::Shlibs::add_library_dir('/test-b');
+    @librarypaths = Dpkg::Shlibs::get_library_paths();
+    is_deeply([ @librarypaths[0, 1] ] , [ '/test-a', '/test-b' ],
+              'add_library_dir() prepends');
+}
 
 Dpkg::Shlibs::blank_library_paths();
 
