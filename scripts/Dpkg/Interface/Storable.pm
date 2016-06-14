@@ -144,10 +144,6 @@ sub _stringify {
 
 Mark the module as public.
 
-=head1 AUTHOR
-
-Raphaël Hertzog <hertzog@debian.org>.
-
 =cut
 
 1;

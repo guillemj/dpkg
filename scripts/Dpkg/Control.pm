@@ -253,10 +253,6 @@ CTRL_COPYRIGHT_LICENSE.
 
 Mark the module as public.
 
-=head1 AUTHOR
-
-Raphaël Hertzog <hertzog@debian.org>.
-
 =cut
 
 1;

@@ -430,10 +430,6 @@ Deprecated variables: $regex_header, $regex_trailer
 
 Mark the module as public.
 
-=head1 AUTHOR
-
-Raphaël Hertzog <hertzog@debian.org>.
-
 =cut
 
 1;

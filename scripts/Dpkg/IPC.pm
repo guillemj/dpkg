@@ -413,11 +413,6 @@ New options: spawn() now accepts 'sig' and 'delete_sig'.
 
 Mark the module as public.
 
-=head1 AUTHORS
-
-Written by Raphaël Hertzog <hertzog@debian.org> and
-Frank Lichtenheld <djpig@debian.org>.
-
 =head1 SEE ALSO
 
 Dpkg, Dpkg::ErrorHandling

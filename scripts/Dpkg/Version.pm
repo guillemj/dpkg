@@ -450,12 +450,6 @@ New method: $v->is_native().
 
 Mark the module as public.
 
-=head1 AUTHOR
-
-Don Armstrong <don@donarmstrong.com>, Colin Watson
-<cjwatson@debian.org> and Raphaël Hertzog <hertzog@debian.org>, based on
-the implementation in F<dpkg/lib/version.c> by Ian Jackson and others.
-
 =cut
 
 1;

@@ -246,10 +246,6 @@ Default compression level is not global any more, it is per compressor type.
 
 Mark the module as public.
 
-=head1 AUTHOR
-
-Raphaël Hertzog <hertzog@debian.org>.
-
 =cut
 
 1;

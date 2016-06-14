@@ -94,10 +94,6 @@ use constant {
 
 This is a private module.
 
-=head1 AUTHOR
-
-Raphaël Hertzog <hertzog@debian.org>.
-
 =cut
 
 1;

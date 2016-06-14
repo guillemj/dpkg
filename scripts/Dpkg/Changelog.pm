@@ -778,10 +778,5 @@ New field Timestamp in output formats.
 
 Mark the module as public.
 
-=head1 AUTHOR
-
-Frank Lichtenheld, E<lt>frank@lichtenheld.deE<gt>
-Raphaël Hertzog, E<lt>hertzog@debian.orgE<gt>
-
 =cut
 1;

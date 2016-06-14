@@ -466,9 +466,5 @@ New argument: $fh->ensure_open() accepts an %opts argument.
 
 Mark the module as public.
 
-=head1 AUTHOR
-
-Raphaël Hertzog <hertzog@debian.org>
-
 =cut
 1;

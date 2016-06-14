@@ -674,10 +674,6 @@ Deprecated variables: $diff_ignore_default_regexp, @tar_ignore_default_pattern
 
 Mark the module as public.
 
-=head1 AUTHOR
-
-Raphaël Hertzog, E<lt>hertzog@debian.orgE<gt>
-
 =cut
 
 1;

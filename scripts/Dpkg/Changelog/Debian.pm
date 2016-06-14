@@ -251,11 +251,6 @@ __END__
 
 Mark the module as public.
 
-=head1 AUTHORS
-
-Frank Lichtenheld, E<lt>frank@lichtenheld.deE<gt>
-Raphaël Hertzog, E<lt>hertzog@debian.orgE<gt>
-
 =head1 SEE ALSO
 
 Dpkg::Changelog

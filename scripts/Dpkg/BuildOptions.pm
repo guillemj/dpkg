@@ -200,10 +200,6 @@ Thus add support for the "envvar" option at creation time.
 
 Mark the module as public.
 
-=head1 AUTHOR
-
-Raphaël Hertzog <hertzog@debian.org>
-
 =cut
 
 1;
