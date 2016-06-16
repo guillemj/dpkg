@@ -17,11 +17,9 @@ use strict;
 use warnings;
 
 use Test::More;
-use Test::Dpkg;
+use Test::Dpkg qw(:needs);
 
-if (defined $ENV{srcdir}) {
-    chdir $ENV{srcdir} or die "cannot chdir to source directory: $!";
-}
+test_needs_srcdir_switch();
 
 my @files = Test::Dpkg::all_perl_files();
 

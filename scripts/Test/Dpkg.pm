@@ -21,10 +21,24 @@ use warnings;
 our $VERSION = '0.00';
 our @EXPORT_OK = qw(
     all_perl_files
+    test_needs_author
+    test_needs_module
+    test_needs_command
+    test_needs_srcdir_switch
+);
+our %EXPORT_TAGS = (
+    needs => [ qw(
+        test_needs_author
+        test_needs_module
+        test_needs_command
+        test_needs_srcdir_switch
+    ) ],
 );
 
 use Exporter qw(import);
 use File::Find;
+use IPC::Cmd qw(can_run);
+use Test::More;
 
 sub all_perl_files
 {
@@ -36,6 +50,49 @@ sub all_perl_files
     find($scan_perl_files, qw(t src/t lib utils/t scripts dselect));
 
     return @files;
+}
+
+sub test_needs_author
+{
+    if (not $ENV{DPKG_DEVEL_MODE}) {
+        plan skip_all => 'developer test';
+    }
+}
+
+sub test_needs_module
+{
+    my ($module, @imports) = @_;
+    my ($package) = caller;
+
+    require version;
+    my $version = '';
+    if (@imports >= 1 and version::is_lax($imports[0])) {
+        $version = shift @imports;
+    }
+
+    eval qq{
+        package $package;
+        use $module $version \@imports;
+        1;
+    } or do {
+        plan skip_all => "requires module $module $version";
+    }
+}
+
+sub test_needs_command
+{
+    my $command = shift;
+
+    if (not can_run($command)) {
+        plan skip_all => "requires command $command";
+    }
+}
+
+sub test_needs_srcdir_switch
+{
+    if (defined $ENV{srcdir}) {
+        chdir $ENV{srcdir} or BAIL_OUT("cannot chdir to source directory: $!");
+    }
 }
 
 1;

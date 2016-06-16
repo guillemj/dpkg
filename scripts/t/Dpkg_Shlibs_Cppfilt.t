@@ -17,14 +17,11 @@ use strict;
 use warnings;
 
 use Test::More;
+use Test::Dpkg qw(:needs);
 
-use Dpkg::Path qw(find_command);
+test_needs_command('c++filt');
 
-if (find_command('c++filt')) {
-    plan tests => 124;
-} else {
-    plan skip_all => 'c++filt not available';
-}
+plan tests => 124;
 
 use_ok('Dpkg::Shlibs::Cppfilt');
 

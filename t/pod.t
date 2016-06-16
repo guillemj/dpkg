@@ -17,13 +17,10 @@ use strict;
 use warnings;
 
 use Test::More;
+use Test::Dpkg qw(:needs);
 
-eval 'use Test::Pod 1.00';
-plan skip_all => 'Test::Pod 1.00 required for testing POD' if $@;
-
-if (defined $ENV{srcdir}) {
-    chdir $ENV{srcdir} or die "cannot chdir to source directory: $!";
-}
+test_needs_module('Test::Pod', '1.00');
+test_needs_srcdir_switch();
 
 my @dirs = qw(scripts/Dpkg);
 my @files = qw(scripts/Dpkg.pm);

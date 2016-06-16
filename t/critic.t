@@ -17,19 +17,11 @@ use strict;
 use warnings;
 
 use Test::More;
-use Test::Dpkg;
+use Test::Dpkg qw(:needs);
 
-unless (defined $ENV{DPKG_DEVEL_MODE}) {
-    plan skip_all => 'not running in development mode';
-}
-
-if (defined $ENV{srcdir}) {
-    chdir $ENV{srcdir} or die "cannot chdir to source directory: $!";
-}
-
-if (not eval { require Test::Perl::Critic }) {
-    plan skip_all => 'Test::Perl::Critic required to criticize code';
-}
+test_needs_author();
+test_needs_module('Test::Perl::Critic');
+test_needs_srcdir_switch();
 
 my @policies = qw(
     BuiltinFunctions::ProhibitBooleanGrep

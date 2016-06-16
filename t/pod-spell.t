@@ -17,26 +17,17 @@ use strict;
 use warnings;
 
 use Test::More;
-use Test::Dpkg;
+use Test::Dpkg qw(:needs);
 
-use IPC::Cmd qw(can_run);
-
-if (defined $ENV{srcdir}) {
-    chdir $ENV{srcdir} or die "cannot chdir to source directory: $!";
-}
-
-plan skip_all => 'author test' unless $ENV{AUTHOR_TESTING};
-
-eval 'use Test::Spelling';
-plan skip_all => 'Test::Spelling required for spell checking POD' if $@;
-
-if (not can_run('aspell')) {
-    plan skip_all => 'aspell required for spell checking POD';
-}
+test_needs_author();
+test_needs_module('Test::Spelling');
+test_needs_command('aspell');
 
 if (qx(aspell dicts) !~ m/en_US/) {
     plan skip_all => 'aspell en_US dictionary required for spell checking POD';
 }
+
+test_needs_srcdir_switch();
 
 my @files = Test::Dpkg::all_perl_files();
 
