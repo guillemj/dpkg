@@ -146,6 +146,7 @@ endif
 test_scripts = \
 	t/pod.t \
 	t/pod-spell.t \
+	t/synopsis.t \
 	t/minimum-version.t \
 	t/syntax.t \
 	t/strict.t \
