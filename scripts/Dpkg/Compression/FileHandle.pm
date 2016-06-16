@@ -45,6 +45,8 @@ Dpkg::Compression::FileHandle - object dealing transparently with file compressi
 
     use Dpkg::Compression::FileHandle;
 
+    my ($fh, @lines);
+
     $fh = Dpkg::Compression::FileHandle->new(filename => 'sample.gz');
     print $fh "Something\n";
     close $fh;
@@ -60,17 +62,17 @@ Dpkg::Compression::FileHandle - object dealing transparently with file compressi
     $fh->close();
 
     $fh = Dpkg::Compression::FileHandle->new(filename => 'sample.gz');
-    my @lines = <$fh>;
+    @lines = <$fh>;
     close $fh;
 
     $fh = Dpkg::Compression::FileHandle->new();
     open($fh, '<', 'sample.bz2');
-    my @lines = <$fh>;
+    @lines = <$fh>;
     close $fh;
 
     $fh = Dpkg::Compression::FileHandle->new();
     $fh->open('sample.xz', 'r');
-    my @lines = $fh->getlines();
+    @lines = $fh->getlines();
     $fh->close();
 
 =head1 DESCRIPTION
