@@ -742,26 +742,21 @@ sub _arch_is_superset {
     return 1;
 }
 
-# _arch_qualifier_allows_implication($p, $q)
+# _arch_qualifier_implies($p, $q)
 #
 # Returns true if the arch qualifier $p and $q are compatible with the
-# implication $p -> $q, false otherwise. $p/$q can be
-# undef/"any"/"native" or an architecture string.
-sub _arch_qualifier_allows_implication {
+# implication $p -> $q, false otherwise. $p/$q can be undef/"any"/"native"
+# or an architecture string.
+#
+# Because we are handling dependencies in isolation, and the full context
+# of the implications are only known when doing dependency resolution at
+# run-time, we can only assert that they are implied if they are equal.
+sub _arch_qualifier_implies {
     my ($p, $q) = @_;
-    if (defined $p and $p eq 'any') {
-	return 1 if defined $q and $q eq 'any';
-	return 0;
-    } elsif (defined $p and $p eq 'native') {
-	return 1 if defined $q and ($q eq 'any' or $q eq 'native');
-	return 0;
-    } elsif (defined $p) {
-	return 1 if defined $q and ($p eq $q or $q eq 'any');
-	return 0;
-    } else {
-	return 0 if defined $q and $q ne 'any' and $q ne 'native';
-	return 1;
-    }
+
+    return $p eq $q if defined $p and defined $q;
+    return 1 if not defined $p and not defined $q;
+    return 0;
 }
 
 # Returns true if the dependency in parameter can deduced from the current
@@ -778,8 +773,8 @@ sub implies {
 	return unless _arch_is_superset($self->{arches}, $o->{arches});
 
 	# The arch qualifier must not forbid an implication
-	return unless _arch_qualifier_allows_implication($self->{archqual},
-	                                                 $o->{archqual});
+	return unless _arch_qualifier_implies($self->{archqual},
+	                                      $o->{archqual});
 
 	# If o has no version clause, then our dependency is stronger
 	return 1 if not defined $o->{relation};

@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 52;
+use Test::More tests => 58;
 
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
@@ -55,13 +55,20 @@ my $dep_or2 = deps_parse('x|y|a|b|c (<= 0.5)|c (>=1.5)|d|e');
 is($dep_or1->implies($dep_or2), 1, 'Implication between OR 1/2');
 is($dep_or2->implies($dep_or1), undef, 'Implication between OR 2/2');
 
+my $dep_ma_host = deps_parse('libcairo2');
 my $dep_ma_any = deps_parse('libcairo2:any');
-my $dep_ma_native = deps_parse('libcairo2');
-my $dep_ma_native2 = deps_parse('libcairo2:native', build_dep => 1);
-is($dep_ma_native->implies($dep_ma_any), 1, 'foo -> foo:any');
-is($dep_ma_native2->implies($dep_ma_any), 1, 'foo:native -> foo:any');
-is($dep_ma_any->implies($dep_ma_native), undef, 'foo:any !-> foo');
-is($dep_ma_any->implies($dep_ma_native2), undef, 'foo:any !-> foo:native');
+my $dep_ma_build = deps_parse('libcairo2:native', build_dep => 1);
+my $dep_ma_explicit = deps_parse('libcairo2:amd64');
+is($dep_ma_host->implies($dep_ma_any), undef, 'foo !-> foo:any');
+is($dep_ma_build->implies($dep_ma_any), undef, 'foo:native !-> foo:any');
+is($dep_ma_explicit->implies($dep_ma_any), undef, 'foo:<arch> !-> foo:any');
+is($dep_ma_any->implies($dep_ma_host), undef, 'foo:any !-> foo');
+is($dep_ma_any->implies($dep_ma_build), undef, 'foo:any !-> foo:native');
+is($dep_ma_any->implies($dep_ma_explicit), undef, 'foo:any !-> foo:<arch>');
+is($dep_ma_host->implies($dep_ma_host), 1, 'foo -> foo');
+is($dep_ma_any->implies($dep_ma_any), 1, 'foo:any -> foo:any');
+is($dep_ma_build->implies($dep_ma_build), 1, 'foo:native -> foo:native');
+is($dep_ma_explicit->implies($dep_ma_explicit), 1, 'foo:<arch>-> foo:<arch>');
 
 my $field_tests = 'self, @, @builddeps@';
 $SIG{__WARN__} = sub {};
