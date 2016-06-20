@@ -25,6 +25,8 @@ dpkg (1.18.8) UNRELEASED; urgency=medium
   * Activate file triggers for conffiles on purge, which has never happened
     before. Before dpkg 1.17.0, conffiles were triggered on removal, which
     was obviously wrong. Reported by Helmut Grohne <helmut@subdivi.de>.
+  * Fix strtol() errno check when parsing the COLUMNS envvar in dpkg-query.
+    Thanks to Sven Joachim <svenjoac@gmx.de>. Closes: #827265
   * Perl modules:
     - Use warnings::warnif() instead of carp() for deprecated warnings.
     - Add new format_range() method and deprecate dpkg() and rfc822() methods

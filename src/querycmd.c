@@ -74,7 +74,7 @@ static int getwidth(void) {
   if (columns) {
     errno = 0;
     res = strtol(columns, &endptr, 10);
-    if (errno != 0 && columns != endptr && *endptr == '\0' &&
+    if (errno == 0 && columns != endptr && *endptr == '\0' &&
         res > 0 && res < INT_MAX)
       return res;
   }
