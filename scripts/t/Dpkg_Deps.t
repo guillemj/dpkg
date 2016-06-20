@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 58;
+use Test::More tests => 62;
 
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
@@ -196,6 +196,27 @@ my $dep_red = deps_parse('abc | xyz, two, abc');
 $dep_red->simplify_deps($facts, $dep_opposite);
 is($dep_red->output(), 'abc, two', 'Simplification respect order');
 is("$dep_red", $dep_red->output(), 'Stringification == output()');
+
+my $dep_profiles = deps_parse('dupe <stage1 cross>, dupe <stage1 cross>');
+$dep_profiles->simplify_deps($facts);
+is($dep_profiles->output(), 'dupe <stage1 cross>',
+   'Simplification respects duplicated profiles');
+
+$dep_profiles = deps_parse('tool <!cross>, tool <stage1 cross>');
+$dep_profiles->simplify_deps($facts);
+# XXX: Ideally this would get simplified to "tool <!cross> <stage1 cross>".
+is($dep_profiles->output(), 'tool <!cross>, tool <stage1 cross>',
+   'Simplification respects profiles');
+
+$dep_profiles = deps_parse('libfoo-dev:native <!stage1>, libfoo-dev <!stage1 cross>', build_dep => 1);
+$dep_profiles->simplify_deps($facts);
+is($dep_profiles->output(),
+   'libfoo-dev:native <!stage1>, libfoo-dev <!stage1 cross>',
+   'Simplification respects archqualifiers and profiles');
+
+my $dep_version = deps_parse('pkg, pkg (= 1.0)');
+$dep_version->simplify_deps($facts);
+is($dep_version->output(), 'pkg (= 1.0)', 'Simplification merges versions');
 
 my $dep_empty1 = deps_parse('');
 is($dep_empty1->output(), '', 'Empty dependency');
