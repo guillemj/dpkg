@@ -759,6 +759,36 @@ sub _arch_qualifier_implies {
     return 0;
 }
 
+# _restrictions_imply($p, $q)
+#
+# Returns true if the restrictions $p and $q are compatible with the
+# implication $p -> $q, false otherwise.
+# NOTE: We don't try to be very clever here, so we may conservatively
+# return false when there is an implication.
+sub _restrictions_imply {
+    my ($p, $q) = @_;
+
+    if (not defined $p) {
+       return 1;
+    } elsif (not defined $q) {
+       return 0;
+    } else {
+       # Check whether set difference is empty.
+       my %restr;
+
+       for my $restrlist (@{$q}) {
+           my $reststr = join ' ', sort @{$restrlist};
+           $restr{$reststr} = 1;
+       }
+       for my $restrlist (@{$p}) {
+           my $reststr = join ' ', sort @{$restrlist};
+           delete $restr{$reststr};
+       }
+
+       return keys %restr == 0;
+    }
+}
+
 # Returns true if the dependency in parameter can deduced from the current
 # dependency. Returns false if it can be negated. Returns undef if nothing
 # can be concluded.
@@ -775,6 +805,10 @@ sub implies {
 	# The arch qualifier must not forbid an implication
 	return unless _arch_qualifier_implies($self->{archqual},
 	                                      $o->{archqual});
+
+	# Our restrictions must imply the restrictions for o
+	return unless _restrictions_imply($self->{restrictions},
+	                                  $o->{restrictions});
 
 	# If o has no version clause, then our dependency is stronger
 	return 1 if not defined $o->{relation};
