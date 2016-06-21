@@ -504,6 +504,8 @@ sub set_testsuite_field
     my $testsuite_field = $fields->{'Testsuite'} // '';
     my %testsuite = map { $_ => 1 } split /\s*,\s*/, $testsuite_field;
     if (-e "$dir/debian/tests/control") {
+        error(g_('test control %s is not a regular file'),
+              'debian/tests/control') unless -f _;
         $testsuite{autopkgtest} = 1;
     } elsif ($testsuite{autopkgtest}) {
         warning(g_('%s field contains value %s, but no tests control file %s'),
