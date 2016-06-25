@@ -96,7 +96,7 @@ ensure_diversions(void)
 	diversions = NULL;
 	if (!file) {
 		onerr_abort--;
-		debug(dbg_general, "%s: none, reseting", __func__);
+		debug(dbg_general, "%s: none, resetting", __func__);
 		return;
 	}
 	debug(dbg_general, "%s: new, (re)loading", __func__);
