@@ -10,10 +10,6 @@ AC_DEFUN([DPKG_LIB_MD], [
   AC_ARG_WITH([libmd], [
     AS_HELP_STRING([--with-libmd],
                    [use libmd library for message digest functions])
-  ], [
-    with_libmd="$withval"
-  ], [
-    with_libmd="no"
   ])
   if test "x$with_libmd" != "xno"; then
     AC_CHECK_HEADERS([md5.h], [
