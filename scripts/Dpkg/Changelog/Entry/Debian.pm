@@ -29,7 +29,6 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
-use Carp;
 use Time::Piece;
 
 use Dpkg::Gettext;
@@ -250,7 +249,9 @@ Obsolete method. Use parse_header() instead.
 sub check_header {
     my $self = shift;
 
-    carp 'obsolete check_header(), use parse_header() instead';
+    warnings::warnif('deprecated',
+                     'obsolete check_header(), use parse_header() instead');
+
     return $self->parse_header();
 }
 
@@ -263,7 +264,9 @@ Obsolete method. Use parse_trailer() instead.
 sub check_trailer {
     my $self = shift;
 
-    carp 'obsolete check_trailer(), use parse_trailer() instead';
+    warnings::warnif('deprecated',
+                     'obsolete check_trailer(), use parse_trailer() instead');
+
     return $self->parse_header();
 }
 

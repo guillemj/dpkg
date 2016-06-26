@@ -22,7 +22,6 @@ use warnings;
 our $VERSION = '1.04';
 
 use POSIX qw(:errno_h);
-use Carp;
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
@@ -179,7 +178,10 @@ Obsolete function, use mark_as_used() instead.
 
 sub no_warn {
     my ($self, $key) = @_;
-    carp 'obsolete no_warn() function, use mark_as_used() instead';
+
+    warnings::warnif('deprecated',
+                     'obsolete no_warn() function, use mark_as_used() instead');
+
     $self->mark_as_used($key);
 }
 

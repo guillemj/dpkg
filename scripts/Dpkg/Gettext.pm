@@ -160,8 +160,8 @@ sub _g ## no critic (Subroutines::ProhibitUnusedPrivateSubroutines)
 {
     my $msgid = shift;
 
-    require Carp;
-    Carp::carp('obsolete _g() function, please use g_() instead');
+    warnings::warnif('deprecated',
+                     'obsolete _g() function, please use g_() instead');
 
     return g_($msgid);
 }

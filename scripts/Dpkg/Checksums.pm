@@ -28,7 +28,6 @@ our @EXPORT = qw(
 );
 
 use Exporter qw(import);
-use Carp;
 use Digest;
 
 use Dpkg::Gettext;
@@ -106,7 +105,11 @@ whether the checksum algorithm is considered cryptographically strong.
 
 sub checksums_get_property($$) {
     my ($alg, $property) = @_;
-    carp 'obsolete checksums program property' if $property eq 'program';
+
+    if ($property eq 'program') {
+        warnings::warnif('deprecated', 'obsolete checksums program property');
+    }
+
     return unless checksums_is_supported($alg);
     return $CHECKSUMS->{lc($alg)}{$property};
 }
@@ -405,7 +408,7 @@ New member: $ck->has_strong_checksums().
 
 =head2 Version 1.02 (dpkg 1.18.0)
 
-Obsolete property: Getting the 'program' checksum property will carp() and
+Obsolete property: Getting the 'program' checksum property will warn and
 return undef, the Digest module is used internally now.
 
 New property: Add new 'name' property with the name of the Digest algorithm
