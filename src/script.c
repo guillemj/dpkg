@@ -31,7 +31,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#ifdef WITH_SELINUX
+#ifdef WITH_LIBSELINUX
 #include <selinux/selinux.h>
 #endif
 
@@ -153,7 +153,7 @@ maintscript_set_exec_context(struct command *cmd, const char *fallback)
 {
 	int rc = 0;
 
-#ifdef WITH_SELINUX
+#ifdef WITH_LIBSELINUX
 	rc = setexecfilecon(cmd->filename, fallback);
 #endif
 

@@ -34,8 +34,8 @@ libdpkg_la_LIBADD = \
 if BUILD_SHARED
 libdpkg_la_LIBADD += \
 	$(LIBINTL) \
-	$(ZLIB_LIBS) \
-	$(LIBLZMA_LIBS) \
+	$(Z_LIBS) \
+	$(LZMA_LIBS) \
 	$(BZ2_LIBS)
 endif
 libdpkg_la_DEPENDENCIES = \

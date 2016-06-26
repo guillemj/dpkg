@@ -73,7 +73,7 @@ AC_SYS_LARGEFILE
 
 # Checks for libraries.
 DPKG_LIB_MD
-DPKG_LIB_ZLIB
+DPKG_LIB_Z
 DPKG_LIB_BZ2
 DPKG_LIB_LZMA
 DPKG_LIB_SELINUX
@@ -189,10 +189,10 @@ Configuration:
   System Libraries:
     libps . . . . . . . . . . . . : ${have_libps:-no}
     libkvm  . . . . . . . . . . . : ${have_libkvm:-no}
-    libselinux  . . . . . . . . . : $with_selinux
+    libselinux  . . . . . . . . . : $with_libselinux
     libmd . . . . . . . . . . . . : $with_libmd
-    libz  . . . . . . . . . . . . : $with_zlib
+    libz  . . . . . . . . . . . . : $with_libz
     liblzma . . . . . . . . . . . : $with_liblzma
-    libbz2  . . . . . . . . . . . : $with_bz2
+    libbz2  . . . . . . . . . . . : $with_libbz2
     libcurses . . . . . . . . . . : ${have_libcurses:-no}
 CONFIG

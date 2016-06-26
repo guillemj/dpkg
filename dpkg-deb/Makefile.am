@@ -20,6 +20,6 @@ dpkg_deb_SOURCES = \
 dpkg_deb_LDADD = \
 	../lib/dpkg/libdpkg.la \
 	$(LIBINTL) \
-	$(ZLIB_LIBS) \
-	$(LIBLZMA_LIBS) \
+	$(Z_LIBS) \
+	$(LZMA_LIBS) \
 	$(BZ2_LIBS)

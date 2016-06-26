@@ -31,7 +31,7 @@ endif
 
 # Do not enable everything on all platforms.
 ifeq ($(DEB_HOST_ARCH_OS),linux)
-	confflags += --with-selinux
+	confflags += --with-libselinux
 endif
 ifeq (,$(filter maintainer-build,$(DEB_BUILD_OPTIONS)))
 	confflags += --disable-silent-rules
@@ -60,9 +60,9 @@ build-tree/config.status: configure
 		--localstatedir=/var \
 		--with-devlibdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH) \
 		--without-libmd \
-		--with-zlib \
+		--with-libz \
 		--with-liblzma \
-		--with-bz2
+		--with-libbz2
 
 # Build the package in build-tree
 build-indep build-arch build: build-tree/config.status
