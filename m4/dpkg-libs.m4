@@ -7,10 +7,9 @@
 # Check for the message digest library.
 AC_DEFUN([DPKG_LIB_MD], [
   AC_ARG_VAR([MD_LIBS], [linker flags for md library])
-  AC_ARG_WITH([libmd], [
+  AC_ARG_WITH([libmd],
     AS_HELP_STRING([--with-libmd],
-                   [use libmd library for message digest functions])
-  ])
+                   [use libmd library for message digest functions]))
   if test "x$with_libmd" != "xno"; then
     AC_CHECK_HEADERS([md5.h], [
       AC_CHECK_LIB([md], [MD5Init], [
