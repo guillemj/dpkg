@@ -199,34 +199,35 @@ sub _new_symbol {
     return (ref $base) ? $base->clone(@_) : $base->new(@_);
 }
 
-# Parameter seen is only used for recursive calls
+# Option state is only used for recursive calls.
 sub parse {
-    my ($self, $fh, $file, $seen, $obj_ref, $base_symbol) = @_;
+    my ($self, $fh, $file, %opts) = @_;
+    my $state = $opts{state} //= {};
 
-    if (defined($seen)) {
-	return if exists $seen->{$file}; # Avoid include loops
+    if (defined $state) {
+	return if exists $state->{seen}{$file}; # Avoid include loops
     } else {
 	$self->{file} = $file;
-	$seen = {};
+        $state->{seen} = {};
     }
-    $seen->{$file} = 1;
+    $state->{seen}{$file} = 1;
 
-    if (not ref($obj_ref)) { # Init ref to name of current object/lib
-        $$obj_ref = undef;
+    if (not ref $state->{obj_ref}) { # Init ref to name of current object/lib
+        ${$state->{obj_ref}} = undef;
     }
 
     while (<$fh>) {
 	chomp;
 
 	if (/^(?:\s+|#(?:DEPRECATED|MISSING): ([^#]+)#\s*)(.*)/) {
-	    if (not defined ($$obj_ref)) {
+	    if (not defined ${$state->{obj_ref}}) {
 		error(g_('symbol information must be preceded by a header (file %s, line %s)'), $file, $.);
 	    }
 	    # Symbol specification
 	    my $deprecated = ($1) ? $1 : 0;
-	    my $sym = _new_symbol($base_symbol, deprecated => $deprecated);
+	    my $sym = _new_symbol($state->{base_symbol}, deprecated => $deprecated);
 	    if ($self->create_symbol($2, base => $sym)) {
-		$self->add_symbol($sym, $$obj_ref);
+		$self->add_symbol($sym, ${$state->{obj_ref}});
 	    } else {
 		warning(g_('failed to parse line in %s: %s'), $file, $_);
 	    }
@@ -234,36 +235,39 @@ sub parse {
 	    my $tagspec = $1;
 	    my $filename = $2;
 	    my $dir = $file;
+	    my $old_base_symbol = $state->{base_symbol};
 	    my $new_base_symbol;
 	    if (defined $tagspec) {
-                $new_base_symbol = _new_symbol($base_symbol);
+		$new_base_symbol = _new_symbol($old_base_symbol);
 		$new_base_symbol->parse_tagspec($tagspec);
 	    }
+	    $state->{base_symbol} = $new_base_symbol;
 	    $dir =~ s{[^/]+$}{}; # Strip filename
-	    $self->load("$dir$filename", $seen, $obj_ref, $new_base_symbol);
+	    $self->load("$dir$filename", %opts);
+	    $state->{base_symbol} = $old_base_symbol;
 	} elsif (/^#|^$/) {
 	    # Skip possible comments and empty lines
 	} elsif (/^\|\s*(.*)$/) {
 	    # Alternative dependency template
-	    push @{$self->{objects}{$$obj_ref}{deps}}, "$1";
+	    push @{$self->{objects}{${$state->{obj_ref}}}{deps}}, "$1";
 	} elsif (/^\*\s*([^:]+):\s*(.*\S)\s*$/) {
 	    # Add meta-fields
-	    $self->{objects}{$$obj_ref}{fields}{field_capitalize($1)} = $2;
+	    $self->{objects}{${$state->{obj_ref}}}{fields}{field_capitalize($1)} = $2;
 	} elsif (/^(\S+)\s+(.*)$/) {
 	    # New object and dependency template
-	    $$obj_ref = $1;
-	    if (exists $self->{objects}{$$obj_ref}) {
+	    ${$state->{obj_ref}} = $1;
+	    if (exists $self->{objects}{${$state->{obj_ref}}}) {
 		# Update/override infos only
-		$self->{objects}{$$obj_ref}{deps} = [ "$2" ];
+		$self->{objects}{${$state->{obj_ref}}}{deps} = [ "$2" ];
 	    } else {
 		# Create a new object
-		$self->create_object($$obj_ref, "$2");
+		$self->create_object(${$state->{obj_ref}}, "$2");
 	    }
 	} else {
 	    warning(g_('failed to parse a line in %s: %s'), $file, $_);
 	}
     }
-    delete $seen->{$file};
+    delete $state->{seen}{$file};
 }
 
 # Beware: we reuse the data structure of the provided symfile so make
