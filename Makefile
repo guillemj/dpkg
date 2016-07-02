@@ -110,6 +110,7 @@ TESTS_PASS += t-switch-symlink-rel-to-dir
 TESTS_PASS += t-switch-dir-to-symlink-abs
 TESTS_PASS += t-switch-dir-to-symlink-rel
 endif
+TESTS_PASS += t-source-minimal
 TESTS_PASS += t-substvars
 TESTS_PASS += t-failinst-failrm
 TESTS_PASS += t-dir-extension-check

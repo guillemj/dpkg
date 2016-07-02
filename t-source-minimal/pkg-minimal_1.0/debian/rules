@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+
+clean:
+	rm -rf debian/files debian/tmp
+
+build-indep:
+build-arch:
+build: build-indep build-arch
+
+binary-indep: build-indep
+	rm -rf debian/tmp
+	mkdir -p debian/tmp/DEBIAN
+	dpkg-gencontrol
+	dpkg-deb --build debian/tmp ..
+
+binary-arch: build-arch
+
+binary: binary-indep binary-arch
+
+.PHONY: clean build-indep build-arch build binary-indexp binary-arch binary
