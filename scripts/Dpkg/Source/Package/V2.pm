@@ -634,6 +634,8 @@ information below has been extracted from the changelog. Adjust it or drop
 it.\n";
     $header->{'Description'} .= $ch_info->{'Changes'} . "\n";
     $header->{'Author'} = $ch_info->{'Maintainer'};
+    my $yyyy_mm_dd = POSIX::strftime('%Y-%m-%d', gmtime);
+
     $text = "$header";
     run_vendor_hook('extend-patch-header', \$text, $ch_info);
     $text .= "\n---
@@ -647,7 +649,7 @@ Bug-Debian: https://bugs.debian.org/<bugnumber>
 Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
 Forwarded: <no|not-needed|url proving that it has been forwarded>
 Reviewed-By: <name and email of someone who approved the patch>
-Last-Update: <YYYY-MM-DD>\n\n";
+Last-Update: $yyyy_mm_dd\n\n";
     return $text;
 }
 
