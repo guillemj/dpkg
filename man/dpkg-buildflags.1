@@ -460,6 +460,11 @@ various area features that affect build flags.
 The \fBDEB_BUILD_MAINT_OPTIONS\fP variable overrides any setting in the
 \fBDEB_BUILD_OPTIONS\fP feature areas.
 See the \fBFEATURE AREAS\fP section for details.
+.TP
+.B DEB_VENDOR
+This setting defines the current vendor.
+If not set, it will discover the current vendor by reading
+\fB\%/etc/dpkg/origins/default\fP.
 .
 .SH FILES
 .SS Configuration files
@@ -476,12 +481,6 @@ User configuration file.
 .B /usr/share/dpkg/buildflags.mk
 Makefile snippet that will load (and optionally export) all flags
 supported by \fBdpkg-buildflags\fP into variables (since dpkg 1.16.1).
-.
-.SH ENVIRONMENT
-.TP
-.B DEB_VENDOR
-This setting defines the current vendor. If not set, it will discover the
-current vendor by reading \fB\%/etc/dpkg/origins/default\fP.
 .
 .SH EXAMPLES
 To pass build flags to a build command in a makefile:
