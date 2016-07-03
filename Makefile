@@ -24,6 +24,7 @@ TESTS_FAIL += t-dir-leftover-deadlock
 TESTS_FAIL += t-dir-shared-replaces-lost
 TESTS_FAIL += t-disappear-depended
 TESTS_FAIL += t-conffile-divert-conffile
+TESTS_FAIL += t-breaks-multiarch
 
 TESTS_PASS :=
 TESTS_PASS += t-db
@@ -56,6 +57,7 @@ TESTS_PASS += t-provides
 TESTS_PASS += t-provides-self
 TESTS_PASS += t-provides-arch-implicit
 TESTS_PASS += t-provides-arch-qualified
+TESTS_PASS += t-breaks
 # This only works with dpkg >= 1.18.x
 ifdef DPKG_HAS_SAME_RUN_BIDIRECTIONAL_CONFLICTS
 TESTS_PASS += t-conflicts
