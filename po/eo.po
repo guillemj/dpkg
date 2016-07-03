@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <debian-l10n-esperanto@lists.debian.org>\n"
@@ -17,6 +17,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Poedit 1.6.10\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "malsukceso dum apliko de fstat al arkivo"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "malsukceso dum lego de la arkivo '%.255s'"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "ne eblas krei '%.255s'"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "ne eblas fermi dosieron '%s'"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -304,11 +324,6 @@ msgstr "ne eblas skani la ĝisdatigan dosierujon '%.255s'"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "malsukcesis forigi enkorpigitan ĝisdatigan dosieron %.255s"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "ne eblas krei '%.255s'"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -419,8 +434,7 @@ msgstr "ne eblas sinkronigi la dosierujon '%s'"
 msgid "unable to open directory '%s'"
 msgstr "ne eblas malfermi la dosierujon '%s'"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "ne eblas malfermi la dosieron '%s'"
@@ -430,12 +444,6 @@ msgstr "ne eblas malfermi la dosieron '%s'"
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "ne eblas sinkronigi dosieron '%s'"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "ne eblas fermi dosieron '%s'"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3625,6 +3633,10 @@ msgstr "ne atendita dosierfino antaŭ ol fino de linio %d"
 msgid "need an action option"
 msgstr "bezonas agan elekteblon"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
 msgstr "ne eblas uzi 'setenv' por subprocezoj"
@@ -4888,6 +4900,12 @@ msgstr "kompaktigo de datumara membro"
 msgid "<compress> from tar -cf"
 msgstr "<kompakti> el tar -cf"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "ne eblas krei '%.255s'"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -4948,24 +4966,15 @@ msgstr "ne eblas kopii '%s' al la arkivo '%s': %s"
 msgid "shell command to move files"
 msgstr "ŝela komando por movi dosierojn"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "neatendita dosierfino en %s en %.255s"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "eraro dum legado de %s el la dosiero %.255s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "malsukceso dum lego de la arkivo '%.255s'"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "malsukceso dum apliko de fstat al arkivo"
 
 #: dpkg-deb/extract.c
 msgid "archive magic version number"
@@ -5381,7 +5390,7 @@ msgstr "la dosiero '%.250s' fuŝas - %.250s mankas"
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "la dosiero '%.250s' fuŝas - mankas novlinion post %.250s"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "eraro dum legado de %.250s"
@@ -5497,11 +5506,6 @@ msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr ""
 "la dosiero '%.250s' fuŝas - grandeco estas malkorekta por limigita part-"
 "numero"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "ne eblas legi staton de la part-dosiero '%.250s'"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5675,11 +5679,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "Tajpu dpkg-split --help por helpo."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "neatendita dosierfino en %.250s"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6412,6 +6411,12 @@ msgstr "aŭtomataj ĝisdatigoj de %s/%s estas malaktivitaj; ni lasas ĝin sola"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "por retroiri al aŭtomataj ĝisdatigoj, uzu '%s --auto %s'"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "ne eblas legi staton de la part-dosiero '%.250s'"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "neatendita dosierfino en %.250s"
 
 #~ msgid "%s: error: %s\n"
 #~ msgstr "%s: eraro: %s\n"

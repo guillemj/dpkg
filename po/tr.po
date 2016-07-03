@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-09-23 18:54+0300\n"
 "Last-Translator: Mert Dirik <mertdirik@gmail.com>\n"
 "Language-Team: Turkish <debian-l10n-turkish@lists.debian.org>\n"
@@ -16,6 +16,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.2\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "arşive fstat çağrısı yapılamadı"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "'%.255s' arşivi okunamadı"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "'%.255s' oluşturulamadı"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "'%s' dosyası kapatılamadı"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -306,11 +326,6 @@ msgstr "güncelleme dizini (%.255s) taranamadı"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "birleştirilmiş güncelleme dosyası %.255s silinirken sorun yaşandı"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "'%.255s' oluşturulamadı"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -421,8 +436,7 @@ msgstr "'%s' dizini için sync çağrısı başarısız oldu"
 msgid "unable to open directory '%s'"
 msgstr "'%s' dizini açılamadı"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "'%s' dosyası açılamadı"
@@ -432,12 +446,6 @@ msgstr "'%s' dosyası açılamadı"
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "'%s' dosyası için sync çağrısı başarısız oldu"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "'%s' dosyası kapatılamadı"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3630,6 +3638,10 @@ msgstr "%d. satır bitmeden önce beklenmeyen dosya sonu karakteri"
 msgid "need an action option"
 msgstr "bir eylem seçeneği belirtilmesi gerekiyor"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
 msgstr "alt süreç için setenv çağrısı başarısız oldu"
@@ -4904,6 +4916,12 @@ msgstr "veri üyesi sıkıştırılıyor"
 msgid "<compress> from tar -cf"
 msgstr "<sıkıştır> tar -cf"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "'%.255s' oluşturulamadı"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -4963,24 +4981,15 @@ msgstr "'%s' üyesi '%s' arşivine kopyalanamadı: %s"
 msgid "shell command to move files"
 msgstr "dosya taşımakta kullanılan kabuk komutu"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "%s arşivinin %.255s kısmında beklenmeyen dosya sonu"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "%2$.255s arşivinin %1$s kısmı okunurken bir sorun yaşandı"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "'%.255s' arşivi okunamadı"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "arşive fstat çağrısı yapılamadı"
 
 #: dpkg-deb/extract.c
 msgid "archive magic version number"
@@ -5418,7 +5427,7 @@ msgstr "'%.250s' dosyası bozuk - %.250s eksik"
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "'%.250s' dosyası bozuk - %.250s satırından sonra yeni satır eksik"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "%.250s dosyası okunurken sorun yaşandı"
@@ -5530,11 +5539,6 @@ msgstr "'%.250s' dosyası bozuk - verilen boyutlar için parça sayısı yanlı�
 #, c-format
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "'%.250s' dosyası bozuk - verilen parça sayısına göre boyut yanlış"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "'%.250s' parça dosyasına fstat çağrısı başarısız"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5712,11 +5716,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "Yardım almak için dpkg-split --help komutunu kullanın."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "%.250s dosyasında beklenmeyen dosya sonu"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6462,6 +6461,12 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "otomatik güncelleştirmeleri tekrar etkinleştirmek için '%s --auto %s' "
 "komutunu kullanın"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "'%.250s' parça dosyasına fstat çağrısı başarısız"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "%.250s dosyasında beklenmeyen dosya sonu"
 
 #~ msgid "%s: error: %s\n"
 #~ msgstr "%s: hata: %s\n"

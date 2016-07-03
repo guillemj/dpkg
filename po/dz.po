@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: Tshewang Norbu <bumthap2006@hotmail.com>\n"
 "Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
@@ -20,6 +20,26 @@ msgstr ""
 "X-Poedit-Country: Bhutan\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Bookmarks: -1,-1,317,-1,-1,-1,-1,-1,-1,-1\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "ཨེཕ་སི་ཊེཊི་ཡིག་མཛོད་འབད་ནི་ལུ་ཐུས་ཤོར་བྱུང་ཡོདཔ།"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "ཡིག་མཛོད་ `%.250s' ལྷག་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "`%.255s' གསར་བསྐྲུན་འབད་མ་ཚུགས།"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "unable to close file '%s'"
+msgstr "vsnprintf ནང་ ངོས་སྙོམ་མ་ཚུགས།"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -337,11 +357,6 @@ msgstr "དུས་མཐོན་ཀྱི་སྣོད་ཐོ་ `%.255s'
 msgid "failed to remove incorporated update file %.255s"
 msgstr "གཅིག་ཁར་སྡེབ་ཡོད་པའི་དུས་མཐུན་གྱི་ཡིག་སྣོད་ %.255s རྩ་བསྐྲད་གཏང་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོད།"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "`%.255s' གསར་བསྐྲུན་འབད་མ་ཚུགས།"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -459,8 +474,7 @@ msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' �
 msgid "unable to open directory '%s'"
 msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "unable to open file '%s'"
 msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
@@ -470,12 +484,6 @@ msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' �
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "unable to close file '%s'"
-msgstr "vsnprintf ནང་ ངོས་སྙོམ་མ་ཚུགས།"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3723,6 +3731,10 @@ msgstr "གྲལ་ཐིག་ %d གི་མཇུག་གི་ཧེ་�
 msgid "need an action option"
 msgstr "བྱ་བའི་གདམ་ཁ་གཅིག་དགོ"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 #, fuzzy
 msgid "unable to setenv for subprocesses"
@@ -5069,6 +5081,12 @@ msgstr "འཐུས་མི་ཚུའི་བར་ན།"
 msgid "<compress> from tar -cf"
 msgstr ""
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "`%.255s' གསར་བསྐྲུན་འབད་མ་ཚུགས།"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -5131,24 +5149,15 @@ msgstr "མིང་རྙིངམ་ `%s' སི་ཊེཊི་འབད་
 msgid "shell command to move files"
 msgstr ""
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "%.255s ནང་གི་ %s ནང་ལུ་ཡིག་སྣོད་ཀྱི་རེ་བ་མེད་པའི་མཇུག"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "ཡིག་སྣོད་ %.255s ལས་ %s ལྷགཔ་ད་འཛོལ་བ།"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "ཡིག་མཛོད་ `%.250s' ལྷག་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "ཨེཕ་སི་ཊེཊི་ཡིག་མཛོད་འབད་ནི་ལུ་ཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
 #: dpkg-deb/extract.c
 #, fuzzy
@@ -5615,7 +5624,7 @@ msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr ""
 "ཡིག་སྣོད་ `%.250s' འདི་ངན་ཅན་ཨིན་ - `%.250s' གི་ཤུལ་ལས་གྲལ་ཐིག་གསརཔ་བརླག་སྟོར་ཞུགས་ཡོདཔ།"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "%.250s ལྷག་པའི་འཛོལ་བ།"
@@ -5742,11 +5751,6 @@ msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr ""
 "ཡིག་སྣོད་ `%.250s' འདི་ངན་ཅན་ཨིན་ - ཚད་འདི་ འདྲེན་རྟགས་ནང་བཙུགས་ཡོད་པའི་ཡན་ལག་ཨང་གི་དོན་ལུ་"
 "ཕྱི་འགྱུར་ཨིན།"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "ཡན་ལག་ཡིག་སྣོད་ `%.250s' ཨེཕ་སི་ཊེཊི་འབད་མ་ཚུགས།"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5943,11 +5947,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "དབྱེ་བ་ ཌི་པི་ཀེ་ཇི་-བཤག་ --གྲོགས་རམ་གྱི་དོན་ལུ་གྲོགས་རམ།"
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "%.250s ནང་ལུ་ཡིག་སྣོད་ཀྱི་རེ་བ་མེད་པའི་མཇུག"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6692,6 +6691,12 @@ msgstr "%s གི་རང་བཞིན་དུས་མཐུན་ཚུ་
 #, fuzzy, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "རང་བཞིན་ཚུ་ལུ་སླར་ལོག་ནིའི་དོན་ལས་  `དུས་མཐུན་-སྤེལ་མ་ --རང་བཞིན %s' ལག་ལེན་འཐབ།"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "ཡན་ལག་ཡིག་སྣོད་ `%.250s' ཨེཕ་སི་ཊེཊི་འབད་མ་ཚུགས།"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "%.250s ནང་ལུ་ཡིག་སྣོད་ཀྱི་རེ་བ་མེད་པའི་མཇུག"
 
 #, fuzzy
 #~| msgid "%s: error closing %s: %s"

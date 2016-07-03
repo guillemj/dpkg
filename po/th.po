@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-06-26 16:13+0200\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -16,6 +16,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "fstat แพกเกจไม่สำเร็จ"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "อ่านแพกเกจ `%.255s' ไม่สำเร็จ"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "ไม่สามารถสร้าง `%.255s'"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "ไม่สามารถปิดแฟ้ม '%s'"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -299,11 +319,6 @@ msgstr "ไม่สามารถตรวจข้อมูลไดเรก
 msgid "failed to remove incorporated update file %.255s"
 msgstr "ไม่สามารถลบแฟ้มปรับข้อมูล %.255s ที่รวมอยู่"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "ไม่สามารถสร้าง `%.255s'"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -414,8 +429,7 @@ msgstr "ไม่สามารถ sync ไดเรกทอรี '%s'"
 msgid "unable to open directory '%s'"
 msgstr "ไม่สามารถเปิดไดเรกทอรี '%s'"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "ไม่สามารถเปิดแฟ้ม '%s'"
@@ -425,12 +439,6 @@ msgstr "ไม่สามารถเปิดแฟ้ม '%s'"
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "ไม่สามารถ sync แฟ้ม '%s'"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "ไม่สามารถปิดแฟ้ม '%s'"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3550,6 +3558,10 @@ msgstr "แฟ้มจบก่อนที่จะจบบรรทัดท
 msgid "need an action option"
 msgstr "ต้องมีตัวเลือกระบุการกระทำด้วย"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
 msgstr "ไม่สามารถ setenv สำหรับโพรเซสย่อย"
@@ -4782,6 +4794,12 @@ msgstr "การบีบอัดสมาชิกส่วนข้อมู
 msgid "<compress> from tar -cf"
 msgstr "<บีบอัด> จาก tar -cf"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "ไม่สามารถสร้าง `%.255s'"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -4841,24 +4859,15 @@ msgstr "ไม่สามารถคัดลอก '%s' เข้าในแ
 msgid "shell command to move files"
 msgstr "คำสั่งเชลล์สำหรับย้ายแฟ้ม"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "พบจุดจบแฟ้มก่อนกำหนดที่%sใน %.255s"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "เกิดข้อผิดพลาดขณะอ่าน%sจากแฟ้ม %.255s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "อ่านแพกเกจ `%.255s' ไม่สำเร็จ"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "fstat แพกเกจไม่สำเร็จ"
 
 #: dpkg-deb/extract.c
 msgid "archive magic version number"
@@ -5270,7 +5279,7 @@ msgstr "แฟ้ม `%.250s' เสียหาย - ขาด %.250s"
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "แฟ้ม `%.250s' เสียหาย - ขาด newline หลัง %.250s"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "เกิดข้อผิดพลาดขณะอ่าน %.250s"
@@ -5379,11 +5388,6 @@ msgstr "แฟ้ม `%.250s' เสียหาย - จำนวนส่ว�
 #, c-format
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "แฟ้ม `%.250s' เสียหาย - ขนาดไม่ถูกต้องใน quoted part number"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "ไม่สามารถ fstat แฟ้มส่วนย่อย `%.250s'"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5555,11 +5559,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "พิมพ์ dpkg-split --help เพื่อดูวิธีใช้"
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "พบจุดจบแฟ้มก่อนกำหนดใน %.250s"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6272,6 +6271,12 @@ msgstr "การปรับข้อมูลแบบอัตโนมัต
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "หากต้องการกลับสู่การปรับข้อมูลแบบอัตโนมัติ ใช้คำสั่ง '%s --auto %s'"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "ไม่สามารถ fstat แฟ้มส่วนย่อย `%.250s'"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "พบจุดจบแฟ้มก่อนกำหนดใน %.250s"
 
 #~ msgid "%s: error: %s\n"
 #~ msgstr "%s: ข้อผิดพลาด: %s\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:11+0200\n"
 "PO-Revision-Date: 2014-10-30 15:04+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 #: scripts/dpkg-mergechangelogs.pl scripts/dpkg-name.pl
 #: scripts/dpkg-parsechangelog.pl scripts/dpkg-scanpackages.pl
 #: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl
-#: scripts/dpkg-vendor.pl scripts/changelog/debian.pl
+#: scripts/dpkg-vendor.pl
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s version %s.\n"
@@ -34,7 +34,6 @@ msgstr "Debian %s version %s.\n"
 #: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
 #: scripts/dpkg-gensymbols.pl scripts/dpkg-parsechangelog.pl
 #: scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
-#: scripts/changelog/debian.pl
 msgid ""
 "\n"
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -270,52 +269,61 @@ msgstr "Användning: %s [<flagga>...]"
 #| "      --version  show the version."
 msgid ""
 "Options:\n"
-"  --build=<type>[,...]\n"
-"                 specify the build <type>: full, source, binary, any, all\n"
-"                   (default is 'full').\n"
-"  -F             normal full build (binaries and sources, default).\n"
-"  -g             source and arch-indep build.\n"
-"  -G             source and arch-specific build.\n"
-"  -b             binary-only, no source files.\n"
-"  -B             binary-only, only arch-specific files.\n"
-"  -A             binary-only, only arch-indep files.\n"
-"  -S             source-only, no binary files.\n"
-"  -nc            do not clean source tree (implies -b).\n"
-"  -tc            clean source tree when finished.\n"
-"  -D             check build dependencies and conflicts (default).\n"
-"  -d             do not check build dependencies and conflicts.\n"
-"  -P<profiles>   assume given build profiles as active (comma-separated "
-"list).\n"
-"  -R<rules>      rules file to execute (default is debian/rules).\n"
-"  -T<target>     call debian/rules <target> with the proper environment.\n"
-"      --as-root  ensure -T calls the target with root rights.\n"
-"  -j[<number>]   jobs to run simultaneously (passed to <rules>), forced "
-"mode.\n"
-"  -J[<number>]   jobs to run simultaneously (passed to <rules>), opt-in "
-"mode.\n"
-"  -r<gain-root-command>\n"
-"                 command to gain root privileges (default is fakeroot).\n"
-"  --check-command=<check-command>\n"
-"                 command to check the .changes file (no default).\n"
-"  --check-option=<opt>\n"
-"                 pass <opt> to <check-command>.\n"
-"  --hook-<hook-name>=<hook-command>\n"
-"                 set <hook-command> as the hook <hook-name>, known hooks:\n"
-"                   init preclean source build binary changes postclean\n"
-"                   check sign done\n"
-"  -p<sign-command>\n"
-"                 command to sign .dsc and/or .changes files\n"
-"                   (default is gpg2 or gpg).\n"
-"  -k<keyid>      the key to use for signing.\n"
-"  -ap            add pause before starting signature process.\n"
-"  -us            unsigned source package.\n"
-"  -uc            unsigned .changes file.\n"
-"      --force-sign\n"
-"                 force signing the resulting files.\n"
-"      --admindir=<directory>\n"
-"                 change the administrative directory.\n"
-"  -?, --help     show this help message.\n"
-"      --version  show the version."
+"      --build=<type>[,...]    specify the build <type>: full, source, "
+"binary,\n"
+"                                any, all (default is 'full').\n"
+"  -F                          normal full build (source and binary; "
+"default).\n"
+"  -g                          source and arch-indep build.\n"
+"  -G                          source and arch-specific build.\n"
+"  -b                          binary-only, no source files.\n"
+"  -B                          binary-only, only arch-specific files.\n"
+"  -A                          binary-only, only arch-indep files.\n"
+"  -S                          source-only, no binary files.\n"
+"  -nc, --no-pre-clean         do not pre clean source tree (implies -b).\n"
+"       --pre-clean            pre clean source tree (default).\n"
+"  -tc, --post-clean           clean source tree when finished.\n"
+"  -D                          check build dependencies and conflicts "
+"(default).\n"
+"  -d                          do not check build dependencies and "
+"conflicts.\n"
+"      --[no-]check-builddeps  ditto.\n"
+"  -P, --build-profiles=<profiles>\n"
+"                              assume comma-separated build profiles as "
+"active.\n"
+"  -R, --rules-file=<rules>    rules file to execute (default is debian/"
+"rules).\n"
+"  -T, --rules-target=<target> call debian/rules <target>.\n"
+"      --as-root               ensure -T calls the target with root rights.\n"
+"  -j, --jobs[=<number>|auto]  jobs to run simultaneously (passed to "
+"<rules>),\n"
+"                                forced mode.\n"
+"  -J, --jobs-try[=<number>|auto]\n"
+"                              jobs to run simultaneously (passed to "
+"<rules>),\n"
+"                                opt-in mode.\n"
+"  -r, --root-command=<command>\n"
+"                              command to gain root rights (default is "
+"fakeroot).\n"
+"      --check-command=<command>\n"
+"                              command to check the .changes file (no "
+"default).\n"
+"      --check-option=<opt>    pass <opt> to check <command>.\n"
+"      --hook-<name>=<command> set <command> as the hook <name>, known "
+"hooks:\n"
+"                                init preclean source build binary changes\n"
+"                                postclean check sign done\n"
+"  -p, --sign-command=<command>\n"
+"                              command to sign .dsc and/or .changes files\n"
+"                                (default is gpg2 or gpg).\n"
+"  -k, --sign-key=<keyid>      the key to use for signing.\n"
+"  -ap, --sign-pause           add pause before starting signature process.\n"
+"  -us, --unsigned-source      unsigned source package.\n"
+"  -uc, --unsigned-changes     unsigned .changes file.\n"
+"      --force-sign            force signing the resulting files.\n"
+"      --admindir=<directory>  change the administrative directory.\n"
+"  -?, --help                  show this help message.\n"
+"      --version               show the version."
 msgstr ""
 "Flaggor:\n"
 "  -F (förval)    normalt komplett bygge (binärer och källkod).\n"
@@ -362,12 +370,19 @@ msgstr ""
 "      --version  visa versionsnummer."
 
 #: scripts/dpkg-buildpackage.pl
+#, fuzzy
+#| msgid ""
+#| "Options passed to dpkg-architecture:\n"
+#| "  -a, --host-arch <arch>    set the host Debian architecture.\n"
+#| "  -t, --host-type <type>    set the host GNU system type.\n"
+#| "      --target-arch <arch>  set the target Debian architecture.\n"
+#| "      --target-type <type>  set the target GNU system type."
 msgid ""
 "Options passed to dpkg-architecture:\n"
-"  -a, --host-arch <arch>    set the host Debian architecture.\n"
-"  -t, --host-type <type>    set the host GNU system type.\n"
-"      --target-arch <arch>  set the target Debian architecture.\n"
-"      --target-type <type>  set the target GNU system type."
+"  -a, --host-arch <arch>      set the host Debian architecture.\n"
+"  -t, --host-type <type>      set the host GNU system type.\n"
+"      --target-arch <arch>    set the target Debian architecture.\n"
+"      --target-type <type>    set the target GNU system type."
 msgstr ""
 "Flaggor som sänds till dpkg-architecture:\n"
 "  -a, --host-arch <ark>     sätt värd-Debianarkitektur.\n"
@@ -390,15 +405,15 @@ msgstr ""
 #| "                 pass option <opt> to dpkg-genchanges."
 msgid ""
 "Options passed to dpkg-genchanges:\n"
-"  -si            source includes orig, if new upstream (default).\n"
-"  -sa            source includes orig, always.\n"
-"  -sd            source is diff and .dsc only.\n"
-"  -v<version>    changes since version <version>.\n"
-"  -m<maint>      maintainer for package is <maint>.\n"
-"  -e<maint>      maintainer for release is <maint>.\n"
-"  -C<descfile>   changes are described in <descfile>.\n"
-"      --changes-option=<opt>\n"
-"                 pass option <opt> to dpkg-genchanges."
+"  -si                         source includes orig, if new upstream "
+"(default).\n"
+"  -sa                         source includes orig, always.\n"
+"  -sd                         source is diff and .dsc only.\n"
+"  -v<version>                 changes since version <version>.\n"
+"  -m, --release-by=<maint>    maintainer for this release is <maint>.\n"
+"  -e, --build-by=<maint>      maintainer for this build is <maint>.\n"
+"  -C<descfile>                changes are described in <descfile>.\n"
+"      --changes-option=<opt>  pass option <opt> to dpkg-genchanges."
 msgstr ""
 "Flaggor som sänds till dpkg-genchanges:\n"
 "  -si (standard) källkod innehåller original, om ny uppström.\n"
@@ -412,16 +427,30 @@ msgstr ""
 "                 sänd flaggan <flagga> till dpkg-genchanges."
 
 #: scripts/dpkg-buildpackage.pl
+#, fuzzy
+#| msgid ""
+#| "Options passed to dpkg-source:\n"
+#| "  -sn            force Debian native source format.\n"
+#| "  -s[sAkurKUR]   see dpkg-source for explanation.\n"
+#| "  -z<level>      compression level to use for source.\n"
+#| "  -Z<compressor> compression to use for source (gz|xz|bzip2|lzma).\n"
+#| "  -i[<regex>]    ignore diffs of files matching regex.\n"
+#| "  -I[<pattern>]  filter out files when building tarballs.\n"
+#| "      --source-option=<opt>\n"
+#| "                 pass option <opt> to dpkg-source.\n"
 msgid ""
 "Options passed to dpkg-source:\n"
-"  -sn            force Debian native source format.\n"
-"  -s[sAkurKUR]   see dpkg-source for explanation.\n"
-"  -z<level>      compression level to use for source.\n"
-"  -Z<compressor> compression to use for source (gz|xz|bzip2|lzma).\n"
-"  -i[<regex>]    ignore diffs of files matching regex.\n"
-"  -I[<pattern>]  filter out files when building tarballs.\n"
-"      --source-option=<opt>\n"
-"                 pass option <opt> to dpkg-source.\n"
+"  -sn                         force Debian native source format.\n"
+"  -s[sAkurKUR]                see dpkg-source for explanation.\n"
+"  -z, --compression-level=<level>\n"
+"                              compression level to use for source.\n"
+"  -Z, --compression=<compressor>\n"
+"                              compression to use for source (gz|xz|bzip2|"
+"lzma).\n"
+"  -i, --diff-ignore[=<regex>] ignore diffs of files matching <regex>.\n"
+"  -I, --tar-ignore[=<pattern>]\n"
+"                              filter out files when building tarballs.\n"
+"      --source-option=<opt>   pass option <opt> to dpkg-source.\n"
 msgstr ""
 "Flaggor som sänds till dpkg-source:\n"
 "  -sn            tvinga Debianeget källkodsformat.\n"
@@ -525,15 +554,6 @@ msgstr ""
 "innehålla oönskade filer."
 
 #: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid ""
-"%s must be updated to support the 'build-arch' and 'build-indep' targets (at "
-"least '%s' seems to be missing)"
-msgstr ""
-"%s måste uppdateras för att stöda målen \"build-arch\" och \"build-indep"
-"\" (åtminstone \"%s\" verkar saknas)"
-
-#: scripts/dpkg-buildpackage.pl
 msgid "parse changes file"
 msgstr "tolka ändringsfil"
 
@@ -612,6 +632,15 @@ msgstr "binär- och diffinsändning (originalkällkod tas EJ med)"
 #: scripts/dpkg-buildpackage.pl
 msgid "full upload (original source is included)"
 msgstr "komplett insändning (originalkällkod tas med)"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid ""
+"%s must be updated to support the 'build-arch' and 'build-indep' targets (at "
+"least '%s' seems to be missing)"
+msgstr ""
+"%s måste uppdateras för att stöda målen \"build-arch\" och \"build-indep"
+"\" (åtminstone \"%s\" verkar saknas)"
 
 #: scripts/dpkg-checkbuilddeps.pl
 #, perl-format
@@ -1383,7 +1412,6 @@ msgid ""
 "Options:\n"
 "  -l <changelog-file>      get per-version info from this file.\n"
 "  -F <changelog-format>    force changelog format.\n"
-"  -L <libdir>              look for changelog parsers in <libdir>.\n"
 "  -S, --show-field <field> show the values for <field>.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version."
@@ -1457,8 +1485,10 @@ msgstr ""
 "    --all                       ta med alla ändringar\n"
 
 #: scripts/dpkg-parsechangelog.pl
-msgid "missing library directory"
-msgstr ""
+#, fuzzy
+#| msgid "-i%s is deprecated; it is without effect"
+msgid "-L is obsolete; it is without effect"
+msgstr "-i%s rekommenderas ej; det har ingen effekt"
 
 #: scripts/dpkg-parsechangelog.pl
 #, fuzzy
@@ -1519,8 +1549,7 @@ msgstr "  %s (paketet säger %s, inte %s)"
 msgid "unconditional maintainer override for %s"
 msgstr "ovillkorlig överstyrning från paketansvariga för %s"
 
-#: scripts/dpkg-scanpackages.pl scripts/dpkg-shlibdeps.pl
-#: scripts/Dpkg/Changelog/Parse.pm scripts/Dpkg/IPC.pm
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-shlibdeps.pl scripts/Dpkg/IPC.pm
 #: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
 msgid "cannot fork for %s"
@@ -2051,7 +2080,10 @@ msgstr "--%s tar maximalt två argument"
 msgid "--%s needs the .dsc file as first argument, not a directory"
 msgstr "--%s måste ha .dsc-filen som första argument, inte en katalog"
 
-#: scripts/dpkg-source.pl
+#: scripts/dpkg-source.pl scripts/Dpkg/Source/Package/V1.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Package/V3/Bzr.pm
+#: scripts/Dpkg/Source/Package/V3/Git.pm
+#: scripts/Dpkg/Source/Package/V3/Native.pm
 #, perl-format
 msgid "unpack target exists: %s"
 msgstr "mål för uppackning finns redan: %s"
@@ -2070,6 +2102,12 @@ msgstr "extraherar osignerat källkodspaket (%s)"
 #, perl-format
 msgid "extracting %s in %s"
 msgstr "extraherar %s i %s"
+
+#: scripts/dpkg-source.pl
+#, fuzzy, perl-format
+#| msgid "%s is not a plain file"
+msgid "test control %s is not a regular file"
+msgstr "%s är inte en vanlig fil"
 
 #: scripts/dpkg-source.pl
 #, perl-format
@@ -2107,7 +2145,27 @@ msgstr ""
 "                           spara uppströmsändringar som en ny patch."
 
 #: scripts/dpkg-source.pl
-#, perl-format
+#, fuzzy, perl-format
+#| msgid ""
+#| "Build options:\n"
+#| "  -c<control-file>         get control info from this file.\n"
+#| "  -l<changelog-file>       get per-version info from this file.\n"
+#| "  -F<changelog-format>     force changelog format.\n"
+#| "  --format=<source-format> set the format to be used for the source "
+#| "package.\n"
+#| "  -V<name>=<value>         set a substitution variable.\n"
+#| "  -T<substvars-file>       read variables here.\n"
+#| "  -D<field>=<value>        override or add a .dsc field and value.\n"
+#| "  -U<field>                remove a field.\n"
+#| "  -q                       quiet mode.\n"
+#| "  -i[<regex>]              filter out files to ignore diffs of\n"
+#| "                             (defaults to: '%s').\n"
+#| "  -I[<pattern>]            filter out files when building tarballs\n"
+#| "                             (defaults to: %s).\n"
+#| "  -Z<compression>          select compression to use (defaults to '%s',\n"
+#| "                             supported are: %s).\n"
+#| "  -z<level>                compression level to use (defaults to '%d',\n"
+#| "                             supported are: '1'-'9', 'best', 'fast')"
 msgid ""
 "Build options:\n"
 "  -c<control-file>         get control info from this file.\n"
@@ -2119,14 +2177,17 @@ msgid ""
 "  -T<substvars-file>       read variables here.\n"
 "  -D<field>=<value>        override or add a .dsc field and value.\n"
 "  -U<field>                remove a field.\n"
-"  -q                       quiet mode.\n"
-"  -i[<regex>]              filter out files to ignore diffs of\n"
+"  -i, --diff-ignore[=<regex>]\n"
+"                           filter out files to ignore diffs of\n"
 "                             (defaults to: '%s').\n"
-"  -I[<pattern>]            filter out files when building tarballs\n"
+"  -I, --tar-ignore[=<pattern>]\n"
+"                           filter out files when building tarballs\n"
 "                             (defaults to: %s).\n"
-"  -Z<compression>          select compression to use (defaults to '%s',\n"
+"  -Z, --compression=<compression>\n"
+"                           select compression to use (defaults to '%s',\n"
 "                             supported are: %s).\n"
-"  -z<level>                compression level to use (defaults to '%d',\n"
+"  -z, --compression-level=<level>\n"
+"                           compression level to use (defaults to '%d',\n"
 "                             supported are: '1'-'9', 'best', 'fast')"
 msgstr ""
 "Byggflaggor:\n"
@@ -2167,6 +2228,7 @@ msgid ""
 "  --no-copy                don't copy .orig tarballs\n"
 "  --no-check               don't check signature and checksums before "
 "unpacking\n"
+"  --no-overwrite-dir       do not overwrite directory on extraction\n"
 "  --require-valid-signature abort if the package doesn't have a valid "
 "signature\n"
 "  --require-strong-checksums\n"
@@ -2182,8 +2244,14 @@ msgstr ""
 "  --ignore-bad-version     tillåt felaktiga versionsnummer i källkodspaket."
 
 #: scripts/dpkg-source.pl
+#, fuzzy
+#| msgid ""
+#| "General options:\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version."
 msgid ""
 "General options:\n"
+"  -q                       quiet mode.\n"
 "  -?, --help               show this help message.\n"
 "      --version            show the version."
 msgstr ""
@@ -2226,91 +2294,6 @@ msgstr ""
 #, perl-format
 msgid "vendor %s doesn't exist in %s"
 msgstr "leverantören %s finns inte i %s"
-
-#: scripts/changelog/debian.pl
-#, fuzzy, perl-format
-#| msgid "Usage: %s [<option>...] [<control-file>]"
-msgid "Usage: %s [<option>...] [<changelog-file>]"
-msgstr "Användning: %s [<flagga>...] [<control-fil>]"
-
-#: scripts/changelog/debian.pl
-#, fuzzy
-#| msgid ""
-#| "Parser options:\n"
-#| "    --format <output-format>    see man page for list of available\n"
-#| "                                output formats, defaults to 'dpkg'\n"
-#| "                                for compatibility with dpkg-dev\n"
-#| "    --since <version>,          include all changes later than version\n"
-#| "      -s<version>, -v<version>\n"
-#| "    --until <version>,          include all changes earlier than version\n"
-#| "      -u<version>\n"
-#| "    --from <version>,           include all changes equal or later\n"
-#| "      -f<version>               than version\n"
-#| "    --to <version>, -t<version> include all changes up to or equal\n"
-#| "                                than version\n"
-#| "    --count <number>,           include <number> entries from the top\n"
-#| "      -c<number>, -n<number>    (or the tail if <number> is lower than "
-#| "0)\n"
-#| "    --offset <number>,          change the starting point for --count,\n"
-#| "      -o<number>                counted from the top (or the tail if\n"
-#| "                                <number> is lower than 0)\n"
-#| "    --all                       include all changes\n"
-msgid ""
-"Options:\n"
-"      --file <file>       changelog <file> to parse (defaults to '-').\n"
-"  -l, --label <file>      changelog <file> name to use in error messages.\n"
-"      --format <output-format>\n"
-"                          set the output format (defaults to 'dpkg').\n"
-"      --all               include all changes.\n"
-"  -s, --since <version>   include all changes later than <version>.\n"
-"  -v <version>            ditto.\n"
-"  -u, --until <version>   include all changes earlier than <version>.\n"
-"  -f, --from <version>    include all changes equal or later than "
-"<version>.\n"
-"  -t, --to <version>      include all changes up to or equal than "
-"<version>.\n"
-"  -c, --count <number>    include <number> entries from the top (or tail if\n"
-"                            <number> is lower than 0).\n"
-"  -n <number>             ditto.\n"
-"  -o, --offset <number>   change starting point for --count, counted from\n"
-"                            the top (or tail if <number> is lower than 0).\n"
-"  -?, --help              print usage information.\n"
-"  -V, --version           print version information.\n"
-msgstr ""
-"Parserflaggor:\n"
-"    --format <utdataformat>     se manualsidan för en lista över "
-"tillgängliga\n"
-"                                utdataformat, standard är \"dpkg\" för\n"
-"                                kompatibilitet med dpkg-dev\n"
-"    --since <version>,          ta med alla ändringar efter version\n"
-"      -s<version>, -v<version>\n"
-"    --until <version>,          ta med alla ändringar föreversion\n"
-"      -u<version>\n"
-"    --from <version>,           ta med alla ändringar från och med\n"
-"      -f<version>               version\n"
-"    --to <version>, -t<version> ta med alla ändringar till och med\n"
-"                                version\n"
-"    --count <antal>,            ta med <antal> poster från början\n"
-"      -c<antal>, -n<antal>      (eller slutet om <antal> är lägre än 0)\n"
-"    --offset <antal> ,          byt startpunkt för --count, räknat\n"
-"      -o<antal>                 från början (eller slutet om <antal>\n"
-"                                är lägre än 0)\n"
-"    --all                       ta med alla ändringar\n"
-
-#: scripts/changelog/debian.pl
-#, perl-format
-msgid "output format %s not supported"
-msgstr "utdataformatet %s stöds inte"
-
-#: scripts/changelog/debian.pl
-#, perl-format
-msgid "more than one file specified (%s and %s)"
-msgstr "mer än en fil angavs (%s och %s)"
-
-#: scripts/changelog/debian.pl scripts/Dpkg/Changelog/Parse.pm
-#, perl-format
-msgid "fatal error occurred while parsing %s"
-msgstr "ödesdigert fel vid tolkning av %s"
 
 #: scripts/Dpkg/Arch.pm
 #, fuzzy
@@ -2541,12 +2524,6 @@ msgid "the trailer doesn't match the expected regex"
 msgstr "filslutet motsvarar inte det förväntat reguljärt uttryck"
 
 #: scripts/Dpkg/Changelog/Parse.pm
-#, fuzzy, perl-format
-#| msgid "unknown option or argument %s"
-msgid "unknown output format %s"
-msgstr "okänd flagga eller argument %s"
-
-#: scripts/Dpkg/Changelog/Parse.pm
 #, perl-format
 msgid "cannot create pipe for %s"
 msgstr "kan inte skapa rör för %s"
@@ -2557,29 +2534,21 @@ msgid "tail of %s"
 msgstr "tail för %s"
 
 #: scripts/Dpkg/Changelog/Parse.pm
-#, perl-format
-msgid "format parser %s not executable"
-msgstr "formattolk %s ej körbar"
-
-#: scripts/Dpkg/Changelog/Parse.pm
-#, perl-format
-msgid "changelog format %s is unknown"
+#, fuzzy, perl-format
+#| msgid "changelog format %s is unknown"
+msgid "changelog format %s is unknown: %s"
 msgstr "ändringsloggformatet %s okänt"
 
 #: scripts/Dpkg/Changelog/Parse.pm
-#, fuzzy, perl-format
-#| msgid "cannot exec format parser: %s"
-msgid "cannot execute format parser: %s"
-msgstr "kan inte exekvera formattolk: %s"
-
-#: scripts/Dpkg/Changelog/Parse.pm
-msgid "output of changelog parser"
-msgstr "utdata från ändringsloggparser"
-
-#: scripts/Dpkg/Changelog/Parse.pm
 #, perl-format
-msgid "changelog parser %s"
-msgstr "ändringsloggparser %s"
+msgid "fatal error occurred while parsing %s"
+msgstr "ödesdigert fel vid tolkning av %s"
+
+#: scripts/Dpkg/Changelog/Parse.pm
+#, fuzzy, perl-format
+#| msgid "unknown option or argument %s"
+msgid "unknown output format %s"
+msgstr "okänd flagga eller argument %s"
 
 #: scripts/Dpkg/Checksums.pm
 #, perl-format
@@ -2654,6 +2623,12 @@ msgstr ""
 #: scripts/Dpkg/Control.pm
 msgid "license stanza of copyright file"
 msgstr ""
+
+#: scripts/Dpkg/Control.pm
+#, fuzzy
+#| msgid "package's section of control info file"
+msgid "package's tests control file"
+msgstr "paketets sektion av styrinfofilen"
 
 #: scripts/Dpkg/Control.pm
 #, fuzzy, perl-format
@@ -3953,6 +3928,12 @@ msgid "bad line in substvars file %s at line %d"
 msgstr "felaktig rad i substvars-filen %s på rad %d"
 
 #: scripts/Dpkg/Substvars.pm
+#, fuzzy, perl-format
+#| msgid "invalid source field in %s"
+msgid "invalid source version %s"
+msgstr "ogiltigt källkodsfält i %s"
+
+#: scripts/Dpkg/Substvars.pm
 #, perl-format
 msgid "too many substitutions - recursive ? - in '%s'"
 msgstr "för många substitueringar - rekursivt? - i \"%s\""
@@ -4046,6 +4027,99 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
+
+#, fuzzy
+#~| msgid "Usage: %s [<option>...] [<control-file>]"
+#~ msgid "Usage: %s [<option>...] [<changelog-file>]"
+#~ msgstr "Användning: %s [<flagga>...] [<control-fil>]"
+
+#, fuzzy
+#~| msgid ""
+#~| "Parser options:\n"
+#~| "    --format <output-format>    see man page for list of available\n"
+#~| "                                output formats, defaults to 'dpkg'\n"
+#~| "                                for compatibility with dpkg-dev\n"
+#~| "    --since <version>,          include all changes later than version\n"
+#~| "      -s<version>, -v<version>\n"
+#~| "    --until <version>,          include all changes earlier than "
+#~| "version\n"
+#~| "      -u<version>\n"
+#~| "    --from <version>,           include all changes equal or later\n"
+#~| "      -f<version>               than version\n"
+#~| "    --to <version>, -t<version> include all changes up to or equal\n"
+#~| "                                than version\n"
+#~| "    --count <number>,           include <number> entries from the top\n"
+#~| "      -c<number>, -n<number>    (or the tail if <number> is lower than "
+#~| "0)\n"
+#~| "    --offset <number>,          change the starting point for --count,\n"
+#~| "      -o<number>                counted from the top (or the tail if\n"
+#~| "                                <number> is lower than 0)\n"
+#~| "    --all                       include all changes\n"
+#~ msgid ""
+#~ "Options:\n"
+#~ "      --file <file>       changelog <file> to parse (defaults to '-').\n"
+#~ "  -l, --label <file>      changelog <file> name to use in error "
+#~ "messages.\n"
+#~ "      --format <output-format>\n"
+#~ "                          set the output format (defaults to 'dpkg').\n"
+#~ "      --all               include all changes.\n"
+#~ "  -s, --since <version>   include all changes later than <version>.\n"
+#~ "  -v <version>            ditto.\n"
+#~ "  -u, --until <version>   include all changes earlier than <version>.\n"
+#~ "  -f, --from <version>    include all changes equal or later than "
+#~ "<version>.\n"
+#~ "  -t, --to <version>      include all changes up to or equal than "
+#~ "<version>.\n"
+#~ "  -c, --count <number>    include <number> entries from the top (or tail "
+#~ "if\n"
+#~ "                            <number> is lower than 0).\n"
+#~ "  -n <number>             ditto.\n"
+#~ "  -o, --offset <number>   change starting point for --count, counted "
+#~ "from\n"
+#~ "                            the top (or tail if <number> is lower than "
+#~ "0).\n"
+#~ "  -?, --help              print usage information.\n"
+#~ "  -V, --version           print version information.\n"
+#~ msgstr ""
+#~ "Parserflaggor:\n"
+#~ "    --format <utdataformat>     se manualsidan för en lista över "
+#~ "tillgängliga\n"
+#~ "                                utdataformat, standard är \"dpkg\" för\n"
+#~ "                                kompatibilitet med dpkg-dev\n"
+#~ "    --since <version>,          ta med alla ändringar efter version\n"
+#~ "      -s<version>, -v<version>\n"
+#~ "    --until <version>,          ta med alla ändringar föreversion\n"
+#~ "      -u<version>\n"
+#~ "    --from <version>,           ta med alla ändringar från och med\n"
+#~ "      -f<version>               version\n"
+#~ "    --to <version>, -t<version> ta med alla ändringar till och med\n"
+#~ "                                version\n"
+#~ "    --count <antal>,            ta med <antal> poster från början\n"
+#~ "      -c<antal>, -n<antal>      (eller slutet om <antal> är lägre än 0)\n"
+#~ "    --offset <antal> ,          byt startpunkt för --count, räknat\n"
+#~ "      -o<antal>                 från början (eller slutet om <antal>\n"
+#~ "                                är lägre än 0)\n"
+#~ "    --all                       ta med alla ändringar\n"
+
+#~ msgid "output format %s not supported"
+#~ msgstr "utdataformatet %s stöds inte"
+
+#~ msgid "more than one file specified (%s and %s)"
+#~ msgstr "mer än en fil angavs (%s och %s)"
+
+#~ msgid "format parser %s not executable"
+#~ msgstr "formattolk %s ej körbar"
+
+#, fuzzy
+#~| msgid "cannot exec format parser: %s"
+#~ msgid "cannot execute format parser: %s"
+#~ msgstr "kan inte exekvera formattolk: %s"
+
+#~ msgid "output of changelog parser"
+#~ msgstr "utdata från ändringsloggparser"
+
+#~ msgid "changelog parser %s"
+#~ msgstr "ändringsloggparser %s"
 
 #~ msgid "'%s' is not a legal architecture string."
 #~ msgid_plural "'%s' are not legal architecture strings."
@@ -4631,9 +4705,6 @@ msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
 
 #~ msgid "duplicate source field in %s"
 #~ msgstr "duplicerat källkodsfält i %s"
-
-#~ msgid "invalid source field in %s"
-#~ msgstr "ogiltigt källkodsfält i %s"
 
 #~ msgid "duplicate binary field in %s"
 #~ msgstr "duplicerat binärfält i %s"

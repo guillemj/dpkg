@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2016-02-21 15:40+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -17,6 +17,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.6\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "kan status van archief niet opvragen"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "kan niet lezen uit archief '%.255s'"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "kan '%.255s' niet aanmaken"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "kan bestand '%s' niet sluiten"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -306,11 +326,6 @@ msgstr "kan map `%.255s' met bijwerkingen niet doorzoeken"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "kon ingebouwd bijwerkingenbestand %.255s niet verwijderen"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "kan '%.255s' niet aanmaken"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -426,8 +441,7 @@ msgstr "kan map '%s' niet synchroniseren"
 msgid "unable to open directory '%s'"
 msgstr "kan map '%s' niet openen"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "kan bestand '%s' niet openen"
@@ -437,12 +451,6 @@ msgstr "kan bestand '%s' niet openen"
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "kan bestand '%s' niet synchroniseren"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "kan bestand '%s' niet sluiten"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3657,6 +3665,10 @@ msgstr "onverwacht bestandseinde voor regeleinde %d"
 msgid "need an action option"
 msgstr "heb een actie-optie nodig"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
 msgstr "kan setenv niet instellen voor subproces"
@@ -4949,6 +4961,12 @@ msgstr "tar-element wordt gecomprimeerd"
 msgid "<compress> from tar -cf"
 msgstr "<compress> van tar -cf"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "kan '%.255s' niet aanmaken"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -5008,24 +5026,15 @@ msgstr "kan '%s' niet naar archief '%s' kopiëren: %s"
 msgid "shell command to move files"
 msgstr "shell-opdracht om bestanden te verplaatsen"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "onverwacht bestandseinde in %s op %.255s"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "fout bij lezen van %s uit bestand %.255s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "kan niet lezen uit archief '%.255s'"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "kan status van archief niet opvragen"
 
 #: dpkg-deb/extract.c
 msgid "archive magic version number"
@@ -5453,7 +5462,7 @@ msgstr "bestand '%.250s' is beschadigd - %.250s ontbreekt"
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "bestand '%.250s' is beschadigd - ontbrekende nieuwe regel na %.250s"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "fout bij lezen van %.250s"
@@ -5572,11 +5581,6 @@ msgstr ""
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr ""
 "bestand '%.250s' is beschadigd - grootte is fout voor opgegeven deelnummer"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "kan status van deelbestand '%.250s' niet opvragen"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5752,11 +5756,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "Typ dpkg-split --help voor hulp."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "onverwacht bestandseinde in %.250s"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6501,6 +6500,12 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "om automatische opwaarderingen weer in te schakelen kunt u '%s --auto %s' "
 "gebruiken."
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "kan status van deelbestand '%.250s' niet opvragen"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "onverwacht bestandseinde in %.250s"
 
 #~ msgid "%s: error: %s\n"
 #~ msgstr "%s: fout: %s\n"

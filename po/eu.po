@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
@@ -19,6 +19,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.4\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "fstat: huts egin du artxiboarekin"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "huts egin du '%.255s' artxiboa irakurtzean"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "ezin da '%.255s' sortu"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "ezin da '%s' fitxategia itxi"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -307,11 +327,6 @@ msgstr "ezin da '%.255s' eguneratzeen direktorioa aztertu"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "huts egin du %.255s eguneratze fitxategi inkorporatua kentzean"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "ezin da '%.255s' sortu"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -422,8 +437,7 @@ msgstr "ezin da '%s' direktorioa sinkronizatu"
 msgid "unable to open directory '%s'"
 msgstr "ezin da '%s' direktorioa ireki"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "ezin da '%.250s' fitxategia ireki"
@@ -433,12 +447,6 @@ msgstr "ezin da '%.250s' fitxategia ireki"
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "ezin da '%s' fitxategia sinkronizatu"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "ezin da '%s' fitxategia itxi"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3697,6 +3705,10 @@ msgstr "ustekabeko eof %d lerroa amaitu aurretik"
 msgid "need an action option"
 msgstr "ekintza-aukera bat behar da"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
 msgstr "ezin da azpi-prozesuaren inguruneko aldagaia ezarri"
@@ -4991,6 +5003,12 @@ msgstr "datu-kideak konprimitzen"
 msgid "<compress> from tar -cf"
 msgstr "<konprimitua> tar -cf komandoarekin"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "ezin da '%.255s' sortu"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -5051,24 +5069,15 @@ msgstr "ezin da '%s' kopiatu '%s' artxiboan: %s"
 msgid "shell command to move files"
 msgstr "shell komandoa fitxategiak lekuz aldatzeko"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "ustekabeko fitxategi amaiera: %s - %.255s"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "errorea %s irakurtzean %.255s fitxategitik"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "huts egin du '%.255s' artxiboa irakurtzean"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "fstat: huts egin du artxiboarekin"
 
 #: dpkg-deb/extract.c
 msgid "archive magic version number"
@@ -5499,7 +5508,7 @@ msgstr ""
 "'%.250s' fitxategia hondatuta dago - %.250s(r)en ondoren lerro-jauzia falta "
 "da"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "errorea %.250s irakurtzean"
@@ -5623,11 +5632,6 @@ msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr ""
 "'%.250s' fitxategia hondatuta dago - okerreko tamaina adierazitako zati "
 "zenbakian"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "ezin da fstat egin '%.250s' zati-fitxategian"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5803,11 +5807,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "Idatzi dpkg-split --help laguntza lortzeko."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "ustekabeko fitxategi amaiera %.250s-en"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6548,6 +6547,12 @@ msgstr "%s/%s-(r)en eguneraketa automatikoak desgaituta daude, ez da ukituko"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "eguneraketa automatikoetara itzultzeko erabili '%s --auto %s'"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "ezin da fstat egin '%.250s' zati-fitxategian"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "ustekabeko fitxategi amaiera %.250s-en"
 
 #~ msgid "%s: error: %s\n"
 #~ msgstr "%s: errorea: %s\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -16,6 +16,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "아카이브 파일의 정보를 읽는데 실패했습니다"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "`%.255s' 아카이브를 읽는데 실패했습니다"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "`%.255s'을(를) 만들 수 없습니다"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "'%s' 파일을 닫을 수 없습니다"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -336,11 +356,6 @@ msgstr "업데이트 디렉터리 `%.255s'을(를) 읽을 수 없습니다"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "합병한 업데이트 파일 %.255s을(를) 지우는데 실패했습니다"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "`%.255s'을(를) 만들 수 없습니다"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -460,8 +475,7 @@ msgstr "'%s' 파일을 동기화할 수 없습니다"
 msgid "unable to open directory '%s'"
 msgstr "'%s' 파일을 열 수 없습니다"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "'%s' 파일을 열 수 없습니다"
@@ -471,12 +485,6 @@ msgstr "'%s' 파일을 열 수 없습니다"
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "'%s' 파일을 동기화할 수 없습니다"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "'%s' 파일을 닫을 수 없습니다"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3870,6 +3878,10 @@ msgstr "%d번째 줄이 끝나기 전에 예상치 못하게 파일이 끝났습
 msgid "need an action option"
 msgstr "명령 옵션이 필요합니다"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 #, fuzzy
 #| msgid "unable to setenv for maintainer script"
@@ -5276,6 +5288,12 @@ msgstr "멤버"
 msgid "<compress> from tar -cf"
 msgstr "tar -cf에서 압축"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "`%.255s'을(를) 만들 수 없습니다"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -5342,24 +5360,15 @@ msgstr "'%s' 파일의 이름을 '%s'(으)로 바꿀 수 없습니다"
 msgid "shell command to move files"
 msgstr ""
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "%2$.255s 안의 %1$s 안에서 예상치 못하게 파일이 끝났습니다"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "%2$.255s에서 %1$s 읽기에 오류가 발생했습니다"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "`%.255s' 아카이브를 읽는데 실패했습니다"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "아카이브 파일의 정보를 읽는데 실패했습니다"
 
 #: dpkg-deb/extract.c
 #, fuzzy
@@ -5839,7 +5848,7 @@ msgstr "`%.250s' 파일이 손상되었습니다 - %.250s이(가) 빠졌습니�
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "`%.250s' 파일이 손상되었습니다 - %.250s 다음에 줄바꿈이 없습니다"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "%.250s 파일을 읽는데 오류가 발생했습니다"
@@ -5972,11 +5981,6 @@ msgstr ""
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr ""
 "`%.250s' 파일이 손상되었습니다 - 지정한 번호의 구성 요소의 크기가 틀렸습니다"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "구성 요소 파일 `%.250s'의 정보를 읽을 수 없습니다"
 
 #: dpkg-split/info.c
 #, c-format
@@ -6171,11 +6175,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "도움말을 보려면 dpkg-split --help를 실행하십시오."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "%.250s 파일에서 예상치 못하게 파일이 끝났습니다"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -7010,6 +7009,12 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "다시 자동 업데이트를 하려면 `update-alternatives --auto %s' 명령을 사용하십시"
 "오."
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "구성 요소 파일 `%.250s'의 정보를 읽을 수 없습니다"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "%.250s 파일에서 예상치 못하게 파일이 끝났습니다"
 
 #, fuzzy
 #~| msgid "%s: warning: %s\n"

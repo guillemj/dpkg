@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-04-07 09:53+0200\n"
 "Last-Translator: Eric Pareja <xenos@upm.edu.ph>\n"
 "Language-Team: Tagalog <debian-tl@banwa.upm.edu.ph>\n"
@@ -17,6 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "bigo na i-fstat ang arkibo"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "bigo sa pagbasa ng arkibo `%.255s'"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "hindi malikha ang `%.255s'"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "unable to close file '%s'"
+msgstr "hindi maka-flush sa vsnprintf"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -327,11 +347,6 @@ msgstr "hindi ma-scan ang directory ng mga update `%.255s'"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "bigo sa pagtanggal ng naisamang mga talaksang update %.255s"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "hindi malikha ang `%.255s'"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -450,8 +465,7 @@ msgstr "hindi mabuksan ang pinagmulan na talaksang `%.250s'"
 msgid "unable to open directory '%s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%.250s'"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "unable to open file '%s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%.250s'"
@@ -461,12 +475,6 @@ msgstr "hindi mabuksan ang pinagmulan na talaksang `%.250s'"
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "hindi mabuksan ang pinagmulan na talaksang `%.250s'"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "unable to close file '%s'"
-msgstr "hindi maka-flush sa vsnprintf"
 
 #: lib/dpkg/dump.c
 #, fuzzy, c-format
@@ -3726,6 +3734,10 @@ msgstr "di inaasahang eof bago matapos ang linya %d"
 msgid "need an action option"
 msgstr "kailangan ng opsyon ng gagawin"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 #, fuzzy
 msgid "unable to setenv for subprocesses"
@@ -5053,6 +5065,12 @@ msgstr "sa gitna ng mga kasapi"
 msgid "<compress> from tar -cf"
 msgstr ""
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "hindi malikha ang `%.255s'"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "--%s needs a <directory> argument"
@@ -5115,24 +5133,15 @@ msgstr "hindi ma-stat ang `%.255s' (sa `%.255s')"
 msgid "shell command to move files"
 msgstr ""
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "di inaasahang dulo ng talaksan sa %s sa %.255s"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, fuzzy, c-format
 msgid "error reading %s from file %.255s"
 msgstr "bigo sa pagbasa ng %s mula sa %.255s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "bigo sa pagbasa ng arkibo `%.255s'"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "bigo na i-fstat ang arkibo"
 
 #: dpkg-deb/extract.c
 #, fuzzy
@@ -5598,7 +5607,7 @@ msgstr "sira ang talaksang `%.250s' - %.250s ay nawawala"
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "sira ang talaksang `%.250s' - may kulang na newline matapos ang %.250s"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "error sa pagbasa ng %.250s"
@@ -5728,11 +5737,6 @@ msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr ""
 "sira ang talaksang `%.250s' - mali ang laki para sa bilang ng bahaging "
 "nabanggit"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "hindi ma-fstat ang talaksang bahagi `%.250s'"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5907,11 +5911,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "dpkg-split --help para sa tulong."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "di inaasahang dulo ng talaksan sa %.250s"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6592,6 +6591,12 @@ msgstr ""
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "hindi ma-fstat ang talaksang bahagi `%.250s'"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "di inaasahang dulo ng talaksan sa %.250s"
 
 #, fuzzy
 #~ msgid "%s: error: %s\n"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:22+0200\n"
+"POT-Creation-Date: 2016-07-03 21:04+0200\n"
 "PO-Revision-Date: 2016-05-07 20:38+0200\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -149,7 +149,8 @@ msgid ""
 "pre-POSIX ustar format, a subset of the GNU format (only the new style long "
 "pathnames and long linknames, supported since dpkg 1.4.1.17), and the POSIX "
 "ustar format (long names supported since dpkg 1.15.0).  Unrecognized tar "
-"typeflags are considered an error."
+"typeflags are considered an error.  Each tar entry size inside a tar archive "
+"is limited to 11 ASCII octal digits, allowing for up to 8 GiB tar entries."
 msgstr ""
 
 #. type: Plain text
@@ -730,9 +731,9 @@ msgstr ""
 
 #. type: SH
 #: deb-changelog.5 deb-substvars.5 dpkg.1 dpkg-architecture.1 dpkg.cfg.5
-#: dpkg-buildflags.1 dpkg-distaddfile.1 dpkg-divert.1 dpkg-genchanges.1
-#: dpkg-gencontrol.1 dpkg-parsechangelog.1 dpkg-split.1 dpkg-statoverride.1
-#: dselect.cfg.5 update-alternatives.1
+#: dpkg-buildflags.1 dpkg-buildpackage.1 dpkg-distaddfile.1 dpkg-divert.1
+#: dpkg-genchanges.1 dpkg-gencontrol.1 dpkg-parsechangelog.1 dpkg-split.1
+#: dpkg-statoverride.1 dselect.cfg.5 update-alternatives.1
 #, no-wrap
 msgid "FILES"
 msgstr "FÁJLOK"
@@ -6055,7 +6056,7 @@ msgid "ENVIRONMENT"
 msgstr ""
 
 #. type: SS
-#: dpkg.1
+#: dpkg.1 dpkg-buildpackage.1
 #, no-wrap
 msgid "External environment"
 msgstr ""
@@ -6149,7 +6150,7 @@ msgid ""
 msgstr ""
 
 #. type: SS
-#: dpkg.1
+#: dpkg.1 dpkg-buildpackage.1
 #, no-wrap
 msgid "Internal environment"
 msgstr ""
@@ -6564,7 +6565,7 @@ msgid "AUTHORS"
 msgstr "SZERZŐ"
 
 #. type: Plain text
-#: dpkg.1 dpkg.cfg.5
+#: dpkg.1
 msgid ""
 "See I</usr/share/doc/dpkg/THANKS> for the list of people who have "
 "contributed to B<dpkg>."
@@ -7543,12 +7544,6 @@ msgstr ""
 msgid "I<~/.dpkg.cfg>"
 msgstr "I<~/.dpkg.cfg>"
 
-#. type: SH
-#: dpkg.cfg.5 dselect.cfg.5
-#, no-wrap
-msgid "AUTHOR"
-msgstr "SZERZŐ"
-
 #. type: Plain text
 #: dpkg.cfg.5 dpkg-divert.1 dpkg-query.1 dpkg-statoverride.1
 msgid "B<dpkg>(1)."
@@ -8391,6 +8386,60 @@ msgstr ""
 #. type: Plain text
 #: dpkg-buildflags.1
 msgid ""
+"Static libraries can be used by programs or other shared libraries.  "
+"Depending on the flags used to compile all the objects within a static "
+"library, these libraries will be usable by different sets of objects:"
+msgstr ""
+
+#. type: TP
+#: dpkg-buildflags.1
+#, no-wrap
+msgid "none"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.1
+msgid "Cannot be linked into a PIE program, nor a shared library."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildflags.1
+#, fuzzy, no-wrap
+msgid "B<-fPIE>"
+msgstr "B<--new>"
+
+#. type: Plain text
+#: dpkg-buildflags.1
+msgid "Can be linked into any program, but not a shared library."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildflags.1
+#, fuzzy, no-wrap
+msgid "B<-fPIC>"
+msgstr "B<--new>"
+
+#. type: Plain text
+#: dpkg-buildflags.1
+msgid "Can be linked into any program and shared library."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.1
+msgid ""
+"Unconditionally passing B<-fPIE>, B<-fpie> or B<-pie> to a build-system "
+"using libtool is safe as these flags will get stripped when building shared "
+"libraries.  Otherwise on projects that build both programs and shared "
+"libraries you might need to make sure that when building the shared "
+"libraries B<-fPIC> is always passed last (so that it overrides any previous "
+"B<-PIE>) to compilation flags such as B<CFLAGS>, and B<-shared> is passed "
+"last (so that it overrides any previous B<-pie>) to linking flags such as "
+"B<LDFLAGS>."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.1
+msgid ""
 "Additionally, since PIE is implemented via a general register, some register "
 "starved architectures (but not including i386 anymore since optimizations "
 "implemented in gcc E<gt>= 5) can see performance losses of up to 15% in very "
@@ -8437,11 +8486,11 @@ msgstr "B<--debug>, B<-D>"
 #. type: Plain text
 #: dpkg-buildflags.1
 msgid ""
-"This setting (disabled by default) adds B<%-fdebug-path-map=>I<BUILDPATH>B<=."
-"> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
-"B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is set to the top-level "
-"directory of the package being built.  This has the effect of removing the "
-"build path from any generated debug symbols."
+"This setting (disabled by default) adds B<\\%-fdebug-path-"
+"map=>I<BUILDPATH>B<=.> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
+"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is "
+"set to the top-level directory of the package being built.  This has the "
+"effect of removing the build path from any generated debug symbols."
 msgstr ""
 
 #. type: Plain text
@@ -8552,6 +8601,33 @@ msgid ""
 "details."
 msgstr ""
 
+#. type: TP
+#: dpkg-buildflags.1 dpkg-vendor.1
+#, no-wrap
+msgid "B<DEB_VENDOR>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.1
+msgid ""
+"This setting defines the current vendor.  If not set, it will discover the "
+"current vendor by reading B<\\%/etc/dpkg/origins/default>."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildflags.1
+#, no-wrap
+msgid "B<DEB_BUILD_PATH>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.1
+msgid ""
+"This variable sets the build path (since dpkg 1.18.8) to use in features "
+"such as B<fixdebugpath> so that they can be controlled by the caller.  This "
+"variable is currently Debian and derivatives-specific."
+msgstr ""
+
 #. type: SS
 #: dpkg-buildflags.1
 #, fuzzy, no-wrap
@@ -8588,7 +8664,7 @@ msgid "B<$HOME/.config/dpkg/buildflags.conf>"
 msgstr "I</etc/dpkg/dpkg.cfg>"
 
 #. type: Plain text
-#: dpkg-buildflags.1
+#: dpkg-buildflags.1 dpkg-buildpackage.1
 #, fuzzy
 #| msgid "dselect.cfg - dselect configuration file"
 msgid "User configuration file."
@@ -8606,19 +8682,6 @@ msgstr "I</etc/dpkg/dpkg.cfg>"
 msgid ""
 "Makefile snippet that will load (and optionally export) all flags supported "
 "by B<dpkg-buildflags> into variables (since dpkg 1.16.1)."
-msgstr ""
-
-#. type: TP
-#: dpkg-buildflags.1 dpkg-vendor.1
-#, no-wrap
-msgid "B<DEB_VENDOR>"
-msgstr ""
-
-#. type: Plain text
-#: dpkg-buildflags.1
-msgid ""
-"This setting defines the current vendor. If not set, it will discover the "
-"current vendor by reading B<\\%/etc/dpkg/origins/default>."
 msgstr ""
 
 #. type: Plain text
@@ -8792,7 +8855,7 @@ msgstr "B<--new>"
 #: dpkg-buildpackage.1
 msgid ""
 "It checks that the build-dependencies and build-conflicts are satisfied "
-"(unless B<-d> is specified)."
+"(unless B<-d> or B<--no-check-builddeps> is specified)."
 msgstr ""
 
 #. type: IP
@@ -8807,7 +8870,7 @@ msgid ""
 "If a specific target has been selected with the B<-T> or B<--target> option, "
 "it calls that target and stops here. Otherwise it runs the B<preclean> hook "
 "and calls B<fakeroot debian/rules clean> to clean the build-tree (unless B<-"
-"nc> is specified)."
+"nc> or B<--no-pre-clean> is specified)."
 msgstr ""
 
 #. type: IP
@@ -8868,8 +8931,8 @@ msgstr "B<--new>"
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
-"It runs the B<postclean> hook and if B<-tc> is specified, it will call "
-"B<fakeroot debian/rules clean> again."
+"It runs the B<postclean> hook and if B<-tc> or B<--post-clean> is specified, "
+"it will call B<fakeroot debian/rules clean> again."
 msgstr ""
 
 #. type: IP
@@ -8907,8 +8970,9 @@ msgstr ""
 #: dpkg-buildpackage.1
 msgid ""
 "It runs the B<sign> hook and calls B<gpg2> or B<gpg> to sign the B<.dsc> "
-"file (if any, unless B<-us> is specified or on UNRELEASED builds), and the "
-"B<.changes> file (unless B<-uc> is specified or on UNRELEASED builds)."
+"file (if any, unless B<-us> or B<--unsigned-source> is specified or on "
+"UNRELEASED builds), and the B<.changes> file (unless B<-uc> or B<--unsigned-"
+"changes> is specified or on UNRELEASED builds)."
 msgstr ""
 
 #. type: IP
@@ -8920,6 +8984,16 @@ msgstr ""
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid "It runs the B<done> hook."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildpackage.1
+msgid ""
+"All long options can be specified both on the command line and in the B<dpkg-"
+"buildpackage> system and user configuration files.  Each line in the "
+"configuration file is either an option (exactly the same as the command line "
+"option but without leading hyphens) or a comment (if it starts with a "
+"\\(oqB<#>\\(cq)."
 msgstr ""
 
 #. type: TP
@@ -9073,7 +9147,7 @@ msgstr ""
 #: dpkg-buildpackage.1
 msgid ""
 "Equivalent to B<--build=full>, B<--build=source,binary> or B<--build=source,"
-"any,all> since dpkg 1.15.8)."
+"any,all> (since dpkg 1.15.8)."
 msgstr ""
 
 #. type: TP
@@ -9091,17 +9165,18 @@ msgstr "B<--showformat=>I<formátum>"
 #. type: TQ
 #: dpkg-buildpackage.1
 #, fuzzy, no-wrap
-msgid "B<-T>I<target>"
-msgstr "B<Package:> E<lt>csomag névE<gt>"
+msgid "B<-T>, B<--rules-target=>I<target>"
+msgstr "B<--showformat=>I<formátum>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
 "Calls B<debian/rules> I<target> after having setup the build environment and "
-"stops the package build process here (since dpkg 1.15.0).  If B<--as-root> "
-"is also given, then the command is executed as root (see B<-r>). Note that "
-"known targets that are required to be run as root do not need this option (i."
-"e. the B<clean>, B<binary>, B<binary-arch> and B<binary-indep> targets)."
+"stops the package build process here (since dpkg 1.15.0, long option since "
+"dpkg 1.18.8).  If B<--as-root> is also given, then the command is executed "
+"as root (see B<--root-command>).  Note that known targets that are required "
+"to be run as root do not need this option (i.e. the B<clean>, B<binary>, "
+"B<binary-arch> and B<binary-indep> targets)."
 msgstr ""
 
 #. type: TP
@@ -9147,17 +9222,17 @@ msgstr "B<--version>"
 msgid "B<-C>I<changes-description>"
 msgstr "B< >E<lt>hosszú leírásE<gt>"
 
-#. type: TP
-#: dpkg-buildpackage.1 dpkg-genchanges.1
+#. type: TQ
+#: dpkg-buildpackage.1
 #, no-wrap
-msgid "B<-m>I<maintainer-address>"
+msgid "B<-m>, B<--release-by=>I<maintainer-address>"
 msgstr ""
 
-#. type: TP
-#: dpkg-buildpackage.1 dpkg-genchanges.1
-#, no-wrap
-msgid "B<-e>I<maintainer-address>"
-msgstr ""
+#. type: TQ
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+msgid "B<-e>, B<--build-by=>I<maintainer-address>"
+msgstr "B<--nocheck>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
@@ -9210,23 +9285,23 @@ msgstr ""
 #. type: TP
 #: dpkg-buildpackage.1
 #, fuzzy, no-wrap
-msgid "B<-P>I<profile>[B<,>...]"
+msgid "B<-P>, B<--build-profiles=>I<profile>[B<,>...]"
 msgstr "B<--control>, B<-e>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
 "Specify the profile(s) we build, as a comma-separated list (since dpkg "
-"1.17.2).  The default behavior is to build for no specific profile. Also "
-"sets them (as a space separated list) as the B<DEB_BUILD_PROFILES> "
-"environment variable which allows, for example, B<debian/rules> files to use "
-"this information for conditional builds."
+"1.17.2, long option since dpkg 1.18.8).  The default behavior is to build "
+"for no specific profile. Also sets them (as a space separated list) as the "
+"B<DEB_BUILD_PROFILES> environment variable which allows, for example, "
+"B<debian/rules> files to use this information for conditional builds."
 msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1
 #, fuzzy, no-wrap
-msgid "B<-j>[I<jobs>|B<auto>]"
+msgid "B<-j>, B<--jobs>[=I<jobs>|B<auto>]"
 msgstr "B<--field>, B<-f>"
 
 #. type: Plain text
@@ -9235,58 +9310,61 @@ msgid ""
 "Number of jobs allowed to be run simultaneously, number of jobs matching the "
 "number of online processors if B<auto> is specified (since dpkg 1.17.10), or "
 "unlimited number if I<jobs> is not specified, equivalent to the B<make>(1)  "
-"option of the same name (since dpkg 1.14.7).  Will add itself to the B<\\"
-"%MAKEFLAGS> environment variable, which should cause all subsequent make "
-"invocations to inherit the option, thus forcing the parallel setting on the "
-"packaging (and possibly the upstream build system if that uses make)  "
-"regardless of their support for parallel builds, which might cause build "
-"failures.  Also adds B<parallel=>I<jobs> or B<parallel> to the "
-"B<DEB_BUILD_OPTIONS> environment variable which allows debian/rules files to "
-"use this information for their own purposes.  The B<-j> value will override "
-"the B<parallel=>I<jobs> or B<parallel> option in the B<DEB_BUILD_OPTIONS> "
-"environment variable.  Note that the B<auto> value will get replaced by the "
-"actual number of currently active processors, and as such will not get "
-"propagated to any child process. If the number of online processors cannot "
-"be inferred then the code will fallback to using an unlimited number."
+"option of the same name (since dpkg 1.14.7, long option since dpkg 1.18.8).  "
+"Will add itself to the B<\\%MAKEFLAGS> environment variable, which should "
+"cause all subsequent make invocations to inherit the option, thus forcing "
+"the parallel setting on the packaging (and possibly the upstream build "
+"system if that uses make)  regardless of their support for parallel builds, "
+"which might cause build failures.  Also adds B<parallel=>I<jobs> or "
+"B<parallel> to the B<DEB_BUILD_OPTIONS> environment variable which allows "
+"debian/rules files to use this information for their own purposes.  The B<-"
+"j> value will override the B<parallel=>I<jobs> or B<parallel> option in the "
+"B<DEB_BUILD_OPTIONS> environment variable.  Note that the B<auto> value will "
+"get replaced by the actual number of currently active processors, and as "
+"such will not get propagated to any child process. If the number of online "
+"processors cannot be inferred then the code will fallback to using an "
+"unlimited number."
 msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1
 #, fuzzy, no-wrap
-msgid "B<-J>[I<jobs>|B<auto>]"
+msgid "B<-J>, B<--jobs-try>[=I<jobs>|B<auto>]"
 msgstr "B<--field>, B<-f>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
-"This option (since dpkg 1.18.2) is equivalent to the B<-j> option except "
-"that it does not set the B<\\%MAKEFLAGS> environment variable, and as such "
-"it is safer to use with any package including those that are not parallel-"
-"build safe."
+"This option (since dpkg 1.18.2, long option since dpkg 1.18.8) is equivalent "
+"to the B<-j> option except that it does not set the B<\\%MAKEFLAGS> "
+"environment variable, and as such it is safer to use with any package "
+"including those that are not parallel-build safe."
 msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1
 #, fuzzy, no-wrap
-msgid "B<-D>"
-msgstr "B<--new>"
+msgid "B<-D>, B<--check-builddeps>"
+msgstr "B<--help>, B<-h>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
-"Check build dependencies and conflicts; abort if unsatisfied. This is the "
-"default behavior."
+"Check build dependencies and conflicts; abort if unsatisfied (long option "
+"since dpkg 1.18.8).  This is the default behavior."
 msgstr ""
 
 #. type: TP
-#: dpkg-buildpackage.1 dpkg-gensymbols.1
+#: dpkg-buildpackage.1
 #, fuzzy, no-wrap
-msgid "B<-d>"
-msgstr "B<--old>"
+msgid "B<-d>, B<--no-check-builddeps>"
+msgstr "B<--nocheck>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-msgid "Do not check build dependencies and conflicts."
+msgid ""
+"Do not check build dependencies and conflicts (long option since dpkg "
+"1.18.8)."
 msgstr ""
 
 #. type: TP
@@ -9307,67 +9385,80 @@ msgstr ""
 #. type: TP
 #: dpkg-buildpackage.1
 #, fuzzy, no-wrap
-msgid "B<-nc>"
-msgstr "B<--new>"
+msgid "B<-nc>, B<--no-pre-clean>"
+msgstr "B<--info>, B<-I>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
-"Do not clean the source tree.  Implies B<-b> if nothing else has been "
-"selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-A> or B<-S>.  Implies B<-d> "
-"with B<-S> (since dpkg 1.18.0)."
+"Do not clean the source tree (long option since dpkg 1.18.8).  Implies B<-b> "
+"if nothing else has been selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-A> or "
+"B<-S>.  Implies B<-d> with B<-S> (since dpkg 1.18.0)."
 msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1
-#, no-wrap
-msgid "B<-tc>"
+#, fuzzy, no-wrap
+msgid "B<--pre-clean>"
+msgstr "B<Package:> E<lt>csomag névE<gt>"
+
+#. type: Plain text
+#: dpkg-buildpackage.1
+msgid "Clean the source tree before building (since dpkg 1.18.8)."
 msgstr ""
+
+#. type: TP
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+msgid "B<-tc>, B<--post-clean>"
+msgstr "B<--info>, B<-I>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
 "Clean the source tree (using I<gain-root-command> B<debian/rules clean>)  "
-"after the package has been built."
+"after the package has been built (long option since dpkg 1.18.8)."
 msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1
-#, no-wrap
-msgid "B<-r>I<gain-root-command>"
-msgstr ""
+#, fuzzy, no-wrap
+msgid "B<-r>, B<--root-command=>I<gain-root-command>"
+msgstr "B<--show>, B<-W>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
 "When B<dpkg-buildpackage> needs to execute part of the build process as "
 "root, it prefixes the command it executes with I<gain-root-command> if one "
-"has been specified. Otherwise, if none has been specified, B<fakeroot> will "
-"be used by default, if the command is present.  I<gain-root-command> should "
-"start with the name of a program on the B<PATH> and will get as arguments "
-"the name of the real command to run and the arguments it should take.  "
-"I<gain-root-command> can include parameters (they must be space-separated) "
-"but no shell metacharacters.  I<gain-root-command> might typically be "
-"B<fakeroot>, B<sudo>, B<super> or B<really>.  B<su> is not suitable, since "
-"it can only invoke the user's shell with B<-c> instead of passing arguments "
-"individually to the command to be run."
+"has been specified (long option since dpkg 1.18.8).  Otherwise, if none has "
+"been specified, B<fakeroot> will be used by default, if the command is "
+"present.  I<gain-root-command> should start with the name of a program on "
+"the B<PATH> and will get as arguments the name of the real command to run "
+"and the arguments it should take.  I<gain-root-command> can include "
+"parameters (they must be space-separated) but no shell metacharacters.  "
+"I<gain-root-command> might typically be B<fakeroot>, B<sudo>, B<super> or "
+"B<really>.  B<su> is not suitable, since it can only invoke the user's shell "
+"with B<-c> instead of passing arguments individually to the command to be "
+"run."
 msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1
 #, fuzzy, no-wrap
-msgid "B<-R>I<rules-file>"
-msgstr "B<--fsys-tarfile>"
+msgid "B<-R>, B<--rules-file=>I<rules-file>"
+msgstr "B<--show>, B<-W>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
 "Building a Debian package usually involves invoking B<debian/rules> as a "
-"command with several standard parameters (since dpkg 1.14.17).  With this "
-"option it's possible to use another program invocation to build the package "
-"(it can include space separated parameters).  Alternatively it can be used "
-"to execute the standard rules file with another make program (for example by "
-"using B</usr/local/bin/make -f debian/rules> as I<rules-file>)."
+"command with several standard parameters (since dpkg 1.14.17, long option "
+"since dpkg 1.18.8).  With this option it's possible to use another program "
+"invocation to build the package (it can include space separated "
+"parameters).  Alternatively it can be used to execute the standard rules "
+"file with another make program (for example by using B</usr/local/bin/make -"
+"f debian/rules> as I<rules-file>)."
 msgstr ""
 
 #. type: TP
@@ -9503,51 +9594,54 @@ msgstr "B<--version>"
 
 #. type: TP
 #: dpkg-buildpackage.1
-#, no-wrap
-msgid "B<-p>I<sign-command>"
-msgstr ""
+#, fuzzy, no-wrap
+msgid "B<-p>, B<--sign-command=>I<sign-command>"
+msgstr "B<--show>, B<-W>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
 "When B<dpkg-buildpackage> needs to execute GPG to sign a source control (B<."
 "dsc>) file or a B<.changes> file it will run I<sign-command> (searching the "
-"B<PATH> if necessary) instead of B<gpg2> or B<gpg>. I<sign-command> will get "
-"all the arguments that B<gpg2> or B<gpg> would have gotten. I<sign-command> "
-"should not contain spaces or any other shell metacharacters."
-msgstr ""
-
-#. type: TP
-#: dpkg-buildpackage.1
-#, no-wrap
-msgid "B<-k>I<key-id>"
-msgstr ""
-
-#. type: Plain text
-#: dpkg-buildpackage.1
-msgid "Specify a key-ID to use when signing packages."
+"B<PATH> if necessary) instead of B<gpg2> or B<gpg> (long option since dpkg "
+"1.18.8).  I<sign-command> will get all the arguments that B<gpg2> or B<gpg> "
+"would have gotten. I<sign-command> should not contain spaces or any other "
+"shell metacharacters."
 msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1
 #, fuzzy, no-wrap
-msgid "B<-us>"
-msgstr "B<--new>"
+msgid "B<-k>, B<--sign-key=>I<key-id>"
+msgstr "B<--show>, B<-W>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-msgid "Do not sign the source package."
+msgid ""
+"Specify a key-ID to use when signing packages (long option since dpkg "
+"1.18.8)."
 msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1
 #, fuzzy, no-wrap
-msgid "B<-uc>"
-msgstr "B<--new>"
+msgid "B<-us>, B<--unsigned-source>"
+msgstr "B<--info>, B<-I>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-msgid "Do not sign the B<.changes> file."
+msgid "Do not sign the source package (long option since dpkg 1.18.8)."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+msgid "B<-uc>, B<--unsigned-changes>"
+msgstr "B<--show>, B<-W>"
+
+#. type: Plain text
+#: dpkg-buildpackage.1
+msgid "Do not sign the B<.changes> file (long option since dpkg 1.18.8)."
 msgstr ""
 
 #. type: TP
@@ -9560,31 +9654,86 @@ msgstr "B<--nocheck>"
 #: dpkg-buildpackage.1
 msgid ""
 "Force the signing of the resulting files (since dpkg 1.17.0), regardless of "
-"B<-us> or B<-uc> or other internal heuristics."
+"B<-us>, B<--unsigned-source>, B<-uc>, B<--unsigned-changes> or other "
+"internal heuristics."
 msgstr ""
 
 #. type: TP
-#: dpkg-buildpackage.1
+#: dpkg-buildpackage.1 dpkg-source.1
 #, fuzzy, no-wrap
-msgid "B<-i>[I<regex>]"
+msgid "B<-sn>"
+msgstr "B<--new>"
+
+#. type: TP
+#: dpkg-buildpackage.1 dpkg-source.1
+#, fuzzy, no-wrap
+msgid "B<-ss>"
 msgstr "B<--new>"
 
 #. type: TQ
 #: dpkg-buildpackage.1
 #, fuzzy, no-wrap
-msgid "B<-I>[I<pattern>]"
-msgstr "B<--version>"
+msgid "B<-sA>"
+msgstr "B<--new>"
 
-#. type: TQ
-#: dpkg-buildpackage.1
-#, no-wrap
-msgid "B<-s>[B<nsAkurKUR>]"
-msgstr ""
+#. type: TP
+#: dpkg-buildpackage.1 dpkg-source.1
+#, fuzzy, no-wrap
+msgid "B<-sk>"
+msgstr "B<--new>"
+
+#. type: TP
+#: dpkg-buildpackage.1 dpkg-source.1
+#, fuzzy, no-wrap
+msgid "B<-su>"
+msgstr "B<--new>"
+
+#. type: TP
+#: dpkg-buildpackage.1 dpkg-source.1
+#, fuzzy, no-wrap
+msgid "B<-sr>"
+msgstr "B<--new>"
 
 #. type: TQ
 #: dpkg-buildpackage.1
 #, fuzzy, no-wrap
-msgid "B<-z>, B<-Z>"
+msgid "B<-sK>"
+msgstr "B<--new>"
+
+#. type: TQ
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+msgid "B<-sU>"
+msgstr "B<--new>"
+
+#. type: TQ
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+msgid "B<-sR>"
+msgstr "B<--new>"
+
+#. type: TQ
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+msgid "B<-i>, B<--diff-ignore>[=I<regex>]"
+msgstr "B<--show>, B<-W>"
+
+#. type: TQ
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+msgid "B<-I>, B<--tar-ignore>[=I<pattern>]"
+msgstr "B<dpkg-deb> B<-I>|B<--info> I<archívum> [I<ellenőrző-fájl-név> ..]"
+
+#. type: TQ
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+msgid "B<-z>, B<--compression-level=>I<level>"
+msgstr "B<--field>, B<-f>"
+
+#. type: TQ
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+msgid "B<-Z>, B<--compression=>I<compressor>"
 msgstr "B<--show>, B<-W>"
 
 #. type: Plain text
@@ -9655,7 +9804,7 @@ msgstr ""
 #: dpkg-buildpackage.1
 msgid ""
 "If set, it will be used to sign the B<.changes> and B<.dsc> files (since "
-"dpkg 1.17.2).  Overridden by the B<-k> option."
+"dpkg 1.17.2).  Overridden by the B<--sign-key> option."
 msgstr ""
 
 #. type: Plain text
@@ -9679,25 +9828,32 @@ msgid ""
 "Overridden by the B<-P> option."
 msgstr ""
 
-#. type: SS
-#: dpkg-buildpackage.1
-#, no-wrap
-msgid "Reliance on exported environment flags"
-msgstr ""
-
 #. type: Plain text
 #: dpkg-buildpackage.1
 msgid ""
 "Even if B<dpkg-buildpackage> exports some variables, B<debian/rules> should "
 "not rely on their presence and should instead use the respective interface "
-"to retrieve the needed values."
+"to retrieve the needed values, because that file is the main entry point to "
+"build packages and running it standalone should be supported."
 msgstr ""
 
-#. type: SS
+#. type: TP
 #: dpkg-buildpackage.1
-#, fuzzy, no-wrap
-msgid "Variables set by dpkg-architecture"
-msgstr "Debian Project"
+#, no-wrap
+msgid "B<DEB_BUILD_*>"
+msgstr ""
+
+#. type: TQ
+#: dpkg-buildpackage.1
+#, no-wrap
+msgid "B<DEB_HOST_*>"
+msgstr ""
+
+#. type: TQ
+#: dpkg-buildpackage.1
+#, no-wrap
+msgid "B<DEB_TARGET_*>"
+msgstr ""
 
 #. type: Plain text
 #: dpkg-buildpackage.1
@@ -9706,6 +9862,47 @@ msgid ""
 "forwarded. Any variable that is output by its B<-s> option is integrated in "
 "the build environment."
 msgstr ""
+
+#. type: TP
+#: dpkg-buildpackage.1 dpkg-deb.1
+#, no-wrap
+msgid "B<SOURCE_DATE_EPOCH>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildpackage.1
+msgid ""
+"This variable is set to the Unix timestamp since the epoch of the latest "
+"entry in I<debian/changelog>, if it is not already defined."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+#| msgid "I</etc/dpkg/dpkg.cfg>"
+msgid "I</etc/dpkg/buildpackage.conf>"
+msgstr "I</etc/dpkg/dpkg.cfg>"
+
+#. type: Plain text
+#: dpkg-buildpackage.1
+#, fuzzy
+#| msgid "dselect.cfg - dselect configuration file"
+msgid "System wide configuration file"
+msgstr "dselect.cfg - dselect konfigurációs fájl"
+
+#. type: TP
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+#| msgid "I</etc/dpkg/dpkg.cfg>"
+msgid "I<$XDG_CONFIG_HOME/dpkg/buildflags.conf> or"
+msgstr "I</etc/dpkg/dpkg.cfg>"
+
+#. type: TQ
+#: dpkg-buildpackage.1
+#, fuzzy, no-wrap
+#| msgid "I</etc/dpkg/dpkg.cfg>"
+msgid "I<$HOME/.config/dpkg/buildflags.conf>"
+msgstr "I</etc/dpkg/dpkg.cfg>"
 
 #. type: SS
 #: dpkg-buildpackage.1
@@ -9732,9 +9929,10 @@ msgstr ""
 msgid ""
 "B<dpkg-buildpackage> is using the B<build-arch> and B<build-indep> targets "
 "since dpkg 1.16.2. Those targets are thus mandatory. But to avoid breakages "
-"of existing packages, and ease the transition, it will fallback to using the "
-"B<build> target if B<make -f debian/rules -qn> I<build-target> returns 2 as "
-"exit code."
+"of existing packages, and ease the transition, if the source package does "
+"not build both architecture independent and dependent binary packages (since "
+"dpkg 1.18.8) it will fallback to use the B<build> target if B<make -f debian/"
+"rules -qn> I<build-target> returns 2 as exit code."
 msgstr ""
 
 #. type: Plain text
@@ -10549,6 +10747,14 @@ msgstr ""
 #. type: Plain text
 #: dpkg-deb.1
 msgid ""
+"If set, it will be used as the timestamp (as seconds since the epoch) in the "
+"B<deb>(5)'s B<ar(5) container and used to clamp the mtime in the tar(5) file "
+"entries.>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-deb.1
+msgid ""
 "Do not attempt to use just B<dpkg-deb> to install software! You must use "
 "B<dpkg> proper to ensure that all the files are correctly placed and the "
 "package's scripts run and its status and contents recorded."
@@ -10976,12 +11182,24 @@ msgid ""
 "rather than using the information from the source tree's changelog file."
 msgstr ""
 
+#. type: TP
+#: dpkg-genchanges.1
+#, no-wrap
+msgid "B<-m>I<maintainer-address>"
+msgstr ""
+
 #. type: Plain text
 #: dpkg-genchanges.1
 msgid ""
 "Use I<maintainer-address> as the name and email address of the maintainer "
 "for this package, rather than using the information from the source tree's "
 "control file."
+msgstr ""
+
+#. type: TP
+#: dpkg-genchanges.1
+#, no-wrap
+msgid "B<-e>I<maintainer-address>"
 msgstr ""
 
 #. type: Plain text
@@ -12216,6 +12434,12 @@ msgid ""
 "binaries are already available."
 msgstr ""
 
+#. type: TP
+#: dpkg-gensymbols.1
+#, fuzzy, no-wrap
+msgid "B<-d>"
+msgstr "B<--old>"
+
 #. type: Plain text
 #: dpkg-gensymbols.1
 msgid ""
@@ -13085,9 +13309,9 @@ msgstr "B<--field>, B<-f>"
 #. type: Plain text
 #: dpkg-parsechangelog.1
 msgid ""
-"Specify an additional directory to search for parser scripts.  This "
-"directory is searched before the default directories which are currently B</"
-"usr/local/lib/dpkg/parsechangelog> and B</usr/lib/dpkg/parsechangelog>."
+"Obsolete option without effect (since dpkg 1.18.8).  Setting the perl "
+"environment variables B<PERL5LIB> or B<PERLLIB> has a similar effect when "
+"looking for the parser perl modules."
 msgstr ""
 
 #. type: TP
@@ -13113,8 +13337,7 @@ msgstr ""
 #: dpkg-parsechangelog.1
 msgid ""
 "The following options can be used to influence the output of the changelog "
-"parser, e.g. the range of entries or the format of the output. They need to "
-"be supported by the parser script in question. See also B<NOTES>."
+"parser, e.g. the range of entries or the format of the output."
 msgstr ""
 
 #. type: TP
@@ -13201,6 +13424,30 @@ msgstr "B<Maintainer:> E<lt>teljes.név emailE<gt>"
 #, fuzzy, no-wrap
 msgid "B<Date:>I< date>"
 msgstr "B<Replaces:> E<lt>csomag listaE<gt>"
+
+#. type: Plain text
+#: dpkg-parsechangelog.1
+msgid ""
+"The date of the entry as a string, as it appears in the changelog.  With a "
+"B<strptime>(3) format \"B<%a, %d %b %Y %T %z>\", but where the day of the "
+"week might not actually correspond to the real day obtained from the rest of "
+"the date string.  If you need a more accurate representation of the date, "
+"use the B<Timestamp> field, but take into account it might not be possible "
+"to map it back to the exact value in this field."
+msgstr ""
+
+#. type: TP
+#: dpkg-parsechangelog.1
+#, fuzzy, no-wrap
+msgid "B<Timestamp:>I< timestamp>"
+msgstr "B<Replaces:> E<lt>csomag listaE<gt>"
+
+#. type: Plain text
+#: dpkg-parsechangelog.1
+msgid ""
+"The date of the entry as a timestamp in seconds since the epoch (since dpkg "
+"1.18.8)."
+msgstr ""
 
 #. type: TP
 #: dpkg-parsechangelog.1
@@ -13378,20 +13625,17 @@ msgstr ""
 #: dpkg-parsechangelog.1
 msgid ""
 "If such a line exists then B<dpkg-parsechangelog> will look for the parser "
-"as B</usr/lib/dpkg/parsechangelog/>I<otherformat> or B</usr/local/lib/dpkg/"
-"parsechangelog/>I<otherformat>; it is an error for it not being present or "
-"not being an executable program.  The default changelog format is B<debian>, "
-"and a parser for it is provided by default."
+"as a B<Dpkg::Changelog::>I<Otherformat> perl module; it is an error for it "
+"not being present.  The parser name in the perl module will be automatically "
+"capitalized.  The default changelog format is B<debian>, and a parser for it "
+"is provided by default."
 msgstr ""
 
 #. type: Plain text
 #: dpkg-parsechangelog.1
 msgid ""
-"The parser will be invoked with the changelog open on standard input at the "
-"start of the file. It should read the file (it may seek if it wishes)  to "
-"determine the information required and return the parsed information to "
-"standard output in the format specified by the B<--format> option.  It "
-"should accept all B<Parser Options>."
+"The parser should be derived from the Dpkg::Changelog class and implement "
+"the required documented interface."
 msgstr ""
 
 #. type: Plain text
@@ -13413,9 +13657,9 @@ msgstr ""
 #. type: Plain text
 #: dpkg-parsechangelog.1
 msgid ""
-"If the changelog does not have the expected format the parser should exit "
-"with a nonzero exit status, rather than trying to muddle through and "
-"possibly generating incorrect output."
+"If the changelog does not have the expected format the parser should error "
+"out, rather than trying to muddle through and possibly generating incorrect "
+"output."
 msgstr ""
 
 #. type: Plain text
@@ -13426,9 +13670,7 @@ msgstr ""
 #. type: Plain text
 #: dpkg-parsechangelog.1
 msgid ""
-"All B<Parser Options> except for B<-v> are only supported since dpkg "
-"1.14.16. Third party parsers for changelog formats other than B<debian> "
-"might not support all options."
+"All B<Parser Options> except for B<-v> are only supported since dpkg 1.14.16."
 msgstr ""
 
 #. type: Plain text
@@ -13884,8 +14126,9 @@ msgstr ""
 #. type: Plain text
 #: dpkg-query.1
 msgid ""
-"It contains the abbreviated package status, such as \\(lqii\\(rq (since dpkg "
-"1.16.2)."
+"It contains the abbreviated package status (as three characters), such as "
+"\\(lqii \\(rq or \\(lqiHR\\(rq (since dpkg 1.16.2).  See the B<--list> "
+"command description for more details."
 msgstr ""
 
 #. type: TP
@@ -14520,7 +14763,7 @@ msgstr "B<Section:> E<lt>szakaszE<gt>"
 #. type: Plain text
 #: dpkg-shlibdeps.1
 msgid ""
-"Add I<directory> to the list of directories to search for private shared "
+"Prepend I<directory> to the list of directories to search for private shared "
 "libraries (since dpkg 1.17.0). This option can be used multiple times."
 msgstr ""
 
@@ -14839,15 +15082,16 @@ msgid ""
 "The I<binary> uses a library called I<library-soname> but B<dpkg-shlibdeps> "
 "has been unable to find the library.  B<dpkg-shlibdeps> creates a list of "
 "directories to check as following: directories listed in the RPATH of the "
-"binary, directories listed in /etc/ld.so.conf, directories added by the B<-"
-"l> option, directories listed in the B<LD_LIBRARY_PATH> environment "
-"variable, and standard public directories (/lib, /usr/lib, /lib32, /usr/"
-"lib32, /lib64, /usr/lib64). Then it checks those directories in the "
-"package's build tree of the binary being analyzed, in the packages' build "
-"trees indicated with the B<-S> command-line option, in other packages' build "
-"trees that contains a DEBIAN/shlibs or DEBIAN/symbols file and finally in "
-"the root directory.  If the library is not found in any of those "
-"directories, then you get this error."
+"binary, directories added by the B<-l> option, directories listed in the "
+"B<LD_LIBRARY_PATH> environment variable, cross multiarch directories (ex. /"
+"lib/arm64-linux-gnu, /usr/lib/arm64-linux-gnu), standard public directories "
+"(/lib, /usr/lib), directories listed in /etc/ld.so.conf, and obsolete "
+"multilib directories (/lib32, /usr/lib32, /lib64, /usr/lib64).  Then it "
+"checks those directories in the package's build tree of the binary being "
+"analyzed, in the packages' build trees indicated with the B<-S> command-line "
+"option, in other packages' build trees that contains a DEBIAN/shlibs or "
+"DEBIAN/symbols file and finally in the root directory.  If the library is "
+"not found in any of those directories, then you get this error."
 msgstr ""
 
 #. type: Plain text
@@ -15301,6 +15545,19 @@ msgstr ""
 
 #. type: TP
 #: dpkg-source.1
+#, fuzzy, no-wrap
+msgid "B<--no-overwrite-dir>"
+msgstr "B<--version>"
+
+#. type: Plain text
+#: dpkg-source.1
+msgid ""
+"Do not overwrite the extraction directory if it already exists (since dpkg "
+"1.18.8)."
+msgstr ""
+
+#. type: TP
+#: dpkg-source.1
 #, no-wrap
 msgid "B<--require-valid-signature>"
 msgstr ""
@@ -15431,12 +15688,6 @@ msgid ""
 "sU> and B<-sR> should be used instead."
 msgstr ""
 
-#. type: TP
-#: dpkg-source.1
-#, fuzzy, no-wrap
-msgid "B<-sk>"
-msgstr "B<--new>"
-
 #. type: Plain text
 #: dpkg-source.1
 msgid ""
@@ -15458,12 +15709,6 @@ msgstr "B<--new>"
 msgid "Like B<-sk> but will remove the directory again afterwards."
 msgstr ""
 
-#. type: TP
-#: dpkg-source.1
-#, fuzzy, no-wrap
-msgid "B<-su>"
-msgstr "B<--new>"
-
 #. type: Plain text
 #: dpkg-source.1
 msgid ""
@@ -15472,22 +15717,10 @@ msgid ""
 "new original source archive from it."
 msgstr ""
 
-#. type: TP
-#: dpkg-source.1
-#, fuzzy, no-wrap
-msgid "B<-sr>"
-msgstr "B<--new>"
-
 #. type: Plain text
 #: dpkg-source.1
 msgid "Like B<-su> but will remove that directory after it has been used."
 msgstr ""
-
-#. type: TP
-#: dpkg-source.1
-#, fuzzy, no-wrap
-msgid "B<-ss>"
-msgstr "B<--new>"
 
 #. type: Plain text
 #: dpkg-source.1
@@ -15497,12 +15730,6 @@ msgid ""
 "tarfile to create the B<.dsc>.  This option must be used with care - if the "
 "directory and tarfile do not match a bad source archive will be generated."
 msgstr ""
-
-#. type: TP
-#: dpkg-source.1
-#, fuzzy, no-wrap
-msgid "B<-sn>"
-msgstr "B<--new>"
 
 #. type: Plain text
 #: dpkg-source.1
@@ -18045,15 +18272,6 @@ msgstr "I<~/.dselect.cfg>"
 
 #. type: Plain text
 #: dselect.cfg.5
-msgid ""
-"See I</usr/share/doc/dpkg/THANKS> for the list of people who have "
-"contributed to B<dselect>."
-msgstr ""
-"Lásd a I</usr/share/doc/dpkg/THANKS> fájlt, melyben a B<dselect> készítését "
-"segítő személyek listája található."
-
-#. type: Plain text
-#: dselect.cfg.5
 msgid "B<dselect>(1)."
 msgstr "B<dselect>(1)."
 
@@ -19493,6 +19711,56 @@ msgstr ""
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
 
+#~ msgid "AUTHOR"
+#~ msgstr "SZERZŐ"
+
+#, fuzzy
+#~ msgid "B<-T>I<target>"
+#~ msgstr "B<Package:> E<lt>csomag névE<gt>"
+
+#, fuzzy
+#~ msgid "B<-D>"
+#~ msgstr "B<--new>"
+
+#, fuzzy
+#~ msgid "B<-nc>"
+#~ msgstr "B<--new>"
+
+#, fuzzy
+#~ msgid "B<-R>I<rules-file>"
+#~ msgstr "B<--fsys-tarfile>"
+
+#, fuzzy
+#~ msgid "B<-us>"
+#~ msgstr "B<--new>"
+
+#, fuzzy
+#~ msgid "B<-uc>"
+#~ msgstr "B<--new>"
+
+#, fuzzy
+#~ msgid "B<-i>[I<regex>]"
+#~ msgstr "B<--new>"
+
+#, fuzzy
+#~ msgid "B<-I>[I<pattern>]"
+#~ msgstr "B<--version>"
+
+#, fuzzy
+#~ msgid "B<-z>, B<-Z>"
+#~ msgstr "B<--show>, B<-W>"
+
+#, fuzzy
+#~ msgid "Variables set by dpkg-architecture"
+#~ msgstr "Debian Project"
+
+#~ msgid ""
+#~ "See I</usr/share/doc/dpkg/THANKS> for the list of people who have "
+#~ "contributed to B<dselect>."
+#~ msgstr ""
+#~ "Lásd a I</usr/share/doc/dpkg/THANKS> fájlt, melyben a B<dselect> "
+#~ "készítését segítő személyek listája található."
+
 #, fuzzy
 #~| msgid "B<Source:> E<lt>source nameE<gt>"
 #~ msgid "B<Source:>I< source-name>"
@@ -19618,10 +19886,6 @@ msgstr ""
 #~ msgstr "B<--old>"
 
 #, fuzzy
-#~ msgid "B<-s>"
-#~ msgstr "B<--new>"
-
-#, fuzzy
 #~ msgid "B<-u>"
 #~ msgstr "B<--new>"
 
@@ -19632,10 +19896,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "B<-A>I<debian-architecture>"
 #~ msgstr "B<--nocheck>"
-
-#, fuzzy
-#~ msgid "B<-f>"
-#~ msgstr "B<--new>"
 
 #, fuzzy
 #~| msgid "2006-02-28"

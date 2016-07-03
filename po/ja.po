@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2016-04-01 16:07+0900\n"
 "Last-Translator: Takuma Yamada <tyamada@takumayamada.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -31,6 +31,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Gtranslator 2.91.6\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "アーカイブの状態を取得できませんでした (fstat 失敗)"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "アーカイブ `%.255s' の読み取りに失敗しました"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "`%.255s' を作成できません"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "ファイル '%s' をクローズできません"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -318,11 +338,6 @@ msgstr "updates ディレクトリ `%.255s' を走査できません"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "統合した更新用ファイル %.255s の削除に失敗しました"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "`%.255s' を作成できません"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -433,8 +448,7 @@ msgstr "ディレクトリ '%s' と同期できません"
 msgid "unable to open directory '%s'"
 msgstr "ディレクトリ '%s' をオープンできません"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "ファイル '%s' をオープンできません"
@@ -444,12 +458,6 @@ msgstr "ファイル '%s' をオープンできません"
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "ファイル '%s' を同期できません"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "ファイル '%s' をクローズできません"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3626,6 +3634,10 @@ msgstr "%d 行目の行末までに予期しないファイル終端がありま
 msgid "need an action option"
 msgstr "アクションを指定するオプションが必要です"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
 msgstr "サブプロセスで setenv できません"
@@ -4890,6 +4902,12 @@ msgstr "tar メンバーを圧縮しています"
 msgid "<compress> from tar -cf"
 msgstr "<圧縮> tar -cf からの"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "`%.255s' を作成できません"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -4949,24 +4967,15 @@ msgstr "'%s' を アーカイブ '%s' にコピーできません: %s"
 msgid "shell command to move files"
 msgstr "ファイルを移動するシェルコマンド"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "%2$.255s 中の %1$s に予期しないファイルの終わりがあります"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "ファイル %2$.255s からの %1$s の読み取り中にエラーが発生しました"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "アーカイブ `%.255s' の読み取りに失敗しました"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "アーカイブの状態を取得できませんでした (fstat 失敗)"
 
 #: dpkg-deb/extract.c
 msgid "archive magic version number"
@@ -5390,7 +5399,7 @@ msgstr "ファイル `%.250s' は壊れています - %.250s がありません"
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "ファイル `%.250s' は壊れています - %.250s の後の改行がありません"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "%.250s の読み取り中にエラーが発生しました"
@@ -5512,11 +5521,6 @@ msgstr ""
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr ""
 "ファイル `%.250s' は壊れています - サイズがヘッダのパート番号情報と異なります"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "パートファイル `%.250s' の状態を取得できません (fstat 失敗)"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5689,11 +5693,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "ヘルプを参照するには dpkg-split --help とタイプしてください。"
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "%.250s 内で予期しないファイルの終わりです"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6429,6 +6428,12 @@ msgstr "%s/%s の自動更新は無効になっています。そのままにし
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "自動更新に戻すには、'%s --auto %s' を使ってください"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "パートファイル `%.250s' の状態を取得できません (fstat 失敗)"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "%.250s 内で予期しないファイルの終わりです"
 
 #~ msgid "%s: error: %s\n"
 #~ msgstr "%s: エラー: %s\n"

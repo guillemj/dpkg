@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -16,6 +16,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "kunde inte ta status på arkivet"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "kunde inte läsa arkivet \"%.255s\""
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "kunde inte skapa \"%.255s\""
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "kunde inte stänga filen \"%s\""
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -305,11 +325,6 @@ msgstr "kan inte genomsöka uppdateringskatalogen \"%.255s\""
 msgid "failed to remove incorporated update file %.255s"
 msgstr "kunde inte ta bort den hanterade uppdateringsfilen \"%.255s\""
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "kunde inte skapa \"%.255s\""
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -420,8 +435,7 @@ msgstr "kunde inte synkronisera katalogen \"%s\""
 msgid "unable to open directory '%s'"
 msgstr "kunde inte öppna katalogen \"%s\""
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "kunde inte öppna filen \"%s\""
@@ -431,12 +445,6 @@ msgstr "kunde inte öppna filen \"%s\""
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "kunde inte synkronisera filen \"%s\""
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "kunde inte stänga filen \"%s\""
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3614,6 +3622,10 @@ msgstr "oväntat filslut före slut på rad %d"
 msgid "need an action option"
 msgstr "behöver en åtgärd att utföra"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
 msgstr "kunde inte utföra setenv för underprocesser"
@@ -4882,6 +4894,12 @@ msgstr "komprimerar datadel"
 msgid "<compress> from tar -cf"
 msgstr "<komprimerare> från tar -cf"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "kunde inte skapa \"%.255s\""
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -4942,24 +4960,15 @@ msgstr "kan inte kopiera \"%s\" in i arkivet \"%s\": %s"
 msgid "shell command to move files"
 msgstr "skalkommando för att flytta filer"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "oväntat filslut i %s i %.255s"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "fel vid läsning av %s från filen %.255s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "kunde inte läsa arkivet \"%.255s\""
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "kunde inte ta status på arkivet"
 
 #: dpkg-deb/extract.c
 msgid "archive magic version number"
@@ -5375,7 +5384,7 @@ msgstr "filen \"%.250s\" är trasig - %.250s saknas"
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "filen \"%.250s\" är trasig - nyradstecken saknas efter %.250s"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "fel vid läsning av %.250s"
@@ -5486,11 +5495,6 @@ msgstr "filen \"%.250s\" är trasig - fel antal delar för angivna storlekar"
 #, c-format
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "filen \"%.250s\" är trasig - storleken är fel för angivet delnummer"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "kunde inte ta status på delfilen \"%.250s\""
 
 #: dpkg-split/info.c
 #, c-format
@@ -5664,11 +5668,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "Skriv dpkg-split --help för hjälp."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "oväntat filslut i %.250s"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6392,6 +6391,12 @@ msgstr "automatiska uppdateringar av %s/%s är inaktiverad; låter den vara."
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "för att återgå till automatiska uppdateringar, använd \"%s --auto %s\""
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "kunde inte ta status på delfilen \"%.250s\""
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "oväntat filslut i %.250s"
 
 #~ msgid "%s: error: %s\n"
 #~ msgstr "%s: fel: %s\n"

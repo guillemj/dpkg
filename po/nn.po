@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Håvard Korsvoll <korsvoll@skulelinux.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -20,6 +20,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.10\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "klarte ikkje køyra «fstat» på arkivet"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "klarte ikkje lesa arkivet «%.255s»"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "klarte ikkje oppretta «%.255s»"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "unable to close file '%s'"
+msgstr "klarte ikkje tømma i vsnprintf"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -330,11 +350,6 @@ msgstr "klarte ikkje skanna oppdateringskatalogen «%.255s»"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "klarte ikkje fjerna den innlemma oppdateringsfila %.255s"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "klarte ikkje oppretta «%.255s»"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -451,8 +466,7 @@ msgstr "klarte ikkje opna kjeldefila «%.250s»"
 msgid "unable to open directory '%s'"
 msgstr "klarte ikkje opna kjeldefila «%.250s»"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "unable to open file '%s'"
 msgstr "klarte ikkje opna kjeldefila «%.250s»"
@@ -462,12 +476,6 @@ msgstr "klarte ikkje opna kjeldefila «%.250s»"
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "klarte ikkje opna kjeldefila «%.250s»"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "unable to close file '%s'"
-msgstr "klarte ikkje tømma i vsnprintf"
 
 #: lib/dpkg/dump.c
 #, fuzzy, c-format
@@ -3660,6 +3668,10 @@ msgstr "uventa slutt på fil før slutten av linje %d"
 msgid "need an action option"
 msgstr "treng eit handlingsval"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 #, fuzzy
 msgid "unable to setenv for subprocesses"
@@ -4948,6 +4960,12 @@ msgstr "mellom medlemmer"
 msgid "<compress> from tar -cf"
 msgstr ""
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "klarte ikkje oppretta «%.255s»"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "--%s needs a <directory> argument"
@@ -5009,24 +5027,15 @@ msgstr "fann ikkje «%.255s» (i «%.255s»)"
 msgid "shell command to move files"
 msgstr ""
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "uventa slutt på fil i %s i %.255s"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, fuzzy, c-format
 msgid "error reading %s from file %.255s"
 msgstr "klarte ikkje lesa %s frå %.255s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "klarte ikkje lesa arkivet «%.255s»"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "klarte ikkje køyra «fstat» på arkivet"
 
 #: dpkg-deb/extract.c
 #, fuzzy
@@ -5474,7 +5483,7 @@ msgstr "fila «%.250s» er øydelagd - %.250s manglar"
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "fila «%.250s» er øydelagd - manglar linjeskift etter %.250s"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "feil ved lesing av %.250s"
@@ -5600,11 +5609,6 @@ msgstr ""
 #, c-format
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "fila «%.250s» er øydelagd - feil storleik i forhold til opplysningane"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "klarte ikkje køyra «fstat» på delfila «%.250s»"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5774,11 +5778,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "Skriv «dpkg-split --help» for hjelp."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "uventa slutt på fil i %.250s"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6454,6 +6453,12 @@ msgstr ""
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "klarte ikkje køyra «fstat» på delfila «%.250s»"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "uventa slutt på fil i %.250s"
 
 #, fuzzy
 #~ msgid "%s: error: %s\n"

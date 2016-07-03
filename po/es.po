@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Javier Fernandez-Sanguino <jfs@debian.org>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -85,6 +85,26 @@ msgstr ""
 "X-POFile-SpellExtra: readlink scripts altdir KiB pager eachfile audit\n"
 "X-POFile-SpellExtra: refuse eof clear verify conffile desconfigurará\n"
 "X-POFile-SpellExtra: desreferenciar chown conrep command gzip postinst\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "fallo al efectuar `fstat' sobre el archivo"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "fallo al leer el archivo `%.255s'"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "no se puede crear `%.255s'"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "no se puede cerrar el fichero `%s'"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -380,11 +400,6 @@ msgstr "no se puede examinar el directorio de actualizaciones `%.255s'"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "fallo al borrar el fichero de actualización incorporado %.255s"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "no se puede crear `%.255s'"
-
 # Ayuda: Mejor quedaría con palabras distintas para fill y padding. sv
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -499,8 +514,7 @@ msgstr "no se puede hacer «sync» del directorio '%s'"
 msgid "unable to open directory '%s'"
 msgstr "no se puede abrir el fichero '%s'"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "no se puede abrir el fichero `%s'"
@@ -510,12 +524,6 @@ msgstr "no se puede abrir el fichero `%s'"
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "no se puede hacer «sync» del fichero `%s'"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "no se puede cerrar el fichero `%s'"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3864,6 +3872,10 @@ msgstr "eof inesperado antes del fin de la línea %d"
 msgid "need an action option"
 msgstr "se necesita una opción de acción"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
 msgstr "no se puede efectuar `setenv' para el subproceso"
@@ -5192,6 +5204,12 @@ msgstr "comprimiendo miembro de datos"
 msgid "<compress> from tar -cf"
 msgstr "<comprimir> desde tar -cf"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "no se puede crear `%.255s'"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -5255,24 +5273,15 @@ msgstr "no se copiar '%s' al archivo '%s': %s"
 msgid "shell command to move files"
 msgstr "orden del intérprete de órdenes para mover ficheros"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "fin de fichero inesperado en %s en %.255s"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "error al leer %s del fichero %.255s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "fallo al leer el archivo `%.255s'"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "fallo al efectuar `fstat' sobre el archivo"
 
 #: dpkg-deb/extract.c
 msgid "archive magic version number"
@@ -5712,7 +5721,7 @@ msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr ""
 "el fichero `%.250s' está dañado - falta una nueva línea después de %.250s"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "error al leer %.250s"
@@ -5839,11 +5848,6 @@ msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr ""
 "el fichero `%.250s' está dañado - el tamaño está equivocado por el\n"
 "número de parte indicado"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "no se puede efectuar `stat' sobre el fichero parte `%.250s'"
 
 #: dpkg-split/info.c
 #, c-format
@@ -6020,11 +6024,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "Escriba dpkg-split --help para obtener ayuda."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "fin de fichero inesperado en %.250s"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6777,6 +6776,12 @@ msgstr ""
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "para volver a hacer actualizaciones automáticas utilice «%s --auto %s»"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "no se puede efectuar `stat' sobre el fichero parte `%.250s'"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "fin de fichero inesperado en %.250s"
 
 #~ msgid "%s: error: %s\n"
 #~ msgstr "%s: error: %s\n"

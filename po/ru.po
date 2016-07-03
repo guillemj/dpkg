@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -20,6 +20,26 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "не удалось получить информацию об архиве"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "не удалось прочитать архив «%.255s»"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "не удалось создать «%.255s»"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "не удалось закрыть файл «%s»"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -307,11 +327,6 @@ msgstr "не удалось просмотреть каталог обновле
 msgid "failed to remove incorporated update file %.255s"
 msgstr "не удалось удалить втянутый файл обновлений %.255s"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "не удалось создать «%.255s»"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -422,8 +437,7 @@ msgstr "не удалось синхронизировать каталог «%s
 msgid "unable to open directory '%s'"
 msgstr "не удалось открыть каталог «%s»"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "не удалось открыть файл «%s»"
@@ -433,12 +447,6 @@ msgstr "не удалось открыть файл «%s»"
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "не удалось синхронизировать файл «%s»"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "не удалось закрыть файл «%s»"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3705,6 +3713,10 @@ msgstr "неожиданный конец файла, ещё не кончила
 msgid "need an action option"
 msgstr "укажите требуемое действие"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
 msgstr "не удалось выполнить setenv для подпроцесса"
@@ -5000,6 +5012,12 @@ msgstr "сжимающий элемент данных"
 msgid "<compress> from tar -cf"
 msgstr "<compress> из tar -cf"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "не удалось создать «%.255s»"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -5061,24 +5079,15 @@ msgstr "не удалось скопировать «%s» в архив «%s»: 
 msgid "shell command to move files"
 msgstr "команда оболочки для перемещения файлов"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "неожиданный конец файла, не удалось прочитать %s из файла %.255s"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "не удалось прочитать %s из файла %.255s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "не удалось прочитать архив «%.255s»"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "не удалось получить информацию об архиве"
 
 #: dpkg-deb/extract.c
 msgid "archive magic version number"
@@ -5510,7 +5519,7 @@ msgstr "файл «%.250s» повреждён — отсутствует %.250s
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "файл «%.250s» повреждён — отсутствует символ конца строки после %.250s"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "ошибка чтения %.250s"
@@ -5627,11 +5636,6 @@ msgstr ""
 #, c-format
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "файл «%.250s» повреждён — неправильный размер указанной части"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "не удалось получить информацию о части архива «%.250s»"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5811,11 +5815,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "Чтобы получить справку, введите dpkg-split --help."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "неожиданный конец файла %.250s"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6556,6 +6555,12 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "чтобы вернуться к автоматическим обновлениям, выполните команду «%s --auto "
 "%s»"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "не удалось получить информацию о части архива «%.250s»"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "неожиданный конец файла %.250s"
 
 #~ msgid "%s: error: %s\n"
 #~ msgstr "%s: ошибка: %s\n"

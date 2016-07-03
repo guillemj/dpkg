@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2016-01-14 08:22+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
@@ -21,6 +21,26 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: ../\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "lỗi fstat kho lưu"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "lỗi đọc kho lưu “%.255s”"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "không thể tạo “%.255s”"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "không thể đóng tập tin “%s”"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -308,11 +328,6 @@ msgstr "không thể quét thư mục cập nhật “%.255s”"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "gặp lỗi khi gỡ bỏ tập tin cập nhật đã hợp nhất %.255s"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "không thể tạo “%.255s”"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -423,8 +438,7 @@ msgstr "không thể “sync” (đồng bộ) thư mục “%s”"
 msgid "unable to open directory '%s'"
 msgstr "không thể mở thư mục “%s”"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "không thể mở tập tin “%s”"
@@ -434,12 +448,6 @@ msgstr "không thể mở tập tin “%s”"
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "không thể đồng bộ hóa tập tin “%s”"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "không thể đóng tập tin “%s”"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3629,6 +3637,10 @@ msgstr "gặp kết thúc tập tin bất thường tại cuỗi dòng %d"
 msgid "need an action option"
 msgstr "cần một tùy chọn hành động"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
 msgstr "không thể chạy “setenv” cho tiến trình con"
@@ -4883,6 +4895,12 @@ msgstr "thành viên dữ liệu nén tar"
 msgid "<compress> from tar -cf"
 msgstr "<nén> từ tar -cf"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "không thể tạo “%.255s”"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -4942,24 +4960,15 @@ msgstr "không sao chép “%s” vào kho “%s”: %s"
 msgid "shell command to move files"
 msgstr "lệnh hệ vỏ dùng để di chuyển các tập tin"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "gặp kết thúc tập tin bất thường trong %s trong %.255s"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "gặp lỗi khi đọc %s từ tập tin %.255s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "lỗi đọc kho lưu “%.255s”"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "lỗi fstat kho lưu"
 
 #: dpkg-deb/extract.c
 msgid "archive magic version number"
@@ -5385,7 +5394,7 @@ msgstr "tập tin “%.250s” bị hỏng — %.250s còn thiếu"
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "tập tin “%.250s” bị hỏng — thiếu ký tự dòng mới đằng sau %.250s"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "gặp lỗi khi đọc %.250s"
@@ -5500,11 +5509,6 @@ msgstr "tập tin “%.250s” bị hỏng — sai số các phần cho các kí
 #, c-format
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "tập tin “%.250s” bị hỏng — kích cỡ sai cho số thứ tự phần đã xác định"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "không thể fstat tập tin phần “%.250s”"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5679,11 +5683,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "Gõ “dpkg-split --help” để xem trợ giúp."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "gặp kết thúc tập tin bất thường trong %.250s"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6426,6 +6425,12 @@ msgstr "khả năng tự động cập nhật của %s/%s bị tắt nên không
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "để quay lại lại tính năng tự động cập nhật, hãy dùng lệnh “%s --auto %s”"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "không thể fstat tập tin phần “%.250s”"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "gặp kết thúc tập tin bất thường trong %.250s"
 
 #~ msgid "%s: error: %s\n"
 #~ msgstr "%s: lỗi: %s\n"

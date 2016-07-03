@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.x\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2016-05-20 16:45+0000\n"
 "Last-Translator: Zhou Mo <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -24,6 +24,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "fstat 包文件失败"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "读取包文件 %.255s 失败"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "无法创建 %.255s"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "无法关闭文件 %s"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -307,11 +327,6 @@ msgstr "无法扫描更新目录 %.255s "
 msgid "failed to remove incorporated update file %.255s"
 msgstr "删除合并后的更新文件 %.255s 失败"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "无法创建 %.255s"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -422,8 +437,7 @@ msgstr "无法同步目录 '%s'"
 msgid "unable to open directory '%s'"
 msgstr "无法打开目录 '%s'"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "无法打开文件 %s"
@@ -433,12 +447,6 @@ msgstr "无法打开文件 %s"
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "无法同步文件 %s"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "无法关闭文件 %s"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -1273,8 +1281,7 @@ msgstr "无法打开/创建新的触发推迟文件 %.250s"
 #, c-format
 msgid ""
 "syntax error in triggers deferred file '%.250s' at line %d character %zd '%s'"
-msgstr ""
-"触发推迟文件 '%.250s' 中有语法错误，位于第 %d 行，字符 %zd '%s'"
+msgstr "触发推迟文件 '%.250s' 中有语法错误，位于第 %d 行，字符 %zd '%s'"
 
 #: lib/dpkg/trigdeferred.c
 #, c-format
@@ -3464,6 +3471,10 @@ msgstr "在第 %d 行还未结束时，遭遇未预料的文件结束"
 msgid "need an action option"
 msgstr "需要一个指示操作的选项"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
 msgstr "无法为子进程设置环境变量"
@@ -4679,6 +4690,12 @@ msgstr "正在压缩 tar 成员"
 msgid "<compress> from tar -cf"
 msgstr "<压缩> 自 tar -cf"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "无法创建 %.255s"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -4736,24 +4753,15 @@ msgstr "无法拷贝 %s 到归档 %s 中：%s"
 msgid "shell command to move files"
 msgstr "shell 命令来移动文件"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "在 %2$.255s 中读取 %1$s 时遇到意料之外的文件结束符"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "无法从文件 %2$s 读取 %1$s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "读取包文件 %.255s 失败"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "fstat 包文件失败"
 
 #: dpkg-deb/extract.c
 msgid "archive magic version number"
@@ -5161,7 +5169,7 @@ msgstr "文件 %.250s 已经损毁 - 无法找到 %.250s"
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "文件 %.250s 已经损毁 - 在 %.250s 后没有发现换行符"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "读取 %.250s 时出错"
@@ -5270,11 +5278,6 @@ msgstr "文件 %.250s 已经损毁 - 标称大小的分块的数量有误"
 #, c-format
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "文件 %.250s 已经损毁 - 标称分块编号的长度有误"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "无法 fstat 分块文件 %.250s"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5446,11 +5449,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "输入 dpkg-split --help 就可以阅读帮助信息。"
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "在 %.250s 中发现未预期的文件结束符"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6153,6 +6151,12 @@ msgstr "%s/%s 的自动更新功能已禁用；保持现状"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "要恢复成自动更新请执行 %s --auto %s。"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "无法 fstat 分块文件 %.250s"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "在 %.250s 中发现未预期的文件结束符"
 
 #~ msgid "%s: error: %s\n"
 #~ msgstr "%s：错误：%s\n"

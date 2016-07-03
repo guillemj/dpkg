@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-04-07 10:01+0200\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <debian-l10n-slovak@lists.debian.org>\n"
@@ -18,6 +18,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "nie je možné vykonať funkciu fstat na archív"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "nie je možné čítať archív „%.255s“"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "nedá sa vytvoriť „%.255s“"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, c-format
+msgid "unable to close file '%s'"
+msgstr "nie je možné zatvoriť súbor „%s“"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -309,11 +329,6 @@ msgstr "nie je možné zistiť obsah adresára s aktualizáciami „%.250s“"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "zlyhalo odstránenie pridruženého aktualizačného súboru %.255s"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "nedá sa vytvoriť „%.255s“"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -424,8 +439,7 @@ msgstr "nie je možné vyprázdniť (sync) adresár „%s“"
 msgid "unable to open directory '%s'"
 msgstr "nie je možné otvoriť adresár „%s“"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, c-format
 msgid "unable to open file '%s'"
 msgstr "nie je možné otvoriť súbor „%s“"
@@ -435,12 +449,6 @@ msgstr "nie je možné otvoriť súbor „%s“"
 #, c-format
 msgid "unable to sync file '%s'"
 msgstr "nie je možné vyprázdniť (sync) súbor „%s“"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, c-format
-msgid "unable to close file '%s'"
-msgstr "nie je možné zatvoriť súbor „%s“"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3781,6 +3789,10 @@ msgstr "nečakaný koniec súboru pred koncom riadka %d"
 msgid "need an action option"
 msgstr "vyžaduje sa zadanie voľby určujúcej operáciu"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
 msgstr "nie je možné nastaviť premennú prostredia pre podprocesy"
@@ -5101,6 +5113,12 @@ msgstr "komprimuje sa dátový člen"
 msgid "<compress> from tar -cf"
 msgstr "<compress> z tar -cf"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "nedá sa vytvoriť „%.255s“"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -5160,24 +5178,15 @@ msgstr "nie je možné skopírovať „%s“ do archívu „%s“: „%s“"
 msgid "shell command to move files"
 msgstr "príkaz shellu na presúvanie súborov"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "neočakávaný koniec súboru v %s v %.255s"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "chyba pri čítaní %s zo súboru %.255s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "nie je možné čítať archív „%.255s“"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "nie je možné vykonať funkciu fstat na archív"
 
 #: dpkg-deb/extract.c
 msgid "archive magic version number"
@@ -5634,7 +5643,7 @@ msgstr "súbor „%.250s“ je poškodený - %.250s chýba"
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "súbor „%.250s“ je poškodený - chýbajúci nový riadok za %.250s"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "chyba pri čítaní %.250s"
@@ -5745,11 +5754,6 @@ msgstr "súbor „%.250s“ je poškodený - chybný počet častí pre uvedené
 #, c-format
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "súbor „%.250s“ je poškodený - veľkosť je zlá pre uvedené číslo súčasti"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "nie je možné vykonať fstat() časti súboru „%.250s“"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5923,11 +5927,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "Napíšte dpkg-split --help pre pomocníka."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "neočakávaný koniec súboru v %.250s"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6670,6 +6669,12 @@ msgstr "automatické aktualizácie %s/%s sú zakázané, zmeny sa nevykonajú"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "použitím „%s --auto %s“ sa vrátite späť na automatické aktualizácie"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "nie je možné vykonať fstat() časti súboru „%.250s“"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "neočakávaný koniec súboru v %.250s"
 
 #~ msgid "%s: error: %s\n"
 #~ msgstr "%s: chyba: %s\n"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -18,6 +18,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: KBabel 1.11.4\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "सङ्ग्रह fstat गर्न असफल"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "सङ्ग्रह`%.255s' पढ्न असफल"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "`%.255s' सिर्जना गर्न अक्षम"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "unable to close file '%s'"
+msgstr "vsnprintf मा फ्लस गर्न अक्षम"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -333,11 +353,6 @@ msgstr "अद्यावधिक डाइरेक्टरी `%.255s' स�
 msgid "failed to remove incorporated update file %.255s"
 msgstr "समाहित अद्यावधिक फाइल %.255s हटाउन असफल भयो ।"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "`%.255s' सिर्जना गर्न अक्षम"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -454,8 +469,7 @@ msgstr "स्रोत फाइल `%.250s' खोल्न अक्षम"
 msgid "unable to open directory '%s'"
 msgstr "स्रोत फाइल `%.250s' खोल्न अक्षम"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "unable to open file '%s'"
 msgstr "स्रोत फाइल `%.250s' खोल्न अक्षम"
@@ -465,12 +479,6 @@ msgstr "स्रोत फाइल `%.250s' खोल्न अक्षम"
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "स्रोत फाइल `%.250s' खोल्न अक्षम"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "unable to close file '%s'"
-msgstr "vsnprintf मा फ्लस गर्न अक्षम"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3697,6 +3705,10 @@ msgstr "लाइनको समाप्ती पहिले %d अप्र
 msgid "need an action option"
 msgstr "एउटा कार्य विकल्प आवश्यक"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 #, fuzzy
 msgid "unable to setenv for subprocesses"
@@ -5024,6 +5036,12 @@ msgstr "सदस्यहरुको बिच"
 msgid "<compress> from tar -cf"
 msgstr ""
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "`%.255s' सिर्जना गर्न अक्षम"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -5086,24 +5104,15 @@ msgstr "पुरानो नाम `%s' तोक्न सकिदैन: %s
 msgid "shell command to move files"
 msgstr ""
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "%.255s मा %s मा फाइलको अप्रत्यासित समाप्ति"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "फाइल %.255s बाट %s पढ्दा त्रुटि"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "सङ्ग्रह`%.255s' पढ्न असफल"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "सङ्ग्रह fstat गर्न असफल"
 
 #: dpkg-deb/extract.c
 #, fuzzy
@@ -5561,7 +5570,7 @@ msgstr "फाइल `%.250s' दूषित छ - %.250s हराइरहे
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "फाइल `%.250s' दूषित छ - %.250s पछि नयाँ लाइन हरटाइरहेछ"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "%.250s पढ्दा त्रुटि"
@@ -5682,11 +5691,6 @@ msgstr "फाइल `%.250s' दूषित छ -उद्धरण गरि�
 #, c-format
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "फाइल `%.250s' दूषित छ - उद्धरण गरिएको भाग नम्बरको लागि साइज गलत छ"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "भाग फाइल`%.250s' fstat गर्न अक्षम"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5884,11 +5888,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "मद्दतको लागि dpkg-split --help टाइप गर्नुहोस्"
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "%.250s मा अनपेक्षित फाइलको समाप्ति"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6630,6 +6629,12 @@ msgstr " %s को स्वचालित अद्यावधिक अक�
 #, fuzzy, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "स्वचालित अद्यावधिक फर्काउन अद्यावधिक-विकल्पहरू--स्वत %s' प्रयोग गर्नुहोस् ।"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "भाग फाइल`%.250s' fstat गर्न अक्षम"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "%.250s मा अनपेक्षित फाइलको समाप्ति"
 
 #, fuzzy
 #~ msgid "%s: error: %s\n"

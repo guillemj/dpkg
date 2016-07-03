@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-06-26 16:11+0200\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -19,6 +19,26 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "sikertelen archívum fstat"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "sikertelen archívum olvasás: `%.255s'"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "`%.255s' nem hozható létre"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "unable to close file '%s'"
+msgstr "nem lehet kiüríteni a vsnprintf-ben"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -334,11 +354,6 @@ msgstr "nem tudom átnézni az updates könyvtárat: `%.255s'"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "nem tudom törölni a beépített %.255s fájlt"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "`%.255s' nem hozható létre"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -455,8 +470,7 @@ msgstr "e forrásfájl nem megnyitható: `%.250s'"
 msgid "unable to open directory '%s'"
 msgstr "e forrásfájl nem megnyitható: `%.250s'"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "unable to open file '%s'"
 msgstr "e forrásfájl nem megnyitható: `%.250s'"
@@ -466,12 +480,6 @@ msgstr "e forrásfájl nem megnyitható: `%.250s'"
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "e forrásfájl nem megnyitható: `%.250s'"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "unable to close file '%s'"
-msgstr "nem lehet kiüríteni a vsnprintf-ben"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3688,6 +3696,10 @@ msgstr "váratlan eof e sor vége előtt: %d"
 msgid "need an action option"
 msgstr "egy művelet opciót igényel"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 #, fuzzy
 msgid "unable to setenv for subprocesses"
@@ -5012,6 +5024,12 @@ msgstr "tagok közt"
 msgid "<compress> from tar -cf"
 msgstr ""
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "`%.255s' nem hozható létre"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -5074,24 +5092,15 @@ msgstr "a régi `%s' név nem található: %s"
 msgid "shell command to move files"
 msgstr ""
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr ""
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "hibás %s olvasás e fájlból: %.255s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "sikertelen archívum olvasás: `%.255s'"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "sikertelen archívum fstat"
 
 #: dpkg-deb/extract.c
 #, fuzzy
@@ -5545,7 +5554,7 @@ msgstr "E fájl: `%.250s' hibás - %.250s hiányzik"
 msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr "E fájl: `%.250s' hibás - hiányzó új sor ezután: %.250s"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "olvasási hiba: %.250s"
@@ -5666,11 +5675,6 @@ msgstr ""
 #, c-format
 msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr "Az alábbi fájl: `%.250s' sérült - a méret rossz az idézett részszámhoz"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "`%.250s' rész fájl fstat sikertelen"
 
 #: dpkg-split/info.c
 #, c-format
@@ -5865,11 +5869,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "A dpkg-split --help parancs segít"
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "váratlan fájl vége jel itt: %.250s"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -6581,6 +6580,12 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "Az automatikus frissítésekhez való visszatéréshez használd az `update-"
 "alternatives --auto %s'-t"
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "`%.250s' rész fájl fstat sikertelen"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "váratlan fájl vége jel itt: %.250s"
 
 #, fuzzy
 #~ msgid "%s: error: %s\n"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-05-09 03:21+0200\n"
+"POT-Creation-Date: 2016-07-03 19:12+0200\n"
 "PO-Revision-Date: 2015-04-07 09:47+0200\n"
 "Last-Translator: Marcos Alvarez Costales <marcos.alvarez.costales@gmail."
 "com>\n"
@@ -18,6 +18,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/dpkg/ar.c
+msgid "failed to fstat archive"
+msgstr "falló al efeutuar `fstat' sobro'l ficheru"
+
+#: lib/dpkg/ar.c
+#, c-format
+msgid "failed to read archive '%.255s'"
+msgstr "falló al lleer el ficheru `%.255s'"
+
+#: lib/dpkg/ar.c lib/dpkg/dbmodify.c
+#, c-format
+msgid "unable to create '%.255s'"
+msgstr "nun puede crease '%.255s'"
+
+#: lib/dpkg/ar.c lib/dpkg/dir.c src/divertcmd.c dpkg-split/join.c
+#: dpkg-split/queue.c utils/update-alternatives.c
+#, fuzzy, c-format
+msgid "unable to close file '%s'"
+msgstr "nun pue escosase vsnprintf"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -337,11 +357,6 @@ msgstr "nun puede desaminase'l direutoriu d'anovaciones `%.255s'"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "fallu al desaniciar el ficheru d'anovación incorporáu %.255s"
 
-#: lib/dpkg/dbmodify.c dpkg-deb/build.c
-#, c-format
-msgid "unable to create '%.255s'"
-msgstr "nun puede crease '%.255s'"
-
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to fill %.250s with padding"
@@ -463,8 +478,7 @@ msgstr "nun se puede abrir el ficheru fonte `%.250s'"
 msgid "unable to open directory '%s'"
 msgstr "nun se puede abrir el ficheru fonte `%.250s'"
 
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-split/split.c
-#: utils/update-alternatives.c
+#: lib/dpkg/dir.c src/divertcmd.c utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "unable to open file '%s'"
 msgstr "nun se puede abrir el ficheru fonte `%.250s'"
@@ -474,12 +488,6 @@ msgstr "nun se puede abrir el ficheru fonte `%.250s'"
 #, fuzzy, c-format
 msgid "unable to sync file '%s'"
 msgstr "nun se puede abrir el ficheru fonte `%.250s'"
-
-#: lib/dpkg/dir.c src/divertcmd.c dpkg-deb/build.c dpkg-split/join.c
-#: dpkg-split/queue.c utils/update-alternatives.c
-#, fuzzy, c-format
-msgid "unable to close file '%s'"
-msgstr "nun pue escosase vsnprintf"
 
 #: lib/dpkg/dump.c
 #, c-format
@@ -3940,6 +3948,10 @@ msgstr "eof inesperáu enantes del fin de la llinia %d"
 msgid "need an action option"
 msgstr "necesítase una opción d'aición"
 
+#: src/main.c
+msgid "cannot set primary group ID to root"
+msgstr ""
+
 #: src/main.c src/script.c
 #, fuzzy
 #| msgid "unable to setenv for maintainer script"
@@ -5337,6 +5349,12 @@ msgstr "ente númberos"
 msgid "<compress> from tar -cf"
 msgstr "<compress> dende tar -cf"
 
+#: dpkg-deb/build.c
+#, fuzzy, c-format
+#| msgid "unable to create '%.255s'"
+msgid "unable to parse timestamp '%.255s'"
+msgstr "nun puede crease '%.255s'"
+
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
 msgid "--%s needs a <directory> argument"
@@ -5405,24 +5423,15 @@ msgstr "nun se puede facer `stat' sobre'l nome antiguu `%s': %s"
 msgid "shell command to move files"
 msgstr ""
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "fin de ficheru inesperáu en %s en %.255s"
 
-#: dpkg-deb/extract.c
+#: dpkg-deb/extract.c dpkg-split/main.c
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "fallu al lleer %s del ficheru %.255s"
-
-#: dpkg-deb/extract.c
-#, c-format
-msgid "failed to read archive '%.255s'"
-msgstr "falló al lleer el ficheru `%.255s'"
-
-#: dpkg-deb/extract.c
-msgid "failed to fstat archive"
-msgstr "falló al efeutuar `fstat' sobro'l ficheru"
 
 #: dpkg-deb/extract.c
 #, fuzzy
@@ -5887,7 +5896,7 @@ msgid "file '%.250s' is corrupt - missing newline after %.250s"
 msgstr ""
 "el ficheru `%.250s' ta frañáu - falta una nueva llinia dempués de %.250s"
 
-#: dpkg-split/info.c dpkg-split/main.c
+#: dpkg-split/info.c
 #, c-format
 msgid "error reading %.250s"
 msgstr "fallu al lleer %.250s"
@@ -6026,11 +6035,6 @@ msgid "file '%.250s' is corrupt - size is wrong for quoted part number"
 msgstr ""
 "el ficheru `%.250s' ta frañáu - el tamañu ta enquivocáu pol\n"
 "númberu de parte conseñáu"
-
-#: dpkg-split/info.c
-#, c-format
-msgid "unable to fstat part file '%.250s'"
-msgstr "nun puede efeutuase `stat' sobro'l ficheru parte `%.250s'"
 
 #: dpkg-split/info.c
 #, c-format
@@ -6229,11 +6233,6 @@ msgstr ""
 #: dpkg-split/main.c
 msgid "Type dpkg-split --help for help."
 msgstr "Escriba dpkg-split --help pa tener aida."
-
-#: dpkg-split/main.c
-#, c-format
-msgid "unexpected end of file in %.250s"
-msgstr "fin de ficheru inesperáu en %.250s"
 
 #: dpkg-split/main.c
 msgid "part size is far too large or is not positive"
@@ -7063,6 +7062,12 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "pa volver a facer anovamientos automáticos usa `update-alternatives --auto "
 "%s'."
+
+#~ msgid "unable to fstat part file '%.250s'"
+#~ msgstr "nun puede efeutuase `stat' sobro'l ficheru parte `%.250s'"
+
+#~ msgid "unexpected end of file in %.250s"
+#~ msgstr "fin de ficheru inesperáu en %.250s"
 
 #, fuzzy
 #~| msgid "%s: warning: %s\n"
