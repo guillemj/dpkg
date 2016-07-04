@@ -40,6 +40,7 @@ use Dpkg::Compression;
 use Dpkg::Checksums;
 use Dpkg::Version;
 use Dpkg::Control;
+use Dpkg::Control::Info;
 use Dpkg::Changelog::Parse;
 use Dpkg::Path qw(find_command);
 use Dpkg::IPC;
