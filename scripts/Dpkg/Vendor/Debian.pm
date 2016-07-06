@@ -161,8 +161,24 @@ sub _add_reproducible_flags {
         fixdebugpath => 0,
     );
 
+    my $build_path;
+
     # Adjust features based on user or maintainer's desires.
     $self->_parse_feature_area('reproducible', \%use_feature);
+
+    # Mask features that might have an unsafe usage.
+    if ($use_feature{fixdebugpath}) {
+        require Cwd;
+
+        $build_path = $ENV{DEB_BUILD_PATH} || Cwd::cwd();
+
+        # If we have any unsafe character in the path, disable the flag,
+        # so that we do not need to worry about escaping the characters
+        # on output.
+        if ($build_path =~ m/[^-+:.0-9a-zA-Z~\/_]/) {
+            $use_feature{fixdebugpath} = 0;
+        }
+    }
 
     # Warn when the __TIME__, __DATE__ and __TIMESTAMP__ macros are used.
     if ($use_feature{timeless}) {
@@ -171,8 +187,6 @@ sub _add_reproducible_flags {
 
     # Avoid storing the build path in the debug symbols.
     if ($use_feature{fixdebugpath}) {
-        require Cwd;
-        my $build_path = $ENV{DEB_BUILD_PATH} || Cwd::cwd();
         my $map = '-fdebug-prefix-map=' . $build_path . '=.';
         $flags->append('CFLAGS', $map);
         $flags->append('CXXFLAGS', $map);
