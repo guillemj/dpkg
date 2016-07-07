@@ -529,7 +529,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       if (rc == -1)
         continue;
 
-      namenode = findnamenode(fnvb.buf, fnn_nonew);
+      namenode = findnamenode(conff->name, 0);
       usenode = namenodetouse(namenode, pkg, &pkg->installed);
 
       trig_path_activate(usenode, pkg);

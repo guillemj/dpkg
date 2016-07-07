@@ -2,6 +2,11 @@ dpkg (1.18.10) UNRELEASED; urgency=medium
 
   [ Guillem Jover ]
   * Fix a short-lived memory leak in dpkg archive argument parsing.
+  * When activating file triggers on conffile purge, use the conffile name
+    instead of the real pathname it might refer to. This fixes a segfault
+    when using --instdir, or when the conffile has been moved around and
+    replaced with a symlink to the target.
+    Regression introduced in dpkg 1.18.8. Closes: #830267
   * Perl modules:
     - Disable fixdebugpath feature on unsafe characters in the path.
   * Documentation:
