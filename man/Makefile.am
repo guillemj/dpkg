@@ -3,6 +3,7 @@
 dist_man_MANS = \
 	deb-changelog.5 \
 	deb-changes.5 \
+	deb-conffiles.5 \
 	deb-control.5 \
 	deb-src-control.5 \
 	deb-version.5 \
