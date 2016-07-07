@@ -1435,6 +1435,7 @@ int
 archivefiles(const char *const *argv)
 {
   const char *const *volatile argp;
+  const char **volatile arglist = NULL;
   int i;
   jmp_buf ejbuf;
   enum modstatdb_rw msdbflags;
@@ -1458,7 +1459,6 @@ archivefiles(const char *const *argv)
   log_message("startup archives %s", cipaction->olong);
 
   if (f_recursive) {
-    const char **arglist = NULL;
     const char *const *ap;
     int nfiles = 0;
 
@@ -1551,6 +1551,8 @@ archivefiles(const char *const *argv)
   }
 
   dpkg_selabel_close();
+
+  free(arglist);
 
   switch (cipaction->arg_int) {
   case act_install:
