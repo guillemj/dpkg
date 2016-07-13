@@ -193,7 +193,7 @@ error_context_errmsg_format(const char *fmt, va_list args)
   rc = vasprintf(&errmsg, fmt, args);
   va_end(args_copy);
 
-  /* If the the message was constructed successfully, at least we have some
+  /* If the message was constructed successfully, at least we have some
    * error message, which is better than nothing. */
   error_context_errmsg_set(econtext, errmsg);
 

@@ -625,7 +625,7 @@ bugs closed by the (selected) entry/entries, sorted by bug number
 
 =item Changes
 
-content of the the (selected) entry/entries
+content of the (selected) entry/entries
 
 =back
 
