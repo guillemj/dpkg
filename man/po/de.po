@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2016-07-10 11:47+0200\n"
-"PO-Revision-Date: 2016-07-10 20:39+0200\n"
+"PO-Revision-Date: 2016-07-15 19:36+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -10335,10 +10335,6 @@ msgstr "B<DEB_VENDOR>"
 
 #. type: Plain text
 #: dpkg-buildflags.1
-#, fuzzy
-#| msgid ""
-#| "This setting defines the current vendor. If not set, it will discover the "
-#| "current vendor by reading B<\\%/etc/dpkg/origins/default>."
 msgid ""
 "This setting defines the current vendor.  If not set, it will discover the "
 "current vendor by reading B<\\%/etc/dpkg/origins/default>."
@@ -10359,6 +10355,10 @@ msgid ""
 "such as B<fixdebugpath> so that they can be controlled by the caller.  This "
 "variable is currently Debian and derivatives-specific."
 msgstr ""
+"Diese Variable setzt den Baupfad (seit Dpkg 1.18.8), der in Funktionalitäten "
+"wie B<fixdebugpath> verwandt wird, so dass sie durch den Aufrufenden "
+"gesteuert werden können. Diese Variable ist derzeit spezifisch für Debian und "
+"Derivative."
 
 #. type: SS
 #: dpkg-buildflags.1
@@ -10611,16 +10611,12 @@ msgstr "B<2.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid ""
-#| "It checks that the build-dependencies and build-conflicts are satisfied "
-#| "(unless B<-d> is specified)."
 msgid ""
 "It checks that the build-dependencies and build-conflicts are satisfied "
 "(unless B<-d> or B<--no-check-builddeps> is specified)."
 msgstr ""
 "Es prüft, dass Bauabhängigkeiten und -konflikte erfüllt sind (falls B<-d> "
-"nicht angegeben ist)."
+"oder B<--no-check-builddeps> nicht angegeben ist)."
 
 #. type: IP
 #: dpkg-buildpackage.1
@@ -10630,12 +10626,6 @@ msgstr "B<3.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid ""
-#| "If a specific target has been selected with the B<-T> or B<--target> "
-#| "option, it calls that target and stops here. Otherwise it runs the "
-#| "B<preclean> hook and calls B<fakeroot debian/rules clean> to clean the "
-#| "build-tree (unless B<-nc> is specified)."
 msgid ""
 "If a specific target has been selected with the B<-T> or B<--target> option, "
 "it calls that target and stops here. Otherwise it runs the B<preclean> hook "
@@ -10645,7 +10635,7 @@ msgstr ""
 "Falls ein spezielles Ziel mit der Option B<-T> oder B<--target> ausgewählt "
 "wurde, ruft es dieses Ziel auf und endet hier. Andernfalls führt es den Hook "
 "B<preclean> aus und ruft B<fakeroot debian/ rules clean> auf, um den Bau-"
-"Baum zu bereinigen (falls B<-nc> nicht angegeben ist)."
+"Baum zu bereinigen (falls B<-nc> oder B<--no-pre-clean> nicht angegeben ist)."
 
 #. type: IP
 #: dpkg-buildpackage.1
@@ -10720,16 +10710,12 @@ msgstr "B<7.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid ""
-#| "It runs the B<postclean> hook and if B<-tc> is specified, it will call "
-#| "B<fakeroot debian/rules clean> again."
 msgid ""
 "It runs the B<postclean> hook and if B<-tc> or B<--post-clean> is specified, "
 "it will call B<fakeroot debian/rules clean> again."
 msgstr ""
-"Es führt den Hook B<postclean> aus und, falls B<-tc> angegeben ist, ruft "
-"erneut B<fakeroot debian/rules clean> auf."
+"Es führt den Hook B<postclean> aus und, falls B<-tc> oder B<--post-clean> angegeben ist, ruft "
+"es erneut B<fakeroot debian/rules clean> auf."
 
 #. type: IP
 #: dpkg-buildpackage.1
@@ -10767,11 +10753,6 @@ msgstr "B<10.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid ""
-#| "It runs the B<sign> hook and calls B<gpg2> or B<gpg> to sign the B<.dsc> "
-#| "file (if any, unless B<-us> is specified or on UNRELEASED builds), and "
-#| "the B<.changes> file (unless B<-uc> is specified or on UNRELEASED builds)."
 msgid ""
 "It runs the B<sign> hook and calls B<gpg2> or B<gpg> to sign the B<.dsc> "
 "file (if any, unless B<-us> or B<--unsigned-source> is specified or on "
@@ -10779,9 +10760,9 @@ msgid ""
 "changes> is specified or on UNRELEASED builds)."
 msgstr ""
 "Es führt den Hook B<sign> aus und ruft B<gpg2> oder B<gpg> auf, um die B<."
-"dsc>-Datei (falls vorhanden und B<-us> nicht angegeben wurde oder es sich um "
+"dsc>-Datei (falls vorhanden und B<-us> oder B<--unsigned-source> nicht angegeben wurde oder es sich um "
 "einen »UNRELEASED«-Bau handelt) und die B<.changes>-Datei (falls vorhanden "
-"und B<-uc> nicht angegeben wurde oder es sich um einen »UNRELEASED«-Bau "
+"und B<-uc> oder B<--unsigned-changes> nicht angegeben wurde oder es sich um einen »UNRELEASED«-Bau "
 "handelt) zu signieren."
 
 #. type: IP
@@ -10797,12 +10778,6 @@ msgstr "Es führt den Hook B<done> aus."
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid ""
-#| "All options can be specified both on the command line and in the B<dpkg> "
-#| "configuration file I</etc/dpkg/dpkg.cfg>. Each line in the configuration "
-#| "file is either an option (exactly the same as the command line option but "
-#| "without leading dashes) or a comment (if it starts with a B<#>)."
 msgid ""
 "All long options can be specified both on the command line and in the B<dpkg-"
 "buildpackage> system and user configuration files.  Each line in the "
@@ -10810,11 +10785,11 @@ msgid ""
 "option but without leading hyphens) or a comment (if it starts with a "
 "\\(oqB<#>\\(cq)."
 msgstr ""
-"Alle Optionen können auf der Befehlszeile oder in der B<dpkg>-"
-"Konfigurationsdatei I</etc/dpkg/dpkg.cfg> angegeben werden. Jede Zeile in "
+"Alle langen Optionen können auf der Befehlszeile oder im B<dpkg-buildpackage>-"
+"System und Benutzerkonfigurationsdateien angegeben werden. Jede Zeile in "
 "der Konfigurationsdatei ist entweder eine Option (exakt die gleiche wie die "
 "Befehlszeilenoption nur ohne führende Gedankenstriche) oder ein Kommentar "
-"(falls sie mit B<#> beginnt)."
+"(falls sie mit \\(oqB<#>\\(cq) beginnt)."
 
 #. type: TP
 #: dpkg-buildpackage.1 dpkg-genchanges.1
@@ -10975,16 +10950,12 @@ msgstr "B<-F>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid ""
-#| "Equivalent to B<--build=full>, B<--build=source,binary> or B<--"
-#| "build=source,any,all> since dpkg 1.15.8)."
 msgid ""
 "Equivalent to B<--build=full>, B<--build=source,binary> or B<--build=source,"
 "any,all> (since dpkg 1.15.8)."
 msgstr ""
 "Äquivalent zu B<--build=full>, B<--build=source,binary> oder B<--"
-"build=source,any,all> seit Dpkg 1.15.8)."
+"build=source,any,all> (seit Dpkg 1.15.8)."
 
 #. type: TP
 #: dpkg-buildpackage.1
@@ -11006,14 +10977,6 @@ msgstr "B<-T>, B<--rules-target=>I<Ziel>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid ""
-#| "Calls B<debian/rules> I<target> after having setup the build environment "
-#| "and stops the package build process here (since dpkg 1.15.0).  If B<--as-"
-#| "root> is also given, then the command is executed as root (see B<-r>). "
-#| "Note that known targets that are required to be run as root do not need "
-#| "this option (i.e. the B<clean>, B<binary>, B<binary-arch> and B<binary-"
-#| "indep> targets)."
 msgid ""
 "Calls B<debian/rules> I<target> after having setup the build environment and "
 "stops the package build process here (since dpkg 1.15.0, long option since "
@@ -11023,9 +10986,9 @@ msgid ""
 "B<binary-arch> and B<binary-indep> targets)."
 msgstr ""
 "Ruft B<debian/rules> I<Ziel> auf, nachdem die Bauumgebung eingerichtet wurde "
-"und beendet den Paketbauprozess hier (seit Dpkg 1.15.0). Falls auch B<--as-"
-"root> angegeben wurde, wird der Befehl mit root-Rechten ausgeführt (siehe B<-"
-"r>). Beachten Sie, dass bekannte Ziele, die als Root ausgeführt werden "
+"und beendet den Paketbauprozess hier (seit Dpkg 1.15.0, lange Optionen seit Dpkg 1.18.8). Falls auch B<--as-"
+"root> angegeben wurde, wird der Befehl mit root-Rechten ausgeführt (siehe B<--"
+"root-command>). Beachten Sie, dass bekannte Ziele, die als Root ausgeführt werden "
 "müssen, diese Option nicht benötigen (d.h. die Ziele B<clean>, B<binary>, "
 "B<binary-arch> und B<binary-indep>)."
 
@@ -11158,13 +11121,6 @@ msgstr "B<-P>, B<--build-profiles=>I<Profil>[B<,>…]"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid ""
-#| "Specify the profile(s) we build, as a comma-separated list (since dpkg "
-#| "1.17.2).  The default behavior is to build for no specific profile. Also "
-#| "sets them (as a space separated list) as the B<DEB_BUILD_PROFILES> "
-#| "environment variable which allows, for example, B<debian/rules> files to "
-#| "use this information for conditional builds."
 msgid ""
 "Specify the profile(s) we build, as a comma-separated list (since dpkg "
 "1.17.2, long option since dpkg 1.18.8).  The default behavior is to build "
@@ -11173,7 +11129,7 @@ msgid ""
 "B<debian/rules> files to use this information for conditional builds."
 msgstr ""
 "Gibt als Kommata-getrennte Liste die zu bauenden Profile an (seit Dpkg "
-"1.17.2). Standardmäßig wird für kein bestimmtes Profil gebaut. Setzt sie "
+"1.17.2, lange Optionen seit Dpkg 1.18.8). Standardmäßig wird für kein bestimmtes Profil gebaut. Setzt sie "
 "auch (als durch Leerzeichen getrennte Liste) in die Umgebungsvariable "
 "B<DEB_BUILD_PROFILES>. Dies erlaubt beispielsweise B<debian/rules>-Dateien, "
 "diese Information für den Bau unter bestimmten Bedingungen zu nutzen."
@@ -11278,16 +11234,12 @@ msgstr "B<-D>, B<--check-builddeps>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid ""
-#| "Check build dependencies and conflicts; abort if unsatisfied. This is the "
-#| "default behavior."
 msgid ""
 "Check build dependencies and conflicts; abort if unsatisfied (long option "
 "since dpkg 1.18.8).  This is the default behavior."
 msgstr ""
 "Prüfe Bauabhängigkeiten und -konflikte; Abbruch falls diese nicht erfüllt "
-"sind. Dies ist das Standardverhalten."
+"sind (lange Option seit Dpkg 1.18.8). Dies ist das Standardverhalten."
 
 #. type: TP
 #: dpkg-buildpackage.1
@@ -11916,24 +11868,21 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1
-#, fuzzy, no-wrap
-#| msgid "B<DEB_BUILD_ARCH>"
+#, no-wrap
 msgid "B<DEB_BUILD_*>"
-msgstr "B<DEB_BUILD_ARCH>"
+msgstr "B<DEB_BUILD_*>"
 
 #. type: TQ
 #: dpkg-buildpackage.1
-#, fuzzy, no-wrap
-#| msgid "B<DEB_HOST_ARCH>"
+#, no-wrap
 msgid "B<DEB_HOST_*>"
-msgstr "B<DEB_HOST_ARCH>"
+msgstr "B<DEB_HOST_*>"
 
 #. type: TQ
 #: dpkg-buildpackage.1
-#, fuzzy, no-wrap
-#| msgid "B<DEB_TARGET_ARCH>"
+#, no-wrap
 msgid "B<DEB_TARGET_*>"
-msgstr "B<DEB_TARGET_ARCH>"
+msgstr "B<DEB_TARGET_*>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
@@ -11950,7 +11899,7 @@ msgstr ""
 #: dpkg-buildpackage.1 dpkg-deb.1
 #, no-wrap
 msgid "B<SOURCE_DATE_EPOCH>"
-msgstr ""
+msgstr "B<SOURCE_DATE_EPOCH>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
@@ -11961,31 +11910,26 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.1
-#, fuzzy, no-wrap
-#| msgid "B</etc/dpkg/buildflags.conf>"
+#, no-wrap
 msgid "I</etc/dpkg/buildpackage.conf>"
-msgstr "B</etc/dpkg/buildflags.conf>"
+msgstr "I</etc/dpkg/buildpackage.conf>"
 
 #. type: Plain text
 #: dpkg-buildpackage.1
-#, fuzzy
-#| msgid "System wide configuration file."
 msgid "System wide configuration file"
 msgstr "Systemweite Konfigurationsdatei"
 
 #. type: TP
 #: dpkg-buildpackage.1
-#, fuzzy, no-wrap
-#| msgid "B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> or "
+#, no-wrap
 msgid "I<$XDG_CONFIG_HOME/dpkg/buildpackage.conf> or"
-msgstr "B<$XDG_CONFIG_HOME/dpkg/buildflags.conf> oder "
+msgstr "I<$XDG_CONFIG_HOME/dpkg/buildpackage.conf> oder"
 
 #. type: TQ
 #: dpkg-buildpackage.1
-#, fuzzy, no-wrap
-#| msgid "B<$HOME/.config/dpkg/buildflags.conf>"
+#, no-wrap
 msgid "I<$HOME/.config/dpkg/buildpackage.conf>"
-msgstr "B<$HOME/.config/dpkg/buildflags.conf>"
+msgstr "I<$HOME/.config/dpkg/buildpackage.conf>"
 
 #. type: SS
 #: dpkg-buildpackage.1
@@ -19191,10 +19135,9 @@ msgstr ""
 
 #. type: TP
 #: dpkg-source.1
-#, fuzzy, no-wrap
-#| msgid "B<-o>, B<--overwrite>"
+#, no-wrap
 msgid "B<--no-overwrite-dir>"
-msgstr "B<-o>, B<--overwrite>"
+msgstr "B<--no-overwrite-dir>"
 
 #. type: Plain text
 #: dpkg-source.1
