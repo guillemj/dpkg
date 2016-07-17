@@ -474,7 +474,7 @@ abort_dir_to_symlink()
 		rm -f "$PATHNAME"
 	else
 		# The staging directory must be empty, as no other package
-		# should have been unpacked inbetween.
+		# should have been unpacked in between.
 		rm -f "$PATHNAME/.dpkg-staging-dir"
 		rmdir "$PATHNAME"
 	fi
