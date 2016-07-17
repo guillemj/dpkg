@@ -46,9 +46,12 @@ sub create {
     $self->ensure_open('w');
     $spawn_opts{to_handle} = $self->get_filehandle();
     $spawn_opts{from_pipe} = \*$self->{tar_input};
+    # Try to use a deterministic mtime.
+    my $mtime = $opts{source_date} // $ENV{SOURCE_DATE_EPOCH} // time;
     # Call tar creation process
     $spawn_opts{delete_env} = [ 'TAR_OPTIONS' ];
-    $spawn_opts{exec} = [ 'tar', '-cf', '-', '--format=gnu', '--null',
+    $spawn_opts{exec} = [ 'tar', '-cf', '-', '--format=gnu',
+                          '--mtime', "\@$mtime", '--clamp-mtime', '--null',
                           '--numeric-owner', '--owner=0', '--group=0',
                           @{$opts{options}}, '-T', '-' ];
     *$self->{pid} = spawn(%spawn_opts);
