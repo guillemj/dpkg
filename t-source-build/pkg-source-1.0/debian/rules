@@ -1,0 +1,28 @@
+#!/usr/bin/make -f
+
+DI := debian/pkg-binary-all
+DA := debian/pkg-binary-any
+
+clean:
+	rm -f debian/files
+	rm -rf $(DI) $(DA)
+
+build-indep:
+build-arch:
+build: build-indep build-arch
+
+binary-indep: build-indep
+	rm -rf $(DI)
+	mkdir -p $(DI)/DEBIAN
+	dpkg-gencontrol -P$(DI) -ppkg-binary-all
+	dpkg-deb --build $(DI) ..
+
+binary-arch: build-arch
+	rm -rf $(DA)
+	mkdir -p $(DA)/DEBIAN
+	dpkg-gencontrol -P$(DA) -ppkg-binary-any
+	dpkg-deb --build $(DA) ..
+
+binary: binary-indep binary-arch
+
+.PHONY: clean build-indep build-arch build binary-indexp binary-arch binary
