@@ -539,7 +539,7 @@ do_build(const char *const *argv)
   else
     timestamp = time(NULL);
 
-  /* Now that we have verified everything its time to actually
+  /* Now that we have verified everything it is time to actually
    * build something. Let's start by making the ar-wrapper. */
   ar = dpkg_ar_create(debar, 0644);
 
