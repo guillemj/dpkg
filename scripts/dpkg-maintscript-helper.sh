@@ -71,8 +71,9 @@ rm_conffile() {
 		;;
 	postrm)
 		if [ "$1" = "purge" ]; then
-			rm -f "$CONFFILE.dpkg-bak" "$CONFFILE.dpkg-remove" \
-			      "$CONFFILE.dpkg-backup"
+			rm -f "$DPKG_ROOT$CONFFILE.dpkg-bak" \
+			      "$DPKG_ROOT$CONFFILE.dpkg-remove" \
+			      "$DPKG_ROOT$CONFFILE.dpkg-backup"
 		fi
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
 		   [ -n "$2" ] &&
@@ -90,31 +91,31 @@ prepare_rm_conffile() {
 	local CONFFILE="$1"
 	local PACKAGE="$2"
 
-	[ -e "$CONFFILE" ] || return 0
+	[ -e "$DPKG_ROOT$CONFFILE" ] || return 0
 	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
 	local md5sum old_md5sum
-	md5sum="$(md5sum "$CONFFILE" | sed -e 's/ .*//')"
+	md5sum="$(md5sum "$DPKG_ROOT$CONFFILE" | sed -e 's/ .*//')"
 	old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
 		sed -n -e "\\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
 	if [ "$md5sum" != "$old_md5sum" ]; then
-		mv -f "$CONFFILE" "$CONFFILE.dpkg-backup"
+		mv -f "$DPKG_ROOT$CONFFILE" "$DPKG_ROOT$CONFFILE.dpkg-backup"
 	else
-		mv -f "$CONFFILE" "$CONFFILE.dpkg-remove"
+		mv -f "$DPKG_ROOT$CONFFILE" "$DPKG_ROOT$CONFFILE.dpkg-remove"
 	fi
 }
 
 finish_rm_conffile() {
 	local CONFFILE="$1"
 
-	if [ -e "$CONFFILE.dpkg-backup" ]; then
-		echo "Obsolete conffile $CONFFILE has been modified by you."
-		echo "Saving as $CONFFILE.dpkg-bak ..."
-		mv -f "$CONFFILE.dpkg-backup" "$CONFFILE.dpkg-bak"
+	if [ -e "$DPKG_ROOT$CONFFILE.dpkg-backup" ]; then
+		echo "Obsolete conffile $DPKG_ROOT$CONFFILE has been modified by you."
+		echo "Saving as $DPKG_ROOT$CONFFILE.dpkg-bak ..."
+		mv -f "$DPKG_ROOT$CONFFILE.dpkg-backup" "$DPKG_ROOT$CONFFILE.dpkg-bak"
 	fi
-	if [ -e "$CONFFILE.dpkg-remove" ]; then
-		echo "Removing obsolete conffile $CONFFILE ..."
-		rm -f "$CONFFILE.dpkg-remove"
+	if [ -e "$DPKG_ROOT$CONFFILE.dpkg-remove" ]; then
+		echo "Removing obsolete conffile $DPKG_ROOT$CONFFILE ..."
+		rm -f "$DPKG_ROOT$CONFFILE.dpkg-remove"
 	fi
 }
 
@@ -124,13 +125,13 @@ abort_rm_conffile() {
 
 	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
-	if [ -e "$CONFFILE.dpkg-remove" ]; then
-		echo "Reinstalling $CONFFILE that was moved away"
-		mv "$CONFFILE.dpkg-remove" "$CONFFILE"
+	if [ -e "$DPKG_ROOT$CONFFILE.dpkg-remove" ]; then
+		echo "Reinstalling $DPKG_ROOT$CONFFILE that was moved away"
+		mv "$DPKG_ROOT$CONFFILE.dpkg-remove" "$DPKG_ROOT$CONFFILE"
 	fi
-	if [ -e "$CONFFILE.dpkg-backup" ]; then
-		echo "Reinstalling $CONFFILE that was backed-up"
-		mv "$CONFFILE.dpkg-backup" "$CONFFILE"
+	if [ -e "$DPKG_ROOT$CONFFILE.dpkg-backup" ]; then
+		echo "Reinstalling $DPKG_ROOT$CONFFILE that was backed-up"
+		mv "$DPKG_ROOT$CONFFILE.dpkg-backup" "$DPKG_ROOT$CONFFILE"
 	fi
 }
 
@@ -200,16 +201,16 @@ prepare_mv_conffile() {
 	local CONFFILE="$1"
 	local PACKAGE="$2"
 
-	[ -e "$CONFFILE" ] || return 0
+	[ -e "$DPKG_ROOT$CONFFILE" ] || return 0
 
 	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
 	local md5sum old_md5sum
-	md5sum="$(md5sum "$CONFFILE" | sed -e 's/ .*//')"
+	md5sum="$(md5sum "$DPKG_ROOT$CONFFILE" | sed -e 's/ .*//')"
 	old_md5sum="$(dpkg-query -W -f='${Conffiles}' "$PACKAGE" | \
 		sed -n -e "\\'^ $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
 	if [ "$md5sum" = "$old_md5sum" ]; then
-		mv -f "$CONFFILE" "$CONFFILE.dpkg-remove"
+		mv -f "$DPKG_ROOT$CONFFILE" "$DPKG_ROOT$CONFFILE.dpkg-remove"
 	fi
 }
 
@@ -218,16 +219,16 @@ finish_mv_conffile() {
 	local NEWCONFFILE="$2"
 	local PACKAGE="$3"
 
-	rm -f "$OLDCONFFILE.dpkg-remove"
+	rm -f "$DPKG_ROOT$OLDCONFFILE.dpkg-remove"
 
-	[ -e "$OLDCONFFILE" ] || return 0
+	[ -e "$DPKG_ROOT$OLDCONFFILE" ] || return 0
 	ensure_package_owns_file "$PACKAGE" "$OLDCONFFILE" || return 0
 
-	echo "Preserving user changes to $NEWCONFFILE (renamed from $OLDCONFFILE)..."
-	if [ -e "$NEWCONFFILE" ]; then
-		mv -f "$NEWCONFFILE" "$NEWCONFFILE.dpkg-new"
+	echo "Preserving user changes to $DPKG_ROOT$NEWCONFFILE (renamed from $DPKG_ROOT$OLDCONFFILE)..."
+	if [ -e "$DPKG_ROOT$NEWCONFFILE" ]; then
+		mv -f "$DPKG_ROOT$NEWCONFFILE" "$DPKG_ROOT$NEWCONFFILE.dpkg-new"
 	fi
-	mv -f "$OLDCONFFILE" "$NEWCONFFILE"
+	mv -f "$DPKG_ROOT$OLDCONFFILE" "$DPKG_ROOT$NEWCONFFILE"
 }
 
 abort_mv_conffile() {
@@ -236,9 +237,9 @@ abort_mv_conffile() {
 
 	ensure_package_owns_file "$PACKAGE" "$CONFFILE" || return 0
 
-	if [ -e "$CONFFILE.dpkg-remove" ]; then
-		echo "Reinstalling $CONFFILE that was moved away"
-		mv "$CONFFILE.dpkg-remove" "$CONFFILE"
+	if [ -e "$DPKG_ROOT$CONFFILE.dpkg-remove" ]; then
+		echo "Reinstalling $DPKG_ROOT$CONFFILE that was moved away"
+		mv "$DPKG_ROOT$CONFFILE.dpkg-remove" "$DPKG_ROOT$CONFFILE"
 	fi
 }
 
