@@ -21,6 +21,7 @@ use warnings;
 our $VERSION = '0.00';
 our @EXPORT_OK = qw(
     all_perl_files
+    test_get_perl_dirs
     test_needs_author
     test_needs_module
     test_needs_command
@@ -40,6 +41,11 @@ use File::Find;
 use IPC::Cmd qw(can_run);
 use Test::More;
 
+sub test_get_perl_dirs
+{
+    return qw(t src/t lib utils/t scripts dselect);
+}
+
 sub all_perl_files
 {
     my @files;
@@ -47,7 +53,7 @@ sub all_perl_files
         push @files, $File::Find::name if m/\.(pl|pm|t)$/;
     };
 
-    find($scan_perl_files, qw(t src/t lib utils/t scripts dselect));
+    find($scan_perl_files, test_get_perl_dirs());
 
     return @files;
 }
