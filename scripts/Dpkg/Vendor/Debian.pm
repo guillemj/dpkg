@@ -158,7 +158,7 @@ sub _add_reproducible_flags {
     # Default feature states.
     my %use_feature = (
         timeless => 1,
-        fixdebugpath => 0,
+        fixdebugpath => 1,
     );
 
     my $build_path;
