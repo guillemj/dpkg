@@ -284,17 +284,35 @@ sub normalize {
     #XXX: recreate header/trailer
 }
 
+=item $src = $entry->get_source()
+
+Return the name of the source package associated to the changelog entry.
+
+=cut
+
 sub get_source {
     my $self = shift;
 
     return $self->{header_source};
 }
 
+=item $ver = $entry->get_version()
+
+Return the version associated to the changelog entry.
+
+=cut
+
 sub get_version {
     my $self = shift;
 
     return $self->{header_version};
 }
+
+=item @dists = $entry->get_distributions()
+
+Return a list of target distributions for this version.
+
+=cut
 
 sub get_distributions {
     my $self = shift;
@@ -305,6 +323,13 @@ sub get_distributions {
     }
     return;
 }
+
+=item $fields = $entry->get_optional_fields()
+
+Return a set of optional fields exposed by the changelog entry.
+It always returns a Dpkg::Control object (possibly empty though).
+
+=cut
 
 sub get_optional_fields {
     my $self = shift;
@@ -324,6 +349,12 @@ sub get_optional_fields {
     return $f;
 }
 
+=item $urgency = $entry->get_urgency()
+
+Return the urgency of the associated upload.
+
+=cut
+
 sub get_urgency {
     my $self = shift;
     my $f = $self->get_optional_fields();
@@ -334,17 +365,35 @@ sub get_urgency {
     return;
 }
 
+=item $maint = $entry->get_maintainer()
+
+Return the string identifying the person who signed this changelog entry.
+
+=cut
+
 sub get_maintainer {
     my $self = shift;
 
     return $self->{trailer_maintainer};
 }
 
+=item $time = $entry->get_timestamp()
+
+Return the timestamp of the changelog entry.
+
+=cut
+
 sub get_timestamp {
     my $self = shift;
 
     return $self->{trailer_timestamp_date};
 }
+
+=item $time = $entry->get_timepiece()
+
+Return the timestamp of the changelog entry as a Time::Piece object.
+
+=cut
 
 sub get_timepiece {
     my $self = shift;
