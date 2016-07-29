@@ -52,8 +52,8 @@ use constant {
 };
 
 use overload
-    '<=>' => \&comparison,
-    'cmp' => \&comparison,
+    '<=>' => \&_comparison,
+    'cmp' => \&_comparison,
     '""'  => sub { return $_[0]->as_string(); },
     'bool' => sub { return $_[0]->as_string() if $_[0]->is_valid(); },
     'fallback' => 1;
@@ -175,7 +175,7 @@ its string representation is a version number.
 
 =cut
 
-sub comparison {
+sub _comparison {
     my ($a, $b, $inverted) = @_;
     if (not ref($b) or not $b->isa('Dpkg::Version')) {
         $b = Dpkg::Version->new($b);

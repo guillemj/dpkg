@@ -171,9 +171,9 @@ sub ensure_open {
 	delete $opts{to_file};
 
 	if ($mode eq 'w') {
-	    $self->open_for_write(%opts);
+	    $self->_open_for_write(%opts);
 	} elsif ($mode eq 'r') {
-	    $self->open_for_read(%opts);
+	    $self->_open_for_read(%opts);
 	} else {
 	    croak "invalid mode in ensure_open: $mode";
 	}
@@ -213,9 +213,9 @@ sub OPEN {
 	my ($mode, $filename) = @_;
 	$self->set_filename($filename);
 	if ($mode eq '>') {
-	    $self->open_for_write();
+	    $self->_open_for_write();
 	} elsif ($mode eq '<') {
-	    $self->open_for_read();
+	    $self->_open_for_read();
 	} else {
 	    croak 'Dpkg::Compression::FileHandle does not support ' .
 	          "open() mode $mode";
@@ -235,7 +235,7 @@ sub CLOSE {
     } else {
 	$ret = 0;
     }
-    $self->cleanup();
+    $self->_cleanup();
     return $ret;
 }
 
@@ -390,7 +390,7 @@ sub get_filehandle {
 
 ## INTERNAL METHODS
 
-sub open_for_write {
+sub _open_for_write {
     my ($self, %opts) = @_;
     my $filehandle;
 
@@ -408,7 +408,7 @@ sub open_for_write {
     *$self->{file} = $filehandle;
 }
 
-sub open_for_read {
+sub _open_for_read {
     my ($self, %opts) = @_;
     my $filehandle;
 
@@ -427,7 +427,7 @@ sub open_for_read {
     *$self->{file} = $filehandle;
 }
 
-sub cleanup {
+sub _cleanup {
     my $self = shift;
     my $cmdline = *$self->{compressor}{cmdline} // '';
     *$self->{compressor}->wait_end_process(nocheck => *$self->{allow_sigpipe});

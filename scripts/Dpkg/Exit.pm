@@ -78,14 +78,14 @@ sub run_exit_handlers {
     &$_() foreach (reverse @handlers);
 }
 
-sub exit_handler {
+sub _exit_handler {
     run_exit_handlers();
     exit(127);
 }
 
-$SIG{INT} = \&exit_handler;
-$SIG{HUP} = \&exit_handler;
-$SIG{QUIT} = \&exit_handler;
+$SIG{INT} = \&_exit_handler;
+$SIG{HUP} = \&_exit_handler;
+$SIG{QUIT} = \&_exit_handler;
 
 =back
 

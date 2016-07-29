@@ -204,8 +204,8 @@ Get an array with all currently known Debian architectures.
 
 sub get_valid_arches()
 {
-    read_cputable();
-    read_ostable();
+    _load_cputable();
+    _load_ostable();
 
     my @arches;
 
@@ -220,7 +220,7 @@ sub get_valid_arches()
 }
 
 my %table_loaded;
-sub load_table
+sub _load_table
 {
     my ($table, $loader) = @_;
 
@@ -239,9 +239,9 @@ sub load_table
     $table_loaded{$table} = 1;
 }
 
-sub read_cputable
+sub _load_cputable
 {
-    load_table('cputable', sub {
+    _load_table('cputable', sub {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/) {
 	    $cputable{$1} = $2;
 	    $cputable_re{$1} = $3;
@@ -252,9 +252,9 @@ sub read_cputable
     });
 }
 
-sub read_ostable
+sub _load_ostable
 {
-    load_table('ostable', sub {
+    _load_table('ostable', sub {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
 	    $ostable{$1} = $2;
 	    $ostable_re{$1} = $3;
@@ -263,20 +263,20 @@ sub read_ostable
     });
 }
 
-sub abitable_load()
+sub _load_abitable()
 {
-    load_table('abitable', sub {
+    _load_table('abitable', sub {
         if (m/^(?!\#)(\S+)\s+(\S+)/) {
             $abibits{$1} = $2;
         }
     });
 }
 
-sub read_triplettable()
+sub _load_triplettable()
 {
-    read_cputable();
+    _load_cputable();
 
-    load_table('triplettable', sub {
+    _load_table('triplettable', sub {
 	if (m/^(?!\#)(\S+)\s+(\S+)/) {
 	    my $debtriplet = $1;
 	    my $debarch = $2;
@@ -304,8 +304,8 @@ sub debtriplet_to_gnutriplet(@)
 {
     my ($abi, $os, $cpu) = @_;
 
-    read_cputable();
-    read_ostable();
+    _load_cputable();
+    _load_ostable();
 
     return unless defined($abi) && defined($os) && defined($cpu) &&
         exists($cputable{$cpu}) && exists($ostable{"$abi-$os"});
@@ -319,8 +319,8 @@ sub gnutriplet_to_debtriplet($)
     my ($gnu_cpu, $gnu_os) = split(/-/, $gnu, 2);
     return unless defined($gnu_cpu) && defined($gnu_os);
 
-    read_cputable();
-    read_ostable();
+    _load_cputable();
+    _load_ostable();
 
     my ($os, $cpu);
 
@@ -377,7 +377,7 @@ sub debtriplet_to_debarch(@)
 {
     my ($abi, $os, $cpu) = @_;
 
-    read_triplettable();
+    _load_triplettable();
 
     if (!defined($abi) || !defined($os) || !defined($cpu)) {
 	return;
@@ -394,7 +394,7 @@ sub debarch_to_debtriplet($)
 
     return if not defined $arch;
 
-    read_triplettable();
+    _load_triplettable();
 
     if ($arch =~ /^linux-([^-]*)/) {
 	# XXX: Might disappear in the future, not sure yet.
@@ -460,7 +460,7 @@ sub debarch_to_cpuattrs($)
     my ($abi, $os, $cpu) = debarch_to_debtriplet($arch);
 
     if (defined($cpu)) {
-        abitable_load();
+        _load_abitable();
 
         return ($abibits{$abi} // $cpubits{$cpu}, $cpuendian{$cpu});
     } else {
