@@ -19,7 +19,7 @@ package Dpkg::Substvars;
 use strict;
 use warnings;
 
-our $VERSION = '1.04';
+our $VERSION = '1.05';
 
 use POSIX qw(:errno_h);
 
@@ -49,7 +49,7 @@ strings.
 use constant {
     SUBSTVAR_ATTR_USED => 1,
     SUBSTVAR_ATTR_AUTO => 2,
-    SUBSTVAR_ATTR_OLD => 4,
+    SUBSTVAR_ATTR_AGED => 4,
 };
 
 =head1 METHODS
@@ -244,8 +244,8 @@ sub set_version_substvars {
     $self->set('source:Version', $sourceversion, $attr);
     $self->set('source:Upstream-Version', $upstreamversion, $attr);
 
-    # XXX: Source-Version is now deprecated, remove in the future.
-    $self->set('Source-Version', $binaryversion, $attr | SUBSTVAR_ATTR_OLD);
+    # XXX: Source-Version is now obsolete, remove in 1.19.x.
+    $self->set('Source-Version', $binaryversion, $attr | SUBSTVAR_ATTR_AGED);
 }
 
 =item $s->set_arch_substvars()
@@ -296,9 +296,9 @@ sub substvars {
             $self->mark_as_used($vn);
             $count++;
 
-            if (not $opts{no_warn} and $self->{attr}{$vn} & SUBSTVAR_ATTR_OLD) {
-                warning($opts{msg_prefix} .
-                        g_('deprecated substitution variable ${%s}'), $vn);
+            if ($self->{attr}{$vn} & SUBSTVAR_ATTR_AGED) {
+                error($opts{msg_prefix} .
+                      g_('obsolete substitution variable ${%s}'), $vn);
             }
         } else {
             warning($opts{msg_prefix} . g_('unknown substitution variable ${%s}'),
@@ -394,6 +394,10 @@ sub output {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.05 (dpkg 1.18.11)
+
+Obsolete substvar: Emit an error on Source-Version substvar usage.
 
 =head2 Version 1.04 (dpkg 1.18.0)
 

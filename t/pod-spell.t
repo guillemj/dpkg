@@ -81,6 +81,7 @@ qa
 reportfile
 rfc822
 sig
+substvar
 substvars
 unparsed
 update-buildflags
