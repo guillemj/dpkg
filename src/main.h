@@ -101,7 +101,6 @@ enum action {
 	act_arch_add,
 	act_arch_remove,
 	act_printarch,
-	act_printinstarch,
 	act_printforeignarches,
 
 	act_assertpredep,
