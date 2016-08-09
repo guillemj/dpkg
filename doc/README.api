@@ -27,15 +27,9 @@ Description:
  In case of API-breaking changes, the major number in $VERSION will be
  increased. For API extensions, the minor number will be increased.
 
-What: custom changelog parsers in /usr/lib/dpkg/parsechangelog
+What: custom changelog parsers as Dpkg::Changelog derived modules
 Status: stable
-Version: 2.0
 Description:
- Since dpkg 1.14.16, the set of command line options that custom
- changelog parsers must support has been expanded (see
- dpkg-parsechangelog(1)). For compatibility, changelog parsers supporting
- only the old options are supported in lenny. In lenny+1, that support
- will be dropped.
- .
- For reference, only the -v option was supported in version 1.0 of this
- API.
+ Since dpkg 1.18.8, custome changelog parsers are supported as modules
+ derived from the Dpkg::Changelog module. The derived modules need to
+ implement all required documented methods.
