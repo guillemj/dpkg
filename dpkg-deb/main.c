@@ -102,8 +102,6 @@ usage(const struct cmdinfo *cip, const char *value)
 "      --showformat=<format>        Use alternative format for --show.\n"
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 (default).\n"
-"      --old                        Legacy alias for '--deb-format=0.939000'.\n"
-"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --uniform-compression        Use the compression params on all members.\n"
@@ -162,24 +160,6 @@ set_deb_format(const struct cmdinfo *cip, const char *value)
     badusage(_("unknown deb format version: %s"), value);
 }
 
-static void
-set_deb_old(const struct cmdinfo *cip, const char *value)
-{
-  deb_format = DEB_VERSION_OBJECT(0, 939000);
-
-  warning(_("obsolete option '--%s'; please use '--%s' instead"),
-          cip->olong, "deb-format=0.939000");
-}
-
-static void
-set_deb_new(const struct cmdinfo *cip, const char *value)
-{
-  deb_format = DEB_VERSION_OBJECT(2, 0);
-
-  warning(_("obsolete option '--%s'; please use '--%s' instead"),
-          cip->olong, "deb-format=2.0");
-}
-
 struct compress_params compress_params = {
   .type = DPKG_DEB_DEFAULT_COMPRESSOR,
   .strategy = COMPRESSOR_STRATEGY_NONE,
@@ -232,8 +212,6 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION("show",          'W', 0, do_showinfo),
 
   { "deb-format",    0,   1, NULL,           NULL,         set_deb_format   },
-  { "new",           0,   0, NULL,           NULL,         set_deb_new      },
-  { "old",           0,   0, NULL,           NULL,         set_deb_old      },
   { "debug",         'D', 0, &debugflag,     NULL,         NULL,          1 },
   { "verbose",       'v', 0, &opt_verbose,   NULL,         NULL,          1 },
   { "nocheck",       0,   0, &nocheckflag,   NULL,         NULL,          1 },

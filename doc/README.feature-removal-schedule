@@ -37,15 +37,6 @@ Warning: man page
  required to avoid hardcoding the database layout, and it will be kept as
  long as there's legitimate uses for it and no viable replacements.
 
-What: --new, --old (dpkg-deb options)
-Status: deprecated
-When: 1.18.x
-Warning: program
-Why:
- These options are not future-proof, and do not give the caller any
- guarantee of what exact format version will be used to produce the
- output file. They have been replaced with a new --deb-format option.
-
 What: -L (dpkg-parsechangelog option)
 Status: obsolete
 Since: 1.18.8
@@ -172,3 +163,12 @@ Why:
  that compression, as such there's no point in continuing to support
  compressing new .deb files with that format, although unpacking
  will be kept being supported to handle existing compressed files.
+
+What: --new, --old (dpkg-deb options)
+Status: removed
+When: 1.18.11
+Warning: program
+Why:
+ These options are not future-proof, and do not give the caller any
+ guarantee of what exact format version will be used to produce the
+ output file. They were replaced with a new --deb-format option.
