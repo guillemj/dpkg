@@ -109,7 +109,7 @@ usage(const struct cmdinfo *cip, const char *value)
 "      --uniform-compression        Use the compression params on all members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when building.\n"
-"                                     Allowed types: gzip, xz, bzip2, none.\n"
+"                                     Allowed types: gzip, xz, none.\n"
 "  -S<strategy>                     Set the compression strategy when building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
@@ -213,9 +213,9 @@ set_compress_type(const struct cmdinfo *cip, const char *value)
   if (compress_params.type == COMPRESSOR_TYPE_UNKNOWN)
     badusage(_("unknown compression type '%s'!"), value);
   if (compress_params.type == COMPRESSOR_TYPE_LZMA)
-    warning(_("deprecated compression type '%s'; use xz instead"), value);
+    badusage(_("obsolete compression type '%s'; use xz instead"), value);
   if (compress_params.type == COMPRESSOR_TYPE_BZIP2)
-    warning(_("deprecated compression type '%s'; use xz or gzip instead"), value);
+    badusage(_("obsolete compression type '%s'; use xz or gzip instead"), value);
 }
 
 static const struct cmdinfo cmdinfos[]= {
