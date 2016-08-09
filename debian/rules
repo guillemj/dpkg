@@ -121,10 +121,7 @@ binary-arch: install
 	dh_shlibdeps -a
 	dh_gencontrol -a
 	dh_md5sums -a
-	# Make debootstrap life easier on non-Debian based systems by
-	# compressing dpkg.deb with gzip instead of xz.
-	dh_builddeb -pdpkg -- -Zgzip
-	dh_builddeb -a -Ndpkg
+	dh_builddeb -a
 
 # Put together the dpkg-dev package
 binary-indep: install
