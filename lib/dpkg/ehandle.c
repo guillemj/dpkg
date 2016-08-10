@@ -202,7 +202,11 @@ error_context_errmsg_format(const char *fmt, va_list args)
     /* If there was any error, just use the emergency error message buffer,
      * even if it ends up being truncated, at least we will have a big part
      * of the problem. */
-    vsnprintf(emergency.errmsg, sizeof(emergency.errmsg), fmt, args);
+    rc = vsnprintf(emergency.errmsg, sizeof(emergency.errmsg), fmt, args);
+
+    /* Return failure only if we get truncated. */
+    if (rc >= (int)sizeof(emergency.errmsg))
+      rc = -1;
 
     error_context_errmsg_set(econtext, emergency.errmsg);
   }

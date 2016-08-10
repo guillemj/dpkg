@@ -34,6 +34,10 @@ dpkg (1.18.11) UNRELEASED; urgency=medium
     Reported by Helmut Grohne <helmut@subdivi.de>.
   * Only set the error context message in libdpkg if it has been formatted
     correctly.
+  * Return error in error_context_errmsg_format() only if the error message
+    gets truncated. In case we have to use the emergency buffer because the
+    previous vasprintf() call failed, we should only return an error code if
+    the vsnprintf() call on the emergency buffer truncates the output.
   * Architecture support:
     - Add support for AIX operating system.
   * Portability:
