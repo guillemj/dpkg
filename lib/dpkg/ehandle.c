@@ -195,7 +195,8 @@ error_context_errmsg_format(const char *fmt, va_list args)
 
   /* If the message was constructed successfully, at least we have some
    * error message, which is better than nothing. */
-  error_context_errmsg_set(econtext, errmsg);
+  if (rc >= 0)
+    error_context_errmsg_set(econtext, errmsg);
 
   if (rc < 0) {
     /* If there was any error, just use the emergency error message buffer,
