@@ -443,13 +443,14 @@ void ohshite(const char *fmt, ...) {
 
   e=errno;
 
+  /* First we construct the formatted message. */
   va_start(args, fmt);
   rc = error_context_errmsg_format(fmt, args);
   va_end(args);
 
-  /* If there was an error, just use the emergency error message buffer,
-   * and ignore the errno value, as we will probably have no space left
-   * anyway. Otherwise append the string for errno. */
+  /* Then if there was no error we append the string for errno. Otherwise
+   * we just use the emergency error message buffer, and ignore the errno
+   * value, as we will probably have no space left anyway. */
   if (rc > 0) {
     char *errmsg = NULL;
 
