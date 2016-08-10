@@ -75,11 +75,25 @@ supported hooks are:
 The first parameter is a Dpkg::Source::Package object. The hook is called
 just before the execution of $srcpkg->build().
 
-=item keyrings ()
+=item package-keyrings ()
 
 The hook is called when dpkg-source is checking a signature on a source
-package. It takes no parameters, but returns a (possibly empty) list of
+package (since dpkg 1.18.11). It takes no parameters, but returns a
+(possibly empty) list of vendor-specific keyrings.
+
+=item archive-keyrings ()
+
+The hook is called when there is a need to check signatures on artifacts
+from repositories, for example by a download method (since dpkg 1.18.11).
+It takes no parameters, but returns a (possibly empty) list of
 vendor-specific keyrings.
+
+=item archive-keyrings-historic ()
+
+The hook is called when there is a need to check signatures on artifacts
+from historic repositories, for example by a download method
+(since dpkg 1.18.11). It takes no parameters, but returns a (possibly empty)
+list of vendor-specific keyrings.
 
 =item builtin-build-depends ()
 
@@ -126,6 +140,13 @@ sub run_hook {
     if ($hook eq 'before-source-build') {
         my $srcpkg = shift @params;
     } elsif ($hook eq 'keyrings') {
+        warnings::warnif('deprecated', 'obsolete keyrings vendor hook');
+        return ();
+    } elsif ($hook eq 'package-keyrings') {
+        return ();
+    } elsif ($hook eq 'archive-keyrings') {
+        return ();
+    } elsif ($hook eq 'archive-keyrings-historic') {
         return ();
     } elsif ($hook eq 'register-custom-fields') {
         return ();

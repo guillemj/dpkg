@@ -70,11 +70,16 @@ sub run_hook {
         }
 
     } elsif ($hook eq 'keyrings') {
-        my @keyrings = $self->SUPER::run_hook($hook);
-
-        push(@keyrings, '/usr/share/keyrings/ubuntu-archive-keyring.gpg');
-        return @keyrings;
-
+        return $self->run_hook('package-keyrings', @params);
+    } elsif ($hook eq 'package-keyrings') {
+        return ($self->SUPER::run_hook($hook),
+                '/usr/share/keyrings/ubuntu-archive-keyring.gpg');
+    } elsif ($hook eq 'archive-keyrings') {
+        return ($self->SUPER::run_hook($hook),
+                '/usr/share/keyrings/ubuntu-archive-keyring.gpg');
+    } elsif ($hook eq 'archive-keyrings-historic') {
+        return ($self->SUPER::run_hook($hook),
+                '/usr/share/keyrings/ubuntu-archive-removed-keys.gpg');
     } elsif ($hook eq 'register-custom-fields') {
         my @field_ops = $self->SUPER::run_hook($hook);
         push @field_ops,

@@ -434,7 +434,7 @@ sub check_signature {
         if (length $ENV{HOME} and -r "$ENV{HOME}/.gnupg/trustedkeys.gpg") {
             push @exec, '--keyring', "$ENV{HOME}/.gnupg/trustedkeys.gpg";
         }
-        foreach my $vendor_keyring (run_vendor_hook('keyrings')) {
+        foreach my $vendor_keyring (run_vendor_hook('package-keyrings')) {
             if (-r $vendor_keyring) {
                 push @exec, '--keyring', $vendor_keyring;
             }

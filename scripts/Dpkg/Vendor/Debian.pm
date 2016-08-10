@@ -49,9 +49,16 @@ specific behavior and policies.
 sub run_hook {
     my ($self, $hook, @params) = @_;
 
-    if ($hook eq 'keyrings') {
+    if ($hook eq 'package-keyrings') {
         return ('/usr/share/keyrings/debian-keyring.gpg',
                 '/usr/share/keyrings/debian-maintainers.gpg');
+    } elsif ($hook eq 'keyrings') {
+        warnings::warnif('deprecated', 'deprecated keyrings vendor hook');
+        return $self->run_hook('package-keyrings', @params);
+    } elsif ($hook eq 'archive-keyrings') {
+        return ('/usr/share/keyrings/debian-archive-keyring.gpg');
+    } elsif ($hook eq 'archive-keyrings-historic') {
+        return ('/usr/share/keyrings/debian-archive-removed-keys.gpg');
     } elsif ($hook eq 'builtin-build-depends') {
         return qw(build-essential:native);
     } elsif ($hook eq 'builtin-build-conflicts') {
