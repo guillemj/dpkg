@@ -347,30 +347,32 @@ above). The option cannot become enabled if \fBrelro\fP is not enabled.
 .
 .TP
 .B pie
-This setting (enabled and injected by default by gcc on the amd64,
-arm64, armel, armhf, i386, mips, mipsel, mips64el, ppc64el and s390x
-architectures, since dpkg 1.18.11) adds the required options if needed
-to enable or disable PIE. When enabled and injected by gcc,
+This setting (enabled by default since dpkg 1.18.11, and injected by default
+by gcc on the amd64, arm64, armel, armhf, i386, mips, mipsel, mips64el,
+ppc64el and s390x Debian architectures) adds the required options if
+needed to enable or disable PIE. When enabled and injected by gcc,
 adds nothing. When enabled and not injected by gcc, adds \fB\-fPIE\fP
 to \fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBOBJCFLAGS\fP, \fBOBJCXXFLAGS\fP,
 \fBGCJFLAGS\fP, \fBFFLAGS\fP and \fBFCFLAGS\fP, and \fB\-fPIE \-pie\fP
 to \fBLDFLAGS\fP. When disabled and injected by gcc, adds \fB\-fno\-PIE\fP
 to \fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBOBJCFLAGS\fP, \fBOBJCXXFLAGS\fP,
 \fBGCJFLAGS\fP, \fBFFLAGS\fP and \fBFCFLAGS\fP, and
-\fB\-no\-pie\fP to \fBLDFLAGS\fP.
+\fB\-fno\-PIE \-no\-pie\fP to \fBLDFLAGS\fP.
 
 Position Independent
 Executable are needed to take advantage of Address Space Layout
 Randomization, supported by some kernel versions. While ASLR can already
 be enforced for data areas in the stack and heap (brk and mmap), the code
 areas must be compiled as position-independent. Shared libraries already
-do this (\-fPIC), so they gain ASLR automatically, but binary .text
+do this (\fB\-fPIC\fP), so they gain ASLR automatically, but binary .text
 regions need to be build PIE to gain ASLR. When this happens, ROP (Return
 Oriented Programming) attacks are much harder since there are no static
 locations to bounce off of during a memory corruption attack.
 
-This is not compatible with \fB\-fPIC\fP so care must be taken when
-building shared objects.
+PIE is not compatible with \fB\-fPIC\fP, so in general care must be taken
+when building shared objects. But because the PIE flags emitted get injected
+via gcc specs files, it should always be safe to unconditionally set them
+regardless of the object type being compiled or linked.
 
 Static libraries can be used by programs or other shared libraries.
 Depending on the flags used to compile all the objects within a static
@@ -382,22 +384,25 @@ none
 Cannot be linked into a PIE program, nor a shared library.
 .TP
 .B \-fPIE
-Can be linked into any program, but not a shared library.
+Can be linked into any program, but not a shared library (recommended).
 .TP
 .B \-fPIC
 Can be linked into any program and shared library.
 .RE
 
 .IP
-Unconditionally passing \fB\-fPIE\fP, \fB\-fpie\fP or \fB\-pie\fP to a
-build-system using libtool is safe as these flags will get stripped when
-building shared libraries.
+If there is a need to set these flags manually, bypassing the gcc specs
+injection, there are several things to take into account. Unconditionally
+and explicitly passing \fB\-fPIE\fP, \fB\-fpie\fP or \fB\-pie\fP to a
+build-system using libtool is safe as these flags will get stripped
+when building shared libraries.
 Otherwise on projects that build both programs and shared libraries you
 might need to make sure that when building the shared libraries \fB\-fPIC\fP
 is always passed last (so that it overrides any previous \fB\-PIE\fP) to
 compilation flags such as \fBCFLAGS\fP, and \fB\-shared\fP is passed last
 (so that it overrides any previous \fB\-pie\fP) to linking flags such as
-\fBLDFLAGS\fP.
+\fBLDFLAGS\fP. \fBNote:\fP This should not be needed with the default
+gcc specs machinery.
 
 .IP
 Additionally, since PIE is implemented via a general register, some

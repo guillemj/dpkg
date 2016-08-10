@@ -20,6 +20,8 @@ ACLOCAL_AMFLAGS = -I m4
 
 
 dist_pkgdata_DATA = \
+	data/pie-compile.specs \
+	data/pie-link.specs \
 	data/no-pie-compile.specs \
 	data/no-pie-link.specs \
 	data/cputable \

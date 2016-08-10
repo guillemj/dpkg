@@ -293,13 +293,13 @@ sub _add_hardening_flags {
         pie => 1,
     );
 
-    # Adjust features based on user or maintainer's desires.
-    $self->_parse_feature_area('hardening', \%use_feature);
-
-    # Mask features that are not enabled by default in the compiler.
+    # Mask builtin features that are not enabled by default in the compiler.
     if ($arch !~ /^(?:amd64|arm64|armel|armhf|i386|mips|mipsel|mips64el|ppc64el|s390x)$/) {
         $builtin_feature{pie} = 0;
     }
+
+    # Adjust features based on user or maintainer's desires.
+    $self->_parse_feature_area('hardening', \%use_feature);
 
     # Mask features that are not available on certain architectures.
     if ($os !~ /^(?:linux|kfreebsd|knetbsd|hurd)$/ or
@@ -340,7 +340,7 @@ sub _add_hardening_flags {
 
     # PIE
     if ($use_feature{pie} and not $builtin_feature{pie}) {
-	my $flag = '-fPIE';
+	my $flag = "-specs=$Dpkg::DATADIR/pie-compile.specs";
 	$flags->append('CFLAGS', $flag);
 	$flags->append('OBJCFLAGS',  $flag);
 	$flags->append('OBJCXXFLAGS', $flag);
@@ -348,7 +348,7 @@ sub _add_hardening_flags {
 	$flags->append('FCFLAGS', $flag);
 	$flags->append('CXXFLAGS', $flag);
 	$flags->append('GCJFLAGS', $flag);
-	$flags->append('LDFLAGS', '-fPIE -pie');
+	$flags->append('LDFLAGS', "-specs=$Dpkg::DATADIR/pie-link.specs");
     } elsif (not $use_feature{pie} and $builtin_feature{pie}) {
 	my $flag = "-specs=$Dpkg::DATADIR/no-pie-compile.specs";
 	$flags->append('CFLAGS', $flag);
