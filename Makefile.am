@@ -19,10 +19,10 @@ ACLOCAL_AMFLAGS = -I m4
 
 
 dist_pkgdata_DATA = \
-	cputable \
-	ostable \
-	abitable \
-	triplettable
+	data/cputable \
+	data/ostable \
+	data/abitable \
+	data/triplettable
 
 EXTRA_DIST = \
 	.mailmap \
@@ -161,7 +161,7 @@ test_data = \
 # We need to use absolute paths here due to strict.t invoking a sub-perl,
 # while changing dir to source dir on out-of-tree builds.
 TEST_ENV_VARS = \
-	DPKG_DATADIR=$(abs_top_srcdir) \
+	DPKG_DATADIR=$(abs_top_srcdir)/data \
 	$(nil)
 
 include $(top_srcdir)/check.am

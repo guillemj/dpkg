@@ -187,7 +187,7 @@ coverage-clean:
 	rm -rf cover_db
 
 TEST_ENV_VARS = \
-	DPKG_DATADIR=$(srcdir)/.. \
+	DPKG_DATADIR=$(top_srcdir)/data \
 	DPKG_ORIGINS_DIR=$(srcdir)/t/origins
 TEST_COVERAGE = $(PERL_COVERAGE)
 

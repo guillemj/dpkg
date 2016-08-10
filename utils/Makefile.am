@@ -59,7 +59,7 @@ endif
 uninstall-local:
 	rm -f $(DESTDIR)$(sysconfdir)/alternatives/README
 
-TEST_ENV_VARS = DPKG_DATADIR=$(top_srcdir)
+TEST_ENV_VARS = DPKG_DATADIR=$(top_srcdir)/data
 
 test_tmpdir = t.tmp
 test_scripts = \
