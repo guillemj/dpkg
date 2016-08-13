@@ -213,13 +213,13 @@ MANGEN = $(MANGEN_V) sed \
 	-e 's:%PKGDATADIR%:$(pkgdatadir):g'
 	$(nil)
 
-.man.1: Makefile
+.man.1:
 	$(MANGEN) $< >$@
-.man.5: Makefile
+.man.5:
 	$(MANGEN) $< >$@
-.man.7: Makefile
+.man.7:
 	$(MANGEN) $< >$@
-.man.8: Makefile
+.man.8:
 	$(MANGEN) $< >$@
 
 install-data-local: install-data-local-@USE_PO4A@

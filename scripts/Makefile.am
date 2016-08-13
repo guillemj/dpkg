@@ -151,12 +151,12 @@ do_shell_subst = $(AM_V_GEN) sed \
 
 SUFFIXES = .pl .sh
 
-.pl: Makefile
+.pl:
 	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
 	$(do_perl_subst) <$< >$@
 	$(AM_V_at) chmod +x $@
 
-.sh: Makefile
+.sh:
 	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
 	$(do_shell_subst) <$< >$@
 	$(AM_V_at) chmod +x $@

@@ -43,7 +43,7 @@ do_perl_subst = $(AM_V_GEN) sed \
 
 SUFFIXES = .pl
 
-.pl: Makefile
+.pl:
 	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
 	$(do_perl_subst) <$< >$@
 	$(AM_V_at) chmod +x $@
