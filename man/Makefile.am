@@ -74,62 +74,62 @@ endif
 CLEANFILES = $(man_MANS)
 
 EXTRA_DIST = \
-	deb-buildinfo.man \
-	deb-changelog.man \
-	deb-changes.man \
-	deb-conffiles.man \
-	deb-control.man \
-	deb-extra-override.man \
-	deb-old.man \
-	deb-origin.man \
-	deb-override.man \
-	deb-postinst.man \
-	deb-postrm.man \
-	deb-preinst.man \
-	deb-prerm.man \
-	deb-shlibs.man \
-	deb-split.man \
-	deb-src-control.man \
-	deb-src-files.man \
-	deb-src-rules.man \
-	deb-src-symbols.man \
-	deb-substvars.man \
-	deb-symbols.man \
-	deb-triggers.man \
-	deb-version.man \
-	deb.man \
-	deb822.man \
-	dpkg-architecture.man \
-	dpkg-buildflags.man \
-	dpkg-buildpackage.man \
-	dpkg-checkbuilddeps.man \
-	dpkg-deb.man \
-	dpkg-distaddfile.man \
-	dpkg-divert.man \
-	dpkg-genbuildinfo.man \
-	dpkg-genchanges.man \
-	dpkg-gencontrol.man \
-	dpkg-gensymbols.man \
-	dpkg-maintscript-helper.man \
-	dpkg-mergechangelogs.man \
-	dpkg-name.man \
-	dpkg-parsechangelog.man \
-	dpkg-query.man \
-	dpkg-scanpackages.man \
-	dpkg-scansources.man \
-	dpkg-shlibdeps.man \
-	dpkg-source.man \
-	dpkg-split.man \
-	dpkg-statoverride.man \
-	dpkg-trigger.man \
-	dpkg-vendor.man \
-	dpkg.man \
-	dpkg.cfg.man \
-	dsc.man \
-	dselect.man \
-	dselect.cfg.man \
-	start-stop-daemon.man \
-	update-alternatives.man \
+	deb-buildinfo.pod \
+	deb-changelog.pod \
+	deb-changes.pod \
+	deb-conffiles.pod \
+	deb-control.pod \
+	deb-extra-override.pod \
+	deb-old.pod \
+	deb-origin.pod \
+	deb-override.pod \
+	deb-postinst.pod \
+	deb-postrm.pod \
+	deb-preinst.pod \
+	deb-prerm.pod \
+	deb-shlibs.pod \
+	deb-split.pod \
+	deb-src-control.pod \
+	deb-src-files.pod \
+	deb-src-rules.pod \
+	deb-src-symbols.pod \
+	deb-substvars.pod \
+	deb-symbols.pod \
+	deb-triggers.pod \
+	deb-version.pod \
+	deb.pod \
+	deb822.pod \
+	dpkg-architecture.pod \
+	dpkg-buildflags.pod \
+	dpkg-buildpackage.pod \
+	dpkg-checkbuilddeps.pod \
+	dpkg-deb.pod \
+	dpkg-distaddfile.pod \
+	dpkg-divert.pod \
+	dpkg-genbuildinfo.pod \
+	dpkg-genchanges.pod \
+	dpkg-gencontrol.pod \
+	dpkg-gensymbols.pod \
+	dpkg-maintscript-helper.pod \
+	dpkg-mergechangelogs.pod \
+	dpkg-name.pod \
+	dpkg-parsechangelog.pod \
+	dpkg-query.pod \
+	dpkg-scanpackages.pod \
+	dpkg-scansources.pod \
+	dpkg-shlibdeps.pod \
+	dpkg-source.pod \
+	dpkg-split.pod \
+	dpkg-statoverride.pod \
+	dpkg-trigger.pod \
+	dpkg-vendor.pod \
+	dpkg.pod \
+	dpkg.cfg.pod \
+	dsc.pod \
+	dselect.pod \
+	dselect.cfg.pod \
+	start-stop-daemon.pod \
+	update-alternatives.pod \
 	utf8toman.sed \
 	po/ChangeLog.old \
 	po/po4a.cfg \
@@ -166,7 +166,7 @@ gen-man: man.stamp
 	for lang in $(LINGUAS); do \
 	  files=""; \
 	  for man in $(man_MANS); do \
-	    trans="$${man%%.[0-9]}.man"; \
+	    trans="$${man%%.[0-9]}.pod"; \
 	    if [ -f $(builddir)/$$lang/$$trans ]; then \
 	      files="$$files $(builddir)/$$lang/$$man"; \
 	    elif [ -f $(srcdir)/$$lang/$$trans ]; then \
@@ -193,13 +193,16 @@ clean-local-yes:
 update-po:
 	$(PO4A_V) $(PO4A) $(PO4A_OPTS) --force $(srcdir)/po/po4a.cfg
 
-SUFFIXES = .man .1 .5 .7 .8
+SUFFIXES = .pod .1 .5 .7 .8
 
-MANGEN_V = $(MANGEN_V_@AM_V@)
-MANGEN_V_ = $(MANGEN_V_@AM_DEFAULT_V@)
-MANGEN_V_0 = @echo "  MANGEN $@";
+POD2MAN_V = $(POD2MAN_V_@AM_V@)
+POD2MAN_V_ = $(POD2MAN_V_@AM_DEFAULT_V@)
+POD2MAN_V_0 = @echo "  POD2MAN $@";
 
-MANGEN = $(MANGEN_V) sed \
+POD2MAN_OPTS = --utf8 --center='dpkg suite' --release=$(PACKAGE_VERSION) \
+               --date='$(PACKAGE_RELEASE_DATE)'
+
+MANFIXUP = sed \
 	-f $(srcdir)/utf8toman.sed \
 	-e 's/%PACKAGE%/$(PACKAGE)/g' \
 	-e 's/%VERSION%/$(PACKAGE_VERSION)/g' \
@@ -210,17 +213,23 @@ MANGEN = $(MANGEN_V) sed \
 	-e 's:%PKGDOCDIR%:$(docdir):g' \
 	-e 's:%PKGCONFDIR%:$(pkgconfdir):g' \
 	-e 's:%PKGLIBDIR%:$(pkglibexecdir):g' \
-	-e 's:%PKGDATADIR%:$(pkgdatadir):g'
+	-e 's:%PKGDATADIR%:$(pkgdatadir):g' \
 	$(nil)
 
-.man.1:
-	$(MANGEN) $< >$@
-.man.5:
-	$(MANGEN) $< >$@
-.man.7:
-	$(MANGEN) $< >$@
-.man.8:
-	$(MANGEN) $< >$@
+if BUILD_POD_DOC
+MANGEN = $(POD2MAN_V) filename='$*'; $(POD2MAN) $(POD2MAN_OPTS) \
+	  --name="$${filename%%.*}" --section="$${filename\#\#*.}" $< | \
+	  $(MANFIXUP) >$@
+endif
+
+.pod.1:
+	$(MANGEN)
+.pod.5:
+	$(MANGEN)
+.pod.7:
+	$(MANGEN)
+.pod.8:
+	$(MANGEN)
 
 install-data-local: install-data-local-@USE_PO4A@
 
@@ -229,7 +238,7 @@ install-data-local-yes:
 	for lang in $(LINGUAS); do \
 	  files=""; \
 	  for man in $(man_MANS); do \
-	    trans="$${man%%.[0-9]}.man"; \
+	    trans="$${man%%.[0-9]}.pod"; \
 	    if [ -f $(builddir)/$$lang/$$trans ]; then \
 	      files="$$files $(builddir)/$$lang/$$man"; \
 	    elif [ -f $(srcdir)/$$lang/$$trans ]; then \
@@ -246,7 +255,7 @@ uninstall-local-yes:
 	for lang in $(LINGUAS); do \
 	  files=""; \
 	  for man in $(man_MANS); do \
-	    trans="$${man%%.[0-9]}.man"; \
+	    trans="$${man%%.[0-9]}.pod"; \
 	    if [ -f $(builddir)/$$lang/$$trans ]; then \
 	      files="$$files $(builddir)/$$lang/$$man"; \
 	    elif [ -f $(srcdir)/$$lang/$$trans ]; then \
