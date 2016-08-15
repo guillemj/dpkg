@@ -183,7 +183,9 @@ sub parse_error {
 Parse a control file from the given filehandle. Exits in case of errors.
 $description is used to describe the filehandle, ideally it's a filename
 or a description of where the data comes from. It's used in error
-messages. Returns true if some fields have been parsed.
+messages. When called multiple times, the parsed fields are accumulated.
+
+Returns true if some fields have been parsed.
 
 =cut
 

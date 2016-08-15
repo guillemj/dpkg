@@ -61,7 +61,10 @@ sub new {
 
 =item $entry->parse($fh, $desc)
 
-Parse a control test entry from a filehandle.
+Parse a control test entry from a filehandle. When called multiple times,
+the parsed fields are accumulated.
+
+Returns true if parsing was a success.
 
 =cut
 

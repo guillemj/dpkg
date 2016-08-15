@@ -157,7 +157,10 @@ sub load_config {
 
 =item $conf->parse($fh)
 
-Parse options from a file handle. Return the number of options parsed.
+Parse options from a file handle. When called multiple times, the parsed
+options are accumulated.
+
+Return the number of options parsed.
 
 =cut
 

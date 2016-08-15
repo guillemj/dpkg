@@ -99,8 +99,8 @@ loads from the standard input.
 
 Parse a control file from the given filehandle. Exits in case of errors.
 $description is used to describe the filehandle, ideally it's a filename
-or a description of where the data comes from. It's used in error
-messages.
+or a description of where the data comes from. It is used in error messages.
+The data in the object is reset before parsing new control files.
 
 =cut
 

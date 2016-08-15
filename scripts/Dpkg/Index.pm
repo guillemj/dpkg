@@ -169,8 +169,10 @@ parsed. Handles compressed files transparently based on their extensions.
 
 =item $index->parse($fh, $desc)
 
-Reads the filehandle and creates all items parsed. Returns the number of
-items parsed.
+Reads the filehandle and creates all items parsed. When called multiple
+times, the parsed stanzas are accumulated.
+
+Returns the number of items parsed.
 
 =cut
 

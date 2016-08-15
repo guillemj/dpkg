@@ -120,8 +120,10 @@ my $ancient_delimiter_re = qr{
 
 =item $c->parse($fh, $description)
 
-Read the filehandle and parse a Debian changelog in it. Returns the number
-of changelog entries that have been parsed with success.
+Read the filehandle and parse a Debian changelog in it. The data in the
+object is reset before parsing new data.
+
+Returns the number of changelog entries that have been parsed with success.
 
 =cut
 
