@@ -64,6 +64,14 @@ build has been requested with \fB\-\-build\fP or equivalent options).
 .IP \fB6.\fP 3
 It runs the \fBchanges\fP hook and calls \fBdpkg\-genchanges\fP to
 generate a \fB.changes\fP file.
+The name of the \fB.changes\fP file will depend on the type of build and
+will be as specific as necessary but not more;
+for a build that includes \fBany\fP the name will be
+\fIsource-name\fP\fB_\fP\fIsource-version\fP\fB_\fP\fIarch\fP\fB.changes\fP,
+or otherwise for a build that includes \fBall\fP the name will be
+\fIsource-name\fP\fB_\fP\fIsource-version\fP\fB_\fP\fBall.changes\fP,
+or otherwise for a build that includes \fBsource\fP the name will be
+\fIsource-name\fP\fB_\fP\fIsource-version\fP\fB_\fP\fBsource.changes\fP.
 Many \fBdpkg\-buildpackage\fP options are forwarded to
 \fBdpkg\-genchanges\fP.
 .IP \fB7.\fP 3
