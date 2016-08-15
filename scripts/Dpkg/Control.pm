@@ -83,7 +83,7 @@ in a Debian source package.
 
 =item CTRL_REPO_RELEASE
 
-Corresponds to a Release file in a repository.
+Corresponds to a F<Release> file in a repository.
 
 =item CTRL_INDEX_SRC
 

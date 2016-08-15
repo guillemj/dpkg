@@ -99,13 +99,13 @@ list of vendor-specific keyrings.
 
 The hook is called when dpkg-checkbuilddeps is initializing the source
 package build dependencies (since dpkg 1.18.2). It takes no parameters,
-but returns a (possibly empty) list of vendor-specific Build-Depends.
+but returns a (possibly empty) list of vendor-specific B<Build-Depends>.
 
 =item builtin-build-conflicts ()
 
 The hook is called when dpkg-checkbuilddeps is initializing the source
 package build conflicts (since dpkg 1.18.2). It takes no parameters,
-but returns a (possibly empty) list of vendor-specific Build-Conflicts.
+but returns a (possibly empty) list of vendor-specific B<Build-Conflicts>.
 
 =item register-custom-fields ()
 
