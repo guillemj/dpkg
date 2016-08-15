@@ -51,9 +51,9 @@ their respective command description.
 .
 .SH COMMANDS
 .TP
-.BR \-b ", " \-\-build " \fIdirectory\fP [\fIarchive\fP|\fIdirectory\fP]"
+.BR \-b ", " \-\-build " \fIbinary-directory\fP [\fIarchive\fP|\fIdirectory\fP]"
 Creates a debian archive from the filesystem tree stored in
-.IR directory ". " directory
+.IR binary-directory ". " binary-directory
 must have a
 .B DEBIAN
 subdirectory, which contains the control information files such
@@ -80,20 +80,15 @@ If no
 is specified then
 .B dpkg\-deb
 will write the package into the file
-.IR directory \fB.deb\fR.
+.IR binary-directory \fB.deb\fR.
 
 If the archive to be created already exists it will be overwritten.
 
 If the second argument is a directory then
 .B dpkg\-deb
 will write to the file
-.IB package _ version _ arch .deb\fR,
-or
-.IB package _ version .deb
-if no
-.B Architecture
-field is present in the package control file. When a target directory
-is specified, rather than a file, the
+.IB directory / package _ version _ arch .deb.
+When a target directory is specified, rather than a file, the
 .B \-\-nocheck
 option may not be used (since
 .B dpkg\-deb
