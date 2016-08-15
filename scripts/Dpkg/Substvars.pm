@@ -195,10 +195,13 @@ Add new substitutions read from $file.
 Add new substitutions read from the filehandle. $desc is used to identify
 the filehandle in error messages.
 
+Returns the number of substitutions that have been parsed with success.
+
 =cut
 
 sub parse {
     my ($self, $fh, $varlistfile) = @_;
+    my $count = 0;
     local $_;
 
     binmode($fh);
@@ -210,7 +213,10 @@ sub parse {
 		  $varlistfile, $.);
 	}
 	$self->set($1, $2);
+        $count++;
     }
+
+    return $count
 }
 
 =item $s->set_version_substvars($sourceversion, $binaryversion)
@@ -398,6 +404,8 @@ sub output {
 =head2 Version 1.05 (dpkg 1.18.11)
 
 Obsolete substvar: Emit an error on Source-Version substvar usage.
+
+New return: $s->parse() now returns the number of parsed substvars.
 
 =head2 Version 1.04 (dpkg 1.18.0)
 
