@@ -15,31 +15,6 @@ create_database() {
 }
 
 
-# Move the info directory from /usr/info to /usr/share/info
-move_info_directory() {
-    if [ -d /usr/info ] && [ ! -L /usr/info ] \
-	&& [ -f /usr/info/dir ] && [ ! -L /usr/info/dir ]
-    then
-	echo "Moving /usr/info/dir to /usr/share/info/dir ..."
-	mv /usr/info/dir /usr/share/info/dir
-	if [ -f /usr/info/dir.old ]; then
-	    mv /usr/info/dir.old /usr/share/info/dir.old
-	fi
-    fi
-}
-
-
-# Remove the /usr/info symlinks we used to generate
-remove_info_symlink() {
-    if [ -L /usr/info ]; then
-	echo "Removing /usr/info symlink ..."
-	rm /usr/info
-    elif [ -L /usr/info/dir ]; then
-	echo "Removing /usr/info/dir symlink ..."
-	rm /usr/info/dir
-    fi
-}
-
 # Create log file and set default permissions if possible
 create_logfile() {
     logfile=/var/log/dpkg.log
@@ -53,9 +28,6 @@ case "$1" in
     configure)
 	create_database
 	create_logfile
-
-	move_info_directory
-	remove_info_symlink
 	;;
 
     abort-upgrade|abort-deconfigure|abort-remove)
