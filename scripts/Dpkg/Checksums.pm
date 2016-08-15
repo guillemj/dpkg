@@ -155,9 +155,9 @@ sub reset {
 
 =item $ck->add_from_file($filename, %opts)
 
-Add checksums information for the file $filename. The file must exists
-for the call to succeed. If you don't want the given filename to appear
-when you later export the checksums you might want to set the "key"
+Add or verify checksums information for the file $filename. The file must
+exists for the call to succeed. If you don't want the given filename to
+appear when you later export the checksums you might want to set the "key"
 option with the public name that you want to use. Also if you don't want
 to generate all the checksums, you can pass an array reference of the
 wanted checksums in the "checksums" option.
