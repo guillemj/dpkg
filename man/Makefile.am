@@ -6,6 +6,7 @@ dist_man_MANS = \
 	deb-conffiles.5 \
 	deb-control.5 \
 	deb-src-control.5 \
+	deb-src-files.5 \
 	deb-version.5 \
 	deb-shlibs.5 \
 	deb-split.5 \

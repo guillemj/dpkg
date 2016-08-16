@@ -1,0 +1,54 @@
+.\" dpkg manual page - deb-src-files(5)
+.\"
+.\" Copyright © 2016 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH deb\-src\-files 5 "2016-08-16" "Debian Project" "dpkg utilities"
+.SH NAME
+deb\-src\-files \- Debian distribute files format
+.
+.SH SYNOPSIS
+debian/files
+.
+.SH DESCRIPTION
+This file contains the list of artifacts that are to be distributed via
+the \fB.changes\fP control file.
+.PP
+The \fIdebian/files\fP file has a simple whitespace-delimited format.
+.PP
+.in +5
+.I filename
+.I section
+.I priority
+.in -5
+.PP
+.I filename
+is the name of the artifact to distribute.
+.PP
+.I section
+and
+.I priority
+correspond to the respective control fields available in the .deb.
+The allowed values are specific to each distribution archive.
+.
+.SH NOTES
+This file is not intended to be modified directly, please use one of
+\fBdpkg\-gencontrol\fP or \fBdpkg\-distaddfile\fP to add entries to it.
+.
+.SH SEE ALSO
+.ad l
+.nh
+.BR dpkg\-genchanges (1),
+.BR dpkg\-distaddfile (1).
