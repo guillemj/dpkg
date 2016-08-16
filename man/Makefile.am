@@ -11,6 +11,10 @@ dist_man_MANS = \
 	deb-split.5 \
 	deb-substvars.5 \
 	deb-symbols.5 \
+	deb-postinst.5 \
+	deb-postrm.5 \
+	deb-preinst.5 \
+	deb-prerm.5 \
 	deb-triggers.5 \
 	deb-old.5 \
 	deb-origin.5 \
