@@ -735,7 +735,16 @@ if (build_has_any(BUILD_BINARY)) {
 
 $buildinfo_file //= "../$pva.buildinfo";
 
-push @buildinfo_opts, "--build=$build_types" if build_has_none(BUILD_DEFAULT);
+if (build_has_none(BUILD_DEFAULT) || $source_from_dsc) {
+    my $buildinfo_buildtypes = $build_types;
+
+    # We can now let dpkg-genbuildinfo know that we can include the .dsc
+    # in the .buildinfo file as we handled it ourselves, and what we are
+    # building matches either the source we built or extracted it from.
+    $buildinfo_buildtypes .= ',source' if $source_from_dsc;
+
+    push @buildinfo_opts, "--build=$buildinfo_buildtypes";
+}
 push @buildinfo_opts, "--admindir=$admindir" if $admindir;
 push @buildinfo_opts, "-O$buildinfo_file" if $buildinfo_file;
 
