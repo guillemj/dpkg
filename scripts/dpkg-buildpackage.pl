@@ -477,6 +477,8 @@ if (build_has_any(BUILD_ARCH_DEP)) {
 my $pv = "${pkg}_$sversion";
 my $pva = "${pkg}_${sversion}_$arch";
 
+signkey_validate();
+
 if (not $signcommand) {
     $signsource = 0;
     $signbuildinfo = 0;
@@ -808,6 +810,21 @@ sub update_files_field {
     my $file_regex = qr/$md5sum_regex\s+\d+\s+(\S+\s+\S+\s+\Q$filename\E)/;
 
     $ctrl->{'Files'} =~ s/^$file_regex$/$md5sum $size $1/m;
+}
+
+sub signkey_validate {
+    # Make sure this is an hex keyid.
+    return unless $signkey =~ m/^(?:0x)?([[:xdigit:]]+)$/;
+
+    my $keyid = $1;
+
+    if (length $keyid <= 8) {
+        error(g_('short OpenPGP key IDs are broken; ' .
+                 'please use key fingerprints instead'));
+    } elsif (length $keyid <= 16) {
+        warning(g_('long OpenPGP key IDs are strongly discouraged; ' .
+                   'please use key fingerprints instead'));
+    }
 }
 
 sub signfile {
