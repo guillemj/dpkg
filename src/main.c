@@ -439,8 +439,8 @@ set_invoke_hook(const struct cmdinfo *cip, const char *value)
   struct invoke_list *hook_list = cip->arg_ptr;
   struct invoke_hook *hook_new;
 
-  hook_new = nfmalloc(sizeof(struct invoke_hook));
-  hook_new->command = nfstrsave(value);
+  hook_new = m_malloc(sizeof(struct invoke_hook));
+  hook_new->command = m_strdup(value);
   hook_new->next = NULL;
 
   /* Add the new hook at the tail of the list to preserve the order. */
@@ -467,6 +467,18 @@ run_invoke_hooks(const char *action, struct invoke_list *hook_list)
   }
 
   unsetenv("DPKG_HOOK_ACTION");
+}
+
+static void
+free_invoke_hooks(struct invoke_list *hook_list)
+{
+  struct invoke_hook *hook, *hook_next;
+
+  for (hook = hook_list->head; hook; hook = hook_next) {
+    hook_next = hook->next;
+    free(hook->command);
+    free(hook);
+  }
 }
 
 static int
@@ -901,6 +913,9 @@ int main(int argc, const char *const *argv) {
 
   if (is_invoke_action(cipaction->arg_int))
     run_invoke_hooks(cipaction->olong, &post_invoke_hooks);
+
+  free_invoke_hooks(&pre_invoke_hooks);
+  free_invoke_hooks(&post_invoke_hooks);
 
   dpkg_program_done();
 

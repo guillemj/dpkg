@@ -149,7 +149,7 @@ extern struct pkg_list *ignoredependss;
 
 struct invoke_hook {
 	struct invoke_hook *next;
-	const char *command;
+	char *command;
 };
 
 struct invoke_list {
