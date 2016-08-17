@@ -341,6 +341,8 @@ void modstatdb_shutdown(void) {
     break;
   }
 
+  pkg_db_reset();
+
   modstatdb_done();
 }
 

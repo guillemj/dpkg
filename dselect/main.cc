@@ -387,7 +387,7 @@ urqresult urq_list(void) {
   delete l;
 
   modstatdb_shutdown();
-  pkg_db_reset();
+
   return urqr_normal;
 }
 
