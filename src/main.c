@@ -868,7 +868,11 @@ commandfd(const char *const *argv)
     dpkg_options_parse((const char *const **)&endargs, cmdinfos, printforhelp);
     if (!cipaction) badusage(_("need an action option"));
 
+    filesdbinit();
+
     ret |= cipaction->action(endargs);
+
+    files_db_reset();
 
     pop_error_context(ehflag_normaltidy);
   }
