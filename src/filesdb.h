@@ -152,6 +152,7 @@ struct pkginfo *filepackages_iter_next(struct filepackages_iterator *iter);
 void filepackages_iter_free(struct filepackages_iterator *iter);
 
 void filesdbinit(void);
+void files_db_reset(void);
 
 struct fileiterator;
 struct fileiterator *files_db_iter_new(void);

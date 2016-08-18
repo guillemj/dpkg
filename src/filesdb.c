@@ -581,6 +581,15 @@ void filesdbinit(void) {
     }
 }
 
+void
+files_db_reset(void)
+{
+  int i;
+
+  for (i = 0; i < BINS; i++)
+    bins[i] = NULL;
+}
+
 struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   struct filenamenode **pointerp, *newnode;
   const char *orig_name = name;
