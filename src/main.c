@@ -777,7 +777,7 @@ commandfd(const char *const *argv)
 {
   struct varbuf linevb = VARBUF_INIT;
   const char * pipein;
-  const char **newargs = NULL;
+  const char **newargs = NULL, **endargs;
   char *ptr, *endptr;
   FILE *in;
   long infd;
@@ -862,12 +862,13 @@ commandfd(const char *const *argv)
     for(i=1;i<argc;i++)
       if (newargs[i])
         newargs[i] = m_strdup(newargs[i]);
+    endargs = newargs;
 
     setaction(NULL, NULL);
-    dpkg_options_parse((const char *const **)&newargs, cmdinfos, printforhelp);
+    dpkg_options_parse((const char *const **)&endargs, cmdinfos, printforhelp);
     if (!cipaction) badusage(_("need an action option"));
 
-    ret |= cipaction->action(newargs);
+    ret |= cipaction->action(endargs);
 
     pop_error_context(ehflag_normaltidy);
   }
