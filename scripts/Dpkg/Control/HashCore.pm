@@ -402,9 +402,7 @@ sub apply_substvars {
     my ($self, $substvars, %opts) = @_;
 
     # Add substvars to refer to other fields
-    foreach my $f (keys %$self) {
-        $substvars->set_as_auto("F:$f", $self->{$f});
-    }
+    $substvars->set_field_substvars($self, 'F');
 
     foreach my $f (keys %$self) {
         my $v = $substvars->substvars($self->{$f}, %opts);

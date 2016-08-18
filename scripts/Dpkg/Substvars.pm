@@ -270,6 +270,23 @@ sub set_arch_substvars {
     $self->set('Arch', get_host_arch(), $attr);
 }
 
+=item $s->set_field_substvars($ctrl, $prefix)
+
+Defines field variables from a Dpkg::Control object, with each variable
+having the form "${$prefix:$field}".
+
+They will never be warned about when unused.
+
+=cut
+
+sub set_field_substvars {
+    my ($self, $ctrl, $prefix) = @_;
+
+    foreach my $field (keys %{$ctrl}) {
+        $self->set_as_auto("$prefix:$field", $ctrl->{$field});
+    }
+}
+
 =item $newstring = $s->substvars($string)
 
 Substitutes variables in $string and return the result in $newstring.
@@ -406,6 +423,8 @@ sub output {
 Obsolete substvar: Emit an error on Source-Version substvar usage.
 
 New return: $s->parse() now returns the number of parsed substvars.
+
+New method: $s->set_field_substvars().
 
 =head2 Version 1.04 (dpkg 1.18.0)
 
