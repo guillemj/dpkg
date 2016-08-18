@@ -315,7 +315,7 @@ option_short(int c)
 void
 setaction(const struct cmdinfo *cip, const char *value)
 {
-  if (cipaction)
+  if (cipaction && cip)
     badusage(_("conflicting actions -%c (--%s) and -%c (--%s)"),
              option_short(cip->oshort), cip->olong,
              option_short(cipaction->oshort), cipaction->olong);
