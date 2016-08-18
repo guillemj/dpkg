@@ -200,6 +200,7 @@ foreach (keys %{$src_fields}) {
         field_transfer_single($src_fields, $fields);
     }
 }
+$substvars->set_field_substvars($src_fields, 'S');
 
 # Scan binary package
 foreach (keys %{$pkg}) {
