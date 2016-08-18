@@ -103,6 +103,8 @@ getselections(const char *const *argv)
 
   pkg_array_destroy(&array);
 
+  modstatdb_shutdown();
+
   return 0;
 }
 
