@@ -231,10 +231,10 @@ foreach my $alg (keys %hash) {
     }
 }
 
-my ($binarydir, $override, $pathprefix) = @ARGV;
+my ($binarypath, $override, $pathprefix) = @ARGV;
 
-if (not -d $binarydir) {
-    error(g_('binary directory %s not found'), $binarydir);
+if (not -e $binarypath) {
+    error(g_('binary path %s not found'), $binarypath);
 }
 if (defined $override and not -e $override) {
     error(g_('override file %s not found'), $override);
@@ -253,7 +253,7 @@ my $scan_archives = sub {
     push @archives, $File::Find::name if m/$find_filter/;
 };
 
-find({ follow => 1, follow_skip => 2, wanted => $scan_archives}, $binarydir);
+find({ follow => 1, follow_skip => 2, wanted => $scan_archives}, $binarypath);
 foreach my $fn (@archives) {
     process_deb($pathprefix, $fn);
 }
