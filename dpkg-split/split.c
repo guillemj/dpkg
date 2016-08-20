@@ -141,7 +141,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	lseek(fd_src, 0, SEEK_SET);
 
 	pkg  = deb_parse_control(file_src);
-	version = versiondescribe(&pkg->available.version, vdew_always);
+	version = versiondescribe(&pkg->available.version, vdew_nonambig);
 
 	partsize = maxpartsize - HEADERALLOWANCE;
 	last_partsize = st.st_size % partsize;
