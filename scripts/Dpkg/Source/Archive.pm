@@ -50,7 +50,7 @@ sub create {
     my $mtime = $opts{source_date} // $ENV{SOURCE_DATE_EPOCH} // time;
     # Call tar creation process
     $spawn_opts{delete_env} = [ 'TAR_OPTIONS' ];
-    $spawn_opts{exec} = [ 'tar', '-cf', '-', '--format=gnu',
+    $spawn_opts{exec} = [ 'tar', '-cf', '-', '--format=gnu', '--sort=name',
                           '--mtime', "\@$mtime", '--clamp-mtime', '--null',
                           '--numeric-owner', '--owner=0', '--group=0',
                           @{$opts{options}}, '-T', '-' ];
