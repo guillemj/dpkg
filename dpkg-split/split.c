@@ -26,6 +26,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
+#include <errno.h>
 #include <limits.h>
 #include <fcntl.h>
 #include <libgen.h>
@@ -89,6 +90,20 @@ deb_parse_control(const char *filename)
 	return pkg;
 }
 
+static time_t
+parse_timestamp(const char *value)
+{
+	time_t timestamp;
+	char *end;
+
+	errno = 0;
+	timestamp = strtol(value, &end, 10);
+	if (value == end || *end || errno != 0)
+		ohshite(_("unable to parse timestamp '%.255s'"), value);
+
+	return timestamp;
+}
+
 /* Cleanup filename for use in crippled msdos systems. */
 static char *
 clean_msdos_filename(char *filename)
@@ -117,6 +132,8 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	struct dpkg_error err;
 	int fd_src;
 	struct stat st;
+	time_t timestamp;
+	const char *timestamp_str;
 	const char *version;
 	char hash[MD5HASHLEN + 1];
 	int nparts, curpart;
@@ -142,6 +159,12 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 
 	pkg  = deb_parse_control(file_src);
 	version = versiondescribe(&pkg->available.version, vdew_nonambig);
+
+	timestamp_str = getenv("SOURCE_DATE_EPOCH");
+	if (timestamp_str)
+		timestamp = parse_timestamp(timestamp_str);
+	else
+		timestamp = time(NULL);
 
 	partsize = maxpartsize - HEADERALLOWANCE;
 	last_partsize = st.st_size % partsize;
@@ -197,6 +220,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 
 		/* Split the data. */
 		ar = dpkg_ar_create(file_dst.buf, 0644);
+		dpkg_ar_set_mtime(ar, timestamp);
 
 		/* Write the ar header. */
 		dpkg_ar_put_magic(ar);
