@@ -41,8 +41,7 @@ test_trig_name_is_illegal(void)
 	test_pass(trig_name_is_illegal("/file/trigger") == NULL);
 }
 
-void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(9);
 

@@ -97,8 +97,7 @@ test_casing(void)
 	test_pass(c_tolower(-1) == -1);
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(2063);
 

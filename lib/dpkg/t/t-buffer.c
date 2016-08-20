@@ -71,8 +71,7 @@ test_fdio_hash(void)
 	test_pass(unlink(test_file) == 0);
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(10);
 

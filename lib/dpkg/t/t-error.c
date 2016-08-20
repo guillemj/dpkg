@@ -72,8 +72,7 @@ test_dpkg_error_destroy(void)
 	test_pass(err.str == NULL);
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(19);
 

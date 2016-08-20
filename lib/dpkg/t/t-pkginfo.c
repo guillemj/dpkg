@@ -141,8 +141,7 @@ test_pkginfo_instance_tracking(void)
 	test_pass(pkgset_installed_instances(&set) == 0);
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(28);
 

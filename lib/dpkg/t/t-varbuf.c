@@ -348,8 +348,7 @@ test_varbuf_detach(void)
 	free(str);
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(120);
 

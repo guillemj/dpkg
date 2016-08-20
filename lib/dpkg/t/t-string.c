@@ -195,8 +195,7 @@ test_str_strip_quotes(void)
 	test_str(str, ==, "completely quoted text");
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(50);
 

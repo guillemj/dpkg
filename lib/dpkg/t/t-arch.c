@@ -209,8 +209,7 @@ test_dpkg_arch_describe(void)
 	test_str(dpkg_arch_describe(arch), ==, ARCHITECTURE);
 }
 
-void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(60);
 

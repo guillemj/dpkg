@@ -49,8 +49,7 @@ test_db_dir(void)
 	free(dir);
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(5);
 

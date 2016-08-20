@@ -62,8 +62,7 @@ test_deb_version_parse(void)
 	/* FIXME: Complete. */
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(21);
 

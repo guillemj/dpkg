@@ -24,8 +24,7 @@
 #include <dpkg/test.h>
 #include <dpkg/macros.h>
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(12);
 

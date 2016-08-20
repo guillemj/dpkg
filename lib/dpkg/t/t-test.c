@@ -23,8 +23,7 @@
 
 #include <dpkg/test.h>
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(20);
 

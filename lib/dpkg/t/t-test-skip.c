@@ -23,8 +23,7 @@
 
 #include <dpkg/test.h>
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_skip_all("ignore all tests");
 

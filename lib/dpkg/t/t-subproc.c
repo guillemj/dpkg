@@ -84,8 +84,7 @@ test_subproc_fork(void)
 	test_pass(ret == -1);
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	int fd;
 

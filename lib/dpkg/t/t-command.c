@@ -243,8 +243,7 @@ test_command_pager(void)
 	test_str(pager, ==, CAT);
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(52);
 

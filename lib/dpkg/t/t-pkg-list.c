@@ -81,8 +81,7 @@ test_pkg_list_prepend(void)
 	pkg_list_free(head);
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(14);
 

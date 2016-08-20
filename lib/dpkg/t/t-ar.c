@@ -50,8 +50,7 @@ test_ar_member_is_illegal(void)
 	test_fail(dpkg_ar_member_is_illegal(&arh));
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(4);
 

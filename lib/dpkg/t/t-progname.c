@@ -45,8 +45,7 @@ test_progname(void)
 	test_str(dpkg_get_progname(), ==, "newprogname");
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(3);
 

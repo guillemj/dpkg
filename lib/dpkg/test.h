@@ -25,8 +25,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#ifndef TEST_MAIN_PROVIDED
+#ifndef TEST_MAIN_CTOR
 #include <dpkg/ehandle.h>
+#define TEST_MAIN_CTOR push_error_context()
+#define TEST_MAIN_DTOR pop_error_context(ehflag_normaltidy)
 #endif
 
 /**
@@ -121,22 +123,19 @@ static const char *test_skip_reason;
 
 /** @} */
 
-#ifndef TEST_MAIN_PROVIDED
-static void test(void);
-
-int
-main(int argc, char **argv)
-{
-	setvbuf(stdout, NULL, _IOLBF, 0);
-
-	push_error_context();
-
-	test();
-
-	pop_error_context(ehflag_normaltidy);
-
-	return 0;
-}
-#endif
+#define TEST_ENTRY(name) \
+static void name(void); \
+int \
+main(int argc, char **argv) \
+{ \
+	setvbuf(stdout, NULL, _IOLBF, 0); \
+ \
+	TEST_MAIN_CTOR; \
+	name(); \
+	TEST_MAIN_DTOR; \
+	return 0; \
+} \
+static void \
+name(void)
 
 #endif

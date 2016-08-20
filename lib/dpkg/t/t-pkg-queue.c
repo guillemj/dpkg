@@ -107,8 +107,7 @@ test_pkg_queue_push_pop(void)
 	pkg_queue_destroy(&q);
 }
 
-static void
-test(void)
+TEST_ENTRY(test)
 {
 	test_plan(38);
 
