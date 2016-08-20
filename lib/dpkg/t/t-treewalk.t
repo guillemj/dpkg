@@ -30,7 +30,7 @@ use Dpkg::IPC;
 
 my $srcdir = $ENV{srcdir} || '.';
 my $builddir = $ENV{builddir} || '.';
-my $tmpdir = 't.tmp/t-tree';
+my $tmpdir = 't.tmp/t-treewalk';
 
 # Set a known umask.
 umask 0022;
@@ -149,7 +149,7 @@ sub test_treewalker {
 
         $ENV{TREEWALK_SKIP} = $type eq 'skip' ? "$dirtree/cccc" : undef;
 
-        spawn(exec => [ './t-treewalk', $dirtree ],
+        spawn(exec => [ './c-treewalk', $dirtree ],
               nocheck => 1, to_string => \$stdout, to_error => \$stderr);
         ok($? == 0, "tree walker $type should succeed");
         is($stderr, undef, "tree walker $type stderr is empty");

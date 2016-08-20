@@ -31,7 +31,7 @@ use version;
 
 my $srcdir = $ENV{srcdir} || '.';
 my $builddir = $ENV{builddir} || '.';
-my $tmpdir = 't.tmp/t-tar';
+my $tmpdir = 't.tmp/t-tarextract';
 
 # We require GNU tar >= 1.27 for --owner=NAME:ID and --group=NAME:ID.
 my $tar_version = qx(tar --version 2>/dev/null);
@@ -152,7 +152,7 @@ TAR
         $expected =~ s/\n^.*dddd.*$//mg if $type eq 'v7';
         $expected =~ s/\n^.*symlink-long.*$//mg if $type eq 'ustar';
 
-        spawn(exec => [ './t-tarextract', "$dirtree.tar" ],
+        spawn(exec => [ './c-tarextract', "$dirtree.tar" ],
               nocheck => 1, to_string => \$stdout, to_error => \$stderr);
         ok($? == 0, "tar extractor $type should succeed");
         is($stderr, undef, "tar extractor $type stderr is empty");

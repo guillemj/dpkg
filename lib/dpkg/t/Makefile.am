@@ -40,16 +40,16 @@ test_programs = \
 	$(nil)
 
 test_scripts = \
-	t-tar.t \
-	t-tree.t \
+	t-tarextract.t \
+	t-treewalk.t \
 	t-trigdeferred.t \
 	$(nil)
 
 check_PROGRAMS = \
 	$(test_programs) \
+	c-tarextract \
+	c-treewalk \
 	c-trigdeferred \
-	t-tarextract \
-	t-treewalk \
 	$(nil)
 
 test_tmpdir = t.tmp
