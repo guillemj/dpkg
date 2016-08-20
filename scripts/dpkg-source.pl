@@ -236,6 +236,9 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     my $changelog = changelog_parse(%ch_options);
     my $control = Dpkg::Control::Info->new($controlfile);
 
+    # <https://reproducible-builds.org/specs/source-date-epoch/>
+    $ENV{SOURCE_DATE_EPOCH} ||= $changelog->{timestamp};
+
     my $srcpkg = Dpkg::Source::Package->new(options => \%options);
     my $fields = $srcpkg->{fields};
 
