@@ -1929,16 +1929,16 @@ do_procinit(void)
 
 	rc = sysctl(mib, 3, NULL, &len, NULL, 0);
 	if (rc != 0 && errno != ESRCH)
-		return false;
+		return STATUS_UNKNOWN;
 	if (len == 0)
-		return false;
+		return STATUS_UNKNOWN;
 
 	kp = xmalloc(len);
 	rc = sysctl(mib, 3, kp, &len, NULL, 0);
 	if (rc != 0 && errno != ESRCH)
-		return false;
+		return STATUS_UNKNOWN;
 	if (len == 0)
-		return false;
+		return STATUS_UNKNOWN;
 	nentries = len / sizeof(*kp);
 
 	for (i = 0; i < nentries; i++) {
