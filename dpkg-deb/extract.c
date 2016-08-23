@@ -242,7 +242,7 @@ extracthalf(const char *debar, const char *dir,
     r = read_line(ar->fd, ctrllenbuf, 1, sizeof(ctrllenbuf) - 1);
     if (r < 0)
       read_fail(r, debar, _("archive control member size"));
-    if (sscanf(ctrllenbuf, "%jd%c%d", &ctrllennum, &nlc, &dummy) != 2 ||
+    if (sscanf(ctrllenbuf, "%jd%c%d", (intmax_t *)&ctrllennum, &nlc, &dummy) != 2 ||
         nlc != '\n')
       ohshit(_("archive has malformatted control member size '%s'"), ctrllenbuf);
 

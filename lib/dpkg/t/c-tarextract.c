@@ -23,6 +23,7 @@
 
 #include <sys/types.h>
 #include <fcntl.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -56,15 +57,15 @@ tar_object(void *ctx, struct tar_entry *te)
 	switch (te->type) {
 	case TAR_FILETYPE_FILE0:
 	case TAR_FILETYPE_FILE:
-		printf(" type=file size=%jd", te->size);
+		printf(" type=file size=%jd", (intmax_t)te->size);
 		break;
 	case TAR_FILETYPE_HARDLINK:
 		printf(" type=hardlink linkto=%s size=%jd",
-		       te->linkname, te->size);
+		       te->linkname, (intmax_t)te->size);
 		break;
 	case TAR_FILETYPE_SYMLINK:
 		printf(" type=symlink linkto=%s size=%jd",
-		       te->linkname, te->size);
+		       te->linkname, (intmax_t)te->size);
 		break;
 	case TAR_FILETYPE_DIR:
 		printf(" type=dir");

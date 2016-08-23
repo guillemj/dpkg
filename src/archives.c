@@ -548,7 +548,7 @@ tarobject_matches(struct tarcontext *tc,
       ohshite(_("unable to read link '%.255s'"), fn_old);
     else if (linksize != stab->st_size)
       ohshit(_("symbolic link '%.250s' size has changed from %jd to %zd"),
-             fn_old, stab->st_size, linksize);
+             fn_old, (intmax_t)stab->st_size, linksize);
     linkname[linksize] = '\0';
     if (strcmp(linkname, te->linkname) == 0) {
       free(linkname);
@@ -1035,7 +1035,7 @@ tarobject(void *ctx, struct tar_entry *ti)
         ohshite(_("unable to read link '%.255s'"), ti->name);
       else if (r != stab.st_size)
         ohshit(_("symbolic link '%.250s' size has changed from %jd to %zd"),
-               fnamevb.buf, stab.st_size, r);
+               fnamevb.buf, (intmax_t)stab.st_size, r);
       varbuf_trunc(&symlinkfn, r);
       varbuf_end_str(&symlinkfn);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))

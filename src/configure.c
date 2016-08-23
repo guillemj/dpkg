@@ -38,6 +38,7 @@
 #include <dirent.h>
 #include <termios.h>
 #include <unistd.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -759,7 +760,7 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 			} else if (r != stab.st_size) {
 				warning(_("symbolic link '%.250s' size has "
 				          "changed from %jd to %zd"),
-				        result->buf, stab.st_size, r);
+				        result->buf, (intmax_t)stab.st_size, r);
 				return -1;
 			}
 			varbuf_trunc(&target, r);
