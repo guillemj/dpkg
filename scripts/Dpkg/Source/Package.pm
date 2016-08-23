@@ -280,14 +280,16 @@ sub upgrade_object_type {
     my $format = $self->{fields}{'Format'};
 
     if ($format =~ /^([\d\.]+)(?:\s+\((.*)\))?$/) {
-        my ($version, $variant, $major, $minor) = ($1, $2, $1, undef);
+        my ($version, $variant) = ($1, $2);
 
         if (defined $variant and $variant ne lc $variant) {
             error(g_("source package format '%s' is not supported: %s"),
                   $format, g_('format variant must be in lowercase'));
         }
 
-        $major =~ s/\.[\d\.]+$//;
+        my $major = $version =~ s/\.[\d\.]+$//r;
+        my $minor;
+
         my $module = "Dpkg::Source::Package::V$major";
         $module .= '::' . ucfirst $variant if defined $variant;
         eval qq{
