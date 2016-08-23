@@ -41,6 +41,8 @@
 #  define OSNetBSD
 #elif defined(__DragonFly__)
 #  define OSDragonFlyBSD
+#elif defined(__APPLE__) && defined(__MACH__)
+#  define OSDarwin
 #else
 #  error Unknown architecture - cannot build start-stop-daemon
 #endif
@@ -101,6 +103,10 @@
 #if defined(OSHurd)
 #include <hurd.h>
 #include <ps.h>
+#endif
+
+#if defined(OSDarwin)
+#include <libproc.h>
 #endif
 
 #ifdef HAVE_KVM_H
@@ -1385,6 +1391,21 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 
 	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
 }
+#elif defined(OSDarwin)
+static bool
+pid_is_exec(pid_t pid, const struct stat *esb)
+{
+	struct stat sb;
+	char pathname[_POSIX_PATH_MAX];
+
+	if (proc_pidpath(pid, pathname, sizeof(pathname)) < 0)
+		return false;
+
+	if (stat(pathname, &sb) != 0)
+		return false;
+
+	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
+}
 #elif defined(OShpux)
 static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
@@ -1507,6 +1528,17 @@ pid_is_child(pid_t pid, pid_t ppid)
 
 	return pi->ppid == ppid;
 }
+#elif defined(OSDarwin)
+static bool
+pid_is_child(pid_t pid, pid_t ppid)
+{
+	struct proc_bsdinfo info;
+
+	if (proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &info, sizeof(info)) < 0)
+		return false;
+
+	return (pid_t)info.pbi_ppid == ppid;
+}
 #elif defined(OShpux)
 static bool
 pid_is_child(pid_t pid, pid_t ppid)
@@ -1593,6 +1625,17 @@ pid_is_user(pid_t pid, uid_t uid)
 
 	ps = get_proc_stat(pid, PSTAT_OWNER_UID);
 	return ps && (uid_t)proc_stat_owner_uid(ps) == uid;
+}
+#elif defined(OSDarwin)
+static bool
+pid_is_user(pid_t pid, uid_t uid)
+{
+	struct proc_bsdinfo info;
+
+	if (proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &info, sizeof(info)) < 0)
+		return false;
+
+	return info.pbi_ruid == uid;
 }
 #elif defined(OShpux)
 static bool
@@ -1715,6 +1758,17 @@ pid_is_cmd(pid_t pid, const char *name)
 	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
 		return false;
 	return (strcmp(pst.pst_ucomm, name) == 0);
+}
+#elif defined(OSDarwin)
+static bool
+pid_is_cmd(pid_t pid, const char *name)
+{
+	char pathname[_POSIX_PATH_MAX];
+
+	if (proc_pidpath(pid, pathname, sizeof(pathname)) < 0)
+		return false;
+
+	return strcmp(pathname, name) == 0;
 }
 #elif defined(OSFreeBSD)
 static bool
@@ -1890,6 +1944,39 @@ do_procinit(void)
 		return STATUS_OK;
 	else
 		return STATUS_DEAD;
+}
+#elif defined(OSDarwin)
+static enum status_code
+do_procinit(void)
+{
+	pid_t *pid_buf;
+	int i, npids, pid_bufsize;
+	enum status_code prog_status = STATUS_DEAD;
+
+	npids = proc_listallpids(NULL, 0);
+	if (npids == 0)
+		return STATUS_UNKNOWN;
+
+	/* Try to avoid sudden changes in number of PIDs. */
+	npids += 4096;
+	pid_bufsize = sizeof(pid_t) * npids;
+	pid_buf = xmalloc(pid_bufsize);
+
+	npids = proc_listallpids(pid_buf, pid_bufsize);
+	if (npids == 0)
+		return STATUS_UNKNOWN;
+
+	for (i = 0; i < npids; i++) {
+		enum status_code pid_status;
+
+		pid_status = pid_check(pid_buf[i]);
+		if (pid_status < prog_status)
+			prog_status = pid_status;
+	}
+
+	free(pid_buf);
+
+	return prog_status;
 }
 #elif defined(OShpux)
 static enum status_code
