@@ -36,6 +36,8 @@ dpkg (1.18.11) UNRELEASED; urgency=medium
     - Cast strlen() return value to ssize_t to match write() return type.
     - Use underscore-prefixed system preprocessor symbols instead of namespace
       polluting ones (such as “linux”, “OPENBSD” or “hpux”).
+    - Handle _POSIX_PRIORITY_SCHEDULING being defined to -1 or 0 in
+      start-stop-daemon. This affects Mac OS X.
   * Perl modules:
     - Obsolete Source-Version substvar in Dpkg::Substvars by emitting errors.
     - Rework keyring hooks in Dpkg::Vendor. Deprecate the keyrings hook, and

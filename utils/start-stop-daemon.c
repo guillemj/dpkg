@@ -112,7 +112,7 @@
 #endif
 #endif
 
-#ifdef _POSIX_PRIORITY_SCHEDULING
+#if defined(_POSIX_PRIORITY_SCHEDULING) && _POSIX_PRIORITY_SCHEDULING > 0
 #include <sched.h>
 #else
 #define SCHED_OTHER -1
@@ -731,7 +731,7 @@ parse_umask(const char *string, int *value_r)
 static void
 validate_proc_schedule(void)
 {
-#ifdef _POSIX_PRIORITY_SCHEDULING
+#if defined(_POSIX_PRIORITY_SCHEDULING) && _POSIX_PRIORITY_SCHEDULING > 0
 	int prio_min, prio_max;
 
 	prio_min = sched_get_priority_min(proc_sched->policy);
@@ -814,7 +814,7 @@ parse_io_schedule(const char *string)
 static void
 set_proc_schedule(struct res_schedule *sched)
 {
-#ifdef _POSIX_PRIORITY_SCHEDULING
+#if defined(_POSIX_PRIORITY_SCHEDULING) && _POSIX_PRIORITY_SCHEDULING > 0
 	struct sched_param param;
 
 	param.sched_priority = sched->priority;
