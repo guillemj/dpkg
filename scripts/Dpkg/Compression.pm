@@ -35,6 +35,7 @@ our @EXPORT = qw(
 );
 
 use Exporter qw(import);
+use Config;
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -55,7 +56,7 @@ interact with the set of supported compression methods.
 my $COMP = {
     gzip => {
 	file_ext => 'gz',
-	comp_prog => [ 'gzip', '--no-name', '--rsyncable' ],
+	comp_prog => [ 'gzip', '--no-name' ],
 	decomp_prog => [ 'gunzip' ],
 	default_level => 9,
     },
@@ -78,6 +79,24 @@ my $COMP = {
 	default_level => 6,
     },
 };
+
+#
+# XXX: The gzip package in Debian at some point acquired a Debian-specific
+# --rsyncable option via a vendor patch. Which is not present in most of the
+# major distributions, dpkg downstream systems, nor gzip upstream, who have
+# stated they will most probably not accept it because people should be using
+# pigz instead.
+#
+# This option should have never been accepted in dpkg, ever. But removing it
+# now would probably cause demands for tarring and feathering. In addition
+# we cannot use the Dpkg::Vendor logic because that would cause circular
+# module dependencies. The whole affair is pretty disgusting really.
+#
+# Check the perl Config to discern Debian and hopefully derivatives too.
+#
+if ($Config{cf_by} eq 'Debian Project') {
+    push @{$COMP->{gzip}->{comp_prog}}, '--rsyncable';
+}
 
 # XXX: Backwards compatibility, stop exporting on VERSION 2.00.
 ## no critic (Variables::ProhibitPackageVars)
