@@ -1581,9 +1581,7 @@ alternative_select_choice(struct alternative *a)
 			return xstrdup(current);
 		errno = 0;
 		idx = strtol(selection, &ret, 10);
-		if (idx < 0 || errno != 0)
-			continue;
-		if (*ret == '\0') {
+		if (idx >= 0 && errno == 0 && *ret == '\0') {
 			/* Look up by index */
 			if (idx == 0) {
 				alternative_set_status(a, ALT_ST_AUTO);
