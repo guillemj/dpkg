@@ -45,6 +45,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wextra])
   DPKG_CHECK_COMPILER_FLAG([-Wno-unused-parameter])
   DPKG_CHECK_COMPILER_FLAG([-Wno-missing-field-initializers])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-tautological-constant-out-of-range-compare])
   DPKG_CHECK_COMPILER_FLAG([-Wmissing-declarations])
   DPKG_CHECK_COMPILER_FLAG([-Wmissing-format-attribute])
   DPKG_CHECK_COMPILER_FLAG([-Wformat -Wformat-security])
