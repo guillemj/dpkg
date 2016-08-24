@@ -1,20 +1,26 @@
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>.
-# Copyright © 2010, 2014 Guillem Jover <guillem@debian.org>
+# Copyright © 2010, 2014, 2016 Guillem Jover <guillem@debian.org>
 
-# DPKG_LINKER_OPTIMISATIONS
-# --------------------------
-# Add configure option to disable linker optimisations.
-AC_DEFUN([DPKG_LINKER_OPTIMISATIONS],
-[AC_ARG_ENABLE(linker-optimisations,
-	AS_HELP_STRING([--disable-linker-optimisations],
-		       [Disable linker optimisations]),
+# DPKG_LINKER_OPTIMIZATIONS
+# -------------------------
+# Add configure option to disable linker optimizations.
+AC_DEFUN([DPKG_LINKER_OPTIMIZATIONS],
+[
+  AC_ARG_ENABLE([linker-optimizations],
+    AS_HELP_STRING([--disable-linker-optimizations],
+                   [Disable (detected) linker optimizations]),
     [],
-    [enable_linker_optimisations=yes])
+    [enable_linker_optimizations=yes]
+  )
 
-  AS_IF([test "x$enable_linker_optimisations" = "xno"], [
+  AS_IF([test "x$enable_linker_optimizations" = "xno"], [
     LDFLAGS=$(echo "$LDFLAGS" | sed -e "s/ -Wl,-O[[0-9]]*\b//g")
   ], [
+    save_LDFLAGS=$LDFLAGS
     LDFLAGS="$LDFLAGS -Wl,-O1"
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([], [])],
+                   [],
+                   [LDFLAGS="$save_LDFLAGS"])
   ])
 ])
 

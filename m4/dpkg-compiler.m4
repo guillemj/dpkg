@@ -1,5 +1,5 @@
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>
-# Copyright © 2006,2009-2011,2013-2015 Guillem Jover <guillem@debian.org>
+# Copyright © 2006, 2009-2011, 2013-2016 Guillem Jover <guillem@debian.org>
 
 # DPKG_CHECK_COMPILER_FLAG
 # ------------------------
@@ -84,7 +84,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
 AC_DEFUN([DPKG_COMPILER_WARNINGS], [
   AC_ARG_ENABLE([compiler-warnings],
     AS_HELP_STRING([--disable-compiler-warnings],
-                   [Disable additional compiler warnings]),
+                   [Disable (detected) additional compiler warnings]),
     [],
     [enable_compiler_warnings=yes]
   )
@@ -100,17 +100,18 @@ AC_DEFUN([DPKG_COMPILER_WARNINGS], [
   fi
 ])
 
-# DPKG_COMPILER_OPTIMISATIONS
-# --------------------------
-# Add configure option to disable optimisations.
-AC_DEFUN([DPKG_COMPILER_OPTIMISATIONS],
-[AC_ARG_ENABLE(compiler-optimisations,
-	AS_HELP_STRING([--disable-compiler-optimisations],
-		       [Disable compiler optimisations]),
-	[],
-	[enable_compiler_optimisations=yes])
+# DPKG_COMPILER_OPTIMIZATIONS
+# ---------------------------
+# Add configure option to disable optimizations.
+AC_DEFUN([DPKG_COMPILER_OPTIMIZATIONS], [
+  AC_ARG_ENABLE(compiler-optimizations,
+    AS_HELP_STRING([--disable-compiler-optimizations],
+                   [Disable (detected) compiler optimizations]),
+    [],
+    [enable_compiler_optimizations=yes]
+  )
 
-  AS_IF([test "x$enable_compiler_optimisations" = "xno"], [
+  AS_IF([test "x$enable_compiler_optimizations" = "xno"], [
     CFLAGS=$(echo "$CFLAGS" | sed -e "s/ -O[[1-9]]*\b/ -O0/g")
   ])
 ])
