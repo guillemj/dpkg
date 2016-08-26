@@ -27,7 +27,7 @@
 static void
 test_ar_normalize_name(void)
 {
-	struct ar_hdr arh;
+	struct dpkg_ar_hdr arh;
 
 	strncpy(arh.ar_name, "member-name/    ", sizeof(arh.ar_name));
 	dpkg_ar_normalize_name(&arh);
@@ -41,12 +41,12 @@ test_ar_normalize_name(void)
 static void
 test_ar_member_is_illegal(void)
 {
-	struct ar_hdr arh;
+	struct dpkg_ar_hdr arh;
 
 	memset(&arh, ' ', sizeof(arh));
 	test_pass(dpkg_ar_member_is_illegal(&arh));
 
-	memcpy(arh.ar_fmag, ARFMAG, sizeof(arh.ar_fmag));
+	memcpy(arh.ar_fmag, DPKG_AR_FMAG, sizeof(arh.ar_fmag));
 	test_fail(dpkg_ar_member_is_illegal(&arh));
 }
 

@@ -131,7 +131,7 @@ extracthalf(const char *debar, const char *dir,
     ctrllennum= 0;
     header_done = false;
     for (;;) {
-      struct ar_hdr arh;
+      struct dpkg_ar_hdr arh;
 
       r = fd_read(ar->fd, &arh, sizeof(arh));
       if (r != sizeof(arh))

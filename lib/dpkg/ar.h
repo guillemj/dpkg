@@ -37,6 +37,19 @@ DPKG_BEGIN_DECLS
  */
 
 #define DPKG_AR_MAGIC "!<arch>\n"
+#define DPKG_AR_FMAG  "`\n"
+
+/**
+ * An on-disk archive header.
+ */
+struct dpkg_ar_hdr {
+	char ar_name[16];	   /* Member file name, sometimes / terminated. */
+	char ar_date[12];	   /* File date, decimal seconds since Epoch.  */
+	char ar_uid[6], ar_gid[6]; /* User and group IDs, in ASCII decimal.  */
+	char ar_mode[8];	   /* File mode, in ASCII octal.  */
+	char ar_size[10];	   /* File size, in ASCII decimal.  */
+	char ar_fmag[2];
+};
 
 /**
  * An archive (Unix ar) file.
@@ -70,8 +83,8 @@ struct dpkg_ar *dpkg_ar_create(const char *filename, mode_t mode);
 void dpkg_ar_set_mtime(struct dpkg_ar *ar, time_t mtime);
 void dpkg_ar_close(struct dpkg_ar *ar);
 
-void dpkg_ar_normalize_name(struct ar_hdr *arh);
-bool dpkg_ar_member_is_illegal(struct ar_hdr *arh);
+void dpkg_ar_normalize_name(struct dpkg_ar_hdr *arh);
+bool dpkg_ar_member_is_illegal(struct dpkg_ar_hdr *arh);
 
 void dpkg_ar_put_magic(struct dpkg_ar *ar);
 void dpkg_ar_member_put_header(struct dpkg_ar *ar,
@@ -80,7 +93,7 @@ void dpkg_ar_member_put_file(struct dpkg_ar *ar, const char *name,
                              int fd, off_t size);
 void dpkg_ar_member_put_mem(struct dpkg_ar *ar, const char *name,
                             const void *data, size_t size);
-off_t dpkg_ar_member_get_size(struct dpkg_ar *ar, struct ar_hdr *arh);
+off_t dpkg_ar_member_get_size(struct dpkg_ar *ar, struct dpkg_ar_hdr *arh);
 
 /** @} */
 

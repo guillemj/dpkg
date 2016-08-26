@@ -53,6 +53,9 @@ dpkg (1.18.11) UNRELEASED; urgency=medium
       derivatives, by using perl's $Config{cf_by} variable to key on. The
       Debian-specific --rsyncable option should have never been accepted for
       use in dpkg to begin with.
+    - Use our own dpkg_ar_hdr struct instead of relying on the system
+      ar_hdr struct, as the ar format is not standardized and does vary
+      across systems, for example on AIX.
   * Perl modules:
     - Obsolete Source-Version substvar in Dpkg::Substvars by emitting errors.
     - Rework keyring hooks in Dpkg::Vendor. Deprecate the keyrings hook, and

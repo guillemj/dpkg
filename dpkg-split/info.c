@@ -93,7 +93,7 @@ read_info(struct dpkg_ar *ar, struct partinfo *ir)
   intmax_t templong;
   char magicbuf[sizeof(DPKG_AR_MAGIC) - 1], *rip, *partnums, *slash;
   const char *err;
-  struct ar_hdr arh;
+  struct dpkg_ar_hdr arh;
   ssize_t rc;
 
   rc = fd_read(ar->fd, magicbuf, sizeof(magicbuf));

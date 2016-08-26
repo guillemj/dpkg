@@ -110,7 +110,7 @@ dpkg_ar_member_init(struct dpkg_ar *ar, struct dpkg_ar_member *member,
 }
 
 void
-dpkg_ar_normalize_name(struct ar_hdr *arh)
+dpkg_ar_normalize_name(struct dpkg_ar_hdr *arh)
 {
 	char *name = arh->ar_name;
 	int i;
@@ -125,7 +125,7 @@ dpkg_ar_normalize_name(struct ar_hdr *arh)
 }
 
 off_t
-dpkg_ar_member_get_size(struct dpkg_ar *ar, struct ar_hdr *arh)
+dpkg_ar_member_get_size(struct dpkg_ar *ar, struct dpkg_ar_hdr *arh)
 {
 	const char *str = arh->ar_size;
 	int len = sizeof(arh->ar_size);
@@ -150,9 +150,9 @@ dpkg_ar_member_get_size(struct dpkg_ar *ar, struct ar_hdr *arh)
 }
 
 bool
-dpkg_ar_member_is_illegal(struct ar_hdr *arh)
+dpkg_ar_member_is_illegal(struct dpkg_ar_hdr *arh)
 {
-	return memcmp(arh->ar_fmag, ARFMAG, sizeof(arh->ar_fmag)) != 0;
+	return memcmp(arh->ar_fmag, DPKG_AR_FMAG, sizeof(arh->ar_fmag)) != 0;
 }
 
 void
@@ -165,7 +165,7 @@ dpkg_ar_put_magic(struct dpkg_ar *ar)
 void
 dpkg_ar_member_put_header(struct dpkg_ar *ar, struct dpkg_ar_member *member)
 {
-	char header[sizeof(struct ar_hdr) + 1];
+	char header[sizeof(struct dpkg_ar_hdr) + 1];
 	int n;
 
 	if (strlen(member->name) > 15)
@@ -177,7 +177,7 @@ dpkg_ar_member_put_header(struct dpkg_ar *ar, struct dpkg_ar_member *member)
 	            member->name, (unsigned long)member->time,
 	            (unsigned long)member->uid, (unsigned long)member->gid,
 	            (unsigned long)member->mode, (intmax_t)member->size);
-	if (n != sizeof(struct ar_hdr))
+	if (n != sizeof(struct dpkg_ar_hdr))
 		ohshit(_("generated corrupt ar header for '%s'"), ar->name);
 
 	if (fd_write(ar->fd, header, n) < 0)
