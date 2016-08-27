@@ -26,23 +26,23 @@
 #include <dpkg/macros.h>
 
 #if defined(__linux__)
-#  define OSLinux
+#  define OS_Linux
 #elif defined(__GNU__)
-#  define OSHurd
-#elif defined(__sun)
-#  define OSsunos
-#elif defined(__OpenBSD__)
-#  define OSOpenBSD
-#elif defined(__hpux)
-#  define OShpux
+#  define OS_Hurd
 #elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-#  define OSFreeBSD
+#  define OS_FreeBSD
 #elif defined(__NetBSD__)
-#  define OSNetBSD
+#  define OS_NetBSD
+#elif defined(__OpenBSD__)
+#  define OS_OpenBSD
 #elif defined(__DragonFly__)
-#  define OSDragonFlyBSD
+#  define OS_DragonFlyBSD
 #elif defined(__APPLE__) && defined(__MACH__)
-#  define OSDarwin
+#  define OS_Darwin
+#elif defined(__sun)
+#  define OS_Solaris
+#elif defined(__hpux)
+#  define OS_HPUX
 #else
 #  error Unknown architecture - cannot build start-stop-daemon
 #endif
@@ -100,18 +100,18 @@
 #include <err.h>
 #endif
 
-#if defined(OSHurd)
+#if defined(OS_Hurd)
 #include <hurd.h>
 #include <ps.h>
 #endif
 
-#if defined(OSDarwin)
+#if defined(OS_Darwin)
 #include <libproc.h>
 #endif
 
 #ifdef HAVE_KVM_H
 #include <kvm.h>
-#if defined(OSFreeBSD)
+#if defined(OS_FreeBSD)
 #define KVM_MEMFILE "/dev/null"
 #else
 #define KVM_MEMFILE NULL
@@ -126,20 +126,20 @@
 #define SCHED_RR -1
 #endif
 
-#if defined(OSLinux)
+#if defined(OS_Linux)
 /* This comes from TASK_COMM_LEN defined in Linux' include/linux/sched.h. */
 #define PROCESS_NAME_SIZE 15
-#elif defined(OSsunos)
+#elif defined(OS_Solaris)
 #define PROCESS_NAME_SIZE 15
-#elif defined(OSDarwin)
+#elif defined(OS_Darwin)
 #define PROCESS_NAME_SIZE 16
-#elif defined(OSNetBSD)
+#elif defined(OS_NetBSD)
 #define PROCESS_NAME_SIZE 16
-#elif defined(OSOpenBSD)
+#elif defined(OS_OpenBSD)
 #define PROCESS_NAME_SIZE 16
-#elif defined(OSFreeBSD)
+#elif defined(OS_FreeBSD)
 #define PROCESS_NAME_SIZE 19
-#elif defined(OSDragonFlyBSD)
+#elif defined(OS_DragonFlyBSD)
 /* On DragonFlyBSD MAXCOMLEN expands to 16. */
 #define PROCESS_NAME_SIZE MAXCOMLEN
 #endif
@@ -212,7 +212,7 @@ static int nicelevel = 0;
 static int umask_value = -1;
 
 static struct stat exec_stat;
-#if defined(OSHurd)
+#if defined(OS_Hurd)
 static struct proc_stat_list *procset = NULL;
 #endif
 
@@ -1235,7 +1235,7 @@ setup_options(void)
 	}
 }
 
-#if defined(OSLinux)
+#if defined(OS_Linux)
 static const char *
 proc_status_field(pid_t pid, const char *field)
 {
@@ -1269,7 +1269,7 @@ proc_status_field(pid_t pid, const char *field)
 }
 #endif
 
-#if defined(OSHurd)
+#if defined(OS_Hurd)
 static void
 init_procset(void)
 {
@@ -1340,7 +1340,7 @@ ssd_kvm_get_procs(kvm_t *kd, int op, int arg, int *count)
 }
 #endif
 
-#if defined(OSLinux)
+#if defined(OS_Linux)
 static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
 {
@@ -1372,7 +1372,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 
 	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
 }
-#elif defined(OSHurd)
+#elif defined(OS_Hurd)
 static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
 {
@@ -1391,7 +1391,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 
 	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
 }
-#elif defined(OSDarwin)
+#elif defined(OS_Darwin)
 static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
 {
@@ -1406,7 +1406,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 
 	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
 }
-#elif defined(OShpux)
+#elif defined(OS_HPUX)
 static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
 {
@@ -1417,7 +1417,7 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 	return ((dev_t)pst.pst_text.psf_fsid.psfs_id == esb->st_dev &&
 	        (ino_t)pst.pst_text.psf_fileid == esb->st_ino);
 }
-#elif defined(OSFreeBSD)
+#elif defined(OS_FreeBSD)
 static bool
 pid_is_exec(pid_t pid, const struct stat *esb)
 {
@@ -1495,7 +1495,7 @@ cleanup:
 }
 #endif
 
-#if defined(OSLinux)
+#if defined(OS_Linux)
 static bool
 pid_is_child(pid_t pid, pid_t ppid)
 {
@@ -1513,7 +1513,7 @@ pid_is_child(pid_t pid, pid_t ppid)
 
 	return proc_ppid == ppid;
 }
-#elif defined(OSHurd)
+#elif defined(OS_Hurd)
 static bool
 pid_is_child(pid_t pid, pid_t ppid)
 {
@@ -1528,7 +1528,7 @@ pid_is_child(pid_t pid, pid_t ppid)
 
 	return pi->ppid == ppid;
 }
-#elif defined(OSDarwin)
+#elif defined(OS_Darwin)
 static bool
 pid_is_child(pid_t pid, pid_t ppid)
 {
@@ -1539,7 +1539,7 @@ pid_is_child(pid_t pid, pid_t ppid)
 
 	return (pid_t)info.pbi_ppid == ppid;
 }
-#elif defined(OShpux)
+#elif defined(OS_HPUX)
 static bool
 pid_is_child(pid_t pid, pid_t ppid)
 {
@@ -1550,7 +1550,7 @@ pid_is_child(pid_t pid, pid_t ppid)
 
 	return pst.pst_ppid == ppid;
 }
-#elif defined(OSFreeBSD)
+#elif defined(OS_FreeBSD)
 static bool
 pid_is_child(pid_t pid, pid_t ppid)
 {
@@ -1586,11 +1586,11 @@ pid_is_child(pid_t pid, pid_t ppid)
 	if (kp == NULL)
 		goto cleanup;
 
-#if defined(OSFreeBSD)
+#if defined(OS_FreeBSD)
 	proc_ppid = kp->ki_ppid;
-#elif defined(OSOpenBSD)
+#elif defined(OS_OpenBSD)
 	proc_ppid = kp->p_ppid;
-#elif defined(OSDragonFlyBSD)
+#elif defined(OS_DragonFlyBSD)
 	proc_ppid = kp->kp_ppid;
 #else
 	proc_ppid = kp->kp_proc.p_ppid;
@@ -1605,7 +1605,7 @@ cleanup:
 }
 #endif
 
-#if defined(OSLinux)
+#if defined(OS_Linux)
 static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
@@ -1617,7 +1617,7 @@ pid_is_user(pid_t pid, uid_t uid)
 		return false;
 	return (sb.st_uid == uid);
 }
-#elif defined(OSHurd)
+#elif defined(OS_Hurd)
 static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
@@ -1626,7 +1626,7 @@ pid_is_user(pid_t pid, uid_t uid)
 	ps = get_proc_stat(pid, PSTAT_OWNER_UID);
 	return ps && (uid_t)proc_stat_owner_uid(ps) == uid;
 }
-#elif defined(OSDarwin)
+#elif defined(OS_Darwin)
 static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
@@ -1637,7 +1637,7 @@ pid_is_user(pid_t pid, uid_t uid)
 
 	return info.pbi_ruid == uid;
 }
-#elif defined(OShpux)
+#elif defined(OS_HPUX)
 static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
@@ -1647,7 +1647,7 @@ pid_is_user(pid_t pid, uid_t uid)
 		return false;
 	return ((uid_t)pst.pst_uid == uid);
 }
-#elif defined(OSFreeBSD)
+#elif defined(OS_FreeBSD)
 static bool
 pid_is_user(pid_t pid, uid_t uid)
 {
@@ -1683,11 +1683,11 @@ pid_is_user(pid_t pid, uid_t uid)
 	if (kp == NULL)
 		goto cleanup;
 
-#if defined(OSFreeBSD)
+#if defined(OS_FreeBSD)
 	proc_uid = kp->ki_ruid;
-#elif defined(OSOpenBSD)
+#elif defined(OS_OpenBSD)
 	proc_uid = kp->p_ruid;
-#elif defined(OSDragonFlyBSD)
+#elif defined(OS_DragonFlyBSD)
 	proc_uid = kp->kp_ruid;
 #else
 	if (kp->kp_proc.p_cred)
@@ -1706,7 +1706,7 @@ cleanup:
 }
 #endif
 
-#if defined(OSLinux)
+#if defined(OS_Linux)
 static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
@@ -1718,7 +1718,7 @@ pid_is_cmd(pid_t pid, const char *name)
 
 	return strcmp(comm, name) == 0;
 }
-#elif defined(OSHurd)
+#elif defined(OS_Hurd)
 static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
@@ -1749,7 +1749,7 @@ pid_is_cmd(pid_t pid, const char *name)
 
 	return false;
 }
-#elif defined(OShpux)
+#elif defined(OS_HPUX)
 static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
@@ -1759,7 +1759,7 @@ pid_is_cmd(pid_t pid, const char *name)
 		return false;
 	return (strcmp(pst.pst_ucomm, name) == 0);
 }
-#elif defined(OSDarwin)
+#elif defined(OS_Darwin)
 static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
@@ -1770,7 +1770,7 @@ pid_is_cmd(pid_t pid, const char *name)
 
 	return strcmp(pathname, name) == 0;
 }
-#elif defined(OSFreeBSD)
+#elif defined(OS_FreeBSD)
 static bool
 pid_is_cmd(pid_t pid, const char *name)
 {
@@ -1806,11 +1806,11 @@ pid_is_cmd(pid_t pid, const char *name)
 	if (kp == NULL)
 		goto cleanup;
 
-#if defined(OSFreeBSD)
+#if defined(OS_FreeBSD)
 	process_name = kp->ki_comm;
-#elif defined(OSOpenBSD)
+#elif defined(OS_OpenBSD)
 	process_name = kp->p_comm;
-#elif defined(OSDragonFlyBSD)
+#elif defined(OS_DragonFlyBSD)
 	process_name = kp->kp_comm;
 #else
 	process_name = kp->kp_proc.p_comm;
@@ -1825,13 +1825,13 @@ cleanup:
 }
 #endif
 
-#if defined(OSHurd)
+#if defined(OS_Hurd)
 static bool
 pid_is_running(pid_t pid)
 {
 	return get_proc_stat(pid, 0) != NULL;
 }
-#else /* !OSHurd */
+#else /* !OS_Hurd */
 static bool
 pid_is_running(pid_t pid)
 {
@@ -1892,7 +1892,7 @@ do_pidfile(const char *name)
 		fatal("unable to open pidfile %s", name);
 }
 
-#if defined(OSLinux) || defined (OSsunos)
+#if defined(OS_Linux) || defined(OS_Solaris)
 static enum status_code
 do_procinit(void)
 {
@@ -1924,7 +1924,7 @@ do_procinit(void)
 
 	return prog_status;
 }
-#elif defined(OSHurd)
+#elif defined(OS_Hurd)
 static int
 check_proc_stat(struct proc_stat *ps)
 {
@@ -1945,7 +1945,7 @@ do_procinit(void)
 	else
 		return STATUS_DEAD;
 }
-#elif defined(OSDarwin)
+#elif defined(OS_Darwin)
 static enum status_code
 do_procinit(void)
 {
@@ -1978,7 +1978,7 @@ do_procinit(void)
 
 	return prog_status;
 }
-#elif defined(OShpux)
+#elif defined(OS_HPUX)
 static enum status_code
 do_procinit(void)
 {
@@ -2000,7 +2000,7 @@ do_procinit(void)
 
 	return prog_status;
 }
-#elif defined(OSFreeBSD)
+#elif defined(OS_FreeBSD)
 static enum status_code
 do_procinit(void)
 {
@@ -2056,11 +2056,11 @@ do_procinit(void)
 		enum status_code pid_status;
 		pid_t pid;
 
-#if defined(OSFreeBSD)
+#if defined(OS_FreeBSD)
 		pid = kp[i].ki_pid;
-#elif defined(OSOpenBSD)
+#elif defined(OS_OpenBSD)
 		pid = kp[i].p_pid;
-#elif defined(OSDragonFlyBSD)
+#elif defined(OS_DragonFlyBSD)
 		pid = kp[i].kp_pid;
 #else
 		pid = kp[i].kp_proc.p_pid;
