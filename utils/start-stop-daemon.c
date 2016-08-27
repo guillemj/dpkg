@@ -25,15 +25,15 @@
 
 #include <dpkg/macros.h>
 
-#if defined(linux)
+#if defined(__linux__)
 #  define OSLinux
 #elif defined(__GNU__)
 #  define OSHurd
 #elif defined(__sun)
 #  define OSsunos
-#elif defined(OPENBSD) || defined(__OpenBSD__)
+#elif defined(__OpenBSD__)
 #  define OSOpenBSD
-#elif defined(hpux)
+#elif defined(__hpux)
 #  define OShpux
 #elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 #  define OSFreeBSD

@@ -34,6 +34,8 @@ dpkg (1.18.11) UNRELEASED; urgency=medium
     - Cast off_t variables to intmax_t when printing them with "%jd".
     - Add missing <string.h> include in libdpkg.
     - Cast strlen() return value to ssize_t to match write() return type.
+    - Use underscore-prefixed system preprocessor symbols instead of namespace
+      polluting ones (such as “linux”, “OPENBSD” or “hpux”).
   * Perl modules:
     - Obsolete Source-Version substvar in Dpkg::Substvars by emitting errors.
     - Rework keyring hooks in Dpkg::Vendor. Deprecate the keyrings hook, and
