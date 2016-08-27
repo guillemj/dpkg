@@ -103,6 +103,7 @@ AC_CHECK_HEADERS([\
   sys/syscall.h \
   sys/user.h \
   sys/proc.h \
+  sys/procfs.h \
   sys/pstat.h \
   linux/fiemap.h \
 ])

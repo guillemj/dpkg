@@ -41,6 +41,8 @@
 #  define OS_Darwin
 #elif defined(__sun)
 #  define OS_Solaris
+#elif defined(_AIX)
+#  define OS_AIX
 #elif defined(__hpux)
 #  define OS_HPUX
 #else
@@ -55,6 +57,9 @@
 #endif
 #ifdef HAVE_SYS_SYSCTL_H
 #include <sys/sysctl.h>
+#endif
+#ifdef HAVE_SYS_PROCFS_H
+#include <sys/procfs.h>
 #endif
 #ifdef HAVE_SYS_PROC_H
 #include <sys/proc.h>
@@ -132,6 +137,9 @@
 #elif defined(OS_Solaris)
 #define PROCESS_NAME_SIZE 15
 #elif defined(OS_Darwin)
+#define PROCESS_NAME_SIZE 16
+#elif defined(OS_AIX)
+/* This comes from PRFNSZ defined in AIX's <sys/procfs.h>. */
 #define PROCESS_NAME_SIZE 16
 #elif defined(OS_NetBSD)
 #define PROCESS_NAME_SIZE 16
@@ -1267,9 +1275,25 @@ proc_status_field(pid_t pid, const char *field)
 
 	return value;
 }
-#endif
+#elif defined(OS_AIX)
+static bool
+proc_get_psinfo(pid_t pid, struct psinfo *psinfo)
+{
+	char filename[64];
+	FILE *fp;
 
-#if defined(OS_Hurd)
+	sprintf(filename, "/proc/%d/psinfo", pid);
+	fp = fopen(filename, "r");
+	if (!fp)
+		return false;
+	if (fread(psinfo, sizeof(*psinfo), 1, fp) == 0)
+		return false;
+	if (ferror(fp))
+		return false;
+
+	return true;
+}
+#elif defined(OS_Hurd)
 static void
 init_procset(void)
 {
@@ -1371,6 +1395,20 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 		return false;
 
 	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
+}
+#elif defined(OS_AIX)
+static bool
+pid_is_exec(pid_t pid, const struct stat *esb)
+{
+	struct stat sb;
+	char filename[64];
+
+	sprintf(filename, "/proc/%d/object/a.out", pid);
+
+	if (stat(filename, &sb) != 0)
+		return false;
+
+	return sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino;
 }
 #elif defined(OS_Hurd)
 static bool
@@ -1539,6 +1577,17 @@ pid_is_child(pid_t pid, pid_t ppid)
 
 	return (pid_t)info.pbi_ppid == ppid;
 }
+#elif defined(OS_AIX)
+static bool
+pid_is_child(pid_t pid, pid_t ppid)
+{
+	struct psinfo psi;
+
+	if (!proc_get_psinfo(pid, &psi))
+		return false;
+
+	return (pid_t)psi.pr_ppid == ppid;
+}
 #elif defined(OS_HPUX)
 static bool
 pid_is_child(pid_t pid, pid_t ppid)
@@ -1636,6 +1685,17 @@ pid_is_user(pid_t pid, uid_t uid)
 		return false;
 
 	return info.pbi_ruid == uid;
+}
+#elif defined(OS_AIX)
+static bool
+pid_is_user(pid_t pid, uid_t uid)
+{
+	struct psinfo psi;
+
+	if (!proc_get_psinfo(pid, &psi))
+		return false;
+
+	return psi.pr_uid == uid;
 }
 #elif defined(OS_HPUX)
 static bool
@@ -1748,6 +1808,17 @@ pid_is_cmd(pid_t pid, const char *name)
 	}
 
 	return false;
+}
+#elif defined(OS_AIX)
+static bool
+pid_is_cmd(pid_t pid, const char *name)
+{
+	struct psinfo psi;
+
+	if (!proc_get_psinfo(pid, &psi))
+		return false;
+
+	return strcmp(psi.pr_fname, name) == 0;
 }
 #elif defined(OS_HPUX)
 static bool
@@ -1892,7 +1963,7 @@ do_pidfile(const char *name)
 		fatal("unable to open pidfile %s", name);
 }
 
-#if defined(OS_Linux) || defined(OS_Solaris)
+#if defined(OS_Linux) || defined(OS_Solaris) || defined(OS_AIX)
 static enum status_code
 do_procinit(void)
 {
