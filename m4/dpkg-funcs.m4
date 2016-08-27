@@ -111,9 +111,8 @@ AC_DEFUN([DPKG_CHECK_PROGNAME],
                  [AC_MSG_RESULT([no])])
 
   AC_MSG_CHECKING([for __progname])
-  AC_LINK_IFELSE([AC_LANG_PROGRAM([[]],
-                 [[extern char *__progname;
-                   const char *p = __progname;]])],
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[extern char *__progname;]],
+                 [[printf("%s", __progname);]])],
                  [AC_DEFINE([HAVE___PROGNAME], [1],
                             [Define to 1 if you have __progname])
                   AC_MSG_RESULT([yes])],
