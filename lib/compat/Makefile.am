@@ -38,6 +38,10 @@ endif
 
 if !HAVE_GETOPT
 libcompat_la_SOURCES += getopt.c getopt.h
+else
+if !HAVE_GETOPT_LONG
+libcompat_la_SOURCES += getopt.c getopt.h
+endif
 endif
 
 if !HAVE_GETOPT_LONG
