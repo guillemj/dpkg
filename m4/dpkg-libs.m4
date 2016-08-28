@@ -95,7 +95,7 @@ AC_DEFUN([DPKG_LIB_SELINUX], [
       AC_DEFINE([WITH_LIBSELINUX], [1],
         [Define to 1 to compile in SELinux support])
       PKG_CHECK_EXISTS([libselinux], [
-        AS_IF([test "x$with_selinux" = "xstatic"], [
+        AS_IF([test "x$with_libselinux" = "xstatic"], [
           dpkg_selinux_libs="-Wl,-Bstatic "$($PKG_CONFIG --static --libs libselinux)" -Wl,-Bdynamic"
         ], [
           dpkg_selinux_libs=$($PKG_CONFIG --libs libselinux)
