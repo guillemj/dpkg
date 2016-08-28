@@ -33,6 +33,7 @@ our $VERSION = '1.02';
 our @EXPORT_OK = qw(
     $PROGNAME
     $PROGVERSION
+    $PROGMAKE
     $PROGTAR
     $CONFDIR
     $ADMINDIR
@@ -60,6 +61,10 @@ Contains the name of the current program.
 =item $Dpkg::PROGVERSION
 
 Contains the version of the dpkg suite.
+
+=item $Dpkg::PROGMAKE
+
+Contains the name of the system GNU make program.
 
 =item $Dpkg::PROGTAR
 
@@ -89,6 +94,7 @@ our ($PROGNAME) = $0 =~ m{(?:.*/)?([^/]*)};
 
 # The following lines are automatically fixed at install time
 our $PROGVERSION = '1.18.x';
+our $PROGMAKE = $ENV{DPKG_PROGMAKE} // 'make';
 our $PROGTAR = $ENV{DPKG_PROGTAR} // 'tar';
 
 our $CONFDIR = '/etc/dpkg';
@@ -108,7 +114,7 @@ our $pkgdatadir = $DATADIR;
 
 =head2 Version 1.02 (dpkg 1.18.11)
 
-New variable: $PROGTAR.
+New variable: $PROGTAR, $PROGMAKE.
 
 =head2 Version 1.01 (dpkg 1.17.0)
 

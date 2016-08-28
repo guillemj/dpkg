@@ -740,7 +740,7 @@ sub build_target_fallback {
 
     # Check if the build-{arch,indep} targets are supported. If not, fallback
     # to build.
-    my $pid = spawn(exec => [ 'make', '-f', @debian_rules, '-qn', $buildtarget ],
+    my $pid = spawn(exec => [ $Dpkg::PROGMAKE, '-f', @debian_rules, '-qn', $buildtarget ],
                     from_file => '/dev/null', to_file => '/dev/null',
                     error_to_file => '/dev/null');
     my $cmdline = "make -f @debian_rules -qn $buildtarget";

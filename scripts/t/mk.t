@@ -19,6 +19,7 @@ use warnings;
 use Test::More tests => 5;
 use File::Spec::Functions qw(rel2abs);
 
+use Dpkg ();
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
 use Dpkg::Vendor;
@@ -38,7 +39,7 @@ $ENV{DEB_BUILD_PATH} = rel2abs($datadir);
 sub test_makefile {
     my $makefile = shift;
 
-    spawn(exec => [ 'make', '-C', $datadir, '-f', $makefile ],
+    spawn(exec => [ $Dpkg::PROGMAKE, '-C', $datadir, '-f', $makefile ],
           wait_child => 1, nocheck => 1);
     ok($? == 0, "makefile $makefile computes all values correctly");
 }
