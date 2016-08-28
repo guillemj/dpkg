@@ -16,11 +16,14 @@
 use strict;
 use warnings;
 
-use Test::More tests => 24;
-
-use IO::String;
+use Test::More;
+use Test::Dpkg qw(:needs);
 
 BEGIN {
+    test_needs_module('IO::String');
+
+    plan tests => 24;
+
     use_ok('Dpkg::Control');
     use_ok('Dpkg::Control::Info');
 }

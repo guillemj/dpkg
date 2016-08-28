@@ -16,10 +16,14 @@
 use strict;
 use warnings;
 
-use Test::More tests => 148;
+use Test::More;
+use Test::Dpkg qw(:needs);
 
 use Cwd;
-use IO::String;
+
+test_needs_module('IO::String');
+
+plan tests => 148;
 
 use Dpkg::Path qw(find_command);
 
