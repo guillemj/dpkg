@@ -22,6 +22,10 @@
 #include <compat.h>
 
 #include <sys/types.h>
+#if HAVE_SYS_SYSMACROS_H
+#include <sys/sysmacros.h> /* Needed on AIX for major()/minor(). */
+#endif
+
 #include <fcntl.h>
 #include <stdint.h>
 #include <stdio.h>

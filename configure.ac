@@ -98,6 +98,7 @@ AC_CHECK_HEADERS([\
   locale.h \
   libintl.h \
   kvm.h \
+  sys/sysmacros.h \
   sys/param.h \
   sys/sysctl.h \
   sys/syscall.h \
