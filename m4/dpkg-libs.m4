@@ -9,18 +9,21 @@ AC_DEFUN([DPKG_LIB_MD], [
   AC_ARG_VAR([MD_LIBS], [linker flags for md library])
   AC_ARG_WITH([libmd],
     [AS_HELP_STRING([--with-libmd],
-      [use libmd library for message digest functions])])
+      [use libmd library for message digest functions])],
+    [], [with_libmd=check])
+  have_libmd="no"
   AS_IF([test "x$with_libmd" != "xno"], [
     AC_CHECK_HEADERS([md5.h], [
       AC_CHECK_LIB([md], [MD5Init], [
-        with_libmd="yes"
-      ], [
-        AC_MSG_FAILURE([md5 digest not found in libmd])
+        MD_LIBS="-lmd"
+        have_libmd="yes"
       ])
     ])
+    AS_IF([test "x$have_libmd" = "xyes" && test "x$with_libmd" = "xyes"], [
+      AC_MSG_FAILURE([md5 digest not found in libmd])
+    ])
   ])
-  AS_IF([test "x$with_libmd" = "xyes"], [MD_LIBS="-lmd"])
-  AM_CONDITIONAL([HAVE_LIBMD_MD5], [test "x$ac_cv_lib_md_MD5Init" = "xyes"])
+  AM_CONDITIONAL([HAVE_LIBMD_MD5], [test "x$have_libmd" = "xyes"])
 ])# DPKG_LIB_MD
 
 # DPKG_WITH_COMPRESS_LIB(NAME, HEADER, FUNC)
@@ -30,7 +33,9 @@ AC_DEFUN([DPKG_WITH_COMPRESS_LIB], [
   AC_ARG_VAR(AS_TR_CPP($1)[_LIBS], [linker flags for $1 library])
   AC_ARG_WITH([lib$1],
     [AS_HELP_STRING([--with-lib$1],
-      [use $1 library for compression and decompression])])
+      [use $1 library for compression and decompression])],
+    [], [with_lib$1=check])
+  have_lib$1="no"
   AS_IF([test "x$with_lib$1" != "xno"], [
     AC_CHECK_LIB([$1], [$3], [
       AC_DEFINE([WITH_LIB]AS_TR_CPP($1), 1,
@@ -41,16 +46,17 @@ AC_DEFUN([DPKG_WITH_COMPRESS_LIB], [
         dpkg_$1_libs="-l$1"
       ])
       AS_TR_CPP($1)_LIBS="${AS_TR_CPP($1)_LIBS:+$AS_TR_CPP($1)_LIBS }$dpkg_$1_libs"
-      with_lib$1="yes"
-    ], [
-      AS_IF([test -n "$with_lib$1"], [
-        AC_MSG_FAILURE([$1 library not found])
-      ])
-    ])
 
-    AC_CHECK_HEADER([$2], [], [
-      AS_IF([test -n "$with_lib$1"], [
-        AC_MSG_FAILURE([lib$1 header not found])
+      AC_CHECK_HEADER([$2], [], [
+        AS_IF([test "x$with_lib$1" != "xcheck"], [
+          AC_MSG_FAILURE([lib$1 header not found])
+        ])
+      ])
+
+      have_lib$1="yes"
+    ], [
+      AS_IF([test "x$with_lib$1" != "xcheck"], [
+        AC_MSG_FAILURE([$1 library not found])
       ])
     ])
   ])
@@ -89,7 +95,9 @@ AC_DEFUN([DPKG_LIB_SELINUX], [
   AC_ARG_VAR([SELINUX_LIBS], [linker flags for selinux library])dnl
   AC_ARG_WITH([libselinux],
     [AS_HELP_STRING([--with-libselinux],
-      [use selinux library to set security contexts])])
+      [use selinux library to set security contexts])],
+    [], [with_libselinux=check])
+  have_libselinux="no"
   AS_IF([test "x$with_libselinux" != "xno"], [
     AC_CHECK_LIB([selinux], [is_selinux_enabled], [
       AC_DEFINE([WITH_LIBSELINUX], [1],
@@ -108,9 +116,16 @@ AC_DEFUN([DPKG_LIB_SELINUX], [
         ])
       ])
       SELINUX_LIBS="${SELINUX_LIBS:+$SELINUX_LIBS }$dpkg_selinux_libs"
-      with_libselinux="yes"
+
+      AC_CHECK_HEADER([selinux/selinux.h], [], [
+        AS_IF([test "x$with_libselinux" != "xcheck"], [
+          AC_MSG_FAILURE([selinux header not found])
+        ])
+      ])
+
+      have_libselinux="yes"
     ], [
-      AS_IF([test -n "$with_libselinux"], [
+      AS_IF([test "x$with_libselinux" != "xcheck"], [
         AC_MSG_FAILURE([selinux library not found])
       ])
     ])
@@ -118,14 +133,8 @@ AC_DEFUN([DPKG_LIB_SELINUX], [
       AC_DEFINE([HAVE_SETEXECFILECON], [1],
                 [Define to 1 if SELinux setexecfilecon is present])
     ])
-
-    AC_CHECK_HEADER([selinux/selinux.h], [], [
-      AS_IF([test -n "$with_libselinux"], [
-        AC_MSG_FAILURE([selinux header not found])
-      ])
-    ])
   ])
-  AM_CONDITIONAL([WITH_LIBSELINUX], [test "x$with_libselinux" = "xyes"])
+  AM_CONDITIONAL([WITH_LIBSELINUX], [test "x$have_libselinux" = "xyes"])
   AM_CONDITIONAL([HAVE_SETEXECFILECON],
     [test "x$ac_cv_lib_selinux_setexecfilecon" = "xyes"])
 ])# DPKG_LIB_SELINUX
