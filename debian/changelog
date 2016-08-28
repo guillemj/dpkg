@@ -59,6 +59,9 @@ dpkg (1.18.11) UNRELEASED; urgency=medium
     - Add <sys/sysmacros.h> on AIX for major() and minor().
     - Add missing <errno.h> in libcompat.
     - Include libcompat getopt module when we need getopt_long.
+    - Disable gettext support in libcompat getopt module. We do not carry
+      translations for this module, and it makes it pull libintl for programs
+      that might not use it otherwise.
   * Perl modules:
     - Obsolete Source-Version substvar in Dpkg::Substvars by emitting errors.
     - Rework keyring hooks in Dpkg::Vendor. Deprecate the keyrings hook, and
