@@ -4,8 +4,9 @@
 # ----------------------
 AC_DEFUN([DPKG_BUILD_SHARED_LIBS], [
   m4_pattern_allow([DPKG_DEVEL_MODE])
-  AS_IF([test "$enable_shared" = "yes" && test -z "$DPKG_DEVEL_MODE"],
-        [AC_MSG_ERROR([building libdpkg as a shared library is not supported])])
+  AS_IF([test "$enable_shared" = "yes" && test -z "$DPKG_DEVEL_MODE"], [
+    AC_MSG_ERROR([building libdpkg as a shared library is not supported])
+  ])
   AM_CONDITIONAL([BUILD_SHARED], [test "$enable_shared" = "yes"])
 ])# DPKG_BUILD_SHARED_LIBS
 
@@ -15,16 +16,15 @@ AC_DEFUN([DPKG_BUILD_SHARED_LIBS], [
 AC_DEFUN([DPKG_BUILD_PROG], [
   AC_MSG_CHECKING([whether to build $1])
   AC_ARG_ENABLE([$1],
-    AS_HELP_STRING([--disable-$1], [do not build or use $1]),
+    [AS_HELP_STRING([--disable-$1], [do not build or use $1])],
     [build_]AS_TR_SH([$1])[=$enable_]AS_TR_SH([$1]),
-    [build_]AS_TR_SH([$1])[=yes]
-  )
+    [build_]AS_TR_SH([$1])[=yes])
   AM_CONDITIONAL([BUILD_]AS_TR_CPP([$1]),
-                 [test "x$build_]AS_TR_SH([$1])[" = "xyes"])
+    [test "x$build_]AS_TR_SH([$1])[" = "xyes"])
   AS_IF([test "x$build_]AS_TR_SH([$1])[" = "xyes"], [
-    AC_DEFINE([BUILD_]AS_TR_CPP([$1]), 1, [Define to 1 if $1 is compiled.])
+    AC_DEFINE([BUILD_]AS_TR_CPP([$1]), [1], [Define to 1 if $1 is compiled.])
   ], [
-    AC_DEFINE([BUILD_]AS_TR_CPP([$1]), 0)
+    AC_DEFINE([BUILD_]AS_TR_CPP([$1]), [0])
   ])
   AC_MSG_RESULT([$build_]AS_TR_SH([$1]))
 ])# DPKG_BUILD_PROG
@@ -35,7 +35,7 @@ AC_DEFUN([DPKG_BUILD_PROG], [
 # all symbol references, and extracting everything, or production documentation.
 AC_DEFUN([DPKG_BUILD_DEVEL_DOCS], [
   AC_ARG_ENABLE([devel-docs],
-    AS_HELP_STRING([--disable-devel-docs], [build release docs]),
+    [AS_HELP_STRING([--disable-devel-docs], [build release docs])],
     [build_devel_docs=$enable_devel_docs],
     [build_devel_docs=yes]
   )
@@ -51,12 +51,11 @@ AC_DEFUN([DPKG_BUILD_DEVEL_DOCS], [
 # Allow specifying alternate directories.
 AC_DEFUN([DPKG_WITH_DIR], [
   $1="$2"
-  AC_ARG_WITH([$1],
-    AS_HELP_STRING([--with-$1=DIR], [$3]),
+  AC_ARG_WITH([$1], [AS_HELP_STRING([--with-$1=DIR], [$3])], [
     AS_CASE([$with_$1],
-            [""], [AC_MSG_ERROR([invalid $1 specified])],
-            [$1="$with_$1"])
-  )
+      [""], [AC_MSG_ERROR([invalid $1 specified])],
+      [$1="$with_$1"])
+  ])
   AC_SUBST([$1])
 ])# DPKG_WITH_DIR
 
@@ -66,14 +65,14 @@ AC_DEFUN([DPKG_WITH_DIR], [
 AC_DEFUN([DPKG_DEB_COMPRESSOR], [
   AC_ARG_WITH([dpkg-deb-compressor],
     [AS_HELP_STRING([--with-dpkg-deb-compressor=COMP],
-                    [change default dpkg-deb build compressor])],
+      [change default dpkg-deb build compressor])],
     [with_dpkg_deb_compressor=$withval], [with_dpkg_deb_compressor=$1])
   AS_CASE([$with_dpkg_deb_compressor],
     [gzip|xz], [:],
     [AC_MSG_ERROR([unsupported default compressor $with_dpkg_deb_compressor])])
   AC_DEFINE_UNQUOTED([DPKG_DEB_DEFAULT_COMPRESSOR],
-                     [COMPRESSOR_TYPE_]AS_TR_CPP(${with_dpkg_deb_compressor}),
-                     [default dpkg-deb build compressor])
+    [COMPRESSOR_TYPE_]AS_TR_CPP(${with_dpkg_deb_compressor}),
+    [default dpkg-deb build compressor])
 ]) # DPKG_DEB_COMPRESSOR
 
 # DPKG_DIST_CHECK(COND, ERROR)

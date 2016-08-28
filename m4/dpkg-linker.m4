@@ -4,41 +4,42 @@
 # DPKG_LINKER_OPTIMIZATIONS
 # -------------------------
 # Add configure option to disable linker optimizations.
-AC_DEFUN([DPKG_LINKER_OPTIMIZATIONS],
-[
+AC_DEFUN([DPKG_LINKER_OPTIMIZATIONS], [
   AC_ARG_ENABLE([linker-optimizations],
-    AS_HELP_STRING([--disable-linker-optimizations],
-                   [Disable (detected) linker optimizations]),
-    [],
-    [enable_linker_optimizations=yes]
-  )
+    [AS_HELP_STRING([--disable-linker-optimizations],
+      [Disable (detected) linker optimizations])],
+    [], [enable_linker_optimizations=yes])
 
   AS_IF([test "x$enable_linker_optimizations" = "xno"], [
     LDFLAGS=$(echo "$LDFLAGS" | sed -e "s/ -Wl,-O[[0-9]]*\b//g")
   ], [
     save_LDFLAGS=$LDFLAGS
     LDFLAGS="$LDFLAGS -Wl,-O1"
-    AC_LINK_IFELSE([AC_LANG_PROGRAM([], [])],
-                   [],
-                   [LDFLAGS="$save_LDFLAGS"])
+    AC_LINK_IFELSE([
+      AC_LANG_PROGRAM([[]], [[]])
+    ], [], [
+      LDFLAGS="$save_LDFLAGS"
+    ])
   ])
 ])
 
 # DPKG_LINKER_VERSION_SCRIPT
 # --------------------------
-AC_DEFUN([DPKG_LINKER_VERSION_SCRIPT],
-[
-  AC_CACHE_CHECK([for --version-script linker flag],
-    [dpkg_cv_version_script],
-    [echo "{ global: symbol; local: *; };" >conftest.map
+AC_DEFUN([DPKG_LINKER_VERSION_SCRIPT], [
+  AC_CACHE_CHECK([for --version-script linker flag], [dpkg_cv_version_script], [
+    echo "{ global: symbol; local: *; };" >conftest.map
     save_LDFLAGS=$LDFLAGS
     LDFLAGS="$LDFLAGS -Wl,--version-script=conftest.map"
-    AC_LINK_IFELSE([AC_LANG_PROGRAM([], [])],
-                   [dpkg_cv_version_script=yes],
-                   [dpkg_cv_version_script=no])
+    AC_LINK_IFELSE([
+      AC_LANG_PROGRAM([], [])
+    ], [
+      dpkg_cv_version_script=yes
+    ], [
+      dpkg_cv_version_script=no
+    ])
     LDFLAGS="$save_LDFLAGS"
     rm -f conftest.map
   ])
   AM_CONDITIONAL([HAVE_LINKER_VERSION_SCRIPT],
-                 [test "x$dpkg_cv_version_script" = "xyes"])
+    [test "x$dpkg_cv_version_script" = "xyes"])
 ])

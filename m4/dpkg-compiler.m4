@@ -31,8 +31,9 @@ AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
     ])
     AS_VAR_COPY([dpkg_varname], [dpkg_varname_save])
   ])
-  AS_VAR_IF([dpkg_varname_cache], [yes],
-            [AS_VAR_APPEND([dpkg_varname_export], [" $1"])])
+  AS_VAR_IF([dpkg_varname_cache], [yes], [
+    AS_VAR_APPEND([dpkg_varname_export], [" $1"])
+  ])
   AS_VAR_POPDEF([dpkg_varname_cache])
 ])
 
@@ -83,13 +84,11 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
 # Add configure option to disable additional compiler warnings.
 AC_DEFUN([DPKG_COMPILER_WARNINGS], [
   AC_ARG_ENABLE([compiler-warnings],
-    AS_HELP_STRING([--disable-compiler-warnings],
-                   [Disable (detected) additional compiler warnings]),
-    [],
-    [enable_compiler_warnings=yes]
-  )
+    [AS_HELP_STRING([--disable-compiler-warnings],
+      [Disable (detected) additional compiler warnings])],
+    [], [enable_compiler_warnings=yes])
 
-  if test "x$enable_compiler_warnings" = "xyes"; then
+  AS_IF([test "x$enable_compiler_warnings" = "xyes"], [
     DPKG_CHECK_COMPILER_WARNINGS
     AC_LANG_PUSH([C++])
     DPKG_CHECK_COMPILER_WARNINGS
@@ -97,19 +96,17 @@ AC_DEFUN([DPKG_COMPILER_WARNINGS], [
 
     CFLAGS="$COMPILER_CFLAGS $CFLAGS"
     CXXFLAGS="$COMPILER_CXXFLAGS $CXXFLAGS"
-  fi
+  ])
 ])
 
 # DPKG_COMPILER_OPTIMIZATIONS
 # ---------------------------
 # Add configure option to disable optimizations.
 AC_DEFUN([DPKG_COMPILER_OPTIMIZATIONS], [
-  AC_ARG_ENABLE(compiler-optimizations,
-    AS_HELP_STRING([--disable-compiler-optimizations],
-                   [Disable (detected) compiler optimizations]),
-    [],
-    [enable_compiler_optimizations=yes]
-  )
+  AC_ARG_ENABLE([compiler-optimizations],
+    [AS_HELP_STRING([--disable-compiler-optimizations],
+      [Disable (detected) compiler optimizations])],
+    [], [enable_compiler_optimizations=yes])
 
   AS_IF([test "x$enable_compiler_optimizations" = "xno"], [
     CFLAGS=$(echo "$CFLAGS" | sed -e "s/ -O[[1-9]]*\b/ -O0/g")
@@ -119,16 +116,16 @@ AC_DEFUN([DPKG_COMPILER_OPTIMIZATIONS], [
 # DPKG_TRY_C99([ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
 # ------------------------------------------------------
 # Try compiling some C99 code to see whether it works
-AC_DEFUN([DPKG_TRY_C99],
-[AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+AC_DEFUN([DPKG_TRY_C99], [
+  AC_COMPILE_IFELSE([
+    AC_LANG_PROGRAM([[
 #include <inttypes.h>
 #include <stdbool.h>
 #include <stdio.h>
 
 /* Variadic macro arguments. */
 #define variadic_macro(foo, ...) printf(foo, __VA_ARGS__)
-]],
-[[
+    ]], [[
 	int rc;
 
 	/* Designated initializers. */
@@ -159,7 +156,8 @@ AC_DEFUN([DPKG_TRY_C99],
 
 	/* Magic __func__ variable. */
 	printf("%s", __func__);
-]])], [$1], [$2])dnl
+    ]])
+  ], [$1], [$2])dnl
 ])# DPKG_TRY_C99
 
 # DPKG_C_C99
@@ -180,7 +178,8 @@ AC_DEFUN([DPKG_C_C99], [
         CC="$dpkg_save_CC"
 
         AS_IF([test "x$dpkg_arg_worked" = "xyes"], [
-          dpkg_cv_c99_arg="$arg"; break
+          dpkg_cv_c99_arg="$arg"
+          break
         ])
       done
     ])
@@ -203,10 +202,10 @@ AC_DEFUN([DPKG_TRY_CXX11], [
   AC_LANG_PUSH([C++])
   AC_COMPILE_IFELSE([
     AC_LANG_PROGRAM([[
-]], [[
+    ]], [[
 	// Null pointer keyword.
 	void *ptr = nullptr;
-]])
+    ]])
   ], [$1], [$2])
   AC_LANG_POP([C++])dnl
 ])# DPKG_TRY_CXX11
