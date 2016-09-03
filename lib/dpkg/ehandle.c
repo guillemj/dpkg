@@ -280,8 +280,7 @@ run_cleanups(struct error_context *econ, int flagsetin)
         if (setjmp(recurse_jump)) {
           run_cleanups(&recurserr, ehflag_bombout | ehflag_recursiveerror);
         } else {
-          recurserr.cleanups= NULL;
-          recurserr.next= NULL;
+          memset(&recurserr, 0, sizeof(recurserr));
           set_error_printer(&recurserr, print_cleanup_error, NULL);
           set_jump_handler(&recurserr, &recurse_jump);
           econtext= &recurserr;
