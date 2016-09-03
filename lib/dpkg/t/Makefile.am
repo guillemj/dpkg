@@ -23,6 +23,7 @@ test_programs = \
 	t-test-skip \
 	t-macros \
 	t-c-ctype \
+	t-ehandle \
 	t-error \
 	t-string \
 	t-buffer \
