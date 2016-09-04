@@ -4,6 +4,8 @@
 # DPKG_CHECK_COMPILER_FLAG
 # ------------------------
 AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
+  m4_define([dpkg_check_flag], [m4_default([$2], [$1])])
+
   AC_LANG_CASE(
   [C], [
     m4_define([dpkg_compiler], [$CC])
@@ -21,7 +23,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
   ])
   AC_CACHE_CHECK([whether ]dpkg_compiler[ accepts $1], [dpkg_varname_cache], [
     AS_VAR_COPY([dpkg_varname_save], [dpkg_varname])
-    AS_VAR_SET([dpkg_varname], ["$1 -Werror"])
+    AS_VAR_SET([dpkg_varname], ["-Werror dpkg_check_flag"])
     AC_COMPILE_IFELSE([
       AC_LANG_SOURCE([[]])
     ], [
@@ -43,9 +45,11 @@ AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
 AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wall])
   DPKG_CHECK_COMPILER_FLAG([-Wextra])
-  DPKG_CHECK_COMPILER_FLAG([-Wno-unused-parameter])
-  DPKG_CHECK_COMPILER_FLAG([-Wno-missing-field-initializers])
-  DPKG_CHECK_COMPILER_FLAG([-Wno-tautological-constant-out-of-range-compare])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-unused-parameter], [-Wunused-parameter])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-missing-field-initializers],
+                           [-Wmissing-field-initializers])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-tautological-constant-out-of-range-compare],
+                           [-Wtautological-constant-out-of-range-compare])
   DPKG_CHECK_COMPILER_FLAG([-Wmissing-declarations])
   DPKG_CHECK_COMPILER_FLAG([-Wmissing-format-attribute])
   DPKG_CHECK_COMPILER_FLAG([-Wformat -Wformat-security])
