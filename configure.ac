@@ -201,7 +201,7 @@ cat <<CONFIG
 
 Configuration:
   Features:
-    NLS . . . . . . . . . . . . . : $USE_NLS
+    native language support . . . : $USE_NLS
     unicode support . . . . . . . : $USE_UNICODE
     development documentation . . : $build_devel_docs
     code coverage . . . . . . . . : $enable_coverage
