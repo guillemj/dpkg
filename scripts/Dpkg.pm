@@ -87,8 +87,7 @@ our $PROGVERSION = '1.18.x';
 our $CONFDIR = '/etc/dpkg';
 our $ADMINDIR = '/var/lib/dpkg';
 our $LIBDIR = '.';
-our $DATADIR = '..';
-$DATADIR = $ENV{DPKG_DATADIR} if defined $ENV{DPKG_DATADIR};
+our $DATADIR = $ENV{DPKG_DATADIR} // '..';
 
 # XXX: Backwards compatibility, to be removed on VERSION 2.00.
 ## no critic (Variables::ProhibitPackageVars)

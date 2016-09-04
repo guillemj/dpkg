@@ -123,11 +123,11 @@ man3_MANS =
 
 do_perl_subst = $(AM_V_GEN) sed \
 	-e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):" \
-	-e "s:\$$CONFDIR[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$CONFDIR='$(pkgconfdir)':" \
-	-e "s:\$$ADMINDIR[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$ADMINDIR='$(admindir)':" \
-	-e "s:\$$LIBDIR[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$LIBDIR='$(pkglibdir)':" \
-	-e "s:\$$DATADIR[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$DATADIR='$(pkgdatadir)':" \
-	-e "s:\$$PROGVERSION[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:\$$PROGVERSION='$(PACKAGE_VERSION)':"
+	-e "s:\$$CONFDIR = .*;:\$$CONFDIR = '$(pkgconfdir)';:" \
+	-e "s:\$$ADMINDIR = .*;:\$$ADMINDIR = '$(admindir)';:" \
+	-e "s:\$$LIBDIR = .*;:\$$LIBDIR = '$(pkglibdir)';:" \
+	-e "s:\$$DATADIR = .*;:\$$DATADIR = '$(pkgdatadir)';:" \
+	-e "s:\$$PROGVERSION = .*;:\$$PROGVERSION = '$(PACKAGE_VERSION)';:"
 
 do_shell_subst = $(AM_V_GEN) sed \
 	-e "s:^version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":"
