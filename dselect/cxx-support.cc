@@ -40,6 +40,17 @@ operator new(size_t size) DPKG_ATTR_THROW(std::bad_alloc)
 	return p;
 }
 
+extern void *
+operator new[](size_t size) DPKG_ATTR_THROW(std::bad_alloc)
+{
+	void *p;
+
+	p = m_malloc(size);
+	assert(p);
+
+	return p;
+}
+
 extern void
 operator delete(void *p) DPKG_ATTR_NOEXCEPT
 {
@@ -50,4 +61,16 @@ extern void
 operator delete(void *p, size_t size) DPKG_ATTR_NOEXCEPT
 {
 	free(p);
+}
+
+extern void
+operator delete[](void *a) DPKG_ATTR_NOEXCEPT
+{
+	free(a);
+}
+
+extern void
+operator delete[](void *a, size_t size) DPKG_ATTR_NOEXCEPT
+{
+	free(a);
 }
