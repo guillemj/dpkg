@@ -22,6 +22,7 @@ AM_CXXFLAGS = \
 bin_PROGRAMS = dselect
 
 dselect_SOURCES = \
+	cxx-support.cc \
 	dselect.h \
 	dselect-curses.h \
 	basecmds.cc \
