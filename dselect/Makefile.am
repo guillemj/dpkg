@@ -14,7 +14,9 @@ AM_CPPFLAGS = \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
 AM_CXXFLAGS = \
-	-fno-rtti
+	-fno-rtti \
+	-fno-exceptions \
+	$(nil)
 
 
 bin_PROGRAMS = dselect
