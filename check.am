@@ -1,6 +1,7 @@
 # Variables to be defined:
 #
 #  TEST_VERBOSE - set to 0 (default) or 1 to control test suite verbosity
+#  TEST_PARALLEL - set to 1 (default) or N to control the parallel jobs
 #  TEST_ENV_VARS - environment variables to be set for the test suite
 #  TEST_COVERAGE - set to the perl module in charge of getting test coverage
 #  test_tmpdir - test suite temporary directory
@@ -9,12 +10,14 @@
 #  test_data - list of test data files
 
 TEST_VERBOSE ?= 0
+TEST_PARALLEL ?= 1
 
 TEST_RUNNER = '\
 	my $$harness = TAP::Harness->new({ \
 	    lib => [ "$(top_srcdir)/scripts", "$(top_srcdir)/dselect/methods"  ], \
 	    color => 1, \
 	    verbosity => $(TEST_VERBOSE), \
+	    jobs => $(TEST_PARALLEL), \
 	    failures => 1, \
 	}); \
 	my $$aggregate = $$harness->runtests(@ARGV); \

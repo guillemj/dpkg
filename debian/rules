@@ -37,6 +37,12 @@ ifeq (,$(filter maintainer-build,$(DEB_BUILD_OPTIONS)))
 	confflags += --disable-silent-rules
 endif
 
+# Enable parallel test suite
+NUMJOBS = 1
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+  NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+endif
+
 D := $(CURDIR)/debian/tmp
 
 # Create configure script if necessary, automake handles rebuilding it.
@@ -75,7 +81,7 @@ check: build
 	dh_testdir
 
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	cd build-tree && $(MAKE) VERBOSE=1 check
+	cd build-tree && $(MAKE) VERBOSE=1 TEST_PARALLEL=$(NUMJOBS) check
 endif
 
 # Install the package underneath debian/tmp
