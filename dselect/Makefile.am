@@ -17,6 +17,10 @@ AM_CXXFLAGS = \
 	-fno-rtti \
 	-fno-exceptions \
 	$(nil)
+if HAVE_LINKER_AS_NEEDED
+AM_LDFLAGS = \
+	-Wl,--as-needed
+endif
 
 
 bin_PROGRAMS = dselect

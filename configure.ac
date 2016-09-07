@@ -36,6 +36,7 @@ DPKG_DIST_CHECK([test "$GMSGFMT" = ":" && test "$USE_NLS" = "yes"],
 AM_PROG_AR
 LT_INIT([disable-shared])
 DPKG_BUILD_SHARED_LIBS
+DPKG_LINKER_AS_NEEDED
 DPKG_LINKER_VERSION_SCRIPT
 
 # Allow compilation without optional programs

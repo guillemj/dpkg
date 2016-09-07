@@ -23,6 +23,25 @@ AC_DEFUN([DPKG_LINKER_OPTIMIZATIONS], [
   ])
 ])
 
+# DPKG_LINKER_AS_NEEDED
+# ---------------------
+AC_DEFUN([DPKG_LINKER_AS_NEEDED], [
+  AC_CACHE_CHECK([for --as-needed linker flag], [dpkg_cv_linker_as_needed], [
+    save_LDFLAGS=$LDFLAGS
+    LDFLAGS="$LDFLAGS -Wl,--as-needed"
+    AC_LINK_IFELSE([
+      AC_LANG_PROGRAM([], [])
+    ], [
+      dpkg_cv_linker_as_needed=yes
+    ], [
+      dpkg_cv_linker_as_needed=no
+    ])
+    LDFLAGS="$save_LDFLAGS"
+  ])
+  AM_CONDITIONAL([HAVE_LINKER_AS_NEEDED],
+    [test "x$dpkg_cv_linker_as_needed" = "xyes"])
+])
+
 # DPKG_LINKER_VERSION_SCRIPT
 # --------------------------
 AC_DEFUN([DPKG_LINKER_VERSION_SCRIPT], [
