@@ -26,6 +26,9 @@
 
 #include <assert.h>
 #include <stdlib.h>
+#ifdef HAVE_CXXABI_H
+#include <cxxabi.h>
+#endif
 
 #include <dpkg/dpkg.h>
 
@@ -74,3 +77,11 @@ operator delete[](void *a, size_t size) DPKG_ATTR_NOEXCEPT
 {
 	free(a);
 }
+
+#ifdef HAVE___CXA_PURE_VIRTUAL
+extern "C" void
+abi::__cxa_pure_virtual()
+{
+	internerr("pure virtual function called");
+}
+#endif

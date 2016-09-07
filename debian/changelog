@@ -42,6 +42,9 @@ dpkg (1.18.11) UNRELEASED; urgency=medium
     libdpkg. Regression introduced in dpkg 1.18.7. Closes: #842004
   * Move C++ support code into its own file.
   * Add replacement new and delete array operators to C++ support code.
+  * Implement local abi::__cxa_pure_virtual. When using g++ if we provide our
+    version of this function we can avoid the dependency on either libstdc++
+    or libsup++.
   * Architecture support:
     - Add support for AIX operating system.
   * Portability:

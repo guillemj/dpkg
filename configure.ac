@@ -109,6 +109,12 @@ AC_CHECK_HEADERS([\
   linux/fiemap.h \
 ])
 
+AS_IF([test "x$build_dselect" = "xyes"], [
+  AC_LANG_PUSH([C++])
+  AC_CHECK_HEADERS([cxxabi.h])
+  AC_LANG_POP([C++])
+])
+
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_BIGENDIAN
 AC_C_CONST
@@ -162,6 +168,12 @@ AC_CHECK_FUNCS([\
   fallocate \
   posix_fallocate \
   posix_fadvise \
+])
+
+AS_IF([test "x$build_dselect" = "xyes"], [
+  AC_LANG_PUSH([C++])
+  AC_CHECK_FUNCS([__cxa_pure_virtual])
+  AC_LANG_POP([C++])
 ])
 
 DPKG_MMAP
