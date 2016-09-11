@@ -30,6 +30,8 @@
 #include <cxxabi.h>
 #endif
 
+#include <new>
+
 #include <dpkg/dpkg.h>
 
 extern void *
