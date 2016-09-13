@@ -97,41 +97,27 @@ AC_DEFUN([DPKG_LIB_SELINUX], [
     [AS_HELP_STRING([--with-libselinux],
       [use selinux library to set security contexts])],
     [], [with_libselinux=check])
+  SELINUX_MIN_VERSION=2.0.99
   have_libselinux="no"
   AS_IF([test "x$with_libselinux" != "xno"], [
-    AC_CHECK_LIB([selinux], [is_selinux_enabled], [
-      AC_DEFINE([WITH_LIBSELINUX], [1],
-        [Define to 1 to compile in SELinux support])
-      PKG_CHECK_EXISTS([libselinux], [
-        AS_IF([test "x$with_libselinux" = "xstatic"], [
-          dpkg_selinux_libs="-Wl,-Bstatic "$($PKG_CONFIG --static --libs libselinux)" -Wl,-Bdynamic"
-        ], [
-          dpkg_selinux_libs=$($PKG_CONFIG --libs libselinux)
-        ])
+    PKG_CHECK_MODULES([SELINUX], [libselinux >= $SELINUX_MIN_VERSION], [
+      AC_CHECK_HEADER([selinux/selinux.h], [
+        AC_DEFINE([WITH_LIBSELINUX], [1],
+          [Define to 1 to compile in SELinux support])
+        have_libselinux="yes"
       ], [
-        AS_IF([test "x$with_libselinux" = "xstatic"], [
-          dpkg_selinux_libs="-Wl,-Bstatic -lselinux -lsepol -Wl,-Bdynamic"
-        ], [
-          dpkg_selinux_libs="-lselinux"
-        ])
-      ])
-      SELINUX_LIBS="${SELINUX_LIBS:+$SELINUX_LIBS }$dpkg_selinux_libs"
-
-      AC_CHECK_HEADER([selinux/selinux.h], [], [
         AS_IF([test "x$with_libselinux" != "xcheck"], [
-          AC_MSG_FAILURE([selinux header not found])
+          AC_MSG_FAILURE([libselinux header not found])
         ])
       ])
-
-      have_libselinux="yes"
+      AC_CHECK_LIB([selinux], [setexecfilecon], [
+        AC_DEFINE([HAVE_SETEXECFILECON], [1],
+          [Define to 1 if SELinux setexecfilecon is present])
+      ])
     ], [
       AS_IF([test "x$with_libselinux" != "xcheck"], [
-        AC_MSG_FAILURE([selinux library not found])
+        AC_MSG_FAILURE([libselinux at least $SELINUX_MIN_VERSION not found])
       ])
-    ])
-    AC_CHECK_LIB([selinux], [setexecfilecon], [
-      AC_DEFINE([HAVE_SETEXECFILECON], [1],
-                [Define to 1 if SELinux setexecfilecon is present])
     ])
   ])
   AM_CONDITIONAL([WITH_LIBSELINUX], [test "x$have_libselinux" = "xyes"])
