@@ -171,9 +171,14 @@ void deferred_remove(struct pkginfo *pkg) {
 
   pkg_conffiles_mark_old(pkg);
 
-  printf(_("Removing %s (%s) ...\n"), pkg_name(pkg, pnaw_nonambig),
-         versiondescribe(&pkg->installed.version, vdew_nonambig));
-  log_action("remove", pkg, &pkg->installed);
+  /* Only print and log removal action once. This avoids duplication when
+   * using --remove and --purge in sequence. */
+  if (pkg->status > PKG_STAT_CONFIGFILES) {
+    printf(_("Removing %s (%s) ...\n"), pkg_name(pkg, pnaw_nonambig),
+           versiondescribe(&pkg->installed.version, vdew_nonambig));
+    log_action("remove", pkg, &pkg->installed);
+  }
+
   trig_activate_packageprocessing(pkg);
   if (pkg->status >= PKG_STAT_HALFCONFIGURED) {
     static enum pkgstatus oldpkgstatus;
