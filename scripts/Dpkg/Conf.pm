@@ -85,8 +85,13 @@ sub get_options {
     return @{$self->{options}};
 }
 
-# These functions existed for a brief time, but do not mesh well with
-# repeated options.
+=item get()
+
+=item set()
+
+Obsolete functions, use get_options() instead. They will croak.
+
+=cut
 
 sub get {
     croak 'obsolete function, use get_options instead';
