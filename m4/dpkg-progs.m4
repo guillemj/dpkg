@@ -7,10 +7,21 @@
 # Locate perl interpreter in the path
 AC_DEFUN([DPKG_PROG_PERL], [
   AC_ARG_VAR([PERL], [Perl interpreter])dnl
-  AC_PATH_PROG([PERL], [perl], [no])
-  AS_IF([test "$PERL" = "no" || test ! -x "$PERL"], [
-    AC_MSG_ERROR([cannot find the Perl interpreter])
+  m4_define([PERL_MIN_VERSION], [5.14.2])
+  AC_CACHE_CHECK([for perl >= PERL_MIN_VERSION], [ac_cv_path_PERL], [
+    AC_PATH_PROGS_FEATURE_CHECK([PERL], [perl], [
+      perlcheck=$(test -x $ac_path_PERL && \
+                  $ac_path_PERL -MConfig -Mversion -e \
+                  'my $r = qv("v$Config{version}") >= qv("PERL_MIN_VERSION");
+                   print "yes" if $r')
+      AS_IF([test "x$perlcheck" = "xyes"], [
+        ac_cv_path_PERL=$ac_path_PERL ac_path_PERL_found=:
+      ])
+    ], [
+      AC_MSG_ERROR([cannot find perl >= PERL_MIN_VERSION])
+    ])
   ])
+  AC_SUBST([PERL], [$ac_cv_path_PERL])
   AC_ARG_VAR([PERL_LIBDIR], [Perl library directory])dnl
   # Let the user override the variable.
   AS_IF([test -z "$PERL_LIBDIR"], [
