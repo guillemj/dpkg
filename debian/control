@@ -21,8 +21,7 @@ Build-Depends:
  zlib1g-dev,
  libbz2-dev,
  liblzma-dev,
-# Needed for proper pkg-config file.
- libselinux1-dev (>= 1.28-4) [linux-any],
+ libselinux1-dev [linux-any],
  libncursesw5-dev,
  libio-string-perl <!nocheck>,
 
@@ -49,15 +48,12 @@ Multi-Arch: foreign
 Essential: yes
 Pre-Depends:
  ${shlibs:Depends},
-# Needed for --warning=no-timestamp in dpkg-deb -x.
- tar (>= 1.23),
 Depends:
  ${misc:Depends},
 # Needed for --clamp-mtime in dpkg-deb -b.
  tar (>= 1.28-1),
 Suggests:
  apt,
-Breaks: dpkg-dev (<< 1.15.8), libdpkg-perl (<< 1.15.8)
 Replaces:
  manpages-it (<< 2.80-4),
 Description: Debian package management system
@@ -82,8 +78,6 @@ Depends:
  patch (>= 2.7),
  make,
  binutils,
-# Needed for /etc/dpkg/origins/default.
- base-files (>= 5.0.0),
 Recommends:
  build-essential,
  gcc | c-compiler,
@@ -95,7 +89,6 @@ Recommends:
 Suggests:
  debian-keyring,
 Breaks:
- dpkg-cross (<< 2.0.0),
 # Due to new dpkg-architecture 1.17.17 strictness.
  devscripts (<< 2.14.10),
 Replaces:
@@ -114,8 +107,6 @@ Architecture: all
 Multi-Arch: foreign
 Depends:
  ${misc:Depends},
-# Needed for abitable.
- dpkg (>= 1.16.3),
  perl,
 Recommends:
 # Used by Dpkg::File.
@@ -132,10 +123,8 @@ Suggests:
  binutils,
  patch,
 Breaks:
- dpkg-dev (<< 1.15.6),
 # Needed for git-style diffs.
  patch (<< 2.7),
-Replaces: dpkg (<< 1.15.8), dpkg-dev (<< 1.15.6)
 Description: Dpkg perl modules
  This package provides the perl modules used by the scripts
  in dpkg-dev. They cover a wide range of functionality. Among them
@@ -183,13 +172,9 @@ Multi-Arch: foreign
 Depends:
  ${shlibs:Depends},
  ${misc:Depends},
- dpkg (>= 1.13.1),
 Suggests:
  perl,
-Conflicts: dpkg-ftp, dpkg-multicd
 Replaces:
- dpkg-ftp,
- dpkg-multicd,
  manpages-it (<< 2.80-4),
 Description: Debian package management front-end
  dselect is a high-level interface for managing the installation and
