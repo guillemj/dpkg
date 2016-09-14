@@ -38,7 +38,10 @@ sub file_lock($$) {
     # and dpkg-dev indirectly making use of it, makes building new perl
     # package which bump the perl ABI impossible as these packages cannot
     # be installed alongside.
-    eval 'use File::FcntlLock';
+    eval q{
+        pop @INC if $INC[-1] eq '.';
+        use File::FcntlLock;
+    };
     if ($@) {
         warning(g_('File::FcntlLock not available; using flock which is not NFS-safe'));
         flock($fh, LOCK_EX)

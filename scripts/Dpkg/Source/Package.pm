@@ -290,7 +290,11 @@ sub upgrade_object_type {
         $major =~ s/\.[\d\.]+$//;
         my $module = "Dpkg::Source::Package::V$major";
         $module .= '::' . ucfirst $variant if defined $variant;
-        eval "require $module; \$minor = \$${module}::CURRENT_MINOR_VERSION;";
+        eval qq{
+            pop \@INC if \$INC[-1] eq '.';
+            require $module;
+            \$minor = \$${module}::CURRENT_MINOR_VERSION;
+        };
         $minor //= 0;
         if ($update_format) {
             $self->{fields}{'Format'} = "$major.$minor";

@@ -162,6 +162,7 @@ sub get_vendor_object {
 
     foreach my $name (@names) {
         eval qq{
+            pop \@INC if \$INC[-1] eq '.';
             require Dpkg::Vendor::$name;
             \$obj = Dpkg::Vendor::$name->new();
         };

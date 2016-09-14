@@ -157,6 +157,7 @@ sub _changelog_parse {
     my $format = ucfirst lc $options{changelogformat};
     my $changes;
     eval qq{
+        pop \@INC if \$INC[-1] eq '.';
         require Dpkg::Changelog::$format;
         \$changes = Dpkg::Changelog::$format->new();
     };

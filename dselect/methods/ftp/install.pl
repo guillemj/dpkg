@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 eval q{
+    pop @INC if $INC[-1] eq '.';
     use Net::FTP;
     use File::Path qw(make_path remove_tree);
     use File::Basename;

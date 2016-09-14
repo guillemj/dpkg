@@ -19,7 +19,10 @@
 use strict;
 use warnings;
 
-eval 'use Net::FTP;';
+eval q{
+    pop @INC if $INC[-1] eq '.';
+    use Net::FTP;
+};
 if ($@) {
     warn "Please install the 'perl' package if you want to use the\n" .
          "FTP access method of dselect.\n\n";

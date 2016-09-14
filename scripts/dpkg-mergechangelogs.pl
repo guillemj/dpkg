@@ -38,7 +38,10 @@ sub get_conflict_block($$);
 sub join_lines($);
 
 BEGIN {
-    eval 'use Algorithm::Merge qw(merge);';
+    eval q{
+        pop @INC if $INC[-1] eq '.';
+        use Algorithm::Merge qw(merge);
+    };
     if ($@) {
         eval q{
             sub merge {
