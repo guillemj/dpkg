@@ -39,8 +39,13 @@ sub all_pod_modules
                                      $File::Find::name) == 0;
 
         $module =~ s{^\Q$File::Find::topdir\E/}{};
+        $module =~ s{/}{::}g;
 
-        push @modules, $module =~ s{/}{::}gr;
+        # Do not check partially private modules.
+        return if $module eq 'Dpkg::Arch';
+        return if $module eq 'Dpkg::Source::Package';
+
+        push @modules, $module;
     };
 
     my %options = (
