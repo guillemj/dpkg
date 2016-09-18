@@ -232,6 +232,7 @@ test_scripts = \
 	t/Dpkg_Source_Package.t \
 	t/Dpkg_Dist_Files.t \
 	t/dpkg_source.t \
+	t/dpkg_buildpackage.t \
 	t/merge_changelogs.t \
 	t/mk.t \
 	$(nil)
@@ -304,6 +305,12 @@ test_data = \
 	t/Dpkg_Substvars/substvars1 \
 	t/Dpkg_Substvars/substvars2 \
 	t/Dpkg_Dist_Files/files-byhand \
+	t/dpkg_buildpackage/test-source_0.dsc \
+	t/dpkg_buildpackage/test-source_0_all.changes \
+	t/dpkg_buildpackage/test-source_0_any.changes \
+	t/dpkg_buildpackage/test-source_0_binary.changes \
+	t/dpkg_buildpackage/test-source_0_full.changes \
+	t/dpkg_buildpackage/test-source_0_source.changes \
 	t/dpkg_source/testsuite_0.dsc \
 	t/dpkg_source/testsuite_1.dsc \
 	t/dpkg_source/testsuite_2.dsc \
