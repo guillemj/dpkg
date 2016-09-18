@@ -35,7 +35,8 @@ sub all_pod_modules
         return unless $module =~ s/\.pm$//;
 
         # As a first step just check public modules (version > 0.xx).
-        return unless system('grep', '^our \$VERSION = \'[^0]\.', $File::Find::name) == 0;
+        return unless system('grep', '-q', '^our \$VERSION = \'[^0]\.',
+                                     $File::Find::name) == 0;
 
         $module =~ s{^\Q$File::Find::topdir\E/}{};
 
