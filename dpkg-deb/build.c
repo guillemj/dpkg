@@ -49,6 +49,7 @@
 #include <dpkg/fdio.h>
 #include <dpkg/buffer.h>
 #include <dpkg/subproc.h>
+#include <dpkg/command.h>
 #include <dpkg/compress.h>
 #include <dpkg/ar.h>
 #include <dpkg/options.h>
@@ -421,7 +422,7 @@ typedef void filenames_feed_func(const char *dir, int fd_out);
  */
 static void
 tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-             time_t timestamp,
+             time_t timestamp, const char *mode,
              struct compress_params *tar_compress_params, int fd_out)
 {
   int pipe_filenames[2], pipe_tarball[2];
@@ -432,6 +433,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
   m_pipe(pipe_tarball);
   pid_tar = subproc_fork();
   if (pid_tar == 0) {
+    struct command cmd;
     char mtime[50];
 
     m_dup2(pipe_filenames[0], 0);
@@ -446,11 +448,15 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
 
     snprintf(mtime, sizeof(mtime), "@%ld", timestamp);
 
-    execlp(TAR, "tar", "-cf", "-", "--format=gnu",
-                       "--mtime", mtime, "--clamp-mtime",
-                       "--null", "--no-unquote",
-                       "--no-recursion", "-T", "-", NULL);
-    ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
+    command_init(&cmd, TAR, "tar -cf");
+    command_add_args(&cmd, "tar", "-cf", "-", "--format=gnu",
+                           "--mtime", mtime, "--clamp-mtime", NULL);
+    /* Mode might become a positional argument, pass it before -T. */
+    if (mode)
+      command_add_args(&cmd, "--mode", mode, NULL);
+    command_add_args(&cmd, "--null", "--no-unquote", "--no-recursion",
+                           "-T", "-", NULL);
+    command_exec(&cmd);
   }
   close(pipe_filenames[0]);
   close(pipe_tarball[1]);
@@ -571,7 +577,7 @@ do_build(const char *const *argv)
   }
 
   /* Fork a tar to package the control-section of the package. */
-  tarball_pack(ctrldir, control_treewalk_feed, timestamp,
+  tarball_pack(ctrldir, control_treewalk_feed, timestamp, "u+rw,go=rX",
                &control_compress_params, gzfd);
 
   free(ctrldir);
@@ -633,7 +639,7 @@ do_build(const char *const *argv)
   }
 
   /* Pack the directory into a tarball, feeding files from the callback. */
-  tarball_pack(dir, file_treewalk_feed, timestamp, &compress_params, gzfd);
+  tarball_pack(dir, file_treewalk_feed, timestamp, NULL, &compress_params, gzfd);
 
   /* Okay, we have data.tar as well now, add it to the ar wrapper. */
   if (deb_format.major == 2) {
