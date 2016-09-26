@@ -266,17 +266,16 @@ case is a virtual destructor which under diamond inheritance needs a
 non-virtual thunk symbol. For example, even if _ZThn8_N3NSB6ClassDD1Ev@Base on
 32bit architectures will probably be _ZThn16_N3NSB6ClassDD1Ev@Base on 64bit
 ones, it can be matched with a single \fIc++\fR pattern:
-.RS
-.PP
+
 libdummy.so.1 libdummy1 #MINVER#
  [...]
  (c++)"non\-virtual thunk to NSB::ClassD::~ClassD()@Base" 1.0
  [...]
-.P
+
 The demangled name above can be obtained by executing the following command:
-.PP
+
  $ echo '_ZThn8_N3NSB6ClassDD1Ev@Base' | c++filt
-.P
+
 Please note that while mangled name is unique in the library by definition,
 this is not necessarily true for demangled names. A couple of distinct real
 symbols may have the same demangled name. For example, that's the case with
@@ -284,32 +283,29 @@ non-virtual thunk symbols in complex inheritance configurations or with most
 constructors and destructors (since g++ typically generates two real symbols
 for them). However, as these collisions happen on the ABI level, they should
 not degrade quality of the symbol file.
-.RE
 .TP
 .B symver
 This pattern is denoted by the \fIsymver\fR tag. Well maintained libraries have
 versioned symbols where each version corresponds to the upstream version where
 the symbol got added. If that's the case, you can use a \fIsymver\fR pattern to
 match any symbol associated to the specific version. For example:
-.RS
-.PP
+
 libc.so.6 libc6 #MINVER#
  (symver)GLIBC_2.0 2.0
  [...]
  (symver)GLIBC_2.7 2.7
  access@GLIBC_2.0 2.2
-.PP
+
 All symbols associated with versions GLIBC_2.0 and GLIBC_2.7 will lead to
 minimal version of 2.0 and 2.7 respectively with the exception of the symbol
 access@GLIBC_2.0. The latter will lead to a minimal dependency on libc6 version
 2.2 despite being in the scope of the "(symver)GLIBC_2.0" pattern because
 specific symbols take precedence over patterns.
-.P
+
 Please note that while old style wildcard patterns (denoted by "*@version" in
 the symbol name field) are still supported, they have been deprecated by new
 style syntax "(symver|optional)version". For example, "*@GLIBC_2.0 2.0" should
 be written as "(symver|optional)GLIBC_2.0 2.0" if the same behaviour is needed.
-.RE
 .TP
 .B regex
 Regular expression patterns are denoted by the \fIregex\fR tag. They match by
@@ -317,25 +313,23 @@ the perl regular expression specified in the symbol name field. A regular
 expression is matched as it is, therefore do not forget to start it with the
 \fI^\fR character or it may match any part of the real symbol
 \fIname@version\fR string. For example:
-.RS
-.PP
+
 libdummy.so.1 libdummy1 #MINVER#
  (regex)"^mystack_.*@Base$" 1.0
  (regex|optional)"private" 1.0
-.P
+
 Symbols like "mystack_new@Base", "mystack_push@Base", "mystack_pop@Base" etc.
 will be matched by the first pattern while e.g. "ng_mystack_new@Base" won't.
 The second pattern will match all symbols having the string "private" in their
 names and matches will inherit \fIoptional\fR tag from the pattern.
-.RE
 .P
 Basic patterns listed above can be combined where it makes sense. In that case,
 they are processed in the order in which the tags are specified. For example,
 both
-.PP
+
  (c++|regex)"^NSA::ClassA::Private::privmethod\\d\\(int\\)@Base" 1.0
  (regex|c++)N3NSA6ClassA7Private11privmethod\\dEi@Base 1.0
-.P
+
 will match symbols "_ZN3NSA6ClassA7Private11privmethod1Ei@Base" and
 "_ZN3NSA6ClassA7Private11privmethod2Ei@Base". When matching the first pattern,
 the raw symbol is first demangled as C++ symbol, then the demangled name is
@@ -345,13 +339,13 @@ the symbol is tested if it is C++ one by attempting to demangle it. A failure
 of any basic pattern will result in the failure of the whole pattern.
 Therefore, for example, "__N3NSA6ClassA7Private11privmethod\\dEi@Base" will not
 match either of the patterns because it is not a valid C++ symbol.
-.P
+
 In general, all patterns are divided into two groups: aliases (basic \fIc++\fR
 and \fIsymver\fR) and generic patterns (\fIregex\fR, all combinations of
 multiple basic patterns). Matching of basic alias-based patterns is fast (O(1))
 while generic patterns are O(N) (N - generic pattern count) for each symbol.
 Therefore, it is recommended not to overuse generic patterns.
-.P
+
 When multiple patterns match the same real symbol, aliases (first \fIc++\fR,
 then \fIsymver\fR) are preferred over generic patterns. Generic patterns are
 matched in the order they are found in the symbol file template until the first
