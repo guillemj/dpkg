@@ -33,31 +33,24 @@ and everything after the first \fB#\fP on any line will be trimmed, and
 empty lines will be ignored.
 .PP
 The trigger control directives currently supported are:
-.IP "" 5
-.B interest
-.I trigger-name
-.br
-.B interest\-await
-.I trigger-name
-.br
-.B interest\-noawait
-.I trigger-name
+.TP
+\fBinterest\fP \fItrigger-name\fP
+.TQ
+\fBinterest\-await\fP \fItrigger-name\fP
+.TQ
+\fBinterest\-noawait\fP \fItrigger-name\fP
 .IP
 Specifies that the package is interested in the named trigger. All
 triggers in which a package is interested must be listed using this
 directive in the triggers control file. The \(lqnoawait\(rq variant does
 not put the triggering packages in triggers\-awaited state. This should
 be used when the functionality provided by the trigger is not crucial.
-.IP
-.B activate
-.I trigger-name
-.br
-.B activate\-await
-.I trigger-name
-.br
-.B activate\-noawait
-.I trigger-name
-.br
+.TP
+\fBactivate\fP \fItrigger-name\fP
+.TQ
+\fBactivate\-await\fP \fItrigger-name\fP
+.TQ
+\fBactivate\-noawait\fP \fItrigger-name\fP
 .IP
 Arranges that changes to this package's state will activate the
 specified trigger. The trigger will be activated at the start of
