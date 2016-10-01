@@ -29,7 +29,7 @@ use Dpkg::Compression::Process;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
-use parent qw(FileHandle Tie::Handle);
+use parent qw(IO::File Tie::Handle);
 
 # Useful reference to understand some kludges required to
 # have the object behave like a filehandle
@@ -103,7 +103,7 @@ and you can't seek on a pipe.
 
 =head1 FileHandle METHODS
 
-The object inherits from FileHandle so all methods that work on this
+The object inherits from IO::File so all methods that work on this
 object should work for Dpkg::Compression::FileHandle too. There
 may be exceptions though.
 
@@ -126,7 +126,7 @@ obviously incompatible with automatic detection of the compression method.
 sub new {
     my ($this, %args) = @_;
     my $class = ref($this) || $this;
-    my $self = FileHandle->new();
+    my $self = IO::File->new();
     # Tying is required to overload the open functions and to auto-open
     # the file on first read/write operation
     tie *$self, $class, $self;
