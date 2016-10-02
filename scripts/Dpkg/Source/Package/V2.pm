@@ -259,7 +259,7 @@ sub get_autopatch_name {
     return 'zz_debian-diff-auto';
 }
 
-sub get_patches {
+sub _get_patches {
     my ($self, $dir, %opts) = @_;
     $opts{skip_auto} //= 0;
     my @patches;
@@ -281,14 +281,14 @@ sub get_patches {
 sub apply_patches {
     my ($self, $dir, %opts) = @_;
     $opts{skip_auto} //= 0;
-    my @patches = $self->get_patches($dir, %opts);
+    my @patches = $self->_get_patches($dir, %opts);
     return unless scalar(@patches);
     my $applied = File::Spec->catfile($dir, 'debian', 'patches', '.dpkg-source-applied');
     open(my $applied_fh, '>', $applied)
         or syserr(g_('cannot write %s'), $applied);
     print { $applied_fh } "# During $opts{usage}\n";
     my $timestamp = fs_time($applied);
-    foreach my $patch ($self->get_patches($dir, %opts)) {
+    foreach my $patch ($self->_get_patches($dir, %opts)) {
         my $path = File::Spec->catfile($dir, 'debian', 'patches', $patch);
         info(g_('applying %s'), $patch) unless $opts{skip_auto};
         my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
@@ -302,7 +302,7 @@ sub apply_patches {
 
 sub unapply_patches {
     my ($self, $dir, %opts) = @_;
-    my @patches = reverse($self->get_patches($dir, %opts));
+    my @patches = reverse($self->_get_patches($dir, %opts));
     return unless scalar(@patches);
     my $applied = File::Spec->catfile($dir, 'debian', 'patches', '.dpkg-source-applied');
     my $timestamp = fs_time($applied);
@@ -317,7 +317,7 @@ sub unapply_patches {
     unlink($applied);
 }
 
-sub upstream_tarball_template {
+sub _upstream_tarball_template {
     my $self = shift;
     my $ext = '{' . join(',',
         sort map {
@@ -332,7 +332,7 @@ sub can_build {
     return 1 if $self->{options}{create_empty_orig} and
                 $self->find_original_tarballs(include_main => 0);
     return (0, sprintf(g_('no upstream tarball found at %s'),
-                       $self->upstream_tarball_template()));
+                       $self->_upstream_tarball_template()));
 }
 
 sub before_build {
@@ -390,7 +390,7 @@ sub check_patches_applied {
     }
 }
 
-sub generate_patch {
+sub _generate_patch {
     my ($self, $dir, %opts) = @_;
     my ($dirname, $updir) = fileparse($dir);
     my $basedirname = $self->get_basename();
@@ -419,7 +419,7 @@ sub generate_patch {
     }
 
     error(g_('no upstream tarball found at %s'),
-          $self->upstream_tarball_template()) unless $tarfile;
+          $self->_upstream_tarball_template()) unless $tarfile;
 
     if ($opts{usage} eq 'build') {
         info(g_('building %s using existing %s'),
@@ -463,7 +463,7 @@ sub generate_patch {
         my $analysis = $header_from->analyze($dir, verbose => 0);
         $diff->set_header($analysis->{patchheader});
     } else {
-        $diff->set_header($self->get_patch_header($dir));
+        $diff->set_header($self->_get_patch_header($dir));
     }
     $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
             %{$self->{diff_options}},
@@ -567,7 +567,7 @@ sub do_build {
     # Create a patch
     my $autopatch = File::Spec->catfile($dir, 'debian', 'patches',
                                         $self->get_autopatch_name());
-    my $tmpdiff = $self->generate_patch($dir, order_from => $autopatch,
+    my $tmpdiff = $self->_generate_patch($dir, order_from => $autopatch,
                                         header_from => $autopatch,
                                         handle_binary => $handle_binary,
                                         skip_auto => $self->{options}{auto_commit},
@@ -608,7 +608,7 @@ sub do_build {
     $self->add_file($debianfile);
 }
 
-sub get_patch_header {
+sub _get_patch_header {
     my ($self, $dir) = @_;
     my $ph = File::Spec->catfile($dir, 'debian', 'source', 'local-patch-header');
     unless (-f $ph) {
@@ -708,7 +708,7 @@ sub do_commit {
     };
 
     unless ($tmpdiff) {
-        $tmpdiff = $self->generate_patch($dir, handle_binary => $handle_binary,
+        $tmpdiff = $self->_generate_patch($dir, handle_binary => $handle_binary,
                                          usage => 'commit');
         $binaryfiles->update_debian_source_include_binaries();
     }

@@ -55,7 +55,7 @@ sub import {
              'git is not in the PATH'));
 }
 
-sub sanity_check {
+sub _sanity_check {
     my $srcdir = shift;
 
     if (! -d "$srcdir/.git") {
@@ -119,7 +119,7 @@ sub do_build {
     my ($dirname, $updir) = fileparse($dir);
     my $basenamerev = $self->get_basename(1);
 
-    sanity_check($dir);
+    _sanity_check($dir);
 
     my $old_cwd = getcwd();
     chdir $dir or syserr(g_("unable to chdir to '%s'"), $dir);
@@ -254,7 +254,7 @@ sub do_extract {
         subprocerr('cp') if $?;
     }
 
-    sanity_check($newdirectory);
+    _sanity_check($newdirectory);
 }
 
 1;
