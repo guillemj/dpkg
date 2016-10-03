@@ -350,18 +350,26 @@ manpage.
 It is allowed to add additional user-defined fields to the control file. The
 tools will ignore these fields. If you want the fields to be copied over to
 the output files, such as the binary packages, you need to use a custom naming
-scheme: the fields should start with an X, followed by one or more of the
-letters BCS and a hyphen.
-If the letter B is used, the field will appear in the
-control file in the binary package, see
-.BR deb\-control (5),
-for the letter S in the source package control file as constructed by
-.BR dpkg\-source (1)
-and for the letter C in the upload control (.changes) file. Note that the
-X[BCS]\- prefixes are stripped when the fields are copied over to the
-output files. A field \fBXC\-Approved\-By\fP will appear as
-\fBApproved\-By\fP in the changes file and will not appear in the binary or
-source package control files.
+scheme: the fields should start with an \fBX\fP, followed by zero or more of
+the letters \fBBCS\fP and a hyphen.
+
+.TP
+.B B
+The field will appear in the control file in the binary package, see
+\fBdeb\-control\fP(5).
+.TP
+.B S
+The field will appear in the source package control file, see \fBdsc\fP(5).
+.TP
+.B C
+The field will appear in the upload control (.changes) file, see
+\fBdeb\-changes\fP(5).
+
+.P
+Note that the \fBX\fP[\fBBCS\fP]\fB\-\fP prefixes are stripped when the
+fields are copied over to the output files. A field \fBXC\-Approved\-By\fP
+will appear as \fBApproved\-By\fP in the changes file and will not appear
+in the binary or source package control files.
 
 Take into account that these user-defined fields will be using the global
 namespace, which might at some point in the future collide with officially
