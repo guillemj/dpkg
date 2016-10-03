@@ -129,20 +129,31 @@ The upstream project home page \fIurl\fP.
 List of tags describing the qualities of the package. The description and
 list of supported tags can be found in the \fB\%debtags\fP package.
 .TP
-.BR Multi\-Arch: " \fBsame\fP|\fBforeign\fP|\fBallowed\fP|\fBno\fP"
+.BR Multi\-Arch: " \fBno\fP|\fBsame\fP|\fBforeign\fP|\fBallowed\fP"
 This field is used to indicate how this package should behave on a multi-arch
-installations. The value \fBsame\fP means that the package is co-installable
-with itself, but it must not be used to satisfy the dependency of any package
-of a different architecture from itself.
-The value \fBforeign\fP means that the package is not co-installable with
-itself, but should be allowed to satisfy a non-arch-qualified dependency of
-a package of a different arch from itself (if a dependency has an explicit
-arch-qualifier then the value \fBforeign\fP is ignored).
-The value \fBallowed\fP allows reverse-dependencies to indicate in their
-\fBDepends\fP field that they accept a package from a foreign architecture by
-qualifying the package name with \fB:any\fP, but has no effect otherwise.
-The value \fBno\fP is the default when the field is omitted, in which case
+installations.
+.RS
+.TP
+.B no
+This value is the default when the field is omitted, in which case
 adding the field with an explicit \fBno\fP value is generally not needed.
+.TP
+.B same
+This package is co-installable with itself, but it must not be used to
+satisfy the dependency of any package of a different architecture from
+itself.
+.TP
+.B foreign
+This package is not co-installable with itself, but should be allowed to
+satisfy a non-arch-qualified dependency of a package of a different arch
+from itself (if a dependency has an explicit arch-qualifier then the
+value \fBforeign\fP is ignored).
+.TP
+.B allowed
+This allows reverse-dependencies to indicate in their \fBDepends\fP
+field that they accept this package from a foreign architecture by
+qualifying the package name with \fB:any\fP, but has no effect otherwise.
+.RE
 .TP
 .BR Source: " \fIsource-name\fP [\fB(\fP\fIsource-version\fP\fB)\fP]"
 The name of the source package that this binary package came from, if it is
