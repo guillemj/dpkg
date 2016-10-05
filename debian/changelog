@@ -23,6 +23,11 @@ dpkg (1.18.11) UNRELEASED; urgency=medium
     - Improve user-defined field export marker documentation in
       deb-src-control(5); clarify that X can be followed by zero or more
       (instead of one or more) letters and turn the items into a proper list.
+    - Generate the man pages at build time. This makes it possible to process
+      them and update several variable strings such as system and package
+      pathnames, the release date and the dpkg suite version. And makes it
+      possible to use UTF-8 in the source and convert to the more conservative
+      groff escape sequences on the output.
   * Build system:
     - Add support for profiling perl modules.
     - Clean up compiler and linker automatic flag usage in configure.

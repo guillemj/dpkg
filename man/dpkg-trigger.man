@@ -1,0 +1,105 @@
+.\" dpkg manual page - dpkg-trigger(1)
+.\"
+.\" Copyright © 2008-2015 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH dpkg\-trigger 1 "%RELEASE_DATE%" "%VERSION%" "dpkg suite"
+.SH NAME
+dpkg\-trigger \- a package trigger utility
+.
+.SH SYNOPSIS
+.B dpkg\-trigger
+.RI [ option "...] " trigger-name
+.br
+.B dpkg\-trigger
+.RI [ option "...] " command
+.
+.SH DESCRIPTION
+\fBdpkg\-trigger\fP is a tool to explicitly activate triggers and check
+for its support on the running \fBdpkg\fP.
+.PP
+This can be used by maintainer scripts in complex and conditional
+situations where the file triggers, or the declarative \fBactivate\fP
+triggers control file directive, are insufficiently rich. It can also
+be used for testing and by system administrators (but note that the
+triggers won't actually be run by \fBdpkg\-trigger\fP).
+.PP
+Unrecognized trigger name syntaxes are an error for \fBdpkg\-trigger\fP.
+.
+.SH COMMANDS
+.TP
+.BR \-\-check\-supported
+Check if the running \fBdpkg\fP supports triggers (usually called from a
+postinst). Will exit \fB0\fP if a triggers-capable \fBdpkg\fP has run,
+or \fB1\fP with an error message to stderr if not. Normally, however,
+it is better just to activate the desired trigger with \fBdpkg\-trigger\fP.
+.TP
+.BR \-? ", " \-\-help
+Show the usage message and exit.
+.TP
+.B \-\-version
+Show the version and exit.
+.
+.SH OPTIONS
+.TP
+.BI \-\-admindir= dir
+Change the location of the \fBdpkg\fR database. The default location is
+\fI%ADMINDIR%\fP.
+.TP
+.BR \-\-by\-package=\fIpackage\fR
+Override trigger awaiter (normally set by \fBdpkg\fP through the
+\fBDPKG_MAINTSCRIPT_PACKAGE\fP environment variable of the maintainer scripts,
+naming the package to which the script belongs, and this will be used
+by default).
+.TP
+.BR \-\-no\-await
+This option arranges that the calling package T (if any) need not await
+the processing of this trigger; the interested package(s) I, will not be
+added to T's trigger processing awaited list and T's status is unchanged.
+T may be considered installed even though I may not yet have processed
+the trigger.
+.TP
+.BR \-\-await
+This option does the inverse of \fB\-\-no\-await\fP (since dpkg 1.17.21).
+It is currently the default behavior.
+.TP
+.BR \-\-no\-act
+Just test, do not actually change anything.
+.
+.SH EXIT STATUS
+.TP
+.B 0
+The requested action was successfully performed.
+Or a check or assertion command returned true.
+.TP
+.B 1
+A check or assertion command returned false.
+.TP
+.B 2
+Fatal or unrecoverable error due to invalid command-line usage, or
+interactions with the system, such as accesses to the database,
+memory allocations, etc.
+.
+.SH ENVIRONMENT
+.TP
+.B DPKG_ADMINDIR
+If set and the \fB\-\-admindir\fP option has not been specified, it will
+be used as the \fBdpkg\fP data directory.
+.
+.SH SEE ALSO
+.BR dpkg (1),
+.BR deb\-triggers (5),
+.\" FIXME: Unhardcode the pathname, and use dpkg instead of dpkg-dev.
+.BR /usr/share/doc/dpkg\-dev/triggers.txt.gz .

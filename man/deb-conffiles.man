@@ -1,0 +1,41 @@
+.\" dpkg manual page - deb-conffiles(5)
+.\"
+.\" Copyright © 2016 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH deb\-conffiles 5 "%RELEASE_DATE%" "%VERSION%" "dpkg utilities"
+.SH NAME
+deb\-conffiles \- package conffiles
+.
+.SH SYNOPSIS
+conffiles
+.
+.SH DESCRIPTION
+A package declares its list of conffiles by including a \fIconffiles\fP file
+in its control archive (i.e. \fIDEBIAN/conffiles\fP during package creation).
+.PP
+This file contains a list of files, one per line.
+Trailing whitespace will be trimmed, and empty lines will be ignored.
+.
+.SH EXAMPLE
+.nf
+%CONFDIR%/alternatives/README
+%CONFDIR%/cron.daily/dpkg
+%PKGCONFDIR%/dpkg.cfg
+%CONFDIR%/logrotate.d/dpkg
+.fi
+.
+.SH SEE ALSO
+.BR dpkg (1).

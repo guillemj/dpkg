@@ -1,0 +1,514 @@
+.\" dpkg manual page - update-alternatives(1)
+.\"
+.\" Copyright © 1997-1998 Charles Briscoe-Smith
+.\" Copyright © 1999 Ben Collins <bcollins@debian.org>
+.\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2003 Adam Heath <doogie@debian.org>
+.\" Copyright © 2005 Scott James Remnant <scott@netsplit.com>
+.\" Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2008 Pierre Habouzit <madcoder@debian.org>
+.\" Copyright © 2009-2011 Raphaël Hertzog <hertzog@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH update\-alternatives 1 "%RELEASE_DATE%" "%VERSION%" "dpkg utilities"
+.SH NAME
+update\-alternatives \- maintain symbolic links determining default commands
+.
+.SH SYNOPSIS
+.B update\-alternatives
+.RI [ option "...] " command
+.
+.SH DESCRIPTION
+.B update\-alternatives
+creates, removes, maintains and displays information about the symbolic
+links comprising the Debian alternatives system.
+.PP
+It is possible for several programs fulfilling the same or similar
+functions to be installed on a single system at the same time.
+For example, many systems have several text editors installed at once.
+This gives choice to the users of a system, allowing each to use a
+different editor, if desired, but makes it difficult for a program
+to make a good choice for an editor to invoke if the
+user has not specified a particular preference.
+.PP
+Debian's alternatives system aims to solve this problem.
+A generic name in the filesystem is
+shared by all files providing interchangeable functionality.
+The alternatives system and the system administrator
+together determine which actual file is referenced by this generic name.
+For example, if the text editors
+.BR ed (1)
+and
+.BR nvi (1)
+are both installed on the system, the alternatives system will cause
+the generic name
+.I /usr/bin/editor
+to refer to
+.I /usr/bin/nvi
+by default. The system administrator can override this and cause
+it
+to refer to
+.I /usr/bin/ed
+instead,
+and the alternatives system will not alter this setting until explicitly
+requested to do so.
+.PP
+The generic name is not a direct symbolic link to the selected alternative.
+Instead, it is a symbolic link to a name in the
+.I alternatives
+.IR directory ,
+which in turn is a symbolic link to the actual file referenced.
+This is done so that the system administrator's changes can be confined
+within the
+.I %CONFDIR%
+directory: the FHS (q.v.) gives reasons why this is a Good Thing.
+.PP
+When each package
+providing a file with a particular functionality is
+installed, changed or removed,
+.B update\-alternatives
+is called to update information about that file in the alternatives system.
+.B update\-alternatives
+is usually called from the
+.B postinst
+(configure) or
+.B prerm
+(remove and deconfigure) scripts in Debian packages.
+.PP
+It is often useful for a number of alternatives to be synchronized,
+so that they are changed as a group; for example, when several versions
+of the
+.BR vi (1)
+editor are installed, the man page referenced by
+.I /usr/share/man/man1/vi.1
+should correspond to the executable referenced by
+.IR /usr/bin/vi .
+.B update\-alternatives
+handles this by means of
+.I master
+and
+.I slave
+links; when the master is changed, any associated slaves are changed
+too.
+A master link and its associated slaves make up a
+.I link
+.IR group .
+.PP
+Each link group is, at any given time,
+in one of two modes: automatic or manual.
+When a group is in automatic mode, the alternatives system will
+automatically decide, as packages are installed and removed,
+whether and how to update the links.
+In manual mode, the alternatives system will retain the choice of
+the administrator and avoid changing the links (except when something is
+broken).
+.PP
+Link groups are in automatic mode when they are first introduced to
+the system.
+If the system administrator makes changes to the system's
+automatic settings,
+this will be noticed the next time
+.B update\-alternatives
+is run on the changed link's group,
+and the group will automatically be switched to manual mode.
+.PP
+Each alternative has a
+.I priority
+associated with it.
+When a link group is in automatic mode,
+the alternatives pointed to by members of the group
+will be those which have the highest priority.
+.PP
+When using the
+.B \-\-config
+option,
+.B update\-alternatives
+will list all of the choices for the link group
+of which given
+.I name
+is the master alternative name.
+The current choice is marked with a \(oq*\(cq.
+You will then be prompted for your choice regarding this link group.
+Depending on the choice made, the link group might no longer be in
+.I auto
+mode. You will need to use the
+.B \-\-auto
+option in order to return to the automatic mode (or you can rerun
+.B \-\-config
+and select the entry marked as automatic).
+.PP
+If you want to configure non-interactively you can use the
+.B \-\-set
+option instead (see below).
+.PP
+Different packages providing the same file need to do so
+.BR cooperatively .
+In other words, the usage of
+.B update\-alternatives
+is
+.B mandatory
+for all involved packages in such case. It is not possible to
+override some file in a package that does not employ the
+.B update\-alternatives
+mechanism.
+.
+.SH TERMINOLOGY
+Since the activities of
+.B update\-alternatives
+are quite involved, some specific terms will help to explain its
+operation.
+.TP
+generic name (or alternative link)
+A name, like
+.IR /usr/bin/editor ,
+which refers, via the alternatives system, to one of a number of
+files of similar function.
+.TP
+alternative name
+The name of a symbolic link in the alternatives directory.
+.TP
+alternative (or alternative path)
+The name of a specific file in the filesystem, which may be made
+accessible via a generic name using the alternatives system.
+.TP
+alternatives directory
+A directory, by default
+.IR %CONFDIR%/alternatives ,
+containing the symlinks.
+.TP
+administrative directory
+A directory, by default
+.IR %ADMINDIR%/alternatives ,
+containing
+.BR update\-alternatives '
+state information.
+.TP
+link group
+A set of related symlinks, intended to be updated as a group.
+.TP
+master link
+The alternative link in a link group which determines how the other links in the
+group are configured.
+.TP
+slave link
+An alternative link in a link group which is controlled by the setting of
+the master link.
+.TP
+automatic mode
+When a link group is in automatic mode,
+the alternatives system ensures that the links in the group
+point to the highest priority alternative
+appropriate for the group.
+.TP
+manual mode
+When a link group is in manual mode,
+the alternatives system will not make any changes
+to the system administrator's settings.
+.
+.SH COMMANDS
+.TP
+\fB\-\-install\fR \fIlink name path priority\fR [\fB\-\-slave\fR \fIlink name path\fR]...
+Add a group of alternatives to the system.
+.I link
+is the generic name for the master link,
+.I name
+is the name of its symlink in the alternatives directory, and
+.I path
+is the alternative being introduced for the master link.
+The arguments after \fB\-\-slave\fR are the generic name, symlink name in the
+alternatives directory and the alternative path for a slave link.
+Zero or more
+.B \-\-slave
+options, each followed by three arguments,
+may be specified. Note that the master alternative must exist or the call
+will fail. However if a slave alternative doesn't exist, the corresponding
+slave alternative link will simply not be installed (a warning will still
+be displayed). If some real file is installed where an alternative link
+has to be installed, it is kept unless \fB\-\-force\fR is used.
+.IP
+If the alternative name specified exists already
+in the alternatives system's records,
+the information supplied will be added as a new
+set of alternatives for the group.
+Otherwise, a new group, set to automatic mode,
+will be added with this information.
+If the group is in automatic mode,
+and the newly added alternatives' priority is higher than
+any other installed alternatives for this group,
+the symlinks will be updated to point to the newly added alternatives.
+.TP
+\fB\-\-set\fR \fIname path\fR
+Set the program
+.I path
+as alternative for
+.I name.
+This is equivalent to
+.B \-\-config
+but is non-interactive and thus scriptable.
+.TP
+\fB\-\-remove\fR \fIname path\fR
+Remove an alternative and all of its associated slave links.
+.I name
+is a name in the alternatives directory, and
+.I path
+is an absolute filename to which
+.I name
+could be linked. If
+.I name
+is indeed linked to
+.IR path ,
+.I name
+will be updated to point to another appropriate alternative
+(and the group is put back in automatic mode), or
+removed if there is no such alternative left.
+Associated slave links will be updated or removed, correspondingly.
+If the link is not currently pointing to
+.IR path ,
+no links are changed;
+only the information about the alternative is removed.
+.TP
+\fB\-\-remove\-all\fR \fIname\fR
+Remove all alternatives and all of their associated slave links.
+.I name
+is a name in the alternatives directory.
+.TP
+.B \-\-all
+Call \fB\-\-config\fP on all alternatives. It can be usefully combined with
+\fB\-\-skip\-auto\fP to review and configure all alternatives which are
+not configured in automatic mode. Broken alternatives are also displayed.
+Thus a simple way to fix all broken alternatives is to call
+\fByes \[aq]\[aq] | update\-alternatives \-\-force \-\-all\fR.
+.TP
+\fB\-\-auto\fR \fIname\fR
+Switch the link group behind the alternative for
+.I name
+to automatic mode.
+In the process, the master symlink and its slaves are updated
+to point to the highest priority installed alternatives.
+.TP
+\fB\-\-display\fR \fIname\fR
+Display information about the link group.
+Information displayed includes the group's mode
+(auto or manual),
+the master and slave links,
+which alternative the master link currently points to,
+what other alternatives are available
+(and their corresponding slave alternatives),
+and the highest priority alternative currently installed.
+.TP
+\fB\-\-get\-selections\fR
+List all master alternative names (those controlling a link group)
+and their status (since version 1.15.0).
+Each line contains up to 3 fields (separated by
+one or more spaces). The first field is the alternative name, the second
+one is the status (either \fBauto\fP or \fBmanual\fP), and the last one contains
+the current choice in the alternative (beware: it's a filename and thus
+might contain spaces).
+.TP
+\fB\-\-set\-selections\fR
+Read configuration of alternatives on standard input in the format
+generated by \fB\-\-get\-selections\fR and reconfigure
+them accordingly (since version 1.15.0).
+.TP
+\fB\-\-query\fR \fIname\fR
+Display information about the link group
+like \fB\-\-display\fP does, but in a machine parseable way
+(since version 1.15.0, see section \fBQUERY FORMAT\fR below).
+.TP
+\fB\-\-list\fR \fIname\fR
+Display all targets of the link group.
+.TP
+\fB\-\-config\fR \fIname\fR
+Show available alternatives for a link group and allow the user to
+interactively select which one to use. The link group is updated.
+.TP
+.B \-\-help
+Show the usage message and exit.
+.TP
+.B \-\-version
+Show the version and exit.
+.
+.SH OPTIONS
+.TP
+.BI \-\-altdir " directory"
+Specifies the alternatives directory, when this is to be
+different from the default.
+.TP
+.BI \-\-admindir " directory"
+Specifies the administrative directory, when this is to be
+different from the default.
+.TP
+.BI \-\-log " file"
+Specifies the log file (since version 1.15.0), when this is to be different
+from the default (%LOGDIR%/alternatives.log).
+.TP
+.BI \-\-force
+Allow replacing or dropping any real file that is installed
+where an alternative link has to be installed or removed.
+.TP
+.BI \-\-skip\-auto
+Skip configuration prompt for alternatives which are properly configured
+in automatic mode. This option is only relevant with \fB\-\-config\fR or
+\fB\-\-all\fR.
+.TP
+.B \-\-verbose
+Generate more comments about what is being done.
+.TP
+.B \-\-quiet
+Don't generate any comments unless errors occur.
+.
+.SH EXIT STATUS
+.TP
+.B 0
+The requested action was successfully performed.
+.TP
+.B 2
+Problems were encountered whilst parsing the command line
+or performing the action.
+.
+.SH ENVIRONMENT
+.TP
+.B DPKG_ADMINDIR
+If set and the \fB\-\-admindir\fP option has not been specified, it will
+be used as the base administrative directory.
+.
+.SH FILES
+.TP
+.I %CONFDIR%/alternatives/
+The default alternatives directory.
+Can be overridden by the
+.B \-\-altdir
+option.
+.TP
+.I %ADMINDIR%/alternatives/
+The default administration directory.
+Can be overridden by the
+.B \-\-admindir
+option.
+.
+.SH QUERY FORMAT
+The \fB\-\-query\fP format is using an
+RFC822-like flat format. It's made of \fIn\fP + 1 blocks where \fIn\fP is
+the number of alternatives available in the queried link group. The first
+block contains the following fields:
+.TP
+.BI Name: " name"
+The alternative name in the alternative directory.
+.TP
+.BI Link: " link"
+The generic name of the alternative.
+.TP
+.BI Slaves: " list-of-slaves"
+When this field is present, the \fBnext\fR lines hold all slave links
+associated to the master link of the alternative. There is one slave per
+line. Each line contains one space, the generic name of the slave
+alternative, another space, and the path to the slave link.
+.TP
+.BI Status: " status"
+The status of the alternative (\fBauto\fR or \fBmanual\fR).
+.TP
+.BI Best: " best-choice"
+The path of the best alternative for this link group. Not present if
+there is no alternatives available.
+.TP
+.BI Value: " currently-selected-alternative"
+The path of the currently selected alternative. It can also take the magic
+value \fBnone\fR. It is used if the link doesn't exist.
+.PP
+The other blocks describe the available alternatives in the queried link group:
+.TP
+.BI Alternative: " path-of-this-alternative"
+Path to this block's alternative.
+.TP
+.BI Priority: " priority-value"
+Value of the priority of this alternative.
+.TP
+.BI Slaves: " list-of-slaves"
+When this field is present, the \fBnext\fR lines hold all slave alternatives
+associated to the master link of the alternative. There is one slave per
+line. Each line contains one space, the generic name of the slave
+alternative, another space, and the path to the slave alternative.
+.
+.SS Example
+.nf
+$ update\-alternatives \-\-query editor
+Name: editor
+Link: /usr/bin/editor
+Slaves:
+ editor.1.gz /usr/share/man/man1/editor.1.gz
+ editor.fr.1.gz /usr/share/man/fr/man1/editor.1.gz
+ editor.it.1.gz /usr/share/man/it/man1/editor.1.gz
+ editor.pl.1.gz /usr/share/man/pl/man1/editor.1.gz
+ editor.ru.1.gz /usr/share/man/ru/man1/editor.1.gz
+Status: auto
+Best: /usr/bin/vim.basic
+Value: /usr/bin/vim.basic
+
+Alternative: /bin/ed
+Priority: \-100
+Slaves:
+ editor.1.gz /usr/share/man/man1/ed.1.gz
+
+Alternative: /usr/bin/vim.basic
+Priority: 50
+Slaves:
+ editor.1.gz /usr/share/man/man1/vim.1.gz
+ editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz
+ editor.it.1.gz /usr/share/man/it/man1/vim.1.gz
+ editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz
+ editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz
+.fi
+.
+.SH DIAGNOSTICS
+With \fB\-\-verbose\fR
+.B update\-alternatives
+chatters incessantly about its activities on its standard output channel.
+If problems occur,
+.B update\-alternatives
+outputs error messages on its standard error channel and
+returns an exit status of 2.
+These diagnostics should be self-explanatory;
+if you do not find them so, please report this as a bug.
+.
+.SH EXAMPLES
+There are several packages which provide a text editor compatible
+with \fBvi\fP, for example \fBnvi\fP and \fBvim\fP. Which one is used
+is controlled by the link group \fBvi\fP, which includes links for the
+program itself and the associated manpage.
+.PP
+To display the available packages which provide \fBvi\fP and the current
+setting for it, use the \fB\-\-display\fP action:
+.PP
+.RS
+.B update\-alternatives \-\-display vi
+.RE
+.PP
+To choose a particular \fBvi\fP implementation, use this command as root
+and then select a number from the list:
+.PP
+.RS
+.B update\-alternatives \-\-config vi
+.RE
+.PP
+To go back to having the \fBvi\fP implementation chosen automatically, do
+this as root:
+.PP
+.RS
+.B update\-alternatives \-\-auto vi
+.RE
+.
+.SH SEE ALSO
+.BR ln (1),
+FHS, the Filesystem Hierarchy Standard.

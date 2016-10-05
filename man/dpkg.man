@@ -1,0 +1,1063 @@
+.\" dpkg manual page - dpkg(1)
+.\"
+.\" Copyright © 1996 Juho Vuori <javuori@cc.helsinki.fi>
+.\" Copyright © 1999 Jim Van Zandt <jrv@vanzandt.mv.com>
+.\" Copyright © 1999-2003 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2000-2003 Adam Heath <doogie@debian.org>
+.\" Copyright © 2002 Josip Rodin
+.\" Copyright © 2004-2005 Scott James Remnant <keybuk@debian.org>
+.\" Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2007-2008 Ian Jackson <ijackson@chiark.greenend.org.uk>
+.\" Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH dpkg 1 "%RELEASE_DATE%" "%VERSION%" "dpkg suite"
+.SH NAME
+dpkg \- package manager for Debian
+.
+.SH SYNOPSIS
+.B dpkg
+.RI [ option "...] " action
+.
+.SH WARNING
+This manual is intended for users wishing to understand \fBdpkg\fP's
+command line options and package states in more detail than that
+provided by \fBdpkg \-\-help\fP.
+
+It should \fInot\fP be used by package maintainers wishing to
+understand how \fBdpkg\fP will install their packages. The
+descriptions of what \fBdpkg\fP does when installing and removing
+packages are particularly inadequate.
+.
+.SH DESCRIPTION
+\fBdpkg\fP is a tool to install, build, remove and manage
+Debian packages. The primary and more user-friendly
+front-end for \fBdpkg\fP is \fBaptitude\fP(1). \fBdpkg\fP itself is
+controlled entirely via command line parameters, which consist of exactly
+one action and zero or more options. The action-parameter tells \fBdpkg\fP
+what to do and options control the behavior of the action in some way.
+
+\fBdpkg\fP can also be used as a front-end to \fBdpkg\-deb\fP(1) and
+\fBdpkg\-query\fP(1). The list of supported actions can be found later on
+in the \fBACTIONS\fP section. If any such action is encountered \fBdpkg\fP
+just runs \fBdpkg\-deb\fP or \fBdpkg\-query\fP with the parameters given
+to it, but no specific options are currently passed to them, to use
+any such option the back-ends need to be called directly.
+.
+.SH INFORMATION ABOUT PACKAGES
+\fBdpkg\fP maintains some usable information about available
+packages. The information is divided in three classes: \fBstates\fP,
+\fBselection states\fP and \fBflags\fP. These values are intended to
+be changed mainly with \fBdselect\fP.
+.SS Package states
+.TP
+.B not\-installed
+The package is not installed on your system.
+.TP
+.B config\-files
+Only the configuration files of the package exist on the system.
+.TP
+.B half\-installed
+The installation of the package has been started, but not completed for
+some reason.
+.TP
+.B unpacked
+The package is unpacked, but not configured.
+.TP
+.B half\-configured
+The package is unpacked and configuration has been started, but not yet
+completed for some reason.
+.TP
+.B triggers\-awaited
+The package awaits trigger processing by another package.
+.TP
+.B triggers\-pending
+The package has been triggered.
+.TP
+.B installed
+The package is correctly unpacked and configured.
+.SS Package selection states
+.TP
+.B install
+The package is selected for installation.
+.TP
+.B hold
+A package marked to be on \fBhold\fP is not handled by \fBdpkg\fP,
+unless forced to do that with option \fB\-\-force\-hold\fP.
+.TP
+.B deinstall
+The package is selected for deinstallation (i.e. we want to remove all
+files, except configuration files).
+.TP
+.B purge
+The package is selected to be purged (i.e. we want to remove everything
+from system directories, even configuration files).
+.SS Package flags
+.TP
+.B ok
+A package marked \fBok\fP is in a known state, but might need further
+processing.
+.TP
+.B reinstreq
+A package marked \fBreinstreq\fP is broken and requires
+reinstallation. These packages cannot be removed, unless forced with
+option \fB\-\-force\-remove\-reinstreq\fP.
+.
+.SH ACTIONS
+.TP
+\fB\-i\fP, \fB\-\-install\fP \fIpackage-file\fP...
+Install the package. If \fB\-\-recursive\fP or \fB\-R\fP option is
+specified, \fIpackage-file\fP must refer to a directory instead.
+
+Installation consists of the following steps:
+.br
+
+\fB1.\fP Extract the control files of the new package.
+.br
+
+\fB2.\fP If another version of the same package was installed before
+the new installation, execute \fIprerm\fP script of the old package.
+.br
+
+\fB3.\fP Run \fIpreinst\fP script, if provided by the package.
+.br
+
+\fB4.\fP Unpack the new files, and at the same time back up the old
+files, so that if something goes wrong, they can be restored.
+.br
+
+\fB5.\fP If another version of the same package was installed before
+the new installation, execute the \fIpostrm\fP script of the old
+package. Note that this script is executed after the \fIpreinst\fP
+script of the new package, because new files are written at the same
+time old files are removed.
+.br
+
+\fB6.\fP Configure the package. See \fB\-\-configure\fP for detailed
+information about how this is done.
+.TP
+\fB\-\-unpack \fP\fIpackage-file\fP...
+Unpack the package, but don't configure it. If \fB\-\-recursive\fP or
+\fB\-R\fP option is specified, \fIpackage-file\fP must refer to a
+directory instead.
+.TP
+\fB\-\-configure \fP\fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
+Configure a package which has been unpacked but not yet configured.
+If \fB\-a\fP or \fB\-\-pending\fP is given instead of \fIpackage\fP,
+all unpacked but unconfigured packages are configured.
+
+To reconfigure a package which has already been configured, try the
+.BR dpkg\-reconfigure (8)
+command instead.
+
+Configuring consists of the following steps:
+.br
+
+\fB1.\fP Unpack the conffiles, and at the same time back up
+the old conffiles, so that they can be restored if
+something goes wrong.
+.br
+
+\fB2.\fP Run \fIpostinst\fP script, if provided by the package.
+.TP
+\fB\-\-triggers\-only\fP \fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
+Processes only triggers (since dpkg 1.14.17).
+All pending triggers will be processed.
+If package
+names are supplied only those packages' triggers will be processed, exactly
+once each where necessary. Use of this option may leave packages in the
+improper \fBtriggers\-awaited\fP and \fBtriggers\-pending\fP states. This
+can be fixed later by running: \fBdpkg \-\-configure \-\-pending\fP.
+.TP
+\fB\-r\fP, \fB\-\-remove\fP \fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
+Remove an installed package. This removes everything except conffiles,
+which may avoid having to reconfigure the package if it is reinstalled
+later (conffiles are configuration files that are listed in the
+\fIDEBIAN/conffiles\fP control file).
+If \fB\-a\fP or \fB\-\-pending\fP is given instead of a package name,
+then all packages unpacked, but marked to be removed in file
+\fI%ADMINDIR%/status\fP, are removed.
+
+Removing of a package consists of the following steps:
+.br
+
+\fB1.\fP Run \fIprerm\fP script
+.br
+
+\fB2.\fP Remove the installed files
+.br
+
+\fB3.\fP Run \fIpostrm\fP script
+.br
+
+.TP
+\fB\-P\fP, \fB\-\-purge\fP \fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
+Purge an installed or already removed package. This removes everything,
+including conffiles.
+If \fB\-a\fP or \fB\-\-pending\fP is given instead of a package name,
+then all packages unpacked or removed, but marked to be purged in file
+\fI%ADMINDIR%/status\fP, are purged.
+
+Note: some configuration files might be unknown to \fBdpkg\fP because they
+are created and handled separately through the configuration scripts. In
+that case, \fBdpkg\fP won't remove them by itself, but the package's
+\fIpostrm\fP script (which is called by \fBdpkg\fP), has to take care of
+their removal during purge. Of course, this only applies to files in
+system directories, not configuration files written to individual users'
+home directories.
+
+Purging of a package consists of the following steps:
+.br
+
+\fB1.\fP Remove the package, if not already removed. See \fB\-\-remove\fP
+for detailed information about how this is done.
+.br
+
+\fB2.\fP Run \fIpostrm\fP script.
+.br
+.TP
+.BR \-V ", " \-\-verify " [\fIpackage-name\fP...]
+Verifies the integrity of \fIpackage-name\fP or all packages if omitted,
+by comparing information from the files installed by a package with the
+files metadata information stored in the \fBdpkg\fP database
+(since dpkg 1.17.2).
+The origin
+of the files metadata information in the database is the binary packages
+themselves. That metadata gets collected at package unpack time during
+the installation process.
+
+Currently the only functional check performed is an md5sum verification
+of the file contents against the stored value in the files database.
+It will only get checked
+if the database contains the file md5sum. To check for any missing
+metadata in the database, the \fB\-\-audit\fP command can be used.
+
+The output format is selectable with the \fB\-\-verify\-format\fP
+option, which by default uses the \fBrpm\fP format, but that might
+change in the future, and as such, programs parsing this command
+output should be explicit about the format they expect.
+.TP
+.BR \-C ", " \-\-audit " [\fIpackage-name\fP...]
+Performs database sanity and consistency checks for \fIpackage-name\fP
+or all packages if omitted (per package checks since dpkg 1.17.10).
+For example, searches for packages that have been installed only partially
+on your system or that have missing, wrong or obsolete control data or
+files. \fBdpkg\fP will suggest what to do with them to get them fixed.
+.TP
+.BR \-\-update\-avail " [\fIPackages-file\fP]"
+.TQ
+.BR \-\-merge\-avail " [\fIPackages-file\fP]"
+Update \fBdpkg\fP's and \fBdselect\fP's idea of which packages are
+available. With action \fB\-\-merge\-avail\fP, old information is
+combined with information from \fIPackages-file\fP. With action
+\fB\-\-update\-avail\fP, old information is replaced with the information
+in the \fIPackages-file\fP. The \fIPackages-file\fP distributed with
+Debian is simply named \(Fo\fIPackages\fP\(Fc. If the \fIPackages-file\fP
+argument is missing or named \(Fo\fB\-\fP\(Fc then it will be read from
+standard input (since dpkg 1.17.7). \fBdpkg\fP keeps its record of
+available packages in \fI%ADMINDIR%/available\fP.
+
+A simpler one-shot command to retrieve and update the \fIavailable\fR
+file is \fBdselect update\fR. Note that this file is mostly useless
+if you don't use \fBdselect\fR but an APT-based frontend: APT has its
+own system to keep track of available packages.
+.TP
+\fB\-A\fP, \fB\-\-record\-avail\fP \fIpackage-file\fP...
+Update \fBdpkg\fP and \fBdselect\fP's idea of which packages are
+available with information from the package \fIpackage-file\fP. If
+\fB\-\-recursive\fP or \fB\-R\fP option is specified, \fIpackage-file\fP
+must refer to a directory instead.
+.TP
+.B \-\-forget\-old\-unavail
+Now \fBobsolete\fP and a no-op as \fBdpkg\fP will automatically forget
+uninstalled unavailable packages (since dpkg 1.15.4), but only those that
+do not contain user information such as package selections.
+.TP
+.B \-\-clear\-avail
+Erase the existing information about what packages are available.
+.TP
+\fB\-\-get\-selections\fP [\fIpackage-name-pattern\fP...]
+Get list of package selections, and write it to stdout. Without a pattern,
+non-installed packages (i.e. those which have been previously purged) will
+not be shown.
+.TP
+.B \-\-set\-selections
+Set package selections using file read from stdin. This file should be
+in the format \(lq\fIpackage\fP \fIstate\fP\(rq, where state is one of
+\fBinstall\fP, \fBhold\fP, \fBdeinstall\fP or \fBpurge\fP. Blank lines
+and comment lines beginning with \(oq\fB#\fP\(cq are also permitted.
+
+The \fIavailable\fP file needs to be up-to-date for this command to be
+useful, otherwise unknown packages will be ignored with a warning. See
+the \fB\-\-update\-avail\fP and \fB\-\-merge\-avail\fP commands for more
+information.
+.TP
+.B \-\-clear\-selections
+Set the requested state of every non-essential package to deinstall
+(since dpkg 1.13.18).
+This is intended to be used immediately before \fB\-\-set\-selections\fP,
+to deinstall any packages not in list given to \fB\-\-set\-selections\fP.
+.TP
+.B \-\-yet\-to\-unpack
+Searches for packages selected for installation, but which for some
+reason still haven't been installed.
+.TP
+.B \-\-predep\-package
+Print a single package which is the target of one or more relevant
+pre-dependencies and has itself no unsatisfied pre-dependencies.
+.IP
+If such a package is present, output it as a Packages file entry,
+which can be massaged as appropriate.
+.IP
+Returns 0 when a package is printed, 1 when no suitable package is
+available and 2 on error.
+.TP
+.B \-\-add\-architecture \fIarchitecture\fP
+Add \fIarchitecture\fP to the list of architectures for which packages can
+be installed without using \fB\-\-force\-architecture\fP (since dpkg 1.16.2).
+The architecture
+\fBdpkg\fP is built for (i.e. the output of \fB\-\-print\-architecture\fP)
+is always part of that list.
+.TP
+.B \-\-remove\-architecture \fIarchitecture\fP
+Remove \fIarchitecture\fP from the list of architectures for which packages
+can be installed without using \fB\-\-force\-architecture\fP
+(since dpkg 1.16.2). If the
+architecture is currently in use in the database then the operation will
+be refused, except if \fB\-\-force\-architecture\fP is specified. The
+architecture \fBdpkg\fP is built for (i.e. the output of
+\fB\-\-print\-architecture\fP) can never be removed from that list.
+.TP
+.B \-\-print\-architecture
+Print architecture of packages \fBdpkg\fP installs (for example, \(lqi386\(rq).
+.TP
+.B \-\-print\-foreign\-architectures
+Print a newline-separated list of the extra architectures \fBdpkg\fP is
+configured to allow packages to be installed for (since dpkg 1.16.2).
+.TP
+.BI \-\-assert\- feature
+Asserts that \fBdpkg\fP supports the requested feature.
+Returns 0 if the feature is fully supported, 1 if the feature is known but
+\fBdpkg\fP cannot provide support for it yet, and 2 if the feature is unknown.
+The current list of assertable features is:
+.RS
+.TP
+.B support\-predepends
+Supports the \fBPre\-Depends\fP field (since dpkg 1.1.0).
+.TP
+.B working\-epoch
+Supports epochs in version strings (since dpkg 1.4.0.7).
+.TP
+.B long\-filenames
+Supports long filenames in \fBdeb\fP(5) archives (since dpkg 1.4.1.17).
+.TP
+.B multi\-conrep
+Supports multiple \fBConflicts\fP and \fBReplaces\fP (since dpkg 1.4.1.19).
+.TP
+.B multi\-arch
+Supports multi-arch fields and semantics (since dpkg 1.16.2).
+.TP
+.B versioned\-provides
+Supports versioned \fBProvides\fP (since dpkg 1.17.11).
+.RE
+.TP
+.B \-\-compare\-versions \fIver1 op ver2\fP
+Compare version numbers, where \fIop\fP is a binary operator. \fBdpkg\fP
+returns true (\fB0\fP) if the specified condition is satisfied,
+and false (\fB1\fP) otherwise. There are
+two groups of operators, which differ in how they treat an empty
+\fIver1\fP or \fIver2\fP. These treat an empty version as earlier than any
+version: \fBlt le eq ne ge gt\fP. These treat an empty version as later
+than any version: \fBlt\-nl le\-nl ge\-nl gt\-nl\fP. These are provided
+only for compatibility with control file syntax: \fB< << <= = >= >>
+>\fP. The \fB<\fP and \fB>\fP operators are obsolete and should \fBnot\fP
+be used, due to confusing semantics. To illustrate: \fB0.1 < 0.1\fP
+evaluates to true.
+.\" .TP
+.\" .B \-\-command\-fd \fIn\fP
+.\" Accept a series of commands on input file descriptor \fIn\fP. Note:
+.\" additional options set on the command line, and through this file descriptor,
+.\" are not reset for subsequent commands executed during the same run.
+.TP
+.BR \-? ", " \-\-help
+Display a brief help message.
+.TP
+.B \-\-force\-help
+Give help about the \fB\-\-force\-\fP\fIthing\fP options.
+.TP
+.BR \-Dh  ", " \-\-debug=help
+Give help about debugging options.
+.TP
+\fB\-\-version\fP
+Display \fBdpkg\fP version information.
+.TP
+\fBdpkg\-deb actions\fP
+See \fBdpkg\-deb\fP(1) for more information about the following actions.
+
+.nf
+\fB\-b\fP, \fB\-\-build\fP \fIdirectory\fP [\fIarchive\fP|\fIdirectory\fP]
+    Build a deb package.
+\fB\-c\fP, \fB\-\-contents\fP \fIarchive\fP
+    List contents of a deb package.
+\fB\-e\fP, \fB\-\-control\fP \fIarchive\fP [\fIdirectory\fP]
+    Extract control-information from a package.
+\fB\-x\fP, \fB\-\-extract\fP \fIarchive directory\fP
+    Extract the files contained by package.
+\fB\-X\fP, \fB\-\-vextract\fP \fIarchive directory\fP
+    Extract and display the filenames contained by a
+    package.
+\fB\-f\fP, \fB\-\-field\fP  \fIarchive\fP [\fIcontrol-field\fP...]
+    Display control field(s) of a package.
+.BR \-\-ctrl\-tarfile " \fIarchive\fP"
+    Output the control tar-file contained in a Debian package.
+\fB\-\-fsys\-tarfile\fP \fIarchive\fP
+    Output the filesystem tar-file contained by a Debian package.
+\fB\-I\fP, \fB\-\-info\fP \fIarchive\fP [\fIcontrol-file\fP...]
+    Show information about a package.
+.fi
+
+.TP
+\fBdpkg\-query actions\fP
+See \fBdpkg\-query\fP(1) for more information about the following actions.
+
+.nf
+
+\fB\-l\fP, \fB\-\-list\fP \fIpackage-name-pattern\fP...
+    List packages matching given pattern.
+\fB\-s\fP, \fB\-\-status\fP \fIpackage-name\fP...
+    Report status of specified package.
+\fB\-L\fP, \fB\-\-listfiles\fP \fIpackage-name\fP...
+    List files installed to your system from \fIpackage-name\fP.
+\fB\-S\fP, \fB\-\-search\fP \fIfilename-search-pattern\fP...
+    Search for a filename from installed packages.
+\fB\-p\fP, \fB\-\-print\-avail\fP \fIpackage-name\fP...
+    Display details about \fIpackage-name\fP, as found in
+    \fI%ADMINDIR%/available\fP. Users of APT-based frontends
+    should use \fBapt\-cache show\fP \fIpackage-name\fP instead.
+.fi
+.
+.SH OPTIONS
+All options can be specified both on the command line and in the \fBdpkg\fP
+configuration file \fI%PKGCONFDIR%/dpkg.cfg\fP or fragment files (with names
+matching this shell pattern \(aq[0-9a-zA-Z_-]*\(aq) on the configuration
+directory \fI%PKGCONFDIR%/dpkg.cfg.d/\fP. Each line in the configuration
+file is either an option (exactly the same as the command line option but
+without leading hyphens) or a comment (if it starts with a \(oq\fB#\fP\(cq).
+.br
+.TP
+\fB\-\-abort\-after=\fP\fInumber\fP
+Change after how many errors \fBdpkg\fP will abort. The default is 50.
+.TP
+.BR \-B ", " \-\-auto\-deconfigure
+When a package is removed, there is a possibility that another
+installed package depended on the removed package. Specifying this
+option will cause automatic deconfiguration of the package which
+depended on the removed package.
+.TP
+\fB\-D\fIoctal\fP, \fB\-\-debug=\fP\fIoctal\fP
+Switch debugging on. \fIoctal\fP is formed by bitwise-orring desired
+values together from the list below (note that these values may change
+in future releases). \fB\-Dh\fP or \fB\-\-debug=help\fP display these
+debugging values.
+
+    Number   Description
+         1   Generally helpful progress information
+         2   Invocation and status of maintainer scripts
+        10   Output for each file processed
+       100   Lots of output for each file processed
+        20   Output for each configuration file
+       200   Lots of output for each configuration file
+        40   Dependencies and conflicts
+       400   Lots of dependencies/conflicts output
+     10000   Trigger activation and processing
+     20000   Lots of output regarding triggers
+     40000   Silly amounts of output regarding triggers
+      1000   Lots of drivel about e.g. the dpkg/info dir
+      2000   Insane amounts of drivel
+.TP
+.B \-\-force\-\fIthings\fP
+.TQ
+.BR \-\-no\-force\-\fIthings\fP ", " \-\-refuse\-\fIthings\fP
+Force or refuse (\fBno\-force\fP and \fBrefuse\fP mean the same thing)
+to do some things. \fIthings\fP is a comma separated list of things
+specified below. \fB\-\-force\-help\fP displays a message describing them.
+Things marked with (*) are forced by default.
+
+\fIWarning: These options are mostly intended to be used by experts
+only. Using them without fully understanding their effects may break
+your whole system.\fP
+
+\fBall\fP:
+Turns on (or off) all force options.
+
+\fBdowngrade\fP(*):
+Install a package, even if newer version of it is already installed.
+
+\fIWarning: At present \fP\fBdpkg\fP\fI does not do any dependency
+checking on downgrades and therefore will not warn you
+if the downgrade breaks the dependency of some other
+package. This can have serious side effects, downgrading
+essential system components can even make your whole
+system unusable. Use with care.\fP
+
+\fBconfigure\-any\fP:
+Configure also any unpacked but unconfigured packages on which the current
+package depends.
+
+\fBhold\fP:
+Process packages even when marked \(lqhold\(rq.
+
+\fBremove\-reinstreq\fP:
+Remove a package, even if it's broken and marked to require
+reinstallation. This may, for example, cause parts of the package to
+remain on the system, which will then be forgotten by \fBdpkg\fP.
+
+\fBremove\-essential\fP:
+Remove, even if the package is considered essential. Essential
+packages contain mostly very basic Unix commands. Removing them might
+cause the whole system to stop working, so use with caution.
+
+\fBdepends\fP:
+Turn all dependency problems into warnings.
+
+\fBdepends\-version\fP:
+Don't care about versions when checking dependencies.
+
+\fBbreaks\fP:
+Install, even if this would break another package (since dpkg 1.14.6).
+
+\fBconflicts\fP:
+Install, even if it conflicts with another package. This is dangerous,
+for it will usually cause overwriting of some files.
+
+\fBconfmiss\fP:
+If a conffile is missing and the version in the package did change, always
+install the missing conffile without prompting. This is dangerous, since
+it means not preserving a change (removing) made to the file.
+
+\fBconfnew\fP:
+If a conffile has been modified and the version in the package did change,
+always install the new version without prompting, unless the
+\fB\-\-force\-confdef\fP is also specified, in which case the default
+action is preferred.
+
+\fBconfold\fP:
+If a conffile has been modified and the version in the package did change,
+always keep the old version without prompting, unless the
+\fB\-\-force\-confdef\fP is also specified, in which case the default
+action is preferred.
+
+\fBconfdef\fP:
+If a conffile has been modified and the version in the package did change,
+always choose the default action without prompting. If there is no default
+action it will stop to ask the user unless \fB\-\-force\-confnew\fP or
+\fB\-\-force\-confold\fP is also been given, in which case it will use
+that to decide the final action.
+
+\fBconfask\fP:
+If a conffile has been modified always offer to replace it with the
+version in the package, even if the version in the package did not
+change (since dpkg 1.15.8).
+If any of \fB\-\-force\-confmiss\fP, \fB\-\-force\-confnew\fP,
+\fB\-\-force\-confold\fP, or \fB\-\-force\-confdef\fP is also given,
+it will be used to decide the final action.
+
+\fBoverwrite\fP:
+Overwrite one package's file with another's file.
+
+\fBoverwrite\-dir\fP:
+Overwrite one package's directory with another's file.
+
+\fBoverwrite\-diverted\fP:
+Overwrite a diverted file with an undiverted version.
+
+\fBunsafe\-io\fP:
+Do not perform safe I/O operations when unpacking (since dpkg 1.15.8.6).
+Currently this
+implies not performing file system syncs before file renames, which is
+known to cause substantial performance degradation on some file systems,
+unfortunately the ones that require the safe I/O on the first place due
+to their unreliable behaviour causing zero-length files on abrupt
+system crashes.
+
+\fINote\fP: For ext4, the main offender, consider using instead the
+mount option \fBnodelalloc\fP, which will fix both the performance
+degradation and the data safety issues, the latter by making the file
+system not produce zero-length files on abrupt system crashes with
+any software not doing syncs before atomic renames.
+
+\fIWarning: Using this option might improve performance at the cost of
+losing data, use with care.\fP
+
+\fBscript-chrootless\fP:
+Run maintainer scrips without \fBchroot\fP(2)ing into \fBinstdir\fP even
+if the package does not support this mode of operation (since dpkg 1.18.5).
+
+\fIWarning: This can destroy your host system, use with extreme care.\fP
+
+\fBarchitecture\fP:
+Process even packages with wrong or no architecture.
+
+\fBbad\-version\fP:
+Process even packages with wrong versions (since dpkg 1.16.1).
+
+\fBbad\-path\fP:
+\fBPATH\fP is missing important programs, so problems are likely.
+
+\fBnot\-root\fP:
+Try to (de)install things even when not root.
+
+\fBbad\-verify\fP:
+Install a package even if it fails authenticity check.
+
+.TP
+\fB\-\-ignore\-depends\fP=\fIpackage\fP,...
+Ignore dependency-checking for specified packages (actually, checking is
+performed, but only warnings about conflicts are given, nothing else).
+.TP
+\fB\-\-no\-act\fP, \fB\-\-dry\-run\fP, \fB\-\-simulate\fP
+Do everything which is supposed to be done, but don't write any
+changes. This is used to see what would happen with the specified
+action, without actually modifying anything.
+
+Be sure to give \fB\-\-no\-act\fP before the action-parameter, or you might
+end up with undesirable results. (e.g. \fBdpkg \-\-purge foo
+\-\-no\-act\fP will first purge package foo and then try to purge package
+\-\-no\-act, even though you probably expected it to actually do nothing)
+.TP
+\fB\-R\fP, \fB\-\-recursive\fP
+Recursively handle all regular files matching pattern \fB*.deb\fP
+found at specified directories and all of its subdirectories. This can
+be used with \fB\-i\fP, \fB\-A\fP, \fB\-\-install\fP, \fB\-\-unpack\fP and
+\fB\-\-record\-avail\fP actions.
+.TP
+\fB\-G\fP
+Don't install a package if a newer version of the same package is already
+installed. This is an alias of \fB\-\-refuse\-downgrade\fP.
+.TP
+.BI \-\-admindir= dir
+Change default administrative directory, which contains many files that
+give information about status of installed or uninstalled packages, etc.
+(Defaults to \(Fo\fI%ADMINDIR%\fP\(Fc)
+.TP
+.BI \-\-instdir= dir
+Change default installation directory which refers to the directory where
+packages are to be installed. \fBinstdir\fP is also the directory passed
+to \fBchroot\fP(2) before running package's installation scripts, which
+means that the scripts see \fBinstdir\fP as a root directory.
+(Defaults to \(Fo\fI/\fP\(Fc)
+.TP
+.BI \-\-root= dir
+Changing \fBroot\fP changes \fBinstdir\fP to \(Fo\fIdir\fP\(Fc and
+\fBadmindir\fP to \(Fo\fIdir\fP\fB%ADMINDIR%\fP\(Fc.
+.TP
+\fB\-O\fP, \fB\-\-selected\-only\fP
+Only process the packages that are selected for installation. The
+actual marking is done with \fBdselect\fP or by \fBdpkg\fP, when it
+handles packages. For example, when a package is removed, it will
+be marked selected for deinstallation.
+.TP
+.BR \-E ", " \-\-skip\-same\-version
+Don't install the package if the same version of the package is already
+installed.
+.TP
+.BI \-\-pre\-invoke= command
+.TQ
+.BI \-\-post\-invoke= command
+Set an invoke hook \fIcommand\fP to be run via \*(lqsh \-c\*(rq before or
+after the \fBdpkg\fP run for the \fIunpack\fP, \fIconfigure\fP, \fIinstall\fP,
+\fItriggers\-only\fP, \fIremove\fP, \fIpurge\fP, \fIadd\-architecture\fP and
+\fIremove\-architecture\fP \fBdpkg\fP actions (since dpkg 1.15.4;
+\fIadd\-architecture\fP and \fIremove\-architecture\fP actions
+since dpkg 1.17.19). This
+option can be specified multiple times. The order the options are specified
+is preserved, with the ones from the configuration files taking precedence.
+The environment variable \fBDPKG_HOOK_ACTION\fP is set for the hooks to the
+current \fBdpkg\fP action. Note: front-ends might call \fBdpkg\fP several
+times per invocation, which might run the hooks more times than expected.
+.TP
+.BI \-\-path\-exclude= glob-pattern
+.TQ
+.BI \-\-path\-include= glob-pattern
+Set \fIglob-pattern\fP as a path filter, either by excluding or re-including
+previously excluded paths matching the specified patterns during install
+(since dpkg 1.15.8).
+
+\fIWarning: take into account that depending on the excluded paths you
+might completely break your system, use with caution.\fP
+
+The glob patterns use the same wildcards used in the shell, were
+\(oq*\(cq matches any sequence of characters, including the empty string
+and also \(oq/\(cq.
+For example, \(Fo\fI/usr/*/READ*\fP\(Fc matches
+\(Fo\fI/usr/share/doc/package/README\fP\(Fc.
+As usual, \(oq?\(cq matches any single character (again, including \(oq/\(cq).
+And \(oq[\(cq
+starts a character class, which can contain a list of characters, ranges
+and complementations. See \fBglob\fP(7) for detailed information about
+globbing. Note: the current implementation might re-include more directories
+and symlinks than needed, to be on the safe side and avoid possible unpack
+failures; future work might fix this.
+
+This can be used to remove all paths except some particular ones; a typical
+case is:
+
+.nf
+.B \-\-path\-exclude=/usr/share/doc/*
+.B \-\-path\-include=/usr/share/doc/*/copyright
+.fi
+
+to remove all documentation files except the copyright files.
+
+These two options can be specified multiple times, and interleaved with
+each other. Both are processed in the given order, with the last rule that
+matches a file name making the decision.
+
+The filters are applied when unpacking the binary packages, and as such
+only have knowledge of the type of object currently being filtered
+(e.g. a normal file or a directory) and have not visibility of what
+objects will come next.
+Because these filters have side effects (in contrast to \fBfind\fP(1)
+filters), excluding an exact pathname that happens to be a directory object
+like \fI/usr/share/doc\fP will not have the desired result, and only that
+pathname will be excluded (which could be automatically reincluded if the
+code sees the need).
+Any subsequent files contained within that directory will fail to unpack.
+
+Hint: make sure the globs are not expanded by your shell.
+.TP
+.BI \-\-verify\-format " format-name"
+Sets the output format for the \fB\-\-verify\fP command (since dpkg 1.17.2).
+
+The only currently supported output format is \fBrpm\fP, which consists
+of a line for every path that failed any check.
+The lines start with 9 characters to report each specific check result,
+a \(oq\fB?\fP\(cq implies the check could not be done (lack of support,
+file permissions, etc), \(oq\fB.\fP\(cq implies the check passed, and
+an alphanumeric character implies a specific check failed; the md5sum
+verification failure (the file contents have changed) is denoted with
+a \(oq\fB5\fP\(cq on the third character.
+The line is followed by a space and an attribute character (currently
+\(oq\fBc\fP\(cq for conffiles), another space and the pathname.
+.TP
+\fB\-\-status\-fd \fR\fIn\fR
+Send machine-readable package status and progress information to file
+descriptor \fIn\fP. This option can be specified multiple times. The
+information is generally one record per line, in one of the following
+forms:
+.RS
+.TP
+.BI "status: " package ": " status
+Package status changed; \fIstatus\fR is as in the status file.
+.TP
+.BI "status: " package " : error : " extended-error-message
+An error occurred. Any possible newlines in \fIextended-error-message\fR
+will be converted to spaces before output.
+.TP
+.BI "status: " file " : conffile\-prompt : '" real-old "' '" real-new "' " useredited " " distedited
+User is being asked a conffile question.
+.TP
+.BI "processing: " stage ": " package
+Sent just before a processing stage starts. \fIstage\fR is one of
+.BR upgrade ", " install " (both sent before unpacking),"
+.BR configure ", " trigproc  ", " disappear ", " remove  ", " purge .
+.RE
+.TP
+\fB\-\-status\-logger\fR=\fIcommand\fR
+Send machine-readable package status and progress information to the
+shell \fIcommand\fR's standard input, to be run via \*(lqsh \-c\*(rq
+(since dpkg 1.16.0).
+This option can be specified multiple times.
+The output format used is the same as in \fB\-\-status\-fd\fP.
+.TP
+\fB\-\-log=\fP\fIfilename\fP
+Log status change updates and actions to \fIfilename\fP, instead of
+the default \fI%LOGDIR%/dpkg.log\fP. If this option is given multiple
+times, the last filename is used. Log messages are of the form:
+.RS
+.TP
+YYYY-MM-DD HH:MM:SS \fBstartup\fP \fItype\fP \fIcommand\fP
+For each dpkg invocation where \fItype\fP is \fBarchives\fP (with a
+\fIcommand\fP of \fBunpack\fP or \fBinstall\fP) or \fBpackages\fP
+(with a \fIcommand\fP of \fBconfigure\fP, \fBtriggers\-only\fP,
+\fBremove\fP or \fBpurge\fP).
+.TP
+YYYY-MM-DD HH:MM:SS \fBstatus\fP \fIstate\fP \fIpkg\fP \fIinstalled-version\fP
+For status change updates.
+.TP
+YYYY-MM-DD HH:MM:SS \fIaction\fP \fIpkg\fP \fIinstalled-version\fP \fIavailable-version\fP
+For actions where \fIaction\fP is one of \fBinstall\fP, \fBupgrade\fP,
+\fBconfigure\fP, \fBtrigproc\fP, \fBdisappear\fP, \fBremove\fP or \fBpurge\fP.
+.TP
+YYYY-MM-DD HH:MM:SS \fBconffile\fP \fIfilename\fP \fIdecision\fP
+For conffile changes where \fIdecision\fP is either \fBinstall\fP or
+\fBkeep\fP.
+.RE
+.TP
+\fB\-\-no\-debsig\fP
+Do not try to verify package signatures.
+.TP
+\fB\-\-no\-triggers\fP
+Do not run any triggers in this run (since dpkg 1.14.17), but activations
+will still be recorded.
+If used with \fB\-\-configure\fP \fIpackage\fP or
+\fB\-\-triggers\-only\fP \fIpackage\fP then the named package postinst
+will still be run even if only a triggers run is needed. Use of this option
+may leave packages in the improper \fBtriggers\-awaited\fP and
+\fBtriggers\-pending\fP states. This can be fixed later by running:
+\fBdpkg \-\-configure \-\-pending\fP.
+.TP
+\fB\-\-triggers\fP
+Cancels a previous \fB\-\-no\-triggers\fP (since dpkg 1.14.17).
+.
+.SH EXIT STATUS
+.TP
+.B 0
+The requested action was successfully performed.
+Or a check or assertion command returned true.
+.TP
+.B 1
+A check or assertion command returned false.
+.TP
+.B 2
+Fatal or unrecoverable error due to invalid command-line usage, or
+interactions with the system, such as accesses to the database,
+memory allocations, etc.
+.
+.SH ENVIRONMENT
+.SS External environment
+.TP
+.B PATH
+This variable is expected to be defined in the environment and point to
+the system paths where several required programs are to be found. If it's
+not set or the programs are not found, \fBdpkg\fP will abort.
+.TP
+.B HOME
+If set, \fBdpkg\fP will use it as the directory from which to read the user
+specific configuration file.
+.TP
+.B TMPDIR
+If set, \fBdpkg\fP will use it as the directory in which to create
+temporary files and directories.
+.TP
+.B PAGER
+The program \fBdpkg\fP will execute when displaying the conffiles.
+.TP
+.B SHELL
+The program \fBdpkg\fP will execute when starting a new interactive shell.
+.TP
+.B COLUMNS
+Sets the number of columns \fBdpkg\fP should use when displaying formatted
+text.
+Currently only used by \fB\-\-list\fP.
+.TP
+.B DPKG_COLORS
+Sets the color mode (since dpkg 1.18.5).
+The currently accepted values are: \fBauto\fP, \fBalways\fP and
+\fBnever\fP (default).
+.SS Internal environment
+.TP
+.B DPKG_ROOT
+Defined by \fBdpkg\fP on the maintainer script environment to indicate
+which installation to act on (since dpkg 1.18.5).
+The value is intended to be prepended to any path maintainer scripts
+operate on.
+During normal operation, this variable is empty.
+When installing packages into a different \fBinstdir\fP, \fBdpkg\fP
+normally invokes maintainer scripts using \fBchroot\fP(2) and leaves
+this variable empty, but if \fB\-\-force\-script\-chrootless\fP is
+specified then the \fBchroot\fP(2) call is skipped and \fBinstdir\fP
+is non-empty.
+.TP
+.B DPKG_SHELL_REASON
+Defined by \fBdpkg\fP on the shell spawned on the conffile prompt to
+examine the situation (since dpkg 1.15.6).
+Current valid value: \fBconffile\-prompt\fP.
+.TP
+.B DPKG_CONFFILE_OLD
+Defined by \fBdpkg\fP on the shell spawned on the conffile prompt to
+examine the situation (since dpkg 1.15.6).
+Contains the path to the old conffile.
+.TP
+.B DPKG_CONFFILE_NEW
+Defined by \fBdpkg\fP on the shell spawned on the conffile prompt to
+examine the situation (since dpkg 1.15.6).
+Contains the path to the new conffile.
+.TP
+.B DPKG_HOOK_ACTION
+Defined by \fBdpkg\fP on the shell spawned when executing a hook action
+(since dpkg 1.15.4).
+Contains the current \fBdpkg\fP action.
+.TP
+.B DPKG_RUNNING_VERSION
+Defined by \fBdpkg\fP on the maintainer script environment to the
+version of the currently running \fBdpkg\fP instance (since dpkg 1.14.17).
+.TP
+.B DPKG_MAINTSCRIPT_PACKAGE
+Defined by \fBdpkg\fP on the maintainer script environment to the
+(non-arch-qualified) package name being handled (since dpkg 1.14.17).
+.TP
+.B DPKG_MAINTSCRIPT_PACKAGE_REFCOUNT
+Defined by \fBdpkg\fP on the maintainer script environment to the
+package reference count, i.e. the number of package instances with
+a state greater than \fBnot\-installed\fP (since dpkg 1.17.2).
+.TP
+.B DPKG_MAINTSCRIPT_ARCH
+Defined by \fBdpkg\fP on the maintainer script environment to the
+architecture the package got built for (since dpkg 1.15.4).
+.TP
+.B DPKG_MAINTSCRIPT_NAME
+Defined by \fBdpkg\fP on the maintainer script environment to the
+name of the script running, one of \fBpreinst\fP, \fBpostinst\fP,
+\fBprerm\fP or \fBpostrm\fP (since dpkg 1.15.7).
+.TP
+.B DPKG_MAINTSCRIPT_DEBUG
+Defined by \fBdpkg\fP on the maintainer script environment to a value
+(\(oq\fB0\fP\(cq or \(oq\fB1\fP\(cq) noting whether debugging has been
+requested (with the \fB\-\-debug\fP option) for the maintainer scripts
+(since dpkg 1.18.4).
+.
+.SH FILES
+.TP
+.I %PKGCONFDIR%/dpkg.cfg.d/[0-9a-zA-Z_-]*
+Configuration fragment files (since dpkg 1.15.4).
+.TP
+.I %PKGCONFDIR%/dpkg.cfg
+Configuration file with default options.
+.TP
+.I %LOGDIR%/dpkg.log
+Default log file (see \fI%PKGCONFDIR%/dpkg.cfg\fP and option
+\fB\-\-log\fP).
+.P
+The other files listed below are in their default directories, see option
+\fB\-\-admindir\fP to see how to change locations of these files.
+.TP
+.I %ADMINDIR%/available
+List of available packages.
+.TP
+.I %ADMINDIR%/status
+Statuses of available packages. This file contains information about
+whether a package is marked for removing or not, whether it is
+installed or not, etc. See section \fBINFORMATION ABOUT PACKAGES\fP
+for more info.
+
+The status file is backed up daily in \fI/var/backups\fP. It can be
+useful if it's lost or corrupted due to filesystems troubles.
+.P
+The following files are components of a binary package. See \fBdeb\fP(5)
+for more information about them:
+.RS
+.nf
+.IR control " (\fBdeb\-control\fP(5))"
+.IR conffiles " (\fBdeb\-conffiles\fP(5))"
+.IR preinst " (\fBdeb\-preinst\fP(5))"
+.IR postinst " (\fBdeb\-postinst\fP(5))"
+.IR prerm " (\fBdeb\-prerm\fP(5))"
+.IR postrm " (\fBdeb\-postrm\fP(5))"
+.IR triggers " (\fBdeb\-triggers\fP(5))"
+.IR shlibs " (\fBdeb\-shlibs\fP(5))"
+.IR symbols " (\fBdeb\-symbols\fP(5))"
+.fi
+.RE
+.
+.SH BUGS
+\fB\-\-no\-act\fP usually gives less information than might be helpful.
+.
+.SH EXAMPLES
+To list installed packages related to the editor \fBvi\fP(1) (note that
+\fBdpkg\-query\fP does not load the \fIavailable\fP file anymore by
+default, and the \fBdpkg\-query\fP \fB\-\-load\-avail\fP option should
+be used instead for that):
+.br
+\fB     dpkg \-l \(aq*vi*\(aq\fP
+.br
+
+To see the entries in \fI%ADMINDIR%/available\fP of two packages:
+.br
+\fB     dpkg \-\-print\-avail elvis vim | less\fP
+.br
+
+To search the listing of packages yourself:
+.br
+\fB     less %ADMINDIR%/available\fP
+.br
+
+To remove an installed elvis package:
+.br
+\fB     dpkg \-r elvis\fP
+.br
+
+To install a package, you first need to find it in an archive or
+CDROM. The \fIavailable\fP file shows that the vim package is in section
+\fBeditors\fP:
+.br
+\fB     cd /media/cdrom/pool/main/v/vim\fP
+\fB     dpkg \-i vim_4.5\-3.deb\fP
+.br
+
+To make a local copy of the package selection states:
+.br
+\fB     dpkg \-\-get\-selections >myselections\fP
+.br
+
+You might transfer this file to another computer, and after having updated
+the \fIavailable\fP file there with your package manager frontend of choice
+(see https://wiki.debian.org/Teams/Dpkg/FAQ for more details), for example:
+.br
+\fB     apt\-cache dumpavail | dpkg \-\-merge\-avail\fP
+.br
+or with dpkg 1.17.6 and earlier:
+.br
+\fB     avail=`mktemp`\fP
+\fB     apt\-cache dumpavail >"$avail"\fP
+\fB     dpkg \-\-merge\-avail "$avail"\fP
+\fB     rm "$avail"\fP
+.br
+you can install it with:
+.br
+\fB     dpkg \-\-clear\-selections\fP
+\fB     dpkg \-\-set\-selections <myselections\fP
+.br
+
+Note that this will not actually install or remove anything, but just
+set the selection state on the requested packages. You will need some
+other application to actually download and install the requested
+packages. For example, run \fBapt\-get dselect\-upgrade\fP.
+
+Ordinarily, you will find that \fBdselect\fP(1) provides a more
+convenient way to modify the package selection states.
+.br
+.
+.SH ADDITIONAL FUNCTIONALITY
+Additional functionality can be gained by installing any of the
+following packages: \fBapt\fR, \fBaptitude\fR and \fBdebsums\fR.
+.
+.SH SEE ALSO
+.ad l
+.nh
+\fBaptitude\fP(1),
+\fBapt\fP(1),
+\fBdselect\fP(1),
+\fBdpkg\-deb\fP(1),
+\fBdpkg\-query\fP(1),
+\fBdeb\fP(5),
+\fBdeb\-control\fP(5),
+\fBdpkg.cfg\fP(5),
+and
+\fBdpkg\-reconfigure\fP(8).
+.
+.SH AUTHORS
+See \fI%PKGDOCDIR%/THANKS\fP for the list of people who have
+contributed to \fBdpkg\fP.

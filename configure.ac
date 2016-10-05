@@ -43,6 +43,7 @@ DPKG_BUILD_PROG([dselect])
 DPKG_BUILD_PROG([start-stop-daemon])
 DPKG_BUILD_PROG([update-alternatives])
 
+DPKG_BUILD_RELEASE_DATE
 DPKG_BUILD_DEVEL_DOCS
 
 # Allow alternate directories

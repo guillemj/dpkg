@@ -1,0 +1,94 @@
+.\" dpkg manual page - deb-triggers(5)
+.\"
+.\" Copyright © 2008, 2013-2015 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2011, 2014 Raphaël Hertzog <hertzog@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH deb\-triggers 5 "%RELEASE_DATE%" "%VERSION%" "dpkg utilities"
+.SH NAME
+deb\-triggers \- package triggers
+.
+.SH SYNOPSIS
+triggers
+.
+.SH DESCRIPTION
+A package declares its relationship to some trigger(s) by including
+a \fItriggers\fP file in its control archive (i.e. \fIDEBIAN/triggers\fP
+during package creation).
+.PP
+This file contains directives, one per line. Leading and trailing whitespace
+and everything after the first \fB#\fP on any line will be trimmed, and
+empty lines will be ignored.
+.PP
+The trigger control directives currently supported are:
+.TP
+\fBinterest\fP \fItrigger-name\fP
+.TQ
+\fBinterest\-await\fP \fItrigger-name\fP
+.TQ
+\fBinterest\-noawait\fP \fItrigger-name\fP
+.IP
+Specifies that the package is interested in the named trigger. All
+triggers in which a package is interested must be listed using this
+directive in the triggers control file. The \(lqnoawait\(rq variant does
+not put the triggering packages in triggers\-awaited state. This should
+be used when the functionality provided by the trigger is not crucial.
+.TP
+\fBactivate\fP \fItrigger-name\fP
+.TQ
+\fBactivate\-await\fP \fItrigger-name\fP
+.TQ
+\fBactivate\-noawait\fP \fItrigger-name\fP
+.IP
+Arranges that changes to this package's state will activate the
+specified trigger. The trigger will be activated at the start of
+the following operations: unpack, configure, remove (including for
+the benefit of a conflicting package), purge and deconfigure.
+The \(lqnoawait\(rq variant does not put the triggering packages in
+triggers\-awaited state. This should be used when the functionality
+provided by the trigger is not crucial.
+.IP
+If this package disappears during the unpacking of another package
+the trigger will be activated when the disappearance is noted
+towards the end of the unpack. Trigger processing, and transition
+from triggers\-awaited to installed, does not cause activations.
+In the case of unpack, triggers mentioned in both the old and new
+versions of the package will be activated.
+.PP
+Unknown directives are an error which will prevent installation of the
+package.
+.PP
+The \(lq\-noawait\(rq variants should always be favored when possible since
+triggering packages are not put in triggers\-awaited state and can thus
+be immediately configured without requiring the processing of the trigger.
+If the triggering packages are dependencies of other upgraded packages,
+it will avoid an early trigger processing run and make it possible
+to run the trigger only once as one of the last steps of the upgrade.
+.PP
+The \(lq\-noawait\(rq variants are only supported since dpkg 1.16.1, and
+will lead to errors if used with an older dpkg. It is thus recommended
+to add a \(lqPre\-Depends: dpkg (>= 1.16.1)\(rq to any package that wish to use
+those directives.
+.PP
+The \(lq\-await\(rq alias variants are only supported since dpkg 1.17.21, and
+will lead to errors if used with an older dpkg. It is thus recommended
+to add a \(lqPre\-Depends: dpkg (>= 1.17.21)\(rq to any package that wish to use
+those directives.
+.
+.SH SEE ALSO
+.BR dpkg\-trigger (1),
+.BR dpkg (1),
+.\" FIXME: Unhardcode the pathname, and use dpkg instead of dpkg-dev.
+.BR /usr/share/doc/dpkg\-dev/triggers.txt.gz .

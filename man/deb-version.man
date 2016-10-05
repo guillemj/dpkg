@@ -1,0 +1,135 @@
+.\" dpkg manual page - deb-version(5)
+.\"
+.\" Copyright © 1996-1998 Ian Jackson and Christian Schwarz
+.\"   for parts of the text reused from the Debian Policy
+.\" Copyright © 2007 Frank Lichtenheld <djpig@debian.org>
+.\" Copyright © 2011, 2013, 2015 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH deb\-version 5 "%RELEASE_DATE%" "%VERSION%" "Debian"
+.SH NAME
+deb\-version \- Debian package version number format
+.
+.SH SYNOPSIS
+.RI "[" epoch "\fB:\fP]" upstream-version "[\fB\-\fP" debian-revision "]"
+.SH DESCRIPTION
+Version numbers as used for Debian binary and source packages
+consist of three components. These are:
+.TP
+.I epoch
+This is a single (generally small) unsigned integer.  It
+may be omitted, in which case zero is assumed.  If it is
+omitted then the \fIupstream-version\fP may not
+contain any colons.
+.IP
+It is provided to allow mistakes in the version numbers
+of older versions of a package, and also a package's
+previous version numbering schemes, to be left behind.
+.TP
+.I upstream-version
+This is the main part of the version number.  It is
+usually the version number of the original (\(lqupstream\(rq)
+package from which the \fI.deb\fP file has been made,
+if this is applicable.  Usually this will be in the same
+format as that specified by the upstream author(s);
+however, it may need to be reformatted to fit into the
+package management system's format and comparison
+scheme.
+.IP
+The comparison behavior of the package management system
+with respect to the \fIupstream-version\fP is
+described below. The \fIupstream-version\fP
+portion of the version number is mandatory.
+.IP
+The \fIupstream-version\fP may contain only
+alphanumerics (\(lqA-Za-z0-9\(rq) and the characters
+.BR . " " + " " \- " " : " " ~
+(full stop, plus, hyphen, colon, tilde) and should
+start with a digit.  If there is no
+\fIdebian-revision\fP then hyphens are not allowed;
+if there is no \fIepoch\fP then colons are not
+allowed.
+.TP
+.I debian-revision
+This part of the version number specifies the version of
+the Debian package based on the upstream version.  It
+may contain only alphanumerics and the characters
+.BR + " " . " " ~
+(plus, full stop, tilde) and is
+compared in the same way as the
+\fIupstream-version\fP is.
+.IP
+It is optional; if it isn't present then the
+\fIupstream-version\fP may not contain a hyphen.
+This format represents the case where a piece of
+software was written specifically to be turned into a
+Debian package, and so there is only one \(lqdebianisation\(rq
+of it and therefore no revision indication is required.
+.IP
+It is conventional to restart the
+\fIdebian-revision\fP at \(oq1\(cq each time the
+\fIupstream-version\fP is increased.
+.IP
+Dpkg will break the version
+number apart at the last hyphen in the string (if there
+is one) to determine the \fIupstream-version\fP and
+\fIdebian-revision\fP. The absence of a
+\fIdebian-revision\fP compares earlier than the
+presence of one (but note that the \fIdebian-revision\fP
+is the least significant part of the version number).
+.SS Sorting algorithm
+The \fIupstream-version\fP and \fIdebian-revision\fP
+parts are compared by the package management system using the
+same algorithm:
+.PP
+The strings are compared from left to right.
+.PP
+First the initial part of each string consisting entirely of
+non-digit characters is determined.  These two parts (one of
+which may be empty) are compared lexically.  If a difference
+is found it is returned.  The lexical comparison is a
+comparison of ASCII values modified so that all the letters
+sort earlier than all the non-letters and so that a tilde
+sorts before anything, even the end of a part.  For example,
+the following parts are in sorted order: \(oq~~\(cq, \(oq~~a\(cq, \(oq~\(cq,
+the empty part, \(oqa\(cq.
+.PP
+Then the initial part of the remainder of each string which
+consists entirely of digit characters is determined.  The
+numerical values of these two parts are compared, and any
+difference found is returned as the result of the comparison.
+For these purposes an empty string (which can only occur at
+the end of one or both version strings being compared) counts
+as zero.
+.PP
+These two steps (comparing and removing initial non-digit
+strings and initial digit strings) are repeated until a
+difference is found or both strings are exhausted.
+.PP
+Note that the purpose of epochs is to allow us to leave behind
+mistakes in version numbering, and to cope with situations
+where the version numbering scheme changes.  It is
+\fBnot\fP intended to cope with version numbers containing
+strings of letters which the package management system cannot
+interpret (such as \(oqALPHA\(cq or \(oqpre\-\(cq), or with
+silly orderings.
+.SH NOTES
+The tilde character and its special sorting properties were introduced
+in dpkg 1.10 and some parts of the dpkg build scripts only gained
+support for it later in the 1.10.x series.
+.SH SEE ALSO
+.BR deb\-control (5),
+.BR deb (5),
+.BR dpkg (1)

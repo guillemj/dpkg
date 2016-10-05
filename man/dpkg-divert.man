@@ -1,0 +1,165 @@
+.\" dpkg manual page - dpkg-divert(1)
+.\"
+.\" Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+.\" Copyright © 1999 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2004 Scott James Remnant <keybuk@debian.org>
+.\" Copyright © 2007-2013, 2015 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH dpkg\-divert 1 "%RELEASE_DATE%" "%VERSION%" "dpkg utilities"
+.SH NAME
+dpkg\-divert \- override a package's version of a file
+.
+.SH SYNOPSIS
+.B dpkg\-divert
+.RI [ option ...]
+.I command
+.
+.SH DESCRIPTION
+.B dpkg\-divert
+is the utility used to set up and update the list of diversions.
+.PP
+File \fIdiversions\fP are a way of forcing
+.BR dpkg (1)
+not to install a file into its
+location, but to a \fIdiverted\fP location. Diversions can be used through the
+Debian package scripts to move a file away when it causes a conflict. System
+administrators can also use it to override some package's configuration file,
+or whenever some files (which aren't marked as \(lqconffiles\(rq) need to be
+preserved by \fBdpkg\fP, when installing a newer version of a package which
+contains those files.
+.sp
+.SH COMMANDS
+.TP
+.RB [ \-\-add "] \fIfile\fP"
+Add a diversion for \fIfile\fP.
+.TP
+.BI \-\-remove " file"
+Remove a diversion for \fIfile\fP.
+.TP
+.BI \-\-list " glob-pattern"
+List diversions matching \fIglob-pattern\fP.
+.TP
+.BI \-\-listpackage " file"
+Print the name of the package that diverts \fIfile\fP (since dpkg 1.15.0).
+Prints LOCAL if
+\fIfile\fP is locally diverted and nothing if \fIfile\fP is not diverted.
+.TP
+.BI \-\-truename " file"
+Print the real name for a diverted file.
+.
+.SH OPTIONS
+.TP
+.BI \-\-admindir " directory"
+Set the \fBdpkg\fP data directory to \fIdirectory\fP (default:
+\fI%ADMINDIR%\fP).
+.TP
+.BI \-\-divert " divert-to"
+\fIdivert-to\fP is the location where the versions of \fIfile\fP, as
+provided by other packages, will be diverted.
+.TP
+.B \-\-local
+Specifies that all packages' versions of this file are diverted.
+This means, that there are no exceptions, and whatever package is installed,
+the file is diverted. This can be used by an admin to install a locally
+modified version.
+.TP
+.BI \-\-package " package"
+\fIpackage\fP is the name of a package whose copy of \fIfile\fP will not
+be diverted. i.e. \fIfile\fP will be diverted for all packages except
+\fIpackage\fP.
+.TP
+.B \-\-quiet
+Quiet mode, i.e. no verbose output.
+.TP
+.B \-\-rename
+Actually move the file aside (or back). \fBdpkg\-divert\fP will abort operation
+in case the destination file already exists.
+.TP
+.B \-\-test
+Test mode, i.e. don't actually perform any changes, just demonstrate.
+.TP
+.BR \-? ", " \-\-help
+Show the usage message and exit.
+.TP
+.B \-\-version
+Show the version and exit.
+.
+.SH EXIT STATUS
+.TP
+.B 0
+The requested action was successfully performed.
+.TP
+.B 2
+Fatal or unrecoverable error due to invalid command-line usage, or
+interactions with the system, such as accesses to the database,
+memory allocations, etc.
+.
+.SH ENVIRONMENT
+.TP
+.B DPKG_ADMINDIR
+If set and the \fB\-\-admindir\fP option has not been specified, it will
+be used as the \fBdpkg\fP data directory.
+.TP
+.B DPKG_MAINTSCRIPT_PACKAGE
+If set and the \fB\-\-local\fP and \fB\-\-package\fP options have not been
+specified, \fBdpkg\-divert\fP will use it as the package name.
+.
+.SH FILES
+.TP
+.I %ADMINDIR%/diversions
+File which contains the current list of diversions of the system. It is
+located in the \fBdpkg\fP administration directory, along with other files
+important to \fBdpkg\fP, such as \fIstatus\fP or \fIavailable\fP.
+.br
+Note: \fBdpkg\-divert\fP preserves the old copy of this file, with extension
+\fI\-old\fP, before replacing it with the new one.
+.
+.SH NOTES
+When adding, default is \fB\-\-local\fP and \fB\-\-divert\fP
+\fIoriginal\fP\fB.distrib\fP. When removing, \fB\-\-package\fP or
+\fB\-\-local\fP and \fB\-\-divert\fP must match if specified.
+
+Directories can't be diverted with \fBdpkg\-divert\fP.
+
+Care should be taken when diverting shared libraries, \fBldconfig\fP(8)
+creates a symbolic link based on the DT_SONAME field embedded in the library.
+Because \fBldconfig\fP doesn't honour diverts (only \fBdpkg\fP does),
+the symlink may end up pointing at the diverted library, if a diverted
+library has the same SONAME as the undiverted one.
+.
+.SH EXAMPLES
+To divert all copies of a \fI/usr/bin/example\fR to \fI/usr/bin/example.foo\fR,
+i.e. directs all packages providing \fI/usr/bin/example\fR to install it as
+\fI/usr/bin/example.foo\fR, performing the rename if required:
+.HP
+dpkg\-divert \-\-divert /usr/bin/example.foo \-\-rename /usr/bin/example
+.PP
+To remove that diversion:
+.HP
+dpkg\-divert \-\-rename \-\-remove /usr/bin/example
+
+.PP
+To divert any package trying to install \fI/usr/bin/example\fR to
+\fI/usr/bin/example.foo\fR, except your own \fIwibble\fR package:
+.HP
+dpkg\-divert \-\-package wibble \-\-divert /usr/bin/example.foo \-\-rename /usr/bin/example
+.PP
+To remove that diversion:
+.HP
+dpkg\-divert \-\-package wibble \-\-rename \-\-remove /usr/bin/example
+.
+.SH SEE ALSO
+.BR dpkg (1).

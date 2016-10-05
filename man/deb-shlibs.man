@@ -1,0 +1,68 @@
+.\" dpkg manual page - deb-shlibs(5)
+.\"
+.\" Copyright © 1996 Michael Shields <shields@crosslink.net>
+.\" Copyright © 2008 Zack Weinberg <zackw@panix.com>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH deb\-shlibs 5 "%RELEASE_DATE%" "%VERSION%" "dpkg utilities"
+.SH NAME
+deb\-shlibs \- Debian shared library information file
+.
+.SH DESCRIPTION
+.PP
+.B shlibs
+files map shared library names and versions
+.RI ( sonames )
+to dependencies suitable for a package control file.  There is one
+entry per line. Blank lines are \fBnot\fP allowed.  Lines beginning
+with an \fB#\fP character are considered commentary, and are ignored.
+All other lines must have the format
+.IP
+.RI [ type\fB:\fP ]
+.I library
+.I version
+.I dependencies
+.PP
+The \fIlibrary\fP and \fIversion\fP fields are whitespace-delimited,
+but the \fIdependencies\fP field extends to the end of the line.  The
+\fItype\fP field is optional and normally not needed.
+.PP
+The \fIdependencies\fP field has the same syntax as the \fBDepends\fP
+field in a binary control file, see \fBdeb\-control\fP(5).
+.
+.SH EXAMPLES
+.PP
+The
+.B shlibs
+file for a typical library package, named
+.IR libcrunch1 ,
+that provides one library whose soname is
+.IR libcrunch.so.1 ,
+might read
+.IP
+libcrunch 1 libcrunch1 (>= 1.2-1)
+.PP
+The \fIdependencies\fP
+must mention the most recent version of the package that added new
+symbols to the library: in the above example, new symbols were added to
+version 1.2 of
+.IR libcrunch .
+This is not the only reason the dependencies might need to be
+tightened.
+.
+.SH SEE ALSO
+.BR deb\-control (5),
+.BR dpkg\-shlibdeps (1),
+.BR deb\-symbols (5).

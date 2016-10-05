@@ -10,6 +10,14 @@ AC_DEFUN([DPKG_BUILD_SHARED_LIBS], [
   AM_CONDITIONAL([BUILD_SHARED], [test "$enable_shared" = "yes"])
 ])# DPKG_BUILD_SHARED_LIBS
 
+# DPKG_BUILD_RELEASE_DATE()
+# -----------------------
+AC_DEFUN([DPKG_BUILD_RELEASE_DATE], [
+  TIMESTAMP=$(PERL=$PERL $srcdir/run-script scripts/dpkg-parsechangelog.pl -l$srcdir/debian/changelog -STimestamp)
+  PACKAGE_RELEASE_DATE=$(date --date="@$TIMESTAMP" +%Y-%m-%d)
+  AC_SUBST([PACKAGE_RELEASE_DATE])
+])# DPKG_BUILD_RELEASE_DATE
+
 # DPKG_BUILD_PROG(PROG)
 # ---------------
 # Allow disabling compilation and usage of specific programs.

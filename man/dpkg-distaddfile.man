@@ -1,0 +1,68 @@
+.\" dpkg manual page - dpkg-distaddfile(1)
+.\"
+.\" Copyright © 1995-1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
+.\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH dpkg\-distaddfile 1 "%RELEASE_DATE%" "%VERSION%" "dpkg utilities"
+.SH NAME
+dpkg\-distaddfile \- add entries to debian/files
+.
+.SH SYNOPSIS
+.B dpkg\-distaddfile
+.RI [ option ...] " filename section priority"
+.
+.SH DESCRIPTION
+.B dpkg\-distaddfile
+adds an entry for a named file to
+.BR debian/files .
+
+It takes three non-option arguments, the filename and the section and
+priority for the
+.B .changes
+file.
+
+The filename should be specified relative to the directory where
+.B dpkg\-genchanges
+will expect to find the files, usually
+.BR .. ,
+rather than being a pathname relative to the current directory when
+.B dpkg\-distaddfile
+is run.
+.
+.SH OPTIONS
+.TP
+.BI \-f files-list-file
+Read or write the list of files to be uploaded here, rather than using
+.BR debian/files .
+.TP
+.BR \-? ", " \-\-help
+Show the usage message and exit.
+.TP
+.BR \-\-version
+Show the version and exit.
+.
+.SH FILES
+.TP
+.B debian/files
+The list of generated files which are part of the upload being
+prepared.
+.B dpkg\-distaddfile
+can be used to add additional files.
+.
+.SH SEE ALSO
+.ad l
+.nh
+.BR deb\-src\-files (5).

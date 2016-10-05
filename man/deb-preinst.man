@@ -1,0 +1,45 @@
+.\" dpkg manual page - deb-preinst(5)
+.\"
+.\" Copyright © 2016 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH deb\-preinst 5 "%RELEASE_DATE%" "%VERSION%" "dpkg utilities"
+.SH NAME
+deb\-preinst \- package pre-installation maintainer script
+.
+.SH SYNOPSIS
+preinst
+.
+.SH DESCRIPTION
+A package can perform several pre-installation actions via maintainer
+scripts, by including an executable \fIpreinst\fP file in its control
+archive (i.e. \fIDEBIAN/preinst\fP during package creation).
+.PP
+The script can be called in the following ways:
+.TP
+\fInew-preinst\fP \fBinstall\fP
+Before the package is installed.
+.TP
+\fInew-preinst\fP \fBinstall\fP \fIold-version new-version\fP
+Before removed package is upgraded.
+.TP
+\fInew-preinst\fP \fBupgrade\fP \fIold-version new-version\fP
+Before the package is upgraded.
+.TP
+\fIold-preinst\fP \fBabort-upgrade\fP \fInew-version\fP
+If \fIpostrm\fP fails during upgrade or fails on failed upgrade.
+.
+.SH SEE ALSO
+.BR dpkg (1).

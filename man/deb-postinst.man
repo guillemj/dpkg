@@ -1,0 +1,53 @@
+.\" dpkg manual page - deb-postinst(5)
+.\"
+.\" Copyright © 2016 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH deb\-postinst 5 "%RELEASE_DATE%" "%VERSION%" "dpkg utilities"
+.SH NAME
+deb\-postinst \- package post-installation maintainer script
+.
+.SH SYNOPSIS
+postinst
+.
+.SH DESCRIPTION
+A package can perform several post-installation actions via maintainer
+scripts, by including an executable \fIpostinst\fP file in its control
+archive (i.e. \fIDEBIAN/postinst\fP during package creation).
+.PP
+The script can be called in the following ways:
+.TP
+\fIpostinst\fP \fBconfigure\fP \fIold-version\fP
+After the package was installed.
+.TP
+\fIpostinst\fP \fBtriggered\fP \fItrigger-name...\fP
+After the package was triggered.
+.TP
+\fIold-postinst\fP \fBabort-upgrade\fP \fInew-version\fP
+If \fIprerm\fP fails during upgrade or fails on failed upgrade.
+.TP
+\fIold-postinst\fP \fBabort-remove\fP
+If \fIprerm\fP fails during removal.
+.TP
+\fIpostinst\fP \fBabort-deconfigure in-favour\fP \fInew-package new-version\fP
+.TQ
+       [ \fBremoving\fP \fIold-package old-version\fP ]
+If \fIprerm\fP fails during deconfiguration of a package.
+.TP
+\fIpostinst\fP \fBabort-remove in-favour\fP \fInew-package new-version\fP
+If \fIprerm\fP fails during replacement due to conflict.
+.
+.SH SEE ALSO
+.BR dpkg (1).

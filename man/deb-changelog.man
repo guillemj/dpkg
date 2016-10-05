@@ -1,0 +1,169 @@
+.\" dpkg manual page - deb-changelog(5)
+.\"
+.\" Copyright © 1996-1998 Ian Jackson and Christian Schwarz
+.\" Copyright © 1998, 2001 Manoj Srivastava <srivasta@debian.org>
+.\" Copyright © 2001 Julian Gilbey <jdg@debian.org>
+.\" Copyright © 2003 Josip Rodin <joy@debian.org>
+.\" Copyright © 2008, 2010 Russ Allbery <rra@debian.org>
+.\" Copyright © 2010 Charles Plessy <plessy@debian.org>
+.\" Copyright © 2014 Bill Allombert <ballombe@debian.org>
+.\" Copyright © 2015 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH deb-changelog 5 "%RELEASE_DATE%" "%VERSION%" "Debian"
+.SH NAME
+deb\-changelog \- dpkg source packages' changelog file format
+.
+.SH SYNOPSIS
+changelog
+.
+.SH DESCRIPTION
+Changes in the packaged version of a project are explained in the
+changelog file \fIdebian/changelog\fP.
+This includes modifications made in the source package compared to the
+upstream one as well as other changes and updates to the package.
+.PP
+The format of the \fIdebian/changelog\fP allows the package building
+tools to discover which version of the package is being built and find
+out other release-specific information.
+.PP
+That format is a series of entries like this:
+
+.nf
+\fIpackage\fP (\fIversion\fP) \fIdistributions\fP; \fImetadata\fP
+          [optional blank line(s), stripped]
+  * \fIchange-details\fP
+    \fImore-change-details\fP
+          [blank line(s), included in output of \fBdpkg\-parsechangelog\fP(1)]
+  * \fIeven-more-change-details\fP
+          [optional blank line(s), stripped]
+ \-\- \fImaintainer-name\fP <\fIemail-address\fP>  \fIdate\fP
+.fi
+
+.PP
+\fIpackage\fP and \fIversion\fP are the source package name and version
+number.
+.PP
+\fIdistributions\fP lists one or more space-separated distributions where
+this version should be installed when it is uploaded; it is copied to the
+\fBDistribution\fP field in the \fI.changes\fP file.
+.PP
+\fImetadata\fP is a comma-separated list of \fIkeyword\fP=\fIvalue\fP items.
+The only \fIkeyword\fPs currently supported by \fBdpkg\fP are \fBurgency\fP
+and \fBbinary\-only\fP.
+\fBurgency\fP's value is used for the \fBUrgency\fP field in the
+\fI.changes\fP file for the upload.
+\fBbinary\-only\fP with a \fByes\fP value, is used to denote that this
+changelog entry is for a binary-only non-maintainer upload (an automatic
+binary rebuild with the only change being the changelog entry).
+.PP
+The change details may in fact be any series of lines starting with
+at least two spaces, but conventionally each change starts with an
+asterisk and a separating space and continuation lines are indented
+so as to bring them in line with the start of the text above.
+Blank lines may be used here to separate groups of changes, if desired.
+.PP
+If this upload resolves bugs recorded in the distribution bug tracking
+system, they may be automatically closed on the inclusion of this
+package into the distribution archive by including the string:
+.nf
+  \fBCloses: Bug#\fP\fInnnnn\fP
+.fi
+in the change details (the exact Perl regular expression is
+\fB/closes:\\s*(?:bug)?\\#?\\s?\\d+(?:,\\s*(?:bug)?\\#?\\s?\\d+)*/i\fP).
+This information is conveyed via the \fBCloses\fP field in the \fI.changes\fP
+file.
+.PP
+The maintainer name and email address used in the changelog should be the
+details of the person who prepared this release of the package.
+They are \fBnot\fP necessarily those of the uploader or usual package
+maintainer.
+The information here will be copied to the \fBChanged\-By\fP field in the
+\fI.changes\fP file, and then later might be used to send an acknowledgement
+when the upload has been installed in the distribution archive.
+.PP
+The \fIdate\fP has the following format (compatible and with the same
+semantics of RFC2822 and RFC5322, or what \(Fodate \-R\(Fc generates):
+.IP
+\fIday-of-week\fP\fB,\fP \fIdd\fP \fImonth\fP \fIyyyy\fP \fIhh\fP\fB:\fP\fImm\fP\fB:\fP\fIss\fP \fB+\fP\fIzzzz\fP
+.PP
+where:
+.TP
+.I day-of-week
+Is one of:
+.BR Mon ", " Tue ", " Wed ", " Thu ", " Fri ", " Sat ", " Sun .
+.TP
+.I dd
+Is a one- or two-digit day of the month (\fB01\fP-\fB31\fP).
+.TP
+.I month
+Is one of:
+.BR Jan ", " Feb ", " Mar ", " Apr ", " May ", " Jun ", " Jul ", " Aug ", "
+.BR Sep ", " Oct ", " Nov ", " Dec .
+.TP
+.I yyyy
+Is the four-digit year (e.g. 2010).
+.TP
+.I hh
+Is the two-digit hour (\fB00\fP-\fB23\fP).
+.TP
+.I mm
+Is the two-digit minutes (\fB00\fP-\fB59\fP).
+.TP
+.I ss
+Is the two-digit seconds (\fB00\fP-\fB60\fP).
+.TP
+.RI [\fB+-\fP] zzzz
+Is the time zone offset from Coordinated Universal Time (UTC).
+\(oq\fB+\fP\(cq indicates that the time is ahead of (i.e., east of) UTC and
+\(oq\fB\-\fP\(cq indicates that the time is behind (i.e., west of) UTC.
+The first two digits indicate the hour difference from UTC and the last
+two digits indicate the number of additional minutes difference from UTC.
+The last two digits must be in the range \fB00\fP-\fB59\fP.
+.PP
+The first \(lqtitle\(rq line with the package name must start at the left
+hand margin.
+The \(lqtrailer\(rq line with the maintainer and date details must be
+preceded by exactly one space.
+The maintainer details and the date must be separated by exactly two
+spaces.
+.PP
+The entire changelog must be encoded in UTF-8.
+.SH FILES
+.TP
+.I debian/changelog
+.SH EXAMPLES
+.nf
+dpkg (1.17.18) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Handle empty minimum versions when initializing dependency versions,
+    as the code is mapping the minimum version 0 to '' to avoid outputting
+    useless versions. Regression introduced in dpkg 1.17.17. Closes: #764929
+
+  [ Updated programs translations ]
+  * Catalan (Guillem Jover).
+
+  [ Updated dselect translations ]
+  * Catalan (Guillem Jover).
+  * German (Sven Joachim).
+
+ \-\- Guillem Jover <guillem@debian.org>  Sun, 12 Oct 2014 15:47:44 +0200
+.fi
+.
+.SH SEE ALSO
+.BR deb\-version (5),
+.BR deb\-changes (5),
+.BR dpkg\-parsechangelog (1).

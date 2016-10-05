@@ -1,0 +1,117 @@
+.\" dpkg manual page - dpkg-statoverride(1)
+.\"
+.\" Copyright © 2000-2001 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2009-2011, 2013, 2015 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH dpkg\-statoverride 1 "%RELEASE_DATE%" "Debian project" "dpkg utilities"
+.SH NAME
+dpkg\-statoverride \- override ownership and mode of files
+.
+.SH SYNOPSIS
+.B dpkg\-statoverride
+.RI [ option "...] " command
+.
+.SH DESCRIPTION
+\(lq\fBstat overrides\fR\(rq are a way to tell
+.BR dpkg (1)
+to use a different owner
+or mode for a path when a package is installed (this applies to any
+filesystem object that
+.B dpkg
+handles, including directories, devices, etc.). This can be used to
+force programs that are normally setuid to be install without a setuid
+flag, or only executable by a certain group.
+.P
+\fBdpkg\-statoverride\fR is a utility to manage the list of stat
+overrides. It has three basic functions: adding, removing and listing
+overrides.
+.
+.SH COMMANDS
+.TP
+.BI \-\-add " user group mode path"
+Add an override for \fIpath\fP. \fIpath\fP does not need to exist
+when this command is used; the override will be stored and used later.
+Users and groups can be specified by their name (for example \fBroot\fR
+or \fBnobody\fR), or by their number by prepending the number with a
+\(oq\fB#\fR\(cq (for example \fB#0\fR or \fB#65534\fR).
+The \fImode\fR needs to be specified in octal.
+
+If \fB\-\-update\fP is specified and \fIpath\fP exists, it is immediately
+set to the new owner and mode.
+.TP
+.BI \-\-remove " path"
+Remove an override for \fIpath\fP, the status of \fIpath\fP is left
+unchanged by this command.
+.TP
+.BR \-\-list " [\fIglob-pattern\fP]"
+List all overrides. If a glob pattern is specified restrict the output
+to overrides which match the glob.
+.TP
+.B \-\-help
+Show the usage message and exit.
+.TP
+.B \-\-version
+Show the version and exit.
+.
+.SH OPTIONS
+.TP
+.BI \-\-admindir " directory"
+Change the \fIdirectory\fP of the \fBdpkg\fP database where the statoverride
+file is also stored. Defaults to \fI%ADMINDIR%\fP.
+.TP
+.B \-\-force
+Force an action, even if a sanity check would otherwise prohibit it.
+This is necessary to override an existing override.
+.TP
+.B \-\-update
+Immediately try to change the \fIpath\fP to the new owner and mode if it
+exists.
+.TP
+.B \-\-quiet
+Be less verbose about what we do.
+.
+.SH EXIT STATUS
+.TP
+.B 0
+The requested action was successfully performed.
+.TP
+.B 1
+For \fB\-\-list\fP, if there are no overrides or none match the supplied
+glob.
+.TP
+.B 2
+Fatal or unrecoverable error due to invalid command-line usage, or
+interactions with the system, such as accesses to the database,
+memory allocations, etc.
+.
+.SH ENVIRONMENT
+.TP
+.B DPKG_ADMINDIR
+If set and the \fB\-\-admindir\fP option has not been specified, it will
+be used as the \fBdpkg\fP data directory.
+.
+.SH FILES
+.TP
+.I %ADMINDIR%/statoverride
+File which contains the current list of stat overrides of the system. It
+is located in the \fBdpkg\fP administration directory, along with other files
+important to \fBdpkg\fP, such as \fIstatus\fP or \fIavailable\fP.
+.br
+Note: \fBdpkg\-statoverride\fP preserves the old copy of this file, with
+extension \(lq\-old\(rq, before replacing it with the new one.
+.
+.SH SEE ALSO
+.BR dpkg (1).

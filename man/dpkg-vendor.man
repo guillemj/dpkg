@@ -1,0 +1,66 @@
+.\" dpkg manual page - dpkg-vendor(1)
+.\"
+.\" Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH dpkg\-vendor 1 "%RELEASE_DATE%" "%VERSION%" "dpkg suite"
+.SH NAME
+dpkg\-vendor \- queries information about distribution vendors
+.
+.SH SYNOPSIS
+.B dpkg\-vendor
+.RI [ option "...] " command
+.
+.SH DESCRIPTION
+\fBdpkg\-vendor\fP is a tool to query information about vendors listed in
+\fB%PKGCONFDIR%/origins\fP. \fB%PKGCONFDIR%/origins/default\fP contains
+information about the current vendor.
+.
+.SH COMMANDS
+.TP
+.BI \-\-is " vendor"
+Exits with \fB0\fP if the current vendor is \fIvendor\fP. Otherwise exits
+with \fB1\fP.
+.TP
+.BI \-\-derives\-from " vendor"
+Exits with \fB0\fP if the current vendor distribution is a derivative of
+\fIvendor\fP, otherwise exits with \fB1\fP.
+It uses the \fBParent\fP field to browse all ancestors of the current vendor.
+.TP
+.BI \-\-query " field"
+Print on standard output the value of the vendor-specific \fIfield\fP for
+the current vendor.
+.TP
+.B \-\-help
+Show the usage message and exit.
+.TP
+.B \-\-version
+Show the version and exit.
+.
+.SH OPTIONS
+.TP
+.BI \-\-vendor " vendor"
+Assumes the current vendor is \fIvendor\fP instead of discovering it
+with the \fBDEB_VENDOR\fP environment variable or
+\fB%PKGCONFDIR%/origins/default\fP.
+.
+.SH ENVIRONMENT
+.TP
+\fBDEB_VENDOR\fP
+This setting defines the current vendor. If not set, it will discover the
+current vendor by reading \fB%PKGCONFDIR%/origins/default\fP.
+.
+.SH SEE ALSO
+.BR deb\-origin (5).

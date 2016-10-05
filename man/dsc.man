@@ -1,0 +1,235 @@
+.\" dpkg manual page - dsc(5)
+.\"
+.\" Copyright © 1995-1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
+.\" Copyright © 2015 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH dsc 5 "%RELEASE_DATE%" "%VERSION%" "Debian"
+.SH NAME
+dsc \- Debian source packages' control file format
+.
+.SH SYNOPSIS
+.IB filename .dsc
+.
+.SH DESCRIPTION
+Each Debian source package is composed of a .dsc control file, which
+contains a number of fields.
+Each field begins with a tag, such as
+.B Source
+or
+.B Binary
+(case insensitive), followed by a colon, and the body of the field.
+Fields are delimited only by field tags.
+In other words, field text may be multiple lines in length, but the
+installation tools will generally join lines when processing the body
+of the field (except in case of the multiline fields
+.BR Package\-List ", " Files ", " Checksums\-Sha1 " and " Checksums\-Sha256 ,
+see below).
+.PP
+The control data might be enclosed in an OpenPGP ASCII Armored signature,
+as specified in RFC4880.
+.
+.SH FIELDS
+.TP
+.BR Format: " \fIformat-version\fP (required)"
+The value of this field declares the format version of the source package.
+The field value is used by programs acting on a source package to
+interpret the list of files in the source package and determine how
+to unpack it.
+The syntax of the field value is a numeric major revision, a period,
+a numeric minor revision, and then an optional subtype after whitespace,
+which if specified is an alphanumeric word in parentheses.
+The subtype is optional in the syntax but may be mandatory for particular
+source format revisions.
+
+The source formats currently supported by \fBdpkg\fP are \fB1.0\fP,
+\fB2.0\fP, \fB3.0 (native)\fP, \fB3.0 (quilt)\fP, \fB3.0 (git)\fP,
+\fB3.0 (bzr)\fP and \fB3.0 (custom)\fP.
+.TP
+.BR Source: " \fIsource-name\fP (required)"
+The value of this field determines the package name, and is used to
+generate file names by most installation tools.
+.TP
+.BI Binary: " binary-package-list"
+This folded field lists binary packages which this source package can produce,
+separated by commas.
+
+This field has now been superseded by the \fBPackage\-List\fP field, which
+gives enough information about what binary packages are produced on which
+architecture, build-profile and other involved restrictions.
+.TP
+.BR Architecture: " \fIarch-list\fP (recommended)"
+A list of architectures and architecture wildcards separated by spaces
+which specify the type of hardware this package can be compiled for.
+Common architecture names and architecture wildcards are \fBamd64\fP,
+\fBarmel\fP, \fBi386\fP, \fBlinux\-any\fP, \fBany\-amd64\fP, etc.
+
+Note that the \fBall\fP value is meant for packages that are architecture
+independent, and \fBany\fP for packages that are architecture dependent.
+The list may include (or consist solely of) the special value \fBall\fP.
+When the list contains the architecture wildcard \fBany\fP, the only
+other value allowed in the list is \fBall\fP.
+
+The field value is generally generated from \fBArchitecture\fP fields
+from in the \fIdebian/control\fP in the source package.
+.TP
+.BR Version: " \fIversion-string\fP (required)"
+Typically, this is the original package's version number in whatever form
+the program's author uses.
+It may also include a Debian revision number (for non-native packages).
+The exact format and sorting algorithm are described in
+.BR deb\-version (5).
+.TP
+.BI Origin: " name"
+The name of the distribution this package is originating from.
+.TP
+.BR Maintainer: " \fIfullname-email\fP (recommended)"
+Should be in the format \(lqJoe Bloggs <jbloggs@foo.com>\(rq, and is
+typically the person who created the package, as opposed to the author
+of the software that was packaged.
+.TP
+.BI Uploaders: " fullname-email-list"
+Lists all the names and email addresses of co-maintainers of the package,
+in the same format as the \fBMaintainer\fP field.
+Multiple co-maintainers should be separated by a comma.
+.TP
+.BI Homepage: " url"
+The upstream project home page \fIurl\fP.
+.TP
+.BR Standards\-Version: " \fIversion-string\fP (recommended)"
+This documents the most recent version of the distribution policy standards
+this package complies with.
+.TP
+.BI Vcs\-Browser: " url"
+The \fIurl\fP of a web interface to browse the Version Control System
+repository.
+.TP
+.BI Vcs\-Arch: " url"
+.TQ
+.BI Vcs\-Bzr: " url"
+.TQ
+.BI Vcs\-Cvs: " url"
+.TQ
+.BI Vcs\-Darcs: " url"
+.TQ
+.BI Vcs\-Git: " url"
+.TQ
+.BI Vcs\-Hg: " url"
+.TQ
+.BI Vcs\-Mtn: " url"
+.TQ
+.BI Vcs\-Svn: " url"
+These fields declare the \fIurl\fP of the Version Control System repository
+used to maintain this package.
+See \fBdeb\-src\-control\fP(5) for more details.
+.TP
+.BI Testsuite: " name-list"
+This field declares that the source package contains the specified test suites.
+The value is a space-separated list of test suites.
+If the \fBautopkgtest\fP value is present, a \fIdebian/tests/control\fP is
+expected to be present, if the file is present but not the value, then
+\fBdpkg\-source\fP will automatically add it, preserving previous values.
+.TP
+.BI Testsuite\-Triggers: " package-list"
+This field declares the comma-separated union of all test dependencies
+(\fBDepends\fP fields in \fIdebian/tests/control\fP file), with all
+restrictions removed, and OR dependencies flattened, except for binaries
+generated by this source package and meta-dependencies such as \fB@\fP or
+\fB@builddeps@\fP.
+.TP
+.BI Build\-Depends: " package-list"
+.TQ
+.BI Build\-Depends\-Arch: " package-list"
+.TQ
+.BI Build\-Depends\-Indep: " package-list"
+.TQ
+.BI Build\-Conflicts: " package-list"
+.TQ
+.BI Build\-Conflicts\-Arch: " package-list"
+.TQ
+.BI Build\-Conflicts\-Indep: " package-list"
+These fields declare relationships between the source package and packages
+used to build it.
+They are discussed in the \fBdeb\-src\-control\fP(5) manpage.
+.TP
+.BI Package\-List:
+.TQ
+.RI " " package " " package-type " " section " " priority " " key-value-list
+This multiline field contains a list of binary packages generated by this
+source package.
+
+The \fIpackage\fP is the binary package name.
+
+The \fIpackage-type\fP is the binary package type, usually \fBdeb\fP, another
+common value is \fBudeb\fP.
+
+The \fIsection\fP and \fIpriority\fP match the binary package fields of the
+same name.
+
+The \fIkey-value-list\fP is a space separated \fIkey\fP\fB=\fP\fIvalue\fP list,
+and the currently known optional keys are:
+
+.RS
+.TP
+.B arch
+The architecture restriction from the binary package \fBArchitecture\fP
+field, with spaces converted to \(oq,\(cq.
+.TP
+.B profile
+The normalized build-profile restriction formula from the binary package
+\fBBuild\-Profile\fP field, with ORs converted to \(oq+\(cq and ANDs to
+\(oq,\(cq.
+.TP
+.B essential
+If the binary package is essential, this key will contain the value of the
+\fBEssential\fP field, that is a \fByes\fP value.
+.RE
+.TP
+.BR Files: " (required)"
+.TQ
+.BR Checksums\-Sha1: " (required)"
+.TQ
+.BR Checksums\-Sha256: " (required)"
+.TQ
+.RI " " checksum " " size " " filename
+These multiline fields contain a list of files with a checksum and size
+for each one.
+These fields have the same syntax and differ only in the checksum algorithm
+used: MD5 for \fBFiles\fP, SHA-1 for \fBChecksums\-Sha1\fP and SHA-256 for
+\fBChecksums\-Sha256\fP.
+
+The first line of the field value (the part on the same line as the field
+name followed by a colon) is always empty.
+The content of the field is expressed as continuation lines, one line per file.
+Each line consists of the checksum, a space, the file size, a space, and the
+file name.
+
+These fields list all files that make up the source package.
+The list of files in these fields must match the list of files in the
+other related fields.
+.
+.\" .SH EXAMPLE
+.\" .RS
+.\" .nf
+.\" .fi
+.\" .RE
+.
+.SH BUGS
+The \fBFormat\fP field conflates the format for the \fB.dsc\fP file itself
+and the format of the extracted source package.
+.SH SEE ALSO
+.BR deb\-src\-control (5),
+.BR deb\-version (5),
+.BR dpkg\-source (1).

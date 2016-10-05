@@ -1,0 +1,181 @@
+.\" dpkg manual page - deb-substvars(5)
+.\"
+.\" Copyright © 1995-1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
+.\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2006-2009,2012-2015 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2009-2010 Raphaël Hertzog <hertzog@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH deb\-substvars 5 "%RELEASE_DATE%" "%VERSION%" "dpkg utilities"
+.SH NAME
+deb\-substvars \- Debian source substitution variables
+.
+.SH SYNOPSIS
+substvars
+.
+.SH DESCRIPTION
+Before
+.BR dpkg\-source ", " dpkg\-gencontrol " and " dpkg\-genchanges
+write their control information (to the source control file
+.B .dsc
+for
+.B dpkg\-source
+and to standard output for
+.BR dpkg\-gencontrol " and " dpkg\-genchanges )
+they perform some variable substitutions on the output file.
+
+A variable substitution has the form
+.BI ${ variable-name }\fR.
+Variable names consist of alphanumerics, hyphens and colons and start
+with an alphanumeric. Variable substitutions are performed repeatedly
+until none are left; the full text of the field after the substitution
+is rescanned to look for more substitutions.
+
+After all the substitutions have been done each occurrence of the
+string
+.B ${}
+(which is not a legal substitution) is replaced with a
+.B $
+sign.
+
+While variable substitution is done on all control fields, some of those
+fields are used and needed during the build when the substitution did not
+yet occur. That's why you can't use variables in the \fBPackage\fP,
+\fBSource\fP and \fBArchitecture\fP fields.
+
+Variable substitution happens on the content of the fields after they have
+been parsed, thus if you want a variable to expand over multiple lines you
+do not have to include a space after the newline. This is done implicitly
+when the field is output. For example, if the variable
+\fB${Description}\fP is set to "foo is bar.${Newline}foo is
+great." and if you have the following field:
+
+ Description: foo application
+  ${Description}
+  .
+  More text.
+
+It will result in:
+
+ Description: foo application
+  foo is bar.
+  foo is great.
+  .
+  More text.
+
+Variables can be set using the
+.B \-V
+common option. They can be also specified in the file
+.B debian/substvars
+(or whatever other file is specified using the
+.B \-T
+option). This file consists of lines of the form
+.IB name = value\fR.
+Trailing whitespace on each line, blank lines, and
+lines starting with a
+.B #
+symbol (comments) are ignored.
+
+Additionally, the following standard variables are available:
+.TP
+.BI Arch
+The current host architecture (i.e. the architecture the package is being
+built for, the equivalent of \fBDEB_HOST_ARCH\fP).
+.TP
+.B source:Version
+The source package version (since dpkg 1.13.19).
+.TP
+.B source:Upstream\-Version
+The upstream source package version, including the Debian version epoch if
+any (since dpkg 1.13.19).
+.TP
+.B binary:Version
+The binary package version (which may differ from source:Version in a binNMU
+for example; since dpkg 1.13.19).
+.TP
+.B Source\-Version
+The source package version (from the changelog file). This variable is now
+\fBdeprecated\fP as its meaning is different from its function, please use
+the \fBsource:Version\fP or \fBbinary:Version\fP as appropriate.
+.TP
+.B Installed\-Size
+The approximate total size of the package's installed files. This value is
+copied into the corresponding control file field; setting it will modify
+the value of that field. If this variable is not set
+.B dpkg\-gencontrol
+will compute the default value by accumulating the size of each regular
+file and symlink rounded to 1 KiB used units, and a baseline of 1 KiB for
+any other filesystem object type.
+
+\fBNote:\fP Take into account that this can only ever be an approximation,
+as the actual size used on the installed system will depend greatly on the
+filesystem used and its parameters, which might end up using either more
+or less space than the specified in this field.
+.TP
+.B Extra\-Size
+Additional disk space used when the package is installed. If this
+variable is set its value is added to that of the
+.B Installed\-Size
+variable (whether set explicitly or using the default value) before it
+is copied into the
+.B Installed\-Size
+control file field.
+.TP
+.BI F: fieldname
+The value of the output field
+.IR fieldname
+(which must be given in the canonical capitalisation). Setting these
+variables has no effect other than on places where they are expanded
+explicitly.
+.TP
+.B Format
+The
+.B .changes
+file format version generated by this version of the source packaging
+scripts. If you set this variable the contents of the
+.B Format
+field in the
+.B .changes
+file will change too.
+.TP
+.BR Newline ", " Space ", " Tab
+These variables each hold the corresponding character.
+.TP
+.BI shlibs: dependencyfield
+Variable settings with names of this form are generated by
+.BR dpkg\-shlibdeps .
+.TP
+.B dpkg:Upstream\-Version
+The upstream version of dpkg (since dpkg 1.13.19).
+.TP
+.B dpkg:Version
+The full version of dpkg (since dpkg 1.13.19).
+.LP
+If a variable is referred to but not defined it generates a warning
+and an empty value is assumed.
+.
+.SH FILES
+.TP
+.B debian/substvars
+List of substitution variables and values.
+.
+.SH SEE ALSO
+.ad l
+.nh
+.BR dpkg (1),
+.BR dpkg\-genchanges (1),
+.BR dpkg\-gencontrol (1),
+.BR dpkg\-shlibdeps (1),
+.BR dpkg\-source (1).

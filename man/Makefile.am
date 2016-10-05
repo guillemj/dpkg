@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-dist_man_MANS = \
+man_MANS = \
 	deb-changelog.5 \
 	deb-changes.5 \
 	deb-conffiles.5 \
@@ -52,22 +52,77 @@ dist_man_MANS = \
 	$(nil)
 
 if BUILD_DSELECT
-dist_man_MANS += \
+man_MANS += \
 	dselect.1 \
 	dselect.cfg.5
 endif
 
 if BUILD_START_STOP_DAEMON
-dist_man_MANS += \
+man_MANS += \
 	start-stop-daemon.8
 endif
 
 if BUILD_UPDATE_ALTERNATIVES
-dist_man_MANS += \
+man_MANS += \
 	update-alternatives.1
 endif
 
+CLEANFILES = $(man_MANS)
+
 EXTRA_DIST = \
+	deb-changelog.man \
+	deb-changes.man \
+	deb-conffiles.man \
+	deb-control.man \
+	deb-extra-override.man \
+	deb-old.man \
+	deb-origin.man \
+	deb-override.man \
+	deb-postinst.man \
+	deb-postrm.man \
+	deb-preinst.man \
+	deb-prerm.man \
+	deb-shlibs.man \
+	deb-split.man \
+	deb-src-control.man \
+	deb-src-files.man \
+	deb-substvars.man \
+	deb-symbols.man \
+	deb-triggers.man \
+	deb-version.man \
+	deb.man \
+	deb822.man \
+	dpkg-architecture.man \
+	dpkg-buildflags.man \
+	dpkg-buildpackage.man \
+	dpkg-checkbuilddeps.man \
+	dpkg-deb.man \
+	dpkg-distaddfile.man \
+	dpkg-divert.man \
+	dpkg-genchanges.man \
+	dpkg-gencontrol.man \
+	dpkg-gensymbols.man \
+	dpkg-maintscript-helper.man \
+	dpkg-mergechangelogs.man \
+	dpkg-name.man \
+	dpkg-parsechangelog.man \
+	dpkg-query.man \
+	dpkg-scanpackages.man \
+	dpkg-scansources.man \
+	dpkg-shlibdeps.man \
+	dpkg-source.man \
+	dpkg-split.man \
+	dpkg-statoverride.man \
+	dpkg-trigger.man \
+	dpkg-vendor.man \
+	dpkg.man \
+	dpkg.cfg.man \
+	dsc.man \
+	dselect.man \
+	dselect.cfg.man \
+	start-stop-daemon.man \
+	update-alternatives.man \
+	utf8toman.sed \
 	po/ChangeLog.old \
 	po/po4a.cfg \
 	po/dpkg-man.pot
@@ -93,7 +148,25 @@ PO4A_OPTS = --previous --srcdir $(srcdir) --destdir $(builddir) --no-backups \
 all-local: all-local-@USE_PO4A@
 
 all-local-no:
-all-local-yes: man.stamp
+all-local-yes: gen-man
+
+# We use the man-once target to guarantee there is never an empty call in
+# gen-man, that starts recursing infinitely.
+.PHONY: gen-man man-once
+
+gen-man: man.stamp
+	for lang in $(LINGUAS); do \
+	  files=""; \
+	  for man in $(man_MANS); do \
+	    trans="$${man%%.[0-9]}.man"; \
+	    if [ -f $(builddir)/$$lang/$$trans ]; then \
+	      files="$$files $(builddir)/$$lang/$$man"; \
+	    elif [ -f $(srcdir)/$$lang/$$trans ]; then \
+	      files="$$files $(srcdir)/$$lang/$$man"; \
+	    fi; \
+	  done; \
+	  $(MAKE) mandir="$(mandir)/$$lang" man_MANS="" man-once $$files; \
+	done
 
 # FIXME: Use a stamp file until po4a supports them internally.
 man.stamp:
@@ -112,21 +185,48 @@ clean-local-yes:
 update-po:
 	$(PO4A_V) $(PO4A) $(PO4A_OPTS) --force $(srcdir)/po/po4a.cfg
 
+SUFFIXES = .man
+
+MANGEN_V = $(MANGEN_V_@AM_V@)
+MANGEN_V_ = $(MANGEN_V_@AM_DEFAULT_V@)
+MANGEN_V_0 = @echo "  MANGEN $@";
+
+MANGEN = $(MANGEN_V) sed \
+	-f $(srcdir)/utf8toman.sed \
+	-e 's/%PACKAGE%/$(PACKAGE)/g' \
+	-e 's/%VERSION%/$(PACKAGE_VERSION)/g' \
+	-e 's/%RELEASE_DATE%/$(PACKAGE_RELEASE_DATE)/g' \
+	-e 's:%CONFDIR%:$(sysconfdir):g' \
+	-e 's:%LOGDIR%:$(logdir):g' \
+	-e 's:%ADMINDIR%:$(admindir):g' \
+	-e 's:%PKGDOCDIR%:$(docdir):g' \
+	-e 's:%PKGCONFDIR%:$(pkgconfdir):g' \
+	-e 's:%PKGLIBDIR%:$(pkglibdir):g' \
+	-e 's:%PKGDATADIR%:$(pkgdatadir):g'
+	$(nil)
+
+.man.1: Makefile
+	$(MANGEN) $< >$@
+.man.5: Makefile
+	$(MANGEN) $< >$@
+.man.8: Makefile
+	$(MANGEN) $< >$@
+
 install-data-local: install-data-local-@USE_PO4A@
 
 install-data-local-no:
 install-data-local-yes:
 	for lang in $(LINGUAS); do \
 	  files=""; \
-	  for trans in $(dist_man_MANS); do \
+	  for man in $(man_MANS); do \
+	    trans="$${man%%.[0-9]}.man"; \
 	    if [ -f $(builddir)/$$lang/$$trans ]; then \
-	      files="$$files $(builddir)/$$lang/$$trans"; \
+	      files="$$files $(builddir)/$$lang/$$man"; \
 	    elif [ -f $(srcdir)/$$lang/$$trans ]; then \
-	      files="$$files $(srcdir)/$$lang/$$trans"; \
+	      files="$$files $(srcdir)/$$lang/$$man"; \
 	    fi; \
 	  done; \
-	  $(MAKE) install-man mandir="$(mandir)/$$lang" man_MANS="" \
-	          dist_man_MANS="$$files"; \
+	  $(MAKE) install-man mandir="$(mandir)/$$lang" man_MANS="$$files"; \
 	done
 
 uninstall-local: uninstall-local-@USE_PO4A@
@@ -135,15 +235,15 @@ uninstall-local-no:
 uninstall-local-yes:
 	for lang in $(LINGUAS); do \
 	  files=""; \
-	  for trans in $(dist_man_MANS); do \
+	  for man in $(man_MANS); do \
+	    trans="$${man%%.[0-9]}.man"; \
 	    if [ -f $(builddir)/$$lang/$$trans ]; then \
-	      files="$$files $(builddir)/$$lang/$$trans"; \
+	      files="$$files $(builddir)/$$lang/$$man"; \
 	    elif [ -f $(srcdir)/$$lang/$$trans ]; then \
-	      files="$$files $(srcdir)/$$lang/$$trans"; \
+	      files="$$files $(srcdir)/$$lang/$$man"; \
 	    fi; \
 	  done; \
-	  $(MAKE) uninstall-man mandir="$(mandir)/$$lang" man_MANS="" \
-	          dist_man_MANS="$$files"; \
+	  $(MAKE) uninstall-man mandir="$(mandir)/$$lang" man_MANS="$$files"; \
 	done
 
 dist-hook: man.stamp

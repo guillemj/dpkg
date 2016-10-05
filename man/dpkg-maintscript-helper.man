@@ -1,0 +1,257 @@
+.\" dpkg manual page - dpkg-maintscript-helper(1)
+.\"
+.\" Copyright © 2010-2012 Raphaël Hertzog <hertzog@debian.org>
+.\" Copyright © 2011-2015 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH dpkg\-maintscript\-helper 1 "%RELEASE_DATE%" "%VERSION%" "dpkg suite"
+.SH NAME
+dpkg\-maintscript\-helper \- works around known dpkg limitations in maintainer scripts
+.
+.SH SYNOPSIS
+.B dpkg\-maintscript\-helper
+.IR command " [" parameter "...] \fB\-\-\fP " maint-script-parameter ...
+.
+.SH COMMANDS AND PARAMETERS
+.P
+\fBsupports\fP \fIcommand\fP
+.P
+\fBrm_conffile\fP \fIconffile\fP [\fIprior-version\fP [\fIpackage\fP]]
+.P
+\fBmv_conffile\fP \fIold-conffile\fP \fInew-conffile\fP [\fIprior-version\fP [\fIpackage\fP]]
+.P
+\fBsymlink_to_dir\fP \fIpathname\fP \fIold-target\fP [\fIprior-version\fP [\fIpackage\fP]]
+.P
+\fBdir_to_symlink\fP \fIpathname\fP \fInew-target\fP [\fIprior-version\fP [\fIpackage\fP]]
+.
+.SH DESCRIPTION
+.P
+This program is designed to be run within maintainer scripts to achieve
+some tasks that \fBdpkg\fP can't (yet) handle natively either because of
+design decisions or due to current limitations.
+.P
+Many of those tasks require coordinated actions from several maintainer
+scripts (\fBpreinst\fP, \fBpostinst\fP, \fBprerm\fP, \fBpostrm\fP). To
+avoid mistakes the same call simply needs to be put in all scripts and the
+program will automatically adapt its behaviour based on the environment
+variable \fBDPKG_MAINTSCRIPT_NAME\fP and on the maintainer scripts arguments
+that you have to forward after a double hyphen.
+.
+.SH COMMON PARAMETERS
+.TP
+.I prior-version
+Defines the latest version of the package whose upgrade should trigger the
+operation. It is important to calculate \fIprior-version\fP correctly so
+that the operations are correctly performed even if the user rebuilt the
+package with a local version. If \fIprior-version\fP is empty or omitted,
+then the operation is tried on every upgrade (note: it's safer to give
+the version and have the operation tried only once).
+
+If the conffile has not been shipped for several versions, and you are
+now modifying the maintainer scripts to clean up the obsolete file,
+\fIprior-version\fP should be based on the version of the package that
+you are now preparing, not the first version of the package that lacked
+the conffile. This applies to all other actions in the same way.
+
+For example, for a conffile removed in version \fB2.0\-1\fP of a package,
+\fIprior-version\fP should be set to \fB2.0\-1~\fP. This will cause the
+conffile to be removed even if the user rebuilt the previous version
+\fB1.0\-1\fP as \fB1.0\-1local1\fP. Or a package switching a path from
+a symlink (shipped in version \fB1.0\-1\fP) to a directory (shipped in
+version \fB2.0\-1\fP), but only performing the actual switch in the
+maintainer scripts in version \fB3.0\-1\fP, should set \fIprior-version\fP
+to \fB3.0\-1~\fP.
+.TP
+.I package
+The package name. When the package is \(lqMulti\-Arch: same\(rq this parameter
+must include the architecture qualifier, otherwise it should \fBnot\fP
+usually include the architecture qualifier (as it would disallow
+cross-grades, or switching from being architecture specific to
+architecture \fBall\fP or vice versa).
+If the parameter is empty or omitted, the \fBDPKG_MAINTSCRIPT_PACKAGE\fP
+and \fBDPKG_MAINTSCRIPT_ARCH\fP environment variables (as set by \fBdpkg\fP)
+will be used to generate an arch-qualified package name.
+.TP
+.B \-\-
+All the parameters of the maintainer scripts have to be forwarded to the
+program after \fB\-\-\fP.
+.SH CONFFILE RELATED TASKS
+.P
+When upgrading a package, \fBdpkg\fP will not automatically remove a conffile
+(a configuration file for which \fBdpkg\fP should preserve user changes) if
+it is not present in the newer version. There are two principal reasons for
+this; the first is that the conffile could've been dropped by accident and
+the next version could restore it, users wouldn't want their changes
+thrown away. The second is to allow packages to transition files from a
+dpkg\-maintained conffile to a file maintained by the package's maintainer
+scripts, usually with a tool like debconf or ucf.
+.P
+This means that if a package is intended to rename or remove a conffile,
+it must explicitly do so and \fBdpkg\-maintscript\-helper\fP can be used
+to implement graceful deletion and moving of conffiles within maintainer
+scripts.
+.
+.SS Removing a conffile
+.P
+If a conffile is completely removed, it should be removed from disk,
+unless the user has modified it. If there are local modifications, they
+should be preserved. If the package upgrades aborts, the newly obsolete
+conffile should not disappear.
+.P
+All of this is implemented by putting the following shell snippet in the
+\fBpreinst\fP, \fBpostinst\fP and \fBpostrm\fP maintainer scripts:
+.P
+    dpkg\-maintscript\-helper rm_conffile \\
+        \fIconffile\fP \fIprior-version\fP \fIpackage\fP \-\- "$@"
+.P
+\fIconffile\fP is the filename of the conffile to remove.
+.P
+Current implementation: in the \fBpreinst\fP, it checks if the conffile
+was modified and renames it either to \fIconffile\fP\fB.dpkg\-remove\fP (if not
+modified) or to \fIconffile\fP\fB.dpkg\-backup\fP (if modified). In the
+\fBpostinst\fP, the latter file is renamed to \fIconffile\fP\fB.dpkg\-bak\fP
+and kept for reference as it contains user modifications but the former will
+be removed. If the package upgrade aborts, the \fBpostrm\fP reinstalls the
+original conffile. During purge, the \fBpostrm\fP will also delete the
+\fB.dpkg\-bak\fP file kept up to now.
+.
+.SS Renaming a conffile
+.P
+If a conffile is moved from one location to another, you need to make sure
+you move across any changes the user has made. This may seem a simple
+change to the \fBpreinst\fP script at first, however that will result in
+the user being prompted by \fBdpkg\fP to approve the conffile edits even
+though they are not responsible of them.
+.P
+Graceful renaming can be implemented by putting the following shell
+snippet in the \fBpreinst\fP, \fBpostinst\fP and \fBpostrm\fP maintainer
+scripts:
+.P
+    dpkg\-maintscript\-helper mv_conffile \\
+        \fIold-conffile\fP \fInew-conffile\fP \fIprior-version\fP \fIpackage\fP \-\- "$@"
+.P
+\fIold-conffile\fP and \fInew-conffile\fP are the old and new name of the
+conffile to rename.
+.P
+Current implementation: the \fBpreinst\fP checks if the conffile has been
+modified, if yes it's left on place otherwise it's renamed to
+\fIold-conffile\fP\fB.dpkg\-remove\fP. On configuration, the \fBpostinst\fP
+removes \fIold-conffile\fP\fB.dpkg\-remove\fP and renames \fIold-conffile\fP
+to \fInew-conffile\fP if \fIold-conffile\fP is still available. On
+abort\-upgrade/abort\-install, the \fBpostrm\fP renames
+\fIold-conffile\fP\fB.dpkg\-remove\fP back to \fIold-conffile\fP if required.
+.
+.SH SYMLINK AND DIRECTORY SWITCHES
+.
+When upgrading a package, \fBdpkg\fP will not automatically switch a symlink
+to a directory or vice-versa. Downgrades are not supported and the path
+will be left as is.
+.
+.SS Switching a symlink to directory
+.
+If a symlink is switched to a real directory, you need to make sure
+before unpacking that the symlink is removed. This may seem a simple
+change to the \fBpreinst\fP script at first, however that will result
+in some problems in case of admin local customization of the symlink
+or when downgrading the package.
+.P
+Graceful renaming can be implemented by putting the following shell
+snippet in the \fBpreinst\fP, \fBpostinst\fP and \fBpostrm\fP maintainer
+scripts:
+.P
+    dpkg\-maintscript\-helper symlink_to_dir \\
+        \fIpathname\fP \fIold-target\fP \fIprior-version\fP \fIpackage\fP \-\- "$@"
+.P
+\fIpathname\fP is the absolute name of the old symlink (the path will be a
+directory at the end of the installation) and \fIold-target\fP is
+the target name of the former symlink at \fIpathname\fP. It can either be
+absolute or relative to the directory containing \fIpathname\fP.
+.P
+Current implementation: the \fBpreinst\fP checks if the symlink exists
+and points to \fIold-target\fP, if not then it's left in place, otherwise
+it's renamed to \fIpathname\fP\fB.dpkg\-backup\fP. On configuration,
+the \fBpostinst\fP removes \fIpathname\fP\fB.dpkg\-backup\fP if
+\fIpathname\fP\fB.dpkg\-backup\fP is still a symlink. On
+abort\-upgrade/abort\-install, the \fBpostrm\fP renames
+\fIpathname\fP\fB.dpkg\-backup\fP back to \fIpathname\fP if required.
+.
+.SS Switching a directory to symlink
+.
+If a real directory is switched to a symlink, you need to make sure
+before unpacking that the directory is removed. This may seem a simple
+change to the \fBpreinst\fP script at first, however that will result
+in some problems in case the directory contains conffiles, pathnames
+owned by other packages, locally created pathnames, or when downgrading
+the package.
+.P
+Graceful switching can be implemented by putting the following shell
+snippet in the \fBpreinst\fP, \fBpostinst\fP and \fBpostrm\fP maintainer
+scripts:
+.P
+    dpkg\-maintscript\-helper dir_to_symlink \\
+        \fIpathname\fP \fInew-target\fP \fIprior-version\fP \fIpackage\fP \-\- "$@"
+.P
+\fIpathname\fP is the absolute name of the old directory (the path
+will be a symlink at the end of the installation) and \fInew-target\fP is
+the target of the new symlink at \fIpathname\fP. It can either be absolute
+or relative to the directory containing \fIpathname\fP.
+.P
+Current implementation: the \fBpreinst\fP checks if the directory
+exists, does not contain conffiles, pathnames owned by other packages,
+or locally created pathnames, if not then it's left in place, otherwise
+it's renamed to \fIpathname\fP\fB.dpkg\-backup\fP, and an empty staging
+directory named \fIpathname\fP is created, marked with a file so that
+dpkg can track it. On configuration, the \fBpostinst\fP finishes the
+switch if \fIpathname\fP\fB.dpkg\-backup\fP is still a directory and
+\fIpathname\fP is the staging directory; it removes the staging directory
+mark file, moves the newly created files inside the staging directory
+to the symlink target \fInew-target\fP/, replaces the now empty staging
+directory \fIpathname\fP with a symlink to \fInew-target\fP, and
+removes \fIpathname\fP\fB.dpkg\-backup\fP. On
+abort\-upgrade/abort\-install, the \fBpostrm\fP renames
+\fIpathname\fP\fB.dpkg\-backup\fP back to \fIpathname\fP if required.
+.
+.SH INTEGRATION IN PACKAGES
+.P
+When using a packaging helper, please check if it has native
+\fBdpkg-maintscript-helper\fP integration, which might make your life
+easier. See for example \fBdh_installdeb\fP(1).
+.P
+Given that \fBdpkg\-maintscript\-helper\fP is used in the \fBpreinst\fP,
+using it unconditionally requires a pre-dependency to ensure that the
+required version of \fBdpkg\fP has been unpacked before. The required version
+depends on the command used, for \fBrm_conffile\fP and \fBmv_conffile\fP
+it is 1.15.7.2, for \fBsymlink_to_dir\fP and \fBdir_to_symlink\fP
+it is 1.17.14:
+.P
+    \fBPre\-Depends:\fP dpkg (>= 1.17.14)
+.P
+But in many cases the operation done by the program is not critical for
+the package, and instead of using a pre-dependency we can call the
+program only if we know that the required command is supported by
+the currently installed \fBdpkg\fP:
+.P
+    if dpkg\-maintscript\-helper supports \fIcommand\fP; then
+        dpkg\-maintscript\-helper \fIcommand\fP ...
+    fi
+.P
+The command \fBsupports\fP will return 0 on success, 1 otherwise. The
+\fBsupports\fP command will check if the environment variables as set
+by dpkg and required by the script are present, and will consider it a
+failure in case the environment is not sufficient.
+.SH SEE ALSO
+.ad l
+.nh
+.BR dh_installdeb (1).

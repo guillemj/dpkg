@@ -1,0 +1,188 @@
+.\" dpkg manual page - deb-changes(5)
+.\"
+.\" Copyright © 1995-1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
+.\" Copyright © 2010 Russ Allbery <rra@debian.org>
+.\" Copyright © 2015 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH deb\-changes 5 "%RELEASE_DATE%" "%VERSION%" "Debian"
+.SH NAME
+deb\-changes \- Debian changes file format
+.
+.SH SYNOPSIS
+.IB filename .changes
+.
+.SH DESCRIPTION
+Each Debian upload is composed of a .changes control file, which
+contains a number of fields.
+Each field begins with a tag, such as
+.B Source
+or
+.B Binary
+(case insensitive), followed by a colon, and the body of the field.
+Fields are delimited only by field tags.
+In other words, field text may be multiple lines in length, but the
+installation tools will generally join lines when processing the body
+of the field (except in case of the multiline fields
+.BR Description ", " Changes ", " Files ", " Checksums\-Sha1
+and
+.BR Checksums\-Sha256 ,
+see below).
+.PP
+The control data might be enclosed in an OpenPGP ASCII Armored signature,
+as specified in RFC4880.
+.
+.SH FIELDS
+.TP
+.BR Format: " \fIformat-version\fP (required)"
+The value of this field declares the format version of the file.
+The syntax of the field value is a version number with a major and minor
+component.
+Backward incompatible changes to the format will bump the major version,
+and backward compatible changes (such as field additions) will bump the
+minor version.
+The current format version is \fB1.8\fP.
+.TP
+.BR Date: " \fIrelease-date\fP (required)"
+The date the package was built or last edited.
+It must be in the same format as the date in a \fBdeb\-changelog\fP(5)
+entry.
+
+The value of this field is usually extracted from the \fIdebian/changelog\fP
+file.
+.TP
+.BR Source: " \fIsource-name\fP [\fB(\fP\fIsource-version\fP\fB)\fP] (required)"
+The name of the source package.
+If the source version differs from the binary version, then the
+\fIsource-name\fP will be followed by a \fIsource-version\fP in parenthesis.
+This can happen when the upload is a binary-only non-maintainer upload.
+.TP
+.BR Binary: " \fIbinary-package-list\fP (required)"
+This folded field is a space-separated list of binary packages to upload.
+.TP
+.BR Architecture: " \fIarch-list\fP"
+Lists the architectures of the files currently being uploaded.
+Common architectures are \fBamd64\fP, \fBarmel\fP, \fBi386\fP, etc.
+Note that the \fBall\fP value is meant for packages that are architecture
+independent.
+If the source for the package is also being uploaded, the special entry
+\fBsource\fP is also present.
+Architecture wildcards must never be present in the list.
+.TP
+.BR Version: " \fIversion-string\fP (required)"
+Typically, this is the original package's version number in whatever form
+the program's author uses.
+It may also include a Debian revision number (for non-native packages).
+The exact format and sorting algorithm are described in
+.BR deb\-version (5).
+.TP
+.BR Distribution: " \fIdistribution\fPs (required)"
+Lists one or more space-separated distributions where this version should
+be installed when it is uploaded to the archive.
+.TP
+.BR Urgency: " \fIurgency\fP (recommended)"
+The urgency of the upload.
+The currently known values, in increasing order of urgency, are:
+.BR low ", " medium ", " high ", " critical " and " emergency .
+.TP
+.BR Maintainer: " \fIfullname-email\fP (required)"
+Should be in the format \(lqJoe Bloggs <jbloggs@example.org>\(rq, and is
+typically the person who created the package, as opposed to the author of
+the software that was packaged.
+.TP
+.BI Changed\-By: " fullname-email"
+Should be in the format \(lqJoe Bloggs <jbloggs@example.org>\(rq, and is
+typically the person who prepared the package changes for this release.
+.TP
+.BR Description: " (recommended)"
+.TQ
+.RB " \fIbinary-package-name\fP " \fB\-\fP " \fIbinary-package-summary\fP"
+This multiline field contains a list of binary package names followed by
+a space, a dash (\(oq\fB\-\fP\(cq) and their possibly truncated short
+descriptions.
+.TP
+.BI Closes: " bug-number-list"
+A space-separated list of bug report numbers that have been resolved with
+this upload.
+The distribution archive software might use this field to automatically
+close the referred bug numbers in the distribution bug tracking system.
+.TP
+.B Binary\-Only: yes
+This field denotes that the upload is a binary-only non-maintainer build.
+It originates from the \fBbinary\-only=yes\fP key/value from the changelog
+matadata entry.
+.TP
+.BR Changes: " (required)"
+.TQ
+.I " changelog-entries"
+This multiline field contains the concatenated text of all changelog
+entries that are part of the upload.
+To make this a valid multiline field empty lines are replaced with a
+single full stop (\(oq.\(cq) and all lines are indented by one space
+character.
+The exact content depends on the changelog format.
+.TP
+.BR Files: " (required)"
+.TQ
+.RI " " md5sum " " size " " section " " priority " " filename
+This multiline field contains a list of files with an md5sum, size, section
+and priority for each one.
+
+The first line of the field value (the part on the same line as the field
+name followed by a colon) is always empty.
+The content of the field is expressed as continuation lines, one line per file.
+Each line consists of space-separated entries describing the file:
+the md5sum, the file size, the file section, the file priority, and
+the file name.
+
+This field lists all files that make up the upload.
+The list of files in this field must match the list of files in the
+other related \fBChecksums\fP fields.
+.TP
+.BR Checksums\-Sha1: " (required)"
+.TQ
+.BR Checksums\-Sha256: " (required)"
+.TQ
+.RI " " checksum " " size " " filename
+These multiline fields contain a list of files with a checksum and size
+for each one.
+These fields have the same syntax and differ only in the checksum algorithm
+used: SHA-1 for \fBChecksums\-Sha1\fP and SHA-256 for \fBChecksums\-Sha256\fP.
+
+The first line of the field value (the part on the same line as the field
+name followed by a colon) is always empty.
+The content of the field is expressed as continuation lines, one line per file.
+Each line consists of space-separated entries describing the file:
+the checksum, the file size, and the file name.
+
+These fields list all files that make up the upload.
+The list of files in these fields must match the list of files in the
+\fBFiles\fP field and the other related \fBChecksums\fP fields.
+.
+.\" .SH EXAMPLE
+.\" .RS
+.\" .nf
+.\"
+.\" .fi
+.\" .RE
+.
+.SH BUGS
+The \fBFiles\fP field is inconsistent with the other \fBChecksums\fP fields.
+The \fBChange\-By\fP and \fBMaintainer\fP fields have confusing names.
+The \fBDistribution\fP field contains information about what is commonly
+referred to as a suite.
+.SH SEE ALSO
+.BR deb\-src\-control (5),
+.BR deb\-version (5).
