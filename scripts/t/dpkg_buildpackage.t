@@ -176,8 +176,6 @@ sub test_build
 
     set_build_type($type, 'buildtype', nocheck => 1);
     my $typename = get_build_options_from_type();
-    $typename = 'full' if $typename eq 'source,any,all';
-    $typename = 'binary' if $typename eq 'any,all';
 
     chdir $dirname;
     spawn(exec => [ "$srcdir/dpkg-buildpackage.pl", '--host-arch=amd64',

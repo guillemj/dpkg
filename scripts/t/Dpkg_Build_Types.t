@@ -26,18 +26,18 @@ ok(build_is(BUILD_DEFAULT | BUILD_FULL), 'build is default full');
 is(get_build_options_from_type(), 'full', 'build is full');
 
 set_build_type(BUILD_DEFAULT | BUILD_BINARY, '--default-binary');
-is(get_build_options_from_type(), 'any,all', 'build is any,all');
+is(get_build_options_from_type(), 'binary', 'build is binary');
 ok(build_is(BUILD_DEFAULT | BUILD_BINARY), 'build is default binary');
 
 set_build_type(BUILD_SOURCE | BUILD_ARCH_INDEP, '--build=source,all');
 is(get_build_options_from_type(), 'source,all', 'build is source,all');
 
 set_build_type_from_options('any,all', '--build=any,all', nocheck => 1);
-is(get_build_options_from_type(), 'any,all', 'build is any,all');
+is(get_build_options_from_type(), 'binary', 'build is binary from any,all');
 ok(build_is(BUILD_BINARY), 'build is any,all');
 
 set_build_type_from_options('binary', '--build=binary', nocheck => 1);
-is(get_build_options_from_type(), 'any,all', 'build is binary');
+is(get_build_options_from_type(), 'binary', 'build is binary');
 ok(build_is(BUILD_BINARY), 'build is binary');
 
 set_build_type_from_options('source,all', '--build=source,all', nocheck => 1);

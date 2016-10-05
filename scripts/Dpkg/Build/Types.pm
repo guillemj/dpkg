@@ -100,13 +100,13 @@ use constant BUILD_FULL   => BUILD_BINARY | BUILD_SOURCE;
 my $current_type = BUILD_FULL | BUILD_DEFAULT;
 my $current_option = undef;
 
-my @build_types = qw(source any all);
+my @build_types = qw(full source binary any all);
 my %build_types = (
     full => BUILD_FULL,
     source => BUILD_SOURCE,
+    binary => BUILD_BINARY,
     any => BUILD_ARCH_DEP,
     all => BUILD_ARCH_INDEP,
-    binary => BUILD_BINARY,
 );
 
 =back
@@ -224,11 +224,15 @@ Get the current build type as a set of comma-separated string options.
 
 sub get_build_options_from_type
 {
-    return 'full' if build_has_all(BUILD_FULL);
+    my $local_type = $current_type;
 
     my @parts;
     foreach my $type (@build_types) {
-        push @parts, $type if build_has_all($build_types{$type});
+        my $part_bits = $build_types{$type};
+        if (($local_type & $part_bits) == $part_bits) {
+            push @parts, $type;
+            $local_type &= ~$part_bits;
+        }
     }
 
     return join ',', @parts;
