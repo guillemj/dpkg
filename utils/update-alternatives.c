@@ -513,9 +513,8 @@ fileset_free(struct fileset *fs)
 	free(fs);
 }
 
-/* name and file must be allocated with malloc */
 static void
-fileset_add_slave(struct fileset *fs, char *name, char *file)
+fileset_add_slave(struct fileset *fs, const char *name, const char *file)
 {
 	struct slave_file *sl, *cur, *prev = NULL;
 
@@ -532,8 +531,8 @@ fileset_add_slave(struct fileset *fs, char *name, char *file)
 	/* Otherwise add new at the end */
 	sl = xmalloc(sizeof(*sl));
 	sl->next = NULL;
-	sl->name = name;
-	sl->file = file;
+	sl->name = xstrdup(name);
+	sl->file = xstrdup(file);
 	if (prev)
 		prev->next = sl;
 	else
@@ -904,10 +903,9 @@ alternative_add_choice(struct alternative *a, struct fileset *fs)
 	a->modified = true;
 }
 
-/* slave_name and slave_link must be allocated with malloc */
 static struct slave_link *
-alternative_add_slave(struct alternative *a, char *slave_name,
-                      char *slave_link)
+alternative_add_slave(struct alternative *a,
+                      const char *slave_name, const char *slave_link)
 {
 	struct slave_link *sl, *new;
 
@@ -924,8 +922,8 @@ alternative_add_slave(struct alternative *a, char *slave_name,
 
 	/* Otherwise create new and add at the end */
 	new = xmalloc(sizeof(*new));
-	new->name = slave_name;
-	new->link = slave_link;
+	new->name = xstrdup(slave_name);
+	new->link = xstrdup(slave_link);
 	new->updated = false;
 	new->next = NULL;
 	if (sl)
@@ -941,7 +939,7 @@ alternative_copy_slave(struct alternative *a, struct slave_link *sl)
 {
 	struct slave_link *sl_new;
 
-	sl_new = alternative_add_slave(a, xstrdup(sl->name), xstrdup(sl->link));
+	sl_new = alternative_add_slave(a, sl->name, sl->link);
 	sl_new->updated = sl->updated;
 }
 
@@ -970,15 +968,14 @@ alternative_set_status(struct alternative *a, enum alternative_status status)
 	a->status = status;
 }
 
-/* link must be allocated with malloc */
 static void
-alternative_set_link(struct alternative *a, char *linkname)
+alternative_set_link(struct alternative *a, const char *linkname)
 {
 	if (a->master_link == NULL || strcmp(linkname, a->master_link) != 0)
 		a->modified = true;
 
 	free(a->master_link);
-	a->master_link = linkname;
+	a->master_link = xstrdup(linkname);
 }
 
 static bool
@@ -1158,6 +1155,8 @@ alternative_parse_slave(struct alternative *a, struct altdb_context *ctx)
 	}
 
 	alternative_add_slave(a, name, linkname);
+	free(linkname);
+	free(name);
 
 	return true;
 }
@@ -1217,8 +1216,9 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 
 		fs = fileset_new(master_file, prio);
 		for (sl = a->slaves; sl; sl = sl->next) {
-			fileset_add_slave(fs, xstrdup(sl->name),
-			                  altdb_get_line(ctx, _("slave file")));
+			char *slave_file = altdb_get_line(ctx, _("slave file"));
+			fileset_add_slave(fs, sl->name, slave_file);
+			free(slave_file);
 		}
 		alternative_add_choice(a, fs);
 	}
@@ -1233,6 +1233,7 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 	struct altdb_context ctx;
 	struct stat st;
 	char *status;
+	char *master_link;
 
 	/* Initialize parse context */
 	if (setjmp(ctx.on_error)) {
@@ -1274,7 +1275,9 @@ alternative_load(struct alternative *a, enum altdb_flags flags)
 	                       ALT_ST_AUTO : ALT_ST_MANUAL);
 	free(status);
 
-	alternative_set_link(a, altdb_get_line(&ctx, _("master link")));
+	master_link = altdb_get_line(&ctx, _("master link"));
+	alternative_set_link(a, master_link);
+	free(master_link);
 
 	/* Parse the description of the slaves links of the alternative */
 	while (alternative_parse_slave(a, &ctx));
@@ -2208,7 +2211,7 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 		     a->master_link, b->master_link);
 		checked_mv(a->master_link, b->master_link);
 	}
-	alternative_set_link(a, xstrdup(b->master_link));
+	alternative_set_link(a, b->master_link);
 
 	/* Check if new slaves have been added, or existing
 	 * ones renamed. */
@@ -2621,7 +2624,7 @@ main(int argc, char **argv)
 			a = alternative_new(argv[i + 2]);
 			inst_alt = alternative_new(argv[i + 2]);
 			alternative_set_status(inst_alt, ALT_ST_AUTO);
-			alternative_set_link(inst_alt, xstrdup(argv[i + 1]));
+			alternative_set_link(inst_alt, argv[i + 1]);
 			fileset = fileset_new(argv[i + 3], prio);
 
 			i += 4;
@@ -2657,7 +2660,7 @@ main(int argc, char **argv)
 			   strcmp("--set-selections", argv[i]) == 0) {
 			set_action(argv[i] + 2);
 		} else if (strcmp("--slave", argv[i]) == 0) {
-			char *slink, *sname, *spath;
+			const char *slink, *sname, *spath;
 			struct slave_link *sl;
 
 			if (action == NULL ||
@@ -2666,9 +2669,9 @@ main(int argc, char **argv)
 			if (MISSING_ARGS(3))
 				badusage(_("--slave needs <link> <name> <path>"));
 
-			slink = xstrdup(argv[i + 1]);
-			sname = xstrdup(argv[i + 2]);
-			spath = xstrdup(argv[i + 3]);
+			slink = argv[i + 1];
+			sname = argv[i + 2];
+			spath = argv[i + 3];
 
 			if (strcmp(slink, spath) == 0)
 				badusage(_("<link> and <path> can't be the same"));
@@ -2691,7 +2694,7 @@ main(int argc, char **argv)
 			}
 
 			alternative_add_slave(inst_alt, sname, slink);
-			fileset_add_slave(fileset, xstrdup(sname), spath);
+			fileset_add_slave(fileset, sname, spath);
 
 			i+= 3;
 		} else if (strcmp("--log", argv[i]) == 0) {
