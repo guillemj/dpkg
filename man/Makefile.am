@@ -112,18 +112,16 @@ install-data-local: install-data-local-@USE_PO4A@
 install-data-local-no:
 install-data-local-yes:
 	for lang in $(LINGUAS); do \
-		files=""; \
-		for trans in $(dist_man_MANS); do \
-			if [ -f $(builddir)/$$lang/$$trans ]; then \
-				files="$$files $(builddir)/$$lang/$$trans"; \
-			elif [ -f $(srcdir)/$$lang/$$trans ]; then \
-				files="$$files $(srcdir)/$$lang/$$trans"; \
-			fi; \
-		done; \
-		$(MAKE) install-man \
-			mandir="$(mandir)/$$lang" \
-			man_MANS="" \
-			dist_man_MANS="$$files"; \
+	  files=""; \
+	  for trans in $(dist_man_MANS); do \
+	    if [ -f $(builddir)/$$lang/$$trans ]; then \
+	      files="$$files $(builddir)/$$lang/$$trans"; \
+	    elif [ -f $(srcdir)/$$lang/$$trans ]; then \
+	      files="$$files $(srcdir)/$$lang/$$trans"; \
+	    fi; \
+	  done; \
+	  $(MAKE) install-man mandir="$(mandir)/$$lang" man_MANS="" \
+	          dist_man_MANS="$$files"; \
 	done
 
 uninstall-local: uninstall-local-@USE_PO4A@
@@ -131,25 +129,23 @@ uninstall-local: uninstall-local-@USE_PO4A@
 uninstall-local-no:
 uninstall-local-yes:
 	for lang in $(LINGUAS); do \
-		files=""; \
-		for trans in $(dist_man_MANS); do \
-			if [ -f $(builddir)/$$lang/$$trans ]; then \
-				files="$$files $(builddir)/$$lang/$$trans"; \
-			elif [ -f $(srcdir)/$$lang/$$trans ]; then \
-				files="$$files $(srcdir)/$$lang/$$trans"; \
-			fi; \
-		done; \
-		$(MAKE) uninstall-man \
-			mandir="$(mandir)/$$lang" \
-			man_MANS="" \
-			dist_man_MANS="$$files"; \
+	  files=""; \
+	  for trans in $(dist_man_MANS); do \
+	    if [ -f $(builddir)/$$lang/$$trans ]; then \
+	      files="$$files $(builddir)/$$lang/$$trans"; \
+	    elif [ -f $(srcdir)/$$lang/$$trans ]; then \
+	      files="$$files $(srcdir)/$$lang/$$trans"; \
+	    fi; \
+	  done; \
+	  $(MAKE) uninstall-man mandir="$(mandir)/$$lang" man_MANS="" \
+	          dist_man_MANS="$$files"; \
 	done
 
 dist-hook: man.stamp
 	cp $(srcdir)/man.stamp $(distdir)/
 	for lang in $(LINGUAS_DIST); do \
-		cp $(srcdir)/po/$$lang.po $(distdir)/po; \
-		cp $(srcdir)/po/$$lang.add $(distdir)/po; \
-		$(MKDIR_P) $(distdir)/$$lang; \
-		cp -r $(srcdir)/$$lang $(distdir)/; \
+	  cp $(srcdir)/po/$$lang.po $(distdir)/po; \
+	  cp $(srcdir)/po/$$lang.add $(distdir)/po; \
+	  $(MKDIR_P) $(distdir)/$$lang; \
+	  cp -r $(srcdir)/$$lang $(distdir)/; \
 	done

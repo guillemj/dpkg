@@ -179,14 +179,14 @@ update-po:
 dist-hook:
 	echo $(VERSION) >$(distdir)/.dist-version
 	if [ -e .git ]; then \
-		for file in `git ls-files | grep -v .gitignore`; do \
-			if [ ! -e "$(distdir)/$$file" ]; then \
-				echo "$$file is missing in $(distdir)" >&2 ; \
-				exit 1 ; \
-			fi ; \
-		done ; \
-		XDG_CONFIG_HOME= HOME= \
-		git log -C --stat 1.15.0.. >$(distdir)/ChangeLog; \
+	  for file in `git ls-files | grep -v .gitignore`; do \
+	    if [ ! -e "$(distdir)/$$file" ]; then \
+	      echo "$$file is missing in $(distdir)" >&2 ; \
+	      exit 1 ; \
+	    fi ; \
+	  done ; \
+	  XDG_CONFIG_HOME= HOME= \
+	  git log -C --stat 1.15.0.. >$(distdir)/ChangeLog; \
 	fi
 
 clean-local: doc-clean coverage-clean check-clean

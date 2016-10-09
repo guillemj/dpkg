@@ -121,16 +121,16 @@ EXTRA_DIST += \
 # Keep it even if empty to have man3dir correctly set
 man3_MANS =
 
-do_perl_subst = $(AM_V_GEN) \
-		sed -e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):" \
-		    -e "s:\$$CONFDIR[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$CONFDIR='$(pkgconfdir)':" \
-		    -e "s:\$$ADMINDIR[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$ADMINDIR='$(admindir)':" \
-		    -e "s:\$$LIBDIR[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$LIBDIR='$(pkglibdir)':" \
-		    -e "s:\$$DATADIR[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$DATADIR='$(pkgdatadir)':" \
-		    -e "s:\$$PROGVERSION[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:\$$PROGVERSION='$(PACKAGE_VERSION)':"
+do_perl_subst = $(AM_V_GEN) sed \
+	-e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):" \
+	-e "s:\$$CONFDIR[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$CONFDIR='$(pkgconfdir)':" \
+	-e "s:\$$ADMINDIR[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$ADMINDIR='$(admindir)':" \
+	-e "s:\$$LIBDIR[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$LIBDIR='$(pkglibdir)':" \
+	-e "s:\$$DATADIR[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$DATADIR='$(pkgdatadir)':" \
+	-e "s:\$$PROGVERSION[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:\$$PROGVERSION='$(PACKAGE_VERSION)':"
 
-do_shell_subst = $(AM_V_GEN) \
-		 sed -e "s:^version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":"
+do_shell_subst = $(AM_V_GEN) sed \
+	-e "s:^version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":"
 
 SUFFIXES = .pl .sh
 
@@ -151,12 +151,12 @@ if BUILD_POD_DOC
 # Remove empty manual pages (perl modules not documented)
 	$(MKDIR_P) $(DESTDIR)$(man3dir)
 	for module in $(nobase_dist_perllib_DATA); do \
-	    name=`echo $$module | sed -e 's|/|::|g' -e 's/\.pm$$//'`; \
-	    $(POD2MAN) --utf8 --center=libdpkg-perl --release=$(VERSION) \
-		--name="$$name" --section=3 $(srcdir)/$$module \
-		>$(DESTDIR)$(man3dir)/$$name.3; \
-	    test -s $(DESTDIR)$(man3dir)/$$name.3 || \
-		rm -f $(DESTDIR)$(man3dir)/$$name.3; \
+	  name=`echo $$module | sed -e 's|/|::|g' -e 's/\.pm$$//'`; \
+	  $(POD2MAN) --utf8 --center=libdpkg-perl --release=$(VERSION) \
+	    --name="$$name" --section=3 $(srcdir)/$$module \
+	    >$(DESTDIR)$(man3dir)/$$name.3; \
+	  test -s $(DESTDIR)$(man3dir)/$$name.3 || \
+	  rm -f $(DESTDIR)$(man3dir)/$$name.3; \
 	done
 endif
 
@@ -171,7 +171,7 @@ install-data-hook:
 uninstall-local:
 if BUILD_POD_DOC
 	for module in $(nobase_dist_perllib_DATA); do \
-	    rm -f $(DESTDIR)$(man3dir)/`echo $$module | sed -e 's|/|::|g' -e 's/\.pm$$/.3/'`; \
+	  rm -f $(DESTDIR)$(man3dir)/`echo $$module | sed -e 's|/|::|g' -e 's/\.pm$$/.3/'`; \
 	done
 endif
 
@@ -346,8 +346,7 @@ $(srcdir)/t/Dpkg_Shlibs/libobjdump.basictags-i386.so: $(srcdir)/t/Dpkg_Shlibs/ba
 
 $(srcdir)/t/Dpkg_Shlibs/libobjdump.patterns.so: $(srcdir)/t/Dpkg_Shlibs/patterns.cpp $(srcdir)/t/Dpkg_Shlibs/patterns.map
 	$(CXX) $(CXXFLAGS) -shared -fPIC -Wl,-soname -Wl,libpatterns.so.1 \
-	    -Wl,--version-script=$(srcdir)/t/Dpkg_Shlibs/patterns.map $< \
-	    -o $@
+	  -Wl,--version-script=$(srcdir)/t/Dpkg_Shlibs/patterns.map $< -o $@
 
 $(srcdir)/t/Dpkg_Shlibs/spacesyms.c: $(srcdir)/t/Dpkg_Shlibs/spacesyms-c-gen.pl
 	$(srcdir)/t/Dpkg_Shlibs/spacesyms-c-gen.pl > $@
@@ -359,8 +358,7 @@ $(srcdir)/t/Dpkg_Shlibs/spacesyms.o: $(srcdir)/t/Dpkg_Shlibs/spacesyms.c $(srcdi
 
 $(srcdir)/t/Dpkg_Shlibs/libobjdump.spacesyms.so: $(srcdir)/t/Dpkg_Shlibs/spacesyms.o $(srcdir)/t/Dpkg_Shlibs/spacesyms.map
 	$(CC) -shared -Wl,-soname -Wl,libspacesyms.so.1 \
-	    -Wl,--version-script=$(srcdir)/t/Dpkg_Shlibs/spacesyms.map $< \
-	    -o $@
+	  -Wl,--version-script=$(srcdir)/t/Dpkg_Shlibs/spacesyms.map $< -o $@
 
 .PHONY: refresh-test-data
 
