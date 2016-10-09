@@ -147,5 +147,5 @@ dist-hook: man.stamp
 	  cp $(srcdir)/po/$$lang.po $(distdir)/po; \
 	  cp $(srcdir)/po/$$lang.add $(distdir)/po; \
 	  $(MKDIR_P) $(distdir)/$$lang; \
-	  cp -r $(srcdir)/$$lang $(distdir)/; \
+	  cp -R $(srcdir)/$$lang $(distdir)/; \
 	done
