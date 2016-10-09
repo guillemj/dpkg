@@ -79,7 +79,7 @@ PO4A_V = $(PO4A_V_@AM_V@)
 PO4A_V_ = $(PO4A_V_@AM_DEFAULT_V@)
 PO4A_V_0 = @echo "  PO4A   $@";
 
-PO4A_OPTS = --previous --srcdir $(srcdir) --destdir $(CURDIR) --no-backups \
+PO4A_OPTS = --previous --srcdir $(srcdir) --destdir $(builddir) --no-backups \
             --porefs noline,wrap --msgmerge-opt=--add-location=file \
             --package-name dpkg-man --package-version $(PACKAGE_VERSION) \
             --copyright-holder "$(PACKAGE_COPYRIGHT_HOLDER)" \
@@ -114,8 +114,8 @@ install-data-local-yes:
 	for lang in $(LINGUAS); do \
 		files=""; \
 		for trans in $(dist_man_MANS); do \
-			if [ -f $(CURDIR)/$$lang/$$trans ]; then \
-				files="$$files $(CURDIR)/$$lang/$$trans"; \
+			if [ -f $(builddir)/$$lang/$$trans ]; then \
+				files="$$files $(builddir)/$$lang/$$trans"; \
 			elif [ -f $(srcdir)/$$lang/$$trans ]; then \
 				files="$$files $(srcdir)/$$lang/$$trans"; \
 			fi; \
@@ -133,8 +133,8 @@ uninstall-local-yes:
 	for lang in $(LINGUAS); do \
 		files=""; \
 		for trans in $(dist_man_MANS); do \
-			if [ -f $(CURDIR)/$$lang/$$trans ]; then \
-				files="$$files $(CURDIR)/$$lang/$$trans"; \
+			if [ -f $(builddir)/$$lang/$$trans ]; then \
+				files="$$files $(builddir)/$$lang/$$trans"; \
 			elif [ -f $(srcdir)/$$lang/$$trans ]; then \
 				files="$$files $(srcdir)/$$lang/$$trans"; \
 			fi; \
