@@ -112,7 +112,7 @@ trig_clear_awaiters(struct pkginfo *notpend)
 		aw = ta->aw;
 		if (!aw)
 			continue;
-		LIST_UNLINK_PART(aw->trigaw, ta, sameaw.);
+		LIST_UNLINK_PART(aw->trigaw, ta, sameaw);
 		if (!aw->trigaw.head && aw->status == PKG_STAT_TRIGGERSAWAITED) {
 			if (aw->trigpend_head)
 				pkg_set_status(aw, PKG_STAT_TRIGGERSPENDING);
@@ -422,7 +422,7 @@ trk_file_interest_change(const char *trig, struct pkginfo *pkg,
 	tfi->samefile_next = *trigh.namenode_interested(fnn);
 	*trigh.namenode_interested(fnn) = tfi;
 
-	LIST_LINK_TAIL_PART(filetriggers, tfi, inoverall.);
+	LIST_LINK_TAIL_PART(filetriggers, tfi, inoverall);
 	goto edited;
 
 found:
@@ -436,7 +436,7 @@ found:
 
 	/* Remove it: */
 	*search = tfi->samefile_next;
-	LIST_UNLINK_PART(filetriggers, tfi, inoverall.);
+	LIST_UNLINK_PART(filetriggers, tfi, inoverall);
 edited:
 	filetriggers_edited = 1;
 }

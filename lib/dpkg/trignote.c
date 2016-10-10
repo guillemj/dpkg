@@ -96,7 +96,7 @@ trig_note_aw(struct pkginfo *pend, struct pkginfo *aw)
 	ta->pend = pend;
 	ta->samepend_next = pend->othertrigaw_head;
 	pend->othertrigaw_head = ta;
-	LIST_LINK_TAIL_PART(aw->trigaw, ta, sameaw.);
+	LIST_LINK_TAIL_PART(aw->trigaw, ta, sameaw);
 
 	return true;
 }

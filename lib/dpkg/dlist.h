@@ -17,36 +17,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef ADNS_DLIST_H_INCLUDED
-#define ADNS_DLIST_H_INCLUDED
+#ifndef DPKG_DLIST_H
+#define DPKG_DLIST_H
 
-#define LIST_INIT(list) ((list).head = (list).tail = NULL)
-#define LINK_INIT(link) ((link).next = (link).prev = NULL)
-
-#define LIST_UNLINK_PART(list, node, part)				\
-  do {									\
-    if ((node)->part prev) \
-      (node)->part prev->part next = (node)->part next; \
-    else \
-      (list).head = (node)->part next; \
-    if ((node)->part next) \
-      (node)->part next->part prev = (node)->part prev; \
-    else \
-      (list).tail = (node)->part prev; \
+#define LIST_UNLINK_PART(list, node, part)		\
+  do {							\
+    if ((node)->part.prev)				\
+      (node)->part.prev->part.next = (node)->part.next;	\
+    else						\
+      (list).head = (node)->part.next;			\
+    if ((node)->part.next)				\
+      (node)->part.next->part.prev = (node)->part.prev;	\
+    else						\
+      (list).tail = (node)->part.prev;			\
   } while (0)
 
 #define LIST_LINK_TAIL_PART(list, node, part)		\
   do {							\
-    (node)->part next = NULL;				\
-    (node)->part prev = (list).tail;			\
-    if ((list).tail) \
-      (list).tail->part next = (node);	\
+    (node)->part.next = NULL;				\
+    (node)->part.prev = (list).tail;			\
+    if ((list).tail)					\
+      (list).tail->part.next = (node);			\
     else (list).head = (node);				\
       (list).tail = (node);				\
   } while (0)
-
-
-#define LIST_UNLINK(list, node) LIST_UNLINK_PART(list, node,)
-#define LIST_LINK_TAIL(list, node) LIST_LINK_TAIL_PART(list, node,)
 
 #endif
