@@ -20,6 +20,7 @@
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
 .TH dpkg\-buildpackage 1 "%RELEASE_DATE%" "%VERSION%" "dpkg utilities"
+.nh
 .SH NAME
 dpkg\-buildpackage \- build binary or source packages from sources
 .
@@ -226,7 +227,7 @@ the number of online processors if \fBauto\fP is specified
 equivalent to the
 .BR make (1)
 option of the same name (since dpkg 1.14.7, long option since dpkg 1.18.8).
-Will add itself to the \fB\%MAKEFLAGS\fP
+Will add itself to the \fBMAKEFLAGS\fP
 environment variable, which should cause all subsequent make
 invocations to inherit the option, thus forcing the parallel setting on
 the packaging (and possibly the upstream build system if that uses make)
@@ -244,7 +245,7 @@ the code will fallback to using an unlimited number.
 .TP
 .BR \-J ", " \-\-jobs\-try [=\fIjobs\fP|\fBauto\fP]
 This option (since dpkg 1.18.2, long option since dpkg 1.18.8) is equivalent
-to the \fB\-j\fP option except that it does not set the \fB\%MAKEFLAGS\fP
+to the \fB\-j\fP option except that it does not set the \fBMAKEFLAGS\fP
 environment variable, and as such it is safer to use with any package
 including those that are not parallel-build safe.
 .TP
@@ -515,7 +516,6 @@ and initial arguments for
 .
 .SH SEE ALSO
 .ad l
-.nh
 .BR dpkg\-source (1),
 .BR dpkg\-architecture (1),
 .BR dpkg\-buildflags (1),

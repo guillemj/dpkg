@@ -20,6 +20,7 @@
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .
 .TH deb\-control 5 "%RELEASE_DATE%" "%VERSION%" "Debian"
+.nh
 .SH NAME
 deb\-control \- Debian binary packages' master control file format
 .
@@ -120,14 +121,14 @@ The name of the distribution this package is originating from.
 .BI Bugs: " url"
 The \fIurl\fP of the bug tracking system for this package. The current
 used format is \fIbts-type\fP\fB://\fP\fIbts-address\fP, like
-\fB\%debbugs://bugs.debian.org\fP.
+\fBdebbugs://bugs.debian.org\fP.
 .TP
 .BI Homepage: " url"
 The upstream project home page \fIurl\fP.
 .TP
 .BI Tag: " tag-list"
 List of tags describing the qualities of the package. The description and
-list of supported tags can be found in the \fB\%debtags\fP package.
+list of supported tags can be found in the \fBdebtags\fP package.
 .TP
 .BR Multi\-Arch: " \fBno\fP|\fBsame\fP|\fBforeign\fP|\fBallowed\fP"
 This field is used to indicate how this package should behave on a multi-arch
@@ -248,7 +249,7 @@ Lists packages that conflict with this one, for example by containing
 files with the same names. The package maintenance software will not
 allow conflicting packages to be installed at the same time. Two
 conflicting packages should each include a
-.B \%Conflicts
+.B Conflicts
 line mentioning the other.
 .TP
 .BI Replaces: " package-list"
