@@ -366,6 +366,7 @@ sub set_msg_prefix {
 }
 
 =item $s->filter(remove => $rmfunc)
+
 =item $s->filter(keep => $keepfun)
 
 Filter the substitution variables, either removing or keeping all those
