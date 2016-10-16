@@ -90,7 +90,7 @@ sub box_rating {
 sub box_html {
     my ($stats) = @_;
 
-    return sprintf '<td class="coverPer%s">%.1f&nbsp;%%</td>\n' .
+    return sprintf '<td class="coverPer%s">%.1f&nbsp;%%</td>' . "\n" .
                    '<td class="coverNum%s">%d / %d</td>',
         box_rating($stats->{percentage}), $stats->{percentage},
         box_rating($stats->{percentage}), $stats->{covered}, $stats->{total};
