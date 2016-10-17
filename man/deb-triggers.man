@@ -42,7 +42,7 @@ The trigger control directives currently supported are:
 .IP
 Specifies that the package is interested in the named trigger. All
 triggers in which a package is interested must be listed using this
-directive in the triggers control file. The \(lqnoawait\(rq variant does
+directive in the triggers control file. The “noawait” variant does
 not put the triggering packages in triggers\-awaited state. This should
 be used when the functionality provided by the trigger is not crucial.
 .TP
@@ -56,7 +56,7 @@ Arranges that changes to this package's state will activate the
 specified trigger. The trigger will be activated at the start of
 the following operations: unpack, configure, remove (including for
 the benefit of a conflicting package), purge and deconfigure.
-The \(lqnoawait\(rq variant does not put the triggering packages in
+The “noawait” variant does not put the triggering packages in
 triggers\-awaited state. This should be used when the functionality
 provided by the trigger is not crucial.
 .IP
@@ -70,21 +70,21 @@ versions of the package will be activated.
 Unknown directives are an error which will prevent installation of the
 package.
 .PP
-The \(lq\-noawait\(rq variants should always be favored when possible since
+The “\-noawait” variants should always be favored when possible since
 triggering packages are not put in triggers\-awaited state and can thus
 be immediately configured without requiring the processing of the trigger.
 If the triggering packages are dependencies of other upgraded packages,
 it will avoid an early trigger processing run and make it possible
 to run the trigger only once as one of the last steps of the upgrade.
 .PP
-The \(lq\-noawait\(rq variants are only supported since dpkg 1.16.1, and
+The “\-noawait” variants are only supported since dpkg 1.16.1, and
 will lead to errors if used with an older dpkg. It is thus recommended
-to add a \(lqPre\-Depends: dpkg (>= 1.16.1)\(rq to any package that wish to use
+to add a “Pre\-Depends: dpkg (>= 1.16.1)” to any package that wish to use
 those directives.
 .PP
-The \(lq\-await\(rq alias variants are only supported since dpkg 1.17.21, and
+The “\-await” alias variants are only supported since dpkg 1.17.21, and
 will lead to errors if used with an older dpkg. It is thus recommended
-to add a \(lqPre\-Depends: dpkg (>= 1.17.21)\(rq to any package that wish to use
+to add a “Pre\-Depends: dpkg (>= 1.17.21)” to any package that wish to use
 those directives.
 .
 .SH SEE ALSO

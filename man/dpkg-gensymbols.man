@@ -35,13 +35,13 @@ so that it ends up included in the control information of the package.
 When generating those files, it uses as input some symbols files
 provided by the maintainer. It looks for the following files (and uses the
 first that is found):
-.IP \(bu 4
+.IP • 4
 debian/\fIpackage\fR.symbols.\fIarch\fR
-.IP \(bu 4
+.IP • 4
 debian/symbols.\fIarch\fR
-.IP \(bu 4
+.IP • 4
 debian/\fIpackage\fR.symbols
-.IP \(bu 4
+.IP • 4
 debian/symbols
 .P
 The main interest of those files is to provide the minimal version
@@ -74,16 +74,16 @@ from the minimal version so that backports with a lower version number
 but the same upstream version still satisfy the generated dependencies.
 If the Debian revision can't be dropped because the symbol really got
 added by the Debian specific change, then one should suffix the version
-with \(oq\fB~\fP\(cq.
+with ‘\fB~\fP’.
 .P
 Before applying any patch to the symbols file, the maintainer should
 double-check that it's sane. Public symbols are not supposed to disappear,
 so the patch should ideally only add new lines.
 .P
-Note that you can put comments in symbols files: any line with \(oq#\(cq as
-the first character is a comment except if it starts with \(oq#include\(cq
+Note that you can put comments in symbols files: any line with ‘#’ as
+the first character is a comment except if it starts with ‘#include’
 (see section \fBUsing includes\fP).
-Lines starting with \(oq#MISSING:\(cq are special comments documenting
+Lines starting with ‘#MISSING:’ are special comments documenting
 symbols that have disappeared.
 .P
 Do not forget to check if old symbol versions need to be increased.
@@ -151,7 +151,7 @@ symbols will continuously appear as MISSING in the diff in each new package
 revision.  This behaviour serves as a reminder for the maintainer that such a
 symbol needs to be removed from the symbol file or readded to the library. When
 the optional symbol, which was previously declared as MISSING, suddenly
-reappears in the next revision, it will be upgraded back to the \(lqexisting\(rq
+reappears in the next revision, it will be upgraded back to the “existing”
 status with its minimum version unchanged.
 
 This tag is useful for symbols which are private where their disappearance do
@@ -357,13 +357,13 @@ alphanumerical order of their names.
 When the set of exported symbols differ between architectures, it may become
 inefficient to use a single symbol file. In those cases, an include directive
 may prove to be useful in a couple of ways:
-.IP \(bu 4
+.IP • 4
 You can factorize the common part in some external file
 and include that file in your \fIpackage\fR.symbols.\fIarch\fR file by
 using an include directive like this:
 
 #include "\fIpackages\fR.symbols.common"
-.IP \(bu
+.IP •
 The include directive may also be tagged like any symbol:
 
 (tag|...|tagN)#include "file-to-include"
@@ -397,14 +397,14 @@ to do it is the following:
 .SS Good library management
 .P
 A well-maintained library has the following features:
-.IP \(bu 4
+.IP • 4
 its API is stable (public symbols are never dropped, only new public
 symbols are added) and changes in incompatible ways only when the SONAME
 changes;
-.IP \(bu 4
+.IP • 4
 ideally, it uses symbol versioning to achieve ABI stability despite
 internal changes and API extension;
-.IP \(bu 4
+.IP • 4
 it doesn't export private symbols (such symbols can be tagged optional as
 workaround).
 .P

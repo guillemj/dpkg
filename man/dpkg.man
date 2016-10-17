@@ -264,8 +264,8 @@ available. With action \fB\-\-merge\-avail\fP, old information is
 combined with information from \fIPackages-file\fP. With action
 \fB\-\-update\-avail\fP, old information is replaced with the information
 in the \fIPackages-file\fP. The \fIPackages-file\fP distributed with
-Debian is simply named \(Fo\fIPackages\fP\(Fc. If the \fIPackages-file\fP
-argument is missing or named \(Fo\fB\-\fP\(Fc then it will be read from
+Debian is simply named «\fIPackages\fP». If the \fIPackages-file\fP
+argument is missing or named «\fB\-\fP» then it will be read from
 standard input (since dpkg 1.17.7). \fBdpkg\fP keeps its record of
 available packages in \fI%ADMINDIR%/available\fP.
 
@@ -295,9 +295,9 @@ not be shown.
 .TP
 .B \-\-set\-selections
 Set package selections using file read from stdin. This file should be
-in the format \(lq\fIpackage\fP \fIstate\fP\(rq, where state is one of
+in the format “\fIpackage\fP \fIstate\fP”, where state is one of
 \fBinstall\fP, \fBhold\fP, \fBdeinstall\fP or \fBpurge\fP. Blank lines
-and comment lines beginning with \(oq\fB#\fP\(cq are also permitted.
+and comment lines beginning with ‘\fB#\fP’ are also permitted.
 
 The \fIavailable\fP file needs to be up-to-date for this command to be
 useful, otherwise unknown packages will be ignored with a warning. See
@@ -341,7 +341,7 @@ architecture \fBdpkg\fP is built for (i.e. the output of
 \fB\-\-print\-architecture\fP) can never be removed from that list.
 .TP
 .B \-\-print\-architecture
-Print architecture of packages \fBdpkg\fP installs (for example, \(lqi386\(rq).
+Print architecture of packages \fBdpkg\fP installs (for example, “i386”).
 .TP
 .B \-\-print\-foreign\-architectures
 Print a newline-separated list of the extra architectures \fBdpkg\fP is
@@ -451,10 +451,10 @@ See \fBdpkg\-query\fP(1) for more information about the following actions.
 .SH OPTIONS
 All options can be specified both on the command line and in the \fBdpkg\fP
 configuration file \fI%PKGCONFDIR%/dpkg.cfg\fP or fragment files (with names
-matching this shell pattern \(aq[0-9a-zA-Z_-]*\(aq) on the configuration
+matching this shell pattern '[0-9a-zA-Z_-]*') on the configuration
 directory \fI%PKGCONFDIR%/dpkg.cfg.d/\fP. Each line in the configuration
 file is either an option (exactly the same as the command line option but
-without leading hyphens) or a comment (if it starts with a \(oq\fB#\fP\(cq).
+without leading hyphens) or a comment (if it starts with a ‘\fB#\fP’).
 .br
 .TP
 \fB\-\-abort\-after=\fP\fInumber\fP
@@ -517,7 +517,7 @@ Configure also any unpacked but unconfigured packages on which the current
 package depends.
 
 \fBhold\fP:
-Process packages even when marked \(lqhold\(rq.
+Process packages even when marked “hold”.
 
 \fBremove\-reinstreq\fP:
 Remove a package, even if it's broken and marked to require
@@ -650,18 +650,18 @@ installed. This is an alias of \fB\-\-refuse\-downgrade\fP.
 .BI \-\-admindir= dir
 Change default administrative directory, which contains many files that
 give information about status of installed or uninstalled packages, etc.
-(Defaults to \(Fo\fI%ADMINDIR%\fP\(Fc)
+(Defaults to «\fI%ADMINDIR%\fP»)
 .TP
 .BI \-\-instdir= dir
 Change default installation directory which refers to the directory where
 packages are to be installed. \fBinstdir\fP is also the directory passed
 to \fBchroot\fP(2) before running package's installation scripts, which
 means that the scripts see \fBinstdir\fP as a root directory.
-(Defaults to \(Fo\fI/\fP\(Fc)
+(Defaults to «\fI/\fP»)
 .TP
 .BI \-\-root= dir
-Changing \fBroot\fP changes \fBinstdir\fP to \(Fo\fIdir\fP\(Fc and
-\fBadmindir\fP to \(Fo\fIdir\fP\fB%ADMINDIR%\fP\(Fc.
+Changing \fBroot\fP changes \fBinstdir\fP to «\fIdir\fP» and
+\fBadmindir\fP to «\fIdir\fP\fB%ADMINDIR%\fP».
 .TP
 \fB\-O\fP, \fB\-\-selected\-only\fP
 Only process the packages that are selected for installation. The
@@ -699,12 +699,12 @@ previously excluded paths matching the specified patterns during install
 might completely break your system, use with caution.\fP
 
 The glob patterns use the same wildcards used in the shell, were
-\(oq*\(cq matches any sequence of characters, including the empty string
-and also \(oq/\(cq.
-For example, \(Fo\fI/usr/*/READ*\fP\(Fc matches
-\(Fo\fI/usr/share/doc/package/README\fP\(Fc.
-As usual, \(oq?\(cq matches any single character (again, including \(oq/\(cq).
-And \(oq[\(cq
+‘*’ matches any sequence of characters, including the empty string
+and also ‘/’.
+For example, «\fI/usr/*/READ*\fP» matches
+«\fI/usr/share/doc/package/README\fP».
+As usual, ‘?’ matches any single character (again, including ‘/’).
+And ‘[’
 starts a character class, which can contain a list of characters, ranges
 and complementations. See \fBglob\fP(7) for detailed information about
 globbing. Note: the current implementation might re-include more directories
@@ -744,13 +744,13 @@ Sets the output format for the \fB\-\-verify\fP command (since dpkg 1.17.2).
 The only currently supported output format is \fBrpm\fP, which consists
 of a line for every path that failed any check.
 The lines start with 9 characters to report each specific check result,
-a \(oq\fB?\fP\(cq implies the check could not be done (lack of support,
-file permissions, etc), \(oq\fB.\fP\(cq implies the check passed, and
+a ‘\fB?\fP’ implies the check could not be done (lack of support,
+file permissions, etc), ‘\fB.\fP’ implies the check passed, and
 an alphanumeric character implies a specific check failed; the md5sum
 verification failure (the file contents have changed) is denoted with
-a \(oq\fB5\fP\(cq on the third character.
+a ‘\fB5\fP’ on the third character.
 The line is followed by a space and an attribute character (currently
-\(oq\fBc\fP\(cq for conffiles), another space and the pathname.
+‘\fBc\fP’ for conffiles), another space and the pathname.
 .TP
 \fB\-\-status\-fd \fR\fIn\fR
 Send machine-readable package status and progress information to file
@@ -925,7 +925,7 @@ name of the script running, one of \fBpreinst\fP, \fBpostinst\fP,
 .TP
 .B DPKG_MAINTSCRIPT_DEBUG
 Defined by \fBdpkg\fP on the maintainer script environment to a value
-(\(oq\fB0\fP\(cq or \(oq\fB1\fP\(cq) noting whether debugging has been
+(‘\fB0\fP’ or ‘\fB1\fP’) noting whether debugging has been
 requested (with the \fB\-\-debug\fP option) for the maintainer scripts
 (since dpkg 1.18.4).
 .
@@ -981,7 +981,7 @@ To list installed packages related to the editor \fBvi\fP(1) (note that
 default, and the \fBdpkg\-query\fP \fB\-\-load\-avail\fP option should
 be used instead for that):
 .br
-\fB     dpkg \-l \(aq*vi*\(aq\fP
+\fB     dpkg \-l '*vi*'\fP
 .br
 
 To see the entries in \fI%ADMINDIR%/available\fP of two packages:

@@ -57,10 +57,10 @@ Files will be moved into a subdirectory. If the directory given as argument exis
 the files will be moved into that directory otherwise the name of
 the target directory is extracted from the section field in the
 control part of the package. The target directory will be
-\(Founstable/binary\-\fIarchitecture\fP/\fIsection\fP\(Fc.
+«unstable/binary\-\fIarchitecture\fP/\fIsection\fP».
 If the section is not found in the control, then \fBno\-section\fP is assumed,
 and in this case, as well as for sections \fBnon\-free\fP and \fBcontrib\fP
-the target directory is \(Fo\fIsection\fP/binary\-\fIarchitecture\fP\(Fc.
+the target directory is «\fIsection\fP/binary\-\fIarchitecture\fP».
 The section field is not required so a lot of packages will find their way
 to the \fBno\-section\fP area.
 Use this option with care, it's messy.
@@ -93,12 +93,12 @@ The file \fBbar\-foo.deb\fP will be renamed to bar\-foo_1.0\-2_i386.deb or
 something similar (depending on whatever information is in the control
 part of \fBbar\-foo.deb\fP).
 .TP
-.B find /root/debian/ \-name \(aq*.deb\(aq | xargs \-n 1 dpkg\-name \-a
+.B find /root/debian/ \-name '*.deb' | xargs \-n 1 dpkg\-name \-a
 All files with the extension \fBdeb\fP in the directory /root/debian and its
 subdirectory's will be renamed by \fBdpkg\-name\fP if required into names
 with no architecture information.
 .TP
-.B find \-name \(aq*.deb\(aq | xargs \-n 1 dpkg\-name \-a \-o \-s \-c
+.B find \-name '*.deb' | xargs \-n 1 dpkg\-name \-a \-o \-s \-c
 .B Don't do this.
 Your archive will be messed up completely because a lot of packages
 don't come with section information.

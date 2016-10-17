@@ -43,7 +43,7 @@ filename expansion. For example this will list all package names starting
 with \*(lqlibc6\*(rq:
 
 .nf
-  \fBdpkg\-query \-l \(aqlibc6*\(aq\fP
+  \fBdpkg\-query \-l 'libc6*'\fP
 .fi
 
 The first three columns of the output show the desired action, the package
@@ -137,12 +137,12 @@ asterisk (\fB*\fP) and question mark (\fB?\fP) will match a slash,
 and blackslash (\fB\\\fP) will be used as an escape character.
 
 If the first character in the \fIfilename-search-pattern\fP is none of
-\(oq\fB*[?/\fP\(cq then it will be considered a substring match and will be
-implicitly surrounded by \(oq\fB*\fP\(cq (as in
+‘\fB*[?/\fP’ then it will be considered a substring match and will be
+implicitly surrounded by ‘\fB*\fP’ (as in
 \fB*\fP\fIfilename-search-pattern\fP\fB*\fP).
-If the subsequent string contains any of \(oq\fB*[?\\\fP\(cq, then it will
-handled like a glob pattern, otherwise any trailing \(oq\fB/\fP\(cq or
-\(oq\fB/.\fP\(cq will be removed and a literal path lookup will be performed.
+If the subsequent string contains any of ‘\fB*[?\\\fP’, then it will
+handled like a glob pattern, otherwise any trailing ‘\fB/\fP’ or
+‘\fB/.\fP’ will be removed and a literal path lookup will be performed.
 
 This command will not list extra files created by maintainer scripts,
 nor will it list alternatives.
@@ -180,7 +180,7 @@ This option is used to specify the format of the output \fB\-\-show\fP
 will produce. The format is a string that will be output for each package
 listed.
 
-In the format string, \(lq\fB\e\fP\(rq introduces escapes:
+In the format string, “\fB\e\fP” introduces escapes:
 
 .nf
     \fB\en\fP  newline
@@ -188,13 +188,13 @@ In the format string, \(lq\fB\e\fP\(rq introduces escapes:
     \fB\et\fP  tab
 .fi
 
-\(lq\fB\e\fP\(rq before any other character suppresses any special
-meaning of the following character, which is useful for \(lq\fB\e\fP\(rq
-and \(lq\fB$\fP\(rq.
+“\fB\e\fP” before any other character suppresses any special
+meaning of the following character, which is useful for “\fB\e\fP”
+and “\fB$\fP”.
 
 Package information can be included by inserting
 variable references to package fields using the syntax
-\(lq\fB${\fP\fIfield\fR[\fB;\fP\fIwidth\fR]\fB}\fP\(rq. Fields are
+“\fB${\fP\fIfield\fR[\fB;\fP\fIwidth\fR]\fB}\fP”. Fields are
 printed right-aligned unless the width is negative in which case left
 alignment will be used. The following \fIfield\fRs are recognized but
 they are not necessarily available in the status file (only internal
@@ -243,7 +243,7 @@ fields in control files):
 .TP
 .B binary:Package
 It contains the binary package name with a possible architecture qualifier
-like \(lqlibc6:amd64\(rq (since dpkg 1.16.2).
+like “libc6:amd64” (since dpkg 1.16.2).
 An architecture qualifier will be present to make the package name unambiguous,
 for example if the package has a \fBMulti\-Arch\fP field with a value of
 \fBsame\fP or the package is of a foreign architecture.
@@ -253,7 +253,7 @@ It contains the package short description (since dpkg 1.16.2).
 .TP
 .B db:Status\-Abbrev
 It contains the abbreviated package status (as three characters),
-such as \(lqii \(rq or \(lqiHR\(rq (since dpkg 1.16.2).
+such as “ii ” or “iHR” (since dpkg 1.16.2).
 See the \fB\-\-list\fP command description for more details.
 .TP
 .B db:Status\-Want
@@ -277,14 +277,14 @@ It contains the source package version for this binary package
 (since dpkg 1.16.2)
 .RE
 .IP
-The default format string is \(lq\fB${binary:Package}\et${Version}\en\fP\(rq.
+The default format string is “\fB${binary:Package}\et${Version}\en\fP”.
 Actually, all other fields found in the status file (i.e. user defined
 fields) can be requested, too. They will be printed as-is, though, no
 conversion nor error checking is done on them. To get the name of the
 \fBdpkg\fP maintainer and the installed version, you could run:
 
 .nf
-  \fBdpkg\-query \-W \-f=\(aq${binary:Package} ${Version}\\t${Maintainer}\\n\(aq dpkg\fP
+  \fBdpkg\-query \-W \-f='${binary:Package} ${Version}\\t${Maintainer}\\n' dpkg\fP
 .fi
 .
 .SH EXIT STATUS

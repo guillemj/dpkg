@@ -25,7 +25,7 @@ deb\-src\-control \- Debian source packages' master control file format
 debian/control
 .
 .SH DESCRIPTION
-Each Debian source package contains the master \(Focontrol\(Fc file,
+Each Debian source package contains the master «control» file,
 which contains at least 2 paragraphs, separated by a blank line.
 The first paragraph lists
 all information about the source package in general, while each following
@@ -42,7 +42,7 @@ the
 .B Description
 field, see below). To insert empty lines into a multi-line
 field, insert a dot after the space.
-Lines starting with a \(oq\fB#\fP\(cq are treated as comments.
+Lines starting with a ‘\fB#\fP’ are treated as comments.
 .
 .SH SOURCE FIELDS
 .TP
@@ -55,7 +55,7 @@ long and must start with an alphanumeric character.
 
 .TP
 .BR Maintainer: " \fIfullname-email\fP (recommended)"
-Should be in the format \(FoJoe Bloggs <jbloggs@foo.com>\(Fc, and references the
+Should be in the format «Joe Bloggs <jbloggs@foo.com>», and references the
 person who currently maintains the package, as opposed to the author of the
 software or the original packager.
 
@@ -185,13 +185,13 @@ The syntax of the
 and
 .B Build\-Depends\-Indep
 fields is a list of groups of alternative packages.
-Each group is a list of packages separated by vertical bar (or \(lqpipe\(rq)
-symbols, \(oq\fB|\fP\(cq.
+Each group is a list of packages separated by vertical bar (or “pipe”)
+symbols, ‘\fB|\fP’.
 The groups are separated by commas.
-Commas are to be read as \(lqAND\(rq, and pipes as \(lqOR\(rq, with pipes
+Commas are to be read as “AND”, and pipes as “OR”, with pipes
 binding more tightly.
 Each package name is optionally followed by an architecture qualifier
-appended after a colon \(oq\fB:\fP\(cq,
+appended after a colon ‘\fB:\fP’,
 optionally followed by a version number specification in parentheses, an
 architecture specification in square brackets, and a restriction formula
 consisting of one or more lists of profile names in angle brackets.
@@ -202,8 +202,8 @@ The syntax of the
 and
 .B Build\-Conflicts\-Indep
 fields is a list of comma-separated package names, where the comma is read
-as an \(lqAND\(rq.
-Specifying alternative packages using a \(lqpipe\(rq is not supported.
+as an “AND”.
+Specifying alternative packages using a “pipe” is not supported.
 Each package name is optionally followed by a version number specification in
 parentheses, an architecture specification in square brackets, and a
 restriction formula consisting of one or more lists of profile names in
@@ -220,22 +220,22 @@ name if the package is marked with \fBMulti\-Arch: allowed\fP, and
 \fBnative\fP will match the current build architecture if the package
 is not marked with \fBMulti\-Arch: foreign\fP.
 
-A version number may start with a \(oq\fB>>\fP\(cq, in which case any
+A version number may start with a ‘\fB>>\fP’, in which case any
 later version will match, and may specify or omit the Debian packaging
 revision (separated by a hyphen).
-Accepted version relationships are \(oq\fB>>\fP\(cq for greater than,
-\(oq\fB<<\fP\(cq for less than, \(oq\fB>=\fP\(cq for greater than or
-equal to, \(oq\fB<=\fP\(cq for less than or equal to, and \(oq\fB=\fP\(cq
+Accepted version relationships are ‘\fB>>\fP’ for greater than,
+‘\fB<<\fP’ for less than, ‘\fB>=\fP’ for greater than or
+equal to, ‘\fB<=\fP’ for less than or equal to, and ‘\fB=\fP’
 for equal to.
 
 An architecture specification consists of one or more architecture names,
 separated by whitespace. Exclamation marks may be prepended to each of the
-names, meaning \(lqNOT\(rq.
+names, meaning “NOT”.
 
 A restriction formula consists of one or more restriction lists, separated
 by whitespace. Each restriction list is enclosed in angle brackets. Items
 in the restriction list are build profile names, separated by whitespace
-and can be prefixed with an exclamation mark, meaning \(lqNOT\(rq.
+and can be prefixed with an exclamation mark, meaning “NOT”.
 A restriction formula represents a disjunctive normal form expression.
 
 Note that dependencies on packages in the

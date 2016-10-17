@@ -55,7 +55,7 @@ are described in
 .BR deb\-version (5).
 .TP
 .BR Maintainer: " \fIfullname-email\fP (recommended)"
-Should be in the format \(lqJoe Bloggs <jbloggs@foo.com>\(rq, and is typically
+Should be in the format “Joe Bloggs <jbloggs@foo.com>”, and is typically
 the person who created the package, as opposed to the author of the
 software that was packaged.
 .TP
@@ -67,7 +67,7 @@ The format for the package description is a short brief summary on the
 first line (after the \fBDescription\fP field). The following lines should be
 used as a longer, more detailed description. Each line of the long description
 must be preceded by a space, and blank lines in the long description must
-contain a single \(oq\fB.\fP\(cq following the preceding space.
+contain a single ‘\fB.\fP’ following the preceding space.
 .TP
 .BI Section: " section"
 This is a general field that gives the package a category based on the
@@ -161,7 +161,7 @@ different than the name of the package itself.
 If the source version differs from the binary version, then the
 \fIsource-name\fP will be followed by a \fIsource-version\fP in parenthesis.
 This can happen for example on a binary-only non-maintainer upload, or when
-setting a different binary version via \(Fo\fBdpkg\-gencontrol \-v\fP\(Fc.
+setting a different binary version via «\fBdpkg\-gencontrol \-v\fP».
 .TP
 .BI Subarchitecture: " value"
 .TQ
@@ -211,13 +211,13 @@ The syntax of
 and
 .B Suggests
 fields is a list of groups of alternative packages. Each group is a list
-of packages separated by vertical bar (or \(lqpipe\(rq) symbols,
-\(oq\fB|\fP\(cq.
+of packages separated by vertical bar (or “pipe”) symbols,
+‘\fB|\fP’.
 The groups are separated by commas.
-Commas are to be read as \(lqAND\(rq, and pipes as \(lqOR\(rq, with pipes
+Commas are to be read as “AND”, and pipes as “OR”, with pipes
 binding more tightly.
 Each package name is optionally followed by an architecture qualifier
-appended after a colon \(oq\fB:\fP\(cq, optionally followed by a version
+appended after a colon ‘\fB:\fP’, optionally followed by a version
 number specification in parentheses.
 .LP
 An architecture qualifier name can be a real Debian architecture name
@@ -227,12 +227,12 @@ A real Debian architecture name will match exactly that architecture for
 that package name, \fBany\fP will match any architecture for that package
 name if the package has been marked as \fBMulti\-Arch: allowed\fP.
 .LP
-A version number may start with a \(oq\fB>>\fP\(cq, in which case any later
+A version number may start with a ‘\fB>>\fP’, in which case any later
 version will match, and may specify or omit the Debian packaging revision
 (separated by a hyphen).
-Accepted version relationships are \(oq\fB>>\fP\(cq for greater than,
-\(oq\fB<<\fP\(cq for less than, \(oq\fB>=\fP\(cq for greater than or
-equal to, \(oq\fB<=\fP\(cq for less than or equal to, and \(oq\fB=\fP\(cq
+Accepted version relationships are ‘\fB>>\fP’ for greater than,
+‘\fB<<\fP’ for less than, ‘\fB>=\fP’ for greater than or
+equal to, ‘\fB<=\fP’ for less than or equal to, and ‘\fB=\fP’
 for equal to.
 .TP
 .BI Breaks: " package-list"
@@ -269,7 +269,7 @@ In the
 .B Breaks
 and
 .B Conflicts
-fields, the comma should be read as \(lqOR\(rq.
+fields, the comma should be read as “OR”.
 An optional architecture qualifier can also be appended to the package name
 with the same syntax as above, but the default is \fBany\fP instead of the
 binary package architecture.
@@ -286,12 +286,12 @@ This is a list of virtual packages that this one provides.
 Usually this is used in the case of several packages all providing the
 same service.
 For example, sendmail and exim can serve as a mail server, so they
-provide a common package (\(lqmail\-transport\-agent\(rq) on which
+provide a common package (“mail\-transport\-agent”) on which
 other packages can depend.
 This will allow sendmail or exim to serve as a valid option to satisfy
 the dependency.
 This prevents the packages that depend on a mail server from having to
-know the package names for all of them, and using \(oq\fB|\fP\(cq to
+know the package names for all of them, and using ‘\fB|\fP’ to
 separate the list.
 .LP
 The syntax of
@@ -309,7 +309,7 @@ This field lists extra source packages that were used during the build of this
 binary package.  This is an indication to the archive maintenance software that
 these extra source packages must be kept whilst this binary package is
 maintained.
-This field must be a list of source package names with strict \(oq\fB=\fP\(cq
+This field must be a list of source package names with strict ‘\fB=\fP’
 version relationships.  Note that the archive maintenance software is likely to
 refuse to accept an upload which declares a
 .B Built\-Using

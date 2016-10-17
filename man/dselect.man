@@ -60,12 +60,12 @@ configuration file \fI%PKGCONFDIR%/dselect.cfg\fP or the files on the
 configuration directory \fI%PKGCONFDIR%/dselect.cfg.d/\fP. Each line in the
 configuration file is either an option (exactly the same as the
 command line option but without leading hyphens) or a comment (if it starts
-with a \(oq\fB#\fR\(cq).
+with a ‘\fB#\fR’).
 .br
 .TP
 .BI \-\-admindir " directory"
-Changes the directory where the dpkg \(oq\fIstatus\fP\(cq,
-\(oq\fIavailable\fP\(cq and similar files are located.
+Changes the directory where the dpkg ‘\fIstatus\fP’,
+‘\fIavailable\fP’ and similar files are located.
 This defaults to \fI%ADMINDIR%\fP
 and normally there shouldn't be any need to change it.
 .TP
@@ -129,7 +129,7 @@ overriding the compiled-in colors. Use standard curses color names.
 .IP
 Optionally, after the color specification is another colon, and an
 attribute specification. This is a list of one or more attributes,
-separated by plus (\(oq+\(cq) characters.
+separated by plus (‘+’) characters.
 Available attributes include (not all of these will work on all terminals):
 .BR normal ", " standout ", " underline ", " reverse ", " blink ", "
 .BR bright ", " dim ", " bold
@@ -246,7 +246,7 @@ Unless \fBdselect\fP is run in expert
 or immediate mode, a help screen is first displayed when choosing this
 command from the menu. The user is \fIstrongly\fP advised to study all of
 the information presented in the online help screens, when one pops up.
-The online help screens can at any time be invoked with the \(oq\fB?\fP\(cq key.
+The online help screens can at any time be invoked with the ‘\fB?\fP’ key.
 .sp
 .SS Screen layout
 .sp
@@ -257,14 +257,14 @@ the group header. The bottom half of the screen shows some details
 about the package currently selected in the top half of the screen.
 The type of detail that is displayed can be varied.
 .sp
-Pressing the \(oq\fBI\fP\(cq key toggles a full-screen display of the packages
+Pressing the ‘\fBI\fP’ key toggles a full-screen display of the packages
 list, an enlarged view of the package details, or the equally split screen.
 .sp
 .SS Package details view
 .sp
 The package details view by default shows the extended package description
 for the package that is currently selected in the packages status list.
-The type of detail can be toggled by pressing the \(oq\fBi\fP\(cq key.
+The type of detail can be toggled by pressing the ‘\fBi\fP’ key.
 This alternates between:
  - the extended description
  - the control information for the installed version
@@ -283,11 +283,11 @@ and packages known from the available packages database.
 For every package, the list shows the package's status, priority, section,
 installed and available architecture, installed and available versions,
 the package name and its short description, all in one line.
-By pressing the \(oq\fBA\fP\(cq key, the display of the installed and
+By pressing the ‘\fBA\fP’ key, the display of the installed and
 available architecture can be toggled between on an off.
-By pressing the \(oq\fBV\fP\(cq key, the display of the installed and
+By pressing the ‘\fBV\fP’ key, the display of the installed and
 available version can be toggled between on an off.
-By pressing the \(oq\fBv\fP\(cq key, the package status display is toggled
+By pressing the ‘\fBv\fP’ key, the package status display is toggled
 between verbose and shorthand.
 Shorthand display is the default.
 .sp
@@ -341,21 +341,21 @@ commands mapped to the following keys:
 .SS Searching and sorting
 .sp
 The list of packages can be searched by package name. This
-is done by pressing \(oq\fB/\fP\(cq, and typing a simple search
+is done by pressing ‘\fB/\fP’, and typing a simple search
 string. The string is interpreted as a
 .BR regex (7)
 regular expression.
-If you add \(oq\fB/d\fP\(cq to the search expression, dselect will also
+If you add ‘\fB/d\fP’ to the search expression, dselect will also
 search in descriptions.
-If you add \(oq\fB/i\fP\(cq the search will be case insensitive.
-You may combine these two suffixes like this: \(oq\fB/id\fP\(cq.
+If you add ‘\fB/i\fP’ the search will be case insensitive.
+You may combine these two suffixes like this: ‘\fB/id\fP’.
 Repeated searching is accomplished by repeatedly pressing the
-\(oq\fBn\fP\(cq or \(oq\fB\\\fP\(cq keys, until the wanted package is found.
+‘\fBn\fP’ or ‘\fB\\\fP’ keys, until the wanted package is found.
 If the search reaches the bottom of the list, it wraps to the top
 and continues searching from there.
 .sp
 The list sort order can be varied by pressing
-the \(oq\fBo\fP\(cq and \(oq\fBO\fP\(cq keys repeatedly.
+the ‘\fBo\fP’ and ‘\fBO\fP’ keys repeatedly.
 The following nine sort orderings can be selected:
  alphabet          available           status
  priority+section  available+priority  status+priority
@@ -410,11 +410,11 @@ it is best to follow up the suggestions made by \fBdselect\fP.
 .sp
 The listed packages' selection state may be reverted to the original
 settings, as they were before the unresolved depends or conflicts
-were created, by pressing the \(oq\fBR\fP\(cq key.
-By pressing the \(oq\fBD\fP\(cq key, the automatic suggestions are reset,
+were created, by pressing the ‘\fBR\fP’ key.
+By pressing the ‘\fBD\fP’ key, the automatic suggestions are reset,
 but the change that caused the dependency resolution screen to be prompted
 is kept as requested.
-Finally, by pressing \(oq\fBU\fP\(cq, the selections are again set to the
+Finally, by pressing ‘\fBU\fP’, the selections are again set to the
 automatic suggestion values.
 .sp
 .SS Establishing the requested selections
@@ -426,21 +426,21 @@ However, if there are any unresolved depends, \fBdselect\fP will again
 prompt the user with a dependency resolution screen.
 .sp
 To alter a set of selections that creates unresolved depends or
-conflicts and forcing \fBdselect\fP to accept it, press the \(oq\fBQ\fP\(cq
+conflicts and forcing \fBdselect\fP to accept it, press the ‘\fBQ\fP’
 key. This sets the selections as specified by the user,
 unconditionally. Generally, don't do this unless you've read
 the fine print.
 .sp
 The opposite effect, to back out any selections change requests and
 go back to the previous list of selections, is attained by pressing
-the \(oq\fBX\fP\(cq or \fBescape\fP keys. By repeatedly pressing these
+the ‘\fBX\fP’ or \fBescape\fP keys. By repeatedly pressing these
 keys, any possibly detrimental changes to the requested package
 selections can be backed out completely to the last established
 settings.
 .sp
 If you mistakenly establish some settings and wish to revert all the
 selections to what is currently installed on the system, press the
-\(oq\fBC\fP\(cq key.
+‘\fBC\fP’ key.
 This is somewhat similar to using the unhold command on all packages,
 but provides a more obvious panic button in cases where the user
 pressed \fBenter\fP by accident.
