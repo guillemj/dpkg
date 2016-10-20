@@ -25,6 +25,7 @@ use warnings;
 
 our $VERSION = '0.01';
 
+use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Types;
@@ -280,7 +281,7 @@ sub _add_hardening_flags {
 
     # Default feature states.
     my %use_feature = (
-	pie => 0,
+	pie => 1,
 	stackprotector => 1,
 	stackprotectorstrong => 1,
 	fortify => 1,
@@ -288,9 +289,17 @@ sub _add_hardening_flags {
 	relro => 1,
 	bindnow => 0,
     );
+    my %builtin_feature = (
+        pie => 1,
+    );
 
     # Adjust features based on user or maintainer's desires.
     $self->_parse_feature_area('hardening', \%use_feature);
+
+    # Mask features that are not enabled by default in the compiler.
+    if ($arch !~ /^(?:amd64|arm64|armel|armhf|i386|mips|mipsel|mips64el|ppc64el|s390x)$/) {
+        $builtin_feature{pie} = 0;
+    }
 
     # Mask features that are not available on certain architectures.
     if ($os !~ /^(?:linux|kfreebsd|knetbsd|hurd)$/ or
@@ -330,7 +339,7 @@ sub _add_hardening_flags {
     }
 
     # PIE
-    if ($use_feature{pie}) {
+    if ($use_feature{pie} and not $builtin_feature{pie}) {
 	my $flag = '-fPIE';
 	$flags->append('CFLAGS', $flag);
 	$flags->append('OBJCFLAGS',  $flag);
@@ -340,6 +349,16 @@ sub _add_hardening_flags {
 	$flags->append('CXXFLAGS', $flag);
 	$flags->append('GCJFLAGS', $flag);
 	$flags->append('LDFLAGS', '-fPIE -pie');
+    } elsif (not $use_feature{pie} and $builtin_feature{pie}) {
+	my $flag = "-specs=$Dpkg::DATADIR/no-pie-compile.specs";
+	$flags->append('CFLAGS', $flag);
+	$flags->append('OBJCFLAGS',  $flag);
+	$flags->append('OBJCXXFLAGS', $flag);
+	$flags->append('FFLAGS', $flag);
+	$flags->append('FCFLAGS', $flag);
+	$flags->append('CXXFLAGS', $flag);
+	$flags->append('GCJFLAGS', $flag);
+	$flags->append('LDFLAGS', "-specs=$Dpkg::DATADIR/no-pie-link.specs");
     }
 
     # Stack protector

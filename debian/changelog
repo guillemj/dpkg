@@ -69,6 +69,11 @@ dpkg (1.18.11) UNRELEASED; urgency=medium
   * Enable dpkg-buildpackage -Jauto by default. Closes: #842845
   * Fix dpkg to not fail when removing non-existent backup files on read-only
     filesystems. Closes: #838877
+  * Handle PIE enabled by default in gcc. On achitectures where gcc enables
+    them by default, stop setting -fPIE and -pie, and set -fno-PIE and
+    -no-pie when disabling «pie» via gcc specs files, so that we do not
+    emit them on situations where it would be inappropriate. Closes: #835149
+    Based on a patch by Bálint Réczey <balint@balintreczey.hu>.
   * Architecture support:
     - Add support for AIX operating system.
     - Add a version pseudo-field to the arch tables.
