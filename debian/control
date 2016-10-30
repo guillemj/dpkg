@@ -25,23 +25,6 @@ Build-Depends:
  libncursesw5-dev,
  libio-string-perl <!nocheck>,
 
-Package: libdpkg-dev
-Section: libdevel
-Priority: optional
-Architecture: any
-Multi-Arch: same
-Depends:
- ${misc:Depends},
- zlib1g-dev,
- liblzma-dev,
- libbz2-dev,
-Description: Debian package management static library
- This package provides the header files and static library necessary to
- develop software using libdpkg, the same library used internally by dpkg.
- .
- Note though, that the API is to be considered volatile, and might change
- at any time, use at your own risk.
-
 Package: dpkg
 Architecture: any
 Multi-Arch: foreign
@@ -75,6 +58,23 @@ Description: Debian package management system
  installation and removal of Debian software packages.
  .
  For Debian package development tools, install dpkg-dev.
+
+Package: libdpkg-dev
+Section: libdevel
+Priority: optional
+Architecture: any
+Multi-Arch: same
+Depends:
+ ${misc:Depends},
+ zlib1g-dev,
+ liblzma-dev,
+ libbz2-dev,
+Description: Debian package management static library
+ This package provides the header files and static library necessary to
+ develop software using libdpkg, the same library used internally by dpkg.
+ .
+ Note though, that the API is to be considered volatile, and might change
+ at any time, use at your own risk.
 
 Package: dpkg-dev
 Section: utils
