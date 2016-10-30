@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 8;
 use Test::Dpkg qw(test_neutralize_checksums);
 
 use File::Spec::Functions qw(rel2abs);
@@ -132,10 +132,14 @@ sub test_diff
 sub test_build_source
 {
     my ($name) = shift;
+    my $stderr;
 
-    spawn(exec => [ "$srcdir/dpkg-source.pl", '-b', $name ],
-          error_to_file => '/dev/null',
+    spawn(exec => [ "$srcdir/dpkg-source.pl", '--build', $name ],
+          error_to_string => \$stderr,
           wait_child => 1, nocheck => 1);
+
+    ok($? == 0, 'dpkg-source --build succeeded');
+    diag($stderr) unless $? == 0;
 
     my $basename = $name =~ tr/-/_/r;
 

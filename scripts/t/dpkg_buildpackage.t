@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 7;
+use Test::More tests => 12;
 use Test::Dpkg qw(test_neutralize_checksums);
 
 use File::Spec::Functions qw(rel2abs);
@@ -177,12 +177,17 @@ sub test_build
     set_build_type($type, 'buildtype', nocheck => 1);
     my $typename = get_build_options_from_type();
 
+    my $stderr;
+
     chdir $dirname;
     spawn(exec => [ "$srcdir/dpkg-buildpackage.pl", '--host-arch=amd64',
                     "--build=$typename", '--check-command=' ],
-          error_to_file => '/dev/null',
-          wait_child => 1);
+          error_to_string => \$stderr,
+          wait_child => 1, nocheck => 1);
     chdir '..';
+
+    ok($? == 0, "dpkg-buildpackage --build=$typename succeeded");
+    diag($stderr) unless $? == 0;
 
     if (build_has_all(BUILD_ARCH_DEP)) {
         # Rename the file to preserve on consecutive invokations.
