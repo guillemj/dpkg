@@ -19,6 +19,9 @@ unset BZIP
 unset XZ_OPT
 unset XZ_DEFAULTS
 
+# Restore SIGPIPE to a sane default state.
+trap - PIPE
+
 if [ "$(id -u)" = 0 ]; then
   ASROOT=
 elif which fakeroot >/dev/null; then
