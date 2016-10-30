@@ -81,7 +81,8 @@ check: build
 	dh_testdir
 
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	cd build-tree && $(MAKE) VERBOSE=1 TEST_PARALLEL=$(NUMJOBS) check
+	cd build-tree && $(MAKE) VERBOSE=1 TESTSUITEFLAGS=--verbose \
+	                         TEST_PARALLEL=$(NUMJOBS) check
 endif
 
 # Install the package underneath debian/tmp
