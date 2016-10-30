@@ -182,7 +182,7 @@ setselections(const char *const *argv)
     if (!pkg_is_informative(pkg, &pkg->installed) &&
         !pkg_is_informative(pkg, &pkg->available)) {
       db_possibly_outdated = true;
-      warning(_("package not in database at line %d: %.250s"), lno, namevb.buf);
+      warning(_("package not in status nor available database at line %d: %.250s"), lno, namevb.buf);
       continue;
     }
 
@@ -201,7 +201,8 @@ setselections(const char *const *argv)
 
   if (db_possibly_outdated)
     warning(_("found unknown packages; this might mean the available database\n"
-              "is outdated, and needs to be updated through a frontend method"));
+              "is outdated, and needs to be updated through a frontend method;\n"
+              "please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"));
 
   return 0;
 }
