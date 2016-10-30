@@ -13,6 +13,12 @@ export TZ
 SOURCE_DATE_EPOCH=0
 export SOURCE_DATE_EPOCH
 
+# Cleanup variables that might affect the tests.
+unset GZIP
+unset BZIP
+unset XZ_OPT
+unset XZ_DEFAULTS
+
 if [ "$(id -u)" = 0 ]; then
   ASROOT=
 elif which fakeroot >/dev/null; then
