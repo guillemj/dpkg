@@ -181,6 +181,7 @@ sub test_build
 
     chdir $dirname;
     spawn(exec => [ "$srcdir/dpkg-buildpackage.pl", '--host-arch=amd64',
+                    '--unsigned-source', '--unsigned-changes',
                     "--build=$typename", '--check-command=' ],
           error_to_string => \$stderr,
           wait_child => 1, nocheck => 1);
