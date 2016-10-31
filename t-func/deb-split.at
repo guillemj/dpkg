@@ -14,7 +14,9 @@ DPKG_MOD_CONTROL([pkg-split],
 AT_CHECK([
 # Initialize the template package
 chmod -R u+w pkg-split
-yes | dd of=pkg-split/data-file bs=1024 count=1024 status=none
+# XXX: Some environments set SIGPIPE to ignore which we cannot reset, and yes
+# does check print error conditions, so we ignore its error message here.
+yes 2>/dev/null | dd of=pkg-split/data-file bs=1024 count=1024 status=none
 find pkg-split | xargs touch -t 197001010100.00
 $ASROOT dpkg-deb -b -Znone pkg-split >/dev/null
 ])
