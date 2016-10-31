@@ -9,10 +9,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.18.9\n"
+"Project-Id-Version: dpkg 1.18.11~\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-07-31 12:58+0200\n"
-"PO-Revision-Date: 2016-07-11 06:21+0200\n"
+"POT-Creation-Date: 2016-10-31 18:03+0100\n"
+"PO-Revision-Date: 2016-10-31 18:26+0100\n"
 "Last-Translator: Sven Joachim <svenjoac@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -165,8 +165,8 @@ msgstr "Unerwartetes Ende der Datei oder des Datenstroms"
 msgid "failed to seek"
 msgstr "Positionierung fehlgeschlagen"
 
-#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-deb/build.c
-#: dpkg-split/split.c utils/update-alternatives.c
+#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-split/split.c
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "%s (%s) kann nicht ausgeführt werden"
@@ -2811,11 +2811,6 @@ msgstr ""
 "Vor-Abhängigkeiten für %.250s können nicht erfüllt werden (angefordert durch "
 "%.250s)"
 
-#: src/enquiry.c dpkg-deb/main.c
-#, c-format
-msgid "obsolete option '--%s'; please use '--%s' instead"
-msgstr "veraltete Option »--%s«; bitte verwenden Sie »--%s« stattdessen"
-
 #: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
@@ -2955,13 +2950,13 @@ msgstr ""
 
 #: src/filesdb-hash.c
 #, c-format
-msgid "control file '%s' missing value"
-msgstr "Fehlender Wert in Control-Datei »%s«"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "Wert fehlt in Control-Datei »%s« für Paket »%s«"
 
 #: src/filesdb-hash.c
 #, c-format
-msgid "control file '%s' missing value separator"
-msgstr "Fehlendes Trennzeichen in Control-Datei »%s«"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "Trennzeichen fehlt in Control-Datei »%s« für Paket »%s«"
 
 #: src/filesdb-hash.c
 #, c-format
@@ -2970,28 +2965,28 @@ msgstr "Control-Datei »%s« für Paket »%s« enthält leeren Dateinamen"
 
 #: src/filesdb-hash.c
 #, c-format
-msgid "cannot open '%s' control file for package '%s'"
-msgstr "»%s«-Control-Datei für Paket »%s« kann nicht geöffnet werden"
+msgid "cannot open control file '%s' for package '%s'"
+msgstr "Control-Datei »%s« für Paket »%s« kann nicht geöffnet werden"
 
 #: src/filesdb-hash.c
 #, c-format
-msgid "cannot stat '%s' control file for package '%s'"
-msgstr "»%s«-Control-Datei für Paket »%s« kann nicht mit stat abgefragt werden"
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr "Control-Datei »%s« für Paket »%s« kann nicht mit stat abgefragt werden"
 
 #: src/filesdb-hash.c
 #, c-format
-msgid "'%s' file for package '%s' is not a regular file"
-msgstr "»%s«-Datei für Paket »%s« ist keine reguläre Datei"
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr "Control-Datei »%s« für Paket »%s« ist keine reguläre Datei"
 
 #: src/filesdb-hash.c
 #, c-format
-msgid "cannot read '%s' control file for package '%s'"
-msgstr "»%s«-Control-Datei für Paket »%s« kann nicht gelesen werden"
+msgid "cannot read control file '%s' for package '%s'"
+msgstr "Control-Datei »%s« für Paket »%s« kann nicht gelesen werden"
 
 #: src/filesdb-hash.c
 #, c-format
-msgid "cannot close '%s' control file for package '%s'"
-msgstr "»%s«-Control-Datei für Paket »%s« kann nicht geschlossen werden"
+msgid "cannot close control file '%s' for package '%s'"
+msgstr "Control-Datei »%s« für Paket »%s« kann nicht geschlossen werden"
 
 #: src/help.c
 msgid "not installed"
@@ -4231,8 +4226,9 @@ msgstr "ungültiger Paketname in Zeile %d: %.250s"
 
 #: src/select.c
 #, c-format
-msgid "package not in database at line %d: %.250s"
-msgstr "Paket nicht in der Datenbank in Zeile %d: %.250s"
+msgid "package not in status nor available database at line %d: %.250s"
+msgstr ""
+"Paket nicht in der »status«- oder »available«-Datenbank in Zeile %d: %.250s"
 
 #: src/select.c
 #, c-format
@@ -4246,11 +4242,13 @@ msgstr "Lesefehler auf der Standardeingabe"
 #: src/select.c
 msgid ""
 "found unknown packages; this might mean the available database\n"
-"is outdated, and needs to be updated through a frontend method"
+"is outdated, and needs to be updated through a frontend method;\n"
+"please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 msgstr ""
 "unbekannte Pakete wurden gefunden; dies könnte bedeuten, dass die\n"
 "»available«-Datenbank veraltet ist und durch eine Frontend-Methode\n"
-"aktualisiert werden muss."
+"aktualisiert werden muss; bitte ziehen Sie die FAQ\n"
+"<https://wiki.debian.org/Teams/Dpkg/FAQ> zu Rate."
 
 #: src/selinux.c
 msgid "cannot open security status notification channel"
@@ -4955,7 +4953,7 @@ msgstr "tar-Element wird komprimiert"
 msgid "<compress> from tar -cf"
 msgstr "<Kompression> von tar -cf"
 
-#: dpkg-deb/build.c
+#: dpkg-deb/build.c dpkg-split/split.c
 #, c-format
 msgid "unable to parse timestamp '%.255s'"
 msgstr "Zeitstempel »%.255s« kann nicht ausgewertet werden"
@@ -5320,9 +5318,6 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --old                        Legacy alias for '--deb-"
-"format=0.939000'.\n"
-"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --uniform-compression        Use the compression params on all "
@@ -5330,7 +5325,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, bzip2, none.\n"
+"                                     Allowed types: gzip, xz, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -5345,8 +5340,6 @@ msgstr ""
 "      --deb-format=<Format>        Archiv-Format auswählen.\n"
 "                                     Erlaubte Werte: 0.939000, 2.0 "
 "(Vorgabe).\n"
-"      --old                        Alter Alias für »--deb-format=0.939000«.\n"
-"      --new                        Alter Alias für »--deb-format=2.0«.\n"
 "      --nocheck                    Control-Datei-Prüfung auslassen\n"
 "                                     (fehlerhafte Pakete bauen).\n"
 "      --uniform-compression        Die Komprimierungsparameter für alle "
@@ -5410,12 +5403,12 @@ msgstr "unbekannter Komprimierungstyp »%s«!"
 
 #: dpkg-deb/main.c
 #, c-format
-msgid "deprecated compression type '%s'; use xz instead"
+msgid "obsolete compression type '%s'; use xz instead"
 msgstr "veralteter Komprimierungstyp »%s«; verwenden Sie xz stattdessen"
 
 #: dpkg-deb/main.c
 #, c-format
-msgid "deprecated compression type '%s'; use xz or gzip instead"
+msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr ""
 "veralteter Komprimierungstyp »%s«; verwenden Sie xz oder gzip stattdessen"
 
@@ -6486,6 +6479,15 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "Um zu automatischen Aktualisierungen zurückzukehren,\n"
 "verwenden Sie »%s --auto %s«"
+
+#~ msgid "obsolete option '--%s'; please use '--%s' instead"
+#~ msgstr "veraltete Option »--%s«; bitte verwenden Sie »--%s« stattdessen"
+
+#~ msgid "control file '%s' missing value"
+#~ msgstr "Fehlender Wert in Control-Datei »%s«"
+
+#~ msgid "control file '%s' missing value separator"
+#~ msgstr "Fehlendes Trennzeichen in Control-Datei »%s«"
 
 #~ msgid "unable to fstat part file '%.250s'"
 #~ msgstr "Teildatei »%.250s« kann nicht mit fstat abgefragt werden"
