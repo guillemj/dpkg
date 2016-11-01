@@ -10,13 +10,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-10-16 22:55+0200\n"
-"PO-Revision-Date: 2016-10-29 16:32+0200\n"
+"POT-Creation-Date: 2016-11-01 06:23+0100\n"
+"PO-Revision-Date: 2016-11-01 14:52+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. type: TH
@@ -1750,6 +1750,8 @@ msgid ""
 "This field is used to indicate how this package should behave on a multi-"
 "arch installations."
 msgstr ""
+"Dieses Feld wird zum Anzeigen verwandt, wie sich das Paket auf einer Multi-"
+"Arch-Installation verhalten soll."
 
 #. type: TP
 #: deb-control.man
@@ -1763,6 +1765,9 @@ msgid ""
 "This value is the default when the field is omitted, in which case adding "
 "the field with an explicit B<no> value is generally not needed."
 msgstr ""
+"Dieser Wert ist die Vorgabe, falls das Feld nicht angegeben ist. In diesem "
+"Fall ist das Hinzufügen des Feldes mit dem expliziten Wert B<no> im "
+"allgemeinen nicht notwendig."
 
 #. type: TP
 #: deb-control.man
@@ -1777,6 +1782,9 @@ msgid ""
 "satisfy the dependency of any package of a different architecture from "
 "itself."
 msgstr ""
+"Das Paket ist mit sich selbst koinstallierbar, darf aber nicht dazu verwandt "
+"werden, die Abhängigkeit irgendeines Pakets von einer anderen Architektur auf "
+"sich zu erfüllen."
 
 #. type: TP
 #: deb-control.man
@@ -1792,6 +1800,10 @@ msgid ""
 "from itself (if a dependency has an explicit arch-qualifier then the value "
 "B<foreign> is ignored)."
 msgstr ""
+"Das Paket ist nicht mit sich selbst koinstallierbar, aber es sollte erlaubt "
+"sein, die nichtarchitekturabhängige Abhängigkeit eines Pakets von einer "
+"anderen Architektur auf sich zu erfüllen (falls eine Abhängigkeit explizit "
+"architekturqualifiziert wurde, dann wird der Wert B<foreign> ignoriert)."
 
 #. type: TP
 #: deb-control.man
@@ -1806,6 +1818,9 @@ msgid ""
 "they accept this package from a foreign architecture by qualifying the "
 "package name with B<:any>, but has no effect otherwise."
 msgstr ""
+"Dies erlaubt es inversen Abhängigkeiten, in ihrem Feld B<Depends> anzuzeigen, "
+"dass sie Pakete von einer fremden Architektur akzeptieren, indem sie den "
+"Paketnamen mit B<:any> qualifizieren. Hat weiter keinen Effekt."
 
 #. type: TP
 #: deb-control.man
@@ -2898,6 +2913,12 @@ msgid ""
 "naming scheme: the fields should start with an B<X>, followed by zero or "
 "more of the letters B<BCS> and a hyphen."
 msgstr ""
+"Es ist erlaubt, zusätzliche benutzerdefinierte Felder zu der Steuerdatei "
+"hinzuzufügen. Die Werkzeuge werden diese Felder ignorieren. Falls Sie "
+"möchten, dass diese Felder in die Ausgabedateien, wie das Binärpaket, "
+"rüberkopiert werden sollen, müssen Sie ein angepasstes Namensschema "
+"verwenden: Die Felder sollten mit einem B<X>, gefolgt von Null oder mehreren "
+"Buchstaben aus B<BCS> und einem Gedankenstrich, beginnen."
 
 #. type: TP
 #: deb-src-control.man
@@ -2907,16 +2928,12 @@ msgstr "B<B>"
 
 #. type: Plain text
 #: deb-src-control.man
-#, fuzzy
-#| msgid ""
-#| "The I<dependencies> field has the same syntax as the B<Depends> field in "
-#| "a binary control file, see B<deb-control>(5)."
 msgid ""
 "The field will appear in the control file in the binary package, see B<deb-"
 "control>(5)."
 msgstr ""
-"Das Feld I<dependencies> hat die gleiche Syntax wie das Feld B<Depends> in "
-"einer binären control-Datei, siehe B<deb-control>(5)."
+"Das Feld wird in der Steuerdatei des Binärpakets auftauchen, siehe B<deb-"
+"control>(5)."
 
 #. type: TP
 #: deb-src-control.man
@@ -2929,6 +2946,7 @@ msgstr "B<S>"
 msgid ""
 "The field will appear in the source package control file, see B<dsc>(5)."
 msgstr ""
+"Das Feld wird in der Steuerdatei des Quellpakets auftauchen, siehe B<dsc>(5)."
 
 #. type: TP
 #: deb-src-control.man
@@ -2942,6 +2960,8 @@ msgid ""
 "The field will appear in the upload control (.changes) file, see B<deb-"
 "changes>(5)."
 msgstr ""
+"Das Feld wird in der Steuerdatei des Uploads (.changes) auftauchen, siehe "
+"B<deb-changes>(5)."
 
 #. type: Plain text
 #: deb-src-control.man
@@ -2951,6 +2971,10 @@ msgid ""
 "B<Approved-By> in the changes file and will not appear in the binary or "
 "source package control files."
 msgstr ""
+"Beachten Sie, dass die Präfixe B<X>[B<BCS>]B<-> abgeschnitten werden, wenn "
+"die Felder in die Ausgabedateien rüberkopiert werden. Ein Feld B<XC-Approved-"
+"By> wird als B<Approved-By> in der .changes-Datei und nicht in der "
+"Steuerdatei des Binär- und Quellpakets auftauchen."
 
 #. type: Plain text
 #: deb-src-control.man
@@ -3052,10 +3076,8 @@ msgstr "deb-src-files"
 
 #. type: Plain text
 #: deb-src-files.man
-#, fuzzy
-#| msgid "deb-changes - Debian changes file format"
 msgid "deb-src-files - Debian distribute files format"
-msgstr "dpkg-genchanges - Format der Debian-Changes-Datei"
+msgstr "deb-src-files - Debian-Verteilungsdatei-Format"
 
 #. type: Plain text
 #: deb-src-files.man
@@ -3068,52 +3090,57 @@ msgid ""
 "This file contains the list of artifacts that are to be distributed via the "
 "B<.changes> control file."
 msgstr ""
+"Diese Datei enthält eine Liste der Artifkate, die mit der Steuerdatei B<."
+"changes> verteilt werden sollen."
 
 #. type: Plain text
 #: deb-src-files.man
-#, fuzzy
-#| msgid ""
-#| "The override file has a simple whitespace-delimited format. Comments are "
-#| "allowed (denoted with a B<#>)."
 msgid "The I<debian/files> file has a simple whitespace-delimited format."
 msgstr ""
-"Die override-Datei hat ein einfaches, durch Leerraumzeichen getrenntes "
-"Format. Kommentare sind erlaubt (angezeigt durch ein B<#>)."
+"Die Datei I<debian/files> hat ein einfaches, durch Leerraumzeichen getrenntes "
+"Format."
 
 #. type: Plain text
 #: deb-src-files.man
-#, fuzzy
-#| msgid " I<md5sum> I<size> I<section> I<priority> I<filename>"
 msgid "I<filename> I<section> I<priority>"
-msgstr " I<Md5sum> I<Größe> I<Sektion> I<Priorität> I<Dateiname>"
+msgstr "I<Dateiname> I<Sektion> I<Priorität>"
 
 #. type: Plain text
 #: deb-src-files.man
-#, fuzzy
-#| msgid "I<conffile> is the filename of the conffile to remove."
 msgid "I<filename> is the name of the artifact to distribute."
-msgstr "I<Conffile> ist der Dateiname der zu entfernenden Conffile."
+msgstr "I<Dateiname> ist der Name des zu verteilenden Artifakts."
 
 #. type: Plain text
 #: deb-src-files.man
-#, fuzzy
-#| msgid ""
-#| "I<priority> and I<section> correspond to the respective control fields "
-#| "available in the .deb. The allowed values are specific to each "
-#| "distribution archive."
 msgid ""
 "I<section> and I<priority> correspond to the respective control fields "
 "available in the .deb.  The allowed values are specific to each distribution "
 "archive."
 msgstr ""
-"I<Priorität> und I<Sektion> entsprechen den Feldern I<priority> und "
+"I<Sektion> und I<Priorität> entsprechen den Feldern I<priority> und "
 "I<section> der control-Datei in dem .deb. Die erlaubten Werte hängen vom "
 "Archiv der jeweiligen Distribution ab."
 
+#. type: SH
+#: deb-src-files.man deb-version.man dpkg-architecture.man
+#: dpkg-buildpackage.man dpkg-deb.man dpkg-divert.man dpkg-parsechangelog.man
+#, no-wrap
+msgid "NOTES"
+msgstr "BEMERKUNGEN"
+
 #. type: Plain text
 #: deb-src-files.man
-msgid "B<dpkg-distaddfile>(1), B<dpkg-genchanges>(1)."
-msgstr "B<dpkg-distaddfile>(1), B<dpkg-genchanges>(1)."
+msgid ""
+"This file is not intended to be modified directly, please use one of B<dpkg-"
+"gencontrol> or B<dpkg-distaddfile> to add entries to it."
+msgstr ""
+"Diese Datei soll nicht direkt geändert werden, bitte verwenden Sie entweder "
+"B<dpkg-gencontrol> oder B<dpkg-distaddfile>, um Einträge hinzuzufügen."
+
+#. type: Plain text
+#: deb-src-files.man
+msgid "B<dpkg-genchanges>(1), B<dpkg-distaddfile>(1)."
+msgstr "B<dpkg-genchanges>(1), B<dpkg-distaddfile>(1)."
 
 #. type: TH
 #: deb-split.man
@@ -3500,13 +3527,6 @@ msgstr ""
 "Versionsnummern umzugehen, die Zeichenketten aus Buchstaben enthalten, die "
 "das Paketverwaltungssystem nicht interpretieren kann (wie ‚ALPHA’ oder "
 "‚pre-’)) oder mit unklugen Reihenfolgen."
-
-#. type: SH
-#: deb-version.man dpkg-architecture.man dpkg-buildpackage.man dpkg-deb.man
-#: dpkg-divert.man dpkg-parsechangelog.man
-#, no-wrap
-msgid "NOTES"
-msgstr "BEMERKUNGEN"
 
 #. type: Plain text
 #: deb-version.man
@@ -4153,10 +4173,8 @@ msgstr "B<source:Version>"
 
 #. type: Plain text
 #: deb-substvars.man
-#, fuzzy
-#| msgid "The package architecture (since dpkg 1.16.1)."
 msgid "The source package version (since dpkg 1.13.19)."
-msgstr "Die Paketarchitektur (seit Dpkg 1.16.1)."
+msgstr "Die Quellpaketversion (seit Dpkg 1.13.19)."
 
 #. type: TP
 #: deb-substvars.man
@@ -4166,16 +4184,12 @@ msgstr "B<source:Upstream-Version>"
 
 #. type: Plain text
 #: deb-substvars.man
-#, fuzzy
-#| msgid ""
-#| "The upstream source package version, including the Debian version epoch "
-#| "if any."
 msgid ""
 "The upstream source package version, including the Debian version epoch if "
 "any (since dpkg 1.13.19)."
 msgstr ""
 "Die Paketversion der Originalautoren, einschließlich der Epoche der Debian-"
-"Version, falls vorhanden."
+"Version, falls vorhanden (seit Dpkg 1.13.19)."
 
 #. type: TP
 #: deb-substvars.man
@@ -4185,16 +4199,12 @@ msgstr "B<binary:Version>"
 
 #. type: Plain text
 #: deb-substvars.man
-#, fuzzy
-#| msgid ""
-#| "The binary package version (which may differ from source:Version in a "
-#| "binNMU for example)."
 msgid ""
 "The binary package version (which may differ from source:Version in a binNMU "
 "for example; since dpkg 1.13.19)."
 msgstr ""
 "Die Binärpaketversion (die z.B. in einem binNMU von source:Version abweichen "
-"kann)."
+"kann; seit Dpkg 1.13.19)."
 
 #. type: TP
 #: deb-substvars.man
@@ -4204,11 +4214,6 @@ msgstr "B<Source-Version>"
 
 #. type: Plain text
 #: deb-substvars.man
-#, fuzzy
-#| msgid ""
-#| "The source package version (from the changelog file). This variable is "
-#| "now B<deprecated> as its meaning is different from its function, please "
-#| "use the B<source:Version> or B<binary:Version> as appropriate."
 msgid ""
 "The source package version (from the changelog file). This variable is now "
 "B<obsolete> and emits an error when used as its meaning is different from "
@@ -4216,7 +4221,7 @@ msgid ""
 "appropriate."
 msgstr ""
 "Die Quellpaketversion (aus der changelog-Datei). Diese Variable ist jetzt "
-"B<veraltet>, da ihre Bedeutung von ihrer Funktion abweicht, bitte verwenden "
+"B<veraltet> und gibt bei der Benutzung einen Fehler aus, da ihre Bedeutung von ihrer Funktion abweicht, bitte verwenden "
 "Sie B<source:Version> oder B<binary:Version> wo zutreffend."
 
 #. type: TP
@@ -4283,20 +4288,16 @@ msgstr "B<S:>I<Feldname>"
 
 #. type: Plain text
 #: deb-substvars.man
-#, fuzzy
-#| msgid ""
-#| "The value of the output field I<fieldname> (which must be given in the "
-#| "canonical capitalisation). Setting these variables has no effect other "
-#| "than on places where they are expanded explicitly."
 msgid ""
 "The value of the source stanza field I<fieldname> (which must be given in "
 "the canonical capitalisation; since dpkg 1.18.11).  Setting these variables "
 "has no effect other than on places where they are expanded explicitly.  "
 "These variables are only available when generating binary control files."
 msgstr ""
-"Der Wert des Ausgabefeldes I<Feldname> (der in der kanonischen Groß-/"
-"Kleinschreibung angegeben werden muss). Das Setzen dieser Variablen hat nur "
-"einen Effekt an den Stellen, wo diese explizit expandiert werden."
+"Der Wert des Quellpaket-Absatzfeldes I<Feldname> (der in der kanonischen Groß-/"
+"Kleinschreibung angegeben werden muss; seit Dpkg 1.18.11). Das Setzen dieser Variablen hat nur "
+"einen Effekt an den Stellen, wo diese explizit expandiert werden. Diese "
+"Variablen sind nur bei der Erstellung der binären Steuerdatei verfügbar."
 
 #. type: TP
 #: deb-substvars.man
@@ -4367,10 +4368,8 @@ msgstr "B<dpkg:Upstream-Version>"
 
 #. type: Plain text
 #: deb-substvars.man
-#, fuzzy
-#| msgid "The upstream version of dpkg."
 msgid "The upstream version of dpkg (since dpkg 1.13.19)."
-msgstr "Die Original- (Upstream-)Version von Dpkg."
+msgstr "Die Original- (Upstream-)Version von Dpkg (seit Dpkg 1.13.19)."
 
 #. type: TP
 #: deb-substvars.man
@@ -4380,10 +4379,8 @@ msgstr "B<dpkg:Version>"
 
 #. type: Plain text
 #: deb-substvars.man
-#, fuzzy
-#| msgid "The full version of dpkg."
 msgid "The full version of dpkg (since dpkg 1.13.19)."
-msgstr "Die komplette Version von Dpkg."
+msgstr "Die komplette Version von Dpkg (seit Dpkg 1.13.19)."
 
 #. type: Plain text
 #: deb-substvars.man
@@ -4637,7 +4634,7 @@ msgstr "deb-postinst"
 #. type: Plain text
 #: deb-postinst.man
 msgid "deb-postinst - package post-installation maintainer script"
-msgstr ""
+msgstr "deb-postinst - Paketnachinstallationsbetreuerskript"
 
 #. type: Plain text
 #: deb-postinst.man
@@ -4646,101 +4643,95 @@ msgstr "postinst"
 
 #. type: Plain text
 #: deb-postinst.man
-#, fuzzy
-#| msgid ""
-#| "A package declares its relationship to some trigger(s) by including a "
-#| "I<triggers> file in its control archive (i.e. I<DEBIAN/triggers> during "
-#| "package creation)."
 msgid ""
 "A package can perform several post-installation actions via maintainer "
 "scripts, by including an executable I<postinst> file in its control archive "
 "(i.e. I<DEBIAN/postinst> during package creation)."
 msgstr ""
-"Ein Paket erklärt seine Beziehung zu einigen Trigger(n) (deutsch: Auslösern) "
-"indem es eine Datei I<triggers> in seinem Steuerarchiv (d.h. I<DEBIAN/"
-"triggers> während der Paketerstellung) hinzunimmt."
+"Ein Paket kann eine Reihe von Nachinstallationsaktionen mittels "
+"Betreuerskripten durchführen, "
+"indem es eine ausführbare Datei I<postinst> in seinem Steuerarchiv (d.h. I<DEBIAN/"
+"postinst> während der Paketerstellung) hinzunimmt."
 
 #. type: Plain text
 #: deb-postinst.man deb-postrm.man deb-preinst.man deb-prerm.man
 msgid "The script can be called in the following ways:"
-msgstr ""
+msgstr "Das Skript kann in den folgenden Weisen aufgerufen werden:"
 
 #. type: TP
 #: deb-postinst.man
 #, no-wrap
 msgid "I<postinst> B<configure> I<old-version>"
-msgstr ""
+msgstr "I<postinst> B<configure> I<alte_Version>"
 
 #. type: Plain text
 #: deb-postinst.man
-#, fuzzy
-#| msgid "The package name."
 msgid "After the package was installed."
-msgstr "Der Paketname."
+msgstr "Nachdem das Paket installiert wurde."
 
 #. type: TP
 #: deb-postinst.man
-#, fuzzy, no-wrap
-#| msgid "B<interest> I<trigger-name>"
+#, no-wrap
 msgid "I<postinst> B<triggered> I<trigger-name...>"
-msgstr "B<interest> I<Trigger-Name>"
+msgstr "I<postinst> B<triggered> I<Trigger-Name …>"
 
 #. type: Plain text
 #: deb-postinst.man
-#, fuzzy
-#| msgid "The package has been triggered."
 msgid "After the package was triggered."
-msgstr "Das Paket wurde getriggert."
+msgstr "Nachdem das Paket getriggert wurde."
 
 #. type: TP
 #: deb-postinst.man
 #, no-wrap
 msgid "I<old-postinst> B<abort-upgrade> I<new-version>"
-msgstr ""
+msgstr "I<old-postinst> B<abort-upgrade> I<neue_Version>"
 
 #. type: Plain text
 #: deb-postinst.man
 msgid "If I<prerm> fails during upgrade or fails on failed upgrade."
 msgstr ""
+"Falls I<prerm> während eines Upgrades oder eines fehlgeschlagenen Upgrades "
+"fehlschlägt."
 
 #. type: TP
 #: deb-postinst.man
 #, no-wrap
 msgid "I<old-postinst> B<abort-remove>"
-msgstr ""
+msgstr "I<old-postinst> B<abort-remove>"
 
 #. type: Plain text
 #: deb-postinst.man
 msgid "If I<prerm> fails during removal."
-msgstr ""
+msgstr "Falls I<prerm> während des Entfernens fehlschlägt."
 
 #. type: TP
 #: deb-postinst.man
 #, no-wrap
 msgid "I<postinst> B<abort-deconfigure in-favour> I<new-package new-version>"
-msgstr ""
+msgstr "I<postinst> B<abort-deconfigure in-favour> I<neues_Paket neue_Version>"
 
 #. type: TQ
 #: deb-postinst.man
 #, no-wrap
 msgid "       [ B<removing> I<old-package old-version> ]"
-msgstr ""
+msgstr "       [ B<removing> I<altes_Paket alte_Version> ]"
 
 #. type: Plain text
 #: deb-postinst.man
 msgid "If I<prerm> fails during deconfiguration of a package."
-msgstr ""
+msgstr "Falls I<prerm> während der Dekonfiguration eines Paketes fehlschlägt."
 
 #. type: TP
 #: deb-postinst.man
 #, no-wrap
 msgid "I<postinst> B<abort-remove in-favour> I<new-package new-version>"
-msgstr ""
+msgstr "I<postinst> B<abort-remove in-favour> I<neues_Paket neue_Version>"
 
 #. type: Plain text
 #: deb-postinst.man
 msgid "If I<prerm> fails during replacement due to conflict."
 msgstr ""
+"Falls I<prerm> während einer Ersetzung aufgrund eines Konflikts fehlschlägt."
 
 #. type: TH
 #: deb-postrm.man
@@ -4751,7 +4742,7 @@ msgstr "deb-postrm"
 #. type: Plain text
 #: deb-postrm.man
 msgid "deb-postrm - package post-removal maintainer script"
-msgstr ""
+msgstr "deb-postrm - Nachentfernungsbetreuerskript eines Pakets"
 
 #. type: Plain text
 #: deb-postrm.man
@@ -4760,119 +4751,105 @@ msgstr "postrm"
 
 #. type: Plain text
 #: deb-postrm.man
-#, fuzzy
-#| msgid ""
-#| "A package declares its relationship to some trigger(s) by including a "
-#| "I<triggers> file in its control archive (i.e. I<DEBIAN/triggers> during "
-#| "package creation)."
 msgid ""
 "A package can perform several post-removal actions via maintainer scripts, "
 "by including an executable I<postrm> file in its control archive (i.e. "
 "I<DEBIAN/postrm> during package creation)."
 msgstr ""
-"Ein Paket erklärt seine Beziehung zu einigen Trigger(n) (deutsch: Auslösern) "
-"indem es eine Datei I<triggers> in seinem Steuerarchiv (d.h. I<DEBIAN/"
+"Ein Paket kann eine Reihe von Aktionen mittels Betreuerskripten nach dem "
+"Entfernen ausführen, indem es eine ausführbare Datei I<postrm> in seinem "
+"Steuerarchiv (d.h. I<DEBIAN/"
 "triggers> während der Paketerstellung) hinzunimmt."
 
 #. type: TP
 #: deb-postrm.man
-#, fuzzy, no-wrap
-#| msgid "I<postrm>"
+#, no-wrap
 msgid "I<postrm> B<remove>"
-msgstr "I<postrm>"
+msgstr "I<postrm> B<remove>"
 
 #. type: Plain text
 #: deb-postrm.man
-#, fuzzy
-#| msgid "The package name."
 msgid "After the package was removed."
-msgstr "Der Paketname."
+msgstr "Nachdem das Paket entfernt wurde."
 
 #. type: TP
 #: deb-postrm.man
-#, fuzzy, no-wrap
-#| msgid "I<postrm>"
+#, no-wrap
 msgid "I<postrm> B<purge>"
-msgstr "I<postrm>"
+msgstr "I<postrm> B<purge>"
 
 #. type: Plain text
 #: deb-postrm.man
-#, fuzzy
-#| msgid "The package has been triggered."
 msgid "After the package was purged."
-msgstr "Das Paket wurde getriggert."
+msgstr "Nachdem das Paket endgültig gelöscht wurde."
 
 #. type: TP
 #: deb-postrm.man
 #, no-wrap
 msgid "I<old-postrm> B<upgrade> I<new-version>"
-msgstr ""
+msgstr "I<old-postrm> B<upgrade> I<neue_Version>"
 
 #. type: Plain text
 #: deb-postrm.man
-#, fuzzy
-#| msgid "The package has been triggered."
 msgid "After the package was upgraded."
-msgstr "Das Paket wurde getriggert."
+msgstr "Nachdem das Upgrade des Pakets durchgeführt wurde."
 
 #. type: TP
 #: deb-postrm.man
 #, no-wrap
 msgid "I<new-postrm >B<failed-upgrade>I< old-version new-version>"
-msgstr ""
+msgstr "I<new-postrm >B<failed-upgrade>I< alte_Version neue_Version>"
 
 #. type: Plain text
 #: deb-postrm.man
 msgid "If the above B<upgrade> call fails."
-msgstr ""
+msgstr "Falls der obige B<upgrade>-Aufruf fehlschlägt."
 
 #. type: TP
 #: deb-postrm.man
 #, no-wrap
 msgid "I<postrm> B<disappear> I<overwriter-package> I<overwriter-version>"
 msgstr ""
+"I<postrm> B<disappear> I<überschreibendes_Paket> I<überschreibende_Version>"
 
 #. type: Plain text
 #: deb-postrm.man
 msgid "After all of the packages files have been replaced."
-msgstr ""
+msgstr "Nachdem alle Paketdateien ersetzt wurden."
 
 #. type: TP
 #: deb-postrm.man
 #, no-wrap
 msgid "I<new-postrm> B<abort-install>"
-msgstr ""
+msgstr "I<new-postrm> B<abort-install>"
 
 #. type: Plain text
 #: deb-postrm.man
 msgid "If I<preinst> fails during install."
-msgstr ""
+msgstr "Falls I<preinst> während der Installation fehlschlägt."
 
 #. type: TP
 #: deb-postrm.man
 #, no-wrap
 msgid "I<new-postrm> B<abort-install> I<old-version new-version>"
-msgstr ""
+msgstr "I<new-postrm> B<abort-install> I<alte_Version neue_Version>"
 
 #. type: Plain text
 #: deb-postrm.man
-#, fuzzy
-#| msgid "B<3.> Run I<preinst> script, if provided by the package."
 msgid "If I<preinst> fails during upgrade of removed package."
 msgstr ""
-"B<3.> Führe das I<preinst>-Skript aus, falls dies vom Paket bereitgestellt "
-"wird."
+"Falls I<preinst> während des Upgrades eines entfernten Paketes fehlschlägt."
 
 #. type: TP
 #: deb-postrm.man
 #, no-wrap
 msgid "I<new-postrm> B<abort-upgrade> I<old-version new-version>"
-msgstr ""
+msgstr "I<new-postrm> B<abort-upgrade> I<alte_Version neue_Version>"
 
 #. type: Plain text
 #: deb-postrm.man
 msgid "If I<preinst> fails during upgrade."
-msgstr ""
+msgstr "Falls I<preinst> während des Upgrades fehlschlägt."
 
 #. type: TH
 #: deb-preinst.man
@@ -4883,7 +4860,7 @@ msgstr "deb-preinst"
 #. type: Plain text
 #: deb-preinst.man
 msgid "deb-preinst - package pre-installation maintainer script"
-msgstr ""
+msgstr "deb-preinst - Präinstallationsbetreuerskript eines Paketes"
 
 #. type: Plain text
 #: deb-preinst.man
@@ -4892,68 +4869,61 @@ msgstr "preinst"
 
 #. type: Plain text
 #: deb-preinst.man
-#, fuzzy
-#| msgid ""
-#| "A package declares its relationship to some trigger(s) by including a "
-#| "I<triggers> file in its control archive (i.e. I<DEBIAN/triggers> during "
-#| "package creation)."
 msgid ""
 "A package can perform several pre-installation actions via maintainer "
 "scripts, by including an executable I<preinst> file in its control archive "
 "(i.e. I<DEBIAN/preinst> during package creation)."
 msgstr ""
-"Ein Paket erklärt seine Beziehung zu einigen Trigger(n) (deutsch: Auslösern) "
-"indem es eine Datei I<triggers> in seinem Steuerarchiv (d.h. I<DEBIAN/"
-"triggers> während der Paketerstellung) hinzunimmt."
+"Ein Paket kann eine Reihe von Präinstallationsaktionen mittels seiner "
+"Betreuerskripte durchführen, "
+"indem es eine ausführbare Datei I<preinst> in seinem Steuerarchiv (d.h. I<DEBIAN/"
+"preinst> während der Paketerstellung) hinzunimmt."
 
 #. type: TP
 #: deb-preinst.man
 #, no-wrap
 msgid "I<new-preinst> B<install>"
-msgstr ""
+msgstr "I<new-preinst> B<install>"
 
 #. type: Plain text
 #: deb-preinst.man
-#, fuzzy
-#| msgid "The package is not installed on your system."
 msgid "Before the package is installed."
-msgstr "Das Paket ist nicht auf Ihrem System installiert."
+msgstr "Bevor das Paket installiert wird."
 
 #. type: TP
 #: deb-preinst.man
-#, fuzzy, no-wrap
-#| msgid "B<--until> I<version>, B<-u>I<version>"
+#, no-wrap
 msgid "I<new-preinst> B<install> I<old-version new-version>"
-msgstr "B<--until> I<Version>, B<-u>I<Version>"
+msgstr "I<new-preinst> B<install> I<alte_Version neue_Version>"
 
 #. type: Plain text
 #: deb-preinst.man
 msgid "Before removed package is upgraded."
-msgstr ""
+msgstr "Bevor ein Upgrade des entfernten Pakets durchgeführt wird."
 
 #. type: TP
 #: deb-preinst.man
 #, no-wrap
 msgid "I<new-preinst> B<upgrade> I<old-version new-version>"
-msgstr ""
+msgstr "I<new-preinst> B<upgrade> I<alte_Version neue_Version>"
 
 #. type: Plain text
 #: deb-preinst.man
-#, fuzzy
-#| msgid "The machine the package is built for."
 msgid "Before the package is upgraded."
-msgstr "Die Maschine, für die das Paket gebaut ist."
+msgstr "Bevor das Upgrade des Pakets durchgeführt wird."
 
 #. type: TP
 #: deb-preinst.man
 #, no-wrap
 msgid "I<old-preinst> B<abort-upgrade> I<new-version>"
-msgstr ""
+msgstr "I<old-preinst> B<abort-upgrade> I<neue_Version>"
 
 #. type: Plain text
 #: deb-preinst.man
 msgid "If I<postrm> fails during upgrade or fails on failed upgrade."
 msgstr ""
+"Falls I<postrm> während des Upgrades oder während eines fehlgeschlagenen "
+"Upgrades fehlschlägt."
 
 #. type: TH
 #: deb-prerm.man
@@ -4964,7 +4934,7 @@ msgstr "deb-prerm"
 #. type: Plain text
 #: deb-prerm.man
 msgid "deb-prerm - package pre-removal maintainer script"
-msgstr ""
+msgstr "deb-prerm - Präentfernungsbetreuerskripte eines Pakets"
 
 #. type: Plain text
 #: deb-prerm.man
@@ -4973,86 +4943,79 @@ msgstr "prerm"
 
 #. type: Plain text
 #: deb-prerm.man
-#, fuzzy
-#| msgid ""
-#| "A package declares its relationship to some trigger(s) by including a "
-#| "I<triggers> file in its control archive (i.e. I<DEBIAN/triggers> during "
-#| "package creation)."
 msgid ""
 "A package can perform several pre-removal actions via maintainer scripts, by "
 "including an executable I<prerm> file in its control archive (i.e. I<DEBIAN/"
 "prerm> during package creation)."
 msgstr ""
-"Ein Paket erklärt seine Beziehung zu einigen Trigger(n) (deutsch: Auslösern) "
-"indem es eine Datei I<triggers> in seinem Steuerarchiv (d.h. I<DEBIAN/"
-"triggers> während der Paketerstellung) hinzunimmt."
+"Ein Paket kann eine Reihe von Präentfernungsaktionen mittels seiner "
+"Betreuerskripte durchführen, "
+"indem es eine ausführbare Datei I<prerm> in seinem Steuerarchiv (d.h. I<DEBIAN/"
+"prerm> während der Paketerstellung) hinzunimmt."
 
 #. type: TP
 #: deb-prerm.man
-#, fuzzy, no-wrap
-#| msgid "B<--remove>"
+#, no-wrap
 msgid "I<prerm> B<remove>"
-msgstr "B<--remove>"
+msgstr "I<prerm> B<remove>"
 
 #. type: Plain text
 #: deb-prerm.man
-#, fuzzy
-#| msgid "The machine the package is built on."
 msgid "Before the package is removed."
-msgstr "Die Maschine, auf der das Paket gebaut wird."
+msgstr "Bevor das Paket entfernt wird."
 
 #. type: TP
 #: deb-prerm.man
 #, no-wrap
 msgid "I<old-prerm> B<upgrade> I<new-version>"
-msgstr ""
+msgstr "I<old-prerm> B<upgrade> I<neue_Version>"
 
 #. type: Plain text
 #: deb-prerm.man
 msgid "Before an upgrade."
-msgstr ""
+msgstr "Vor einem Upgrade."
 
 #. type: TP
 #: deb-prerm.man
 #, no-wrap
 msgid "I<new-prerm> B<failed-upgrade> I<old-version new-version>"
-msgstr ""
+msgstr "I<new-prerm> B<failed-upgrade> I<alte_Version neue_Version>"
 
 #. type: Plain text
 #: deb-prerm.man
 msgid "If the above B<upgrade> fails."
-msgstr ""
+msgstr "Falls das obige B<upgrade> fehlschlägt."
 
 #. type: TP
 #: deb-prerm.man
 #, no-wrap
 msgid "I<prerm> B<deconfigure in-favour> I<new-package new-version>"
-msgstr ""
+msgstr "I<prerm> B<deconfigure in-favour> I<neues_Paket neue_Version>"
 
 #. type: TQ
 #: deb-prerm.man
 #, no-wrap
 msgid "    [ B<removing> I<old-package old-version> ]"
-msgstr ""
+msgstr "    [ B<removing> I<altes_Paket alte_Version> ]"
 
 #. type: Plain text
 #: deb-prerm.man
 msgid ""
 "Before package is deconfigured while dependency is replaced due to conflict."
 msgstr ""
+"Bevor ein Paket dekonfiguriert wurde während eine Abhängigkeit aufgrund eines "
+"Konflikts ersetzt wird."
 
 #. type: TP
 #: deb-prerm.man
 #, no-wrap
 msgid "I<prerm> B<remove in-favour> I<new-package new-version>"
-msgstr ""
+msgstr "I<prerm> B<remove in-favour> I<neues_Paket neue_Version>"
 
 #. type: Plain text
 #: deb-prerm.man
-#, fuzzy
-#| msgid "The package is unpacked, but not configured."
 msgid "Before the package is replaced due to conflict."
-msgstr "Das Paket ist entpackt, aber nicht konfiguriert."
+msgstr "Das Paket wird aufgrund eines Konflikts ersetzt."
 
 #. type: TH
 #: deb-triggers.man
@@ -7742,12 +7705,15 @@ msgid ""
 "I<%LOGDIR%/dpkg.log>. If this option is given multiple times, the last "
 "filename is used. Log messages are of the form:"
 msgstr ""
+"Protokolliere Statusänderungen und -aktionen in I<Dateiname> statt zu dem "
+"standardmäßigen I<%LOGDIR%/dpkg.log>. Falls diese Option mehrfach angegeben "
+"ist, wird der letzte Dateiname verwandt. Protokollnachrichten haben die Form:"
 
 #. type: TP
 #: dpkg.man
 #, no-wrap
 msgid "YYYY-MM-DD HH:MM:SS B<startup> I<type> I<command>"
-msgstr ""
+msgstr "YYYY-MM-DD HH:MM:SS B<startup> I<Typ> I<Befehl>"
 
 #. type: Plain text
 #: dpkg.man
@@ -7756,49 +7722,48 @@ msgid ""
 "B<unpack> or B<install>) or B<packages> (with a I<command> of B<configure>, "
 "B<triggers-only>, B<remove> or B<purge>)."
 msgstr ""
+"Für jeden Dpkg-Aufruf, wobei I<Typ> entweder B<archives> (mit einem I<Befehl> "
+"B<unpack> oder B<install>) oder B<packages> (mit einem I<Befehl> "
+"B<configure>, B<triggers-only>, B<remove> oder B<purge>) ist."
 
 #. type: TP
 #: dpkg.man
 #, no-wrap
 msgid "YYYY-MM-DD HH:MM:SS B<status> I<state> I<pkg> I<installed-version>"
-msgstr ""
+msgstr "YYYY-MM-DD HH:MM:SS B<status> I<Zustand> I<Pkt> I<installierte_Version>"
 
 #. type: Plain text
 #: dpkg.man
 msgid "For status change updates."
-msgstr ""
+msgstr "Für Statusaktualisierungen."
 
 #. type: TP
 #: dpkg.man
 #, no-wrap
 msgid "YYYY-MM-DD HH:MM:SS I<action> I<pkg> I<installed-version> I<available-version>"
-msgstr ""
+msgstr "YYYY-MM-DD HH:MM:SS I<Aktion> I<Pkt> I<installierte_Version> I<verfügbar_Version>"
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
-#| msgid ""
-#| "Sent just before a processing stage starts. I<stage> is one of "
-#| "B<upgrade>, B<install> (both sent before unpacking), B<configure>, "
-#| "B<trigproc>, B<disappear>, B<remove>, B<purge>."
 msgid ""
 "For actions where I<action> is one of B<install>, B<upgrade>, B<configure>, "
 "B<trigproc>, B<disappear>, B<remove> or B<purge>."
 msgstr ""
-"Versandt genau bevor eine Verarbeitungsstufe beginnt. I<Stufe> ist eine der "
-"folgenden: B<upgrade>, B<install> (beide werden vor dem Entpacken versandt), "
-"B<configure>, B<trigproc>, B<disappear>, B<remove>, B<purge>."
+"Für Aktionen, wobei I<Aktion> einer aus B<install>, B<upgrade>, B<configure>, "
+"B<trigproc>, B<disappear>, B<remove> oder B<purge> ist."
 
 #. type: TP
 #: dpkg.man
 #, no-wrap
 msgid "YYYY-MM-DD HH:MM:SS B<conffile> I<filename> I<decision>"
-msgstr ""
+msgstr "YYYY-MM-DD HH:MM:SS B<conffile> I<Dateiname> I<Entscheidung>"
 
 #. type: Plain text
 #: dpkg.man
 msgid "For conffile changes where I<decision> is either B<install> or B<keep>."
 msgstr ""
+"Für Conffile-Änderungen, wobei I<Entscheidung> entweder B<install> oder "
+"B<keep> ist."
 
 #. type: TP
 #: dpkg.man
@@ -7906,8 +7871,9 @@ msgstr ""
 
 #. type: SH
 #: dpkg.man dpkg-buildflags.man dpkg-buildpackage.man dpkg-checkbuilddeps.man
-#: dpkg-deb.man dpkg-divert.man dpkg-query.man dpkg-statoverride.man
-#: dpkg-trigger.man dpkg-vendor.man dselect.man update-alternatives.man
+#: dpkg-deb.man dpkg-divert.man dpkg-query.man dpkg-source.man dpkg-split.man
+#: dpkg-statoverride.man dpkg-trigger.man dpkg-vendor.man dselect.man
+#: update-alternatives.man
 #, no-wrap
 msgid "ENVIRONMENT"
 msgstr "UMGEBUNG"
@@ -8925,6 +8891,27 @@ msgstr ""
 #. type: IP
 #: dpkg-architecture.man
 #, no-wrap
+msgid "Debian architecture tuple"
+msgstr "Debian-Architekturtupel"
+
+#. type: Plain text
+#: dpkg-architecture.man
+msgid ""
+"A Debian architecture tuple is the fully qualified architecture with all its "
+"components spelled out.  This differs with Debian architectures in that at "
+"least the I<cpu> component does not embed the I<abi>.  The current tuple has "
+"the form I<abi>-I<libc>-I<os>-I<cpu>.  Examples: base-gnu-linux-amd64, "
+"eabihf-musl-linux-arm."
+msgstr ""
+"Ein Debian-Architekturtupel ist eine vollqualifizierte Architektur mit allen "
+"Komponenten ausgeschrieben. Dies unterscheidet sich von der Debian-"
+"Architektur zumindestens in der Weise, dass das I<ABI> nicht eingebettet ist. "
+"Das aktuelle Tupel hat die Form I<ABI>-I<Libc>-I<OS>-I<CPU>. Beispiele: base-"
+"gnu-linux-amd64, eabihf-musl-linux-arm."
+
+#. type: IP
+#: dpkg-architecture.man
+#, no-wrap
 msgid "Debian architecture wildcard"
 msgstr "Debian-Architektur-Platzhalter"
 
@@ -8932,13 +8919,36 @@ msgstr "Debian-Architektur-Platzhalter"
 #: dpkg-architecture.man
 msgid ""
 "A Debian architecture wildcard is a special architecture string that will "
-"match any real architecture being part of it. The general form is "
-"E<lt>kernelE<gt>-E<lt>cpuE<gt>.  Examples: linux-any, any-i386, hurd-any."
+"match any real architecture being part of it.  The general form is a Debian "
+"architecture tuple with four or less elements, and with at least one of them "
+"being B<any>.  Missing elements of the tuple are prefixed implicitly as "
+"B<any>, and thus the following pairs are equivalent:"
 msgstr ""
 "Ein Debian-Architektur-Platzhalter ist eine spezielle Architektur-"
 "Zeichenkette, die auf jede reale Architektur, die ein Teil davon ist, passt. "
-"Die allgemeine Form ist E<lt>KernE<gt>-E<lt>CPUE<gt>. Beispiele: linux-any, "
-"any-i386, hurd-any."
+"Die allgemeine Form ist ein Debian-Architektur-Tupel mit vier oder weniger "
+"Elementen und bei dem mindestens eines B<any> ist. Fehlende Elemente des "
+"Tupels werden implizit als B<any> vorangestellt und daher sind die folgenden "
+"Tupel äquivalent:"
+
+#. type: Plain text
+#: dpkg-architecture.man
+#, no-wrap
+msgid ""
+"    B<any>-B<any>-B<any>-B<any> = B<any>\n"
+"    B<any>-B<any>-I<os>-B<any> = I<os>-B<any>\n"
+"    B<any>-I<libc>-B<any>-B<any> = I<libc>-B<any>-B<any>\n"
+msgstr ""
+"    B<any>-B<any>-B<any>-B<any> = B<any>\n"
+"    B<any>-B<any>-I<os>-B<any> = I<os>-B<any>\n"
+"    B<any>-I<libc>-B<any>-B<any> = I<libc>-B<any>-B<any>\n"
+
+#. type: Plain text
+#: dpkg-architecture.man
+msgid ""
+"Examples: linux-any, any-i386, hurd-any, eabi-any-any-arm, musl-any-any."
+msgstr ""
+"Beispiele: linux-any, any-i386, hurd-any, eabi-any-any-arm, musl-any-any."
 
 #. type: IP
 #: dpkg-architecture.man
@@ -9001,6 +9011,28 @@ msgstr "B<DEB_BUILD_ARCH>"
 #: dpkg-architecture.man
 msgid "The Debian architecture of the build machine."
 msgstr "Die Debian-Architektur der Baumaschine."
+
+#. type: IP
+#: dpkg-architecture.man
+#, no-wrap
+msgid "B<DEB_BUILD_ARCH_ABI>"
+msgstr "B<DEB_BUILD_ARCH_ABI>"
+
+#. type: Plain text
+#: dpkg-architecture.man
+msgid "The Debian abi name of the build machine (since dpkg 1.18.11)."
+msgstr "Der Debian-ABI-Name der Baumaschine. (Seit Dpkg 1.18.11)."
+
+#. type: IP
+#: dpkg-architecture.man
+#, no-wrap
+msgid "B<DEB_BUILD_ARCH_LIBC>"
+msgstr "B<DEB_BUILD_ARCH_LIBC>"
+
+#. type: Plain text
+#: dpkg-architecture.man
+msgid "The Debian libc name of the build machine (since dpkg 1.18.11)."
+msgstr "Der Debian-Libc-Name der Baumaschine. (Seit Dpkg 1.18.11)."
 
 #. type: IP
 #: dpkg-architecture.man
@@ -9108,6 +9140,28 @@ msgstr "Die Debian-Architektur der Host-Maschine."
 #. type: IP
 #: dpkg-architecture.man
 #, no-wrap
+msgid "B<DEB_HOST_ARCH_ABI>"
+msgstr "B<DEB_HOST_ARCH_ABI>"
+
+#. type: Plain text
+#: dpkg-architecture.man
+msgid "The Debian abi name of the host machine (since dpkg 1.18.11)."
+msgstr "Der Debian-ABI-Name der Host-Maschine. (Seit Dpkg 1.18.11)."
+
+#. type: IP
+#: dpkg-architecture.man
+#, no-wrap
+msgid "B<DEB_HOST_ARCH_LIBC>"
+msgstr "B<DEB_HOST_ARCH_LIBC>"
+
+#. type: Plain text
+#: dpkg-architecture.man
+msgid "The Debian libc name of the host machine (since dpkg 1.18.11)."
+msgstr "Der Debian-Libc-Name der Host-Maschine. (Seit Dpkg 1.18.11)."
+
+#. type: IP
+#: dpkg-architecture.man
+#, no-wrap
 msgid "B<DEB_HOST_ARCH_OS>"
 msgstr "B<DEB_HOST_ARCH_OS>"
 
@@ -9207,6 +9261,28 @@ msgstr "B<DEB_TARGET_ARCH>"
 #: dpkg-architecture.man
 msgid "The Debian architecture of the target machine (since dpkg 1.17.14)."
 msgstr "Die Debian-Architektur der Ziel-Maschine (seit Dpkg 1.17.14)."
+
+#. type: IP
+#: dpkg-architecture.man
+#, no-wrap
+msgid "B<DEB_TARGET_ARCH_ABI>"
+msgstr "B<DEB_TARGET_ARCH_ABI>"
+
+#. type: Plain text
+#: dpkg-architecture.man
+msgid "The Debian abi name of the target machine (since dpkg 1.18.11)."
+msgstr "Der Debian-ABI-Name der Ziel-Maschine. (Seit Dpkg 1.18.11)."
+
+#. type: IP
+#: dpkg-architecture.man
+#, no-wrap
+msgid "B<DEB_TARGET_ARCH_LIBC>"
+msgstr "B<DEB_TARGET_ARCH_LIBC>"
+
+#. type: Plain text
+#: dpkg-architecture.man
+msgid "The Debian libc name of the target machine (since dpkg 1.18.11)."
+msgstr "Der Debian-Libc-Name der Ziel-Maschine. (Seit Dpkg 1.18.11)."
 
 #. type: IP
 #: dpkg-architecture.man
@@ -9312,11 +9388,16 @@ msgstr "Architekturtabellen"
 msgid ""
 "All these files have to be present for B<dpkg-architecture> to work. Their "
 "location can be overridden at runtime with the environment variable "
-"B<DPKG_DATADIR>."
+"B<DPKG_DATADIR>.  These tables contain a format B<Version> pseudo-field on "
+"their first line to mark their format, so that parsers can check if they "
+"understand it, such as \"# Version=1.0\"."
 msgstr ""
 "Alle diese Dateien müssen vorhanden sein, damit B<dpkg-architecture> "
 "funktioniert. Ihr Ort kann zur Laufzeit mit der Umgebungsvariable "
-"B<DPKG_DATADIR> überschrieben werden."
+"B<DPKG_DATADIR> überschrieben werden. Diese Tabellen enthalten in der ersten "
+"Zeile ein Format-B<Version>s-Pseudofeld, um ihre Version zu kennzeichnen, so "
+"dass Auswerteprogramme prüfen können, ob sie es verstehen. Beispiel: »# "
+"Version=1.0«."
 
 #. type: TP
 #: dpkg-architecture.man
@@ -9326,8 +9407,12 @@ msgstr "I<%PKGDATADIR%/cputable>"
 
 #. type: Plain text
 #: dpkg-architecture.man
-msgid "Table of known CPU names and mapping to their GNU name."
-msgstr "Tabelle der bekannten CPU-Namen und Abbildungen auf ihre GNU-Namen."
+msgid ""
+"Table of known CPU names and mapping to their GNU name.  Format version 1.0 "
+"(since dpkg 1.13.2)."
+msgstr ""
+"Tabelle der bekannten CPU-Namen und Abbildungen auf ihre GNU-Namen. "
+"Formatversion 1.0 (seit Dpkg 1.13.2)."
 
 #. type: TP
 #: dpkg-architecture.man
@@ -9337,23 +9422,27 @@ msgstr "I<%PKGDATADIR%/ostable>"
 
 #. type: Plain text
 #: dpkg-architecture.man
-msgid "Table of known operating system names and mapping to their GNU name."
+msgid ""
+"Table of known operating system names and mapping to their GNU name.  Format "
+"version 2.0 (since dpkg 1.18.11)."
 msgstr ""
-"Tabelle der bekannten Betriebssystemnamen und Abbildungen auf ihre GNU-Namen."
+"Tabelle der bekannten Betriebssystemnamen und Abbildungen auf ihre GNU-Namen. "
+"Formatversion 2.0 (seit Dpkg 1.18.11)."
 
 #. type: TP
 #: dpkg-architecture.man
 #, no-wrap
-msgid "I<%PKGDATADIR%/triplettable>"
-msgstr "I<%PKGDATADIR%/triplettable>"
+msgid "I<%PKGDATADIR%/tupletable>"
+msgstr "I<%PKGDATADIR%/tupletable>"
 
 #. type: Plain text
 #: dpkg-architecture.man
 msgid ""
-"Mapping between Debian architecture triplets and Debian architecture names."
+"Mapping between Debian architecture tuples and Debian architecture names.  "
+"Format version 1.0 (since dpkg 1.18.11)."
 msgstr ""
-"Abbildung zwischen den Debian-Architektur-Tripletts und den Debian-"
-"Architekturnamen."
+"Abbildung zwischen den Debian-Architektur-Tupeln und den Debian-"
+"Architekturnamen. Formatversion 1.0 (seit Dpkg 1.18.11)."
 
 #. type: TP
 #: dpkg-architecture.man
@@ -9363,8 +9452,12 @@ msgstr "I<%PKGDATADIR%/abitable>"
 
 #. type: Plain text
 #: dpkg-architecture.man
-msgid "Table of Debian architecture ABI attribute overrides."
-msgstr "Tabelle von Debian-Architektur-ABI-Attributs-Außerkraftsetzungen."
+msgid ""
+"Table of Debian architecture ABI attribute overrides.  Format version 2.0 "
+"(since dpkg 1.18.11)."
+msgstr ""
+"Tabelle von Debian-Architektur-ABI-Attributs-Außerkraftsetzungen. "
+"Formatversion 2.0 (seit Dpkg 1.18.11)."
 
 #. type: SS
 #: dpkg-architecture.man dpkg-buildflags.man
@@ -9691,10 +9784,8 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildflags.man
-#, fuzzy
-#| msgid "The configuration files can contain two types of directives:"
 msgid "The configuration files can contain four types of directives:"
-msgstr "Die Konfigurationsdateien können zwei Arten von Direktiven enthalten:"
+msgstr "Die Konfigurationsdateien können vier Arten von Direktiven enthalten:"
 
 #. type: TP
 #: dpkg-buildflags.man
@@ -10899,10 +10990,6 @@ msgstr "B<DEB_VENDOR>"
 
 #. type: Plain text
 #: dpkg-buildflags.man
-#, fuzzy
-#| msgid ""
-#| "This setting defines the current vendor. If not set, it will discover the "
-#| "current vendor by reading B<%PKGCONFDIR%/origins/default>."
 msgid ""
 "This setting defines the current vendor.  If not set, it will discover the "
 "current vendor by reading B<%PKGCONFDIR%/origins/default>."
@@ -11266,6 +11353,15 @@ msgid ""
 "I<source-name>B<_>I<source-version>B<_>B<source.changes>.  Many B<dpkg-"
 "buildpackage> options are forwarded to B<dpkg-genchanges>."
 msgstr ""
+"Es führt die B<changes>-Hooks aus und ruft B<dpkg-genchanges> auf, um eine B<."
+"changes>-Datei zu erstellen. Der Name der B<.changes>-Datei wird von der Art "
+"des Baus abhängen und wird so spezifisch wie notwendig sein, aber nicht mehr; "
+"für einen Bau, der B<any> enthält, wird der Name I<Quellname>B<_><Quellversion>"
+"B<_>I<Arch>B<.changes> oder andernfalls für einen Bau, der B<all> enthält, "
+"wird der Name I<Quellname>B<_>I<Quellversion>B<_>B<all.changes> oder "
+"andernfalls für einen Bau, der B<source> enthält, wird der Name I<Quellname>"
+"B<_>I<Quellversion>B<_>B<source.changes> lauten. Viele Optionen von B<dpkg-"
+"buildpackage> werden an B<dpkg-genchanges> weitergegeben."
 
 #. type: IP
 #: dpkg-buildpackage.man
@@ -12382,7 +12478,7 @@ msgstr ""
 "wird, wird in die Bauumgebung integriert."
 
 #. type: TP
-#: dpkg-buildpackage.man dpkg-deb.man
+#: dpkg-buildpackage.man dpkg-deb.man dpkg-source.man dpkg-split.man
 #, no-wrap
 msgid "B<SOURCE_DATE_EPOCH>"
 msgstr "B<SOURCE_DATE_EPOCH>"
@@ -12759,21 +12855,12 @@ msgstr ""
 
 #. type: TP
 #: dpkg-deb.man
-#, fuzzy, no-wrap
-#| msgid "B<-b>, B<--build> I<directory> [I<archive>|I<directory>]"
+#, no-wrap
 msgid "B<-b>, B<--build> I<binary-directory> [I<archive>|I<directory>]"
-msgstr "B<-b>, B<--build> I<Verzeichnis> [I<Archiv>|I<Verzeichnis>]"
+msgstr "B<-b>, B<--build> I<Programmverzeichnis> [I<Archiv>|I<Verzeichnis>]"
 
 #. type: Plain text
 #: dpkg-deb.man
-#, fuzzy
-#| msgid ""
-#| "Creates a debian archive from the filesystem tree stored in I<directory>. "
-#| "I<directory> must have a B<DEBIAN> subdirectory, which contains the "
-#| "control information files such as the control file itself. This directory "
-#| "will I<not> appear in the binary package's filesystem archive, but "
-#| "instead the files in it will be put in the binary package's control "
-#| "information area."
 msgid ""
 "Creates a debian archive from the filesystem tree stored in I<binary-"
 "directory>. I<binary-directory> must have a B<DEBIAN> subdirectory, which "
@@ -12782,8 +12869,8 @@ msgid ""
 "instead the files in it will be put in the binary package's control "
 "information area."
 msgstr ""
-"Legt ein Debian-Archiv aus dem Dateisystembaum, der in I<Verzeichnis> "
-"gespeichert ist, an. I<Verzeichnis> muss ein B<DEBIAN>-Unterverzeichnis "
+"Legt ein Debian-Archiv aus dem Dateisystembaum, das in I<Programmverzeichnis> "
+"gespeichert ist, an. I<Programmverzeichnis> muss ein B<DEBIAN>-Unterverzeichnis "
 "aufweisen, das die Dateien mit Steuerinformation wie die control-Datei "
 "selbst enthält. Dieses Verzeichnis wird I<nicht> in dem Dateisystemarchiv "
 "des Binärpakets auftauchen, sondern die Dateien selbst werden in den Steuer-"
@@ -12806,16 +12893,12 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-deb.man
-#, fuzzy
-#| msgid ""
-#| "If no I<archive> is specified then B<dpkg-deb> will write the package "
-#| "into the file I<directory>B<.deb>."
 msgid ""
 "If no I<archive> is specified then B<dpkg-deb> will write the package into "
 "the file I<binary-directory>B<.deb>."
 msgstr ""
 "Falls kein I<Archiv> angegeben ist, wird B<dpkg-deb> das Paket in die Datei "
-"I<Verzeichnis>B<.deb> schreiben."
+"I<Programmverzeichnis>B<.deb> schreiben."
 
 #. type: Plain text
 #: dpkg-deb.man
@@ -12824,15 +12907,6 @@ msgstr "Falls das anzulegende Archiv bereits existiert, wird es überschrieben."
 
 #. type: Plain text
 #: dpkg-deb.man
-#, fuzzy
-#| msgid ""
-#| "If the second argument is a directory then B<dpkg-deb> will write to the "
-#| "file I<package>B<_>I<version>B<_>I<arch>B<.deb>, or "
-#| "I<package>B<_>I<version>B<.deb> if no B<Architecture> field is present in "
-#| "the package control file. When a target directory is specified, rather "
-#| "than a file, the B<--nocheck> option may not be used (since B<dpkg-deb> "
-#| "needs to read and parse the package control file to determine which "
-#| "filename to use)."
 msgid ""
 "If the second argument is a directory then B<dpkg-deb> will write to the "
 "file I<directory>B</>I<package>B<_>I<version>B<_>I<arch>B<.deb.> When a "
@@ -12841,8 +12915,7 @@ msgid ""
 "control file to determine which filename to use)."
 msgstr ""
 "Falls das zweite Argument ein Verzeichnis ist, wird B<dpkg-deb> in die Datei "
-"I<Paket>B<_>I<Version>B<_>I<arch>B<.deb> oder I<Paket>B<_>I<Version>B<.deb>, "
-"falls kein B<Architecture>-Feld in der Paket-control-Datei vorhanden ist, "
+"I<Verzeichnis>B</>I<Paket>B<_>I<Version>B<_>I<Arch>B<.deb.> "
 "schreiben. Wenn ein Zielverzeichnis statt einer Datei angegeben ist, darf "
 "die Option B<--nocheck> nicht verwendet werden (da B<dpkg-deb> die "
 "Paketsteuerdatei lesen und parsen muss, um den zu verwendenden Dateinamen zu "
@@ -13148,13 +13221,6 @@ msgstr "B<-z>I<Komprimierstufe>"
 
 #. type: Plain text
 #: dpkg-deb.man
-#, fuzzy
-#| msgid ""
-#| "Specify which compression level to use on the compressor backend, when "
-#| "building a package (default is 9 for gzip and bzip2, 6 for xz and lzma).  "
-#| "The accepted values are 0-9 with: 0 being mapped to compressor none for "
-#| "gzip and 0 mapped to 1 for bzip2. Before dpkg 1.16.2 level 0 was "
-#| "equivalent to compressor none for all compressors."
 msgid ""
 "Specify which compression level to use on the compressor backend, when "
 "building a package (default is 9 for gzip, 6 for xz).  The accepted values "
@@ -13162,10 +13228,10 @@ msgid ""
 "1.16.2 level 0 was equivalent to compressor none for all compressors."
 msgstr ""
 "Gibt die Komprimierstufe an, die im Komprimier-Backendprogramm beim Bau "
-"eines Pakets verwendet werden soll. Standardmäßig ist dies 9 für Gzip und "
-"Bzip2, 6 für Xz und Lzma. Die akzeptierten Werte innerhalb von 0-9 sind: 0 "
-"wird auf den Komprimierer »none« für Gzip einstellen und für Bzip2 ist 0 "
-"identisch zu 1. Vor Dpkg 1.16.2 war die Stufe 0 äquivalent zu den "
+"eines Pakets verwendet werden soll. Standardmäßig ist dies 9 für Gzip, "
+"6 für Xz. Die akzeptierten Werte innerhalb von 0-9 sind: 0 "
+"wird auf den Komprimierer »none« für Gzip einstellen. "
+"Vor Dpkg 1.16.2 war die Stufe 0 äquivalent zu den "
 "Komprimierer »none« für alle Komprimierer."
 
 #. type: TP
@@ -13195,19 +13261,14 @@ msgstr "B<-Z>I<Komprimierart>"
 
 #. type: Plain text
 #: dpkg-deb.man
-#, fuzzy
-#| msgid ""
-#| "Specify which compression type to use when building a package.  Allowed "
-#| "values are B<gzip>, B<xz> (since dpkg 1.15.6), B<bzip2> (deprecated), "
-#| "B<lzma> (since dpkg 1.14.0; deprecated), and B<none> (default is B<xz>)."
 msgid ""
 "Specify which compression type to use when building a package.  Allowed "
 "values are B<gzip>, B<xz> (since dpkg 1.15.6), and B<none> (default is "
 "B<xz>)."
 msgstr ""
 "Gibt die Art der Komprimierung beim Bau eines Pakets an. Erlaubte Werte sind "
-"B<gzip>, B<xz> (seit Dpkg 1.15.6), I<bzip2> (veraltet), I<lzma> (seit Dpkg "
-"1.14.0; veraltet) und B<none> (voreingestellt ist B<xz>)."
+"B<gzip>, B<xz> (seit Dpkg 1.15.6), "
+"und B<none> (voreingestellt ist B<xz>)."
 
 #. type: TP
 #: dpkg-deb.man
@@ -13485,8 +13546,8 @@ msgstr "B<--admindir>I< Verzeichnis>"
 msgid ""
 "Set the B<dpkg> data directory to I<directory> (default: I<%ADMINDIR%>)."
 msgstr ""
-"Setze das B<dpkg>-Datenverzeichnis auf I<Verzeichnis> (Standard: I<%ADMINDIR%"
-">)."
+"Setze das B<dpkg>-Datenverzeichnis auf I<Verzeichnis> (Standard: I<%ADMINDIR"
+"%>)."
 
 #. type: TP
 #: dpkg-divert.man
@@ -17799,15 +17860,11 @@ msgstr "dpkg-scanpackages - erstelle Packages-Index-Dateien"
 
 #. type: Plain text
 #: dpkg-scanpackages.man
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-scanpackages> [I<option>...] I<binary-dir> [I<override-file> "
-#| "[I<path-prefix>]] B<E<gt>> I<Packages>"
 msgid ""
 "B<dpkg-scanpackages> [I<option>...] I<binary-path> [I<override-file> [I<path-"
 "prefix>]] B<E<gt>> I<Packages>"
 msgstr ""
-"B<dpkg-scanpackages> [I<Option> …] I<Binär-Verz> [I<override-Datei> [I<Pfad-"
+"B<dpkg-scanpackages> [I<Option> …] I<Binär-Verz> [I<Override-Datei> [I<Pfad-"
 "Präfix>]] B<E<gt>> I<Packages>"
 
 #. type: Plain text
@@ -17846,19 +17903,13 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-scanpackages.man
-#, fuzzy
-#| msgid ""
-#| "I<binary-dir> is the name of the tree of the binary packages to process "
-#| "(for example, B<contrib/binary-i386>).  It is best to make this relative "
-#| "to the root of the Debian archive, because every Filename field in the "
-#| "new Packages file will start with this string."
 msgid ""
 "I<binary-path> is the name of the tree of the binary packages to process "
 "(for example, B<contrib/binary-i386>).  It is best to make this relative to "
 "the root of the Debian archive, because every Filename field in the new "
 "Packages file will start with this string."
 msgstr ""
-"I<Binär-Verz> ist der Name des zu verarbeitenden Baums von Binärpaketen "
+"I<Binär-Pfad> ist der Name des zu verarbeitenden Baums von Binärpaketen "
 "(beispielsweise B<contrib/binary-i386>). Am besten wird dies relativ zur "
 "Wurzel des Debian-Archivs erstellt, da jedes Filename-Feld in der neuen "
 "Packages-Datei mit dieser Zeichenkette beginnen wird."
@@ -18902,22 +18953,6 @@ msgstr "B<konnte Bibliothek >I<SONAME-der-Bibliothek>B< benötigt von >I<Program
 
 #. type: Plain text
 #: dpkg-shlibdeps.man
-#, fuzzy
-#| msgid ""
-#| "The I<binary> uses a library called I<library-soname> but B<dpkg-"
-#| "shlibdeps> has been unable to find the library.  B<dpkg-shlibdeps> "
-#| "creates a list of directories to check as following: directories listed "
-#| "in the RPATH of the binary, directories added by the B<-l> option, "
-#| "directories listed in the B<LD_LIBRARY_PATH> environment variable, cross "
-#| "multiarch directories (ex. /lib/arm64-linux-gnu, /usr/lib/arm64-linux-"
-#| "gnu), standard public directories (/lib, /usr/lib), directories listed in "
-#| "%CONFDIR%/ld.so.conf, and obsolete multilib directories (/lib32, /usr/"
-#| "lib32, /lib64, /usr/lib64).  Then it checks those directories in the "
-#| "package's build tree of the binary being analyzed, in the packages' build "
-#| "trees indicated with the B<-S> command-line option, in other packages' "
-#| "build trees that contains a DEBIAN/shlibs or DEBIAN/symbols file and "
-#| "finally in the root directory.  If the library is not found in any of "
-#| "those directories, then you get this error."
 msgid ""
 "The I<binary> uses a library called I<library-soname> but B<dpkg-shlibdeps> "
 "has been unable to find the library.  B<dpkg-shlibdeps> creates a list of "
@@ -18940,7 +18975,7 @@ msgstr ""
 "Option B<-l> hinzugefügte Verzeichnisse, in der Umgebungsvariable "
 "B<LD_LIBRARY_PATH> aufgeführte Verzeichnisse, Cross-Multiarch-Verzeichnisse "
 "(z.B. /lib/arm64-linux-gnu, /usr/lib/arm64-linux-gnu), standardmäßige "
-"öffentliche Verzeichnisse (/lib, /usr/lib), in %CONFDIR%/ld.so.conf "
+"öffentliche Verzeichnisse (/lib, /usr/lib), in /etc/ld.so.conf "
 "aufgeführte Verzeichnisse und veraltete Multilib-Verzeichnisse (/lib32, /usr/"
 "lib32, /lib64, /usr/lib64). Dann prüft es diese Verzeichnisse im Bau-Baum "
 "des analysierten Pakets, in den mit der Befehlszeilenoption B<-S> "
@@ -20791,6 +20826,15 @@ msgstr ""
 "geänderte Rechte nicht im Quellpaket gespeichert. Diese Warnung erinnert Sie "
 "an diese Tatsache."
 
+#. type: Plain text
+#: dpkg-source.man
+msgid ""
+"If set, it will be used as the timestamp (as seconds since the epoch) to "
+"clamp the mtime in the B<tar>(5) file entries."
+msgstr ""
+"Falls gesetzt wird es als Zeitstempel (als Sekunden seit der Epoche) zum "
+"Festlegen der Mtime in den Dateieinträgen von B<tar>(5) verwandt."
+
 #. type: SH
 #: dpkg-source.man
 #, no-wrap
@@ -21391,6 +21435,15 @@ msgstr ""
 "Befehlszeilenverwendung, einer Datei, die wie ein Paketteil aussah aber "
 "beschädigt war oder Wechselwirkungen mit dem System, wie Zugriffe auf die "
 "Datenbank, Speicherzuweisungen usw."
+
+#. type: Plain text
+#: dpkg-split.man
+msgid ""
+"If set, it will be used as the timestamp (as seconds since the epoch) in the "
+"B<deb-split>(5)'s B<ar>(5) container."
+msgstr ""
+"Falls gesetzt wird es als Zeitstempel (als Sekunden seit der Epoche) in dem "
+"B<ar>(5)-Container von B<deb-split>(5) verwandt."
 
 #. type: TP
 #: dpkg-split.man
@@ -24733,10 +24786,9 @@ msgstr ""
 
 #. type: SS
 #: update-alternatives.man
-#, fuzzy, no-wrap
-#| msgid "B<Example>"
+#, no-wrap
 msgid "Example"
-msgstr "B<Beispiel>"
+msgstr "Beispiel"
 
 #. type: Plain text
 #: update-alternatives.man
@@ -24881,6 +24933,9 @@ msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
 "B<ln>(1), FHS, der Dateisystem Hierarchie-Standard (Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid "B<dpkg-distaddfile>(1), B<dpkg-genchanges>(1)."
+#~ msgstr "B<dpkg-distaddfile>(1), B<dpkg-genchanges>(1)."
 
 #~ msgid "Debian Project"
 #~ msgstr "Debian-Projekt"
