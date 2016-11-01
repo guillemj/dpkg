@@ -8,6 +8,7 @@ bin_SCRIPTS = \
 	dpkg-buildpackage \
 	dpkg-checkbuilddeps \
 	dpkg-distaddfile \
+	dpkg-genbuildinfo \
 	dpkg-genchanges \
 	dpkg-gencontrol \
 	dpkg-gensymbols \
@@ -27,6 +28,7 @@ EXTRA_DIST = \
 	dpkg-buildpackage.pl \
 	dpkg-checkbuilddeps.pl \
 	dpkg-distaddfile.pl \
+	dpkg-genbuildinfo.pl \
 	dpkg-genchanges.pl \
 	dpkg-gencontrol.pl \
 	dpkg-gensymbols.pl \

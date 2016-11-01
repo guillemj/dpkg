@@ -63,6 +63,11 @@ build has been requested with \fB\-\-build\fP or equivalent options), or
 \fBbuild\-indep\fP and \fBbinary\-indep\fP (if an \fBall\fP and not \fBany\fP
 build has been requested with \fB\-\-build\fP or equivalent options).
 .IP \fB6.\fP 3
+Unless a source-only build has been requested, it runs the \fBbuildinfo\fP
+hook and calls \fBdpkg\-genbuildinfo\fP to generate a \fB.buildinfo\fP file.
+Several \fBdpkg\-buildpackage\fP options are forwarded to
+\fBdpkg\-genbuildinfo\fP.
+.IP \fB7.\fP 3
 It runs the \fBchanges\fP hook and calls \fBdpkg\-genchanges\fP to
 generate a \fB.changes\fP file.
 The name of the \fB.changes\fP file will depend on the type of build and
@@ -75,22 +80,22 @@ or otherwise for a build that includes \fBsource\fP the name will be
 \fIsource-name\fP\fB_\fP\fIsource-version\fP\fB_\fP\fBsource.changes\fP.
 Many \fBdpkg\-buildpackage\fP options are forwarded to
 \fBdpkg\-genchanges\fP.
-.IP \fB7.\fP 3
+.IP \fB8.\fP 3
 It runs the \fBpostclean\fP hook and if \fB\-tc\fP or \fB\-\-post\-clean\fP
 is specified, it will call \fBfakeroot debian/rules clean\fP again.
-.IP \fB8.\fP 3
-It calls \fBdpkg\-source \-\-after\-build\fP.
 .IP \fB9.\fP 3
+It calls \fBdpkg\-source \-\-after\-build\fP.
+.IP \fB10.\fP 3
 It runs the \fBcheck\fP hook and calls a package checker for the
 \fB.changes\fP file (if a command is specified in \fBDEB_CHECK_COMMAND\fP or
 with \fB\-\-check\-command\fP).
-.IP \fB10.\fP 3
+.IP \fB11.\fP 3
 It runs the \fBsign\fP hook and calls \fBgpg2\fP or \fBgpg\fP to sign
 the \fB.dsc\fP file (if any, unless \fB\-us\fP or \fB\-\-unsigned\-source\fP
 is specified or on UNRELEASED builds), and the \fB.changes\fP file
 (unless \fB\-uc\fP or \fB\-\-unsigned\-changes\fP is specified or on
 UNRELEASED builds).
-.IP \fB11.\fP 3
+.IP \fB12.\fP 3
 It runs the \fBdone\fP hook.
 .
 .SH OPTIONS
@@ -365,6 +370,21 @@ The source package version (without the epoch).
 The upstream version.
 .RE
 .TP
+.BI \-\-buildinfo-id= identifier
+Specify the identifier part of the \fB.buildinfo\fP file name
+(since dpkg 1.18.11).
+By default, \fBdpkg\-buildpackage\fP will create an identifier using
+the current time and the first characters of the MD5 hash.
+An arbitrary identifier can be specified as a replacement.
+The identifier has the same restriction as package names: it must consist
+only of lower case letters (a-z), digits (0-9), plus (+) and minus (\-)
+signs, and periods (.), be at least two characters long and must start
+with an alphanumeric character.
+.TP
+.BI \-\-buildinfo\-option= opt
+Pass option \fIopt\fP to \fBdpkg\-genbuildinfo\fP (since dpkg 1.18.11).
+Can be used multiple times.
+.TP
 .BR \-p ", " \-\-sign\-command= \fIsign-command\fP
 When \fBdpkg\-buildpackage\fP needs to execute GPG to sign a source
 control (\fB.dsc\fP) file or a \fB.changes\fP file it will run
@@ -519,6 +539,7 @@ and initial arguments for
 .BR dpkg\-source (1),
 .BR dpkg\-architecture (1),
 .BR dpkg\-buildflags (1),
+.BR dpkg\-genbuildinfo (1),
 .BR dpkg\-genchanges (1),
 .BR fakeroot (1),
 .BR lintian (1),

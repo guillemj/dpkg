@@ -130,6 +130,16 @@ The hook is called in Dpkg::BuildFlags to allow the vendor to override
 the default values set for the various build flags. $flags is a
 Dpkg::BuildFlags object.
 
+=item builtin-system-build-paths ()
+
+The hook is called by dpkg-genbuildinfo to determine if the current path
+should be recorded in the B<Build-Path> field (since dpkg 1.18.11). It takes
+no parameters, but returns a (possibly empty) list of root paths considered
+acceptable. As an example, if the list contains "/build/", a Build-Path
+field will be created if the current directory is "/build/dpkg-1.18.0". If
+the list contains "/", the path will always be recorded. If the list is
+empty, the current path will never be recorded.
+
 =back
 
 =cut
@@ -160,6 +170,8 @@ sub run_hook {
 	my ($textref, $ch_info) = @params;
     } elsif ($hook eq 'update-buildflags') {
 	my $flags = shift @params;
+    } elsif ($hook eq 'builtin-system-build-paths') {
+        return ();
     }
 
     # Default return value for unknown/unimplemented hooks

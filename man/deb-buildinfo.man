@@ -1,0 +1,178 @@
+.\" dpkg manual page - deb-buildinfo(5)
+.\"
+.\" Copyright © 1995-1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
+.\" Copyright © 2010 Russ Allbery <rra@debian.org>
+.\" Copyright © 2015-2016 Guillem Jover <guillem@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH deb\-buildinfo 5 "%RELEASE_DATE%" "%VERSION%" "Debian"
+.nh
+.SH NAME
+deb\-buildinfo \- Debian build information file format
+.
+.SH SYNOPSIS
+.IB filename .buildinfo
+.
+.SH DESCRIPTION
+Each Debian source package build can record the build information in
+a \fB.buildinfo\fP control file, which contains a number of fields.
+Each field begins with a tag, such as
+.B Source
+or
+.B Binary
+(case insensitive), followed by a colon, and the body of the field.
+Fields are delimited only by field tags.
+In other words, field text may be multiple lines in length, but the
+installation tools will generally join lines when processing the body
+of the field (except in case of the multiline fields
+.BR Binary\-Only\-Changes ", " Installed\-Build\-Depends ", " Environment ", "
+.BR Checksums\-Md5 ", " Checksums\-Sha1
+and
+.BR Checksums\-Sha256 ,
+see below).
+.PP
+The control data might be enclosed in an OpenPGP ASCII Armored signature,
+as specified in RFC4880.
+.PP
+The \fB.buildinfo\fP filename by default has the following form:
+
+\fIsource-name\fP\fB_\fP\fIsource-version\fP\fB_\fP\fIbuildinfo-id\fP\fB.buildinfo\fP
+
+where \fIbuildinfo-id\fP is composed of the build time formatted as
+\fBstrftime\fP(2) «%Y%m%dT%H%M%Sz», followed by a minus ‘\-’ and the
+eight left-most characters from the \fB.buildinfo\fP's file contents MD5
+digest.
+.
+.SH FIELDS
+.TP
+.BR Format: " \fIformat-version\fP (required)"
+The value of this field declares the format version of the file.
+The syntax of the field value is a version number with a major and minor
+component.
+Backward incompatible changes to the format will bump the major version,
+and backward compatible changes (such as field additions) will bump the
+minor version.
+The current format version is \fB0.1\fP.
+.TP
+.BR Source: " \fIsource-name\fP [\fB(\fP\fIsource-version\fP\fB)\fP] (required)"
+The name of the source package.
+If the source version differs from the binary version, then the
+\fIsource-name\fP will be followed by a \fIsource-version\fP in parenthesis.
+This can happen when the build is for a binary-only non-maintainer upload.
+.TP
+.BR Binary: " \fIbinary-package-list\fP (required)"
+This folded field is a space-separated list of binary packages built.
+.TP
+.BR Architecture: " \fIarch-list\fP (required)"
+This spare-separated field lists the architectures of the files currently
+being built.
+Common architectures are \fBamd64\fP, \fBarmel\fP, \fBi386\fP, etc.
+Note that the \fBall\fP value is meant for packages that are architecture
+independent.
+If the source for the package is also being built, the special entry
+\fBsource\fP is also present.
+Architecture wildcards must never be present in the list.
+.TP
+.BR Version: " \fIversion-string\fP (required)"
+Typically, this is the original package's version number in whatever form
+the program's author uses.
+It may also include a Debian revision number (for non-native packages).
+The exact format and sorting algorithm are described in
+.BR deb\-version (5).
+.TP
+.B Binary\-Only\-Changes:
+.TQ
+.I " changelog-entry"
+This multiline field contains the concatenated text of the changelog
+entry for a binary-only non-maintainer upload (binNMU) if that is the case.
+To make this a valid multiline field empty lines are replaced with a
+single full stop (‘.’) and all lines are indented by one space
+character.
+The exact content depends on the changelog format.
+.TP
+.BR Checksums\-Md5: " (required)"
+.TQ
+.BR Checksums\-Sha1: " (required)"
+.TQ
+.BR Checksums\-Sha256: " (required)"
+.TQ
+.RI " " checksum " " size " " filename
+These multiline fields contain a list of files with a checksum and size
+for each one.
+These fields have the same syntax and differ only in the checksum algorithm
+used: MD5 for \fBChecksums\-Md5\fP, SHA-1 for \fBChecksums\-Sha1\fP and
+SHA-256 for \fBChecksums\-Sha256\fP.
+
+The first line of the field value (the part on the same line as the field
+name followed by a colon) is always empty.
+The content of the field is expressed as continuation lines, one line per file.
+Each line consists of space-separated entries describing the file:
+the checksum, the file size, and the file name.
+
+These fields list all files that make up the build.
+.TP
+.BR Build\-Origin: " \fIname\fP"
+The name of the distribution this package is originating from.
+.TP
+.BR Build\-Architecture: " \fIarch\fP (required)"
+The Debian architecture for the installation the packages is being built in.
+Common architectures are \fBamd64\fP, \fBarmel\fP, \fBi386\fP, etc.
+.TP
+.BR Build\-Path: " \fIbuild-path\fP"
+The absolute build path, which correspond to the unpacked source tree.
+This field is only going to be present if the vendor has whitelisted it
+via some pattern match to avoid leaking possibly sensitive information.
+
+On Debian and derivaties only build paths starting with \fI/build/\fP
+will emit this field.
+.TP
+.BR Installed\-Build\-Depends: " (required)"
+.TQ
+.I " package-list"
+The list of installed and configured packages that might affect the package
+build process.
+
+The list consists of each package name, optionally arch-qualified for foreign
+architectures, with an exact version restriction, separated by commas.
+
+The list includes all essential packages, packages listed in
+\fBBuild\-Depends\fP, \fBBuild\-Depends\-Arch\fP, \fBBuild\-Depends\-Indep\fP
+source control fields, any vendor specific builtin dependencies, and all
+their recursive dependencies.
+On Debian and derivatives the dependency builtin is \fBbuild\-essential\fP.
+
+For dependencies coming from the source control fields, all dependency
+alternatives and all providers of virtual packages depended on will be
+included.
+.TP
+.BR Environment:
+.TQ
+.I " variable-list"
+The list of environment variables that are known to affect the package build
+process, with each environment variable followed by an equal sign (‘=’)
+and the variable's quoted value, using double quotes (‘"’), and
+backslashes escaped (‘\\\\’).
+.
+.\" .SH EXAMPLE
+.\" .RS
+.\" .nf
+.\"
+.\" .fi
+.\" .RE
+.
+.SH SEE ALSO
+.BR deb\-changes (5),
+.BR deb\-version (5),
+.BR dpkg\-genbuildinfo (1).

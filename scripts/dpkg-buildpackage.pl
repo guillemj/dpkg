@@ -38,6 +38,7 @@ use Dpkg::BuildProfiles qw(set_build_profiles);
 use Dpkg::Conf;
 use Dpkg::Compression;
 use Dpkg::Checksums;
+use Dpkg::Package;
 use Dpkg::Version;
 use Dpkg::Control;
 use Dpkg::Control::Info;
@@ -92,8 +93,11 @@ sub usage {
                               command to check the .changes file (no default).
       --check-option=<opt>    pass <opt> to check <command>.
       --hook-<name>=<command> set <command> as the hook <name>, known hooks:
-                                init preclean source build binary changes
-                                postclean check sign done
+                                init preclean source build binary buildinfo
+                                changes postclean check sign done
+      --buildinfo-id=<id>     set the <id> part of the .buildinfo filename.
+      --buildinfo-option=<opt>
+                              pass option <opt> to dpkg-genbuildinfo.
   -p, --sign-command=<command>
                               command to sign .dsc and/or .changes files
                                 (default is gpg2 or gpg).
@@ -168,9 +172,11 @@ my $since;
 my $maint;
 my $changedby;
 my $desc;
+my $buildinfo_id;
+my @buildinfo_opts;
 my @changes_opts;
 my @hook_names = qw(
-    init preclean source build binary changes postclean check sign done
+    init preclean source build binary buildinfo changes postclean check sign done
 );
 my %hook;
 $hook{$_} = undef foreach @hook_names;
@@ -205,6 +211,8 @@ while (@ARGV) {
 	$admindir = $1;
     } elsif (/^--source-option=(.*)$/) {
 	push @source_opts, $1;
+    } elsif (/^--buildinfo-option=(.*)$/) {
+	push @buildinfo_opts, $1;
     } elsif (/^--changes-option=(.*)$/) {
 	push @changes_opts, $1;
     } elsif (/^(?:-j|--jobs=)(\d*|auto)$/) {
@@ -227,6 +235,8 @@ while (@ARGV) {
 	usageerr(g_('missing hook %s command'), $hook_name)
 	    if not defined $hook_cmd;
 	$hook{$hook_name} = $hook_cmd;
+    } elsif (/^--buildinfo-id=(.*)$/) {
+	$buildinfo_id = $1;
     } elsif (/^(?:-p|--sign-command=)(.*)$/) {
 	$signcommand = $1;
     } elsif (/^(?:-k|--sign-key=)(.*)$/) {
@@ -389,6 +399,14 @@ if (defined $parallel) {
     $build_opts->export();
 }
 
+if (defined $buildinfo_id) {
+    # The .buildinfo identifiers have the same restrictions as package names.
+    my $err = pkg_name_is_illegal($buildinfo_id);
+    if ($err) {
+        error(g_("illegal .buildinfo ID '%s': %s"), $buildinfo_id, $err);
+    }
+}
+
 set_build_profiles(@build_profiles) if @build_profiles;
 
 my $cwd = cwd();
@@ -530,15 +548,24 @@ run_hook('build', build_has_any(BUILD_BINARY));
 # This is a temporary measure to not break too many packages on a flag day.
 build_target_fallback();
 
+my $build_types = get_build_options_from_type();
+
 if (build_has_any(BUILD_BINARY)) {
     withecho(@debian_rules, $buildtarget);
     run_hook('binary', 1);
     withecho(@rootcommand, @debian_rules, $binarytarget);
 }
 
+run_hook('buildinfo', 1);
+
+push @buildinfo_opts, "--build=$build_types" if build_has_none(BUILD_DEFAULT);
+push @buildinfo_opts, "--buildinfo-id=$buildinfo_id" if $buildinfo_id;
+push @buildinfo_opts, "--admindir=$admindir" if $admindir;
+
+withecho('dpkg-genbuildinfo', @buildinfo_opts);
+
 run_hook('changes', 1);
 
-my $build_types = get_build_options_from_type();
 push @changes_opts, "--build=$build_types" if build_has_none(BUILD_DEFAULT);
 push @changes_opts, "-m$maint" if defined $maint;
 push @changes_opts, "-e$changedby" if defined $changedby;

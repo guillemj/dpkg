@@ -111,6 +111,7 @@ sub test_neutralize_checksums
     open my $fh, '<', $filename or die;
     while (<$fh>) {
         s/^ ([0-9a-f]{32,}) [1-9][0-9]* /q{ } . $1 =~ tr{0-9a-f}{0}r . q{ 0 }/e;
+        s/^( 0{32,} 0(?: [\w]* [\w]*)? [^_]*_[^_]*)_[^.]*\.(buildinfo)$/$1_20160101T123000z-00000000.$2/;
         print { $fhnew } $_;
     }
     close $fh or die;

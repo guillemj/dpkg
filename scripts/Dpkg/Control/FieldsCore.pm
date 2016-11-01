@@ -66,7 +66,7 @@ use constant {
 # Deprecated fields of dpkg's status file are also not listed
 our %FIELDS = (
     'Architecture' => {
-        allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_CHANGES) & (~CTRL_INFO_SRC),
+        allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES) & (~CTRL_INFO_SRC),
         separator => FIELD_SEP_SPACE,
     },
     'Architectures' => {
@@ -74,13 +74,16 @@ our %FIELDS = (
         separator => FIELD_SEP_SPACE,
     },
     'Binary' => {
-        allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES,
+        allowed => CTRL_PKG_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES,
         # XXX: This field values are separated either by space or comma
         # depending on the context.
         separator => FIELD_SEP_SPACE | FIELD_SEP_COMMA,
     },
     'Binary-Only' => {
         allowed => ALL_CHANGES,
+    },
+    'Binary-Only-Changes' => {
+        allowed => CTRL_FILE_BUILDINFO,
     },
     'Breaks' => {
         allowed => ALL_PKG,
@@ -90,6 +93,9 @@ our %FIELDS = (
     },
     'Bugs' => {
         allowed => (ALL_PKG | CTRL_INFO_SRC | CTRL_FILE_VENDOR) & (~CTRL_INFO_PKG),
+    },
+    'Build-Architecture' => {
+        allowed => CTRL_FILE_BUILDINFO,
     },
     'Build-Conflicts' => {
         allowed => ALL_SRC,
@@ -129,6 +135,12 @@ our %FIELDS = (
     },
     'Build-Essential' => {
         allowed => ALL_PKG,
+    },
+    'Build-Origin' => {
+        allowed => CTRL_FILE_BUILDINFO,
+    },
+    'Build-Path' => {
+        allowed => CTRL_FILE_BUILDINFO,
     },
     'Build-Profiles' => {
         allowed => CTRL_INFO_PKG,
@@ -214,6 +226,10 @@ our %FIELDS = (
         dependency => 'union',
         dep_order => 5,
     },
+    'Environment' => {
+        allowed => CTRL_FILE_BUILDINFO,
+        separator => FIELD_SEP_LINE,
+    },
     'Essential' => {
         allowed => ALL_PKG,
     },
@@ -230,10 +246,16 @@ our %FIELDS = (
         separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'Format' => {
-        allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_COPYRIGHT_HEADER,
+        allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_COPYRIGHT_HEADER | CTRL_FILE_BUILDINFO,
     },
     'Homepage' => {
         allowed => ALL_SRC | ALL_PKG,
+    },
+    'Installed-Build-Depends' => {
+        allowed => CTRL_FILE_BUILDINFO,
+        separator => FIELD_SEP_COMMA,
+        dependency => 'union',
+        dep_order => 11,
     },
     'Installed-Size' => {
         allowed => ALL_PKG & ~CTRL_INFO_PKG,
@@ -311,7 +333,7 @@ our %FIELDS = (
         separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'Source' => {
-        allowed => (ALL_PKG | ALL_SRC | ALL_CHANGES | CTRL_COPYRIGHT_HEADER) &
+        allowed => (ALL_PKG | ALL_SRC | ALL_CHANGES | CTRL_COPYRIGHT_HEADER | CTRL_FILE_BUILDINFO) &
                    (~(CTRL_INDEX_SRC | CTRL_INFO_PKG)),
     },
     'Standards-Version' => {
@@ -419,7 +441,7 @@ our %FIELDS = (
         allowed => CTRL_FILE_VENDOR,
     },
     'Version' => {
-        allowed => (ALL_PKG | ALL_SRC | ALL_CHANGES) &
+        allowed => (ALL_PKG | ALL_SRC | CTRL_FILE_BUILDINFO | ALL_CHANGES) &
                     (~(CTRL_INFO_SRC | CTRL_INFO_PKG)),
     },
 );
@@ -427,7 +449,7 @@ our %FIELDS = (
 my @checksum_fields = map { &field_capitalize("Checksums-$_") } checksums_get_list();
 my @sum_fields = map { $_ eq 'md5' ? 'MD5sum' : &field_capitalize($_) }
                  checksums_get_list();
-&field_register($_, CTRL_PKG_SRC | CTRL_FILE_CHANGES) foreach @checksum_fields;
+&field_register($_, CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO) foreach @checksum_fields;
 &field_register($_, CTRL_INDEX_PKG | CTRL_REPO_RELEASE,
                 separator => FIELD_SEP_LINE | FIELD_SEP_SPACE) foreach @sum_fields;
 
@@ -445,6 +467,13 @@ our %FIELD_ORDER = (
         Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn
         Vcs-Svn Testsuite Testsuite-Triggers), &field_list_src_dep(),
         qw(Package-List), @checksum_fields, qw(Files)
+    ],
+    CTRL_FILE_BUILDINFO() => [
+        qw(Format Source Binary Architecture Version
+        Binary-Only-Changes),
+        @checksum_fields,
+        qw(Build-Origin Build-Architecture Build-Path
+           Installed-Build-Depends Environment),
     ],
     CTRL_FILE_CHANGES() => [
         qw(Format Date Source Binary Binary-Only Built-For-Profiles Architecture

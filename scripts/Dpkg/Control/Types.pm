@@ -26,6 +26,7 @@ our @EXPORT = qw(
     CTRL_INDEX_PKG
     CTRL_PKG_SRC
     CTRL_PKG_DEB
+    CTRL_FILE_BUILDINFO
     CTRL_FILE_CHANGES
     CTRL_FILE_VENDOR
     CTRL_FILE_STATUS
@@ -86,6 +87,8 @@ use constant {
     CTRL_COPYRIGHT_LICENSE => 8192,
     # Package test suite control file in debian/tests/control.
     CTRL_TESTS => 16384,
+    # .buildinfo file
+    CTRL_FILE_BUILDINFO => 32768,
 };
 
 =head1 CHANGES

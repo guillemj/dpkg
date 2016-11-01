@@ -62,6 +62,10 @@ dpkg (1.18.11) UNRELEASED; urgency=medium
     when printing to STDOUT (via -O).
   * Do not add architectures to .changes Architecture field for artifacts
     that are not a .deb or .udeb in dpkg-genchanges.
+  * Add support for .buildinfo files:
+    - Add new dpkg-genbuildinfo command.
+    - Hook it into the dpkg-buildpackage machinery.
+    Based on a patch by Jérémy Bobbio <lunar@debian.org>. Closes: #138409
   * Architecture support:
     - Add support for AIX operating system.
     - Add a version pseudo-field to the arch tables.
@@ -113,6 +117,9 @@ dpkg (1.18.11) UNRELEASED; urgency=medium
       instead of FileHandle.
     - Add new Dpkg::PROGTAR variable to store GNU tar command name.
     - Add new Dpkg::PROGMAKE variable to store GNU make command name.
+    - Add new CTRL_FILE_BUILDINFO type to Dpkg::Control.
+    - Add new .buildinfo fields to Dpkg::Control::Fields.
+    - Add new builtin-system-build-paths Dpkg::Vendor hook.
   * Packaging:
     - Add liblocale-gettext-perl to libdpkg-perl Recommends.
     - Wrap and document dependency relationships.

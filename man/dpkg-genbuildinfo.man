@@ -1,0 +1,153 @@
+.\" dpkg manual page - dpkg-genbuildinfo(1)
+.\"
+.\" Copyright © 1995-1996 Ian Jackson <ian@chiark.chu.cam.ac.uk>
+.\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
+.\" Copyright © 2008-2010 Raphaël Hertzog <hertzog@debian.org>
+.\" Copyright © 2006-2016 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2015 Jérémy Bobbio <lunar@debian.org>
+.\"
+.\" This is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.
+.TH dpkg\-genbuildinfo 1 "%RELEASE_DATE%" "%VERSION%" "dpkg utilities"
+.nh
+.SH NAME
+dpkg\-genbuildinfo \- generate Debian .buildinfo files
+.
+.SH SYNOPSIS
+.B dpkg\-genbuildinfo
+.RI [ option ...]
+.br
+.
+.SH DESCRIPTION
+.B dpkg\-genbuildinfo
+reads information from an unpacked and built Debian source tree and
+from the files it has generated and generates a Debian control
+file describing the build environment and the build artifacts
+.RB ( .buildinfo " file)."
+.P
+This command was introduced in dpkg 1.18.11.
+.
+.SH OPTIONS
+.TP
+.BI \-\-build= type
+Specifies the build \fItype\fP from a comma-separated list of components.
+
+The allowed values are:
+.RS
+.TP
+.B any
+Generate build information including unqualified build dependencies
+(\fBBuild-Depends\fP) and architecture specific build dependencies
+(\fBBuild-Depends-Arch\fP).
+.TP
+.B all
+Generate build information including unqualified build dependencies
+(\fBBuild-Depends\fP) and architecture independent build dependencies
+(\fBBuild-Depends-Indep\fP).
+.TP
+.B source
+Effectively ignored; generate build information with just the unqualified
+build dependencies (\fBBuild-Depends\fP).
+.TP
+.B binary
+Generate build information with all three types of build dependencies.
+This is an alias for \fBany,all\fP.
+.TP
+.B full
+Generate build information with all three types of build dependencies.
+This is an alias for \fBany,all,source\fP, and the same as the default
+case when no build option is specified.
+.RE
+.TP
+.BI \-c controlfile
+Specifies the main source control file to read information from. The
+default is
+.BR debian/control .
+.TP
+.BI \-l changelog-file
+Specifies the changelog file to read information from. The
+default is
+.BR debian/changelog .
+.TP
+.BI \-f files-list-file
+Specifies where is the list of files that have been produced by the build,
+rather than using
+.BR debian/files .
+.TP
+.BI \-F changelog-format
+Specifies the format of the changelog. See \fBdpkg\-parsechangelog\fP(1)
+for information about alternative formats.
+.TP
+.BR \-O [\fIfilename\fP]
+Print the buildinfo file to standard output (or \fIfilename\fP if specified)
+rather than to
+.IB dir / source-name _ source-version _ buildinfo-id .buildinfo
+(where \fIdir\fP is \fB..\fP by default or \fIupload-files-dir\fP
+if \fB\-u\fP was used).
+.TP
+.BI \-u upload-files-dir
+Look for the files to be uploaded in
+.I upload-files-dir
+rather than
+.B ..
+(\fBdpkg\-genbuildinfo\fP needs to find these files so that it can include
+their sizes and checksums in the \fB.buildinfo\fP file).
+.TP
+.BI \-\-buildinfo-id= identifier
+Specify the identifier part of the \fB.buildinfo\fP file name.
+By default, \fBdpkg\-genbuildinfo\fP will create an identifier using
+the current time and the first characters of the MD5 hash.
+An arbitrary identifier can be specified as a replacement.
+The identifier has the same restriction as package names: it must consist
+only of lower case letters (a-z), digits (0-9), plus (+) and minus (\-)
+signs, and periods (.), be at least two characters long and must start
+with an alphanumeric character.
+.TP
+.BI \-\-always\-include\-path
+By default, the \fBBuild\-Path\fR field will only be written if the current
+directory starts with a whitelisted pattern.
+
+On Debian and derivatives the pattern matches on \fB/build/\fR at the start
+of the pathname.
+
+Specify this option to always write a \fBBuild\-Path\fR field when generating
+the \fB.buildinfo\fR.
+.TP
+.BI \-\-admindir= dir
+Change the location of the \fBdpkg\fR database. The default location is
+\fI/var/lib/dpkg\fP.
+.TP
+.B \-q
+.B dpkg\-genbuildinfo
+might produce informative messages on standard error.
+.B \-q
+suppresses these messages.
+.TP
+.BR \-? ", " \-\-help
+Show the usage message and exit.
+.TP
+.BR \-\-version
+Show the version and exit.
+.
+.SH FILES
+.TP
+.B debian/files
+The list of generated files.
+.B dpkg\-genbuildinfo
+reads the data here when producing a
+.B .buildinfo
+file.
+.
+.SH SEE ALSO
+.BR deb-buildinfo (5).

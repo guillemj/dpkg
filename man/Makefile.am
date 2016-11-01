@@ -1,6 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 man_MANS = \
+	deb-buildinfo.5 \
 	deb-changelog.5 \
 	deb-changes.5 \
 	deb-conffiles.5 \
@@ -30,6 +31,7 @@ man_MANS = \
 	dpkg-deb.1 \
 	dpkg-distaddfile.1 \
 	dpkg-divert.1 \
+	dpkg-genbuildinfo.1 \
 	dpkg-genchanges.1 \
 	dpkg-gencontrol.1 \
 	dpkg-gensymbols.1 \
@@ -70,6 +72,7 @@ endif
 CLEANFILES = $(man_MANS)
 
 EXTRA_DIST = \
+	deb-buildinfo.man \
 	deb-changelog.man \
 	deb-changes.man \
 	deb-conffiles.man \
@@ -99,6 +102,7 @@ EXTRA_DIST = \
 	dpkg-deb.man \
 	dpkg-distaddfile.man \
 	dpkg-divert.man \
+	dpkg-genbuildinfo.man \
 	dpkg-genchanges.man \
 	dpkg-gencontrol.man \
 	dpkg-gensymbols.man \

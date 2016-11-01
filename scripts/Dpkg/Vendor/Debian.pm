@@ -83,6 +83,8 @@ sub run_hook {
 	$self->_add_reproducible_flags(@params);
 	$self->_add_sanitize_flags(@params);
 	$self->_add_hardening_flags(@params);
+    } elsif ($hook eq 'builtin-system-build-paths') {
+        return qw(/build/);
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }

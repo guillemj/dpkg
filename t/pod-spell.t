@@ -49,6 +49,7 @@ ORed
 OpenPGP
 XDG
 archqual
+buildinfo
 bzip2
 canonicalized
 checksum
@@ -62,6 +63,7 @@ dpkg
 dpkg-buildflags
 dpkg-checkbuilddeps
 dpkg-dev
+dpkg-genbuildinfo
 dpkg-gencontrol
 dpkg-parsechangelog
 dsc
