@@ -369,52 +369,50 @@ for my $f (keys %remove) {
 
 $fields->apply_substvars($substvars);
 
-if (not $stdout) {
-    $outputfile //= "$packagebuilddir/DEBIAN/control";
-}
-
-my $sversion = $fields->{'Version'};
-$sversion =~ s/^\d+://;
-$forcefilename //= sprintf('%s_%s_%s.%s', $fields->{'Package'}, $sversion,
-                           $fields->{'Architecture'}, $pkg_type);
-my $section = $fields->{'Section'} || '-';
-my $priority = $fields->{'Priority'} || '-';
-
-# Obtain a lock on debian/control to avoid simultaneous updates
-# of debian/files when parallel building is in use
-my $lockfh;
-my $lockfile = 'debian/control';
-$lockfile = $controlfile if not -e $lockfile;
-
-sysopen($lockfh, $lockfile, O_WRONLY)
-    or syserr(g_('cannot write %s'), $lockfile);
-file_lock($lockfh, $lockfile);
-
-my $dist = Dpkg::Dist::Files->new();
-$dist->load($fileslistfile) if -e $fileslistfile;
-
-foreach my $file ($dist->get_files()) {
-    if (defined $file->{package} &&
-        ($file->{package} eq $fields->{'Package'}) &&
-        ($file->{package_type} eq $pkg_type) &&
-        (debarch_eq($file->{arch}, $fields->{'Architecture'}) ||
-         debarch_eq($file->{arch}, 'all'))) {
-        $dist->del_file($file->{filename});
-    }
-}
-
-$dist->add_file($forcefilename, $section, $priority);
-$dist->save("$fileslistfile.new");
-
-rename("$fileslistfile.new", $fileslistfile)
-    or syserr(g_('install new files list file'));
-
-# Release the lock
-close($lockfh) or syserr(g_('cannot close %s'), $lockfile);
-
 if ($stdout) {
     $fields->output(\*STDOUT);
 } else {
+    $outputfile //= "$packagebuilddir/DEBIAN/control";
+
+    my $sversion = $fields->{'Version'};
+    $sversion =~ s/^\d+://;
+    $forcefilename //= sprintf('%s_%s_%s.%s', $fields->{'Package'}, $sversion,
+                               $fields->{'Architecture'}, $pkg_type);
+    my $section = $fields->{'Section'} || '-';
+    my $priority = $fields->{'Priority'} || '-';
+
+    # Obtain a lock on debian/control to avoid simultaneous updates
+    # of debian/files when parallel building is in use
+    my $lockfh;
+    my $lockfile = 'debian/control';
+    $lockfile = $controlfile if not -e $lockfile;
+
+    sysopen $lockfh, $lockfile, O_WRONLY
+        or syserr(g_('cannot write %s'), $lockfile);
+    file_lock($lockfh, $lockfile);
+
+    my $dist = Dpkg::Dist::Files->new();
+    $dist->load($fileslistfile) if -e $fileslistfile;
+
+    foreach my $file ($dist->get_files()) {
+        if (defined $file->{package} &&
+            ($file->{package} eq $fields->{'Package'}) &&
+            ($file->{package_type} eq $pkg_type) &&
+            (debarch_eq($file->{arch}, $fields->{'Architecture'}) ||
+             debarch_eq($file->{arch}, 'all'))) {
+            $dist->del_file($file->{filename});
+        }
+    }
+
+    $dist->add_file($forcefilename, $section, $priority);
+    $dist->save("$fileslistfile.new");
+
+    rename "$fileslistfile.new", $fileslistfile
+        or syserr(g_('install new files list file'));
+
+    # Release the lock
+    close $lockfh or syserr(g_('cannot close %s'), $lockfile);
+
     $fields->save("$outputfile.new");
 
     rename "$outputfile.new", $outputfile
