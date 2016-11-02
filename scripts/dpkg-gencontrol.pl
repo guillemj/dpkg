@@ -367,13 +367,14 @@ for my $f (keys %remove) {
     delete $fields->{$f};
 }
 
+$fields->apply_substvars($substvars);
+
 my $sversion = $fields->{'Version'};
 $sversion =~ s/^\d+://;
 $forcefilename //= sprintf('%s_%s_%s.%s', $fields->{'Package'}, $sversion,
                            $fields->{'Architecture'}, $pkg_type);
-$forcefilename = $substvars->substvars($forcefilename);
-my $section = $substvars->substvars($fields->{'Section'} || '-');
-my $priority = $substvars->substvars($fields->{'Priority'} || '-');
+my $section = $fields->{'Section'} || '-';
+my $priority = $fields->{'Priority'} || '-';
 
 # Obtain a lock on debian/control to avoid simultaneous updates
 # of debian/files when parallel building is in use
@@ -417,7 +418,6 @@ if (!$stdout) {
     $fh_output = \*STDOUT;
 }
 
-$fields->apply_substvars($substvars);
 $fields->output($fh_output);
 
 if (!$stdout) {
