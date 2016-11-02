@@ -369,6 +369,10 @@ for my $f (keys %remove) {
 
 $fields->apply_substvars($substvars);
 
+if (not $stdout) {
+    $outputfile //= "$packagebuilddir/DEBIAN/control";
+}
+
 my $sversion = $fields->{'Version'};
 $sversion =~ s/^\d+://;
 $forcefilename //= sprintf('%s_%s_%s.%s', $fields->{'Package'}, $sversion,
@@ -408,22 +412,13 @@ rename("$fileslistfile.new", $fileslistfile)
 # Release the lock
 close($lockfh) or syserr(g_('cannot close %s'), $lockfile);
 
-my $cf;
-my $fh_output;
-if (!$stdout) {
-    $cf = $outputfile // "$packagebuilddir/DEBIAN/control";
-    open($fh_output, '>', "$cf.new")
-        or syserr(g_("cannot open new output control file '%s'"), "$cf.new");
+if ($stdout) {
+    $fields->output(\*STDOUT);
 } else {
-    $fh_output = \*STDOUT;
-}
+    $fields->save("$outputfile.new");
 
-$fields->output($fh_output);
-
-if (!$stdout) {
-    close($fh_output) or syserr(g_('cannot close %s'), "$cf.new");
-    rename("$cf.new", "$cf")
-        or syserr(g_("cannot install output control file '%s'"), $cf);
+    rename "$outputfile.new", $outputfile
+        or syserr(g_("cannot install output control file '%s'"), $outputfile);
 }
 
 $substvars->warn_about_unused();
