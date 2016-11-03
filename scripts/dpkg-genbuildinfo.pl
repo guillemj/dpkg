@@ -375,6 +375,9 @@ if (build_has_any(BUILD_BINARY)) {
         if $dist_count == 0;
 
     foreach my $file ($dist->get_files()) {
+        # Make us a bit idempotent.
+        next if $file->{filename} =~ m/\.buildinfo$/;
+
         my $path = "$uploadfilesdir/$file->{filename}";
         $checksums->add_from_file($path, key => $file->{filename});
 
