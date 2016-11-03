@@ -362,15 +362,8 @@ my $spackage = $changelog->{'Source'};
 
 if (build_has_any(BUILD_SOURCE)) {
     my $dsc = "${spackage}_${sversion}.dsc";
-    my $dsc_pathname = "$uploadfilesdir/$dsc";
 
-    if (-e $dsc_pathname) {
-        $checksums->add_from_file($dsc_pathname, key => $dsc);
-        push @archvalues, 'source';
-    } else {
-        warning(g_('no .dsc file found: the resulting .buildinfo will not be ' .
-                   'usable to verify the provenance of the binaries.'));
-    }
+    $checksums->add_from_file("$uploadfilesdir/$dsc", key => $dsc);
 }
 
 my $dist_count = 0;
