@@ -122,6 +122,8 @@ sub add_file {
     $file->{priority} = $priority;
 
     $self->{files}->{$filename} = $file;
+
+    return $file;
 }
 
 sub del_file {
