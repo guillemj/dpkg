@@ -72,9 +72,9 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 }
 usageerr(g_('need exactly a filename, section and priority')) if @ARGV != 3;
 
-my ($file, $section, $priority) = @ARGV;
+my ($filename, $section, $priority) = @ARGV;
 
-($file =~ m/\s/ || $section =~ m/\s/ || $priority =~ m/\s/) &&
+($filename =~ m/\s/ || $section =~ m/\s/ || $priority =~ m/\s/) &&
     error(g_('filename, section and priority may contain no whitespace'));
 
 # Obtain a lock on debian/control to avoid simultaneous updates
@@ -87,7 +87,7 @@ file_lock($lockfh, $lockfile);
 
 my $dist = Dpkg::Dist::Files->new();
 $dist->load($fileslistfile) if -e $fileslistfile;
-$dist->add_file($file, $section, $priority);
+$dist->add_file($filename, $section, $priority);
 $dist->save("$fileslistfile.new");
 
 rename("$fileslistfile.new", $fileslistfile)
