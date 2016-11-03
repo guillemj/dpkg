@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 25;
+use Test::More tests => 26;
 
 use_ok('Dpkg::Dist::Files');
 
@@ -154,6 +154,20 @@ is_deeply($dist->get_file('another:filename'),
           $expected{'another:filename'},
           'Get added file another:filename');
 is($dist->output, $expected, 'Added source files');
+
+$expected = <<'FILES';
+BY-HAND-file webdocs optional
+other_0.txt text optional
+pkg-arch_2.0.0_amd64.deb admin required
+pkg-frag-a_0.0_arch.type section priority
+pkg-frag-b_0.0_arch.type section priority
+pkg-indep_0.0.1-2_all.deb net standard
+pkg-templ_1.2.3_arch.type section priority
+FILES
+
+$dist->reset();
+$dist->load_dir($datadir) or error('cannot parse fragment files');
+is($dist->output(), $expected, 'Parse fragment directory');
 
 $expected = <<'FILES';
 pkg-arch_2.0.0_amd64.deb admin required

@@ -20,6 +20,8 @@ use warnings;
 
 our $VERSION = '0.01';
 
+use IO::Dir;
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 
@@ -96,6 +98,19 @@ sub parse {
             $count++;
             $self->{files}->{$file->{filename}} = $file;
         }
+    }
+
+    return $count;
+}
+
+sub load_dir {
+    my ($self, $dir) = @_;
+
+    my $count = 0;
+    my $dh = IO::Dir->new($dir) or syserr(g_('cannot open directory %s'), $dir);
+
+    while (defined(my $file = $dh->read)) {
+        $count += $self->load("$dir/$file");
     }
 
     return $count;
