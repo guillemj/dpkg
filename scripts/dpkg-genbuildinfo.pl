@@ -370,16 +370,18 @@ my $dist_count = 0;
 
 $dist_count = $dist->load($fileslistfile) if -e $fileslistfile;
 
-warning(g_('binary build with no binary artifacts found; .buildinfo will be meaningless'))
-    if $dist_count == 0;
+if (build_has_any(BUILD_BINARY)) {
+    error(g_('binary build with no binary artifacts found; .buildinfo is meaningless'))
+        if $dist_count == 0;
 
-foreach my $file ($dist->get_files()) {
-    my $path = "$uploadfilesdir/$file->{filename}";
-    $checksums->add_from_file($path, key => $file->{filename});
+    foreach my $file ($dist->get_files()) {
+        my $path = "$uploadfilesdir/$file->{filename}";
+        $checksums->add_from_file($path, key => $file->{filename});
 
-    if (defined $file->{package_type} and $file->{package_type} =~ m/^u?deb$/) {
-        push @archvalues, $file->{arch}
-            if defined $file->{arch} and not $archadded{$file->{arch}}++;
+        if (defined $file->{package_type} and $file->{package_type} =~ m/^u?deb$/) {
+            push @archvalues, $file->{arch}
+                if defined $file->{arch} and not $archadded{$file->{arch}}++;
+        }
     }
 }
 
