@@ -106,7 +106,8 @@ sub parse_status {
         }
 
         if (/^(?:Pre-)?Depends: (.*)$/m) {
-            foreach (split /,\s*/, $1) {
+            my $depends = $1;
+            foreach (split /,\s*/, $depends) {
                 push @{$depends{"$package:$arch"}}, $_;
             }
         }
