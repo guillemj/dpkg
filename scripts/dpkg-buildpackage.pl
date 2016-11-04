@@ -86,7 +86,7 @@ sub usage {
                                 forced mode.
   -J, --jobs-try[=<number>|auto]
                               jobs to run simultaneously (passed to <rules>),
-                                opt-in mode.
+                                opt-in mode (default is auto).
   -r, --root-command=<command>
                               command to gain root rights (default is fakeroot).
       --check-command=<command>
@@ -147,7 +147,7 @@ my $signcommand;
 my $noclean;
 my $cleansource;
 my $parallel;
-my $parallel_force;
+my $parallel_force = 0;
 my $checkbuilddep = 1;
 my $check_builtin_builddep = 1;
 my @source_opts;
@@ -381,6 +381,11 @@ if ($signcommand) {
     } elsif (find_command('gpg')) {
         $signcommand = 'gpg';
     }
+}
+
+# Default to auto if none of parallel=N, -J or -j have been specified.
+if (not defined $parallel and not $build_opts->has('parallel')) {
+    $parallel = 'auto';
 }
 
 if (defined $parallel) {
