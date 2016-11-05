@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-05 08:40+0100\n"
-"PO-Revision-Date: 2016-11-05 09:58+0100\n"
+"POT-Creation-Date: 2016-11-05 18:00+0100\n"
+"PO-Revision-Date: 2016-11-05 20:55+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -686,9 +686,9 @@ msgid ""
 "B<strftime>(2) «%Y%m%dT%H%M%Sz», followed by a minus ‘-’ and the eight left-"
 "most characters from the B<.buildinfo>'s file contents MD5 digest."
 msgstr ""
-"wobei I<Buildinfo-ID> aus der Bauzeit (formatiert als B<strftime>(2) "
-"»%Y%m%dT%H%M%Sz«), gefolgt von einem Minus ,-´ und den acht ganz links "
-"stehenden Zeichen aus dem MD5-Hash des Dateiinhaltes der Datei B<.buildinfo> "
+"wobei I<Buildinfo-ID> aus der Bauzeit (formatiert als B<strftime>(2) »%Y%m%dT"
+"%H%M%Sz«), gefolgt von einem Minus ,-´ und den acht ganz links stehenden "
+"Zeichen aus dem MD5-Hash des Dateiinhaltes der Datei B<.buildinfo> "
 "zusammengesetzt ist."
 
 #. type: SH
@@ -768,11 +768,11 @@ msgid ""
 "present in the list."
 msgstr ""
 "Dieses, durch Leerzeichen getrennte Feld führt die Architekturen der derzeit "
-"gebauten Dateien auf. Typische Architekturen sind B<amd64>, B<armel>, B<i386> "
-"usw. Beachten Sie, dass der Wert B<all> für architekturunabhängige Pakete "
-"gedacht ist. Falls die Quelle für das Paket auch gebaut wird, ist der "
-"besondere Eintrag B<source> auch vorhanden. Architektur-Platzhalter dürfen in "
-"der Liste niemals auftauchen."
+"gebauten Dateien auf. Typische Architekturen sind B<amd64>, B<armel>, "
+"B<i386> usw. Beachten Sie, dass der Wert B<all> für architekturunabhängige "
+"Pakete gedacht ist. Falls die Quelle für das Paket auch gebaut wird, ist der "
+"besondere Eintrag B<source> auch vorhanden. Architektur-Platzhalter dürfen "
+"in der Liste niemals auftauchen."
 
 #. type: TP
 #: deb-buildinfo.man deb-changes.man deb-control.man dsc.man
@@ -846,12 +846,6 @@ msgstr " I<Prüfsumme> I<Größe> I<Dateiname>"
 
 #. type: Plain text
 #: deb-buildinfo.man
-#, fuzzy
-#| msgid ""
-#| "These multiline fields contain a list of files with a checksum and size "
-#| "for each one.  These fields have the same syntax and differ only in the "
-#| "checksum algorithm used: MD5 for B<Files>, SHA-1 for B<Checksums-Sha1> "
-#| "and SHA-256 for B<Checksums-Sha256>."
 msgid ""
 "These multiline fields contain a list of files with a checksum and size for "
 "each one.  These fields have the same syntax and differ only in the checksum "
@@ -861,7 +855,7 @@ msgstr ""
 "Diese mehrzeiligen Felder enthalten eine Liste von Dateien mit einer "
 "Prüfsumme und Größe für jede. Diese Felder haben die gleiche Syntax und "
 "unterscheiden sich nur im verwandten Prüfsummenalgorithmus: MD5 für "
-"B<Files>, SHA-1 für B<Checksums-Sha1> und SHA-256 für B<Checksums-Sha256>."
+"B<Checksums-Md5>, SHA-1 für B<Checksums-Sha1> und SHA-256 für B<Checksums-Sha256>."
 
 #. type: Plain text
 #: deb-buildinfo.man deb-changes.man
@@ -881,7 +875,7 @@ msgstr ""
 #. type: Plain text
 #: deb-buildinfo.man
 msgid "These fields list all files that make up the build."
-msgstr ""
+msgstr "Diese Datei führt alle Dateien auf, aus denen der Bau besteht."
 
 #. type: TP
 #: deb-buildinfo.man
@@ -906,12 +900,14 @@ msgid ""
 "The Debian architecture for the installation the packages is being built "
 "in.  Common architectures are B<amd64>, B<armel>, B<i386>, etc."
 msgstr ""
+"Die Debian-Architektur für die Installation, unter der das Paket gebaut "
+"wurde. Typische Architekturen sind B<amd64>, B<armel>, B<i386>, usw."
 
 #. type: TP
 #: deb-buildinfo.man
 #, no-wrap
 msgid "B<Build-Path:> I<build-path>"
-msgstr ""
+msgstr "B<Build-Path:> I<Baupfad>"
 
 #. type: Plain text
 #: deb-buildinfo.man
@@ -920,6 +916,10 @@ msgid ""
 "field is only going to be present if the vendor has whitelisted it via some "
 "pattern match to avoid leaking possibly sensitive information."
 msgstr ""
+"Der absolute Baupfad, der dem entpackten Quellbaum entspricht. Dieses Feld "
+"ist nur vorhanden, falls der Lieferant das Feld über ein Muster "
+"freigeschaltet hat, um zu verhindern, dass vertrauliche Informationen "
+"versehentlich veröffentlicht werden."
 
 #. type: Plain text
 #: deb-buildinfo.man
@@ -927,20 +927,20 @@ msgid ""
 "On Debian and derivaties only build paths starting with I</build/> will emit "
 "this field."
 msgstr ""
+"Unter Debian und abgeleiteten Distributionen werden nur Baupfade, die mit "
+"I</build/> beginnen, dieses Feld ausgeben."
 
 #. type: TP
 #: deb-buildinfo.man
-#, fuzzy, no-wrap
-#| msgid "B<Files:> (required)"
+#, no-wrap
 msgid "B<Installed-Build-Depends:> (required)"
-msgstr "B<Files:> (verpflichtend)"
+msgstr "B<Installed-Build-Depends:> (verpflichtend)"
 
 #. type: TQ
 #: deb-buildinfo.man
-#, fuzzy, no-wrap
-#| msgid "I<package>"
+#, no-wrap
 msgid "I<package-list>"
-msgstr "I<Paket>"
+msgstr "I<Paketliste>"
 
 #. type: Plain text
 #: deb-buildinfo.man
@@ -948,6 +948,8 @@ msgid ""
 "The list of installed and configured packages that might affect the package "
 "build process."
 msgstr ""
+"Die Liste der installierten und konfigurierten Pakete, die den Bauprozess des "
+"Pakets beeinflussen könnten."
 
 #. type: Plain text
 #: deb-buildinfo.man
@@ -956,6 +958,9 @@ msgid ""
 "foreign architectures, with an exact version restriction, separated by "
 "commas."
 msgstr ""
+"Die Liste besteht aus jedem Paketnamen, optional architekturqualifiziert für "
+"fremde Architekturen, mit einer genauen Versionseinschränkung, getrennt durch "
+"Kommata."
 
 #. type: Plain text
 #: deb-buildinfo.man
@@ -966,6 +971,11 @@ msgid ""
 "dependencies.  On Debian and derivatives the dependency builtin is B<build-"
 "essential>."
 msgstr ""
+"Die Liste enthält alle essenziellen Pakete, die in Quell-Steuerfeldern "
+"B<Build-Depends>, B<Build-Depends-Arch>, B<Build-Depends-Indep> aufgeführten "
+"Pakete, alle Lieferanten-spezifischen eingebauten Abhängigkeiten und alle "
+"ihre rekursiven Abhängigkeiten. Unter Debian und abgeleiteten Distributionen "
+"ist die eingebaute Abhängigkeit B<build-essential>."
 
 #. type: Plain text
 #: deb-buildinfo.man
@@ -974,19 +984,21 @@ msgid ""
 "alternatives and all providers of virtual packages depended on will be "
 "included."
 msgstr ""
+"Für Abhängigkeiten aus den Quellsteuerfeldern werden alle "
+"Abhängigkeitsalternativen und alle Anbieter abhängiger virtueller Pakete mit "
+"aufgenommen."
 
 #. type: TP
 #: deb-buildinfo.man
-#, fuzzy, no-wrap
-#| msgid "External environment"
+#, no-wrap
 msgid "B<Environment:>"
-msgstr "Externe Umgebung"
+msgstr "B<Umgebung>"
 
 #. type: TQ
 #: deb-buildinfo.man
 #, no-wrap
 msgid "I<variable-list>"
-msgstr ""
+msgstr "I<Variablenliste>"
 
 #. type: Plain text
 #: deb-buildinfo.man
@@ -996,6 +1008,10 @@ msgid ""
 "the variable's quoted value, using double quotes (‘\"’), and backslashes "
 "escaped (‘\\e\\e’)."
 msgstr ""
+"Die Liste der Umgebungsvariablen, die bekanntermaßen den Paketbauprozess "
+"beeinflussen, wobei jede Umgebungsvariable von einem Gleichheitszeichen (,=’) "
+"und dem mit Rückwärtsschrägstrichen (,\\e\\e’) maskierte Wert in doppelten "
+"Anführungszeichen (,=’) gefolgt wird."
 
 #. type: Plain text
 #: deb-buildinfo.man
@@ -1694,9 +1710,9 @@ msgstr ""
 "Die erste Zeile des Feldwertes (dem Teil auf der gleichen Zeile wie der von "
 "einem Doppelpunkt gefolgte Feldname) ist immer leer. Der Inhalt des Feldes "
 "wird durch Fortsetzungszeilen ausgedrückt, eine Zeile pro Datei. Jede Zeile "
-"besteht aus durch Leerzeichen getrennten Einträgen, die die Datei beschreiben: die "
-"Md5sum, die Dateigröße, die Datei-Sektion, die Datei-Priorität und der "
-"Dateiname."
+"besteht aus durch Leerzeichen getrennten Einträgen, die die Datei "
+"beschreiben: die Md5sum, die Dateigröße, die Datei-Sektion, die Datei-"
+"Priorität und der Dateiname."
 
 #. type: Plain text
 #: deb-changes.man
@@ -5529,10 +5545,10 @@ msgid ""
 "of the multiline fields B<Package-List>, B<Files>, B<Checksums-Sha1> and "
 "B<Checksums-Sha256>, see below)."
 msgstr ""
-"Jedes Debian-Quellpaket besteht aus einer .dsc-Steuerdatei, die eine Reihe von "
-"Feldern enthält.Jedes Feld beginnt mit einer Markierung, wie B<Source> oder "
-"B<Binary> (Groß-/Kleinschreibung egal), gefolgt von einem Doppelpunkt und "
-"dem Körper des Feldes. Felder werden nur durch die Feldmarkierungen "
+"Jedes Debian-Quellpaket besteht aus einer .dsc-Steuerdatei, die eine Reihe "
+"von Feldern enthält.Jedes Feld beginnt mit einer Markierung, wie B<Source> "
+"oder B<Binary> (Groß-/Kleinschreibung egal), gefolgt von einem Doppelpunkt "
+"und dem Körper des Feldes. Felder werden nur durch die Feldmarkierungen "
 "abgegrenzt. Mit anderen Worten, Feldtexte können mehrere Zeilen überspannen, "
 "aber die Installationswerkzeuge werden im Allgemeinen die Zeilen bei der "
 "Verarbeitung des Feldkörpers zusammenfassen (mit Ausnahme der mehrzeiligen "
@@ -11636,19 +11652,15 @@ msgstr "B<6.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
-#| msgid ""
-#| "It runs the B<changes> hook and calls B<dpkg-genchanges> to generate a B<."
-#| "changes> file.  Many B<dpkg-buildpackage> options are forwarded to B<dpkg-"
-#| "genchanges>."
 msgid ""
 "Unless a source-only build has been requested, it runs the B<buildinfo> hook "
 "and calls B<dpkg-genbuildinfo> to generate a B<.buildinfo> file.  Several "
 "B<dpkg-buildpackage> options are forwarded to B<dpkg-genbuildinfo>."
 msgstr ""
-"Es führt den Hook B<changes> aus und ruft B<dpkg-genchanges> auf, um eine B<."
-"changes>-Datei zu erstellen. Viele Optionen von B<dpkg-buildpackage> werden "
-"an B<dpkg-genchanges> weitergeleitet."
+"Falls kein reiner Quellbau angefordert wurde, führt es den Hook B<buildinfo> "
+"aus und ruft B<dpkg-genbuildinfo> auf, um eine B<.buildinfo>-Datei zu "
+"erstellen. Viele Optionen von B<dpkg-buildpackage> werden an B<dpkg-"
+"genbuildinfo> weitergeleitet."
 
 #. type: IP
 #: dpkg-buildpackage.man
@@ -12182,6 +12194,11 @@ msgstr ""
 "B<MAKEFLAGS> nicht und ist daher sich sicherer mit allen Paketen zu "
 "benutzen, auch denen, die nicht sicher parallel bauen."
 
+#. type: Plain text
+#: dpkg-buildpackage.man
+msgid "B<auto> is the default behavior (since dpkg 1.18.11)."
+msgstr "B<auto> ist das Standardverhalten (seit Dpkg 1.18.11)."
+
 #. type: TP
 #: dpkg-buildpackage.man
 #, no-wrap
@@ -12489,10 +12506,9 @@ msgstr "Die Original- (Upstream-)Version."
 
 #. type: TP
 #: dpkg-buildpackage.man dpkg-genbuildinfo.man
-#, fuzzy, no-wrap
-#| msgid "B<--infodir=>I<infodir>"
+#, no-wrap
 msgid "B<--buildinfo-id=>I<identifier>"
-msgstr "B<--infodir=>I<Infoverz>"
+msgstr "B<--buildinfo-id=>I<Kennzeichner>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
@@ -12520,22 +12536,17 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.man
-#, fuzzy, no-wrap
-#| msgid "B<--source-option=>I<opt>"
+#, no-wrap
 msgid "B<--buildinfo-option=>I<opt>"
-msgstr "B<--source-option=>I<Opt>"
+msgstr "B<--buildinfo-option=>I<Opt>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
-#| msgid ""
-#| "Pass option I<opt> to B<dpkg-genchanges> (since dpkg 1.15.6).  Can be "
-#| "used multiple times."
 msgid ""
 "Pass option I<opt> to B<dpkg-genbuildinfo> (since dpkg 1.18.11).  Can be "
 "used multiple times."
 msgstr ""
-"Option I<Opt> an B<dpkg-genchanges> weitergeben (seit Dpkg 1.15.6). Kann "
+"Option I<Opt> an B<dpkg-genbuildinfo> weitergeben (seit Dpkg 1.18.11). Kann "
 "mehrfach verwandt werden."
 
 #. type: TP
