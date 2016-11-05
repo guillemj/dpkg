@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 92;
+use Test::More tests => 94;
 
 use File::Basename;
 
@@ -324,7 +324,8 @@ Xb-Userfield2: foobar
     }
 }
 
-foreach my $test (( [ "$datadir/misplaced-tz", 6 ])) {
+foreach my $test (([ "$datadir/misplaced-tz", 6 ],
+                   [ "$datadir/unreleased", 5, 7 ])) {
 
     my $file = shift @$test;
     my $changes = Dpkg::Changelog::Debian->new(verbose => 0);

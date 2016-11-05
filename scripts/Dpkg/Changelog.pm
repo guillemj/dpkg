@@ -495,7 +495,7 @@ sub _format_dpkg {
     $f->{Distribution} = join(' ', $src->get_distributions());
     $f->{Maintainer} = $src->get_maintainer() // '';
     $f->{Date} = $src->get_timestamp() // '';
-    $f->{Timestamp} = $src->get_timepiece->epoch // '';
+    $f->{Timestamp} = $src->get_timepiece && $src->get_timepiece->epoch // '';
     $f->{Changes} = $src->get_dpkg_changes();
 
     # handle optional fields
@@ -551,7 +551,7 @@ sub _format_rfc822 {
 	$f->{Distribution} = join(' ', $entry->get_distributions());
 	$f->{Maintainer} = $entry->get_maintainer() // '';
 	$f->{Date} = $entry->get_timestamp() // '';
-	$f->{Timestamp} = $entry->get_timepiece->epoch // '';
+	$f->{Timestamp} = $entry->get_timepiece && $entry->get_timepiece->epoch // '';
 	$f->{Changes} = $entry->get_dpkg_changes();
 
 	# handle optional fields

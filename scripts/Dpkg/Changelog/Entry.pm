@@ -285,6 +285,8 @@ sub get_timestamp {
 
 Return the timestamp of the changelog entry as a Time::Piece object.
 
+This function might return undef if there was no timestamp.
+
 =cut
 
 sub get_timepiece {
