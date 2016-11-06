@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.x\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-07-31 12:58+0200\n"
+"POT-Creation-Date: 2016-11-06 03:24+0100\n"
 "PO-Revision-Date: 2016-05-20 16:45+0000\n"
 "Last-Translator: Zhou Mo <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -168,8 +168,8 @@ msgstr "未预期的文件结束或流结束"
 msgid "failed to seek"
 msgstr "重定位文件读写偏移失败"
 
-#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-deb/build.c
-#: dpkg-split/split.c utils/update-alternatives.c
+#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-split/split.c
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "无法执行 %s (%s)"
@@ -2696,11 +2696,6 @@ msgstr ""
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "无法满足 %.250s 的预依赖关系，起因是 %.250s"
 
-#: src/enquiry.c dpkg-deb/main.c
-#, c-format
-msgid "obsolete option '--%s'; please use '--%s' instead"
-msgstr "废弃的选项 --%s，请使用 --%s 代替"
-
 #: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
@@ -2833,14 +2828,16 @@ msgid "control file '%s' for package '%s' is missing final newline"
 msgstr "软件包 %s 的 control 文件 %s 缺少最后结尾的换行符"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' missing value"
-msgstr "control 文件 %s 中缺少值"
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "软件包 %s 的 control 文件 %s 缺少最后结尾的换行符"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' missing value separator"
-msgstr "control 文件 %s 缺少值分隔符"
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "软件包 %s 的 control 文件 %s 缺少最后结尾的换行符"
 
 #: src/filesdb-hash.c
 #, c-format
@@ -2848,28 +2845,33 @@ msgid "control file '%s' for package '%s' contains empty filename"
 msgstr "软件包 %2$s 的 control 文件 %1$s 含有空的文件名"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot open '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot open '%s' control file for package '%s'"
+msgid "cannot open control file '%s' for package '%s'"
 msgstr "无法打开软件包 %2$s 的 %1$s control 文件"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot stat '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat '%s' control file for package '%s'"
+msgid "cannot stat control file '%s' for package '%s'"
 msgstr "无法取得软件包 %2$s 的 %1$s control 文件状态"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "'%s' file for package '%s' is not a regular file"
+#, fuzzy, c-format
+#| msgid "'%s' file for package '%s' is not a regular file"
+msgid "control file '%s' for package '%s' is not a regular file"
 msgstr "软件包 %2$s 的 %1$s 文件不是常规文件"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot read '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot read '%s' control file for package '%s'"
+msgid "cannot read control file '%s' for package '%s'"
 msgstr "无法读取软件包 %2$s 的 %1$s control 文件"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot close '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot close '%s' control file for package '%s'"
+msgid "cannot close control file '%s' for package '%s'"
 msgstr "无法关闭软件包 %2$s 的 %1$s control 文件"
 
 #: src/help.c
@@ -4012,8 +4014,9 @@ msgid "illegal package name at line %d: %.250s"
 msgstr "在第 %d 行发现非法的软件包名：%.250s"
 
 #: src/select.c
-#, c-format
-msgid "package not in database at line %d: %.250s"
+#, fuzzy, c-format
+#| msgid "package not in database at line %d: %.250s"
+msgid "package not in status nor available database at line %d: %.250s"
 msgstr "在第 %d 行发现数据库中没有的软件包名：%.250s"
 
 #: src/select.c
@@ -4026,9 +4029,14 @@ msgid "read error on standard input"
 msgstr "从标准输入读取数据时出错"
 
 #: src/select.c
+#, fuzzy
+#| msgid ""
+#| "found unknown packages; this might mean the available database\n"
+#| "is outdated, and needs to be updated through a frontend method"
 msgid ""
 "found unknown packages; this might mean the available database\n"
-"is outdated, and needs to be updated through a frontend method"
+"is outdated, and needs to be updated through a frontend method;\n"
+"please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 msgstr ""
 "发现未知的软件包；这可能意味着可用的数据库已过期，\n"
 "需要使用前端来进行更新"
@@ -4690,7 +4698,7 @@ msgstr "正在压缩 tar 成员"
 msgid "<compress> from tar -cf"
 msgstr "<压缩> 自 tar -cf"
 
-#: dpkg-deb/build.c
+#: dpkg-deb/build.c dpkg-split/split.c
 #, fuzzy, c-format
 #| msgid "unable to create '%.255s'"
 msgid "unable to parse timestamp '%.255s'"
@@ -5038,7 +5046,35 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --old                        Legacy alias for '--deb-"
+#| "format=0.939000'.\n"
+#| "      --new                        Legacy alias for '--deb-format=2.0'.\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --uniform-compression        Use the compression params on all "
+#| "members.\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, bzip2, "
+#| "none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -5047,9 +5083,6 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --old                        Legacy alias for '--deb-"
-"format=0.939000'.\n"
-"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --uniform-compression        Use the compression params on all "
@@ -5057,7 +5090,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, bzip2, none.\n"
+"                                     Allowed types: gzip, xz, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -5130,13 +5163,15 @@ msgid "unknown compression type '%s'!"
 msgstr "无法识别的压缩类型 %s ！"
 
 #: dpkg-deb/main.c
-#, c-format
-msgid "deprecated compression type '%s'; use xz instead"
+#, fuzzy, c-format
+#| msgid "deprecated compression type '%s'; use xz instead"
+msgid "obsolete compression type '%s'; use xz instead"
 msgstr "废弃的压缩类型 %s；请用 xz 代替"
 
 #: dpkg-deb/main.c
-#, c-format
-msgid "deprecated compression type '%s'; use xz or gzip instead"
+#, fuzzy, c-format
+#| msgid "deprecated compression type '%s'; use xz or gzip instead"
+msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr "废弃的压缩类型 %s； 用 xz 或 gzip 代替"
 
 #: dpkg-deb/main.c
@@ -6151,6 +6186,15 @@ msgstr "%s/%s 的自动更新功能已禁用；保持现状"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "要恢复成自动更新请执行 %s --auto %s。"
+
+#~ msgid "obsolete option '--%s'; please use '--%s' instead"
+#~ msgstr "废弃的选项 --%s，请使用 --%s 代替"
+
+#~ msgid "control file '%s' missing value"
+#~ msgstr "control 文件 %s 中缺少值"
+
+#~ msgid "control file '%s' missing value separator"
+#~ msgstr "control 文件 %s 缺少值分隔符"
 
 #~ msgid "unable to fstat part file '%.250s'"
 #~ msgstr "无法 fstat 分块文件 %.250s"

@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-07-31 12:58+0200\n"
+"POT-Creation-Date: 2016-11-06 03:24+0100\n"
 "PO-Revision-Date: 2016-04-01 16:07+0900\n"
 "Last-Translator: Takuma Yamada <tyamada@takumayamada.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -177,8 +177,8 @@ msgstr "ファイルまたはストリームの予期しない終わりです"
 msgid "failed to seek"
 msgstr "シークに失敗しました"
 
-#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-deb/build.c
-#: dpkg-split/split.c utils/update-alternatives.c
+#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-split/split.c
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "%s を実行できません (%s)"
@@ -2821,11 +2821,6 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "(%2$.250s が要求する) %1$.250s の先行依存 (pre-dependencies) を解決できません"
 
-#: src/enquiry.c dpkg-deb/main.c
-#, c-format
-msgid "obsolete option '--%s'; please use '--%s' instead"
-msgstr "オプション '--%s' は時代遅れです。'--%s' を代わりに使ってください"
-
 #: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
@@ -2964,14 +2959,18 @@ msgstr ""
 "パッケージ '%2$s' のコントロールファイル '%1$s' に最後の改行がありません"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' missing value"
-msgstr "コントロールファイル '%s' に値がありません"
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr ""
+"パッケージ '%2$s' のコントロールファイル '%1$s' に最後の改行がありません"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' missing value separator"
-msgstr "コントロールファイル '%s' に値の区切り子がありません"
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"パッケージ '%2$s' のコントロールファイル '%1$s' に最後の改行がありません"
 
 #: src/filesdb-hash.c
 #, c-format
@@ -2981,28 +2980,33 @@ msgstr ""
 "す"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot open '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot open '%s' control file for package '%s'"
+msgid "cannot open control file '%s' for package '%s'"
 msgstr "パッケージ '%2$s' のコントロールファイル '%1$s' をオープンできません"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot stat '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat '%s' control file for package '%s'"
+msgid "cannot stat control file '%s' for package '%s'"
 msgstr "パッケージ '%2$s' のコントロールファイル '%1$s' の状態を取得できません"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "'%s' file for package '%s' is not a regular file"
+#, fuzzy, c-format
+#| msgid "'%s' file for package '%s' is not a regular file"
+msgid "control file '%s' for package '%s' is not a regular file"
 msgstr "パッケージ '%2$s' のファイル '%1$s' は通常ファイルではありません"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot read '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot read '%s' control file for package '%s'"
+msgid "cannot read control file '%s' for package '%s'"
 msgstr "パッケージ '%2$s' のコントロールファイル '%1$s' を読めません"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot close '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot close '%s' control file for package '%s'"
+msgid "cannot close control file '%s' for package '%s'"
 msgstr "パッケージ '%2$s' のコントロールファイル '%1$s' をクローズできません"
 
 #: src/help.c
@@ -4189,8 +4193,9 @@ msgid "illegal package name at line %d: %.250s"
 msgstr "%d 行目のパッケージ名は不正です: %.250s"
 
 #: src/select.c
-#, c-format
-msgid "package not in database at line %d: %.250s"
+#, fuzzy, c-format
+#| msgid "package not in database at line %d: %.250s"
+msgid "package not in status nor available database at line %d: %.250s"
 msgstr "データベースの %d 行目のパッケージはありません: %.250s"
 
 #: src/select.c
@@ -4203,9 +4208,14 @@ msgid "read error on standard input"
 msgstr "標準入力からの読み取り時にエラーが発生しました"
 
 #: src/select.c
+#, fuzzy
+#| msgid ""
+#| "found unknown packages; this might mean the available database\n"
+#| "is outdated, and needs to be updated through a frontend method"
 msgid ""
 "found unknown packages; this might mean the available database\n"
-"is outdated, and needs to be updated through a frontend method"
+"is outdated, and needs to be updated through a frontend method;\n"
+"please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 msgstr ""
 "未知のパッケージが見つかりました。利用可能なデータベースが古く\n"
 "なっていてフロントエンドメソッド経由で更新する必要があります。"
@@ -4902,7 +4912,7 @@ msgstr "tar メンバーを圧縮しています"
 msgid "<compress> from tar -cf"
 msgstr "<圧縮> tar -cf からの"
 
-#: dpkg-deb/build.c
+#: dpkg-deb/build.c dpkg-split/split.c
 #, fuzzy, c-format
 #| msgid "unable to create '%.255s'"
 msgid "unable to parse timestamp '%.255s'"
@@ -5265,7 +5275,35 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --old                        Legacy alias for '--deb-"
+#| "format=0.939000'.\n"
+#| "      --new                        Legacy alias for '--deb-format=2.0'.\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --uniform-compression        Use the compression params on all "
+#| "members.\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, bzip2, "
+#| "none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -5274,9 +5312,6 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --old                        Legacy alias for '--deb-"
-"format=0.939000'.\n"
-"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --uniform-compression        Use the compression params on all "
@@ -5284,7 +5319,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, bzip2, none.\n"
+"                                     Allowed types: gzip, xz, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -5358,13 +5393,15 @@ msgid "unknown compression type '%s'!"
 msgstr "`%s' は不明な圧縮形式です!"
 
 #: dpkg-deb/main.c
-#, c-format
-msgid "deprecated compression type '%s'; use xz instead"
+#, fuzzy, c-format
+#| msgid "deprecated compression type '%s'; use xz instead"
+msgid "obsolete compression type '%s'; use xz instead"
 msgstr "'%s' は時代遅れの圧縮形式です。xz を代わりに使用してください"
 
 #: dpkg-deb/main.c
-#, c-format
-msgid "deprecated compression type '%s'; use xz or gzip instead"
+#, fuzzy, c-format
+#| msgid "deprecated compression type '%s'; use xz or gzip instead"
+msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr ""
 "'%s' は時代遅れの圧縮形式です。xz または gzip を代わりに使用してください"
 
@@ -6428,6 +6465,15 @@ msgstr "%s/%s の自動更新は無効になっています。そのままにし
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "自動更新に戻すには、'%s --auto %s' を使ってください"
+
+#~ msgid "obsolete option '--%s'; please use '--%s' instead"
+#~ msgstr "オプション '--%s' は時代遅れです。'--%s' を代わりに使ってください"
+
+#~ msgid "control file '%s' missing value"
+#~ msgstr "コントロールファイル '%s' に値がありません"
+
+#~ msgid "control file '%s' missing value separator"
+#~ msgstr "コントロールファイル '%s' に値の区切り子がありません"
 
 #~ msgid "unable to fstat part file '%.250s'"
 #~ msgstr "パートファイル `%.250s' の状態を取得できません (fstat 失敗)"

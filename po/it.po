@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-07-31 12:58+0200\n"
+"POT-Creation-Date: 2016-11-06 03:24+0100\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
@@ -183,8 +183,8 @@ msgstr "fine del file o dello stream inattesa"
 msgid "failed to seek"
 msgstr "spostamento non riuscito"
 
-#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-deb/build.c
-#: dpkg-split/split.c utils/update-alternatives.c
+#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-split/split.c
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "impossibile eseguire %s (%s)"
@@ -2892,11 +2892,6 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "impossibile soddisfare le pre-dipendenze per %.250s (richiesto da %.250s)"
 
-#: src/enquiry.c dpkg-deb/main.c
-#, c-format
-msgid "obsolete option '--%s'; please use '--%s' instead"
-msgstr "opzione \"--%s\" obsoleta, usare \"--%s\" al suo posto"
-
 #: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
@@ -3044,14 +3039,18 @@ msgstr ""
 "al file di controllo \"%s\" per il pacchetto \"%s\" manca il newline finale"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' missing value"
-msgstr "al file di controllo \"%s\" manca un valore"
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr ""
+"al file di controllo \"%s\" per il pacchetto \"%s\" manca il newline finale"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' missing value separator"
-msgstr "al file di controllo \"%s\" manca il separatore di valore"
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"al file di controllo \"%s\" per il pacchetto \"%s\" manca il newline finale"
 
 #: src/filesdb-hash.c
 #, c-format
@@ -3061,31 +3060,36 @@ msgstr ""
 "vuoto"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot open '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot open '%s' control file for package '%s'"
+msgid "cannot open control file '%s' for package '%s'"
 msgstr "impossibile aprire il file di controllo \"%s\" per il pacchetto \"%s\""
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot stat '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat '%s' control file for package '%s'"
+msgid "cannot stat control file '%s' for package '%s'"
 msgstr ""
 "impossibile eseguire stat sul file di controllo \"%s\" per il pacchetto \"%s"
 "\""
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "'%s' file for package '%s' is not a regular file"
+#, fuzzy, c-format
+#| msgid "'%s' file for package '%s' is not a regular file"
+msgid "control file '%s' for package '%s' is not a regular file"
 msgstr "il file \"%s\" per il pacchetto \"%s\" non è un file regolare"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot read '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot read '%s' control file for package '%s'"
+msgid "cannot read control file '%s' for package '%s'"
 msgstr ""
 "impossibile leggere il file di controllo \"%s\" per il pacchetto \"%s\""
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot close '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot close '%s' control file for package '%s'"
+msgid "cannot close control file '%s' for package '%s'"
 msgstr ""
 "impossibile chiudere il file di controllo \"%s\" per il pacchetto \"%s\""
 
@@ -4374,8 +4378,9 @@ msgid "illegal package name at line %d: %.250s"
 msgstr "nome di pacchetto non valido alla riga %d: %.250s"
 
 #: src/select.c
-#, c-format
-msgid "package not in database at line %d: %.250s"
+#, fuzzy, c-format
+#| msgid "package not in database at line %d: %.250s"
+msgid "package not in status nor available database at line %d: %.250s"
 msgstr "pacchetto non nel database alla riga %d: %.250s"
 
 #: src/select.c
@@ -4388,9 +4393,14 @@ msgid "read error on standard input"
 msgstr "errore di lettura sullo standard input"
 
 #: src/select.c
+#, fuzzy
+#| msgid ""
+#| "found unknown packages; this might mean the available database\n"
+#| "is outdated, and needs to be updated through a frontend method"
 msgid ""
 "found unknown packages; this might mean the available database\n"
-"is outdated, and needs to be updated through a frontend method"
+"is outdated, and needs to be updated through a frontend method;\n"
+"please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 msgstr ""
 "trovati pacchetti sconosciuti: ciò potrebbe indicare che il\n"
 "database dei pacchetti non è aggiornato e deve essere eseguito\n"
@@ -5116,7 +5126,7 @@ msgstr "elemento dati compressione"
 msgid "<compress> from tar -cf"
 msgstr "<compress> da tar -cf"
 
-#: dpkg-deb/build.c
+#: dpkg-deb/build.c dpkg-split/split.c
 #, fuzzy, c-format
 #| msgid "unable to create '%.255s'"
 msgid "unable to parse timestamp '%.255s'"
@@ -5494,7 +5504,35 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --old                        Legacy alias for '--deb-"
+#| "format=0.939000'.\n"
+#| "      --new                        Legacy alias for '--deb-format=2.0'.\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --uniform-compression        Use the compression params on all "
+#| "members.\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, bzip2, "
+#| "none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -5503,9 +5541,6 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --old                        Legacy alias for '--deb-"
-"format=0.939000'.\n"
-"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --uniform-compression        Use the compression params on all "
@@ -5513,7 +5548,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, bzip2, none.\n"
+"                                     Allowed types: gzip, xz, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -5597,13 +5632,15 @@ msgid "unknown compression type '%s'!"
 msgstr "tipo di compressione \"%s\" sconosciuto"
 
 #: dpkg-deb/main.c
-#, c-format
-msgid "deprecated compression type '%s'; use xz instead"
+#, fuzzy, c-format
+#| msgid "deprecated compression type '%s'; use xz instead"
+msgid "obsolete compression type '%s'; use xz instead"
 msgstr "tipo di compressione \"%s\" deprecato: utilizzare xz"
 
 #: dpkg-deb/main.c
-#, c-format
-msgid "deprecated compression type '%s'; use xz or gzip instead"
+#, fuzzy, c-format
+#| msgid "deprecated compression type '%s'; use xz or gzip instead"
+msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr "tipo di compressione \"%s\" deprecato: utilizzare xz o gzip"
 
 #: dpkg-deb/main.c
@@ -6690,6 +6727,15 @@ msgstr "gli aggiornamenti automatici di %s/%s sono disabilitati, lasciato così"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "per ripristinare gli aggiornamenti automatici usare \"%s --auto %s\""
+
+#~ msgid "obsolete option '--%s'; please use '--%s' instead"
+#~ msgstr "opzione \"--%s\" obsoleta, usare \"--%s\" al suo posto"
+
+#~ msgid "control file '%s' missing value"
+#~ msgstr "al file di controllo \"%s\" manca un valore"
+
+#~ msgid "control file '%s' missing value separator"
+#~ msgstr "al file di controllo \"%s\" manca il separatore di valore"
 
 #~ msgid "unable to fstat part file '%.250s'"
 #~ msgstr "impossibile eseguire fstat sulla porzione \"%.250s\""

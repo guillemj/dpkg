@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-07-31 12:58+0200\n"
+"POT-Creation-Date: 2016-11-06 03:24+0100\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
 "Language-Team: Indonesian <debian-l10n-indonesian@lists.debian.org>\n"
@@ -186,8 +186,8 @@ msgstr "akhiran berkas dalam %.250s tidak diharapkan"
 msgid "failed to seek"
 msgstr "gagal menjalankan perintah tar"
 
-#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-deb/build.c
-#: dpkg-split/split.c utils/update-alternatives.c
+#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-split/split.c
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "gagal menjalankan %s (%s)"
@@ -2966,12 +2966,6 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "tidak dapat memenuhi pra-syarat awal untuk %.250s (dibutuhkan oleh %.250s)"
 
-#: src/enquiry.c dpkg-deb/main.c
-#, fuzzy, c-format
-#| msgid "obsolete option '--%s', please use '--%s' instead."
-msgid "obsolete option '--%s'; please use '--%s' instead"
-msgstr "pilihan '--%s' sudah usang, mohon gunakan '--%s'. "
-
 #: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
@@ -3124,15 +3118,15 @@ msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
-#| msgid "cannot stat file '%s'"
-msgid "control file '%s' missing value"
-msgstr "gagal menata status '%s'"
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
-#| msgid "cannot stat file '%s'"
-msgid "control file '%s' missing value separator"
-msgstr "gagal menata status '%s'"
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
@@ -3143,31 +3137,31 @@ msgstr "berkas daftar berkas untuk paket '%.250s' berisi nama berkas kosong"
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open '%s' control file for package '%s'"
+msgid "cannot open control file '%s' for package '%s'"
 msgstr "gagal membuka berkas daftar berkas untuk paket '%.250s'"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "unable to stat files list file for package '%.250s'"
-msgid "cannot stat '%s' control file for package '%s'"
+msgid "cannot stat control file '%s' for package '%s'"
 msgstr "gagal menata status berkas daftar berkas untuk paket '%.250s'"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "files list file for package '%.250s' is missing final newline"
-msgid "'%s' file for package '%s' is not a regular file"
+msgid "control file '%s' for package '%s' is not a regular file"
 msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read '%s' control file for package '%s'"
+msgid "cannot read control file '%s' for package '%s'"
 msgstr "gagal membaca dir berkas konfigurasi '%.250s' (dari '%.250s')"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close '%s' control file for package '%s'"
+msgid "cannot close control file '%s' for package '%s'"
 msgstr "ada kesalahan saat menutup berkas daftar berkas untuk paket '%.250s'"
 
 #: src/help.c
@@ -4484,7 +4478,7 @@ msgstr "nama paket tidak sah pada baris %d: %.250s"
 #: src/select.c
 #, fuzzy, c-format
 #| msgid "illegal package name at line %d: %.250s"
-msgid "package not in database at line %d: %.250s"
+msgid "package not in status nor available database at line %d: %.250s"
 msgstr "nama paket tidak sah pada baris %d: %.250s"
 
 #: src/select.c
@@ -4499,7 +4493,8 @@ msgstr "ada kesalahan membaca masukan standar (stdin)"
 #: src/select.c
 msgid ""
 "found unknown packages; this might mean the available database\n"
-"is outdated, and needs to be updated through a frontend method"
+"is outdated, and needs to be updated through a frontend method;\n"
+"please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 msgstr ""
 
 #: src/selinux.c
@@ -5286,7 +5281,7 @@ msgstr "antara anggota"
 msgid "<compress> from tar -cf"
 msgstr "<compress> dari tar -cf"
 
-#: dpkg-deb/build.c
+#: dpkg-deb/build.c dpkg-split/split.c
 #, fuzzy, c-format
 #| msgid "unable to create '%.255s'"
 msgid "unable to parse timestamp '%.255s'"
@@ -5710,9 +5705,6 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --old                        Legacy alias for '--deb-"
-"format=0.939000'.\n"
-"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --uniform-compression        Use the compression params on all "
@@ -5720,7 +5712,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, bzip2, none.\n"
+"                                     Allowed types: gzip, xz, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -5795,14 +5787,15 @@ msgid "unknown compression type '%s'!"
 msgstr "jenis kompresi '%s' tidak dikenal!"
 
 #: dpkg-deb/main.c
-#, c-format
-msgid "deprecated compression type '%s'; use xz instead"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "unknown compression type `%s'!"
+msgid "obsolete compression type '%s'; use xz instead"
+msgstr "jenis kompresi '%s' tidak dikenal!"
 
 #: dpkg-deb/main.c
 #, fuzzy, c-format
 #| msgid "unknown compression type `%s'!"
-msgid "deprecated compression type '%s'; use xz or gzip instead"
+msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr "jenis kompresi '%s' tidak dikenal!"
 
 #: dpkg-deb/main.c
@@ -6993,6 +6986,21 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "untuk kembali ke modus pembaruan otomatis, gunakan 'update-alternatives --"
 "auto %s'"
+
+#, fuzzy
+#~| msgid "obsolete option '--%s', please use '--%s' instead."
+#~ msgid "obsolete option '--%s'; please use '--%s' instead"
+#~ msgstr "pilihan '--%s' sudah usang, mohon gunakan '--%s'. "
+
+#, fuzzy
+#~| msgid "cannot stat file '%s'"
+#~ msgid "control file '%s' missing value"
+#~ msgstr "gagal menata status '%s'"
+
+#, fuzzy
+#~| msgid "cannot stat file '%s'"
+#~ msgid "control file '%s' missing value separator"
+#~ msgstr "gagal menata status '%s'"
 
 #~ msgid "unable to fstat part file '%.250s'"
 #~ msgstr "gagal menata status berkas bagian '%.250s'"

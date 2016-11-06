@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.18.10\n"
+"Project-Id-Version: dpkg 1.18.11\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-07-31 12:58+0200\n"
+"POT-Creation-Date: 2016-11-06 03:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,21 +20,22 @@ msgstr ""
 
 #: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
-#: scripts/dpkg-distaddfile.pl scripts/dpkg-genchanges.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
-#: scripts/dpkg-mergechangelogs.pl scripts/dpkg-name.pl
-#: scripts/dpkg-parsechangelog.pl scripts/dpkg-scanpackages.pl
-#: scripts/dpkg-scansources.pl scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl
-#: scripts/dpkg-vendor.pl
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gensymbols.pl scripts/dpkg-mergechangelogs.pl
+#: scripts/dpkg-name.pl scripts/dpkg-parsechangelog.pl
+#: scripts/dpkg-scanpackages.pl scripts/dpkg-scansources.pl
+#: scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr ""
 
 #: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-gensymbols.pl scripts/dpkg-parsechangelog.pl
-#: scripts/dpkg-shlibdeps.pl scripts/dpkg-source.pl scripts/dpkg-vendor.pl
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-genchanges.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
+#: scripts/dpkg-parsechangelog.pl scripts/dpkg-shlibdeps.pl
+#: scripts/dpkg-source.pl scripts/dpkg-vendor.pl
 msgid ""
 "\n"
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -110,8 +111,9 @@ msgid "%s is not a supported variable name"
 msgstr ""
 
 #: scripts/dpkg-architecture.pl scripts/dpkg-buildflags.pl
-#: scripts/dpkg-distaddfile.pl scripts/dpkg-genchanges.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gensymbols.pl scripts/dpkg-name.pl
 #: scripts/dpkg-parsechangelog.pl scripts/dpkg-shlibdeps.pl
 #: scripts/dpkg-vendor.pl
 #, perl-format
@@ -162,9 +164,9 @@ msgstr ""
 msgid "%s needs a parameter"
 msgstr ""
 
-#: scripts/dpkg-buildpackage.pl scripts/dpkg-genchanges.pl
-#: scripts/dpkg-gencontrol.pl scripts/dpkg-gensymbols.pl
-#: scripts/dpkg-parsechangelog.pl
+#: scripts/dpkg-buildpackage.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-genchanges.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-gensymbols.pl scripts/dpkg-parsechangelog.pl
 #, perl-format
 msgid "Usage: %s [<option>...]"
 msgstr ""
@@ -204,7 +206,7 @@ msgid ""
 "  -J, --jobs-try[=<number>|auto]\n"
 "                              jobs to run simultaneously (passed to "
 "<rules>),\n"
-"                                opt-in mode.\n"
+"                                opt-in mode (default is auto).\n"
 "  -r, --root-command=<command>\n"
 "                              command to gain root rights (default is "
 "fakeroot).\n"
@@ -214,8 +216,11 @@ msgid ""
 "      --check-option=<opt>    pass <opt> to check <command>.\n"
 "      --hook-<name>=<command> set <command> as the hook <name>, known "
 "hooks:\n"
-"                                init preclean source build binary changes\n"
-"                                postclean check sign done\n"
+"                                init preclean source build binary buildinfo\n"
+"                                changes postclean check sign done\n"
+"      --buildinfo-id=<id>     set the <id> part of the .buildinfo filename.\n"
+"      --buildinfo-option=<opt>\n"
+"                              pass option <opt> to dpkg-genbuildinfo.\n"
 "  -p, --sign-command=<command>\n"
 "                              command to sign .dsc and/or .changes files\n"
 "                                (default is gpg2 or gpg).\n"
@@ -318,6 +323,11 @@ msgid "sign-commmand '%s' not found"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "illegal .buildinfo ID '%s': %s"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
 msgid "source package"
 msgstr ""
 
@@ -390,15 +400,16 @@ msgid "unknown %% substitution in hook: %%%s"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
-#: scripts/dpkg-name.pl scripts/Dpkg/Arch.pm scripts/Dpkg/IPC.pm
-#: scripts/Dpkg/Shlibs.pm
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs.pm
 #, perl-format
 msgid "cannot open %s"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-distaddfile.pl
-#: scripts/dpkg-gencontrol.pl scripts/Dpkg/Interface/Storable.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Patch.pm
+#: scripts/dpkg-genbuildinfo.pl scripts/dpkg-gencontrol.pl
+#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Package/V2.pm
+#: scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "cannot close %s"
 msgstr ""
@@ -501,18 +512,46 @@ msgstr ""
 msgid "filename, section and priority may contain no whitespace"
 msgstr ""
 
-#: scripts/dpkg-distaddfile.pl scripts/dpkg-gencontrol.pl
-#: scripts/dpkg-mergechangelogs.pl scripts/Dpkg/Compression/FileHandle.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/Interface/Storable.pm
-#: scripts/Dpkg/Source/Functions.pm scripts/Dpkg/Source/Package.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
-#: scripts/Dpkg/Source/Quilt.pm
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-gencontrol.pl scripts/dpkg-mergechangelogs.pl
+#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/IPC.pm
+#: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Functions.pm
+#: scripts/Dpkg/Source/Package.pm scripts/Dpkg/Source/Package/V2.pm
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot write %s"
 msgstr ""
 
-#: scripts/dpkg-distaddfile.pl scripts/dpkg-gencontrol.pl
+#: scripts/dpkg-distaddfile.pl scripts/dpkg-genbuildinfo.pl
+#: scripts/dpkg-gencontrol.pl
 msgid "install new files list file"
+msgstr ""
+
+#: scripts/dpkg-genbuildinfo.pl
+msgid ""
+"Options:\n"
+"  --build=<type>[,...]     specify the build <type>: full, source, binary,\n"
+"                             any, all (default is 'full').\n"
+"  -c<control-file>         get control info from this file.\n"
+"  -l<changelog-file>       get per-version info from this file.\n"
+"  -f<files-list-file>      get .deb files list from this file.\n"
+"  -F<changelog-format>     force changelog format.\n"
+"  -O[<buildinfo-file>]     write to stdout (or <buildinfo-file>).\n"
+"  -u<upload-files-dir>     directory with files (default is '..').\n"
+"  --buildinfo-id=<id>      specify the buildinfo id for the output file.\n"
+"  --always-include-path    always include Build-Path.\n"
+"  --admindir=<directory>   change the administrative directory.\n"
+"  -?, --help               show this help message.\n"
+"      --version            show the version.\n"
+msgstr ""
+
+#: scripts/dpkg-genbuildinfo.pl
+msgid "binary build with no binary artifacts found; .buildinfo is meaningless"
+msgstr ""
+
+#: scripts/dpkg-genbuildinfo.pl
+#, perl-format
+msgid "cannot install output buildinfo file '%s'"
 msgstr ""
 
 #: scripts/dpkg-genchanges.pl
@@ -731,11 +770,6 @@ msgstr ""
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "cannot stat %s"
-msgstr ""
-
-#: scripts/dpkg-gencontrol.pl
-#, perl-format
-msgid "cannot open new output control file '%s'"
 msgstr ""
 
 #: scripts/dpkg-gencontrol.pl
@@ -1077,7 +1111,7 @@ msgstr ""
 
 #: scripts/dpkg-scanpackages.pl
 #, perl-format
-msgid "binary directory %s not found"
+msgid "binary path %s not found"
 msgstr ""
 
 #: scripts/dpkg-scanpackages.pl
@@ -1924,6 +1958,10 @@ msgid "control info of a .deb package"
 msgstr ""
 
 #: scripts/Dpkg/Control.pm
+msgid "build information file"
+msgstr ""
+
+#: scripts/Dpkg/Control.pm
 msgid "vendor file"
 msgstr ""
 
@@ -2014,6 +2052,11 @@ msgstr ""
 #: scripts/Dpkg/Dist/Files.pm
 #, perl-format
 msgid "duplicate files list entry for file %s (line %d)"
+msgstr ""
+
+#: scripts/Dpkg/Dist/Files.pm
+#, perl-format
+msgid "cannot open directory %s"
 msgstr ""
 
 #: scripts/Dpkg/Dist/Files.pm
@@ -3141,7 +3184,7 @@ msgstr ""
 
 #: scripts/Dpkg/Substvars.pm
 #, perl-format
-msgid "deprecated substitution variable ${%s}"
+msgid "obsolete substitution variable ${%s}"
 msgstr ""
 
 #: scripts/Dpkg/Substvars.pm

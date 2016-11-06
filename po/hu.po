@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-07-31 12:58+0200\n"
+"POT-Creation-Date: 2016-11-06 03:24+0100\n"
 "PO-Revision-Date: 2015-06-26 16:11+0200\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -182,8 +182,8 @@ msgstr "váratlan fájl vége jel itt: %.250s"
 msgid "failed to seek"
 msgstr "hiba a tar futtatásakor"
 
-#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-deb/build.c
-#: dpkg-split/split.c utils/update-alternatives.c
+#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-split/split.c
+#: utils/update-alternatives.c
 #, fuzzy, c-format
 msgid "unable to execute %s (%s)"
 msgstr "sikertelen futtatás: %s"
@@ -2882,11 +2882,6 @@ msgstr ""
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "teljesítetlen elő-függőségek ehhez: %.250s (%.250s miatt kellenek)"
 
-#: src/enquiry.c dpkg-deb/main.c
-#, fuzzy, c-format
-msgid "obsolete option '--%s'; please use '--%s' instead"
-msgstr "Figyelem: elavult lehetőség `--%s'\n"
-
 #: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
@@ -3037,15 +3032,13 @@ msgstr "e csomag: `%.250s' fájllista fájlja üres fájlnevet tartalmaz"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
-#| msgid "cannot stat old name `%s': %s"
-msgid "control file '%s' missing value"
-msgstr "a régi `%s' név nem található: %s"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "e csomag: `%.250s' fájllista fájlja üres fájlnevet tartalmaz"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
-#| msgid "cannot stat old name `%s': %s"
-msgid "control file '%s' missing value separator"
-msgstr "a régi `%s' név nem található: %s"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "e csomag: `%.250s' fájllista fájlja üres fájlnevet tartalmaz"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
@@ -3056,29 +3049,29 @@ msgstr "e csomag: `%.250s' fájllista fájlja üres fájlnevet tartalmaz"
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open '%s' control file for package '%s'"
+msgid "cannot open control file '%s' for package '%s'"
 msgstr "nem tudom megnyitni a fájllista fájlt e csomaghoz: `%.250s'"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
-msgid "cannot stat '%s' control file for package '%s'"
+msgid "cannot stat control file '%s' for package '%s'"
 msgstr "nem tudom megnyitni a fájllista fájlt e csomaghoz: `%.250s'"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
-msgid "'%s' file for package '%s' is not a regular file"
+msgid "control file '%s' for package '%s' is not a regular file"
 msgstr "e csomag: `%.250s' fájllista fájlja üres fájlnevet tartalmaz"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read '%s' control file for package '%s'"
+msgid "cannot read control file '%s' for package '%s'"
 msgstr "olvashatatlan `%.250s' konfig fájl könyvtár (innen: `%.250s')"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close '%s' control file for package '%s'"
+msgid "cannot close control file '%s' for package '%s'"
 msgstr "nem sikerült lezárni a fájllista fájlt e csomaghoz: `%.250s'"
 
 #: src/help.c
@@ -4280,7 +4273,7 @@ msgstr "rossz csomagnév a %d. sorban: %.250s"
 #: src/select.c
 #, fuzzy, c-format
 #| msgid "illegal package name at line %d: %.250s"
-msgid "package not in database at line %d: %.250s"
+msgid "package not in status nor available database at line %d: %.250s"
 msgstr "rossz csomagnév a %d. sorban: %.250s"
 
 #: src/select.c
@@ -4295,7 +4288,8 @@ msgstr "olvasási hiba a szabvány bemeneten"
 #: src/select.c
 msgid ""
 "found unknown packages; this might mean the available database\n"
-"is outdated, and needs to be updated through a frontend method"
+"is outdated, and needs to be updated through a frontend method;\n"
+"please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 msgstr ""
 
 #: src/selinux.c
@@ -5024,7 +5018,7 @@ msgstr "tagok közt"
 msgid "<compress> from tar -cf"
 msgstr ""
 
-#: dpkg-deb/build.c
+#: dpkg-deb/build.c dpkg-split/split.c
 #, fuzzy, c-format
 #| msgid "unable to create '%.255s'"
 msgid "unable to parse timestamp '%.255s'"
@@ -5428,9 +5422,6 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --old                        Legacy alias for '--deb-"
-"format=0.939000'.\n"
-"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --uniform-compression        Use the compression params on all "
@@ -5438,7 +5429,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, bzip2, none.\n"
+"                                     Allowed types: gzip, xz, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -5512,14 +5503,15 @@ msgid "unknown compression type '%s'!"
 msgstr "ismeretlen tömörítés: `%s'!"
 
 #: dpkg-deb/main.c
-#, c-format
-msgid "deprecated compression type '%s'; use xz instead"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "unknown compression type `%s'!"
+msgid "obsolete compression type '%s'; use xz instead"
+msgstr "ismeretlen tömörítés: `%s'!"
 
 #: dpkg-deb/main.c
 #, fuzzy, c-format
 #| msgid "unknown compression type `%s'!"
-msgid "deprecated compression type '%s'; use xz or gzip instead"
+msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr "ismeretlen tömörítés: `%s'!"
 
 #: dpkg-deb/main.c
@@ -6580,6 +6572,20 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "Az automatikus frissítésekhez való visszatéréshez használd az `update-"
 "alternatives --auto %s'-t"
+
+#, fuzzy
+#~ msgid "obsolete option '--%s'; please use '--%s' instead"
+#~ msgstr "Figyelem: elavult lehetőség `--%s'\n"
+
+#, fuzzy
+#~| msgid "cannot stat old name `%s': %s"
+#~ msgid "control file '%s' missing value"
+#~ msgstr "a régi `%s' név nem található: %s"
+
+#, fuzzy
+#~| msgid "cannot stat old name `%s': %s"
+#~ msgid "control file '%s' missing value separator"
+#~ msgstr "a régi `%s' név nem található: %s"
 
 #~ msgid "unable to fstat part file '%.250s'"
 #~ msgstr "`%.250s' rész fájl fstat sikertelen"

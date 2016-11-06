@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-07-31 12:58+0200\n"
+"POT-Creation-Date: 2016-11-06 03:24+0100\n"
 "PO-Revision-Date: 2015-04-07 10:01+0200\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <debian-l10n-slovak@lists.debian.org>\n"
@@ -166,8 +166,8 @@ msgstr "neočakávaný koniec súboru alebo toku"
 msgid "failed to seek"
 msgstr "nepodarilo sa presunúť ukazovateľ čítania (seek)"
 
-#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-deb/build.c
-#: dpkg-split/split.c utils/update-alternatives.c
+#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-split/split.c
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "nie je možné spustiť %s (%s)"
@@ -2862,11 +2862,6 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "nie je možné vyriešiť pred-závislosti pre %.250s (vyžadované pre %.250s)"
 
-#: src/enquiry.c dpkg-deb/main.c
-#, c-format
-msgid "obsolete option '--%s'; please use '--%s' instead"
-msgstr "zastaraná voľba „--%s“. Prosím, použite namiesto nej „--%s“"
-
 #: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
@@ -3013,15 +3008,15 @@ msgstr "v zozname súborov balíka „%.250s“ chýba na konci znak nového ria
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
-#| msgid "control file '%s' does not exist"
-msgid "control file '%s' missing value"
-msgstr "riadiaci súbor „%s“ neexistuje"
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "v zozname súborov balíka „%.250s“ chýba na konci znak nového riadka"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
-#| msgid "control file '%s' does not exist"
-msgid "control file '%s' missing value separator"
-msgstr "riadiaci súbor „%s“ neexistuje"
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "v zozname súborov balíka „%.250s“ chýba na konci znak nového riadka"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
@@ -3032,31 +3027,31 @@ msgstr "zoznam súborov balíka „%.250s“ obsahuje prázdny názov súboru"
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open '%s' control file for package '%s'"
+msgid "cannot open control file '%s' for package '%s'"
 msgstr "nie je možné otvoriť zoznam súborov balíka „%.250s“"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "unable to stat files list file for package '%.250s'"
-msgid "cannot stat '%s' control file for package '%s'"
+msgid "cannot stat control file '%s' for package '%s'"
 msgstr "nie je možné zistiť stav súboru so zoznam súborov balíka „%.250s“"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "files list for package '%.250s' is not a regular file"
-msgid "'%s' file for package '%s' is not a regular file"
+msgid "control file '%s' for package '%s' is not a regular file"
 msgstr "zoznam súborov balíka „%.250s“ nie je obyčajný súbor"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "cannot extract control file '%s' from '%s': %s"
-msgid "cannot read '%s' control file for package '%s'"
+msgid "cannot read control file '%s' for package '%s'"
 msgstr "nie je možné extrahovať riadaici súbor „%s“ z „%s“: %s"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close '%s' control file for package '%s'"
+msgid "cannot close control file '%s' for package '%s'"
 msgstr "chyba pri zatváraní zoznamu súborov balíka „%.250s“"
 
 #: src/help.c
@@ -4356,8 +4351,9 @@ msgid "illegal package name at line %d: %.250s"
 msgstr "nepovolený názov balíka na riadku %d: %.250s"
 
 #: src/select.c
-#, c-format
-msgid "package not in database at line %d: %.250s"
+#, fuzzy, c-format
+#| msgid "package not in database at line %d: %.250s"
+msgid "package not in status nor available database at line %d: %.250s"
 msgstr "balík nie je v databáze na riadku %d: %.250s"
 
 #: src/select.c
@@ -4372,7 +4368,8 @@ msgstr "chyba pri čítaní zo štandardného vstupu"
 #: src/select.c
 msgid ""
 "found unknown packages; this might mean the available database\n"
-"is outdated, and needs to be updated through a frontend method"
+"is outdated, and needs to be updated through a frontend method;\n"
+"please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 msgstr ""
 
 #: src/selinux.c
@@ -5113,7 +5110,7 @@ msgstr "komprimuje sa dátový člen"
 msgid "<compress> from tar -cf"
 msgstr "<compress> z tar -cf"
 
-#: dpkg-deb/build.c
+#: dpkg-deb/build.c dpkg-split/split.c
 #, fuzzy, c-format
 #| msgid "unable to create '%.255s'"
 msgid "unable to parse timestamp '%.255s'"
@@ -5513,9 +5510,6 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --old                        Legacy alias for '--deb-"
-"format=0.939000'.\n"
-"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --uniform-compression        Use the compression params on all "
@@ -5523,7 +5517,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, bzip2, none.\n"
+"                                     Allowed types: gzip, xz, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -5602,14 +5596,15 @@ msgid "unknown compression type '%s'!"
 msgstr "neznámy typ kompresie „%s“!"
 
 #: dpkg-deb/main.c
-#, c-format
-msgid "deprecated compression type '%s'; use xz instead"
+#, fuzzy, c-format
+#| msgid "deprecated compression type '%s'; use xz instead"
+msgid "obsolete compression type '%s'; use xz instead"
 msgstr "zavrhovaný typ kompresie „%s“: použite namiesto toho xz"
 
 #: dpkg-deb/main.c
 #, fuzzy, c-format
 #| msgid "deprecated compression type '%s'; use xz instead"
-msgid "deprecated compression type '%s'; use xz or gzip instead"
+msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr "zavrhovaný typ kompresie „%s“: použite namiesto toho xz"
 
 #: dpkg-deb/main.c
@@ -6669,6 +6664,19 @@ msgstr "automatické aktualizácie %s/%s sú zakázané, zmeny sa nevykonajú"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "použitím „%s --auto %s“ sa vrátite späť na automatické aktualizácie"
+
+#~ msgid "obsolete option '--%s'; please use '--%s' instead"
+#~ msgstr "zastaraná voľba „--%s“. Prosím, použite namiesto nej „--%s“"
+
+#, fuzzy
+#~| msgid "control file '%s' does not exist"
+#~ msgid "control file '%s' missing value"
+#~ msgstr "riadiaci súbor „%s“ neexistuje"
+
+#, fuzzy
+#~| msgid "control file '%s' does not exist"
+#~ msgid "control file '%s' missing value separator"
+#~ msgstr "riadiaci súbor „%s“ neexistuje"
 
 #~ msgid "unable to fstat part file '%.250s'"
 #~ msgstr "nie je možné vykonať fstat() časti súboru „%.250s“"

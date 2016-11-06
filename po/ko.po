@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-07-31 12:58+0200\n"
+"POT-Creation-Date: 2016-11-06 03:24+0100\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -184,8 +184,8 @@ msgstr "%.250s 파일에서 예상치 못하게 파일이 끝났습니다"
 msgid "failed to seek"
 msgstr "tar 실행이 실패했습니다"
 
-#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-deb/build.c
-#: dpkg-split/split.c utils/update-alternatives.c
+#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-split/split.c
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "%s 프로그램을 실행할 수 없습니다 (%s)"
@@ -2962,12 +2962,6 @@ msgstr ""
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "%.250s에 대한 미리 의존을 만족시킬 수 없습니다 (%.250s 때문에 필요)"
 
-#: src/enquiry.c dpkg-deb/main.c
-#, fuzzy, c-format
-#| msgid "obsolete option '--%s', please use '--%s' instead."
-msgid "obsolete option '--%s'; please use '--%s' instead"
-msgstr "'--%s' 옵션은 더 이상 사용하지 않습니다. '--%s' 옵션을 사용하십시오."
-
 #: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
@@ -3119,15 +3113,15 @@ msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 �
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
-#| msgid "cannot stat file '%s'"
-msgid "control file '%s' missing value"
-msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
-#| msgid "cannot stat file '%s'"
-msgid "control file '%s' missing value separator"
-msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
@@ -3138,31 +3132,31 @@ msgstr "`%.250s' 패키지의 파일 목록에 빈 파일 이름이 있습니다
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open '%s' control file for package '%s'"
+msgid "cannot open control file '%s' for package '%s'"
 msgstr "`%.250s' 패키지에 대한 파일 목록을 열 수 없습니다"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "unable to stat files list file for package '%.250s'"
-msgid "cannot stat '%s' control file for package '%s'"
+msgid "cannot stat control file '%s' for package '%s'"
 msgstr "'%.250s' 패키지의 파일 목록 파일의 정보를 읽을 수 없습니다"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "files list file for package '%.250s' is missing final newline"
-msgid "'%s' file for package '%s' is not a regular file"
+msgid "control file '%s' for package '%s' is not a regular file"
 msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read '%s' control file for package '%s'"
+msgid "cannot read control file '%s' for package '%s'"
 msgstr "설정 파일 디렉터리 `%.250s' 디렉터리를 읽을 수 없습니다 (`%.250s'에서)"
 
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close '%s' control file for package '%s'"
+msgid "cannot close control file '%s' for package '%s'"
 msgstr "`%.250s' 패키지의 파일 목록 파일을 닫는데 오류가 발생했습니다."
 
 #: src/help.c
@@ -4486,7 +4480,7 @@ msgstr "%d번째 줄에 사용할 수 없는 패키지 이름이 나왔습니다
 #: src/select.c
 #, fuzzy, c-format
 #| msgid "illegal package name at line %d: %.250s"
-msgid "package not in database at line %d: %.250s"
+msgid "package not in status nor available database at line %d: %.250s"
 msgstr "%d번째 줄에 사용할 수 없는 패키지 이름이 나왔습니다: %.250s"
 
 #: src/select.c
@@ -4501,7 +4495,8 @@ msgstr "표준 입력을 읽는데 오류가 발생했습니다"
 #: src/select.c
 msgid ""
 "found unknown packages; this might mean the available database\n"
-"is outdated, and needs to be updated through a frontend method"
+"is outdated, and needs to be updated through a frontend method;\n"
+"please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 msgstr ""
 
 #: src/selinux.c
@@ -5288,7 +5283,7 @@ msgstr "멤버"
 msgid "<compress> from tar -cf"
 msgstr "tar -cf에서 압축"
 
-#: dpkg-deb/build.c
+#: dpkg-deb/build.c dpkg-split/split.c
 #, fuzzy, c-format
 #| msgid "unable to create '%.255s'"
 msgid "unable to parse timestamp '%.255s'"
@@ -5714,9 +5709,6 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --old                        Legacy alias for '--deb-"
-"format=0.939000'.\n"
-"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --uniform-compression        Use the compression params on all "
@@ -5724,7 +5716,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, bzip2, none.\n"
+"                                     Allowed types: gzip, xz, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -5801,14 +5793,15 @@ msgid "unknown compression type '%s'!"
 msgstr "알 수 없는 압축 종류 `%s'!"
 
 #: dpkg-deb/main.c
-#, c-format
-msgid "deprecated compression type '%s'; use xz instead"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "unknown compression type `%s'!"
+msgid "obsolete compression type '%s'; use xz instead"
+msgstr "알 수 없는 압축 종류 `%s'!"
 
 #: dpkg-deb/main.c
 #, fuzzy, c-format
 #| msgid "unknown compression type `%s'!"
-msgid "deprecated compression type '%s'; use xz or gzip instead"
+msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr "알 수 없는 압축 종류 `%s'!"
 
 #: dpkg-deb/main.c
@@ -7009,6 +7002,22 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "다시 자동 업데이트를 하려면 `update-alternatives --auto %s' 명령을 사용하십시"
 "오."
+
+#, fuzzy
+#~| msgid "obsolete option '--%s', please use '--%s' instead."
+#~ msgid "obsolete option '--%s'; please use '--%s' instead"
+#~ msgstr ""
+#~ "'--%s' 옵션은 더 이상 사용하지 않습니다. '--%s' 옵션을 사용하십시오."
+
+#, fuzzy
+#~| msgid "cannot stat file '%s'"
+#~ msgid "control file '%s' missing value"
+#~ msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
+
+#, fuzzy
+#~| msgid "cannot stat file '%s'"
+#~ msgid "control file '%s' missing value separator"
+#~ msgstr "'%s' 파일의 정보를 읽을 수 없습니다"
 
 #~ msgid "unable to fstat part file '%.250s'"
 #~ msgstr "구성 요소 파일 `%.250s'의 정보를 읽을 수 없습니다"

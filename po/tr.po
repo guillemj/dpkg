@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-07-31 12:58+0200\n"
+"POT-Creation-Date: 2016-11-06 03:24+0100\n"
 "PO-Revision-Date: 2016-07-22 03:00+0300\n"
 "Last-Translator: Mert Dirik <mertdirik@gmail.com>\n"
 "Language-Team: Turkish <debian-l10n-turkish@lists.debian.org>\n"
@@ -163,8 +163,8 @@ msgstr "beklenmeyen dosya ya da akış sonu"
 msgid "failed to seek"
 msgstr "seek çağrısı başarısız oldu"
 
-#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-deb/build.c
-#: dpkg-split/split.c utils/update-alternatives.c
+#: lib/dpkg/command.c lib/dpkg/path-remove.c src/unpack.c dpkg-split/split.c
+#: utils/update-alternatives.c
 #, c-format
 msgid "unable to execute %s (%s)"
 msgstr "%s (%s) çalıştırılamadı"
@@ -2793,12 +2793,6 @@ msgstr ""
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "%.250s için önbağımlılıklar sağlanamıyor (%.250s için isteniyordu)"
 
-#: src/enquiry.c dpkg-deb/main.c
-#, c-format
-msgid "obsolete option '--%s'; please use '--%s' instead"
-msgstr ""
-"'--%s' seçeneği kullanımdan kalkmıştır; lütfen bunun yerine '--%s' kullanın"
-
 #: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
@@ -2936,14 +2930,20 @@ msgstr ""
 "eksik"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' missing value"
-msgstr "'%s' denetim dosyasında eksik değer"
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr ""
+"'%2$s' paketinin denetim dosyasının (%1$s) sonundaki yeni satır karakteri "
+"eksik"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' missing value separator"
-msgstr "'%s' denetim dosyasında eksik bir değer ayırıcı var"
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"'%2$s' paketinin denetim dosyasının (%1$s) sonundaki yeni satır karakteri "
+"eksik"
 
 #: src/filesdb-hash.c
 #, c-format
@@ -2951,28 +2951,33 @@ msgid "control file '%s' for package '%s' contains empty filename"
 msgstr "'%2$s' paketinin denetim dosyası (%1$s) boş bir dosya adı içeriyor"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot open '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot open '%s' control file for package '%s'"
+msgid "cannot open control file '%s' for package '%s'"
 msgstr "'%2$s' paketinin denetim dosyası (%1$s) açılamıyor"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot stat '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot stat '%s' control file for package '%s'"
+msgid "cannot stat control file '%s' for package '%s'"
 msgstr "'%2$s' paketinin denetim dosyasına (%1$s) stat çağrısı yapılamadı"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "'%s' file for package '%s' is not a regular file"
+#, fuzzy, c-format
+#| msgid "'%s' file for package '%s' is not a regular file"
+msgid "control file '%s' for package '%s' is not a regular file"
 msgstr "'%2$s' paketinin '%1$s' dosyası normal bir dosya değil"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot read '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot read '%s' control file for package '%s'"
+msgid "cannot read control file '%s' for package '%s'"
 msgstr "'%2$s' paketinin denetim dosyası (%1$s) okunamadı"
 
 #: src/filesdb-hash.c
-#, c-format
-msgid "cannot close '%s' control file for package '%s'"
+#, fuzzy, c-format
+#| msgid "cannot close '%s' control file for package '%s'"
+msgid "cannot close control file '%s' for package '%s'"
 msgstr "'%2$s' paketinin denetim dosyası (%1$s) kapatılamadı"
 
 #: src/help.c
@@ -4172,8 +4177,9 @@ msgid "illegal package name at line %d: %.250s"
 msgstr "%d. satırdaki paket adı geçersiz: %.250s"
 
 #: src/select.c
-#, c-format
-msgid "package not in database at line %d: %.250s"
+#, fuzzy, c-format
+#| msgid "package not in database at line %d: %.250s"
+msgid "package not in status nor available database at line %d: %.250s"
 msgstr "%d. satırdaki paket veritabanında mevcut değil: %.250s"
 
 #: src/select.c
@@ -4186,9 +4192,14 @@ msgid "read error on standard input"
 msgstr "standart girdide okuma hatası"
 
 #: src/select.c
+#, fuzzy
+#| msgid ""
+#| "found unknown packages; this might mean the available database\n"
+#| "is outdated, and needs to be updated through a frontend method"
 msgid ""
 "found unknown packages; this might mean the available database\n"
-"is outdated, and needs to be updated through a frontend method"
+"is outdated, and needs to be updated through a frontend method;\n"
+"please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 msgstr ""
 "bilinmeyen paketlerle karşılaşıldı; bu durum kullanılabilir paketler\n"
 "veritabanının güncelliğini yitirdiği ve bir ön yüz yöntemi ile\n"
@@ -4886,7 +4897,7 @@ msgstr "tar üyesi sıkıştırılıyor"
 msgid "<compress> from tar -cf"
 msgstr "<sıkıştır> tar -cf"
 
-#: dpkg-deb/build.c
+#: dpkg-deb/build.c dpkg-split/split.c
 #, c-format
 msgid "unable to parse timestamp '%.255s'"
 msgstr "'%.255s' zaman damgası ayrıştırılamadı"
@@ -5247,7 +5258,35 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --old                        Legacy alias for '--deb-"
+#| "format=0.939000'.\n"
+#| "      --new                        Legacy alias for '--deb-format=2.0'.\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --uniform-compression        Use the compression params on all "
+#| "members.\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, bzip2, "
+#| "none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -5256,9 +5295,6 @@ msgid ""
 "      --deb-format=<format>        Select archive format.\n"
 "                                     Allowed values: 0.939000, 2.0 "
 "(default).\n"
-"      --old                        Legacy alias for '--deb-"
-"format=0.939000'.\n"
-"      --new                        Legacy alias for '--deb-format=2.0'.\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --uniform-compression        Use the compression params on all "
@@ -5266,7 +5302,7 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed types: gzip, xz, bzip2, none.\n"
+"                                     Allowed types: gzip, xz, none.\n"
 "  -S<strategy>                     Set the compression strategy when "
 "building.\n"
 "                                     Allowed values: none; extreme (xz);\n"
@@ -5349,14 +5385,16 @@ msgid "unknown compression type '%s'!"
 msgstr "bilinmeyen sıkıştırma türü '%s'!"
 
 #: dpkg-deb/main.c
-#, c-format
-msgid "deprecated compression type '%s'; use xz instead"
+#, fuzzy, c-format
+#| msgid "deprecated compression type '%s'; use xz instead"
+msgid "obsolete compression type '%s'; use xz instead"
 msgstr ""
 "'%s' sıkıştırma türü artık kullanılmamaktadır; bunun yerine xz kullanın"
 
 #: dpkg-deb/main.c
-#, c-format
-msgid "deprecated compression type '%s'; use xz or gzip instead"
+#, fuzzy, c-format
+#| msgid "deprecated compression type '%s'; use xz or gzip instead"
+msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr ""
 "'%s' sıkıştırma türü artık kullanılmamaktadır; bunun yerine xz veya gzip "
 "kullanın"
@@ -6426,6 +6464,17 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "otomatik güncelleştirmeleri tekrar etkinleştirmek için '%s --auto %s' "
 "komutunu kullanın"
+
+#~ msgid "obsolete option '--%s'; please use '--%s' instead"
+#~ msgstr ""
+#~ "'--%s' seçeneği kullanımdan kalkmıştır; lütfen bunun yerine '--%s' "
+#~ "kullanın"
+
+#~ msgid "control file '%s' missing value"
+#~ msgstr "'%s' denetim dosyasında eksik değer"
+
+#~ msgid "control file '%s' missing value separator"
+#~ msgstr "'%s' denetim dosyasında eksik bir değer ayırıcı var"
 
 #~ msgid "unable to fstat part file '%.250s'"
 #~ msgstr "'%.250s' parça dosyasına fstat çağrısı başarısız"
