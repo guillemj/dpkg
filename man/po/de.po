@@ -4,12 +4,14 @@
 # (C) Florian Rehnisch <eixman@gmx.de>, 2007.
 # (C) Sven Joachim <svenjoac@gmx.de>, 2008.
 #
+# Zeichenspeicher: ‚ ’ „ “
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2016-11-06 06:04+0100\n"
-"PO-Revision-Date: 2016-11-05 20:55+0100\n"
+"PO-Revision-Date: 2016-11-06 08:55+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -1162,12 +1164,11 @@ msgstr ""
 "automatisch geschlossen werden, falls der Changlog bei der Aufnahme in das "
 "Distributionsarchiv die folgende Zeichenkette enthält:"
 
-# FIXME: This is wrong: B<Closes: #>I<nnnnn>
 #. type: Plain text
 #: deb-changelog.man
 #, no-wrap
 msgid "  B<Closes: Bug#>I<nnnnn>\n"
-msgstr "  B<Closes: Fehler#>I<nnnnn>\n"
+msgstr "  B<Closes: Bug#>I<nnnnn>\n"
 
 #. type: Plain text
 #: deb-changelog.man
@@ -10419,16 +10420,13 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildflags.man
-#, fuzzy, no-wrap
-#| msgid ""
-#| "  Feature: pie\n"
-#| "  Enabled: no\n"
+#, no-wrap
 msgid ""
 "  Feature: pie\n"
 "  Enabled: yes\n"
 msgstr ""
 "  Feature: pie\n"
-"  Enabled: no\n"
+"  Enabled: yes\n"
 
 #. type: Plain text
 #: dpkg-buildflags.man
@@ -10991,22 +10989,19 @@ msgid ""
 "B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> "
 "and B<FCFLAGS>, and B<-no-pie> to B<LDFLAGS>."
 msgstr ""
+"Diese Einstellung (aktiviert und standardmäßig von GCC auf den Architekturen "
+"Amd64, Arm64, Armel, Armhf, I386, Mips, Mipsel, Mips64el, PPC64el und S390x "
+"hinzugefügt, seit Dpkg 1.18.11) fügt die benötigten Optionen hinzu, falls sie "
+"zum Aktivieren oder Deaktivieren von PIE benötigt werden. Falls aktiviert und "
+"von GCC hinzugefügt, ergänzt nichts. Wenn aktiviert und nicht von GCC "
+"hinzugefügt, fügt B<-fPIE> zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
+"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu und B<-fPIE -pie> "
+"zu B<LDFLAGS>. Wenn deaktiviert und von GCC hinzugefügt, fügt B<-fno-PIE> zu "
+"B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> "
+"und B<FCFLAGS> hinzu und B<-no-pie> zu B<LDFLAGS>."
 
 #. type: Plain text
 #: dpkg-buildflags.man
-#, fuzzy
-#| msgid ""
-#| "This setting (disabled by default) adds B<-fPIE> to B<CFLAGS>, "
-#| "B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and "
-#| "B<FCFLAGS>, and B<-fPIE -pie> to B<LDFLAGS>. Position Independent "
-#| "Executable are needed to take advantage of Address Space Layout "
-#| "Randomization, supported by some kernel versions. While ASLR can already "
-#| "be enforced for data areas in the stack and heap (brk and mmap), the code "
-#| "areas must be compiled as position-independent. Shared libraries already "
-#| "do this (-fPIC), so they gain ASLR automatically, but binary .text "
-#| "regions need to be build PIE to gain ASLR. When this happens, ROP (Return "
-#| "Oriented Programming) attacks are much harder since there are no static "
-#| "locations to bounce off of during a memory corruption attack."
 msgid ""
 "Position Independent Executable are needed to take advantage of Address "
 "Space Layout Randomization, supported by some kernel versions. While ASLR "
@@ -11017,9 +11012,7 @@ msgid ""
 "Oriented Programming) attacks are much harder since there are no static "
 "locations to bounce off of during a memory corruption attack."
 msgstr ""
-"Diese Einstellung (standardmäßig deaktiviert) fügt B<-fPIE> zu B<CFLAGS>, "
-"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und "
-"B<FCFLAGS> sowie B<-fPIE -pie> zu B<LDFLAGS> hinzu. »Position Independent "
+"»Position Independent "
 "Executable« (positionsunabhängige Programme) werden benötigt, um »Address "
 "Space Layout Randomization« (Bereitstellung eines zufälligen "
 "Adressbereichlayouts) auszunutzen, der von einigen Kernelversionen "
@@ -11101,6 +11094,15 @@ msgid ""
 "last (so that it overrides any previous B<-pie>) to linking flags such as "
 "B<LDFLAGS>."
 msgstr ""
+"Die bedingungslose Übergabe von B<-fPIE>, B<-fpie> oder B<-pie> an das "
+"Bausystem mit Libtool ist sicher, da diese Schalter entfernt werden, wenn "
+"Laufzeit-Bibliotheken gebaut werden. Andernfalls könnte es bei Projekten, die "
+"sowohl Programme wie auch Laufzeit-Bibliotheken bauen, notwendig sein, dass "
+"Sie beim Bau der Laufzeit-Bibliotheken sicherstellen, dass B<-fPIC> immer als "
+"letztes an die Kompilierungsschalter wie B<CFLAGS> übergeben wird (so dass es "
+"jedes frühere B<-PIE> außer Kraft setzen kann) und B<-shared> als letztes an "
+"Link-Schalter wie B<LDFLAGS> übergeben wird (so dass es jedes frühere B<-pie> "
+"außer Kraft setzen kann)."
 
 #. type: Plain text
 #: dpkg-buildflags.man
@@ -11179,7 +11181,6 @@ msgstr ""
 "Dies führt dazu, dass der Baupfad aus allen erstellten Debug-Symbolen "
 "entfernt wird."
 
-# FIXME Erster Satz war falsch übersetzt → Stable?
 #. type: Plain text
 #: dpkg-buildflags.man
 msgid ""
@@ -11776,7 +11777,7 @@ msgstr ""
 #: dpkg-buildpackage.man
 #, no-wrap
 msgid "B<12.>"
-msgstr ""
+msgstr "B<12.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
@@ -12144,7 +12145,6 @@ msgstr ""
 "beispielsweise B<debian/rules>-Dateien, diese Information für den Bau unter "
 "bestimmten Bedingungen zu nutzen."
 
-# FIXME: So auch in der Scripts-Übersetzung??
 #. type: TP
 #: dpkg-buildpackage.man
 #, no-wrap
@@ -12529,13 +12529,6 @@ msgstr "B<--buildinfo-id=>I<Kennzeichner>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
-#| msgid ""
-#| "The value of this field is the name of the source package, and should "
-#| "match the name of the source package in the debian/changelog file. A "
-#| "package name must consist only of lower case letters (a-z), digits (0-9), "
-#| "plus (+) and minus (-) signs, and periods (.). Package names must be at "
-#| "least two characters long and must start with an alphanumeric character."
 msgid ""
 "Specify the identifier part of the B<.buildinfo> file name (since dpkg "
 "1.18.11).  By default, B<dpkg-buildpackage> will create an identifier using "
@@ -12545,10 +12538,13 @@ msgid ""
 "z), digits (0-9), plus (+) and minus (-)  signs, and periods (.), be at "
 "least two characters long and must start with an alphanumeric character."
 msgstr ""
-"Der Wert dieses Feldes ist der Name des Quellpakets und sollte mit dem Namen "
-"des Quellpakets in der Datei debian/changelog übereinstimmen. Ein Paketname "
-"darf nur aus Kleinbuchstaben (a-z), Ziffern (0-9), Plus- (+) und "
-"Minuszeichen (-) und Satzpunkten (.) bestehen. Paketnamen müssen mindestens "
+"Legt den Kennzeichnerteil des B<.buildinfo>-Dateinamens fest (seit Dpkg 1.18."
+"11). Standardmäßig erzeugt B<dpkg-buildpackage> einen Kennzeichner mittels "
+"der aktuellen Zeit und den ersten Zeichen des MD5-Hashes. Als Ersatz kann ein "
+"beliebiger Kennzeichner festgelegt werden. Der Kennzeichner hat die gleichen "
+"Einschränkungen wie Paketnamen: Er darf nur aus Kleinbuchstaben (a-z), "
+"Ziffern (0-9), Plus- (+) und Minus- (-) Zeichen sowie Punkten (.) bestehen, "
+"muss mindestens "
 "zwei Zeichen lang sein und mit einem alphanumerischen Zeichen beginnen."
 
 #. type: TP
@@ -12963,71 +12959,55 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
-#| "genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<gpg2>(1), B<gpg>(1)."
 msgid ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
 "genbuildinfo>(1), B<dpkg-genchanges>(1), B<fakeroot>(1), B<lintian>(1), "
 "B<gpg2>(1), B<gpg>(1)."
 msgstr ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-buildflags>(1), B<dpkg-"
-"genchanges>(1), B<fakeroot>(1), B<lintian>(1), B<gpg2>(1), B<gpg>(1)."
+"genbuildinfo>(1), B<dpkg-genchanges>(1), B<fakeroot>(1), B<lintian>(1), "
+"B<gpg2>(1), B<gpg>(1)."
 
 #. type: TH
 #: dpkg-genbuildinfo.man
-#, fuzzy, no-wrap
-#| msgid "dpkg-buildflags"
+#, no-wrap
 msgid "dpkg-genbuildinfo"
-msgstr "dpkg-buildflags"
+msgstr "dpkg-genbuildinfo"
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid "dpkg-gencontrol - generate Debian control files"
 msgid "dpkg-genbuildinfo - generate Debian .buildinfo files"
-msgstr "dpkg-gencontrol - erstelle Debian control-Dateien"
+msgstr "dpkg-genbuildinfo - erstelle Debian-.buildinfo-Dateien"
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid "B<dpkg-gencontrol> [I<option>...]"
 msgid "B<dpkg-genbuildinfo> [I<option>...]"
-msgstr "B<dpkg-gencontrol> [I<Option> …]"
+msgstr "B<dpkg-genbuildinfo> [I<Optionen> …]"
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid ""
-#| "B<dpkg-genchanges> reads information from an unpacked and built Debian "
-#| "source tree and from the files it has generated and generates a Debian "
-#| "upload control file (B<.changes> file)."
 msgid ""
 "B<dpkg-genbuildinfo> reads information from an unpacked and built Debian "
 "source tree and from the files it has generated and generates a Debian "
 "control file describing the build environment and the build artifacts (B<."
 "buildinfo> file)."
 msgstr ""
-"B<dpkg-genchanges> liest Informationen aus einem entpackten und gebauten "
+"B<dpkg-genbuildinfo> liest Informationen aus einem entpackten und gebauten "
 "Debian-Quellcodebaum und aus den darin erzeugten Dateien und erzeugt eine "
-"Debian-Steuerdatei für das Hochladen (die B<.changes>-Datei)."
+"Debian-Steuerdatei, die die Bauumgebung und Bauartefakte beschreibt (Datei "
+"B<.buildinfo>)."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
 msgid "This command was introduced in dpkg 1.18.11."
-msgstr ""
+msgstr "Dieser Befehl wurde in Dpkg 1.18.11 hinzugefügt."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid ""
-#| "Specifies the build I<type> from a comma-separated list of components "
-#| "(since dpkg 1.18.5)."
 msgid "Specifies the build I<type> from a comma-separated list of components."
 msgstr ""
 "Spezifiziert den Bau-I<Typ> aus einer Kommata-getrennten Liste von "
-"Komponenten (seit Dpkg 1.18.5)."
+"Komponenten."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
@@ -13036,6 +13016,9 @@ msgid ""
 "Depends>) and architecture specific build dependencies (B<Build-Depends-"
 "Arch>)."
 msgstr ""
+"Erstellt Bauinformationen, die nicht qualifizerte Bauabhängigkeiten (B<Build-"
+"Depends>) und architekturabhängige spezifische Bauabhängigkeiten (B<Build-Depends-"
+"Arch>) enthalten."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
@@ -13044,6 +13027,9 @@ msgid ""
 "Depends>) and architecture independent build dependencies (B<Build-Depends-"
 "Indep>)."
 msgstr ""
+"Erstellt Bauinformationen, die nicht qualifizerte Bauabhängigkeiten (B<Build-"
+"Depends>) und architekturunabhängige Bauabhängigkeiten (B<Build-Depends-"
+"Indep>) enthalten."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
@@ -13051,32 +13037,27 @@ msgid ""
 "Effectively ignored; generate build information with just the unqualified "
 "build dependencies (B<Build-Depends>)."
 msgstr ""
+"Tatsächlich ignoriert; erstellt Bauinformationen mit nur den nicht "
+"qualifizierten Abhängigkeiten (B<Build-Depends>)."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid ""
-#| "Builds the architecture specific and independent binary packages.  This "
-#| "is an alias for B<any,all>."
 msgid ""
 "Generate build information with all three types of build dependencies.  This "
 "is an alias for B<any,all>."
 msgstr ""
-"Baut die architekturspezifischen und -unabhängigen Binärpakete. Dies ist ein "
+"Erstellt Bauinformationen mit allen drei Arten von Bauabhängigkeiten. Dies ist ein "
 "Alias für B<any,all>."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid ""
-#| "Builds everything.  This is an alias for B<source,any,all>, and the same "
-#| "as the default case when no build option is specified."
 msgid ""
 "Generate build information with all three types of build dependencies.  This "
 "is an alias for B<any,all,source>, and the same as the default case when no "
 "build option is specified."
 msgstr ""
-"Baut alles. Dies ist ein Alias für B<source,any,all> und identisch zum "
+"Erstellt Bauinformationen mit allen drei Arten von Bauabhängigkeiten. Dies "
+"ist ein Alias für B<any,all,source> und identisch zum "
 "Standardfall, wenn keine Bauoptionen festgelegt werden."
 
 #. type: TP
@@ -13119,15 +13100,11 @@ msgstr "B<-f>I<Dateienlist-Datei>"
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid ""
-#| "Read or write the list of files to be uploaded here, rather than using "
-#| "B<debian/files>."
 msgid ""
 "Specifies where is the list of files that have been produced by the build, "
 "rather than using B<debian/files>."
 msgstr ""
-"Lese oder schreibe die Liste der hochzuladenen Dateien hierher, statt "
+"Legt fest, wo die Liste der durch den Bau erstellten Dateien ist, statt "
 "B<debian/files> zu verwenden."
 
 #. type: TP
@@ -13162,6 +13139,10 @@ msgid ""
 "id>B<.buildinfo> (where I<dir> is B<..> by default or I<upload-files-dir> if "
 "B<-u> was used)."
 msgstr ""
+"Gibt die Buildinfo-Datei zur Standardausgabe (oder I<Dateiname>, falls "
+"angegeben) aus, statt nach I<Verz>B</>I<Quellname>B<_>I<Quellversion>B<_>"
+"I<Buildinfo-ID>B<.buildinfo> (wobei I<Verz> standardmäßig B<..> oder "
+"I<Hochladedateiverzeichnis>, falls B<-u> verwandt wurde, ist)."
 
 #. type: TP
 #: dpkg-genbuildinfo.man dpkg-genchanges.man
@@ -13171,30 +13152,18 @@ msgstr "B<-u>I<Hochladedateiverzeichnis>"
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid ""
-#| "Look for the files to be uploaded in I<upload-files-dir> rather than B<.."
-#| "> (B<dpkg-genchanges> needs to find these files so that it can include "
-#| "their sizes and checksums in the B<.changes> file)."
 msgid ""
 "Look for the files to be uploaded in I<upload-files-dir> rather than B<..> "
 "(B<dpkg-genbuildinfo> needs to find these files so that it can include their "
 "sizes and checksums in the B<.buildinfo> file)."
 msgstr ""
 "Suche nach Dateien, die hochgeladen werden sollen, in "
-"I<Hochladedateiverzeichnis> statt in B<..> (B<dpkg-genchanges> muss diese "
-"Dateien finden, so dass es ihre Größen und Prüfsummen in die B<.changes>-"
+"I<Hochladedateiverzeichnis> statt in B<..> (B<dpkg-genbuildinfo> muss diese "
+"Dateien finden, so dass es ihre Größen und Prüfsummen in die B<.buildinfo>-"
 "Datei aufnehmen kann."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid ""
-#| "The value of this field is the name of the source package, and should "
-#| "match the name of the source package in the debian/changelog file. A "
-#| "package name must consist only of lower case letters (a-z), digits (0-9), "
-#| "plus (+) and minus (-) signs, and periods (.). Package names must be at "
-#| "least two characters long and must start with an alphanumeric character."
 msgid ""
 "Specify the identifier part of the B<.buildinfo> file name.  By default, "
 "B<dpkg-genbuildinfo> will create an identifier using the current time and "
@@ -13204,18 +13173,20 @@ msgid ""
 "(0-9), plus (+) and minus (-)  signs, and periods (.), be at least two "
 "characters long and must start with an alphanumeric character."
 msgstr ""
-"Der Wert dieses Feldes ist der Name des Quellpakets und sollte mit dem Namen "
-"des Quellpakets in der Datei debian/changelog übereinstimmen. Ein Paketname "
-"darf nur aus Kleinbuchstaben (a-z), Ziffern (0-9), Plus- (+) und "
-"Minuszeichen (-) und Satzpunkten (.) bestehen. Paketnamen müssen mindestens "
-"zwei Zeichen lang sein und mit einem alphanumerischen Zeichen beginnen."
+"Legt den Kennzeichnerteil des B<.buildinfo>-Dateinamens fest. Standardmäßig "
+"erzeugt B<dpkg-genbuildinfo> einen Kennzeichner mittels der aktuellen Zeit "
+"und den ersten Zeichen des MD5-Hashes. Als Ersatz kann ein beliebiger "
+"Kennzeichner festgelegt werden. Der Kennzeichner hat die gleichen "
+"Einschränkungen wie Paketnamen: Er darf nur aus Kleinbuchstaben (a-z), "
+"Ziffern (0-9), Plus- (+) und Minus- (-) Zeichen sowie Punkten (.) bestehen, "
+"muss mindestens zwei Zeichen lang sein und mit einem alphanumerischen Zeichen "
+"beginnen."
 
 #. type: TP
 #: dpkg-genbuildinfo.man
-#, fuzzy, no-wrap
-#| msgid "B<--single-debian-patch>"
+#, no-wrap
 msgid "B<--always-include-path>"
-msgstr "B<--single-debian-patch>"
+msgstr "B<--always-include-path>"
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
@@ -13223,6 +13194,8 @@ msgid ""
 "By default, the B<Build-Path> field will only be written if the current "
 "directory starts with a whitelisted pattern."
 msgstr ""
+"Standardmäßig wird das Feld B<Build-Path> nur geschrieben, falls das aktuelle "
+"Verzeichnis mit einem freigeschalteten Muster übereinstimmt."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
@@ -13230,6 +13203,8 @@ msgid ""
 "On Debian and derivatives the pattern matches on B</build/> at the start of "
 "the pathname."
 msgstr ""
+"Unter Debian und abgeleiteten Distributionen passt das Muster auf B</build/> "
+"am Anfang des Pfadnamens."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
@@ -13237,6 +13212,8 @@ msgid ""
 "Specify this option to always write a B<Build-Path> field when generating "
 "the B<.buildinfo>."
 msgstr ""
+"Legen Sie diese Option fest, damit beim Erstellen der B<.buildinfo> immer das "
+"Feld B<Build-Path> geschrieben wird."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
@@ -13255,18 +13232,12 @@ msgstr "B<-q>"
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid ""
-#| "Usually B<dpkg-genchanges> will produce informative messages on standard "
-#| "error, for example about how many of the package's source files are being "
-#| "uploaded.  B<-q> suppresses these messages."
 msgid ""
 "B<dpkg-genbuildinfo> might produce informative messages on standard error.  "
 "B<-q> suppresses these messages."
 msgstr ""
-"Normalerweise schreibt B<dpkg-genchanges> informative Meldungen auf die "
-"Standard-Fehlerausgabe, beispielsweise wie viele Quelldateien des Pakets "
-"hochgeladen werden. B<-q> unterdrückt diese Meldungen."
+"B<dpkg-genbuildinfo> könnte informative Meldungen auf die Standard-"
+"Fehlerausgabe schreiben. B<-q> unterdrückt diese Meldungen."
 
 #. type: TP
 #: dpkg-genbuildinfo.man dpkg-distaddfile.man dpkg-genchanges.man
@@ -13277,24 +13248,17 @@ msgstr "B<debian/files>"
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid ""
-#| "The list of generated files which are part of the upload being prepared.  "
-#| "B<dpkg-genchanges> reads the data here when producing a B<.changes> file."
 msgid ""
 "The list of generated files.  B<dpkg-genbuildinfo> reads the data here when "
 "producing a B<.buildinfo> file."
 msgstr ""
-"Die Liste der erstellten Dateien, die Teil der zum Hochladen vorbereiteten "
-"Dateien sind. B<dpkg-genchanges> liest hier die Daten, wenn es die Datei B<."
-"changes> erstellt."
+"Die Liste der erstellten Dateien. B<dpkg-genbuildinfo> liest hier die Daten, "
+"wenn es die Datei B<.buildinfo> erstellt."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid "B<deb-origin>(5)."
 msgid "B<deb-buildinfo>(5)."
-msgstr "B<deb-origin>(5)."
+msgstr "B<deb-buildinfo>(5)."
 
 #. type: TH
 #: dpkg-checkbuilddeps.man
@@ -14486,7 +14450,7 @@ msgstr "dpkg-genchanges"
 #. type: Plain text
 #: dpkg-genchanges.man
 msgid "dpkg-genchanges - generate Debian .changes files"
-msgstr "dpkg-genchanges - erstelle Debian .changes-Dateien"
+msgstr "dpkg-genchanges - erstelle Debian-.changes-Dateien"
 
 #. type: Plain text
 #: dpkg-genchanges.man
@@ -14762,7 +14726,7 @@ msgstr "dpkg-gencontrol"
 #. type: Plain text
 #: dpkg-gencontrol.man
 msgid "dpkg-gencontrol - generate Debian control files"
-msgstr "dpkg-gencontrol - erstelle Debian control-Dateien"
+msgstr "dpkg-gencontrol - erstelle Debian-control-Dateien"
 
 #. type: Plain text
 #: dpkg-gencontrol.man
@@ -17319,7 +17283,6 @@ msgstr ""
 msgid "B<-F> I<changelog-format>"
 msgstr "B<-F> I<Changelog-Format>"
 
-# FIXME: Warum ist das jetzt B??
 #. type: Plain text
 #: dpkg-parsechangelog.man
 msgid ""
@@ -18122,7 +18085,7 @@ msgid ""
 msgstr ""
 "Falls das erste Zeichen im I<Dateiname-Suchmuster> keines aus ‚B<*[?/>’ ist, "
 "dann wird es als Teilzeichenkette-Suche betrachtet und implizit durch ‚B<*>’ "
-"eingeschlossen (wie in B<*>I<filename-search-pattern>B<*>). Falls die "
+"eingeschlossen (wie in B<*>I<Dateiname-Suchmuster>B<*>). Falls die "
 "nachfolgende Zeichenkette etwas aus ‚B<*[?\\e>’ enthält, dann wird dies wie "
 "ein Glob-Muster behandelt, andernfalls werden alle abschließenden ‚B</>’ "
 "oder ‚B</.>’ entfernt und ein »literal path lookup« durchgeführt."
@@ -21482,54 +21445,53 @@ msgstr ""
 #: dpkg-source.man
 #, no-wrap
 msgid "B<VISUAL>"
-msgstr ""
+msgstr "B<VISUAL>"
 
 #. type: TQ
 #: dpkg-source.man
 #, no-wrap
 msgid "B<EDITOR>"
-msgstr ""
+msgstr "B<EDITOR>"
 
 #. type: Plain text
 #: dpkg-source.man
 msgid "Used by the “2.0” and “3.0 (quilt)” source format modules."
-msgstr ""
+msgstr "Von den „2.0“- und „3.0 (quilt)“-Quellformatmodulen verwandt."
 
 #. type: TP
 #: dpkg-source.man
-#, fuzzy, no-wrap
-#| msgid "B<TMPDIR>"
+#, no-wrap
 msgid "B<GIT_DIR>"
-msgstr "B<TMPDIR>"
+msgstr "B<GIT_DIR>"
 
 #. type: TQ
 #: dpkg-source.man
 #, no-wrap
 msgid "B<GIT_INDEX_FILE>"
-msgstr ""
+msgstr "B<GIT_INDEX_FILE>"
 
 #. type: TQ
 #: dpkg-source.man
 #, no-wrap
 msgid "B<GIT_OBJECT_DIRECTORY>"
-msgstr ""
+msgstr "B<GIT_OBJECT_DIRECTORY>"
 
 #. type: TQ
 #: dpkg-source.man
 #, no-wrap
 msgid "B<GIT_ALTERNATE_OBJECT_DIRECTORIES>"
-msgstr ""
+msgstr "B<GIT_ALTERNATE_OBJECT_DIRECTORIES>"
 
 #. type: TQ
 #: dpkg-source.man
 #, no-wrap
 msgid "B<GIT_WORK_TREE>"
-msgstr ""
+msgstr "B<GIT_WORK_TREE>"
 
 #. type: Plain text
 #: dpkg-source.man
 msgid "Used by the “3.0 (git)” source format modules."
-msgstr ""
+msgstr "Von dem „3.0 (quilt)“-Quellformatmodul verwandt."
 
 #. type: SS
 #: dpkg-source.man
@@ -25836,12 +25798,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Lesen Sie I<%PKGDOCDIR%/THANKS> für die Liste der Leute, die zu "
 #~ "B<dselect> beigetragen haben."
-
-# FIXME: Is this correct?
-#, fuzzy
-#~| msgid "B<Standards-Version:>I< version-string>"
-#~ msgid "B<Standards-Version:>I< (recommended)>"
-#~ msgstr "B<Standards-Version:> I< Versionszeichenkette> "
 
 #~ msgid ""
 #~ "Specifies a build limited to source and architecture independent packages "
