@@ -113,10 +113,6 @@ TESTS_PASS += t-switch-dir-to-symlink-abs
 TESTS_PASS += t-switch-dir-to-symlink-rel
 endif
 TESTS_PASS += t-source-minimal
-# This only works with dpkg >= 1.18.x
-ifdef DPKG_HAS_REPRODUCIBLE_SOURCES
-TESTS_PASS += t-source-build
-endif
 TESTS_PASS += t-substvars
 TESTS_PASS += t-failinst-failrm
 TESTS_PASS += t-dir-extension-check
