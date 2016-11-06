@@ -291,6 +291,7 @@ test_data = \
 	t/Dpkg_Changelog/misplaced-tz \
 	t/Dpkg_Changelog/regressions \
 	t/Dpkg_Changelog/shadow \
+	t/Dpkg_Changelog/unreleased \
 	t/Dpkg_Checksums/empty \
 	t/Dpkg_Checksums/data-1 \
 	t/Dpkg_Checksums/data-2 \
@@ -311,6 +312,8 @@ test_data = \
 	t/Dpkg_Substvars/substvars1 \
 	t/Dpkg_Substvars/substvars2 \
 	t/Dpkg_Dist_Files/files-byhand \
+	t/Dpkg_Dist_Files/files-fragment-a \
+	t/Dpkg_Dist_Files/files-fragment-b \
 	t/dpkg_buildpackage/test-source_0.dsc \
 	t/dpkg_buildpackage/test-source_0_all.changes \
 	t/dpkg_buildpackage/test-source_0_any.changes \
