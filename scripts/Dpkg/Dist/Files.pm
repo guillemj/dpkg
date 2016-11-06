@@ -110,7 +110,9 @@ sub load_dir {
     my $dh = IO::Dir->new($dir) or syserr(g_('cannot open directory %s'), $dir);
 
     while (defined(my $file = $dh->read)) {
-        $count += $self->load("$dir/$file");
+        my $pathname = "$dir/$file";
+        next unless -f $pathname;
+        $count += $self->load($pathname);
     }
 
     return $count;
