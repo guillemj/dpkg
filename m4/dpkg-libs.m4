@@ -19,7 +19,7 @@ AC_DEFUN([DPKG_LIB_MD], [
         have_libmd="yes"
       ])
     ])
-    AS_IF([test "x$have_libmd" = "xyes" && test "x$with_libmd" = "xyes"], [
+    AS_IF([test "x$with_libmd" = "xyes" && test "x$have_libmd" = "xno"], [
       AC_MSG_FAILURE([md5 digest not found in libmd])
     ])
   ])
