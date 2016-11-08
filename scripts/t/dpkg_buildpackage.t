@@ -16,8 +16,8 @@
 use strict;
 use warnings;
 
-use Test::More tests => 12;
-use Test::Dpkg qw(test_neutralize_checksums);
+use Test::More;
+use Test::Dpkg qw(:needs test_neutralize_checksums);
 
 use File::Spec::Functions qw(rel2abs);
 use File::Compare;
@@ -27,6 +27,10 @@ use File::Copy;
 use Dpkg::IPC;
 use Dpkg::Build::Types;
 use Dpkg::Substvars;
+
+test_needs_command('fakeroot');
+
+plan tests => 12;
 
 my $srcdir = rel2abs($ENV{srcdir} || '.');
 my $datadir = "$srcdir/t/dpkg_buildpackage";

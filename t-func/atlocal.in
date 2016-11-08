@@ -27,8 +27,8 @@ if [ "$(id -u)" = 0 ]; then
 elif which fakeroot >/dev/null; then
   ASROOT=fakeroot
 else
-  echo "error: cannot run as root(ish)" >&2
-  exit 1
+  echo "skip: needs to run as root(ish)" >&2
+  exit 0
 fi
 export ASROOT
 
