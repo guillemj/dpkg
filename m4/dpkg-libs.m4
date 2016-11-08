@@ -38,25 +38,23 @@ AC_DEFUN([DPKG_WITH_COMPRESS_LIB], [
   have_lib$1="no"
   AS_IF([test "x$with_lib$1" != "xno"], [
     AC_CHECK_LIB([$1], [$3], [
-      AC_DEFINE([WITH_LIB]AS_TR_CPP($1), 1,
-        [Define to 1 to use $1 library rather than console tool])
-      AS_IF([test "x$with_lib$1" = "xstatic"], [
-        dpkg_$1_libs="-Wl,-Bstatic -l$1 -Wl,-Bdynamic"
-      ], [
-        dpkg_$1_libs="-l$1"
+      AC_CHECK_HEADER([$2], [
+        have_lib$1="yes"
       ])
-      AS_TR_CPP($1)_LIBS="${AS_TR_CPP($1)_LIBS:+$AS_TR_CPP($1)_LIBS }$dpkg_$1_libs"
+    ])
 
-      AC_CHECK_HEADER([$2], [], [
-        AS_IF([test "x$with_lib$1" != "xcheck"], [
-          AC_MSG_FAILURE([lib$1 header not found])
+    AS_IF([test "x$with_lib$1" = "xyes"], [
+      AS_IF([test "x$have_lib$1" = "xyes"], [
+        AC_DEFINE([WITH_LIB]AS_TR_CPP($1), 1,
+          [Define to 1 to use $1 library rather than console tool])
+        AS_IF([test "x$with_lib$1" = "xstatic"], [
+          dpkg_$1_libs="-Wl,-Bstatic -l$1 -Wl,-Bdynamic"
+        ], [
+          dpkg_$1_libs="-l$1"
         ])
-      ])
-
-      have_lib$1="yes"
-    ], [
-      AS_IF([test "x$with_lib$1" != "xcheck"], [
-        AC_MSG_FAILURE([$1 library not found])
+        AS_TR_CPP($1)_LIBS="${AS_TR_CPP($1)_LIBS:+$AS_TR_CPP($1)_LIBS }$dpkg_$1_libs"
+      ], [
+        AC_MSG_FAILURE([lib$1 library or header not found])
       ])
     ])
   ])
