@@ -226,11 +226,15 @@ sub parse_trailer {
 	    # Validate the month. Date::Parse used to accept both abbreviated
 	    # and full months, but Time::Piece strptime() implementation only
 	    # matches the abbreviated one with %b, which is what we want anyway.
-	    if (exists $month_name{$8}) {
-	        push @errors, sprintf(g_('uses full instead of abbreviated month name \'%s\''),
-	                              $8, $month_name{$8});
-	    } elsif (not exists $month_abbrev{$8}) {
-	        push @errors, sprintf(g_('invalid abbreviated month name \'%s\''), $8);
+	    if (not exists $month_abbrev{$8}) {
+	        # We have to nest the conditionals because May is the same in
+	        # full and abbreviated forms!
+	        if (exists $month_name{$8}) {
+	            push @errors, sprintf(g_('uses full instead of abbreviated month name \'%s\''),
+	                                  $8, $month_name{$8});
+	        } else {
+	            push @errors, sprintf(g_('invalid abbreviated month name \'%s\''), $8);
+	        }
 	    }
 	    push @errors, sprintf(g_("cannot parse non-comformant date '%s'"), $7);
 	};
