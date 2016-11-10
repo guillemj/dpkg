@@ -47,7 +47,7 @@ static int nerrs = 0;
 
 struct error_report {
   struct error_report *next;
-  const char *what;
+  char *what;
 };
 
 static struct error_report *reports = NULL;
@@ -66,7 +66,7 @@ enqueue_error_report(const char *arg)
     abort_processing = true;
     nr= &emergency;
   }
-  nr->what= arg;
+  nr->what = m_strdup(arg);
   nr->next = NULL;
   *lastreport= nr;
   lastreport= &nr->next;
@@ -109,6 +109,7 @@ reportbroken_retexitstatus(int ret)
     fputs(_("Errors were encountered while processing:\n"),stderr);
     while (reports) {
       fprintf(stderr," %s\n",reports->what);
+      free(reports->what);
       reports= reports->next;
     }
   }

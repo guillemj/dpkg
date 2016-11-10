@@ -7,6 +7,10 @@ dpkg (1.18.14) UNRELEASED; urgency=medium
     - Do not set PIE options if they have been negated, and do not reset
       them if they have been requested.
     Closes: #843791, #843826
+  * Fix use after free error in dpkg. It was trying to print messages that
+    had already been freed as part of the database memory pool, causing in
+    some cases segfaults when reporting the error summary at the end.
+    Regression introduced in dpkg 1.18.11. Closes: #843874
   * Test suite:
     - Do not fail tests on missing fakeroot, just skip them.
   * Build system:
