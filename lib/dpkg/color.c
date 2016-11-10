@@ -59,7 +59,7 @@ color_enabled(void)
 
 	mode = getenv("DPKG_COLORS");
 	if (mode == NULL)
-		mode = "never";
+		mode = "auto";
 
 	return color_set_mode(mode);
 }

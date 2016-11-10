@@ -54,7 +54,7 @@ my $use_color = 0;
 
 sub setup_color
 {
-    my $mode = $ENV{'DPKG_COLORS'} // 'never';
+    my $mode = $ENV{'DPKG_COLORS'} // 'auto';
 
     if ($mode eq 'auto') {
         ## no critic (InputOutput::ProhibitInteractiveTest)
