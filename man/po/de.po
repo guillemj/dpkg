@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-07 21:50+0100\n"
+"POT-Creation-Date: 2016-11-11 02:43+0100\n"
 "PO-Revision-Date: 2016-11-09 20:17+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -8280,9 +8280,13 @@ msgstr "B<DPKG_COLORS>"
 
 #. type: Plain text
 #: dpkg.man dpkg-buildpackage.man
+#, fuzzy
+#| msgid ""
+#| "Sets the color mode (since dpkg 1.18.5).  The currently accepted values "
+#| "are: B<auto>, B<always> and B<never> (default)."
 msgid ""
 "Sets the color mode (since dpkg 1.18.5).  The currently accepted values are: "
-"B<auto>, B<always> and B<never> (default)."
+"B<auto> (default), B<always> and B<never>."
 msgstr ""
 "Setzt den Farbmodus (seit Dpkg 1.18.5). Die derzeit unterstützten Werte "
 "sind: B<auto>, B<always> und B<never> (Vorgabe)."
@@ -10990,16 +10994,17 @@ msgid ""
 "B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>, and B<-fno-PIE -no-"
 "pie> to B<LDFLAGS>."
 msgstr ""
-"Diese Einstellung (standardmäßig seit Dpkg 1.18.11 aktiviert und standardmäßig von GCC auf den Architekturen "
-"Amd64, Arm64, Armel, Armhf, I386, Mips, Mipsel, Mips64el, PPC64el und S390x "
-"hinzugefügt) fügt die benötigten Optionen hinzu, falls "
-"sie zum Aktivieren oder Deaktivieren von PIE benötigt werden. Falls "
-"aktiviert und von GCC hinzugefügt, ergänzt nichts. Wenn aktiviert und nicht "
-"von GCC hinzugefügt, fügt B<-fPIE> zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
-"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu und B<-fPIE -"
-"pie> zu B<LDFLAGS>. Wenn deaktiviert und von GCC hinzugefügt, fügt B<-fno-"
-"PIE> zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
-"B<FFLAGS> und B<FCFLAGS> hinzu und B<-fno-PIE -no-pie> zu B<LDFLAGS>."
+"Diese Einstellung (standardmäßig seit Dpkg 1.18.11 aktiviert und "
+"standardmäßig von GCC auf den Architekturen Amd64, Arm64, Armel, Armhf, "
+"I386, Mips, Mipsel, Mips64el, PPC64el und S390x hinzugefügt) fügt die "
+"benötigten Optionen hinzu, falls sie zum Aktivieren oder Deaktivieren von "
+"PIE benötigt werden. Falls aktiviert und von GCC hinzugefügt, ergänzt "
+"nichts. Wenn aktiviert und nicht von GCC hinzugefügt, fügt B<-fPIE> zu "
+"B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> "
+"und B<FCFLAGS> hinzu und B<-fPIE -pie> zu B<LDFLAGS>. Wenn deaktiviert und "
+"von GCC hinzugefügt, fügt B<-fno-PIE> zu B<CFLAGS>, B<CXXFLAGS>, "
+"B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu "
+"und B<-fno-PIE -no-pie> zu B<LDFLAGS>."
 
 #. type: Plain text
 #: dpkg-buildflags.man
@@ -11104,18 +11109,17 @@ msgid ""
 "machinery."
 msgstr ""
 "Falls es notwendig ist, diese Schalter manuell zu setzen und die GGC-"
-"Spezifikations-Hinzufügung zu umgehen, müssen mehrere Dinge beachtet "
-"werden. Die bedingungslose und explizite Übergabe von B<-fPIE>, B<-fpie> oder "
-"B<-pie> an das "
-"Bausystem mit Libtool ist sicher, da diese Schalter entfernt werden, wenn "
-"Laufzeit-Bibliotheken gebaut werden. Andernfalls könnte es bei Projekten, "
-"die sowohl Programme wie auch Laufzeit-Bibliotheken bauen, notwendig sein, "
-"dass Sie beim Bau der Laufzeit-Bibliotheken sicherstellen, dass B<-fPIC> "
-"immer als letztes an die Kompilierungsschalter wie B<CFLAGS> übergeben wird "
-"(so dass es jedes frühere B<-PIE> außer Kraft setzen kann) und B<-shared> "
-"als letztes an Link-Schalter wie B<LDFLAGS> übergeben wird (so dass es jedes "
-"frühere B<-pie> außer Kraft setzen kann). B<Hinweis>: Das sollte mit der "
-"Vorgabe-GCC-Spezifikationsmaschinerie nicht notwendig sein."
+"Spezifikations-Hinzufügung zu umgehen, müssen mehrere Dinge beachtet werden. "
+"Die bedingungslose und explizite Übergabe von B<-fPIE>, B<-fpie> oder B<-"
+"pie> an das Bausystem mit Libtool ist sicher, da diese Schalter entfernt "
+"werden, wenn Laufzeit-Bibliotheken gebaut werden. Andernfalls könnte es bei "
+"Projekten, die sowohl Programme wie auch Laufzeit-Bibliotheken bauen, "
+"notwendig sein, dass Sie beim Bau der Laufzeit-Bibliotheken sicherstellen, "
+"dass B<-fPIC> immer als letztes an die Kompilierungsschalter wie B<CFLAGS> "
+"übergeben wird (so dass es jedes frühere B<-PIE> außer Kraft setzen kann) "
+"und B<-shared> als letztes an Link-Schalter wie B<LDFLAGS> übergeben wird "
+"(so dass es jedes frühere B<-pie> außer Kraft setzen kann). B<Hinweis>: Das "
+"sollte mit der Vorgabe-GCC-Spezifikationsmaschinerie nicht notwendig sein."
 
 #. type: Plain text
 #: dpkg-buildflags.man
@@ -12226,7 +12230,11 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-msgid "B<auto> is the default behavior (since dpkg 1.18.11)."
+#, fuzzy
+#| msgid "B<auto> is the default behavior (since dpkg 1.18.11)."
+msgid ""
+"B<auto> is the default behavior (since dpkg 1.18.11). Setting the number of "
+"jobs to 1 will restore a serial behavior."
 msgstr "B<auto> ist das Standardverhalten (seit Dpkg 1.18.11)."
 
 #. type: TP
@@ -12816,11 +12824,17 @@ msgstr ""
 #. type: Plain text
 #: dpkg-buildpackage.man
 msgid ""
-"If set, and containing B<nocheck> the B<DEB_CHECK_COMMAND> variable will be "
-"ignored."
+"If set, it will contain a space-separated list of options that might affect "
+"the build process in I<debian/rules>, and the behavior of some dpkg commands."
 msgstr ""
-"Falls gesetzt und falls sie B<nocheck> enthält, wird die Variable "
-"B<DEB_CHECK_COMMAND> ignoriert."
+
+#. type: Plain text
+#: dpkg-buildpackage.man
+msgid ""
+"With B<nocheck> the B<DEB_CHECK_COMMAND> variable will be ignored.  With "
+"B<parallel=>I<N> the parallel jobs will be set to I<N>, overridden by the "
+"B<--jobs-try> option."
+msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.man dpkg-checkbuilddeps.man
@@ -25593,6 +25607,13 @@ msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
 "B<ln>(1), FHS, der Dateisystem Hierarchie-Standard (Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid ""
+#~ "If set, and containing B<nocheck> the B<DEB_CHECK_COMMAND> variable will "
+#~ "be ignored."
+#~ msgstr ""
+#~ "Falls gesetzt und falls sie B<nocheck> enthält, wird die Variable "
+#~ "B<DEB_CHECK_COMMAND> ignoriert."
 
 #~ msgid ""
 #~ "This is not compatible with B<-fPIC> so care must be taken when building "
