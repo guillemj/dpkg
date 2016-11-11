@@ -56,6 +56,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/BuildOptions.pm \
 	Dpkg/BuildProfiles.pm \
 	Dpkg/Build/Env.pm \
+	Dpkg/Build/Info.pm \
 	Dpkg/Build/Types.pm \
 	Dpkg/Changelog.pm \
 	Dpkg/Changelog/Debian.pm \
@@ -209,6 +210,7 @@ test_scripts = \
 	t/Dpkg_BuildOptions.t \
 	t/Dpkg_BuildProfiles.t \
 	t/Dpkg_Build_Env.t \
+	t/Dpkg_Build_Info.t \
 	t/Dpkg_Build_Types.t \
 	t/Dpkg_Checksums.t \
 	t/Dpkg_ErrorHandling.t \

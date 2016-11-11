@@ -35,6 +35,7 @@ use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_build_arch);
 use Dpkg::Build::Types;
+use Dpkg::Build::Info qw(get_build_env_whitelist);
 use Dpkg::BuildFlags;
 use Dpkg::BuildProfiles qw(get_build_profiles);
 use Dpkg::Control::Info;
@@ -230,32 +231,14 @@ sub collect_installed_builddeps {
     return $installed_deps;
 }
 
-my @env_whitelist = (
-    # Toolchain.
-    qw(CC CPP CXX OBJC OBJCXX PC FC M2C AS LD AR RANLIB MAKE AWK LEX YACC),
-    # Toolchain flags.
-    qw(CFLAGS CPPFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS GCJFLAGS FFLAGS
-       LDFLAGS ARFLAGS MAKEFLAGS),
-    # Dynamic linker, see ld(1).
-    qw(LD_LIBRARY_PATH),
-    # Locale, see locale(1).
-    qw(LANG LC_ALL LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY
-       LC_MESSAGES LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
-       LC_IDENTIFICATION),
-    # Build flags, see dpkg-buildpackage(1).
-    qw(DEB_BUILD_OPTIONS DEB_BUILD_PROFILES),
-    # DEB_flag_{SET,STRIP,APPEND,PREPEND} will be recorded after being merged
-    # with system config and user config.
-    qw(DEB_VENDOR),           # See deb-vendor(1).
-    qw(DPKG_ORIGINS_DIR),     # See Dpkg::Vendor(3).
-    # See <https://reproducible-builds.org/specs/source-date-epoch>.
-    qw(SOURCE_DATE_EPOCH),
-);
-
 sub cleansed_environment {
     # Consider only whitelisted variables which are not supposed to leak
     # local user information.
-    my %env = map { $_ => $ENV{$_} } grep { exists $ENV{$_} } @env_whitelist;
+    my %env = map {
+        $_ => $ENV{$_}
+    } grep {
+        exists $ENV{$_}
+    } get_build_env_whitelist();
 
     # Record flags from dpkg-buildflags.
     my $bf = Dpkg::BuildFlags->new();
