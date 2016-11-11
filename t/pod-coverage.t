@@ -17,6 +17,7 @@ use strict;
 use warnings;
 
 use File::Find;
+use Dpkg::Util qw(any);
 
 use Test::More;
 use Test::Dpkg qw(:needs);
@@ -27,6 +28,7 @@ test_needs_srcdir_switch();
 
 sub all_pod_modules
 {
+    my @modules_todo = @_;
     my @modules;
     my $scan_perl_modules = sub {
         my $module = $File::Find::name;
@@ -41,9 +43,7 @@ sub all_pod_modules
         $module =~ s{^\Q$File::Find::topdir\E/}{};
         $module =~ s{/}{::}g;
 
-        # Do not check partially private modules.
-        return if $module eq 'Dpkg::Arch';
-        return if $module eq 'Dpkg::Source::Package';
+        return if any { $module eq $_ } @modules_todo;
 
         push @modules, $module;
     };
@@ -57,10 +57,19 @@ sub all_pod_modules
     return @modules;
 }
 
-my @modules = all_pod_modules();
+my @modules_todo = qw(Dpkg::Arch Dpkg::Source::Package);
+my @modules = all_pod_modules(@modules_todo);
 
-plan tests => scalar @modules;
+plan tests => scalar @modules + scalar @modules_todo;
 
 for my $module (@modules) {
     pod_coverage_ok($module);
+}
+
+TODO: {
+    local $TODO = 'modules partially documented';
+
+    for my $module (@modules_todo) {
+        pod_coverage_ok($module);
+    }
 }
