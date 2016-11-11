@@ -471,8 +471,13 @@ If set, it will be used to sign the \fB.changes\fP and \fB.dsc\fP files
 Overridden by the \fB\-\-sign\-key\fP option.
 .TP
 .B DEB_BUILD_OPTIONS
-If set, and containing \fBnocheck\fP the \fBDEB_CHECK_COMMAND\fP variable
-will be ignored.
+If set, it will contain a space-separated list of options that might
+affect the build process in \fIdebian/rules\fP, and the behavior of some
+dpkg commands.
+
+With \fBnocheck\fP the \fBDEB_CHECK_COMMAND\fP variable will be ignored.
+With \fBparallel=\fP\fIN\fP the parallel jobs will be set to \fIN\fP,
+overridden by the \fB\-\-jobs\-try\fP option.
 .TP
 .B DEB_BUILD_PROFILES
 If set, it will be used as the active build profile(s) for the package
