@@ -293,8 +293,12 @@ sub _add_hardening_flags {
         pie => 1,
     );
 
+    my %builtin_pie_arch = map { $_ => 1 } qw(
+        amd64 arm64 armel armhf i386 mips mipsel mips64el ppc64el s390x
+    );
+
     # Mask builtin features that are not enabled by default in the compiler.
-    if ($arch !~ /^(?:amd64|arm64|armel|armhf|i386|mips|mipsel|mips64el|ppc64el|s390x)$/) {
+    if (not exists $builtin_pie_arch{$arch}) {
         $builtin_feature{pie} = 0;
     }
 
