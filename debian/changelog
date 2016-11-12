@@ -1,6 +1,10 @@
 dpkg (1.18.15) UNRELEASED; urgency=medium
 
   [ Guillem Jover ]
+  * Improve PIE flags support:
+    - Do not enable PIE when linking static programs. glibc-based systems
+      do not support this combination and produce very bogus output.
+      Proposed by Szabolcs Nagy <nsz@port70.net>. Closes: #843714
   * Test suite:
     - Mark partially documented POD modules as TAP TODO.
 
