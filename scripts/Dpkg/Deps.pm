@@ -254,7 +254,7 @@ sub deps_parse {
     # Validate arguments.
     croak "invalid host_arch $options{host_arch}"
         if defined $options{host_arch} and not defined debarch_to_debtuple($options{host_arch});
-    croak "invalid biuild_arch $options{build_arch}"
+    croak "invalid build_arch $options{build_arch}"
         if defined $options{build_arch} and not defined debarch_to_debtuple($options{build_arch});
 
     $options{use_arch} //= 1;
