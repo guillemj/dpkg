@@ -115,6 +115,9 @@ our %FIELDS = (
         dependency => 'union',
         dep_order => 6,
     },
+    'Build-Date' => {
+        allowed => CTRL_FILE_BUILDINFO,
+    },
     'Build-Depends' => {
         allowed => ALL_SRC,
         separator => FIELD_SEP_COMMA,
@@ -472,7 +475,7 @@ our %FIELD_ORDER = (
         qw(Format Source Binary Architecture Version
         Binary-Only-Changes),
         @checksum_fields,
-        qw(Build-Origin Build-Architecture Build-Path
+        qw(Build-Origin Build-Architecture Build-Date Build-Path
            Installed-Build-Depends Environment),
     ],
     CTRL_FILE_CHANGES() => [

@@ -27,7 +27,7 @@ use warnings;
 
 use Cwd;
 use File::Basename;
-use POSIX qw(:fcntl_h strftime);
+use POSIX qw(:fcntl_h :locale_h strftime);
 
 use Dpkg ();
 use Dpkg::Gettext;
@@ -68,6 +68,16 @@ my $buildinfo;
 my $checksums = Dpkg::Checksums->new();
 my %archadded;
 my @archvalues;
+
+sub get_build_date {
+    my $date;
+
+    setlocale(LC_TIME, 'C');
+    $date = strftime('%a, %d %b %Y %T %z', localtime);
+    setlocale(LC_TIME, '');
+
+    return $date;
+}
 
 # There is almost the same function in dpkg-checkbuilddeps, they probably
 # should be factored out.
@@ -394,8 +404,8 @@ if ($changelog->{'Binary-Only'}) {
 }
 
 $fields->{'Build-Origin'} = get_current_vendor();
-
 $fields->{'Build-Architecture'} = get_build_arch();
+$fields->{'Build-Date'} = get_build_date();
 
 my $cwd = cwd();
 if ($always_include_path) {
