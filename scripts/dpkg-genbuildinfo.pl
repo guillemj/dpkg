@@ -348,6 +348,8 @@ if (build_has_any(BUILD_SOURCE)) {
     my $dsc = "${spackage}_${sversion}.dsc";
 
     $checksums->add_from_file("$uploadfilesdir/$dsc", key => $dsc);
+
+    push @archvalues, 'source';
 }
 
 my $dist_count = 0;
