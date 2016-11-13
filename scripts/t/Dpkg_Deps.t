@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 62;
+use Test::More tests => 70;
 
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
@@ -29,6 +29,25 @@ is(deps_concat(''), '', 'Concatenate an empty string');
 is(deps_concat('', undef), '', 'Concatenate empty string with undef');
 is(deps_concat('dep-a', undef, 'dep-b'), 'dep-a, dep-b',
    'Concatenate two strings with intermixed undef');
+
+sub test_dep_parse_option {
+    my %options = @_;
+
+    eval {
+        my $dep_croak = deps_parse('pkg', %options);
+    };
+    my $options = join ' ', map { "$_=$options{$_}" } keys %options;
+    ok(defined $@, "Parse with bogus arch options $options");
+}
+
+test_dep_parse_option(host_arch => 'all');
+test_dep_parse_option(host_arch => 'any');
+test_dep_parse_option(host_arch => 'linux-any');
+test_dep_parse_option(host_arch => 'unknown-arch');
+test_dep_parse_option(build_arch => 'all');
+test_dep_parse_option(build_arch => 'any');
+test_dep_parse_option(build_arch => 'linux-any');
+test_dep_parse_option(build_arch => 'unknown-arch');
 
 my $field_multiline = ' , , libgtk2.0-common (= 2.10.13-1)  , libatk1.0-0 (>=
 1.13.2), libc6 (>= 2.5-5), libcairo2 (>= 1.4.0), libcupsys2 (>= 1.2.7),

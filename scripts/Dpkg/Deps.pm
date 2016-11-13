@@ -58,10 +58,11 @@ our @EXPORT = qw(
     deps_compare
 );
 
+use Carp;
 use Exporter qw(import);
 
 use Dpkg::Version;
-use Dpkg::Arch qw(get_host_arch get_build_arch);
+use Dpkg::Arch qw(get_host_arch get_build_arch debarch_to_debtuple);
 use Dpkg::BuildProfiles qw(get_build_profiles);
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
@@ -249,6 +250,12 @@ working with dependency fields from F<debian/tests/control>.
 
 sub deps_parse {
     my ($dep_line, %options) = @_;
+
+    # Validate arguments.
+    croak "invalid host_arch $options{host_arch}"
+        if defined $options{host_arch} and not defined debarch_to_debtuple($options{host_arch});
+    croak "invalid biuild_arch $options{build_arch}"
+        if defined $options{build_arch} and not defined debarch_to_debtuple($options{build_arch});
 
     $options{use_arch} //= 1;
     $options{reduce_arch} //= 0;
