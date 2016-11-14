@@ -1,4 +1,4 @@
-# Copyright © 2007 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2007, 2016 Raphaël Hertzog <hertzog@debian.org>
 # Copyright © 2007-2008, 2012-2015 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 our @EXPORT_OK = qw(
     blank_library_paths
     setup_library_paths
@@ -149,29 +149,20 @@ sub find_library {
     setup_library_paths() if not $librarypaths_init;
 
     my @librarypaths = (@{$rpath}, @custom_librarypaths, @system_librarypaths);
+    my @libs;
 
     $root //= '';
     $root =~ s{/+$}{};
     foreach my $dir (@librarypaths) {
 	my $checkdir = "$root$dir";
-	# If the directory checked is a symlink, check if it doesn't
-	# resolve to another public directory (which is then the canonical
-	# directory to use instead of this one). Typical example
-	# is /usr/lib64 -> /usr/lib on amd64.
-	if (-l $checkdir) {
-	    my $newdir = resolve_symlink($checkdir);
-	    if (any { "$root$_" eq "$newdir" } @librarypaths) {
-		$checkdir = $newdir;
-	    }
-	}
 	if (-e "$checkdir/$lib") {
 	    my $libformat = Dpkg::Shlibs::Objdump::get_format("$checkdir/$lib");
 	    if ($format eq $libformat) {
-		return canonpath("$checkdir/$lib");
+		push @libs, canonpath("$checkdir/$lib");
 	    }
 	}
     }
-    return;
+    return @libs;
 }
 
 1;

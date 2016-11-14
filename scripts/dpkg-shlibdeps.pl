@@ -6,7 +6,7 @@
 # Copyright © 2000 Wichert Akkerman
 # Copyright © 2006 Frank Lichtenheld
 # Copyright © 2006-2010,2012-2015 Guillem Jover <guillem@debian.org>
-# Copyright © 2007 Raphaël Hertzog
+# Copyright © 2007, 2016 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -192,8 +192,8 @@ foreach my $file (keys %exec) {
     my %soname_notfound;
     my %alt_soname;
     foreach my $soname (@sonames) {
-	my $lib = my_find_library($soname, $obj->{RPATH}, $obj->{format}, $file);
-	unless (defined $lib) {
+	my @libs = my_find_library($soname, $obj->{RPATH}, $obj->{format}, $file);
+	unless (scalar @libs) {
 	    $soname_notfound{$soname} = 1;
 	    $global_soname_notfound{$soname} = 1;
 	    my $msg = g_("couldn't find library %s needed by %s (ELF " .
@@ -206,12 +206,14 @@ foreach my $file (keys %exec) {
 	    }
 	    next;
 	}
-	$libfiles{$lib} = $soname;
-	my $reallib = realpath($lib);
-	if ($reallib ne $lib) {
-	    $altlibfiles{$reallib} = $soname;
-	}
-	print "Library $soname found in $lib\n" if $debug;
+	foreach my $lib (@libs) {
+	    $libfiles{$lib} = $soname;
+	    my $reallib = realpath($lib);
+	    if ($reallib ne $lib) {
+		$altlibfiles{$reallib} = $soname;
+	    }
+	    print "Library $soname found in $lib\n" if $debug;
+        }
     }
     my $file2pkg = find_packages(keys %libfiles, keys %altlibfiles);
     my $symfile = Dpkg::Shlibs::SymbolFile->new();
@@ -830,17 +832,14 @@ sub my_find_library {
     foreach my $builddir (@builddirs) {
 	next if defined($dir_checked{$builddir});
 	next if ignore_pkgdir($builddir);
-	$file = find_library($lib, \@RPATH, $format, $builddir);
-	return $file if defined($file);
+	my @libs = find_library($lib, \@RPATH, $format, $builddir);
+	return @libs if scalar @libs;
 	$dir_checked{$builddir} = 1;
     }
 
     # Fallback in the root directory if we have not found what we were
     # looking for in the packages
-    $file = find_library($lib, \@RPATH, $format, '');
-    return $file if defined($file);
-
-    return;
+    return find_library($lib, \@RPATH, $format, '');
 }
 
 my %cached_pkgmatch = ();
@@ -879,7 +878,9 @@ sub find_packages {
 		or syserr(g_('write diversion info to stderr'));
 	} elsif (m/^([-a-z0-9+.:, ]+): (\/.*)$/) {
 	    my ($pkgs, $path) = ($1, $2);
+	    my $realpath = realpath($path);
 	    $cached_pkgmatch{$path} = $pkgmatch->{$path} = [ split /, /, $pkgs ];
+	    $cached_pkgmatch{$realpath} = $pkgmatch->{$realpath} = [ split /, /, $pkgs ];
 	} else {
 	    warning(g_("unknown output from dpkg --search: '%s'"), $_);
 	}
