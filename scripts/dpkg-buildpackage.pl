@@ -95,7 +95,6 @@ sub usage {
       --hook-<name>=<command> set <command> as the hook <name>, known hooks:
                                 init preclean source build binary buildinfo
                                 changes postclean check sign done
-      --buildinfo-id=<id>     set the <id> part of the .buildinfo filename.
       --buildinfo-option=<opt>
                               pass option <opt> to dpkg-genbuildinfo.
   -p, --sign-command=<command>
@@ -172,7 +171,6 @@ my $since;
 my $maint;
 my $changedby;
 my $desc;
-my $buildinfo_id;
 my @buildinfo_opts;
 my @changes_opts;
 my @hook_names = qw(
@@ -235,8 +233,9 @@ while (@ARGV) {
 	usageerr(g_('missing hook %s command'), $hook_name)
 	    if not defined $hook_cmd;
 	$hook{$hook_name} = $hook_cmd;
-    } elsif (/^--buildinfo-id=(.*)$/) {
-	$buildinfo_id = $1;
+    } elsif (/^--buildinfo-id=.*$/) {
+	# Deprecated option
+	warning('--buildinfo-id is deprecated, it is without effect');
     } elsif (/^(?:-p|--sign-command=)(.*)$/) {
 	$signcommand = $1;
     } elsif (/^(?:-k|--sign-key=)(.*)$/) {
@@ -404,14 +403,6 @@ if (defined $parallel) {
     $build_opts->export();
 }
 
-if (defined $buildinfo_id) {
-    # The .buildinfo identifiers have the same restrictions as package names.
-    my $err = pkg_name_is_illegal($buildinfo_id);
-    if ($err) {
-        error(g_("illegal .buildinfo ID '%s': %s"), $buildinfo_id, $err);
-    }
-}
-
 set_build_profiles(@build_profiles) if @build_profiles;
 
 my $cwd = cwd();
@@ -564,7 +555,6 @@ if (build_has_any(BUILD_BINARY)) {
 run_hook('buildinfo', 1);
 
 push @buildinfo_opts, "--build=$build_types" if build_has_none(BUILD_DEFAULT);
-push @buildinfo_opts, "--buildinfo-id=$buildinfo_id" if $buildinfo_id;
 push @buildinfo_opts, "--admindir=$admindir" if $admindir;
 
 withecho('dpkg-genbuildinfo', @buildinfo_opts);

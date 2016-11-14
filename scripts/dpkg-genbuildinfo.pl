@@ -33,7 +33,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
-use Dpkg::Arch qw(get_build_arch);
+use Dpkg::Arch qw(get_build_arch get_host_arch);
 use Dpkg::Build::Types;
 use Dpkg::Build::Info qw(get_build_env_whitelist);
 use Dpkg::BuildFlags;
@@ -62,7 +62,6 @@ my $admindir = $Dpkg::ADMINDIR;
 my $always_include_path = 0;
 my @build_profiles = get_build_profiles();
 my $buildinfo_format = '0.1';
-my $buildinfo_id;
 my $buildinfo;
 
 my $checksums = Dpkg::Checksums->new();
@@ -289,7 +288,6 @@ sub usage {
   -F<changelog-format>     force changelog format.
   -O[<buildinfo-file>]     write to stdout (or <buildinfo-file>).
   -u<upload-files-dir>     directory with files (default is '..').
-  --buildinfo-id=<id>      specify the buildinfo id for the output file.
   --always-include-path    always include Build-Path.
   --admindir=<directory>   change the administrative directory.
   -?, --help               show this help message.
@@ -315,8 +313,9 @@ while (@ARGV) {
         $stdout = 1;
     } elsif (m/^-O(.*)$/) {
         $outputfile = $1;
-    } elsif (m/^--buildinfo-id=(.*)$/) {
-        $buildinfo_id = $1;
+    } elsif (m/^--buildinfo-id=.*$/) {
+        # Deprecated option
+        warning('--buildinfo-id is deprecated, it is without effect');
     } elsif (m/^--always-include-path$/) {
         $always_include_path = 1;
     } elsif (m/^--admindir=(.*)$/) {
@@ -433,17 +432,17 @@ if ($stdout) {
 } elsif (defined $outputfile) {
     $buildinfo = basename($outputfile);
 } else {
-    if (not defined $buildinfo_id) {
-        require Digest::MD5;
+    my $arch;
 
-        my $buildinfo_contents = $fields->output();
-
-        my $timestamp = strftime('%Y%m%dT%H%M%Sz', gmtime);
-        my $buildinfo_md5 = Digest::MD5::md5_hex($buildinfo_contents);
-        $buildinfo_id = "$timestamp-" . substr($buildinfo_md5, 0, 8);
+    if (build_has_any(BUILD_ARCH_DEP)) {
+        $arch = get_host_arch();
+    } elsif (build_has_any(BUILD_ARCH_INDEP)) {
+        $arch = 'all';
+    } elsif (build_has_any(BUILD_SOURCE)) {
+        $arch = 'source';
     }
 
-    $buildinfo = "${spackage}_${sversion}_${buildinfo_id}.buildinfo";
+    $buildinfo = "${spackage}_${sversion}_${arch}.buildinfo";
     $outputfile = "$uploadfilesdir/$buildinfo";
 }
 

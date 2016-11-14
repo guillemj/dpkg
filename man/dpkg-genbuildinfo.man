@@ -92,7 +92,7 @@ for information about alternative formats.
 .BR \-O [\fIfilename\fP]
 Print the buildinfo file to standard output (or \fIfilename\fP if specified)
 rather than to
-.IB dir / source-name _ source-version _ buildinfo-id .buildinfo
+.IB dir / source-name _ source-version _ arch .buildinfo
 (where \fIdir\fP is \fB..\fP by default or \fIupload-files-dir\fP
 if \fB\-u\fP was used).
 .TP
@@ -103,16 +103,6 @@ rather than
 .B ..
 (\fBdpkg\-genbuildinfo\fP needs to find these files so that it can include
 their sizes and checksums in the \fB.buildinfo\fP file).
-.TP
-.BI \-\-buildinfo-id= identifier
-Specify the identifier part of the \fB.buildinfo\fP file name.
-By default, \fBdpkg\-genbuildinfo\fP will create an identifier using
-the current time and the first characters of the MD5 hash.
-An arbitrary identifier can be specified as a replacement.
-The identifier has the same restriction as package names: it must consist
-only of lower case letters (a-z), digits (0-9), plus (+) and minus (\-)
-signs, and periods (.), be at least two characters long and must start
-with an alphanumeric character.
 .TP
 .BI \-\-always\-include\-path
 By default, the \fBBuild\-Path\fR field will only be written if the current
