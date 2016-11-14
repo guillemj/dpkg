@@ -393,6 +393,9 @@ if (defined $parallel) {
         $parallel = qx(getconf _NPROCESSORS_ONLN 2>/dev/null);
         # Fallback for at least Irix.
         $parallel = qx(getconf _NPROC_ONLN 2>/dev/null) if $?;
+        # Fallback to serial execution if cannot infer the number of online
+        # processors.
+        $parallel = '1' if $?;
         chomp $parallel;
     }
     if ($parallel_force) {

@@ -246,7 +246,8 @@ The \fB\-j\fP value will override the \fBparallel=\fP\fIjobs\fP or
 Note that the \fBauto\fP value will get replaced by the actual number of
 currently active processors, and as such will not get propagated to any
 child process. If the number of online processors cannot be inferred then
-the code will fallback to using an unlimited number.
+the code will fallback to using serial execution (since dpkg 1.18.15),
+although this should only happen on exotic and unsupported systems.
 .TP
 .BR \-J ", " \-\-jobs\-try [=\fIjobs\fP|\fBauto\fP]
 This option (since dpkg 1.18.2, long option since dpkg 1.18.8) is equivalent

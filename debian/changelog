@@ -11,6 +11,10 @@ dpkg (1.18.15) UNRELEASED; urgency=medium
   * Generate deterministic .buildinfo filenames in dpkg-genbuildinfo,
     following the same pattern as used for .changes files.
   * Bump .buildinfo Format to version 0.2.
+  * Change dpkg-buildpackage -j and -J on “auto” mode to fallback to serial
+    execution when we cannot infer the number of online processors on
+    unsupported or exotic systems. This should be a safer mode of operation.
+    Proposed by Simon McVittie <smcv@debian.org>.
   * Perl modules:
     - Validate architecture arguments in Dpkg::Deps deps_parse().
       Prompted by Johannes Schauer <josch@debian.org>.
