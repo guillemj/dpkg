@@ -287,7 +287,7 @@ sub _add_hardening_flags {
 	fortify => 1,
 	format => 1,
 	relro => 1,
-	bindnow => 0,
+	bindnow => 1,
     );
     my %builtin_feature = (
         pie => 1,
