@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2016-11-16 03:40+0100\n"
-"PO-Revision-Date: 2016-11-11 21:50+0100\n"
+"PO-Revision-Date: 2016-11-16 18:59+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -684,17 +684,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-buildinfo.man
-#, fuzzy
-#| msgid ""
-#| "It runs the B<changes> hook and calls B<dpkg-genchanges> to generate a B<."
-#| "changes> file.  The name of the B<.changes> file will depend on the type "
-#| "of build and will be as specific as necessary but not more; for a build "
-#| "that includes B<any> the name will be I<source-name>B<_>I<source-"
-#| "version>B<_>I<arch>B<.changes>, or otherwise for a build that includes "
-#| "B<all> the name will be I<source-name>B<_>I<source-version>B<_>B<all."
-#| "changes>, or otherwise for a build that includes B<source> the name will "
-#| "be I<source-name>B<_>I<source-version>B<_>B<source.changes>.  Many B<dpkg-"
-#| "buildpackage> options are forwarded to B<dpkg-genchanges>."
 msgid ""
 "The name of the B<.buildinfo> file will depend on the type of build and will "
 "be as specific as necessary but not more; for a build that includes B<any> "
@@ -704,16 +693,14 @@ msgid ""
 "build that includes B<source> the name will be I<source-name>B<_>I<source-"
 "version>B<_>B<source.buildinfo>."
 msgstr ""
-"Es führt die B<changes>-Hooks aus und ruft B<dpkg-genchanges> auf, um eine "
-"B<.changes>-Datei zu erstellen. Der Name der B<.changes>-Datei wird von der "
+"Der Name der B<.buildinfo>-Datei wird von der "
 "Art des Baus abhängen und wird so spezifisch wie notwendig sein, aber nicht "
 "mehr; für einen Bau, der B<any> enthält, wird der Name "
-"I<Quellname>B<_>I<Quellversion>B<_>I<Arch>B<.changes> oder andernfalls für "
+"I<Quellname>B<_>I<Quellversion>B<_>I<Arch>B<.buildinfo> oder andernfalls für "
 "einen Bau, der B<all> enthält, wird der Name "
-"I<Quellname>B<_>I<Quellversion>B<_>B<all.changes> oder andernfalls für einen "
+"I<Quellname>B<_>I<Quellversion>B<_>B<all.buildinfo> oder andernfalls für einen "
 "Bau, der B<source> enthält, wird der Name "
-"I<Quellname>B<_>I<Quellversion>B<_>B<source.changes> lauten. Viele Optionen "
-"von B<dpkg-buildpackage> werden an B<dpkg-genchanges> weitergegeben."
+"I<Quellname>B<_>I<Quellversion>B<_>B<source.buildinfo> lauten."
 
 #. type: SH
 #: deb-buildinfo.man deb-changes.man deb-control.man deb-origin.man dsc.man
@@ -729,13 +716,6 @@ msgstr "B<Format:> I<Formatversion> (verpflichtend)"
 
 #. type: Plain text
 #: deb-buildinfo.man
-#, fuzzy
-#| msgid ""
-#| "The value of this field declares the format version of the file.  The "
-#| "syntax of the field value is a version number with a major and minor "
-#| "component.  Backward incompatible changes to the format will bump the "
-#| "major version, and backward compatible changes (such as field additions) "
-#| "will bump the minor version.  The current format version is B<0.1>."
 msgid ""
 "The value of this field declares the format version of the file.  The syntax "
 "of the field value is a version number with a major and minor component.  "
@@ -748,7 +728,7 @@ msgstr ""
 "Nebenkomponente. Rückwärtsinkompatible Änderungen im Format führen zu einer "
 "Erhöhung der Hauptversion und rückwärtskompatible Änderungen (wie die "
 "Aufnahme neuer Felder) führen zu einer Erhöhung der Nebenversion. Die "
-"aktuelle Formatversion ist B<0.1>."
+"aktuelle Formatversion ist B<0.2>."
 
 #. type: TP
 #: deb-buildinfo.man deb-changes.man
@@ -937,22 +917,17 @@ msgstr ""
 
 #. type: TP
 #: deb-buildinfo.man
-#, fuzzy, no-wrap
-#| msgid "B<Build-Path:> I<build-path>"
+#, no-wrap
 msgid "B<Build-Date:> I<build-date>"
-msgstr "B<Build-Path:> I<Baupfad>"
+msgstr "B<Build-Date:> I<Baudatum>"
 
 #. type: Plain text
 #: deb-buildinfo.man
-#, fuzzy
-#| msgid ""
-#| "The date the package was built or last edited.  It must be in the same "
-#| "format as the date in a B<deb-changelog>(5)  entry."
 msgid ""
 "The date the package was built.  It must be in the same format as the date "
 "in a B<deb-changelog>(5)  entry."
 msgstr ""
-"Das Datum, an dem das Paket letztmalig gebaut oder bearbeitet wurde. Es muss "
+"Das Datum, an dem das Paket letztmalig gebaut wurde. Es muss "
 "im gleichen Format wie in einem Eintrag bei B<deb-changelog>(5) sein."
 
 #. type: TP
@@ -12204,26 +12179,6 @@ msgstr "B<-j>, B<--jobs>[=I<Aufträge>|B<auto>]"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
-#| msgid ""
-#| "Number of jobs allowed to be run simultaneously, number of jobs matching "
-#| "the number of online processors if B<auto> is specified (since dpkg "
-#| "1.17.10), or unlimited number if I<jobs> is not specified, equivalent to "
-#| "the B<make>(1)  option of the same name (since dpkg 1.14.7, long option "
-#| "since dpkg 1.18.8).  Will add itself to the B<MAKEFLAGS> environment "
-#| "variable, which should cause all subsequent make invocations to inherit "
-#| "the option, thus forcing the parallel setting on the packaging (and "
-#| "possibly the upstream build system if that uses make)  regardless of "
-#| "their support for parallel builds, which might cause build failures.  "
-#| "Also adds B<parallel=>I<jobs> or B<parallel> to the B<DEB_BUILD_OPTIONS> "
-#| "environment variable which allows debian/rules files to use this "
-#| "information for their own purposes.  The B<-j> value will override the "
-#| "B<parallel=>I<jobs> or B<parallel> option in the B<DEB_BUILD_OPTIONS> "
-#| "environment variable.  Note that the B<auto> value will get replaced by "
-#| "the actual number of currently active processors, and as such will not "
-#| "get propagated to any child process. If the number of online processors "
-#| "cannot be inferred then the code will fallback to using an unlimited "
-#| "number."
 msgid ""
 "Number of jobs allowed to be run simultaneously, number of jobs matching the "
 "number of online processors if B<auto> is specified (since dpkg 1.17.10), or "
@@ -12262,7 +12217,8 @@ msgstr ""
 "die tatsächliche Anzahl der derzeitig aktiven Prozessoren ersetzt wird und "
 "somit nicht an irgendeinen Kindprozess weitergegeben wird. Falls die Anzahl "
 "der verfügbaren Prozessoren nicht ermittelt werden kann, fällt der Code auf "
-"eine unbegrenzte Anzahl zurück."
+"eine serielle Abarbeitung zurück (seit Dpkg 1.18.15). Dies sollte aber nur "
+"auf exotischen und nicht unterstützten Systemen passieren."
 
 #. type: TP
 #: dpkg-buildpackage.man
@@ -13195,12 +13151,6 @@ msgstr "B<-O>[I<Dateiname>]"
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid ""
-#| "Print the buildinfo file to standard output (or I<filename> if "
-#| "specified)  rather than to I<dir>B</>I<source-name>B<_>I<source-"
-#| "version>B<_>I<buildinfo-id>B<.buildinfo> (where I<dir> is B<..> by "
-#| "default or I<upload-files-dir> if B<-u> was used)."
 msgid ""
 "Print the buildinfo file to standard output (or I<filename> if specified)  "
 "rather than to I<dir>B</>I<source-name>B<_>I<source-version>B<_>I<arch>B<."
@@ -13209,7 +13159,7 @@ msgid ""
 msgstr ""
 "Gibt die Buildinfo-Datei zur Standardausgabe (oder I<Dateiname>, falls "
 "angegeben) aus, statt nach I<Verz>B</"
-">I<Quellname>B<_>I<Quellversion>B<_>I<Buildinfo-ID>B<.buildinfo> (wobei "
+">I<Quellname>B<_>I<Quellversion>B<_>I<Arch>B<.buildinfo> (wobei "
 "I<Verz> standardmäßig B<..> oder I<Hochladedateiverzeichnis>, falls B<-u> "
 "verwandt wurde, ist)."
 
