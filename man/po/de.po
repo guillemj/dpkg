@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-11 02:43+0100\n"
+"POT-Creation-Date: 2016-11-16 03:40+0100\n"
 "PO-Revision-Date: 2016-11-11 21:50+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -684,25 +684,36 @@ msgstr ""
 
 #. type: Plain text
 #: deb-buildinfo.man
-msgid "The B<.buildinfo> filename by default has the following form:"
-msgstr "Der Dateiname von B<.buildinfo> hat standardmäßig die folgende Form:"
-
-#. type: Plain text
-#: deb-buildinfo.man
-msgid "I<source-name>B<_>I<source-version>B<_>I<buildinfo-id>B<.buildinfo>"
-msgstr "I<Quellname>B<_>I<Quellversion>B<_>I<Buildinfo-ID>B<.buildinfo>"
-
-#. type: Plain text
-#: deb-buildinfo.man
+#, fuzzy
+#| msgid ""
+#| "It runs the B<changes> hook and calls B<dpkg-genchanges> to generate a B<."
+#| "changes> file.  The name of the B<.changes> file will depend on the type "
+#| "of build and will be as specific as necessary but not more; for a build "
+#| "that includes B<any> the name will be I<source-name>B<_>I<source-"
+#| "version>B<_>I<arch>B<.changes>, or otherwise for a build that includes "
+#| "B<all> the name will be I<source-name>B<_>I<source-version>B<_>B<all."
+#| "changes>, or otherwise for a build that includes B<source> the name will "
+#| "be I<source-name>B<_>I<source-version>B<_>B<source.changes>.  Many B<dpkg-"
+#| "buildpackage> options are forwarded to B<dpkg-genchanges>."
 msgid ""
-"where I<buildinfo-id> is composed of the build time formatted as "
-"B<strftime>(2) «%Y%m%dT%H%M%Sz», followed by a minus ‘-’ and the eight left-"
-"most characters from the B<.buildinfo>'s file contents MD5 digest."
+"The name of the B<.buildinfo> file will depend on the type of build and will "
+"be as specific as necessary but not more; for a build that includes B<any> "
+"the name will be I<source-name>B<_>I<source-version>B<_>I<arch>B<."
+"buildinfo>, or otherwise for a build that includes B<all> the name will be "
+"I<source-name>B<_>I<source-version>B<_>B<all.buildinfo>, or otherwise for a "
+"build that includes B<source> the name will be I<source-name>B<_>I<source-"
+"version>B<_>B<source.buildinfo>."
 msgstr ""
-"wobei I<Buildinfo-ID> aus der Bauzeit (formatiert als B<strftime>(2) »%Y%m%dT"
-"%H%M%Sz«), gefolgt von einem Minus ,-´ und den acht ganz links stehenden "
-"Zeichen aus dem MD5-Hash des Dateiinhaltes der Datei B<.buildinfo> "
-"zusammengesetzt ist."
+"Es führt die B<changes>-Hooks aus und ruft B<dpkg-genchanges> auf, um eine "
+"B<.changes>-Datei zu erstellen. Der Name der B<.changes>-Datei wird von der "
+"Art des Baus abhängen und wird so spezifisch wie notwendig sein, aber nicht "
+"mehr; für einen Bau, der B<any> enthält, wird der Name "
+"I<Quellname>B<_>I<Quellversion>B<_>I<Arch>B<.changes> oder andernfalls für "
+"einen Bau, der B<all> enthält, wird der Name "
+"I<Quellname>B<_>I<Quellversion>B<_>B<all.changes> oder andernfalls für einen "
+"Bau, der B<source> enthält, wird der Name "
+"I<Quellname>B<_>I<Quellversion>B<_>B<source.changes> lauten. Viele Optionen "
+"von B<dpkg-buildpackage> werden an B<dpkg-genchanges> weitergegeben."
 
 #. type: SH
 #: deb-buildinfo.man deb-changes.man deb-control.man deb-origin.man dsc.man
@@ -718,12 +729,19 @@ msgstr "B<Format:> I<Formatversion> (verpflichtend)"
 
 #. type: Plain text
 #: deb-buildinfo.man
+#, fuzzy
+#| msgid ""
+#| "The value of this field declares the format version of the file.  The "
+#| "syntax of the field value is a version number with a major and minor "
+#| "component.  Backward incompatible changes to the format will bump the "
+#| "major version, and backward compatible changes (such as field additions) "
+#| "will bump the minor version.  The current format version is B<0.1>."
 msgid ""
 "The value of this field declares the format version of the file.  The syntax "
 "of the field value is a version number with a major and minor component.  "
 "Backward incompatible changes to the format will bump the major version, and "
 "backward compatible changes (such as field additions) will bump the minor "
-"version.  The current format version is B<0.1>."
+"version.  The current format version is B<0.2>."
 msgstr ""
 "Das Wert dieses Feldes legt die Formatversion der Datei fest. Die Syntax des "
 "Feldwertes ist eine Versionsnummer mit einer Haupt- und einer "
@@ -916,6 +934,26 @@ msgid ""
 msgstr ""
 "Die Debian-Architektur für die Installation, unter der das Paket gebaut "
 "wurde. Typische Architekturen sind B<amd64>, B<armel>, B<i386>, usw."
+
+#. type: TP
+#: deb-buildinfo.man
+#, fuzzy, no-wrap
+#| msgid "B<Build-Path:> I<build-path>"
+msgid "B<Build-Date:> I<build-date>"
+msgstr "B<Build-Path:> I<Baupfad>"
+
+#. type: Plain text
+#: deb-buildinfo.man
+#, fuzzy
+#| msgid ""
+#| "The date the package was built or last edited.  It must be in the same "
+#| "format as the date in a B<deb-changelog>(5)  entry."
+msgid ""
+"The date the package was built.  It must be in the same format as the date "
+"in a B<deb-changelog>(5)  entry."
+msgstr ""
+"Das Datum, an dem das Paket letztmalig gebaut oder bearbeitet wurde. Es muss "
+"im gleichen Format wie in einem Eintrag bei B<deb-changelog>(5) sein."
 
 #. type: TP
 #: deb-buildinfo.man
@@ -12166,6 +12204,26 @@ msgstr "B<-j>, B<--jobs>[=I<Aufträge>|B<auto>]"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
+#, fuzzy
+#| msgid ""
+#| "Number of jobs allowed to be run simultaneously, number of jobs matching "
+#| "the number of online processors if B<auto> is specified (since dpkg "
+#| "1.17.10), or unlimited number if I<jobs> is not specified, equivalent to "
+#| "the B<make>(1)  option of the same name (since dpkg 1.14.7, long option "
+#| "since dpkg 1.18.8).  Will add itself to the B<MAKEFLAGS> environment "
+#| "variable, which should cause all subsequent make invocations to inherit "
+#| "the option, thus forcing the parallel setting on the packaging (and "
+#| "possibly the upstream build system if that uses make)  regardless of "
+#| "their support for parallel builds, which might cause build failures.  "
+#| "Also adds B<parallel=>I<jobs> or B<parallel> to the B<DEB_BUILD_OPTIONS> "
+#| "environment variable which allows debian/rules files to use this "
+#| "information for their own purposes.  The B<-j> value will override the "
+#| "B<parallel=>I<jobs> or B<parallel> option in the B<DEB_BUILD_OPTIONS> "
+#| "environment variable.  Note that the B<auto> value will get replaced by "
+#| "the actual number of currently active processors, and as such will not "
+#| "get propagated to any child process. If the number of online processors "
+#| "cannot be inferred then the code will fallback to using an unlimited "
+#| "number."
 msgid ""
 "Number of jobs allowed to be run simultaneously, number of jobs matching the "
 "number of online processors if B<auto> is specified (since dpkg 1.17.10), or "
@@ -12182,8 +12240,9 @@ msgid ""
 "B<DEB_BUILD_OPTIONS> environment variable.  Note that the B<auto> value will "
 "get replaced by the actual number of currently active processors, and as "
 "such will not get propagated to any child process. If the number of online "
-"processors cannot be inferred then the code will fallback to using an "
-"unlimited number."
+"processors cannot be inferred then the code will fallback to using serial "
+"execution (since dpkg 1.18.15), although this should only happen on exotic "
+"and unsupported systems."
 msgstr ""
 "Anzahl an Aufträgen, die simultan laufen dürfen, Anzahl von Aufträgen, die "
 "zur Anzahl der verfügbaren Prozessoren passt, falls B<auto> angegeben ist "
@@ -12539,32 +12598,6 @@ msgid "The upstream version."
 msgstr "Die Original- (Upstream-)Version."
 
 #. type: TP
-#: dpkg-buildpackage.man dpkg-genbuildinfo.man
-#, no-wrap
-msgid "B<--buildinfo-id=>I<identifier>"
-msgstr "B<--buildinfo-id=>I<Kennzeichner>"
-
-#. type: Plain text
-#: dpkg-buildpackage.man
-msgid ""
-"Specify the identifier part of the B<.buildinfo> file name (since dpkg "
-"1.18.11).  By default, B<dpkg-buildpackage> will create an identifier using "
-"the current time and the first characters of the MD5 hash.  An arbitrary "
-"identifier can be specified as a replacement.  The identifier has the same "
-"restriction as package names: it must consist only of lower case letters (a-"
-"z), digits (0-9), plus (+) and minus (-)  signs, and periods (.), be at "
-"least two characters long and must start with an alphanumeric character."
-msgstr ""
-"Legt den Kennzeichnerteil des B<.buildinfo>-Dateinamens fest (seit Dpkg "
-"1.18.11). Standardmäßig erzeugt B<dpkg-buildpackage> einen Kennzeichner "
-"mittels der aktuellen Zeit und den ersten Zeichen des MD5-Hashes. Als Ersatz "
-"kann ein beliebiger Kennzeichner festgelegt werden. Der Kennzeichner hat die "
-"gleichen Einschränkungen wie Paketnamen: Er darf nur aus Kleinbuchstaben (a-"
-"z), Ziffern (0-9), Plus- (+) und Minus- (-) Zeichen sowie Punkten (.) "
-"bestehen, muss mindestens zwei Zeichen lang sein und mit einem "
-"alphanumerischen Zeichen beginnen."
-
-#. type: TP
 #: dpkg-buildpackage.man
 #, no-wrap
 msgid "B<--buildinfo-option=>I<opt>"
@@ -12823,9 +12856,9 @@ msgid ""
 "If set, it will contain a space-separated list of options that might affect "
 "the build process in I<debian/rules>, and the behavior of some dpkg commands."
 msgstr ""
-"Falls gesetzt, wird es eine durch Leerraumzeichen getrennte Liste von Optionen "
-"enthalten, die den Bauprozess in I<debian/rules> und das Verhalten einiger "
-"Dpkg-Befehle beeinflussen könnten."
+"Falls gesetzt, wird es eine durch Leerraumzeichen getrennte Liste von "
+"Optionen enthalten, die den Bauprozess in I<debian/rules> und das Verhalten "
+"einiger Dpkg-Befehle beeinflussen könnten."
 
 #. type: Plain text
 #: dpkg-buildpackage.man
@@ -13162,11 +13195,17 @@ msgstr "B<-O>[I<Dateiname>]"
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
+#, fuzzy
+#| msgid ""
+#| "Print the buildinfo file to standard output (or I<filename> if "
+#| "specified)  rather than to I<dir>B</>I<source-name>B<_>I<source-"
+#| "version>B<_>I<buildinfo-id>B<.buildinfo> (where I<dir> is B<..> by "
+#| "default or I<upload-files-dir> if B<-u> was used)."
 msgid ""
 "Print the buildinfo file to standard output (or I<filename> if specified)  "
-"rather than to I<dir>B</>I<source-name>B<_>I<source-version>B<_>I<buildinfo-"
-"id>B<.buildinfo> (where I<dir> is B<..> by default or I<upload-files-dir> if "
-"B<-u> was used)."
+"rather than to I<dir>B</>I<source-name>B<_>I<source-version>B<_>I<arch>B<."
+"buildinfo> (where I<dir> is B<..> by default or I<upload-files-dir> if B<-u> "
+"was used)."
 msgstr ""
 "Gibt die Buildinfo-Datei zur Standardausgabe (oder I<Dateiname>, falls "
 "angegeben) aus, statt nach I<Verz>B</"
@@ -13191,26 +13230,6 @@ msgstr ""
 "I<Hochladedateiverzeichnis> statt in B<..> (B<dpkg-genbuildinfo> muss diese "
 "Dateien finden, so dass es ihre Größen und Prüfsummen in die B<.buildinfo>-"
 "Datei aufnehmen kann."
-
-#. type: Plain text
-#: dpkg-genbuildinfo.man
-msgid ""
-"Specify the identifier part of the B<.buildinfo> file name.  By default, "
-"B<dpkg-genbuildinfo> will create an identifier using the current time and "
-"the first characters of the MD5 hash.  An arbitrary identifier can be "
-"specified as a replacement.  The identifier has the same restriction as "
-"package names: it must consist only of lower case letters (a-z), digits "
-"(0-9), plus (+) and minus (-)  signs, and periods (.), be at least two "
-"characters long and must start with an alphanumeric character."
-msgstr ""
-"Legt den Kennzeichnerteil des B<.buildinfo>-Dateinamens fest. Standardmäßig "
-"erzeugt B<dpkg-genbuildinfo> einen Kennzeichner mittels der aktuellen Zeit "
-"und den ersten Zeichen des MD5-Hashes. Als Ersatz kann ein beliebiger "
-"Kennzeichner festgelegt werden. Der Kennzeichner hat die gleichen "
-"Einschränkungen wie Paketnamen: Er darf nur aus Kleinbuchstaben (a-z), "
-"Ziffern (0-9), Plus- (+) und Minus- (-) Zeichen sowie Punkten (.) bestehen, "
-"muss mindestens zwei Zeichen lang sein und mit einem alphanumerischen "
-"Zeichen beginnen."
 
 #. type: TP
 #: dpkg-genbuildinfo.man
@@ -25609,6 +25628,63 @@ msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
 "B<ln>(1), FHS, der Dateisystem Hierarchie-Standard (Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid "The B<.buildinfo> filename by default has the following form:"
+#~ msgstr ""
+#~ "Der Dateiname von B<.buildinfo> hat standardmäßig die folgende Form:"
+
+#~ msgid "I<source-name>B<_>I<source-version>B<_>I<buildinfo-id>B<.buildinfo>"
+#~ msgstr "I<Quellname>B<_>I<Quellversion>B<_>I<Buildinfo-ID>B<.buildinfo>"
+
+#~ msgid ""
+#~ "where I<buildinfo-id> is composed of the build time formatted as "
+#~ "B<strftime>(2) «%Y%m%dT%H%M%Sz», followed by a minus ‘-’ and the eight "
+#~ "left-most characters from the B<.buildinfo>'s file contents MD5 digest."
+#~ msgstr ""
+#~ "wobei I<Buildinfo-ID> aus der Bauzeit (formatiert als B<strftime>(2) »%Y%m"
+#~ "%dT%H%M%Sz«), gefolgt von einem Minus ,-´ und den acht ganz links "
+#~ "stehenden Zeichen aus dem MD5-Hash des Dateiinhaltes der Datei B<."
+#~ "buildinfo> zusammengesetzt ist."
+
+#~ msgid "B<--buildinfo-id=>I<identifier>"
+#~ msgstr "B<--buildinfo-id=>I<Kennzeichner>"
+
+#~ msgid ""
+#~ "Specify the identifier part of the B<.buildinfo> file name (since dpkg "
+#~ "1.18.11).  By default, B<dpkg-buildpackage> will create an identifier "
+#~ "using the current time and the first characters of the MD5 hash.  An "
+#~ "arbitrary identifier can be specified as a replacement.  The identifier "
+#~ "has the same restriction as package names: it must consist only of lower "
+#~ "case letters (a-z), digits (0-9), plus (+) and minus (-)  signs, and "
+#~ "periods (.), be at least two characters long and must start with an "
+#~ "alphanumeric character."
+#~ msgstr ""
+#~ "Legt den Kennzeichnerteil des B<.buildinfo>-Dateinamens fest (seit Dpkg "
+#~ "1.18.11). Standardmäßig erzeugt B<dpkg-buildpackage> einen Kennzeichner "
+#~ "mittels der aktuellen Zeit und den ersten Zeichen des MD5-Hashes. Als "
+#~ "Ersatz kann ein beliebiger Kennzeichner festgelegt werden. Der "
+#~ "Kennzeichner hat die gleichen Einschränkungen wie Paketnamen: Er darf nur "
+#~ "aus Kleinbuchstaben (a-z), Ziffern (0-9), Plus- (+) und Minus- (-) "
+#~ "Zeichen sowie Punkten (.) bestehen, muss mindestens zwei Zeichen lang "
+#~ "sein und mit einem alphanumerischen Zeichen beginnen."
+
+#~ msgid ""
+#~ "Specify the identifier part of the B<.buildinfo> file name.  By default, "
+#~ "B<dpkg-genbuildinfo> will create an identifier using the current time and "
+#~ "the first characters of the MD5 hash.  An arbitrary identifier can be "
+#~ "specified as a replacement.  The identifier has the same restriction as "
+#~ "package names: it must consist only of lower case letters (a-z), digits "
+#~ "(0-9), plus (+) and minus (-)  signs, and periods (.), be at least two "
+#~ "characters long and must start with an alphanumeric character."
+#~ msgstr ""
+#~ "Legt den Kennzeichnerteil des B<.buildinfo>-Dateinamens fest. "
+#~ "Standardmäßig erzeugt B<dpkg-genbuildinfo> einen Kennzeichner mittels der "
+#~ "aktuellen Zeit und den ersten Zeichen des MD5-Hashes. Als Ersatz kann ein "
+#~ "beliebiger Kennzeichner festgelegt werden. Der Kennzeichner hat die "
+#~ "gleichen Einschränkungen wie Paketnamen: Er darf nur aus Kleinbuchstaben "
+#~ "(a-z), Ziffern (0-9), Plus- (+) und Minus- (-) Zeichen sowie Punkten (.) "
+#~ "bestehen, muss mindestens zwei Zeichen lang sein und mit einem "
+#~ "alphanumerischen Zeichen beginnen."
 
 #~ msgid ""
 #~ "If set, and containing B<nocheck> the B<DEB_CHECK_COMMAND> variable will "

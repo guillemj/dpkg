@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.10\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-11 02:43+0100\n"
+"POT-Creation-Date: 2016-11-16 03:40+0100\n"
 "PO-Revision-Date: 2016-10-17 04:48+0200\n"
 "Last-Translator: Beatrice Torracca <beatricet@libero.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
@@ -656,23 +656,14 @@ msgstr ""
 
 #. type: Plain text
 #: deb-buildinfo.man
-msgid "The B<.buildinfo> filename by default has the following form:"
-msgstr ""
-
-# solo in file deb-src-control
-#. type: Plain text
-#: deb-buildinfo.man
-#, fuzzy
-#| msgid "B<Source:> I<source-package-name> (required)"
-msgid "I<source-name>B<_>I<source-version>B<_>I<buildinfo-id>B<.buildinfo>"
-msgstr "B<Source:> I<nome-pacchetto-sorgente> (richiesto)"
-
-#. type: Plain text
-#: deb-buildinfo.man
 msgid ""
-"where I<buildinfo-id> is composed of the build time formatted as "
-"B<strftime>(2) «%Y%m%dT%H%M%Sz», followed by a minus ‘-’ and the eight left-"
-"most characters from the B<.buildinfo>'s file contents MD5 digest."
+"The name of the B<.buildinfo> file will depend on the type of build and will "
+"be as specific as necessary but not more; for a build that includes B<any> "
+"the name will be I<source-name>B<_>I<source-version>B<_>I<arch>B<."
+"buildinfo>, or otherwise for a build that includes B<all> the name will be "
+"I<source-name>B<_>I<source-version>B<_>B<all.buildinfo>, or otherwise for a "
+"build that includes B<source> the name will be I<source-name>B<_>I<source-"
+"version>B<_>B<source.buildinfo>."
 msgstr ""
 
 # solo in file deb-src-control
@@ -698,7 +689,7 @@ msgid ""
 "of the field value is a version number with a major and minor component.  "
 "Backward incompatible changes to the format will bump the major version, and "
 "backward compatible changes (such as field additions) will bump the minor "
-"version.  The current format version is B<0.1>."
+"version.  The current format version is B<0.2>."
 msgstr ""
 
 # solo in file deb-src-control
@@ -898,6 +889,20 @@ msgstr "B<Architecture:> I<arch>|B<all>|B<any> (richiesto)"
 msgid ""
 "The Debian architecture for the installation the packages is being built "
 "in.  Common architectures are B<amd64>, B<armel>, B<i386>, etc."
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, fuzzy, no-wrap
+#| msgid "B<Date:>I< date>"
+msgid "B<Build-Date:> I<build-date>"
+msgstr "B<Date:>I< data>"
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid ""
+"The date the package was built.  It must be in the same format as the date "
+"in a B<deb-changelog>(5)  entry."
 msgstr ""
 
 #. type: TP
@@ -12504,8 +12509,9 @@ msgid ""
 "B<DEB_BUILD_OPTIONS> environment variable.  Note that the B<auto> value will "
 "get replaced by the actual number of currently active processors, and as "
 "such will not get propagated to any child process. If the number of online "
-"processors cannot be inferred then the code will fallback to using an "
-"unlimited number."
+"processors cannot be inferred then the code will fallback to using serial "
+"execution (since dpkg 1.18.15), although this should only happen on exotic "
+"and unsupported systems."
 msgstr ""
 "Numero di compiti che è permesso eseguire contemporaneamente, numero di "
 "compiti che corrispondono al numero di processori in linea se è specificata "
@@ -12905,39 +12911,6 @@ msgstr "B<%u>"
 #: dpkg-buildpackage.man
 msgid "The upstream version."
 msgstr "La versione originale a monte."
-
-#. type: TP
-#: dpkg-buildpackage.man dpkg-genbuildinfo.man
-#, fuzzy, no-wrap
-#| msgid "B<-t>I<type>"
-msgid "B<--buildinfo-id=>I<identifier>"
-msgstr "B<-t>I<tipo>"
-
-# solo in file deb-src-control
-#. type: Plain text
-#: dpkg-buildpackage.man
-#, fuzzy
-#| msgid ""
-#| "The value of this field is the name of the source package, and should "
-#| "match the name of the source package in the debian/changelog file. A "
-#| "package name must consist only of lower case letters (a-z), digits (0-9), "
-#| "plus (+) and minus (-) signs, and periods (.). Package names must be at "
-#| "least two characters long and must start with an alphanumeric character."
-msgid ""
-"Specify the identifier part of the B<.buildinfo> file name (since dpkg "
-"1.18.11).  By default, B<dpkg-buildpackage> will create an identifier using "
-"the current time and the first characters of the MD5 hash.  An arbitrary "
-"identifier can be specified as a replacement.  The identifier has the same "
-"restriction as package names: it must consist only of lower case letters (a-"
-"z), digits (0-9), plus (+) and minus (-)  signs, and periods (.), be at "
-"least two characters long and must start with an alphanumeric character."
-msgstr ""
-"Il valore di questo campo è il nome del pacchetto sorgente e deve "
-"corrispondere al nome del pacchetto sorgente nel file debian/changelog. Un "
-"nome di pacchetto è formato soltanto da lettere minuscole (a-z), cifre "
-"(0-9), segni più (+) e meno (-) e punti (.). I nomi di pacchetto devono "
-"essere lunghi almeno due caratteri e devono iniziare con un carattere "
-"alfanumerico."
 
 #. type: TP
 #: dpkg-buildpackage.man
@@ -13600,12 +13573,20 @@ msgstr "B<-O>[I<nomefile>]"
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
+#, fuzzy
+#| msgid ""
+#| "Print the control file to standard output (or I<filename> if specified), "
+#| "rather than to B<debian/tmp/DEBIAN/control> (or I<package-build-dir>B</"
+#| "DEBIAN/control> if B<-P> was used)."
 msgid ""
 "Print the buildinfo file to standard output (or I<filename> if specified)  "
-"rather than to I<dir>B</>I<source-name>B<_>I<source-version>B<_>I<buildinfo-"
-"id>B<.buildinfo> (where I<dir> is B<..> by default or I<upload-files-dir> if "
-"B<-u> was used)."
+"rather than to I<dir>B</>I<source-name>B<_>I<source-version>B<_>I<arch>B<."
+"buildinfo> (where I<dir> is B<..> by default or I<upload-files-dir> if B<-u> "
+"was used)."
 msgstr ""
+"Stampa il file di controllo sullo standard output (o I<filename> se "
+"specificato), invece che in B<debian/tmp/DEBIAN/control> (o I<dir-di-"
+"generazione-pacchetto>B</DEBIAN/control> se è stato usato B<-P>)."
 
 #. type: TP
 #: dpkg-genbuildinfo.man dpkg-genchanges.man
@@ -13620,32 +13601,6 @@ msgid ""
 "(B<dpkg-genbuildinfo> needs to find these files so that it can include their "
 "sizes and checksums in the B<.buildinfo> file)."
 msgstr ""
-
-# solo in file deb-src-control
-#. type: Plain text
-#: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid ""
-#| "The value of this field is the name of the source package, and should "
-#| "match the name of the source package in the debian/changelog file. A "
-#| "package name must consist only of lower case letters (a-z), digits (0-9), "
-#| "plus (+) and minus (-) signs, and periods (.). Package names must be at "
-#| "least two characters long and must start with an alphanumeric character."
-msgid ""
-"Specify the identifier part of the B<.buildinfo> file name.  By default, "
-"B<dpkg-genbuildinfo> will create an identifier using the current time and "
-"the first characters of the MD5 hash.  An arbitrary identifier can be "
-"specified as a replacement.  The identifier has the same restriction as "
-"package names: it must consist only of lower case letters (a-z), digits "
-"(0-9), plus (+) and minus (-)  signs, and periods (.), be at least two "
-"characters long and must start with an alphanumeric character."
-msgstr ""
-"Il valore di questo campo è il nome del pacchetto sorgente e deve "
-"corrispondere al nome del pacchetto sorgente nel file debian/changelog. Un "
-"nome di pacchetto è formato soltanto da lettere minuscole (a-z), cifre "
-"(0-9), segni più (+) e meno (-) e punti (.). I nomi di pacchetto devono "
-"essere lunghi almeno due caratteri e devono iniziare con un carattere "
-"alfanumerico."
 
 #. type: TP
 #: dpkg-genbuildinfo.man
@@ -26108,6 +26063,68 @@ msgstr "B<update-alternatives --auto vi>"
 #: update-alternatives.man
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS: lo standard per la gerarchia del file system."
+
+# solo in file deb-src-control
+#, fuzzy
+#~| msgid "B<Source:> I<source-package-name> (required)"
+#~ msgid "I<source-name>B<_>I<source-version>B<_>I<buildinfo-id>B<.buildinfo>"
+#~ msgstr "B<Source:> I<nome-pacchetto-sorgente> (richiesto)"
+
+#, fuzzy
+#~| msgid "B<-t>I<type>"
+#~ msgid "B<--buildinfo-id=>I<identifier>"
+#~ msgstr "B<-t>I<tipo>"
+
+# solo in file deb-src-control
+#, fuzzy
+#~| msgid ""
+#~| "The value of this field is the name of the source package, and should "
+#~| "match the name of the source package in the debian/changelog file. A "
+#~| "package name must consist only of lower case letters (a-z), digits "
+#~| "(0-9), plus (+) and minus (-) signs, and periods (.). Package names must "
+#~| "be at least two characters long and must start with an alphanumeric "
+#~| "character."
+#~ msgid ""
+#~ "Specify the identifier part of the B<.buildinfo> file name (since dpkg "
+#~ "1.18.11).  By default, B<dpkg-buildpackage> will create an identifier "
+#~ "using the current time and the first characters of the MD5 hash.  An "
+#~ "arbitrary identifier can be specified as a replacement.  The identifier "
+#~ "has the same restriction as package names: it must consist only of lower "
+#~ "case letters (a-z), digits (0-9), plus (+) and minus (-)  signs, and "
+#~ "periods (.), be at least two characters long and must start with an "
+#~ "alphanumeric character."
+#~ msgstr ""
+#~ "Il valore di questo campo è il nome del pacchetto sorgente e deve "
+#~ "corrispondere al nome del pacchetto sorgente nel file debian/changelog. "
+#~ "Un nome di pacchetto è formato soltanto da lettere minuscole (a-z), cifre "
+#~ "(0-9), segni più (+) e meno (-) e punti (.). I nomi di pacchetto devono "
+#~ "essere lunghi almeno due caratteri e devono iniziare con un carattere "
+#~ "alfanumerico."
+
+# solo in file deb-src-control
+#, fuzzy
+#~| msgid ""
+#~| "The value of this field is the name of the source package, and should "
+#~| "match the name of the source package in the debian/changelog file. A "
+#~| "package name must consist only of lower case letters (a-z), digits "
+#~| "(0-9), plus (+) and minus (-) signs, and periods (.). Package names must "
+#~| "be at least two characters long and must start with an alphanumeric "
+#~| "character."
+#~ msgid ""
+#~ "Specify the identifier part of the B<.buildinfo> file name.  By default, "
+#~ "B<dpkg-genbuildinfo> will create an identifier using the current time and "
+#~ "the first characters of the MD5 hash.  An arbitrary identifier can be "
+#~ "specified as a replacement.  The identifier has the same restriction as "
+#~ "package names: it must consist only of lower case letters (a-z), digits "
+#~ "(0-9), plus (+) and minus (-)  signs, and periods (.), be at least two "
+#~ "characters long and must start with an alphanumeric character."
+#~ msgstr ""
+#~ "Il valore di questo campo è il nome del pacchetto sorgente e deve "
+#~ "corrispondere al nome del pacchetto sorgente nel file debian/changelog. "
+#~ "Un nome di pacchetto è formato soltanto da lettere minuscole (a-z), cifre "
+#~ "(0-9), segni più (+) e meno (-) e punti (.). I nomi di pacchetto devono "
+#~ "essere lunghi almeno due caratteri e devono iniziare con un carattere "
+#~ "alfanumerico."
 
 #~ msgid ""
 #~ "If set, and containing B<nocheck> the B<DEB_CHECK_COMMAND> variable will "
