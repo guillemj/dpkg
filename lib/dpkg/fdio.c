@@ -102,7 +102,9 @@ fd_allocate_size(int fd, off_t offset, off_t len)
 {
 	int rc;
 
-	if (len == 0)
+	/* Do not preallocate on very small files as that degrades performance
+	 * on some filesystems. */
+	if (len < (4 * 4096) - 1)
 		return 0;
 
 #if defined(HAVE_F_PREALLOCATE)
