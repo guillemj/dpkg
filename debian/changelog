@@ -3,6 +3,8 @@ dpkg (1.18.16) UNRELEASED; urgency=medium
   [ Guillem Jover ]
   * Add support for specifying multiple targets on «dpkg-buildpackage -T»
     which will be run successively. Closes: #671074
+  * Reject empty upstream versions in C and perl code. These are not permitted
+    by deb-version(5), but the code was letting those through.
   * Perl modules:
     - Whitelist DPKG_GENSYMBOLS_CHECK_LEVEL, DPKG_ROOT, DPKG_ADMINDIR and
       DPKG_DATADIR environment variables in Dpkg::Build::Info.

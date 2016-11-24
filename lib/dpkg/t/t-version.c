@@ -257,6 +257,12 @@ test_version_parse(void)
 	test_fail(parseversion(&a, "A:0-0", &err) == 0);
 	test_error(err);
 
+	/* Test invalid empty upstream version. */
+	test_fail(parseversion(&a, "-0", &err) == 0);
+	test_error(err);
+	test_fail(parseversion(&a, "0:-0", &err) == 0);
+	test_error(err);
+
 	/* Test upstream version not starting with a digit */
 	test_fail(parseversion(&a, "0:abc3-0", &err) == 0);
 	test_warn(err);
@@ -287,7 +293,7 @@ test_version_parse(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(190);
+	test_plan(194);
 
 	test_version_blank();
 	test_version_is_informative();

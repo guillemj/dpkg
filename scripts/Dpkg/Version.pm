@@ -416,6 +416,11 @@ sub version_check($) {
         return (0, $msg) if wantarray;
         return 0;
     }
+    if (not defined $version->version() or not length $version->version()) {
+        my $msg = g_('upstream version cannot be empty');
+        return (0, $msg) if wantarray;
+        return 0;
+    }
     if ($version->version() =~ m/^[^\d]/) {
         my $msg = g_('version number does not start with digit');
         return (0, $msg) if wantarray;

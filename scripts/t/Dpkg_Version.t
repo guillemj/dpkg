@@ -30,7 +30,7 @@ my @ops = ('<', '<<', 'lt',
 	   '>=', 'ge',
 	   '>', '>>', 'gt');
 
-plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 18;
+plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 24;
 
 sub dpkg_vercmp {
      my ($a, $cmp, $b) = @_;
@@ -88,6 +88,14 @@ my $empty = Dpkg::Version->new('');
 ok($empty eq '', "Dpkg::Version->new('') eq ''");
 ok($empty->as_string() eq '', "Dpkg::Version->new('')->as_string() eq ''");
 ok(!$empty->is_valid(), 'empty version is invalid');
+$empty = Dpkg::Version->new('-0');
+ok($empty eq '', "Dpkg::Version->new('-0') eq '-0'");
+ok($empty->as_string() eq '-0', "Dpkg::Version->new('-0')->as_string() eq '-0'");
+ok(!$empty->is_valid(), 'empty upstream version is invalid');
+$empty = Dpkg::Version->new('0:-0');
+ok($empty eq '0:-0', "Dpkg::Version->new('0:-0') eq '0:-0'");
+ok($empty->as_string() eq '0:-0', "Dpkg::Version->new('0:-0')->as_string() eq '0:-0'");
+ok(!$empty->is_valid(), 'empty upstream version with epoch is invalid');
 my $ver = Dpkg::Version->new('10a:5.2');
 ok(!$ver->is_valid(), 'bad epoch is invalid');
 ok(!$ver, 'bool eval of invalid leads to false');
@@ -187,4 +195,3 @@ __DATA__
 1:3.8.1-1 3.8.GA-1 1
 1.0.1+gpl-1 1.0.1-2 1
 1a 1000a -1
--0.6.5 0.9.1 -1

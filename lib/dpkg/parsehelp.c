@@ -235,6 +235,8 @@ parseversion(struct dpkg_version *rversion, const char *string,
 
   /* XXX: Would be faster to use something like cisversion and cisrevision. */
   ptr = rversion->version;
+  if (!*ptr)
+    return dpkg_put_error(err, _("version number is empty"));
   if (*ptr && !c_isdigit(*ptr++))
     return dpkg_put_warn(err, _("version number does not start with digit"));
   for (; *ptr; ptr++) {
