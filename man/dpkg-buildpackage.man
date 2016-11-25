@@ -41,9 +41,9 @@ has been used).
 It checks that the build-dependencies and build-conflicts
 are satisfied (unless \fB\-d\fP or \fB\-\-no\-check\-builddeps\fP is specified).
 .IP \fB3.\fP 3
-If a specific target has been selected with the \fB\-T\fP or \fB\-\-target\fP
-option, it calls that target and stops here. Otherwise it runs the
-\fBpreclean\fP hook and calls \fBfakeroot debian/rules clean\fP to
+If one or more specific targets have been selected with the \fB\-T\fP or
+\fB\-\-target\fP option, it calls those targets and stops here. Otherwise it
+runs the \fBpreclean\fP hook and calls \fBfakeroot debian/rules clean\fP to
 clean the build-tree (unless \fB\-nc\fP or \fB\-\-no\-pre\-clean\fP
 is specified).
 .IP \fB4.\fP 3
@@ -159,14 +159,15 @@ Equivalent to \fB\-\-build=source\fP.
 Equivalent to \fB\-\-build=full\fP, \fB\-\-build=source,binary\fP or
 \fB\-\-build=source,any,all\fP (since dpkg 1.15.8).
 .TP
-.BI \-\-target= target
+.BR \-\-target= \fItarget\fP[,...]
 .TQ
-.BI "\-\-target " target
+.BR "\-\-target " \fItarget\fP[,...]
 .TQ
-.BR \-T ", " \-\-rules\-target= \fItarget\fP
-Calls \fBdebian/rules\fP \fItarget\fP after having setup the build
-environment and stops the package build process here (since dpkg 1.15.0,
-long option since dpkg 1.18.8).
+.BR \-T ", " \-\-rules\-target= \fItarget\fP[,...]
+Calls \fBdebian/rules\fP \fItarget\fP once per target specified, after
+having setup the build environment, and stops the package build process
+here (since dpkg 1.15.0, long option since dpkg 1.18.8, multi-target
+support since dpkg 1.18.16).
 If \fB\-\-as\-root\fP is also given, then the command is executed
 as root (see \fB\-\-root\-command\fP).
 Note that known targets that are required to

@@ -165,7 +165,7 @@ my $host_type = '';
 my $target_arch = '';
 my $target_type = '';
 my @build_profiles = ();
-my $call_target = '';
+my @call_target = ();
 my $call_target_as_root = 0;
 my $since;
 my $maint;
@@ -287,9 +287,10 @@ while (@ARGV) {
     } elsif (/^--target-type=(.*)$/) {
 	$target_type = $1;
     } elsif (/^(?:--target|--rules-target|-T)$/) {
-        $call_target = shift @ARGV;
+        push @call_target, split /,/, shift @ARGV;
     } elsif (/^(?:--target=|--rules-target=|-T)(.+)$/) {
-        $call_target = $1;
+        my $arg = $1;
+        push @call_target, split /,/, $arg;
     } elsif (/^--as-root$/) {
         $call_target_as_root = 1;
     } elsif (/^--pre-clean$/) {
@@ -490,7 +491,7 @@ if (not -x 'debian/rules') {
     chmod(0755, 'debian/rules'); # No checks of failures, non fatal
 }
 
-unless ($call_target) {
+if (scalar @call_target == 0) {
     chdir('..') or syserr('chdir ..');
     withecho('dpkg-source', @source_opts, '--before-build', $dir);
     chdir($dir) or syserr("chdir $dir");
@@ -514,7 +515,7 @@ if ($checkbuilddep) {
     }
 }
 
-if ($call_target) {
+foreach my $call_target (@call_target) {
     if ($call_target_as_root or
         $call_target =~ /^(clean|binary(|-arch|-indep))$/)
     {
@@ -522,8 +523,8 @@ if ($call_target) {
     } else {
         withecho(@debian_rules, $call_target);
     }
-    exit 0;
 }
+exit 0 if scalar @call_target;
 
 run_hook('preclean', ! $noclean);
 
