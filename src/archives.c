@@ -539,7 +539,7 @@ tarobject_matches(struct tarcontext *tc,
     return;
   case TAR_FILETYPE_SYMLINK:
     /* Symlinks to existing dirs have already been dealt with, only
-     * reamin real symlinks where we can compare the target. */
+     * remain real symlinks where we can compare the target. */
     if (!S_ISLNK(stab->st_mode))
       break;
     linkname = m_malloc(stab->st_size + 1);
