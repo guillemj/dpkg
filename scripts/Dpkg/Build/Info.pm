@@ -63,8 +63,16 @@ my @env_whitelist = (
     qw(DEB_BUILD_OPTIONS DEB_BUILD_PROFILES),
     # DEB_flag_{SET,STRIP,APPEND,PREPEND} will be recorded after being merged
     # with system config and user config.
-    qw(DEB_VENDOR),           # See deb-vendor(1).
-    qw(DPKG_ORIGINS_DIR),     # See Dpkg::Vendor(3).
+    # See deb-vendor(1).
+    qw(DEB_VENDOR),
+    # See dpkg(1).
+    qw(DPKG_ROOT DPKG_ADMINDIR),
+    # See dpkg-architecture(1).
+    qw(DPKG_DATADIR),
+    # See Dpkg::Vendor(3).
+    qw(DPKG_ORIGINS_DIR),
+    # See dpkg-gensymbols(1).
+    qw(DPKG_GENSYMBOLS_CHECK_LEVEL),
     # See <https://reproducible-builds.org/specs/source-date-epoch>.
     qw(SOURCE_DATE_EPOCH),
 );
