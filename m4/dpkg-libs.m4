@@ -43,7 +43,7 @@ AC_DEFUN([DPKG_WITH_COMPRESS_LIB], [
       ])
     ])
 
-    AS_IF([test "x$with_lib$1" = "xyes"], [
+    AS_IF([test "x$with_lib$1" != "xno"], [
       AS_IF([test "x$have_lib$1" = "xyes"], [
         AC_DEFINE([WITH_LIB]AS_TR_CPP($1), 1,
           [Define to 1 to use $1 library rather than console tool])
