@@ -48,9 +48,8 @@ rm_conffile() {
 		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
 	[ "${CONFFILE}" != "${CONFFILE#/}" ] || \
 		error "conffile '$CONFFILE' is not an absolute path"
-	# Use --compare-versions to validate the version number.
-	[ -z "$(dpkg --compare-versions -- "$LASTVERSION" eq '0' 2>&1)" ] || \
-		error "version '$LASTVERSION' is not valid"
+	VERSIONCHECK=$(dpkg --validate-version -- "$LASTVERSION" 2>&1) || \
+		error "$VERSIONCHECK"
 
 	debug "Executing $0 rm_conffile in $DPKG_MAINTSCRIPT_NAME" \
 	      "of $DPKG_MAINTSCRIPT_PACKAGE"
@@ -162,9 +161,8 @@ mv_conffile() {
 		error "old-conffile '$OLDCONFFILE' is not an absolute path"
 	[ "${NEWCONFFILE}" != "${NEWCONFFILE#/}" ] || \
 		error "new-conffile '$NEWCONFFILE' is not an absolute path"
-	# Use --compare-versions to validate the version number.
-	[ -z "$(dpkg --compare-versions -- "$LASTVERSION" eq '0' 2>&1)" ] || \
-		error "version '$LASTVERSION' is not valid"
+	VERSIONCHECK=$(dpkg --validate-version -- "$LASTVERSION" 2>&1) || \
+		error "$VERSIONCHECK"
 
 	debug "Executing $0 mv_conffile in $DPKG_MAINTSCRIPT_NAME" \
 	      "of $DPKG_MAINTSCRIPT_PACKAGE"
