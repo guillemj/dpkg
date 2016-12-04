@@ -531,7 +531,6 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 #ifdef HAVE_LZMA_MT
 	lzma_mt mt_options = {
 		.flags = 0,
-		.threads = sysconf(_SC_NPROCESSORS_ONLN),
 		.block_size = 0,
 		.timeout = 0,
 		.filters = NULL,
@@ -548,6 +547,11 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 
 #ifdef HAVE_LZMA_MT
 	mt_options.preset = preset;
+
+	mt_options.threads = lzma_cputhreads();
+	if (mt_options.threads == 0)
+		mt_options.threads = 1;
+
 	ret = lzma_stream_encoder_mt(s, &mt_options);
 #else
 	ret = lzma_easy_encoder(s, preset, check);

@@ -5,6 +5,8 @@ dpkg (1.18.16) UNRELEASED; urgency=medium
     which will be run successively. Closes: #671074
   * Reject empty upstream versions in C and perl code. These are not permitted
     by deb-version(5), but the code was letting those through.
+  * Use lzma_cputhreads() instead of sysconf(_SC_NPROCESSORS_ONLN) as the
+    former is way more portable.
   * Perl modules:
     - Whitelist DPKG_GENSYMBOLS_CHECK_LEVEL, DPKG_ROOT, DPKG_ADMINDIR and
       DPKG_DATADIR environment variables in Dpkg::Build::Info.
