@@ -100,7 +100,9 @@ our $PROGTAR = $ENV{DPKG_PROGTAR} // 'tar';
 our $CONFDIR = '/etc/dpkg';
 our $ADMINDIR = '/var/lib/dpkg';
 our $LIBDIR = '.';
-our $DATADIR = $ENV{DPKG_DATADIR} // '..';
+our $DATADIR = '..';
+
+$DATADIR = $ENV{DPKG_DATADIR} if defined $ENV{DPKG_DATADIR};
 
 # XXX: Backwards compatibility, to be removed on VERSION 2.00.
 ## no critic (Variables::ProhibitPackageVars)

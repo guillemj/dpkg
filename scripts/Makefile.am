@@ -126,13 +126,13 @@ man3_MANS =
 
 do_perl_subst = $(AM_V_GEN) sed \
 	-e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):" \
-	-e "s:\$$CONFDIR = .*;:\$$CONFDIR = '$(pkgconfdir)';:" \
-	-e "s:\$$ADMINDIR = .*;:\$$ADMINDIR = '$(admindir)';:" \
-	-e "s:\$$LIBDIR = .*;:\$$LIBDIR = '$(pkglibdir)';:" \
-	-e "s:\$$DATADIR = .*;:\$$DATADIR = '$(pkgdatadir)';:" \
-	-e "s:\$$PROGMAKE = .*;:\$$PROGMAKE = '$(MAKE)';:" \
-	-e "s:\$$PROGTAR = .*;:\$$PROGTAR = '$(TAR)';:" \
-	-e "s:\$$PROGVERSION = .*;:\$$PROGVERSION = '$(PACKAGE_VERSION)';:"
+	-e "s:our \$$CONFDIR = .*;:our \$$CONFDIR = '$(pkgconfdir)';:" \
+	-e "s:our \$$ADMINDIR = .*;:our \$$ADMINDIR = '$(admindir)';:" \
+	-e "s:our \$$LIBDIR = .*;:our \$$LIBDIR = '$(pkglibdir)';:" \
+	-e "s:our \$$DATADIR = .*;:our \$$DATADIR = '$(pkgdatadir)';:" \
+	-e "s:our \$$PROGMAKE = .*;:our \$$PROGMAKE = '$(MAKE)';:" \
+	-e "s:our \$$PROGTAR = .*;:our \$$PROGTAR = '$(TAR)';:" \
+	-e "s:our \$$PROGVERSION = .*;:our \$$PROGVERSION = '$(PACKAGE_VERSION)';:"
 
 do_shell_subst = $(AM_V_GEN) sed \
 	-e "s:^version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:version=\"$(PACKAGE_VERSION)\":"
