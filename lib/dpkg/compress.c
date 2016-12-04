@@ -529,6 +529,7 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 	uint32_t preset;
 	lzma_check check = LZMA_CHECK_CRC64;
 #ifdef HAVE_LZMA_MT
+	uint64_t mt_memlimit;
 	lzma_mt mt_options = {
 		.flags = 0,
 		.block_size = 0,
@@ -548,9 +549,29 @@ filter_xz_init(struct io_lzma *io, lzma_stream *s)
 #ifdef HAVE_LZMA_MT
 	mt_options.preset = preset;
 
+	/* Initialize the multi-threaded memory limit to half the physical
+	 * RAM, or to 128 MiB if we cannot infer the number. */
+	mt_memlimit = lzma_physmem() / 2;
+	if (mt_memlimit == 0)
+		mt_memlimit = 128 * 1024 * 1024;
+	/* Clamp the multi-threaded memory limit to half the addressable
+	 * memory on this architecture. */
+	if (mt_memlimit > INTPTR_MAX)
+		mt_memlimit = INTPTR_MAX;
+
 	mt_options.threads = lzma_cputhreads();
 	if (mt_options.threads == 0)
 		mt_options.threads = 1;
+
+	/* Guess whether we have enough RAM to use the multi-threaded encoder,
+	 * and decrease them up to single-threaded to reduce memory usage. */
+	for (; mt_options.threads > 1; mt_options.threads--) {
+		uint64_t mt_memusage;
+
+		mt_memusage = lzma_stream_encoder_mt_memusage(&mt_options);
+		if (mt_memusage < mt_memlimit)
+			break;
+	}
 
 	ret = lzma_stream_encoder_mt(s, &mt_options);
 #else
