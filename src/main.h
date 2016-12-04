@@ -3,7 +3,7 @@
  * main.h - external definitions for this program
  *
  * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
- * Copyright © 2006, 2008-2015 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006, 2008-2016 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -110,6 +110,11 @@ enum action {
 	act_assertmultiarch,
 	act_assertverprovides,
 
+	act_validate_pkgname,
+	act_validate_trigname,
+	act_validate_archname,
+	act_validate_version,
+
 	act_audit,
 	act_unpackchk,
 	act_predeppackage,
@@ -177,6 +182,10 @@ int assertlongfilenames(const char *const *argv);
 int assertmulticonrep(const char *const *argv);
 int assertmultiarch(const char *const *argv);
 int assertverprovides(const char *const *argv);
+int validate_pkgname(const char *const *argv);
+int validate_trigname(const char *const *argv);
+int validate_archname(const char *const *argv);
+int validate_version(const char *const *argv);
 int predeppackage(const char *const *argv);
 int printarch(const char *const *argv);
 int printinstarch(const char *const *argv);

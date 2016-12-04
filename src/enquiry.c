@@ -3,7 +3,7 @@
  * enquiry.c - status enquiry and listing options
  *
  * Copyright © 1995,1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
- * Copyright © 2006, 2008-2015 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006, 2008-2016 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -40,6 +40,7 @@
 #include <dpkg/arch.h>
 #include <dpkg/pkg-array.h>
 #include <dpkg/pkg-show.h>
+#include <dpkg/triglib.h>
 #include <dpkg/string.h>
 #include <dpkg/options.h>
 
@@ -592,6 +593,70 @@ print_foreign_arches(const char *const *argv)
   }
 
   m_output(stdout, _("<standard output>"));
+
+  return 0;
+}
+
+int
+validate_pkgname(const char *const *argv)
+{
+  const char *emsg;
+
+  if (!argv[0] || argv[1])
+    badusage(_("--%s takes one <pkgname> argument"), cipaction->olong);
+
+  emsg = pkg_name_is_illegal(argv[0]);
+  if (emsg)
+    ohshit(_("package name '%s' is invalid: %s"), argv[0], emsg);
+
+  return 0;
+}
+
+int
+validate_trigname(const char *const *argv)
+{
+  const char *emsg;
+
+  if (!argv[0] || argv[1])
+    badusage(_("--%s takes one <trigname> argument"), cipaction->olong);
+
+  emsg = trig_name_is_illegal(argv[0]);
+  if (emsg)
+    ohshit(_("trigger name '%s' is invalid: %s"), argv[0], emsg);
+
+  return 0;
+}
+
+int
+validate_archname(const char *const *argv)
+{
+  const char *emsg;
+
+  if (!argv[0] || argv[1])
+    badusage(_("--%s takes one <archname> argument"), cipaction->olong);
+
+  emsg = dpkg_arch_name_is_illegal(argv[0]);
+  if (emsg)
+    ohshit(_("architecture name '%s' is invalid: %s"), argv[0], emsg);
+
+  return 0;
+}
+
+int
+validate_version(const char *const *argv)
+{
+  struct dpkg_version version;
+  struct dpkg_error err;
+
+  if (!argv[0] || argv[1])
+    badusage(_("--%s takes one <version> argument"), cipaction->olong);
+
+  if (parseversion(&version, argv[0], &err) < 0) {
+    dpkg_error_print(&err, _("version '%s' has bad syntax"), argv[0]);
+    dpkg_error_destroy(&err);
+
+    return 1;
+  }
 
   return 0;
 }

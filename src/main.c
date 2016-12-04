@@ -3,7 +3,7 @@
  * main.c - main program
  *
  * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
- * Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2016 Guillem Jover <guillem@debian.org>
  * Copyright © 2010 Canonical Ltd.
  *   written by Martin Pitt <martin.pitt@canonical.com>
  *
@@ -111,6 +111,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --print-architecture             Print dpkg architecture.\n"
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -124,6 +125,10 @@ usage(const struct cmdinfo *ci, const char *value)
   printf(_(
 "Assertable features: support-predepends, working-epoch, long-filenames,\n"
 "  multi-conrep, multi-arch, versioned-provides.\n"
+"\n"));
+
+  printf(_(
+"Validatable things: pkgname, archname, trigname, version.\n"
 "\n"));
 
   printf(_(
@@ -704,6 +709,10 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "print-architecture",              0,  act_printarch,            printarch   ),
   ACTION( "print-foreign-architectures",     0,  act_printforeignarches,   print_foreign_arches ),
   ACTION( "predep-package",                  0,  act_predeppackage,        predeppackage   ),
+  ACTION( "validate-pkgname",                0,  act_validate_pkgname,     validate_pkgname ),
+  ACTION( "validate-trigname",               0,  act_validate_trigname,    validate_trigname ),
+  ACTION( "validate-archname",               0,  act_validate_archname,    validate_archname ),
+  ACTION( "validate-version",                0,  act_validate_version,     validate_version ),
   ACTION( "compare-versions",                0,  act_cmpversions,          cmpversions     ),
 /*
   ACTION( "command-fd",                   'c', act_commandfd,   commandfd     ),

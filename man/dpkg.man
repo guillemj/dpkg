@@ -6,7 +6,7 @@
 .\" Copyright © 2000-2003 Adam Heath <doogie@debian.org>
 .\" Copyright © 2002 Josip Rodin
 .\" Copyright © 2004-2005 Scott James Remnant <keybuk@debian.org>
-.\" Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2006-2016 Guillem Jover <guillem@debian.org>
 .\" Copyright © 2007-2008 Ian Jackson <ijackson@chiark.greenend.org.uk>
 .\" Copyright © 2008-2011 Raphaël Hertzog <hertzog@debian.org>
 .\"
@@ -372,6 +372,27 @@ Supports multi-arch fields and semantics (since dpkg 1.16.2).
 .TP
 .B versioned\-provides
 Supports versioned \fBProvides\fP (since dpkg 1.17.11).
+.RE
+.TP
+.BI \-\-validate\- "thing string"
+Validate that the \fIthing\fP \fIstring\fP has a correct syntaxa
+(since dpkg 1.18.16).
+Returns 0 if the \fIstring\fP is valid, 1 if the \fIstring\fP is invalid but
+might be accepted in lax contexts, and 2 if the \fIstring\fP is invalid.
+The current list of validatable \fIthing\fPs is:
+.RS
+.TP
+.B pkgname
+Validates the given package name (since dpkg 1.18.16).
+.TP
+.B trigname
+Validates the given trigger name (since dpkg 1.18.16).
+.TP
+.B pkgname
+Validates the given architecture name (since dpkg 1.18.16).
+.TP
+.B version
+Validates the given version (since dpkg 1.18.16).
 .RE
 .TP
 .B \-\-compare\-versions \fIver1 op ver2\fP
