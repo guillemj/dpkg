@@ -18,6 +18,14 @@ dpkg (1.18.16) UNRELEASED; urgency=medium
   * Use the new dpkg --validate-version command in dpkg-maintscript-helper,
     instead of abusing the --compare-versions command to perform version
     validation. Closes: #844701
+  * Allow readlink(2) to return a size smaller than stat(2) in dpkg. Some
+    bogus filesystems do not return the actual symlink size in st_size,
+    which contradicts POSIX. But allowing the case where the returned size
+    is smaller than the one used to allocate memory is harmless, although
+    suspect. Let it through, but still print a warning so that users can
+    install stuff but are reminded they need to get a fixed filesystem in
+    place. This has affected at least ecryptfs in the past and now
+    file-based encryption support in ext4 on Android N.
   * Perl modules:
     - Whitelist DPKG_GENSYMBOLS_CHECK_LEVEL, DPKG_ROOT, DPKG_ADMINDIR and
       DPKG_DATADIR environment variables in Dpkg::Build::Info.

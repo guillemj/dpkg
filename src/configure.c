@@ -761,7 +761,10 @@ conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in)
 				warning(_("symbolic link '%.250s' size has "
 				          "changed from %jd to %zd"),
 				        result->buf, (intmax_t)stab.st_size, r);
-				return -1;
+				/* If the returned size is smaller, let's
+				 * proceed, otherwise error out. */
+				if (r > stab.st_size)
+					return -1;
 			}
 			varbuf_trunc(&target, r);
 			varbuf_end_str(&target);
