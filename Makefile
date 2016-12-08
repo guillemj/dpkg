@@ -90,6 +90,7 @@ TESTS_PASS += t-file-replaces-versioned
 TESTS_PASS += t-conffile-normal
 TESTS_PASS += t-conffile-obsolete
 TESTS_PASS += t-conffile-orphan
+TESTS_PASS += t-conffile-forcemiss
 TESTS_PASS += t-conffile-forcenew
 TESTS_PASS += t-conffile-forceask
 TESTS_PASS += t-conffile-divert-normal
