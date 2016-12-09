@@ -306,6 +306,19 @@ virt_source_version(struct varbuf *vb,
 	varbuf_add_source_version(vb, pkg, pkgbin);
 }
 
+static void
+virt_source_upstream_version(struct varbuf *vb,
+                             const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                             enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	struct dpkg_version version;
+
+	pkg_source_version(&version, pkg, pkgbin);
+
+	varbuf_add_str(vb, version.version);
+	varbuf_end_str(vb);
+}
+
 static const struct fieldinfo virtinfos[] = {
 	{ FIELD("binary:Package"), NULL, virt_package },
 	{ FIELD("binary:Summary"), NULL, virt_summary },
@@ -315,6 +328,7 @@ static const struct fieldinfo virtinfos[] = {
 	{ FIELD("db:Status-Eflag"), NULL, virt_status_eflag },
 	{ FIELD("source:Package"), NULL, virt_source_package },
 	{ FIELD("source:Version"), NULL, virt_source_version },
+	{ FIELD("source:Upstream-Version"), NULL, virt_source_upstream_version },
 	{ NULL },
 };
 
