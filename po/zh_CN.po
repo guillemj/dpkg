@@ -2825,54 +2825,47 @@ msgstr[0] "系统当前共安装有 %d 个文件和目录。)\n"
 #: src/filesdb-hash.c
 #, c-format
 msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "软件包 %s 的 control 文件 %s 缺少最后结尾的换行符"
+msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少结尾换行符"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
+#, c-format
 msgid "control file '%s' for package '%s' is missing value"
-msgstr "软件包 %s 的 control 文件 %s 缺少最后结尾的换行符"
+msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少值"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
+#, c-format
 msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "软件包 %s 的 control 文件 %s 缺少最后结尾的换行符"
+msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少值分隔符"
 
 #: src/filesdb-hash.c
 #, c-format
 msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "软件包 %2$s 的 control 文件 %1$s 含有空的文件名"
+msgstr "软件包 '%2$s' 的控制文件 '%1$s' 含有空文件名"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot open '%s' control file for package '%s'"
+#, c-format
 msgid "cannot open control file '%s' for package '%s'"
-msgstr "无法打开软件包 %2$s 的 %1$s control 文件"
+msgstr "无法打开软件包 %2$s 的 %1$s 控制文件"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot stat '%s' control file for package '%s'"
+#, c-format
 msgid "cannot stat control file '%s' for package '%s'"
-msgstr "无法取得软件包 %2$s 的 %1$s control 文件状态"
+msgstr "无法取得软件包 %2$s 的 %1$s 控制文件状态"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "'%s' file for package '%s' is not a regular file"
+#, c-format
 msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "软件包 %2$s 的 %1$s 文件不是常规文件"
+msgstr "软件包 '%2$s' 的 '%1$s' 控制文件文件不是常规文件"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read '%s' control file for package '%s'"
+#, c-format
 msgid "cannot read control file '%s' for package '%s'"
-msgstr "无法读取软件包 %2$s 的 %1$s control 文件"
+msgstr "无法读取软件包 '%2$s' 的 '%1$s' 控制文件"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot close '%s' control file for package '%s'"
+#, c-format
 msgid "cannot close control file '%s' for package '%s'"
-msgstr "无法关闭软件包 %2$s 的 %1$s control 文件"
+msgstr "无法关闭软件包 '%2$s' 的 '%1$s' 控制文件"
 
 #: src/help.c
 msgid "not installed"
@@ -3475,7 +3468,7 @@ msgstr "需要一个指示操作的选项"
 
 #: src/main.c
 msgid "cannot set primary group ID to root"
-msgstr ""
+msgstr "不能设置主要组ID为root"
 
 #: src/main.c src/script.c
 msgid "unable to setenv for subprocesses"
@@ -4014,10 +4007,9 @@ msgid "illegal package name at line %d: %.250s"
 msgstr "在第 %d 行发现非法的软件包名：%.250s"
 
 #: src/select.c
-#, fuzzy, c-format
-#| msgid "package not in database at line %d: %.250s"
+#, c-format
 msgid "package not in status nor available database at line %d: %.250s"
-msgstr "在第 %d 行发现数据库中没有的软件包名：%.250s"
+msgstr "第 %d 行的软件包在状态数据库和可用包数据库中均查询无果：%.250s"
 
 #: src/select.c
 #, c-format
@@ -4029,17 +4021,13 @@ msgid "read error on standard input"
 msgstr "从标准输入读取数据时出错"
 
 #: src/select.c
-#, fuzzy
-#| msgid ""
-#| "found unknown packages; this might mean the available database\n"
-#| "is outdated, and needs to be updated through a frontend method"
 msgid ""
 "found unknown packages; this might mean the available database\n"
 "is outdated, and needs to be updated through a frontend method;\n"
 "please see the FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 msgstr ""
 "发现未知的软件包；这可能意味着可用的数据库已过期，\n"
-"需要使用前端来进行更新"
+"需要使用前端的方法进行更新；详见FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 
 #: src/selinux.c
 msgid "cannot open security status notification channel"
@@ -4699,10 +4687,9 @@ msgid "<compress> from tar -cf"
 msgstr "<压缩> 自 tar -cf"
 
 #: dpkg-deb/build.c dpkg-split/split.c
-#, fuzzy, c-format
-#| msgid "unable to create '%.255s'"
+#, c-format
 msgid "unable to parse timestamp '%.255s'"
-msgstr "无法创建 %.255s"
+msgstr "无法解析时间戳 '%.255s'"
 
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
@@ -5046,35 +5033,7 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  -v, --verbose                    Enable verbose output.\n"
-#| "  -D, --debug                      Enable debugging output.\n"
-#| "      --showformat=<format>        Use alternative format for --show.\n"
-#| "      --deb-format=<format>        Select archive format.\n"
-#| "                                     Allowed values: 0.939000, 2.0 "
-#| "(default).\n"
-#| "      --old                        Legacy alias for '--deb-"
-#| "format=0.939000'.\n"
-#| "      --new                        Legacy alias for '--deb-format=2.0'.\n"
-#| "      --nocheck                    Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "      --uniform-compression        Use the compression params on all "
-#| "members.\n"
-#| "  -z#                              Set the compression level when "
-#| "building.\n"
-#| "  -Z<type>                         Set the compression type used when "
-#| "building.\n"
-#| "                                     Allowed types: gzip, xz, bzip2, "
-#| "none.\n"
-#| "  -S<strategy>                     Set the compression strategy when "
-#| "building.\n"
-#| "                                     Allowed values: none; extreme (xz);\n"
-#| "                                     filtered, huffman, rle, fixed "
-#| "(gzip).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -5103,8 +5062,6 @@ msgstr ""
 "      --showformat=<格式>          对 --show 使用备用的输出格式。\n"
 "      --deb-format=<格式>          选择归档格式。\n"
 "                                   允许的值： 0.939000, 2.0 (默认)\n"
-"      --old                        '--deb-format=0.939000' 的古老别称。\n"
-"      --new                        '--deb-format=2.0' 的古老别称。\n"
 "      --nocheck                    阻止控制文件的检查。(构建坏的软件包)\n"
 "      --uniform-compression        在所有成员上使用压缩参数。\n"
 "  -z#                              设置建档使用的压缩级别。\n"
@@ -5163,14 +5120,12 @@ msgid "unknown compression type '%s'!"
 msgstr "无法识别的压缩类型 %s ！"
 
 #: dpkg-deb/main.c
-#, fuzzy, c-format
-#| msgid "deprecated compression type '%s'; use xz instead"
+#, c-format
 msgid "obsolete compression type '%s'; use xz instead"
 msgstr "废弃的压缩类型 %s；请用 xz 代替"
 
 #: dpkg-deb/main.c
-#, fuzzy, c-format
-#| msgid "deprecated compression type '%s'; use xz or gzip instead"
+#, c-format
 msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr "废弃的压缩类型 %s； 用 xz 或 gzip 代替"
 
