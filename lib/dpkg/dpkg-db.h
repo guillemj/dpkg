@@ -380,6 +380,10 @@ const char *pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
 const char *pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw);
 
 void
+pkg_source_version(struct dpkg_version *version,
+                   const struct pkginfo *pkg, const struct pkgbin *pkgbin);
+
+void
 varbuf_add_source_version(struct varbuf *vb,
                           const struct pkginfo *pkg, const struct pkgbin *pkgbin);
 
