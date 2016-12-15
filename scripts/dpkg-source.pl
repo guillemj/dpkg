@@ -366,8 +366,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     $fields->{'Package-List'} = "\n" . join("\n", sort @pkglist);
 
     # Check if we have a testsuite, and handle manual and automatic values.
-    set_testsuite_field($fields);
-    set_testsuite_triggers_field($fields, @binarypackages);
+    set_testsuite_fields($fields, @binarypackages);
 
     # Scan fields of dpkg-parsechangelog
     foreach (keys %{$changelog}) {
@@ -506,9 +505,9 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     exit(0);
 }
 
-sub set_testsuite_field
+sub set_testsuite_fields
 {
-    my $fields = shift;
+    my ($fields, @binarypackages) = @_;
 
     my $testsuite_field = $fields->{'Testsuite'} // '';
     my %testsuite = map { $_ => 1 } split /\s*,\s*/, $testsuite_field;
@@ -516,6 +515,11 @@ sub set_testsuite_field
         error(g_('test control %s is not a regular file'),
               'debian/tests/control') unless -f _;
         $testsuite{autopkgtest} = 1;
+
+        my $tests = Dpkg::Control::Tests->new();
+        $tests->load("$dir/debian/tests/control");
+
+        set_testsuite_triggers_field($tests, $fields, @binarypackages);
     } elsif ($testsuite{autopkgtest}) {
         warning(g_('%s field contains value %s, but no tests control file %s'),
                 'Testsuite', 'autopkgtest', 'debian/tests/control');
@@ -526,17 +530,11 @@ sub set_testsuite_field
 
 sub set_testsuite_triggers_field
 {
-    my ($fields, @binarypackages) = @_;
+    my ($tests, $fields, @binarypackages) = @_;
     my %testdeps;
 
     # Never overwrite a manually defined field.
     return if $fields->{'Testsuite-Triggers'};
-
-    # We only support autopkgtests.
-    return unless -e "$dir/debian/tests/control";
-
-    my $tests = Dpkg::Control::Tests->new();
-    $tests->load("$dir/debian/tests/control");
 
     foreach my $test ($tests->get()) {
         next unless $test->{Depends};
