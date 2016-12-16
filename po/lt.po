@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Gintautas Miliauskas <gintas@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -1205,6 +1205,12 @@ msgid "nothing after colon in version number"
 msgstr "versijos numeryje po kablelio nieko nėra"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "tuščia versijos eilutė"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr ""
 
@@ -1251,6 +1257,11 @@ msgstr ""
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(aprašymas neprieinamas)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+msgid "version '%s' has bad syntax: %s"
+msgstr "dpkg: versija '%s' su bloga sintakse: %s\n"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
@@ -2849,6 +2860,51 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "negaliu patenkinti priklausomybių %.250s (norima dėl %.250s)"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s reikalinga bent viena paketo vardo reikšmė"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "Package `%s' is not installed.\n"
+msgid "package name '%s' is invalid: %s"
+msgstr "Paketas „%s“ neįdiegtas.\n"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s reikalinga bent viena paketo vardo reikšmė"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid "trigger name '%s' is invalid: %s"
+msgstr "laukelyje `%s', nekorektiškas paketo pavadinimas `%.255s': %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s reikalinga bent viena paketo vardo reikšmė"
+
+#: src/enquiry.c
+#, c-format
+msgid "architecture name '%s' is invalid: %s"
+msgstr ""
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes no arguments"
+msgid "--%s takes one <version> argument"
+msgstr "--%s parametras nereikalauja nurodyti jokių reikšmių"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid "version '%s' has bad syntax"
+msgstr "dpkg: versija '%s' su bloga sintakse: %s\n"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
@@ -2862,11 +2918,6 @@ msgstr "blogas sąryšis su --compare-versions"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr ""
-
-#: src/enquiry.c
-#, fuzzy, c-format
-msgid "version '%s' has bad syntax"
-msgstr "dpkg: versija '%s' su bloga sintakse: %s\n"
 
 #: src/errors.c
 #, fuzzy, c-format
@@ -3179,6 +3230,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3244,6 +3296,13 @@ msgstr ""
 "Vidiniam naudojimui: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, fuzzy, c-format
@@ -6517,11 +6576,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "įspėjimas: „%s“ turi naudotojo nustatytą lauką „%s“\n"
-
-#, fuzzy
-#~| msgid "--%s takes no arguments"
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s parametras nereikalauja nurodyti jokių reikšmių"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "nepavyko atverti `control' komponento"

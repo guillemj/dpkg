@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-09-08 10:18+0200\n"
 "Last-Translator: Sébastien Poher <sbphr@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -1210,6 +1210,12 @@ msgid "nothing after colon in version number"
 msgstr "rien après les deux points (:) dans le numéro de la version"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "la chaîne de version est vide"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr "le numéro de version ne commence pas par un chiffre"
 
@@ -1251,6 +1257,12 @@ msgstr "accolade fermante manquante"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(aucune description n'est disponible)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax"
+msgid "version '%s' has bad syntax: %s"
+msgstr "mauvaise syntaxe de la version « %s »"
 
 #: lib/dpkg/pkg-spec.c
 #, c-format
@@ -2908,6 +2920,53 @@ msgstr ""
 "ne peut satisfaire les pré-dépendances pour %.250s (réclamé par %.250s)"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s utilise un nom de paquet comme paramètre"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "package name '%s' is invalid: %s"
+msgstr "paquet « %s » n'est pas installé"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s utilise un nom de paquet comme paramètre"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "nom d'action différée contenant un caractère invalide"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s utilise un nom de paquet comme paramètre"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "architecture '%s' is illegal: %s"
+msgid "architecture name '%s' is invalid: %s"
+msgstr "l'architecture « %s » n'est pas valable : %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one argument"
+msgid "--%s takes one <version> argument"
+msgstr "--%s prend un seul paramètre"
+
+#: src/enquiry.c
+#, c-format
+msgid "version '%s' has bad syntax"
+msgstr "mauvaise syntaxe de la version « %s »"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
@@ -2921,11 +2980,6 @@ msgstr "--compare-versions : mauvaise relation"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr "--%s utilisé avec l'opérateur relationnnel obsolète « %s »"
-
-#: src/enquiry.c
-#, c-format
-msgid "version '%s' has bad syntax"
-msgstr "mauvaise syntaxe de la version « %s »"
 
 #: src/errors.c
 #, c-format
@@ -3295,6 +3349,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3374,6 +3429,13 @@ msgstr ""
 "Fonctionnalités pouvant être déclarées : support-predepends, working-epoch, "
 "long-filenames, multi-conrep, multi-arch, versioned-provides.\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, c-format
@@ -6875,9 +6937,6 @@ msgstr "pour revenir aux mises à jour automatiques, utiliser « %s --auto %s 
 
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "« %s » contient le champ « %s » défini par l'utilisateur"
-
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s prend un seul paramètre"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "ne peut pas ouvrir le composant « control »"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <debian-l10n-esperanto@lists.debian.org>\n"
@@ -1157,6 +1157,12 @@ msgid "nothing after colon in version number"
 msgstr "nenio post dupunkto en versi-numero"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "versi-ĉeno estas malplena"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr "versi-numero ne komenciĝas per cifero"
 
@@ -1198,6 +1204,12 @@ msgstr "mankas ferma kuniga krampo"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(neniu priskribo disponeblas)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax: %s"
+msgid "version '%s' has bad syntax: %s"
+msgstr "versio '%s' havas malĝustan sintakson: %s"
 
 #: lib/dpkg/pkg-spec.c
 #, c-format
@@ -2779,6 +2791,54 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "ni ne sukcesas solvi antaŭdependecojn por %.250s (postulata de %.250s)"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s prenas unu argumenton de pak-nomo"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "package name '%s' is invalid: %s"
+msgstr "la pako '%s' ne estas instalita"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s prenas unu argumenton de pak-nomo"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "ekigilo-nomo enhavas malvalidan signon"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s prenas unu argumenton de pak-nomo"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "architecture '%s' is illegal: %s"
+msgid "architecture name '%s' is invalid: %s"
+msgstr "arkitekturo '%s' malvalidas: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one argument"
+msgid "--%s takes one <version> argument"
+msgstr "--%s postulas unu argumenton"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax: %s"
+msgid "version '%s' has bad syntax"
+msgstr "versio '%s' havas malĝustan sintakson: %s"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
@@ -2792,12 +2852,6 @@ msgstr "malĝusta rilato por --compare-versions"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr ""
-
-#: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "version '%s' has bad syntax: %s"
-msgid "version '%s' has bad syntax"
-msgstr "versio '%s' havas malĝustan sintakson: %s"
 
 #: src/errors.c
 #, c-format
@@ -3135,6 +3189,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3208,6 +3263,13 @@ msgstr ""
 "|\n"
 "  --assert-multi-arch | --assert-versioned-provides.\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, fuzzy, c-format
@@ -6533,9 +6595,6 @@ msgstr "por retroiri al aŭtomataj ĝisdatigoj, uzu '%s --auto %s'"
 
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "'%s' enhavas kampon '%s' difinitan de uzanto"
-
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s postulas unu argumenton"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "ne eblis malfermi la elementon 'control'"

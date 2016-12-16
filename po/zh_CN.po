@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.x\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2016-05-20 16:45+0000\n"
 "Last-Translator: Zhou Mo <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -1124,6 +1124,12 @@ msgid "nothing after colon in version number"
 msgstr "版本号的冒号后面没有任何东西"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "版本号为空"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr "版本号没有以数字开头"
 
@@ -1165,6 +1171,12 @@ msgstr "缺少右大括号"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(无可用描述)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax"
+msgid "version '%s' has bad syntax: %s"
+msgstr "版本号 '%s' 语法错误"
 
 #: lib/dpkg/pkg-spec.c
 #, c-format
@@ -2697,6 +2709,53 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "无法满足 %.250s 的预依赖关系，起因是 %.250s"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s 需要一个软件包名作为参数"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "package name '%s' is invalid: %s"
+msgstr "软件包 %s 没有被安装"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s 需要一个软件包名作为参数"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "触发器名包含无效字符"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s 需要一个软件包名作为参数"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "architecture '%s' is illegal: %s"
+msgid "architecture name '%s' is invalid: %s"
+msgstr "%s 体系结构非法：%s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes no arguments"
+msgid "--%s takes one <version> argument"
+msgstr "--%s 不需要任何参数"
+
+#: src/enquiry.c
+#, c-format
+msgid "version '%s' has bad syntax"
+msgstr "版本号 '%s' 语法错误"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
@@ -2710,11 +2769,6 @@ msgstr "--compare-versions 错误的比较关系"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr "--%s 使用了废弃的关系操作符 '%s' "
-
-#: src/enquiry.c
-#, c-format
-msgid "version '%s' has bad syntax"
-msgstr "版本号 '%s' 语法错误"
 
 #: src/errors.c
 #, c-format
@@ -2966,7 +3020,48 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Debian %s 软件包管理程序 %s 版。\n"
 
 #: src/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -i|--install       <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --unpack           <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --configure        <package> ... | -a|--pending\n"
+#| "  --triggers-only    <package> ... | -a|--pending\n"
+#| "  -r|--remove        <package> ... | -a|--pending\n"
+#| "  -P|--purge         <package> ... | -a|--pending\n"
+#| "  -V|--verify <package> ...        Verify the integrity of package(s).\n"
+#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+#| "  --set-selections                 Set package selections from stdin.\n"
+#| "  --clear-selections               Deselect every non-essential package.\n"
+#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
+#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
+#| "  --clear-avail                    Erase existing available info.\n"
+#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "  -C|--audit [<package> ...]       Check for broken package(s).\n"
+#| "  --yet-to-unpack                  Print packages selected for "
+#| "installation.\n"
+#| "  --predep-package                 Print pre-dependencies to unpack.\n"
+#| "  --add-architecture <arch>        Add <arch> to the list of "
+#| "architectures.\n"
+#| "  --remove-architecture <arch>     Remove <arch> from the list of "
+#| "architectures.\n"
+#| "  --print-architecture             Print dpkg architecture.\n"
+#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+#| "  --assert-<feature>               Assert support for the specified "
+#| "feature.\n"
+#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+#| "  --force-help                     Show help on forcing.\n"
+#| "  -Dh|--debug=help                 Show help on debugging.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3000,6 +3095,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3059,6 +3155,13 @@ msgstr ""
 "Assert 特性： support-predepends, working-epoch, long-filenames,\n"
 "  multi-conrep, multi-arch, versioned-provides.\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, c-format
@@ -6228,11 +6331,6 @@ msgstr "要恢复成自动更新请执行 %s --auto %s。"
 
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "%s 含有用户自定义的字段 %s "
-
-#, fuzzy
-#~| msgid "--%s takes no arguments"
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s 不需要任何参数"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "无法打开 control 组件"

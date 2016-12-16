@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-04-07 19:10+0200\n"
 "Last-Translator: imacat <imac@mail.imacat.idv.tw>\n"
 "Language-Team: Chinese (traditional) <debian-l10n-chinese@lists.debian.org>\n"
@@ -1167,6 +1167,12 @@ msgid "nothing after colon in version number"
 msgstr "版本號的冒號後面沒有東西"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "版本號是空的"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr "版本號開頭不是數字"
 
@@ -1208,6 +1214,12 @@ msgstr "找不到結尾括弧"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "（無相關介紹）"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax: %s"
+msgid "version '%s' has bad syntax: %s"
+msgstr "版本 '%s' 的語法不正確：%s"
 
 #: lib/dpkg/pkg-spec.c
 #, c-format
@@ -2787,6 +2799,54 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "無法滿足 %.250s 的預先相依關係（應 %.250s 之要求）"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s 需要一個套件名稱參數"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "package name '%s' is invalid: %s"
+msgstr "套件 '%s' 未安裝"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s 需要一個套件名稱參數"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "觸發程式的名稱包含了不合法的字元"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s 需要一個套件名稱參數"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "architecture '%s' is illegal: %s"
+msgid "architecture name '%s' is invalid: %s"
+msgstr "不合法的硬體平台 '%s'：%s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one argument"
+msgid "--%s takes one <version> argument"
+msgstr "--%s 需要一個參數"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax: %s"
+msgid "version '%s' has bad syntax"
+msgstr "版本 '%s' 的語法不正確：%s"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-version 需有三個參數：<版本號> <比較關係> <版本號>"
@@ -2799,12 +2859,6 @@ msgstr "--compare-versions 比較關係不適切"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr ""
-
-#: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "version '%s' has bad syntax: %s"
-msgid "version '%s' has bad syntax"
-msgstr "版本 '%s' 的語法不正確：%s"
 
 #: src/errors.c
 #, c-format
@@ -3136,6 +3190,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3200,6 +3255,13 @@ msgstr ""
 "|\n"
 "  --assert-multi-arch。\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, fuzzy, c-format
@@ -6555,9 +6617,6 @@ msgstr "若要回復成自動更新，請執行 '%s --auto %s'"
 
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "'%s' 包含使用者自訂欄位 '%s'"
-
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s 需要一個參數"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "無法開啟 `control' 元件"

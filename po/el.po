@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: quad-nrg.net <yodesy@quad-nrg.net>\n"
 "Language-Team: Greek <debian-l10n-greek@lists.debian.org>\n"
@@ -1235,6 +1235,12 @@ msgid "nothing after colon in version number"
 msgstr "δεν υπάρχει τίποτα μετά το κώλον (:) στον αριθμό έκδοσης"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "το αλφαριθμητικό της έκδοσης είναι κενό"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr ""
 
@@ -1283,6 +1289,11 @@ msgstr "λείπει altname"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(χωρίς διαθέσιμη περιγραφή)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+msgid "version '%s' has bad syntax: %s"
+msgstr "dpkg: η έκδοση '%s' έχει κακή σύνταξη: %s\n"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
@@ -3024,6 +3035,52 @@ msgstr ""
 "%.250s)"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s χρειάζεται τουλάχιστον ένα όρισμα ονόματος πακέτου"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "Package `%s' is not installed.\n"
+msgid "package name '%s' is invalid: %s"
+msgstr "Το πακέτο `%s' δεν είναι εγκατεστημένο.\n"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s χρειάζεται τουλάχιστον ένα όρισμα ονόματος πακέτου"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "το όνομα του trigger περιέχει μη έγκυρο χαρακτήρα"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s χρειάζεται τουλάχιστον ένα όρισμα ονόματος πακέτου"
+
+#: src/enquiry.c
+#, c-format
+msgid "architecture name '%s' is invalid: %s"
+msgstr ""
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes no arguments"
+msgid "--%s takes one <version> argument"
+msgstr "η --%s δεν παίρνει ορίσματα"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid "version '%s' has bad syntax"
+msgstr "dpkg: η έκδοση '%s' έχει κακή σύνταξη: %s\n"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-versions παίρνει τρία ορίσματα: <έκδοση> <σχέση> <έκδοση>"
@@ -3036,11 +3093,6 @@ msgstr "--compare-versions κακή συσχέτιση"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr ""
-
-#: src/enquiry.c
-#, fuzzy, c-format
-msgid "version '%s' has bad syntax"
-msgstr "dpkg: η έκδοση '%s' έχει κακή σύνταξη: %s\n"
 
 #: src/errors.c
 #, fuzzy, c-format
@@ -3395,6 +3447,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3465,6 +3518,13 @@ msgstr ""
 "Για εσωτερική χρήση: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, fuzzy, c-format
@@ -7135,11 +7195,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "προειδοποίηση, το `%s' περιέχει ορισμένο από το χρήστη πεδίο `%s'\n"
-
-#, fuzzy
-#~| msgid "--%s takes no arguments"
-#~ msgid "--%s takes one argument"
-#~ msgstr "η --%s δεν παίρνει ορίσματα"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "αδύνατο το άνοιγμα του τμήματος `control'"

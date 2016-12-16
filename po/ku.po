@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Erdal Ronahi <erdal.ronahi@gmail.com>\n"
 "Language-Team: Kurdish <ku@li.org>\n"
@@ -1125,6 +1125,12 @@ msgid "nothing after colon in version number"
 msgstr ""
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version number"
+msgid "version number is empty"
+msgstr "hejmare versiyonê"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr ""
 
@@ -1167,6 +1173,12 @@ msgstr ""
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(rave ne amade ye)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+#| msgid "  Version of %s on system is %s.\n"
+msgid "version '%s' has bad syntax: %s"
+msgstr "  Guhartoya %s di pergalê de %s e.\n"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
@@ -2673,6 +2685,47 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 
 #: src/enquiry.c
+#, c-format
+msgid "--%s takes one <pkgname> argument"
+msgstr ""
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "Package `%s' is not installed.\n"
+msgid "package name '%s' is invalid: %s"
+msgstr "Pakêta `%s' ne sazkirî ye.\n"
+
+#: src/enquiry.c
+#, c-format
+msgid "--%s takes one <trigname> argument"
+msgstr ""
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid "trigger name '%s' is invalid: %s"
+msgstr "navê pakêtê yê nederbasdar (%.250s)"
+
+#: src/enquiry.c
+#, c-format
+msgid "--%s takes one <archname> argument"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "architecture name '%s' is invalid: %s"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "--%s takes one <version> argument"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "version '%s' has bad syntax"
+msgstr ""
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
@@ -2684,11 +2737,6 @@ msgstr ""
 #: src/enquiry.c
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
-msgstr ""
-
-#: src/enquiry.c
-#, c-format
-msgid "version '%s' has bad syntax"
 msgstr ""
 
 #: src/errors.c
@@ -2972,6 +3020,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -2991,6 +3040,13 @@ msgstr ""
 msgid ""
 "Assertable features: support-predepends, working-epoch, long-filenames,\n"
 "  multi-conrep, multi-arch, versioned-provides.\n"
+"\n"
+msgstr ""
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
 "\n"
 msgstr ""
 
@@ -6042,9 +6098,6 @@ msgstr ""
 
 #~ msgid "dpkg: %s not found.\n"
 #~ msgstr "dpkg: %s nehat dîtin.\n"
-
-#~ msgid "version number"
-#~ msgstr "hejmare versiyonê"
 
 #, fuzzy
 #~ msgid "failed to create temporary directory"

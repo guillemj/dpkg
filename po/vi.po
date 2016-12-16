@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2016-01-14 08:22+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
@@ -1162,6 +1162,12 @@ msgid "nothing after colon in version number"
 msgstr "không có gì nằm sau dấu hai chấm trong số thứ tự phiên bản"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "chuỗi phiên bản là rỗng"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr "số của phiên bản không bắt đầu bằng con số"
 
@@ -1203,6 +1209,12 @@ msgstr "thiếu dấu ngoặc ôm"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(không có mô tả)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax"
+msgid "version '%s' has bad syntax: %s"
+msgstr "phiên bản “%s” có cú pháp sai"
 
 #: lib/dpkg/pkg-spec.c
 #, c-format
@@ -2800,6 +2812,53 @@ msgstr ""
 "không thể thỏa mãn các quan hệ phụ thuộc sẵn cho %.250s (cần do %.250s)"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "“--%s” nhận một đối số là tên gói"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "package name '%s' is invalid: %s"
+msgstr "chưa cài đặt gói “%s”"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "“--%s” nhận một đối số là tên gói"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "tên bẫy chứa ký tự không hợp lệ"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "“--%s” nhận một đối số là tên gói"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "architecture '%s' is illegal: %s"
+msgid "architecture name '%s' is invalid: %s"
+msgstr "kiến trúc “%s” là không hợp lệ: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one argument"
+msgid "--%s takes one <version> argument"
+msgstr "--%s nhận một đối số"
+
+#: src/enquiry.c
+#, c-format
+msgid "version '%s' has bad syntax"
+msgstr "phiên bản “%s” có cú pháp sai"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
@@ -2814,11 +2873,6 @@ msgstr "“--compare-versions” (so sánh phiên bản) có quan hệ sai"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr "--%s được dùng với toán tử đã lạc hậu “%s”"
-
-#: src/enquiry.c
-#, c-format
-msgid "version '%s' has bad syntax"
-msgstr "phiên bản “%s” có cú pháp sai"
 
 #: src/errors.c
 #, c-format
@@ -3091,7 +3145,48 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Chương trình quản lý gói Debian “%s”, phiên bản %s.\n"
 
 #: src/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -i|--install       <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --unpack           <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --configure        <package> ... | -a|--pending\n"
+#| "  --triggers-only    <package> ... | -a|--pending\n"
+#| "  -r|--remove        <package> ... | -a|--pending\n"
+#| "  -P|--purge         <package> ... | -a|--pending\n"
+#| "  -V|--verify <package> ...        Verify the integrity of package(s).\n"
+#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+#| "  --set-selections                 Set package selections from stdin.\n"
+#| "  --clear-selections               Deselect every non-essential package.\n"
+#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
+#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
+#| "  --clear-avail                    Erase existing available info.\n"
+#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "  -C|--audit [<package> ...]       Check for broken package(s).\n"
+#| "  --yet-to-unpack                  Print packages selected for "
+#| "installation.\n"
+#| "  --predep-package                 Print pre-dependencies to unpack.\n"
+#| "  --add-architecture <arch>        Add <arch> to the list of "
+#| "architectures.\n"
+#| "  --remove-architecture <arch>     Remove <arch> from the list of "
+#| "architectures.\n"
+#| "  --print-architecture             Print dpkg architecture.\n"
+#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+#| "  --assert-<feature>               Assert support for the specified "
+#| "feature.\n"
+#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+#| "  --force-help                     Show help on forcing.\n"
+#| "  -Dh|--debug=help                 Show help on debugging.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3125,6 +3220,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3198,6 +3294,13 @@ msgstr ""
 "filenames,\n"
 "  multi-conrep, multi-arch, versioned-provides.\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, c-format
@@ -6552,9 +6655,6 @@ msgstr ""
 
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "“%s” chứa trường “%s” do người dùng định nghĩa"
-
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s nhận một đối số"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "không thể mở thành phần “control” (điều khiển)"

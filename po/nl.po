@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2016-11-28 16:03+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -1160,6 +1160,12 @@ msgid "nothing after colon in version number"
 msgstr "er komt niets na de dubbele punt in het versienummer"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "het versienummer is een lege tekenreeks"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr "versienummer begint niet met een cijfer"
 
@@ -1201,6 +1207,12 @@ msgstr "afsluitende accolade ontbreekt"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(geen beschrijving beschikbaar)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax"
+msgid "version '%s' has bad syntax: %s"
+msgstr "versie '%s' heeft verkeerde syntaxis"
 
 #: lib/dpkg/pkg-spec.c
 #, c-format
@@ -2818,6 +2830,52 @@ msgstr ""
 "kan niet voldoen aan voor-vereisten voor %.250s (gewenst wegens %.250s)"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s heeft een pakketnaam als argument nodig"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "package name '%s' is invalid: %s"
+msgstr "pakket '%s' is niet geïnstalleerd"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s heeft een pakketnaam als argument nodig"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "triggernaam bevat een ongeldig teken"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s heeft een pakketnaam als argument nodig"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "architecture '%s' is illegal: %s"
+msgid "architecture name '%s' is invalid: %s"
+msgstr "architectuur '%s' is ongeldig: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid "--%s takes one <version> argument"
+msgstr "--%s verwacht geen argumenten"
+
+#: src/enquiry.c
+#, c-format
+msgid "version '%s' has bad syntax"
+msgstr "versie '%s' heeft verkeerde syntaxis"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
@@ -2831,11 +2889,6 @@ msgstr "--compare-versions foute relatie"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr "--%s werd gebruikt met verouderde relatieoperator '%s'"
-
-#: src/enquiry.c
-#, c-format
-msgid "version '%s' has bad syntax"
-msgstr "versie '%s' heeft verkeerde syntaxis"
 
 #: src/errors.c
 #, c-format
@@ -2961,13 +3014,11 @@ msgstr "controlebestand '%s' voor pakket '%s' heeft geen afsluitend regeleinde"
 
 #: src/filesdb-hash.c
 #, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
 msgid "control file '%s' for package '%s' is missing value"
 msgstr "controlebestand '%s' voor pakket '%s' heeft een ontbrekende waarde"
 
 #: src/filesdb-hash.c
 #, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
 msgid "control file '%s' for package '%s' is missing value separator"
 msgstr ""
 "controlebestand '%s' voor pakket '%s' heeft een ontbrekend "
@@ -2980,31 +3031,26 @@ msgstr "controlebestand '%s' voor pakket '%s' bevat een lege bestandsnaam"
 
 #: src/filesdb-hash.c
 #, c-format
-#| msgid "cannot open '%s' control file for package '%s'"
 msgid "cannot open control file '%s' for package '%s'"
 msgstr "kan controlebestand '%s' voor pakket '%s' niet openen"
 
 #: src/filesdb-hash.c
 #, c-format
-#| msgid "cannot stat '%s' control file for package '%s'"
 msgid "cannot stat control file '%s' for package '%s'"
 msgstr "kan status niet opvragen van controlebestand '%s' voor pakket '%s'"
 
 #: src/filesdb-hash.c
 #, c-format
-#| msgid "'%s' file for package '%s' is not a regular file"
 msgid "control file '%s' for package '%s' is not a regular file"
 msgstr "controlebestand '%s' voor pakket '%s' is geen gewoon bestand"
 
 #: src/filesdb-hash.c
 #, c-format
-#| msgid "cannot read '%s' control file for package '%s'"
 msgid "cannot read control file '%s' for package '%s'"
 msgstr "kan controlebestand '%s' voor pakket '%s' niet lezen"
 
 #: src/filesdb-hash.c
 #, c-format
-#| msgid "cannot close '%s' control file for package '%s'"
 msgid "cannot close control file '%s' for package '%s'"
 msgstr "kan controlebestand '%s' voor pakket '%s' niet sluiten"
 
@@ -3113,7 +3159,48 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Programma voor Debian pakketbeheer '%s' versie %s.\n"
 
 #: src/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -i|--install       <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --unpack           <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --configure        <package> ... | -a|--pending\n"
+#| "  --triggers-only    <package> ... | -a|--pending\n"
+#| "  -r|--remove        <package> ... | -a|--pending\n"
+#| "  -P|--purge         <package> ... | -a|--pending\n"
+#| "  -V|--verify <package> ...        Verify the integrity of package(s).\n"
+#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+#| "  --set-selections                 Set package selections from stdin.\n"
+#| "  --clear-selections               Deselect every non-essential package.\n"
+#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
+#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
+#| "  --clear-avail                    Erase existing available info.\n"
+#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "  -C|--audit [<package> ...]       Check for broken package(s).\n"
+#| "  --yet-to-unpack                  Print packages selected for "
+#| "installation.\n"
+#| "  --predep-package                 Print pre-dependencies to unpack.\n"
+#| "  --add-architecture <arch>        Add <arch> to the list of "
+#| "architectures.\n"
+#| "  --remove-architecture <arch>     Remove <arch> from the list of "
+#| "architectures.\n"
+#| "  --print-architecture             Print dpkg architecture.\n"
+#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+#| "  --assert-<feature>               Assert support for the specified "
+#| "feature.\n"
+#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+#| "  --force-help                     Show help on forcing.\n"
+#| "  -Dh|--debug=help                 Show help on debugging.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3147,6 +3234,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3213,6 +3301,13 @@ msgstr ""
 "epoch,\n"
 "  long-filenames, multi-conrep, multi-arch, versioned-provides.\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, c-format
@@ -4210,7 +4305,6 @@ msgstr "ongeldige pakketnaam op regel %d: %.250s"
 
 #: src/select.c
 #, c-format
-#| msgid "package not in database at line %d: %.250s"
 msgid "package not in status nor available database at line %d: %.250s"
 msgstr ""
 "pakket op regel %d: %.250s komt niet voor in status-bestand noch in "
@@ -4226,9 +4320,6 @@ msgid "read error on standard input"
 msgstr "leesfout op standaardinvoer"
 
 #: src/select.c
-#| msgid ""
-#| "found unknown packages; this might mean the available database\n"
-#| "is outdated, and needs to be updated through a frontend method"
 msgid ""
 "found unknown packages; this might mean the available database\n"
 "is outdated, and needs to be updated through a frontend method;\n"
@@ -5308,34 +5399,6 @@ msgstr ""
 
 #: dpkg-deb/main.c
 #, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  -v, --verbose                    Enable verbose output.\n"
-#| "  -D, --debug                      Enable debugging output.\n"
-#| "      --showformat=<format>        Use alternative format for --show.\n"
-#| "      --deb-format=<format>        Select archive format.\n"
-#| "                                     Allowed values: 0.939000, 2.0 "
-#| "(default).\n"
-#| "      --old                        Legacy alias for '--deb-"
-#| "format=0.939000'.\n"
-#| "      --new                        Legacy alias for '--deb-format=2.0'.\n"
-#| "      --nocheck                    Suppress control file check (build "
-#| "bad\n"
-#| "                                     packages).\n"
-#| "      --uniform-compression        Use the compression params on all "
-#| "members.\n"
-#| "  -z#                              Set the compression level when "
-#| "building.\n"
-#| "  -Z<type>                         Set the compression type used when "
-#| "building.\n"
-#| "                                     Allowed types: gzip, xz, bzip2, "
-#| "none.\n"
-#| "  -S<strategy>                     Set the compression strategy when "
-#| "building.\n"
-#| "                                     Allowed values: none; extreme (xz);\n"
-#| "                                     filtered, huffman, rle, fixed "
-#| "(gzip).\n"
-#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -5427,13 +5490,11 @@ msgstr "onbekend compressietype `%s'!"
 
 #: dpkg-deb/main.c
 #, c-format
-#| msgid "deprecated compression type '%s'; use xz instead"
 msgid "obsolete compression type '%s'; use xz instead"
 msgstr "verouderd compressietype '%s'; gebruik liever xz"
 
 #: dpkg-deb/main.c
 #, c-format
-#| msgid "deprecated compression type '%s'; use xz or gzip instead"
 msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr "verouderd compressietype '%s'; gebruik liever xz of gzip"
 
@@ -6599,10 +6660,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "waarschuwing, `%s' bevat zelf gedefiniëerd veld `%s'\n"
-
-#, fuzzy
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s verwacht geen argumenten"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "kan onderdeel `control' niet openen"

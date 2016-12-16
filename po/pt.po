@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-12-29 17:30+0000\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -1163,6 +1163,12 @@ msgid "nothing after colon in version number"
 msgstr "nada após dois pontos no número de versão"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "string de versão está vazia"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr "número de versão não começa com um dígito"
 
@@ -1204,6 +1210,12 @@ msgstr "falta colchete de fecho"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(sem descrição disponível)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax"
+msgid "version '%s' has bad syntax: %s"
+msgstr "versão '%s' tem sintaxe errada"
 
 #: lib/dpkg/pkg-spec.c
 #, c-format
@@ -2806,6 +2818,53 @@ msgstr ""
 "não pode satisfazer pre-dependências para %.250s (desejada devido a %.250s)"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s leva um argumento de nome de pacote"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "package name '%s' is invalid: %s"
+msgstr "o pacote '%s' não está instalado"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s leva um argumento de nome de pacote"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "o nome do 'trigger' contém um carácter inválido"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s leva um argumento de nome de pacote"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "architecture '%s' is illegal: %s"
+msgid "architecture name '%s' is invalid: %s"
+msgstr "arquitectura '%s' é ilegal: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one argument"
+msgid "--%s takes one <version> argument"
+msgstr "--%s leva um argumento"
+
+#: src/enquiry.c
+#, c-format
+msgid "version '%s' has bad syntax"
+msgstr "versão '%s' tem sintaxe errada"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-versions toma três argumentos: <versão> <relação> <versão>"
@@ -2818,11 +2877,6 @@ msgstr "má relação de --compare-versions"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr "--%s utilizado com operador de relação '%s' obsoleto"
-
-#: src/enquiry.c
-#, c-format
-msgid "version '%s' has bad syntax"
-msgstr "versão '%s' tem sintaxe errada"
 
 #: src/errors.c
 #, c-format
@@ -3100,7 +3154,48 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Debian `%s' programa de gestão de pacotes versão %s.\n"
 
 #: src/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -i|--install       <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --unpack           <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
+#| "<directory> ...\n"
+#| "  --configure        <package> ... | -a|--pending\n"
+#| "  --triggers-only    <package> ... | -a|--pending\n"
+#| "  -r|--remove        <package> ... | -a|--pending\n"
+#| "  -P|--purge         <package> ... | -a|--pending\n"
+#| "  -V|--verify <package> ...        Verify the integrity of package(s).\n"
+#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+#| "  --set-selections                 Set package selections from stdin.\n"
+#| "  --clear-selections               Deselect every non-essential package.\n"
+#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
+#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
+#| "  --clear-avail                    Erase existing available info.\n"
+#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "  -C|--audit [<package> ...]       Check for broken package(s).\n"
+#| "  --yet-to-unpack                  Print packages selected for "
+#| "installation.\n"
+#| "  --predep-package                 Print pre-dependencies to unpack.\n"
+#| "  --add-architecture <arch>        Add <arch> to the list of "
+#| "architectures.\n"
+#| "  --remove-architecture <arch>     Remove <arch> from the list of "
+#| "architectures.\n"
+#| "  --print-architecture             Print dpkg architecture.\n"
+#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
+#| "  --assert-<feature>               Assert support for the specified "
+#| "feature.\n"
+#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+#| "  --force-help                     Show help on forcing.\n"
+#| "  -Dh|--debug=help                 Show help on debugging.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3134,6 +3229,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3204,6 +3300,13 @@ msgstr ""
 "Capacidades afirmáveis: support-predepends, working-epoch, long-filenames,\n"
 "  multi-conrep, multi-arch, versioned-provides.\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, c-format
@@ -6574,9 +6677,6 @@ msgstr "para voltar às actualizações automáticas utilize '%s --auto %s'"
 
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "'%s' contém o campo '%s' definido pelo utilizador"
-
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s leva um argumento"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "não pode abrir o componente `control'"

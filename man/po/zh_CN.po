@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.21\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2016-10-17 05:19+0200\n"
 "Last-Translator: Zhou Mo <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -3598,7 +3598,7 @@ msgid "The source package version (since dpkg 1.13.19)."
 msgstr "B<bad-version>: 容忍错误的软件包版本并继续。"
 
 #. type: TP
-#: deb-substvars.man
+#: deb-substvars.man dpkg-query.man
 #, no-wrap
 msgid "B<source:Upstream-Version>"
 msgstr ""
@@ -5796,6 +5796,70 @@ msgstr ""
 
 #. type: TP
 #: dpkg.man
+#, fuzzy, no-wrap
+#| msgid "B<--force-help>"
+msgid "B<--validate->I<thing string>"
+msgstr "B<--force-help>"
+
+#. type: Plain text
+#: dpkg.man
+msgid ""
+"Validate that the I<thing> I<string> has a correct syntaxa (since dpkg "
+"1.18.16).  Returns 0 if the I<string> is valid, 1 if the I<string> is "
+"invalid but might be accepted in lax contexts, and 2 if the I<string> is "
+"invalid.  The current list of validatable I<thing>s is:"
+msgstr ""
+
+#. type: TP
+#: dpkg.man
+#, no-wrap
+msgid "B<pkgname>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg.man
+#, fuzzy
+#| msgid "B<bad-version>: Process even packages with wrong versions."
+msgid "Validates the given package name (since dpkg 1.18.16)."
+msgstr "B<bad-version>: 容忍错误的软件包版本并继续。"
+
+#. type: TP
+#: dpkg.man
+#, fuzzy, no-wrap
+#| msgid "B<triggers-awaited>"
+msgid "B<trigname>"
+msgstr "B<triggers-awaited>"
+
+#. type: Plain text
+#: dpkg.man
+#, fuzzy
+#| msgid "B<bad-version>: Process even packages with wrong versions."
+msgid "Validates the given trigger name (since dpkg 1.18.16)."
+msgstr "B<bad-version>: 容忍错误的软件包版本并继续。"
+
+#. type: Plain text
+#: dpkg.man
+#, fuzzy
+#| msgid "B<bad-version>: Process even packages with wrong versions."
+msgid "Validates the given architecture name (since dpkg 1.18.16)."
+msgstr "B<bad-version>: 容忍错误的软件包版本并继续。"
+
+#. type: TP
+#: dpkg.man
+#, fuzzy, no-wrap
+#| msgid "B<--version>"
+msgid "B<version>"
+msgstr "B<--version>"
+
+#. type: Plain text
+#: dpkg.man
+#, fuzzy
+#| msgid "B<bad-version>: Process even packages with wrong versions."
+msgid "Validates the given version (since dpkg 1.18.16)."
+msgstr "B<bad-version>: 容忍错误的软件包版本并继续。"
+
+#. type: TP
+#: dpkg.man
 #, no-wrap
 msgid "B<--compare-versions >I<ver1 op ver2>"
 msgstr "B<--compare-versions >I<ver1 op ver2>"
@@ -6232,9 +6296,14 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.man
+#, fuzzy
+#| msgid ""
+#| "B<confmiss>: If a conffile is missing and the version in the package did "
+#| "change, always install the missing conffile without prompting. This is "
+#| "dangerous, since it means not preserving a change (removing) made to the "
+#| "file."
 msgid ""
-"B<confmiss>: If a conffile is missing and the version in the package did "
-"change, always install the missing conffile without prompting. This is "
+"B<confmiss>: Always install the missing conffile without prompting. This is "
 "dangerous, since it means not preserving a change (removing) made to the "
 "file."
 msgstr ""
@@ -6289,9 +6358,9 @@ msgstr ""
 msgid ""
 "B<confask>: If a conffile has been modified always offer to replace it with "
 "the version in the package, even if the version in the package did not "
-"change (since dpkg 1.15.8).  If any of B<--force-confmiss>, B<--force-"
-"confnew>, B<--force-confold>, or B<--force-confdef> is also given, it will "
-"be used to decide the final action."
+"change (since dpkg 1.15.8).  If any of B<--force-confnew>, B<--force-"
+"confold>, or B<--force-confdef> is also given, it will be used to decide the "
+"final action."
 msgstr ""
 "B<confask>: 在 confffile 被更改的情况下，即使软件包里的版本不改变，也用包里的"
 "文件进行替换。如果在 B<--force-confmiss>, B<--force-confnew>, B<--force-"
@@ -6938,9 +7007,9 @@ msgstr ""
 
 #. type: SH
 #: dpkg.man dpkg-buildflags.man dpkg-buildpackage.man dpkg-checkbuilddeps.man
-#: dpkg-deb.man dpkg-divert.man dpkg-query.man dpkg-source.man dpkg-split.man
-#: dpkg-statoverride.man dpkg-trigger.man dpkg-vendor.man dselect.man
-#: update-alternatives.man
+#: dpkg-deb.man dpkg-divert.man dpkg-gensymbols.man dpkg-query.man
+#: dpkg-source.man dpkg-split.man dpkg-statoverride.man dpkg-trigger.man
+#: dpkg-vendor.man dselect.man update-alternatives.man
 #, no-wrap
 msgid "ENVIRONMENT"
 msgstr ""
@@ -9828,10 +9897,10 @@ msgstr ""
 #. type: Plain text
 #: dpkg-buildpackage.man
 msgid ""
-"If a specific target has been selected with the B<-T> or B<--target> option, "
-"it calls that target and stops here. Otherwise it runs the B<preclean> hook "
-"and calls B<fakeroot debian/rules clean> to clean the build-tree (unless B<-"
-"nc> or B<--no-pre-clean> is specified)."
+"If one or more specific targets have been selected with the B<-T> or B<--"
+"target> option, it calls those targets and stops here. Otherwise it runs the "
+"B<preclean> hook and calls B<fakeroot debian/rules clean> to clean the build-"
+"tree (unless B<-nc> or B<--no-pre-clean> is specified)."
 msgstr ""
 
 #. type: IP
@@ -10148,29 +10217,31 @@ msgstr ""
 #. type: TP
 #: dpkg-buildpackage.man
 #, no-wrap
-msgid "B<--target=>I<target>"
+msgid "B<--target=>I<target>[,...]"
 msgstr ""
 
 #. type: TQ
 #: dpkg-buildpackage.man
 #, no-wrap
-msgid "B<--target >I<target>"
+msgid "B<--target >I<target>[,...]"
 msgstr ""
 
 #. type: TQ
 #: dpkg-buildpackage.man
-#, no-wrap
-msgid "B<-T>, B<--rules-target=>I<target>"
-msgstr ""
+#, fuzzy, no-wrap
+#| msgid "B<-A>, B<--record-avail> I<package-file>..."
+msgid "B<-T>, B<--rules-target=>I<target>[,...]"
+msgstr "B<-A>, B<--record-avail> I<package-file>..."
 
 #. type: Plain text
 #: dpkg-buildpackage.man
 msgid ""
-"Calls B<debian/rules> I<target> after having setup the build environment and "
-"stops the package build process here (since dpkg 1.15.0, long option since "
-"dpkg 1.18.8).  If B<--as-root> is also given, then the command is executed "
-"as root (see B<--root-command>).  Note that known targets that are required "
-"to be run as root do not need this option (i.e. the B<clean>, B<binary>, "
+"Calls B<debian/rules> I<target> once per target specified, after having "
+"setup the build environment, and stops the package build process here (since "
+"dpkg 1.15.0, long option since dpkg 1.18.8, multi-target support since dpkg "
+"1.18.16).  If B<--as-root> is also given, then the command is executed as "
+"root (see B<--root-command>).  Note that known targets that are required to "
+"be run as root do not need this option (i.e. the B<clean>, B<binary>, "
 "B<binary-arch> and B<binary-indep> targets)."
 msgstr ""
 
@@ -10510,7 +10581,8 @@ msgid ""
 "Set the specified shell code I<hook-command> as the hook I<hook-name>, which "
 "will run at the times specified in the run steps (since dpkg 1.17.6).  The "
 "hooks will always be executed even if the following action is not performed "
-"(except for the B<binary> hook)."
+"(except for the B<binary> hook).  All the hooks will run in the unpacked "
+"source directory."
 msgstr ""
 
 #. type: Plain text
@@ -13478,6 +13550,20 @@ msgid ""
 "comments listing real symbols that have matched the pattern."
 msgstr ""
 
+#. type: TP
+#: dpkg-gensymbols.man
+#, no-wrap
+msgid "B<DPKG_GENSYMBOLS_CHECK_LEVEL>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-gensymbols.man
+msgid ""
+"Overrides the command check level, even if the B<-c> command-line argument "
+"was given (note that this goes against the common convention of command-line "
+"arguments having precedence over environment variables)."
+msgstr ""
+
 #. type: Plain text
 #: dpkg-gensymbols.man
 msgid "B<https://people.redhat.com/drepper/symbol-versioning>"
@@ -14264,7 +14350,7 @@ msgstr ""
 #: dpkg-parsechangelog.man
 #, fuzzy, no-wrap
 #| msgid "B<--unpack >I<package-file>..."
-msgid "B<-l> I<changelog-file>"
+msgid "B<-l>, B<--file> I<changelog-file>"
 msgstr "B<--unpack >I<package-file>..."
 
 #. type: Plain text
@@ -14327,30 +14413,6 @@ msgstr ""
 msgid ""
 "The following options can be used to influence the output of the changelog "
 "parser, e.g. the range of entries or the format of the output."
-msgstr ""
-
-#. type: TP
-#: dpkg-parsechangelog.man
-#, no-wrap
-msgid "B<--file>I< file>"
-msgstr ""
-
-#. type: Plain text
-#: dpkg-parsechangelog.man
-msgid "Set the changelog filename to parse.  Default is ‘-’ (standard input)."
-msgstr ""
-
-#. type: TP
-#: dpkg-parsechangelog.man
-#, no-wrap
-msgid "B<-l>, B<--label> I<file>"
-msgstr ""
-
-#. type: Plain text
-#: dpkg-parsechangelog.man
-msgid ""
-"Set the name of the changelog file to use in error messages, instead of "
-"using the name from the B<--file> option, or its default value."
 msgstr ""
 
 #. type: TP
@@ -15177,6 +15239,15 @@ msgid ""
 "It contains the source package version for this binary package (since dpkg "
 "1.16.2)"
 msgstr ""
+
+#. type: Plain text
+#: dpkg-query.man
+#, fuzzy
+#| msgid "B<bad-version>: Process even packages with wrong versions."
+msgid ""
+"It contains the source package upstream version for this binary package "
+"(since dpkg 1.18.16)"
+msgstr "B<bad-version>: 容忍错误的软件包版本并继续。"
 
 #. type: Plain text
 #: dpkg-query.man

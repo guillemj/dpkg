@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-08-04 10:33+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -1189,6 +1189,12 @@ msgid "nothing after colon in version number"
 msgstr "no hi ha res darrere dels dos punts al número de versió"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "la cadena de versió està buida"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr "el número de versió no comença amb un digit"
 
@@ -1230,6 +1236,12 @@ msgstr "manca la clau de tancament"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(no hi ha cap descripció disponible)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax"
+msgid "version '%s' has bad syntax: %s"
+msgstr "la versió «%s» té una sintaxi incorrecta"
 
 #: lib/dpkg/pkg-spec.c
 #, c-format
@@ -2856,6 +2868,53 @@ msgstr ""
 "no es pot satisfer la predependència per a %.250s (necessària per a %.250s)"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s necessita un nom de paquet com a argument"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "package name '%s' is invalid: %s"
+msgstr "el paquet «%s» no està instal·lat"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s necessita un nom de paquet com a argument"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "el nom de l'activador conté un caràcter invàlid"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s necessita un nom de paquet com a argument"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "architecture '%s' is illegal: %s"
+msgid "architecture name '%s' is invalid: %s"
+msgstr "l'arquitectura «%s» és il·legal: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one argument"
+msgid "--%s takes one <version> argument"
+msgstr "--%s només accepta un argument"
+
+#: src/enquiry.c
+#, c-format
+msgid "version '%s' has bad syntax"
+msgstr "la versió «%s» té una sintaxi incorrecta"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-versions pren tres arguments: <versió> <relació> <versió>"
@@ -2868,11 +2927,6 @@ msgstr "relació dolenta de --compare-versions"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr "S'ha emprat --%s amb l'operador de relació obsolet «%s»"
-
-#: src/enquiry.c
-#, c-format
-msgid "version '%s' has bad syntax"
-msgstr "la versió «%s» té una sintaxi incorrecta"
 
 #: src/errors.c
 #, c-format
@@ -3226,6 +3280,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3305,6 +3360,13 @@ msgstr ""
 "|\n"
 "  --assert-multi-arch | --assert-versioned-provides.\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, c-format
@@ -6727,9 +6789,6 @@ msgstr ""
 
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "«%s» conté un camp «%s» definit per l'usuari"
-
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s només accepta un argument"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "no s'ha pogut obrir el component «control»"

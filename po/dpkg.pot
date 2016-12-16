@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.18.15\n"
+"Project-Id-Version: dpkg 1.18.16\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1101,6 +1101,10 @@ msgid "nothing after colon in version number"
 msgstr ""
 
 #: lib/dpkg/parsehelp.c
+msgid "version number is empty"
+msgstr ""
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr ""
 
@@ -1141,6 +1145,11 @@ msgstr ""
 
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
+msgstr ""
+
+#: lib/dpkg/pkg-show.c
+#, c-format
+msgid "version '%s' has bad syntax: %s"
 msgstr ""
 
 #: lib/dpkg/pkg-spec.c
@@ -2572,6 +2581,46 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 
 #: src/enquiry.c
+#, c-format
+msgid "--%s takes one <pkgname> argument"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "package name '%s' is invalid: %s"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "--%s takes one <trigname> argument"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "trigger name '%s' is invalid: %s"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "--%s takes one <archname> argument"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "architecture name '%s' is invalid: %s"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "--%s takes one <version> argument"
+msgstr ""
+
+#: src/enquiry.c
+#, c-format
+msgid "version '%s' has bad syntax"
+msgstr ""
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
@@ -2583,11 +2632,6 @@ msgstr ""
 #: src/enquiry.c
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
-msgstr ""
-
-#: src/enquiry.c
-#, c-format
-msgid "version '%s' has bad syntax"
 msgstr ""
 
 #: src/errors.c
@@ -2865,6 +2909,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -2884,6 +2929,13 @@ msgstr ""
 msgid ""
 "Assertable features: support-predepends, working-epoch, long-filenames,\n"
 "  multi-conrep, multi-arch, versioned-provides.\n"
+"\n"
+msgstr ""
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
 "\n"
 msgstr ""
 

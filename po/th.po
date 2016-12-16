@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-06-26 16:13+0200\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -1145,6 +1145,12 @@ msgid "nothing after colon in version number"
 msgstr "ไม่มีอะไรต่อท้ายทวิภาคในเลขรุ่น"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "ข้อความเลขรุ่นว่างเปล่า"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr "เลขรุ่นไม่ได้ขึ้นต้นด้วยตัวเลข"
 
@@ -1186,6 +1192,12 @@ msgstr "ขาดปีกกาปิด"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(ไม่มีคำบรรยาย)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax: %s"
+msgid "version '%s' has bad syntax: %s"
+msgstr "รุ่น '%s' ผิดรูปแบบ: %s"
 
 #: lib/dpkg/pkg-spec.c
 #, c-format
@@ -2737,6 +2749,54 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "ไม่สามารถติดตั้งสิ่งที่ต้องใช้ขณะติดตั้ง %.250s (ต้องการเพราะ %.250s)"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s ต้องการอาร์กิวเมนต์หนึ่งตัว เป็นชื่อแพกเกจ"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "package name '%s' is invalid: %s"
+msgstr "แพกเกจ '%s' ไม่ได้ติดตั้งไว้"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s ต้องการอาร์กิวเมนต์หนึ่งตัว เป็นชื่อแพกเกจ"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "ชื่อการสะกิดมีอักขระที่ห้ามใช้"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s ต้องการอาร์กิวเมนต์หนึ่งตัว เป็นชื่อแพกเกจ"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "architecture '%s' is illegal: %s"
+msgid "architecture name '%s' is invalid: %s"
+msgstr "สถาปัตยกรรม '%s' ไม่สามารถใช้ได้: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one argument"
+msgid "--%s takes one <version> argument"
+msgstr "--%s ต้องมีอาร์กิวเมนต์หนึ่งตัว"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax: %s"
+msgid "version '%s' has bad syntax"
+msgstr "รุ่น '%s' ผิดรูปแบบ: %s"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-versions รับอาร์กิวเมนต์สามตัว: <รุ่น> <การเปรียบเทียบ> <รุ่น>"
@@ -2749,12 +2809,6 @@ msgstr "--compare-versions พบเครื่องหมายเปรี�
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr ""
-
-#: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "version '%s' has bad syntax: %s"
-msgid "version '%s' has bad syntax"
-msgstr "รุ่น '%s' ผิดรูปแบบ: %s"
 
 #: src/errors.c
 #, c-format
@@ -3081,6 +3135,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3146,6 +3201,13 @@ msgstr ""
 "|\n"
 "  --assert-multi-arch | --assert-versioned-provides\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, fuzzy, c-format
@@ -6393,9 +6455,6 @@ msgstr "หากต้องการกลับสู่การปรับ
 
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "'%s' มีเขตข้อมูล '%s' ที่ผู้ใช้กำหนดเอง"
-
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s ต้องมีอาร์กิวเมนต์หนึ่งตัว"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "ไม่สามารถเปิดองค์ประกอบ `control'"

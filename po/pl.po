@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-04-07 10:00+0200\n"
 "Last-Translator: Łukasz Dulny <BartekChom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -1182,6 +1182,12 @@ msgid "nothing after colon in version number"
 msgstr "brak znaków po dwukropku w numerze wersji"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "ciąg znaków dla numeru wersji jest pusty"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr "numer wersji nie zaczyna się cyfrą"
 
@@ -1224,6 +1230,12 @@ msgstr "brakująca kwadratowy nawias zamykający"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(brak dostępnego opisu)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax: %s"
+msgid "version '%s' has bad syntax: %s"
+msgstr "wersja \"%s\" ma złą składnię: %s"
 
 #: lib/dpkg/pkg-spec.c
 #, c-format
@@ -2838,6 +2850,54 @@ msgstr ""
 "\"dla %.250s)"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s wymaga podania jednej nazwy pakietu jako argument"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "package '%s' is not installed"
+msgid "package name '%s' is invalid: %s"
+msgstr "pakiet \"%s\" nie jest zainstalowany"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s wymaga podania jednej nazwy pakietu jako argument"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "nazwa wyzwalacza zawiera niepoprawny znak"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s wymaga podania jednej nazwy pakietu jako argument"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "architecture '%s' is illegal: %s"
+msgid "architecture name '%s' is invalid: %s"
+msgstr "architektura \"%s\" jest nieprawidłowa: %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes one argument"
+msgid "--%s takes one <version> argument"
+msgstr "--%s wymaga jednego argumentu"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax: %s"
+msgid "version '%s' has bad syntax"
+msgstr "wersja \"%s\" ma złą składnię: %s"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
@@ -2852,12 +2912,6 @@ msgstr "błędna relacja dla --compare-versions"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr ""
-
-#: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "version '%s' has bad syntax: %s"
-msgid "version '%s' has bad syntax"
-msgstr "wersja \"%s\" ma złą składnię: %s"
 
 #: src/errors.c
 #, c-format
@@ -3204,6 +3258,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3273,6 +3328,13 @@ msgstr ""
 "|\n"
 "  --assert-multi-arch | --assert-versioned-provides.\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, fuzzy, c-format
@@ -6666,9 +6728,6 @@ msgstr ""
 
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "\"%s\" zawiera pole zdefiniowane przez użytkownika \"%s\""
-
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s wymaga jednego argumentu"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "nie można otworzyć pliku kontrolnego \"control\""

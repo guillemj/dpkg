@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -1243,6 +1243,12 @@ msgid "nothing after colon in version number"
 msgstr "버전 번호에서 콜론 뒤에 아무 것도 없습니다"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "버전 문자열이 비어 있습니다"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr ""
 
@@ -1285,6 +1291,12 @@ msgstr ""
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(설명 없음)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax: %s"
+msgid "version '%s' has bad syntax: %s"
+msgstr "버전 '%s'의 형식이 잘못되었습니다: %s"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
@@ -2963,6 +2975,53 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "%.250s에 대한 미리 의존을 만족시킬 수 없습니다 (%.250s 때문에 필요)"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s 옵션은 적어도 하나의 패키지 이름 인수가 필요합니다"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "Package `%s' is not installed.\n"
+msgid "package name '%s' is invalid: %s"
+msgstr "`%s' 패키지는 설치하지 않았습니다.\n"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s 옵션은 적어도 하나의 패키지 이름 인수가 필요합니다"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "트리거 이름에 쓸 수 없는 문자가 들어 있습니다"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s 옵션은 적어도 하나의 패키지 이름 인수가 필요합니다"
+
+#: src/enquiry.c
+#, c-format
+msgid "architecture name '%s' is invalid: %s"
+msgstr ""
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes no arguments"
+msgid "--%s takes one <version> argument"
+msgstr "--%s 옵션은 인수를 받지 않습니다"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "version '%s' has bad syntax: %s"
+msgid "version '%s' has bad syntax"
+msgstr "버전 '%s'의 형식이 잘못되었습니다: %s"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-versions 옵션은 인수 세 개를 받습니다: <버전> <관계> <버전>"
@@ -2975,12 +3034,6 @@ msgstr "--compare-versions 옵션에 관계가 잘못되었습니다"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr ""
-
-#: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "version '%s' has bad syntax: %s"
-msgid "version '%s' has bad syntax"
-msgstr "버전 '%s'의 형식이 잘못되었습니다: %s"
 
 #: src/errors.c
 #, fuzzy, c-format
@@ -3336,6 +3389,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3404,6 +3458,13 @@ msgstr ""
 "내부 사용을 위해서는: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, fuzzy, c-format
@@ -7100,11 +7161,6 @@ msgstr ""
 
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "'%s'에 사용자 정의 필드 `%s'이(가) 들어 있습니다"
-
-#, fuzzy
-#~| msgid "--%s takes no arguments"
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s 옵션은 인수를 받지 않습니다"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "`control' 컴포넌트를 열 수 없습니다"

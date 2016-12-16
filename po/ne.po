@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -1208,6 +1208,12 @@ msgid "nothing after colon in version number"
 msgstr "संस्करण नम्बरमा विराम पछि केहि पनि छैन"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "संस्करण स्ट्रिङ् रित्तो छ"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr ""
 
@@ -1256,6 +1262,11 @@ msgstr "हराइरहेको अल्टनाम"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(कुनै वर्णन उपलब्ध छैन)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+msgid "version '%s' has bad syntax: %s"
+msgstr "dpkg: संस्करण '%s' सँग खराब वाक्य संरचना छ: %s\n"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
@@ -2884,6 +2895,51 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr " %.250s ( %.250sकारणले चाहियो) का लागि पूर्व-निर्भरता सन्तुष्ट गर्न सकिदैन"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s लाई कम्तिमा पनि एउटा प्याकेज नाम तर्क आवश्यक पर्दछ"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "Package `%s' is not installed.\n"
+msgid "package name '%s' is invalid: %s"
+msgstr "प्याकेज `%s' स्थापित छैन ।\n"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s लाई कम्तिमा पनि एउटा प्याकेज नाम तर्क आवश्यक पर्दछ"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid "trigger name '%s' is invalid: %s"
+msgstr "`%s' फाँट, अवैध प्याकेज नाम `%.255s': %s"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s लाई कम्तिमा पनि एउटा प्याकेज नाम तर्क आवश्यक पर्दछ"
+
+#: src/enquiry.c
+#, c-format
+msgid "architecture name '%s' is invalid: %s"
+msgstr ""
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes no arguments"
+msgid "--%s takes one <version> argument"
+msgstr "--%s ले कुनै तर्कहरू लिदैन"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid "version '%s' has bad syntax"
+msgstr "dpkg: संस्करण '%s' सँग खराब वाक्य संरचना छ: %s\n"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-संस्करणले तिनवटा तर्कहरू लिन्छ: <version> <relation> <version>"
@@ -2896,11 +2952,6 @@ msgstr "--compare-संस्करणहरू खराब सम्बन्
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr ""
-
-#: src/enquiry.c
-#, fuzzy, c-format
-msgid "version '%s' has bad syntax"
-msgstr "dpkg: संस्करण '%s' सँग खराब वाक्य संरचना छ: %s\n"
 
 #: src/errors.c
 #, fuzzy, c-format
@@ -3212,6 +3263,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3276,6 +3328,13 @@ msgid ""
 msgstr ""
 "आन्तरीक प्रयोगको लागि:dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, fuzzy, c-format
@@ -6729,11 +6788,6 @@ msgstr "स्वचालित अद्यावधिक फर्काउ�
 #, fuzzy
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "चेतावनी, `%s' ले प्रयोग-परिभाषित फाँट समावेश गर्दछ `%s'\n"
-
-#, fuzzy
-#~| msgid "--%s takes no arguments"
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s ले कुनै तर्कहरू लिदैन"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "`control' अवयवहरू खोल्न सकेन"

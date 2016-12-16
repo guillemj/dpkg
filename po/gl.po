@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-11-16 03:40+0100\n"
+"POT-Creation-Date: 2016-12-17 00:31+0100\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: mvillarino <mvillarino@users.sourceforge.net>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
@@ -1252,6 +1252,12 @@ msgid "nothing after colon in version number"
 msgstr "non hai hada despois dos dous puntos no número de versión"
 
 #: lib/dpkg/parsehelp.c
+#, fuzzy
+#| msgid "version string is empty"
+msgid "version number is empty"
+msgstr "a cadea de versión está baleira"
+
+#: lib/dpkg/parsehelp.c
 msgid "version number does not start with digit"
 msgstr ""
 
@@ -1300,6 +1306,11 @@ msgstr "falla o nome alternativo"
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
 msgstr "(non hai unha descrición dispoñible)"
+
+#: lib/dpkg/pkg-show.c
+#, fuzzy, c-format
+msgid "version '%s' has bad syntax: %s"
+msgstr "dpkg: a versión \"%s\" ten unha sintaxe incorrecta: %s\n"
 
 #: lib/dpkg/pkg-spec.c
 #, fuzzy, c-format
@@ -3021,6 +3032,52 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "non se poden satisfacer as predependencias de %.250s (debido a %.250s)"
 
 #: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <pkgname> argument"
+msgstr "--%s precisa de alomenos un argumento de nome de paquete"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "Package `%s' is not installed.\n"
+msgid "package name '%s' is invalid: %s"
+msgstr "O paquete \"%s\" non está instalado.\n"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <trigname> argument"
+msgstr "--%s precisa de alomenos un argumento de nome de paquete"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "trigger name contains invalid character"
+msgid "trigger name '%s' is invalid: %s"
+msgstr "o nome do disparador contén un carácter non válido"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s needs at least one package name argument"
+msgid "--%s takes one <archname> argument"
+msgstr "--%s precisa de alomenos un argumento de nome de paquete"
+
+#: src/enquiry.c
+#, c-format
+msgid "architecture name '%s' is invalid: %s"
+msgstr ""
+
+#: src/enquiry.c
+#, fuzzy, c-format
+#| msgid "--%s takes no arguments"
+msgid "--%s takes one <version> argument"
+msgstr "--%s non toma ningún argumento"
+
+#: src/enquiry.c
+#, fuzzy, c-format
+msgid "version '%s' has bad syntax"
+msgstr "dpkg: a versión \"%s\" ten unha sintaxe incorrecta: %s\n"
+
+#: src/enquiry.c
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
@@ -3034,11 +3091,6 @@ msgstr "relación incorrecta para --compare-versions"
 #, c-format
 msgid "--%s used with obsolete relation operator '%s'"
 msgstr ""
-
-#: src/enquiry.c
-#, fuzzy, c-format
-msgid "version '%s' has bad syntax"
-msgstr "dpkg: a versión \"%s\" ten unha sintaxe incorrecta: %s\n"
 
 #: src/errors.c
 #, fuzzy, c-format
@@ -3390,6 +3442,7 @@ msgid ""
 "  --print-foreign-architectures    Print allowed foreign architectures.\n"
 "  --assert-<feature>               Assert support for the specified "
 "feature.\n"
+"  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
 "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
 "  --force-help                     Show help on forcing.\n"
 "  -Dh|--debug=help                 Show help on debugging.\n"
@@ -3454,6 +3507,13 @@ msgstr ""
 "Para uso interno: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --asert-multi-conrep.\n"
 "\n"
+
+#: src/main.c
+#, c-format
+msgid ""
+"Validatable things: pkgname, archname, trigname, version.\n"
+"\n"
+msgstr ""
 
 #: src/main.c
 #, fuzzy, c-format
@@ -7095,11 +7155,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "'%s' contains user-defined field '%s'"
 #~ msgstr "aviso, \"%s\" contén o campo definido polo usuario \"%s\"\n"
-
-#, fuzzy
-#~| msgid "--%s takes no arguments"
-#~ msgid "--%s takes one argument"
-#~ msgstr "--%s non toma ningún argumento"
 
 #~ msgid "could not open the `control' component"
 #~ msgstr "non se puido abrir o compoñente \"control\""
