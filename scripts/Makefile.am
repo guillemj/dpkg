@@ -326,6 +326,7 @@ test_data = \
 	t/dpkg_source/testsuite_1.dsc \
 	t/dpkg_source/testsuite_2.dsc \
 	t/dpkg_source/testsuite_3.dsc \
+	t/dpkg_source/testsuite_4.dsc \
 	t/merge_changelogs/ch-old \
 	t/merge_changelogs/ch-a \
 	t/merge_changelogs/ch-b \

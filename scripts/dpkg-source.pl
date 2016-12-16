@@ -520,6 +520,7 @@ sub set_testsuite_fields
         $tests->load("$dir/debian/tests/control");
 
         set_testsuite_triggers_field($tests, $fields, @binarypackages);
+        set_testsuite_restrictions_field($tests, $fields);
     } elsif ($testsuite{autopkgtest}) {
         warning(g_('%s field contains value %s, but no tests control file %s'),
                 'Testsuite', 'autopkgtest', 'debian/tests/control');
@@ -548,6 +549,22 @@ sub set_testsuite_triggers_field
         delete $testdeps{$pkg};
     }
     $fields->{'Testsuite-Triggers'} = join ', ', sort keys %testdeps;
+}
+
+sub set_testsuite_restrictions_field
+{
+    my ($tests, $fields) = @_;
+    my %restrict;
+
+    # Never overwrite a manually defined field.
+    return if $fields->{'Testsuite-Restrictions'};
+
+    foreach my $test ($tests->get()) {
+        next unless $test->{Restrictions};
+
+        $restrict{$_} = 1 foreach (split /[,\s]+/, $test->{Restrictions});
+    }
+    $fields->{'Testsuite-Restrictions'} = join ', ', sort keys %restrict;
 }
 
 sub setopmode {

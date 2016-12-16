@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 8;
+use Test::More tests => 10;
 use Test::Dpkg qw(test_neutralize_checksums);
 
 use File::Spec::Functions qw(rel2abs);
@@ -64,12 +64,20 @@ Architecture: all
 Description: test package
 TMPL_CONTROL
 
+my $tmpl_tests_control = <<'TMPL_TESTS_CONTROL';
+Test-Command: ${test-command}
+Depends: ${test-depends}
+Restrictions: ${test-restrictions}
+TMPL_TESTS_CONTROL
+
 my %default_substvars = (
     'source-name' => 'test-source',
     'source-version' => 0,
     'source-section' => 'test',
     'source-priority' => 'optional',
     'source-testsuite' => 'autopkgtest',
+    'test-command' => 'true',
+    'test-depends' => '@',
     'suite' => 'unstable',
     'urgency' => 'low',
     'maintainer' => 'Dpkg Developers <debian-dpkg@lists.debian.org>',
@@ -166,6 +174,12 @@ test_build_source($dirname);
 
 $dirname = gen_source('source-name' => 'testsuite',
                       'source-version' => 3);
+test_build_source($dirname);
+
+$dirname = gen_source('source-name' => 'testsuite',
+                      'source-version' => 4,
+                      'test-restrictions' => 'needs-root,build-needed  allow-stderr',
+                      'control-test' => $tmpl_tests_control);
 test_build_source($dirname);
 
 1;
