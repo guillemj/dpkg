@@ -137,7 +137,8 @@ binary-indep: install
 	dh_installman -i
 	dh_link -i
 	dh_lintian -i
-	dh_perl -i
+	# The perl modules should not depend on a specific interpreter.
+	dh_perl -i -Nlibdpkg-perl
 	dh_compress -i
 	dh_fixperms -i
 	dh_installdeb -i
