@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.18.10\n"
+"Project-Id-Version: dpkg 1.18.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2016-11-16 03:40+0100\n"
-"PO-Revision-Date: 2016-09-27 17:15+0200\n"
+"PO-Revision-Date: 2016-11-28 16:03+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
@@ -2960,16 +2960,18 @@ msgid "control file '%s' for package '%s' is missing final newline"
 msgstr "controlebestand '%s' voor pakket '%s' heeft geen afsluitend regeleinde"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
+#, c-format
 #| msgid "control file '%s' for package '%s' is missing final newline"
 msgid "control file '%s' for package '%s' is missing value"
-msgstr "controlebestand '%s' voor pakket '%s' heeft geen afsluitend regeleinde"
+msgstr "controlebestand '%s' voor pakket '%s' heeft een ontbrekende waarde"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
+#, c-format
 #| msgid "control file '%s' for package '%s' is missing final newline"
 msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "controlebestand '%s' voor pakket '%s' heeft geen afsluitend regeleinde"
+msgstr ""
+"controlebestand '%s' voor pakket '%s' heeft een ontbrekend "
+"waardescheidingsteken"
 
 #: src/filesdb-hash.c
 #, c-format
@@ -2977,31 +2979,31 @@ msgid "control file '%s' for package '%s' contains empty filename"
 msgstr "controlebestand '%s' voor pakket '%s' bevat een lege bestandsnaam"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
+#, c-format
 #| msgid "cannot open '%s' control file for package '%s'"
 msgid "cannot open control file '%s' for package '%s'"
 msgstr "kan controlebestand '%s' voor pakket '%s' niet openen"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
+#, c-format
 #| msgid "cannot stat '%s' control file for package '%s'"
 msgid "cannot stat control file '%s' for package '%s'"
 msgstr "kan status niet opvragen van controlebestand '%s' voor pakket '%s'"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
+#, c-format
 #| msgid "'%s' file for package '%s' is not a regular file"
 msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "bestand '%s' voor pakket '%s' is geen gewoon bestand"
+msgstr "controlebestand '%s' voor pakket '%s' is geen gewoon bestand"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
+#, c-format
 #| msgid "cannot read '%s' control file for package '%s'"
 msgid "cannot read control file '%s' for package '%s'"
 msgstr "kan controlebestand '%s' voor pakket '%s' niet lezen"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
+#, c-format
 #| msgid "cannot close '%s' control file for package '%s'"
 msgid "cannot close control file '%s' for package '%s'"
 msgstr "kan controlebestand '%s' voor pakket '%s' niet sluiten"
@@ -4207,10 +4209,12 @@ msgid "illegal package name at line %d: %.250s"
 msgstr "ongeldige pakketnaam op regel %d: %.250s"
 
 #: src/select.c
-#, fuzzy, c-format
+#, c-format
 #| msgid "package not in database at line %d: %.250s"
 msgid "package not in status nor available database at line %d: %.250s"
-msgstr "pakket niet in database op regel %d: %.250s"
+msgstr ""
+"pakket op regel %d: %.250s komt niet voor in status-bestand noch in "
+"available-bestand (database van beschikbare pakketten)"
 
 #: src/select.c
 #, c-format
@@ -4222,7 +4226,6 @@ msgid "read error on standard input"
 msgstr "leesfout op standaardinvoer"
 
 #: src/select.c
-#, fuzzy
 #| msgid ""
 #| "found unknown packages; this might mean the available database\n"
 #| "is outdated, and needs to be updated through a frontend method"
@@ -4233,7 +4236,8 @@ msgid ""
 msgstr ""
 "onbekende pakketten gevonden; dit kan betekenen dat de database van "
 "beschikbare\n"
-"pakketten verouderd is en bijgewerkt moet worden door een frontend"
+"pakketten verouderd is en bijgewerkt moet worden door een frontend;\n"
+"gelieve de FAQ <https://wiki.debian.org/Teams/Dpkg/FAQ> te raadplegen"
 
 #: src/selinux.c
 msgid "cannot open security status notification channel"
@@ -5303,7 +5307,7 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Options:\n"
 #| "  -v, --verbose                    Enable verbose output.\n"
@@ -5357,19 +5361,17 @@ msgstr ""
 "Opties:\n"
 "  -v, --verbose                Activeer uitvoerige uitvoer.\n"
 "  -D, --debug                  Activeer debugging-uitvoer.\n"
-"      --showformat=<formaat>   Gebruik alternatief formaat voor --show.\n"
+"      --showformat=<formaat>   Gebruik alternatieve indeling voor --show.\n"
 "      --deb-format=<formaat>   Selecteer archiefformaat.\n"
 "                                 Toegelaten waarden: 0.939000, 2.0 "
 "(standaard).\n"
-"      --old                    Oude alias voor '--deb-format=0.939000'.\n"
-"      --new                    Oude alias voor '--deb-format=2.0'.\n"
 "      --nocheck                Onderdruk check van 'control'-bestand\n"
 "                                 (bouwt ongeldige pakketten)\n"
 "      --uniform-compression    Gebruik de compressieparameters\n"
 "                                 voor alle elementen.\n"
 "  -z#                          Stel compressieniveau in bij het bouwen.\n"
 "  -Z<type>                     Stel het compressietype in bij het bouwen.\n"
-"                                 Toegelaten types: gzip, xz, bzip2, none.\n"
+"                                 Toegelaten types: gzip, xz, none.\n"
 "  -S<strategie>                Stel de compressiestrategie in bij het "
 "bouwen.\n"
 "                                 Toegelaten waarden: none; extreme (xz);\n"
@@ -5424,13 +5426,13 @@ msgid "unknown compression type '%s'!"
 msgstr "onbekend compressietype `%s'!"
 
 #: dpkg-deb/main.c
-#, fuzzy, c-format
+#, c-format
 #| msgid "deprecated compression type '%s'; use xz instead"
 msgid "obsolete compression type '%s'; use xz instead"
 msgstr "verouderd compressietype '%s'; gebruik liever xz"
 
 #: dpkg-deb/main.c
-#, fuzzy, c-format
+#, c-format
 #| msgid "deprecated compression type '%s'; use xz or gzip instead"
 msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr "verouderd compressietype '%s'; gebruik liever xz of gzip"
