@@ -4,10 +4,14 @@ include ../Test.mk
 
 test-case:
 	$(DPKG_INSTALL) pkg-conff-forcenew-0.deb
-	# test if we get the new conffile
+	# Modify the conffile.
+	$(BEROOT) cp mod-conffile /test-conffile
+	# Test that we do not get the new conffile.
+	$(DPKG_INSTALL) pkg-conff-forcenew-0.deb
+	cmp mod-conffile /test-conffile
+	# Test that we get the new conffile.
 	$(DPKG_INSTALL) --force-confnew pkg-conff-forcenew-1.deb
 	cmp ref-conffile /test-conffile
 
 test-clean:
 	$(DPKG_PURGE) pkg-conff-forcenew
-
