@@ -13,4 +13,4 @@ test-case:
 	$(DPKG_PURGE) pkg-conff-forceask
 
 test-clean:
-
+	$(DPKG_PURGE) pkg-conff-forceask
