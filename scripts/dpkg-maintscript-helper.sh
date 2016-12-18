@@ -270,6 +270,7 @@ symlink_to_dir() {
 		error "symlink pathname ends with a slash"
 	[ -n "$SYMLINK_TARGET" ] || error "original symlink target is missing"
 	[ -n "$1" ] || error "maintainer script parameters are missing"
+	validate_optional_version "$LASTVERSION"
 
 	debug "Executing $0 symlink_to_dir in $DPKG_MAINTSCRIPT_NAME" \
 	      "of $DPKG_MAINTSCRIPT_PACKAGE"
@@ -345,6 +346,7 @@ dir_to_symlink() {
 		error "directory parameter is not an absolute path"
 	[ -n "$SYMLINK_TARGET" ] || error "new symlink target is missing"
 	[ -n "$1" ] || error "maintainer script parameters are missing"
+	validate_optional_version "$LASTVERSION"
 
 	debug "Executing $0 dir_to_symlink in $DPKG_MAINTSCRIPT_NAME" \
 	      "of $DPKG_MAINTSCRIPT_PACKAGE"
