@@ -48,8 +48,7 @@ rm_conffile() {
 		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
 	[ "${CONFFILE}" != "${CONFFILE#/}" ] || \
 		error "conffile '$CONFFILE' is not an absolute path"
-	VERSIONCHECK=$(dpkg --validate-version -- "$LASTVERSION" 2>&1) || \
-		error "$VERSIONCHECK"
+	validate_optional_version "$LASTVERSION"
 
 	debug "Executing $0 rm_conffile in $DPKG_MAINTSCRIPT_NAME" \
 	      "of $DPKG_MAINTSCRIPT_PACKAGE"
@@ -161,8 +160,7 @@ mv_conffile() {
 		error "old-conffile '$OLDCONFFILE' is not an absolute path"
 	[ "${NEWCONFFILE}" != "${NEWCONFFILE#/}" ] || \
 		error "new-conffile '$NEWCONFFILE' is not an absolute path"
-	VERSIONCHECK=$(dpkg --validate-version -- "$LASTVERSION" 2>&1) || \
-		error "$VERSIONCHECK"
+	validate_optional_version "$LASTVERSION"
 
 	debug "Executing $0 mv_conffile in $DPKG_MAINTSCRIPT_NAME" \
 	      "of $DPKG_MAINTSCRIPT_PACKAGE"
@@ -493,6 +491,18 @@ abort_dir_to_symlink()
 }
 
 # Common functions
+validate_optional_version() {
+	local VERSION="$1"
+
+	if [ -z "$VERSION" ]; then
+		return
+	fi
+
+	if ! VERSIONCHECK=$(dpkg --validate-version -- "$VERSION" 2>&1); then
+		error "$VERSIONCHECK"
+	fi
+}
+
 ensure_package_owns_file() {
 	local PACKAGE="$1"
 	local FILE="$2"
