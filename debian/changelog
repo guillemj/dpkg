@@ -9,8 +9,9 @@ dpkg (1.18.17) UNRELEASED; urgency=medium
     - Clarify that dpkg-buildpackage does not run «dpkg-source --before-build»
       when using the -T option. Closes: #649531
   * Packaging:
-    - Do not let dh_perl insert a dependency for libdpkg-perl, because tying
-      the modules to a specific interpreter is wrong.
+    - Do not let dh_perl insert a dependency for libdpkg-perl, because it
+      emits perl instead of perl:any. Instead hardcode a perl:any dependency
+      to comply with the perl policy and make the Multi-Arch hinter happy.
 
   [ Updated scripts translations ]
   * German (Helge Kreutzmann).
