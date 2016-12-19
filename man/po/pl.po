@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.15.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-12-17 00:31+0100\n"
+"POT-Creation-Date: 2016-12-19 02:49+0100\n"
 "PO-Revision-Date: 2016-12-17 16:42+0100\n"
 "Last-Translator: Michał Kułach <michal.kulach@gmail.com>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -8783,6 +8783,27 @@ msgid ""
 msgstr ""
 
 #. type: TP
+#: dpkg.man dpkg-divert.man dpkg-query.man dpkg-statoverride.man
+#: dpkg-trigger.man update-alternatives.man
+#, no-wrap
+msgid "B<DPKG_ADMINDIR>"
+msgstr "B<DPKG_ADMINDIR>"
+
+#. type: Plain text
+#: dpkg.man
+#, fuzzy
+#| msgid ""
+#| "Defined by B<dpkg> on the maintainer script environment to the private "
+#| "library directory of the currently running B<dpkg> instance."
+msgid ""
+"Defined by B<dpkg> on the maintainer script environment to indicate the "
+"B<dpkg> administrative directory to use (since dpkg 1.16.0).  This variable "
+"is always set to the current B<--admindir> value."
+msgstr ""
+"Zdefiniowana przez B<dpkg> w środowisku skryptu opiekuna pakietu, jako "
+"wersja aktualnie uruchomionej instancji programu B<dpkg>."
+
+#. type: TP
 #: dpkg.man
 #, no-wrap
 msgid "B<DPKG_SHELL_REASON>"
@@ -12766,12 +12787,13 @@ msgstr "B<--target=>I<cel>"
 #| "need this option."
 msgid ""
 "Calls B<debian/rules> I<target> once per target specified, after having "
-"setup the build environment, and stops the package build process here (since "
-"dpkg 1.15.0, long option since dpkg 1.18.8, multi-target support since dpkg "
-"1.18.16).  If B<--as-root> is also given, then the command is executed as "
-"root (see B<--root-command>).  Note that known targets that are required to "
-"be run as root do not need this option (i.e. the B<clean>, B<binary>, "
-"B<binary-arch> and B<binary-indep> targets)."
+"setup the build environment (except for calling B<dpkg-source --before-"
+"build>), and stops the package build process here (since dpkg 1.15.0, long "
+"option since dpkg 1.18.8, multi-target support since dpkg 1.18.16).  If B<--"
+"as-root> is also given, then the command is executed as root (see B<--root-"
+"command>).  Note that known targets that are required to be run as root do "
+"not need this option (i.e. the B<clean>, B<binary>, B<binary-arch> and "
+"B<binary-indep> targets)."
 msgstr ""
 "Wywołuje B<debian/rules> I<cel> po przygotowaniu środowiska budowania i na "
 "tym kończy proces budowania pakietu. Jeśli podana została również opcja B<--"
@@ -15300,13 +15322,6 @@ msgid "Test mode, i.e. don't actually perform any changes, just demonstrate."
 msgstr ""
 "Tryb testowy, tzn. nie wykonuje żadnych akcji, tylko pokazuje, co zostałoby "
 "zrobione."
-
-#. type: TP
-#: dpkg-divert.man dpkg-query.man dpkg-statoverride.man dpkg-trigger.man
-#: update-alternatives.man
-#, no-wrap
-msgid "B<DPKG_ADMINDIR>"
-msgstr "B<DPKG_ADMINDIR>"
 
 #. type: Plain text
 #: dpkg-divert.man dpkg-query.man dpkg-statoverride.man dpkg-trigger.man
@@ -29085,16 +29100,6 @@ msgstr "B<ln>(1), FHS - standard hierarchii systemu plików."
 
 #~ msgid "I<admindir>/info/I<package>.shlibs"
 #~ msgstr "I<katalog_admin>/info/I<package>.shlibs"
-
-#~| msgid ""
-#~| "Defined by B<dpkg> on the maintainer script environment to the version "
-#~| "of the currently running B<dpkg> instance."
-#~ msgid ""
-#~ "Defined by B<dpkg> on the maintainer script environment to the private "
-#~ "library directory of the currently running B<dpkg> instance."
-#~ msgstr ""
-#~ "Zdefiniowana przez B<dpkg> w środowisku skryptu opiekuna pakietu, jako "
-#~ "wersja aktualnie uruchomionej instancji programu B<dpkg>."
 
 #~ msgid "Format: 3.0 (git) and 3.0 (bzr)"
 #~ msgstr "Format: 3.0 (git) oraz 3.0 (bzr)"
