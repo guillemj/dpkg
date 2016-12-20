@@ -20,6 +20,10 @@ dpkg (1.18.19) UNRELEASED; urgency=medium
     hurd-i386 will still match), it will filter lots of previously matching
     objects that should have been ignored, and will work even when objdump
     does not know about the specific object details. Closes: #849913
+  * Add initial support for DEB_BUILD_OPTIONS to dpkg-genbuildinfo. This will
+    make it possible to enable or disable specific features that should be
+    recorded in the .buildinfo file. For now only “all” and “path” are
+    supported. Closes: #848705
   * Portability:
     - On GNU/Hurd try to use the new process executable name attribute from
       libps, to properly match on start-stop-daemon --exec.

@@ -130,6 +130,20 @@ Show the usage message and exit.
 .BR \-\-version
 Show the version and exit.
 .
+.SH ENVIRONMENT
+.TP
+.B DEB_BUILD_OPTIONS
+This variable can be used to enable or disable various features that affect
+the information included in the .buildinfo file, via the \fBbuildinfo\fP
+option (since dpkg 1.18.19).
+This option contains a comma-separated list of features, prefixed with the
+‘\fB+\fP’ or ‘\fB\-\fP’ modifiers, to denote whether to enable or disable
+them.
+The special feature “\fBall\fP” can be used to enable or disable all other
+features.
+The feature “\fBpath\fP” controls whether to unconditionally include the
+\fBBuild\-Path\fP field.
+.
 .SH FILES
 .TP
 .B debian/files

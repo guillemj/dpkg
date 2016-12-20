@@ -36,6 +36,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Arch qw(get_build_arch get_host_arch);
 use Dpkg::Build::Types;
 use Dpkg::Build::Info qw(get_build_env_whitelist);
+use Dpkg::BuildOptions;
 use Dpkg::BuildFlags;
 use Dpkg::BuildProfiles qw(get_build_profiles);
 use Dpkg::Control::Info;
@@ -59,7 +60,9 @@ my $uploadfilesdir = '..';
 my $outputfile;
 my $stdout = 0;
 my $admindir = $Dpkg::ADMINDIR;
-my $always_include_path = 0;
+my %use_feature = (
+    path => 0,
+);
 my @build_profiles = get_build_profiles();
 my $buildinfo_format = '0.2';
 my $buildinfo;
@@ -295,6 +298,9 @@ sub usage {
 "), $Dpkg::PROGNAME;
 }
 
+my $build_opts = Dpkg::BuildOptions->new();
+$build_opts->parse_features('buildinfo', \%use_feature);
+
 while (@ARGV) {
     $_ = shift @ARGV ;
     if (m/^--build=(.*)$/) {
@@ -317,7 +323,7 @@ while (@ARGV) {
         # Deprecated option
         warning('--buildinfo-id is deprecated, it is without effect');
     } elsif (m/^--always-include-path$/) {
-        $always_include_path = 1;
+        $use_feature{path} = 1;
     } elsif (m/^--admindir=(.*)$/) {
         $admindir = $1;
     } elsif (m/^-(?:\?|-help)$/) {
@@ -407,7 +413,7 @@ $fields->{'Build-Architecture'} = get_build_arch();
 $fields->{'Build-Date'} = get_build_date();
 
 my $cwd = cwd();
-if ($always_include_path) {
+if ($use_feature{path}) {
     $fields->{'Build-Path'} = $cwd;
 } else {
     # Only include the build path if its root path is considered acceptable
