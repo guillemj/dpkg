@@ -1,5 +1,12 @@
 dpkg (1.18.18) UNRELEASED; urgency=medium
 
+  [ Guillem Jover ]
+  * Packaging:
+    - Revert the perl to perl:any dependency change in libdpkg-perl, as that
+      breaks debootstrap in stable (jessie), testing (stretch) and unstable,
+      which do not support arch-qualified dependencies. We'll have to live
+      with the Multi-Arch hinter being unhappy for now.
+
   [ Updated man pages translations ]
   * German (Helge Kreutzmann).
 
