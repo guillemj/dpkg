@@ -313,6 +313,12 @@ error(g_('binary build with no binary artifacts found; cannot distribute'))
 foreach my $file ($dist->get_files()) {
     my $f = $file->{filename};
 
+    if (defined $file->{package} && $file->{package_type} eq 'buildinfo') {
+        # We always distribute the .buildinfo file.
+        $checksums->add_from_file("$uploadfilesdir/$f", key => $f);
+        next;
+    }
+
     # If this is a source-only upload, ignore any other artifacts.
     next if build_has_none(BUILD_BINARY);
 
