@@ -309,16 +309,25 @@ error(g_('binary build with no binary artifacts found; cannot distribute'))
     if build_has_any(BUILD_BINARY) && $dist_count == 0;
 
 foreach my $file ($dist->get_files()) {
+    my $f = $file->{filename};
+
     # If this is a source-only upload, ignore any other artifacts.
     next if build_has_none(BUILD_BINARY);
 
     if (defined $file->{arch}) {
+        my $arch_all = debarch_eq('all', $file->{arch});
+
+        next if build_has_none(BUILD_ARCH_INDEP) and $arch_all;
+        next if build_has_none(BUILD_ARCH_DEP) and not $arch_all;
+
         push @archvalues, $file->{arch} if not $archadded{$file->{arch}}++;
     }
     if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
         $p2f{$file->{package}} //= [];
         push @{$p2f{$file->{package}}}, $file->{filename};
     }
+
+    $checksums->add_from_file("$uploadfilesdir/$f", key => $f);
 }
 
 # Scan control info of all binary packages
@@ -461,17 +470,6 @@ $fields->{'Description'} = "\n" . join("\n", sort @descriptions);
 
 $fields->{'Files'} = '';
 
-for my $file ($dist->get_files()) {
-    my $f = $file->{filename};
-
-    if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
-        my $arch_all = debarch_eq('all', $file->{arch});
-
-        next if build_has_none(BUILD_ARCH_INDEP) and $arch_all;
-        next if build_has_none(BUILD_ARCH_DEP) and not $arch_all;
-    }
-    $checksums->add_from_file("$uploadfilesdir/$f", key => $f);
-}
 foreach my $f ($checksums->get_files()) {
     my $file = $dist->get_file($f);
 

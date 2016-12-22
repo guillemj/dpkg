@@ -26,6 +26,10 @@ dpkg (1.18.19) UNRELEASED; urgency=medium
     supported. Closes: #848705
   * Add again the architecture from the filename to .changes files for any
     artifact with one. This reverts the change introduced in dpkg 1.18.11.
+  * Fold the filtering and checksumming of files to distribute in a .changes
+    file in dpkg-genchanges into the initial loop. This way we do not include
+    architectures for artifacts we are not going to distribute, and do not
+    unnecessarily recompute the checksums for artifacts like the sources.
   * Portability:
     - On GNU/Hurd try to use the new process executable name attribute from
       libps, to properly match on start-stop-daemon --exec.
