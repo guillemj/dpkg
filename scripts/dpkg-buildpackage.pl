@@ -435,7 +435,7 @@ if ($changedby) {
 }
 
 # <https://reproducible-builds.org/specs/source-date-epoch/>
-$ENV{SOURCE_DATE_EPOCH} ||= $changelog->{timestamp};
+$ENV{SOURCE_DATE_EPOCH} ||= $changelog->{timestamp} || time;
 
 my @arch_opts;
 push @arch_opts, ('--host-arch', $host_arch) if $host_arch;

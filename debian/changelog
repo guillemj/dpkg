@@ -7,6 +7,8 @@ dpkg (1.18.19) UNRELEASED; urgency=medium
     alter its contents. Closes: #831524
   * Do not allow empty epochs and revisions in versions. When there's at
     least one colon or one dash, we should expect epoch and revision numbers.
+  * Always set SOURCE_DATE_EPOCH in dpkg-buildpackage and dpkg-source. Use
+    the current date if the changelog does not have one. Closes: #849081
   * Portability:
     - On GNU/Hurd try to use the new process executable name attribute from
       libps, to properly match on start-stop-daemon --exec.

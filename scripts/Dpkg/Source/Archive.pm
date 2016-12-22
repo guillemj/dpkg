@@ -48,7 +48,7 @@ sub create {
     $spawn_opts{to_handle} = $self->get_filehandle();
     $spawn_opts{from_pipe} = \*$self->{tar_input};
     # Try to use a deterministic mtime.
-    my $mtime = $opts{source_date} // $ENV{SOURCE_DATE_EPOCH} // time;
+    my $mtime = $opts{source_date} // $ENV{SOURCE_DATE_EPOCH} || time;
     # Call tar creation process
     $spawn_opts{delete_env} = [ 'TAR_OPTIONS' ];
     $spawn_opts{exec} = [ $Dpkg::PROGTAR, '-cf', '-', '--format=gnu', '--sort=name',
