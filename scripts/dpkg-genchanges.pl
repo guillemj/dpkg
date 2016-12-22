@@ -303,12 +303,9 @@ if (build_has_any(BUILD_SOURCE)) {
     $origsrcmsg = g_('binary-only upload (no source code included)');
 }
 
-my $dist_count = 0;
+my $dist_binaries = 0;
 
-$dist_count = $dist->load($fileslistfile) if -e $fileslistfile;
-
-error(g_('binary build with no binary artifacts found; cannot distribute'))
-    if build_has_any(BUILD_BINARY) && $dist_count == 0;
+$dist->load($fileslistfile) if -e $fileslistfile;
 
 foreach my $file ($dist->get_files()) {
     my $f = $file->{filename};
@@ -336,7 +333,11 @@ foreach my $file ($dist->get_files()) {
     }
 
     $checksums->add_from_file("$uploadfilesdir/$f", key => $f);
+    $dist_binaries++;
 }
+
+error(g_('binary build with no binary artifacts found; cannot distribute'))
+    if build_has_any(BUILD_BINARY) && $dist_binaries == 0;
 
 # Scan control info of all binary packages
 foreach my $pkg ($control->get_packages()) {
