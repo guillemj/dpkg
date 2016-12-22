@@ -287,6 +287,8 @@ if (build_has_any(BUILD_SOURCE)) {
         $origsrcmsg = g_('including full source code in upload');
     }
 
+    push @archvalues, 'source';
+
     # Only add attributes for files being distributed.
     for my $f ($checksums->get_files()) {
         $dist->add_file($f, $sec, $pri);
@@ -456,12 +458,6 @@ if (length($fields->{'Binary'}) > 980) {
     $fields->{'Binary'} =~ s/(.{0,980}) /$1\n/g;
 }
 
-unshift @archvalues, 'source' if build_has_any(BUILD_SOURCE);
-@archvalues = ('all') if build_is(BUILD_ARCH_INDEP);
-@archvalues = grep { !debarch_eq('all', $_) } @archvalues
-    if build_has_none(BUILD_ARCH_INDEP);
-@archvalues = grep { !debarch_eq($host_arch, $_) } @archvalues
-    if build_has_none(BUILD_ARCH_DEP);
 $fields->{'Architecture'} = join ' ', @archvalues;
 
 $fields->{'Built-For-Profiles'} = join ' ', get_build_profiles();
