@@ -416,8 +416,18 @@ sub version_check($) {
         return (0, $msg) if wantarray;
         return 0;
     }
+    if (not defined $version->epoch() or not length $version->epoch()) {
+        my $msg = sprintf(g_('epoch part of the version number cannot be empty'));
+        return (0, $msg) if wantarray;
+        return 0;
+    }
     if (not defined $version->version() or not length $version->version()) {
         my $msg = g_('upstream version cannot be empty');
+        return (0, $msg) if wantarray;
+        return 0;
+    }
+    if (not defined $version->revision() or not length $version->revision()) {
+        my $msg = sprintf(g_('revision cannot be empty'));
         return (0, $msg) if wantarray;
         return 0;
     }

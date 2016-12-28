@@ -214,6 +214,8 @@ parseversion(struct dpkg_version *rversion, const char *string,
 
     errno = 0;
     epoch = strtol(string, &eepochcolon, 10);
+    if (string == eepochcolon)
+      return dpkg_put_error(err, _("epoch in version is empty"));
     if (colon != eepochcolon)
       return dpkg_put_error(err, _("epoch in version is not number"));
     if (epoch < 0)
@@ -229,8 +231,12 @@ parseversion(struct dpkg_version *rversion, const char *string,
   }
   rversion->version= nfstrnsave(string,end-string);
   hyphen= strrchr(rversion->version,'-');
-  if (hyphen)
+  if (hyphen) {
     *hyphen++ = '\0';
+
+    if (*hyphen == '\0')
+      return dpkg_put_error(err, _("revision number is empty"));
+  }
   rversion->revision= hyphen ? hyphen : "";
 
   /* XXX: Would be faster to use something like cisversion and cisrevision. */
