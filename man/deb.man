@@ -76,8 +76,16 @@ gzip (with \fB.gz\fP extension) or
 xz (with \fB.xz\fP extension, supported since 1.17.6),
 as a series of plain files, of which the file
 .B control
-is mandatory and contains the core control information. The control
-tarball may optionally contain an entry for
+is mandatory and contains the core control information, the
+.BR conffiles ", " triggers ", " shlibs
+and
+.B symbols
+files contain optional control information, and the
+.BR preinst ", " postinst ", " prerm
+and
+.B postrm
+files are optional maintainer scripts.
+The control tarball may optionally contain an entry for
 .RB ‘ . ’,
 the current directory.
 .PP
@@ -120,4 +128,12 @@ application/x-deb
 .SH SEE ALSO
 .BR deb\-old (5),
 .BR dpkg\-deb (1),
-.BR deb\-control (5).
+.BR deb\-control (5),
+.BR deb\-conffiles (5)
+.BR deb\-triggers (5),
+.BR deb\-shlibs (5),
+.BR deb\-symbols (5),
+.BR deb\-preinst (5),
+.BR deb\-postinst (5),
+.BR deb\-prerm (5),
+.BR deb\-postrm (5).
