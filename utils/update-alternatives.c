@@ -269,6 +269,30 @@ xstrdup(const char *str)
 	return new_str;
 }
 
+static char * DPKG_ATTR_VPRINTF(1)
+xvasprintf(const char *fmt, va_list args)
+{
+	char *str;
+
+	if (vasprintf(&str, fmt, args) < 0)
+		error(_("failed to allocate memory"));
+
+	return str;
+}
+
+static char * DPKG_ATTR_PRINTF(1)
+xasprintf(const char *fmt, ...)
+{
+	va_list args;
+	char *str;
+
+	va_start(args, fmt);
+	str = xvasprintf(fmt, args);
+	va_end(args);
+
+	return str;
+}
+
 static char *
 areadlink(const char *linkname)
 {
@@ -312,30 +336,6 @@ xreadlink(const char *linkname)
 		syserr(_("unable to read link '%.255s'"), linkname);
 
 	return buf;
-}
-
-static char * DPKG_ATTR_VPRINTF(1)
-xvasprintf(const char *fmt, va_list args)
-{
-	char *str;
-
-	if (vasprintf(&str, fmt, args) < 0)
-		error(_("failed to allocate memory"));
-
-	return str;
-}
-
-static char * DPKG_ATTR_PRINTF(1)
-xasprintf(const char *fmt, ...)
-{
-	va_list args;
-	char *str;
-
-	va_start(args, fmt);
-	str = xvasprintf(fmt, args);
-	va_end(args);
-
-	return str;
 }
 
 static void
