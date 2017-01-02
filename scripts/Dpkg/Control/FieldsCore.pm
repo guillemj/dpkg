@@ -73,6 +73,10 @@ our %FIELDS = (
         allowed => CTRL_REPO_RELEASE,
         separator => FIELD_SEP_SPACE,
     },
+    'Auto-Built-Package' => {
+        allowed => ALL_PKG & ~CTRL_INFO_PKG,
+        separator => FIELD_SEP_SPACE,
+    },
     'Binary' => {
         allowed => CTRL_PKG_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES,
         # XXX: This field values are separated either by space or comma
@@ -459,7 +463,7 @@ my @sum_fields = map { $_ eq 'md5' ? 'MD5sum' : &field_capitalize($_) }
 our %FIELD_ORDER = (
     CTRL_PKG_DEB() => [
         qw(Package Package-Type Source Version Built-Using Kernel-Version
-        Built-For-Profiles Architecture Subarchitecture
+        Built-For-Profiles Auto-Built-Package Architecture Subarchitecture
         Installer-Menu-Item Essential Origin Bugs
         Maintainer Installed-Size), &field_list_pkg_dep(),
         qw(Section Priority Multi-Arch Homepage Description Tag Task)
