@@ -338,6 +338,21 @@ xreadlink(const char *linkname)
 	return buf;
 }
 
+static bool
+pathname_is_missing(const char *pathname)
+{
+	struct stat st;
+
+	errno = 0;
+	if (stat(pathname, &st) == 0)
+		return false;
+
+	if (errno == ENOENT)
+		return true;
+
+	syserr(_("cannot stat file '%s'"), pathname);
+}
+
 static void
 set_action(const char *new_action)
 {
@@ -566,16 +581,11 @@ fileset_has_slave(struct fileset *fs, const char *name)
 static bool
 fileset_can_install_slave(struct fileset *fs, const char *slave_name)
 {
-	struct stat st;
-
 	/* Decide whether the slave alternative must be setup */
 	if (fileset_has_slave(fs, slave_name)) {
 		const char *slave = fileset_get_slave(fs, slave_name);
 
-		errno = 0;
-		if (stat(slave, &st) == -1 && errno != ENOENT)
-			syserr(_("cannot stat file '%s'"), slave);
-		if (errno == 0)
+		if (!pathname_is_missing(slave))
 			return true;
 	}
 
@@ -1166,7 +1176,6 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 {
 	struct fileset *fs;
 	struct slave_link *sl;
-	struct stat st;
 	char *master_file;
 
 	master_file = altdb_get_line(ctx, _("master file"));
@@ -1179,11 +1188,8 @@ alternative_parse_fileset(struct alternative *a, struct altdb_context *ctx)
 	if (fs)
 		ctx->bad_format(ctx, _("duplicate path %s"), master_file);
 
-	if (stat(master_file, &st)) {
+	if (pathname_is_missing(master_file)) {
 		char *junk;
-
-		if (errno != ENOENT)
-			syserr(_("cannot stat file '%s'"), master_file);
 
 		/* File not found - remove. */
 		if (ctx->flags & ALTDB_WARN_PARSER)
@@ -2121,13 +2127,7 @@ alternative_select_mode(struct alternative *a, const char *current_choice)
 	if (current_choice) {
 		/* Detect manually modified alternative, switch to manual. */
 		if (!alternative_has_choice(a, current_choice)) {
-			struct stat st;
-
-			errno = 0;
-			if (stat(current_choice, &st) == -1 && errno != ENOENT)
-				syserr(_("cannot stat file '%s'"), current_choice);
-
-			if (errno == ENOENT) {
+			if (pathname_is_missing(current_choice)) {
 				warning(_("%s/%s is dangling; it will be updated "
 				          "with best choice"), altdir, a->master_name);
 				alternative_set_status(a, ALT_ST_AUTO);
@@ -2151,7 +2151,6 @@ alternative_evolve_slave(struct alternative *a, const char *cur_choice,
                          struct slave_link *sl, struct fileset *fs)
 {
 	struct slave_link *sl_old;
-	struct stat st;
 	char *new_file = NULL;
 	const char *old, *new;
 
@@ -2177,13 +2176,8 @@ alternative_evolve_slave(struct alternative *a, const char *cur_choice,
 	    alternative_path_classify(old) == ALT_PATH_SYMLINK) {
 		bool rename_link = false;
 
-		if (new_file) {
-			errno = 0;
-			if (stat(new_file, &st) == -1 && errno != ENOENT)
-				syserr(_("cannot stat file '%s'"),
-				       new_file);
-			rename_link = (errno == 0);
-		}
+		if (new_file)
+			rename_link = !pathname_is_missing(new_file);
 
 		if (rename_link) {
 			info(_("renaming %s slave link from %s to %s"),
@@ -2475,7 +2469,6 @@ alternative_check_install_args(struct alternative *inst_alt,
 	struct alternative_map *alt_map_links, *alt_map_parent;
 	struct alternative *found;
 	struct slave_link *sl;
-	struct stat st;
 
 	alternative_check_name(inst_alt->master_name);
 	alternative_check_link(inst_alt->master_link);
@@ -2500,13 +2493,9 @@ alternative_check_install_args(struct alternative *inst_alt,
 		      inst_alt->master_link, found->master_name);
 	}
 
-	if (stat(fileset->master_file, &st) == -1) {
-		if (errno == ENOENT)
-			error(_("alternative path %s doesn't exist"),
-			      fileset->master_file);
-		else
-			syserr(_("cannot stat file '%s'"), fileset->master_file);
-	}
+	if (pathname_is_missing(fileset->master_file))
+		error(_("alternative path %s doesn't exist"),
+		      fileset->master_file);
 
 	for (sl = inst_alt->slaves; sl; sl = sl->next) {
 		const char *file = fileset_get_slave(fileset, sl->name);
