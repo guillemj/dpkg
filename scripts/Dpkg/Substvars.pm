@@ -370,7 +370,7 @@ sub set_msg_prefix {
 =item $s->filter(keep => $keepfun)
 
 Filter the substitution variables, either removing or keeping all those
-that return true when &$rmfunc($key) or &keepfunc($key) is called.
+that return true when $rmfunc->($key) or $keepfunc->($key) is called.
 
 =cut
 
@@ -381,7 +381,7 @@ sub filter {
     my $keep = $opts{keep} // sub { 1 };
 
     foreach my $vn (keys %{$self->{vars}}) {
-        $self->delete($vn) if &$remove($vn) or not &$keep($vn);
+        $self->delete($vn) if $remove->($vn) or not $keep->($vn);
     }
 }
 

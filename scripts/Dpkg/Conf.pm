@@ -206,7 +206,7 @@ sub parse {
 =item $conf->filter(%opts)
 
 Filter the list of options, either removing or keeping all those that
-return true when &$opts{remove}($option) or &opts{keep}($option) is called.
+return true when $opts{remove}->($option) or $opts{keep}->($option) is called.
 
 =cut
 
@@ -217,7 +217,7 @@ sub filter {
 
     croak 'obsolete option format_argv' if exists $opts{format_argv};
 
-    @{$self->{options}} = grep { not &$remove($_) and &$keep($_) }
+    @{$self->{options}} = grep { not $remove->($_) and $keep->($_) }
                                @{$self->{options}};
 }
 
