@@ -1408,7 +1408,6 @@ alternative_set_current(struct alternative *a, char *new_choice)
 static const char *
 alternative_get_current(struct alternative *a)
 {
-	struct stat st;
 	char *curlink;
 	char *file;
 
@@ -1416,15 +1415,9 @@ alternative_get_current(struct alternative *a)
 		return a->current;
 
 	curlink = xasprintf("%s/%s", altdir, a->master_name);
-	if (lstat(curlink, &st)) {
-		if (errno == ENOENT) {
-			free(curlink);
-			return alternative_set_current(a, NULL);
-		}
+	file = areadlink(curlink);
+	if (file == NULL && errno != ENOENT)
 		syserr(_("cannot stat file '%s'"), curlink);
-	}
-
-	file = xreadlink(curlink);
 	free(curlink);
 
 	return alternative_set_current(a, file);
