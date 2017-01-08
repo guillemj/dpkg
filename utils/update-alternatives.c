@@ -52,6 +52,8 @@
 
 static const char *altdir = SYSCONFDIR "/alternatives";
 static const char *admdir;
+static const char *instdir = "";
+static size_t instdir_len;
 
 static const char *prog_path = "update-alternatives";
 
@@ -162,6 +164,8 @@ usage(void)
 "Options:\n"
 "  --altdir <directory>     change the alternatives directory.\n"
 "  --admindir <directory>   change the administrative directory.\n"
+"  --instdir <directory>    change the installation directory.\n"
+"  --root <directory>       change the filesystem root directory.\n"
 "  --log <file>             change the log file.\n"
 "  --force                  allow replacing files with alternative links.\n"
 "  --skip-auto              skip prompt for alternatives correctly configured\n"
@@ -493,33 +497,67 @@ make_path(const char *pathname, mode_t mode)
  */
 
 static char *
+fsys_get_path(const char *pathpart)
+{
+	return xasprintf("%s%s", instdir, pathpart);
+}
+
+static const char *
+fsys_set_dir(const char *dir)
+{
+	if (dir == NULL) {
+		const char *instdir_env;
+
+		instdir_env = getenv(INSTDIR_ENVVAR);
+		if (instdir_env)
+			dir = instdir_env;
+		else
+			dir = "";
+	}
+
+	instdir_len = strlen(dir);
+
+	return dir;
+}
+
+static char *
 fsys_gen_admindir(const char *basedir)
 {
-	return xasprintf("%s/%s", basedir, "alternatives");
+	return xasprintf("%s%s/%s", instdir, basedir, "alternatives");
 }
 
 static bool
 fsys_pathname_is_missing(const char *pathname)
 {
 	struct stat st;
+	char *root_pathname;
+
+	root_pathname = fsys_get_path(pathname);
 
 	errno = 0;
-	if (stat(pathname, &st) == 0)
-		return false;
+	if (stat(root_pathname, &st) < 0 && errno != ENOENT)
+		syserr(_("cannot stat file '%s'"), root_pathname);
+
+	free(root_pathname);
 
 	if (errno == ENOENT)
 		return true;
 
-	syserr(_("cannot stat file '%s'"), pathname);
+	return false;
 }
 
 static int
 fsys_lstat(const char *linkname, struct stat *st)
 {
+	char *root_linkname;
 	int rc;
 
+	root_linkname = fsys_get_path(linkname);
+
 	errno = 0;
-	rc = lstat(linkname, st);
+	rc = lstat(root_linkname, st);
+
+	free(root_linkname);
 
 	return rc;
 }
@@ -527,9 +565,12 @@ fsys_lstat(const char *linkname, struct stat *st)
 static char *
 fsys_areadlink(const char *linkname)
 {
+	char *root_linkname;
 	char *target;
 
-	target = areadlink(linkname);
+	root_linkname = fsys_get_path(linkname);
+	target = areadlink(root_linkname);
+	free(root_linkname);
 
 	return target;
 }
@@ -541,7 +582,7 @@ fsys_xreadlink(const char *linkname)
 
 	buf = fsys_areadlink(linkname);
 	if (buf == NULL)
-		syserr(_("unable to read link '%.255s'"), linkname);
+		syserr(_("unable to read link '%s%.255s'"), instdir, linkname);
 
 	return buf;
 }
@@ -549,25 +590,42 @@ fsys_xreadlink(const char *linkname)
 static void
 fsys_symlink(const char *filename, const char *linkname)
 {
-	if (symlink(filename, linkname))
-		syserr(_("error creating symbolic link '%.255s'"), linkname);
+	char *root_linkname;
+
+	root_linkname = fsys_get_path(linkname);
+
+	if (symlink(filename, root_linkname))
+		syserr(_("error creating symbolic link '%.255s'"), root_linkname);
+
+	free(root_linkname);
 }
 
 static void
 fsys_mv(const char *src, const char *dst)
 {
-	if (!rename_mv(src, dst))
-		syserr(_("unable to install '%.250s' as '%.250s'"), src, dst);
+	char *root_src;
+	char *root_dst;
+
+	root_src = fsys_get_path(src);
+	root_dst = fsys_get_path(dst);
+
+	xrename(root_src, root_dst);
+
+	free(root_src);
+	free(root_dst);
 }
 
 static void
 fsys_rm(const char *f)
 {
-	if (!unlink(f))
-		return;
+	char *root_f;
 
-	if (errno != ENOENT)
-		syserr(_("unable to remove '%s'"), f);
+	root_f = fsys_get_path(f);
+
+	if (unlink(root_f) < 0 && errno != ENOENT)
+		syserr(_("unable to remove '%s'"), root_f);
+
+	free(root_f);
 }
 
 static void DPKG_ATTR_PRINTF(1)
@@ -1533,7 +1591,7 @@ alternative_get_current(struct alternative *a)
 	curlink = xasprintf("%s/%s", altdir, a->master_name);
 	file = fsys_areadlink(curlink);
 	if (file == NULL && errno != ENOENT)
-		syserr(_("cannot stat file '%s'"), curlink);
+		syserr(_("cannot stat file '%s%s'"), instdir, curlink);
 	free(curlink);
 
 	return alternative_set_current(a, file);
@@ -1803,7 +1861,7 @@ alternative_path_classify(const char *linkname)
 
 	if (fsys_lstat(linkname, &st) == -1) {
 		if (errno != ENOENT)
-			syserr(_("cannot stat file '%s'"), linkname);
+			syserr(_("cannot stat file '%s%s'"), instdir, linkname);
 		return ALT_PATH_MISSING;
 	} else if (S_ISLNK(st.st_mode)) {
 		return ALT_PATH_SYMLINK;
@@ -2236,13 +2294,15 @@ alternative_select_mode(struct alternative *a, const char *current_choice)
 		/* Detect manually modified alternative, switch to manual. */
 		if (!alternative_has_choice(a, current_choice)) {
 			if (fsys_pathname_is_missing(current_choice)) {
-				warning(_("%s/%s is dangling; it will be updated "
-				          "with best choice"), altdir, a->master_name);
+				warning(_("%s%s/%s is dangling; it will be updated "
+				          "with best choice"), instdir, altdir,
+				        a->master_name);
 				alternative_set_status(a, ALT_ST_AUTO);
 			} else if (a->status != ALT_ST_MANUAL) {
-				warning(_("%s/%s has been changed (manually or by "
+				warning(_("%s%s/%s has been changed (manually or by "
 				          "a script); switching to manual "
-				          "updates only"), altdir, a->master_name);
+				          "updates only"), instdir, altdir,
+				        a->master_name);
 				alternative_set_status(a, ALT_ST_MANUAL);
 			}
 		}
@@ -2288,8 +2348,8 @@ alternative_evolve_slave(struct alternative *a, const char *cur_choice,
 			rename_link = !fsys_pathname_is_missing(new_file);
 
 		if (rename_link) {
-			info(_("renaming %s slave link from %s to %s"),
-			     sl->name, old, new);
+			info(_("renaming %s slave link from %s%s to %s%s"),
+			     sl->name, instdir, old, instdir, new);
 			fsys_mv(old, new);
 		} else {
 			fsys_rm(old);
@@ -2309,8 +2369,8 @@ alternative_evolve(struct alternative *a, struct alternative *b,
 
 	is_link = alternative_path_classify(a->master_link) == ALT_PATH_SYMLINK;
 	if (is_link && strcmp(a->master_link, b->master_link) != 0) {
-		info(_("renaming %s link from %s to %s"), b->master_name,
-		     a->master_link, b->master_link);
+		info(_("renaming %s link from %s%s to %s%s"), b->master_name,
+		     instdir, a->master_link, instdir, b->master_link);
 		fsys_mv(a->master_link, b->master_link);
 	}
 	alternative_set_link(a, b->master_link);
@@ -2602,8 +2662,8 @@ alternative_check_install_args(struct alternative *inst_alt,
 	}
 
 	if (fsys_pathname_is_missing(fileset->master_file))
-		error(_("alternative path %s doesn't exist"),
-		      fileset->master_file);
+		error(_("alternative path %s%s doesn't exist"),
+		      instdir, fileset->master_file);
 
 	for (sl = inst_alt->slaves; sl; sl = sl->next) {
 		const char *file = fileset_get_slave(fileset, sl->name);
@@ -2680,6 +2740,17 @@ set_action_from_name(const char *new_action)
 }
 
 static const char *
+set_rootdir(const char *dir)
+{
+	instdir = fsys_set_dir(dir);
+	log_file = fsys_get_path(LOGDIR "/alternatives.log");
+	altdir = SYSCONFDIR "/alternatives";
+	admdir = fsys_gen_admindir(dir);
+
+	return instdir;
+}
+
+static const char *
 admindir_init(void)
 {
 	const char *basedir, *basedir_env;
@@ -2720,6 +2791,7 @@ main(int argc, char **argv)
 
 	umask(022);
 
+	instdir = fsys_set_dir(NULL);
 	admdir = admindir_init();
 
 	if (setvbuf(stdout, NULL, _IONBF, 0))
@@ -2843,7 +2915,7 @@ main(int argc, char **argv)
 			if (MISSING_ARGS(1))
 				badusage(_("--%s needs a <file> argument"),
 				         argv[i] + 2);
-			log_file = argv[i + 1];
+			log_file = fsys_get_path(argv[i + 1]);
 			i++;
 		} else if (strcmp("--altdir", argv[i]) == 0) {
 			if (MISSING_ARGS(1))
@@ -2851,11 +2923,33 @@ main(int argc, char **argv)
 				         argv[i] + 2);
 			altdir = argv[i + 1];
 			i++;
+
+			/* If altdir is below instdir, convert it to a relative
+			 * path, as we will prepenr instdir as needed. */
+			if (strncmp(altdir, instdir, instdir_len) == 0)
+				altdir += instdir_len;
 		} else if (strcmp("--admindir", argv[i]) == 0) {
 			if (MISSING_ARGS(1))
 				badusage(_("--%s needs a <directory> argument"),
 				         argv[i] + 2);
 			admdir = argv[i + 1];
+			i++;
+		} else if (strcmp("--instdir", argv[i]) == 0) {
+			if (MISSING_ARGS(1))
+				badusage(_("--%s needs a <directory> argument"),
+				         argv[i] + 2);
+			fsys_set_dir(argv[i + 1]);
+			i++;
+
+			/* If altdir is below instdir, convert it to a relative
+			 * path, as we will prepenr instdir as needed. */
+			if (strncmp(altdir, instdir, instdir_len) == 0)
+				altdir += instdir_len;
+		} else if (strcmp("--root", argv[i]) == 0) {
+			if (MISSING_ARGS(1))
+				badusage(_("--%s needs a <directory> argument"),
+				         argv[i] + 2);
+			set_rootdir(argv[i + 1]);
 			i++;
 		} else if (strcmp("--skip-auto", argv[i]) == 0) {
 			opt_skip_auto = 1;

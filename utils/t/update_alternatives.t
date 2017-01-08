@@ -32,6 +32,9 @@ my $bindir = File::Spec->rel2abs("$tmpdir/bin");
 my @ua = ("$ENV{builddir}/update-alternatives", '--log', '/dev/null',
           '--quiet', '--admindir', "$admindir", '--altdir', "$altdir");
 
+delete $ENV{DPKG_ROOT};
+delete $ENV{DPKG_ADMINDIR};
+
 my %paths = (
     true => find_command('true'),
     false => find_command('false'),
