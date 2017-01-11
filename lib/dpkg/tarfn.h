@@ -3,7 +3,7 @@
  * tarfn.h - tar archive extraction functions
  *
  * Copyright © 1995 Bruce Perens
- * Copyright © 2009-2014 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2014, 2017 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
 #define LIBDPKG_TARFN_H
 
 #include <sys/types.h>
+
+#include <stdint.h>
 
 #include <dpkg/file.h>
 
@@ -86,6 +88,11 @@ struct tar_operations {
 	tar_make_func *mkdir;
 	tar_make_func *mknod;
 };
+
+uintmax_t
+tar_atoul(const char *s, size_t size, uintmax_t max);
+intmax_t
+tar_atosl(const char *s, size_t size, intmax_t min, intmax_t max);
 
 void
 tar_entry_update_from_system(struct tar_entry *te);

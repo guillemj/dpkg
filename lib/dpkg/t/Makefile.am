@@ -33,6 +33,7 @@ test_programs = \
 	t-command \
 	t-varbuf \
 	t-ar \
+	t-tar \
 	t-deb-version \
 	t-arch \
 	t-version \

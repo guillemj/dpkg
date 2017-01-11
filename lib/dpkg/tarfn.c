@@ -3,7 +3,7 @@
  * tarfn.c - tar archive extraction functions
  *
  * Copyright © 1995 Bruce Perens
- * Copyright © 2007-2011, 2013-2015 Guillem Jover <guillem@debian.org>
+ * Copyright © 2007-2011, 2013-2017 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +40,22 @@
 #define TAR_MAGIC_USTAR "ustar\0" "00"
 #define TAR_MAGIC_GNU   "ustar "  " \0"
 
+#define TAR_TYPE_SIGNED(t)	(!((t)0 < (t)-1))
+
+#define TAR_TYPE_MIN(t) \
+	(TAR_TYPE_SIGNED(t) ? \
+	 ~(t)TAR_TYPE_MAX(t) : \
+	 (t)0)
+#define TAR_TYPE_MAX(t) \
+	(TAR_TYPE_SIGNED(t) ? \
+	 ((((t)1 << (sizeof(t) * 8 - 2)) - 1) * 2 + 1) : \
+	 ~(t)0)
+
+#define TAR_ATOUL(str, type) \
+	(type)tar_atoul(str, sizeof(str), TAR_TYPE_MAX(type))
+#define TAR_ATOSL(str, type) \
+	(type)tar_atosl(str, sizeof(str), TAR_TYPE_MIN(type), TAR_TYPE_MAX(type))
+
 struct tar_header {
 	char name[100];
 	char mode[8];
@@ -62,21 +78,123 @@ struct tar_header {
 	char prefix[155];
 };
 
+static inline uintmax_t
+tar_ret_errno(int err, uintmax_t ret)
+{
+	errno = err;
+	return ret;
+}
+
 /**
  * Convert an ASCII octal string to an intmax_t.
  */
-static intmax_t
-tar_oct2int(const char *s, int size)
+static uintmax_t
+tar_atol8(const char *s, size_t size)
 {
-	intmax_t n = 0;
+	const char *end = s + size;
+	uintmax_t n = 0;
 
-	while (*s == ' ') {
+	/* Old implementations might precede the value with spaces. */
+	while (s < end && *s == ' ')
 		s++;
+
+	if (s == end)
+		return tar_ret_errno(EINVAL, 0);
+
+	while (s < end) {
+		if (*s == '\0' || *s == ' ')
+			break;
+		if (*s < '0' || *s > '7')
+			return tar_ret_errno(EINVAL, 0);
+		n = (n * 010) + (*s++ - '0');
+	}
+
+	while (s < end) {
+		if (*s != '\0' && *s != ' ')
+			return tar_ret_errno(EINVAL, 0);
+		s++;
+	}
+
+	if (s < end)
+		return tar_ret_errno(EINVAL, 0);
+
+	return n;
+}
+
+/**
+ * Convert a base-256 two-complement number to an intmax_t.
+ */
+static uintmax_t
+tar_atol256(const char *s, size_t size, intmax_t min, uintmax_t max)
+{
+	uintmax_t n = 0;
+	unsigned char c;
+	int sign;
+
+	/* The encoding always sets the first bit to one, so that it can be
+	 * distinguished from the ASCII encoding. For positive numbers we
+	 * need to reset it. For negative numbers we initialize n to -1. */
+	c = *s++;
+	if (c == 0x80)
+		c = 0;
+	else
+		n = ~(uintmax_t)0;
+	sign = c;
+
+	/* Check for overflows. */
+	while (size > sizeof(uintmax_t)) {
+		if (c != sign)
+			return tar_ret_errno(ERANGE, sign ? (uintmax_t)min : max);
+		c = *s++;
 		size--;
 	}
 
-	while (--size >= 0 && *s >= '0' && *s <= '7')
-		n = (n * 010) + (*s++ - '0');
+	if ((c & 0x80) != (sign & 0x80))
+		return tar_ret_errno(ERANGE, sign ? (uintmax_t)min : max);
+
+	for (;;) {
+		n = (n << 8) | c;
+		if (--size <= 0)
+			break;
+		c = *s++;
+	}
+
+	return n;
+}
+
+static uintmax_t
+tar_atol(const char *s, size_t size, intmax_t min, uintmax_t max)
+{
+	const unsigned char *a = (const unsigned char *)s;
+
+	/* Check if it is a long two-complement base-256 number, positive or
+	 * negative. */
+	if (*a == 0xff || *a == 0x80)
+		return tar_atol256(s, size, min, max);
+	else
+		return tar_atol8(s, size);
+}
+
+uintmax_t
+tar_atoul(const char *s, size_t size, uintmax_t max)
+{
+	uintmax_t n = tar_atol(s, size, 0, UINTMAX_MAX);
+
+	if (n > max)
+		return tar_ret_errno(ERANGE, UINTMAX_MAX);
+
+	return n;
+}
+
+intmax_t
+tar_atosl(const char *s, size_t size, intmax_t min, intmax_t max)
+{
+	intmax_t n = tar_atol(s, size, INTMAX_MIN, INTMAX_MAX);
+
+	if (n < min)
+		return tar_ret_errno(ERANGE, INTMAX_MIN);
+	if (n > max)
+		return tar_ret_errno(ERANGE, INTMAX_MAX);
 
 	return n;
 }
@@ -122,7 +240,7 @@ tar_header_get_unix_mode(struct tar_header *h)
 		break;
 	}
 
-	mode |= tar_oct2int(h->mode, sizeof(h->mode));
+	mode |= TAR_ATOUL(h->mode, mode_t);
 
 	return mode;
 }
@@ -155,6 +273,8 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 {
 	long checksum;
 
+	errno = 0;
+
 	if (memcmp(h->magic, TAR_MAGIC_GNU, 6) == 0)
 		d->format = TAR_FORMAT_GNU;
 	else if (memcmp(h->magic, TAR_MAGIC_USTAR, 6) == 0)
@@ -173,12 +293,14 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 		d->name = m_strndup(h->name, sizeof(h->name));
 	d->linkname = m_strndup(h->linkname, sizeof(h->linkname));
 	d->stat.mode = tar_header_get_unix_mode(h);
-	d->size = (off_t)tar_oct2int(h->size, sizeof(h->size));
-	d->mtime = (time_t)tar_oct2int(h->mtime, sizeof(h->mtime));
+	/* Even though off_t is signed, we use an unsigned parser here because
+	 * negative offsets are not allowed. */
+	d->size = TAR_ATOUL(h->size, off_t);
+	d->mtime = TAR_ATOSL(h->mtime, time_t);
 
 	if (d->type == TAR_FILETYPE_CHARDEV || d->type == TAR_FILETYPE_BLOCKDEV)
-		d->dev = makedev(tar_oct2int(h->devmajor, sizeof(h->devmajor)),
-				 tar_oct2int(h->devminor, sizeof(h->devminor)));
+		d->dev = makedev(TAR_ATOUL(h->devmajor, dev_t),
+		                 TAR_ATOUL(h->devminor, dev_t));
 	else
 		d->dev = makedev(0, 0);
 
@@ -186,16 +308,19 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 		d->stat.uname = m_strndup(h->user, sizeof(h->user));
 	else
 		d->stat.uname = NULL;
-	d->stat.uid = (uid_t)tar_oct2int(h->uid, sizeof(h->uid));
+	d->stat.uid = TAR_ATOUL(h->uid, uid_t);
 
 	if (*h->group)
 		d->stat.gname = m_strndup(h->group, sizeof(h->group));
 	else
 		d->stat.gname = NULL;
-	d->stat.gid = (gid_t)tar_oct2int(h->gid, sizeof(h->gid));
+	d->stat.gid = TAR_ATOUL(h->gid, gid_t);
 
-	checksum = tar_oct2int(h->checksum, sizeof(h->checksum));
+	checksum = tar_atol8(h->checksum, sizeof(h->checksum));
 
+	/* Check for parse errors. */
+	if (errno)
+		return 0;
 	return tar_header_checksum(h) == checksum;
 }
 

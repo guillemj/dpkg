@@ -3,7 +3,7 @@
 .\" Copyright © 1995 Raul Miller
 .\" Copyright © 1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
 .\" Copyright © 2000 Wichert Akkerman <wakkerma@debian.org>
-.\" Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2006-2017 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -46,12 +46,15 @@ File sizes are limited to 10 ASCII decimal digits, allowing for up to
 approximately 9536.74 MiB member files.
 .PP
 The \fBtar\fP archives currently allowed are, the old-style (v7) format,
-the pre-POSIX ustar format, a subset of the GNU format (only the new
-style long pathnames and long linknames, supported since dpkg 1.4.1.17),
+the pre-POSIX ustar format, a subset of the GNU format (new style long
+pathnames and long linknames, supported since dpkg 1.4.1.17; large file
+metadata since dpkg 1.18.24),
 and the POSIX ustar format (long names supported since dpkg 1.15.0).
 Unrecognized tar typeflags are considered an error.
 Each tar entry size inside a tar archive is limited to 11 ASCII octal
 digits, allowing for up to 8 GiB tar entries.
+The GNU large file metadata support permits 95-bit tar entry sizes and
+negative timestamps, and 63-bit UID, GID and device numbers.
 .PP
 The first member is named
 .B debian\-binary
