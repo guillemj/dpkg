@@ -37,8 +37,7 @@ use Dpkg::ErrorHandling;
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Util qw(:list);
 use Dpkg::Path qw(resolve_symlink canonpath);
-use Dpkg::Arch qw(debarch_to_gnutriplet get_build_arch get_host_arch
-                  gnutriplet_to_multiarch debarch_to_multiarch);
+use Dpkg::Arch qw(get_build_arch get_host_arch :mappers);
 
 use constant DEFAULT_LIBRARY_PATH =>
     qw(/lib /usr/lib);

@@ -26,11 +26,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::Getopt;
 use Dpkg::ErrorHandling;
-use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_host_gnu_type
-                  debarch_to_cpuattrs
-                  get_valid_arches debarch_eq debarch_is debarch_to_debtuple
-                  debarch_to_gnutriplet gnutriplet_to_debarch
-                  debarch_to_multiarch);
+use Dpkg::Arch qw(:getters :mappers debarch_eq debarch_is);
 
 textdomain('dpkg-dev');
 

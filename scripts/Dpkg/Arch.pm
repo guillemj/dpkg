@@ -26,13 +26,17 @@ Dpkg::Arch - handle architectures
 The Dpkg::Arch module provides functions to handle Debian architectures,
 wildcards, and mapping from and to GNU triplets.
 
+No symbols are exported by default. The :all tag can be used to import all
+symbols. The :getters, :parsers, :mappers and :operators tags can be used
+to import specific symbol subsets.
+
 =cut
 
 use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our @EXPORT_OK = qw(
     get_raw_build_arch
     get_raw_host_arch
@@ -56,6 +60,39 @@ our @EXPORT_OK = qw(
     gnutriplet_to_debtuple
     gnutriplet_to_multiarch
 );
+our %EXPORT_TAGS = (
+    all => [ @EXPORT_OK ],
+    getters => [ qw(
+        get_raw_build_arch
+        get_raw_host_arch
+        get_build_arch
+        get_host_arch
+        get_host_gnu_type
+        get_valid_arches
+    ) ],
+    parsers => [ qw(
+        debarch_list_parse
+    ) ],
+    mappers => [ qw(
+        debarch_to_cpuattrs
+        debarch_to_gnutriplet
+        debarch_to_debtuple
+        debarch_to_multiarch
+        debtuple_to_debarch
+        debtuple_to_gnutriplet
+        gnutriplet_to_debarch
+        gnutriplet_to_debtuple
+        gnutriplet_to_multiarch
+    ) ],
+    operators => [ qw(
+        debarch_eq
+        debarch_is
+        debarch_is_wildcard
+        debarch_is_illegal
+        debarch_is_concerned
+    ) ],
+);
+
 
 use Exporter qw(import);
 use POSIX qw(:errno_h);
@@ -622,6 +659,10 @@ __END__
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.18.19)
+
+New import tags: ":all", ":getters", ":parsers", ":mappers", ":operators".
 
 =head2 Version 1.01 (dpkg 1.18.5)
 

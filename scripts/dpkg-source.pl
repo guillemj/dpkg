@@ -36,7 +36,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Util qw(:list);
-use Dpkg::Arch qw(debarch_eq debarch_is debarch_is_wildcard debarch_is_illegal);
+use Dpkg::Arch qw(:operators);
 use Dpkg::Deps;
 use Dpkg::Compression;
 use Dpkg::Conf;
