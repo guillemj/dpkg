@@ -447,7 +447,7 @@ sub gnutriplet_to_debarch($)
 sub debwildcard_to_debtuple($)
 {
     my $arch = shift;
-    my @tuple = split /-/, $arch, 3;
+    my @tuple = split /-/, $arch, 4;
 
     if (any { $_ eq 'any' } @tuple) {
 	if (scalar @tuple == 4) {

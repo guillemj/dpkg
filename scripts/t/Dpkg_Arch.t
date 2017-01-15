@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 64;
+use Test::More tests => 16334;
 
 use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         debarch_eq debarch_is debarch_is_wildcard
@@ -26,6 +26,57 @@ use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         debtuple_to_debarch gnutriplet_to_debarch
                         get_host_gnu_type
                         get_valid_arches));
+
+sub get_valid_wildcards
+{
+    my %wildcards;
+    my @wildcards_base = qw(
+        any
+        any-any
+        any-any-any
+        any-any-any-any
+    );
+
+    foreach my $archname (get_valid_arches()) {
+        my @tuple = debarch_to_debtuple($archname);
+
+        my @wildcards_arch = (
+            # Two element tuples.
+            "$tuple[2]-any",
+            "any-$tuple[3]",
+
+            # Three element tuples.
+            "$tuple[1]-$tuple[2]-any",
+            "$tuple[1]-any-$tuple[3]",
+            "$tuple[1]-any-any",
+            "any-$tuple[2]-$tuple[3]",
+            "any-$tuple[2]-any",
+            "any-any-$tuple[3]",
+
+            # Four element tuples.
+            "$tuple[0]-$tuple[1]-$tuple[2]-any",
+            "$tuple[0]-$tuple[1]-any-$tuple[3]",
+            "$tuple[0]-$tuple[1]-any-any",
+            "$tuple[0]-any-$tuple[2]-$tuple[3]",
+            "$tuple[0]-any-$tuple[2]-any",
+            "$tuple[0]-any-any-$tuple[3]",
+            "$tuple[0]-any-any-any",
+            "any-$tuple[1]-$tuple[2]-$tuple[3]",
+            "any-$tuple[1]-$tuple[2]-any",
+            "any-$tuple[1]-any-$tuple[3]",
+            "any-$tuple[1]-any-any",
+            "any-any-$tuple[2]-$tuple[3]",
+            "any-any-$tuple[2]-any",
+            "any-any-any-$tuple[3]",
+        );
+
+        foreach my $wildcard ((@wildcards_base, @wildcards_arch)) {
+            push @{$wildcards{$wildcard}}, $archname;
+        }
+    }
+
+    return \%wildcards;
+}
 
 my @tuple_new;
 my @tuple_ref;
@@ -63,31 +114,22 @@ ok(!debarch_is('amd64', 'unknown'), 'no match amd64 on unknown wildcard');
 ok(!debarch_is('amd64', 'unknown-any'), 'no match amd64 on unknown wildcard');
 ok(!debarch_is('amd64', 'any-unknown'), 'no match amd64 on unknown wildcard');
 ok(debarch_is('unknown', 'any'), 'match unknown on global wildcard');
-ok(debarch_is('amd64', 'linux-any'), 'match amd64 on wildcard cpu');
-ok(debarch_is('amd64', 'any-amd64'), 'match amd64 on wildcard os');
-ok(debarch_is('x32', 'any-amd64'), 'match x32 on amd64 wildcard os');
-ok(debarch_is('i386', 'any-i386'), 'match i386 on i386 wildcard os');
-ok(debarch_is('arm', 'any-arm'), 'match arm on arm wildcard os');
-ok(debarch_is('armel', 'any-arm'), 'match armel on arm wildcard os');
-ok(debarch_is('armhf', 'any-arm'), 'match armhf on arm wildcard os');
+ok(debarch_is('linux-amd64', 'linux-any'), 'match implicit linux-amd64 on wildcard cpu');
+ok(debarch_is('linux-amd64', 'any-amd64'), 'match implicit linux-amd64 on wildcard os');
 
-ok(debarch_is('amd64', 'gnu-any-any'), 'match amd64 on abi wildcard');
-ok(debarch_is('linux-amd64', 'gnu-any-any'),
-   'match linux-amd64 on abi wildcard');
-ok(debarch_is('kfreebsd-amd64', 'gnu-any-any'),
-   'match kfreebsd-amd64 on abi wildcard');
+my $wildcards = get_valid_wildcards();
+
+foreach my $wildcard (sort keys %{$wildcards}) {
+    ok(debarch_is_wildcard($wildcard), "$wildcard is a wildcard");
+
+    foreach my $arch (sort @{$wildcards->{$wildcard}}) {
+        ok(debarch_is($arch, $wildcard), "wildcard $wildcard matches $arch");
+    }
+}
 
 ok(!debarch_is_wildcard('unknown'), 'unknown is not a wildcard');
 ok(!debarch_is_wildcard('all'), 'all is not a wildcard');
 ok(!debarch_is_wildcard('amd64'), '<arch> is not a wildcard');
-ok(debarch_is_wildcard('any'), '<any> is a global wildcard');
-ok(debarch_is_wildcard('any-any'), '<any>-<any> is a wildcard');
-ok(debarch_is_wildcard('any-any-any'), '<any>-<any>-<any> is a wildcard');
-ok(debarch_is_wildcard('linux-any'), '<os>-any is a wildcard');
-ok(debarch_is_wildcard('any-amd64'), 'any-<cpu> is a wildcard');
-ok(debarch_is_wildcard('gnu-any-any'), '<abi>-any-any is a wildcard');
-ok(debarch_is_wildcard('any-linux-any'), 'any-<os>-any is a wildcard');
-ok(debarch_is_wildcard('any-any-amd64'), 'any-any-<cpu> is a wildcard');
 
 ok(!debarch_is_illegal('0'), '');
 ok(!debarch_is_illegal('a'), '');
