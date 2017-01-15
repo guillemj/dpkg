@@ -722,7 +722,9 @@ sub do_commit {
         # Ask the patch name interactively
         print g_('Enter the desired patch name: ');
         $patch_name = <STDIN>;
-        next unless defined $patch_name;
+        if (not defined $patch_name) {
+            error(g_('no patch name given; cannot proceed'));
+        }
         chomp $patch_name;
         $patch_name =~ s/\s+/-/g;
         $patch_name =~ s/\///g;
