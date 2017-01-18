@@ -1422,7 +1422,19 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 	if (ps == NULL)
 		return false;
 
+	/* On old Hurd systems we have to use the argv[0] value, because
+	 * there is nothing better. */
 	filename = proc_stat_args(ps);
+#ifdef PSTAT_EXE
+	/* On new Hurd systems we can use the correct value, as long
+	 * as it's not NULL nor empty, as it was the case on the first
+	 * implementation. */
+	if (proc_stat_set_flags(ps, PSTAT_EXE) == 0 &&
+	    proc_stat_flags(ps) & PSTAT_EXE &&
+	    proc_stat_exe(ps) != NULL &&
+	    proc_stat_exe(ps)[0] != '\0')
+		filename = proc_stat_exe(ps);
+#endif
 
 	if (stat(filename, &sb) != 0)
 		return false;
