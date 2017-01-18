@@ -1999,7 +1999,7 @@ do_procinit(void)
 static int
 check_proc_stat(struct proc_stat *ps)
 {
-	pid_check(ps->pid);
+	pid_check(proc_stat_pid(ps));
 	return 0;
 }
 
