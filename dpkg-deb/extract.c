@@ -146,7 +146,7 @@ extracthalf(const char *debar, const char *dir,
         char *infobuf;
 
         if (strncmp(arh.ar_name, DEBMAGIC, sizeof(arh.ar_name)) != 0)
-          ohshit(_("file '%.250s' is not a debian binary archive (try dpkg-split?)"),
+          ohshit(_("file '%.250s' is not a Debian binary archive (try dpkg-split?)"),
                  debar);
         infobuf= m_malloc(memberlen+1);
         r = fd_read(ar->fd, infobuf, memberlen + (memberlen & 1));
@@ -221,7 +221,7 @@ extracthalf(const char *debar, const char *dir,
     }
 
     if (admininfo >= 2) {
-      printf(_(" new debian package, version %d.%d.\n"
+      printf(_(" new Debian package, version %d.%d.\n"
                " size %jd bytes: control archive=%jd bytes.\n"),
              version.major, version.minor,
              (intmax_t)ar->size, (intmax_t)ctrllennum);
@@ -256,7 +256,7 @@ extracthalf(const char *debar, const char *dir,
     }
 
     if (admininfo >= 2) {
-      printf(_(" old debian package, version %d.%d.\n"
+      printf(_(" old Debian package, version %d.%d.\n"
                " size %jd bytes: control archive=%jd, main archive=%jd.\n"),
              version.major, version.minor,
              (intmax_t)ar->size, (intmax_t)ctrllennum,
@@ -269,7 +269,7 @@ extracthalf(const char *debar, const char *dir,
                " corrupted by being downloaded in ASCII mode"));
     }
 
-    ohshit(_("'%.255s' is not a debian format archive"), debar);
+    ohshit(_("'%.255s' is not a Debian format archive"), debar);
   }
 
   m_pipe(p1);
