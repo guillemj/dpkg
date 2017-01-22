@@ -299,8 +299,6 @@ foreach my $field (field_list_pkg_dep()) {
     }
 }
 
-$fields->{'Built-For-Profiles'} = join ' ', get_build_profiles();
-
 for my $f (qw(Package Version Architecture)) {
     error(g_('missing information for output field %s'), $f)
         unless defined $fields->{$f};

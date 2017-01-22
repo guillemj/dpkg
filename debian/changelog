@@ -1,6 +1,10 @@
 dpkg (1.18.19) UNRELEASED; urgency=medium
 
   [ Guillem Jover ]
+  * Stop emitting Built-For-Profiles from dpkg-gencontrol. The information
+    is already provided in .buildinfo files, and including it in the binary
+    packages makes them unreproducible even when the profile used would not
+    alter its contents. Closes: #831524
   * Portability:
     - On GNU/Hurd try to use the new process executable name attribute from
       libps, to properly match on start-stop-daemon --exec.
