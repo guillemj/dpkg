@@ -90,7 +90,7 @@ test_cleanup_error(void)
 
 	if (setjmp(handler_jump)) {
 		/* The ohshit() is not supposed to get us here, as it should
-		 * be catched by the internal recursive error context. */
+		 * be caught by the internal recursive error context. */
 		pass = false;
 
 		pop_cleanup(ehflag_normaltidy);

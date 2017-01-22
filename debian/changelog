@@ -18,6 +18,7 @@ dpkg (1.18.19) UNRELEASED; urgency=medium
   * Documentation:
     - Cleanup software requirements in README.
     - Move control member file references from dpkg(1) to deb(5).
+    - Fix typos in docs and code comments.
   * Packaging:
     - Add debsig-verify to dpkg Suggests. The code optionally supports this
       specific signed .deb verification program.
@@ -326,7 +327,7 @@ dpkg (1.18.11) unstable; urgency=medium
   * Fix dpkg to not fail when removing non-existent backup files on read-only
     filesystems. Closes: #838877
   * Enable PIE on all supported architectures and handle PIE enabled by
-    default in gcc. On achitectures where gcc enables them by default,
+    default in gcc. On architectures where gcc enables them by default,
     stop setting -fPIE and -pie, and set -fno-PIE and -no-pie when disabling
     «pie» via gcc specs files, so that we do not emit them on situations
     where it would be inappropriate. Closes: #835149
@@ -4432,7 +4433,7 @@ dpkg (1.15.7) unstable; urgency=low
   * Fix dpkg to not lose package metadata on filesystems where readdir()
     returns new files added after the opendir() call, btrfs in particular
     triggered the problematic behaviour. Closes: #575891
-  * Tigthen the regex used by dpkg-source to match the component name of
+  * Tighten the regex used by dpkg-source to match the component name of
     supplementary tarballs so that underscore (_) are not allowed as it was
     supposed to be.
   * Introduce a new script called dpkg-buildflags: its purpose is to retrieve
@@ -4676,7 +4677,7 @@ dpkg (1.15.6) experimental; urgency=low
     appropriate pkg-config binary for the build or host system in the same
     way pkg.m4 is handling it now. Closes: #551118
   * Dynamically link against all external libraries. This includes libbz2
-    and zlib for dpkg-deb and and libselinux for dpkg on GNU/Linux.
+    and zlib for dpkg-deb and libselinux for dpkg on GNU/Linux.
   * Mark the libdpkg.a API as volatile and require any possible users to set
     LIBDPKG_VOLATILE_API to acknowledge that fact.
   * Add a new libdpkg-dev package with the headers and the static library,
@@ -4895,7 +4896,7 @@ dpkg (1.15.5) unstable; urgency=low
   * Use the size from stat to allocate the buffers for readlink, instead of
     indefinitely calling readlink and growing the buffer. This should reduce
     memory usage when handling lots of symlinks, and be slightly faster.
-  * Rework varbuf api to avoid increasing buffers indefinitely when adding
+  * Rework varbuf API to avoid increasing buffers indefinitely when adding
     content to them, regardless of space being already available.
   * Fix build macros to allow start-stop-deaemon to use TIOCNOTTY.
   * Generate the autoconf version from git to make it easier to see when a
@@ -6618,7 +6619,7 @@ dpkg (1.14.8) unstable; urgency=low
   * Move build and host arch detection code from dpkg-architecture to
     Dpkg::Arch.
   * Add initial udeb support:
-    - Support new fields fields Package-Type, Subarchitecture, Kernel-Version
+    - Support new fields Package-Type, Subarchitecture, Kernel-Version
       and Installer-Menu-Item. Closes: #383916
     - New '--type' option for dpkg-scanpackages.
   * Make dpkg-dev Conflict on dpkg-cross << 2.0.0 which was sourcing
@@ -8703,7 +8704,7 @@ dpkg (1.10.10) unstable; urgency=low
     #184239.
   * Modified to use autotools-dev.  Closes: #179656.
   * Add netbsd support.  Closes: #179658, #179659.
-  * Support hypenated values in dpkg-architeture. Closes: #179661
+  * Support hyphenated values in dpkg-architeture. Closes: #179661
   * No longer managed the /usr/doc symlinks.
 
  -- Adam Heath <doogie@debian.org>  Sat, 26 Apr 2003 15:10:24 -0500
@@ -9194,7 +9195,7 @@ dpkg (1.9.0) unstable; urgency=low
     use about the same amount of memory, and largemem is faster.  Both
     --largemem and --smallmem are now obselete options, and will print
     a warning if used. Closes: Bug#84905, #67528
-  * Initialize unitialized variables.  This should solve several
+  * Initialize uninitialized variables.  This should solve several
     segfaults. Closes: Bug#25317(plus 9 others, thru the beauty of
     merges)
   * Found that when working with dependency cycles, and part of the cycle
@@ -9207,7 +9208,7 @@ dpkg (1.9.0) unstable; urgency=low
   * Add Danish translation
   * Remove spurious '%s' in Polish translation, Closes: Bug#74814
   * Add French manpages, courtesy of Philippe Batailler
-  * Ingore vim swapfiles in dpkg-source, Closes: Bug#81630
+  * Ignore vim swapfiles in dpkg-source, Closes: Bug#81630
   * remove --import option from dpkg-statoverride, Closes: Bug#81358
   * Replace nfmalloc implementation with obstack. Added obstack.[ch] to
     optlib, for non-GNU systems.
@@ -9285,7 +9286,7 @@ dpkg (1.9.0) unstable; urgency=low
     Closes: Bug# 31620
   * Fix wrong ENOENT test in dpkg-divert. Closes: Bug#95088
   * Add support for more SuperH variants (sh[34]{,eb}-linux-gnu)
-  * Fix formating and a typo in the dpkg manpage
+  * Fix formatting and a typo in the dpkg manpage
   * Document the dpkg.cfg configuration file in dpkg(8)
 
  -- Wichert Akkerman <wakkerma@debian.org>  Thu, 26 Apr 2001 12:39:16 +0200
@@ -9438,7 +9439,7 @@ dpkg (1.7.0) unstable; urgency=low
   * Corrections and updates to Swedish translation.
   * Add Galician, German, Dutch and Brazilian translations
   * archtable: add ia64 and sh; revert sparc64 so that it turns into sparc.
-    There wont be a full binary-sparc64 port. Closes: Bug#70788
+    There won't be a full binary-sparc64 port. Closes: Bug#70788
   * dselect/main.cc: small fixups to get it to compile with gcc-2.96
   * Clean up fd handling in some places. Closes: Bug#69359,#69360,#69361
   * Document -k option for dpkg-buildpackage. Closes: Bug#71808
@@ -9451,7 +9452,7 @@ dpkg (1.7.0) unstable; urgency=low
     Closes: Bug#75103
   * Don't abort if start-stop-daemon tries to read a non-existing pidfile.
     Closes: Bug#75105
-  * Update formating of start-stop-daemon manpage. Closes: Bug#75110
+  * Update formatting of start-stop-daemon manpage. Closes: Bug#75110
   * Make a missing package a warning instead of an error in dpkg-genchanges
 
  -- Wichert Akkerman <wakkerma@debian.org>  Sun,  5 Nov 2000 17:28:39 +0100

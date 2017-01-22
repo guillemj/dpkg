@@ -453,7 +453,7 @@ use parent -norequire, qw(Tie::ExtraHash);
 # $self->[0] is the real hash
 # $self->[1] is a reference to the hash contained by the parent object.
 # This reference bypasses the top-level scalar reference of a
-# Dpkg::Control::Hash, hence ensuring that that reference gets DESTROYed
+# Dpkg::Control::Hash, hence ensuring that reference gets DESTROYed
 # properly.
 
 # Dpkg::Control::Hash->new($parent)

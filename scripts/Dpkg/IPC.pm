@@ -362,7 +362,7 @@ Defaults to "child process".
 =item nocheck
 
 If true do not check the return status of the child (and thus
-do not fail it it has been killed or if it exited with a
+do not fail it has been killed or if it exited with a
 non-zero return code).
 
 =item timeout

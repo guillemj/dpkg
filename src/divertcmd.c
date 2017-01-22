@@ -187,7 +187,7 @@ check_rename(struct file *src, struct file *dst)
 	 * just having +w is not enough, since people do mount things RO,
 	 * and we need to fail before we start mucking around with things.
 	 * So we open a file with the same name as the diversions but with
-	 * an extension that (hopefully) wont overwrite anything. If it
+	 * an extension that (hopefully) won't overwrite anything. If it
 	 * succeeds, we assume a writable filesystem.
 	 */
 

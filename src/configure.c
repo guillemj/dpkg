@@ -265,7 +265,7 @@ spawn_shell(const char *confold, const char *confnew)
  * @param distedited A flag to indicate whether the file has been updated
  *        between package versions. Set to nonzero to indicate that the file
  *        has been updated.
- * @param what Hints on what action should be taken by defualt.
+ * @param what Hints on what action should be taken by default.
  *
  * @return The action which should be taken based on user input and/or the
  *         default actions as configured by cmdline/configuration options.

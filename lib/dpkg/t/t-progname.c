@@ -31,7 +31,7 @@ test_progname(void)
 
 	/* Test initially empty progname. */
 	progname = dpkg_get_progname();
-	/* Handle libtool exectuables. */
+	/* Handle libtool executables. */
 	if (strncmp(progname, "lt-", 3) == 0)
 		progname += 3;
 	test_str(progname, ==, "t-progname");

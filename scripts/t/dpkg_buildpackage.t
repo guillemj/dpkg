@@ -195,7 +195,7 @@ sub test_build
     diag($stderr) unless $? == 0;
 
     if (build_has_all(BUILD_ARCH_DEP)) {
-        # Rename the file to preserve on consecutive invokations.
+        # Rename the file to preserve on consecutive invocations.
         move("$basename\_amd64.changes", "$basename\_$typename.changes");
     }
 
