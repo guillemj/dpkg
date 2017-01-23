@@ -17,6 +17,7 @@ use strict;
 use warnings;
 
 use Test::More tests => 9;
+use Test::Dpkg qw(:paths);
 
 use File::Path qw(make_path);
 
@@ -24,8 +25,7 @@ BEGIN {
     use_ok('Dpkg::Source::Patch');
 }
 
-my $srcdir = $ENV{srcdir} || '.';
-my $datadir = $srcdir . '/t/Dpkg_Source_Patch';
+my $datadir = test_get_data_path('t/Dpkg_Source_Patch');
 my $tmpdir = 't.tmp/Dpkg_Source_Patch';
 
 sub test_patch_escape {

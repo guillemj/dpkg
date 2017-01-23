@@ -22,6 +22,7 @@ our $VERSION = '0.00';
 our @EXPORT_OK = qw(
     all_perl_files
     test_get_perl_dirs
+    test_get_data_path
     test_needs_author
     test_needs_module
     test_needs_command
@@ -35,12 +36,25 @@ our %EXPORT_TAGS = (
         test_needs_command
         test_needs_srcdir_switch
     ) ],
+    paths => [ qw(
+        all_perl_files
+        test_get_perl_dirs
+        test_get_data_path
+    ) ],
 );
 
 use Exporter qw(import);
 use File::Find;
 use IPC::Cmd qw(can_run);
 use Test::More;
+
+sub test_get_data_path
+{
+    my $path = shift;
+
+    my $srcdir = $ENV{srcdir} || '.';
+    return "$srcdir/$path";
+}
 
 sub test_get_perl_dirs
 {

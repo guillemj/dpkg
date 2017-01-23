@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use Test::More tests => 2;
+use Test::Dpkg qw(:paths);
 
 BEGIN {
     use_ok('Dpkg::Source::Quilt');
 }
 
-my $srcdir = $ENV{srcdir} || '.';
-my $datadir = $srcdir . '/t/Dpkg_Source_Quilt';
+my $datadir = test_get_data_path('t/Dpkg_Source_Quilt');
 
 my $quilt;
 my (@series_got, @series_exp);

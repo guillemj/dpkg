@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Test::Dpkg qw(:needs);
+use Test::Dpkg qw(:needs :paths);
 
 use Cwd;
 
@@ -33,8 +33,7 @@ my $tmp;
 my @tmp;
 my %tmp;
 
-my $srcdir = $ENV{srcdir} || '.';
-my $datadir = $srcdir . '/t/Dpkg_Shlibs';
+my $datadir = test_get_data_path('t/Dpkg_Shlibs');
 
 my @librarypaths;
 
@@ -58,7 +57,7 @@ Dpkg::Shlibs::blank_library_paths();
 # is usually a relative path, so let's temporarily switch directory.
 # XXX: An alternative would be to make parse_ldso_conf relative path aware.
 my $cwd = cwd();
-chdir($srcdir);
+test_needs_srcdir_switch();
 Dpkg::Shlibs::parse_ldso_conf('t/Dpkg_Shlibs/ld.so.conf');
 chdir($cwd);
 

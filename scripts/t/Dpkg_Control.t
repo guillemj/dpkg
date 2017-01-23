@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Test::Dpkg qw(:needs);
+use Test::Dpkg qw(:needs :paths);
 
 BEGIN {
     test_needs_module('IO::String');
@@ -28,8 +28,7 @@ BEGIN {
     use_ok('Dpkg::Control::Info');
 }
 
-my $srcdir = $ENV{srcdir} || '.';
-my $datadir = $srcdir . '/t/Dpkg_Control';
+my $datadir = test_get_data_path('t/Dpkg_Control');
 
 sub parse_dsc {
     my $path = shift;

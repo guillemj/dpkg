@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use Test::More tests => 5;
+use Test::Dpkg qw(:paths);
 
 BEGIN {
     use_ok('Dpkg::Control::Tests');
 }
 
-my $srcdir = $ENV{srcdir} || '.';
-my $datadir = $srcdir . '/t/Dpkg_Control_Tests';
+my $datadir = test_get_data_path('t/Dpkg_Control_Tests');
 
 sub parse_tests {
     my $path = shift;

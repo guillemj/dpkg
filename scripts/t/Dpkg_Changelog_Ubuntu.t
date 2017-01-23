@@ -16,6 +16,10 @@
 use strict;
 use warnings;
 
+use Test::Dpkg qw(:paths);
+
 $ENV{DEB_VENDOR} = 'Ubuntu';
-my $srcdir = $ENV{srcdir} || '.';
-do "$srcdir/t/Dpkg_Changelog.t";
+
+my $datafile = test_get_data_path('t/Dpkg_Changelog.t');
+
+do "$datafile";

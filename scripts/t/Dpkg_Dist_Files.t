@@ -17,11 +17,11 @@ use strict;
 use warnings;
 
 use Test::More tests => 26;
+use Test::Dpkg qw(:paths);
 
 use_ok('Dpkg::Dist::Files');
 
-my $srcdir = $ENV{srcdir} // '.';
-my $datadir = $srcdir . '/t/Dpkg_Dist_Files';
+my $datadir = test_get_data_path('t/Dpkg_Dist_Files');
 
 my $expected;
 my %expected = (

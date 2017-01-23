@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use Test::More tests => 9;
+use Test::Dpkg qw(:paths);
 
 BEGIN {
     use_ok('Dpkg::Conf');
 }
 
-my $srcdir = $ENV{srcdir} // '.';
-my $datadir = $srcdir . '/t/Dpkg_Conf';
+my $datadir = test_get_data_path('t/Dpkg_Conf');
 
 my ($conf, $count, @opts);
 

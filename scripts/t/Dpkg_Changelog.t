@@ -17,6 +17,7 @@ use strict;
 use warnings;
 
 use Test::More tests => 94;
+use Test::Dpkg qw(:paths);
 
 use File::Basename;
 
@@ -28,8 +29,7 @@ BEGIN {
     use_ok('Dpkg::Vendor', qw(get_current_vendor));
 };
 
-my $srcdir = $ENV{srcdir} || '.';
-my $datadir = $srcdir . '/t/Dpkg_Changelog';
+my $datadir = test_get_data_path('t/Dpkg_Changelog');
 
 my $vendor = get_current_vendor();
 

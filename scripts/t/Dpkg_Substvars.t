@@ -17,14 +17,14 @@ use strict;
 use warnings;
 
 use Test::More tests => 37;
+use Test::Dpkg qw(:paths);
 
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
 
 use_ok('Dpkg::Substvars');
 
-my $srcdir = $ENV{srcdir} || '.';
-my $datadir = $srcdir . '/t/Dpkg_Substvars';
+my $datadir = test_get_data_path('t/Dpkg_Substvars');
 
 my $expected;
 

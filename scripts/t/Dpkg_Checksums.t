@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use Test::More tests => 44;
+use Test::Dpkg qw(:paths);
 
 BEGIN {
     use_ok('Dpkg::Checksums');
 }
 
-my $srcdir = $ENV{srcdir} // '.';
-my $datadir = $srcdir . '/t/Dpkg_Checksums';
+my $datadir = test_get_data_path('t/Dpkg_Checksums');
 
 my @data = (
     {
