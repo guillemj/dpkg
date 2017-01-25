@@ -83,40 +83,109 @@ sub has_object {
     return exists $self->{objects}{$objid};
 }
 
+use constant {
+    ELF_BITS_NONE           => 0,
+    ELF_BITS_32             => 1,
+    ELF_BITS_64             => 2,
+
+    ELF_ORDER_NONE          => 0,
+    ELF_ORDER_2LSB          => 1,
+    ELF_ORDER_2MSB          => 2,
+
+    ELF_MACH_MIPS           => 8,
+    ELF_MACH_PPC64          => 21,
+    ELF_MACH_ARM            => 40,
+    ELF_MACH_SH             => 42,
+    ELF_MACH_IA64           => 50,
+
+    ELF_VERSION_NONE        => 0,
+    ELF_VERSION_CURRENT     => 1,
+
+    # List of processor flags that might influence the ABI.
+
+    ELF_FLAG_ARM_ALIGN8     => 0x00000040,
+    ELF_FLAG_ARM_NEW_ABI    => 0x00000080,
+    ELF_FLAG_ARM_OLD_ABI    => 0x00000100,
+    ELF_FLAG_ARM_SOFT_FLOAT => 0x00000200,
+    ELF_FLAG_ARM_HARD_FLOAT => 0x00000400,
+    ELF_FLAG_ARM_EABI_MASK  => 0xff000000,
+
+    ELF_FLAG_IA64_ABI64     => 0x00000010,
+
+    ELF_FLAG_MIPS_ABI2      => 0x00000020,
+    ELF_FLAG_MIPS_32BIT     => 0x00000100,
+    ELF_FLAG_MIPS_FP64      => 0x00000200,
+    ELF_FLAG_MIPS_NAN2008   => 0x00000400,
+    ELF_FLAG_MIPS_ABI_MASK  => 0x0000f000,
+    ELF_FLAG_MIPS_ARCH_MASK => 0xf0000000,
+
+    ELF_FLAG_PPC64_ABI64    => 0x00000003,
+
+    ELF_FLAG_SH_MACH_MASK   => 0x0000001f,
+};
+
+# These masks will try to expose processor flags that are ABI incompatible,
+# and as such are part of defining the architecture ABI. If uncertain it is
+# always better to not mask a flag, because that preserves the historical
+# behavior, and we do not drop dependencies.
+my %elf_flags_mask = (
+    ELF_MACH_ARM()      => ELF_FLAG_ARM_EABI_MASK |
+                           ELF_FLAG_ARM_NEW_ABI | ELF_FLAG_ARM_OLD_ABI |
+                           ELF_FLAG_ARM_SOFT_FLOAT | ELF_FLAG_ARM_HARD_FLOAT,
+    ELF_MACH_IA64()     => ELF_FLAG_IA64_ABI64,
+    ELF_MACH_MIPS()     => ELF_FLAG_MIPS_ARCH_MASK | ELF_FLAG_MIPS_ABI_MASK |
+                           ELF_FLAG_MIPS_ABI2,
+    ELF_MACH_PPC64()    => ELF_FLAG_PPC64_ABI64,
+    ELF_MACH_SH()       => ELF_FLAG_SH_MACH_MASK,
+);
+
 sub get_format {
-    my ($file, $objdump) = @_;
+    my ($file) = @_;
     state %format;
 
-    $objdump //= $OBJDUMP;
+    return $format{$file} if exists $format{$file};
 
-    if (exists $format{$file}) {
-        return $format{$file};
-    } else {
-        my ($output, %opts, $pid, $res);
-        local $_;
+    my $header;
 
-        if ($objdump ne 'objdump') {
-            $opts{error_to_file} = '/dev/null';
-        }
-        $pid = spawn(exec => [ $objdump, '-a', '--', $file ],
-                     env => { LC_ALL => 'C' },
-                     to_pipe => \$output, %opts);
-        while (<$output>) {
-            chomp;
-            if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
-                $format{$file} = $1;
-                $res = $format{$file};
-                last;
-            }
-        }
-        close($output);
-        wait_child($pid, nocheck => 1);
-        if ($?) {
-            subprocerr('objdump') if $objdump eq 'objdump';
-            $res = get_format($file, 'objdump');
-        }
-        return $res;
+    open my $fh, '<', $file or syserr(g_('cannot read %s'), $file);
+    read($fh, $header, 64) == 64 or syserr(g_('cannot read %s'), $file);
+    close $fh;
+
+    my %elf;
+
+    # Unpack the identifier field.
+    @elf{qw(magic bits endian vertype osabi verabi)} = unpack 'a4C5', $header;
+
+    return unless $elf{magic} eq "\x7fELF";
+    return unless $elf{vertype} == ELF_VERSION_CURRENT;
+
+    my ($elf_word, $elf_endian);
+    if ($elf{bits} == ELF_BITS_32) {
+        $elf_word = 'L';
+    } elsif ($elf{bits} == ELF_BITS_64) {
+        $elf_word = 'Q';
+    } elsif ($elf{bits} == ELF_BITS_NONE) {
+        return;
     }
+    if ($elf{endian} == ELF_ORDER_2LSB) {
+        $elf_endian = '<';
+    } elsif ($elf{endian} == ELF_ORDER_2MSB) {
+        $elf_endian = '>';
+    } elsif ($elf{endian} == ELF_ORDER_NONE) {
+        return;
+    }
+
+    # Unpack the endianness and size dependent fields.
+    my $tmpl = "x16(S2Lx[${elf_word}3]L)${elf_endian}";
+    @elf{qw(type mach version flags)} = unpack $tmpl, $header;
+
+    # Mask any processor flags that might not change the architecture ABI.
+    $elf{flags} &= $elf_flags_mask{$elf{mach}} // 0;
+
+    # Repack for easy comparison.
+    $format{$file} = pack 'C2SL', @elf{qw(bits endian mach flags)};
+
+    return $format{$file};
 }
 
 sub is_elf {
@@ -180,6 +249,8 @@ sub analyze {
 
     $self->reset;
     $self->{file} = $file;
+
+    $self->{exec_abi} = Dpkg::Shlibs::Objdump::get_format($file);
 
     local $ENV{LC_ALL} = 'C';
     open(my $objdump, '-|', $OBJDUMP, '-w', '-f', '-p', '-T', '-R', $file)

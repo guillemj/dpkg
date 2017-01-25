@@ -15,6 +15,11 @@ dpkg (1.18.19) UNRELEASED; urgency=medium
   * Generate Testsuite-Restrictions fields from the test restrictions in
     dpkg-source into .dsc files. Closes: #847926
     Based on a patch by Iain Lane <laney@debian.org>.
+  * Improve the ELF ABI mismatch detector in dpkg-shlibdeps, by parsing the
+    ELF header ourselves. While still not perfect (things like linux-i386 and
+    hurd-i386 will still match), it will filter lots of previously matching
+    objects that should have been ignored, and will work even when objdump
+    does not know about the specific object details. Closes: #849913
   * Portability:
     - On GNU/Hurd try to use the new process executable name attribute from
       libps, to properly match on start-stop-daemon --exec.

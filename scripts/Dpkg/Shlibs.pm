@@ -158,6 +158,9 @@ sub find_library {
 	    my $libformat = Dpkg::Shlibs::Objdump::get_format("$checkdir/$lib");
 	    if ($format eq $libformat) {
 		push @libs, canonpath("$checkdir/$lib");
+	    } else {
+		debug(1, "Skipping lib $checkdir/$lib, libabi=0x%s != objabi=0x%s",
+		      unpack('H*', $libformat), unpack('H*', $format));
 	    }
 	}
     }
