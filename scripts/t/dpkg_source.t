@@ -89,7 +89,7 @@ sub gen_source
     my (%options) = @_;
 
     my $substvars = Dpkg::Substvars->new();
-    foreach my $var (%default_substvars) {
+    foreach my $var ((keys %default_substvars, keys %options)) {
         my $value = $options{$var} // $default_substvars{$var};
 
         $substvars->set_as_auto($var, $value);
