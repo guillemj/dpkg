@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 24;
+use Test::More tests => 28;
 
 use Dpkg::ErrorHandling;
 
@@ -71,3 +71,39 @@ is($dbo->output(), 'foobar noopt', 'output');
 $dbo = Dpkg::BuildOptions->new(envvar => 'OTHER_VARIABLE');
 is($dbo->get('parallel'), 5, 'import from other variable, check parallel');
 ok($dbo->has('noopt'), 'import from other variable, check noopt');
+
+my %theme = (
+    metal => undef,
+    pink => undef,
+    rusty => undef,
+    sky => undef,
+);
+my %theme_ref;
+
+$dbo = Dpkg::BuildOptions->new();
+
+$theme_ref{$_} = 1 foreach keys %theme;
+$dbo->set('theme', '+all');
+$dbo->parse_option('theme', \%theme);
+is_deeply(\%theme, \%theme_ref, 'features set with +all');
+
+$theme{$_} = undef foreach keys %theme;
+$theme_ref{$_} = 1 foreach keys %theme;
+$theme_ref{rusty} = 0;
+$dbo->set('theme', '+all,-rusty');
+$dbo->parse_option('theme', \%theme);
+is_deeply(\%theme, \%theme_ref, 'features set with +all,-rusty');
+
+$theme{$_} = undef foreach keys %theme;
+$theme_ref{$_} = 0 foreach keys %theme;
+$theme_ref{metal} = 1;
+$dbo->set('theme', '-all,+metal');
+$dbo->parse_option('theme', \%theme);
+is_deeply(\%theme, \%theme_ref, 'features set with +all,-rusty');
+
+$theme{$_} = $theme_ref{$_} = undef foreach keys %theme;
+$theme_ref{pink} = 1;
+$theme_ref{sky} = 0;
+$dbo->set('theme', '+pink,-sky');
+$dbo->parse_option('theme', \%theme);
+is_deeply(\%theme, \%theme_ref, 'features set with +pink,-sky');

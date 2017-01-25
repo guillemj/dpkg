@@ -1,5 +1,5 @@
 # Copyright © 2009-2011 Raphaël Hertzog <hertzog@debian.org>
-# Copyright © 2009, 2011-2015 Guillem Jover <guillem@debian.org>
+# Copyright © 2009, 2011-2017 Guillem Jover <guillem@debian.org>
 #
 # Hardening build flags handling derived from work of:
 # Copyright © 2009-2011 Kees Cook <kees@debian.org>
@@ -91,37 +91,14 @@ sub run_hook {
     }
 }
 
-sub _parse_build_options {
-    my ($self, $variable, $area, $use_feature) = @_;
-
-    # Adjust features based on user or maintainer's desires.
-    my $opts = Dpkg::BuildOptions->new(envvar => $variable);
-    foreach my $feature (split(/,/, $opts->get($area) // '')) {
-	$feature = lc($feature);
-	if ($feature =~ s/^([+-])//) {
-	    my $value = ($1 eq '+') ? 1 : 0;
-	    if ($feature eq 'all') {
-		$use_feature->{$_} = $value foreach keys %{$use_feature};
-	    } else {
-		if (exists $use_feature->{$feature}) {
-		    $use_feature->{$feature} = $value;
-		} else {
-		    warning(g_('unknown %s feature in %s variable: %s'),
-		            $area, $variable, $feature);
-		}
-	    }
-	} else {
-	    warning(g_('incorrect value in %s option of %s variable: %s'),
-	            $area, $variable, $feature);
-	}
-    }
-}
-
 sub _parse_feature_area {
     my ($self, $area, $use_feature) = @_;
 
-    $self->_parse_build_options('DEB_BUILD_OPTIONS', $area, $use_feature);
-    $self->_parse_build_options('DEB_BUILD_MAINT_OPTIONS', $area, $use_feature);
+    # Adjust features based on user or maintainer's desires.
+    my $opts = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_OPTIONS');
+    $opts->parse_features($area, $use_feature);
+    $opts = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_MAINT_OPTIONS');
+    $opts->parse_features($area, $use_feature);
 }
 
 sub _add_qa_flags {

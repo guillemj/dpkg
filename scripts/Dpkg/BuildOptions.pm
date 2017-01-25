@@ -1,5 +1,5 @@
 # Copyright © 2007 Frank Lichtenheld <djpig@debian.org>
-# Copyright © 2008, 2012-2015 Guillem Jover <guillem@debian.org>
+# Copyright © 2008, 2012-2017 Guillem Jover <guillem@debian.org>
 # Copyright © 2010 Raphaël Hertzog <hertzog@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -20,7 +20,7 @@ package Dpkg::BuildOptions;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -155,6 +155,43 @@ sub has {
     return exists $self->{options}{$key};
 }
 
+=item $bo->parse_features($option, $use_feature)
+
+Parse the $option values, as a set of known features to enable or disable,
+as specified in the $use_feature hash reference.
+
+Each feature is prefixed with a ‘B<+>’ or a ‘B<->’ character as a marker
+to enable or disable it. The special feature “B<all>” can be used to act
+on all known features.
+
+Unknown of malformed features will emit warnings.
+
+=cut
+
+sub parse_features {
+    my ($self, $option, $use_feature) = @_;
+
+    foreach my $feature (split(/,/, $self->get($option) // '')) {
+        $feature = lc $feature;
+        if ($feature =~ s/^([+-])//) {
+            my $value = ($1 eq '+') ? 1 : 0;
+            if ($feature eq 'all') {
+                $use_feature->{$_} = $value foreach keys %{$use_feature};
+            } else {
+                if (exists $use_feature->{$feature}) {
+                    $use_feature->{$feature} = $value;
+                } else {
+                    warning(g_('unknown %s feature in %s variable: %s'),
+                            $option, $self->{envvar}, $feature);
+                }
+            }
+        } else {
+            warning(g_('incorrect value in %s option of %s variable: %s'),
+                    $option, $self->{envvar}, $feature);
+        }
+    }
+}
+
 =item $string = $bo->output($fh)
 
 Return a string representation of the build options suitable to be
@@ -190,6 +227,10 @@ sub export {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.18.19)
+
+New method: $bo->parse_features().
 
 =head2 Version 1.01 (dpkg 1.16.1)
 
