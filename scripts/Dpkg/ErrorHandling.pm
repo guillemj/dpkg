@@ -21,6 +21,7 @@ our @EXPORT_OK = qw(
     REPORT_PROGNAME
     REPORT_COMMAND
     REPORT_STATUS
+    REPORT_DEBUG
     REPORT_INFO
     REPORT_NOTICE
     REPORT_WARN
@@ -31,6 +32,7 @@ our @EXPORT_OK = qw(
 );
 our @EXPORT = qw(
     report_options
+    debug
     info
     notice
     warning
@@ -49,6 +51,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 
 my $quiet_warnings = 0;
+my $debug_level = 0;
 my $info_fh = \*STDOUT;
 my $use_color = 0;
 
@@ -76,6 +79,7 @@ use constant {
     REPORT_NOTICE => 5,
     REPORT_WARN => 6,
     REPORT_ERROR => 7,
+    REPORT_DEBUG => 8,
 };
 
 my %report_mode = (
@@ -90,6 +94,12 @@ my %report_mode = (
         # We do not translate this name because the untranslated output is
         # part of the interface.
         name => 'status',
+    },
+    REPORT_DEBUG() => {
+        color => 'clear',
+        # We do not translate this name because it is a developer interface
+        # and all debug messages are untranslated anyway.
+        name => 'debug',
     },
     REPORT_INFO() => {
         color => 'green',
@@ -115,6 +125,9 @@ sub report_options
 
     if (exists $options{quiet_warnings}) {
         $quiet_warnings = $options{quiet_warnings};
+    }
+    if (exists $options{debug_level}) {
+        $debug_level = $options{debug_level};
     }
     if (exists $options{info_fh}) {
         $info_fh = $options{info_fh};
@@ -168,6 +181,12 @@ sub report(@)
     my $typename = _typename_prefix($type);
 
     return "$progname$typename: $msg\n";
+}
+
+sub debug
+{
+    my $level = shift;
+    print report(REPORT_DEBUG, @_) if $level <= $debug_level;
 }
 
 sub info($;@)

@@ -141,6 +141,8 @@ while (@ARGV) {
     }
 }
 
+report_options(debug_level => $debug);
+
 umask 0022; # ensure sane default permissions for created files
 
 if (exists $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL}) {
@@ -171,7 +173,7 @@ foreach my $file ($input, $output, "debian/$oppackage.symbols.$host_arch",
     'debian/symbols')
 {
     if (defined $file and -e $file) {
-	print "Using references symbols from $file\n" if $debug;
+	debug(1, "Using references symbols from $file");
 	$symfile->load($file);
 	$ref_symfile->load($file) if $compare || ! $quiet;
 	last;
@@ -205,7 +207,7 @@ if (not scalar @files) {
 # Merge symbol information
 my $od = Dpkg::Shlibs::Objdump->new();
 foreach my $file (@files) {
-    print "Scanning $file for symbol information\n" if $debug;
+    debug(1, "Scanning $file for symbol information");
     my $objid = $od->analyze($file);
     unless (defined($objid) && $objid) {
 	warning(g_("Dpkg::Shlibs::Objdump couldn't parse %s\n"), $file);
@@ -213,13 +215,13 @@ foreach my $file (@files) {
     }
     my $object = $od->get_object($objid);
     if ($object->{SONAME}) { # Objects without soname are of no interest
-	print "Merging symbols from $file as $object->{SONAME}\n" if $debug;
+	debug(1, "Merging symbols from $file as $object->{SONAME}");
 	if (not $symfile->has_object($object->{SONAME})) {
 	    $symfile->create_object($object->{SONAME}, "$oppackage #MINVER#");
 	}
 	$symfile->merge_symbols($object, $sourceversion);
     } else {
-	print "File $file doesn't have a soname. Ignoring.\n" if $debug;
+	debug(1, "File $file doesn't have a soname. Ignoring.");
     }
 }
 $symfile->clear_except(keys %{$od->{objects}});
@@ -239,13 +241,13 @@ if ($stdout) {
 	}
     }
     if (defined($output)) {
-	print "Storing symbols in $output.\n" if $debug;
+	debug(1, "Storing symbols in $output.");
 	$symfile->save($output, package => $oppackage,
 	               template_mode => $template_mode,
 	               with_pattern_matches => $verbose_output,
 	               with_deprecated => $verbose_output);
     } else {
-	print "No symbol information to store.\n" if $debug;
+	debug(1, 'No symbol information to store.');
     }
 }
 

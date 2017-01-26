@@ -70,10 +70,6 @@ my @option_spec = (
     'extra-override|e=s' => \$extra_override_file,
 );
 
-sub debug {
-    print @_, "\n" if $debug;
-}
-
 sub version {
     printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 }
@@ -165,7 +161,7 @@ sub load_src_override {
 	return;
     }
 
-    debug "source override file $file";
+    debug(1, "source override file $file");
     my $comp_file = Dpkg::Compression::FileHandle->new(filename => $file);
     while (<$comp_file>) {
     	s/#.*//;
@@ -299,6 +295,8 @@ usageerr(g_('one to three arguments expected'))
 push @ARGV, undef if @ARGV < 2;
 push @ARGV, '' if @ARGV < 3;
 my ($dir, $override, $prefix) = @ARGV;
+
+report_options(debug_level => $debug);
 
 load_override $override if defined $override;
 load_src_override $src_override, $override;

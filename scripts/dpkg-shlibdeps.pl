@@ -143,6 +143,8 @@ foreach (@ARGV) {
 }
 usageerr(g_('need at least one executable')) unless scalar keys %exec;
 
+report_options(debug_level => $debug);
+
 sub ignore_pkgdir {
     my $path = shift;
     return any { $path =~ /^\Q$_\E/ } @pkg_dir_to_ignore;
@@ -181,7 +183,7 @@ my $error_count = 0;
 my $cur_field;
 foreach my $file (keys %exec) {
     $cur_field = $exec{$file};
-    print ">> Scanning $file (for $cur_field field)\n" if $debug;
+    debug(1, ">> Scanning $file (for $cur_field field)");
 
     my $obj = Dpkg::Shlibs::Objdump::Object->new($file);
     my @sonames = $obj->get_needed_libraries;
@@ -212,7 +214,7 @@ foreach my $file (keys %exec) {
 	    if ($reallib ne $lib) {
 		$altlibfiles{$reallib} = $soname;
 	    }
-	    print "Library $soname found in $lib\n" if $debug;
+	    debug(1, "Library $soname found in $lib");
         }
     }
     my $file2pkg = find_packages(keys %libfiles, keys %altlibfiles);
@@ -237,7 +239,7 @@ foreach my $file (keys %exec) {
 	    # Empty package name will lead to consideration of symbols
 	    # file from the package being built only
 	    $file2pkg->{$lib} = [''];
-	    print "No associated package found for $lib\n" if $debug;
+	    debug(1, "No associated package found for $lib");
 	}
 
 	# Load symbols/shlibs files from packages providing libraries
@@ -256,7 +258,7 @@ foreach my $file (keys %exec) {
             }
             if (defined($symfile_path)) {
                 # Load symbol information
-                print "Using symbols file $symfile_path for $soname\n" if $debug;
+                debug(1, "Using symbols file $symfile_path for $soname");
                 $symfile_cache{$symfile_path} //=
                    Dpkg::Shlibs::SymbolFile->new(file => $symfile_path);
                 $symfile->merge_object_from_symfile($symfile_cache{$symfile_path}, $soname);
@@ -269,11 +271,10 @@ foreach my $file (keys %exec) {
 		my $dep = $symfile->get_dependency($soname);
 		my $minver = $symfile->get_smallest_version($soname) || '';
 		update_dependency_version($dep, $minver);
-		print " Minimal version of ($dep) initialized with ($minver)\n"
-		    if $debug > 1;
+		debug(2, " Minimal version of ($dep) initialized with ($minver)");
 	    } else {
 		# No symbol file found, fall back to standard shlibs
-                print "Using shlibs+objdump for $soname (file $lib)\n" if $debug;
+                debug(1, "Using shlibs+objdump for $soname (file $lib)");
                 $objdump_cache{$lib} //= Dpkg::Shlibs::Objdump::Object->new($lib);
                 my $libobj = $objdump_cache{$lib};
                 my $id = $dumplibs_wo_symfile->add_object($libobj);
@@ -335,7 +336,7 @@ foreach my $file (keys %exec) {
         warning(g_('binaries to analyze should already be ' .
                    "installed in their package's directory"));
     }
-    print "Analyzing all undefined symbols\n" if $debug > 1;
+    debug(2, 'Analyzing all undefined symbols');
     foreach my $sym ($obj->get_undefined_dynamic_symbols()) {
 	my $name = $sym->{name};
 	if ($sym->{version}) {
@@ -343,13 +344,13 @@ foreach my $file (keys %exec) {
 	} else {
 	    $name .= '@' . 'Base';
 	}
-        print " Looking up symbol $name\n" if $debug > 1;
+        debug(2, " Looking up symbol $name");
 	my %symdep = $symfile->lookup_symbol($name, \@sonames);
 	if (keys %symdep) {
 	    my $depends = $symfile->get_dependency($symdep{soname},
 		$symdep{symbol}{dep_id});
-            print " Found in symbols file of $symdep{soname} (minver: " .
-                  "$symdep{symbol}{minver}, dep: $depends)\n" if $debug > 1;
+            debug(2, " Found in symbols file of $symdep{soname} (minver: " .
+                     "$symdep{symbol}{minver}, dep: $depends)");
 	    $soname_used{$symdep{soname}}++;
 	    $global_soname_used{$symdep{soname}}++;
             if (exists $alt_soname{$symdep{soname}}) {
@@ -361,7 +362,7 @@ foreach my $file (keys %exec) {
 	} else {
 	    my $syminfo = $dumplibs_wo_symfile->locate_symbol($name);
 	    if (not defined($syminfo)) {
-                print " Not found\n" if $debug > 1;
+                debug(2, ' Not found');
                 next unless ($warnings & WARN_SYM_NOT_FOUND);
 		next if $disable_warnings;
 		# Complain about missing symbols only for executables
@@ -389,7 +390,7 @@ foreach my $file (keys %exec) {
 		    }
 		}
 	    } else {
-                print " Found in $syminfo->{soname} ($syminfo->{objid})\n" if $debug > 1;
+                debug(2, " Found in $syminfo->{soname} ($syminfo->{objid})");
 		if (exists $alt_soname{$syminfo->{soname}}) {
 		    # Also count usage on alternate soname
 		    $soname_used{$alt_soname{$syminfo->{soname}}}++;
@@ -409,15 +410,15 @@ foreach my $file (keys %exec) {
 	# extracted from build-dependencies
 	my $dev_pkg = $symfile->get_field($soname, 'Build-Depends-Package');
 	if (defined $dev_pkg) {
-            print "Updating dependencies of $soname with build-dependencies\n" if $debug;
+            debug(1, "Updating dependencies of $soname with build-dependencies");
 	    my $minver = get_min_version_from_deps($build_deps, $dev_pkg);
 	    if (defined $minver) {
 		foreach my $dep ($symfile->get_dependencies($soname)) {
 		    update_dependency_version($dep, $minver, 1);
-                    print " Minimal version of $dep updated with $minver\n" if $debug;
+                    debug(1, " Minimal version of $dep updated with $minver");
 		}
 	    } else {
-                print " No minimal version found in $dev_pkg build-dependency\n" if $debug;
+                debug(1, " No minimal version found in $dev_pkg build-dependency");
             }
 	}
 
@@ -654,12 +655,12 @@ sub add_shlibs_dep {
 	push @shlibs, $control_file if defined $control_file;
     }
     push @shlibs, $shlibsdefault;
-    print " Looking up shlibs dependency of $soname provided by '$pkg'\n" if $debug;
+    debug(1, " Looking up shlibs dependency of $soname provided by '$pkg'");
     foreach my $file (@shlibs) {
 	next if not -e $file;
 	my $dep = extract_from_shlibs($soname, $file);
 	if (defined($dep)) {
-	    print " Found $dep in $file\n" if $debug;
+	    debug(1, " Found $dep in $file");
 	    foreach (split(/,\s*/, $dep)) {
 		# Note: the value is empty for shlibs based dependency
 		# symbol based dependency will put a valid version as value
@@ -668,7 +669,7 @@ sub add_shlibs_dep {
 	    return 1;
 	}
     }
-    print " Found nothing\n" if $debug;
+    debug(1, ' Found nothing');
     return 0;
 }
 
