@@ -77,6 +77,7 @@ fd_write(int fd, const void *buf, size_t len)
 	return total;
 }
 
+#ifdef USE_DISK_PREALLOCATE
 #ifdef HAVE_F_PREALLOCATE
 static void
 fd_preallocate_setup(fstore_t *fs, int flags, off_t offset, off_t len)
@@ -152,3 +153,11 @@ fd_allocate_size(int fd, off_t offset, off_t len)
 
 	return rc;
 }
+#else
+int
+fd_allocate_size(int fd, off_t offset, off_t len)
+{
+	errno = ENOSYS;
+	return -1;
+}
+#endif

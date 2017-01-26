@@ -178,6 +178,7 @@ AS_IF([test "x$build_dselect" = "xyes"], [
 ])
 
 DPKG_USE_MMAP
+DPKG_USE_DISK_PREALLOCATE
 
 # Checks for the build machinery.
 AC_DEFINE([LIBDPKG_VOLATILE_API], [1], [Acknowledge the volatility of the API.])
@@ -228,6 +229,7 @@ Configuration:
     code coverage . . . . . . . . : $enable_coverage
     build shared libraries  . . . : $enable_shared
     mmap loaders  . . . . . . . . : $enable_mmap
+    disk pre-allocation . . . . . : $enable_disk_preallocate
     default dpkg-deb compressor . : $with_dpkg_deb_compressor
 
   Paths:

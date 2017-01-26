@@ -106,6 +106,21 @@ AC_DEFUN([DPKG_USE_MMAP], [
   ])
 ])
 
+# DPKG_USE_DISK_PREALLOCATE
+# -------------------------
+# Define USE_DISK_PREALLOCATE if disk size pre-allocation is available
+# and it was requested.
+AC_DEFUN([DPKG_USE_DISK_PREALLOCATE], [
+  AC_ARG_ENABLE([disk-preallocate],
+    [AS_HELP_STRING([--enable-disk-preallocate],
+      [enable usage of disk size pre-allocation])],
+    [], [enable_disk_preallocate=no])
+
+  AS_IF([test "x$enable_disk_preallocate" = "xyes"], [
+    AC_DEFINE([USE_DISK_PREALLOCATE], [1], [Use disk size pre-allocation])
+  ])
+])
+
 # DPKG_CHECK_PROGNAME
 # -------------------
 # Check for system implementations of program name tracking.
