@@ -103,6 +103,7 @@ sub usage {
   -k, --sign-key=<keyid>      the key to use for signing.
   -ap, --sign-pause           add pause before starting signature process.
   -us, --unsigned-source      unsigned source package.
+  -ui, --unsigned-buildinfo   unsigned .buildinfo file.
   -uc, --unsigned-changes     unsigned .changes file.
       --force-sign            force signing the resulting files.
       --admindir=<directory>  change the administrative directory.
@@ -157,6 +158,7 @@ my $signkey = $ENV{DEB_SIGN_KEYID};
 my $signforce = 0;
 my $signreleased = 1;
 my $signsource = 1;
+my $signbuildinfo = 1;
 my $signchanges = 1;
 my $buildtarget = 'build';
 my $binarytarget = 'binary';
@@ -253,6 +255,8 @@ while (@ARGV) {
 	$signforce = 1;
     } elsif (/^-us$/ or /^--unsigned-source$/) {
 	$signsource = 0;
+    } elsif (/^-ui$/ or /^--unsigned-buildinfo$/) {
+	$signbuildinfo = 0;
     } elsif (/^-uc$/ or /^--unsigned-changes$/) {
 	$signchanges = 0;
     } elsif (/^-ap$/ or /^--sign-pausa$/) {
@@ -466,13 +470,17 @@ my $pva = "${pkg}_${sversion}_$arch";
 
 if (not $signcommand) {
     $signsource = 0;
+    $signbuildinfo = 0;
     $signchanges = 0;
 } elsif ($signforce) {
     $signsource = 1;
+    $signbuildinfo = 1;
     $signchanges = 1;
-} elsif (($signsource or $signchanges) and $distribution eq 'UNRELEASED') {
+} elsif (($signsource or $signbuildinfo or $signchanges) and
+         $distribution eq 'UNRELEASED') {
     $signreleased = 0;
     $signsource = 0;
+    $signbuildinfo = 0;
     $signchanges = 0;
 }
 
@@ -600,35 +608,44 @@ if ($check_command) {
     withecho($check_command, @check_opts, $chg);
 }
 
-if ($signpause && ($signchanges || $signsource)) {
+if ($signpause && ($signsource || $signbuildinfo || $signchanges)) {
     print g_("Press <enter> to start the signing process.\n");
     getc();
 }
 
-run_hook('sign', $signsource || $signchanges);
+run_hook('sign', $signsource || $signbuildinfo || $signchanges);
 
 if ($signsource) {
     if (signfile("$pv.dsc")) {
-        error(g_('failed to sign .dsc and .changes file'));
+        error(g_('failed to sign %s file'), '.dsc');
     }
 
-    # Recompute the checksums as the .dsc has changed now.
+    # Recompute the checksums as the .dsc have changed now.
+    my $buildinfo = Dpkg::Control->new(type => CTRL_FILE_BUILDINFO);
+    $buildinfo->load("../$pva.buildinfo");
+    my $checksums = Dpkg::Checksums->new();
+    $checksums->add_from_control($buildinfo);
+    $checksums->add_from_file("../$pv.dsc", update => 1, key => "$pv.dsc");
+    $checksums->export_to_control($buildinfo);
+    $buildinfo->save("../$pva.buildinfo");
+}
+if ($signbuildinfo && signfile("$pva.buildinfo")) {
+    error(g_('failed to sign %s file'), '.buildinfo');
+}
+if ($signsource or $signbuildinfo) {
+    # Recompute the checksums as the .dsc and/or .buildinfo have changed.
     my $checksums = Dpkg::Checksums->new();
     $checksums->add_from_control($changes);
     $checksums->add_from_file("../$pv.dsc", update => 1, key => "$pv.dsc");
+    $checksums->add_from_file("../$pva.buildinfo", update => 1, key => "$pva.buildinfo");
     $checksums->export_to_control($changes);
     delete $changes->{'Checksums-Md5'};
-
-    my $md5sum_regex = checksums_get_property('md5', 'regex');
-    my $dsc_md5sum = $checksums->get_checksum("$pv.dsc", 'md5');
-    my $dsc_size = $checksums->get_size("$pv.dsc");
-    my $dsc_files_regex = qr/$md5sum_regex\s+\d+\s+(\S+\s+\S+\s+\Q$pv\E\.dsc)/;
-    $changes->{'Files'} =~ s/^$dsc_files_regex$/$dsc_md5sum $dsc_size $1/m;
-
+    update_files_field($changes, $checksums, "$pv.dsc");
+    update_files_field($changes, $checksums, "$pva.buildinfo");
     $changes->save($chg);
 }
 if ($signchanges && signfile("$pva.changes")) {
-    error(g_('failed to sign .changes file'));
+    error(g_('failed to sign %s file'), '.changes');
 }
 
 if (not $signreleased) {
@@ -684,6 +701,17 @@ sub run_hook {
     $cmd =~ s/\%(.)/&$subst_hook_var($1)/eg;
 
     withecho($cmd);
+}
+
+sub update_files_field {
+    my ($ctrl, $checksums, $filename) = @_;
+
+    my $md5sum_regex = checksums_get_property('md5', 'regex');
+    my $md5sum = $checksums->get_checksum($filename, 'md5');
+    my $size = $checksums->get_size($filename);
+    my $file_regex = qr/$md5sum_regex\s+\d+\s+(\S+\s+\S+\s+\Q$filename\E)/;
+
+    $ctrl->{'Files'} =~ s/^$file_regex$/$md5sum $size $1/m;
 }
 
 sub signfile {

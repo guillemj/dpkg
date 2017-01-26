@@ -90,11 +90,12 @@ It runs the \fBcheck\fP hook and calls a package checker for the
 \fB.changes\fP file (if a command is specified in \fBDEB_CHECK_COMMAND\fP or
 with \fB\-\-check\-command\fP).
 .IP \fB11.\fP 3
-It runs the \fBsign\fP hook and calls \fBgpg2\fP or \fBgpg\fP to sign
-the \fB.dsc\fP file (if any, unless \fB\-us\fP or \fB\-\-unsigned\-source\fP
-is specified or on UNRELEASED builds), and the \fB.changes\fP file
-(unless \fB\-uc\fP or \fB\-\-unsigned\-changes\fP is specified or on
-UNRELEASED builds).
+It runs the \fBsign\fP hook and calls \fBgpg2\fP or \fBgpg\fP (as long as it
+is not an UNRELEASED build) to sign the \fB.dsc\fP file (if any, unless
+\fB\-us\fP or \fB\-\-unsigned\-source\fP is specified), the \fB.buildinfo\fP
+file (unless \fB\-ui\fP or \fB\-\-unsigned\-buildinfo\fP is specified) and
+the \fB.changes\fP file (unless \fB\-uc\fP or \fB\-\-unsigned\-changes\fP
+is specified).
 .IP \fB12.\fP 3
 It runs the \fBdone\fP hook.
 .
@@ -396,12 +397,17 @@ Specify a key-ID to use when signing packages (long option since dpkg 1.18.8).
 .BR \-us ", " \-\-unsigned\-source
 Do not sign the source package (long option since dpkg 1.18.8).
 .TP
+.BR \-ui ", " \-\-unsigned\-buildinfo
+Do not sign the \fB.buildinfo\fP file (since dpkg 1.18.19).
+.TP
 .BR \-uc ", " \-\-unsigned\-changes
 Do not sign the \fB.changes\fP file (long option since dpkg 1.18.8).
 .TP
 .BR \-\-force\-sign
 Force the signing of the resulting files (since dpkg 1.17.0), regardless of
-\fB\-us\fP, \fB\-\-unsigned\-source\fP, \fB\-uc\fP, \fB\-\-unsigned\-changes\fP
+\fB\-us\fP, \fB\-\-unsigned\-source\fP,
+\fB\-ui\fP, \fB\-\-unsigned\-buildinfo\fP,
+\fB\-uc\fP, \fB\-\-unsigned\-changes\fP
 or other internal heuristics.
 .TP
 .BR \-sn
