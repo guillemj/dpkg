@@ -177,7 +177,7 @@ AS_IF([test "x$build_dselect" = "xyes"], [
   AC_LANG_POP([C++])
 ])
 
-DPKG_MMAP
+DPKG_USE_MMAP
 
 # Checks for the build machinery.
 AC_DEFINE([LIBDPKG_VOLATILE_API], [1], [Acknowledge the volatility of the API.])

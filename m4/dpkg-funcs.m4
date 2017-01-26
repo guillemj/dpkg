@@ -91,10 +91,10 @@ int main()
   AM_CONDITIONAL([HAVE_C99_SNPRINTF], [test "x$dpkg_cv_c99_snprintf" = "xyes"])
 ])# DPKG_FUNC_C99_SNPRINTF
 
-# DPKG_MMAP
-# ---------
+# DPKG_USE_MMAP
+# -------------
 # Define USE_MMAP if mmap() is available and it was requested
-AC_DEFUN([DPKG_MMAP], [
+AC_DEFUN([DPKG_USE_MMAP], [
   AC_ARG_ENABLE([mmap],
     [AS_HELP_STRING([--enable-mmap],
       [enable usage of unrealiable mmap if available])],
