@@ -312,12 +312,12 @@ foreach my $file ($dist->get_files()) {
     # If this is a source-only upload, ignore any other artifacts.
     next if build_has_none(BUILD_BINARY);
 
+    if (defined $file->{arch}) {
+        push @archvalues, $file->{arch} if not $archadded{$file->{arch}}++;
+    }
     if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
         $p2f{$file->{package}} //= [];
         push @{$p2f{$file->{package}}}, $file->{filename};
-
-        push @archvalues, $file->{arch}
-            if defined $file->{arch} and not $archadded{$file->{arch}}++;
     }
 }
 
