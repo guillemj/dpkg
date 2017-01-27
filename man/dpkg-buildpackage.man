@@ -91,7 +91,8 @@ It runs the \fBcheck\fP hook and calls a package checker for the
 with \fB\-\-check\-command\fP).
 .IP \fB11.\fP 3
 It runs the \fBsign\fP hook and calls \fBgpg2\fP or \fBgpg\fP (as long as it
-is not an UNRELEASED build) to sign the \fB.dsc\fP file (if any, unless
+is not an UNRELEASED build, or \-\-no\-sign is specified) to sign the
+\fB.dsc\fP file (if any, unless
 \fB\-us\fP or \fB\-\-unsigned\-source\fP is specified), the \fB.buildinfo\fP
 file (unless \fB\-ui\fP or \fB\-\-unsigned\-buildinfo\fP is specified) and
 the \fB.changes\fP file (unless \fB\-uc\fP or \fB\-\-unsigned\-changes\fP
@@ -402,6 +403,10 @@ Do not sign the \fB.buildinfo\fP file (since dpkg 1.18.19).
 .TP
 .BR \-uc ", " \-\-unsigned\-changes
 Do not sign the \fB.changes\fP file (long option since dpkg 1.18.8).
+.TP
+.B \-\-no\-sign
+Do not sign any file, this includes the source package, the \fB.buildinfo\fP
+file and the \fB.changes\fP file (since dpkg 1.18.20).
 .TP
 .BR \-\-force\-sign
 Force the signing of the resulting files (since dpkg 1.17.0), regardless of

@@ -105,6 +105,7 @@ sub usage {
   -us, --unsigned-source      unsigned source package.
   -ui, --unsigned-buildinfo   unsigned .buildinfo file.
   -uc, --unsigned-changes     unsigned .changes file.
+      --no-sign               do not sign any file.
       --force-sign            force signing the resulting files.
       --admindir=<directory>  change the administrative directory.
   -?, --help                  show this help message.
@@ -253,6 +254,11 @@ while (@ARGV) {
 	warning(g_('-s%s is deprecated; always using gpg style interface'), $1);
     } elsif (/^--force-sign$/) {
 	$signforce = 1;
+    } elsif (/^--no-sign$/) {
+	$signforce = 0;
+	$signsource = 0;
+	$signbuildinfo = 0;
+	$signchanges = 0;
     } elsif (/^-us$/ or /^--unsigned-source$/) {
 	$signsource = 0;
     } elsif (/^-ui$/ or /^--unsigned-buildinfo$/) {
