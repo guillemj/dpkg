@@ -1,5 +1,12 @@
 dpkg (1.18.20) UNRELEASED; urgency=medium
 
+  [ Guillem Jover ]
+  * Perl modules:
+    - Mask the machine bits for SH and MIPS in the ELF processor flags in
+      Dpkg::Shlibs::Objdump. These do not define the ABI, and make the
+      objects not match when they should, when looking for shared libraries
+      from dpkg-shlibdeps.
+
   [ Updated scripts translations ]
   * German (Helge Kreutzmann).
 
