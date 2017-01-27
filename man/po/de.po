@@ -1,6 +1,6 @@
 # German translation of the manpages in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2004, 2006-2016.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2004, 2006-2017.
 # (C) Florian Rehnisch <eixman@gmx.de>, 2007.
 # (C) Sven Joachim <svenjoac@gmx.de>, 2008.
 #
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2017-01-27 06:37+0100\n"
-"PO-Revision-Date: 2017-01-25 19:47+0100\n"
+"PO-Revision-Date: 2017-01-27 16:07+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -11920,12 +11920,6 @@ msgstr "B<11.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
-#| msgid ""
-#| "It runs the B<sign> hook and calls B<gpg2> or B<gpg> to sign the B<.dsc> "
-#| "file (if any, unless B<-us> or B<--unsigned-source> is specified or on "
-#| "UNRELEASED builds), and the B<.changes> file (unless B<-uc> or B<--"
-#| "unsigned-changes> is specified or on UNRELEASED builds)."
 msgid ""
 "It runs the B<sign> hook and calls B<gpg2> or B<gpg> (as long as it is not "
 "an UNRELEASED build) to sign the B<.dsc> file (if any, unless B<-us> or B<--"
@@ -11933,11 +11927,11 @@ msgid ""
 "unsigned-buildinfo> is specified) and the B<.changes> file (unless B<-uc> or "
 "B<--unsigned-changes> is specified)."
 msgstr ""
-"Es führt den Hook B<sign> aus und ruft B<gpg2> oder B<gpg> auf, um die B<."
+"Es führt den Hook B<sign> aus und ruft B<gpg2> oder B<gpg> auf (so lange es sich nicht um einen »UNRELEASED«-Bau handelt), um die B<."
 "dsc>-Datei (falls vorhanden und B<-us> oder B<--unsigned-source> nicht "
-"angegeben wurde oder es sich um einen »UNRELEASED«-Bau handelt) und die B<."
-"changes>-Datei (falls vorhanden und B<-uc> oder B<--unsigned-changes> nicht "
-"angegeben wurde oder es sich um einen »UNRELEASED«-Bau handelt) zu signieren."
+"angegeben wurde), die B<.buildinfo>-Datei (falls B<-ui> oder B<--unsigned-buildinfo> nicht angegeben wurden) und die B<."
+"changes>-Datei (falls B<-uc> oder B<--unsigned-changes> nicht "
+"angegeben wurde) zu signieren."
 
 #. type: IP
 #: dpkg-buildpackage.man
@@ -12764,17 +12758,14 @@ msgstr "Das Quellpaket nicht signieren (lange Option seit Dpkg 1.18.8)."
 
 #. type: TP
 #: dpkg-buildpackage.man
-#, fuzzy, no-wrap
-#| msgid "B<-us>, B<--unsigned-source>"
+#, no-wrap
 msgid "B<-ui>, B<--unsigned-buildinfo>"
-msgstr "B<-us>, B<--unsigned-source>"
+msgstr "B<-ui>, B<--unsigned-buildinfo>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
-#| msgid "Do not sign the B<.changes> file (long option since dpkg 1.18.8)."
 msgid "Do not sign the B<.buildinfo> file (since dpkg 1.18.19)."
-msgstr "Die B<.changes>-Datei nicht signieren (lange Option seit Dpkg 1.18.8)."
+msgstr "Die B<.buildinfo>-Datei nicht signieren (seit Dpkg 1.18.19)."
 
 #. type: TP
 #: dpkg-buildpackage.man
@@ -12795,18 +12786,13 @@ msgstr "B<--force-sign>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
-#| msgid ""
-#| "Force the signing of the resulting files (since dpkg 1.17.0), regardless "
-#| "of B<-us>, B<--unsigned-source>, B<-uc>, B<--unsigned-changes> or other "
-#| "internal heuristics."
 msgid ""
 "Force the signing of the resulting files (since dpkg 1.17.0), regardless of "
 "B<-us>, B<--unsigned-source>, B<-ui>, B<--unsigned-buildinfo>, B<-uc>, B<--"
 "unsigned-changes> or other internal heuristics."
 msgstr ""
 "Das Unterschreiben der entstehenden Dateien erzwingen (seit Dpkg 1.17.0), "
-"unabhängig von B<-us>, B<--unsigned-source>, B<-uc>, B<--unsigned-changes> "
+"unabhängig von B<-us>, B<--unsigned-source>, B<-ui>, B<--unsigned-buildinfo>, B<-uc>, B<--unsigned-changes> "
 "oder anderen internen Heuristiken."
 
 #. type: TP
@@ -13413,6 +13399,15 @@ msgid ""
 "or disable all other features.  The feature “B<path>” controls whether to "
 "unconditionally include the B<Build-Path> field."
 msgstr ""
+"Diese Variable kann dazu verwandt werden, verschiedene Funktionalitäten, die "
+"die in der .buildinfo-Datei enthaltenen Informationen betreffen, über die "
+"Option B<buildinfo> (seit Dpkg 1.18.19) ein- oder auszuschalten. Diese "
+"Option enthält eine Kommata-getrennte Liste von Funktionalitäten, denen die "
+"Modifikatoren ‚B<+>’ oder ‚B<->’ vorangestellt sind, um anzuzeigen, ob sie "
+"ein- oder ausgeschaltet werden soll. Die besondere Funktionalität „B<all>“ "
+"kann zum Ein- bzw. Ausschalten aller anderen Funktionalitäten verwandt "
+"werden. Die Funktionalität „B<path>“ steuert, ob das Feld B<Build-Path> "
+"bedingungslos aufgenmmen werden soll."
 
 #. type: TP
 #: dpkg-genbuildinfo.man dpkg-distaddfile.man dpkg-genchanges.man
