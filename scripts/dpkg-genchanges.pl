@@ -301,22 +301,23 @@ if (build_has_any(BUILD_SOURCE)) {
     $origsrcmsg = g_('binary-only upload (no source code included)');
 }
 
-if (build_has_any(BUILD_BINARY)) {
-    my $dist_count = 0;
+my $dist_count = 0;
 
-    $dist_count = $dist->load($fileslistfile) if -e $fileslistfile;
+$dist_count = $dist->load($fileslistfile) if -e $fileslistfile;
 
-    error(g_('binary build with no binary artifacts found; cannot distribute'))
-        if $dist_count == 0;
+error(g_('binary build with no binary artifacts found; cannot distribute'))
+    if build_has_any(BUILD_BINARY) && $dist_count == 0;
 
-    foreach my $file ($dist->get_files()) {
-        if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
-            $p2f{$file->{package}} //= [];
-            push @{$p2f{$file->{package}}}, $file->{filename};
+foreach my $file ($dist->get_files()) {
+    # If this is a source-only upload, ignore any other artifacts.
+    next if build_has_none(BUILD_BINARY);
 
-            push @archvalues, $file->{arch}
-                if defined $file->{arch} and not $archadded{$file->{arch}}++;
-        }
+    if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
+        $p2f{$file->{package}} //= [];
+        push @{$p2f{$file->{package}}}, $file->{filename};
+
+        push @archvalues, $file->{arch}
+            if defined $file->{arch} and not $archadded{$file->{arch}}++;
     }
 }
 
