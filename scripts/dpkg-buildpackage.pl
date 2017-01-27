@@ -104,7 +104,7 @@ sub usage {
   -ap, --sign-pause           add pause before starting signature process.
   -us, --unsigned-source      unsigned source package.
   -ui, --unsigned-buildinfo   unsigned .buildinfo file.
-  -uc, --unsigned-changes     unsigned .changes file.
+  -uc, --unsigned-changes     unsigned .buildinfo and .changes file.
       --no-sign               do not sign any file.
       --force-sign            force signing the resulting files.
       --admindir=<directory>  change the administrative directory.
@@ -264,6 +264,7 @@ while (@ARGV) {
     } elsif (/^-ui$/ or /^--unsigned-buildinfo$/) {
 	$signbuildinfo = 0;
     } elsif (/^-uc$/ or /^--unsigned-changes$/) {
+	$signbuildinfo = 0;
 	$signchanges = 0;
     } elsif (/^-ap$/ or /^--sign-pausa$/) {
 	$signpause = 1;

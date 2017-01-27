@@ -3,6 +3,9 @@ dpkg (1.18.20) UNRELEASED; urgency=medium
   [ Guillem Jover ]
   * Add a new --no-sign option to dpkg-buildpackage, to make it possible to
     disable all signing in a future-proof way.
+  * Make dpkg-buildpackage --unsigned-changes not sign .buildinfo either.
+    This breaks the expectations of users and tools, because there was no
+    way previously to request no signing at all. Closes: #852822
   * Perl modules:
     - Mask the machine bits for SH and MIPS in the ELF processor flags in
       Dpkg::Shlibs::Objdump. These do not define the ABI, and make the
