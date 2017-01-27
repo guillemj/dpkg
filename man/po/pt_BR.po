@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-12-20 12:56+0100\n"
+"POT-Creation-Date: 2017-01-27 06:37+0100\n"
 "PO-Revision-Date: 2016-12-17 16:42+0100\n"
 "Last-Translator: Andre Luis Lopes  <andrelop@debian.org>\n"
 "Language-Team: Portuguese <debian-l10n-portuguese@lists.debian.org>\n"
@@ -215,8 +215,10 @@ msgid ""
 "since dpkg 1.17.6), or compressed with gzip (with B<.gz> extension) or xz "
 "(with B<.xz> extension, supported since 1.17.6), as a series of plain files, "
 "of which the file B<control> is mandatory and contains the core control "
-"information. The control tarball may optionally contain an entry for ‘B<.>’, "
-"the current directory."
+"information, the B<conffiles>, B<triggers>, B<shlibs> and B<symbols> files "
+"contain optional control information, and the B<preinst>, B<postinst>, "
+"B<prerm> and B<postrm> files are optional maintainer scripts.  The control "
+"tarball may optionally contain an entry for ‘B<.>’, the current directory."
 msgstr ""
 
 #. type: Plain text
@@ -303,7 +305,10 @@ msgstr "VEJA TAMBÉM"
 
 #. type: Plain text
 #: deb.man
-msgid "B<deb-old>(5), B<dpkg-deb>(1), B<deb-control>(5)."
+msgid ""
+"B<deb-old>(5), B<dpkg-deb>(1), B<deb-control>(5), B<deb-conffiles>(5)  B<deb-"
+"triggers>(5), B<deb-shlibs>(5), B<deb-symbols>(5), B<deb-preinst>(5), B<deb-"
+"postinst>(5), B<deb-prerm>(5), B<deb-postrm>(5)."
 msgstr ""
 
 #. type: TH
@@ -1987,14 +1992,31 @@ msgstr ""
 #. type: TP
 #: deb-control.man
 #, fuzzy, no-wrap
-msgid "B<Built-For-Profiles:>I< profile-list>"
+msgid "B<Built-For-Profiles:>I< profile-list (obsolete)>"
 msgstr "B<--log=>I<filename>"
 
 #. type: Plain text
 #: deb-control.man
 msgid ""
-"This field specifies a whitespace separated list of build profiles that this "
-"binary packages was built with."
+"This field used to specify a whitespace separated list of build profiles "
+"that this binary packages was built with (since dpkg 1.17.2 until 1.18.18).  "
+"The information previously found in this field can now be found in the B<."
+"buildinfo> file, which supersedes it."
+msgstr ""
+
+#. type: TP
+#: deb-control.man
+#, fuzzy, no-wrap
+msgid "B<Auto-Built-Package:>I< reason-list>"
+msgstr "B<--log=>I<filename>"
+
+#. type: Plain text
+#: deb-control.man
+msgid ""
+"This field specifies a whitespace separated list of reasons why this package "
+"was auto-generated.  Binary packages marked with this field will not appear "
+"in the I<debian/control> master source control file.  The only currently "
+"used reason is B<debug-symbols>."
 msgstr ""
 
 #. type: SH
@@ -4641,6 +4663,26 @@ msgid ""
 "dependencies, each source package would need to be unpacked."
 msgstr ""
 
+#. type: TP
+#: dsc.man
+#, fuzzy, no-wrap
+msgid "B<Testsuite-Restrictions:>I< name-list>"
+msgstr "B<--status-fd >I<E<lt>nE<gt>>"
+
+#. type: Plain text
+#: dsc.man
+msgid ""
+"This field declares the comma-separated union of all test restrictions "
+"(B<Restrictions> fields in I<debian/tests/control> file)."
+msgstr ""
+
+#. type: Plain text
+#: dsc.man
+msgid ""
+"Rationale: this field is needed because otherwise to be able to get the test "
+"restrictions, each source package would need to be unpacked."
+msgstr ""
+
 #. type: Plain text
 #: dsc.man
 msgid ""
@@ -6914,9 +6956,10 @@ msgstr ""
 
 #. type: SH
 #: dpkg.man dpkg-architecture.man dpkg-buildflags.man dpkg-buildpackage.man
-#: dpkg-checkbuilddeps.man dpkg-deb.man dpkg-divert.man dpkg-gensymbols.man
-#: dpkg-query.man dpkg-source.man dpkg-split.man dpkg-statoverride.man
-#: dpkg-trigger.man dpkg-vendor.man dselect.man update-alternatives.man
+#: dpkg-genbuildinfo.man dpkg-checkbuilddeps.man dpkg-deb.man dpkg-divert.man
+#: dpkg-gensymbols.man dpkg-query.man dpkg-source.man dpkg-split.man
+#: dpkg-statoverride.man dpkg-trigger.man dpkg-vendor.man dselect.man
+#: update-alternatives.man
 #, fuzzy, no-wrap
 msgid "ENVIRONMENT"
 msgstr "VARIÁVEIS DE AMBIENTE"
@@ -7294,27 +7337,7 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
-msgid ""
-"The following files are components of a binary package. See B<deb>(5)  for "
-"more information about them:"
-msgstr ""
-"Os seguintes arquivos são componentes de um pacote binário. Veja B<deb>(5) "
-"para mais informações sobre eles:"
-
-#. type: Plain text
-#: dpkg.man
-#, no-wrap
-msgid ""
-"I<control> (B<deb-control>(5))\n"
-"I<conffiles> (B<deb-conffiles>(5))\n"
-"I<preinst> (B<deb-preinst>(5))\n"
-"I<postinst> (B<deb-postinst>(5))\n"
-"I<prerm> (B<deb-prerm>(5))\n"
-"I<postrm> (B<deb-postrm>(5))\n"
-"I<triggers> (B<deb-triggers>(5))\n"
-"I<shlibs> (B<deb-shlibs>(5))\n"
-"I<symbols> (B<deb-symbols>(5))\n"
+msgid "The format and contents of a binary package are described in B<deb>(5)."
 msgstr ""
 
 #. type: Plain text
@@ -9636,7 +9659,7 @@ msgid ""
 msgstr ""
 
 #. type: TP
-#: dpkg-buildflags.man dpkg-buildpackage.man
+#: dpkg-buildflags.man dpkg-buildpackage.man dpkg-genbuildinfo.man
 #, no-wrap
 msgid "B<DEB_BUILD_OPTIONS>"
 msgstr ""
@@ -10032,10 +10055,11 @@ msgstr ""
 #. type: Plain text
 #: dpkg-buildpackage.man
 msgid ""
-"It runs the B<sign> hook and calls B<gpg2> or B<gpg> to sign the B<.dsc> "
-"file (if any, unless B<-us> or B<--unsigned-source> is specified or on "
-"UNRELEASED builds), and the B<.changes> file (unless B<-uc> or B<--unsigned-"
-"changes> is specified or on UNRELEASED builds)."
+"It runs the B<sign> hook and calls B<gpg2> or B<gpg> (as long as it is not "
+"an UNRELEASED build) to sign the B<.dsc> file (if any, unless B<-us> or B<--"
+"unsigned-source> is specified), the B<.buildinfo> file (unless B<-ui> or B<--"
+"unsigned-buildinfo> is specified) and the B<.changes> file (unless B<-uc> or "
+"B<--unsigned-changes> is specified)."
 msgstr ""
 
 #. type: IP
@@ -10739,6 +10763,18 @@ msgstr "O pacote está selecionado para instalação."
 #. type: TP
 #: dpkg-buildpackage.man
 #, fuzzy, no-wrap
+msgid "B<-ui>, B<--unsigned-buildinfo>"
+msgstr "B<--test>"
+
+#. type: Plain text
+#: dpkg-buildpackage.man
+#, fuzzy
+msgid "Do not sign the B<.buildinfo> file (since dpkg 1.18.19)."
+msgstr "O pacote está selecionado para instalação."
+
+#. type: TP
+#: dpkg-buildpackage.man
+#, fuzzy, no-wrap
 msgid "B<-uc>, B<--unsigned-changes>"
 msgstr "B<--help>"
 
@@ -10758,8 +10794,8 @@ msgstr "B<--nocheck>"
 #: dpkg-buildpackage.man
 msgid ""
 "Force the signing of the resulting files (since dpkg 1.17.0), regardless of "
-"B<-us>, B<--unsigned-source>, B<-uc>, B<--unsigned-changes> or other "
-"internal heuristics."
+"B<-us>, B<--unsigned-source>, B<-ui>, B<--unsigned-buildinfo>, B<-uc>, B<--"
+"unsigned-changes> or other internal heuristics."
 msgstr ""
 
 #. type: TP
@@ -11274,6 +11310,18 @@ msgstr "B<-G>"
 msgid ""
 "B<dpkg-genbuildinfo> might produce informative messages on standard error.  "
 "B<-q> suppresses these messages."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-genbuildinfo.man
+msgid ""
+"This variable can be used to enable or disable various features that affect "
+"the information included in the .buildinfo file, via the B<buildinfo> option "
+"(since dpkg 1.18.19).  This option contains a comma-separated list of "
+"features, prefixed with the ‘B<+>’ or ‘B<->’ modifiers, to denote whether to "
+"enable or disable them.  The special feature “B<all>” can be used to enable "
+"or disable all other features.  The feature “B<path>” controls whether to "
+"unconditionally include the B<Build-Path> field."
 msgstr ""
 
 #. type: TP
@@ -16739,7 +16787,7 @@ msgstr "B<dpkg> [I<opções>] I<ação>"
 msgid ""
 "If a second non-option argument is supplied it should be the name of the "
 "original source directory or tarfile or the empty string if the package is a "
-"Debian-specific one and so has no Debianisation diffs. If no second argument "
+"Debian-specific one and so has no debianisation diffs. If no second argument "
 "is supplied then B<dpkg-source> will look for the original source tarfile "
 "I<package>B<_>I<upstream-version>B<.orig.tar.gz> or the original source "
 "directory I<directory>B<.orig> depending on the B<-sX> arguments."
@@ -18490,7 +18538,7 @@ msgstr ""
 #. type: Plain text
 #: dselect.man
 msgid ""
-"B<dselect> operates as a front-end to B<dpkg>(1), the low-level debian "
+"B<dselect> operates as a front-end to B<dpkg>(1), the low-level Debian "
 "package handling tool. It features a full-screen package selections manager "
 "with package depends and conflicts resolver. When run with administrator "
 "privileges, packages can be installed, upgraded and removed. Various access "
@@ -18942,7 +18990,7 @@ msgstr ""
 msgid ""
 "B<dselect> directly exposes the administrator to some of the complexities "
 "involved with managing large sets of packages with many interdependencies. "
-"For a user who is unfamiliar with the concepts and the ways of the debian "
+"For a user who is unfamiliar with the concepts and the ways of the Debian "
 "package management system, it can be quite overwhelming. Although B<dselect> "
 "is aimed at easing package management and administration, it is only "
 "instrumental in doing so and cannot be assumed to be a sufficient substitute "
@@ -19021,7 +19069,7 @@ msgstr ""
 #. type: Plain text
 #: dselect.man
 msgid ""
-"The main select screen displays a list of all packages known to the debian "
+"The main select screen displays a list of all packages known to the Debian "
 "package management system. This includes packages installed on the system "
 "and packages known from the available packages database."
 msgstr ""
@@ -20971,6 +21019,14 @@ msgstr "update-alternatives --auto vi"
 #, fuzzy
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS, o Padrão da Hierarquia do Sistema de Arquivos."
+
+#, fuzzy
+#~ msgid ""
+#~ "The following files are components of a binary package. See B<deb>(5)  "
+#~ "for more information about them:"
+#~ msgstr ""
+#~ "Os seguintes arquivos são componentes de um pacote binário. Veja "
+#~ "B<deb>(5) para mais informações sobre eles:"
 
 #, fuzzy
 #~ msgid "B<--file>I< file>"

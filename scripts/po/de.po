@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-01-23 19:24+0100\n"
+"POT-Creation-Date: 2017-01-27 06:37+0100\n"
 "PO-Revision-Date: 2017-01-23 19:30+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -231,6 +231,69 @@ msgid "Usage: %s [<option>...]"
 msgstr "Aufruf: %s [<Option> …]"
 
 #: scripts/dpkg-buildpackage.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "      --build=<type>[,...]    specify the build <type>: full, source, "
+#| "binary,\n"
+#| "                                any, all (default is 'full').\n"
+#| "  -F                          normal full build (source and binary; "
+#| "default).\n"
+#| "  -g                          source and arch-indep build.\n"
+#| "  -G                          source and arch-specific build.\n"
+#| "  -b                          binary-only, no source files.\n"
+#| "  -B                          binary-only, only arch-specific files.\n"
+#| "  -A                          binary-only, only arch-indep files.\n"
+#| "  -S                          source-only, no binary files.\n"
+#| "  -nc, --no-pre-clean         do not pre clean source tree (implies -b).\n"
+#| "       --pre-clean            pre clean source tree (default).\n"
+#| "  -tc, --post-clean           clean source tree when finished.\n"
+#| "  -D                          check build dependencies and conflicts "
+#| "(default).\n"
+#| "  -d                          do not check build dependencies and "
+#| "conflicts.\n"
+#| "      --[no-]check-builddeps  ditto.\n"
+#| "  -P, --build-profiles=<profiles>\n"
+#| "                              assume comma-separated build profiles as "
+#| "active.\n"
+#| "  -R, --rules-file=<rules>    rules file to execute (default is debian/"
+#| "rules).\n"
+#| "  -T, --rules-target=<target> call debian/rules <target>.\n"
+#| "      --as-root               ensure -T calls the target with root "
+#| "rights.\n"
+#| "  -j, --jobs[=<number>|auto]  jobs to run simultaneously (passed to "
+#| "<rules>),\n"
+#| "                                forced mode.\n"
+#| "  -J, --jobs-try[=<number>|auto]\n"
+#| "                              jobs to run simultaneously (passed to "
+#| "<rules>),\n"
+#| "                                opt-in mode (default is auto).\n"
+#| "  -r, --root-command=<command>\n"
+#| "                              command to gain root rights (default is "
+#| "fakeroot).\n"
+#| "      --check-command=<command>\n"
+#| "                              command to check the .changes file (no "
+#| "default).\n"
+#| "      --check-option=<opt>    pass <opt> to check <command>.\n"
+#| "      --hook-<name>=<command> set <command> as the hook <name>, known "
+#| "hooks:\n"
+#| "                                init preclean source build binary "
+#| "buildinfo\n"
+#| "                                changes postclean check sign done\n"
+#| "      --buildinfo-option=<opt>\n"
+#| "                              pass option <opt> to dpkg-genbuildinfo.\n"
+#| "  -p, --sign-command=<command>\n"
+#| "                              command to sign .dsc and/or .changes files\n"
+#| "                                (default is gpg2 or gpg).\n"
+#| "  -k, --sign-key=<keyid>      the key to use for signing.\n"
+#| "  -ap, --sign-pause           add pause before starting signature "
+#| "process.\n"
+#| "  -us, --unsigned-source      unsigned source package.\n"
+#| "  -uc, --unsigned-changes     unsigned .changes file.\n"
+#| "      --force-sign            force signing the resulting files.\n"
+#| "      --admindir=<directory>  change the administrative directory.\n"
+#| "  -?, --help                  show this help message.\n"
+#| "      --version               show the version."
 msgid ""
 "Options:\n"
 "      --build=<type>[,...]    specify the build <type>: full, source, "
@@ -285,6 +348,7 @@ msgid ""
 "  -k, --sign-key=<keyid>      the key to use for signing.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
+"  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
 "  -uc, --unsigned-changes     unsigned .changes file.\n"
 "      --force-sign            force signing the resulting files.\n"
 "      --admindir=<directory>  change the administrative directory.\n"
@@ -523,11 +587,9 @@ msgid "Press <enter> to start the signing process.\n"
 msgstr "Drücken Sie die <Eingabetaste>, um den Signierprozess zu starten\n"
 
 #: scripts/dpkg-buildpackage.pl
-msgid "failed to sign .dsc and .changes file"
-msgstr ".dsc- und .changes-Datei konnte nicht signiert werden"
-
-#: scripts/dpkg-buildpackage.pl
-msgid "failed to sign .changes file"
+#, fuzzy, perl-format
+#| msgid "failed to sign .changes file"
+msgid "failed to sign %s file"
 msgstr "Signieren der .changes-Datei fehlgeschlagen"
 
 #: scripts/dpkg-buildpackage.pl
@@ -1580,8 +1642,11 @@ msgid "need at least one executable"
 msgstr "mindestens ein ausführbares Programm wird benötigt"
 
 #: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s')"
+#, fuzzy, perl-format
+#| msgid ""
+#| "couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s')"
+msgid ""
+"cannot find library %s needed by %s (ELF format: '%s' abi: '%s'; RPATH: '%s')"
 msgstr ""
 "Bibliothek %s konnte nicht gefunden werden, benötigt von %s (ELF-Format: "
 "»%s«; RPATH: »%s«)"
@@ -2158,6 +2223,16 @@ msgstr "Zeile %d von %s ist ungültig, sie wurde ignoriert."
 #, perl-format
 msgid "invalid flag in %s: %s"
 msgstr "ungültiger Schalter in %s: %s"
+
+#: scripts/Dpkg/BuildOptions.pm
+#, perl-format
+msgid "unknown %s feature in %s variable: %s"
+msgstr "unbekannte Funktionalität %s in Variable %s: %s"
+
+#: scripts/Dpkg/BuildOptions.pm
+#, perl-format
+msgid "incorrect value in %s option of %s variable: %s"
+msgstr "ungültiger Wert in der Option %s der Variablen %s: %s"
 
 #: scripts/Dpkg/Build/Types.pm
 #, perl-format
@@ -3785,16 +3860,6 @@ msgstr "zwei widersprüchliche Werte für Quellpaket - %s und %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
-msgid "unknown %s feature in %s variable: %s"
-msgstr "unbekannte Funktionalität %s in Variable %s: %s"
-
-#: scripts/Dpkg/Vendor/Debian.pm
-#, perl-format
-msgid "incorrect value in %s option of %s variable: %s"
-msgstr "ungültiger Wert in der Option %s der Variablen %s: %s"
-
-#: scripts/Dpkg/Vendor/Debian.pm
-#, perl-format
 msgid "unknown host architecture '%s'"
 msgstr "unbekannte Host-Architektur »%s«"
 
@@ -3858,6 +3923,9 @@ msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
+
+#~ msgid "failed to sign .dsc and .changes file"
+#~ msgstr ".dsc- und .changes-Datei konnte nicht signiert werden"
 
 #~ msgid "illegal .buildinfo ID '%s': %s"
 #~ msgstr "Ungültige .buildinfo-iD »%s«: %s"

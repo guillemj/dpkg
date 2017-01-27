@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-12-20 12:56+0100\n"
+"POT-Creation-Date: 2017-01-27 06:37+0100\n"
 "PO-Revision-Date: 2015-09-08 15:39+0200\n"
 "Last-Translator: Sébastien Poher <sbphr@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -347,6 +347,7 @@ msgid ""
 "  -k, --sign-key=<keyid>      the key to use for signing.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
+"  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
 "  -uc, --unsigned-changes     unsigned .changes file.\n"
 "      --force-sign            force signing the resulting files.\n"
 "      --admindir=<directory>  change the administrative directory.\n"
@@ -613,11 +614,9 @@ msgid "Press <enter> to start the signing process.\n"
 msgstr "Appuyez sur <Entrée> pour commencer le processus de signature\n"
 
 #: scripts/dpkg-buildpackage.pl
-msgid "failed to sign .dsc and .changes file"
-msgstr "échec de signature des fichiers .dsc et .changes"
-
-#: scripts/dpkg-buildpackage.pl
-msgid "failed to sign .changes file"
+#, fuzzy, perl-format
+#| msgid "failed to sign .changes file"
+msgid "failed to sign %s file"
 msgstr "échec de signature du fichier .changes"
 
 #: scripts/dpkg-buildpackage.pl
@@ -1762,8 +1761,11 @@ msgid "need at least one executable"
 msgstr "au moins un exécutable est nécessaire"
 
 #: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s')"
+#, fuzzy, perl-format
+#| msgid ""
+#| "couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s')"
+msgid ""
+"cannot find library %s needed by %s (ELF format: '%s' abi: '%s'; RPATH: '%s')"
 msgstr ""
 "impossible de trouver la bibliothèque %s utilisée par %s (format "
 "ELF : « %s »; RPATH : « %s »)"
@@ -2397,6 +2399,16 @@ msgstr "la ligne %d de %s n'est pas valable et a été ignorée"
 #, perl-format
 msgid "invalid flag in %s: %s"
 msgstr "drapeau non valable dans %s : %s"
+
+#: scripts/Dpkg/BuildOptions.pm
+#, perl-format
+msgid "unknown %s feature in %s variable: %s"
+msgstr "fonctionnalité %s inconnue dans la variable %s : %s"
+
+#: scripts/Dpkg/BuildOptions.pm
+#, perl-format
+msgid "incorrect value in %s option of %s variable: %s"
+msgstr "valeur incorrecte dans l'option %s de la variable %s : %s"
 
 #: scripts/Dpkg/Build/Types.pm
 #, perl-format
@@ -3585,6 +3597,10 @@ msgid "Enter the desired patch name: "
 msgstr "Saisissez le nom du fichier de différences : "
 
 #: scripts/Dpkg/Source/Package/V2.pm
+msgid "no patch name given; cannot proceed"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
 msgid "cannot find an editor"
 msgstr "impossible de trouver un éditeur"
 
@@ -4087,16 +4103,6 @@ msgstr "le paquet source a deux valeurs en conflit : %s et %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
-msgid "unknown %s feature in %s variable: %s"
-msgstr "fonctionnalité %s inconnue dans la variable %s : %s"
-
-#: scripts/Dpkg/Vendor/Debian.pm
-#, perl-format
-msgid "incorrect value in %s option of %s variable: %s"
-msgstr "valeur incorrecte dans l'option %s de la variable %s : %s"
-
-#: scripts/Dpkg/Vendor/Debian.pm
-#, perl-format
 msgid "unknown host architecture '%s'"
 msgstr "architecture hôte « %s » inconnue"
 
@@ -4136,8 +4142,21 @@ msgstr "le numéro de version ne peut pas être vide"
 
 #: scripts/Dpkg/Version.pm
 #, fuzzy
+#| msgid "epoch part of the version number is not a number: '%s'"
+msgid "epoch part of the version number cannot be empty"
+msgstr ""
+"la partie d'ère (« epoch ») du numéro de version n'est pas un nombre : « %s »"
+
+#: scripts/Dpkg/Version.pm
+#, fuzzy
 #| msgid "version number cannot be empty"
 msgid "upstream version cannot be empty"
+msgstr "le numéro de version ne peut pas être vide"
+
+#: scripts/Dpkg/Version.pm
+#, fuzzy
+#| msgid "version number cannot be empty"
+msgid "revision cannot be empty"
 msgstr "le numéro de version ne peut pas être vide"
 
 #: scripts/Dpkg/Version.pm
@@ -4154,6 +4173,9 @@ msgstr "le numéro de version contient un caractère « %s » non autorisé"
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr ""
 "la partie d'ère (« epoch ») du numéro de version n'est pas un nombre : « %s »"
+
+#~ msgid "failed to sign .dsc and .changes file"
+#~ msgstr "échec de signature des fichiers .dsc et .changes"
 
 #, fuzzy
 #~| msgid "illegal package name '%s': %s"

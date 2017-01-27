@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-12-20 12:56+0100\n"
+"POT-Creation-Date: 2017-01-27 06:37+0100\n"
 "PO-Revision-Date: 2016-12-09 11:32+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -323,6 +323,7 @@ msgid ""
 "  -k, --sign-key=<keyid>      the key to use for signing.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
+"  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
 "  -uc, --unsigned-changes     unsigned .changes file.\n"
 "      --force-sign            force signing the resulting files.\n"
 "      --admindir=<directory>  change the administrative directory.\n"
@@ -572,11 +573,9 @@ msgid "Press <enter> to start the signing process.\n"
 msgstr "Tryck på Enter för att inleda signeringsproceduren\n"
 
 #: scripts/dpkg-buildpackage.pl
-msgid "failed to sign .dsc and .changes file"
-msgstr "misslyckades att signera .dsc- och .changes-filerna"
-
-#: scripts/dpkg-buildpackage.pl
-msgid "failed to sign .changes file"
+#, fuzzy, perl-format
+#| msgid "failed to sign .changes file"
+msgid "failed to sign %s file"
 msgstr "misslyckades att signera .changes-fil"
 
 #: scripts/dpkg-buildpackage.pl
@@ -1753,8 +1752,11 @@ msgid "need at least one executable"
 msgstr "behöver minst en binär"
 
 #: scripts/dpkg-shlibdeps.pl
-#, perl-format
-msgid "couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s')"
+#, fuzzy, perl-format
+#| msgid ""
+#| "couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s')"
+msgid ""
+"cannot find library %s needed by %s (ELF format: '%s' abi: '%s'; RPATH: '%s')"
 msgstr ""
 "hittade inte biblioteket %s som behövs av %s (ELF-format. \"%s\"; RPATH: \"%s"
 "\")"
@@ -2364,6 +2366,16 @@ msgstr "rad %d i %s är ogiltig och har ignorerats"
 #, perl-format
 msgid "invalid flag in %s: %s"
 msgstr "felaktig flagga i %s: %s"
+
+#: scripts/Dpkg/BuildOptions.pm
+#, perl-format
+msgid "unknown %s feature in %s variable: %s"
+msgstr "okänd funktion %s i variabeln %s: %s"
+
+#: scripts/Dpkg/BuildOptions.pm
+#, perl-format
+msgid "incorrect value in %s option of %s variable: %s"
+msgstr "felaktigt värde i flaggan %s i variabeln %s: %s"
 
 #: scripts/Dpkg/Build/Types.pm
 #, perl-format
@@ -3531,6 +3543,10 @@ msgid "Enter the desired patch name: "
 msgstr "Ange önskat patchnamn: "
 
 #: scripts/Dpkg/Source/Package/V2.pm
+msgid "no patch name given; cannot proceed"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
 msgid "cannot find an editor"
 msgstr "kan inte hitta något textredigeringsprogram"
 
@@ -4008,16 +4024,6 @@ msgstr "källkodspaketet har två emotsägande värden - %s och %s"
 
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
-msgid "unknown %s feature in %s variable: %s"
-msgstr "okänd funktion %s i variabeln %s: %s"
-
-#: scripts/Dpkg/Vendor/Debian.pm
-#, perl-format
-msgid "incorrect value in %s option of %s variable: %s"
-msgstr "felaktigt värde i flaggan %s i variabeln %s: %s"
-
-#: scripts/Dpkg/Vendor/Debian.pm
-#, perl-format
 msgid "unknown host architecture '%s'"
 msgstr "okänd värdarkitektur \"%s\""
 
@@ -4059,8 +4065,20 @@ msgstr "versionsnumret kan inte vara tomt"
 
 #: scripts/Dpkg/Version.pm
 #, fuzzy
+#| msgid "epoch part of the version number is not a number: '%s'"
+msgid "epoch part of the version number cannot be empty"
+msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
+
+#: scripts/Dpkg/Version.pm
+#, fuzzy
 #| msgid "version number cannot be empty"
 msgid "upstream version cannot be empty"
+msgstr "versionsnumret kan inte vara tomt"
+
+#: scripts/Dpkg/Version.pm
+#, fuzzy
+#| msgid "version number cannot be empty"
+msgid "revision cannot be empty"
 msgstr "versionsnumret kan inte vara tomt"
 
 #: scripts/Dpkg/Version.pm
@@ -4076,6 +4094,9 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
+
+#~ msgid "failed to sign .dsc and .changes file"
+#~ msgstr "misslyckades att signera .dsc- och .changes-filerna"
 
 #, fuzzy
 #~| msgid "illegal package name '%s': %s"

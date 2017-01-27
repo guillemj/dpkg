@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.18.18\n"
+"Project-Id-Version: dpkg 1.18.19\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2016-12-20 12:56+0100\n"
+"POT-Creation-Date: 2017-01-27 06:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -226,6 +226,7 @@ msgid ""
 "  -k, --sign-key=<keyid>      the key to use for signing.\n"
 "  -ap, --sign-pause           add pause before starting signature process.\n"
 "  -us, --unsigned-source      unsigned source package.\n"
+"  -ui, --unsigned-buildinfo   unsigned .buildinfo file.\n"
 "  -uc, --unsigned-changes     unsigned .changes file.\n"
 "      --force-sign            force signing the resulting files.\n"
 "      --admindir=<directory>  change the administrative directory.\n"
@@ -372,11 +373,8 @@ msgid "Press <enter> to start the signing process.\n"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
-msgid "failed to sign .dsc and .changes file"
-msgstr ""
-
-#: scripts/dpkg-buildpackage.pl
-msgid "failed to sign .changes file"
+#, perl-format
+msgid "failed to sign %s file"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
@@ -1208,7 +1206,8 @@ msgstr ""
 
 #: scripts/dpkg-shlibdeps.pl
 #, perl-format
-msgid "couldn't find library %s needed by %s (ELF format: '%s'; RPATH: '%s')"
+msgid ""
+"cannot find library %s needed by %s (ELF format: '%s' abi: '%s'; RPATH: '%s')"
 msgstr ""
 
 #: scripts/dpkg-shlibdeps.pl
@@ -1648,6 +1647,16 @@ msgstr ""
 #: scripts/Dpkg/BuildOptions.pm
 #, perl-format
 msgid "invalid flag in %s: %s"
+msgstr ""
+
+#: scripts/Dpkg/BuildOptions.pm
+#, perl-format
+msgid "unknown %s feature in %s variable: %s"
+msgstr ""
+
+#: scripts/Dpkg/BuildOptions.pm
+#, perl-format
+msgid "incorrect value in %s option of %s variable: %s"
 msgstr ""
 
 #: scripts/Dpkg/Build/Types.pm
@@ -2745,6 +2754,10 @@ msgid "Enter the desired patch name: "
 msgstr ""
 
 #: scripts/Dpkg/Source/Package/V2.pm
+msgid "no patch name given; cannot proceed"
+msgstr ""
+
+#: scripts/Dpkg/Source/Package/V2.pm
 msgid "cannot find an editor"
 msgstr ""
 
@@ -3202,16 +3215,6 @@ msgstr ""
 
 #: scripts/Dpkg/Vendor/Debian.pm
 #, perl-format
-msgid "unknown %s feature in %s variable: %s"
-msgstr ""
-
-#: scripts/Dpkg/Vendor/Debian.pm
-#, perl-format
-msgid "incorrect value in %s option of %s variable: %s"
-msgstr ""
-
-#: scripts/Dpkg/Vendor/Debian.pm
-#, perl-format
 msgid "unknown host architecture '%s'"
 msgstr ""
 
@@ -3246,7 +3249,15 @@ msgid "version number cannot be empty"
 msgstr ""
 
 #: scripts/Dpkg/Version.pm
+msgid "epoch part of the version number cannot be empty"
+msgstr ""
+
+#: scripts/Dpkg/Version.pm
 msgid "upstream version cannot be empty"
+msgstr ""
+
+#: scripts/Dpkg/Version.pm
+msgid "revision cannot be empty"
 msgstr ""
 
 #: scripts/Dpkg/Version.pm
