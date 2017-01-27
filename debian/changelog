@@ -35,6 +35,9 @@ dpkg (1.18.19) UNRELEASED; urgency=medium
     Closes: #846164
   * Fix check for expected number of binary artifacts in dpkg-genchanges, to
     only take into account the artifacts that we are distributing.
+  * Fix parsing of Pre-Depends and Depends in dpkg-genbuildinfo, so that
+    the code parses both and not just the first to appear in the stanza.
+    Based on a patch by Johannes Schauer <josch@debian.org>.
   * Portability:
     - On GNU/Hurd try to use the new process executable name attribute from
       libps, to properly match on start-stop-daemon --exec.

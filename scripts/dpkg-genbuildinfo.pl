@@ -118,7 +118,9 @@ sub parse_status {
             });
         }
 
-        if (/^(?:Pre-)?Depends: (.*)$/m) {
+        foreach my $deptype (qw(Pre-Depends Depends)) {
+            next unless /^$deptype: (.*)$/m;
+
             my $depends = $1;
             foreach (split /,\s*/, $depends) {
                 push @{$depends{"$package:$arch"}}, $_;
