@@ -180,8 +180,9 @@ sub get_format {
     # Mask any processor flags that might not change the architecture ABI.
     $elf{flags} &= $elf_flags_mask{$elf{mach}} // 0;
 
-    # Repack for easy comparison.
-    $format{$file} = pack 'C2SL', @elf{qw(bits endian mach flags)};
+    # Repack for easy comparison, as a big-endian byte stream, so that
+    # unpacking for output gives meaningful results.
+    $format{$file} = pack 'C2(SL)>', @elf{qw(bits endian mach flags)};
 
     return $format{$file};
 }
