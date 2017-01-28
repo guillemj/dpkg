@@ -43,7 +43,11 @@ sub file_lock($$) {
         use File::FcntlLock;
     };
     if ($@) {
-        warning(g_('File::FcntlLock not available; using flock which is not NFS-safe'));
+        # On Linux systems the flock() locks get converted to file-range
+        # locks on NFS mounts.
+        if ($^O ne 'linux') {
+            warning(g_('File::FcntlLock not available; using flock which is not NFS-safe'));
+        }
         flock($fh, LOCK_EX)
             or syserr(g_('failed to get a write lock on %s'), $filename);
     } else {
