@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.21\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-01-27 06:37+0100\n"
+"POT-Creation-Date: 2017-01-28 06:25+0100\n"
 "PO-Revision-Date: 2016-12-17 16:42+0100\n"
 "Last-Translator: Zhou Mo <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -1400,6 +1400,19 @@ msgid ""
 "This field denotes that the upload is a binary-only non-maintainer build.  "
 "It originates from the B<binary-only=yes> key/value from the changelog "
 "matadata entry."
+msgstr ""
+
+#. type: TP
+#: deb-changes.man
+#, no-wrap
+msgid "B<Built-For-Profiles:>I< profile-list>"
+msgstr ""
+
+#. type: Plain text
+#: deb-changes.man
+msgid ""
+"This field specifies a whitespace separated list of build profiles that this "
+"upload was built with."
 msgstr ""
 
 #. type: TP
@@ -10082,10 +10095,11 @@ msgstr ""
 #: dpkg-buildpackage.man
 msgid ""
 "It runs the B<sign> hook and calls B<gpg2> or B<gpg> (as long as it is not "
-"an UNRELEASED build) to sign the B<.dsc> file (if any, unless B<-us> or B<--"
-"unsigned-source> is specified), the B<.buildinfo> file (unless B<-ui> or B<--"
-"unsigned-buildinfo> is specified) and the B<.changes> file (unless B<-uc> or "
-"B<--unsigned-changes> is specified)."
+"an UNRELEASED build, or --no-sign is specified) to sign the B<.dsc> file (if "
+"any, unless B<-us> or B<--unsigned-source> is specified), the B<.buildinfo> "
+"file (unless B<-ui>, B<--unsigned-buildinfo>, B<-uc> or B<--unsigned-"
+"changes> is specified) and the B<.changes> file (unless B<-uc> or B<--"
+"unsigned-changes> is specified)."
 msgstr ""
 
 #. type: IP
@@ -10821,7 +10835,25 @@ msgstr "B<-R>, B<--recursive>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-msgid "Do not sign the B<.changes> file (long option since dpkg 1.18.8)."
+#, fuzzy
+#| msgid "B<bad-version>: Process even packages with wrong versions."
+msgid ""
+"Do not sign the B<.buildinfo> and B<.changes> files (long option since dpkg "
+"1.18.8)."
+msgstr "B<bad-version>: 容忍错误的软件包版本并继续。"
+
+#. type: TP
+#: dpkg-buildpackage.man
+#, fuzzy, no-wrap
+#| msgid "B<--version>"
+msgid "B<--no-sign>"
+msgstr "B<--version>"
+
+#. type: Plain text
+#: dpkg-buildpackage.man
+msgid ""
+"Do not sign any file, this includes the source package, the B<.buildinfo> "
+"file and the B<.changes> file (since dpkg 1.18.20)."
 msgstr ""
 
 #. type: TP

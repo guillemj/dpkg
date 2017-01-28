@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-01-27 06:37+0100\n"
+"POT-Creation-Date: 2017-01-28 06:25+0100\n"
 "PO-Revision-Date: 2016-12-17 16:41+0100\n"
 "Last-Translator: Sébastien Poher <sbphr@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -1584,6 +1584,20 @@ msgid ""
 "This field denotes that the upload is a binary-only non-maintainer build.  "
 "It originates from the B<binary-only=yes> key/value from the changelog "
 "matadata entry."
+msgstr ""
+
+#. type: TP
+#: deb-changes.man
+#, fuzzy, no-wrap
+#| msgid "B<Build-Conflicts:>I< package list>"
+msgid "B<Built-For-Profiles:>I< profile-list>"
+msgstr "B<Build-Conflicts:>I< liste de paquets>"
+
+#. type: Plain text
+#: deb-changes.man
+msgid ""
+"This field specifies a whitespace separated list of build profiles that this "
+"upload was built with."
 msgstr ""
 
 #. type: TP
@@ -12536,10 +12550,11 @@ msgstr "B<11.>"
 #| "the B<.changes> file (unless B<-uc> is specified or on UNRELEASED builds)."
 msgid ""
 "It runs the B<sign> hook and calls B<gpg2> or B<gpg> (as long as it is not "
-"an UNRELEASED build) to sign the B<.dsc> file (if any, unless B<-us> or B<--"
-"unsigned-source> is specified), the B<.buildinfo> file (unless B<-ui> or B<--"
-"unsigned-buildinfo> is specified) and the B<.changes> file (unless B<-uc> or "
-"B<--unsigned-changes> is specified)."
+"an UNRELEASED build, or --no-sign is specified) to sign the B<.dsc> file (if "
+"any, unless B<-us> or B<--unsigned-source> is specified), the B<.buildinfo> "
+"file (unless B<-ui>, B<--unsigned-buildinfo>, B<-uc> or B<--unsigned-"
+"changes> is specified) and the B<.changes> file (unless B<-uc> or B<--"
+"unsigned-changes> is specified)."
 msgstr ""
 "Exécution du point d'entrée B<sign> et appel de B<gpg2> ou de B<gpg> pour "
 "signature des fichiers B<.dsc> (sauf si B<-us> est utilisé ou pour des "
@@ -13536,8 +13551,24 @@ msgstr "B<-u>, B<--print-unset>"
 #: dpkg-buildpackage.man
 #, fuzzy
 #| msgid "Do not sign the B<.changes> file."
-msgid "Do not sign the B<.changes> file (long option since dpkg 1.18.8)."
+msgid ""
+"Do not sign the B<.buildinfo> and B<.changes> files (long option since dpkg "
+"1.18.8)."
 msgstr "Ne pas signer le fichier B<.changes>."
+
+#. type: TP
+#: dpkg-buildpackage.man
+#, fuzzy, no-wrap
+#| msgid "B<--no-debsig>"
+msgid "B<--no-sign>"
+msgstr "B<--no-debsig>"
+
+#. type: Plain text
+#: dpkg-buildpackage.man
+msgid ""
+"Do not sign any file, this includes the source package, the B<.buildinfo> "
+"file and the B<.changes> file (since dpkg 1.18.20)."
+msgstr ""
 
 #. type: TP
 #: dpkg-buildpackage.man
