@@ -92,11 +92,33 @@ use constant {
     ELF_ORDER_2LSB          => 1,
     ELF_ORDER_2MSB          => 2,
 
+    ELF_MACH_SPARC          => 2,
     ELF_MACH_MIPS           => 8,
+    ELF_MACH_SPARC64_OLD    => 11,
+    ELF_MACH_SPARC32PLUS    => 18,
     ELF_MACH_PPC64          => 21,
+    ELF_MACH_S390           => 22,
     ELF_MACH_ARM            => 40,
+    ELF_MACH_ALPHA_OLD      => 41,
     ELF_MACH_SH             => 42,
+    ELF_MACH_SPARC64        => 43,
     ELF_MACH_IA64           => 50,
+    ELF_MACH_AVR            => 83,
+    ELF_MACH_M32R           => 88,
+    ELF_MACH_MN10300        => 89,
+    ELF_MACH_MN10200        => 90,
+    ELF_MACH_OR1K           => 92,
+    ELF_MACH_XTENSA         => 94,
+    ELF_MACH_MICROBLAZE     => 189,
+    ELF_MACH_AVR_OLD        => 0x1057,
+    ELF_MACH_OR1K_OLD       => 0x8472,
+    ELF_MACH_ALPHA          => 0x9026,
+    ELF_MACH_M32R_CYGNUS    => 0x9041,
+    ELF_MACH_S390_OLD       => 0xa390,
+    ELF_MACH_XTENSA_OLD     => 0xabc7,
+    ELF_MACH_MICROBLAZE_OLD => 0xbaab,
+    ELF_MACH_MN10300_CYGNUS => 0xbeef,
+    ELF_MACH_MN10200_CYGNUS => 0xdead,
 
     ELF_VERSION_NONE        => 0,
     ELF_VERSION_CURRENT     => 1,
@@ -123,6 +145,20 @@ use constant {
 
     ELF_FLAG_SH_MACH_MASK   => 0x0000001f,
 };
+
+# These map alternative or old machine IDs to their canonical form.
+my %elf_mach_map = (
+    ELF_MACH_ALPHA_OLD()        => ELF_MACH_ALPHA,
+    ELF_MACH_AVR_OLD()          => ELF_MACH_AVR,
+    ELF_MACH_M32R_CYGNUS()      => ELF_MACH_M32R,
+    ELF_MACH_MICROBLAZE_OLD()   => ELF_MACH_MICROBLAZE,
+    ELF_MACH_MN10200_CYGNUS()   => ELF_MACH_MN10200,
+    ELF_MACH_MN10300_CYGNUS()   => ELF_MACH_MN10300,
+    ELF_MACH_OR1K_OLD()         => ELF_MACH_OR1K,
+    ELF_MACH_S390_OLD()         => ELF_MACH_S390,
+    ELF_MACH_SPARC64_OLD()      => ELF_MACH_SPARC64,
+    ELF_MACH_XTENSA_OLD()       => ELF_MACH_XTENSA,
+);
 
 # These masks will try to expose processor flags that are ABI incompatible,
 # and as such are part of defining the architecture ABI. If uncertain it is
@@ -176,6 +212,19 @@ sub get_format {
     # Unpack the endianness and size dependent fields.
     my $tmpl = "x16(S2Lx[${elf_word}3]L)${elf_endian}";
     @elf{qw(type mach version flags)} = unpack $tmpl, $header;
+
+    # XXX: We need to special case ELF_MACH_SPARC32PLUS, because NetBSD
+    # treats it differently depending on the ELF bits.
+    if ($elf{mach} == ELF_MACH_SPARC32PLUS) {
+        if ($elf{bits} == ELF_BITS_32) {
+            $elf{mach} = ELF_MACH_SPARC;
+        } else {
+            $elf{mach} = ELF_MACH_SPARC64;
+        }
+    }
+
+    # Canonicalize the machine ID.
+    $elf{mach} = $elf_mach_map{$elf{mach}} // $elf{mach};
 
     # Mask any processor flags that might not change the architecture ABI.
     $elf{flags} &= $elf_flags_mask{$elf{mach}} // 0;
