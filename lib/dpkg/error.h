@@ -46,6 +46,8 @@ struct dpkg_error {
 
 #define DPKG_ERROR_INIT { DPKG_MSG_NONE, 0, NULL }
 
+#define DPKG_ERROR_OBJECT (struct dpkg_error)DPKG_ERROR_INIT
+
 int dpkg_put_warn(struct dpkg_error *err, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
 int dpkg_put_error(struct dpkg_error *err, const char *fmt, ...)
