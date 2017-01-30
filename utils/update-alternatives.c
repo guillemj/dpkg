@@ -3,7 +3,7 @@
  *
  * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000-2002 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2017 Guillem Jover <guillem@debian.org>
  * Copyright © 2008 Pierre Habouzit <madcoder@debian.org>
  * Copyright © 2009-2010 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -55,8 +55,43 @@ static const char *admdir;
 
 static const char *prog_path = "update-alternatives";
 
+enum action {
+	ACTION_NONE,
+	ACTION_INSTALL,
+	ACTION_SET,
+	ACTION_SET_SELECTIONS,
+	ACTION_GET_SELECTIONS,
+	ACTION_AUTO,
+	ACTION_CONFIG,
+	ACTION_CONFIG_ALL,
+	ACTION_REMOVE,
+	ACTION_REMOVE_ALL,
+	ACTION_LIST,
+	ACTION_QUERY,
+	ACTION_DISPLAY,
+};
+
+struct action_name {
+	enum action action;
+	const char *name;
+} action_names[] = {
+	{ ACTION_NONE,			"" },
+	{ ACTION_INSTALL,		"install" },
+	{ ACTION_SET,			"set" },
+	{ ACTION_SET_SELECTIONS,	"set-selections" },
+	{ ACTION_GET_SELECTIONS,	"get-selections" },
+	{ ACTION_AUTO,			"auto" },
+	{ ACTION_CONFIG,		"config" },
+	{ ACTION_CONFIG_ALL,		"all" },
+	{ ACTION_REMOVE,		"remove" },
+	{ ACTION_REMOVE_ALL,		"remove-all" },
+	{ ACTION_LIST,			"list" },
+	{ ACTION_QUERY,			"query" },
+	{ ACTION_DISPLAY,		"display" },
+};
+
 /* Action to perform */
-static const char *action = NULL;
+static enum action action = ACTION_NONE;
 static const char *log_file = LOGDIR "/alternatives.log";
 /* Skip alternatives properly configured in auto mode (for --config) */
 static int opt_skip_auto = 0;
@@ -354,12 +389,27 @@ pathname_is_missing(const char *pathname)
 }
 
 static void
-set_action(const char *new_action)
+set_action(enum action new_action)
 {
 	if (action)
 		badusage(_("two commands specified: --%s and --%s"),
-		         action, new_action);
+		         action_names[action].name, action_names[new_action].name);
 	action = new_action;
+}
+
+static void
+set_action_from_name(const char *new_action)
+{
+	size_t i;
+
+	for (i = 0; i < array_count(action_names); i++) {
+		if (strcmp(new_action, action_names[i].name) == 0) {
+			set_action(action_names[i].action);
+			return;
+		}
+	}
+
+	assert(!"unknown action name");
 }
 
 static const char *
@@ -2587,7 +2637,7 @@ main(int argc, char **argv)
 			char *prio_str, *prio_end;
 			long prio;
 
-			set_action("install");
+			set_action(ACTION_INSTALL);
 			if (MISSING_ARGS(4))
 				badusage(_("--install needs <link> <name> "
 				           "<path> <priority>"));
@@ -2612,7 +2662,7 @@ main(int argc, char **argv)
 			i += 4;
 		} else if (strcmp("--remove", argv[i]) == 0 ||
 			   strcmp("--set", argv[i]) == 0) {
-			set_action(argv[i] + 2);
+			set_action_from_name(argv[i] + 2);
 			if (MISSING_ARGS(2))
 				badusage(_("--%s needs <name> <path>"), argv[i] + 2);
 
@@ -2629,7 +2679,7 @@ main(int argc, char **argv)
 			   strcmp("--config", argv[i]) == 0 ||
 			   strcmp("--list", argv[i]) == 0 ||
 			   strcmp("--remove-all", argv[i]) == 0) {
-			set_action(argv[i] + 2);
+			set_action_from_name(argv[i] + 2);
 			if (MISSING_ARGS(1))
 				badusage(_("--%s needs <name>"), argv[i] + 2);
 			a = alternative_new(argv[i + 1]);
@@ -2640,13 +2690,12 @@ main(int argc, char **argv)
 		} else if (strcmp("--all", argv[i]) == 0 ||
 			   strcmp("--get-selections", argv[i]) == 0 ||
 			   strcmp("--set-selections", argv[i]) == 0) {
-			set_action(argv[i] + 2);
+			set_action_from_name(argv[i] + 2);
 		} else if (strcmp("--slave", argv[i]) == 0) {
 			const char *slink, *sname, *spath;
 			struct slave_link *sl;
 
-			if (action == NULL ||
-			    (action && strcmp(action, "install") != 0))
+			if (action == ACTION_NONE || action != ACTION_INSTALL)
 				badusage(_("--slave only allowed with --install"));
 			if (MISSING_ARGS(3))
 				badusage(_("--slave needs <link> <name> <path>"));
@@ -2703,40 +2752,40 @@ main(int argc, char **argv)
 		}
 	}
 
-	if (!action)
+	if (action == ACTION_NONE)
 		badusage(_("need --display, --query, --list, --get-selections, "
 		           "--config, --set, --set-selections, --install, "
 		           "--remove, --all, --remove-all or --auto"));
 
 	/* The following actions might modify the current alternative. */
-	if (strcmp(action, "set") == 0 ||
-	    strcmp(action, "auto") == 0 ||
-	    strcmp(action, "config") == 0 ||
-	    strcmp(action, "remove") == 0 ||
-	    strcmp(action, "remove-all") == 0 ||
-	    strcmp(action, "install") == 0)
+	if (action == ACTION_SET ||
+	    action == ACTION_AUTO ||
+	    action == ACTION_CONFIG ||
+	    action == ACTION_REMOVE ||
+	    action == ACTION_REMOVE_ALL ||
+	    action == ACTION_INSTALL)
 		modifies_alt = true;
 
 	/* The following actions might modify the system somehow. */
 	if (modifies_alt ||
-	    strcmp(action, "all") == 0 ||
-	    strcmp(action, "set-selections") == 0)
+	    action == ACTION_CONFIG_ALL ||
+	    action == ACTION_SET_SELECTIONS)
 		modifies_sys = true;
 
-	if (strcmp(action, "install") == 0)
+	if (action == ACTION_INSTALL)
 		alternative_check_install_args(inst_alt, fileset);
 
-	if (strcmp(action, "display") == 0 ||
-	    strcmp(action, "query") == 0 ||
-	    strcmp(action, "list") == 0 ||
-	    strcmp(action, "set") == 0 ||
-	    strcmp(action, "auto") == 0 ||
-	    strcmp(action, "config") == 0 ||
-	    strcmp(action, "remove-all") == 0) {
+	if (action == ACTION_DISPLAY ||
+	    action == ACTION_QUERY ||
+	    action == ACTION_LIST ||
+	    action == ACTION_SET ||
+	    action == ACTION_AUTO ||
+	    action == ACTION_CONFIG ||
+	    action == ACTION_REMOVE_ALL) {
 		/* Load the alternative info, stop on failure. */
 		if (!alternative_load(a, ALTDB_WARN_PARSER))
 			error(_("no alternatives for %s"), a->master_name);
-	} else if (strcmp(action, "remove") == 0) {
+	} else if (action == ACTION_REMOVE) {
 		/* FIXME: Be consistent for now with the case when we
 		 * try to remove a non-existing path from an existing
 		 * link group file. */
@@ -2744,7 +2793,7 @@ main(int argc, char **argv)
 			verbose(_("no alternatives for %s"), a->master_name);
 			exit(0);
 		}
-	} else if (strcmp(action, "install") == 0) {
+	} else if (action == ACTION_INSTALL) {
 		/* Load the alternative info, ignore failures. */
 		alternative_load(a, ALTDB_WARN_PARSER);
 	}
@@ -2758,29 +2807,29 @@ main(int argc, char **argv)
 	}
 
 	/* Handle actions. */
-	if (strcmp(action, "all") == 0) {
+	if (action == ACTION_CONFIG_ALL) {
 		alternative_config_all();
-	} else if (strcmp(action, "get-selections") == 0) {
+	} else if (action == ACTION_GET_SELECTIONS) {
 		alternative_get_selections();
-	} else if (strcmp(action, "set-selections") == 0) {
+	} else if (action == ACTION_SET_SELECTIONS) {
 		alternative_set_selections(stdin, _("<standard input>"));
-	} else if (strcmp(action, "display") == 0) {
+	} else if (action == ACTION_DISPLAY) {
 		alternative_display_user(a);
-	} else if (strcmp(action, "query") == 0) {
+	} else if (action == ACTION_QUERY) {
 		alternative_display_query(a);
-	} else if (strcmp(action, "list") == 0) {
+	} else if (action == ACTION_LIST) {
 		alternative_display_list(a);
-	} else if (strcmp(action, "set") == 0) {
+	} else if (action == ACTION_SET) {
 		new_choice = alternative_set_manual(a, path);
-	} else if (strcmp(action, "auto") == 0) {
+	} else if (action == ACTION_AUTO) {
 		new_choice = alternative_set_auto(a);
-	} else if (strcmp(action, "config") == 0) {
+	} else if (action == ACTION_CONFIG) {
 		new_choice = alternative_config(a, current_choice);
-	} else if (strcmp(action, "remove") == 0) {
+	} else if (action == ACTION_REMOVE) {
 		new_choice = alternative_remove(a, current_choice, path);
-	} else if (strcmp(action, "remove-all") == 0) {
+	} else if (action == ACTION_REMOVE_ALL) {
 		alternative_choices_free(a);
-	} else if (strcmp(action, "install") == 0) {
+	} else if (action == ACTION_INSTALL) {
 		if (a->master_link) {
 			/* Alternative already exists, check if anything got
 			 * updated. */
