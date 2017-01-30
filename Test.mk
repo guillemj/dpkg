@@ -16,13 +16,18 @@ ifneq (,$(filter debug,$(DPKG_TESTSUITE_OPTIONS)))
 DPKG_MAINTSCRIPT_DEBUG = DPKG_DEBUG=1
 endif
 
+DPKG_ENV = \
+  LD_PRELOAD="$(LD_PRELOAD)" \
+  LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)" \
+  $(DPKG_MAINTSCRIPT_DEBUG)
+
 ifdef DPKG_BUILDTREE
 PATH := $(DPKG_BUILDTREE)/dpkg-deb:$(DPKG_BUILDTREE)/dpkg-split:$(DPKG_BUILDTREE)/src:$(DPKG_BUILDTREE)/utils:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export PATH
-BEROOT := sudo env PATH=$(PATH) $(DPKG_MAINTSCRIPT_DEBUG)
-else
-BEROOT := sudo env $(DPKG_MAINTSCRIPT_DEBUG)
+DPKG_ENV += PATH=$(PATH)
 endif
+
+BEROOT := sudo env $(DPKG_ENV)
 
 DPKG_OPTIONS = --force-unsafe-io --no-debsig --log=/dev/null
 
