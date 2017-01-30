@@ -2037,7 +2037,7 @@ do_procinit(void)
 			prog_status = pid_status;
 	}
 	closedir(procdir);
-	if (!foundany)
+	if (foundany == 0)
 		fatal("nothing in /proc - not mounted?");
 
 	return prog_status;
