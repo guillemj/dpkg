@@ -26,6 +26,7 @@
 
 #include <stdint.h>
 
+#include <dpkg/error.h>
 #include <dpkg/file.h>
 
 /**
@@ -58,7 +59,7 @@ enum tar_filetype {
 };
 
 struct tar_entry {
-	/** Tar archive format. */
+	/** Tar entry format. */
 	enum tar_format format;
 	/** File type. */
 	enum tar_filetype type;
@@ -76,8 +77,10 @@ struct tar_entry {
 	struct file_stat stat;
 };
 
-typedef int tar_read_func(void *ctx, char *buffer, int length);
-typedef int tar_make_func(void *ctx, struct tar_entry *h);
+struct tar_archive;
+
+typedef int tar_read_func(struct tar_archive *tar, char *buffer, int length);
+typedef int tar_make_func(struct tar_archive *tar, struct tar_entry *h);
 
 struct tar_operations {
 	tar_read_func *read;
@@ -89,6 +92,18 @@ struct tar_operations {
 	tar_make_func *mknod;
 };
 
+struct tar_archive {
+	/* Global tar archive error. */
+	struct dpkg_error err;
+
+	/** Tar archive format. */
+	enum tar_format format;
+
+	/* Operation functions and context. */
+	const struct tar_operations *ops;
+	void *ctx;
+};
+
 uintmax_t
 tar_atoul(const char *s, size_t size, uintmax_t max);
 intmax_t
@@ -97,7 +112,8 @@ tar_atosl(const char *s, size_t size, intmax_t min, intmax_t max);
 void
 tar_entry_update_from_system(struct tar_entry *te);
 
-int tar_extractor(void *ctx, const struct tar_operations *ops);
+int
+tar_extractor(struct tar_archive *tar);
 
 /** @} */
 

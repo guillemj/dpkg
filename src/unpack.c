@@ -1077,6 +1077,7 @@ void process_archive(const char *filename) {
   static enum pkgstatus oldversionstatus;
   static struct tarcontext tc;
 
+  struct tar_archive tar;
   struct dpkg_error err;
   enum parsedbflags parsedb_flags;
   int rc;
@@ -1431,14 +1432,15 @@ void process_archive(const char *filename) {
   tc.backendpipe= p1[0];
   tc.pkgset_getting_in_sync = pkgset_getting_in_sync(pkg);
 
-  rc = tar_extractor(&tc, &tf);
-  if (rc) {
-    if (errno) {
-      ohshite(_("error reading dpkg-deb tar output"));
-    } else {
-      ohshit(_("corrupted filesystem tarfile - corrupted package archive"));
-    }
-  }
+  /* Setup the tar archive. */
+  tar.err = DPKG_ERROR_OBJECT;
+  tar.ctx = &tc;
+  tar.ops = &tf;
+
+  rc = tar_extractor(&tar);
+  if (rc)
+    dpkg_error_print(&tar.err,
+                     _("corrupted filesystem tarfile in package archive"));
   if (fd_skip(p1[0], -1, &err) < 0)
     ohshit(_("cannot zap possible trailing zeros from dpkg-deb: %s"), err.str);
   close(p1[0]);

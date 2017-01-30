@@ -70,8 +70,10 @@ void ok_prermdeconfigure(int argc, void **argv);
 
 void setupfnamevbs(const char *filename);
 
-int tarobject(void *ctx, struct tar_entry *ti);
-int tarfileread(void *ud, char *buf, int len);
+int
+tarobject(struct tar_archive *tar, struct tar_entry *ti);
+int
+tarfileread(struct tar_archive *tar, char *buf, int len);
 void
 tar_deferred_extract(struct fsys_namenode_list *files, struct pkginfo *pkg);
 

@@ -42,16 +42,17 @@ struct tar_context {
 };
 
 static int
-tar_read(void *ctx, char *buffer, int size)
+tar_read(struct tar_archive *tar, char *buffer, int size)
 {
-	struct tar_context *tc = ctx;
+	struct tar_context *tc = tar->ctx;
 
 	return fd_read(tc->tar_fd, buffer, size);
 }
 
 static int
-tar_object_skip(struct tar_context *tc, struct tar_entry *te)
+tar_object_skip(struct tar_archive *tar, struct tar_entry *te)
 {
+	struct tar_context *tc = tar->ctx;
 	off_t size;
 
 	size = (te->size + TARBLKSZ - 1) / TARBLKSZ * TARBLKSZ;
@@ -62,7 +63,7 @@ tar_object_skip(struct tar_context *tc, struct tar_entry *te)
 }
 
 static int
-tar_object(void *ctx, struct tar_entry *te)
+tar_object(struct tar_archive *tar, struct tar_entry *te)
 {
 	printf("%s mode=%o time=%ld.%.9d uid=%d gid=%d", te->name,
 	       te->stat.mode, te->mtime, 0, te->stat.uid, te->stat.gid);
@@ -74,7 +75,7 @@ tar_object(void *ctx, struct tar_entry *te)
 	switch (te->type) {
 	case TAR_FILETYPE_FILE0:
 	case TAR_FILETYPE_FILE:
-		tar_object_skip(ctx, te);
+		tar_object_skip(tar, te);
 		printf(" type=file size=%jd", (intmax_t)te->size);
 		break;
 	case TAR_FILETYPE_HARDLINK:
@@ -116,7 +117,8 @@ struct tar_operations tar_ops = {
 int
 main(int argc, char **argv)
 {
-	struct tar_context ctx;
+	struct tar_archive tar;
+	struct tar_context tar_ctx;
 	const char *tar_name = argv[1];
 
 	setvbuf(stdout, NULL, _IOLBF, 0);
@@ -124,18 +126,22 @@ main(int argc, char **argv)
 	push_error_context();
 
 	if (tar_name) {
-		ctx.tar_fd = open(tar_name, O_RDONLY);
-		if (ctx.tar_fd < 0)
+		tar_ctx.tar_fd = open(tar_name, O_RDONLY);
+		if (tar_ctx.tar_fd < 0)
 			ohshite("cannot open file '%s'", tar_name);
 	} else {
-		ctx.tar_fd = STDIN_FILENO;
+		tar_ctx.tar_fd = STDIN_FILENO;
 	}
 
-	if (tar_extractor(&ctx, &tar_ops))
+	tar.err = DPKG_ERROR_OBJECT;
+	tar.ctx = &tar_ctx;
+	tar.ops = &tar_ops;
+
+	if (tar_extractor(&tar))
 		ohshite("extracting tar");
 
 	if (tar_name)
-		close(ctx.tar_fd);
+		close(tar_ctx.tar_fd);
 
 	pop_error_context(ehflag_normaltidy);
 

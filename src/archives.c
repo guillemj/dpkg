@@ -264,8 +264,10 @@ void cu_pathname(int argc, void **argv) {
   path_remove_tree((char*)(argv[0]));
 }
 
-int tarfileread(void *ud, char *buf, int len) {
-  struct tarcontext *tc= (struct tarcontext*)ud;
+int
+tarfileread(struct tar_archive *tar, char *buf, int len)
+{
+  struct tarcontext *tc = (struct tarcontext *)tar->ctx;
   int r;
 
   r = fd_read(tc->backendpipe, buf, len);
@@ -661,14 +663,14 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
 }
 
 int
-tarobject(void *ctx, struct tar_entry *ti)
+tarobject(struct tar_archive *tar, struct tar_entry *ti)
 {
   static struct varbuf conffderefn, symlinkfn;
   const char *usename;
   struct fsys_namenode *usenode;
 
   struct conffile *conff;
-  struct tarcontext *tc = ctx;
+  struct tarcontext *tc = tar->ctx;
   bool existingdir, keepexisting;
   bool refcounting;
   char oldhash[MD5HASHLEN + 1];
