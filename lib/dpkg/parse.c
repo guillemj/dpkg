@@ -673,10 +673,14 @@ parse_stanza(struct parsedb_state *ps, struct field_state *fs,
     fs->valuestart = ps->dataptr - 1;
     for (;;) {
       if (c == '\n' || c == MSDOS_EOF_CHAR) {
-        if (blank_line)
-          parse_error(ps,
-                      _("blank line in value of field '%.*s'"),
-                      fs->fieldlen, fs->fieldstart);
+        if (blank_line) {
+          if (ps->flags & pdb_lax_stanza_parser)
+            parse_warn(ps, _("blank line in value of field '%.*s'"),
+                       fs->fieldlen, fs->fieldstart);
+          else
+            parse_error(ps, _("blank line in value of field '%.*s'"),
+                        fs->fieldlen, fs->fieldstart);
+        }
         ps->lno++;
 
         if (parse_at_eof(ps))
