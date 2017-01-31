@@ -683,11 +683,11 @@ pkg-ma-act-trig_1.0_all:: pkg-template
 	chmod 755 $@/DEBIAN/postinst
 
 test-coinstall-triggers: ma-setup
-	-cat $(DPKG_ADMINDIR)/triggers/File
+	-cat "$(DPKG_ADMINDIR)/triggers/File"
 	$(DPKG_INSTALL) pkg-ma-triggers_1.0_$(NATIVE_ARCH).deb
-	cat $(DPKG_ADMINDIR)/triggers/File
+	cat "$(DPKG_ADMINDIR)/triggers/File"
 	$(DPKG_INSTALL) pkg-ma-triggers_1.0_$(FOREIGN_ARCH).deb
-	cat $(DPKG_ADMINDIR)/triggers/File
+	cat "$(DPKG_ADMINDIR)/triggers/File"
 	# Test file trigger processing
 	$(BEROOT) sh -c ":>'$(DPKG_INSTDIR)/m-a/triggers'"
 	$(DPKG_UNPACK) --no-triggers pkg-ma-act-trig_1.0_all.deb
@@ -800,31 +800,31 @@ pkg-ma-db-layout_2.0_$(NATIVE_ARCH):: pkg-template
 
 test-db-layout: ma-setup
 	$(DPKG_INSTALL) pkg-ma-db-layout_1.0_$(NATIVE_ARCH).deb
-	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list
-	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-1
+	test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list"
+	test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-1"
 	$(DPKG_INSTALL) pkg-ma-db-layout_2.0_$(NATIVE_ARCH).deb
-	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list
-	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-1
-	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list
-	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2
+	! test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list"
+	! test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-1"
+	test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list"
+	test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2"
 	$(DPKG_INSTALL) pkg-ma-db-layout_1.0_$(NATIVE_ARCH).deb
-	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list
-	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-1
-	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list
-	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2
+	test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list"
+	test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-1"
+	! test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list"
+	! test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2"
 	$(DPKG_PURGE) pkg-ma-db-layout
 	# Test the upgrade of the db layout
 	$(DPKG_INSTALL) pkg-ma-db-layout_2.0_$(NATIVE_ARCH).deb
-	rm -f $(DPKG_ADMINDIR)/info/format
-	mv $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list
-	mv $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2 $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-2
+	rm -f "$(DPKG_ADMINDIR)/info/format"
+	mv "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list" "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list"
+	mv "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2" "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-2"
 	$(call stdout_has,$(DPKG_QUERY) --control-path pkg-ma-db-layout foo-2,/pkg-ma-db-layout\.foo-2$$)
 	$(DPKG_CONFIGURE) -a
-	grep -q "^1$$" $(DPKG_ADMINDIR)/info/format
-	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list
-	test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2
-	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list
-	! test -e $(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-2
+	grep -q "^1$$" "$(DPKG_ADMINDIR)/info/format"
+	test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).list"
+	test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout:$(NATIVE_ARCH).foo-2"
+	! test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout.list"
+	! test -e "$(DPKG_ADMINDIR)/info/pkg-ma-db-layout.foo-2"
 	$(call stdout_has,$(DPKG_QUERY) --control-path pkg-ma-db-layout foo-2,/pkg-ma-db-layout:$(NATIVE_ARCH)\.foo-2$$)
 	$(DPKG_PURGE) pkg-ma-db-layout
 
@@ -834,4 +834,4 @@ test-clean:
 	    $(DPKG_PURGE) $$pkg; \
 	done)
 	-$(DPKG_DIVERT_DEL) --local --divert $(common_file).real $(common_file)
-	rm -f $(DPKG_ADMINDIR)/arch
+	rm -f "$(DPKG_ADMINDIR)/arch"

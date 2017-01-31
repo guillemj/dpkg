@@ -49,7 +49,7 @@ endif
 
 # Always use a local db (requires at least dpkg 1.16.0)
 DPKG_ADMINDIR = $(CURDIR)/../dpkgdb
-DPKG_COMMON_OPTIONS = --admindir=$(DPKG_ADMINDIR)
+DPKG_COMMON_OPTIONS = --admindir="$(DPKG_ADMINDIR)"
 ifdef DPKG_BUILD_PKG_HAS_IGNORE_BUILTIN_BUILDDEPS
 DPKG_CHECKBUILDDEPS_OPTIONS = --ignore-builtin-builddeps
 else

@@ -355,15 +355,15 @@ endif
 test-internal-db:
 	# test that installing triggers creates the corresponding files
 	$(DPKG_INSTALL) pkg-triggers.deb
-	$(call stdout_is,cat $(DPKG_ADMINDIR)/triggers/a-trigger,pkg-triggers)
-	grep -q "^/triggers pkg-triggers$$" $(DPKG_ADMINDIR)/triggers/File
+	$(call stdout_is,cat "$(DPKG_ADMINDIR)/triggers/a-trigger",pkg-triggers)
+	grep -q "^/triggers pkg-triggers$$" "$(DPKG_ADMINDIR)/triggers/File"
 	$(DPKG_INSTALL) pkg-triggers-noawait.deb
-	$(call stdout_is,cat $(DPKG_ADMINDIR)/triggers/a-trigger,pkg-triggers/noawait)
-	grep -q "^/triggers pkg-triggers/noawait$$" $(DPKG_ADMINDIR)/triggers/File
+	$(call stdout_is,cat "$(DPKG_ADMINDIR)/triggers/a-trigger",pkg-triggers/noawait)
+	grep -q "^/triggers pkg-triggers/noawait$$" "$(DPKG_ADMINDIR)/triggers/File"
 	# Test that removal cleans up the triggers files
 	$(DPKG_PURGE) pkg-triggers
-	! test -e $(DPKG_ADMINDIR)/triggers/a-trigger
-	! test -e $(DPKG_ADMINDIR)/triggers/File
+	! test -e "$(DPKG_ADMINDIR)/triggers/a-trigger"
+	! test -e "$(DPKG_ADMINDIR)/triggers/File"
 
 test-clean:
 	$(DPKG_PURGE) pkg-triggers pkg-trig-file pkg-trig-explicit pkg-trig-cmd
