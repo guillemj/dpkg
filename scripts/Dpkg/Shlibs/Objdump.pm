@@ -165,9 +165,6 @@ my %elf_mach_map = (
 # always better to not mask a flag, because that preserves the historical
 # behavior, and we do not drop dependencies.
 my %elf_flags_mask = (
-    ELF_MACH_ARM()      => ELF_FLAG_ARM_EABI_MASK |
-                           ELF_FLAG_ARM_NEW_ABI | ELF_FLAG_ARM_OLD_ABI |
-                           ELF_FLAG_ARM_SOFT_FLOAT | ELF_FLAG_ARM_HARD_FLOAT,
     ELF_MACH_IA64()     => ELF_FLAG_IA64_ABI64,
     ELF_MACH_MIPS()     => ELF_FLAG_MIPS_ABI_MASK | ELF_FLAG_MIPS_ABI2,
     ELF_MACH_PPC64()    => ELF_FLAG_PPC64_ABI64,
