@@ -27,6 +27,10 @@ The DPKG_TESTSUITE_OPTIONS environment/make variable can be used to change
 the behaviour of the test runs, the following options are currently
 supported:
 
+* not-root
+
+  This runs the tests in unprivileged (non-root) mode.
+
 * test-all
 
   This runs all tests, including manual and failing ones.
@@ -39,7 +43,7 @@ The configuration file ‘.pkg-tests.conf’ can be used to set permanent
 parameters. For example:
 
   ,-- .pkg-tests.conf --
-  |DPKG_TESTSUITE_OPTIONS := debug
+  |DPKG_TESTSUITE_OPTIONS := debug not-root
   `--
 
 Test-suite layout

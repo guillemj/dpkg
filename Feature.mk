@@ -45,4 +45,8 @@ export DPKG_HAS_LAX_DB_BLANK_LINE_PARSER ?= 1
 export DPKG_BUILD_PKG_HAS_IGNORE_BUILTIN_BUILDDEPS ?= 1
 endif
 
+ifneq (,$(filter not-root,$(DPKG_TESTSUITE_OPTIONS)))
+export DPKG_NOT_ROOT = 1
+endif
+
 endif

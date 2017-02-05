@@ -41,11 +41,17 @@ TESTS_PASS += t-option-recursive
 TESTS_PASS += t-control-bogus
 TESTS_PASS += t-control-no-arch
 TESTS_PASS += t-unpack-symlink
+ifndef DPKG_NOT_ROOT
+# No permissions for hardlinks
 TESTS_PASS += t-unpack-hardlink
-TESTS_PASS += t-unpack-divert-nowarn
 TESTS_PASS += t-unpack-divert-hardlink
+endif
+TESTS_PASS += t-unpack-divert-nowarn
 TESTS_PASS += t-unpack-fifo
+ifndef DPKG_NOT_ROOT
+# No permissions for devices
 TESTS_PASS += t-unpack-device
+endif
 TESTS_PASS += t-maintscript-leak
 TESTS_PASS += t-filtering
 TESTS_PASS += t-depends
@@ -71,7 +77,10 @@ TESTS_PASS += t-triggers
 ifdef DPKG_HAS_WORKING_TRIGGERS_PENDING_UPGRADE
 TESTS_PASS += t-triggers-configure
 endif
+ifndef DPKG_NOT_ROOT
+# FIXME: Somehow file triggers do not work with --root/$DPKG_ROOT
 TESTS_PASS += t-triggers-path
+endif
 TESTS_PASS += t-triggers-depends
 # This only works with dpkg >= 1.18.x
 ifdef DPKG_HAS_TRIGPROC_DEPCHECK
@@ -88,8 +97,12 @@ TESTS_PASS += t-file-replaces
 TESTS_PASS += t-file-replaces-disappear
 TESTS_PASS += t-file-replaces-versioned
 TESTS_PASS += t-conffile-normal
+ifndef DPKG_NOT_ROOT
+# FIXME: dpkg-maintscript-helper does not support $DPKG_ROOT
 TESTS_PASS += t-conffile-obsolete
+# FIXME: Somehow pkg-conff-takeover cannot take over /test-conffile
 TESTS_PASS += t-conffile-orphan
+endif
 TESTS_PASS += t-conffile-forcemiss
 TESTS_PASS += t-conffile-forcenew
 TESTS_PASS += t-conffile-forceask
@@ -102,16 +115,22 @@ TESTS_PASS += t-conffile-replaces-existing
 TESTS_PASS += t-conffile-replaces-existing-and-upgrade
 TESTS_PASS += t-conffile-replaces-disappear
 TESTS_PASS += t-conffile-versioned-replaces-downgrade
+ifndef DPKG_NOT_ROOT
+# FIXME: Uses dpkg-maintscript-helper
 TESTS_PASS += t-conffile-rename
+endif
 TESTS_PASS += t-queue-process-deconf-dupe
 TESTS_PASS += t-package-type
 TESTS_PASS += t-symlink-dir
 # This only works with dpkg >= 1.17.x
 ifdef DPKG_HAS_MAINTSCRIPT_SWITCH_DIR_SYMLINK
+ifndef DPKG_NOT_ROOT
+# FIXME: Uses dpkg-maintscript-helper
 TESTS_PASS += t-switch-symlink-abs-to-dir
 TESTS_PASS += t-switch-symlink-rel-to-dir
 TESTS_PASS += t-switch-dir-to-symlink-abs
 TESTS_PASS += t-switch-dir-to-symlink-rel
+endif
 endif
 TESTS_PASS += t-source-minimal
 TESTS_PASS += t-substvars

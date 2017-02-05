@@ -62,12 +62,16 @@ $(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
 $(foreach ma,same foreign foreign-any allowed allowed-any allowed-fake no,\
   $(eval $(call build_pkg,dep-on-$(ma)_1.0_all,dep-on-$(ma),1.0,all,no,pkg-ma-$(subst -,:,$(ma)) (>= 1.0))))
 
+shared_file_types := file symlink fifo
+ifndef DPKG_NOT_ROOT
+shared_file_types += chardev blockdev
+endif
 $(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
   $(foreach version,1.0 2.0,\
     $(eval $(call build_pkg,shared-conffiles_$(version)_orig_$(arch),shared-conffiles,$(version),$(arch),same,))\
     $(eval $(call build_pkg,shared-conffiles_$(version)_alt_$(arch),shared-conffiles,$(version),$(arch),same,))\
     $(foreach variant,orig alt,\
-      $(foreach type,file symlink fifo chardev blockdev,\
+      $(foreach type,$(shared_file_types),\
         $(eval $(call build_pkg,shared-files_$(version)_$(variant)-$(type)_$(arch),shared-files,$(version),$(arch),same,))))))
 
 $(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
@@ -509,10 +513,12 @@ test-coinstall-shared-files: ma-setup
 	test -f "$(DPKG_INSTDIR)$(common_file)"
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-fifo_$(FOREIGN_ARCH).deb
 	test -f "$(DPKG_INSTDIR)$(common_file)"
+ifndef DPKG_NOT_ROOT
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-chardev_$(FOREIGN_ARCH).deb
 	test -f "$(DPKG_INSTDIR)$(common_file)"
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-blockdev_$(FOREIGN_ARCH).deb
 	test -f "$(DPKG_INSTDIR)$(common_file)"
+endif
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-file_$(FOREIGN_ARCH).deb
 	grep -q "Variant: orig Version: 1.0" "$(DPKG_INSTDIR)$(common_file)"
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(FOREIGN_ARCH).deb
@@ -554,6 +560,7 @@ test-coinstall-shared-files: ma-setup
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-symlink_$(FOREIGN_ARCH).deb
 	$(call stdout_is,readlink "$(DPKG_INSTDIR)$(common_file)",orig-1.0)
 	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH) pkg-ma-shared-files:$(FOREIGN_ARCH)
+ifndef DPKG_NOT_ROOT
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-chardev_$(NATIVE_ARCH).deb
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-chardev_$(FOREIGN_ARCH).deb
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-chardev_$(FOREIGN_ARCH).deb
@@ -566,6 +573,7 @@ test-coinstall-shared-files: ma-setup
 	test -b "$(DPKG_INSTDIR)$(common_file)"
 	$(call stdout_is,stat -c "%t %T" "$(DPKG_INSTDIR)$(common_file)",1 3)
 	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH) pkg-ma-shared-files:$(FOREIGN_ARCH)
+endif
 
 # Further customize test packages for test-coinstall-shared-conffiles
 define customize_shared_conffiles
@@ -688,9 +696,12 @@ test-coinstall-triggers: ma-setup
 	$(DPKG_CONFIGURE) pkg-ma-triggers:$(NATIVE_ARCH) pkg-ma-triggers:$(FOREIGN_ARCH)
 	$(call pkg_is_installed,pkg-ma-triggers:$(NATIVE_ARCH))
 	$(call pkg_is_installed,pkg-ma-triggers:$(FOREIGN_ARCH))
+ifndef DPKG_NOT_ROOT
+	# FIXME: Something is wrong with dpkg triggers
 	$(call stdout_is,grep -c FILE "$(DPKG_INSTDIR)/m-a/triggers",2)
 	grep -q "FILE $(NATIVE_ARCH)" "$(DPKG_INSTDIR)/m-a/triggers"
 	grep -q "FILE $(FOREIGN_ARCH)" "$(DPKG_INSTDIR)/m-a/triggers"
+endif
 	# Test manual trigger processing
 	$(DPKG_CONFIGURE) pkg-ma-act-trig
 	$(call pkg_is_installed,pkg-ma-triggers:$(NATIVE_ARCH))
@@ -741,8 +752,11 @@ test-coinstall-diversions: ma-setup
 	$(DPKG_INSTALL) pkg-ma-diverted_1.0_all.deb
 	$(DPKG_INSTALL) pkg-ma-shared-diversion_1.0_$(NATIVE_ARCH).deb
 	$(DPKG_INSTALL) pkg-ma-shared-diversion_1.0_$(FOREIGN_ARCH).deb
+ifndef DPKG_NOT_ROOT
+	# FIXME: Something is wrong with diversions
 	grep -q "pkg-ma-diverted" "$(DPKG_INSTDIR)$(common_file).distrib"
 	grep -q "pkg-ma-shared-diversion" "$(DPKG_INSTDIR)$(common_file)"
+endif
 	$(DPKG_PURGE) pkg-ma-shared-diversion:$(NATIVE_ARCH)
 	$(call stdout_has,$(DPKG_DIVERT) --list,$(common_file).distrib)
 	$(DPKG_PURGE) pkg-ma-shared-diversion:$(FOREIGN_ARCH)

@@ -23,16 +23,25 @@ endif
 
 DPKG_ENV = \
   PATH=$(DPKG_PATH) \
-  LD_PRELOAD="$(LD_PRELOAD)" \
-  LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)" \
   $(DPKG_MAINTSCRIPT_DEBUG)
 
 export PATH
 PATH = $(DPKG_PATH)
 
-BEROOT := sudo env $(DPKG_ENV)
-
 DPKG_OPTIONS = --force-unsafe-io --no-debsig --log=/dev/null
+
+ifdef DPKG_NOT_ROOT
+DPKG_INSTDIR = $(CURDIR)/../dpkginst
+DPKG_OPTIONS += \
+  --force-script-chrootless --force-not-root \
+  --instdir="$(DPKG_INSTDIR)"
+BEROOT := env $(DPKG_ENV)
+else
+DPKG_ENV += \
+  LD_PRELOAD="$(LD_PRELOAD)" \
+  LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)"
+BEROOT := sudo env $(DPKG_ENV)
+endif
 
 ifneq (,$(filter debug,$(DPKG_TESTSUITE_OPTIONS)))
 DPKG_OPTIONS += -D77777
@@ -46,7 +55,7 @@ DPKG_CHECKBUILDDEPS_OPTIONS = --ignore-builtin-builddeps
 else
 DPKG_CHECKBUILDDEPS_OPTIONS = -d
 endif
-DPKG_BUILD_PKG_OPTIONS = $(DPKG_CHECKBUILDDEPS_OPTIONS) -us -uc --check-command=
+DPKG_BUILD_PKG_OPTIONS = $(DPKG_COMMON_OPTIONS) $(DPKG_CHECKBUILDDEPS_OPTIONS) -us -uc --check-command=
 
 DPKG = dpkg $(DPKG_COMMON_OPTIONS) $(DPKG_OPTIONS)
 DPKG_INSTALL = $(BEROOT) $(DPKG) -i
