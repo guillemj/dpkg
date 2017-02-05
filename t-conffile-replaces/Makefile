@@ -13,7 +13,7 @@ define VERIFY
 $(call pkg_is_installed,pkg-conff-original)
 $(call pkg_is_installed,pkg-conff-takeover)
 test "`$(DPKG_QUERY) -S /test-conffile`" = "pkg-conff-takeover: /test-conffile"
-cmp ref-conffile /test-conffile
+cmp ref-conffile "$(DPKG_INSTDIR)/test-conffile"
 endef
 
 test-two-run-ordered:

@@ -14,7 +14,7 @@ define VERIFY
 $(call pkg_is_installed,pkg-file-original)
 $(call pkg_is_installed,pkg-file-takeover)
 test "`$(DPKG_QUERY) -S /test-file`" = "pkg-file-takeover: /test-file"
-cmp ref-file /test-file
+cmp ref-file "$(DPKG_INSTDIR)/test-file"
 endef
 
 test-two-run-ordered:

@@ -6,14 +6,14 @@ test-case:
 	$(DPKG_INSTALL) pkg-dir-real.deb
 
 	$(DPKG_INSTALL) pkg-dir-symlink-0.deb
-	test -h /test-symlink
+	test -h "$(DPKG_INSTDIR)/test-symlink"
 
 	$(DPKG_INSTALL) pkg-dir-symlink-1.deb
-	! test -h /test-symlink
-	test -d /test-symlink
+	! test -h "$(DPKG_INSTDIR)/test-symlink"
+	test -d "$(DPKG_INSTDIR)/test-symlink"
 
 	$(DPKG_PURGE) pkg-dir-symlink
-	! test -e /test-symlink
+	! test -e "$(DPKG_INSTDIR)/test-symlink"
 
 	$(DPKG_PURGE) pkg-dir-real
 

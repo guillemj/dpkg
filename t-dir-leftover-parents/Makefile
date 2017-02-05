@@ -8,9 +8,9 @@ test-case:
 	$(DPKG_REMOVE) pkg-dir-shared-notempty
 	$(DPKG_PURGE) pkg-dir-shared
 	$(DPKG_PURGE) pkg-dir-shared-notempty
-	test ! -d /test-dir
+	test ! -d "$(DPKG_INSTDIR)/test-dir"
 
 test-clean:
 	$(DPKG_PURGE) pkg-dir-shared
 	$(DPKG_PURGE) pkg-dir-shared-notempty
-	$(BEROOT) rm -rf /test-dir
+	$(BEROOT) rm -rf "$(DPKG_INSTDIR)/test-dir"

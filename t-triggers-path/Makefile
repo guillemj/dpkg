@@ -7,20 +7,20 @@ test-case:
 
 	# Test that the trigger gets activated on conffile installation
 	$(DPKG_UNPACK) pkg-trigger-conffile.deb
-	test -e /test-triggered-cmd && $(BEROOT) rm -f /test-triggered-cmd
+	test -e "$(DPKG_INSTDIR)/test-triggered-cmd" && $(BEROOT) rm -f "$(DPKG_INSTDIR)/test-triggered-cmd"
 	$(DPKG_CONFIGURE) pkg-trigger-conffile
-	test -e /test-triggered-file && $(BEROOT) rm -f /test-triggered-file
+	test -e "$(DPKG_INSTDIR)/test-triggered-file" && $(BEROOT) rm -f "$(DPKG_INSTDIR)/test-triggered-file"
 	$(DPKG_PURGE) pkg-trigger-conffile
 
 	# Test that the trigger gets activated on explicit file request
 	$(DPKG_INSTALL) pkg-trigger-cmd.deb
-	test -e /test-triggered-cmd && $(BEROOT) rm -f /test-triggered-cmd
+	test -e "$(DPKG_INSTDIR)/test-triggered-cmd" && $(BEROOT) rm -f "$(DPKG_INSTDIR)/test-triggered-cmd"
 	$(DPKG_PURGE) pkg-trigger-cmd
 
 	# Cleanup.
 	$(DPKG_PURGE) pkg-interest
 
 test-clean:
-	$(BEROOT) rm -f /test-triggered-cmd /test-triggered-file
+	$(BEROOT) rm -f "$(DPKG_INSTDIR)/test-triggered-cmd" "$(DPKG_INSTDIR)/test-triggered-file"
 	-$(DPKG_PURGE) pkg-interest
 	-$(DPKG_PURGE) pkg-trigger-conffile pkg-trigger-cmd

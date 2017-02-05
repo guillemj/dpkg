@@ -32,9 +32,9 @@ test-no-doc-sub:
 	$(DPKG_INSTALL) \
 	  --path-exclude '/test/share/doc/*/*' \
 	  pkg-somefiles.deb
-	test -d /test/share/doc/pkg-somefiles
-	test "`ls /test/share/doc/pkg-somefiles`" = ""
-	test -f /test/lib/pkg-somefiles/run
+	test -d "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles"
+	test "`ls '$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles'`" = ""
+	test -f "$(DPKG_INSTDIR)/test/lib/pkg-somefiles/run"
 	$(DPKG_PURGE) pkg-somefiles
 
 test-no-doc-all:
@@ -42,8 +42,8 @@ test-no-doc-all:
 	$(DPKG_INSTALL) \
 	  --path-exclude '/test/share/doc/*' \
 	  pkg-somefiles.deb
-	! test -d /test/share/doc/pkg-somefiles
-	test -f /test/lib/pkg-somefiles/run
+	! test -d "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles"
+	test -f "$(DPKG_INSTDIR)/test/lib/pkg-somefiles/run"
 	$(DPKG_PURGE) pkg-somefiles
 
 test-no-doc-except-copyright:
@@ -52,10 +52,10 @@ test-no-doc-except-copyright:
 	  --path-exclude '/test/share/doc/*/*' \
 	  --path-include '/test/share/doc/*/copyright' \
 	  pkg-somefiles.deb
-	test -f /test/share/doc/pkg-somefiles/copyright
-	! test -f /test/share/doc/pkg-somefiles/html/index.html
-	! test -f /test/share/doc/pkg-somefiles/README
-	test -f /test/lib/pkg-somefiles/run
+	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
+	! test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/html/index.html"
+	! test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/README"
+	test -f "$(DPKG_INSTDIR)/test/lib/pkg-somefiles/run"
 	$(DPKG_PURGE) pkg-somefiles
 
 test-no-doc-except-copyright-subdir:
@@ -66,10 +66,10 @@ test-no-doc-except-copyright-subdir:
 	  --path-exclude '/test/share/doc/*' \
 	  --path-include '/test/share/doc/*/copyright' \
 	  pkg-somefiles.deb
-	test -f /test/share/doc/pkg-somefiles/copyright
-	! test -f /test/share/doc/pkg-somefiles/html/index.html
-	! test -f /test/share/doc/pkg-somefiles/README
-	test -f /test/lib/pkg-somefiles/run
+	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
+	! test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/html/index.html"
+	! test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/README"
+	test -f "$(DPKG_INSTDIR)/test/lib/pkg-somefiles/run"
 	$(DPKG_PURGE) pkg-somefiles
 
 test-no-doc-except-copyright-and-readme:
@@ -80,10 +80,10 @@ test-no-doc-except-copyright-and-readme:
 	  --path-include '/test/share/doc/*/copyright' \
 	  --path-include '/test*/READ*' \
 	  pkg-somefiles.deb
-	test -f /test/share/doc/pkg-somefiles/copyright
-	! test -f /test/share/doc/pkg-somefiles/html/index.html
-	test -f /test/share/doc/pkg-somefiles/README
-	test -f /test/lib/pkg-somefiles/run
+	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
+	! test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/html/index.html"
+	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/README"
+	test -f "$(DPKG_INSTDIR)/test/lib/pkg-somefiles/run"
 	$(DPKG_PURGE) pkg-somefiles
 
 test-include-only:
@@ -94,9 +94,9 @@ test-include-only:
 	  --path-include '/test/lib/*/*' \
 	  pkg-somefiles.deb
 	test "`$(DPKG_QUERY) -L pkg-somefiles | wc -l`" = $(DEB_FILES_COUNT)
-	test -f /test/share/doc/pkg-somefiles/copyright
-	test -f /test/share/doc/pkg-somefiles/html/index.html
-	test -f /test/lib/pkg-somefiles/run
+	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
+	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/html/index.html"
+	test -f "$(DPKG_INSTDIR)/test/lib/pkg-somefiles/run"
 	$(DPKG_PURGE) pkg-somefiles
 
 test-reinclude-subdir:
@@ -106,10 +106,10 @@ test-reinclude-subdir:
 	  --path-include '/test/share/locale/de/*' \
 	  pkg-somefiles.deb
 	test "`$(DPKG_QUERY) -L pkg-somefiles | wc -l`" = $(DEB_FILES_COUNT)
-	test -d /test/share/locale/de
-	test -f /test/share/locale/de/foo.mo
-	! test -f /test/share/locale/ca/foo.mo
-	! test -f /test/share/locale/es/foo.mo
+	test -d "$(DPKG_INSTDIR)/test/share/locale/de"
+	test -f "$(DPKG_INSTDIR)/test/share/locale/de/foo.mo"
+	! test -f "$(DPKG_INSTDIR)/test/share/locale/ca/foo.mo"
+	! test -f "$(DPKG_INSTDIR)/test/share/locale/es/foo.mo"
 	$(DPKG_PURGE) pkg-somefiles
 
 test-same-include-exclude:
@@ -120,8 +120,8 @@ test-same-include-exclude:
 	  --path-include '/test/share/*' \
 	  pkg-somefiles.deb
 	test "`$(DPKG_QUERY) -L pkg-somefiles | wc -l`" = $(DEB_FILES_COUNT)
-	test -f /test/share/doc/pkg-somefiles/html/index.html
-	test -f /test/lib/pkg-somefiles/run
+	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/html/index.html"
+	test -f "$(DPKG_INSTDIR)/test/lib/pkg-somefiles/run"
 	$(DPKG_PURGE) pkg-somefiles
 	
 	# now doubly so
@@ -132,32 +132,32 @@ test-same-include-exclude:
 	  --path-include '/test/share/*' \
 	  pkg-somefiles.deb
 	test "`$(DPKG_QUERY) -L pkg-somefiles | wc -l`" = $(DEB_FILES_COUNT)
-	test -f /test/share/doc/pkg-somefiles/html/index.html
-	test -f /test/lib/pkg-somefiles/run
+	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/html/index.html"
+	test -f "$(DPKG_INSTDIR)/test/lib/pkg-somefiles/run"
 	$(DPKG_PURGE) pkg-somefiles
 
 test-upgrade:
 	# files are removed/re-added on upgrades
 	$(DPKG_INSTALL) pkg-somefiles.deb
 	test "`$(DPKG_QUERY) -L pkg-somefiles | wc -l`" = $(DEB_FILES_COUNT)
-	test -f /test/share/doc/pkg-somefiles/copyright
+	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
 	
 	$(DPKG_INSTALL) \
 	  --path-exclude '/test/share/doc/*' \
 	  pkg-somefiles.deb
-	! test -d /test/share/doc/pkg-somefiles
+	! test -d "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles"
 	
 	$(DPKG_INSTALL) \
 	  --path-exclude '/test/share/doc/*' \
 	  --path-include '/test/share/doc/*/copyright' \
 	  pkg-somefiles.deb
-	test -f /test/share/doc/pkg-somefiles/copyright
-	! test -f /test/share/doc/pkg-somefiles/README
+	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
+	! test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/README"
 	
 	$(DPKG_INSTALL) pkg-somefiles.deb
 	test "`$(DPKG_QUERY) -L pkg-somefiles | wc -l`" = $(DEB_FILES_COUNT)
-	test -f /test/share/doc/pkg-somefiles/copyright
-	test -f /test/share/doc/pkg-somefiles/README
+	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/copyright"
+	test -f "$(DPKG_INSTDIR)/test/share/doc/pkg-somefiles/README"
 	$(DPKG_PURGE) pkg-somefiles
 
 # --help output explains the options

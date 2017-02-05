@@ -506,27 +506,27 @@ test-coinstall-shared-files: ma-setup
 	# multi-arch sibling package of the same version
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(NATIVE_ARCH).deb
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-symlink_$(FOREIGN_ARCH).deb
-	test -f $(common_file)
+	test -f "$(DPKG_INSTDIR)$(common_file)"
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-fifo_$(FOREIGN_ARCH).deb
-	test -f $(common_file)
+	test -f "$(DPKG_INSTDIR)$(common_file)"
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-chardev_$(FOREIGN_ARCH).deb
-	test -f $(common_file)
+	test -f "$(DPKG_INSTDIR)$(common_file)"
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-blockdev_$(FOREIGN_ARCH).deb
-	test -f $(common_file)
+	test -f "$(DPKG_INSTDIR)$(common_file)"
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-file_$(FOREIGN_ARCH).deb
-	grep -q "Variant: orig Version: 1.0" $(common_file)
+	grep -q "Variant: orig Version: 1.0" "$(DPKG_INSTDIR)$(common_file)"
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(FOREIGN_ARCH).deb
 	$(call stdout_has,$(DPKG_QUERY) -L pkg-ma-shared-files:$(NATIVE_ARCH),$(common_file))
 	$(call stdout_has,$(DPKG_QUERY) -L pkg-ma-shared-files:$(FOREIGN_ARCH),$(common_file))
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-file_$(FOREIGN_ARCH).deb
 	# But that we can install another version while upgrading
 	$(DPKG_UNPACK) pkg-ma-shared-files_2.0_orig-file_$(NATIVE_ARCH).deb
-	grep -q "Variant: orig Version: 2.0" $(common_file)
+	grep -q "Variant: orig Version: 2.0" "$(DPKG_INSTDIR)$(common_file)"
 	! $(DPKG_UNPACK) pkg-ma-shared-files_2.0_alt-file_$(FOREIGN_ARCH).deb
 	$(DPKG_UNPACK) pkg-ma-shared-files_2.0_orig-file_$(FOREIGN_ARCH).deb
 	$(DPKG_CONFIGURE) --pending
 	$(DPKG_UNPACK) pkg-ma-shared-files_1.0_alt-file_$(NATIVE_ARCH).deb
-	grep -q "Variant: alt" $(common_file)
+	grep -q "Variant: alt" "$(DPKG_INSTDIR)$(common_file)"
 	# Even during upgrade you can't come with a conflicting version
 	! $(DPKG_UNPACK) pkg-ma-shared-files_1.0_orig-file_$(FOREIGN_ARCH).deb
 	$(DPKG_UNPACK) pkg-ma-shared-files_1.0_alt-file_$(FOREIGN_ARCH).deb
@@ -545,26 +545,26 @@ test-coinstall-shared-files: ma-setup
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(NATIVE_ARCH).deb
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-file_$(FOREIGN_ARCH).deb
 	$(DPKG_PURGE) pkg-ma-shared-files:$(FOREIGN_ARCH)
-	grep -q "Variant: orig Version: 1.0" $(common_file)
+	grep -q "Variant: orig Version: 1.0" "$(DPKG_INSTDIR)$(common_file)"
 	$(call stdout_has,$(DPKG_QUERY) -L pkg-ma-shared-files:$(NATIVE_ARCH),$(common_file))
 	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH)
 	# Ensure we detect differences with non-files too
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-symlink_$(NATIVE_ARCH).deb
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-symlink_$(FOREIGN_ARCH).deb
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-symlink_$(FOREIGN_ARCH).deb
-	$(call stdout_is,readlink $(common_file),orig-1.0)
+	$(call stdout_is,readlink "$(DPKG_INSTDIR)$(common_file)",orig-1.0)
 	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH) pkg-ma-shared-files:$(FOREIGN_ARCH)
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-chardev_$(NATIVE_ARCH).deb
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-chardev_$(FOREIGN_ARCH).deb
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-chardev_$(FOREIGN_ARCH).deb
-	test -c $(common_file)
-	$(call stdout_is,stat -c "%t %T" $(common_file),1 3)
+	test -c "$(DPKG_INSTDIR)$(common_file)"
+	$(call stdout_is,stat -c "%t %T" "$(DPKG_INSTDIR)$(common_file)",1 3)
 	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH) pkg-ma-shared-files:$(FOREIGN_ARCH)
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-blockdev_$(NATIVE_ARCH).deb
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-blockdev_$(FOREIGN_ARCH).deb
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-blockdev_$(FOREIGN_ARCH).deb
-	test -b $(common_file)
-	$(call stdout_is,stat -c "%t %T" $(common_file),1 3)
+	test -b "$(DPKG_INSTDIR)$(common_file)"
+	$(call stdout_is,stat -c "%t %T" "$(DPKG_INSTDIR)$(common_file)",1 3)
 	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH) pkg-ma-shared-files:$(FOREIGN_ARCH)
 
 # Further customize test packages for test-coinstall-shared-conffiles
@@ -583,27 +583,27 @@ test-coinstall-shared-conffiles: ma-setup
 	# multi-arch sibling package of the same version
 	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(NATIVE_ARCH).deb
 	! $(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
-	grep -q "Variant: orig Version: 1.0" /m-a/conffile
+	grep -q "Variant: orig Version: 1.0" "$(DPKG_INSTDIR)/m-a/conffile"
 	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(FOREIGN_ARCH).deb
 	! $(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
 	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(NATIVE_ARCH)
 	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(FOREIGN_ARCH)
 	# Ensure this is still true even if the installed conffile is modified
 	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(NATIVE_ARCH).deb
-	$(BEROOT) sh -c "echo 'MODIFIED' >>/m-a/conffile"
+	$(BEROOT) sh -c "echo 'MODIFIED' >>'$(DPKG_INSTDIR)/m-a/conffile'"
 	! $(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
-	grep -q "Variant: orig Version: 1.0" /m-a/conffile
+	grep -q "Variant: orig Version: 1.0" "$(DPKG_INSTDIR)/m-a/conffile"
 	$(DPKG_INSTALL) --force-confold pkg-ma-shared-conffiles_1.0_orig_$(FOREIGN_ARCH).deb
 	! $(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
 	# Ensure we can install another version while upgrading even
 	# with a modified conffile
 	$(DPKG_UNPACK) pkg-ma-shared-conffiles_2.0_orig_$(NATIVE_ARCH).deb
-	grep -q "Variant: orig Version: 2.0" /m-a/conffile.dpkg-new
+	grep -q "Variant: orig Version: 2.0" "$(DPKG_INSTDIR)/m-a/conffile.dpkg-new"
 	! $(DPKG_UNPACK) pkg-ma-shared-conffiles_2.0_alt_$(FOREIGN_ARCH).deb
-	grep -q "Variant: orig Version: 2.0" /m-a/conffile.dpkg-new
+	grep -q "Variant: orig Version: 2.0" "$(DPKG_INSTDIR)/m-a/conffile.dpkg-new"
 	$(DPKG_UNPACK) pkg-ma-shared-conffiles_2.0_orig_$(FOREIGN_ARCH).deb
 	$(DPKG_CONFIGURE) --force-confnew --pending
-	grep -q "Variant: orig Version: 2.0" /m-a/conffile
+	grep -q "Variant: orig Version: 2.0" "$(DPKG_INSTDIR)/m-a/conffile"
 	# Ensure the conffile hashes are correct, i.e. the new hashes have
 	# propagated to all instances
 	$(call stdout_is,$(DPKG_QUERY) -f '$${Conffiles}' -W pkg-ma-shared-conffiles:$(NATIVE_ARCH), /m-a/conffile 7404b80581282025ee3ec6689e111114)
@@ -612,17 +612,17 @@ test-coinstall-shared-conffiles: ma-setup
 	# the same run
 	$(DPKG_INSTALL) pkg-ma-shared-conffiles_2.0_orig_$(NATIVE_ARCH).deb \
 	                pkg-ma-shared-conffiles_2.0_orig_$(FOREIGN_ARCH).deb
-	grep -q "Variant: orig Version: 2.0" /m-a/conffile
+	grep -q "Variant: orig Version: 2.0" "$(DPKG_INSTDIR)/m-a/conffile"
 	# Ensure we can reinstall coinstallable packages with conffiles on
 	# different runs
 	$(DPKG_UNPACK) pkg-ma-shared-conffiles_2.0_orig_$(FOREIGN_ARCH).deb
 	$(DPKG_UNPACK) pkg-ma-shared-conffiles_2.0_orig_$(NATIVE_ARCH).deb
 	$(DPKG_CONFIGURE) pkg-ma-shared-conffiles:$(NATIVE_ARCH)
 	$(DPKG_CONFIGURE) pkg-ma-shared-conffiles:$(FOREIGN_ARCH)
-	grep -q "Variant: orig Version: 2.0" /m-a/conffile
+	grep -q "Variant: orig Version: 2.0" "$(DPKG_INSTDIR)/m-a/conffile"
 	# Another time with a downgrade and an unmodified conffile
 	$(DPKG_UNPACK) pkg-ma-shared-conffiles_1.0_alt_$(NATIVE_ARCH).deb
-	grep -q "Variant: alt" /m-a/conffile.dpkg-new
+	grep -q "Variant: alt" "$(DPKG_INSTDIR)/m-a/conffile.dpkg-new"
 	! $(DPKG_UNPACK) pkg-ma-shared-conffiles_1.0_orig_$(FOREIGN_ARCH).deb
 	$(DPKG_UNPACK) pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
 	$(DPKG_CONFIGURE) --force-confnew --pending
@@ -631,9 +631,9 @@ test-coinstall-shared-conffiles: ma-setup
 	$(DPKG_REMOVE) pkg-ma-shared-conffiles:$(NATIVE_ARCH)
 	! $(call stdout_has,$(DPKG_QUERY) -L pkg-ma-shared-conffiles:$(NATIVE_ARCH),/m-a/conffile)
 	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(NATIVE_ARCH)
-	test -e /m-a/conffile
+	test -e "$(DPKG_INSTDIR)/m-a/conffile"
 	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(FOREIGN_ARCH)
-	! test -e /m-a/conffile
+	! test -e "$(DPKG_INSTDIR)/m-a/conffile"
 	# Ensure we can re-install a conflicting version of a package if
 	# no multi-arch siblings are installed
 	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(NATIVE_ARCH).deb
@@ -644,11 +644,11 @@ test-coinstall-shared-conffiles: ma-setup
 	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(FOREIGN_ARCH)
 	# Same with modified conffile
 	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(NATIVE_ARCH).deb
-	$(BEROOT) sh -c "echo 'MODIFIED' >>/m-a/conffile"
+	$(BEROOT) sh -c "echo 'MODIFIED' >>'$(DPKG_INSTDIR)/m-a/conffile'"
 	$(DPKG_INSTALL) --force-confnew pkg-ma-shared-conffiles_1.0_alt_$(NATIVE_ARCH).deb
 	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(NATIVE_ARCH)
 	$(DPKG_INSTALL) pkg-ma-shared-conffiles_1.0_orig_$(FOREIGN_ARCH).deb
-	$(BEROOT) sh -c "echo 'MODIFIED' >>/m-a/conffile"
+	$(BEROOT) sh -c "echo 'MODIFIED' >>'$(DPKG_INSTDIR)/m-a/conffile'"
 	$(DPKG_INSTALL) --force-confnew pkg-ma-shared-conffiles_1.0_alt_$(FOREIGN_ARCH).deb
 	$(DPKG_PURGE) pkg-ma-shared-conffiles:$(FOREIGN_ARCH)
 
@@ -657,12 +657,12 @@ pkg-ma-triggers_1.0_$(NATIVE_ARCH) pkg-ma-triggers_1.0_$(FOREIGN_ARCH):: pkg-tem
 	echo "#!/bin/sh" >$@/DEBIAN/postinst
 	echo '[ "$$1" = "triggered" ] || exit 0' >>$@/DEBIAN/postinst
 	echo 'case " $$2 " in' >>$@/DEBIAN/postinst
-	echo '*" /m-a/trigger-watch "*) ' >>$@/DEBIAN/postinst
-	echo '   echo "FILE $$DPKG_MAINTSCRIPT_ARCH" >>/m-a/triggers ;;' >>$@/DEBIAN/postinst
+	echo '*" $${DPKG_ROOT}/m-a/trigger-watch "*) ' >>$@/DEBIAN/postinst
+	echo '   echo "FILE $$DPKG_MAINTSCRIPT_ARCH" >>"$${DPKG_ROOT}/m-a/triggers" ;;' >>$@/DEBIAN/postinst
 	echo 'esac' >>$@/DEBIAN/postinst
 	echo 'case " $$2 " in' >>$@/DEBIAN/postinst
 	echo '*" test-m-a-same "*)' >>$@/DEBIAN/postinst
-	echo '   echo "MANUAL $$DPKG_MAINTSCRIPT_ARCH" >>/m-a/triggers ;;' >>$@/DEBIAN/postinst
+	echo '   echo "MANUAL $$DPKG_MAINTSCRIPT_ARCH" >>"$${DPKG_ROOT}/m-a/triggers" ;;' >>$@/DEBIAN/postinst
 	echo 'esac' >>$@/DEBIAN/postinst
 	chmod 755 $@/DEBIAN/postinst
 	echo 'interest /m-a/trigger-watch' >$@/DEBIAN/triggers
@@ -681,26 +681,26 @@ test-coinstall-triggers: ma-setup
 	$(DPKG_INSTALL) pkg-ma-triggers_1.0_$(FOREIGN_ARCH).deb
 	cat $(DPKG_ADMINDIR)/triggers/File
 	# Test file trigger processing
-	$(BEROOT) sh -c ":>/m-a/triggers"
+	$(BEROOT) sh -c ":>'$(DPKG_INSTDIR)/m-a/triggers'"
 	$(DPKG_UNPACK) --no-triggers pkg-ma-act-trig_1.0_all.deb
 	$(call pkg_status_is,pkg-ma-triggers:$(NATIVE_ARCH),install ok triggers-pending)
 	$(call pkg_status_is,pkg-ma-triggers:$(FOREIGN_ARCH),install ok triggers-pending)
 	$(DPKG_CONFIGURE) pkg-ma-triggers:$(NATIVE_ARCH) pkg-ma-triggers:$(FOREIGN_ARCH)
 	$(call pkg_is_installed,pkg-ma-triggers:$(NATIVE_ARCH))
 	$(call pkg_is_installed,pkg-ma-triggers:$(FOREIGN_ARCH))
-	$(call stdout_is,grep -c FILE /m-a/triggers,2)
-	grep -q "FILE $(NATIVE_ARCH)" /m-a/triggers
-	grep -q "FILE $(FOREIGN_ARCH)" /m-a/triggers
+	$(call stdout_is,grep -c FILE "$(DPKG_INSTDIR)/m-a/triggers",2)
+	grep -q "FILE $(NATIVE_ARCH)" "$(DPKG_INSTDIR)/m-a/triggers"
+	grep -q "FILE $(FOREIGN_ARCH)" "$(DPKG_INSTDIR)/m-a/triggers"
 	# Test manual trigger processing
 	$(DPKG_CONFIGURE) pkg-ma-act-trig
 	$(call pkg_is_installed,pkg-ma-triggers:$(NATIVE_ARCH))
 	$(call pkg_is_installed,pkg-ma-triggers:$(FOREIGN_ARCH))
-	$(call stdout_is,grep -c MANUAL /m-a/triggers,2)
-	grep -q "MANUAL $(NATIVE_ARCH)" /m-a/triggers
-	grep -q "MANUAL $(FOREIGN_ARCH)" /m-a/triggers
+	$(call stdout_is,grep -c MANUAL "$(DPKG_INSTDIR)/m-a/triggers",2)
+	grep -q "MANUAL $(NATIVE_ARCH)" "$(DPKG_INSTDIR)/m-a/triggers"
+	grep -q "MANUAL $(FOREIGN_ARCH)" "$(DPKG_INSTDIR)/m-a/triggers"
 	# Clean up
 	$(DPKG_PURGE) pkg-ma-act-trig
-	$(BEROOT) rm -f /m-a/triggers
+	$(BEROOT) rm -f "$(DPKG_INSTDIR)/m-a/triggers"
 	$(DPKG_PURGE) pkg-ma-triggers:$(NATIVE_ARCH)
 	$(DPKG_PURGE) pkg-ma-triggers:$(FOREIGN_ARCH)
 
@@ -741,8 +741,8 @@ test-coinstall-diversions: ma-setup
 	$(DPKG_INSTALL) pkg-ma-diverted_1.0_all.deb
 	$(DPKG_INSTALL) pkg-ma-shared-diversion_1.0_$(NATIVE_ARCH).deb
 	$(DPKG_INSTALL) pkg-ma-shared-diversion_1.0_$(FOREIGN_ARCH).deb
-	grep -q "pkg-ma-diverted" $(common_file).distrib
-	grep -q "pkg-ma-shared-diversion" $(common_file)
+	grep -q "pkg-ma-diverted" "$(DPKG_INSTDIR)$(common_file).distrib"
+	grep -q "pkg-ma-shared-diversion" "$(DPKG_INSTDIR)$(common_file)"
 	$(DPKG_PURGE) pkg-ma-shared-diversion:$(NATIVE_ARCH)
 	$(call stdout_has,$(DPKG_DIVERT) --list,$(common_file).distrib)
 	$(DPKG_PURGE) pkg-ma-shared-diversion:$(FOREIGN_ARCH)
@@ -815,7 +815,7 @@ test-db-layout: ma-setup
 	$(DPKG_PURGE) pkg-ma-db-layout
 
 test-clean:
-	$(BEROOT) rm -f /m-a/triggers
+	$(BEROOT) rm -f "$(DPKG_INSTDIR)/m-a/triggers"
 	$(DPKG_QUERY) -W | grep ^pkg-ma- | (while read pkg ver; do \
 	    $(DPKG_PURGE) $$pkg; \
 	done)

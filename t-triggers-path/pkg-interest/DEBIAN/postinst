@@ -4,9 +4,9 @@ set -e
 case "$1" in
   triggered)
     if [ -e /test/trigger/test-file ]; then
-      touch /test-triggered-file
+      touch "${DPKG_ROOT}/test-triggered-file"
     else
-      touch /test-triggered-cmd
+      touch "${DPKG_ROOT}/test-triggered-cmd"
     fi
   ;;
 esac

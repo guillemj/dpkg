@@ -20,8 +20,8 @@ test "`$(DPKG_QUERY) -S /test-conffile`" = "pkg-conff-takeover: /test-conffile"
 test "`$(DPKG_QUERY) -S /test-confpath`" = "pkg-conff-takeover: /test-confpath"
 test "`$(CONFFILES) -W pkg-conff-original | grep obsolete | wc -l`" = "2"
 test "`$(CONFFILES) -W pkg-conff-takeover | grep -v obsolete | wc -l`" = "2"
-cmp ref-conffile /test-conffile
-cmp ref-conffile /test-confpath
+cmp ref-conffile "$(DPKG_INSTDIR)/test-conffile"
+cmp ref-conffile "$(DPKG_INSTDIR)/test-confpath"
 endef
 
 test-two-run-ordered:

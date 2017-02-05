@@ -20,7 +20,7 @@ $(call pkg_is_installed,pkg-conff-takeover)
 test "`$(DPKG_QUERY) -S /test-conffile`" = "pkg-conff-takeover: /test-conffile"
 test "`$(CONFFILES) -W pkg-conff-original | grep obsolete | wc -l`" = "1"
 test "`$(CONFFILES) -W pkg-conff-takeover | grep -v obsolete | wc -l`" = "1"
-cmp ref-conffile /test-conffile
+cmp ref-conffile "$(DPKG_INSTDIR)/test-conffile"
 endef
 
 test-two-run-ordered:
