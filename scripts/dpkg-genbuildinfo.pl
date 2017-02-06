@@ -232,8 +232,7 @@ sub collect_installed_builddeps {
             # virtual package: we cannot know for sure which implementation
             # is the one that has been used, so let's add them all...
             foreach my $provided (@{$facts->{virtualpkg}->{$pkg_name}}) {
-                my ($provided_by, $provided_rel, $provided_ver) = @{$provided};
-                push @unprocessed_pkgs, $provided_by;
+                push @unprocessed_pkgs, $provided->{provider};
             }
         }
         # else: it is a package in an OR dependency that has been otherwise

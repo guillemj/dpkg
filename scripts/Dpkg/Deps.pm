@@ -1423,9 +1423,15 @@ field (if present).
 
 sub add_provided_package {
     my ($self, $pkg, $rel, $ver, $by) = @_;
+    my $v = {
+        package => $pkg,
+        relation => $rel,
+        version => $ver,
+        provider => $by,
+    };
 
     $self->{virtualpkg}{$pkg} //= [];
-    push @{$self->{virtualpkg}{$pkg}}, [ $by, $rel, $ver ];
+    push @{$self->{virtualpkg}{$pkg}}, $v;
 }
 
 =item ($check, $param) = $facts->check_package($package)
@@ -1453,7 +1459,10 @@ sub check_package {
 	return (1, $self->{pkg}{$pkg}[0]{version});
     }
     if (exists $self->{virtualpkg}{$pkg}) {
-	return (1, $self->{virtualpkg}{$pkg});
+        my $arrayref = [ map { [
+            $_->{provider}, $_->{relation}, $_->{version}
+        ] } @{$self->{virtualpkg}{$pkg}} ];
+        return (1, $arrayref);
     }
     return (0, undef);
 }
@@ -1510,11 +1519,11 @@ sub _evaluate_simple_dep {
 	}
     }
     foreach my $virtpkg ($self->_find_virtual_packages($pkg)) {
-	next if defined $virtpkg->[1] and $virtpkg->[1] ne REL_EQ;
+	next if defined $virtpkg->{relation} and $virtpkg->{relation} ne REL_EQ;
 
 	if (defined $dep->{relation}) {
-	    next if not defined $virtpkg->[2];
-	    return 1 if version_compare_relation($virtpkg->[2],
+	    next if not defined $virtpkg->{version};
+	    return 1 if version_compare_relation($virtpkg->{version},
 	                                         $dep->{relation},
 	                                         $dep->{version});
 	} else {
