@@ -271,7 +271,8 @@ sub _add_hardening_flags {
     );
 
     my %builtin_pie_arch = map { $_ => 1 } qw(
-        amd64 arm64 armel armhf i386 mips mipsel mips64el ppc64el s390x
+        amd64 arm64 armel armhf i386 kfreebsd-amd64 kfreebsd-i386
+        mips mipsel mips64el ppc64el s390x sparc sparc64
     );
 
     # Mask builtin features that are not enabled by default in the compiler.
