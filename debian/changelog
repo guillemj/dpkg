@@ -17,6 +17,11 @@ dpkg (1.18.23) UNRELEASED; urgency=medium
       Thanks to Nicolas Boulenguez <nicolas@debian.org>.
     - Mark kfreebsd-amd64, kfreebsd-i386, sparc and sparc64 architectures as
       having gcc builtin PIE in Dpkg::Vendor::Debian.
+    - Switch PIE handling in Dpkg::Vendor::Debian to have no default (!) and
+      delegate the setting to gcc or an explicit request by a user. This is
+      needed to cope with the general PIE brokenness situation in Debian, and
+      the current specific brokenness of a Debian gcc patch mangling the dpkg
+      build flags. Closes: #848129, #845550
   * Documentation:
     - Clarify the requirements for deb-conffile(5) pathnames. Closes: #854417
       Proposed by Dieter Adriaenssens <dieter.adriaenssens@gmail.com>.

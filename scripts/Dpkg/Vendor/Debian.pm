@@ -258,7 +258,9 @@ sub _add_hardening_flags {
 
     # Default feature states.
     my %use_feature = (
-	pie => 1,
+	# XXX: This is set to undef so that we can cope with the brokenness
+	# of gcc managing this feature builtin.
+	pie => undef,
 	stackprotector => 1,
 	stackprotectorstrong => 1,
 	fortify => 1,
@@ -321,7 +323,8 @@ sub _add_hardening_flags {
     }
 
     # PIE
-    if ($use_feature{pie} and not $builtin_feature{pie}) {
+    if (defined $use_feature{pie} and $use_feature{pie} and
+        not $builtin_feature{pie}) {
 	my $flag = "-specs=$Dpkg::DATADIR/pie-compile.specs";
 	$flags->append('CFLAGS', $flag);
 	$flags->append('OBJCFLAGS',  $flag);
@@ -331,7 +334,8 @@ sub _add_hardening_flags {
 	$flags->append('CXXFLAGS', $flag);
 	$flags->append('GCJFLAGS', $flag);
 	$flags->append('LDFLAGS', "-specs=$Dpkg::DATADIR/pie-link.specs");
-    } elsif (not $use_feature{pie} and $builtin_feature{pie}) {
+    } elsif (defined $use_feature{pie} and not $use_feature{pie} and
+             $builtin_feature{pie}) {
 	my $flag = "-specs=$Dpkg::DATADIR/no-pie-compile.specs";
 	$flags->append('CFLAGS', $flag);
 	$flags->append('OBJCFLAGS',  $flag);
@@ -386,6 +390,11 @@ sub _add_hardening_flags {
     # Bindnow
     if ($use_feature{bindnow}) {
 	$flags->append('LDFLAGS', '-Wl,-z,now');
+    }
+
+    # Set used features to their builtin setting if unset.
+    foreach my $feature (keys %builtin_feature) {
+	$use_feature{$feature} //= $builtin_feature{$feature};
     }
 
     # Store the feature usage.
