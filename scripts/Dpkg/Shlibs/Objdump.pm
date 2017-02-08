@@ -293,6 +293,11 @@ sub analyze {
 
     $self->{exec_abi} = Dpkg::Shlibs::Objdump::get_format($file);
 
+    if (not defined $self->{exec_abi}) {
+        warning(g_("unknown executable format in file '%s'"), $file);
+        return;
+    }
+
     local $ENV{LC_ALL} = 'C';
     open(my $objdump, '-|', $OBJDUMP, '-w', '-f', '-p', '-T', '-R', $file)
         or syserr(g_('cannot fork for %s'), $OBJDUMP);
