@@ -180,7 +180,12 @@ sub get_format {
     my $header;
 
     open my $fh, '<', $file or syserr(g_('cannot read %s'), $file);
-    read($fh, $header, 64) == 64 or syserr(g_('cannot read %s'), $file);
+    my $rc = read $fh, $header, 64;
+    if (not defined $rc) {
+        syserr(g_('cannot read %s'), $file);
+    } elsif ($rc != 64) {
+        return;
+    }
     close $fh;
 
     my %elf;

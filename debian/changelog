@@ -6,6 +6,8 @@ dpkg (1.18.23) UNRELEASED; urgency=medium
   * Perl modules:
     - Do not special case EM_SPARC32PLUS for NetBSD in Dpkg::Shlibs::Objdump,
       the code has been fixed in NetBSD as that situation could not happen.
+    - Fix read() error handling in Dpkg::Shlibs::Objdump::get_format() to
+      gracefully ignore non-ELF files again. Closes: #854536
   * Documentation:
     - Clarify the requirements for deb-conffile(5) pathnames. Closes: #854417
       Proposed by Dieter Adriaenssens <dieter.adriaenssens@gmail.com>.
