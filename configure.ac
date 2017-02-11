@@ -104,10 +104,14 @@ AC_CHECK_HEADERS([\
   sys/sysctl.h \
   sys/syscall.h \
   sys/user.h \
-  sys/proc.h \
   sys/procfs.h \
   sys/pstat.h \
   linux/fiemap.h \
+])
+AC_CHECK_HEADERS([sys/proc.h], [], [], [
+#ifdef HAVE_SYS_PARAM_H
+#include <sys/param.h>
+#endif
 ])
 
 AS_IF([test "x$build_dselect" = "xyes"], [
