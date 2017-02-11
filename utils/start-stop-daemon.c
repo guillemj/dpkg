@@ -49,6 +49,9 @@
 #  error Unknown architecture - cannot build start-stop-daemon
 #endif
 
+/* NetBSD needs this to expose struct proc. */
+#define _KMEMUSER 1
+
 #ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
 #endif
