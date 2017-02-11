@@ -1356,7 +1356,11 @@ ssd_kvm_get_procs(kvm_t *kd, int op, int arg, int *count)
 		count = &lcount;
 	*count = 0;
 
+#if defined(OS_OpenBSD)
+	kp = kvm_getprocs(kd, op, arg, sizeof(*kp), count);
+#else
 	kp = kvm_getprocs(kd, op, arg, count);
+#endif
 	if (kp == NULL && errno != ESRCH)
 		errx(1, "%s", kvm_geterr(kd));
 
