@@ -65,7 +65,7 @@ sub cmd_get_vars {
 
 # Test makefiles.
 
-my %arch = cmd_get_vars("$srcdir/dpkg-architecture.pl", '-f');
+my %arch = cmd_get_vars($ENV{PERL}, "$srcdir/dpkg-architecture.pl", '-f');
 
 delete $ENV{$_} foreach keys %arch;
 $ENV{"TEST_$_"} = $arch{$_} foreach keys %arch;
@@ -73,7 +73,7 @@ test_makefile('architecture.mk');
 $ENV{$_} = $arch{$_} foreach keys %arch;
 test_makefile('architecture.mk');
 
-my %buildflag = cmd_get_vars("$srcdir/dpkg-buildflags.pl");
+my %buildflag = cmd_get_vars($ENV{PERL}, "$srcdir/dpkg-buildflags.pl");
 
 delete $ENV{$_} foreach keys %buildflag;
 $ENV{"TEST_$_"} = $buildflag{$_} foreach keys %buildflag;

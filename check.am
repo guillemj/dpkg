@@ -15,7 +15,8 @@ TEST_PARALLEL ?= 1
 TEST_RUNNER = '\
 	my $$harness = TAP::Harness->new({ \
 	    exec => sub { my (undef, $$test) = @_; \
-	                  return -x $$test ? [ $$test ] : undef }, \
+	        return [ $$test ] if $$test !~ "\.t\$$" and -x $$test; \
+	        return }, \
 	    lib => [ "$(top_srcdir)/scripts", "$(top_srcdir)/dselect/methods"  ], \
 	    color => 1, \
 	    verbosity => $(TEST_VERBOSE), \

@@ -31,7 +31,7 @@ my $res;
 sub test_merge {
     my ($expected_file, @options) = @_;
     my $fh = File::Temp->new();
-    spawn(exec => ["$srcdir/dpkg-mergechangelogs.pl", @options],
+    spawn(exec => [ $ENV{PERL}, "$srcdir/dpkg-mergechangelogs.pl", @options ],
 	  to_handle => $fh, error_to_file => '/dev/null',
 	  wait_child => 1, nocheck => 1);
     my $res = compare($expected_file, $fh->filename);

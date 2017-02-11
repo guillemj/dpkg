@@ -134,7 +134,7 @@ sub test_build_source
     my ($name) = shift;
     my $stderr;
 
-    spawn(exec => [ "$srcdir/dpkg-source.pl", '--build', $name ],
+    spawn(exec => [ $ENV{PERL}, "$srcdir/dpkg-source.pl", '--build', $name ],
           error_to_string => \$stderr,
           wait_child => 1, nocheck => 1);
 

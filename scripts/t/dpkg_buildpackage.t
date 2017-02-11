@@ -184,7 +184,8 @@ sub test_build
     my $stderr;
 
     chdir $dirname;
-    spawn(exec => [ "$srcdir/dpkg-buildpackage.pl", '--host-arch=amd64',
+    spawn(exec => [ $ENV{PERL}, "$srcdir/dpkg-buildpackage.pl",
+                    '--host-arch=amd64',
                     '--unsigned-source', '--unsigned-changes',
                     '--unsigned-buildinfo',
                     "--build=$typename", '--check-command=' ],
