@@ -1765,6 +1765,8 @@ pid_is_user(pid_t pid, uid_t uid)
 	proc_uid = kp->p_ruid;
 #elif defined(OS_DragonFlyBSD)
 	proc_uid = kp->kp_ruid;
+#elif defined(OS_NetBSD)
+	proc_uid = kp->kp_eproc.e_pcred.p_ruid;
 #else
 	if (kp->kp_proc.p_cred)
 		kvm_read(kd, (u_long)&(kp->kp_proc.p_cred->p_ruid),
