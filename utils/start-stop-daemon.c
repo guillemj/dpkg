@@ -434,10 +434,10 @@ wait_for_child(pid_t pid)
 		fatal("error waiting for child");
 
 	if (WIFEXITED(status)) {
-		int err = WEXITSTATUS(status);
+		int ret = WEXITSTATUS(status);
 
-		if (err != 0)
-			fatal("child returned error exit status %d", err);
+		if (ret != 0)
+			fatal("child returned error exit status %d", ret);
 	} else if (WIFSIGNALED(status)) {
 		int signo = WTERMSIG(status);
 
