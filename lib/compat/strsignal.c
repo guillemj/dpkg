@@ -60,7 +60,6 @@ const char *const sys_siglist[] = {
 #  define NSIG 32
 # endif
 # define COMPAT_NSIGLIST NSIG
-extern const char *const sys_siglist[];
 #endif
 
 const char *
