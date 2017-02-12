@@ -201,14 +201,14 @@ sub get_format {
         $elf_word = 'L';
     } elsif ($elf{bits} == ELF_BITS_64) {
         $elf_word = 'Q';
-    } elsif ($elf{bits} == ELF_BITS_NONE) {
+    } else {
         return;
     }
     if ($elf{endian} == ELF_ORDER_2LSB) {
         $elf_endian = '<';
     } elsif ($elf{endian} == ELF_ORDER_2MSB) {
         $elf_endian = '>';
-    } elsif ($elf{endian} == ELF_ORDER_NONE) {
+    } else {
         return;
     }
 
