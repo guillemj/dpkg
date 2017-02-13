@@ -620,6 +620,8 @@ sub usage {
                            extract source package.
   -b, --build <dir>        build source package.
       --print-format <dir> print the format to be used for the source package.
+      --before-build <dir> run the corresponding source package format hook.
+      --after-build <dir>  run the corresponding source package format hook.
       --commit [<dir> [<patch-name>]]
                            store upstream changes in a new patch.')
     . "\n\n" . g_(
