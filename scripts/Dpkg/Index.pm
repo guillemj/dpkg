@@ -1,4 +1,5 @@
 # Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2012-2017 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +19,7 @@ package Dpkg::Index;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -57,6 +58,7 @@ sub new {
     my $self = {
 	items => {},
 	order => [],
+	unique_tuple_key => 0,
 	get_key_func => sub { return $_[0]->{Package} },
 	type => CTRL_UNKNOWN,
     };
@@ -73,20 +75,33 @@ sub new {
 
 The "type" option is checked first to define default values for other
 options. Here are the relevant options: "get_key_func" is a function
-returning a key for the item passed in parameters. The index can only
-contain one item with a given key. The function used depends on the
-type:
+returning a key for the item passed in parameters, "unique_tuple_key" is
+a boolean requesting whether the default key should be the unique tuple
+(default to false for backwards compatibility, but it will change to true
+in dpkg 1.20.x). The index can only contain one item with a given key.
+The "get_key_func" function used depends on the type:
 
 =over
 
 =item *
 
-for CTRL_INFO_SRC and CTRL_PKG_SRC, it is the Source field;
+for CTRL_INFO_SRC, it is the Source field;
 
 =item *
 
-for CTRL_INFO_PKG, CTRL_INDEX_SRC, CTRL_INDEX_PKG and CTRL_PKG_DEB
-it is simply the Package field;
+for CTRL_INDEX_SRC and CTRL_PKG_SRC it is the Package field by default,
+or the Package and Version fields (concatenated with "_") when
+"unique_tuple_key" is true;
+
+=item *
+
+for CTRL_INFO_PKG it is simply the Package field;
+
+=item *
+
+for CTRL_INDEX_PKG and CTRL_PKG_DEB it is the Package field by default,
+or the Package, Version and Architecture fields (concatenated with "_")
+when "unique_tuple_key" is true;
 
 =item *
 
@@ -125,10 +140,9 @@ sub set_options {
     # Default values based on type
     if (exists $opts{type}) {
         my $t = $opts{type};
-        if ($t == CTRL_INFO_PKG or $t == CTRL_INDEX_SRC or
-	         $t == CTRL_INDEX_PKG or $t == CTRL_PKG_DEB) {
+        if ($t == CTRL_INFO_PKG) {
 	    $self->{get_key_func} = sub { return $_[0]->{Package}; };
-        } elsif ($t == CTRL_PKG_SRC or $t == CTRL_INFO_SRC) {
+        } elsif ($t == CTRL_INFO_SRC) {
 	    $self->{get_key_func} = sub { return $_[0]->{Source}; };
         } elsif ($t == CTRL_CHANGELOG) {
 	    $self->{get_key_func} = sub {
@@ -146,6 +160,35 @@ sub set_options {
             $self->{get_key_func} = sub {
                 return $_[0]->{Tests} || $_[0]->{'Test-Command'};
             };
+        } elsif ($t == CTRL_INDEX_SRC or $t == CTRL_PKG_SRC) {
+            if ($opts{unique_tuple_key} // $self->{unique_tuple_key}) {
+                $self->{get_key_func} = sub {
+                    return $_[0]->{Package} . '_' . $_[0]->{Version};
+                };
+            } elsif (not defined $opts{get_key_func}) {
+                $self->{get_key_func} = sub {
+                    return $_[0]->{Package};
+                };
+                warnings::warnif('deprecated',
+                    'the default get_key_func for this control type will ' .
+                    'change semantics in dpkg 1.20.x , please set ' .
+                    'unique_tuple_key or get_key_func explicitly');
+            }
+        } elsif ($t == CTRL_INDEX_PKG or $t == CTRL_PKG_DEB) {
+            if ($opts{unique_tuple_key} // $self->{unique_tuple_key}) {
+                $self->{get_key_func} = sub {
+                    return $_[0]->{Package} . '_' . $_[0]->{Version} . '_' .
+                           $_[0]->{Architecture};
+                };
+            } elsif (not defined $opts{get_key_func}) {
+                $self->{get_key_func} = sub {
+                    return $_[0]->{Package};
+                };
+                warnings::warnif('deprecated',
+                    'the default get_key_func for this control type will ' .
+                    'change semantics in dpkg 1.20.x , please set ' .
+                    'unique_tuple_key or get_key_func explicitly');
+            }
         } elsif ($t == CTRL_FILE_CHANGES) {
 	    $self->{get_key_func} = sub {
 		return $_[0]->{Source} . '_' . $_[0]->{Version} . '_' .
@@ -392,6 +435,12 @@ sub output {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.01 (dpkg 1.19.0)
+
+New option: Add new "unique_tuple_key" option to $index->set_options() to set
+better default "get_key_func" options, which will become the default behavior
+in 1.20.x.
 
 =head2 Version 1.00 (dpkg 1.15.6)
 
