@@ -75,15 +75,47 @@ The "type" option is checked first to define default values for other
 options. Here are the relevant options: "get_key_func" is a function
 returning a key for the item passed in parameters. The index can only
 contain one item with a given key. The function used depends on the
-type: for CTRL_INFO_PKG, CTRL_INDEX_SRC, CTRL_INDEX_PKG and CTRL_PKG_DEB
-it's simply the Package field; for CTRL_PKG_SRC and CTRL_INFO_SRC, it's
-the Source field; for CTRL_CHANGELOG it's the Source and the Version
-fields (concatenated with an intermediary "_"); for CTRL_TESTS is either
-the Tests or Test-Command fields; for CTRL_FILE_CHANGES it's
-the Source, Version and Architecture fields (concatenated with "_");
-for CTRL_FILE_VENDOR it's the Vendor field; for CTRL_FILE_STATUS it's the
-Package and Architecture fields (concatenated with "_"). Otherwise it's
-the Package field by default.
+type:
+
+=over
+
+=item *
+
+for CTRL_INFO_SRC and CTRL_PKG_SRC, it is the Source field;
+
+=item *
+
+for CTRL_INFO_PKG, CTRL_INDEX_SRC, CTRL_INDEX_PKG and CTRL_PKG_DEB
+it is simply the Package field;
+
+=item *
+
+for CTRL_CHANGELOG it is the Source and the Version fields (concatenated
+with an intermediary "_");
+
+=item *
+
+for CTRL_TESTS is either the Tests or Test-Command fields;
+
+=item *
+
+for CTRL_FILE_CHANGES it is the Source, Version and Architecture fields
+(concatenated with "_");
+
+=item *
+
+for CTRL_FILE_VENDOR it is the Vendor field;
+
+=item *
+
+for CTRL_FILE_STATUS it is the Package and Architecture fields (concatenated
+with "_");
+
+=item *
+
+otherwise it is the Package field by default.
+
+=back
 
 =cut
 
