@@ -81,9 +81,13 @@ operator delete[](void *a, size_t size) DPKG_ATTR_NOEXCEPT
 }
 
 #ifdef HAVE___CXA_PURE_VIRTUAL
+namespace __cxxabiv1 {
+
 extern "C" void
-abi::__cxa_pure_virtual()
+__cxa_pure_virtual()
 {
 	internerr("pure virtual function called");
+}
+
 }
 #endif
