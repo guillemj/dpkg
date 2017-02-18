@@ -59,7 +59,9 @@ AC_DEFUN([DPKG_WITH_COMPRESS_LIB], [
         ])
         AS_TR_CPP($1)_LIBS="${AS_TR_CPP($1)_LIBS:+$AS_TR_CPP($1)_LIBS }$dpkg_$1_libs"
       ], [
-        AC_MSG_FAILURE([lib$1 library or header not found])
+        AS_IF([test "x$with_lib$1" != "xcheck"], [
+          AC_MSG_FAILURE([lib$1 library or header not found])
+        ])
       ])
     ])
   ])
