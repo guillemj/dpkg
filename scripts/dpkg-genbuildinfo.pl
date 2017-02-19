@@ -64,7 +64,7 @@ my %use_feature = (
     path => 0,
 );
 my @build_profiles = get_build_profiles();
-my $buildinfo_format = '0.2';
+my $buildinfo_format = '1.0';
 my $buildinfo;
 
 my $checksums = Dpkg::Checksums->new();
