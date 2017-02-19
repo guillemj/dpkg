@@ -1,6 +1,6 @@
 .\" dpkg manual page - deb-conffiles(5)
 .\"
-.\" Copyright © 2016 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2016-2017 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -28,6 +28,9 @@ A package declares its list of conffiles by including a \fIconffiles\fP file
 in its control archive (i.e. \fIDEBIAN/conffiles\fP during package creation).
 .PP
 This file contains a list of files, one per line.
+They should be listed as absolute pathnames, and should exist in the binary
+package, otherwise \fBdpkg\fP(1) will ignore them (although by default
+\fBdpkg\-deb\fP(1) will refuse to build such binary packages).
 Trailing whitespace will be trimmed, and empty lines will be ignored.
 .
 .SH EXAMPLE
@@ -39,4 +42,5 @@ Trailing whitespace will be trimmed, and empty lines will be ignored.
 .fi
 .
 .SH SEE ALSO
+.BR dpkg\-deb (1),
 .BR dpkg (1).
