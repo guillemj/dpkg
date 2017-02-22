@@ -173,10 +173,11 @@ dpkg_ar_member_put_header(struct dpkg_ar *ar, struct dpkg_ar_member *member)
 	if (member->size > 9999999999L)
 		ohshit(_("ar member size %jd too large"), (intmax_t)member->size);
 
-	n = sprintf(header, "%-16s%-12lu%-6lu%-6lu%-8lo%-10jd`\n",
-	            member->name, (unsigned long)member->time,
-	            (unsigned long)member->uid, (unsigned long)member->gid,
-	            (unsigned long)member->mode, (intmax_t)member->size);
+	n = snprintf(header, sizeof(struct dpkg_ar_hdr) + 1,
+	             "%-16s%-12lu%-6lu%-6lu%-8lo%-10jd`\n",
+	             member->name, (unsigned long)member->time,
+	             (unsigned long)member->uid, (unsigned long)member->gid,
+	             (unsigned long)member->mode, (intmax_t)member->size);
 	if (n != sizeof(struct dpkg_ar_hdr))
 		ohshit(_("generated corrupt ar header for '%s'"), ar->name);
 

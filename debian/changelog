@@ -9,6 +9,8 @@ dpkg (1.18.23) UNRELEASED; urgency=medium
     Thanks to Jörg Sonnenberger <joerg@netbsd.org>.
   * Add a comment on any C code switch case that falls through. Fixes new
     gcc-7 warnings.
+  * Use snprintf() instead of sprintf() in libdpkg when constructing the ar
+    member header, as we might overflow depending on the input data.
   * Portability:
     - Do not redeclare sys_siglist in libcompat when the system does so.
       Thanks to Thomas Klausner <wiz@NetBSD.org>.
