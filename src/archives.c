@@ -851,6 +851,7 @@ tarobject(void *ctx, struct tar_entry *ti)
       switch (otherpkg->clientdata->replacingfilesandsaid) {
       case 2:
         keepexisting = true;
+        /* Fall through. */
       case 1:
         continue;
       }

@@ -420,8 +420,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           case PKG_STAT_TRIGGERSAWAITED:
               if (canfixbytrigaw && versionsatisfied(&pkg_pos->installed, possi))
                 *canfixbytrigaw = pkg_pos;
-              /* Fall through to have a chance to return OK due to
-               * allowunconfigd and to fill the explanation */
+              /* Fall through. */
           case PKG_STAT_UNPACKED:
           case PKG_STAT_HALFCONFIGURED:
             if (allowunconfigd) {
@@ -581,6 +580,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           case PKG_STAT_HALFCONFIGURED:
             if (dep->type == dep_breaks)
               break; /* No problem. */
+            /* Fall through. */
           case PKG_STAT_INSTALLED:
           case PKG_STAT_TRIGGERSPENDING:
           case PKG_STAT_TRIGGERSAWAITED:
@@ -651,6 +651,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         case PKG_ISTOBE_DECONFIGURE:
           if (dep->type == dep_breaks)
             continue; /* Already deconfiguring. */
+          /* Fall through. */
         case PKG_ISTOBE_NORMAL:
         case PKG_ISTOBE_PREINSTALL:
           switch (provider->up->up->status) {
@@ -662,6 +663,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           case PKG_STAT_HALFCONFIGURED:
             if (dep->type == dep_breaks)
               break; /* No problem. */
+            /* Fall through. */
           case PKG_STAT_INSTALLED:
           case PKG_STAT_TRIGGERSPENDING:
           case PKG_STAT_TRIGGERSAWAITED:
