@@ -64,8 +64,8 @@ void baselist::sigwinchhandler(int) {
 }
 
 static void cu_sigwinch(int, void **argv) {
-  struct sigaction *osigactp= (struct sigaction*)argv[0];
-  sigset_t *oblockedp= (sigset_t*)argv[1];
+  struct sigaction *osigactp = static_cast<struct sigaction *>(argv[0]);
+  sigset_t *oblockedp = static_cast<sigset_t *>(argv[1]);
 
   if (sigaction(SIGWINCH, osigactp, nullptr))
     ohshite(_("failed to restore old SIGWINCH sigact"));
