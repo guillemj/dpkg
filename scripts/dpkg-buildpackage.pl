@@ -77,6 +77,8 @@ sub usage {
   -D                          check build dependencies and conflicts (default).
   -d                          do not check build dependencies and conflicts.
       --[no-]check-builddeps  ditto.
+      --ignore-builtin-builddeps
+                              do not check builtin build dependencies.
   -P, --build-profiles=<profiles>
                               assume comma-separated build profiles as active.
   -R, --rules-file=<rules>    rules file to execute (default is debian/rules).
