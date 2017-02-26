@@ -107,7 +107,7 @@ baselist::matchsearch(int index)
 
   name = itemname(index);
   if (!name)
-    return false;	/* Skip things without a name (seperators). */
+    return false;	/* Skip things without a name (separators). */
 
   searchlen=strlen(searchstring);
   lendiff = strlen(name) - searchlen;

@@ -94,7 +94,7 @@ foreach my $c (@expected_checksums) {
 
 my $ck = Dpkg::Checksums->new();
 
-is(scalar $ck->get_files(), 0, 'No checkums recorded');
+is(scalar $ck->get_files(), 0, 'No checksums recorded');
 
 # Check add_from_file()
 

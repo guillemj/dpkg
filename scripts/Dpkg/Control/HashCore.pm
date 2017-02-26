@@ -109,7 +109,7 @@ sub new {
     my $class = ref($this) || $this;
 
     # Object is a scalar reference and not a hash ref to avoid
-    # infinite recursion due to overloading hash-derefencing
+    # infinite recursion due to overloading hash-dereferencing
     my $self = \{
         in_order => [],
         out_order => [],

@@ -117,7 +117,7 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 		        _("     Version in package is the same as at last installation.\n"));
 	}
 
-	/* No --force-confdef but a forcible situtation. */
+	/* No --force-confdef but a forcible situation. */
 	/* TODO: check if this condition can not be simplified to
 	 *       just !fc_conff_def */
 	if (!(fc_conff_def && (what & (CFOF_INSTALL | CFOF_KEEP)))) {

@@ -773,7 +773,7 @@ execbackend(const char *const *argv)
   command_add_arg(&cmd, cipaction->arg_ptr);
   command_add_arg(&cmd, str_fmt("--%s", cipaction->olong));
 
-  /* Exlicitely separate arguments from options as any user-supplied
+  /* Explicitly separate arguments from options as any user-supplied
    * separator got stripped by the option parser */
   command_add_arg(&cmd, "--");
   command_add_argl(&cmd, (const char **)argv);

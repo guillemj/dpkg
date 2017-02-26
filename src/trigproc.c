@@ -392,7 +392,7 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			 * cycle detections. */
 			trigproc_reset_cycle();
 
-			/* When doing opportunistic trigger processig, nothing
+			/* When doing opportunistic trigger processing, nothing
 			 * requires us to be able to make progress; skip the
 			 * package and silently ignore the error due to
 			 * unsatisfiable dependencies. */

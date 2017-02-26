@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * c-trigdeferred.c - test triggerd deferred file parser
+ * c-trigdeferred.c - test triggered deferred file parser
  *
  * Copyright © 2016 Guillem Jover <guillem@debian.org>
  *

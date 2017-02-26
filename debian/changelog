@@ -1,6 +1,8 @@
 dpkg (1.18.24) UNRELEASED; urgency=medium
 
-  *
+  [ Guillem Jover ]
+  * Documentation:
+    - Many spelling fixes. Thanks to Josh Soref <jsoref@gmail.com>.
 
   [ Updated programs translations ]
   * Czech (Miroslav Kure).
@@ -794,7 +796,7 @@ dpkg (1.18.8) unstable; urgency=medium
     defined. Based on a patch by Jérémy Bobbio <lunar@debian.org>.
     Closes: #759999
   * Do not use the debian/rules build target fallback when building both
-    architecture independent and dependent packages in dpkg-buipdpackage.
+    architecture independent and dependent packages in dpkg-buildpackage.
   * Use architecture «all» as part of the .changes filename when building
     architecture independent binaries and no architecture dependent binaries.
     Closes: #826161
@@ -1218,7 +1220,7 @@ dpkg (1.18.4) unstable; urgency=medium
       ‘-A’ option to the TERMS section. Closes: #799046
     - Clarify that the md5sum check on «dpkg --verify» is performed on the
       file contents, and failures denote changed content. Closes: #760248
-    - Document that dpkg-buildpacakge -nc -S implies -d.
+    - Document that dpkg-buildpackage -nc -S implies -d.
     - Clarify role of Build-Depends in deb-src-control(5).
       Prompted by Johannes Schauer <j.schauer@email.de>.
     - Document supported feature areas.
@@ -2823,7 +2825,7 @@ dpkg (1.17.2) unstable; urgency=low
     the link group is broken, just print a notice that the alternative is
     being updated due to the changes.
   * Add a new «dpkg --verify» command to check the integrity of packages
-    installed files. Add a --verify-format option to excplicitly select the
+    installed files. Add a --verify-format option to explicitly select the
     output format, currently only rpm compatible output is supported, but
     the default might change in the future. Closes: #187019
   * Improve dpkg “Preparing to replace” and “Unpacking” progress messages.
@@ -3120,7 +3122,7 @@ dpkg (1.16.10) unstable; urgency=low
   [ Updated programs translations ]
   * Esperanto (Felipe Castro).
   * Spanish (Javier Fernández-Sanguino).
-  * Vietnamesea (Trần Ngọc Quân). Closes: #692100
+  * Vietnamese (Trần Ngọc Quân). Closes: #692100
 
   [ Updated scripts translations ]
   * Fix mistranslation in French translation of scripts.
@@ -3341,7 +3343,7 @@ dpkg (1.16.5) unstable; urgency=low
     large member sizes. Closes: #678933
   * Add new dpkg-query --control-list and --control-show commands, which
     replace the now deprecated --control-path.
-  * Print master and slave alternarive link names in update-alternatives
+  * Print master and slave alternative link names in update-alternatives
     --query and always print alternative link in --config. Closes: #679010
   * Cleanup and clarify buffer I/O error reporting. Closes: #621763
   * Avoid full stop and double newline at the end of errors and warnings.
@@ -3966,7 +3968,7 @@ dpkg (1.16.1) unstable; urgency=low
     Closes: #640298
   * Reduce dpkg-trigger binary size by refactoring libdpkg modules so that
     it does not end up pulling triglib.
-  * Reduce dpkg-deb binary size by refectoring libdpkg modules so that it
+  * Reduce dpkg-deb binary size by refactoring libdpkg modules so that it
     does not end up pulling triglib.
   * Do not fail on --compare-version when generating parse warnings.
     Existing packages with invalid versions should not fail on their
@@ -4039,7 +4041,7 @@ dpkg (1.16.0) unstable; urgency=low
     a program needed for dpkg correct operation.
   * Fix dpkg -GEO options on multiple versions of the same packages.
     Closes: #31141
-  * Propagate --admindir to programs run from maintainer scritpts.
+  * Propagate --admindir to programs run from maintainer scripts.
     Closes: #97076
   * Do not fail when trying to remove the root directory. This will only
     happen either on distributions where dpkg is a foreign package manager,
@@ -4634,7 +4636,7 @@ dpkg (1.15.7) unstable; urgency=low
     supposed to be.
   * Introduce a new script called dpkg-buildflags: its purpose is to retrieve
     compilation flags and it should be used within debian/rules to pass
-    the right compilation flags to the build process. dpkg-builpackage still
+    the right compilation flags to the build process. dpkg-buildpackage still
     exports them to not break packages currently relying on them but packages
     should now start using dpkg-buildflags instead. Closes: #560070
   * For Ubuntu set default value of LDFLAGS to -Wl,-Bsymbolic-functions.
@@ -4819,7 +4821,7 @@ dpkg (1.15.6) experimental; urgency=low
   * Refer to “half configured” instead of “failed config” in «dpkg-query -l»
     header and dselect package status printing for consistency.
   * Make “dpkg-statoverride --quiet” actually do something, and quiesce
-    most of the inoquous warning messages. Closes: #403211
+    most of the innocuous warning messages. Closes: #403211
   * Make “dpkg-statoverride --update --add” fail if it cannot update the
     mode and owner of the file. This would fail later on when dpkg itself
     applies the overrides, so better to signal this earlier.
@@ -5094,7 +5096,7 @@ dpkg (1.15.5) unstable; urgency=low
     memory usage when handling lots of symlinks, and be slightly faster.
   * Rework varbuf API to avoid increasing buffers indefinitely when adding
     content to them, regardless of space being already available.
-  * Fix build macros to allow start-stop-deaemon to use TIOCNOTTY.
+  * Fix build macros to allow start-stop-daemon to use TIOCNOTTY.
   * Generate the autoconf version from git to make it easier to see when a
     snapshot version is being used.
   * Add infrastructure for doxygen, for now not installed anywhere.
@@ -6228,7 +6230,7 @@ dpkg (1.14.17) experimental; urgency=low
   * Use functions from libcompat when those are not provided by the system.
     - Add strnlen to libcompat.
     - Link programs against libcompat which provides obstack. Closes: #142042
-  * Change dpkg-gencontrol to not output the Homapage field on udeb.
+  * Change dpkg-gencontrol to not output the Homepage field on udeb.
   * Reintroduce 'no-debsig' back in dpkg.cfg to avoid failing to install any
     package when debsig-verify is installed. Closes: #311843
   * Fix some small memory leaks. Closes: #469520
@@ -7485,7 +7487,7 @@ dpkg (1.13.20) unstable; urgency=low
     Closes: #366351
   * Properly check and report lock file existence in install-info.
     Based on patch by Ben Pfaff. Closes: #368874
-  * Correct default info directory for '--infodir' in intall-info man
+  * Correct default info directory for '--infodir' in install-info man
     page (Ben Pfaff). Closes: #368875
   * Print the bogus version and prefix the error message with 'dpkg: '
     when using '--compare-versions'. Closes: #369177
@@ -7600,7 +7602,7 @@ dpkg (1.13.18) unstable; urgency=low
   * Spanish (Javier Fernández-Sanguino Peña). Closes: #357912
   * Danish (Claus Hindsgaul). Closes: #356188
   * Polish (Robert Luberda).
-  * Russian (Yuri Kowlov). Closes: #361415
+  * Russian (Yuri Kozlov). Closes: #361415
 
   [ Updated man pages translations ]
   * Typos corrected in French dpkg-source man page
@@ -7639,7 +7641,7 @@ dpkg (1.13.18) unstable; urgency=low
 dpkg (1.13.17) unstable; urgency=low
 
   [ Frank Lichtenheld ]
-  * Fix handling of -DArchitecure=foo in dpkg-gencontrol. Closes: #251911
+  * Fix handling of -DArchitecture=foo in dpkg-gencontrol. Closes: #251911
   * Handle architectures in all dependency fields in debian/control,
     even those of binary packages. Closes: #252657, #324741, #347819
   * More dpkg-scanpackages fixes (--arch option handling). Closes: #353506
@@ -7799,7 +7801,7 @@ dpkg (1.13.14) experimental; urgency=low
     - Galician (Jacobo Tarrio): 1002t. Closes: #351795
     - Basque (Piarres Beobide): 1002t. Closes: #351845
     - Slovak (Peter Mann): 1002t. Closes: #352087, #352311
-    - Vietnamese (Clytie Siddal): 1011t. Closes: #352307
+    - Vietnamese (Clytie Siddall): 1011t. Closes: #352307
 
  -- Frank Lichtenheld <djpig@debian.org>  Sun, 12 Feb 2006 02:32:12 +0100
 
@@ -7915,7 +7917,7 @@ dpkg (1.13.12) experimental; urgency=low
     - Czech (Miroslav Kure). Closes: #345347
   * Fixed broken translation:
     - Brazilian Portuguese (James Troup). Closes: #332872
-  * Fix Russian man page for start-stop-deamon(8)
+  * Fix Russian man page for start-stop-daemon(8)
     Closes: #325804
   * Fix German man page for update-alternatives(8)
     Closes: #329908
@@ -8554,7 +8556,7 @@ dpkg (1.10.21) unstable; urgency=low
   * New Translations:
     - Japanese dpkg-source manpage (KISE Hiroshi).  Closes: #239000.
     - Norwegian Nynorsk (Gaute Hvoslef Kvalnes).  Closes: #233614.
-    - Portguese (Miguel Figueiredo).  Closes: #240081.
+    - Portuguese (Miguel Figueiredo).  Closes: #240081.
     - Spanish dpkg-source manpage (Ruben Porras).  Closes: #171489.
 
  -- Scott James Remnant <scott@netsplit.com>  Sun, 25 Apr 2004 18:55:10 +0100
@@ -8672,7 +8674,7 @@ dpkg (1.10.16) unstable; urgency=low
     Fix missing space in French translation of: "%s - warning: downgrading
     %.250s from %.250s to %.250s.\n"  Closes: #149142
   * Hidetaka Iwai <tyuyu@sings.jp>:
-    Fix typo in Japanese translation of dpkg --force-help; dowgrade ->
+    Fix typo in Japanese translation of dpkg --force-help; downgrade ->
     downgrade:  Closes: #157819
   * Martin Quinson <mquinson@ens-lyon.fr>:
     Fix French translation when listing files, and the file is diverted.
@@ -8900,7 +8902,7 @@ dpkg (1.10.10) unstable; urgency=low
     #184239.
   * Modified to use autotools-dev.  Closes: #179656.
   * Add netbsd support.  Closes: #179658, #179659.
-  * Support hyphenated values in dpkg-architeture. Closes: #179661
+  * Support hyphenated values in dpkg-architecture. Closes: #179661
   * No longer managed the /usr/doc symlinks.
 
  -- Adam Heath <doogie@debian.org>  Sat, 26 Apr 2003 15:10:24 -0500
@@ -9023,7 +9025,7 @@ dpkg (1.10) unstable; urgency=low
   * When a package is set to hold, and a reinstallation is requested,
     -E will not properly skip it.  Closes: #45787.
   * Make dpkg-checkbuilddeps use dpkg-architecture. Closes: Bug#104230
-  * Improve dpkg-archtecture documentation. Closes: Bug#104232
+  * Improve dpkg-architecture documentation. Closes: Bug#104232
   * Update German translation. Closes: Bug#97239
   * Update Polish translation. Closes: Bug#115783
   * Update French translation.
@@ -9281,7 +9283,7 @@ dpkg (1.9.11) unstable; urgency=low
   * warn instead of die when find returns an error(which happens if there
     is a dangling symlink, because we use -follow).  Closes: #51479.
   * Change list of allowed urgencies in debian/changelog to: low, medium,
-    high, and critcial.  Closes: #94475.
+    high, and critical.  Closes: #94475.
   * Error out if an illegal package name is used in dpkg-gencontrol.pl.
     Closes: #61211
   * Apply patch from Marcus Brinkmann to dpkg-buildpackage:  Closes:
@@ -9389,7 +9391,7 @@ dpkg (1.9.0) unstable; urgency=low
     * various other speedups.
   * Removed all --smallmem code, as smallmem and largemem now actually
     use about the same amount of memory, and largemem is faster.  Both
-    --largemem and --smallmem are now obselete options, and will print
+    --largemem and --smallmem are now obsolete options, and will print
     a warning if used. Closes: Bug#84905, #67528
   * Initialize uninitialized variables.  This should solve several
     segfaults. Closes: Bug#25317(plus 9 others, thru the beauty of
@@ -9471,7 +9473,7 @@ dpkg (1.9.0) unstable; urgency=low
     Closes: Bug#89409
   * Give a syntax error when we get an unexpected PGP signature in control
     files. Closes: Bug#75562
-  * Change dpkg manpage to reflect that --force-statoveride is no enabled
+  * Change dpkg manpage to reflect that --force-statoverride is no enabled
     by default. Closes: Bug#95023
   * Handle dangling symlinks, by ignoring error code 1 from find, when
     processing --recursive. Closes: Bug#4784
@@ -9496,7 +9498,7 @@ dpkg (1.8.3.1) unstable; urgency=low
 dpkg (1.8.3) unstable; urgency=low
 
   * Do chown before chmod in dpkg-statoverride, Closes: Bug#81943
-  * Fix recusion in dpkg-shlibdeps, Closes: Bug#81322
+  * Fix recursion in dpkg-shlibdeps, Closes: Bug#81322
   * Really completely revert dpkg-source patches which broke backwards
     compatibility
 
@@ -9562,7 +9564,7 @@ dpkg (1.8.0) unstable; urgency=low
   * Fix two memory leaks, and lesson the memory foot print a tad.  Hints
     taken from 74259.
   * Fix some things perl5.6 complains about. Closes: Bug#77337
-  * Fix referenes to dpkg-deb manpage. Closes: Bug#77855
+  * Fix references to dpkg-deb manpage. Closes: Bug#77855
   * Update Galish translation
   * Add new --import option to dpkg-statoverride to make it easy to
     import suidmanager settings.
@@ -9574,7 +9576,7 @@ dpkg (1.8.0) unstable; urgency=low
   * Add gettext to build-depends
   * Fix warning when trying to remove a non-existing statoverride.
     Closes: Bug#79352
-  * Be more paranoid with file permissions when extracing files
+  * Be more paranoid with file permissions when extracting files
   * Apply statoverrides to more then just files
   * Update update-alternatives manpage to use FHS instead of FSSTND.
     Closes: Bug#80237
@@ -9604,7 +9606,7 @@ dpkg (1.7.2) unstable; urgency=low
 
 dpkg (1.7.1) unstable; urgency=medium
 
-  * Fix a typo in the dpkg-statoveride manpage
+  * Fix a typo in the dpkg-statoverride manpage
   * dpkg-statoverride reads and writes the right file now
   * Make update-alternatives use the right dir for alternatives again
 
@@ -9889,7 +9891,7 @@ dpkg (1.4.1.17) unstable; urgency=low
     a different uid when starting a process
   * Add mipseb and mipsel to the archtable too, since mips and mipseb are
     both viable names for the mips big endian arch, and mipsel is also needed
-  * Update dpkg-architecure's archtable
+  * Update dpkg-architecture's archtable
   * Added --config option to update-alternatives to allow easy changing
     of the registered alternatives for a specific name
   * Updated the deb-control(5) man page with all the current fields
@@ -10352,7 +10354,7 @@ dpkg (1.4.0.22) frozen unstable; urgency=medium
   * Minor fixes in the programmer's manual (Bug#6206)
   * Always create readable status and available files
     (Bug#9869,11887,14636,15786,19146)
-  * Make dpkg-gencontrol honour -DArchtecture=xxxx (Bug#9893)
+  * Make dpkg-gencontrol honour -DArchitecture=xxxx (Bug#9893)
   * Allow different archs for the same binary in debian/files (Bug#9894)
   * Added workaround in /usr/lib/dpkg/methods/disk/setup
     to avoid bash warning (Bug#10111,10131)
@@ -10375,7 +10377,7 @@ dpkg (1.4.0.21) unstable; urgency=low
   * Non-maintainer release to include a new update-rc.d
   * Fixed date on files in the archive from 2017 and 2018 by running
     touch foo; find . -newer foo | xargs -r touch; rm foo
-  * Changed start-stop-deamon message "No <program> found; none killed." to
+  * Changed start-stop-daemon message "No <program> found; none killed." to
     "No <program> found running; none killed."
 
  -- Miquel van Smoorenburg <miquels@cistron.nl>  Thu,  5 Mar 1998 14:19:46 +0100
@@ -10629,7 +10631,7 @@ dpkg (1.4.0.2) unstable; urgency=medium
   * dpkg-buildpackage.sh: reverted the quoting change -- (you
     should use super, sudo, really, but not su.  Or write a wrapper
     around su)
-  * dpkg-buildpackge.sh: passing -m, -C, -v options to dpkg-genchanges
+  * dpkg-buildpackage.sh: passing -m, -C, -v options to dpkg-genchanges
     more the way Ian likes ;-)
   * dpkg-source.pl: new function deoctify() as replacement for eval()
     (turn \ddd into the corresponding character) [rem: probably better
@@ -10652,7 +10654,7 @@ dpkg (1.4.0.1) unstable; urgency=medium
   * dpkg-source: doesn't get screwed up from `unprintable' characters
     in file names (e.g. from the kbd package)
   * controllib.pl: $varlistvile -> $varlistfile (thanx Karl Sackett)
-  * dpkg-buildpackge: quoting for $rootcommand (thanx  Michael Meskes)
+  * dpkg-buildpackage: quoting for $rootcommand (thanx  Michael Meskes)
     and `eval' as default $rootcommand
   * dpkg-*, controllib.pl: created debian/files and debian/substvars
     are chown'ed to `getlogin()' and its group
@@ -10848,7 +10850,7 @@ dpkg (1.3.3) experimental; urgency=low
   * Programmers' & policy manuals in source tree; HTML in /usr/doc/dpkg.
   * Old guidelines.info and text files in /usr/doc/dpkg removed.
 
-  * dpkg-source sets permissions on extracted debianised source tree
+  * dpkg-source sets permissions on extracted debianized source tree
     and does not copy ownerships out of archive even if running as root.
 
   * Emacs mode `dpkg changelog' renamed to `Debian changelog'.
@@ -11031,7 +11033,7 @@ dpkg (1.2.4); priority=MEDIUM
   * dpkg-scanpackages allows many old maintainers (`//'-separated).
 
   * `Version' field is now mandatory (some operations already
-    wouldn't work right anyway if it was't there).
+    wouldn't work right anyway if it wasn't there).
 
   * update-rc.d(8) now says you must remove the script.  (Bug#3215.)
   * dpkg --force-help says that --force-overwrite is on by default.
@@ -11355,7 +11357,7 @@ dpkg (1.0.10); priority=MEDIUM
 
 dpkg (1.0.9); priority=MEDIUM
 
-  * dselect uninitialised variable coredump fixed (thanks Carl).
+  * dselect uninitialized variable coredump fixed (thanks Carl).
 
   * version numbers printed by --version fixed.  (Bug#2115.)
   * disk method problem with missing Packages files fixed.  (Bug#2114.)
@@ -11895,7 +11897,7 @@ dpkg (0.93.42.1) BETA; priority=HIGH esp. for new installations
 
 dpkg (0.93.42) BETA; priority=LOW; HIGH for dselect users
 
-  * Fix unitialised variable reference bug in dselect (#890).
+  * Fix uninitialized variable reference bug in dselect (#890).
   * Fix problem with wordwrapping package and method descriptions.
   * Create /var/lib/dpkg/methods/mnt.
 
@@ -12025,7 +12027,7 @@ dpkg (0.93.33) BETA; priority=LOW (HIGH for dselect users)
 
  * dselect now has a main menu.
 
- * Fixed nasty uninitialised data bug in dselect.
+ * Fixed nasty uninitialized data bug in dselect.
 
  * dselect now locks and unlocks the packages database.
 

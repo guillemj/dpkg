@@ -166,7 +166,7 @@ error(g_('error occurred while parsing %s'), 'Build-Depends/Build-Depends-Arch')
 
 my %dependencies;
 
-# Statictics on soname seen in the whole run (with multiple analysis of
+# Statistics on soname seen in the whole run (with multiple analysis of
 # binaries)
 my %global_soname_notfound;
 my %global_soname_used;

@@ -104,7 +104,7 @@ test_cleanup_error(void)
 		pop_error_context(ehflag_bombout);
 
 		/* We should have recovered from the cleanup handler failing,
-		 * and arrived here corerctly. */
+		 * and arrived here correctly. */
 		pass = true;
 	}
 

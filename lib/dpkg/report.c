@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * reoport.c - message reporting
+ * report.c - message reporting
  *
  * Copyright © 2004-2005 Scott James Remnant <scott@netsplit.com>
  * Copyright © 2008-2013 Guillem Jover <guillem@debian.org>

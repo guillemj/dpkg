@@ -326,7 +326,7 @@ static void conffvalue_lastword(const char *value, const char *from,
 
 malformed:
   parse_error(ps,
-              _("value for '%s' field has malformatted line '%.*s'"),
+              _("value for '%s' field has malformed line '%.*s'"),
               "Conffiles", (int)min(endent - value, 250), value);
 }
 
@@ -483,7 +483,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
                       fip->name, depname.buf, arch.buf, emsg);
       } else if (fip->integer == dep_conflicts || fip->integer == dep_breaks ||
                  fip->integer == dep_replaces) {
-        /* Conflics/Breaks/Replaces get an implicit "any" arch qualifier. */
+        /* Conflicts/Breaks/Replaces get an implicit "any" arch qualifier. */
         dop->arch_is_implicit = true;
         dop->arch = dpkg_arch_get(DPKG_ARCH_WILDCARD);
       } else {

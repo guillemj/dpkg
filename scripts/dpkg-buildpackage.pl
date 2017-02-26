@@ -375,17 +375,17 @@ if (@rootcommand and not find_command($rootcommand[0])) {
                  'package, specify a command with the -r option, ' .
                  'or run this as root'));
     } else {
-        error(g_("gain-root-commmand '%s' not found"), $rootcommand[0]);
+        error(g_("gain-root-command '%s' not found"), $rootcommand[0]);
     }
 }
 
 if ($check_command and not find_command($check_command)) {
-    error(g_("check-commmand '%s' not found"), $check_command);
+    error(g_("check-command '%s' not found"), $check_command);
 }
 
 if ($signcommand) {
     if (!find_command($signcommand)) {
-        error(g_("sign-commmand '%s' not found"), $signcommand);
+        error(g_("sign-command '%s' not found"), $signcommand);
     }
 } elsif (($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME}) ||
          ($ENV{HOME} && -e "$ENV{HOME}/.gnupg")) {

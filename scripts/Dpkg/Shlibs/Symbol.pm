@@ -473,7 +473,7 @@ sub mark_not_found_in_library {
 
     if ($self->{deprecated}) {
 	# Bump deprecated if the symbol is optional so that it
-	# keeps reappering in the diff while it's missing
+	# keeps reappearing in the diff while it's missing
 	$self->{deprecated} = $minver if $self->is_optional();
     } elsif (version_compare($minver, $self->{minver}) > 0) {
 	$self->{deprecated} = $minver;

@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * debug.h - debugging support
  *
- * Copyright © 2011 Guillem Jover <guillem@debian.orgian>
+ * Copyright © 2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

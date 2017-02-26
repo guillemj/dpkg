@@ -178,7 +178,7 @@ FILES
 $dist->reset();
 $dist->load("$datadir/files-byhand") or error('cannot parse file');
 $dist->filter(remove => sub { $_[0]->{priority} eq 'optional' });
-is($dist->output(), $expected, 'Filter remove piority optional');
+is($dist->output(), $expected, 'Filter remove priority optional');
 
 $expected = <<'FILES';
 BY-HAND-file webdocs optional

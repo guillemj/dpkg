@@ -64,7 +64,7 @@ sub tar_create_tree {
     my $long_e = 'e' x 29;
     my $long_f = 'f' x 22;
 
-    # Popullate tar hierarchy
+    # Populate tar hierarchy
     create('file');
     link 'file', 'hardlink';
 

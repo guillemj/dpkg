@@ -244,7 +244,7 @@ extracthalf(const char *debar, const char *dir,
       read_fail(r, debar, _("archive control member size"));
     if (sscanf(ctrllenbuf, "%jd%c%d", (intmax_t *)&ctrllennum, &nlc, &dummy) != 2 ||
         nlc != '\n')
-      ohshit(_("archive has malformatted control member size '%s'"), ctrllenbuf);
+      ohshit(_("archive has malformed control member size '%s'"), ctrllenbuf);
 
     if (admininfo) {
       memberlen = ctrllennum;

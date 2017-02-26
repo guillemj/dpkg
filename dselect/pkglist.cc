@@ -547,7 +547,7 @@ packagelist::matchsearch(int index)
 
   name = itemname(index);
   if (!name)
-    return false;	/* Skip things without a name (seperators) */
+    return false;	/* Skip things without a name (separators) */
 
   if (regexec(&searchfsm, name, 0, nullptr, 0) == 0)
     return true;

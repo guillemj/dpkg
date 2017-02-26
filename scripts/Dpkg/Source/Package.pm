@@ -599,7 +599,7 @@ sub do_build {
 
 sub can_build {
     my ($self, $dir) = @_;
-    return (0, 'can_build() has not been overriden');
+    return (0, 'can_build() has not been overridden');
 }
 
 sub add_file {

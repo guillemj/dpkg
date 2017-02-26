@@ -38,7 +38,7 @@ static const char *db_dir = ADMINDIR;
  * is NULL. For the latter the order is, value from environment variable
  * DPKG_ADMINDIR, and then the built-in default ADMINDIR,
  *
- * @param dir The new databse directory, or NULL to set to default.
+ * @param dir The new database directory, or NULL to set to default.
  *
  * @return The new database directory.
  */
@@ -77,7 +77,7 @@ dpkg_db_get_dir(void)
  * This function returns an allocated string, which should be freed with
  * free(2).
  *
- * @param pathpart The pathpart to append to the new pathnme.
+ * @param pathpart The pathpart to append to the new pathname.
  *
  * @return The newly allocated pathname.
  */

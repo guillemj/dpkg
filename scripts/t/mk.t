@@ -31,7 +31,7 @@ my $datadir = "$srcdir/t/mk";
 # directory with «make -C».
 $ENV{$_} = rel2abs($ENV{$_}) foreach qw(srcdir DPKG_DATADIR DPKG_ORIGINS_DIR);
 
-# Any paralellization from the parent should be ignored, we are testing
+# Any parallelization from the parent should be ignored, we are testing
 # the makefiles serially anyway.
 delete $ENV{MAKEFLAGS};
 

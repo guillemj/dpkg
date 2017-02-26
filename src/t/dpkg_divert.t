@@ -555,7 +555,7 @@ diversions_eq('');
 
 cleanup();
 
-note('Corrupted divertions db handling');
+note('Corrupted diversions db handling');
 
 SKIP: {
     skip 'running as root or similar', 3, if (defined($ENV{FAKEROOTKEY}) or $> == 0);

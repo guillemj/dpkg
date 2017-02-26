@@ -196,7 +196,7 @@ extern void __obstack_free (struct obstack *obstack, void *block);
 
 /* Error handler called when `obstack_chunk_alloc' failed to allocate
    more memory.  This can be set to a user defined function which
-   should either abort gracefully or use longjump - but shouldn't
+   should either abort gracefully or use longjmp - but shouldn't
    return.  The default action is to print a message and abort.  */
 extern void (*obstack_alloc_failed_handler) (void);
 

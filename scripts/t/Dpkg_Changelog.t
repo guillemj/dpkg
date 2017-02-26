@@ -94,7 +94,7 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
 	check_options( $changes, \@data,
 		       { count => 3, offset => 2 }, 3,
 		       '1:2.0~rc2-2/1:2.0~rc2-1sarge3/1:2.0~rc2-1sarge2',
-		       'positve count + positive offset' );
+		       'positive count + positive offset' );
 	check_options( $changes, \@data,
 		       { count => -3, offset => 4 }, 3,
 		       '1:2.0~rc2-3/1:2.0~rc2-2/1:2.0~rc2-1sarge3',
@@ -103,7 +103,7 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
 	check_options( $changes, \@data,
 		       { count => 4, offset => 5 }, 2,
 		       '1:2.0~rc2-1sarge1/1.5-1',
-		       'positve count + positive offset (>max)' );
+		       'positive count + positive offset (>max)' );
 	check_options( $changes, \@data,
 		       { count => -4, offset => 2 }, 2,
 		       '2:2.0-1/1:2.0~rc2-3',
@@ -112,7 +112,7 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
 	check_options( $changes, \@data,
 		       { count => 3, offset => -4 }, 3,
 		       '1:2.0~rc2-1sarge3/1:2.0~rc2-1sarge2/1:2.0~rc2-1sarge1',
-		       'positve count + negative offset' );
+		       'positive count + negative offset' );
 	check_options( $changes, \@data,
 		       { count => -3, offset => -3 }, 3,
 		       '1:2.0~rc2-3/1:2.0~rc2-2/1:2.0~rc2-1sarge3',
@@ -121,7 +121,7 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
 	check_options( $changes, \@data,
 		       { count => 5, offset => -2 }, 2,
 		       '1:2.0~rc2-1sarge1/1.5-1',
-		       'positve count + negative offset (>max)' );
+		       'positive count + negative offset (>max)' );
 	check_options( $changes, \@data,
 		       { count => -5, offset => -4 }, 3,
 		       '2:2.0-1/1:2.0~rc2-3/1:2.0~rc2-2',

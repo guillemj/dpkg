@@ -209,7 +209,7 @@
 
 	* scripts/update-alternatives.pl: Rewrite it entirely in a more
 	object-oriented way. The only behaviour changes concern --config:
-	the output is nicer and sorted, it accets a path as well as the
+	the output is nicer and sorted, it accepts a path as well as the
 	index of the choice.
 	* scripts/t/900_update_alternatives.t: Test suite adjusted to the
 	--config change.
@@ -1127,7 +1127,7 @@
 
 	* src/archives.c (tarobject): Move a 'continue' inside a conditional
 	checking if the conffile to take over was obsolete on the other
-	package by adding missing bracese.
+	package by adding missing braces.
 
 2008-12-01  Raphaël Hertzog  <hertzog@debian.org>
 
@@ -1135,7 +1135,7 @@
 	directory in the current directory but in the parent directory of
 	the target directory. Otherwise the code would fail when called
 	from a non-writable dir and rename could fail due to filesystem
-	boundaries beetwen the current dir and the target one.
+	boundaries between the current dir and the target one.
 
 2008-12-01  Modestas Vainius  <modestas@vainius.eu>
 
@@ -2671,7 +2671,7 @@
 	trigger statuses.
 	(dependencies_ok): Handle packages which can be fixed by means of
 	processing their triggers.
-	* src/processarc.c (process_archive): Ensure file triggers intersts.
+	* src/processarc.c (process_archive): Ensure file triggers interests.
 	Activate trigger package processing. Parse package triggers control
 	file before reading the conffiles. Treat trigger statuses the same
 	way as installed. Activate trigger package processing for the package
@@ -2749,7 +2749,7 @@
 
 	* scripts/dpkg-buildpackage.pl: If the user request a cross-compilation,
 	then define PKG_CONFIG_LIBDIR so that it will look in directories
-	specidic to the target architecture.
+	specific to the target architecture.
 	* man/dpkg-buildpackage.1: Document this change and also the -t option.
 
 2008-03-28  Raphaël Hertzog  <hertzog@debian.org>
@@ -2953,7 +2953,7 @@
 
 	* scripts/t/200_Dpkg_Shlibs.t: Fix test suite to handle the
 	recent addition of the "objid" field to symbol hash returned
-	by Dpkg::Shlibs::Objump::Object->get_symbol().
+	by Dpkg::Shlibs::Objdump::Object->get_symbol().
 
 2008-03-22  Ian Jackson  <ian@davenant.greenend.org.uk>
 
@@ -3104,11 +3104,11 @@
 
 	* lib/Makefile.am (libdpkg_a_SOURCES): Add 'dpkg-def.h'.
 	* lib/dpkg.h: Include 'dpkg-def.h'.
-	(CONSTANT, PRINTFFORMAT, NONRETURNING, UNUSED): Move defninitions
+	(CONSTANT, PRINTFFORMAT, NONRETURNING, UNUSED): Move definitions
 	to ...
 	* lib/dpkg-def.h: ... here. New file.
 	* utils/start-stop-daemon.c: Include 'dpkg-def.h'.
-	(CONSTANT, PRINTFFORMAT, NONRETURNING, UNUSED): Remove defninitions.
+	(CONSTANT, PRINTFFORMAT, NONRETURNING, UNUSED): Remove definitions.
 
 2008-03-11  Ian Jackson  <ian@davenant.greenend.org.uk>
 
@@ -3352,7 +3352,7 @@
 	* scripts/Dpkg/Shlibs/SymbolFile.pm: Replace has_new_libs(),
 	has_lost_libs(), has_new_symbols() and has_lost_symbols() by
 	corresponding get_* functions.
-	* scripts/dpkg-gensymbsols.pl: Display list of new/lost libs. Also
+	* scripts/dpkg-gensymbols.pl: Display list of new/lost libs. Also
 	display list of lost symbols when wildcards symbols have been
 	used.
 	* scripts/t/200_Dpkg_Shlibs.t: Adjust test suite to API change.
@@ -3441,7 +3441,7 @@
 	* lib/myopt.c (myfileopt): Likewise.
 	* dpkg-deb/build.c (getfi): Likewise.
 	* src/configure.c (md5hash): Likewise.
-	* src/help.c (vbuildarglist): Likewis.
+	* src/help.c (vbuildarglist): Likewise.
 	* src/main.c (execbackend): Likewise.
 	(commandfd): Likewise.
 
@@ -4484,7 +4484,7 @@
 
 	* scripts/dpkg-gencontrol.pl: Unify parsing of Section and Priority
 	fields with Homepage.
-	(%spvalue, %spdefault): Remove unued variables.
+	(%spvalue, %spdefault): Remove unused variables.
 	(spfileslistvalue): Use %f instead of %spvalue.
 
 2007-11-29  Guillem Jover  <guillem@debian.org>
@@ -5388,7 +5388,7 @@
 	Breaks needs to be implemented.
 	* src/depcon.c (depisok): Likewise. Remove return at the beginning
 	of the function checking for a Breaks dependency, that was
-	efectively making it a no-op in that case.
+	effectively making it a no-op in that case.
 	* src/processarc.c (process_archive): Fix indentation. Split calls
 	in deconfigure code to printf and maintainer_script_installed
 	depending on the removing variable.
@@ -5748,7 +5748,7 @@
 2007-05-15  Kurt B. Kaiser  <kbk@shore.net>
 
 	* man/install-info.8: Add missing commas, and information on the
-	behaviour when no '--section' option is specifyied.
+	behaviour when no '--section' option is specified.
 
 2007-05-14  Guillem Jover  <guillem@debian.org>
 
@@ -6148,7 +6148,7 @@
 
 2007-03-06  Guillem Jover  <guillem@debian.org>
 
-	* scripts/dpkg-scanpackages.pl (usage): Documemt that the override
+	* scripts/dpkg-scanpackages.pl (usage): Document that the override
 	file is now optional.
 	(load_override): New function, refactored. Handle the case where
 	'$override' is undefined.
@@ -6248,7 +6248,7 @@
 2007-02-13  Guillem Jover  <guillem@debian.org>
 
 	* src/archives.c (MAXCONFLICTORS): New macro.
-	(conflictor): Use MAXCONFLICTORS instad of hardcoded value '20', and
+	(conflictor): Use MAXCONFLICTORS instead of hardcoded value '20', and
 	remove non-matching comments.
 	(check_conflict): Exit with an error instead of an assert. Move part
 	of the comment to the error message, remove the rest as non-matching.
@@ -6774,7 +6774,7 @@
 	output.
 	(version): New function.
 	* scripts/dpkg-scansources.pl (Version): Rename variable to ...
-	(version): ... this (so it will be automaitcally updated by the
+	(version): ... this (so it will be automatically updated by the
 	Makefile).
 	(Option_spec): Pass \&usage to help option and \&version to version.
 	(Usage): Remove variable.
@@ -7117,7 +7117,7 @@
 
 	* src/main.h (clearselections): New prototype.
 	* src/main.c (usage): Print '--clear-selections' option description.
-	(cmdinfos): Add clear-selectons action.
+	(cmdinfos): Add clear-selections action.
 	* src/select.c (clearselections): New function.
 	* man/C/dpkg.1: Document the new '--clear-selections' option.
 
@@ -7679,7 +7679,7 @@
 	instead of the hardcoded checks.
 	* scripts/dpkg-gencontrol.pl: Likewise.
 	* scripts/dpkg-source.pl: Likewise. Use dpkg_arch_expand to fill
-	the Architecture field with the legacy Debian architecures.
+	the Architecture field with the legacy Debian architectures.
 	* scripts/Makefile.am: New rule to generate .pl from .pl.in files.
 	* man/C/dpkg-architecture.1: Update. Add new options, and few words
 	about the format of the wildcards.
@@ -7807,7 +7807,7 @@
 
 	* src/processarc.c (process_archive): When copying the forward
 	dependency tree, blank the version field of unversioned dependencies
-	rather than leaving them uninitialised.
+	rather than leaving them uninitialized.
 
 2005-08-17  Scott James Remnant  <scott@netsplit.com>
 
@@ -8315,7 +8315,7 @@
 	packages, sort that (rather than the complete list) and use that
 	when calling list1package.  This means we only expand to the
 	longest field in the result, not the database.  Hopefully the
-	speed gain of only sorting a filtered list outweights the slighty
+	speed gain of only sorting a filtered list outweighs the slighty
 	extra computation time.
 
 2005-03-18  Scott James Remnant  <scott@netsplit.com>
@@ -9506,7 +9506,7 @@ Mon Jul 19 20:17:09 BST 2004 Scott James Remnant <scott@netsplit.com>
 
 Sat Jun 26 18:38:34 CEST 2004 David Weinehall <tao@debian.org>
 
-  * scripts/dpkg-buildpackge.sh, scripts/dpkg-name.sh, methods/disk.update,
+  * scripts/dpkg-buildpackage.sh, scripts/dpkg-name.sh, methods/disk.update,
   methods/disk.setup: Change non-POSIX -a and -o test options to shell
   && and || for portability.
 
@@ -9756,7 +9756,7 @@ Thu May 6 23:52:28 BST 2004 Daniel Kobras <kobras@debian.org>
 
 Thu May 6 23:50:17 BST 2004 Daniel Kobras <kobras@debian.org>
 
-  * main/enquiry.c: Remove dereference of unitialised and unused pointer
+  * main/enquiry.c: Remove dereference of uninitialized and unused pointer
   variable, fixing segfault on when "gcc -dumpmachine" returns a
   non-matching triplet.
 
@@ -10022,7 +10022,7 @@ Sun Feb 29 21:56:25 GMT 2004 Scott James Remnant <scott@netsplit.com>
 
   * scripts/dpkg-checkbuilddeps.pl: Push build-conflicts errors into
   @conflicts instead of @unmet, this looks like an accidental error
-  introduced by bad copy&pasteing.
+  introduced by bad copy&pasting.
 
 Mon Mar  8 17:26:06 GMT 2004 Scott James Remnant <scott@netsplit.com>
 
@@ -10155,7 +10155,7 @@ Sat Sep 20 20:42:35 CDT 2003 Adam Heath <doogie@debian.org>
   * po/pl.po:
     * Updated.
     * Fix translation of 'conflicts with'
-  * po/ja.po: Fix typo in translation of dpkg --force-help; dowgrade ->
+  * po/ja.po: Fix typo in translation of dpkg --force-help; downgrade ->
     downgrade
   * po/fr.po:
     * Fix translation when listing files, and the file is diverted.
@@ -10457,7 +10457,7 @@ Sat Sep 13 13:55:25 CDT 2003 Adam Heath <doogie@debian.org>
 
 Fri, 12 Sep 2003 17:15:33 +0200 Wichert Akkerman <wichert@deephackmode.org>
 
-  * srcipts/dpkg-source.pl: allow ~ in version numbers
+  * scripts/dpkg-source.pl: allow ~ in version numbers
 
 Sat Apr 26 15:10:24 CDT 2003 Adam Heath <doogie@debian.org>
 
@@ -11059,7 +11059,7 @@ Sun Apr 14 16:13:16 CEST 2002 Wichert Akkerman <wichert@deephackmode.org>
 
 Sun Apr 14 00:49:09 CEST 2002 Wichert Akkerman <wichert@deephackmode.org>
 
-  * scripts/controlllib.pl: accept multilpe consecutive empty lines
+  * scripts/controlllib.pl: accept multiple consecutive empty lines
 
 Sat Apr 13 22:59:25 CEST 2002 Wichert Akkerman <wichert@deephackmode.org>
 
@@ -11390,7 +11390,7 @@ Mon Oct  8 19:48:28 CDT 2001 Adam Heath <doogie@debian.org>
 
 Sun Oct  7 22:23:54 CDT 2001 Adam Heath <doogie@debian.org>
 
-  * Makefile.in: Remove dulicate inclusion of utils in SUBDIRS.
+  * Makefile.in: Remove duplicate inclusion of utils in SUBDIRS.
 
 Sun Oct  7 19:38:56 CDT 2001 Adam Heath <doogie@debian.org>
 
@@ -11605,7 +11605,7 @@ Mon Jul 16 17:19:21 CEST 2001 Wichert Akkerman <wakkerma@debian.org>
   * dselect/basecmds.cc, dselect/dselect.h:
     + add checksearch and matchsearch functions to abstract searching algorithm
     + add displayerror member function
-  * dselect/baselist.cc: use new checkserach and matchsearch functions to
+  * dselect/baselist.cc: use new checksearch and matchsearch functions to
     do the real search/matching
   * dselect/pkglist.cc, dselect/pkglist.h: implement checksearch and
     matchsearch using regular expressions
@@ -11785,7 +11785,7 @@ Wed Jun 20 11:28:25 CDT 2001 Adam Heath <doogie@debian.org>
       Set ARCH correctly to host architecture, rather than build arch.
     + scripts/dpkg-gencontrol.pl: Error if an illegal package name is used.
     + scripts/cl-debian.pl: Change list of allowed urgencies to: low, medium,
-      high, and critcial.
+      high, and critical.
     + scripts/dpkg-scanpackages.pl: warn instead of die when find returns
       an error(which happens if there is a dangling symlink, because we use
       -follow).
@@ -12328,7 +12328,7 @@ Sun Apr 22 01:45:25 CEST 2001 Wichert Akkerman <wakkerma@debian.org>
 Sat Apr 21 18:00:31 CDT 2001 Adam Heath <doogie@debian.org>
 
   * main/main.c: reworked \\ parsing in commandfd.
-  * lib/dbmodify.c: fix non-full initalizer.
+  * lib/dbmodify.c: fix non-full initializer.
 
 Sun Apr 22 00:48:18 CEST 2001 Wichert Akkerman <wakkerma@debian.org>
 
@@ -12535,7 +12535,7 @@ Fri Mar  2 17:29:02 CET 2001 Wichert Akkerman <wakkerma@debian.org>
   * configure.in: use AC_C_INLINE instead of our own test
   * lib/nfmalloc, include/dpkg-db.h: remove HAVE_INLINE tests, use extern
     inline directly
-  * lib/varbuf.c: add inline keyowrd to varbufaddc
+  * lib/varbuf.c: add inline keyword to varbufaddc
   * optlib/Makefile.in: undo earlier patch and build libopt.a again
   * lib/Makefile.in: use libopt.a again, and a rule to build it
   * Makefile.in: build optlib before lib
@@ -12688,7 +12688,7 @@ Sun Jan 14 23:37:30 EST 2001 Ben Collins <bcollins@debian.org>
   * include/dpkg-db.h: redeclare nfmalloc(), remove obstack definitions
   * lib/dbmodify.c (modstatdb_init): remove obstack init
   * lib/nfmalloc.c: redefine nfmalloc to be an inline function. It now checks
-    to make sure db_obs is initliazed.
+    to make sure db_obs is initialized.
   * main/archives.c (tarobject): declare our own obstack, and use it instead
     (cu_fileslist) just call obstack_free
   * main/processarc.c: correct calling of cu_fileslist
@@ -13146,7 +13146,7 @@ Mon Dec  4 14:42:01 CET 2000 Wichert Akkerman <wakkerma@debian.org>
   * scripts/dpkg-statoverride.pl, main/filesdb.c: merge patch from
     Robert Luberda <robert@pingu.ii.uj.edu.pl> to fix statoverrides
     using numerical [ug]ids
-  * Merge updats from the v17 branch:
+  * Merge updates from the v17 branch:
     + scripts/dpkg-buildpackage.sh: Quote test options for usepause
     + scripts/dpkg-shlibdeps.pl: resolve library paths using a combination
       of the libc major version, and ldconfig -p output. Solves problems
@@ -13700,11 +13700,11 @@ Sun Feb 13 01:06:46 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 
   * scripts/dpkg-buildpackage.sh: we know that dpkg-architecture is
     installed since we provide it, so don't test for its existence
-  * More updates from Marcus Brinkman:
+  * More updates from Marcus Brinkmann:
     + archtable: Change first column format from CPU to CPU-OS.
       Add entry for i386-gnu. Update comment.
     + configure.in: Check Debian architecture revamped:
-      More appropriate check title. Check for CPU-OS in arhctable (instead
+      More appropriate check title. Check for CPU-OS in archtable (instead
       just CPU). Enclose result message in [...] (because of the comma
       character). After the test, $dpkg_archset can't be empty, so remove
       following test which is always true.
@@ -13912,7 +13912,7 @@ Wed Dec 22 12:07:40 CET 1999 Wichert Akkerman <wakkerma@debian.org>
 
 Tue Dec 21 15:59:35 CET 1999 Wichert Akkerman <wakkerma@debian.org>
 
-  * scripts/dpkg-scansoures.pl: don't use \z since that is perl5.005-specific.
+  * scripts/dpkg-scansources.pl: don't use \z since that is perl5.005-specific.
     Patch from Roderick Schertler <roderick@argon.org>
   * debian/rules: fix typo so cleanup-info.8 actually gets installed
 
@@ -14068,7 +14068,7 @@ Thu Nov 18 10:27:35 EST 1999 Ben Collins <bcollins@debian.org>
 
 Fri Nov 12 21:21:21 CET 1999 Wichert Akkerman <wakkerma@debian.org>
 
-  * Rename japanses translation to just jp
+  * Rename Japanese translation to just jp
 
 Thu Nov 11 20:14:02 EST 1999 Ben Collins <bcollins@debian.org>
 
@@ -14076,7 +14076,7 @@ Thu Nov 11 20:14:02 EST 1999 Ben Collins <bcollins@debian.org>
 
 Fri Nov 12 01:47:24 CET 1999 Wichert Akkerman <wakkerma@debian.org>
 
-  * Correct names for build-depency names according to Bug# 49792
+  * Correct names for build-dependency names according to Bug# 49792
   * .. and for dpkg-source.pl as well
 
 Mon Nov  8 17:45:50 CET 1999 Wichert Akkerman <wakkerma@debian.org>
@@ -14174,7 +14174,7 @@ Mon Oct 25 06:50:17 EDT 1999 Ben Collins <bcollins.debian.org>
   * main/processarc.c: fixes calculation of package filename display (the
     ".../foo.deb" one) where it was showing the full path if the basename
     was longer than 30 chars. Now shows just the basename if it can't
-    squeez the full path to < 30 chars (even if the basename is > than 30
+    squeeze the full path to < 30 chars (even if the basename is > than 30
     chars)
 
 Mon Oct 25 02:27:49 CEST 1999 Wichert Akkerman <wakkerma@debian.org>
@@ -14330,7 +14330,7 @@ Mon Oct 18 09:25:30 EDT 1999 Ben Collins <bcollins.debian.org>
 
   * Add mipseb to the archtable too, since mips and mipseb are
     both viable names for the mips big endian arch
-  * Update dpkg-architecure's archtable
+  * Update dpkg-architecture's archtable
   * Removed the maintainer-configure portion in debian/rules, since
     we should be shipping the source with all the auto* stuff
     already generated anyway
@@ -14448,7 +14448,7 @@ Mon Oct 11 15:47:18 CEST 1999 Wichert Akkerman <wakkerma@debian.org>
 
   * Preparation to move start-stop-daemon from scripts to utils
   * Merge patches from Ben Collins <bcollins@debian.org>:
-    + modify remove_buld to remove conffiles when purging a package before we
+    + modify removal_bulk to remove conffiles when purging a package before we
       remove its directories.
     + check if we violate conflicts/depends/pre-depends of other packages when
       processing an archive.
@@ -14467,7 +14467,7 @@ Wed Oct  6 14:40:33 CEST 1999 Wichert Akkerman <wakkerma@debian.org>
 
   * Lock complete lockfile for database: it's empty anyway, and Hurd
     doesn't support partial locks currently
-  * Don't use PATH_MAX but allocate necessay memory in checkpath().
+  * Don't use PATH_MAX but allocate necessary memory in checkpath().
     Useful for system that don't have PATH_MAX (like Hurd)
 
 Tue Oct  5 19:16:38 CEST 1999 Wichert Akkerman <wakkerma@debian.org>
@@ -14852,7 +14852,7 @@ dpkg (1.4.0.22) frozen unstable; urgency=medium
   * Minor fixes in the programmer's manual (Bug#6206)
   * Always create readable status and available files
     (Bug#9869,11887,14636,15786,19146)
-  * Make dpkg-gencontrol honour -DArchtecture=xxxx (Bug#9893)
+  * Make dpkg-gencontrol honour -DArchitecture=xxxx (Bug#9893)
   * Allow different archs for the same binary in debian/files (Bug#9894)
   * Added workaround in /usr/lib/dpkg/methods/disk/setup
     to avoid bash warning (Bug#10111,10131)
@@ -14875,7 +14875,7 @@ dpkg (1.4.0.21) unstable; urgency=low
   * Non-maintainer release to include a new update-rc.d
   * Fixed date on files in the archive from 2017 and 2018 by running
     touch foo; find . -newer foo | xargs -r touch; rm foo
-  * Changed start-stop-deamon message "No <program> found; none killed." to
+  * Changed start-stop-daemon message "No <program> found; none killed." to
     "No <program> found running; none killed."
 
  -- Miquel van Smoorenburg <miquels@cistron.nl>  Thu,  5 Mar 1998 14:19:46 +0100
@@ -15129,7 +15129,7 @@ dpkg (1.4.0.2) unstable; urgency=medium
   * dpkg-buildpackage.sh: reverted the quoting change -- (you
     should use super, sudo, really, but not su.  Or write a wrapper
     around su)
-  * dpkg-buildpackge.sh: passing -m, -C, -v options to dpkg-genchanges
+  * dpkg-buildpackage.sh: passing -m, -C, -v options to dpkg-genchanges
     more the way Ian likes ;-)
   * dpkg-source.pl: new function deoctify() as replacement for eval()
     (turn \ddd into the corresponding character) [rem: probably better
@@ -15152,7 +15152,7 @@ dpkg (1.4.0.1) unstable; urgency=medium
   * dpkg-source: doesn't get screwed up from `unprintable' characters
     in file names (e.g. from the kbd package)
   * controllib.pl: $varlistvile -> $varlistfile (thanx Karl Sackett)
-  * dpkg-buildpackge: quoting for $rootcommand (thanx  Michael Meskes)
+  * dpkg-buildpackage: quoting for $rootcommand (thanx  Michael Meskes)
     and `eval' as default $rootcommand
   * dpkg-*, controllib.pl: created debian/files and debian/substvars
     are chown'ed to `getlogin()' and its group
@@ -15348,7 +15348,7 @@ dpkg (1.3.3) experimental; urgency=low
   * Programmers' & policy manuals in source tree; HTML in /usr/doc/dpkg.
   * Old guidelines.info and text files in /usr/doc/dpkg removed.
 
-  * dpkg-source sets permissions on extracted debianised source tree
+  * dpkg-source sets permissions on extracted debianized source tree
     and does not copy ownerships out of archive even if running as root.
 
   * Emacs mode `dpkg changelog' renamed to `Debian changelog'.
@@ -15531,7 +15531,7 @@ dpkg (1.2.4); priority=MEDIUM
   * dpkg-scanpackages allows many old maintainers (`//'-separated).
 
   * `Version' field is now mandatory (some operations already
-    wouldn't work right anyway if it was't there).
+    wouldn't work right anyway if it wasn't there).
 
   * update-rc.d(8) now says you must remove the script.  (Bug#3215.)
   * dpkg --force-help says that --force-overwrite is on by default.
@@ -15855,7 +15855,7 @@ dpkg (1.0.10); priority=MEDIUM
 
 dpkg (1.0.9); priority=MEDIUM
 
-  * dselect uninitialised variable coredump fixed (thanks Carl).
+  * dselect uninitialized variable coredump fixed (thanks Carl).
 
   * version numbers printed by --version fixed.  (Bug#2115.)
   * disk method problem with missing Packages files fixed.  (Bug#2114.)
@@ -16395,7 +16395,7 @@ dpkg (0.93.42.1) BETA; priority=HIGH esp. for new installations
 
 dpkg (0.93.42) BETA; priority=LOW; HIGH for dselect users
 
-  * Fix unitialised variable reference bug in dselect (#890).
+  * Fix uninitialized variable reference bug in dselect (#890).
   * Fix problem with wordwrapping package and method descriptions.
   * Create /var/lib/dpkg/methods/mnt.
 
@@ -16525,7 +16525,7 @@ dpkg (0.93.33) BETA; priority=LOW (HIGH for dselect users)
 
  * dselect now has a main menu.
 
- * Fixed nasty uninitialised data bug in dselect.
+ * Fixed nasty uninitialized data bug in dselect.
 
  * dselect now locks and unlocks the packages database.
 

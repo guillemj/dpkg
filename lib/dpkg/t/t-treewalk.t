@@ -42,7 +42,7 @@ sub make_file {
     close $fh;
 }
 
-# Popullate the tree hierarchy.
+# Populate the tree hierarchy.
 sub make_tree {
     my ($dirtree) = @_;
     my $cwd = cwd();
@@ -66,7 +66,7 @@ sub make_tree {
     make_file('bbbb/wwwwz');
     make_file('bbbb/zzzzz');
 
-    # Popullated tree.
+    # Populated tree.
     make_path('cccc/aa/aa/aa/');
     make_path('cccc/aa/aa/bb/aa/');
     make_file('cccc/aa/aa/bb/aa/file-a');

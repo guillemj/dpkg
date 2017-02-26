@@ -127,7 +127,7 @@ abort_rm_conffile() {
 		mv "$CONFFILE.dpkg-remove" "$CONFFILE"
 	fi
 	if [ -e "$CONFFILE.dpkg-backup" ]; then
-		echo "Reinstalling $CONFFILE that was backupped"
+		echo "Reinstalling $CONFFILE that was backed-up"
 		mv "$CONFFILE.dpkg-backup" "$CONFFILE"
 	fi
 }

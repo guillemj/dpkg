@@ -63,8 +63,8 @@ chdir($cwd);
 
 @librarypaths = Dpkg::Shlibs::get_library_paths();
 is_deeply(\@librarypaths,
-          [ qw(/nonexistant32 /nonexistant/lib64
-               /usr/local/lib /nonexistant/lib128) ], 'parsed library paths');
+          [ qw(/nonexistent32 /nonexistent/lib64
+               /usr/local/lib /nonexistent/lib128) ], 'parsed library paths');
 
 use_ok('Dpkg::Shlibs::Objdump');
 
@@ -499,7 +499,7 @@ is_deeply($sym, Dpkg::Shlibs::Symbol->new(symbol => 'symbol11_optional@Base',
 		  symbol_templ => 'symbol11_optional@Base',
 		  minver => '1.1', dep_id => 1, deprecated => 0,
 		  tags => { optional => undef }, tagorder => [ 'optional' ]),
-	    'reappered optional symbol gets undeprecated + minver');
+	    'reappeared optional symbol gets undeprecated + minver');
 is( scalar($sym_file->get_lost_symbols($sym_file_dup) +
            $sym_file->get_new_symbols($sym_file_dup)), 0, 'reappeared optional symbol: neither NEW nor LOST');
 

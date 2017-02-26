@@ -857,7 +857,7 @@ tarobject(void *ctx, struct tar_entry *ti)
       }
 
       /* Is the package with the conflicting file in the “config files only”
-       * state? If so it must be a config file and we can silenty take it
+       * state? If so it must be a config file and we can silently take it
        * over. */
       if (otherpkg->status == PKG_STAT_CONFIGFILES)
         continue;
