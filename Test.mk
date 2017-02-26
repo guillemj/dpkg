@@ -41,6 +41,12 @@ endif
 # Always use a local db (requires at least dpkg 1.16.0)
 DPKG_ADMINDIR = $(CURDIR)/../dpkgdb
 DPKG_COMMON_OPTIONS = --admindir=$(DPKG_ADMINDIR)
+ifdef DPKG_BUILD_PKG_HAS_IGNORE_BUILTIN_BUILDDEPS
+DPKG_CHECKBUILDDEPS_OPTIONS = --ignore-builtin-builddeps
+else
+DPKG_CHECKBUILDDEPS_OPTIONS = -d
+endif
+DPKG_BUILD_PKG_OPTIONS = $(DPKG_CHECKBUILDDEPS_OPTIONS) -us -uc --check-command=
 
 DPKG = dpkg $(DPKG_COMMON_OPTIONS) $(DPKG_OPTIONS)
 DPKG_INSTALL = $(BEROOT) $(DPKG) -i
@@ -55,7 +61,7 @@ DPKG_DIVERT_DEL = $(BEROOT) $(DPKG_DIVERT) --remove
 DPKG_SPLIT = dpkg-split $(DPKG_SPLIT_OPTIONS)
 DPKG_BUILD_DEB = $(DPKG_DEB) -b
 DPKG_BUILD_DSC = dpkg-source -b
-DPKG_BUILD_PKG = dpkg-buildpackage -us -uc --check-command=
+DPKG_BUILD_PKG = dpkg-buildpackage $(DPKG_BUILD_PKG_OPTIONS)
 DPKG_QUERY = dpkg-query $(DPKG_COMMON_OPTIONS) $(DPKG_QUERY_OPTIONS)
 DPKG_TRIGGER = dpkg-trigger $(DPKG_COMMON_OPTIONS) $(DPKG_TRIGGER_OPTIONS)
 
