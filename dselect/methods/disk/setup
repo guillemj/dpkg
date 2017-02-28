@@ -149,7 +149,7 @@ If you make a mistake, use the interrupt key ($intrkey) to abort.
 "
 
 # State variables, “best first”
-#  {main,ctb,nf,nus,lcl}_{packages,binary}
+#  {main,ctb,nf,lcl}_{packages,binary}
 #   Empty before we've found them or if they're not available,
 #   set to the relevant bit under mountpoint otherwise.
 #  hierbase
@@ -559,7 +559,6 @@ Where is the _$1_ 'Packages' file (if none is available, say 'none')
 find_area main main main "$p_main_binary" "$p_main_packages"
 find_area contrib ctb contrib "$p_ctb_binary" "$p_ctb_packages"
 find_area non-free nf non-free "$p_nf_binary" "$p_nf_packages"
-find_area non-US nus non-US "$p_nus_binary" "$p_nus_packages"
 find_area local lcl local "$p_lcl_binary" "$p_lcl_packages"
 
 echo -n '
@@ -582,8 +581,6 @@ outputparam p_ctb_packages "$ctb_packages"
 outputparam p_ctb_binary "$ctb_binary"
 outputparam p_nf_packages "$nf_packages"
 outputparam p_nf_binary "$nf_binary"
-outputparam p_nus_packages "$nus_packages"
-outputparam p_nus_binary "$nus_binary"
 outputparam p_lcl_packages "$lcl_packages"
 outputparam p_lcl_binary "$lcl_binary"
 

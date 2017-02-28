@@ -23,8 +23,7 @@ cd "$vardir/methods/disk"
 . ./shvar.$option
 
 if [ -z "$p_main_packages" ] && [ -z "$p_ctb_packages" ] && \
-   [ -z "$p_nf_packages" ] && [ -z "$p_nus_packages " ] && \
-   [ -z "$p_lcl_packages" ]
+   [ -z "$p_nf_packages" ] && [ -z "$p_lcl_packages" ]
 then
 	echo '
 No Packages files available, cannot update available packages list.
@@ -35,7 +34,7 @@ fi
 
 xit=1
 trap '
-	rm -f packages-main packages-ctb packages-nf packages-nus packages-lcl
+	rm -f packages-main packages-ctb packages-nf packages-lcl
 	if [ -n "$umount" ]
 	then
 		umount "$umount" >/dev/null 2>&1
@@ -57,7 +56,7 @@ fi
 
 updatetype=update
 
-for f in main ctb nf nus lcl
+for f in main ctb nf lcl
 do
 	eval 'this_packages=$p_'$f'_packages'
 	case "$this_packages" in

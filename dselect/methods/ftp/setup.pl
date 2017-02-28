@@ -91,10 +91,6 @@ Eg:      ftp site: ftp.debian.org
     distributions: dists/stable/main dists/stable/contrib
      download dir: debian
 
-If you want to install package from non-US consider adding a second ftp site
-with "debian-non-US" as debian directory and "dists/stable/non-US" as
-distribution.
-
 You may have to use an authenticated FTP proxy in order to reach the
 FTP site:
 

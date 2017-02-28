@@ -177,7 +177,7 @@ If you make a mistake, use the interrupt key ($intrkey) to abort.
 "
 
 # State variables, “best first”
-#  {main,ctb,nf,nonus,nonusctb,nonusnf,lcl}_{packages,binary}
+#  {main,ctb,nf,lcl}_{packages,binary}
 #   Empty before we've found them or if they're not available,
 #   set to the relevant bit under mountpoint otherwise.
 #  hierbase
@@ -637,9 +637,6 @@ Where is the _$1_ 'Packages.cd' file (if none is available, say 'none')
 find_area main main "$distribution" "$p_main_binary" "$p_main_packages"
 find_area contrib ctb "$distribution" "$p_ctb_binary" "$p_ctb_packages"
 find_area non-free nf "$distribution" "$p_nf_binary" "$p_nf_packages"
-find_area non-US/main nonus "$distribution" "$p_nonus_binary" "$p_nonus_packages"
-find_area non-US/contrib nonusctb "$distribution" "$p_nonusctb_binary" "$p_nonusctb_packages"
-find_area non-US/non-free nonusnf "$distribution" "$p_nonusnf_binary" "$p_nonusnf_packages"
 find_area local lcl local "$p_lcl_binary" "$p_lcl_packages"
 
 echo -n '
@@ -665,15 +662,6 @@ outputparam p_ctb_disk "$ctb_disk"
 outputparam p_nf_packages "$nf_packages"
 outputparam p_nf_binary "$nf_binary"
 outputparam p_nf_disk "$nf_disk"
-outputparam p_nonus_binary "$nonus_binary"
-outputparam p_nonus_packages "$nonus_packages"
-outputparam p_nonus_disk "$nonus_disk"
-outputparam p_nonusctb_binary "$nonusctb_binary"
-outputparam p_nonusctb_packages "$nonusctb_packages"
-outputparam p_nonusctb_disk "$nonusctb_disk"
-outputparam p_nonusnf_binary "$nonusnf_binary"
-outputparam p_nonusnf_packages "$nonusnf_packages"
-outputparam p_nonusnf_disk "$nonusnf_disk"
 outputparam p_lcl_packages "$lcl_packages"
 outputparam p_lcl_binary "$lcl_binary"
 outputparam p_multi "$multi"

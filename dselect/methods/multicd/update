@@ -31,7 +31,7 @@ debug() { true; }
 ismulti() { debug $1 $2; test -e "$1/.disk/info" || test -e "$1$2/.disk/info"; }
 
 packages=0
-for f in main ctb nf nonus nonusctb nonusnf lcl
+for f in main ctb nf lcl
 do
     eval 'this_packages=$p_'$f'_packages'
 
@@ -52,7 +52,7 @@ fi
 
 xit=1
 trap '
-	rm -f packages-{main,ctb,nf,nonus,nonusctb,nonusnf,lcl}
+	rm -f packages-{main,ctb,nf,lcl}
 	if [ -n "$umount" ]
 	then
 		umount "$umount" >/dev/null 2>&1
@@ -83,7 +83,7 @@ if [ -z "$p_multi" ]; then
 	exit 1
 fi
 
-for f in main ctb nf nonus nonusctb nonusnf lcl
+for f in main ctb nf lcl
 do
 	eval 'this_packages=$p_'$f'_packages'
 	case "$this_packages" in
