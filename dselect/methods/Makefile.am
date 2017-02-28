@@ -8,8 +8,6 @@ nobase_dist_methods_DATA = \
 	disk/desc.nfs \
 	disk/desc.harddisk \
 	disk/desc.mounted \
-	floppy/names \
-	floppy/desc.floppy \
 	ftp/names \
 	ftp/desc.ftp \
 	multicd/names \
@@ -27,9 +25,6 @@ nobase_dist_methods_SCRIPTS = \
 	disk/setup \
 	disk/update \
 	disk/install \
-	floppy/setup \
-	floppy/update \
-	floppy/install \
 	multicd/setup \
 	multicd/update \
 	multicd/install
@@ -60,6 +55,5 @@ SUFFIXES = .pl
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/mnt
 	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/disk
-	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/floppy
 	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/ftp
 	$(MKDIR_P) $(DESTDIR)$(admindir)/methods/multicd
