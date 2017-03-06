@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.18.18\n"
+"Project-Id-Version: dpkg-man 1.18.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2017-02-01 05:48+0100\n"
-"PO-Revision-Date: 2017-01-06 15:45+0100\n"
+"PO-Revision-Date: 2017-02-11 20:58+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
@@ -244,7 +244,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb.man
-#, fuzzy
 #| msgid ""
 #| "The second required member is named B<control.tar>.  It is a tar archive "
 #| "containing the package control information, either not compressed "
@@ -270,8 +269,11 @@ msgstr ""
 "de extensie B<.gz>) of met xz (met de extensie B<.xz>, ondersteund sinds "
 "1.17.6), onder de vorm van een reeks gewone bestanden, waarvan het bestand "
 "B<control>, dat de kern van de controle-informatie bevat, verplicht deel "
-"uitmaakt. Het controle-tar-archief kan facultatief een vermelding bevatten "
-"van ‘B<.>’, de huidige map."
+"uitmaakt. De bestanden B<conffiles>, B<triggers>, B<shlibs> en B<symbols> "
+"bevatten facultatieve controle-informatie en de bestanden B<preinst>, "
+"B<postinst>, B<prerm> en B<postrm> zijn facultatieve scripts van de "
+"pakketonderhouder. Het controle-tar-archief kan facultatief een vermelding "
+"bevatten van ‘B<.>’, de huidige map."
 
 #. type: Plain text
 #: deb.man
@@ -381,6 +383,9 @@ msgid ""
 "triggers>(5), B<deb-shlibs>(5), B<deb-symbols>(5), B<deb-preinst>(5), B<deb-"
 "postinst>(5), B<deb-prerm>(5), B<deb-postrm>(5)."
 msgstr ""
+"B<deb-old>(5), B<dpkg-deb>(1), B<deb-control>(5), B<deb-conffiles>(5)  B<deb-"
+"triggers>(5), B<deb-shlibs>(5), B<deb-symbols>(5), B<deb-preinst>(5), B<deb-"
+"postinst>(5), B<deb-prerm>(5), B<deb-postrm>(5)."
 
 #. type: TH
 #: deb822.man
@@ -902,9 +907,8 @@ msgstr ""
 "De eerste regel van de veldwaarde (het deel dat op dezelfde regel staat als "
 "de door een dubbele punt gevolgde veldnaam) is steeds leeg. De inhoud van "
 "het veld wordt in de vervolgregels verwoord, één regel per bestand. Elke "
-"regel bestaat uit elementen die onderling door een spatie van elkaar "
-"gescheiden zijn en het bestand beschrijven: zijn controlesom, zijn "
-"bestandsgrootte en zijn naam."
+"regel bestaat uit elementen die onderling door een spatie gescheiden zijn en "
+"het bestand beschrijven: zijn controlesom, zijn bestandsgrootte en zijn naam."
 
 #. type: Plain text
 #: deb-buildinfo.man
@@ -1393,10 +1397,11 @@ msgstr "Het volledige changelog-bestand moet in UTF-8 op gemaakt zijn."
 
 #. type: SH
 #: deb-changelog.man deb-substvars.man dpkg.man dpkg-architecture.man
-#: dpkg.cfg.man dpkg-buildflags.man dpkg-buildpackage.man dpkg-genbuildinfo.man
-#: dpkg-distaddfile.man dpkg-divert.man dpkg-genchanges.man dpkg-gencontrol.man
-#: dpkg-parsechangelog.man dpkg-source.man dpkg-split.man dpkg-statoverride.man
-#: dselect.cfg.man update-alternatives.man
+#: dpkg.cfg.man dpkg-buildflags.man dpkg-buildpackage.man
+#: dpkg-genbuildinfo.man dpkg-distaddfile.man dpkg-divert.man
+#: dpkg-genchanges.man dpkg-gencontrol.man dpkg-parsechangelog.man
+#: dpkg-source.man dpkg-split.man dpkg-statoverride.man dselect.cfg.man
+#: update-alternatives.man
 #, no-wrap
 msgid "FILES"
 msgstr "BESTANDEN"
@@ -1717,14 +1722,13 @@ msgstr ""
 
 #. type: TP
 #: deb-changes.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Built-For-Profiles:>I< profile-list>"
 msgid "B<Built-For-Profiles:>I< profile-list>"
 msgstr "B<Built-For-Profiles:>I< profiel-lijst>"
 
 #. type: Plain text
 #: deb-changes.man
-#, fuzzy
 #| msgid ""
 #| "This field specifies a whitespace separated list of build profiles that "
 #| "this binary packages was built with."
@@ -1732,8 +1736,8 @@ msgid ""
 "This field specifies a whitespace separated list of build profiles that this "
 "upload was built with."
 msgstr ""
-"Dit veld geeft een lijst van onderling door een spatie van elkaar gescheiden "
-"bouwprofielen op waarmee dit binaire pakket gebouwd werd."
+"Dit veld somt een lijst van door een spatie van elkaar gescheiden "
+"bouwprofielen op waarmee deze upload gebouwd werd."
 
 #. type: TP
 #: deb-changes.man
@@ -1794,9 +1798,9 @@ msgstr ""
 "De eerste regel van de veldwaarde (het deel dat op dezelfde regel staat als "
 "de door een dubbele punt gevolgde veldnaam) is steeds leeg. De inhoud van "
 "het veld wordt in de vervolgregels verwoord, één regel per bestand. Elke "
-"regel bestaat uit elementen die onderling door een spatie van elkaar "
-"gescheiden zijn en het bestand beschrijven: zijn md5som, zijn "
-"bestandsgrootte, zijn sectie, zijn prioriteit en zijn naam."
+"regel bestaat uit elementen die onderling gescheiden zijn door een spatie en "
+"het bestand beschrijven: zijn md5som, zijn bestandsgrootte, zijn sectie, "
+"zijn prioriteit en zijn naam."
 
 #. type: Plain text
 #: deb-changes.man
@@ -2569,10 +2573,10 @@ msgstr ""
 
 #. type: TP
 #: deb-control.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Built-For-Profiles:>I< profile-list>"
 msgid "B<Built-For-Profiles:>I< profile-list (obsolete)>"
-msgstr "B<Built-For-Profiles:>I< profiel-lijst>"
+msgstr "B<Built-For-Profiles:>I< profiel-lijst (verouderd)>"
 
 #. type: Plain text
 #: deb-control.man
@@ -2582,13 +2586,18 @@ msgid ""
 "The information previously found in this field can now be found in the B<."
 "buildinfo> file, which supersedes it."
 msgstr ""
+"Dit veld werd vroeger gebruikt om een lijst van door spaties van elkaar "
+"gescheiden bouwprofielen op te sommen waarmee deze binaire pakketten gebouwd "
+"werden (sinds dpkg 1.17.2 tot 1.18.18). De informatie die vroeger in dit "
+"veld te vinden was, kan nu gevonden worden in het bestand B<.buildinfo> dat "
+"het vervangt."
 
 #. type: TP
 #: deb-control.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Built-Using:>I< package-list>"
 msgid "B<Auto-Built-Package:>I< reason-list>"
-msgstr "B<Built-Using:>I< pakketlijst>"
+msgstr "B<Auto-Built-Package:>I< lijst-met-redenen>"
 
 #. type: Plain text
 #: deb-control.man
@@ -2598,6 +2607,11 @@ msgid ""
 "in the I<debian/control> master source control file.  The only currently "
 "used reason is B<debug-symbols>."
 msgstr ""
+"Dit veld somt een lijst van onderling door spaties gescheiden redenen op "
+"waarom dit pakket automatisch gegenereerd werd. Binaire pakketten die met "
+"dit veld gemarkeerd werden, zullen niet te vinden zijn in het "
+"hoofdcontrolebestand I<debian/control> van de broncode. De enige reden die "
+"momenteel gebruikt wordt, is B<debug-symbols>."
 
 #. type: SH
 #: deb-control.man deb-conffiles.man deb-src-control.man deb-origin.man
@@ -7211,9 +7225,9 @@ msgstr "Geef hulp over debug-opties."
 #: dpkg-genbuildinfo.man dpkg-checkbuilddeps.man dpkg-distaddfile.man
 #: dpkg-deb.man dpkg-divert.man dpkg-genchanges.man dpkg-gencontrol.man
 #: dpkg-gensymbols.man dpkg-mergechangelogs.man dpkg-parsechangelog.man
-#: dpkg-query.man dpkg-scanpackages.man dpkg-scansources.man dpkg-shlibdeps.man
-#: dpkg-source.man dpkg-split.man dpkg-statoverride.man dpkg-trigger.man
-#: dpkg-vendor.man dselect.man update-alternatives.man
+#: dpkg-query.man dpkg-scanpackages.man dpkg-scansources.man
+#: dpkg-shlibdeps.man dpkg-source.man dpkg-split.man dpkg-statoverride.man
+#: dpkg-trigger.man dpkg-vendor.man dselect.man update-alternatives.man
 #, no-wrap
 msgid "B<--version>"
 msgstr "B<--version>"
@@ -7331,9 +7345,10 @@ msgstr ""
 #: dpkg-checkbuilddeps.man dpkg-distaddfile.man dpkg-deb.man dpkg-divert.man
 #: dpkg-genchanges.man dpkg-gencontrol.man dpkg-gensymbols.man
 #: dpkg-mergechangelogs.man dpkg-name.man dpkg-parsechangelog.man
-#: dpkg-query.man dpkg-scanpackages.man dpkg-scansources.man dpkg-shlibdeps.man
-#: dpkg-source.man dpkg-split.man dpkg-statoverride.man dpkg-trigger.man
-#: dpkg-vendor.man dselect.man start-stop-daemon.man update-alternatives.man
+#: dpkg-query.man dpkg-scanpackages.man dpkg-scansources.man
+#: dpkg-shlibdeps.man dpkg-source.man dpkg-split.man dpkg-statoverride.man
+#: dpkg-trigger.man dpkg-vendor.man dselect.man start-stop-daemon.man
+#: update-alternatives.man
 #, no-wrap
 msgid "OPTIONS"
 msgstr "OPTIES"
@@ -7849,8 +7864,8 @@ msgstr ""
 "geïnstalleerd is. Dit is een alias voor B<--refuse-downgrade>."
 
 #. type: TP
-#: dpkg.man dpkg-buildpackage.man dpkg-genbuildinfo.man dpkg-checkbuilddeps.man
-#: dpkg-query.man dpkg-shlibdeps.man dpkg-trigger.man
+#: dpkg.man dpkg-buildpackage.man dpkg-genbuildinfo.man
+#: dpkg-checkbuilddeps.man dpkg-query.man dpkg-shlibdeps.man dpkg-trigger.man
 #, no-wrap
 msgid "B<--admindir=>I<dir>"
 msgstr "B<--admindir=>I<map>"
@@ -8843,6 +8858,8 @@ msgstr ""
 #: dpkg.man
 msgid "The format and contents of a binary package are described in B<deb>(5)."
 msgstr ""
+"De indeling en de inhoud van een binair pakket worden beschreven in "
+"B<deb>(5)."
 
 #. type: Plain text
 #: dpkg.man
@@ -9245,8 +9262,9 @@ msgstr ""
 #: dpkg-deb.man dpkg-divert.man dpkg-genchanges.man dpkg-gencontrol.man
 #: dpkg-gensymbols.man dpkg-mergechangelogs.man dpkg-name.man
 #: dpkg-parsechangelog.man dpkg-query.man dpkg-scanpackages.man
-#: dpkg-scansources.man dpkg-shlibdeps.man dpkg-split.man dpkg-statoverride.man
-#: dpkg-trigger.man dpkg-vendor.man update-alternatives.man
+#: dpkg-scansources.man dpkg-shlibdeps.man dpkg-split.man
+#: dpkg-statoverride.man dpkg-trigger.man dpkg-vendor.man
+#: update-alternatives.man
 msgid "Show the usage message and exit."
 msgstr "Toon info over het gebruik en sluit af."
 
@@ -12056,7 +12074,6 @@ msgstr "B<11.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
 #| msgid ""
 #| "It runs the B<sign> hook and calls B<gpg2> or B<gpg> to sign the B<.dsc> "
 #| "file (if any, unless B<-us> or B<--unsigned-source> is specified or on "
@@ -12071,10 +12088,12 @@ msgid ""
 "B<--unsigned-changes> is specified)."
 msgstr ""
 "Het voert de uitbreiding (hook) B<sign> uit en roept B<gpg2> of B<gpg> aan "
-"voor het ondertekenen van het bestand B<.dsc> (als dat bestaat) (tenzij B<-"
-"us> of B<--unsigned-source> opgegeven werd of bij een bouw van het type "
-"UNRELEASED) en van het bestand B<.changes> (tenzij B<-uc> of B<--unsigned-"
-"changes> opgegeven werd of bij een bouw van het type UNRELEASED)."
+"(voor zover het geen bouw van het type UNRELEASED is) voor het ondertekenen "
+"van het bestand B<.dsc> (als dat bestaat, tenzij B<-us> of B<--unsigned-"
+"source> opgegeven werden), van het bestand B<.buildinfo> (tenzij B<-ui>, B<--"
+"unsigned-buildinfo>, B<-uc> of B<--unsigned-changes> opgegeven werden) en "
+"van het bestand B<.changes> (tenzij B<-uc> of B<--unsigned-changes> "
+"opgegeven werden)."
 
 #. type: IP
 #: dpkg-buildpackage.man
@@ -12913,18 +12932,16 @@ msgstr "Onderteken het broncodepakket niet (de lange optie sinds dpkg 1.18.8)."
 
 #. type: TP
 #: dpkg-buildpackage.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-us>, B<--unsigned-source>"
 msgid "B<-ui>, B<--unsigned-buildinfo>"
-msgstr "B<-us>, B<--unsigned-source>"
+msgstr "B<-ui>, B<--unsigned-buildinfo>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
 #| msgid "Do not sign the B<.changes> file (long option since dpkg 1.18.8)."
 msgid "Do not sign the B<.buildinfo> file (since dpkg 1.18.19)."
-msgstr ""
-"Onderteken het bestand B<.changes> niet (de lange optie sinds dpkg 1.18.8)."
+msgstr "Onderteken het bestand B<.buildinfo> niet (sinds dpkg 1.18.19)."
 
 #. type: TP
 #: dpkg-buildpackage.man
@@ -12934,20 +12951,20 @@ msgstr "B<-uc>, B<--unsigned-changes>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
 #| msgid "Do not sign the B<.changes> file (long option since dpkg 1.18.8)."
 msgid ""
 "Do not sign the B<.buildinfo> and B<.changes> files (long option since dpkg "
 "1.18.8)."
 msgstr ""
-"Onderteken het bestand B<.changes> niet (de lange optie sinds dpkg 1.18.8)."
+"Onderteken de bestanden B<.buildinfo> en B<.changes> niet (de lange optie "
+"sinds dpkg 1.18.8)."
 
 #. type: TP
 #: dpkg-buildpackage.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--no-debsig>"
 msgid "B<--no-sign>"
-msgstr "B<--no-debsig>"
+msgstr "B<--no-sign>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
@@ -12955,6 +12972,8 @@ msgid ""
 "Do not sign any file, this includes the source package, the B<.buildinfo> "
 "file and the B<.changes> file (since dpkg 1.18.20)."
 msgstr ""
+"Onderteken geen enkel bestand; dit omvat het broncodepakket, het bestand B<."
+"buildinfo> en het bestand B<.changes> (sinds dpkg 1.18.20)."
 
 #. type: TP
 #: dpkg-buildpackage.man
@@ -12964,7 +12983,6 @@ msgstr "B<--force-sign>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
 #| msgid ""
 #| "Force the signing of the resulting files (since dpkg 1.17.0), regardless "
 #| "of B<-us>, B<--unsigned-source>, B<-uc>, B<--unsigned-changes> or other "
@@ -12975,8 +12993,8 @@ msgid ""
 "unsigned-changes> or other internal heuristics."
 msgstr ""
 "Verplicht het ondertekenen van de resulterende bestanden (sinds dpkg "
-"1.17.0), ongeacht B<-us>, B<--unsigned-source>, B<-uc>, B<--unsigned-"
-"changes> of overige interne heuristiek."
+"1.17.0), ongeacht B<-us>, B<--unsigned-source>, B<-ui>, B<--unsigned-"
+"buildinfo>, B<-uc>, B<--unsigned-changes> of overige interne heuristiek."
 
 #. type: TP
 #: dpkg-buildpackage.man dpkg-source.man
@@ -13587,6 +13605,15 @@ msgid ""
 "or disable all other features.  The feature “B<path>” controls whether to "
 "unconditionally include the B<Build-Path> field."
 msgstr ""
+"Deze variabele kan gebruikt worden via de optie B<buildinfo> voor het "
+"activeren of deactiveren van verschillende functies die invloed hebben op de "
+"informatie die opgenomen wordt in het bestand .buildinfo (sinds dpkg "
+"1.18.19). Deze optie bevat een lijst van onderling door komma's gescheiden "
+"functies, die voorafgegaan worden door de bepaling ‘B<+>’ of ‘B<->’, welke "
+"aangeven of die functie al dan niet geactiveerd moet worden. De bijzondere "
+"functie “B<all>” kan gebruikt worden om alle overige functies te activeren "
+"of te deactiveren. De functie “B<path>” regelt of het veld B<Build-Path> "
+"onvoorwaardelijk mee opgenomen moet worden."
 
 #. type: TP
 #: dpkg-genbuildinfo.man dpkg-distaddfile.man dpkg-genchanges.man
@@ -20813,7 +20840,6 @@ msgstr "B<Bouwopties (met --build):>"
 
 #. type: Plain text
 #: dpkg-source.man
-#, fuzzy
 #| msgid ""
 #| "If a second non-option argument is supplied it should be the name of the "
 #| "original source directory or tarfile or the empty string if the package "
@@ -20831,9 +20857,9 @@ msgid ""
 "directory I<directory>B<.orig> depending on the B<-sX> arguments."
 msgstr ""
 "Indien een tweede argument opgegeven wordt dat geen optie is, moet het de "
-"naam van de originele broncodemap zijn of het tar-archief of een lege "
+"naam van de originele broncodemap zijn of van het tar-archief of een lege "
 "tekenreeks als het pakket Debian-specifiek is en dus geen diffs bevat in "
-"verband met de Debianisering. Indien geen tweede argument opgegeven wordt, "
+"verband met de debianisering. Indien geen tweede argument opgegeven werd, "
 "zal B<dpkg-source> zoeken naar het tar-bestand met de originele broncode "
 "I<pakket>B<_>I<toeleveraarsversie>B<.orig.tar.gz> of naar de map met de "
 "originele broncode I<map>B<.orig>, afhankelijk van de argumenten B<-sX>."
@@ -23106,7 +23132,6 @@ msgstr ""
 
 #. type: Plain text
 #: dselect.man
-#, fuzzy
 #| msgid ""
 #| "B<dselect> operates as a front-end to B<dpkg>(1), the low-level debian "
 #| "package handling tool. It features a full-screen package selections "
@@ -23139,8 +23164,8 @@ msgstr ""
 "van informatie over beschikbare pakketversies en voor het ophalen van "
 "installeerbare pakketten uit pakketbronnen. Afhankelijk van de gebruikte "
 "benaderingsmethode kunnen deze pakketbronnen publieke archiefservers zijn op "
-"het internet, of lokale archiefservers of CD's. De aanbevolen "
-"benaderingsmethode is I<apt>, dat door het pakket B<apt> geleverd wordt."
+"het internet, lokale archiefservers of CD's. De aanbevolen "
+"benaderingsmethode is I<apt>, welke door het pakket B<apt> geleverd wordt."
 
 #. type: Plain text
 #: dselect.man
@@ -23668,7 +23693,6 @@ msgstr "Inleiding"
 
 #. type: Plain text
 #: dselect.man
-#, fuzzy
 #| msgid ""
 #| "B<dselect> directly exposes the administrator to some of the complexities "
 #| "involved with managing large sets of packages with many "
@@ -23691,17 +23715,17 @@ msgid ""
 "familiar with the concepts underlying the Debian packaging system.  In case "
 "of doubt, consult the B<dpkg>(1) manpage and the distribution policy."
 msgstr ""
-"B<dselect> stelt de beheerder rechtstreeks bloot aan de complexiteit van het "
-"beheren van een grote hoeveelheid pakketten met een grote onderlinge "
-"afhankelijkheid. Voor een gebruiker die niet vertrouwd is met het concept en "
-"de werkwijze van het Debian pakketbeheersysteem kan dit behoorlijk "
-"overdonderend zijn. Hoewel B<dselect> erop gericht is pakketbeheer te "
-"vergemakkelijken, is het niet meer dan een instrument ervoor en er kan niet "
-"van verwacht worden dat het afdoend in de plaats treedt van de vaardigheden "
-"en de kennis van de beheerder. Van de gebruiker wordt vereist dat hij "
-"vertrouwd is met de onderliggende concepten van het Debian pakketsysteem. "
-"Gelieve in geval van twijfel de man-pagina van B<dpkg>(1) te raadplegen en "
-"de beleidsrichtlijnen van de distributie."
+"B<dselect> stelt de beheerder rechtstreeks bloot aan sommige aspecten van de "
+"complexiteit van het beheren van een grote hoeveelheid pakketten met een "
+"grote onderlinge afhankelijkheid. Voor een gebruiker die niet vertrouwd is "
+"met het concept en de werkwijze van het Debian pakketbeheersysteem kan dit "
+"behoorlijk overdonderend zijn. Hoewel B<dselect> erop gericht is "
+"pakketbeheer te vergemakkelijken, is het niet meer dan een instrument ervoor "
+"en er kan niet van verwacht worden dat het afdoend in de plaats treedt van "
+"de vaardigheden en de kennis van de beheerder. Van de gebruiker wordt "
+"vereist dat hij vertrouwd is met de onderliggende concepten van het Debian "
+"pakketsysteem. Gelieve in geval van twijfel de man-pagina van B<dpkg>(1) te "
+"raadplegen en de beleidsrichtlijnen van de distributie."
 
 #. type: Plain text
 #: dselect.man
@@ -23797,7 +23821,6 @@ msgstr "De pakketstatuslijst"
 
 #. type: Plain text
 #: dselect.man
-#, fuzzy
 #| msgid ""
 #| "The main select screen displays a list of all packages known to the "
 #| "debian package management system. This includes packages installed on the "
@@ -23809,7 +23832,7 @@ msgid ""
 msgstr ""
 "Het selectiehoofdscherm toont een lijst met alle pakketten die door het "
 "Debian pakketbeheersysteem gekend zijn. Dit omvat de pakketten die op het "
-"systeem geïnstalleerd zijn en de pakketten die gekend zijn in de database "
+"systeem geïnstalleerd zijn en de pakketten die gekend zijn in de databank "
 "van beschikbare pakketten."
 
 #. type: Plain text
