@@ -205,7 +205,7 @@ MANGEN = $(MANGEN_V) sed \
 	-e 's:%ADMINDIR%:$(admindir):g' \
 	-e 's:%PKGDOCDIR%:$(docdir):g' \
 	-e 's:%PKGCONFDIR%:$(pkgconfdir):g' \
-	-e 's:%PKGLIBDIR%:$(pkglibdir):g' \
+	-e 's:%PKGLIBDIR%:$(pkglibexecdir):g' \
 	-e 's:%PKGDATADIR%:$(pkgdatadir):g'
 	$(nil)
 

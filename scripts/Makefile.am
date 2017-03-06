@@ -128,7 +128,7 @@ do_perl_subst = $(AM_V_GEN) sed \
 	-e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):" \
 	-e "s:our \$$CONFDIR = .*;:our \$$CONFDIR = '$(pkgconfdir)';:" \
 	-e "s:our \$$ADMINDIR = .*;:our \$$ADMINDIR = '$(admindir)';:" \
-	-e "s:our \$$LIBDIR = .*;:our \$$LIBDIR = '$(pkglibdir)';:" \
+	-e "s:our \$$LIBDIR = .*;:our \$$LIBDIR = '$(pkglibexecdir)';:" \
 	-e "s:our \$$DATADIR = .*;:our \$$DATADIR = '$(pkgdatadir)';:" \
 	-e "s:our \$$PROGMAKE = .*;:our \$$PROGMAKE = '$(MAKE)';:" \
 	-e "s:our \$$PROGTAR = .*;:our \$$PROGTAR = '$(TAR)';:" \

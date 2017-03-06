@@ -7,7 +7,8 @@ pkgconfdir = $(sysconfdir)/@PACKAGE@
 
 AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
-	-DADMINDIR=\"$(admindir)\" -DLIBDIR=\"$(pkglibdir)\" \
+	-DADMINDIR=\"$(admindir)\" \
+	-DLIBDIR=\"$(pkglibexecdir)\" \
 	-DLOCALLIBDIR=\"/usr/local/lib/dpkg\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-iquote $(builddir) \

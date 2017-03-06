@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-methodsdir = $(pkglibdir)/methods
+methodsdir = $(pkglibexecdir)/methods
 
 nobase_dist_methods_DATA = \
 	disk/names \
