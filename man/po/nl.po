@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.18.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-02-01 05:48+0100\n"
+"POT-Creation-Date: 2017-03-06 06:25+0100\n"
 "PO-Revision-Date: 2017-02-11 20:58+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -244,14 +244,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb.man
-#| msgid ""
-#| "The second required member is named B<control.tar>.  It is a tar archive "
-#| "containing the package control information, either not compressed "
-#| "(supported since dpkg 1.17.6), or compressed with gzip (with B<.gz> "
-#| "extension) or xz (with B<.xz> extension, supported since 1.17.6), as a "
-#| "series of plain files, of which the file B<control> is mandatory and "
-#| "contains the core control information. The control tarball may optionally "
-#| "contain an entry for ‘B<.>’, the current directory."
 msgid ""
 "The second required member is named B<control.tar>.  It is a tar archive "
 "containing the package control information, either not compressed (supported "
@@ -740,19 +732,26 @@ msgstr "B<Format:> I<indelingsversie> (verplicht)"
 
 #. type: Plain text
 #: deb-buildinfo.man
+#, fuzzy
+#| msgid ""
+#| "The value of this field declares the format version of the file.  The "
+#| "syntax of the field value is a version number with a major and minor "
+#| "component.  Backward incompatible changes to the format will bump the "
+#| "major version, and backward compatible changes (such as field additions) "
+#| "will bump the minor version.  The current format version is B<1.8>."
 msgid ""
 "The value of this field declares the format version of the file.  The syntax "
 "of the field value is a version number with a major and minor component.  "
 "Backward incompatible changes to the format will bump the major version, and "
 "backward compatible changes (such as field additions) will bump the minor "
-"version.  The current format version is B<0.2>."
+"version.  The current format version is B<1.0>."
 msgstr ""
 "De waarde van dit veld bepaalt de indelingsversie van het bestand. De "
 "syntaxis van de veldwaarde is een versienummer met een hoofdversie- en een "
 "onderversiecomponent. Wijzigingen aan de indeling die niet neerwaarts "
 "compatibel zijn, hebben een verhoging van het hoofdversienummer tot gevolg "
 "en neerwaarts compatibele veranderingen (zoals het toevoegen van extra "
-"velden) verhogen het onderversienummer. De huidige indelingsversie is B<0.2>."
+"velden) verhogen het onderversienummer. De huidige indelingsversie is B<1.8>."
 
 #. type: TP
 #: deb-buildinfo.man deb-changes.man
@@ -1397,11 +1396,10 @@ msgstr "Het volledige changelog-bestand moet in UTF-8 op gemaakt zijn."
 
 #. type: SH
 #: deb-changelog.man deb-substvars.man dpkg.man dpkg-architecture.man
-#: dpkg.cfg.man dpkg-buildflags.man dpkg-buildpackage.man
-#: dpkg-genbuildinfo.man dpkg-distaddfile.man dpkg-divert.man
-#: dpkg-genchanges.man dpkg-gencontrol.man dpkg-parsechangelog.man
-#: dpkg-source.man dpkg-split.man dpkg-statoverride.man dselect.cfg.man
-#: update-alternatives.man
+#: dpkg.cfg.man dpkg-buildflags.man dpkg-buildpackage.man dpkg-genbuildinfo.man
+#: dpkg-distaddfile.man dpkg-divert.man dpkg-genchanges.man dpkg-gencontrol.man
+#: dpkg-parsechangelog.man dpkg-source.man dpkg-split.man dpkg-statoverride.man
+#: dselect.cfg.man update-alternatives.man
 #, no-wrap
 msgid "FILES"
 msgstr "BESTANDEN"
@@ -1723,15 +1721,11 @@ msgstr ""
 #. type: TP
 #: deb-changes.man
 #, no-wrap
-#| msgid "B<Built-For-Profiles:>I< profile-list>"
 msgid "B<Built-For-Profiles:>I< profile-list>"
 msgstr "B<Built-For-Profiles:>I< profiel-lijst>"
 
 #. type: Plain text
 #: deb-changes.man
-#| msgid ""
-#| "This field specifies a whitespace separated list of build profiles that "
-#| "this binary packages was built with."
 msgid ""
 "This field specifies a whitespace separated list of build profiles that this "
 "upload was built with."
@@ -2574,7 +2568,6 @@ msgstr ""
 #. type: TP
 #: deb-control.man
 #, no-wrap
-#| msgid "B<Built-For-Profiles:>I< profile-list>"
 msgid "B<Built-For-Profiles:>I< profile-list (obsolete)>"
 msgstr "B<Built-For-Profiles:>I< profiel-lijst (verouderd)>"
 
@@ -2595,7 +2588,6 @@ msgstr ""
 #. type: TP
 #: deb-control.man
 #, no-wrap
-#| msgid "B<Built-Using:>I< package-list>"
 msgid "B<Auto-Built-Package:>I< reason-list>"
 msgstr "B<Auto-Built-Package:>I< lijst-met-redenen>"
 
@@ -2703,11 +2695,12 @@ msgstr ""
 #. type: Plain text
 #: deb-conffiles.man
 msgid ""
-"This file contains a list of files, one per line.  Trailing whitespace will "
-"be trimmed, and empty lines will be ignored."
+"This file contains a list of files, one per line.  They should be listed as "
+"absolute pathnames, and should exist in the binary package, otherwise "
+"B<dpkg>(1) will ignore them (although by default B<dpkg-deb>(1) will refuse "
+"to build such binary packages).  Trailing whitespace will be trimmed, and "
+"empty lines will be ignored."
 msgstr ""
-"Dit bestand bevat een lijst van bestanden, één per regel. Witruimte aan het "
-"einde wordt weggelaten en lege regels worden genegeerd."
 
 #. type: Plain text
 #: deb-conffiles.man
@@ -2724,11 +2717,11 @@ msgstr ""
 "%CONFDIR%/logrotate.d/dpkg\n"
 
 #. type: Plain text
-#: deb-conffiles.man deb-postinst.man deb-postrm.man deb-preinst.man
-#: deb-prerm.man dpkg.cfg.man dpkg-divert.man dpkg-query.man
-#: dpkg-statoverride.man
-msgid "B<dpkg>(1)."
-msgstr "B<dpkg>(1)."
+#: deb-conffiles.man
+#, fuzzy
+#| msgid "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
+msgid "B<dpkg-deb>(1), B<dpkg>(1)."
+msgstr "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
 
 #. type: TH
 #: deb-src-control.man
@@ -5190,6 +5183,12 @@ msgid "If I<prerm> fails during replacement due to conflict."
 msgstr ""
 "Indien I<prerm> omwille van een conflict mislukt tijdens de vervanging."
 
+#. type: Plain text
+#: deb-postinst.man deb-postrm.man deb-preinst.man deb-prerm.man dpkg.cfg.man
+#: dpkg-divert.man dpkg-query.man dpkg-statoverride.man
+msgid "B<dpkg>(1)."
+msgstr "B<dpkg>(1)."
+
 #. type: TH
 #: deb-postrm.man
 #, no-wrap
@@ -7225,9 +7224,9 @@ msgstr "Geef hulp over debug-opties."
 #: dpkg-genbuildinfo.man dpkg-checkbuilddeps.man dpkg-distaddfile.man
 #: dpkg-deb.man dpkg-divert.man dpkg-genchanges.man dpkg-gencontrol.man
 #: dpkg-gensymbols.man dpkg-mergechangelogs.man dpkg-parsechangelog.man
-#: dpkg-query.man dpkg-scanpackages.man dpkg-scansources.man
-#: dpkg-shlibdeps.man dpkg-source.man dpkg-split.man dpkg-statoverride.man
-#: dpkg-trigger.man dpkg-vendor.man dselect.man update-alternatives.man
+#: dpkg-query.man dpkg-scanpackages.man dpkg-scansources.man dpkg-shlibdeps.man
+#: dpkg-source.man dpkg-split.man dpkg-statoverride.man dpkg-trigger.man
+#: dpkg-vendor.man dselect.man update-alternatives.man
 #, no-wrap
 msgid "B<--version>"
 msgstr "B<--version>"
@@ -7345,10 +7344,9 @@ msgstr ""
 #: dpkg-checkbuilddeps.man dpkg-distaddfile.man dpkg-deb.man dpkg-divert.man
 #: dpkg-genchanges.man dpkg-gencontrol.man dpkg-gensymbols.man
 #: dpkg-mergechangelogs.man dpkg-name.man dpkg-parsechangelog.man
-#: dpkg-query.man dpkg-scanpackages.man dpkg-scansources.man
-#: dpkg-shlibdeps.man dpkg-source.man dpkg-split.man dpkg-statoverride.man
-#: dpkg-trigger.man dpkg-vendor.man dselect.man start-stop-daemon.man
-#: update-alternatives.man
+#: dpkg-query.man dpkg-scanpackages.man dpkg-scansources.man dpkg-shlibdeps.man
+#: dpkg-source.man dpkg-split.man dpkg-statoverride.man dpkg-trigger.man
+#: dpkg-vendor.man dselect.man start-stop-daemon.man update-alternatives.man
 #, no-wrap
 msgid "OPTIONS"
 msgstr "OPTIES"
@@ -7864,8 +7862,8 @@ msgstr ""
 "geïnstalleerd is. Dit is een alias voor B<--refuse-downgrade>."
 
 #. type: TP
-#: dpkg.man dpkg-buildpackage.man dpkg-genbuildinfo.man
-#: dpkg-checkbuilddeps.man dpkg-query.man dpkg-shlibdeps.man dpkg-trigger.man
+#: dpkg.man dpkg-buildpackage.man dpkg-genbuildinfo.man dpkg-checkbuilddeps.man
+#: dpkg-query.man dpkg-shlibdeps.man dpkg-trigger.man
 #, no-wrap
 msgid "B<--admindir=>I<dir>"
 msgstr "B<--admindir=>I<map>"
@@ -9262,9 +9260,8 @@ msgstr ""
 #: dpkg-deb.man dpkg-divert.man dpkg-genchanges.man dpkg-gencontrol.man
 #: dpkg-gensymbols.man dpkg-mergechangelogs.man dpkg-name.man
 #: dpkg-parsechangelog.man dpkg-query.man dpkg-scanpackages.man
-#: dpkg-scansources.man dpkg-shlibdeps.man dpkg-split.man
-#: dpkg-statoverride.man dpkg-trigger.man dpkg-vendor.man
-#: update-alternatives.man
+#: dpkg-scansources.man dpkg-shlibdeps.man dpkg-split.man dpkg-statoverride.man
+#: dpkg-trigger.man dpkg-vendor.man update-alternatives.man
 msgid "Show the usage message and exit."
 msgstr "Toon info over het gebruik en sluit af."
 
@@ -11267,17 +11264,29 @@ msgstr "B<pie>"
 
 #. type: Plain text
 #: dpkg-buildflags.man
+#, fuzzy
+#| msgid ""
+#| "This setting (enabled by default since dpkg 1.18.11, and injected by "
+#| "default by gcc on the amd64, arm64, armel, armhf, i386, mips, mipsel, "
+#| "mips64el, ppc64el and s390x Debian architectures) adds the required "
+#| "options if needed to enable or disable PIE. When enabled and injected by "
+#| "gcc, adds nothing. When enabled and not injected by gcc, adds B<-fPIE> to "
+#| "B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
+#| "B<FFLAGS> and B<FCFLAGS>, and B<-fPIE -pie> to B<LDFLAGS>. When disabled "
+#| "and injected by gcc, adds B<-fno-PIE> to B<CFLAGS>, B<CXXFLAGS>, "
+#| "B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>, and "
+#| "B<-fno-PIE -no-pie> to B<LDFLAGS>."
 msgid ""
-"This setting (enabled by default since dpkg 1.18.11, and injected by default "
-"by gcc on the amd64, arm64, armel, armhf, i386, mips, mipsel, mips64el, "
-"ppc64el and s390x Debian architectures) adds the required options if needed "
-"to enable or disable PIE. When enabled and injected by gcc, adds nothing. "
-"When enabled and not injected by gcc, adds B<-fPIE> to B<CFLAGS>, "
-"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and "
-"B<FCFLAGS>, and B<-fPIE -pie> to B<LDFLAGS>. When disabled and injected by "
-"gcc, adds B<-fno-PIE> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
-"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>, and B<-fno-PIE -no-"
-"pie> to B<LDFLAGS>."
+"This setting (with no default since dpkg 1.18.23, and injected by default by "
+"gcc on the amd64, arm64, armel, armhf, i386, kfreebsd-amd64, kfreebsd-i386, "
+"mips, mipsel, mips64el, ppc64el, s390x, sparc and sparc64 Debian "
+"architectures)  adds the required options via gcc specs files if needed to "
+"enable or disable PIE. When enabled and injected by gcc, adds nothing. When "
+"enabled and not injected by gcc, adds B<-fPIE> to B<CFLAGS>, B<CXXFLAGS>, "
+"B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>, and B<-"
+"fPIE -pie> to B<LDFLAGS>. When disabled and injected by gcc, adds B<-fno-"
+"PIE> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
+"B<FFLAGS> and B<FCFLAGS>, and B<-fno-PIE -no-pie> to B<LDFLAGS>."
 msgstr ""
 "Deze instelling (standaard geactiveerd sinds dpkg 1.18.11 en door gcc "
 "standaard geïnjecteerd bij de Debian architecturen amd64, arm64, armel, "
@@ -12074,11 +12083,6 @@ msgstr "B<11.>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#| msgid ""
-#| "It runs the B<sign> hook and calls B<gpg2> or B<gpg> to sign the B<.dsc> "
-#| "file (if any, unless B<-us> or B<--unsigned-source> is specified or on "
-#| "UNRELEASED builds), and the B<.changes> file (unless B<-uc> or B<--"
-#| "unsigned-changes> is specified or on UNRELEASED builds)."
 msgid ""
 "It runs the B<sign> hook and calls B<gpg2> or B<gpg> (as long as it is not "
 "an UNRELEASED build, or B<--no-sign> is specified) to sign the B<.dsc> file "
@@ -12933,13 +12937,11 @@ msgstr "Onderteken het broncodepakket niet (de lange optie sinds dpkg 1.18.8)."
 #. type: TP
 #: dpkg-buildpackage.man
 #, no-wrap
-#| msgid "B<-us>, B<--unsigned-source>"
 msgid "B<-ui>, B<--unsigned-buildinfo>"
 msgstr "B<-ui>, B<--unsigned-buildinfo>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#| msgid "Do not sign the B<.changes> file (long option since dpkg 1.18.8)."
 msgid "Do not sign the B<.buildinfo> file (since dpkg 1.18.19)."
 msgstr "Onderteken het bestand B<.buildinfo> niet (sinds dpkg 1.18.19)."
 
@@ -12951,7 +12953,6 @@ msgstr "B<-uc>, B<--unsigned-changes>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#| msgid "Do not sign the B<.changes> file (long option since dpkg 1.18.8)."
 msgid ""
 "Do not sign the B<.buildinfo> and B<.changes> files (long option since dpkg "
 "1.18.8)."
@@ -12962,7 +12963,6 @@ msgstr ""
 #. type: TP
 #: dpkg-buildpackage.man
 #, no-wrap
-#| msgid "B<--no-debsig>"
 msgid "B<--no-sign>"
 msgstr "B<--no-sign>"
 
@@ -12983,10 +12983,6 @@ msgstr "B<--force-sign>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#| msgid ""
-#| "Force the signing of the resulting files (since dpkg 1.17.0), regardless "
-#| "of B<-us>, B<--unsigned-source>, B<-uc>, B<--unsigned-changes> or other "
-#| "internal heuristics."
 msgid ""
 "Force the signing of the resulting files (since dpkg 1.17.0), regardless of "
 "B<-us>, B<--unsigned-source>, B<-ui>, B<--unsigned-buildinfo>, B<-uc>, B<--"
@@ -20840,14 +20836,6 @@ msgstr "B<Bouwopties (met --build):>"
 
 #. type: Plain text
 #: dpkg-source.man
-#| msgid ""
-#| "If a second non-option argument is supplied it should be the name of the "
-#| "original source directory or tarfile or the empty string if the package "
-#| "is a Debian-specific one and so has no Debianisation diffs. If no second "
-#| "argument is supplied then B<dpkg-source> will look for the original "
-#| "source tarfile I<package>B<_>I<upstream-version>B<.orig.tar.gz> or the "
-#| "original source directory I<directory>B<.orig> depending on the B<-sX> "
-#| "arguments."
 msgid ""
 "If a second non-option argument is supplied it should be the name of the "
 "original source directory or tarfile or the empty string if the package is a "
@@ -23132,17 +23120,6 @@ msgstr ""
 
 #. type: Plain text
 #: dselect.man
-#| msgid ""
-#| "B<dselect> operates as a front-end to B<dpkg>(1), the low-level debian "
-#| "package handling tool. It features a full-screen package selections "
-#| "manager with package depends and conflicts resolver. When run with "
-#| "administrator privileges, packages can be installed, upgraded and "
-#| "removed. Various access methods can be configured to retrieve available "
-#| "package version information and installable packages from package "
-#| "repositories.  Depending on the used access method, these repositories "
-#| "can be public archive servers on the internet, local archive servers or "
-#| "cdroms.  The recommended access method is I<apt>, which is provided by "
-#| "the package B<apt>."
 msgid ""
 "B<dselect> operates as a front-end to B<dpkg>(1), the low-level Debian "
 "package handling tool. It features a full-screen package selections manager "
@@ -23693,17 +23670,6 @@ msgstr "Inleiding"
 
 #. type: Plain text
 #: dselect.man
-#| msgid ""
-#| "B<dselect> directly exposes the administrator to some of the complexities "
-#| "involved with managing large sets of packages with many "
-#| "interdependencies. For a user who is unfamiliar with the concepts and the "
-#| "ways of the debian package management system, it can be quite "
-#| "overwhelming. Although B<dselect> is aimed at easing package management "
-#| "and administration, it is only instrumental in doing so and cannot be "
-#| "assumed to be a sufficient substitute for administrator skill and "
-#| "understanding. The user is required to be familiar with the concepts "
-#| "underlying the Debian packaging system.  In case of doubt, consult the "
-#| "B<dpkg>(1) manpage and the distribution policy."
 msgid ""
 "B<dselect> directly exposes the administrator to some of the complexities "
 "involved with managing large sets of packages with many interdependencies. "
@@ -23821,10 +23787,6 @@ msgstr "De pakketstatuslijst"
 
 #. type: Plain text
 #: dselect.man
-#| msgid ""
-#| "The main select screen displays a list of all packages known to the "
-#| "debian package management system. This includes packages installed on the "
-#| "system and packages known from the available packages database."
 msgid ""
 "The main select screen displays a list of all packages known to the Debian "
 "package management system. This includes packages installed on the system "
@@ -26145,6 +26107,28 @@ msgstr ""
 "B<ln>(1), FHS, the Filesystem Hierarchy Standard. (Standaardisatie van "
 "bestandsorganisatie en mappenstructuur op unix-achtige systemen)"
 
+#~ msgid ""
+#~ "The value of this field declares the format version of the file.  The "
+#~ "syntax of the field value is a version number with a major and minor "
+#~ "component.  Backward incompatible changes to the format will bump the "
+#~ "major version, and backward compatible changes (such as field additions) "
+#~ "will bump the minor version.  The current format version is B<0.2>."
+#~ msgstr ""
+#~ "De waarde van dit veld bepaalt de indelingsversie van het bestand. De "
+#~ "syntaxis van de veldwaarde is een versienummer met een hoofdversie- en "
+#~ "een onderversiecomponent. Wijzigingen aan de indeling die niet neerwaarts "
+#~ "compatibel zijn, hebben een verhoging van het hoofdversienummer tot "
+#~ "gevolg en neerwaarts compatibele veranderingen (zoals het toevoegen van "
+#~ "extra velden) verhogen het onderversienummer. De huidige indelingsversie "
+#~ "is B<0.2>."
+
+#~ msgid ""
+#~ "This file contains a list of files, one per line.  Trailing whitespace "
+#~ "will be trimmed, and empty lines will be ignored."
+#~ msgstr ""
+#~ "Dit bestand bevat een lijst van bestanden, één per regel. Witruimte aan "
+#~ "het einde wordt weggelaten en lege regels worden genegeerd."
+
 #, fuzzy
 #~| msgid "B<Testsuite:>I< name-list>"
 #~ msgid "B<Testsuite-Restrictions:>I< name-list>"
@@ -26623,9 +26607,6 @@ msgstr ""
 #~ "Er deden zich problemen voor bij het ontleden van de commandoregel of bij "
 #~ "het uitvoeren van de opzoeking, hetgeen ook kan inhouden dat het bestand "
 #~ "of het pakket niet gevonden werd (behalve voor B<--control-path>)."
-
-#~ msgid "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
-#~ msgstr "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
 
 #~ msgid ""
 #~ "Some kind of trouble happened, such as a system call failure, a file that "

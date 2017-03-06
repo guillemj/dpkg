@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-02-01 05:48+0100\n"
+"POT-Creation-Date: 2017-03-06 06:25+0100\n"
 "PO-Revision-Date: 2016-12-17 16:42+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian <debian-l10n-hungarian@lists.debian.org>\n"
@@ -592,7 +592,7 @@ msgid ""
 "of the field value is a version number with a major and minor component.  "
 "Backward incompatible changes to the format will bump the major version, and "
 "backward compatible changes (such as field additions) will bump the minor "
-"version.  The current format version is B<0.2>."
+"version.  The current format version is B<1.0>."
 msgstr ""
 
 #. type: TP
@@ -2377,8 +2377,11 @@ msgstr ""
 #. type: Plain text
 #: deb-conffiles.man
 msgid ""
-"This file contains a list of files, one per line.  Trailing whitespace will "
-"be trimmed, and empty lines will be ignored."
+"This file contains a list of files, one per line.  They should be listed as "
+"absolute pathnames, and should exist in the binary package, otherwise "
+"B<dpkg>(1) will ignore them (although by default B<dpkg-deb>(1) will refuse "
+"to build such binary packages).  Trailing whitespace will be trimmed, and "
+"empty lines will be ignored."
 msgstr ""
 
 #. type: Plain text
@@ -2392,11 +2395,10 @@ msgid ""
 msgstr ""
 
 #. type: Plain text
-#: deb-conffiles.man deb-postinst.man deb-postrm.man deb-preinst.man
-#: deb-prerm.man dpkg.cfg.man dpkg-divert.man dpkg-query.man
-#: dpkg-statoverride.man
-msgid "B<dpkg>(1)."
-msgstr "B<dpkg>(1)."
+#: deb-conffiles.man
+#, fuzzy
+msgid "B<dpkg-deb>(1), B<dpkg>(1)."
+msgstr "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
 
 #. type: TH
 #: deb-src-control.man
@@ -4407,6 +4409,12 @@ msgstr ""
 #: deb-postinst.man
 msgid "If I<prerm> fails during replacement due to conflict."
 msgstr ""
+
+#. type: Plain text
+#: deb-postinst.man deb-postrm.man deb-preinst.man deb-prerm.man dpkg.cfg.man
+#: dpkg-divert.man dpkg-query.man dpkg-statoverride.man
+msgid "B<dpkg>(1)."
+msgstr "B<dpkg>(1)."
 
 #. type: TH
 #: deb-postrm.man
@@ -9430,16 +9438,16 @@ msgstr ""
 #. type: Plain text
 #: dpkg-buildflags.man
 msgid ""
-"This setting (enabled by default since dpkg 1.18.11, and injected by default "
-"by gcc on the amd64, arm64, armel, armhf, i386, mips, mipsel, mips64el, "
-"ppc64el and s390x Debian architectures) adds the required options if needed "
-"to enable or disable PIE. When enabled and injected by gcc, adds nothing. "
-"When enabled and not injected by gcc, adds B<-fPIE> to B<CFLAGS>, "
-"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and "
-"B<FCFLAGS>, and B<-fPIE -pie> to B<LDFLAGS>. When disabled and injected by "
-"gcc, adds B<-fno-PIE> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
-"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>, and B<-fno-PIE -no-"
-"pie> to B<LDFLAGS>."
+"This setting (with no default since dpkg 1.18.23, and injected by default by "
+"gcc on the amd64, arm64, armel, armhf, i386, kfreebsd-amd64, kfreebsd-i386, "
+"mips, mipsel, mips64el, ppc64el, s390x, sparc and sparc64 Debian "
+"architectures)  adds the required options via gcc specs files if needed to "
+"enable or disable PIE. When enabled and injected by gcc, adds nothing. When "
+"enabled and not injected by gcc, adds B<-fPIE> to B<CFLAGS>, B<CXXFLAGS>, "
+"B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>, and B<-"
+"fPIE -pie> to B<LDFLAGS>. When disabled and injected by gcc, adds B<-fno-"
+"PIE> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
+"B<FFLAGS> and B<FCFLAGS>, and B<-fno-PIE -no-pie> to B<LDFLAGS>."
 msgstr ""
 
 #. type: Plain text
@@ -21106,10 +21114,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "B<-b>, B<-B>, B<-A>"
 #~ msgstr "B<--show>, B<-W>"
-
-#, fuzzy
-#~ msgid "B<dpkg-deb>(1), B<dpkg>(1), B<dselect>(1)."
-#~ msgstr "B<deb>(5), B<deb-control>(5), B<dpkg>(1), B<dselect>(1)."
 
 #~ msgid "REQUIRED FIELDS"
 #~ msgstr "KÖTELEZŐ MEZŐK"

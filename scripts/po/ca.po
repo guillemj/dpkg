@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-02-01 05:48+0100\n"
+"POT-Creation-Date: 2017-03-06 06:25+0100\n"
 "PO-Revision-Date: 2014-12-10 03:47+0100\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -308,6 +308,8 @@ msgid ""
 "  -d                          do not check build dependencies and "
 "conflicts.\n"
 "      --[no-]check-builddeps  ditto.\n"
+"      --ignore-builtin-builddeps\n"
+"                              do not check builtin build dependencies.\n"
 "  -P, --build-profiles=<profiles>\n"
 "                              assume comma-separated build profiles as "
 "active.\n"
@@ -2231,6 +2233,16 @@ msgid "Usage: %s [<option>...] <command>"
 msgstr "Forma d'ús: %s [<opció>…] <ordre>"
 
 #: scripts/dpkg-source.pl
+#, fuzzy
+#| msgid ""
+#| "Commands:\n"
+#| "  -x, --extract <filename>.dsc [<output-dir>]\n"
+#| "                           extract source package.\n"
+#| "  -b, --build <dir>        build source package.\n"
+#| "      --print-format <dir> print the format to be used for the source "
+#| "package.\n"
+#| "      --commit [<dir> [<patch-name>]]\n"
+#| "                           store upstream changes in a new patch."
 msgid ""
 "Commands:\n"
 "  -x, --extract <filename>.dsc [<output-dir>]\n"
@@ -2238,6 +2250,10 @@ msgid ""
 "  -b, --build <dir>        build source package.\n"
 "      --print-format <dir> print the format to be used for the source "
 "package.\n"
+"      --before-build <dir> run the corresponding source package format "
+"hook.\n"
+"      --after-build <dir>  run the corresponding source package format "
+"hook.\n"
 "      --commit [<dir> [<patch-name>]]\n"
 "                           store upstream changes in a new patch."
 msgstr ""
@@ -2982,6 +2998,12 @@ msgstr "el caràcter «%s» no és permès"
 #: scripts/Dpkg/Package.pm
 msgid "must start with an alphanumeric character"
 msgstr "ha de començar amb un caràcter alfanumèric"
+
+#: scripts/Dpkg/Shlibs/Objdump.pm
+#, fuzzy, perl-format
+#| msgid "cannot exec format parser: %s"
+msgid "unknown executable format in file '%s'"
+msgstr "no es pot executar l'analitzador de format: %s"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
@@ -4294,11 +4316,6 @@ msgstr "l'època en la versió no és un número: «%s»"
 
 #~ msgid "format parser %s not executable"
 #~ msgstr "analitzador de format %s no és executable"
-
-#, fuzzy
-#~| msgid "cannot exec format parser: %s"
-#~ msgid "cannot execute format parser: %s"
-#~ msgstr "no es pot executar l'analitzador de format: %s"
 
 #~ msgid "output of changelog parser"
 #~ msgstr "sortida de l'analitzador del registre de canvis"
