@@ -98,7 +98,7 @@ TESTS_PASS += t-file-replaces-disappear
 TESTS_PASS += t-file-replaces-versioned
 TESTS_PASS += t-conffile-normal
 ifndef DPKG_NOT_ROOT
-# FIXME: dpkg-maintscript-helper does not support $DPKG_ROOT
+# FIXME: dpkg-maintscript-helper does not support $DPKG_ROOT (#832176)
 TESTS_PASS += t-conffile-obsolete
 # FIXME: Somehow pkg-conff-takeover cannot take over /test-conffile
 TESTS_PASS += t-conffile-orphan
@@ -116,7 +116,7 @@ TESTS_PASS += t-conffile-replaces-existing-and-upgrade
 TESTS_PASS += t-conffile-replaces-disappear
 TESTS_PASS += t-conffile-versioned-replaces-downgrade
 ifndef DPKG_NOT_ROOT
-# FIXME: Uses dpkg-maintscript-helper
+# FIXME: dpkg-maintscript-helper does not support $DPKG_ROOT (#832176)
 TESTS_PASS += t-conffile-rename
 endif
 TESTS_PASS += t-queue-process-deconf-dupe
@@ -125,7 +125,7 @@ TESTS_PASS += t-symlink-dir
 # This only works with dpkg >= 1.17.x
 ifdef DPKG_HAS_MAINTSCRIPT_SWITCH_DIR_SYMLINK
 ifndef DPKG_NOT_ROOT
-# FIXME: Uses dpkg-maintscript-helper
+# FIXME: dpkg-maintscript-helper does not support $DPKG_ROOT (#832176)
 TESTS_PASS += t-switch-symlink-abs-to-dir
 TESTS_PASS += t-switch-symlink-rel-to-dir
 TESTS_PASS += t-switch-dir-to-symlink-abs
