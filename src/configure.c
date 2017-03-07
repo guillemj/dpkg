@@ -324,7 +324,7 @@ promptconfaction(struct pkginfo *pkg, const char *cfgfile,
  *
  * When the first instance of a package set is configured, the *.dpkg-new
  * files gets installed into their destination, which makes configuration of
- * conffiles from subsequent package instances be skept along with updates
+ * conffiles from subsequent package instances be skipped along with updates
  * to the Conffiles field hash.
  *
  * In case the conffile has already been processed, sync the hash from an
