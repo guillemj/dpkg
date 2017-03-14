@@ -21,9 +21,9 @@ test-case:
 	$(DPKG_PURGE) pkg-conff-rename
 	# Abort-upgrade restores the to-be-renamed conffile
 	$(DPKG_INSTALL) pkg-conff-rename-0.deb
-	$(BEROOT) touch /fail-preinst
+	$(BEROOT) touch '$(DPKG_INSTDIR)/fail-preinst'
 	$(DPKG_INSTALL) pkg-conff-rename-1.deb || true
-	$(BEROOT) rm -f /fail-preinst
+	$(BEROOT) rm -f '$(DPKG_INSTDIR)/fail-preinst'
 	test -f '$(DPKG_INSTDIR)/test-conffile-old'
 	test ! -f '$(DPKG_INSTDIR)/test-conffile-new'
 	test ! -f '$(DPKG_INSTDIR)/test-conffile-old.dpkg-remove'
