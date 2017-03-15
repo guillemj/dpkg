@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 16334;
+use Test::More tests => 16367;
 
 use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         debarch_eq debarch_is debarch_is_wildcard
@@ -162,7 +162,7 @@ is(gnutriplet_to_debarch(undef), undef, 'undef gnutriplet');
 is(gnutriplet_to_debarch('unknown-unknown-unknown'), undef, 'unknown gnutriplet');
 is(gnutriplet_to_debarch('x86_64-linux-gnu'), 'amd64', 'known gnutriplet');
 
-is(scalar get_valid_arches(), 523, 'expected amount of known architectures');
+is(scalar get_valid_arches(), 524, 'expected amount of known architectures');
 
 {
     local $ENV{CC} = 'false';
