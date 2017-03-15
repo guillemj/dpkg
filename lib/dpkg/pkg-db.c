@@ -24,7 +24,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -171,8 +170,10 @@ pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
 {
   struct pkginfo *pkg, **pkgp;
 
-  assert(arch);
-  assert(arch->type != DPKG_ARCH_NONE);
+  if (arch == NULL)
+    internerr("arch argument is NULL");
+  if (arch->type == DPKG_ARCH_NONE)
+    internerr("arch argument is none");
 
   pkg = &set->pkg;
 

@@ -24,7 +24,6 @@
 
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
@@ -122,7 +121,8 @@ path_remove_tree(const char *pathname)
 	const char *u;
 
 	u = path_skip_slash_dotslash(pathname);
-	assert(*u);
+	if (u[0] == '\0')
+		internerr("pathname '%s' reduces to nothing", pathname);
 
 	debug(dbg_eachfile, "%s '%s'", __func__, pathname);
 	if (!rmdir(pathname))

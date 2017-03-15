@@ -27,7 +27,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -314,10 +313,14 @@ depisok(struct dependency *dep, struct varbuf *whynot,
    * Allow 250x3 for package names, versions, &c, + 250 for ourselves. */
   char linebuf[1024];
 
-  assert(dep->type == dep_depends || dep->type == dep_predepends ||
-	 dep->type == dep_breaks || dep->type == dep_conflicts ||
-	 dep->type == dep_recommends || dep->type == dep_suggests ||
-	 dep->type == dep_enhances);
+  if (dep->type != dep_depends &&
+      dep->type != dep_predepends &&
+      dep->type != dep_breaks &&
+      dep->type != dep_conflicts &&
+      dep->type != dep_recommends &&
+      dep->type != dep_suggests &&
+      dep->type != dep_enhances)
+    internerr("unknown dependency type %d", dep->type);
 
   if (canfixbyremove)
     *canfixbyremove = NULL;

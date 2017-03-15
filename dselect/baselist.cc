@@ -25,7 +25,6 @@
 
 #include <sys/ioctl.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <termios.h>
@@ -155,7 +154,10 @@ baselist::draw_column_item(column &col, int y, const char *item)
 
 void baselist::setheights() {
   int y= ymax - (title_height + colheads_height + thisstate_height);
-  assert(y>=1);
+
+  if (y < 1)
+    internerr("widget y=%d < 1", y);
+
   if (showinfo==2 && y>=7) {
     list_height= 5;
     whatinfo_height= 1;

@@ -29,7 +29,6 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <ctype.h>
 #include <string.h>
@@ -681,7 +680,9 @@ deferred_configure(struct pkginfo *pkg)
 		pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
 	}
 
-	assert(pkg->status == PKG_STAT_HALFCONFIGURED);
+	if (pkg->status != PKG_STAT_HALFCONFIGURED)
+		internerr("package %s in state %s, instead of half-configured",
+		          pkg_name(pkg, pnaw_always), pkg_status_name(pkg));
 
 	modstatdb_note(pkg);
 

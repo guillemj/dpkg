@@ -22,7 +22,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
@@ -129,10 +128,16 @@ methodlist::methodlist() : baselist(&methodlistbindings) {
 
   struct dselect_option *opt, **ip;
   for (opt=options, ip=table, nitems=0; opt; opt=opt->next, nitems++) {
-    if (opt == coption) { assert(newcursor==-1); newcursor= nitems; }
+    if (opt == coption) {
+      if (newcursor != -1)
+        internerr("multiple methods with same index");
+      newcursor = nitems;
+    }
     *ip++= opt;
   }
-  assert(nitems==noptions);
+  if (nitems != noptions)
+    internerr("inconsistent number of items: ntimes=%d != noptions=%d",
+              nitems, noptions);
 
   if (newcursor==-1) newcursor= 0;
   setcursor(newcursor);

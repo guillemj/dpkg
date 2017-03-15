@@ -25,7 +25,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -79,7 +78,8 @@ file_unlock(int lockfd, const char *lock_desc)
 {
 	struct flock fl;
 
-	assert(lockfd >= 0);
+	if (lockfd < 0)
+		internerr("lock fd is %d < 0", lockfd);
 
 	file_lock_setup(&fl, F_UNLCK);
 

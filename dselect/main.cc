@@ -26,7 +26,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <limits.h>
 #if HAVE_LOCALE_H

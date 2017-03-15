@@ -27,7 +27,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
@@ -232,7 +231,9 @@ void process_queue(void) {
        * trigger processing, w/o jumping into the next dependtry. */
       dependtry++;
       sincenothing = 0;
-      assert(dependtry <= 4);
+      if (dependtry > 4)
+        internerr("exceeded dependtry %d (sincenothing=%d; queue.length=%d)",
+                  dependtry, sincenothing, queue.length);
     } else if (sincenothing > queue.length * 2 + 2) {
       /* XXX: This probably needs moving into a new dependtry instead. */
       if (progress_bytrigproc && progress_bytrigproc->trigpend_head) {
@@ -242,7 +243,9 @@ void process_queue(void) {
       } else {
         dependtry++;
         sincenothing = 0;
-        assert(dependtry <= 4);
+        if (dependtry > 4)
+          internerr("exceeded dependtry %d (sincenothing=%d, queue.length=%d)",
+                    dependtry, sincenothing, queue.length);
       }
     }
 
@@ -250,7 +253,8 @@ void process_queue(void) {
           pkg_name(pkg, pnaw_always), queue.length, sincenothing, dependtry);
 
     if (pkg->status > PKG_STAT_INSTALLED)
-      internerr("package status (%d) > PKG_STAT_INSTALLED", pkg->status);
+      internerr("package %s status %d is out-of-bounds",
+                pkg_name(pkg, pnaw_always), pkg->status);
 
     if (setjmp(ejbuf)) {
       /* Give up on it from the point of view of other packages, i.e. reset
@@ -295,7 +299,10 @@ void process_queue(void) {
 
     pop_error_context(ehflag_normaltidy);
   }
-  assert(!queue.length);
+
+  if (queue.length)
+    internerr("finished package processing with non-empty queue length %d",
+              queue.length);
 }
 
 /*** Dependency processing - common to --configure and --remove. ***/
@@ -424,7 +431,11 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
       return FOUND_OK;
     }
     if (possdependee->status == PKG_STAT_TRIGGERSAWAITED) {
-      assert(possdependee->trigaw.head);
+      if (possdependee->trigaw.head == NULL)
+        internerr("package %s in state %s, has no awaited triggers",
+                  pkg_name(possdependee, pnaw_always),
+                  pkg_status_name(possdependee));
+
       if (removing ||
           !(f_triggers ||
             possdependee->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)) {

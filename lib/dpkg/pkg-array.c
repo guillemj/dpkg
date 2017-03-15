@@ -22,7 +22,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -74,7 +73,9 @@ pkg_array_init_from_db(struct pkg_array *a)
 		a->pkgs[i] = pkg;
 	pkg_db_iter_free(iter);
 
-	assert(i == a->n_pkgs);
+	if (i != a->n_pkgs)
+		internerr("inconsistent state in pkg array: i=%d != npkgs=%d",
+		          i, a->n_pkgs);
 }
 
 /**

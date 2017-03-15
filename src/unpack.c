@@ -28,7 +28,6 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <time.h>
@@ -859,8 +858,12 @@ pkg_disappear_others(struct pkginfo *pkg)
 
     debug(dbg_veryverbose, "process_archive checking disappearance %s",
           pkg_name(otherpkg, pnaw_always));
-    assert(otherpkg->clientdata->istobe == PKG_ISTOBE_NORMAL ||
-           otherpkg->clientdata->istobe == PKG_ISTOBE_DECONFIGURE);
+
+    if (otherpkg->clientdata->istobe != PKG_ISTOBE_NORMAL &&
+        otherpkg->clientdata->istobe != PKG_ISTOBE_DECONFIGURE)
+      internerr("disappearing package %s is not to be normal or deconfigure, "
+                "is to be %d",
+                pkg_name(otherpkg, pnaw_always), otherpkg->clientdata->istobe);
 
     for (cfile = otherpkg->clientdata->files;
          cfile && strcmp(cfile->namenode->name, "/.") == 0;
@@ -1226,7 +1229,10 @@ void process_archive(const char *filename) {
 
   oldversionstatus= pkg->status;
 
-  assert(oldversionstatus <= PKG_STAT_INSTALLED);
+  if (oldversionstatus > PKG_STAT_INSTALLED)
+    internerr("package %s state %d is out-of-bounds",
+              pkg_name(pkg, pnaw_always), oldversionstatus);
+
   debug(dbg_general,"process_archive oldversionstatus=%s",
         statusstrings[oldversionstatus]);
 
@@ -1516,7 +1522,9 @@ void process_archive(const char *filename) {
     if (otherpkg->installed.arch != pkg->installed.arch)
       continue;
 
-    assert(otherpkg->status == PKG_STAT_NOTINSTALLED);
+    if (otherpkg->status != PKG_STAT_NOTINSTALLED)
+      internerr("other package %s instance in state %s instead of not-installed",
+                pkg_name(otherpkg, pnaw_always), pkg_status_name(otherpkg));
 
     pkg_blank(otherpkg);
   }

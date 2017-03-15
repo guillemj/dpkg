@@ -26,7 +26,6 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
@@ -292,7 +291,9 @@ void getcurrentopt() {
 void writecurrentopt() {
   struct atomic_file *file;
 
-  assert(methoptfile);
+  if (methoptfile == NULL)
+    internerr("method options filename is NULL");
+
   file = atomic_file_new(methoptfile, (enum atomic_file_flags)0);
   atomic_file_open(file);
   if (fprintf(file->fp, "%s %s\n", coption->meth->name, coption->name) == EOF)

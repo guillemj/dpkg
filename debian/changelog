@@ -44,6 +44,9 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
     initialized, instead of non-zero.
   * Switch a fatal() call in start-stop-daemon into the new BUG() macro,
     because it is really an internal error.
+  * Switch all assert() calls (except in update-alternatives) into internerr()
+    or BUG() calls, to get way better reporting with variable contents and
+    descriptions, and to make them always present independent of NDEBUG.
   * Architecture support:
     - Add support for riscv64 CPU. Closes: #822914
       Thanks to Manuel A. Fernandez Montecelo <mafm@debian.org>

@@ -26,7 +26,6 @@
 
 #include <sys/types.h>
 
-#include <assert.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -495,7 +494,9 @@ predeppackage(const char *const *argv)
 
   if (!dep)
     return 1; /* Not found. */
-  assert(pkg);
+  if (pkg == NULL)
+    internerr("unexpected unfound package");
+
   startpkg= pkg;
   pkg->clientdata->istobe = PKG_ISTOBE_PREINSTALL;
 

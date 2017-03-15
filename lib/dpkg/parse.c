@@ -28,7 +28,6 @@
 #include <sys/mman.h>
 #endif
 
-#include <assert.h>
 #include <fcntl.h>
 #include <string.h>
 #include <unistd.h>
@@ -493,7 +492,10 @@ pkg_parse_copy(struct parsedb_state *ps,
     dst_pkg->trigpend_head = src_pkg->trigpend_head;
     dst_pkg->trigaw = src_pkg->trigaw;
     for (ta = dst_pkg->trigaw.head; ta; ta = ta->sameaw.next) {
-      assert(ta->aw == src_pkg);
+      if (ta->aw != src_pkg)
+        internerr("trigger awaited package %s and origin package %s not linked properly",
+                  pkg_name(ta->aw, pnaw_always),
+                  pkgbin_name(src_pkg, src_pkgbin, pnaw_always));
       ta->aw = dst_pkg;
       /* ->othertrigaw_head is updated by trig_note_aw in *(pkg_db_find())
        * rather than in dst_pkg. */

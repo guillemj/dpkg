@@ -80,7 +80,6 @@
 #include <sys/select.h>
 #include <sys/ioctl.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <limits.h>
 #include <time.h>
@@ -959,7 +958,9 @@ parse_schedule(const char *schedule_str)
 			schedule[count].value = repeatat;
 			count++;
 		}
-		assert(count == schedule_length);
+		if (count != schedule_length)
+			BUG("count=%d != schedule_length=%d",
+			    count, schedule_length);
 	}
 }
 
@@ -2520,7 +2521,8 @@ run_stop_schedule(void)
 			else
 				continue;
 		default:
-			assert(!"schedule[].type value must be valid");
+			BUG("schedule[%d].type value %d is not valid",
+			    position, schedule[position].type);
 		}
 	}
 

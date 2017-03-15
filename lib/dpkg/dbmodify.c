@@ -27,7 +27,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
@@ -307,13 +306,19 @@ modstatdb_get_status(void)
 void modstatdb_checkpoint(void) {
   int i;
 
-  assert(cstatus >= msdbrw_write);
+  if (cstatus < msdbrw_write)
+    internerr("modstatdb status '%d' is not writtable", cstatus);
+
   writedb(statusfile, wdb_must_sync);
 
   for (i=0; i<nextupdate; i++) {
     sprintf(updatefnrest, IMPORTANTFMT, i);
+
     /* Have we made a real mess? */
-    assert(strlen(updatefnrest) <= IMPORTANTMAXLEN);
+    if (strlen(updatefnrest) > IMPORTANTMAXLEN)
+      internerr("modstatdb update entry name '%s' longer than %d",
+                updatefnrest, IMPORTANTMAXLEN);
+
     if (unlink(updatefnbuf))
       ohshite(_("failed to remove my own update file %.255s"),updatefnbuf);
   }
@@ -349,7 +354,8 @@ void modstatdb_shutdown(void) {
 static void
 modstatdb_note_core(struct pkginfo *pkg)
 {
-  assert(cstatus >= msdbrw_write);
+  if (cstatus < msdbrw_write)
+    internerr("modstatdb status '%d' is not writtable", cstatus);
 
   varbuf_reset(&uvb);
   varbufrecord(&uvb, pkg, &pkg->installed);
@@ -377,7 +383,9 @@ modstatdb_note_core(struct pkginfo *pkg)
   dir_sync_path(updatesdir);
 
   /* Have we made a real mess? */
-  assert(strlen(updatefnrest) <= IMPORTANTMAXLEN);
+  if (strlen(updatefnrest) > IMPORTANTMAXLEN)
+    internerr("modstatdb update entry name '%s' longer than %d",
+              updatefnrest, IMPORTANTMAXLEN);
 
   nextupdate++;
 

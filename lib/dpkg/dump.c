@@ -30,7 +30,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
@@ -57,7 +56,9 @@ w_name(struct varbuf *vb,
        const struct pkginfo *pkg, const struct pkgbin *pkgbin,
        enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  assert(pkg->set->name);
+  if (pkg->set->name == NULL)
+    internerr("pkgset has no name");
+
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Package: ");
   varbuf_add_str(vb, pkg->set->name);
@@ -230,7 +231,11 @@ w_priority(struct varbuf *vb,
 {
   if (pkg->priority == PKG_PRIO_UNKNOWN)
     return;
-  assert(pkg->priority <= PKG_PRIO_UNKNOWN);
+
+  if (pkg->priority > PKG_PRIO_UNKNOWN)
+    internerr("package %s has out-of-range priority %d",
+              pkgbin_name(pkg, pkgbin, pnaw_always), pkg->priority);
+
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Priority: ");
   varbuf_add_str(vb, pkg_priority_name(pkg));
@@ -245,38 +250,46 @@ w_status(struct varbuf *vb,
 {
   if (pkgbin != &pkg->installed)
     return;
-  assert(pkg->want <= PKG_WANT_PURGE);
-  assert(pkg->eflag <= PKG_EFLAG_REINSTREQ);
 
-#define PEND pkg->trigpend_head
-#define AW pkg->trigaw.head
+  if (pkg->want > PKG_WANT_PURGE)
+    internerr("package %s has unknown want state %d",
+              pkgbin_name(pkg, pkgbin, pnaw_always), pkg->want);
+  if (pkg->eflag > PKG_EFLAG_REINSTREQ)
+    internerr("package %s has unknown error state %d",
+              pkgbin_name(pkg, pkgbin, pnaw_always), pkg->eflag);
+
   switch (pkg->status) {
   case PKG_STAT_NOTINSTALLED:
   case PKG_STAT_CONFIGFILES:
-    assert(!PEND);
-    assert(!AW);
+    if (pkg->trigpend_head || pkg->trigaw.head)
+      internerr("package %s in state %s, has awaited or pending triggers",
+              pkgbin_name(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
     break;
   case PKG_STAT_HALFINSTALLED:
   case PKG_STAT_UNPACKED:
   case PKG_STAT_HALFCONFIGURED:
-    assert(!PEND);
+    if (pkg->trigpend_head)
+      internerr("package %s in state %s, has pending triggers",
+              pkgbin_name(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
     break;
   case PKG_STAT_TRIGGERSAWAITED:
-    assert(AW);
+    if (pkg->trigaw.head == NULL)
+      internerr("package %s in state %s, has no awaited triggers",
+                pkgbin_name(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
     break;
   case PKG_STAT_TRIGGERSPENDING:
-    assert(PEND);
-    assert(!AW);
+    if (pkg->trigpend_head == NULL || pkg->trigaw.head)
+      internerr("package %s in stata %s, has awaited or no pending triggers",
+              pkgbin_name(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
     break;
   case PKG_STAT_INSTALLED:
-    assert(!PEND);
-    assert(!AW);
+    if (pkg->trigpend_head || pkg->trigaw.head)
+      internerr("package %s in state %s, has awaited or pending triggers",
+              pkgbin_name(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
     break;
   default:
     internerr("unknown package status '%d'", pkg->status);
   }
-#undef PEND
-#undef AW
 
   if (flags&fw_printheader)
     varbuf_add_str(vb, "Status: ");
@@ -295,7 +308,9 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
 
   possdel= "";
   for (dop= dep->list; dop; dop= dop->next) {
-    assert(dop->up == dep);
+    if (dop->up != dep)
+      internerr("dependency and deppossi not linked properly");
+
     varbuf_add_str(vb, possdel);
     possdel = " | ";
     varbuf_add_str(vb, dop->ed->name);
@@ -339,7 +354,10 @@ w_dependency(struct varbuf *vb,
 
   for (dyp = pkgbin->depends; dyp; dyp = dyp->next) {
     if (dyp->type != fip->integer) continue;
-    assert(dyp->up == pkg);
+
+    if (dyp->up != pkg)
+      internerr("dependency and package %s not linked properly",
+                pkgbin_name(pkg, pkgbin, pnaw_always));
 
     if (dep_found) {
       varbuf_add_str(vb, ", ");
@@ -389,8 +407,10 @@ w_trigpend(struct varbuf *vb,
   if (pkgbin == &pkg->available || !pkg->trigpend_head)
     return;
 
-  assert(pkg->status >= PKG_STAT_TRIGGERSAWAITED &&
-         pkg->status <= PKG_STAT_TRIGGERSPENDING);
+  if (pkg->status < PKG_STAT_TRIGGERSAWAITED ||
+      pkg->status > PKG_STAT_TRIGGERSPENDING)
+    internerr("package %s in non-trigger state %s, has pending triggers",
+              pkgbin_name(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
 
   if (flags & fw_printheader)
     varbuf_add_str(vb, "Triggers-Pending:");
@@ -412,8 +432,10 @@ w_trigaw(struct varbuf *vb,
   if (pkgbin == &pkg->available || !pkg->trigaw.head)
     return;
 
-  assert(pkg->status > PKG_STAT_CONFIGFILES &&
-         pkg->status <= PKG_STAT_TRIGGERSAWAITED);
+  if (pkg->status <= PKG_STAT_CONFIGFILES ||
+      pkg->status > PKG_STAT_TRIGGERSAWAITED)
+    internerr("package %s in state %s, has awaited triggers",
+              pkgbin_name(pkg, pkgbin, pnaw_always), pkg_status_name(pkg));
 
   if (flags & fw_printheader)
     varbuf_add_str(vb, "Triggers-Awaited:");

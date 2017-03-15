@@ -23,7 +23,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
@@ -113,7 +112,10 @@ void packagelist::addheading(enum ssavailval ssavail,
                              pkgpriority priority,
                              const char *otherpriority,
                              const char *section) {
-  assert(nitems <= nallocated);
+  if (nitems > nallocated)
+    internerr("inconsistent state: ntimes=%d > nallocated=%d",
+              nitems, nallocated);
+
   if (nitems == nallocated) {
     nallocated += nallocated+50;
     struct perpackagestate **newtable= new struct perpackagestate*[nallocated];
@@ -266,7 +268,9 @@ void packagelist::sortmakeheads() {
   discardheadings();
   ensurestatsortinfo();
   sortinplace();
-  assert(nitems);
+
+  if (nitems == 0)
+    internerr("cannot sort 0 items");
 
   debug(dbg_general,
         "packagelist[%p]::sortmakeheads() sortorder=%d statsortorder=%d",
@@ -275,7 +279,9 @@ void packagelist::sortmakeheads() {
   int nrealitems= nitems;
   addheading(ssa_none, sss_none, PKG_PRIO_UNSET, nullptr, nullptr);
 
-  assert(sortorder != so_unsorted);
+  if (sortorder == so_unsorted)
+    internerr("cannot sort unsorted order");
+
   if (sortorder == so_alpha && statsortorder == sso_unsorted) { sortinplace(); return; }
 
   // Important: do not save pointers into table in this function, because
@@ -287,7 +293,8 @@ void packagelist::sortmakeheads() {
   int a;
   for (a=0; a<nrealitems; a++) {
     thispkg= table[a]->pkg;
-    assert(thispkg->set->name);
+    if (thispkg->set->name == NULL)
+      internerr("package set has no name at table index %d", a);
     int ssdiff= 0;
     ssavailval ssavail= ssa_none;
     ssstateval ssstate= sss_none;
@@ -456,11 +463,13 @@ perpackagestate::free(bool recursive)
   if (pkg->set->name) {
     if (modstatdb_get_status() == msdbrw_write) {
       if (uprec) {
-        assert(recursive);
+        if (!recursive)
+          internerr("unexpected non-recursive free requested");
         uprec->selected= selected;
         pkg->clientdata= uprec;
       } else {
-        assert(!recursive);
+        if (recursive)
+          internerr("unexpected recursive free requested");
         if (pkg->want != selected &&
             !(pkg->want == PKG_WANT_UNKNOWN && selected == PKG_WANT_PURGE)) {
           pkg->want= selected;

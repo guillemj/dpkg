@@ -23,7 +23,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <limits.h>
 #include <string.h>
 #include <stdbool.h>
@@ -59,7 +58,8 @@ dpkg_arch_name_is_illegal(const char *name)
 	static char buf[150];
 	const char *p = name;
 
-	assert(name);
+	if (name == NULL)
+		internerr("arch name argument is NULL");
 	if (!*p)
 		return _("may not be empty string");
 	if (!c_isalnum(*p))

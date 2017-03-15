@@ -22,9 +22,9 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <string.h>
 
+#include <dpkg/ehandle.h>
 #include <dpkg/string.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
@@ -42,7 +42,9 @@ pkg_set_status(struct pkginfo *pkg, enum pkgstatus status)
 	else if (status == PKG_STAT_NOTINSTALLED)
 		pkg->set->installed_instances--;
 
-	assert(pkg->set->installed_instances >= 0);
+	if (pkg->set->installed_instances < 0)
+		internerr("pkgset %s went into negative installed instances %d",
+		          pkg->set->name, pkg->set->installed_instances);
 
 	pkg->status = status;
 }

@@ -32,7 +32,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <pwd.h>
@@ -600,8 +599,13 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
 
   pointerp = bins + (str_fnv_hash(name) % (BINS));
   while (*pointerp) {
-    /* XXX: Why is the assert needed? It's checking already added entries. */
-    assert((*pointerp)->name[0] == '/');
+    /* XXX: This should not be needed, but it has been a constant source
+     * of assertions over the years. Hopefully with the internerr() we will
+     * get better diagnostics. */
+    if ((*pointerp)->name[0] != '/')
+      internerr("filename node '%s' does not start with '/'",
+                (*pointerp)->name);
+
     if (strcmp((*pointerp)->name + 1, name) == 0)
       break;
     pointerp= &(*pointerp)->next;

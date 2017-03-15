@@ -29,7 +29,6 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <time.h>
@@ -631,7 +630,8 @@ linktosameexistingdir(const struct tar_entry *ti, const char *fname,
     varbuf_add_str(symlinkfn, instdir);
   } else {
     lastslash= strrchr(fname, '/');
-    assert(lastslash);
+    if (lastslash == NULL)
+      internerr("tar entry filename '%s' does not contain '/'", fname);
     varbuf_add_buf(symlinkfn, fname, (lastslash - fname) + 1);
   }
   varbuf_add_str(symlinkfn, ti->linkname);
@@ -1267,7 +1267,11 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
     char action[512];
 
     ensure_package_clientdata(fixbydeconf);
-    assert(fixbydeconf->clientdata->istobe == PKG_ISTOBE_NORMAL);
+
+    if (fixbydeconf->clientdata->istobe != PKG_ISTOBE_NORMAL)
+      internerr("package %s being fixed by deconf is not to be normal, "
+                "is to be %d",
+                pkg_name(pkg, pnaw_always), fixbydeconf->clientdata->istobe);
 
     sprintf(action, _("installation of %.250s"),
             pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
@@ -1329,8 +1333,13 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
             fixbyrm->want != PKG_WANT_HOLD) ||
            does_replace(pkg, &pkg->available, fixbyrm, &fixbyrm->installed)) &&
           (!fixbyrm->installed.essential || fc_removeessential)))) {
-      assert(fixbyrm->clientdata->istobe == PKG_ISTOBE_NORMAL ||
-             fixbyrm->clientdata->istobe == PKG_ISTOBE_DECONFIGURE);
+
+      if (fixbyrm->clientdata->istobe != PKG_ISTOBE_NORMAL &&
+          fixbyrm->clientdata->istobe != PKG_ISTOBE_DECONFIGURE)
+        internerr("package %s to be fixed by removal is not to be normal "
+                  "nor deconfigure, is to be %d",
+                  pkg_name(pkg, pnaw_always), fixbyrm->clientdata->istobe);
+
       fixbyrm->clientdata->istobe = PKG_ISTOBE_REMOVE;
       notice(_("considering removing %s in favour of %s ..."),
              pkg_name(fixbyrm, pnaw_nonambig),

@@ -25,7 +25,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
@@ -137,7 +136,10 @@ maintscript_pre_exec(struct command *cmd)
 	if (instdirlen == 0 || fc_script_chrootless)
 		return cmd->filename;
 
-	assert(strlen(cmd->filename) >= instdirlen);
+	if (strlen(cmd->filename) < instdirlen)
+		internerr("maintscript name '%s' length < instdir length %zd",
+		          cmd->filename, instdirlen);
+
 	return cmd->filename + instdirlen;
 }
 

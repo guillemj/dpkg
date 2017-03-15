@@ -22,7 +22,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -401,7 +400,8 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
     // been specified, in which case we don't need to look at the rest
     // anyway.
     if (useavailable(&possi->ed->pkg)) {
-      assert(want == PKG_WANT_INSTALL);
+      if (want != PKG_WANT_INSTALL)
+        internerr("depossi package is not want-install, is %d", want);
       return versionsatisfied(&possi->ed->pkg.available, possi);
     } else {
       if (versionsatisfied(&possi->ed->pkg.installed, possi))

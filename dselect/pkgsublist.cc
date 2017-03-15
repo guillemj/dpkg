@@ -22,7 +22,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -102,8 +101,12 @@ void packagelist::addunavailable(deppossi *possi) {
   if (!recursive) return;
   if (alreadydone(&unavdone,possi)) return;
 
-  assert(possi->up->up->clientdata);
-  assert(possi->up->up->clientdata->uprec);
+  if (possi->up->up->clientdata == nullptr)
+    internerr("deppossi from package %s has nullptr clientdata",
+              pkg_name(possi->up->up, pnaw_always));
+  if (possi->up->up->clientdata->uprec == nullptr)
+    internerr("deppossi from package %s has nullptr clientdata's uprec",
+              pkg_name(possi->up->up, pnaw_always));
 
   varbuf& vb= possi->up->up->clientdata->relations;
   vb(possi->ed->name);
