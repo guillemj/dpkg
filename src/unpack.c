@@ -345,7 +345,8 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
     char *p;
 
     p = conffilenamebuf + strlen(conffilenamebuf);
-    assert(p != conffilenamebuf);
+    if (p == conffilenamebuf)
+      ohshit(_("conffile file contains an empty line"));
     if (p[-1] != '\n')
       ohshit(_("conffile name '%s' is too long, or missing final newline"),
              conffilenamebuf);
