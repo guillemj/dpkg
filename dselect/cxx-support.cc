@@ -24,7 +24,6 @@
 
 #include <sys/types.h>
 
-#include <assert.h>
 #include <stdlib.h>
 #ifdef HAVE_CXXABI_H
 #include <cxxabi.h>
@@ -37,23 +36,13 @@
 extern void *
 operator new(size_t size) DPKG_ATTR_THROW(std::bad_alloc)
 {
-	void *p;
-
-	p = m_malloc(size);
-	assert(p);
-
-	return p;
+	return m_malloc(size);
 }
 
 extern void *
 operator new[](size_t size) DPKG_ATTR_THROW(std::bad_alloc)
 {
-	void *p;
-
-	p = m_malloc(size);
-	assert(p);
-
-	return p;
+	return m_malloc(size);
 }
 
 extern void
