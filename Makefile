@@ -106,6 +106,9 @@ endif
 TESTS_PASS += t-conffile-forcemiss
 TESTS_PASS += t-conffile-forcenew
 TESTS_PASS += t-conffile-forceask
+ifdef DPKG_CAN_INSTALL_CONFFILE_ON_ALT_ROOT
+TESTS_PASS += t-conffile-root-option
+endif
 TESTS_PASS += t-conffile-divert-normal
 TESTS_PASS += t-conffile-conflict
 TESTS_PASS += t-conffile-replaces
