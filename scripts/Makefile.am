@@ -285,6 +285,7 @@ test_data = \
 	t/Dpkg_Shlibs/spacesyms-o-map.pl \
 	t/Dpkg_Source_Patch/c-style.patch \
 	t/Dpkg_Source_Patch/ghost-hunk.patch \
+	t/Dpkg_Source_Patch/indent-header.patch \
 	t/Dpkg_Source_Patch/index-+++.patch \
 	t/Dpkg_Source_Patch/index-alone.patch \
 	t/Dpkg_Source_Patch/index-inert.patch \

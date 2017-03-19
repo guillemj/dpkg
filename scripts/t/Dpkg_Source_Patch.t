@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 9;
+use Test::More tests => 10;
 use Test::Dpkg qw(:paths);
 
 use File::Path qw(make_path);
@@ -66,5 +66,9 @@ test_patch_escape('partial', 'symlink', 'partial.patch',
 
 test_patch_escape('ghost-hunk', 'symlink', 'ghost-hunk.patch',
                   'Patch cannot escape using a disabling hunk');
+
+# This is CVE-2017-8283
+test_patch_escape('indent-header', 'symlink', 'indent-header.patch',
+                  'Patch cannot escape indented hunks');
 
 1;
