@@ -59,5 +59,8 @@ AC_DEFUN([DPKG_PROG_POD2MAN], [
 AC_DEFUN([DPKG_DEB_PROG_TAR], [
   AC_ARG_VAR([TAR], [GNU tar program])
   AC_CHECK_PROGS([TAR], [gnutar gtar tar], [tar])
+  AS_IF([! $TAR --version 2>/dev/null | grep -q '^tar (GNU tar)'], [
+    AC_MSG_ERROR([cannot find a GNU tar program])
+  ])
   AC_DEFINE_UNQUOTED([TAR], ["$TAR"], [GNU tar program])
 ])# DPKG_DEB_PROG_TAR
