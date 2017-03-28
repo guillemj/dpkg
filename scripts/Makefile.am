@@ -132,6 +132,7 @@ do_perl_subst = $(AM_V_GEN) sed \
 	-e "s:our \$$DATADIR = .*;:our \$$DATADIR = '$(pkgdatadir)';:" \
 	-e "s:our \$$PROGMAKE = .*;:our \$$PROGMAKE = '$(MAKE)';:" \
 	-e "s:our \$$PROGTAR = .*;:our \$$PROGTAR = '$(TAR)';:" \
+	-e "s:our \$$PROGPATCH = .*;:our \$$PROGPATCH = '$(PATCH)';:" \
 	-e "s:our \$$PROGVERSION = .*;:our \$$PROGVERSION = '$(PACKAGE_VERSION)';:"
 
 do_shell_subst = $(AM_V_GEN) sed \
@@ -193,6 +194,7 @@ coverage-clean:
 
 TEST_ENV_VARS = \
 	DPKG_PROGTAR=$(TAR) \
+	DPKG_PROGPATCH=$(PATCH) \
 	DPKG_PROGMAKE=$(MAKE) \
 	DPKG_DATADIR=$(top_srcdir)/data \
 	DPKG_ORIGINS_DIR=$(srcdir)/t/origins

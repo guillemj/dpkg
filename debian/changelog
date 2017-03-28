@@ -16,6 +16,10 @@ dpkg (1.18.24) UNRELEASED; urgency=medium
     - Use libexec variable for auxiliary internal programs, and set it to
       /usr/lib on Debian and derivatives.
     - Check that the detected tar is a GNU tar.
+    - Check that the detected patch is a GNU patch, so that we get a directory
+      traversal resistant patch implementation. This fixes CVE-2017-8283 by
+      delegating those checks to patch(1), so that we trap blank-indented
+      diff hunks trying to escape from the source tree.
 
   [ Updated programs translations ]
   * Catalan (Guillem Jover).

@@ -29,12 +29,13 @@ this system installation.
 use strict;
 use warnings;
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 our @EXPORT_OK = qw(
     $PROGNAME
     $PROGVERSION
     $PROGMAKE
     $PROGTAR
+    $PROGPATCH
     $CONFDIR
     $ADMINDIR
     $LIBDIR
@@ -70,6 +71,11 @@ Contains the name of the system GNU make program.
 
 Contains the name of the system GNU tar program.
 
+=item $Dpkg::PROGPATCH
+
+Contains the name of the system GNU patch program (or another implementation
+that is directory traversal resistant).
+
 =item $Dpkg::CONFDIR
 
 Contains the path to the dpkg system configuration directory.
@@ -96,6 +102,7 @@ our ($PROGNAME) = $0 =~ m{(?:.*/)?([^/]*)};
 our $PROGVERSION = '1.18.x';
 our $PROGMAKE = $ENV{DPKG_PROGMAKE} // 'make';
 our $PROGTAR = $ENV{DPKG_PROGTAR} // 'tar';
+our $PROGPATCH = $ENV{DPKG_PROGPATCH} // 'patch';
 
 our $CONFDIR = '/etc/dpkg';
 our $ADMINDIR = '/var/lib/dpkg';
@@ -113,6 +120,10 @@ our $pkgdatadir = $DATADIR;
 ## use critic
 
 =head1 CHANGES
+
+=head2 Version 1.03 (dpkg 1.18.24)
+
+New variable: $PROGPATCH.
 
 =head2 Version 1.02 (dpkg 1.18.11)
 

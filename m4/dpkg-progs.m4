@@ -64,3 +64,18 @@ AC_DEFUN([DPKG_DEB_PROG_TAR], [
   ])
   AC_DEFINE_UNQUOTED([TAR], ["$TAR"], [GNU tar program])
 ])# DPKG_DEB_PROG_TAR
+
+# DPKG_PROG_PATCH
+# ---------------
+# Specify GNU patch program name to use by dpkg-source. On GNU systems this
+# is usually simply patch, on BSD systems this is usually gpatch.
+# Even though most invocations would work with other patch implementations,
+# currently only GNU patch is directory traversal resistant.
+AC_DEFUN([DPKG_PROG_PATCH], [
+  AC_ARG_VAR([PATCH], [GNU patch program])
+  AC_CHECK_PROGS([PATCH], [gpatch patch], [patch])
+  AS_IF([! $PATCH --version 2>/dev/null | grep -q '^GNU patch'], [
+    AC_MSG_ERROR([cannot find a GNU patch program])
+  ])
+  AC_DEFINE_UNQUOTED([PATCH], ["$PATCH"], [GNU patch program])
+])# DPKG_PROG_PATCH
