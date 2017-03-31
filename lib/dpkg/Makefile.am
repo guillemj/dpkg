@@ -38,7 +38,7 @@ libdpkg_la_LIBADD += \
 	$(LZMA_LIBS) \
 	$(BZ2_LIBS)
 endif
-libdpkg_la_DEPENDENCIES = \
+EXTRA_libdpkg_la_DEPENDENCIES = \
 	libdpkg.map
 libdpkg_la_SOURCES = \
 	dlist.h \
