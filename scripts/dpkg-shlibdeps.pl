@@ -818,7 +818,6 @@ sub symfile_has_soname {
 # find_library ($soname, \@rpath, $format)
 sub my_find_library {
     my ($lib, $rpath, $format, $execfile) = @_;
-    my $file;
 
     # Create real RPATH in case $ORIGIN is used
     # Note: ld.so also supports $PLATFORM and $LIB but they are
