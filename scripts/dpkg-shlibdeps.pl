@@ -23,6 +23,7 @@
 
 use strict;
 use warnings;
+use feature qw(state);
 
 use List::Util qw(any none);
 use POSIX qw(:errno_h);
@@ -782,7 +783,12 @@ sub find_symbols_file {
     } else {
 	push @files, "$Dpkg::CONFDIR/symbols/$pkg.symbols.$host_arch",
 	    "$Dpkg::CONFDIR/symbols/$pkg.symbols";
-	my $control_file = get_control_path($pkg, 'symbols');
+
+	state %control_file_cache;
+	if (not exists $control_file_cache{$pkg}) {
+	    $control_file_cache{$pkg} = get_control_path($pkg, 'symbols');
+	}
+	my $control_file = $control_file_cache{$pkg};
 	push @files, $control_file if defined $control_file;
     }
 
