@@ -18,7 +18,7 @@ AC_DEFUN([DPKG_LIB_MD], [
       AC_SEARCH_LIBS([MD5Init], [md], [have_libmd="yes"])
       LIBS=$dpkg_save_libmd_LIBS
       AS_IF([test "x$ac_cv_search_MD5Init" = "xnone required"], [
-        have_libmd="bultin"
+        have_libmd="builtin"
       ], [test "x$ac_cv_search_MD5Init" != "xno"], [
         have_libmd="yes"
         MD_LIBS="$ac_cv_search_MD5Init"
