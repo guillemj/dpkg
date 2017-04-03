@@ -114,6 +114,9 @@ TESTS_PASS += t-conffile-replaces-downgrade
 TESTS_PASS += t-conffile-replaces-existing
 TESTS_PASS += t-conffile-replaces-existing-and-upgrade
 TESTS_PASS += t-conffile-replaces-disappear
+ifdef DPKG_CAN_REPLACE_DIVERTED_CONFFILE
+TESTS_PASS += t-conffile-replaces-diverted
+endif
 TESTS_PASS += t-conffile-versioned-replaces-downgrade
 ifndef DPKG_NOT_ROOT
 # FIXME: dpkg-maintscript-helper does not support $DPKG_ROOT (#832176)
