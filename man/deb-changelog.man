@@ -7,7 +7,7 @@
 .\" Copyright © 2008, 2010 Russ Allbery <rra@debian.org>
 .\" Copyright © 2010 Charles Plessy <plessy@debian.org>
 .\" Copyright © 2014 Bill Allombert <ballombe@debian.org>
-.\" Copyright © 2015 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2015-2017 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -140,6 +140,14 @@ The “trailer” line with the maintainer and date details must be
 preceded by exactly one space.
 The maintainer details and the date must be separated by exactly two
 spaces.
+.PP
+Any line that consists entirely (i.e., no leading whitespace) of \fB#\fP
+or \fB/* */\fP style comments, RCS keywords, Vim modelines or Emacs local
+variables should be ignored.
+.PP
+Ancient changelog entries with other formats at the end of the file should
+be accepted and preserved on output, but their contents might be otherwise
+ignored and parsing stopped at that point.
 .PP
 The entire changelog must be encoded in UTF-8.
 .SH FILES

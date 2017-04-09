@@ -1,7 +1,7 @@
 # Copyright © 1996 Ian Jackson
 # Copyright © 2005 Frank Lichtenheld <frank@lichtenheld.de>
 # Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
-# Copyright © 2012-2015 Guillem Jover <guillem@debian.org>
+# Copyright © 2012-2017 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ Dpkg::Changelog::Debian parses Debian changelogs as described in
 deb-changelog(5).
 
 The parser tries to ignore most cruft like # or /* */ style comments,
-CVS comments, vim variables, emacs local variables and stuff from
+RCS keywords, Vim modelines, Emacs local variables and stuff from
 older changelogs with other formats at the end of the file.
 NOTE: most of these are ignored silently currently, there is no
 parser error issued for them. This should become configurable in the
@@ -164,9 +164,9 @@ sub parse {
 	} elsif (m/^(?:;;\s*)?Local variables:/io) {
 	    last; # skip Emacs variables at end of file
 	} elsif (m/^vim:/io) {
-	    last; # skip vim variables at end of file
+	    last; # skip Vim modelines at end of file
 	} elsif (m/^\$\w+:.*\$/o) {
-	    next; # skip stuff that look like a CVS keyword
+	    next; # skip stuff that look like a RCS keyword
 	} elsif (m/^\# /o) {
 	    next; # skip comments, even that's not supported
 	} elsif (m{^/\*.*\*/}o) {
