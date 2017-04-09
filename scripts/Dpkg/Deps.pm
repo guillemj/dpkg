@@ -259,11 +259,8 @@ sub deps_parse {
 
     $options{use_arch} //= 1;
     $options{reduce_arch} //= 0;
-    $options{host_arch} //= get_host_arch();
-    $options{build_arch} //= get_build_arch();
     $options{use_profiles} //= 1;
     $options{reduce_profiles} //= 0;
-    $options{build_profiles} //= [ get_build_profiles() ];
     $options{reduce_restrictions} //= 0;
     $options{union} //= 0;
     $options{build_dep} //= 0;
@@ -272,6 +269,13 @@ sub deps_parse {
     if ($options{reduce_restrictions}) {
         $options{reduce_arch} = 1;
         $options{reduce_profiles} = 1;
+    }
+    if ($options{reduce_arch}) {
+        $options{host_arch} //= get_host_arch();
+        $options{build_arch} //= get_build_arch();
+    }
+    if ($options{reduce_profiles}) {
+        $options{build_profiles} //= [ get_build_profiles() ];
     }
 
     # Options for Dpkg::Deps::Simple.
@@ -582,8 +586,8 @@ sub new {
     my $self = {};
     bless $self, $class;
     $self->reset();
-    $self->{host_arch} = $opts{host_arch} || Dpkg::Arch::get_host_arch();
-    $self->{build_arch} = $opts{build_arch} || Dpkg::Arch::get_build_arch();
+    $self->{host_arch} = $opts{host_arch};
+    $self->{build_arch} = $opts{build_arch};
     $self->{build_dep} = $opts{build_dep} // 0;
     $self->{tests_dep} = $opts{tests_dep} // 0;
     $self->parse_string($arg) if defined($arg);
@@ -1460,8 +1464,8 @@ sub _find_package {
     my ($self, $dep, $lackinfos) = @_;
     my ($pkg, $archqual) = ($dep->{package}, $dep->{archqual});
     return if not exists $self->{pkg}{$pkg};
-    my $host_arch = $dep->{host_arch};
-    my $build_arch = $dep->{build_arch};
+    my $host_arch = $dep->{host_arch} // Dpkg::Arch::get_host_arch();
+    my $build_arch = $dep->{build_arch} // Dpkg::Arch::get_build_arch();
     foreach my $p (@{$self->{pkg}{$pkg}}) {
 	my $a = $p->{architecture};
 	my $ma = $p->{multiarch};
