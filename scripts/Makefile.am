@@ -123,6 +123,8 @@ EXTRA_DIST += \
 # Keep it even if empty to have man3dir correctly set
 man3_MANS =
 
+man_perl_section = 3perl
+
 do_perl_subst = $(AM_V_GEN) sed \
 	-e "s:^\#![[:space:]]*/usr/bin/perl:\#!$(PERL):" \
 	-e "s:our \$$CONFDIR = .*;:our \$$CONFDIR = '$(pkgconfdir)';:" \
@@ -158,10 +160,10 @@ if BUILD_POD_DOC
 	for module in $(nobase_dist_perllib_DATA); do \
 	  name=`echo $$module | sed -e 's|/|::|g' -e 's/\.pm$$//'`; \
 	  $(POD2MAN) --utf8 --center=libdpkg-perl --release=$(VERSION) \
-	    --name="$$name" --section=3 $(srcdir)/$$module \
-	    >$(DESTDIR)$(man3dir)/$$name.3; \
-	  test -s $(DESTDIR)$(man3dir)/$$name.3 || \
-	  rm -f $(DESTDIR)$(man3dir)/$$name.3; \
+	    --name="$$name" --section=$(man_perl_section) $(srcdir)/$$module \
+	    >$(DESTDIR)$(man3dir)/$$name.$(man_perl_section); \
+	  test -s $(DESTDIR)$(man3dir)/$$name.$(man_perl_section) || \
+	  rm -f $(DESTDIR)$(man3dir)/$$name.$(man_perl_section); \
 	done
 endif
 
@@ -176,7 +178,7 @@ install-data-hook:
 uninstall-local:
 if BUILD_POD_DOC
 	for module in $(nobase_dist_perllib_DATA); do \
-	  rm -f $(DESTDIR)$(man3dir)/`echo $$module | sed -e 's|/|::|g' -e 's/\.pm$$/.3/'`; \
+	  rm -f $(DESTDIR)$(man3dir)/`echo $$module | sed -e 's|/|::|g' -e 's/\.pm$$/.$(man_perl_section)/'`; \
 	done
 endif
 
