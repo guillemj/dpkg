@@ -268,7 +268,7 @@ our %FIELDS = (
     },
     'description' => {
         name => 'Description',
-        allowed => ALL_PKG | CTRL_FILE_CHANGES | CTRL_REPO_RELEASE,
+        allowed => ALL_SRC | ALL_PKG | CTRL_FILE_CHANGES | CTRL_REPO_RELEASE,
     },
     'disclaimer' => {
         name => 'Disclaimer',
@@ -618,14 +618,14 @@ our %FIELD_ORDER = (
     ],
     CTRL_PKG_SRC() => [
         qw(format source binary architecture version origin maintainer
-        uploaders homepage standards-version vcs-browser
+        uploaders homepage description standards-version vcs-browser
         vcs-arch vcs-bzr vcs-cvs vcs-darcs vcs-git vcs-hg vcs-mtn
         vcs-svn testsuite testsuite-triggers), @src_dep_fields,
         qw(package-list), @src_checksums_fields, qw(files)
     ],
     CTRL_INDEX_SRC() => [
-        qw(format package binary architecture version priority section
-        origin maintainer uploaders homepage standards-version vcs-browser
+        qw(format package binary architecture version priority section origin
+        maintainer uploaders homepage description standards-version vcs-browser
         vcs-arch vcs-bzr vcs-cvs vcs-darcs vcs-git vcs-hg vcs-mtn vcs-svn
         testsuite testsuite-triggers), @src_dep_fields,
         qw(package-list directory), @src_checksums_fields, qw(files)

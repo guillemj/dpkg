@@ -233,6 +233,10 @@ foreach (keys %{$src_fields}) {
         set_source_package($v);
     } elsif (m/^Section$|^Priority$/i) {
         $sourcedefault{$_} = $v;
+    } elsif (m/^Description$/i) {
+        # Description in changes is computed, do not copy this field, only
+        # initialize the description substvars.
+        $substvars->set_desc_substvars($v);
     } else {
         field_transfer_single($src_fields, $fields);
     }

@@ -32,6 +32,11 @@ dpkg (1.19.0) UNRELEASED; urgency=medium
     option. Closes: #873937
   * Make dpkg-genchanges honor substvars in .changes Description field.
     Closes: #856547
+  * Add support for source package Description and substvars. This new
+    field in the debian/control source stanza will be copied into the .dsc
+    file, and will also be used to initialize the new source:Synopsis and
+    source:Extended-Description substvars that will be available when
+    generating the DEBIAN/control and .changes files. Closes: #555743
   * Perl modules:
     - Switch from Dpkg::Util to List::Util, now that the module in the
       new required Perl contains the needed functions.

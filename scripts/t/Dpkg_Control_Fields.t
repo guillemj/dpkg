@@ -57,9 +57,9 @@ my %fields = (
         name => 'debian/control source stanza',
         unordered => 1,
         fields => [
-            qw(Bugs Homepage Origin Maintainer Priority Section Source
-               Standards-Version), @test_fields, qw(Uploaders),
-            @vcs_fields, @src_dep_fields
+            qw(Bugs Homepage Description Origin Maintainer Uploaders
+               Priority Section Source Standards-Version),
+            @test_fields, @vcs_fields, @src_dep_fields
         ],
     },
     CTRL_INFO_PKG() => {
@@ -76,8 +76,8 @@ my %fields = (
     CTRL_PKG_SRC() => {
         name => '.dsc',
         fields => [
-            qw(Format Source Binary Architecture Version
-               Origin Maintainer Uploaders Homepage Standards-Version),
+            qw(Format Source Binary Architecture Version Origin Maintainer
+               Uploaders Homepage Description Standards-Version),
             @vcs_fields, @test_fields, @src_dep_fields,
             qw(Package-List),
             @src_files
@@ -98,7 +98,8 @@ my %fields = (
         name => 'Sources',
         fields => [
             qw(Format Package Binary Architecture Version Priority Section
-               Origin Maintainer Uploaders Homepage Standards-Version),
+               Origin Maintainer Uploaders Homepage Description
+               Standards-Version),
             @vcs_fields, @test_fields, @src_dep_fields,
             qw(Package-List Directory),
             @src_files

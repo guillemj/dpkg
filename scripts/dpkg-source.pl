@@ -332,7 +332,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
                         push(@sourcearch, $a) unless $archadded{$a}++;
                     }
                 }
-            } elsif (m/^Homepage$/) {
+            } elsif (m/^(?:Homepage|Description)$/) {
                 # Do not overwrite the same field from the source entry
             } else {
                 field_transfer_single($pkg, $fields);
