@@ -134,6 +134,8 @@ sub get_raw_build_arch()
     # dpkg-architecture itself, by avoiding computing the DEB_BUILD_
     # variables when they are not requested.
 
+    ## no critic (TestingAndDebugging::ProhibitNoWarnings)
+    no warnings qw(exec);
     $build_arch = qx(dpkg --print-architecture);
     syserr('dpkg --print-architecture failed') if $? >> 8;
 
@@ -162,6 +164,8 @@ sub get_build_arch()
 
         return $cc_host_gnu_type{$CC} if defined $cc_host_gnu_type{$CC};
 
+        ## no critic (TestingAndDebugging::ProhibitNoWarnings)
+        no warnings qw(exec);
         $cc_host_gnu_type{$CC} = qx($CC -dumpmachine);
 	if ($? >> 8) {
             $cc_host_gnu_type{$CC} = '';
