@@ -414,16 +414,12 @@ prepare_dir_to_symlink()
 
 	# If there are locally created files or files owned by another package
 	# we should not perform the switch.
-	find "$PATHNAME" -print0 | xargs -0 -n1 sh -c '
-		package="$1"
-		file="$2"
-		if ! dpkg-query -L "$package" | grep -F -q -x "$file"; then
-			exit 1
-		fi
-		exit 0
-	' check-files-ownership "$PACKAGE" || \
+	export DPKG_MAINTSCRIPT_HELPER_INTERNAL_API="$version"
+	find "$PATHNAME" -print0 | \
+		xargs -0 -n1 $0 _internal_pkg_must_own_file "$PACKAGE" || \
 		error "directory '$PATHNAME' contains files not owned by" \
 		      "package $PACKAGE, cannot switch to symlink"
+	unset DPKG_MAINTSCRIPT_HELPER_INTERNAL_API
 
 	# At this point, we know that the directory either contains no files,
 	# or only non-conffiles owned by the package.
@@ -513,6 +509,21 @@ ensure_package_owns_file() {
 		debug "File '$FILE' not owned by package " \
 		      "'$PACKAGE', skipping $command"
 		return 1
+	fi
+	return 0
+}
+
+internal_pkg_must_own_file()
+{
+	local PACKAGE="$1"
+	local FILE="$2"
+
+	if [ "$DPKG_MAINTSCRIPT_HELPER_INTERNAL_API" != "$version" ]; then
+		error "internal API used by external command"
+	fi
+
+	if ! ensure_package_owns_file "$PACKAGE" "$FILE"; then
+		error "file '$FILE' not owned by package '$PACKAGE'"
 	fi
 	return 0
 }
@@ -611,6 +622,10 @@ symlink_to_dir)
 	;;
 dir_to_symlink)
 	dir_to_symlink "$@"
+	;;
+_internal_pkg_must_own_file)
+	# This is an internal command, must not be used outside this program.
+	internal_pkg_must_own_file "$@"
 	;;
 --help|help|-?)
 	usage
