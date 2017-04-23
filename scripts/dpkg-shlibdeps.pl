@@ -191,6 +191,7 @@ foreach my $file (keys %exec) {
     # Load symbols files for all needed libraries (identified by SONAME)
     my %libfiles;
     my %altlibfiles;
+    my %soname_libs;
     my %soname_notfound;
     my %alt_soname;
     foreach my $soname (@sonames) {
@@ -209,6 +210,11 @@ foreach my $file (keys %exec) {
 	    }
 	    next;
 	}
+
+	# Track shared libraries for a given SONAME.
+	push @{$soname_libs{$soname}}, @libs;
+
+	# Track shared libraries for package mapping.
 	foreach my $lib (@libs) {
 	    $libfiles{$lib} = $soname;
 	    my $reallib = realpath($lib);
@@ -222,9 +228,11 @@ foreach my $file (keys %exec) {
     my $symfile = Dpkg::Shlibs::SymbolFile->new();
     my $dumplibs_wo_symfile = Dpkg::Shlibs::Objdump->new();
     my @soname_wo_symfile;
-    foreach my $lib (keys %libfiles) {
-	my $soname = $libfiles{$lib};
+    SONAME: foreach my $soname (@sonames) {
+      # Select the first good entry from the ordered list that we got from
+      # find_library(), and skip to the next SONAME.
 
+      foreach my $lib (@{$soname_libs{$soname}}) {
 	if (none { $_ ne '' } @{$file2pkg->{$lib}}) {
 	    # The path of the library as calculated is not the
 	    # official path of a packaged file, try to fallback on
@@ -244,6 +252,7 @@ foreach my $file (keys %exec) {
 	}
 
 	# Load symbols/shlibs files from packages providing libraries
+        my $missing_wanted_shlibs_info = 0;
 	foreach my $pkg (@{$file2pkg->{$lib}}) {
 	    my $symfile_path;
             my $haslocaldep = 0;
@@ -273,6 +282,9 @@ foreach my $file (keys %exec) {
 		my $minver = $symfile->get_smallest_version($soname) || '';
 		update_dependency_version($dep, $minver);
 		debug(2, " Minimal version of ($dep) initialized with ($minver)");
+
+                # Found a symbols file for the SONAME.
+                next SONAME;
 	    } else {
 		# No symbol file found, fall back to standard shlibs
                 debug(1, "Using shlibs+objdump for $soname (file $lib)");
@@ -284,31 +296,47 @@ foreach my $file (keys %exec) {
 		    $alt_soname{$id} = $soname;
 		}
 		push @soname_wo_symfile, $soname;
+
 		# Only try to generate a dependency for libraries with a SONAME
-		if ($libobj->is_public_library() and not
-		    add_shlibs_dep($soname, $pkg, $lib)) {
-		    # This failure is fairly new, try to be kind by
-		    # ignoring as many cases that can be safely ignored
-		    my $ignore = 0;
-		    # 1/ when the lib and the binary are in the same
-		    # package
-		    my $root_file = guess_pkg_root_dir($file);
-		    my $root_lib = guess_pkg_root_dir($lib);
-		    $ignore++ if defined $root_file and defined $root_lib
-			and check_files_are_the_same($root_file, $root_lib);
-		    # 2/ when the lib is not versioned and can't be
-		    # handled by shlibs
-		    $ignore++ unless scalar(split_soname($soname));
-		    # 3/ when we have been asked to do so
-		    $ignore++ if $ignore_missing_info;
-		    error(g_('no dependency information found for %s ' .
-		             "(used by %s)\n" .
-		             'Hint: check if the library actually comes ' .
-		             'from a package.'), $lib, $file)
-		        unless $ignore;
+                if (not $libobj->is_public_library()) {
+                    debug(1, "Skipping shlibs+objdump info for private library $lib");
+                    next;
 		}
+
+                # If we found a shlibs file for the SONAME, skip to the next.
+                next SONAME if add_shlibs_dep($soname, $pkg, $lib);
+
+                $missing_wanted_shlibs_info = 1;
+
+                debug(1, "No shlibs+objdump info available, trying next package for $lib");
 	    }
 	}
+
+        next if not $missing_wanted_shlibs_info;
+
+        # We will only reach this point, if we have found no symbols nor
+        # shlibs files for the given SONAME.
+
+        # This failure is fairly new, try to be kind by
+        # ignoring as many cases that can be safely ignored
+        my $ignore = 0;
+        # 1/ when the lib and the binary are in the same
+        # package
+        my $root_file = guess_pkg_root_dir($file);
+        my $root_lib = guess_pkg_root_dir($lib);
+        $ignore++ if defined $root_file and defined $root_lib
+            and check_files_are_the_same($root_file, $root_lib);
+        # 2/ when the lib is not versioned and can't be
+        # handled by shlibs
+        $ignore++ unless scalar split_soname($soname);
+        # 3/ when we have been asked to do so
+        $ignore++ if $ignore_missing_info;
+        error(g_('no dependency information found for %s ' .
+                 "(used by %s)\n" .
+                 'Hint: check if the library actually comes ' .
+                 'from a package.'), $lib, $file)
+            unless $ignore;
+      }
     }
 
     # Scan all undefined symbols of the binary and resolve to a

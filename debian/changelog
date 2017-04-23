@@ -2,6 +2,10 @@ dpkg (1.18.24) UNRELEASED; urgency=medium
 
   [ Guillem Jover ]
   * Add missing symbols to the libdpkg map file.
+  * Fix dpkg-shlibdeps to preserve the Dpkg::Shlibs::find_library() order
+    when scanning symbols/shlibs files. This was causing generation of bogus
+    dependencies when multiple packages provide the same SONAME on different
+    directories. Regression introduced in dpkg 1.18.17. Closes: #860979
   * Architecture support:
     - Add support for ARM64 ILP32. Closes: #824742
       Thanks to Wookey <wookey@wookware.org>.
