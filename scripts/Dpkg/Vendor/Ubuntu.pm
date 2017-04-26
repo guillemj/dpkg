@@ -115,43 +115,6 @@ sub run_hook {
 
 	# Run the Debian hook to add hardening flags
 	$self->SUPER::run_hook($hook, $flags);
-
-	# Allow control of hardening-wrapper via dpkg-buildpackage DEB_BUILD_OPTIONS
-	my $hardening;
-	if ($build_opts->has('hardening')) {
-	    $hardening = $build_opts->get('hardening') // 1;
-	}
-	if ($build_opts->has('nohardening')) {
-	    $hardening = 0;
-	}
-	if (defined $hardening) {
-	    my $flag = 'DEB_BUILD_HARDENING';
-	    if ($hardening ne '0') {
-		if (!find_command('hardened-cc')) {
-		    syserr(g_("'hardening' flag found but 'hardening-wrapper' not installed"));
-		}
-		if ($hardening ne '1') {
-		    my @options = split(/,\s*/, $hardening);
-		    $hardening = 1;
-
-		    my @hardopts = qw(format fortify stackprotector pie relro);
-		    foreach my $item (@hardopts) {
-			my $upitem = uc($item);
-			foreach my $option (@options) {
-			    if ($option =~ /^(no)?$item$/) {
-				$flags->set($flag . '_' . $upitem,
-				            not defined $1 or $1 eq '', 'env');
-			    }
-			}
-		    }
-		}
-	    }
-	    if (defined $ENV{$flag}) {
-		info(g_('overriding %s in environment: %s'), $flag, $hardening);
-	    }
-	    $flags->set($flag, $hardening, 'env');
-	}
-
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }
