@@ -21,6 +21,12 @@ dpkg (1.18.24) UNRELEASED; urgency=medium
     - Remove obsolete hardening-wrapper support from Dpkg::Vendor::Ubuntu.
       Thanks to Adam Conrad <adconrad@0c3.net>.
     - Bump $Dpkg::Deps::VERSION to match the one documented in CHANGES.
+    - Ignore by default debian/files.new and debian/files for all source
+      formats in Dpkg::Source::Package, because these are generated files
+      with well known pathnames, part of the public interface, and with
+      dpkg-genbuildinfo always injecting .buildinfo entries into
+      debian/files, this meant this could disrupt previous workflows based
+      on not cleaning the source tree.
   * Documentation:
     - Many spelling fixes. Thanks to Josh Soref <jsoref@gmail.com>.
     - Do not include mispellings in changelogs, as that makes detecting them

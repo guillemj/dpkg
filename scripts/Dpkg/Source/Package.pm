@@ -230,14 +230,18 @@ sub init_options {
     # note: this function is not called by V1 packages
     $self->{options}{diff_ignore_regex} ||= $diff_ignore_default_regex;
     $self->{options}{diff_ignore_regex} .= '|(?:^|/)debian/source/local-.*$';
+    $self->{options}{diff_ignore_regex} .= '|(?:^|/)debian/files(?:\.new)?$';
     if (defined $self->{options}{tar_ignore}) {
         $self->{options}{tar_ignore} = [ @tar_ignore_default_pattern ]
             unless @{$self->{options}{tar_ignore}};
     } else {
         $self->{options}{tar_ignore} = [ @tar_ignore_default_pattern ];
     }
-    push @{$self->{options}{tar_ignore}}, 'debian/source/local-options',
-         'debian/source/local-patch-header';
+    push @{$self->{options}{tar_ignore}},
+         'debian/source/local-options',
+         'debian/source/local-patch-header',
+         'debian/files',
+         'debian/files.new';
     # Skip debianization while specific to some formats has an impact
     # on code common to all formats
     $self->{options}{skip_debianization} //= 0;
