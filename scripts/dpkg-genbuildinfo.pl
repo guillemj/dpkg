@@ -33,7 +33,7 @@ use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
-use Dpkg::Arch qw(get_build_arch get_host_arch);
+use Dpkg::Arch qw(get_build_arch get_host_arch debarch_eq);
 use Dpkg::Build::Types;
 use Dpkg::Build::Info qw(get_build_env_whitelist);
 use Dpkg::BuildOptions;
@@ -475,6 +475,18 @@ if ($stdout) {
 
     $dist = Dpkg::Dist::Files->new();
     $dist->load($fileslistfile) if -e $fileslistfile;
+
+    foreach my $file ($dist->get_files()) {
+        if (defined $file->{package} &&
+            $file->{package} eq $spackage &&
+            $file->{package_type} eq 'buildinfo' &&
+            (debarch_eq($file->{arch}, $fields->{'Architecture'}) ||
+             debarch_eq($file->{arch}, 'all') ||
+             debarch_eq($file->{arch}, 'source'))) {
+            $dist->del_file($file->{filename});
+        }
+    }
+
     $dist->add_file($buildinfo, $section, $priority);
     $dist->save("$fileslistfile.new");
 
