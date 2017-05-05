@@ -49,7 +49,7 @@ All the deps_* functions are exported by default.
 use strict;
 use warnings;
 
-our $VERSION = '1.05';
+our $VERSION = '1.06';
 our @EXPORT = qw(
     deps_concat
     deps_parse
@@ -1524,7 +1524,7 @@ sub _evaluate_simple_dep {
 
 =head1 CHANGES
 
-=head2 Version 1.06 (dpkg 1.18.7)
+=head2 Version 1.06 (dpkg 1.18.7; module version bumped on dpkg 1.18.24)
 
 New option: Add tests_dep option to Dpkg::Deps::deps_parse().
 
