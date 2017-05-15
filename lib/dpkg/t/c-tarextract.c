@@ -34,6 +34,7 @@
 
 #include <dpkg/ehandle.h>
 #include <dpkg/fdio.h>
+#include <dpkg/buffer.h>
 #include <dpkg/tarfn.h>
 
 struct tar_context {
@@ -49,6 +50,18 @@ tar_read(void *ctx, char *buffer, int size)
 }
 
 static int
+tar_object_skip(struct tar_context *tc, struct tar_entry *te)
+{
+	off_t size;
+
+	size = (te->size + TARBLKSZ - 1) / TARBLKSZ * TARBLKSZ;
+	if (size == 0)
+		return 0;
+
+	return fd_skip(tc->tar_fd, size, NULL);
+}
+
+static int
 tar_object(void *ctx, struct tar_entry *te)
 {
 	printf("%s mode=%o time=%ld.%.9d uid=%d gid=%d", te->name,
@@ -61,6 +74,7 @@ tar_object(void *ctx, struct tar_entry *te)
 	switch (te->type) {
 	case TAR_FILETYPE_FILE0:
 	case TAR_FILETYPE_FILE:
+		tar_object_skip(ctx, te);
 		printf(" type=file size=%jd", (intmax_t)te->size);
 		break;
 	case TAR_FILETYPE_HARDLINK:
