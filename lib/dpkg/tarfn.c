@@ -175,8 +175,12 @@ tar_header_decode(struct tar_header *h, struct tar_entry *d)
 	d->stat.mode = tar_header_get_unix_mode(h);
 	d->size = (off_t)tar_oct2int(h->size, sizeof(h->size));
 	d->mtime = (time_t)tar_oct2int(h->mtime, sizeof(h->mtime));
-	d->dev = makedev(tar_oct2int(h->devmajor, sizeof(h->devmajor)),
-			 tar_oct2int(h->devminor, sizeof(h->devminor)));
+
+	if (d->type == TAR_FILETYPE_CHARDEV || d->type == TAR_FILETYPE_BLOCKDEV)
+		d->dev = makedev(tar_oct2int(h->devmajor, sizeof(h->devmajor)),
+				 tar_oct2int(h->devminor, sizeof(h->devminor)));
+	else
+		d->dev = makedev(0, 0);
 
 	if (*h->user)
 		d->stat.uname = m_strndup(h->user, sizeof(h->user));
