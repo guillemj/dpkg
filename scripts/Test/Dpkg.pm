@@ -21,6 +21,7 @@ use warnings;
 our $VERSION = '0.00';
 our @EXPORT_OK = qw(
     all_perl_files
+    all_perl_modules
     test_get_perl_dirs
     test_get_data_path
     test_needs_author
@@ -38,6 +39,7 @@ our %EXPORT_TAGS = (
     ) ],
     paths => [ qw(
         all_perl_files
+        all_perl_modules
         test_get_perl_dirs
         test_get_data_path
     ) ],
@@ -63,14 +65,20 @@ sub test_get_perl_dirs
 
 sub all_perl_files
 {
+    my $filter = shift // qr/\.(?:pl|pm|t)$/;
     my @files;
     my $scan_perl_files = sub {
-        push @files, $File::Find::name if m/\.(pl|pm|t)$/;
+        push @files, $File::Find::name if m/$filter/;
     };
 
     find($scan_perl_files, test_get_perl_dirs());
 
     return @files;
+}
+
+sub all_perl_modules
+{
+    return all_perl_files(qr/\.pm$/);
 }
 
 sub test_needs_author
