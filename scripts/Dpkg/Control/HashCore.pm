@@ -464,7 +464,7 @@ use parent -norequire, qw(Tie::ExtraHash);
 sub new {
     my $class = shift;
     my $hash = {};
-    tie %{$hash}, $class, @_;
+    tie %{$hash}, $class, @_; ## no critic (Miscellanea::ProhibitTies)
     return $hash;
 }
 

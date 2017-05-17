@@ -129,7 +129,7 @@ sub new {
     my $self = IO::File->new();
     # Tying is required to overload the open functions and to auto-open
     # the file on first read/write operation
-    tie *$self, $class, $self;
+    tie *$self, $class, $self; ## no critic (Miscellanea::ProhibitTies)
     bless $self, $class;
     # Initializations
     *$self->{compression} = 'auto';

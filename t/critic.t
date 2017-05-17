@@ -61,6 +61,7 @@ my @policies = qw(
     InputOutput::RequireCheckedOpen
     InputOutput::RequireEncodingWithUTF8Layer
     Miscellanea::ProhibitFormats
+    Miscellanea::ProhibitTies
     Miscellanea::ProhibitUnrestrictedNoCritic
     Miscellanea::ProhibitUselessNoCritic
     Modules::ProhibitConditionalUseStatements
