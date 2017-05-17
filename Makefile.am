@@ -153,6 +153,7 @@ test_scripts = \
 	t/pod-coverage.t \
 	t/synopsis.t \
 	t/minimum-version.t \
+	t/module-version.t \
 	t/syntax.t \
 	t/strict.t \
 	t/critic.t \
