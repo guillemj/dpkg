@@ -51,6 +51,7 @@ my @policies = qw(
     ControlStructures::ProhibitNegativeExpressionsInUnlessAndUntilConditions
     ControlStructures::ProhibitUntilBlocks
     Documentation::RequirePackageMatchesPodName
+    Documentation::RequirePodSections
     InputOutput::ProhibitBarewordFileHandles
     InputOutput::ProhibitInteractiveTest
     InputOutput::ProhibitJoinedReadline
