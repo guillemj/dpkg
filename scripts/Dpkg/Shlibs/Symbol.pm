@@ -22,10 +22,10 @@ use warnings;
 our $VERSION = '0.01';
 
 use Storable ();
+use List::Util qw(any);
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Util qw(:list);
 use Dpkg::Arch qw(debarch_is_concerned debarch_to_cpuattrs);
 use Dpkg::Version;
 use Dpkg::Shlibs::Cppfilt;

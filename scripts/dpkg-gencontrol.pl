@@ -22,13 +22,13 @@
 use strict;
 use warnings;
 
+use List::Util qw(none);
 use POSIX qw(:errno_h :fcntl_h);
 use File::Find;
 
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Util qw(:list);
 use Dpkg::File;
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is debarch_list_parse);
 use Dpkg::Package;

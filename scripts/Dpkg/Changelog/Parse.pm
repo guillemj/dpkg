@@ -41,9 +41,9 @@ our @EXPORT = qw(
 );
 
 use Exporter qw(import);
+use List::Util qw(none);
 
 use Dpkg ();
-use Dpkg::Util qw(none);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Changelog;

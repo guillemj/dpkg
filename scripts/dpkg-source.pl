@@ -28,6 +28,7 @@
 use strict;
 use warnings;
 
+use List::Util qw(any none);
 use Cwd;
 use File::Basename;
 use File::Spec;
@@ -35,7 +36,6 @@ use File::Spec;
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Util qw(:list);
 use Dpkg::Arch qw(:operators);
 use Dpkg::Deps;
 use Dpkg::Compression;

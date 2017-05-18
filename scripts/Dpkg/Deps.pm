@@ -573,7 +573,6 @@ use Dpkg::BuildProfiles qw(parse_build_profiles evaluate_restriction_formula);
 use Dpkg::Version;
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
-use Dpkg::Util qw(:list);
 
 use parent qw(Dpkg::Interface::Storable);
 

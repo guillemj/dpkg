@@ -20,6 +20,7 @@ use warnings;
 
 our $VERSION = '0.02';
 
+use List::Util qw(any none);
 use File::Spec;
 use File::Copy;
 use File::Find;
@@ -28,7 +29,6 @@ use File::Basename;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Util qw(:list);
 use Dpkg::Source::Patch;
 use Dpkg::Source::Functions qw(erasedir fs_time);
 use Dpkg::Vendor qw(get_current_vendor);

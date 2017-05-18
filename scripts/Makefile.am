@@ -108,7 +108,6 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Source/Patch.pm \
 	Dpkg/Source/Quilt.pm \
 	Dpkg/Substvars.pm \
-	Dpkg/Util.pm \
 	Dpkg/Vars.pm \
 	Dpkg/Vendor.pm \
 	Dpkg/Vendor/Debian.pm \
@@ -223,7 +222,6 @@ test_scripts = \
 	t/Dpkg_Conf.t \
 	t/Dpkg_Deps.t \
 	t/Dpkg_Path.t \
-	t/Dpkg_Util.t \
 	t/Dpkg_Vars.t \
 	t/Dpkg_Interface_Storable.t \
 	t/Dpkg_Vendor.t \

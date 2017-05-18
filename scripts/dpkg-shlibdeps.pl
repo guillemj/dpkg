@@ -24,6 +24,7 @@
 use strict;
 use warnings;
 
+use List::Util qw(any none);
 use POSIX qw(:errno_h);
 use Cwd qw(realpath);
 use File::Basename qw(dirname);
@@ -31,7 +32,6 @@ use File::Basename qw(dirname);
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Util qw(:list);
 use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
 		  check_files_are_the_same get_control_path);
 use Dpkg::Version;

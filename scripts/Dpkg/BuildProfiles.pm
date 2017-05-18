@@ -27,8 +27,8 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
+use List::Util qw(any);
 
-use Dpkg::Util qw(:list);
 use Dpkg::Build::Env;
 
 my $cache_profiles;

@@ -22,12 +22,12 @@
 use strict;
 use warnings;
 
+use List::Util qw(any none);
 use Encode;
 use POSIX qw(:errno_h :locale_h);
 
 use Dpkg ();
 use Dpkg::Gettext;
-use Dpkg::Util qw(:list);
 use Dpkg::File;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;

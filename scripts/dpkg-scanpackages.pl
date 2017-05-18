@@ -21,12 +21,12 @@ use warnings;
 use strict;
 
 use Getopt::Long qw(:config posix_default bundling no_ignorecase);
+use List::Util qw(none);
 use File::Find;
 
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Util qw(:list);
 use Dpkg::Control;
 use Dpkg::Version;
 use Dpkg::Checksums;

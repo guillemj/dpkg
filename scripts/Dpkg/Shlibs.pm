@@ -30,12 +30,12 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
+use List::Util qw(none);
 use File::Spec;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Shlibs::Objdump;
-use Dpkg::Util qw(:list);
 use Dpkg::Path qw(resolve_symlink canonpath);
 use Dpkg::Arch qw(get_build_arch get_host_arch :mappers);
 

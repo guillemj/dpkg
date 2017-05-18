@@ -20,12 +20,12 @@ use warnings;
 
 our $VERSION = '0.01';
 
+use List::Util qw(any);
 use File::Spec;
 use File::Copy;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Util qw(:list);
 use Dpkg::Version;
 use Dpkg::Source::Patch;
 use Dpkg::Source::Functions qw(erasedir fs_time);

@@ -25,6 +25,7 @@
 use strict;
 use warnings;
 
+use List::Util qw(any);
 use Cwd;
 use File::Basename;
 use POSIX qw(:fcntl_h :locale_h strftime);
@@ -45,7 +46,6 @@ use Dpkg::Control;
 use Dpkg::Changelog::Parse;
 use Dpkg::Deps;
 use Dpkg::Dist::Files;
-use Dpkg::Util qw(:list);
 use Dpkg::File;
 use Dpkg::Version;
 use Dpkg::Vendor qw(get_current_vendor run_vendor_hook);

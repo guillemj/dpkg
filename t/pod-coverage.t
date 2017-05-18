@@ -16,8 +16,8 @@
 use strict;
 use warnings;
 
+use List::Util qw(any);
 use File::Find;
-use Dpkg::Util qw(any);
 
 use Test::More;
 use Test::Dpkg qw(:needs);
