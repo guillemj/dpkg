@@ -7,7 +7,7 @@
 # Locate perl interpreter in the path
 AC_DEFUN([DPKG_PROG_PERL], [
   AC_ARG_VAR([PERL], [Perl interpreter])dnl
-  m4_define([PERL_MIN_VERSION], [5.14.2])
+  m4_define([PERL_MIN_VERSION], [5.20.2])
   AC_CACHE_CHECK([for perl >= PERL_MIN_VERSION], [ac_cv_path_PERL], [
     AC_PATH_PROGS_FEATURE_CHECK([PERL], [perl], [
       perlcheck=$(test -x $ac_path_PERL && \
