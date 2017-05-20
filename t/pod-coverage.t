@@ -18,6 +18,7 @@ use warnings;
 
 use List::Util qw(any);
 use File::Find;
+use Module::Metadata;
 
 use Test::More;
 use Test::Dpkg qw(:needs);
@@ -36,9 +37,10 @@ sub all_pod_modules
         # Only chack modules, scripts are documented in man pages.
         return unless $module =~ s/\.pm$//;
 
+        my $mod = Module::Metadata->new_from_file($File::Find::name);
+
         # As a first step just check public modules (version > 0.xx).
-        return unless system('grep', '-q', '^our \$VERSION = \'[^0]\.',
-                                     $File::Find::name) == 0;
+        return if $mod->version() =~ m/^0\.\d\d$/;
 
         $module =~ s{^\Q$File::Find::topdir\E/}{};
         $module =~ s{/}{::}g;
