@@ -43,7 +43,6 @@ use Dpkg::Conf;
 use Dpkg::Control::Info;
 use Dpkg::Control::Tests;
 use Dpkg::Control::Fields;
-use Dpkg::Index;
 use Dpkg::Substvars;
 use Dpkg::Version;
 use Dpkg::Vars;
