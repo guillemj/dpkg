@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-18 18:02+0200\n"
-"PO-Revision-Date: 2017-05-18 18:09+0200\n"
+"POT-Creation-Date: 2017-05-21 07:38+0200\n"
+"PO-Revision-Date: 2017-05-21 07:54+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -1366,6 +1366,28 @@ msgstr ""
 "mit den Betreuer- und Datumsdetails müssen durch genau ein Leerzeichen "
 "eingeleitet werden. Die Details zum Betreuer und das Datum müssen durch "
 "genau zwei Leerzeichen getrennt sein."
+
+#. type: Plain text
+#: deb-changelog.man
+msgid ""
+"Any line that consists entirely (i.e., no leading whitespace) of B<#> or B</"
+"* */> style comments, RCS keywords, Vim modelines or Emacs local variables "
+"should be ignored."
+msgstr ""
+"Jede Zeile, die komplett (d.h. ohne einführende Leerzeichen) aus Kommentaren "
+"im Stil B<#> oder B</* */>, RCS-Schlüsselwörtern, Modelines von Vim oder "
+"lokalen Emacs-Variablen besteht, sollte ignoriert werden."
+
+#. type: Plain text
+#: deb-changelog.man
+msgid ""
+"Ancient changelog entries with other formats at the end of the file should "
+"be accepted and preserved on output, but their contents might be otherwise "
+"ignored and parsing stopped at that point."
+msgstr ""
+"Uralte Changelog-Einträge in anderen Formaten am Ende der Datei sollten "
+"akzeptiert und in der Ausgabe erhalten werden. Ihr Inhalt darf ansonsten aber "
+"ignoriert und die Auswertung an diesem Punkt beendet werden."
 
 #. type: Plain text
 #: deb-changelog.man
@@ -4579,10 +4601,10 @@ msgstr "B<binary:Version>"
 #. type: Plain text
 #: deb-substvars.man
 msgid ""
-"The binary package version (which may differ from source:Version in a binNMU "
-"for example; since dpkg 1.13.19)."
+"The binary package version (which may differ from B<source:Version> in a "
+"binNMU for example; since dpkg 1.13.19)."
 msgstr ""
-"Die Binärpaketversion (die z.B. in einem binNMU von source:Version abweichen "
+"Die Binärpaketversion (die z.B. in einem binNMU von B<source:Version> abweichen "
 "kann; seit Dpkg 1.13.19)."
 
 #. type: TP
@@ -9099,16 +9121,16 @@ msgstr ""
 #. type: TP
 #: dpkg-architecture.man
 #, no-wrap
-msgid "B<-c>, B<--command> I<command>"
-msgstr "B<-c>, B<--command> I<Befehl>"
+msgid "B<-c>, B<--command> I<command-string>"
+msgstr "B<-c>, B<--command> I<Befehlszeichenkette>"
 
 #. type: Plain text
 #: dpkg-architecture.man
 msgid ""
-"Execute a I<command> in an environment which has all variables set to the "
-"determined value."
+"Execute a I<command-string> in an environment which has all variables set to "
+"the determined value."
 msgstr ""
-"Führe einen I<Befehl> in einer Umgebung aus, in der alle Variablen auf die "
+"Führe eine I<Befehlszeichenkette> in einer Umgebung aus, in der alle Variablen auf die "
 "festgelegten Werte gesetzt sind."
 
 #. type: TP
@@ -16628,21 +16650,21 @@ msgstr "I<Paket>"
 #. type: Plain text
 #: dpkg-maintscript-helper.man
 msgid ""
-"The package name. When the package is “Multi-Arch: same” this parameter must "
-"include the architecture qualifier, otherwise it should B<not> usually "
-"include the architecture qualifier (as it would disallow cross-grades, or "
-"switching from being architecture specific to architecture B<all> or vice "
-"versa).  If the parameter is empty or omitted, the "
-"B<DPKG_MAINTSCRIPT_PACKAGE> and B<DPKG_MAINTSCRIPT_ARCH> environment "
-"variables (as set by B<dpkg>)  will be used to generate an arch-qualified "
-"package name."
+"The package name owning the pathname(s).  When the package is “Multi-Arch: "
+"same” this parameter must include the architecture qualifier, otherwise it "
+"should B<not> usually include the architecture qualifier (as it would "
+"disallow cross-grades, or switching from being architecture specific to "
+"architecture B<all> or vice versa).  If the parameter is empty or omitted, "
+"the B<DPKG_MAINTSCRIPT_PACKAGE> and B<DPKG_MAINTSCRIPT_ARCH> environment "
+"variables (as set by B<dpkg> when running the maintainer scripts) will be "
+"used to generate an arch-qualified package name."
 msgstr ""
-"Der Paketname. Wenn das Paket „Multi-Arch: same“ ist, muss dieser Parameter "
+"Der Paketname, dem der Pfadname gehört. Wenn das Paket „Multi-Arch: same“ ist, muss dieser Parameter "
 "die Architektur-Spezifikation enthalten, andernfalls sollte er normalerweise "
 "die Architektur-Spezifikation B<nicht> enthalten (da dies Cross-Grades "
 "verhindern oder die Umstellung von architekturspezifisch auf die Architektur "
 "B<all> oder umgekehrt verhindern würde). Falls dieser Parameter leer oder "
-"nicht angegeben ist, werden die (von B<dpkg> gesetzten) Umgebungsvariablen "
+"nicht angegeben ist, werden die (von B<dpkg> bei der Ausführung der Betreuerskripte gesetzten) Umgebungsvariablen "
 "B<DPKG_MAINTSCRIPT_PACKAGE> und B<DPKG_MAINTSCRIPT_ARCH> verwandt, um den "
 "Architektur-spezifizierten Paketnamen zu erstellen."
 
@@ -17181,12 +17203,12 @@ msgstr "EINSCHRÄNKUNGEN"
 #: dpkg-mergechangelogs.man
 msgid ""
 "Anything that is not parsed by Dpkg::Changelog is lost during the merge.  "
-"This might include stuff like vim modelines, comments which were not "
-"supposed to be there, etc."
+"This might include stuff like Vim modelines, Emacs variables, comments which "
+"were not supposed to be there, etc."
 msgstr ""
 "Alles, was nicht von Dpkg::Changelog ausgewertet werden kann, geht beim "
 "Zusammenführen verloren. Dies betrifft Zeug wie Modelines von Vim, "
-"Kommentare, die eigentlich nicht da sein sollten, usw."
+"Emacs-Variablen, Kommentare, die eigentlich nicht da sein sollten, usw."
 
 #. type: SH
 #: dpkg-mergechangelogs.man
