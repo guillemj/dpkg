@@ -1205,7 +1205,7 @@ setup_options(void)
 			free(fullexecname);
 	}
 
-	if (userspec && sscanf(userspec, "%d", &user_id) != 1) {
+	if (userspec && parse_unsigned(userspec, 10, &user_id) < 0) {
 		struct passwd *pw;
 
 		pw = getpwnam(userspec);
@@ -1215,7 +1215,7 @@ setup_options(void)
 		user_id = pw->pw_uid;
 	}
 
-	if (changegroup && sscanf(changegroup, "%d", &runas_gid) != 1) {
+	if (changegroup && parse_unsigned(changegroup, 10, &runas_gid) < 0) {
 		struct group *gr;
 
 		gr = getgrnam(changegroup);
@@ -1228,7 +1228,7 @@ setup_options(void)
 		struct passwd *pw;
 		struct stat st;
 
-		if (sscanf(changeuser, "%d", &runas_uid) == 1)
+		if (parse_unsigned(changeuser, 10, &runas_uid) == 0)
 			pw = getpwuid(runas_uid);
 		else
 			pw = getpwnam(changeuser);
