@@ -47,6 +47,7 @@ Dpkg
 IPC
 ORed
 OpenPGP
+RCS
 XDG
 archqual
 buildinfo
@@ -72,12 +73,13 @@ env
 envvar
 fieldnames
 ge
-gettext
 getters
+gettext
 hurd
 keyrings
 le
 lzma
+modelines
 multiarch
 nocheck
 qa
