@@ -356,7 +356,7 @@ my $prev_changelog = changelog_parse(%options);
 
 my $sourceversion = $changelog->{'Binary-Only'} ?
                     $prev_changelog->{'Version'} : $changelog->{'Version'};
-my $binaryversion = $changelog->{'Version'};
+my $binaryversion = Dpkg::Version->new($changelog->{'Version'});
 
 # Include .dsc if available.
 my $spackage = $changelog->{'Source'};
@@ -451,7 +451,8 @@ if ($stdout) {
         $arch = 'source';
     }
 
-    $buildinfo = "${spackage}_${sversion}_${arch}.buildinfo";
+    my $bversion = $binaryversion->as_string(omit_epoch => 1);
+    $buildinfo = "${spackage}_${bversion}_${arch}.buildinfo";
     $outputfile = "$uploadfilesdir/$buildinfo";
 }
 
