@@ -3,7 +3,8 @@ TESTS_DEB := \
 	pkg-depends pkg-depends-eq pkg-depends-le pkg-depends-ge \
 	pkg-predepends pkg-predepends-eq pkg-predepends-le pkg-predepends-ge \
 	pkg-breaks pkg-breaks-eq pkg-breaks-le pkg-breaks-ge \
-	pkg-conflicts pkg-conflicts-eq pkg-conflicts-le pkg-conflicts-ge
+	pkg-conflicts pkg-conflicts-eq pkg-conflicts-le pkg-conflicts-ge \
+	pkg-a-depends-ge-lt pkg-b-provides-10 pkg-c-provides-20
 
 include ../Test.mk
 
@@ -66,6 +67,28 @@ ifdef DPKG_HAS_VERSIONED_PROVIDES
 	$(DPKG_INSTALL) pkg-provides-10-20.deb
 
 	$(PURGE_DEPENDS)
+
+	$(DPKG_PURGE) pkg-provides
+
+	# Install the providing package (pkg-virtual 20)
+	$(DPKG_INSTALL) pkg-c-provides-20.deb
+	! $(DPKG_INSTALL) pkg-a-depends-ge-lt.deb
+	$(DPKG_PURGE) pkg-a-depends-ge-lt
+	$(DPKG_PURGE) pkg-c-provides
+
+	# Install the providing package (pkg-virtual 10)
+	$(DPKG_INSTALL) pkg-b-provides-10.deb
+	$(DPKG_INSTALL) pkg-a-depends-ge-lt.deb
+	# Install the providing package (pkg-virtual 20)
+	$(DPKG_INSTALL) pkg-c-provides-20.deb
+
+	# Cannot purge the only package satisfying the dependency
+	! $(DPKG_PURGE) pkg-b-provides
+	# Can purge package not satisfying the dependency
+	$(DPKG_PURGE) pkg-c-provides
+
+	$(DPKG_PURGE) pkg-a-depends-ge-lt
+	$(DPKG_PURGE) pkg-b-provides
 endif
 
 	# The provided dependency is removed, pass
@@ -289,3 +312,6 @@ test-clean:
 	-$(DPKG_PURGE) pkg-conflicts-ge
 	-$(DPKG_PURGE) pkg-conflicts-le
 	-$(DPKG_PURGE) pkg-provides
+	-$(DPKG_PURGE) pkg-a-depends-ge-lt
+	-$(DPKG_PURGE) pkg-b-provides
+	-$(DPKG_PURGE) pkg-c-provides
