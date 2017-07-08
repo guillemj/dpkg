@@ -8,7 +8,7 @@ man_MANS = \
 	deb-control.5 \
 	deb-src-control.5 \
 	deb-src-files.5 \
-	deb-version.5 \
+	deb-version.7 \
 	deb-shlibs.5 \
 	deb-split.5 \
 	deb-substvars.5 \
@@ -212,6 +212,8 @@ MANGEN = $(MANGEN_V) sed \
 .man.1: Makefile
 	$(MANGEN) $< >$@
 .man.5: Makefile
+	$(MANGEN) $< >$@
+.man.7: Makefile
 	$(MANGEN) $< >$@
 .man.8: Makefile
 	$(MANGEN) $< >$@
