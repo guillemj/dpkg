@@ -48,6 +48,12 @@ field, see below).
 The value of this field determines the package name, and is used to
 generate file names by most installation tools.
 .TP
+.BR Package\-Type: " \fBdeb\fP|\fBudeb\fP|\fItype\fP"
+This field defines the type of the package.
+\fBudeb\fP is for size-constrained packages used by the debian installer.
+\fBdeb\fP is the default value, it is assumed if the field is absent.
+More types might be added in the future.
+.TP
 .BR Version: " \fIversion-string\fP (required)"
 Typically, this is the original package's version number in whatever form
 the program's author uses. It may also include a Debian revision number
@@ -281,6 +287,10 @@ and
 .B Replaces
 fields.
 .
+.TP
+.BI Enhances: " package-list"
+This is a list of packages that this one enhances.
+It is similar to\fBSuggests\fP but in the opposite direction.
 .TP
 .BI Provides: " package-list"
 This is a list of virtual packages that this one provides.
