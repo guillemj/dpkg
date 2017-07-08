@@ -264,6 +264,13 @@ This field is used to name the binary package name. The same restrictions as
 to a source package name apply.
 
 .TP
+.BR Package\-Type: " \fBdeb\fP|\fBudeb\fP|\fItype\fP"
+This field defines the type of the package.
+\fBudeb\fP is for size-constrained packages used by the debian installer.
+\fBdeb\fP is the default value, it is assumed if the field is absent.
+More types might be added in the future.
+
+.TP
 .BR Architecture: " \fIarch\fP|\fBall\fP|\fBany\fP (required)"
 The architecture specifies on which type of hardware this package runs. For
 packages that run on all architectures, use the
@@ -291,13 +298,6 @@ In other words, if a binary package paragraph is annotated with a non-empty
 \fBBuild\-Profiles\fP field, then this binary package is generated if and
 only if the condition expressed by the conjunctive normal form expression
 evaluates to true.
-
-.TP
-.BR Package\-Type: " \fBdeb\fP|\fBudeb\fP"
-This field defines the type of the package.
-\fBudeb\fP is for size-constrained packages used by the debian installer.
-\fBdeb\fP is the default value, it is assumed if the field is absent.
-More types might be added in the future.
 
 .TP
 .BI Subarchitecture: " value"
