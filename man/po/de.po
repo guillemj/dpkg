@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-07-05 19:29+0200\n"
-"PO-Revision-Date: 2017-07-05 19:35+0200\n"
+"POT-Creation-Date: 2017-07-11 20:18+0200\n"
+"PO-Revision-Date: 2017-07-11 21:21+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
-"Language-Team: German <debian-l10n-german@lists.debian.org>\n"
+"Language-Team: LANGUAGE TEAM <E-MAIL@ADDRESS or HOME PAGE>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -703,19 +703,19 @@ msgstr ""
 msgid ""
 "The name of the B<.buildinfo> file will depend on the type of build and will "
 "be as specific as necessary but not more; for a build that includes B<any> "
-"the name will be I<source-name>B<_>I<source-version>B<_>I<arch>B<."
+"the name will be I<source-name>B<_>I<binary-version>B<_>I<arch>B<."
 "buildinfo>, or otherwise for a build that includes B<all> the name will be "
-"I<source-name>B<_>I<source-version>B<_>B<all.buildinfo>, or otherwise for a "
+"I<source-name>B<_>I<binary-version>B<_>B<all.buildinfo>, or otherwise for a "
 "build that includes B<source> the name will be I<source-name>B<_>I<source-"
 "version>B<_>B<source.buildinfo>."
 msgstr ""
 "Der Name der B<.buildinfo>-Datei wird von der Art des Baus abhängen und wird "
 "so spezifisch wie notwendig sein, aber nicht mehr; für einen Bau, der B<any> "
-"enthält, wird der Name I<Quellname>B<_>I<Quellversion>B<_>I<Arch>B<."
+"enthält, wird der Name I<Quellname>B<_>I<Binärversion>B<_>I<Arch>B<."
 "buildinfo> oder andernfalls für einen Bau, der B<all> enthält, wird der Name "
 "I<Quellname>B<_>I<Quellversion>B<_>B<all.buildinfo> oder andernfalls für "
 "einen Bau, der B<source> enthält, wird der Name "
-"I<Quellname>B<_>I<Quellversion>B<_>B<source.buildinfo> lauten."
+"I<Quellname>B<_>I<Binärversion>B<_>B<source.buildinfo> lauten."
 
 #. type: SH
 #: deb-buildinfo.man deb-changes.man deb-control.man deb-origin.man dsc.man
@@ -812,12 +812,12 @@ msgid ""
 "Typically, this is the original package's version number in whatever form "
 "the program's author uses.  It may also include a Debian revision number "
 "(for non-native packages).  The exact format and sorting algorithm are "
-"described in B<deb-version>(5)."
+"described in B<deb-version>(7)."
 msgstr ""
 "Typischerweise ist das die Original-Paketversionsnummer, in der Form, die "
 "der Programmautor verwendet. Es kann auch eine Debian-Revisionsnummer "
 "enthalten (für nicht aus Debian stammende Pakete). Das genaue Format und der "
-"Sortieralgorithmus sind in B<deb-version>(5) beschrieben."
+"Sortieralgorithmus sind in B<deb-version>(7) beschrieben."
 
 #. type: TP
 #: deb-buildinfo.man
@@ -1057,8 +1057,8 @@ msgstr ""
 
 #. type: Plain text
 #: deb-buildinfo.man
-msgid "B<deb-changes>(5), B<deb-version>(5), B<dpkg-genbuildinfo>(1)."
-msgstr "B<deb-changes>(5), B<deb-version>(5), B<dpkg-genbuildinfo>(1)."
+msgid "B<deb-changes>(5), B<deb-version>(7), B<dpkg-genbuildinfo>(1)."
+msgstr "B<deb-changes>(5), B<deb-version>(7), B<dpkg-genbuildinfo>(1)."
 
 #. type: TH
 #: deb-changelog.man
@@ -1468,8 +1468,8 @@ msgstr " -- Guillem Jover E<lt>guillem@debian.orgE<gt>  Sun, 12 Oct 2014 15:47:4
 
 #. type: Plain text
 #: deb-changelog.man
-msgid "B<deb-version>(5), B<deb-changes>(5), B<dpkg-parsechangelog>(1)."
-msgstr "B<deb-version>(5), B<deb-changes>(5), B<dpkg-parsechangelog>(1)."
+msgid "B<deb-version>(7), B<deb-changes>(5), B<dpkg-parsechangelog>(1)."
+msgstr "B<deb-version>(7), B<deb-changes>(5), B<dpkg-parsechangelog>(1)."
 
 #. type: TH
 #: deb-changes.man
@@ -1849,8 +1849,8 @@ msgstr ""
 
 #. type: Plain text
 #: deb-changes.man
-msgid "B<deb-src-control>(5), B<deb-version>(5)."
-msgstr "B<deb-src-control>(5), B<deb-version>(5)."
+msgid "B<deb-src-control>(5), B<deb-version>(7)."
+msgstr "B<deb-src-control>(5), B<deb-version>(7)."
 
 #. type: TH
 #: deb-control.man
@@ -1904,18 +1904,36 @@ msgstr ""
 "Der Wert dieses Feldes bestimmt den Paketnamen und wird von den meisten "
 "Installationswerkzeugen verwendet, um Dateinamen zu erstellen."
 
+#. type: TP
+#: deb-control.man deb-src-control.man
+#, no-wrap
+msgid "B<Package-Type:> B<deb>|B<udeb>|I<type>"
+msgstr "B<Package-Type:> B<deb>|B<udeb>|I<type>"
+
+#. type: Plain text
+#: deb-control.man deb-src-control.man
+msgid ""
+"This field defines the type of the package.  B<udeb> is for size-constrained "
+"packages used by the debian installer.  B<deb> is the default value, it is "
+"assumed if the field is absent.  More types might be added in the future."
+msgstr ""
+"Dieses Feld definiert die Art des Pakets. B<udeb> ist für größenbegrenzte "
+"Pakete, wie sie vom Debian-Installer verwandt werden. B<deb> ist der "
+"Standardwert, er wird angenommen, falls das Feld fehlt. Weitere Typen "
+"könnten in der Zukunft hinzugefügt werden."
+
 #. type: Plain text
 #: deb-control.man
 msgid ""
 "Typically, this is the original package's version number in whatever form "
 "the program's author uses. It may also include a Debian revision number (for "
 "non-native packages). The exact format and sorting algorithm are described "
-"in B<deb-version>(5)."
+"in B<deb-version>(7)."
 msgstr ""
 "Typischerweise ist das die Original-Paketversionsnummer, in der Form, die "
 "der Programmautor verwendet. Es kann auch eine Debian-Revisionsnummer "
 "enthalten (für nicht aus Debian stammende Pakete). Das genaue Format und der "
-"Sortieralgorithmus sind in B<deb-version>(5) beschrieben."
+"Sortieralgorithmus sind in B<deb-version>(7) beschrieben."
 
 #. type: TP
 #: deb-control.man deb-src-control.man dsc.man
@@ -2250,7 +2268,7 @@ msgid "B<Installer-Menu-Item:>I< value>"
 msgstr "B<Installer-Menu-Item:> I< Wert>"
 
 #. type: Plain text
-#: deb-control.man deb-src-control.man
+#: deb-control.man
 msgid ""
 "These fields are used by the debian-installer and are usually not needed.  "
 "See /usr/share/doc/debian-installer/devel/modules.txt from the B<debian-"
@@ -2480,6 +2498,21 @@ msgstr ""
 #. type: TQ
 #: deb-control.man deb-src-control.man
 #, no-wrap
+msgid "B<Enhances:>I< package-list>"
+msgstr "B<Enhances:> I< Paketliste>"
+
+#. type: Plain text
+#: deb-control.man
+msgid ""
+"This is a list of packages that this one enhances.  It is similar "
+"to B<Suggests> but in the opposite direction."
+msgstr ""
+"Dies ist eine Liste von Paketen, die dieses Paket erweitert. Es ist ähnlich "
+"B<Suggests>, aber in der umgekehrten Richtung."
+
+#. type: TQ
+#: deb-control.man deb-src-control.man
+#, no-wrap
 msgid "B<Provides:>I< package-list>"
 msgstr "B<Provides:> I< Paketliste>"
 
@@ -2646,9 +2679,9 @@ msgstr ""
 #. type: Plain text
 #: deb-control.man
 msgid ""
-"B<deb>(5), B<deb-version>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
+"B<deb>(5), B<deb-version>(7), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
 msgstr ""
-"B<deb>(5), B<deb-version>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
+"B<deb>(5), B<deb-version>(7), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
 
 #. type: TH
 #: deb-conffiles.man
@@ -3049,29 +3082,41 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.man
+#, fuzzy
+#| msgid ""
+#| "The syntax of the B<Build-Depends>, B<Build-Depends-Arch> and B<Build-"
+#| "Depends-Indep> fields is a list of groups of alternative packages.  Each "
+#| "group is a list of packages separated by vertical bar (or “pipe”)  "
+#| "symbols, ‘B<|>’.  The groups are separated by commas.  Commas are to be "
+#| "read as “AND”, and pipes as “OR”, with pipes binding more tightly.  Each "
+#| "package name is optionally followed by an architecture qualifier appended "
+#| "after a colon ‘B<:>’, optionally followed by a version number "
+#| "specification in parentheses, an architecture specification in square "
+#| "brackets, and a restriction formula consisting of one or more lists of "
+#| "profile names in angle brackets."
 msgid ""
 "The syntax of the B<Build-Depends>, B<Build-Depends-Arch> and B<Build-"
 "Depends-Indep> fields is a list of groups of alternative packages.  Each "
 "group is a list of packages separated by vertical bar (or “pipe”)  symbols, "
-"‘B<|>’.  The groups are separated by commas.  Commas are to be read as "
-"“AND”, and pipes as “OR”, with pipes binding more tightly.  Each package "
+"‘B<|>’.  The groups are separated by commas ‘B<,>’.  Commas are to be read "
+"as “AND”, and pipes as “OR”, with pipes binding more tightly.  Each package "
 "name is optionally followed by an architecture qualifier appended after a "
 "colon ‘B<:>’, optionally followed by a version number specification in "
-"parentheses, an architecture specification in square brackets, and a "
-"restriction formula consisting of one or more lists of profile names in "
-"angle brackets."
+"parentheses ‘B<(>’ and ‘B<)>’, an architecture specification in square "
+"brackets ‘B<[>’ and ‘B<]>’, and a restriction formula consisting of one or "
+"more lists of profile names in angle brackets ‘B<E<lt>>’ and ‘B<E<gt>>’."
 msgstr ""
 "Die Syntax der Felder B<Build-Depends>, B<Build-Depends-Arch> und B<Build-"
 "Depends-Indep> ist eine Liste von Gruppen von alternativen Paketen. Jede "
 "Gruppe ist eine Liste von durch vertikale Striche (oder „Pipe“-Symbole) ‚B<|"
-">’ getrennten Paketen. Die Gruppen werden durch Kommata getrennt. Kommata "
+">’ getrennten Paketen. Die Gruppen werden durch Kommata ‚B<,>’ getrennt. Kommata "
 "müssen als „UND“, vertikale Striche als „ODER“ gelesen werden, wobei die "
 "vertikalen Striche stärker binden. Jeder Paketname wird optional von einer "
 "Architektur-Spezifikation gefolgt, die nach einem Doppelpunkt ‚B<:>’ "
 "angehängt wird, optional gefolgt von einer Versionsnummer-Spezifikation in "
-"Klammern, einer Architekturspezifikation in eckigen Klammern und einer "
+"Klammern ‚B<(>’ und ‚B<)>’, einer Architekturspezifikation in eckigen Klammern ‚B<[>’ und ‚B<]>’ und einer "
 "Einschränkungsformel, die aus einer oder mehr Listen von Profilnamen in "
-"spitzen Klammern besteht."
+"spitzen Klammern ‚B<E<lt>>’ und ‚B<E<gt>>’ besteht."
 
 #. type: Plain text
 #: deb-src-control.man
@@ -3251,24 +3296,6 @@ msgstr ""
 "erstellt, falls und nur falls der Ausdruck in konjunktiver Normalform sich "
 "auf »wahr« berechnet."
 
-#. type: TP
-#: deb-src-control.man
-#, no-wrap
-msgid "B<Package-Type:> B<deb>|B<udeb>"
-msgstr "B<Package-Type:> B<deb>|B<udeb>"
-
-#. type: Plain text
-#: deb-src-control.man
-msgid ""
-"This field defines the type of the package.  B<udeb> is for size-constrained "
-"packages used by the debian installer.  B<deb> is the default value, it is "
-"assumed if the field is absent.  More types might be added in the future."
-msgstr ""
-"Dieses Feld definiert die Art des Pakets. B<udeb> ist für größenbegrenzte "
-"Pakete, wie sie vom Debian-Installer verwandt werden. B<deb> ist der "
-"Standardwert, er wird angenommen, falls das Feld fehlt. Weitere Typen "
-"könnten in der Zukunft hinzugefügt werden."
-
 #. type: TQ
 #: deb-src-control.man
 #, no-wrap
@@ -3284,20 +3311,31 @@ msgstr ""
 "Diese Felder sind in der Handbuchseite B<deb-control>(5) beschrieben, da sie "
 "wörtlich in die control-Datei des Binärpakets kopiert werden."
 
-#. type: TQ
-#: deb-src-control.man
-#, no-wrap
-msgid "B<Enhances:>I< package-list>"
-msgstr "B<Enhances:> I< Paketliste>"
-
 #. type: Plain text
 #: deb-src-control.man
 msgid ""
 "These fields declare relationships between packages. They are discussed in "
-"the B<deb-control>(5)  manpage."
+"the B<deb-control>(5)  manpage.  When these fields are found in I<debian/"
+"control> they can also have architecture specifications and restriction "
+"formulas which will get reduced when generating the fields for B<deb-"
+"control>(5)."
 msgstr ""
-"Diese Felder deklarieren die Beziehungen zwischen Paketen. Sie werden in der "
-"Handbuchseite B<deb-control>(5) beschrieben."
+
+#. type: Plain text
+#: deb-src-control.man
+#, fuzzy
+#| msgid ""
+#| "These fields are used by the debian-installer and are usually not "
+#| "needed.  See /usr/share/doc/debian-installer/devel/modules.txt from the "
+#| "B<debian-installer> package for more details about them."
+msgid ""
+"These fields are used by the debian-installer in B<udeb>s and are usually "
+"not needed.  See /usr/share/doc/debian-installer/devel/modules.txt from the "
+"B<debian-installer> package for more details about them."
+msgstr ""
+"Diese Felder werden im Debian-Installer verwandt und werden normalerweise "
+"nicht benötigt. Lesen Sie /usr/share/doc/debian-installer/devel/modules.txt "
+"aus dem Paket B<debian-installer> für weitere Informationen über sie."
 
 #. type: SH
 #: deb-src-control.man
@@ -3312,14 +3350,27 @@ msgid ""
 "tools will ignore these fields. If you want the fields to be copied over to "
 "the output files, such as the binary packages, you need to use a custom "
 "naming scheme: the fields should start with an B<X>, followed by zero or "
-"more of the letters B<BCS> and a hyphen."
+"more of the letters B<SBC> and a hyphen."
 msgstr ""
 "Es ist erlaubt, zusätzliche benutzerdefinierte Felder zu der Steuerdatei "
 "hinzuzufügen. Die Werkzeuge werden diese Felder ignorieren. Falls Sie "
 "möchten, dass diese Felder in die Ausgabedateien, wie das Binärpaket, "
 "rüberkopiert werden sollen, müssen Sie ein angepasstes Namensschema "
 "verwenden: Die Felder sollten mit einem B<X>, gefolgt von Null oder mehreren "
-"Buchstaben aus B<BCS> und einem Gedankenstrich, beginnen."
+"Buchstaben aus B<SBC> und einem Gedankenstrich, beginnen."
+
+#. type: TP
+#: deb-src-control.man
+#, no-wrap
+msgid "B<S>"
+msgstr "B<S>"
+
+#. type: Plain text
+#: deb-src-control.man
+msgid ""
+"The field will appear in the source package control file, see B<dsc>(5)."
+msgstr ""
+"Das Feld wird in der Steuerdatei des Quellpakets auftauchen, siehe B<dsc>(5)."
 
 #. type: TP
 #: deb-src-control.man
@@ -3339,19 +3390,6 @@ msgstr ""
 #. type: TP
 #: deb-src-control.man
 #, no-wrap
-msgid "B<S>"
-msgstr "B<S>"
-
-#. type: Plain text
-#: deb-src-control.man
-msgid ""
-"The field will appear in the source package control file, see B<dsc>(5)."
-msgstr ""
-"Das Feld wird in der Steuerdatei des Quellpakets auftauchen, siehe B<dsc>(5)."
-
-#. type: TP
-#: deb-src-control.man
-#, no-wrap
 msgid "B<C>"
 msgstr "B<C>"
 
@@ -3367,12 +3405,12 @@ msgstr ""
 #. type: Plain text
 #: deb-src-control.man
 msgid ""
-"Note that the B<X>[B<BCS>]B<-> prefixes are stripped when the fields are "
+"Note that the B<X>[B<SBC>]B<-> prefixes are stripped when the fields are "
 "copied over to the output files. A field B<XC-Approved-By> will appear as "
 "B<Approved-By> in the changes file and will not appear in the binary or "
 "source package control files."
 msgstr ""
-"Beachten Sie, dass die Präfixe B<X>[B<BCS>]B<-> abgeschnitten werden, wenn "
+"Beachten Sie, dass die Präfixe B<X>[B<SBC>]B<-> abgeschnitten werden, wenn "
 "die Felder in die Ausgabedateien rüberkopiert werden. Ein Feld B<XC-Approved-"
 "By> wird als B<Approved-By> in der .changes-Datei und nicht in der "
 "Steuerdatei des Binär- und Quellpakets auftauchen."
@@ -3466,8 +3504,8 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-control.man
-msgid "B<deb-control>(5), B<deb-version>(5), B<dpkg-source>(1)"
-msgstr "B<deb-control>(5), B<deb-version>(5), B<dpkg-source>(1)"
+msgid "B<deb-control>(5), B<deb-version>(7), B<dpkg-source>(1)"
+msgstr "B<deb-control>(5), B<deb-version>(7), B<dpkg-source>(1)"
 
 #. type: TH
 #: deb-src-files.man
@@ -6003,8 +6041,8 @@ msgstr ""
 
 #. type: Plain text
 #: dsc.man
-msgid "B<deb-src-control>(5), B<deb-version>(5), B<dpkg-source>(1)."
-msgstr "B<deb-src-control>(5), B<deb-version>(5), B<dpkg-source>(1)."
+msgid "B<deb-src-control>(5), B<deb-version>(7), B<dpkg-source>(1)."
+msgstr "B<deb-src-control>(5), B<deb-version>(7), B<dpkg-source>(1)."
 
 #. type: TH
 #: dpkg.man
@@ -10132,8 +10170,8 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-architecture.man
-msgid "B<dpkg-buildpackage>(1), B<dpkg-cross>(1)."
-msgstr "B<dpkg-buildpackage>(1), B<dpkg-cross>(1)."
+msgid "B<dpkg-buildpackage>(1)."
+msgstr "B<dpkg-buildpackage>(1)."
 
 #. type: TH
 #: dpkg.cfg.man
@@ -11864,10 +11902,9 @@ msgid ""
 "B<.buildinfo> file.  Several B<dpkg-buildpackage> options are forwarded to "
 "B<dpkg-genbuildinfo>."
 msgstr ""
-"Es führt den Hook B<buildinfo> "
-"aus und ruft B<dpkg-genbuildinfo> auf, um eine B<.buildinfo>-Datei zu "
-"erstellen. Viele Optionen von B<dpkg-buildpackage> werden an B<dpkg-"
-"genbuildinfo> weitergeleitet."
+"Es führt den Hook B<buildinfo> aus und ruft B<dpkg-genbuildinfo> auf, um "
+"eine B<.buildinfo>-Datei zu erstellen. Viele Optionen von B<dpkg-"
+"buildpackage> werden an B<dpkg-genbuildinfo> weitergeleitet."
 
 #. type: IP
 #: dpkg-buildpackage.man
@@ -11881,9 +11918,9 @@ msgid ""
 "It runs the B<changes> hook and calls B<dpkg-genchanges> to generate a B<."
 "changes> file.  The name of the B<.changes> file will depend on the type of "
 "build and will be as specific as necessary but not more; for a build that "
-"includes B<any> the name will be I<source-name>B<_>I<source-"
+"includes B<any> the name will be I<source-name>B<_>I<binary-"
 "version>B<_>I<arch>B<.changes>, or otherwise for a build that includes "
-"B<all> the name will be I<source-name>B<_>I<source-version>B<_>B<all."
+"B<all> the name will be I<source-name>B<_>I<binary-version>B<_>B<all."
 "changes>, or otherwise for a build that includes B<source> the name will be "
 "I<source-name>B<_>I<source-version>B<_>B<source.changes>.  Many B<dpkg-"
 "buildpackage> options are forwarded to B<dpkg-genchanges>."
@@ -11892,9 +11929,9 @@ msgstr ""
 "B<.changes>-Datei zu erstellen. Der Name der B<.changes>-Datei wird von der "
 "Art des Baus abhängen und wird so spezifisch wie notwendig sein, aber nicht "
 "mehr; für einen Bau, der B<any> enthält, wird der Name "
-"I<Quellname>B<_>I<Quellversion>B<_>I<Arch>B<.changes> oder andernfalls für "
+"I<Quellname>B<_>I<Binärversion>B<_>I<Arch>B<.changes> oder andernfalls für "
 "einen Bau, der B<all> enthält, wird der Name "
-"I<Quellname>B<_>I<Quellversion>B<_>B<all.changes> oder andernfalls für einen "
+"I<Quellname>B<_>I<Binärversion>B<_>B<all.changes> oder andernfalls für einen "
 "Bau, der B<source> enthält, wird der Name "
 "I<Quellname>B<_>I<Quellversion>B<_>B<source.changes> lauten. Viele Optionen "
 "von B<dpkg-buildpackage> werden an B<dpkg-genchanges> weitergegeben."
@@ -13361,13 +13398,13 @@ msgstr "B<-O>[I<Dateiname>]"
 #: dpkg-genbuildinfo.man
 msgid ""
 "Print the buildinfo file to standard output (or I<filename> if specified)  "
-"rather than to I<dir>B</>I<source-name>B<_>I<source-version>B<_>I<arch>B<."
+"rather than to I<dir>B</>I<source-name>B<_>I<binary-version>B<_>I<arch>B<."
 "buildinfo> (where I<dir> is B<..> by default or I<upload-files-dir> if B<-u> "
 "was used)."
 msgstr ""
 "Gibt die Buildinfo-Datei zur Standardausgabe (oder I<Dateiname>, falls "
 "angegeben) aus, statt nach I<Verz>B</"
-">I<Quellname>B<_>I<Quellversion>B<_>I<Arch>B<.buildinfo> (wobei I<Verz> "
+">I<Quellname>B<_>I<Binärversion>B<_>I<Arch>B<.buildinfo> (wobei I<Verz> "
 "standardmäßig B<..> oder I<Hochladedateiverzeichnis>, falls B<-u> verwandt "
 "wurde, ist)."
 
@@ -25800,6 +25837,16 @@ msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
 "B<ln>(1), FHS, der Dateisystem Hierarchie-Standard (Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid ""
+#~ "These fields declare relationships between packages. They are discussed "
+#~ "in the B<deb-control>(5)  manpage."
+#~ msgstr ""
+#~ "Diese Felder deklarieren die Beziehungen zwischen Paketen. Sie werden in "
+#~ "der Handbuchseite B<deb-control>(5) beschrieben."
+
+#~ msgid "B<dpkg-buildpackage>(1), B<dpkg-cross>(1)."
+#~ msgstr "B<dpkg-buildpackage>(1), B<dpkg-cross>(1)."
 
 #~ msgid ""
 #~ "The value of this field declares the format version of the file.  The "
