@@ -45,7 +45,6 @@ our @EXPORT = qw(
 );
 
 use Exporter qw(import);
-use Term::ANSIColor;
 
 use Dpkg ();
 use Dpkg::Gettext;
@@ -67,6 +66,8 @@ sub setup_color
     } else {
         $use_color = 0;
     }
+
+    require Term::ANSIColor if $use_color;
 }
 
 setup_color();
@@ -153,7 +154,7 @@ sub report_pretty
     my ($msg, $color) = @_;
 
     if ($use_color) {
-        return colored($msg, $color);
+        return Term::ANSIColor::colored($msg, $color);
     } else {
         return $msg;
     }
