@@ -21,7 +21,6 @@ use warnings;
 
 our $VERSION = '1.01';
 
-use POSIX qw(:signal_h :sys_wait_h);
 use Carp;
 
 use Dpkg::Compression;
@@ -432,7 +431,9 @@ sub _cleanup {
     my $cmdline = *$self->{compressor}{cmdline} // '';
     *$self->{compressor}->wait_end_process(nocheck => *$self->{allow_sigpipe});
     if (*$self->{allow_sigpipe}) {
-        unless (($? == 0) || (WIFSIGNALED($?) && (WTERMSIG($?) == SIGPIPE))) {
+        require POSIX;
+        unless (($? == 0) || (POSIX::WIFSIGNALED($?) &&
+                              (POSIX::WTERMSIG($?) == POSIX::SIGPIPE()))) {
             subprocerr($cmdline);
         }
 	*$self->{allow_sigpipe} = 0;
