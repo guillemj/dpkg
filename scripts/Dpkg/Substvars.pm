@@ -21,8 +21,6 @@ use warnings;
 
 our $VERSION = '1.05';
 
-use POSIX qw(:errno_h);
-
 use Dpkg ();
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;

@@ -96,7 +96,6 @@ our %EXPORT_TAGS = (
 
 use Exporter qw(import);
 use List::Util qw(any);
-use POSIX qw(:errno_h);
 
 use Dpkg ();
 use Dpkg::Gettext;

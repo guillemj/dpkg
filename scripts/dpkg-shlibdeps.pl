@@ -26,7 +26,6 @@ use warnings;
 use feature qw(state);
 
 use List::Util qw(any none);
-use POSIX qw(:errno_h);
 use Cwd qw(realpath);
 use File::Basename qw(dirname);
 
