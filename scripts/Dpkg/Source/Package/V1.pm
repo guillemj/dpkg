@@ -21,7 +21,7 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use POSIX qw(:errno_h);
+use Errno qw(ENOENT);
 use Cwd;
 use File::Basename;
 use File::Temp qw(tempfile);

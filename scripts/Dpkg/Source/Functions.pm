@@ -27,7 +27,7 @@ our @EXPORT_OK = qw(
 );
 
 use Exporter qw(import);
-use POSIX qw(:errno_h);
+use Errno qw(ENOENT);
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
