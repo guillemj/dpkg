@@ -27,6 +27,9 @@ dpkg (1.19.0) UNRELEASED; urgency=medium
     - Remove unused Dpkg::Path from Dpkg::Vendor::Ubuntu.
     - Only load POSIX from Dpkg::Compression::FileHandle if we are going to
       use signal definitions, reducing the load time of many other modules.
+    - Only load Dpkg::BuildOptions and Dpkg::Arch from Dpkg::Vendor-specific
+      modules if we are going to use them, reducing the load time of many
+      other modules.
   * Documentation:
     - Document currently accepted syntax for changelogs in deb-changelog(5).
       Closes: #858579
