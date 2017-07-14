@@ -44,7 +44,6 @@ use Exporter qw(import);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Types;
-use Dpkg::Checksums;
 
 use constant {
     ALL_PKG => CTRL_INFO_PKG | CTRL_INDEX_PKG | CTRL_PKG_DEB | CTRL_FILE_STATUS,
@@ -197,6 +196,18 @@ our %FIELDS = (
         name => 'Changes',
         allowed => ALL_CHANGES,
     },
+    'checksums-md5' => {
+        name => 'Checksums-Md5',
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO,
+    },
+    'checksums-sha1' => {
+        name => 'Checksums-Sha1',
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO,
+    },
+    'checksums-sha256' => {
+        name => 'Checksums-Sha256',
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO,
+    },
     'classes' => {
         name => 'Classes',
         allowed => CTRL_TESTS,
@@ -341,6 +352,12 @@ our %FIELDS = (
         name => 'Maintainer',
         allowed => CTRL_PKG_DEB| CTRL_INDEX_PKG | CTRL_FILE_STATUS | ALL_SRC  | ALL_CHANGES,
     },
+    'md5sum' => {
+        # XXX: Wrong capitalization due to historical reasons.
+        name => 'MD5sum',
+        allowed => CTRL_INDEX_PKG | CTRL_REPO_RELEASE,
+        separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
+    },
     'multi-arch' => {
         name => 'Multi-Arch',
         allowed => ALL_PKG,
@@ -402,6 +419,18 @@ our %FIELDS = (
     'section' => {
         name => 'Section',
         allowed => CTRL_INFO_SRC | CTRL_INDEX_SRC | ALL_PKG,
+    },
+    'sha1' => {
+        # XXX: Wrong capitalization due to historical reasons.
+        name => 'SHA1',
+        allowed => CTRL_INDEX_PKG | CTRL_REPO_RELEASE,
+        separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
+    },
+    'sha256' => {
+        # XXX: Wrong capitalization due to historical reasons.
+        name => 'SHA256',
+        allowed => CTRL_INDEX_PKG | CTRL_REPO_RELEASE,
+        separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'size' => {
         name => 'Size',
@@ -555,11 +584,8 @@ our %FIELDS = (
     },
 );
 
-my @checksum_fields = map { lc "checksums-$_" } checksums_get_list();
-my @sum_fields = map { $_ eq 'md5' ? 'md5sum' : lc } checksums_get_list();
-&field_register($_, CTRL_INDEX_SRC | CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO) foreach @checksum_fields;
-&field_register($_, CTRL_INDEX_PKG | CTRL_REPO_RELEASE,
-                separator => FIELD_SEP_LINE | FIELD_SEP_SPACE) foreach @sum_fields;
+my @src_checksums_fields = qw(checksums-md5 checksums-sha1 checksums-sha256);
+my @bin_checksums_fields = qw(md5sum sha1 sha256);
 
 our %FIELD_ORDER = (
     CTRL_PKG_DEB() => [
@@ -574,20 +600,18 @@ our %FIELD_ORDER = (
         uploaders homepage standards-version vcs-browser
         vcs-arch vcs-bzr vcs-cvs vcs-darcs vcs-git vcs-hg vcs-mtn
         vcs-svn testsuite testsuite-triggers), map { lc } &field_list_src_dep(),
-        qw(package-list), @checksum_fields, qw(files)
+        qw(package-list), @src_checksums_fields, qw(files)
     ],
     CTRL_FILE_BUILDINFO() => [
-        qw(format source binary architecture version
-        binary-only-changes),
-        @checksum_fields,
+        qw(format source binary architecture version binary-only-changes),
+        @src_checksums_fields,
         qw(build-origin build-architecture build-date build-path
-           installed-build-depends environment),
+        installed-build-depends environment),
     ],
     CTRL_FILE_CHANGES() => [
         qw(format date source binary binary-only built-for-profiles architecture
         version distribution urgency maintainer changed-by description
-        closes changes),
-        @checksum_fields, qw(files)
+        closes changes), @src_checksums_fields, qw(files)
     ],
     CTRL_CHANGELOG() => [
         qw(source binary-only version distribution urgency maintainer
@@ -607,7 +631,7 @@ our %FIELD_ORDER = (
     ],
     CTRL_REPO_RELEASE() => [
         qw(origin label suite codename changelogs date valid-until
-        architectures components description), @sum_fields
+        architectures components description), @bin_checksums_fields
     ],
     CTRL_COPYRIGHT_HEADER() => [
         qw(format upstream-name upstream-contact source disclaimer comment
@@ -622,7 +646,7 @@ our %FIELD_ORDER = (
 );
 # Order for CTRL_INDEX_PKG is derived from CTRL_PKG_DEB
 $FIELD_ORDER{CTRL_INDEX_PKG()} = [ @{$FIELD_ORDER{CTRL_PKG_DEB()}} ];
-&field_insert_before(CTRL_INDEX_PKG, 'section', 'filename', 'size', @sum_fields);
+&field_insert_before(CTRL_INDEX_PKG, 'section', 'filename', 'size', @bin_checksums_fields);
 # Order for CTRL_INDEX_SRC is derived from CTRL_PKG_SRC
 $FIELD_ORDER{CTRL_INDEX_SRC()} = [ @{$FIELD_ORDER{CTRL_PKG_SRC()}} ];
 @{$FIELD_ORDER{CTRL_INDEX_SRC()}} = map { $_ eq 'source' ? 'package' : $_ }
@@ -658,10 +682,6 @@ sub field_capitalize($) {
 
     # Use known fields first.
     return $FIELDS{$field}{name} if exists $FIELDS{$field};
-
-    # Some special cases due to history
-    return 'MD5sum' if $field eq 'md5sum';
-    return uc($field) if checksums_is_supported($field);
 
     # Generic case
     return join '-', map { ucfirst } split /-/, $field;
