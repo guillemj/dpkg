@@ -18,13 +18,12 @@ package Dpkg::Interface::Storable;
 use strict;
 use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Carp;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Compression::FileHandle;
 
 use overload
     '""' => \&_stringify,
@@ -66,17 +65,19 @@ and it writes the same string to $fh (if it's defined).
 
 =over 4
 
-=item $obj->load($filename)
+=item $obj->load($filename, %opts)
 
 Initialize the object with the data stored in the file. The file can be
-compressed, it will be uncompressed on the fly by using a
-Dpkg::Compression::FileHandle object. If $filename is "-", then the
+compressed, it will be decompressed on the fly by using a
+Dpkg::Compression::FileHandle object. If $opts{compression} is false the
+decompression support will be disabled. If $filename is "-", then the
 standard input is read (no compression is allowed in that case).
 
 =cut
 
 sub load {
-    my ($self, $file, @options) = @_;
+    my ($self, $file, %opts) = @_;
+    $opts{compression} //= 1;
     unless ($self->can('parse')) {
 	croak ref($self) . ' cannot be loaded, it lacks the parse method';
     }
@@ -85,27 +86,32 @@ sub load {
 	$fh = \*STDIN;
 	$desc = g_('<standard input>');
     } else {
-	$fh = Dpkg::Compression::FileHandle->new();
+        if ($opts{compression}) {
+            require Dpkg::Compression::FileHandle;
+            $fh = Dpkg::Compression::FileHandle->new();
+        }
 	open($fh, '<', $file) or syserr(g_('cannot read %s'), $file);
     }
-    my $res = $self->parse($fh, $desc, @options);
+    my $res = $self->parse($fh, $desc, %opts);
     if ($file ne '-') {
 	close($fh) or syserr(g_('cannot close %s'), $file);
     }
     return $res;
 }
 
-=item $obj->save($filename)
+=item $obj->save($filename, %opts)
 
 Store the object in the file. If the filename ends with a known
 compression extension, it will be compressed on the fly by using a
-Dpkg::Compression::FileHandle object. If $filename is "-", then the
+Dpkg::Compression::FileHandle object. If $opts{compression} is false the
+compression support will be disabled. If $filename is "-", then the
 standard output is used (data are written uncompressed in that case).
 
 =cut
 
 sub save {
-    my ($self, $file, @options) = @_;
+    my ($self, $file, %opts) = @_;
+    $opts{compression} //= 1;
     unless ($self->can('output')) {
 	croak ref($self) . ' cannot be saved, it lacks the output method';
     }
@@ -113,10 +119,13 @@ sub save {
     if ($file eq '-') {
 	$fh = \*STDOUT;
     } else {
-	$fh = Dpkg::Compression::FileHandle->new();
+        if ($opts{compression}) {
+            require Dpkg::Compression::FileHandle;
+            $fh = Dpkg::Compression::FileHandle->new();
+        }
 	open($fh, '>', $file) or syserr(g_('cannot write %s'), $file);
     }
-    $self->output($fh, @options);
+    $self->output($fh, %opts);
     if ($file ne '-') {
 	close($fh) or syserr(g_('cannot close %s'), $file);
     }
@@ -139,6 +148,11 @@ sub _stringify {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.01 (dpkg 1.19.0)
+
+New options: The $obj->load() and $obj->save() methods support a new
+compression option.
 
 =head2 Version 1.00 (dpkg 1.15.6)
 
