@@ -75,7 +75,7 @@ Run the registered exit handlers.
 =cut
 
 sub run_exit_handlers {
-    &$_() foreach (reverse @handlers);
+    $_->() foreach (reverse @handlers);
 }
 
 sub _exit_handler {

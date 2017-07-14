@@ -366,7 +366,7 @@ sub find_matching_pattern {
 		if (my $alias = $converter->convert_to_alias($name)) {
 		    if ($alias && exists $aliases->{$alias}) {
 			$pattern = $aliases->{$alias};
-			last if &$pattern_ok($pattern);
+			last if $pattern_ok->($pattern);
 			$pattern = undef; # otherwise not found yet
 		    }
 		}
@@ -376,7 +376,7 @@ sub find_matching_pattern {
 	# Now try generic patterns and use the first that matches
 	if (not defined $pattern) {
 	    for my $p (@{$obj->{patterns}{generic}}) {
-		if (&$pattern_ok($p) && $p->matches_rawname($name)) {
+		if ($pattern_ok->($p) && $p->matches_rawname($name)) {
 		    $pattern = $p;
 		    last;
 		}

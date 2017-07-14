@@ -113,7 +113,7 @@ sub add_diff_file {
     while (<$diffgen>) {
         if (m/^(?:binary|[^-+\@ ].*\bdiffer\b)/i) {
             $binary = 1;
-            &$handle_binary($self, $old, $new, %opts);
+            $handle_binary->($self, $old, $new, %opts);
             last;
         } elsif (m/^[-+\@ ]/) {
             $difflinefound++;
@@ -162,7 +162,7 @@ sub add_diff_directory {
     my %files_in_new;
     my $scan_new = sub {
         my $fn = (length > length($new)) ? substr($_, length($new) + 1) : '.';
-        return if &$diff_ignore($fn);
+        return if $diff_ignore->($fn);
         $files_in_new{$fn} = 1;
         lstat("$new/$fn") or syserr(g_('cannot stat file %s'), "$new/$fn");
         my $mode = S_IMODE((lstat(_))[2]);
@@ -222,7 +222,7 @@ sub add_diff_directory {
     };
     my $scan_old = sub {
         my $fn = (length > length($old)) ? substr($_, length($old) + 1) : '.';
-        return if &$diff_ignore($fn);
+        return if $diff_ignore->($fn);
         return if $files_in_new{$fn};
         lstat("$old/$fn") or syserr(g_('cannot stat file %s'), "$old/$fn");
         if (-f _) {

@@ -36,7 +36,7 @@ sub test_write {
     printf { $fh } '%s', $lines[2];
     close $fh or die 'close failed';
 
-    &$check_result($filename, 'std functions');
+    $check_result->($filename, 'std functions');
 
     unlink $filename or die "cannot unlink $filename";
 
@@ -47,7 +47,7 @@ sub test_write {
     $fh->printf('%s', $lines[2]);
     $fh->close() or die 'close failed';
 
-    &$check_result($filename, 'IO::Handle methods');
+    $check_result->($filename, 'IO::Handle methods');
 }
 
 sub check_uncompressed {

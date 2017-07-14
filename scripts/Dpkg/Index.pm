@@ -314,7 +314,7 @@ sub get_keys {
 	    } @selected;
 	} elsif (ref($crit{$s_crit}) eq 'CODE') {
 	    @selected = grep {
-		&{$crit{$s_crit}}($self->{items}{$_}{$s_crit});
+		$crit{$s_crit}->($self->{items}{$_}{$s_crit});
 	    } @selected;
 	} else {
 	    @selected = grep {
@@ -397,7 +397,7 @@ sub sort {
     my ($self, $func) = @_;
     if (defined $func) {
 	@{$self->{order}} = sort {
-	    &$func($self->{items}{$a}, $self->{items}{$b})
+	    $func->($self->{items}{$a}, $self->{items}{$b})
 	} @{$self->{order}};
     } else {
 	@{$self->{order}} = sort @{$self->{order}};

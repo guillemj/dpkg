@@ -250,9 +250,9 @@ sub join_lines($) {
 sub merge_block($$$;&) {
     my ($o, $a, $b, $preprocess) = @_;
     $preprocess //= \&join_lines;
-    $o = &$preprocess($o) if defined($o);
-    $a = &$preprocess($a) if defined($a);
-    $b = &$preprocess($b) if defined($b);
+    $o = $preprocess->($o) if defined $o;
+    $a = $preprocess->($a) if defined $a;
+    $b = $preprocess->($b) if defined $b;
     return 1 if not defined($a) and not defined($b);
     if (defined($a) and defined($b) and ($a eq $b)) {
 	unshift @result, $a;

@@ -157,7 +157,7 @@ sub filter {
     foreach my $filename (keys %{$self->{files}}) {
         my $file = $self->{files}->{$filename};
 
-        if (not &$keep($file) or &$remove($file)) {
+        if (not $keep->($file) or $remove->($file)) {
             delete $self->{files}->{$filename};
         }
     }

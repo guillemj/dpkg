@@ -707,7 +707,7 @@ sub run_hook {
         }
     };
 
-    $cmd =~ s/\%(.)/&$subst_hook_var($1)/eg;
+    $cmd =~ s/\%(.)/$subst_hook_var->($1)/eg;
 
     withecho($cmd);
 }

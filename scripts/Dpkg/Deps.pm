@@ -353,15 +353,15 @@ sub deps_iterate {
             return unless defined $dep;
 
             if ($dep->isa('Dpkg::Deps::Simple')) {
-                return unless &{$callback_func}($dep);
+                return unless $callback_func->($dep);
             } else {
-                return unless &{$visitor_func}($dep->get_deps());
+                return unless $visitor_func->($dep->get_deps());
             }
         }
         return 1;
     };
 
-    return &{$visitor_func}($deps);
+    return $visitor_func->($deps);
 }
 
 =item deps_compare($a, $b)
