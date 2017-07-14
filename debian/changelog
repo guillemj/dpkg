@@ -39,6 +39,8 @@ dpkg (1.19.0) UNRELEASED; urgency=medium
     - Add new Dpkg::Interface::Storable option to disable compression support,
       so that we can load Dpkg::Compression::FileHandle only when enabled.
     - Disable decompression support for Dpkg::Vendor origin files.
+    - Move file_lock() function into a new Dpkg::Lock module, to reduce the
+      module load chain for several Dpkg modules.
   * Documentation:
     - Document currently accepted syntax for changelogs in deb-changelog(5).
       Closes: #858579

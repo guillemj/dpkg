@@ -1,5 +1,4 @@
-# Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
-# Copyright © 2012 Guillem Jover <guillem@debian.org>
+#!/usr/bin/perl
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,24 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package Dpkg::File;
-
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
-our @EXPORT = qw(
-    file_slurp
-);
+use Test::More tests => 1;
 
-use Exporter qw(import);
-
-sub file_slurp {
-    my $fh = shift;
-
-    local $/;
-    my $data = <$fh>;
-    return $data;
+BEGIN {
+    use_ok('Dpkg::Lock');
 }
+
+# TODO: Add actual test cases.
 
 1;

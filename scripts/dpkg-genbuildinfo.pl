@@ -46,7 +46,7 @@ use Dpkg::Control;
 use Dpkg::Changelog::Parse;
 use Dpkg::Deps;
 use Dpkg::Dist::Files;
-use Dpkg::File;
+use Dpkg::Lock;
 use Dpkg::Version;
 use Dpkg::Vendor qw(get_current_vendor run_vendor_hook);
 

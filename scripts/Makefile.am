@@ -88,6 +88,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Index.pm \
 	Dpkg/Interface/Storable.pm \
 	Dpkg/IPC.pm \
+	Dpkg/Lock.pm \
 	Dpkg/Package.pm \
 	Dpkg/Path.pm \
 	Dpkg/Shlibs.pm \
@@ -219,6 +220,7 @@ test_scripts = \
 	t/Dpkg_ErrorHandling.t \
 	t/Dpkg_Exit.t \
 	t/Dpkg_File.t \
+	t/Dpkg_Lock.t \
 	t/Dpkg_Getopt.t \
 	t/Dpkg_Gettext.t \
 	t/Dpkg_Conf.t \
