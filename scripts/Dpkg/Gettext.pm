@@ -1,7 +1,7 @@
 # Copied from /usr/share/perl5/Debconf/Gettext.pm
 #
 # Copyright © 2000 Joey Hess <joeyh@debian.org>
-# Copyright © 2007, 2009-2010, 2012-2015 Guillem Jover <guillem@debian.org>
+# Copyright © 2007, 2009-2010, 2012-2017 Guillem Jover <guillem@debian.org>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -29,7 +29,7 @@ package Dpkg::Gettext;
 use strict;
 use warnings;
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 our @EXPORT = qw(
     textdomain
     ngettext
@@ -52,6 +52,17 @@ Dpkg::Gettext - convenience wrapper around Locale::gettext
 The Dpkg::Gettext module is a convenience wrapper over the Locale::gettext
 module, to guarantee we always have working gettext functions, and to add
 some commonly used aliases.
+
+=head1 ENVIRONMENT
+
+=over 4
+
+=item DPKG_NLS
+
+When set to 0, this environment variable will disable the National Language
+Support in all Dpkg modules.
+
+=back
 
 =head1 VARIABLES
 
@@ -98,11 +109,15 @@ or $msgid_plural otherwise.
 use constant GETTEXT_CONTEXT_GLUE => "\004";
 
 BEGIN {
-    eval q{
-        pop @INC if $INC[-1] eq '.';
-        use Locale::gettext;
-    };
-    if ($@) {
+    my $use_gettext = $ENV{DPKG_NLS} // 1;
+    if ($use_gettext) {
+        eval q{
+            pop @INC if $INC[-1] eq '.';
+            use Locale::gettext;
+        };
+        $use_gettext = not $@;
+    }
+    if (not $use_gettext) {
         eval q{
             sub g_ {
                 return shift;
@@ -170,6 +185,10 @@ sub _g ## no critic (Subroutines::ProhibitUnusedPrivateSubroutines)
 }
 
 =head1 CHANGES
+
+=head2 Version 1.03 (dpkg 1.19.0)
+
+New envvar: Add support for new B<DPKG_NLS> environment variable.
 
 =head2 Version 1.02 (dpkg 1.18.3)
 

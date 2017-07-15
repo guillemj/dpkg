@@ -41,6 +41,9 @@ dpkg (1.19.0) UNRELEASED; urgency=medium
     - Disable decompression support for Dpkg::Vendor origin files.
     - Move file_lock() function into a new Dpkg::Lock module, to reduce the
       module load chain for several Dpkg modules.
+    - Add support for new DPKG_NLS environment variable in Dpkg::Gettext,
+      that when set to 0 will disable NLS (i18n) support in the Dpkg modules,
+      and reduce the load chain.
   * Documentation:
     - Document currently accepted syntax for changelogs in deb-changelog(5).
       Closes: #858579
