@@ -584,6 +584,10 @@ our %FIELDS = (
     },
 );
 
+my @src_dep_fields = qw(build-depends build-depends-arch build-depends-indep
+    build-conflicts build-conflicts-arch build-conflicts-indep);
+my @bin_dep_fields = qw(pre-depends depends recommends suggests enhances
+    conflicts breaks replaces provides built-using);
 my @src_checksums_fields = qw(checksums-md5 checksums-sha1 checksums-sha256);
 my @bin_checksums_fields = qw(md5sum sha1 sha256);
 
@@ -592,15 +596,30 @@ our %FIELD_ORDER = (
         qw(package package-type source version built-using kernel-version
         built-for-profiles auto-built-package architecture subarchitecture
         installer-menu-item build-essential essential origin bugs
-        maintainer installed-size), map { lc } &field_list_pkg_dep(),
+        maintainer installed-size), @bin_dep_fields,
+        qw(section priority multi-arch homepage description tag task)
+    ],
+    CTRL_INDEX_PKG() => [
+        qw(package package-type source version built-using kernel-version
+        built-for-profiles auto-built-package architecture subarchitecture
+        installer-menu-item build-essential essential origin bugs
+        maintainer installed-size), @bin_dep_fields,
+        qw(filename size), @bin_checksums_fields,
         qw(section priority multi-arch homepage description tag task)
     ],
     CTRL_PKG_SRC() => [
         qw(format source binary architecture version origin maintainer
         uploaders homepage standards-version vcs-browser
         vcs-arch vcs-bzr vcs-cvs vcs-darcs vcs-git vcs-hg vcs-mtn
-        vcs-svn testsuite testsuite-triggers), map { lc } &field_list_src_dep(),
+        vcs-svn testsuite testsuite-triggers), @src_dep_fields,
         qw(package-list), @src_checksums_fields, qw(files)
+    ],
+    CTRL_INDEX_SRC() => [
+        qw(format package binary architecture version priority section
+        origin maintainer uploaders homepage standards-version vcs-browser
+        vcs-arch vcs-bzr vcs-cvs vcs-darcs vcs-git vcs-hg vcs-mtn vcs-svn
+        testsuite testsuite-triggers), @src_dep_fields,
+        qw(package-list directory), @src_checksums_fields, qw(files)
     ],
     CTRL_FILE_BUILDINFO() => [
         qw(format source binary architecture version binary-only-changes),
@@ -644,15 +663,6 @@ our %FIELD_ORDER = (
         qw(license comment)
     ],
 );
-# Order for CTRL_INDEX_PKG is derived from CTRL_PKG_DEB
-$FIELD_ORDER{CTRL_INDEX_PKG()} = [ @{$FIELD_ORDER{CTRL_PKG_DEB()}} ];
-&field_insert_before(CTRL_INDEX_PKG, 'section', 'filename', 'size', @bin_checksums_fields);
-# Order for CTRL_INDEX_SRC is derived from CTRL_PKG_SRC
-$FIELD_ORDER{CTRL_INDEX_SRC()} = [ @{$FIELD_ORDER{CTRL_PKG_SRC()}} ];
-@{$FIELD_ORDER{CTRL_INDEX_SRC()}} = map { $_ eq 'source' ? 'package' : $_ }
-                                  @{$FIELD_ORDER{CTRL_PKG_SRC()}};
-&field_insert_after(CTRL_INDEX_SRC, 'version', 'priority', 'section');
-&field_insert_before(CTRL_INDEX_SRC, 'checksums-md5', 'directory');
 
 =encoding utf8
 
