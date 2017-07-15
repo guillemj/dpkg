@@ -246,11 +246,11 @@ sub subprocerr(@)
     }
 }
 
-my $printforhelp = g_('Use --help for program usage information.');
-
 sub usageerr(@)
 {
     my ($msg) = (shift);
+
+    state $printforhelp = g_('Use --help for program usage information.');
 
     $msg = sprintf($msg, @_) if (@_);
     warn report(REPORT_ERROR, $msg);
