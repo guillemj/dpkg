@@ -15,6 +15,7 @@ package Dpkg::ErrorHandling;
 
 use strict;
 use warnings;
+use feature qw(state);
 
 our $VERSION = '0.02';
 our @EXPORT_OK = qw(
@@ -52,11 +53,11 @@ use Dpkg::Gettext;
 my $quiet_warnings = 0;
 my $debug_level = 0;
 my $info_fh = \*STDOUT;
-my $use_color = 0;
 
 sub setup_color
 {
     my $mode = $ENV{'DPKG_COLORS'} // 'auto';
+    my $use_color;
 
     if ($mode eq 'auto') {
         ## no critic (InputOutput::ProhibitInteractiveTest)
@@ -69,8 +70,6 @@ sub setup_color
 
     require Term::ANSIColor if $use_color;
 }
-
-setup_color();
 
 use constant {
     REPORT_PROGNAME => 1,
@@ -152,6 +151,8 @@ sub report_color
 sub report_pretty
 {
     my ($msg, $color) = @_;
+
+    state $use_color = setup_color();
 
     if ($use_color) {
         return Term::ANSIColor::colored($msg, $color);
