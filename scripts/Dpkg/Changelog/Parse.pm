@@ -33,7 +33,7 @@ package Dpkg::Changelog::Parse;
 use strict;
 use warnings;
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 our @EXPORT = qw(
     changelog_parse_debian
     changelog_parse_plugin
@@ -125,6 +125,10 @@ up in the 40 last lines of the changelog itself (extracted with this perl
 regular expression "\schangelog-format:\s+([0-9a-z]+)\W"). But it can be
 overridden with $opt{changelogformat}.
 
+If $opt{compression} is false, the file will be loaded without compression
+support, otherwise by default compression support is disabled if the file
+is the default.
+
 All the other keys in %opt are forwarded to the parser module constructor.
 
 =cut
@@ -142,6 +146,7 @@ sub _changelog_parse {
     $options{label} //= $options{file};
     $options{changelogformat} //= _changelog_detect_format($options{file});
     $options{format} //= 'dpkg';
+    $options{compression} //= $options{file} ne 'debian/changelog';
 
     my @range_opts = qw(since until from to offset count all);
     $options{all} = 1 if exists $options{all};
@@ -165,7 +170,7 @@ sub _changelog_parse {
     $changes->set_options(reportfile => $options{label}, range => $range);
 
     # Load and parse the changelog.
-    $changes->load($options{file})
+    $changes->load($options{file}, compression => $options{compression})
         or error(g_('fatal error occurred while parsing %s'), $options{file});
 
     # Get the output into several Dpkg::Control objects.
@@ -199,6 +204,10 @@ sub changelog_parse {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.03 (dpkg 1.19.0)
+
+New option: 'compression' in changelog_parse().
 
 =head2 Version 1.02 (dpkg 1.18.8)
 
