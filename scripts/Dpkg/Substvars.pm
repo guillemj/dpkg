@@ -342,7 +342,7 @@ sub warn_about_unused {
     my ($self, %opts) = @_;
     $opts{msg_prefix} //= $self->{msg_prefix};
 
-    foreach my $vn (keys %{$self->{vars}}) {
+    foreach my $vn (sort keys %{$self->{vars}}) {
         next if $self->{attr}{$vn} & SUBSTVAR_ATTR_USED;
         # Empty substitutions variables are ignored on the basis
         # that they are not required in the current situation
