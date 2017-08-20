@@ -78,6 +78,8 @@ EXTRA_DIST = \
 	debian/rules \
 	debian/shlibs.default \
 	debian/shlibs.override \
+	po/its/polkit.its \
+	po/its/polkit.loc \
 	$(test_scripts) \
 	$(test_data) \
 	$(nil)

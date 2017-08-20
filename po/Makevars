@@ -7,6 +7,13 @@ DOMAIN = $(PACKAGE)
 subdir = po
 top_builddir = ..
 
+# This is needed so that xgettext can find our local ITS and Location files,
+# to know how to handle the PolicyKit XML files. Otherwise we would need to
+# build depend on PolicyKit itself. We cannot pass an explicit --its option
+# because that forces the implementation language for all input files.
+GETTEXTDATADIR = $(top_srcdir)/po
+export GETTEXTDATADIR
+
 # These options get passed to xgettext.
 XGETTEXT_OPTIONS = --from-code=UTF-8 --add-location=file \
                    --keyword --keyword=_ --keyword=N_ \

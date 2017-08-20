@@ -10,16 +10,35 @@ AM_CPPFLAGS = \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
 
+CLEANFILES = \
+	update-alternatives.polkit \
+	$(nil)
+
 EXTRA_DIST = \
 	README.alternatives \
+	update-alternatives.polkit.in \
 	$(test_scripts) \
 	$(nil)
+
+pkexecdir = $(datadir)/polkit-1/actions
+pkexec_DATA =
 
 bin_PROGRAMS =
 
 if BUILD_UPDATE_ALTERNATIVES
+pkexec_DATA += update-alternatives.polkit
 bin_PROGRAMS += update-alternatives
 endif
+
+do_polkit_subst = $(SED) \
+	-e 's,[@]bindir[@],$(bindir),g' \
+	$(nil)
+
+update-alternatives.polkit: update-alternatives.polkit.in Makefile
+	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
+	$(AM_V_GEN) GETTEXTDATADIR="$(top_srcdir)/po" \
+	  $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o - \
+	  | $(do_polkit_subst) >$@
 
 update_alternatives_SOURCES = \
 	update-alternatives.c
