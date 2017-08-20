@@ -409,9 +409,7 @@ sub do_build {
     }
 
     $self->add_file($tarname) if $tarname;
-    # XXX: Re-enable once a stable dpkg supports extracting upstream signatures
-    # for source 1.0 format, either in 1.17.x or 1.18.x.
-    #$self->add_file($tarsign) if $tarsign and -e $tarsign;
+    $self->add_file($tarsign) if $tarsign and -e $tarsign;
 
     if ($sourcestyle =~ m/[kpKP]/) {
         if (stat($origdir)) {
