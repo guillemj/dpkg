@@ -21,6 +21,9 @@
 #include <config.h>
 #include <compat.h>
 
+#include <limits.h>
+#include <stdio.h>
+
 #include <dpkg/test.h>
 #include <dpkg/deb-version.h>
 
@@ -28,6 +31,7 @@ static void
 test_deb_version_parse(void)
 {
 	struct deb_version v;
+	char *vs;
 
 	/* Test valid versions. */
 	test_pass(deb_version_parse(&v, "0.0") == NULL);
@@ -59,12 +63,28 @@ test_deb_version_parse(void)
 	test_fail(deb_version_parse(&v, "4.4 ") == NULL);
 	test_fail(deb_version_parse(&v, " 5.5 ") == NULL);
 
+	/* Test integer limits. */
+	if (asprintf(&vs, "%d.0", INT_MAX) < 0)
+		test_bail("cannot allocate memory for asprintf()");
+	test_pass(deb_version_parse(&v, vs) == NULL);
+	free(vs);
+
+	if (asprintf(&vs, "%d.0", INT_MAX - 1) < 0)
+		test_bail("cannot allocate memory for asprintf()");
+	test_pass(deb_version_parse(&v, vs) == NULL);
+	free(vs);
+
+	if (asprintf(&vs, "%ld.0", (long int)(1L + INT_MAX)) < 0)
+		test_bail("cannot allocate memory for asprintf()");
+	test_fail(deb_version_parse(&v, vs) == NULL);
+	free(vs);
+
 	/* FIXME: Complete. */
 }
 
 TEST_ENTRY(test)
 {
-	test_plan(21);
+	test_plan(24);
 
 	test_deb_version_parse();
 }

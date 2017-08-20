@@ -21,6 +21,7 @@
 #include <config.h>
 #include <compat.h>
 
+#include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -46,19 +47,33 @@ const char *
 deb_version_parse(struct deb_version *version, const char *str)
 {
 	const char *str_minor, *end;
-	int major = 0;
-	int minor = 0;
+	unsigned int major = 0;
+	unsigned int minor = 0;
+	unsigned int divlimit = INT_MAX / 10;
+	int modlimit = INT_MAX % 10;
 
-	for (end = str; *end && c_isdigit(*end); end++)
-		major = major * 10  + *end - '0';
+	for (end = str; *end && c_isdigit(*end); end++) {
+		int ord = *end - '0';
+
+		if (major > divlimit || (major == divlimit && ord > modlimit))
+			return _("format version with too big major component");
+
+		major = major * 10  + ord;
+	}
 
 	if (end == str)
 		return _("format version with empty major component");
 	if (*end != '.')
 		return _("format version has no dot");
 
-	for (end = str_minor = end + 1; *end && c_isdigit(*end); end++)
-		minor = minor * 10 + *end - '0';
+	for (end = str_minor = end + 1; *end && c_isdigit(*end); end++) {
+		int ord = *end - '0';
+
+		if (minor > divlimit || (minor == divlimit && ord > modlimit))
+			return _("format version with too big minor component");
+
+		minor = minor * 10 + ord;
+	}
 
 	if (end == str_minor)
 		return _("format version with empty minor component");
