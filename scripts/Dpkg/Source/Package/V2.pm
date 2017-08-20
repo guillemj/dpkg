@@ -42,6 +42,7 @@ use Dpkg::Source::Functions qw(erasedir is_binary fs_time);
 use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::Control;
 use Dpkg::Changelog::Parse;
+use Dpkg::OpenPGP;
 
 use parent qw(Dpkg::Source::Package);
 
@@ -408,11 +409,17 @@ sub _generate_patch {
             $tarfile = $file;
             push @origtarballs, $file;
             $self->add_file($file);
+            if (-e "$file.sig" and not -e "$file.asc") {
+                openpgp_sig_to_asc("$file.sig", "$file.asc");
+            }
             $self->add_file("$file.asc") if -e "$file.asc";
         } elsif ($file =~ /\.orig-([[:alnum:]-]+)\.tar\.$comp_ext_regex$/) {
             $addonfile{$1} = $file;
             push @origtarballs, $file;
             $self->add_file($file);
+            if (-e "$file.sig" and not -e "$file.asc") {
+                openpgp_sig_to_asc("$file.sig", "$file.asc");
+            }
             $self->add_file("$file.asc") if -e "$file.asc";
         }
     }

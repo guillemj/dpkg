@@ -89,6 +89,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Interface/Storable.pm \
 	Dpkg/IPC.pm \
 	Dpkg/Lock.pm \
+	Dpkg/OpenPGP.pm \
 	Dpkg/Package.pm \
 	Dpkg/Path.pm \
 	Dpkg/Shlibs.pm \
@@ -228,6 +229,7 @@ test_scripts = \
 	t/Dpkg_Path.t \
 	t/Dpkg_Vars.t \
 	t/Dpkg_Interface_Storable.t \
+	t/Dpkg_OpenPGP.t \
 	t/Dpkg_Vendor.t \
 	t/Dpkg_Changelog.t \
 	t/Dpkg_Changelog_Ubuntu.t \
@@ -251,6 +253,9 @@ test_scripts = \
 	$(nil)
 
 test_data = \
+	t/Dpkg_OpenPGP/package_1.0.orig.tar \
+	t/Dpkg_OpenPGP/package_1.0.orig.tar.asc \
+	t/Dpkg_OpenPGP/package_1.0.orig.tar.sig \
 	t/Dpkg_Shlibs/symbols.blacklisted \
 	t/Dpkg_Shlibs/symbols.blacklist-groups \
 	t/Dpkg_Shlibs/symbols.blacklist-filter \
