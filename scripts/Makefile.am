@@ -231,6 +231,7 @@ test_scripts = \
 	t/Dpkg_Vendor.t \
 	t/Dpkg_Changelog.t \
 	t/Dpkg_Changelog_Ubuntu.t \
+	t/Dpkg_Control_Fields.t \
 	t/Dpkg_Control.t \
 	t/Dpkg_Control_Tests.t \
 	t/Dpkg_Index.t \
