@@ -80,6 +80,7 @@ my @policies = qw(
     RegularExpressions::RequireBracesForMultiline
     RegularExpressions::RequireExtendedFormatting
     Subroutines::ProhibitExplicitReturnUndef
+    Subroutines::ProhibitManyArgs
     Subroutines::ProhibitNestedSubs
     Subroutines::ProhibitReturnSort
     Subroutines::ProhibitUnusedPrivateSubroutines
