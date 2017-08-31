@@ -228,8 +228,7 @@ sub yesno($$) {
 ##############################
 
 sub do_connect {
-    my($ftpsite,$username,$pass,$ftpdir,$passive,
-       $useproxy,$proxyhost,$proxylogname,$proxypassword) = @_;
+    my (%opts) = @_;
 
     my($rpass,$remotehost,$remoteuser,$ftp);
 
@@ -237,28 +236,28 @@ sub do_connect {
     while(1) {
 	my $exit = 0;
 
-	if ($useproxy) {
-	    $remotehost = $proxyhost;
-	    $remoteuser = $username . '@' . $ftpsite;
+	if ($opts{useproxy}) {
+	    $remotehost = $opts{proxyhost};
+	    $remoteuser = $opts{username} . '@' . $opts{ftpsite};
 	} else {
-	    $remotehost = $ftpsite;
-	    $remoteuser = $username;
+	    $remotehost = $opts{ftpsite};
+	    $remoteuser = $opts{username};
 	}
-	print "Connecting to $ftpsite...\n";
-	$ftp = Net::FTP->new($remotehost, Passive => $passive);
+	print "Connecting to $opts{ftpsite}...\n";
+	$ftp = Net::FTP->new($remotehost, Passive => $opts{passive});
 	if(!$ftp || !$ftp->ok) {
 	  print "Failed to connect\n";
 	  $exit=1;
 	}
 	if (!$exit) {
 #    $ftp->debug(1);
-	    if ($useproxy) {
-		print "Login on $proxyhost...\n";
-		$ftp->_USER($proxylogname);
-		$ftp->_PASS($proxypassword);
+	    if ($opts{useproxy}) {
+		print "Login on $opts{proxyhost}...\n";
+		$ftp->_USER($opts{proxylogname});
+		$ftp->_PASS($opts{proxypassword});
 	    }
-	    print "Login as $username...\n";
-	    if ($pass eq '?') {
+	    print "Login as $opts{username}...\n";
+	    if ($opts{password} eq '?') {
 		    print 'Enter password for ftp: ';
 		    system('stty', '-echo');
 		    $rpass = <STDIN>;
@@ -266,7 +265,7 @@ sub do_connect {
 		    print "\n";
 		    system('stty', 'echo');
 	    } else {
-		    $rpass = $pass;
+		    $rpass = $opts{password};
 	    }
 	    if(!$ftp->login($remoteuser, $rpass))
 	    { print $ftp->message() . "\n"; $exit=1; }
@@ -276,8 +275,11 @@ sub do_connect {
 	    if(!$ftp->binary()) { print $ftp->message . "\n"; $exit=1; }
 	}
 	if (!$exit) {
-	    print "Cd to '$ftpdir'...\n";
-	    if(!$ftp->cwd($ftpdir)) { print $ftp->message . "\n"; $exit=1; }
+	    print "Cd to '$opts{ftpdir}'...\n";
+	    if (!$ftp->cwd($opts{ftpdir})) {
+		print $ftp->message . "\n";
+		$exit = 1;
+	    }
 	}
 
 	if ($exit) {

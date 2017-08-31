@@ -76,15 +76,15 @@ foreach (@{$CONFIG{site}}) {
 
    my $site = $_;
 
-        $ftp = do_connect ($_->[0], # Ftp server
-                           $_->[4], # username
-                           $_->[5], # password
-                           $_->[1], # ftp dir
-                           $_->[3], # passive
-                           $CONFIG{use_auth_proxy},
-                           $CONFIG{proxyhost},
-                           $CONFIG{proxylogname},
-                           $CONFIG{proxypassword});
+        $ftp = do_connect(ftpsite => $_->[0],
+                          ftpdir => $_->[1],
+                          passive => $_->[3],
+                          username => $_->[4],
+                          password => $_->[5],
+                          useproxy => $CONFIG{use_auth_proxy},
+                          proxyhost => $CONFIG{proxyhost},
+                          proxylogname => $CONFIG{proxylogname},
+                          proxypassword => $CONFIG{proxypassword});
 
     my @dists = @{$_->[2]};
     PACKAGE:
@@ -166,15 +166,15 @@ foreach (@{$CONFIG{site}}) {
 		      $ftp->quit();
 		    };
 		    if (yesno ('y', "Transfer failed at $size: retry at once")) {
-                         $ftp = do_connect ($site->[0], # Ftp server
-                           $site->[4], # username
-                           $site->[5], # password
-                           $site->[1], # ftp dir
-                           $site->[3], # passive
-                           $CONFIG{use_auth_proxy},
-                           $CONFIG{proxyhost},
-                           $CONFIG{proxylogname},
-                           $CONFIG{proxypassword});
+                         $ftp = do_connect(ftpsite => $site->[0],
+                                           ftpdir => $site->[1],
+                                           passive => $site->[3],
+                                           username => $site->[4],
+                                           password => $site->[5],
+                                           useproxy => $CONFIG{use_auth_proxy},
+                                           proxyhost => $CONFIG{proxyhost},
+                                           proxylogname => $CONFIG{proxylogname},
+                                           proxypassword => $CONFIG{proxypassword});
 
 			if ($newest_pack_date != do_mdtm ($ftp, "$dir/Packages.gz")) {
 			    print ("Packages file has changed !\n");
