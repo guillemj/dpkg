@@ -61,9 +61,9 @@ use constant {
     CTRL_INFO_SRC => 1,
     # Subsequent control blocks in debian/control.
     CTRL_INFO_PKG => 2,
-    # Entry in repository's Packages files.
-    CTRL_INDEX_SRC => 4,
     # Entry in repository's Sources files.
+    CTRL_INDEX_SRC => 4,
+    # Entry in repository's Packages files.
     CTRL_INDEX_PKG => 8,
     # .dsc file of source package.
     CTRL_PKG_SRC => 16,
