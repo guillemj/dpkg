@@ -464,7 +464,7 @@ our %FIELD_ORDER = (
     CTRL_PKG_DEB() => [
         qw(Package Package-Type Source Version Built-Using Kernel-Version
         Built-For-Profiles Auto-Built-Package Architecture Subarchitecture
-        Installer-Menu-Item Essential Origin Bugs
+        Installer-Menu-Item Build-Essential Essential Origin Bugs
         Maintainer Installed-Size), &field_list_pkg_dep(),
         qw(Section Priority Multi-Arch Homepage Description Tag Task)
     ],
@@ -492,12 +492,17 @@ our %FIELD_ORDER = (
         qw(Source Binary-Only Version Distribution Urgency Maintainer
         Timestamp Date Closes Changes)
     ],
-    CTRL_FILE_STATUS() => [ # Same as fieldinfos in lib/dpkg/parse.c
+    CTRL_FILE_STATUS() => [
+        # Same as fieldinfos in lib/dpkg/parse.c
         qw(Package Essential Status Priority Section Installed-Size Origin
         Maintainer Bugs Architecture Multi-Arch Source Version Config-Version
         Replaces Provides Depends Pre-Depends Recommends Suggests Breaks
         Conflicts Enhances Conffiles Description Triggers-Pending
-        Triggers-Awaited)
+        Triggers-Awaited),
+        # These are allowed here, but not tracked by lib/dpkg/parse.c.
+        qw(Auto-Built-Package Build-Essential Built-For-Profiles Built-Using
+        Homepage Installer-Menu-Item Kernel-Version Package-Type
+        Subarchitecture Tag Task)
     ],
     CTRL_REPO_RELEASE() => [
         qw(Origin Label Suite Codename Changelogs Date Valid-Until
