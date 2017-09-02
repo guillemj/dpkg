@@ -78,7 +78,7 @@ our %FIELDS = (
         separator => FIELD_SEP_SPACE,
     },
     'Binary' => {
-        allowed => CTRL_PKG_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_BUILDINFO | CTRL_FILE_CHANGES,
         # XXX: This field values are separated either by space or comma
         # depending on the context.
         separator => FIELD_SEP_SPACE | FIELD_SEP_COMMA,
@@ -249,11 +249,11 @@ our %FIELDS = (
         separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'Files' => {
-        allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_COPYRIGHT_FILES,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_COPYRIGHT_FILES,
         separator => FIELD_SEP_LINE | FIELD_SEP_SPACE,
     },
     'Format' => {
-        allowed => CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_COPYRIGHT_HEADER | CTRL_FILE_BUILDINFO,
+        allowed => CTRL_PKG_SRC | CTRL_INDEX_SRC | CTRL_FILE_CHANGES | CTRL_COPYRIGHT_HEADER | CTRL_FILE_BUILDINFO,
     },
     'Homepage' => {
         allowed => ALL_SRC | ALL_PKG,
@@ -283,13 +283,13 @@ our %FIELDS = (
         allowed => (ALL_PKG | ALL_SRC | CTRL_REPO_RELEASE) & (~CTRL_INFO_PKG),
     },
     'Maintainer' => {
-        allowed => CTRL_PKG_DEB| CTRL_FILE_STATUS | ALL_SRC  | ALL_CHANGES,
+        allowed => CTRL_PKG_DEB| CTRL_INDEX_PKG | CTRL_FILE_STATUS | ALL_SRC  | ALL_CHANGES,
     },
     'Multi-Arch' => {
         allowed => ALL_PKG,
     },
     'Package' => {
-        allowed => ALL_PKG,
+        allowed => ALL_PKG | CTRL_INDEX_SRC,
     },
     'Package-List' => {
         allowed => ALL_SRC & ~CTRL_INFO_SRC,
@@ -456,7 +456,7 @@ our %FIELDS = (
 my @checksum_fields = map { &field_capitalize("Checksums-$_") } checksums_get_list();
 my @sum_fields = map { $_ eq 'md5' ? 'MD5sum' : &field_capitalize($_) }
                  checksums_get_list();
-&field_register($_, CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO) foreach @checksum_fields;
+&field_register($_, CTRL_INDEX_SRC | CTRL_PKG_SRC | CTRL_FILE_CHANGES | CTRL_FILE_BUILDINFO) foreach @checksum_fields;
 &field_register($_, CTRL_INDEX_PKG | CTRL_REPO_RELEASE,
                 separator => FIELD_SEP_LINE | FIELD_SEP_SPACE) foreach @sum_fields;
 
