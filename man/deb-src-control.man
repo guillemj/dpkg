@@ -188,7 +188,9 @@ and
 fields is a list of groups of alternative packages.
 Each group is a list of packages separated by vertical bar (or “pipe”)
 symbols, ‘\fB|\fP’.
-The groups are separated by commas ‘\fB,\fP’.
+The groups are separated by commas ‘\fB,\fP’, and can end with a
+trailing comma that will be eliminated when generating the fields
+for \fBdeb\-control\fP(5) (since dpkg 1.10.14).
 Commas are to be read as “AND”, and pipes as “OR”, with pipes
 binding more tightly.
 Each package name is optionally followed by an architecture qualifier
@@ -206,7 +208,9 @@ The syntax of the
 and
 .B Build\-Conflicts\-Indep
 fields is a list of comma-separated package names, where the comma is read
-as an “AND”.
+as an “AND”, and where the list can end with a trailing comma that will
+be eliminated when generating the fields for \fBdeb\-control\fP(5)
+(since dpkg 1.10.14).
 Specifying alternative packages using a “pipe” is not supported.
 Each package name is optionally followed by a version number specification in
 parentheses, an architecture specification in square brackets, and a
@@ -338,9 +342,10 @@ These fields declare relationships between packages. They are discussed in
 the
 .BR deb\-control (5)
 manpage.
-When these fields are found in \fIdebian/control\fP they can also have
-architecture specifications and restriction formulas which will get reduced
-when generating the fields for \fBdeb\-control\fP(5).
+When these fields are found in \fIdebian/control\fP they can also end with
+a trailing comma (since dpkg 1.10.14), have architecture specifications and
+restriction formulas which will all get reduced when generating the fields
+for \fBdeb\-control\fP(5).
 
 .TP
 .BI Subarchitecture: " value"
