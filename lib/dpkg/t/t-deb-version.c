@@ -74,7 +74,7 @@ test_deb_version_parse(void)
 	test_pass(deb_version_parse(&v, vs) == NULL);
 	free(vs);
 
-	if (asprintf(&vs, "%ld.0", (long int)(1L + INT_MAX)) < 0)
+	if (asprintf(&vs, "%u.0", 1U + (unsigned int)INT_MAX) < 0)
 		test_bail("cannot allocate memory for asprintf()");
 	test_fail(deb_version_parse(&v, vs) == NULL);
 	free(vs);
