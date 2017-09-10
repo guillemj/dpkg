@@ -159,6 +159,10 @@ our %FIELDS = (
         name => 'Build-Essential',
         allowed => ALL_PKG,
     },
+    'build-kernel-version' => {
+        name => 'Build-Kernel-Version',
+        allowed => CTRL_FILE_BUILDINFO,
+    },
     'build-origin' => {
         name => 'Build-Origin',
         allowed => CTRL_FILE_BUILDINFO,
@@ -629,8 +633,8 @@ our %FIELD_ORDER = (
     CTRL_FILE_BUILDINFO() => [
         qw(format source binary architecture version binary-only-changes),
         @src_checksums_fields,
-        qw(build-origin build-architecture build-date build-path
-        installed-build-depends environment),
+        qw(build-origin build-architecture build-kernel-version build-date
+        build-path installed-build-depends environment),
     ],
     CTRL_FILE_CHANGES() => [
         qw(format date source binary binary-only built-for-profiles architecture
