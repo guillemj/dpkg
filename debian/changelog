@@ -115,6 +115,10 @@ dpkg (1.19.0) UNRELEASED; urgency=medium
       the code already handles the commands not being present.
     - Do not unnecessarily require setting the host_arch in Dpkg::Deps.
       Closes: #856396
+    - Do not normalize args past a passthrough stop word in Dpkg::Getopt.
+      Some commands pass some arguments through to another command, and
+      those must not be normalized as that might break their invocation.
+      Reported by Helmut Grohne <helmut@subdivi.de>.
   * Documentation:
     - Document currently accepted syntax for changelogs in deb-changelog(5).
       Closes: #858579

@@ -172,7 +172,7 @@ sub action_needs($) {
   return (($req_vars & $bits) == $bits);
 }
 
-@ARGV = normalize_options(@ARGV);
+@ARGV = normalize_options(args => \@ARGV, delim => '-c');
 
 while (@ARGV) {
     my $arg = shift;

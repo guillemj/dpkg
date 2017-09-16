@@ -70,7 +70,7 @@ sub usage {
 "), $Dpkg::PROGNAME;
 }
 
-@ARGV = normalize_options(@ARGV);
+@ARGV = normalize_options(args => \@ARGV, delim => '--');
 
 while (@ARGV) {
     last unless $ARGV[0] =~ m/^-/;
