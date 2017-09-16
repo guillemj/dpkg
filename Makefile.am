@@ -41,6 +41,7 @@ EXTRA_DIST = \
 	doc/coding-style.txt \
 	doc/frontend.txt \
 	doc/lcov-inject.pl \
+	doc/rootless-builds.txt \
 	doc/triggers.txt \
 	debian/changelog \
 	debian/compat \
