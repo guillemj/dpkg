@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 BEGIN {
     use_ok('Dpkg::Getopt');
@@ -24,12 +24,17 @@ BEGIN {
 
 my @expect_argv;
 
-@ARGV = normalize_options(qw(-a -bfoo -c var));
+@ARGV = normalize_options(args => [ qw(-a -bfoo -c var) ]);
 @expect_argv = qw(-a -b foo -c var);
 is_deeply(\@ARGV, \@expect_argv, 'unbundle short options');
 
-@ARGV = normalize_options(qw(--option-a --option-b value --option-c=value));
+@ARGV = normalize_options(args => [ qw(--option-a --option-b value --option-c=value) ]);
 @expect_argv = qw(--option-a --option-b value --option-c value);
 is_deeply(\@ARGV, \@expect_argv, 'unbundle long options');
+
+@ARGV = normalize_options(args => [ qw(-aaa -bbb --option-a=oa -- --opt=arg -dval) ],
+                          delim => '--');
+@expect_argv = qw(-a aa -b bb --option-a oa -- --opt=arg -dval);
+is_deeply(\@ARGV, \@expect_argv, 'unbundle options with delimiter');
 
 1;

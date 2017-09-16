@@ -8,6 +8,11 @@ dpkg (1.18.25) UNRELEASED; urgency=medium
     Closes: #869236
   * Fix integer overflow in deb(5) format version parser.
     Closes: #868356
+  * Perl modules:
+    - Do not normalize args past a passthrough stop word in Dpkg::Getopt.
+      Some commands pass some arguments through to another command, and
+      those must not be normalized as that might break their invocation.
+      Reported by Helmut Grohne <helmut@subdivi.de>.
   * Documentation:
     - Update buildinfo information in dpkg-buildpackage man page to match
       the current implementation.

@@ -18,7 +18,7 @@ package Dpkg::Getopt;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 our @EXPORT = qw(
     normalize_options
 );
@@ -27,17 +27,20 @@ use Exporter qw(import);
 
 sub normalize_options
 {
-    my (@args) = @_;
+    my (%opts) = @_;
+    my $norm = 1;
+    my @args;
 
     @args = map {
-        if (m/^(-[A-Za-z])(.+)$/) {
+        if ($norm and m/^(-[A-Za-z])(.+)$/) {
             ($1, $2)
-        } elsif (m/^(--[A-Za-z-]+)=(.*)$/) {
+        } elsif ($norm and m/^(--[A-Za-z-]+)=(.*)$/) {
             ($1, $2)
         } else {
+            $norm = 0 if defined $opts{delim} and $_ eq $opts{delim};
             $_;
         }
-    } @args;
+    } @{$opts{args}};
 
     return @args;
 }
