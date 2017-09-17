@@ -408,7 +408,7 @@ sub merge_symbols {
     my %include_groups = ();
     my $groups = $self->get_field($soname, 'Ignore-Blacklist-Groups');
     if (defined $groups) {
-        $include_groups{$_} = 1 foreach (split /\s+/, $groups);
+        $include_groups{$_} = 1 foreach (split ' ', $groups);
     }
 
     my %dynsyms;

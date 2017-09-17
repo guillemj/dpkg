@@ -226,7 +226,7 @@ while (@ARGV) {
 	$parallel_force = 0;
     } elsif (/^(?:-r|--root-command=)(.*)$/) {
 	my $arg = $1;
-	@rootcommand = split /\s+/, $arg;
+	@rootcommand = split ' ', $arg;
     } elsif (/^--check-command=(.*)$/) {
 	$check_command = $1;
     } elsif (/^--check-option=(.*)$/) {
@@ -339,7 +339,7 @@ while (@ARGV) {
 	warning(g_('-E and -W are deprecated, they are without effect'));
     } elsif (/^-R(.*)$/ or /^--rules-target=(.*)$/) {
 	my $arg = $1;
-	@debian_rules = split /\s+/, $arg;
+	@debian_rules = split ' ', $arg;
     } else {
 	usageerr(g_('unknown option or argument %s'), $_);
     }

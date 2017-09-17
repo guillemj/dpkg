@@ -639,7 +639,7 @@ Parse an architecture list.
 sub debarch_list_parse
 {
     my $arch_list = shift;
-    my @arch_list = split /\s+/, $arch_list;
+    my @arch_list = split ' ', $arch_list;
 
     foreach my $arch (@arch_list) {
         if (debarch_is_illegal($arch)) {

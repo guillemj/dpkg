@@ -60,7 +60,7 @@ sub get_build_profiles {
     return @build_profiles if $cache_profiles;
 
     if (Dpkg::Build::Env::has('DEB_BUILD_PROFILES')) {
-        @build_profiles = split /\s+/, Dpkg::Build::Env::get('DEB_BUILD_PROFILES');
+        @build_profiles = split ' ', Dpkg::Build::Env::get('DEB_BUILD_PROFILES');
     }
     $cache_profiles = 1;
 
@@ -93,7 +93,7 @@ sub parse_build_profiles {
 
     $string =~ s/^\s*<\s*(.*)\s*>\s*$/$1/;
 
-    return map { [ split /\s+/ ] } split /\s*>\s+<\s*/, $string;
+    return map { [ split ' ' ] } split /\s*>\s+<\s*/, $string;
 }
 
 =item evaluate_restriction_formula(\@formula, \@profiles)

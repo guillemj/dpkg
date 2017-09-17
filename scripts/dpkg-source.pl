@@ -285,7 +285,7 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
         my $pkg_summary = sprintf('%s %s %s %s', $p, $type, $sect, $prio);
 
-        $pkg_summary .= ' arch=' . join ',', split /\s+/, $arch;
+        $pkg_summary .= ' arch=' . join ',', split ' ', $arch;
 
         if (defined $profile) {
             # If the string does not contain brackets then it is using the
