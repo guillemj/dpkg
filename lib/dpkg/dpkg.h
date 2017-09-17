@@ -71,6 +71,8 @@ DPKG_BEGIN_DECLS
 #define POSTINSTFILE       "postinst"
 #define PRERMFILE          "prerm"
 #define POSTRMFILE         "postrm"
+/* Debconf config maintainer script. */
+#define MAINTSCRIPT_FILE_CONFIG		"config"
 #define TRIGGERSCIFILE     "triggers"
 
 #define STATUSFILE        "status"

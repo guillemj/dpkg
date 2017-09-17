@@ -198,6 +198,7 @@ static const char *const maintainerscripts[] = {
   POSTINSTFILE,
   PRERMFILE,
   POSTRMFILE,
+  MAINTSCRIPT_FILE_CONFIG,
   NULL,
 };
 
