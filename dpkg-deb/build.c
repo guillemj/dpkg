@@ -421,6 +421,7 @@ typedef void filenames_feed_func(const char *dir, int fd_out);
 struct tar_pack_options {
   time_t timestamp;
   const char *mode;
+  bool root_owner_group;
 };
 
 /**
@@ -460,6 +461,8 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
     /* Mode might become a positional argument, pass it before -T. */
     if (options->mode)
       command_add_args(&cmd, "--mode", options->mode, NULL);
+    if (options->root_owner_group)
+      command_add_args(&cmd, "--owner", "root:0", "--group", "root:0", NULL);
     command_add_args(&cmd, "--null", "--no-unquote", "--no-recursion",
                            "-T", "-", NULL);
     command_exec(&cmd);
@@ -586,6 +589,7 @@ do_build(const char *const *argv)
   /* Fork a tar to package the control-section of the package. */
   tar_options.mode = "u+rw,go=rX";
   tar_options.timestamp = timestamp;
+  tar_options.root_owner_group = true;
   tarball_pack(ctrldir, control_treewalk_feed, &tar_options,
                &control_compress_params, gzfd);
 
@@ -650,6 +654,7 @@ do_build(const char *const *argv)
   /* Pack the directory into a tarball, feeding files from the callback. */
   tar_options.mode = NULL;
   tar_options.timestamp = timestamp;
+  tar_options.root_owner_group = opt_root_owner_group;
   tarball_pack(dir, file_treewalk_feed, &tar_options, &compress_params, gzfd);
 
   /* Okay, we have data.tar as well now, add it to the ar wrapper. */

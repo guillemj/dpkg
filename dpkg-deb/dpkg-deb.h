@@ -37,6 +37,7 @@ action_func do_ctrltarfile;
 action_func do_fsystarfile;
 
 extern int opt_verbose;
+extern int opt_root_owner_group;
 extern int opt_uniform_compression;
 extern int debugflag, nocheckflag;
 

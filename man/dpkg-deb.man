@@ -254,6 +254,15 @@ Otherwise only the
 compression types allowed to be uniformly used are \fBnone\fP, \fBgzip\fP
 and \fBxz\fP.
 .TP
+.B \-\-root\-owner\-group
+Set the owner and group for each entry in the filesystem tree data to
+root with id 0 (since dpkg 1.19.0).
+
+\fBNote\fP: This option can be useful for rootless builds (see
+\fIrootless\-builds.txt\fP), but should \fBnot\fP be used when the
+entries have an owner or group that is not root.
+Support for these will be added later in the form of a meta manifest.
+.TP
 .BI \-\-deb\-format= format
 Set the archive format version used when building (since dpkg 1.17.0).
 Allowed values are \fB2.0\fP for the new format, and \fB0.939000\fP
