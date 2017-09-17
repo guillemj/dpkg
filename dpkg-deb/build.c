@@ -418,12 +418,17 @@ gen_dest_pathname_from_pkg(const char *dir, struct pkginfo *pkg)
 
 typedef void filenames_feed_func(const char *dir, int fd_out);
 
+struct tar_pack_options {
+  time_t timestamp;
+  const char *mode;
+};
+
 /**
  * Pack the contents of a directory into a tarball.
  */
 static void
 tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-             time_t timestamp, const char *mode,
+             struct tar_pack_options *options,
              struct compress_params *tar_compress_params, int fd_out)
 {
   int pipe_filenames[2], pipe_tarball[2];
@@ -447,14 +452,14 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
     if (chdir(dir))
       ohshite(_("failed to chdir to '%.255s'"), dir);
 
-    snprintf(mtime, sizeof(mtime), "@%ld", timestamp);
+    snprintf(mtime, sizeof(mtime), "@%ld", options->timestamp);
 
     command_init(&cmd, TAR, "tar -cf");
     command_add_args(&cmd, "tar", "-cf", "-", "--format=gnu",
                            "--mtime", mtime, "--clamp-mtime", NULL);
     /* Mode might become a positional argument, pass it before -T. */
-    if (mode)
-      command_add_args(&cmd, "--mode", mode, NULL);
+    if (options->mode)
+      command_add_args(&cmd, "--mode", options->mode, NULL);
     command_add_args(&cmd, "--null", "--no-unquote", "--no-recursion",
                            "-T", "-", NULL);
     command_exec(&cmd);
@@ -502,6 +507,7 @@ int
 do_build(const char *const *argv)
 {
   struct compress_params control_compress_params;
+  struct tar_pack_options tar_options;
   struct dpkg_error err;
   struct dpkg_ar *ar;
   time_t timestamp;
@@ -578,7 +584,9 @@ do_build(const char *const *argv)
   }
 
   /* Fork a tar to package the control-section of the package. */
-  tarball_pack(ctrldir, control_treewalk_feed, timestamp, "u+rw,go=rX",
+  tar_options.mode = "u+rw,go=rX";
+  tar_options.timestamp = timestamp;
+  tarball_pack(ctrldir, control_treewalk_feed, &tar_options,
                &control_compress_params, gzfd);
 
   free(ctrldir);
@@ -640,7 +648,9 @@ do_build(const char *const *argv)
   }
 
   /* Pack the directory into a tarball, feeding files from the callback. */
-  tarball_pack(dir, file_treewalk_feed, timestamp, NULL, &compress_params, gzfd);
+  tar_options.mode = NULL;
+  tar_options.timestamp = timestamp;
+  tarball_pack(dir, file_treewalk_feed, &tar_options, &compress_params, gzfd);
 
   /* Okay, we have data.tar as well now, add it to the ar wrapper. */
   if (deb_format.major == 2) {
