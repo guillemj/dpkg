@@ -82,6 +82,39 @@ used format is \fIbts-type\fP\fB://\fP\fIbts-address\fP, like
 \fBdebbugs://bugs.debian.org\fP. This field is usually not needed.
 
 .TP
+.BR Rules\-Requires\-Root: " \fBno\fP|\fBbinary-targets\fP|\fIimpl-keywords\fP
+This field is used to indicate whether the \fBdebian/rules\fP file requires
+(fake)root privileges to run some of its targets, and if so when.
+.RS
+.TP
+.B no
+The binary targets will not require (fake)root at all.
+.TP
+.B binary\-targets
+The binary targets must always be run under (fake)root.
+This value is the default when the field is omitted; adding the field
+with an explicit \fBbinary\-targets\fP while not strictly needed, marks
+it as having been analyzed for this requirement.
+.TP
+.I impl-keywords
+This is a space-separated list of keywords which define when (fake)root
+is required.
+
+Keywords consist of \fInamespace\fP/\fIcases\fP.
+The \fInamespace\fP part cannot contain "/" or whitespace.
+The \fIcases\fP part cannot contain whitespace.
+Furthermore, both parts must consist entirely of printable ASCII characters.
+
+Each tool/package will define a namespace named after itself and provide
+a number of cases where (fake)root is required.
+(See "Implementation provided keywords" in \fIrootless-builds.txt\fP).
+
+When the field is set to one of the \fIimpl-keywords\fP, the builder will
+expose an interface that is used to run a command under (fake)root.
+(See "Gain Root API" in \fIrootless-builds.txt\fP.)
+.RE
+
+.TP
 .BI Vcs\-Arch: " url"
 .TQ
 .BI Vcs\-Bzr: " url"

@@ -416,6 +416,11 @@ our %FIELDS = (
         allowed => CTRL_TESTS,
         separator => FIELD_SEP_SPACE,
     },
+    'rules-requires-root' => {
+        name => 'Rules-Requires-Root',
+        allowed => CTRL_INFO_SRC,
+        separator => FIELD_SEP_SPACE,
+    },
     'section' => {
         name => 'Section',
         allowed => CTRL_INFO_SRC | CTRL_INDEX_SRC | ALL_PKG,

@@ -178,6 +178,12 @@ my $changedby;
 my $desc;
 my @buildinfo_opts;
 my @changes_opts;
+my %target_legacy_root = map { $_ => 1 } qw(
+    clean binary binary-arch binary-indep
+);
+my %target_official =  map { $_ => 1 } qw(
+    clean build build-arch build-indep binary binary-arch binary-indep
+);
 my @hook_names = qw(
     init preclean source build binary buildinfo changes postclean check sign done
 );
@@ -431,6 +437,7 @@ my $cwd = cwd();
 my $dir = basename($cwd);
 
 my $changelog = changelog_parse();
+my $ctrl = Dpkg::Control::Info->new();
 
 my $pkg = mustsetvar($changelog->{source}, g_('source package'));
 my $version = mustsetvar($changelog->{version}, g_('source version'));
@@ -454,6 +461,10 @@ if ($changedby) {
 
 # <https://reproducible-builds.org/specs/source-date-epoch/>
 $ENV{SOURCE_DATE_EPOCH} ||= $changelog->{timestamp} || time;
+
+# Check whether we are doing some kind of rootless build, and sanity check
+# the fields values.
+my %rules_requires_root = parse_rules_requires_root($ctrl);
 
 my @arch_opts;
 push @arch_opts, ('--host-arch', $host_arch) if $host_arch;
@@ -538,20 +549,14 @@ if ($checkbuilddep) {
 }
 
 foreach my $call_target (@call_target) {
-    if ($call_target_as_root or
-        $call_target =~ /^(clean|binary(|-arch|-indep))$/)
-    {
-        run_cmd(@rootcommand, @debian_rules, $call_target);
-    } else {
-        run_cmd(@debian_rules, $call_target);
-    }
+    run_rules_cond_root($call_target);
 }
 exit 0 if scalar @call_target;
 
 run_hook('preclean', ! $noclean);
 
 unless ($noclean) {
-    run_cmd(@rootcommand, @debian_rules, 'clean');
+    run_rules_cond_root('clean');
 }
 
 run_hook('source', build_has_any(BUILD_SOURCE));
@@ -568,14 +573,16 @@ run_hook('build', build_has_any(BUILD_BINARY));
 
 # XXX Use some heuristics to decide whether to use build-{arch,indep} targets.
 # This is a temporary measure to not break too many packages on a flag day.
-build_target_fallback();
+build_target_fallback($ctrl);
 
 my $build_types = get_build_options_from_type();
 
 if (build_has_any(BUILD_BINARY)) {
-    run_cmd(@debian_rules, $buildtarget);
+    # If we are building rootless, there is no need to call the build target
+    # independently as non-root.
+    run_cmd(@debian_rules, $buildtarget) if rules_requires_root($buildtarget);
     run_hook('binary', 1);
-    run_cmd(@rootcommand, @debian_rules, $binarytarget);
+    run_rules_cond_root($binarytarget);
 }
 
 run_hook('buildinfo', 1);
@@ -607,7 +614,7 @@ close $changes_fh or subprocerr(g_('dpkg-genchanges'));
 run_hook('postclean', $cleansource);
 
 if ($cleansource) {
-    run_cmd(@rootcommand, @debian_rules, 'clean');
+    run_rules_cond_root('clean');
 }
 
 chdir('..') or syserr('chdir ..');
@@ -678,9 +685,71 @@ sub mustsetvar {
     return $var;
 }
 
+sub parse_rules_requires_root {
+    my $ctrl = shift;
+
+    my %rrr;
+    my $rrr = $ctrl->{'Rules-Requires-Root'} // 'binary-targets';
+    my $keywords_base;
+    my $keywords_impl;
+
+    foreach my $keyword (split ' ', $rrr) {
+        if ($keyword =~ m{/}) {
+            if ($keyword =~ m{^dpkg/target/(.*)$}p and $target_official{$1}) {
+                error(g_('disallowed target in %s field keyword %s'),
+                      'Rules-Requires-Root', $keyword);
+            } elsif ($keyword ne 'dpkg/target-subcommand') {
+                error(g_('unknown %s field keyword %s in dpkg namespace'),
+                      'Rules-Requires-Root', $keyword);
+            }
+            $keywords_impl++;
+        } else {
+            if ($keyword ne 'no' and $keyword ne 'binary-targets') {
+                warning(g_('unknown %s field keyword %s'),
+                        'Rules-Requires-Root', $keyword);
+            }
+            $keywords_base++;
+        }
+
+        if ($rrr{$keyword}++) {
+            error(g_('field %s contains duplicate keyword %s'),
+                        'Rules-Requires-Root', $keyword);
+        }
+    }
+
+    if ($keywords_base > 1 or $keywords_base and $keywords_impl) {
+        error(g_('%s field contains both global and implementation specific keywords'),
+              'Rules-Requires-Root');
+    } elsif ($keywords_impl) {
+        # Set only on <implementations-keywords>.
+        $ENV{DPKG_GAIN_ROOT_CMD} = join ' ', @rootcommand;
+    }
+
+    return %rrr;
+}
+
 sub run_cmd {
     printcmd(@_);
     system @_ and subprocerr("@_");
+}
+
+sub rules_requires_root {
+    my $target = shift;
+
+    return 1 if $call_target_as_root;
+    return 1 if $rules_requires_root{"dpkg/target/$target"};
+    return 1 if $rules_requires_root{'binary-targets'} and $target_legacy_root{$target};
+    return 0;
+}
+
+sub run_rules_cond_root {
+    my $target = shift;
+
+    my @cmd;
+    push @cmd, @rootcommand if rules_requires_root($target);
+    push @cmd, @debian_rules, $target;
+
+    run_cmd(@cmd);
 }
 
 sub run_hook {
@@ -787,13 +856,18 @@ sub describe_build {
 }
 
 sub build_target_fallback {
+    my $ctrl = shift;
+
+    # If we are building rootless, there is no need to call the build target
+    # independently as non-root.
+    return if not rules_requires_root($buildtarget);
+
     return if $buildtarget eq 'build';
     return if scalar @debian_rules != 1;
 
     # Check if we are building both arch:all and arch:any packages, in which
     # case we now require working build-indep and build-arch targets.
     my $pkg_arch = 0;
-    my $ctrl = Dpkg::Control::Info->new();
 
     foreach my $bin ($ctrl->get_packages()) {
         if ($bin->{Architecture} eq 'all') {
