@@ -515,7 +515,7 @@ if (not -x 'debian/rules') {
 
 if (scalar @call_target == 0) {
     chdir('..') or syserr('chdir ..');
-    withecho('dpkg-source', @source_opts, '--before-build', $dir);
+    run_cmd('dpkg-source', @source_opts, '--before-build', $dir);
     chdir($dir) or syserr("chdir $dir");
 }
 
@@ -541,9 +541,9 @@ foreach my $call_target (@call_target) {
     if ($call_target_as_root or
         $call_target =~ /^(clean|binary(|-arch|-indep))$/)
     {
-        withecho(@rootcommand, @debian_rules, $call_target);
+        run_cmd(@rootcommand, @debian_rules, $call_target);
     } else {
-        withecho(@debian_rules, $call_target);
+        run_cmd(@debian_rules, $call_target);
     }
 }
 exit 0 if scalar @call_target;
@@ -551,7 +551,7 @@ exit 0 if scalar @call_target;
 run_hook('preclean', ! $noclean);
 
 unless ($noclean) {
-    withecho(@rootcommand, @debian_rules, 'clean');
+    run_cmd(@rootcommand, @debian_rules, 'clean');
 }
 
 run_hook('source', build_has_any(BUILD_SOURCE));
@@ -560,7 +560,7 @@ if (build_has_any(BUILD_SOURCE)) {
     warning(g_('building a source package without cleaning up as you asked; ' .
                'it might contain undesired files')) if $noclean;
     chdir('..') or syserr('chdir ..');
-    withecho('dpkg-source', @source_opts, '-b', $dir);
+    run_cmd('dpkg-source', @source_opts, '-b', $dir);
     chdir($dir) or syserr("chdir $dir");
 }
 
@@ -573,9 +573,9 @@ build_target_fallback();
 my $build_types = get_build_options_from_type();
 
 if (build_has_any(BUILD_BINARY)) {
-    withecho(@debian_rules, $buildtarget);
+    run_cmd(@debian_rules, $buildtarget);
     run_hook('binary', 1);
-    withecho(@rootcommand, @debian_rules, $binarytarget);
+    run_cmd(@rootcommand, @debian_rules, $binarytarget);
 }
 
 run_hook('buildinfo', 1);
@@ -583,7 +583,7 @@ run_hook('buildinfo', 1);
 push @buildinfo_opts, "--build=$build_types" if build_has_none(BUILD_DEFAULT);
 push @buildinfo_opts, "--admindir=$admindir" if $admindir;
 
-withecho('dpkg-genbuildinfo', @buildinfo_opts);
+run_cmd('dpkg-genbuildinfo', @buildinfo_opts);
 
 run_hook('changes', 1);
 
@@ -607,11 +607,11 @@ close $changes_fh or subprocerr(g_('dpkg-genchanges'));
 run_hook('postclean', $cleansource);
 
 if ($cleansource) {
-    withecho(@rootcommand, @debian_rules, 'clean');
+    run_cmd(@rootcommand, @debian_rules, 'clean');
 }
 
 chdir('..') or syserr('chdir ..');
-withecho('dpkg-source', @source_opts, '--after-build', $dir);
+run_cmd('dpkg-source', @source_opts, '--after-build', $dir);
 chdir($dir) or syserr("chdir $dir");
 
 info(describe_build($changes->{'Files'}));
@@ -619,7 +619,7 @@ info(describe_build($changes->{'Files'}));
 run_hook('check', $check_command);
 
 if ($check_command) {
-    withecho($check_command, @check_opts, $chg);
+    run_cmd($check_command, @check_opts, $chg);
 }
 
 if ($signpause && ($signsource || $signbuildinfo || $signchanges)) {
@@ -678,10 +678,9 @@ sub mustsetvar {
     return $var;
 }
 
-sub withecho {
+sub run_cmd {
     printcmd(@_);
-    system(@_)
-	and subprocerr("@_");
+    system @_ and subprocerr("@_");
 }
 
 sub run_hook {
@@ -714,7 +713,7 @@ sub run_hook {
 
     $cmd =~ s/\%(.)/$subst_hook_var->($1)/eg;
 
-    withecho($cmd);
+    run_cmd($cmd);
 }
 
 sub update_files_field {
