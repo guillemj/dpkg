@@ -237,7 +237,7 @@ sub set {
 
 Update the boolean state of whether a specific feature within a known
 feature area has been enabled. The only currently known feature areas
-are "qa", "sanitize", "hardening" and "reproducible".
+are "future", "qa", "sanitize", "hardening" and "reproducible".
 
 =cut
 
@@ -409,8 +409,8 @@ sub is_maintainer_modified {
 =item $bf->has_features($area)
 
 Returns true if the given area of features is known, and false otherwise.
-The only currently recognized feature areas are "qa", "sanitize", "hardening"
-and "reproducible".
+The only currently recognized feature areas are "future", "qa", "sanitize",
+"hardening" and "reproducible".
 
 =cut
 

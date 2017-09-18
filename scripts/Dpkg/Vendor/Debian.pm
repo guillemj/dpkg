@@ -103,6 +103,9 @@ sub _add_build_flags {
 
     # Default feature states.
     my %use_feature = (
+        future => {
+            lfs => 0,
+        },
         qa => {
             bug => 0,
             canary => 0,
@@ -151,6 +154,18 @@ sub _add_build_flags {
     unless (defined $abi and defined $libc and defined $os and defined $cpu) {
         warning(g_("unknown host architecture '%s'"), $arch);
         ($abi, $os, $cpu) = ('', '', '');
+    }
+
+    ## Area: future
+
+    if ($use_feature{future}{lfs}) {
+        my ($abi_bits, $abi_endian) = Dpkg::Arch::debarch_to_abiattrs($arch);
+        my $cpu_bits = Dpkg::Arch::debarch_to_cpubits($arch);
+
+        if ($abi_bits == 32 and $cpu_bits == 32) {
+            $flags->append('CPPFLAGS',
+                           '-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64');
+        }
     }
 
     ## Area: qa
