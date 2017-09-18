@@ -379,6 +379,11 @@ if (@rootcommand and not find_command($rootcommand[0])) {
     }
 }
 
+if ($call_target_as_root and @call_target == 0) {
+    error(g_('option %s is only meaningful with option %s'),
+          '--as-root', '--rules-target');
+}
+
 if ($check_command and not find_command($check_command)) {
     error(g_("check-command '%s' not found"), $check_command);
 }
