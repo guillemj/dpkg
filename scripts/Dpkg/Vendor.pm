@@ -70,7 +70,7 @@ file can have the same casing as the Vendor field, or it can be capitalized.
 
 =over 4
 
-=item $dir = Dpkg::Vendor::get_vendor_dir()
+=item $dir = get_vendor_dir()
 
 Returns the current dpkg origins directory name, where the vendor files
 are stored.
@@ -81,7 +81,7 @@ sub get_vendor_dir {
     return $origins;
 }
 
-=item $fields = Dpkg::Vendor::get_vendor_info($name)
+=item $fields = get_vendor_info($name)
 
 Returns a Dpkg::Control object with the information parsed from the
 corresponding vendor file in $Dpkg::CONFDIR/origins/. If $name is omitted,
@@ -104,7 +104,7 @@ sub get_vendor_info(;$) {
     return $fields;
 }
 
-=item $name = Dpkg::Vendor::get_vendor_file($name)
+=item $name = get_vendor_file($name)
 
 Check if there's a file for the given vendor and returns its
 name.
@@ -124,7 +124,7 @@ sub get_vendor_file(;$) {
     return $file;
 }
 
-=item $name = Dpkg::Vendor::get_current_vendor()
+=item $name = get_current_vendor()
 
 Returns the name of the current vendor. If DEB_VENDOR is set, it uses
 that first, otherwise it falls back to parsing $Dpkg::CONFDIR/origins/default.
@@ -143,7 +143,7 @@ sub get_current_vendor() {
     return;
 }
 
-=item $object = Dpkg::Vendor::get_vendor_object($name)
+=item $object = get_vendor_object($name)
 
 Return the Dpkg::Vendor::* object of the corresponding vendor.
 If $name is omitted, return the object of the current vendor.
@@ -180,7 +180,7 @@ sub get_vendor_object {
     }
 }
 
-=item Dpkg::Vendor::run_vendor_hook($hookid, @params)
+=item run_vendor_hook($hookid, @params)
 
 Run a hook implemented by the current vendor object.
 

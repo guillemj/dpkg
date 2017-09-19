@@ -38,7 +38,7 @@ environment variables being used and modified.
 
 =over 4
 
-=item $bf->set($varname, $value)
+=item set($varname, $value)
 
 Update the build environment variable $varname with value $value. Record
 it as being accessed and modified.
@@ -52,7 +52,7 @@ sub set {
     $ENV{$varname} = $value;
 }
 
-=item $bf->get($varname)
+=item get($varname)
 
 Get the build environment variable $varname value. Record it as being
 accessed.
@@ -65,7 +65,7 @@ sub get {
     return $ENV{$varname};
 }
 
-=item $bf->has($varname)
+=item has($varname)
 
 Return a boolean indicating whether the environment variable exists.
 Record it as being accessed.
@@ -78,7 +78,7 @@ sub has {
     return exists $ENV{$varname};
 }
 
-=item @list = $bf->list_accessed()
+=item @list = list_accessed()
 
 Returns a list of all environment variables that have been accessed.
 
@@ -89,7 +89,7 @@ sub list_accessed {
     return @list;
 }
 
-=item @list = $bf->list_modified()
+=item @list = list_modified()
 
 Returns a list of all environment variables that have been modified.
 
