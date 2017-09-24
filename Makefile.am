@@ -74,7 +74,6 @@ EXTRA_DIST = \
 	debian/libdpkg-perl.lintian-overrides \
 	debian/source/lintian-overrides \
 	debian/source/format \
-	debian/source/options \
 	debian/usertags \
 	debian/rules \
 	debian/shlibs.default \
