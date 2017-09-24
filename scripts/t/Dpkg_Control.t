@@ -20,8 +20,6 @@ use Test::More;
 use Test::Dpkg qw(:needs :paths);
 
 BEGIN {
-    test_needs_module('IO::String');
-
     plan tests => 24;
 
     use_ok('Dpkg::Control');
@@ -44,9 +42,12 @@ sub parse_dsc {
 
 my $c = Dpkg::Control::Info->new("$datadir/control-1");
 
-my $io = IO::String->new();
+my $io_data;
+my $io;
+
+open $io, '>', \$io_data or die "canno open io string\n";;
+
 $c->output($io);
-my $value = ${$io->string_ref()};
 my $expected = 'Source: mysource
 Numeric-Field: 0
 My-Field-One: myvalue1
@@ -75,7 +76,7 @@ Description: short one
  long one
  very long one
 ';
-is($value, $expected, "Dump of $datadir/control-1");
+is($io_data, $expected, "Dump of $datadir/control-1");
 
 my $src = $c->get_source();
 is($src, $c->[0], 'array representation of Dpkg::Control::Info 1/2');
@@ -100,10 +101,10 @@ is($pkg->{package}, 'mypackage3', 'Name of third package');
 is($pkg->{Depends}, 'hello', 'Name of third package');
 
 $pkg = $c->get_pkg_by_idx(2);
-$io = IO::String->new();
+open $io, '>', \$io_data or die "canno open io string\n";;
 $pkg->output($io);
 
-is(${$io->string_ref()},
+is($io_data,
 'Package: mypackage2
 Architecture: all
 Depends: hello
