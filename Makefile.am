@@ -51,6 +51,7 @@ EXTRA_DIST = \
 	debian/dpkg-dev.install \
 	debian/dpkg-dev.manpages \
 	debian/dpkg-dev.lintian-overrides \
+	debian/dpkg.alternatives.logrotate \
 	debian/dpkg.cfg \
 	debian/dpkg.cron.daily \
 	debian/dpkg.docs \
