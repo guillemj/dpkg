@@ -17,7 +17,7 @@ create_database() {
 
 # Create log file and set default permissions if possible
 create_logfile() {
-    logfile=/var/log/dpkg.log
+    logfile=$DPKG_ROOT/var/log/dpkg.log
     touch $logfile
     chmod 644 $logfile
     chown root:root $logfile 2>/dev/null || chown 0:0 $logfile
