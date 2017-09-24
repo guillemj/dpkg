@@ -59,7 +59,6 @@ EXTRA_DIST = \
 	debian/dpkg.manpages \
 	debian/dpkg.postinst \
 	debian/dpkg.postrm \
-	debian/dpkg.prerm \
 	debian/dpkg.logrotate \
 	debian/dpkg.lintian-overrides \
 	debian/dselect.cfg \
