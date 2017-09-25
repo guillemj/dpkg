@@ -49,7 +49,7 @@ our @EXPORT_OK = qw(
     debarch_is_wildcard
     debarch_is_illegal
     debarch_is_concerned
-    debarch_to_cpuattrs
+    debarch_to_abiattrs
     debarch_to_gnutriplet
     debarch_to_debtuple
     debarch_to_multiarch
@@ -74,7 +74,7 @@ our %EXPORT_TAGS = (
         debarch_list_parse
     ) ],
     mappers => [ qw(
-        debarch_to_cpuattrs
+        debarch_to_abiattrs
         debarch_to_gnutriplet
         debarch_to_debtuple
         debarch_to_multiarch
@@ -500,7 +500,7 @@ sub debwildcard_to_debtuple($)
     }
 }
 
-sub debarch_to_cpuattrs($)
+sub debarch_to_abiattrs($)
 {
     my $arch = shift;
     my ($abi, $libc, $os, $cpu) = debarch_to_debtuple($arch);

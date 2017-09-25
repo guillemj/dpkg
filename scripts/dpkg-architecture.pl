@@ -244,7 +244,7 @@ $v{DEB_BUILD_ARCH} = get_raw_build_arch()
 ($v{DEB_BUILD_ARCH_ABI}, $v{DEB_BUILD_ARCH_LIBC},
  $v{DEB_BUILD_ARCH_OS}, $v{DEB_BUILD_ARCH_CPU}) = debarch_to_debtuple($v{DEB_BUILD_ARCH})
     if (action_needs(DEB_BUILD | DEB_ARCH_INFO));
-($v{DEB_BUILD_ARCH_BITS}, $v{DEB_BUILD_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_BUILD_ARCH})
+($v{DEB_BUILD_ARCH_BITS}, $v{DEB_BUILD_ARCH_ENDIAN}) = debarch_to_abiattrs($v{DEB_BUILD_ARCH})
     if (action_needs(DEB_BUILD | DEB_ARCH_ATTR));
 
 $v{DEB_BUILD_MULTIARCH} = debarch_to_multiarch($v{DEB_BUILD_ARCH})
@@ -270,7 +270,7 @@ $v{DEB_HOST_ARCH} = $req_host_arch || get_raw_host_arch()
 ($v{DEB_HOST_ARCH_ABI}, $v{DEB_HOST_ARCH_LIBC},
  $v{DEB_HOST_ARCH_OS}, $v{DEB_HOST_ARCH_CPU}) = debarch_to_debtuple($v{DEB_HOST_ARCH})
     if (action_needs(DEB_HOST | DEB_ARCH_INFO));
-($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_HOST_ARCH})
+($v{DEB_HOST_ARCH_BITS}, $v{DEB_HOST_ARCH_ENDIAN}) = debarch_to_abiattrs($v{DEB_HOST_ARCH})
     if (action_needs(DEB_HOST | DEB_ARCH_ATTR));
 
 $v{DEB_HOST_MULTIARCH} = debarch_to_multiarch($v{DEB_HOST_ARCH})
@@ -307,7 +307,7 @@ $v{DEB_TARGET_ARCH} = $req_target_arch || $req_host_arch || get_raw_host_arch()
 ($v{DEB_TARGET_ARCH_ABI}, $v{DEB_TARGET_ARCH_LIBC},
  $v{DEB_TARGET_ARCH_OS}, $v{DEB_TARGET_ARCH_CPU}) = debarch_to_debtuple($v{DEB_TARGET_ARCH})
     if (action_needs(DEB_TARGET | DEB_ARCH_INFO));
-($v{DEB_TARGET_ARCH_BITS}, $v{DEB_TARGET_ARCH_ENDIAN}) = debarch_to_cpuattrs($v{DEB_TARGET_ARCH})
+($v{DEB_TARGET_ARCH_BITS}, $v{DEB_TARGET_ARCH_ENDIAN}) = debarch_to_abiattrs($v{DEB_TARGET_ARCH})
     if (action_needs(DEB_TARGET | DEB_ARCH_ATTR));
 
 $v{DEB_TARGET_MULTIARCH} = debarch_to_multiarch($v{DEB_TARGET_ARCH})
@@ -349,7 +349,7 @@ if ($action eq 'list') {
     print "$v{$req_variable_to_print}\n";
 } elsif ($action eq 'list-known') {
     foreach my $arch (get_valid_arches()) {
-        my ($bits, $endian) = debarch_to_cpuattrs($arch);
+        my ($bits, $endian) = debarch_to_abiattrs($arch);
 
         next if $req_match_endian and $endian ne $req_match_endian;
         next if $req_match_bits and $bits ne $req_match_bits;

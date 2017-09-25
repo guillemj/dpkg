@@ -21,7 +21,7 @@ use Test::More tests => 16367;
 use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         debarch_eq debarch_is debarch_is_wildcard
                         debarch_is_illegal
-                        debarch_to_cpuattrs
+                        debarch_to_abiattrs
                         debarch_list_parse
                         debtuple_to_debarch gnutriplet_to_debarch
                         get_host_gnu_type
@@ -151,8 +151,8 @@ is_deeply(\@arch_new, \@arch_ref, 'parse valid arch list');
 eval { @arch_new = debarch_list_parse('!amd64!arm64') };
 ok($@, 'parse concatenated arches failed');
 
-is(debarch_to_cpuattrs(undef), undef, 'undef cpu attrs');
-is_deeply([ debarch_to_cpuattrs('amd64') ], [ qw(64 little) ], 'amd64 cpu attrs');
+is(debarch_to_abiattrs(undef), undef, 'undef ABI attrs');
+is_deeply([ debarch_to_abiattrs('amd64') ], [ qw(64 little) ], 'amd64 ABI attrs');
 
 is(debtuple_to_debarch(undef, undef, undef, undef), undef, 'undef debtuple');
 is(debtuple_to_debarch('base', 'gnu', 'linux', 'amd64'), 'amd64', 'known debtuple');
