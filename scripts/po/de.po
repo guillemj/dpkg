@@ -1,13 +1,13 @@
 # German translation of the scripts in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2016.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-07-11 20:18+0200\n"
-"PO-Revision-Date: 2017-07-11 20:23+0200\n"
+"POT-Creation-Date: 2017-09-25 18:43+0200\n"
+"PO-Revision-Date: 2017-09-25 19:03+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -177,6 +177,10 @@ msgid ""
 "  --get <flag>       output the requested flag to stdout.\n"
 "  --origin <flag>    output the origin of the flag to stdout:\n"
 "                     value is one of vendor, system, user, env.\n"
+"  --status           output a synopsis with all parameters affecting the\n"
+"                     program behaviour, the resulting flags and their "
+"origin.\n"
+"  --query            like --status, but in deb822 format.\n"
 "  --query-features <area>\n"
 "                     output the status of features for the given area.\n"
 "  --list             output a list of the flags supported by the current "
@@ -185,10 +189,7 @@ msgid ""
 "                     output something convenient to import the compilation\n"
 "                     flags in a shell script, in make, or in a command "
 "line.\n"
-"  --dump             output all compilation flags with their values\n"
-"  --status           print a synopsis with all parameters affecting the\n"
-"                     behaviour of dpkg-buildflags and the resulting flags\n"
-"                     and their origin.\n"
+"  --dump             output all compilation flags with their values.\n"
 "  --help             show this help message.\n"
 "  --version          show the version.\n"
 msgstr ""
@@ -196,6 +197,11 @@ msgstr ""
 "  --get <Schalter>    den angegebenen Schalter nach Stdout ausgeben\n"
 "  --origin <Schalter> die Quelle des Schalters nach Stdout ausgeben,\n"
 "                      mögliche Werte: vendor, system, user, env\n"
+" --status             eine Zusammenfassung aller Parameter ausgeben, die "
+"das\n"
+"                      Verhalten des Programms, die daraus entstehenden\n"
+"                      Schalter und ihre Quelle angeben\n"
+"  --query             wie --status, aber in deb822-Format.\n"
 "  --query-features <Bereich>\n"
 "                      den Status der Funktionalitäten für den übergebenen\n"
 "                      Bereich ausgeben\n"
@@ -206,10 +212,6 @@ msgstr ""
 "                      in einem Shell-Skript, in Make oder auf der\n"
 "                      Befehlszeile zu importieren\n"
 "  --dump              alle Kompilierschalter mit ihren Werten ausgeben\n"
-" --status             eine Zusammenfassung aller Parameter ausgeben, die "
-"das\n"
-"                      Verhalten von dpkg-buildflags und die daraus\n"
-"                      entstehenden Schalter und ihre Quelle angeben\n"
 "  --help              diese Hilfemeldung anzeigen\n"
 "  --version           die Version anzeigen\n"
 
@@ -471,6 +473,11 @@ msgstr "root-werde-Befehl »%s« nicht gefunden"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
+msgid "option %s is only meaningful with option %s"
+msgstr "Option %s hat nur zusammen mit der Option %s eine Bedeutung"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
 msgid "check-command '%s' not found"
 msgstr "Prüfbefehl »%s« nicht gefunden"
 
@@ -545,6 +552,33 @@ msgstr ""
 #, perl-format
 msgid "unable to determine %s"
 msgstr "%s kann nicht bestimmt werden"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "disallowed target in %s field keyword %s"
+msgstr "nicht erlaubtes Ziel im %s-Feld-Schlüsselwort %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "unknown %s field keyword %s in dpkg namespace"
+msgstr "unbekanntes %s-Feld-Schlüsselwort %s im Dpkg-Namensraum"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "unknown %s field keyword %s"
+msgstr "unbekanntes %s-Feldschlüsselwort %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "field %s contains duplicate keyword %s"
+msgstr "Feld %s enthält doppeltes Schlüsselwort %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "%s field contains both global and implementation specific keywords"
+msgstr ""
+"Feld %s enthält sowohl globale als auch implementierungsspezifische "
+"Schlüsselwörter"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -2641,16 +2675,6 @@ msgstr "%s fehlgeschlagen mit unbekanntem Exit-Code %d"
 msgid "Use --help for program usage information."
 msgstr "Verwenden Sie --help für Programmbenutzungsinformationen"
 
-#: scripts/Dpkg/File.pm
-msgid "File::FcntlLock not available; using flock which is not NFS-safe"
-msgstr ""
-"File::FcntlLock nicht verfügbar: verwende flock, der für NFS nicht sicher ist"
-
-#: scripts/Dpkg/File.pm
-#, perl-format
-msgid "failed to get a write lock on %s"
-msgstr "Fehler beim Erlangen einer Schreibsperre auf %s"
-
 #: scripts/Dpkg/IPC.pm
 #, perl-format
 msgid "pipe for %s"
@@ -2688,6 +2712,16 @@ msgstr[1] "%s war nicht innerhalb von %d Sekunden beendet"
 #: scripts/Dpkg/Interface/Storable.pm
 msgid "<standard input>"
 msgstr "<Standardeingabe>"
+
+#: scripts/Dpkg/Lock.pm
+msgid "File::FcntlLock not available; using flock which is not NFS-safe"
+msgstr ""
+"File::FcntlLock nicht verfügbar: verwende flock, der für NFS nicht sicher ist"
+
+#: scripts/Dpkg/Lock.pm
+#, perl-format
+msgid "failed to get a write lock on %s"
+msgstr "Fehler beim Erlangen einer Schreibsperre auf %s"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -4464,9 +4498,6 @@ msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 
 #~ msgid "source control file %s"
 #~ msgstr "Quell-Steuerdatei %s"
-
-#~ msgid "Files field contains bad line `%s'"
-#~ msgstr "Files-Feld enthält ungültige Zeile »%s«"
 
 #~ msgid "Conflicting sizes `%u' and `%u' for file `%s'"
 #~ msgstr "Widersprüchliche Größen »%u« und »%u« für Datei »%s«"
