@@ -50,6 +50,7 @@ our @EXPORT_OK = qw(
     debarch_is_illegal
     debarch_is_concerned
     debarch_to_abiattrs
+    debarch_to_cpubits
     debarch_to_gnutriplet
     debarch_to_debtuple
     debarch_to_multiarch
@@ -509,6 +510,18 @@ sub debarch_to_abiattrs($)
         _load_abitable();
 
         return ($abibits{$abi} // $cpubits{$cpu}, $cpuendian{$cpu});
+    } else {
+        return;
+    }
+}
+
+sub debarch_to_cpubits($)
+{
+    my $arch = shift;
+    my (undef, undef, undef, $cpu) = debarch_to_debtuple($arch);
+
+    if (defined $cpu) {
+        return $cpubits{$cpu};
     } else {
         return;
     }
