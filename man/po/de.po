@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-09-09 10:57+0200\n"
-"PO-Revision-Date: 2017-09-09 13:22+0200\n"
+"POT-Creation-Date: 2017-09-25 18:43+0200\n"
+"PO-Revision-Date: 2017-09-25 21:13+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -2158,7 +2158,7 @@ msgstr ""
 "Arch-Installation verhalten soll."
 
 #. type: TP
-#: deb-control.man
+#: deb-control.man deb-src-control.man
 #, no-wrap
 msgid "B<no>"
 msgstr "B<no>"
@@ -2879,6 +2879,95 @@ msgstr ""
 "org>. Dieses Feld wird normalerweise nicht benötigt."
 
 #. type: TP
+#: deb-src-control.man
+#, no-wrap
+msgid "B<Rules-Requires-Root:> B<no>|B<binary-targets>|I<impl-keywords>"
+msgstr "B<Rules-Requires-Root:> B<no>|B<binary-targets>|I<impl-keywords>"
+
+#. type: Plain text
+#: deb-src-control.man
+msgid ""
+"This field is used to indicate whether the B<debian/rules> file requires "
+"(fake)root privileges to run some of its targets, and if so when."
+msgstr ""
+"Dieses Feld wird verwandt, um anzuzeigen, ob die Datei B<debian/rules> (fake)"
+"root-Priviliegien benötigt, um einige ihrer Ziele auszuführen, und falls ja, "
+"wann."
+
+#. type: Plain text
+#: deb-src-control.man
+msgid "The binary targets will not require (fake)root at all."
+msgstr "Die Binärziele werden überhaupt kein (fake)root benötigen."
+
+#. type: TP
+#: deb-src-control.man
+#, no-wrap
+msgid "B<binary-targets>"
+msgstr "B<binary-targets>"
+
+#. type: Plain text
+#: deb-src-control.man
+msgid ""
+"The binary targets must always be run under (fake)root.  This value is the "
+"default when the field is omitted; adding the field with an explicit "
+"B<binary-targets> while not strictly needed, marks it as having been "
+"analyzed for this requirement."
+msgstr ""
+"Die Binärziele müssen immer unter (fake)root ausgeführt werden. Dieser Wert "
+"ist die Vorgabe, wenn die Datei fehlt. Die Aufnahme dieses Feld mit einem "
+"expliziten B<binary-targets> ist zwar streng genommen nicht notwendig, "
+"markiert aber, dass es darauf untersucht wurde."
+
+#. type: TP
+#: deb-src-control.man
+#, no-wrap
+msgid "I<impl-keywords>"
+msgstr "I<Impl-Schlüsselwörter>"
+
+#. type: Plain text
+#: deb-src-control.man
+msgid ""
+"This is a space-separated list of keywords which define when (fake)root is "
+"required."
+msgstr ""
+"Dies ist eine durch Leerzeichen getrennte Liste von Schlüsselwörtern, die "
+"festlegen, wann (fake)root benötigt wird."
+
+#. type: Plain text
+#: deb-src-control.man
+msgid ""
+"Keywords consist of I<namespace>/I<cases>.  The I<namespace> part cannot "
+"contain \"/\" or whitespace.  The I<cases> part cannot contain whitespace.  "
+"Furthermore, both parts must consist entirely of printable ASCII characters."
+msgstr ""
+"Schlüsselwörter bestehen aus I<Namensraum>/I<Fälle>. Der Teil I<Namensraum> "
+"kann kein »/« oder Leerraum enthalten. Der Teil I<Fälle> kann kein Leerraum "
+"enthalten. Desweiteren müssen beide Teile ausschließlich aus druckbaren ASCII-"
+"Zeichen bestehen."
+
+#. type: Plain text
+#: deb-src-control.man
+msgid ""
+"Each tool/package will define a namespace named after itself and provide a "
+"number of cases where (fake)root is required.  (See \"Implementation "
+"provided keywords\" in I<rootless-builds.txt>)."
+msgstr ""
+"Jedes Werkzeug/Paket wird einen Namensraum nach sich selbst definieren und "
+"eine Reihe von Fällen bereitstellen, in denen (fake)root benötigt wird "
+"(siehe »Implementation provided keywords« in I<rootless-builds.txt>)."
+
+#. type: Plain text
+#: deb-src-control.man
+msgid ""
+"When the field is set to one of the I<impl-keywords>, the builder will "
+"expose an interface that is used to run a command under (fake)root.  (See "
+"\"Gain Root API\" in I<rootless-builds.txt>.)"
+msgstr ""
+"Wenn das Feld auf eines der I<Impl-Schlüsselwörter> gesetzt wird, wird das "
+"Bauprogramm eine Schnittstelle bereitstellen, die zur Ausführung unter "
+"(fake)root verwandt wird (siehe »Gain Root API« in I<rootless-builds.txt>)."
+
+#. type: TP
 #: deb-src-control.man dsc.man
 #, no-wrap
 msgid "B<Vcs-Arch:>I< url>"
@@ -3099,17 +3188,16 @@ msgstr ""
 "Die Syntax der Felder B<Build-Depends>, B<Build-Depends-Arch> und B<Build-"
 "Depends-Indep> ist eine Liste von Gruppen von alternativen Paketen. Jede "
 "Gruppe ist eine Liste von durch vertikale Striche (oder „Pipe“-Symbole) ‚B<|"
-">’ getrennten Paketen. Die Gruppen werden durch Kommata ‚B<,>’ getrennt. "
-"Sie können mit einem abschließenden Komma enden, das beim Erstellen der "
-"Felder für B<deb-control>(5) entfernt wird (seit Dpkg 1.10.14). "
-"Kommata müssen als „UND“, vertikale Striche als „ODER“ gelesen werden, wobei "
-"die vertikalen Striche stärker binden. Jeder Paketname wird optional von "
-"einer Architektur-Spezifikation gefolgt, die nach einem Doppelpunkt ‚B<:>’ "
-"angehängt wird, optional gefolgt von einer Versionsnummer-Spezifikation in "
-"Klammern ‚B<(>’ und ‚B<)>’, einer Architekturspezifikation in eckigen "
-"Klammern ‚B<[>’ und ‚B<]>’ und einer Einschränkungsformel, die aus einer "
-"oder mehr Listen von Profilnamen in spitzen Klammern ‚B<E<lt>>’ und "
-"‚B<E<gt>>’ besteht."
+">’ getrennten Paketen. Die Gruppen werden durch Kommata ‚B<,>’ getrennt. Sie "
+"können mit einem abschließenden Komma enden, das beim Erstellen der Felder "
+"für B<deb-control>(5) entfernt wird (seit Dpkg 1.10.14). Kommata müssen als "
+"„UND“, vertikale Striche als „ODER“ gelesen werden, wobei die vertikalen "
+"Striche stärker binden. Jeder Paketname wird optional von einer Architektur-"
+"Spezifikation gefolgt, die nach einem Doppelpunkt ‚B<:>’ angehängt wird, "
+"optional gefolgt von einer Versionsnummer-Spezifikation in Klammern ‚B<(>’ "
+"und ‚B<)>’, einer Architekturspezifikation in eckigen Klammern ‚B<[>’ und "
+"‚B<]>’ und einer Einschränkungsformel, die aus einer oder mehr Listen von "
+"Profilnamen in spitzen Klammern ‚B<E<lt>>’ und ‚B<E<gt>>’ besteht."
 
 #. type: Plain text
 #: deb-src-control.man
@@ -3128,11 +3216,11 @@ msgstr ""
 "und B<Build-Conflicts-Indep> durch eine Komma-separierte Liste von "
 "Paketnamen dargestellt, wobei das Komma als „UND“ verstanden wird. Die Liste "
 "kann mit einem abschließenden Komma enden, das beim Erstellen der Felder für "
-"B<deb-control>(5) entfernt wird (seit Dpkg 1.10.14). Die "
-"Angabe alternativer Pakete mit dem „Pipe“-Symbol wird nicht unterstützt. "
-"Jedem Paketnamen folgt optional eine Versionnummerangabe in Klammern, eine "
-"Architekturspezifikation in eckigen Klammern und einer Einschränkungsformel, "
-"die aus einer oder mehr Listen von Profilnamen in spitzen Klammern besteht."
+"B<deb-control>(5) entfernt wird (seit Dpkg 1.10.14). Die Angabe alternativer "
+"Pakete mit dem „Pipe“-Symbol wird nicht unterstützt. Jedem Paketnamen folgt "
+"optional eine Versionnummerangabe in Klammern, eine Architekturspezifikation "
+"in eckigen Klammern und einer Einschränkungsformel, die aus einer oder mehr "
+"Listen von Profilnamen in spitzen Klammern besteht."
 
 #. type: Plain text
 #: deb-src-control.man
@@ -3320,8 +3408,8 @@ msgstr ""
 "Diese Felder geben Beziehungen zwischen Paketen an. Sie werden in der "
 "Handbuchseite B<deb-control>(5) erläutert. In I<debian/control> können diese "
 "Felder auch mit einem abschließenden Komma enden (seit Dpkg 1.10.14), "
-"Architekturspezifikations- und -einschränkungsformeln enthalten, "
-"die alle beim Erstellen von B<deb-control>(5) reduziert werden."
+"Architekturspezifikations- und -einschränkungsformeln enthalten, die alle "
+"beim Erstellen von B<deb-control>(5) reduziert werden."
 
 #. type: Plain text
 #: deb-src-control.man
@@ -3705,9 +3793,9 @@ msgid ""
 "what those targets would do.  This target must not require root privileges."
 msgstr ""
 "Baut architekturabhängige und -unabhängige Dateien, entweder durch eine "
-"Abhängigkeit (mindestens transitiv) von B<build-indep> und/oder B<build-arch> "
-"oder indem die Tätigkeiten dieser Ziele direkt eingefügt werden. Dieses Ziel "
-"darf keine Root-Privilegien benötigen." 
+"Abhängigkeit (mindestens transitiv) von B<build-indep> und/oder B<build-"
+"arch> oder indem die Tätigkeiten dieser Ziele direkt eingefügt werden. "
+"Dieses Ziel darf keine Root-Privilegien benötigen."
 
 #. type: TP
 #: deb-src-rules.man
@@ -3743,7 +3831,6 @@ msgstr ""
 "transitiv) von  B<build-arch> oder B<build> abhängen. Dieses Ziel wird mit "
 "Root-Privilegien aufgerufen."
 
-
 #. type: TP
 #: deb-src-rules.man dpkg-buildpackage.man dpkg-genbuildinfo.man
 #: dpkg-genchanges.man
@@ -3761,8 +3848,8 @@ msgid ""
 msgstr ""
 "Baut architekturunabhängige und -abhängige Binärpakete, entweder durch eine "
 "Abhängigkeit (mindestens transitiv) von B<binary-indep> und/oder B<binary-"
-"arch> oder indem die Tätigkeiten dieser Ziele direkt eingefügt werden. Dieses "
-"Ziel wird mit Root-Privilegien aufgerufen."
+"arch> oder indem die Tätigkeiten dieser Ziele direkt eingefügt werden. "
+"Dieses Ziel wird mit Root-Privilegien aufgerufen."
 
 #. type: Plain text
 #: deb-src-rules.man
@@ -5820,8 +5907,8 @@ msgid ""
 "The “-noawait” variants are supported since dpkg 1.16.1, and will lead to "
 "errors if used with an older dpkg."
 msgstr ""
-"Die Varianten „-noawait“ werden seit Dpkg 1.16.1 unterstützt und "
-"bei älteren Dpkg zu Fehlern führen."
+"Die Varianten „-noawait“ werden seit Dpkg 1.16.1 unterstützt und bei älteren "
+"Dpkg zu Fehlern führen."
 
 #. type: Plain text
 #: deb-triggers.man
@@ -5829,8 +5916,8 @@ msgid ""
 "The “-await” alias variants are supported since dpkg 1.17.21, and will lead "
 "to errors if used with an older dpkg."
 msgstr ""
-"Die Alias-Varianten „-await“ werden seit Dpkg 1.17.21 unterstützt und "
-"bei älteren Dpkg zu Fehlern führen."
+"Die Alias-Varianten „-await“ werden seit Dpkg 1.17.21 unterstützt und bei "
+"älteren Dpkg zu Fehlern führen."
 
 #.  FIXME: Unhardcode the pathname, and use dpkg instead of dpkg-dev.
 #. type: Plain text
@@ -10795,6 +10882,92 @@ msgstr ""
 #. type: TP
 #: dpkg-buildflags.man
 #, no-wrap
+msgid "B<--query>"
+msgstr "B<--query>"
+
+#. type: Plain text
+#: dpkg-buildflags.man
+msgid ""
+"Print any information that can be useful to explain the behaviour of the "
+"program: current vendor, relevant environment variables, feature areas, "
+"state of all feature flags, and the compiler flags with their origin (since "
+"dpkg 1.19.0)."
+msgstr ""
+"Alle Informationen anzeigen, die zur Erklärung des Verhaltens des Programms "
+"hilfreich sein könnten: aktueller Lieferant, relevante Umgebungsvariablen, "
+"Funktionalitätsbereiche, Zustand der Funktionsschalter und die Complier-"
+"Schalter mit ihrem Ursprung (seit Dpkg 1.19.0)."
+
+#. type: Plain text
+#: dpkg-buildflags.man
+msgid "For example:"
+msgstr "Zum Beispiel:"
+
+#. type: Plain text
+#: dpkg-buildflags.man
+#, no-wrap
+msgid ""
+"  Vendor: Debian\n"
+"  Environment:\n"
+"   DEB_CFLAGS_SET=-O0 -Wall\n"
+msgstr ""
+"  Vendor: Debian\n"
+"  Environment:\n"
+"   DEB_CFLAGS_SET=-O0 -Wall\n"
+
+#. type: Plain text
+#: dpkg-buildflags.man
+#, no-wrap
+msgid ""
+"  Area: qa\n"
+"  Features:\n"
+"   bug=no\n"
+"   canary=no\n"
+msgstr ""
+"  Area: qa\n"
+"  Features:\n"
+"   bug=no\n"
+"   canary=no\n"
+
+#. type: Plain text
+#: dpkg-buildflags.man
+#, no-wrap
+msgid ""
+"  Area: reproducible\n"
+"  Features:\n"
+"   timeless=no\n"
+msgstr ""
+"  Area: reproducible\n"
+"  Features:\n"
+"   timeless=no\n"
+
+#. type: Plain text
+#: dpkg-buildflags.man
+#, no-wrap
+msgid ""
+"  Flag: CFLAGS\n"
+"  Value: -O0 -Wall\n"
+"  Origin: env\n"
+msgstr ""
+"  Flag: CFLAGS\n"
+"  Value: -O0 -Wall\n"
+"  Origin: env\n"
+
+#. type: Plain text
+#: dpkg-buildflags.man
+#, no-wrap
+msgid ""
+"  Flag: CPPFLAGS\n"
+"  Value: -D_FORTIFY_SOURCE=2\n"
+"  Origin: vendor\n"
+msgstr ""
+"  Flag: CPPFLAGS\n"
+"  Value: -D_FORTIFY_SOURCE=2\n"
+"  Origin: vendor\n"
+
+#. type: TP
+#: dpkg-buildflags.man
+#, no-wrap
 msgid "B<--query-features>I< area>"
 msgstr "B<--query-features>I< Bereich>"
 
@@ -13323,6 +13496,22 @@ msgstr ""
 "wird, wird in die Bauumgebung integriert."
 
 #. type: TP
+#: dpkg-buildpackage.man
+#, no-wrap
+msgid "B<DPKG_GAIN_ROOT_CMD>"
+msgstr "B<DPKG_GAIN_ROOT_CMD>"
+
+#. type: Plain text
+#: dpkg-buildpackage.man
+msgid ""
+"This variable is set to I<gain-root-command> when the field B<Rules-Requires-"
+"Root> is set to a value different to B<no> and B<binary-targets>."
+msgstr ""
+"Diese Variable wird auf I<root-werde-Befehl> gesetzt, wenn das Feld B<Rules-"
+"Requires-Root> auf einen von B<no> und B<binary-targets> verschiedenen Wert "
+"gesetzt wird."
+
+#. type: TP
 #: dpkg-buildpackage.man dpkg-deb.man dpkg-source.man dpkg-split.man
 #, no-wrap
 msgid "B<SOURCE_DATE_EPOCH>"
@@ -14417,6 +14606,34 @@ msgstr ""
 "Andernfalls wird nur der Teil B<data.tar> diese Parameter verwenden. Die "
 "einzigen unterstützten Kompressionstypen, die übergreifend benutzt werden "
 "dürfen, sind B<none>, B<gzip> und B<xz>."
+
+#. type: TP
+#: dpkg-deb.man
+#, no-wrap
+msgid "B<--root-owner-group>"
+msgstr "B<--root-owner-group>"
+
+#. type: Plain text
+#: dpkg-deb.man
+msgid ""
+"Set the owner and group for each entry in the filesystem tree data to root "
+"with id 0 (since dpkg 1.19.0)."
+msgstr ""
+"Setzt für jeden Eintrag in den Dateisystembaumdaten den Eigentümer und die "
+"Gruppe auf Kennung 0 (seit Dpkg 1.19.0)."
+
+#. type: Plain text
+#: dpkg-deb.man
+msgid ""
+"B<Note>: This option can be useful for rootless builds (see I<rootless-"
+"builds.txt>), but should B<not> be used when the entries have an owner or "
+"group that is not root.  Support for these will be added later in the form "
+"of a meta manifest."
+msgstr ""
+"B<Hinweis>: Diese Option kann für rootloses Bauen (siehe I<rootless-builds."
+"txt>) nützlich sein, sollte aber B<nicht> verwandt werden, wenn Einträge eine "
+"von root verschiedenen Eigentümer oder Gruppe haben. Die Unterstützung "
+"hierfür wird später in der Form eines Meta-Manifests hinzugefügt."
 
 #. type: TP
 #: dpkg-deb.man
