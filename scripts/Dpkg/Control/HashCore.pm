@@ -227,16 +227,6 @@ sub parse {
 		$line = substr $line, 1;
 	    }
 	    $self->{$cf} .= "\n$line";
-	} elsif (m/^-----BEGIN PGP SIGNED MESSAGE-----[\r\t ]*$/) {
-	    $expect_pgp_sig = 1;
-	    if ($$self->{allow_pgp} and not $parabody) {
-		# Skip OpenPGP headers
-		while (<$fh>) {
-		    last if m/^\s*$/;
-		}
-	    } else {
-		$self->parse_error($desc, g_('OpenPGP signature not allowed here'));
-	    }
 	} elsif (m/^\s*$/ ||
 	         ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----[\r\t ]*$/)) {
 	    if ($expect_pgp_sig) {
@@ -264,6 +254,16 @@ sub parse {
 		$$self->{is_pgp_signed} = 1;
 	    }
 	    last; # Finished parsing one block
+        } elsif (m/^-----BEGIN PGP SIGNED MESSAGE-----[\r\t ]*$/) {
+            $expect_pgp_sig = 1;
+            if ($$self->{allow_pgp} and not $parabody) {
+                # Skip OpenPGP headers
+                while (<$fh>) {
+                    last if m/^\s*$/;
+                }
+            } else {
+                $self->parse_error($desc, g_('OpenPGP signature not allowed here'));
+            }
 	} else {
 	    $self->parse_error($desc,
 	                       g_('line with unknown format (not field-colon-value)'));
