@@ -485,10 +485,9 @@ sub FETCH {
 
 sub STORE {
     my ($self, $key, $value) = @_;
-    my $parent = $self->[1];
     $key = lc($key);
     if (not exists $self->[0]->{$key}) {
-	push @{$parent->{in_order}}, field_capitalize($key);
+        push @{$self->[1]->{in_order}}, field_capitalize($key);
     }
     $self->[0]->{$key} = $value;
 }
