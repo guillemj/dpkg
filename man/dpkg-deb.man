@@ -246,13 +246,16 @@ Specify which compression type to use when building a package.
 Allowed values are \fBgzip\fP, \fBxz\fP (since dpkg 1.15.6),
 and \fBnone\fP (default is \fBxz\fP).
 .TP
-.B \-\-uniform\-compression
+.B \-\-[no\-]uniform\-compression
 Specify that the same compression parameters should be used for all archive
 members (i.e. \fBcontrol.tar\fP and \fBdata.tar\fP; since dpkg 1.17.6).
 Otherwise only the
 \fBdata.tar\fP member will use those parameters. The only supported
 compression types allowed to be uniformly used are \fBnone\fP, \fBgzip\fP
 and \fBxz\fP.
+The \fB\-\-no\-uniform\-compression\fP option disables uniform compression
+(since dpkg 1.19.0).
+Uniform compression is the default (since dpkg 1.19.0).
 .TP
 .B \-\-root\-owner\-group
 Set the owner and group for each entry in the filesystem tree data to

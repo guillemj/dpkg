@@ -30,7 +30,8 @@ test -f pkg-split-part.3of3.deb
 ], [], [Splitting package pkg-split into 3 parts: 1 2 3 done
 ])
 
-DEB_SPLIT_MD5SUM=a4042d88f6da3da8ab2ab191a290ab66
+DEB_SPLIT_MD5SUM=c669258de88761bf90ad6621bdffd6f1
+DEB_SPLIT_LENGTH=1065152
 
 AT_CHECK_UNQUOTED([
 # Test getting information about the split parts (parsing verification)
@@ -43,7 +44,7 @@ dpkg-split -I pkg-split-part.3of3.deb
         ... version:                0.0-1
         ... architecture:           all
         ... MD5 checksum:           $DEB_SPLIT_MD5SUM
-        ... length:                 1055178 bytes
+        ... length:                 $DEB_SPLIT_LENGTH bytes
         ... split every:            408576 bytes
     Part number:                    1/3
     Part length:                    408576 bytes
@@ -56,7 +57,7 @@ pkg-split-part.2of3.deb:
         ... version:                0.0-1
         ... architecture:           all
         ... MD5 checksum:           $DEB_SPLIT_MD5SUM
-        ... length:                 1055178 bytes
+        ... length:                 $DEB_SPLIT_LENGTH bytes
         ... split every:            408576 bytes
     Part number:                    2/3
     Part length:                    408576 bytes
@@ -69,12 +70,12 @@ pkg-split-part.3of3.deb:
         ... version:                0.0-1
         ... architecture:           all
         ... MD5 checksum:           $DEB_SPLIT_MD5SUM
-        ... length:                 1055178 bytes
+        ... length:                 $DEB_SPLIT_LENGTH bytes
         ... split every:            408576 bytes
     Part number:                    3/3
-    Part length:                    238026 bytes
+    Part length:                    248000 bytes
     Part offset:                    817152 bytes
-    Part file size (used portion):  238230 bytes
+    Part file size (used portion):  248204 bytes
 
 ])
 
