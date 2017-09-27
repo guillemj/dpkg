@@ -199,8 +199,14 @@ sub parse {
     local $_;
 
     while (<$fh>) {
+        # In the common case there will be just a trailing \n character,
+        # so using chomp here which is very fast will avoid the latter
+        # s/// doing anything, which gives usa significant speed up.
 	chomp;
-	next if m/^\s*$/ and $paraborder;
+        my $armor = $_;
+        s/\s*$//;
+
+        next if length == 0 and $paraborder;
 	next if substr($_, 0, 1) eq '#';
 	$paraborder = 0;
 	if (m/^(\S+?)\s*:\s*(.*)$/) {
@@ -214,7 +220,6 @@ sub parse {
 		    $self->parse_error($desc, g_('duplicate field %s found'), $name);
 		}
 	    }
-	    $value =~ s/\s*$//;
 	    $self->{$name} = $value;
 	    $cf = $name;
 	} elsif (m/^\s(\s*\S.*)$/) {
@@ -222,13 +227,12 @@ sub parse {
 	    unless (defined($cf)) {
 		$self->parse_error($desc, g_('continued value line not in field'));
             }
-	    $line =~ s/\s*$//;
 	    if ($line =~ /^\.+$/) {
 		$line = substr $line, 1;
 	    }
 	    $self->{$cf} .= "\n$line";
-	} elsif (m/^\s*$/ ||
-	         ($expect_pgp_sig && m/^-----BEGIN PGP SIGNATURE-----[\r\t ]*$/)) {
+        } elsif (length == 0 ||
+                 ($expect_pgp_sig && $armor =~ m/^-----BEGIN PGP SIGNATURE-----[\r\t ]*$/)) {
 	    if ($expect_pgp_sig) {
 		# Skip empty lines
 		$_ = <$fh> while defined && m/^\s*$/;
@@ -254,7 +258,7 @@ sub parse {
 		$$self->{is_pgp_signed} = 1;
 	    }
 	    last; # Finished parsing one block
-        } elsif (m/^-----BEGIN PGP SIGNED MESSAGE-----[\r\t ]*$/) {
+        } elsif ($armor =~ m/^-----BEGIN PGP SIGNED MESSAGE-----[\r\t ]*$/) {
             $expect_pgp_sig = 1;
             if ($$self->{allow_pgp} and not $parabody) {
                 # Skip OpenPGP headers
