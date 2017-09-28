@@ -211,9 +211,10 @@ sub parse {
         my $lead = substr $_, 0, 1;
         next if $lead eq '#';
 	$paraborder = 0;
-	if (m/^(\S+?)\s*:\s*(.*)$/) {
+
+        my ($name, $value) = split /\s*:\s*/, $_, 2;
+        if (defined $name and $name =~ m/^\S+?$/) {
 	    $parabody = 1;
-	    my ($name, $value) = ($1, $2);
             if ($lead eq '-') {
 		$self->parse_error($desc, g_('field cannot start with a hyphen'));
 	    }
