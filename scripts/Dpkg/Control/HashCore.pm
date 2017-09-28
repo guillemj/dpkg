@@ -204,7 +204,7 @@ sub parse {
         # s/// doing anything, which gives usa significant speed up.
 	chomp;
         my $armor = $_;
-        s/\s*$//;
+        s/\s+$//;
 
         next if length == 0 and $paraborder;
 	next if substr($_, 0, 1) eq '#';
