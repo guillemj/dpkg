@@ -36,6 +36,7 @@ use Dpkg::Compression;
 use Dpkg::ErrorHandling;
 use Dpkg::Source::Archive;
 use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
+use Dpkg::Path qw(find_command);
 use Dpkg::Source::Functions qw(erasedir);
 
 use parent qw(Dpkg::Source::Package);
@@ -43,11 +44,7 @@ use parent qw(Dpkg::Source::Package);
 our $CURRENT_MINOR_VERSION = '0';
 
 sub import {
-    foreach my $dir (split(/:/, $ENV{PATH})) {
-        if (-x "$dir/bzr") {
-            return 1;
-        }
-    }
+    return 1 if find_command('bzr');
     error(g_('cannot unpack bzr-format source package because ' .
              'bzr is not in the PATH'));
 }
