@@ -46,7 +46,7 @@ delete $ENV{GIT_OBJECT_DIRECTORY};
 delete $ENV{GIT_ALTERNATE_OBJECT_DIRECTORIES};
 delete $ENV{GIT_WORK_TREE};
 
-sub import {
+sub prerequisites {
     return 1 if find_command('git');
     error(g_('cannot unpack git-format source package because ' .
              'git is not in the PATH'));

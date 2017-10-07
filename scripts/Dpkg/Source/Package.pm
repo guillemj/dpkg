@@ -311,6 +311,7 @@ sub upgrade_object_type {
             error(g_("source package format '%s' is not supported: %s"),
                   $format, $@);
         }
+        $module->prerequisites() if $module->can('prerequisites');
         bless $self, $module;
     } else {
         error(g_("invalid Format field '%s'"), $format);

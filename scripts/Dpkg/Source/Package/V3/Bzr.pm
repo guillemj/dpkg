@@ -43,7 +43,7 @@ use parent qw(Dpkg::Source::Package);
 
 our $CURRENT_MINOR_VERSION = '0';
 
-sub import {
+sub prerequisites {
     return 1 if find_command('bzr');
     error(g_('cannot unpack bzr-format source package because ' .
              'bzr is not in the PATH'));
