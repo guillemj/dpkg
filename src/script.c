@@ -212,10 +212,11 @@ vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
 	struct command cmd;
 	const char *scriptpath;
 	struct stat stab;
-	char buf[100];
+	char *buf;
 
 	scriptpath = pkg_infodb_get_file(pkg, &pkg->installed, scriptname);
-	sprintf(buf, _("installed %s script"), desc);
+	m_asprintf(&buf, _("installed %s package %s script"),
+	           pkg_name(pkg, pnaw_nonambig), desc);
 
 	command_init(&cmd, scriptpath, buf);
 	command_add_arg(&cmd, scriptname);
@@ -223,6 +224,8 @@ vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
 
 	if (stat(scriptpath, &stab)) {
 		command_destroy(&cmd);
+		free(buf);
+
 		if (errno == ENOENT) {
 			debug(dbg_scripts,
 			      "vmaintscript_installed nonexistent %s",
@@ -234,6 +237,7 @@ vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
 	maintscript_exec(pkg, &pkg->installed, &cmd, &stab, 0);
 
 	command_destroy(&cmd);
+	free(buf);
 
 	return 1;
 }
@@ -282,10 +286,11 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 	struct command cmd;
 	struct stat stab;
 	va_list args;
-	char buf[100];
+	char *buf;
 
 	strcpy(cidirrest, scriptname);
-	sprintf(buf, _("new %s script"), desc);
+	m_asprintf(&buf, _("new %s package %s script"),
+	           pkg_name(pkg, pnaw_nonambig), desc);
 
 	va_start(args, cidirrest);
 	command_init(&cmd, cidir, buf);
@@ -295,6 +300,8 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 
 	if (stat(cidir, &stab)) {
 		command_destroy(&cmd);
+		free(buf);
+
 		if (errno == ENOENT) {
 			debug(dbg_scripts,
 			      "maintscript_new nonexistent %s '%s'",
@@ -306,6 +313,7 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 	maintscript_exec(pkg, &pkg->available, &cmd, &stab, 0);
 
 	command_destroy(&cmd);
+	free(buf);
 	post_script_tasks();
 
 	return 1;
@@ -320,10 +328,11 @@ maintscript_fallback(struct pkginfo *pkg,
 	struct command cmd;
 	const char *oldscriptpath;
 	struct stat stab;
-	char buf[100];
+	char *buf;
 
 	oldscriptpath = pkg_infodb_get_file(pkg, &pkg->installed, scriptname);
-	sprintf(buf, _("old %s script"), desc);
+	m_asprintf(&buf, _("old %s package %s script"),
+	           pkg_name(pkg, pnaw_nonambig), desc);
 
 	command_init(&cmd, oldscriptpath, buf);
 	command_add_args(&cmd, scriptname, ifok,
@@ -336,6 +345,7 @@ maintscript_fallback(struct pkginfo *pkg,
 			      "maintscript_fallback nonexistent %s '%s'",
 			      scriptname, oldscriptpath);
 			command_destroy(&cmd);
+			free(buf);
 			return 0;
 		}
 		warning(_("unable to stat %s '%.250s': %s"),
@@ -343,6 +353,7 @@ maintscript_fallback(struct pkginfo *pkg,
 	} else {
 		if (!maintscript_exec(pkg, &pkg->installed, &cmd, &stab, SUBPROC_WARN)) {
 			command_destroy(&cmd);
+			free(buf);
 			post_script_tasks();
 			return 1;
 		}
@@ -350,7 +361,8 @@ maintscript_fallback(struct pkginfo *pkg,
 	notice(_("trying script from the new package instead ..."));
 
 	strcpy(cidirrest, scriptname);
-	sprintf(buf, _("new %s script"), desc);
+	m_asprintf(&buf, _("new %s package %s script"),
+	           pkg_name(pkg, pnaw_nonambig), desc);
 
 	command_destroy(&cmd);
 	command_init(&cmd, cidir, buf);
@@ -361,6 +373,8 @@ maintscript_fallback(struct pkginfo *pkg,
 
 	if (stat(cidir, &stab)) {
 		command_destroy(&cmd);
+		free(buf);
+
 		if (errno == ENOENT)
 			ohshit(_("there is no script in the new version of the package - giving up"));
 		else
@@ -371,6 +385,7 @@ maintscript_fallback(struct pkginfo *pkg,
 	notice(_("... it looks like that went OK"));
 
 	command_destroy(&cmd);
+	free(buf);
 	post_script_tasks();
 
 	return 1;
