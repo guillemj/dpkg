@@ -238,11 +238,13 @@ sub subprocerr(@)
     require POSIX;
 
     if (POSIX::WIFEXITED($?)) {
-	error(g_('%s gave error exit status %s'), $p, POSIX::WEXITSTATUS($?));
+        my $ret = POSIX::WEXITSTATUS($?);
+        error(g_('%s subprocess returned exit status %d'), $p, $ret);
     } elsif (POSIX::WIFSIGNALED($?)) {
-	error(g_('%s died from signal %s'), $p, POSIX::WTERMSIG($?));
+        my $sig = POSIX::WTERMSIG($?);
+        error(g_('%s subprocess was killed by signal %d'), $p, $sig);
     } else {
-	error(g_('%s failed with unknown exit code %d'), $p, $?);
+        error(g_('%s subprocess failed with unknown status code %d'), $p, $?);
     }
 }
 
