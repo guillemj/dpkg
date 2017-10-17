@@ -11,7 +11,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/lib
 
 CLEANFILES = \
-	org.dpkg.pkexec.update-alternatives \
+	org.dpkg.pkexec.update-alternatives.policy \
 	$(nil)
 
 EXTRA_DIST = \
