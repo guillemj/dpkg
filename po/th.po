@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2015-06-26 16:13+0200\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -399,12 +399,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "ไม่สามารถติดตั้งสถานะใหม่ของ `%.250s'"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "เลขรุ่นของรูปแบบแพกเกจไม่มีเลขรุ่นหลัก"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "เลขรุ่นของรูปแบบแพกเกจไม่มีเลขรุ่นหลัก"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "เลขรุ่นของรูปแบบแพกเกจไม่มีจุด"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "เลขรุ่นของรูปแบบแพกเกจไม่มีเลขรุ่นรอง"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -815,6 +827,11 @@ msgstr "ไม่สามารถอ่านแฟล็กของ file des
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "ไม่สามารถกำหนดแฟล็ก close-on-exec สำหรับ %.250s"
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "--%s ต้องการชื่อแพกเกจที่ถูกต้อง แต่ '%.250s' ไม่ใช่: %s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -910,11 +927,6 @@ msgstr "ตัวเลือก '--%s' เลิกใช้แล้ว\n"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "การกระทำขัดแย้งกันระหว่าง -%c (--%s) และ -%c (--%s)"
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "--%s ต้องการชื่อแพกเกจที่ถูกต้อง แต่ '%.250s' ไม่ใช่: %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1254,19 +1266,22 @@ msgstr "%s (โพรเซสย่อย): %s\n"
 msgid "fork failed"
 msgstr "fork ไม่สำเร็จ"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "โพรเซสย่อย %s จบการทำงานโดยคืนค่าสถานะข้อผิดพลาด %d"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "โพรเซสย่อย %s ถูกขัดจังหวะ"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "โพรเซสย่อย %s ถูกฆ่าด้วยสัญญาณ (%s)%s"
 
 #: lib/dpkg/subproc.c
@@ -1274,13 +1289,15 @@ msgid ", core dumped"
 msgstr ", มีการดัมป์หน่วยความจำ"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "โพรเซสย่อย %s ล้มเหลวด้วยรหัสสถานะ %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "คอยโพรเซสย่อย %s ไม่สำเร็จ"
 
 #: lib/dpkg/treewalk.c
@@ -1830,9 +1847,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "แฟ้มค่าตั้ง '%s' ไม่ใช่แฟ้มปกติ"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<เอาต์พุตมาตรฐาน>"
 
@@ -2670,7 +2687,7 @@ msgstr ""
 "ในระบบจัดการแพกเกจชั้นบนต่างๆ ปัญหานี้สามารถแก้ไขได้ด้วยการลงทะเบียนสถาปัตยกรรมต่างถิ่นนั้น\n"
 "ด้วยคำสั่ง dpkg --add-architecture:\n"
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "แพกเกจ '%s' ไม่ได้ติดตั้งไว้"
@@ -2874,58 +2891,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "จะข้ามปัญหาไปเพราะมีการเปิดตัวเลือก --force:"
 
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "ไม่สามารถเปิดแฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s' ขาดหายไป จะถือว่าแพกเกจไม่ได้ติดตั้งแฟ้มใดในระบบ"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "ไม่สามารถ stat แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s' ไม่ใช่แฟ้มธรรมดา"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr "เกิดปัญหาขณะอ่านรายชื่อแฟ้มของแพกเกจ '%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s' ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s' มีรายการชื่อแฟ้มที่ว่างเปล่า"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "เกิดข้อผิดพลาดขณะปิดแฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s'"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(กำลังอ่านฐานข้อมูล ... "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "%d แฟ้มและไดเรกทอรีติดตั้งอยู่)\n"
-
 #: src/filesdb-hash.c
 #, c-format
 msgid "control file '%s' for package '%s' is missing final newline"
@@ -2977,6 +2942,58 @@ msgstr "ไม่สามารถอ่านแฟ้มควบคุม '%
 #| msgid "cannot close '%s' control file for package '%s'"
 msgid "cannot close control file '%s' for package '%s'"
 msgstr "ไม่สามารถปิดแฟ้มควบคุม '%s' ของแพกเกจ '%s'"
+
+#: src/filesdb.c
+#, c-format
+msgid "unable to open files list file for package '%.250s'"
+msgstr "ไม่สามารถเปิดแฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s'"
+
+#: src/filesdb.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s' ขาดหายไป จะถือว่าแพกเกจไม่ได้ติดตั้งแฟ้มใดในระบบ"
+
+#: src/filesdb.c
+#, c-format
+msgid "unable to stat files list file for package '%.250s'"
+msgstr "ไม่สามารถ stat แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s'"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list for package '%.250s' is not a regular file"
+msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s' ไม่ใช่แฟ้มธรรมดา"
+
+#: src/filesdb.c
+#, c-format
+msgid "reading files list for package '%.250s'"
+msgstr "เกิดปัญหาขณะอ่านรายชื่อแฟ้มของแพกเกจ '%.250s'"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s' ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s' มีรายการชื่อแฟ้มที่ว่างเปล่า"
+
+#: src/filesdb.c
+#, c-format
+msgid "error closing files list file for package '%.250s'"
+msgstr "เกิดข้อผิดพลาดขณะปิดแฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s'"
+
+#: src/filesdb.c
+msgid "(Reading database ... "
+msgstr "(กำลังอ่านฐานข้อมูล ... "
+
+#: src/filesdb.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "%d แฟ้มและไดเรกทอรีติดตั้งอยู่)\n"
 
 #: src/help.c
 msgid "not installed"
@@ -4109,8 +4126,9 @@ msgid "cannot set security execution context for maintainer script"
 msgstr "ไม่สามารถกำหนดบริบทการทำงานในระบบรักษาความปลอดภัยสำหรับสคริปต์ผู้ดูแลแพกเกจ"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "สคริปต์ %s ที่ติดตั้งไว้"
 
 #: src/script.c
@@ -4119,13 +4137,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "ไม่สามารถ stat %s `%.250s'"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "สคริปต์ %s อันใหม่"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "สคริปต์ %s อันเก่า"
 
 #: src/script.c
@@ -4517,6 +4537,11 @@ msgstr "ประกอบรวมแพกเกจที่ตัดแบ่
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "แฟ้มแพกเกจที่ประกอบรวมแล้ว"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "โพรเซสย่อย %s จบการทำงานโดยคืนค่าสถานะข้อผิดพลาด %d"
 
 #: src/unpack.c
 #, c-format
@@ -4965,8 +4990,9 @@ msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "แฟ้ม '%.250s' เสียหาย - เลขรหัสในข้อมูลส่วนหัวของแพกเกจไม่ถูกต้อง"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr "แฟ้ม `%.250s' ไม่ใช่แพกเกจไบนารีของเดเบียน (ลอง dpkg-split ไหม?)"
 
 #: dpkg-deb/extract.c
@@ -5008,9 +5034,12 @@ msgid "archive '%.250s' contains two control members, giving up"
 msgstr "แพกเกจ '%.250s' มีสมาชิกข้อมูลควบคุมสองชุด ขอเลิกล้ม"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " แพกเกจเดเบียนแบบใหม่, รุ่น %d.%d\n"
@@ -5031,9 +5060,12 @@ msgid "cannot skip archive control member from '%s': %s"
 msgstr "ไม่สามารถข้ามสมาชิกส่วนควบคุมของแพกเกจใน '%s': %s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " แพกเกจเดเบียนแบบเก่า, รุ่น %d.%d\n"
@@ -5048,8 +5080,9 @@ msgstr ""
 " ในโหมด ASCII"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "`%.255s' ไม่ใช่แพกเกจในรูปแบบของเดเบียน"
 
 #: dpkg-deb/extract.c
@@ -5267,7 +5300,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -5943,6 +5977,11 @@ msgstr "ไม่สามารถเขียนต่อท้าย '%s'"
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "คอยโพรเซสย่อย %s ไม่สำเร็จ"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "ไม่สามารถลบ '%s'"
 
@@ -6380,6 +6419,14 @@ msgstr "การปรับข้อมูลแบบอัตโนมัต
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "หากต้องการกลับสู่การปรับข้อมูลแบบอัตโนมัติ ใช้คำสั่ง '%s --auto %s'"
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "ตัวเลือก '--%s' เลิกใช้แล้ว กรุณาใช้ '--%s' แทน"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2015-04-07 07:02+0200\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -179,11 +179,37 @@ msgid "Usage: %s [<command>]"
 msgstr "Использование: %s [<команда>]"
 
 #: scripts/dpkg-buildflags.pl
+#, fuzzy
+#| msgid ""
+#| "Commands:\n"
+#| "  --get <flag>       output the requested flag to stdout.\n"
+#| "  --origin <flag>    output the origin of the flag to stdout:\n"
+#| "                     value is one of vendor, system, user, env.\n"
+#| "  --query-features <area>\n"
+#| "                     output the status of features for the given area.\n"
+#| "  --list             output a list of the flags supported by the current "
+#| "vendor.\n"
+#| "  --export=(sh|make|cmdline|configure)\n"
+#| "                     output something convenient to import the "
+#| "compilation\n"
+#| "                     flags in a shell script, in make, or in a command "
+#| "line.\n"
+#| "  --dump             output all compilation flags with their values\n"
+#| "  --status           print a synopsis with all parameters affecting the\n"
+#| "                     behaviour of dpkg-buildflags and the resulting "
+#| "flags\n"
+#| "                     and their origin.\n"
+#| "  --help             show this help message.\n"
+#| "  --version          show the version.\n"
 msgid ""
 "Commands:\n"
 "  --get <flag>       output the requested flag to stdout.\n"
 "  --origin <flag>    output the origin of the flag to stdout:\n"
 "                     value is one of vendor, system, user, env.\n"
+"  --status           output a synopsis with all parameters affecting the\n"
+"                     program behaviour, the resulting flags and their "
+"origin.\n"
+"  --query            like --status, but in deb822 format.\n"
 "  --query-features <area>\n"
 "                     output the status of features for the given area.\n"
 "  --list             output a list of the flags supported by the current "
@@ -192,10 +218,7 @@ msgid ""
 "                     output something convenient to import the compilation\n"
 "                     flags in a shell script, in make, or in a command "
 "line.\n"
-"  --dump             output all compilation flags with their values\n"
-"  --status           print a synopsis with all parameters affecting the\n"
-"                     behaviour of dpkg-buildflags and the resulting flags\n"
-"                     and their origin.\n"
+"  --dump             output all compilation flags with their values.\n"
 "  --help             show this help message.\n"
 "  --version          show the version.\n"
 msgstr ""
@@ -527,6 +550,11 @@ msgstr "команда-получения-root «%s» не найдена"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
+msgid "option %s is only meaningful with option %s"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
 msgid "check-command '%s' not found"
 msgstr "команда-проверки «%s» не найдена"
 
@@ -607,12 +635,38 @@ msgstr "невозможно определить %s"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
+msgid "disallowed target in %s field keyword %s"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "unknown %s field keyword %s in dpkg namespace"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, fuzzy, perl-format
+#| msgid "unknown file type"
+msgid "unknown %s field keyword %s"
+msgstr "неизвестный тип файла"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "field %s contains duplicate keyword %s"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "%s field contains both global and implementation specific keywords"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
 msgid "unknown %% substitution in hook: %%%s"
 msgstr "неизвестная подстановка %% в ловушке: %%%s"
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
 #: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/OpenPGP.pm scripts/Dpkg/Shlibs.pm
 #, perl-format
 msgid "cannot open %s"
 msgstr "не удалось открыть %s"
@@ -795,6 +849,7 @@ msgid ""
 "  -F<changelog-format>     force changelog format.\n"
 "  -O[<buildinfo-file>]     write to stdout (or <buildinfo-file>).\n"
 "  -u<upload-files-dir>     directory with files (default is '..').\n"
+"  --always-include-kernel  always include Build-Kernel-Version.\n"
 "  --always-include-path    always include Build-Path.\n"
 "  --admindir=<directory>   change the administrative directory.\n"
 "  -?, --help               show this help message.\n"
@@ -2807,10 +2862,6 @@ msgid "continued value line not in field"
 msgstr "продолжение строки значения не в поле"
 
 #: scripts/Dpkg/Control/HashCore.pm
-msgid "OpenPGP signature not allowed here"
-msgstr "подпись OpenPGP здесь не допускается"
-
-#: scripts/Dpkg/Control/HashCore.pm
 #, fuzzy
 #| msgid "expected OpenPGP signature, found EOF after blank line"
 msgid "expected OpenPGP signature, found end of file after blank line"
@@ -2824,6 +2875,10 @@ msgstr "ожидалась подпись OpenPGP, найдено что-то д
 #: scripts/Dpkg/Control/HashCore.pm
 msgid "unfinished OpenPGP signature"
 msgstr "незаконченная подпись OpenPGP"
+
+#: scripts/Dpkg/Control/HashCore.pm
+msgid "OpenPGP signature not allowed here"
+msgstr "подпись OpenPGP здесь не допускается"
 
 #: scripts/Dpkg/Control/HashCore.pm
 msgid "line with unknown format (not field-colon-value)"
@@ -2842,6 +2897,12 @@ msgstr "в первом блоке отсутствует поле исходн�
 #: scripts/Dpkg/Control/Info.pm
 #, perl-format
 msgid "block lacks the '%s' field"
+msgstr "в блоке отсутствует поле «%s»"
+
+#: scripts/Dpkg/Control/Tests/Entry.pm
+#, fuzzy, perl-format
+#| msgid "block lacks the '%s' field"
+msgid "block lacks either %s or %s fields"
 msgstr "в блоке отсутствует поле «%s»"
 
 #: scripts/Dpkg/Deps.pm
@@ -2898,18 +2959,20 @@ msgid "error"
 msgstr "ошибка"
 
 #: scripts/Dpkg/ErrorHandling.pm
-#, perl-format
-msgid "%s gave error exit status %s"
+#, fuzzy, perl-format
+#| msgid "%s gave error exit status %s"
+msgid "%s subprocess returned exit status %d"
 msgstr "%s возвратил код ошибки %s"
 
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
-msgid "%s died from signal %s"
-msgstr "%s завершился по сигналу %s"
+msgid "%s subprocess was killed by signal %d"
+msgstr ""
 
 #: scripts/Dpkg/ErrorHandling.pm
-#, perl-format
-msgid "%s failed with unknown exit code %d"
+#, fuzzy, perl-format
+#| msgid "%s failed with unknown exit code %d"
+msgid "%s subprocess failed with unknown status code %d"
 msgstr "%s завершился неудачно с неизвестным кодом выхода %d"
 
 #: scripts/Dpkg/ErrorHandling.pm
@@ -2917,17 +2980,6 @@ msgid "Use --help for program usage information."
 msgstr ""
 "Для получения информации по использованию программы используйте параметр --"
 "help."
-
-#: scripts/Dpkg/File.pm
-msgid "File::FcntlLock not available; using flock which is not NFS-safe"
-msgstr ""
-"File::FcntlLock недоступна; используется flock, которую небезопасно "
-"использовать при работе с NFS"
-
-#: scripts/Dpkg/File.pm
-#, perl-format
-msgid "failed to get a write lock on %s"
-msgstr "ошибка при получении блокировки %s на запись"
 
 #: scripts/Dpkg/IPC.pm
 #, perl-format
@@ -2967,6 +3019,43 @@ msgstr[2] "%s не завершится за %d секунд"
 #: scripts/Dpkg/Interface/Storable.pm
 msgid "<standard input>"
 msgstr "<стандартный ввод>"
+
+#: scripts/Dpkg/Lock.pm
+msgid "File::FcntlLock not available; using flock which is not NFS-safe"
+msgstr ""
+"File::FcntlLock недоступна; используется flock, которую небезопасно "
+"использовать при работе с NFS"
+
+#: scripts/Dpkg/Lock.pm
+#, perl-format
+msgid "failed to get a write lock on %s"
+msgstr "ошибка при получении блокировки %s на запись"
+
+#: scripts/Dpkg/OpenPGP.pm
+msgid "signature file is already OpenPGP ASCII armor, copying"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "cannot create pipe for %s"
+msgid "cannot create signature file %s"
+msgstr "невозможно создать канал для %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "cannot exec dpkg"
+msgid "cannot execute %s program"
+msgstr "не удалось запустить dpkg"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "cannot stat file %s"
+msgid "cannot write signature file %s"
+msgstr "не удалось выполнить функцию stat для файла %s"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -4195,6 +4284,9 @@ msgstr "номер версии содержит недопустимый сим
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "часть эпохи в номере версии не является числом: «%s»"
 
+#~ msgid "%s died from signal %s"
+#~ msgstr "%s завершился по сигналу %s"
+
 #~ msgid "'hardening' flag found but 'hardening-wrapper' not installed"
 #~ msgstr "найден флаг «hardening», но «hardening-wrapper» не установлен"
 
@@ -4771,9 +4863,6 @@ msgstr "часть эпохи в номере версии не является
 
 #~ msgid "exec %s"
 #~ msgstr "вызов exec для %s"
-
-#~ msgid "cannot exec dpkg"
-#~ msgstr "не удалось запустить dpkg"
 
 #~ msgid "git config exited nonzero"
 #~ msgstr "команда git config завершилась с ненулевым кодом выхода"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: Tshewang Norbu <bumthap2006@hotmail.com>\n"
 "Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
@@ -441,12 +441,22 @@ msgid "unable to install updated status of '%.250s'"
 msgstr " `%.250s' གི་དུས་མཐུན་བཟོ་ཡོད་པའི་གནས་ཚད་ཀྱི་དོན་ལུ་ གཞི་བཙུགས་འབད་མ་ཚུགས།"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+msgid "format version with too big major component"
+msgstr "ཐོན་རིམ་ཨང་།"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr ""
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
 msgid "format version has no dot"
+msgstr "ཐོན་རིམ་ཨང་།"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+msgid "format version with too big minor component"
 msgstr "ཐོན་རིམ་ཨང་།"
 
 #: lib/dpkg/deb-version.c
@@ -880,6 +890,12 @@ msgstr "%.250s གི་དོན་ལུ་ ཡིག་སྣོད་འག�
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "%.250s གི་དོན་ལུ་ ལག་ལེན་འཐབ་ནིའི་-གུ་-ཁ་བསྡམ་ནི་ཟུར་རྟགས་གཞི་སྒྲིག་འབད་མ་ཚུགས།"
 
+#: lib/dpkg/options-parsers.c
+#, fuzzy, c-format
+#| msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "--སྣང་མེད་བཞག་- རྟེན་འབྲེལ་ལུ་ཁྲིམས་ལྡན་ཐུམ་སྒྲིལ་མིང་གཅིག་དགོ `%.250s' iའདི་; %sམེན།"
+
 #: lib/dpkg/options.c
 #, fuzzy, c-format
 msgid "configuration error: %s:%d: %s"
@@ -974,12 +990,6 @@ msgstr "ཉེན་བརྡ་:ཕན་མེད་གདམ་ཁ་ `--%s'\
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "མི་མཐུན་པའི་བྱ་བ་-%c (--%s) and -%c (--%s)"
-
-#: lib/dpkg/options-parsers.c
-#, fuzzy, c-format
-#| msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "--སྣང་མེད་བཞག་- རྟེན་འབྲེལ་ལུ་ཁྲིམས་ལྡན་ཐུམ་སྒྲིལ་མིང་གཅིག་དགོ `%.250s' iའདི་; %sམེན།"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1331,20 +1341,21 @@ msgstr "%s (ལས་སྦྱོར་ཡན་ལག): %s\n"
 msgid "fork failed"
 msgstr "ཁ་སྤེལ་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "ལས་སྦྱོར་ཡན་ལག་ %s སླར་ལོག་ཡོད་པའི་འཛོལ་བ་ གནས་ཚད་ %d ཕྱིར་ཐོན་འབདཝ་ཨིན།"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
-msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "%s གི་དོན་ལུ་བསྒུག་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
 #| msgid "subprocess %s killed by signal (%s)%s"
-msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "ལས་སྦྱོར་ཡན་ལག་ %s འདི་བརྡ་རྟགས་ (%s)%s གིས་གསད་ཡོདཔ།"
 
 #: lib/dpkg/subproc.c
@@ -1352,13 +1363,14 @@ msgid ", core dumped"
 msgstr ", ནང་རྙིང་བཀོག་བཞག་ཡོདཔ།"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "ལས་སྦྱོར་ཡན་ལག་ %s འདི་བསྒུག་ནིའི་གནས་ཚད་ཨང་རྟགས་ %d དང་ཅིག་ཁར་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
+#: lib/dpkg/subproc.c
 #, fuzzy, c-format
-msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "%s གི་དོན་ལུ་བསྒུག་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
 #: lib/dpkg/treewalk.c
@@ -1926,9 +1938,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "ཉེན་བརྡ་ ཀཱོནཕ་ཕ་ཡིལ་ `%s' འདི་ཉག་རྐྱང་ཡིག་སྣོད་མེན།\n"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr ""
 
@@ -2844,7 +2856,7 @@ msgid ""
 "the foreign architecture with dpkg --add-architecture:\n"
 msgstr ""
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, fuzzy, c-format
 #| msgid "Package `%s' is not installed.\n"
 msgid "package '%s' is not installed"
@@ -3067,6 +3079,55 @@ msgstr ""
 "ནུག:\n"
 " "
 
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "unable to open files list file for package `%.250s'"
+msgid "cannot open control file '%s' for package '%s'"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+msgid "cannot read control file '%s' for package '%s'"
+msgstr "རིམ་སྒྲིག་ཡིག་སྣོད་ སྣོད་ཐོ་`%.250s'(`%.250s' ལས་)ལྷག་མ་ཚུགས།"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package `%.250s'"
+msgid "cannot close control file '%s' for package '%s'"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་བསྡམ་ད་འཛོལ་བ།"
+
 #: src/filesdb.c
 #, c-format
 msgid "unable to open files list file for package '%.250s'"
@@ -3123,55 +3184,6 @@ msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "%d ཡིག་སྣོད་ཚུ་དང་སྣོད་ཐོ་ཚུ་ད་ལྟོ་གཞི་བཙུགས་འབད་ཡོད།)\n"
 msgstr[1] "%d ཡིག་སྣོད་ཚུ་དང་སྣོད་ཐོ་ཚུ་ད་ལྟོ་གཞི་བཙུགས་འབད་ཡོད།)\n"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package `%.250s' contains empty filename"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "རིམ་སྒྲིག་ཡིག་སྣོད་ སྣོད་ཐོ་`%.250s'(`%.250s' ལས་)ལྷག་མ་ཚུགས།"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་བསྡམ་ད་འཛོལ་བ།"
 
 #: src/help.c
 msgid "not installed"
@@ -4315,7 +4327,7 @@ msgstr "vsnprintf སི་ཊེཊི་འབད་མ་ཚུགས།"
 
 #: src/script.c
 #, fuzzy, c-format
-msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "%s ཡིག་ཚུགས་རྙིངམ།"
 
 #: src/script.c
@@ -4324,13 +4336,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "%s `%.250s' སི་ཊེཊི་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "%s ཡིག་ཚུགས་གསརཔ།"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "%s ཡིག་ཚུགས་རྙིངམ།"
 
 #: src/script.c
@@ -4746,6 +4760,11 @@ msgstr ""
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "ལོག་འཛོམས་ཡོད་པའི་ཐུམ་སྒྲིལ་ཡིག་སྣོད།"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "ལས་སྦྱོར་ཡན་ལག་ %s སླར་ལོག་ཡོད་པའི་འཛོལ་བ་ གནས་ཚད་ %d ཕྱིར་ཐོན་འབདཝ་ཨིན།"
 
 #: src/unpack.c
 #, c-format
@@ -5243,8 +5262,9 @@ msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "ཡིག་སྣོད་ `%.250s' འདི་ངན་ཅན་ཨིན་ - ཡན་ལག་ཨང་བྱང་ཉེས།"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr "ཡིག་སྣོད་ %.250s འདི་ ཌི་བི་ཡཱན་ཟུང་ལྡན་ཡིག་མཛོད་མེན་(ཌི་པི་ཀེ་ཇི་-བཤག་ནི་འབད་རྩོལ་བསྐྱེད?)"
 
 #: dpkg-deb/extract.c
@@ -5299,7 +5319,7 @@ msgstr "ཡིག་སྣོད་ `%.250s' ནང་ན་ཚད་འཛི�
 #| " new debian package, version %s.\n"
 #| " size %ld bytes: control archive= %zi bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 "ཌི་བི་ཡཱན་ཐུམ་སྒྲིལ་གསརཔ་ ཐོན་རིམ་ %s\n"
@@ -5327,7 +5347,7 @@ msgstr "%s ལས་གོམ་འགྱོ་ཡོད་པའི་འཐུ
 #| " old debian package, version %s.\n"
 #| " size %ld bytes: control archive= %zi, main archive= %ld.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 "ཌི་བི་ཡཱན་ཐུམ་སྒྲིལ་རྙིངམ་ ཐོན་རིམ་ %s.\n"
@@ -5347,8 +5367,9 @@ msgstr ""
 "མཐོངམ་མས།\n"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "`%.255s' འདི་ ཌི་བི་ཡཱན་རྩ་སྒྲིག་ཡིག་མཛོད་མེན་པས།"
 
 #: dpkg-deb/extract.c
@@ -5557,7 +5578,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6301,6 +6323,11 @@ msgstr "%s: %s ཁ་ཕྱེ་མི་ཚུགས་: %s"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+msgid "wait for subprocess %s failed"
+msgstr "%s གི་དོན་ལུ་བསྒུག་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 #| msgid "unable to remove %s: %s"
 msgid "unable to remove '%s'"
 msgstr "%s རྩ་བསྐྲད་གཏང་མ་ཚུགས: %s"
@@ -6754,6 +6781,14 @@ msgstr "%s གི་རང་བཞིན་དུས་མཐུན་ཚུ་
 #, fuzzy, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "རང་བཞིན་ཚུ་ལུ་སླར་ལོག་ནིའི་དོན་ལས་  `དུས་མཐུན་-སྤེལ་མ་ --རང་བཞིན %s' ལག་ལེན་འཐབ།"
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #, fuzzy
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"

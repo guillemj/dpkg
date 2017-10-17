@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <debian-l10n-danish@lists.debian.org>\n"
@@ -420,12 +420,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "kunne ikke installere opdateret status for '%.250s'"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "formatversion med tom hovedkomponent"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "formatversion med tom hovedkomponent"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "formatversion har intet punktum"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "formatversion med tom mindre komponent"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -841,6 +853,11 @@ msgstr "kunne ikke læse fildeskriptor-flag for %.250s"
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "kan ikke sætte flaget 'close-on-exec' for %.250s"
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "--%s kræver et gyldigt pakkenavn men det er '%.250s' ikke: %s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -937,11 +954,6 @@ msgstr "forældet tilvalg '--%s'\n"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "modstridende handlinger -%c (--%s) and -%c (--%s)"
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "--%s kræver et gyldigt pakkenavn men det er '%.250s' ikke: %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1287,19 +1299,22 @@ msgstr "%s (underproces): %s\n"
 msgid "fork failed"
 msgstr "processpaltning mislykkedes"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "underproces %s returnerede afslutningsstatus %d"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "underproces %s blev afbrudt"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "underproces %s blev dræbt af signal (%s)%s"
 
 #: lib/dpkg/subproc.c
@@ -1307,13 +1322,15 @@ msgid ", core dumped"
 msgstr ", core efterladt"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "underproces %s mislykkedes med ventestatuskode %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "afventning af underprocessen %s mislykkedes"
 
 #: lib/dpkg/treewalk.c
@@ -1882,9 +1899,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "konfigurationsfil '%s' er ikke en almindelig fil"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<standard-uddata>"
 
@@ -2734,7 +2751,7 @@ msgstr ""
 "afhængighedsproblemer på brugerflader. Dette kan rettes ved at registrere\n"
 "den fremmede arkitektur med dpkg --add-architecture:\n"
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "pakken '%s' er ikke installeret"
@@ -2944,6 +2961,58 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "undertrykker problemet, fordi --force er givet:"
 
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "kontrolfil '%s' for pakke '%s' mangler afsluttende linjeskift"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "kontrolfil '%s' for pakke '%s' mangler afsluttende linjeskift"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "kontrolfil '%s' for pakke '%s' mangler afsluttende linjeskift"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "kontrolfilen '%s' for pakke '%s' indeholder et tomt filnavn"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot open '%s' control file for package '%s'"
+msgid "cannot open control file '%s' for package '%s'"
+msgstr "kan ikke åbne kontrolfilen '%s' for pakke '%s'"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot stat '%s' control file for package '%s'"
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr "kan ikke stat (køre) '%s' fillistefil for pakken '%s'"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "'%s' file for package '%s' is not a regular file"
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr "'%s'-filen for pakke '%s' er ikke en normal fil"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot read '%s' control file for package '%s'"
+msgid "cannot read control file '%s' for package '%s'"
+msgstr "kan ikke læse kontrolfilen '%s' for pakke '%s'"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot close '%s' control file for package '%s'"
+msgid "cannot close control file '%s' for package '%s'"
+msgstr "kan ikke lukke kontrolfilen '%s' for pakke '%s'"
+
 #: src/filesdb.c
 #, c-format
 msgid "unable to open files list file for package '%.250s'"
@@ -2998,58 +3067,6 @@ msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "%d fil eller katalog installeret i øjeblikket.)\n"
 msgstr[1] "%d filer og kataloger installeret i øjeblikket.)\n"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "kontrolfil '%s' for pakke '%s' mangler afsluttende linjeskift"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "kontrolfil '%s' for pakke '%s' mangler afsluttende linjeskift"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "kontrolfil '%s' for pakke '%s' mangler afsluttende linjeskift"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "kontrolfilen '%s' for pakke '%s' indeholder et tomt filnavn"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot open '%s' control file for package '%s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "kan ikke åbne kontrolfilen '%s' for pakke '%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot stat '%s' control file for package '%s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "kan ikke stat (køre) '%s' fillistefil for pakken '%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "'%s' file for package '%s' is not a regular file"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "'%s'-filen for pakke '%s' er ikke en normal fil"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read '%s' control file for package '%s'"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "kan ikke læse kontrolfilen '%s' for pakke '%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot close '%s' control file for package '%s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "kan ikke lukke kontrolfilen '%s' for pakke '%s'"
 
 #: src/help.c
 msgid "not installed"
@@ -4240,8 +4257,9 @@ msgstr ""
 "kan ikke angive konteksten til sikkerhedskørsel for vedligeholderscriptet"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "installerede %s-script"
 
 #: src/script.c
@@ -4250,13 +4268,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "kunne ikke finde %s '%.250s'"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "nyt %s-script"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "gammelt %s-script"
 
 #: src/script.c
@@ -4652,6 +4672,11 @@ msgstr "gensamling af opdelt pakke"
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "genskabte pakkefilen"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "underproces %s returnerede afslutningsstatus %d"
 
 #: src/unpack.c
 #, c-format
@@ -5119,8 +5144,9 @@ msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "filen '%.250s' er ødelagt - ugyldig arkivhovedmagi"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr "filen '%.250s' er ikke et binært debianarkiv (prøv dpkg-split?)"
 
 #: dpkg-deb/extract.c
@@ -5162,9 +5188,12 @@ msgid "archive '%.250s' contains two control members, giving up"
 msgstr "arkivet '%.250s' indeholder to kontrolmedlemmer, opgiver"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " ny debianpakke, version %d.%d.\n"
@@ -5185,9 +5214,12 @@ msgid "cannot skip archive control member from '%s': %s"
 msgstr "kan ikke udelade arkivkontrolmedlem fra '%s': %s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " gammel debianpakke, version %d.%d.\n"
@@ -5202,8 +5234,9 @@ msgstr ""
 " ødelagt af at blive hentet i ASCII-tilstand"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "'%.255s' er ikke et arkiv i debianformat"
 
 #: dpkg-deb/extract.c
@@ -5421,7 +5454,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6110,6 +6144,11 @@ msgstr "kan ikke føje til '%s'"
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "afventning af underprocessen %s mislykkedes"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "kunne ikke fjerne '%s'"
 
@@ -6559,6 +6598,14 @@ msgstr "automatiske opdateringer af %s/%s er deaktiveret, lader den være"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "for at gå tilbage til automatiske opdateringer så brug '%s --auto %s'"
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "forældet tilvalg '--%s'; brug venligst '--%s' i stedet"

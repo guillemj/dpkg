@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2017-07-07 01:30+0200\n"
 "Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
@@ -428,12 +428,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "impossibile installare lo stato aggiornato di \"%.250s\""
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "versione del formato con componente major vuoto"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "versione del formato con componente major vuoto"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "versione del formato senza punto"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "versione del formato con componente minor vuoto"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -860,6 +872,11 @@ msgstr "impossibile leggere i flag del descrittore di file per %.250s"
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "impossibile impostare il flag close-on-exec per %.250s"
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "--%s richiede un nome di pacchetto valido. \"%.250s\" non lo è: %s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -958,11 +975,6 @@ msgstr "opzione \"--%s\" obsoleta\n"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "azioni -%c (--%s) e -%c (--%s) in conflitto"
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "--%s richiede un nome di pacchetto valido. \"%.250s\" non lo è: %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1310,19 +1322,22 @@ msgstr "%s (sottoprocesso): %s\n"
 msgid "fork failed"
 msgstr "fork non riuscita"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "il sottoprocesso %s ha restituito lo stato di errore %d"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "sottoprocesso %s interrotto"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "il sottoprocesso %s è stato terminato dal segnale (%s)%s"
 
 # (ndt) dovrebbe andare a collegarsi con quella sopra
@@ -1333,13 +1348,15 @@ msgstr ", eseguito un core dump"
 # (ndt) usare fallito o non riuscito in questo caso non mi
 # convince del tutto...
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "il sottoprocesso %s è terminato con un codice di wait %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "wait del sottoprocesso %s non riuscita"
 
 #: lib/dpkg/treewalk.c
@@ -1939,9 +1956,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "il file di configurazione \"%s\" non è un file normale"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<standard output>"
 
@@ -2822,7 +2839,7 @@ msgstr ""
 "causare problemi con le dipendenze nei front-end. Ciò può essere risolto\n"
 "registrando l'architettura con \"dpkg --add-architecture\":\n"
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "il pacchetto \"%s\" non è installato"
@@ -3034,6 +3051,67 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "viene ignorato il problema poiché è usata l'opzione --force:"
 
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr ""
+"al file di controllo \"%s\" per il pacchetto \"%s\" manca il newline finale"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr ""
+"al file di controllo \"%s\" per il pacchetto \"%s\" manca il newline finale"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"al file di controllo \"%s\" per il pacchetto \"%s\" manca il newline finale"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr ""
+"il file di controllo \"%s\" per il pacchetto \"%s\" contiene un nome file "
+"vuoto"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot open '%s' control file for package '%s'"
+msgid "cannot open control file '%s' for package '%s'"
+msgstr "impossibile aprire il file di controllo \"%s\" per il pacchetto \"%s\""
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot stat '%s' control file for package '%s'"
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr ""
+"impossibile eseguire stat sul file di controllo \"%s\" per il pacchetto \"%s"
+"\""
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "'%s' file for package '%s' is not a regular file"
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr "il file \"%s\" per il pacchetto \"%s\" non è un file regolare"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot read '%s' control file for package '%s'"
+msgid "cannot read control file '%s' for package '%s'"
+msgstr ""
+"impossibile leggere il file di controllo \"%s\" per il pacchetto \"%s\""
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot close '%s' control file for package '%s'"
+msgid "cannot close control file '%s' for package '%s'"
+msgstr ""
+"impossibile chiudere il file di controllo \"%s\" per il pacchetto \"%s\""
+
 #: src/filesdb.c
 #, c-format
 msgid "unable to open files list file for package '%.250s'"
@@ -3097,67 +3175,6 @@ msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "%d file o directory attualmente installato.)\n"
 msgstr[1] "%d file e directory attualmente installati.)\n"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr ""
-"al file di controllo \"%s\" per il pacchetto \"%s\" manca il newline finale"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr ""
-"al file di controllo \"%s\" per il pacchetto \"%s\" manca il newline finale"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-"al file di controllo \"%s\" per il pacchetto \"%s\" manca il newline finale"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr ""
-"il file di controllo \"%s\" per il pacchetto \"%s\" contiene un nome file "
-"vuoto"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot open '%s' control file for package '%s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "impossibile aprire il file di controllo \"%s\" per il pacchetto \"%s\""
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot stat '%s' control file for package '%s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr ""
-"impossibile eseguire stat sul file di controllo \"%s\" per il pacchetto \"%s"
-"\""
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "'%s' file for package '%s' is not a regular file"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "il file \"%s\" per il pacchetto \"%s\" non è un file regolare"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read '%s' control file for package '%s'"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr ""
-"impossibile leggere il file di controllo \"%s\" per il pacchetto \"%s\""
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot close '%s' control file for package '%s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr ""
-"impossibile chiudere il file di controllo \"%s\" per il pacchetto \"%s\""
 
 #: src/help.c
 msgid "not installed"
@@ -4383,8 +4400,9 @@ msgstr ""
 "del responsabile"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "installato script di %s"
 
 #: src/script.c
@@ -4393,13 +4411,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "impossibile eseguire stat su %s \"%.250s\""
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "nuovo script %s"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "vecchio script di %s"
 
 #: src/script.c
@@ -4802,6 +4822,11 @@ msgstr "riassemblaggio pacchetto diviso"
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "file pacchetto riassemblato"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "il sottoprocesso %s ha restituito lo stato di errore %d"
 
 #: src/unpack.c
 #, c-format
@@ -5294,8 +5319,9 @@ msgstr ""
 "dell'archivio errato"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr ""
 "il file \"%.250s\" non è un archivio nel formato debian (provare dpkg-split?)"
 
@@ -5346,9 +5372,12 @@ msgstr ""
 "annullata"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " nuovo pacchetto debian, versione %d.%d.\n"
@@ -5371,9 +5400,12 @@ msgstr ""
 "impossibile saltare il componente dell'archivio di controllo da \"%s\": %s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " vecchio pacchetto debian, versione %d.%d.\n"
@@ -5388,8 +5420,9 @@ msgstr ""
 "per essere stato scaricato in modalità ASCII"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "\"%.255s\" non è un archivio in formato debian"
 
 #: dpkg-deb/extract.c
@@ -5617,7 +5650,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6348,6 +6382,11 @@ msgstr "impossibile aggiungere a \"%s\""
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "wait del sottoprocesso %s non riuscita"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "impossibile rimuovere \"%s\""
 
@@ -6801,6 +6840,14 @@ msgstr "gli aggiornamenti automatici di %s/%s sono disabilitati, lasciato così"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "per ripristinare gli aggiornamenti automatici usare \"%s --auto %s\""
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "opzione \"--%s\" obsoleta, usare \"--%s\" al suo posto"

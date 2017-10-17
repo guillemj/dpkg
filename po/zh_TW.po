@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2015-04-07 19:10+0200\n"
 "Last-Translator: imacat <imac@mail.imacat.idv.tw>\n"
 "Language-Team: Chinese (traditional) <debian-l10n-chinese@lists.debian.org>\n"
@@ -405,12 +405,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "無法安裝 `%.250s' 的更新狀態"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "版本格式中缺主版本"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "版本格式中缺主版本"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "版本格式中缺點 (.) 號"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "版本格式中缺次版本"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -834,6 +846,11 @@ msgstr "無法讀取 %.250s 的檔案重導的設定"
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "無法在 %.250s 上設定 close-on-exec"
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "--%s 需要有效的套件名稱，不是 '%.250s'：%s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -929,11 +946,6 @@ msgstr "已作廢選項 '--%s'\n"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "相互衝突的操作 -%c (--%s) 和 -%c (--%s)"
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "--%s 需要有效的套件名稱，不是 '%.250s'：%s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1276,19 +1288,22 @@ msgstr "%s（子程序）：%s\n"
 msgid "fork failed"
 msgstr "fork 失敗"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "子程序 %s 傳回了錯誤退出狀態 %d"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "子程序 %s 中斷"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "子程序 %s 被信號 (%s)%s 終止了"
 
 #: lib/dpkg/subproc.c
@@ -1296,13 +1311,15 @@ msgid ", core dumped"
 msgstr ", core dumped"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "子程序 %s 失敗，並傳回了 wait 狀態碼 %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "等待子程序 %s 時失敗"
 
 #: lib/dpkg/treewalk.c
@@ -1851,9 +1868,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "conffile '%s' 不是普通檔案"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<標準輸出>"
 
@@ -2724,7 +2741,7 @@ msgstr ""
 "下列套件有未知的異質硬體平台，會在前端造成相依性問題。\n"
 "只要以 dpkg --add-architecture 註冊異質硬體平台，即可解決：\n"
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "套件 '%s' 未安裝"
@@ -2928,58 +2945,6 @@ msgstr "套件 %s 目前保留，不會去變動。用 --force-hold 來忽略該
 msgid "overriding problem because --force enabled:"
 msgstr "使用了 --force 選項，忽略問題："
 
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "無法開啟套件 `%.250s' 的檔案清單"
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr "找不到套件 '%.250s' 的檔案清單，假設該套件目前安裝任何檔案"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "無法取得套件 '%.250s' 檔案清單的檔案資訊"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "套件 '%.250s' 的檔案清單，不是普通檔案"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr "讀取套件 '%.250s' 的檔案清單"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "套件 '%.250s' 的檔案清單，檔尾沒有換行"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "套件 `%.250s' 的檔案清單，內有空檔名"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "關閉套件 `%.250s' 的檔案清單時，發生錯誤"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "（讀取資料庫 ... "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "目前共安裝了 %d 個檔案和目錄。）\n"
-
 #: src/filesdb-hash.c
 #, fuzzy, c-format
 #| msgid "files list file for package '%.250s' is missing final newline"
@@ -3033,6 +2998,58 @@ msgstr "無法由 '%2$s' 讀取設定檔 '%1$s'：%3$s"
 #| msgid "error closing files list file for package `%.250s'"
 msgid "cannot close control file '%s' for package '%s'"
 msgstr "關閉套件 `%.250s' 的檔案清單時，發生錯誤"
+
+#: src/filesdb.c
+#, c-format
+msgid "unable to open files list file for package '%.250s'"
+msgstr "無法開啟套件 `%.250s' 的檔案清單"
+
+#: src/filesdb.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr "找不到套件 '%.250s' 的檔案清單，假設該套件目前安裝任何檔案"
+
+#: src/filesdb.c
+#, c-format
+msgid "unable to stat files list file for package '%.250s'"
+msgstr "無法取得套件 '%.250s' 檔案清單的檔案資訊"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list for package '%.250s' is not a regular file"
+msgstr "套件 '%.250s' 的檔案清單，不是普通檔案"
+
+#: src/filesdb.c
+#, c-format
+msgid "reading files list for package '%.250s'"
+msgstr "讀取套件 '%.250s' 的檔案清單"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "套件 '%.250s' 的檔案清單，檔尾沒有換行"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "套件 `%.250s' 的檔案清單，內有空檔名"
+
+#: src/filesdb.c
+#, c-format
+msgid "error closing files list file for package '%.250s'"
+msgstr "關閉套件 `%.250s' 的檔案清單時，發生錯誤"
+
+#: src/filesdb.c
+msgid "(Reading database ... "
+msgstr "（讀取資料庫 ... "
+
+#: src/filesdb.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "目前共安裝了 %d 個檔案和目錄。）\n"
 
 #: src/help.c
 msgid "not installed"
@@ -4215,8 +4232,9 @@ msgid "cannot set security execution context for maintainer script"
 msgstr "無法為維護者程式設定環境變數"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "已安裝的 %s script"
 
 #: src/script.c
@@ -4225,13 +4243,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "無法取得 %s `%.250s' 的檔案資訊"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "新的 %s script"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "原先的 %s script"
 
 #: src/script.c
@@ -4657,6 +4677,11 @@ msgstr "切分套件重組"
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "重新組裝成的套件檔"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "子程序 %s 傳回了錯誤退出狀態 %d"
 
 #: src/unpack.c
 #, c-format
@@ -5110,8 +5135,9 @@ msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "檔案 '%.250s' 損毀 - 壓縮標頭識別碼錯誤"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr "檔案 `%.250s' 不是 debian 的二進制壓縮檔（試試 dpkg-split？）"
 
 #: dpkg-deb/extract.c
@@ -5155,9 +5181,12 @@ msgid "archive '%.250s' contains two control members, giving up"
 msgstr "壓縮檔 '%.250s' 有兩個控制成員，放棄執行"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " 新式 debian 套件，版本 %d.%d。\n"
@@ -5178,9 +5207,12 @@ msgid "cannot skip archive control member from '%s': %s"
 msgstr "無法在 '%s' 中，跳過壓縮檔控制成員：%s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " 舊式 debian 套件，版本 %d.%d。\n"
@@ -5195,8 +5227,9 @@ msgstr ""
 "但因為以文字模式下載而損毀"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "`%.255s' 不是 debian 格式的壓縮檔"
 
 #: dpkg-deb/extract.c
@@ -5419,7 +5452,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6096,6 +6130,11 @@ msgstr "無法加到 '%s'"
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "等待子程序 %s 時失敗"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "無法刪除 '%s'"
 
@@ -6538,6 +6577,14 @@ msgstr "%s/%s 的自動更新已停用，不做異動"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "若要回復成自動更新，請執行 '%s --auto %s'"
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "已作廢選項 '--%s' ；請改用 '--%s'"

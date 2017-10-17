@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-09-25 18:43+0200\n"
+"POT-Creation-Date: 2017-10-15 01:06+0200\n"
 "PO-Revision-Date: 2017-09-25 21:13+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -944,6 +944,30 @@ msgid ""
 msgstr ""
 "Das Datum, an dem das Paket letztmalig gebaut wurde. Es muss im gleichen "
 "Format wie in einem Eintrag bei B<deb-changelog>(5) sein."
+
+#. type: TP
+#: deb-buildinfo.man
+#, fuzzy, no-wrap
+#| msgid "B<Kernel-Version:>I< value>"
+msgid "B<Build-Kernel-Version:> I<build-kernel-version>"
+msgstr "B<Kernel-Version:> I< Wert>"
+
+#. type: Plain text
+#: deb-buildinfo.man
+#, fuzzy
+#| msgid ""
+#| "The absolute build path, which correspond to the unpacked source tree.  "
+#| "This field is only going to be present if the vendor has whitelisted it "
+#| "via some pattern match to avoid leaking possibly sensitive information."
+msgid ""
+"The release and version (in an unspecified format) of the kernel running on "
+"the build system.  This field is only going to be present if the builder has "
+"explicitly requested it, to avoid leaking possibly sensitive information."
+msgstr ""
+"Der absolute Baupfad, der dem entpackten Quellbaum entspricht. Dieses Feld "
+"ist nur vorhanden, falls der Lieferant das Feld über ein Muster "
+"freigeschaltet hat, um zu verhindern, dass vertrauliche Informationen "
+"versehentlich veröffentlicht werden."
 
 #. type: TP
 #: deb-buildinfo.man
@@ -1959,7 +1983,7 @@ msgid "B<Description:> I<short-description> (recommended)"
 msgstr "B<Description:> I<Kurzbeschreibung> (empfohlen)"
 
 #. type: TQ
-#: deb-control.man
+#: deb-control.man deb-src-control.man dsc.man
 #, no-wrap
 msgid "B< >I<long-description>"
 msgstr "B< >I<Langbeschreibung>"
@@ -2862,6 +2886,36 @@ msgstr ""
 "Dies dokumentiert die neuste Version der Standards der Distribution, an den "
 "sich das Paket hält."
 
+#. type: TP
+#: deb-src-control.man dsc.man
+#, fuzzy, no-wrap
+#| msgid "B<Description:>I< short-description>"
+msgid "B<Description>I< short-description>"
+msgstr "B<Description:>I< Kurzbeschreibung>"
+
+#. type: Plain text
+#: deb-src-control.man dsc.man
+#, fuzzy
+#| msgid ""
+#| "The format for the package description is a short brief summary on the "
+#| "first line (after the B<Description> field). The following lines should "
+#| "be used as a longer, more detailed description. Each line of the long "
+#| "description must be preceded by a space, and blank lines in the long "
+#| "description must contain a single ‘B<.>’ following the preceding space."
+msgid ""
+"The format for the source package description is a short brief summary on "
+"the first line (after the B<Description> field).  The following lines should "
+"be used as a longer, more detailed description.  Each line of the long "
+"description must be preceded by a space, and blank lines in the long "
+"description must contain a single ‘B<.>’ following the preceding space."
+msgstr ""
+"Das Format der Paketbeschreibung ist eine kurze knappe Zusammenfassung auf "
+"der ersten Zeile (nach dem Feld B<Description>). Die folgenden Zeilen "
+"sollten als längere, detailliertere Beschreibung verwendet werden. Jede "
+"Zeile der Langbeschreibung muss von einem Leerzeichen begonnen werden, und "
+"Leerzeilen in der Langbeschreibung müssen einen einzelnen ‚B<.>’ hinter dem "
+"einleitenden Leerzeichen enthalten."
+
 #. type: Plain text
 #: deb-src-control.man
 msgid "The upstream project home page URL."
@@ -2890,9 +2944,9 @@ msgid ""
 "This field is used to indicate whether the B<debian/rules> file requires "
 "(fake)root privileges to run some of its targets, and if so when."
 msgstr ""
-"Dieses Feld wird verwandt, um anzuzeigen, ob die Datei B<debian/rules> (fake)"
-"root-Priviliegien benötigt, um einige ihrer Ziele auszuführen, und falls ja, "
-"wann."
+"Dieses Feld wird verwandt, um anzuzeigen, ob die Datei B<debian/rules> "
+"(fake)root-Priviliegien benötigt, um einige ihrer Ziele auszuführen, und "
+"falls ja, wann."
 
 #. type: Plain text
 #: deb-src-control.man
@@ -2942,8 +2996,8 @@ msgid ""
 msgstr ""
 "Schlüsselwörter bestehen aus I<Namensraum>/I<Fälle>. Der Teil I<Namensraum> "
 "kann kein »/« oder Leerraum enthalten. Der Teil I<Fälle> kann kein Leerraum "
-"enthalten. Desweiteren müssen beide Teile ausschließlich aus druckbaren ASCII-"
-"Zeichen bestehen."
+"enthalten. Desweiteren müssen beide Teile ausschließlich aus druckbaren "
+"ASCII-Zeichen bestehen."
 
 #. type: Plain text
 #: deb-src-control.man
@@ -4944,6 +4998,34 @@ msgstr ""
 "B<veraltet> und gibt bei der Benutzung einen Fehler aus, da ihre Bedeutung "
 "von ihrer Funktion abweicht, bitte verwenden Sie B<source:Version> oder "
 "B<binary:Version> wo zutreffend."
+
+#. type: TP
+#: deb-substvars.man
+#, fuzzy, no-wrap
+#| msgid "B<source:Version>"
+msgid "B<source:Synopsis>"
+msgstr "B<source:Version>"
+
+#. type: Plain text
+#: deb-substvars.man
+msgid ""
+"The source package synopsis, extracted from the source stanza B<Description> "
+"field, if it exists (since dpkg 1.19.0)."
+msgstr ""
+
+#. type: TP
+#: deb-substvars.man
+#, fuzzy, no-wrap
+#| msgid "B<source:Upstream-Version>"
+msgid "B<source:Extended-Description>"
+msgstr "B<source:Upstream-Version>"
+
+#. type: Plain text
+#: deb-substvars.man
+msgid ""
+"The source package extended description, extracted from the source stanza "
+"B<Description> field, if it exists (since dpkg 1.19.0)."
+msgstr ""
 
 #. type: TP
 #: deb-substvars.man
@@ -10973,9 +11055,16 @@ msgstr "B<--query-features>I< Bereich>"
 
 #. type: Plain text
 #: dpkg-buildflags.man
+#, fuzzy
+#| msgid ""
+#| "Print the features enabled for a given area (since dpkg 1.16.2).  The "
+#| "only currently recognized areas on Debian and derivatives are B<qa>, "
+#| "B<reproducible>, B<sanitize> and B<hardening>, see the B<FEATURE AREAS> "
+#| "section for more details.  Exits with 0 if the area is known otherwise "
+#| "exits with 1."
 msgid ""
 "Print the features enabled for a given area (since dpkg 1.16.2).  The only "
-"currently recognized areas on Debian and derivatives are B<qa>, "
+"currently recognized areas on Debian and derivatives are B<future>, B<qa>, "
 "B<reproducible>, B<sanitize> and B<hardening>, see the B<FEATURE AREAS> "
 "section for more details.  Exits with 0 if the area is known otherwise exits "
 "with 1."
@@ -11195,6 +11284,41 @@ msgstr ""
 #, no-wrap
 msgid "  export DEB_BUILD_MAINT_OPTIONS=hardening=-all,+format,+fortify\n"
 msgstr "  export DEB_BUILD_MAINT_OPTIONS=hardening=-all,+format,+fortify\n"
+
+#. type: SS
+#: dpkg-buildflags.man
+#, no-wrap
+msgid "future"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.man
+#, fuzzy
+#| msgid ""
+#| "Several compile-time options (detailed below) can be used to help detect "
+#| "problems in the source code or build system."
+msgid ""
+"Several compile-time options (detailed below) can be used to enable features "
+"that should be enabled by default, but cannot due to backwards compatibility "
+"reasons."
+msgstr ""
+"Mehrere Optionen zur Kompilierung (Details weiter unten) können verwandt "
+"werden, um dabei zu helfen, Probleme im Quellcode oder im Bausystem zu "
+"erkennen."
+
+#. type: TP
+#: dpkg-buildflags.man
+#, no-wrap
+msgid "B<lfs>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg-buildflags.man
+msgid ""
+"This setting (disabled by default) enables Large File Support on 32-bit "
+"architectures where their ABI does not include LFS by default, by adding B<-"
+"D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64> to B<CPPFLAGS>"
+msgstr ""
 
 #. type: SS
 #: dpkg-buildflags.man
@@ -13808,6 +13932,31 @@ msgstr ""
 
 #. type: TP
 #: dpkg-genbuildinfo.man
+#, fuzzy, no-wrap
+#| msgid "B<--always-include-path>"
+msgid "B<--always-include-kernel>"
+msgstr "B<--always-include-path>"
+
+#. type: Plain text
+#: dpkg-genbuildinfo.man
+msgid "By default, the B<Build-Kernel-Version> field will not be written out."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-genbuildinfo.man
+#, fuzzy
+#| msgid ""
+#| "Specify this option to always write a B<Build-Path> field when generating "
+#| "the B<.buildinfo>."
+msgid ""
+"Specify this option (since dpkg 1.19.0) to always write a B<Build-Kernel-"
+"Version> field when generating the B<.buildinfo>."
+msgstr ""
+"Legen Sie diese Option fest, damit beim Erstellen der B<.buildinfo> immer "
+"das Feld B<Build-Path> geschrieben wird."
+
+#. type: TP
+#: dpkg-genbuildinfo.man
 #, no-wrap
 msgid "B<--always-include-path>"
 msgstr "B<--always-include-path>"
@@ -14588,18 +14737,27 @@ msgstr ""
 
 #. type: TP
 #: dpkg-deb.man
-#, no-wrap
-msgid "B<--uniform-compression>"
+#, fuzzy, no-wrap
+#| msgid "B<--uniform-compression>"
+msgid "B<--[no-]uniform-compression>"
 msgstr "B<--uniform-compression>"
 
 #. type: Plain text
 #: dpkg-deb.man
+#, fuzzy
+#| msgid ""
+#| "Specify that the same compression parameters should be used for all "
+#| "archive members (i.e. B<control.tar> and B<data.tar>; since dpkg "
+#| "1.17.6).  Otherwise only the B<data.tar> member will use those "
+#| "parameters. The only supported compression types allowed to be uniformly "
+#| "used are B<none>, B<gzip> and B<xz>."
 msgid ""
 "Specify that the same compression parameters should be used for all archive "
 "members (i.e. B<control.tar> and B<data.tar>; since dpkg 1.17.6).  Otherwise "
 "only the B<data.tar> member will use those parameters. The only supported "
 "compression types allowed to be uniformly used are B<none>, B<gzip> and "
-"B<xz>."
+"B<xz>.  The B<--no-uniform-compression> option disables uniform compression "
+"(since dpkg 1.19.0).  Uniform compression is the default (since dpkg 1.19.0)."
 msgstr ""
 "Gibt an, dass die gleichen Komprimierungsparameter für alle Archivteile (d."
 "h. B<control.tar> und B<data.tar>; seit Dpkg 1.17.6) verwandt werden sollen. "
@@ -14631,8 +14789,8 @@ msgid ""
 "of a meta manifest."
 msgstr ""
 "B<Hinweis>: Diese Option kann für rootloses Bauen (siehe I<rootless-builds."
-"txt>) nützlich sein, sollte aber B<nicht> verwandt werden, wenn Einträge eine "
-"von root verschiedenen Eigentümer oder Gruppe haben. Die Unterstützung "
+"txt>) nützlich sein, sollte aber B<nicht> verwandt werden, wenn Einträge "
+"eine von root verschiedenen Eigentümer oder Gruppe haben. Die Unterstützung "
 "hierfür wird später in der Form eines Meta-Manifests hinzugefügt."
 
 #. type: TP
@@ -15287,12 +15445,21 @@ msgstr "B<-T>I<Substvars-Datei>"
 
 #. type: Plain text
 #: dpkg-genchanges.man
+#, fuzzy
+#| msgid ""
+#| "Read substitution variables in I<substvars-file>; the default is B<debian/"
+#| "substvars>.  No variable substitution is done on any of the fields that "
+#| "are output, however the special variable I<Format> will override the "
+#| "field of the same name. This option can be used multiple times to read "
+#| "substitution variables from multiple files (since dpkg 1.15.6)."
 msgid ""
 "Read substitution variables in I<substvars-file>; the default is B<debian/"
 "substvars>.  No variable substitution is done on any of the fields that are "
-"output, however the special variable I<Format> will override the field of "
-"the same name. This option can be used multiple times to read substitution "
-"variables from multiple files (since dpkg 1.15.6)."
+"output, except for the contents extracted from each binary package "
+"B<Description> field (since dpkg 1.19.0), however the special variable "
+"I<Format> will override the field of the same name.  This option can be used "
+"multiple times to read substitution variables from multiple files (since "
+"dpkg 1.15.6)."
 msgstr ""
 "Lese die Substitutionsvariablen aus I<Substvars-Datei>; standardmäßig "
 "B<debian/substvars>. Bei den ausgegeben Feldern erfolgt keine "
@@ -23599,11 +23766,18 @@ msgstr "Wähle und konfiguriere eine Zugriffsmethode für Paketdepots."
 
 #. type: Plain text
 #: dselect.man
+#, fuzzy
+#| msgid ""
+#| "By default, B<dselect> provides several methods such as I<cdrom>, "
+#| "I<multi_cd>, I<nfs>, I<multi_nfs>, I<harddisk>, I<mounted>, "
+#| "I<multi_mount>, I<floppy> or I<ftp>, but other packages may provide "
+#| "additional methods, eg. the I<apt> access method provided by the B<apt> "
+#| "package."
 msgid ""
 "By default, B<dselect> provides several methods such as I<cdrom>, "
-"I<multi_cd>, I<nfs>, I<multi_nfs>, I<harddisk>, I<mounted>, I<multi_mount>, "
-"I<floppy> or I<ftp>, but other packages may provide additional methods, eg. "
-"the I<apt> access method provided by the B<apt> package."
+"I<multi_cd>, I<nfs>, I<multi_nfs>, I<harddisk>, I<mounted>, I<multi_mount> "
+"or I<ftp>, but other packages may provide additional methods, eg. the I<apt> "
+"access method provided by the B<apt> package."
 msgstr ""
 "Standardmäßig stellt B<dselect> mehrere Methoden wie I<cdrom>, I<multi_cd>, "
 "I<nfs>, I<multi_nfs>, I<harddisk>, I<mounted>, I<multi_mount>, I<floppy> "
@@ -26753,9 +26927,6 @@ msgstr ""
 
 #~ msgid "B<Package:>I< package-name>"
 #~ msgstr "B<Package:>I< Paketname>"
-
-#~ msgid "B<Description:>I< short-description>"
-#~ msgstr "B<Description:>I< Kurzbeschreibung>"
 
 #~ msgid "OPTIONAL FIELDS"
 #~ msgstr "OPTIONALE FELDER"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2017-05-06 12:49+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -406,12 +406,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "nelze nainstalovat změněný stav balíku „%.250s“"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "verze formátu s prázdnou hlavní pozicí"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "verze formátu s prázdnou hlavní pozicí"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "verze formátu neobsahuje tečku"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "verze formátu s prázdnou vedlejší pozicí"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -802,6 +814,11 @@ msgstr "nelze přečíst příznaky popisovače souboru pro „%.250s“"
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "nelze nastavit příznak zavřít-při-spuštění pro „%.250s“"
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "--%s vyžaduje platné jméno balíku, což „%.250s“ není: %s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -896,11 +913,6 @@ msgstr "zastaralá volba „--%s“"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "odporující si akce -%c (--%s) a -%c (--%s)"
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "--%s vyžaduje platné jméno balíku, což „%.250s“ není: %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1234,19 +1246,22 @@ msgstr "%s (podproces): %s\n"
 msgid "fork failed"
 msgstr "fork selhal"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "podproces %s vrátil chybový status %d"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "podproces %s byl přerušen"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "podproces %s byl zabit signálem (%s)%s"
 
 #: lib/dpkg/subproc.c
@@ -1254,13 +1269,15 @@ msgid ", core dumped"
 msgstr ", core dumped"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "podproces %s vrátil čekací chybový status %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "čekání na podproces %s selhalo"
 
 #: lib/dpkg/treewalk.c
@@ -1816,9 +1833,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "archiv „%s“ není obyčejný soubor"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<standardní výstup>"
 
@@ -2667,7 +2684,7 @@ msgstr ""
 "problémy s různými nadstavbami balíčkovacího systému. Můžete to opravit\n"
 "zaregistrováním této cizí architektury příkazem dpkg --add-architecture:\n"
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "balík „%s“ není nainstalován"
@@ -2864,6 +2881,51 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "potlačuje se problém, protože je nastaveno --force:"
 
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "řídící soubor „%s“ balíku „%s“ neobsahuje závěrečný nový řádek"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "řídící soubor „%s“ balíku „%s“ neobsahuje hodnotu"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "řídící soubor „%s“ balíku „%s“ neobsahuje oddělovač hodnoty"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "řídící soubor „%s“ balíku „%s“ obsahuje prázdné jméno souboru"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot open control file '%s' for package '%s'"
+msgstr "nelze otevřít řídící soubor „%s“ balíku „%s“"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr "nelze zjistit stav řídícího souboru „%s“ balíku „%s“"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr "řídící soubor „%s“ balíku „%s“ není běžným souborem"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot read control file '%s' for package '%s'"
+msgstr "nelze číst řídící soubor „%s“ balíku „%s“"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot close control file '%s' for package '%s'"
+msgstr "nelze zavřít řídící soubor „%s“ balíku „%s“"
+
 #: src/filesdb.c
 #, c-format
 msgid "unable to open files list file for package '%.250s'"
@@ -2919,51 +2981,6 @@ msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "nyní je nainstalován %d soubor nebo adresář.)\n"
 msgstr[1] "nyní jsou nainstalovány %d soubory a adresáře.)\n"
 msgstr[2] "nyní je nainstalováno %d souborů a adresářů.)\n"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "řídící soubor „%s“ balíku „%s“ neobsahuje závěrečný nový řádek"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "řídící soubor „%s“ balíku „%s“ neobsahuje hodnotu"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "řídící soubor „%s“ balíku „%s“ neobsahuje oddělovač hodnoty"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "řídící soubor „%s“ balíku „%s“ obsahuje prázdné jméno souboru"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "nelze otevřít řídící soubor „%s“ balíku „%s“"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "nelze zjistit stav řídícího souboru „%s“ balíku „%s“"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "řídící soubor „%s“ balíku „%s“ není běžným souborem"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "nelze číst řídící soubor „%s“ balíku „%s“"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "nelze zavřít řídící soubor „%s“ balíku „%s“"
 
 #: src/help.c
 msgid "not installed"
@@ -4070,8 +4087,9 @@ msgid "cannot set security execution context for maintainer script"
 msgstr "nelze nastavit bezpečnostní kontext pro konfigurační skript"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "instalovaný %s skript"
 
 #: src/script.c
@@ -4080,13 +4098,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "nelze zjistit stav %s „%.250s“"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "nový %s skript"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "starý %s skript"
 
 #: src/script.c
@@ -4467,6 +4487,11 @@ msgstr "sestavení rozděleného balíku"
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "sestavený balík"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "podproces %s vrátil chybový status %d"
 
 #: src/unpack.c
 #, c-format
@@ -4918,8 +4943,9 @@ msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "soubor „%.250s“ je poškozen - špatná hlavička archivu"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr "soubor „%.250s“ není binárním balíkem (zkuste dpkg-split?)"
 
 #: dpkg-deb/extract.c
@@ -4961,9 +4987,12 @@ msgid "archive '%.250s' contains two control members, giving up"
 msgstr "archiv „%.250s“ obsahuje dvě řídící části, vzdávám to"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " nový formát balíku, verze %d.%d.\n"
@@ -4984,9 +5013,12 @@ msgid "cannot skip archive control member from '%s': %s"
 msgstr "nelze přeskočit řídící část archivu z „%s“: %s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " starý debianí balík, verze %d.%d.\n"
@@ -5001,8 +5033,9 @@ msgstr ""
 " stahováním v ASCII módu"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "„%.255s“ nemá formát debianího balíku"
 
 #: dpkg-deb/extract.c
@@ -5181,7 +5214,31 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --uniform-compression        Use the compression params on all "
+#| "members.\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -5192,7 +5249,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -5867,6 +5925,11 @@ msgstr "nelze připojit k „%s“"
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "čekání na podproces %s selhalo"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "nelze odstranit „%s“"
 
@@ -6308,6 +6371,14 @@ msgstr "automatické aktualizace %s/%s jsou zakázány, ponechávám bez změn"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "k automatickým aktualizacím se vrátíte příkazem „%s --auto %s“"
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "zastaralá volba „--%s“, použijte místo ní „--%s“"

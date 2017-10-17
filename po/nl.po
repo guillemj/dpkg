@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2017-02-11 17:49+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -411,12 +411,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "kan de nieuwe status van '%.250s' niet installeren"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "formaat van het versienummer bevat een lege hoofdversiecomponent"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "formaat van het versienummer bevat een lege hoofdversiecomponent"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "formaat van het versienummer bevat geen punt"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "formaat van het versienummer bevat een lege onderversiecomponent"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -817,6 +829,11 @@ msgstr "kan de opties van de bestandsindicator voor %.250s niet lezen"
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "kan de optie close-on-exec voor %.250s niet instellen"
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "--%s vereist een geldige pakketnaam, maar '%.250s' is dat niet: %s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -911,11 +928,6 @@ msgstr "verouderde optie '--%s'"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "tegenstrijdige acties -%c (--%s) en -%c (--%s)"
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "--%s vereist een geldige pakketnaam, maar '%.250s' is dat niet: %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1264,19 +1276,22 @@ msgstr "%s (subproces): %s\n"
 msgid "fork failed"
 msgstr "afsplitsen van nieuw proces is mislukt"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "subproces %s gaf een foutwaarde %d terug"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "subproces %s werd onderbroken"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "subproces %s werd gedood door signaal (%s)%s"
 
 #: lib/dpkg/subproc.c
@@ -1284,13 +1299,15 @@ msgid ", core dumped"
 msgstr ", core gedumpt"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "subproces %s is mislukt met wachtstatuscode %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "wachten op subproces %s is mislukt"
 
 #: lib/dpkg/treewalk.c
@@ -1875,9 +1892,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "archief '%s' is geen gewoon bestand"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<standaarduitvoer>"
 
@@ -2742,7 +2759,7 @@ msgstr ""
 "zal tot vereistenproblemen leiden bij frontends. Dit kan gerepareerd\n"
 "worden door de architectuur te registreren met dpkg --add-architecture:\n"
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "pakket '%s' is niet geïnstalleerd"
@@ -2943,6 +2960,53 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "probleem wordt genegeerd omdat --force aanstaat:"
 
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "controlebestand '%s' voor pakket '%s' heeft geen afsluitend regeleinde"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "controlebestand '%s' voor pakket '%s' heeft een ontbrekende waarde"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"controlebestand '%s' voor pakket '%s' heeft een ontbrekend "
+"waardescheidingsteken"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "controlebestand '%s' voor pakket '%s' bevat een lege bestandsnaam"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot open control file '%s' for package '%s'"
+msgstr "kan controlebestand '%s' voor pakket '%s' niet openen"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr "kan status niet opvragen van controlebestand '%s' voor pakket '%s'"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr "controlebestand '%s' voor pakket '%s' is geen gewoon bestand"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot read control file '%s' for package '%s'"
+msgstr "kan controlebestand '%s' voor pakket '%s' niet lezen"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot close control file '%s' for package '%s'"
+msgstr "kan controlebestand '%s' voor pakket '%s' niet sluiten"
+
 #: src/filesdb.c
 #, c-format
 msgid "unable to open files list file for package '%.250s'"
@@ -3005,53 +3069,6 @@ msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "%d bestand of map momenteel geïnstalleerd.)\n"
 msgstr[1] "%d bestanden en mappen momenteel geïnstalleerd.)\n"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "controlebestand '%s' voor pakket '%s' heeft geen afsluitend regeleinde"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "controlebestand '%s' voor pakket '%s' heeft een ontbrekende waarde"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-"controlebestand '%s' voor pakket '%s' heeft een ontbrekend "
-"waardescheidingsteken"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "controlebestand '%s' voor pakket '%s' bevat een lege bestandsnaam"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "kan controlebestand '%s' voor pakket '%s' niet openen"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "kan status niet opvragen van controlebestand '%s' voor pakket '%s'"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "controlebestand '%s' voor pakket '%s' is geen gewoon bestand"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "kan controlebestand '%s' voor pakket '%s' niet lezen"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "kan controlebestand '%s' voor pakket '%s' niet sluiten"
 
 #: src/help.c
 msgid "not installed"
@@ -4197,8 +4214,9 @@ msgstr ""
 "niet instellen"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "%s script geïnstalleerd"
 
 #: src/script.c
@@ -4207,13 +4225,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "kan de status van %s '%.250s' niet opvragen"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "nieuw %s script"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "verouderd %s script"
 
 #: src/script.c
@@ -4617,6 +4637,11 @@ msgstr "opgesplitst pakket opnieuw samenstellen"
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "pakketbestand opnieuw samengesteld"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "subproces %s gaf een foutwaarde %d terug"
 
 #: src/unpack.c
 #, c-format
@@ -5085,8 +5110,9 @@ msgstr ""
 "bestand '%.250s' is beschadigd - foutief magisch nummer van archiefkoptekst"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr ""
 "bestand '%.250s' is geen binair archief van debian (probeer dpkg-split?)"
 
@@ -5134,9 +5160,12 @@ msgid "archive '%.250s' contains two control members, giving up"
 msgstr "archief '%.250s' bevat twee controle-elementen; er wordt opgegeven"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " nieuw debian pakket, versie %d.%d.\n"
@@ -5159,9 +5188,12 @@ msgid "cannot skip archive control member from '%s': %s"
 msgstr "kan het archiefcontrole-element van '%s' niet overslaan: %s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " verouderd debian pakket, versie %d.%d.\n"
@@ -5176,8 +5208,9 @@ msgstr ""
 " werd door het te downloaden in ASCII-modus"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "'%.255s' is geen archief in debian-formaat"
 
 #: dpkg-deb/extract.c
@@ -5359,7 +5392,31 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --uniform-compression        Use the compression params on all "
+#| "members.\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -5370,7 +5427,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6064,6 +6122,11 @@ msgstr "kan niets toevoegen aan '%s'"
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "wachten op subproces %s is mislukt"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "kan '%s' niet verwijderen"
 
@@ -6527,6 +6590,14 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "om automatische opwaarderingen weer in te schakelen kunt u '%s --auto %s' "
 "gebruiken."
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr ""

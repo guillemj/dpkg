@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.18.24\n"
+"Project-Id-Version: dpkg 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -138,6 +138,10 @@ msgid ""
 "  --get <flag>       output the requested flag to stdout.\n"
 "  --origin <flag>    output the origin of the flag to stdout:\n"
 "                     value is one of vendor, system, user, env.\n"
+"  --status           output a synopsis with all parameters affecting the\n"
+"                     program behaviour, the resulting flags and their "
+"origin.\n"
+"  --query            like --status, but in deb822 format.\n"
 "  --query-features <area>\n"
 "                     output the status of features for the given area.\n"
 "  --list             output a list of the flags supported by the current "
@@ -146,10 +150,7 @@ msgid ""
 "                     output something convenient to import the compilation\n"
 "                     flags in a shell script, in make, or in a command "
 "line.\n"
-"  --dump             output all compilation flags with their values\n"
-"  --status           print a synopsis with all parameters affecting the\n"
-"                     behaviour of dpkg-buildflags and the resulting flags\n"
-"                     and their origin.\n"
+"  --dump             output all compilation flags with their values.\n"
 "  --help             show this help message.\n"
 "  --version          show the version.\n"
 msgstr ""
@@ -317,6 +318,11 @@ msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
+msgid "option %s is only meaningful with option %s"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
 msgid "check-command '%s' not found"
 msgstr ""
 
@@ -391,12 +397,37 @@ msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
+msgid "disallowed target in %s field keyword %s"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "unknown %s field keyword %s in dpkg namespace"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "unknown %s field keyword %s"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "field %s contains duplicate keyword %s"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "%s field contains both global and implementation specific keywords"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
 msgid "unknown %% substitution in hook: %%%s"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
 #: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/OpenPGP.pm scripts/Dpkg/Shlibs.pm
 #, perl-format
 msgid "cannot open %s"
 msgstr ""
@@ -533,6 +564,7 @@ msgid ""
 "  -F<changelog-format>     force changelog format.\n"
 "  -O[<buildinfo-file>]     write to stdout (or <buildinfo-file>).\n"
 "  -u<upload-files-dir>     directory with files (default is '..').\n"
+"  --always-include-kernel  always include Build-Kernel-Version.\n"
 "  --always-include-path    always include Build-Path.\n"
 "  --admindir=<directory>   change the administrative directory.\n"
 "  -?, --help               show this help message.\n"
@@ -2006,10 +2038,6 @@ msgid "continued value line not in field"
 msgstr ""
 
 #: scripts/Dpkg/Control/HashCore.pm
-msgid "OpenPGP signature not allowed here"
-msgstr ""
-
-#: scripts/Dpkg/Control/HashCore.pm
 msgid "expected OpenPGP signature, found end of file after blank line"
 msgstr ""
 
@@ -2020,6 +2048,10 @@ msgstr ""
 
 #: scripts/Dpkg/Control/HashCore.pm
 msgid "unfinished OpenPGP signature"
+msgstr ""
+
+#: scripts/Dpkg/Control/HashCore.pm
+msgid "OpenPGP signature not allowed here"
 msgstr ""
 
 #: scripts/Dpkg/Control/HashCore.pm
@@ -2037,6 +2069,11 @@ msgstr ""
 #: scripts/Dpkg/Control/Info.pm
 #, perl-format
 msgid "block lacks the '%s' field"
+msgstr ""
+
+#: scripts/Dpkg/Control/Tests/Entry.pm
+#, perl-format
+msgid "block lacks either %s or %s fields"
 msgstr ""
 
 #: scripts/Dpkg/Deps.pm
@@ -2091,30 +2128,21 @@ msgstr ""
 
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
-msgid "%s gave error exit status %s"
+msgid "%s subprocess returned exit status %d"
 msgstr ""
 
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
-msgid "%s died from signal %s"
+msgid "%s subprocess was killed by signal %d"
 msgstr ""
 
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
-msgid "%s failed with unknown exit code %d"
+msgid "%s subprocess failed with unknown status code %d"
 msgstr ""
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "Use --help for program usage information."
-msgstr ""
-
-#: scripts/Dpkg/File.pm
-msgid "File::FcntlLock not available; using flock which is not NFS-safe"
-msgstr ""
-
-#: scripts/Dpkg/File.pm
-#, perl-format
-msgid "failed to get a write lock on %s"
 msgstr ""
 
 #: scripts/Dpkg/IPC.pm
@@ -2153,6 +2181,38 @@ msgstr[1] ""
 
 #: scripts/Dpkg/Interface/Storable.pm
 msgid "<standard input>"
+msgstr ""
+
+#: scripts/Dpkg/Lock.pm
+msgid "File::FcntlLock not available; using flock which is not NFS-safe"
+msgstr ""
+
+#: scripts/Dpkg/Lock.pm
+#, perl-format
+msgid "failed to get a write lock on %s"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+msgid "signature file is already OpenPGP ASCII armor, copying"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "cannot create signature file %s"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "cannot execute %s program"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+#, perl-format
+msgid "cannot write signature file %s"
 msgstr ""
 
 #: scripts/Dpkg/Package.pm

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.0~\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-09-24 21:19+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2017-09-24 21:57+0200\n"
 "Last-Translator: Sven Joachim <svenjoac@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -1254,19 +1254,22 @@ msgstr "%s (Unterprozess): %s\n"
 msgid "fork failed"
 msgstr "fork fehlgeschlagen"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "Unterprozess %s gab den Fehlerwert %d zurück"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "Unterprozess %s wurde unterbrochen"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "Unterprozess %s wurde durch Signal (%s)%s getötet"
 
 #: lib/dpkg/subproc.c
@@ -1274,13 +1277,15 @@ msgid ", core dumped"
 msgstr ", Speicherabbild erzeugt"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "Unterprozess %s mit Warte-Statuswert %d fehlgeschlagen"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "Warten auf Unterprozess %s fehlgeschlagen"
 
 #: lib/dpkg/treewalk.c
@@ -4229,8 +4234,9 @@ msgstr ""
 "Security-Ausführungskontext für Betreuerskript kann nicht gesetzt werden"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "installiertes %s-Skript"
 
 #: src/script.c
@@ -4239,13 +4245,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "%s »%.250s« kann nicht mit stat abgefragt werden"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "neues %s-Skript"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "altes %s-Skript"
 
 #: src/script.c
@@ -4641,6 +4649,11 @@ msgstr "Zusammenfügung des aufgeteilten Paketes"
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "Paketdatei wieder zusammengefügt"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "Unterprozess %s gab den Fehlerwert %d zurück"
 
 #: src/unpack.c
 #, c-format
@@ -5111,8 +5124,9 @@ msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "Datei »%.250s« ist defekt - falsche magische Archiv-Kopfzeile"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr "Datei »%.250s« ist kein Debian-Binärarchiv (dpkg-split probieren?)"
 
 #: dpkg-deb/extract.c
@@ -5155,9 +5169,12 @@ msgid "archive '%.250s' contains two control members, giving up"
 msgstr "Archiv »%.250s« enthält zwei Control-Elemente, Abbruch"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " neues Debian-Paket, Version %d.%d.\n"
@@ -5179,9 +5196,12 @@ msgstr ""
 "Archiv-control-Elementdaten von »%s« können nicht übersprungen werden: %s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " altes Debian-Paket, Version %d.%d.\n"
@@ -5196,8 +5216,9 @@ msgstr ""
 " einen Download im ASCII-Modus beschädigt wurde"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "»%.255s« ist kein Archiv im Debian-Format"
 
 #: dpkg-deb/extract.c
@@ -5380,7 +5401,32 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --root-owner-group           Forces the owner and groups to root.\n"
+#| "      --uniform-compression        Use the compression params on all "
+#| "members.\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -5392,7 +5438,7 @@ msgid ""
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
 "      --root-owner-group           Forces the owner and groups to root.\n"
-"      --uniform-compression        Use the compression params on all "
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6093,6 +6139,11 @@ msgstr "An »%s« kann nicht angehängt werden"
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "Warten auf Unterprozess %s fehlgeschlagen"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "»%s« kann nicht entfernt werden"
 
@@ -6553,6 +6604,14 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "Um zu automatischen Aktualisierungen zurückzukehren,\n"
 "verwenden Sie »%s --auto %s«"
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "veraltete Option »--%s«; bitte verwenden Sie »--%s« stattdessen"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2015-04-07 09:47+0200\n"
 "Last-Translator: Marcos Alvarez Costales <marcos.alvarez.costales@gmail."
 "com>\n"
@@ -442,6 +442,12 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "nun pue instalase l'estau actualizau de `%.250s'"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version number"
+msgid "format version with too big major component"
+msgstr "formatu de númberu de versión"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr ""
 
@@ -449,6 +455,12 @@ msgstr ""
 #, fuzzy
 #| msgid "format version number"
 msgid "format version has no dot"
+msgstr "formatu de númberu de versión"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version number"
+msgid "format version with too big minor component"
 msgstr "formatu de númberu de versión"
 
 #: lib/dpkg/deb-version.c
@@ -904,6 +916,14 @@ msgstr ""
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "nun puede afitase l'atributu close-on-exec pa `%.250s'"
 
+#: lib/dpkg/options-parsers.c
+#, fuzzy, c-format
+#| msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr ""
+"--ignore-depends necesita un nome de paquete llegal.\n"
+"`%.250s' no lo es; %s"
+
 #: lib/dpkg/options.c
 #, fuzzy, c-format
 msgid "configuration error: %s:%d: %s"
@@ -999,14 +1019,6 @@ msgstr "opción obsoleta '--%s'\n"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "aiciones en conflictu -%c (--%s) y -%c (--%s)"
-
-#: lib/dpkg/options-parsers.c
-#, fuzzy, c-format
-#| msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr ""
-"--ignore-depends necesita un nome de paquete llegal.\n"
-"`%.250s' no lo es; %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1377,20 +1389,21 @@ msgstr "%s (subprocesu): %s\n"
 msgid "fork failed"
 msgstr "falló en `fork'"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "el subprocesu %s devolvió el códigu de salida d'error %d"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
-msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "el `wait' de %s falló"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
 #| msgid "subprocess %s killed by signal (%s)%s"
-msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "el soprocesu %s terminóse pola señal (%s)%s"
 
 #: lib/dpkg/subproc.c
@@ -1398,13 +1411,14 @@ msgid ", core dumped"
 msgstr ", volcáu de «core»"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "el soprocesu %s falló con códigu d'estáu d'espera %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
+#: lib/dpkg/subproc.c
 #, fuzzy, c-format
-msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "el `wait' de %s falló"
 
 #: lib/dpkg/treewalk.c
@@ -2019,9 +2033,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "conffile '%s' nun ye un ficheru planu"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr ""
 
@@ -2975,7 +2989,7 @@ msgid ""
 "the foreign architecture with dpkg --add-architecture:\n"
 msgstr ""
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, fuzzy, c-format
 #| msgid "Package `%s' is not installed.\n"
 msgid "package '%s' is not installed"
@@ -3194,6 +3208,72 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "avisu, saltando'l problema por tar activao --force: "
 
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr ""
+"el ficheru de llista de ficheros del paquete '%.250s' contién una llinia "
+"final erma"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr ""
+"el ficheru de llista de ficheros del paquete '%.250s' contién una llinia "
+"final erma"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"el ficheru de llista de ficheros del paquete '%.250s' contién una llinia "
+"final erma"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr ""
+"el ficheru de llista de ficheros del paquete `%.250s' contién un nome de "
+"ficheru vacíu"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "unable to open files list file for package `%.250s'"
+msgid "cannot open control file '%s' for package '%s'"
+msgstr "nun pue abrise'l ficheru de llista de ficheros del paquete `%.250s'"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "unable to stat files list file for package '%.250s'"
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr "nun pue abrise'l ficheru de llista de ficheros del paquete '%.250s'"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr ""
+"el ficheru de llista de ficheros del paquete '%.250s' contién una llinia "
+"final erma"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+msgid "cannot read control file '%s' for package '%s'"
+msgstr ""
+"nun puede lleese'l direutoriu del ficheru de configuración `%.250s'\n"
+"(a partir de `%.250s')"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package `%.250s'"
+msgid "cannot close control file '%s' for package '%s'"
+msgstr "error al zarrar el ficheru de llista de ficheros del paquete `%.250s'"
+
 #: src/filesdb.c
 #, c-format
 msgid "unable to open files list file for package '%.250s'"
@@ -3260,72 +3340,6 @@ msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "%d ficheros y direutorios instalaos actualmente.)\n"
 msgstr[1] "%d ficheros y direutorios instalaos actualmente.)\n"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr ""
-"el ficheru de llista de ficheros del paquete '%.250s' contién una llinia "
-"final erma"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr ""
-"el ficheru de llista de ficheros del paquete '%.250s' contién una llinia "
-"final erma"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-"el ficheru de llista de ficheros del paquete '%.250s' contién una llinia "
-"final erma"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package `%.250s' contains empty filename"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr ""
-"el ficheru de llista de ficheros del paquete `%.250s' contién un nome de "
-"ficheru vacíu"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "nun pue abrise'l ficheru de llista de ficheros del paquete `%.250s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to stat files list file for package '%.250s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "nun pue abrise'l ficheru de llista de ficheros del paquete '%.250s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr ""
-"el ficheru de llista de ficheros del paquete '%.250s' contién una llinia "
-"final erma"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr ""
-"nun puede lleese'l direutoriu del ficheru de configuración `%.250s'\n"
-"(a partir de `%.250s')"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "error al zarrar el ficheru de llista de ficheros del paquete `%.250s'"
 
 #: src/help.c
 msgid "not installed"
@@ -4553,8 +4567,9 @@ msgid "cannot set security execution context for maintainer script"
 msgstr "nun pue efeutuase setenv pal programa de caltenimientu"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "script %s instaláu"
 
 #: src/script.c
@@ -4563,13 +4578,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "nun se pudo facer stat de %s `%.250s'"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "script %s nuevu"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "script %s vieyu"
 
 #: src/script.c
@@ -5013,6 +5030,11 @@ msgstr ""
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "paquete reensambláu"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "el subprocesu %s devolvió el códigu de salida d'error %d"
 
 #: src/unpack.c
 #, c-format
@@ -5523,8 +5545,9 @@ msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "el ficheru `%.250s' ta frañáu - númberu de parte erróneu"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr "el ficheru `%.250s' nun ye un ficheru binariu de debian"
 
 #: dpkg-deb/extract.c
@@ -5581,7 +5604,7 @@ msgstr "el ficheru `%.250s' contién dos miembros de control, abandonu"
 #| " new debian package, version %s.\n"
 #| " size %ld bytes: control archive= %zi bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " paquete debian nuevu, versión %s.\n"
@@ -5609,7 +5632,7 @@ msgstr "sáltase l'elementu de %s"
 #| " old debian package, version %s.\n"
 #| " size %ld bytes: control archive= %zi, main archive= %ld.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " paquete debian antiguu, versión %s.\n"
@@ -5628,8 +5651,9 @@ msgstr ""
 "dpkg-deb     al ser tresferíu en mou ASCII\n"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "`%.255s' nun ye un ficheru en formatu debian"
 
 #: dpkg-deb/extract.c
@@ -5841,7 +5865,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6636,6 +6661,11 @@ msgstr "fallu al abrir ficheru de desvíos: %s"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+msgid "wait for subprocess %s failed"
+msgstr "el `wait' de %s falló"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 #| msgid "unable to remove %s: %s"
 msgid "unable to remove '%s'"
 msgstr "nun se puede desaniciar %s: %s"
@@ -7131,6 +7161,14 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "pa volver a facer anovamientos automáticos usa `update-alternatives --auto "
 "%s'."
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #, fuzzy
 #~| msgid "obsolete option '--%s', please use '--%s' instead."

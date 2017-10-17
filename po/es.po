@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2017-04-07 17:49+0200\n"
 "Last-Translator: Javier Fernandez-Sanguino <jfs@debian.org>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -484,12 +484,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "no se puede instalar el estado actualizado de `%.250s'"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "versión de formato con valor de componente principal vacío"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "versión de formato con valor de componente principal vacío"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "el formato de versión no incluye un punto"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "versión de formato con valor de componente menor vacío"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -900,6 +912,11 @@ msgstr ""
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "no se puede establecer el atributo close-on-exec para `%.250s'"
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "--%s necesita un nombre de paquete legal, pero `%.250s' no lo es: %s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -994,11 +1011,6 @@ msgstr "opción obsoleta '--%s'"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "acciones en conflicto -%c (--%s) y -%c (--%s)"
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "--%s necesita un nombre de paquete legal, pero `%.250s' no lo es: %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1354,19 +1366,22 @@ msgstr "%s (subproceso): %s\n"
 msgid "fork failed"
 msgstr "fallo en `fork'"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "el subproceso %s devolvió el código de salida de error %d"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "se interrumpió el subproceso %s"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "el subproceso %s fue terminado por la señal (%s)%s"
 
 #: lib/dpkg/subproc.c
@@ -1374,13 +1389,15 @@ msgid ", core dumped"
 msgstr ", volcado de «core»"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "el subproceso %s falló con código de estado de espera %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "falló la orden `wait' para el subproceso %s"
 
 # FIXME: Traducción de 'stat'
@@ -1974,9 +1991,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "el archivo '%s' no es un fichero normal"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<salida estándar>"
 
@@ -2862,7 +2879,7 @@ msgstr ""
 "de acceso a dpkg. Esto puede corregirse registrando la arquitectura\n"
 "foránea con «dpkg --add-architecture»:\n"
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "el paquete `%s' no está instalado."
@@ -3067,67 +3084,6 @@ msgstr ""
 "sobreseyendo el problema porque está activa la opción --force:\n"
 " "
 
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "no se puede abrir el fichero de lista de ficheros del paquete `%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"falta el fichero de lista de ficheros del paquete `%.250s', se supondrá que "
-"el paquete no tiene ningún fichero actualmente instalado"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr ""
-"no se puede ejecutar «stat» sobre el fichero de lista de ficheros del "
-"paquete `%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "la lista de ficheros para el paquete '%.250s' no es un fichero normal"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr "leyendo la lista de ficheros para el paquete '%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr ""
-"falta un salto de línea nueva al final del fichero de lista de ficheros del "
-"paquete `%.250s' "
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr ""
-"el fichero de lista de ficheros del paquete `%.250s'\n"
-"contiene un nombre de fichero vacío"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "error al cerrar el fichero de lista de ficheros del paquete `%.250s'"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(Leyendo la base de datos ... "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "%d fichero o directorio instalado actualmente.)\n"
-msgstr[1] "%d ficheros o directorios instalados actualmente.)\n"
-
 #: src/filesdb-hash.c
 #, c-format
 msgid "control file '%s' for package '%s' is missing final newline"
@@ -3188,6 +3144,67 @@ msgstr "no se puede leer el fichero de control `%s' para el paquete `%s'"
 #| msgid "cannot close '%s' control file for package '%s'"
 msgid "cannot close control file '%s' for package '%s'"
 msgstr "error al cerrar el fichero de control `%s' del paquete `%s'"
+
+#: src/filesdb.c
+#, c-format
+msgid "unable to open files list file for package '%.250s'"
+msgstr "no se puede abrir el fichero de lista de ficheros del paquete `%.250s'"
+
+#: src/filesdb.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"falta el fichero de lista de ficheros del paquete `%.250s', se supondrá que "
+"el paquete no tiene ningún fichero actualmente instalado"
+
+#: src/filesdb.c
+#, c-format
+msgid "unable to stat files list file for package '%.250s'"
+msgstr ""
+"no se puede ejecutar «stat» sobre el fichero de lista de ficheros del "
+"paquete `%.250s'"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list for package '%.250s' is not a regular file"
+msgstr "la lista de ficheros para el paquete '%.250s' no es un fichero normal"
+
+#: src/filesdb.c
+#, c-format
+msgid "reading files list for package '%.250s'"
+msgstr "leyendo la lista de ficheros para el paquete '%.250s'"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr ""
+"falta un salto de línea nueva al final del fichero de lista de ficheros del "
+"paquete `%.250s' "
+
+#: src/filesdb.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr ""
+"el fichero de lista de ficheros del paquete `%.250s'\n"
+"contiene un nombre de fichero vacío"
+
+#: src/filesdb.c
+#, c-format
+msgid "error closing files list file for package '%.250s'"
+msgstr "error al cerrar el fichero de lista de ficheros del paquete `%.250s'"
+
+#: src/filesdb.c
+msgid "(Reading database ... "
+msgstr "(Leyendo la base de datos ... "
+
+#: src/filesdb.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "%d fichero o directorio instalado actualmente.)\n"
+msgstr[1] "%d ficheros o directorios instalados actualmente.)\n"
 
 #: src/help.c
 msgid "not installed"
@@ -4375,8 +4392,9 @@ msgstr ""
 "desarrollador"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "instalado el script %s"
 
 #: src/script.c
@@ -4385,13 +4403,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "no se puede efectuar `stat' sobre %s `%.250s'"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "script %s nuevo"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "script de `%s' antiguo"
 
 #: src/script.c
@@ -4804,6 +4824,11 @@ msgstr "reensamblado de paquete dividido"
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "paquete reensamblado"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "el subproceso %s devolvió el código de salida de error %d"
 
 #: src/unpack.c
 #, c-format
@@ -5291,8 +5316,9 @@ msgstr "el fichero '%.250s' está dañado - cabecera mágica de archivo errónea
 
 # FIXME: Comment about dpkg-split may be misleading.
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr "el fichero `%.250s' no es un archivo binario de debian"
 
 #: dpkg-deb/extract.c
@@ -5339,9 +5365,12 @@ msgid "archive '%.250s' contains two control members, giving up"
 msgstr "el archivo '%.250s' contiene dos miembros de control, abandono"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " paquete debian nuevo, versión %d.%d.\n"
@@ -5363,9 +5392,12 @@ msgid "cannot skip archive control member from '%s': %s"
 msgstr "no se puede omitir el miembro de control del archivo de '%s': %s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " paquete debian antiguo, versión %d.%d.\n"
@@ -5380,8 +5412,9 @@ msgstr ""
 " al ser transferido en modo ASCII"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "`%.255s' no es un archivo en formato debian"
 
 #: dpkg-deb/extract.c
@@ -5610,7 +5643,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6336,6 +6370,11 @@ msgstr "no se puede añadir a '%s'"
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "falló la orden `wait' para el subproceso %s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "no se puede eliminar '%s'"
 
@@ -6789,6 +6828,14 @@ msgstr ""
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "para volver a hacer actualizaciones automáticas utilice «%s --auto %s»"
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "opción obsoleta '--%s', utilice '--%s' en su lugar"

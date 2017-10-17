@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: ioan-eugen STAN <stan.ieugen@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -463,6 +463,12 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "nu se poate instala starea actualizată a lui „%.250s”"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version number"
+msgid "format version with too big major component"
+msgstr "numărul de versiune al formatului"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr ""
 
@@ -470,6 +476,12 @@ msgstr ""
 #, fuzzy
 #| msgid "format version number"
 msgid "format version has no dot"
+msgstr "numărul de versiune al formatului"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version number"
+msgid "format version with too big minor component"
 msgstr "numărul de versiune al formatului"
 
 #: lib/dpkg/deb-version.c
@@ -925,6 +937,13 @@ msgstr "nu se pot citi fanioanele descriptorului de fișier pentru %.250s"
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "nu se poate activa fanionul close-on-exec pentru %.250s"
 
+#: lib/dpkg/options-parsers.c
+#, fuzzy, c-format
+#| msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr ""
+"--ignore-depends necesită un nume valid de pachet. „%.250s” nu este; %s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -1021,13 +1040,6 @@ msgstr "opțiune învechită „--%s”\n"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "acțiuni în conflict -%c (--%s) și -%c (--%s)"
-
-#: lib/dpkg/options-parsers.c
-#, fuzzy, c-format
-#| msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr ""
-"--ignore-depends necesită un nume valid de pachet. „%.250s” nu este; %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1407,21 +1419,22 @@ msgstr "%s (subproces): %s\n"
 msgid "fork failed"
 msgstr "fork a eșuat"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "subprocesul %s a returnat starea de eroare la ieșire %d"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
 #| msgid "wait for subprocess %s failed"
-msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "așteptarea după sub-procesul %s a eșuat"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
 #| msgid "subprocess %s killed by signal (%s)%s"
-msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "subproces %s omorât de semnalul (%s)%s"
 
 #: lib/dpkg/subproc.c
@@ -1429,13 +1442,15 @@ msgid ", core dumped"
 msgstr ", s-a aruncat nucleul"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "subprocesul %s a eșuat cu codul stării de așteptare %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "așteptarea după sub-procesul %s a eșuat"
 
 #: lib/dpkg/treewalk.c
@@ -2052,9 +2067,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "fișierul conffile „%s” nu este fișier propriu-zis"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<standard output>"
 
@@ -2966,7 +2981,7 @@ msgid ""
 "the foreign architecture with dpkg --add-architecture:\n"
 msgstr ""
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, fuzzy, c-format
 #| msgid "Package `%s' is not installed.\n"
 msgid "package '%s' is not installed"
@@ -3192,6 +3207,73 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "problemă la forțare datorită activării lui --force: "
 
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr ""
+"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
+"newline de la final"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr ""
+"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
+"newline de la final"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
+"newline de la final"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr ""
+"fișierul cu lista fișierelor pachetului „%.250s” conține nume de fișier vid"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "unable to open files list file for package `%.250s'"
+msgid "cannot open control file '%s' for package '%s'"
+msgstr ""
+"nu se poate deschide fișierul cu lista fișierelor pentru pachetul „%.250s”"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "unable to stat files list file for package '%.250s'"
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr ""
+"stat imposibil pentru fișierul cu lista fișierelor pentru pachetul „%.250s”"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr ""
+"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
+"newline de la final"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+msgid "cannot read control file '%s' for package '%s'"
+msgstr ""
+"nu se poate citi directorul fișierului de configurare „%.250s” (din „%.250s”)"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package `%.250s'"
+msgid "cannot close control file '%s' for package '%s'"
+msgstr ""
+"eroare la închiderea fișierului listei cu fișierele pentru pachetul „%.250s”"
+
 #: src/filesdb.c
 #, c-format
 msgid "unable to open files list file for package '%.250s'"
@@ -3260,73 +3342,6 @@ msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "%d fișier sau director actualmente instalat.)\n"
 msgstr[1] "%d fișiere și directoare actualmente instalate.)\n"
 msgstr[2] "%d de fișiere și directoare actualmente instalate.)\n"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr ""
-"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
-"newline de la final"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr ""
-"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
-"newline de la final"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
-"newline de la final"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package `%.250s' contains empty filename"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr ""
-"fișierul cu lista fișierelor pachetului „%.250s” conține nume de fișier vid"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr ""
-"nu se poate deschide fișierul cu lista fișierelor pentru pachetul „%.250s”"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to stat files list file for package '%.250s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr ""
-"stat imposibil pentru fișierul cu lista fișierelor pentru pachetul „%.250s”"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr ""
-"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
-"newline de la final"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr ""
-"nu se poate citi directorul fișierului de configurare „%.250s” (din „%.250s”)"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr ""
-"eroare la închiderea fișierului listei cu fișierele pentru pachetul „%.250s”"
 
 #: src/help.c
 msgid "not installed"
@@ -4612,8 +4627,9 @@ msgid "cannot set security execution context for maintainer script"
 msgstr "setenv imposibil pentru scriptul maintainer"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "script %s instalat"
 
 #: src/script.c
@@ -4622,13 +4638,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "stat imposibil pentru %s „%.250s”"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "script %s nou"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "script %s vechi"
 
 #: src/script.c
@@ -5091,6 +5109,11 @@ msgstr ""
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "fișier pachet reasamblat"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "subprocesul %s a returnat starea de eroare la ieșire %d"
 
 #: src/unpack.c
 #, c-format
@@ -5606,8 +5629,9 @@ msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "fișierul „%.250s” este corupt - număr de volum eronat"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr ""
 "fișierul „%.250s” nu este o arhivă binară debian (încercați dpkg-split?)"
 
@@ -5666,7 +5690,7 @@ msgstr "fișierul „%.250s” conține două membre control, se renunță"
 #| " new debian package, version %s.\n"
 #| " size %ld bytes: control archive= %zi bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " pachet debian nou, versiunea %s.\n"
@@ -5694,7 +5718,7 @@ msgstr "s-au omis datele membrului de la %s"
 #| " old debian package, version %s.\n"
 #| " size %ld bytes: control archive= %zi, main archive= %ld.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " pachet debian vechi, versiune %s.\n"
@@ -5713,8 +5737,9 @@ msgstr ""
 "dpkg-deb:    coruptă prin descărcarea în mod ASCII\n"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "„%.255s” nu este o arhivă în format debian"
 
 #: dpkg-deb/extract.c
@@ -5936,7 +5961,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6750,6 +6776,11 @@ msgid "cannot append to '%s'"
 msgstr "nu se poate adăuga la %s: %s"
 
 #: utils/update-alternatives.c
+#, c-format
+msgid "wait for subprocess %s failed"
+msgstr "așteptarea după sub-procesul %s a eșuat"
+
+#: utils/update-alternatives.c
 #, fuzzy, c-format
 #| msgid "unable to remove %s: %s"
 msgid "unable to remove '%s'"
@@ -7249,6 +7280,14 @@ msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "pentru a reveni la actualizarea automată folosiți „update-alternatives --"
 "auto %s”."
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #, fuzzy
 #~| msgid "obsolete option '--%s', please use '--%s' instead."

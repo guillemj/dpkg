@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.18.24\n"
+"Project-Id-Version: dpkg 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -400,11 +400,19 @@ msgid "unable to install updated status of '%.250s'"
 msgstr ""
 
 #: lib/dpkg/deb-version.c
+msgid "format version with too big major component"
+msgstr ""
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr ""
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
+msgstr ""
+
+#: lib/dpkg/deb-version.c
+msgid "format version with too big minor component"
 msgstr ""
 
 #: lib/dpkg/deb-version.c
@@ -785,6 +793,11 @@ msgstr ""
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr ""
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr ""
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -878,11 +891,6 @@ msgstr ""
 #: lib/dpkg/options.c
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
-msgstr ""
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
 msgstr ""
 
 #: lib/dpkg/parse.c
@@ -1203,19 +1211,19 @@ msgstr ""
 msgid "fork failed"
 msgstr ""
 
-#: lib/dpkg/subproc.c src/unpack.c
+#: lib/dpkg/subproc.c
 #, c-format
-msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr ""
 
 #: lib/dpkg/subproc.c
 #, c-format
-msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr ""
 
 #: lib/dpkg/subproc.c
 #, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr ""
 
 #: lib/dpkg/subproc.c
@@ -1224,12 +1232,12 @@ msgstr ""
 
 #: lib/dpkg/subproc.c
 #, c-format
-msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr ""
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
+#: lib/dpkg/subproc.c
 #, c-format
-msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr ""
 
 #: lib/dpkg/treewalk.c
@@ -1752,9 +1760,9 @@ msgid "archive '%s' is not a regular file"
 msgstr ""
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr ""
 
@@ -2507,7 +2515,7 @@ msgid ""
 "the foreign architecture with dpkg --add-architecture:\n"
 msgstr ""
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr ""
@@ -2688,6 +2696,51 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr ""
 
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr ""
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr ""
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr ""
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot open control file '%s' for package '%s'"
+msgstr ""
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr ""
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr ""
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot read control file '%s' for package '%s'"
+msgstr ""
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot close control file '%s' for package '%s'"
+msgstr ""
+
 #: src/filesdb.c
 #, c-format
 msgid "unable to open files list file for package '%.250s'"
@@ -2740,51 +2793,6 @@ msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] ""
 msgstr[1] ""
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr ""
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr ""
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr ""
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot open control file '%s' for package '%s'"
-msgstr ""
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr ""
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr ""
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot read control file '%s' for package '%s'"
-msgstr ""
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot close control file '%s' for package '%s'"
-msgstr ""
 
 #: src/help.c
 msgid "not installed"
@@ -3724,7 +3732,7 @@ msgstr ""
 
 #: src/script.c
 #, c-format
-msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr ""
 
 #: src/script.c
@@ -3734,12 +3742,12 @@ msgstr ""
 
 #: src/script.c
 #, c-format
-msgid "new %s script"
+msgid "new %s package %s script"
 msgstr ""
 
 #: src/script.c
 #, c-format
-msgid "old %s script"
+msgid "old %s package %s script"
 msgstr ""
 
 #: src/script.c
@@ -4080,6 +4088,11 @@ msgstr ""
 
 #: src/unpack.c
 msgid "reassembled package file"
+msgstr ""
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
 msgstr ""
 
 #: src/unpack.c
@@ -4520,7 +4533,7 @@ msgstr ""
 
 #: dpkg-deb/extract.c
 #, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr ""
 
 #: dpkg-deb/extract.c
@@ -4564,7 +4577,7 @@ msgstr ""
 #: dpkg-deb/extract.c
 #, c-format
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 
@@ -4585,7 +4598,7 @@ msgstr ""
 #: dpkg-deb/extract.c
 #, c-format
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 
@@ -4597,7 +4610,7 @@ msgstr ""
 
 #: dpkg-deb/extract.c
 #, c-format
-msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr ""
 
 #: dpkg-deb/extract.c
@@ -4766,7 +4779,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -5343,6 +5357,11 @@ msgstr ""
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr ""
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr ""
 
@@ -5770,4 +5789,12 @@ msgstr ""
 #: utils/update-alternatives.c
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
 msgstr ""

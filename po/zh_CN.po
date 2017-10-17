@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.x\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2017-07-04 03:00+0000\n"
 "Last-Translator: Zhou Mo <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -408,12 +408,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "无法安装 %.250s 的更新状态"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "格式版本的主版本为空"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "格式版本的主版本为空"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "格式版本没有点号"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "格式版本的次版本为空"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -803,6 +815,11 @@ msgstr "无法读取 %.250s 的 filedescriptor 标志位"
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "无法设置 %.250s 的 close-on-exec 标志位"
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "--%s 需要一个有效的软件包名。而 %.250s 不是: %s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -897,11 +914,6 @@ msgstr "废弃的选项 ’--%s‘"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "操作 -%c (--%s) 和 -%c (--%s) 互相冲突"
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "--%s 需要一个有效的软件包名。而 %.250s 不是: %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1227,19 +1239,22 @@ msgstr "%s (子进程)：%s\n"
 msgid "fork failed"
 msgstr "fork 失败"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "子进程 %s 返回错误状态 %d"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "子进程 %s 被中断"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "子进程 %s 被信号(%s)%s 终止了"
 
 #: lib/dpkg/subproc.c
@@ -1247,13 +1262,15 @@ msgid ", core dumped"
 msgstr "，核心已转储"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "子进程 %s 失败，获得的等待状态号为 %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "等待子进程 %s 失败"
 
 #: lib/dpkg/treewalk.c
@@ -1788,9 +1805,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "归档 '%s' 不是普通文件"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<标准输出>"
 
@@ -2628,7 +2645,7 @@ msgstr ""
 "引发依赖问题。您可以通过 dpkg --add-architecture\n"
 "添加这个外来体系结构以修复此问题：\n"
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "软件包 %s 没有被安装"
@@ -2821,6 +2838,51 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "由于开启了 --force 选项，以下问题被忽略："
 
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少结尾换行符"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少值"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少值分隔符"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "软件包 '%2$s' 的控制文件 '%1$s' 含有空文件名"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot open control file '%s' for package '%s'"
+msgstr "无法打开软件包 %2$s 的 %1$s 控制文件"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr "无法取得软件包 %2$s 的 %1$s 控制文件状态"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr "软件包 '%2$s' 的 '%1$s' 控制文件文件不是常规文件"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot read control file '%s' for package '%s'"
+msgstr "无法读取软件包 '%2$s' 的 '%1$s' 控制文件"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot close control file '%s' for package '%s'"
+msgstr "无法关闭软件包 '%2$s' 的 '%1$s' 控制文件"
+
 #: src/filesdb.c
 #, c-format
 msgid "unable to open files list file for package '%.250s'"
@@ -2874,51 +2936,6 @@ msgstr "(正在读取数据库 ... "
 msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "系统当前共安装有 %d 个文件和目录。)\n"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少结尾换行符"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少值"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少值分隔符"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "软件包 '%2$s' 的控制文件 '%1$s' 含有空文件名"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "无法打开软件包 %2$s 的 %1$s 控制文件"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "无法取得软件包 %2$s 的 %1$s 控制文件状态"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "软件包 '%2$s' 的 '%1$s' 控制文件文件不是常规文件"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "无法读取软件包 '%2$s' 的 '%1$s' 控制文件"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "无法关闭软件包 '%2$s' 的 '%1$s' 控制文件"
 
 #: src/help.c
 msgid "not installed"
@@ -4005,8 +4022,9 @@ msgid "cannot set security execution context for maintainer script"
 msgstr "无法为维护者脚本设置安全执行上下文"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "已安装 %s 脚本"
 
 #: src/script.c
@@ -4015,13 +4033,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "无法获取 %s  %.250s 的状态"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "新的 %s 脚本"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "旧的 %s 脚本"
 
 #: src/script.c
@@ -4399,6 +4419,11 @@ msgstr "重组并分割软件包"
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "重新组装成的软件包文件"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "子进程 %s 返回错误状态 %d"
 
 #: src/unpack.c
 #, c-format
@@ -4837,8 +4862,9 @@ msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "文件 %.250s 损毁 - 归档头部魔数无效"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr "文件 %.250s 不是 debian 的二进制包文件(不妨尝试 dpkg-split?)"
 
 #: dpkg-deb/extract.c
@@ -4880,9 +4906,12 @@ msgid "archive '%.250s' contains two control members, giving up"
 msgstr "归档 %.250s 含有两个控制成员，放弃操作"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " 新格式的 debian 软件包，格式版本 %d.%d。\n"
@@ -4903,9 +4932,12 @@ msgid "cannot skip archive control member from '%s': %s"
 msgstr "无法跳过 %s 中的归档 control 成员：%s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " 旧格式的 debian 软件包，版本 %d.%d。\n"
@@ -4920,8 +4952,9 @@ msgstr ""
 " 使用的是 ASCII 模式，从而导致了包文件被损坏"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "%.255s 并非 debian 格式的包文件"
 
 #: dpkg-deb/extract.c
@@ -5098,7 +5131,31 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --uniform-compression        Use the compression params on all "
+#| "members.\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -5109,7 +5166,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -5777,6 +5835,11 @@ msgstr "无法追加至 %s"
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "等待子进程 %s 失败"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "无法移除 %s"
 
@@ -6206,6 +6269,14 @@ msgstr "%s/%s 的自动更新功能已禁用；保持现状"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "要恢复成自动更新请执行 %s --auto %s。"
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "废弃的选项 --%s，请使用 --%s 代替"

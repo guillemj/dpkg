@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-09-25 18:43+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2017-09-25 19:03+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -587,7 +587,7 @@ msgstr "unbekannte %% Substitution in Hook: %%%s"
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
 #: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
-#: scripts/Dpkg/IPC.pm scripts/Dpkg/Shlibs.pm
+#: scripts/Dpkg/IPC.pm scripts/Dpkg/OpenPGP.pm scripts/Dpkg/Shlibs.pm
 #, perl-format
 msgid "cannot open %s"
 msgstr "%s kann nicht geöffnet werden"
@@ -740,6 +740,22 @@ msgid "install new files list file"
 msgstr "neue Dateilistendatei installieren"
 
 #: scripts/dpkg-genbuildinfo.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  --build=<type>[,...]     specify the build <type>: full, source, "
+#| "binary,\n"
+#| "                             any, all (default is 'full').\n"
+#| "  -c<control-file>         get control info from this file.\n"
+#| "  -l<changelog-file>       get per-version info from this file.\n"
+#| "  -f<files-list-file>      get .deb files list from this file.\n"
+#| "  -F<changelog-format>     force changelog format.\n"
+#| "  -O[<buildinfo-file>]     write to stdout (or <buildinfo-file>).\n"
+#| "  -u<upload-files-dir>     directory with files (default is '..').\n"
+#| "  --always-include-path    always include Build-Path.\n"
+#| "  --admindir=<directory>   change the administrative directory.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version.\n"
 msgid ""
 "Options:\n"
 "  --build=<type>[,...]     specify the build <type>: full, source, binary,\n"
@@ -750,6 +766,7 @@ msgid ""
 "  -F<changelog-format>     force changelog format.\n"
 "  -O[<buildinfo-file>]     write to stdout (or <buildinfo-file>).\n"
 "  -u<upload-files-dir>     directory with files (default is '..').\n"
+"  --always-include-kernel  always include Build-Kernel-Version.\n"
 "  --always-include-path    always include Build-Path.\n"
 "  --admindir=<directory>   change the administrative directory.\n"
 "  -?, --help               show this help message.\n"
@@ -2567,10 +2584,6 @@ msgid "continued value line not in field"
 msgstr "fortgeführte Wertzeile nicht im Feld"
 
 #: scripts/Dpkg/Control/HashCore.pm
-msgid "OpenPGP signature not allowed here"
-msgstr "OpenPGP-Signatur hier nicht erlaubt"
-
-#: scripts/Dpkg/Control/HashCore.pm
 msgid "expected OpenPGP signature, found end of file after blank line"
 msgstr "OpenPGP-Signatur erwartet, Dateiende nach einer Leerzeile gefunden"
 
@@ -2582,6 +2595,10 @@ msgstr "OpenPGP-Signatur erwartet, etwas anderes gefunden »%s«"
 #: scripts/Dpkg/Control/HashCore.pm
 msgid "unfinished OpenPGP signature"
 msgstr "unvollständige OpenPGP-Signatur"
+
+#: scripts/Dpkg/Control/HashCore.pm
+msgid "OpenPGP signature not allowed here"
+msgstr "OpenPGP-Signatur hier nicht erlaubt"
 
 #: scripts/Dpkg/Control/HashCore.pm
 msgid "line with unknown format (not field-colon-value)"
@@ -2657,18 +2674,20 @@ msgid "error"
 msgstr "Fehler"
 
 #: scripts/Dpkg/ErrorHandling.pm
-#, perl-format
-msgid "%s gave error exit status %s"
+#, fuzzy, perl-format
+#| msgid "%s gave error exit status %s"
+msgid "%s subprocess returned exit status %d"
 msgstr "Fehler-Exitstatus von %s war %s"
 
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
-msgid "%s died from signal %s"
-msgstr "%s wurde durch Signal %s getötet"
+msgid "%s subprocess was killed by signal %d"
+msgstr ""
 
 #: scripts/Dpkg/ErrorHandling.pm
-#, perl-format
-msgid "%s failed with unknown exit code %d"
+#, fuzzy, perl-format
+#| msgid "%s failed with unknown exit code %d"
+msgid "%s subprocess failed with unknown status code %d"
 msgstr "%s fehlgeschlagen mit unbekanntem Exit-Code %d"
 
 #: scripts/Dpkg/ErrorHandling.pm
@@ -2722,6 +2741,32 @@ msgstr ""
 #, perl-format
 msgid "failed to get a write lock on %s"
 msgstr "Fehler beim Erlangen einer Schreibsperre auf %s"
+
+#: scripts/Dpkg/OpenPGP.pm
+msgid "signature file is already OpenPGP ASCII armor, copying"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
+msgstr ""
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "cannot create pipe for %s"
+msgid "cannot create signature file %s"
+msgstr "Pipe für %s kann nicht angelegt werden"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "cannot exec dpkg"
+msgid "cannot execute %s program"
+msgstr "dpkg kann nicht ausgeführt werden"
+
+#: scripts/Dpkg/OpenPGP.pm
+#, fuzzy, perl-format
+#| msgid "cannot stat file %s"
+msgid "cannot write signature file %s"
+msgstr "Datei %s kann nicht mit stat abgefragt werden"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
@@ -3910,6 +3955,9 @@ msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 
+#~ msgid "%s died from signal %s"
+#~ msgstr "%s wurde durch Signal %s getötet"
+
 #~ msgid "'hardening' flag found but 'hardening-wrapper' not installed"
 #~ msgstr ""
 #~ "Schalter »hardening« gefunden, aber »hardening-wrapper« nicht installiert"
@@ -4461,9 +4509,6 @@ msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 
 #~ msgid "exec %s"
 #~ msgstr "ausführen von %s"
-
-#~ msgid "cannot exec dpkg"
-#~ msgstr "dpkg kann nicht ausgeführt werden"
 
 #~ msgid "git config exited nonzero"
 #~ msgstr "git config mit nicht-Null-Status beendet"

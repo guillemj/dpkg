@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2017-04-29 16:21+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -414,12 +414,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "no es pot instal·lar l'estat actualització de «%.250s»"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "número de versió del format amb component principal buit"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "número de versió del format amb component principal buit"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "número de versió del format no conté un punt"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "número de versió del format amb component secundari buit"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -829,6 +841,11 @@ msgstr ""
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "no es pot establir l'atribut close-on-exec per a «%.250s»"
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "--%s necessita un nom de paquet vàlid, però «%.250s» no ho és: %s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -923,11 +940,6 @@ msgstr "l'opció «--%s» és obsoleta"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "accions en conflicte -%c (--%s) i -%c (--%s)"
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "--%s necessita un nom de paquet vàlid, però «%.250s» no ho és: %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1272,19 +1284,22 @@ msgstr "%s (subprocés): %s\n"
 msgid "fork failed"
 msgstr "ha fallat el «fork»"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "el subprocés %s retornà el codi d'eixida d'error %d"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "el subprocés %s ha estat interromput"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "el subprocés %s ha estat finalitzat pel senyal (%s)%s"
 
 #: lib/dpkg/subproc.c
@@ -1292,13 +1307,15 @@ msgid ", core dumped"
 msgstr ", s'ha generat un fitxer «core»"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "el subprocés %s ha fallat amb codi d'estat en espera %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "el «wait» per al subprocés %s ha fallat"
 
 #: lib/dpkg/treewalk.c
@@ -1886,9 +1903,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "l'arxiu «%s» no és un fitxer regular"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<eixida estàndard>"
 
@@ -2753,7 +2770,7 @@ msgstr ""
 "problemes de dependències en els frontals. Això és pot esmenar registrant\n"
 "l'arquitectura estrangera amb «dpkg --add-architecture»:\n"
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "el paquet «%s» no està instal·lat"
@@ -2955,6 +2972,54 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "no es tindrà en compte el problema per estar activa una opció --force:"
 
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr ""
+"al fitxer de control «%s» del paquet «%.250s» li manca una línia nova final"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "el fitxer de control «%s» del paquet «%.250s» manca un valor"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"el fitxer de control «%s» del paquet «%.250s» manca un separador de valor"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr ""
+"el fitxer de control «%s» del paquet «%.250s» conté un nom de fitxer buit"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot open control file '%s' for package '%s'"
+msgstr "no es pot obrir el fitxer de control «%s» del paquet «%s»"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr "no es pot fer «stat» sobre el fitxer de control «%s» del paquet «%s»"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr "el fitxer «%s» del paquet «%s» no és un fitxer regular"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot read control file '%s' for package '%s'"
+msgstr "no es pot llegir el fitxer de control «%s» del paquet «%s»"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "cannot close control file '%s' for package '%s'"
+msgstr "no es pot tancar el fitxer de control «%s» del paquet «%s»"
+
 #: src/filesdb.c
 #, c-format
 msgid "unable to open files list file for package '%.250s'"
@@ -3020,54 +3085,6 @@ msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "hi ha %d fitxer o directori instal·lat actualment.)\n"
 msgstr[1] "hi ha %d fitxers i directoris instal·lats actualment.)\n"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr ""
-"al fitxer de control «%s» del paquet «%.250s» li manca una línia nova final"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "el fitxer de control «%s» del paquet «%.250s» manca un valor"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-"el fitxer de control «%s» del paquet «%.250s» manca un separador de valor"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr ""
-"el fitxer de control «%s» del paquet «%.250s» conté un nom de fitxer buit"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "no es pot obrir el fitxer de control «%s» del paquet «%s»"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "no es pot fer «stat» sobre el fitxer de control «%s» del paquet «%s»"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "el fitxer «%s» del paquet «%s» no és un fitxer regular"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "no es pot llegir el fitxer de control «%s» del paquet «%s»"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "no es pot tancar el fitxer de control «%s» del paquet «%s»"
 
 #: src/help.c
 msgid "not installed"
@@ -4241,8 +4258,9 @@ msgstr ""
 "mantenidor"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "s'ha instal·lat el script %s"
 
 #: src/script.c
@@ -4251,13 +4269,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "no es pot fer «stat» sobre %s «%.250s»"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "guió «%s» nou"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "guió de «%s» antic"
 
 #: src/script.c
@@ -4662,6 +4682,11 @@ msgstr "muntatge del paquet trossejat"
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "fitxer de paquet reconstruït"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "el subprocés %s retornà el codi d'eixida d'error %d"
 
 #: src/unpack.c
 #, c-format
@@ -5137,8 +5162,9 @@ msgstr ""
 "erroni"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr ""
 "el fitxer «%.250s» no és un arxiu binari de debian (proveu amb el dpkg-"
 "split?)"
@@ -5185,9 +5211,12 @@ msgid "archive '%.250s' contains two control members, giving up"
 msgstr "l'arxiu «%.250s» conté dos elements de control, s'abandona"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " paquet de debian nou, versió %d.%d.\n"
@@ -5209,9 +5238,12 @@ msgid "cannot skip archive control member from '%s': %s"
 msgstr "no es pot ometre l'element de control de l'arxiu de «%s»: %s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " paquet debian antic, versió %d.%d.\n"
@@ -5226,8 +5258,9 @@ msgstr ""
 " al ser descarregat en mode ASCII"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "«%.255s» no és un arxiu amb el format debian"
 
 #: dpkg-deb/extract.c
@@ -5413,7 +5446,31 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  -v, --verbose                    Enable verbose output.\n"
+#| "  -D, --debug                      Enable debugging output.\n"
+#| "      --showformat=<format>        Use alternative format for --show.\n"
+#| "      --deb-format=<format>        Select archive format.\n"
+#| "                                     Allowed values: 0.939000, 2.0 "
+#| "(default).\n"
+#| "      --nocheck                    Suppress control file check (build "
+#| "bad\n"
+#| "                                     packages).\n"
+#| "      --uniform-compression        Use the compression params on all "
+#| "members.\n"
+#| "  -z#                              Set the compression level when "
+#| "building.\n"
+#| "  -Z<type>                         Set the compression type used when "
+#| "building.\n"
+#| "                                     Allowed types: gzip, xz, none.\n"
+#| "  -S<strategy>                     Set the compression strategy when "
+#| "building.\n"
+#| "                                     Allowed values: none; extreme (xz);\n"
+#| "                                     filtered, huffman, rle, fixed "
+#| "(gzip).\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  -v, --verbose                    Enable verbose output.\n"
@@ -5424,7 +5481,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6128,6 +6186,11 @@ msgstr "no es pot afegir a «%s»"
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "el «wait» per al subprocés %s ha fallat"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "no es pot eliminar «%s»"
 
@@ -6585,7 +6648,9 @@ msgstr ""
 
 #: utils/update-alternatives.polkit.in
 msgid "Run update-alternatives to modify system alternative selections"
-msgstr "Executa update-alternatives per a modificar les seleccions d'alternatives del sistema"
+msgstr ""
+"Executa update-alternatives per a modificar les seleccions d'alternatives "
+"del sistema"
 
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
@@ -407,12 +407,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "ezin da egoera eguneratua instalatu - '%.250s'"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "formatuaren bertsioa osagai nagusi hutsarekin"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "formatuaren bertsioa osagai nagusi hutsarekin"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "formatuaren bertsioak ez dauka punturik"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "formatuaren bertsioa osagai lagungarri hutsarekin"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -837,6 +849,11 @@ msgstr "ezin da irakurri fitxategiaren deskriptorea - %.250s"
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "ezin da ezarri 'close-on-exec' bandera - %.250s"
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "--%s legezko pakete-izena behar du. '%.250s' ez da; %s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -933,11 +950,6 @@ msgstr "aukera zaharkitua '--%s'\n"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "ekintza gatazkatsuak -%c (--%s) eta -%c (--%s)"
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "--%s legezko pakete-izena behar du. '%.250s' ez da; %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1287,19 +1299,22 @@ msgstr "%s (azpiprozesua): %s\n"
 msgid "fork failed"
 msgstr "huts egin du sardetzean"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "%s azpiprozesuak %d errorea eman du irteeran"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "%s azpiprozesua eten egin da"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "%s azpiprozesua hil du (%s)%s seinaleak"
 
 #: lib/dpkg/subproc.c
@@ -1307,13 +1322,15 @@ msgid ", core dumped"
 msgstr ", nukleoa iraulita"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "%s azpiprozesuak huts egin du itxaroteko %d egoera kodearekin"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "huts egin du %s azpiprozesuari itxarotean"
 
 #: lib/dpkg/treewalk.c
@@ -1897,9 +1914,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "'%s' konfigurazioko fitxategia ez da fitxategi arrunta"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<irteera estandarra>"
 
@@ -2761,7 +2778,7 @@ msgstr ""
 "'dpkg --add-architecture' komandoarekin kanpoko\n"
 "arkitektura erregistratuz konpon daiteke:\n"
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "'%s' paketea ez dago instalatuta"
@@ -2968,6 +2985,62 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "gainidazteko arazoa --force gaituta dagoelako:"
 
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr ""
+"'%2$s' paketearen '%1$s' kontrol-fitxategiak amaierako lerro-jauzia falta du"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr ""
+"'%2$s' paketearen '%1$s' kontrol-fitxategiak amaierako lerro-jauzia falta du"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"'%2$s' paketearen '%1$s' kontrol-fitxategiak amaierako lerro-jauzia falta du"
+
+#: src/filesdb-hash.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr ""
+"'%2$s' paketearen '%1$s' kontrol-fitxategiak fitxategi-izen hutsa dauka"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot open '%s' control file for package '%s'"
+msgid "cannot open control file '%s' for package '%s'"
+msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategia ireki"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot stat '%s' control file for package '%s'"
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategiaren egoera eskuratu"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "'%s' file for package '%s' is not a regular file"
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr "'%2$s' paketearen '%1$s' fitxategia ez da fitxategi arrunta"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot read '%s' control file for package '%s'"
+msgid "cannot read control file '%s' for package '%s'"
+msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategia irakurri"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot close '%s' control file for package '%s'"
+msgid "cannot close control file '%s' for package '%s'"
+msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategia itxi"
+
 #: src/filesdb.c
 #, c-format
 msgid "unable to open files list file for package '%.250s'"
@@ -3027,62 +3100,6 @@ msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "fitxategi edo direktorio %d dago unean instalatuta).\n"
 msgstr[1] "%d fitxategi edo direktorio daude unean instalatuta).\n"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr ""
-"'%2$s' paketearen '%1$s' kontrol-fitxategiak amaierako lerro-jauzia falta du"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr ""
-"'%2$s' paketearen '%1$s' kontrol-fitxategiak amaierako lerro-jauzia falta du"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-"'%2$s' paketearen '%1$s' kontrol-fitxategiak amaierako lerro-jauzia falta du"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr ""
-"'%2$s' paketearen '%1$s' kontrol-fitxategiak fitxategi-izen hutsa dauka"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot open '%s' control file for package '%s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategia ireki"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot stat '%s' control file for package '%s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategiaren egoera eskuratu"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "'%s' file for package '%s' is not a regular file"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "'%2$s' paketearen '%1$s' fitxategia ez da fitxategi arrunta"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read '%s' control file for package '%s'"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategia irakurri"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot close '%s' control file for package '%s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategia itxi"
 
 #: src/help.c
 msgid "not installed"
@@ -4278,8 +4295,9 @@ msgstr ""
 "script-arentzako"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "%s script-a instalatuta"
 
 #: src/script.c
@@ -4288,13 +4306,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "ezin da %s '%.250s' atzitu"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "%s script berria"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "%s script zaharra"
 
 #: src/script.c
@@ -4701,6 +4721,11 @@ msgstr "zatitutako paketea batzea"
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "pakete-fitxategia berriz muntatu da"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "%s azpiprozesuak %d errorea eman du irteeran"
 
 #: src/unpack.c
 #, c-format
@@ -5178,8 +5203,9 @@ msgstr ""
 "'%.250s' fitxategia hondatuta dago - artxiboaren goiburu magikoa okerra"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr ""
 "'%.250s' fitxategia ez da debian-en artxibo bitarra (dpkg-split probatu "
 "nahi?)"
@@ -5227,9 +5253,12 @@ msgid "archive '%.250s' contains two control members, giving up"
 msgstr "'%.250s' artxiboak bi kontrol-kide dauzka, utzi egingo da"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " debian pakete berria, %d.%d bertsioa.\n"
@@ -5250,9 +5279,12 @@ msgid "cannot skip archive control member from '%s': %s"
 msgstr "ezin da artxiboaren kontrol-kidea alde batera utzi '%s'(e)n: %s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " debian pakete zaharra, %d.%d bertsioa.\n"
@@ -5267,8 +5299,9 @@ msgstr ""
 " hondatu den artxibo bat dela"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "'%.255s' ez da debian formatuko artxibo bat"
 
 #: dpkg-deb/extract.c
@@ -5493,7 +5526,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6206,6 +6240,11 @@ msgstr "ezin zaio '%s'(r)i erantsi"
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "huts egin du %s azpiprozesuari itxarotean"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "ezin da '%s' kendu"
 
@@ -6658,6 +6697,14 @@ msgstr "%s/%s-(r)en eguneraketa automatikoak desgaituta daude, ez da ukituko"
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "eguneraketa automatikoetara itzultzeko erabili '%s --auto %s'"
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "'--%s' aukera zaharkitua, '--%s' erabili horren ordez"

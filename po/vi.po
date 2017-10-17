@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2016-01-14 08:22+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
@@ -408,12 +408,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "không thể cài đặt trạng thái đã cập nhật của “%.250s”"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "định dạng của phiên bản có thành phần số lớn (major) trống rỗng"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "định dạng của phiên bản có thành phần số lớn (major) trống rỗng"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "không có dấu chấm cho tên phiên bản"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "định dạng của phiên bản có thành phần số nhỏ (minor) trống rỗng"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -828,6 +840,11 @@ msgstr "không thể đọc các cờ filedescriptor (mô tả tập tin) cho %.
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "không thể đặt cờ close-on-exec (đóng khi thực hiện) cho %.250s"
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "“--%s” cần một tên gói hợp lệ nhưng “%.250s” không phải: %s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -922,11 +939,6 @@ msgstr "tùy chọn “--%s” đã lạc hậu"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "hành động xung đột “-%c (--%s)” và “-%c  (--%s)”"
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "“--%s” cần một tên gói hợp lệ nhưng “%.250s” không phải: %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1271,19 +1283,22 @@ msgstr "%s (tiến trình con): %s\n"
 msgid "fork failed"
 msgstr "gặp lỗi khi tạo tiến trình con"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "tiến trình con %s trả lại lỗi, trạng thái thoát %d"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "tiến trình con “%s” bị ngắt"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "tiến trình con “%s” bị chấm dứt bởi tín hiệu (%s)%s"
 
 #: lib/dpkg/subproc.c
@@ -1291,13 +1306,15 @@ msgid ", core dumped"
 msgstr ", lõi bị đổ"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "tiến trình con %s bị lỗi với mã trạng thái chờ %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "gặp lỗi chờ tiến trình con %s"
 
 #: lib/dpkg/treewalk.c
@@ -1866,9 +1883,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "tập tin cấu hình “%s” không phải là một tập tin tiêu chuẩn"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<đầu ra tiêu chuẩn>"
 
@@ -2732,7 +2749,7 @@ msgstr ""
 "ký\n"
 "kiến trúc ngoại lai bằng lệnh dpkg --add-architecture:\n"
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "chưa cài đặt gói “%s”"
@@ -2942,61 +2959,6 @@ msgstr ""
 "có quyền cao hơn vấn đề này vì tùy chọn “--force” (ép buộc) đã được hiệu "
 "lực: "
 
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "không thể mở tập tin liệt kê nội dung gói “%.250s”"
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"thiếu tập tin liệt kê nội dung gói “%.250s”, coi gói này không có tập tin "
-"hiện thời được cài đặt"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "không thể lấy thống kê về tập tin liệt kê nội dung gói “%.250s”"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "tập tin liệt kê nội dung gói “%.250s” không phải là tập tin thường"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr "đọc danh sách tập tin từ gói “%.250s”"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr ""
-"tập tin liệt kê nội dung gói “%.250s” còn thiếu ký tự dòng mới cuối cùng"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "tập tin liệt kê nội dung gói “%.250s” chứa tên tập tin rỗng"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "gặp lỗi khi đóng tập tin liệt kê nội dung gói “%.250s”"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(Đang đọc cơ sở dữ liệu … "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "%d tập tin và thư mục hiện đã được cài đặt.)\n"
-
 #: src/filesdb-hash.c
 #, c-format
 msgid "control file '%s' for package '%s' is missing final newline"
@@ -3051,6 +3013,61 @@ msgstr "không thể đọc tập tin điều khiển “%s” cho gói “%s”
 #| msgid "cannot close '%s' control file for package '%s'"
 msgid "cannot close control file '%s' for package '%s'"
 msgstr "không thể đóng tập tin điều khiển “%s” cho gói “%s”"
+
+#: src/filesdb.c
+#, c-format
+msgid "unable to open files list file for package '%.250s'"
+msgstr "không thể mở tập tin liệt kê nội dung gói “%.250s”"
+
+#: src/filesdb.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"thiếu tập tin liệt kê nội dung gói “%.250s”, coi gói này không có tập tin "
+"hiện thời được cài đặt"
+
+#: src/filesdb.c
+#, c-format
+msgid "unable to stat files list file for package '%.250s'"
+msgstr "không thể lấy thống kê về tập tin liệt kê nội dung gói “%.250s”"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list for package '%.250s' is not a regular file"
+msgstr "tập tin liệt kê nội dung gói “%.250s” không phải là tập tin thường"
+
+#: src/filesdb.c
+#, c-format
+msgid "reading files list for package '%.250s'"
+msgstr "đọc danh sách tập tin từ gói “%.250s”"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr ""
+"tập tin liệt kê nội dung gói “%.250s” còn thiếu ký tự dòng mới cuối cùng"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "tập tin liệt kê nội dung gói “%.250s” chứa tên tập tin rỗng"
+
+#: src/filesdb.c
+#, c-format
+msgid "error closing files list file for package '%.250s'"
+msgstr "gặp lỗi khi đóng tập tin liệt kê nội dung gói “%.250s”"
+
+#: src/filesdb.c
+msgid "(Reading database ... "
+msgstr "(Đang đọc cơ sở dữ liệu … "
+
+#: src/filesdb.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "%d tập tin và thư mục hiện đã được cài đặt.)\n"
 
 #: src/help.c
 msgid "not installed"
@@ -4244,8 +4261,9 @@ msgid "cannot set security execution context for maintainer script"
 msgstr "không thể đặt ngữ cảnh thi hành bảo mật cho văn lệnh bảo trì"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "đã cài đặt văn lệnh %s"
 
 #: src/script.c
@@ -4254,13 +4272,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "không thể lấy thống kê %s “%.250s”"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "văn lệnh %s mới"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "văn lệnh %s cũ"
 
 #: src/script.c
@@ -4653,6 +4673,11 @@ msgstr "Chia gói ra thành nhiều phần"
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "tập tin gói đã được lắp ráp lại"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "tiến trình con %s trả lại lỗi, trạng thái thoát %d"
 
 #: src/unpack.c
 #, c-format
@@ -5109,8 +5134,9 @@ msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "tập tin “%.250s” bị hỏng — số mầu nhiệm ở phần đầu bị sai"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr ""
 "tập tin “%.250s” không phải là một kho nén nhị phân Debian (thử “dpkg-"
 "split”?)"
@@ -5156,9 +5182,12 @@ msgid "archive '%.250s' contains two control members, giving up"
 msgstr "kho lưu “%.250s” chứa hai thành viên điều khiển nên chịu thua"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " gói Debian mới, phiên bản %d.%d.\n"
@@ -5179,9 +5208,12 @@ msgid "cannot skip archive control member from '%s': %s"
 msgstr "không thể bỏ qua thành viên điều khiển kho lưu từ “%s”: %s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " gói Debian cũ, phiên bản %d.%d.\n"
@@ -5196,8 +5228,9 @@ msgstr ""
 " do được tải xuống ở chế độ ASCII"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "“%.255s” không phải là kho nén định dạng Debian"
 
 #: dpkg-deb/extract.c
@@ -5421,7 +5454,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6121,6 +6155,11 @@ msgstr "không thể nối thêm vào “%s”"
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "gặp lỗi chờ tiến trình con %s"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "không thể gỡ bỏ “%s”"
 
@@ -6577,6 +6616,14 @@ msgstr "khả năng tự động cập nhật của %s/%s bị tắt nên không
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr ""
 "để quay lại lại tính năng tự động cập nhật, hãy dùng lệnh “%s --auto %s”"
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "tùy chọn “--%s” đã lạc hậu; hãy dùng “--%s” để thay thế"

@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.3\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2016-04-01 16:07+0900\n"
 "Last-Translator: Takuma Yamada <tyamada@takumayamada.com>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -418,12 +418,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "更新した `%.250s' のステータスをインストールできません"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "空のメジャーコンポーネントの付いた形式バージョン"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "空のメジャーコンポーネントの付いた形式バージョン"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "形式バージョンはドットを含みません"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "空のマイナーコンポーネントの付いた形式バージョン"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -847,6 +859,12 @@ msgstr "%.250s のファイル記述子フラグを読み取ることができ�
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "%.250s の close-on-exec フラグを設定できません"
 
+#: lib/dpkg/options-parsers.c
+#, c-format
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr ""
+"--%s は有効なパッケージ名を必要としますが、`%.250s' はそうではありません: %s"
+
 #: lib/dpkg/options.c
 #, c-format
 msgid "configuration error: %s:%d: %s"
@@ -942,12 +960,6 @@ msgstr "時代遅れのオプション '--%s'"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "アクション -%c (--%s) と -%c (--%s) が競合します"
-
-#: lib/dpkg/options-parsers.c
-#, c-format
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr ""
-"--%s は有効なパッケージ名を必要としますが、`%.250s' はそうではありません: %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1289,19 +1301,22 @@ msgstr "%s (サブプロセス): %s\n"
 msgid "fork failed"
 msgstr "fork 失敗"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "サブプロセス %s はエラー終了ステータス %d を返しました"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was interrupted"
+#, fuzzy, c-format
+#| msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "サブプロセス %s を中断しました"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s was killed by signal (%s)%s"
+#, fuzzy, c-format
+#| msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "サブプロセス %s がシグナル (%s)%s によって強制終了されました"
 
 #: lib/dpkg/subproc.c
@@ -1309,13 +1324,15 @@ msgid ", core dumped"
 msgstr "、コアダンプが作成されました"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "サブプロセス %s が wait ステータスコード %d を返して失敗しました"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
-#, c-format
-msgid "wait for subprocess %s failed"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "サブプロセス %s の待機に失敗しました"
 
 #: lib/dpkg/treewalk.c
@@ -1888,9 +1905,9 @@ msgid "archive '%s' is not a regular file"
 msgstr "設定ファイル '%s' がプレーンファイルではありません"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr "<標準出力>"
 
@@ -2755,7 +2772,7 @@ msgstr ""
 "問題を引き起こす可能性があります。これは外来アーキテクチャを dpkg --add-"
 "architecture で登録することで修正できます:\n"
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, c-format
 msgid "package '%s' is not installed"
 msgstr "パッケージ '%s' はまだインストールされていません"
@@ -2962,62 +2979,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "--force が有効なので、問題を無視します:"
 
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "パッケージ `%.250s' のファイル一覧ファイルをオープンできません"
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"パッケージ '%.250s' のファイル一覧ファイルがありません。このパッケージには、"
-"現在インストールされているファイルがないものとします"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "パッケージ '%.250s' のファイル一覧ファイルの状態を取得できません"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "パッケージ '%.250s' のファイル一覧ファイルが通常ファイルではありません"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr "パッケージ '%.250s' のファイル一覧を読み込んでいます"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "パッケージ '%.250s' のファイル一覧ファイルに最後の改行がありません"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr ""
-"パッケージ `%.250s' のファイル一覧ファイルが空のファイル名を含んでいます"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr ""
-"パッケージ `%.250s' のファイル一覧ファイルのクローズ中にエラーが発生しました"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(データベースを読み込んでいます ... "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "現在 %d 個のファイルとディレクトリがインストールされています。)\n"
-
 #: src/filesdb-hash.c
 #, c-format
 msgid "control file '%s' for package '%s' is missing final newline"
@@ -3074,6 +3035,62 @@ msgstr "パッケージ '%2$s' のコントロールファイル '%1$s' を読�
 #| msgid "cannot close '%s' control file for package '%s'"
 msgid "cannot close control file '%s' for package '%s'"
 msgstr "パッケージ '%2$s' のコントロールファイル '%1$s' をクローズできません"
+
+#: src/filesdb.c
+#, c-format
+msgid "unable to open files list file for package '%.250s'"
+msgstr "パッケージ `%.250s' のファイル一覧ファイルをオープンできません"
+
+#: src/filesdb.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"パッケージ '%.250s' のファイル一覧ファイルがありません。このパッケージには、"
+"現在インストールされているファイルがないものとします"
+
+#: src/filesdb.c
+#, c-format
+msgid "unable to stat files list file for package '%.250s'"
+msgstr "パッケージ '%.250s' のファイル一覧ファイルの状態を取得できません"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list for package '%.250s' is not a regular file"
+msgstr "パッケージ '%.250s' のファイル一覧ファイルが通常ファイルではありません"
+
+#: src/filesdb.c
+#, c-format
+msgid "reading files list for package '%.250s'"
+msgstr "パッケージ '%.250s' のファイル一覧を読み込んでいます"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "パッケージ '%.250s' のファイル一覧ファイルに最後の改行がありません"
+
+#: src/filesdb.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr ""
+"パッケージ `%.250s' のファイル一覧ファイルが空のファイル名を含んでいます"
+
+#: src/filesdb.c
+#, c-format
+msgid "error closing files list file for package '%.250s'"
+msgstr ""
+"パッケージ `%.250s' のファイル一覧ファイルのクローズ中にエラーが発生しました"
+
+#: src/filesdb.c
+msgid "(Reading database ... "
+msgstr "(データベースを読み込んでいます ... "
+
+#: src/filesdb.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "現在 %d 個のファイルとディレクトリがインストールされています。)\n"
 
 #: src/help.c
 msgid "not installed"
@@ -4241,8 +4258,9 @@ msgid "cannot set security execution context for maintainer script"
 msgstr "メンテナスクリプトのセキュリティ実行コンテキストをセットできません"
 
 #: src/script.c
-#, c-format
-msgid "installed %s script"
+#, fuzzy, c-format
+#| msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "インストール済みの %s スクリプト"
 
 #: src/script.c
@@ -4251,13 +4269,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "%s `%.250s' の状態を取得できません"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "新しい %s スクリプト"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "古い %s スクリプト"
 
 #: src/script.c
@@ -4651,6 +4671,11 @@ msgstr "分割パッケージの再集積"
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "再集積されたパッケージファイル"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "サブプロセス %s はエラー終了ステータス %d を返しました"
 
 #: src/unpack.c
 #, c-format
@@ -5116,8 +5141,9 @@ msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "ファイル `%.250s' は壊れています - 壊れたアーカイブヘッダマジックです"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr ""
 "ファイル `%.250s' は debian バイナリアーカイブでありません (dpkg-split を試し"
 "てみてください)"
@@ -5167,9 +5193,12 @@ msgstr ""
 "アーカイブ '%.250s' は 2 つのコントロールメンバーを含んでいます。終了します"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " new debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " 新形式 debian パッケージ、バージョン %d.%d。\n"
@@ -5190,9 +5219,12 @@ msgid "cannot skip archive control member from '%s': %s"
 msgstr "'%s' からアーカイブコントロールメンバーをスキップできません: %s"
 
 #: dpkg-deb/extract.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| " old debian package, version %d.%d.\n"
+#| " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " 旧形式 debian パッケージ, バージョン %d.%d。\n"
@@ -5207,8 +5239,9 @@ msgstr ""
 " ファイルが壊れているようです"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "`%.255s' は debian 形式のアーカイブではありません"
 
 #: dpkg-deb/extract.c
@@ -5429,7 +5462,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6128,6 +6162,11 @@ msgstr "'%s' に追加できません"
 
 #: utils/update-alternatives.c
 #, c-format
+msgid "wait for subprocess %s failed"
+msgstr "サブプロセス %s の待機に失敗しました"
+
+#: utils/update-alternatives.c
+#, c-format
 msgid "unable to remove '%s'"
 msgstr "'%s' を削除できません"
 
@@ -6580,6 +6619,14 @@ msgstr "%s/%s の自動更新は無効になっています。そのままにし
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
 msgstr "自動更新に戻すには、'%s --auto %s' を使ってください"
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
+msgstr ""
 
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "オプション '--%s' は時代遅れです。'--%s' を代わりに使ってください"

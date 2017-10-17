@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2017-10-17 01:57+0200\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Gintautas Miliauskas <gintas@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -429,12 +429,22 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "neįmanoma įdiegti atnaujintos `%.250s' būsenos"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+msgid "format version with too big major component"
+msgstr "versijos numeris"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr ""
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
 msgid "format version has no dot"
+msgstr "versijos numeris"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+msgid "format version with too big minor component"
 msgstr "versijos numeris"
 
 #: lib/dpkg/deb-version.c
@@ -863,6 +873,12 @@ msgstr "nepavyko nuskaityti %.250s failo aprašymo žymės"
 msgid "unable to set close-on-exec flag for %.250s"
 msgstr "nepavyko %.250s nustatyti uždaryti-įvykdžius žymės"
 
+#: lib/dpkg/options-parsers.c
+#, fuzzy, c-format
+#| msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
+msgid "--%s needs a valid package name but '%.250s' is not: %s"
+msgstr "--ignore-depends reikia esamo paketo vardo. `%.250s' - netinka; %s"
+
 #: lib/dpkg/options.c
 #, fuzzy, c-format
 msgid "configuration error: %s:%d: %s"
@@ -957,12 +973,6 @@ msgstr "Įspėjimas: parametras „--%s“ nebenaudotinas\n"
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "konfliktuojantys veiksmai -%c (--%s) ir -%c (--%s)"
-
-#: lib/dpkg/options-parsers.c
-#, fuzzy, c-format
-#| msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
-msgid "--%s needs a valid package name but '%.250s' is not: %s"
-msgstr "--ignore-depends reikia esamo paketo vardo. `%.250s' - netinka; %s"
 
 #: lib/dpkg/parse.c
 #, c-format
@@ -1318,20 +1328,21 @@ msgstr "%s (vidinis procesas): %s\n"
 msgid "fork failed"
 msgstr "nepavyko suskirstymas"
 
-#: lib/dpkg/subproc.c src/unpack.c
-#, c-format
-msgid "subprocess %s returned error exit status %d"
+#: lib/dpkg/subproc.c
+#, fuzzy, c-format
+#| msgid "subprocess %s returned error exit status %d"
+msgid "%s subprocess returned error exit status %d"
 msgstr "vidinis procesas %s nutrūko gražindamas reikšmę %d"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
-msgid "subprocess %s was interrupted"
+msgid "%s subprocess was interrupted"
 msgstr "%s laukimas nepavyko"
 
 #: lib/dpkg/subproc.c
 #, fuzzy, c-format
 #| msgid "subprocess %s killed by signal (%s)%s"
-msgid "subprocess %s was killed by signal (%s)%s"
+msgid "%s subprocess was killed by signal (%s)%s"
 msgstr "sub-procesas %s nuslopintas signalo (%s)%s"
 
 #: lib/dpkg/subproc.c
@@ -1339,13 +1350,14 @@ msgid ", core dumped"
 msgstr ", išvesta derinimo informacija"
 
 #: lib/dpkg/subproc.c
-#, c-format
-msgid "subprocess %s failed with wait status code %d"
+#, fuzzy, c-format
+#| msgid "subprocess %s failed with wait status code %d"
+msgid "%s subprocess failed with wait status code %d"
 msgstr "sub-procesas %s nepavyko su laukimo būsenos kodu %d"
 
-#: lib/dpkg/subproc.c utils/update-alternatives.c
+#: lib/dpkg/subproc.c
 #, fuzzy, c-format
-msgid "wait for subprocess %s failed"
+msgid "wait for %s subprocess failed"
 msgstr "%s laukimas nepavyko"
 
 #: lib/dpkg/treewalk.c
@@ -1903,9 +1915,9 @@ msgstr ""
 "įspėjimas: konfigūracijos failas „%s“ nėra paprastas tekstinis failas\n"
 
 #: src/archives.c src/divertcmd.c src/enquiry.c src/main.c src/packages.c
-#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c dpkg-deb/build.c
-#: dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c dpkg-split/info.c
-#: dpkg-split/main.c dpkg-split/queue.c
+#: src/querycmd.c src/select.c src/statcmd.c src/trigcmd.c src/verify.c
+#: dpkg-deb/build.c dpkg-deb/extract.c dpkg-deb/info.c dpkg-deb/main.c
+#: dpkg-split/info.c dpkg-split/main.c dpkg-split/queue.c
 msgid "<standard output>"
 msgstr ""
 
@@ -2777,7 +2789,7 @@ msgid ""
 "the foreign architecture with dpkg --add-architecture:\n"
 msgstr ""
 
-#: src/enquiry.c src/querycmd.c
+#: src/enquiry.c src/querycmd.c src/verify.c
 #, fuzzy, c-format
 #| msgid "Package `%s' is not installed.\n"
 msgid "package '%s' is not installed"
@@ -2997,6 +3009,55 @@ msgstr ""
 "dpkg: įspėjimas: problema ignoruojama, nes nurodyta --force:\n"
 " "
 
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "paketo `%.250s' failų sąrašo faile yra tuščias failo vardas"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "paketo `%.250s' failų sąrašo faile yra tuščias failo vardas"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "paketo `%.250s' failų sąrašo faile yra tuščias failo vardas"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "paketo `%.250s' failų sąrašo faile yra tuščias failo vardas"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "unable to open files list file for package `%.250s'"
+msgid "cannot open control file '%s' for package '%s'"
+msgstr "nepavyko atverti paketo „%.250s“ failų sarašo failo"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+msgid "cannot stat control file '%s' for package '%s'"
+msgstr "nepavyko atverti paketo „%.250s“ failų sarašo failo"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is not a regular file"
+msgstr "paketo `%.250s' failų sąrašo faile yra tuščias failo vardas"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+msgid "cannot read control file '%s' for package '%s'"
+msgstr "nepavyksta atverti konfigūracijos failų aplanko `%.250s' (iš `%.250s')"
+
+#: src/filesdb-hash.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package `%.250s'"
+msgid "cannot close control file '%s' for package '%s'"
+msgstr "klaida uždarant paketo `%.250s' failo sąrašo failą"
+
 #: src/filesdb.c
 #, c-format
 msgid "unable to open files list file for package '%.250s'"
@@ -3053,55 +3114,6 @@ msgid "%d file or directory currently installed.)\n"
 msgid_plural "%d files and directories currently installed.)\n"
 msgstr[0] "šiuo metu įdiegta %d failų ir aplankų.)\n"
 msgstr[1] "šiuo metu įdiegta %d failų ir aplankų.)\n"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "paketo `%.250s' failų sąrašo faile yra tuščias failo vardas"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "paketo `%.250s' failų sąrašo faile yra tuščias failo vardas"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "paketo `%.250s' failų sąrašo faile yra tuščias failo vardas"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package `%.250s' contains empty filename"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "paketo `%.250s' failų sąrašo faile yra tuščias failo vardas"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "nepavyko atverti paketo „%.250s“ failų sarašo failo"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "nepavyko atverti paketo „%.250s“ failų sarašo failo"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "paketo `%.250s' failų sąrašo faile yra tuščias failo vardas"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "nepavyksta atverti konfigūracijos failų aplanko `%.250s' (iš `%.250s')"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "klaida uždarant paketo `%.250s' failo sąrašo failą"
 
 #: src/help.c
 msgid "not installed"
@@ -4257,7 +4269,7 @@ msgstr "nepavyko gauti vsnprintf būsenos"
 
 #: src/script.c
 #, fuzzy, c-format
-msgid "installed %s script"
+msgid "installed %s package %s script"
 msgstr "senas %s scenarijus"
 
 #: src/script.c
@@ -4266,13 +4278,15 @@ msgid "unable to stat %s '%.250s'"
 msgstr "nepavyksta patikrinti %s `%.250s'"
 
 #: src/script.c
-#, c-format
-msgid "new %s script"
+#, fuzzy, c-format
+#| msgid "new %s script"
+msgid "new %s package %s script"
 msgstr "naujas %s scenarijus"
 
 #: src/script.c
-#, c-format
-msgid "old %s script"
+#, fuzzy, c-format
+#| msgid "old %s script"
+msgid "old %s package %s script"
 msgstr "senas %s scenarijus"
 
 #: src/script.c
@@ -4645,6 +4659,11 @@ msgstr ""
 #: src/unpack.c
 msgid "reassembled package file"
 msgstr "perrinktas paketo failas"
+
+#: src/unpack.c
+#, c-format
+msgid "subprocess %s returned error exit status %d"
+msgstr "vidinis procesas %s nutrūko gražindamas reikšmę %d"
 
 #: src/unpack.c
 #, c-format
@@ -5147,8 +5166,9 @@ msgid "file '%.250s' is corrupt - bad archive header magic"
 msgstr "failas „%.250s“ sugadintas – blogas leidimo numeris"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+#, fuzzy, c-format
+#| msgid "file '%.250s' is not a debian binary archive (try dpkg-split?)"
+msgid "file '%.250s' is not a Debian binary archive (try dpkg-split?)"
 msgstr ""
 "failas „%.250s“ nėra debian dvejetainis archyvas (pabandykite dpkg-split?)"
 
@@ -5201,7 +5221,7 @@ msgstr ""
 #| " new debian package, version %s.\n"
 #| " size %ld bytes: control archive= %zi bytes.\n"
 msgid ""
-" new debian package, version %d.%d.\n"
+" new Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " naujas debian paketas, versija %s.\n"
@@ -5229,7 +5249,7 @@ msgstr "praleisti narių duomenys iš %s"
 #| " old debian package, version %s.\n"
 #| " size %ld bytes: control archive= %zi, main archive= %ld.\n"
 msgid ""
-" old debian package, version %d.%d.\n"
+" old Debian package, version %d.%d.\n"
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " senas debian paketas, versija %s.\n"
@@ -5248,8 +5268,9 @@ msgstr ""
 "dpkg-deb:    sugadintas siunčiant ASCII veiksena\n"
 
 #: dpkg-deb/extract.c
-#, c-format
-msgid "'%.255s' is not a debian format archive"
+#, fuzzy, c-format
+#| msgid "'%.255s' is not a debian format archive"
+msgid "'%.255s' is not a Debian format archive"
 msgstr "`%.255s' yra ne debian formato archyvas"
 
 #: dpkg-deb/extract.c
@@ -5452,7 +5473,8 @@ msgid ""
 "(default).\n"
 "      --nocheck                    Suppress control file check (build bad\n"
 "                                     packages).\n"
-"      --uniform-compression        Use the compression params on all "
+"      --root-owner-group           Forces the owner and groups to root.\n"
+"      --[no-]uniform-compression   Use the compression params on all "
 "members.\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
@@ -6052,6 +6074,11 @@ msgstr "nepavyko nuskaityti %s: %s"
 
 #: utils/update-alternatives.c
 #, fuzzy, c-format
+msgid "wait for subprocess %s failed"
+msgstr "%s laukimas nepavyko"
+
+#: utils/update-alternatives.c
+#, fuzzy, c-format
 msgid "unable to remove '%s'"
 msgstr "nepavyko užverti %s: %s"
 
@@ -6488,6 +6515,14 @@ msgstr ""
 #: utils/update-alternatives.c
 #, c-format
 msgid "to return to automatic updates use '%s --auto %s'"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Run update-alternatives to modify system alternative selections"
+msgstr ""
+
+#: utils/update-alternatives.polkit.in
+msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
 #, fuzzy
