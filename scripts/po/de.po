@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg-dev 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2017-10-17 01:57+0200\n"
-"PO-Revision-Date: 2017-09-25 19:03+0200\n"
+"PO-Revision-Date: 2017-10-17 21:29+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -740,22 +740,6 @@ msgid "install new files list file"
 msgstr "neue Dateilistendatei installieren"
 
 #: scripts/dpkg-genbuildinfo.pl
-#, fuzzy
-#| msgid ""
-#| "Options:\n"
-#| "  --build=<type>[,...]     specify the build <type>: full, source, "
-#| "binary,\n"
-#| "                             any, all (default is 'full').\n"
-#| "  -c<control-file>         get control info from this file.\n"
-#| "  -l<changelog-file>       get per-version info from this file.\n"
-#| "  -f<files-list-file>      get .deb files list from this file.\n"
-#| "  -F<changelog-format>     force changelog format.\n"
-#| "  -O[<buildinfo-file>]     write to stdout (or <buildinfo-file>).\n"
-#| "  -u<upload-files-dir>     directory with files (default is '..').\n"
-#| "  --always-include-path    always include Build-Path.\n"
-#| "  --admindir=<directory>   change the administrative directory.\n"
-#| "  -?, --help               show this help message.\n"
-#| "      --version            show the version.\n"
 msgid ""
 "Options:\n"
 "  --build=<type>[,...]     specify the build <type>: full, source, binary,\n"
@@ -782,6 +766,7 @@ msgstr ""
 "  -f<Dateilist-Datei>      .deb-Dateiliste aus dieser Datei beziehen\n"
 "  -F<changelogformat>      Changelog-Format erzwingen\n"
 "  -O[<Buildinfo-Datei>]    nach Stdout (oder <buildinfo-file>) schreiben\n"
+"  --always-include-kernel  immer die Bau-Kernel-Version aufnehmen\n"
 "  --always-include-path    immer den Baupfad aufnehmen\n"
 "  --admindir=<Verzeichnis> das administrative Verzeichnis ändern\n"
 "  -?, --help               diese Hilfemeldung anzeigen\n"
@@ -2674,21 +2659,19 @@ msgid "error"
 msgstr "Fehler"
 
 #: scripts/Dpkg/ErrorHandling.pm
-#, fuzzy, perl-format
-#| msgid "%s gave error exit status %s"
+#, perl-format
 msgid "%s subprocess returned exit status %d"
-msgstr "Fehler-Exitstatus von %s war %s"
+msgstr "Unterprozess %s lieferte Exitstatus %d"
 
 #: scripts/Dpkg/ErrorHandling.pm
 #, perl-format
 msgid "%s subprocess was killed by signal %d"
-msgstr ""
+msgstr "Unterprozess %s wurde durch Signal %d getötet"
 
 #: scripts/Dpkg/ErrorHandling.pm
-#, fuzzy, perl-format
-#| msgid "%s failed with unknown exit code %d"
+#, perl-format
 msgid "%s subprocess failed with unknown status code %d"
-msgstr "%s fehlgeschlagen mit unbekanntem Exit-Code %d"
+msgstr "Unterprozess %s fehlgeschlagen mit unbekanntem Exit-Code %d"
 
 #: scripts/Dpkg/ErrorHandling.pm
 msgid "Use --help for program usage information."
@@ -2744,29 +2727,28 @@ msgstr "Fehler beim Erlangen einer Schreibsperre auf %s"
 
 #: scripts/Dpkg/OpenPGP.pm
 msgid "signature file is already OpenPGP ASCII armor, copying"
-msgstr ""
+msgstr "Signaturdatei ist bereits OpenPGP-ASCII-Armor, sie wird kopiert"
 
 #: scripts/Dpkg/OpenPGP.pm
 msgid "cannot OpenPGP ASCII armor signature file due to missing gpg"
 msgstr ""
+"OpenPGP-ASCII-Armor-Signaturdatei kann wegen fehlendem GPG nicht geöffnet "
+"werden"
 
 #: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "cannot create pipe for %s"
+#, perl-format
 msgid "cannot create signature file %s"
-msgstr "Pipe für %s kann nicht angelegt werden"
+msgstr "Signaturdatei %s kann nicht angelegt werden"
 
 #: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "cannot exec dpkg"
+#, perl-format
 msgid "cannot execute %s program"
-msgstr "dpkg kann nicht ausgeführt werden"
+msgstr "Programm %s kann nicht ausgeführt werden"
 
 #: scripts/Dpkg/OpenPGP.pm
-#, fuzzy, perl-format
-#| msgid "cannot stat file %s"
+#, perl-format
 msgid "cannot write signature file %s"
-msgstr "Datei %s kann nicht mit stat abgefragt werden"
+msgstr "Signaturdatei %s kann nicht geschrieben werden"
 
 #: scripts/Dpkg/Package.pm
 msgid "may not be empty string"
