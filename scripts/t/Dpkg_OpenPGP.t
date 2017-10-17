@@ -16,16 +16,18 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
-use Test::Dpkg qw(:paths);
+use Test::More;
+use Test::Dpkg qw(:paths :needs);
 
 use File::Compare;
 
 use Dpkg::ErrorHandling;
 
-BEGIN {
-    use_ok('Dpkg::OpenPGP');
-}
+test_needs_command('gpg');
+
+plan tests => 3;
+
+use_ok('Dpkg::OpenPGP');
 
 report_options(quiet_warnings => 1);
 
