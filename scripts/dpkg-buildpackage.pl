@@ -580,7 +580,7 @@ my $build_types = get_build_options_from_type();
 if (build_has_any(BUILD_BINARY)) {
     # If we are building rootless, there is no need to call the build target
     # independently as non-root.
-    run_cmd(@debian_rules, $buildtarget) if rules_requires_root($buildtarget);
+    run_cmd(@debian_rules, $buildtarget) if rules_requires_root($binarytarget);
     run_hook('binary', 1);
     run_rules_cond_root($binarytarget);
 }
@@ -860,7 +860,7 @@ sub build_target_fallback {
 
     # If we are building rootless, there is no need to call the build target
     # independently as non-root.
-    return if not rules_requires_root($buildtarget);
+    return if not rules_requires_root($binarytarget);
 
     return if $buildtarget eq 'build';
     return if scalar @debian_rules != 1;
