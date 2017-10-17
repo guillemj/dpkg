@@ -645,11 +645,13 @@ if ($signsource or $signbuildinfo) {
     # Recompute the checksums as the .dsc and/or .buildinfo have changed.
     my $checksums = Dpkg::Checksums->new();
     $checksums->add_from_control($changes);
-    $checksums->add_from_file("../$pv.dsc", update => 1, key => "$pv.dsc");
+    $checksums->add_from_file("../$pv.dsc", update => 1, key => "$pv.dsc")
+        if $signsource;
     $checksums->add_from_file("../$pva.buildinfo", update => 1, key => "$pva.buildinfo");
     $checksums->export_to_control($changes);
     delete $changes->{'Checksums-Md5'};
-    update_files_field($changes, $checksums, "$pv.dsc");
+    update_files_field($changes, $checksums, "$pv.dsc")
+        if $signsource;
     update_files_field($changes, $checksums, "$pva.buildinfo");
     $changes->save($chg);
 }
