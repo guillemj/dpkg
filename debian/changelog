@@ -3,6 +3,8 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
   * Fix logic in dpkg-buildpackage to decide whether to run build targets,
     which broke tons of packages that are violating Debian policy MUSTs.
     Thanks to James Clarke <jrtc27@debian.org>. Closes: #878899
+  * Do not try to recompute hashes for the .dsc file when signing binary-only
+    builds in dpkg-buildpackage. Reported by Ximin Luo <infinity0@debian.org>.
   * Packaging:
     - Install update-alternatives policykit-1 file.
     - Add Breaks to libdpkg-perl against pkg-kde-tools (<< 0.15.28~), as
