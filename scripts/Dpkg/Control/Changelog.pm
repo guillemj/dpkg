@@ -11,17 +11,18 @@
 # GNU General Public License for more details.
 
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package Dpkg::Control::Changelog;
 
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.00';
 
 use Dpkg::Control;
-use base 'Dpkg::Control';
+
+use parent qw(Dpkg::Control);
 
 =encoding utf8
 
@@ -34,7 +35,7 @@ Dpkg::Control::Changelog - represent info fields output by dpkg-parsechangelog
 This object derives directly from Dpkg::Control with the type
 CTRL_CHANGELOG.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
 =over 4
 
@@ -53,9 +54,11 @@ sub new {
 
 =back
 
-=head1 AUTHOR
+=head1 CHANGES
 
-Raphaël Hertzog <hertzog@debian.org>.
+=head2 Version 1.00 (dpkg 1.15.6)
+
+Mark the module as public.
 
 =cut
 

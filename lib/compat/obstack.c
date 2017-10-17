@@ -87,7 +87,7 @@ enum
 /* The functions allocating more room by calling `obstack_chunk_alloc'
    jump to the handler pointed to by `obstack_alloc_failed_handler'.
    This can be set to a user defined function which should either
-   abort gracefully or use longjump - but shouldn't return.  This
+   abort gracefully or use longjmp - but shouldn't return.  This
    variable by default points to the internal function
    `print_and_abort'.  */
 static void print_and_abort (void);

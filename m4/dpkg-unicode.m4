@@ -7,15 +7,16 @@
 # with or without modifications, as long as this notice is preserved.
 
 # DPKG_UNICODE()
-# --------------
+# ------------
 # Add configure option to disable Unicode support.
 AC_DEFUN([DPKG_UNICODE], [
   AC_MSG_CHECKING([whether Unicode is requested])
   dnl Default: Unicode is enabled.
   AC_ARG_ENABLE([unicode],
     [AS_HELP_STRING([--disable-unicode],
-                    [do not use Unicode (wide chars) support])],
-    [USE_UNICODE=$enableval], [USE_UNICODE=yes])
-  AC_MSG_RESULT($USE_UNICODE)
-  AC_SUBST(USE_UNICODE)
+      [do not use Unicode (wide chars) support])],
+    [USE_UNICODE=$enableval],
+    [USE_UNICODE=yes])
+  AC_MSG_RESULT([$USE_UNICODE])
+  AC_SUBST([USE_UNICODE])
 ]) # DPKG_UNICODE

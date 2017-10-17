@@ -1,4 +1,5 @@
 # Copyright © 2009-2010 Modestas Vainius <modax@debian.org>
+# Copyright © 2010, 2012-2015 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -11,30 +12,32 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package Dpkg::Shlibs::Cppfilt;
 
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
+our @EXPORT = qw(
+    cppfilt_demangle_cpp
+);
+our @EXPORT_OK = qw(
+    cppfilt_demangle
+);
 
-use base 'Exporter';
+use Exporter qw(import);
 
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
-use IO::Handle;
-
-our @EXPORT = qw(cppfilt_demangle_cpp);
-our @EXPORT_OK = qw(cppfilt_demangle);
 
 # A hash of 'objects' referring to preforked c++filt processes for the distinct
 # demangling types.
 my %cppfilts;
 
 sub get_cppfilt {
-    my $type = shift || "auto";
+    my $type = shift || 'auto';
 
     # Fork c++filt process for demangling $type unless it is forked already.
     # Keeping c++filt running improves performance a lot.
@@ -43,11 +46,11 @@ sub get_cppfilt {
 	$filt = $cppfilts{$type};
     } else {
 	$filt = { from => undef, to => undef,
-	            last_symbol => "", last_result => "" };
+	            last_symbol => '', last_result => '' };
 	$filt->{pid} = spawn(exec => [ 'c++filt', "--format=$type" ],
 	                     from_pipe => \$filt->{from},
 	                     to_pipe => \$filt->{to});
-	internerr(_g("unable to execute %s"), "c++filt")
+	syserr(g_('unable to execute %s'), 'c++filt')
 	    unless defined $filt->{from};
 	$filt->{from}->autoflush(1);
 
@@ -91,14 +94,14 @@ sub cppfilt_demangle_cpp {
 }
 
 sub terminate_cppfilts {
-    foreach (keys %cppfilts) {
-	next if not defined $cppfilts{$_}{pid};
-	close $cppfilts{$_}{from};
-	close $cppfilts{$_}{to};
-	wait_child($cppfilts{$_}{pid}, "cmdline" => "c++filt",
-	                               "nocheck" => 1,
-	                               "timeout" => 5);
-	delete $cppfilts{$_};
+    foreach my $type (keys %cppfilts) {
+	next if not defined $cppfilts{$type}{pid};
+	close $cppfilts{$type}{from};
+	close $cppfilts{$type}{to};
+	wait_child($cppfilts{$type}{pid}, cmdline => 'c++filt',
+	                                  nocheck => 1,
+	                                  timeout => 5);
+	delete $cppfilts{$type};
     }
 }
 

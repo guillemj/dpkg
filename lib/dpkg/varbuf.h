@@ -2,8 +2,8 @@
  * libdpkg - Debian packaging suite library routines
  * varbuf.h - variable length expandable buffer handling
  *
- * Copyright © 1994, 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 1994, 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2008-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_VARBUF_H
@@ -24,6 +24,7 @@
 
 #include <stddef.h>
 #include <stdarg.h>
+#include <string.h>
 
 #include <dpkg/macros.h>
 
@@ -61,9 +62,10 @@ struct varbuf {
 	void init(size_t _size = 0);
 	void reset();
 	void destroy();
+	int fmt(const char *_fmt, ...) DPKG_ATTR_PRINTF(2);
+	int vfmt(const char *_fmt, va_list va) DPKG_ATTR_VPRINTF(2);
 	void operator()(int c);
 	void operator()(const char *s);
-	void terminate(void/*to shut 2.6.3 up*/);
 	const char *string();
 #endif
 };
@@ -83,10 +85,18 @@ void varbuf_map_char(struct varbuf *v, int c_src, int c_dst);
 #define varbuf_add_str(v, s) varbuf_add_buf(v, s, strlen(s))
 void varbuf_add_buf(struct varbuf *v, const void *s, size_t size);
 void varbuf_end_str(struct varbuf *v);
+const char *varbuf_get_str(struct varbuf *v);
 
 int varbuf_printf(struct varbuf *v, const char *fmt, ...) DPKG_ATTR_PRINTF(2);
 int varbuf_vprintf(struct varbuf *v, const char *fmt, va_list va)
 	DPKG_ATTR_VPRINTF(2);
+
+struct varbuf_state {
+	size_t used;
+};
+
+void varbuf_snapshot(struct varbuf *v, struct varbuf_state *vs);
+void varbuf_rollback(struct varbuf *v, struct varbuf_state *vs);
 
 /** @} */
 
@@ -123,6 +133,25 @@ varbuf::destroy()
 	varbuf_destroy(this);
 }
 
+inline int
+varbuf::fmt(const char *_fmt, ...)
+{
+	va_list args;
+	int rc;
+
+	va_start(args, _fmt);
+	rc = varbuf_vprintf(this, _fmt, args);
+	va_end(args);
+
+	return rc;
+}
+
+inline int
+varbuf::vfmt(const char *_fmt, va_list va)
+{
+	return varbuf_vprintf(this, _fmt, va);
+}
+
 inline void
 varbuf::operator()(int c)
 {
@@ -135,17 +164,10 @@ varbuf::operator()(const char *s)
 	varbuf_add_str(this, s);
 }
 
-inline void
-varbuf::terminate(void/*to shut 2.6.3 up*/)
-{
-	varbuf_end_str(this);
-}
-
 inline const char *
 varbuf::string()
 {
-	terminate();
-	return buf;
+	return varbuf_get_str(this);
 }
 #endif
 

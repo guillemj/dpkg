@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -77,6 +77,9 @@ command_destroy(struct command *cmd)
 static void
 command_grow_argv(struct command *cmd, int need)
 {
+	/* We need a ghost byte for the NUL character. */
+	need++;
+
 	/* Check if we already have enough room. */
 	if ((cmd->argv_size - cmd->argc) >= need)
 		return;
@@ -213,14 +216,16 @@ command_shell(const char *cmd, const char *name)
 	const char *shell;
 	const char *mode;
 
-	shell = getenv("SHELL");
+	if (cmd == NULL) {
+		mode = "-i";
+		shell = getenv("SHELL");
+	} else {
+		mode = "-c";
+		shell = NULL;
+	}
+
 	if (str_is_unset(shell))
 		shell = DEFAULTSHELL;
-
-	if (cmd == NULL)
-		mode = "-i";
-	else
-		mode = "-c";
 
 	execlp(shell, shell, mode, cmd, NULL);
 	ohshite(_("unable to execute %s (%s)"), name, cmd);

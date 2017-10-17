@@ -2,8 +2,8 @@
  * dpkg - main program for package management
  * help.c - various helper routines
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2007-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -25,7 +25,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
@@ -35,20 +34,19 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/path.h>
-#include <dpkg/subproc.h>
 
 #include "filesdb.h"
 #include "main.h"
 
 const char *const statusstrings[]= {
-  [stat_notinstalled]    = N_("not installed"),
-  [stat_configfiles]     = N_("not installed but configs remain"),
-  [stat_halfinstalled]   = N_("broken due to failed removal or installation"),
-  [stat_unpacked]        = N_("unpacked but not configured"),
-  [stat_halfconfigured]  = N_("broken due to postinst failure"),
-  [stat_triggersawaited] = N_("awaiting trigger processing by another package"),
-  [stat_triggerspending] = N_("triggered"),
-  [stat_installed]       = N_("installed")
+  [PKG_STAT_NOTINSTALLED]    = N_("not installed"),
+  [PKG_STAT_CONFIGFILES]     = N_("not installed but configs remain"),
+  [PKG_STAT_HALFINSTALLED]   = N_("broken due to failed removal or installation"),
+  [PKG_STAT_UNPACKED]        = N_("unpacked but not configured"),
+  [PKG_STAT_HALFCONFIGURED]  = N_("broken due to postinst failure"),
+  [PKG_STAT_TRIGGERSAWAITED] = N_("awaiting trigger processing by another package"),
+  [PKG_STAT_TRIGGERSPENDING] = N_("triggered"),
+  [PKG_STAT_INSTALLED]       = N_("installed")
 };
 
 struct filenamenode *
@@ -79,6 +77,40 @@ namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg,
   return r;
 }
 
+bool
+find_command(const char *prog)
+{
+  struct varbuf filename = VARBUF_INIT;
+  struct stat stab;
+  const char *path_list;
+  const char *path, *path_end;
+  size_t path_len;
+
+  path_list = getenv("PATH");
+  if (!path_list)
+    ohshit(_("PATH is not set"));
+
+  for (path = path_list; path; path = path_end ? path_end + 1 : NULL) {
+    path_end = strchr(path, ':');
+    path_len = path_end ? (size_t)(path_end - path) : strlen(path);
+
+    varbuf_reset(&filename);
+    varbuf_add_buf(&filename, path, path_len);
+    if (path_len)
+      varbuf_add_char(&filename, '/');
+    varbuf_add_str(&filename, prog);
+    varbuf_end_str(&filename);
+
+    if (stat(filename.buf, &stab) == 0 && (stab.st_mode & 0111)) {
+      varbuf_destroy(&filename);
+      return true;
+    }
+  }
+
+  varbuf_destroy(&filename);
+  return false;
+}
+
 /**
  * Verify that some programs can be found in the PATH.
  */
@@ -87,9 +119,15 @@ void checkpath(void) {
     DEFAULTSHELL,
     RM,
     TAR,
-    FIND,
+    DIFF,
     BACKEND,
+    /* Mac OS X uses dyld (Mach-O) instead of ld.so (ELF), and does not have
+     * an ldconfig. */
+#if defined(__APPLE__) && defined(__MACH__)
+    "update_dyld_shared_cache",
+#else
     "ldconfig",
+#endif
 #if BUILD_START_STOP_DAEMON
     "start-stop-daemon",
 #endif
@@ -97,40 +135,14 @@ void checkpath(void) {
   };
 
   const char *const *prog;
-  const char *path_list;
-  struct varbuf filename = VARBUF_INIT;
   int warned= 0;
 
-  path_list = getenv("PATH");
-  if (!path_list)
-    ohshit(_("PATH is not set"));
-
   for (prog = prog_list; *prog; prog++) {
-    struct stat stab;
-    const char *path, *path_end;
-    size_t path_len;
-
-    for (path = path_list; path; path = path_end ? path_end + 1 : NULL) {
-      path_end = strchr(path, ':');
-      path_len = path_end ? (size_t)(path_end - path) : strlen(path);
-
-      varbuf_reset(&filename);
-      varbuf_add_buf(&filename, path, path_len);
-      if (path_len)
-        varbuf_add_char(&filename, '/');
-      varbuf_add_str(&filename, *prog);
-      varbuf_end_str(&filename);
-
-      if (stat(filename.buf, &stab) == 0 && (stab.st_mode & 0111))
-        break;
-    }
-    if (!path) {
+    if (!find_command(*prog)) {
       warning(_("'%s' not found in PATH or not executable"), *prog);
       warned++;
     }
   }
-
-  varbuf_destroy(&filename);
 
   if (warned)
     forcibleerr(fc_badpath,
@@ -192,16 +204,16 @@ force_conflicts(struct deppossi *possi)
 }
 
 void clear_istobes(void) {
-  struct pkgiterator *it;
+  struct pkgiterator *iter;
   struct pkginfo *pkg;
 
-  it = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(it)) != NULL) {
+  iter = pkg_db_iter_new();
+  while ((pkg = pkg_db_iter_next_pkg(iter)) != NULL) {
     ensure_package_clientdata(pkg);
-    pkg->clientdata->istobe= itb_normal;
+    pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     pkg->clientdata->replacingfilesandsaid= 0;
   }
-  pkg_db_iter_free(it);
+  pkg_db_iter_free(iter);
 }
 
 /*
@@ -218,8 +230,10 @@ dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
         pkg_name(pkg, pnaw_always));
   namelen = strlen(file->name);
   for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
+      if (conff->obsolete)
+        continue;
       if (strncmp(file->name, conff->name, namelen) == 0 &&
-          conff->name[namelen] == '/') {
+          strlen(conff->name) > namelen && conff->name[namelen] == '/') {
 	debug(dbg_veryverbose, "directory %s has conffile %s from %s",
 	      file->name, conff->name, pkg_name(pkg, pnaw_always));
 	return true;
@@ -249,6 +263,7 @@ dir_is_used_by_others(struct filenamenode *file, struct pkginfo *pkg)
     if (other_pkg == pkg)
       continue;
 
+    filepackages_iter_free(iter);
     debug(dbg_veryverbose, "dir_is_used_by_others yes");
     return true;
   }
@@ -278,6 +293,7 @@ dir_is_used_by_pkg(struct filenamenode *file, struct pkginfo *pkg,
           node->namenode->name);
 
     if (strncmp(file->name, node->namenode->name, namelen) == 0 &&
+        strlen(node->namenode->name) > namelen &&
         node->namenode->name[namelen] == '/') {
       debug(dbg_veryverbose, "dir_is_used_by_pkg yes");
       return true;
@@ -289,81 +305,46 @@ dir_is_used_by_pkg(struct filenamenode *file, struct pkginfo *pkg,
   return false;
 }
 
-void oldconffsetflags(const struct conffile *searchconff) {
+/**
+ * Mark a conffile as obsolete.
+ *
+ * @param pkg		The package owning the conffile.
+ * @param namenode	The namenode for the obsolete conffile.
+ */
+void
+conffile_mark_obsolete(struct pkginfo *pkg, struct filenamenode *namenode)
+{
+  struct conffile *conff;
+
+  for (conff = pkg->installed.conffiles; conff; conff = conff->next) {
+    if (strcmp(conff->name, namenode->name) == 0) {
+      debug(dbg_conff, "marking %s conffile %s as obsolete",
+            pkg_name(pkg, pnaw_always), conff->name);
+      conff->obsolete = true;
+      return;
+    }
+  }
+}
+
+/**
+ * Mark all package conffiles as old.
+ *
+ * @param pkg		The package owning the conffiles.
+ */
+void
+pkg_conffiles_mark_old(struct pkginfo *pkg)
+{
+  const struct conffile *conff;
   struct filenamenode *namenode;
 
-  while (searchconff) {
-    namenode= findnamenode(searchconff->name, 0); /* XXX */
+  for (conff = pkg->installed.conffiles; conff; conff = conff->next) {
+    namenode = findnamenode(conff->name, 0); /* XXX */
     namenode->flags |= fnnf_old_conff;
     if (!namenode->oldhash)
-      namenode->oldhash= searchconff->hash;
-    debug(dbg_conffdetail, "oldconffsetflags '%s' namenode %p flags %o",
-          searchconff->name, namenode, namenode->flags);
-    searchconff= searchconff->next;
+      namenode->oldhash = conff->hash;
+    debug(dbg_conffdetail, "%s '%s' namenode '%s' flags %o", __func__,
+          conff->name, namenode->name, namenode->flags);
   }
-}
-
-/*
- * If the pathname to remove is:
- *
- * 1. a sticky or set-id file, or
- * 2. an unknown object (i.e., not a file, link, directory, fifo or socket)
- *
- * we change its mode so that a malicious user cannot use it, even if it's
- * linked to another file.
- */
-int
-secure_unlink(const char *pathname)
-{
-  struct stat stab;
-
-  if (lstat(pathname,&stab)) return -1;
-
-  return secure_unlink_statted(pathname, &stab);
-}
-
-int
-secure_unlink_statted(const char *pathname, const struct stat *stab)
-{
-  if (S_ISREG(stab->st_mode) ? (stab->st_mode & 07000) :
-      !(S_ISLNK(stab->st_mode) || S_ISDIR(stab->st_mode) ||
-	S_ISFIFO(stab->st_mode) || S_ISSOCK(stab->st_mode))) {
-    if (chmod(pathname, 0600))
-      return -1;
-  }
-  if (unlink(pathname)) return -1;
-  return 0;
-}
-
-void ensure_pathname_nonexisting(const char *pathname) {
-  pid_t pid;
-  const char *u;
-
-  u = path_skip_slash_dotslash(pathname);
-  assert(*u);
-
-  debug(dbg_eachfile, "ensure_pathname_nonexisting '%s'", pathname);
-  if (!rmdir(pathname))
-    return; /* Deleted it OK, it was a directory. */
-  if (errno == ENOENT || errno == ELOOP) return;
-  if (errno == ENOTDIR) {
-    /* Either it's a file, or one of the path components is. If one
-     * of the path components is this will fail again ... */
-    if (secure_unlink(pathname) == 0)
-      return; /* OK, it was. */
-    if (errno == ENOTDIR) return;
-  }
-  if (errno != ENOTEMPTY && errno != EEXIST) { /* Huh? */
-    ohshite(_("unable to securely remove '%.255s'"), pathname);
-  }
-  pid = subproc_fork();
-  if (pid == 0) {
-    execlp(RM, "rm", "-rf", "--", pathname, NULL);
-    ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
-  }
-  debug(dbg_eachfile, "ensure_pathname_nonexisting running rm -rf '%s'",
-        pathname);
-  subproc_wait_check(pid, "rm cleanup", 0);
 }
 
 void

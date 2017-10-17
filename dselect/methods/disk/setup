@@ -1,4 +1,17 @@
 #!/bin/sh
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 set -e
 vardir="$1"
@@ -83,7 +96,7 @@ getblockdev () {
 			set -e
 			proposeddevice="$tryblockdevice" perl -ne '
 next unless /^ *Device +Boot +Start +End +Blocks +Id +System *$/i .. !/\S/;
-next unless s:^/\S+:: && $& eq $ENV{"proposeddevice"};
+next unless s:^/\S+::p && ${^MATCH} eq $ENV{proposeddevice};
 next unless s/^ +(\* +)?\d+ +\d+ +\d+\+? +//;
 next unless m/^([0-9a-f]{1,2}) /i;
 %types= ( "1","msdos", "4","msdos", "6","msdos", "7","hpfs", "80","minix",
@@ -136,7 +149,7 @@ If you make a mistake, use the interrupt key ($intrkey) to abort.
 "
 
 # State variables, “best first”
-#  {main,ctb,nf,nus,lcl}_{packages,binary}
+#  {main,ctb,nf,lcl}_{packages,binary}
 #   Empty before we've found them or if they're not available,
 #   set to the relevant bit under mountpoint otherwise.
 #  hierbase
@@ -301,8 +314,8 @@ then
 	perl -ne '
 next unless /^ *Device +Boot +Start +End +Blocks +Id +System *$/i .. !/\S/;
 next unless / [146] +DOS \d+-bit \S+$/;
-next unless m:^/\S+:;
-print $&;		' <$tp.f >$tp.d
+next unless m:^/\S+:p;
+print ${^MATCH};		' <$tp.f >$tp.d
 	newdefaultdevice="`cat $tp.d`"
 	echo "
 I need to know which disk partition contains the distribution files;
@@ -343,7 +356,7 @@ do
 	then
 		echo \
 "I would like to know where on the CD-ROM the top level of the Debian
-distribution is (eg. 'dists/stable') - this directory usually contains the 
+distribution is (eg. 'dists/stable') - this directory usually contains the
 Packages-Master file.
 
 If the CD-ROM is badly organised and doesn't have a straightforward copy of
@@ -354,14 +367,14 @@ I need individually."
 "In order to make it easy for me to find the relevant files I'd ideally
 like to install from a straightforward copy of the Debian distribution.
 To use this I'll need to know where the top level of that copy of the
-distribution is (eg. 'debian/dists/stable') - this directory usually 
+distribution is (eg. 'debian/dists/stable') - this directory usually
 contains the Packages-Master file.
 
 If you do not have a straightforward copy of the distribution available
 just answer 'none' and we'll go through the parts I need individually."
 	fi
 	defhierbase=none
-# maybe ask for debian/dists and then show and ask for available dists 
+# maybe ask for debian/dists and then show and ask for available dists
 # eg. {stable,frozen,unstable,bo,hamm,slink}
 	if [ -n "$p_hierbase" ]
 	then
@@ -421,7 +434,7 @@ esac
 check_binary () {
 	# args: area-in-messages directory
 	# eg:   main             "$hierbase/main/binary-$iarch"
-	# checks wether $2 contains *.deb
+	# checks whether $2 contains *.deb
 	if ! [ -d "$mountpoint$2/" ]
 	then
 		echo "'$2' does not exist."
@@ -546,7 +559,6 @@ Where is the _$1_ 'Packages' file (if none is available, say 'none')
 find_area main main main "$p_main_binary" "$p_main_packages"
 find_area contrib ctb contrib "$p_ctb_binary" "$p_ctb_packages"
 find_area non-free nf non-free "$p_nf_binary" "$p_nf_packages"
-find_area non-US nus non-US "$p_nus_binary" "$p_nus_packages"
 find_area local lcl local "$p_lcl_binary" "$p_lcl_packages"
 
 echo -n '
@@ -569,8 +581,6 @@ outputparam p_ctb_packages "$ctb_packages"
 outputparam p_ctb_binary "$ctb_binary"
 outputparam p_nf_packages "$nf_packages"
 outputparam p_nf_binary "$nf_binary"
-outputparam p_nus_packages "$nus_packages"
-outputparam p_nus_binary "$nus_binary"
 outputparam p_lcl_packages "$lcl_packages"
 outputparam p_lcl_binary "$lcl_binary"
 

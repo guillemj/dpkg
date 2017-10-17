@@ -2,8 +2,9 @@
  * dpkg-deb - construction and deconstruction of *.deb archives
  * info.c - providing information
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman
+ * Copyright © 2007-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +17,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -28,7 +29,6 @@
 
 #include <errno.h>
 #include <limits.h>
-#include <ctype.h>
 #include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
@@ -38,33 +38,23 @@
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/parsedump.h>
 #include <dpkg/pkg-format.h>
 #include <dpkg/buffer.h>
 #include <dpkg/path.h>
-#include <dpkg/subproc.h>
 #include <dpkg/options.h>
 
 #include "dpkg-deb.h"
 
 static void cu_info_prepare(int argc, void **argv) {
-  pid_t pid;
   char *dir;
-  struct stat stab;
 
   dir = argv[0];
-  if (lstat(dir, &stab) && errno == ENOENT)
-    return;
-
-  pid = subproc_fork();
-  if (pid == 0) {
-    if (chdir("/"))
-      ohshite(_("failed to chdir to `/' for cleanup"));
-    execlp(RM, "rm", "-rf", dir, NULL);
-    ohshite(_("unable to execute %s (%s)"), _("rm command for cleanup"), RM);
-  }
-  subproc_wait_check(pid, _("rm command for cleanup"), 0);
+  path_remove_tree(dir);
+  free(dir);
 }
 
 static void info_prepare(const char *const **argvp,
@@ -82,7 +72,7 @@ static void info_prepare(const char *const **argvp,
   *dirp = dbuf;
 
   push_cleanup(cu_info_prepare, -1, NULL, 0, 1, (void *)dbuf);
-  extracthalf(*debarp, dbuf, "mx", admininfo);
+  extracthalf(*debarp, dbuf, DPKG_TAR_EXTRACT | DPKG_TAR_NOMTIME, admininfo);
 }
 
 static int ilist_select(const struct dirent *de) {
@@ -113,7 +103,7 @@ info_spew(const char *debar, const char *dir, const char *const *argv)
              debar, component);
       re++;
     } else {
-      ohshite(_("open component `%.255s' (in %.255s) failed in an unexpected way"),
+      ohshite(_("open component '%.255s' (in %.255s) failed in an unexpected way"),
               component, dir);
     }
   }
@@ -138,7 +128,7 @@ info_list(const char *debar, const char *dir)
 
   cdn = scandir(dir, &cdlist, &ilist_select, alphasort);
   if (cdn == -1)
-    ohshite(_("cannot scan directory `%.255s'"), dir);
+    ohshite(_("cannot scan directory '%.255s'"), dir);
 
   for (n = 0; n < cdn; n++) {
     cdep = cdlist[n];
@@ -147,18 +137,18 @@ info_list(const char *debar, const char *dir)
     varbuf_printf(&controlfile, "%s/%s", dir, cdep->d_name);
 
     if (stat(controlfile.buf, &stab))
-      ohshite(_("cannot stat `%.255s' (in `%.255s')"), cdep->d_name, dir);
+      ohshite(_("cannot stat '%.255s' (in '%.255s')"), cdep->d_name, dir);
     if (S_ISREG(stab.st_mode)) {
       cc = fopen(controlfile.buf, "r");
       if (!cc)
-        ohshite(_("cannot open `%.255s' (in `%.255s')"), cdep->d_name, dir);
+        ohshite(_("cannot open '%.255s' (in '%.255s')"), cdep->d_name, dir);
       lines = 0;
       interpreter[0] = '\0';
       if (getc(cc) == '#') {
         if (getc(cc) == '!') {
           while ((c= getc(cc))== ' ');
           p=interpreter; *p++='#'; *p++='!'; il=2;
-          while (il<INTERPRETER_MAX && !isspace(c) && c!=EOF) {
+          while (il < INTERPRETER_MAX && !c_isspace(c) && c != EOF) {
             *p++= c; il++; c= getc(cc);
           }
           *p = '\0';
@@ -166,8 +156,8 @@ info_list(const char *debar, const char *dir)
         }
       }
       while ((c= getc(cc))!= EOF) { if (c == '\n') lines++; }
-      if (ferror(cc)) ohshite(_("failed to read `%.255s' (in `%.255s')"),
-                              cdep->d_name, dir);
+      if (ferror(cc))
+        ohshite(_("failed to read '%.255s' (in '%.255s')"), cdep->d_name, dir);
       fclose(cc);
       printf(_(" %7jd bytes, %5d lines   %c  %-20.127s %.127s\n"),
              (intmax_t)stab.st_size, lines, S_IXUSR & stab.st_mode ? '*' : ' ',
@@ -184,8 +174,8 @@ info_list(const char *debar, const char *dir)
   cc = fopen(controlfile.buf, "r");
   if (!cc) {
     if (errno != ENOENT)
-      ohshite(_("failed to read `%.255s' (in `%.255s')"), CONTROLFILE, dir);
-    fputs(_("(no `control' file in control archive!)\n"), stdout);
+      ohshite(_("failed to read '%.255s' (in '%.255s')"), CONTROLFILE, dir);
+    warning(_("no 'control' file in control archive!"));
   } else {
     lines= 1;
     while ((c= getc(cc))!= EOF) {
@@ -198,7 +188,7 @@ info_list(const char *debar, const char *dir)
       putc('\n', stdout);
 
     if (ferror(cc))
-      ohshite(_("failed to read `%.255s' (in `%.255s')"), CONTROLFILE, dir);
+      ohshite(_("failed to read '%.255s' (in '%.255s')"), CONTROLFILE, dir);
     fclose(cc);
   }
 
@@ -208,64 +198,41 @@ info_list(const char *debar, const char *dir)
 
 static void
 info_field(const char *debar, const char *dir, const char *const *fields,
-           bool showfieldname)
+           enum fwriteflags fieldflags)
 {
-  FILE *cc;
   char *controlfile;
-  char fieldname[MAXFIELDNAME+1];
-  char *pf;
-  const char *const *fp;
-  int c, lno, fnl;
-  bool doing;
+  struct varbuf str = VARBUF_INIT;
+  struct pkginfo *pkg;
+  int i;
 
-  m_asprintf(&controlfile, "%s/%s", dir, CONTROLFILE);
-  cc = fopen(controlfile, "r");
-  if (!cc)
-    ohshite(_("could not open the `control' component"));
-  doing = true;
-  lno = 1;
-  for (;;) {
-    c = getc(cc);
-    if (c == EOF) {
-      doing = false;
-      break;
-    }
-    if (c == '\n') {
-      lno++;
-      doing = true;
-      continue;
-    }
-    if (!isspace(c)) {
-      for (pf=fieldname, fnl=0;
-           fnl <= MAXFIELDNAME && c!=EOF && !isspace(c) && c!=':';
-           c= getc(cc)) { *pf++= c; fnl++; }
-      *pf = '\0';
-      doing= fnl >= MAXFIELDNAME || c=='\n' || c==EOF;
-      for (fp=fields; !doing && *fp; fp++)
-        if (strcasecmp(*fp, fieldname) == 0)
-          doing = true;
-      if (showfieldname) {
-        if (doing)
-          fputs(fieldname,stdout);
-      } else {
-        if (c==':') c= getc(cc);
-        while (c != '\n' && isspace(c)) c= getc(cc);
-      }
-    }
-    for(;;) {
-      if (c == EOF) break;
-      if (doing) putc(c,stdout);
-      if (c == '\n') { lno++; break; }
-      c= getc(cc);
-    }
-    if (c == EOF) break;
-  }
-  if (ferror(cc)) ohshite(_("failed during read of `control' component"));
-  if (fclose(cc))
-    ohshite(_("error closing the '%s' component"), CONTROLFILE);
-  if (doing) putc('\n',stdout);
-  m_output(stdout, _("<standard output>"));
+  controlfile = str_fmt("%s/%s", dir, CONTROLFILE);
+  parsedb(controlfile, pdb_parse_binary | pdb_ignorefiles, &pkg);
   free(controlfile);
+
+  for (i = 0; fields[i]; i++) {
+    const struct fieldinfo *field;
+    const struct arbitraryfield *arbfield;
+
+    varbuf_reset(&str);
+    field = find_field_info(fieldinfos, fields[i]);
+    if (field) {
+      field->wcall(&str, pkg, &pkg->available, fieldflags, field);
+    } else {
+      arbfield = find_arbfield_info(pkg->available.arbs, fields[i]);
+      if (arbfield)
+        varbuf_add_arbfield(&str, arbfield, fieldflags);
+    }
+    varbuf_end_str(&str);
+
+    if (fieldflags & fw_printheader)
+      printf("%s", str.buf);
+    else
+      printf("%s\n", str.buf);
+  }
+
+  m_output(stdout, _("<standard output>"));
+
+  varbuf_destroy(&str);
 }
 
 int
@@ -283,7 +250,7 @@ do_showinfo(const char *const *argv)
 
   info_prepare(&argv, &debar, &dir, 1);
 
-  m_asprintf(&controlfile, "%s/%s", dir, CONTROLFILE);
+  controlfile  = str_fmt("%s/%s", dir, CONTROLFILE);
   parsedb(controlfile, pdb_parse_binary | pdb_ignorefiles, &pkg);
   pkg_format_show(fmt, pkg, &pkg->available);
   pkg_format_free(fmt);
@@ -315,7 +282,7 @@ do_field(const char *const *argv)
 
   info_prepare(&argv, &debar, &dir, 1);
   if (*argv) {
-    info_field(debar, dir, argv, argv[1] != NULL);
+    info_field(debar, dir, argv, argv[1] != NULL ? fw_printheader : 0);
   } else {
     static const char *const controlonly[] = { CONTROLFILE, NULL };
     info_spew(debar, dir, controlonly);
@@ -331,9 +298,7 @@ do_contents(const char *const *argv)
 
   if (debar == NULL || *argv)
     badusage(_("--%s takes exactly one argument"), cipaction->olong);
-  extracthalf(debar, NULL, "tv", 0);
+  extracthalf(debar, NULL, DPKG_TAR_LIST, 0);
 
   return 0;
 }
-/* vi: sw=2
- */

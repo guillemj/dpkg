@@ -2,8 +2,8 @@
  * libdpkg - Debian packaging suite library routines
  * debug.c - debugging support
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2011 Guillem Jover <guillem@debian.orgian>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -25,6 +25,8 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#include <dpkg/dpkg.h>
+#include <dpkg/report.h>
 #include <dpkg/debug.h>
 
 static int debug_mask = 0;
@@ -32,10 +34,14 @@ static FILE *debug_output = NULL;
 
 /**
  * Set the debugging output file.
+ *
+ * Marks the file descriptor as close-on-exec.
  */
 void
-debug_set_output(FILE *output)
+debug_set_output(FILE *output, const char *filename)
 {
+	setcloexec(fileno(output), filename);
+	dpkg_set_report_buffer(output);
 	debug_output = output;
 }
 

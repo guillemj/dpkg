@@ -2,7 +2,8 @@
  * dpkg - main program for package management
  * main.h - external definitions for this program
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2006, 2008-2016 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef MAIN_H
@@ -28,17 +29,32 @@
 struct fileinlist;
 struct filenamenode;
 
+enum pkg_istobe {
+	/** Package is to be left in a normal state. */
+	PKG_ISTOBE_NORMAL,
+	/** Package is to be removed. */
+	PKG_ISTOBE_REMOVE,
+	/** Package is to be installed, configured or triggered. */
+	PKG_ISTOBE_INSTALLNEW,
+	/** Package is to be deconfigured. */
+	PKG_ISTOBE_DECONFIGURE,
+	/** Package is to be checked for Pre-Depends satisfiability. */
+	PKG_ISTOBE_PREINSTALL,
+};
+
+enum pkg_cycle_color {
+	PKG_CYCLE_WHITE,
+	PKG_CYCLE_GRAY,
+	PKG_CYCLE_BLACK,
+};
+
 struct perpackagestate {
-  enum istobes {
-    itb_normal, itb_remove, itb_installnew, itb_deconfigure, itb_preinstall
-  } istobe;
+  enum pkg_istobe istobe;
 
   /** Used during cycle detection. */
-  enum {
-    white,
-    gray,
-    black,
-  } color;
+  enum pkg_cycle_color color;
+
+  bool enqueued;
 
   /**
    * filelistvalid  files  Meaning
@@ -52,6 +68,7 @@ struct perpackagestate {
   bool fileslistvalid;
   struct fileinlist *files;
   int replacingfilesandsaid;
+  int cmdline_seen;
 
   off_t listfile_phys_offs;
 
@@ -68,6 +85,7 @@ enum action {
 	act_triggers,
 	act_remove,
 	act_purge,
+	act_verify,
 	act_commandfd,
 
 	act_status,
@@ -83,7 +101,6 @@ enum action {
 	act_arch_add,
 	act_arch_remove,
 	act_printarch,
-	act_printinstarch,
 	act_printforeignarches,
 
 	act_assertpredep,
@@ -91,6 +108,12 @@ enum action {
 	act_assertlongfilenames,
 	act_assertmulticonrep,
 	act_assertmultiarch,
+	act_assertverprovides,
+
+	act_validate_pkgname,
+	act_validate_trigname,
+	act_validate_archname,
+	act_validate_version,
 
 	act_audit,
 	act_unpackchk,
@@ -122,6 +145,7 @@ extern int fc_conff_ask;
 extern int fc_badverify;
 extern int fc_badversion;
 extern int fc_unsafe_io;
+extern int fc_script_chrootless;
 
 extern bool abort_processing;
 extern int errabort;
@@ -130,7 +154,11 @@ extern struct pkg_list *ignoredependss;
 
 struct invoke_hook {
 	struct invoke_hook *next;
-	const char *command;
+	char *command;
+};
+
+struct invoke_list {
+	struct invoke_hook *head, **tail;
 };
 
 /* from archives.c */
@@ -138,8 +166,6 @@ struct invoke_hook {
 int archivefiles(const char *const *argv);
 void process_archive(const char *filename);
 bool wanttoinstall(struct pkginfo *pkg);
-struct fileinlist *newconff_append(struct fileinlist ***newconffileslastp_io,
-				   struct filenamenode *namenode);
 
 /* from update.c */
 
@@ -155,11 +181,21 @@ int assertpredep(const char *const *argv);
 int assertlongfilenames(const char *const *argv);
 int assertmulticonrep(const char *const *argv);
 int assertmultiarch(const char *const *argv);
+int assertverprovides(const char *const *argv);
+int validate_pkgname(const char *const *argv);
+int validate_trigname(const char *const *argv);
+int validate_archname(const char *const *argv);
+int validate_version(const char *const *argv);
 int predeppackage(const char *const *argv);
 int printarch(const char *const *argv);
 int printinstarch(const char *const *argv);
 int print_foreign_arches(const char *const *argv);
 int cmpversions(const char *const *argv);
+
+/* from verify.c */
+
+bool verify_set_output(const char *name);
+int verify(const char *const *argv);
 
 /* from select.c */
 
@@ -170,16 +206,17 @@ int clearselections(const char *const *argv);
 /* from packages.c, remove.c and configure.c */
 
 void md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn);
-void add_to_queue(struct pkginfo *pkg);
+void enqueue_package(struct pkginfo *pkg);
+void enqueue_package_mark_seen(struct pkginfo *pkg);
 void process_queue(void);
 int packages(const char *const *argv);
 void removal_bulk(struct pkginfo *pkg);
 int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in);
 
 enum dep_check {
-  dep_check_halt = 0,
-  dep_check_defer = 1,
-  dep_check_ok = 2,
+  DEP_CHECK_HALT = 0,
+  DEP_CHECK_DEFER = 1,
+  DEP_CHECK_OK = 2,
 };
 
 enum dep_check dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
@@ -197,7 +234,8 @@ void cu_prermremove(int argc, void **argv);
 
 /* from errors.c */
 
-void print_error_perpackage(const char *emsg, const char *arg);
+void print_error_perpackage(const char *emsg, const void *data);
+void print_error_perarchive(const char *emsg, const void *data);
 void forcibleerr(int forceflag, const char *format, ...) DPKG_ATTR_PRINTF(2);
 int reportbroken_retexitstatus(int ret);
 bool skip_due_to_hold(struct pkginfo *pkg);
@@ -210,32 +248,29 @@ bool ignore_depends(struct pkginfo *pkg);
 bool force_breaks(struct deppossi *possi);
 bool force_depends(struct deppossi *possi);
 bool force_conflicts(struct deppossi *possi);
-void oldconffsetflags(const struct conffile *searchconff);
-void ensure_pathname_nonexisting(const char *pathname);
-int secure_unlink(const char *pathname);
-int secure_unlink_statted(const char *pathname, const struct stat *stab);
+void conffile_mark_obsolete(struct pkginfo *pkg, struct filenamenode *namenode);
+void pkg_conffiles_mark_old(struct pkginfo *pkg);
+bool find_command(const char *prog);
 void checkpath(void);
 
 struct filenamenode *namenodetouse(struct filenamenode *namenode,
                                    struct pkginfo *pkg, struct pkgbin *pkgbin);
 
-int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
-                                const char *desc, ...) DPKG_ATTR_SENTINEL;
-int maintainer_script_new(struct pkginfo *pkg,
-                          const char *scriptname, const char *desc,
-                          const char *cidir, char *cidirrest, ...)
-                          DPKG_ATTR_SENTINEL;
-int maintainer_script_alternative(struct pkginfo *pkg,
-                                  const char *scriptname, const char *desc,
-                                  const char *cidir, char *cidirrest,
-                                  const char *ifok, const char *iffallback);
+int maintscript_installed(struct pkginfo *pkg, const char *scriptname,
+                          const char *desc, ...) DPKG_ATTR_SENTINEL;
+int maintscript_new(struct pkginfo *pkg,
+                    const char *scriptname, const char *desc,
+                    const char *cidir, char *cidirrest, ...)
+	DPKG_ATTR_SENTINEL;
+int maintscript_fallback(struct pkginfo *pkg,
+                         const char *scriptname, const char *desc,
+                         const char *cidir, char *cidirrest,
+                         const char *ifok, const char *iffallback);
 
 /* Callers wanting to run the postinst use these two as they want to postpone
  * trigger incorporation until after updating the package status. The effect
  * is that a package can trigger itself. */
-int maintainer_script_postinst(struct pkginfo *pkg, ...) DPKG_ATTR_SENTINEL;
-void post_postinst_tasks_core(struct pkginfo *pkg);
-
+int maintscript_postinst(struct pkginfo *pkg, ...) DPKG_ATTR_SENTINEL;
 void post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status);
 
 void clear_istobes(void);
@@ -246,13 +281,27 @@ bool dir_has_conffiles(struct filenamenode *namenode, struct pkginfo *pkg);
 
 void log_action(const char *action, struct pkginfo *pkg, struct pkgbin *pkgbin);
 
+/* From selinux.c */
+
+void dpkg_selabel_load(void);
+void dpkg_selabel_set_context(const char *matchpath, const char *path, mode_t mode);
+void dpkg_selabel_close(void);
+
 /* from trigproc.c */
 
+enum trigproc_type {
+	/** Opportunistic trigger processing. */
+	TRIGPROC_TRY,
+	/** Required trigger processing. */
+	TRIGPROC_REQUIRED,
+};
+
 void trigproc_install_hooks(void);
+void trigproc_populate_deferred(void);
 void trigproc_run_deferred(void);
 void trigproc_reset_cycle(void);
 
-void trigproc(struct pkginfo *pkg);
+void trigproc(struct pkginfo *pkg, enum trigproc_type type);
 
 void trig_activate_packageprocessing(struct pkginfo *pkg);
 

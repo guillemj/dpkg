@@ -14,16 +14,15 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
-#include <compat.h>
 
 #include <string.h>
 #include <stdlib.h>
 
-#undef strndup
+#include "compat.h"
 
 char *
 strndup(const char *s, size_t n)

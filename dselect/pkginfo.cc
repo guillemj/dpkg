@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * pkginfo.cc - handles (re)draw of package list window infopad
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,19 +15,19 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
 #include <compat.h>
 
-#include <ctype.h>
 #include <string.h>
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 
 #include "dselect.h"
 #include "bindings.h"
@@ -62,14 +62,18 @@ const struct helpmenuentry *packagelist::helpmenulist() {
                  recur;
 }
 
-int packagelist::itr_recursive() { return recursive; }
+bool
+packagelist::itr_recursive()
+{
+  return recursive;
+}
 
 const packagelist::infotype packagelist::infoinfos[]= {
-  { &packagelist::itr_recursive,     &packagelist::itd_relations         },
-  { 0,                               &packagelist::itd_description       },
-  { 0,                               &packagelist::itd_statuscontrol     },
-  { 0,                               &packagelist::itd_availablecontrol  },
-  { 0,                 0                     }
+  { &packagelist::itr_recursive, &packagelist::itd_relations         },
+  { nullptr,                     &packagelist::itd_description       },
+  { nullptr,                     &packagelist::itd_statuscontrol     },
+  { nullptr,                     &packagelist::itd_availablecontrol  },
+  { nullptr,                     nullptr                             }
 };
 
 const packagelist::infotype *const packagelist::baseinfo= infoinfos;
@@ -84,7 +88,7 @@ void packagelist::severalinfoblurb()
      "If you move the highlight to a line for a particular package "
      "you will see information about that package displayed here."
      "\n"
-     "You can use `o' and `O' to change the sort order and give yourself "
+     "You can use 'o' and 'O' to change the sort order and give yourself "
      "the opportunity to mark packages in different kinds of groups."));
   wordwrapinfo(0,vb.string());
 }
@@ -106,9 +110,9 @@ void packagelist::itd_description() {
 
   if (table[cursorline]->pkg->set->name) {
     const char *m= table[cursorline]->pkg->available.description;
-    if (!m || !*m)
+    if (str_is_unset(m))
       m = table[cursorline]->pkg->installed.description;
-    if (!m || !*m)
+    if (str_is_unset(m))
       m = _("No description available.");
     const char *p= strchr(m,'\n');
     int l= p ? (int)(p-m) : strlen(m);
@@ -116,7 +120,7 @@ void packagelist::itd_description() {
     waddstr(infopad, table[cursorline]->pkg->set->name);
     waddstr(infopad," - ");
     waddnstr(infopad,m,l);
-    wattrset(infopad, part_attr[info]);
+    wattrset(infopad, part_attr[info_body]);
     if (p) {
       waddstr(infopad,"\n\n");
       wordwrapinfo(1,++p);
@@ -135,7 +139,6 @@ void packagelist::itd_statuscontrol() {
   } else {
     varbuf vb;
     varbufrecord(&vb,table[cursorline]->pkg,&table[cursorline]->pkg->installed);
-    vb.terminate();
     debug(dbg_general, "packagelist[%p]::idt_statuscontrol(); '%s'",
           this, vb.string());
     waddstr(infopad,vb.string());
@@ -151,7 +154,6 @@ void packagelist::itd_availablecontrol() {
   } else {
     varbuf vb;
     varbufrecord(&vb,table[cursorline]->pkg,&table[cursorline]->pkg->available);
-    vb.terminate();
     debug(dbg_general, "packagelist[%p]::idt_availablecontrol(); '%s'",
           this, vb.string());
     waddstr(infopad,vb.string());
@@ -173,7 +175,7 @@ void packagelist::redrawinfo() {
         this, (int)(currentinfo - baseinfo));
 
   (this->*currentinfo->display)();
-  whatinfovb.terminate();
+
   int y,x;
   getyx(infopad, y,x);
   if (x) y++;

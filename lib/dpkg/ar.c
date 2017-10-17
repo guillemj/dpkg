@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -25,7 +25,10 @@
 #include <sys/stat.h>
 
 #include <time.h>
+#include <fcntl.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #include <dpkg/i18n.h>
@@ -34,8 +37,80 @@
 #include <dpkg/buffer.h>
 #include <dpkg/ar.h>
 
+struct dpkg_ar *
+dpkg_ar_fdopen(const char *filename, int fd)
+{
+	struct dpkg_ar *ar;
+	struct stat st;
+
+	if (fstat(fd, &st) != 0)
+		ohshite(_("failed to fstat archive"));
+
+	ar = m_malloc(sizeof(*ar));
+	ar->name = filename;
+	ar->mode = st.st_mode;
+	ar->size = st.st_size;
+	ar->time = st.st_mtime;
+	ar->fd = fd;
+
+	return ar;
+}
+
+struct dpkg_ar *
+dpkg_ar_open(const char *filename)
+{
+	int fd;
+
+	if (strcmp(filename, "-") == 0)
+		fd = STDIN_FILENO;
+	else
+		fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		ohshite(_("failed to read archive '%.255s'"), filename);
+
+	return dpkg_ar_fdopen(filename, fd);
+}
+
+struct dpkg_ar *
+dpkg_ar_create(const char *filename, mode_t mode)
+{
+	int fd;
+
+	fd = creat(filename, mode);
+	if (fd < 0)
+		ohshite(_("unable to create '%.255s'"), filename);
+
+	return dpkg_ar_fdopen(filename, fd);
+}
+
 void
-dpkg_ar_normalize_name(struct ar_hdr *arh)
+dpkg_ar_set_mtime(struct dpkg_ar *ar, time_t mtime)
+{
+	ar->time = mtime;
+}
+
+void
+dpkg_ar_close(struct dpkg_ar *ar)
+{
+	if (close(ar->fd))
+		ohshite(_("unable to close file '%s'"), ar->name);
+	free(ar);
+}
+
+static void
+dpkg_ar_member_init(struct dpkg_ar *ar, struct dpkg_ar_member *member,
+                    const char *name, off_t size)
+{
+	member->name = name;
+	member->size = size;
+	member->time = ar->time;
+	member->mode = 0100644;
+	member->uid = 0;
+	member->gid = 0;
+}
+
+void
+dpkg_ar_normalize_name(struct dpkg_ar_hdr *arh)
 {
 	char *name = arh->ar_name;
 	int i;
@@ -45,12 +120,12 @@ dpkg_ar_normalize_name(struct ar_hdr *arh)
 		name[i] = '\0';
 
 	/* Remove optional slash terminator (on GNU-style archives). */
-	if (name[i] == '/')
+	if (i >= 0 && name[i] == '/')
 		name[i] = '\0';
 }
 
 off_t
-dpkg_ar_member_get_size(const char *ar_name, struct ar_hdr *arh)
+dpkg_ar_member_get_size(struct dpkg_ar *ar, struct dpkg_ar_hdr *arh)
 {
 	const char *str = arh->ar_size;
 	int len = sizeof(arh->ar_size);
@@ -65,7 +140,7 @@ dpkg_ar_member_get_size(const char *ar_name, struct ar_hdr *arh)
 		if (*str < '0' || *str > '9')
 			ohshit(_("invalid character '%c' in archive '%.250s' "
 			         "member '%.16s' size"),
-			       *str, arh->ar_name, ar_name);
+			       *str, ar->name, arh->ar_name);
 
 		size *= 10;
 		size += *str++ - '0';
@@ -75,59 +150,65 @@ dpkg_ar_member_get_size(const char *ar_name, struct ar_hdr *arh)
 }
 
 bool
-dpkg_ar_member_is_illegal(struct ar_hdr *arh)
+dpkg_ar_member_is_illegal(struct dpkg_ar_hdr *arh)
 {
-	return memcmp(arh->ar_fmag, ARFMAG, sizeof(arh->ar_fmag)) != 0;
+	return memcmp(arh->ar_fmag, DPKG_AR_FMAG, sizeof(arh->ar_fmag)) != 0;
 }
 
 void
-dpkg_ar_put_magic(const char *ar_name, int ar_fd)
+dpkg_ar_put_magic(struct dpkg_ar *ar)
 {
-	if (fd_write(ar_fd, DPKG_AR_MAGIC, strlen(DPKG_AR_MAGIC)) < 0)
-		ohshite(_("unable to write file '%s'"), ar_name);
+	if (fd_write(ar->fd, DPKG_AR_MAGIC, strlen(DPKG_AR_MAGIC)) < 0)
+		ohshite(_("unable to write file '%s'"), ar->name);
 }
 
 void
-dpkg_ar_member_put_header(const char *ar_name, int ar_fd,
-                          const char *name, off_t size)
+dpkg_ar_member_put_header(struct dpkg_ar *ar, struct dpkg_ar_member *member)
 {
-	char header[sizeof(struct ar_hdr) + 1];
+	char header[sizeof(struct dpkg_ar_hdr) + 1];
 	int n;
 
-	if (strlen(name) > 15)
-		ohshit(_("ar member name '%s' length too long"), name);
-	if (size > 9999999999L)
-		ohshit(_("ar member size %jd too large"), size);
+	if (strlen(member->name) > 15)
+		ohshit(_("ar member name '%s' length too long"), member->name);
+	if (member->size > 9999999999L)
+		ohshit(_("ar member size %jd too large"), (intmax_t)member->size);
 
-	n = sprintf(header, "%-16s%-12lu0     0     100644  %-10jd`\n",
-	            name, time(NULL), (intmax_t)size);
-	if (n != sizeof(struct ar_hdr))
-		ohshit(_("generated corrupt ar header for '%s'"), ar_name);
+	n = snprintf(header, sizeof(struct dpkg_ar_hdr) + 1,
+	             "%-16s%-12lu%-6lu%-6lu%-8lo%-10jd`\n",
+	             member->name, (unsigned long)member->time,
+	             (unsigned long)member->uid, (unsigned long)member->gid,
+	             (unsigned long)member->mode, (intmax_t)member->size);
+	if (n != sizeof(struct dpkg_ar_hdr))
+		ohshit(_("generated corrupt ar header for '%s'"), ar->name);
 
-	if (fd_write(ar_fd, header, n) < 0)
-		ohshite(_("unable to write file '%s'"), ar_name);
+	if (fd_write(ar->fd, header, n) < 0)
+		ohshite(_("unable to write file '%s'"), ar->name);
 }
 
 void
-dpkg_ar_member_put_mem(const char *ar_name, int ar_fd,
+dpkg_ar_member_put_mem(struct dpkg_ar *ar,
                        const char *name, const void *data, size_t size)
 {
-	dpkg_ar_member_put_header(ar_name, ar_fd, name, size);
+	struct dpkg_ar_member member;
+
+	dpkg_ar_member_init(ar, &member, name, size);
+	dpkg_ar_member_put_header(ar, &member);
 
 	/* Copy data contents. */
-	if (fd_write(ar_fd, data, size) < 0)
-		ohshite(_("unable to write file '%s'"), ar_name);
+	if (fd_write(ar->fd, data, size) < 0)
+		ohshite(_("unable to write file '%s'"), ar->name);
 
 	if (size & 1)
-		if (fd_write(ar_fd, "\n", 1) < 0)
-			ohshite(_("unable to write file '%s'"), ar_name);
+		if (fd_write(ar->fd, "\n", 1) < 0)
+			ohshite(_("unable to write file '%s'"), ar->name);
 }
 
 void
-dpkg_ar_member_put_file(const char *ar_name, int ar_fd,
+dpkg_ar_member_put_file(struct dpkg_ar *ar,
                         const char *name, int fd, off_t size)
 {
 	struct dpkg_error err;
+	struct dpkg_ar_member member;
 
 	if (size <= 0) {
 		struct stat st;
@@ -137,14 +218,15 @@ dpkg_ar_member_put_file(const char *ar_name, int ar_fd,
 		size = st.st_size;
 	}
 
-	dpkg_ar_member_put_header(ar_name, ar_fd, name, size);
+	dpkg_ar_member_init(ar, &member, name, size);
+	dpkg_ar_member_put_header(ar, &member);
 
 	/* Copy data contents. */
-	if (fd_fd_copy(fd, ar_fd, size, &err) < 0)
+	if (fd_fd_copy(fd, ar->fd, size, &err) < 0)
 		ohshit(_("cannot append ar member file (%s) to '%s': %s"),
-		       name, ar_name, err.str);
+		       name, ar->name, err.str);
 
 	if (size & 1)
-		if (fd_write(ar_fd, "\n", 1) < 0)
-			ohshite(_("unable to write file '%s'"), ar_name);
+		if (fd_write(ar->fd, "\n", 1) < 0)
+			ohshite(_("unable to write file '%s'"), ar->name);
 }

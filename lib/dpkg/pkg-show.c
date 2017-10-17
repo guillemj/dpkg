@@ -2,8 +2,8 @@
  * libdpkg - Debian packaging suite library routines
  * pkg-show.c - primitives for pkg information display
  *
- * Copyright © 1995,1996 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 1995,1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -26,6 +26,7 @@
 
 #include <dpkg/macros.h>
 #include <dpkg/i18n.h>
+#include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg-show.h>
 
@@ -36,14 +37,14 @@ pkgbin_name_needs_arch(const struct pkgbin *pkgbin,
 	switch (pnaw) {
 	case pnaw_never:
 		break;
-	case pnaw_foreign:
-		if (pkgbin->arch->type == arch_native ||
-		    pkgbin->arch->type == arch_all ||
-		    pkgbin->arch->type == arch_none)
-			break;
-		return true;
 	case pnaw_nonambig:
-		if (pkgbin->multiarch != multiarch_same)
+		if (pkgbin->multiarch == PKG_MULTIARCH_SAME)
+			return true;
+	/* Fall through. */
+	case pnaw_foreign:
+		if (pkgbin->arch->type == DPKG_ARCH_NATIVE ||
+		    pkgbin->arch->type == DPKG_ARCH_ALL ||
+		    pkgbin->arch->type == DPKG_ARCH_NONE)
 			break;
 	/* Fall through. */
 	case pnaw_always:
@@ -115,7 +116,7 @@ pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
 }
 
 /**
- * Return a string representation of the package name.
+ * Return a string representation of the installed package name.
  *
  * This is equivalent to pkgbin_name() but just for its installed pkgbin.
  *
@@ -130,41 +131,127 @@ pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
 	return pkgbin_name(pkg, &pkg->installed, pnaw);
 }
 
+/**
+ * Return a string representation of the package summary.
+ *
+ * The returned string must not be freed, and it's permanently allocated so
+ * can be used as long as the non-freeing memory pool has not been freed.
+ *
+ * The package summary is the short description, but it is not NUL terminated,
+ * so the output len argument should be used to limit the string length.
+ *
+ * @param pkg      The package to consider.
+ * @param pkgbin   The binary package instance to consider.
+ * @param[out] len The length of the summary string within the description.
+ *
+ * @return The string representation.
+ */
 const char *
-pkg_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin, int *len_ret)
+pkgbin_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin, int *len)
 {
 	const char *pdesc;
-	size_t len;
 
 	pdesc = pkgbin->description;
 	if (!pdesc)
 		pdesc = _("(no description available)");
 
-	len = strcspn(pdesc, "\n");
-	if (len == 0)
-		len = strlen(pdesc);
-
-	*len_ret = len;
+	*len = strcspn(pdesc, "\n");
 
 	return pdesc;
 }
 
+/**
+ * Return a character abbreviated representation of the package want status.
+ *
+ * @param pkg The package to consider.
+ *
+ * @return The character abbreviated representation.
+ */
 int
 pkg_abbrev_want(const struct pkginfo *pkg)
 {
 	return "uihrp"[pkg->want];
 }
 
+/**
+ * Return a character abbreviated representation of the package current status.
+ *
+ * @param pkg The package to consider.
+ *
+ * @return The character abbreviated representation.
+ */
 int
 pkg_abbrev_status(const struct pkginfo *pkg)
 {
 	return "ncHUFWti"[pkg->status];
 }
 
+/**
+ * Return a character abbreviated representation of the package eflag status.
+ *
+ * @param pkg The package to consider.
+ *
+ * @return The character abbreviated representation.
+ */
 int
 pkg_abbrev_eflag(const struct pkginfo *pkg)
 {
 	return " R"[pkg->eflag];
+}
+
+/**
+ * Return a string representation of the package want status name.
+ *
+ * @param pkg The package to consider.
+ *
+ * @return The string representation.
+ */
+const char *
+pkg_want_name(const struct pkginfo *pkg)
+{
+	return wantinfos[pkg->want].name;
+}
+
+/**
+ * Return a string representation of the package eflag status name.
+ *
+ * @param pkg The package to consider.
+ *
+ * @return The string representation.
+ */
+const char *
+pkg_eflag_name(const struct pkginfo *pkg)
+{
+	return eflaginfos[pkg->eflag].name;
+}
+
+/**
+ * Return a string representation of the package current status name.
+ *
+ * @param pkg The package to consider.
+ *
+ * @return The string representation.
+ */
+const char *
+pkg_status_name(const struct pkginfo *pkg)
+{
+	return statusinfos[pkg->status].name;
+}
+
+/**
+ * Return a string representation of the package priority name.
+ *
+ * @param pkg The package to consider.
+ *
+ * @return The string representation.
+ */
+const char *
+pkg_priority_name(const struct pkginfo *pkg)
+{
+	if (pkg->priority == PKG_PRIO_OTHER)
+		return pkg->otherpriority;
+	else
+		return priorityinfos[pkg->priority].name;
 }
 
 /**
@@ -202,4 +289,52 @@ pkg_sorter_by_nonambig_name_arch(const void *a, const void *b)
 	} else {
 		return -1;
 	}
+}
+
+/**
+ * Add a string representation of the source package version to a varbuf.
+ *
+ * It parses the Source field (if present), and extracts the optional
+ * version enclosed in parenthesis. Otherwise it fallsback to use the
+ * binary package version. It NUL terminates the varbuf.
+ *
+ * @param vb      The varbuf struct to modify.
+ * @param pkg     The package to consider.
+ * @param pkgbin  The binary package instance to consider.
+ */
+void
+varbuf_add_source_version(struct varbuf *vb,
+                          const struct pkginfo *pkg, const struct pkgbin *pkgbin)
+{
+	const char *version;
+	size_t len;
+
+	if (pkgbin->source)
+		version = strchr(pkgbin->source, '(');
+	else
+		version = NULL;
+
+	if (version == NULL) {
+		varbufversion(vb, &pkgbin->version, vdew_nonambig);
+	} else {
+		version++;
+
+		len = strcspn(version, ")");
+
+		varbuf_add_buf(vb, version, len);
+	}
+}
+
+void
+pkg_source_version(struct dpkg_version *version,
+                   const struct pkginfo *pkg, const struct pkgbin *pkgbin)
+{
+	struct dpkg_error err;
+	struct varbuf vb = VARBUF_INIT;
+
+	varbuf_add_source_version(&vb, pkg, pkgbin);
+	varbuf_end_str(&vb);
+
+	if (parseversion(version, vb.buf, &err) < 0)
+		ohshit(_("version '%s' has bad syntax: %s"), vb.buf, err.str);
 }

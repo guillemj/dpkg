@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_MACROS_H
@@ -71,13 +71,12 @@
 #define DPKG_ATTR_SENTINEL
 #endif
 
-/* For C++, define a __func__ fallback in case it's not natively supported. */
-#if defined(__cplusplus) && __cplusplus < 201103L
-# if DPKG_GCC_VERSION >= 0x0200
-#  define __func__ __PRETTY_FUNCTION__
-# else
-#  define __func__ __FUNCTION__
-# endif
+#if defined(__cplusplus) && __cplusplus >= 201103L
+#define DPKG_ATTR_THROW(exception)
+#define DPKG_ATTR_NOEXCEPT		noexcept
+#elif defined(__cplusplus)
+#define DPKG_ATTR_THROW(exception)	throw(exception)
+#define DPKG_ATTR_NOEXCEPT		throw()
 #endif
 
 #ifdef __cplusplus

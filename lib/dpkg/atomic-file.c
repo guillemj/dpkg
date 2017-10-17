@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * atomic-file.c - atomic file helper functions
  *
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -44,7 +44,7 @@ atomic_file_new(const char *filename, enum atomic_file_flags flags)
 	file->flags = flags;
 	file->fp = NULL;
 	file->name = m_strdup(filename);
-	m_asprintf(&file->name_new, "%s%s", filename, ATOMIC_FILE_NEW_EXT);
+	file->name_new = str_fmt("%s%s", filename, ATOMIC_FILE_NEW_EXT);
 
 	return file;
 }
@@ -78,7 +78,7 @@ atomic_file_close(struct atomic_file *file)
 	pop_cleanup(ehflag_normaltidy); /* fopen */
 
 	if (fclose(file->fp))
-		ohshite(_("unable to close new file `%.250s'"), file->name_new);
+		ohshite(_("unable to close new file '%.250s'"), file->name_new);
 }
 
 static void
@@ -86,7 +86,7 @@ atomic_file_backup(struct atomic_file *file)
 {
 	char *name_old;
 
-	m_asprintf(&name_old, "%s%s", file->name, ATOMIC_FILE_OLD_EXT);
+	name_old = str_fmt("%s%s", file->name, ATOMIC_FILE_OLD_EXT);
 
 	if (unlink(name_old) && errno != ENOENT)
 		ohshite(_("error removing old backup file '%s'"), name_old);
@@ -100,15 +100,15 @@ void
 atomic_file_remove(struct atomic_file *file)
 {
 	if (unlink(file->name_new))
-		ohshite(_("cannot remove `%.250s'"), file->name_new);
+		ohshite(_("cannot remove '%.250s'"), file->name_new);
 	if (unlink(file->name) && errno != ENOENT)
-		ohshite(_("cannot remove `%.250s'"), file->name);
+		ohshite(_("cannot remove '%.250s'"), file->name);
 }
 
 void
 atomic_file_commit(struct atomic_file *file)
 {
-	if (file->flags & aff_backup)
+	if (file->flags & ATOMIC_FILE_BACKUP)
 		atomic_file_backup(file);
 
 	if (rename(file->name_new, file->name))

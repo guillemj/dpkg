@@ -2,8 +2,8 @@
  * dpkg-split - splitting and joining of multipart *.deb archives
  * split.c - splitting archives
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2008-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -26,11 +26,11 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
+#include <errno.h>
 #include <limits.h>
 #include <fcntl.h>
 #include <libgen.h>
 #include <string.h>
-#include <ctype.h>
 #include <time.h>
 #include <unistd.h>
 #include <stdint.h>
@@ -38,9 +38,12 @@
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/parsedump.h>
 #include <dpkg/path.h>
+#include <dpkg/string.h>
 #include <dpkg/subproc.h>
 #include <dpkg/buffer.h>
 #include <dpkg/ar.h>
@@ -48,14 +51,16 @@
 
 #include "dpkg-split.h"
 
-static char *
-deb_field(const char *filename, const char *field)
+/**
+ * Parse the control file from a .deb package into a struct pkginfo.
+ */
+static struct pkginfo *
+deb_parse_control(const char *filename)
 {
-	struct dpkg_error err;
+	struct parsedb_state *ps;
+	struct pkginfo *pkg;
 	pid_t pid;
 	int p[2];
-	struct varbuf buf = VARBUF_INIT;
-	char *end;
 
 	m_pipe(p);
 
@@ -66,31 +71,37 @@ deb_field(const char *filename, const char *field)
 		close(p[0]);
 		close(p[1]);
 
-		execlp(BACKEND, BACKEND, "--field", filename, field, NULL);
+		execlp(BACKEND, BACKEND, "--info", filename, "control", NULL);
 		ohshite(_("unable to execute %s (%s)"),
 		        _("package field value extraction"), BACKEND);
 	}
 	close(p[1]);
 
-	/* Parant reads from pipe. */
-	varbuf_reset(&buf);
-	if (fd_vbuf_copy(p[0], &buf, -1, &err) < 0)
-		ohshit(_("cannot extract package field value from '%s': %s"),
-		       filename, err.str);
-	varbuf_end_str(&buf);
+	/* Parent reads from pipe. */
+	ps = parsedb_new(_("<dpkg-deb --info pipe>"), p[0], pdb_parse_binary);
+	parsedb_load(ps);
+	parsedb_parse(ps, &pkg);
+	parsedb_close(ps);
 
 	close(p[0]);
 
-	subproc_wait_check(pid, _("package field value extraction"), PROCPIPE);
+	subproc_reap(pid, _("package field value extraction"), SUBPROC_NOPIPE);
 
-	/* Trim down trailing junk. */
-	for (end = buf.buf + strlen(buf.buf) - 1; end - buf.buf >= 1; end--)
-		if (isspace(*end))
-			*end = '\0';
-		else
-			break;
+	return pkg;
+}
 
-	return varbuf_detach(&buf);
+static time_t
+parse_timestamp(const char *value)
+{
+	time_t timestamp;
+	char *end;
+
+	errno = 0;
+	timestamp = strtol(value, &end, 10);
+	if (value == end || *end || errno != 0)
+		ohshite(_("unable to parse timestamp '%.255s'"), value);
+
+	return timestamp;
 }
 
 /* Cleanup filename for use in crippled msdos systems. */
@@ -102,9 +113,9 @@ clean_msdos_filename(char *filename)
 	for (s = d = filename; *s; d++, s++) {
 		if (*s == '+')
 			*d = 'x';
-		else if (isupper(*s))
-			*d = tolower(*s);
-		else if (islower(*s) || isdigit(*s))
+		else if (c_isupper(*s))
+			*d = c_tolower(*s);
+		else if (c_islower(*s) || c_isdigit(*s))
 			*d = *s;
 		else
 			s++;
@@ -117,11 +128,14 @@ static int
 mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
         bool msdos)
 {
+	struct pkginfo *pkg;
 	struct dpkg_error err;
 	int fd_src;
 	struct stat st;
+	time_t timestamp;
+	const char *timestamp_str;
+	const char *version;
 	char hash[MD5HASHLEN + 1];
-	char *package, *version, *arch;
 	int nparts, curpart;
 	off_t partsize;
 	off_t cur_partsize, last_partsize;
@@ -132,21 +146,25 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 
 	fd_src = open(file_src, O_RDONLY);
 	if (fd_src < 0)
-		ohshite(_("unable to open source file `%.250s'"), file_src);
+		ohshite(_("unable to open source file '%.250s'"), file_src);
 	if (fstat(fd_src, &st))
 		ohshite(_("unable to fstat source file"));
 	if (!S_ISREG(st.st_mode))
-		ohshit(_("source file `%.250s' not a plain file"), file_src);
+		ohshit(_("source file '%.250s' not a plain file"), file_src);
 
 	if (fd_md5(fd_src, hash, -1, &err) < 0)
 		ohshit(_("cannot compute MD5 hash for file '%s': %s"),
 		       file_src, err.str);
 	lseek(fd_src, 0, SEEK_SET);
 
-	/* FIXME: Use libdpkg-deb. */
-	package = deb_field(file_src, "Package");
-	version = deb_field(file_src, "Version");
-	arch = deb_field(file_src, "Architecture");
+	pkg  = deb_parse_control(file_src);
+	version = versiondescribe(&pkg->available.version, vdew_nonambig);
+
+	timestamp_str = getenv("SOURCE_DATE_EPOCH");
+	if (timestamp_str)
+		timestamp = parse_timestamp(timestamp_str);
+	else
+		timestamp = time(NULL);
 
 	partsize = maxpartsize - HEADERALLOWANCE;
 	last_partsize = st.st_size % partsize;
@@ -154,11 +172,9 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 		last_partsize = partsize;
 	nparts = (st.st_size + partsize - 1) / partsize;
 
-	setvbuf(stdout, NULL, _IONBF, 0);
-
 	printf(P_("Splitting package %s into %d part: ",
 	          "Splitting package %s into %d parts: ", nparts),
-	       package, nparts);
+	       pkg->set->name, nparts);
 
 	if (msdos) {
 		char *t;
@@ -172,7 +188,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 	}
 
 	for (curpart = 1; curpart <= nparts; curpart++) {
-		int fd_dst;
+		struct dpkg_ar *ar;
 
 		varbuf_reset(&file_dst);
 		/* Generate output filename. */
@@ -180,7 +196,7 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 			char *refname;
 			int prefix_max;
 
-			m_asprintf(&refname, "%dof%d", curpart, nparts);
+			refname = str_fmt("%dof%d", curpart, nparts);
 			prefix_max = max(8 - strlen(refname), 0);
 			varbuf_printf(&file_dst, "%s/%.*s%.8s.deb",
 			              prefixdir, prefix_max, prefix, refname);
@@ -203,30 +219,29 @@ mksplit(const char *file_src, const char *prefix, off_t maxpartsize,
 		}
 
 		/* Split the data. */
-		fd_dst = creat(file_dst.buf, 0644);
-		if (fd_dst < 0)
-			ohshite(_("unable to open file '%s'"), file_dst.buf);
+		ar = dpkg_ar_create(file_dst.buf, 0644);
+		dpkg_ar_set_mtime(ar, timestamp);
 
 		/* Write the ar header. */
-		dpkg_ar_put_magic(file_dst.buf, fd_dst);
+		dpkg_ar_put_magic(ar);
 
 		/* Write the debian-split part. */
 		varbuf_printf(&partmagic,
 		              "%s\n%s\n%s\n%s\n%jd\n%jd\n%d/%d\n%s\n",
-		              SPLITVERSION, package, version, hash,
+		              SPLITVERSION, pkg->set->name, version, hash,
 		              (intmax_t)st.st_size, (intmax_t)partsize,
-		              curpart, nparts, arch);
-		dpkg_ar_member_put_mem(file_dst.buf, fd_dst, PARTMAGIC,
+		              curpart, nparts, pkg->available.arch->name);
+		dpkg_ar_member_put_mem(ar, PARTMAGIC,
 		                       partmagic.buf, partmagic.used);
 		varbuf_reset(&partmagic);
 
 		/* Write the data part. */
 		varbuf_printf(&partname, "data.%d", curpart);
-		dpkg_ar_member_put_file(file_dst.buf, fd_dst, partname.buf,
+		dpkg_ar_member_put_file(ar, partname.buf,
 		                        fd_src, cur_partsize);
 		varbuf_reset(&partname);
 
-		close(fd_dst);
+		dpkg_ar_close(ar);
 
 		printf("%d ", curpart);
 	}
@@ -257,17 +272,12 @@ do_split(const char *const *argv)
 	if (prefix && *argv)
 		badusage(_("--split takes at most a source filename and destination prefix"));
 	if (!prefix) {
-		char *palloc;
-		int l;
+		size_t sourcefile_len = strlen(sourcefile);
 
-		l = strlen(sourcefile);
-		palloc = nfmalloc(l + 1);
-		strcpy(palloc, sourcefile);
-		if (strcmp(palloc + l - (sizeof(DEBEXT) - 1), DEBEXT) == 0) {
-			l -= (sizeof(DEBEXT) - 1);
-			palloc[l] = '\0';
-		}
-		prefix = palloc;
+		if (str_match_end(sourcefile, DEBEXT))
+			sourcefile_len -= strlen(DEBEXT);
+
+		prefix = nfstrnsave(sourcefile, sourcefile_len);
 	}
 
 	mksplit(sourcefile, prefix, opt_maxpartsize, opt_msdos);

@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -38,7 +38,7 @@ static const char *db_dir = ADMINDIR;
  * is NULL. For the latter the order is, value from environment variable
  * DPKG_ADMINDIR, and then the built-in default ADMINDIR,
  *
- * @param dir The new databse directory, or NULL to set to default.
+ * @param dir The new database directory, or NULL to set to default.
  *
  * @return The new database directory.
  */
@@ -77,16 +77,12 @@ dpkg_db_get_dir(void)
  * This function returns an allocated string, which should be freed with
  * free(2).
  *
- * @param pathpart The pathpart to append to the new pathnme.
+ * @param pathpart The pathpart to append to the new pathname.
  *
  * @return The newly allocated pathname.
  */
 char *
 dpkg_db_get_path(const char *pathpart)
 {
-	char *pathname;
-
-	m_asprintf(&pathname, "%s/%s", db_dir, pathpart);
-
-	return pathname;
+	return str_fmt("%s/%s", db_dir, pathpart);
 }

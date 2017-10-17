@@ -16,13 +16,14 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_REPORT_H
 #define LIBDPKG_REPORT_H
 
 #include <stdarg.h>
+#include <stdio.h>
 
 #include <dpkg/macros.h>
 
@@ -30,15 +31,20 @@ DPKG_BEGIN_DECLS
 
 /**
  * @defgroup report Message reporting
- * @ingroup dpkg-private
+ * @ingroup dpkg-internal
  * @{
  */
+
+void dpkg_set_report_piped_mode(int mode);
+void dpkg_set_report_buffer(FILE *fp);
 
 int warning_get_count(void);
 void warningv(const char *fmt, va_list args) DPKG_ATTR_VPRINTF(1);
 void warning(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 
 void notice(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
+
+void info(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 
 /** @} */
 

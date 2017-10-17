@@ -2,8 +2,8 @@
  * dpkg - main program for package management
  * infodb-upgrade.c - package control information database format upgrade
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -18,7 +18,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -78,12 +78,12 @@ pkg_infodb_link_multiarch_files(void)
 	struct varbuf pkgname = VARBUF_INIT;
 	struct varbuf oldname = VARBUF_INIT;
 	struct varbuf newname = VARBUF_INIT;
-	size_t db_path_len;
+	struct varbuf_state db_path_state;
 
 	varbuf_add_str(&oldname, pkg_infodb_get_dir());
 	varbuf_add_char(&oldname, '/');
-	db_path_len = oldname.used;
 	varbuf_end_str(&oldname);
+	varbuf_snapshot(&oldname, &db_path_state);
 
 	varbuf_add_buf(&newname, oldname.buf, oldname.used);
 	varbuf_end_str(&newname);
@@ -117,38 +117,39 @@ pkg_infodb_link_multiarch_files(void)
 
 		set = pkg_db_find_set(pkgname.buf);
 		for (pkg = &set->pkg; pkg; pkg = pkg->arch_next)
-			if (pkg->status != stat_notinstalled)
+			if (pkg->status != PKG_STAT_NOTINSTALLED)
 				break;
 		if (!pkg) {
-			warning(_("Info file %s/%s not associated to any package"),
+			warning(_("info file %s/%s not associated to any package"),
 			        pkg_infodb_get_dir(), db_de->d_name);
 			continue;
 		}
 
 		/* Does it need to be upgraded? */
-		if (pkg->installed.multiarch != multiarch_same)
+		if (pkg->installed.multiarch != PKG_MULTIARCH_SAME)
 			continue;
 
 		/* Skip past the full stop. */
 		filetype = dot + 1;
 
-		varbuf_trunc(&oldname, db_path_len);
+		varbuf_rollback(&oldname, &db_path_state);
 		varbuf_add_str(&oldname, db_de->d_name);
 		varbuf_end_str(&oldname);
 
-		varbuf_trunc(&newname, db_path_len);
+		varbuf_rollback(&newname, &db_path_state);
 		varbuf_add_pkgbin_name(&newname, pkg, &pkg->installed, pnaw_always);
 		varbuf_add_char(&newname, '.');
 		varbuf_add_str(&newname, filetype);
 		varbuf_end_str(&newname);
 
 		if (link(oldname.buf, newname.buf) && errno != EEXIST)
-			ohshite(_("error creating hard link `%.255s'"),
+			ohshite(_("error creating hard link '%.255s'"),
 			        newname.buf);
 		rename_head = rename_node_new(oldname.buf, newname.buf, rename_head);
 	}
 	pop_cleanup(ehflag_normaltidy); /* closedir */
 
+	varbuf_destroy(&pkgname);
 	varbuf_destroy(&newname);
 	varbuf_destroy(&oldname);
 }
@@ -163,15 +164,15 @@ cu_abort_db_upgrade(int argc, void **argv)
 	while (rename_head) {
 		next = rename_head->next;
 		if (link(rename_head->new, rename_head->old) && errno != EEXIST)
-			ohshite(_("error creating hard link `%.255s'"),
+			ohshite(_("error creating hard link '%.255s'"),
 			        rename_head->old);
 		if (unlink(rename_head->new))
-			ohshite(_("cannot remove `%.250s'"), rename_head->new);
+			ohshite(_("cannot remove '%.250s'"), rename_head->new);
 		rename_node_free(rename_head);
 		rename_head = next;
 	}
 	if (unlink(file->name_new) && errno != ENOENT)
-		ohshite(_("cannot remove `%.250s'"), file->name_new);
+		ohshite(_("cannot remove '%.250s'"), file->name_new);
 
 	atomic_file_free(file);
 }
@@ -197,7 +198,7 @@ pkg_infodb_unlink_monoarch_files(void)
 	while (rename_head) {
 		next = rename_head->next;
 		if (unlink(rename_head->old))
-			ohshite(_("cannot remove `%.250s'"), rename_head->old);
+			ohshite(_("cannot remove '%.250s'"), rename_head->old);
 		rename_node_free(rename_head);
 		rename_head = next;
 	}
@@ -238,10 +239,15 @@ pkg_infodb_upgrade_to_multiarch(void)
 void
 pkg_infodb_upgrade(void)
 {
+	enum pkg_infodb_format db_format;
+
+	/* Make sure to always read and verify the format version. */
+	db_format = pkg_infodb_get_format();
+
 	if (modstatdb_get_status() < msdbrw_write)
 		return;
 
-	if (pkg_infodb_get_format() < pkg_infodb_format_multiarch ||
+	if (db_format < PKG_INFODB_FORMAT_MULTIARCH ||
 	    pkg_infodb_is_upgrading())
 		pkg_infodb_upgrade_to_multiarch();
 }

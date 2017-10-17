@@ -1,4 +1,5 @@
 # Copyright © 2009 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2012-2017 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -11,24 +12,23 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package Dpkg::Index;
 
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.01';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control;
-use Dpkg::Compression::FileHandle;
 
-use base qw(Dpkg::Interface::Storable);
+use parent qw(Dpkg::Interface::Storable);
 
 use overload
-    '@{}' => sub { return $_[0]->{'order'} },
+    '@{}' => sub { return $_[0]->{order} },
     fallback => 1;
 
 =encoding utf8
@@ -41,11 +41,11 @@ Dpkg::Index - generic index of control information
 
 This object represent a set of Dpkg::Control objects.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
 =over 4
 
-=item my $index = Dpkg::Index->new(%opts)
+=item $index = Dpkg::Index->new(%opts)
 
 Creates a new empty index. See set_options() for more details.
 
@@ -58,13 +58,14 @@ sub new {
     my $self = {
 	items => {},
 	order => [],
+	unique_tuple_key => 0,
 	get_key_func => sub { return $_[0]->{Package} },
 	type => CTRL_UNKNOWN,
     };
     bless $self, $class;
     $self->set_options(%opts);
-    if (exists $opts{'load'}) {
-	$self->load($opts{'load'});
+    if (exists $opts{load}) {
+	$self->load($opts{load});
     }
 
     return $self;
@@ -74,16 +75,62 @@ sub new {
 
 The "type" option is checked first to define default values for other
 options. Here are the relevant options: "get_key_func" is a function
-returning a key for the item passed in parameters. The index can only
-contain one item with a given key. The function used depend on the
-type: for CTRL_INFO_PKG, CTRL_INDEX_SRC, CTRL_INDEX_PKG and CTRL_PKG_DEB
-it's simply the Package field; for CTRL_PKG_SRC and CTRL_INFO_SRC, it's
-the Source field; for CTRL_CHANGELOG it's the Source and the Version
-fields (concatenated with an intermediary "_"); for CTRL_FILE_CHANGES it's
-the Source, Version and Architecture fields (concatenated with "_");
-for CTRL_FILE_VENDOR it's the Vendor field; for CTRL_FILE_STATUS it's the
-Package and Architecture fields (concatenated with "_"). Otherwise it's
-the Package field by default.
+returning a key for the item passed in parameters, "unique_tuple_key" is
+a boolean requesting whether the default key should be the unique tuple
+(default to false for backwards compatibility, but it will change to true
+in dpkg 1.20.x). The index can only contain one item with a given key.
+The "get_key_func" function used depends on the type:
+
+=over
+
+=item *
+
+for CTRL_INFO_SRC, it is the Source field;
+
+=item *
+
+for CTRL_INDEX_SRC and CTRL_PKG_SRC it is the Package field by default,
+or the Package and Version fields (concatenated with "_") when
+"unique_tuple_key" is true;
+
+=item *
+
+for CTRL_INFO_PKG it is simply the Package field;
+
+=item *
+
+for CTRL_INDEX_PKG and CTRL_PKG_DEB it is the Package field by default,
+or the Package, Version and Architecture fields (concatenated with "_")
+when "unique_tuple_key" is true;
+
+=item *
+
+for CTRL_CHANGELOG it is the Source and the Version fields (concatenated
+with an intermediary "_");
+
+=item *
+
+for CTRL_TESTS is either the Tests or Test-Command fields;
+
+=item *
+
+for CTRL_FILE_CHANGES it is the Source, Version and Architecture fields
+(concatenated with "_");
+
+=item *
+
+for CTRL_FILE_VENDOR it is the Vendor field;
+
+=item *
+
+for CTRL_FILE_STATUS it is the Package and Architecture fields (concatenated
+with "_");
+
+=item *
+
+otherwise it is the Package field by default.
+
+=back
 
 =cut
 
@@ -91,27 +138,67 @@ sub set_options {
     my ($self, %opts) = @_;
 
     # Default values based on type
-    if (exists $opts{'type'}) {
-        my $t = $opts{'type'};
-        if ($t == CTRL_INFO_PKG or $t == CTRL_INDEX_SRC or
-	         $t == CTRL_INDEX_PKG or $t == CTRL_PKG_DEB) {
+    if (exists $opts{type}) {
+        my $t = $opts{type};
+        if ($t == CTRL_INFO_PKG) {
 	    $self->{get_key_func} = sub { return $_[0]->{Package}; };
-        } elsif ($t == CTRL_PKG_SRC or $t == CTRL_INFO_SRC) {
+        } elsif ($t == CTRL_INFO_SRC) {
 	    $self->{get_key_func} = sub { return $_[0]->{Source}; };
         } elsif ($t == CTRL_CHANGELOG) {
 	    $self->{get_key_func} = sub {
-		return $_[0]->{Source} . "_" . $_[0]->{Version};
+		return $_[0]->{Source} . '_' . $_[0]->{Version};
 	    };
+        } elsif ($t == CTRL_COPYRIGHT_HEADER) {
+            # This is a bit pointless, because the value will almost always
+            # be the same, but guarantees that we use a known field.
+            $self->{get_key_func} = sub { return $_[0]->{Format}; };
+        } elsif ($t == CTRL_COPYRIGHT_FILES) {
+            $self->{get_key_func} = sub { return $_[0]->{Files}; };
+        } elsif ($t == CTRL_COPYRIGHT_LICENSE) {
+            $self->{get_key_func} = sub { return $_[0]->{License}; };
+        } elsif ($t == CTRL_TESTS) {
+            $self->{get_key_func} = sub {
+                return $_[0]->{Tests} || $_[0]->{'Test-Command'};
+            };
+        } elsif ($t == CTRL_INDEX_SRC or $t == CTRL_PKG_SRC) {
+            if ($opts{unique_tuple_key} // $self->{unique_tuple_key}) {
+                $self->{get_key_func} = sub {
+                    return $_[0]->{Package} . '_' . $_[0]->{Version};
+                };
+            } elsif (not defined $opts{get_key_func}) {
+                $self->{get_key_func} = sub {
+                    return $_[0]->{Package};
+                };
+                warnings::warnif('deprecated',
+                    'the default get_key_func for this control type will ' .
+                    'change semantics in dpkg 1.20.x , please set ' .
+                    'unique_tuple_key or get_key_func explicitly');
+            }
+        } elsif ($t == CTRL_INDEX_PKG or $t == CTRL_PKG_DEB) {
+            if ($opts{unique_tuple_key} // $self->{unique_tuple_key}) {
+                $self->{get_key_func} = sub {
+                    return $_[0]->{Package} . '_' . $_[0]->{Version} . '_' .
+                           $_[0]->{Architecture};
+                };
+            } elsif (not defined $opts{get_key_func}) {
+                $self->{get_key_func} = sub {
+                    return $_[0]->{Package};
+                };
+                warnings::warnif('deprecated',
+                    'the default get_key_func for this control type will ' .
+                    'change semantics in dpkg 1.20.x , please set ' .
+                    'unique_tuple_key or get_key_func explicitly');
+            }
         } elsif ($t == CTRL_FILE_CHANGES) {
 	    $self->{get_key_func} = sub {
-		return $_[0]->{Source} . "_" . $_[0]->{Version} . "_" .
+		return $_[0]->{Source} . '_' . $_[0]->{Version} . '_' .
 		       $_[0]->{Architecture};
 	    };
         } elsif ($t == CTRL_FILE_VENDOR) {
 	    $self->{get_key_func} = sub { return $_[0]->{Vendor}; };
         } elsif ($t == CTRL_FILE_STATUS) {
 	    $self->{get_key_func} = sub {
-		return $_[0]->{Package} . "_" . $_[0]->{Architecture};
+		return $_[0]->{Package} . '_' . $_[0]->{Architecture};
 	    };
         }
     }
@@ -128,8 +215,8 @@ set during new().
 =cut
 
 sub get_type {
-    my ($self) = @_;
-    return $self->{'type'};
+    my $self = shift;
+    return $self->{type};
 }
 
 =item $index->add($item, [$key])
@@ -142,13 +229,12 @@ details).
 
 sub add {
     my ($self, $item, $key) = @_;
-    unless (defined $key) {
-	$key = $self->{'get_key_func'}($item);
+
+    $key //= $self->{get_key_func}($item);
+    if (not exists $self->{items}{$key}) {
+	push @{$self->{order}}, $key;
     }
-    if (not exists $self->{'items'}{$key}) {
-	push @{$self->{'order'}}, $key;
-    }
-    $self->{'items'}{$key} = $item;
+    $self->{items}{$key} = $item;
 }
 
 =item $index->load($file)
@@ -158,8 +244,10 @@ parsed. Handles compressed files transparently based on their extensions.
 
 =item $index->parse($fh, $desc)
 
-Reads the filehandle and creates all items parsed. Returns the number of
-items parsed.
+Reads the filehandle and creates all items parsed. When called multiple
+times, the parsed stanzas are accumulated.
+
+Returns the number of items parsed.
 
 =cut
 
@@ -180,7 +268,7 @@ sub parse {
 Writes the content of the index in a file. Auto-compresses files
 based on their extensions.
 
-=item my $item = $index->new_item()
+=item $item = $index->new_item()
 
 Creates a new item. Mainly useful for derived objects that would want
 to override this method to return something else than a Dpkg::Control
@@ -189,11 +277,11 @@ object.
 =cut
 
 sub new_item {
-    my ($self) = @_;
-    return Dpkg::Control->new(type => $self->{'type'});
+    my $self = shift;
+    return Dpkg::Control->new(type => $self->{type});
 }
 
-=item my $item = $index->get_by_key($key)
+=item $item = $index->get_by_key($key)
 
 Returns the item identified by $key or undef.
 
@@ -201,14 +289,14 @@ Returns the item identified by $key or undef.
 
 sub get_by_key {
     my ($self, $key) = @_;
-    return $self->{'items'}{$key} if exists $self->{'items'}{$key};
-    return undef;
+    return $self->{items}{$key} if exists $self->{items}{$key};
+    return;
 }
 
-=item my @keys = $index->get_keys(%criteria)
+=item @keys = $index->get_keys(%criteria)
 
 Returns the keys of items that matches all the criteria. The key of the
-%criteria hash is a field name and the value is either a regexp that needs
+%criteria hash is a field name and the value is either a regex that needs
 to match the field value, or a reference to a function that must return
 true and that receives the field value as single parameter, or a scalar
 that must be equal to the field value.
@@ -219,24 +307,26 @@ sub get_keys {
     my ($self, %crit) = @_;
     my @selected = @{$self->{order}};
     foreach my $s_crit (keys %crit) { # search criteria
-	if (ref($crit{$s_crit}) eq "Regexp") {
+	if (ref($crit{$s_crit}) eq 'Regexp') {
 	    @selected = grep {
-		$self->{'items'}{$_}{$s_crit} =~ $crit{$s_crit}
+		exists $self->{items}{$_}{$s_crit} and
+		       $self->{items}{$_}{$s_crit} =~ $crit{$s_crit}
 	    } @selected;
-	} elsif (ref($crit{$s_crit}) eq "CODE") {
+	} elsif (ref($crit{$s_crit}) eq 'CODE') {
 	    @selected = grep {
-		&{$crit{$s_crit}}($self->{'items'}{$_}{$s_crit});
+		$crit{$s_crit}->($self->{items}{$_}{$s_crit});
 	    } @selected;
 	} else {
 	    @selected = grep {
-		$self->{'items'}{$_}{$s_crit} eq $crit{$s_crit}
+		exists $self->{items}{$_}{$s_crit} and
+		       $self->{items}{$_}{$s_crit} eq $crit{$s_crit}
 	    } @selected;
 	}
     }
     return @selected;
 }
 
-=item my @items = $index->get(%criteria)
+=item @items = $index->get(%criteria)
 
 Returns all the items that matches all the criteria.
 
@@ -244,7 +334,7 @@ Returns all the items that matches all the criteria.
 
 sub get {
     my ($self, %crit) = @_;
-    return map { $self->{'items'}{$_} } $self->get_keys(%crit);
+    return map { $self->{items}{$_} } $self->get_keys(%crit);
 }
 
 =item $index->remove_by_key($key)
@@ -255,11 +345,11 @@ Remove the item identified by the given key.
 
 sub remove_by_key {
     my ($self, $key) = @_;
-    @{$self->{'order'}} = grep { $_ ne $key } @{$self->{'order'}};
-    return delete $self->{'items'}{$key};
+    @{$self->{order}} = grep { $_ ne $key } @{$self->{order}};
+    return delete $self->{items}{$key};
 }
 
-=item my @items = $index->remove(%criteria)
+=item @items = $index->remove(%criteria)
 
 Returns and removes all the items that matches all the criteria.
 
@@ -271,10 +361,10 @@ sub remove {
     my (%keys, @ret);
     foreach my $key (@keys) {
 	$keys{$key} = 1;
-	push @ret, $self->{'items'}{$key} if defined wantarray;
-	delete $self->{'items'}{$key};
+	push @ret, $self->{items}{$key} if defined wantarray;
+	delete $self->{items}{$key};
     }
-    @{$self->{'order'}} = grep { not exists $keys{$_} } @{$self->{'order'}};
+    @{$self->{order}} = grep { not exists $keys{$_} } @{$self->{order}};
     return @ret;
 }
 
@@ -289,9 +379,9 @@ computed with the same function.
 
 sub merge {
     my ($self, $other, %opts) = @_;
-    $opts{'keep_keys'} = 1 unless exists $opts{'keep_keys'};
+    $opts{keep_keys} //= 1;
     foreach my $key ($other->get_keys()) {
-	$self->add($other->get_by_key($key), $opts{'keep_keys'} ? $key : undef);
+	$self->add($other->get_by_key($key), $opts{keep_keys} ? $key : undef);
     }
 }
 
@@ -306,21 +396,21 @@ items themselves as parameters and not the keys.
 sub sort {
     my ($self, $func) = @_;
     if (defined $func) {
-	@{$self->{'order'}} = sort {
-	    &$func($self->{'items'}{$a}, $self->{'items'}{$b})
-	} @{$self->{'order'}};
+	@{$self->{order}} = sort {
+	    $func->($self->{items}{$a}, $self->{items}{$b})
+	} @{$self->{order}};
     } else {
-	@{$self->{'order'}} = sort @{$self->{'order'}};
+	@{$self->{order}} = sort @{$self->{order}};
     }
 }
 
-=item my $str = $index->output()
+=item $str = $index->output()
 
 =item "$index"
 
 Get a string representation of the index. The Dpkg::Control objects are
 output in the order which they have been read or added except if the order
-hae been changed with sort().
+have been changed with sort().
 
 =item $index->output($fh)
 
@@ -330,10 +420,10 @@ Print the string representation of the index to a filehandle.
 
 sub output {
     my ($self, $fh) = @_;
-    my $str = "";
+    my $str = '';
     foreach my $key ($self->get_keys()) {
 	if (defined $fh) {
-	    print $fh $self->get_by_key($key) . "\n";
+	    print { $fh } $self->get_by_key($key) . "\n";
 	}
 	if (defined wantarray) {
 	    $str .= $self->get_by_key($key) . "\n";
@@ -344,9 +434,17 @@ sub output {
 
 =back
 
-=head1 AUTHOR
+=head1 CHANGES
 
-Raphaël Hertzog <hertzog@debian.org>.
+=head2 Version 1.01 (dpkg 1.19.0)
+
+New option: Add new "unique_tuple_key" option to $index->set_options() to set
+better default "get_key_func" options, which will become the default behavior
+in 1.20.x.
+
+=head2 Version 1.00 (dpkg 1.15.6)
+
+Mark the module as public.
 
 =cut
 

@@ -2,8 +2,8 @@
  * dpkg - main program for package management
  * depcon.c - dependency and conflict checking
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2006-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -18,7 +18,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -76,7 +76,7 @@ deppossi_pkg_iter_next(struct deppossi_pkg_iterator *iter)
       pkgbin = &pkg_cur->available;
       break;
     case wpb_by_istobe:
-      if (pkg_cur->clientdata->istobe == itb_installnew)
+      if (pkg_cur->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)
         pkgbin = &pkg_cur->available;
       else
         pkgbin = &pkg_cur->installed;
@@ -165,9 +165,9 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
   struct deppossi *possi, *providelink;
   struct pkginfo *provider, *pkg_pos;
 
-  if (pkg->clientdata->color == black)
+  if (pkg->clientdata->color == PKG_CYCLE_BLACK)
     return false;
-  pkg->clientdata->color = gray;
+  pkg->clientdata->color = PKG_CYCLE_GRAY;
 
   if (debug_has_flag(dbg_depcondetail)) {
     struct varbuf str_pkgs = VARBUF_INIT;
@@ -207,7 +207,8 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
            providelink = providelink->rev_next) {
         if (providelink->up->type != dep_provides) continue;
         provider= providelink->up->up;
-        if (provider->clientdata->istobe == itb_normal) continue;
+        if (provider->clientdata->istobe == PKG_ISTOBE_NORMAL)
+          continue;
         /* We don't break things at ‘provides’ links, so ‘possi’ is
          * still the one we use. */
         if (foundcyclebroken(&thislink, sofar, provider, possi))
@@ -216,7 +217,7 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
     }
   }
   /* Nope, we didn't find a cycle to break. */
-  pkg->clientdata->color = black;
+  pkg->clientdata->color = PKG_CYCLE_BLACK;
   return false;
 }
 
@@ -230,7 +231,7 @@ findbreakcycle(struct pkginfo *pkg)
   iter = pkg_db_iter_new();
   while ((tpkg = pkg_db_iter_next_pkg(iter))) {
     ensure_package_clientdata(tpkg);
-    tpkg->clientdata->color = white;
+    tpkg->clientdata->color = PKG_CYCLE_WHITE;
   }
   pkg_db_iter_free(iter);
 
@@ -326,23 +327,33 @@ depisok(struct dependency *dep, struct varbuf *whynot,
   /* The dependency is always OK if we're trying to remove the depend*ing*
    * package. */
   switch (dep->up->clientdata->istobe) {
-  case itb_remove: case itb_deconfigure:
+  case PKG_ISTOBE_REMOVE:
+  case PKG_ISTOBE_DECONFIGURE:
     return true;
-  case itb_normal:
+  case PKG_ISTOBE_NORMAL:
     /* Only installed packages can be make dependency problems. */
     switch (dep->up->status) {
-    case stat_installed:
-    case stat_triggerspending:
-    case stat_triggersawaited:
+    case PKG_STAT_INSTALLED:
+    case PKG_STAT_TRIGGERSPENDING:
+    case PKG_STAT_TRIGGERSAWAITED:
       break;
-    case stat_notinstalled: case stat_configfiles: case stat_halfinstalled:
-    case stat_halfconfigured: case stat_unpacked:
+    case PKG_STAT_HALFCONFIGURED:
+    case PKG_STAT_UNPACKED:
+    case PKG_STAT_HALFINSTALLED:
+      if (dep->type == dep_predepends ||
+          dep->type == dep_conflicts ||
+          dep->type == dep_breaks)
+        break;
+      /* Fall through. */
+    case PKG_STAT_CONFIGFILES:
+    case PKG_STAT_NOTINSTALLED:
       return true;
     default:
       internerr("unknown status depending '%d'", dep->up->status);
     }
     break;
-  case itb_installnew: case itb_preinstall:
+  case PKG_ISTOBE_INSTALLNEW:
+  case PKG_ISTOBE_PREINSTALL:
     break;
   default:
     internerr("unknown istobe depending '%d'", dep->up->clientdata->istobe);
@@ -368,15 +379,15 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       possi_iter = deppossi_pkg_iter_new(possi, wpb_by_istobe);
       while ((pkg_pos = deppossi_pkg_iter_next(possi_iter))) {
         switch (pkg_pos->clientdata->istobe) {
-        case itb_remove:
+        case PKG_ISTOBE_REMOVE:
           sprintf(linebuf, _("  %.250s is to be removed.\n"),
                   pkg_name(pkg_pos, pnaw_nonambig));
           break;
-        case itb_deconfigure:
+        case PKG_ISTOBE_DECONFIGURE:
           sprintf(linebuf, _("  %.250s is to be deconfigured.\n"),
                   pkg_name(pkg_pos, pnaw_nonambig));
           break;
-        case itb_installnew:
+        case PKG_ISTOBE_INSTALLNEW:
           if (versionsatisfied(&pkg_pos->available, possi)) {
             deppossi_pkg_iter_free(possi_iter);
             return true;
@@ -386,11 +397,11 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                   pkgbin_name(pkg_pos, &pkg_pos->available, pnaw_nonambig),
                   versiondescribe(&pkg_pos->available.version, vdew_nonambig));
           break;
-        case itb_normal:
-        case itb_preinstall:
+        case PKG_ISTOBE_NORMAL:
+        case PKG_ISTOBE_PREINSTALL:
           switch (pkg_pos->status) {
-          case stat_installed:
-          case stat_triggerspending:
+          case PKG_STAT_INSTALLED:
+          case PKG_STAT_TRIGGERSPENDING:
             if (versionsatisfied(&pkg_pos->installed, possi)) {
               deppossi_pkg_iter_free(possi_iter);
               return true;
@@ -400,19 +411,18 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                     pkg_name(pkg_pos, pnaw_nonambig),
                     versiondescribe(&pkg_pos->installed.version, vdew_nonambig));
             break;
-          case stat_notinstalled:
+          case PKG_STAT_NOTINSTALLED:
             /* Don't say anything about this yet - it might be a virtual package.
              * Later on, if nothing has put anything in linebuf, we know that it
              * isn't and issue a diagnostic then. */
             *linebuf = '\0';
             break;
-          case stat_triggersawaited:
+          case PKG_STAT_TRIGGERSAWAITED:
               if (canfixbytrigaw && versionsatisfied(&pkg_pos->installed, possi))
                 *canfixbytrigaw = pkg_pos;
-              /* Fall through to have a chance to return OK due to
-               * allowunconfigd and to fill the explanation */
-          case stat_unpacked:
-          case stat_halfconfigured:
+              /* Fall through. */
+          case PKG_STAT_UNPACKED:
+          case PKG_STAT_HALFCONFIGURED:
             if (allowunconfigd) {
               if (!dpkg_version_is_informative(&pkg_pos->configversion)) {
                 sprintf(linebuf, _("  %.250s is unpacked, but has never been "
@@ -454,14 +464,14 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       }
       deppossi_pkg_iter_free(possi_iter);
 
-      /* If there was no version specified we try looking for Providers. */
-      if (possi->verrel == dpkg_relation_none) {
         /* See if the package we're about to install Provides it. */
         for (provider = possi->ed->depended.available;
              provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
-          if (provider->up->up->clientdata->istobe == itb_installnew)
+          if (!pkg_virtual_deppossi_satisfied(possi, provider))
+            continue;
+          if (provider->up->up->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)
             return true;
         }
 
@@ -470,29 +480,32 @@ depisok(struct dependency *dep, struct varbuf *whynot,
              provider;
              provider = provider->rev_next) {
           if (provider->up->type != dep_provides) continue;
+          if (!pkg_virtual_deppossi_satisfied(possi, provider))
+            continue;
 
           switch (provider->up->up->clientdata->istobe) {
-          case itb_installnew:
+          case PKG_ISTOBE_INSTALLNEW:
             /* Don't pay any attention to the Provides field of the
              * currently-installed version of the package we're trying
              * to install. We dealt with that by using the available
              * information above. */
             continue;
-          case itb_remove:
+          case PKG_ISTOBE_REMOVE:
             sprintf(linebuf, _("  %.250s provides %.250s but is to be removed.\n"),
                     pkg_name(provider->up->up, pnaw_nonambig),
                     possi->ed->name);
             break;
-          case itb_deconfigure:
+          case PKG_ISTOBE_DECONFIGURE:
             sprintf(linebuf, _("  %.250s provides %.250s but is to be deconfigured.\n"),
                     pkg_name(provider->up->up, pnaw_nonambig),
                     possi->ed->name);
             break;
-          case itb_normal: case itb_preinstall:
-            if (provider->up->up->status == stat_installed ||
-                provider->up->up->status == stat_triggerspending)
+          case PKG_ISTOBE_NORMAL:
+          case PKG_ISTOBE_PREINSTALL:
+            if (provider->up->up->status == PKG_STAT_INSTALLED ||
+                provider->up->up->status == PKG_STAT_TRIGGERSPENDING)
               return true;
-            if (provider->up->up->status == stat_triggersawaited)
+            if (provider->up->up->status == PKG_STAT_TRIGGERSAWAITED)
               *canfixbytrigaw = provider->up->up;
             sprintf(linebuf, _("  %.250s provides %.250s but is %s.\n"),
                     pkg_name(provider->up->up, pnaw_nonambig),
@@ -512,7 +525,6 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           sprintf(linebuf, _("  %.250s is not installed.\n"), possi->ed->name);
           varbuf_add_str(whynot, linebuf);
         }
-      }
     }
 
     return false;
@@ -537,9 +549,9 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       possi_iter = deppossi_pkg_iter_new(possi, wpb_by_istobe);
       while ((pkg_pos = deppossi_pkg_iter_next(possi_iter))) {
         switch (pkg_pos->clientdata->istobe) {
-        case itb_remove:
+        case PKG_ISTOBE_REMOVE:
           break;
-        case itb_installnew:
+        case PKG_ISTOBE_INSTALLNEW:
           if (!versionsatisfied(&pkg_pos->available, possi))
             break;
           sprintf(linebuf, _("  %.250s (version %.250s) is to be installed.\n"),
@@ -553,24 +565,25 @@ depisok(struct dependency *dep, struct varbuf *whynot,
           nconflicts++;
           *canfixbyremove = pkg_pos;
           break;
-        case itb_deconfigure:
+        case PKG_ISTOBE_DECONFIGURE:
           if (dep->type == dep_breaks)
             break; /* Already deconfiguring this. */
           /* Fall through. */
-        case itb_normal:
-        case itb_preinstall:
+        case PKG_ISTOBE_NORMAL:
+        case PKG_ISTOBE_PREINSTALL:
           switch (pkg_pos->status) {
-          case stat_notinstalled:
-          case stat_configfiles:
+          case PKG_STAT_NOTINSTALLED:
+          case PKG_STAT_CONFIGFILES:
             break;
-          case stat_halfinstalled:
-          case stat_unpacked:
-          case stat_halfconfigured:
+          case PKG_STAT_HALFINSTALLED:
+          case PKG_STAT_UNPACKED:
+          case PKG_STAT_HALFCONFIGURED:
             if (dep->type == dep_breaks)
               break; /* No problem. */
-          case stat_installed:
-          case stat_triggerspending:
-          case stat_triggersawaited:
+            /* Fall through. */
+          case PKG_STAT_INSTALLED:
+          case PKG_STAT_TRIGGERSPENDING:
+          case PKG_STAT_TRIGGERSAWAITED:
             if (!versionsatisfied(&pkg_pos->installed, possi))
               break;
             sprintf(linebuf, _("  %.250s (version %.250s) is present and %s.\n"),
@@ -593,16 +606,17 @@ depisok(struct dependency *dep, struct varbuf *whynot,
       deppossi_pkg_iter_free(possi_iter);
     }
 
-    /* If there was no version specified we try looking for Providers. */
-    if (possi->verrel == dpkg_relation_none) {
       /* See if the package we're about to install Provides it. */
       for (provider = possi->ed->depended.available;
            provider;
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
-        if (provider->up->up->clientdata->istobe != itb_installnew) continue;
+        if (provider->up->up->clientdata->istobe != PKG_ISTOBE_INSTALLNEW)
+          continue;
         if (provider->up->up->set == dep->up->set)
           continue; /* Conflicts and provides the same. */
+        if (!pkg_virtual_deppossi_satisfied(possi, provider))
+          continue;
         sprintf(linebuf, _("  %.250s provides %.250s and is to be installed.\n"),
                 pkgbin_name(provider->up->up, &provider->up->up->available,
                             pnaw_nonambig), possi->ed->name);
@@ -622,29 +636,37 @@ depisok(struct dependency *dep, struct varbuf *whynot,
         if (provider->up->up->set == dep->up->set)
           continue; /* Conflicts and provides the same. */
 
+        if (!pkg_virtual_deppossi_satisfied(possi, provider))
+          continue;
+
         switch (provider->up->up->clientdata->istobe) {
-        case itb_installnew:
+        case PKG_ISTOBE_INSTALLNEW:
           /* Don't pay any attention to the Provides field of the
            * currently-installed version of the package we're trying
            * to install. We dealt with that package by using the
            * available information above. */
           continue;
-        case itb_remove:
+        case PKG_ISTOBE_REMOVE:
           continue;
-        case itb_deconfigure:
+        case PKG_ISTOBE_DECONFIGURE:
           if (dep->type == dep_breaks)
             continue; /* Already deconfiguring. */
-        case itb_normal: case itb_preinstall:
+          /* Fall through. */
+        case PKG_ISTOBE_NORMAL:
+        case PKG_ISTOBE_PREINSTALL:
           switch (provider->up->up->status) {
-          case stat_notinstalled: case stat_configfiles:
+          case PKG_STAT_NOTINSTALLED:
+          case PKG_STAT_CONFIGFILES:
             continue;
-          case stat_halfinstalled: case stat_unpacked:
-          case stat_halfconfigured:
+          case PKG_STAT_HALFINSTALLED:
+          case PKG_STAT_UNPACKED:
+          case PKG_STAT_HALFCONFIGURED:
             if (dep->type == dep_breaks)
               break; /* No problem. */
-          case stat_installed:
-          case stat_triggerspending:
-          case stat_triggersawaited:
+            /* Fall through. */
+          case PKG_STAT_INSTALLED:
+          case PKG_STAT_TRIGGERSPENDING:
+          case PKG_STAT_TRIGGERSAWAITED:
             sprintf(linebuf,
                     _("  %.250s provides %.250s and is present and %s.\n"),
                     pkg_name(provider->up->up, pnaw_nonambig), possi->ed->name,
@@ -662,7 +684,6 @@ depisok(struct dependency *dep, struct varbuf *whynot,
                     provider->up->up->clientdata->istobe);
         }
       }
-    }
 
     if (!nconflicts)
       return true;

@@ -1,7 +1,7 @@
 /*
  * libcompat - system compatibility library
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -24,9 +24,11 @@
 #include <stdio.h>
 #include <gettext.h>
 
+#include "compat.h"
+
 #define _(str) gettext(str)
 
-#ifndef HAVE_DECL_SYS_SIGLIST
+#if !HAVE_DECL_SYS_SIGLIST
 const char *const sys_siglist[] = {
 	NULL,		/* 0 */
 	"SIGHUP",	/* 1 */
@@ -52,8 +54,12 @@ const char *const sys_siglist[] = {
 	"SIGTTIN",	/* 21 */
 	"SIGTTOU",	/* 22 */
 };
+# define COMPAT_NSIGLIST (int)(sizeof(sys_siglist) / sizeof(sys_siglist[0]))
 #else
-extern const char *const sys_siglist[];
+# ifndef NSIG
+#  define NSIG 32
+# endif
+# define COMPAT_NSIGLIST NSIG
 #endif
 
 const char *
@@ -61,7 +67,7 @@ strsignal(int s)
 {
 	static char buf[100];
 
-	if (s > 0 && s < sizeof(sys_siglist) / sizeof(sys_siglist[0]))
+	if (s > 0 && s < COMPAT_NSIGLIST)
 		return sys_siglist[s];
 
 	sprintf(buf, _("Unknown signal %d"), s);

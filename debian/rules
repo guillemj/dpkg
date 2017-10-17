@@ -7,30 +7,39 @@ WFLAGS := -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
 
 # Use the in-tree dpkg-buildflags
 dpkg_buildflags = \
+	DEB_BUILD_MAINT_OPTIONS="hardening=+all" \
 	DEB_CFLAGS_MAINT_APPEND="$(WFLAGS)" \
 	DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS)" \
-	$(CURDIR)/run-script perl $(CURDIR)/scripts/dpkg-buildflags.pl
+	$(CURDIR)/run-script scripts/dpkg-buildflags.pl
 
-# These are used for cross-compiling and for saving the configure script
-# from having to guess our platform (since we know it already)
-DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_HOST_ARCH_OS    ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
+DEB_HOST_MULTIARCH  ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
+# Support cross-compiling.
 ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
 	confflags += --build=$(DEB_HOST_GNU_TYPE)
 else
 	confflags += --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
 endif
 
-# Don't enable everything on all platforms
-DEB_HOST_ARCH_OS  ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
-
+# Do not enable everything on all platforms.
 ifeq ($(DEB_HOST_ARCH_OS),linux)
-	confflags += --with-selinux
+	confflags += --with-libselinux
 endif
 ifeq (,$(filter maintainer-build,$(DEB_BUILD_OPTIONS)))
 	confflags += --disable-silent-rules
 endif
+
+# Enable parallel test suite
+NUMJOBS = 1
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+  NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+  MAKEFLAGS += -j$(NUMJOBS)
+endif
+
+D := $(CURDIR)/debian/tmp
 
 # Create configure script if necessary, automake handles rebuilding it.
 configure:
@@ -49,10 +58,14 @@ build-tree/config.status: configure
 		--mandir=\$${datadir}/man \
 		--infodir=\$${datadir}/info \
 		--sysconfdir=/etc \
+		--sbindir=/sbin \
 		--localstatedir=/var \
-		--with-zlib \
+		--libexecdir=\$${exec_prefix}/lib \
+		--with-devlibdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH) \
+		--without-libmd \
+		--with-libz \
 		--with-liblzma \
-		--with-bz2
+		--with-libbz2
 
 # Build the package in build-tree
 build-indep build-arch build: build-tree/config.status
@@ -65,7 +78,8 @@ check: build
 	dh_testdir
 
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	cd build-tree && $(MAKE) check
+	cd build-tree && $(MAKE) VERBOSE=1 TESTSUITEFLAGS=--verbose \
+	                         TEST_PARALLEL=$(NUMJOBS) check
 endif
 
 # Install the package underneath debian/tmp
@@ -75,14 +89,7 @@ install: check
 	dh_prep
 	dh_installdirs
 
-	cd build-tree && $(MAKE) DESTDIR="$(CURDIR)/debian/tmp" install
-
-ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
-	# Ubuntu's «i386» architecture is built for i686 (the Debian default
-	# is i486).
-	sed -ri 's/^(i386[[:space:]]+)[^[:space:]]+/\1i686/' \
-	        $(CURDIR)/debian/tmp/usr/share/dpkg/cputable
-endif
+	cd build-tree && $(MAKE) DESTDIR=$(D) install
 
 define dpkg-installmanl10n
 for f in `sed -e 's:\*:*/*:' debian/$(1).manpages`; do \
@@ -95,13 +102,10 @@ endef
 binary-arch: install
 	dh_testdir -a
 	dh_testroot -a
-	dh_install --sourcedir=debian/tmp -a
+	dh_install -a
 	dh_installcron -a
 	dh_installlogrotate -a
-
-	install -d debian/dpkg/sbin
-	mv debian/dpkg/usr/sbin/start-stop-daemon debian/dpkg/sbin
-
+	dh_installlogrotate -a --name=alternatives
 	dh_installchangelogs -a ChangeLog*
 	dh_installdocs -a
 	$(call dpkg-installmanl10n,dpkg)
@@ -122,7 +126,7 @@ binary-arch: install
 binary-indep: install
 	dh_testdir -i
 	dh_testroot -i
-	dh_install --sourcedir=debian/tmp -i
+	dh_install -i
 	dh_installcron -i
 	dh_installchangelogs -i ChangeLog*
 	dh_installdocs -i
@@ -130,7 +134,8 @@ binary-indep: install
 	dh_installman -i
 	dh_link -i
 	dh_lintian -i
-	dh_strip -i
+	# The perl modules should not depend on a specific interpreter.
+	dh_perl -i -Nlibdpkg-perl
 	dh_compress -i
 	dh_fixperms -i
 	dh_installdeb -i

@@ -2,7 +2,7 @@
  * dpkg-split - splitting and joining of multipart *.deb archives
  * dpkg-split.h - external definitions for this program
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -16,12 +16,13 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef DPKG_SPLIT_H
 #define DPKG_SPLIT_H
 
+#include <dpkg/ar.h>
 #include <dpkg/deb-version.h>
 
 action_func do_split;
@@ -57,19 +58,16 @@ struct partqueue {
   struct partinfo info;
 };
 
-extern struct partqueue *queue;
-
 extern off_t opt_maxpartsize;
 extern const char *opt_depotdir;
 extern const char *opt_outputfile;
 extern int opt_npquiet;
 extern int opt_msdos;
 
-void rerreof(FILE *f, const char *fn) DPKG_ATTR_NORET;
+void read_fail(int rc, const char *filename, const char *what) DPKG_ATTR_NORET;
 void print_info(const struct partinfo *pi);
-struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir);
+struct partinfo *read_info(struct dpkg_ar *ar, struct partinfo *ir);
 
-void scandepot(void);
 void reassemble(struct partinfo **partlist, const char *outputfile);
 void mustgetpartinfo(const char *filename, struct partinfo *ri);
 void addtopartlist(struct partinfo**, struct partinfo*, struct partinfo *refi);

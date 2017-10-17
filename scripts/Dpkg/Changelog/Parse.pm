@@ -1,5 +1,6 @@
 # Copyright © 2005, 2007 Frank Lichtenheld <frank@lichtenheld.de>
 # Copyright © 2009       Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2010, 2012-2015 Guillem Jover <guillem@debian.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -12,7 +13,7 @@
 #    GNU General Public License for more details.
 #
 #    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 =encoding utf8
 
@@ -22,10 +23,8 @@ Dpkg::Changelog::Parse - generic changelog parser for dpkg-parsechangelog
 
 =head1 DESCRIPTION
 
-This module provides a single function changelog_parse() which reproduces
-all the features of dpkg-parsechangelog.
-
-=head2 Functions
+This module provides a set of functions which reproduce all the features
+of dpkg-parsechangelog.
 
 =cut
 
@@ -34,130 +33,196 @@ package Dpkg::Changelog::Parse;
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.03';
+our @EXPORT = qw(
+    changelog_parse_debian
+    changelog_parse_plugin
+    changelog_parse
+);
 
-use Dpkg; # for $dpkglibdir
+use Exporter qw(import);
+use List::Util qw(none);
+
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Control::Changelog;
 
-use base qw(Exporter);
-our @EXPORT = qw(changelog_parse);
+sub _changelog_detect_format {
+    my $file = shift;
+    my $format = 'debian';
 
-=head3 my $fields = changelog_parse(%opt)
+    # Extract the format from the changelog file if possible
+    if ($file ne '-') {
+        local $_;
 
-This function will parse a changelog. In list context, it return as many
-Dpkg::Control object as the parser did output. In scalar context, it will
-return only the first one. If the parser didn't return any data, it will
-return an empty in list context or undef on scalar context. If the parser
-failed, it will die.
+        open my $format_fh, '-|', 'tail', '-n', '40', $file
+            or syserr(g_('cannot create pipe for %s'), 'tail');
+        while (<$format_fh>) {
+            $format = $1 if m/\schangelog-format:\s+([0-9a-z]+)\W/;
+        }
+        close $format_fh or subprocerr(g_('tail of %s'), $file);
+    }
 
-The parsing itself is done by an external program (searched in the
-following list of directories: $opt{libdir},
-/usr/local/lib/dpkg/parsechangelog, /usr/lib/dpkg/parsechangelog) That
-program is named according to the format that it's able to parse. By
-default it's either "debian" or the format name lookep up in the 40 last
-lines of the changelog itself (extracted with this perl regular expression
-"\schangelog-format:\s+([0-9a-z]+)\W"). But it can be overridden
-with $opt{changelogformat}. The program expects the content of the
-changelog file on its standard input.
+    return $format;
+}
 
-The changelog file that is parsed is debian/changelog by default but it
-can be overridden with $opt{file}.
+=head1 FUNCTIONS
 
-All the other keys in %opt are forwarded as parameter to the external
-parser. If the key starts with "-", it's passed as is. If not, it's passed
-as "--<key>". If the value of the corresponding hash entry is defined, then
-it's passed as the parameter that follows.
+=over 4
+
+=item $fields = changelog_parse_debian(%opt)
+
+This function is deprecated, use changelog_parse() instead, with the changelog
+format set to "debian".
 
 =cut
 
-sub changelog_parse {
+sub changelog_parse_debian {
     my (%options) = @_;
-    my @parserpath = ("/usr/local/lib/dpkg/parsechangelog",
-                      "$dpkglibdir/parsechangelog",
-                      "/usr/lib/dpkg/parsechangelog");
-    my $format = "debian";
-    my $changelogfile = "debian/changelog";
-    my $force = 0;
 
-    # Extract and remove options that do not concern the changelog parser
-    # itself (and that we shouldn't forward)
-    if (exists $options{"libdir"}) {
-	unshift @parserpath, $options{"libdir"};
-	delete $options{"libdir"};
-    }
-    if (exists $options{"file"}) {
-	$changelogfile = $options{"file"};
-	delete $options{"file"};
-    }
-    if (exists $options{"changelogformat"}) {
-	$format = $options{"changelogformat"};
-	delete $options{"changelogformat"};
-	$force = 1;
-    }
+    warnings::warnif('deprecated',
+                     'deprecated function changelog_parse_debian, use changelog_parse instead');
 
-    # Extract the format from the changelog file if possible
-    unless($force or ($changelogfile eq "-")) {
-	open(P, "-|", "tail", "-n", "40", $changelogfile);
-	while(<P>) {
-	    $format = $1 if m/\schangelog-format:\s+([0-9a-z]+)\W/;
-	}
-	close(P) or subprocerr(_g("tail of %s"), $changelogfile);
-    }
+    # Force the plugin to be debian.
+    $options{changelogformat} = 'debian';
 
-    # Find the right changelog parser
-    my $parser;
-    foreach my $dir (@parserpath) {
-        my $candidate = "$dir/$format";
-	next if not -e $candidate;
-	if (-x _) {
-	    $parser = $candidate;
-	    last;
-	} else {
-	    warning(_g("format parser %s not executable"), $candidate);
-	}
-    }
-    error(_g("changelog format %s is unknown"), $format) if not defined $parser;
+    return _changelog_parse(%options);
+}
 
-    # Create the arguments for the changelog parser
-    my @exec = ($parser, "-l$changelogfile");
-    foreach (keys %options) {
-	if (m/^-/) {
-	    # Options passed untouched
-	    push @exec, $_;
-	} else {
-	    # Non-options are mapped to long options
-	    push @exec, "--$_";
-	}
-	push @exec, $options{$_} if defined($options{$_});
-    }
+=item $fields = changelog_parse_plugin(%opt)
 
-    # Fork and call the parser
-    my $pid = open(P, "-|");
-    syserr(_g("cannot fork for %s"), $parser) unless defined $pid;
-    if (not $pid) {
-	if ($changelogfile ne "-") {
-	    open(STDIN, "<", $changelogfile) or
-		syserr(_g("cannot open %s"), $changelogfile);
-	}
-	exec(@exec) || syserr(_g("cannot exec format parser: %s"), $parser);
+This function is deprecated, use changelog_parse() instead.
+
+=cut
+
+sub changelog_parse_plugin {
+    my (%options) = @_;
+
+    warnings::warnif('deprecated',
+                     'deprecated function changelog_parse_plugin, use changelog_parse instead');
+
+    return _changelog_parse(%options);
+}
+
+=item $fields = changelog_parse(%opt)
+
+This function will parse a changelog. In list context, it returns as many
+Dpkg::Control objects as the parser did create. In scalar context, it will
+return only the first one. If the parser did not return any data, it will
+return an empty list in list context or undef on scalar context. If the
+parser failed, it will die.
+
+The changelog file that is parsed is F<debian/changelog> by default but it
+can be overridden with $opt{file}. The default output format is "dpkg" but
+it can be overridden with $opt{format}.
+
+The parsing itself is done by a parser module (searched in the standard
+perl library directories. That module is named according to the format that
+it is able to parse, with the name capitalized. By default it is either
+Dpkg::Changelog::Debian (from the "debian" format) or the format name looked
+up in the 40 last lines of the changelog itself (extracted with this perl
+regular expression "\schangelog-format:\s+([0-9a-z]+)\W"). But it can be
+overridden with $opt{changelogformat}.
+
+If $opt{compression} is false, the file will be loaded without compression
+support, otherwise by default compression support is disabled if the file
+is the default.
+
+All the other keys in %opt are forwarded to the parser module constructor.
+
+=cut
+
+sub _changelog_parse {
+    my (%options) = @_;
+
+    # Setup and sanity checks.
+    if (exists $options{libdir}) {
+        warnings::warnif('deprecated',
+                         'obsolete libdir option, changelog parsers are now perl modules');
     }
 
-    # Get the output into several Dpkg::Control objects
-    my (@res, $fields);
-    while (1) {
-        $fields = Dpkg::Control::Changelog->new();
-        last unless $fields->parse(\*P, _g("output of changelog parser"));
-	push @res, $fields;
+    $options{file} //= 'debian/changelog';
+    $options{label} //= $options{file};
+    $options{changelogformat} //= _changelog_detect_format($options{file});
+    $options{format} //= 'dpkg';
+    $options{compression} //= $options{file} ne 'debian/changelog';
+
+    my @range_opts = qw(since until from to offset count all);
+    $options{all} = 1 if exists $options{all};
+    if (none { defined $options{$_} } @range_opts) {
+        $options{count} = 1;
     }
-    close(P) or subprocerr(_g("changelog parser %s"), $parser);
-    if (wantarray) {
-	return @res;
+    my $range;
+    foreach my $opt (@range_opts) {
+        $range->{$opt} = $options{$opt} if exists $options{$opt};
+    }
+
+    # Find the right changelog parser.
+    my $format = ucfirst lc $options{changelogformat};
+    my $changes;
+    eval qq{
+        pop \@INC if \$INC[-1] eq '.';
+        require Dpkg::Changelog::$format;
+        \$changes = Dpkg::Changelog::$format->new();
+    };
+    error(g_('changelog format %s is unknown: %s'), $format, $@) if $@;
+    $changes->set_options(reportfile => $options{label}, range => $range);
+
+    # Load and parse the changelog.
+    $changes->load($options{file}, compression => $options{compression})
+        or error(g_('fatal error occurred while parsing %s'), $options{file});
+
+    # Get the output into several Dpkg::Control objects.
+    my @res;
+    if ($options{format} eq 'dpkg') {
+        push @res, $changes->format_range('dpkg', $range);
+    } elsif ($options{format} eq 'rfc822') {
+        push @res, $changes->format_range('rfc822', $range);
     } else {
-	return $res[0] if (@res);
-	return undef;
+        error(g_('unknown output format %s'), $options{format});
+    }
+
+    if (wantarray) {
+        return @res;
+    } else {
+        return $res[0] if @res;
+        return;
     }
 }
+
+sub changelog_parse {
+    my (%options) = @_;
+
+    if (exists $options{forceplugin}) {
+        warnings::warnif('deprecated', 'obsolete forceplugin option');
+    }
+
+    return _changelog_parse(%options);
+}
+
+=back
+
+=head1 CHANGES
+
+=head2 Version 1.03 (dpkg 1.19.0)
+
+New option: 'compression' in changelog_parse().
+
+=head2 Version 1.02 (dpkg 1.18.8)
+
+Deprecated functions: changelog_parse_debian(), changelog_parse_plugin().
+
+Obsolete options: $forceplugin, $libdir.
+
+=head2 Version 1.01 (dpkg 1.18.2)
+
+New functions: changelog_parse_debian(), changelog_parse_plugin().
+
+=head2 Version 1.00 (dpkg 1.15.6)
+
+Mark the module as public.
+
+=cut
 
 1;

@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * basecmds.cc - base list keyboard commands display
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -107,7 +107,7 @@ baselist::matchsearch(int index)
 
   name = itemname(index);
   if (!name)
-    return false;	/* Skip things without a name (seperators). */
+    return false;	/* Skip things without a name (separators). */
 
   searchlen=strlen(searchstring);
   lendiff = strlen(name) - searchlen;
@@ -198,8 +198,8 @@ _("Press ? for help menu, . for next topic, <space> to exit help."));
         mvaddstr(i+3,6, gettext(hme->msg->title));
       }
       mvaddstr(i+4,1,
-               _("Press a key from the list above, <space> or `q' to exit help,\n"
-               "  or `.' (full stop) to read each help page in turn. "));
+               _("Press a key from the list above, <space> or 'q' to exit help,\n"
+                 "  or '.' (full stop) to read each help page in turn. "));
       nextkey= helpmenu[0].key;
     }
     refresh();

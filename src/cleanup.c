@@ -2,8 +2,8 @@
  * dpkg - main program for package management
  * cleanup.c - cleanup functions, used when we need to unwind
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2007-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2007-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -26,7 +26,6 @@
 #include <sys/stat.h>
 
 #include <errno.h>
-#include <ctype.h>
 #include <string.h>
 #include <time.h>
 #include <utime.h>
@@ -39,6 +38,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
+#include <dpkg/path.h>
 #include <dpkg/options.h>
 
 #include "filesdb.h"
@@ -84,14 +84,14 @@ void cu_installnew(int argc, void **argv) {
        * link to the new version we may have created. */
       debug(dbg_eachfiledetail,"cu_installnew restoring nonatomic");
       if (secure_remove(fnamevb.buf) && errno != ENOENT && errno != ENOTDIR)
-        ohshite(_("unable to remove newly-installed version of `%.250s' to allow"
+        ohshite(_("unable to remove newly-installed version of '%.250s' to allow"
                 " reinstallation of backup copy"),namenode->name);
     } else {
       debug(dbg_eachfiledetail,"cu_installnew restoring atomic");
     }
     /* Either we can do an atomic restore, or we've made room: */
     if (rename(fnametmpvb.buf,fnamevb.buf))
-      ohshite(_("unable to restore backup version of `%.250s'"),namenode->name);
+      ohshite(_("unable to restore backup version of '%.250s'"), namenode->name);
     /* If «pathname».dpkg-tmp was still a hard link to «pathname», then the
      * atomic rename did nothing, so we make sure to remove the backup. */
     else if (unlink(fnametmpvb.buf) && errno != ENOENT)
@@ -99,14 +99,15 @@ void cu_installnew(int argc, void **argv) {
   } else if (namenode->flags & fnnf_placed_on_disk) {
     debug(dbg_eachfiledetail,"cu_installnew removing new file");
     if (secure_remove(fnamevb.buf) && errno != ENOENT && errno != ENOTDIR)
-      ohshite(_("unable to remove newly-installed version of `%.250s'"),
+      ohshite(_("unable to remove newly-installed version of '%.250s'"),
 	      namenode->name);
   } else {
     debug(dbg_eachfiledetail,"cu_installnew not restoring");
   }
   /* Whatever, we delete «pathname».dpkg-new now, if it still exists. */
   if (secure_remove(fnamenewvb.buf) && errno != ENOENT && errno != ENOTDIR)
-    ohshite(_("unable to remove newly-extracted version of `%.250s'"),namenode->name);
+    ohshite(_("unable to remove newly-extracted version of '%.250s'"),
+            namenode->name);
 
   cleanup_pkg_failed--; cleanup_conflictor_failed--;
 }
@@ -115,12 +116,11 @@ void cu_prermupgrade(int argc, void **argv) {
   struct pkginfo *pkg= (struct pkginfo*)argv[0];
 
   if (cleanup_pkg_failed++) return;
-  maintainer_script_postinst(pkg, "abort-upgrade",
-                             versiondescribe(&pkg->available.version,
-                                             vdew_nonambig),
-                             NULL);
-  pkg_clear_eflags(pkg, eflag_reinstreq);
-  post_postinst_tasks(pkg, stat_installed);
+  maintscript_postinst(pkg, "abort-upgrade",
+                       versiondescribe(&pkg->available.version, vdew_nonambig),
+                       NULL);
+  pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
+  post_postinst_tasks(pkg, PKG_STAT_INSTALLED);
   cleanup_pkg_failed--;
 }
 
@@ -132,7 +132,7 @@ void ok_prermdeconfigure(int argc, void **argv) {
   struct pkginfo *deconf= (struct pkginfo*)argv[0];
 
   if (cipaction->arg_int == act_install)
-    add_to_queue(deconf);
+    enqueue_package(deconf);
 }
 
 /*
@@ -144,28 +144,28 @@ void cu_prermdeconfigure(int argc, void **argv) {
   struct pkginfo *infavour= (struct pkginfo*)argv[2];
 
   if (conflictor) {
-    maintainer_script_postinst(deconf, "abort-deconfigure",
-                               "in-favour",
-                               pkgbin_name(infavour, &infavour->available,
-                                           pnaw_nonambig),
-                               versiondescribe(&infavour->available.version,
-                                               vdew_nonambig),
-                               "removing",
-                               pkg_name(conflictor, pnaw_nonambig),
-                               versiondescribe(&conflictor->installed.version,
-                                               vdew_nonambig),
-                               NULL);
+    maintscript_postinst(deconf, "abort-deconfigure",
+                         "in-favour",
+                         pkgbin_name(infavour, &infavour->available,
+                                     pnaw_nonambig),
+                         versiondescribe(&infavour->available.version,
+                                         vdew_nonambig),
+                         "removing",
+                         pkg_name(conflictor, pnaw_nonambig),
+                         versiondescribe(&conflictor->installed.version,
+                                         vdew_nonambig),
+                         NULL);
   } else {
-    maintainer_script_postinst(deconf, "abort-deconfigure",
-                               "in-favour",
-                               pkgbin_name(infavour, &infavour->available,
-                                           pnaw_nonambig),
-                               versiondescribe(&infavour->available.version,
-                                               vdew_nonambig),
-                               NULL);
+    maintscript_postinst(deconf, "abort-deconfigure",
+                         "in-favour",
+                         pkgbin_name(infavour, &infavour->available,
+                                     pnaw_nonambig),
+                         versiondescribe(&infavour->available.version,
+                                         vdew_nonambig),
+                         NULL);
   }
 
-  post_postinst_tasks(deconf, stat_installed);
+  post_postinst_tasks(deconf, PKG_STAT_INSTALLED);
 }
 
 void cu_prerminfavour(int argc, void **argv) {
@@ -173,15 +173,15 @@ void cu_prerminfavour(int argc, void **argv) {
   struct pkginfo *infavour= (struct pkginfo*)argv[1];
 
   if (cleanup_conflictor_failed++) return;
-  maintainer_script_postinst(conflictor, "abort-remove",
-                             "in-favour",
-                             pkgbin_name(infavour, &infavour->available,
-                                         pnaw_nonambig),
-                             versiondescribe(&infavour->available.version,
-                                             vdew_nonambig),
-                             NULL);
-  pkg_clear_eflags(conflictor, eflag_reinstreq);
-  post_postinst_tasks(conflictor, stat_installed);
+  maintscript_postinst(conflictor, "abort-remove",
+                       "in-favour",
+                       pkgbin_name(infavour, &infavour->available,
+                                   pnaw_nonambig),
+                       versiondescribe(&infavour->available.version,
+                                       vdew_nonambig),
+                       NULL);
+  pkg_clear_eflags(conflictor, PKG_EFLAG_REINSTREQ);
+  post_postinst_tasks(conflictor, PKG_STAT_INSTALLED);
   cleanup_conflictor_failed--;
 }
 
@@ -191,10 +191,10 @@ void cu_preinstverynew(int argc, void **argv) {
   char *cidirrest= (char*)argv[2];
 
   if (cleanup_pkg_failed++) return;
-  maintainer_script_new(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
-                        "abort-install", NULL);
-  pkg_set_status(pkg, stat_notinstalled);
-  pkg_clear_eflags(pkg, eflag_reinstreq);
+  maintscript_new(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
+                  "abort-install", NULL);
+  pkg_set_status(pkg, PKG_STAT_NOTINSTALLED);
+  pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
   pkgbin_blank(&pkg->installed);
   modstatdb_note(pkg);
   cleanup_pkg_failed--;
@@ -206,12 +206,13 @@ void cu_preinstnew(int argc, void **argv) {
   char *cidirrest= (char*)argv[2];
 
   if (cleanup_pkg_failed++) return;
-  maintainer_script_new(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
-                        "abort-install", versiondescribe(&pkg->installed.version,
-                                                         vdew_nonambig),
-                        NULL);
-  pkg_set_status(pkg, stat_configfiles);
-  pkg_clear_eflags(pkg, eflag_reinstreq);
+  maintscript_new(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
+                  "abort-install",
+                  versiondescribe(&pkg->installed.version, vdew_nonambig),
+                  versiondescribe(&pkg->available.version, vdew_nonambig),
+                  NULL);
+  pkg_set_status(pkg, PKG_STAT_CONFIGFILES);
+  pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
   modstatdb_note(pkg);
   cleanup_pkg_failed--;
 }
@@ -223,13 +224,13 @@ void cu_preinstupgrade(int argc, void **argv) {
   enum pkgstatus *oldstatusp= (enum pkgstatus*)argv[3];
 
   if (cleanup_pkg_failed++) return;
-  maintainer_script_new(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
-                        "abort-upgrade",
-                        versiondescribe(&pkg->installed.version,
-                                        vdew_nonambig),
-                        NULL);
+  maintscript_new(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
+                  "abort-upgrade",
+                  versiondescribe(&pkg->installed.version, vdew_nonambig),
+                  versiondescribe(&pkg->available.version, vdew_nonambig),
+                  NULL);
   pkg_set_status(pkg, *oldstatusp);
-  pkg_clear_eflags(pkg, eflag_reinstreq);
+  pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
   modstatdb_note(pkg);
   cleanup_pkg_failed--;
 }
@@ -238,10 +239,10 @@ void cu_postrmupgrade(int argc, void **argv) {
   struct pkginfo *pkg= (struct pkginfo*)argv[0];
 
   if (cleanup_pkg_failed++) return;
-  maintainer_script_installed(pkg,PREINSTFILE,"pre-installation",
-                              "abort-upgrade", versiondescribe(&pkg->available.version,
-                                                               vdew_nonambig),
-                              NULL);
+  maintscript_installed(pkg, PREINSTFILE, "pre-installation",
+                        "abort-upgrade",
+                        versiondescribe(&pkg->available.version, vdew_nonambig),
+                        NULL);
   cleanup_pkg_failed--;
 }
 
@@ -250,8 +251,8 @@ void cu_prermremove(int argc, void **argv) {
   enum pkgstatus *oldpkgstatus= (enum pkgstatus*)argv[1];
 
   if (cleanup_pkg_failed++) return;
-  maintainer_script_postinst(pkg, "abort-remove", NULL);
-  pkg_clear_eflags(pkg, eflag_reinstreq);
+  maintscript_postinst(pkg, "abort-remove", NULL);
+  pkg_clear_eflags(pkg, PKG_EFLAG_REINSTREQ);
   post_postinst_tasks(pkg, *oldpkgstatus);
   cleanup_pkg_failed--;
 }

@@ -11,18 +11,18 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package Dpkg::Vendor::Default;
 
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
 # If you use this file as template to create a new vendor object, please
 # uncomment the following lines
-#use base qw(Dpkg::Vendor::Default);
+#use parent qw(Dpkg::Vendor::Default);
 
 =encoding utf8
 
@@ -39,12 +39,12 @@ not be identified (see Dpkg::Vendor documentation).
 
 It provides some hooks that are called by various dpkg-* tools.
 If you need a new hook, please file a bug against dpkg-dev and explain
-your need. Note that the hook API has no guaranty to be stable over an
-extended period. If you run an important distribution that makes use
-of vendor hooks, you'd better submit them for integration so that
+your need. Note that the hook API has no guarantee to be stable over an
+extended period of time. If you run an important distribution that makes
+use of vendor hooks, you'd better submit them for integration so that
 we avoid breaking your code.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
 =over 4
 
@@ -56,7 +56,7 @@ if they don't need any specific initialization at object creation time.
 =cut
 
 sub new {
-    my ($this) = @_;
+    my $this = shift;
     my $class = ref($this) || $this;
     my $self = {};
     bless $self, $class;
@@ -75,11 +75,37 @@ supported hooks are:
 The first parameter is a Dpkg::Source::Package object. The hook is called
 just before the execution of $srcpkg->build().
 
-=item keyrings ()
+=item package-keyrings ()
 
 The hook is called when dpkg-source is checking a signature on a source
-package. It takes no parameters, but returns a (possibly empty) list of
+package (since dpkg 1.18.11). It takes no parameters, but returns a
+(possibly empty) list of vendor-specific keyrings.
+
+=item archive-keyrings ()
+
+The hook is called when there is a need to check signatures on artifacts
+from repositories, for example by a download method (since dpkg 1.18.11).
+It takes no parameters, but returns a (possibly empty) list of
 vendor-specific keyrings.
+
+=item archive-keyrings-historic ()
+
+The hook is called when there is a need to check signatures on artifacts
+from historic repositories, for example by a download method
+(since dpkg 1.18.11). It takes no parameters, but returns a (possibly empty)
+list of vendor-specific keyrings.
+
+=item builtin-build-depends ()
+
+The hook is called when dpkg-checkbuilddeps is initializing the source
+package build dependencies (since dpkg 1.18.2). It takes no parameters,
+but returns a (possibly empty) list of vendor-specific B<Build-Depends>.
+
+=item builtin-build-conflicts ()
+
+The hook is called when dpkg-checkbuilddeps is initializing the source
+package build conflicts (since dpkg 1.18.2). It takes no parameters,
+but returns a (possibly empty) list of vendor-specific B<Build-Conflicts>.
 
 =item register-custom-fields ()
 
@@ -104,6 +130,16 @@ The hook is called in Dpkg::BuildFlags to allow the vendor to override
 the default values set for the various build flags. $flags is a
 Dpkg::BuildFlags object.
 
+=item builtin-system-build-paths ()
+
+The hook is called by dpkg-genbuildinfo to determine if the current path
+should be recorded in the B<Build-Path> field (since dpkg 1.18.11). It takes
+no parameters, but returns a (possibly empty) list of root paths considered
+acceptable. As an example, if the list contains "/build/", a Build-Path
+field will be created if the current directory is "/build/dpkg-1.18.0". If
+the list contains "/", the path will always be recorded. If the list is
+empty, the current path will never be recorded.
+
 =back
 
 =cut
@@ -111,26 +147,44 @@ Dpkg::BuildFlags object.
 sub run_hook {
     my ($self, $hook, @params) = @_;
 
-    if ($hook eq "before-source-build") {
+    if ($hook eq 'before-source-build') {
         my $srcpkg = shift @params;
-    } elsif ($hook eq "keyrings") {
+    } elsif ($hook eq 'keyrings') {
+        warnings::warnif('deprecated', 'obsolete keyrings vendor hook');
         return ();
-    } elsif ($hook eq "register-custom-fields") {
+    } elsif ($hook eq 'package-keyrings') {
         return ();
-    } elsif ($hook eq "post-process-changelog-entry") {
+    } elsif ($hook eq 'archive-keyrings') {
+        return ();
+    } elsif ($hook eq 'archive-keyrings-historic') {
+        return ();
+    } elsif ($hook eq 'register-custom-fields') {
+        return ();
+    } elsif ($hook eq 'builtin-build-depends') {
+        return ();
+    } elsif ($hook eq 'builtin-build-conflicts') {
+        return ();
+    } elsif ($hook eq 'post-process-changelog-entry') {
         my $fields = shift @params;
-    } elsif ($hook eq "extend-patch-header") {
+    } elsif ($hook eq 'extend-patch-header') {
 	my ($textref, $ch_info) = @params;
-    } elsif ($hook eq "update-buildflags") {
+    } elsif ($hook eq 'update-buildflags') {
 	my $flags = shift @params;
+    } elsif ($hook eq 'builtin-system-build-paths') {
+        return ();
     }
 
     # Default return value for unknown/unimplemented hooks
-    return () if wantarray;
-    return undef;
+    return;
 }
 
 =back
+
+=head1 CHANGES
+
+=head2 Version 0.xx
+
+This is a private module.
 
 =cut
 

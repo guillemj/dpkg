@@ -2,7 +2,8 @@
  * dselect - Debian package maintenance user interface
  * pkgdisplay.cc - package list display
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2006, 2008-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -38,7 +39,7 @@ const char
 			    N_("hold"),
 			    N_("remove"),
 			    N_("purge"),
-			    0 },
+			    nullptr },
 
   /* TRANSLATORS: The space is a trick to work around gettext which uses
    * the empty string to store information about the translation. DO NOT
@@ -46,7 +47,7 @@ const char
    * a single space. */
   *const eflagstrings[]=   { N_(" "),
 			     N_("REINSTALL"),
-			     0 },
+			     nullptr },
 
   *const statusstrings[]= { N_("not installed"),
 			    N_("removed (configs remain)"),
@@ -56,16 +57,15 @@ const char
 			    N_("awaiting trigger processing"),
 			    N_("triggered"),
 			    N_("installed"),
-			    0 },
+			    nullptr },
 
   *const prioritystrings[]=  { N_("Required"),
 			       N_("Important"),
 			       N_("Standard"),
 			       N_("Optional"),
 			       N_("Extra"),
-			       N_("!Bug!"),
 			       N_("Unclassified"),
-			       0 },
+			       nullptr },
 
   *const relatestrings[]= { N_("suggests"),
 			    N_("recommends"),
@@ -76,7 +76,7 @@ const char
 			    N_("provides"),
 			    N_("replaces"),
 			    N_("enhances"),
-			    0 },
+			    nullptr },
 
   *const priorityabbrevs[]=  { N_("Req"),
 			       N_("Imp"),
@@ -94,17 +94,17 @@ const char wantchars[]=     "n*=-_";
 const char
   *const ssaabbrevs[]= { N_("Broken"),
                          N_("New"),
-                         N_("Updated"),
+                         N_("Upgradable"),
                          N_("Obsolete/local"),
-                         N_("Up-to-date"),
+                         N_("Installed"),
                          N_("Available"),
                          N_("Removed") },
   *const ssastrings[]= { N_("Brokenly installed packages"),
                          N_("Newly available packages"),
-                         N_("Updated packages (newer version is available)"),
-                         N_("Obsolete and local packages present on system"),
-                         N_("Up to date installed packages"),
-                         N_("Available packages (not currently installed)"),
+                         N_("Upgradable packages"),
+                         N_("Obsolete and locally created packages"),
+                         N_("Installed packages"),
+                         N_("Available not installed packages"),
                          N_("Removed and no longer available packages") };
 
 const char
@@ -132,56 +132,60 @@ static int maximumstring(const char *const *array) {
 void packagelist::setwidths() {
   debug(dbg_general, "packagelist[%p]::setwidths()", this);
 
+  col_cur_x = 0;
+
   if (verbose) {
-    status_hold_width= 9;
-    status_status_width= maximumstring(statusstrings);
-    status_want_width= maximumstring(wantstrings);
-    status_width= status_hold_width+status_status_width+status_want_width*2+3;
-    priority_width= 8;
-    package_width= 16;
+    add_column(col_status_hold, _("Error"), 9);
+    add_column(col_status_status, _("Installed?"), maximumstring(statusstrings));
+    add_column(col_status_old_want, _("Old mark"), maximumstring(wantstrings));
+    add_column(col_status_new_want, _("Marked for"), maximumstring(wantstrings));
   } else {
-    status_width= 4;
-    priority_width= 3;
-    package_width= 12;
-  }
-  section_width= 8;
-
-  if (sortorder == so_section) {
-    section_column= status_width + gap_width;
-    priority_column= section_column + section_width + gap_width;
-    package_column= priority_column + priority_width + gap_width;
-  } else {
-    priority_column= status_width + gap_width;
-    section_column= priority_column + priority_width + gap_width;
-    package_column= section_column + section_width + gap_width;
+    add_column(col_status, _("EIOM"), 4);
   }
 
-  int versiondescriptioncolumn= package_column + package_width + gap_width;
+  if (sortorder == so_section)
+    add_column(col_section, _("Section"), 8);
+  add_column(col_priority, _("Priority"), verbose ? 8 : 3);
+  if (sortorder != so_section)
+    add_column(col_section, _("Section"), 8);
+
+  add_column(col_package, _("Package"), verbose ? 16 : 12);
+
+  switch (archdisplayopt) {
+  case ado_none:
+    col_archinstalled.blank();
+    col_archavailable.blank();
+    break;
+  case ado_available:
+    col_archinstalled.blank();
+    add_column(col_archavailable, _("Avail.arch"), verbose ? 14 : 10);
+    break;
+  case ado_both:
+    add_column(col_archinstalled, _("Inst.arch"), verbose ? 14 : 10);
+    add_column(col_archavailable, _("Avail.arch"), verbose ? 14 : 10);
+    break;
+  default:
+    internerr("unknown archdisplayopt %d", archdisplayopt);
+  }
 
   switch (versiondisplayopt) {
   case vdo_none:
-    versioninstalled_column= versioninstalled_width= 0;
-    versionavailable_column= versionavailable_width= 0;
-    description_column= versiondescriptioncolumn;
+    col_versioninstalled.blank();
+    col_versionavailable.blank();
     break;
   case vdo_available:
-    versioninstalled_column= versioninstalled_width= 0;
-    versionavailable_column= versiondescriptioncolumn;
-    versionavailable_width= 11;
-    description_column= versionavailable_column + versionavailable_width + gap_width;
+    col_versioninstalled.blank();
+    add_column(col_versionavailable, _("Avail.ver"), 11);
     break;
   case vdo_both:
-    versioninstalled_column= versiondescriptioncolumn;
-    versioninstalled_width= 11;
-    versionavailable_column= versioninstalled_column + versioninstalled_width +gap_width;
-    versionavailable_width= versioninstalled_width;
-    description_column= versionavailable_column + versionavailable_width + gap_width;
+    add_column(col_versioninstalled, _("Inst.ver"), 11);
+    add_column(col_versionavailable, _("Avail.ver"), 11);
     break;
   default:
     internerr("unknown versiondisplayopt %d", versiondisplayopt);
   }
 
-  description_width= total_width - description_column;
+  end_column(col_description, _("Description"));
 }
 
 void packagelist::redrawtitle() {

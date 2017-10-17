@@ -2,8 +2,8 @@
  * libdpkg - Debian packaging suite library routines
  * varbuf.c - variable length expandable buffer handling
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2008-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -107,6 +107,14 @@ varbuf_end_str(struct varbuf *v)
   v->buf[v->used] = '\0';
 }
 
+const char *
+varbuf_get_str(struct varbuf *v)
+{
+  varbuf_end_str(v);
+
+  return v->buf;
+}
+
 void
 varbuf_init(struct varbuf *v, size_t size)
 {
@@ -147,6 +155,18 @@ varbuf_trunc(struct varbuf *v, size_t used_size)
     internerr("varbuf new_used(%zu) > size(%zu)", used_size, v->size);
 
   v->used = used_size;
+}
+
+void
+varbuf_snapshot(struct varbuf *v, struct varbuf_state *vs)
+{
+  vs->used = v->used;
+}
+
+void
+varbuf_rollback(struct varbuf *v, struct varbuf_state *vs)
+{
+  varbuf_trunc(v, vs->used);
 }
 
 char *

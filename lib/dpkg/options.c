@@ -2,9 +2,9 @@
  * libdpkg - Debian packaging suite library routines
  * options.c - option parsing functions
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000,2002 Wichert Akkerman <wichert@deephackmode.org>
- * Copyright © 2008,2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,20 +17,21 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
 #include <compat.h>
 
 #include <errno.h>
-#include <ctype.h>
+#include <limits.h>
 #include <string.h>
 #include <dirent.h>
 #include <stdarg.h>
 #include <stdlib.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/string.h>
 #include <dpkg/options.h>
@@ -40,11 +41,11 @@ static const char *printforhelp;
 void
 badusage(const char *fmt, ...)
 {
-  char buf[1024];
+  char *buf = NULL;
   va_list args;
 
   va_start(args, fmt);
-  vsnprintf(buf, sizeof(buf), fmt, args);
+  m_vasprintf(&buf, fmt, args);
   va_end(args);
 
   ohshit("%s\n\n%s", buf, gettext(printforhelp));
@@ -53,18 +54,18 @@ badusage(const char *fmt, ...)
 static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(3)
 config_error(const char *file_name, int line_num, const char *fmt, ...)
 {
-  char buf[1024];
+  char *buf = NULL;
   va_list args;
 
   va_start(args, fmt);
-  vsnprintf(buf, sizeof(buf), fmt, args);
+  m_vasprintf(&buf, fmt, args);
   va_end(args);
 
   ohshit(_("configuration error: %s:%d: %s"), file_name, line_num, buf);
 }
 
-void
-myfileopt(const char *fn, const struct cmdinfo *cmdinfos)
+static void
+dpkg_options_load_file(const char *fn, const struct cmdinfo *cmdinfos)
 {
   FILE *file;
   int line_num = 0;
@@ -86,18 +87,21 @@ myfileopt(const char *fn, const struct cmdinfo *cmdinfos)
 
     line_num++;
 
-    if ((linebuf[0] == '#') || (linebuf[0] == '\n') || (linebuf[0] == '\0'))
+    l = strlen(linebuf);
+    while (l && c_isspace(linebuf[l - 1]))
+      l--;
+    linebuf[l] = '\0';
+
+    if ((linebuf[0] == '#') || (linebuf[0] == '\0'))
       continue;
-    l=strlen(linebuf);
-    if (linebuf[l - 1] == '\n')
-      linebuf[l - 1] = '\0';
-    for (opt=linebuf;isalnum(*opt)||*opt=='-';opt++) ;
+    for (opt = linebuf; c_isalnum(*opt) || *opt == '-'; opt++) ;
     if (*opt == '\0')
       opt=NULL;
     else {
       *opt++ = '\0';
       if (*opt=='=') opt++;
-      while (isspace(*opt)) opt++;
+      while (c_isspace(*opt))
+        opt++;
 
       opt = str_strip_quotes(opt);
       if (opt == NULL)
@@ -133,8 +137,10 @@ myfileopt(const char *fn, const struct cmdinfo *cmdinfos)
         *cip->iassignto = cip->arg_int;
     }
   }
-  if (ferror(file)) ohshite(_("read error in configuration file `%.255s'"), fn);
-  if (fclose(file)) ohshite(_("error closing configuration file `%.255s'"), fn);
+  if (ferror(file))
+    ohshite(_("read error in configuration file '%.255s'"), fn);
+  if (fclose(file))
+    ohshite(_("error closing configuration file '%.255s'"), fn);
 }
 
 static int
@@ -146,7 +152,7 @@ valid_config_filename(const struct dirent *dent)
     return 0;
 
   for (c = dent->d_name; *c; c++)
-    if (!isalnum(*c) && *c != '_' && *c != '-')
+    if (!c_isalnum(*c) && *c != '_' && *c != '-')
       return 0;
 
   if (*c == '\0')
@@ -156,13 +162,13 @@ valid_config_filename(const struct dirent *dent)
 }
 
 static void
-load_config_dir(const char *prog, const struct cmdinfo *cmdinfos)
+dpkg_options_load_dir(const char *prog, const struct cmdinfo *cmdinfos)
 {
   char *dirname;
   struct dirent **dlist;
   int dlist_n, i;
 
-  m_asprintf(&dirname, "%s/%s.cfg.d", CONFIGDIR, prog);
+  dirname = str_fmt("%s/%s.cfg.d", CONFIGDIR, prog);
 
   dlist_n = scandir(dirname, &dlist, valid_config_filename, alphasort);
   if (dlist_n < 0) {
@@ -176,8 +182,8 @@ load_config_dir(const char *prog, const struct cmdinfo *cmdinfos)
   for (i = 0; i < dlist_n; i++) {
     char *filename;
 
-    m_asprintf(&filename, "%s/%s", dirname, dlist[i]->d_name);
-    myfileopt(filename, cmdinfos);
+    filename = str_fmt("%s/%s", dirname, dlist[i]->d_name);
+    dpkg_options_load_file(filename, cmdinfos);
 
     free(dlist[i]);
     free(filename);
@@ -188,26 +194,27 @@ load_config_dir(const char *prog, const struct cmdinfo *cmdinfos)
 }
 
 void
-loadcfgfile(const char *prog, const struct cmdinfo *cmdinfos)
+dpkg_options_load(const char *prog, const struct cmdinfo *cmdinfos)
 {
   char *home, *file;
 
-  load_config_dir(prog, cmdinfos);
+  dpkg_options_load_dir(prog, cmdinfos);
 
-  m_asprintf(&file, "%s/%s.cfg", CONFIGDIR, prog);
-  myfileopt(file, cmdinfos);
+  file = str_fmt("%s/%s.cfg", CONFIGDIR, prog);
+  dpkg_options_load_file(file, cmdinfos);
   free(file);
 
-  if ((home = getenv("HOME")) != NULL) {
-    m_asprintf(&file, "%s/.%s.cfg", home, prog);
-    myfileopt(file, cmdinfos);
+  home = getenv("HOME");
+  if (home != NULL) {
+    file = str_fmt("%s/.%s.cfg", home, prog);
+    dpkg_options_load_file(file, cmdinfos);
     free(file);
   }
 }
 
 void
-myopt(const char *const **argvp, const struct cmdinfo *cmdinfos,
-      const char *help_str)
+dpkg_options_parse(const char *const **argvp, const struct cmdinfo *cmdinfos,
+                   const char *help_str)
 {
   const struct cmdinfo *cip;
   const char *p, *value;
@@ -216,7 +223,7 @@ myopt(const char *const **argvp, const struct cmdinfo *cmdinfos,
   printforhelp = help_str;
 
   ++(*argvp);
-  while ((p= **argvp) && *p == '-') {
+  while ((p = **argvp) && p[0] == '-' && p[1] != '\0') {
     ++(*argvp);
     if (strcmp(p, "--") == 0)
       break;
@@ -272,10 +279,28 @@ myopt(const char *const **argvp, const struct cmdinfo *cmdinfos,
   }
 }
 
+long
+dpkg_options_parse_arg_int(const struct cmdinfo *cmd, const char *str)
+{
+  long value;
+  char *end;
+
+  errno = 0;
+  value = strtol(str, &end, 0);
+  if (str == end || *end || value < 0 || value > INT_MAX || errno != 0) {
+    if (cmd->olong)
+      badusage(_("invalid integer for --%s: '%.250s'"), cmd->olong, str);
+    else
+      badusage(_("invalid integer for -%c: '%.250s'"), cmd->oshort, str);
+  }
+
+  return value;
+}
+
 void
 setobsolete(const struct cmdinfo *cip, const char *value)
 {
-  warning(_("obsolete option '--%s'\n"), cip->olong);
+  warning(_("obsolete option '--%s'"), cip->olong);
 }
 
 const struct cmdinfo *cipaction = NULL;
@@ -290,7 +315,7 @@ option_short(int c)
 void
 setaction(const struct cmdinfo *cip, const char *value)
 {
-  if (cipaction)
+  if (cipaction && cip)
     badusage(_("conflicting actions -%c (--%s) and -%c (--%s)"),
              option_short(cip->oshort), cip->olong,
              option_short(cipaction->oshort), cipaction->olong);

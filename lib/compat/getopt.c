@@ -87,15 +87,10 @@ USA.  */
 #define getpid() GetCurrentProcessId()
 #endif
 
+/* XXX: Disable intl support, because we do not carry the translations anyway
+ * and this pulls indirectly libintl, wich we do not want to impose. */
 #ifndef _
-/* This is for other GNU distributions with internationalized messages.
-   When compiling libc, the _ macro is predefined.  */
-#ifdef HAVE_LIBINTL_H
-# include <libintl.h>
-# define _(msgid)	gettext (msgid)
-#else
-# define _(msgid)	(msgid)
-#endif
+#define _(msgid)	(msgid)
 #endif
 
 /* This version of `getopt' appears to the caller like standard Unix `getopt'

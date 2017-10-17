@@ -1,8 +1,8 @@
-/* -*- c++ -*-
+/*
  * dselect - Debian package maintenance user interface
  * method.h - access method handling declarations
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef METHOD_H
@@ -51,8 +51,9 @@ struct dselect_option {
 
 class methodlist : public baselist {
 protected:
-  int status_width, name_width, description_width;
-  int name_column, description_column;
+  column col_status;
+  column col_name;
+  column col_desc;
 
   // Table of methods
   struct dselect_option **table;

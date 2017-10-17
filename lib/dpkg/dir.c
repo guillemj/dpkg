@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -102,7 +102,7 @@ dir_file_sync(const char *dir, const char *filename)
 	char *path;
 	int fd;
 
-	m_asprintf(&path, "%s/%s", dir, filename);
+	path = str_fmt("%s/%s", dir, filename);
 
 	fd = open(path, O_WRONLY);
 	if (fd < 0)

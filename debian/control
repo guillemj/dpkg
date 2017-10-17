@@ -2,25 +2,72 @@ Source: dpkg
 Section: admin
 Priority: required
 Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
-Uploaders: Guillem Jover <guillem@debian.org>, Raphaël Hertzog <hertzog@debian.org>
+Uploaders: Guillem Jover <guillem@debian.org>
 Origin: debian
 Bugs: debbugs://bugs.debian.org
-Homepage: http://wiki.debian.org/Teams/Dpkg
-Vcs-Browser: http://git.debian.org/?p=dpkg/dpkg.git
-Vcs-Git: git://git.debian.org/git/dpkg/dpkg.git
-Standards-Version: 3.9.3
-Build-Depends: debhelper (>= 7), pkg-config, flex,
- gettext (>= 0.18), po4a (>= 0.41),
- zlib1g-dev (>= 1:1.1.3-19.1), libbz2-dev, liblzma-dev,
- libselinux1-dev (>= 1.28-4) [linux-any],
+Homepage: https://wiki.debian.org/Teams/Dpkg
+Vcs-Browser: https://anonscm.debian.org/cgit/dpkg/dpkg.git
+Vcs-Git: https://anonscm.debian.org/git/dpkg/dpkg.git
+Standards-Version: 4.1.0
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper (>= 10),
+ pkg-config,
+# Needed for ITS support.
+ gettext (>= 0.19.7),
+# Needed for --porefs.
+ po4a (>= 0.43),
+ zlib1g-dev,
+ libbz2-dev,
+ liblzma-dev,
+ libselinux1-dev [linux-any],
  libncursesw5-dev,
- libtimedate-perl, libio-string-perl
+
+Package: dpkg
+Architecture: any
+Multi-Arch: foreign
+Essential: yes
+Pre-Depends:
+ ${shlibs:Depends},
+Depends:
+ ${misc:Depends},
+# Needed for --clamp-mtime in dpkg-deb -b.
+ tar (>= 1.28-1),
+Suggests:
+ apt,
+ debsig-verify,
+Breaks:
+# Due to removal of dpkg-divert compat symlink.
+ amule (<< 2.3.1+git1a369e47-3),
+# Due to removal of dpkg-statoverride compat symlink.
+ acidbase (<= 1.4.5-4),
+ beep (<< 1.3-4),
+ im (<< 1:151-4),
+ netselect (<< 0.3.ds1-27),
+ pconsole (<< 1.0-12),
+ phpgacl (<< 3.3.7-7.3),
+ pure-ftpd (<< 1.0.43-1),
+ systemtap (<< 2.8-1),
+ terminatorx (<< 4.0.1-1),
+ xvt (<= 2.1-20.1),
+# Due to renaming of triplettable to tupletable.
+ libdpkg-perl (<< 1.18.11),
+Description: Debian package management system
+ This package provides the low-level infrastructure for handling the
+ installation and removal of Debian software packages.
+ .
+ For Debian package development tools, install dpkg-dev.
 
 Package: libdpkg-dev
 Section: libdevel
 Priority: optional
 Architecture: any
-Depends: ${misc:Depends}
+Multi-Arch: same
+Depends:
+ ${misc:Depends},
+ zlib1g-dev,
+ liblzma-dev,
+ libbz2-dev,
 Description: Debian package management static library
  This package provides the header files and static library necessary to
  develop software using libdpkg, the same library used internally by dpkg.
@@ -28,34 +75,33 @@ Description: Debian package management static library
  Note though, that the API is to be considered volatile, and might change
  at any time, use at your own risk.
 
-Package: dpkg
-Architecture: any
-Multi-Arch: foreign
-Essential: yes
-Pre-Depends: ${shlibs:Depends}, tar (>= 1.23)
-Depends: ${misc:Depends}
-Breaks: dpkg-dev (<< 1.15.8), libdpkg-perl (<< 1.15.8),
- apt (<< 0.7.7), aptitude (<< 0.4.7-1),
-# install-info transition
-# see http://wiki.debian.org/Transitions/DpkgToGnuInstallInfo
- tkinfo (<< 2.8-3.1), pinfo (<< 0.6.9-3.1)
-Suggests: apt
-Description: Debian package management system
- This package provides the low-level infrastructure for handling the
- installation and removal of Debian software packages.
- .
- For Debian package development tools, install dpkg-dev.
-
 Package: dpkg-dev
 Section: utils
 Priority: optional
 Architecture: all
 Multi-Arch: foreign
-Depends: libdpkg-perl (= ${source:Version}), bzip2, xz-utils,
- patch, make, binutils, base-files (>= 5.0.0), ${misc:Depends}
-Recommends: gcc | c-compiler, build-essential, fakeroot, gnupg, gpgv, libalgorithm-merge-perl
-Suggests: debian-keyring
-Breaks: dpkg-cross (<< 2.0.0), devscripts (<< 2.10.26)
+Depends:
+ ${misc:Depends},
+ ${perl:Depends},
+ libdpkg-perl (= ${source:Version}),
+# Needed for --clamp-mtime.
+ tar (>= 1.28-1),
+ bzip2,
+ xz-utils,
+# Needed for git-style diff support.
+ patch (>= 2.7),
+ make,
+ binutils,
+Recommends:
+ build-essential,
+ gcc | c-compiler,
+ fakeroot,
+ gnupg | gnupg2,
+ gpgv | gpgv2,
+# Used by dpkg-mergechangelogs.
+ libalgorithm-merge-perl,
+Suggests:
+ debian-keyring,
 Description: Debian package development tools
  This package provides the development tools (including dpkg-source)
  required to unpack, build and upload Debian source packages.
@@ -68,29 +114,70 @@ Section: perl
 Priority: optional
 Architecture: all
 Multi-Arch: foreign
-Depends: dpkg (>= 1.15.8), perl, libtimedate-perl, ${misc:Depends}
-Recommends: libfile-fcntllock-perl, bzip2, xz-utils
-Suggests: debian-keyring, gnupg, gpgv, gcc | c-compiler, binutils, patch
-Breaks: dpkg-dev (<< 1.15.6)
-Replaces: dpkg (<< 1.15.8), dpkg-dev (<< 1.15.6)
+Depends:
+ ${misc:Depends},
+# XXX: This needs to be perl:any, but that breaks debootstrap in jessie
+# (the current stable), it could be fixed once and iff stretch is stable
+# and contains a fixed debootstrap.
+ perl,
+# Needed for arch tuples.
+ dpkg (>= 1.18.11),
+Recommends:
+# Used by Dpkg::File.
+ libfile-fcntllock-perl,
+# Used by Dpkg::Gettext.
+ liblocale-gettext-perl,
+ bzip2,
+ xz-utils,
+Suggests:
+ debian-keyring,
+ gnupg | gnupg2,
+ gpgv | gpgv2,
+ gcc | c-compiler,
+ binutils,
+ patch,
+# Needed by Dpkg::Source::Package::V3::Git
+ git,
+# Needed by Dpkg::Source::Package::V3::Bzr
+ bzr,
+Breaks:
+# Needed for git-style diffs.
+ patch (<< 2.7),
 Description: Dpkg perl modules
  This package provides the perl modules used by the scripts
- in dpkg-dev. They cover a wide range of functionalities. Among them
- there are the following modules:
+ in dpkg-dev. They cover a wide range of functionality. Among them
+ there are the following public modules:
  .
-  - Dpkg::Arch: manipulate Debian architecture information
+  - Dpkg: core variables
+  - Dpkg::Arch: architecture handling functions
+  - Dpkg::Build::Info: build information functions
+  - Dpkg::BuildFlags: set, modify and query compilation build flags
   - Dpkg::BuildOptions: parse and manipulate DEB_BUILD_OPTIONS
-  - Dpkg::Changelog: parse Debian changelogs
+  - Dpkg::BuildProfile: parse and manipulate build profiles
+  - Dpkg::Changelog: parse changelogs
+  - Dpkg::Changelog::Entry: represents a changelog entry
+  - Dpkg::Changelog::Parse: generic changelog parser for dpkg-parsechangelog
   - Dpkg::Checksums: generate and parse checksums
+  - Dpkg::Compression: simple database of available compression methods
   - Dpkg::Compression::Process: wrapper around compression tools
   - Dpkg::Compression::FileHandle: transparently (de)compress files
+  - Dpkg::Conf: parse dpkg configuration files
   - Dpkg::Control: parse and manipulate Debian control information
     (.dsc, .changes, Packages/Sources entries, etc.)
+  - Dpkg::Control::Changelog: represent fields output by dpkg-parsechangelog
+  - Dpkg::Control::Fields: manage (list of known) control fields
+  - Dpkg::Control::Hash: parse and manipulate a block of RFC822-like fields
+  - Dpkg::Control::Info: parse files like debian/control
+  - Dpkg::Control::Tests: parse files like debian/tests/control
   - Dpkg::Deps: parse and manipulate dependencies
-  - Dpkg::ErrorHandling: common error functions
+  - Dpkg::Exit: push, pop and run exit handlers
+  - Dpkg::Gettext: wrapper around Locale::gettext
+  - Dpkg::IPC: spawn sub-processes and feed/retrieve data
   - Dpkg::Index: collections of Dpkg::Control (Packages/Sources files for
     example)
-  - Dpkg::IPC: spawn sub-processes and feed/retrieve data
+  - Dpkg::Interface::Storable: base object serializer
+  - Dpkg::Path: common path handling functions
+  - Dpkg::Source::Package: extract Debian source packages
   - Dpkg::Substvars: substitute variables in strings
   - Dpkg::Vendor: identify current distribution vendor
   - Dpkg::Version: parse and manipulate Debian package versions
@@ -102,10 +189,11 @@ Package: dselect
 Priority: optional
 Architecture: any
 Multi-Arch: foreign
-Depends: ${shlibs:Depends}, dpkg (>= 1.13.1), ${misc:Depends}
-Suggests: perl
-Conflicts: dpkg-ftp, dpkg-multicd
-Replaces: dpkg-ftp, dpkg-multicd
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Suggests:
+ perl,
 Description: Debian package management front-end
  dselect is a high-level interface for managing the installation and
  removal of Debian software packages.

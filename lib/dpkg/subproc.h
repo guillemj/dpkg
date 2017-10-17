@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * subproc.h - sub-process handling routines
  *
- * Copyright © 2008 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_SUBPROC_H
@@ -33,17 +33,27 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-void subproc_signals_setup(const char *name);
-void subproc_signals_cleanup(int argc, void **argv);
+enum subproc_flags {
+	/** Default subprocess flags. */
+	SUBPROC_NORMAL		= 0,
+	/** Emit a warning instead of an error. */
+	SUBPROC_WARN		= DPKG_BIT(0),
+	/** Ignore SIGPIPE, and make it return 0. */
+	SUBPROC_NOPIPE		= DPKG_BIT(1),
+	/** Do not check the subprocess status. */
+	SUBPROC_NOCHECK		= DPKG_BIT(2),
+	/** Do not emit errors, just return the exit status. */
+	SUBPROC_RETERROR	= DPKG_BIT(3),
+	/** Do not emit errors, just return the signal number. */
+	SUBPROC_RETSIGNO	= DPKG_BIT(3),
+};
 
-#define PROCPIPE 1
-#define PROCWARN 2
-#define PROCNOERR 4
+void subproc_signals_ignore(const char *name);
+void subproc_signals_cleanup(int argc, void **argv);
+void subproc_signals_restore(void);
 
 pid_t subproc_fork(void);
-int subproc_wait(pid_t pid, const char *desc);
-int subproc_check(int status, const char *desc, int flags);
-int subproc_wait_check(pid_t pid, const char *desc, int flags);
+int subproc_reap(pid_t pid, const char *desc, enum subproc_flags flags);
 
 /** @} */
 

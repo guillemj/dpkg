@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * infodb.h - package control information database
  *
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef DPKG_INFODB_H
@@ -26,9 +26,10 @@
 #include <dpkg/dpkg-db.h>
 
 enum pkg_infodb_format {
-	pkg_infodb_format_unknown = -1,
-	pkg_infodb_format_legacy = 0,
-	pkg_infodb_format_multiarch = 1,
+	PKG_INFODB_FORMAT_UNKNOWN = -1,
+	PKG_INFODB_FORMAT_LEGACY = 0,
+	PKG_INFODB_FORMAT_MULTIARCH = 1,
+	PKG_INFODB_FORMAT_LAST,
 };
 
 enum pkg_infodb_format pkg_infodb_get_format(void);

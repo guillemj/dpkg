@@ -1,4 +1,5 @@
 # Copyright © 2002 Adam Heath <doogie@debian.org>
+# Copyright © 2012-2013 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -11,24 +12,95 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package Dpkg::Exit;
 
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.01';
+our @EXPORT_OK = qw(
+    push_exit_handler
+    pop_exit_handler
+    run_exit_handlers
+);
 
+use Exporter qw(import);
+
+# XXX: Backwards compatibility, stop exporting on VERSION 2.00.
+## no critic (Variables::ProhibitPackageVars)
 our @handlers = ();
-sub exit_handler {
-    &$_() foreach (reverse @handlers);
+## use critic
+
+=encoding utf8
+
+=head1 NAME
+
+Dpkg::Exit - program exit handlers
+
+=head1 DESCRIPTION
+
+The Dpkg::Exit module provides support functions to run handlers on exit.
+
+=head1 FUNCTIONS
+
+=over 4
+
+=item push_exit_handler($func)
+
+Register a code reference into the exit function handlers stack.
+
+=cut
+
+sub push_exit_handler {
+    my ($func) = shift;
+    push @handlers, $func;
+}
+
+=item pop_exit_handler()
+
+Pop the last registered exit handler from the handlers stack.
+
+=cut
+
+sub pop_exit_handler {
+    pop @handlers;
+}
+
+=item run_exit_handlers()
+
+Run the registered exit handlers.
+
+=cut
+
+sub run_exit_handlers {
+    $_->() foreach (reverse @handlers);
+}
+
+sub _exit_handler {
+    run_exit_handlers();
     exit(127);
 }
 
-$SIG{'INT'} = \&exit_handler;
-$SIG{'HUP'} = \&exit_handler;
-$SIG{'QUIT'} = \&exit_handler;
+$SIG{INT} = \&_exit_handler;
+$SIG{HUP} = \&_exit_handler;
+$SIG{QUIT} = \&_exit_handler;
 
-# vim: set et sw=4 ts=8
+=back
+
+=head1 CHANGES
+
+=head2 Version 1.01 (dpkg 1.17.2)
+
+New functions: push_exit_handler(), pop_exit_handler(), run_exit_handlers()
+
+Deprecated variable: @handlers
+
+=head2 Version 1.00 (dpkg 1.15.6)
+
+Mark the module as public.
+
+=cut
+
 1;

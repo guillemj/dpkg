@@ -15,13 +15,19 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_I18N_H
 #define LIBDPKG_I18N_H
 
 #include <dpkg/macros.h>
+
+#include <gettext.h>
+
+/* We need to include this because pgettext() uses LC_MESSAGES, but libintl.h
+ * which gets pulled by gettext.h only includes it if building optimized. */
+#include <locale.h>
 
 DPKG_BEGIN_DECLS
 
@@ -31,16 +37,12 @@ DPKG_BEGIN_DECLS
  * @{
  */
 
-#include <gettext.h>
-
-/* We need to include this because pgettext() uses LC_MESSAGES, but libintl.h
- * which gets pulled by gettext.h only includes it if building optimized. */
-#include <locale.h>
-
 #define _(str) gettext(str)
 #define P_(str, str_plural, n) ngettext(str, str_plural, n)
 #define N_(str) gettext_noop(str)
 #define C_(ctxt, str) pgettext(ctxt, str)
+
+void dpkg_locales_init(const char *package);
 
 /** @} */
 

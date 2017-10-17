@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * file.c - file handling functions
  *
- * Copyright © 1994, 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994, 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -57,7 +57,7 @@ file_copy_perms(const char *src, const char *dst)
 		ohshite(_("unable to change ownership of target file '%.250s'"),
 		        dst);
 
-	if (chmod(dst, (stab.st_mode & 07777)) == -1)
+	if (chmod(dst, (stab.st_mode & ~S_IFMT)) == -1)
 		ohshite(_("unable to set mode of target file '%.250s'"), dst);
 }
 
@@ -173,5 +173,5 @@ file_show(const char *filename)
 		command_add_arg(&cmd, filename);
 		command_exec(&cmd);
 	}
-	subproc_wait(pid, _("showing file on pager"));
+	subproc_reap(pid, _("showing file on pager"), SUBPROC_NOCHECK);
 }

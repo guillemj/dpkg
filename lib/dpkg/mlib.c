@@ -2,7 +2,8 @@
  * libdpkg - Debian packaging suite library routines
  * mlib.c - ‘must’ library: routines will succeed or longjmp
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2006-2013, 2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -44,23 +45,27 @@ must_alloc(void *ptr)
 
 void *m_malloc(size_t amount) {
 #ifdef MDEBUG
-  unsigned short *r2, x;
+  unsigned short *ptr_canary, canary;
 #endif
-  void *r;
+  void *ptr;
 
-  r = must_alloc(malloc(amount));
+  ptr = must_alloc(malloc(amount));
 
 #ifdef MDEBUG
-  r2= r; x= (unsigned short)amount ^ 0xf000;
-  while (amount >= 2) { *r2++= x; amount -= 2; }
+  ptr_canary = ptr;
+  canary = (unsigned short)amount ^ 0xf000;
+  while (amount >= 2) {
+    *ptr_canary++ = canary;
+    amount -= 2;
+  }
 #endif
-  return r;
+  return ptr;
 }
 
 void *
-m_calloc(size_t size)
+m_calloc(size_t nmemb, size_t size)
 {
-  return must_alloc(calloc(1, size));
+  return must_alloc(calloc(nmemb, size));
 }
 
 void *m_realloc(void *r, size_t amount) {
@@ -80,19 +85,27 @@ m_strndup(const char *str, size_t n)
 }
 
 int
+m_vasprintf(char **strp, const char *fmt, va_list args)
+{
+  int n;
+
+  n = vasprintf(strp, fmt, args);
+  if (n >= 0)
+    return n;
+
+  onerr_abort++;
+  ohshite(_("failed to allocate memory"));
+}
+
+int
 m_asprintf(char **strp, const char *fmt, ...)
 {
   va_list args;
   int n;
 
   va_start(args, fmt);
-  n = vasprintf(strp, fmt, args);
+  n = m_vasprintf(strp, fmt, args);
   va_end(args);
-
-  onerr_abort++;
-  if (n < 0)
-    ohshite(_("failed to allocate memory"));
-  onerr_abort--;
 
   return n;
 }
@@ -126,7 +139,8 @@ setcloexec(int fd, const char *fn)
 {
   int f;
 
-  if ((f=fcntl(fd, F_GETFD))==-1)
+  f = fcntl(fd, F_GETFD);
+  if (f == -1)
     ohshite(_("unable to read filedescriptor flags for %.250s"),fn);
   if (fcntl(fd, F_SETFD, (f|FD_CLOEXEC))==-1)
     ohshite(_("unable to set close-on-exec flag for %.250s"),fn);

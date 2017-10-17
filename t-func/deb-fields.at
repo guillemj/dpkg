@@ -1,0 +1,21 @@
+AT_TESTED([dpkg-deb])
+
+AT_SETUP([dpkg-deb .deb fields])
+AT_KEYWORDS([dpkg-deb deb fields])
+
+DPKG_GEN_CONTROL([pkg-package-type-void])
+AT_CHECK([
+dpkg-deb -b pkg-package-type-void
+# Test absence of Package-Type field.
+test -z "$(dpkg-deb -f pkg-package-type-void.deb Package-Type)"
+], [0], [ignore])
+
+DPKG_GEN_CONTROL([pkg-package-type-use])
+DPKG_MOD_CONTROL([pkg-package-type-use], [/^Package:/aPackage-Type: udeb])
+AT_CHECK([
+dpkg-deb -b pkg-package-type-use
+# Test presence of Package-Type field.
+test -n "$(dpkg-deb -f pkg-package-type-use.deb Package-Type)"
+], [0], [ignore])
+
+AT_CLEANUP

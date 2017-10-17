@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * methlist.cc - list of access methods and options
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -30,6 +30,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 
 #include "dselect.h"
 #include "bindings.h"
@@ -59,11 +60,11 @@ void methodlist::setheights() {
 void methodlist::setwidths() {
   debug(dbg_general, "methodlist[%p]::setwidths()", this);
 
-  status_width= 1;
-  name_width= 14;
-  name_column= status_width + gap_width;
-  description_column= name_column + name_width + gap_width;
-  description_width= total_width - description_column;
+  col_cur_x = 0;
+
+  add_column(col_status, "  ", 1);
+  add_column(col_name, _("Abbrev."), 14);
+  end_column(col_desc, _("Description"));
 }
 
 void methodlist::redrawtitle() {
@@ -78,7 +79,7 @@ void methodlist::redrawthisstate() {
   if (!thisstate_height) return;
   mywerase(thisstatepad);
   wprintw(thisstatepad,
-          _("Access method `%s'."),
+          _("Access method '%s'."),
           table[cursorline]->name);
   pnoutrefresh(thisstatepad, 0,0, thisstate_row,0,
                thisstate_row, min(total_width - 1, xmax - 1));
@@ -92,10 +93,11 @@ void methodlist::redraw1itemsel(int index, int selected) {
   mvwaddch(listpad,index,0,
            table[index] == coption ? '*' : ' ');
   wattrset(listpad, part_attr[selected ? listsel : list]);
-  mvwprintw(listpad,index,name_column-1, " %-*.*s ",
-            name_width, name_width, table[index]->name);
+  draw_column_sep(col_name, index);
+  draw_column_item(col_name, index, table[index]->name);
 
-  i= description_width;
+  draw_column_sep(col_desc, index);
+  i = col_desc.width;
   p= table[index]->summary ? table[index]->summary : "";
   while (i>0 && *p && *p != '\n') {
     waddch(listpad,*p);
@@ -111,9 +113,9 @@ void methodlist::redrawcolheads() {
   if (colheads_height) {
     wattrset(colheadspad, part_attr[colheads]);
     mywerase(colheadspad);
-    mvwaddstr(colheadspad,0,0, "  ");
-    mvwaddnstr(colheadspad,0,name_column, _("Abbrev."), name_width);
-    mvwaddnstr(colheadspad,0,description_column, _("Description"), description_width);
+    draw_column_head(col_status);
+    draw_column_head(col_name);
+    draw_column_head(col_desc);
   }
   refreshcolheads();
 }
@@ -158,11 +160,11 @@ quitaction methodlist::display() {
     if (whatinfo_height) wcursyncup(whatinfowin);
     if (doupdate() == ERR) ohshite(_("doupdate failed"));
     signallist= this;
-    if (sigprocmask(SIG_UNBLOCK,&sigwinchset,0)) ohshite(_("failed to unblock SIGWINCH"));
+    sigwinch_mask(SIG_UNBLOCK);
     do
     response= getch();
     while (response == ERR && errno == EINTR);
-    if (sigprocmask(SIG_BLOCK,&sigwinchset,0)) ohshite(_("failed to re-block SIGWINCH"));
+    sigwinch_mask(SIG_BLOCK);
     if (response == ERR) ohshite(_("getch failed"));
     interp= (*bindings)(response);
     debug(dbg_general, "methodlist[%p]::display() response=%d interp=%s",
@@ -186,10 +188,11 @@ void methodlist::itd_description() {
   waddstr(infopad, table[cursorline]->name);
   waddstr(infopad," - ");
   waddstr(infopad, table[cursorline]->summary);
-  wattrset(infopad, part_attr[info]);
+  wattrset(infopad, part_attr[info_body]);
 
   const char *m= table[cursorline]->description;
-  if (!m || !*m) m= _("No explanation available.");
+  if (str_is_unset(m))
+    m = _("No explanation available.");
   waddstr(infopad,"\n\n");
   wordwrapinfo(0,m);
 }
@@ -203,7 +206,6 @@ void methodlist::redrawinfo() {
 
   itd_description();
 
-  whatinfovb.terminate();
   int y,x;
   getyx(infopad, y,x);
   if (x) y++;

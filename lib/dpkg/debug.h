@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * debug.h - debugging support
  *
- * Copyright © 2011 Guillem Jover <guillem@debian.orgian>
+ * Copyright © 2011 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_DEBUG_H
@@ -54,7 +54,7 @@ enum debugflags {
 	dbg_triggersstupid = 040000,
 };
 
-void debug_set_output(FILE *output);
+void debug_set_output(FILE *output, const char *filename);
 void debug_set_mask(int mask);
 bool debug_has_flag(int flag);
 void debug(int flag, const char *fmt, ...) DPKG_ATTR_PRINTF(2);

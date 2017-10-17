@@ -1,7 +1,7 @@
 /*
  * libcompat - system compatibility library
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -22,10 +22,11 @@
 #include <string.h>
 #include <dirent.h>
 
+#include "compat.h"
+
 int
 alphasort(const void *a, const void *b)
 {
 	return strcmp((*(const struct dirent **)a)->d_name,
 	              (*(const struct dirent **)b)->d_name);
-
 }

@@ -127,7 +127,7 @@ extern "C" {
 
 #define __BPTR_ALIGN(B, P, A) ((B) + (((P) - (B) + (A)) & ~(A)))
 
-/* Similiar to _BPTR_ALIGN (B, P, A), except optimize the common case
+/* Similar to _BPTR_ALIGN (B, P, A), except optimize the common case
    where pointers can be converted to integers, aligned as integers,
    and converted back again.  If PTR_INT_TYPE is narrower than a
    pointer (e.g., the AS/400), play it safe and compute the alignment
@@ -196,7 +196,7 @@ extern void __obstack_free (struct obstack *obstack, void *block);
 
 /* Error handler called when `obstack_chunk_alloc' failed to allocate
    more memory.  This can be set to a user defined function which
-   should either abort gracefully or use longjump - but shouldn't
+   should either abort gracefully or use longjmp - but shouldn't
    return.  The default action is to print a message and abort.  */
 extern void (*obstack_alloc_failed_handler) (void);
 

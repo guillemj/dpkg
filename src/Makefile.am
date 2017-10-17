@@ -10,13 +10,13 @@ AM_CPPFLAGS = \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
 LDADD = \
-	../lib/dpkg/libdpkg.a \
-	../lib/compat/libcompat.a \
+	../lib/dpkg/libdpkg.la \
 	$(LIBINTL)
 
 
 EXTRA_DIST = \
-	$(test_cases)
+	$(test_scripts) \
+	$(nil)
 
 bin_PROGRAMS = \
 	dpkg \
@@ -48,12 +48,15 @@ dpkg_SOURCES = \
 	help.c \
 	main.c main.h \
 	packages.c \
-	processarc.c \
 	remove.c \
 	script.c \
 	select.c \
+	selinux.c \
 	trigproc.c \
-	update.c
+	unpack.c \
+	update.c \
+	verify.c \
+	$(nil)
 
 dpkg_LDADD = \
 	$(LDADD) \
@@ -75,8 +78,13 @@ dpkg_query_SOURCES = \
 dpkg_statoverride_SOURCES = \
 	filesdb.c \
 	infodb-format.c \
+	selinux.c \
 	statdb.c \
 	statcmd.c
+
+dpkg_statoverride_LDADD = \
+	$(LDADD) \
+	$(SELINUX_LIBS)
 
 dpkg_trigger_SOURCES = \
 	trigcmd.c
@@ -86,13 +94,11 @@ install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(admindir)/info
 	$(MKDIR_P) $(DESTDIR)$(admindir)/updates
 
-TEST_VERBOSE = 0
-
 test_tmpdir = t.tmp
 
-test_cases = \
-	t/100_dpkg_divert.t
+test_scripts = \
+	t/dpkg_divert.t
 
-include $(top_srcdir)/Makecheck.am
+include $(top_srcdir)/check.am
 
 clean-local: check-clean

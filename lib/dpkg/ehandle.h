@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * ehandle.h - error handling
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wichert@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_EHANDLE_H
@@ -44,16 +44,18 @@ enum {
 	ehflag_recursiveerror	= DPKG_BIT(2),
 };
 
-typedef void error_handler(void);
-typedef void error_printer(const char *emsg, const char *contextstring);
+typedef void error_handler_func(void);
+typedef void error_printer_func(const char *emsg, const void *data);
 
-void print_fatal_error(const char *emsg, const char *contextstring);
+void print_fatal_error(const char *emsg, const void *data);
 void catch_fatal_error(void);
 
-void push_error_context_jump(jmp_buf *jbufp, error_printer *printerror,
-                             const char *contextstring);
-void push_error_context_func(error_handler *func, error_printer *printerror,
-                             const char *contextstring);
+void push_error_context_jump(jmp_buf *jumper,
+                             error_printer_func *printer,
+                             const void *printer_data);
+void push_error_context_func(error_handler_func *handler,
+                             error_printer_func *printer,
+                             const void *printer_data);
 void push_error_context(void);
 void pop_error_context(int flagset);
 

@@ -20,7 +20,7 @@
 # include <config.h>
 #endif
 
-#include "strnlen.h"
+#include "compat.h"
 
 /* Find the length of STRING, but scan at most MAXLEN characters.
    If no '\0' terminator is found in that many characters, return MAXLEN.  */

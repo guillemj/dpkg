@@ -3,7 +3,8 @@
  * triglib.h - declarations for trigger handling
  *
  * Copyright © 2007 Canonical, Ltd.
- *   written by Ian Jackson <ian@chiark.greenend.org.uk>
+ *   written by Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +17,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_TRIGLIB_H
@@ -45,8 +46,8 @@ DPKG_BEGIN_DECLS
 const char *trig_name_is_illegal(const char *p);
 
 enum trig_options {
-	trig_await,
-	trig_noawait
+	TRIG_AWAIT,
+	TRIG_NOAWAIT,
 };
 
 struct trigfileint {

@@ -3,7 +3,7 @@
  *
  * Copyright © 1995 Ian Jackson
  * Copyright © 2000, 2001 Wichert Akkerman
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -18,7 +18,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -67,7 +67,7 @@ static void
 printversion(const struct cmdinfo *cip, const char *value)
 {
 	printf(_("Debian %s version %s.\n"), dpkg_get_progname(),
-	       DPKG_VERSION_ARCH);
+	       PACKAGE_RELEASE);
 
 	printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -121,9 +121,9 @@ usage(const struct cmdinfo *cip, const char *value)
 struct file {
 	const char *name;
 	enum {
-		file_stat_invalid,
-		file_stat_valid,
-		file_stat_nofile,
+		FILE_STAT_INVALID,
+		FILE_STAT_VALID,
+		FILE_STAT_NOFILE,
 	} stat_state;
 	struct stat stat;
 };
@@ -132,7 +132,7 @@ static void
 file_init(struct file *f, const char *filename)
 {
 	f->name = filename;
-	f->stat_state = file_stat_invalid;
+	f->stat_state = FILE_STAT_INVALID;
 }
 
 static void
@@ -140,7 +140,7 @@ file_stat(struct file *f)
 {
 	int ret;
 
-	if (f->stat_state != file_stat_invalid)
+	if (f->stat_state != FILE_STAT_INVALID)
 		return;
 
 	ret = lstat(f->name, &f->stat);
@@ -148,9 +148,9 @@ file_stat(struct file *f)
 		ohshite(_("cannot stat file '%s'"), f->name);
 
 	if (ret == 0)
-		f->stat_state = file_stat_valid;
+		f->stat_state = FILE_STAT_VALID;
 	else
-		f->stat_state = file_stat_nofile;
+		f->stat_state = FILE_STAT_NOFILE;
 }
 
 static void
@@ -159,13 +159,13 @@ check_writable_dir(struct file *f)
 	char *tmpname;
 	int tmpfd;
 
-	m_asprintf(&tmpname, "%s%s", f->name, ".dpkg-divert.tmp");
+	tmpname = str_fmt("%s%s", f->name, ".dpkg-divert.tmp");
 
 	tmpfd = creat(tmpname, 0600);
 	if (tmpfd < 0)
 		ohshite(_("error checking '%s'"), f->name);
 	close(tmpfd);
-	unlink(tmpname);
+	(void)unlink(tmpname);
 
 	free(tmpname);
 }
@@ -177,7 +177,7 @@ check_rename(struct file *src, struct file *dst)
 
 	/* If the source file is not present and we are not going to do
 	 * the rename anyway there's no point in checking any further. */
-	if (src->stat_state == file_stat_nofile)
+	if (src->stat_state == FILE_STAT_NOFILE)
 		return false;
 
 	file_stat(dst);
@@ -187,67 +187,69 @@ check_rename(struct file *src, struct file *dst)
 	 * just having +w is not enough, since people do mount things RO,
 	 * and we need to fail before we start mucking around with things.
 	 * So we open a file with the same name as the diversions but with
-	 * an extension that (hopefully) wont overwrite anything. If it
+	 * an extension that (hopefully) won't overwrite anything. If it
 	 * succeeds, we assume a writable filesystem.
 	 */
 
 	check_writable_dir(src);
 	check_writable_dir(dst);
 
-	if (src->stat_state == file_stat_valid &&
-	    dst->stat_state == file_stat_valid &&
+	if (src->stat_state == FILE_STAT_VALID &&
+	    dst->stat_state == FILE_STAT_VALID &&
 	    !(src->stat.st_dev == dst->stat.st_dev &&
 	      src->stat.st_ino == dst->stat.st_ino))
-		ohshit(_("rename involves overwriting `%s' with\n"
-		         "  different file `%s', not allowed"),
+		ohshit(_("rename involves overwriting '%s' with\n"
+		         "  different file '%s', not allowed"),
 		        dst->name, src->name);
 
 	return true;
 }
 
 static void
-file_copy(const char *src, const char *realdst)
+file_copy(const char *src, const char *dst)
 {
 	struct dpkg_error err;
-	char *dst;
+	char *tmp;
 	int srcfd, dstfd;
 
 	srcfd = open(src, O_RDONLY);
 	if (srcfd < 0)
 		ohshite(_("unable to open file '%s'"), src);
 
-	m_asprintf(&dst, "%s%s", realdst, ".dpkg-divert.tmp");
-	dstfd = creat(dst, 0600);
+	tmp = str_fmt("%s%s", dst, ".dpkg-divert.tmp");
+	dstfd = creat(tmp, 0600);
 	if (dstfd < 0)
-		ohshite(_("unable to create file '%s'"), dst);
+		ohshite(_("unable to create file '%s'"), tmp);
 
-	/* FIXME: leaves a dangling destination file on error. */
+	push_cleanup(cu_filename, ~ehflag_normaltidy, NULL, 0, 1, tmp);
 
 	if (fd_fd_copy(srcfd, dstfd, -1, &err) < 0)
-		ohshit(_("cannot copy '%s' to '%s': %s"), src, dst, err.str);
+		ohshit(_("cannot copy '%s' to '%s': %s"), src, tmp, err.str);
 
 	close(srcfd);
 
 	if (fsync(dstfd))
-		ohshite(_("unable to sync file '%s'"), dst);
+		ohshite(_("unable to sync file '%s'"), tmp);
 	if (close(dstfd))
-		ohshite(_("unable to close file '%s'"), dst);
+		ohshite(_("unable to close file '%s'"), tmp);
 
-	file_copy_perms(src, dst);
+	file_copy_perms(src, tmp);
 
-	if (rename(dst, realdst) != 0)
-		ohshite(_("cannot rename '%s' to '%s'"), dst, realdst);
+	if (rename(tmp, dst) != 0)
+		ohshite(_("cannot rename '%s' to '%s'"), tmp, dst);
 
-	free(dst);
+	free(tmp);
+
+	pop_cleanup(ehflag_normaltidy);
 }
 
 static void
 file_rename(struct file *src, struct file *dst)
 {
-	if (src->stat_state == file_stat_nofile)
+	if (src->stat_state == FILE_STAT_NOFILE)
 		return;
 
-	if (dst->stat_state == file_stat_valid) {
+	if (dst->stat_state == FILE_STAT_VALID) {
 		if (unlink(src->name))
 			ohshite(_("rename: remove duplicate old link '%s'"),
 			        src->name);
@@ -359,7 +361,7 @@ divertdb_write(void)
 
 	dbname = dpkg_db_get_path(DIVERSIONSFILE);
 
-	file = atomic_file_new(dbname, aff_backup);
+	file = atomic_file_new(dbname, ATOMIC_FILE_BACKUP);
 	atomic_file_open(file);
 
 	iter = files_db_iter_new();
@@ -429,19 +431,15 @@ diversion_add(const char *const *argv)
 	file_init(&file_from, filename);
 	file_stat(&file_from);
 
-	if (file_from.stat_state == file_stat_valid &&
+	if (file_from.stat_state == FILE_STAT_VALID &&
 	    S_ISDIR(file_from.stat.st_mode))
-		badusage(_("Cannot divert directories"));
+		badusage(_("cannot divert directories"));
 
 	fnn_from = findnamenode(filename, 0);
 
 	/* Handle divertto. */
-	if (opt_divertto == NULL) {
-		char *str;
-
-		m_asprintf(&str, "%s.distrib", filename);
-		opt_divertto = str;
-	}
+	if (opt_divertto == NULL)
+		opt_divertto = str_fmt("%s.distrib", filename);
 
 	if (strcmp(filename, opt_divertto) == 0)
 		badusage(_("cannot divert file '%s' to itself"), filename);
@@ -466,10 +464,10 @@ diversion_add(const char *const *argv)
 			if (opt_verbose > 0)
 				printf(_("Leaving '%s'\n"),
 				       diversion_describe(fnn_from->divert));
-			exit(0);
+			return 0;
 		}
 
-		ohshit(_("`%s' clashes with `%s'"),
+		ohshit(_("'%s' clashes with '%s'"),
 		       diversion_current(filename),
 		       fnn_from->divert ?
 		       diversion_describe(fnn_from->divert) :
@@ -526,7 +524,7 @@ diversion_is_shared(struct pkgset *set, struct filenamenode *namenode)
 
 	archname = getenv("DPKG_MAINTSCRIPT_ARCH");
 	arch = dpkg_arch_find(archname);
-	if (arch->type == arch_none || arch->type == arch_empty)
+	if (arch->type == DPKG_ARCH_NONE || arch->type == DPKG_ARCH_EMPTY)
 		return false;
 
 	for (pkg = &set->pkg; pkg; pkg = pkg->arch_next)
@@ -579,15 +577,15 @@ diversion_remove(const char *const *argv)
 	if (opt_divertto != NULL &&
 	    strcmp(opt_divertto, contest->useinstead->name) != 0)
 		ohshit(_("mismatch on divert-to\n"
-		         "  when removing `%s'\n"
-		         "  found `%s'"),
+		         "  when removing '%s'\n"
+		         "  found '%s'"),
 		       diversion_current(filename),
 		       diversion_describe(contest));
 
 	if (!opt_pkgname_match_any && pkgset != contest->pkgset)
 		ohshit(_("mismatch on package\n"
-		         "  when removing `%s'\n"
-		         "  found `%s'"),
+		         "  when removing '%s'\n"
+		         "  found '%s'"),
 		       diversion_current(filename),
 		       diversion_describe(contest));
 
@@ -597,7 +595,7 @@ diversion_remove(const char *const *argv)
 		if (opt_verbose > 0)
 			printf(_("Ignoring request to remove shared diversion '%s'.\n"),
 			       diversion_describe(contest));
-		exit(0);
+		return 0;
 	}
 
 	if (opt_verbose > 0)
@@ -715,7 +713,7 @@ diversion_listpackage(const char *const *argv)
 }
 
 static void
-setpackage(const struct cmdinfo *cip, const char *value)
+set_package(const struct cmdinfo *cip, const char *value)
 {
 	opt_pkgname_match_any = false;
 
@@ -727,7 +725,7 @@ setpackage(const struct cmdinfo *cip, const char *value)
 }
 
 static void
-setdivertto(const struct cmdinfo *cip, const char *value)
+set_divertto(const struct cmdinfo *cip, const char *value)
 {
 	opt_divertto = value;
 
@@ -748,9 +746,9 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("truename",    0, 0, diversion_truename),
 
 	{ "admindir",   0,   1,  NULL,         &admindir, NULL          },
-	{ "divert",     0,   1,  NULL,         NULL,      setdivertto   },
-	{ "package",    0,   1,  NULL,         NULL,      setpackage    },
-	{ "local",      0,   0,  NULL,         NULL,      setpackage    },
+	{ "divert",     0,   1,  NULL,         NULL,      set_divertto  },
+	{ "package",    0,   1,  NULL,         NULL,      set_package   },
+	{ "local",      0,   0,  NULL,         NULL,      set_package   },
 	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL, 0       },
 	{ "rename",     0,   0,  &opt_rename,  NULL,      NULL, 1       },
 	{ "test",       0,   0,  &opt_test,    NULL,      NULL, 1       },
@@ -765,24 +763,18 @@ main(int argc, const char * const *argv)
 	const char *env_pkgname;
 	int ret;
 
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE, LOCALEDIR);
-	textdomain(PACKAGE);
-
-	dpkg_set_progname("dpkg-divert");
-	standard_startup();
-	myopt(&argv, cmdinfos, printforhelp);
+	dpkg_locales_init(PACKAGE);
+	dpkg_program_init("dpkg-divert");
+	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
 
 	env_pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 	if (opt_pkgname_match_any && env_pkgname)
-		setpackage(NULL, env_pkgname);
+		set_package(NULL, env_pkgname);
 
 	if (!cipaction)
 		setaction(&cmdinfo_add, NULL);
-
-	setvbuf(stdout, NULL, _IONBF, 0);
 
 	modstatdb_open(msdbrw_readonly);
 	filesdbinit();
@@ -791,7 +783,8 @@ main(int argc, const char * const *argv)
 	ret = cipaction->action(argv);
 
 	modstatdb_shutdown();
-	standard_shutdown();
+
+	dpkg_program_done();
 
 	return ret;
 }

@@ -247,7 +247,7 @@ packages' names change.
 Explicit trigger names form part of the interface between packages.
 Therefore in case of wider use of any trigger the name and purpose
 should be discussed in the usual way and documented in the appropriate
-packaging guidelines (eg, in policy).
+packaging guidelines (eg, in the distribution policy).
 
 
 File triggers
@@ -261,8 +261,8 @@ dpkg during package unpack or removal.  The pathname must be absolute.
 
 File triggers should not generally be used without mutual consent.
 The use of a file trigger, and the name of the trigger used, should be
-stated in policy, so that a package which creates a relevant file in a
-maintainer script can activate the trigger explicitly.
+stated in the distribution policy, so that a package which creates a
+relevant file in a maintainer script can activate the trigger explicitly.
 
 File triggers must definitely not be used as an escalation tool in
 disagreements between different packages as to the desired contents of
@@ -462,7 +462,8 @@ scrollkeeper, goes like this:
      - Make the postinst modifications as described above.
      - Rename scrollkeeper-update to scrollkeeper-update-now
      - Provide a new wrapper script as scrollkeeper-update:
-	   #!/bin/sh -e
+	   #!/bin/sh
+	   set -e
 	   if type dpkg-trigger >/dev/null 2>&1 && \
 	      dpkg-trigger /usr/share/omf; then
 		 exit 0
@@ -482,7 +483,7 @@ scrollkeeper, goes like this:
          care need be taken in packages which supply OMFs.
 
          If an OMF file is placed, modified or removed other than as
-         an file installed in the ordinary way by dpkg, the dpkg file
+         a file installed in the ordinary way by dpkg, the dpkg file
          trigger «/usr/share/omf» should be activated; see the dpkg
          triggers specification for details.
 

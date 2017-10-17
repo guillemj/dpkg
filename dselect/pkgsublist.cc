@@ -2,7 +2,8 @@
  * dselect - Debian package maintenance user interface
  * pkgsublist.cc - status modification and recursive package list handling
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2007-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -53,7 +54,9 @@ void packagelist::add(pkginfo *pkg) {
   nitems++;
 }
 
-void packagelist::add(pkginfo *pkg, pkginfo::pkgwant nw) {
+void
+packagelist::add(pkginfo *pkg, pkgwant nw)
+{
   debug(dbg_general, "packagelist[%p]::add(pkginfo %s, %s)",
         this, pkg_name(pkg, pnaw_always), wantstrings[nw]);
   add(pkg);  if (!pkg->clientdata) return;
@@ -73,7 +76,6 @@ void packagelist::add(pkginfo *pkg, const char *extrainfo, showpriority showimp)
   add(pkg);  if (!pkg->clientdata) return;
   if (pkg->clientdata->dpriority < showimp) pkg->clientdata->dpriority= showimp;
   pkg->clientdata->relations(extrainfo);
-  pkg->clientdata->relations.terminate();
 }
 
 bool
@@ -117,54 +119,54 @@ packagelist::add(dependency *depends, showpriority displayimportance)
     return false;
 
   const char *comma= "";
-  varbuf info;
-  info(depends->up->set->name);
-  info(' ');
-  info(gettext(relatestrings[depends->type]));
-  info(' ');
+  varbuf depinfo;
+  depinfo(depends->up->set->name);
+  depinfo(' ');
+  depinfo(gettext(relatestrings[depends->type]));
+  depinfo(' ');
   deppossi *possi;
   for (possi=depends->list;
        possi;
        possi=possi->next, comma=(possi && possi->next ? ", " : _(" or "))) {
-    info(comma);
-    info(possi->ed->name);
-    if (possi->verrel != dpkg_relation_none) {
+    depinfo(comma);
+    depinfo(possi->ed->name);
+    if (possi->verrel != DPKG_RELATION_NONE) {
       switch (possi->verrel) {
-      case dpkg_relation_le:
-        info(" (<= ");
+      case DPKG_RELATION_LE:
+        depinfo(" (<= ");
         break;
-      case dpkg_relation_ge:
-        info(" (>= ");
+      case DPKG_RELATION_GE:
+        depinfo(" (>= ");
         break;
-      case dpkg_relation_lt:
-        info(" (<< ");
+      case DPKG_RELATION_LT:
+        depinfo(" (<< ");
         break;
-      case dpkg_relation_gt:
-        info(" (>> ");
+      case DPKG_RELATION_GT:
+        depinfo(" (>> ");
         break;
-      case dpkg_relation_eq:
-        info(" (= ");
+      case DPKG_RELATION_EQ:
+        depinfo(" (= ");
         break;
       default:
         internerr("unknown dpkg_relation %d", possi->verrel);
       }
-      info(versiondescribe(&possi->version, vdew_nonambig));
-      info(")");
+      depinfo(versiondescribe(&possi->version, vdew_nonambig));
+      depinfo(")");
     }
   }
-  info('\n');
-  add(depends->up,info.string(),displayimportance);
+  depinfo('\n');
+  add(depends->up, depinfo.string(), displayimportance);
   for (possi=depends->list; possi; possi=possi->next) {
-    add(&possi->ed->pkg, info.string(), displayimportance);
-    if (possi->verrel == dpkg_relation_none && depends->type != dep_provides) {
-      // providers aren't relevant if a version was specified, or
-      // if we're looking at a provider relationship already
+    add(&possi->ed->pkg, depinfo.string(), displayimportance);
+    if (depends->type != dep_provides) {
+      /* Providers are not relevant if we are looking at a provider
+       * relationship already. */
       deppossi *provider;
       for (provider = possi->ed->depended.available;
            provider;
            provider = provider->rev_next) {
         if (provider->up->type != dep_provides) continue;
-        add(provider->up->up,info.string(),displayimportance);
+        add(provider->up->up, depinfo.string(), displayimportance);
         add(provider->up,displayimportance);
       }
     }
@@ -183,7 +185,8 @@ void repeatedlydisplay(packagelist *sub,
     debug(dbg_general, "repeatedlydisplay(packagelist[%p]) once", sub);
     if (unredisplay) unredisplay->enddisplay();
     for (;;) {
-      manual_install = 0; /* Remove flag now that resolvesuggest has seen it. */
+      /* Reset manual_install flag now that resolvesuggest() has seen it. */
+      manual_install = false;
       newl= sub->display();
       if (!newl) break;
       debug(dbg_general, "repeatedlydisplay(packagelist[%p]) newl", sub);

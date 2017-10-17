@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * deb-version.h - deb format version handling routines
  *
- * Copyright © 2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2012-2013 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_DEB_VERSION_H
@@ -25,12 +25,35 @@
 
 DPKG_BEGIN_DECLS
 
+/**
+ * @defgroup deb-version .deb format version handling
+ * @ingroup dpkg-public
+ * @{
+ */
+
+/**
+ * Data structure representing a .deb format version.
+ */
 struct deb_version {
 	int major;
 	int minor;
 };
 
+/**
+ * Constant initializer for a deb_version.
+ */
+#define DEB_VERSION(X, Y) \
+	{ .major = (X), .minor = (Y) }
+
+/**
+ * Compound literal for a deb_version.
+ */
+#define DEB_VERSION_OBJECT(X, Y) \
+	(struct deb_version)DEB_VERSION(X, Y)
+
 const char *deb_version_parse(struct deb_version *version, const char *str);
+
+/** @} */
 
 DPKG_END_DECLS
 

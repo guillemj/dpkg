@@ -2,7 +2,8 @@
  * libdpkg - Debian packaging suite library routines
  * version.c - version handling functions
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +16,13 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
 #include <compat.h>
 
-#include <dpkg/dpkg.h> /* cis* */
+#include <dpkg/c-ctype.h>
 #include <dpkg/ehandle.h>
 #include <dpkg/string.h>
 #include <dpkg/version.h>
@@ -65,9 +66,9 @@ dpkg_version_is_informative(const struct dpkg_version *version)
 static int
 order(int c)
 {
-	if (cisdigit(c))
+	if (c_isdigit(c))
 		return 0;
-	else if (cisalpha(c))
+	else if (c_isalpha(c))
 		return c;
 	else if (c == '~')
 		return -1;
@@ -88,7 +89,7 @@ verrevcmp(const char *a, const char *b)
 	while (*a || *b) {
 		int first_diff = 0;
 
-		while ((*a && !cisdigit(*a)) || (*b && !cisdigit(*b))) {
+		while ((*a && !c_isdigit(*a)) || (*b && !c_isdigit(*b))) {
 			int ac = order(*a);
 			int bc = order(*b);
 
@@ -102,16 +103,16 @@ verrevcmp(const char *a, const char *b)
 			a++;
 		while (*b == '0')
 			b++;
-		while (cisdigit(*a) && cisdigit(*b)) {
+		while (c_isdigit(*a) && c_isdigit(*b)) {
 			if (!first_diff)
 				first_diff = *a - *b;
 			a++;
 			b++;
 		}
 
-		if (cisdigit(*a))
+		if (c_isdigit(*a))
 			return 1;
-		if (cisdigit(*b))
+		if (c_isdigit(*b))
 			return -1;
 		if (first_diff)
 			return first_diff;
@@ -139,16 +140,16 @@ int
 dpkg_version_compare(const struct dpkg_version *a,
                      const struct dpkg_version *b)
 {
-	int r;
+	int rc;
 
 	if (a->epoch > b->epoch)
 		return 1;
 	if (a->epoch < b->epoch)
 		return -1;
 
-	r = verrevcmp(a->version, b->version);
-	if (r)
-		return r;
+	rc = verrevcmp(a->version, b->version);
+	if (rc)
+		return rc;
 
 	return verrevcmp(a->revision, b->revision);
 }
@@ -161,7 +162,7 @@ dpkg_version_compare(const struct dpkg_version *a,
  * @param b The second version.
  *
  * @retval true If the expression “a rel b” is true.
- * @retval true If rel is #dpkg_relation_none.
+ * @retval true If rel is #DPKG_RELATION_NONE.
  * @retval false Otherwise.
  *
  * @warning If rel is not a valid relation, this function will terminate
@@ -172,24 +173,24 @@ dpkg_version_relate(const struct dpkg_version *a,
                     enum dpkg_relation rel,
                     const struct dpkg_version *b)
 {
-	int r;
+	int rc;
 
-	if (rel == dpkg_relation_none)
+	if (rel == DPKG_RELATION_NONE)
 		return true;
 
-	r = dpkg_version_compare(a, b);
+	rc = dpkg_version_compare(a, b);
 
 	switch (rel) {
-	case dpkg_relation_eq:
-		return r == 0;
-	case dpkg_relation_lt:
-		return r < 0;
-	case dpkg_relation_le:
-		return r <= 0;
-	case dpkg_relation_gt:
-		return r > 0;
-	case dpkg_relation_ge:
-		return r >= 0;
+	case DPKG_RELATION_EQ:
+		return rc == 0;
+	case DPKG_RELATION_LT:
+		return rc < 0;
+	case DPKG_RELATION_LE:
+		return rc <= 0;
+	case DPKG_RELATION_GT:
+		return rc > 0;
+	case DPKG_RELATION_GE:
+		return rc >= 0;
 	default:
 		internerr("unknown dpkg_relation %d", rel);
 	}

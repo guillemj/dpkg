@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * cleanup.c - cleanup functions, used when we need to unwind
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -58,4 +58,12 @@ cu_closefd(int argc, void **argv)
 	int ip = *(int *)argv[0];
 
 	close(ip);
+}
+
+void
+cu_filename(int argc, void **argv)
+{
+	const char *filename = argv[0];
+
+	(void)unlink(filename);
 }

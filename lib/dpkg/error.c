@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * error.c - error message reporting
  *
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 2011-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +15,14 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
 #include <compat.h>
 
 #include <errno.h>
+#include <string.h>
 #include <stdlib.h>
 
 #include <dpkg/dpkg.h>
@@ -71,17 +72,34 @@ dpkg_put_errno(struct dpkg_error *err, const char *fmt, ...)
 {
 	va_list args;
 	char *new_fmt;
-	int errno_saved = errno;
+
+	new_fmt = str_fmt("%s (%s)", fmt, strerror(errno));
 
 	va_start(args, fmt);
-	m_asprintf(&new_fmt, "%s (%s)", fmt, strerror(errno_saved));
-	va_end(args);
-
 	dpkg_error_set(err, DPKG_MSG_ERROR, new_fmt, args);
+	va_end(args);
 
 	free(new_fmt);
 
 	return -1;
+}
+
+void
+dpkg_error_print(struct dpkg_error *err, const char *fmt, ...)
+{
+	va_list args;
+	char *str;
+
+	va_start(args, fmt);
+	m_vasprintf(&str, fmt, args);
+	va_end(args);
+
+	if (err->type == DPKG_MSG_WARN)
+		warning("%s: %s", str, err->str);
+	else
+		ohshit("%s: %s", str, err->str);
+
+	free(str);
 }
 
 void

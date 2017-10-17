@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * command.h - command execution support
  *
- * Copyright © 2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2010, 2012, 2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_COMMAND_H
@@ -55,7 +55,7 @@ void command_add_args(struct command *cmd, ...) DPKG_ATTR_SENTINEL;
 void command_exec(struct command *cmd) DPKG_ATTR_NORET;
 
 const char *command_get_pager(void);
-void command_shell(const char *cmd, const char *name);
+void command_shell(const char *cmd, const char *name) DPKG_ATTR_NORET;
 
 /** @} */
 

@@ -11,120 +11,127 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package Dpkg::Source::Archive;
 
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
 
-use Dpkg::Source::Functions qw(erasedir fixperms);
-use Dpkg::Gettext;
-use Dpkg::IPC;
-use Dpkg::ErrorHandling;
-
-use POSIX;
+use Carp;
 use File::Temp qw(tempdir);
 use File::Basename qw(basename);
 use File::Spec;
 use Cwd;
 
-use base 'Dpkg::Compression::FileHandle';
+use Dpkg ();
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling;
+use Dpkg::IPC;
+use Dpkg::Source::Functions qw(erasedir fixperms);
+
+use parent qw(Dpkg::Compression::FileHandle);
 
 sub create {
     my ($self, %opts) = @_;
-    $opts{"options"} ||= [];
+    $opts{options} //= [];
     my %spawn_opts;
     # Possibly run tar from another directory
-    if ($opts{"chdir"}) {
-        $spawn_opts{"chdir"} = $opts{"chdir"};
-        *$self->{"chdir"} = $opts{"chdir"};
+    if ($opts{chdir}) {
+        $spawn_opts{chdir} = $opts{chdir};
+        *$self->{chdir} = $opts{chdir};
     }
     # Redirect input/output appropriately
-    $self->ensure_open("w");
-    $spawn_opts{"to_handle"} = $self->get_filehandle();
-    $spawn_opts{"from_pipe"} = \*$self->{'tar_input'};
+    $self->ensure_open('w');
+    $spawn_opts{to_handle} = $self->get_filehandle();
+    $spawn_opts{from_pipe} = \*$self->{tar_input};
+    # Try to use a deterministic mtime.
+    my $mtime = $opts{source_date} // $ENV{SOURCE_DATE_EPOCH} || time;
     # Call tar creation process
-    $spawn_opts{"delete_env"} = [ "TAR_OPTIONS" ];
-    $spawn_opts{'exec'} = [ 'tar', '--null', '-T', '-', '--numeric-owner',
-                            '--owner', '0', '--group', '0',
-                            @{$opts{"options"}}, '-cf', '-' ];
-    *$self->{"pid"} = spawn(%spawn_opts);
-    *$self->{"cwd"} = getcwd();
+    $spawn_opts{delete_env} = [ 'TAR_OPTIONS' ];
+    $spawn_opts{exec} = [ $Dpkg::PROGTAR, '-cf', '-', '--format=gnu', '--sort=name',
+                          '--mtime', "\@$mtime", '--clamp-mtime', '--null',
+                          '--numeric-owner', '--owner=0', '--group=0',
+                          @{$opts{options}}, '-T', '-' ];
+    *$self->{pid} = spawn(%spawn_opts);
+    *$self->{cwd} = getcwd();
 }
 
 sub _add_entry {
     my ($self, $file) = @_;
-    my $cwd = *$self->{'cwd'};
-    internerr("call create() first") unless *$self->{"tar_input"};
+    my $cwd = *$self->{cwd};
+    croak 'call create() first' unless *$self->{tar_input};
     $file = $2 if ($file =~ /^\Q$cwd\E\/(.+)$/); # Relative names
-    print({ *$self->{'tar_input'} } "$file\0") ||
-	    syserr(_g("write on tar input"));
+    print({ *$self->{tar_input} } "$file\0")
+        or syserr(g_('write on tar input'));
 }
 
 sub add_file {
     my ($self, $file) = @_;
     my $testfile = $file;
-    if (*$self->{"chdir"}) {
-        $testfile = File::Spec->catfile(*$self->{"chdir"}, $file);
+    if (*$self->{chdir}) {
+        $testfile = File::Spec->catfile(*$self->{chdir}, $file);
     }
-    internerr("add_file() doesn't handle directories") if not -l $testfile and -d _;
+    croak 'add_file() does not handle directories'
+        if not -l $testfile and -d _;
     $self->_add_entry($file);
 }
 
 sub add_directory {
     my ($self, $file) = @_;
     my $testfile = $file;
-    if (*$self->{"chdir"}) {
-        $testfile = File::Spec->catdir(*$self->{"chdir"}, $file);
+    if (*$self->{chdir}) {
+        $testfile = File::Spec->catdir(*$self->{chdir}, $file);
     }
-    internerr("add_directory() only handles directories") unless not -l $testfile and -d _;
+    croak 'add_directory() only handles directories'
+        if -l $testfile or not -d _;
     $self->_add_entry($file);
 }
 
 sub finish {
-    my ($self) = @_;
-    close(*$self->{'tar_input'}) or syserr(_g("close on tar input"));
-    wait_child(*$self->{'pid'}, cmdline => 'tar -cf -');
-    delete *$self->{'pid'};
-    delete *$self->{'tar_input'};
-    delete *$self->{'cwd'};
-    delete *$self->{'chdir'};
+    my $self = shift;
+
+    close(*$self->{tar_input}) or syserr(g_('close on tar input'));
+    wait_child(*$self->{pid}, cmdline => 'tar -cf -');
+    delete *$self->{pid};
+    delete *$self->{tar_input};
+    delete *$self->{cwd};
+    delete *$self->{chdir};
     $self->close();
 }
 
 sub extract {
     my ($self, $dest, %opts) = @_;
-    $opts{"options"} ||= [];
-    $opts{"in_place"} ||= 0;
-    $opts{"no_fixperms"} ||= 0;
+    $opts{options} //= [];
+    $opts{in_place} //= 0;
+    $opts{no_fixperms} //= 0;
     my %spawn_opts = (wait_child => 1);
 
     # Prepare destination
     my $tmp;
-    if ($opts{"in_place"}) {
-        $spawn_opts{"chdir"} = $dest;
+    if ($opts{in_place}) {
+        $spawn_opts{chdir} = $dest;
         $tmp = $dest; # So that fixperms call works
     } else {
-        my $template = basename($self->get_filename()) .  ".tmp-extract.XXXXX";
+        my $template = basename($self->get_filename()) .  '.tmp-extract.XXXXX';
         unless (-e $dest) {
             # Kludge so that realpath works
-            mkdir($dest) || syserr(_g("cannot create directory %s"), $dest);
+            mkdir($dest) or syserr(g_('cannot create directory %s'), $dest);
         }
         $tmp = tempdir($template, DIR => Cwd::realpath("$dest/.."), CLEANUP => 1);
-        $spawn_opts{"chdir"} = $tmp;
+        $spawn_opts{chdir} = $tmp;
     }
 
     # Prepare stuff that handles the input of tar
-    $self->ensure_open("r");
-    $spawn_opts{"from_handle"} = $self->get_filehandle();
+    $self->ensure_open('r', delete_sig => [ 'PIPE' ]);
+    $spawn_opts{from_handle} = $self->get_filehandle();
 
     # Call tar extraction process
-    $spawn_opts{"delete_env"} = [ "TAR_OPTIONS" ];
-    $spawn_opts{'exec'} = [ 'tar', '--no-same-owner', '--no-same-permissions',
-                            @{$opts{"options"}}, '-xf', '-' ];
+    $spawn_opts{delete_env} = [ 'TAR_OPTIONS' ];
+    $spawn_opts{exec} = [ $Dpkg::PROGTAR, '-xf', '-', '--no-same-permissions',
+                          '--no-same-owner', @{$opts{options}} ];
     spawn(%spawn_opts);
     $self->close();
 
@@ -136,24 +143,24 @@ sub extract {
     # extracted); we need --no-same-owner because putting the owner
     # back is tedious - in particular, correct group ownership would
     # have to be calculated using mount options and other madness.
-    fixperms($tmp) unless $opts{"no_fixperms"};
+    fixperms($tmp) unless $opts{no_fixperms};
 
     # Stop here if we extracted in-place as there's nothing to move around
-    return if $opts{"in_place"};
+    return if $opts{in_place};
 
     # Rename extracted directory
-    opendir(D, $tmp) || syserr(_g("cannot opendir %s"), $tmp);
-    my @entries = grep { $_ ne "." && $_ ne ".." } readdir(D);
-    closedir(D);
+    opendir(my $dir_dh, $tmp) or syserr(g_('cannot opendir %s'), $tmp);
+    my @entries = grep { $_ ne '.' && $_ ne '..' } readdir($dir_dh);
+    closedir($dir_dh);
     my $done = 0;
     erasedir($dest);
     if (scalar(@entries) == 1 && ! -l "$tmp/$entries[0]" && -d _) {
-	rename("$tmp/$entries[0]", $dest) ||
-		syserr(_g("Unable to rename %s to %s"),
-		       "$tmp/$entries[0]", $dest);
+	rename("$tmp/$entries[0]", $dest)
+	    or syserr(g_('unable to rename %s to %s'),
+	              "$tmp/$entries[0]", $dest);
     } else {
-	rename($tmp, $dest) ||
-		syserr(_g("Unable to rename %s to %s"), $tmp, $dest);
+	rename($tmp, $dest)
+	    or syserr(g_('unable to rename %s to %s'), $tmp, $dest);
     }
     erasedir($tmp);
 }

@@ -4,7 +4,7 @@
 #
 # Copyright © 1996 Ian Jackson
 # Copyright © 2000,2001 Wichert Akkerman
-# Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,19 +17,24 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 use strict;
 use warnings;
 
+use List::Util qw(any none);
 use Encode;
-use POSIX;
-use POSIX qw(:errno_h :signal_h);
-use Dpkg;
+use POSIX qw(:errno_h :locale_h);
+
+use Dpkg ();
 use Dpkg::Gettext;
+use Dpkg::File;
 use Dpkg::Checksums;
 use Dpkg::ErrorHandling;
-use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
+use Dpkg::Build::Types;
+use Dpkg::BuildProfiles qw(get_build_profiles parse_build_profiles
+                           evaluate_restriction_formula);
+use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is debarch_list_parse);
 use Dpkg::Compression;
 use Dpkg::Control::Info;
 use Dpkg::Control::Fields;
@@ -37,41 +42,36 @@ use Dpkg::Control;
 use Dpkg::Substvars;
 use Dpkg::Vars;
 use Dpkg::Changelog::Parse;
+use Dpkg::Dist::Files;
 use Dpkg::Version;
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
 my $changelogformat;
 my $fileslistfile = 'debian/files';
+my $outputfile;
 my $uploadfilesdir = '..';
 my $sourcestyle = 'i';
 my $quiet = 0;
 my $host_arch = get_host_arch();
-my $changes_format = "1.8";
+my @profiles = get_build_profiles();
+my $changes_format = '1.8';
 
-my %f2p;           # - file to package map
 my %p2f;           # - package to file map, has entries for "packagename"
-my %pa2f;          # - likewise, has entries for "packagename architecture"
-my %p2ver;         # - package to version map
-my %p2arch;        # - package to arch map
-my %f2sec;         # - file to section map
-my %f2seccf;       # - likewise, from control file
-my %f2pri;         # - file to priority map
-my %f2pricf;       # - likewise, from control file
+my %f2seccf;       # - package to section map, from control file
+my %f2pricf;       # - package to priority map, from control file
 my %sourcedefault; # - default values as taken from source (used for Section,
                    #   Priority and Maintainer)
 
 my @descriptions;
-my @fileslistfiles;
 
 my $checksums = Dpkg::Checksums->new();
 my %remove;        # - fields to remove
 my %override;
 my %archadded;
 my @archvalues;
-my $dsc;
 my $changesdescription;
 my $forcemaint;
 my $forcechangedby;
@@ -79,41 +79,30 @@ my $since;
 
 my $substvars_loaded = 0;
 my $substvars = Dpkg::Substvars->new();
-$substvars->set("Format", $changes_format);
-
-use constant SOURCE     => 1;
-use constant ARCH_DEP   => 2;
-use constant ARCH_INDEP => 4;
-use constant BIN        => ARCH_DEP | ARCH_INDEP;
-use constant ALL        => BIN | SOURCE;
-my $include = ALL;
-
-sub is_sourceonly() { return $include == SOURCE; }
-sub is_binaryonly() { return !($include & SOURCE); }
-sub binary_opt() { return (($include == BIN) ? '-b' :
-			   (($include == ARCH_DEP) ? '-B' :
-			    (($include == ARCH_INDEP) ? '-A' :
-			     internerr("binary_opt called with include=$include"))));
-}
+$substvars->set_as_auto('Format', $changes_format);
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    printf _g("
+    printf g_('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
-");
+');
 }
 
 sub usage {
-    printf _g(
-"Usage: %s [<option>...]")
-    . "\n\n" . _g(
+    printf g_(
+'Usage: %s [<option>...]')
+    . "\n\n" . g_(
 "Options:
-  -b                       binary-only build - no source files.
-  -B                       arch-specific - no source or arch-indep files.
-  -A                       only arch-indep - no source or arch-specific files.
-  -S                       source-only upload.
+  --build=<type>[,...]     specify the build <type>: full, source, binary,
+                             any, all (default is \'full\').
+  -g                       source and arch-indep build.
+  -G                       source and arch-specific build.
+  -b                       binary-only, no source files.
+  -B                       binary-only, only arch-specific files.
+  -A                       binary-only, only arch-indep files.
+  -S                       source-only, no binary files.
   -c<control-file>         get control info from this file.
   -l<changelog-file>       get per-version info from this file.
   -f<files-list-file>      get .deb files list from this file.
@@ -122,8 +111,8 @@ sub usage {
   -m<maintainer>           override control's maintainer value.
   -e<maintainer>           override changelog's maintainer value.
   -u<upload-files-dir>     directory with files (default is '..').
-  -si (default)            src includes orig if new upstream.
-  -sa                      source includes orig src.
+  -si                      source includes orig, if new upstream (default).
+  -sa                      source includes orig, always.
   -sd                      source is diff and .dsc only.
   -q                       quiet - no informational messages on stderr.
   -F<changelog-format>     force changelog format.
@@ -131,28 +120,29 @@ sub usage {
   -T<substvars-file>       read variables here, not debian/substvars.
   -D<field>=<value>        override or add a field and value.
   -U<field>                remove a field.
+  -O[<filename>]           write to stdout (default) or <filename>.
   -?, --help               show this help message.
       --version            show the version.
-"), $progname;
+"), $Dpkg::PROGNAME;
 }
 
 
 while (@ARGV) {
     $_=shift(@ARGV);
-    if (m/^-b$/) {
-	is_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
-	$include = BIN;
+    if (m/^--build=(.*)$/) {
+        set_build_type_from_options($1, $_);
+    } elsif (m/^-b$/) {
+	set_build_type(BUILD_BINARY, $_);
     } elsif (m/^-B$/) {
-	is_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
-	$include = ARCH_DEP;
-	printf STDERR _g("%s: arch-specific upload - not including arch-independent packages")."\n", $progname;
+	set_build_type(BUILD_ARCH_DEP, $_);
     } elsif (m/^-A$/) {
-	is_sourceonly && usageerr(_g("cannot combine %s and %s"), $_, "-S");
-	$include = ARCH_INDEP;
-	printf STDERR _g("%s: arch-indep upload - not including arch-specific packages")."\n", $progname;
+	set_build_type(BUILD_ARCH_INDEP, $_);
     } elsif (m/^-S$/) {
-	is_binaryonly && usageerr(_g("cannot combine %s and %s"), binary_opt, "-S");
-	$include = SOURCE;
+	set_build_type(BUILD_SOURCE, $_);
+    } elsif (m/^-G$/) {
+	set_build_type(BUILD_SOURCE | BUILD_ARCH_DEP, $_);
+    } elsif (m/^-g$/) {
+	set_build_type(BUILD_SOURCE | BUILD_ARCH_INDEP, $_);
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
     } elsif (m/^-q$/) {
@@ -184,132 +174,212 @@ while (@ARGV) {
         $remove{$1} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:](.*)$/s) {
 	$substvars->set($1, $2);
-    } elsif (m/^-(\?|-help)$/) {
+    } elsif (m/^-O(.*)$/) {
+        $outputfile = $1;
+    } elsif (m/^-(?:\?|-help)$/) {
 	usage();
 	exit(0);
     } elsif (m/^--version$/) {
 	version();
 	exit(0);
     } else {
-        usageerr(_g("unknown option \`%s'"), $_);
+        usageerr(g_("unknown option '%s'"), $_);
     }
+}
+
+# Do not pollute STDOUT with info messages if the .changes file goes there.
+if (not defined $outputfile) {
+    report_options(info_fh => \*STDERR, quiet_warnings => $quiet);
+    $outputfile = '-';
 }
 
 # Retrieve info from the current changelog entry
 my %options = (file => $changelogfile);
-$options{"changelogformat"} = $changelogformat if $changelogformat;
-$options{"since"} = $since if defined($since);
+$options{changelogformat} = $changelogformat if $changelogformat;
+$options{since} = $since if defined($since);
 my $changelog = changelog_parse(%options);
 # Change options to retrieve info of the former changelog entry
-delete $options{"since"};
-$options{"count"} = 1;
-$options{"offset"} = 1;
+delete $options{since};
+$options{count} = 1;
+$options{offset} = 1;
 my $prev_changelog = changelog_parse(%options);
 # Other initializations
 my $control = Dpkg::Control::Info->new($controlfile);
 my $fields = Dpkg::Control->new(type => CTRL_FILE_CHANGES);
 
-my $sourceversion = $changelog->{"Binary-Only"} ?
-                    $prev_changelog->{"Version"} : $changelog->{"Version"};
-my $binaryversion = $changelog->{"Version"};
+my $sourceversion = $changelog->{'Binary-Only'} ?
+                    $prev_changelog->{'Version'} : $changelog->{'Version'};
+my $binaryversion = $changelog->{'Version'};
 
 $substvars->set_version_substvars($sourceversion, $binaryversion);
 $substvars->set_arch_substvars();
-$substvars->load("debian/substvars") if -e "debian/substvars" and not $substvars_loaded;
+$substvars->load('debian/substvars') if -e 'debian/substvars' and not $substvars_loaded;
 
 if (defined($prev_changelog) and
-    version_compare_relation($changelog->{"Version"}, REL_LT,
-                             $prev_changelog->{"Version"}))
+    version_compare_relation($changelog->{'Version'}, REL_LT,
+                             $prev_changelog->{'Version'}))
 {
-    warning(_g("the current version (%s) is earlier than the previous one (%s)"),
-	$changelog->{"Version"}, $prev_changelog->{"Version"})
+    warning(g_('the current version (%s) is earlier than the previous one (%s)'),
+	$changelog->{'Version'}, $prev_changelog->{'Version'})
         # ~bpo and ~vola are backports and have lower version number by definition
-        unless $changelog->{"Version"} =~ /~(?:bpo|vola)/;
-}
-
-if (not is_sourceonly) {
-    open(FL, "<", $fileslistfile) || syserr(_g("cannot read files list file"));
-    while(<FL>) {
-	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
-	    defined($p2f{"$2 $4"}) &&
-		warning(_g("duplicate files list entry for package %s (line %d)"),
-			$2, $.);
-	    $f2p{$1}= $2;
-	    $pa2f{"$2 $4"}= $1;
-	    $p2f{$2} ||= [];
-	    push @{$p2f{$2}}, $1;
-	    $p2ver{$2}= $3;
-	    defined($f2sec{$1}) &&
-		warning(_g("duplicate files list entry for file %s (line %d)"),
-			$1, $.);
-	    $f2sec{$1}= $5;
-	    $f2pri{$1}= $6;
-	    push(@archvalues,$4) unless !$4 || $archadded{$4}++;
-	    push(@fileslistfiles,$1);
-	} elsif (m/^([-+.0-9a-z]+_[^_]+_([-\w]+)\.[a-z0-9.]+) (\S+) (\S+)$/) {
-	    # A non-deb package
-	    $f2sec{$1}= $3;
-	    $f2pri{$1}= $4;
-	    push(@archvalues,$2) unless !$2 || $archadded{$2}++;
-	    push(@fileslistfiles,$1);
-	} elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
-	    defined($f2sec{$1}) &&
-		warning(_g("duplicate files list entry for file %s (line %d)"),
-			$1, $.);
-	    $f2sec{$1}= $2;
-	    $f2pri{$1}= $3;
-	    push(@fileslistfiles,$1);
-	} else {
-	    error(_g("badly formed line in files list file, line %d"), $.);
-	}
-    }
-    close(FL);
+        unless $changelog->{'Version'} =~ /~(?:bpo|vola)/;
 }
 
 # Scan control info of source package
 my $src_fields = $control->get_source();
-foreach $_ (keys %{$src_fields}) {
+foreach (keys %{$src_fields}) {
     my $v = $src_fields->{$_};
     if (m/^Source$/) {
-	set_source_package($v);
+        set_source_package($v);
     } elsif (m/^Section$|^Priority$/i) {
-	$sourcedefault{$_} = $v;
+        $sourcedefault{$_} = $v;
+    } elsif (m/^Description$/i) {
+        # Description in changes is computed, do not copy this field, only
+        # initialize the description substvars.
+        $substvars->set_desc_substvars($v);
     } else {
         field_transfer_single($src_fields, $fields);
     }
 }
 
+my $dist = Dpkg::Dist::Files->new();
+my $origsrcmsg;
+
+if (build_has_any(BUILD_SOURCE)) {
+    my $sec = $sourcedefault{'Section'} // '-';
+    my $pri = $sourcedefault{'Priority'} // '-';
+    warning(g_('missing Section for source files')) if $sec eq '-';
+    warning(g_('missing Priority for source files')) if $pri eq '-';
+
+    my $spackage = get_source_package();
+    (my $sversion = $substvars->get('source:Version')) =~ s/^\d+://;
+
+    my $dsc = "${spackage}_${sversion}.dsc";
+    my $dsc_pathname = "$uploadfilesdir/$dsc";
+    my $dsc_fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
+    $dsc_fields->load($dsc_pathname) or error(g_('%s is empty'), $dsc_pathname);
+    $checksums->add_from_file($dsc_pathname, key => $dsc);
+    $checksums->add_from_control($dsc_fields, use_files_for_md5 => 1);
+
+    # Compare upstream version to previous upstream version to decide if
+    # the .orig tarballs must be included
+    my $include_tarball;
+    if (defined($prev_changelog)) {
+        my $cur = Dpkg::Version->new($changelog->{'Version'});
+        my $prev = Dpkg::Version->new($prev_changelog->{'Version'});
+        $include_tarball = ($cur->version() ne $prev->version()) ? 1 : 0;
+    } else {
+        # No previous entry means first upload, tarball required
+        $include_tarball = 1;
+    }
+
+    my $ext = compression_get_file_extension_regex();
+    if ((($sourcestyle =~ m/i/ && !$include_tarball) ||
+         $sourcestyle =~ m/d/) &&
+        any { m/\.(?:debian\.tar|diff)\.$ext$/ } $checksums->get_files())
+    {
+        $origsrcmsg = g_('not including original source code in upload');
+        foreach my $f (grep { m/\.orig(-.+)?\.tar\.$ext$/ } $checksums->get_files()) {
+            $checksums->remove_file($f);
+            $checksums->remove_file("$f.asc");
+        }
+    } else {
+        if ($sourcestyle =~ m/d/ &&
+            none { m/\.(?:debian\.tar|diff)\.$ext$/ } $checksums->get_files()) {
+            warning(g_('ignoring -sd option for native Debian package'));
+        }
+        $origsrcmsg = g_('including full source code in upload');
+    }
+
+    push @archvalues, 'source';
+
+    # Only add attributes for files being distributed.
+    for my $f ($checksums->get_files()) {
+        $dist->add_file($f, $sec, $pri);
+    }
+} elsif (build_is(BUILD_ARCH_DEP)) {
+    $origsrcmsg = g_('binary-only arch-specific upload ' .
+                     '(source code and arch-indep packages not included)');
+} elsif (build_is(BUILD_ARCH_INDEP)) {
+    $origsrcmsg = g_('binary-only arch-indep upload ' .
+                     '(source code and arch-specific packages not included)');
+} else {
+    $origsrcmsg = g_('binary-only upload (no source code included)');
+}
+
+my $dist_binaries = 0;
+
+$dist->load($fileslistfile) if -e $fileslistfile;
+
+foreach my $file ($dist->get_files()) {
+    my $f = $file->{filename};
+
+    if (defined $file->{package} && $file->{package_type} eq 'buildinfo') {
+        # We always distribute the .buildinfo file.
+        $checksums->add_from_file("$uploadfilesdir/$f", key => $f);
+        next;
+    }
+
+    # If this is a source-only upload, ignore any other artifacts.
+    next if build_has_none(BUILD_BINARY);
+
+    if (defined $file->{arch}) {
+        my $arch_all = debarch_eq('all', $file->{arch});
+
+        next if build_has_none(BUILD_ARCH_INDEP) and $arch_all;
+        next if build_has_none(BUILD_ARCH_DEP) and not $arch_all;
+
+        push @archvalues, $file->{arch} if not $archadded{$file->{arch}}++;
+    }
+    if (defined $file->{package} && $file->{package_type} =~ m/^u?deb$/) {
+        $p2f{$file->{package}} //= [];
+        push @{$p2f{$file->{package}}}, $file->{filename};
+    }
+
+    $checksums->add_from_file("$uploadfilesdir/$f", key => $f);
+    $dist_binaries++;
+}
+
+error(g_('binary build with no binary artifacts found; cannot distribute'))
+    if build_has_any(BUILD_BINARY) && $dist_binaries == 0;
+
 # Scan control info of all binary packages
 foreach my $pkg ($control->get_packages()) {
-    my $p = $pkg->{"Package"};
-    my $a = $pkg->{"Architecture"} || "";
-    my $d = $pkg->{"Description"} || "no description available";
+    my $p = $pkg->{'Package'};
+    my $a = $pkg->{'Architecture'};
+    my $bp = $pkg->{'Build-Profiles'};
+    my $d = $pkg->{'Description'} || 'no description available';
     $d = $1 if $d =~ /^(.*)\n/;
-    my $pkg_type = $pkg->{"Package-Type"} ||
-                   $pkg->get_custom_field("Package-Type") || "deb";
+    my $pkg_type = $pkg->{'Package-Type'} ||
+                   $pkg->get_custom_field('Package-Type') || 'deb';
 
     my @f; # List of files for this binary package
     push @f, @{$p2f{$p}} if defined $p2f{$p};
 
     # Add description of all binary packages
-    my $desc = encode_utf8(sprintf("%-10s - %-.65s", $p, decode_utf8($d)));
-    $desc .= " (udeb)" if $pkg_type eq "udeb";
+    $d = $substvars->substvars($d);
+    my $desc = encode_utf8(sprintf('%-10s - %-.65s', $p, decode_utf8($d)));
+    $desc .= " ($pkg_type)" if $pkg_type ne 'deb';
     push @descriptions, $desc;
+
+    my @restrictions;
+    @restrictions = parse_build_profiles($bp) if defined $bp;
 
     if (not defined($p2f{$p})) {
 	# No files for this package... warn if it's unexpected
-	if ((debarch_eq('all', $a) and ($include & ARCH_INDEP)) ||
-	    (grep(debarch_is($host_arch, $_), split(/\s+/, $a))
-		  and ($include & ARCH_DEP))) {
-	    warning(_g("package %s in control file but not in files list"),
+	if (((build_has_any(BUILD_ARCH_INDEP) and debarch_eq('all', $a)) or
+	     (build_has_any(BUILD_ARCH_DEP) and
+	      (any { debarch_is($host_arch, $_) } debarch_list_parse($a)))) and
+	    (@restrictions == 0 or
+	     evaluate_restriction_formula(\@restrictions, \@profiles)))
+	{
+	    warning(g_('package %s in control file but not in files list'),
 		    $p);
 	}
 	next; # and skip it
     }
 
-    $p2arch{$p} = $a;
-
-    foreach $_ (keys %{$pkg}) {
+    foreach (keys %{$pkg}) {
 	my $v = $pkg->{$_};
 
 	if (m/^Section$/) {
@@ -317,13 +387,13 @@ foreach my $pkg ($control->get_packages()) {
 	} elsif (m/^Priority$/) {
 	    $f2pricf{$_} = $v foreach (@f);
 	} elsif (m/^Architecture$/) {
-	    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))
-		and ($include & ARCH_DEP)) {
+	    if (build_has_any(BUILD_ARCH_DEP) and
+	        (any { debarch_is($host_arch, $_) } debarch_list_parse($v))) {
 		$v = $host_arch;
 	    } elsif (!debarch_eq('all', $v)) {
 		$v = '';
 	    }
-	    push(@archvalues,$v) unless !$v || $archadded{$v}++;
+	    push(@archvalues, $v) if $v and not $archadded{$v}++;
         } elsif (m/^Description$/) {
             # Description in changes is computed, do not copy this field
 	} else {
@@ -333,123 +403,65 @@ foreach my $pkg ($control->get_packages()) {
 }
 
 # Scan fields of dpkg-parsechangelog
-foreach $_ (keys %{$changelog}) {
+foreach (keys %{$changelog}) {
     my $v = $changelog->{$_};
     if (m/^Source$/i) {
 	set_source_package($v);
     } elsif (m/^Maintainer$/i) {
-	$fields->{"Changed-By"} = $v;
+	$fields->{'Changed-By'} = $v;
     } else {
         field_transfer_single($changelog, $fields);
     }
 }
 
 if ($changesdescription) {
-    open(X, "<", $changesdescription) || syserr(_g("read changesdescription"));
-    $fields->{'Changes'} = "\n" . join("", <X>);
-    close(X);
-}
-
-for my $pa (keys %pa2f) {
-    my ($pp, $aa) = (split / /, $pa);
-    defined($control->get_pkg_by_name($pp)) ||
-	warning(_g("package %s listed in files list but not in control info"),
-	        $pp);
+    open(my $changes_fh, '<', $changesdescription)
+        or syserr(g_('cannot read %s'), $changesdescription);
+    $fields->{'Changes'} = "\n" . file_slurp($changes_fh);
+    close($changes_fh);
 }
 
 for my $p (keys %p2f) {
-    my @f = @{$p2f{$p}};
+    if (not defined $control->get_pkg_by_name($p)) {
+        # XXX: Skip automatic debugging symbol packages. We should not be
+        # hardcoding packages names here, as this is distribution-specific.
+        # Instead we should use the Auto-Built-Package field.
+        next if $p =~ m/-dbgsym$/;
+        warning(g_('package %s listed in files list but not in control info'), $p);
+        next;
+    }
 
-    foreach my $f (@f) {
-	my $sec = $f2seccf{$f};
-	$sec ||= $sourcedefault{'Section'};
-	if (!defined($sec)) {
-	    $sec = '-';
-	    warning(_g("missing Section for binary package %s; using '-'"), $p);
+    foreach my $f (@{$p2f{$p}}) {
+	my $file = $dist->get_file($f);
+
+	my $sec = $f2seccf{$f} || $sourcedefault{'Section'} // '-';
+	if ($sec eq '-') {
+	    warning(g_("missing Section for binary package %s; using '-'"), $p);
 	}
-	$sec eq $f2sec{$f} || error(_g("package %s has section %s in " .
-				       "control file but %s in files list"),
-				    $p, $sec, $f2sec{$f});
-	my $pri = $f2pricf{$f};
-	$pri ||= $sourcedefault{'Priority'};
-	if (!defined($pri)) {
-	    $pri = '-';
-	    warning(_g("missing Priority for binary package %s; using '-'"), $p);
+	if ($sec ne $file->{section}) {
+	    error(g_('package %s has section %s in control file but %s in ' .
+	             'files list'), $p, $sec, $file->{section});
 	}
-	$pri eq $f2pri{$f} || error(_g("package %s has priority %s in " .
-				       "control file but %s in files list"),
-				    $p, $pri, $f2pri{$f});
+
+	my $pri = $f2pricf{$f} || $sourcedefault{'Priority'} // '-';
+	if ($pri eq '-') {
+	    warning(g_("missing Priority for binary package %s; using '-'"), $p);
+	}
+	if ($pri ne $file->{priority}) {
+	    error(g_('package %s has priority %s in control file but %s in ' .
+	             'files list'), $p, $pri, $file->{priority});
+	}
     }
 }
 
-my $origsrcmsg;
+info($origsrcmsg);
 
-if (!is_binaryonly) {
-    my $sec = $sourcedefault{'Section'};
-    if (!defined($sec)) {
-	$sec = '-';
-	warning(_g("missing Section for source files"));
-    }
-    my $pri = $sourcedefault{'Priority'};
-    if (!defined($pri)) {
-	$pri = '-';
-	warning(_g("missing Priority for source files"));
-    }
-
-    (my $sversion = $substvars->get('source:Version')) =~ s/^\d+://;
-    $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
-
-    my $dsc_fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
-    $dsc_fields->load($dsc) || error(_g("%s is empty", $dsc));
-    $checksums->add_from_file($dsc, key => "$sourcepackage\_$sversion.dsc");
-    $checksums->add_from_control($dsc_fields, use_files_for_md5 => 1);
-
-    for my $f ($checksums->get_files()) {
-	$f2sec{$f} = $sec;
-	$f2pri{$f} = $pri;
-    }
-
-    # Compare upstream version to previous upstream version to decide if
-    # the .orig tarballs must be included
-    my $include_tarball;
-    if (defined($prev_changelog)) {
-	my $cur = Dpkg::Version->new($changelog->{"Version"});
-	my $prev = Dpkg::Version->new($prev_changelog->{"Version"});
-	$include_tarball = ($cur->version() ne $prev->version()) ? 1 : 0;
-    } else {
-	# No previous entry means first upload, tarball required
-	$include_tarball = 1;
-    }
-
-    my $ext = $compression_re_file_ext;
-    if ((($sourcestyle =~ m/i/ && not($include_tarball)) ||
-	 $sourcestyle =~ m/d/) &&
-	grep(m/\.(debian\.tar|diff)\.$ext$/, $checksums->get_files()))
-    {
-	$origsrcmsg= _g("not including original source code in upload");
-	foreach my $f (grep m/\.orig(-.+)?\.tar\.$ext$/, $checksums->get_files()) {
-	    $checksums->remove_file($f);
-	}
-    } else {
-	if ($sourcestyle =~ m/d/ &&
-	    !grep(m/\.(debian\.tar|diff)\.$ext$/, $checksums->get_files())) {
-	    warning(_g("ignoring -sd option for native Debian package"));
-	}
-        $origsrcmsg= _g("including full source code in upload");
-    }
-} else {
-    $origsrcmsg= _g("binary-only upload - not including any source code");
-}
-
-print(STDERR "$progname: $origsrcmsg\n") ||
-    syserr(_g("write original source message")) unless $quiet;
-
-$fields->{'Format'} = $substvars->get("Format");
+$fields->{'Format'} = $substvars->get('Format');
 
 if (!defined($fields->{'Date'})) {
-    chomp(my $date822 = `date -R`);
-    $? && subprocerr("date -R");
-    $fields->{'Date'}= $date822;
+    setlocale(LC_TIME, 'C');
+    $fields->{'Date'} = POSIX::strftime('%a, %d %b %Y %T %z', localtime);
+    setlocale(LC_TIME, '');
 }
 
 $fields->{'Binary'} = join(' ', map { $_->{'Package'} } $control->get_packages());
@@ -458,50 +470,41 @@ if (length($fields->{'Binary'}) > 980) {
     $fields->{'Binary'} =~ s/(.{0,980}) /$1\n/g;
 }
 
-unshift(@archvalues,'source') unless is_binaryonly;
-@archvalues = ('all') if $include == ARCH_INDEP;
-@archvalues = grep {!debarch_eq('all',$_)} @archvalues
-    unless $include & ARCH_INDEP;
-$fields->{'Architecture'} = join(' ',@archvalues);
+$fields->{'Architecture'} = join ' ', @archvalues;
+
+$fields->{'Built-For-Profiles'} = join ' ', get_build_profiles();
 
 $fields->{'Description'} = "\n" . join("\n", sort @descriptions);
 
 $fields->{'Files'} = '';
 
-my %filedone;
+foreach my $f ($checksums->get_files()) {
+    my $file = $dist->get_file($f);
 
-for my $f ($checksums->get_files(), @fileslistfiles) {
-    my $arch_all = debarch_eq('all', $p2arch{$f2p{$f}}) if defined($f2p{$f});
-
-    next if (defined($arch_all) && ($include == ARCH_DEP and $arch_all));
-    next if (defined($arch_all) && ($include == ARCH_INDEP and not $arch_all));
-    next if $filedone{$f}++;
-    my $uf = "$uploadfilesdir/$f";
-    $checksums->add_from_file($uf, key => $f);
-    $fields->{'Files'} .= "\n" . $checksums->get_checksum($f, "md5") .
-			  " " . $checksums->get_size($f) .
-			  " $f2sec{$f} $f2pri{$f} $f";
+    $fields->{'Files'} .= "\n" . $checksums->get_checksum($f, 'md5') .
+			  ' ' . $checksums->get_size($f) .
+			  " $file->{section} $file->{priority} $f";
 }
 $checksums->export_to_control($fields);
 # redundant with the Files field
-delete $fields->{"Checksums-Md5"};
+delete $fields->{'Checksums-Md5'};
 
-$fields->{'Source'}= $sourcepackage;
+$fields->{'Source'} = get_source_package();
 if ($fields->{'Version'} ne $substvars->get('source:Version')) {
-    $fields->{'Source'} .= " (" . $substvars->get('source:Version') . ")";
+    $fields->{'Source'} .= ' (' . $substvars->get('source:Version') . ')';
 }
 
 $fields->{'Maintainer'} = $forcemaint if defined($forcemaint);
 $fields->{'Changed-By'} = $forcechangedby if defined($forcechangedby);
 
 for my $f (qw(Version Distribution Maintainer Changes)) {
-    defined($fields->{$f}) ||
-        error(_g("missing information for critical output field %s"), $f);
+    error(g_('missing information for critical output field %s'), $f)
+        unless defined $fields->{$f};
 }
 
 for my $f (qw(Urgency)) {
-    defined($fields->{$f}) ||
-        warning(_g("missing information for output field %s"), $f);
+    warning(g_('missing information for output field %s'), $f)
+        unless defined $fields->{$f};
 }
 
 for my $f (keys %override) {
@@ -511,4 +514,6 @@ for my $f (keys %remove) {
     delete $fields->{$f};
 }
 
-$fields->output(\*STDOUT); # Note: no substitution of variables
+# Note: do not perform substitution of variables, one of the reasons is that
+# they could interfere with field values, for example the Changes field.
+$fields->save($outputfile);

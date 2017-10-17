@@ -2,17 +2,18 @@
 #
 # The ‘multicd’ package was initially written by Heiko Schlittermann
 # <heiko@lotte.sax.de> based on builtin access methods written by Ian
-# Jackson <ian@chiark.greenend.org.uk>.  The final packaging as well as
+# Jackson <ijackson@chiark.greenend.org.uk>.  The final packaging as well as
 # cleanups were made by Martin Schulze <joey@infodrom.north.de> who also
 # put this package together for the slink release (Debian GNU/Linux
 # 2.1).
 
-# Copyright © 1995-1998 Ian Jackson <ian@chiark.greenend.org.uk>
-# Copyright © 1998 Heiko Schlittermann <heiko@lotte.sax.de>
+# Copyright © 1995-1998 Ian Jackson <ijackson@chiark.greenend.org.uk>
+# Copyright © 1998 Heiko Schlittermann <hs@schlittermann.de>
 #
-# This program is free software; you can redistribute it and/or modify
+# This is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; version 2 dated June, 1991.
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,7 +21,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 set -e
 vardir="$1"
@@ -122,7 +123,7 @@ getblockdev () {
 			set -e
 			proposeddevice="$tryblockdevice" perl -ne '
 next unless /^ *Device +Boot +Begin +Start +End +Blocks +Id +System *$/i .. !/\S/;
-next unless s:^/\S+:: && $& eq $ENV{"proposeddevice"};
+next unless s:^/\S+::p && ${^MATCH} eq $ENV{proposeddevice};
 next unless s/^ +(\* +)?\d+ +\d+ +\d+ +\d+\+? +//;
 next unless m/^([0-9a-f]{1,2}) /i;
 %types= ( "1","msdos", "4","msdos", "6","msdos", "7","hpfs", "80","minix",
@@ -176,7 +177,7 @@ If you make a mistake, use the interrupt key ($intrkey) to abort.
 "
 
 # State variables, “best first”
-#  {main,ctb,nf,nonus,nonusctb,nonusnf,lcl}_{packages,binary}
+#  {main,ctb,nf,lcl}_{packages,binary}
 #   Empty before we've found them or if they're not available,
 #   set to the relevant bit under mountpoint otherwise.
 #  hierbase
@@ -342,8 +343,8 @@ then
 	perl -ne '
 next unless /^ *Device +Boot +Begin +Start +End +Blocks +Id +System *$/i .. !/\S/;
 next unless / [146] +DOS \d+-bit \S+$/;
-next unless m:^/\S+:;
-print $&;		' <$tp.f >$tp.d
+next unless m:^/\S+:p;
+print ${^MATCH};		' <$tp.f >$tp.d
 	newdefaultdevice="`cat $tp.d`"
 	echo "
 I need to know which disk partition contains the distribution files;
@@ -515,7 +516,7 @@ check_binary () {
 #  	fi
 
 	this_binary="$2"
-	echo -n "Using '$this_binary' as $1 binary dir"
+	echo -n "Using '$this_binary' as $1 binary directory"
 
 	if [ -n "$multi" ]; then
 		this_disk=`getdisklabel ${mountpoint} "/$hierbase"`
@@ -560,7 +561,7 @@ Say 'none' if this area is not available."
 			defaultbinary=none
 		fi
 		echo -n \
-"Enter _$1_ binary dir. [$4]
+"Enter _$1_ binary directory. [$4]
  ?  "
 		read response
 		if [ -z "$response" -a -n "$defaultbinary" ]
@@ -636,9 +637,6 @@ Where is the _$1_ 'Packages.cd' file (if none is available, say 'none')
 find_area main main "$distribution" "$p_main_binary" "$p_main_packages"
 find_area contrib ctb "$distribution" "$p_ctb_binary" "$p_ctb_packages"
 find_area non-free nf "$distribution" "$p_nf_binary" "$p_nf_packages"
-find_area non-US/main nonus "$distribution" "$p_nonus_binary" "$p_nonus_packages"
-find_area non-US/contrib nonusctb "$distribution" "$p_nonusctb_binary" "$p_nonusctb_packages"
-find_area non-US/non-free nonusnf "$distribution" "$p_nonusnf_binary" "$p_nonusnf_packages"
 find_area local lcl local "$p_lcl_binary" "$p_lcl_packages"
 
 echo -n '
@@ -664,15 +662,6 @@ outputparam p_ctb_disk "$ctb_disk"
 outputparam p_nf_packages "$nf_packages"
 outputparam p_nf_binary "$nf_binary"
 outputparam p_nf_disk "$nf_disk"
-outputparam p_nonus_binary "$nonus_binary"
-outputparam p_nonus_packages "$nonus_packages"
-outputparam p_nonus_disk "$nonus_disk"
-outputparam p_nonusctb_binary "$nonusctb_binary"
-outputparam p_nonusctb_packages "$nonusctb_packages"
-outputparam p_nonusctb_disk "$nonusctb_disk"
-outputparam p_nonusnf_binary "$nonusnf_binary"
-outputparam p_nonusnf_packages "$nonusnf_packages"
-outputparam p_nonusnf_disk "$nonusnf_disk"
 outputparam p_lcl_packages "$lcl_packages"
 outputparam p_lcl_binary "$lcl_binary"
 outputparam p_multi "$multi"
@@ -681,5 +670,3 @@ outputparam p_multi_contentsfile "$multi_contentsfile"
 mv shvar.$option.new shvar.$option
 
 xit=0
-
-# vim:ts=4:sw=4:aw:ai:

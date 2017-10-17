@@ -11,14 +11,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package Dpkg::Changelog::Entry;
 
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.01';
+
+use Carp;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
@@ -41,11 +43,11 @@ This object represents a changelog entry. It is composed
 of a set of lines with specific purpose: an header line, changes lines, a
 trailer line. Blank lines can be between those kind of lines.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
 =over 4
 
-=item my $entry = Dpkg::Changelog::Entry->new()
+=item $entry = Dpkg::Changelog::Entry->new()
 
 Creates a new object. It doesn't represent a real changelog entry
 until one has been successfully parsed or built from scratch.
@@ -53,22 +55,22 @@ until one has been successfully parsed or built from scratch.
 =cut
 
 sub new {
-    my ($this) = @_;
+    my $this = shift;
     my $class = ref($this) || $this;
 
     my $self = {
-	'header' => undef,
-	'changes' => [],
-	'trailer' => undef,
-	'blank_after_header' => [],
-	'blank_after_changes' => [],
-	'blank_after_trailer' => [],
+	header => undef,
+	changes => [],
+	trailer => undef,
+	blank_after_header => [],
+	blank_after_changes => [],
+	blank_after_trailer => [],
     };
     bless $self, $class;
     return $self;
 }
 
-=item my $str = $entry->output()
+=item $str = $entry->output()
 
 =item "$entry"
 
@@ -81,20 +83,21 @@ filehandle.
 
 =cut
 
+sub _format_output_block {
+    my $lines = shift;
+    return join('', map { $_ . "\n" } @{$lines});
+}
+
 sub output {
     my ($self, $fh) = @_;
     my $str = '';
-    sub _block {
-	my $lines = shift;
-	return join('', map { $_ . "\n" } @{$lines});
-    }
     $str .= $self->{header} . "\n" if defined($self->{header});
-    $str .= _block($self->{blank_after_header});
-    $str .= _block($self->{changes});
-    $str .= _block($self->{blank_after_changes});
+    $str .= _format_output_block($self->{blank_after_header});
+    $str .= _format_output_block($self->{changes});
+    $str .= _format_output_block($self->{blank_after_changes});
     $str .= $self->{trailer} . "\n" if defined($self->{trailer});
-    $str .= _block($self->{blank_after_trailer});
-    print $fh $str if defined $fh;
+    $str .= _format_output_block($self->{blank_after_trailer});
+    print { $fh } $str if defined $fh;
     return $str;
 }
 
@@ -109,7 +112,7 @@ lines) corresponding to the requested part. $part can be
 
 sub get_part {
     my ($self, $part) = @_;
-    internerr("invalid part of changelog entry: %s") unless exists $self->{$part};
+    croak "invalid part of changelog entry: $part" unless exists $self->{$part};
     return $self->{$part};
 }
 
@@ -122,7 +125,7 @@ or an array ref.
 
 sub set_part {
     my ($self, $part, $value) = @_;
-    internerr("invalid part of changelog entry: %s") unless exists $self->{$part};
+    croak "invalid part of changelog entry: $part" unless exists $self->{$part};
     if (ref($self->{$part})) {
 	if (ref($value)) {
 	    $self->{$part} = $value;
@@ -144,7 +147,7 @@ concatenated at the end of the current line.
 
 sub extend_part {
     my ($self, $part, $value, @rest) = @_;
-    internerr("invalid part of changelog entry: %s") unless exists $self->{$part};
+    croak "invalid part of changelog entry: $part" unless exists $self->{$part};
     if (ref($self->{$part})) {
 	if (ref($value)) {
 	    push @{$self->{$part}}, @$value;
@@ -173,7 +176,7 @@ parts.
 =cut
 
 sub is_empty {
-    my ($self) = @_;
+    my $self = shift;
     return !(defined($self->{header}) || defined($self->{trailer}) ||
 	     scalar(@{$self->{changes}}));
 }
@@ -186,7 +189,7 @@ empty line to separate each part.
 =cut
 
 sub normalize {
-    my ($self) = @_;
+    my $self = shift;
     if (defined($self->{header})) {
 	$self->{header} =~ s/\s+$//g;
 	$self->{blank_after_header} = [''];
@@ -207,35 +210,34 @@ sub normalize {
     }
 }
 
-=item my $src = $entry->get_source()
+=item $src = $entry->get_source()
 
 Return the name of the source package associated to the changelog entry.
 
 =cut
 
 sub get_source {
-    return undef;
+    return;
 }
 
-=item my $ver = $entry->get_version()
+=item $ver = $entry->get_version()
 
 Return the version associated to the changelog entry.
 
 =cut
 
 sub get_version {
-    return undef;
+    return;
 }
 
-=item my @dists = $entry->get_distributions()
+=item @dists = $entry->get_distributions()
 
 Return a list of target distributions for this version.
 
 =cut
 
 sub get_distributions {
-    return () if wantarray;
-    return undef;
+    return;
 }
 
 =item $fields = $entry->get_optional_fields()
@@ -256,30 +258,42 @@ Return the urgency of the associated upload.
 =cut
 
 sub get_urgency {
-    return undef;
+    return;
 }
 
-=item my $maint = $entry->get_maintainer()
+=item $maint = $entry->get_maintainer()
 
 Return the string identifying the person who signed this changelog entry.
 
 =cut
 
 sub get_maintainer {
-    return undef;
+    return;
 }
 
-=item my $time = $entry->get_timestamp()
+=item $time = $entry->get_timestamp()
 
 Return the timestamp of the changelog entry.
 
 =cut
 
 sub get_timestamp {
-    return undef;
+    return;
 }
 
-=item my $str = $entry->get_dpkg_changes()
+=item $time = $entry->get_timepiece()
+
+Return the timestamp of the changelog entry as a Time::Piece object.
+
+This function might return undef if there was no timestamp.
+
+=cut
+
+sub get_timepiece {
+    return;
+}
+
+=item $str = $entry->get_dpkg_changes()
 
 Returns a string that is suitable for usage in a C<Changes> field
 in the output format of C<dpkg-parsechangelog>.
@@ -287,17 +301,23 @@ in the output format of C<dpkg-parsechangelog>.
 =cut
 
 sub get_dpkg_changes {
-    my ($self) = @_;
-    my $header = $self->get_part("header") || "";
+    my $self = shift;
+    my $header = $self->get_part('header') // '';
     $header =~ s/\s+$//;
-    return "\n$header\n\n" . join("\n", @{$self->get_part("changes")});
+    return "\n$header\n\n" . join("\n", @{$self->get_part('changes')});
 }
 
 =back
 
-=head1 AUTHOR
+=head1 CHANGES
 
-Raphaël Hertzog <hertzog@debian.org>.
+=head2 Version 1.01 (dpkg 1.18.8)
+
+New method: $entry->get_timepiece().
+
+=head2 Version 1.00 (dpkg 1.15.6)
+
+Mark the module as public.
 
 =cut
 

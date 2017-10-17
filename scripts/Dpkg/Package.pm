@@ -12,31 +12,36 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package Dpkg::Package;
 
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
+our @EXPORT = qw(
+    pkg_name_is_illegal
+);
+
+use Exporter qw(import);
 
 use Dpkg::Gettext;
 
-use base qw(Exporter);
-our @EXPORT = qw(pkg_name_is_illegal);
-
 sub pkg_name_is_illegal($) {
-    my $name = shift || '';
+    my $name = shift // '';
 
-    $name eq '' &&
-        return _g("may not be empty string");
-    $name =~ m/[^-+.0-9a-z]/o &&
-        return sprintf(_g("character '%s' not allowed"), $&);
-    $name =~ m/^[0-9a-z]/o ||
-        return _g("must start with an alphanumeric character");
+    if ($name eq '') {
+        return g_('may not be empty string');
+    }
+    if ($name =~ m/[^-+.0-9a-z]/op) {
+        return sprintf(g_("character '%s' not allowed"), ${^MATCH});
+    }
+    if ($name !~ m/^[0-9a-z]/o) {
+        return g_('must start with an alphanumeric character');
+    }
 
-    return undef;
+    return;
 }
 
 1;

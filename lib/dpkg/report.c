@@ -1,9 +1,9 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * reoport.c - message reporting
+ * report.c - message reporting
  *
  * Copyright © 2004-2005 Scott James Remnant <scott@netsplit.com>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008-2013 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,19 +16,40 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
 #include <compat.h>
 
 #include <stdarg.h>
+#include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
+#include <dpkg/dpkg.h>
 #include <dpkg/macros.h>
 #include <dpkg/i18n.h>
 #include <dpkg/progname.h>
+#include <dpkg/color.h>
 #include <dpkg/report.h>
+
+static int piped_mode = _IOLBF;
+
+void
+dpkg_set_report_piped_mode(int mode)
+{
+	piped_mode = mode;
+}
+
+void
+dpkg_set_report_buffer(FILE *fp)
+{
+	if (isatty(fileno(fp)))
+		setvbuf(fp, NULL, _IONBF, 0);
+	else
+		setvbuf(fp, NULL, piped_mode, 0);
+}
 
 static int warn_count = 0;
 
@@ -41,11 +62,15 @@ warning_get_count(void)
 void
 warningv(const char *fmt, va_list args)
 {
-	char buf[1024];
+	char *buf = NULL;
 
 	warn_count++;
-	vsnprintf(buf, sizeof(buf), fmt, args);
-	fprintf(stderr, _("%s: warning: %s\n"), dpkg_get_progname(), buf);
+
+	m_vasprintf(&buf, fmt, args);
+	fprintf(stderr, "%s%s:%s %s%s:%s %s\n",
+	        color_get(COLOR_PROG), dpkg_get_progname(), color_reset(),
+	        color_get(COLOR_WARN), _("warning"), color_reset(), buf);
+	free(buf);
 }
 
 void
@@ -61,12 +86,31 @@ warning(const char *fmt, ...)
 void
 notice(const char *fmt, ...)
 {
-	char buf[1024];
+	char *buf = NULL;
 	va_list args;
 
 	va_start(args, fmt);
-	vsnprintf(buf, sizeof(buf), fmt, args);
+	m_vasprintf(&buf, fmt, args);
 	va_end(args);
 
-	fprintf(stderr, "%s: %s\n", dpkg_get_progname(), buf);
+	fprintf(stderr, "%s%s:%s %s\n",
+	        color_get(COLOR_PROG), dpkg_get_progname(), color_reset(), buf);
+
+	free(buf);
+}
+
+void
+info(const char *fmt, ...)
+{
+	char *buf;
+	va_list args;
+
+	va_start(args, fmt);
+	m_vasprintf(&buf, fmt, args);
+	va_end(args);
+
+	printf("%s%s:%s %s\n",
+	       color_get(COLOR_PROG), dpkg_get_progname(), color_reset(), buf);
+
+	free(buf);
 }

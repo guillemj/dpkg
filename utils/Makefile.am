@@ -10,23 +10,48 @@ AM_CPPFLAGS = \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
 
+CLEANFILES = \
+	update-alternatives.polkit \
+	$(nil)
+
 EXTRA_DIST = \
 	README.alternatives \
-	$(test_cases)
+	update-alternatives.polkit.in \
+	$(test_scripts) \
+	$(nil)
+
+pkexecdir = $(datadir)/polkit-1/actions
+pkexec_DATA =
 
 bin_PROGRAMS =
 
 if BUILD_UPDATE_ALTERNATIVES
+pkexec_DATA += update-alternatives.polkit
 bin_PROGRAMS += update-alternatives
 endif
+
+do_polkit_subst = $(SED) \
+	-e 's,[@]bindir[@],$(bindir),g' \
+	$(nil)
+
+update-alternatives.polkit: update-alternatives.polkit.in Makefile
+	@test -d `dirname $@` || $(MKDIR_P) `dirname $@`
+	$(AM_V_GEN) GETTEXTDATADIR="$(top_srcdir)/po" \
+	  $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o - \
+	  | $(do_polkit_subst) >$@
 
 update_alternatives_SOURCES = \
 	update-alternatives.c
 
+update_alternatives_CPPFLAGS = \
+	-DALT_TMP_EXT=\".dpkg-tmp\" \
+	-DADMINDIR_ENVVAR=\"DPKG_ADMINDIR\" \
+	$(AM_CPPFLAGS)
+
 update_alternatives_LDADD = \
-	../lib/compat/libcompat.a \
+	../lib/compat/libcompat.la \
 	$(LIBINTL) \
-	$(UA_LIBS)
+	$(nil)
 
 sbin_PROGRAMS =
 
@@ -37,21 +62,11 @@ start_stop_daemon_SOURCES = \
 	start-stop-daemon.c
 
 start_stop_daemon_LDADD = \
-	../lib/compat/libcompat.a \
-	$(SSD_LIBS)
+	../lib/compat/libcompat.la \
+	$(PS_LIBS) \
+	$(KVM_LIBS) \
+	$(nil)
 endif
-
-if BUILD_INSTALL_INFO
-sbin_PROGRAMS += dpkg-install-info
-
-# Automake has its own install-info rule, gah
-dpkg_install_info_SOURCES = install-info.c
-
-dpkg_install_info_LDADD = \
-	../lib/compat/libcompat.a
-endif
-
-transform = s/dpkg-install-info/install-info/; $(program_transform_name)
 
 install-data-local:
 if BUILD_UPDATE_ALTERNATIVES
@@ -62,17 +77,13 @@ endif
 
 uninstall-local:
 	rm -f $(DESTDIR)$(sysconfdir)/alternatives/README
-if BUILD_INSTALL_INFO
-	rm -f $(DESTDIR)$(sbindir)/install-info
-endif
 
-TEST_VERBOSE = 0
-TEST_ENV_VARS = DPKG_DATADIR=$(top_srcdir)
+TEST_ENV_VARS = DPKG_DATADIR=$(top_srcdir)/data
 
 test_tmpdir = t.tmp
-test_cases = \
-	t/100_update_alternatives.t
+test_scripts = \
+	t/update_alternatives.t
 
-include $(top_srcdir)/Makecheck.am
+include $(top_srcdir)/check.am
 
 clean-local: check-clean

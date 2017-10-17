@@ -2,8 +2,8 @@
  * dpkg - main program for package management
  * infodb.c - package control information database
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2011 Guillem Jover <guillem@debian.org>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -50,7 +50,7 @@ pkg_infodb_has_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	else if (errno == ENOENT)
 		return false;
 	else
-		ohshite(_("unable to check existence of `%.250s'"), filename);
+		ohshite(_("unable to check existence of '%.250s'"), filename);
 }
 
 void
@@ -59,20 +59,24 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 {
 	DIR *db_dir;
 	struct dirent *db_de;
+	struct varbuf_state db_path_state;
 	struct varbuf db_path = VARBUF_INIT;
 	const char *pkgname;
-	size_t db_path_len;
+	enum pkg_infodb_format db_format;
 
-	if (pkgbin->multiarch == multiarch_same &&
-	    pkg_infodb_get_format() == pkg_infodb_format_multiarch)
+	/* Make sure to always read and verify the format version. */
+	db_format = pkg_infodb_get_format();
+
+	if (pkgbin->multiarch == PKG_MULTIARCH_SAME &&
+	    db_format == PKG_INFODB_FORMAT_MULTIARCH)
 		pkgname = pkgbin_name(pkg, pkgbin, pnaw_always);
 	else
 		pkgname = pkgbin_name(pkg, pkgbin, pnaw_never);
 
 	varbuf_add_str(&db_path, pkg_infodb_get_dir());
 	varbuf_add_char(&db_path, '/');
-	db_path_len = db_path.used;
-	varbuf_add_char(&db_path, '\0');
+	varbuf_end_str(&db_path);
+	varbuf_snapshot(&db_path, &db_path_state);
 
 	db_dir = opendir(db_path.buf);
 	if (!db_dir)
@@ -104,7 +108,7 @@ pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
 		/* Skip past the full stop. */
 		filetype = dot + 1;
 
-		varbuf_trunc(&db_path, db_path_len);
+		varbuf_rollback(&db_path, &db_path_state);
 		varbuf_add_str(&db_path, db_de->d_name);
 		varbuf_end_str(&db_path);
 		filename = db_path.buf;

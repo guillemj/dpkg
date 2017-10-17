@@ -3,7 +3,7 @@
  * filters.c - filtering routines for excluding bits of packages
  *
  * Copyright © 2007, 2008 Tollef Fog Heen <tfheen@err.no>
- * Copyright © 2008, 2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2008, 2010, 2012-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2010 Canonical Ltd.
  *   written by Martin Pitt <martin.pitt@canonical.com>
  *
@@ -18,7 +18,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -48,7 +48,7 @@ filter_add(const char *pattern, bool include)
 {
 	struct filter_node *filter;
 
-	debug(dbg_general, "adding %s filter for '%s'\n",
+	debug(dbg_general, "adding %s filter for '%s'",
 	      include ? "include" : "exclude", pattern);
 
 	filter = m_malloc(sizeof(*filter));
@@ -93,8 +93,8 @@ filter_should_skip(struct tar_entry *ti)
 	 * directories than necessary, but better err on the side of caution
 	 * than failing with “no such file or directory” (which would leave
 	 * the package in a very bad state). */
-	if (skip && (ti->type == tar_filetype_dir ||
-	             ti->type == tar_filetype_symlink)) {
+	if (skip && (ti->type == TAR_FILETYPE_DIR ||
+	             ti->type == TAR_FILETYPE_SYMLINK)) {
 		debug(dbg_eachfile,
 		      "filter seeing if '%s' needs to be reincluded",
 		      &ti->name[1]);
@@ -114,8 +114,12 @@ filter_should_skip(struct tar_entry *ti)
 			else
 				path_len = strlen(f->pattern);
 
+			/* Ignore any trailing slash for the comparison. */
+			while (path_len && f->pattern[path_len - 1] == '/')
+				path_len--;
+
 			debug(dbg_eachfiledetail,
-			      "filter subpattern '%*.s'", path_len, f->pattern);
+			      "filter subpattern '%.*s'", path_len, f->pattern);
 
 			if (strncmp(&ti->name[1], f->pattern, path_len) == 0) {
 				debug(dbg_eachfile, "filter reincluding %s",

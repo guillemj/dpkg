@@ -2,8 +2,8 @@
  * dpkg - main program for package management
  * filesdb.h - management of database of files installed on system
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef FILESDB_H
@@ -56,10 +56,31 @@ enum fnnflags {
     fnn_nonew			= DPKG_BIT(1),
 };
 
+enum filenamenode_flags {
+	/** In the newconffiles list. */
+	fnnf_new_conff			= DPKG_BIT(0),
+	/** In the new filesystem archive. */
+	fnnf_new_inarchive		= DPKG_BIT(1),
+	/** In the old package's conffiles list. */
+	fnnf_old_conff			= DPKG_BIT(2),
+	/** Obsolete conffile. */
+	fnnf_obs_conff			= DPKG_BIT(3),
+	/** Must remove from other packages' lists. */
+	fnnf_elide_other_lists		= DPKG_BIT(4),
+	/** >= 1 instance is a dir, cannot rename over. */
+	fnnf_no_atomic_overwrite	= DPKG_BIT(5),
+	/** New file has been placed on the disk. */
+	fnnf_placed_on_disk		= DPKG_BIT(6),
+	fnnf_deferred_fsync		= DPKG_BIT(7),
+	fnnf_deferred_rename		= DPKG_BIT(8),
+	/** Path being filtered. */
+	fnnf_filtered			= DPKG_BIT(9),
+};
+
 struct filenamenode {
   struct filenamenode *next;
   const char *name;
-  struct filepackages *packages;
+  struct pkg_list *packages;
   struct diversion *divert;
 
   /** We allow the administrator to override the owner, group and mode of
@@ -75,26 +96,7 @@ struct filenamenode {
    */
 
   /** Set to zero when a new node is created. */
-  enum {
-    /** In the newconffiles list. */
-    fnnf_new_conff		= DPKG_BIT(0),
-    /** In the new filesystem archive. */
-    fnnf_new_inarchive		= DPKG_BIT(1),
-    /** In the old package's conffiles list. */
-    fnnf_old_conff		= DPKG_BIT(2),
-    /** Obsolete conffile. */
-    fnnf_obs_conff		= DPKG_BIT(3),
-    /** Must remove from other packages' lists. */
-    fnnf_elide_other_lists	= DPKG_BIT(4),
-    /** >= 1 instance is a dir, cannot rename over. */
-    fnnf_no_atomic_overwrite	= DPKG_BIT(5),
-    /** New file has been placed on the disk. */
-    fnnf_placed_on_disk		= DPKG_BIT(6),
-    fnnf_deferred_fsync		= DPKG_BIT(7),
-    fnnf_deferred_rename	= DPKG_BIT(8),
-    /** Path being filtered. */
-    fnnf_filtered		= DPKG_BIT(9),
-  } flags;
+  enum filenamenode_flags flags;
 
   /** Valid iff this namenode is in the newconffiles list. */
   const char *oldhash;
@@ -109,6 +111,13 @@ struct filenamenode {
 struct fileinlist {
   struct fileinlist *next;
   struct filenamenode *namenode;
+};
+
+/**
+ * Queue of filenamenode entries.
+ */
+struct filenamenode_queue {
+  struct fileinlist *head, **tail;
 };
 
 /**
@@ -143,6 +152,7 @@ struct pkginfo *filepackages_iter_next(struct filepackages_iterator *iter);
 void filepackages_iter_free(struct filepackages_iterator *iter);
 
 void filesdbinit(void);
+void files_db_reset(void);
 
 struct fileiterator;
 struct fileiterator *files_db_iter_new(void);
@@ -153,10 +163,15 @@ void ensure_package_clientdata(struct pkginfo *pkg);
 
 void ensure_diversions(void);
 
+enum statdb_parse_flags {
+	STATDB_PARSE_NORMAL = 0,
+	STATDB_PARSE_LAX = 1,
+};
+
 uid_t statdb_parse_uid(const char *str);
 gid_t statdb_parse_gid(const char *str);
 mode_t statdb_parse_mode(const char *str);
-void ensure_statoverrides(void);
+void ensure_statoverrides(enum statdb_parse_flags flags);
 
 #define LISTFILE           "list"
 #define HASHFILE           "md5sums"
@@ -166,10 +181,11 @@ void ensure_allinstfiles_available(void);
 void ensure_allinstfiles_available_quiet(void);
 void note_must_reread_files_inpackage(struct pkginfo *pkg);
 struct filenamenode *findnamenode(const char *filename, enum fnnflags flags);
+void parse_filehash(struct pkginfo *pkg, struct pkgbin *pkgbin);
 void write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                           struct fileinlist *list, enum fnnflags mask);
+                           struct fileinlist *list, enum filenamenode_flags mask);
 void write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                           struct fileinlist *list, enum fnnflags mask);
+                           struct fileinlist *list, enum filenamenode_flags mask);
 
 struct reversefilelistiter { struct fileinlist *todo; };
 

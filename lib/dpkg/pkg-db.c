@@ -2,8 +2,8 @@
  * libdpkg - Debian packaging suite library routines
  * pkg-db.c - low level package database routines (hash tables, etc.)
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -18,48 +18,31 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
 #include <compat.h>
 
 #include <assert.h>
-#include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 #include <dpkg/arch.h>
 
 /* This must always be a prime for optimal performance.
  * With 4093 buckets, we glean a 20% speedup, for 8191 buckets
  * we get 23%. The nominal increase in memory usage is a mere
- * sizeof(void *) * 8063 (i.e. less than 32 KiB on 32bit systems). */
+ * sizeof(void *) * 8191 (i.e. less than 32 KiB on 32bit systems). */
 #define BINS 8191
 
 static struct pkgset *bins[BINS];
 static int npkg, nset;
-
-#define FNV_offset_basis 2166136261ul
-#define FNV_mixing_prime 16777619ul
-
-/**
- * Fowler/Noll/Vo -- simple string hash.
- *
- * For more info, see <http://www.isthe.com/chongo/tech/comp/fnv/index.html>.
- */
-static unsigned int hash(const char *name) {
-  register unsigned int h = FNV_offset_basis;
-  register unsigned int p = FNV_mixing_prime;
-  while( *name ) {
-    h *= p;
-    h ^= *name++;
-  }
-  return h;
-}
 
 /**
  * Return the package set with the given name.
@@ -84,9 +67,12 @@ pkg_db_find_set(const char *inname)
   char *name = m_strdup(inname), *p;
 
   p= name;
-  while(*p) { *p= tolower(*p); p++; }
+  while (*p) {
+    *p = c_tolower(*p);
+    p++;
+  }
 
-  setp = bins + (hash(name) % (BINS));
+  setp = bins + (str_fnv_hash(name) % (BINS));
   while (*setp && strcasecmp((*setp)->name, name))
     setp = &(*setp)->next;
   if (*setp) {
@@ -129,14 +115,14 @@ pkg_db_get_singleton(struct pkgset *set)
     for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
       const struct dpkg_arch *arch = pkg->available.arch;
 
-      if (arch->type == arch_native || arch->type == arch_all)
+      if (arch->type == DPKG_ARCH_NATIVE || arch->type == DPKG_ARCH_ALL)
         return pkg;
     }
     /* Or failing that, the first entry. */
     return &set->pkg;
   case 1:
     for (pkg = &set->pkg; pkg; pkg = pkg->arch_next) {
-      if (pkg->status > stat_notinstalled)
+      if (pkg->status > PKG_STAT_NOTINSTALLED)
         return pkg;
     }
     internerr("pkgset '%s' should have one installed instance", set->name);
@@ -186,12 +172,12 @@ pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
   struct pkginfo *pkg, **pkgp;
 
   assert(arch);
-  assert(arch->type != arch_none);
+  assert(arch->type != DPKG_ARCH_NONE);
 
   pkg = &set->pkg;
 
   /* If there's a single unused slot, let's use that. */
-  if (pkg->installed.arch->type == arch_none && pkg->arch_next == NULL) {
+  if (pkg->installed.arch->type == DPKG_ARCH_NONE && pkg->arch_next == NULL) {
     pkg->installed.arch = arch;
     pkg->available.arch = arch;
     return pkg;
@@ -331,7 +317,7 @@ pkg_db_iter_next_set(struct pkgiterator *iter)
 struct pkginfo *
 pkg_db_iter_next_pkg(struct pkgiterator *iter)
 {
-  struct pkginfo *r;
+  struct pkginfo *pkg;
 
   while (!iter->pkg) {
     if (iter->nbinn >= BINS)
@@ -341,15 +327,15 @@ pkg_db_iter_next_pkg(struct pkgiterator *iter)
     iter->nbinn++;
   }
 
-  r = iter->pkg;
-  if (r->arch_next)
-    iter->pkg = r->arch_next;
-  else if (r->set->next)
-    iter->pkg = &r->set->next->pkg;
+  pkg = iter->pkg;
+  if (pkg->arch_next)
+    iter->pkg = pkg->arch_next;
+  else if (pkg->set->next)
+    iter->pkg = &pkg->set->next->pkg;
   else
     iter->pkg = NULL;
 
-  return r;
+  return pkg;
 }
 
 /**

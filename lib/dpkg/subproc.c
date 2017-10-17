@@ -2,7 +2,8 @@
  * libdpkg - Debian packaging suite library routines
  * subproc.c - subprocess helper routines
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -38,8 +39,27 @@
 static int signo_ignores[] = { SIGQUIT, SIGINT };
 static struct sigaction sa_save[array_count(signo_ignores)];
 
+static void
+subproc_reset_signal(int sig, struct sigaction *sa_old)
+{
+	if (sigaction(sig, sa_old, NULL)) {
+		fprintf(stderr, _("error un-catching signal %s: %s\n"),
+		        strsignal(sig), strerror(errno));
+		onerr_abort++;
+	}
+}
+
+static void
+subproc_set_signal(int sig, struct sigaction *sa, struct sigaction *sa_old,
+                   const char *name)
+{
+	if (sigaction(sig, sa, sa_old))
+		ohshite(_("unable to ignore signal %s before running %.250s"),
+		        strsignal(sig), name);
+}
+
 void
-subproc_signals_setup(const char *name)
+subproc_signals_ignore(const char *name)
 {
 	struct sigaction sa;
 	size_t i;
@@ -51,9 +71,8 @@ subproc_signals_setup(const char *name)
 	sa.sa_flags = 0;
 
 	for (i = 0; i < array_count(signo_ignores); i++)
-		if (sigaction(signo_ignores[i], &sa, &sa_save[i]))
-			ohshite(_("unable to ignore signal %s before running %.250s"),
-			        strsignal(signo_ignores[i]), name);
+		subproc_set_signal(signo_ignores[i], &sa, &sa_save[i], name);
+
 	push_cleanup(subproc_signals_cleanup, ~0, NULL, 0, 0);
 	onerr_abort--;
 }
@@ -63,17 +82,18 @@ subproc_signals_cleanup(int argc, void **argv)
 {
 	size_t i;
 
-	for (i = 0; i < array_count(signo_ignores); i++) {
-		if (sigaction(signo_ignores[i], &sa_save[i], NULL)) {
-			fprintf(stderr, _("error un-catching signal %s: %s\n"),
-			        strsignal(signo_ignores[i]), strerror(errno));
-			onerr_abort++;
-		}
-	}
+	for (i = 0; i < array_count(signo_ignores); i++)
+		subproc_reset_signal(signo_ignores[i], &sa_save[i]);
+}
+
+void
+subproc_signals_restore(void)
+{
+	pop_cleanup(ehflag_normaltidy);
 }
 
 static void
-print_subproc_error(const char *emsg, const char *contextstring)
+print_subproc_error(const char *emsg, const void *data)
 {
 	fprintf(stderr, _("%s (subprocess): %s\n"), dpkg_get_progname(), emsg);
 }
@@ -98,13 +118,13 @@ subproc_fork(void)
 	return pid;
 }
 
-int
-subproc_check(int status, const char *desc, int flags)
+static int
+subproc_check(int status, const char *desc, enum subproc_flags flags)
 {
 	void (*out)(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 	int n;
 
-	if (flags & PROCWARN)
+	if (flags & SUBPROC_WARN)
 		out = warning;
 	else
 		out = ohshit;
@@ -113,53 +133,63 @@ subproc_check(int status, const char *desc, int flags)
 		n = WEXITSTATUS(status);
 		if (!n)
 			return 0;
-		if (flags & PROCNOERR)
+		if (flags & SUBPROC_RETERROR)
 			return n;
 
-		out(_("subprocess %s returned error exit status %d"), desc, n);
+		out(_("%s subprocess returned error exit status %d"), desc, n);
 	} else if (WIFSIGNALED(status)) {
 		n = WTERMSIG(status);
 		if (!n)
 			return 0;
-		if ((flags & PROCPIPE) && n == SIGPIPE)
+		if ((flags & SUBPROC_NOPIPE) && n == SIGPIPE)
 			return 0;
+		if (flags & SUBPROC_RETSIGNO)
+			return n;
 
 		if (n == SIGINT)
-			out(_("subprocess %s was interrupted"), desc);
+			out(_("%s subprocess was interrupted"), desc);
 		else
-			out(_("subprocess %s was killed by signal (%s)%s"),
+			out(_("%s subprocess was killed by signal (%s)%s"),
 			    desc, strsignal(n),
 			    WCOREDUMP(status) ? _(", core dumped") : "");
 	} else {
-		out(_("subprocess %s failed with wait status code %d"), desc,
+		if (flags & SUBPROC_RETERROR)
+			return -1;
+
+		out(_("%s subprocess failed with wait status code %d"), desc,
 		    status);
 	}
 
 	return -1;
 }
 
-int
+static int
 subproc_wait(pid_t pid, const char *desc)
 {
-	pid_t r;
+	pid_t dead_pid;
 	int status;
 
-	while ((r = waitpid(pid, &status, 0)) == -1 && errno == EINTR) ;
+	while ((dead_pid = waitpid(pid, &status, 0)) == -1 && errno == EINTR) ;
 
-	if (r != pid) {
+	if (dead_pid != pid) {
 		onerr_abort++;
-		ohshite(_("wait for subprocess %s failed"), desc);
+		ohshite(_("wait for %s subprocess failed"), desc);
 	}
 
 	return status;
 }
 
 int
-subproc_wait_check(pid_t pid, const char *desc, int flags)
+subproc_reap(pid_t pid, const char *desc, enum subproc_flags flags)
 {
-	int status;
+	int status, rc;
 
 	status = subproc_wait(pid, desc);
 
-	return subproc_check(status, desc, flags);
+	if (flags & SUBPROC_NOCHECK)
+		rc = status;
+	else
+		rc = subproc_check(status, desc, flags);
+
+	return rc;
 }

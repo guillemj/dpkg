@@ -1,9 +1,10 @@
-/* -*- c++ -*-
+/*
  * dselect - Debian package maintenance user interface
  * pkglist.h - external definitions for package list handling
  *
- * Copyright © 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1994,1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright © 2007-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +17,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef PKGLIST_H
@@ -66,14 +67,15 @@ struct perpackagestate {
   /* The ‘heading’ entries in the list, for “all packages of type foo”,
    * point to a made-up pkginfo, which has pkg->name==0.
    * pkg->priority and pkg->section are set to the values if appropriate, or to
-   * pri_unset resp. null if the heading refers to all priorities resp. sections.
+   * PKG_PRIO_UNSET resp. null if the heading refers to all priorities resp.
+   * sections.
    * uprec is used when constructing the list initially and when tearing it
    * down and should not otherwise be used; other fields are undefined.
    */
-  pkginfo::pkgwant original;         // set by caller
-  pkginfo::pkgwant direct;           // set by caller
-  pkginfo::pkgwant suggested;        // set by caller, modified by resolvesuggest
-  pkginfo::pkgwant selected;         // not set by caller, will be set by packagelist
+  pkgwant original;                  // set by caller
+  pkgwant direct;                    // set by caller
+  pkgwant suggested;                 // set by caller, modified by resolvesuggest
+  pkgwant selected;                  // not set by caller, will be set by packagelist
   selpriority spriority;             // monotonically increases (used by sublists)
   showpriority dpriority;            // monotonically increases (used by sublists)
   struct perpackagestate *uprec;     // 0 if this is not part of a recursive list
@@ -81,45 +83,55 @@ struct perpackagestate {
   ssstateval ssstate;
   varbuf relations;
 
-  void free(int recursive);
+  void free(bool recursive);
 };
 
 class packagelist : public baselist {
 protected:
-  int status_width, section_width, priority_width;
-  int package_width, versioninstalled_width, versionavailable_width, description_width;
-  int section_column, priority_column, versioninstalled_column;
-  int versionavailable_column, package_column, description_column;
+  column col_status;
+  column col_section;
+  column col_priority;
+  column col_package;
+  column col_archinstalled;
+  column col_archavailable;
+  column col_versioninstalled;
+  column col_versionavailable;
+  column col_description;
 
   // Only used when ‘verbose’ is set
-  int status_hold_width, status_status_width, status_want_width;
+  column col_status_hold;
+  column col_status_status;
+  column col_status_old_want;
+  column col_status_new_want;
 
   // Table of packages
   struct perpackagestate *datatable;
   struct perpackagestate **table;
 
   // Misc.
-  int recursive, nallocated, verbose;
+  int nallocated;
+  bool recursive, verbose;
   enum { so_unsorted, so_section, so_priority, so_alpha } sortorder;
   enum { sso_unsorted, sso_avail, sso_state } statsortorder;
+  enum { ado_none, ado_available, ado_both } archdisplayopt;
   enum { vdo_none, vdo_available, vdo_both } versiondisplayopt;
-  int calcssadone, calcsssdone;
+  bool calcssadone, calcsssdone;
   struct perpackagestate *headings;
 
   // Package searching flags
-  int searchdescr;
+  bool searchdescr;
   regex_t searchfsm;
 
   // Information displays
   struct infotype {
-    int (packagelist::*relevant)(); // null means always relevant
+    bool (packagelist::*relevant)(); // null means always relevant
     void (packagelist::*display)(); // null means end of table
   };
   const infotype *currentinfo;
   static const infotype infoinfos[];
   static const infotype *const baseinfo;
-  int itr_recursive();
-  int itr_nonrecursive();
+  bool itr_recursive();
+  bool itr_nonrecursive();
   void severalinfoblurb();
   void itd_mainwelcome();
   void itd_explaindisplay();
@@ -153,7 +165,7 @@ protected:
   void redraw1package(int index, int selected);
   int compareentries(const struct perpackagestate *a, const struct perpackagestate *b);
   friend int qsort_compareentries(const void *a, const void *b);
-  pkginfo::pkgwant reallywant(pkginfo::pkgwant, struct perpackagestate*);
+  pkgwant reallywant(pkgwant, struct perpackagestate *);
   int describemany(char buf[], const char *prioritystring, const char *section,
                    const struct perpackagestate *pps);
   bool deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade);
@@ -168,11 +180,11 @@ protected:
   // To do with building the list, with heading lines in it
   void discardheadings();
   void addheading(enum ssavailval, enum ssstateval,
-                  pkginfo::pkgpriority, const char*, const char *section);
+                  pkgpriority, const char *, const char *section);
   void sortinplace();
   bool affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewith);
   void affectedrange(int *startp, int *endp);
-  void setwant(pkginfo::pkgwant nw);
+  void setwant(pkgwant nw);
   void sethold(int hold);
 
  public:
@@ -195,13 +207,14 @@ protected:
   void kd_info();
   void kd_toggleinfo();
   void kd_verbose();
+  void kd_archdisplay();
   void kd_versiondisplay();
 
   packagelist(keybindings *kb); // nonrecursive
   packagelist(keybindings *kb, pkginfo **pkgltab); // recursive
   void add(pkginfo **arry) { while (*arry) add(*arry++); }
   void add(pkginfo*);
-  void add(pkginfo*, pkginfo::pkgwant);
+  void add(pkginfo *, pkgwant);
   void add(pkginfo*, const char *extrainfo, showpriority displayimportance);
   bool add(dependency *, showpriority displayimportance);
   void addunavailable(deppossi*);
@@ -214,8 +227,9 @@ protected:
   ~packagelist();
 };
 
-void repeatedlydisplay(packagelist *sub, showpriority, packagelist *unredisplay =0);
-int would_like_to_install(pkginfo::pkgwant, pkginfo *pkg);
+void repeatedlydisplay(packagelist *sub, showpriority,
+                       packagelist *unredisplay = nullptr);
+int would_like_to_install(pkgwant, pkginfo *pkg);
 
 extern const char *const wantstrings[];
 extern const char *const eflagstrings[];

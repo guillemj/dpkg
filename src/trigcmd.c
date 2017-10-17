@@ -2,8 +2,8 @@
  * dpkg-trigger - trigger management utility
  *
  * Copyright © 2007 Canonical Ltd.
- * Written by Ian Jackson <ian@davenant.greenend.org.uk>
- * Copyright © 2008-2012 Guillem Jover <guillem@debian.org>
+ * Written by Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,16 +16,13 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
 #include <compat.h>
 
 #include <sys/types.h>
-#include <sys/ioctl.h>
-#include <sys/stat.h>
-#include <sys/termios.h>
 
 #include <fcntl.h>
 #if HAVE_LOCALE_H
@@ -51,7 +48,7 @@ static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
 	printf(_("Debian %s package trigger utility version %s.\n"),
-	       dpkg_get_progname(), DPKG_VERSION_ARCH);
+	       dpkg_get_progname(), PACKAGE_RELEASE);
 
 	printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -85,6 +82,7 @@ usage(const struct cmdinfo *ci, const char *value)
 "  --admindir=<directory>           Use <directory> instead of %s.\n"
 "  --by-package=<package>           Override trigger awaiter (normally set\n"
 "                                     by dpkg).\n"
+"  --await                          Package needs to await the processing.\n"
 "  --no-await                       No package needs to await the processing.\n"
 "  --no-act                         Just test - don't actually change anything.\n"
 "\n"), ADMINDIR);
@@ -96,15 +94,10 @@ usage(const struct cmdinfo *ci, const char *value)
 
 static const char *admindir;
 static int f_noact, f_check;
+static int f_await = 1;
 
 static const char *bypackage, *activate;
 static bool done_trig, ctrig;
-
-static void
-noawait(const struct cmdinfo *ci, const char *value)
-{
-	bypackage = "-";
-}
 
 static void
 yespackage(const char *awname)
@@ -118,14 +111,17 @@ parse_awaiter_package(void)
 	struct dpkg_error err = DPKG_ERROR_INIT;
 	struct pkginfo *pkg;
 
+	if (!f_await)
+		bypackage = "-";
+
 	if (bypackage == NULL) {
 		const char *pkgname, *archname;
 
 		pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 		archname = getenv("DPKG_MAINTSCRIPT_ARCH");
 		if (pkgname == NULL || archname == NULL)
-			ohshit(_("must be called from a maintainer script"
-			         " (or with a --by-package option)"));
+			badusage(_("must be called from a maintainer script"
+			           " (or with a --by-package option)"));
 
 		pkg = pkg_spec_find_pkg(pkgname, archname, &err);
 	} else if (strcmp(bypackage, "-") == 0) {
@@ -172,22 +168,22 @@ static const struct trigdefmeths tdm_add = {
 	.trig_end = tdm_add_trig_end,
 };
 
-static void DPKG_ATTR_NORET
+static int
 do_check(void)
 {
 	enum trigdef_update_status uf;
 
-	uf = trigdef_update_start(tduf_nolockok);
+	uf = trigdef_update_start(TDUF_NO_LOCK_OK);
 	switch (uf) {
-	case tdus_error_no_dir:
+	case TDUS_ERROR_NO_DIR:
 		notice(_("triggers data directory not yet created"));
-		exit(1);
-	case tdus_error_no_deferred:
+		return 1;
+	case TDUS_ERROR_NO_DEFERRED:
 		notice(_("trigger records not yet in existence"));
-		exit(1);
-	case tdus_ok:
-	case tdus_error_empty_deferred:
-		exit(0);
+		return 1;
+	case TDUS_OK:
+	case TDUS_ERROR_EMPTY_DEFERRED:
+		return 0;
 	default:
 		internerr("unknown trigdef_update_start return value '%d'", uf);
 	}
@@ -196,7 +192,8 @@ do_check(void)
 static const struct cmdinfo cmdinfos[] = {
 	{ "admindir",        0,   1, NULL,     &admindir },
 	{ "by-package",      'f', 1, NULL,     &bypackage },
-	{ "no-await",        0,   0, NULL,     &bypackage, noawait },
+	{ "await",           0,   0, &f_await, NULL,       NULL, 1 },
+	{ "no-await",        0,   0, &f_await, NULL,       NULL, 0 },
 	{ "no-act",          0,   0, &f_noact, NULL,       NULL, 1 },
 	{ "check-supported", 0,   0, &f_check, NULL,       NULL, 1 },
 	{ "help",            '?', 0, NULL,     NULL,       usage   },
@@ -207,27 +204,21 @@ static const struct cmdinfo cmdinfos[] = {
 int
 main(int argc, const char *const *argv)
 {
-	int uf;
 	const char *badname;
-	enum trigdef_updateflags tduf;
+	enum trigdef_update_flags tduf;
+	enum trigdef_update_status tdus;
 
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE, LOCALEDIR);
-	textdomain(PACKAGE);
-
-	dpkg_set_progname("dpkg-trigger");
-	standard_startup();
-	myopt(&argv, cmdinfos, printforhelp);
+	dpkg_locales_init(PACKAGE);
+	dpkg_program_init("dpkg-trigger");
+	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
-
-	setvbuf(stdout, NULL, _IONBF, 0);
 
 	if (f_check) {
 		if (*argv)
 			badusage(_("--%s takes no arguments"),
 			         "check-supported");
-		do_check();
+		return do_check();
 	}
 
 	if (!*argv || argv[1])
@@ -235,29 +226,29 @@ main(int argc, const char *const *argv)
 
 	badname = parse_awaiter_package();
 	if (badname)
-		ohshit(_("illegal awaited package name '%.250s': %.250s"),
-		       bypackage, badname);
+		badusage(_("illegal awaited package name '%.250s': %.250s"),
+		         bypackage, badname);
 
 	activate = argv[0];
 	badname = trig_name_is_illegal(activate);
 	if (badname)
-		badusage(_("invalid trigger name `%.250s': %.250s"),
+		badusage(_("invalid trigger name '%.250s': %.250s"),
 		         activate, badname);
 
 	trigdef_set_methods(&tdm_add);
 
-	tduf = tduf_nolockok;
+	tduf = TDUF_NO_LOCK_OK;
 	if (!f_noact)
-		tduf |= tduf_write | tduf_writeifempty;
-	uf = trigdef_update_start(tduf);
-	if (uf >= 0) {
+		tduf |= TDUF_WRITE | TDUF_WRITE_IF_EMPTY;
+	tdus = trigdef_update_start(tduf);
+	if (tdus >= 0) {
 		trigdef_parse();
 		if (!done_trig)
 			trigdef_update_printf("%s %s\n", activate, bypackage);
 		trigdef_process_done();
 	}
 
-	standard_shutdown();
+	dpkg_program_done();
 
 	return 0;
 }

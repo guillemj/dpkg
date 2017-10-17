@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * test.h - test suite support
  *
- * Copyright © 2009-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,21 +15,21 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_TEST_H
 #define LIBDPKG_TEST_H
 
-#include <assert.h>
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-#ifndef TEST_MAIN_PROVIDED
+#ifndef TEST_MAIN_CTOR
 #include <dpkg/ehandle.h>
+#define TEST_MAIN_CTOR push_error_context()
+#define TEST_MAIN_DTOR pop_error_context(ehflag_normaltidy)
 #endif
-
-/* Make sure NDEBUG is never defined, as we rely on the assert() macro. */
-#undef NDEBUG
 
 /**
  * @defgroup dpkg_test Test suite support
@@ -37,27 +37,105 @@
  * @{
  */
 
-#define test_pass(a)			assert((a))
-#define test_fail(a)			assert(!(a))
-#define test_str(a, op, b)		assert(strcmp((a), (b)) op 0)
-#define test_mem(a, op, b, size)	assert(memcmp((a), (b), (size)) op 0)
+#define test_bail(reason) \
+	do { \
+		printf("Bail out! %s\n", (reason)); \
+		exit(255); \
+	} while (0)
+
+#define test_xstringify(str) \
+	#str
+#define test_stringify(str) \
+	test_xstringify(str)
+
+static inline void *
+test_alloc(void *ptr, const char *reason)
+{
+	if (ptr == NULL)
+		test_bail(reason);
+	return ptr;
+}
+
+#define test_alloc(ptr) \
+	test_alloc((ptr), "cannot allocate memory for " #ptr " in " __FILE__ ":" test_stringify(__LINE__))
+
+static int test_id = 1;
+static int test_skip_code;
+static const char *test_skip_prefix;
+static const char *test_skip_reason;
+
+#define test_plan(n) \
+	printf("1..%d\n", n);
+
+#define test_skip_all(reason) \
+	do { \
+		printf("1..0 # SKIP %s\n", (reason)); \
+		exit(0); \
+	} while (0)
+#define test_skip(reason) \
+	printf("ok %d # SKIP %s\n", test_id++, (reason))
+#define test_skip_block(cond) \
+	for (test_skip_prefix = " # SKIP ", \
+	     test_skip_reason = cond ? #cond : NULL, \
+	     test_skip_code = 1; \
+	     test_skip_prefix; \
+	     test_skip_prefix = test_skip_reason = NULL, test_skip_code = 0)
+
+#define test_todo(a, reason, desc) \
+	do { \
+		test_skip_prefix = " # TODO "; \
+		test_skip_reason = reason; \
+		test_case(a, "%s", desc); \
+		test_skip_prefix = test_skip_reason = NULL; \
+	} while(0)
+#define test_todo_block(reason) \
+	for (test_skip_prefix = " # TODO ", test_skip_reason = reason; \
+	     test_skip_prefix; \
+	     test_skip_prefix = test_skip_reason = NULL)
+
+#define test_case(a, fmt, ...) \
+	printf("%sok %d - " fmt "%s%s\n", \
+	       test_skip_code || (a) ? "" : "not ", \
+	       test_id++, __VA_ARGS__, \
+	       test_skip_reason ? test_skip_prefix : "", \
+	       test_skip_reason ? test_skip_reason : "")
+
+#define test_pass(a) \
+	test_case((a), "pass %s", #a)
+#define test_fail(a) \
+	test_case(!(a), "fail %s", #a)
+#define test_str(a, op, b) \
+	test_case(strcmp((a), (b)) op 0, "strcmp '%s' %s '%s'", a, #op, b)
+#define test_mem(a, op, b, size) \
+	test_case(memcmp((a), (b), (size)) op 0, "memcmp %p %s %p", a, #op, b)
+
+/* Specific test macros. */
+#define test_warn(e) \
+	do { \
+		test_pass((e).type == DPKG_MSG_WARN); \
+		dpkg_error_destroy(&(e)); \
+	} while (0)
+#define test_error(e) \
+	do { \
+		test_pass((e).type == DPKG_MSG_ERROR); \
+		dpkg_error_destroy(&(e)); \
+	} while (0)
 
 /** @} */
 
-#ifndef TEST_MAIN_PROVIDED
-static void test(void);
-
-int
-main(int argc, char **argv)
-{
-	push_error_context();
-
-	test();
-
-	pop_error_context(ehflag_normaltidy);
-
-	return 0;
-}
-#endif
+#define TEST_ENTRY(name) \
+static void name(void); \
+int \
+main(int argc, char **argv) \
+{ \
+	setvbuf(stdout, NULL, _IOLBF, 0); \
+ \
+	TEST_MAIN_CTOR; \
+	name(); \
+	TEST_MAIN_DTOR; \
+	return 0; \
+} \
+static void \
+name(void)
 
 #endif

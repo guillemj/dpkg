@@ -3,7 +3,7 @@
  * tarfn.h - tar archive extraction functions
  *
  * Copyright © 1995 Bruce Perens
- * Copyright © 2009-2010 Guillem Jover <guillem@debian.org>
+ * Copyright © 2009-2014, 2017 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_TARFN_H
@@ -24,8 +24,7 @@
 
 #include <sys/types.h>
 
-#include <unistd.h>
-#include <stdlib.h>
+#include <stdint.h>
 
 #include <dpkg/file.h>
 
@@ -38,24 +37,24 @@
 #define TARBLKSZ	512
 
 enum tar_format {
-	tar_format_old,
-	tar_format_gnu,
-	tar_format_ustar,
-	tar_format_pax,
+	TAR_FORMAT_OLD,
+	TAR_FORMAT_GNU,
+	TAR_FORMAT_USTAR,
+	TAR_FORMAT_PAX,
 };
 
 enum tar_filetype {
 	/** For compatibility with decades-old bug. */
-	tar_filetype_file0 = '\0',
-	tar_filetype_file = '0',
-	tar_filetype_hardlink = '1',
-	tar_filetype_symlink = '2',
-	tar_filetype_chardev = '3',
-	tar_filetype_blockdev = '4',
-	tar_filetype_dir = '5',
-	tar_filetype_fifo = '6',
-	tar_filetype_gnu_longlink = 'K',
-	tar_filetype_gnu_longname = 'L',
+	TAR_FILETYPE_FILE0 = '\0',
+	TAR_FILETYPE_FILE = '0',
+	TAR_FILETYPE_HARDLINK = '1',
+	TAR_FILETYPE_SYMLINK = '2',
+	TAR_FILETYPE_CHARDEV = '3',
+	TAR_FILETYPE_BLOCKDEV = '4',
+	TAR_FILETYPE_DIR = '5',
+	TAR_FILETYPE_FIFO = '6',
+	TAR_FILETYPE_GNU_LONGLINK = 'K',
+	TAR_FILETYPE_GNU_LONGNAME = 'L',
 };
 
 struct tar_entry {
@@ -89,6 +88,14 @@ struct tar_operations {
 	tar_make_func *mkdir;
 	tar_make_func *mknod;
 };
+
+uintmax_t
+tar_atoul(const char *s, size_t size, uintmax_t max);
+intmax_t
+tar_atosl(const char *s, size_t size, intmax_t min, intmax_t max);
+
+void
+tar_entry_update_from_system(struct tar_entry *te);
 
 int tar_extractor(void *ctx, const struct tar_operations *ops);
 

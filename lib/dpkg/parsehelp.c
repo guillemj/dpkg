@@ -2,7 +2,7 @@
  * libdpkg - Debian packaging suite library routines
  * parsehelp.c - helpful routines for parsing and writing
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -16,20 +16,20 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
 #include <compat.h>
 
 #include <errno.h>
-#include <ctype.h>
 #include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <dpkg/i18n.h>
+#include <dpkg/c-ctype.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/string.h>
@@ -44,11 +44,14 @@ parse_error_msg(struct parsedb_state *ps, const char *fmt)
 
   str_escape_fmt(filename, ps->filename, sizeof(filename));
 
-  if (ps->pkg && ps->pkg->set->name)
+  if (ps->pkg && ps->pkg->set->name) {
+    char pkgname[256];
+
+    str_escape_fmt(pkgname, pkgbin_name(ps->pkg, ps->pkgbin, pnaw_nonambig),
+                   sizeof(pkgname));
     sprintf(msg, _("parsing file '%.255s' near line %d package '%.255s':\n"
-                   " %.255s"), filename, ps->lno,
-                   pkgbin_name(ps->pkg, ps->pkgbin, pnaw_nonambig), fmt);
-  else
+                   " %.255s"), filename, ps->lno, pkgname, fmt);
+  } else
     sprintf(msg, _("parsing file '%.255s' near line %d:\n"
                    " %.255s"), filename, ps->lno, fmt);
 
@@ -74,57 +77,29 @@ parse_warn(struct parsedb_state *ps, const char *fmt, ...)
   va_end(args);
 }
 
-const struct namevalue booleaninfos[] = {
-  NAMEVALUE_DEF("no",  false),
-  NAMEVALUE_DEF("yes", true),
-  { .name = NULL }
-};
+const struct fieldinfo *
+find_field_info(const struct fieldinfo *fields, const char *fieldname)
+{
+  const struct fieldinfo *field;
 
-const struct namevalue multiarchinfos[] = {
-  NAMEVALUE_DEF("no",      multiarch_no),
-  NAMEVALUE_DEF("same",    multiarch_same),
-  NAMEVALUE_DEF("allowed", multiarch_allowed),
-  NAMEVALUE_DEF("foreign", multiarch_foreign),
-  { .name = NULL }
-};
+  for (field = fields; field->name; field++)
+    if (strcasecmp(field->name, fieldname) == 0)
+      return field;
 
-const struct namevalue priorityinfos[] = {
-  NAMEVALUE_DEF("required",                      pri_required),
-  NAMEVALUE_DEF("important",                     pri_important),
-  NAMEVALUE_DEF("standard",                      pri_standard),
-  NAMEVALUE_DEF("optional",                      pri_optional),
-  NAMEVALUE_DEF("extra",                         pri_extra),
-  NAMEVALUE_FALLBACK_DEF("this is a bug - please report", pri_other),
-  NAMEVALUE_DEF("unknown",                       pri_unknown),
-  { .name = NULL }
-};
+  return NULL;
+}
 
-const struct namevalue statusinfos[] = {
-  NAMEVALUE_DEF("not-installed",    stat_notinstalled),
-  NAMEVALUE_DEF("config-files",     stat_configfiles),
-  NAMEVALUE_DEF("half-installed",   stat_halfinstalled),
-  NAMEVALUE_DEF("unpacked",         stat_unpacked),
-  NAMEVALUE_DEF("half-configured",  stat_halfconfigured),
-  NAMEVALUE_DEF("triggers-awaited", stat_triggersawaited),
-  NAMEVALUE_DEF("triggers-pending", stat_triggerspending),
-  NAMEVALUE_DEF("installed",        stat_installed),
-  { .name = NULL }
-};
+const struct arbitraryfield *
+find_arbfield_info(const struct arbitraryfield *arbs, const char *fieldname)
+{
+  const struct arbitraryfield *arbfield;
 
-const struct namevalue eflaginfos[] = {
-  NAMEVALUE_DEF("ok",        eflag_ok),
-  NAMEVALUE_DEF("reinstreq", eflag_reinstreq),
-  { .name = NULL }
-};
+  for (arbfield = arbs; arbfield; arbfield = arbfield->next)
+    if (strcasecmp(arbfield->name, fieldname) == 0)
+      return arbfield;
 
-const struct namevalue wantinfos[] = {
-  NAMEVALUE_DEF("unknown",   want_unknown),
-  NAMEVALUE_DEF("install",   want_install),
-  NAMEVALUE_DEF("hold",      want_hold),
-  NAMEVALUE_DEF("deinstall", want_deinstall),
-  NAMEVALUE_DEF("purge",     want_purge),
-  { .name = NULL }
-};
+  return NULL;
+}
 
 const char *
 pkg_name_is_illegal(const char *p)
@@ -135,14 +110,15 @@ pkg_name_is_illegal(const char *p)
   int c;
 
   if (!*p) return _("may not be empty string");
-  if (!isalnum(*p))
+  if (!c_isalnum(*p))
     return _("must start with an alphanumeric character");
   while ((c = *p++) != '\0')
-    if (!isalnum(c) && !strchr(alsoallowed,c)) break;
+    if (!c_isalnum(c) && !strchr(alsoallowed, c))
+      break;
   if (!c) return NULL;
 
   snprintf(buf, sizeof(buf), _(
-	   "character `%c' not allowed (only letters, digits and characters `%s')"),
+	   "character '%c' not allowed (only letters, digits and characters '%s')"),
 	   c, alsoallowed);
   return buf;
 }
@@ -213,20 +189,21 @@ parseversion(struct dpkg_version *rversion, const char *string,
   char *hyphen, *colon, *eepochcolon;
   const char *end, *ptr;
 
+  /* Trim leading and trailing space. */
+  while (*string && c_isblank(*string))
+    string++;
+
   if (!*string)
     return dpkg_put_error(err, _("version string is empty"));
 
-  /* Trim leading and trailing space. */
-  while (*string && isblank(*string))
-    string++;
   /* String now points to the first non-whitespace char. */
   end = string;
   /* Find either the end of the string, or a whitespace char. */
-  while (*end && !isblank(*end))
+  while (*end && !c_isblank(*end))
     end++;
   /* Check for extra chars after trailing space. */
   ptr = end;
-  while (*ptr && isblank(*ptr))
+  while (*ptr && c_isblank(*ptr))
     ptr++;
   if (*ptr)
     return dpkg_put_error(err, _("version string has embedded spaces"));
@@ -237,6 +214,8 @@ parseversion(struct dpkg_version *rversion, const char *string,
 
     errno = 0;
     epoch = strtol(string, &eepochcolon, 10);
+    if (string == eepochcolon)
+      return dpkg_put_error(err, _("epoch in version is empty"));
     if (colon != eepochcolon)
       return dpkg_put_error(err, _("epoch in version is not number"));
     if (epoch < 0)
@@ -252,20 +231,26 @@ parseversion(struct dpkg_version *rversion, const char *string,
   }
   rversion->version= nfstrnsave(string,end-string);
   hyphen= strrchr(rversion->version,'-');
-  if (hyphen)
+  if (hyphen) {
     *hyphen++ = '\0';
+
+    if (*hyphen == '\0')
+      return dpkg_put_error(err, _("revision number is empty"));
+  }
   rversion->revision= hyphen ? hyphen : "";
 
   /* XXX: Would be faster to use something like cisversion and cisrevision. */
   ptr = rversion->version;
-  if (*ptr && !cisdigit(*ptr++))
+  if (!*ptr)
+    return dpkg_put_error(err, _("version number is empty"));
+  if (*ptr && !c_isdigit(*ptr++))
     return dpkg_put_warn(err, _("version number does not start with digit"));
   for (; *ptr; ptr++) {
-    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~:", *ptr) == NULL)
+    if (!c_isdigit(*ptr) && !c_isalpha(*ptr) && strchr(".-+~:", *ptr) == NULL)
       return dpkg_put_warn(err, _("invalid character in version number"));
   }
   for (ptr = rversion->revision; *ptr; ptr++) {
-    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".+~", *ptr) == NULL)
+    if (!c_isdigit(*ptr) && !c_isalpha(*ptr) && strchr(".+~", *ptr) == NULL)
       return dpkg_put_warn(err, _("invalid character in revision number"));
   }
 

@@ -2,7 +2,7 @@
  * dpkg-statoverride - override ownership and mode of files
  *
  * Copyright © 2000, 2001 Wichert Akkerman <wakkerma@debian.org>
- * Copyright © 2006-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -55,7 +55,7 @@ static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *cip, const char *value)
 {
 	printf(_("Debian %s version %s.\n"), dpkg_get_progname(),
-	       DPKG_VERSION_ARCH);
+	       PACKAGE_RELEASE);
 
 	printf(_(
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -75,16 +75,16 @@ usage(const struct cmdinfo *cip, const char *value)
 
 	printf(_(
 "Commands:\n"
-"  --add <owner> <group> <mode> <file>\n"
-"                           add a new entry into the database.\n"
-"  --remove <file>          remove file from the database.\n"
+"  --add <owner> <group> <mode> <path>\n"
+"                           add a new <path> entry into the database.\n"
+"  --remove <path>          remove <path> from the database.\n"
 "  --list [<glob-pattern>]  list current overrides in the database.\n"
 "\n"));
 
 	printf(_(
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
-"  --update                 immediately update file permissions.\n"
+"  --update                 immediately update <path> permissions.\n"
 "  --force                  force an action even if a sanity check fails.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
@@ -122,7 +122,13 @@ statdb_node_new(const char *user, const char *group, const char *mode)
 	filestat = nfmalloc(sizeof(*filestat));
 
 	filestat->uid = statdb_parse_uid(user);
+	if (filestat->uid == (uid_t)-1)
+		ohshit(_("user '%s' does not exist"), user);
+	filestat->uname = NULL;
 	filestat->gid = statdb_parse_gid(group);
+	if (filestat->gid == (gid_t)-1)
+		ohshit(_("group '%s' does not exist"), group);
+	filestat->gname = NULL;
 	filestat->mode = statdb_parse_mode(mode);
 
 	return filestat;
@@ -156,9 +162,13 @@ static void
 statdb_node_apply(const char *filename, struct file_stat *filestat)
 {
 	if (chown(filename, filestat->uid, filestat->gid) < 0)
-		ohshite(_("error setting ownership of `%.255s'"), filename);
-	if (chmod(filename, filestat->mode))
-		ohshite(_("error setting permissions of `%.255s'"), filename);
+		ohshite(_("error setting ownership of '%.255s'"), filename);
+	if (chmod(filename, filestat->mode & ~S_IFMT))
+		ohshite(_("error setting permissions of '%.255s'"), filename);
+
+	dpkg_selabel_load();
+	dpkg_selabel_set_context(filename, filename, filestat->mode);
+	dpkg_selabel_close();
 }
 
 static void
@@ -174,16 +184,20 @@ statdb_node_print(FILE *out, struct filenamenode *file)
 	pw = getpwuid(filestat->uid);
 	if (pw)
 		fprintf(out, "%s ", pw->pw_name);
+	else if (filestat->uname)
+		fprintf(out, "%s ", filestat->uname);
 	else
 		fprintf(out, "#%d ", filestat->uid);
 
 	gr = getgrgid(filestat->gid);
 	if (gr)
 		fprintf(out, "%s ", gr->gr_name);
+	else if (filestat->gname)
+		fprintf(out, "%s ", filestat->gname);
 	else
 		fprintf(out, "#%d ", filestat->gid);
 
-	fprintf(out, "%o %s\n", filestat->mode, file->name);
+	fprintf(out, "%o %s\n", filestat->mode & ~S_IFMT, file->name);
 }
 
 static void
@@ -195,7 +209,7 @@ statdb_write(void)
 	struct filenamenode *file;
 
 	dbname = dpkg_db_get_path(STATOVERRIDEFILE);
-	dbfile = atomic_file_new(dbname, aff_backup);
+	dbfile = atomic_file_new(dbname, ATOMIC_FILE_BACKUP);
 	atomic_file_open(dbfile);
 
 	iter = files_db_iter_new();
@@ -227,7 +241,7 @@ statoverride_add(const char *const *argv)
 		badusage(_("--%s needs four arguments"), cipaction->olong);
 
 	if (strchr(path, '\n'))
-		badusage(_("file may not contain newlines"));
+		badusage(_("path may not contain newlines"));
 
 	filename = path_cleanup(path);
 
@@ -247,11 +261,13 @@ statoverride_add(const char *const *argv)
 	if (opt_update) {
 		struct stat st;
 
-		if (stat(filename, &st) == 0)
+		if (stat(filename, &st) == 0) {
+			(*filestat)->mode |= st.st_mode & S_IFMT;
 			statdb_node_apply(filename, *filestat);
-		else if (opt_verbose)
+		} else if (opt_verbose) {
 			warning(_("--update given but %s does not exist"),
 			        filename);
+		}
 	}
 
 	statdb_write();
@@ -346,27 +362,21 @@ main(int argc, const char *const *argv)
 {
 	int ret;
 
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE, LOCALEDIR);
-	textdomain(PACKAGE);
-
-	dpkg_set_progname("dpkg-statoverride");
-	standard_startup();
-	myopt(&argv, cmdinfos, printforhelp);
+	dpkg_locales_init(PACKAGE);
+	dpkg_program_init("dpkg-statoverride");
+	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
 
 	if (!cipaction)
 		badusage(_("need an action option"));
 
-	setvbuf(stdout, NULL, _IONBF, 0);
-
 	filesdbinit();
-	ensure_statoverrides();
+	ensure_statoverrides(STATDB_PARSE_LAX);
 
 	ret = cipaction->action(argv);
 
-	standard_shutdown();
+	dpkg_program_done();
 
 	return ret;
 }

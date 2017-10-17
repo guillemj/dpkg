@@ -9,25 +9,137 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package Dpkg;
+
+=encoding utf8
+
+=head1 NAME
+
+Dpkg - module with core variables
+
+=head1 DESCRIPTION
+
+The Dpkg module provides a set of variables with information concerning
+this system installation.
+
+=cut
 
 use strict;
 use warnings;
 
-our $VERSION = "1.00";
+our $VERSION = '1.03';
+our @EXPORT_OK = qw(
+    $PROGNAME
+    $PROGVERSION
+    $PROGMAKE
+    $PROGTAR
+    $PROGPATCH
+    $CONFDIR
+    $ADMINDIR
+    $LIBDIR
+    $DATADIR
+);
+our @EXPORT = qw(
+    $version
+    $progname
+    $admindir
+    $dpkglibdir
+    $pkgdatadir
+);
 
-use base qw(Exporter);
-our @EXPORT = qw($version $progname $admindir $dpkglibdir $pkgdatadir);
+use Exporter qw(import);
 
-our ($progname) = $0 =~ m#(?:.*/)?([^/]*)#;
+=head1 VARIABLES
+
+=over 4
+
+=item $Dpkg::PROGNAME
+
+Contains the name of the current program.
+
+=item $Dpkg::PROGVERSION
+
+Contains the version of the dpkg suite.
+
+=item $Dpkg::PROGMAKE
+
+Contains the name of the system GNU make program.
+
+=item $Dpkg::PROGTAR
+
+Contains the name of the system GNU tar program.
+
+=item $Dpkg::PROGPATCH
+
+Contains the name of the system GNU patch program (or another implementation
+that is directory traversal resistant).
+
+=item $Dpkg::CONFDIR
+
+Contains the path to the dpkg system configuration directory.
+
+=item $Dpkg::ADMINDIR
+
+Contains the path to the dpkg database directory.
+
+=item $Dpkg::LIBDIR
+
+Contains the path to the dpkg methods and plugins directory.
+
+=item $Dpkg::DATADIR
+
+Contains the path to the dpkg architecture tables directory.
+
+=back
+
+=cut
+
+our ($PROGNAME) = $0 =~ m{(?:.*/)?([^/]*)};
 
 # The following lines are automatically fixed at install time
-our $version = "1.14";
-our $admindir = "/var/lib/dpkg";
-our $dpkglibdir = ".";
-our $pkgdatadir = "..";
-$pkgdatadir = $ENV{DPKG_DATADIR} if defined $ENV{DPKG_DATADIR};
+our $PROGVERSION = '1.19.x';
+our $PROGMAKE = $ENV{DPKG_PROGMAKE} // 'make';
+our $PROGTAR = $ENV{DPKG_PROGTAR} // 'tar';
+our $PROGPATCH = $ENV{DPKG_PROGPATCH} // 'patch';
+
+our $CONFDIR = '/etc/dpkg';
+our $ADMINDIR = '/var/lib/dpkg';
+our $LIBDIR = '.';
+our $DATADIR = '..';
+
+$DATADIR = $ENV{DPKG_DATADIR} if defined $ENV{DPKG_DATADIR};
+
+# XXX: Backwards compatibility, to be removed on VERSION 2.00.
+## no critic (Variables::ProhibitPackageVars)
+our $version = $PROGVERSION;
+our $admindir = $ADMINDIR;
+our $dpkglibdir = $LIBDIR;
+our $pkgdatadir = $DATADIR;
+## use critic
+
+=head1 CHANGES
+
+=head2 Version 1.03 (dpkg 1.18.24)
+
+New variable: $PROGPATCH.
+
+=head2 Version 1.02 (dpkg 1.18.11)
+
+New variable: $PROGTAR, $PROGMAKE.
+
+=head2 Version 1.01 (dpkg 1.17.0)
+
+New variables: $PROGNAME, $PROGVERSION, $CONFDIR, $ADMINDIR, $LIBDIR and
+$DATADIR.
+
+Deprecated variables: $version, $admindir, $dpkglibdir and $pkgdatadir.
+
+=head2 Version 1.00 (dpkg 1.15.6)
+
+Mark the module as public.
+
+=cut
 
 1;

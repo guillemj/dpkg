@@ -3,7 +3,7 @@
 # dpkg-name
 #
 # Copyright © 1995,1996 Erick Branderhorst <branderh@debian.org>.
-# Copyright © 2006-2010,2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2010, 2012-2015 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,25 +16,26 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 use warnings;
 use strict;
 
 use File::Basename;
-use File::Path;
+use File::Path qw(make_path);
 
-use Dpkg;
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Version;
 use Dpkg::Control;
 use Dpkg::Arch qw(get_host_arch);
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 my %options = (
     subdir => 0,
-    destdir => "",
+    destdir => '',
     createdir => 0,
     overwrite => 0,
     symlink => 0,
@@ -43,20 +44,20 @@ my %options = (
 
 sub version()
 {
-    printf(_g("Debian %s version %s.\n"), $progname, $version);
+    printf(g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION);
 }
 
 sub usage()
 {
-    printf(_g("Usage: %s [<option>...] <file>...\n"), $progname);
+    printf(g_("Usage: %s [<option>...] <file>...\n"), $Dpkg::PROGNAME);
 
-    print(_g("
+    print(g_("
 Options:
   -a, --no-architecture    no architecture part in filename.
   -o, --overwrite          overwrite if file exists.
   -k, --symlink            don't create a new file, but a symlink.
-  -s, --subdir [dir]       move file into subdir (use with care).
-  -c, --create-dir         create target dir if not there (use with care).
+  -s, --subdir [dir]       move file into subdirectory (use with care).
+  -c, --create-dir         create target directory if not there (use with care).
   -?, --help               show this help message.
   -v, --version            show the version.
 
@@ -67,12 +68,12 @@ according to the 'underscores convention'.
 
 sub fileexists($)
 {
-    my ($filename) = @_;
+    my $filename = shift;
 
     if (-f $filename) {
         return 1;
     } else {
-        warning(_g("cannot find '%s'"), $filename);
+        warning(g_("cannot find '%s'"), $filename);
         return 0;
     }
 }
@@ -89,14 +90,14 @@ sub filesame($$)
 
 sub getfields($)
 {
-    my ($filename) = @_;
+    my $filename = shift;
 
     # Read the fields
-    open(CDATA, '-|', "dpkg-deb", "-f", "--", $filename) ||
-        syserr(_g("cannot open %s"), $filename);
+    open(my $cdata_fh, '-|', 'dpkg-deb', '-f', '--', $filename)
+        or syserr(g_('cannot open %s'), $filename);
     my $fields = Dpkg::Control->new(type => CTRL_PKG_DEB);
-    $fields->parse(\*CDATA, sprintf(_g("binary control file %s"), $filename));
-    close(CDATA);
+    $fields->parse($cdata_fh, sprintf(g_('binary control file %s'), $filename));
+    close($cdata_fh);
 
     return $fields;
 }
@@ -106,9 +107,9 @@ sub getarch($$)
     my ($filename, $fields) = @_;
 
     my $arch = $fields->{Architecture};
-    if (!$fields->{Architecture} and $options{architecture}) {
+    if (not $fields->{Architecture} and $options{architecture}) {
         $arch = get_host_arch();
-        warning(_g("assuming architecture '%s' for '%s'"), $arch, $filename);
+        warning(g_("assuming architecture '%s' for '%s'"), $arch, $filename);
     }
 
     return $arch;
@@ -119,7 +120,8 @@ sub getname($$$)
     my ($filename, $fields, $arch) = @_;
 
     my $pkg = $fields->{Package};
-    (my $version = $fields->{Version}) =~ s/.*://;
+    my $v = Dpkg::Version->new($fields->{Version});
+    my $version = $v->as_string(omit_epoch => 1);
     my $type = $fields->{'Package-Type'} || 'deb';
 
     my $tname;
@@ -130,7 +132,7 @@ sub getname($$$)
     }
     (my $name = $tname) =~ s/ //g;
     if ($tname ne $name) { # control fields have spaces
-        warning(_g("bad package control information for '%s'"), $filename);
+        warning(g_("bad package control information for '%s'"), $filename);
     }
     return $name;
 }
@@ -145,12 +147,12 @@ sub getdir($$$)
         if ($options{subdir}) {
             my $section = $fields->{Section};
             if (!$section) {
-                $section = "no-section";
-                warning(_g("assuming section '%s' for '%s'"), $section,
+                $section = 'no-section';
+                warning(g_("assuming section '%s' for '%s'"), $section,
                         $filename);
             }
-            if ($section ne "non-free" and $section ne "contrib" and
-                $section ne "no-section") {
+            if ($section ne 'non-free' and $section ne 'contrib' and
+                $section ne 'no-section') {
                 $dir = "unstable/binary-$arch/$section";
             } else {
                 $dir = "$section/binary-$arch";
@@ -165,13 +167,13 @@ sub getdir($$$)
 
 sub move($)
 {
-    my ($filename) = @_;
+    my $filename = shift;
 
     if (fileexists($filename)) {
         my $fields = getfields($filename);
 
         unless (exists $fields->{Package}) {
-            warning(_g("no Package field found in '%s', skipping it"),
+            warning(g_("no Package field found in '%s', skipping package"),
                     $filename);
             return;
         }
@@ -183,13 +185,13 @@ sub move($)
         my $dir = getdir($filename, $fields, $arch);
         if (! -d $dir) {
             if ($options{createdir}) {
-                if (mkpath($dir)) {
-                    info(_g("created directory '%s'"), $dir);
+                if (make_path($dir)) {
+                    info(g_("created directory '%s'"), $dir);
                 } else {
-                    error(_g("cannot create directory '%s'"), $dir);
+                    error(g_("cannot create directory '%s'"), $dir);
                 }
             } else {
-                error(_g("no such directory '%s', try --create-dir (-c) option"),
+                error(g_("no such directory '%s', try --create-dir (-c) option"),
                       $dir);
             }
         }
@@ -198,24 +200,24 @@ sub move($)
 
         my @command;
         if ($options{symlink}) {
-            @command = ("ln", "-s", "--");
+            @command = qw(ln -s --);
         } else {
-            @command = ("mv", "--");
+            @command = qw(mv --);
         }
 
         if (filesame($newname, $filename)) {
-            warning(_g("skipping '%s'"), $filename);
-        } elsif (-f $newname and !$options{overwrite}) {
-            warning(_g("cannot move '%s' to existing file"), $filename);
+            warning(g_("skipping '%s'"), $filename);
+        } elsif (-f $newname and not $options{overwrite}) {
+            warning(g_("cannot move '%s' to existing file"), $filename);
         } elsif (system(@command, $filename, $newname) == 0) {
-            info(_g("moved '%s' to '%s'"), basename($filename), $newname);
+            info(g_("moved '%s' to '%s'"), basename($filename), $newname);
         } else {
-            error(_g("mkdir can be used to create directory"));
+            error(g_('mkdir can be used to create directory'));
         }
     }
 }
 
-@ARGV || usageerr(_g("need at least a filename"));
+my @files;
 
 while (@ARGV) {
     $_ = shift(@ARGV);
@@ -239,13 +241,19 @@ while (@ARGV) {
     } elsif (m/^-a|--no-architecture$/) {
         $options{architecture} = 0;
     } elsif (m/^--$/) {
-        foreach (@ARGV) {
-            move($_);
-        }
-        exit 0;
+        push @files, @ARGV;
+        last;
+    } elsif (m/^-/) {
+        usageerr(g_("unknown option '%s'"), $_);
     } else {
-        move($_);
+        push @files, $_;
     }
+}
+
+@files or usageerr(g_('need at least a filename'));
+
+foreach my $file (@files) {
+    move($file);
 }
 
 0;

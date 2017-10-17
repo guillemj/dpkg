@@ -12,29 +12,30 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package Dpkg::Shlibs::Symbol;
 
 use strict;
 use warnings;
 
-our $VERSION = "0.01";
+our $VERSION = '0.01';
+
+use Storable ();
+use List::Util qw(any);
 
 use Dpkg::Gettext;
-use Dpkg::Deps;
 use Dpkg::ErrorHandling;
+use Dpkg::Arch qw(debarch_is_concerned debarch_to_abiattrs);
 use Dpkg::Version;
-use Storable qw();
 use Dpkg::Shlibs::Cppfilt;
 
 # Supported alias types in the order of matching preference
-use constant 'ALIAS_TYPES' => qw(c++ symver);
+use constant ALIAS_TYPES => qw(c++ symver);
 
 sub new {
-    my $this = shift;
+    my ($this, %args) = @_;
     my $class = ref($this) || $this;
-    my %args = @_;
     my $self = bless {
 	symbol => undef,
 	symbol_templ => undef,
@@ -50,12 +51,9 @@ sub new {
 
 # Deep clone
 sub clone {
-    my $self = shift;
+    my ($self, %args) = @_;
     my $clone = Storable::dclone($self);
-    if (@_) {
-	my %args=@_;
-	$clone->{$_} = $args{$_} foreach keys %args;
-    }
+    $clone->{$_} = $args{$_} foreach keys %args;
     return $clone;
 }
 
@@ -66,7 +64,7 @@ sub parse_tagspec {
 	# (tag1=t1 value|tag2|...|tagN=tNp)
 	# Symbols ()|= cannot appear in the tag names and values
 	my $tagspec = $1;
-	my $rest = ($2) ? $2 : "";
+	my $rest = ($2) ? $2 : '';
 	my @tags = split(/\|/, $tagspec);
 
 	# Parse each tag
@@ -81,7 +79,7 @@ sub parse_tagspec {
 	}
 	return $rest;
     }
-    return undef;
+    return;
 }
 
 sub parse_symbolspec {
@@ -108,7 +106,7 @@ sub parse_symbolspec {
 		$rest = $2;
 	    }
 	}
-	error(_g("symbol name unspecified: %s"), $symbolspec) if (!$symbol);
+	error(g_('symbol name unspecified: %s'), $symbolspec) if (!$symbol);
     } else {
 	# No tag specification. Symbol name is up to the first space
 	# foobarsymbol@Base 1.0 1
@@ -126,7 +124,7 @@ sub parse_symbolspec {
     # Now parse "the rest" (minver and dep_id)
     if ($rest =~ /^\s(\S+)(?:\s(\d+))?/) {
 	$self->{minver} = $1;
-	$self->{dep_id} = defined($2) ? $2 : 0;
+	$self->{dep_id} = $2 // 0;
     } elsif (defined $opts{default_minver}) {
 	$self->{minver} = $opts{default_minver};
 	$self->{dep_id} = 0;
@@ -155,8 +153,8 @@ sub initialize {
     # Support old style wildcard syntax. That's basically a symver
     # with an optional tag.
     if ($self->get_symbolname() =~ /^\*@(.*)$/) {
-	$self->add_tag("symver") unless $self->has_tag("symver");
-	$self->add_tag("optional") unless $self->has_tag("optional");
+	$self->add_tag('symver') unless $self->has_tag('symver');
+	$self->add_tag('optional') unless $self->has_tag('optional');
 	$self->{symbol} = $1;
     }
 
@@ -164,8 +162,8 @@ sub initialize {
 	# Each symbol is matched against its version rather than full
 	# name@version string.
 	$type = (defined $type) ? 'generic' : 'alias-symver';
-	if ($self->get_symbolname() eq "Base") {
-	    error(_g("you can't use symver tag to catch unversioned symbols: %s"),
+	if ($self->get_symbolname() eq 'Base') {
+	    error(g_("you can't use symver tag to catch unversioned symbols: %s"),
 	          $self->get_symbolspec(1));
 	}
     }
@@ -184,18 +182,21 @@ sub initialize {
 }
 
 sub get_symbolname {
-    return $_[0]->{symbol};
+    my $self = shift;
+
+    return $self->{symbol};
 }
 
 sub get_symboltempl {
-    return $_[0]->{symbol_templ} || $_[0]->{symbol};
+    my $self = shift;
+
+    return $self->{symbol_templ} || $self->{symbol};
 }
 
 sub set_symbolname {
     my ($self, $name, $templ, $quoted) = @_;
-    unless (defined $name) {
-	$name = $self->{symbol};
-    }
+
+    $name //= $self->{symbol};
     if (!defined $templ && $name =~ /\s/) {
 	$templ = $name;
     }
@@ -252,8 +253,8 @@ sub get_tag_value {
 # tag sets, versioning info (minver and depid))
 sub equals {
     my ($self, $other, %opts) = @_;
-    $opts{versioning} = 1 unless exists $opts{versioning};
-    $opts{tags} = 1 unless exists $opts{tags};
+    $opts{versioning} //= 1;
+    $opts{tags} //= 1;
 
     return 0 if $self->{symbol} ne $other->{symbol};
 
@@ -265,7 +266,7 @@ sub equals {
     if ($opts{tags}) {
 	return 0 if scalar(@{$self->{tagorder}}) != scalar(@{$other->{tagorder}});
 
-	for (my $i = 0; $i < scalar(@{$self->{tagorder}}); $i++) {
+	for my $i (0 .. scalar(@{$self->{tagorder}}) - 1) {
 	    my $tag = $self->{tagorder}->[$i];
 	    return 0 if $tag ne $other->{tagorder}->[$i];
 	    if (defined $self->{tags}{$tag} && defined $other->{tags}{$tag}) {
@@ -282,32 +283,35 @@ sub equals {
 
 sub is_optional {
     my $self = shift;
-    return $self->has_tag("optional");
+    return $self->has_tag('optional');
 }
 
 sub is_arch_specific {
     my $self = shift;
-    return $self->has_tag("arch");
+    return $self->has_tag('arch');
 }
 
 sub arch_is_concerned {
     my ($self, $arch) = @_;
     my $arches = $self->{tags}{arch};
 
-    if (defined $arch && defined $arches) {
-	my $dep = Dpkg::Deps::Simple->new();
-	my @arches = split(/[\s,]+/, $arches);
-	$dep->{package} = "dummy";
-	$dep->{arches} = \@arches;
-	return $dep->arch_is_concerned($arch);
-    }
+    return 0 if defined $arch && defined $arches &&
+                !debarch_is_concerned($arch, split /[\s,]+/, $arches);
+
+    my ($bits, $endian) = debarch_to_abiattrs($arch);
+    return 0 if defined $bits && defined $self->{tags}{'arch-bits'} &&
+                $bits ne $self->{tags}{'arch-bits'};
+    return 0 if defined $endian && defined $self->{tags}{'arch-endian'} &&
+                $endian ne $self->{tags}{'arch-endian'};
 
     return 1;
 }
 
 # Get reference to the pattern the symbol matches (if any)
 sub get_pattern {
-    return $_[0]->{matching_pattern};
+    my $self = shift;
+
+    return $self->{matching_pattern};
 }
 
 ### NOTE: subroutines below require (or initialize) $self to be a pattern ###
@@ -323,30 +327,38 @@ sub init_pattern {
 
 # Is this symbol a pattern or not?
 sub is_pattern {
-    return exists $_[0]->{pattern};
+    my $self = shift;
+
+    return exists $self->{pattern};
 }
 
 # Get pattern type if this symbol is a pattern.
 sub get_pattern_type {
-    return $_[0]->{pattern}{type} || "";
+    my $self = shift;
+
+    return $self->{pattern}{type} // '';
 }
 
 # Get (sub)type of the alias pattern. Returns empty string if current
 # pattern is not alias.
 sub get_alias_type {
-    return ($_[0]->get_pattern_type() =~ /^alias-(.+)/ && $1) || "";
+    my $self = shift;
+
+    return ($self->get_pattern_type() =~ /^alias-(.+)/ && $1) || '';
 }
 
 # Get a list of symbols matching this pattern if this symbol is a pattern
 sub get_pattern_matches {
-    return @{$_[0]->{pattern}{matches}};
+    my $self = shift;
+
+    return @{$self->{pattern}{matches}};
 }
 
 # Create a new symbol based on the pattern (i.e. $self)
 # and add it to the pattern matches list.
 sub create_pattern_match {
     my $self = shift;
-    return undef unless $self->is_pattern();
+    return unless $self->is_pattern();
 
     # Leave out 'pattern' subfield while deep-cloning
     my $pattern_stuff = $self->{pattern};
@@ -377,40 +389,40 @@ sub convert_to_alias {
 	    # In case of symver, alias is symbol version. Extract it from the
 	    # rawname.
 	    return "$1" if ($rawname =~ /\@([^@]+)$/);
-	} elsif ($rawname =~ /^_Z/ && $type eq "c++") {
+	} elsif ($rawname =~ /^_Z/ && $type eq 'c++') {
 	    return cppfilt_demangle_cpp($rawname);
 	}
     }
-    return undef;
+    return;
 }
 
 sub get_tagspec {
-    my ($self) = @_;
+    my $self = shift;
     if ($self->has_tags()) {
 	my @tags;
 	for my $tagname (@{$self->{tagorder}}) {
 	    my $tagval = $self->{tags}{$tagname};
 	    if (defined $tagval) {
-		push @tags, $tagname . "="  . $tagval;
+		push @tags, $tagname . '='  . $tagval;
 	    } else {
 		push @tags, $tagname;
 	    }
 	}
-	return "(". join("|", @tags) . ")";
+	return '(' . join('|', @tags) . ')';
     }
-    return "";
+    return '';
 }
 
 sub get_symbolspec {
     my $self = shift;
     my $template_mode = shift;
-    my $spec = "";
+    my $spec = '';
     $spec .= "#MISSING: $self->{deprecated}#" if $self->{deprecated};
-    $spec .= " ";
+    $spec .= ' ';
     if ($template_mode) {
 	if ($self->has_tags()) {
 	    $spec .= sprintf('%s%3$s%s%3$s', $self->get_tagspec(),
-		$self->get_symboltempl(), $self->{symbol_quoted} || "");
+		$self->get_symboltempl(), $self->{symbol_quoted} // '');
 	} else {
 	    $spec .= $self->get_symboltempl();
 	}
@@ -441,8 +453,10 @@ sub mark_found_in_library {
     # Never remove arch tags from patterns
     if (not $self->is_pattern()) {
 	if (not $self->arch_is_concerned($arch)) {
-	    # Remove arch tag because it is incorrect.
+	    # Remove arch tags because they are incorrect.
 	    $self->delete_tag('arch');
+	    $self->delete_tag('arch-bits');
+	    $self->delete_tag('arch-endian');
 	}
     }
 }
@@ -459,7 +473,7 @@ sub mark_not_found_in_library {
 
     if ($self->{deprecated}) {
 	# Bump deprecated if the symbol is optional so that it
-	# keeps reappering in the diff while it's missing
+	# keeps reappearing in the diff while it's missing
 	$self->{deprecated} = $minver if $self->is_optional();
     } elsif (version_compare($minver, $self->{minver}) > 0) {
 	$self->{deprecated} = $minver;
@@ -485,9 +499,9 @@ sub matches_rawname {
     if ($self->is_pattern()) {
 	# Process pattern tags in the order they were specified.
 	for my $tag (@{$self->{tagorder}}) {
-	    if (grep { $tag eq $_ } ALIAS_TYPES) {
+	    if (any { $tag eq $_ } ALIAS_TYPES) {
 		$ok = not not ($target = $self->convert_to_alias($target, $tag));
-	    } elsif ($tag eq "regex") {
+	    } elsif ($tag eq 'regex') {
 		# Symbol name is a regex. Match it against the target
 		$do_eq_match = 0;
 		$ok = ($target =~ $self->{pattern}{regex});

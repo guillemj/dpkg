@@ -3,7 +3,7 @@
 # dpkg-distaddfile
 #
 # Copyright © 1996 Ian Jackson
-# Copyright © 2006-2008,2010,2012 Guillem Jover <guillem@debian.org>
+# Copyright © 2006-2008,2010,2012-2014 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,48 +16,49 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 use strict;
 use warnings;
 
-use POSIX;
-use POSIX qw(:errno_h :signal_h);
-use Dpkg;
+use POSIX qw(:errno_h :fcntl_h);
+
+use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::File;
+use Dpkg::Lock;
+use Dpkg::Dist::Files;
 
-textdomain("dpkg-dev");
+textdomain('dpkg-dev');
 
 my $fileslistfile = 'debian/files';
 
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
+    printf g_("Debian %s version %s.\n"), $Dpkg::PROGNAME, $Dpkg::PROGVERSION;
 
-    printf _g("
+    printf g_('
 This is free software; see the GNU General Public License version 2 or
 later for copying conditions. There is NO warranty.
-");
+');
 }
 
 sub usage {
-    printf _g(
-"Usage: %s [<option>...] <filename> <section> <priority>
+    printf g_(
+'Usage: %s [<option>...] <filename> <section> <priority>
 
 Options:
   -f<files-list-file>      write files here instead of debian/files.
   -?, --help               show this help message.
       --version            show the version.
-"), $progname;
+'), $Dpkg::PROGNAME;
 }
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
-    if (m/^-f/) {
-        $fileslistfile= $';
-    } elsif (m/^-(\?|-help)$/) {
+    if (m/^-f/p) {
+        $fileslistfile = ${^POSTMATCH};
+    } elsif (m/^-(?:\?|-help)$/) {
         usage();
         exit(0);
     } elsif (m/^--version$/) {
@@ -66,39 +67,31 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     } elsif (m/^--$/) {
         last;
     } else {
-        usageerr(_g("unknown option \`%s'"), $_);
+        usageerr(g_("unknown option '%s'"), $_);
     }
 }
+usageerr(g_('need exactly a filename, section and priority')) if @ARGV != 3;
 
-@ARGV == 3 || usageerr(_g("need exactly a filename, section and priority"));
-my ($file, $section, $priority) = @ARGV;
+my ($filename, $section, $priority) = @ARGV;
 
-($file =~ m/\s/ || $section =~ m/\s/ || $priority =~ m/\s/) &&
-    error(_g("filename, section and priority may contain no whitespace"));
+($filename =~ m/\s/ || $section =~ m/\s/ || $priority =~ m/\s/) &&
+    error(g_('filename, section and priority may contain no whitespace'));
 
 # Obtain a lock on debian/control to avoid simultaneous updates
 # of debian/files when parallel building is in use
 my $lockfh;
-sysopen($lockfh, "debian/control", O_WRONLY) ||
-    syserr(_g("cannot write %s"), "debian/control");
-file_lock($lockfh, "debian/control");
+my $lockfile = 'debian/control';
+sysopen($lockfh, $lockfile, O_WRONLY)
+    or syserr(g_('cannot write %s'), $lockfile);
+file_lock($lockfh, $lockfile);
 
-$fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
-open(Y, "> $fileslistfile.new") || syserr(_g("open new files list file"));
-if (open(X,"< $fileslistfile")) {
-    while (<X>) {
-        s/\n$//;
-        next if m/^(\S+) / && $1 eq $file;
-        print(Y "$_\n") || syserr(_g("copy old entry to new files list file"));
-    }
-} elsif ($! != ENOENT) {
-    syserr(_g("read old files list file"));
-}
-print(Y "$file $section $priority\n")
-    || syserr(_g("write new entry to new files list file"));
-close(Y) || syserr(_g("close new files list file"));
-rename("$fileslistfile.new", $fileslistfile) ||
-    syserr(_g("install new files list file"));
+my $dist = Dpkg::Dist::Files->new();
+$dist->load($fileslistfile) if -e $fileslistfile;
+$dist->add_file($filename, $section, $priority);
+$dist->save("$fileslistfile.new");
+
+rename("$fileslistfile.new", $fileslistfile)
+    or syserr(g_('install new files list file'));
 
 # Release the lock
-close($lockfh) || syserr(_g("cannot close %s"), "debian/control");
+close($lockfh) or syserr(g_('cannot close %s'), $lockfile);

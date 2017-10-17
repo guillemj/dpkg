@@ -1,7 +1,7 @@
 /*
  * libcompat - system compatibility library
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -25,6 +25,8 @@
 #include <string.h>
 #include <dirent.h>
 #include <stdlib.h>
+
+#include "compat.h"
 
 static int
 cleanup(DIR *dir, struct dirent **dirlist, int used)
@@ -85,11 +87,10 @@ scandir(const char *dir, struct dirent ***namelist,
 		list[used] = m;
 		used++;
 	}
-	list[used] = NULL;
 
 	closedir(d);
 
-	if (cmp != NULL)
+	if (list != NULL && cmp != NULL)
 		qsort(list, used, sizeof(struct dirent *), cmp);
 
 	*namelist = list;

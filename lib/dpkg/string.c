@@ -2,8 +2,8 @@
  * libdpkg - Debian packaging suite library routines
  * string.c - string handling routines
  *
- * Copyright © 1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2008, 2009 Guillem Jover <guillem@debian.org>
+ * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2008-2015 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -24,8 +24,51 @@
 
 #include <string.h>
 
+#include <dpkg/c-ctype.h>
 #include <dpkg/string.h>
 #include <dpkg/dpkg.h>
+
+/**
+ * Match the end of a string.
+ *
+ * @param str The string.
+ * @param end The end to match in str.
+ *
+ * @return Whether the string was matched at the end.
+ */
+bool
+str_match_end(const char *str, const char *end)
+{
+	size_t str_len = strlen(str);
+	size_t end_len = strlen(end);
+	const char *str_end = str + str_len - end_len;
+
+	if (str_len >= end_len && strcmp(str_end, end) == 0)
+		return true;
+	else
+		return false;
+}
+
+/**
+ * Print formatted output to an allocated string.
+ *
+ * @param fmt The format string.
+ * @param ... The format arguments.
+ *
+ * @return The new allocated formatted output string (never NULL).
+ */
+char *
+str_fmt(const char *fmt, ...)
+{
+	va_list args;
+	char *str;
+
+	va_start(args, fmt);
+	m_vasprintf(&str, fmt, args);
+	va_end(args);
+
+	return str;
+}
 
 /**
  * Escape format characters from a string.
@@ -69,7 +112,7 @@ str_escape_fmt(char *dst, const char *src, size_t n)
  *
  * @param src The source string to escape.
  *
- * @return The new allocated string.
+ * @return The new allocated string (never NULL).
  */
 char *
 str_quote_meta(const char *src)
@@ -79,7 +122,7 @@ str_quote_meta(const char *src)
 	new_dst = dst = m_malloc(strlen(src) * 2);
 
 	while (*src) {
-		if (!cisdigit(*src) && !cisalpha(*src))
+		if (!c_isdigit(*src) && !c_isalpha(*src))
 			*dst++ = '\\';
 
 		*dst++ = *src++;

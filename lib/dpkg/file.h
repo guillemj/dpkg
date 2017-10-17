@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBDPKG_FILE_H
@@ -39,6 +39,11 @@ struct file_stat {
 	uid_t uid;
 	gid_t gid;
 	mode_t mode;
+
+	/* Used by dpkg-statoverride when parsing the database to preserve the
+	 * user and group names in case the system does not know about them. */
+	char *uname;
+	char *gname;
 };
 
 void file_copy_perms(const char *src, const char *dst);

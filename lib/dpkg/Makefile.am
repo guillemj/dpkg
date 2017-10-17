@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = . test
+SUBDIRS = . t
 
 localedir = $(datadir)/locale
 pkgconfdir = $(sysconfdir)/@PACKAGE@
@@ -8,6 +8,7 @@ AM_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DCONFIGDIR=\"$(pkgconfdir)\" \
 	-DADMINDIR=\"$(admindir)\" \
+	-DDEFAULT_TEXT_DOMAIN=\"@PACKAGE@\" \
 	-idirafter $(top_srcdir)/lib/compat \
 	-I$(top_builddir) \
 	-I$(top_srcdir)/lib
@@ -17,18 +18,37 @@ EXTRA_DIST = \
 	libdpkg.map \
 	libdpkg.pc.in
 
-pkgconfigdir = $(libdir)/pkgconfig
+pkgconfigdir = $(devlibdir)/pkgconfig
 pkgconfig_DATA = libdpkg.pc
 
-lib_LIBRARIES = libdpkg.a
+devlib_LTLIBRARIES = libdpkg.la
 
-libdpkg_a_SOURCES = \
+libdpkg_la_LDFLAGS =
+if HAVE_LINKER_VERSION_SCRIPT
+libdpkg_la_LDFLAGS += \
+	-Wl,--version-script=$(srcdir)/libdpkg.map
+endif
+libdpkg_la_LDFLAGS += $(MD_LIBS)
+libdpkg_la_LIBADD = \
+	../compat/libcompat.la
+if BUILD_SHARED
+libdpkg_la_LIBADD += \
+	$(LIBINTL) \
+	$(Z_LIBS) \
+	$(LZMA_LIBS) \
+	$(BZ2_LIBS)
+endif
+EXTRA_libdpkg_la_DEPENDENCIES = \
+	libdpkg.map
+libdpkg_la_SOURCES = \
 	dlist.h \
 	ar.c \
 	arch.c \
 	atomic-file.c \
 	buffer.c \
+	c-ctype.c \
 	cleanup.c \
+	color.c \
 	command.c \
 	compress.c \
 	dbdir.c \
@@ -44,35 +64,41 @@ libdpkg_a_SOURCES = \
 	file.c \
 	fields.c \
 	glob.c \
-	i18n.h \
+	i18n.c i18n.h \
 	log.c \
-	md5.c md5.h \
 	mlib.c \
 	namevalue.c \
 	nfmalloc.c \
 	options.c \
+	options-parsers.c \
 	parse.c \
 	parsehelp.c \
 	path.c \
+	path-remove.c \
 	pkg.c \
 	pkg-db.c \
 	pkg-array.c \
 	pkg-format.c \
 	pkg-list.c \
+	pkg-namevalue.c \
 	pkg-queue.c \
 	pkg-show.c \
 	pkg-spec.c \
 	progname.c \
+	program.c \
 	progress.c \
 	report.c \
 	string.c \
+	strhash.c \
+	strwide.c \
 	subproc.c \
 	tarfn.c \
 	test.h \
+	treewalk.c \
 	trigname.c \
 	trignote.c \
 	triglib.c \
-	trigdeferred.l \
+	trigdeferred.c \
 	utils.c \
 	varbuf.c \
 	version.c
@@ -82,6 +108,8 @@ pkginclude_HEADERS = \
 	arch.h \
 	atomic-file.h \
 	buffer.h \
+	c-ctype.h \
+	color.h \
 	command.h \
 	compress.h \
 	deb-version.h \
@@ -107,11 +135,13 @@ pkginclude_HEADERS = \
 	pkg-show.h \
 	pkg-spec.h \
 	progname.h \
+	program.h \
 	progress.h \
 	report.h \
 	string.h \
 	subproc.h \
 	tarfn.h \
+	treewalk.h \
 	trigdeferred.h \
 	triglib.h \
 	varbuf.h \

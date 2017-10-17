@@ -2,8 +2,8 @@
  * libdpkg - Debian packaging suite library routines
  * pkg.c - primitives for pkg handling
  *
- * Copyright © 1995, 1996 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright © 2009-2012 Guillem Jover <guillem@debian.org>
+ * Copyright © 1995, 1996 Ian Jackson <ijackson@chiark.greenend.org.uk>
+ * Copyright © 2009-2014 Guillem Jover <guillem@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <config.h>
@@ -37,9 +37,9 @@ pkg_set_status(struct pkginfo *pkg, enum pkgstatus status)
 {
 	if (pkg->status == status)
 		return;
-	else if (pkg->status == stat_notinstalled)
+	else if (pkg->status == PKG_STAT_NOTINSTALLED)
 		pkg->set->installed_instances++;
-	else if (status == stat_notinstalled)
+	else if (status == PKG_STAT_NOTINSTALLED)
 		pkg->set->installed_instances--;
 
 	assert(pkg->set->installed_instances >= 0);
@@ -71,7 +71,7 @@ pkg_clear_eflags(struct pkginfo *pkg, enum pkgeflag eflag)
 void
 pkg_reset_eflags(struct pkginfo *pkg)
 {
-	pkg->eflag = eflag_ok;
+	pkg->eflag = PKG_EFLAG_OK;
 }
 
 /**
@@ -112,10 +112,10 @@ pkgbin_blank(struct pkgbin *pkgbin)
 void
 pkg_blank(struct pkginfo *pkg)
 {
-	pkg->status = stat_notinstalled;
-	pkg->eflag = eflag_ok;
-	pkg->want = want_unknown;
-	pkg->priority = pri_unknown;
+	pkg->status = PKG_STAT_NOTINSTALLED;
+	pkg->eflag = PKG_EFLAG_OK;
+	pkg->want = PKG_WANT_UNKNOWN;
+	pkg->priority = PKG_PRIO_UNKNOWN;
 	pkg->otherpriority = NULL;
 	pkg->section = NULL;
 	dpkg_version_blank(&pkg->configversion);
@@ -131,10 +131,10 @@ pkg_blank(struct pkginfo *pkg)
 	/* The architectures are reset here (instead of in pkgbin_blank),
 	 * because they are part of the package specification, and needed
 	 * for selections. */
-	pkg->installed.arch = dpkg_arch_get(arch_none);
-	pkg->installed.multiarch = multiarch_no;
-	pkg->available.arch = dpkg_arch_get(arch_none);
-	pkg->available.multiarch = multiarch_no;
+	pkg->installed.arch = dpkg_arch_get(DPKG_ARCH_NONE);
+	pkg->installed.multiarch = PKG_MULTIARCH_NO;
+	pkg->available.arch = dpkg_arch_get(DPKG_ARCH_NONE);
+	pkg->available.multiarch = PKG_MULTIARCH_NO;
 }
 
 void
@@ -187,9 +187,9 @@ pkg_is_informative(struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
 	/* We ignore Section and Priority, as these tend to hang around. */
 	if (pkgbin == &pkg->installed &&
-	    (pkg->want != want_unknown ||
-	     pkg->eflag != eflag_ok ||
-	     pkg->status != stat_notinstalled ||
+	    (pkg->want != PKG_WANT_UNKNOWN ||
+	     pkg->eflag != PKG_EFLAG_OK ||
+	     pkg->status != PKG_STAT_NOTINSTALLED ||
 	     dpkg_version_is_informative(&pkg->configversion)))
 		return true;
 
