@@ -368,22 +368,6 @@ if ($noclean) {
     $checkbuilddep = 0 if build_is(BUILD_SOURCE);
 }
 
-if ($< == 0) {
-    warning(g_('using a gain-root-command while being root')) if (@rootcommand);
-} else {
-    push @rootcommand, 'fakeroot' unless @rootcommand;
-}
-
-if (@rootcommand and not find_command($rootcommand[0])) {
-    if ($rootcommand[0] eq 'fakeroot' and $< != 0) {
-        error(g_("fakeroot not found, either install the fakeroot\n" .
-                 'package, specify a command with the -r option, ' .
-                 'or run this as root'));
-    } else {
-        error(g_("gain-root-command '%s' not found"), $rootcommand[0]);
-    }
-}
-
 if ($call_target_as_root and @call_target == 0) {
     error(g_('option %s is only meaningful with option %s'),
           '--as-root', '--rules-target');
@@ -435,6 +419,10 @@ set_build_profiles(@build_profiles) if @build_profiles;
 my $changelog = changelog_parse();
 my $ctrl = Dpkg::Control::Info->new();
 
+# Check whether we are doing some kind of rootless build, and sanity check
+# the fields values.
+my %rules_requires_root = parse_rules_requires_root($ctrl->get_source());
+
 my $pkg = mustsetvar($changelog->{source}, g_('source package'));
 my $version = mustsetvar($changelog->{version}, g_('source version'));
 my $v = Dpkg::Version->new($version);
@@ -457,10 +445,6 @@ if ($changedby) {
 
 # <https://reproducible-builds.org/specs/source-date-epoch/>
 $ENV{SOURCE_DATE_EPOCH} ||= $changelog->{timestamp} || time;
-
-# Check whether we are doing some kind of rootless build, and sanity check
-# the fields values.
-my %rules_requires_root = parse_rules_requires_root($ctrl->get_source());
 
 my @arch_opts;
 push @arch_opts, ('--host-arch', $host_arch) if $host_arch;
@@ -677,6 +661,24 @@ sub mustsetvar {
     return $var;
 }
 
+sub setup_rootcommand {
+    if ($< == 0) {
+        warning(g_('using a gain-root-command while being root')) if @rootcommand;
+    } else {
+        push @rootcommand, 'fakeroot' unless @rootcommand;
+    }
+
+    if (@rootcommand and not find_command($rootcommand[0])) {
+        if ($rootcommand[0] eq 'fakeroot' and $< != 0) {
+            error(g_("fakeroot not found, either install the fakeroot\n" .
+                     'package, specify a command with the -r option, ' .
+                     'or run this as root'));
+        } else {
+            error(g_("gain-root-command '%s' not found"), $rootcommand[0]);
+        }
+    }
+}
+
 sub parse_rules_requires_root {
     my $ctrl = shift;
 
@@ -707,6 +709,10 @@ sub parse_rules_requires_root {
             error(g_('field %s contains duplicate keyword %s'),
                         'Rules-Requires-Root', $keyword);
         }
+    }
+
+    if ($call_target_as_root or not exists $rrr{no}) {
+        setup_rootcommand();
     }
 
     if ($keywords_base > 1 or $keywords_base and $keywords_impl) {
