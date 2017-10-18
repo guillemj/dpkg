@@ -23,7 +23,6 @@
 use strict;
 use warnings;
 
-use Cwd;
 use File::Temp qw(tempdir);
 use File::Basename;
 use File::Copy;
@@ -433,9 +432,6 @@ if (defined $parallel) {
 
 set_build_profiles(@build_profiles) if @build_profiles;
 
-my $cwd = cwd();
-my $dir = basename($cwd);
-
 my $changelog = changelog_parse();
 my $ctrl = Dpkg::Control::Info->new();
 
@@ -525,9 +521,7 @@ if (not -x 'debian/rules') {
 }
 
 if (scalar @call_target == 0) {
-    chdir('..') or syserr('chdir ..');
-    run_cmd('dpkg-source', @source_opts, '--before-build', $dir);
-    chdir($dir) or syserr("chdir $dir");
+    run_cmd('dpkg-source', @source_opts, '--before-build', '.');
 }
 
 if ($checkbuilddep) {
@@ -564,9 +558,7 @@ run_hook('source', build_has_any(BUILD_SOURCE));
 if (build_has_any(BUILD_SOURCE)) {
     warning(g_('building a source package without cleaning up as you asked; ' .
                'it might contain undesired files')) if $noclean;
-    chdir('..') or syserr('chdir ..');
-    run_cmd('dpkg-source', @source_opts, '-b', $dir);
-    chdir($dir) or syserr("chdir $dir");
+    run_cmd('dpkg-source', @source_opts, '-b', '.');
 }
 
 run_hook('build', build_has_any(BUILD_BINARY));
@@ -617,9 +609,7 @@ if ($cleansource) {
     run_rules_cond_root('clean');
 }
 
-chdir('..') or syserr('chdir ..');
-run_cmd('dpkg-source', @source_opts, '--after-build', $dir);
-chdir($dir) or syserr("chdir $dir");
+run_cmd('dpkg-source', @source_opts, '--after-build', '.');
 
 info(describe_build($changes->{'Files'}));
 
