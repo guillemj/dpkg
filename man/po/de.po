@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2017-10-15 01:06+0200\n"
-"PO-Revision-Date: 2017-10-17 21:34+0200\n"
+"PO-Revision-Date: 2017-10-18 20:46+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -958,10 +958,10 @@ msgid ""
 "the build system.  This field is only going to be present if the builder has "
 "explicitly requested it, to avoid leaking possibly sensitive information."
 msgstr ""
-"Die Veröffentlichung und die Version (in einem nicht festgelegten Format) des "
-"auf dem Bausystem laufenden Kernels. Dieses Feld ist nur vorhanden, falls der "
-"Bauende es explizit angefordert hat, um zu verhindern, dass vertrauliche "
-"Informationen versehentlich veröffentlicht werden."
+"Die Veröffentlichung und die Version (in einem nicht festgelegten Format) "
+"des auf dem Bausystem laufenden Kernels. Dieses Feld ist nur vorhanden, "
+"falls der Bauende es explizit angefordert hat, um zu verhindern, dass "
+"vertrauliche Informationen versehentlich veröffentlicht werden."
 
 #. type: TP
 #: deb-buildinfo.man
@@ -1565,7 +1565,7 @@ msgid ""
 "file."
 msgstr ""
 "Der Wert dieses Feldes wird normalerweise aus der Datei I<debian/changelog> "
-"ausgelesen."
+"entnommen."
 
 #. type: Plain text
 #: deb-changes.man
@@ -2888,13 +2888,6 @@ msgstr "B<Description>I< Kurzbeschreibung>"
 
 #. type: Plain text
 #: deb-src-control.man dsc.man
-#, fuzzy
-#| msgid ""
-#| "The format for the package description is a short brief summary on the "
-#| "first line (after the B<Description> field). The following lines should "
-#| "be used as a longer, more detailed description. Each line of the long "
-#| "description must be preceded by a space, and blank lines in the long "
-#| "description must contain a single ‘B<.>’ following the preceding space."
 msgid ""
 "The format for the source package description is a short brief summary on "
 "the first line (after the B<Description> field).  The following lines should "
@@ -2902,7 +2895,7 @@ msgid ""
 "description must be preceded by a space, and blank lines in the long "
 "description must contain a single ‘B<.>’ following the preceding space."
 msgstr ""
-"Das Format der Paketbeschreibung ist eine kurze knappe Zusammenfassung auf "
+"Das Format der Quellpaketbeschreibung ist eine kurze knappe Zusammenfassung auf "
 "der ersten Zeile (nach dem Feld B<Description>). Die folgenden Zeilen "
 "sollten als längere, detailliertere Beschreibung verwendet werden. Jede "
 "Zeile der Langbeschreibung muss von einem Leerzeichen begonnen werden, und "
@@ -4994,10 +4987,9 @@ msgstr ""
 
 #. type: TP
 #: deb-substvars.man
-#, fuzzy, no-wrap
-#| msgid "B<source:Version>"
+#, no-wrap
 msgid "B<source:Synopsis>"
-msgstr "B<source:Version>"
+msgstr "B<source:Synopsis>"
 
 #. type: Plain text
 #: deb-substvars.man
@@ -5005,13 +4997,14 @@ msgid ""
 "The source package synopsis, extracted from the source stanza B<Description> "
 "field, if it exists (since dpkg 1.19.0)."
 msgstr ""
+"Die Quellpaketzusammenfassung, aus dem Feld B<Description> der Quellabsatzes "
+"entnommen, falls dieses existiert (seit Dpkg 1.19.0)."
 
 #. type: TP
 #: deb-substvars.man
-#, fuzzy, no-wrap
-#| msgid "B<source:Upstream-Version>"
+#, no-wrap
 msgid "B<source:Extended-Description>"
-msgstr "B<source:Upstream-Version>"
+msgstr "B<source:Extended-Description>"
 
 #. type: Plain text
 #: deb-substvars.man
@@ -5019,6 +5012,8 @@ msgid ""
 "The source package extended description, extracted from the source stanza "
 "B<Description> field, if it exists (since dpkg 1.19.0)."
 msgstr ""
+"Die erweiterte Quellpaketbeschreibung, aus dem Feld B<Description> des "
+"Quellabsatzes entnommen, falls dieses existiert (seit Dpkg 1.19.0)."
 
 #. type: TP
 #: deb-substvars.man
@@ -6385,7 +6380,7 @@ msgid ""
 "format of the extracted source package."
 msgstr ""
 "Das Feld B<Format> fügt das Format für die Datei B<.dsc> und das Format des "
-"extrahierten Quellpakets zusammen."
+"entpackten Quellpakets zusammen."
 
 #. type: Plain text
 #: dsc.man
@@ -11048,13 +11043,6 @@ msgstr "B<--query-features>I< Bereich>"
 
 #. type: Plain text
 #: dpkg-buildflags.man
-#, fuzzy
-#| msgid ""
-#| "Print the features enabled for a given area (since dpkg 1.16.2).  The "
-#| "only currently recognized areas on Debian and derivatives are B<qa>, "
-#| "B<reproducible>, B<sanitize> and B<hardening>, see the B<FEATURE AREAS> "
-#| "section for more details.  Exits with 0 if the area is known otherwise "
-#| "exits with 1."
 msgid ""
 "Print the features enabled for a given area (since dpkg 1.16.2).  The only "
 "currently recognized areas on Debian and derivatives are B<future>, B<qa>, "
@@ -11064,7 +11052,7 @@ msgid ""
 msgstr ""
 "Gibt die Funktionalitäten, die für den übergebenen Bereich aktiviert sind, "
 "aus (seit Dpkg 1.16.2). Die einzigen unter Debian und abgeleiteten "
-"Distributionen derzeit erkannten Bereiche sind B<qa>, B<reproducible>, "
+"Distributionen derzeit erkannten Bereiche sind B<future>, B<qa>, B<reproducible>, "
 "B<sanitize> und B<hardening>. Lesen Sie den Abschnitt "
 "B<FUNKTIONALITÄTSBEREICHE> für weitere Details. Beendet sich mit 0, falls "
 "der Bereich bekannt ist, andernfalls mit 1."
@@ -11282,29 +11270,28 @@ msgstr "  export DEB_BUILD_MAINT_OPTIONS=hardening=-all,+format,+fortify\n"
 #: dpkg-buildflags.man
 #, no-wrap
 msgid "future"
-msgstr ""
+msgstr "future"
 
 #. type: Plain text
 #: dpkg-buildflags.man
-#, fuzzy
-#| msgid ""
-#| "Several compile-time options (detailed below) can be used to help detect "
-#| "problems in the source code or build system."
 msgid ""
 "Several compile-time options (detailed below) can be used to enable features "
 "that should be enabled by default, but cannot due to backwards compatibility "
 "reasons."
 msgstr ""
 "Mehrere Optionen zur Kompilierung (Details weiter unten) können verwandt "
-"werden, um dabei zu helfen, Probleme im Quellcode oder im Bausystem zu "
-"erkennen."
+"werden, um Funktionen zu aktivieren, die standardmäßig aktiviert sein "
+"sollten, dies aber aufgrund von Rückwärtskompatibilitätsgründen nicht sein "
+"können."
 
+# FIXME: Why is this bold but not the others?
 #. type: TP
 #: dpkg-buildflags.man
 #, no-wrap
 msgid "B<lfs>"
-msgstr ""
+msgstr "B<lfs>"
 
+# FIXME: Missing full stop
 #. type: Plain text
 #: dpkg-buildflags.man
 msgid ""
@@ -11312,6 +11299,10 @@ msgid ""
 "architectures where their ABI does not include LFS by default, by adding B<-"
 "D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64> to B<CPPFLAGS>"
 msgstr ""
+"Diese Einstellung (standardmäßig deaktiviert) aktiviert die Unterstützung für "
+"große Dateien auf 32-Bit-Architekturen, bei denen ihre ABI diese "
+"Unterstützung nicht standardmäßig aktiviert, indem B<-D_LARGEFILE_SOURCE -D_"
+"FILE_OFFSET_BITS=64> zu B<CPPFLAGS> hinzugefügt wird."
 
 #. type: SS
 #: dpkg-buildflags.man
@@ -13925,28 +13916,24 @@ msgstr ""
 
 #. type: TP
 #: dpkg-genbuildinfo.man
-#, fuzzy, no-wrap
-#| msgid "B<--always-include-path>"
+#, no-wrap
 msgid "B<--always-include-kernel>"
-msgstr "B<--always-include-path>"
+msgstr "B<--always-include-kernel>"
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
 msgid "By default, the B<Build-Kernel-Version> field will not be written out."
 msgstr ""
+"Standardmäßig wird das Feld B<Build-Kernel-Version> nicht rausgeschrieben."
 
 #. type: Plain text
 #: dpkg-genbuildinfo.man
-#, fuzzy
-#| msgid ""
-#| "Specify this option to always write a B<Build-Path> field when generating "
-#| "the B<.buildinfo>."
 msgid ""
 "Specify this option (since dpkg 1.19.0) to always write a B<Build-Kernel-"
 "Version> field when generating the B<.buildinfo>."
 msgstr ""
-"Legen Sie diese Option fest, damit beim Erstellen der B<.buildinfo> immer "
-"das Feld B<Build-Path> geschrieben wird."
+"Legen Sie diese Option (seit Dpkg 1.19.0) fest, damit beim Erstellen der B<.buildinfo> immer "
+"das Feld B<Build-Kernel-Version> geschrieben wird."
 
 #. type: TP
 #: dpkg-genbuildinfo.man
@@ -14537,7 +14524,7 @@ msgid ""
 "listing of the files extracted as it goes."
 msgstr ""
 "Ist wie B<--extract> (B<-x>) mit B<--verbose> (B<-v>), das beim Arbeiten "
-"eine Liste von extrahierten Dateien ausgibt."
+"eine Liste von entpackten Dateien ausgibt."
 
 #. type: TP
 #: dpkg-deb.man
@@ -14730,20 +14717,12 @@ msgstr ""
 
 #. type: TP
 #: dpkg-deb.man
-#, fuzzy, no-wrap
-#| msgid "B<--uniform-compression>"
+#, no-wrap
 msgid "B<--[no-]uniform-compression>"
-msgstr "B<--uniform-compression>"
+msgstr "B<--[no-]uniform-compression>"
 
 #. type: Plain text
 #: dpkg-deb.man
-#, fuzzy
-#| msgid ""
-#| "Specify that the same compression parameters should be used for all "
-#| "archive members (i.e. B<control.tar> and B<data.tar>; since dpkg "
-#| "1.17.6).  Otherwise only the B<data.tar> member will use those "
-#| "parameters. The only supported compression types allowed to be uniformly "
-#| "used are B<none>, B<gzip> and B<xz>."
 msgid ""
 "Specify that the same compression parameters should be used for all archive "
 "members (i.e. B<control.tar> and B<data.tar>; since dpkg 1.17.6).  Otherwise "
@@ -14756,7 +14735,9 @@ msgstr ""
 "h. B<control.tar> und B<data.tar>; seit Dpkg 1.17.6) verwandt werden sollen. "
 "Andernfalls wird nur der Teil B<data.tar> diese Parameter verwenden. Die "
 "einzigen unterstützten Kompressionstypen, die übergreifend benutzt werden "
-"dürfen, sind B<none>, B<gzip> und B<xz>."
+"dürfen, sind B<none>, B<gzip> und B<xz>. Die Option B<--no-uniform-"
+"compression> deaktiviert die übergreifende Komprimierung (seit Dpkg 1.19.0). "
+"Übergreifende Komprimierung ist die Vorgabe (seit Dpkg 1.19.0)."
 
 #. type: TP
 #: dpkg-deb.man
@@ -15438,13 +15419,6 @@ msgstr "B<-T>I<Substvars-Datei>"
 
 #. type: Plain text
 #: dpkg-genchanges.man
-#, fuzzy
-#| msgid ""
-#| "Read substitution variables in I<substvars-file>; the default is B<debian/"
-#| "substvars>.  No variable substitution is done on any of the fields that "
-#| "are output, however the special variable I<Format> will override the "
-#| "field of the same name. This option can be used multiple times to read "
-#| "substitution variables from multiple files (since dpkg 1.15.6)."
 msgid ""
 "Read substitution variables in I<substvars-file>; the default is B<debian/"
 "substvars>.  No variable substitution is done on any of the fields that are "
@@ -15456,7 +15430,8 @@ msgid ""
 msgstr ""
 "Lese die Substitutionsvariablen aus I<Substvars-Datei>; standardmäßig "
 "B<debian/substvars>. Bei den ausgegeben Feldern erfolgt keine "
-"Variablensubstitution, die besondere Variable I<Format> wird allerdings das "
+"Variablensubstitution, außer den Inhalten die von jedem Feld B<Description> "
+"des Binärpakets entnommen werden (seit Dpkg 1.19.0), die besondere Variable I<Format> wird allerdings das "
 "Feld mit dem gleichen Namen überschreiben. Diese Option kann mehrfach "
 "verwandt werden, um Substitutionsvariablen aus mehreren Dateien einzulesen "
 "(seit Dpkg 1.15.6)."
@@ -16867,8 +16842,8 @@ msgid ""
 "Define the package version. Defaults to the version extracted from debian/"
 "changelog. Required if called outside of a source package tree."
 msgstr ""
-"Definiert die Paketversion. Standardmäßig wird eie Version aus debian/"
-"changelog ausgelesen. Benötigt, falls der Aufruf außerhalb des "
+"Definiert die Paketversion. Standardmäßig wird die Version aus debian/"
+"changelog entnommen. Benötigt, falls der Aufruf außerhalb des "
 "Quellpaketbaums erfolgt."
 
 #. type: TP
@@ -17962,7 +17937,7 @@ msgstr ""
 "Dateien werden in ein Unterverzeichnis verschoben. Falls das als Argument "
 "existierende Verzeichnis existiert, dann werden die Dateien in das "
 "Verzeichnis verschoben, andernfalls wird das Zielverzeichnis aus dem "
-"»section«-Feld des Steuerteils des Pakets extrahiert. Das Zielverzeichnis "
+"»section«-Feld des Steuerteils des Pakets entnommen. Das Zielverzeichnis "
 "wird »unstable/binary-I<Architektur>/I<Bereich>« sein. Falls die Sektion "
 "nicht in der Steuerdatei gefunden werden kann, dann wird B<no-section> "
 "angenommen, und in diesem Fall, wie auch für die Sektionen B<non-free> und "
@@ -19922,7 +19897,7 @@ msgid ""
 "filtered out because they have been identified as duplicate, or as weaker "
 "than another dependency)."
 msgstr ""
-"Die extrahierten Abhängigkeiten werden direkt verwendet (es sei den, sie "
+"Die entnommenen Abhängigkeiten werden direkt verwendet (es sei den, sie "
 "werden als Dubletten herausgefiltert oder sie sind schwächer als eine andere "
 "Abhängigkeit)."
 
@@ -20557,7 +20532,7 @@ msgstr ""
 "werden soll. Dieses Verzeichis darf dann nicht existieren. Falls kein "
 "Ausgabeverzeichnis angegeben ist, wird das Quellpaket in das Verzeichnis "
 "namens I<Quelle>-I<Version> unterhalb des aktuellen Arbeitsverzeichnisses "
-"extrahiert."
+"entpackt."
 
 #. type: Plain text
 #: dpkg-source.man
@@ -20580,12 +20555,12 @@ msgid ""
 "umask; if the parent directory is setgid then the extracted directories will "
 "be too, and all the files and directories will inherit its group ownership."
 msgstr ""
-"Die Dateien in dem extrahierten Paket werden die Rechte und Eigentümer "
+"Die Dateien in dem entpackten Paket werden die Rechte und Eigentümer "
 "haben, die erwartet würden, falls die Dateien und Verzeichnisse einfach "
 "angelegt worden wären - Verzeichnisse und Programmdateien werden 0777 und "
 "einfache Dateien 0666, beide durch die umask der Person, die extrahiert, "
 "entsprechend angepasst; falls das übergeordnete Verzeichnis setgid ist, "
-"werden dies die extrahierten Verzeichnisse auch sein, und alle Dateien und "
+"werden dies die entpackten Verzeichnisse auch sein, und alle Dateien und "
 "Verzeichnisse werden die Gruppeneigentümerschaft erben."
 
 #. type: Plain text
@@ -21001,7 +20976,7 @@ msgid ""
 "Do not copy original tarballs near the extracted source package (since dpkg "
 "1.14.17)."
 msgstr ""
-"Kopiere die Original-Tarbälle nicht in die Nähe des extrahierten Quellpakets "
+"Kopiere die Original-Tarbälle nicht in die Nähe des entpackten Quellpakets "
 "(seit 1.14.17)."
 
 #. type: TP
@@ -21501,11 +21476,11 @@ msgid ""
 "contain a B<debian> sub-directory but it can also contain binary files "
 "outside of that directory (see B<--include-binaries> option)."
 msgstr ""
-"Der Haupt-Originaltarball wird zuerst extrahiert, dann werden alle "
-"zusätzlichen Originaltarbälle in Unterverzeichnisse extrahiert, die nach dem "
+"Der Haupt-Originaltarball wird zuerst entpackt, dann werden alle "
+"zusätzlichen Originaltarbälle in Unterverzeichnisse entpackt, die nach dem "
 "I<Komponente>n-Teil ihres Dateinamens benannt werden (jedes bereits "
 "existierende Verzeichnis wird ersetzt). Der Debian-Tarball wird auf das "
-"Quellverzeichnis extrahiert, nachdem jedes bereits existierende B<debian>-"
+"Quellverzeichnis entpackt, nachdem jedes bereits existierende B<debian>-"
 "Verzeichnis entfernt wurde. Beachten Sie, dass der Debian-Tarball ein "
 "B<debian>-Unterverzeichnis enthalten muss, er aber auch Binärdateien "
 "außerhalb dieses Verzeichnisses enthalten darf (sehen Sie hierzu die Option "
@@ -23759,13 +23734,6 @@ msgstr "Wähle und konfiguriere eine Zugriffsmethode für Paketdepots."
 
 #. type: Plain text
 #: dselect.man
-#, fuzzy
-#| msgid ""
-#| "By default, B<dselect> provides several methods such as I<cdrom>, "
-#| "I<multi_cd>, I<nfs>, I<multi_nfs>, I<harddisk>, I<mounted>, "
-#| "I<multi_mount>, I<floppy> or I<ftp>, but other packages may provide "
-#| "additional methods, eg. the I<apt> access method provided by the B<apt> "
-#| "package."
 msgid ""
 "By default, B<dselect> provides several methods such as I<cdrom>, "
 "I<multi_cd>, I<nfs>, I<multi_nfs>, I<harddisk>, I<mounted>, I<multi_mount> "
@@ -23773,7 +23741,7 @@ msgid ""
 "access method provided by the B<apt> package."
 msgstr ""
 "Standardmäßig stellt B<dselect> mehrere Methoden wie I<cdrom>, I<multi_cd>, "
-"I<nfs>, I<multi_nfs>, I<harddisk>, I<mounted>, I<multi_mount>, I<floppy> "
+"I<nfs>, I<multi_nfs>, I<harddisk>, I<mounted>, I<multi_mount> "
 "oder I<ftp> zur Verfügung, aber andere Pakete können zusätzliche Methoden "
 "bereitstellen, z.B. stellt das B<apt>-Paket die I<apt>-Zugriffsmethode "
 "bereit."
