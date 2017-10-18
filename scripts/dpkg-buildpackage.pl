@@ -464,7 +464,7 @@ $ENV{SOURCE_DATE_EPOCH} ||= $changelog->{timestamp} || time;
 
 # Check whether we are doing some kind of rootless build, and sanity check
 # the fields values.
-my %rules_requires_root = parse_rules_requires_root($ctrl);
+my %rules_requires_root = parse_rules_requires_root($ctrl->get_source());
 
 my @arch_opts;
 push @arch_opts, ('--host-arch', $host_arch) if $host_arch;
