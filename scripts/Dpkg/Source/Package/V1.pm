@@ -410,7 +410,7 @@ sub do_build {
     }
 
     $self->add_file($tarname) if $tarname;
-    if (-e "$tarname.sig" and not -e "$tarname.asc") {
+    if ($tarname and -e "$tarname.sig" and not -e "$tarname.asc") {
         openpgp_sig_to_asc("$tarname.sig", "$tarname.asc");
     }
     $self->add_file($tarsign) if $tarsign and -e $tarsign;
