@@ -61,7 +61,7 @@ sthfailed(const char * reasoning)
 {
   curseson();
   clear();
-  printw(_("\n\n%s: %s\n"), DSELECT, reasoning);
+  printw("\n\n%s: %s\n", DSELECT, reasoning);
   attrset(A_BOLD);
   addstr(_("\nPress <enter> to continue."));
   attrset(A_NORMAL);
