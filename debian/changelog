@@ -7,6 +7,10 @@ dpkg (1.19.0.4) UNRELEASED; urgency=medium
   * Packaging:
     - Add Breaks on debhelper << 10.10.1~ to dpkg-dev, so that debhelper users
       wanting to use R³ support do not need a versioned dependency on dpkg-dev.
+    - Add Breaks dgit << 3.13~ to libdpkg-perl, as older dgit versions assumed
+      that Dpkg::Compression::Process was available, via implicit import
+      from Dpkg::Source::Package.
+      Reported by Ian Jackson <ijackson@chiark.greenend.org.uk>.
 
  -- Guillem Jover <guillem@debian.org>  Sun, 22 Oct 2017 23:37:33 +0200
 
