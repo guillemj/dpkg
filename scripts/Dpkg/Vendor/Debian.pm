@@ -204,7 +204,7 @@ sub _add_build_flags {
         # so that we do not need to worry about escaping the characters
         # on output.
         if ($build_path =~ m/[^-+:.0-9a-zA-Z~\/_]/) {
-            $use_feature{fixdebugpath} = 0;
+            $use_feature{reproducible}{fixdebugpath} = 0;
         }
     }
 
