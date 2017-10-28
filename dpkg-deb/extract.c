@@ -336,15 +336,15 @@ extracthalf(const char *debar, const char *dir,
       unsetenv("TAR_OPTIONS");
 
       if (dir) {
-        if (chdir(dir)) {
-          if (errno != ENOENT)
-            ohshite(_("failed to chdir to directory"));
-
-          if (mkdir(dir, 0777))
+        if (mkdir(dir, 0777) != 0) {
+          if (errno != EEXIST)
             ohshite(_("failed to create directory"));
-          if (chdir(dir))
-            ohshite(_("failed to chdir to directory after creating it"));
+
+          if (taroption & DPKG_TAR_CREATE_DIR)
+            ohshite(_("unexpected pre-existing pathname %s"), dir);
         }
+        if (chdir(dir) != 0)
+          ohshite(_("failed to chdir to directory"));
       }
 
       command_exec(&cmd);
@@ -490,7 +490,7 @@ do_raw_extract(const char *const *argv)
     data_options |= DPKG_TAR_LIST;
 
   extracthalf(debar, dir, data_options, 0);
-  extracthalf(debar, control_dir, DPKG_TAR_EXTRACT, 1);
+  extracthalf(debar, control_dir, DPKG_TAR_EXTRACT | DPKG_TAR_CREATE_DIR, 1);
 
   free(control_dir);
 

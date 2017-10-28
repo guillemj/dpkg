@@ -13,6 +13,9 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
     be needed. Reported by Niels Thykier <niels@thykier.net>.
   * Add color support to dpkg-maintscript-helper (a shell script).
   * Fix warning by including <sys/sysmacros.h> for makedev() in libdpkg.
+  * Fix directory traversal with dpkg-deb --raw-extract, by guaranteeing
+    that the DEBIAN pathname does not exist. Closes: #879982
+    Reported by Jakub Wilk <jwilk@jwilk.net>.
   * Perl modules:
     - Check that $tarname is defined before use in Dpkg::Source::Package::V1.
       Thanks to Christoph Biedl <debian.axhn@manchmal.in-ulm.de>.
