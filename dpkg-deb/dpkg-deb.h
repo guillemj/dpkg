@@ -53,6 +53,8 @@ enum dpkg_tar_options {
 	DPKG_TAR_PERMS = DPKG_BIT(2),
 	/** Do not set tar mtime on extract. */
 	DPKG_TAR_NOMTIME = DPKG_BIT(3),
+	/** Guarantee extraction into a new directory, abort if it exists. */
+	DPKG_TAR_CREATE_DIR = DPKG_BIT(4),
 };
 
 void extracthalf(const char *debar, const char *dir,

@@ -8,6 +8,9 @@ dpkg (1.18.25) UNRELEASED; urgency=medium
     Closes: #869236
   * Fix integer overflow in deb(5) format version parser.
     Closes: #868356
+  * Fix directory traversal with dpkg-deb --raw-extract, by guaranteeing
+    that the DEBIAN pathname does not exist. Closes: #879982
+    Reported by Jakub Wilk <jwilk@jwilk.net>.
   * Do not try to recompute hashes for the .dsc file when signing binary-only
     builds in dpkg-buildpackage. Reported by Ximin Luo <infinity0@debian.org>.
   * Perl modules:
