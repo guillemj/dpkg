@@ -80,6 +80,7 @@ sub usage {
                               do not check builtin build dependencies.
   -P, --build-profiles=<profiles>
                               assume comma-separated build profiles as active.
+      --rules-requires-root   assume legacy Rules-Requires-Root field value.
   -R, --rules-file=<rules>    rules file to execute (default is debian/rules).
   -T, --rules-target=<target> call debian/rules <target>.
       --as-root               ensure -T calls the target with root rights.
@@ -169,6 +170,7 @@ my $host_type = '';
 my $target_arch = '';
 my $target_type = '';
 my @build_profiles = ();
+my $rrr_override;
 my @call_target = ();
 my $call_target_as_root = 0;
 my $since;
@@ -309,6 +311,8 @@ while (@ARGV) {
     } elsif (/^(?:--target=|--rules-target=|-T)(.+)$/) {
         my $arg = $1;
         push @call_target, split /,/, $arg;
+    } elsif (/^--rules-requires-root$/) {
+        $rrr_override = 'binary-targets';
     } elsif (/^--as-root$/) {
         $call_target_as_root = 1;
     } elsif (/^--pre-clean$/) {
@@ -683,9 +687,11 @@ sub parse_rules_requires_root {
     my $ctrl = shift;
 
     my %rrr;
-    my $rrr = $ctrl->{'Rules-Requires-Root'} // 'binary-targets';
+    my $rrr;
     my $keywords_base;
     my $keywords_impl;
+
+    $rrr = $rrr_override // $ctrl->{'Rules-Requires-Root'} // 'binary-targets';
 
     foreach my $keyword (split ' ', $rrr) {
         if ($keyword =~ m{/}) {
