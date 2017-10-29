@@ -26,7 +26,7 @@ BEGIN {
     use_ok('Dpkg::Control::FieldsCore');
 }
 
-#my $datadir = test_get_data_path('t/Dpkg_Control_Fields');
+#my $datadir = test_get_data_path();
 
 my @src_dep_fields = qw(
     Build-Depends Build-Depends-Arch Build-Depends-Indep

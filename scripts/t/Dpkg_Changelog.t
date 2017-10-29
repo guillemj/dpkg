@@ -29,7 +29,7 @@ BEGIN {
     use_ok('Dpkg::Vendor', qw(get_current_vendor));
 };
 
-my $datadir = test_get_data_path('t/Dpkg_Changelog');
+my $datadir = test_get_data_path();
 
 my $vendor = get_current_vendor();
 

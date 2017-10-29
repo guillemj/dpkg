@@ -21,7 +21,7 @@ use Test::Dpkg qw(:paths);
 
 use_ok('Dpkg::Dist::Files');
 
-my $datadir = test_get_data_path('t/Dpkg_Dist_Files');
+my $datadir = test_get_data_path();
 
 my $expected;
 my %expected = (

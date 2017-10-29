@@ -31,7 +31,7 @@ my $tmp;
 my @tmp;
 my %tmp;
 
-my $datadir = test_get_data_path('t/Dpkg_Shlibs');
+my $datadir = test_get_data_path();
 
 my @librarypaths;
 

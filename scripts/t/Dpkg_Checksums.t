@@ -23,7 +23,7 @@ BEGIN {
     use_ok('Dpkg::Checksums');
 }
 
-my $datadir = test_get_data_path('t/Dpkg_Checksums');
+my $datadir = test_get_data_path();
 
 my @data = (
     {

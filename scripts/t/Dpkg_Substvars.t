@@ -24,7 +24,7 @@ use Dpkg::Arch qw(get_host_arch);
 
 use_ok('Dpkg::Substvars');
 
-my $datadir = test_get_data_path('t/Dpkg_Substvars');
+my $datadir = test_get_data_path();
 
 my $expected;
 

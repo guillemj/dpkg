@@ -25,7 +25,7 @@ BEGIN {
     use_ok('Dpkg::Source::Patch');
 }
 
-my $datadir = test_get_data_path('t/Dpkg_Source_Patch');
+my $datadir = test_get_data_path();
 my $tmpdir = 't.tmp/Dpkg_Source_Patch';
 
 sub test_patch_escape {

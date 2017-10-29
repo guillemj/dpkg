@@ -26,7 +26,7 @@ BEGIN {
     use_ok('Dpkg::Control::Info');
 }
 
-my $datadir = test_get_data_path('t/Dpkg_Control');
+my $datadir = test_get_data_path();
 
 sub parse_dsc {
     my $path = shift;

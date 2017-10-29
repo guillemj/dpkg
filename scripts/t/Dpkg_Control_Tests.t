@@ -23,7 +23,7 @@ BEGIN {
     use_ok('Dpkg::Control::Tests');
 }
 
-my $datadir = test_get_data_path('t/Dpkg_Control_Tests');
+my $datadir = test_get_data_path();
 
 sub parse_tests {
     my $path = shift;

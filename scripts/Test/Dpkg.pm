@@ -50,12 +50,26 @@ use File::Find;
 use IPC::Cmd qw(can_run);
 use Test::More;
 
+sub _test_get_caller_dir
+{
+    my (undef, $path, undef) = caller 1;
+
+    $path =~ s{\.t$}{};
+    $path =~ s{^\./}{};
+
+    return $path;
+}
+
 sub test_get_data_path
 {
     my $path = shift;
 
-    my $srcdir = $ENV{srcdir} || '.';
-    return "$srcdir/$path";
+    if (defined $path) {
+        my $srcdir = $ENV{srcdir} || '.';
+        return "$srcdir/$path";
+    } else {
+        return _test_get_caller_dir();
+    }
 }
 
 sub test_get_perl_dirs

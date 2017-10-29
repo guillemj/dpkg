@@ -31,7 +31,7 @@ use_ok('Dpkg::OpenPGP');
 
 report_options(quiet_warnings => 1);
 
-my $datadir = test_get_data_path('t/Dpkg_OpenPGP');
+my $datadir = test_get_data_path();
 my $tmpdir = 't.tmp/Dpkg_OpenPGP';
 
 mkdir $tmpdir;
