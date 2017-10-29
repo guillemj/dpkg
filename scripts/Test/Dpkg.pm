@@ -65,7 +65,7 @@ sub test_get_perl_dirs
 
 sub all_perl_files
 {
-    my $filter = shift // qr/\.(?:pl|pm|t)$/;
+    my $filter = shift // qr/\.(?:PL|pl|pm|t)$/;
     my @files;
     my $scan_perl_files = sub {
         push @files, $File::Find::name if m/$filter/;
