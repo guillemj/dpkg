@@ -115,9 +115,6 @@ sub do_build {
 
     _check_workdir($dir);
 
-    my $old_cwd = getcwd();
-    chdir $dir or syserr(g_("cannot change directory to '%s'"), $dir);
-
     local $_;
 
     # Check for uncommitted files.
@@ -126,6 +123,7 @@ sub do_build {
     my $bzr_status_fh;
     my $bzr_status_pid = spawn(
         exec => [ 'bzr', 'status' ],
+        chdir => $dir,
         to_pipe => \$bzr_status_fh,
     );
     my @files;
@@ -144,8 +142,6 @@ sub do_build {
         error(g_('uncommitted, not-ignored changes in working directory: %s'),
               join(' ', @files));
     }
-
-    chdir $old_cwd or syserr(g_("cannot change directory to '%s'"), $old_cwd);
 
     my $tmpdir = File::Temp->newdir(
         TEMPLATE => "$dirname.bzr.XXXXXX",
@@ -222,17 +218,12 @@ sub do_extract {
 
     _check_workdir($newdirectory);
 
-    my $old_cwd = getcwd();
-    chdir($newdirectory)
-        or syserr(g_("cannot change directory to '%s'"), $newdirectory);
-
     # Reconstitute the working tree.
     spawn(
         exec => [ 'bzr', 'checkout' ],
+        chdir => $newdirectory,
         wait_child => 1,
     );
-
-    chdir $old_cwd or syserr(g_("cannot change directory to '%s'"), $old_cwd);
 }
 
 =head1 CHANGES

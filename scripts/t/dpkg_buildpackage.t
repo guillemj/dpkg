@@ -205,7 +205,6 @@ sub test_build
         "--hook-$_=$datadir/hook a=%a p=%p v=%v s=%s u=%u >>../$basename\_$typename.hook"
     } @hook_names;
 
-    chdir $dirname;
     spawn(
         exec => [
             $ENV{PERL}, "$srcdir/dpkg-buildpackage.pl",
@@ -217,11 +216,11 @@ sub test_build
             '--check-command=',
             @hook_opts,
         ],
+        chdir => $dirname,
         error_to_string => \$stderr,
         wait_child => 1,
         no_check => 1,
     );
-    chdir '..';
 
     ok($? == 0, "dpkg-buildpackage --build=$typename succeeded");
     diag($stderr) unless $? == 0;
