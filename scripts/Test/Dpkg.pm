@@ -24,6 +24,7 @@ our @EXPORT_OK = qw(
     all_perl_modules
     test_get_perl_dirs
     test_get_data_path
+    test_get_temp_path
     test_needs_author
     test_needs_module
     test_needs_command
@@ -42,11 +43,14 @@ our %EXPORT_TAGS = (
         all_perl_modules
         test_get_perl_dirs
         test_get_data_path
+        test_get_temp_path
     ) ],
 );
 
 use Exporter qw(import);
 use File::Find;
+use File::Basename;
+use File::Path qw(make_path);
 use IPC::Cmd qw(can_run);
 use Test::More;
 
@@ -70,6 +74,15 @@ sub test_get_data_path
     } else {
         return _test_get_caller_dir();
     }
+}
+
+sub test_get_temp_path
+{
+    my $path = shift // _test_get_caller_dir();
+    $path = 't.tmp/' . fileparse($path);
+
+    make_path($path);
+    return $path;
 }
 
 sub test_get_perl_dirs

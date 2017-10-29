@@ -17,14 +17,14 @@ use strict;
 use warnings;
 
 use Test::More tests => 16;
+use Test::Dpkg qw(:paths);
 
 use_ok('Dpkg::Path', 'canonpath', 'resolve_symlink',
        'check_files_are_the_same', 'get_pkg_root_dir',
        'guess_pkg_root_dir', 'relative_to_pkg_root');
 
-my $tmpdir = 't.tmp/Dpkg_Path';
+my $tmpdir = test_get_temp_path();
 
-mkdir $tmpdir;
 mkdir "$tmpdir/a";
 mkdir "$tmpdir/a/b";
 mkdir "$tmpdir/a/b/c";

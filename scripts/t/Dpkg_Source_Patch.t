@@ -26,7 +26,7 @@ BEGIN {
 }
 
 my $datadir = test_get_data_path();
-my $tmpdir = 't.tmp/Dpkg_Source_Patch';
+my $tmpdir = test_get_temp_path();
 
 sub test_patch_escape {
     my ($name, $symlink, $patchname, $desc) = @_;

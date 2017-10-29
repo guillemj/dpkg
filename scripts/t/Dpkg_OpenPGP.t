@@ -32,9 +32,7 @@ use_ok('Dpkg::OpenPGP');
 report_options(quiet_warnings => 1);
 
 my $datadir = test_get_data_path();
-my $tmpdir = 't.tmp/Dpkg_OpenPGP';
-
-mkdir $tmpdir;
+my $tmpdir = test_get_temp_path();
 
 openpgp_sig_to_asc("$datadir/package_1.0.orig.tar.sig",
                    "$tmpdir/package_1.0.orig.tar.sig2asc");
