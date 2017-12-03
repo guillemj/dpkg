@@ -204,7 +204,7 @@ sub parse {
     my ($self, $fh, $file, %opts) = @_;
     my $state = $opts{state} //= {};
 
-    if (defined $state) {
+    if (exists $state->{seen}) {
 	return if exists $state->{seen}{$file}; # Avoid include loops
     } else {
 	$self->{file} = $file;
