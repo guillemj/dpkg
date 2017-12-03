@@ -7,6 +7,9 @@ dpkg (1.19.0.5) UNRELEASED; urgency=medium
     - Dpkg::Vendor::Debian: Use proper %use_feature key. This was causing perl
       errors on paths not accapted for fixdebugpath.
       Reported by Mattia Rizzolo <mattia@debian.org>, on IRC. Closes: #881051
+    - Check that $state->{seen} exists instead of $state being just defined.
+      Fixes regression in dpkg-gensymbols symbols output.
+      Thanks to Dmitry Shachnev <mitya57@debian.org>. Closes: #880166
 
  -- Guillem Jover <guillem@debian.org>  Wed, 17 Jan 2018 03:16:09 +0100
 
