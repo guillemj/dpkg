@@ -254,7 +254,7 @@ sub __sanity_check_range {
         push @versions, $version->as_string();
     }
     if ((defined($r->{since}) and not exists $versions{$r->{since}})) {
-        warning(g_("'%s' option specifies non-existing version"), 'since');
+        warning(g_("'%s' option specifies non-existing version '%s'"), 'since', $r->{since});
         warning(g_('use newest entry that is earlier than the one specified'));
         foreach my $v (@versions) {
             if (version_compare_relation($v, REL_LT, $r->{since})) {
@@ -270,7 +270,7 @@ sub __sanity_check_range {
         }
     }
     if ((defined($r->{from}) and not exists $versions{$r->{from}})) {
-        warning(g_("'%s' option specifies non-existing version"), 'from');
+        warning(g_("'%s' option specifies non-existing version '%s'"), 'from', $r->{from});
         warning(g_('use oldest entry that is later than the one specified'));
         my $oldest;
         foreach my $v (@versions) {
@@ -281,12 +281,12 @@ sub __sanity_check_range {
         if (defined($oldest)) {
             $r->{from} = $oldest;
         } else {
-            warning(g_("no such entry found, ignoring '%s' parameter"), 'from');
+            warning(g_("no such entry found, ignoring '%s' parameter '%s'"), 'from', $r->{from});
             delete $r->{from}; # No version was oldest
         }
     }
     if (defined($r->{until}) and not exists $versions{$r->{until}}) {
-        warning(g_("'%s' option specifies non-existing version"), 'until');
+        warning(g_("'%s' option specifies non-existing version '%s'"), 'until', $r->{until});
         warning(g_('use oldest entry that is later than the one specified'));
         my $oldest;
         foreach my $v (@versions) {
@@ -297,12 +297,12 @@ sub __sanity_check_range {
         if (defined($oldest)) {
             $r->{until} = $oldest;
         } else {
-            warning(g_("no such entry found, ignoring '%s' parameter"), 'until');
+            warning(g_("no such entry found, ignoring '%s' parameter '%s'"), 'until', $r->{until});
             delete $r->{until}; # No version was oldest
         }
     }
     if (defined($r->{to}) and not exists $versions{$r->{to}}) {
-        warning(g_("'%s' option specifies non-existing version"), 'to');
+        warning(g_("'%s' option specifies non-existing version '%s'"), 'to', $r->{to});
         warning(g_('use newest entry that is earlier than the one specified'));
         foreach my $v (@versions) {
             if (version_compare_relation($v, REL_LT, $r->{to})) {
@@ -312,17 +312,17 @@ sub __sanity_check_range {
         }
         if (not exists $versions{$r->{to}}) {
             # No version was earlier
-            warning(g_("no such entry found, ignoring '%s' parameter"), 'to');
+            warning(g_("no such entry found, ignoring '%s' parameter '%s'"), 'to', $r->{to});
             delete $r->{to};
         }
     }
 
     if (defined($r->{since}) and $data->[0]->get_version() eq $r->{since}) {
-	warning(g_("'since' option specifies most recent version, ignoring"));
+	warning(g_("'since' option specifies most recent version '%s', ignoring"), $r->{since});
 	delete $r->{since};
     }
     if (defined($r->{until}) and $data->[-1]->get_version() eq $r->{until}) {
-	warning(g_("'until' option specifies oldest version, ignoring"));
+	warning(g_("'until' option specifies oldest version '%s', ignoring"), $r->{until});
 	delete $r->{until};
     }
     ## use critic
