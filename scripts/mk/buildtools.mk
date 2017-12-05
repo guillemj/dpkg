@@ -1,5 +1,6 @@
 # This Makefile snippet defines the following variables for host tools:
 #
+# AS: assembler
 # CPP: C preprocessor
 # CC: C compiler
 # CXX: C++ compiler
@@ -9,6 +10,12 @@
 # F77: Fortran 77 compiler
 # FC: Fortran 9x compiler
 # LD: linker
+# STRIP: strip objects
+# OBJCOPY: copy objects
+# OBJDUMP: dump objects
+# NM: names lister
+# AR: archiver
+# RANLIB: archive index generator
 # PKG_CONFIG: pkg-config tool
 #
 # All the above variables have a counterpart variable for the build tool,
@@ -44,6 +51,7 @@ export $(1)_FOR_BUILD
 endif
 endef
 
+$(eval $(call dpkg_buildtool_setvar,AS,as))
 $(eval $(call dpkg_buildtool_setvar,CPP,gcc -E))
 $(eval $(call dpkg_buildtool_setvar,CC,gcc))
 $(eval $(call dpkg_buildtool_setvar,CXX,g++))
@@ -53,4 +61,10 @@ $(eval $(call dpkg_buildtool_setvar,GCJ,gcj))
 $(eval $(call dpkg_buildtool_setvar,F77,f77))
 $(eval $(call dpkg_buildtool_setvar,FC,f77))
 $(eval $(call dpkg_buildtool_setvar,LD,ld))
+$(eval $(call dpkg_buildtool_setvar,STRIP,strip))
+$(eval $(call dpkg_buildtool_setvar,OBJCOPY,objcopy))
+$(eval $(call dpkg_buildtool_setvar,OBJDUMP,objdump))
+$(eval $(call dpkg_buildtool_setvar,NM,nm))
+$(eval $(call dpkg_buildtool_setvar,AR,ar))
+$(eval $(call dpkg_buildtool_setvar,RANLIB,ranlib))
 $(eval $(call dpkg_buildtool_setvar,PKG_CONFIG,pkg-config))

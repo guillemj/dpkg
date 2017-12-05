@@ -82,6 +82,7 @@ $ENV{"TEST_$_"} = $buildflag{$_} foreach keys %buildflag;
 test_makefile('buildflags.mk');
 
 my %buildtools = (
+    AS => 'as',
     CPP => 'gcc -E',
     CC => 'gcc',
     CXX => 'g++',
@@ -91,6 +92,12 @@ my %buildtools = (
     F77 => 'f77',
     FC => 'f77',
     LD => 'ld',
+    STRIP => 'strip',
+    OBJCOPY => 'objcopy',
+    OBJDUMP => 'objdump',
+    NM => 'nm',
+    AR => 'ar',
+    RANLIB => 'ranlib',
     PKG_CONFIG => 'pkg-config',
 );
 
