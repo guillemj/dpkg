@@ -36,7 +36,7 @@ use strict;
 use warnings;
 use feature qw(state);
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 our @EXPORT_OK = qw(
     get_raw_build_arch
     get_raw_host_arch
@@ -599,17 +599,25 @@ sub debarch_is_wildcard($)
     return 0;
 }
 
-=item $bool = debarch_is_illegal($arch)
+=item $bool = debarch_is_illegal($arch, %options)
 
 Validate an architecture name.
+
+If the "positive" option is set to a true value, only positive architectures
+will be accepted, otherwise negated architectures are allowed.
 
 =cut
 
 sub debarch_is_illegal
 {
-    my ($arch) = @_;
+    my ($arch, %opts) = @_;
+    my $arch_re = qr/[a-zA-Z0-9][a-zA-Z0-9-]*/;
 
-    return $arch !~ m/^!?[a-zA-Z0-9][a-zA-Z0-9-]*$/;
+    if ($opts{positive}) {
+        return $arch !~ m/^$arch_re$/;
+    } else {
+        return $arch !~ m/^!?$arch_re$/;
+    }
 }
 
 =item $bool = debarch_is_concerned($arch, @arches)
@@ -651,15 +659,18 @@ sub debarch_is_concerned
 
 Parse an architecture list.
 
+If the "positive" option is set to a true value, only positive architectures
+will be accepted, otherwise negated architectures are allowed.
+
 =cut
 
 sub debarch_list_parse
 {
-    my $arch_list = shift;
+    my ($arch_list, %opts) = @_;
     my @arch_list = split ' ', $arch_list;
 
     foreach my $arch (@arch_list) {
-        if (debarch_is_illegal($arch)) {
+        if (debarch_is_illegal($arch, %opts)) {
             error(g_("'%s' is not a legal architecture in list '%s'"),
                   $arch, $arch_list);
         }
@@ -675,6 +686,11 @@ __END__
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.03 (dpkg 1.19.1)
+
+New argument: Accept a "positive" option in debarch_is_illegal() and
+debarch_list_parse().
 
 =head2 Version 1.02 (dpkg 1.18.19)
 

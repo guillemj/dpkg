@@ -18,6 +18,8 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
     Reported by Jakub Wilk <jwilk@jwilk.net>.
   * Add new AS, STRIP, OBJCOPY, OBJDUMP, NM, AR and RANLIB buildtools
     variables to buildtools.mk. Prompted by Helmut Grohne <helmut@subdivi.de>.
+  * Restore rejecting negated architectures in Architecture field in
+    dpkg-gencontrol and dpkg-genchanges. Regression introduced in dpkg 1.18.5.
   * Perl modules:
     - Check that $tarname is defined before use in Dpkg::Source::Package::V1.
       Thanks to Christoph Biedl <debian.axhn@manchmal.in-ulm.de>.
@@ -30,6 +32,7 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
     - Check that $state->{seen} exists instead of $state being just defined.
       Fixes regression in dpkg-gensymbols symbols output.
       Thanks to Dmitry Shachnev <mitya57@debian.org>. Closes: #880166
+    - Add new positive options argument to arch validators in Dpkg::Arch.
   * Documentation:
     - Update gettext minimal version in README.
     - Add a missing dot on the dpkg-buildflags(1) «lfs» feature paragraph.

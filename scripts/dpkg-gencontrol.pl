@@ -217,7 +217,7 @@ foreach (keys %{$pkg}) {
 	if (debarch_eq('all', $v)) {
 	    $fields->{$_} = $v;
 	} else {
-	    my @archlist = debarch_list_parse($v);
+	    my @archlist = debarch_list_parse($v, positive => 1);
 
 	    if (none { debarch_is($host_arch, $_) } @archlist) {
 		error(g_("current host architecture '%s' does not " .
