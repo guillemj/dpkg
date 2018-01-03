@@ -723,6 +723,11 @@ sub parse_rules_requires_root {
         $ENV{DEB_GAIN_ROOT_CMD} = join ' ', @rootcommand;
         # XXX: For ephemeral backwards compatibility.
         $ENV{DPKG_GAIN_ROOT_CMD} = $ENV{DEB_GAIN_ROOT_CMD};
+    } else {
+        # We should not provide the variable otherwise.
+        delete $ENV{DEB_GAIN_ROOT_CMD};
+        # XXX: For ephemeral backwards compatibility.
+        delete $ENV{DPKG_GAIN_ROOT_CMD};
     }
 
     return %rrr;
