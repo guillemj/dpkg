@@ -720,7 +720,9 @@ sub parse_rules_requires_root {
               'Rules-Requires-Root');
     } elsif ($keywords_impl) {
         # Set only on <implementations-keywords>.
-        $ENV{DPKG_GAIN_ROOT_CMD} = join ' ', @rootcommand;
+        $ENV{DEB_GAIN_ROOT_CMD} = join ' ', @rootcommand;
+        # XXX: For ephemeral backwards compatibility.
+        $ENV{DPKG_GAIN_ROOT_CMD} = $ENV{DEB_GAIN_ROOT_CMD};
     }
 
     return %rrr;

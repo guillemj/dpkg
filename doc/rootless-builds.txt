@@ -93,20 +93,24 @@ Gain Root API
 -------------
 
 The builder will provide a command to promote a given command to (fake)root
-by exposing it in the environment variable "DPKG_GAIN_ROOT_CMD". Tools that
+by exposing it in the environment variable "DEB_GAIN_ROOT_CMD". Tools that
 need this promotion will then use it like the following:
 
-    $DPKG_GAIN_ROOT_CMD cmd-that-needs-root ...
+    $DEB_GAIN_ROOT_CMD cmd-that-needs-root ...
 
 This command is subject to the same requirements as the "gain-root-command"
 that dpkg-buildpackage accepts via its "-r/--root-command" option, which
 means that it can contain space-separated parameters. If dpkg-buildpackage is
 called with "-r/--root-command", then dpkg-buildpackage shall use that value
-as the value for DPKG_GAIN_ROOT_CMD.
+as the value for "DEB_GAIN_ROOT_CMD".
 
 The variable SHOULD only be provided when there is a need for it. Notably
 when "Rules-Requires-Root" is either "no" or "binary-targets" the variable
 SHOULD NOT be defined.
+
+(The "DEB_GAIN_ROOT_CMD" variable used to be named "DPKG_GAIN_ROOT_CMD"
+starting with dpkg 1.19.0 and before dpkg 1.19.1 when this specification
+got released as stable. The old name MUST not be used.)
 
 Common cases
 ------------
@@ -128,7 +132,7 @@ dpkg-deb --build must either default to resetting all owner/group values to
 0:0 when not run under (fake)root OR provide an interface so dh_builddeb can
 provide the owner/group value to dpkg-deb --build.
 
-dpkg-buildpackage must export DPKG_GAIN_ROOT_CMD (for starters, doing this
+dpkg-buildpackage must export DEB_GAIN_ROOT_CMD (for starters, doing this
 unconditionally would be fine).
 
 
@@ -143,7 +147,7 @@ When the field is present:
  * dh_testroot will be a no-op when Rules-Requires-Root is set to "no".
 
  * Otherwise, dh_testroot will either verify that it is run under (fake)root
-   (as usual) OR assert that DPKG_GAIN_ROOT_CMD is defined.
+   (as usual) OR assert that DEB_GAIN_ROOT_CMD is defined.
 
  * debhelper build systems will be patched to check for the
    "debhelper/upstream-make-install" keyword and use the "Gain Root API"

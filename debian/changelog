@@ -22,6 +22,10 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
     dpkg-gencontrol and dpkg-genchanges. Regression introduced in dpkg 1.18.5.
   * Fix dpkg-gensymbols to print "error" instead of "warning" when these
     are fatal. Closes: #881488
+  * Rename DPKG_GAIN_ROOT_CMD to DEB_GAIN_ROOT_CMD in the R³ support, as
+    the variable is expected to be set by any builder, not just dpkg. And
+    introduce ephemereal backwards compatibility even though there are no
+    known users.
   * Architecture support:
     - Add support for riscv64 CPU. Closes: #822914
       Thanks to Manuel A. Fernandez Montecelo <mafm@debian.org>
