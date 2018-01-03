@@ -725,6 +725,9 @@ sub parse_rules_requires_root {
         setup_rootcommand();
     }
 
+    # Notify the childs we do support R³.
+    $ENV{DEB_RULES_REQUIRES_ROOT} = join ' ', sort keys %rrr;
+
     if ($keywords_base > 1 or $keywords_base and $keywords_impl) {
         error(g_('%s field contains both global and implementation specific keywords'),
               'Rules-Requires-Root');
