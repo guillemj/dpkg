@@ -3,6 +3,10 @@ dpkg (1.19.0.5) UNRELEASED; urgency=medium
   * Fix directory traversal with dpkg-deb --raw-extract, by guaranteeing
     that the DEBIAN pathname does not exist. Closes: #879982
     Reported by Jakub Wilk <jwilk@jwilk.net>.
+  * Rename DPKG_GAIN_ROOT_CMD to DEB_GAIN_ROOT_CMD in the R³ support, as
+    the variable is expected to be set by any builder, not just dpkg. And
+    introduce ephemereal backwards compatibility even though there are no
+    known users.
   * Architecture support:
     - Add support for riscv64 CPU. Closes: #822914
       Thanks to Manuel A. Fernandez Montecelo <mafm@debian.org>
