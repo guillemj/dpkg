@@ -557,7 +557,7 @@ parsedb_open(const char *filename, enum parsedbflags flags)
 
   ps = parsedb_new(filename, fd, flags | pdb_close_fd);
 
-  push_cleanup(cu_closefd, ~ehflag_normaltidy, NULL, 0, 1, &ps->fd);
+  push_cleanup(cu_closefd, ~ehflag_normaltidy, 1, &ps->fd);
 
   return ps;
 }

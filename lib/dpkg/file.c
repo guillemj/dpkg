@@ -150,7 +150,7 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 			ohshite(_("unable to lock %s"), desc);
 	}
 
-	push_cleanup(file_unlock_cleanup, ~0, NULL, 0, 2, lockfd, desc);
+	push_cleanup(file_unlock_cleanup, ~0, 2, lockfd, desc);
 }
 
 void

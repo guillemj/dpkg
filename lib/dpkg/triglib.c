@@ -507,7 +507,7 @@ trig_file_interests_ensure(void)
 		        triggersfilefile);
 	}
 
-	push_cleanup(cu_closestream, ~0, NULL, 0, 1, f);
+	push_cleanup(cu_closestream, ~0, 1, f);
 	while (fgets_checked(linebuf, sizeof(linebuf), f, triggersfilefile) >= 0) {
 		struct dpkg_error err;
 		char *slash;
@@ -694,7 +694,7 @@ trig_parse_ci(const char *file, trig_parse_cicb *interest,
 			return; /* No file is just like an empty one. */
 		ohshite(_("unable to open triggers ci file '%.250s'"), file);
 	}
-	push_cleanup(cu_closestream, ~0, NULL, 0, 1, f);
+	push_cleanup(cu_closestream, ~0, 1, f);
 
 	while ((l = fgets_checked(linebuf, sizeof(linebuf), f, file)) >= 0) {
 		for (cmd = linebuf; c_iswhite(*cmd); cmd++) ;

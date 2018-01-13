@@ -59,8 +59,10 @@ void push_error_context_func(error_handler_func *handler,
 void push_error_context(void);
 void pop_error_context(int flagset);
 
-void push_cleanup(void (*f1)(int argc, void **argv), int flagmask1,
-                  void (*f2)(int argc, void **argv), int flagmask2,
+void push_cleanup_fallback(void (*f1)(int argc, void **argv), int flagmask1,
+                           void (*f2)(int argc, void **argv), int flagmask2,
+                           unsigned int nargs, ...);
+void push_cleanup(void (*call)(int argc, void **argv), int flagmask,
                   unsigned int nargs, ...);
 void push_checkpoint(int mask, int value);
 void pop_cleanup(int flagset);

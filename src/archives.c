@@ -362,7 +362,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
     if (fd < 0)
       ohshite(_("unable to create '%.255s' (while processing '%.255s')"),
               path, te->name);
-    push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
+    push_cleanup(cu_closefd, ehflag_bombout, 1, &fd);
     debug(dbg_eachfiledetail, "tarobject file open size=%jd",
           (intmax_t)te->size);
 
@@ -965,7 +965,7 @@ tarobject(void *ctx, struct tar_entry *ti)
     /* Now we start to do things that we need to be able to undo
      * if something goes wrong. Watch out for the CLEANUP comments to
      * keep an eye on what's installed on the disk at each point. */
-    push_cleanup(cu_installnew, ~ehflag_normaltidy, NULL, 0, 1, nifd->namenode);
+    push_cleanup(cu_installnew, ~ehflag_normaltidy, 1, nifd->namenode);
 
     /*
      * CLEANUP: Now we either have the old file on the disk, or not, in

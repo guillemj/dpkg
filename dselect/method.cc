@@ -125,7 +125,7 @@ static enum urqresult lockmethod(void) {
     sthfailed(_("cannot lock access method area"));
     return urqr_fail;
   }
-  push_cleanup(cu_unlockmethod, ~0, nullptr, 0, 0);
+  push_cleanup(cu_unlockmethod, ~0, 0);
   return urqr_normal;
 }
 

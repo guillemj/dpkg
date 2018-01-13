@@ -232,7 +232,7 @@ file_copy(const char *src, const char *dst)
 	if (dstfd < 0)
 		ohshite(_("unable to create file '%s'"), tmp);
 
-	push_cleanup(cu_filename, ~ehflag_normaltidy, NULL, 0, 1, tmp);
+	push_cleanup(cu_filename, ~ehflag_normaltidy, 1, tmp);
 
 	if (fd_fd_copy(srcfd, dstfd, -1, &err) < 0)
 		ohshit(_("cannot copy '%s' to '%s': %s"), src, tmp, err.str);

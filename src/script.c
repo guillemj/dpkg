@@ -171,7 +171,7 @@ maintscript_exec(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
 	setexecute(cmd->filename, stab);
 
-	push_cleanup(cu_post_script_tasks, ehflag_bombout, NULL, 0, 0);
+	push_cleanup(cu_post_script_tasks, ehflag_bombout, 0);
 
 	pid = subproc_fork();
 	if (pid == 0) {

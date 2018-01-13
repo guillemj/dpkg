@@ -94,7 +94,7 @@ deb_reassemble(const char **filename, const char **pfilename)
   if (unlink(reasmbuf) && errno != ENOENT)
     ohshite(_("error ensuring '%.250s' doesn't exist"), reasmbuf);
 
-  push_cleanup(cu_pathname, ~0, NULL, 0, 1, (void *)reasmbuf);
+  push_cleanup(cu_pathname, ~0, 1, (void *)reasmbuf);
 
   pid = subproc_fork();
   if (!pid) {
@@ -291,9 +291,9 @@ pkg_deconfigure_others(struct pkginfo *pkg)
     /* This means that we *either* go and run postinst abort-deconfigure,
      * *or* queue the package for later configure processing, depending
      * on which error cleanup route gets taken. */
-    push_cleanup(cu_prermdeconfigure, ~ehflag_normaltidy,
-                 ok_prermdeconfigure, ehflag_normaltidy,
-                 3, (void *)deconpil->pkg, (void *)removing, (void *)pkg);
+    push_cleanup_fallback(cu_prermdeconfigure, ~ehflag_normaltidy,
+                          ok_prermdeconfigure, ehflag_normaltidy,
+                          3, (void *)deconpil->pkg, (void *)removing, (void *)pkg);
 
     if (removing) {
       maintscript_installed(deconpil->pkg, PRERMFILE, "pre-removal",
@@ -334,7 +334,7 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
     ohshite(_("error trying to open %.250s"), control_conffiles);
   }
 
-  push_cleanup(cu_closestream, ehflag_bombout, NULL, 0, 1, conff);
+  push_cleanup(cu_closestream, ehflag_bombout, 1, conff);
 
   while (fgets(conffilenamebuf, MAXCONFFILENAME - 2, conff)) {
     struct pkginfo *otherpkg;
@@ -495,7 +495,7 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
   dsd = opendir(cidir);
   if (!dsd)
     ohshite(_("unable to open temp control directory"));
-  push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
+  push_cleanup(cu_closedir, ~0, 1, (void *)dsd);
   while ((de = readdir(dsd))) {
     const char *newinfofilename;
 
@@ -1110,7 +1110,7 @@ void process_archive(const char *filename) {
   /* Get the control information directory. */
   cidir = get_control_dir(cidir);
   cidirrest = cidir + strlen(cidir);
-  push_cleanup(cu_cidir, ~0, NULL, 0, 2, (void *)cidir, (void *)cidirrest);
+  push_cleanup(cu_cidir, ~0, 2, (void *)cidir, (void *)cidirrest);
 
   pid = subproc_fork();
   if (pid == 0) {
@@ -1221,7 +1221,7 @@ void process_archive(const char *filename) {
   /* Read the conffiles, and copy the hashes across. */
   newconffiles.head = NULL;
   newconffiles.tail = &newconffiles.head;
-  push_cleanup(cu_fileslist, ~0, NULL, 0, 0);
+  push_cleanup(cu_fileslist, ~0, 0);
   strcpy(cidirrest,CONFFILESFILE);
   deb_parse_conffiles(pkg, cidir, &newconffiles);
 
@@ -1249,7 +1249,7 @@ void process_archive(const char *filename) {
     pkg_set_eflags(pkg, PKG_EFLAG_REINSTREQ);
     pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(pkg);
-    push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
+    push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, 1, (void *)pkg);
     if (dpkg_version_compare(&pkg->available.version,
                              &pkg->installed.version) >= 0)
       /* Upgrade or reinstall. */
@@ -1282,7 +1282,7 @@ void process_archive(const char *filename) {
     trig_activate_packageprocessing(conflictor);
     pkg_set_status(conflictor, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(conflictor);
-    push_cleanup(cu_prerminfavour, ~ehflag_normaltidy, NULL, 0,
+    push_cleanup(cu_prerminfavour, ~ehflag_normaltidy,
                  2, conflictor, pkg);
     maintscript_installed(conflictor, PRERMFILE, "pre-removal",
                           "remove", "in-favour",
@@ -1302,12 +1302,12 @@ void process_archive(const char *filename) {
   pkg_set_status(pkg, PKG_STAT_HALFINSTALLED);
   modstatdb_note(pkg);
   if (oldversionstatus == PKG_STAT_NOTINSTALLED) {
-    push_cleanup(cu_preinstverynew, ~ehflag_normaltidy, NULL, 0,
+    push_cleanup(cu_preinstverynew, ~ehflag_normaltidy,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
     maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
                     "install", NULL);
   } else if (oldversionstatus == PKG_STAT_CONFIGFILES) {
-    push_cleanup(cu_preinstnew, ~ehflag_normaltidy, NULL, 0,
+    push_cleanup(cu_preinstnew, ~ehflag_normaltidy,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
     maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
                     "install",
@@ -1315,7 +1315,7 @@ void process_archive(const char *filename) {
                     versiondescribe(&pkg->available.version, vdew_nonambig),
                     NULL);
   } else {
-    push_cleanup(cu_preinstupgrade, ~ehflag_normaltidy, NULL, 0,
+    push_cleanup(cu_preinstupgrade, ~ehflag_normaltidy,
                  4,(void*)pkg,(void*)cidir,(void*)cidirrest,(void*)&oldversionstatus);
     maintscript_new(pkg, PREINSTFILE, "pre-installation", cidir, cidirrest,
                     "upgrade",
@@ -1412,7 +1412,7 @@ void process_archive(const char *filename) {
    */
 
   m_pipe(p1);
-  push_cleanup(cu_closepipe, ehflag_bombout, NULL, 0, 1, (void *)&p1[0]);
+  push_cleanup(cu_closepipe, ehflag_bombout, 1, (void *)&p1[0]);
   pid = subproc_fork();
   if (pid == 0) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
@@ -1426,7 +1426,7 @@ void process_archive(const char *filename) {
   newfiles_queue.head = NULL;
   newfiles_queue.tail = &newfiles_queue.head;
   tc.newfiles_queue = &newfiles_queue;
-  push_cleanup(cu_fileslist, ~0, NULL, 0, 0);
+  push_cleanup(cu_fileslist, ~0, 0);
   tc.pkg= pkg;
   tc.backendpipe= p1[0];
   tc.pkgset_getting_in_sync = pkgset_getting_in_sync(pkg);
@@ -1453,7 +1453,7 @@ void process_archive(const char *filename) {
      * reduced to ‘unpacked’ by now, by the running of the prerm script. */
     pkg_set_status(pkg, PKG_STAT_HALFINSTALLED);
     modstatdb_note(pkg);
-    push_cleanup(cu_postrmupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
+    push_cleanup(cu_postrmupgrade, ~ehflag_normaltidy, 1, (void *)pkg);
     maintscript_fallback(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
                          "upgrade", "failed-upgrade");
   }

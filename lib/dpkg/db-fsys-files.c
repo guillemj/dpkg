@@ -117,7 +117,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
     return;
   }
 
-  push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
+  push_cleanup(cu_closefd, ehflag_bombout, 1, &fd);
 
   if (fstat(fd, &stat_buf))
     ohshite(_("unable to stat files list file for package '%.250s'"),

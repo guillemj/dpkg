@@ -324,9 +324,11 @@ void push_checkpoint(int mask, int value) {
   econtext->cleanups= cep;
 }
 
-void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
+static void
+cleanup_entry_new(void (*call1)(int argc, void **argv), int mask1,
                   void (*call2)(int argc, void **argv), int mask2,
-                  unsigned int nargs, ...) {
+                  unsigned int nargs, va_list vargs)
+{
   struct cleanup_entry *cep;
   void **argv;
   int e = 0;
@@ -343,7 +345,8 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
   cep->calls[0].call= call1; cep->calls[0].mask= mask1;
   cep->calls[1].call= call2; cep->calls[1].mask= mask2;
   cep->cpmask=~0; cep->cpvalue=0; cep->argc= nargs;
-  va_start(args, nargs);
+
+  va_copy(args, vargs);
   argv = cep->argv;
   while (nargs-- > 0)
     *argv++ = va_arg(args, void *);
@@ -357,6 +360,29 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
   }
 
   onerr_abort--;
+}
+
+void
+push_cleanup(void (*call)(int argc, void **argv), int mask,
+             unsigned int nargs, ...)
+{
+  va_list args;
+
+  va_start(args, nargs);
+  cleanup_entry_new(call, mask, NULL, 0, nargs, args);
+  va_end(args);
+}
+
+void
+push_cleanup_fallback(void (*call1)(int argc, void **argv), int mask1,
+                      void (*call2)(int argc, void **argv), int mask2,
+                      unsigned int nargs, ...)
+{
+  va_list args;
+
+  va_start(args, nargs);
+  cleanup_entry_new(call1, mask1, call2, mask2, nargs, args);
+  va_end(args);
 }
 
 void pop_cleanup(int flagset) {

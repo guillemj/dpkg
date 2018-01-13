@@ -58,7 +58,7 @@ atomic_file_open(struct atomic_file *file)
 		        file->name_new);
 	fchmod(fileno(file->fp), 0644);
 
-	push_cleanup(cu_closestream, ~ehflag_normaltidy, NULL, 0, 1, file->fp);
+	push_cleanup(cu_closestream, ~ehflag_normaltidy, 1, file->fp);
 }
 
 void

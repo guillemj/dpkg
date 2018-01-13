@@ -101,7 +101,7 @@ baselist::setupsigwinch()
   if (sigaction(SIGWINCH, nullptr, osigactp))
     ohshite(_("failed to get old SIGWINCH sigact"));
 
-  push_cleanup(cu_sigwinch, ~0, nullptr, 0, 2, osigactp, oblockedp);
+  push_cleanup(cu_sigwinch, ~0, 2, osigactp, oblockedp);
 
   sigwinch_mask(SIG_BLOCK);
 

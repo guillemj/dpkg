@@ -71,7 +71,7 @@ static void info_prepare(const char *const **argvp,
     ohshite(_("unable to create temporary directory"));
   *dirp = dbuf;
 
-  push_cleanup(cu_info_prepare, -1, NULL, 0, 1, (void *)dbuf);
+  push_cleanup(cu_info_prepare, -1, 1, (void *)dbuf);
   extracthalf(*debarp, dbuf, DPKG_TAR_EXTRACT | DPKG_TAR_NOMTIME, admininfo);
 }
 

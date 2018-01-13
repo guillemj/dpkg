@@ -91,7 +91,7 @@ pkg_infodb_link_multiarch_files(void)
 	if (!db_dir)
 		ohshite(_("cannot read info directory"));
 
-	push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)db_dir);
+	push_cleanup(cu_closedir, ~0, 1, (void *)db_dir);
 	while ((db_de = readdir(db_dir)) != NULL) {
 		const char *filetype, *dot;
 		struct pkginfo *pkg;
@@ -213,7 +213,7 @@ pkg_infodb_upgrade_to_multiarch(void)
 	db_file = atomic_file_new(db_format_file, 0);
 	atomic_file_open(db_file);
 
-	push_cleanup(cu_abort_db_upgrade, ehflag_bombout, NULL, 0, 1, db_file);
+	push_cleanup(cu_abort_db_upgrade, ehflag_bombout, 1, db_file);
 
 	pkg_infodb_link_multiarch_files();
 	pkg_infodb_write_format(db_file, 1);

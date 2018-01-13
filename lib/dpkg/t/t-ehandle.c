@@ -100,7 +100,7 @@ test_cleanup_error(void)
 		pass = false;
 
 		push_error_context_jump(&handler_jump, printer_empty, "test cleanup");
-		push_cleanup(cleanup_error, ~ehflag_normaltidy, NULL, 0, 0);
+		push_cleanup(cleanup_error, ~ehflag_normaltidy, 0);
 		pop_error_context(ehflag_bombout);
 
 		/* We should have recovered from the cleanup handler failing,

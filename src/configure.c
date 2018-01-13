@@ -831,7 +831,7 @@ md5hash(struct pkginfo *pkg, char *hashbuf, const char *fn)
 	fd = open(fn, O_RDONLY);
 
 	if (fd >= 0) {
-		push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
+		push_cleanup(cu_closefd, ehflag_bombout, 1, &fd);
 		if (fd_md5(fd, hashbuf, -1, &err) < 0)
 			ohshit(_("cannot compute MD5 hash for file '%s': %s"),
 			       fn, err.str);

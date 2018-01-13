@@ -189,7 +189,7 @@ void deferred_remove(struct pkginfo *pkg) {
     oldpkgstatus= pkg->status;
     pkg_set_status(pkg, PKG_STAT_HALFCONFIGURED);
     modstatdb_note(pkg);
-    push_cleanup(cu_prermremove, ~ehflag_normaltidy, NULL, 0, 2,
+    push_cleanup(cu_prermremove, ~ehflag_normaltidy, 2,
                  (void *)pkg, (void *)&oldpkgstatus);
     maintscript_installed(pkg, PRERMFILE, "pre-removal", "remove", NULL);
 
@@ -564,7 +564,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
                 fnvb.buf, conff->name);
       }
       debug(dbg_conffdetail, "removal_bulk conffile cleaning dsd %s", fnvb.buf);
-      push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
+      push_cleanup(cu_closedir, ~0, 1, (void *)dsd);
       *p= '/';
       conffbasenamelen= strlen(++p);
       conffbasename= fnvb.buf+conffnameused-conffbasenamelen;
