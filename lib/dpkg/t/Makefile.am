@@ -26,6 +26,7 @@ test_programs = \
 	t-ehandle \
 	t-error \
 	t-string \
+	t-file \
 	t-buffer \
 	t-path \
 	t-progname \

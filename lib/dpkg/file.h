@@ -26,6 +26,8 @@
 #include <stdbool.h>
 
 #include <dpkg/macros.h>
+#include <dpkg/error.h>
+#include <dpkg/varbuf.h>
 
 DPKG_BEGIN_DECLS
 
@@ -47,6 +49,9 @@ struct file_stat {
 };
 
 void file_copy_perms(const char *src, const char *dst);
+
+int
+file_slurp(const char *filename, struct varbuf *vb, struct dpkg_error *err);
 
 enum file_lock_flags {
 	FILE_LOCK_NOWAIT,
