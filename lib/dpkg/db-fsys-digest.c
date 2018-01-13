@@ -80,13 +80,14 @@ write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
 }
 
 static void
-parse_filehash_buffer(char *buf, char *buf_end,
+parse_filehash_buffer(struct varbuf *buf,
                       struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
 	char *thisline, *nextline;
 	const char *pkgname = pkg_name(pkg, pnaw_nonambig);
+	const char *buf_end = buf->buf + buf->used;
 
-	for (thisline = buf; thisline < buf_end; thisline = nextline) {
+	for (thisline = buf->buf; thisline < buf_end; thisline = nextline) {
 		struct filenamenode *namenode;
 		char *endline, *hash_end, *filename;
 
@@ -124,7 +125,7 @@ parse_filehash_buffer(char *buf, char *buf_end,
 		      thisline, filename);
 
 		/* Add the file to the list. */
-		namenode = findnamenode(filename, fnn_nocopy);
+		namenode = findnamenode(filename, 0);
 		namenode->newhash = thisline;
 	}
 }
@@ -132,43 +133,19 @@ parse_filehash_buffer(char *buf, char *buf_end,
 void
 parse_filehash(struct pkginfo *pkg, struct pkgbin *pkgbin)
 {
-	static int fd;
 	const char *hashfile;
-	struct stat st;
+	struct varbuf buf = VARBUF_INIT;
+	struct dpkg_error err = DPKG_ERROR_INIT;
 
 	hashfile = pkg_infodb_get_file(pkg, pkgbin, HASHFILE);
 
-	fd = open(hashfile, O_RDONLY);
-	if (fd < 0) {
-		if (errno == ENOENT)
-			return;
+	if (file_slurp(hashfile, &buf, &err) < 0 && err.syserrno != ENOENT)
+		dpkg_error_print(&err,
+		                 _("loading control file '%s' for package '%s'"),
+		                 HASHFILE, pkg_name(pkg, pnaw_nonambig));
 
-		ohshite(_("cannot open control file '%s' for package '%s'"),
-		        HASHFILE, pkg_name(pkg, pnaw_nonambig));
-	}
+	if (buf.used > 0)
+		parse_filehash_buffer(&buf, pkg, pkgbin);
 
-	if (fstat(fd, &st) < 0)
-		ohshite(_("cannot stat control file '%s' for package '%s'"),
-		        HASHFILE, pkg_name(pkg, pnaw_nonambig));
-
-	if (!S_ISREG(st.st_mode))
-		ohshit(_("control file '%s' for package '%s' is not a regular file"),
-		       HASHFILE, pkg_name(pkg, pnaw_nonambig));
-
-	if (st.st_size > 0) {
-		char *buf, *buf_end;
-
-		buf = nfmalloc(st.st_size);
-		buf_end = buf + st.st_size;
-
-		if (fd_read(fd, buf, st.st_size) < 0)
-			ohshite(_("cannot read control file '%s' for package '%s'"),
-			        HASHFILE, pkg_name(pkg, pnaw_nonambig));
-
-		parse_filehash_buffer(buf, buf_end, pkg, pkgbin);
-	}
-
-	if (close(fd))
-		ohshite(_("cannot close control file '%s' for package '%s'"),
-		        HASHFILE, pkg_name(pkg, pnaw_nonambig));
+	varbuf_destroy(&buf);
 }

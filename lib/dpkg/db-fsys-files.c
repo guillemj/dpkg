@@ -77,11 +77,11 @@ static enum pkg_filesdb_load_status saidread = PKG_FILESDB_LOAD_NONE;
 void
 ensure_packagefiles_available(struct pkginfo *pkg)
 {
-  static int fd;
   const char *filelistfile;
   struct fileinlist **lendp;
-  struct stat stat_buf;
-  char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
+  char *loaded_list_end, *thisline, *nextline, *ptr;
+  struct varbuf buf = VARBUF_INIT;
+  struct dpkg_error err = DPKG_ERROR_INIT;
 
   if (pkg->files_list_valid)
     return;
@@ -99,12 +99,11 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
   onerr_abort++;
 
-  fd= open(filelistfile,O_RDONLY);
+  if (file_slurp(filelistfile, &buf, &err) < 0) {
+    if (err.syserrno != ENOENT)
+      dpkg_error_print(&err, _("loading files list file for package '%s'"),
+                       pkg_name(pkg, pnaw_nonambig));
 
-  if (fd==-1) {
-    if (errno != ENOENT)
-      ohshite(_("unable to open files list file for package '%.250s'"),
-              pkg_name(pkg, pnaw_nonambig));
     onerr_abort--;
     if (pkg->status != PKG_STAT_CONFIGFILES &&
         dpkg_version_is_informative(&pkg->configversion)) {
@@ -117,26 +116,11 @@ ensure_packagefiles_available(struct pkginfo *pkg)
     return;
   }
 
-  push_cleanup(cu_closefd, ehflag_bombout, 1, &fd);
-
-  if (fstat(fd, &stat_buf))
-    ohshite(_("unable to stat files list file for package '%.250s'"),
-            pkg_name(pkg, pnaw_nonambig));
-
-  if (!S_ISREG(stat_buf.st_mode))
-    ohshit(_("files list for package '%.250s' is not a regular file"),
-           pkg_name(pkg, pnaw_nonambig));
-
-  if (stat_buf.st_size) {
-    loaded_list = nfmalloc(stat_buf.st_size);
-    loaded_list_end = loaded_list + stat_buf.st_size;
-
-    if (fd_read(fd, loaded_list, stat_buf.st_size) < 0)
-      ohshite(_("reading files list for package '%.250s'"),
-              pkg_name(pkg, pnaw_nonambig));
+  if (buf.used) {
+    loaded_list_end = buf.buf + buf.used;
 
     lendp = &pkg->files;
-    thisline = loaded_list;
+    thisline = buf.buf;
     while (thisline < loaded_list_end) {
       struct filenamenode *namenode;
 
@@ -154,15 +138,13 @@ ensure_packagefiles_available(struct pkginfo *pkg)
                pkg_name(pkg, pnaw_nonambig));
       *ptr = '\0';
 
-      namenode = findnamenode(thisline, fnn_nocopy);
+      namenode = findnamenode(thisline, 0);
       lendp = pkg_files_add_file(pkg, namenode, lendp);
       thisline = nextline;
     }
   }
-  pop_cleanup(ehflag_normaltidy); /* fd = open() */
-  if (close(fd))
-    ohshite(_("error closing files list file for package '%.250s'"),
-            pkg_name(pkg, pnaw_nonambig));
+
+  varbuf_destroy(&buf);
 
   onerr_abort--;
 
