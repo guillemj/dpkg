@@ -267,7 +267,7 @@ sub _add_build_flags {
 
     # Mask builtin features that are not enabled by default in the compiler.
     my %builtin_pie_arch = map { $_ => 1 } qw(
-        amd64 arm64 armel armhf i386 kfreebsd-amd64 kfreebsd-i386
+        amd64 arm64 armel armhf hurd-i386 i386 kfreebsd-amd64 kfreebsd-i386
         mips mipsel mips64el powerpc ppc64 ppc64el s390x sparc sparc64
     );
     if (not exists $builtin_pie_arch{$arch}) {
