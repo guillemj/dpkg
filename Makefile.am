@@ -31,6 +31,7 @@ dist_pkgdata_DATA = \
 	$(nil)
 
 EXTRA_DIST = \
+	.gitlab-ci.yml \
 	.mailmap \
 	ChangeLog.old \
 	README.l10n \

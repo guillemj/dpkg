@@ -1,0 +1,54 @@
+image: debian:sid
+
+before_script:
+  - apt update -qq
+  - apt install -qq -y eatmydata
+  - eatmydata apt install -qq -y --no-install-recommends
+    git ca-certificates
+  - eatmydata apt build-dep -qq -y .
+  - ./autogen
+
+# Test whether the release can be done.
+dist-check:
+  stage: test
+  script:
+    - eatmydata apt install -qq -y --no-install-recommends
+      libmodule-build-perl
+    - ./configure
+    - make distcheck
+
+# Test whether the unit tests pass.
+unit-tests:
+  stage: test
+  script:
+    - eatmydata apt install -qq -y --no-install-recommends
+      fakeroot gpg aspell aspell-en i18nspector
+      libtest-strict-perl libtest-minimumversion-perl libtest-perl-critic-perl
+      libtest-pod-perl libtest-pod-coverage-perl libtest-spelling-perl
+      libtest-synopsis-perl
+    - ./configure
+    - make check VERBOSE=1 TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
+                 AUTHOR_TESTING=1
+
+# Test whether the unit tests pass on a VPATH build.
+vpath-tests:
+  stage: test
+  script:
+    - mkdir -p build-tree
+    - cd build-tree
+    - ../configure
+    - make check VERBOSE=1 TESTSUITEFLAGS=--verbose TEST_PARALLEL=$(nproc)
+
+# Test whether the external functional tests pass.
+func-tests:
+  stage: test
+  script:
+    - ./configure
+    - make
+    - git clone https://git.dpkg.org/git/dpkg/dpkg-tests.git
+    - cd dpkg-tests
+    - echo "DPKG_SERIES = 1.18.x" >>.pkg-tests.conf
+    - echo "DPKG_TESTSUITE_OPTIONS = debug not-root" >>.pkg-tests.conf
+    - echo "DPKG_BUILDTREE = $(realpath ..)" >>.pkg-tests.conf
+    - ./db-regen
+    - eatmydata make test
