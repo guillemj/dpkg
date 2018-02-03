@@ -399,7 +399,7 @@ sub _generate_patch {
     # Identify original tarballs
     my ($tarfile, %addonfile);
     my $comp_ext_regex = compression_get_file_extension_regex();
-    my @origtarballs;
+    my @origtarfiles;
     foreach my $file (sort $self->find_original_tarballs()) {
         if ($file =~ /\.orig\.tar\.$comp_ext_regex$/) {
             if (defined($tarfile)) {
@@ -407,20 +407,26 @@ sub _generate_patch {
                          'one is allowed'), $tarfile, $file);
             }
             $tarfile = $file;
-            push @origtarballs, $file;
+            push @origtarfiles, $file;
             $self->add_file($file);
             if (-e "$file.sig" and not -e "$file.asc") {
                 openpgp_sig_to_asc("$file.sig", "$file.asc");
             }
-            $self->add_file("$file.asc") if -e "$file.asc";
+            if (-e "$file.asc") {
+                push @origtarfiles, "$file.asc";
+                $self->add_file("$file.asc")
+            }
         } elsif ($file =~ /\.orig-([[:alnum:]-]+)\.tar\.$comp_ext_regex$/) {
             $addonfile{$1} = $file;
-            push @origtarballs, $file;
+            push @origtarfiles, $file;
             $self->add_file($file);
             if (-e "$file.sig" and not -e "$file.asc") {
                 openpgp_sig_to_asc("$file.sig", "$file.asc");
             }
-            $self->add_file("$file.asc") if -e "$file.asc";
+            if (-e "$file.asc") {
+                push @origtarfiles, "$file.asc";
+                $self->add_file("$file.asc");
+            }
         }
     }
 
@@ -428,7 +434,7 @@ sub _generate_patch {
           $self->_upstream_tarball_template()) unless $tarfile;
 
     if ($opts{usage} eq 'build') {
-        foreach my $origtarfile (@origtarballs) {
+        foreach my $origtarfile (@origtarfiles) {
             info(g_('building %s using existing %s'),
                  $self->{fields}{'Source'}, $origtarfile);
         }

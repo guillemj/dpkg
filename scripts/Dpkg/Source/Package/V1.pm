@@ -413,7 +413,10 @@ sub do_build {
     if ($tarname and -e "$tarname.sig" and not -e "$tarname.asc") {
         openpgp_sig_to_asc("$tarname.sig", "$tarname.asc");
     }
-    $self->add_file($tarsign) if $tarsign and -e $tarsign;
+    if ($tarsign and -e $tarsign) {
+        info(g_('building %s using existing %s'), $sourcepackage, $tarsign);
+        $self->add_file($tarsign);
+    }
 
     if ($sourcestyle =~ m/[kpKP]/) {
         if (stat($origdir)) {
