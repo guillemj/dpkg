@@ -428,8 +428,10 @@ sub _generate_patch {
           $self->_upstream_tarball_template()) unless $tarfile;
 
     if ($opts{usage} eq 'build') {
-        info(g_('building %s using existing %s'),
-             $self->{fields}{'Source'}, "@origtarballs");
+        foreach my $origtarfile (@origtarballs) {
+            info(g_('building %s using existing %s'),
+                 $self->{fields}{'Source'}, $origtarfile);
+        }
     }
 
     # Unpack a second copy for comparison
