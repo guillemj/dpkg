@@ -183,6 +183,7 @@ setselections(const char *const *argv)
         !pkg_is_informative(pkg, &pkg->available)) {
       db_possibly_outdated = true;
       warning(_("package not in status nor available database at line %d: %.250s"), lno, namevb.buf);
+      lno++;
       continue;
     }
 
