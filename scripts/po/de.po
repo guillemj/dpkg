@@ -1,13 +1,13 @@
 # German translation of the scripts in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2017.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.18.8\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
-"PO-Revision-Date: 2017-10-17 21:29+0200\n"
+"POT-Creation-Date: 2018-02-22 18:08+0100\n"
+"PO-Revision-Date: 2018-02-22 18:21+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -259,6 +259,8 @@ msgid ""
 "  -P, --build-profiles=<profiles>\n"
 "                              assume comma-separated build profiles as "
 "active.\n"
+"      --rules-requires-root   assume legacy Rules-Requires-Root field "
+"value.\n"
 "  -R, --rules-file=<rules>    rules file to execute (default is debian/"
 "rules).\n"
 "  -T, --rules-target=<target> call debian/rules <target>.\n"
@@ -319,7 +321,10 @@ msgstr ""
 "                      eingebaute Bauabhängigkeiten nicht prüfen\n"
 "  -P, --build-profiles=<Profile>\n"
 "                      Kommata-getrennte übergebene Bauprofile als aktiv\n"
-"                        annehmen  -R, --rules-file=<rules>\n"
+"                        annehmen\n"
+"  --rules-requires-root\n"
+"                      alten Feldwert »Rules-Requires-Root« annehmen\n"
+"  -R, --rules-file=<rules>\n"
 "                      auszuführende rules-Datei (Vorgabe: debian/rules)\n"
 "  -T, --rules-target=<Ziel>\n"
 "                      debian/rules <Ziel> mit der korrekten Umgebung "
@@ -455,23 +460,6 @@ msgid "unknown option or argument %s"
 msgstr "unbekannte Option oder Argument %s"
 
 #: scripts/dpkg-buildpackage.pl
-msgid "using a gain-root-command while being root"
-msgstr "Verwendung eines root-werde-Befehls, obwohl bereits root"
-
-#: scripts/dpkg-buildpackage.pl
-msgid ""
-"fakeroot not found, either install the fakeroot\n"
-"package, specify a command with the -r option, or run this as root"
-msgstr ""
-"Fakeroot nicht gefunden; installieren Sie entweder das Fakeroot-Paket,\n"
-"geben Sie einen Befehl mit der Option -r an oder führen Sie dies als root aus"
-
-#: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "gain-root-command '%s' not found"
-msgstr "root-werde-Befehl »%s« nicht gefunden"
-
-#: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "option %s is only meaningful with option %s"
 msgstr "Option %s hat nur zusammen mit der Option %s eine Bedeutung"
@@ -552,6 +540,23 @@ msgstr ""
 #, perl-format
 msgid "unable to determine %s"
 msgstr "%s kann nicht bestimmt werden"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "using a gain-root-command while being root"
+msgstr "Verwendung eines root-werde-Befehls, obwohl bereits root"
+
+#: scripts/dpkg-buildpackage.pl
+msgid ""
+"fakeroot not found, either install the fakeroot\n"
+"package, specify a command with the -r option, or run this as root"
+msgstr ""
+"Fakeroot nicht gefunden; installieren Sie entweder das Fakeroot-Paket,\n"
+"geben Sie einen Befehl mit der Option -r an oder führen Sie dies als root aus"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "gain-root-command '%s' not found"
+msgstr "root-werde-Befehl »%s« nicht gefunden"
 
 #: scripts/dpkg-buildpackage.pl
 #, perl-format
@@ -2268,8 +2273,8 @@ msgstr ""
 
 #: scripts/Dpkg/Changelog.pm
 #, perl-format
-msgid "'%s' option specifies non-existing version"
-msgstr "Option »%s« gibt nicht existierende Version an"
+msgid "'%s' option specifies non-existing version '%s'"
+msgstr "Option »%s« gibt nicht existierende Version »%s« an"
 
 #: scripts/Dpkg/Changelog.pm
 msgid "use newest entry that is earlier than the one specified"
@@ -2285,16 +2290,18 @@ msgstr "ältester Eintrag wird verwendet, der neuer als der angegebene ist"
 
 #: scripts/Dpkg/Changelog.pm
 #, perl-format
-msgid "no such entry found, ignoring '%s' parameter"
-msgstr "kein solcher Eintrag gefunden, Parameter »%s« wird ignoriert"
+msgid "no such entry found, ignoring '%s' parameter '%s'"
+msgstr "kein solcher Eintrag gefunden, »%s«-Parameter »%s« wird ignoriert"
 
 #: scripts/Dpkg/Changelog.pm
-msgid "'since' option specifies most recent version, ignoring"
-msgstr "Option »since« gibt die neuste Version an, wird ignoriert"
+#, perl-format
+msgid "'since' option specifies most recent version '%s', ignoring"
+msgstr "Option »since« gibt die neuste Version »%s« an, wird ignoriert"
 
 #: scripts/Dpkg/Changelog.pm
-msgid "'until' option specifies oldest version, ignoring"
-msgstr "Option »until« gibt die älteste Version an, wird ignoriert"
+#, perl-format
+msgid "'until' option specifies oldest version '%s', ignoring"
+msgstr "Option »until« gibt die älteste Version »%s« an, wird ignoriert"
 
 #: scripts/Dpkg/Changelog/Debian.pm
 msgid "first heading"
