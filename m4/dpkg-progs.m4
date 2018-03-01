@@ -36,6 +36,7 @@ AC_DEFUN([DPKG_PROG_PERL], [
 # --------------
 AC_DEFUN([DPKG_PROG_PO4A], [
   AC_REQUIRE([AM_NLS])
+  AC_ARG_VAR([PO4A], [po4a program])
   AC_CHECK_PROGS([PO4A], [po4a])
   AS_IF([test "$USE_NLS" = "yes" && test -n "$PO4A"], [
     USE_PO4A=yes
@@ -48,6 +49,7 @@ AC_DEFUN([DPKG_PROG_PO4A], [
 # DPKG_PROG_POD2MAN
 # --------------
 AC_DEFUN([DPKG_PROG_POD2MAN], [
+  AC_ARG_VAR([POD2MAN], [pod2man program])
   AC_CHECK_PROGS([POD2MAN], [pod2man])
   AM_CONDITIONAL([BUILD_POD_DOC], [test "x$POD2MAN" != "x"])
 ])# DPKG_PROG_POD2MAN
