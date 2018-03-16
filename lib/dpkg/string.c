@@ -28,6 +28,25 @@
 #include <dpkg/string.h>
 #include <dpkg/dpkg.h>
 
+char *
+str_concat(char *dst, ...)
+{
+	va_list args;
+	const char *src;
+	size_t len;
+
+	va_start(args, dst);
+	while ((src = va_arg(args, const char *))) {
+		len = strlen(src);
+		memcpy(dst, src, len);
+		dst += len;
+	}
+	va_end(args);
+	*dst = '\0';
+
+	return dst;
+}
+
 /**
  * Match the end of a string.
  *

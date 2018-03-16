@@ -56,6 +56,7 @@ bool str_match_end(const char *str, const char *end);
 
 unsigned int str_fnv_hash(const char *str);
 
+char *str_concat(char *dst, ...) DPKG_ATTR_SENTINEL;
 char *str_fmt(const char *fmt, ...) DPKG_ATTR_PRINTF(1);
 char *str_escape_fmt(char *dest, const char *src, size_t n);
 char *str_quote_meta(const char *src);
