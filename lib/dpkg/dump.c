@@ -461,16 +461,10 @@ writerecord(FILE *file, const char *filename,
 
   varbufrecord(&vb, pkg, pkgbin);
   varbuf_end_str(&vb);
-  if (fputs(vb.buf,file) < 0) {
-    struct varbuf pkgname = VARBUF_INIT;
-    int errno_saved = errno;
 
-    varbuf_add_pkgbin_name(&pkgname, pkg, pkgbin, pnaw_nonambig);
-
-    errno = errno_saved;
+  if (fputs(vb.buf, file) < 0)
     ohshite(_("failed to write details of '%.50s' to '%.250s'"),
-            pkgname.buf, filename);
-  }
+            pkgbin_name(pkg, pkgbin, pnaw_nonambig), filename);
 
   varbuf_destroy(&vb);
 }

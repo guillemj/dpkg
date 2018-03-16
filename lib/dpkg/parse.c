@@ -219,6 +219,16 @@ pkg_parse_verify(struct parsedb_state *ps,
     parse_error(ps, _("package has field '%s' but is architecture all"),
                 "Multi-Arch: same");
 
+  /* Generate the fully qualified package name representation. */
+  if (pkgbin->arch->type != DPKG_ARCH_NONE &&
+      pkgbin->arch->type != DPKG_ARCH_EMPTY) {
+    char *pkgname = nfmalloc(strlen(pkg->set->name) + 1 +
+                             strlen(pkgbin->arch->name) + 1);
+
+    str_concat(pkgname, pkg->set->name, ":", pkgbin->arch->name, NULL);
+    pkgbin->pkgname_archqual = pkgname;
+  }
+
   /* Initialize deps to be arch-specific unless stated otherwise. */
   for (dep = pkgbin->depends; dep; dep = dep->next)
     for (dop = dep->list; dop; dop = dop->next)

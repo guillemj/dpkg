@@ -93,24 +93,11 @@ varbuf_add_pkgbin_name(struct varbuf *vb,
  * @return The string representation.
  */
 const char *
-pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
+pkgbin_name(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
             enum pkg_name_arch_when pnaw)
 {
 	if (!pkgbin_name_needs_arch(pkgbin, pnaw))
 		return pkg->set->name;
-
-	/* Cache the package name representation, for later reuse. */
-	if (pkgbin->pkgname_archqual == NULL) {
-		struct varbuf vb = VARBUF_INIT;
-
-		varbuf_add_str(&vb, pkg->set->name);
-		varbuf_add_archqual(&vb, pkgbin->arch);
-		varbuf_end_str(&vb);
-
-		pkgbin->pkgname_archqual = nfstrsave(vb.buf);
-
-		varbuf_destroy(&vb);
-	}
 
 	return pkgbin->pkgname_archqual;
 }
@@ -126,7 +113,7 @@ pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
  * @return The string representation.
  */
 const char *
-pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
+pkg_name(const struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
 {
 	return pkgbin_name(pkg, &pkg->installed, pnaw);
 }

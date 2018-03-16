@@ -110,8 +110,7 @@ struct pkgbin {
   bool essential;
   enum pkgmultiarch multiarch;
   const struct dpkg_arch *arch;
-  /** The following is the "pkgname:archqual" cached string, if this was a
-   * C++ class this member would be mutable. */
+  /** The fully qualified package name, i.e. "pkgname:archqual". */
   const char *pkgname_archqual;
   const char *description;
   const char *maintainer;
@@ -377,9 +376,9 @@ enum pkg_name_arch_when {
 void varbuf_add_pkgbin_name(struct varbuf *vb, const struct pkginfo *pkg,
                             const struct pkgbin *pkgbin,
                             enum pkg_name_arch_when pnaw);
-const char *pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
+const char *pkgbin_name(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                         enum pkg_name_arch_when pnaw);
-const char *pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw);
+const char *pkg_name(const struct pkginfo *pkg, enum pkg_name_arch_when pnaw);
 
 void
 pkg_source_version(struct dpkg_version *version,
