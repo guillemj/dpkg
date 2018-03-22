@@ -281,6 +281,7 @@ sub _add_build_flags {
         powerpc
         ppc64
         ppc64el
+        riscv64
         s390x
         sparc
         sparc64
