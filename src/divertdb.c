@@ -36,9 +36,9 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/debug.h>
 
 #include "filesdb.h"
-#include "main.h"
 
 static struct diversion *diversions = NULL;
 static char *diversionsname;

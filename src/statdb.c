@@ -38,9 +38,9 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/fdio.h>
+#include <dpkg/debug.h>
 
 #include "filesdb.h"
-#include "main.h"
 
 static char *statoverridename;
 
