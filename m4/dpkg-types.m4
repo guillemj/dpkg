@@ -11,26 +11,6 @@ AC_DEFUN([DPKG_TYPE_PTRDIFF_T], [
   ])
 ])# DPKG_TYPE_PTRDIFF_T
 
-# DPKG_TYPE_U_INT_T(N)
-# --------------------
-# Check for u_intN_t BSD type, defining to C99 type if not.
-AC_DEFUN([DPKG_TYPE_U_INT_T], [
-  AC_CHECK_TYPE([u_int$1_t], [], [
-    AC_DEFINE_UNQUOTED([u_int$1_t], [uint$1_t],
-      [Define to 'uint$1_t' if not defined.])
-  ])
-])
-
-# DPKG_TYPES_U_INT_T
-# ------------------
-# Check for u_int(8|16|32|64)_t BSD types, defining to C99 types if not.
-AC_DEFUN([DPKG_TYPES_U_INT_T], [
-  DPKG_TYPE_U_INT_T([8])
-  DPKG_TYPE_U_INT_T([16])
-  DPKG_TYPE_U_INT_T([32])
-  DPKG_TYPE_U_INT_T([64])
-])
-
 # DPKG_DECL_SYS_SIGLIST
 # ---------------------
 # Check for the sys_siglist variable in either signal.h or unistd.h
