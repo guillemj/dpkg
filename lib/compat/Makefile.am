@@ -10,6 +10,7 @@ noinst_LTLIBRARIES = libcompat-test.la libcompat.la
 libcompat_test_la_CPPFLAGS = $(AM_CPPFLAGS) -DTEST_LIBCOMPAT=1
 libcompat_test_la_SOURCES = \
 	compat.h \
+	md5.c md5.h \
 	strnlen.c \
 	strndup.c \
 	strsignal.c \
