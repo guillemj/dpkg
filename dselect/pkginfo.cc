@@ -115,7 +115,8 @@ void packagelist::itd_description() {
     if (str_is_unset(m))
       m = _("No description available.");
     const char *p = strchrnul(m, '\n');
-    int l = (int)(p - m);
+    ptrdiff_t l = p - m;
+
     wattrset(infopad, part_attr[info_head]);
     waddstr(infopad, table[cursorline]->pkg->set->name);
     waddstr(infopad," - ");

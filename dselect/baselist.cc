@@ -404,14 +404,15 @@ void baselist::refreshinfo() {
 }
 
 void baselist::wordwrapinfo(int offset, const char *m) {
-  int usemax= xmax-5;
+  ssize_t usemax = xmax - 5;
   debug(dbg_general, "baselist[%p]::wordwrapinfo(%d, '%s')", this, offset, m);
   bool wrapping = false;
 
   for (;;) {
     int offleft=offset; while (*m == ' ' && offleft>0) { m++; offleft--; }
     const char *p = strchrnul(m, '\n');
-    int l = (int)(p - m);
+    ptrdiff_t l = p - m;
+
     while (l && c_isspace(m[l - 1]))
       l--;
     if (!l || (*m == '.' && l == 1)) {
@@ -436,11 +437,11 @@ void baselist::wordwrapinfo(int offset, const char *m) {
       }
       for (;;) {
         getyx(infopad, y,x);
-        int dosend= usemax-x;
+        ssize_t dosend = usemax - x;
         if (l <= dosend) {
           dosend=l;
         } else {
-          int i=dosend;
+          ssize_t i = dosend;
           while (i > 0 && m[i] != ' ') i--;
           if (i > 0 || x > 0) dosend=i;
         }
