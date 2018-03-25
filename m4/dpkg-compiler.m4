@@ -4,7 +4,7 @@
 # DPKG_CHECK_COMPILER_FLAG
 # ------------------------
 AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
-  m4_define([dpkg_check_flag], [m4_default([$2], [$1])])
+  m4_define([dpkg_check_flag], m4_bpatsubst([$1], [^-Wno-], [-W]))
 
   AC_LANG_CASE(
   [C], [
@@ -45,11 +45,9 @@ AC_DEFUN([DPKG_CHECK_COMPILER_FLAG], [
 AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wall])
   DPKG_CHECK_COMPILER_FLAG([-Wextra])
-  DPKG_CHECK_COMPILER_FLAG([-Wno-unused-parameter], [-Wunused-parameter])
-  DPKG_CHECK_COMPILER_FLAG([-Wno-missing-field-initializers],
-                           [-Wmissing-field-initializers])
-  DPKG_CHECK_COMPILER_FLAG([-Wno-tautological-constant-out-of-range-compare],
-                           [-Wtautological-constant-out-of-range-compare])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-unused-parameter])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-missing-field-initializers])
+  DPKG_CHECK_COMPILER_FLAG([-Wno-tautological-constant-out-of-range-compare])
   DPKG_CHECK_COMPILER_FLAG([-Wmissing-declarations])
   DPKG_CHECK_COMPILER_FLAG([-Wmissing-format-attribute])
   DPKG_CHECK_COMPILER_FLAG([-Wformat -Wformat-security])
