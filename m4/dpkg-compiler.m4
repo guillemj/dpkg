@@ -47,6 +47,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wextra])
 
   DPKG_CHECK_COMPILER_FLAG([-Wcast-align])
+  DPKG_CHECK_COMPILER_FLAG([-Wdocumentation])
   DPKG_CHECK_COMPILER_FLAG([-Wduplicated-cond])
   DPKG_CHECK_COMPILER_FLAG([-Wformat -Wformat-security])
   DPKG_CHECK_COMPILER_FLAG([-Winit-self])

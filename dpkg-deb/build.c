@@ -313,8 +313,8 @@ check_conffiles(const char *ctrldir, const char *rootdir)
 /**
  * Check the control file.
  *
- * @param dir	The directory from where to build the binary package.
- * @return	The pkginfo struct from the parsed control file.
+ * @param ctrldir The directory from where to build the binary package.
+ * @return The pkginfo struct from the parsed control file.
  */
 static struct pkginfo *
 check_control_file(const char *ctrldir)
@@ -343,8 +343,8 @@ check_control_file(const char *ctrldir)
 /**
  * Perform some sanity checks on the to-be-built package control area.
  *
- * @param dir	The directory from where to build the binary package.
- * @return	The pkginfo struct from the parsed control file.
+ * @param ctrldir The directory from where to build the binary package.
+ * @return The pkginfo struct from the parsed control file.
  */
 static struct pkginfo *
 check_control_area(const char *ctrldir, const char *rootdir)
