@@ -546,7 +546,7 @@ daemonize(void)
 	else if (pid) { /* Second parent. */
 		/* Set a default umask for dumb programs, which might get
 		 * overridden by the --umask option later on, so that we get
-		 * a defined umask when creating the pidfille. */
+		 * a defined umask when creating the pidfile. */
 		umask(022);
 
 		if (mpidfile && pidfile != NULL)
