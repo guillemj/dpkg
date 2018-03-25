@@ -72,7 +72,7 @@ static void cu_unlockmethod(int, void**) {
   struct flock fl;
 
   assert(methodlockfile);
-  assert(methlockfd);
+  assert(methlockfd >= 0);
   fl.l_type=F_UNLCK; fl.l_whence= SEEK_SET; fl.l_start=fl.l_len=0;
   if (fcntl(methlockfd,F_SETLK,&fl) == -1)
     sthfailed(_("cannot unlock access method area"));
