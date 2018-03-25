@@ -302,6 +302,25 @@ fatal(const char *format, ...)
 		exit(2);
 }
 
+#define BUG(...) bug(__FILE__, __LINE__, __func__, __VA_ARGS__)
+
+static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(4)
+bug(const char *file, int line, const char *func, const char *format, ...)
+{
+	va_list arglist;
+
+	fprintf(stderr, "%s:%s:%d:%s: internal error: ",
+	        progname, file, line, func);
+	va_start(arglist, format);
+	vfprintf(stderr, format, arglist);
+	va_end(arglist);
+
+	if (action == ACTION_STATUS)
+		exit(STATUS_UNKNOWN);
+	else
+		exit(3);
+}
+
 static void *
 xmalloc(int size)
 {
