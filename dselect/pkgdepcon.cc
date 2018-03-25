@@ -124,7 +124,7 @@ dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *trythis)
 
   debug(dbg_depcon, "update_best_to_change(best=%s{%d}, test=%s{%d});",
         best ? pkg_name(best->pkg, pnaw_always) : "",
-        best ? (int)best->spriority : -1,
+        best ? best->spriority : -1,
         trythis->set->name, trythis->clientdata->spriority);
 
   // If the problem is caused by us deselecting one of these packages

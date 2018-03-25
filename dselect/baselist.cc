@@ -390,7 +390,7 @@ void baselist::refreshinfo() {
     mvwaddstr(whatinfowin,0,0, whatinfovb.string());
     if (infolines > info_height) {
       wprintw(whatinfowin,_("  -- %d%%, press "),
-              (int)((infotopofscreen + info_height) * 100.0 / infolines));
+              (infotopofscreen + info_height) * 100 / infolines);
       if (infotopofscreen + info_height < infolines) {
         wprintw(whatinfowin,_("%s for more"), bindings->find("iscrollon"));
         if (infotopofscreen) waddstr(whatinfowin, ", ");
