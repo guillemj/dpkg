@@ -2482,7 +2482,7 @@ run_stop_schedule(void)
 	else if (userspec)
 		set_what_stop("process(es) owned by '%s'", userspec);
 	else
-		fatal("internal error, no match option, please report");
+		BUG("no match option, please report");
 
 	anykilled = false;
 	retry_nr = 0;
