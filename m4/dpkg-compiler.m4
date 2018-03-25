@@ -61,6 +61,7 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
   DPKG_CHECK_COMPILER_FLAG([-Wnull-dereference])
   DPKG_CHECK_COMPILER_FLAG([-Wpointer-arith])
   DPKG_CHECK_COMPILER_FLAG([-Wrestrict])
+  DPKG_CHECK_COMPILER_FLAG([-Wregister])
   DPKG_CHECK_COMPILER_FLAG([-Wshadow])
   DPKG_CHECK_COMPILER_FLAG([-Wshift-negative-value])
   DPKG_CHECK_COMPILER_FLAG([-Wsizeof-array-argument])
