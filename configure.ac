@@ -3,8 +3,14 @@
 m4_pattern_forbid([^_?DPKG_])
 
 AC_PREREQ(2.60)
-AC_INIT([dpkg], m4_esyscmd([./get-version]), [debian-dpkg@lists.debian.org])
+AC_INIT([dpkg], m4_esyscmd([./get-version]), [debian-dpkg@lists.debian.org],
+        [dpkg], [https://wiki.debian.org/Teams/Dpkg])
 AC_SUBST([PACKAGE_COPYRIGHT_HOLDER], ['Dpkg Developers'])
+AC_SUBST([PACKAGE_VCS_TYPE], [git])
+AC_SUBST([PACKAGE_VCS_URL], [https://anonscm.debian.org/git/dpkg/dpkg.git])
+AC_SUBST([PACKAGE_VCS_WEB], [https://anonscm.debian.org/cgit/dpkg/dpkg.git])
+AC_SUBST([PACKAGE_BUG_WEB], [https://bugs.debian.org/src:dpkg])
+AC_SUBST([PACKAGE_CPAN_NAME], [Dpkg])
 AC_CONFIG_SRCDIR([lib/dpkg/dpkg.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
@@ -208,6 +214,7 @@ AC_CONFIG_FILES([
   doc/Doxyfile
   man/Makefile
   po/Makefile.in
+  scripts/Build.PL
   scripts/Makefile
   scripts/mk/Makefile
   scripts/po/Makefile.in

@@ -1,0 +1,74 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Module::Build ();
+
+if (-e 'Build.PL.in') {
+    die "error: This is an in-tree build, not a proper perl distribution.\n" .
+        "To create one please configure normally and then run 'make dist'.\n";
+}
+
+my $class = Module::Build->subclass(
+    class => 'Module::Build::Dpkg',
+    code => q{
+        BEGIN {
+            $ENV{DPKG_TEST_MODE} = 'cpan';
+            $ENV{DPKG_DATADIR} = 'data';
+            $ENV{DPKG_ORIGINS_DIR} = 't/origins';
+        }
+    },
+);
+
+my $build = $class->new(
+    dist_name       => '@PACKAGE_CPAN_NAME@',
+    dist_abstract   => 'Debian Package Manager Perl modules',
+    dist_version    => '@PACKAGE_VERSION@',
+    dist_author     => '@PACKAGE_COPYRIGHT_HOLDER@ <@PACKAGE_BUGREPORT@>',
+    license         => 'GPL_2',
+
+    # Set only to avoid warnings.
+    module_name     => '@PACKAGE_CPAN_NAME@',
+
+    meta_merge => {
+        resources => {
+            homepage => '@PACKAGE_URL@',
+            repository => {
+                type => '@PACKAGE_VCS_TYPE@',
+                url => '@PACKAGE_VCS_URL@',
+                web => '@PACKAGE_VCS_WEB@',
+            },
+            bugtracker => {
+                web => '@PACKAGE_BUG_WEB@',
+            },
+        },
+        keywords => [ qw(dpkg debian perl) ],
+    },
+
+    sign            => 1,
+    dynamic_config  => 0,
+
+    configure_requires => {
+        'Module::Build'         => '0.4004',
+    },
+    test_requires => {
+        'TAP::Harness'          => 0,
+        'Test::More'            => 0,
+        'Test::Pod'             => 0,
+        'Test::Strict'          => 0,
+    },
+    recommands => {
+        'Algorithm::Merge'      => 0,
+        'File::FcntlLock'       => 0,
+        'Locale::gettext'       => 0,
+
+    },
+    requires => {
+        'perl'                  => '@PERL_MIN_VERSION@',
+    },
+);
+
+$build->create_build_script();
+
+1;

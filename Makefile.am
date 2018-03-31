@@ -179,9 +179,11 @@ update-po:
 	$(MAKE) -C dselect/po update-po
 	$(MAKE) -C man update-po
 
+include $(top_srcdir)/cpan.am
+
 # If we create the dist tarball from the git repository, make sure
 # that we're not forgetting some files...
-dist-hook:
+dist-hook: dist-cpan
 	echo $(VERSION) >$(distdir)/.dist-version
 	if [ -e .git ]; then \
 	  for file in `git ls-files | grep -v .gitignore`; do \

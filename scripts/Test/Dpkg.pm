@@ -54,6 +54,12 @@ use File::Path qw(make_path);
 use IPC::Cmd qw(can_run);
 use Test::More;
 
+my $test_mode;
+
+BEGIN {
+    $test_mode = $ENV{DPKG_TEST_MODE} // 'dpkg';
+}
+
 sub _test_get_caller_dir
 {
     my (undef, $path, undef) = caller 1;
@@ -69,8 +75,12 @@ sub test_get_data_path
     my $path = shift;
 
     if (defined $path) {
-        my $srcdir = $ENV{srcdir} || '.';
-        return "$srcdir/$path";
+        if ($test_mode eq 'cpan') {
+            return $path;
+        } else {
+            my $srcdir = $ENV{srcdir} || '.';
+            return "$srcdir/$path";
+        }
     } else {
         return _test_get_caller_dir();
     }
@@ -87,7 +97,11 @@ sub test_get_temp_path
 
 sub test_get_perl_dirs
 {
-    return qw(t src/t lib utils/t scripts dselect);
+    if ($test_mode eq 'cpan') {
+        return qw(t lib);
+    } else {
+        return qw(t src/t lib utils/t scripts dselect);
+    }
 }
 
 sub all_perl_files
