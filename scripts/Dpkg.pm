@@ -107,7 +107,7 @@ our $PROGPATCH = $ENV{DPKG_PROGPATCH} // 'patch';
 our $CONFDIR = '/etc/dpkg';
 our $ADMINDIR = '/var/lib/dpkg';
 our $LIBDIR = '.';
-our $DATADIR = '..';
+our $DATADIR = '../data';
 
 $DATADIR = $ENV{DPKG_DATADIR} if defined $ENV{DPKG_DATADIR};
 
