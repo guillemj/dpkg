@@ -428,8 +428,9 @@ void ensure_allinstfiles_available(void) {
   if (saidread == PKG_FILESDB_LOAD_INPROGRESS) {
     progress_done(&progress);
     printf(P_("%d file or directory currently installed.)\n",
-              "%d files and directories currently installed.)\n", nfiles),
-           nfiles);
+              "%d files and directories currently installed.)\n",
+              fsys_hash_entries()),
+           fsys_hash_entries());
     saidread = PKG_FILESDB_LOAD_DONE;
   }
 }
@@ -587,6 +588,12 @@ files_db_reset(void)
 
   for (i = 0; i < BINS; i++)
     bins[i] = NULL;
+}
+
+int
+fsys_hash_entries(void)
+{
+  return nfiles;
 }
 
 struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
