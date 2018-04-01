@@ -138,48 +138,47 @@ if ($bc_value) {
 }
 
 if (@unmet) {
-	errormsg(g_('Unmet build dependencies: %s'),
-	         join(' ', map { $_->output() } @unmet));
+    errormsg(g_('Unmet build dependencies: %s'),
+             join(' ', map { $_->output() } @unmet));
 }
 if (@conflicts) {
-	errormsg(g_('Build conflicts: %s'),
-	         join(' ', map { $_->output() } @conflicts));
+    errormsg(g_('Build conflicts: %s'),
+             join(' ', map { $_->output() } @conflicts));
 }
 exit 1 if @unmet || @conflicts;
 
 # Silly little status file parser that returns a Dpkg::Deps::KnownFacts
 sub parse_status {
-	my $status = shift;
+    my $status = shift;
 
-	my $facts = Dpkg::Deps::KnownFacts->new();
-	local $/ = '';
-	open(my $status_fh, '<', $status)
-		or syserr(g_('cannot open %s'), $status);
-	while (<$status_fh>) {
-		next unless /^Status: .*ok installed$/m;
+    my $facts = Dpkg::Deps::KnownFacts->new();
+    local $/ = '';
+    open(my $status_fh, '<', $status)
+        or syserr(g_('cannot open %s'), $status);
+    while (<$status_fh>) {
+        next unless /^Status: .*ok installed$/m;
 
-		my ($package) = /^Package: (.*)$/m;
-		my ($version) = /^Version: (.*)$/m;
-		my ($arch) = /^Architecture: (.*)$/m;
-		my ($multiarch) = /^Multi-Arch: (.*)$/m;
-		$facts->add_installed_package($package, $version, $arch,
-		                              $multiarch);
+        my ($package) = /^Package: (.*)$/m;
+        my ($version) = /^Version: (.*)$/m;
+        my ($arch) = /^Architecture: (.*)$/m;
+        my ($multiarch) = /^Multi-Arch: (.*)$/m;
+        $facts->add_installed_package($package, $version, $arch, $multiarch);
 
-		if (/^Provides: (.*)$/m) {
-			my $provides = deps_parse($1, reduce_arch => 1, union => 1);
-			next if not defined $provides;
-			foreach (grep { $_->isa('Dpkg::Deps::Simple') }
-                                 $provides->get_deps())
-			{
-				$facts->add_provided_package($_->{package},
-                                    $_->{relation}, $_->{version},
-                                    $package);
-			}
-		}
-	}
-	close $status_fh;
+        if (/^Provides: (.*)$/m) {
+            my $provides = deps_parse($1, reduce_arch => 1, union => 1);
+            next if not defined $provides;
+            foreach (grep { $_->isa('Dpkg::Deps::Simple') }
+                     $provides->get_deps())
+            {
+                $facts->add_provided_package($_->{package},
+                                             $_->{relation}, $_->{version},
+                                             $package);
+            }
+        }
+    }
+    close $status_fh;
 
-	return $facts;
+    return $facts;
 }
 
 # This function checks the build dependencies passed in as the first
