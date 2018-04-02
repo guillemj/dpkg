@@ -3,7 +3,7 @@
  *
  * Copyright © 1995 Ian Jackson
  * Copyright © 2000, 2001 Wichert Akkerman
- * Copyright © 2006-2014 Guillem Jover <guillem@debian.org>
+ * Copyright © 2006-2015, 2017-2018 Guillem Jover <guillem@debian.org>
  * Copyright © 2011 Linaro Limited
  * Copyright © 2011 Raphaël Hertzog <hertzog@debian.org>
  *
@@ -101,6 +101,7 @@ usage(const struct cmdinfo *cip, const char *value)
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -751,6 +752,7 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "local",      0,   0,  NULL,         NULL,      set_package   },
 	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL, 0       },
 	{ "rename",     0,   0,  &opt_rename,  NULL,      NULL, 1       },
+	{ "no-rename",  0,   0,  &opt_rename,  NULL,      NULL, 0       },
 	{ "test",       0,   0,  &opt_test,    NULL,      NULL, 1       },
 	{ "help",      '?',  0,  NULL,         NULL,      usage         },
 	{ "version",    0,   0,  NULL,         NULL,      printversion  },

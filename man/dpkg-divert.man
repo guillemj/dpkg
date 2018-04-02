@@ -3,7 +3,7 @@
 .\" Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
 .\" Copyright © 1999 Wichert Akkerman <wakkerma@debian.org>
 .\" Copyright © 2004 Scott James Remnant <keybuk@debian.org>
-.\" Copyright © 2007-2013, 2015 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2007-2013, 2015-2018 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -88,6 +88,16 @@ Quiet mode, i.e. no verbose output.
 .B \-\-rename
 Actually move the file aside (or back). \fBdpkg\-divert\fP will abort operation
 in case the destination file already exists.
+This is the common behavior used for diversions of files from the
+non-\fBEssential\fP package set (see \fB\-\-no\-rename\fP for more details).
+.TP
+.B \-\-no\-rename
+Specifies that the file should not be renamed while adding or removing the
+diversion into the database (since dpkg 1.19.1).
+This is intended for diversions of files from the \fBEssential\fP package set,
+where the temporary disappearance of the original file is not acceptable, as
+it can render the system non-functional.
+This is the default behavior.
 .TP
 .B \-\-test
 Test mode, i.e. don't actually perform any changes, just demonstrate.
