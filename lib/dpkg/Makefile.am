@@ -63,6 +63,8 @@ libdpkg_la_SOURCES = \
 	fdio.c \
 	file.c \
 	fields.c \
+	fsys-iter.c \
+	fsys-hash.c \
 	glob.c \
 	i18n.c i18n.h \
 	log.c \
@@ -121,6 +123,7 @@ pkginclude_HEADERS = \
 	error.h \
 	fdio.h \
 	file.h \
+	fsys.h \
 	glob.h \
 	macros.h \
 	namevalue.h \
