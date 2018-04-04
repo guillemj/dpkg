@@ -399,6 +399,33 @@ divertdb_write(void)
 }
 
 static bool
+diversion_is_essential(struct filenamenode *namenode)
+{
+	struct pkginfo *pkg;
+	struct pkgiterator *pkg_iter;
+	struct filepackages_iterator *iter;
+	bool essential = false;
+
+	pkg_iter = pkg_db_iter_new();
+	while ((pkg = pkg_db_iter_next_pkg(pkg_iter))) {
+		if (pkg->installed.essential)
+			ensure_packagefiles_available(pkg);
+	}
+	pkg_db_iter_free(pkg_iter);
+
+	iter = filepackages_iter_new(namenode);
+	while ((pkg = filepackages_iter_next(iter))) {
+		if (pkg->installed.essential) {
+			essential = true;
+			break;
+		}
+	}
+	filepackages_iter_free(iter);
+
+	return essential;
+}
+
+static bool
 diversion_is_owned_by_self(struct pkgset *set, struct filenamenode *namenode)
 {
 	struct pkginfo *pkg;
@@ -514,6 +541,9 @@ diversion_add(const char *const *argv)
 			       filename, pkgset->name);
 		opt_rename = false;
 	}
+	if (opt_rename && diversion_is_essential(fnn_from))
+		warning(_("diverting file '%s' from an Essential package with "
+		          "rename is dangerous, use --no-rename"), filename);
 	if (!opt_test) {
 		divertdb_write();
 		if (opt_rename)
