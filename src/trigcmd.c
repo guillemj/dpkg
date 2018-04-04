@@ -229,6 +229,8 @@ main(int argc, const char *const *argv)
 		badusage(_("illegal awaited package name '%.250s': %.250s"),
 		         bypackage, badname);
 
+	filesdbinit();
+
 	activate = argv[0];
 	badname = trig_name_is_illegal(activate);
 	if (badname)

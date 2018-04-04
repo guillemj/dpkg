@@ -821,42 +821,12 @@ trig_incorporate(enum modstatdb_rw cstatus)
 
 /*---------- Default hooks. ----------*/
 
-struct filenamenode {
-	struct filenamenode *next;
-	const char *name;
-	struct trigfileint *trig_interested;
-};
-
-static struct filenamenode *trigger_files;
-
-static struct filenamenode *
-th_simple_nn_find(const char *name, bool nonew)
-{
-	struct filenamenode *search;
-
-	for (search = trigger_files; search; search = search->next)
-		if (strcmp(search->name, name) == 0)
-			return search;
-
-	/* Not found. */
-	if (nonew)
-		return NULL;
-
-	search = nfmalloc(sizeof(*search));
-	search->name = nfstrsave(name);
-	search->trig_interested = NULL;
-	search->next = trigger_files;
-	trigger_files = search;
-
-	return search;
-}
-
 TRIGHOOKS_DEFINE_NAMENODE_ACCESSORS
 
 static struct trig_hooks trigh = {
 	.enqueue_deferred = NULL,
 	.transitional_activate = NULL,
-	.namenode_find = th_simple_nn_find,
+	.namenode_find = th_nn_find,
 	.namenode_interested = th_nn_interested,
 	.namenode_name = th_nn_name,
 };

@@ -25,6 +25,7 @@
 
 #include <dpkg/macros.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/fsys.h>
 
 DPKG_BEGIN_DECLS
 
@@ -78,6 +79,8 @@ struct trig_hooks {
 };
 
 #define TRIGHOOKS_DEFINE_NAMENODE_ACCESSORS				 \
+  static struct filenamenode *th_nn_find(const char *name, bool nonew)	 \
+    { return findnamenode(name, nonew ? fnn_nonew : 0); }		 \
   static struct trigfileint **th_nn_interested(struct filenamenode *fnn) \
     { return &fnn->trig_interested; }					 \
   static const char *th_nn_name(struct filenamenode *fnn)		 \
