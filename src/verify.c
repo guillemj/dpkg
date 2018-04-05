@@ -30,8 +30,8 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/options.h>
 #include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
 #include "main.h"
 
 

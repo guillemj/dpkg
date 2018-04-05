@@ -1,6 +1,6 @@
 /*
- * dpkg - main program for package management
- * filesdb-hash.c - management of database of files installed on system
+ * libdpkg - Debian packaging suite library routines
+ * db-fsys-digest.c - management of filesystem digests database
  *
  * Copyright © 2012-2014 Guillem Jover <guillem@debian.org>
  *
@@ -36,8 +36,7 @@
 #include <dpkg/fdio.h>
 #include <dpkg/dir.h>
 #include <dpkg/db-ctrl.h>
-
-#include "filesdb.h"
+#include <dpkg/db-fsys.h>
 
 /*
  * If mask is nonzero, will not write any file whose filenamenode

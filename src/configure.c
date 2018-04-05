@@ -53,8 +53,8 @@
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
 #include <dpkg/triglib.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
 #include "main.h"
 
 enum conffopt {

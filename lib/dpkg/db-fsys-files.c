@@ -1,6 +1,6 @@
 /*
- * dpkg - main program for package management
- * filesdb.c - management of database of files installed on system
+ * libdpkg - Debian packaging suite library routines
+ * db-fsys-files.c - management of filesystem files database
  *
  * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000,2001 Wichert Akkerman <wakkerma@debian.org>
@@ -48,11 +48,10 @@
 #include <dpkg/dir.h>
 #include <dpkg/fdio.h>
 #include <dpkg/pkg-array.h>
+#include <dpkg/pkg-list.h>
 #include <dpkg/progress.h>
 #include <dpkg/db-ctrl.h>
-
-#include "filesdb.h"
-#include "main.h"
+#include <dpkg/db-fsys.h>
 
 /*** Generic data structures and routines. ***/
 

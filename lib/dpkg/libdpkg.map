@@ -390,6 +390,9 @@ LIBDPKG_PRIVATE {
 	pkg_infodb_has_file;
 	pkg_infodb_upgrade;
 
+	# Package on-disk diversion database support
+	ensure_diversions;
+
 	# Filesystem node hash support
 	filesdbinit;
 	files_db_reset;
@@ -407,6 +410,20 @@ LIBDPKG_PRIVATE {
 	filepackages_iter_new;
 	filepackages_iter_next;
 	filepackages_iter_free;
+
+	# Package on-disk filesystem database support
+	parse_filehash;
+	write_filelist_except;
+	write_filehash_except;
+	ensure_packagefiles_available;
+	ensure_allinstfiles_available;
+	ensure_allinstfiles_available_quiet;
+
+	# Package on-disk stat override database support
+	statdb_parse_uid;
+	statdb_parse_gid;
+	statdb_parse_mode;
+	ensure_statoverrides;
 
 	# Triggers support
 	trig_name_is_illegal;

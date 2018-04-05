@@ -25,7 +25,7 @@
 #include <dpkg/debug.h>
 #include <dpkg/pkg-list.h>
 
-/* These two are defined in filesdb.h. */
+/* These two are defined in <dpkg/fsys.h>. */
 struct fileinlist;
 struct filenamenode;
 

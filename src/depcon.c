@@ -35,8 +35,8 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
 #include "main.h"
 
 struct deppossi_pkg_iterator {

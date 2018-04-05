@@ -1,6 +1,6 @@
 /*
- * dpkg - main program for package management
- * statdb.c - management of database of ownership and mode of files
+ * libdpkg - Debian packaging suite library routines
+ * db-fsys-override.c - management of filesystem stat overrides database
  *
  * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000, 2001 Wichert Akkerman <wakkerma@debian.org>
@@ -39,8 +39,7 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/fdio.h>
 #include <dpkg/debug.h>
-
-#include "filesdb.h"
+#include <dpkg/db-fsys.h>
 
 static char *statoverridename;
 

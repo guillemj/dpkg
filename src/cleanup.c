@@ -40,8 +40,8 @@
 #include <dpkg/pkg.h>
 #include <dpkg/path.h>
 #include <dpkg/options.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
 #include "main.h"
 #include "archives.h"
 

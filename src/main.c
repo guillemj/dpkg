@@ -50,9 +50,9 @@
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
 #include <dpkg/options.h>
+#include <dpkg/db-fsys.h>
 
 #include "main.h"
-#include "filesdb.h"
 #include "filters.h"
 
 static void DPKG_ATTR_NORET

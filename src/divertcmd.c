@@ -45,8 +45,7 @@
 #include <dpkg/glob.h>
 #include <dpkg/buffer.h>
 #include <dpkg/options.h>
-
-#include "filesdb.h"
+#include <dpkg/db-fsys.h>
 
 
 static const char printforhelp[] = N_(

@@ -38,8 +38,8 @@
 #include <dpkg/pkg-spec.h>
 #include <dpkg/options.h>
 #include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
 #include "main.h"
 
 static void getsel1package(struct pkginfo *pkg) {

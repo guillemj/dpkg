@@ -1,6 +1,6 @@
 /*
- * dpkg - main program for package management
- * filesdb.h - management of database of files installed on system
+ * libdpkg - Debian packaging suite library routines
+ * db-fsys.h - management of database of files installed on system
  *
  * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2008-2014 Guillem Jover <guillem@debian.org>
@@ -19,8 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef FILESDB_H
-#define FILESDB_H
+#ifndef LIBDPKG_DB_FSYS_H
+#define LIBDPKG_DB_FSYS_H
 
 #include <dpkg/file.h>
 #include <dpkg/fsys.h>
@@ -72,4 +72,4 @@ void write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
 void write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
                            struct fileinlist *list, enum filenamenode_flags mask);
 
-#endif /* FILESDB_H */
+#endif /* LIBDPKG_DB_FSYS_H */

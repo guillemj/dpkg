@@ -43,8 +43,8 @@
 #include <dpkg/string.h>
 #include <dpkg/options.h>
 #include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
 #include "main.h"
 
 struct audit_problem {

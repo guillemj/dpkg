@@ -34,10 +34,10 @@
 #include <dpkg/pkg.h>
 #include <dpkg/pkg-queue.h>
 #include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 #include <dpkg/triglib.h>
 
 #include "main.h"
-#include "filesdb.h"
 
 /*
  * Trigger processing algorithms:

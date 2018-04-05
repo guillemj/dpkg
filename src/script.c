@@ -43,8 +43,8 @@
 #include <dpkg/command.h>
 #include <dpkg/triglib.h>
 #include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
 #include "main.h"
 
 void

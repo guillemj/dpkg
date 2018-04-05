@@ -56,8 +56,8 @@
 #include <dpkg/options.h>
 #include <dpkg/triglib.h>
 #include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
 #include "main.h"
 #include "archives.h"
 #include "filters.h"

@@ -43,10 +43,10 @@
 #include <dpkg/path.h>
 #include <dpkg/dir.h>
 #include <dpkg/glob.h>
+#include <dpkg/db-fsys.h>
 #include <dpkg/options.h>
 
 #include "main.h"
-#include "filesdb.h"
 
 static const char printforhelp[] = N_(
 "Use --help for help about overriding file stat information.");

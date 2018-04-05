@@ -56,6 +56,10 @@ libdpkg_la_SOURCES = \
 	db-ctrl-access.c \
 	db-ctrl-format.c \
 	db-ctrl-upgrade.c \
+	db-fsys-digest.c \
+	db-fsys-divert.c \
+	db-fsys-files.c \
+	db-fsys-override.c \
 	deb-version.c \
 	debug.c \
 	depcon.c \
@@ -118,6 +122,7 @@ pkginclude_HEADERS = \
 	command.h \
 	compress.h \
 	db-ctrl.h \
+	db-fsys.h \
 	deb-version.h \
 	debug.h \
 	dir.h \

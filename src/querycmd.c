@@ -55,8 +55,8 @@
 #include <dpkg/file.h>
 #include <dpkg/options.h>
 #include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
 #include "main.h"
 
 static const char *showformat = "${binary:Package}\t${Version}\n";

@@ -1,6 +1,6 @@
 /*
- * dpkg - main program for package management
- * divertdb.c - management of database of diverted files
+ * libdpkg - Debian packaging suite library routines
+ * db-fsys-divert.c - management of filesystem diverted files database
  *
  * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2000, 2001 Wichert Akkerman <wakkerma@debian.org>
@@ -37,8 +37,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/debug.h>
-
-#include "filesdb.h"
+#include <dpkg/db-fsys.h>
 
 static struct diversion *diversions = NULL;
 static char *diversionsname;

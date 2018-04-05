@@ -52,9 +52,9 @@
 #include <dpkg/tarfn.h>
 #include <dpkg/options.h>
 #include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 #include <dpkg/triglib.h>
 
-#include "filesdb.h"
 #include "file-match.h"
 #include "main.h"
 #include "archives.h"
