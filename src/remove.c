@@ -42,8 +42,8 @@
 #include <dpkg/dir.h>
 #include <dpkg/options.h>
 #include <dpkg/triglib.h>
+#include <dpkg/db-ctrl.h>
 
-#include "infodb.h"
 #include "filesdb.h"
 #include "main.h"
 

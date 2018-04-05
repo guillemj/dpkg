@@ -49,9 +49,9 @@
 #include <dpkg/fdio.h>
 #include <dpkg/pkg-array.h>
 #include <dpkg/progress.h>
+#include <dpkg/db-ctrl.h>
 
 #include "filesdb.h"
-#include "infodb.h"
 #include "main.h"
 
 /*** Generic data structures and routines. ***/

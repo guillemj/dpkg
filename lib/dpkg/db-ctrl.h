@@ -1,6 +1,6 @@
 /*
- * dpkg - main program for package management
- * infodb.h - package control information database
+ * libdpkg - Debian packaging suite library routines
+ * db-ctrl.h - package control information database
  *
  * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *
@@ -18,8 +18,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef DPKG_INFODB_H
-#define DPKG_INFODB_H
+#ifndef LIBDPKG_DB_CTRL_H
+#define LIBDPKG_DB_CTRL_H
 
 #include <stdbool.h>
 
@@ -48,4 +48,4 @@ typedef void pkg_infodb_file_func(const char *filename, const char *filetype);
 void pkg_infodb_foreach(struct pkginfo *pkg, struct pkgbin *pkgbin,
                         pkg_infodb_file_func *func);
 
-#endif /* DPKG_INFODB_H */
+#endif /* LIBDPKG_DB_CTRL_H */

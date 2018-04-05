@@ -32,8 +32,7 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/varbuf.h>
-
-#include "infodb.h"
+#include <dpkg/db-ctrl.h>
 
 static enum pkg_infodb_format db_format = PKG_INFODB_FORMAT_UNKNOWN;
 static bool db_upgrading;

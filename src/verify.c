@@ -29,9 +29,9 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/options.h>
+#include <dpkg/db-ctrl.h>
 
 #include "filesdb.h"
-#include "infodb.h"
 #include "main.h"
 
 

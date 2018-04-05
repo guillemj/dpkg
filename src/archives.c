@@ -55,12 +55,12 @@
 #include <dpkg/tarfn.h>
 #include <dpkg/options.h>
 #include <dpkg/triglib.h>
+#include <dpkg/db-ctrl.h>
 
 #include "filesdb.h"
 #include "main.h"
 #include "archives.h"
 #include "filters.h"
-#include "infodb.h"
 
 static inline void
 fd_writeback_init(int fd)

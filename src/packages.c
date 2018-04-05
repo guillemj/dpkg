@@ -41,9 +41,9 @@
 #include <dpkg/pkg-queue.h>
 #include <dpkg/string.h>
 #include <dpkg/options.h>
+#include <dpkg/db-ctrl.h>
 
 #include "filesdb.h"
-#include "infodb.h"
 #include "main.h"
 
 static struct pkginfo *progress_bytrigproc;

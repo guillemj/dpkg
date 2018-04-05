@@ -32,10 +32,9 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/fsys.h>
+#include <dpkg/db-ctrl.h>
 #include <dpkg/debug.h>
-
-#include "filesdb.h"
-#include "infodb.h"
 
 bool
 pkg_infodb_has_file(struct pkginfo *pkg, struct pkgbin *pkgbin,

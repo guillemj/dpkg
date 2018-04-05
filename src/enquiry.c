@@ -42,9 +42,9 @@
 #include <dpkg/triglib.h>
 #include <dpkg/string.h>
 #include <dpkg/options.h>
+#include <dpkg/db-ctrl.h>
 
 #include "filesdb.h"
-#include "infodb.h"
 #include "main.h"
 
 struct audit_problem {

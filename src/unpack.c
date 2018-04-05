@@ -51,11 +51,11 @@
 #include <dpkg/dir.h>
 #include <dpkg/tarfn.h>
 #include <dpkg/options.h>
+#include <dpkg/db-ctrl.h>
 #include <dpkg/triglib.h>
 
 #include "filesdb.h"
 #include "file-match.h"
-#include "infodb.h"
 #include "main.h"
 #include "archives.h"
 

@@ -54,9 +54,9 @@
 #include <dpkg/path.h>
 #include <dpkg/file.h>
 #include <dpkg/options.h>
+#include <dpkg/db-ctrl.h>
 
 #include "filesdb.h"
-#include "infodb.h"
 #include "main.h"
 
 static const char *showformat = "${binary:Package}\t${Version}\n";

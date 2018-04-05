@@ -33,11 +33,11 @@
 #include <dpkg/dpkg-db.h>
 #include <dpkg/pkg.h>
 #include <dpkg/pkg-queue.h>
+#include <dpkg/db-ctrl.h>
 #include <dpkg/triglib.h>
 
 #include "main.h"
 #include "filesdb.h"
-#include "infodb.h"
 
 /*
  * Trigger processing algorithms:

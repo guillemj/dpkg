@@ -37,9 +37,9 @@
 #include <dpkg/pkg-show.h>
 #include <dpkg/pkg-spec.h>
 #include <dpkg/options.h>
+#include <dpkg/db-ctrl.h>
 
 #include "filesdb.h"
-#include "infodb.h"
 #include "main.h"
 
 static void getsel1package(struct pkginfo *pkg) {

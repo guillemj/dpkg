@@ -53,6 +53,9 @@ libdpkg_la_SOURCES = \
 	compress.c \
 	dbdir.c \
 	dbmodify.c \
+	db-ctrl-access.c \
+	db-ctrl-format.c \
+	db-ctrl-upgrade.c \
 	deb-version.c \
 	debug.c \
 	depcon.c \
@@ -114,6 +117,7 @@ pkginclude_HEADERS = \
 	color.h \
 	command.h \
 	compress.h \
+	db-ctrl.h \
 	deb-version.h \
 	debug.h \
 	dir.h \

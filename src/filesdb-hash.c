@@ -35,9 +35,9 @@
 #include <dpkg/debug.h>
 #include <dpkg/fdio.h>
 #include <dpkg/dir.h>
+#include <dpkg/db-ctrl.h>
 
 #include "filesdb.h"
-#include "infodb.h"
 
 /*
  * If mask is nonzero, will not write any file whose filenamenode

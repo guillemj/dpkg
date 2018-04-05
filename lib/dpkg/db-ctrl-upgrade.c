@@ -34,11 +34,10 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/fsys.h>
+#include <dpkg/db-ctrl.h>
 #include <dpkg/path.h>
 #include <dpkg/dir.h>
-
-#include "filesdb.h"
-#include "infodb.h"
 
 struct rename_node {
 	struct rename_node *next;
