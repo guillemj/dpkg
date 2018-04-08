@@ -21,7 +21,7 @@ use Test::Dpkg qw(:needs :paths);
 
 use Cwd;
 
-plan tests => 148;
+plan tests => 150;
 
 use Dpkg::Path qw(find_command);
 
@@ -104,7 +104,7 @@ $obj->parse_objdump_output($objdump);
 close $objdump;
 
 ok($obj->is_public_library(), 'libc6 is a public library');
-ok(!$obj->is_executable(), 'libc6 is not an executable');
+ok($obj->is_executable(), 'libc6 is an executable');
 
 is($obj->{SONAME}, 'libc.so.6', 'SONAME');
 is($obj->{HASH}, '0x13d99c', 'HASH');
@@ -350,6 +350,8 @@ open $objdump, '<', "$datadir/objdump.glib-ia64"
   or die "$datadir/objdump.glib-ia64: $!";
 $obj->parse_objdump_output($objdump);
 close $objdump;
+ok($obj->is_public_library(), 'glib-ia64 is a public library');
+ok(!$obj->is_executable(), 'glib-ia64 is not an executable');
 
 $sym = $obj->get_symbol('IA__g_free');
 is_deeply( $sym, { name => 'IA__g_free', version => '',
