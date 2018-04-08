@@ -382,7 +382,8 @@ sub check_spacesym {
                       debug => '', type => 'F', weak => '',
                       local => '', global => 1, visibility => $visibility,
                       hidden => '', defined => 1 }, $name);
-    ok(defined $obj->{dynrelocs}{$name}, "dynreloc found for $name");
+    ok(defined $obj->{dynrelocs}{$name . "@@" . $version},
+       "dynreloc found for $name");
 }
 
 check_spacesym('symdefaultvernospacedefault', 'Base');
