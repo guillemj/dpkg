@@ -268,7 +268,6 @@ sub reset {
 
     $self->{file} = '';
     $self->{id} = '';
-    $self->{SONAME} = '';
     $self->{HASH} = '';
     $self->{GNU_HASH} = '';
     $self->{SONAME} = '';
