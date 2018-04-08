@@ -89,6 +89,10 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
     - Dpkg::Vendor::Debian: Mark riscv64 as having gcc builtin PIE.
     - Dpkg::Shlibs::Objdump: Fix ELF program detection, for PIE binaries and
       executable libraries.
+    - Dpkg::Version: Fix bool overload behavior back to be an is_valid()
+      alias. Emit a specific perl warning until 1.20.x so that users can check
+      whether the semantic change has any impact on the code, which can then
+      be quiesced. Closes: #895004
   * Documentation:
     - Update gettext minimal version in README.
     - Add a missing dot on the dpkg-buildflags(1) «lfs» feature paragraph.

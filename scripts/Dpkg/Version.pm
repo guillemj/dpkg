@@ -20,6 +20,7 @@ package Dpkg::Version;
 
 use strict;
 use warnings;
+use warnings::register qw(semantic_change::overload::bool);
 
 our $VERSION = '1.01';
 our @EXPORT = qw(
@@ -55,7 +56,12 @@ use overload
     '<=>' => \&_comparison,
     'cmp' => \&_comparison,
     '""'  => sub { return $_[0]->as_string(); },
-    'bool' => sub { return $_[0]->as_string() if $_[0]->is_valid(); },
+    'bool' => sub {
+        warnings::warnif('Dpkg::Version::semantic_change::overload::bool',
+                         'bool overload behavior has changed back to be ' .
+                         'an is_valid() alias');
+        return $_[0]->is_valid();
+    },
     'fallback' => 1;
 
 =encoding utf8
@@ -121,8 +127,16 @@ sub new {
 =item boolean evaluation
 
 When the Dpkg::Version object is used in a boolean evaluation (for example
-in "if ($v)" or "$v || 'default'") it returns its string representation
-if the version stored is valid ($v->is_valid()) and undef otherwise.
+in "if ($v)" or "$v ? \"$v\" : 'default'") it returns true if the version
+stored is valid ($v->is_valid()) and false otherwise.
+
+B<Notice>: Between dpkg 1.15.7.2 and 1.19.1 this overload used to return
+$v->as_string() if $v->is_valid(), a breaking change in behavior that caused
+"0" versions to be evaluated as false. To catch any possibly intended code
+that relied on those semantics, this overload will emit a warning with
+category "Dpkg::Version::semantic_change::overload::bool" until dpkg 1.20.x.
+Once fixed, or for already valid code the warning can be quiesced with
+C<no warnings qw(Dpkg::Version::semantic_change::overload::bool)>.
 
 =item $v->is_valid()
 

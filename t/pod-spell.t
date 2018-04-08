@@ -83,6 +83,7 @@ modelines
 multiarch
 nocheck
 qa
+quiesced
 reportfile
 rfc822
 sig

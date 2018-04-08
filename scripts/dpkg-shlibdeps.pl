@@ -546,7 +546,8 @@ foreach my $field (reverse @depfields) {
 	    map {
 		# Translate dependency templates into real dependencies
 		my $templ = $_;
-		if ($dependencies{$field}{$templ}) {
+		if ($dependencies{$field}{$templ}->is_valid() and
+		    $dependencies{$field}{$templ}->as_string()) {
 		    $templ =~ s/#MINVER#/(>= $dependencies{$field}{$templ})/g;
 		} else {
 		    $templ =~ s/#MINVER#//g;

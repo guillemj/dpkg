@@ -20,6 +20,7 @@ use Test::More;
 
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
+use Dpkg::Version;
 
 report_options(quiet_warnings => 1);
 
@@ -30,7 +31,7 @@ my @ops = ('<', '<<', 'lt',
 	   '>=', 'ge',
 	   '>', '>>', 'gt');
 
-plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 30;
+plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 27;
 
 sub dpkg_vercmp {
      my ($a, $cmp, $b) = @_;
@@ -57,8 +58,6 @@ sub obj_vercmp {
      return $a gt $b if $cmp eq 'gt';
 }
 
-use_ok('Dpkg::Version');
-
 my $truth = {
     '-1' => {
 	'<<' => 1, 'lt' => 1,
@@ -82,6 +81,12 @@ my $truth = {
 	'>>' => 1, 'gt' => 1,
     },
 };
+
+# XXX: Some of the tests check the bool overload, which currently emits
+# the semantic_change warning. Disable it until we stop emitting the
+# warning in dpkg 1.20.x.
+## no critic (TestingAndDebugging::ProhibitNoWarnings)
+no warnings(qw(Dpkg::Version::semantic_change::overload::bool));
 
 # Handling of empty/invalid versions
 my $empty = Dpkg::Version->new('');
@@ -127,12 +132,6 @@ $ver = Dpkg::Version->new('1.0-1');
 ok(!$ver->is_native(), 'upstream version w/ revision is not native');
 $ver = Dpkg::Version->new('1.0-1.0-1');
 ok(!$ver->is_native(), 'upstream version w/ dash and revision is not native');
-
-# Other tests
-$ver = Dpkg::Version->new('1.2.3-4');
-is($ver || 'default', '1.2.3-4', 'bool eval returns string representation');
-$ver = Dpkg::Version->new('0');
-is($ver || 'default', 'default', 'bool eval of version 0 is still false...');
 
 # Comparisons
 foreach my $case (@tests) {
