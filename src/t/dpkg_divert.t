@@ -300,7 +300,7 @@ note('Adding diversion (2)');
 install_diversions('');
 
 system("touch $testdir/foo");
-call_divert(['--add', "$testdir/foo"],
+call_divert(['--no-rename', '--add', "$testdir/foo"],
             expect_stdout_like => qr{
                 Adding.*local.*diversion.*
                 \Q$testdir\E/foo.*
@@ -461,8 +461,8 @@ note('Remove diversions');
 
 install_diversions('');
 
-call_divert(['--remove', '/bin/sh'], expect_stdout_like => qr/No diversion/, expect_stderr => '');
-call_divert(['--remove', '--quiet', '/bin/sh'], expect_stdout => '', expect_stderr => '');
+call_divert(['--no-rename', '--remove', '/bin/sh'], expect_stdout_like => qr/No diversion/, expect_stderr => '');
+call_divert(['--no-rename', '--remove', '--quiet', '/bin/sh'], expect_stdout => '', expect_stderr => '');
 
 cleanup();
 
@@ -522,7 +522,8 @@ call_divert(["$testdir/foo"]);
 call_divert(["$testdir/bar"]);
 call_divert(['--package', 'bash', "$testdir/baz"]);
 
-call_divert(['--quiet', '--package', 'bash', '--remove', "$testdir/baz"],
+call_divert(['--no-rename', '--quiet', '--package', 'bash',
+             '--remove', "$testdir/baz"],
             expect_stdout => '', expect_stderr => '');
 diversions_eq(<<"EOF");
 $testdir/foo

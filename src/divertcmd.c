@@ -60,7 +60,7 @@ static const char *opt_divertto = NULL;
 
 static int opt_verbose = 1;
 static int opt_test = 0;
-static int opt_rename = 0;
+static int opt_rename = -1;
 
 
 static void
@@ -117,6 +117,17 @@ usage(const struct cmdinfo *cip, const char *value)
 	m_output(stdout, _("<standard output>"));
 
 	exit(0);
+}
+
+static void
+opt_rename_setup(void)
+{
+	if (opt_rename >= 0)
+		return;
+
+	opt_rename = 0;
+	warning(_("please specify --no-rename explicitly, the default "
+	          "will change to --rename in 1.20.x"));
 }
 
 struct file {
@@ -422,6 +433,7 @@ diversion_add(const char *const *argv)
 	struct pkgset *pkgset;
 
 	opt_pkgname_match_any = false;
+	opt_rename_setup();
 
 	/* Handle filename. */
 	if (!filename || argv[1])
@@ -551,6 +563,8 @@ diversion_remove(const char *const *argv)
 	struct diversion *contest, *altname;
 	struct file file_from, file_to;
 	struct pkgset *pkgset;
+
+	opt_rename_setup();
 
 	if (!filename || argv[1])
 		badusage(_("--%s needs a single argument"), cipaction->olong);
