@@ -578,6 +578,7 @@ sub get_format_help {
     $srcpkg->upgrade_object_type(); # Fails if format is unsupported
 
     my @cmdline = $srcpkg->describe_cmdline_options();
+    return '' unless @cmdline;
 
     my $help_build = my $help_extract = '';
     my $help;
