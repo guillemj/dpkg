@@ -886,6 +886,8 @@ commandfd(const char *const *argv)
     pop_error_context(ehflag_normaltidy);
   }
 
+  fclose(in);
+
   return ret;
 }
 
