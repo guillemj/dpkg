@@ -229,6 +229,10 @@ spawn_shell(const char *confold, const char *confnew)
 {
 	pid_t pid;
 
+	fputs(_("Useful environment variables:\n"), stderr);
+	fputs(" - DPKG_SHELL_REASON\n", stderr);
+	fputs(" - DPKG_CONFFILE_OLD\n", stderr);
+	fputs(" - DPKG_CONFFILE_NEW\n", stderr);
 	fputs(_("Type 'exit' when you're done.\n"), stderr);
 
 	pid = subproc_fork();
