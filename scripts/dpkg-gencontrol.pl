@@ -263,8 +263,7 @@ if (exists $pkg->{'Provides'}) {
 	    if ($subdep->isa('Dpkg::Deps::Simple')) {
 		$facts->add_provided_package($subdep->{package},
                         $subdep->{relation}, $subdep->{version},
-                        $fields->{'Package'},
-                        $subdep->{archqual});
+                        $fields->{'Package'});
 	    }
 	}
     }

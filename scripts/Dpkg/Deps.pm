@@ -49,7 +49,7 @@ All the deps_* functions are exported by default.
 use strict;
 use warnings;
 
-our $VERSION = '1.07';
+our $VERSION = '1.06';
 our @EXPORT = qw(
     deps_concat
     deps_parse
@@ -1413,20 +1413,18 @@ sub add_installed_package {
     push @{$self->{pkg}{$pkg}}, $p;
 }
 
-=item $facts->add_provided_package($virtual, $relation, $version, $by, $archqual)
+=item $facts->add_provided_package($virtual, $relation, $version, $by)
 
 Records that the "$by" package provides the $virtual package. $relation
 and $version correspond to the associated relation given in the Provides
-field (if present). $archqual corresponds to the package arch qualifier
-(if present).
+field (if present).
 
 =cut
 
 sub add_provided_package {
-    my ($self, $pkg, $rel, $ver, $by, $archqual) = @_;
+    my ($self, $pkg, $rel, $ver, $by) = @_;
     my $v = {
         package => $pkg,
-        archqual => $archqual,
         relation => $rel,
         version => $ver,
         provider => $by,
@@ -1537,10 +1535,6 @@ sub _evaluate_simple_dep {
 }
 
 =head1 CHANGES
-
-=head2 Version 1.07 (dpkg 1.19.1)
-
-New argument: Add $archqual to $dep->add_provided_package().
 
 =head2 Version 1.06 (dpkg 1.18.7; module version bumped on dpkg 1.18.24)
 

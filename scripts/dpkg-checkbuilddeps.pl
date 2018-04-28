@@ -173,7 +173,7 @@ sub parse_status {
 			{
 				$facts->add_provided_package($_->{package},
                                     $_->{relation}, $_->{version},
-                                    $package, $_->{archqual});
+                                    $package);
 			}
 		}
 	}

@@ -115,8 +115,7 @@ sub parse_status {
             deps_iterate($provides, sub {
                 my $dep = shift;
                 $facts->add_provided_package($dep->{package}, $dep->{relation},
-                                             $dep->{version}, $package,
-                                             $dep->{archqual});
+                                             $dep->{version}, $package);
             });
         }
 
