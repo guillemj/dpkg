@@ -102,7 +102,7 @@ verify_package(struct pkginfo *pkg)
 	parse_filehash(pkg, &pkg->installed);
 	pkg_conffiles_mark_old(pkg);
 
-	for (file = pkg->clientdata->files; file; file = file->next) {
+	for (file = pkg->files; file; file = file->next) {
 		struct verify_checks checks;
 		struct filenamenode *fnn;
 		char hash[MD5HASHLEN + 1];

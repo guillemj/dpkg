@@ -266,7 +266,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
-    reversefilelist_init(&rev_iter, pkg->clientdata->files);
+    reversefilelist_init(&rev_iter, pkg->files);
     leftover = NULL;
     while ((namenode = reversefilelist_next(&rev_iter))) {
       struct filenamenode *usenode;
@@ -389,7 +389,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
   modstatdb_note(pkg);
   push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
-  reversefilelist_init(&rev_iter, pkg->clientdata->files);
+  reversefilelist_init(&rev_iter, pkg->files);
   leftover = NULL;
   while ((namenode = reversefilelist_next(&rev_iter))) {
     struct filenamenode *usenode;
@@ -498,7 +498,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
      * are involved in diversions, except if we are the package doing the
      * diverting. */
     for (lconffp = &pkg->installed.conffiles; (conff = *lconffp) != NULL; ) {
-      for (searchfile= pkg->clientdata->files;
+      for (searchfile = pkg->files;
            searchfile && strcmp(searchfile->namenode->name,conff->name);
            searchfile= searchfile->next);
       if (!searchfile) {
@@ -605,7 +605,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
     }
 
     /* Remove the conffiles from the file list file. */
-    write_filelist_except(pkg, &pkg->installed, pkg->clientdata->files,
+    write_filelist_except(pkg, &pkg->installed, pkg->files,
                           fnnf_old_conff);
 
     pkg->installed.conffiles = NULL;

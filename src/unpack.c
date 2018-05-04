@@ -563,7 +563,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
   struct filenamenode *namenode;
   struct stat stab, oldfs;
 
-  reversefilelist_init(&rev_iter, pkg->clientdata->files);
+  reversefilelist_init(&rev_iter, pkg->files);
 
   while ((namenode = reversefilelist_next(&rev_iter))) {
     struct filenamenode *usenode;
@@ -824,7 +824,7 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
   dpkg_version_blank(&pkg->configversion);
   pkgbin_blank(&pkg->installed);
 
-  pkg->clientdata->fileslistvalid = false;
+  pkg->files_list_valid = false;
 
   modstatdb_note(pkg);
 }
@@ -847,7 +847,7 @@ pkg_disappear_others(struct pkginfo *pkg)
         otherpkg->status == PKG_STAT_NOTINSTALLED ||
         otherpkg->status == PKG_STAT_CONFIGFILES ||
         otherpkg->clientdata->istobe == PKG_ISTOBE_REMOVE ||
-        !otherpkg->clientdata->files)
+        !otherpkg->files)
       continue;
 
     /* Do not try to disappear other packages from the same set
@@ -866,14 +866,14 @@ pkg_disappear_others(struct pkginfo *pkg)
                 "is to be %d",
                 pkg_name(otherpkg, pnaw_always), otherpkg->clientdata->istobe);
 
-    for (cfile = otherpkg->clientdata->files;
+    for (cfile = otherpkg->files;
          cfile && strcmp(cfile->namenode->name, "/.") == 0;
          cfile = cfile->next);
     if (!cfile) {
       debug(dbg_stupidlyverbose, "process_archive no non-root, no disappear");
       continue;
     }
-    for (cfile = otherpkg->clientdata->files;
+    for (cfile = otherpkg->files;
          cfile && !filesavespackage(cfile, otherpkg, pkg);
          cfile = cfile->next);
     if (cfile)
@@ -1012,18 +1012,17 @@ pkg_remove_files_from_others(struct pkginfo *pkg, struct fileinlist *newfileslis
       if (cfile->namenode->flags & fnnf_new_conff)
         conffile_mark_obsolete(otherpkg, cfile->namenode);
 
-      /* If !fileslistvalid then it's one of the disappeared packages above
+      /* If !files_list_valid then it's one of the disappeared packages above
        * or we have already updated the files list file, and we don't bother
        * with it here, clearly. */
-      if (!otherpkg->clientdata->fileslistvalid)
+      if (!otherpkg->files_list_valid)
         continue;
 
       /* Found one. We delete the list entry for this file,
        * (and any others in the same package) and then mark the package
        * as requiring a reread. */
       write_filelist_except(otherpkg, &otherpkg->installed,
-                            otherpkg->clientdata->files, fnnf_elide_other_lists);
-      ensure_package_clientdata(otherpkg);
+                            otherpkg->files, fnnf_elide_other_lists);
       debug(dbg_veryverbose, "process_archive overwrote from %s",
             pkg_name(otherpkg, pnaw_always));
     }

@@ -490,7 +490,7 @@ enqperpackage(const char *const *argv)
       default:
         ensure_packagefiles_available(pkg);
         ensure_diversions();
-        file= pkg->clientdata->files;
+        file = pkg->files;
         if (!file) {
           printf(_("Package '%s' does not contain any files (!)\n"),
                  pkg_name(pkg, pnaw_nonambig));

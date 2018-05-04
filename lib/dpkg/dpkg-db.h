@@ -219,6 +219,19 @@ struct pkginfo {
   struct trigaw *othertrigaw_head;
   struct trigpend *trigpend_head;
 
+  /**
+   * files_list_valid  files  Meaning
+   * ----------------  -----  -------
+   * false             NULL   Not read yet, must do so if want them.
+   * false             !NULL  Read, but rewritten and now out of date. If want
+   *                          info must throw away old and reread file.
+   * true              !NULL  Read, all is OK.
+   * true              NULL   Read OK, but, there were no files.
+   */
+  struct fileinlist *files;
+  off_t files_list_phys_offs;
+  bool files_list_valid;
+
   /* The status has changed, it needs to be logged. */
   bool status_dirty;
 };

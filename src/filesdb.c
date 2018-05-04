@@ -67,18 +67,14 @@ ensure_package_clientdata(struct pkginfo *pkg)
   pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
   pkg->clientdata->color = PKG_CYCLE_WHITE;
   pkg->clientdata->enqueued = false;
-  pkg->clientdata->fileslistvalid = false;
-  pkg->clientdata->files = NULL;
   pkg->clientdata->replacingfilesandsaid = 0;
   pkg->clientdata->cmdline_seen = 0;
-  pkg->clientdata->listfile_phys_offs = 0;
   pkg->clientdata->trigprocdeferred = NULL;
 }
 
 void note_must_reread_files_inpackage(struct pkginfo *pkg) {
   allpackagesdone = false;
-  ensure_package_clientdata(pkg);
-  pkg->clientdata->fileslistvalid = false;
+  pkg->files_list_valid = false;
 }
 
 enum pkg_filesdb_load_status {
@@ -97,11 +93,7 @@ pkg_files_blank(struct pkginfo *pkg)
 {
   struct fileinlist *current;
 
-  /* Anything to empty? */
-  if (!pkg->clientdata)
-    return;
-
-  for (current= pkg->clientdata->files;
+  for (current = pkg->files;
        current;
        current= current->next) {
     struct pkg_list *pkg_node, *pkg_prev = NULL;
@@ -125,7 +117,7 @@ pkg_files_blank(struct pkginfo *pkg)
       pkg_prev = pkg_node;
     }
   }
-  pkg->clientdata->files = NULL;
+  pkg->files = NULL;
 }
 
 static struct fileinlist **
@@ -135,10 +127,8 @@ pkg_files_add_file(struct pkginfo *pkg, struct filenamenode *namenode,
   struct fileinlist *newent;
   struct pkg_list *pkg_node;
 
-  ensure_package_clientdata(pkg);
-
   if (file_tail == NULL)
-    file_tail = &pkg->clientdata->files;
+    file_tail = &pkg->files;
 
   /* Make sure we're at the end. */
   while ((*file_tail) != NULL) {
@@ -175,16 +165,15 @@ ensure_packagefiles_available(struct pkginfo *pkg)
   struct stat stat_buf;
   char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
 
-  if (pkg->clientdata && pkg->clientdata->fileslistvalid)
+  if (pkg->files_list_valid)
     return;
-  ensure_package_clientdata(pkg);
 
   /* Throw away any stale data, if there was any. */
   pkg_files_blank(pkg);
 
   /* Packages which aren't installed don't have a files list. */
   if (pkg->status == PKG_STAT_NOTINSTALLED) {
-    pkg->clientdata->fileslistvalid = true;
+    pkg->files_list_valid = true;
     return;
   }
 
@@ -205,8 +194,8 @@ ensure_packagefiles_available(struct pkginfo *pkg)
                 "package has no files currently installed"),
               pkg_name(pkg, pnaw_nonambig));
     }
-    pkg->clientdata->files = NULL;
-    pkg->clientdata->fileslistvalid = true;
+    pkg->files = NULL;
+    pkg->files_list_valid = true;
     return;
   }
 
@@ -228,7 +217,7 @@ ensure_packagefiles_available(struct pkginfo *pkg)
       ohshite(_("reading files list for package '%.250s'"),
               pkg_name(pkg, pnaw_nonambig));
 
-    lendp= &pkg->clientdata->files;
+    lendp = &pkg->files;
     thisline = loaded_list;
     while (thisline < loaded_list_end) {
       struct filenamenode *namenode;
@@ -259,21 +248,21 @@ ensure_packagefiles_available(struct pkginfo *pkg)
 
   onerr_abort--;
 
-  pkg->clientdata->fileslistvalid = true;
+  pkg->files_list_valid = true;
 }
 
 #if defined(HAVE_LINUX_FIEMAP_H)
 static int
-pkg_sorter_by_listfile_phys_offs(const void *a, const void *b)
+pkg_sorter_by_files_list_phys_offs(const void *a, const void *b)
 {
   const struct pkginfo *pa = *(const struct pkginfo **)a;
   const struct pkginfo *pb = *(const struct pkginfo **)b;
 
   /* We can't simply subtract, because the difference may be greater than
    * INT_MAX. */
-  if (pa->clientdata->listfile_phys_offs < pb->clientdata->listfile_phys_offs)
+  if (pa->files_list_phys_offs < pb->files_list_phys_offs)
     return -1;
-  else if (pa->clientdata->listfile_phys_offs > pb->clientdata->listfile_phys_offs)
+  else if (pa->files_list_phys_offs > pb->files_list_phys_offs)
     return 1;
   else
     return 0;
@@ -300,13 +289,11 @@ pkg_files_optimize_load(struct pkg_array *array)
     const char *listfile;
     int fd;
 
-    ensure_package_clientdata(pkg);
-
     if (pkg->status == PKG_STAT_NOTINSTALLED ||
-        pkg->clientdata->listfile_phys_offs != 0)
+        pkg->files_list_phys_offs != 0)
       continue;
 
-    pkg->clientdata->listfile_phys_offs = -1;
+    pkg->files_list_phys_offs = -1;
 
     listfile = pkg_infodb_get_file(pkg, &pkg->installed, LISTFILE);
 
@@ -321,12 +308,12 @@ pkg_files_optimize_load(struct pkg_array *array)
     fm.fiemap.fm_extent_count = 1;
 
     if (ioctl(fd, FS_IOC_FIEMAP, (unsigned long)&fm) == 0)
-      pkg->clientdata->listfile_phys_offs = fm.fiemap.fm_extents[0].fe_physical;
+      pkg->files_list_phys_offs = fm.fiemap.fm_extents[0].fe_physical;
 
     close(fd);
   }
 
-  pkg_array_sort(array, pkg_sorter_by_listfile_phys_offs);
+  pkg_array_sort(array, pkg_sorter_by_files_list_phys_offs);
 }
 #elif defined(HAVE_POSIX_FADVISE)
 static void

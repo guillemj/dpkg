@@ -198,7 +198,7 @@ filesavespackage(struct fileinlist *file,
      * we shouldn't try to make it take over this shared directory. */
     debug(dbg_eachfiledetail,"filesavespackage ...  is 3rd package");
 
-    if (!thirdpkg->clientdata->fileslistvalid) {
+    if (!thirdpkg->files_list_valid) {
       debug(dbg_eachfiledetail, "process_archive ... already disappeared!");
       continue;
     }

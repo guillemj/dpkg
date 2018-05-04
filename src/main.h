@@ -56,21 +56,8 @@ struct perpackagestate {
 
   bool enqueued;
 
-  /**
-   * filelistvalid  files  Meaning
-   * -------------  -----  -------
-   * false          NULL   Not read yet, must do so if want them.
-   * false          !NULL  Read, but rewritten and now out of date. If want
-   *                         info must throw away old and reread file.
-   * true           !NULL  Read, all is OK.
-   * true           NULL   Read OK, but, there were no files.
-   */
-  bool fileslistvalid;
-  struct fileinlist *files;
   int replacingfilesandsaid;
   int cmdline_seen;
-
-  off_t listfile_phys_offs;
 
   /** Non-NULL iff in trigproc.c:deferred. */
   struct pkg_list *trigprocdeferred;

@@ -123,6 +123,9 @@ pkg_blank(struct pkginfo *pkg)
 	pkg->otherpriority = NULL;
 	pkg->section = NULL;
 	dpkg_version_blank(&pkg->configversion);
+	pkg->files_list_valid = false;
+	pkg->files_list_phys_offs = 0;
+	pkg->files = NULL;
 	pkg->archives = NULL;
 	pkg->clientdata = NULL;
 	pkg->trigaw.head = NULL;
