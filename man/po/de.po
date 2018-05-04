@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-03-25 06:50+0200\n"
-"PO-Revision-Date: 2018-03-25 06:55+0200\n"
+"POT-Creation-Date: 2018-05-04 19:12+0200\n"
+"PO-Revision-Date: 2018-05-04 20:28+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -3027,8 +3027,8 @@ msgid ""
 "literally to the source control file."
 msgstr ""
 "Diese Felder sind in der Handbuchseite B<dsc>(5) beschrieben, da sie aus "
-"Informationen, die aus B<debian/tests/control> abgeleitet sind, erstellt oder "
-"wörtlich in die control-Datei der Quellen kopiert werden."
+"Informationen, die aus B<debian/tests/control> abgeleitet sind, erstellt "
+"oder wörtlich in die control-Datei der Quellen kopiert werden."
 
 #. type: TP
 #: deb-src-control.man dsc.man
@@ -8864,6 +8864,22 @@ msgid ""
 msgstr ""
 "Setzt den Farbmodus (seit Dpkg 1.18.5). Die derzeit unterstützten Werte "
 "sind: B<auto> (Vorgabe), B<always> und B<never>."
+
+#. type: TP
+#: dpkg.man
+#, no-wrap
+msgid "B<DPKG_FRONTEND_LOCKED>"
+msgstr "B<DPKG_FRONTEND_LOCKED>"
+
+#. type: Plain text
+#: dpkg.man
+msgid ""
+"Set by a package manager frontend to notify dpkg that it should not acquire "
+"the frontend lock (since dpkg 1.19.1)."
+msgstr ""
+"Wird von einer Paketverwalterprogrammoberfläche gesetzt, um Dpkg zu "
+"informieren, dass es nicht die Sperre der Oberfläche erlangen soll (seit "
+"Dpkg 1.19.1)."
 
 #. type: SS
 #: dpkg.man dpkg-buildpackage.man
@@ -15046,8 +15062,12 @@ msgstr "[B<--add>] I<Datei>"
 
 #. type: Plain text
 #: dpkg-divert.man
-msgid "Add a diversion for I<file>."
-msgstr "Fügt eine Umleitung für I<Datei> hinzu."
+msgid ""
+"Add a diversion for I<file>.  The file is currently not renamed, see B<--"
+"rename>."
+msgstr ""
+"Fügt eine Umleitung für I<Datei> hinzu. Die Datei wird derzeit nicht "
+"umbenannt, siehe B<--rename>."
 
 #. type: TP
 #: dpkg-divert.man
@@ -15057,8 +15077,12 @@ msgstr "B<--remove>I< Datei>"
 
 #. type: Plain text
 #: dpkg-divert.man
-msgid "Remove a diversion for I<file>."
-msgstr "Entferne eine Umleitung für I<Datei>."
+msgid ""
+"Remove a diversion for I<file>.  The file is currently not renamed, see B<--"
+"rename>."
+msgstr ""
+"Entfernt eine Umleitung für I<Datei>. Die Datei wird derzeit nicht "
+"umbenannt, siehe B<--rename>."
 
 #. type: TP
 #: dpkg-divert.man
@@ -15183,10 +15207,39 @@ msgstr "B<--rename>"
 #: dpkg-divert.man
 msgid ""
 "Actually move the file aside (or back). B<dpkg-divert> will abort operation "
-"in case the destination file already exists."
+"in case the destination file already exists.  This is the common behavior "
+"used for diversions of files from the non-B<Essential> package set (see B<--"
+"no-rename> for more details)."
 msgstr ""
 "Schiebe die Dateien tatsächlich beiseite (oder zurück). B<dpkg-divert> wird "
-"den Arbeitsvorgang abbrechen, falls die Zieldatei bereits existiert."
+"den Arbeitsvorgang abbrechen, falls die Zieldatei bereits existiert. Dies "
+"ist das typische Verhalten, das für Umleitungen von Dateien aus der Gruppe "
+"der non-B<Essential>-Pakete verwandt wird (siehe B<--no-rename> für weitere "
+"Details)."
+
+#. type: TP
+#: dpkg-divert.man
+#, no-wrap
+msgid "B<--no-rename>"
+msgstr "B<--no-rename>"
+
+#. type: Plain text
+#: dpkg-divert.man
+msgid ""
+"Specifies that the file should not be renamed while adding or removing the "
+"diversion into the database (since dpkg 1.19.1).  This is intended for "
+"diversions of files from the B<Essential> package set, where the temporary "
+"disappearance of the original file is not acceptable, as it can render the "
+"system non-functional.  This is the default behavior, but that will change "
+"in the dpkg 1.20.x cycle."
+msgstr ""
+"Legt fest, dass die Datei beim Hinzufügen oder Entfernen der Umleitung in "
+"die Datenbank nicht umbenannt werden soll (seit Dpkg 1.19.1). Dies ist für "
+"Umleitungen von Dateien aus der Paketgruppe B<Essential> gedacht, bei der "
+"das vorübergehende Verschwinden der ursprünglichen Datei nicht akzeptiert "
+"werden kann, da es zu einem nicht funktionalen System führen kann. Dies ist "
+"das Standardverhalten, was sich allerdings im Dpkg 1.20.x-Zyklus ändern "
+"wird."
 
 #. type: TP
 #: dpkg-divert.man
@@ -26476,6 +26529,12 @@ msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
 "B<ln>(1), FHS, der Dateisystem Hierarchie-Standard (Filesystem Hierarchy "
 "Standard)."
+
+#~ msgid "Add a diversion for I<file>."
+#~ msgstr "Fügt eine Umleitung für I<Datei> hinzu."
+
+#~ msgid "Remove a diversion for I<file>."
+#~ msgstr "Entferne eine Umleitung für I<Datei>."
 
 #~ msgid ""
 #~ "These fields declare relationships between packages. They are discussed "
