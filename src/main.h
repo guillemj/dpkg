@@ -148,6 +148,10 @@ struct invoke_list {
 	struct invoke_hook *head, **tail;
 };
 
+/* from perpkgstate.c */
+
+void ensure_package_clientdata(struct pkginfo *pkg);
+
 /* from archives.c */
 
 int archivefiles(const char *const *argv);

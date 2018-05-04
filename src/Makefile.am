@@ -45,6 +45,7 @@ dpkg_SOURCES = \
 	help.c \
 	main.c main.h \
 	packages.c \
+	perpkgstate.c \
 	remove.c \
 	script.c \
 	select.c \

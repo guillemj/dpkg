@@ -58,20 +58,6 @@
 
 static bool allpackagesdone = false;
 
-void
-ensure_package_clientdata(struct pkginfo *pkg)
-{
-  if (pkg->clientdata)
-    return;
-  pkg->clientdata = nfmalloc(sizeof(struct perpackagestate));
-  pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
-  pkg->clientdata->color = PKG_CYCLE_WHITE;
-  pkg->clientdata->enqueued = false;
-  pkg->clientdata->replacingfilesandsaid = 0;
-  pkg->clientdata->cmdline_seen = 0;
-  pkg->clientdata->trigprocdeferred = NULL;
-}
-
 void note_must_reread_files_inpackage(struct pkginfo *pkg) {
   allpackagesdone = false;
   pkg->files_list_valid = false;

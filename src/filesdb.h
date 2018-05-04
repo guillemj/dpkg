@@ -47,8 +47,6 @@
 
 struct pkginfo;
 
-void ensure_package_clientdata(struct pkginfo *pkg);
-
 void ensure_diversions(void);
 
 enum statdb_parse_flags {
