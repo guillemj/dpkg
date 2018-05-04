@@ -461,7 +461,7 @@ enqperpackage(const char *const *argv)
       if (pkg->status == PKG_STAT_NOTINSTALLED &&
           pkg->priority == PKG_PRIO_UNKNOWN &&
           str_is_unset(pkg->section) &&
-          !pkg->files &&
+          !pkg->archives &&
           pkg->want == PKG_WANT_UNKNOWN &&
           !pkg_is_informative(pkg, &pkg->installed)) {
         notice(_("package '%s' is not installed and no information is available"),

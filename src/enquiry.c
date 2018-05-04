@@ -477,7 +477,7 @@ predeppackage(const char *const *argv)
     if (pkg->want != PKG_WANT_INSTALL)
       continue;
     /* Ignore packages not available. */
-    if (!pkg->files)
+    if (!pkg->archives)
       continue;
     pkg->clientdata->istobe = PKG_ISTOBE_PREINSTALL;
     for (dep= pkg->available.depends; dep; dep= dep->next) {
@@ -512,7 +512,7 @@ predeppackage(const char *const *argv)
 
       possi_iter = deppossi_pkg_iter_new(possi, wpb_available);
       while (!pkg && (trypkg = deppossi_pkg_iter_next(possi_iter))) {
-        if (trypkg->files &&
+        if (trypkg->archives &&
             trypkg->clientdata->istobe == PKG_ISTOBE_NORMAL &&
             versionsatisfied(&trypkg->available, possi)) {
           pkg = trypkg;
@@ -526,7 +526,7 @@ predeppackage(const char *const *argv)
           if (!pkg_virtual_deppossi_satisfied(possi, provider))
             continue;
           trypkg = provider->up->up;
-          if (!trypkg->files)
+          if (!trypkg->archives)
             continue;
           if (trypkg->clientdata->istobe == PKG_ISTOBE_NORMAL) {
             pkg = trypkg;

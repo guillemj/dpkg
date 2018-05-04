@@ -76,10 +76,10 @@ const struct fieldinfo fieldinfos[]= {
   { FIELD("Conflicts"),        f_dependency,      w_dependency,     dep_conflicts            },
   { FIELD("Enhances"),         f_dependency,      w_dependency,     dep_enhances             },
   { FIELD("Conffiles"),        f_conffiles,       w_conffiles                                },
-  { FIELD("Filename"),         f_filecharf,       w_filecharf,      FILEFOFF(name)           },
-  { FIELD("Size"),             f_filecharf,       w_filecharf,      FILEFOFF(size)           },
-  { FIELD("MD5sum"),           f_filecharf,       w_filecharf,      FILEFOFF(md5sum)         },
-  { FIELD("MSDOS-Filename"),   f_filecharf,       w_filecharf,      FILEFOFF(msdosname)      },
+  { FIELD("Filename"),         f_archives,        w_archives,       ARCHIVEFOFF(name)        },
+  { FIELD("Size"),             f_archives,        w_archives,       ARCHIVEFOFF(size)        },
+  { FIELD("MD5sum"),           f_archives,        w_archives,       ARCHIVEFOFF(md5sum)      },
+  { FIELD("MSDOS-Filename"),   f_archives,        w_archives,       ARCHIVEFOFF(msdosname)   },
   { FIELD("Description"),      f_charfield,       w_charfield,      PKGIFPOFF(description)   },
   { FIELD("Triggers-Pending"), f_trigpend,        w_trigpend                                 },
   { FIELD("Triggers-Awaited"), f_trigaw,          w_trigaw                                   },
@@ -480,7 +480,7 @@ pkg_parse_copy(struct parsedb_state *ps,
     pkg_copy_eflags(dst_pkg, src_pkg);
     pkg_set_status(dst_pkg, src_pkg->status);
     dst_pkg->configversion = src_pkg->configversion;
-    dst_pkg->files = NULL;
+    dst_pkg->archives = NULL;
 
     dst_pkg->trigpend_head = src_pkg->trigpend_head;
     dst_pkg->trigaw = src_pkg->trigaw;
@@ -493,8 +493,8 @@ pkg_parse_copy(struct parsedb_state *ps,
       /* ->othertrigaw_head is updated by trig_note_aw in *(pkg_db_find())
        * rather than in dst_pkg. */
     }
-  } else if (!(ps->flags & pdb_ignorefiles)) {
-    dst_pkg->files = src_pkg->files;
+  } else if (!(ps->flags & pdb_ignore_archives)) {
+    dst_pkg->archives = src_pkg->archives;
   }
 }
 

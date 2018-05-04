@@ -89,17 +89,22 @@ bool parse_stanza(struct parsedb_state *ps, struct field_state *fs,
 #define STRUCTFIELD(klass, off, type) (*(type *)((uintptr_t)(klass) + (off)))
 
 #define PKGIFPOFF(f) (offsetof(struct pkgbin, f))
-#define FILEFOFF(f) (offsetof(struct filedetails, f))
+#define ARCHIVEFOFF(f) (offsetof(struct archivedetails, f))
 
 typedef void freadfunction(struct pkginfo *pkg, struct pkgbin *pkgbin,
                            struct parsedb_state *ps,
                            const char *value, const struct fieldinfo *fip);
-freadfunction f_name, f_charfield, f_priority, f_section, f_status, f_filecharf;
+freadfunction f_name;
+freadfunction f_charfield;
+freadfunction f_priority;
+freadfunction f_section;
+freadfunction f_status;
 freadfunction f_boolean, f_dependency, f_conffiles, f_version, f_revision;
 freadfunction f_configversion;
 freadfunction f_multiarch;
 freadfunction f_architecture;
 freadfunction f_trigpend, f_trigaw;
+freadfunction f_archives;
 
 enum fwriteflags {
 	/** Print field header and trailing newline. */
@@ -113,8 +118,8 @@ fwritefunction w_name, w_charfield, w_priority, w_section, w_status, w_configver
 fwritefunction w_version, w_null, w_booleandefno, w_dependency, w_conffiles;
 fwritefunction w_multiarch;
 fwritefunction w_architecture;
-fwritefunction w_filecharf;
 fwritefunction w_trigpend, w_trigaw;
+fwritefunction w_archives;
 
 void
 varbuf_add_arbfield(struct varbuf *vb, const struct arbitraryfield *arbfield,

@@ -1130,22 +1130,24 @@ void process_archive(const char *filename) {
     parsedb_flags = pdb_parse_available;
   else
     parsedb_flags = pdb_parse_binary;
-  parsedb_flags |= pdb_ignorefiles;
+  parsedb_flags |= pdb_ignore_archives;
   if (fc_badversion)
     parsedb_flags |= pdb_lax_version_parser;
 
   parsedb(cidir, parsedb_flags, &pkg);
 
-  if (!pkg->files) {
-    pkg->files= nfmalloc(sizeof(struct filedetails));
-    pkg->files->next = NULL;
-    pkg->files->name = pkg->files->msdosname = pkg->files->md5sum = NULL;
+  if (!pkg->archives) {
+    pkg->archives = nfmalloc(sizeof(struct archivedetails));
+    pkg->archives->next = NULL;
+    pkg->archives->name = NULL;
+    pkg->archives->msdosname = NULL;
+    pkg->archives->md5sum = NULL;
   }
   /* Always nfmalloc. Otherwise, we may overwrite some other field (like
    * md5sum). */
   psize = nfmalloc(30);
   sprintf(psize, "%jd", (intmax_t)stab.st_size);
-  pkg->files->size = psize;
+  pkg->archives->size = psize;
 
   if (cipaction->arg_int == act_avail) {
     printf(_("Recorded info about %s from %s.\n"),

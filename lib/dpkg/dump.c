@@ -140,16 +140,16 @@ w_charfield(struct varbuf *vb,
 }
 
 void
-w_filecharf(struct varbuf *vb,
-            const struct pkginfo *pkg, const struct pkgbin *pkgbin,
-            enum fwriteflags flags, const struct fieldinfo *fip)
+w_archives(struct varbuf *vb,
+           const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+           enum fwriteflags flags, const struct fieldinfo *fip)
 {
-  struct filedetails *fdp;
+  struct archivedetails *archive;
 
   if (pkgbin != &pkg->available)
     return;
-  fdp = pkg->files;
-  if (!fdp || !STRUCTFIELD(fdp, fip->integer, const char *))
+  archive = pkg->archives;
+  if (!archive || !STRUCTFIELD(archive, fip->integer, const char *))
     return;
 
   if (flags&fw_printheader) {
@@ -157,10 +157,10 @@ w_filecharf(struct varbuf *vb,
     varbuf_add_char(vb, ':');
   }
 
-  while (fdp) {
+  while (archive) {
     varbuf_add_char(vb, ' ');
-    varbuf_add_str(vb, STRUCTFIELD(fdp, fip->integer, const char *));
-    fdp= fdp->next;
+    varbuf_add_str(vb, STRUCTFIELD(archive, fip->integer, const char *));
+    archive = archive->next;
   }
 
   if (flags&fw_printheader)

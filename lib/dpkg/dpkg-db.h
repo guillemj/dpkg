@@ -84,8 +84,8 @@ struct conffile {
   bool obsolete;
 };
 
-struct filedetails {
-  struct filedetails *next;
+struct archivedetails {
+  struct archivedetails *next;
   const char *name;
   const char *msdosname;
   const char *size;
@@ -204,10 +204,11 @@ struct pkginfo {
   const char *otherpriority;
   const char *section;
   struct dpkg_version configversion;
-  struct filedetails *files;
   struct pkgbin installed;
   struct pkgbin available;
   struct perpackagestate *clientdata;
+
+  struct archivedetails *archives;
 
   struct {
     /* ->aw == this */
@@ -307,8 +308,8 @@ enum parsedbflags {
   pdb_rejectstatus		= DPKG_BIT(2),
   /** Ignore priority/section info if we already have any. */
   pdb_weakclassification	= DPKG_BIT(3),
-  /** Ignore files info if we already have them. */
-  pdb_ignorefiles		= DPKG_BIT(4),
+  /** Ignore archives info if we already have them. */
+  pdb_ignore_archives		= DPKG_BIT(4),
   /** Ignore packages with older versions already read. */
   pdb_ignoreolder		= DPKG_BIT(5),
   /** Perform laxer version parsing. */

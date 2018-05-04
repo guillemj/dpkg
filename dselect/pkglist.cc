@@ -400,7 +400,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     struct perpackagestate *state= &datatable[nitems];
     state->pkg= pkg;
     if (pkg->status == PKG_STAT_NOTINSTALLED &&
-        !pkg->files &&
+        !pkg->archives &&
         pkg->want != PKG_WANT_INSTALL) {
       pkg->clientdata = nullptr;
       continue;

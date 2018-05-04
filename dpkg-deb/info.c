@@ -207,7 +207,7 @@ info_field(const char *debar, const char *dir, const char *const *fields,
   int i;
 
   controlfile = str_fmt("%s/%s", dir, CONTROLFILE);
-  parsedb(controlfile, pdb_parse_binary | pdb_ignorefiles, &pkg);
+  parsedb(controlfile, pdb_parse_binary | pdb_ignore_archives, &pkg);
   free(controlfile);
 
   for (i = 0; fields[i]; i++) {
@@ -252,7 +252,7 @@ do_showinfo(const char *const *argv)
   info_prepare(&argv, &debar, &dir, 1);
 
   controlfile  = str_fmt("%s/%s", dir, CONTROLFILE);
-  parsedb(controlfile, pdb_parse_binary | pdb_ignorefiles, &pkg);
+  parsedb(controlfile, pdb_parse_binary | pdb_ignore_archives, &pkg);
   pkg_format_show(fmt, pkg, &pkg->available);
   pkg_format_free(fmt);
   free(controlfile);
