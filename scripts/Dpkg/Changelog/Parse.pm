@@ -56,12 +56,16 @@ sub _changelog_detect_format {
     if ($file ne '-') {
         local $_;
 
-        open my $format_fh, '-|', 'tail', '-n', '40', $file
-            or syserr(g_('cannot create pipe for %s'), 'tail');
+        open my $format_fh, '<', $file
+            or syserr(g_('cannot open file %s'), $file);
+        if (-s $format_fh > 4096) {
+            seek $format_fh, -4096, 2
+                or syserr(g_('cannot seek into file %s'), $file);
+        }
         while (<$format_fh>) {
             $format = $1 if m/\schangelog-format:\s+([0-9a-z]+)\W/;
         }
-        close $format_fh or subprocerr(g_('tail of %s'), $file);
+        close $format_fh;
     }
 
     return $format;
