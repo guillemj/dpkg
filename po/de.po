@@ -1,18 +1,18 @@
 # Texte für Debian dpkg/po/de.po
-# Copyright © 2017 Dpkg Developers.
+# Copyright © 2018 Dpkg Developers.
 # Hartmut Koptein <koptein@debian.org>, Apr 2000.
 # Erich Schubert <debian@vitavonni.de>, March 2001.
 # Michael Piefel <piefel@debian.org>, 2001-2005.
 # Florian Ernst <florian@uni-hd.de>, 2004.
-# Sven Joachim <svenjoac@gmx.de>, 2006-2017.
+# Sven Joachim <svenjoac@gmx.de>, 2006-2018.
 # Holger Wansing <linux@wansing-online.de>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
-"PO-Revision-Date: 2017-11-03 17:09+0100\n"
+"POT-Creation-Date: 2018-05-05 19:54+0200\n"
+"PO-Revision-Date: 2018-05-05 20:22+0200\n"
 "Last-Translator: Sven Joachim <svenjoac@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -139,7 +139,8 @@ msgstr "Fehler beim Entfernen der alten Sicherungsdatei »%s«"
 msgid "error creating new backup file '%s'"
 msgstr "Fehler beim Anlegen der neuen Sicherungsdatei »%s«"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "»%.250s« kann nicht entfernt werden"
@@ -349,12 +350,20 @@ msgid "unable to open lock file %s for testing"
 msgstr "Sperrdatei %s kann nicht zum Testen geöffnet werden"
 
 #: lib/dpkg/dbmodify.c
+msgid "unable to open/create frontend lockfile"
+msgstr "Sperrdatei des Frontends kann nicht geöffnet/angelegt werden"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "Sperrdatei der Status-Datenbank kann nicht geöffnet/angelegt werden"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "Fehlende Rechte, um die dpkg-Status-Datenbank zu sperren"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr "dpkg-Frontend"
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg status database"
@@ -407,6 +416,47 @@ msgstr "Aktualisierter Status von »%.250s« kann nicht geschlossen werden"
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "Aktualisierter Status von »%.250s« kann nicht installiert werden"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "Die Existenz von »%.250s« kann nicht überprüft werden"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "Info-Verzeichnis kann nicht gelesen werden"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "Fehler beim Versuch, %.250s zu öffnen"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "beschädigte Info-Datenbank-Formatdatei »%s«"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+"Info-Datenbank-Format (%d) ist falsch oder zu neu; versuchen Sie, ein "
+"neueres dpkg zu erhalten"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "info file %s/%s not associated to any package"
+msgstr "Infodatei %s/%s gehört zu keinem Paket"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "Fehler beim Anlegen des harten Links »%.255s«"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "error while writing '%s'"
+msgstr "Fehler beim Schreiben von »%s«"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with too big major component"
@@ -1536,11 +1586,6 @@ msgstr "Fehler beim Anlegen der Pipe »%.255s«"
 msgid "error creating device '%.255s'"
 msgstr "Fehler beim Anlegen des Geräts »%.255s«"
 
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "Fehler beim Anlegen des harten Links »%.255s«"
-
 #: src/archives.c utils/update-alternatives.c
 #, c-format
 msgid "error creating symbolic link '%.255s'"
@@ -2063,6 +2108,10 @@ msgid "conffile difference visualizer"
 msgstr "Conffile-Unterschied-Darsteller"
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr "Nützliche Umgebungsvariablen:\n"
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "Geben Sie »exit« ein, wenn Sie fertig sind.\n"
 
@@ -2429,6 +2478,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2444,6 +2494,8 @@ msgstr ""
 "wird.\n"
 "  --rename                 Datei tatsächlich beiseite schieben (oder "
 "zurück).\n"
+"  --no-rename              Datei nicht beiseite (oder zurück) schieben "
+"(Vorgabe).\n"
 "  --admindir <Verzeichnis> Verzeichnis mit der diversions-Datei setzen.\n"
 "  --test                   nichts tun, nur vorführen, was geschehen würde.\n"
 "  --quiet                  stille Ausführung, minimale Ausgaben.\n"
@@ -2463,6 +2515,14 @@ msgstr ""
 "Beim Entfernen müssen --package oder --local oder --divert übereinstimmen,\n"
 "falls angegeben. Paket-preinst/postrm-Skripte sollten immer --package\n"
 "und --divert angeben.\n"
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
+msgstr ""
+"Bitte geben Sie »--no-rename« explizit an, die Vorgabe wird in 1.20.x\n"
+"auf »--rename« geändert werden"
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2582,6 +2642,15 @@ msgid "Ignoring request to rename file '%s' owned by diverting package '%s'\n"
 msgstr ""
 "Anforderung, Datei »%s« umzubenennen, wird ignoriert; die Datei gehört zum "
 "umleitendenden Paket »%s«\n"
+
+#: src/divertcmd.c
+#, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+"Datei »%s« aus einem essenziellen Paket mit »rename« umzuleiten\n"
+"ist gefährlich, verwenden Sie »--no-rename«"
 
 #: src/divertcmd.c
 #, c-format
@@ -3111,42 +3180,6 @@ msgid ""
 msgstr ""
 "Beachten Sie: PATH von root sollte normalerweise /usr/local/sbin, /usr/sbin "
 "und /sbin enthalten"
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "Die Existenz von »%.250s« kann nicht überprüft werden"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "Info-Verzeichnis kann nicht gelesen werden"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "Fehler beim Versuch, %.250s zu öffnen"
-
-#: src/infodb-format.c
-#, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "beschädigte Info-Datenbank-Formatdatei »%s«"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-"Info-Datenbank-Format (%d) ist falsch oder zu neu; versuchen Sie, ein "
-"neueres dpkg zu erhalten"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
-msgstr "Infodatei %s/%s gehört zu keinem Paket"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "error while writing '%s'"
-msgstr "Fehler beim Schreiben von »%s«"
 
 #: src/main.c
 #, c-format
@@ -4706,6 +4739,10 @@ msgstr "De-konfigurieren von %s (%s), um %s (%s) entfernen zu können ...\n"
 msgid "De-configuring %s (%s) ...\n"
 msgstr "%s (%s) wird de-konfiguriert ...\n"
 
+#: src/unpack.c
+msgid "conffile file contains an empty line"
+msgstr "conffile-Datei enthält eine leere Zeile"
+
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -5220,16 +5257,17 @@ msgid "decompressing archive member"
 msgstr "Archiv-Element wird dekomprimiert"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "Wechsel in das Verzeichnis fehlgeschlagen"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "Anlegen eines Verzeichnisses fehlgeschlagen"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "Wechsel in das Verzeichnis nach dessen Erzeugung fehlgeschlagen"
+#, c-format
+msgid "unexpected pre-existing pathname %s"
+msgstr "unerwarteter bereits existierender Pfadname %s"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "Wechsel in das Verzeichnis fehlgeschlagen"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -6574,6 +6612,9 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr "Authentifizierung ist erforderlich, um update-alternatives auszuführen"
 
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "Wechsel in das Verzeichnis nach dessen Erzeugung fehlgeschlagen"
+
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "veraltete Option »--%s«; bitte verwenden Sie »--%s« stattdessen"
 
@@ -6642,9 +6683,6 @@ msgstr "Authentifizierung ist erforderlich, um update-alternatives auszuführen"
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "EOF auf Standardeingabe an der Conffile-Eingabeaufforderung"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "unerwartetes EOF im Paketnamen in Zeile %d"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "unerwartetes EOF nach Paketnamen in Zeile %d"
