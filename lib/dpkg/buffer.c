@@ -38,7 +38,7 @@
 #include <dpkg/buffer.h>
 
 struct buffer_md5_ctx {
-	struct MD5Context ctx;
+	MD5_CTX ctx;
 	char *hash;
 };
 
