@@ -813,6 +813,7 @@ sub update_files_field {
 }
 
 sub signkey_validate {
+    return unless defined $signkey;
     # Make sure this is an hex keyid.
     return unless $signkey =~ m/^(?:0x)?([[:xdigit:]]+)$/;
 
