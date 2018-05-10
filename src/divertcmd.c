@@ -685,7 +685,7 @@ diversion_list(const char *const *argv)
 		struct diversion *altname;
 		const char *pkgname;
 
-		if (contest->useinstead == NULL)
+		if (contest == NULL || contest->useinstead == NULL)
 			continue;
 
 		altname = contest->useinstead->divert;
@@ -722,7 +722,7 @@ diversion_truename(const char *const *argv)
 	namenode = findnamenode(filename, fnn_nonew);
 
 	/* Print the given name if file is not diverted. */
-	if (namenode && namenode->divert->useinstead)
+	if (namenode && namenode->divert && namenode->divert->useinstead)
 		printf("%s\n", namenode->divert->useinstead->name);
 	else
 		printf("%s\n", filename);
@@ -744,7 +744,7 @@ diversion_listpackage(const char *const *argv)
 	namenode = findnamenode(filename, fnn_nonew);
 
 	/* Print nothing if file is not diverted. */
-	if (namenode == NULL)
+	if (namenode == NULL || namenode->divert == NULL)
 		return 0;
 
 	if (namenode->divert->pkgset == NULL)
