@@ -125,7 +125,8 @@ void checkpath(void) {
      * an ldconfig. */
 #if defined(__APPLE__) && defined(__MACH__)
     "update_dyld_shared_cache",
-#else
+#elif defined(__GLIBC__) || defined(__UCLIBC__) || \
+      defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__)
     "ldconfig",
 #endif
 #if BUILD_START_STOP_DAEMON
