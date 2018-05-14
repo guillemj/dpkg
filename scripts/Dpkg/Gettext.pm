@@ -118,41 +118,37 @@ BEGIN {
         $use_gettext = not $@;
     }
     if (not $use_gettext) {
-        eval q{
-            sub g_ {
-                return shift;
-            }
-            sub textdomain {
-            }
-            sub ngettext {
-                my ($msgid, $msgid_plural, $n) = @_;
-                if ($n == 1) {
-                    return $msgid;
-                } else {
-                    return $msgid_plural;
-                }
-            }
-            sub C_ {
-                my ($msgctxt, $msgid) = @_;
+        *g_ = sub {
+            return shift;
+        };
+        *textdomain = sub {
+        };
+        *ngettext = sub {
+            my ($msgid, $msgid_plural, $n) = @_;
+            if ($n == 1) {
                 return $msgid;
-            }
-            sub P_ {
-                return ngettext(@_);
+            } else {
+                return $msgid_plural;
             }
         };
+        *C_ = sub {
+            my ($msgctxt, $msgid) = @_;
+            return $msgid;
+        };
+        *P_ = sub {
+            return ngettext(@_);
+        };
     } else {
-        eval q{
-            sub g_ {
-                return dgettext($DEFAULT_TEXT_DOMAIN, shift);
-            }
-            sub C_ {
-                my ($msgctxt, $msgid) = @_;
-                return dgettext($DEFAULT_TEXT_DOMAIN,
-                                $msgctxt . GETTEXT_CONTEXT_GLUE . $msgid);
-            }
-            sub P_ {
-                return dngettext($DEFAULT_TEXT_DOMAIN, @_);
-            }
+        *g_ = sub {
+            return dgettext($DEFAULT_TEXT_DOMAIN, shift);
+        };
+        *C_ = sub {
+            my ($msgctxt, $msgid) = @_;
+            return dgettext($DEFAULT_TEXT_DOMAIN,
+                            $msgctxt . GETTEXT_CONTEXT_GLUE . $msgid);
+        };
+        *P_ = sub {
+            return dngettext($DEFAULT_TEXT_DOMAIN, @_);
         };
     }
 }

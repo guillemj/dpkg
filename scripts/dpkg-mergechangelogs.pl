@@ -43,12 +43,10 @@ BEGIN {
         use Algorithm::Merge qw(merge);
     };
     if ($@) {
-        eval q{
-            sub merge {
-                my ($o, $a, $b) = @_;
-                return @$a if join("\n", @$a) eq join("\n", @$b);
-                return get_conflict_block($a, $b);
-            }
+        *merge = sub {
+            my ($o, $a, $b) = @_;
+            return @$a if join("\n", @$a) eq join("\n", @$b);
+            return get_conflict_block($a, $b);
         };
     }
 }
