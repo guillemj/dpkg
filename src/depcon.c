@@ -75,7 +75,8 @@ deppossi_pkg_iter_next(struct deppossi_pkg_iterator *iter)
       pkgbin = &pkg_cur->available;
       break;
     case wpb_by_istobe:
-      if (pkg_cur->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)
+      if (pkg_cur->clientdata &&
+          pkg_cur->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)
         pkgbin = &pkg_cur->available;
       else
         pkgbin = &pkg_cur->installed;

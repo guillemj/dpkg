@@ -438,7 +438,8 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
 
       if (removing ||
           !(f_triggers ||
-            possdependee->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)) {
+            (possdependee->clientdata &&
+             possdependee->clientdata->istobe == PKG_ISTOBE_INSTALLNEW))) {
         if (provider) {
           varbuf_printf(oemsgs,
                         _("  Package %s which provides %s awaits trigger processing.\n"),
