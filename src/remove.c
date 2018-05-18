@@ -102,6 +102,8 @@ void deferred_remove(struct pkginfo *pkg) {
       modstatdb_note(pkg);
   }
 
+  ensure_package_clientdata(pkg);
+
   if (pkg->status == PKG_STAT_NOTINSTALLED) {
     sincenothing = 0;
     warning(_("ignoring request to remove %.250s which isn't installed"),

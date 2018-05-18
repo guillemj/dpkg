@@ -843,6 +843,8 @@ tarobject(void *ctx, struct tar_entry *ti)
         continue;
       }
 
+      ensure_package_clientdata(otherpkg);
+
       /* Nope? Hmm, file conflict, perhaps. Check Replaces. */
       switch (otherpkg->clientdata->replacingfilesandsaid) {
       case 2:

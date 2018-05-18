@@ -160,6 +160,7 @@ trigproc_run_deferred(void)
 		push_error_context_jump(&ejbuf, print_error_perpackage,
 		                        pkg_name(pkg, pnaw_nonambig));
 
+		ensure_package_clientdata(pkg);
 		pkg->clientdata->trigprocdeferred = NULL;
 		trigproc(pkg, TRIGPROC_TRY);
 
@@ -362,6 +363,7 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 
 	debug(dbg_triggers, "trigproc %s", pkg_name(pkg, pnaw_always));
 
+	ensure_package_clientdata(pkg);
 	if (pkg->clientdata->trigprocdeferred)
 		pkg->clientdata->trigprocdeferred->pkg = NULL;
 	pkg->clientdata->trigprocdeferred = NULL;

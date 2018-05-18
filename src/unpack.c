@@ -207,6 +207,7 @@ pkg_check_depcon(struct pkginfo *pkg, const char *pfilename)
 
   /* Check if anything is installed that we conflict with, or not installed
    * that we need. */
+  ensure_package_clientdata(pkg);
   pkg->clientdata->istobe = PKG_ISTOBE_INSTALLNEW;
 
   for (dsearch = pkg->available.depends; dsearch; dsearch = dsearch->next) {
