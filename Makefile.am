@@ -149,6 +149,7 @@ coverage-clean:
 endif
 
 test_scripts = \
+	t/po.t \
 	t/pod.t \
 	t/pod-spell.t \
 	t/pod-coverage.t \

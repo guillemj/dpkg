@@ -20,8 +20,10 @@ use warnings;
 
 our $VERSION = '0.00';
 our @EXPORT_OK = qw(
+    all_po_files
     all_perl_files
     all_perl_modules
+    test_get_po_dirs
     test_get_perl_dirs
     test_get_data_path
     test_get_temp_path
@@ -39,8 +41,10 @@ our %EXPORT_TAGS = (
         test_needs_srcdir_switch
     ) ],
     paths => [ qw(
+        all_po_files
         all_perl_files
         all_perl_modules
+        test_get_po_dirs
         test_get_perl_dirs
         test_get_data_path
         test_get_temp_path
@@ -95,6 +99,15 @@ sub test_get_temp_path
     return $path;
 }
 
+sub test_get_po_dirs
+{
+    if ($test_mode eq 'cpan') {
+        return qw(po);
+    } else {
+        return qw(po scripts/po dselect/po man/po);
+    }
+}
+
 sub test_get_perl_dirs
 {
     if ($test_mode eq 'cpan') {
@@ -102,6 +115,19 @@ sub test_get_perl_dirs
     } else {
         return qw(t src/t lib utils/t scripts dselect);
     }
+}
+
+sub all_po_files
+{
+    my $filter = shift // qr/\.(?:po|pot)$/;
+    my @files;
+    my $scan_po_files = sub {
+        push @files, $File::Find::name if m/$filter/;
+    };
+
+    find($scan_po_files, test_get_po_dirs());
+
+    return @files;
 }
 
 sub all_perl_files
