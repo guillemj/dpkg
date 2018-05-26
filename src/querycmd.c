@@ -179,7 +179,7 @@ list_format_init(struct list_format *fmt, struct pkg_array *array)
       vlen = str_width(versiondescribe(&array->pkgs[i]->installed.version,
                                        vdew_nonambig));
       alen = str_width(dpkg_arch_describe(array->pkgs[i]->installed.arch));
-      pkgbin_summary(array->pkgs[i], &array->pkgs[i]->installed, &dlen);
+      pkgbin_synopsis(array->pkgs[i], &array->pkgs[i]->installed, &dlen);
 
       if (plen > fmt->nw)
         fmt->nw = plen;
@@ -285,7 +285,7 @@ pkg_array_list_item(struct pkg_array *array, struct pkginfo *pkg, void *pkg_data
   list_format_init(fmt, array);
   list_format_print_header(fmt);
 
-  pdesc = pkgbin_summary(pkg, &pkg->installed, &l);
+  pdesc = pkgbin_synopsis(pkg, &pkg->installed, &l);
   l = min(l, fmt->dw);
 
   list_format_print(fmt,

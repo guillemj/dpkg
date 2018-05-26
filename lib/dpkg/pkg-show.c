@@ -119,22 +119,22 @@ pkg_name(const struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
 }
 
 /**
- * Return a string representation of the package summary.
+ * Return a string representation of the package synopsis.
  *
  * The returned string must not be freed, and it's permanently allocated so
  * can be used as long as the non-freeing memory pool has not been freed.
  *
- * The package summary is the short description, but it is not NUL terminated,
+ * The package synopsis is the short description, but it is not NUL terminated,
  * so the output len argument should be used to limit the string length.
  *
  * @param pkg      The package to consider.
  * @param pkgbin   The binary package instance to consider.
- * @param[out] len The length of the summary string within the description.
+ * @param[out] len The length of the synopsis string within the description.
  *
  * @return The string representation.
  */
 const char *
-pkgbin_summary(const struct pkginfo *pkg, const struct pkgbin *pkgbin, int *len)
+pkgbin_synopsis(const struct pkginfo *pkg, const struct pkgbin *pkgbin, int *len)
 {
 	const char *pdesc;
 

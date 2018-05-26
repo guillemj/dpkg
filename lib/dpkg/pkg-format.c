@@ -269,14 +269,14 @@ virt_status_eflag(struct varbuf *vb,
 }
 
 static void
-virt_summary(struct varbuf *vb,
-             const struct pkginfo *pkg, const struct pkgbin *pkgbin,
-             enum fwriteflags flags, const struct fieldinfo *fip)
+virt_synopsis(struct varbuf *vb,
+              const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+              enum fwriteflags flags, const struct fieldinfo *fip)
 {
 	const char *desc;
 	int len;
 
-	desc = pkgbin_summary(pkg, pkgbin, &len);
+	desc = pkgbin_synopsis(pkg, pkgbin, &len);
 
 	varbuf_add_buf(vb, desc, len);
 }
@@ -321,7 +321,8 @@ virt_source_upstream_version(struct varbuf *vb,
 
 static const struct fieldinfo virtinfos[] = {
 	{ FIELD("binary:Package"), NULL, virt_package },
-	{ FIELD("binary:Summary"), NULL, virt_summary },
+	{ FIELD("binary:Synopsis"), NULL, virt_synopsis },
+	{ FIELD("binary:Summary"), NULL, virt_synopsis },
 	{ FIELD("db:Status-Abbrev"), NULL, virt_status_abbrev },
 	{ FIELD("db:Status-Want"), NULL, virt_status_want },
 	{ FIELD("db:Status-Status"), NULL, virt_status_status },
