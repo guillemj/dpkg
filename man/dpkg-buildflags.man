@@ -390,18 +390,25 @@ above). The option cannot become enabled if \fBrelro\fP is not enabled.
 .
 .TP
 .B pie
-This setting (with no default since dpkg 1.18.23, and injected by default
-by gcc on the amd64, arm64, armel, armhf, i386, kfreebsd-amd64, kfreebsd-i386,
-mips, mipsel, mips64el, ppc64el, s390x, sparc and sparc64 Debian architectures)
-adds the required options via gcc specs files if
-needed to enable or disable PIE. When enabled and injected by gcc,
-adds nothing. When enabled and not injected by gcc, adds \fB\-fPIE\fP
-to \fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBOBJCFLAGS\fP, \fBOBJCXXFLAGS\fP,
-\fBGCJFLAGS\fP, \fBFFLAGS\fP and \fBFCFLAGS\fP, and \fB\-fPIE \-pie\fP
-to \fBLDFLAGS\fP. When disabled and injected by gcc, adds \fB\-fno\-PIE\fP
-to \fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBOBJCFLAGS\fP, \fBOBJCXXFLAGS\fP,
-\fBGCJFLAGS\fP, \fBFFLAGS\fP and \fBFCFLAGS\fP, and
-\fB\-fno\-PIE \-no\-pie\fP to \fBLDFLAGS\fP.
+This setting (with no global default since dpkg 1.18.23, as it is enabled
+by default now by gcc on the amd64, arm64, armel, armhf, hurd-i386, i386,
+kfreebsd-amd64, kfreebsd-i386, mips, mipsel, mips64el, powerpc, ppc64,
+ppc64el, riscv64, s390x, sparc and sparc64 Debian architectures) adds
+the required options to enable or disable PIE via gcc specs files, if
+needed, depending on whether gcc injects on that architecture the flags
+by itself or not.
+When the setting is enabled and gcc injects the flags, it adds nothing.
+When the setting is enabled and gcc does not inject the flags, it adds
+\fB\-fPIE\fP (via \fI%PKGDATADIR%/pie-compiler.specs\fP) to \fBCFLAGS\fP,
+\fBCXXFLAGS\fP, \fBOBJCFLAGS\fP, \fBOBJCXXFLAGS\fP, \fBGCJFLAGS\fP,
+\fBFFLAGS\fP and \fBFCFLAGS\fP, and
+\fB\-fPIE \-pie\fP (via \fI%PKGDATADIR%/pie-link.specs\fP) to \fBLDFLAGS\fP.
+When the setting is disabled and gcc injects the flags, it adds
+\fB\-fno\-PIE\fP (via \fI%PKGDATADIR%/no-pie-compile.specs\fP) to \fBCFLAGS\fP,
+\fBCXXFLAGS\fP, \fBOBJCFLAGS\fP, \fBOBJCXXFLAGS\fP, \fBGCJFLAGS\fP,
+\fBFFLAGS\fP and \fBFCFLAGS\fP, and
+\fB\-fno\-PIE \-no\-pie\fP (via \fI%PKGDATADIR%/no-pie-link.specs\fP) to
+\fBLDFLAGS\fP.
 
 Position Independent
 Executable are needed to take advantage of Address Space Layout
