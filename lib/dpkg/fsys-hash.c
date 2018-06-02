@@ -51,7 +51,7 @@ filesdbinit(void)
 			fnn->flags = 0;
 			fnn->oldhash = NULL;
 			fnn->newhash = EMPTYHASHFLAG;
-			fnn->filestat = NULL;
+			fnn->file_ondisk_id = NULL;
 		}
 	}
 }
@@ -117,7 +117,7 @@ findnamenode(const char *name, enum fnnflags flags)
 	newnode->statoverride = NULL;
 	newnode->oldhash = NULL;
 	newnode->newhash = EMPTYHASHFLAG;
-	newnode->filestat = NULL;
+	newnode->file_ondisk_id = NULL;
 	newnode->trig_interested = NULL;
 	*pointerp = newnode;
 	nfiles++;

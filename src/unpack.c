@@ -608,7 +608,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
     } else {
       struct fileinlist *sameas = NULL;
       struct fileinlist *cfile;
-      static struct stat empty_stat;
+      static struct file_ondisk_id empty_ondisk_id;
       struct varbuf cfilename = VARBUF_INIT;
 
       /*
@@ -637,7 +637,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
         if (cfile->namenode->flags & fnnf_filtered)
           continue;
 
-        if (!cfile->namenode->filestat) {
+        if (cfile->namenode->file_ondisk_id == NULL) {
           struct stat tmp_stat;
 
           varbuf_reset(&cfilename);
@@ -646,22 +646,26 @@ pkg_remove_old_files(struct pkginfo *pkg,
           varbuf_end_str(&cfilename);
 
           if (lstat(cfilename.buf, &tmp_stat) == 0) {
-            cfile->namenode->filestat = nfmalloc(sizeof(struct stat));
-            memcpy(cfile->namenode->filestat, &tmp_stat, sizeof(struct stat));
+            struct file_ondisk_id *file_ondisk_id;
+
+            file_ondisk_id = nfmalloc(sizeof(*file_ondisk_id));
+            file_ondisk_id->id_dev = tmp_stat.st_dev;
+            file_ondisk_id->id_ino = tmp_stat.st_ino;
+            cfile->namenode->file_ondisk_id = file_ondisk_id;
           } else {
             if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
               ohshite(_("unable to stat other new file '%.250s'"),
                       cfile->namenode->name);
-            cfile->namenode->filestat = &empty_stat;
+            cfile->namenode->file_ondisk_id = &empty_ondisk_id;
             continue;
           }
         }
 
-        if (cfile->namenode->filestat == &empty_stat)
+        if (cfile->namenode->file_ondisk_id == &empty_ondisk_id)
           continue;
 
-        if (oldfs.st_dev == cfile->namenode->filestat->st_dev &&
-            oldfs.st_ino == cfile->namenode->filestat->st_ino) {
+        if (oldfs.st_dev == cfile->namenode->file_ondisk_id->id_dev &&
+            oldfs.st_ino == cfile->namenode->file_ondisk_id->id_ino) {
           if (sameas)
             warning(_("old file '%.250s' is the same as several new files! "
                       "(both '%.250s' and '%.250s')"), fnamevb.buf,

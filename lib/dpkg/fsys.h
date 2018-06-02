@@ -77,6 +77,14 @@ enum filenamenode_flags {
 	fnnf_filtered			= DPKG_BIT(9),
 };
 
+/**
+ * Stores information to uniquely identify an on-disk file.
+ */
+struct file_ondisk_id {
+	dev_t id_dev;
+	ino_t id_ino;
+};
+
 struct filenamenode {
 	struct filenamenode *next;
 	const char *name;
@@ -105,7 +113,7 @@ struct filenamenode {
 	/** Valid iff the file was unpacked and hashed on this run. */
 	const char *newhash;
 
-	struct stat *filestat;
+	struct file_ondisk_id *file_ondisk_id;
 };
 
 /**
