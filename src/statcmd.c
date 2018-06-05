@@ -150,7 +150,7 @@ statdb_node_remove(const char *filename)
 	struct filenamenode *file;
 
 	file = findnamenode(filename, fnn_nonew);
-	if (!file || (file && !file->statoverride))
+	if (!file || !file->statoverride)
 		return 0;
 
 	file->statoverride = NULL;
