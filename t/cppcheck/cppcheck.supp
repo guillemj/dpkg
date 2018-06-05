@@ -1,0 +1,43 @@
+//
+// Suppression file for cppcheck.
+///
+
+// We assume that the system has a sane NULL definition.
+varFuncNullUB
+
+// TODO: While perhaps valid there are many to handle right away.
+variableScope
+
+// Ignore, this is an imported module.
+unusedStructMember:lib/compat/obstack.c
+nullPointerArithmetic:lib/compat/obstack.c
+
+// Ignore, we use this construct to ease portability.
+knownConditionTrueFalse:src/script.c:162
+
+// Ignore, We use our own test assertions macros.
+literalWithCharPtrCompare:lib/dpkg/t/t-test.c
+
+// Ignore, the code is used only for its binary artifacts.
+uninitMemberVar:scripts/t/Dpkg_Shlibs/patterns.cpp
+
+// BUG: False positive, the macros from lib/dpkg/dlist.h use the tail member.
+unusedStructMember:lib/dpkg/triglib.c:378
+
+// BUG: False positive, does not understand must-allocate functions.
+nullPointer:src/unpack.c:195
+
+// BUG: False positive, does not understand setjmp-style error handling.
+redundantAssignment:lib/dpkg/t/t-ehandle.c:108
+uninitStructMember:utils/update-alternatives.c:1246
+uninitStructMember:utils/update-alternatives.c:1247
+uninitStructMember:utils/update-alternatives.c:1248
+
+// BUG: False positive, does not understand ohshit(), ohshite() and
+//      bad_format as error terminators.
+doubleFree:src/script.c
+doubleFree:utils/update-alternatives.c:1154
+va_end_missing:lib/dpkg/parsehelp.c:68
+
+// BUG: False positive, the code uses va_copy().
+va_list_usedBeforeStarted:lib/compat/vasprintf.c

@@ -160,10 +160,12 @@ test_scripts = \
 	t/syntax.t \
 	t/strict.t \
 	t/critic.t \
+	t/cppcheck.t \
 	$(nil)
 
 test_data = \
 	t/critic/perlcriticrc \
+	t/cppcheck/cppcheck.supp \
 	$(nil)
 
 # We need to use absolute paths here due to strict.t invoking a sub-perl,
