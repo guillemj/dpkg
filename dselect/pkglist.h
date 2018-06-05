@@ -210,7 +210,7 @@ protected:
   void kd_archdisplay();
   void kd_versiondisplay();
 
-  packagelist(keybindings *kb); // nonrecursive
+  explicit packagelist(keybindings *kb); // nonrecursive
   packagelist(keybindings *kb, pkginfo **pkgltab); // recursive
   void add(pkginfo **arry) { while (*arry) add(*arry++); }
   void add(pkginfo*);
