@@ -1309,10 +1309,16 @@ proc_get_psinfo(pid_t pid, struct psinfo *psinfo)
 	fp = fopen(filename, "r");
 	if (!fp)
 		return false;
-	if (fread(psinfo, sizeof(*psinfo), 1, fp) == 0)
+	if (fread(psinfo, sizeof(*psinfo), 1, fp) == 0) {
+		fclose(fp);
 		return false;
-	if (ferror(fp))
+	}
+	if (ferror(fp)) {
+		fclose(fp);
 		return false;
+	}
+
+	fclose(fp);
 
 	return true;
 }
