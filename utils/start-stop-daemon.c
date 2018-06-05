@@ -191,7 +191,7 @@ enum {
 };
 
 /* The minimum polling interval, 20ms. */
-static const long MIN_POLL_INTERVAL = 20 * NANOSEC_IN_MILLISEC;
+static const long MIN_POLL_INTERVAL = 20L * NANOSEC_IN_MILLISEC;
 
 static enum action_code action;
 static bool testmode = false;
