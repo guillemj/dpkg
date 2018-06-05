@@ -41,7 +41,7 @@ static enum pkg_infodb_format
 pkg_infodb_parse_format(const char *file)
 {
 	FILE *fp;
-	int format;
+	unsigned int format;
 
 	fp = fopen(file, "r");
 	if (fp == NULL) {
