@@ -150,6 +150,8 @@ test_str_escape_fmt(void)
 	memset(buf, 'a', sizeof(buf));
 	q = str_escape_fmt(buf, NULL, 0);
 	test_mem(buf, ==, "aaaa", 4);
+	test_pass(buf == q);
+	test_pass(strnlen(buf, sizeof(buf)) == sizeof(buf));
 
 	memset(buf, 'a', sizeof(buf));
 	q = str_escape_fmt(buf, "b", 1);
@@ -228,7 +230,7 @@ test_str_strip_quotes(void)
 
 TEST_ENTRY(test)
 {
-	test_plan(60);
+	test_plan(62);
 
 	test_str_is_set();
 	test_str_match_end();
