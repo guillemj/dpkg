@@ -58,9 +58,6 @@ protected:
   // Table of methods
   struct dselect_option **table;
 
-  // Misc.
-  char searchstring[50];
-
   // Information displays
   void itd_description();
 
