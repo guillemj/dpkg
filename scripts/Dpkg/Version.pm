@@ -22,7 +22,7 @@ use strict;
 use warnings;
 use warnings::register qw(semantic_change::overload::bool);
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our @EXPORT = qw(
     version_compare
     version_compare_relation
@@ -58,8 +58,8 @@ use overload
     '""'  => sub { return $_[0]->as_string(); },
     'bool' => sub {
         warnings::warnif('Dpkg::Version::semantic_change::overload::bool',
-                         'bool overload behavior has changed back to be ' .
-                         'an is_valid() alias');
+                         'Dpkg::Version bool overload behavior has changed ' .
+                         'back to be an is_valid() alias');
         return $_[0]->is_valid();
     },
     'fallback' => 1;
@@ -136,7 +136,11 @@ $v->as_string() if $v->is_valid(), a breaking change in behavior that caused
 that relied on those semantics, this overload will emit a warning with
 category "Dpkg::Version::semantic_change::overload::bool" until dpkg 1.20.x.
 Once fixed, or for already valid code the warning can be quiesced with
-C<no warnings qw(Dpkg::Version::semantic_change::overload::bool)>.
+
+  no if $Dpkg::Version::VERSION ge '1.02',
+     warnings => qw(Dpkg::Version::semantic_change::overload::bool);
+
+added after the C<use Dpkg::Version>.
 
 =item $v->is_valid()
 
@@ -468,6 +472,10 @@ sub version_check($) {
 =back
 
 =head1 CHANGES
+
+=head2 Version 1.02 (dpkg 1.19.1)
+
+Semantic change: bool evaluation semantics restored to their original behavior.
 
 =head2 Version 1.01 (dpkg 1.17.0)
 
