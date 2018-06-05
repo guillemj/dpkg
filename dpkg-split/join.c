@@ -63,7 +63,7 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
              pi->filename, outputfile, err.str);
     close(fd_in);
 
-    printf("%d ",i+1);
+    printf("%u ", i + 1);
   }
   if (fsync(fd_out))
     ohshite(_("unable to sync file '%s'"), outputfile);
