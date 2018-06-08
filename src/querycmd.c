@@ -27,7 +27,6 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/ioctl.h>
 
 #if HAVE_LOCALE_H
 #include <locale.h>
@@ -38,7 +37,6 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <fnmatch.h>
-#include <termios.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -53,6 +51,7 @@
 #include <dpkg/string.h>
 #include <dpkg/path.h>
 #include <dpkg/file.h>
+#include <dpkg/pager.h>
 #include <dpkg/options.h>
 #include <dpkg/db-ctrl.h>
 #include <dpkg/db-fsys.h>
@@ -62,38 +61,6 @@
 static const char *showformat = "${binary:Package}\t${Version}\n";
 
 static int opt_loadavail = 0;
-
-static int getwidth(void) {
-  int fd;
-  long res;
-  struct winsize ws;
-  const char *columns;
-  char *endptr;
-
-  columns = getenv("COLUMNS");
-  if (columns) {
-    errno = 0;
-    res = strtol(columns, &endptr, 10);
-    if (errno == 0 && columns != endptr && *endptr == '\0' &&
-        res > 0 && res < INT_MAX)
-      return res;
-  }
-
-  if (!isatty(1))
-    return -1;
-  else {
-    res = 80;
-
-    fd = open("/dev/tty", O_RDONLY);
-    if (fd != -1) {
-      if (ioctl(fd, TIOCGWINSZ, &ws) == 0)
-        res = ws.ws_col;
-      close(fd);
-    }
-
-    return res;
-  }
-}
 
 static int
 pkg_array_match_patterns(struct pkg_array *array,
@@ -155,56 +122,36 @@ struct list_format {
 static void
 list_format_init(struct list_format *fmt, struct pkg_array *array)
 {
-  int w;
+  int i;
 
   if (fmt->nw != 0)
     return;
 
-  w = getwidth();
-  if (w == -1) {
-    int i;
+  fmt->nw = 14;
+  fmt->vw = 12;
+  fmt->aw = 12;
+  fmt->dw = 33;
 
-    fmt->nw = 14;
-    fmt->vw = 12;
-    fmt->aw = 12;
-    fmt->dw = 33;
+  for (i = 0; i < array->n_pkgs; i++) {
+    int plen, vlen, alen, dlen;
 
-    for (i = 0; i < array->n_pkgs; i++) {
-      int plen, vlen, alen, dlen;
+    if (array->pkgs[i] == NULL)
+      continue;
 
-      if (array->pkgs[i] == NULL)
-        continue;
+    plen = str_width(pkg_name(array->pkgs[i], pnaw_nonambig));
+    vlen = str_width(versiondescribe(&array->pkgs[i]->installed.version,
+                                     vdew_nonambig));
+    alen = str_width(dpkg_arch_describe(array->pkgs[i]->installed.arch));
+    pkgbin_synopsis(array->pkgs[i], &array->pkgs[i]->installed, &dlen);
 
-      plen = str_width(pkg_name(array->pkgs[i], pnaw_nonambig));
-      vlen = str_width(versiondescribe(&array->pkgs[i]->installed.version,
-                                       vdew_nonambig));
-      alen = str_width(dpkg_arch_describe(array->pkgs[i]->installed.arch));
-      pkgbin_synopsis(array->pkgs[i], &array->pkgs[i]->installed, &dlen);
-
-      if (plen > fmt->nw)
-        fmt->nw = plen;
-      if (vlen > fmt->vw)
-        fmt->vw = vlen;
-      if (alen > fmt->aw)
-        fmt->aw = alen;
-      if (dlen > fmt->dw)
-        fmt->dw = dlen;
-    }
-  } else {
-    w -= 80;
-    /* Let's not try to deal with terminals that are too small. */
-    if (w < 0)
-      w = 0;
-    /* Halve that so we can add it to both the name and description. */
-    w >>= 1;
-    /* Name width. */
-    fmt->nw = (14 + (w / 2));
-    /* Version width. */
-    fmt->vw = (12 + (w / 4));
-    /* Architecture width. */
-    fmt->aw = (12 + (w / 4));
-    /* Description width. */
-    fmt->dw = (33 + w);
+    if (plen > fmt->nw)
+      fmt->nw = plen;
+    if (vlen > fmt->vw)
+      fmt->vw = vlen;
+    if (alen > fmt->aw)
+      fmt->aw = alen;
+    if (dlen > fmt->dw)
+      fmt->dw = dlen;
   }
 }
 
@@ -306,6 +253,7 @@ listpackages(const char *const *argv)
   int i;
   int rc = 0;
   struct list_format fmt;
+  struct pager *pager;
 
   if (!opt_loadavail)
     modstatdb_open(msdbrw_readonly);
@@ -316,6 +264,8 @@ listpackages(const char *const *argv)
   pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
   memset(&fmt, 0, sizeof(fmt));
+
+  pager = pager_spawn(_("showing package list on pager"), NULL);
 
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {
@@ -331,6 +281,8 @@ listpackages(const char *const *argv)
 
   m_output(stdout, _("<standard output>"));
   m_output(stderr, _("<standard error>"));
+
+  pager_reap(pager);
 
   pkg_array_destroy(&array);
   modstatdb_shutdown();

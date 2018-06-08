@@ -83,6 +83,8 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
     to output other deb822 formatted data in a deterministic way.
   * Require both standard input and output to be connected to a terminal to
     use a pager.
+  * Run dpkg-query --list output through a pager if we are on a terminal,
+    instead of truncating it, to avoid data loss. Closes: #898603
   * Architecture support:
     - Add support for riscv64 CPU. Closes: #822914
       Thanks to Manuel A. Fernandez Montecelo <mafm@debian.org>
