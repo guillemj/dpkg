@@ -38,7 +38,7 @@ use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
 use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
-use Dpkg::Source::Functions qw(erasedir is_binary fs_time);
+use Dpkg::Source::Functions qw(erasedir chmod_if_needed is_binary fs_time);
 use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::Control;
 use Dpkg::Changelog::Parse;
@@ -673,7 +673,7 @@ sub register_patch {
     if (-s $patch_file) {
         copy($patch_file, $patch)
             or syserr(g_('failed to copy %s to %s'), $patch_file, $patch);
-        chmod(0666 & ~ umask(), $patch)
+        chmod_if_needed(0666 & ~ umask(), $patch)
             or syserr(g_("unable to change permission of '%s'"), $patch);
         my $applied = File::Spec->catfile($dir, 'debian', 'patches', '.dpkg-source-applied');
         open(my $applied_fh, '>>', $applied)
