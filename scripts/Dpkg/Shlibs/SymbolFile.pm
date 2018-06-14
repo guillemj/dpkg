@@ -224,7 +224,7 @@ sub parse {
 		error(g_('symbol information must be preceded by a header (file %s, line %s)'), $file, $.);
 	    }
 	    # Symbol specification
-	    my $deprecated = ($1) ? $1 : 0;
+	    my $deprecated = ($1) ? Dpkg::Version->new($1) : 0;
 	    my $sym = _new_symbol($state->{base_symbol}, deprecated => $deprecated);
 	    if ($self->create_symbol($2, base => $sym)) {
 		$self->add_symbol($sym, ${$state->{obj_ref}});

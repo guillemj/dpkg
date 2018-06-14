@@ -118,6 +118,10 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
       both faster and more portable, as the default tail(1) is not POSIX
       compliant on all systems (c.f. Solaris).
     - Dpkg::Build::Types: Add new set_build_type_from_targets() function.
+    - Dpkg::Shlibs::SymbolFile: Always assign a proper Dpkg::Version to the
+      deprecated variable, otherwise the scalar value 0 can get confused
+      on scalar context to denote it is *not* deprecated instead of being
+      version 0.
   * Documentation:
     - Update gettext minimal version in README.
     - Add a missing dot on the dpkg-buildflags(1) «lfs» feature paragraph.
