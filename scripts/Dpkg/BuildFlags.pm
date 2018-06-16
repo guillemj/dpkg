@@ -23,7 +23,6 @@ our $VERSION = '1.03';
 use Dpkg ();
 use Dpkg::Gettext;
 use Dpkg::Build::Env;
-use Dpkg::BuildOptions;
 use Dpkg::ErrorHandling;
 use Dpkg::Vendor qw(run_vendor_hook);
 
@@ -72,18 +71,15 @@ sub load_vendor_defaults {
     $self->{options} = {};
     $self->{source} = {};
     $self->{features} = {};
-    my $build_opts = Dpkg::BuildOptions->new();
-    $self->{build_options} = $build_opts;
-    my $default_flags = $build_opts->has('noopt') ? '-g -O0' : '-g -O2';
     $self->{flags} = {
 	CPPFLAGS => '',
-	CFLAGS   => $default_flags,
-	CXXFLAGS => $default_flags,
-	OBJCFLAGS   => $default_flags,
-	OBJCXXFLAGS => $default_flags,
-	GCJFLAGS => $default_flags,
-	FFLAGS   => $default_flags,
-	FCFLAGS  => $default_flags,
+	CFLAGS   => '',
+	CXXFLAGS => '',
+	OBJCFLAGS   => '',
+	OBJCXXFLAGS => '',
+	GCJFLAGS => '',
+	FFLAGS   => '',
+	FCFLAGS  => '',
 	LDFLAGS  => '',
     };
     $self->{origin} = {

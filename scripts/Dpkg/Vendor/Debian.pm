@@ -150,6 +150,22 @@ sub _add_build_flags {
         ($abi, $os, $cpu) = ('', '', '');
     }
 
+    ## Global defaults
+
+    my $default_flags;
+    if ($opts_build->has('noopt')) {
+        $default_flags = '-g -O0';
+    } else {
+        $default_flags = '-g -O2';
+    }
+    $flags->append('CFLAGS', $default_flags);
+    $flags->append('CXXFLAGS', $default_flags);
+    $flags->append('OBJCFLAGS', $default_flags);
+    $flags->append('OBJCXXFLAGS', $default_flags);
+    $flags->append('FFLAGS', $default_flags);
+    $flags->append('FCFLAGS', $default_flags);
+    $flags->append('GCJFLAGS', $default_flags);
+
     ## Area: future
 
     if ($use_feature{future}{lfs}) {
@@ -305,7 +321,7 @@ sub _add_build_flags {
     }
 
     # Mask features that might be influenced by other flags.
-    if ($flags->{build_options}->has('noopt')) {
+    if ($opts_build->has('noopt')) {
       # glibc 2.16 and later warn when using -O0 and _FORTIFY_SOURCE.
       $use_feature{hardening}{fortify} = 0;
     }
