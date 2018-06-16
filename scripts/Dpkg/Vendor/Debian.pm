@@ -86,18 +86,6 @@ sub run_hook {
     }
 }
 
-sub _parse_feature_area {
-    my ($self, $area, $use_feature) = @_;
-
-    require Dpkg::BuildOptions;
-
-    # Adjust features based on user or maintainer's desires.
-    my $opts = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_OPTIONS');
-    $opts->parse_features($area, $use_feature);
-    $opts = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_MAINT_OPTIONS');
-    $opts->parse_features($area, $use_feature);
-}
-
 sub _add_build_flags {
     my ($self, $flags) = @_;
 
@@ -141,9 +129,15 @@ sub _add_build_flags {
 
     ## Setup
 
+    require Dpkg::BuildOptions;
+
     # Adjust features based on user or maintainer's desires.
+    my $opts_build = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_OPTIONS');
+    my $opts_maint = Dpkg::BuildOptions->new(envvar => 'DEB_BUILD_MAINT_OPTIONS');
+
     foreach my $area (sort keys %use_feature) {
-        $self->_parse_feature_area($area, $use_feature{$area});
+        $opts_build->parse_features($area, $use_feature{$area});
+        $opts_maint->parse_features($area, $use_feature{$area});
     }
 
     require Dpkg::Arch;
