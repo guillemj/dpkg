@@ -72,12 +72,14 @@ struct varbuf {
 
 #define VARBUF_INIT { 0, 0, NULL }
 
+struct varbuf *varbuf_new(size_t size);
 void varbuf_init(struct varbuf *v, size_t size);
 void varbuf_grow(struct varbuf *v, size_t need_size);
 void varbuf_trunc(struct varbuf *v, size_t used_size);
 char *varbuf_detach(struct varbuf *v);
 void varbuf_reset(struct varbuf *v);
 void varbuf_destroy(struct varbuf *v);
+void varbuf_free(struct varbuf *v);
 
 void varbuf_add_char(struct varbuf *v, int c);
 void varbuf_dup_char(struct varbuf *v, int c, size_t n);

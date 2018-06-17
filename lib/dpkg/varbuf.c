@@ -115,6 +115,17 @@ varbuf_get_str(struct varbuf *v)
   return v->buf;
 }
 
+struct varbuf *
+varbuf_new(size_t size)
+{
+  struct varbuf *v;
+
+  v = m_malloc(sizeof(*v));
+  varbuf_init(v, size);
+
+  return v;
+}
+
 void
 varbuf_init(struct varbuf *v, size_t size)
 {
@@ -185,4 +196,11 @@ void
 varbuf_destroy(struct varbuf *v)
 {
   free(v->buf); v->buf=NULL; v->size=0; v->used=0;
+}
+
+void
+varbuf_free(struct varbuf *v)
+{
+  free(v->buf);
+  free(v);
 }
