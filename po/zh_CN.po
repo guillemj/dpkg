@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.x\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2018-06-26 10:10+0000\n"
 "PO-Revision-Date: 2016-05-20 16:45+0000\n"
 "Last-Translator: Zhou Mo <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -407,12 +407,24 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "无法安装 %.250s 的更新状态"
 
 #: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty major component"
+msgid "format version with too big major component"
+msgstr "格式版本的主版本为空"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "格式版本的主版本为空"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "格式版本没有点号"
+
+#: lib/dpkg/deb-version.c
+#, fuzzy
+#| msgid "format version with empty minor component"
+msgid "format version with too big minor component"
+msgstr "格式版本的次版本为空"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -1108,10 +1120,8 @@ msgid "version string has embedded spaces"
 msgstr "版本号里嵌有空格字符"
 
 #: lib/dpkg/parsehelp.c
-#, fuzzy
-#| msgid "epoch in version is negative"
 msgid "epoch in version is empty"
-msgstr "版本中的版次为负数"
+msgstr "版本中的版次为空"
 
 #: lib/dpkg/parsehelp.c
 msgid "epoch in version is not number"
@@ -1130,14 +1140,10 @@ msgid "nothing after colon in version number"
 msgstr "版本号的冒号后面没有任何东西"
 
 #: lib/dpkg/parsehelp.c
-#, fuzzy
-#| msgid "version string is empty"
 msgid "revision number is empty"
 msgstr "版本号为空"
 
 #: lib/dpkg/parsehelp.c
-#, fuzzy
-#| msgid "version string is empty"
 msgid "version number is empty"
 msgstr "版本号为空"
 
@@ -1185,10 +1191,9 @@ msgid "(no description available)"
 msgstr "(无可用描述)"
 
 #: lib/dpkg/pkg-show.c
-#, fuzzy, c-format
-#| msgid "version '%s' has bad syntax"
+#, c-format
 msgid "version '%s' has bad syntax: %s"
-msgstr "版本号 '%s' 语法错误"
+msgstr "版本号 '%s' 语法错误: %s"
 
 #: lib/dpkg/pkg-spec.c
 #, c-format
@@ -2721,46 +2726,39 @@ msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr "无法满足 %.250s 的预依赖关系，起因是 %.250s"
 
 #: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "--%s takes one package name argument"
+#, c-format
 msgid "--%s takes one <pkgname> argument"
-msgstr "--%s 需要一个软件包名作为参数"
+msgstr "--%s 需要一个 <pkgname> 作为参数"
 
 #: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "package '%s' is not installed"
+#, c-format
 msgid "package name '%s' is invalid: %s"
-msgstr "软件包 %s 没有被安装"
+msgstr "软件包名 %s 无效: %s"
 
 #: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "--%s takes one package name argument"
+#, c-format
 msgid "--%s takes one <trigname> argument"
-msgstr "--%s 需要一个软件包名作为参数"
+msgstr "--%s 需要一个 <trigname> 作为参数"
 
 #: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "trigger name contains invalid character"
+#, c-format
 msgid "trigger name '%s' is invalid: %s"
-msgstr "触发器名包含无效字符"
+msgstr "触发器名 %s 无效: %s"
 
 #: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "--%s takes one package name argument"
+#, c-format
 msgid "--%s takes one <archname> argument"
-msgstr "--%s 需要一个软件包名作为参数"
+msgstr "--%s 需要一个 <archname> 作为参数"
 
 #: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "architecture '%s' is illegal: %s"
+#, c-format
 msgid "architecture name '%s' is invalid: %s"
-msgstr "%s 体系结构非法：%s"
+msgstr "体系结构名称 '%s' 无效: %s"
 
 #: src/enquiry.c
-#, fuzzy, c-format
-#| msgid "--%s takes no arguments"
+#, c-format
 msgid "--%s takes one <version> argument"
-msgstr "--%s 不需要任何参数"
+msgstr "--%s 需要一个 <version> 参数"
 
 #: src/enquiry.c
 #, c-format
@@ -3032,48 +3030,7 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Debian %s 软件包管理程序 %s 版。\n"
 
 #: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -i|--install       <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --unpack           <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --configure        <package> ... | -a|--pending\n"
-#| "  --triggers-only    <package> ... | -a|--pending\n"
-#| "  -r|--remove        <package> ... | -a|--pending\n"
-#| "  -P|--purge         <package> ... | -a|--pending\n"
-#| "  -V|--verify <package> ...        Verify the integrity of package(s).\n"
-#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
-#| "  --set-selections                 Set package selections from stdin.\n"
-#| "  --clear-selections               Deselect every non-essential package.\n"
-#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
-#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
-#| "  --clear-avail                    Erase existing available info.\n"
-#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-#| "  -s|--status <package> ...        Display package status details.\n"
-#| "  -p|--print-avail <package> ...   Display available version details.\n"
-#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
-#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-#| "  -C|--audit [<package> ...]       Check for broken package(s).\n"
-#| "  --yet-to-unpack                  Print packages selected for "
-#| "installation.\n"
-#| "  --predep-package                 Print pre-dependencies to unpack.\n"
-#| "  --add-architecture <arch>        Add <arch> to the list of "
-#| "architectures.\n"
-#| "  --remove-architecture <arch>     Remove <arch> from the list of "
-#| "architectures.\n"
-#| "  --print-architecture             Print dpkg architecture.\n"
-#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
-#| "  --assert-<feature>               Assert support for the specified "
-#| "feature.\n"
-#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
-#| "  --force-help                     Show help on forcing.\n"
-#| "  -Dh|--debug=help                 Show help on debugging.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -3117,30 +3074,32 @@ msgstr ""
 "  -i|--install       <.deb 文件名> ... | -R|--recursive <目录> ...\n"
 "  --unpack           <.deb 文件名> ... | -R|--recursive <目录> ...\n"
 "  -A|--record-avail  <.deb 文件名> ... | -R|--recursive <目录> ...\n"
-"  --configure        <软件包名> ... | -a|--pending\n"
-"  --triggers-only    <软件包名> ... | -a|--pending\n"
-"  -r|--remove        <软件包名> ... | -a|--pending\n"
-"  -P|--purge         <软件包名> ... | -a|--pending\n"
+"  --configure        <软件包名>    ... | -a|--pending\n"
+"  --triggers-only    <软件包名>    ... | -a|--pending\n"
+"  -r|--remove        <软件包名>    ... | -a|--pending\n"
+"  -P|--purge         <软件包名>    ... | -a|--pending\n"
 "  -V|--verify <软件包名> ...       检查包的完整性。\n"
 "  --get-selections [<表达式> ...]  把已选中的软件包列表打印到标准输出。\n"
 "  --set-selections                 从标准输入里读出要选择的软件。\n"
 "  --clear-selections               取消选中所有不必要的软件包。\n"
 "  --update-avail <软件包文件>      替换现有可安装的软件包信息。\n"
-"  --merge-avail <软件包文件>       把文件中的信息合并到系统中。\n"
+"  --merge-avail  <软件包文件>      把文件中的信息合并到系统中。\n"
 "  --clear-avail                    清除现有的软件包信息。\n"
 "  --forget-old-unavail             忘却已被卸载的不可安装的软件包。\n"
-"  -s|--status <软件包名> ...       显示指定软件包的详细状态。\n"
+"  -s|--status      <软件包名> ...  显示指定软件包的详细状态。\n"
 "  -p|--print-avail <软件包名> ...  显示可供安装的软件版本。\n"
-"  -L|--listfiles <软件包名> ...    列出属于指定软件包的文件。\n"
-"  -l|--list [<表达式> ...]         简明地列出软件包的状态。\n"
+"  -L|--listfiles   <软件包名> ...  列出属于指定软件包的文件。\n"
+"  -l|--list  [<表达式> ...]        简明地列出软件包的状态。\n"
 "  -S|--search <表达式> ...         搜索含有指定文件的软件包。\n"
 "  -C|--audit [<表达式> ...]        检查是否有软件包残损。\n"
 "  --yet-to-unpack                  列出标记为待解压的软件包。\n"
 "  --predep-package                 列出待解压的预依赖。\n"
-"  --add-architecture <体系结构>    添加 <体系结构> 到体系结构列表。\n"
+"  --add-architecture    <体系结构> 添加 <体系结构> 到体系结构列表。\n"
 "  --remove-architecture <体系结构> 从架构列表中移除 <体系结构>。\n"
 "  --print-architecture             显示 dpkg 体系结构。\n"
 "  --print-foreign-architectures    显示已启用的异质体系结构。\n"
+"  --assert-<特性>                  对指定特性启用断言支持。\n"
+"  --validate-<属性> <字符串>       验证一个 <属性>的 <字符串>。\n"
 "  --compare-vesions <a> <关系> <b> 比较版本号 - 见下。\n"
 "  --force-help                     显示本强制选项的帮助信息。\n"
 "  -Dh|--debug=help                 显示有关出错调试的帮助信息。\n"
@@ -3174,6 +3133,8 @@ msgid ""
 "Validatable things: pkgname, archname, trigname, version.\n"
 "\n"
 msgstr ""
+"可验证的属性：pkgname, archname, trigname, version.\n"
+"\n"
 
 #: src/main.c
 #, c-format
@@ -4988,16 +4949,18 @@ msgid "decompressing archive member"
 msgstr "解压缩归档成员"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "chdir 到目录失败"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "新建目录失败"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "新建目录后，chdir 到该目录失败"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "在第 %d 行的软件包名中发现了文件结束符，这出乎我们的意料"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "chdir 到目录失败"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"

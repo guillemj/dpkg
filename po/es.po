@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.16.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-05-17 13:17+0200\n"
+"POT-Creation-Date: 2018-06-26 10:10+0000\n"
 "PO-Revision-Date: 2017-04-07 17:49+0200\n"
 "Last-Translator: Javier Fernandez-Sanguino <jfs@debian.org>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -484,12 +484,20 @@ msgid "unable to install updated status of '%.250s'"
 msgstr "no se puede instalar el estado actualizado de `%.250s'"
 
 #: lib/dpkg/deb-version.c
+msgid "format version with too big major component"
+msgstr "versión de formato con valor de componente principal demasiado grande"
+
+#: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
 msgstr "versión de formato con valor de componente principal vacío"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
 msgstr "el formato de versión no incluye un punto"
+
+#: lib/dpkg/deb-version.c
+msgid "format version with too big minor component"
+msgstr "versión de formato con valor de componente menor demasiado grande"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
@@ -3136,20 +3144,15 @@ msgstr ""
 "%s' "
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
+#, c-format
 msgid "control file '%s' for package '%s' is missing value"
-msgstr ""
-"falta un salto de línea al final del fichero de control `%s' del paquete `"
-"%s' "
+msgstr "falta un valor en el fichero de control `%s' del paquete `%s'"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
+#, c-format
 msgid "control file '%s' for package '%s' is missing value separator"
 msgstr ""
-"falta un salto de línea al final del fichero de control `%s' del paquete `"
-"%s' "
+"falta un separador de valor en el fichero de control `%s' del paquete `%s' "
 
 #: src/filesdb-hash.c
 #, c-format
@@ -3159,33 +3162,29 @@ msgstr ""
 "de fichero vacío"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot open '%s' control file for package '%s'"
+#, c-format
 msgid "cannot open control file '%s' for package '%s'"
 msgstr "no se puede abrir el fichero de control `%s' del paquete `%s'"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot stat '%s' control file for package '%s'"
+#, c-format
 msgid "cannot stat control file '%s' for package '%s'"
 msgstr ""
 "no se puede ejecutar «stat» sobre el fichero de control `%s' del paquete `%s'"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "'%s' file for package '%s' is not a regular file"
+#, c-format
 msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "el fichero `%s' para el paquete `%s' no es un fichero normal"
+msgstr ""
+"el fichero de control `%s' para el paquete `%s' no es un fichero normal"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read '%s' control file for package '%s'"
+#, c-format
 msgid "cannot read control file '%s' for package '%s'"
 msgstr "no se puede leer el fichero de control `%s' para el paquete `%s'"
 
 #: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot close '%s' control file for package '%s'"
+#, c-format
 msgid "cannot close control file '%s' for package '%s'"
 msgstr "error al cerrar el fichero de control `%s' del paquete `%s'"
 
@@ -4321,8 +4320,7 @@ msgstr ""
 "no se puede borrar el fichero de configuración antiguo `%.250s' (= `%.250s')"
 
 #: src/remove.c
-#, fuzzy, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+#, c-format
 msgid "cannot read config file directory '%.250s' (from '%.250s')"
 msgstr ""
 "no se puede leer el directorio del fichero de configuración `%.250s'\n"
@@ -4412,7 +4410,7 @@ msgid "... it looks like that went OK"
 msgstr "... parece que todo fue bien."
 
 #: src/select.c
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected end of file in package name at line %d"
 msgstr "fin de fichero inesperado en el nombre del paquete en la línea %d"
 
@@ -4422,7 +4420,7 @@ msgid "unexpected end of line in package name at line %d"
 msgstr "fin de línea inesperado en el nombre del paquete en la línea %d"
 
 #: src/select.c
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected end of file after package name at line %d"
 msgstr "fin de fichero inesperado tras el nombre del paquete en la línea %d"
 
@@ -4442,10 +4440,11 @@ msgid "illegal package name at line %d: %.250s"
 msgstr "nombre de paquete ilegal en la línea %d: %.250s"
 
 #: src/select.c
-#, fuzzy, c-format
-#| msgid "package not in database at line %d: %.250s"
+#, c-format
 msgid "package not in status nor available database at line %d: %.250s"
-msgstr "el paquete no está en la base de datos en la línea %d: %.250s"
+msgstr ""
+"el paquete no está en la base de datos de estado o de paquetes disponibles "
+"en la línea %d: %.250s"
 
 #: src/select.c
 #, c-format
@@ -4457,10 +4456,6 @@ msgid "read error on standard input"
 msgstr "error de lectura en la entrada estándar"
 
 #: src/select.c
-#, fuzzy
-#| msgid ""
-#| "found unknown packages; this might mean the available database\n"
-#| "is outdated, and needs to be updated through a frontend method"
 msgid ""
 "found unknown packages; this might mean the available database\n"
 "is outdated, and needs to be updated through a frontend method;\n"
@@ -4468,7 +4463,8 @@ msgid ""
 msgstr ""
 "se encontraron paquetes desconocidos. Esto puede significar que la\n"
 "base de datos está desactualizada y tiene que actualizarse utilizando\n"
-"los mecanismos de una interfaz de usuario"
+"los mecanismos de una interfaz de usuario. Por favor, consulte\n"
+"las PUF <https://wiki.debian.org/Teams/Dpkg/FAQ>"
 
 #: src/selinux.c
 msgid "cannot open security status notification channel"
@@ -4541,17 +4537,15 @@ msgstr "omitiendo «/» final"
 
 # FIXME: Traducción de 'stat'
 #: src/statcmd.c
-#, fuzzy, c-format
-#| msgid "control file '%s' does not exist"
+#, c-format
 msgid "user '%s' does not exist"
-msgstr "el fichero de control `%s' no existe"
+msgstr "el usuario `%s' no existe"
 
 # FIXME: Traducción de 'stat'
 #: src/statcmd.c
-#, fuzzy, c-format
-#| msgid "control file '%s' does not exist"
+#, c-format
 msgid "group '%s' does not exist"
-msgstr "el fichero de control `%s' no existe"
+msgstr "el grupo `%s' no existe"
 
 #: src/statcmd.c
 #, c-format
@@ -4589,22 +4583,19 @@ msgid "--update is useless for --remove"
 msgstr "es inútil utilizar --update con --remove"
 
 #: src/statdb.c
-#, fuzzy, c-format
-#| msgid "invalid status"
+#, c-format
 msgid "invalid statoverride uid %s"
-msgstr "estado inválido"
+msgstr "uid statoverride inválido %s"
 
 #: src/statdb.c
-#, fuzzy, c-format
-#| msgid "dpkg-statoverride: %s"
+#, c-format
 msgid "invalid statoverride gid %s"
-msgstr "dpkg-statoverride: %s"
+msgstr "gid statoverrid inválido %s"
 
 #: src/statdb.c
-#, fuzzy, c-format
-#| msgid "dpkg-statoverride: %s"
+#, c-format
 msgid "invalid statoverride mode %s"
-msgstr "dpkg-statoverride: %s"
+msgstr "modo statoverride inválido %s"
 
 #: src/statdb.c
 msgid "failed to open statoverride file"
@@ -5078,10 +5069,9 @@ msgid "control member"
 msgstr "miembro de control"
 
 #: dpkg-deb/build.c
-#, fuzzy, c-format
-#| msgid "newline in field name '%.*s'"
+#, c-format
 msgid "newline not allowed in pathname '%s'"
-msgstr "nueva línea dentro del nombre del campo `%.*s'"
+msgstr "no se pemite nueva línea dentro del nombre del campo '%s'"
 
 #: dpkg-deb/build.c
 msgid "data member"
@@ -5165,10 +5155,8 @@ msgstr ""
 "o `-+.'"
 
 #: dpkg-deb/build.c
-#, fuzzy
-#| msgid "package architecture"
 msgid "package architecture is missing or empty"
-msgstr "arquitectura de paquete"
+msgstr "la arquitectura de paquete no existe o está vacía"
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5188,20 +5176,17 @@ msgid "unable to check for existence of archive '%.250s'"
 msgstr "no se puede comprobar la existencia del archivo `%.250s'"
 
 #: dpkg-deb/build.c
-#, fuzzy
-#| msgid "compressing data member"
 msgid "compressing tar member"
-msgstr "comprimiendo miembro de datos"
+msgstr "comprimiendo miembro tar"
 
 #: dpkg-deb/build.c
 msgid "<compress> from tar -cf"
 msgstr "<comprimir> desde tar -cf"
 
 #: dpkg-deb/build.c dpkg-split/split.c
-#, fuzzy, c-format
-#| msgid "unable to create '%.255s'"
+#, c-format
 msgid "unable to parse timestamp '%.255s'"
-msgstr "no se puede crear `%.255s'"
+msgstr "no se puede analizar la marca de tiempo `%.255s'"
 
 #: dpkg-deb/build.c utils/update-alternatives.c
 #, c-format
@@ -5220,16 +5205,14 @@ msgid "not checking contents of control area"
 msgstr "no se comprobarán los contenidos del área de control"
 
 #: dpkg-deb/build.c
-#, fuzzy, c-format
-#| msgid "dpkg-deb: building an unknown package in '%s'.\n"
+#, c-format
 msgid "building an unknown package in '%s'."
-msgstr "dpkg-deb: construyendo el paquete desconocido `%s'.\n"
+msgstr "construyendo el paquete desconocido `%s'."
 
 #: dpkg-deb/build.c
-#, fuzzy, c-format
-#| msgid "dpkg-deb: building package '%s' in '%s'.\n"
+#, c-format
 msgid "building package '%s' in '%s'."
-msgstr "dpkg-deb: construyendo el paquete `%s' en `%s'.\n"
+msgstr "construyendo el paquete `%s' en `%s'."
 
 #: dpkg-deb/build.c
 #, c-format
@@ -5400,16 +5383,18 @@ msgid "decompressing archive member"
 msgstr "descomprimiendo el miembro del archivo"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "fallo al cambiar al directorio"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "fallo al crear directorio"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "fallo al cambiar a un directorio después de crearlo"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "eof inesperado en el nombre del paquete en la línea %d"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "fallo al cambiar al directorio"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -5509,10 +5494,8 @@ msgid "     not a plain file          %.255s\n"
 msgstr "     no es un fichero normal   %.255s\n"
 
 #: dpkg-deb/info.c
-#, fuzzy
-#| msgid "(no 'control' file in control archive!)\n"
 msgid "no 'control' file in control archive!"
-msgstr "(¡no hay ningún fichero `control' en el archivo de control!)\n"
+msgstr "¡no hay ningún fichero `control' en el archivo de control!"
 
 # Si alguien me da una buena traducción, lo cambio. sv
 #: dpkg-deb/main.c
@@ -5699,14 +5682,12 @@ msgid "unknown compression type '%s'!"
 msgstr "¡tipo de compresión `%s' desconocido!"
 
 #: dpkg-deb/main.c
-#, fuzzy, c-format
-#| msgid "deprecated compression type '%s'; use xz instead"
+#, c-format
 msgid "obsolete compression type '%s'; use xz instead"
 msgstr "tipo de compresión obsoleta '%s', utilice xz en su lugar"
 
 #: dpkg-deb/main.c
-#, fuzzy, c-format
-#| msgid "deprecated compression type '%s'; use xz or gzip instead"
+#, c-format
 msgid "obsolete compression type '%s'; use xz or gzip instead"
 msgstr "tipo de compresión obsoleta `%s', utilice xz o gzip en su lugar"
 
