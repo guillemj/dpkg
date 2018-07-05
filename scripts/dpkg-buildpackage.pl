@@ -553,13 +553,14 @@ if (build_has_any(BUILD_SOURCE)) {
 
 run_hook('build', build_has_any(BUILD_BINARY));
 
-# XXX Use some heuristics to decide whether to use build-{arch,indep} targets.
-# This is a temporary measure to not break too many packages on a flag day.
-build_target_fallback($ctrl);
-
 my $build_types = get_build_options_from_type();
 
 if (build_has_any(BUILD_BINARY)) {
+    # XXX Use some heuristics to decide whether to use build-{arch,indep}
+    # targets. This is a temporary measure to not break too many packages
+    # on a flag day.
+    build_target_fallback($ctrl);
+
     # If we are building rootless, there is no need to call the build target
     # independently as non-root.
     run_cmd(@debian_rules, $buildtarget) if rules_requires_root($binarytarget);
