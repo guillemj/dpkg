@@ -11,6 +11,7 @@ libcompat_test_la_CPPFLAGS = $(AM_CPPFLAGS) -DTEST_LIBCOMPAT=1
 libcompat_test_la_SOURCES = \
 	compat.h \
 	md5.c md5.h \
+	strchrnul.c \
 	strnlen.c \
 	strndup.c \
 	strsignal.c \
@@ -55,6 +56,10 @@ endif
 
 if !HAVE_STRNLEN
 libcompat_la_SOURCES += strnlen.c
+endif
+
+if !HAVE_STRCHRNUL
+libcompat_la_SOURCES += strchrnul.c
 endif
 
 if !HAVE_STRNDUP

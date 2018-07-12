@@ -152,6 +152,7 @@ DPKG_CHECK_COMPAT_FUNCS([\
   getopt \
   getopt_long \
   obstack_free \
+  strchrnul \
   strnlen \
   strndup \
   strerror \
