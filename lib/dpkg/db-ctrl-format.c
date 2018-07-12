@@ -36,6 +36,7 @@
 
 static enum pkg_infodb_format db_format = PKG_INFODB_FORMAT_UNKNOWN;
 static bool db_upgrading;
+static char *db_infodir;
 
 static enum pkg_infodb_format
 pkg_infodb_parse_format(const char *file)
@@ -117,12 +118,10 @@ pkg_infodb_is_upgrading(void)
 const char *
 pkg_infodb_get_dir(void)
 {
-	static char *infodir;
+	if (db_infodir == NULL)
+		db_infodir = dpkg_db_get_path(INFODIR);
 
-	if (infodir == NULL)
-		infodir = dpkg_db_get_path(INFODIR);
-
-	return infodir;
+	return db_infodir;
 }
 
 const char *
@@ -147,4 +146,13 @@ pkg_infodb_get_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	varbuf_end_str(&vb);
 
 	return vb.buf;
+}
+
+const char *
+pkg_infodb_reset_dir(void)
+{
+	free(db_infodir);
+	db_infodir = NULL;
+
+	return pkg_infodb_get_dir();
 }

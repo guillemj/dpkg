@@ -40,6 +40,7 @@ void pkg_infodb_upgrade(void);
 const char *pkg_infodb_get_dir(void);
 const char *pkg_infodb_get_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
                                 const char *filetype);
+const char *pkg_infodb_reset_dir(void);
 bool pkg_infodb_has_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
                          const char *name);
 
