@@ -642,8 +642,8 @@ set_force(const struct cmdinfo *cip, const char *value)
   }
 
   for (;;) {
-    comma= strchr(value,',');
-    l = comma ? (size_t)(comma - value) : strlen(value);
+    comma = strchrnul(value, ',');
+    l = (size_t)(comma - value);
     for (fip=forceinfos; fip->name; fip++)
       if (strncmp(fip->name, value, l) == 0 && strlen(fip->name) == l)
         break;
@@ -661,7 +661,8 @@ set_force(const struct cmdinfo *cip, const char *value)
       warning(_("obsolete force/refuse option '%s'"), fip->name);
     }
 
-    if (!comma) break;
+    if (*comma == '\0')
+      break;
     value= ++comma;
   }
 }

@@ -194,11 +194,8 @@ pkg_format_parse(const char *fmt, struct dpkg_error *err)
 			fmtend = fmt;
 			do {
 				fmtend += 1;
-				fmtend = strchr(fmtend, '$');
-			} while (fmtend && fmtend[1] != '{');
-
-			if (!fmtend)
-				fmtend = fmt + strlen(fmt);
+				fmtend = strchrnul(fmtend, '$');
+			} while (fmtend[0] && fmtend[1] != '{');
 
 			if (!parsestring(node, fmt, fmtend - 1, err)) {
 				pkg_format_free(head);

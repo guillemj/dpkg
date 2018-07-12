@@ -90,9 +90,9 @@ find_command(const char *prog)
   if (!path_list)
     ohshit(_("PATH is not set"));
 
-  for (path = path_list; path; path = path_end ? path_end + 1 : NULL) {
-    path_end = strchr(path, ':');
-    path_len = path_end ? (size_t)(path_end - path) : strlen(path);
+  for (path = path_list; path; path = *path_end ? path_end + 1 : NULL) {
+    path_end = strchrnul(path, ':');
+    path_len = (size_t)(path_end - path);
 
     varbuf_reset(&filename);
     varbuf_add_buf(&filename, path, path_len);

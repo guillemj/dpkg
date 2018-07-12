@@ -930,15 +930,15 @@ parse_schedule(const char *schedule_str)
 	} else {
 		count = 0;
 		repeatat = -1;
-		while (schedule_str != NULL) {
-			slash = strchr(schedule_str, '/');
-			str_len = slash ? (size_t)(slash - schedule_str) : strlen(schedule_str);
+		while (*schedule_str) {
+			slash = strchrnul(schedule_str, '/');
+			str_len = (size_t)(slash - schedule_str);
 			if (str_len >= sizeof(item_buf))
 				badusage("invalid schedule item: far too long"
 				         " (you must delimit items with slashes)");
 			memcpy(item_buf, schedule_str, str_len);
 			item_buf[str_len] = '\0';
-			schedule_str = slash ? slash + 1 : NULL;
+			schedule_str = *slash ? slash + 1 : slash;
 
 			parse_schedule_item(item_buf, &schedule[count]);
 			if (schedule[count].type == sched_forever) {

@@ -410,8 +410,8 @@ void baselist::wordwrapinfo(int offset, const char *m) {
 
   for (;;) {
     int offleft=offset; while (*m == ' ' && offleft>0) { m++; offleft--; }
-    const char *p= strchr(m,'\n');
-    int l= p ? (int)(p-m) : strlen(m);
+    const char *p = strchrnul(m, '\n');
+    int l = (int)(p - m);
     while (l && c_isspace(m[l - 1]))
       l--;
     if (!l || (*m == '.' && l == 1)) {
@@ -452,7 +452,8 @@ void baselist::wordwrapinfo(int offset, const char *m) {
       }
       wrapping = true;
     }
-    if (!p) break;
+    if (*p == '\0')
+      break;
     if (getcury(infopad) == (MAX_DISPLAY_INFO - 1)) {
       waddstr(infopad,
               "[The package description is too long and has been truncated...]");
