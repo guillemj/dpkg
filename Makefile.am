@@ -34,6 +34,7 @@ EXTRA_DIST = \
 	.mailmap \
 	ChangeLog.old \
 	README.l10n \
+	autogen \
 	get-version \
 	run-script \
 	doc/README.api \
