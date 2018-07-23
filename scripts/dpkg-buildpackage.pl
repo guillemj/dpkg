@@ -72,6 +72,7 @@ sub usage {
   -S                          source-only, no binary files.
   -nc, --no-pre-clean         do not pre clean source tree (implies -b).
        --pre-clean            pre clean source tree (default).
+      --no-post-clean         do not post clean source tree (default).
   -tc, --post-clean           clean source tree when finished.
   -D                          check build dependencies and conflicts (default).
   -d                          do not check build dependencies and conflicts.
@@ -294,6 +295,8 @@ while (@ARGV) {
 	push @source_opts, $_; # passed to dpkg-source
     } elsif (/^-tc$/ or /^--post-clean$/) {
         $postclean = 1;
+    } elsif (/^--no-post-clean$/) {
+        $postclean = 0;
     } elsif (/^-t$/ or /^--host-type$/) {
 	$host_type = shift; # Order DOES matter!
     } elsif (/^-t(.*)$/ or /^--host-type=(.*)$/) {
