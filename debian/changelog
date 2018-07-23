@@ -64,6 +64,8 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
     for short key IDs and warn for long key IDs.
   * On the dpkg conffile prompt, print the set of environment variables setup
     for the conffile shell, for easier discoverability.
+  * Fix dpkg-buildpackage option --rules-file parsing. It was trying to parse
+    it as --rules-target, which due to the ordering was a no-op.
   * Architecture support:
     - Add support for riscv64 CPU. Closes: #822914
       Thanks to Manuel A. Fernandez Montecelo <mafm@debian.org>

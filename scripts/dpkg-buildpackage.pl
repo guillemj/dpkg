@@ -346,7 +346,7 @@ while (@ARGV) {
     } elsif (m/^-[EW]$/) {
 	# Deprecated option
 	warning(g_('-E and -W are deprecated, they are without effect'));
-    } elsif (/^-R(.*)$/ or /^--rules-target=(.*)$/) {
+    } elsif (/^-R(.*)$/ or /^--rules-file=(.*)$/) {
 	my $arg = $1;
 	@debian_rules = split ' ', $arg;
     } else {
