@@ -97,7 +97,7 @@ is($s->substvars('This is a string with unknown variable ${blubb}'),
                  'substvars missing');
 delete $SIG{__WARN__};
 is($output,
-   'Dpkg_Substvars.t: warning: test unknown substitution variable ${blubb}' . "\n",
+   'Dpkg_Substvars.t: warning: test substitution variable ${blubb} used, but is not defined' . "\n",
    'missing variables warning');
 
 # Recursive replace
@@ -117,7 +117,7 @@ $SIG{__WARN__} = sub { $output .= $_[0] };
 $s->warn_about_unused();
 delete $SIG{__WARN__};
 is($output,
-   'Dpkg_Substvars.t: warning: test unused substitution variable ${var2}' . "\n",
+   'Dpkg_Substvars.t: warning: test substitution variable ${var2} unused, but is defined' . "\n",
    'unused variables warnings');
 
 # Disable warnings for a certain variable
