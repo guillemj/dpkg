@@ -74,9 +74,8 @@ sub usage {
       --pre-clean             pre clean source tree (default).
       --no-post-clean         do not post clean source tree (default).
   -tc, --post-clean           post clean source tree.
-  -D                          check build dependencies and conflicts (default).
-  -d                          do not check build dependencies and conflicts.
-      --[no-]check-builddeps  ditto.
+  -D, --check-builddeps       check build dependencies and conflicts (default).
+  -d, --no-check-builddeps    do not check build dependencies and conflicts.
       --ignore-builtin-builddeps
                               do not check builtin build dependencies.
   -P, --build-profiles=<profiles>
