@@ -63,13 +63,13 @@ sub usage {
 'Options:
       --build=<type>[,...]    specify the build <type>: full, source, binary,
                                 any, all (default is \'full\').
-  -F                          normal full build (source and binary; default).
-  -g                          source and arch-indep build.
-  -G                          source and arch-specific build.
-  -b                          binary-only, no source files.
-  -B                          binary-only, only arch-specific files.
-  -A                          binary-only, only arch-indep files.
-  -S                          source-only, no binary files.
+  -F, --build=full            normal full build (source and binary; default).
+  -g, --build=source,all      source and arch-indep build.
+  -G, --build=source,any      source and arch-specific build.
+  -b, --build=binary          binary-only, no source files.
+  -B, --build=any             binary-only, only arch-specific files.
+  -A, --build=all             binary-only, only arch-indep files.
+  -S, --build=source          source-only, no binary files.
   -nc, --no-pre-clean         do not pre clean source tree (implies -b).
       --pre-clean             pre clean source tree (default).
       --no-post-clean         do not post clean source tree (default).
