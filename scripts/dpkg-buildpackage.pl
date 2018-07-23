@@ -147,7 +147,7 @@ my $admindir;
 my @debian_rules = ('debian/rules');
 my @rootcommand = ();
 my $signcommand;
-my $noclean;
+my $preclean = 1;
 my $postclean = 0;
 my $parallel;
 my $parallel_force = 0;
@@ -316,9 +316,9 @@ while (@ARGV) {
     } elsif (/^--as-root$/) {
         $call_target_as_root = 1;
     } elsif (/^--pre-clean$/) {
-	$noclean = 0;
+        $preclean = 1;
     } elsif (/^-nc$/ or /^--no-pre-clean$/) {
-	$noclean = 1;
+        $preclean = 0;
     } elsif (/^--build=(.*)$/) {
         set_build_type_from_options($1, $_);
     } elsif (/^-b$/) {
@@ -370,7 +370,7 @@ if (build_has_all(BUILD_BINARY)) {
     $binarytarget = 'binary-indep';
 }
 
-if ($noclean) {
+if (not $preclean) {
     # -nc without -b/-B/-A/-S/-F implies -b
     set_build_type(BUILD_BINARY) if build_has_any(BUILD_DEFAULT);
     # -nc with -S implies no dependency checks
@@ -542,9 +542,9 @@ foreach my $call_target (@call_target) {
 }
 exit 0 if scalar @call_target;
 
-run_hook('preclean', ! $noclean);
+run_hook('preclean', $preclean);
 
-unless ($noclean) {
+if ($preclean) {
     run_rules_cond_root('clean');
 }
 
@@ -552,7 +552,7 @@ run_hook('source', build_has_any(BUILD_SOURCE));
 
 if (build_has_any(BUILD_SOURCE)) {
     warning(g_('building a source package without cleaning up as you asked; ' .
-               'it might contain undesired files')) if $noclean;
+               'it might contain undesired files')) if not $preclean;
     run_cmd('dpkg-source', @source_opts, '-b', '.');
 }
 
