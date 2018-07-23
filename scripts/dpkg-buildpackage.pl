@@ -79,7 +79,7 @@ sub usage {
       --ignore-builtin-builddeps
                               do not check builtin build dependencies.
   -P, --build-profiles=<profiles>
-                              assume comma-separated build profiles as active.
+                              assume comma-separated build <profiles> as active.
       --rules-requires-root   assume legacy Rules-Requires-Root field value.
   -R, --rules-file=<rules>    rules file to execute (default is debian/rules).
   -T, --rules-target=<target> call debian/rules <target>.
