@@ -354,6 +354,11 @@ while (@ARGV) {
     }
 }
 
+if (@call_target) {
+    my $targets = join ',', @call_target;
+    set_build_type_from_targets($targets, '--rules-target', nocheck => 1);
+}
+
 if (build_has_all(BUILD_BINARY)) {
     $buildtarget = 'build';
     $binarytarget = 'binary';
