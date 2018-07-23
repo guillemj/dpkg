@@ -193,9 +193,10 @@ sub set_build_type
     $current_option = $build_option;
 }
 
-=item set_build_type_from_options($build_type, $build_option, %opts)
+=item set_build_type_from_options($build_types, $build_option, %opts)
 
-Set the current build type from a list of build type components.
+Set the current build type from a list of comma-separated build type
+components.
 
 The function will check and abort on incompatible build type assignments,
 this behavior can be disabled by using the boolean option "nocheck".
