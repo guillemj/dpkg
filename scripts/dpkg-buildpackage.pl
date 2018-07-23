@@ -148,7 +148,7 @@ my @debian_rules = ('debian/rules');
 my @rootcommand = ();
 my $signcommand;
 my $noclean;
-my $cleansource;
+my $postclean = 0;
 my $parallel;
 my $parallel_force = 0;
 my $checkbuilddep = 1;
@@ -293,7 +293,7 @@ while (@ARGV) {
     } elsif (/^-(?:s[nsAkurKUR]|[zZ].*|i.*|I.*)$/) {
 	push @source_opts, $_; # passed to dpkg-source
     } elsif (/^-tc$/ or /^--post-clean$/) {
-	$cleansource = 1;
+        $postclean = 1;
     } elsif (/^-t$/ or /^--host-type$/) {
 	$host_type = shift; # Order DOES matter!
     } elsif (/^-t(.*)$/ or /^--host-type=(.*)$/) {
@@ -599,9 +599,9 @@ $changes->parse($changes_fh, g_('parse changes file'));
 $changes->save($chg);
 close $changes_fh or subprocerr(g_('dpkg-genchanges'));
 
-run_hook('postclean', $cleansource);
+run_hook('postclean', $postclean);
 
-if ($cleansource) {
+if ($postclean) {
     run_rules_cond_root('clean');
 }
 
