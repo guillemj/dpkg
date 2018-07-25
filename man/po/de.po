@@ -8,10 +8,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.19.0\n"
+"Project-Id-Version: dpkg-man 1.19.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-07-19 19:33+0200\n"
-"PO-Revision-Date: 2018-07-19 19:36+0200\n"
+"POT-Creation-Date: 2018-07-25 09:27+0200\n"
+"PO-Revision-Date: 2018-07-25 11:09+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -11738,29 +11738,41 @@ msgstr "B<pie>"
 #. type: Plain text
 #: dpkg-buildflags.man
 msgid ""
-"This setting (with no default since dpkg 1.18.23, and injected by default by "
-"gcc on the amd64, arm64, armel, armhf, i386, kfreebsd-amd64, kfreebsd-i386, "
-"mips, mipsel, mips64el, ppc64el, s390x, sparc and sparc64 Debian "
-"architectures)  adds the required options via gcc specs files if needed to "
-"enable or disable PIE. When enabled and injected by gcc, adds nothing. When "
-"enabled and not injected by gcc, adds B<-fPIE> to B<CFLAGS>, B<CXXFLAGS>, "
-"B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>, and B<-"
-"fPIE -pie> to B<LDFLAGS>. When disabled and injected by gcc, adds B<-fno-"
-"PIE> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
-"B<FFLAGS> and B<FCFLAGS>, and B<-fno-PIE -no-pie> to B<LDFLAGS>."
+"This setting (with no global default since dpkg 1.18.23, as it is enabled by "
+"default now by gcc on the amd64, arm64, armel, armhf, hurd-i386, i386, "
+"kfreebsd-amd64, kfreebsd-i386, mips, mipsel, mips64el, powerpc, ppc64, "
+"ppc64el, riscv64, s390x, sparc and sparc64 Debian architectures) adds the "
+"required options to enable or disable PIE via gcc specs files, if needed, "
+"depending on whether gcc injects on that architecture the flags by itself or "
+"not.  When the setting is enabled and gcc injects the flags, it adds "
+"nothing.  When the setting is enabled and gcc does not inject the flags, it "
+"adds B<-fPIE> (via I<%PKGDATADIR%/pie-compiler.specs>) to B<CFLAGS>, "
+"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and "
+"B<FCFLAGS>, and B<-fPIE -pie> (via I<%PKGDATADIR%/pie-link.specs>) to "
+"B<LDFLAGS>.  When the setting is disabled and gcc injects the flags, it adds "
+"B<-fno-PIE> (via I<%PKGDATADIR%/no-pie-compile.specs>) to B<CFLAGS>, "
+"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and "
+"B<FCFLAGS>, and B<-fno-PIE -no-pie> (via I<%PKGDATADIR%/no-pie-link.specs>) "
+"to B<LDFLAGS>."
 msgstr ""
-"Diese Einstellung (seit Dpkg 1.18.13 ohne Vorgabe und standardmäßig von GCC "
-"auf den Debian-Architekturen Amd64, Arm64, Armel, Armhf, I386, Kfreebsd-"
-"amd64, Kfreebsd-i386, Mips, Mipsel, Mips64el, PPC64el, S390x, Sparc und "
-"Sparc64 hinzugefügt) fügt die benötigten Optionen mittels GCC-Spec-Dateien "
-"hinzu, falls sie zum Aktivieren oder Deaktivieren von PIE benötigt werden. "
-"Falls aktiviert und von GCC hinzugefügt, ergänzt nichts. Wenn aktiviert und "
-"nicht von GCC hinzugefügt, fügt B<-fPIE> zu B<CFLAGS>, B<CXXFLAGS>, "
-"B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu "
-"und B<-fPIE -pie> zu B<LDFLAGS>. Wenn deaktiviert und von GCC hinzugefügt, "
-"fügt B<-fno-PIE> zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, "
-"B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu und B<-fno-PIE -no-pie> zu "
-"B<LDFLAGS>."
+"Diese Einstellung (seit Dpkg 1.18.23 ohne globale Vorgabe, da sie jetzt "
+"standardmäßig durch GCC auf den Debian-Architekturen Amd64, Arm64, Armel, "
+"Armhf, Hurd-i386, I386, Kfreebsd-amd64, Kfreebsd-i386, Mips, Mipsel, "
+"Mips64el, Powerpc, PPC64, PPC64el, Riscv64, S390x, Sparc und Sparc64 "
+"aktiviert ist) fügt, falls benötigt, die benötigten Optionen, um PIE zu "
+"aktivieren oder zu deaktiveren, über GCC-Spezifikationsdateien hinzu, "
+"abhängig davon, ob GCC auf diesen Architekturen die Schalter selbst "
+"einspeist oder nicht. Wenn die Einstellung aktiviert ist und GCC den "
+"Schalter einspeist, fügt dies nichts hinzu. Wenn die Einstellung aktiviert "
+"ist und GCC den Schalter nicht einspeist, dann fügt es B<-fPIE> (mittels "
+"I<%PKGDATADIR%/pie-compiler.specs>) zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
+"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> und B<-fPIE -pie> "
+"(mittels I<%PKGDATADIR%/pie-link.specs>) zu B<LDFLAGS> hinzu.  Wenn die "
+"Einstellung deaktiviert ist und GCC den Schalter einspeist, dann fügt es "
+"B<-fno-PIE> (mittels I<%PKGDATADIR%/no-pie-compile.specs>) zu B<CFLAGS>, "
+"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und "
+"B<FCFLAGS> und B<-fno-PIE -no-pie> (mittels I<%PKGDATADIR%/no-pie-link."
+"specs>) zu B<LDFLAGS> hinzu."
 
 #. type: Plain text
 #: dpkg-buildflags.man
@@ -13068,11 +13080,12 @@ msgstr "B<-nc>, B<--no-pre-clean>"
 #. type: Plain text
 #: dpkg-buildpackage.man
 msgid ""
-"Do not clean the source tree (long option since dpkg 1.18.8).  Implies B<-b> "
-"if nothing else has been selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-A> or "
-"B<-S>.  Implies B<-d> with B<-S> (since dpkg 1.18.0)."
+"Do not clean the source tree before building (long option since dpkg "
+"1.18.8).  Implies B<-b> if nothing else has been selected among B<-F>, B<-"
+"g>, B<-G>, B<-B>, B<-A> or B<-S>.  Implies B<-d> with B<-S> (since dpkg "
+"1.18.0)."
 msgstr ""
-"Bereinige den Quellbaum nicht (lange Option seit Dpkg 1.18.8). Impliziert B<-"
+"Bereinige den Quellbaum vor dem Bau nicht (lange Option seit Dpkg 1.18.8). Impliziert B<-"
 "b>, falls ansonsten nichts aus B<-F>, B<-g>, B<-G>, B<-B>, B<-A> oder B<-S> "
 "gewählt wurde. Impliziert B<-d> mit B<-S> (seit Dpkg 1.18.0)."
 
@@ -13084,8 +13097,10 @@ msgstr "B<--pre-clean>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-msgid "Clean the source tree before building (since dpkg 1.18.8)."
-msgstr "Bereinige den Quellbaum vor dem Bau (seit Dpkg 1.18.8)."
+msgid ""
+"Clean the source tree before building (since dpkg 1.18.8).  This is the "
+"default behavior."
+msgstr "Bereinige den Quellbaum vor dem Bau (seit Dpkg 1.18.8). Dies ist das Standardverhalten."
 
 #. type: TP
 #: dpkg-buildpackage.man
@@ -13101,6 +13116,21 @@ msgid ""
 msgstr ""
 "Den Quellbaum säubern (verwendet I<root-werde-Befehl> B<debian/rules clean>) "
 "nachdem das Paket gebaut wurde (lange Option seit Dpkg 1.18.8)."
+
+#. type: TP
+#: dpkg-buildpackage.man
+#, no-wrap
+msgid "B<--no-post-clean>"
+msgstr "B<--no-post-clean>"
+
+#. type: Plain text
+#: dpkg-buildpackage.man
+msgid ""
+"Do not clean the source tree after the package has been built (since dpkg "
+"1.19.1).  This is the default behavior."
+msgstr ""
+"Bereinigt den Quellbaum nicht, nachdem das Paket gebaut wurde (seit Dpkg "
+"1.19.1). Dies ist das Standardverhalten."
 
 #. type: TP
 #: dpkg-buildpackage.man
@@ -19255,13 +19285,24 @@ msgstr ""
 #. type: TP
 #: dpkg-query.man
 #, no-wrap
+msgid "B<binary:Synopsis>"
+msgstr "B<binary:Synopsis>"
+
+#. type: Plain text
+#: dpkg-query.man
+msgid "It contains the package short description (since dpkg 1.19.1)."
+msgstr "Es enthält die Kurzbeschreibung des Pakets (seit Dpkg 1.19.1)."
+
+#. type: TP
+#: dpkg-query.man
+#, no-wrap
 msgid "B<binary:Summary>"
 msgstr "B<binary:Summary>"
 
 #. type: Plain text
 #: dpkg-query.man
-msgid "It contains the package short description (since dpkg 1.16.2)."
-msgstr "Es enthält die Kurzbeschreibung des Pakets (seit Dpkg 1.16.2)."
+msgid "This is an alias for B<binary:Synopsis> (since dpkg 1.16.2)."
+msgstr "Dies ist ein Alias für B<binary:Synopsis> (seit Dpkg 1.16.2)."
 
 #. type: TP
 #: dpkg-query.man
