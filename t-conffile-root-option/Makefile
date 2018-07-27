@@ -18,18 +18,20 @@ test-conffile-move-packages-no-rootdir:
 
 TEST_ROOT := $(CURDIR)/target
 
+test-conffile-move-packages-rootdir: DPKG_ADMINDIR = $(TEST_ROOT)/var/lib/dpkg
+test-conffile-move-packages-rootdir: DPKG_INSTDIR = $(TEST_ROOT)
 test-conffile-move-packages-rootdir:
 	# Create template root dir.
-	mkdir -p $(TEST_ROOT)/var/lib/dpkg/info
-	mkdir -p $(TEST_ROOT)/var/lib/dpkg/updates
-	touch $(TEST_ROOT)/var/lib/dpkg/status
+	mkdir -p $(DPKG_ADMINDIR)/info
+	mkdir -p $(DPKG_ADMINDIR)/updates
+	touch $(DPKG_ADMINDIR)/status
 	# Install base versions.
-	$(DPKG_INSTALL) --root=$(TEST_ROOT) pkg-conff-a-1.deb pkg-conff-b-1.deb
+	$(DPKG_INSTALL) pkg-conff-a-1.deb pkg-conff-b-1.deb
 	# Install update, conffile moves from a to b.
-	$(DPKG_INSTALL) --root=$(TEST_ROOT) pkg-conff-a-2.deb pkg-conff-b-2.deb
+	$(DPKG_INSTALL) pkg-conff-a-2.deb pkg-conff-b-2.deb
 	# Cleanup.
-	-$(DPKG_PURGE) --root=$(TEST_ROOT) pkg-conff-b
-	-$(DPKG_PURGE) --root=$(TEST_ROOT) pkg-conff-a
+	-$(DPKG_PURGE) pkg-conff-b
+	-$(DPKG_PURGE) pkg-conff-a
 
 test-clean:
 	-$(DPKG_PURGE) pkg-conff-a pkg-conff-b
