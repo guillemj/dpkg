@@ -77,6 +77,19 @@ our $DEFAULT_TEXT_DOMAIN = 'dpkg-dev';
 
 =over 4
 
+=item $domain = textdomain($new_domain)
+
+Compatibility textdomain() fallback when Locale::gettext is not available.
+
+If $new_domain is not undef, it will set the current domain to $new_domain.
+Returns the current domain, after possibly changing it.
+
+=item $trans = ngettext($msgid, $msgid_plural, $n)
+
+Compatibility ngettext() fallback when Locale::gettext is not available.
+
+Returns $msgid if $n is 1 or $msgid_plural otherwise.
+
 =item $trans = g_($msgid)
 
 Calls dgettext() on the $msgid and returns its translation for the current
