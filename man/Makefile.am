@@ -255,7 +255,7 @@ uninstall-local-yes:
 	done
 
 dist-hook: man.stamp
-	cp $(srcdir)/man.stamp $(distdir)/
+	cp $< $(distdir)/
 	for lang in $(LINGUAS_DIST); do \
 	  cp $(srcdir)/po/$$lang.po $(distdir)/po; \
 	  cp $(srcdir)/po/$$lang.add $(distdir)/po; \
