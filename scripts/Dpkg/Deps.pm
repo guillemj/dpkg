@@ -758,6 +758,9 @@ sub _arch_is_superset {
 # Because we are handling dependencies in isolation, and the full context
 # of the implications are only known when doing dependency resolution at
 # run-time, we can only assert that they are implied if they are equal.
+#
+# For example dependencies with different arch-qualifiers cannot be simplified
+# as these depend on the state of Multi-Arch field in the package depended on.
 sub _arch_qualifier_implies {
     my ($p, $q) = @_;
 

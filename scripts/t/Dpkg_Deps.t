@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 70;
+use Test::More tests => 74;
 
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
@@ -232,6 +232,26 @@ $dep_profiles->simplify_deps($facts);
 is($dep_profiles->output(),
    'libfoo-dev:native <!stage1>, libfoo-dev <!stage1 cross>',
    'Simplification respects archqualifiers and profiles');
+
+my $dep_archqual = deps_parse('pkg, pkg:any');
+$dep_archqual->simplify_deps($facts);
+is($dep_archqual->output(), 'pkg, pkg:any',
+    'Simplify respect arch-qualified ANDed dependencies 1/2');
+
+$dep_archqual = deps_parse('pkg:amd64, pkg:any, pkg:i386');
+$dep_archqual->simplify_deps($facts);
+is($dep_archqual->output(), 'pkg:amd64, pkg:any, pkg:i386',
+    'Simplify respects arch-qualified ANDed dependencies 2/2');
+
+$dep_archqual = deps_parse('pkg | pkg:any');
+$dep_archqual->simplify_deps($facts);
+is($dep_archqual->output(), 'pkg | pkg:any',
+    'Simplify respect arch-qualified ORed dependencies 1/2');
+
+$dep_archqual = deps_parse('pkg:amd64 | pkg:i386 | pkg:any');
+$dep_archqual->simplify_deps($facts);
+is($dep_archqual->output(), 'pkg:amd64 | pkg:i386 | pkg:any',
+    'Simplify respect arch-qualified ORed dependencies 2/2');
 
 my $dep_version = deps_parse('pkg, pkg (= 1.0)');
 $dep_version->simplify_deps($facts);
