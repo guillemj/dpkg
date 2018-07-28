@@ -255,10 +255,10 @@ uninstall-local-yes:
 	done
 
 dist-hook: man.stamp
-	cp $< $(distdir)/
+	cp -p $< $(distdir)/
 	for lang in $(LINGUAS_DIST); do \
-	  cp $(srcdir)/po/$$lang.po $(distdir)/po; \
-	  cp $(srcdir)/po/$$lang.add $(distdir)/po; \
+	  cp -p $(srcdir)/po/$$lang.po $(distdir)/po; \
+	  cp -p $(srcdir)/po/$$lang.add $(distdir)/po; \
 	  $(MKDIR_P) $(distdir)/$$lang; \
-	  cp -R $(srcdir)/$$lang $(distdir)/; \
+	  cp -pR $(srcdir)/$$lang $(distdir)/; \
 	done
