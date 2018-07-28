@@ -3,7 +3,11 @@
 use strict;
 use warnings;
 
-use Module::Build ();
+eval {
+    require Module::Build;
+} or do {
+    die "error: Missing Module::Build module, cannot proceed.\n";
+};
 
 if (-e 'Build.PL.in') {
     die "error: This is an in-tree build, not a proper perl distribution.\n" .
