@@ -28,6 +28,7 @@ package Dpkg::Gettext;
 
 use strict;
 use warnings;
+use feature qw(state);
 
 our $VERSION = '1.03';
 our @EXPORT = qw(
@@ -122,6 +123,12 @@ BEGIN {
             return shift;
         };
         *textdomain = sub {
+            my $new_domain = shift;
+            state $domain = $DEFAULT_TEXT_DOMAIN;
+
+            $domain = $new_domain if defined $new_domain;
+
+            return $domain;
         };
         *ngettext = sub {
             my ($msgid, $msgid_plural, $n) = @_;
