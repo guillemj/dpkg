@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 74;
+use Test::More tests => 78;
 
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
@@ -169,7 +169,34 @@ my $field_duplicate = 'libc6 (>= 2.3), libc6 (>= 2.6-1), mypackage (>=
 pkg-ma-foreign2, pkg-ma-allowed:any, pkg-ma-allowed2, pkg-ma-allowed3';
 my $dep_dup = deps_parse($field_duplicate);
 $dep_dup->simplify_deps($facts, $dep_opposite);
-is($dep_dup->output(), 'libc6 (>= 2.6-1), mypackage2, pkg-ma-allowed2', 'Simplify deps');
+is($dep_dup->output(), 'libc6 (>= 2.6-1), mypackage2, pkg-ma-allowed2',
+    'Simplify deps');
+
+TODO: {
+
+local $TODO = 'not yet implemented';
+
+my $dep_or_eq = deps_parse('pkg-a | pkg-b | pkg-a');
+$dep_or_eq->simplify_deps($facts);
+is($dep_or_eq->output(), 'pkg-a | pkg-b',
+    'Simplify duped ORed, equal names');
+
+$dep_or_eq = deps_parse('pkg-a (= 10) | pkg-b | pkg-a (= 10)');
+$dep_or_eq->simplify_deps($facts);
+is($dep_or_eq->output(), 'pkg-a (= 10) | pkg-b',
+    'Simplify duped ORed, matching version');
+
+my $dep_or_subset = deps_parse('pkg-a (>= 10) | pkg-b | pkg-a (= 10)');
+$dep_or_eq->simplify_deps($facts);
+is($dep_or_eq->output(), 'pkg-a (= 10) | pkg-b',
+    'Simplify duped ORed, subset version');
+
+$dep_or_subset = deps_parse('pkg-a (>= 10) <profile> | pkg-b | pkg-a (= 10) <profile>');
+$dep_or_eq->simplify_deps($facts);
+is($dep_or_eq->output(), 'pkg-a (= 10) <profile> | pkg-b',
+    'Simplify duped ORed, subset version');
+
+} # TODO
 
 my $field_virtual = 'myvirtual | other';
 my $dep_virtual = deps_parse($field_virtual);
@@ -221,11 +248,16 @@ $dep_profiles->simplify_deps($facts);
 is($dep_profiles->output(), 'dupe <stage1 cross>',
    'Simplification respects duplicated profiles');
 
+TODO: {
+
+local $TODO = 'not yet implemented';
+
 $dep_profiles = deps_parse('tool <!cross>, tool <stage1 cross>');
 $dep_profiles->simplify_deps($facts);
-# XXX: Ideally this would get simplified to "tool <!cross> <stage1 cross>".
-is($dep_profiles->output(), 'tool <!cross>, tool <stage1 cross>',
-   'Simplification respects profiles');
+is($dep_profiles->output(), 'tool <!cross> <stage1 cross>',
+   'Simplify restriction formulas');
+
+} # TODO
 
 $dep_profiles = deps_parse('libfoo-dev:native <!stage1>, libfoo-dev <!stage1 cross>', build_dep => 1);
 $dep_profiles->simplify_deps($facts);
