@@ -419,7 +419,7 @@ package Dpkg::Deps::Simple;
 There are several kind of dependencies. A Dpkg::Deps::Simple dependency
 represents a single dependency statement (it relates to one package only).
 Dpkg::Deps::Multiple dependencies are built on top of this object
-and combine several dependencies in a different manners. Dpkg::Deps::AND
+and combine several dependencies in different manners. Dpkg::Deps::AND
 represents the logical "AND" between dependencies while Dpkg::Deps::OR
 represents the logical "OR". Dpkg::Deps::Multiple objects can contain
 Dpkg::Deps::Simple object as well as other Dpkg::Deps::Multiple objects.
