@@ -433,87 +433,9 @@ dependencies and while trying to simplify them. It represents a set of
 installed packages along with the virtual packages that they might
 provide.
 
-=head2 COMMON METHODS
+=head2 OBJECT - Dpkg::Deps::Simple
 
-=over 4
-
-=item $dep->is_empty()
-
-Returns true if the dependency is empty and doesn't contain any useful
-information. This is true when a Dpkg::Deps::Simple object has not yet
-been initialized or when a (descendant of) Dpkg::Deps::Multiple contains
-an empty list of dependencies.
-
-=item $dep->get_deps()
-
-Returns a list of sub-dependencies. For Dpkg::Deps::Simple it returns
-itself.
-
-=item $dep->output([$fh])
-
-=item "$dep"
-
-Returns a string representing the dependency. If $fh is set, it prints
-the string to the filehandle.
-
-=item $dep->implies($other_dep)
-
-Returns 1 when $dep implies $other_dep. Returns 0 when $dep implies
-NOT($other_dep). Returns undef when there's no implication. $dep and
-$other_dep do not need to be of the same type.
-
-=item $dep->sort()
-
-Sorts alphabetically the internal list of dependencies. It's a no-op for
-Dpkg::Deps::Simple objects.
-
-=item $dep->arch_is_concerned($arch)
-
-Returns true if the dependency applies to the indicated architecture. For
-multiple dependencies, it returns true if at least one of the
-sub-dependencies apply to this architecture.
-
-=item $dep->reduce_arch($arch)
-
-Simplifies the dependency to contain only information relevant to the given
-architecture. A Dpkg::Deps::Simple object can be left empty after this
-operation. For Dpkg::Deps::Multiple objects, the non-relevant
-sub-dependencies are simply removed.
-
-This trims off the architecture restriction list of Dpkg::Deps::Simple
-objects.
-
-=item $dep->get_evaluation($facts)
-
-Evaluates the dependency given a list of installed packages and a list of
-virtual packages provided. Those lists are part of the
-Dpkg::Deps::KnownFacts object given as parameters.
-
-Returns 1 when it's true, 0 when it's false, undef when some information
-is lacking to conclude.
-
-=item $dep->simplify_deps($facts, @assumed_deps)
-
-Simplifies the dependency as much as possible given the list of facts (see
-object Dpkg::Deps::KnownFacts) and a list of other dependencies that are
-known to be true.
-
-=item $dep->has_arch_restriction()
-
-For a simple dependency, returns the package name if the dependency
-applies only to a subset of architectures.  For multiple dependencies, it
-returns the list of package names that have such a restriction.
-
-=item $dep->reset()
-
-Clears any dependency information stored in $dep so that $dep->is_empty()
-returns true.
-
-=back
-
-=head2 Dpkg::Deps::Simple
-
-Such an object has four interesting properties:
+This object has several interesting properties:
 
 =over 4
 
@@ -534,33 +456,26 @@ The version.
 
 =item arches
 
-The list of architectures where this dependency is applicable. It's
-undefined when there's no restriction, otherwise it's an
+The list of architectures where this dependency is applicable. It is
+undefined when there's no restriction, otherwise it is an
 array ref. It can contain an exclusion list, in that case each
 architecture is prefixed with an exclamation mark.
 
 =item archqual
 
-The arch qualifier of the dependency (can be undef if there's none).
+The arch qualifier of the dependency (can be undef if there is none).
 In the dependency "python:any (>= 2.6)", the arch qualifier is "any".
 
+=item restrictions
+
+The restrictions formula for this dependency. It is undefined when there
+is no restriction formula. Otherwise it is an array ref.
+
 =back
 
-=head3 METHODS
+=head2 METHODS - Dpkg::Deps::Simple
 
 =over 4
-
-=item $simple_dep->parse_string('dpkg-dev (>= 1.14.8) [!hurd-i386]')
-
-Parses the dependency and modifies internal properties to match the parsed
-dependency.
-
-=item $simple_dep->merge_union($other_dep)
-
-Returns true if $simple_dep could be modified to represent the union of
-both dependencies. Otherwise returns false.
-
-=back
 
 =cut
 
@@ -577,6 +492,34 @@ use Dpkg::Gettext;
 
 use parent qw(Dpkg::Interface::Storable);
 
+=item $dep = Dpkg::Deps::Simple->new(%opts);
+
+Creates a new object. Some options can be set through %opts:
+
+=over
+
+=item host_arch
+
+Sets the host architecture.
+
+=item build_arch
+
+Sets the build architecture.
+
+=item build_dep
+
+Specifies whether the parser should consider it a build dependency.
+Defaults to 0.
+
+=item tests_dep
+
+Specifies whether the parser should consider it a tests dependency.
+Defaults to 0.
+
+=back
+
+=cut
+
 sub new {
     my ($this, $arg, %opts) = @_;
     my $class = ref($this) || $this;
@@ -591,6 +534,13 @@ sub new {
     return $self;
 }
 
+=item $dep->reset()
+
+Clears any dependency information stored in $dep so that $dep->is_empty()
+returns true.
+
+=cut
+
 sub reset {
     my $self = shift;
     $self->{package} = undef;
@@ -601,12 +551,25 @@ sub reset {
     $self->{restrictions} = undef;
 }
 
+=item $dep->parse($fh, $desc)
+
+Parses a line from a filehandle.
+
+=cut
+
 sub parse {
     my ($self, $fh, $desc) = @_;
     my $line = <$fh>;
     chomp($line);
     return $self->parse_string($line);
 }
+
+=item $dep->parse_string($dep_string)
+
+Parses the dependency string and modifies internal properties to match the
+parsed dependency.
+
+=cut
 
 sub parse_string {
     my ($self, $dep) = @_;
@@ -661,6 +624,15 @@ sub parse_string {
 	$self->{restrictions} = [ parse_build_profiles($6) ];
     }
 }
+
+=item $dep->output([$fh])
+
+=item "$dep"
+
+Returns a string representing the dependency. If $fh is set, it prints
+the string to the filehandle.
+
+=cut
 
 sub output {
     my ($self, $fh) = @_;
@@ -799,9 +771,14 @@ sub _restrictions_imply {
     }
 }
 
-# Returns true if the dependency in parameter can deduced from the current
-# dependency. Returns false if it can be negated. Returns undef if nothing
-# can be concluded.
+=item $dep->implies($other_dep)
+
+Returns 1 when $dep implies $other_dep. Returns 0 when $dep implies
+NOT($other_dep). Returns undef when there is no implication. $dep and
+$other_dep do not need to be of the same type.
+
+=cut
+
 sub implies {
     my ($self, $o) = @_;
     if ($o->isa('Dpkg::Deps::Simple')) {
@@ -868,14 +845,33 @@ sub implies {
     }
 }
 
+=item $dep->get_deps()
+
+Returns a list of sub-dependencies, which for this object it means it
+returns itself.
+
+=cut
+
 sub get_deps {
     my $self = shift;
     return $self;
 }
 
+=item $dep->sort()
+
+This method is a no-op for this object.
+
+=cut
+
 sub sort {
     # Nothing to sort
 }
+
+=item $dep->arch_is_concerned($arch)
+
+Returns true if the dependency applies to the indicated architecture.
+
+=cut
 
 sub arch_is_concerned {
     my ($self, $host_arch) = @_;
@@ -886,6 +882,14 @@ sub arch_is_concerned {
     return debarch_is_concerned($host_arch, @{$self->{arches}});
 }
 
+=item $dep->reduce_arch($arch)
+
+Simplifies the dependency to contain only information relevant to the given
+architecture. This object can be left empty after this operation. This trims
+off the architecture restriction list of these objects.
+
+=cut
+
 sub reduce_arch {
     my ($self, $host_arch) = @_;
     if (not $self->arch_is_concerned($host_arch)) {
@@ -894,6 +898,13 @@ sub reduce_arch {
 	$self->{arches} = undef;
     }
 }
+
+=item $dep->has_arch_restriction()
+
+Returns the package name if the dependency applies only to a subset of
+architectures.
+
+=cut
 
 sub has_arch_restriction {
     my $self = shift;
@@ -904,6 +915,12 @@ sub has_arch_restriction {
     }
 }
 
+=item $dep->profile_is_concerned()
+
+Returns true if the dependency applies to the indicated profile.
+
+=cut
+
 sub profile_is_concerned {
     my ($self, $build_profiles) = @_;
 
@@ -911,6 +928,14 @@ sub profile_is_concerned {
     return 1 if not defined $self->{restrictions}; # Dep without restrictions
     return evaluate_restriction_formula($self->{restrictions}, $build_profiles);
 }
+
+=item $dep->reduce_profiles()
+
+Simplifies the dependency to contain only information relevant to the given
+profile. This object can be left empty after this operation. This trims off
+the profile restriction list of this object.
+
+=cut
 
 sub reduce_profiles {
     my ($self, $build_profiles) = @_;
@@ -922,11 +947,30 @@ sub reduce_profiles {
     }
 }
 
+=item $dep->get_evaluation($facts)
+
+Evaluates the dependency given a list of installed packages and a list of
+virtual packages provided. These lists are part of the Dpkg::Deps::KnownFacts
+object given as parameters.
+
+Returns 1 when it's true, 0 when it's false, undef when some information
+is lacking to conclude.
+
+=cut
+
 sub get_evaluation {
     my ($self, $facts) = @_;
     return if not defined $self->{package};
     return $facts->_evaluate_simple_dep($self);
 }
+
+=item $dep->simplify_deps($facts, @assumed_deps)
+
+Simplifies the dependency as much as possible given the list of facts (see
+object Dpkg::Deps::KnownFacts) and a list of other dependencies that are
+known to be true.
+
+=cut
 
 sub simplify_deps {
     my ($self, $facts) = @_;
@@ -934,10 +978,24 @@ sub simplify_deps {
     $self->reset() if defined $eval and $eval == 1;
 }
 
+=item $dep->is_empty()
+
+Returns true if the dependency is empty and doesn't contain any useful
+information. This is true when the object has not yet been initialized.
+
+=cut
+
 sub is_empty {
     my $self = shift;
     return not defined $self->{package};
 }
+
+=item $dep->merge_union($other_dep)
+
+Returns true if $dep could be modified to represent the union of both
+dependencies. Otherwise returns false.
+
+=cut
 
 sub merge_union {
     my ($self, $o) = @_;
@@ -975,20 +1033,19 @@ sub merge_union {
     return 0;
 }
 
+=back
+
+=cut
+
 package Dpkg::Deps::Multiple;
 
-=head2 Dpkg::Deps::Multiple
+=head2 OBJECT - Dpkg::Deps::Multiple
 
-This is the base class for Dpkg::Deps::{AND,OR,Union}. It implements
-the following methods:
+This is the base class for Dpkg::Deps::{AND,OR,Union}.
+
+=head2 METHODS - Dpkg::Deps::Multiple
 
 =over 4
-
-=item $mul->add($dep)
-
-Adds a new dependency object at the end of the list.
-
-=back
 
 =cut
 
@@ -1001,6 +1058,12 @@ use Dpkg::ErrorHandling;
 
 use parent qw(Dpkg::Interface::Storable);
 
+=item $dep = Dpkg::Deps::Multiple->new(%opts);
+
+Creates a new object.
+
+=cut
+
 sub new {
     my $this = shift;
     my $class = ref($this) || $this;
@@ -1009,20 +1072,45 @@ sub new {
     return $self;
 }
 
+=item $dep->reset()
+
+Clears any dependency information stored in $dep so that $dep->is_empty()
+returns true.
+
+=cut
+
 sub reset {
     my $self = shift;
     $self->{list} = [];
 }
+
+=item $dep->add(@deps)
+
+Adds new dependency objects at the end of the list.
+
+=cut
 
 sub add {
     my $self = shift;
     push @{$self->{list}}, @_;
 }
 
+=item $dep->get_deps()
+
+Returns a list of sub-dependencies.
+
+=cut
+
 sub get_deps {
     my $self = shift;
     return grep { not $_->is_empty() } @{$self->{list}};
 }
+
+=item $dep->sort()
+
+Sorts alphabetically the internal list of dependencies.
+
+=cut
 
 sub sort {
     my $self = shift;
@@ -1030,6 +1118,13 @@ sub sort {
     @res = sort { Dpkg::Deps::deps_compare($a, $b) } @{$self->{list}};
     $self->{list} = [ @res ];
 }
+
+=item $dep->arch_is_concerned($arch)
+
+Returns true if at least one of the sub-dependencies apply to this
+architecture.
+
+=cut
 
 sub arch_is_concerned {
     my ($self, $host_arch) = @_;
@@ -1039,6 +1134,16 @@ sub arch_is_concerned {
     }
     return $res;
 }
+
+=item $dep->reduce_arch($arch)
+
+Simplifies the dependencies to contain only information relevant to the
+given architecture. The non-relevant sub-dependencies are simply removed.
+
+This trims off the architecture restriction list of Dpkg::Deps::Simple
+objects.
+
+=cut
 
 sub reduce_arch {
     my ($self, $host_arch) = @_;
@@ -1050,6 +1155,12 @@ sub reduce_arch {
     $self->{list} = [ @new ];
 }
 
+=item $dep->has_arch_restriction()
+
+Returns the list of package names that have such a restriction.
+
+=cut
+
 sub has_arch_restriction {
     my $self = shift;
     my @res;
@@ -1058,6 +1169,12 @@ sub has_arch_restriction {
     }
     return @res;
 }
+
+=item $dep->profile_is_concerned()
+
+Returns true if at least one of the sub-dependencies apply to this profile.
+
+=cut
 
 sub profile_is_concerned {
     my ($self, $build_profiles) = @_;
@@ -1068,6 +1185,15 @@ sub profile_is_concerned {
     }
     return $res;
 }
+
+=item $dep->reduce_profiles()
+
+Simplifies the dependencies to contain only information relevant to the
+given profile. The non-relevant sub-dependencies are simply removed.
+
+This trims off the profile restriction list of Dpkg::Deps::Simple objects.
+
+=cut
 
 sub reduce_profiles {
     my ($self, $build_profiles) = @_;
@@ -1080,29 +1206,43 @@ sub reduce_profiles {
     $self->{list} = [ @new ];
 }
 
+=item $dep->is_empty()
+
+Returns true if the dependency is empty and doesn't contain any useful
+information. This is true when a (descendant of) Dpkg::Deps::Multiple
+contains an empty list of dependencies.
+
+=cut
+
 sub is_empty {
     my $self = shift;
     return scalar @{$self->{list}} == 0;
 }
 
+=item $dep->merge_union($other_dep)
+
+This method is not meaningful for this object, and will always croak.
+
+=cut
+
 sub merge_union {
     croak 'method merge_union() is only valid for Dpkg::Deps::Simple';
 }
 
+=back
+
+=cut
+
 package Dpkg::Deps::AND;
 
-=head2 Dpkg::Deps::AND
+=head2 OBJECT - Dpkg::Deps::AND
 
-This object represents a list of dependencies who must be met at the same
-time.
+This object represents a list of dependencies that must be met at the same
+time. It inherits from Dpkg::Deps::Multiple.
+
+=head2 METHODS - Dpkg::Deps::AND
 
 =over 4
-
-=item $and->output([$fh])
-
-The output method uses ", " to join the list of sub-dependencies.
-
-=back
 
 =cut
 
@@ -1110,6 +1250,12 @@ use strict;
 use warnings;
 
 use parent -norequire, qw(Dpkg::Deps::Multiple);
+
+=item $dep->output([$fh])
+
+The output method uses ", " to join the list of sub-dependencies.
+
+=cut
 
 sub output {
     my ($self, $fh) = @_;
@@ -1119,6 +1265,14 @@ sub output {
     }
     return $res;
 }
+
+=item $dep->implies($other_dep)
+
+Returns 1 when $dep implies $other_dep. Returns 0 when $dep implies
+NOT($other_dep). Returns undef when there's no implication. $dep and
+$other_dep do not need to be of the same type.
+
+=cut
 
 sub implies {
     my ($self, $o) = @_;
@@ -1144,6 +1298,17 @@ sub implies {
     return;
 }
 
+=item $dep->get_evaluation($facts)
+
+Evaluates the dependency given a list of installed packages and a list of
+virtual packages provided. These lists are part of the Dpkg::Deps::KnownFacts
+object given as parameters.
+
+Returns 1 when it's true, 0 when it's false, undef when some information
+is lacking to conclude.
+
+=cut
+
 sub get_evaluation {
     my ($self, $facts) = @_;
     # Return 1 only if all members evaluates to true
@@ -1163,6 +1328,14 @@ sub get_evaluation {
     }
     return $result;
 }
+
+=item $dep->simplify_deps($facts, @assumed_deps)
+
+Simplifies the dependency as much as possible given the list of facts (see
+object Dpkg::Deps::KnownFacts) and a list of other dependencies that are
+known to be true.
+
+=cut
 
 sub simplify_deps {
     my ($self, $facts, @knowndeps) = @_;
@@ -1193,21 +1366,20 @@ WHILELOOP:
     $self->{list} = [ @new ];
 }
 
+=back
+
+=cut
 
 package Dpkg::Deps::OR;
 
-=head2 Dpkg::Deps::OR
+=head2 OBJECT - Dpkg::Deps::OR
 
 This object represents a list of dependencies of which only one must be met
-for the dependency to be true.
+for the dependency to be true. It inherits from Dpkg::Deps::Multiple.
+
+=head2 METHODS - Dpkg::Deps::OR
 
 =over 4
-
-=item $or->output([$fh])
-
-The output method uses " | " to join the list of sub-dependencies.
-
-=back
 
 =cut
 
@@ -1215,6 +1387,12 @@ use strict;
 use warnings;
 
 use parent -norequire, qw(Dpkg::Deps::Multiple);
+
+=item $dep->output([$fh])
+
+The output method uses " | " to join the list of sub-dependencies.
+
+=cut
 
 sub output {
     my ($self, $fh) = @_;
@@ -1224,6 +1402,14 @@ sub output {
     }
     return $res;
 }
+
+=item $dep->implies($other_dep)
+
+Returns 1 when $dep implies $other_dep. Returns 0 when $dep implies
+NOT($other_dep). Returns undef when there's no implication. $dep and
+$other_dep do not need to be of the same type.
+
+=cut
 
 sub implies {
     my ($self, $o) = @_;
@@ -1252,6 +1438,17 @@ sub implies {
     return;
 }
 
+=item $dep->get_evaluation($facts)
+
+Evaluates the dependency given a list of installed packages and a list of
+virtual packages provided. These lists are part of the Dpkg::Deps::KnownFacts
+object given as parameters.
+
+Returns 1 when it's true, 0 when it's false, undef when some information
+is lacking to conclude.
+
+=cut
+
 sub get_evaluation {
     my ($self, $facts) = @_;
     # Returns false if all members evaluates to 0
@@ -1271,6 +1468,14 @@ sub get_evaluation {
     }
     return $result;
 }
+
+=item $dep->simplify_deps($facts, @assumed_deps)
+
+Simplifies the dependency as much as possible given the list of facts (see
+object Dpkg::Deps::KnownFacts) and a list of other dependencies that are
+known to be true.
+
+=cut
 
 sub simplify_deps {
     my ($self, $facts) = @_;
@@ -1292,30 +1497,20 @@ WHILELOOP:
     $self->{list} = [ @new ];
 }
 
+=back
+
+=cut
+
 package Dpkg::Deps::Union;
 
-=head2 Dpkg::Deps::Union
+=head2 OBJECT - Dpkg::Deps::Union
 
-This object represents a list of relationships.
+This object represents a list of relationships. It inherits from
+Dpkg::Deps::Multiple.
+
+=head2 METHODS - Dpkg::Deps::Union
 
 =over 4
-
-=item $union->output([$fh])
-
-The output method uses ", " to join the list of relationships.
-
-=item $union->implies($other_dep)
-
-=item $union->get_evaluation($other_dep)
-
-Those methods are not meaningful for this object and always return undef.
-
-=item $union->simplify_deps($facts)
-
-The simplification is done to generate an union of all the relationships.
-It uses $simple_dep->merge_union($other_dep) to get its job done.
-
-=back
 
 =cut
 
@@ -1323,6 +1518,12 @@ use strict;
 use warnings;
 
 use parent -norequire, qw(Dpkg::Deps::Multiple);
+
+=item $dep->output([$fh])
+
+The output method uses ", " to join the list of relationships.
+
+=cut
 
 sub output {
     my ($self, $fh) = @_;
@@ -1333,15 +1534,30 @@ sub output {
     return $res;
 }
 
+=item $dep->implies($other_dep)
+
+=item $dep->get_evaluation($other_dep)
+
+These methods are not meaningful for this object and always return undef.
+
+=cut
+
 sub implies {
-    # Implication test are not useful on Union
+    # Implication test is not useful on Union.
     return;
 }
 
 sub get_evaluation {
-    # Evaluation are not useful on Union
+    # Evaluation is not useful on Union.
     return;
 }
+
+=item $dep->simplify_deps($facts)
+
+The simplification is done to generate an union of all the relationships.
+It uses $simple_dep->merge_union($other_dep) to get its job done.
+
+=cut
 
 sub simplify_deps {
     my ($self, $facts) = @_;
@@ -1358,18 +1574,20 @@ WHILELOOP:
     $self->{list} = [ @new ];
 }
 
+=back
+
+=cut
+
 package Dpkg::Deps::KnownFacts;
 
-=head2 Dpkg::Deps::KnownFacts
+=head2 OBJECT - Dpkg::Deps::KnownFacts
 
 This object represents a list of installed packages and a list of virtual
 packages provided (by the set of installed packages).
 
+=head2 METHODS - Dpkg::Deps::KnownFacts
+
 =over 4
-
-=item $facts = Dpkg::Deps::KnownFacts->new();
-
-Creates a new object.
 
 =cut
 
@@ -1377,6 +1595,12 @@ use strict;
 use warnings;
 
 use Dpkg::Version;
+
+=item $facts = Dpkg::Deps::KnownFacts->new();
+
+Creates a new object.
+
+=cut
 
 sub new {
     my $this = shift;
@@ -1445,8 +1669,6 @@ This function is obsolete and should not be used. Dpkg::Deps::KnownFacts
 is only meant to be filled with data and then passed to Dpkg::Deps
 methods where appropriate, but it should not be directly queried.
 
-=back
-
 =cut
 
 sub check_package {
@@ -1467,7 +1689,9 @@ sub check_package {
     return (0, undef);
 }
 
-## The functions below are private to Dpkg::Deps
+##
+## The functions below are private to Dpkg::Deps::KnownFacts.
+##
 
 sub _find_package {
     my ($self, $dep, $lackinfos) = @_;
@@ -1533,6 +1757,8 @@ sub _evaluate_simple_dep {
     return if $lackinfos;
     return 0;
 }
+
+=back
 
 =head1 CHANGES
 
