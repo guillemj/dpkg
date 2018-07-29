@@ -1,3 +1,8 @@
+# Copyright © 1998 Richard Braakman
+# Copyright © 1999 Darren Benham
+# Copyright © 2000 Sean 'Shaleh' Perry
+# Copyright © 2004 Frank Lichtenheld
+# Copyright © 2006 Russ Allbery
 # Copyright © 2007-2009 Raphaël Hertzog <hertzog@debian.org>
 # Copyright © 2008-2009,2012-2014 Guillem Jover <guillem@debian.org>
 #
@@ -13,14 +18,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#########################################################################
-# Several parts are inspired by lib/Dep.pm from lintian (same license)
-#
-# Copyright © 1998 Richard Braakman
-# Portions Copyright © 1999 Darren Benham
-# Portions Copyright © 2000 Sean 'Shaleh' Perry
-# Portions Copyright © 2004 Frank Lichtenheld
-# Portions Copyright © 2006 Russ Allbery
 
 package Dpkg::Deps;
 
