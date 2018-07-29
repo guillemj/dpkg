@@ -79,6 +79,12 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Control/Tests/Entry.pm \
 	Dpkg/Control/Types.pm \
 	Dpkg/Deps.pm \
+	Dpkg/Deps/AND.pm \
+	Dpkg/Deps/KnownFacts.pm \
+	Dpkg/Deps/Multiple.pm \
+	Dpkg/Deps/OR.pm \
+	Dpkg/Deps/Simple.pm \
+	Dpkg/Deps/Union.pm \
 	Dpkg/Dist/Files.pm \
 	Dpkg/ErrorHandling.pm \
 	Dpkg/Exit.pm \
