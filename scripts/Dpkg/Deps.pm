@@ -961,7 +961,7 @@ is lacking to conclude.
 sub get_evaluation {
     my ($self, $facts) = @_;
     return if not defined $self->{package};
-    return $facts->_evaluate_simple_dep($self);
+    return $facts->evaluate_simple_dep($self);
 }
 
 =item $dep->simplify_deps($facts, @assumed_deps)
@@ -1726,7 +1726,13 @@ sub _find_virtual_packages {
     return @{$self->{virtualpkg}{$pkg}};
 }
 
-sub _evaluate_simple_dep {
+=item $facts->evaluate_simple_dep()
+
+This method is private and should not be used except from within Dpkg::Deps.
+
+=cut
+
+sub evaluate_simple_dep {
     my ($self, $dep) = @_;
     my ($lackinfos, $pkg) = (0, $dep->{package});
     my $p = $self->_find_package($dep, \$lackinfos);
