@@ -100,6 +100,7 @@ sub _add_build_flags {
         },
         reproducible => {
             timeless => 1,
+            fixfilepath => 0,
             fixdebugpath => 1,
         },
         sanitize => {
@@ -205,7 +206,8 @@ sub _add_build_flags {
     my $build_path;
 
     # Mask features that might have an unsafe usage.
-    if ($use_feature{reproducible}{fixdebugpath}) {
+    if ($use_feature{reproducible}{fixfilepath} or
+        $use_feature{reproducible}{fixdebugpath}) {
         require Cwd;
 
         $build_path = $ENV{DEB_BUILD_PATH} || Cwd::cwd();
@@ -214,6 +216,7 @@ sub _add_build_flags {
         # so that we do not need to worry about escaping the characters
         # on output.
         if ($build_path =~ m/[^-+:.0-9a-zA-Z~\/_]/) {
+            $use_feature{reproducible}{fixfilepath} = 0;
             $use_feature{reproducible}{fixdebugpath} = 0;
         }
     }
@@ -223,9 +226,19 @@ sub _add_build_flags {
        $flags->append('CPPFLAGS', '-Wdate-time');
     }
 
-    # Avoid storing the build path in the debug symbols.
-    if ($use_feature{reproducible}{fixdebugpath}) {
-        my $map = '-fdebug-prefix-map=' . $build_path . '=.';
+    # Avoid storing the build path in the binaries.
+    if ($use_feature{reproducible}{fixfilepath} or
+        $use_feature{reproducible}{fixdebugpath}) {
+        my $map;
+
+        # -ffile-prefix-map is a superset of -fdebug-prefix-map, prefer it
+        # if both are set.
+        if ($use_feature{reproducible}{fixfilepath}) {
+            $map = '-ffile-prefix-map=' . $build_path . '=.';
+        } else {
+            $map = '-fdebug-prefix-map=' . $build_path . '=.';
+        }
+
         $flags->append('CFLAGS', $map);
         $flags->append('CXXFLAGS', $map);
         $flags->append('OBJCFLAGS', $map);

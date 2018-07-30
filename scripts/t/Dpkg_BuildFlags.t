@@ -66,6 +66,7 @@ my %known_features = (
     ) ],
     reproducible => [ qw(
         fixdebugpath
+        fixfilepath
         timeless
     ) ],
     sanitize => [ qw(

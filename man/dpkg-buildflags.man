@@ -476,6 +476,17 @@ This will cause warnings when the \fB__TIME__\fP, \fB__DATE__\fP and
 \fB__TIMESTAMP__\fP macros are used.
 .
 .TP
+.B fixfilepath
+This setting (disabled by default) adds
+.BI \-ffile\-prefix\-map= BUILDPATH =.
+to \fBCFLAGS\fP, \fBCXXFLAGS\fP, \fBOBJCFLAGS\fP, \fBOBJCXXFLAGS\fP,
+\fBGCJFLAGS\fP, \fBFFLAGS\fP and \fBFCFLAGS\fP where \fBBUILDPATH\fP is
+set to the top-level directory of the package being built.
+This has the effect of removing the build path from any generated file.
+
+If both \fBfixdebugpath\fP and \fBfixfilepath\fP are set, this option
+takes precedence, because it is a superset of the former.
+.TP
 .B fixdebugpath
 This setting (enabled by default) adds
 .BI \-fdebug\-prefix\-map= BUILDPATH =.
