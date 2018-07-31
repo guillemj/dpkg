@@ -78,6 +78,8 @@ protected:
   void kd_abort();
 
   methodlist();
+  methodlist(const methodlist &) = delete;
+  methodlist &operator =(const methodlist &) = delete;
   quitaction display();
   ~methodlist();
 };
