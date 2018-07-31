@@ -75,7 +75,7 @@ namespace NSB
 	public:
 	    ClassD();
 	    virtual ~ClassD();
-	    virtual void generate_vt(const char *) const;
+	    virtual void generate_vt(const char *) const override;
     };
 
     EXPORT(ClassD::ClassD());

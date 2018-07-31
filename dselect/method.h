@@ -62,15 +62,15 @@ protected:
   void itd_description();
 
   // Define these virtuals
-  void redraw1itemsel(int index, int selected);
-  void redrawcolheads();
-  void redrawthisstate();
-  void redrawinfo();
-  void redrawtitle();
-  void setwidths();
-  void setheights();
-  const char *itemname(int index);
-  const struct helpmenuentry *helpmenulist();
+  void redraw1itemsel(int index, int selected) override;
+  void redrawcolheads() override;
+  void redrawthisstate() override;
+  void redrawinfo() override;
+  void redrawtitle() override;
+  void setwidths() override;
+  void setheights() override;
+  const char *itemname(int index) override;
+  const struct helpmenuentry *helpmenulist() override;
 
  public:
   // Keybinding functions */
