@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.19.0.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-15 01:06+0200\n"
-"PO-Revision-Date: 2017-10-25 22:03+0200\n"
+"POT-Creation-Date: 2018-08-01 09:24+0200\n"
+"PO-Revision-Date: 2018-08-01 11:54+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
@@ -1883,12 +1883,12 @@ msgstr "BUGS"
 #: deb-changes.man
 msgid ""
 "The B<Files> field is inconsistent with the other B<Checksums> fields.  The "
-"B<Change-By> and B<Maintainer> fields have confusing names.  The "
+"B<Changed-By> and B<Maintainer> fields have confusing names.  The "
 "B<Distribution> field contains information about what is commonly referred "
 "to as a suite."
 msgstr ""
 "Het veld B<Files> is niet consistent met de andere B<Checksums>-velden. De "
-"velden B<Change-By> en B<Maintainer> hebben namen die verwarrend zijn. Het "
+"velden B<Changed-By> en B<Maintainer> hebben namen die verwarrend zijn. Het "
 "veld B<Distribution> bevat informatie over waar gewoonlijk met de term suite "
 "naar verwezen wordt."
 
@@ -3051,6 +3051,33 @@ msgstr ""
 #. type: TP
 #: deb-src-control.man dsc.man
 #, no-wrap
+msgid "B<Testsuite:>I< name-list>"
+msgstr "B<Testsuite:>I< namenlijst>"
+
+#. type: TP
+#: deb-src-control.man dsc.man
+#, no-wrap
+msgid "B<Testsuite-Triggers:>I< package-list>"
+msgstr "B<Testsuite-Triggers:>I< pakketlijst>"
+
+#. type: Plain text
+#: deb-src-control.man
+#, fuzzy
+#| msgid ""
+#| "These fields are described in the B<deb-control>(5)  manual page, as they "
+#| "are copied literally to the control file of the binary package."
+msgid ""
+"These fields are described in the B<dsc>(5)  manual page, as they are "
+"generated from information inferred from B<debian/tests/control> or copied "
+"literally to the source control file."
+msgstr ""
+"Deze velden worden beschreven in de man-pagina B<deb-control>(5), vermits "
+"zij letterlijk naar het controlebestand van het binaire pakket gekopieerd "
+"worden."
+
+#. type: TP
+#: deb-src-control.man dsc.man
+#, no-wrap
 msgid "B<Vcs-Arch:>I< url>"
 msgstr "B<Vcs-Arch:>I< URL>"
 
@@ -3618,8 +3645,8 @@ msgid ""
 "# this field is copied to the binary and source packages\n"
 "XBS-Upstream-Release-Status: stable\n"
 "Homepage: https://wiki.debian.org/Teams/Dpkg\n"
-"Vcs-Browser: https://anonscm.debian.org/cgit/dpkg/dpkg.git\n"
-"Vcs-Git: https://anonscm.debian.org/git/dpkg/dpkg.git\n"
+"Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git\n"
+"Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git\n"
 "Standards-Version: 3.7.3\n"
 "Build-Depends: pkg-config, debhelper (E<gt>= 4.1.81),\n"
 " libselinux1-dev (E<gt>= 1.28-4) [!linux-any]\n"
@@ -3632,8 +3659,8 @@ msgstr ""
 "# dit veld wordt gekopieerd naar het binaire en het broncodepakket\n"
 "XBS-Upstream-Release-Status: stable\n"
 "Homepage: https://wiki.debian.org/Teams/Dpkg\n"
-"Vcs-Browser: https://anonscm.debian.org/cgit/dpkg/dpkg.git\n"
-"Vcs-Git: https://anonscm.debian.org/git/dpkg/dpkg.git\n"
+"Vcs-Browser: https://git.dpkg.org/cgit/dpkg/dpkg.git\n"
+"Vcs-Git: https://git.dpkg.org/git/dpkg/dpkg.git\n"
 "Standards-Version: 3.7.3\n"
 "Build-Depends: pkg-config, debhelper (E<gt>= 4.1.81),\n"
 " libselinux1-dev (E<gt>= 1.28-4) [!linux-any]\n"
@@ -6255,12 +6282,6 @@ msgstr ""
 "versiecontrolesysteem dat gebruikt wordt om dit pakket te onderhouden. Zie "
 "B<deb-src-control>(5) voor verdere informatie."
 
-#. type: TP
-#: dsc.man
-#, no-wrap
-msgid "B<Testsuite:>I< name-list>"
-msgstr "B<Testsuite:>I< namenlijst>"
-
 #. type: Plain text
 #: dsc.man
 msgid ""
@@ -6276,12 +6297,6 @@ msgstr ""
 "I<debian/tests/control> bestaat. Indien het bestand bestaat, maar de waarde "
 "niet, dan zal B<dpkg-source> die automatisch toevoegen met behoud van de "
 "vroegere waarden."
-
-#. type: TP
-#: dsc.man
-#, no-wrap
-msgid "B<Testsuite-Triggers:>I< package-list>"
-msgstr "B<Testsuite-Triggers:>I< pakketlijst>"
 
 #. type: Plain text
 #: dsc.man
@@ -8845,8 +8860,11 @@ msgstr ""
 
 #. type: SH
 #: dpkg.man dpkg-architecture.man dpkg-buildflags.man dpkg-buildpackage.man
-#: dpkg-genbuildinfo.man dpkg-checkbuilddeps.man dpkg-deb.man dpkg-divert.man
-#: dpkg-gensymbols.man dpkg-query.man dpkg-source.man dpkg-split.man
+#: dpkg-genbuildinfo.man dpkg-checkbuilddeps.man dpkg-distaddfile.man
+#: dpkg-deb.man dpkg-divert.man dpkg-genchanges.man dpkg-gencontrol.man
+#: dpkg-gensymbols.man dpkg-maintscript-helper.man dpkg-mergechangelogs.man
+#: dpkg-name.man dpkg-parsechangelog.man dpkg-query.man dpkg-scanpackages.man
+#: dpkg-scansources.man dpkg-shlibdeps.man dpkg-source.man dpkg-split.man
 #: dpkg-statoverride.man dpkg-trigger.man dpkg-vendor.man dselect.man
 #: update-alternatives.man
 #, no-wrap
@@ -8949,19 +8967,44 @@ msgstr ""
 "van opgemaakte tekst. Wordt momenteel enkel gebruikt door B<--list>."
 
 #. type: TP
-#: dpkg.man dpkg-buildpackage.man
+#: dpkg.man dpkg-architecture.man dpkg-buildflags.man dpkg-buildpackage.man
+#: dpkg-genbuildinfo.man dpkg-checkbuilddeps.man dpkg-distaddfile.man
+#: dpkg-deb.man dpkg-divert.man dpkg-genchanges.man dpkg-gencontrol.man
+#: dpkg-gensymbols.man dpkg-maintscript-helper.man dpkg-mergechangelogs.man
+#: dpkg-name.man dpkg-parsechangelog.man dpkg-query.man dpkg-scanpackages.man
+#: dpkg-scansources.man dpkg-shlibdeps.man dpkg-source.man dpkg-split.man
+#: dpkg-statoverride.man dpkg-trigger.man dpkg-vendor.man
 #, no-wrap
 msgid "B<DPKG_COLORS>"
 msgstr "B<DPKG_COLORS>"
 
 #. type: Plain text
-#: dpkg.man dpkg-buildpackage.man
+#: dpkg.man dpkg-architecture.man dpkg-buildflags.man dpkg-buildpackage.man
+#: dpkg-genbuildinfo.man dpkg-checkbuilddeps.man dpkg-distaddfile.man
+#: dpkg-deb.man dpkg-divert.man dpkg-genchanges.man dpkg-gencontrol.man
+#: dpkg-gensymbols.man dpkg-mergechangelogs.man dpkg-name.man
+#: dpkg-parsechangelog.man dpkg-query.man dpkg-scanpackages.man
+#: dpkg-scansources.man dpkg-shlibdeps.man dpkg-source.man dpkg-split.man
+#: dpkg-statoverride.man dpkg-trigger.man dpkg-vendor.man
 msgid ""
 "Sets the color mode (since dpkg 1.18.5).  The currently accepted values are: "
 "B<auto> (default), B<always> and B<never>."
 msgstr ""
 "Stelt de kleurmodus in (sinds dpkg 1.18.5). Waarden die momenteel gebruikt "
 "mogen worden zijn: B<auto> (standaard), B<always> en B<never>."
+
+#. type: TP
+#: dpkg.man
+#, no-wrap
+msgid "B<DPKG_FRONTEND_LOCKED>"
+msgstr "B<DPKG_FRONTEND_LOCKED>"
+
+#. type: Plain text
+#: dpkg.man
+msgid ""
+"Set by a package manager frontend to notify dpkg that it should not acquire "
+"the frontend lock (since dpkg 1.19.1)."
+msgstr ""
 
 #. type: SS
 #: dpkg.man dpkg-buildpackage.man
@@ -10652,6 +10695,30 @@ msgstr ""
 "map van B<dpkg> waarin zich de architectuurtabellen bevinden (sinds dpkg "
 "1.14.17). Staat standaard ingesteld op «%PKGDATADIR%»."
 
+#. type: TP
+#: dpkg-architecture.man dpkg-buildflags.man dpkg-buildpackage.man
+#: dpkg-genbuildinfo.man dpkg-checkbuilddeps.man dpkg-distaddfile.man
+#: dpkg-genchanges.man dpkg-gencontrol.man dpkg-gensymbols.man
+#: dpkg-mergechangelogs.man dpkg-name.man dpkg-parsechangelog.man
+#: dpkg-scanpackages.man dpkg-scansources.man dpkg-shlibdeps.man
+#: dpkg-source.man dpkg-vendor.man
+#, no-wrap
+msgid "B<DPKG_NLS>"
+msgstr "B<DPKG_NLS>"
+
+#. type: Plain text
+#: dpkg-architecture.man dpkg-buildflags.man dpkg-buildpackage.man
+#: dpkg-genbuildinfo.man dpkg-checkbuilddeps.man dpkg-distaddfile.man
+#: dpkg-genchanges.man dpkg-gencontrol.man dpkg-gensymbols.man
+#: dpkg-mergechangelogs.man dpkg-name.man dpkg-parsechangelog.man
+#: dpkg-scanpackages.man dpkg-scansources.man dpkg-shlibdeps.man
+#: dpkg-source.man dpkg-vendor.man
+msgid ""
+"If set, it will be used to decide whether to activate Native Language "
+"Support, also known as internationalization (or i18n) support (since dpkg "
+"1.19.0).  The accepted values are: B<0> and B<1> (default)."
+msgstr ""
+
 #. type: Plain text
 #: dpkg-architecture.man
 msgid "All long command and option names available only since dpkg 1.17.17."
@@ -11430,12 +11497,12 @@ msgstr "B<lfs>"
 msgid ""
 "This setting (disabled by default) enables Large File Support on 32-bit "
 "architectures where their ABI does not include LFS by default, by adding B<-"
-"D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64> to B<CPPFLAGS>"
+"D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64> to B<CPPFLAGS>."
 msgstr ""
 "Deze instelling (standaard uitgezet) activeert ondersteuning voor grote "
 "bestanden (Large File Support) op 32-bits architecturen waarvan de ABI "
 "standaard geen LFS-ondersteuning biedt, door B<-D_LARGEFILE_SOURCE -"
-"D_FILE_OFFSET_BITS=64> toe te voegen aan B<CPPFLAGS>"
+"D_FILE_OFFSET_BITS=64> toe te voegen aan B<CPPFLAGS>."
 
 #. type: SS
 #: dpkg-buildflags.man
@@ -11806,17 +11873,36 @@ msgstr "B<pie>"
 
 #. type: Plain text
 #: dpkg-buildflags.man
+#, fuzzy
+#| msgid ""
+#| "This setting (with no default since dpkg 1.18.23, and injected by default "
+#| "by gcc on the amd64, arm64, armel, armhf, i386, kfreebsd-amd64, kfreebsd-"
+#| "i386, mips, mipsel, mips64el, ppc64el, s390x, sparc and sparc64 Debian "
+#| "architectures)  adds the required options via gcc specs files if needed "
+#| "to enable or disable PIE. When enabled and injected by gcc, adds nothing. "
+#| "When enabled and not injected by gcc, adds B<-fPIE> to B<CFLAGS>, "
+#| "B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and "
+#| "B<FCFLAGS>, and B<-fPIE -pie> to B<LDFLAGS>. When disabled and injected "
+#| "by gcc, adds B<-fno-PIE> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
+#| "B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>, and B<-fno-PIE -no-"
+#| "pie> to B<LDFLAGS>."
 msgid ""
-"This setting (with no default since dpkg 1.18.23, and injected by default by "
-"gcc on the amd64, arm64, armel, armhf, i386, kfreebsd-amd64, kfreebsd-i386, "
-"mips, mipsel, mips64el, ppc64el, s390x, sparc and sparc64 Debian "
-"architectures)  adds the required options via gcc specs files if needed to "
-"enable or disable PIE. When enabled and injected by gcc, adds nothing. When "
-"enabled and not injected by gcc, adds B<-fPIE> to B<CFLAGS>, B<CXXFLAGS>, "
-"B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS>, and B<-"
-"fPIE -pie> to B<LDFLAGS>. When disabled and injected by gcc, adds B<-fno-"
-"PIE> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
-"B<FFLAGS> and B<FCFLAGS>, and B<-fno-PIE -no-pie> to B<LDFLAGS>."
+"This setting (with no global default since dpkg 1.18.23, as it is enabled by "
+"default now by gcc on the amd64, arm64, armel, armhf, hurd-i386, i386, "
+"kfreebsd-amd64, kfreebsd-i386, mips, mipsel, mips64el, powerpc, ppc64, "
+"ppc64el, riscv64, s390x, sparc and sparc64 Debian architectures) adds the "
+"required options to enable or disable PIE via gcc specs files, if needed, "
+"depending on whether gcc injects on that architecture the flags by itself or "
+"not.  When the setting is enabled and gcc injects the flags, it adds "
+"nothing.  When the setting is enabled and gcc does not inject the flags, it "
+"adds B<-fPIE> (via I<%PKGDATADIR%/pie-compiler.specs>) to B<CFLAGS>, "
+"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and "
+"B<FCFLAGS>, and B<-fPIE -pie> (via I<%PKGDATADIR%/pie-link.specs>) to "
+"B<LDFLAGS>.  When the setting is disabled and gcc injects the flags, it adds "
+"B<-fno-PIE> (via I<%PKGDATADIR%/no-pie-compile.specs>) to B<CFLAGS>, "
+"B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and "
+"B<FCFLAGS>, and B<-fno-PIE -no-pie> (via I<%PKGDATADIR%/no-pie-link.specs>) "
+"to B<LDFLAGS>."
 msgstr ""
 "Deze instelling (zonder standaardinstelling sinds dpkg 1.18.23 en door gcc "
 "standaard geïnjecteerd bij de Debian architecturen amd64, arm64, armel, "
@@ -13128,15 +13214,34 @@ msgstr ""
 #. type: TP
 #: dpkg-buildpackage.man
 #, no-wrap
+msgid "B<--rules-requires-root>"
+msgstr "B<--rules-requires-root>"
+
+#. type: Plain text
+#: dpkg-buildpackage.man
+msgid ""
+"Do not honor the B<Rules-Requires-Root> field, falling back to its legacy "
+"default value (since dpkg 1.19.1)."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildpackage.man
+#, no-wrap
 msgid "B<-nc>, B<--no-pre-clean>"
 msgstr "B<-nc>, B<--no-pre-clean>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
+#, fuzzy
+#| msgid ""
+#| "Do not clean the source tree (long option since dpkg 1.18.8).  Implies B<-"
+#| "b> if nothing else has been selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-"
+#| "A> or B<-S>.  Implies B<-d> with B<-S> (since dpkg 1.18.0)."
 msgid ""
-"Do not clean the source tree (long option since dpkg 1.18.8).  Implies B<-b> "
-"if nothing else has been selected among B<-F>, B<-g>, B<-G>, B<-B>, B<-A> or "
-"B<-S>.  Implies B<-d> with B<-S> (since dpkg 1.18.0)."
+"Do not clean the source tree before building (long option since dpkg "
+"1.18.8).  Implies B<-b> if nothing else has been selected among B<-F>, B<-"
+"g>, B<-G>, B<-B>, B<-A> or B<-S>.  Implies B<-d> with B<-S> (since dpkg "
+"1.18.0)."
 msgstr ""
 "Schoon de broncodeboom niet op (de lange optie sinds dpkg 1.18.8). "
 "Impliceert B<-b> indien geen van de opties B<-F>, B<-g>, B<-G>, B<-B>, B<-A> "
@@ -13151,7 +13256,11 @@ msgstr "B<--pre-clean>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-msgid "Clean the source tree before building (since dpkg 1.18.8)."
+#, fuzzy
+#| msgid "Clean the source tree before building (since dpkg 1.18.8)."
+msgid ""
+"Clean the source tree before building (since dpkg 1.18.8).  This is the "
+"default behavior."
 msgstr "Schoon voor het bouwen de broncodeboom op (sinds dpkg 1.18.8)."
 
 #. type: TP
@@ -13168,6 +13277,25 @@ msgid ""
 msgstr ""
 "Schoon de broncodeboom op (met I<commando-om-root-te-worden> B<debian/rules "
 "clean>) nadat het pakket gebouwd werd (de lange optie sinds dpkg 1.18.8)."
+
+#. type: TP
+#: dpkg-buildpackage.man
+#, no-wrap
+msgid "B<--no-post-clean>"
+msgstr "B<--no-post-clean>"
+
+#. type: Plain text
+#: dpkg-buildpackage.man
+#, fuzzy
+#| msgid ""
+#| "This option does the inverse of B<--no-await> (since dpkg 1.17.21).  It "
+#| "is currently the default behavior."
+msgid ""
+"Do not clean the source tree after the package has been built (since dpkg "
+"1.19.1).  This is the default behavior."
+msgstr ""
+"Deze optie doet het tegenovergestelde van B<--no-await> (sinds dpkg "
+"1.17.21). Dit is momenteel het standaardgedrag."
 
 #. type: TP
 #: dpkg-buildpackage.man
@@ -13765,8 +13893,23 @@ msgstr ""
 #. type: TP
 #: dpkg-buildpackage.man
 #, no-wrap
-msgid "B<DPKG_GAIN_ROOT_CMD>"
-msgstr "B<DPKG_GAIN_ROOT_CMD>"
+msgid "B<DEB_RULES_REQUIRES_ROOT>"
+msgstr "B<DEB_RULES_REQUIRES_ROOT>"
+
+#. type: Plain text
+#: dpkg-buildpackage.man
+msgid ""
+"This variable is set to the value obtained from the B<Rules-Requires-Root> "
+"field or from the command-line.  When set, it will be a valid value for the "
+"B<Rules-Requires-Root> field.  It is used to notify B<debian/rules> whether "
+"the B<rootless-builds.txt> specification is supported."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildpackage.man
+#, no-wrap
+msgid "B<DEB_GAIN_ROOT_CMD>"
+msgstr "B<DEB_GAIN_ROOT_CMD>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
@@ -15132,8 +15275,10 @@ msgstr "[B<--add>] I<bestand>"
 
 #. type: Plain text
 #: dpkg-divert.man
-msgid "Add a diversion for I<file>."
-msgstr "Voeg voor I<bestand> een omlegging toe."
+msgid ""
+"Add a diversion for I<file>.  The file is currently not renamed, see B<--"
+"rename>."
+msgstr ""
 
 #. type: TP
 #: dpkg-divert.man
@@ -15143,8 +15288,10 @@ msgstr "B<--remove> I<bestand>"
 
 #. type: Plain text
 #: dpkg-divert.man
-msgid "Remove a diversion for I<file>."
-msgstr "Verwijder een omlegging voor I<bestand>."
+msgid ""
+"Remove a diversion for I<file>.  The file is currently not renamed, see B<--"
+"rename>."
+msgstr ""
 
 #. type: TP
 #: dpkg-divert.man
@@ -15266,12 +15413,35 @@ msgstr "B<--rename>"
 
 #. type: Plain text
 #: dpkg-divert.man
+#, fuzzy
+#| msgid ""
+#| "Actually move the file aside (or back). B<dpkg-divert> will abort "
+#| "operation in case the destination file already exists."
 msgid ""
 "Actually move the file aside (or back). B<dpkg-divert> will abort operation "
-"in case the destination file already exists."
+"in case the destination file already exists.  This is the common behavior "
+"used for diversions of files from the non-B<Essential> package set (see B<--"
+"no-rename> for more details)."
 msgstr ""
 "Zet het bestand effectief uit de weg (of terug). B<dpkg-divert> zal de "
 "bewerking afbreken indien het doelbestand reeds bestaat."
+
+#. type: TP
+#: dpkg-divert.man
+#, no-wrap
+msgid "B<--no-rename>"
+msgstr "B<--no-rename>"
+
+#. type: Plain text
+#: dpkg-divert.man
+msgid ""
+"Specifies that the file should not be renamed while adding or removing the "
+"diversion into the database (since dpkg 1.19.1).  This is intended for "
+"diversions of files from the B<Essential> package set, where the temporary "
+"disappearance of the original file is not acceptable, as it can render the "
+"system non-functional.  This is the default behavior, but that will change "
+"in the dpkg 1.20.x cycle."
+msgstr ""
 
 #. type: TP
 #: dpkg-divert.man
@@ -17910,6 +18080,19 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-maintscript-helper.man
+#, fuzzy
+#| msgid ""
+#| "Sets the color mode (since dpkg 1.18.5).  The currently accepted values "
+#| "are: B<auto> (default), B<always> and B<never>."
+msgid ""
+"Sets the color mode (since dpkg 1.19.1).  The currently accepted values are: "
+"B<auto> (default), B<always> and B<never>."
+msgstr ""
+"Stelt de kleurmodus in (sinds dpkg 1.18.5). Waarden die momenteel gebruikt "
+"mogen worden zijn: B<auto> (standaard), B<always> en B<never>."
+
+#. type: Plain text
+#: dpkg-maintscript-helper.man
 msgid "B<dh_installdeb>(1)."
 msgstr "B<dh_installdeb>(1)."
 
@@ -19347,13 +19530,24 @@ msgstr ""
 #. type: TP
 #: dpkg-query.man
 #, no-wrap
+msgid "B<binary:Synopsis>"
+msgstr "B<binary:Synopsis>"
+
+#. type: Plain text
+#: dpkg-query.man
+msgid "It contains the package short description (since dpkg 1.19.1)."
+msgstr "Het bevat de korte beschrijving van het pakket (sinds dpkg 1.19.1)."
+
+#. type: TP
+#: dpkg-query.man
+#, no-wrap
 msgid "B<binary:Summary>"
 msgstr "B<binary:Summary>"
 
 #. type: Plain text
 #: dpkg-query.man
-msgid "It contains the package short description (since dpkg 1.16.2)."
-msgstr "Het bevat de korte beschrijving van het pakket (sinds dpkg 1.16.2)."
+msgid "This is an alias for B<binary:Synopsis> (since dpkg 1.16.2)."
+msgstr ""
 
 #. type: TP
 #: dpkg-query.man
@@ -26703,6 +26897,12 @@ msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
 "B<ln>(1), FHS, the Filesystem Hierarchy Standard. (Standaardisatie van "
 "bestandsorganisatie en mappenstructuur op unix-achtige systemen)"
+
+#~ msgid "Add a diversion for I<file>."
+#~ msgstr "Voeg voor I<bestand> een omlegging toe."
+
+#~ msgid "Remove a diversion for I<file>."
+#~ msgstr "Verwijder een omlegging voor I<bestand>."
 
 #~ msgid ""
 #~ "These fields declare relationships between packages. They are discussed "
