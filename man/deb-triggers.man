@@ -43,9 +43,17 @@ The trigger control directives currently supported are:
 .IP
 Specifies that the package is interested in the named trigger. All
 triggers in which a package is interested must be listed using this
-directive in the triggers control file. The “noawait” variant does
-not put the triggering packages in triggers\-awaited state. This should
-be used when the functionality provided by the trigger is not crucial.
+directive in the triggers control file.
+.IP
+The “await” variants put the triggering package in triggers\-awaited
+state depending on how the trigger was activated.
+The “noawait” variant does not put the triggering packages in
+triggers\-awaited state, even if the triggering package declared an
+“await” activation (either with an \fBactivate\-await\fP or \fBactivate\fP
+directive, or by using the \fBdpkg\-trigger\fP \fB\-\-no\-await\fP
+command-line option).
+The “noawait” variant should be used when the functionality provided
+by the trigger is not crucial.
 .TP
 \fBactivate\fP \fItrigger-name\fP
 .TQ
@@ -57,9 +65,13 @@ Arranges that changes to this package's state will activate the
 specified trigger. The trigger will be activated at the start of
 the following operations: unpack, configure, remove (including for
 the benefit of a conflicting package), purge and deconfigure.
-The “noawait” variant does not put the triggering packages in
-triggers\-awaited state. This should be used when the functionality
-provided by the trigger is not crucial.
+.IP
+The “await” variants only put the triggering package in triggers\-awaited
+state if the interest directive is also “await”.
+The “noawait” variant never puts the triggering packages in
+triggers\-awaited state.
+The “noawait” variant should be used when the functionality provided
+by the trigger is not crucial.
 .IP
 If this package disappears during the unpacking of another package
 the trigger will be activated when the disappearance is noted
@@ -83,6 +95,13 @@ will lead to errors if used with an older dpkg.
 .PP
 The “\-await” alias variants are supported since dpkg 1.17.21, and
 will lead to errors if used with an older dpkg.
+.PP
+When a package provides an \fBinterest\-noawait\fP directive, any activation
+will set the triggering package into “noawait” mode, regardless of the
+awaiting mode requested by the activation (either “await” or “noawait”).
+When a package provides an \fBinterest\fP or \fBinterest\-await\fP directive,
+any activation will set the triggering package into “await” or “noawait“
+depending on how it was activated.
 .
 .SH SEE ALSO
 .BR dpkg\-trigger (1),
