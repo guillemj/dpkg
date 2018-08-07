@@ -10,7 +10,7 @@
 # Deng Xiyue <manphiz-guest@users.alioth.debian.org>, 2007, 2008, 2009.
 # Aron Xu <happyaron.xu@gmail.com>, 2009, 2010.
 # Zhou Mo <cdluminate@gmail.com>, 2014, 2015, 2016, 2017, 2018.
-# Boyuan Yang <073plan@gmail.com>, 2017.
+# Boyuan Yang <073plan@gmail.com>, 2017, 2018.
 #
 # TODO <cdluminate@gmail.com>
 #  1 flush 刷新? 清空?
@@ -18,10 +18,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.19.x\n"
+"Project-Id-Version: dpkg 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2017-10-17 01:57+0200\n"
-"PO-Revision-Date: 2018-06-01 08:00+0000\n"
+"PO-Revision-Date: 2018-08-12 13:18+0200\n"
 "Last-Translator: Mo Zhou <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
 "Language: zh_CN\n"
@@ -29,10 +29,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: lib/dpkg/ar.c
 msgid "failed to fstat archive"
-msgstr "fstat 归档失败"
+msgstr "在包文件上执行 fstat 失败"
 
 #: lib/dpkg/ar.c
 #, c-format
@@ -413,11 +414,11 @@ msgstr "无法安装 %.250s 的新状态"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with too big major component"
-msgstr "格式版本的主版本过大"
+msgstr "格式版本的主版本部分过大"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty major component"
-msgstr "格式版本的主版本为空"
+msgstr "格式版本的主版本部分为空"
 
 #: lib/dpkg/deb-version.c
 msgid "format version has no dot"
@@ -425,11 +426,11 @@ msgstr "格式版本没有点号"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with too big minor component"
-msgstr "格式版本的次版本过大"
+msgstr "格式版本的次版本部分过大"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with empty minor component"
-msgstr "格式版本的次版本为空"
+msgstr "格式版本的次版本部分为空"
 
 #: lib/dpkg/deb-version.c
 msgid "format version followed by junk"
@@ -1252,7 +1253,7 @@ msgstr "%s 子进程被中断"
 #: lib/dpkg/subproc.c
 #, c-format
 msgid "%s subprocess was killed by signal (%s)%s"
-msgstr "%s 子进程被信号 (%s)%s 终止了"
+msgstr "%s 子进程被信号(%s)%s 终止了"
 
 #: lib/dpkg/subproc.c
 msgid ", core dumped"
@@ -4903,7 +4904,7 @@ msgid ""
 " size %jd bytes: control archive=%jd bytes.\n"
 msgstr ""
 " 新格式的 Debian 软件包，格式版本 %d.%d。\n"
-" 大小 %jd 字节：控制档案=%jd 字节。\n"
+" 大小 %jd 字节：主控包=%jd 字节。\n"
 
 #: dpkg-deb/extract.c
 msgid "archive control member size"
@@ -4926,7 +4927,7 @@ msgid ""
 " size %jd bytes: control archive=%jd, main archive=%jd.\n"
 msgstr ""
 " 旧格式的 Debian 软件包，版本 %d.%d。\n"
-" 大小 %jd 字节：控制档案= %jd 字节，数据及程序包= %jd。\n"
+" 大小 %jd 字节：主控包= %jd 字节，数据及程序包= %jd。\n"
 
 #: dpkg-deb/extract.c
 msgid ""
@@ -5139,18 +5140,19 @@ msgid ""
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
 msgstr ""
-"Options:\n"
+"选项：\n"
 "  -v, --详细                       启用详细输出。\n"
 "  -D, --debug                      启用调试信息输出。\n"
 "      --showformat=<格式>          对 --show 使用备用的输出格式。\n"
 "      --deb-format=<格式>          选择归档格式。\n"
 "                                   允许的值： 0.939000, 2.0 (默认)\n"
 "      --nocheck                    阻止控制文件的检查。(构建坏的软件包)\n"
-"      --[no-]uniform-compression     在所有成员上使用压缩参数。\n"
-"  -z#                              设置建档使用的压缩级别。\n"
-"  -Z<类型>                         设置建档使用的压缩类型。\n"
+"      --root-owner-group           强制设置文件属主和属组为 root。\n"
+"      --[no-]uniform-compression   在所有成员上使用压缩参数。\n"
+"  -z#                              设置构建时使用的压缩级别。\n"
+"  -Z<类型>                         设置构建时使用的压缩类型。\n"
 "                                     可用的类型: gzip, xz, bzip2, none.\n"
-"  -S<策略>                         设置建档时使用的压缩策略。\n"
+"  -S<策略>                         设置构建时使用的压缩策略。\n"
 "                                     可用的值: none; extreme (xz);\n"
 "                                     filtered, huffman, rle, fixed (gzip).\n"
 "\n"
@@ -6232,7 +6234,7 @@ msgstr "要恢复成自动更新请执行 %s --auto %s。"
 
 #: utils/update-alternatives.polkit.in
 msgid "Run update-alternatives to modify system alternative selections"
-msgstr "通过 update-alternatives 来调整系统的可替代项设置"
+msgstr "运行 update-alternatives 工具以修改系统可选项的选择情况"
 
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
