@@ -33,7 +33,7 @@ endif
 ifeq ($(DEB_HOST_ARCH_OS),linux)
 	confflags += --with-libselinux
 endif
-ifeq (,$(filter maintainer-build,$(DEB_BUILD_OPTIONS)))
+ifeq (,$(filter terse,$(DEB_BUILD_OPTIONS)))
 	confflags += --disable-silent-rules
 endif
 
