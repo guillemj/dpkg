@@ -83,7 +83,7 @@ check: build
 	dh_testdir
 
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	cd build-tree && $(MAKE) VERBOSE=1 TESTSUITEFLAGS=--verbose \
+	cd build-tree && $(MAKE) TESTSUITEFLAGS=--verbose \
 	                         TEST_PARALLEL=$(NUMJOBS) check
 endif
 
