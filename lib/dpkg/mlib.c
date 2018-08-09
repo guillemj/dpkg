@@ -110,6 +110,19 @@ m_asprintf(char **strp, const char *fmt, ...)
   return n;
 }
 
+int
+m_dup(int oldfd)
+{
+  int newfd;
+
+  newfd = dup(oldfd);
+  if (newfd >= 0)
+    return newfd;
+
+  onerr_abort++;
+  ohshite(_("failed to dup for fd %d"), oldfd);
+}
+
 void m_dup2(int oldfd, int newfd) {
   const char *const stdstrings[]= { "in", "out", "err" };
 
