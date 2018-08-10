@@ -474,10 +474,9 @@ enqperpackage(const char *const *argv)
 
     if (*argv != NULL)
       putchar('\n');
-
-    m_output(stdout, _("<standard output>"));
   }
 
+  m_output(stdout, _("<standard output>"));
   if (failures) {
     fputs(_("Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
          "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"),stderr);
