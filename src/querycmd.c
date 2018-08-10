@@ -389,7 +389,87 @@ searchfiles(const char *const *argv)
 }
 
 static int
-enqperpackage(const char *const *argv)
+print_status(const char *const *argv)
+{
+  const char *thisarg;
+  struct pkginfo *pkg;
+  int failures = 0;
+
+  if (!*argv)
+    badusage(_("--%s needs at least one package name argument"), cipaction->olong);
+
+  modstatdb_open(msdbrw_readonly);
+
+  while ((thisarg = *argv++) != NULL) {
+    pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
+
+    if (pkg->status == PKG_STAT_NOTINSTALLED &&
+        pkg->priority == PKG_PRIO_UNKNOWN &&
+        str_is_unset(pkg->section) &&
+        !pkg->archives &&
+        pkg->want == PKG_WANT_UNKNOWN &&
+        !pkg_is_informative(pkg, &pkg->installed)) {
+      notice(_("package '%s' is not installed and no information is available"),
+             pkg_name(pkg, pnaw_nonambig));
+      failures++;
+    } else {
+      writerecord(stdout, _("<standard output>"), pkg, &pkg->installed);
+    }
+
+    if (*argv != NULL)
+      putchar('\n');
+  }
+
+  m_output(stdout, _("<standard output>"));
+  if (failures) {
+    fputs(_("Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"),
+          stderr);
+    m_output(stderr, _("<standard error>"));
+  }
+
+  modstatdb_shutdown();
+
+  return failures;
+}
+
+static int
+print_avail(const char *const *argv)
+{
+  const char *thisarg;
+  struct pkginfo *pkg;
+  int failures = 0;
+
+  if (!*argv)
+    badusage(_("--%s needs at least one package name argument"), cipaction->olong);
+
+  modstatdb_open(msdbrw_readonly | msdbrw_available_readonly);
+
+  while ((thisarg = *argv++) != NULL) {
+    pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
+
+    if (!pkg_is_informative(pkg, &pkg->available)) {
+      notice(_("package '%s' is not available"),
+             pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
+      failures++;
+    } else {
+      writerecord(stdout, _("<standard output>"), pkg, &pkg->available);
+    }
+
+    if (*argv != NULL)
+      putchar('\n');
+  }
+
+  m_output(stdout, _("<standard output>"));
+  if (failures)
+    m_output(stderr, _("<standard error>"));
+
+  modstatdb_shutdown();
+
+  return failures;
+}
+
+static int
+list_files(const char *const *argv)
 {
   const char *thisarg;
   struct fileinlist *file;
@@ -400,76 +480,44 @@ enqperpackage(const char *const *argv)
   if (!*argv)
     badusage(_("--%s needs at least one package name argument"), cipaction->olong);
 
-  if (cipaction->arg_int == act_printavail)
-    modstatdb_open(msdbrw_readonly | msdbrw_available_readonly);
-  else
-    modstatdb_open(msdbrw_readonly);
+  modstatdb_open(msdbrw_readonly);
 
   while ((thisarg = *argv++) != NULL) {
     pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
 
-    switch (cipaction->arg_int) {
-    case act_status:
-      if (pkg->status == PKG_STAT_NOTINSTALLED &&
-          pkg->priority == PKG_PRIO_UNKNOWN &&
-          str_is_unset(pkg->section) &&
-          !pkg->archives &&
-          pkg->want == PKG_WANT_UNKNOWN &&
-          !pkg_is_informative(pkg, &pkg->installed)) {
-        notice(_("package '%s' is not installed and no information is available"),
-               pkg_name(pkg, pnaw_nonambig));
-        failures++;
-      } else {
-        writerecord(stdout, _("<standard output>"), pkg, &pkg->installed);
-      }
-      break;
-    case act_printavail:
-      if (!pkg_is_informative(pkg, &pkg->available)) {
-        notice(_("package '%s' is not available"),
-               pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
-        failures++;
-      } else {
-        writerecord(stdout, _("<standard output>"), pkg, &pkg->available);
-      }
-      break;
-    case act_listfiles:
-      switch (pkg->status) {
-      case PKG_STAT_NOTINSTALLED:
-        notice(_("package '%s' is not installed"),
-               pkg_name(pkg, pnaw_nonambig));
-        failures++;
-        break;
-      default:
-        ensure_packagefiles_available(pkg);
-        ensure_diversions();
-        file = pkg->files;
-        if (!file) {
-          printf(_("Package '%s' does not contain any files (!)\n"),
-                 pkg_name(pkg, pnaw_nonambig));
-        } else {
-          while (file) {
-            namenode= file->namenode;
-            puts(namenode->name);
-            if (namenode->divert && !namenode->divert->camefrom) {
-              if (!namenode->divert->pkgset)
-		printf(_("locally diverted to: %s\n"),
-		       namenode->divert->useinstead->name);
-              else if (pkg->set == namenode->divert->pkgset)
-		printf(_("package diverts others to: %s\n"),
-		       namenode->divert->useinstead->name);
-              else
-		printf(_("diverted by %s to: %s\n"),
-		       namenode->divert->pkgset->name,
-		       namenode->divert->useinstead->name);
-            }
-            file= file->next;
-          }
-        }
-        break;
-      }
+    switch (pkg->status) {
+    case PKG_STAT_NOTINSTALLED:
+      notice(_("package '%s' is not installed"),
+             pkg_name(pkg, pnaw_nonambig));
+      failures++;
       break;
     default:
-      internerr("unknown action '%d'", cipaction->arg_int);
+      ensure_packagefiles_available(pkg);
+      ensure_diversions();
+      file = pkg->files;
+      if (!file) {
+        printf(_("Package '%s' does not contain any files (!)\n"),
+               pkg_name(pkg, pnaw_nonambig));
+      } else {
+        while (file) {
+          namenode = file->namenode;
+          puts(namenode->name);
+          if (namenode->divert && !namenode->divert->camefrom) {
+            if (!namenode->divert->pkgset)
+              printf(_("locally diverted to: %s\n"),
+                     namenode->divert->useinstead->name);
+            else if (pkg->set == namenode->divert->pkgset)
+              printf(_("package diverts others to: %s\n"),
+                     namenode->divert->useinstead->name);
+            else
+              printf(_("diverted by %s to: %s\n"),
+                     namenode->divert->pkgset->name,
+                     namenode->divert->useinstead->name);
+          }
+          file = file->next;
+        }
+      }
+      break;
     }
 
     if (*argv != NULL)
@@ -478,10 +526,11 @@ enqperpackage(const char *const *argv)
 
   m_output(stdout, _("<standard output>"));
   if (failures) {
-    fputs(_("Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-         "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"),stderr);
+    fputs(_("Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"),
+             stderr);
     m_output(stderr, _("<standard error>"));
   }
+
   modstatdb_shutdown();
 
   return failures;
@@ -767,9 +816,9 @@ static const char *admindir;
  * The action entries are made with the ACTION macro, as they all
  * have a very similar structure. */
 static const struct cmdinfo cmdinfos[]= {
-  ACTION( "listfiles",                      'L', act_listfiles,     enqperpackage   ),
-  ACTION( "status",                         's', act_status,        enqperpackage   ),
-  ACTION( "print-avail",                    'p', act_printavail,    enqperpackage   ),
+  ACTION( "listfiles",                      'L', act_listfiles,     list_files      ),
+  ACTION( "status",                         's', act_status,        print_status    ),
+  ACTION( "print-avail",                    'p', act_printavail,    print_avail     ),
   ACTION( "list",                           'l', act_listpackages,  listpackages    ),
   ACTION( "search",                         'S', act_searchfiles,   searchfiles     ),
   ACTION( "show",                           'W', act_listpackages,  showpackages    ),
