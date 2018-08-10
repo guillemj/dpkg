@@ -492,7 +492,7 @@ writerecord(FILE *file, const char *filename,
 }
 
 void
-writedb(const char *filename, enum writedb_flags flags)
+writedb_records(FILE *fp, const char *filename, enum writedb_flags flags)
 {
   static char writebuf[8192];
 
@@ -500,14 +500,11 @@ writedb(const char *filename, enum writedb_flags flags)
   struct pkginfo *pkg;
   struct pkgbin *pkgbin;
   const char *which;
-  struct atomic_file *file;
   struct varbuf vb = VARBUF_INIT;
 
   which = (flags & wdb_dump_available) ? "available" : "status";
 
-  file = atomic_file_new(filename, ATOMIC_FILE_BACKUP);
-  atomic_file_open(file);
-  if (setvbuf(file->fp, writebuf, _IOFBF, sizeof(writebuf)))
+  if (setvbuf(fp, writebuf, _IOFBF, sizeof(writebuf)))
     ohshite(_("unable to set buffering on %s database file"), which);
 
   iter = pkg_db_iter_new();
@@ -519,13 +516,25 @@ writedb(const char *filename, enum writedb_flags flags)
     varbufrecord(&vb, pkg, pkgbin);
     varbuf_add_char(&vb, '\n');
     varbuf_end_str(&vb);
-    if (fputs(vb.buf, file->fp) < 0)
+    if (fputs(vb.buf, fp) < 0)
       ohshite(_("failed to write %s database record about '%.50s' to '%.250s'"),
               which, pkgbin_name(pkg, pkgbin, pnaw_nonambig), filename);
     varbuf_reset(&vb);
   }
   pkg_db_iter_free(iter);
   varbuf_destroy(&vb);
+}
+
+void
+writedb(const char *filename, enum writedb_flags flags)
+{
+  struct atomic_file *file;
+
+  file = atomic_file_new(filename, ATOMIC_FILE_BACKUP);
+  atomic_file_open(file);
+
+  writedb_records(file->fp, filename, flags);
+
   if (flags & wdb_must_sync)
     atomic_file_sync(file);
 

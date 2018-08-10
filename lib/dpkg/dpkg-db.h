@@ -436,6 +436,7 @@ enum writedb_flags {
   wdb_must_sync			= DPKG_BIT(1),
 };
 
+void writedb_records(FILE *fp, const char *filename, enum writedb_flags flags);
 void writedb(const char *filename, enum writedb_flags flags);
 
 /* Note: The varbufs must have been initialized and will not be
