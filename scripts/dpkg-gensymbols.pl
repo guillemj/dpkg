@@ -63,6 +63,7 @@ sub usage {
 'Usage: %s [<option>...]')
     . "\n\n" . g_(
 'Options:
+  -l<library-path>         add directory to private shared library search list.
   -p<package>              generate symbols file for package.
   -P<package-build-dir>    temporary build directory instead of debian/tmp.
   -e<library>              explicitly list libraries to scan.
@@ -97,6 +98,8 @@ while (@ARGV) {
 	$oppackage = ${^POSTMATCH};
 	my $err = pkg_name_is_illegal($oppackage);
 	error(g_("illegal package name '%s': %s"), $oppackage, $err) if $err;
+    } elsif (m/^-l(.*)$/) {
+        Dpkg::Shlibs::add_library_dir($1);
     } elsif (m/^-c(\d)?$/) {
 	$compare = $1 // 1;
     } elsif (m/^-q$/) {

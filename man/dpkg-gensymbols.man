@@ -436,6 +436,17 @@ the \fBFile::Glob\fP(3perl) manual page for details) in \fIlibrary-file\fR
 to match multiple libraries with a single argument (otherwise you need
 multiple \fB\-e\fR).
 .TP
+.BI \-l directory
+Prepend
+.I directory
+to the list of directories to search for private shared libraries
+(since dpkg 1.19.1). This option can be used multiple times.
+
+Note: Use this option instead of setting \fBLD_LIBRARY_PATH\fP,
+as that environment variable is used to control the run-time linker
+and abusing it to set the shared library paths at build-time can be
+problematic when cross-compiling for example.
+.TP
 .BI \-I filename
 Use \fIfilename\fR as reference file to generate the symbols file
 that is integrated in the package itself.
