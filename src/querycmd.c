@@ -395,29 +395,30 @@ print_status(const char *const *argv)
   struct pkginfo *pkg;
   int failures = 0;
 
-  if (!*argv)
-    badusage(_("--%s needs at least one package name argument"), cipaction->olong);
-
   modstatdb_open(msdbrw_readonly);
 
-  while ((thisarg = *argv++) != NULL) {
-    pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
+  if (!*argv) {
+    writedb_records(stdout, _("<standard output>"), 0);
+  } else {
+    while ((thisarg = *argv++) != NULL) {
+      pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
 
-    if (pkg->status == PKG_STAT_NOTINSTALLED &&
-        pkg->priority == PKG_PRIO_UNKNOWN &&
-        str_is_unset(pkg->section) &&
-        !pkg->archives &&
-        pkg->want == PKG_WANT_UNKNOWN &&
-        !pkg_is_informative(pkg, &pkg->installed)) {
-      notice(_("package '%s' is not installed and no information is available"),
-             pkg_name(pkg, pnaw_nonambig));
-      failures++;
-    } else {
-      writerecord(stdout, _("<standard output>"), pkg, &pkg->installed);
+      if (pkg->status == PKG_STAT_NOTINSTALLED &&
+          pkg->priority == PKG_PRIO_UNKNOWN &&
+          str_is_unset(pkg->section) &&
+          !pkg->archives &&
+          pkg->want == PKG_WANT_UNKNOWN &&
+          !pkg_is_informative(pkg, &pkg->installed)) {
+        notice(_("package '%s' is not installed and no information is available"),
+               pkg_name(pkg, pnaw_nonambig));
+        failures++;
+      } else {
+        writerecord(stdout, _("<standard output>"), pkg, &pkg->installed);
+      }
+
+      if (*argv != NULL)
+        putchar('\n');
     }
-
-    if (*argv != NULL)
-      putchar('\n');
   }
 
   m_output(stdout, _("<standard output>"));
@@ -439,24 +440,25 @@ print_avail(const char *const *argv)
   struct pkginfo *pkg;
   int failures = 0;
 
-  if (!*argv)
-    badusage(_("--%s needs at least one package name argument"), cipaction->olong);
-
   modstatdb_open(msdbrw_readonly | msdbrw_available_readonly);
 
-  while ((thisarg = *argv++) != NULL) {
-    pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
+  if (!*argv) {
+    writedb_records(stdout, _("<standard output>"), wdb_dump_available);
+  } else {
+    while ((thisarg = *argv++) != NULL) {
+      pkg = dpkg_options_parse_pkgname(cipaction, thisarg);
 
-    if (!pkg_is_informative(pkg, &pkg->available)) {
-      notice(_("package '%s' is not available"),
-             pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
-      failures++;
-    } else {
-      writerecord(stdout, _("<standard output>"), pkg, &pkg->available);
+      if (!pkg_is_informative(pkg, &pkg->available)) {
+        notice(_("package '%s' is not available"),
+               pkgbin_name(pkg, &pkg->available, pnaw_nonambig));
+        failures++;
+      } else {
+        writerecord(stdout, _("<standard output>"), pkg, &pkg->available);
+      }
+
+      if (*argv != NULL)
+        putchar('\n');
     }
-
-    if (*argv != NULL)
-      putchar('\n');
   }
 
   m_output(stdout, _("<standard output>"));
@@ -768,16 +770,16 @@ usage(const struct cmdinfo *ci, const char *value)
 
   printf(_(
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"));
 

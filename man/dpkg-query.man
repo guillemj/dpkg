@@ -95,11 +95,14 @@ having the name (extended with the architecture qualifier for
 \fBMulti\-Arch\fP \fBsame\fP packages) and installed version of the package,
 separated by a tab.
 .TP
-.BR \-s ", " \-\-status " \fIpackage-name\fP..."
+.BR \-s ", " \-\-status " [\fIpackage-name\fP...]"
 Report status of specified package. This just displays the entry in
-the installed package status database. When multiple \fIpackage-name\fP
-are listed, the requested status entries are separated by an empty line,
-with the same order as specified on the argument list.
+the installed package status database.
+If no \fIpackage-name\fP is specified it will display all package entries
+in the status database (since dpkg 1.19.1).
+When multiple \fIpackage-name\fP entries are listed, the requested status
+entries are separated by an empty line, with the same order as specified
+on the argument list.
 .TP
 .BR \-L ", " \-\-listfiles " \fIpackage-name\fP..."
 List files installed to your system from \fIpackage-name\fP. When multiple
@@ -148,11 +151,13 @@ handled like a glob pattern, otherwise any trailing ‘\fB/\fP’ or
 This command will not list extra files created by maintainer scripts,
 nor will it list alternatives.
 .TP
-.BR \-p ", " \-\-print\-avail " \fIpackage-name\fP..."
-Display details about \fIpackage-name\fP, as found in
-\fI%ADMINDIR%/available\fP. When multiple \fIpackage-name\fP are
-listed, the requested \fIavailable\fP entries are separated by an empty
-line, with the same order as specified on the argument list.
+.BR \-p ", " \-\-print\-avail " [\fIpackage-name\fP...]"
+Display details about packages, as found in \fI%ADMINDIR%/available\fP.
+If no \fIpackage-name\fP is specified, it will display all package entries
+in the \fIavailable\fP database (since dpkg 1.19.1).
+When multiple \fIpackage-name\fP are listed, the requested \fIavailable\fP
+entries are separated by an empty line, with the same order as specified
+on the argument list.
 
 Users of APT-based frontends
 should use \fBapt\-cache show\fP \fIpackage-name\fP instead
