@@ -73,7 +73,7 @@ sub fixperms {
 
 # Only change the pathname permissions if they differ from the desired.
 #
-# To be able to build a source tree, a user needs write permisions on it,
+# To be able to build a source tree, a user needs write permissions on it,
 # but not necessarily ownership of those files.
 sub chmod_if_needed {
     my ($newperms, $pathname) = @_;

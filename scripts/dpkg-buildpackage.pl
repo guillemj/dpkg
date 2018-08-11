@@ -629,7 +629,7 @@ if ($signsource) {
         error(g_('failed to sign %s file'), '.dsc');
     }
 
-    # Recompute the checksums as the .dsc have changed now.
+    # Recompute the checksums as the .dsc has changed now.
     my $buildinfo = Dpkg::Control->new(type => CTRL_FILE_BUILDINFO);
     $buildinfo->load("../$pva.buildinfo");
     my $checksums = Dpkg::Checksums->new();
@@ -731,7 +731,7 @@ sub parse_rules_requires_root {
         setup_rootcommand();
     }
 
-    # Notify the childs we do support R³.
+    # Notify the children we do support R³.
     $ENV{DEB_RULES_REQUIRES_ROOT} = join ' ', sort keys %rrr;
 
     if ($keywords_base > 1 or $keywords_base and $keywords_impl) {

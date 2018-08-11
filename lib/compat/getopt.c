@@ -88,7 +88,7 @@ USA.  */
 #endif
 
 /* XXX: Disable intl support, because we do not carry the translations anyway
- * and this pulls indirectly libintl, wich we do not want to impose. */
+ * and this pulls indirectly libintl, which we do not want to impose. */
 #ifndef _
 #define _(msgid)	(msgid)
 #endif
