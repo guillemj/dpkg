@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * pkg-format.c - customizable package formatting
+ * pkg-format.g - customizable package formatting
  *
  * Copyright © 2001 Wichert Akkerman <wakkerma@debian.org>
  *

@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * ar.c - primitives for ar handling
+ * ar.h - primitives for ar handling
  *
  * Copyright © 2010 Guillem Jover <guillem@debian.org>
  *

@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * t-verbuf.c - test varbuf implementation
+ * t-varbuf.c - test varbuf implementation
  *
  * Copyright © 2009-2011, 2013-2015 Guillem Jover <guillem@debian.org>
  *

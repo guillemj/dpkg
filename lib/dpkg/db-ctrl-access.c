@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * infodb.c - package control information database
+ * db-ctrl-access.c - package control information database
  *
  * Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
  * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>

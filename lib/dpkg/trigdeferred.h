@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * trigdeferred.h - parsing of triggers/Deferred
+ * trigdeferred.h - parsing of triggers/Unincorp (was …/Deferred)
  *
  * Copyright © 2007 Canonical, Ltd.
  *   written by Ian Jackson <ijackson@chiark.greenend.org.uk>

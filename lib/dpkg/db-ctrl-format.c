@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * infodb-format.c - package control information database format
+ * db-ctrl-format.c - package control information database format
  *
  * Copyright © 2011-2014 Guillem Jover <guillem@debian.org>
  *

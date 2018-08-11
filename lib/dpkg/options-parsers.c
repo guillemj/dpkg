@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * options-helper.c - command-line options parser helpers
+ * options-parsers.c - command-line options parser helpers
  *
  * Copyright © 2014 Guillem Jover <guillem@debian.org>
  *
