@@ -40,6 +40,8 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/pkg-array.h>
+#include <dpkg/pkg-show.h>
 #include <dpkg/string.h>
 #include <dpkg/dir.h>
 #include <dpkg/parsedump.h>
@@ -496,23 +498,29 @@ writedb_records(FILE *fp, const char *filename, enum writedb_flags flags)
 {
   static char writebuf[8192];
 
-  struct pkgiterator *iter;
+  struct pkg_array array;
   struct pkginfo *pkg;
   struct pkgbin *pkgbin;
   const char *which;
   struct varbuf vb = VARBUF_INIT;
+  int i;
 
   which = (flags & wdb_dump_available) ? "available" : "status";
 
   if (setvbuf(fp, writebuf, _IOFBF, sizeof(writebuf)))
     ohshite(_("unable to set buffering on %s database file"), which);
 
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter)) != NULL) {
+  pkg_array_init_from_db(&array);
+  pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
+
+  for (i = 0; i < array.n_pkgs; i++) {
+    pkg = array.pkgs[i];
     pkgbin = (flags & wdb_dump_available) ? &pkg->available : &pkg->installed;
+
     /* Don't dump records which have no useful content. */
     if (!pkg_is_informative(pkg, pkgbin))
       continue;
+
     varbufrecord(&vb, pkg, pkgbin);
     varbuf_add_char(&vb, '\n');
     varbuf_end_str(&vb);
@@ -521,7 +529,8 @@ writedb_records(FILE *fp, const char *filename, enum writedb_flags flags)
               which, pkgbin_name(pkg, pkgbin, pnaw_nonambig), filename);
     varbuf_reset(&vb);
   }
-  pkg_db_iter_free(iter);
+
+  pkg_array_destroy(&array);
   varbuf_destroy(&vb);
 }
 
