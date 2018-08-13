@@ -41,7 +41,7 @@ Unrecognized trigger name syntaxes are an error for \fBdpkg\-trigger\fP.
 .
 .SH COMMANDS
 .TP
-.BR \-\-check\-supported
+.B \-\-check\-supported
 Check if the running \fBdpkg\fP supports triggers (usually called from a
 postinst). Will exit \fB0\fP if a triggers-capable \fBdpkg\fP has run,
 or \fB1\fP with an error message to stderr if not. Normally, however,
@@ -59,26 +59,26 @@ Show the version and exit.
 Change the location of the \fBdpkg\fR database. The default location is
 \fI%ADMINDIR%\fP.
 .TP
-.BR \-\-by\-package=\fIpackage\fR
+.BI \-\-by\-package= package
 Override trigger awaiter (normally set by \fBdpkg\fP through the
 \fBDPKG_MAINTSCRIPT_PACKAGE\fP environment variable of the maintainer scripts,
 naming the package to which the script belongs, and this will be used
 by default).
 .TP
-.BR \-\-no\-await
+.B \-\-no\-await
 This option arranges that the calling package T (if any) need not await
 the processing of this trigger; the interested package(s) I, will not be
 added to T's trigger processing awaited list and T's status is unchanged.
 T may be considered installed even though I may not yet have processed
 the trigger.
 .TP
-.BR \-\-await
+.B \-\-await
 This option does the inverse of \fB\-\-no\-await\fP (since dpkg 1.17.21).
 If the interested package has declared a “noawait” directive, then this
 option will not be effective.
 It is currently the default behavior.
 .TP
-.BR \-\-no\-act
+.B \-\-no\-act
 Just test, do not actually change anything.
 .
 .SH EXIT STATUS
