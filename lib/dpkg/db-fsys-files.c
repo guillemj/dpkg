@@ -81,7 +81,7 @@ pkg_files_blank(struct pkginfo *pkg)
   for (current = pkg->files;
        current;
        current= current->next) {
-    struct pkg_list *pkg_node, *pkg_prev = NULL;
+    struct pkg_list *pkg_node, **pkg_prev = &current->namenode->packages;
 
     /* For each file that used to be in the package,
      * go through looking for this package's entry in the list
@@ -90,16 +90,14 @@ pkg_files_blank(struct pkginfo *pkg)
          pkg_node;
          pkg_node = pkg_node->next) {
       if (pkg_node->pkg == pkg) {
-        if (pkg_prev)
-          pkg_prev->next = pkg_node->next;
-        else
-          current->namenode->packages = pkg_node->next;
+        *pkg_prev = pkg_node->next;
 
         /* The actual filelist links were allocated using nfmalloc, so
          * we shouldn't free them. */
         break;
       }
-      pkg_prev = pkg_node;
+
+      pkg_prev = &pkg_node->next;
     }
   }
   pkg->files = NULL;
