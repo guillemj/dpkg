@@ -86,6 +86,7 @@ libdpkg_la_SOURCES = \
 	path-remove.c \
 	pkg.c \
 	pkg-array.c \
+	pkg-files.c \
 	pkg-format.c \
 	pkg-hash.c \
 	pkg-list.c \
@@ -141,6 +142,7 @@ pkginclude_HEADERS = \
 	path.h \
 	pkg.h \
 	pkg-array.h \
+	pkg-files.h \
 	pkg-format.h \
 	pkg-list.h \
 	pkg-queue.h \

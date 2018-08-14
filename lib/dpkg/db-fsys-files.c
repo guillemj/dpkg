@@ -48,7 +48,7 @@
 #include <dpkg/dir.h>
 #include <dpkg/fdio.h>
 #include <dpkg/pkg-array.h>
-#include <dpkg/pkg-list.h>
+#include <dpkg/pkg-files.h>
 #include <dpkg/progress.h>
 #include <dpkg/db-ctrl.h>
 #include <dpkg/db-fsys.h>
@@ -69,71 +69,6 @@ enum pkg_filesdb_load_status {
 };
 
 static enum pkg_filesdb_load_status saidread = PKG_FILESDB_LOAD_NONE;
-
-/**
- * Erase the files saved in pkg.
- */
-static void
-pkg_files_blank(struct pkginfo *pkg)
-{
-  struct fileinlist *current;
-
-  for (current = pkg->files;
-       current;
-       current= current->next) {
-    struct pkg_list *pkg_node, **pkg_prev = &current->namenode->packages;
-
-    /* For each file that used to be in the package,
-     * go through looking for this package's entry in the list
-     * of packages containing this file, and blank it out. */
-    for (pkg_node = current->namenode->packages;
-         pkg_node;
-         pkg_node = pkg_node->next) {
-      if (pkg_node->pkg == pkg) {
-        *pkg_prev = pkg_node->next;
-
-        /* The actual filelist links were allocated using nfmalloc, so
-         * we shouldn't free them. */
-        break;
-      }
-
-      pkg_prev = &pkg_node->next;
-    }
-  }
-  pkg->files = NULL;
-}
-
-static struct fileinlist **
-pkg_files_add_file(struct pkginfo *pkg, struct filenamenode *namenode,
-                   struct fileinlist **file_tail)
-{
-  struct fileinlist *newent;
-  struct pkg_list *pkg_node;
-
-  if (file_tail == NULL)
-    file_tail = &pkg->files;
-
-  /* Make sure we're at the end. */
-  while ((*file_tail) != NULL) {
-    file_tail = &((*file_tail)->next);
-  }
-
-  /* Create a new node. */
-  newent = nfmalloc(sizeof(struct fileinlist));
-  newent->namenode = namenode;
-  newent->next = NULL;
-  *file_tail = newent;
-  file_tail = &newent->next;
-
-  /* Add pkg to newent's package list. */
-  pkg_node = nfmalloc(sizeof(*pkg_node));
-  pkg_node->pkg = pkg;
-  pkg_node->next = newent->namenode->packages;
-  newent->namenode->packages = pkg_node;
-
-  /* Return the position for the next guy. */
-  return file_tail;
-}
 
 /**
  * Load the list of files in this package into memory, or update the
