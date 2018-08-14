@@ -85,9 +85,9 @@ libdpkg_la_SOURCES = \
 	path.c \
 	path-remove.c \
 	pkg.c \
-	pkg-db.c \
 	pkg-array.c \
 	pkg-format.c \
+	pkg-hash.c \
 	pkg-list.c \
 	pkg-namevalue.c \
 	pkg-queue.c \
