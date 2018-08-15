@@ -79,6 +79,23 @@ varbuf_add_pkgbin_name(struct varbuf *vb,
 	varbuf_end_str(vb);
 }
 
+const char *
+pkgbin_name_archqual(const struct pkginfo *pkg, const struct pkgbin *pkgbin)
+{
+	char *pkgname;
+
+	if (pkgbin->arch->type == DPKG_ARCH_NONE ||
+	    pkgbin->arch->type == DPKG_ARCH_EMPTY)
+		return pkg->set->name;
+
+	pkgname = nfmalloc(strlen(pkg->set->name) + 1 +
+	                   strlen(pkgbin->arch->name) + 1);
+	str_concat(pkgname, pkg->set->name, ":",
+	                    pkgbin->arch->name, NULL);
+
+	return pkgname;
+}
+
 /**
  * Return a string representation of the package name.
  *

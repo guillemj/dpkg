@@ -379,6 +379,10 @@ enum pkg_name_arch_when {
 void varbuf_add_pkgbin_name(struct varbuf *vb, const struct pkginfo *pkg,
                             const struct pkgbin *pkgbin,
                             enum pkg_name_arch_when pnaw);
+
+const char *
+pkgbin_name_archqual(const struct pkginfo *pkg, const struct pkgbin *pkgbin);
+
 const char *pkgbin_name(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                         enum pkg_name_arch_when pnaw);
 const char *pkg_name(const struct pkginfo *pkg, enum pkg_name_arch_when pnaw);
