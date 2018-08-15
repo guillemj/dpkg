@@ -31,8 +31,6 @@
 
 #include <dpkg/dpkg.h>
 #include <dpkg/i18n.h>
-#include <dpkg/subproc.h>
-#include <dpkg/command.h>
 #include <dpkg/pager.h>
 #include <dpkg/fdio.h>
 #include <dpkg/file.h>
@@ -201,22 +199,11 @@ file_lock(int *lockfd, enum file_lock_flags flags, const char *filename,
 void
 file_show(const char *filename)
 {
-	pid_t pid;
+	struct pager *pager;
 
 	if (filename == NULL)
 		internerr("filename is NULL");
 
-	pid = subproc_fork();
-	if (pid == 0) {
-		struct command cmd;
-		const char *pager;
-
-		pager = pager_get_exec();
-
-		command_init(&cmd, pager, _("showing file on pager"));
-		command_add_arg(&cmd, pager);
-		command_add_arg(&cmd, filename);
-		command_exec(&cmd);
-	}
-	subproc_reap(pid, _("showing file on pager"), SUBPROC_NOCHECK);
+	pager = pager_spawn(_("pager to show file"), filename);
+	pager_reap(pager);
 }

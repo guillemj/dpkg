@@ -198,22 +198,27 @@ show_prompt(const char *cfgfile, const char *realold, const char *realnew,
 static void
 show_diff(const char *old, const char *new)
 {
+	struct pager *pager;
 	pid_t pid;
+
+	pager = pager_spawn(_("conffile difference visualizer"), NULL);
 
 	pid = subproc_fork();
 	if (!pid) {
 		/* Child process. */
-		char cmdbuf[1024];
+		struct command cmd;
 
-		sprintf(cmdbuf, DIFF " -Nu %.250s %.250s | %.250s",
-		        str_quote_meta(old), str_quote_meta(new),
-		        pager_get_exec());
-
-		command_shell(cmdbuf, _("conffile difference visualizer"));
+		command_init(&cmd, DIFF, _("conffile difference visualizer"));
+		command_add_arg(&cmd, DIFF);
+		command_add_arg(&cmd, "-Nu");
+		command_add_arg(&cmd, old);
+		command_add_arg(&cmd, new);
+		command_exec(&cmd);
 	}
 
 	/* Parent process. */
 	subproc_reap(pid, _("conffile difference visualizer"), SUBPROC_NOCHECK);
+	pager_reap(pager);
 }
 
 /**
