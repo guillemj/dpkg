@@ -34,6 +34,10 @@ static bool
 pkgbin_name_needs_arch(const struct pkgbin *pkgbin,
                        enum pkg_name_arch_when pnaw)
 {
+	if (pkgbin->arch->type == DPKG_ARCH_NONE ||
+	    pkgbin->arch->type == DPKG_ARCH_EMPTY)
+		return false;
+
 	switch (pnaw) {
 	case pnaw_never:
 		break;
@@ -43,8 +47,7 @@ pkgbin_name_needs_arch(const struct pkgbin *pkgbin,
 	/* Fall through. */
 	case pnaw_foreign:
 		if (pkgbin->arch->type == DPKG_ARCH_NATIVE ||
-		    pkgbin->arch->type == DPKG_ARCH_ALL ||
-		    pkgbin->arch->type == DPKG_ARCH_NONE)
+		    pkgbin->arch->type == DPKG_ARCH_ALL)
 			break;
 	/* Fall through. */
 	case pnaw_always:
