@@ -208,44 +208,9 @@ test_command_shell(void)
 	test_pass(ret == 0);
 }
 
-static void
-test_dup_file(int fd, const char *filename, int flags)
-{
-	int newfd;
-
-	newfd = open(filename, flags);
-	dup2(newfd, fd);
-	close(newfd);
-}
-
-static void
-test_command_pager(void)
-{
-	const char *pager, *default_pager;
-	int origfd = dup(STDOUT_FILENO);
-
-	/* Test stdout being a tty. */
-	test_todo_block("environment might not expose controlling terminal") {
-		test_dup_file(STDOUT_FILENO, "/dev/tty", O_WRONLY);
-		setenv("PAGER", "test-pager", 1);
-		pager = command_get_pager();
-		unsetenv("PAGER");
-		default_pager = command_get_pager();
-		dup2(origfd, STDOUT_FILENO);
-		test_str(pager, ==, "test-pager");
-		test_str(default_pager, ==, DEFAULTPAGER);
-	}
-
-	/* Test stdout not being a tty. */
-	test_dup_file(STDOUT_FILENO, "/dev/null", O_WRONLY);
-	pager = command_get_pager();
-	dup2(origfd, STDOUT_FILENO);
-	test_str(pager, ==, CAT);
-}
-
 TEST_ENTRY(test)
 {
-	test_plan(52);
+	test_plan(49);
 
 	test_command_init();
 	test_command_grow_argv();
@@ -254,5 +219,4 @@ TEST_ENTRY(test)
 	test_command_add_args();
 	test_command_exec();
 	test_command_shell();
-	test_command_pager();
 }

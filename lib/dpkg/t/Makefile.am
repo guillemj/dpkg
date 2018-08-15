@@ -32,6 +32,7 @@ test_programs = \
 	t-progname \
 	t-subproc \
 	t-command \
+	t-pager \
 	t-varbuf \
 	t-ar \
 	t-tar \

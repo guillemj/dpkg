@@ -80,6 +80,7 @@ libdpkg_la_SOURCES = \
 	nfmalloc.c \
 	options.c \
 	options-parsers.c \
+	pager.c \
 	parse.c \
 	parsehelp.c \
 	path.c \
@@ -138,6 +139,7 @@ pkginclude_HEADERS = \
 	macros.h \
 	namevalue.h \
 	options.h \
+	pager.h \
 	parsedump.h \
 	path.h \
 	pkg.h \

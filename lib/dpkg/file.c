@@ -33,6 +33,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
+#include <dpkg/pager.h>
 #include <dpkg/fdio.h>
 #include <dpkg/file.h>
 
@@ -210,7 +211,7 @@ file_show(const char *filename)
 		struct command cmd;
 		const char *pager;
 
-		pager = command_get_pager();
+		pager = pager_get_exec();
 
 		command_init(&cmd, pager, _("showing file on pager"));
 		command_add_arg(&cmd, pager);

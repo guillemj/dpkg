@@ -52,6 +52,7 @@
 #include <dpkg/path.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
+#include <dpkg/pager.h>
 #include <dpkg/triglib.h>
 #include <dpkg/db-fsys.h>
 
@@ -206,7 +207,7 @@ show_diff(const char *old, const char *new)
 
 		sprintf(cmdbuf, DIFF " -Nu %.250s %.250s | %.250s",
 		        str_quote_meta(old), str_quote_meta(new),
-		        command_get_pager());
+		        pager_get_exec());
 
 		command_shell(cmdbuf, _("conffile difference visualizer"));
 	}
