@@ -203,7 +203,7 @@ file_show(const char *filename)
 	pid_t pid;
 
 	if (filename == NULL)
-		internerr("file '%s' does not exist", filename);
+		internerr("filename is NULL");
 
 	pid = subproc_fork();
 	if (pid == 0) {
