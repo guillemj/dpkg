@@ -36,6 +36,12 @@ struct pager;
 const char *
 pager_get_exec(void);
 
+struct pager *
+pager_spawn(const char *desc, const char *filename);
+
+void
+pager_reap(struct pager *pager);
+
 /** @} */
 
 DPKG_END_DECLS
