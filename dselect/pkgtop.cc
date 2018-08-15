@@ -43,7 +43,7 @@ pkgprioritystring(const struct pkginfo *pkg)
   } else {
     if (pkg->priority > PKG_PRIO_UNKNOWN)
       internerr("package %s has out-of-range priority %d",
-                pkg_name(pkg, pnaw_always), pkg->priority);
+                pkg_name_const(pkg, pnaw_always), pkg->priority);
     return gettext(prioritystrings[pkg->priority]);
   }
 }
