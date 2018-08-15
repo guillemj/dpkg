@@ -179,6 +179,8 @@ pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
 
   /* If there's a single unused slot, let's use that. */
   if (pkg->installed.arch->type == DPKG_ARCH_NONE && pkg->arch_next == NULL) {
+    /* We can only initialize the arch pkgbin members, because those are used
+     * to find instances, anything else will be overwritten at parse time. */
     pkg->installed.arch = arch;
     pkg->available.arch = arch;
     return pkg;
@@ -197,6 +199,8 @@ pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
   pkg_blank(pkg);
   pkg->set = set;
   pkg->arch_next = NULL;
+  /* We can only initialize the arch pkgbin members, because those are used
+   * to find instances, anything else will be overwritten at parse time. */
   pkg->installed.arch = arch;
   pkg->available.arch = arch;
   *pkgp = pkg;
