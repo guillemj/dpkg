@@ -387,6 +387,12 @@ const char *pkgbin_name(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                         enum pkg_name_arch_when pnaw);
 const char *pkg_name(const struct pkginfo *pkg, enum pkg_name_arch_when pnaw);
 
+const char *
+pkgbin_name_const(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                  enum pkg_name_arch_when pnaw);
+const char *
+pkg_name_const(const struct pkginfo *pkg, enum pkg_name_arch_when pnaw);
+
 void
 pkg_source_version(struct dpkg_version *version,
                    const struct pkginfo *pkg, const struct pkgbin *pkgbin);
