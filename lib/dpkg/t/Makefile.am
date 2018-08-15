@@ -40,6 +40,7 @@ test_programs = \
 	t-pkginfo \
 	t-pkg-list \
 	t-pkg-queue \
+	t-pkg-show \
 	t-trigger \
 	t-mod-db \
 	$(nil)

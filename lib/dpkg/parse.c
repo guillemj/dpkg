@@ -218,7 +218,7 @@ pkg_parse_verify(struct parsedb_state *ps,
     parse_error(ps, _("package has field '%s' but is architecture all"),
                 "Multi-Arch: same");
 
-  /* Generate the fully qualified package name representation. */
+  /* Generate the cached fully qualified package name representation. */
   pkgbin->pkgname_archqual = pkgbin_name_archqual(pkg, pkgbin);
 
   /* Initialize deps to be arch-specific unless stated otherwise. */

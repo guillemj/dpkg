@@ -165,11 +165,15 @@ pkg_name_const(const struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
  * @return The string representation.
  */
 const char *
-pkgbin_name(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+pkgbin_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
             enum pkg_name_arch_when pnaw)
 {
 	if (!pkgbin_name_needs_arch(pkgbin, pnaw))
 		return pkg->set->name;
+
+	/* Cache the package name representation, for later reuse. */
+	if (pkgbin->pkgname_archqual == NULL)
+		pkgbin->pkgname_archqual = pkgbin_name_archqual(pkg, pkgbin);
 
 	return pkgbin->pkgname_archqual;
 }
@@ -185,7 +189,7 @@ pkgbin_name(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
  * @return The string representation.
  */
 const char *
-pkg_name(const struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
+pkg_name(struct pkginfo *pkg, enum pkg_name_arch_when pnaw)
 {
 	return pkgbin_name(pkg, &pkg->installed, pnaw);
 }
