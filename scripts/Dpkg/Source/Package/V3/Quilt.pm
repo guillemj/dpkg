@@ -142,6 +142,8 @@ sub apply_patches {
 
     return unless scalar($quilt->series());
 
+    info(g_('using patch list from %s'), "debian/patches/$basename");
+
     if ($opts{usage} eq 'preparation' and
         $self->{options}{unapply_patches} eq 'auto') {
         # We're applying the patches in --before-build, remember to unapply
