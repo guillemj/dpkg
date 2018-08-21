@@ -42,10 +42,12 @@ test_dpkg_error_put(void)
 	test_pass(dpkg_put_errno(NULL, "void error") < 0);
 
 	test_pass(dpkg_put_warn(&err, "test warning %d", 10) < 0);
+	test_pass(err.syserrno == 0);
 	test_str(err.str, ==, "test warning 10");
 	test_warn(err);
 
 	test_pass(dpkg_put_error(&err, "test error %d", 20) < 0);
+	test_pass(err.syserrno == 0);
 	test_str(err.str, ==, "test error 20");
 	test_error(err);
 
@@ -54,6 +56,7 @@ test_dpkg_error_put(void)
 		test_bail("cannot allocate string");
 	test_pass(dpkg_put_errno(&err, "test errno %d", 30) < 0);
 	test_str(err.str, ==, errstr_ref);
+	test_pass(err.syserrno == ENOENT);
 	test_error(err);
 	free(errstr_ref);
 	errno = 0;
@@ -64,17 +67,20 @@ test_dpkg_error_destroy(void)
 {
 	struct dpkg_error err = DPKG_ERROR_INIT;
 
-	test_pass(dpkg_put_error(&err, "test destroy") < 0);
+	errno = ENOENT;
+	test_pass(dpkg_put_errno(&err, "test destroy") < 0);
+	test_pass(err.syserrno == ENOENT);
 	test_pass(err.type == DPKG_MSG_ERROR);
 	test_pass(err.str != NULL);
 	dpkg_error_destroy(&err);
 	test_pass(err.type == DPKG_MSG_NONE);
+	test_pass(err.syserrno == 0);
 	test_pass(err.str == NULL);
 }
 
 TEST_ENTRY(test)
 {
-	test_plan(19);
+	test_plan(24);
 
 	test_dpkg_error_put();
 	test_dpkg_error_destroy();

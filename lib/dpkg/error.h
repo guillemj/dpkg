@@ -40,10 +40,11 @@ enum dpkg_msg_type {
 struct dpkg_error {
 	enum dpkg_msg_type type;
 
+	int syserrno;
 	char *str;
 };
 
-#define DPKG_ERROR_INIT { DPKG_MSG_NONE, NULL }
+#define DPKG_ERROR_INIT { DPKG_MSG_NONE, 0, NULL }
 
 int dpkg_put_warn(struct dpkg_error *err, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
