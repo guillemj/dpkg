@@ -59,6 +59,18 @@ test_alloc(void *ptr, const char *reason)
 #define test_alloc(ptr) \
 	test_alloc((ptr), "cannot allocate memory for " #ptr " in " __FILE__ ":" test_stringify(__LINE__))
 
+static inline const char *
+test_get_envdir(const char *envvar)
+{
+	const char *envdir = getenv(envvar);
+	return envdir ? envdir : ".";
+}
+
+#define test_get_srcdir() \
+	test_get_envdir("srcdir")
+#define test_get_builddir() \
+	test_get_envdir("builddir")
+
 static int test_id = 1;
 static int test_skip_code;
 static const char *test_skip_prefix;
