@@ -226,12 +226,12 @@ vmaintscript_installed(struct pkginfo *pkg, const char *scriptname,
 
 	if (stat(scriptpath, &stab)) {
 		command_destroy(&cmd);
-		free(buf);
 
 		if (errno == ENOENT) {
 			debug(dbg_scripts,
 			      "vmaintscript_installed nonexistent %s",
 			      scriptname);
+			free(buf);
 			return 0;
 		}
 		ohshite(_("unable to stat %s '%.250s'"), buf, scriptpath);
@@ -302,12 +302,12 @@ maintscript_new(struct pkginfo *pkg, const char *scriptname,
 
 	if (stat(cidir, &stab)) {
 		command_destroy(&cmd);
-		free(buf);
 
 		if (errno == ENOENT) {
 			debug(dbg_scripts,
 			      "maintscript_new nonexistent %s '%s'",
 			      scriptname, cidir);
+			free(buf);
 			return 0;
 		}
 		ohshite(_("unable to stat %s '%.250s'"), buf, cidir);
@@ -375,7 +375,6 @@ maintscript_fallback(struct pkginfo *pkg,
 
 	if (stat(cidir, &stab)) {
 		command_destroy(&cmd);
-		free(buf);
 
 		if (errno == ENOENT)
 			ohshit(_("there is no script in the new version of the package - giving up"));
