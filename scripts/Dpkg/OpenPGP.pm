@@ -49,7 +49,7 @@ sub openpgp_sig_to_asc
         if ($is_openpgp_ascii_armor) {
             notice(g_('signature file is already OpenPGP ASCII armor, copying'));
             copy($sig, $asc);
-            return;
+            return $asc;
         }
 
         if (not find_command('gpg')) {
@@ -71,7 +71,7 @@ sub openpgp_sig_to_asc
         close $fh_gpg or subprocerr('gpg');
         close $fh_asc or syserr(g_('cannot write signature file %s'), $asc);
 
-        return $sig;
+        return $asc;
     }
 
     return;
