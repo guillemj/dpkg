@@ -63,6 +63,8 @@ files_db_reset(void)
 
 	for (i = 0; i < BINS; i++)
 		bins[i] = NULL;
+
+	nfiles = 0;
 }
 
 int
