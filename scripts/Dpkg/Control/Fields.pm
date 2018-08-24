@@ -32,11 +32,14 @@ foreach my $op (run_vendor_hook('register-custom-fields')) {
     next if not (defined $op and ref $op); # Skip when not implemented by vendor
     my $func = shift @$op;
     if ($func eq 'register') {
-        &field_register(@$op);
+        my ($field, $allowed_type, @opts) = @{$op};
+        field_register($field, $allowed_type, @opts);
     } elsif ($func eq 'insert_before') {
-        &field_insert_before(@$op);
+        my ($type, $ref, @fields) = @{$op};
+        field_insert_before($type, $ref, @fields);
     } elsif ($func eq 'insert_after') {
-        &field_insert_after(@$op);
+        my ($type, $ref, @fields) = @{$op};
+        field_insert_after($type, $ref, @fields);
     } else {
         croak "vendor hook register-custom-fields sent bad data: @$op";
     }
