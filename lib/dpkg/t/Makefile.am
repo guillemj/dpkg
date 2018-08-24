@@ -23,6 +23,7 @@ test_programs = \
 	t-test-skip \
 	t-macros \
 	t-c-ctype \
+	t-namevalue \
 	t-ehandle \
 	t-error \
 	t-string \
@@ -42,7 +43,9 @@ test_programs = \
 	t-pkginfo \
 	t-pkg-list \
 	t-pkg-queue \
+	t-pkg-hash \
 	t-pkg-show \
+	t-fsys-hash \
 	t-trigger \
 	t-mod-db \
 	$(nil)
