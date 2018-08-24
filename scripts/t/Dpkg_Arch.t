@@ -16,12 +16,12 @@
 use strict;
 use warnings;
 
-use Test::More tests => 16832;
+use Test::More tests => 16836;
 
 use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
                         debarch_eq debarch_is debarch_is_wildcard
                         debarch_is_illegal
-                        debarch_to_abiattrs
+                        debarch_to_abiattrs debarch_to_cpubits
                         debarch_list_parse
                         debtuple_to_debarch gnutriplet_to_debarch
                         get_host_gnu_type
@@ -160,6 +160,11 @@ ok($@, 'parse disallowed negated arches failed');
 
 is(debarch_to_abiattrs(undef), undef, 'undef ABI attrs');
 is_deeply([ debarch_to_abiattrs('amd64') ], [ qw(64 little) ], 'amd64 ABI attrs');
+is_deeply([ debarch_to_abiattrs('x32') ], [ qw(32 little) ], 'x32 ABI attrs');
+
+is(debarch_to_cpubits(undef), undef, 'undef CPU bits');
+is(debarch_to_cpubits('i386'), 32, 'i386 CPU bits');
+is(debarch_to_cpubits('amd64'), 64, 'amd64 CPU bits');
 
 is(debtuple_to_debarch(undef, undef, undef, undef), undef, 'undef debtuple');
 is(debtuple_to_debarch('base', 'gnu', 'linux', 'amd64'), 'amd64', 'known debtuple');
