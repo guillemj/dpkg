@@ -33,7 +33,7 @@ dist-cpan:
 	: # Prepare the CPAN distribution.
 	cd $(CPAN_DIST) && ./Build.PL
 	cd $(CPAN_DIST) && ./Build manifest
-	cd $(CPAN_DIST) && ./Build distsign
+	cd $(CPAN_DIST) && ./Build distdir
 
 	: # Pack the CPAN distribution.
 	$(TAR) -caf $(CPAN_DIST_ARCHIVE) -C $(CPAN_DIST) -Hustar \

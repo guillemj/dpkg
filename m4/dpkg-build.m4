@@ -84,6 +84,19 @@ AC_DEFUN([DPKG_DEB_COMPRESSOR], [
     [default dpkg-deb build compressor])
 ]) # DPKG_DEB_COMPRESSOR
 
+# DPKG_DIST_IS_RELEASE()
+# --------------------
+# Check whether we are preparing a distribution tarball for a release.
+AC_DEFUN([DPKG_DIST_IS_RELEASE], [
+  dpkg_dist_version=$srcdir/.dist-version
+  AS_IF([test -f $dpkg_dist_version && grep -q -v '[-]' $dpkg_dist_version], [
+    dpkg_dist_is_release=1
+  ], [
+    dpkg_dist_is_release=0
+  ])
+  unset dpkg_dist_version
+])# DPKG_DIST_IS_RELEASE
+
 # DPKG_DIST_CHECK(COND, ERROR)
 # ---------------
 # Check if the condition is fulfilled when preparing a distribution tarball.
