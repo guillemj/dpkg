@@ -39,7 +39,7 @@ pager_get_exec(void)
 {
 	const char *pager;
 
-	if (!isatty(1))
+	if (!isatty(0) || !isatty(1))
 		return CAT;
 
 	pager = getenv("PAGER");
