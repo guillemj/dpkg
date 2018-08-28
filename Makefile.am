@@ -160,11 +160,13 @@ test_scripts = \
 	t/syntax.t \
 	t/strict.t \
 	t/critic.t \
+	t/codespell.t \
 	t/cppcheck.t \
 	$(nil)
 
 test_data = \
 	t/critic/perlcriticrc \
+	t/codespell/stopwords \
 	t/cppcheck/cppcheck.supp \
 	$(nil)
 
