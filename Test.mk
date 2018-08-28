@@ -28,20 +28,28 @@ DPKG_ENV = \
 export PATH
 PATH = $(DPKG_PATH)
 
-DPKG_OPTIONS = --force-unsafe-io --no-debsig --log=/dev/null
+DPKG_OPTIONS =
 
 ifdef DPKG_NOT_ROOT
 DPKG_INSTDIR = $(CURDIR)/../dpkginst
 DPKG_OPTIONS += \
-  --force-script-chrootless --force-not-root \
-  --instdir="$(DPKG_INSTDIR)"
+ --force-script-chrootless \
+ --force-not-root \
+ # EOL
 BEROOT := env $(DPKG_ENV)
 else
 DPKG_ENV += \
   LD_PRELOAD="$(LD_PRELOAD)" \
   LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)"
+DPKG_INSTDIR = /
 BEROOT := sudo env $(DPKG_ENV)
 endif
+
+DPKG_OPTIONS += \
+  --force-unsafe-io \
+  --instdir="$(DPKG_INSTDIR)" \
+  --no-debsig --log=/dev/null \
+  # EOL
 
 ifneq (,$(filter debug,$(DPKG_TESTSUITE_OPTIONS)))
 DPKG_OPTIONS += -D77777
