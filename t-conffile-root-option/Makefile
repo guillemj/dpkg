@@ -24,6 +24,7 @@ test-conffile-move-packages-rootdir:
 	# Create template root dir.
 	mkdir -p $(DPKG_ADMINDIR)/info
 	mkdir -p $(DPKG_ADMINDIR)/updates
+	mkdir -p $(DPKG_ADMINDIR)/triggers
 	touch $(DPKG_ADMINDIR)/status
 	# Install base versions.
 	$(DPKG_INSTALL) pkg-conff-a-1.deb pkg-conff-b-1.deb
