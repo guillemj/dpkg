@@ -33,8 +33,8 @@ sub po_ok {
     my $tags = qx(i18nspector \"$file\" 2>&1);
 
     # Fixup the output:
-    $tags =~ s/^.*\.pot: boilerplate-in-initial-comments .*$//mg;
-    $tags =~ s/^.*\.po: duplicate-header-field X-POFile-SpellExtra$//mg;
+    $tags =~ s/^.*\.pot: boilerplate-in-initial-comments .*\n//mg;
+    $tags =~ s/^.*\.po: duplicate-header-field X-POFile-SpellExtra\n//mg;
     chomp $tags;
 
     my $ok = length $tags == 0;
