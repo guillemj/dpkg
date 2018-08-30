@@ -46,7 +46,6 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/arch.h>
-#include <dpkg/path.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
 #include <dpkg/options.h>
@@ -357,19 +356,14 @@ set_verify_format(const struct cmdinfo *cip, const char *value)
 static void
 set_instdir(const struct cmdinfo *cip, const char *value)
 {
-  char *new_instdir;
-
-  new_instdir = m_strdup(value);
-  path_trim_slash_slashdot(new_instdir);
-
-  instdir = new_instdir;
+  instdir = dpkg_fsys_set_dir(value);
 }
 
 static void
 set_root(const struct cmdinfo *cip, const char *value)
 {
-  set_instdir(cip, value);
-  admindir = str_fmt("%s%s", instdir, ADMINDIR);
+  instdir = dpkg_fsys_set_dir(value);
+  admindir = dpkg_fsys_get_path(ADMINDIR);
 }
 
 static void

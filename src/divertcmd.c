@@ -52,6 +52,7 @@ static const char printforhelp[] = N_(
 "Use --help for help about diverting files.");
 
 static const char *admindir;
+const char *instdir;
 
 static bool opt_pkgname_match_any = true;
 static const char *opt_pkgname = NULL;
@@ -102,6 +103,8 @@ usage(const struct cmdinfo *cip, const char *value)
 "  --rename                 actually move the file aside (or back).\n"
 "  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
+"  --instdir <directory>    set the root directory, but not the admin dir.\n"
+"  --root <directory>       set the directory of the root filesystem.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
@@ -142,7 +145,13 @@ struct file {
 static void
 file_init(struct file *f, const char *filename)
 {
-	f->name = filename;
+	struct varbuf usefilename = VARBUF_INIT;
+
+	varbuf_add_str(&usefilename, instdir);
+	varbuf_add_str(&usefilename, filename);
+	varbuf_end_str(&usefilename);
+
+	f->name = varbuf_detach(&usefilename);
 	f->stat_state = FILE_STAT_INVALID;
 }
 
@@ -779,6 +788,19 @@ set_divertto(const struct cmdinfo *cip, const char *value)
 		badusage(_("divert-to may not contain newlines"));
 }
 
+static void
+set_instdir(const struct cmdinfo *cip, const char *value)
+{
+	instdir = dpkg_fsys_set_dir(value);
+}
+
+static void
+set_root(const struct cmdinfo *cip, const char *value)
+{
+	instdir = dpkg_fsys_set_dir(value);
+	admindir = dpkg_fsys_get_path(ADMINDIR);
+}
+
 static const struct cmdinfo cmdinfo_add =
 	ACTION("add",         0, 0, diversion_add);
 
@@ -790,6 +812,8 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("truename",    0, 0, diversion_truename),
 
 	{ "admindir",   0,   1,  NULL,         &admindir, NULL          },
+	{ "instdir",    0,   1,  NULL,         NULL,      set_instdir,  0 },
+	{ "root",       0,   1,  NULL,         NULL,      set_root,     0 },
 	{ "divert",     0,   1,  NULL,         NULL,      set_divertto  },
 	{ "package",    0,   1,  NULL,         NULL,      set_package   },
 	{ "local",      0,   0,  NULL,         NULL,      set_package   },
@@ -813,6 +837,7 @@ main(int argc, const char * const *argv)
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
+	instdir = dpkg_fsys_set_dir(instdir);
 
 	env_pkgname = getenv("DPKG_MAINTSCRIPT_PACKAGE");
 	if (opt_pkgname_match_any && env_pkgname)

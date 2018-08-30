@@ -84,6 +84,8 @@ usage(const struct cmdinfo *cip, const char *value)
 	printf(_(
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
+"  --instdir <directory>    set the root directory, but not the admin dir.\n"
+"  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
 "  --force                  force an action even if a sanity check fails.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -97,10 +99,24 @@ usage(const struct cmdinfo *cip, const char *value)
 }
 
 static const char *admindir;
+const char *instdir;
 
 static int opt_verbose = 1;
 static int opt_force = 0;
 static int opt_update = 0;
+
+static void
+set_instdir(const struct cmdinfo *cip, const char *value)
+{
+	instdir = dpkg_fsys_set_dir(value);
+}
+
+static void
+set_root(const struct cmdinfo *cip, const char *value)
+{
+	instdir = dpkg_fsys_set_dir(value);
+	admindir = dpkg_fsys_get_path(ADMINDIR);
+}
 
 static char *
 path_cleanup(const char *path)
@@ -260,14 +276,21 @@ statoverride_add(const char *const *argv)
 
 	if (opt_update) {
 		struct stat st;
+		struct varbuf realfilename = VARBUF_INIT;
 
-		if (stat(filename, &st) == 0) {
+		varbuf_add_str(&realfilename, instdir);
+		varbuf_add_str(&realfilename, filename);
+		varbuf_end_str(&realfilename);
+
+		if (stat(realfilename.buf, &st) == 0) {
 			(*filestat)->mode |= st.st_mode & S_IFMT;
-			statdb_node_apply(filename, *filestat);
+			statdb_node_apply(realfilename.buf, *filestat);
 		} else if (opt_verbose) {
 			warning(_("--update given but %s does not exist"),
-			        filename);
+			        realfilename.buf);
 		}
+
+		varbuf_destroy(&realfilename);
 	}
 
 	statdb_write();
@@ -349,6 +372,8 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("list",   0, act_listfiles, statoverride_list),
 
 	{ "admindir",   0,   1,  NULL,         &admindir, NULL          },
+	{ "instdir",    0,   1,  NULL,         NULL,      set_instdir,  0 },
+	{ "root",       0,   1,  NULL,         NULL,      set_root,     0 },
 	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL, 0       },
 	{ "force",      0,   0,  &opt_force,   NULL,      NULL, 1       },
 	{ "update",     0,   0,  &opt_update,  NULL,      NULL, 1       },
@@ -367,6 +392,7 @@ main(int argc, const char *const *argv)
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
+	instdir = dpkg_fsys_set_dir(instdir);
 
 	if (!cipaction)
 		badusage(_("need an action option"));

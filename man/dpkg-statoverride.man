@@ -70,8 +70,19 @@ Show the version and exit.
 .SH OPTIONS
 .TP
 .BI \-\-admindir " directory"
-Change the \fIdirectory\fP of the \fBdpkg\fP database where the statoverride
-file is also stored. Defaults to \fI%ADMINDIR%\fP.
+Set the administrative directory to \fIdirectory\fP.
+This is where the \fIstatoverride\fP file is stored.
+Defaults to «\fI%ADMINDIR%\fP».
+.TP
+.BI \-\-instdir " directory"
+Set the installation directory, which refers to the directory where
+packages get installed (since dpkg 1.19.2).
+Defaults to «\fI/\fP».
+.TP
+.BI \-\-root " directory"
+Set the root directory to \fBdirectory\fP, which sets the installation
+directory to «\fIdirectory\fP» and the administrative
+directory to «\fIdirectory\fP\fB%ADMINDIR%\fP» (since dpkg 1.19.2).
 .TP
 .B \-\-force
 Force an action, even if a sanity check would otherwise prohibit it.
@@ -100,9 +111,14 @@ memory allocations, etc.
 .
 .SH ENVIRONMENT
 .TP
+.B DPKG_ROOT
+If set and the \fB\-\-instdir\fP or \fB\-\-root\fP options have not been
+specified, it will be used as the filesystem root directory
+(since dpkg 1.19.2).
+.TP
 .B DPKG_ADMINDIR
-If set and the \fB\-\-admindir\fP option has not been specified, it will
-be used as the \fBdpkg\fP data directory.
+If set and the \fB\-\-admindir\fP or \fB\-\-root\fP options have not been
+specified, it will be used as the \fBdpkg\fP data directory.
 .TP
 .B DPKG_COLORS
 Sets the color mode (since dpkg 1.18.5).

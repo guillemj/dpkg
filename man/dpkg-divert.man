@@ -66,8 +66,17 @@ Print the real name for a diverted file.
 .SH OPTIONS
 .TP
 .BI \-\-admindir " directory"
-Set the \fBdpkg\fP data directory to \fIdirectory\fP (default:
-\fI%ADMINDIR%\fP).
+Set the administrative directory to \fIdirectory\fP.
+Defaults to «\fI%ADMINDIR%\fP».
+.TP
+.BI \-\-instdir " directory"
+Set the installation directory, which refers to the directory where
+packages get installed (since dpkg 1.19.2). Defaults to «\fI/\fP».
+.TP
+.BI \-\-root " directory"
+Set the root directory to \fBdirectory\fP, which sets the installation
+directory to «\fIdirectory\fP» and the administrative
+directory to «\fIdirectory\fP\fB%ADMINDIR%\fP» (since dpkg 1.19.2).
 .TP
 .BI \-\-divert " divert-to"
 \fIdivert-to\fP is the location where the versions of \fIfile\fP, as
@@ -122,9 +131,14 @@ memory allocations, etc.
 .
 .SH ENVIRONMENT
 .TP
+.B DPKG_ROOT
+If set and the \fB\-\-instdir\fP or \fB\-\-root\fP options have not been
+specified, it will be used as the filesystem root directory
+(since dpkg 1.19.2).
+.TP
 .B DPKG_ADMINDIR
-If set and the \fB\-\-admindir\fP option has not been specified, it will
-be used as the \fBdpkg\fP data directory.
+If set and the \fB\-\-admindir\fP or \fB\-\-root\fP options have not been
+specified, it will be used as the \fBdpkg\fP data directory.
 .TP
 .B DPKG_MAINTSCRIPT_PACKAGE
 If set and the \fB\-\-local\fP and \fB\-\-package\fP options have not been
