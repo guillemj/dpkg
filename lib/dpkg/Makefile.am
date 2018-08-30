@@ -70,6 +70,7 @@ libdpkg_la_SOURCES = \
 	fdio.c \
 	file.c \
 	fields.c \
+	fsys-dir.c\
 	fsys-iter.c \
 	fsys-hash.c \
 	glob.c \

@@ -190,4 +190,8 @@ struct filepackages_iterator *filepackages_iter_new(struct filenamenode *fnn);
 struct pkginfo *filepackages_iter_next(struct filepackages_iterator *iter);
 void filepackages_iter_free(struct filepackages_iterator *iter);
 
+const char *dpkg_fsys_set_dir(const char *dir);
+const char *dpkg_fsys_get_dir(void);
+char *dpkg_fsys_get_path(const char *pathpart);
+
 #endif /* LIBDPKG_FSYS_H */
