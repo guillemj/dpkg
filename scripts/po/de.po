@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.19.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-07-25 09:27+0200\n"
-"PO-Revision-Date: 2018-07-25 09:46+0200\n"
+"POT-Creation-Date: 2018-08-30 07:12+0200\n"
+"PO-Revision-Date: 2018-08-30 08:34+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -1092,6 +1092,8 @@ msgstr "Ausgabe-Steurdatei »%s« kann nicht installiert werden"
 #: scripts/dpkg-gensymbols.pl
 msgid ""
 "Options:\n"
+"  -l<library-path>         add directory to private shared library search "
+"list.\n"
 "  -p<package>              generate symbols file for package.\n"
 "  -P<package-build-dir>    temporary build directory instead of debian/tmp.\n"
 "  -e<library>              explicitly list libraries to scan.\n"
@@ -1125,6 +1127,8 @@ msgid ""
 "      --version            show the version.\n"
 msgstr ""
 "Optionen:\n"
+"  -l<library-path>         Verzeichnis zur privaten Suchliste für gemeinsam\n"
+"                           benutzte Bibliotheken hinzufügen\n"
 "  -p<Paket>                Symboldatei für Paket erstellen\n"
 "  -P<Paketbauverz>         temporäres Bauverzeichnis (statt debian/tmp)\n"
 "  -e<Bibliothek>           explizite Liste von zu durchsuchenden Dateien\n"
@@ -2780,6 +2784,14 @@ msgstr "Zeichen »%s« ist nicht erlaubt"
 msgid "must start with an alphanumeric character"
 msgstr "muss mit einem alphanumerischen Zeichen beginnen"
 
+#: scripts/Dpkg/Shlibs.pm
+msgid ""
+"deprecated use of LD_LIBRARY_PATH with private library directory which "
+"interferes with cross-building, please use -l option instead"
+msgstr ""
+"veraltete Verwendung von LD_LIBRARY_PATH mit privaten Bibliotheksverzeichnis "
+"stört Cross-Bau, bitte verwenden Sie stattdessen die Option »-l«"
+
 #: scripts/Dpkg/Shlibs/Objdump.pm
 #, perl-format
 msgid "unknown executable format in file '%s'"
@@ -3596,6 +3608,11 @@ msgstr "Symlink %s kann nicht angelegt werden"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
 #, perl-format
+msgid "using patch list from %s"
+msgstr "Patchliste aus %s wird verwendet"
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
+#, perl-format
 msgid "unsupported version of the quilt metadata: %s"
 msgstr "nicht unterstützte Version der Quilt-Metadaten: %s"
 
@@ -3880,13 +3897,13 @@ msgstr "veraltete Substitutionsvariable ${%s}"
 
 #: scripts/Dpkg/Substvars.pm
 #, perl-format
-msgid "unknown substitution variable ${%s}"
-msgstr "unbekannte Substitutionsvariable ${%s}"
+msgid "substitution variable ${%s} used, but is not defined"
+msgstr "unbenutzte Variable ${%s} verwandt, aber nicht definiert"
 
 #: scripts/Dpkg/Substvars.pm
 #, perl-format
-msgid "unused substitution variable ${%s}"
-msgstr "unbenutzte Substitutionsvariable ${%s}"
+msgid "substitution variable ${%s} unused, but is defined"
+msgstr "Substitutionsvariable ${%s} unbenutzt, aber definiert"
 
 #: scripts/Dpkg/Vars.pm
 #, perl-format
@@ -3953,6 +3970,9 @@ msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
+
+#~ msgid "unknown substitution variable ${%s}"
+#~ msgstr "unbekannte Substitutionsvariable ${%s}"
 
 #~ msgid "cannot create pipe for %s"
 #~ msgstr "Pipe für %s kann nicht angelegt werden"
