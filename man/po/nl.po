@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.19.0.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-08-01 09:24+0200\n"
-"PO-Revision-Date: 2018-08-01 11:54+0200\n"
+"POT-Creation-Date: 2018-08-31 07:25+0200\n"
+"PO-Revision-Date: 2018-08-31 10:28+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
@@ -5984,16 +5984,23 @@ msgstr "B<interest-noawait> I<triggernaam>"
 msgid ""
 "Specifies that the package is interested in the named trigger. All triggers "
 "in which a package is interested must be listed using this directive in the "
-"triggers control file. The “noawait” variant does not put the triggering "
-"packages in triggers-awaited state. This should be used when the "
-"functionality provided by the trigger is not crucial."
+"triggers control file."
 msgstr ""
 "Specificeert dat het pakket geïnteresseerd is in de genoemde trigger. Alle "
 "triggers waarin een pakket geïnteresseerd is, moeten met behulp van deze "
-"instructie vermeld worden in het trigger-controlebestand. De variant "
-"“noawait” plaatst de triggerende pakketten niet in de toestand triggers-"
-"awaited (wachten op triggerafhandeling). Dit zou gebruikt moeten worden als "
-"de functionaliteit die door de trigger geleverd wordt, niet cruciaal is."
+"instructie vermeld worden in het trigger-controlebestand."
+
+#. type: Plain text
+#: deb-triggers.man
+msgid ""
+"The “await” variants put the triggering package in triggers-awaited state "
+"depending on how the trigger was activated.  The “noawait” variant does not "
+"put the triggering packages in triggers-awaited state, even if the "
+"triggering package declared an “await” activation (either with an B<activate-"
+"await> or B<activate> directive, or by using the B<dpkg-trigger> B<--no-"
+"await> command-line option).  The “noawait” variant should be used when the "
+"functionality provided by the trigger is not crucial."
+msgstr ""
 
 #. type: TP
 #: deb-triggers.man
@@ -6019,18 +6026,36 @@ msgid ""
 "Arranges that changes to this package's state will activate the specified "
 "trigger. The trigger will be activated at the start of the following "
 "operations: unpack, configure, remove (including for the benefit of a "
-"conflicting package), purge and deconfigure.  The “noawait” variant does not "
-"put the triggering packages in triggers-awaited state. This should be used "
-"when the functionality provided by the trigger is not crucial."
+"conflicting package), purge and deconfigure."
 msgstr ""
 "Regelt dat wijzigingen aan de toestand van dit pakket de opgegeven trigger "
 "zullen activeren. De trigger zal geactiveerd worden bij het begin van de "
 "volgende operaties: unpack (uitpakken), configure (configureren), remove "
 "(verwijderen) (inclusief ten voordele van een tegenstrijdig pakket), purge "
-"(wissen) en deconfigure (deconfigureren). De variant “noawait” plaatst de "
-"triggerende pakketten niet in de toestand triggers-awaited (wachten op "
-"triggerafhandeling). Dit zou gebruikt moeten worden als de functionaliteit "
-"die door de trigger geleverd wordt, niet cruciaal is."
+"(wissen) en deconfigure (deconfigureren)."
+
+#. type: Plain text
+#: deb-triggers.man
+#, fuzzy
+#| msgid ""
+#| "Specifies that the package is interested in the named trigger. All "
+#| "triggers in which a package is interested must be listed using this "
+#| "directive in the triggers control file. The “noawait” variant does not "
+#| "put the triggering packages in triggers-awaited state. This should be "
+#| "used when the functionality provided by the trigger is not crucial."
+msgid ""
+"The “await” variants only put the triggering package in triggers-awaited "
+"state if the interest directive is also “await”.  The “noawait” variant "
+"never puts the triggering packages in triggers-awaited state.  The “noawait” "
+"variant should be used when the functionality provided by the trigger is not "
+"crucial."
+msgstr ""
+"Specificeert dat het pakket geïnteresseerd is in de genoemde trigger. Alle "
+"triggers waarin een pakket geïnteresseerd is, moeten met behulp van deze "
+"instructie vermeld worden in het trigger-controlebestand. De variant "
+"“noawait” plaatst de triggerende pakketten niet in de toestand triggers-"
+"awaited (wachten op triggerafhandeling). Dit zou gebruikt moeten worden als "
+"de functionaliteit die door de trigger geleverd wordt, niet cruciaal is."
 
 #. type: Plain text
 #: deb-triggers.man
@@ -6094,6 +6119,17 @@ msgid ""
 msgstr ""
 "De aliasvarianten “-await” worden vanaf dpkg 1.17.21 ondersteund en zullen "
 "tot fouten leiden als zij met een oudere versie van dpkg gebruikt worden."
+
+#. type: Plain text
+#: deb-triggers.man
+msgid ""
+"When a package provides an B<interest-noawait> directive, any activation "
+"will set the triggering package into “noawait” mode, regardless of the "
+"awaiting mode requested by the activation (either “await” or “noawait”).  "
+"When a package provides an B<interest> or B<interest-await> directive, any "
+"activation will set the triggering package into “await” or “noawait“ "
+"depending on how it was activated."
+msgstr ""
 
 #.  FIXME: Unhardcode the pathname, and use dpkg instead of dpkg-dev.
 #. type: Plain text
@@ -8161,7 +8197,7 @@ msgstr ""
 #. type: Plain text
 #: dpkg.man
 msgid ""
-"B<script-chrootless>: Run maintainer scrips without B<chroot>(2)ing into "
+"B<script-chrootless>: Run maintainer scripts without B<chroot>(2)ing into "
 "B<instdir> even if the package does not support this mode of operation "
 "(since dpkg 1.18.5)."
 msgstr ""
@@ -8950,21 +8986,6 @@ msgid "The program B<dpkg> will execute when starting a new interactive shell."
 msgstr ""
 "Het programma dat B<dpkg> zal uitvoeren bij het starten van een nieuwe "
 "interactieve shell."
-
-#. type: TP
-#: dpkg.man dpkg-query.man
-#, no-wrap
-msgid "B<COLUMNS>"
-msgstr "B<COLUMNS>"
-
-#. type: Plain text
-#: dpkg.man
-msgid ""
-"Sets the number of columns B<dpkg> should use when displaying formatted "
-"text.  Currently only used by B<--list>."
-msgstr ""
-"Stelt het aantal kolommen in dat B<dpkg> moet gebruiken bij het laten zien "
-"van opgemaakte tekst. Wordt momenteel enkel gebruikt door B<--list>."
 
 #. type: TP
 #: dpkg.man dpkg-architecture.man dpkg-buildflags.man dpkg-buildpackage.man
@@ -17238,6 +17259,36 @@ msgstr ""
 "bibliotheken aan te duiden (anders heeft u meerdere malen B<-e> nodig)."
 
 #. type: TP
+#: dpkg-gensymbols.man dpkg-shlibdeps.man
+#, no-wrap
+msgid "B<-l>I<directory>"
+msgstr "B<-l>I<map>"
+
+#. type: Plain text
+#: dpkg-gensymbols.man
+msgid ""
+"Prepend I<directory> to the list of directories to search for private shared "
+"libraries (since dpkg 1.19.1). This option can be used multiple times."
+msgstr ""
+"Voeg I<map> vooraan toe aan de lijst van mappen waarin naar particuliere "
+"gedeelde bibliotheken gezocht moet worden (sinds dpkg 1.19.1). Deze optie "
+"kan meermaals gebruikt worden."
+
+#. type: Plain text
+#: dpkg-gensymbols.man dpkg-shlibdeps.man
+msgid ""
+"Note: Use this option instead of setting B<LD_LIBRARY_PATH>, as that "
+"environment variable is used to control the run-time linker and abusing it "
+"to set the shared library paths at build-time can be problematic when cross-"
+"compiling for example."
+msgstr ""
+"Opmerking: gebruik deze optie in plaats van B<LD_LIBRARY_PATH> in te "
+"stellen, aangezien die omgevingsvariabele gebruikt wordt om de linker "
+"tijdens de programma-uitvoering aan te sturen. Daarvan misbruik maken om de "
+"paden van gedeelde bibliotheken in te stellen tijdens het bouwen van het "
+"programma, kan problematisch zijn, bijvoorbeeld bij het cross-compileren."
+
+#. type: TP
 #: dpkg-gensymbols.man
 #, no-wrap
 msgid "B<-I>I<filename>"
@@ -18080,15 +18131,11 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-maintscript-helper.man
-#, fuzzy
-#| msgid ""
-#| "Sets the color mode (since dpkg 1.18.5).  The currently accepted values "
-#| "are: B<auto> (default), B<always> and B<never>."
 msgid ""
 "Sets the color mode (since dpkg 1.19.1).  The currently accepted values are: "
 "B<auto> (default), B<always> and B<never>."
 msgstr ""
-"Stelt de kleurmodus in (sinds dpkg 1.18.5). Waarden die momenteel gebruikt "
+"Stelt de kleurmodus in (sinds dpkg 1.19.1). Waarden die momenteel gebruikt "
 "mogen worden zijn: B<auto> (standaard), B<always> en B<never>."
 
 #. type: Plain text
@@ -19159,16 +19206,24 @@ msgstr ""
 #. type: TP
 #: dpkg-query.man
 #, no-wrap
-msgid "B<-s>, B<--status> I<package-name>..."
-msgstr "B<-s>, B<--status> I<pakketnaam>..."
+msgid "B<-s>, B<--status> [I<package-name>...]"
+msgstr "B<-s>, B<--status> [I<pakketnaam>...]"
 
 #. type: Plain text
 #: dpkg-query.man
+#, fuzzy
+#| msgid ""
+#| "Report status of specified package. This just displays the entry in the "
+#| "installed package status database. When multiple I<package-name> are "
+#| "listed, the requested status entries are separated by an empty line, with "
+#| "the same order as specified on the argument list."
 msgid ""
 "Report status of specified package. This just displays the entry in the "
-"installed package status database. When multiple I<package-name> are listed, "
-"the requested status entries are separated by an empty line, with the same "
-"order as specified on the argument list."
+"installed package status database.  If no I<package-name> is specified it "
+"will display all package entries in the status database (since dpkg "
+"1.19.1).  When multiple I<package-name> entries are listed, the requested "
+"status entries are separated by an empty line, with the same order as "
+"specified on the argument list."
 msgstr ""
 "Rapporteert over de status van het opgegeven pakket. Dit geeft gewoon het "
 "item weer uit de database met de toestand van geïnstalleerde bestanden. Als "
@@ -19317,16 +19372,23 @@ msgstr ""
 #. type: TP
 #: dpkg-query.man
 #, no-wrap
-msgid "B<-p>, B<--print-avail> I<package-name>..."
-msgstr "B<-p>, B<--print-avail> I<pakketnaam>..."
+msgid "B<-p>, B<--print-avail> [I<package-name>...]"
+msgstr "B<-p>, B<--print-avail> [I<pakketnaam>...]"
 
 #. type: Plain text
 #: dpkg-query.man
+#, fuzzy
+#| msgid ""
+#| "Display details about I<package-name>, as found in I<%ADMINDIR%/"
+#| "available>. When multiple I<package-name> are listed, the requested "
+#| "I<available> entries are separated by an empty line, with the same order "
+#| "as specified on the argument list."
 msgid ""
-"Display details about I<package-name>, as found in I<%ADMINDIR%/available>. "
-"When multiple I<package-name> are listed, the requested I<available> entries "
-"are separated by an empty line, with the same order as specified on the "
-"argument list."
+"Display details about packages, as found in I<%ADMINDIR%/available>.  If no "
+"I<package-name> is specified, it will display all package entries in the "
+"I<available> database (since dpkg 1.19.1).  When multiple I<package-name> "
+"are listed, the requested I<available> entries are separated by an empty "
+"line, with the same order as specified on the argument list."
 msgstr ""
 "Toon de details in verband met I<pakketnaam> zoals die te vinden zijn in I</"
 "var/lib/dpkg/available>. Als meerdere I<pakketnamen> opgegeven worden, "
@@ -19682,15 +19744,6 @@ msgstr ""
 "feit dat een bestand of een pakket niet gevonden werd (behalve bij B<--"
 "control-path>, B<--control-list> en B<--control-show> waarvoor dit soort "
 "fouten fataal is)."
-
-#. type: Plain text
-#: dpkg-query.man
-msgid ""
-"This setting influences the output of the B<--list> option by changing the "
-"width of its output."
-msgstr ""
-"Deze instelling wijzigt de uitvoer van de optie B<--list> door de breedte "
-"van de uitvoer ervan aan te passen."
 
 #. type: TH
 #: dpkg-scanpackages.man
@@ -20373,12 +20426,6 @@ msgstr ""
 "Voeg de gepaste afhankelijkheidsrelaties tot gedeelde bibliotheken toe die "
 "nodig zijn voor I<programma>. Deze optie kan meermaals gebruikt worden."
 
-#. type: TP
-#: dpkg-shlibdeps.man
-#, no-wrap
-msgid "B<-l>I<directory>"
-msgstr "B<-l>I<map>"
-
 #. type: Plain text
 #: dpkg-shlibdeps.man
 msgid ""
@@ -20388,20 +20435,6 @@ msgstr ""
 "Voeg I<map> vooraan toe aan de lijst van mappen waarin naar particuliere "
 "gedeelde bibliotheken gezocht moet worden (sinds dpkg 1.17.0). Deze optie "
 "kan meermaals gebruikt worden."
-
-#. type: Plain text
-#: dpkg-shlibdeps.man
-msgid ""
-"Note: Use this option instead of setting B<LD_LIBRARY_PATH>, as that "
-"environment variable is used to control the run-time linker and abusing it "
-"to set the shared library paths at build-time can be problematic when cross-"
-"compiling for example."
-msgstr ""
-"Opmerking: gebruik deze optie in plaats van B<LD_LIBRARY_PATH> in te "
-"stellen, aangezien die omgevingsvariabele gebruikt wordt om de linker "
-"tijdens de programma-uitvoering aan te sturen. Daarvan misbruik maken om de "
-"paden van gedeelde bibliotheken in te stellen tijdens het bouwen van het "
-"programma, kan problematisch zijn, bijvoorbeeld bij het cross-compileren."
 
 #. type: TP
 #: dpkg-shlibdeps.man
@@ -23741,9 +23774,14 @@ msgstr "B<--await>"
 
 #. type: Plain text
 #: dpkg-trigger.man
+#, fuzzy
+#| msgid ""
+#| "This option does the inverse of B<--no-await> (since dpkg 1.17.21).  It "
+#| "is currently the default behavior."
 msgid ""
-"This option does the inverse of B<--no-await> (since dpkg 1.17.21).  It is "
-"currently the default behavior."
+"This option does the inverse of B<--no-await> (since dpkg 1.17.21).  If the "
+"interested package has declared a “noawait” directive, then this option will "
+"not be effective.  It is currently the default behavior."
 msgstr ""
 "Deze optie doet het tegenovergestelde van B<--no-await> (sinds dpkg "
 "1.17.21). Dit is momenteel het standaardgedrag."
@@ -26897,6 +26935,23 @@ msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr ""
 "B<ln>(1), FHS, the Filesystem Hierarchy Standard. (Standaardisatie van "
 "bestandsorganisatie en mappenstructuur op unix-achtige systemen)"
+
+#~ msgid "B<COLUMNS>"
+#~ msgstr "B<COLUMNS>"
+
+#~ msgid ""
+#~ "Sets the number of columns B<dpkg> should use when displaying formatted "
+#~ "text.  Currently only used by B<--list>."
+#~ msgstr ""
+#~ "Stelt het aantal kolommen in dat B<dpkg> moet gebruiken bij het laten "
+#~ "zien van opgemaakte tekst. Wordt momenteel enkel gebruikt door B<--list>."
+
+#~ msgid ""
+#~ "This setting influences the output of the B<--list> option by changing "
+#~ "the width of its output."
+#~ msgstr ""
+#~ "Deze instelling wijzigt de uitvoer van de optie B<--list> door de breedte "
+#~ "van de uitvoer ervan aan te passen."
 
 #~ msgid "Add a diversion for I<file>."
 #~ msgstr "Voeg voor I<bestand> een omlegging toe."
