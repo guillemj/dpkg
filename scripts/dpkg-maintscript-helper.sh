@@ -46,6 +46,8 @@ rm_conffile() {
 	[ -n "$1" ] || error "maintainer script parameters are missing"
 	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
 		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
+	[ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || \
+		error "environment variable DPKG_MAINTSCRIPT_PACKAGE is required"
 	[ "${CONFFILE}" != "${CONFFILE#/}" ] || \
 		error "conffile '$CONFFILE' is not an absolute path"
 	validate_optional_version "$LASTVERSION"
@@ -156,6 +158,8 @@ mv_conffile() {
 	[ -n "$1" ] || error "maintainer script parameters are missing"
 	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
 		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
+	[ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || \
+		error "environment variable DPKG_MAINTSCRIPT_PACKAGE is required"
 	[ "${OLDCONFFILE}" != "${OLDCONFFILE#/}" ] || \
 		error "old-conffile '$OLDCONFFILE' is not an absolute path"
 	[ "${NEWCONFFILE}" != "${NEWCONFFILE#/}" ] || \
@@ -262,6 +266,8 @@ symlink_to_dir() {
 
 	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
 		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
+	[ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || \
+		error "environment variable DPKG_MAINTSCRIPT_PACKAGE is required"
 	[ -n "$PACKAGE" ] || error "cannot identify the package"
 	[ -n "$SYMLINK" ] || error "symlink parameter is missing"
 	[ "${SYMLINK#/}" = "$SYMLINK" ] && \
@@ -340,6 +346,8 @@ dir_to_symlink() {
 
 	[ -n "$DPKG_MAINTSCRIPT_NAME" ] || \
 		error "environment variable DPKG_MAINTSCRIPT_NAME is required"
+	[ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || \
+		error "environment variable DPKG_MAINTSCRIPT_PACKAGE is required"
 	[ -n "$PACKAGE" ] || error "cannot identify the package"
 	[ -n "$PATHNAME" ] || error "directory parameter is missing"
 	[ "${PATHNAME#/}" = "$PATHNAME" ] && \
