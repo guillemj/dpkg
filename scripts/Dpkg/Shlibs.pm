@@ -96,7 +96,9 @@ sub setup_library_paths {
         foreach my $path (split /:/, $ENV{LD_LIBRARY_PATH}) {
             $path =~ s{/+$}{};
 
-            if (Cwd::realpath($path) =~ m/^\Q$cwd\E/) {
+            my $realpath = Cwd::realpath($path);
+            next unless defined $realpath;
+            if ($realpath =~ m/^\Q$cwd\E/) {
                 warning(g_('deprecated use of LD_LIBRARY_PATH with private ' .
                            'library directory which interferes with ' .
                            'cross-building, please use -l option instead'));
