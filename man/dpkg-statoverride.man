@@ -64,6 +64,9 @@ to overrides which match the glob.
 .B \-\-help
 Show the usage message and exit.
 .TP
+.B \-\-force\-help
+Give help about the \fB\-\-force\-\fP\fIthing\fP options (since dpkg 1.19.5).
+.TP
 .B \-\-version
 Show the version and exit.
 .
@@ -83,6 +86,22 @@ Defaults to «\fI/\fP».
 Set the root directory to \fBdirectory\fP, which sets the installation
 directory to «\fIdirectory\fP» and the administrative
 directory to «\fIdirectory\fP\fB%ADMINDIR%\fP» (since dpkg 1.19.2).
+.TP
+.B \-\-force\-\fIthings\fP
+.TQ
+.BR \-\-no\-force\-\fIthings\fP ", " \-\-refuse\-\fIthings\fP
+Force or refuse (\fBno\-force\fP and \fBrefuse\fP mean the same thing)
+to do some things (since dpkg 1.19.5).
+\fIthings\fP is a comma separated list of things specified below.
+\fB\-\-force\-help\fP displays a message describing them.
+Things marked with (*) are forced by default.
+
+\fIWarning: These options are mostly intended to be used by experts only.
+Using them without fully understanding their effects may break your whole
+system.\fP
+
+\fBall\fP:
+Turns on (or off) all force options.
 .TP
 .B \-\-force
 Force an action, even if a sanity check would otherwise prohibit it.
@@ -119,6 +138,10 @@ specified, it will be used as the filesystem root directory
 .B DPKG_ADMINDIR
 If set and the \fB\-\-admindir\fP or \fB\-\-root\fP options have not been
 specified, it will be used as the \fBdpkg\fP data directory.
+.TP
+.B DPKG_FORCE
+If set and none of the \fB\-\-force\-\fP\fI...\fP options have been
+specified, it will be used as the force options to use (since dpkg 1.19.5).
 .TP
 .B DPKG_COLORS
 Sets the color mode (since dpkg 1.18.5).

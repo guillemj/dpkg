@@ -60,6 +60,7 @@ dpkg_query_SOURCES = \
 	querycmd.c
 
 dpkg_statoverride_SOURCES = \
+	force.c force.h \
 	selinux.c \
 	statcmd.c
 

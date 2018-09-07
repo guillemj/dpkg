@@ -40,12 +40,14 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/string.h>
 #include <dpkg/path.h>
 #include <dpkg/dir.h>
 #include <dpkg/glob.h>
 #include <dpkg/db-fsys.h>
 #include <dpkg/options.h>
 
+#include "force.h"
 #include "main.h"
 
 static const char printforhelp[] = N_(
@@ -88,6 +90,9 @@ usage(const struct cmdinfo *cip, const char *value)
 "  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
 "  --force                  force an action even if a sanity check fails.\n"
+"  --force-...              override problems (see --force-help).\n"
+"  --no-force-...           stop when problems encountered.\n"
+"  --refuse-...             ditto.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
@@ -376,6 +381,9 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "root",       0,   1,  NULL,         NULL,      set_root,     0 },
 	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL, 0       },
 	{ "force",      0,   0,  &opt_force,   NULL,      NULL, 1       },
+	{ "force",      0,   2,  NULL,         NULL,      set_force_option, 1 },
+	{ "no-force",   0,   2,  NULL,         NULL,      set_force_option, 0 },
+	{ "refuse",     0,   2,  NULL,         NULL,      set_force_option, 0 },
 	{ "update",     0,   0,  &opt_update,  NULL,      NULL, 1       },
 	{ "help",       '?', 0,  NULL,         NULL,      usage         },
 	{ "version",    0,   0,  NULL,         NULL,      printversion  },
@@ -389,6 +397,7 @@ main(int argc, const char *const *argv)
 
 	dpkg_locales_init(PACKAGE);
 	dpkg_program_init("dpkg-statoverride");
+	set_force_default(0);
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
