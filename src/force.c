@@ -108,6 +108,16 @@ static const struct forceinfo {
 		FORCETYPE_DISABLED,
 		N_("Process even packages with wrong versions"),
 	}, {
+		"statoverride-add",
+		FORCE_STATOVERRIDE_ADD,
+		FORCETYPE_DISABLED,
+		N_("Overwrite an existing stat override when adding it"),
+	}, {
+		"statoverride-remove",
+		FORCE_STATOVERRIDE_DEL,
+		FORCETYPE_DISABLED,
+		N_("Ignore a missing stat override when removing it"),
+	}, {
 		"overwrite",
 		FORCE_OVERWRITE,
 		FORCETYPE_DISABLED,

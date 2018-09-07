@@ -89,7 +89,7 @@ usage(const struct cmdinfo *cip, const char *value)
 "  --instdir <directory>    set the root directory, but not the admin dir.\n"
 "  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
-"  --force                  force an action even if a sanity check fails.\n"
+"  --force                  deprecated alias for --force-all.\n"
 "  --force-...              override problems (see --force-help).\n"
 "  --no-force-...           stop when problems encountered.\n"
 "  --refuse-...             ditto.\n"
@@ -103,11 +103,13 @@ usage(const struct cmdinfo *cip, const char *value)
 	exit(0);
 }
 
+#define FORCE_STATCMD_MASK \
+	FORCE_STATOVERRIDE_ADD | FORCE_STATOVERRIDE_DEL
+
 static const char *admindir;
 const char *instdir;
 
 static int opt_verbose = 1;
-static int opt_force = 0;
 static int opt_update = 0;
 
 static void
@@ -268,7 +270,7 @@ statoverride_add(const char *const *argv)
 
 	filestat = statdb_node_find(filename);
 	if (*filestat != NULL) {
-		if (opt_force)
+		if (in_force(FORCE_STATOVERRIDE_ADD))
 			warning(_("an override for '%s' already exists, "
 			          "but --force specified so will be ignored"),
 			        filename);
@@ -319,7 +321,7 @@ statoverride_remove(const char *const *argv)
 	if (!statdb_node_remove(filename)) {
 		if (opt_verbose)
 			warning(_("no override present"));
-		if (opt_force)
+		if (in_force(FORCE_STATOVERRIDE_DEL))
 			return 0;
 		else
 			return 2;
@@ -371,6 +373,14 @@ statoverride_list(const char *const *argv)
 	return ret;
 }
 
+static void
+set_force_obsolete(const struct cmdinfo *cip, const char *value)
+{
+	warning(_("deprecated --%s option; use --%s instead"),
+	        cip->olong, "force-all");
+	set_force(FORCE_ALL);
+}
+
 static const struct cmdinfo cmdinfos[] = {
 	ACTION("add",    0, act_install,   statoverride_add),
 	ACTION("remove", 0, act_remove,    statoverride_remove),
@@ -380,7 +390,7 @@ static const struct cmdinfo cmdinfos[] = {
 	{ "instdir",    0,   1,  NULL,         NULL,      set_instdir,  0 },
 	{ "root",       0,   1,  NULL,         NULL,      set_root,     0 },
 	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL, 0       },
-	{ "force",      0,   0,  &opt_force,   NULL,      NULL, 1       },
+	{ "force",      0,   0,  NULL,         NULL,      set_force_obsolete },
 	{ "force",      0,   2,  NULL,         NULL,      set_force_option, 1 },
 	{ "no-force",   0,   2,  NULL,         NULL,      set_force_option, 0 },
 	{ "refuse",     0,   2,  NULL,         NULL,      set_force_option, 0 },
@@ -397,7 +407,7 @@ main(int argc, const char *const *argv)
 
 	dpkg_locales_init(PACKAGE);
 	dpkg_program_init("dpkg-statoverride");
-	set_force_default(0);
+	set_force_default(FORCE_STATCMD_MASK);
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
