@@ -37,8 +37,8 @@
 
 #include "force.h"
 
-static int force_mask = FORCE_ALL;
-static int force_flags = FORCE_DOWNGRADE;
+static int force_mask;
+static int force_flags;
 
 enum forcetype {
 	FORCETYPE_DISABLED,
@@ -318,6 +318,18 @@ parse_force(const char *value, bool set)
 			break;
 		value = ++comma;
 	}
+}
+
+void
+set_force_default(int mask)
+{
+	const struct forceinfo *fip;
+
+	force_mask = mask;
+
+	for (fip = forceinfos; fip->name; fip++)
+		if (fip->type == FORCETYPE_ENABLED)
+			set_force(fip->flag);
 }
 
 void

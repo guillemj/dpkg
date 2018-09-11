@@ -67,6 +67,8 @@ void
 parse_force(const char *value, bool set);
 
 void
+set_force_default(int mask);
+void
 set_force_option(const struct cmdinfo *cip, const char *value);
 void
 reset_force_option(const struct cmdinfo *cip, const char *value);
