@@ -40,19 +40,24 @@
 static int force_mask = FORCE_ALL;
 static int force_flags = FORCE_DOWNGRADE;
 
+enum forcetype {
+	FORCETYPE_DISABLED,
+	FORCETYPE_ENABLED,
+	FORCETYPE_DAMAGE,
+};
+
 static const char *
-forcetype_str(char type)
+forcetype_str(enum forcetype type)
 {
 	switch (type) {
-	case '\0':
-	case ' ':
+	case FORCETYPE_DISABLED:
 		return "   ";
-	case '*':
+	case FORCETYPE_ENABLED:
 		return "[*]";
-	case '!':
+	case FORCETYPE_DAMAGE:
 		return "[!]";
 	default:
-		internerr("unknown force type '%c'", type);
+		internerr("unknown force type '%d'", type);
 	}
 }
 
@@ -65,82 +70,82 @@ static const struct forceinfo {
 	{
 		"all",
 		FORCE_ALL,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Set all force options"),
 	}, {
 		"downgrade",
 		FORCE_DOWNGRADE,
-		'*',
+		FORCETYPE_ENABLED,
 		N_("Replace a package with a lower version"),
 	}, {
 		"configure-any",
 		FORCE_CONFIGURE_ANY,
-		' ',
+		FORCETYPE_DISABLED,
 		N_("Configure any package which may help this one"),
 	}, {
 		"hold",
 		FORCE_HOLD,
-		' ',
+		FORCETYPE_DISABLED,
 		N_("Process incidental packages even when on hold"),
 	}, {
 		"not-root",
 		FORCE_NON_ROOT,
-		' ',
+		FORCETYPE_DISABLED,
 		N_("Try to (de)install things even when not root"),
 	}, {
 		"bad-path",
 		FORCE_BAD_PATH,
-		' ',
+		FORCETYPE_DISABLED,
 		N_("PATH is missing important programs, problems likely"),
 	}, {
 		"bad-verify",
 		FORCE_BAD_VERIFY,
-		' ',
+		FORCETYPE_DISABLED,
 		N_("Install a package even if it fails authenticity check"),
 	}, {
 		"bad-version",
 		FORCE_BAD_VERSION,
-		' ',
+		FORCETYPE_DISABLED,
 		N_("Process even packages with wrong versions"),
 	}, {
 		"overwrite",
 		FORCE_OVERWRITE,
-		' ',
+		FORCETYPE_DISABLED,
 		N_("Overwrite a file from one package with another"),
 	}, {
 		"overwrite-diverted",
 		FORCE_OVERWRITE_DIVERTED,
-		' ',
+		FORCETYPE_DISABLED,
 		N_("Overwrite a diverted file with an undiverted version"),
 	}, {
 		"overwrite-dir",
 		FORCE_OVERWRITE_DIR,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Overwrite one package's directory with another's file"),
 	}, {
 		"unsafe-io",
 		FORCE_UNSAFE_IO,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Do not perform safe I/O operations when unpacking"),
 	}, {
 		"script-chrootless",
 		FORCE_SCRIPT_CHROOTLESS,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Do not chroot into maintainer script environment"),
 	}, {
 		"confnew",
 		FORCE_CONFF_NEW,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Always use the new config files, don't prompt"),
 	}, {
 		"confold",
 		FORCE_CONFF_OLD,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Always use the old config files, don't prompt"),
 	}, {
 		"confdef",
 		FORCE_CONFF_DEF,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Use the default option for new config files if one\n"
 		   "is available, don't prompt. If no default can be found,\n"
 		   "you will be prompted unless one of the confold or\n"
@@ -148,47 +153,47 @@ static const struct forceinfo {
 	}, {
 		"confmiss",
 		FORCE_CONFF_MISS,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Always install missing config files"),
 	}, {
 		"confask",
 		FORCE_CONFF_ASK,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Offer to replace config files with no new versions"),
 	}, {
 		"architecture",
 		FORCE_ARCHITECTURE,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Process even packages with wrong or no architecture"),
 	}, {
 		"breaks",
 		FORCE_BREAKS,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Install even if it would break another package"),
 	}, {
 		"conflicts",
 		FORCE_CONFLICTS,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Allow installation of conflicting packages"),
 	}, {
 		"depends",
 		FORCE_DEPENDS,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Turn all dependency problems into warnings"),
 	}, {
 		"depends-version",
 		FORCE_DEPENDS_VERSION,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Turn dependency version problems into warnings"),
 	}, {
 		"remove-reinstreq",
 		FORCE_REMOVE_REINSTREQ,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Remove packages which require installation"),
 	}, {
 		"remove-essential",
 		FORCE_REMOVE_ESSENTIAL,
-		'!',
+		FORCETYPE_DAMAGE,
 		N_("Remove an essential package"),
 	}, {
 		NULL
@@ -250,7 +255,7 @@ print_forceinfo(const struct forceinfo *fi)
 	line = strtok(desc, "\n");
 	print_forceinfo_line(fi->type, fi->name, line);
 	while ((line = strtok(NULL, "\n")))
-		print_forceinfo_line(' ', "", line);
+		print_forceinfo_line(FORCETYPE_DISABLED, "", line);
 
 	free(desc);
 }
