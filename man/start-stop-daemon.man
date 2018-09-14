@@ -116,9 +116,17 @@ Check for a process with the specified parent pid \fIppid\fP
 The \fIppid\fP must be a number greater than 0.
 .TP
 .BR \-p ", " \-\-pidfile " \fIpid-file\fP"
-Check whether a process has created the file \fIpid-file\fP. Note: using this
-matching option alone might cause unintended processes to be acted on, if the
-old process terminated without being able to remove the \fIpid-file\fP.
+Check whether a process has created the file \fIpid-file\fP.
+.IP
+Note: using this matching option alone might cause unintended processes to
+be acted on, if the old process terminated without being able to remove the
+\fIpid-file\fP.
+.IP
+\fBWarning:\fP Using this match option alone with a daemon that writes the
+pidfile as an unprivileged user is a security risk, because if the daemon
+gets compromised the contents of the pidfile cannot be trusted, and then
+a privileged runner (such as an init script executed as root) would end up
+acting on any system process.
 .TP
 .BR \-x ", " \-\-exec " \fIexecutable\fP"
 Check for processes that are instances of this \fIexecutable\fP. The
