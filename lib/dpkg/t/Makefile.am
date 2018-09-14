@@ -17,11 +17,14 @@ TEST_ENV_VARS = \
 	DPKG_PROGTAR=$(TAR) \
 	$(nil)
 
+t_headers_cpp_SOURCES = t-headers-cpp.cc
+
 # The tests are sorted in order of increasing complexity.
 test_programs = \
 	t-test \
 	t-test-skip \
 	t-macros \
+	t-headers-cpp \
 	t-c-ctype \
 	t-namevalue \
 	t-ehandle \
