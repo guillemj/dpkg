@@ -210,7 +210,7 @@ sub _add_build_flags {
         $use_feature{reproducible}{fixdebugpath}) {
         require Cwd;
 
-        $build_path = $ENV{DEB_BUILD_PATH} || Cwd::cwd();
+        $build_path = $ENV{DEB_BUILD_PATH} || Cwd::getcwd();
 
         # If we have any unsafe character in the path, disable the flag,
         # so that we do not need to worry about escaping the characters

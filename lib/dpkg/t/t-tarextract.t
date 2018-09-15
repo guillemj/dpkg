@@ -119,7 +119,7 @@ TAR
 
     make_path($tmpdir);
 
-    my $cwd = cwd();
+    my $cwd = getcwd();
 
     # Check generated tarballs.
     foreach my $type (qw(v7 ustar oldgnu gnu)) {

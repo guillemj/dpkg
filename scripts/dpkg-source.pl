@@ -118,7 +118,7 @@ if (defined($options{opmode}) &&
     }
     if ($dir eq '.') {
 	# . is never correct, adjust automatically
-	$dir = basename(cwd());
+	$dir = basename(getcwd());
 	chdir '..' or syserr(g_("unable to chdir to '%s'"), '..');
     }
     # --format options are not allowed, they would take precedence

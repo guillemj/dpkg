@@ -423,7 +423,7 @@ if ($use_feature{kernel}) {
     $fields->{'Build-Kernel-Version'} = "$kern_rel $kern_ver";
 }
 
-my $cwd = cwd();
+my $cwd = getcwd();
 if ($use_feature{path}) {
     $fields->{'Build-Path'} = $cwd;
 } else {

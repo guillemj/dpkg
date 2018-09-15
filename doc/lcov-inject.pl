@@ -25,7 +25,7 @@ use Cwd;
 use Devel::Cover::DB;
 
 my $dir = 'scripts';
-my $cwd = cwd();
+my $cwd = getcwd();
 
 chdir $dir or die "cannot switch to $dir\n";
 
