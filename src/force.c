@@ -250,7 +250,7 @@ set_force(const struct cmdinfo *cip, const char *value)
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
-" Forcing things:\n"), DPKG);
+" Forcing things:\n"), dpkg_get_progname());
 
 		for (fip = forceinfos; fip->name; fip++)
 			print_forceinfo(fip);
