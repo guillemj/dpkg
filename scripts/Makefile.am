@@ -104,6 +104,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Shlibs/SymbolFile.pm \
 	Dpkg/Shlibs/Cppfilt.pm \
 	Dpkg/Source/Archive.pm \
+	Dpkg/Source/BinaryFiles.pm \
 	Dpkg/Source/Functions.pm \
 	Dpkg/Source/Package.pm \
 	Dpkg/Source/Package/V1.pm \

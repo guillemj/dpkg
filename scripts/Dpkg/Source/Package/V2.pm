@@ -37,6 +37,7 @@ use Dpkg::Path qw(find_command);
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
+use Dpkg::Source::BinaryFiles;
 use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
 use Dpkg::Source::Functions qw(erasedir chmod_if_needed is_binary fs_time);
 use Dpkg::Vendor qw(run_vendor_hook);
@@ -517,7 +518,7 @@ sub do_build {
     my $basenamerev = $self->get_basename(1);
 
     # Check if the debian directory contains unwanted binary files
-    my $binaryfiles = Dpkg::Source::Package::V2::BinaryFiles->new($dir);
+    my $binaryfiles = Dpkg::Source::BinaryFiles->new($dir);
     my $unwanted_binaries = 0;
     my $check_binary = sub {
         if (-f and is_binary($_)) {
@@ -714,7 +715,7 @@ sub do_commit {
         error(g_("patch file '%s' doesn't exist"), $tmpdiff) if not -e $tmpdiff;
     }
 
-    my $binaryfiles = Dpkg::Source::Package::V2::BinaryFiles->new($dir);
+    my $binaryfiles = Dpkg::Source::BinaryFiles->new($dir);
     my $handle_binary = sub {
         my ($self, $old, $new, %opts) = @_;
         my $fn = File::Spec->abs2rel($new, $dir);
@@ -755,88 +756,6 @@ sub do_commit {
     unlink($tmpdiff) or syserr(g_('cannot remove %s'), $tmpdiff);
     pop_exit_handler();
     info(g_('local changes have been recorded in a new patch: %s'), $patch);
-}
-
-package Dpkg::Source::Package::V2::BinaryFiles;
-
-use Dpkg::ErrorHandling;
-use Dpkg::Gettext;
-
-use File::Path qw(make_path);
-use File::Spec;
-
-sub new {
-    my ($this, $dir) = @_;
-    my $class = ref($this) || $this;
-
-    my $self = {
-        dir => $dir,
-        allowed_binaries => {},
-        seen_binaries => {},
-        include_binaries_path =>
-            File::Spec->catfile($dir, 'debian', 'source', 'include-binaries'),
-    };
-    bless $self, $class;
-    $self->load_allowed_binaries();
-    return $self;
-}
-
-sub new_binary_found {
-    my ($self, $path) = @_;
-
-    $self->{seen_binaries}{$path} = 1;
-}
-
-sub load_allowed_binaries {
-    my $self = shift;
-    my $incbin_file = $self->{include_binaries_path};
-    if (-f $incbin_file) {
-        open(my $incbin_fh, '<', $incbin_file)
-            or syserr(g_('cannot read %s'), $incbin_file);
-        while (<$incbin_fh>) {
-            chomp;
-            s/^\s*//;
-            s/\s*$//;
-            next if /^#/ or length == 0;
-            $self->{allowed_binaries}{$_} = 1;
-        }
-        close($incbin_fh);
-    }
-}
-
-sub binary_is_allowed {
-    my ($self, $path) = @_;
-    return 1 if exists $self->{allowed_binaries}{$path};
-    return 0;
-}
-
-sub update_debian_source_include_binaries {
-    my $self = shift;
-
-    my @unknown_binaries = $self->get_unknown_binaries();
-    return unless scalar(@unknown_binaries);
-
-    my $incbin_file = $self->{include_binaries_path};
-    make_path(File::Spec->catdir($self->{dir}, 'debian', 'source'));
-    open(my $incbin_fh, '>>', $incbin_file)
-        or syserr(g_('cannot write %s'), $incbin_file);
-    foreach my $binary (@unknown_binaries) {
-        print { $incbin_fh } "$binary\n";
-        info(g_('adding %s to %s'), $binary, 'debian/source/include-binaries');
-        $self->{allowed_binaries}{$binary} = 1;
-    }
-    close($incbin_fh);
-}
-
-sub get_unknown_binaries {
-    my $self = shift;
-    return grep { not $self->binary_is_allowed($_) } $self->get_seen_binaries();
-}
-
-sub get_seen_binaries {
-    my $self = shift;
-    my @seen = sort keys %{$self->{seen_binaries}};
-    return @seen;
 }
 
 1;
