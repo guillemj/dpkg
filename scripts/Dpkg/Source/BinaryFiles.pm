@@ -21,11 +21,14 @@ use warnings;
 
 our $VERSION = '0.01';
 
+use Cwd;
 use File::Path qw(make_path);
 use File::Spec;
+use File::Find;
 
 use Dpkg::ErrorHandling;
 use Dpkg::Gettext;
+use Dpkg::Source::Functions qw(is_binary);
 
 sub new {
     my ($this, $dir) = @_;
@@ -103,6 +106,56 @@ sub get_seen_binaries {
     my @seen = sort keys %{$self->{seen_binaries}};
 
     return @seen;
+}
+
+sub detect_binary_files {
+    my ($self, %opts) = @_;
+
+    my $unwanted_binaries = 0;
+    my $check_binary = sub {
+        if (-f and is_binary($_)) {
+            my $fn = File::Spec->abs2rel($_, $self->{dir});
+            $self->new_binary_found($fn);
+            unless ($opts{include_binaries} or $self->binary_is_allowed($fn)) {
+                errormsg(g_('unwanted binary file: %s'), $fn);
+                $unwanted_binaries++;
+            }
+        }
+    };
+    my $exclude_glob = '{' .
+        join(',', map { s/,/\\,/rg } @{$opts{exclude_globs}}) .
+    '}';
+    my $filter_ignore = sub {
+        # Filter out files that are not going to be included in the debian
+        # tarball due to ignores.
+        my %exclude;
+        my $reldir = File::Spec->abs2rel($File::Find::dir, $self->{dir});
+        my $cwd = getcwd();
+        # Apply the pattern both from the top dir and from the inspected dir
+        chdir $self->{dir}
+            or syserr(g_("unable to chdir to '%s'"), $self->{dir});
+        $exclude{$_} = 1 foreach glob $exclude_glob;
+        chdir $cwd or syserr(g_("unable to chdir to '%s'"), $cwd);
+        chdir $File::Find::dir
+            or syserr(g_("unable to chdir to '%s'"), $File::Find::dir);
+        $exclude{$_} = 1 foreach glob $exclude_glob;
+        chdir $cwd or syserr(g_("unable to chdir to '%s'"), $cwd);
+        my @result;
+        foreach my $fn (@_) {
+            unless (exists $exclude{$fn} or exists $exclude{"$reldir/$fn"}) {
+                push @result, $fn;
+            }
+        }
+        return @result;
+    };
+    find({ wanted => $check_binary, preprocess => $filter_ignore,
+           no_chdir => 1 }, File::Spec->catdir($self->{dir}, 'debian'));
+    error(P_('detected %d unwanted binary file (add it in ' .
+             'debian/source/include-binaries to allow its inclusion).',
+             'detected %d unwanted binary files (add them in ' .
+             'debian/source/include-binaries to allow their inclusion).',
+             $unwanted_binaries), $unwanted_binaries)
+        if $unwanted_binaries;
 }
 
 1;

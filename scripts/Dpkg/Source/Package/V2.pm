@@ -39,7 +39,7 @@ use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
 use Dpkg::Source::BinaryFiles;
 use Dpkg::Exit qw(push_exit_handler pop_exit_handler);
-use Dpkg::Source::Functions qw(erasedir chmod_if_needed is_binary fs_time);
+use Dpkg::Source::Functions qw(erasedir chmod_if_needed fs_time);
 use Dpkg::Vendor qw(run_vendor_hook);
 use Dpkg::Control;
 use Dpkg::Changelog::Parse;
@@ -519,49 +519,11 @@ sub do_build {
 
     # Check if the debian directory contains unwanted binary files
     my $binaryfiles = Dpkg::Source::BinaryFiles->new($dir);
-    my $unwanted_binaries = 0;
-    my $check_binary = sub {
-        if (-f and is_binary($_)) {
-            my $fn = File::Spec->abs2rel($_, $dir);
-            $binaryfiles->new_binary_found($fn);
-            unless ($include_binaries or $binaryfiles->binary_is_allowed($fn)) {
-                errormsg(g_('unwanted binary file: %s'), $fn);
-                $unwanted_binaries++;
-            }
-        }
-    };
-    my $tar_ignore_glob = '{' . join(',',
-        map { s/,/\\,/rg } @{$self->{options}{tar_ignore}}) . '}';
-    my $filter_ignore = sub {
-        # Filter out files that are not going to be included in the debian
-        # tarball due to ignores.
-        my %exclude;
-        my $reldir = File::Spec->abs2rel($File::Find::dir, $dir);
-        my $cwd = getcwd();
-        # Apply the pattern both from the top dir and from the inspected dir
-        chdir $dir or syserr(g_("unable to chdir to '%s'"), $dir);
-        $exclude{$_} = 1 foreach glob($tar_ignore_glob);
-        chdir $cwd or syserr(g_("unable to chdir to '%s'"), $cwd);
-        chdir($File::Find::dir)
-            or syserr(g_("unable to chdir to '%s'"), $File::Find::dir);
-        $exclude{$_} = 1 foreach glob($tar_ignore_glob);
-        chdir $cwd or syserr(g_("unable to chdir to '%s'"), $cwd);
-        my @result;
-        foreach my $fn (@_) {
-            unless (exists $exclude{$fn} or exists $exclude{"$reldir/$fn"}) {
-                push @result, $fn;
-            }
-        }
-        return @result;
-    };
-    find({ wanted => $check_binary, preprocess => $filter_ignore,
-           no_chdir => 1 }, File::Spec->catdir($dir, 'debian'));
-    error(P_('detected %d unwanted binary file (add it in ' .
-             'debian/source/include-binaries to allow its inclusion).',
-             'detected %d unwanted binary files (add them in ' .
-             'debian/source/include-binaries to allow their inclusion).',
-             $unwanted_binaries), $unwanted_binaries)
-         if $unwanted_binaries;
+
+    $binaryfiles->detect_binary_files(
+        exclude_globs => $self->{options}{tar_ignore},
+        include_binaries => $include_binaries,
+    );
 
     # Handle modified binary files detected by the auto-patch generation
     my $handle_binary = sub {
