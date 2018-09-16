@@ -167,7 +167,8 @@ sub _find_package {
         } elsif ($archqual eq 'any') {
             return $p if $ma eq 'allowed';
         } elsif ($archqual eq 'native') {
-            return $p if $a eq $build_arch and $ma ne 'foreign';
+            return if $ma eq 'foreign';
+            return $p if $a eq $build_arch or $a eq 'all';
         } else {
             return $p if $a eq $archqual;
         }

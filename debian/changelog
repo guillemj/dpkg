@@ -163,6 +163,11 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
       conversion.
     - Dpkg::Control::Fields: Do not use & sigil for function calls.
     - Dpkg::Shlibs: Ignore nonexistent directories present in LD_LIBRARY_PATH.
+    - Dpkg::Deps::KnownFacts: Satisfy :native with arch:all packages too.
+      These are treated as native packages everywhere else in the multi-arch
+      design, this was the only exception, which has become a source of
+      packaging problems as of late. This was apparently an oversight in
+      the original implementation. Closes: #854438
   * Documentation:
     - Update gettext minimal version in README.
     - Add a missing dot on the dpkg-buildflags(1) «lfs» feature paragraph.

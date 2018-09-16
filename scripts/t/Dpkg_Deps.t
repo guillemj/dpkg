@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 78;
+use Test::More tests => 82;
 
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Version;
@@ -160,6 +160,8 @@ $facts->add_installed_package('pkg-ma-foreign2', '1.3.4-1', get_host_arch(), 'fo
 $facts->add_installed_package('pkg-ma-allowed', '1.3.4-1', 'somearch', 'allowed');
 $facts->add_installed_package('pkg-ma-allowed2', '1.3.4-1', 'somearch', 'allowed');
 $facts->add_installed_package('pkg-ma-allowed3', '1.3.4-1', get_host_arch(), 'allowed');
+$facts->add_installed_package('pkg-indep-normal', '1.3.4-1', 'all', 'no');
+$facts->add_installed_package('pkg-indep-foreign', '1.3.4-1', 'all', 'foreign');
 $facts->add_provided_package('myvirtual', undef, undef, 'mypackage');
 $facts->add_provided_package('myvirtual2', REL_EQ, '1.0-1', 'mypackage');
 $facts->add_provided_package('myvirtual3', REL_GE, '2.0-1', 'mypackage');
@@ -171,6 +173,23 @@ my $dep_dup = deps_parse($field_duplicate);
 $dep_dup->simplify_deps($facts, $dep_opposite);
 is($dep_dup->output(), 'libc6 (>= 2.6-1), mypackage2, pkg-ma-allowed2',
     'Simplify deps');
+
+my $dep_ma_all_normal_implicit_native = deps_parse('pkg-indep-normal', build_dep => 1);
+my $dep_ma_all_normal_explicit_native = deps_parse('pkg-indep-normal:native', build_dep => 1);
+my $dep_ma_all_foreign_implicit_native = deps_parse('pkg-indep-foreign', build_dep => 1);
+my $dep_ma_all_foreign_explicit_native = deps_parse('pkg-indep-foreign:native', build_dep => 1);
+$dep_ma_all_normal_implicit_native->simplify_deps($facts);
+is($dep_ma_all_normal_implicit_native->output(), '',
+    'Simplify arch:all m-a:no w/ implicit :native (satisfied)');
+$dep_ma_all_normal_explicit_native->simplify_deps($facts);
+is($dep_ma_all_normal_explicit_native->output(), '',
+    'Simplify arch:all m-a:no w/ explicit :native (satisfied)');
+$dep_ma_all_foreign_implicit_native->simplify_deps($facts);
+is($dep_ma_all_foreign_implicit_native->output(), '',
+    'Simplify arch:all m-a:foreign w/ implicit :native (satisfied)');
+$dep_ma_all_foreign_explicit_native->simplify_deps($facts);
+is($dep_ma_all_foreign_explicit_native->output(), 'pkg-indep-foreign:native',
+    'Simplify arch:all m-a:foreign w/ explicit :native (unsatisfied)');
 
 TODO: {
 
