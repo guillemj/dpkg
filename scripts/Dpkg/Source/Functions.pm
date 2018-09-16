@@ -110,30 +110,15 @@ sub fs_time($) {
 sub is_binary($) {
     my $file = shift;
 
-    # TODO: might want to reimplement what diff does, aka checking if the
-    # file contains \0 in the first 4Kb of data
+    # Perform the same check as diff(1), look for a NUL character in the first
+    # 4 KiB of the file.
+    open my $fh, '<', $file
+        or syserr(g_('cannot open file %s for binary detection'), $file);
+    read $fh, my $buf, 4096, 0;
+    my $res = index $buf, "\0";
+    close $fh;
 
-    # Use diff to check if it's a binary file
-    my $diffgen;
-    my $diff_pid = spawn(
-        exec => [ 'diff', '-u', '--', '/dev/null', $file ],
-        env => { LC_ALL => 'C', LANG => 'C', TZ => 'UTC0' },
-        to_pipe => \$diffgen,
-    );
-    my $result = 0;
-    local $_;
-    while (<$diffgen>) {
-        if (m/^(?:binary|[^-+\@ ].*\bdiffer\b)/i) {
-            $result = 1;
-            last;
-        } elsif (m/^[-+\@ ]/) {
-            $result = 0;
-            last;
-        }
-    }
-    close($diffgen) or syserr('close on diff pipe');
-    wait_child($diff_pid, nocheck => 1, cmdline => "diff -u -- /dev/null $file");
-    return $result;
+    return $res >= 0;
 }
 
 1;
