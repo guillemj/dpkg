@@ -81,12 +81,14 @@ sub parse {
 
         my $file;
 
-        if (m/^(\S+) (\S+) (\S+)$/) {
+        if (m/^(\S+) (\S+) (\S+)((?:\s+[0-9a-z-]+=\S+)*)$/) {
             $file = $self->parse_filename($1);
             error(g_('badly formed package name in files list file, line %d'), $.)
                 unless defined $file;
             $file->{section} = $2;
             $file->{priority} = $3;
+            my $attrs = $4;
+            $file->{attrs} = { map { split /=/ } split ' ', $attrs };
         } else {
             error(g_('badly formed line in files list file, line %d'), $.);
         }
@@ -131,12 +133,13 @@ sub get_file {
 }
 
 sub add_file {
-    my ($self, $filename, $section, $priority) = @_;
+    my ($self, $filename, $section, $priority, %attrs) = @_;
 
     my $file = $self->parse_filename($filename);
     error(g_('invalid filename %s'), $filename) unless defined $file;
     $file->{section} = $section;
     $file->{priority} = $priority;
+    $file->{attrs} = \%attrs;
 
     $self->{files}->{$filename} = $file;
 
@@ -171,7 +174,15 @@ sub output {
 
     foreach my $filename (sort keys %{$self->{files}}) {
         my $file = $self->{files}->{$filename};
-        my $entry = "$filename $file->{section} $file->{priority}\n";
+        my $entry = "$filename $file->{section} $file->{priority}";
+
+        if (exists $file->{attrs}) {
+            foreach my $attr (sort keys %{$file->{attrs}}) {
+                $entry .= " $attr=$file->{attrs}->{$attr}";
+            }
+        }
+
+        $entry .= "\n";
 
         print { $fh } $entry if defined $fh;
         $str .= $entry;
