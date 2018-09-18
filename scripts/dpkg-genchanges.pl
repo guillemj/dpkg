@@ -22,7 +22,7 @@
 use strict;
 use warnings;
 
-use List::Util qw(any none);
+use List::Util qw(any all none);
 use Encode;
 use POSIX qw(:errno_h :locale_h);
 
@@ -423,10 +423,14 @@ if ($changesdescription) {
 
 for my $p (keys %p2f) {
     if (not defined $control->get_pkg_by_name($p)) {
-        # XXX: Skip automatic debugging symbol packages. We should not be
-        # hardcoding packages names here, as this is distribution-specific.
-        # Instead we should use the Auto-Built-Package field.
-        next if $p =~ m/-dbgsym$/;
+        # Skip automatically generated packages (such as debugging symbol
+        # packages), by using the Auto-Built-Package field.
+        next if all {
+            my $file = $dist->get_file($_);
+
+            $file->{attrs}->{automatic} eq 'yes'
+        } @{$p2f{$p}};
+
         warning(g_('package %s listed in files list but not in control info'), $p);
         next;
     }

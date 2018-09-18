@@ -406,7 +406,10 @@ if ($stdout) {
         }
     }
 
-    $dist->add_file($forcefilename, $section, $priority);
+    my %fileattrs;
+    $fileattrs{automatic} = 'yes' if $fields->{'Auto-Built-Package'};
+
+    $dist->add_file($forcefilename, $section, $priority, %fileattrs);
     $dist->save("$fileslistfile.new");
 
     rename "$fileslistfile.new", $fileslistfile
