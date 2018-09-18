@@ -152,7 +152,7 @@ sub _changelog_parse {
     $options{format} //= 'dpkg';
     $options{compression} //= $options{file} ne 'debian/changelog';
 
-    my @range_opts = qw(since until from to offset count all);
+    my @range_opts = qw(since until from to offset count reverse all);
     $options{all} = 1 if exists $options{all};
     if (none { defined $options{$_} } @range_opts) {
         $options{count} = 1;

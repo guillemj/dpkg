@@ -56,6 +56,7 @@ sub usage {
 "Parser options:
       --format <output-format>
                            set output format (defaults to 'dpkg').
+      --reverse            include all changes in reverse order.
       --all                include all changes.
   -s, --since <version>    include all changes later than <version>.
   -v <version>             ditto.
@@ -88,6 +89,8 @@ while (@ARGV) {
                           $options{changelogformat} =~ m/^([0-9a-z]+)$/;
     } elsif ($arg eq '--format') {
         $options{format} = shift;
+    } elsif ($arg eq '--reverse') {
+        $options{reverse} = 1;
     } elsif ($arg eq '-l' or $arg eq '--file') {
         $options{file} = shift;
         usageerr(g_('missing changelog filename'))

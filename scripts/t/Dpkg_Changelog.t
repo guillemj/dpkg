@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 94;
+use Test::More tests => 96;
 use Test::Dpkg qw(:paths);
 
 use File::Basename;
@@ -81,6 +81,10 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
                       count => 3,
                       versions => [ '2:2.0-1', '1:2.0~rc2-3', '1:2.0~rc2-2' ],
                       name => 'positive count');
+        check_options(%ref, range => { count => 3, reverse => 1 },
+                      count => 3,
+                      versions => [ '1:2.0~rc2-2', '1:2.0~rc2-3', '2:2.0-1' ],
+                      name => 'positive reverse count');
         check_options(%ref, range => { count => -3 },
                       count => 3,
                       versions => [

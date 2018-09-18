@@ -332,11 +332,12 @@ sub get_range {
     my ($self, $range) = @_;
     $range //= {};
     my $res = $self->_data_range($range);
-    if (defined $res) {
-	return @$res if wantarray;
-	return $res;
+    return unless defined $res;
+    if (wantarray) {
+        return reverse @{$res} if $range->{reverse};
+        return @{$res};
     } else {
-	return;
+	return $res;
     }
 }
 

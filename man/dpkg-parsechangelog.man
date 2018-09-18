@@ -74,7 +74,7 @@ Set the output format. Currently supported values are
 option existed) and the default. It consists of one paragraph
 in Debian control format (see \fBdeb\-control\fP(5)). If more
 than one entry is requested, then most fields are taken from the
-most recent entry, except otherwise stated:
+first entry (usually the most recent entry), except otherwise stated:
 .RS
 .TP
 .BI Source: " pkg-name"
@@ -121,6 +121,10 @@ There might be additional user-defined fields present.
 The \fBrfc822\fP format uses the same fields but outputs
 a separate paragraph for each changelog entry so that all
 metadata for each entry is preserved.
+.TP
+.B \-\-reverse
+Include all changes in reverse order (since dpkg 1.19.1).
+Note: for the \fBdpkg\fP format the first entry will be the most ancient entry.
 .TP
 .B \-\-all
 Include all changes. Note: other options have no effect when this is in use.
