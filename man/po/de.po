@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.19.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-08-31 07:25+0200\n"
-"PO-Revision-Date: 2018-08-31 11:24+0200\n"
+"POT-Creation-Date: 2018-09-19 19:45+0200\n"
+"PO-Revision-Date: 2018-09-19 20:42+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -3690,8 +3690,8 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-files.man
-msgid "I<filename> I<section> I<priority>"
-msgstr "I<Dateiname> I<Sektion> I<Priorität>"
+msgid "I<filename> I<section> I<priority> [ I<keyword=value\\&...\\&> ]"
+msgstr "I<Dateiname> I<Sektion> I<Priorität> [ I<Schlüsselwort=Wert\\&…\\&> ]"
 
 #. type: Plain text
 #: deb-src-files.man
@@ -3708,6 +3708,18 @@ msgstr ""
 "I<Sektion> und I<Priorität> entsprechen den Feldern I<priority> und "
 "I<section> der control-Datei in dem .deb. Die erlaubten Werte hängen vom "
 "Archiv der jeweiligen Distribution ab."
+
+#. type: Plain text
+#: deb-src-files.man
+msgid ""
+"I<keyword=value\\&...\\&> corresponds to an optional whitespace-delimited "
+"list of attributes for this entry.  The only currently supported keyword is "
+"B<automatic> with value B<yes>, to mark automatically generated files."
+msgstr ""
+"I<Schlüsselwort=Wert\\&.…\\&> entspricht einer optionalen, Leerraum-"
+"getrennten Liste von Attributen für diesen Eintrag. Derzeit ist das einzige "
+"unterstützte Schlüsselwort B<automatic> mit dem Wert B<yes>, um automatisch "
+"erstellte Dateien zu markieren."
 
 #. type: SH
 #: deb-src-files.man deb-version.man dpkg-architecture.man
@@ -11974,6 +11986,37 @@ msgstr ""
 #. type: TP
 #: dpkg-buildflags.man
 #, no-wrap
+msgid "B<fixfilepath>"
+msgstr "B<fixfilepath>"
+
+#. type: Plain text
+#: dpkg-buildflags.man
+msgid ""
+"This setting (disabled by default) adds B<-ffile-prefix-map=>I<BUILDPATH>B<=."
+"> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
+"B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is set to the top-level "
+"directory of the package being built.  This has the effect of removing the "
+"build path from any generated file."
+msgstr ""
+"Diese Einstellung (standardmäßig deaktiviert) fügt B<-ffile-prefix-"
+"map=>I<BUILDPATH>B<=.> zu B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
+"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> und B<FCFLAGS> hinzu, wobei "
+"B<BUILDPATH> auf das oberste Verzeichnis des bauenden Pakets gesetzt wird. "
+"Dies führt dazu, dass der Baupfad aus allen erstellten Dateien "
+"entfernt wird."
+
+#. type: Plain text
+#: dpkg-buildflags.man
+msgid ""
+"If both B<fixdebugpath> and B<fixfilepath> are set, this option takes "
+"precedence, because it is a superset of the former."
+msgstr ""
+"Falls sowohl B<fixdebugpath> als auch B<fixfilepath> gesetzt sind, hat diese "
+"Option Vorrang, da sie eine Obermenge erster ist."
+
+#. type: TP
+#: dpkg-buildflags.man
+#, no-wrap
 msgid "B<fixdebugpath>"
 msgstr "B<fixdebugpath>"
 
@@ -18413,14 +18456,16 @@ msgid ""
 "B<rfc822>.  B<dpkg> is the classic output format (from before this option "
 "existed) and the default. It consists of one paragraph in Debian control "
 "format (see B<deb-control>(5)). If more than one entry is requested, then "
-"most fields are taken from the most recent entry, except otherwise stated:"
+"most fields are taken from the first entry (usually the most recent entry), "
+"except otherwise stated:"
 msgstr ""
 "Setze das Ausgabeformat. Derzeit werden die Werte B<dpkg> und B<rfc822> "
 "unterstützt. B<dpkg> ist das klassische Ausgabeformat (es existiert länger "
 "als diese Option), das voreingestellt ist. Es besteht aus einem Absatz im "
 "Debian-Steuerformat (lesen Sie B<deb-control>(5)). Falls mehr als ein "
-"Eintrag angefordert wird, dann werden die meisten Felder aus dem neusten "
-"Eintrag verwendet, falls dies nicht anders angegeben wird:"
+"Eintrag angefordert wird, dann werden die meisten Felder aus dem ersten "
+"Eintrag (normalerweise der neuste Eintrag) verwendet, falls dies nicht "
+"anders angegeben wird:"
 
 #. type: TP
 #: dpkg-parsechangelog.man
@@ -18553,6 +18598,22 @@ msgstr ""
 "Das B<rfc822>-Format verwendet die gleichen Felder, gibt aber einzelne "
 "Absätze für jeden Changelog-Eintrag aus, so dass alle Metadaten für jeden "
 "Eintrag erhalten bleiben."
+
+#. type: TP
+#: dpkg-parsechangelog.man
+#, no-wrap
+msgid "B<--reverse>"
+msgstr "B<--reverse>"
+
+#. type: Plain text
+#: dpkg-parsechangelog.man
+msgid ""
+"Include all changes in reverse order (since dpkg 1.19.1).  Note: for the "
+"B<dpkg> format the first entry will be the most ancient entry."
+msgstr ""
+"füge alle Änderungen in umgekehrter Reihenfolge hinzu (seit Dpkg 1.19.1). "
+"Beachten Sie: Für das B<dpkg>-Format ist der erste Eintrag der älteste "
+"Eintrag."
 
 #. type: TP
 #: dpkg-parsechangelog.man update-alternatives.man
@@ -18993,9 +19054,9 @@ msgstr ""
 "Berichte Zustand des angegebenen Paketes. Dies zeigt nur den Eintrag in der "
 "Datenbank der Zustände der installierten Pakete. Falls kein I<Paketname> "
 "festgelegt ist, werden alle Paketeinträge in der Statusdatenbank angezeigt "
-"(seit dpkg 1.19.1). Wenn mehrere I<Paketname>-Einträge "
-"aufgeführt sind, werden die angeforderten Statuseinträge durch Leerzeilen "
-"getrennt, wobei die Reihenfolge identisch zu der in der Argumentenliste ist."
+"(seit dpkg 1.19.1). Wenn mehrere I<Paketname>-Einträge aufgeführt sind, "
+"werden die angeforderten Statuseinträge durch Leerzeilen getrennt, wobei die "
+"Reihenfolge identisch zu der in der Argumentenliste ist."
 
 #. type: TP
 #: dpkg-query.man
@@ -19149,10 +19210,10 @@ msgid ""
 msgstr ""
 "Zeige Details über Pakete an, wie diese in I<%ADMINDIR%/available> "
 "vorliegen. Falls kein I<Paketname> festgelegt ist, werden alle in der "
-"Datenbank I<available> verfügbaren Paketeinträge angezeigt (seit Dpkg 1.19."
-"1). Wenn mehrere I<Paketname> aufgeführt sind, werden die "
-"angeforderten I<available>-Einträge durch Leerzeilen getrennt, wobei die "
-"Reihenfolge identisch zu der in der Argumentenliste ist."
+"Datenbank I<available> verfügbaren Paketeinträge angezeigt (seit Dpkg "
+"1.19.1). Wenn mehrere I<Paketname> aufgeführt sind, werden die angeforderten "
+"I<available>-Einträge durch Leerzeilen getrennt, wobei die Reihenfolge "
+"identisch zu der in der Argumentenliste ist."
 
 #. type: Plain text
 #: dpkg-query.man
@@ -23484,8 +23545,7 @@ msgid ""
 msgstr ""
 "Dies Option führt das inverse von B<--no-await> aus (seit Dpkg 1.17.21). "
 "Falls das interessierte Paket eine Direktive „noawait“ erklärt hat, dann "
-"wird diese Option nicht wirksam sein. "
-"Derzeit ist sie die Voreinstellung."
+"wird diese Option nicht wirksam sein. Derzeit ist sie die Voreinstellung."
 
 #. type: TP
 #: dpkg-trigger.man
