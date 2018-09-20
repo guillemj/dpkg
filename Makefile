@@ -42,12 +42,12 @@ TESTS_PASS += t-control-bogus
 TESTS_PASS += t-control-no-arch
 TESTS_PASS += t-unpack-symlink
 TESTS_PASS += t-unpack-hardlink
-ifndef DPKG_NOT_ROOT
+ifdef DPKG_HAS_WORKING_ROOTDIR_DIVERSIONS
 TESTS_PASS += t-unpack-divert-hardlink
 endif
 TESTS_PASS += t-unpack-divert-nowarn
 TESTS_PASS += t-unpack-fifo
-ifndef DPKG_NOT_ROOT
+ifdef DPKG_AS_ROOT
 # No permissions for devices
 TESTS_PASS += t-unpack-device
 endif
@@ -93,8 +93,7 @@ TESTS_PASS += t-file-replaces
 TESTS_PASS += t-file-replaces-disappear
 TESTS_PASS += t-file-replaces-versioned
 TESTS_PASS += t-conffile-normal
-ifndef DPKG_NOT_ROOT
-# FIXME: dpkg-maintscript-helper does not support $DPKG_ROOT (#832176)
+ifdef DPKG_HAS_WORKING_ROOTDIR_MAINTSCRIPT_HELPER
 TESTS_PASS += t-conffile-obsolete
 endif
 TESTS_PASS += t-conffile-orphan
@@ -116,8 +115,7 @@ ifdef DPKG_CAN_REPLACE_DIVERTED_CONFFILE
 TESTS_PASS += t-conffile-replaces-diverted
 endif
 TESTS_PASS += t-conffile-versioned-replaces-downgrade
-ifndef DPKG_NOT_ROOT
-# FIXME: dpkg-maintscript-helper does not support $DPKG_ROOT (#832176)
+ifdef DPKG_HAS_WORKING_ROOTDIR_MAINTSCRIPT_HELPER
 TESTS_PASS += t-conffile-rename
 endif
 TESTS_PASS += t-queue-process-deconf-dupe
@@ -125,8 +123,7 @@ TESTS_PASS += t-package-type
 TESTS_PASS += t-symlink-dir
 # This only works with dpkg >= 1.17.x
 ifdef DPKG_HAS_MAINTSCRIPT_SWITCH_DIR_SYMLINK
-ifndef DPKG_NOT_ROOT
-# FIXME: dpkg-maintscript-helper does not support $DPKG_ROOT (#832176)
+ifdef DPKG_HAS_WORKING_ROOTDIR_MAINTSCRIPT_HELPER
 TESTS_PASS += t-switch-symlink-abs-to-dir
 TESTS_PASS += t-switch-symlink-rel-to-dir
 TESTS_PASS += t-switch-dir-to-symlink-abs

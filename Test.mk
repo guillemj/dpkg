@@ -30,19 +30,19 @@ PATH = $(DPKG_PATH)
 
 DPKG_OPTIONS =
 
-ifdef DPKG_NOT_ROOT
+ifdef DPKG_AS_ROOT
+DPKG_ENV += \
+  LD_PRELOAD="$(LD_PRELOAD)" \
+  LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)"
+DPKG_INSTDIR = /
+BEROOT := sudo env $(DPKG_ENV)
+else
 DPKG_INSTDIR = $(CURDIR)/../dpkginst
 DPKG_OPTIONS += \
  --force-script-chrootless \
  --force-not-root \
  # EOL
 BEROOT := env $(DPKG_ENV)
-else
-DPKG_ENV += \
-  LD_PRELOAD="$(LD_PRELOAD)" \
-  LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)"
-DPKG_INSTDIR = /
-BEROOT := sudo env $(DPKG_ENV)
 endif
 
 DPKG_OPTIONS += \

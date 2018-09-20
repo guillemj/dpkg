@@ -63,7 +63,7 @@ $(foreach ma,same foreign foreign-any allowed allowed-any allowed-fake no,\
   $(eval $(call build_pkg,dep-on-$(ma)_1.0_all,dep-on-$(ma),1.0,all,no,pkg-ma-$(subst -,:,$(ma)) (>= 1.0))))
 
 shared_file_types := file symlink fifo
-ifndef DPKG_NOT_ROOT
+ifdef DPKG_AS_ROOT
 shared_file_types += chardev blockdev
 endif
 $(foreach arch,$(NATIVE_ARCH) $(FOREIGN_ARCH),\
@@ -513,7 +513,7 @@ test-coinstall-shared-files: ma-setup
 	test -f "$(DPKG_INSTDIR)$(common_file)"
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-fifo_$(FOREIGN_ARCH).deb
 	test -f "$(DPKG_INSTDIR)$(common_file)"
-ifndef DPKG_NOT_ROOT
+ifdef DPKG_AS_ROOT
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-chardev_$(FOREIGN_ARCH).deb
 	test -f "$(DPKG_INSTDIR)$(common_file)"
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-blockdev_$(FOREIGN_ARCH).deb
@@ -560,7 +560,7 @@ endif
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-symlink_$(FOREIGN_ARCH).deb
 	$(call stdout_is,readlink "$(DPKG_INSTDIR)$(common_file)",orig-1.0)
 	$(DPKG_PURGE) pkg-ma-shared-files:$(NATIVE_ARCH) pkg-ma-shared-files:$(FOREIGN_ARCH)
-ifndef DPKG_NOT_ROOT
+ifdef DPKG_AS_ROOT
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-chardev_$(NATIVE_ARCH).deb
 	! $(DPKG_INSTALL) pkg-ma-shared-files_1.0_alt-chardev_$(FOREIGN_ARCH).deb
 	$(DPKG_INSTALL) pkg-ma-shared-files_1.0_orig-chardev_$(FOREIGN_ARCH).deb
@@ -749,8 +749,7 @@ test-coinstall-diversions: ma-setup
 	$(DPKG_INSTALL) pkg-ma-diverted_1.0_all.deb
 	$(DPKG_INSTALL) pkg-ma-shared-diversion_1.0_$(NATIVE_ARCH).deb
 	$(DPKG_INSTALL) pkg-ma-shared-diversion_1.0_$(FOREIGN_ARCH).deb
-ifndef DPKG_NOT_ROOT
-	# FIXME: Something is wrong with diversions
+ifdef DPKG_HAS_WORKING_ROOTDIR_DIVERSIONS
 	grep -q "pkg-ma-diverted" "$(DPKG_INSTDIR)$(common_file).distrib"
 	grep -q "pkg-ma-shared-diversion" "$(DPKG_INSTDIR)$(common_file)"
 endif
