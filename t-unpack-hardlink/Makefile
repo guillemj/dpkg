@@ -24,9 +24,20 @@ $(PKG)/test-ram0-link0:
 	$(BEROOT) mknod $@ b 1 0
 	$(BEROOT) link $@ $(PKG)/test-ram0-link1
 
-build-hook: $(PKG)/test-conffile-link0 \
-            $(PKG)/test-file-link0 $(PKG)/test-fifo-link0 \
-            $(PKG)/test-null-link0 $(PKG)/test-ram0-link0
+TEST_LINKS := \
+	$(PKG)/test-conffile-link0 \
+	$(PKG)/test-file-link0 \
+	$(PKG)/test-fifo-link0 \
+	# EOL
+
+ifndef DPKG_NOT_ROOT
+TEST_LINKS += \
+	$(PKG)/test-null-link0 \
+	$(PKG)/test-ram0-link0 \
+	# EOL
+endif
+
+build-hook: $(TEST_LINKS)
 
 clean-hook:
 	rm -f $(PKG)/test-conffile-link0 $(PKG)/test-conffile-link1

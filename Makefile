@@ -41,9 +41,8 @@ TESTS_PASS += t-option-recursive
 TESTS_PASS += t-control-bogus
 TESTS_PASS += t-control-no-arch
 TESTS_PASS += t-unpack-symlink
-ifndef DPKG_NOT_ROOT
-# No permissions for hardlinks
 TESTS_PASS += t-unpack-hardlink
+ifndef DPKG_NOT_ROOT
 TESTS_PASS += t-unpack-divert-hardlink
 endif
 TESTS_PASS += t-unpack-divert-nowarn
@@ -77,10 +76,7 @@ TESTS_PASS += t-triggers
 ifdef DPKG_HAS_WORKING_TRIGGERS_PENDING_UPGRADE
 TESTS_PASS += t-triggers-configure
 endif
-ifndef DPKG_NOT_ROOT
-# FIXME: Somehow file triggers do not work with --root/$DPKG_ROOT
 TESTS_PASS += t-triggers-path
-endif
 TESTS_PASS += t-triggers-depends
 # This only works with dpkg >= 1.18.x
 ifdef DPKG_HAS_TRIGPROC_DEPCHECK
@@ -100,9 +96,8 @@ TESTS_PASS += t-conffile-normal
 ifndef DPKG_NOT_ROOT
 # FIXME: dpkg-maintscript-helper does not support $DPKG_ROOT (#832176)
 TESTS_PASS += t-conffile-obsolete
-# FIXME: Somehow pkg-conff-takeover cannot take over /test-conffile
-TESTS_PASS += t-conffile-orphan
 endif
+TESTS_PASS += t-conffile-orphan
 TESTS_PASS += t-conffile-forcemiss
 TESTS_PASS += t-conffile-forcenew
 TESTS_PASS += t-conffile-forceask

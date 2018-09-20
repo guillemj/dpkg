@@ -665,7 +665,7 @@ pkg-ma-triggers_1.0_$(NATIVE_ARCH) pkg-ma-triggers_1.0_$(FOREIGN_ARCH):: pkg-tem
 	echo "#!/bin/sh" >$@/DEBIAN/postinst
 	echo '[ "$$1" = "triggered" ] || exit 0' >>$@/DEBIAN/postinst
 	echo 'case " $$2 " in' >>$@/DEBIAN/postinst
-	echo '*" $${DPKG_ROOT}/m-a/trigger-watch "*) ' >>$@/DEBIAN/postinst
+	echo '*" /m-a/trigger-watch "*) ' >>$@/DEBIAN/postinst
 	echo '   echo "FILE $$DPKG_MAINTSCRIPT_ARCH" >>"$${DPKG_ROOT}/m-a/triggers" ;;' >>$@/DEBIAN/postinst
 	echo 'esac' >>$@/DEBIAN/postinst
 	echo 'case " $$2 " in' >>$@/DEBIAN/postinst
@@ -696,12 +696,9 @@ test-coinstall-triggers: ma-setup
 	$(DPKG_CONFIGURE) pkg-ma-triggers:$(NATIVE_ARCH) pkg-ma-triggers:$(FOREIGN_ARCH)
 	$(call pkg_is_installed,pkg-ma-triggers:$(NATIVE_ARCH))
 	$(call pkg_is_installed,pkg-ma-triggers:$(FOREIGN_ARCH))
-ifndef DPKG_NOT_ROOT
-	# FIXME: Something is wrong with dpkg triggers
 	$(call stdout_is,grep -c FILE "$(DPKG_INSTDIR)/m-a/triggers",2)
 	grep -q "FILE $(NATIVE_ARCH)" "$(DPKG_INSTDIR)/m-a/triggers"
 	grep -q "FILE $(FOREIGN_ARCH)" "$(DPKG_INSTDIR)/m-a/triggers"
-endif
 	# Test manual trigger processing
 	$(DPKG_CONFIGURE) pkg-ma-act-trig
 	$(call pkg_is_installed,pkg-ma-triggers:$(NATIVE_ARCH))

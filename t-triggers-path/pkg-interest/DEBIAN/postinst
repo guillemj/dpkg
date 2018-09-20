@@ -3,7 +3,7 @@ set -e
 
 case "$1" in
   triggered)
-    if [ -e /test/trigger/test-file ]; then
+    if [ -e "${DPKG_ROOT}/test/trigger/test-file" ]; then
       touch "${DPKG_ROOT}/test-triggered-file"
     else
       touch "${DPKG_ROOT}/test-triggered-cmd"
