@@ -183,6 +183,16 @@ enum action_code {
 	ACTION_STATUS,
 };
 
+enum match_code {
+	MATCH_NONE	= 0,
+	MATCH_PID	= 1 << 0,
+	MATCH_PPID	= 1 << 1,
+	MATCH_PIDFILE	= 1 << 2,
+	MATCH_EXEC	= 1 << 3,
+	MATCH_NAME	= 1 << 4,
+	MATCH_USER	= 1 << 5,
+};
+
 /* Time conversion constants. */
 enum {
 	NANOSEC_IN_SEC      = 1000000000L,
@@ -194,6 +204,7 @@ enum {
 static const long MIN_POLL_INTERVAL = 20L * NANOSEC_IN_MILLISEC;
 
 static enum action_code action;
+static enum match_code match_mode;
 static bool testmode = false;
 static int quietmode = 0;
 static int exitnodo = 1;
@@ -1052,18 +1063,22 @@ parse_options(int argc, char * const *argv)
 			startas = optarg;
 			break;
 		case 'n':  /* --name <process-name> */
+			match_mode |= MATCH_NAME;
 			cmdname = optarg;
 			break;
 		case 'o':  /* --oknodo */
 			exitnodo = 0;
 			break;
 		case OPT_PID: /* --pid <pid> */
+			match_mode |= MATCH_PID;
 			pid_str = optarg;
 			break;
 		case OPT_PPID: /* --ppid <ppid> */
+			match_mode |= MATCH_PPID;
 			ppid_str = optarg;
 			break;
 		case 'p':  /* --pidfile <pid-file> */
+			match_mode |= MATCH_PIDFILE;
 			pidfile = optarg;
 			break;
 		case 'q':  /* --quiet */
@@ -1076,12 +1091,14 @@ parse_options(int argc, char * const *argv)
 			testmode = true;
 			break;
 		case 'u':  /* --user <username>|<uid> */
+			match_mode |= MATCH_USER;
 			userspec = optarg;
 			break;
 		case 'v':  /* --verbose */
 			quietmode = -1;
 			break;
 		case 'x':  /* --exec <executable> */
+			match_mode |= MATCH_EXEC;
 			execname = optarg;
 			break;
 		case 'c':  /* --chuid <username>|<uid> */
@@ -1171,8 +1188,9 @@ parse_options(int argc, char * const *argv)
 	if (action == ACTION_NONE)
 		badusage("need one of --start or --stop or --status");
 
-	if (!execname && !pid_str && !ppid_str && !pidfile && !userspec &&
-	    !cmdname)
+	if (match_mode == MATCH_NONE ||
+	    (!execname && !cmdname && !userspec &&
+	     !pid_str && !ppid_str && !pidfile))
 		badusage("need at least one of --exec, --pid, --ppid, --pidfile, --user or --name");
 
 #ifdef PROCESS_NAME_SIZE
@@ -1993,6 +2011,24 @@ do_pidfile(const char *name)
 	f = fopen(name, "r");
 	if (f) {
 		enum status_code pid_status;
+
+		/* If we are only matching on the pidfile, and it is owned by
+		 * a non-root user, then this is a security risk, and the
+		 * contents cannot be trusted, because the daemon might have
+		 * been compromised. */
+		if (match_mode == MATCH_PIDFILE) {
+			struct stat st;
+			int fd = fileno(f);
+
+			if (fstat(fd, &st) < 0)
+				fatal("cannot stat pidfile %s", name);
+
+			if ((st.st_uid != getuid() && st.st_uid != 0) ||
+			    (st.st_gid != getgid() && st.st_gid != 0))
+				fatal("matching only on non-root pidfile %s is insecure", name);
+			if (st.st_mode & 0002)
+				fatal("matching only on world-writable pidfile %s is insecure", name);
+		}
 
 		if (fscanf(f, "%d", &pid) == 1)
 			pid_status = pid_check(pid);
