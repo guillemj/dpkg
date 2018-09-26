@@ -13,11 +13,8 @@ dist-cpan:
 	         $(top_srcdir)/scripts/t/Dpkg* \
 	         $(top_srcdir)/scripts/t/origins \
 	         $(CPAN_DIST)/t
-	$(do_perl_subst) <$(top_srcdir)/scripts/Dpkg.pm \
-	                 >$(CPAN_DIST)/lib/Dpkg.pm
-	cp -fpR $(top_srcdir)/scripts/Dpkg.pm \
-	         $(top_srcdir)/scripts/Dpkg \
-	         $(CPAN_DIST)/lib/
+	cp -fpR $(top_srcdir)/scripts/Dpkg.pm $(CPAN_DIST)/lib/
+	cp -fpR $(top_srcdir)/scripts/Dpkg $(CPAN_DIST)/lib/
 	cp -fpR $(top_srcdir)/scripts/Test $(CPAN_DIST)/lib/
 	cp -fpR $(top_builddir)/scripts/Build.PL $(CPAN_DIST)
 

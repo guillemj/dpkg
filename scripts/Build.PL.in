@@ -22,6 +22,36 @@ my $class = Module::Build->subclass(
             $ENV{DPKG_DATADIR} = 'data';
             $ENV{DPKG_ORIGINS_DIR} = 't/origins';
         }
+
+        sub subst {
+            my ($self, $file) = @_;
+            my $path = $self->install_path();
+            my $version = $self->dist_version();
+
+            unlink "blib/$file"
+                or die "error: cannot remove blib/$file: $!\n";
+            open my $fhin, '<', $file
+                or die "error: cannot open $file: $!\n";
+            open my $fhout, '>', "blib/$file"
+                or die "error: cannot create blib/$file: $!\n";
+            while (<$fhin>) {
+                s{our \$PROGVERSION = .*;}{our \$PROGVERSION = '$version';};
+                s{our \$CONFDIR = .*;}{our \$CONFDIR = '$path->{conf}';};
+                s{our \$DATADIR = .*;}{our \$DATADIR = '$path->{data}';};
+                s{our \$ADMINDIR = .*;}{our \$ADMINDIR = '$path->{admin}';};
+                s{our \$LIBDIR = .*;}{our \$LIBDIR = '$path->{libexec}';};
+                print { $fhout } $_;
+            }
+            close $fhout or die "error: cannot write blib/$file: $!\n";
+            close $fhin;
+        }
+
+        sub ACTION_build {
+            my $self = shift;
+
+            $self->SUPER::ACTION_build;
+            $self->subst('lib/Dpkg.pm');
+        }
     },
 );
 
@@ -70,6 +100,13 @@ my $build = $class->new(
     },
     requires => {
         'perl'                  => '@PERL_MIN_VERSION@',
+    },
+
+    install_path => {
+        conf => '/etc/dpkg',
+        data => '/usr/share/dpkg',
+        admin => '/var/lib/dpkg',
+        libexec => '/usr/lib/dpkg',
     },
 );
 
