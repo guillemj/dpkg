@@ -102,6 +102,9 @@ my $build = $class->new(
         'perl'                  => '@PERL_MIN_VERSION@',
     },
 
+    data_files => {
+        map { $_ => $_ } glob 'data/*'
+    },
     install_path => {
         conf => '/etc/dpkg',
         data => '/usr/share/dpkg',
@@ -110,6 +113,7 @@ my $build = $class->new(
     },
 );
 
+$build->add_build_element('data');
 $build->create_build_script();
 
 1;
