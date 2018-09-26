@@ -1,4 +1,4 @@
-dpkg (1.19.1) UNRELEASED; urgency=medium
+dpkg (1.19.1) unstable; urgency=medium
 
   [ Guillem Jover ]
   * Fix logic in dpkg-buildpackage to decide whether to run build targets,
@@ -115,7 +115,7 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
     - Fix file descriptor leak in start-stop-daemon on AIX.
     - libcompat: Add new strchrnul() implementation.
   * Perl modules:
-    - Check that $tarname is defined before use in Dpkg::Source::Package::V1.
+    - Dpkg::Source::Package::V1: Check that $tarname is defined before use.
       Thanks to Christoph Biedl <debian.axhn@manchmal.in-ulm.de>.
       Closes: #879124
     - Dpkg::Vendor::Debian: Use proper %use_feature key. This was causing perl
@@ -123,11 +123,11 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
       Reported by Mattia Rizzolo <mattia@debian.org>, on IRC. Closes: #881051
     - Dpkg::Changelog: Print versions for incorrect changelog range warnings.
       Thanks to Paul Wise <pabs@debian.org>.
-    - Check that $state->{seen} exists instead of $state being just defined.
-      Fixes regression in dpkg-gensymbols symbols output.
-      Thanks to Dmitry Shachnev <mitya57@debian.org>. Closes: #880166
-    - Add new positive options argument to arch validators in Dpkg::Arch.
-    - Mark hurd-i386 as having gcc builtin PIE in Dpkg::Vendor::Debian.
+    - Dpkg::Shlibs::SymbolFile: Check that $state->{seen} exists instead of
+      $state being just defined. Fixes regression in dpkg-gensymbols symbols
+      output. Thanks to Dmitry Shachnev <mitya57@debian.org>. Closes: #880166
+    - Dpkg::Arch: Add new positive options argument to arch validators.
+    - Dpkg::Vendor::Debian: Mark hurd-i386 as having gcc builtin PIE.
       Requested by Samuel Thibault <sthibault@debian.org>.
     - Dpkg::Source::Package::V2: Print one building line per existing tarball.
     - Dpkg::Source::Package: Print building lines for upstream tarball
@@ -322,7 +322,7 @@ dpkg (1.19.1) UNRELEASED; urgency=medium
   * German (Helge Kreutzmann).
   * Simplified Chinese (Zhou Mo).
 
- -- Guillem Jover <guillem@debian.org>  Tue, 17 Oct 2017 03:10:41 +0200
+ -- Guillem Jover <guillem@debian.org>  Wed, 26 Sep 2018 15:13:22 +0200
 
 dpkg (1.19.0) unstable; urgency=medium
 
