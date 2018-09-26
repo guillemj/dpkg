@@ -102,7 +102,7 @@ sub test_get_temp_path
 sub test_get_po_dirs
 {
     if ($test_mode eq 'cpan') {
-        return qw(po);
+        return qw();
     } else {
         return qw(po scripts/po dselect/po man/po);
     }

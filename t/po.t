@@ -25,6 +25,7 @@ test_needs_srcdir_switch();
 
 my @files = Test::Dpkg::all_po_files();
 
+plan skip_all => 'no PO files distributed' if @files == 0;
 plan tests => scalar @files;
 
 sub po_ok {
