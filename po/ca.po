@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2017-04-29 16:21+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -142,7 +142,8 @@ msgid "error creating new backup file '%s'"
 msgstr ""
 "s'ha produït un error en crear el nou fitxer de copia de seguretat «%s»"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "no es pot esborrar «%.250s»"
@@ -353,6 +354,13 @@ msgid "unable to open lock file %s for testing"
 msgstr "no es pot obrir el fitxer de blocatge %s per comprovar"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr ""
+"no es pot obrir/crear el fitxer de blocatge de la base de dades d'estat"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr ""
 "no es pot obrir/crear el fitxer de blocatge de la base de dades d'estat"
@@ -360,6 +368,10 @@ msgstr ""
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "no teniu permís per a blocar la base de dades d'estat del dpkg"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg status database"
@@ -412,6 +424,190 @@ msgstr "no es pot tancar l'estat d'actualització de «%.250s»"
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "no es pot instal·lar l'estat actualització de «%.250s»"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "no es pot comprovar l'existència de «%.250s»"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "no es pot llegir el directori «info»"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "s'ha produït un error en intentar obrir %.250s"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "el fitxer de format «%s» de la base de dades «info» està corromput"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+"el format (%d) de la base de dades «info» és erroni o massa nou; proveu amb "
+"una versió més nova de dpkg"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "info file %s/%s not associated to any package"
+msgstr "el fitxer d'informació %s/%s no està associat a cap paquet"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "s'ha produït un error en crear l'enllaç dur «%.255s»"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "error while writing '%s'"
+msgstr "s'ha produït un error en escriure «%s»"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr ""
+"al fitxer de control «%s» del paquet «%.250s» li manca una línia nova final"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "el fitxer de control «%s» del paquet «%.250s» manca un valor"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"el fitxer de control «%s» del paquet «%.250s» manca un separador de valor"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr ""
+"el fitxer de control «%s» del paquet «%.250s» conté un nom de fitxer buit"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read control file '%s' for package '%s'"
+msgid "loading control file '%s' for package '%s'"
+msgstr "no es pot llegir el fitxer de control «%s» del paquet «%s»"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "no s'ha pogut obrir el fitxer de desviacions"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "no s'ha pogut fer «fstat» sobre el fitxer de desviacions"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "hi ha desviacions en conflicte en «%.250s» o «%.250s»"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr ""
+"s'ha produït un error en tancar el fitxer de la llista de fitxers del paquet "
+"«%.250s»"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"manca el fitxer de la llista de fitxers del paquet «%.250s», s'assumirà que "
+"el paquet no té cap fitxer actualment instal·lat"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr ""
+"al fitxer de la llista de fitxers del paquet «%.250s» li manca una línia "
+"nova final"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr ""
+"el fitxer de la llista de fitxers del paquet «%.250s» conté un nom de fitxer "
+"buit"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(S'està llegint la base de dades… "
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "hi ha %d fitxer o directori instal·lat actualment.)\n"
+msgstr[1] "hi ha %d fitxers i directoris instal·lats actualment.)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride uid %s"
+msgstr "l'uid %s de statoverride no és vàlid"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride gid %s"
+msgstr "el gid %s de statoverride no és vàlid"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride mode %s"
+msgstr "el mode %s de statoverride no és vàlid "
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "no s'ha pogut obrir el fitxer de statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "no s'ha pogut fer «fstat» sobre el fitxer de statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "reading statoverride file '%.250s'"
+msgstr "s'ha produït un error en llegir el fitxer de statoverride «%.250s»"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file is missing final newline"
+msgstr "al fitxer de statoverride li manca una línia nova final"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "el fitxer de statoverride conté una línia buida"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "syntax error in statoverride file"
+msgstr "error de sintaxi al fitxer de statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown user '%s' in statoverride file"
+msgstr "l'usuari «%s» és desconegut al fitxer statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "unexpected end of line in statoverride file"
+msgstr "s'ha trobat una fi de línia inesperada al fitxer de statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown group '%s' in statoverride file"
+msgstr "el grup «%s» és desconegut al fitxer statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "hi ha múltiples statoverrides per al fitxer «%.250s»"
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
@@ -553,24 +749,28 @@ msgid "invalid package name (%.250s)"
 msgstr "el nom del paquet no és vàlid (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "camp de detalls «%s» del fitxer buit"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "camp de detalls del fitxer «%s» no permès al fitxer d'estat"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr ""
 "massa valors en el camp de detalls del fitxer «%s» (comparat amb d'altres)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr ""
 "nom de valors insuficient en el camp dels detalls de fitxer «%s» (comparat "
 "amb d'altres)"
@@ -770,6 +970,30 @@ msgid "unable to set mode of target file '%.250s'"
 msgstr "no es pot establir el mode del fitxer destí «%.250s»"
 
 #: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat %s"
+msgstr "no es pot fer «stat» sobre el fitxer «%s»"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "archive '%s' is not a regular file"
+msgid "%s is not a regular file"
+msgstr "l'arxiu «%s» no és un fitxer regular"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to '%s'"
+msgid "cannot read %s"
+msgstr "no es pot afegir a «%s»"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to '%s'"
+msgid "cannot open %s"
+msgstr "no es pot afegir a «%s»"
+
+#: lib/dpkg/file.c
 #, c-format
 msgid "unable to unlock %s"
 msgstr "no es pot desblocar %s"
@@ -790,8 +1014,10 @@ msgid "unable to lock %s"
 msgstr "no es pot desblocar %s"
 
 #: lib/dpkg/file.c
-msgid "showing file on pager"
-msgstr "s'està mostrant el fitxer en el paginador"
+#, fuzzy
+#| msgid "unable to flush file '%s'"
+msgid "pager to show file"
+msgstr "no es pot fer «flush» sobre el fitxer «%s»"
 
 #: lib/dpkg/log.c
 #, c-format
@@ -813,13 +1039,13 @@ msgstr "no s'ha pogut assignar memòria"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "no s'ha pogut fer «dup» per a std%s"
+msgid "failed to dup for fd %d"
+msgstr "no s'ha pogut fer «dup» per al fd %d"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "no s'ha pogut fer «dup» per al fd %d"
+msgid "failed to dup for std%s"
+msgstr "no s'ha pogut fer «dup» per a std%s"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1212,11 +1438,6 @@ msgstr "no es pot esborrar «%.255s» de forma segura"
 msgid "rm command for cleanup"
 msgstr "ordre «rm» de neteja"
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr "amb més d'una instància instal·lada el nom del paquet «%s» és ambigu"
-
 #: lib/dpkg/pkg-format.c
 #, c-format
 msgid "invalid character '%c' in field width"
@@ -1229,6 +1450,11 @@ msgstr "l'amplada del camp és fora de rang"
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
 msgstr "manca la clau de tancament"
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
+msgstr "amb més d'una instància instal·lada el nom del paquet «%s» és ambigu"
 
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
@@ -1569,11 +1795,6 @@ msgstr "s'ha produït un error en crear el conducte «%.255s»"
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "s'ha produït un error en crear el dispositiu «%.255s»"
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "s'ha produït un error en crear l'enllaç dur «%.255s»"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2091,6 +2312,10 @@ msgid "conffile difference visualizer"
 msgstr "visualitzador de diferencies de conffile"
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "Escriviu «exit» quan acabeu.\n"
 
@@ -2450,7 +2675,21 @@ msgstr ""
 
 # Move the file aside (or back) ? -- Jordà
 #: src/divertcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --package <package>      name of the package whose copy of <file> will "
+#| "not\n"
+#| "                             be diverted.\n"
+#| "  --local                  all packages' versions are diverted.\n"
+#| "  --divert <divert-to>     the name used by other packages' versions.\n"
+#| "  --rename                 actually move the file aside (or back).\n"
+#| "  --admindir <directory>   set the directory with the diversions file.\n"
+#| "  --test                   don't do anything, just demonstrate.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --package <package>      name of the package whose copy of <file> will "
@@ -2459,6 +2698,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2493,6 +2733,12 @@ msgstr ""
 "d'especificar-se.\n"
 "Els guions de preinst/postrm sempre haurien d'especificar --package i --"
 "divert.\n"
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
+msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2615,6 +2861,13 @@ msgstr ""
 
 #: src/divertcmd.c
 #, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
+#, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "No hi ha cap desviació «%s», no s'ha suprimit.\n"
 
@@ -2659,19 +2912,6 @@ msgstr "el paquet no pot contenir línies noves"
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "la desviació no pot contenir línies noves"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "no s'ha pogut obrir el fitxer de desviacions"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "no s'ha pogut fer «fstat» sobre el fitxer de desviacions"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "hi ha desviacions en conflicte en «%.250s» o «%.250s»"
 
 #: src/enquiry.c
 msgid ""
@@ -2972,120 +3212,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "no es tindrà en compte el problema per estar activa una opció --force:"
 
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr ""
-"al fitxer de control «%s» del paquet «%.250s» li manca una línia nova final"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "el fitxer de control «%s» del paquet «%.250s» manca un valor"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-"el fitxer de control «%s» del paquet «%.250s» manca un separador de valor"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr ""
-"el fitxer de control «%s» del paquet «%.250s» conté un nom de fitxer buit"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "no es pot obrir el fitxer de control «%s» del paquet «%s»"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "no es pot fer «stat» sobre el fitxer de control «%s» del paquet «%s»"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "el fitxer «%s» del paquet «%s» no és un fitxer regular"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "no es pot llegir el fitxer de control «%s» del paquet «%s»"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "no es pot tancar el fitxer de control «%s» del paquet «%s»"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "no es pot obrir el fitxer de la llista de fitxers del paquet «%.250s»"
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"manca el fitxer de la llista de fitxers del paquet «%.250s», s'assumirà que "
-"el paquet no té cap fitxer actualment instal·lat"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr ""
-"no es pot fer «stat» sobre el fitxer de la llista de fitxers del paquet "
-"«%.250s»"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr ""
-"el fitxer de la llista de fitxers del paquet «%.250s» no és un fitxer regular"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr ""
-"s'ha produït un error en llegir el fitxer de la llista de fitxers del paquet "
-"«%.250s»"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr ""
-"al fitxer de la llista de fitxers del paquet «%.250s» li manca una línia "
-"nova final"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr ""
-"el fitxer de la llista de fitxers del paquet «%.250s» conté un nom de fitxer "
-"buit"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr ""
-"s'ha produït un error en tancar el fitxer de la llista de fitxers del paquet "
-"«%.250s»"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(S'està llegint la base de dades… "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "hi ha %d fitxer o directori instal·lat actualment.)\n"
-msgstr[1] "hi ha %d fitxers i directoris instal·lats actualment.)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "no instal·lat"
@@ -3148,42 +3274,6 @@ msgid ""
 msgstr ""
 "Nota: el PATH del root normalment ha de contenir /usr/local/sbin, /usr/sbin "
 "i /sbin"
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "no es pot comprovar l'existència de «%.250s»"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "no es pot llegir el directori «info»"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "s'ha produït un error en intentar obrir %.250s"
-
-#: src/infodb-format.c
-#, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "el fitxer de format «%s» de la base de dades «info» està corromput"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-"el format (%d) de la base de dades «info» és erroni o massa nou; proveu amb "
-"una versió més nova de dpkg"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
-msgstr "el fitxer d'informació %s/%s no està associat a cap paquet"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "error while writing '%s'"
-msgstr "s'ha produït un error en escriure «%s»"
 
 #: src/main.c
 #, c-format
@@ -3926,6 +4016,12 @@ msgid "Description"
 msgstr "Descripció"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid "showing file on pager"
+msgid "showing package list on pager"
+msgstr "s'està mostrant el fitxer en el paginador"
+
+#: src/querycmd.c
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "desviat per %s des de: %s\n"
@@ -3960,6 +4056,16 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "el paquet «%s» no està instal·lat i no hi ha informació disponible"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"Empreu dpkg --info (= dpkg-deb --info) per a examinar els fitxers d'arxiu,\n"
+"i dpkg --contents (= dpkg-deb --contents) per a llistar-ne el contingut.\n"
+
+#: src/querycmd.c
 #, c-format
 msgid "package '%s' is not available"
 msgstr "el paquet «%s» no està disponible"
@@ -3985,9 +4091,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "desviat per %s cap a: %s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "Empreu dpkg --info (= dpkg-deb --info) per a examinar els fitxers d'arxiu,\n"
 "i dpkg --contents (= dpkg-deb --contents) per a llistar-ne el contingut.\n"
@@ -4030,19 +4139,33 @@ msgstr ""
 "%s.\n"
 
 #: src/querycmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -W|--show [<pattern> ...]        Show information on package(s).\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "     --control-list <package>      Print the package control file list.\n"
+#| "     --control-show <package> <file>\n"
+#| "                                   Show the package control file.\n"
+#| "  -c|--control-path <package> [<file>]\n"
+#| "                                   Print path for package control file.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4471,65 +4594,6 @@ msgstr "no hi ha cap substitució present"
 msgid "--update is useless for --remove"
 msgstr "no té sentit utilitzar --update amb --remove"
 
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride uid %s"
-msgstr "l'uid %s de statoverride no és vàlid"
-
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride gid %s"
-msgstr "el gid %s de statoverride no és vàlid"
-
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride mode %s"
-msgstr "el mode %s de statoverride no és vàlid "
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "no s'ha pogut obrir el fitxer de statoverride"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "no s'ha pogut fer «fstat» sobre el fitxer de statoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "reading statoverride file '%.250s'"
-msgstr "s'ha produït un error en llegir el fitxer de statoverride «%.250s»"
-
-#: src/statdb.c
-msgid "statoverride file is missing final newline"
-msgstr "al fitxer de statoverride li manca una línia nova final"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "el fitxer de statoverride conté una línia buida"
-
-#: src/statdb.c
-msgid "syntax error in statoverride file"
-msgstr "error de sintaxi al fitxer de statoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "l'usuari «%s» és desconegut al fitxer statoverride"
-
-#: src/statdb.c
-msgid "unexpected end of line in statoverride file"
-msgstr "s'ha trobat una fi de línia inesperada al fitxer de statoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "el grup «%s» és desconegut al fitxer statoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "hi ha múltiples statoverrides per al fitxer «%.250s»"
-
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr ""
@@ -4748,6 +4812,12 @@ msgstr ""
 #, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "S'està desconfigurant %s (%s)…\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "el fitxer de statoverride conté una línia buida"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
@@ -5279,16 +5349,18 @@ msgid "decompressing archive member"
 msgstr "descomprimint l'element de l'arxiu"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "no s'ha pogut canviar al directori"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "no s'ha pogut crear el directori"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "no s'ha pogut canviar a un directori després de crear-lo"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "s'ha trobat un EOF inesperat en el nom del paquet en la línia %d"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "no s'ha pogut canviar al directori"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -6656,6 +6728,41 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr "Es requereix autenticació per a executar update-alternatives"
 
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "no es pot obrir el fitxer de control «%s» del paquet «%s»"
+
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr ""
+#~ "no es pot fer «stat» sobre el fitxer de control «%s» del paquet «%s»"
+
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "el fitxer «%s» del paquet «%s» no és un fitxer regular"
+
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "no es pot tancar el fitxer de control «%s» del paquet «%s»"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr ""
+#~ "no es pot obrir el fitxer de la llista de fitxers del paquet «%.250s»"
+
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr ""
+#~ "no es pot fer «stat» sobre el fitxer de la llista de fitxers del paquet "
+#~ "«%.250s»"
+
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr ""
+#~ "el fitxer de la llista de fitxers del paquet «%.250s» no és un fitxer "
+#~ "regular"
+
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr ""
+#~ "s'ha produït un error en llegir el fitxer de la llista de fitxers del "
+#~ "paquet «%.250s»"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "no s'ha pogut canviar a un directori després de crear-lo"
+
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "l'opció «--%s» és obsoleta, empreu  «--%s» en el seu lloc"
 
@@ -6724,9 +6831,6 @@ msgstr "Es requereix autenticació per a executar update-alternatives"
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "EOF en l'entrada estàndard al preguntar sobre conffiles"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "s'ha trobat un EOF inesperat en el nom del paquet en la línia %d"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr ""

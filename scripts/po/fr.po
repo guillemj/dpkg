@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2015-09-08 15:39+0200\n"
 "Last-Translator: Sébastien Poher <sbphr@volted.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -321,27 +321,29 @@ msgid ""
 "      --build=<type>[,...]    specify the build <type>: full, source, "
 "binary,\n"
 "                                any, all (default is 'full').\n"
-"  -F                          normal full build (source and binary; "
+"  -F, --build=full            normal full build (source and binary; "
 "default).\n"
-"  -g                          source and arch-indep build.\n"
-"  -G                          source and arch-specific build.\n"
-"  -b                          binary-only, no source files.\n"
-"  -B                          binary-only, only arch-specific files.\n"
-"  -A                          binary-only, only arch-indep files.\n"
-"  -S                          source-only, no binary files.\n"
+"  -g, --build=source,all      source and arch-indep build.\n"
+"  -G, --build=source,any      source and arch-specific build.\n"
+"  -b, --build=binary          binary-only, no source files.\n"
+"  -B, --build=any             binary-only, only arch-specific files.\n"
+"  -A, --build=all             binary-only, only arch-indep files.\n"
+"  -S, --build=source          source-only, no binary files.\n"
 "  -nc, --no-pre-clean         do not pre clean source tree (implies -b).\n"
-"       --pre-clean            pre clean source tree (default).\n"
-"  -tc, --post-clean           clean source tree when finished.\n"
-"  -D                          check build dependencies and conflicts "
+"      --pre-clean             pre clean source tree (default).\n"
+"      --no-post-clean         do not post clean source tree (default).\n"
+"  -tc, --post-clean           post clean source tree.\n"
+"  -D, --check-builddeps       check build dependencies and conflicts "
 "(default).\n"
-"  -d                          do not check build dependencies and "
+"  -d, --no-check-builddeps    do not check build dependencies and "
 "conflicts.\n"
-"      --[no-]check-builddeps  ditto.\n"
 "      --ignore-builtin-builddeps\n"
 "                              do not check builtin build dependencies.\n"
 "  -P, --build-profiles=<profiles>\n"
-"                              assume comma-separated build profiles as "
+"                              assume comma-separated build <profiles> as "
 "active.\n"
+"      --rules-requires-root   assume legacy Rules-Requires-Root field "
+"value.\n"
 "  -R, --rules-file=<rules>    rules file to execute (default is debian/"
 "rules).\n"
 "  -T, --rules-target=<target> call debian/rules <target>.\n"
@@ -558,26 +560,6 @@ msgid "unknown option or argument %s"
 msgstr "option ou paramètre inconnu %s"
 
 #: scripts/dpkg-buildpackage.pl
-msgid "using a gain-root-command while being root"
-msgstr ""
-"utilisation d'une commande pour obtenir les privilèges administrateur en "
-"tant qu'administrateur"
-
-#: scripts/dpkg-buildpackage.pl
-msgid ""
-"fakeroot not found, either install the fakeroot\n"
-"package, specify a command with the -r option, or run this as root"
-msgstr ""
-"fakeroot non trouvé, veuillez soit installer le paquet fakeroot,\n"
-"soit indiquer une commande avec l'option -r ou exécuter cette\n"
-"commande en tant qu'administrateur"
-
-#: scripts/dpkg-buildpackage.pl
-#, perl-format
-msgid "gain-root-command '%s' not found"
-msgstr "commande pour obtenir les privilèges administrateur « %s » non trouvée"
-
-#: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "option %s is only meaningful with option %s"
 msgstr ""
@@ -662,6 +644,26 @@ msgid "unable to determine %s"
 msgstr "impossible de déterminer %s"
 
 #: scripts/dpkg-buildpackage.pl
+msgid "using a gain-root-command while being root"
+msgstr ""
+"utilisation d'une commande pour obtenir les privilèges administrateur en "
+"tant qu'administrateur"
+
+#: scripts/dpkg-buildpackage.pl
+msgid ""
+"fakeroot not found, either install the fakeroot\n"
+"package, specify a command with the -r option, or run this as root"
+msgstr ""
+"fakeroot non trouvé, veuillez soit installer le paquet fakeroot,\n"
+"soit indiquer une commande avec l'option -r ou exécuter cette\n"
+"commande en tant qu'administrateur"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid "gain-root-command '%s' not found"
+msgstr "commande pour obtenir les privilèges administrateur « %s » non trouvée"
+
+#: scripts/dpkg-buildpackage.pl
 #, perl-format
 msgid "disallowed target in %s field keyword %s"
 msgstr ""
@@ -692,6 +694,16 @@ msgstr ""
 #, perl-format
 msgid "unknown %% substitution in hook: %%%s"
 msgstr "substitution %% inconnue dans le point d'ancrage: %%%s"
+
+#: scripts/dpkg-buildpackage.pl
+msgid "short OpenPGP key IDs are broken; please use key fingerprints instead"
+msgstr ""
+
+#: scripts/dpkg-buildpackage.pl
+msgid ""
+"long OpenPGP key IDs are strongly discouraged; please use key fingerprints "
+"instead"
+msgstr ""
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
 #: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
@@ -1224,8 +1236,45 @@ msgid "cannot install output control file '%s'"
 msgstr "impossible d'installer le nouveau fichier de contrôle en sortie %s"
 
 #: scripts/dpkg-gensymbols.pl
+#, fuzzy
+#| msgid ""
+#| "Options:\n"
+#| "  -p<package>              generate symbols file for package.\n"
+#| "  -P<package-build-dir>    temporary build directory instead of debian/"
+#| "tmp.\n"
+#| "  -e<library>              explicitly list libraries to scan.\n"
+#| "  -v<version>              version of the packages (defaults to\n"
+#| "                           version extracted from debian/changelog).\n"
+#| "  -c<level>                compare generated symbols file with the "
+#| "reference\n"
+#| "                           template in the debian directory and fail if\n"
+#| "                           difference is too important; level goes from 0 "
+#| "for\n"
+#| "                           no check, to 4 for all checks (default level "
+#| "is 1).\n"
+#| "  -q                       keep quiet and never emit any warnings or\n"
+#| "                           generate a diff between generated symbols\n"
+#| "                           file and the reference template.\n"
+#| "  -I<file>                 force usage of <file> as reference symbols\n"
+#| "                           file instead of the default file.\n"
+#| "  -O[<file>]               write to stdout (or <file>), not .../DEBIAN/"
+#| "symbols.\n"
+#| "  -t                       write in template mode (tags are not\n"
+#| "                           processed and included in output).\n"
+#| "  -V                       verbose output; write deprecated symbols and "
+#| "pattern\n"
+#| "                           matching symbols as comments (in template mode "
+#| "only).\n"
+#| "  -a<arch>                 assume <arch> as host architecture when "
+#| "processing\n"
+#| "                           symbol files.\n"
+#| "  -d                       display debug information during work.\n"
+#| "  -?, --help               show this help message.\n"
+#| "      --version            show the version.\n"
 msgid ""
 "Options:\n"
+"  -l<library-path>         add directory to private shared library search "
+"list.\n"
 "  -p<package>              generate symbols file for package.\n"
 "  -P<package-build-dir>    temporary build directory instead of debian/tmp.\n"
 "  -e<library>              explicitly list libraries to scan.\n"
@@ -1535,10 +1584,32 @@ msgstr ""
 "      --version            afficher la version."
 
 #: scripts/dpkg-parsechangelog.pl
+#, fuzzy
+#| msgid ""
+#| "Parser options:\n"
+#| "      --format <output-format>\n"
+#| "                           set output format (defaults to 'dpkg').\n"
+#| "      --all                include all changes.\n"
+#| "  -s, --since <version>    include all changes later than <version>.\n"
+#| "  -v <version>             ditto.\n"
+#| "  -u, --until <version>    include all changes earlier than <version>.\n"
+#| "  -f, --from <version>     include all changes equal or later than "
+#| "<version>.\n"
+#| "  -t, --to <version>       include all changes up to or equal than "
+#| "<version>.\n"
+#| "  -c, --count <number>     include <number> entries from the top (or "
+#| "tail\n"
+#| "                             if <number> is lower than 0).\n"
+#| "  -n <number>              ditto.\n"
+#| "  -o, --offset <number>    change starting point for --count, counted "
+#| "from\n"
+#| "                             the top (or tail if <number> is lower than "
+#| "0).\n"
 msgid ""
 "Parser options:\n"
 "      --format <output-format>\n"
 "                           set output format (defaults to 'dpkg').\n"
+"      --reverse            include all changes in reverse order.\n"
 "      --all                include all changes.\n"
 "  -s, --since <version>    include all changes later than <version>.\n"
 "  -v <version>             ditto.\n"
@@ -2045,7 +2116,8 @@ msgstr ""
 "fichier info sur les bibliothèques partagées « %s », ligne %d : ligne mal "
 "formée « %s »"
 
-#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Checksums.pm
+#: scripts/dpkg-shlibdeps.pl scripts/Dpkg/Changelog/Parse.pm
+#: scripts/Dpkg/Checksums.pm
 #, perl-format
 msgid "cannot open file %s"
 msgstr "impossible d'ouvrir le fichier %s"
@@ -2531,8 +2603,9 @@ msgstr ""
 "utilisé"
 
 #: scripts/Dpkg/Changelog.pm
-#, perl-format
-msgid "'%s' option specifies non-existing version"
+#, fuzzy, perl-format
+#| msgid "'%s' option specifies non-existing version"
+msgid "'%s' option specifies non-existing version '%s'"
 msgstr "l'option « %s » indique une version inexistante"
 
 #: scripts/Dpkg/Changelog.pm
@@ -2548,16 +2621,21 @@ msgid "use oldest entry that is later than the one specified"
 msgstr "utiliser l'entrée la plus ancienne qui est supérieure à celle indiquée"
 
 #: scripts/Dpkg/Changelog.pm
-#, perl-format
-msgid "no such entry found, ignoring '%s' parameter"
+#, fuzzy, perl-format
+#| msgid "no such entry found, ignoring '%s' parameter"
+msgid "no such entry found, ignoring '%s' parameter '%s'"
 msgstr "aucune telle entrée n'a été trouvée, paramètre « %s » ignoré"
 
 #: scripts/Dpkg/Changelog.pm
-msgid "'since' option specifies most recent version, ignoring"
+#, fuzzy, perl-format
+#| msgid "'since' option specifies most recent version, ignoring"
+msgid "'since' option specifies most recent version '%s', ignoring"
 msgstr "l'option « since » indique la version la plus récente et est ignorée"
 
 #: scripts/Dpkg/Changelog.pm
-msgid "'until' option specifies oldest version, ignoring"
+#, fuzzy, perl-format
+#| msgid "'until' option specifies oldest version, ignoring"
+msgid "'until' option specifies oldest version '%s', ignoring"
 msgstr "l'option « until » indique la version la plus ancienne et est ignorée"
 
 #: scripts/Dpkg/Changelog/Debian.pm
@@ -2676,14 +2754,10 @@ msgstr ""
 "attendue"
 
 #: scripts/Dpkg/Changelog/Parse.pm
-#, perl-format
-msgid "cannot create pipe for %s"
-msgstr "impossible de créer le tube pour %s"
-
-#: scripts/Dpkg/Changelog/Parse.pm
-#, perl-format
-msgid "tail of %s"
-msgstr "fin de %s"
+#, fuzzy, perl-format
+#| msgid "cannot stat file %s"
+msgid "cannot seek into file %s"
+msgstr "stat impossible pour le fichier %s"
 
 #: scripts/Dpkg/Changelog/Parse.pm
 #, fuzzy, perl-format
@@ -3048,6 +3122,12 @@ msgstr "caractère « %s » non autorisé"
 #: scripts/Dpkg/Package.pm
 msgid "must start with an alphanumeric character"
 msgstr "doit commencer par un caractère alphanumérique"
+
+#: scripts/Dpkg/Shlibs.pm
+msgid ""
+"deprecated use of LD_LIBRARY_PATH with private library directory which "
+"interferes with cross-building, please use -l option instead"
+msgstr ""
 
 #: scripts/Dpkg/Shlibs/Objdump.pm
 #, fuzzy, perl-format
@@ -3896,6 +3976,12 @@ msgid "can't create symlink %s"
 msgstr "impossible de lire le lien symbolique %s"
 
 #: scripts/Dpkg/Source/Package/V3/Quilt.pm
+#, fuzzy, perl-format
+#| msgid "using options from %s: %s"
+msgid "using patch list from %s"
+msgstr "utilisation des options depuis %s : %s"
+
+#: scripts/Dpkg/Source/Package/V3/Quilt.pm
 #, perl-format
 msgid "unsupported version of the quilt metadata: %s"
 msgstr "version inconnue des métadonnées de quilt : %s"
@@ -4195,13 +4281,15 @@ msgid "obsolete substitution variable ${%s}"
 msgstr "variable de substitution inutilisée ${%s}"
 
 #: scripts/Dpkg/Substvars.pm
-#, perl-format
-msgid "unknown substitution variable ${%s}"
-msgstr "variable de substitution inconnue ${%s}"
+#, fuzzy, perl-format
+#| msgid "unused substitution variable ${%s}"
+msgid "substitution variable ${%s} used, but is not defined"
+msgstr "variable de substitution inutilisée ${%s}"
 
 #: scripts/Dpkg/Substvars.pm
-#, perl-format
-msgid "unused substitution variable ${%s}"
+#, fuzzy, perl-format
+#| msgid "unused substitution variable ${%s}"
+msgid "substitution variable ${%s} unused, but is defined"
 msgstr "variable de substitution inutilisée ${%s}"
 
 #: scripts/Dpkg/Vars.pm
@@ -4277,6 +4365,15 @@ msgstr "le numéro de version contient un caractère « %s » non autorisé"
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr ""
 "la partie d'ère (« epoch ») du numéro de version n'est pas un nombre : « %s »"
+
+#~ msgid "cannot create pipe for %s"
+#~ msgstr "impossible de créer le tube pour %s"
+
+#~ msgid "tail of %s"
+#~ msgstr "fin de %s"
+
+#~ msgid "unknown substitution variable ${%s}"
+#~ msgstr "variable de substitution inconnue ${%s}"
 
 #~ msgid "%s died from signal %s"
 #~ msgstr "%s tué par le signal %s"

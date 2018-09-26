@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2015-04-07 09:51+0200\n"
 "Last-Translator: Priti Patil <prithisd@gmail.com>\n"
 "Language-Team: Marathi <janabhaaratii@cdacmumbai.in>\n"
@@ -140,7 +140,8 @@ msgstr "जुने वळण-जुने: %s काढून टाका"
 msgid "error creating new backup file '%s'"
 msgstr "`%.255s' पाइप बनवताना त्रुटी"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "%.250s काढणे अशक्य"
@@ -369,12 +370,22 @@ msgid "unable to open lock file %s for testing"
 msgstr "व्हीएसएनप्रिंटएफ़ साठी टीएमपीफाईल उघडता येत नाही"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr "डीपीकेजी सद्यस्थिती डेटाबेस लोॅकफ़ाईल उघडता/बनवता येत नाही"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "डीपीकेजी सद्यस्थिती डेटाबेस लोॅकफ़ाईल उघडता/बनवता येत नाही"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "आपणांस डीपीकेजी सद्यस्थिती डेटाबेसला टाळे लावण्याची परवानगी नाही"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy
@@ -428,6 +439,190 @@ msgstr "%.250s' ची सुधारित स्थिती बंद कर
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "%.250s' ची सुधारित स्थिती अधिष्ठापित करता येत नाही"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "%.250s'चे अस्तित्व तपासण्यास असमर्थ"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "माहितीची डिरेक्टरी वाचू शकत नाही"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "समस्या %.250s उघडण्याचा प्रयत्न करत आहे"
+
+#: lib/dpkg/db-ctrl-format.c
+#, fuzzy, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "उगम फाइल `%.250s' उघडता येत नाही"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "conffile `%.250s' does not appear in package"
+msgid "info file %s/%s not associated to any package"
+msgstr "कोॅन्फफाईल `%.250s' पॅकेजमधे आढळत नाही"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "`%.255s' हार्ड साखळी बनवताना त्रुटी"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "error writing `%s'"
+msgid "error while writing '%s'"
+msgstr "`%s' लिहिताना त्रुटी"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+msgid "loading control file '%s' for package '%s'"
+msgstr "कॉन्फिग फाइल डिआयआर `%.250s' हि  (`%.250s'मधून) वाचू शकत नाही"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "डाइव्हर्जन्स फाइल उघडण्यास अयशस्वी"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "डाइव्हर्जन्स फाइल एफस्टॅट होण्यास अयशस्वी"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "`%.250s' किंवा `%.250s' यामध्ये सामावलेले परस्परविरोधी डाइव्हर्जन्स"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr "दोषामुळे पॅकेज `%.250s'साठी फाइलची सुची असलेली फाइल बंद होत आहे"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"डिपिकेजी: गंभीर ताकिद: पॅकेज `%.250s'साठी फाइल्सची सुची असलेली फाइल हरवली आहे, असे "
+"गृहित धरुया कि पॅकेजमध्ये स्थापन केलेली कोणतीही फाइल नाही.\n"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(डेटाबेस वाचत आहे ... "
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "%d files and directories currently installed.)\n"
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "%d फाइल्स आणि डिरेक्टरीज यांची सध्या स्थापना झालेली आहे.)\n"
+msgstr[1] "%d फाइल्स आणि डिरेक्टरीज यांची सध्या स्थापना झालेली आहे.)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "invalid statoverride uid %s"
+msgstr "स्टॅटओवरराइड फाइल `%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "invalid statoverride gid %s"
+msgstr "स्टॅटओवरराइड फाइल `%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "invalid statoverride mode %s"
+msgstr "स्टॅटओवरराइड फाइल `%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "स्टॅटओवरराइड फाइल उघडण्यास अयशस्वी"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "स्टॅटओवरराइड फाइल एफस्टॅट होण्यास अयशस्वी"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "reading statoverride file '%.250s'"
+msgstr "स्टॅटओवरराइड फाइल `%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy
+msgid "statoverride file is missing final newline"
+msgstr "स्टॅटओवरराइड फाइलमध्ये रिकामी ओळ/लाइन आहे"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "स्टॅटओवरराइड फाइलमध्ये रिकामी ओळ/लाइन आहे"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy
+msgid "syntax error in statoverride file"
+msgstr "स्टॅटओवरराइड फाइल उघडण्यास अयशस्वी"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "unknown user '%s' in statoverride file"
+msgstr "स्टॅटओवरराइड फाइल उघडण्यास अयशस्वी"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy
+msgid "unexpected end of line in statoverride file"
+msgstr "%d ओळीवर पॅकेजच्या नावामध्ये अनपेक्षित उद्भवलेला ओळीचा शेवट/एण्ड ऑफ लाइन"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "unknown group '%s' in statoverride file"
+msgstr "स्टॅटओवरराइड फाइल उघडण्यास अयशस्वी"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "स्टॅटओवरराइड फाइल `%.250s'"
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
@@ -579,23 +774,27 @@ msgid "invalid package name (%.250s)"
 msgstr "पॅकेजचे नाव अयोग्य (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "फाइलचे विवरण क्षेत्र रिकामे `%s'"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "सद्यस्थितीदर्शक फाइलमधे फाइल विवरण क्षेत्र `%s' ला अनुमती नाही"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr "फाइल विवरण क्षेत्र `%s' मधे खुपच अधिक मूल्ये (इतरांच्या तुलनेत)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr "फाइल विवरण क्षेत्र `%s' मधे खुपच कमी मूल्ये (इतरांच्या तुलनेत)"
 
 #: lib/dpkg/fields.c
@@ -797,6 +996,29 @@ msgstr "नवीन डिस्ट कॉनफाइल `%.250s'चा मो
 
 #: lib/dpkg/file.c
 #, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "cannot stat %s"
+msgstr "जुनी नावे `%s': %s स्टॅट करता येत नाहीत"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+msgid "%s is not a regular file"
+msgstr "धोक्याची सूचना, कोॅन्फफाईल `%s' ही निव्वळ मजकूर फाइल नाही\n"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "unable to write %s: %s"
+msgid "cannot read %s"
+msgstr "%s: %s लिहिता येत नाही"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot open diversions: %s"
+msgid "cannot open %s"
+msgstr "वळवलेले: %s उघडता येत नाही"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
 #| msgid "unable to unlock %s: %s"
 msgid "unable to unlock %s"
 msgstr "%s चे टाळे उघडता येत नाही: %s"
@@ -819,8 +1041,9 @@ msgid "unable to lock %s"
 msgstr "%s चे टाळे उघडता येत नाही: %s"
 
 #: lib/dpkg/file.c
-msgid "showing file on pager"
-msgstr ""
+#, fuzzy
+msgid "pager to show file"
+msgstr "व्हीएसएनप्रिंटएफ़मधे फ़्लश? करणे जमत नाही"
 
 #: lib/dpkg/log.c
 #, fuzzy, c-format
@@ -844,13 +1067,13 @@ msgstr "निर्देशिका बनवता आली नाही"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "एसटीडी%s साठी डीयुपी करणे अयशस्वी"
+msgid "failed to dup for fd %d"
+msgstr "एफ़डी %d साठी डीयुपी करणे अयशस्वी"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "एफ़डी %d साठी डीयुपी करणे अयशस्वी"
+msgid "failed to dup for std%s"
+msgstr "एसटीडी%s साठी डीयुपी करणे अयशस्वी"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1248,11 +1471,6 @@ msgstr "`%.255s' ची रचना करता येत नाही"
 msgid "rm command for cleanup"
 msgstr ""
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr ""
-
 #: lib/dpkg/pkg-format.c
 #, fuzzy, c-format
 #| msgid "invalid character `%c' in field width\n"
@@ -1268,6 +1486,11 @@ msgstr ""
 #| msgid "missing altname"
 msgid "missing closing brace"
 msgstr "पर्यायीनाव गायब"
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
+msgstr ""
 
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
@@ -1586,11 +1809,6 @@ msgstr "`%.255s' पाइप बनवताना त्रुटी"
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "`%.255s' उपकरण बनवताना त्रुटी"
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "`%.255s' हार्ड साखळी बनवताना त्रुटी"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2127,6 +2345,10 @@ msgid "conffile difference visualizer"
 msgstr ""
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "तुमचे झाल्यावर 'एग्झिट' टाइप करा.\n"
 
@@ -2504,6 +2726,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2542,6 +2765,12 @@ msgid ""
 "When removing, --package or --local and --divert must match if specified.\n"
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
+msgstr ""
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
 msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
@@ -2674,6 +2903,13 @@ msgstr ""
 "दुर्लक्ष करित आहे.\n"
 
 #: src/divertcmd.c
+#, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
 #, fuzzy, c-format
 #| msgid "No diversion `%s', none removed"
 msgid "No diversion '%s', none removed.\n"
@@ -2721,19 +2957,6 @@ msgstr "पॅकेज मधे न्युलाइनस् नसेल"
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "वळवा-कडे मधे न्युलाइनस् नसेल"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "डाइव्हर्जन्स फाइल उघडण्यास अयशस्वी"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "डाइव्हर्जन्स फाइल एफस्टॅट होण्यास अयशस्वी"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "`%.250s' किंवा `%.250s' यामध्ये सामावलेले परस्परविरोधी डाइव्हर्जन्स"
 
 #: src/enquiry.c
 msgid ""
@@ -3037,112 +3260,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "डिपिकेजी - ताकिद, समस्येवर दुर्लक्ष करित आहे कारण --फोर्स कार्यक्षम करतो:\n"
 
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package `%.250s' contains empty filename"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "`%.250s'पॅकेजची फाइल्सची सुची असलेली फाइल उघडण्यास असमर्थ"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "`%.250s'पॅकेजची फाइल्सची सुची असलेली फाइल उघडण्यास असमर्थ"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "कॉन्फिग फाइल डिआयआर `%.250s' हि  (`%.250s'मधून) वाचू शकत नाही"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "दोषामुळे पॅकेज `%.250s'साठी फाइलची सुची असलेली फाइल बंद होत आहे"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "`%.250s'पॅकेजची फाइल्सची सुची असलेली फाइल उघडण्यास असमर्थ"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"डिपिकेजी: गंभीर ताकिद: पॅकेज `%.250s'साठी फाइल्सची सुची असलेली फाइल हरवली आहे, असे "
-"गृहित धरुया कि पॅकेजमध्ये स्थापन केलेली कोणतीही फाइल नाही.\n"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "`%.250s'पॅकेजची फाइल्सची सुची असलेली फाइल उघडण्यास असमर्थ"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "files list for package `%.250s'"
-msgid "reading files list for package '%.250s'"
-msgstr "पॅकेज `%.250s'साठी असलेली फाइलची सुची"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "दोषामुळे पॅकेज `%.250s'साठी फाइलची सुची असलेली फाइल बंद होत आहे"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(डेटाबेस वाचत आहे ... "
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "%d files and directories currently installed.)\n"
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "%d फाइल्स आणि डिरेक्टरीज यांची सध्या स्थापना झालेली आहे.)\n"
-msgstr[1] "%d फाइल्स आणि डिरेक्टरीज यांची सध्या स्थापना झालेली आहे.)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "स्थापना झाली नाही"
@@ -3204,42 +3321,6 @@ msgid ""
 msgstr ""
 "%d अपेक्षित प्रोग्रॅम(स) पाथवर सापडला नाही.\n"
 "एनबी: रूट/मूळ पाथमध्ये /usr/local/sbin, /usr/sbin and /sbin हे असायला पाहिजेत."
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "%.250s'चे अस्तित्व तपासण्यास असमर्थ"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "माहितीची डिरेक्टरी वाचू शकत नाही"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "समस्या %.250s उघडण्याचा प्रयत्न करत आहे"
-
-#: src/infodb-format.c
-#, fuzzy, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "उगम फाइल `%.250s' उघडता येत नाही"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "conffile `%.250s' does not appear in package"
-msgid "info file %s/%s not associated to any package"
-msgstr "कोॅन्फफाईल `%.250s' पॅकेजमधे आढळत नाही"
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "error writing `%s'"
-msgid "error while writing '%s'"
-msgstr "`%s' लिहिताना त्रुटी"
 
 #: src/main.c
 #, c-format
@@ -3929,6 +4010,10 @@ msgid "Description"
 msgstr "वर्णन"
 
 #: src/querycmd.c
+msgid "showing package list on pager"
+msgstr ""
+
+#: src/querycmd.c
 #, fuzzy, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "%sनी वळवले आहे: %s\n"
@@ -3965,6 +4050,17 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "पॅकेज `%s' ची स्थापना केलेली नाही आणि त्याबद्दल कोणतीही माहिती उपलब्ध नाही.\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"डिपिकेजी --इन्फो (= डिपिकेजी-डेब --इन्फो) आर्काइव्ह फाइल तपासण्यासाठी,\n"
+"आणि डिपिकेजी --कन्टेन्टस (= डिपिकेजी-डेब --कन्टेन्टस) त्यांचा मजकूर दाखवण्यासाठी वापर "
+"करा.\n"
+
+#: src/querycmd.c
 #, fuzzy, c-format
 #| msgid "Package `%s' is not available.\n"
 msgid "package '%s' is not available"
@@ -3991,9 +4087,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "%sनी वळवले आहे: %s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "डिपिकेजी --इन्फो (= डिपिकेजी-डेब --इन्फो) आर्काइव्ह फाइल तपासण्यासाठी,\n"
 "आणि डिपिकेजी --कन्टेन्टस (= डिपिकेजी-डेब --कन्टेन्टस) त्यांचा मजकूर दाखवण्यासाठी वापर "
@@ -4042,16 +4141,16 @@ msgstr "डेबिअन `%s' पॅकेज व्यवस्थापन �
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4475,72 +4574,6 @@ msgstr "अोव्हरराइड अस्तित्वात नाह�
 msgid "--update is useless for --remove"
 msgstr "धोक्याची सूचना: --काढा साठी --सुधारा निरुपयोगी आहे"
 
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "invalid statoverride uid %s"
-msgstr "स्टॅटओवरराइड फाइल `%.250s'"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "invalid statoverride gid %s"
-msgstr "स्टॅटओवरराइड फाइल `%.250s'"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "invalid statoverride mode %s"
-msgstr "स्टॅटओवरराइड फाइल `%.250s'"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "स्टॅटओवरराइड फाइल उघडण्यास अयशस्वी"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "स्टॅटओवरराइड फाइल एफस्टॅट होण्यास अयशस्वी"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "reading statoverride file '%.250s'"
-msgstr "स्टॅटओवरराइड फाइल `%.250s'"
-
-#: src/statdb.c
-#, fuzzy
-msgid "statoverride file is missing final newline"
-msgstr "स्टॅटओवरराइड फाइलमध्ये रिकामी ओळ/लाइन आहे"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "स्टॅटओवरराइड फाइलमध्ये रिकामी ओळ/लाइन आहे"
-
-#: src/statdb.c
-#, fuzzy
-msgid "syntax error in statoverride file"
-msgstr "स्टॅटओवरराइड फाइल उघडण्यास अयशस्वी"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "स्टॅटओवरराइड फाइल उघडण्यास अयशस्वी"
-
-#: src/statdb.c
-#, fuzzy
-msgid "unexpected end of line in statoverride file"
-msgstr "%d ओळीवर पॅकेजच्या नावामध्ये अनपेक्षित उद्भवलेला ओळीचा शेवट/एण्ड ऑफ लाइन"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "स्टॅटओवरराइड फाइल उघडण्यास अयशस्वी"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "स्टॅटओवरराइड फाइल `%.250s'"
-
 #: src/trigcmd.c
 #, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
@@ -4757,6 +4790,12 @@ msgstr "%sची अजुळवणी करत आहे, जेणे कर�
 #, fuzzy, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "%s काढून टाकत आहे...\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "स्टॅटओवरराइड फाइलमध्ये रिकामी ओळ/लाइन आहे"
 
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5302,16 +5341,18 @@ msgid "decompressing archive member"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "निर्देशिकेत सीएचडिआयआर करता आले नाही"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "निर्देशिका बनवता आली नाही"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "निर्देशिका बनवल्यानंतर तिच्यात सीएचडिआयआर करता आले नाही"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "%d ओळीवर पॅकेजच्या नावामध्ये अनपेक्षित इओएफ"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "निर्देशिकेत सीएचडिआयआर करता आले नाही"
 
 #: dpkg-deb/extract.c
 #, fuzzy
@@ -6648,6 +6689,43 @@ msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
 #, fuzzy
+#~| msgid "unable to open files list file for package `%.250s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "`%.250s'पॅकेजची फाइल्सची सुची असलेली फाइल उघडण्यास असमर्थ"
+
+#, fuzzy
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr "`%.250s'पॅकेजची फाइल्सची सुची असलेली फाइल उघडण्यास असमर्थ"
+
+#, fuzzy
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
+
+#, fuzzy
+#~| msgid "error closing files list file for package `%.250s'"
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "दोषामुळे पॅकेज `%.250s'साठी फाइलची सुची असलेली फाइल बंद होत आहे"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr "`%.250s'पॅकेजची फाइल्सची सुची असलेली फाइल उघडण्यास असमर्थ"
+
+#, fuzzy
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr "`%.250s'पॅकेजची फाइल्सची सुची असलेली फाइल उघडण्यास असमर्थ"
+
+#, fuzzy
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr "पॅकेज `%.250s'साठी फाइलची सुची असलेल्या फाइलचे फाइलनेम रिकामे आहे"
+
+#, fuzzy
+#~| msgid "files list for package `%.250s'"
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "पॅकेज `%.250s'साठी असलेली फाइलची सुची"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "निर्देशिका बनवल्यानंतर तिच्यात सीएचडिआयआर करता आले नाही"
+
+#, fuzzy
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "ताकिद: अप्रचलित पर्याय `--%s'\n"
 
@@ -6733,9 +6811,6 @@ msgstr ""
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "कॉनफाइल प्रॉम्प्टच्या एसटिडीइनवरची EOF "
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "%d ओळीवर पॅकेजच्या नावामध्ये अनपेक्षित इओएफ"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "%d ओळीवर पॅकेजच्या नावानंतर अनपेक्षित उद्भवलेले इओएफ"
@@ -7021,11 +7096,6 @@ msgstr ""
 #~ msgstr " गुलाम %s: %s"
 
 #, fuzzy
-#~| msgid "cannot stat old name `%s': %s"
-#~ msgid "cannot stat %s: %s"
-#~ msgstr "जुनी नावे `%s': %s स्टॅट करता येत नाहीत"
-
-#, fuzzy
 #~| msgid "%s: copying %s to %s failed, giving up: %s"
 #~ msgid "scan of %s failed: %s"
 #~ msgstr "%s: %s ची %s मधे नक्कल बनवता आली नाही, सोडून देत आहे: %s"
@@ -7050,11 +7120,6 @@ msgstr ""
 
 #~ msgid "unable to close %s: %s"
 #~ msgstr "%s: %s बंद करता येत नाही"
-
-#, fuzzy
-#~| msgid "unable to write %s: %s"
-#~ msgid "cannot write %s: %s"
-#~ msgstr "%s: %s लिहिता येत नाही"
 
 #, fuzzy
 #~| msgid "unable to rename %s to %s: %s"

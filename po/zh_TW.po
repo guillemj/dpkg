@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2018-04-15 07:06+0800\n"
 "Last-Translator: 林博仁 <Buo.Ren.Lin@gmail.com>\n"
 "Language-Team: Chinese (traditional) <debian-l10n-chinese@lists.debian.org>\n"
@@ -137,7 +137,8 @@ msgstr "刪除舊備份檔發生錯誤 '%s'"
 msgid "error creating new backup file '%s'"
 msgstr "建立新備份檔發生錯誤 '%s'"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "無法刪除 `%.250s'"
@@ -304,8 +305,7 @@ msgstr "壓縮方式不明"
 msgid ""
 "updates directory contains file '%.250s' whose name is too long (length=%d, "
 "max=%d)"
-msgstr ""
-"updates 目錄中的「%.250s」檔案名稱太長了（長度為 %d，最長能允許 %d）"
+msgstr "updates 目錄中的「%.250s」檔案名稱太長了（長度為 %d，最長能允許 %d）"
 
 #: lib/dpkg/dbmodify.c
 #, c-format
@@ -344,12 +344,22 @@ msgid "unable to open lock file %s for testing"
 msgstr "無法開啟鎖定檔 %s 測試"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr "無法開啟／建立狀態資料庫的鎖定檔"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "無法開啟／建立狀態資料庫的鎖定檔"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "您沒有鎖定 dpkg 的狀態資料庫的權限"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg status database"
@@ -401,6 +411,186 @@ msgstr "無法關閉 `%.250s' 的更新狀態"
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "無法安裝 `%.250s' 的更新狀態"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "無法判斷 `%.250s' 是否存在"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "無法讀取 info 目錄"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "在試圖開啟 %.250s 時發生錯誤"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "資訊資料庫格式檔 '%s' 損毀"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "Info file %s/%s not associated to any package"
+msgid "info file %s/%s not associated to any package"
+msgstr "資訊檔 %s/%s 不屬於任何套件"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "在建立實體連結 `%.255s' 時發生錯誤"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "error while writing '%s'"
+msgstr "'%s' 寫入錯誤"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "套件 '%.250s' 的檔案清單，檔尾沒有換行"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "套件 '%.250s' 的檔案清單，檔尾沒有換行"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "套件 '%.250s' 的檔案清單，檔尾沒有換行"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "套件 `%.250s' 的檔案清單，內有空檔名"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot extract control file '%s' from '%s': %s"
+msgid "loading control file '%s' for package '%s'"
+msgstr "無法由 '%2$s' 讀取設定檔 '%1$s'：%3$s"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "無法開啟移轉檔"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "無法 fstat 取得移轉檔的檔案資訊"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "移轉衝突，涉入其中的有 `%.250s' 及 `%.250s'"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr "關閉套件 `%.250s' 的檔案清單時，發生錯誤"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr "找不到套件 '%.250s' 的檔案清單，假設該套件目前安裝任何檔案"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "套件 '%.250s' 的檔案清單，檔尾沒有換行"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "套件 `%.250s' 的檔案清單，內有空檔名"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "（讀取資料庫 ... "
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "目前共安裝了 %d 個檔案和目錄。）\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "invalid status"
+msgid "invalid statoverride uid %s"
+msgstr "狀態無效"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "reading statoverride file '%.250s'"
+msgid "invalid statoverride gid %s"
+msgstr "讀取 statoverride 檔 '%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "reading statoverride file '%.250s'"
+msgid "invalid statoverride mode %s"
+msgstr "讀取 statoverride 檔 '%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "無法開啟 statoverride 檔"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "無法 fstat statoverride 檔"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "reading statoverride file '%.250s'"
+msgstr "讀取 statoverride 檔 '%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file is missing final newline"
+msgstr "statoverride 檔檔尾沒有換行"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "statoverride 檔有空行"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "syntax error in statoverride file"
+msgstr "statoverride 檔語法錯誤"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "syntax error: unknown user '%s' in statoverride file"
+msgid "unknown user '%s' in statoverride file"
+msgstr "語法錯誤：statoverride 的使用者 '%s' 不明"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "unexpected end of line in statoverride file"
+msgstr "statoverride 檔行尾意外中斷"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "syntax error: unknown group '%s' in statoverride file"
+msgid "unknown group '%s' in statoverride file"
+msgstr "語法錯誤：statoverride 檔中未知的 '%s' 群組"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "檔案 '%.250s' 有好幾個 statoverride 檔"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with too big major component"
@@ -531,23 +721,27 @@ msgid "invalid package name (%.250s)"
 msgstr "無效的套件名稱 (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "檔案說明欄位 `%s' 是空的"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "這個檔案說明欄位 `%s' 不可用於狀態檔"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr "檔案說明欄位 `%s' 裡的值太多（和其他的相比）"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr "檔案說明欄位 `%s' 中的值太少（和其他的相比）"
 
 #: lib/dpkg/fields.c
@@ -734,6 +928,30 @@ msgid "unable to set mode of target file '%.250s'"
 msgstr "無法設定目標檔案 '%.250s' 的權限"
 
 #: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat %s"
+msgstr "無法取得檔案 '%s' 的檔案資訊"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "%s is not a regular file"
+msgstr "conffile '%s' 不是普通檔案"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to '%s'"
+msgid "cannot read %s"
+msgstr "無法加到 '%s'"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to '%s'"
+msgid "cannot open %s"
+msgstr "無法加到 '%s'"
+
+#: lib/dpkg/file.c
 #, c-format
 msgid "unable to unlock %s"
 msgstr "無法解除鎖定 %s"
@@ -754,8 +972,10 @@ msgid "unable to lock %s"
 msgstr "無法鎖定 %s"
 
 #: lib/dpkg/file.c
-msgid "showing file on pager"
-msgstr "以可換頁的瀏覽程式瀏覽檔案"
+#, fuzzy
+#| msgid "unable to flush file '%s'"
+msgid "pager to show file"
+msgstr "無法清除檔案 '%s' 的寫入緩衝"
 
 #: lib/dpkg/log.c
 #, c-format
@@ -777,13 +997,13 @@ msgstr "無法配置記憶體"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "無法替 std%s dup"
+msgid "failed to dup for fd %d"
+msgstr "無法替 fd %d dup"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "無法替 fd %d dup"
+msgid "failed to dup for std%s"
+msgstr "無法替 std%s dup"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1158,11 +1378,6 @@ msgstr "無法安全刪除 '%.255s'"
 msgid "rm command for cleanup"
 msgstr "rm 指令刪除檔案"
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr "套件名稱 '%s' 曖昧不明，符合多個已安裝套件"
-
 #: lib/dpkg/pkg-format.c
 #, c-format
 msgid "invalid character '%c' in field width"
@@ -1175,6 +1390,11 @@ msgstr "欄位寬度超出範圍"
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
 msgstr "找不到結尾括弧"
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
+msgstr "套件名稱 '%s' 曖昧不明，符合多個已安裝套件"
 
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
@@ -1386,7 +1606,8 @@ msgstr ""
 msgid ""
 "triggers ci file '%.250s' contains illegal trigger syntax in trigger name "
 "'%.250s': %.250s"
-msgstr "觸發程式 ci 檔 `%.250s' 的觸發程式名稱 `%.250s' 不合於觸發程式的語法：%.250s"
+msgstr ""
+"觸發程式 ci 檔 `%.250s' 的觸發程式名稱 `%.250s' 不合於觸發程式的語法：%.250s"
 
 #: lib/dpkg/triglib.c
 #, c-format
@@ -1494,11 +1715,6 @@ msgstr "在建立輸出入轉向 `%.255s' 時發生錯誤"
 msgid "error creating device '%.255s'"
 msgstr "在建立裝置檔 `%.255s' 時發生錯誤"
 
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "在建立實體連結 `%.255s' 時發生錯誤"
-
 #: src/archives.c utils/update-alternatives.c
 #, c-format
 msgid "error creating symbolic link '%.255s'"
@@ -1551,7 +1767,8 @@ msgstr "無法取得（反引用）已存在的符號連結 `%.250s' 的檔案�
 msgid ""
 "failed to stat (dereference) proposed new symlink target '%.250s' for "
 "symlink '%.250s'"
-msgstr "無法取得（反引用）將要指向新符號連結 `%.250s' 的符號連結 `%.250s' 的檔案資訊"
+msgstr ""
+"無法取得（反引用）將要指向新符號連結 `%.250s' 的符號連結 `%.250s' 的檔案資訊"
 
 #: src/archives.c
 #, fuzzy, c-format
@@ -1984,6 +2201,10 @@ msgid "conffile difference visualizer"
 msgstr "conffile 差異顯示程式"
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "完成後，請輸入 `exit'。\n"
 
@@ -2337,7 +2558,21 @@ msgstr ""
 "\n"
 
 #: src/divertcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --package <package>      name of the package whose copy of <file> will "
+#| "not\n"
+#| "                             be diverted.\n"
+#| "  --local                  all packages' versions are diverted.\n"
+#| "  --divert <divert-to>     the name used by other packages' versions.\n"
+#| "  --rename                 actually move the file aside (or back).\n"
+#| "  --admindir <directory>   set the directory with the diversions file.\n"
+#| "  --test                   don't do anything, just demonstrate.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --package <package>      name of the package whose copy of <file> will "
@@ -2346,6 +2581,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2376,6 +2612,12 @@ msgstr ""
 "在新增時，預設為 --local 及 --divert <原始檔>.distrib。\n"
 "在移除時，指定 --package 或 --local 及 --divert 須相符。\n"
 "套件的 preinst/postrm scripts 一定要指定 --package 及 --divert。\n"
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
+msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2498,6 +2740,13 @@ msgstr "忽略重新命名移轉套件 '%2$s' 檔案 '%1$s' 的要求\n"
 
 #: src/divertcmd.c
 #, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
+#, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "查無移轉項目 '%s'，無可刪除。\n"
 
@@ -2540,19 +2789,6 @@ msgstr "<套件> 不該包含換行符號"
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "<移轉目標> 不該包含換行符號"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "無法開啟移轉檔"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "無法 fstat 取得移轉檔的檔案資訊"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "移轉衝突，涉入其中的有 `%.250s' 及 `%.250s'"
 
 #: src/enquiry.c
 msgid ""
@@ -2843,112 +3079,6 @@ msgstr "套件 %s 目前保留，不會去變動。用 --force-hold 來忽略該
 msgid "overriding problem because --force enabled:"
 msgstr "使用了 --force 選項，忽略問題："
 
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "套件 '%.250s' 的檔案清單，檔尾沒有換行"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "套件 '%.250s' 的檔案清單，檔尾沒有換行"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "套件 '%.250s' 的檔案清單，檔尾沒有換行"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package `%.250s' contains empty filename"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "套件 `%.250s' 的檔案清單，內有空檔名"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "無法開啟套件 `%.250s' 的檔案清單"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to stat files list file for package '%.250s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "無法取得套件 '%.250s' 檔案清單的檔案資訊"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list for package '%.250s' is not a regular file"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "套件 '%.250s' 的檔案清單，不是普通檔案"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot extract control file '%s' from '%s': %s"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "無法由 '%2$s' 讀取設定檔 '%1$s'：%3$s"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "關閉套件 `%.250s' 的檔案清單時，發生錯誤"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "無法開啟套件 `%.250s' 的檔案清單"
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr "找不到套件 '%.250s' 的檔案清單，假設該套件目前安裝任何檔案"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "無法取得套件 '%.250s' 檔案清單的檔案資訊"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "套件 '%.250s' 的檔案清單，不是普通檔案"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr "讀取套件 '%.250s' 的檔案清單"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "套件 '%.250s' 的檔案清單，檔尾沒有換行"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "套件 `%.250s' 的檔案清單，內有空檔名"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "關閉套件 `%.250s' 的檔案清單時，發生錯誤"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "（讀取資料庫 ... "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "目前共安裝了 %d 個檔案和目錄。）\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "未安裝"
@@ -3006,41 +3136,6 @@ msgstr[0] ""
 msgid ""
 "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
 msgstr "注意：root 的 PATH 通常都包括 /usr/local/sbin、/usr/sbin 和 /sbin"
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "無法判斷 `%.250s' 是否存在"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "無法讀取 info 目錄"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "在試圖開啟 %.250s 時發生錯誤"
-
-#: src/infodb-format.c
-#, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "資訊資料庫格式檔 '%s' 損毀"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "Info file %s/%s not associated to any package"
-msgid "info file %s/%s not associated to any package"
-msgstr "資訊檔 %s/%s 不屬於任何套件"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "error while writing '%s'"
-msgstr "'%s' 寫入錯誤"
 
 #: src/main.c
 #, c-format
@@ -3727,6 +3822,12 @@ msgid "Description"
 msgstr "簡介"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid "showing file on pager"
+msgid "showing package list on pager"
+msgstr "以可換頁的瀏覽程式瀏覽檔案"
+
+#: src/querycmd.c
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "%s 移轉自：%s\n"
@@ -3761,6 +3862,16 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "套件 '%s' 未安裝，無法取得其資訊"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"使用 dpkg --info (= dpkg-deb --info) 來檢查壓縮檔，\n"
+"以及 dpkg --contents (= dpkg-deb --contents) 來列出壓縮檔內容。\n"
+
+#: src/querycmd.c
 #, c-format
 msgid "package '%s' is not available"
 msgstr "無法取得套件 '%s'"
@@ -3786,9 +3897,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "被 %s 移轉到：%s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "使用 dpkg --info (= dpkg-deb --info) 來檢查壓縮檔，\n"
 "以及 dpkg --contents (= dpkg-deb --contents) 來列出壓縮檔內容。\n"
@@ -3829,19 +3943,33 @@ msgid "Debian %s package management program query tool version %s.\n"
 msgstr "Debian %s 套件管理程式查詢工具版本 %s。\n"
 
 #: src/querycmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -W|--show [<pattern> ...]        Show information on package(s).\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "     --control-list <package>      Print the package control file list.\n"
+#| "     --control-show <package> <file>\n"
+#| "                                   Show the package control file.\n"
+#| "  -c|--control-path <package> [<file>]\n"
+#| "                                   Print path for package control file.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4239,70 +4367,6 @@ msgstr "沒有設定強制選項"
 msgid "--update is useless for --remove"
 msgstr "--remove 時 --update 無效"
 
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "invalid status"
-msgid "invalid statoverride uid %s"
-msgstr "狀態無效"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "reading statoverride file '%.250s'"
-msgid "invalid statoverride gid %s"
-msgstr "讀取 statoverride 檔 '%.250s'"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "reading statoverride file '%.250s'"
-msgid "invalid statoverride mode %s"
-msgstr "讀取 statoverride 檔 '%.250s'"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "無法開啟 statoverride 檔"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "無法 fstat statoverride 檔"
-
-#: src/statdb.c
-#, c-format
-msgid "reading statoverride file '%.250s'"
-msgstr "讀取 statoverride 檔 '%.250s'"
-
-#: src/statdb.c
-msgid "statoverride file is missing final newline"
-msgstr "statoverride 檔檔尾沒有換行"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "statoverride 檔有空行"
-
-#: src/statdb.c
-msgid "syntax error in statoverride file"
-msgstr "statoverride 檔語法錯誤"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "syntax error: unknown user '%s' in statoverride file"
-msgid "unknown user '%s' in statoverride file"
-msgstr "語法錯誤：statoverride 的使用者 '%s' 不明"
-
-#: src/statdb.c
-msgid "unexpected end of line in statoverride file"
-msgstr "statoverride 檔行尾意外中斷"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "syntax error: unknown group '%s' in statoverride file"
-msgid "unknown group '%s' in statoverride file"
-msgstr "語法錯誤：statoverride 檔中未知的 '%s' 群組"
-
-#: src/statdb.c
-#, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "檔案 '%.250s' 有好幾個 statoverride 檔"
-
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "輸入 dpkg-trigger --help 以取得這個工具的說明。"
@@ -4516,6 +4580,12 @@ msgstr "正在解除設定 %s (%s)，以便移除 %s (%s)……\n"
 #, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "正在解除設定 %s (%s)……\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "statoverride 檔有空行"
 
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5012,16 +5082,18 @@ msgid "decompressing archive member"
 msgstr "解壓縮壓縮檔成員"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "無法切換到目錄"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "無法建立目錄"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "建立目錄後，無法切換到該目錄"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "在第 %d 行的套件名稱中有預期之外的 eof"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "無法切換到目錄"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -6297,6 +6369,41 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#, fuzzy
+#~| msgid "unable to open files list file for package `%.250s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "無法開啟套件 `%.250s' 的檔案清單"
+
+#, fuzzy
+#~| msgid "unable to stat files list file for package '%.250s'"
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr "無法取得套件 '%.250s' 檔案清單的檔案資訊"
+
+#, fuzzy
+#~| msgid "files list for package '%.250s' is not a regular file"
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "套件 '%.250s' 的檔案清單，不是普通檔案"
+
+#, fuzzy
+#~| msgid "error closing files list file for package `%.250s'"
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "關閉套件 `%.250s' 的檔案清單時，發生錯誤"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr "無法開啟套件 `%.250s' 的檔案清單"
+
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr "無法取得套件 '%.250s' 檔案清單的檔案資訊"
+
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr "套件 '%.250s' 的檔案清單，不是普通檔案"
+
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "讀取套件 '%.250s' 的檔案清單"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "建立目錄後，無法切換到該目錄"
+
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "已作廢選項 '--%s' ；請改用 '--%s'"
 
@@ -6369,9 +6476,6 @@ msgstr ""
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "在 conffile 提示輸入時，由 stdin 中讀到了 EOF"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "在第 %d 行的套件名稱中有預期之外的 eof"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "在第 %d 行的套件名稱後有預期之外的 eof"

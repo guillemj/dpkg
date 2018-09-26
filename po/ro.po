@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: ioan-eugen STAN <stan.ieugen@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -169,7 +169,8 @@ msgstr "eroare la ștergerea redirectărilor anterioare"
 msgid "error creating new backup file '%s'"
 msgstr "eroare la crearea pipei „%.255s”"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "nu se poate șterge „%.250s”"
@@ -402,12 +403,22 @@ msgid "unable to open lock file %s for testing"
 msgstr "nu se poate deschide fișierul de blocare %s pentru testare"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr "nu se poate deschide/crea fișierul de blocare a bazei de date"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "nu se poate deschide/crea fișierul de blocare a bazei de date"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "nu aveți drepturi de blocare a bazei de date dpkg status"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy
@@ -461,6 +472,211 @@ msgstr "nu se poate închide starea actualizată a lui „%.250s”"
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "nu se poate instala starea actualizată a lui „%.250s”"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "nu se poate verifica existența lui „%.250s”"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "nu se poate citi directorul info"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "eroare la încercarea de a deschide %.250s"
+
+#: lib/dpkg/db-ctrl-format.c
+#, fuzzy, c-format
+#| msgid "unable to write file '%s'"
+msgid "corrupt info database format file '%s'"
+msgstr "nu se poate scrie fișierul „%s”"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "conffile `%.250s' does not appear in package"
+msgid "info file %s/%s not associated to any package"
+msgstr "fișierul conffile „%.250s” nu apare în pachet"
+
+# hard link este un alt nume pentru un target și spre
+# deosebire de symbolic link, target obligatoriu trebuie
+# să existe
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "eroare la crearea legăturii hard „%.255s”"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "error writing `%s'"
+msgid "error while writing '%s'"
+msgstr "eroare la scrierea „%s”"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr ""
+"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
+"newline de la final"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr ""
+"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
+"newline de la final"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
+"newline de la final"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr ""
+"fișierul cu lista fișierelor pachetului „%.250s” conține nume de fișier vid"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+msgid "loading control file '%s' for package '%s'"
+msgstr ""
+"nu se poate citi directorul fișierului de configurare „%.250s” (din „%.250s”)"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "eșec la deschiderea fișierului de redirectări"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "eșec la fstat a fișierului de redirectări"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "redirectări conflictuale care implică „%.250s” sau „%.250s”"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr ""
+"eroare la închiderea fișierului listei cu fișierele pentru pachetul „%.250s”"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid ""
+#| "files list file for package `%.250s' missing, assuming package has no "
+#| "files currently installed."
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"fișierul cu lista fișierelor pachetului „%.250s” lipsește, se presupune că "
+"pachetul nu are nici un fișier instalat."
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr ""
+"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
+"newline de la final"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr ""
+"fișierul cu lista fișierelor pachetului „%.250s” conține nume de fișier vid"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(Se citește baza de date ... "
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "%d fișier sau director actualmente instalat.)\n"
+msgstr[1] "%d fișiere și directoare actualmente instalate.)\n"
+msgstr[2] "%d de fișiere și directoare actualmente instalate.)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "invalid status"
+msgid "invalid statoverride uid %s"
+msgstr "stare nevalidă"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "invalid statoverride gid %s"
+msgstr "fișier statoverride „%.250s”"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "invalid statoverride mode %s"
+msgstr "fișier statoverride „%.250s”"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "eșec la deschiderea fișierului statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "eșec la fstat pentru fișierul statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "reading statoverride file '%.250s'"
+msgstr "fișier statoverride „%.250s”"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file is missing final newline"
+msgstr "din fișierul statoverride lipsește caracterul newline de la final"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "fișierul statoverride conține linie goală"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "syntax error in statoverride file"
+msgstr "eroare de sintaxă în fișierul statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "syntax error: unknown user '%s' in statoverride file"
+msgid "unknown user '%s' in statoverride file"
+msgstr "eroare de sintaxă: utilizator „%s” necunoscut în fișierul statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "unexpected end of line in statoverride file"
+msgstr "sfârșit de linie neașteptat în fișierul statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "syntax error: unknown group '%s' in statoverride file"
+msgid "unknown group '%s' in statoverride file"
+msgstr "eroare de sintaxă: grup „%s” necunoscut în fișierul statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "există multiple înlocuiri de stare pentru fișierul „%.250s”"
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
@@ -630,24 +846,28 @@ msgid "invalid package name (%.250s)"
 msgstr "nume nevalid de pachet (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "câmp „%s” cu detalii fișier gol"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "câmp cu detalii fișier „%s” nepermis în fișierul de stare"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr ""
 "prea multe valori în câmpul detaliilor fișier „%s” (comparativ cu altele)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr ""
 "prea puține valori în câmpul detaliilor fișier „%s” (comparativ cu altele)"
 
@@ -862,6 +1082,30 @@ msgstr "nu se poate seta modul fișierului țintă „%.250s”"
 
 #: lib/dpkg/file.c
 #, fuzzy, c-format
+#| msgid "cannot stat %s: %s"
+msgid "cannot stat %s"
+msgstr "stat imposibil pentru „%s”: „%s”"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "%s is not a regular file"
+msgstr "fișierul conffile „%s” nu este fișier propriu-zis"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot write %s: %s"
+msgid "cannot read %s"
+msgstr "nu se poate scrie %s: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to %s: %s"
+msgid "cannot open %s"
+msgstr "nu se poate adăuga la %s: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
 #| msgid "unable to close %s: %s"
 msgid "unable to unlock %s"
 msgstr "nu se poate închide %s: %s"
@@ -885,9 +1129,9 @@ msgstr "nu se poate închide %s: %s"
 
 #: lib/dpkg/file.c
 #, fuzzy
-#| msgid "long filenames"
-msgid "showing file on pager"
-msgstr "denumiri lungi de fișiere"
+#| msgid "unable to flush file '%s'"
+msgid "pager to show file"
+msgstr "eșec la flush pentru fișierul „%s”"
 
 #: lib/dpkg/log.c
 #, fuzzy, c-format
@@ -910,13 +1154,13 @@ msgstr "eșec la alocarea memoriei"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "eșec la dup pentru std%s"
+msgid "failed to dup for fd %d"
+msgstr "eșec la dup pentru fd %d"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "eșec la dup pentru fd %d"
+msgid "failed to dup for std%s"
+msgstr "eșec la dup pentru std%s"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1344,11 +1588,6 @@ msgstr "nu se poate șterge în siguranță „%.255s”"
 msgid "rm command for cleanup"
 msgstr ""
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr ""
-
 #: lib/dpkg/pkg-format.c
 #, fuzzy, c-format
 #| msgid "invalid character `%c' in field width\n"
@@ -1361,6 +1600,11 @@ msgstr ""
 
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
+msgstr ""
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
 msgstr ""
 
 #: lib/dpkg/pkg-show.c
@@ -1708,14 +1952,6 @@ msgstr "eroare la crearea pipei „%.255s”"
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "eroare la crearea dispozitivului „%.255s”"
-
-# hard link este un alt nume pentru un target și spre
-# deosebire de symbolic link, target obligatoriu trebuie
-# să existe
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "eroare la crearea legăturii hard „%.255s”"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2292,6 +2528,10 @@ msgid "conffile difference visualizer"
 msgstr ""
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "Tastați „exit” când ați terminat.\n"
 
@@ -2664,7 +2904,21 @@ msgstr ""
 "\n"
 
 #: src/divertcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --package <package>      name of the package whose copy of <file> will "
+#| "not\n"
+#| "                             be diverted.\n"
+#| "  --local                  all packages' versions are diverted.\n"
+#| "  --divert <divert-to>     the name used by other packages' versions.\n"
+#| "  --rename                 actually move the file aside (or back).\n"
+#| "  --admindir <directory>   set the directory with the diversions file.\n"
+#| "  --test                   don't do anything, just demonstrate.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --package <package>      name of the package whose copy of <file> will "
@@ -2673,6 +2927,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2708,6 +2963,12 @@ msgstr ""
 "potrivească dacă sunt specificate.\n"
 "Scripturile preinst/postrm din pachete ar trebui să specifice\n"
 "întotdeauna --package și --divert.\n"
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
+msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2834,6 +3095,13 @@ msgstr "se ignoră cererea de ștergere a lui %.250s care nu este instalat."
 
 #: src/divertcmd.c
 #, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
+#, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "Nu există redirectare „%s”, nu s-a șters nimic.\n"
 
@@ -2877,19 +3145,6 @@ msgstr "pachetul nu poate conține caractere newline"
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "redirectare-către nu poate conține caractere newline"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "eșec la deschiderea fișierului de redirectări"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "eșec la fstat a fișierului de redirectări"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "redirectări conflictuale care implică „%.250s” sau „%.250s”"
 
 #: src/enquiry.c
 msgid ""
@@ -3207,142 +3462,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "problemă la forțare datorită activării lui --force: "
 
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr ""
-"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
-"newline de la final"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr ""
-"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
-"newline de la final"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
-"newline de la final"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package `%.250s' contains empty filename"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr ""
-"fișierul cu lista fișierelor pachetului „%.250s” conține nume de fișier vid"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr ""
-"nu se poate deschide fișierul cu lista fișierelor pentru pachetul „%.250s”"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to stat files list file for package '%.250s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr ""
-"stat imposibil pentru fișierul cu lista fișierelor pentru pachetul „%.250s”"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr ""
-"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
-"newline de la final"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr ""
-"nu se poate citi directorul fișierului de configurare „%.250s” (din „%.250s”)"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr ""
-"eroare la închiderea fișierului listei cu fișierele pentru pachetul „%.250s”"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr ""
-"nu se poate deschide fișierul cu lista fișierelor pentru pachetul „%.250s”"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid ""
-#| "files list file for package `%.250s' missing, assuming package has no "
-#| "files currently installed."
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"fișierul cu lista fișierelor pachetului „%.250s” lipsește, se presupune că "
-"pachetul nu are nici un fișier instalat."
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr ""
-"stat imposibil pentru fișierul cu lista fișierelor pentru pachetul „%.250s”"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "files list for package '%.250s' is not a regular file"
-msgstr ""
-"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
-"newline de la final"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "files list for package `%.250s'"
-msgid "reading files list for package '%.250s'"
-msgstr "lista fișierelor pentru pachetul „%.250s”"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr ""
-"din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
-"newline de la final"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr ""
-"fișierul cu lista fișierelor pachetului „%.250s” conține nume de fișier vid"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr ""
-"eroare la închiderea fișierului listei cu fișierele pentru pachetul „%.250s”"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(Se citește baza de date ... "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "%d fișier sau director actualmente instalat.)\n"
-msgstr[1] "%d fișiere și directoare actualmente instalate.)\n"
-msgstr[2] "%d de fișiere și directoare actualmente instalate.)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "neinstalat"
@@ -3416,43 +3535,6 @@ msgstr ""
 "%d program nu a fost găsit în PATH sau nu este executabil.\n"
 "NB: PATH pentru utilizatorul root ar trebui să conțină /usr/local/sbin, /usr/"
 "sbin și /sbin."
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "nu se poate verifica existența lui „%.250s”"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "nu se poate citi directorul info"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "eroare la încercarea de a deschide %.250s"
-
-#: src/infodb-format.c
-#, fuzzy, c-format
-#| msgid "unable to write file '%s'"
-msgid "corrupt info database format file '%s'"
-msgstr "nu se poate scrie fișierul „%s”"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "conffile `%.250s' does not appear in package"
-msgid "info file %s/%s not associated to any package"
-msgstr "fișierul conffile „%.250s” nu apare în pachet"
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "error writing `%s'"
-msgid "error while writing '%s'"
-msgstr "eroare la scrierea „%s”"
 
 #: src/main.c
 #, c-format
@@ -4258,6 +4340,12 @@ msgid "Description"
 msgstr "Descriere"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid "long filenames"
+msgid "showing package list on pager"
+msgstr "denumiri lungi de fișiere"
+
+#: src/querycmd.c
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "redirectare de către %s de la: %s\n"
@@ -4295,6 +4383,16 @@ msgstr ""
 "Pachetul „%s” nu este instalat și nu este disponibilă nici o informație.\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"Folosiți dpkg --info (= dpkg-deb --info) ca să examinați fișierele arhivei,\n"
+"și dpkg --contents (= dpkg-deb --contents) ca să-i afișați conținutul.\n"
+
+#: src/querycmd.c
 #, fuzzy, c-format
 #| msgid "Package `%s' is not available.\n"
 msgid "package '%s' is not available"
@@ -4321,9 +4419,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "redirectat de %s către: %s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "Folosiți dpkg --info (= dpkg-deb --info) ca să examinați fișierele arhivei,\n"
 "și dpkg --contents (= dpkg-deb --contents) ca să-i afișați conținutul.\n"
@@ -4384,16 +4485,16 @@ msgstr ""
 #| "\n"
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4860,71 +4961,6 @@ msgstr "Nu este prezentă nici o înlocuire."
 msgid "--update is useless for --remove"
 msgstr "--update este inutil pentru --remove"
 
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "invalid status"
-msgid "invalid statoverride uid %s"
-msgstr "stare nevalidă"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "invalid statoverride gid %s"
-msgstr "fișier statoverride „%.250s”"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "invalid statoverride mode %s"
-msgstr "fișier statoverride „%.250s”"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "eșec la deschiderea fișierului statoverride"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "eșec la fstat pentru fișierul statoverride"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "reading statoverride file '%.250s'"
-msgstr "fișier statoverride „%.250s”"
-
-#: src/statdb.c
-msgid "statoverride file is missing final newline"
-msgstr "din fișierul statoverride lipsește caracterul newline de la final"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "fișierul statoverride conține linie goală"
-
-#: src/statdb.c
-msgid "syntax error in statoverride file"
-msgstr "eroare de sintaxă în fișierul statoverride"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "syntax error: unknown user '%s' in statoverride file"
-msgid "unknown user '%s' in statoverride file"
-msgstr "eroare de sintaxă: utilizator „%s” necunoscut în fișierul statoverride"
-
-#: src/statdb.c
-msgid "unexpected end of line in statoverride file"
-msgstr "sfârșit de linie neașteptat în fișierul statoverride"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "syntax error: unknown group '%s' in statoverride file"
-msgid "unknown group '%s' in statoverride file"
-msgstr "eroare de sintaxă: grup „%s” necunoscut în fișierul statoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "există multiple înlocuiri de stare pentru fișierul „%.250s”"
-
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Tastați dpkg-trigger --help pentru ajutor despre acest utilitar."
@@ -5182,6 +5218,12 @@ msgstr "Se deconfigurează %s, pentru a fi permite ștergerea lui %s ...\n"
 #| msgid "De-configuring %s ...\n"
 msgid "De-configuring %s (%s) ...\n"
 msgstr "Se deconfigurează %s ...\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "fișierul statoverride conține linie goală"
 
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5756,16 +5798,18 @@ msgid "decompressing archive member"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "eșec la schimbarea directorului"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "eșec la crearea directorului"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "eșec la schimbarea directorului după crearea lui"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "eof neașteptat în numele pachetului la linia %d"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "eșec la schimbarea directorului"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -7290,6 +7334,57 @@ msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
 #, fuzzy
+#~| msgid "unable to open files list file for package `%.250s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr ""
+#~ "nu se poate deschide fișierul cu lista fișierelor pentru pachetul „%.250s”"
+
+#, fuzzy
+#~| msgid "unable to stat files list file for package '%.250s'"
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr ""
+#~ "stat imposibil pentru fișierul cu lista fișierelor pentru pachetul "
+#~ "„%.250s”"
+
+#, fuzzy
+#~| msgid "files list file for package '%.250s' is missing final newline"
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr ""
+#~ "din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
+#~ "newline de la final"
+
+#, fuzzy
+#~| msgid "error closing files list file for package `%.250s'"
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr ""
+#~ "eroare la închiderea fișierului listei cu fișierele pentru pachetul "
+#~ "„%.250s”"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr ""
+#~ "nu se poate deschide fișierul cu lista fișierelor pentru pachetul „%.250s”"
+
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr ""
+#~ "stat imposibil pentru fișierul cu lista fișierelor pentru pachetul "
+#~ "„%.250s”"
+
+#, fuzzy
+#~| msgid "files list file for package '%.250s' is missing final newline"
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr ""
+#~ "din fișierul cu lista fișierelor pachetului „%.250s” lipsește caracterul "
+#~ "newline de la final"
+
+#, fuzzy
+#~| msgid "files list for package `%.250s'"
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "lista fișierelor pentru pachetul „%.250s”"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "eșec la schimbarea directorului după crearea lui"
+
+#, fuzzy
 #~| msgid "obsolete option '--%s', please use '--%s' instead."
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "opțiune învechită „--%s”, folosiți „--%s” în schimb."
@@ -7369,9 +7464,6 @@ msgstr ""
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "EOF de la stdin la promptul despre fișierul conffile"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "eof neașteptat în numele pachetului la linia %d"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "eof neașteptat după numele pachetului la linia %d"
@@ -7636,9 +7728,6 @@ msgstr ""
 #~ msgid "it is a slave of %s"
 #~ msgstr "este un sclav pentru %s"
 
-#~ msgid "cannot stat %s: %s"
-#~ msgstr "stat imposibil pentru „%s”: „%s”"
-
 #~ msgid "readlink(%s) failed: %s"
 #~ msgstr "readlink(%s) a eșuat: %s"
 
@@ -7662,9 +7751,6 @@ msgstr ""
 
 #~ msgid "unable to close %s: %s"
 #~ msgstr "nu se poate închide %s: %s"
-
-#~ msgid "cannot write %s: %s"
-#~ msgstr "nu se poate scrie %s: %s"
 
 #, fuzzy
 #~| msgid "unable to open file '%s'"

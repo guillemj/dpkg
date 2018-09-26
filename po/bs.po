@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2015-04-07 10:02+0200\n"
 "Last-Translator: Safir Šećerović <sapphire@linux.org.ba>\n"
 "Language-Team: Bosnian <lokal@linux.org.ba>\n"
@@ -169,7 +169,8 @@ msgstr ""
 "\n"
 "Konfiguracijska datoteka `%s'"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr ""
@@ -375,11 +376,25 @@ msgid "unable to open lock file %s for testing"
 msgstr ""
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "Configuration file `%s'"
+msgid "unable to open/create frontend lockfile"
+msgstr ""
+"\n"
+"Konfiguracijska datoteka `%s'"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr ""
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
+msgstr ""
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
 msgstr ""
 
 #: lib/dpkg/dbmodify.c
@@ -431,6 +446,205 @@ msgstr ""
 #: lib/dpkg/dbmodify.c
 #, c-format
 msgid "unable to install updated status of '%.250s'"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-format.c
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Configuration file `%s'"
+msgid "corrupt info database format file '%s'"
+msgstr ""
+"\n"
+"Konfiguracijska datoteka `%s'"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "info file %s/%s not associated to any package"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "error while writing '%s'"
+msgstr ""
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr ""
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Configuration file `%s'"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr ""
+"\n"
+"Konfiguracijska datoteka `%s'"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Configuration file `%s'"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"\n"
+"Konfiguracijska datoteka `%s'"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Configuration file `%s'"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr ""
+"\n"
+"Konfiguracijska datoteka `%s'"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Configuration file `%s'"
+msgid "loading control file '%s' for package '%s'"
+msgstr ""
+"\n"
+"Konfiguracijska datoteka `%s'"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr ""
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr ""
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr ""
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Configuration file `%s'"
+msgid "loading files list file for package '%s'"
+msgstr ""
+"\n"
+"Konfiguracijska datoteka `%s'"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr ""
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr ""
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr ""
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride uid %s"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride gid %s"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "invalid statoverride mode %s"
+msgstr "broj verzije"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "reading statoverride file '%.250s'"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file is missing final newline"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+msgid "syntax error in statoverride file"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown user '%s' in statoverride file"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+msgid "unexpected end of line in statoverride file"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown group '%s' in statoverride file"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "multiple statoverrides present for file '%.250s'"
 msgstr ""
 
 #: lib/dpkg/deb-version.c
@@ -568,22 +782,22 @@ msgstr ""
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr ""
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr ""
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr ""
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr ""
 
 #: lib/dpkg/fields.c
@@ -763,6 +977,31 @@ msgstr ""
 
 #: lib/dpkg/file.c
 #, c-format
+msgid "cannot stat %s"
+msgstr ""
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Configuration file `%s'"
+msgid "%s is not a regular file"
+msgstr ""
+"\n"
+"Konfiguracijska datoteka `%s'"
+
+#: lib/dpkg/file.c
+#, c-format
+msgid "cannot read %s"
+msgstr ""
+
+#: lib/dpkg/file.c
+#, c-format
+msgid "cannot open %s"
+msgstr ""
+
+#: lib/dpkg/file.c
+#, c-format
 msgid "unable to unlock %s"
 msgstr ""
 
@@ -782,7 +1021,7 @@ msgid "unable to lock %s"
 msgstr ""
 
 #: lib/dpkg/file.c
-msgid "showing file on pager"
+msgid "pager to show file"
 msgstr ""
 
 #: lib/dpkg/log.c
@@ -805,12 +1044,12 @@ msgstr ""
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
+msgid "failed to dup for fd %d"
 msgstr ""
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
+msgid "failed to dup for std%s"
 msgstr ""
 
 #: lib/dpkg/mlib.c
@@ -1196,11 +1435,6 @@ msgstr ""
 msgid "rm command for cleanup"
 msgstr ""
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr ""
-
 #: lib/dpkg/pkg-format.c
 #, fuzzy, c-format
 msgid "invalid character '%c' in field width"
@@ -1212,6 +1446,11 @@ msgstr ""
 
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
+msgstr ""
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
 msgstr ""
 
 #: lib/dpkg/pkg-show.c
@@ -1527,11 +1766,6 @@ msgstr ""
 #: src/archives.c
 #, c-format
 msgid "error creating device '%.255s'"
-msgstr ""
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
 msgstr ""
 
 #: src/archives.c utils/update-alternatives.c
@@ -2004,6 +2238,10 @@ msgid "conffile difference visualizer"
 msgstr ""
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "Ukucajte `exit' kada završite.\n"
 
@@ -2338,6 +2576,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2353,6 +2592,12 @@ msgid ""
 "When removing, --package or --local and --divert must match if specified.\n"
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
+msgstr ""
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
 msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
@@ -2477,6 +2722,13 @@ msgstr ""
 
 #: src/divertcmd.c
 #, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
+#, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr ""
 
@@ -2512,19 +2764,6 @@ msgstr ""
 
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
-msgstr ""
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr ""
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr ""
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
 msgstr ""
 
 #: src/enquiry.c
@@ -2777,144 +3016,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr ""
 
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr ""
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Configuration file `%s'"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr ""
-"\n"
-"Konfiguracijska datoteka `%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Configuration file `%s'"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-"\n"
-"Konfiguracijska datoteka `%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Configuration file `%s'"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr ""
-"\n"
-"Konfiguracijska datoteka `%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Configuration file `%s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr ""
-"\n"
-"Konfiguracijska datoteka `%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Configuration file `%s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr ""
-"\n"
-"Konfiguracijska datoteka `%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Configuration file `%s'"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr ""
-"\n"
-"Konfiguracijska datoteka `%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Configuration file `%s'"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr ""
-"\n"
-"Konfiguracijska datoteka `%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Configuration file `%s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr ""
-"\n"
-"Konfiguracijska datoteka `%s'"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr ""
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr ""
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr ""
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr ""
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr ""
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr ""
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr ""
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr ""
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] ""
-msgstr[1] ""
-
 #: src/help.c
 msgid "not installed"
 msgstr ""
@@ -2970,45 +3071,6 @@ msgstr[1] ""
 #: src/help.c
 msgid ""
 "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
-msgstr ""
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr ""
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr ""
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr ""
-
-#: src/infodb-format.c
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Configuration file `%s'"
-msgid "corrupt info database format file '%s'"
-msgstr ""
-"\n"
-"Konfiguracijska datoteka `%s'"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
-msgstr ""
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "error while writing '%s'"
 msgstr ""
 
 #: src/main.c
@@ -3584,6 +3646,10 @@ msgid "Description"
 msgstr "Opis"
 
 #: src/querycmd.c
+msgid "showing package list on pager"
+msgstr ""
+
+#: src/querycmd.c
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr ""
@@ -3618,6 +3684,10 @@ msgid "package '%s' is not installed and no information is available"
 msgstr ""
 
 #: src/querycmd.c
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+
+#: src/querycmd.c
 #, c-format
 msgid "package '%s' is not available"
 msgstr ""
@@ -3644,8 +3714,7 @@ msgstr ""
 
 #: src/querycmd.c
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 
 #: src/querycmd.c dpkg-deb/info.c
@@ -3693,16 +3762,16 @@ msgstr "Debianov `%s' program za rukovanje paketima."
 #, c-format
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4050,65 +4119,6 @@ msgstr ""
 msgid "--update is useless for --remove"
 msgstr ""
 
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride uid %s"
-msgstr ""
-
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride gid %s"
-msgstr ""
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "invalid statoverride mode %s"
-msgstr "broj verzije"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr ""
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr ""
-
-#: src/statdb.c
-#, c-format
-msgid "reading statoverride file '%.250s'"
-msgstr ""
-
-#: src/statdb.c
-msgid "statoverride file is missing final newline"
-msgstr ""
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr ""
-
-#: src/statdb.c
-msgid "syntax error in statoverride file"
-msgstr ""
-
-#: src/statdb.c
-#, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr ""
-
-#: src/statdb.c
-msgid "unexpected end of line in statoverride file"
-msgstr ""
-
-#: src/statdb.c
-#, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr ""
-
-#: src/statdb.c
-#, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr ""
-
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr ""
@@ -4293,6 +4303,16 @@ msgstr ""
 #, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr ""
+
+#: src/unpack.c
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "Configuration file `%s'"
+msgid "conffile file contains an empty line"
+msgstr ""
+"\n"
+"Konfiguracijska datoteka `%s'"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
@@ -4780,15 +4800,16 @@ msgid "decompressing archive member"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr ""
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
+#, c-format
+msgid "unexpected pre-existing pathname %s"
+msgstr ""
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
 msgstr ""
 
 #: dpkg-deb/extract.c
@@ -5961,6 +5982,24 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#, fuzzy
+#~| msgid ""
+#~| "\n"
+#~| "Configuration file `%s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr ""
+#~ "\n"
+#~ "Konfiguracijska datoteka `%s'"
+
+#, fuzzy
+#~| msgid ""
+#~| "\n"
+#~| "Configuration file `%s'"
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr ""
+#~ "\n"
+#~ "Konfiguracijska datoteka `%s'"
 
 #, fuzzy
 #~| msgid ""

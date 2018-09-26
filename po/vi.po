@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.18.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2016-01-14 08:22+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
@@ -140,7 +140,8 @@ msgstr "không thể gỡ bỏ tập tin sao lưu dự phòng cũ “%s”"
 msgid "error creating new backup file '%s'"
 msgstr "không thể tạo tập tin sao lưu dự phòng mới “%s”"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "không thể gỡ bỏ “%.250s”"
@@ -349,12 +350,22 @@ msgid "unable to open lock file %s for testing"
 msgstr "không thể mở tập tin khóa %s để thử"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr "không thể mở/tạo tập tin khóa của cơ sở dữ liệu trạng thái"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "không thể mở/tạo tập tin khóa của cơ sở dữ liệu trạng thái"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "bạn không có quyền khóa cơ sở dữ liệu trạng thái của dpkg"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg status database"
@@ -406,6 +417,186 @@ msgstr "không thể đóng trạng thái đã cập nhật của “%.250s”"
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "không thể cài đặt trạng thái đã cập nhật của “%.250s”"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "không thể kiểm tra sự tồn tại của “%.250s”"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "không thể đọc thư mục thông tin"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "gặp lỗi khi cố mở %.250s"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "sai hỏng tập tin định dạng thông tin của cơ sở dữ liệu “%s”"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+"định dạng cơ sở dữ liệu thông tin (%d) là giả hoặc quá mới; hãy thử dpkg bản "
+"mới hơn"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "info file %s/%s not associated to any package"
+msgstr "tập tin thông tin %s/%s không liên quan đến bất kỳ gói nào"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "lỗi tạo liên kết cứng “%.255s”"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "error while writing '%s'"
+msgstr "gặp lỗi khi ghi “%s”"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr ""
+"tập tin điều khiển “%s” cho gói “%s” còn thiếu ký tự dòng mới cuối cùng"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr ""
+"tập tin điều khiển “%s” cho gói “%s” còn thiếu ký tự dòng mới cuối cùng"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"tập tin điều khiển “%s” cho gói “%s” còn thiếu ký tự dòng mới cuối cùng"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "tập tin điều khiển “%s” cho gói “%s” có chứa tên tập tin rỗng"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read '%s' control file for package '%s'"
+msgid "loading control file '%s' for package '%s'"
+msgstr "không thể đọc tập tin điều khiển “%s” cho gói “%s”"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "lỗi mở tập tin diversions (sự trệch đi)"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "lỗi fstat tập tin diversions (sự trệch đi)"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "diversions (sự trệch đi) xung đột với “%.250s” hay “%.250s”"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr "gặp lỗi khi đóng tập tin liệt kê nội dung gói “%.250s”"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"thiếu tập tin liệt kê nội dung gói “%.250s”, coi gói này không có tập tin "
+"hiện thời được cài đặt"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr ""
+"tập tin liệt kê nội dung gói “%.250s” còn thiếu ký tự dòng mới cuối cùng"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "tập tin liệt kê nội dung gói “%.250s” chứa tên tập tin rỗng"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(Đang đọc cơ sở dữ liệu … "
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "%d tập tin và thư mục hiện đã được cài đặt.)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride uid %s"
+msgstr "mã số người dùng statoverride không hợp lệ %s"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride gid %s"
+msgstr "mã số nhóm statoverride không hợp lệ %s"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride mode %s"
+msgstr "chế độ “statoverride” không hợp lệ %s"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "gặp lỗi khi mở tập tin statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "gặp lỗi khi fstat tập tin statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "reading statoverride file '%.250s'"
+msgstr "đang đọc tập tin “statoverride” “%.250s”"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file is missing final newline"
+msgstr "tập tin statoverride còn thiếu ký tự dòng mới cuối cùng"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "tập tin statoverride chứa dòng trống"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "syntax error in statoverride file"
+msgstr "gặp lỗi cú pháp trong tập tin stateoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown user '%s' in statoverride file"
+msgstr "gặp người dùng chưa biết “%s” trong tập tin stateoverride"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "unexpected end of line in statoverride file"
+msgstr "gặp kết thúc dòng bất thường trong tập tin stateoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown group '%s' in statoverride file"
+msgstr " nhóm chưa biết “%s” trong tập tin stateoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "có nhiều statoverride (sự ghi đè lên trạng thái) cho tập tin “%.250s”"
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
@@ -562,24 +753,28 @@ msgid "invalid package name (%.250s)"
 msgstr "tên gói không hợp lệ (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "trường chi tiết tập tin rỗng “%s”"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "không cho phép trường chi tiết tập tin “%s” trong tập tin trạng thái"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr ""
 "quá nhiều giá trị trong trường chi tiết tập tin “%s” (so với những cái khác)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr ""
 "quá ít giá trị trong trường chi tiết tập tin “%s” (so với những cái khác)"
 
@@ -770,6 +965,30 @@ msgid "unable to set mode of target file '%.250s'"
 msgstr "không thể đặt chế độ của tập tin đích “%.250s”"
 
 #: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot stat file '%s'"
+msgid "cannot stat %s"
+msgstr "không thể lấy thống kê tập tin “%s”"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "%s is not a regular file"
+msgstr "tập tin cấu hình “%s” không phải là một tập tin tiêu chuẩn"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to '%s'"
+msgid "cannot read %s"
+msgstr "không thể nối thêm vào “%s”"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to '%s'"
+msgid "cannot open %s"
+msgstr "không thể nối thêm vào “%s”"
+
+#: lib/dpkg/file.c
 #, c-format
 msgid "unable to unlock %s"
 msgstr "không thể khóa “%s”"
@@ -790,8 +1009,10 @@ msgid "unable to lock %s"
 msgstr "không thể khóa %s"
 
 #: lib/dpkg/file.c
-msgid "showing file on pager"
-msgstr "hiển thị tập tin trên trang"
+#, fuzzy
+#| msgid "unable to flush file '%s'"
+msgid "pager to show file"
+msgstr "không thể đẩy dữ liệu của tập tin “%s” lên đĩa"
 
 #: lib/dpkg/log.c
 #, c-format
@@ -813,13 +1034,13 @@ msgstr "lỗi cấp phát bộ nhớ"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "lỗi dup (nhân đôi?) cho std%s"
+msgid "failed to dup for fd %d"
+msgstr "lỗi dup (nhân đôi?) cho fd %d"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "lỗi dup (nhân đôi?) cho fd %d"
+msgid "failed to dup for std%s"
+msgstr "lỗi dup (nhân đôi?) cho std%s"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1212,11 +1433,6 @@ msgstr "không thể gỡ bỏ “%.255s” một cách an toàn"
 msgid "rm command for cleanup"
 msgstr "chạy lệnh “rm” để dọn dẹp"
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr "tên gói chưa rõ rang “%s” vói nhiều hơn một thực thể được cài đặt"
-
 #: lib/dpkg/pkg-format.c
 #, c-format
 msgid "invalid character '%c' in field width"
@@ -1229,6 +1445,11 @@ msgstr "độ rộng trường nằm ngoài phạm vi cho phép"
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
 msgstr "thiếu dấu ngoặc ôm"
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
+msgstr "tên gói chưa rõ rang “%s” vói nhiều hơn một thực thể được cài đặt"
 
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
@@ -1559,11 +1780,6 @@ msgstr "lỗi tạo ống dẫn “%.255s”"
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "lỗi tạo thiết bị “%.255s”"
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "lỗi tạo liên kết cứng “%.255s”"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2070,6 +2286,10 @@ msgid "conffile difference visualizer"
 msgstr "Công cụ quan sát sự khác biệt của tập tin cấu hình"
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "Gõ “exit” (thoát) một khi hoàn tất.\n"
 
@@ -2425,7 +2645,21 @@ msgstr ""
 "\n"
 
 #: src/divertcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --package <package>      name of the package whose copy of <file> will "
+#| "not\n"
+#| "                             be diverted.\n"
+#| "  --local                  all packages' versions are diverted.\n"
+#| "  --divert <divert-to>     the name used by other packages' versions.\n"
+#| "  --rename                 actually move the file aside (or back).\n"
+#| "  --admindir <directory>   set the directory with the diversions file.\n"
+#| "  --test                   don't do anything, just demonstrate.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --package <package>      name of the package whose copy of <file> will "
@@ -2434,6 +2668,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2468,6 +2703,12 @@ msgstr ""
 "tương ứng nhau (nếu có).\n"
 "Văn lệnh chạy sau khi cài đặt hoặc gỡ bỏ gói thì cũng phải ghi rõ “--"
 "package” và “--divert”.\n"
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
+msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2590,6 +2831,13 @@ msgstr ""
 
 #: src/divertcmd.c
 #, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
+#, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "Không có sự làm trệch “%s” nào nên không gỡ bỏ.\n"
 
@@ -2632,19 +2880,6 @@ msgstr "“package” (gói) không thể chứa ký tự dòng mới"
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "“divert-to” (chuyển hướng tới) không thể chứa ký tự dòng mới"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "lỗi mở tập tin diversions (sự trệch đi)"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "lỗi fstat tập tin diversions (sự trệch đi)"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "diversions (sự trệch đi) xung đột với “%.250s” hay “%.250s”"
 
 #: src/enquiry.c
 msgid ""
@@ -2959,116 +3194,6 @@ msgstr ""
 "có quyền cao hơn vấn đề này vì tùy chọn “--force” (ép buộc) đã được hiệu "
 "lực: "
 
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr ""
-"tập tin điều khiển “%s” cho gói “%s” còn thiếu ký tự dòng mới cuối cùng"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr ""
-"tập tin điều khiển “%s” cho gói “%s” còn thiếu ký tự dòng mới cuối cùng"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-"tập tin điều khiển “%s” cho gói “%s” còn thiếu ký tự dòng mới cuối cùng"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "tập tin điều khiển “%s” cho gói “%s” có chứa tên tập tin rỗng"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot open '%s' control file for package '%s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "không thể mở tập tin điều khiển “%s” cho gói “%s”"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot stat '%s' control file for package '%s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "không thể lấy thống kê tập tin điều khiển “%s” cho gói “%s”"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "'%s' file for package '%s' is not a regular file"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "tập tin “%s” cho gói “%s” không phải là tập tin thường"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read '%s' control file for package '%s'"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "không thể đọc tập tin điều khiển “%s” cho gói “%s”"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot close '%s' control file for package '%s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "không thể đóng tập tin điều khiển “%s” cho gói “%s”"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "không thể mở tập tin liệt kê nội dung gói “%.250s”"
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"thiếu tập tin liệt kê nội dung gói “%.250s”, coi gói này không có tập tin "
-"hiện thời được cài đặt"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "không thể lấy thống kê về tập tin liệt kê nội dung gói “%.250s”"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "tập tin liệt kê nội dung gói “%.250s” không phải là tập tin thường"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr "đọc danh sách tập tin từ gói “%.250s”"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr ""
-"tập tin liệt kê nội dung gói “%.250s” còn thiếu ký tự dòng mới cuối cùng"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "tập tin liệt kê nội dung gói “%.250s” chứa tên tập tin rỗng"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "gặp lỗi khi đóng tập tin liệt kê nội dung gói “%.250s”"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(Đang đọc cơ sở dữ liệu … "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "%d tập tin và thư mục hiện đã được cài đặt.)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "chưa cài đặt"
@@ -3131,42 +3256,6 @@ msgid ""
 msgstr ""
 "Chú ý: biến PATH của siêu người dùng thường nên chứa “/usr/local/sbin”, “/"
 "usr/sbin” và “/sbin”"
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "không thể kiểm tra sự tồn tại của “%.250s”"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "không thể đọc thư mục thông tin"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "gặp lỗi khi cố mở %.250s"
-
-#: src/infodb-format.c
-#, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "sai hỏng tập tin định dạng thông tin của cơ sở dữ liệu “%s”"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-"định dạng cơ sở dữ liệu thông tin (%d) là giả hoặc quá mới; hãy thử dpkg bản "
-"mới hơn"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
-msgstr "tập tin thông tin %s/%s không liên quan đến bất kỳ gói nào"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "error while writing '%s'"
-msgstr "gặp lỗi khi ghi “%s”"
 
 #: src/main.c
 #, c-format
@@ -3941,6 +4030,12 @@ msgid "Description"
 msgstr "Mô tả"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid "showing file on pager"
+msgid "showing package list on pager"
+msgstr "hiển thị tập tin trên trang"
+
+#: src/querycmd.c
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "bị trệch bởi %s từ: %s\n"
@@ -3975,6 +4070,20 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "Gói “%s” không được cài đặt và không có thông tin nào cả"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"Dùng lệnh:\n"
+"“dpkg --info” (= “dpkg-deb --info”)\n"
+"\t\tđể kiểm tra xem các tập tin kho lưu,\n"
+"và\n"
+"“dpkg --contents” (= “dpkg-deb --contents”)\n"
+"\t\tđể liệt kê nội dung của chúng.\n"
+
+#: src/querycmd.c
 #, c-format
 msgid "package '%s' is not available"
 msgstr "gói “%s” không sẵn sàng"
@@ -4000,9 +4109,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "bị trệch bởi %s tới: %s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "Dùng lệnh:\n"
 "“dpkg --info” (= “dpkg-deb --info”)\n"
@@ -4047,19 +4159,33 @@ msgid "Debian %s package management program query tool version %s.\n"
 msgstr "Chương trình quản lý gói %s của Debian, phiên bản %s.\n"
 
 #: src/querycmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -W|--show [<pattern> ...]        Show information on package(s).\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "     --control-list <package>      Print the package control file list.\n"
+#| "     --control-show <package> <file>\n"
+#| "                                   Show the package control file.\n"
+#| "  -c|--control-path <package> [<file>]\n"
+#| "                                   Print path for package control file.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4466,65 +4592,6 @@ msgstr "không có ghi đè hiện diện"
 msgid "--update is useless for --remove"
 msgstr "tùy chọn “--update” (cập nhật) vô ích khi có dùng “--remove” (gỡ bỏ)"
 
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride uid %s"
-msgstr "mã số người dùng statoverride không hợp lệ %s"
-
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride gid %s"
-msgstr "mã số nhóm statoverride không hợp lệ %s"
-
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride mode %s"
-msgstr "chế độ “statoverride” không hợp lệ %s"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "gặp lỗi khi mở tập tin statoverride"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "gặp lỗi khi fstat tập tin statoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "reading statoverride file '%.250s'"
-msgstr "đang đọc tập tin “statoverride” “%.250s”"
-
-#: src/statdb.c
-msgid "statoverride file is missing final newline"
-msgstr "tập tin statoverride còn thiếu ký tự dòng mới cuối cùng"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "tập tin statoverride chứa dòng trống"
-
-#: src/statdb.c
-msgid "syntax error in statoverride file"
-msgstr "gặp lỗi cú pháp trong tập tin stateoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "gặp người dùng chưa biết “%s” trong tập tin stateoverride"
-
-#: src/statdb.c
-msgid "unexpected end of line in statoverride file"
-msgstr "gặp kết thúc dòng bất thường trong tập tin stateoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr " nhóm chưa biết “%s” trong tập tin stateoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "có nhiều statoverride (sự ghi đè lên trạng thái) cho tập tin “%.250s”"
-
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Gõ “dpkg-trigger --help” để xem trợ giúp về tiện ích này."
@@ -4735,6 +4802,12 @@ msgstr "Đang hủy cấu hình %s (%s), để cho phép gỡ bỏ %s (%s) …\n
 #, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "Đang hủy cấu hình %s (%s) …\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "tập tin statoverride chứa dòng trống"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
@@ -5248,16 +5321,18 @@ msgid "decompressing archive member"
 msgstr "giải nén thành viên kho lưu"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "gặp lỗi khi chdir (chuyển đổi thư mục) sang thư mục"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "gặp lỗi khi tạo thư mục"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "gặp lỗi khi chdir (chuyển đổi thư mục) sang thư mục sau khi tạo nó"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "gặp kết thúc tập tin bất thường trong tên gói trên dòng %d"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "gặp lỗi khi chdir (chuyển đổi thư mục) sang thư mục"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -6625,6 +6700,41 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#, fuzzy
+#~| msgid "cannot open '%s' control file for package '%s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "không thể mở tập tin điều khiển “%s” cho gói “%s”"
+
+#, fuzzy
+#~| msgid "cannot stat '%s' control file for package '%s'"
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr "không thể lấy thống kê tập tin điều khiển “%s” cho gói “%s”"
+
+#, fuzzy
+#~| msgid "'%s' file for package '%s' is not a regular file"
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "tập tin “%s” cho gói “%s” không phải là tập tin thường"
+
+#, fuzzy
+#~| msgid "cannot close '%s' control file for package '%s'"
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "không thể đóng tập tin điều khiển “%s” cho gói “%s”"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr "không thể mở tập tin liệt kê nội dung gói “%.250s”"
+
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr "không thể lấy thống kê về tập tin liệt kê nội dung gói “%.250s”"
+
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr "tập tin liệt kê nội dung gói “%.250s” không phải là tập tin thường"
+
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "đọc danh sách tập tin từ gói “%.250s”"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "gặp lỗi khi chdir (chuyển đổi thư mục) sang thư mục sau khi tạo nó"
+
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "tùy chọn “--%s” đã lạc hậu; hãy dùng “--%s” để thay thế"
 
@@ -6696,9 +6806,6 @@ msgstr ""
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr ""
 #~ "gặp kết thúc tập tin trên thiết bị nhập chuẩn ở dấu nhắc tập tin cấu hình"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "gặp kết thúc tập tin bất thường trong tên gói trên dòng %d"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "gặp kết thúc tập tin bất thường sau tên gói trên dòng %d"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.19.0.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-08-31 07:25+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2018-08-31 10:28+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -3748,7 +3748,9 @@ msgstr ""
 
 #. type: Plain text
 #: deb-src-files.man
-msgid "I<filename> I<section> I<priority>"
+#, fuzzy
+#| msgid "I<filename> I<section> I<priority>"
+msgid "I<filename> I<section> I<priority> [ I<keyword=value\\&...\\&> ]"
 msgstr "I<bestandsnaam> I<sectie> I<prioriteit>"
 
 #. type: Plain text
@@ -3766,6 +3768,14 @@ msgstr ""
 "I<sectie> en I<prioriteit> komen overeen met de respectieve controlevelden "
 "uit het .deb-bestand. Welke waarden mogelijk zijn, is specifiek voor het "
 "archief van elke distributie."
+
+#. type: Plain text
+#: deb-src-files.man
+msgid ""
+"I<keyword=value\\&...\\&> corresponds to an optional whitespace-delimited "
+"list of attributes for this entry.  The only currently supported keyword is "
+"B<automatic> with value B<yes>, to mark automatically generated files."
+msgstr ""
 
 #. type: SH
 #: deb-src-files.man deb-version.man dpkg-architecture.man
@@ -12111,6 +12121,43 @@ msgstr ""
 
 #. type: TP
 #: dpkg-buildflags.man
+#, fuzzy, no-wrap
+#| msgid "B<fixdebugpath>"
+msgid "B<fixfilepath>"
+msgstr "B<fixdebugpath>"
+
+#. type: Plain text
+#: dpkg-buildflags.man
+#, fuzzy
+#| msgid ""
+#| "This setting (enabled by default) adds B<-fdebug-prefix-"
+#| "map=>I<BUILDPATH>B<=.> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
+#| "B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> "
+#| "is set to the top-level directory of the package being built.  This has "
+#| "the effect of removing the build path from any generated debug symbols."
+msgid ""
+"This setting (disabled by default) adds B<-ffile-prefix-map=>I<BUILDPATH>B<=."
+"> to B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, B<OBJCXXFLAGS>, B<GCJFLAGS>, "
+"B<FFLAGS> and B<FCFLAGS> where B<BUILDPATH> is set to the top-level "
+"directory of the package being built.  This has the effect of removing the "
+"build path from any generated file."
+msgstr ""
+"Deze instelling (standaard geactiveerd) voegt B<-fdebug-prefix-"
+"map=>I<BUILDPATH>B<=.> toe aan B<CFLAGS>, B<CXXFLAGS>, B<OBJCFLAGS>, "
+"B<OBJCXXFLAGS>, B<GCJFLAGS>, B<FFLAGS> en B<FCFLAGS>, waarbij B<BUILDPATH> "
+"ingesteld wordt op de basismap van het pakket dat gebouwd wordt. Dit heeft "
+"als effect dat het bouwpad verwijderd wordt van eventueel gegenereerde debug-"
+"symbolen."
+
+#. type: Plain text
+#: dpkg-buildflags.man
+msgid ""
+"If both B<fixdebugpath> and B<fixfilepath> are set, this option takes "
+"precedence, because it is a superset of the former."
+msgstr ""
+
+#. type: TP
+#: dpkg-buildflags.man
 #, no-wrap
 msgid "B<fixdebugpath>"
 msgstr "B<fixdebugpath>"
@@ -18622,12 +18669,20 @@ msgstr "B<--format>I< uitvoerindeling>"
 
 #. type: Plain text
 #: dpkg-parsechangelog.man
+#, fuzzy
+#| msgid ""
+#| "Set the output format. Currently supported values are B<dpkg> and "
+#| "B<rfc822>.  B<dpkg> is the classic output format (from before this option "
+#| "existed) and the default. It consists of one paragraph in Debian control "
+#| "format (see B<deb-control>(5)). If more than one entry is requested, then "
+#| "most fields are taken from the most recent entry, except otherwise stated:"
 msgid ""
 "Set the output format. Currently supported values are B<dpkg> and "
 "B<rfc822>.  B<dpkg> is the classic output format (from before this option "
 "existed) and the default. It consists of one paragraph in Debian control "
 "format (see B<deb-control>(5)). If more than one entry is requested, then "
-"most fields are taken from the most recent entry, except otherwise stated:"
+"most fields are taken from the first entry (usually the most recent entry), "
+"except otherwise stated:"
 msgstr ""
 "Stel de indeling van de uitvoer in. Momenteel ondersteunde waarden zijn "
 "B<dpkg> en B<rfc822>. B<dpkg> is de klassieke indeling van de uitvoer (van "
@@ -18772,6 +18827,20 @@ msgstr ""
 "De indeling volgens B<rfc822> maakt gebruik van dezelfde velden, maar "
 "gebruikt in de uitvoer een aparte paragraaf voor elk changelog-item, zodat "
 "alle metadata van elk item behouden blijven."
+
+#. type: TP
+#: dpkg-parsechangelog.man
+#, fuzzy, no-wrap
+#| msgid "B<--verbose>"
+msgid "B<--reverse>"
+msgstr "B<--verbose>"
+
+#. type: Plain text
+#: dpkg-parsechangelog.man
+msgid ""
+"Include all changes in reverse order (since dpkg 1.19.1).  Note: for the "
+"B<dpkg> format the first entry will be the most ancient entry."
+msgstr ""
 
 #. type: TP
 #: dpkg-parsechangelog.man update-alternatives.man
@@ -25303,15 +25372,36 @@ msgstr "B<-p>, B<--pidfile> I<pid-bestand>"
 
 #. type: Plain text
 #: start-stop-daemon.man
+msgid "Check whether a process has created the file I<pid-file>."
+msgstr ""
+
+#. type: Plain text
+#: start-stop-daemon.man
+#, fuzzy
+#| msgid ""
+#| "Check whether a process has created the file I<pid-file>. Note: using "
+#| "this matching option alone might cause unintended processes to be acted "
+#| "on, if the old process terminated without being able to remove the I<pid-"
+#| "file>."
 msgid ""
-"Check whether a process has created the file I<pid-file>. Note: using this "
-"matching option alone might cause unintended processes to be acted on, if "
-"the old process terminated without being able to remove the I<pid-file>."
+"Note: using this matching option alone might cause unintended processes to "
+"be acted on, if the old process terminated without being able to remove the "
+"I<pid-file>."
 msgstr ""
 "Ga na of een proces het bestand I<pid-bestand> aangemaakt heeft. Opmerking: "
 "enkel deze vergelijkingsoptie gebruiken, kan ertoe leiden dat geageerd wordt "
 "op niet-bedoelde processen in het geval het oude proces eindigde zonder dat "
 "het in staat was het I<pid-bestand> te verwijderen."
+
+#. type: Plain text
+#: start-stop-daemon.man
+msgid ""
+"B<Warning:> Using this match option alone with a daemon that writes the "
+"pidfile as an unprivileged user is a security risk, because if the daemon "
+"gets compromised the contents of the pidfile cannot be trusted, and then a "
+"privileged runner (such as an init script executed as root) would end up "
+"acting on any system process."
+msgstr ""
 
 #. type: TP
 #: start-stop-daemon.man

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.0.2\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-18 01:51+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2017-10-22 13:03+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -137,7 +137,8 @@ msgstr "fout bij het verwijderen van oud back-upbestand '%s'"
 msgid "error creating new backup file '%s'"
 msgstr "fout bij het aanmaken van nieuw back-upbestand '%s'"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "kan '%.250s' niet verwijderen"
@@ -347,6 +348,13 @@ msgid "unable to open lock file %s for testing"
 msgstr "kan het vergrendelingsbestand %s niet openen om te testen"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr ""
+"kan het vergrendelingsbestand van de statusdatabase niet openen/aanmaken"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr ""
 "kan het vergrendelingsbestand van de statusdatabase niet openen/aanmaken"
@@ -356,6 +364,10 @@ msgid "you do not have permission to lock the dpkg status database"
 msgstr ""
 "u heeft niet de benodigde rechten om de statusdatabase van dpkg te "
 "vergrendelen"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg status database"
@@ -409,6 +421,203 @@ msgstr "kan de nieuwe status van '%.250s' niet afsluiten"
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "kan de nieuwe status van '%.250s' niet installeren"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "kan het bestaan van '%.250s' niet verifiëren"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "kan infomap niet lezen"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "fout bij openen van %.250s"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "beschadigd opmaakbestand '%s' van de infodatabase"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+"opmaak van infodatabase (%d) bevat fouten of is te nieuw; probeer het met "
+"een nieuwere versie van dpkg"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "info file %s/%s not associated to any package"
+msgstr "infobestand %s/%s aan geen enkel pakket gekoppeld"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "fout bij het maken van de vaste koppeling '%.255s'"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "error while writing '%s'"
+msgstr "fout bij schrijven naar '%s'"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "controlebestand '%s' voor pakket '%s' heeft geen afsluitend regeleinde"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "controlebestand '%s' voor pakket '%s' heeft een ontbrekende waarde"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"controlebestand '%s' voor pakket '%s' heeft een ontbrekend "
+"waardescheidingsteken"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "controlebestand '%s' voor pakket '%s' bevat een lege bestandsnaam"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read control file '%s' for package '%s'"
+msgid "loading control file '%s' for package '%s'"
+msgstr "kan controlebestand '%s' voor pakket '%s' niet lezen"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "kon omleidingenbestand niet openen"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "kon de status van het omleidingenbestand niet opvragen"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "tegenstrijdige omleidingen waarbij '%.250s' of '%.250s' betrokken zijn"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr ""
+"fout bij sluiten van bestand met de lijst bestanden van pakket '%.250s'"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"bestand met de lijst bestanden van pakket'%.250s' ontbreekt; aangenomen\n"
+"wordt dat het pakket momenteel geen geïnstalleerde bestanden heeft"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr ""
+"bestand met de lijst bestanden van pakket '%.250s' heeft geen afsluitend "
+"regeleinde"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr ""
+"bestand met de lijst bestanden van pakket '%.250s' bevat een lege "
+"bestandsnaam"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(Database wordt ingelezen ... "
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "%d bestand of map momenteel geïnstalleerd.)\n"
+msgstr[1] "%d bestanden en mappen momenteel geïnstalleerd.)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride uid %s"
+msgstr "ongeldige uid %s in overstijging van bestandsstatus (statoverride)"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride gid %s"
+msgstr "ongeldige gid %s in overstijging van bestandsstatus (statoverride)"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride mode %s"
+msgstr "ongeldige modus %s in overstijging van bestandsstatus (statoverride)"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "kan statoverride-bestand (bestand met overstijgingsinfo) niet openen"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr ""
+"kan de status van het statoverride-bestand (bestand met overstijgingsinfo) "
+"niet opvragen"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "reading statoverride file '%.250s'"
+msgstr ""
+"statoverride-bestand (bestand met overstijgingsinfo) '%.250s' wordt gelezen"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file is missing final newline"
+msgstr ""
+"het afsluitende regeleinde ontbreekt in het statoverride-bestand (bestand "
+"met overstijgingsinfo)"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr ""
+"statoverride-bestand (bestand met overstijgingsinfo) bevat een lege regel"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "syntax error in statoverride file"
+msgstr ""
+"syntaxisfout in het statoverride-bestand (bestand met overstijgingsinfo)"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown user '%s' in statoverride file"
+msgstr ""
+"onbekende gebruiker '%s' in het statoverride-bestand (bestand met "
+"overstijgingsinfo)"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "unexpected end of line in statoverride file"
+msgstr ""
+"onverwacht regeleinde in het statoverride-bestand (bestand met "
+"overstijgingsinfo)"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown group '%s' in statoverride file"
+msgstr ""
+"onbekende groep '%s' in het statoverride-bestand (bestand met "
+"overstijgingsinfo)"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr ""
+"er zijn meerdere statoverrides (overstijgingen van de status) voor bestand "
+"'%.250s'"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with too big major component"
@@ -542,24 +751,28 @@ msgid "invalid package name (%.250s)"
 msgstr "ongeldige pakketnaam (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "leeg veld '%s' voor bestandsdetails"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "veld '%s' voor bestandsdetails niet toegestaan in statusbestand"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr ""
 "te veel waarden in veld '%s' voor bestandsdetails (vergeleken met andere)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr ""
 "te weinig waarden in het veld '%s' voor bestandsdetails (vergeleken met "
 "andere)"
@@ -755,6 +968,28 @@ msgid "unable to set mode of target file '%.250s'"
 msgstr "kan de modus van het doelbestand '%.250s' niet instellen"
 
 #: lib/dpkg/file.c
+#, fuzzy, c-format
+msgid "cannot stat %s"
+msgstr "kan de status van de oude naam '%s' niet opvragen: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "archive '%s' is not a regular file"
+msgid "%s is not a regular file"
+msgstr "archief '%s' is geen gewoon bestand"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+msgid "cannot read %s"
+msgstr "kan %s niet verwijderen: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to '%s'"
+msgid "cannot open %s"
+msgstr "kan niets toevoegen aan '%s'"
+
+#: lib/dpkg/file.c
 #, c-format
 msgid "unable to unlock %s"
 msgstr "kan %s niet ontgrendelen"
@@ -775,8 +1010,10 @@ msgid "unable to lock %s"
 msgstr "kan %s niet vergrendelen"
 
 #: lib/dpkg/file.c
-msgid "showing file on pager"
-msgstr "bestand wordt pagina per pagina getoond"
+#, fuzzy
+#| msgid "unable to flush file '%s'"
+msgid "pager to show file"
+msgstr "kan bestand '%s' niet doorspoelen"
 
 #: lib/dpkg/log.c
 #, c-format
@@ -798,13 +1035,13 @@ msgstr "geheugen toewijzen is mislukt"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "dup op std%s is mislukt"
+msgid "failed to dup for fd %d"
+msgstr "dup op bestandsindicator %d is mislukt"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "dup op bestandsindicator %d is mislukt"
+msgid "failed to dup for std%s"
+msgstr "dup op std%s is mislukt"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1200,11 +1437,6 @@ msgstr "kan '%.255s' niet op een veilige manier verwijderen"
 msgid "rm command for cleanup"
 msgstr "commando rm om op te schonen"
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr "dubbelzinnige pakketnaam '%s' met meer dan een geïnstalleerd exemplaar"
-
 #: lib/dpkg/pkg-format.c
 #, c-format
 msgid "invalid character '%c' in field width"
@@ -1217,6 +1449,11 @@ msgstr "veldgrootte valt buiten het bereik"
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
 msgstr "afsluitende accolade ontbreekt"
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
+msgstr "dubbelzinnige pakketnaam '%s' met meer dan een geïnstalleerd exemplaar"
 
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
@@ -1547,11 +1784,6 @@ msgstr "fout bij het aanmaken van de pijp '%.255s'"
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "fout bij het aanmaken van het apparaatbestand '%.255s'"
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "fout bij het maken van de vaste koppeling '%.255s'"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2068,6 +2300,10 @@ msgid "conffile difference visualizer"
 msgstr "hulpmiddel voor het weergeven van verschillen in configuratiebestanden"
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "Typ 'exit' als u klaar bent.\n"
 
@@ -2428,7 +2664,21 @@ msgstr ""
 "\n"
 
 #: src/divertcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --package <package>      name of the package whose copy of <file> will "
+#| "not\n"
+#| "                             be diverted.\n"
+#| "  --local                  all packages' versions are diverted.\n"
+#| "  --divert <divert-to>     the name used by other packages' versions.\n"
+#| "  --rename                 actually move the file aside (or back).\n"
+#| "  --admindir <directory>   set the directory with the diversions file.\n"
+#| "  --test                   don't do anything, just demonstrate.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --package <package>      name of the package whose copy of <file> will "
@@ -2437,6 +2687,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2473,6 +2724,12 @@ msgstr ""
 "overeenkomen.\n"
 "De preinst/postrm-scripts van pakketten moeten altijd --package en --divert "
 "opgeven.\n"
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
+msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2595,6 +2852,13 @@ msgstr ""
 
 #: src/divertcmd.c
 #, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
+#, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "Er is geen omleiding '%s'; er wordt er geen verwijderd.\n"
 
@@ -2637,19 +2901,6 @@ msgstr "pakket mag geen regeleinden bevatten"
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "omleiden-naar mag geen regeleinden bevatten"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "kon omleidingenbestand niet openen"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "kon de status van het omleidingenbestand niet opvragen"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "tegenstrijdige omleidingen waarbij '%.250s' of '%.250s' betrokken zijn"
 
 #: src/enquiry.c
 msgid ""
@@ -2951,116 +3202,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "probleem wordt genegeerd omdat --force aanstaat:"
 
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "controlebestand '%s' voor pakket '%s' heeft geen afsluitend regeleinde"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "controlebestand '%s' voor pakket '%s' heeft een ontbrekende waarde"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-"controlebestand '%s' voor pakket '%s' heeft een ontbrekend "
-"waardescheidingsteken"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "controlebestand '%s' voor pakket '%s' bevat een lege bestandsnaam"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "kan controlebestand '%s' voor pakket '%s' niet openen"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "kan status niet opvragen van controlebestand '%s' voor pakket '%s'"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "controlebestand '%s' voor pakket '%s' is geen gewoon bestand"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "kan controlebestand '%s' voor pakket '%s' niet lezen"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "kan controlebestand '%s' voor pakket '%s' niet sluiten"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "kan bestand met de lijst bestanden van pakket '%.250s' niet openen"
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"bestand met de lijst bestanden van pakket'%.250s' ontbreekt; aangenomen\n"
-"wordt dat het pakket momenteel geen geïnstalleerde bestanden heeft"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr ""
-"kan de status niet opvragen van bestand met de lijst bestanden van pakket "
-"'%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr ""
-"bestand met de lijst bestanden van pakket '%.250s' is geen gewoon bestand"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr "bestand met de lijst bestanden van pakket '%.250s' wordt gelezen"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr ""
-"bestand met de lijst bestanden van pakket '%.250s' heeft geen afsluitend "
-"regeleinde"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr ""
-"bestand met de lijst bestanden van pakket '%.250s' bevat een lege "
-"bestandsnaam"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr ""
-"fout bij sluiten van bestand met de lijst bestanden van pakket '%.250s'"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(Database wordt ingelezen ... "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "%d bestand of map momenteel geïnstalleerd.)\n"
-msgstr[1] "%d bestanden en mappen momenteel geïnstalleerd.)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "niet geïnstalleerd"
@@ -3123,42 +3264,6 @@ msgid ""
 msgstr ""
 "NOOT: PATH van root zou gewoonlijk /usr/local/sbin, /usr/sbin en /sbin "
 "moeten bevatten"
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "kan het bestaan van '%.250s' niet verifiëren"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "kan infomap niet lezen"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "fout bij openen van %.250s"
-
-#: src/infodb-format.c
-#, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "beschadigd opmaakbestand '%s' van de infodatabase"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-"opmaak van infodatabase (%d) bevat fouten of is te nieuw; probeer het met "
-"een nieuwere versie van dpkg"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
-msgstr "infobestand %s/%s aan geen enkel pakket gekoppeld"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "error while writing '%s'"
-msgstr "fout bij schrijven naar '%s'"
 
 #: src/main.c
 #, c-format
@@ -3876,6 +3981,12 @@ msgid "Description"
 msgstr "Omschrijving"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid "showing file on pager"
+msgid "showing package list on pager"
+msgstr "bestand wordt pagina per pagina getoond"
+
+#: src/querycmd.c
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "omleiding door %s van: %s\n"
@@ -3910,6 +4021,16 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "pakket '%s' is niet geïnstalleerd en er is geen info beschikbaar"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"Gebruik dpkg --info (= dpkg-deb --info) om archiefbestanden te bekijken,\n"
+"en dpkg --contents (= dpkg-deb --contents) om de inhoud weer te geven.\n"
+
+#: src/querycmd.c
 #, c-format
 msgid "package '%s' is not available"
 msgstr "pakket '%s' is niet beschikbaar"
@@ -3935,9 +4056,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "omgeleid door %s naar: %s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "Gebruik dpkg --info (= dpkg-deb --info) om archiefbestanden te bekijken,\n"
 "en dpkg --contents (= dpkg-deb --contents) om de inhoud weer te geven.\n"
@@ -3979,19 +4103,33 @@ msgstr ""
 "Zoekhulpmiddel van het programma voor Debian pakketbeheer %s versie %s.\n"
 
 #: src/querycmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -W|--show [<pattern> ...]        Show information on package(s).\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "     --control-list <package>      Print the package control file list.\n"
+#| "     --control-show <package> <file>\n"
+#| "                                   Show the package control file.\n"
+#| "  -c|--control-path <package> [<file>]\n"
+#| "                                   Print path for package control file.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4403,80 +4541,6 @@ msgstr "geen overstijging aanwezig"
 msgid "--update is useless for --remove"
 msgstr "--update is waardeloos voor --remove"
 
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride uid %s"
-msgstr "ongeldige uid %s in overstijging van bestandsstatus (statoverride)"
-
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride gid %s"
-msgstr "ongeldige gid %s in overstijging van bestandsstatus (statoverride)"
-
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride mode %s"
-msgstr "ongeldige modus %s in overstijging van bestandsstatus (statoverride)"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "kan statoverride-bestand (bestand met overstijgingsinfo) niet openen"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr ""
-"kan de status van het statoverride-bestand (bestand met overstijgingsinfo) "
-"niet opvragen"
-
-#: src/statdb.c
-#, c-format
-msgid "reading statoverride file '%.250s'"
-msgstr ""
-"statoverride-bestand (bestand met overstijgingsinfo) '%.250s' wordt gelezen"
-
-#: src/statdb.c
-msgid "statoverride file is missing final newline"
-msgstr ""
-"het afsluitende regeleinde ontbreekt in het statoverride-bestand (bestand "
-"met overstijgingsinfo)"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr ""
-"statoverride-bestand (bestand met overstijgingsinfo) bevat een lege regel"
-
-#: src/statdb.c
-msgid "syntax error in statoverride file"
-msgstr ""
-"syntaxisfout in het statoverride-bestand (bestand met overstijgingsinfo)"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr ""
-"onbekende gebruiker '%s' in het statoverride-bestand (bestand met "
-"overstijgingsinfo)"
-
-#: src/statdb.c
-msgid "unexpected end of line in statoverride file"
-msgstr ""
-"onverwacht regeleinde in het statoverride-bestand (bestand met "
-"overstijgingsinfo)"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr ""
-"onbekende groep '%s' in het statoverride-bestand (bestand met "
-"overstijgingsinfo)"
-
-#: src/statdb.c
-#, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr ""
-"er zijn meerdere statoverrides (overstijgingen van de status) voor bestand "
-"'%.250s'"
-
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Typ dpkg-trigger --help voor hulp over dit hulpmiddel."
@@ -4691,6 +4755,13 @@ msgstr ""
 #, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "Bezig met de-configureren van %s (%s) ...\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr ""
+"statoverride-bestand (bestand met overstijgingsinfo) bevat een lege regel"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
@@ -5209,16 +5280,18 @@ msgid "decompressing archive member"
 msgstr "element van het archief wordt gedecomprimeerd"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "chdir naar de map is mislukt"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "aanmaken map is mislukt"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "chdir naar de map na het aanmaken ervan is mislukt"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "onverwacht bestandseinde in pakketnaam op regel %d"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "chdir naar de map is mislukt"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -6558,6 +6631,36 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr "Authenticatie is nodig voor het uitvoeren van update-alternatives"
 
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "kan controlebestand '%s' voor pakket '%s' niet openen"
+
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr "kan status niet opvragen van controlebestand '%s' voor pakket '%s'"
+
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "controlebestand '%s' voor pakket '%s' is geen gewoon bestand"
+
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "kan controlebestand '%s' voor pakket '%s' niet sluiten"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr "kan bestand met de lijst bestanden van pakket '%.250s' niet openen"
+
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr ""
+#~ "kan de status niet opvragen van bestand met de lijst bestanden van pakket "
+#~ "'%.250s'"
+
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr ""
+#~ "bestand met de lijst bestanden van pakket '%.250s' is geen gewoon bestand"
+
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "bestand met de lijst bestanden van pakket '%.250s' wordt gelezen"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "chdir naar de map na het aanmaken ervan is mislukt"
+
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr ""
 #~ "verouderde optie '--%s'; gelieve in plaats ervan '--%s' te gebruiken"
@@ -6631,9 +6734,6 @@ msgstr "Authenticatie is nodig voor het uitvoeren van update-alternatives"
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "EOF op stdin bij conffile prompt"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "onverwacht bestandseinde in pakketnaam op regel %d"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "onverwacht bestandseinde na pakketnaam op regel %d"
@@ -6919,10 +7019,6 @@ msgstr "Authenticatie is nodig voor het uitvoeren van update-alternatives"
 #~ msgstr "slaaf %s: %s"
 
 #, fuzzy
-#~ msgid "cannot stat %s: %s"
-#~ msgstr "kan de status van de oude naam '%s' niet opvragen: %s"
-
-#, fuzzy
 #~ msgid "scan of %s failed: %s"
 #~ msgstr "%s: kopiëren van %s naar %s is mislukt, poging wordt opgegeven: %s"
 
@@ -6945,10 +7041,6 @@ msgstr "Authenticatie is nodig voor het uitvoeren van update-alternatives"
 
 #~ msgid "unable to close %s: %s"
 #~ msgstr "kan %s niet sluiten: %s"
-
-#, fuzzy
-#~ msgid "cannot write %s: %s"
-#~ msgstr "kan %s niet verwijderen: %s"
 
 #, fuzzy
 #~ msgid "unable to rename file '%s' to '%s'"

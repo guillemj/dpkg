@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -149,7 +149,8 @@ msgstr "오래된 diversions-old를 제거하는데 오류가 발생했습니다
 msgid "error creating new backup file '%s'"
 msgstr "`%.255s' 파이프를 만드는데 오류가 발생했습니다"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "`%.250s'을(를) 지울 수 없습니다"
@@ -377,12 +378,22 @@ msgid "unable to open lock file %s for testing"
 msgstr "테스트를 위해 %s 잠금 파일을 열 수 없습니다"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr "상태 데이터베이스의 잠금 파일의 열기/만들기를 할 수 없습니다"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "상태 데이터베이스의 잠금 파일의 열기/만들기를 할 수 없습니다"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "dpkg 상태 데이터베이스를 잠글 수 있는 권한이 없습니다"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy
@@ -436,6 +447,195 @@ msgstr "`%.250s'의 업데이트 상태를 닫을 수 없습니다"
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "`%.250s'의 업데이트 상태를 설치할 수 없습니다"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "`%.250s' 파일이 있는 지 여부를 검사할 수 없습니다"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "정보 디렉터리를 읽을 수 없습니다"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "%.250s을(를) 열기 시도하는데 오류가 발생했습니다"
+
+#: lib/dpkg/db-ctrl-format.c
+#, fuzzy, c-format
+#| msgid "unable to write file '%s'"
+msgid "corrupt info database format file '%s'"
+msgstr "'%s' 파일에 쓸 수 없습니다"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "conffile `%.250s' does not appear in package"
+msgid "info file %s/%s not associated to any package"
+msgstr "`%.250s' 설정 파일이 패키지 안에 없습니다"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "`%.255s' 하드 링크를 만드는데 오류가 발생했습니다"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "error writing `%s'"
+msgid "error while writing '%s'"
+msgstr "`%s' 파일을 쓰는데 오류가 발생했습니다"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "`%.250s' 패키지의 파일 목록에 빈 파일 이름이 있습니다"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+msgid "loading control file '%s' for package '%s'"
+msgstr "설정 파일 디렉터리 `%.250s' 디렉터리를 읽을 수 없습니다 (`%.250s'에서)"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "diversions 파일을 여는데 실패했습니다"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "diversions 파일의 정보를 읽는데 실패했습니다"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr ""
+"전환 파일과 관련해 발생한 충돌이 `%.250s' 혹은 `%.250s'에 관련되었습니다"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr "`%.250s' 패키지의 파일 목록 파일을 닫는데 오류가 발생했습니다."
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid ""
+#| "files list file for package `%.250s' missing, assuming package has no "
+#| "files currently installed."
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"`%.250s' 패키지의 파일 목록 파일이 없습니다, 패키지에 설치된 파일이 하나도 없"
+"다고 가정합니다."
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "`%.250s' 패키지의 파일 목록에 빈 파일 이름이 있습니다"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(데이터베이스 읽는중 ..."
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "현재 %d개의 파일과 디렉터리가 설치되어 있습니다.)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "invalid status"
+msgid "invalid statoverride uid %s"
+msgstr "잘못된 상태"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "invalid statoverride gid %s"
+msgstr "statoverride 파일 `%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "invalid statoverride mode %s"
+msgstr "statoverride 파일 `%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "statoverride 파일을 여는데 실패했습니다"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "statoverride 파일의 정보를 읽는데 실패했습니다"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "reading statoverride file '%.250s'"
+msgstr "statoverride 파일 `%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file is missing final newline"
+msgstr "statoverride 파일에 마지막 줄바꿈이 빠졌습니다"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "statoverride 파일에 빈 줄이 들어 있습니다"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "syntax error in statoverride file"
+msgstr "statoverride 파일에 문법 오류가 있습니다"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "syntax error: unknown user '%s' in statoverride file"
+msgid "unknown user '%s' in statoverride file"
+msgstr "문법 오류: statoverride 파일에서 알 수 없는 사용자 '%s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "unexpected end of line in statoverride file"
+msgstr "statoverride 파일에서 갑작스레 줄이 끝났습니다"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "syntax error: unknown group '%s' in statoverride file"
+msgid "unknown group '%s' in statoverride file"
+msgstr "문법 오류: statoverride 파일에서 알 수 없는 그룹 '%s'"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "'%.250s' 파일에 대한 statoverrides 파일이 여러 개 있습니다"
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
@@ -604,23 +804,27 @@ msgid "invalid package name (%.250s)"
 msgstr "패키지 이름이 잘못되었습니다 (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "파일 상세 필드 `%s'이(가) 비어 있습니다"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "파일 상세 필드 `%s'은(는) 상태 파일에서 쓸 수 없습니다"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr "파일 상세 필드 `%s'에 너무 값이 많습니다 (다른 필드에 비해)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr "파일 상세 필드 `%s'에 너무 값이 적습니다 (다른 필드에 비해)"
 
 #: lib/dpkg/fields.c
@@ -831,6 +1035,30 @@ msgstr "대상 파일 '%.250s'의 모드를 설정할 수 없습니다"
 
 #: lib/dpkg/file.c
 #, fuzzy, c-format
+#| msgid "cannot stat %s: %s"
+msgid "cannot stat %s"
+msgstr "'%s'의 정보를 읽을 수 없습니다 : %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "%s is not a regular file"
+msgstr "'%.250s' 설정 파일이 일반 파일이 아닙니다"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot write %s: %s"
+msgid "cannot read %s"
+msgstr "%s에 쓸 수 없습니다: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to %s: %s"
+msgid "cannot open %s"
+msgstr "%s 파일에 붙일 수 없습니다: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
 #| msgid "unable to close %s: %s"
 msgid "unable to unlock %s"
 msgstr "%s 닫을 수 없습니다: %s"
@@ -854,9 +1082,9 @@ msgstr "%s 닫을 수 없습니다: %s"
 
 #: lib/dpkg/file.c
 #, fuzzy
-#| msgid "long filenames"
-msgid "showing file on pager"
-msgstr "긴 파일 이름"
+#| msgid "unable to flush file '%s'"
+msgid "pager to show file"
+msgstr "'%s' 파일을 플러시할 수 없습니다"
 
 #: lib/dpkg/log.c
 #, fuzzy, c-format
@@ -879,13 +1107,13 @@ msgstr "메모리를 할당하는데 실패했습니다"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "std%s에 dup이 실패했습니다"
+msgid "failed to dup for fd %d"
+msgstr "fd %d에 dup이 실패했습니다"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "fd %d에 dup이 실패했습니다"
+msgid "failed to dup for std%s"
+msgstr "std%s에 dup이 실패했습니다"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1293,11 +1521,6 @@ msgstr "'%.255s'을(를) 안전하게 제거할 수 없습니다"
 msgid "rm command for cleanup"
 msgstr ""
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr ""
-
 #: lib/dpkg/pkg-format.c
 #, fuzzy, c-format
 #| msgid "invalid character `%c' in field width\n"
@@ -1310,6 +1533,11 @@ msgstr ""
 
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
+msgstr ""
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
 msgstr ""
 
 #: lib/dpkg/pkg-show.c
@@ -1650,11 +1878,6 @@ msgstr "`%.255s' 파이프를 만드는데 오류가 발생했습니다"
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "`%.255s' 장치를 만드는데 오류가 발생했습니다"
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "`%.255s' 하드 링크를 만드는데 오류가 발생했습니다"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2227,6 +2450,10 @@ msgid "conffile difference visualizer"
 msgstr ""
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "다 끝나면 `exit'를 입력하십시오.\n"
 
@@ -2597,7 +2824,21 @@ msgstr ""
 "\n"
 
 #: src/divertcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --package <package>      name of the package whose copy of <file> will "
+#| "not\n"
+#| "                             be diverted.\n"
+#| "  --local                  all packages' versions are diverted.\n"
+#| "  --divert <divert-to>     the name used by other packages' versions.\n"
+#| "  --rename                 actually move the file aside (or back).\n"
+#| "  --admindir <directory>   set the directory with the diversions file.\n"
+#| "  --test                   don't do anything, just demonstrate.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --package <package>      name of the package whose copy of <file> will "
@@ -2606,6 +2847,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2637,6 +2879,12 @@ msgstr ""
 "지울 때는 --package나 --local와 --divert 옵션을 사용했을 경우 항목이\n"
 "일치해야 합니다. 패키지의 preinst, postrm 스크립트는 언제나 --package와\n"
 "--divert 옵션을 지정하는 것이 좋습니다.\n"
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
+msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2763,6 +3011,13 @@ msgstr "설치하지 않은 %.250s 패키지의 지우기 요청을 무시합니
 
 #: src/divertcmd.c
 #, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
+#, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "'%s' 전환 파일이 없으므로 아무것도 안 지웠습니다.\n"
 
@@ -2806,20 +3061,6 @@ msgstr "패키지에 줄바꿈이 있으면 안 됩니다"
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "<전환할파일>에는 줄바꿈이 있으면 안 됩니다"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "diversions 파일을 여는데 실패했습니다"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "diversions 파일의 정보를 읽는데 실패했습니다"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr ""
-"전환 파일과 관련해 발생한 충돌이 `%.250s' 혹은 `%.250s'에 관련되었습니다"
 
 #: src/enquiry.c
 msgid ""
@@ -3126,119 +3367,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "--force 옵션이 켜져 있으므로 문제를 무시합니다:"
 
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package `%.250s' contains empty filename"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "`%.250s' 패키지의 파일 목록에 빈 파일 이름이 있습니다"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "`%.250s' 패키지에 대한 파일 목록을 열 수 없습니다"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to stat files list file for package '%.250s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "'%.250s' 패키지의 파일 목록 파일의 정보를 읽을 수 없습니다"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "설정 파일 디렉터리 `%.250s' 디렉터리를 읽을 수 없습니다 (`%.250s'에서)"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "`%.250s' 패키지의 파일 목록 파일을 닫는데 오류가 발생했습니다."
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "`%.250s' 패키지에 대한 파일 목록을 열 수 없습니다"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid ""
-#| "files list file for package `%.250s' missing, assuming package has no "
-#| "files currently installed."
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"`%.250s' 패키지의 파일 목록 파일이 없습니다, 패키지에 설치된 파일이 하나도 없"
-"다고 가정합니다."
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "'%.250s' 패키지의 파일 목록 파일의 정보를 읽을 수 없습니다"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "files list for package `%.250s'"
-msgid "reading files list for package '%.250s'"
-msgstr "`%.250s' 패키지의 파일 목록"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "`%.250s' 패키지의 파일 목록에 빈 파일 이름이 있습니다"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "`%.250s' 패키지의 파일 목록 파일을 닫는데 오류가 발생했습니다."
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(데이터베이스 읽는중 ..."
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "현재 %d개의 파일과 디렉터리가 설치되어 있습니다.)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "설치하지 않았습니다"
@@ -3308,43 +3436,6 @@ msgid ""
 msgstr ""
 "%d개의 필요한 프로그램이 PATH에 없거나 실행 파일이 아닙니다.\n"
 "root의 PATH에는 보통 /usr/local/sbin, /usr/sbin, /sbin이 들어 있어야 합니다."
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "`%.250s' 파일이 있는 지 여부를 검사할 수 없습니다"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "정보 디렉터리를 읽을 수 없습니다"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "%.250s을(를) 열기 시도하는데 오류가 발생했습니다"
-
-#: src/infodb-format.c
-#, fuzzy, c-format
-#| msgid "unable to write file '%s'"
-msgid "corrupt info database format file '%s'"
-msgstr "'%s' 파일에 쓸 수 없습니다"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "conffile `%.250s' does not appear in package"
-msgid "info file %s/%s not associated to any package"
-msgstr "`%.250s' 설정 파일이 패키지 안에 없습니다"
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "error writing `%s'"
-msgid "error while writing '%s'"
-msgstr "`%s' 파일을 쓰는데 오류가 발생했습니다"
 
 #: src/main.c
 #, c-format
@@ -4134,6 +4225,12 @@ msgid "Description"
 msgstr "설명"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid "long filenames"
+msgid "showing package list on pager"
+msgstr "긴 파일 이름"
+
+#: src/querycmd.c
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "%2$s 패키지가 %1$s 패키지에서 전환\n"
@@ -4170,6 +4267,17 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "`%s' 패키지는 설치하지 않았으며 정보도 없습니다.\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"아카이브 파일 정보를 보려면 dpkg --info를 실행하시고 (= dpkg-deb --info)\n"
+"아카이브 내용을 보려면 dpkg --contents를 실행하십시오 (= dpkg-deb --"
+"contents)\n"
+
+#: src/querycmd.c
 #, fuzzy, c-format
 #| msgid "Package `%s' is not available.\n"
 msgid "package '%s' is not available"
@@ -4196,9 +4304,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "%s 패키지가 이 패키지를 전환: %s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "아카이브 파일 정보를 보려면 dpkg --info를 실행하시고 (= dpkg-deb --info)\n"
 "아카이브 내용을 보려면 dpkg --contents를 실행하십시오 (= dpkg-deb --"
@@ -4258,16 +4369,16 @@ msgstr "데비안 '%s' 패키지 관리 쿼리 프로그램 버전 %s.\n"
 #| "\n"
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4724,71 +4835,6 @@ msgstr "override가 없습니다."
 msgid "--update is useless for --remove"
 msgstr "--remove 명령에서는 --update 옵션이 무의미합니다"
 
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "invalid status"
-msgid "invalid statoverride uid %s"
-msgstr "잘못된 상태"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "invalid statoverride gid %s"
-msgstr "statoverride 파일 `%.250s'"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "invalid statoverride mode %s"
-msgstr "statoverride 파일 `%.250s'"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "statoverride 파일을 여는데 실패했습니다"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "statoverride 파일의 정보를 읽는데 실패했습니다"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "reading statoverride file '%.250s'"
-msgstr "statoverride 파일 `%.250s'"
-
-#: src/statdb.c
-msgid "statoverride file is missing final newline"
-msgstr "statoverride 파일에 마지막 줄바꿈이 빠졌습니다"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "statoverride 파일에 빈 줄이 들어 있습니다"
-
-#: src/statdb.c
-msgid "syntax error in statoverride file"
-msgstr "statoverride 파일에 문법 오류가 있습니다"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "syntax error: unknown user '%s' in statoverride file"
-msgid "unknown user '%s' in statoverride file"
-msgstr "문법 오류: statoverride 파일에서 알 수 없는 사용자 '%s'"
-
-#: src/statdb.c
-msgid "unexpected end of line in statoverride file"
-msgstr "statoverride 파일에서 갑작스레 줄이 끝났습니다"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "syntax error: unknown group '%s' in statoverride file"
-msgid "unknown group '%s' in statoverride file"
-msgstr "문법 오류: statoverride 파일에서 알 수 없는 그룹 '%s'"
-
-#: src/statdb.c
-#, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "'%.250s' 파일에 대한 statoverrides 파일이 여러 개 있습니다"
-
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "이 프로그램의 도움말을 보려면 dpkg-trigger --help를 실행하십시오."
@@ -5045,6 +5091,12 @@ msgstr "%2$s을(를) 지우기 위해 %1$s을(를) 설정 해제하는 중입니
 #| msgid "De-configuring %s ...\n"
 msgid "De-configuring %s (%s) ...\n"
 msgstr "%s 패키지를 지우는 중입니다 ...\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "statoverride 파일에 빈 줄이 들어 있습니다"
 
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5609,16 +5661,18 @@ msgid "decompressing archive member"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "디렉터리로 이동하는데 실패했습니다"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "디렉터리를 만드는데 실패했습니다"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "디렉터리를 만든 다음에 거기로 이동하는데 실패했습니다"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "%d번째 줄에 있는 패키지 이름에 예상치 못하게 파일이 끝났습니다"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "디렉터리로 이동하는데 실패했습니다"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -7116,6 +7170,45 @@ msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
 #, fuzzy
+#~| msgid "unable to open files list file for package `%.250s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "`%.250s' 패키지에 대한 파일 목록을 열 수 없습니다"
+
+#, fuzzy
+#~| msgid "unable to stat files list file for package '%.250s'"
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr "'%.250s' 패키지의 파일 목록 파일의 정보를 읽을 수 없습니다"
+
+#, fuzzy
+#~| msgid "files list file for package '%.250s' is missing final newline"
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
+
+#, fuzzy
+#~| msgid "error closing files list file for package `%.250s'"
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "`%.250s' 패키지의 파일 목록 파일을 닫는데 오류가 발생했습니다."
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr "`%.250s' 패키지에 대한 파일 목록을 열 수 없습니다"
+
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr "'%.250s' 패키지의 파일 목록 파일의 정보를 읽을 수 없습니다"
+
+#, fuzzy
+#~| msgid "files list file for package '%.250s' is missing final newline"
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr "'%.250s' 패키지의 파일 목록 파일에 마지막 줄 바꿈이 빠졌습니다"
+
+#, fuzzy
+#~| msgid "files list for package `%.250s'"
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "`%.250s' 패키지의 파일 목록"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "디렉터리를 만든 다음에 거기로 이동하는데 실패했습니다"
+
+#, fuzzy
 #~| msgid "obsolete option '--%s', please use '--%s' instead."
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr ""
@@ -7197,9 +7290,6 @@ msgstr ""
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "설정 파일 프롬프트에서 표준 입력에 파일이 끝났습니다"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "%d번째 줄에 있는 패키지 이름에 예상치 못하게 파일이 끝났습니다"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "%d번째 줄에 있는 패키지 이름 뒤에 예상치 못하게 파일이 끝났습니다"
@@ -7446,9 +7536,6 @@ msgstr ""
 #~ msgid "it is a slave of %s"
 #~ msgstr "%s의 슬레이브입니다"
 
-#~ msgid "cannot stat %s: %s"
-#~ msgstr "'%s'의 정보를 읽을 수 없습니다 : %s"
-
 #~ msgid "readlink(%s) failed: %s"
 #~ msgstr "readlink(%s) 실패: %s"
 
@@ -7472,9 +7559,6 @@ msgstr ""
 
 #~ msgid "unable to close %s: %s"
 #~ msgstr "%s 닫을 수 없습니다: %s"
-
-#~ msgid "cannot write %s: %s"
-#~ msgstr "%s에 쓸 수 없습니다: %s"
 
 #, fuzzy
 #~| msgid "unable to open file '%s'"

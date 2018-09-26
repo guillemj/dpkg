@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2015-06-26 16:13+0200\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -134,7 +134,8 @@ msgstr "เกิดข้อผิดพลาดขณะลบแฟ้มส
 msgid "error creating new backup file '%s'"
 msgstr "เกิดข้อผิดพลาดขณะสร้างแฟ้มสำรองใหม่ '%s'"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "ไม่สามารถลบ `%.250s'"
@@ -340,12 +341,22 @@ msgid "unable to open lock file %s for testing"
 msgstr "ไม่สามารถเปิดแฟ้มล็อค %s เพื่อทดสอบ"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr "ไม่สามารถเปิด/สร้างแฟ้มล็อคสำหรับฐานข้อมูลสถานะ"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "ไม่สามารถเปิด/สร้างแฟ้มล็อคสำหรับฐานข้อมูลสถานะ"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "คุณไม่มีสิทธิ์ล็อคฐานข้อมูลสถานะของ dpkg"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg status database"
@@ -397,6 +408,182 @@ msgstr "ไม่สามารถปิดสถานะใหม่ของ
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "ไม่สามารถติดตั้งสถานะใหม่ของ `%.250s'"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "ไม่สามารถตรวจสอบการมีอยู่ของ `%.250s'"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "ไม่สามารถอ่านไดเรกทอรีสารสนเทศ"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "เกิดข้อผิดพลาดขณะพยายามเปิด %.250s"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "แฟ้มฟอร์แมต '%s' ของฐานข้อมูลสารสนเทศแพกเกจเสียหาย"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+"ฟอร์แมตของฐานข้อมูลสารสนเทศ (%d) เป็นค่าปลอมหรือใหม่เกินไป ลองติดตั้ง dpkg รุ่นที่ใหม่กว่านี้"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "info file %s/%s not associated to any package"
+msgstr "แฟ้มสารสนเทศ %s/%s ไม่มีความเชื่อมโยงกับแพกเกจใด"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "เกิดข้อผิดพลาดขณะสร้าง hard link `%.255s'"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "error while writing '%s'"
+msgstr "เกิดข้อผิดพลาดขณะเขียน '%s'"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "แฟ้มควบคุม '%s' ของแพกเกจ '%s' ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "แฟ้มควบคุม '%s' ของแพกเกจ '%s' ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "แฟ้มควบคุม '%s' ของแพกเกจ '%s' ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "แฟ้มควบคุม '%s' ของแพกเกจ '%s' มีรายการชื่อแฟ้มที่ว่างเปล่า"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read '%s' control file for package '%s'"
+msgid "loading control file '%s' for package '%s'"
+msgstr "ไม่สามารถอ่านแฟ้มควบคุม '%s' ของแพกเกจ '%s'"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "ไม่สามารถเปิดแฟ้ม diversions"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "ไม่สามารถ fstat แฟ้ม diversions"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "มีการเบนแฟ้มขัดแย้งกันโดยเกี่ยวข้องกับ `%.250s' หรือ `%.250s'"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr "เกิดข้อผิดพลาดขณะปิดแฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s'"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s' ขาดหายไป จะถือว่าแพกเกจไม่ได้ติดตั้งแฟ้มใดในระบบ"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s' ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s' มีรายการชื่อแฟ้มที่ว่างเปล่า"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(กำลังอ่านฐานข้อมูล ... "
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "%d แฟ้มและไดเรกทอรีติดตั้งอยู่)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "invalid status"
+msgid "invalid statoverride uid %s"
+msgstr "สถานะผิดพลาด"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "reading statoverride file '%.250s'"
+msgid "invalid statoverride gid %s"
+msgstr "เกิดข้อผิดพลาดขณะอ่านแฟ้ม statoverride '%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "reading statoverride file '%.250s'"
+msgid "invalid statoverride mode %s"
+msgstr "เกิดข้อผิดพลาดขณะอ่านแฟ้ม statoverride '%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "ไม่สามารถเปิดแฟ้ม statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "ไม่สามารถ fstat แฟ้ม statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "reading statoverride file '%.250s'"
+msgstr "เกิดข้อผิดพลาดขณะอ่านแฟ้ม statoverride '%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file is missing final newline"
+msgstr "แฟ้ม statoverride ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "แฟ้ม statoverride มีบรรทัดว่างเปล่า"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "syntax error in statoverride file"
+msgstr "พบรูปแบบผิดพลาดในแฟ้ม statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown user '%s' in statoverride file"
+msgstr "พบผู้ใช้ '%s' ที่ไม่รู้จักอยู่ในแฟ้ม statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "unexpected end of line in statoverride file"
+msgstr "พบจุดจบบรรทัดก่อนกำหนดในแฟ้ม statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown group '%s' in statoverride file"
+msgstr "พบกลุ่ม '%s' ที่ไม่รู้จักอยู่ในแฟ้ม statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "มีรายการ statoverride หลายรายการสำหรับ '%.250s'"
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
@@ -553,23 +740,27 @@ msgid "invalid package name (%.250s)"
 msgstr "ชื่อแพกเกจใช้ไม่ได้ (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "เขตข้อมูลรายละเอียดแฟ้ม `%s' ว่างเปล่า"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "มีเขตข้อมูลรายละเอียดแฟ้ม `%s' ในแฟ้มสถานะไม่ได้"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr "มีข้อมูลจำนวนมากเกินไปในเขตข้อมูลรายละเอียดแฟ้ม `%s' (เมื่อเทียบกับข้อมูลอื่น)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr "มีข้อมูลจำนวนน้อยเกินไปในเขตข้อมูลรายละเอียดแฟ้ม `%s' (เมื่อเทียบกับข้อมูลอื่น)"
 
 #: lib/dpkg/fields.c
@@ -756,6 +947,30 @@ msgid "unable to set mode of target file '%.250s'"
 msgstr "ไม่สามารถกำหนดสิทธิ์แฟ้มปลายทาง '%.250s'"
 
 #: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot stat %s: %s"
+msgid "cannot stat %s"
+msgstr "ไม่สามารถ stat %s: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "%s is not a regular file"
+msgstr "แฟ้มค่าตั้ง '%s' ไม่ใช่แฟ้มปกติ"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot write %s: %s"
+msgid "cannot read %s"
+msgstr "ไม่สามารถเขียน %s: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to '%s'"
+msgid "cannot open %s"
+msgstr "ไม่สามารถเขียนต่อท้าย '%s'"
+
+#: lib/dpkg/file.c
 #, c-format
 msgid "unable to unlock %s"
 msgstr "ไม่สามารถปลดล็อค %s"
@@ -775,10 +990,11 @@ msgstr "%s ถูกล็อคโดยโพรเซสอื่น"
 msgid "unable to lock %s"
 msgstr "ไม่สามารถล็อค %s"
 
-# Use leading space for English translation
 #: lib/dpkg/file.c
-msgid "showing file on pager"
-msgstr "แสดงแฟ้มในเครื่องมือเลื่อนหน้า"
+#, fuzzy
+#| msgid "unable to flush file '%s'"
+msgid "pager to show file"
+msgstr "ไม่สามารถ flush แฟ้ม '%s'"
 
 #: lib/dpkg/log.c
 #, c-format
@@ -800,13 +1016,13 @@ msgstr "จองหน่วยความจำไม่สำเร็จ"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "dup ไม่สำเร็จสำหรับ std%s"
+msgid "failed to dup for fd %d"
+msgstr "dup ไม่สำเร็จสำหรับ fd %d"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "dup ไม่สำเร็จสำหรับ fd %d"
+msgid "failed to dup for std%s"
+msgstr "dup ไม่สำเร็จสำหรับ std%s"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1195,11 +1411,6 @@ msgstr "ไม่สามารถลบ '%.255s' อย่างปลอด�
 msgid "rm command for cleanup"
 msgstr "คำสั่ง rm เพื่อทำความสะอาด"
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr "ชื่อแพกเกจ '%s' กำกวม และมีการติดตั้งมากกว่าหนึ่งชุด"
-
 #: lib/dpkg/pkg-format.c
 #, c-format
 msgid "invalid character '%c' in field width"
@@ -1212,6 +1423,11 @@ msgstr "ความกว้างเขตข้อมูลอยู่นอ
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
 msgstr "ขาดปีกกาปิด"
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
+msgstr "ชื่อแพกเกจ '%s' กำกวม และมีการติดตั้งมากกว่าหนึ่งชุด"
 
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
@@ -1538,11 +1754,6 @@ msgstr "เกิดข้อผิดพลาดขณะสร้างไป
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "เกิดข้อผิดพลาดขณะสร้างอุปกรณ์ `%.255s'"
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "เกิดข้อผิดพลาดขณะสร้าง hard link `%.255s'"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2030,6 +2241,10 @@ msgid "conffile difference visualizer"
 msgstr "เครื่องมือแสดงความต่างของเนื้อหาแฟ้มค่าตั้ง"
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "พิมพ์ `exit' เมื่อเสร็จแล้ว\n"
 
@@ -2379,7 +2594,21 @@ msgstr ""
 "\n"
 
 #: src/divertcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --package <package>      name of the package whose copy of <file> will "
+#| "not\n"
+#| "                             be diverted.\n"
+#| "  --local                  all packages' versions are diverted.\n"
+#| "  --divert <divert-to>     the name used by other packages' versions.\n"
+#| "  --rename                 actually move the file aside (or back).\n"
+#| "  --admindir <directory>   set the directory with the diversions file.\n"
+#| "  --test                   don't do anything, just demonstrate.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --package <package>      name of the package whose copy of <file> will "
@@ -2388,6 +2617,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2418,6 +2648,12 @@ msgstr ""
 "เมื่อจะเพิ่มการเบนแฟ้ม ตัวเลือกปริยายคือ --local และ --divert <ชื่อเดิม>.distrib\n"
 "เมื่อจะลบการเบนแฟ้ม ถ้าระบุ --package หรือ --local และ --divert ก็ต้องระบุให้ตรงกันด้วย\n"
 "สคริปต์ preinst/postrm ของแพกเกจควรระบุ --package และ --divert เสมอ\n"
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
+msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2538,6 +2774,13 @@ msgstr "จะข้ามคำสั่งเปลี่ยนชื่อแ
 
 #: src/divertcmd.c
 #, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
+#, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "ไม่มีการเบน '%s' จึงไม่มีการลบรายการใด\n"
 
@@ -2580,19 +2823,6 @@ msgstr "ชื่อแพกเกจห้ามมีอักขระขึ
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "divert-to ห้ามมีอักขระขึ้นบรรทัดใหม่"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "ไม่สามารถเปิดแฟ้ม diversions"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "ไม่สามารถ fstat แฟ้ม diversions"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "มีการเบนแฟ้มขัดแย้งกันโดยเกี่ยวข้องกับ `%.250s' หรือ `%.250s'"
 
 #: src/enquiry.c
 msgid ""
@@ -2891,110 +3121,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "จะข้ามปัญหาไปเพราะมีการเปิดตัวเลือก --force:"
 
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "แฟ้มควบคุม '%s' ของแพกเกจ '%s' ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "แฟ้มควบคุม '%s' ของแพกเกจ '%s' ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "แฟ้มควบคุม '%s' ของแพกเกจ '%s' ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "แฟ้มควบคุม '%s' ของแพกเกจ '%s' มีรายการชื่อแฟ้มที่ว่างเปล่า"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot open '%s' control file for package '%s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "ไม่สามารถเปิดแฟ้มควบคุม '%s' ของแพกเกจ '%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot stat '%s' control file for package '%s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "ไม่สามารถ stat แฟ้มควบคุม '%s' ของแพกเกจ '%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "'%s' file for package '%s' is not a regular file"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "แฟ้ม '%s' ของแพกเกจ '%s' ไม่ใช่แฟ้มธรรมดา"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read '%s' control file for package '%s'"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "ไม่สามารถอ่านแฟ้มควบคุม '%s' ของแพกเกจ '%s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot close '%s' control file for package '%s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "ไม่สามารถปิดแฟ้มควบคุม '%s' ของแพกเกจ '%s'"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "ไม่สามารถเปิดแฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s' ขาดหายไป จะถือว่าแพกเกจไม่ได้ติดตั้งแฟ้มใดในระบบ"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "ไม่สามารถ stat แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s' ไม่ใช่แฟ้มธรรมดา"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr "เกิดปัญหาขณะอ่านรายชื่อแฟ้มของแพกเกจ '%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s' ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s' มีรายการชื่อแฟ้มที่ว่างเปล่า"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "เกิดข้อผิดพลาดขณะปิดแฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s'"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(กำลังอ่านฐานข้อมูล ... "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "%d แฟ้มและไดเรกทอรีติดตั้งอยู่)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "ไม่ได้ติดตั้ง"
@@ -3052,41 +3178,6 @@ msgstr[0] ""
 msgid ""
 "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
 msgstr "สังเกต: PATH ของ root ควรมี /usr/local/sbin, /usr/sbin และ /sbin ด้วย"
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "ไม่สามารถตรวจสอบการมีอยู่ของ `%.250s'"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "ไม่สามารถอ่านไดเรกทอรีสารสนเทศ"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "เกิดข้อผิดพลาดขณะพยายามเปิด %.250s"
-
-#: src/infodb-format.c
-#, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "แฟ้มฟอร์แมต '%s' ของฐานข้อมูลสารสนเทศแพกเกจเสียหาย"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-"ฟอร์แมตของฐานข้อมูลสารสนเทศ (%d) เป็นค่าปลอมหรือใหม่เกินไป ลองติดตั้ง dpkg รุ่นที่ใหม่กว่านี้"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
-msgstr "แฟ้มสารสนเทศ %s/%s ไม่มีความเชื่อมโยงกับแพกเกจใด"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "error while writing '%s'"
-msgstr "เกิดข้อผิดพลาดขณะเขียน '%s'"
 
 #: src/main.c
 #, c-format
@@ -3815,6 +3906,13 @@ msgstr "สถาปัตยกรรม"
 msgid "Description"
 msgstr "คำบรรยาย"
 
+# Use leading space for English translation
+#: src/querycmd.c
+#, fuzzy
+#| msgid "showing file on pager"
+msgid "showing package list on pager"
+msgstr "แสดงแฟ้มในเครื่องมือเลื่อนหน้า"
+
 #: src/querycmd.c
 #, c-format
 msgid "diversion by %s from: %s\n"
@@ -3850,6 +3948,16 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "แพกเกจ `%s' ไม่ได้ติดตั้งไว้ และไม่มีข้อมูลสำหรับแพกเกจนี้"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"ใช้ dpkg --info (= dpkg-deb --info) ถ้าจะดูข้อมูลของแฟ้มแพกเกจ\n"
+"และ dpkg --contents (= dpkg-deb --contents) ถ้าจะดูเนื้อหาภายใน\n"
+
+#: src/querycmd.c
 #, c-format
 msgid "package '%s' is not available"
 msgstr "ไม่มีแพกเกจ '%s'"
@@ -3875,9 +3983,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "ถูกเบนแฟ้มโดย %s ไปยัง: %s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "ใช้ dpkg --info (= dpkg-deb --info) ถ้าจะดูข้อมูลของแฟ้มแพกเกจ\n"
 "และ dpkg --contents (= dpkg-deb --contents) ถ้าจะดูเนื้อหาภายใน\n"
@@ -3918,19 +4029,33 @@ msgid "Debian %s package management program query tool version %s.\n"
 msgstr "เครื่องมือสอบถามข้อมูล %s ในชุดโปรแกรมจัดการแพกเกจของเดเบียน รุ่น %s\n"
 
 #: src/querycmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -W|--show [<pattern> ...]        Show information on package(s).\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "     --control-list <package>      Print the package control file list.\n"
+#| "     --control-show <package> <file>\n"
+#| "                                   Show the package control file.\n"
+#| "  -c|--control-path <package> [<file>]\n"
+#| "                                   Print path for package control file.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4330,68 +4455,6 @@ msgstr "ไม่มีรายการ override อยู่"
 msgid "--update is useless for --remove"
 msgstr "--update ไม่มีประโยชน์อะไรสำหรับ --remove"
 
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "invalid status"
-msgid "invalid statoverride uid %s"
-msgstr "สถานะผิดพลาด"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "reading statoverride file '%.250s'"
-msgid "invalid statoverride gid %s"
-msgstr "เกิดข้อผิดพลาดขณะอ่านแฟ้ม statoverride '%.250s'"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "reading statoverride file '%.250s'"
-msgid "invalid statoverride mode %s"
-msgstr "เกิดข้อผิดพลาดขณะอ่านแฟ้ม statoverride '%.250s'"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "ไม่สามารถเปิดแฟ้ม statoverride"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "ไม่สามารถ fstat แฟ้ม statoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "reading statoverride file '%.250s'"
-msgstr "เกิดข้อผิดพลาดขณะอ่านแฟ้ม statoverride '%.250s'"
-
-#: src/statdb.c
-msgid "statoverride file is missing final newline"
-msgstr "แฟ้ม statoverride ขาดอักขระขึ้นบรรทัดใหม่ที่ท้ายบรรทัด"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "แฟ้ม statoverride มีบรรทัดว่างเปล่า"
-
-#: src/statdb.c
-msgid "syntax error in statoverride file"
-msgstr "พบรูปแบบผิดพลาดในแฟ้ม statoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "พบผู้ใช้ '%s' ที่ไม่รู้จักอยู่ในแฟ้ม statoverride"
-
-#: src/statdb.c
-msgid "unexpected end of line in statoverride file"
-msgstr "พบจุดจบบรรทัดก่อนกำหนดในแฟ้ม statoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "พบกลุ่ม '%s' ที่ไม่รู้จักอยู่ในแฟ้ม statoverride"
-
-#: src/statdb.c
-#, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "มีรายการ statoverride หลายรายการสำหรับ '%.250s'"
-
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "พิมพ์ dpkg-trigger --help เพื่อดูวิธีใช้โปรแกรมนี้"
@@ -4599,6 +4662,12 @@ msgstr "กำลังถอนคืนค่าตั้งของ %s (%s) 
 #, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "กำลังถอนคืนค่าตั้งของ %s (%s) ...\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "แฟ้ม statoverride มีบรรทัดว่างเปล่า"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
@@ -5099,16 +5168,18 @@ msgid "decompressing archive member"
 msgstr "การคลายบีบอัดสมาชิกแพกเกจ"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "เปลี่ยนเข้าไดเรกทอรีไม่สำเร็จ"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "สร้างไดเรกทอรีไม่สำเร็จ"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "เปลี่ยนเข้าไดเรกทอรีหลังจากสร้างแล้วไม่สำเร็จ"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "พบจุดจบแฟ้มก่อนกำหนดในชื่อแพกเกจที่บรรทัด %d"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "เปลี่ยนเข้าไดเรกทอรีไม่สำเร็จ"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -6428,6 +6499,41 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#, fuzzy
+#~| msgid "cannot open '%s' control file for package '%s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "ไม่สามารถเปิดแฟ้มควบคุม '%s' ของแพกเกจ '%s'"
+
+#, fuzzy
+#~| msgid "cannot stat '%s' control file for package '%s'"
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr "ไม่สามารถ stat แฟ้มควบคุม '%s' ของแพกเกจ '%s'"
+
+#, fuzzy
+#~| msgid "'%s' file for package '%s' is not a regular file"
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "แฟ้ม '%s' ของแพกเกจ '%s' ไม่ใช่แฟ้มธรรมดา"
+
+#, fuzzy
+#~| msgid "cannot close '%s' control file for package '%s'"
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "ไม่สามารถปิดแฟ้มควบคุม '%s' ของแพกเกจ '%s'"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr "ไม่สามารถเปิดแฟ้มรายชื่อแฟ้มของแพกเกจ `%.250s'"
+
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr "ไม่สามารถ stat แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s'"
+
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr "แฟ้มรายชื่อแฟ้มของแพกเกจ '%.250s' ไม่ใช่แฟ้มธรรมดา"
+
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "เกิดปัญหาขณะอ่านรายชื่อแฟ้มของแพกเกจ '%.250s'"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "เปลี่ยนเข้าไดเรกทอรีหลังจากสร้างแล้วไม่สำเร็จ"
+
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "ตัวเลือก '--%s' เลิกใช้แล้ว กรุณาใช้ '--%s' แทน"
 
@@ -6496,9 +6602,6 @@ msgstr ""
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "พบ EOF จาก stdin ที่คำถามเกี่ยวกับแฟ้มค่าตั้ง"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "พบจุดจบแฟ้มก่อนกำหนดในชื่อแพกเกจที่บรรทัด %d"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "พบจุดจบแฟ้มก่อนกำหนดหลังชื่อแพกเกจที่บรรทัด %d"
@@ -6695,9 +6798,6 @@ msgstr ""
 #~ msgid "it is a slave of %s"
 #~ msgstr "ทางเลือกนี้เป็นรายการลูกของ %s อยู่"
 
-#~ msgid "cannot stat %s: %s"
-#~ msgstr "ไม่สามารถ stat %s: %s"
-
 #~ msgid "readlink(%s) failed: %s"
 #~ msgstr "readlink(%s) ไม่สำเร็จ: %s"
 
@@ -6721,9 +6821,6 @@ msgstr ""
 
 #~ msgid "unable to close %s: %s"
 #~ msgstr "ไม่สามารถปิด %s: %s"
-
-#~ msgid "cannot write %s: %s"
-#~ msgstr "ไม่สามารถเขียน %s: %s"
 
 #~ msgid "malloc failed (%ld bytes)"
 #~ msgstr "malloc ไม่สำเร็จ (%ld ไบต์)"

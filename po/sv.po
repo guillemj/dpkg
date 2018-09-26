@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2015-04-07 09:52+0200\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -137,7 +137,8 @@ msgstr "fel vid borttagning av gammal säkerhetskopia \"%s\""
 msgid "error creating new backup file '%s'"
 msgstr "fel vid skapande av ny säkerhetskopia \"%s\""
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "kan inte ta bort \"%.250s\""
@@ -346,12 +347,22 @@ msgid "unable to open lock file %s for testing"
 msgstr "kunde inte låsa filen %s för test"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr "kunde inte öppna/skapa låsfil för statusdatabas"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "kunde inte öppna/skapa låsfil för statusdatabas"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "du har inte rättigheter att låsa dpkgs statusdatabas"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg status database"
@@ -403,6 +414,186 @@ msgstr "kunde inte stänga uppdaterad status för \"%.250s\""
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "kunde inte installera uppdaterad status för \"%.250s\""
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "kunde inte kontrollera om \"%.250s\" existerar"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "kan inte läsa infokatalog"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "fel vid öppning av %.250s"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "trasig formatfil för informationsdatabasen: \"%s\""
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+"infodatabasens format (%d) är tokigt eller för nytt; försök få tag i en "
+"nyare dpkg"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "info file %s/%s not associated to any package"
+msgstr "informationsfilen %s/%s inte associerad med något paket"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "fel vid skapande av hårda länken \"%.255s\""
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "error while writing '%s'"
+msgstr "fel vid skrivning av \"%s\""
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "styrfilen \"%s\" för paketet \"%s\" saknar avslutande radbrytning"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "styrfilen \"%s\" för paketet \"%s\" saknar avslutande radbrytning"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "styrfilen \"%s\" för paketet \"%s\" saknar avslutande radbrytning"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "styrfilen \"%s\" för paketet \"%s\" innehåller tomt filnamn"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read '%s' control file for package '%s'"
+msgid "loading control file '%s' for package '%s'"
+msgstr "kan inte läsa styrfilen \"%s\" för paketet \"%s\""
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "kunde inte öppna omdirigeringsfil"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "kunde inte ta status på omdirigeringsfil"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "motsägande omdirigeringar av \"%.250s\" eller \"%.250s\""
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr "fel vid stängning av fillistfilen för paketet \"%.250s\""
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"fillistfilen för paketet \"%.250s\" saknas; antar att paketet inte har några "
+"filer installerade"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "fillistfilen för paketet \"%.250s\" saknar avslutande radbrytning"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "fillistfilen för paketet \"%.250s\" innehåller tomt filnamn"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(Läser databasen ... "
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "%d fil och katalog installerad.)\n"
+msgstr[1] "%d filer och kataloger installerade.)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "invalid status"
+msgid "invalid statoverride uid %s"
+msgstr "felaktig status"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "reading statoverride file '%.250s'"
+msgid "invalid statoverride gid %s"
+msgstr "läser statoverride-fil \"%.250s\""
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "reading statoverride file '%.250s'"
+msgid "invalid statoverride mode %s"
+msgstr "läser statoverride-fil \"%.250s\""
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "kunde inte öppna statoverride-fil"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "kunde inte ta status på statoverride-fil"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "reading statoverride file '%.250s'"
+msgstr "läser statoverride-fil \"%.250s\""
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file is missing final newline"
+msgstr "statoverride-fil saknar avslutande radbrytning"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "statoverride-fil innehåller tomrad"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "syntax error in statoverride file"
+msgstr "syntaxfel i statoverride-fil"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown user '%s' in statoverride file"
+msgstr "användaren \"%s\" i statoverride-filen är okänd"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "unexpected end of line in statoverride file"
+msgstr "oväntat radslut i statoverride-fil"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown group '%s' in statoverride file"
+msgstr "gruppen \"%s\" i statoverride-filen är okänd"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "flera statoverride är satta för filen \"%.250s\""
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
@@ -559,23 +750,27 @@ msgid "invalid package name (%.250s)"
 msgstr "ogiltigt paketnamn (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "tomt filinformationfält \"%s\""
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "filinformationsfält \"%s\" ej tillåtet i statusfilen"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr "för många värden i fildetaljsfältet \"%s\" (jämfört med andra)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr "för få värden i fildetaljsfältet \"%s\" (jämfört med andra)"
 
 #: lib/dpkg/fields.c
@@ -768,6 +963,30 @@ msgid "unable to set mode of target file '%.250s'"
 msgstr "kunde inte ställa in läge på målfilen \"%.250s\""
 
 #: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot stat %s: %s"
+msgid "cannot stat %s"
+msgstr "kan inte ta status på %s: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "%s is not a regular file"
+msgstr "konfigurationsfilen \"%s\" är inte en vanlig fil"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot write %s: %s"
+msgid "cannot read %s"
+msgstr "kan inte skriva %s: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to '%s'"
+msgid "cannot open %s"
+msgstr "kunde inte lägga till i \"%s\""
+
+#: lib/dpkg/file.c
 #, c-format
 msgid "unable to unlock %s"
 msgstr "kunde inte låsa upp %s"
@@ -788,8 +1007,10 @@ msgid "unable to lock %s"
 msgstr "kunde inte låsa %s"
 
 #: lib/dpkg/file.c
-msgid "showing file on pager"
-msgstr "visar fil i bläddrare"
+#, fuzzy
+#| msgid "unable to flush file '%s'"
+msgid "pager to show file"
+msgstr "kunde inte tömma (flush) filen \"%s\""
 
 #: lib/dpkg/log.c
 #, c-format
@@ -811,13 +1032,13 @@ msgstr "misslyckades att allokera minne"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "kunde inte duplicera std%s"
+msgid "failed to dup for fd %d"
+msgstr "kunde inte duplicera filhandtag %d"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "kunde inte duplicera filhandtag %d"
+msgid "failed to dup for std%s"
+msgstr "kunde inte duplicera std%s"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1209,11 +1430,6 @@ msgstr "kunde inte säkert ta bort \"%.255s\""
 msgid "rm command for cleanup"
 msgstr "rm-kommando för städning"
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr "tvetydigt paketnamn \"%s\" med mer än en installerad instans"
-
 #: lib/dpkg/pkg-format.c
 #, c-format
 msgid "invalid character '%c' in field width"
@@ -1226,6 +1442,11 @@ msgstr "fältbredden är utanför tillåtet område"
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
 msgstr "avslutande klammerparentes saknas"
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
+msgstr "tvetydigt paketnamn \"%s\" med mer än en installerad instans"
 
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
@@ -1557,11 +1778,6 @@ msgstr "fel vid skapande av röret \"%.255s\""
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "fel vid skapande av enheten \"%.255s\""
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "fel vid skapande av hårda länken \"%.255s\""
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2071,6 +2287,10 @@ msgid "conffile difference visualizer"
 msgstr "visualiserare för konfigurationsfilsskillnader"
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "Skriv \"exit\" när du är klar.\n"
 
@@ -2425,7 +2645,21 @@ msgstr ""
 "\n"
 
 #: src/divertcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --package <package>      name of the package whose copy of <file> will "
+#| "not\n"
+#| "                             be diverted.\n"
+#| "  --local                  all packages' versions are diverted.\n"
+#| "  --divert <divert-to>     the name used by other packages' versions.\n"
+#| "  --rename                 actually move the file aside (or back).\n"
+#| "  --admindir <directory>   set the directory with the diversions file.\n"
+#| "  --test                   don't do anything, just demonstrate.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --package <package>      name of the package whose copy of <file> will "
@@ -2434,6 +2668,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2467,6 +2702,12 @@ msgstr ""
 "När du tar bort måste --package eller --local samt --divert stämma om de\n"
 "anges. Skripten preinst/postrm i paket skall alltid ange --package och --"
 "divert.\n"
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
+msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2589,6 +2830,13 @@ msgstr ""
 
 #: src/divertcmd.c
 #, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
+#, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "Ingen omdirigering \"%s\", ingen borttagen.\n"
 
@@ -2631,19 +2879,6 @@ msgstr "paket kan inte innehålla nyradstecken"
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "målet kan inte innehålla nyradstecken"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "kunde inte öppna omdirigeringsfil"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "kunde inte ta status på omdirigeringsfil"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "motsägande omdirigeringar av \"%.250s\" eller \"%.250s\""
 
 #: src/enquiry.c
 msgid ""
@@ -2943,113 +3178,6 @@ msgstr "Paketet %s kvarhålles, rör det inte. --force-hold ignorerar.\n"
 msgid "overriding problem because --force enabled:"
 msgstr "ignorerar problem då --force använts:"
 
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "styrfilen \"%s\" för paketet \"%s\" saknar avslutande radbrytning"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "styrfilen \"%s\" för paketet \"%s\" saknar avslutande radbrytning"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "styrfilen \"%s\" för paketet \"%s\" saknar avslutande radbrytning"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "styrfilen \"%s\" för paketet \"%s\" innehåller tomt filnamn"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot open '%s' control file for package '%s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "kan inte öppna styrfilen \"%s\" för paketet \"%s\""
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot stat '%s' control file for package '%s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "kan inte ta status på styrfilen \"%s\" för paketet \"%s\""
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "'%s' file for package '%s' is not a regular file"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "filen \"%s\" för paketet \"%s\" är inte en vanlig fil"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read '%s' control file for package '%s'"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "kan inte läsa styrfilen \"%s\" för paketet \"%s\""
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot close '%s' control file for package '%s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "kan inte stänga styrfilen \"%s\" för paketet \"%s\""
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "kunde inte öppna fillistan för paketet \"%.250s\""
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"fillistfilen för paketet \"%.250s\" saknas; antar att paketet inte har några "
-"filer installerade"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "kunde inte ta status på fillistan för paketet \"%.250s\""
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "fillistfilen för paketet \"%.250s\" är inte en vanlig fil"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr "läser fillista för paketet \"%.250s\""
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "fillistfilen för paketet \"%.250s\" saknar avslutande radbrytning"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "fillistfilen för paketet \"%.250s\" innehåller tomt filnamn"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "fel vid stängning av fillistfilen för paketet \"%.250s\""
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(Läser databasen ... "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "%d fil och katalog installerad.)\n"
-msgstr[1] "%d filer och kataloger installerade.)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "ej installerat"
@@ -3111,42 +3239,6 @@ msgid ""
 "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
 msgstr ""
 "Obs! roots PATH bör vanligtvis innehålla /usr/local/sbin, /usr/sbin och /sbin"
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "kunde inte kontrollera om \"%.250s\" existerar"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "kan inte läsa infokatalog"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "fel vid öppning av %.250s"
-
-#: src/infodb-format.c
-#, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "trasig formatfil för informationsdatabasen: \"%s\""
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-"infodatabasens format (%d) är tokigt eller för nytt; försök få tag i en "
-"nyare dpkg"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
-msgstr "informationsfilen %s/%s inte associerad med något paket"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "error while writing '%s'"
-msgstr "fel vid skrivning av \"%s\""
 
 #: src/main.c
 #, c-format
@@ -3884,6 +3976,12 @@ msgid "Description"
 msgstr "Beskrivning"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid "showing file on pager"
+msgid "showing package list on pager"
+msgstr "visar fil i bläddrare"
+
+#: src/querycmd.c
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "omdirigering av %s från: %s\n"
@@ -3918,6 +4016,16 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "paketet \"%s\" är inte installerat och ingen information finns"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"Använd dpkg --info (= dpkg-deb --info) för att undersöka arkivfiler,\n"
+"och dpkg --contents (= dpkg-deb --contents) för att visa innehållet.\n"
+
+#: src/querycmd.c
 #, c-format
 msgid "package '%s' is not available"
 msgstr "paketet \"%s\" är ej tillgängligt"
@@ -3943,9 +4051,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "omdirigerat av %s till: %s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "Använd dpkg --info (= dpkg-deb --info) för att undersöka arkivfiler,\n"
 "och dpkg --contents (= dpkg-deb --contents) för att visa innehållet.\n"
@@ -3986,19 +4097,33 @@ msgid "Debian %s package management program query tool version %s.\n"
 msgstr "Debian \"%s\" pakethanteringsprogram, frågeverktyg version %s.\n"
 
 #: src/querycmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -W|--show [<pattern> ...]        Show information on package(s).\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "     --control-list <package>      Print the package control file list.\n"
+#| "     --control-show <package> <file>\n"
+#| "                                   Show the package control file.\n"
+#| "  -c|--control-path <package> [<file>]\n"
+#| "                                   Print path for package control file.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4406,68 +4531,6 @@ msgstr "det finns inga överskrivningar"
 msgid "--update is useless for --remove"
 msgstr "--update är oanvändbar tillsammans med --remove"
 
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "invalid status"
-msgid "invalid statoverride uid %s"
-msgstr "felaktig status"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "reading statoverride file '%.250s'"
-msgid "invalid statoverride gid %s"
-msgstr "läser statoverride-fil \"%.250s\""
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "reading statoverride file '%.250s'"
-msgid "invalid statoverride mode %s"
-msgstr "läser statoverride-fil \"%.250s\""
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "kunde inte öppna statoverride-fil"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "kunde inte ta status på statoverride-fil"
-
-#: src/statdb.c
-#, c-format
-msgid "reading statoverride file '%.250s'"
-msgstr "läser statoverride-fil \"%.250s\""
-
-#: src/statdb.c
-msgid "statoverride file is missing final newline"
-msgstr "statoverride-fil saknar avslutande radbrytning"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "statoverride-fil innehåller tomrad"
-
-#: src/statdb.c
-msgid "syntax error in statoverride file"
-msgstr "syntaxfel i statoverride-fil"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "användaren \"%s\" i statoverride-filen är okänd"
-
-#: src/statdb.c
-msgid "unexpected end of line in statoverride file"
-msgstr "oväntat radslut i statoverride-fil"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "gruppen \"%s\" i statoverride-filen är okänd"
-
-#: src/statdb.c
-#, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "flera statoverride är satta för filen \"%.250s\""
-
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Skriv dpkg-trigger --help för hjälp om detta verktyg."
@@ -4678,6 +4741,12 @@ msgstr "Avkonfigurerar %s (%s), så att vi kan ta bort %s (%s) ...\n"
 #, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "Avkonfigurerar %s (%s) ...\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "statoverride-fil innehåller tomrad"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
@@ -5201,16 +5270,18 @@ msgid "decompressing archive member"
 msgstr "packar upp arkivdel"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "kunde inte byta till katalogen"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "kunde inte skapa katalog"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "kunde inte byta till katalog efter att ha skapat den"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "oväntat filslut i paketnamn på rad %d"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "kunde inte byta till katalogen"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -6548,6 +6619,41 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#, fuzzy
+#~| msgid "cannot open '%s' control file for package '%s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "kan inte öppna styrfilen \"%s\" för paketet \"%s\""
+
+#, fuzzy
+#~| msgid "cannot stat '%s' control file for package '%s'"
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr "kan inte ta status på styrfilen \"%s\" för paketet \"%s\""
+
+#, fuzzy
+#~| msgid "'%s' file for package '%s' is not a regular file"
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "filen \"%s\" för paketet \"%s\" är inte en vanlig fil"
+
+#, fuzzy
+#~| msgid "cannot close '%s' control file for package '%s'"
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "kan inte stänga styrfilen \"%s\" för paketet \"%s\""
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr "kunde inte öppna fillistan för paketet \"%.250s\""
+
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr "kunde inte ta status på fillistan för paketet \"%.250s\""
+
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr "fillistfilen för paketet \"%.250s\" är inte en vanlig fil"
+
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "läser fillista för paketet \"%.250s\""
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "kunde inte byta till katalog efter att ha skapat den"
+
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "föråldrad flagga \"--%s\", använd \"--%s\" istället"
 
@@ -6616,9 +6722,6 @@ msgstr ""
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "Filslut på stdin vid konfigurationsfilsfrågan"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "oväntat filslut i paketnamn på rad %d"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "oväntat filslut efter paketnamn på rad %d"
@@ -6876,9 +6979,6 @@ msgstr ""
 #~ msgid "it is a slave of %s"
 #~ msgstr "det är slav till %s"
 
-#~ msgid "cannot stat %s: %s"
-#~ msgstr "kan inte ta status på %s: %s"
-
 #~ msgid "readlink(%s) failed: %s"
 #~ msgstr "misslyckades läsa länken (readlink) %s: %s"
 
@@ -6902,9 +7002,6 @@ msgstr ""
 
 #~ msgid "unable to close %s: %s"
 #~ msgstr "kunde inte stänga %s: %s"
-
-#~ msgid "cannot write %s: %s"
-#~ msgstr "kan inte skriva %s: %s"
 
 #, fuzzy
 #~ msgid "unable to rename file '%s' to '%s'"

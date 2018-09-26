@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2018-08-12 13:18+0200\n"
 "Last-Translator: Mo Zhou <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
@@ -148,7 +148,8 @@ msgstr "删除旧备份文件 '%s' 时出错"
 msgid "error creating new backup file '%s'"
 msgstr "新建备份文件 '%s' 时出错"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "无法移除 %.250s"
@@ -354,12 +355,22 @@ msgid "unable to open lock file %s for testing"
 msgstr "无法打开锁文件 %s 以进行测试"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr "无法打开或创建状态数据库的锁文件"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "无法打开或创建状态数据库的锁文件"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "您没有锁定 dpkg 的状态数据库的权限"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg status database"
@@ -411,6 +422,178 @@ msgstr "无法关闭 %.250s 的新状态"
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "无法安装 %.250s 的新状态"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "无法判断 %.250s 是否存在"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "无法读取 info 目录"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "试图打开 %.250s 出错"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "损坏的信息库格式文件 %s"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr "信息数据库格式(%d)是伪造的或者太新；建议尝试新版本的 dpkg"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "info file %s/%s not associated to any package"
+msgstr "info 文件 %s/%s 与任何软件包都无关"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "新建硬链接 %.255s 时出错"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "error while writing '%s'"
+msgstr "写入 %s 时发生错误"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少结尾换行符"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少值"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少值分隔符"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "软件包 '%2$s' 的控制文件 '%1$s' 含有空文件名"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read control file '%s' for package '%s'"
+msgid "loading control file '%s' for package '%s'"
+msgstr "无法读取软件包 '%2$s' 的 '%1$s' 控制文件"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "无法打开转移文件"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "无法 fstat 转移文件"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "转移项间存在着冲突关系， %.250s 和 %.250s 中只能取其一"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr "关闭软件包 %.250s 的文件名列表文件时出错"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"无法找到软件包 %.250s 的文件名列表文件，现假定该软件包目前没有任何文件被安装"
+"在系统里。"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "软件包 %.250s 的文件名列表文件缺少最后结尾的换行符"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "软件包 %.250s 的文件名列表文件含有空的文件名"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(正在读取数据库 ... "
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "系统当前共安装有 %d 个文件和目录。)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride uid %s"
+msgstr "无效的 statoverride 用户ID(uid) %s"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride gid %s"
+msgstr "无效的 statoverride 组ID(gid) %s"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "invalid statoverride mode %s"
+msgstr "无效的 statoverride 权限位(mode) %s"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "无法打开 statoverride 文件"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "无法 fstat statoverride 文件"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "reading statoverride file '%.250s'"
+msgstr "读取 statoverride 文件 '%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file is missing final newline"
+msgstr "statoverride 文件结尾处缺失换行符"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "statoverride 文件含有空行"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "syntax error in statoverride file"
+msgstr "statoverride 文件中有语法错误"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown user '%s' in statoverride file"
+msgstr "在 statoverride 文件中有未知用户 '%s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "unexpected end of line in statoverride file"
+msgstr "statoverride 文件有非预期的行结束符"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown group '%s' in statoverride file"
+msgstr "statoverride 文件有无效组 %s "
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "存在多个 statoverride 用于文件  %.250s"
 
 #: lib/dpkg/deb-version.c
 msgid "format version with too big major component"
@@ -543,23 +726,27 @@ msgid "invalid package name (%.250s)"
 msgstr "软件包名称无效 (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "文件详情字段 %s 为空"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "状态文件不允许文件详情字段 ‘%s’ "
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr "文件详情字段 %s 的值过多(和其他的相比)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr "文件详情字段 %s 的值过少(和其他的相比)"
 
 #: lib/dpkg/fields.c
@@ -746,6 +933,30 @@ msgid "unable to set mode of target file '%.250s'"
 msgstr "无法设置文件 %.250s 的权限位"
 
 #: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot stat %s: %s"
+msgid "cannot stat %s"
+msgstr "无法获取 %s 的信息：%s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "archive '%s' is not a regular file"
+msgid "%s is not a regular file"
+msgstr "归档 '%s' 不是普通文件"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot write %s: %s"
+msgid "cannot read %s"
+msgstr "无法写入 %s：%s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to '%s'"
+msgid "cannot open %s"
+msgstr "无法追加至 %s"
+
+#: lib/dpkg/file.c
 #, c-format
 msgid "unable to unlock %s"
 msgstr "无法解锁 %s"
@@ -766,8 +977,10 @@ msgid "unable to lock %s"
 msgstr "无法锁定 %s"
 
 #: lib/dpkg/file.c
-msgid "showing file on pager"
-msgstr "在分页器中显示文件内容"
+#, fuzzy
+#| msgid "unable to flush file '%s'"
+msgid "pager to show file"
+msgstr "无法清空文件 %s"
 
 #: lib/dpkg/log.c
 #, c-format
@@ -789,13 +1002,13 @@ msgstr "分配内存失败"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "无法 dup std%s"
+msgid "failed to dup for fd %d"
+msgstr "无法 dup 文件描述符 %d"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "无法 dup 文件描述符 %d"
+msgid "failed to dup for std%s"
+msgstr "无法 dup std%s"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1170,11 +1383,6 @@ msgstr "无法安全删除 %.255s "
 msgid "rm command for cleanup"
 msgstr "用于清理的 rm 命令"
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr "软件包名 '%s' 含糊不清， 它有一个以上的安装实例"
-
 #: lib/dpkg/pkg-format.c
 #, c-format
 msgid "invalid character '%c' in field width"
@@ -1187,6 +1395,11 @@ msgstr "字段宽度超出范围"
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
 msgstr "缺少右大括号"
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
+msgstr "软件包名 '%s' 含糊不清， 它有一个以上的安装实例"
 
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
@@ -1498,11 +1711,6 @@ msgstr "新建管道 %.255s 时出错"
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "新建设备文件 %.255s 时出错"
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "新建硬链接 %.255s 时出错"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -1982,6 +2190,10 @@ msgid "conffile difference visualizer"
 msgstr "conffile 差异观察器"
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "当您完成操作后，请输入 “exit”。\n"
 
@@ -2331,7 +2543,21 @@ msgstr ""
 "\n"
 
 #: src/divertcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --package <package>      name of the package whose copy of <file> will "
+#| "not\n"
+#| "                             be diverted.\n"
+#| "  --local                  all packages' versions are diverted.\n"
+#| "  --divert <divert-to>     the name used by other packages' versions.\n"
+#| "  --rename                 actually move the file aside (or back).\n"
+#| "  --admindir <directory>   set the directory with the diversions file.\n"
+#| "  --test                   don't do anything, just demonstrate.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --package <package>      name of the package whose copy of <file> will "
@@ -2340,6 +2566,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2371,6 +2598,12 @@ msgstr ""
 "distrib。\n"
 "在删除本地转移项的时候，--package 或 --local 选项和 --divert 选项必须一致。\n"
 "软件包的 preinst 和 postrm 脚本通常应当指定 --package 和 --divert 选项。\n"
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
+msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2491,6 +2724,13 @@ msgstr "忽略重命名 %s 的要求，该文件属主为转移软件包 %s\n"
 
 #: src/divertcmd.c
 #, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
+#, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "没有转移项 %s，因此没有删除。\n"
 
@@ -2533,19 +2773,6 @@ msgstr "软件包不可以含有换行符"
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "转移目标名不可以含有换行符"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "无法打开转移文件"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "无法 fstat 转移文件"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "转移项间存在着冲突关系， %.250s 和 %.250s 中只能取其一"
 
 #: src/enquiry.c
 msgid ""
@@ -2834,105 +3061,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "由于开启了 --force 选项，以下问题被忽略："
 
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少结尾换行符"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少值"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "软件包 '%2$s' 的控制文件 '%1$s' 缺少值分隔符"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "软件包 '%2$s' 的控制文件 '%1$s' 含有空文件名"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "无法打开软件包 %2$s 的 %1$s 控制文件"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "无法取得软件包 %2$s 的 %1$s 控制文件状态"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "软件包 '%2$s' 的 '%1$s' 控制文件文件不是常规文件"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "无法读取软件包 '%2$s' 的 '%1$s' 控制文件"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "无法关闭软件包 '%2$s' 的 '%1$s' 控制文件"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "无法打开软件包 %.250s 的文件名列表文件"
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"无法找到软件包 %.250s 的文件名列表文件，现假定该软件包目前没有任何文件被安装"
-"在系统里。"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "无法取得软件包 %.250s 的文件名列表文件"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "软件包 %.250s 的文件名列表文件不是一个常规文件"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr "正在读取软件包 %.250s 的文件列表"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "软件包 %.250s 的文件名列表文件缺少最后结尾的换行符"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "软件包 %.250s 的文件名列表文件含有空的文件名"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "关闭软件包 %.250s 的文件名列表文件时出错"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(正在读取数据库 ... "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "系统当前共安装有 %d 个文件和目录。)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "未安装"
@@ -2991,40 +3119,6 @@ msgid ""
 "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
 msgstr ""
 "提示：root 的 PATH 环境变量通常应当包含 /usr/local/sbin、/usr/sbin 和 /sbin"
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "无法判断 %.250s 是否存在"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "无法读取 info 目录"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "试图打开 %.250s 出错"
-
-#: src/infodb-format.c
-#, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "损坏的信息库格式文件 %s"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr "信息数据库格式(%d)是伪造的或者太新；建议尝试新版本的 dpkg"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
-msgstr "info 文件 %s/%s 与任何软件包都无关"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "error while writing '%s'"
-msgstr "写入 %s 时发生错误"
 
 #: src/main.c
 #, c-format
@@ -3710,6 +3804,12 @@ msgid "Description"
 msgstr "描述"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid "showing file on pager"
+msgid "showing package list on pager"
+msgstr "在分页器中显示文件内容"
+
+#: src/querycmd.c
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "%s 导致转移自：%s\n"
@@ -3744,6 +3844,16 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "系统没有安装软件包 %s，因而没有相关的信息"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"使用 dpkg --info (= dpkg-deb --info) 来检测打包好的文件，\n"
+"还可以通过 dpkg --contents (= dpkg-deb --contents) 来列出它们的内容。\n"
+
+#: src/querycmd.c
 #, c-format
 msgid "package '%s' is not available"
 msgstr "软件包 %s 现在不可用"
@@ -3769,9 +3879,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "被 %s 转移至：%s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "使用 dpkg --info (= dpkg-deb --info) 来检测打包好的文件，\n"
 "还可以通过 dpkg --contents (= dpkg-deb --contents) 来列出它们的内容。\n"
@@ -3812,19 +3925,33 @@ msgid "Debian %s package management program query tool version %s.\n"
 msgstr "Debian %s 软件包管理程序查询工具 %s 版。\n"
 
 #: src/querycmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -W|--show [<pattern> ...]        Show information on package(s).\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "     --control-list <package>      Print the package control file list.\n"
+#| "     --control-show <package> <file>\n"
+#| "                                   Show the package control file.\n"
+#| "  -c|--control-path <package> [<file>]\n"
+#| "                                   Print path for package control file.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4208,65 +4335,6 @@ msgstr "override 不存在。"
 msgid "--update is useless for --remove"
 msgstr "对于 --remove，--update 是无效的"
 
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride uid %s"
-msgstr "无效的 statoverride 用户ID(uid) %s"
-
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride gid %s"
-msgstr "无效的 statoverride 组ID(gid) %s"
-
-#: src/statdb.c
-#, c-format
-msgid "invalid statoverride mode %s"
-msgstr "无效的 statoverride 权限位(mode) %s"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "无法打开 statoverride 文件"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "无法 fstat statoverride 文件"
-
-#: src/statdb.c
-#, c-format
-msgid "reading statoverride file '%.250s'"
-msgstr "读取 statoverride 文件 '%.250s'"
-
-#: src/statdb.c
-msgid "statoverride file is missing final newline"
-msgstr "statoverride 文件结尾处缺失换行符"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "statoverride 文件含有空行"
-
-#: src/statdb.c
-msgid "syntax error in statoverride file"
-msgstr "statoverride 文件中有语法错误"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "在 statoverride 文件中有未知用户 '%s'"
-
-#: src/statdb.c
-msgid "unexpected end of line in statoverride file"
-msgstr "statoverride 文件有非预期的行结束符"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "statoverride 文件有无效组 %s "
-
-#: src/statdb.c
-#, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "存在多个 statoverride 用于文件  %.250s"
-
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "输入 'dpkg-trigger --help' 以获取此功能的帮助信息。"
@@ -4474,6 +4542,12 @@ msgstr "正在反配置 %s (%s)，以允许删除 %s (%s) ...\n"
 #, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "正在反配置 %s (%s) ...\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "statoverride 文件含有空行"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
@@ -4956,16 +5030,18 @@ msgid "decompressing archive member"
 msgstr "解压缩归档成员"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "chdir 到目录失败"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "新建目录失败"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "新建目录后，chdir 到该目录失败"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "在第 %d 行的软件包名中发现了文件结束符，这出乎我们的意料"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "chdir 到目录失败"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -6240,6 +6316,33 @@ msgstr "运行 update-alternatives 工具以修改系统可选项的选择情况
 msgid "Authentication is required to run update-alternatives"
 msgstr "需要认证后才能执行 update-alternatives"
 
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "无法打开软件包 %2$s 的 %1$s 控制文件"
+
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr "无法取得软件包 %2$s 的 %1$s 控制文件状态"
+
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "软件包 '%2$s' 的 '%1$s' 控制文件文件不是常规文件"
+
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "无法关闭软件包 '%2$s' 的 '%1$s' 控制文件"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr "无法打开软件包 %.250s 的文件名列表文件"
+
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr "无法取得软件包 %.250s 的文件名列表文件"
+
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr "软件包 %.250s 的文件名列表文件不是一个常规文件"
+
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "正在读取软件包 %.250s 的文件列表"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "新建目录后，chdir 到该目录失败"
+
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "废弃的选项 --%s，请使用 --%s 代替"
 
@@ -6308,9 +6411,6 @@ msgstr "需要认证后才能执行 update-alternatives"
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "在 conffile 提示输入时在标准输入读到了 EOF "
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "在第 %d 行的软件包名中发现了文件结束符，这出乎我们的意料"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "在第 %d 行的软件包名后发现文件结束符，这出乎我们的意料"
@@ -6556,9 +6656,6 @@ msgstr "需要认证后才能执行 update-alternatives"
 #~ msgid "it is a slave of %s"
 #~ msgstr "这是 %s 的一个次要项"
 
-#~ msgid "cannot stat %s: %s"
-#~ msgstr "无法获取 %s 的信息：%s"
-
 #~ msgid "readlink(%s) failed: %s"
 #~ msgstr "readlink(%s) 失败：%s"
 
@@ -6582,9 +6679,6 @@ msgstr "需要认证后才能执行 update-alternatives"
 
 #~ msgid "unable to close %s: %s"
 #~ msgstr "无法关闭 %s：%s"
-
-#~ msgid "cannot write %s: %s"
-#~ msgstr "无法写入 %s：%s"
 
 #, fuzzy
 #~| msgid "unable to open file '%s'"

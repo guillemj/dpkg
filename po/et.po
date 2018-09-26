@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -145,7 +145,8 @@ msgstr "viga seadistusfaili `%.255s' lugemisel"
 msgid "error creating new backup file '%s'"
 msgstr "viga toru `%.255s' loomisel"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "`%.250s' pole võimalik eemaldada"
@@ -374,12 +375,21 @@ msgid "unable to open lock file %s for testing"
 msgstr "tõrge tmpfile avamisel funktsioonis vsnprintf"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+msgid "unable to open/create frontend lockfile"
+msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr ""
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "sul pole õigust dpkg olekuandmebaasi lukustada"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy
@@ -433,6 +443,184 @@ msgstr "`%.250s' uuendatud olekut pole võimalik sulgeda"
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "`%.250s' olekut pole võimalik uuendada"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "`%.250s' olemasolu pole võimalik kontrollida"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "andmekataloogi pole võimalik lugeda"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-format.c
+#, fuzzy, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "info file %s/%s not associated to any package"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "viga viida `%.255s' loomisel"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "error writing `%s'"
+msgid "error while writing '%s'"
+msgstr "viga `%s' kirjutamisel"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "loading control file '%s' for package '%s'"
+msgstr "faili %s pole võimalik asukohale %s paigaldada: %s"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "tõrge diversioonifaili avamisel"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr ""
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr ""
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr "viga paki `%.250s' failide nimekirja sulgemisel"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"dpkg: tõsine hoiatus: pakil `%.250s' puudub failide nimekiri, oletatavalt "
+"pole pakil praegu ühtegi faili paigaldatud.\n"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(Andmebaasi lugemine ... "
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "%d files and directories currently installed.)\n"
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "hetkel on paigaldatud %d faili ja kataloogi.)\n"
+msgstr[1] "hetkel on paigaldatud %d faili ja kataloogi.)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "invalid statoverride uid %s"
+msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "invalid statoverride gid %s"
+msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "invalid statoverride mode %s"
+msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "reading statoverride file '%.250s'"
+msgstr "lähtefaili `%.250s' pole võimalik avada"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy
+msgid "statoverride file is missing final newline"
+msgstr "enne välja `%.*s' väärtust on faililõputunnus (puudub lõpu reavahetus)"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr ""
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy
+msgid "syntax error in statoverride file"
+msgstr "viga seadistusfaili `%.255s' lugemisel"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "unknown user '%s' in statoverride file"
+msgstr "viga seadistusfaili `%.255s' lugemisel"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy
+msgid "unexpected end of line in statoverride file"
+msgstr "ootamatu realõpp pakinimes real %d"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "unknown group '%s' in statoverride file"
+msgstr "viga seadistusfaili `%.255s' lugemisel"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "lähtefaili `%.250s' pole võimalik avada"
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
@@ -580,23 +768,25 @@ msgid "invalid package name (%.250s)"
 msgstr "vigane pakinimi (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "tühi faili üksikasjade väli `%s'"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "faili üksikasjade väli `%s' pole olekufailis lubatud"
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr ""
 
 #: lib/dpkg/fields.c
 #, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr ""
 
 #: lib/dpkg/fields.c
@@ -779,6 +969,29 @@ msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
 
 #: lib/dpkg/file.c
 #, fuzzy, c-format
+#| msgid "unable to read %s: %s"
+msgid "cannot stat %s"
+msgstr "faili `%s' pole võimalik lugeda: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+msgid "%s is not a regular file"
+msgstr "lähtefail `%.250s' pole lihtfail"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "unable to write %s: %s"
+msgid "cannot read %s"
+msgstr "faili %s pole võimalik kirjutada: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot open diversions: %s"
+msgid "cannot open %s"
+msgstr "diversioone pole võimalik avada: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
 #| msgid "unable to unlock %s: %s"
 msgid "unable to unlock %s"
 msgstr "luku %s vabastamine pole võimalik: %s"
@@ -801,8 +1014,9 @@ msgid "unable to lock %s"
 msgstr "luku %s vabastamine pole võimalik: %s"
 
 #: lib/dpkg/file.c
-msgid "showing file on pager"
-msgstr ""
+#, fuzzy
+msgid "pager to show file"
+msgstr "tõrge puhvrite tühjendamisel funktsioonis vsnprintf"
 
 #: lib/dpkg/log.c
 #, fuzzy, c-format
@@ -826,12 +1040,12 @@ msgstr "tõrge kataloogi loomisel"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
+msgid "failed to dup for fd %d"
 msgstr ""
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
+msgid "failed to dup for std%s"
 msgstr ""
 
 #: lib/dpkg/mlib.c
@@ -1225,11 +1439,6 @@ msgstr "faili `%.255s' pole võimalik luua"
 msgid "rm command for cleanup"
 msgstr ""
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr ""
-
 #: lib/dpkg/pkg-format.c
 #, fuzzy, c-format
 #| msgid "nothing after colon in version number"
@@ -1242,6 +1451,11 @@ msgstr ""
 
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
+msgstr ""
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
 msgstr ""
 
 #: lib/dpkg/pkg-show.c
@@ -1560,11 +1774,6 @@ msgstr "viga toru `%.255s' loomisel"
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "viga seadme `%.255s' loomisel"
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "viga viida `%.255s' loomisel"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2091,6 +2300,10 @@ msgid "conffile difference visualizer"
 msgstr ""
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "Kui valmis saad, sisesta `exit'.\n"
 
@@ -2454,6 +2667,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2469,6 +2683,12 @@ msgid ""
 "When removing, --package or --local and --divert must match if specified.\n"
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
+msgstr ""
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
 msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
@@ -2599,6 +2819,13 @@ msgstr ""
 "pole paigaldatud.\n"
 
 #: src/divertcmd.c
+#, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
 #, fuzzy, c-format
 #| msgid "No diversion `%s', none removed"
 msgid "No diversion '%s', none removed.\n"
@@ -2639,19 +2866,6 @@ msgstr "pakk ei tohi sisaldada reavahetusi"
 
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
-msgstr ""
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "tõrge diversioonifaili avamisel"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr ""
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
 msgstr ""
 
 #: src/enquiry.c
@@ -2932,111 +3146,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr ""
 
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package `%.250s' contains empty filename"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "paki `%.250s' failide nimekirja pole võimalik avada"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "paki `%.250s' failide nimekirja pole võimalik avada"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "faili %s pole võimalik asukohale %s paigaldada: %s"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "viga paki `%.250s' failide nimekirja sulgemisel"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "paki `%.250s' failide nimekirja pole võimalik avada"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"dpkg: tõsine hoiatus: pakil `%.250s' puudub failide nimekiri, oletatavalt "
-"pole pakil praegu ühtegi faili paigaldatud.\n"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "paki `%.250s' failide nimekirja pole võimalik avada"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "files list for package `%.250s'"
-msgid "reading files list for package '%.250s'"
-msgstr "paki `%.250s' failide nimekiri"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "viga paki `%.250s' failide nimekirja sulgemisel"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(Andmebaasi lugemine ... "
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "%d files and directories currently installed.)\n"
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "hetkel on paigaldatud %d faili ja kataloogi.)\n"
-msgstr[1] "hetkel on paigaldatud %d faili ja kataloogi.)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr ""
@@ -3093,41 +3202,6 @@ msgstr[1] "dpkg: %s ei leitud.\n"
 msgid ""
 "Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin"
 msgstr ""
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "`%.250s' olemasolu pole võimalik kontrollida"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "andmekataloogi pole võimalik lugeda"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr ""
-
-#: src/infodb-format.c
-#, fuzzy, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "lähtefaili `%.250s' pole võimalik avada"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
-msgstr ""
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "error writing `%s'"
-msgid "error while writing '%s'"
-msgstr "viga `%s' kirjutamisel"
 
 #: src/main.c
 #, c-format
@@ -3757,6 +3831,10 @@ msgid "Description"
 msgstr "Kirjeldus"
 
 #: src/querycmd.c
+msgid "showing package list on pager"
+msgstr ""
+
+#: src/querycmd.c
 #, fuzzy, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "paki %s diversioonid"
@@ -3793,6 +3871,16 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "Pakk `%s' pole paigaldatud ja andmeid pole saadaval.\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"Arhiivifaili vaatamiseks kasuta dpkg --info (= dpkg-deb --info),\n"
+"ja selle sisu vaatamiseks kasuta dpkg --contents (= dpkg-deb --contents).\n"
+
+#: src/querycmd.c
 #, fuzzy, c-format
 #| msgid "Package `%s' is not available.\n"
 msgid "package '%s' is not available"
@@ -3819,9 +3907,12 @@ msgid "diverted by %s to: %s\n"
 msgstr ""
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "Arhiivifaili vaatamiseks kasuta dpkg --info (= dpkg-deb --info),\n"
 "ja selle sisu vaatamiseks kasuta dpkg --contents (= dpkg-deb --contents).\n"
@@ -3869,16 +3960,16 @@ msgstr "Debiani pakihaldusprogrammi `%s' versioon %s.\n"
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4279,68 +4370,6 @@ msgstr ""
 msgid "--update is useless for --remove"
 msgstr "hoiatus: --update on --remove puhul kasutu"
 
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "invalid statoverride uid %s"
-msgstr "lähtefaili `%.250s' pole võimalik avada"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "invalid statoverride gid %s"
-msgstr "lähtefaili `%.250s' pole võimalik avada"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "invalid statoverride mode %s"
-msgstr "lähtefaili `%.250s' pole võimalik avada"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr ""
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr ""
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "reading statoverride file '%.250s'"
-msgstr "lähtefaili `%.250s' pole võimalik avada"
-
-#: src/statdb.c
-#, fuzzy
-msgid "statoverride file is missing final newline"
-msgstr "enne välja `%.*s' väärtust on faililõputunnus (puudub lõpu reavahetus)"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr ""
-
-#: src/statdb.c
-#, fuzzy
-msgid "syntax error in statoverride file"
-msgstr "viga seadistusfaili `%.255s' lugemisel"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "viga seadistusfaili `%.255s' lugemisel"
-
-#: src/statdb.c
-#, fuzzy
-msgid "unexpected end of line in statoverride file"
-msgstr "ootamatu realõpp pakinimes real %d"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "viga seadistusfaili `%.255s' lugemisel"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "lähtefaili `%.250s' pole võimalik avada"
-
 #: src/trigcmd.c
 #, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
@@ -4550,6 +4579,12 @@ msgstr ""
 #, fuzzy, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "Paki %s eemaldamine...\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "conffile file contains an empty line"
+msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
 
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5079,16 +5114,18 @@ msgid "decompressing archive member"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "tõrge kataloogi aktiveerimisel (chdir)"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "tõrge kataloogi loomisel"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "tõrge kataloogi aktiveerimisel (chdir) pärast selle loomist"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "ootamatu faililõpp pakinimes real %d"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "tõrge kataloogi aktiveerimisel (chdir)"
 
 #: dpkg-deb/extract.c
 #, fuzzy
@@ -6362,6 +6399,43 @@ msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
 #, fuzzy
+#~| msgid "unable to open files list file for package `%.250s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "paki `%.250s' failide nimekirja pole võimalik avada"
+
+#, fuzzy
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr "paki `%.250s' failide nimekirja pole võimalik avada"
+
+#, fuzzy
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
+
+#, fuzzy
+#~| msgid "error closing files list file for package `%.250s'"
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "viga paki `%.250s' failide nimekirja sulgemisel"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr "paki `%.250s' failide nimekirja pole võimalik avada"
+
+#, fuzzy
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr "paki `%.250s' failide nimekirja pole võimalik avada"
+
+#, fuzzy
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr "paki `%.250s' failide nimekiri sisaldab tühja failinime"
+
+#, fuzzy
+#~| msgid "files list for package `%.250s'"
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "paki `%.250s' failide nimekiri"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "tõrge kataloogi aktiveerimisel (chdir) pärast selle loomist"
+
+#, fuzzy
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "Hoiatus: aegunud võti `--%s'\n"
 
@@ -6433,9 +6507,6 @@ msgstr ""
 
 #~ msgid "unknown option `%s'"
 #~ msgstr "tundmatu võti `%s'"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "ootamatu faililõpp pakinimes real %d"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "ootamatu faililõpp peale pakinime real %d"
@@ -6672,11 +6743,6 @@ msgstr ""
 #~ "Autoriõigused (C) 2000,2001 Wichert Akkerman."
 
 #, fuzzy
-#~| msgid "unable to read %s: %s"
-#~ msgid "cannot stat %s: %s"
-#~ msgstr "faili `%s' pole võimalik lugeda: %s"
-
-#, fuzzy
 #~| msgid "%s: copying %s to %s failed, giving up: %s"
 #~ msgid "scan of %s failed: %s"
 #~ msgstr "%s: tõrge %s kopeerimisel kataloogi %s, annan alla: %s"
@@ -6701,11 +6767,6 @@ msgstr ""
 
 #~ msgid "unable to close %s: %s"
 #~ msgstr "faili %s pole võimalik sulgeda: %s"
-
-#, fuzzy
-#~| msgid "unable to write %s: %s"
-#~ msgid "cannot write %s: %s"
-#~ msgstr "faili %s pole võimalik kirjutada: %s"
 
 #, fuzzy
 #~ msgid "unable to rename file '%s' to '%s'"

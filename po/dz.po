@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: Tshewang Norbu <bumthap2006@hotmail.com>\n"
 "Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
@@ -150,7 +150,8 @@ msgstr "ཁ་སྒྱུར་རྙིངམ་-རྙིངམ་ རྩ་�
 msgid "error creating new backup file '%s'"
 msgstr "རྒྱུད་དུང་ `%.255s' གསར་བསྐུན་འབདཝ་ད་འཛོལ་བ།"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "`%.250s' རྩ་བསྐྲད་གཏང་མི་ཚུགས།"
@@ -380,12 +381,22 @@ msgid "unable to open lock file %s for testing"
 msgstr "vsnprintf གི་དོན་ལུ་ ཊི་ཨེམ་པི་ཡིག་སྣོད་ ཁ་ཕྱེ་མ་ཚུགས།"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr "གནས་ཚད་གནད་སྡུད་ཀྱི་གཞི་རྟེན་ལྡེ་མིག་ཡིག་སྣོད་ ཁ་ཕྱེ་/གསར་བསྐྲུན་འབད་མ་ཚུགས།"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "གནས་ཚད་གནད་སྡུད་ཀྱི་གཞི་རྟེན་ལྡེ་མིག་ཡིག་སྣོད་ ཁ་ཕྱེ་/གསར་བསྐྲུན་འབད་མ་ཚུགས།"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "ཁྱོད་ལུ་ཌི་པི་ཀེ་ཇི་གནས་ཚད་གནད་སྡུད་གཞི་རྟེན་ལྡེ་མིག་རྐྱབས་ནིའི་གནང་བ་མེད།"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy
@@ -440,6 +451,189 @@ msgstr " `%.250s' གི་དུས་མཐུན་བཟོ་ཡོད་�
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr " `%.250s' གི་དུས་མཐུན་བཟོ་ཡོད་པའི་གནས་ཚད་ཀྱི་དོན་ལུ་ གཞི་བཙུགས་འབད་མ་ཚུགས།"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "`%.250s' གི་གནས་ས་ཞིབ་དཔྱད་འབད་མ་ཚུགས།"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "བརྡ་དོན་སྣོད་ཐོ་ལྷག་མི་ཚུགས།"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "%.250s ཁ་ཕྱེ་ནིའ་འབད་རྩོལ་བསྐྱེདཔ་ད་འཛོལ་བ།"
+
+#: lib/dpkg/db-ctrl-format.c
+#, fuzzy, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "conffile `%.250s' does not appear in package"
+msgid "info file %s/%s not associated to any package"
+msgstr "ཀཱོན་ཕ་ཡིལ་`%.250s' འདི་ ཐུམ་སྒྲིལ་ནང་མི་འབྱུང་།"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "ཧརཌི་ལིངཀ་ `%.255s' གསར་བསྐྲུན་འབདཝ་ད་འཛོལ་བ།"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "error writing `%s'"
+msgid "error while writing '%s'"
+msgstr "`%s' འབྲིཝ་ད་འཛོལ་བ།"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+msgid "loading control file '%s' for package '%s'"
+msgstr "རིམ་སྒྲིག་ཡིག་སྣོད་ སྣོད་ཐོ་`%.250s'(`%.250s' ལས་)ལྷག་མ་ཚུགས།"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "ཁ་སྒྱུར་ཡིག་སྣོད་ཁ་ཕྱེ་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "ཁ་སྒྱུར་ཡིག་སྣོད་ཨེཕ་སི་ཊེཊི་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོད།"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "`%.250s' ཡང་ན་ `%.250s' འབྲེལ་བ་ཡོད་མི་མི་མཐུན་པའི་ཁ་སྒྱུར་ཚུ།"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་བསྡམ་ད་འཛོལ་བ།"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"dpkg: འཚུབ་ཅན་ཉེན་བརྡ་: ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་བརླག་སྟོར་ཞུགས་"
+"ནུག་ ཐུམ་སྒྲིལ་ལུ་ད་ལྟོ་གཞི་བཙུགས་འབད་མི་ཡིག་སྣོད་ཚུ་མེདཔ་སྦེ་ཚོད་དཔག་སྟེ།\n"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(གནད་སྡུད་གཞི་རྟེན་ལྷག་དོ་..."
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "%d files and directories currently installed.)\n"
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "%d ཡིག་སྣོད་ཚུ་དང་སྣོད་ཐོ་ཚུ་ད་ལྟོ་གཞི་བཙུགས་འབད་ཡོད།)\n"
+msgstr[1] "%d ཡིག་སྣོད་ཚུ་དང་སྣོད་ཐོ་ཚུ་ད་ལྟོ་གཞི་བཙུགས་འབད་ཡོད།)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "invalid statoverride uid %s"
+msgstr "ནུས་མེད་དུས་མཐུནམ་བཟོ་ནི་ཐབས་ལམ"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "dpkg-statoverride: %s"
+msgid "invalid statoverride gid %s"
+msgstr "ཌི་པི་ཀེ་ཇི་-སི་ཊེཊི་ཟུར་བཞག: %s"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "dpkg-statoverride: %s"
+msgid "invalid statoverride mode %s"
+msgstr "ཌི་པི་ཀེ་ཇི་-སི་ཊེཊི་ཟུར་བཞག: %s"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཁ་ཕྱེ་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཨེཕ་སི་ཊེཊི་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོད།"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "reading statoverride file '%.250s'"
+msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ `%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy
+msgid "statoverride file is missing final newline"
+msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཀྱི་ནང་ན་གྲལ་ཐིག་སྟོངམ་འདུག"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཀྱི་ནང་ན་གྲལ་ཐིག་སྟོངམ་འདུག"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy
+msgid "syntax error in statoverride file"
+msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཁ་ཕྱེ་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "unknown user '%s' in statoverride file"
+msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཁ་ཕྱེ་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy
+msgid "unexpected end of line in statoverride file"
+msgstr "གྲལ་ཐིག་ %d གུ་ལུ་ཐུམ་སྒྲིལ་མིང་ནང་ལུ་རེ་བ་མེད་པའི་གྲལ་ཐིག་གི་མཇུག"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "unknown group '%s' in statoverride file"
+msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཁ་ཕྱེ་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ `%.250s'"
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
@@ -592,23 +786,27 @@ msgid "invalid package name (%.250s)"
 msgstr "ནུས་མེད་ཐུམ་སྒྲིལ་མིང་ (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "ཡིག་སྣོད་སྟོངམ་རྒྱས་བཤད་ས་སྒོ་ `%s'"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "ཡིག་སྣོད་རྒྱས་བཤད་ས་སྒོ་ `%s' གནས་ཚད་ཡིག་སྣོད་ནང་ལུ་མི་ཆོག"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr "ཡིག་སྣོད་རྒྱས་བཤད་ཀྱི་ས་སྒོ་ `%s' ནང་ལུ་གནས་གོང་ལེ་ཤ་ (གཞན་མི་ཚུ་ལུ་ག་བསྡུར་རྐྱབས་ད)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr "ཡིག་སྣོད་རྒྱས་བཤད་ཀྱི་ས་སྒོ་ `%s' ནང་ལུ་གནས་གོང་ཉུང་སུ་(གཞན་མི་ཚུ་ལུ་ག་བསྡུར་རྐྱབས་ད)"
 
 #: lib/dpkg/fields.c
@@ -817,6 +1015,29 @@ msgstr "གྱང་ཚད་རིམ་སྒྲིག་ཡིག་སྣོ
 
 #: lib/dpkg/file.c
 #, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "cannot stat %s"
+msgstr "མིང་རྙིངམ་ `%s' སི་ཊེཊི་འབད་མ་ཚུགས: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+msgid "%s is not a regular file"
+msgstr "ཉེན་བརྡ་ ཀཱོནཕ་ཕ་ཡིལ་ `%s' འདི་ཉག་རྐྱང་ཡིག་སྣོད་མེན།\n"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "write %s: %s"
+msgid "cannot read %s"
+msgstr "%s: %s འབྲི།"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "%s: can't open %s: %s"
+msgid "cannot open %s"
+msgstr "%s: %s ཁ་ཕྱེ་མི་ཚུགས་: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
 #| msgid "unable to unlock %s: %s"
 msgid "unable to unlock %s"
 msgstr "ཁ་བསྡམ་མ་ཚུགས་ %s: %s"
@@ -839,8 +1060,9 @@ msgid "unable to lock %s"
 msgstr "ཁ་བསྡམ་མ་ཚུགས་ %s: %s"
 
 #: lib/dpkg/file.c
-msgid "showing file on pager"
-msgstr ""
+#, fuzzy
+msgid "pager to show file"
+msgstr "vsnprintf ནང་ ངོས་སྙོམ་མ་ཚུགས།"
 
 #: lib/dpkg/log.c
 #, fuzzy, c-format
@@ -864,13 +1086,13 @@ msgstr "སྣོད་ཐོ་གསར་བསྐྲུན་འབད་ན
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "std%s གི་དོན་ལུ་ཌུཔ་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
+msgid "failed to dup for fd %d"
+msgstr "fd %d གི་དོན་ལུ་ཌུཔ་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "fd %d གི་དོན་ལུ་ཌུཔ་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
+msgid "failed to dup for std%s"
+msgstr "std%s གི་དོན་ལུ་ཌུཔ་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1269,11 +1491,6 @@ msgstr "`%.255s' གསར་བསྐྲུན་འབད་མ་ཚུགས
 msgid "rm command for cleanup"
 msgstr ""
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr ""
-
 #: lib/dpkg/pkg-format.c
 #, fuzzy, c-format
 #| msgid "invalid character `%c' in field width\n"
@@ -1289,6 +1506,11 @@ msgstr ""
 #| msgid "missing altname"
 msgid "missing closing brace"
 msgstr "བརླག་སྟོར་ཞུགས་ཡོད་པའི་གདམ་ལྡེ་མིང་།"
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
+msgstr ""
 
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
@@ -1609,11 +1831,6 @@ msgstr "རྒྱུད་དུང་ `%.255s' གསར་བསྐུན་�
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "ཐབས་འཕྲུལ་ `%.255s' གསར་བསྐྲུན་འབདཝ་ད་འཛོལ་བ།"
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "ཧརཌི་ལིངཀ་ `%.255s' གསར་བསྐྲུན་འབདཝ་ད་འཛོལ་བ།"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2159,6 +2376,10 @@ msgid "conffile difference visualizer"
 msgstr ""
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "ཁྱོད་འབད་ཚར་བའི་སྐབས་ `exit' ཡིག་དཔར་རྐྱབས།\n"
 
@@ -2537,6 +2758,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2578,6 +2800,12 @@ msgid ""
 "When removing, --package or --local and --divert must match if specified.\n"
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
+msgstr ""
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
 msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
@@ -2712,6 +2940,13 @@ msgstr ""
 "དོ།\n"
 
 #: src/divertcmd.c
+#, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
 #, fuzzy, c-format
 #| msgid "No diversion `%s', none removed"
 msgid "No diversion '%s', none removed.\n"
@@ -2759,19 +2994,6 @@ msgstr "ཐུམ་སྒྲིལ་ལུ་གྲལ་ཐིག་གསར
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "ལུ་-ཁ་ཕྱོགས་སྒྱུར་བ་འདི་ནང་ལུ་གྲལ་ཐིག་གསརཔ་ཚུ་མེདཔ་འོང་།"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "ཁ་སྒྱུར་ཡིག་སྣོད་ཁ་ཕྱེ་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "ཁ་སྒྱུར་ཡིག་སྣོད་ཨེཕ་སི་ཊེཊི་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོད།"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "`%.250s' ཡང་ན་ `%.250s' འབྲེལ་བ་ཡོད་མི་མི་མཐུན་པའི་ཁ་སྒྱུར་ཚུ།"
 
 #: src/enquiry.c
 msgid ""
@@ -3080,112 +3302,6 @@ msgstr ""
 "ནུག:\n"
 " "
 
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package `%.250s' contains empty filename"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "རིམ་སྒྲིག་ཡིག་སྣོད་ སྣོད་ཐོ་`%.250s'(`%.250s' ལས་)ལྷག་མ་ཚུགས།"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་བསྡམ་ད་འཛོལ་བ།"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"dpkg: འཚུབ་ཅན་ཉེན་བརྡ་: ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་བརླག་སྟོར་ཞུགས་"
-"ནུག་ ཐུམ་སྒྲིལ་ལུ་ད་ལྟོ་གཞི་བཙུགས་འབད་མི་ཡིག་སྣོད་ཚུ་མེདཔ་སྦེ་ཚོད་དཔག་སྟེ།\n"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "files list for package `%.250s'"
-msgid "reading files list for package '%.250s'"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་བསྡམ་ད་འཛོལ་བ།"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(གནད་སྡུད་གཞི་རྟེན་ལྷག་དོ་..."
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "%d files and directories currently installed.)\n"
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "%d ཡིག་སྣོད་ཚུ་དང་སྣོད་ཐོ་ཚུ་ད་ལྟོ་གཞི་བཙུགས་འབད་ཡོད།)\n"
-msgstr[1] "%d ཡིག་སྣོད་ཚུ་དང་སྣོད་ཐོ་ཚུ་ད་ལྟོ་གཞི་བཙུགས་འབད་ཡོད།)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "གཞི་བཙུགས་མ་འབད་བས།"
@@ -3247,42 +3363,6 @@ msgid ""
 msgstr ""
 "%d གིས་འགྲུལ་ལམ་གུ་མ་འཐོབ་མི་ལས་རིམ་(ཚུ་)རེ་བ་བསྐྱེད་ནུག\n"
 "ཨེན་བི: རྩ་བའི་འགྲུལ་ལམ་འདི་གི་ནང་ན་/usr/local/sbin, /usr/sbin དང་ /sbin འོང་དགོ"
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "`%.250s' གི་གནས་ས་ཞིབ་དཔྱད་འབད་མ་ཚུགས།"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "བརྡ་དོན་སྣོད་ཐོ་ལྷག་མི་ཚུགས།"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "%.250s ཁ་ཕྱེ་ནིའ་འབད་རྩོལ་བསྐྱེདཔ་ད་འཛོལ་བ།"
-
-#: src/infodb-format.c
-#, fuzzy, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "འབྱུང་ཁུངས་ཡིག་སྣོད་ `%.250s' ཁ་ཕྱེ་མ་ཚུགས།"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "conffile `%.250s' does not appear in package"
-msgid "info file %s/%s not associated to any package"
-msgstr "ཀཱོན་ཕ་ཡིལ་`%.250s' འདི་ ཐུམ་སྒྲིལ་ནང་མི་འབྱུང་།"
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "error writing `%s'"
-msgid "error while writing '%s'"
-msgstr "`%s' འབྲིཝ་ད་འཛོལ་བ།"
 
 #: src/main.c
 #, c-format
@@ -3983,6 +4063,10 @@ msgid "Description"
 msgstr "འགྲེལ་བཤད།"
 
 #: src/querycmd.c
+msgid "showing package list on pager"
+msgstr ""
+
+#: src/querycmd.c
 #, fuzzy, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "%s གིས་ : %s ལུ་ཁ་ཕྱོགས་སྒྱུར་ཡོདཔ་\n"
@@ -4019,6 +4103,18 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "ཐུམ་སྒྲིལ་ `%s' འདི་གཞི་བཙུགས་མ་འབད་བས་ དེ་ལས་ བརྡ་དོན་ཚུ་འཐོབ་ཚུགསཔ་མེད།\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"dpkg --བརྡ་དོན་(= dpkg-deb --བརྡ་དོན་) འདི་ ཡིག་མཛོད་ཡིག་སྣོད་ཚུ་བརྟག་དཔྱད་འབད་ནིའི་དོན་ལས་"
+"ལག་ལེན་འཐབ།\n"
+"དེ་ལས་  dpkg -- ནང་དོན་ཚུ་ (= dpkg-deb --ནང་དོན་ཚུ་) འདི་དེའི་ནང་དོན་ཛཚུ་ཐོ་བཀོད་འབད་ནིའི་"
+"དོན་ལས་ཐོ་བཀོད་འབད།\n"
+
+#: src/querycmd.c
 #, fuzzy, c-format
 #| msgid "Package `%s' is not available.\n"
 msgid "package '%s' is not available"
@@ -4045,9 +4141,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "%s གིས་ : %s ལུ་ཁ་ཕྱོགས་སྒྱུར་ཡོདཔ་\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "dpkg --བརྡ་དོན་(= dpkg-deb --བརྡ་དོན་) འདི་ ཡིག་མཛོད་ཡིག་སྣོད་ཚུ་བརྟག་དཔྱད་འབད་ནིའི་དོན་ལས་"
 "ལག་ལེན་འཐབ།\n"
@@ -4097,16 +4196,16 @@ msgstr "ཌི་བི་ཡཱན་ `%s' ཐུམ་སྒྲིལ་འཛ
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4536,71 +4635,6 @@ msgstr "ཟུར་བཞག་གཅིག་ཡང་མེད།"
 msgid "--update is useless for --remove"
 msgstr "ཉེན་བརྡ: --དུས་མཐུན་འདི་ --རྩ་བསྐྲད་ཀྱི་དོན་ལུ་ཁུངས་མེདཔ་ཨིན།"
 
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "invalid statoverride uid %s"
-msgstr "ནུས་མེད་དུས་མཐུནམ་བཟོ་ནི་ཐབས་ལམ"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "dpkg-statoverride: %s"
-msgid "invalid statoverride gid %s"
-msgstr "ཌི་པི་ཀེ་ཇི་-སི་ཊེཊི་ཟུར་བཞག: %s"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "dpkg-statoverride: %s"
-msgid "invalid statoverride mode %s"
-msgstr "ཌི་པི་ཀེ་ཇི་-སི་ཊེཊི་ཟུར་བཞག: %s"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཁ་ཕྱེ་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཨེཕ་སི་ཊེཊི་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོད།"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "reading statoverride file '%.250s'"
-msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ `%.250s'"
-
-#: src/statdb.c
-#, fuzzy
-msgid "statoverride file is missing final newline"
-msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཀྱི་ནང་ན་གྲལ་ཐིག་སྟོངམ་འདུག"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཀྱི་ནང་ན་གྲལ་ཐིག་སྟོངམ་འདུག"
-
-#: src/statdb.c
-#, fuzzy
-msgid "syntax error in statoverride file"
-msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཁ་ཕྱེ་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཁ་ཕྱེ་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
-
-#: src/statdb.c
-#, fuzzy
-msgid "unexpected end of line in statoverride file"
-msgstr "གྲལ་ཐིག་ %d གུ་ལུ་ཐུམ་སྒྲིལ་མིང་ནང་ལུ་རེ་བ་མེད་པའི་གྲལ་ཐིག་གི་མཇུག"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཁ་ཕྱེ་ནི་འཐུས་ཤོར་བྱུང་ཡོད།"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ `%.250s'"
-
 #: src/trigcmd.c
 #, fuzzy
 msgid "Type dpkg-trigger --help for help about this utility."
@@ -4834,6 +4868,12 @@ msgstr "%s རིམ་སྒྲིག་མ་བཟོ་  %s རྩ་བས�
 #, fuzzy, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "%s རྩ་བསྐྲད་གཏང་དོ་...\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "སི་ཊེཊི་ཟུར་བཞག་ཡིག་སྣོད་ཀྱི་ནང་ན་གྲལ་ཐིག་སྟོངམ་འདུག"
 
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5387,16 +5427,18 @@ msgid "decompressing archive member"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "སྣོད་ཐོ་ལུ་སི་ཨེཆ་ཌི་ཨའི་ཨར་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "སྣོད་ཐོ་གསར་བསྐྲུན་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "དེ་གསར་བསྐྲུན་འབད་བའི་ཤུལ་ལས་སྣོད་ཐོ་ལུ་སི་ཨེཆ་ཌི་ཨའི་ཨར་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "གྲལ་ཐིག་ %d གུ་ཐུམ་སྒྲིལ་མིང་ནང་ལུ་རེབ་མེད་པའི་ཨི་ཨོ་ཨེཕ།"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "སྣོད་ཐོ་ལུ་སི་ཨེཆ་ཌི་ཨའི་ཨར་འབད་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
 
 #: dpkg-deb/extract.c
 #, fuzzy
@@ -6792,6 +6834,43 @@ msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
 #, fuzzy
+#~| msgid "unable to open files list file for package `%.250s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
+
+#, fuzzy
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
+
+#, fuzzy
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#, fuzzy
+#~| msgid "error closing files list file for package `%.250s'"
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་བསྡམ་ད་འཛོལ་བ།"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
+
+#, fuzzy
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་ཡིག་སྣོད་ཁ་ཕྱེ་མ་ཚུགས།"
+
+#, fuzzy
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག་སྣོད་ཀྱི་ནང་ན་ཡིག་སྣོད་མིང་སྟོངམ་འདུག"
+
+#, fuzzy
+#~| msgid "files list for package `%.250s'"
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "ཐུམ་སྒྲིལ་ `%.250s' གི་དོན་ལུ་ཡིག་སྣོད་ཚུའི་ཐོ་ཡིག"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "དེ་གསར་བསྐྲུན་འབད་བའི་ཤུལ་ལས་སྣོད་ཐོ་ལུ་སི་ཨེཆ་ཌི་ཨའི་ཨར་འབད་ནི་ལུ་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
+
+#, fuzzy
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "ཉེན་བརྡ་:ཕན་མེད་གདམ་ཁ་ `--%s'\n"
 
@@ -6874,9 +6953,6 @@ msgstr ""
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "རིམ་སྒྲིག་ཡིག་སྣོད་ནུས་སྤེལ་ལུའི་ཨེསི་ཊི་ཌི་ཨིན་གུ་ཨི་ཨོ་ཨེཕ།"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "གྲལ་ཐིག་ %d གུ་ཐུམ་སྒྲིལ་མིང་ནང་ལུ་རེབ་མེད་པའི་ཨི་ཨོ་ཨེཕ།"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "གྲལ་ཐིག་ %d གུ་ལུ་ཐུམ་སྒྲིལ་མིང་གི་ཤུལ་ལས་རེ་བ་མེད་པའི་ཨི་ཨོ་ཨེཕ།"
@@ -7178,11 +7254,6 @@ msgstr ""
 #~ msgstr "བྲན་གཡོག་ %s: %s"
 
 #, fuzzy
-#~| msgid "cannot stat old name `%s': %s"
-#~ msgid "cannot stat %s: %s"
-#~ msgstr "མིང་རྙིངམ་ `%s' སི་ཊེཊི་འབད་མ་ཚུགས: %s"
-
-#, fuzzy
 #~| msgid "%s: copying %s to %s failed, giving up: %s"
 #~ msgid "scan of %s failed: %s"
 #~ msgstr "%s: %s འདི་ %s ལུ་འདྲ་བཤུས་རྐྱབས་ནི་འཐུས་ཤོར་འབྱུང་ཡོད། བཀོག་བཞག་དོ: %s "
@@ -7207,11 +7278,6 @@ msgstr ""
 
 #~ msgid "unable to close %s: %s"
 #~ msgstr "%s ཁ་བསྡམ་མ་ཚུགས་: %s"
-
-#, fuzzy
-#~| msgid "write %s: %s"
-#~ msgid "cannot write %s: %s"
-#~ msgstr "%s: %s འབྲི།"
 
 #, fuzzy
 #~| msgid "unable to rename %s to %s: %s"

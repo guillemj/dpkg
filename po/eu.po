@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
@@ -138,7 +138,8 @@ msgstr "errorea '%s' babeskopia zaharra kentzean"
 msgid "error creating new backup file '%s'"
 msgstr "errorea '%s' babeskopia berria sortzean"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "ezin da '%.250s' kendu"
@@ -348,12 +349,22 @@ msgid "unable to open lock file %s for testing"
 msgstr "ezin da blokeoaren %s fitxategia ireki probatzeko"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr "ezin da ireki/sortu egoeraren datu-basea blokeatzeko fitxategia"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "ezin da ireki/sortu egoeraren datu-basea blokeatzeko fitxategia"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "ez duzu baimenik dpkg egoeraren datu-basea blokeatzeko"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg status database"
@@ -405,6 +416,193 @@ msgstr "ezin da egoera eguneratua itxi - '%.250s'"
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "ezin da egoera eguneratua instalatu - '%.250s'"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "ezin da '%.250s' badagoen begiratu"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "ezin da informazio-direktorioan irakurri"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "errorea %.250s irekitzen saiatzean"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "informazioaren datu-basearen '%s' formatu-fitxategia hondatuta"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+"informazioaren datu-basearen formatua (%d) akastuna edo berriegia da: saiatu "
+"dpkg berrigoa lortzen"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "info file %s/%s not associated to any package"
+msgstr "informazioaren %s/%s fitxategia ez dago inolako paketerekin esleituta"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "errorea '%.255s' esteka gogorra sortzean"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, c-format
+msgid "error while writing '%s'"
+msgstr "errorea '%s' idaztean"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr ""
+"'%2$s' paketearen '%1$s' kontrol-fitxategiak amaierako lerro-jauzia falta du"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr ""
+"'%2$s' paketearen '%1$s' kontrol-fitxategiak amaierako lerro-jauzia falta du"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "control file '%s' for package '%s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr ""
+"'%2$s' paketearen '%1$s' kontrol-fitxategiak amaierako lerro-jauzia falta du"
+
+#: lib/dpkg/db-fsys-digest.c
+#, c-format
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr ""
+"'%2$s' paketearen '%1$s' kontrol-fitxategiak fitxategi-izen hutsa dauka"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read '%s' control file for package '%s'"
+msgid "loading control file '%s' for package '%s'"
+msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategia irakurri"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "huts egin du desbideratzeen fitxategia irekitzean"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "fstat-ek huts egin du desbideratzeen fitxategiarekin"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "desbideratze gatazkatsuak: '%.250s' edo '%.250s'"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr "errorea '%.250s' paketearen fitxategi-zerrendaren fitxategiak ixtean"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"'%.250s' paketearen fitxategi-zerrendaren fitxategiak falta dira, paketeak "
+"ez duela fitxategirik instalatuta ondorioztatuko da"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr ""
+"'%.250s' paketearen fitxategi-zerrendak amaierako lerro-jauzia falta du"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr ""
+"'%.250s' paketearen fitxategi-zerrendaren fitxategiak fitxategiek izen hutsa "
+"daukate"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(Datu-basea irakurtzen ... "
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "fitxategi edo direktorio %d dago unean instalatuta).\n"
+msgstr[1] "%d fitxategi edo direktorio daude unean instalatuta).\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "invalid status"
+msgid "invalid statoverride uid %s"
+msgstr "egoera baliogabea"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "reading statoverride file '%.250s'"
+msgid "invalid statoverride gid %s"
+msgstr "'%.250s' statoverride fitxategia irakurtzen"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "reading statoverride file '%.250s'"
+msgid "invalid statoverride mode %s"
+msgstr "'%.250s' statoverride fitxategia irakurtzen"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "huts egin du statoverride fitxategia irekitzean"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "fstat-ek huts egin du statoverride fitxategiarekin"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "reading statoverride file '%.250s'"
+msgstr "'%.250s' statoverride fitxategia irakurtzen"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file is missing final newline"
+msgstr "statoverride fitxategiak amaierako lerro-jauzia falta du"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "statoverride fitxategiak lerro huts bat dauka"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "syntax error in statoverride file"
+msgstr "sintaxi-errorea statoverride fitxategian"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown user '%s' in statoverride file"
+msgstr "'%s' erabiltzaile ezezaguna statoverride fitxategian"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "unexpected end of line in statoverride file"
+msgstr "ustekabeko lerro-amaiera statoverride fitxategian"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "unknown group '%s' in statoverride file"
+msgstr "'%s' talde ezezaguna statoverride fitxategian"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "hainbat statoverrides daude '%.250s' fitxategian"
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
@@ -563,25 +761,29 @@ msgid "invalid package name (%.250s)"
 msgstr "paketearen izena baliogabea (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "fitxategiaren xehetasunen '%s' eremua hutsik dago"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr ""
 "fitxategiaren xehetasunen '%s' eremua ez da onartzen egoeraren fitxategian"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr ""
 "fitxategiaren xehetasunen '%s' eremuan balio gehiegi (beste batzuen aldean)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr ""
 "fitxategiaren xehetasunen '%s' eremuan balio gutxiegi (beste batzuen aldean)"
 
@@ -779,6 +981,30 @@ msgid "unable to set mode of target file '%.250s'"
 msgstr "ezin da helburuko '%.250s' fitxategiaren modua ezarri"
 
 #: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot stat %s: %s"
+msgid "cannot stat %s"
+msgstr "ezin da '%s' atzitu: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "%s is not a regular file"
+msgstr "'%s' konfigurazioko fitxategia ez da fitxategi arrunta"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot write %s: %s"
+msgid "cannot read %s"
+msgstr "ezin da %s idatzi: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to '%s'"
+msgid "cannot open %s"
+msgstr "ezin zaio '%s'(r)i erantsi"
+
+#: lib/dpkg/file.c
 #, c-format
 msgid "unable to unlock %s"
 msgstr "ezin da '%s' desblokeatu"
@@ -799,8 +1025,10 @@ msgid "unable to lock %s"
 msgstr "ezin da '%s' blokeatu"
 
 #: lib/dpkg/file.c
-msgid "showing file on pager"
-msgstr "fitxategia orrikatzailean erakusten"
+#, fuzzy
+#| msgid "unable to flush file '%s'"
+msgid "pager to show file"
+msgstr "ezin da '%s' fitxategia garbitu"
 
 #: lib/dpkg/log.c
 #, c-format
@@ -822,13 +1050,13 @@ msgstr "huts egin du memoria esleitzean"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "std%s: huts egin du 'dup' egitean"
+msgid "failed to dup for fd %d"
+msgstr "fd %d: huts egin du 'dup' egitean"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "fd %d: huts egin du 'dup' egitean"
+msgid "failed to dup for std%s"
+msgstr "std%s: huts egin du 'dup' egitean"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1226,13 +1454,6 @@ msgstr "ezin da '%.255s' segurtasunez kendu"
 msgid "rm command for cleanup"
 msgstr "rm komandoa garbitzeko"
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr ""
-"'%s' paketearen izena anbiguoa da instalatutako instantzia bat baino "
-"gehiagorekin"
-
 #: lib/dpkg/pkg-format.c
 #, c-format
 msgid "invalid character '%c' in field width"
@@ -1245,6 +1466,13 @@ msgstr "eremuaren zabalera barrutitik kanpo"
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
 msgstr "itxierako giltza falta da"
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
+msgstr ""
+"'%s' paketearen izena anbiguoa da instalatutako instantzia bat baino "
+"gehiagorekin"
 
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
@@ -1586,11 +1814,6 @@ msgstr "errorea '%.255s' kanalizazioa sortzean"
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "errorea '%.255s' gailua sortzean"
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "errorea '%.255s' esteka gogorra sortzean"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2101,6 +2324,10 @@ msgid "conffile difference visualizer"
 msgstr "konfigurazio-fitxategiaren diferentzien bistaratzailea"
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "Idatzi 'exit' amaitutakoan.\n"
 
@@ -2458,7 +2685,21 @@ msgstr ""
 "\n"
 
 #: src/divertcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --package <package>      name of the package whose copy of <file> will "
+#| "not\n"
+#| "                             be diverted.\n"
+#| "  --local                  all packages' versions are diverted.\n"
+#| "  --divert <divert-to>     the name used by other packages' versions.\n"
+#| "  --rename                 actually move the file aside (or back).\n"
+#| "  --admindir <directory>   set the directory with the diversions file.\n"
+#| "  --test                   don't do anything, just demonstrate.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --package <package>      name of the package whose copy of <file> will "
@@ -2467,6 +2708,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2504,6 +2746,12 @@ msgstr ""
 "bada.\n"
 "Pakete preinst/postrm script-ak beti zehaztu behar dituzte --package eta --"
 "divert.\n"
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
+msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2626,6 +2874,13 @@ msgstr ""
 
 #: src/divertcmd.c
 #, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
+#, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "Ez dago '%s' desbiderapenik, ez da ezabatuko\n"
 
@@ -2668,19 +2923,6 @@ msgstr "paketeak ezin du lerro-jauzirik berririk eduki"
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "'divert-to'-k ezin du lerro-jauzirik eduki"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "huts egin du desbideratzeen fitxategia irekitzean"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "fstat-ek huts egin du desbideratzeen fitxategiarekin"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "desbideratze gatazkatsuak: '%.250s' edo '%.250s'"
 
 #: src/enquiry.c
 msgid ""
@@ -2985,122 +3227,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "gainidazteko arazoa --force gaituta dagoelako:"
 
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr ""
-"'%2$s' paketearen '%1$s' kontrol-fitxategiak amaierako lerro-jauzia falta du"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr ""
-"'%2$s' paketearen '%1$s' kontrol-fitxategiak amaierako lerro-jauzia falta du"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "control file '%s' for package '%s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr ""
-"'%2$s' paketearen '%1$s' kontrol-fitxategiak amaierako lerro-jauzia falta du"
-
-#: src/filesdb-hash.c
-#, c-format
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr ""
-"'%2$s' paketearen '%1$s' kontrol-fitxategiak fitxategi-izen hutsa dauka"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot open '%s' control file for package '%s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategia ireki"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot stat '%s' control file for package '%s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategiaren egoera eskuratu"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "'%s' file for package '%s' is not a regular file"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "'%2$s' paketearen '%1$s' fitxategia ez da fitxategi arrunta"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read '%s' control file for package '%s'"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategia irakurri"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot close '%s' control file for package '%s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategia itxi"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "ezin dira '%.250s' paketearen fitxategi-zerrendaren fitxategiak ireki"
-
-#: src/filesdb.c
-#, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"'%.250s' paketearen fitxategi-zerrendaren fitxategiak falta dira, paketeak "
-"ez duela fitxategirik instalatuta ondorioztatuko da"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr ""
-"ezin da '%.250s' paketearen fitxategi-zerrendaren fitxategiaren egoera "
-"eskuratu"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "'%.250s' paketearen fitxategi-zerrenda ez da fitxategi arrunta"
-
-#: src/filesdb.c
-#, c-format
-msgid "reading files list for package '%.250s'"
-msgstr "'%.250s' paketearen fitxategi-zerrenda irakurtzen"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr ""
-"'%.250s' paketearen fitxategi-zerrendak amaierako lerro-jauzia falta du"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr ""
-"'%.250s' paketearen fitxategi-zerrendaren fitxategiak fitxategiek izen hutsa "
-"daukate"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "errorea '%.250s' paketearen fitxategi-zerrendaren fitxategiak ixtean"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(Datu-basea irakurtzen ... "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "fitxategi edo direktorio %d dago unean instalatuta).\n"
-msgstr[1] "%d fitxategi edo direktorio daude unean instalatuta).\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "instalatu gabe"
@@ -3165,42 +3291,6 @@ msgid ""
 msgstr ""
 "Oharra: supererabiltzailearen PATHak honakoak izan ohi ditu:\n"
 "/usr/local/sbin, /usr/sbin eta /sbin"
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "ezin da '%.250s' badagoen begiratu"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "ezin da informazio-direktorioan irakurri"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "errorea %.250s irekitzen saiatzean"
-
-#: src/infodb-format.c
-#, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "informazioaren datu-basearen '%s' formatu-fitxategia hondatuta"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-"informazioaren datu-basearen formatua (%d) akastuna edo berriegia da: saiatu "
-"dpkg berrigoa lortzen"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "info file %s/%s not associated to any package"
-msgstr "informazioaren %s/%s fitxategia ez dago inolako paketerekin esleituta"
-
-#: src/infodb-upgrade.c
-#, c-format
-msgid "error while writing '%s'"
-msgstr "errorea '%s' idaztean"
 
 #: src/main.c
 #, c-format
@@ -3970,6 +4060,12 @@ msgid "Description"
 msgstr "Azalpena"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid "showing file on pager"
+msgid "showing package list on pager"
+msgstr "fitxategia orrikatzailean erakusten"
+
+#: src/querycmd.c
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "%s(e)k hemendik desbideratuta: %s\n"
@@ -4004,6 +4100,16 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "'%s' paketea ez dago instalatuta, eta ez dago inf. erabilgarririk"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"Erabili dpkg --info (= dpkg-deb --info) artxibo-fitxategiak aztertzeko,\n"
+"eta dpkg --contents (= dpkg-deb --contents) edukia zerrendatzeko.\n"
+
+#: src/querycmd.c
 #, c-format
 msgid "package '%s' is not available"
 msgstr "'%s' paketea ez dago erabilgarri"
@@ -4029,9 +4135,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "%s(e)k hona desbideratuta: %s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "Erabili dpkg --info (= dpkg-deb --info) artxibo-fitxategiak aztertzeko,\n"
 "eta dpkg --contents (= dpkg-deb --contents) edukia zerrendatzeko.\n"
@@ -4072,19 +4181,33 @@ msgid "Debian %s package management program query tool version %s.\n"
 msgstr "Debian %s pakete-kudeaketarako programaren %s bertsioa.\n"
 
 #: src/querycmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Commands:\n"
+#| "  -s|--status <package> ...        Display package status details.\n"
+#| "  -p|--print-avail <package> ...   Display available version details.\n"
+#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
+#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
+#| "  -W|--show [<pattern> ...]        Show information on package(s).\n"
+#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+#| "     --control-list <package>      Print the package control file list.\n"
+#| "     --control-show <package> <file>\n"
+#| "                                   Show the package control file.\n"
+#| "  -c|--control-path <package> [<file>]\n"
+#| "                                   Print path for package control file.\n"
+#| "\n"
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4506,68 +4629,6 @@ msgstr "ez dago gainidazketarik"
 msgid "--update is useless for --remove"
 msgstr "--update ezin da --remove aukerarekin erabili"
 
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "invalid status"
-msgid "invalid statoverride uid %s"
-msgstr "egoera baliogabea"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "reading statoverride file '%.250s'"
-msgid "invalid statoverride gid %s"
-msgstr "'%.250s' statoverride fitxategia irakurtzen"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "reading statoverride file '%.250s'"
-msgid "invalid statoverride mode %s"
-msgstr "'%.250s' statoverride fitxategia irakurtzen"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "huts egin du statoverride fitxategia irekitzean"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "fstat-ek huts egin du statoverride fitxategiarekin"
-
-#: src/statdb.c
-#, c-format
-msgid "reading statoverride file '%.250s'"
-msgstr "'%.250s' statoverride fitxategia irakurtzen"
-
-#: src/statdb.c
-msgid "statoverride file is missing final newline"
-msgstr "statoverride fitxategiak amaierako lerro-jauzia falta du"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "statoverride fitxategiak lerro huts bat dauka"
-
-#: src/statdb.c
-msgid "syntax error in statoverride file"
-msgstr "sintaxi-errorea statoverride fitxategian"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "'%s' erabiltzaile ezezaguna statoverride fitxategian"
-
-#: src/statdb.c
-msgid "unexpected end of line in statoverride file"
-msgstr "ustekabeko lerro-amaiera statoverride fitxategian"
-
-#: src/statdb.c
-#, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "'%s' talde ezezaguna statoverride fitxategian"
-
-#: src/statdb.c
-#, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "hainbat statoverrides daude '%.250s' fitxategian"
-
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Idatzi dpkg-trigger --help lanabes honen laguntza lortzeko."
@@ -4784,6 +4845,12 @@ msgstr "%s (%s) konfigurazioa kentzen, %s (%s) kendu ahal izateko...\n"
 #, c-format
 msgid "De-configuring %s (%s) ...\n"
 msgstr "%s (%s) konfigurazioa kentzen...\n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "statoverride fitxategiak lerro huts bat dauka"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
@@ -5320,16 +5387,18 @@ msgid "decompressing archive member"
 msgstr "artxiboaren kidea deskonprimitzen"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "huts egin du direktoriora chdir egitean"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "huts egin du direktorioa sortzean"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "huts egin du direktoriora chdir egitean, direktorioa sortu ondoren"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "ustekabeko eof pakete-izenaren %d lerroan"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "huts egin du direktoriora chdir egitean"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -6706,6 +6775,45 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#, fuzzy
+#~| msgid "cannot open '%s' control file for package '%s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategia ireki"
+
+#, fuzzy
+#~| msgid "cannot stat '%s' control file for package '%s'"
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr ""
+#~ "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategiaren egoera eskuratu"
+
+#, fuzzy
+#~| msgid "'%s' file for package '%s' is not a regular file"
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "'%2$s' paketearen '%1$s' fitxategia ez da fitxategi arrunta"
+
+#, fuzzy
+#~| msgid "cannot close '%s' control file for package '%s'"
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "ezin da '%2$s' paketearen '%1$s' kontrol-fitxategia itxi"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr ""
+#~ "ezin dira '%.250s' paketearen fitxategi-zerrendaren fitxategiak ireki"
+
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr ""
+#~ "ezin da '%.250s' paketearen fitxategi-zerrendaren fitxategiaren egoera "
+#~ "eskuratu"
+
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr "'%.250s' paketearen fitxategi-zerrenda ez da fitxategi arrunta"
+
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "'%.250s' paketearen fitxategi-zerrenda irakurtzen"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "huts egin du direktoriora chdir egitean, direktorioa sortu ondoren"
+
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "'--%s' aukera zaharkitua, '--%s' erabili horren ordez"
 
@@ -6774,9 +6882,6 @@ msgstr ""
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "EOF stdin-en konfigurazioko fitxategiaren gonbitean"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "ustekabeko eof pakete-izenaren %d lerroan"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "ustekabeko eof pakete-izenaren ondoren %d lerroan"
@@ -7040,9 +7145,6 @@ msgstr ""
 #~ msgid "it is a slave of %s"
 #~ msgstr "%s(r)en morroia da"
 
-#~ msgid "cannot stat %s: %s"
-#~ msgstr "ezin da '%s' atzitu: %s"
-
 #~ msgid "readlink(%s) failed: %s"
 #~ msgstr "readlink(%s)-ek huts egin du: %s"
 
@@ -7066,9 +7168,6 @@ msgstr ""
 
 #~ msgid "unable to close %s: %s"
 #~ msgstr "ezin da %s itxi: %s"
-
-#~ msgid "cannot write %s: %s"
-#~ msgstr "ezin da %s idatzi: %s"
 
 #, fuzzy
 #~| msgid "unable to open file '%s'"

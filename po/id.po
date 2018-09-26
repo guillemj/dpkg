@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2017-10-17 01:57+0200\n"
+"POT-Creation-Date: 2018-09-26 04:22+0200\n"
 "PO-Revision-Date: 2015-06-26 16:12+0200\n"
 "Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
 "Language-Team: Indonesian <debian-l10n-indonesian@lists.debian.org>\n"
@@ -151,7 +151,8 @@ msgstr "ada galat saat membuang berkas 'diversions-old' yang lama"
 msgid "error creating new backup file '%s'"
 msgstr "Ada kesalahan saat membuat pipe '%.255s'"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "tidak dapat membuang '%.250s'"
@@ -381,12 +382,22 @@ msgid "unable to open lock file %s for testing"
 msgstr "Gagal membuka berkas pengunci %s untuk ujicoba"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr "gagal membuka/membuat berkas kunci(lock) basis data status"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "gagal membuka/membuat berkas kunci(lock) basis data status"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "Anda tidak memiliki izin untuk mengunci basis data status dpkg"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy
@@ -440,6 +451,194 @@ msgstr "gagal menutup status terbaru dari '%.250s'"
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "gagal memasang status terbaru dari '%.250s'"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "gagal memeriksa keberadaan '%.250s'"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "gagal membaca direktori 'info'"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "Ada kesalahan saat membuka %.250s"
+
+#: lib/dpkg/db-ctrl-format.c
+#, fuzzy, c-format
+#| msgid "unable to write file '%s'"
+msgid "corrupt info database format file '%s'"
+msgstr "gagal menulis ke berkas '%s'"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "conffile `%.250s' does not appear in package"
+msgid "info file %s/%s not associated to any package"
+msgstr "berkas 'conffile' '%.250s' tidak ada dalam paket"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "ada kesalahan saat membuat 'hard link' '%.255s'"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "error writing `%s'"
+msgid "error while writing '%s'"
+msgstr "Ada galat saat menulis '%s'"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package '%.250s' is missing final newline"
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "berkas daftar berkas untuk paket '%.250s' berisi nama berkas kosong"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+msgid "loading control file '%s' for package '%s'"
+msgstr "gagal membaca dir berkas konfigurasi '%.250s' (dari '%.250s')"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "gagal membuka berkas 'diversions'"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "Gagal menata status berkas 'diversions'"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "berkas 'diversions' yang bentrok melibatkan '%.250s' atau '%.250s'"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr "ada kesalahan saat menutup berkas daftar berkas untuk paket '%.250s'"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid ""
+#| "files list file for package `%.250s' missing, assuming package has no "
+#| "files currently installed."
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"berkas daftar berkas untuk paket '%.250s' hilang; \n"
+"anggap paket tidak memiliki berkas yang sudah terpasang."
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "berkas daftar berkas untuk paket '%.250s' berisi nama berkas kosong"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(Sedang membaca basis data ... "
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] " %d berkas atau direktori telah terpasang.)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "invalid status"
+msgid "invalid statoverride uid %s"
+msgstr "status tidak sah"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "invalid statoverride gid %s"
+msgstr "berkas 'statoverride' '%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "invalid statoverride mode %s"
+msgstr "berkas 'statoverride' '%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "gagal membuka berkas 'statoverride'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "Gagal menjalankan 'fstat' pada berkas 'statoverride'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "reading statoverride file '%.250s'"
+msgstr "berkas 'statoverride' '%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file is missing final newline"
+msgstr "berkas 'statoverride' tidak ada baris-baru penutup"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "berkas 'statoverride' berisi baris kosong"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "syntax error in statoverride file"
+msgstr "salah sintaks dalam berkas 'statoverride'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "syntax error: unknown user '%s' in statoverride file"
+msgid "unknown user '%s' in statoverride file"
+msgstr "galat sintaks: pengguna '%s' tidak dikenal dalam berkas 'statoverride'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "unexpected end of line in statoverride file"
+msgstr "akhir baris tak terduga dalam berkas 'statoverride'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "syntax error: unknown group '%s' in statoverride file"
+msgid "unknown group '%s' in statoverride file"
+msgstr "salah sintaks: grup '%s' tidak dikenal dalam berkas 'statoverride'"
+
+#: lib/dpkg/db-fsys-override.c
+#, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "banyak berkas 'statoverride' terdaftar untuk berkas '%.250s'"
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
@@ -606,24 +805,28 @@ msgid "invalid package name (%.250s)"
 msgstr "nama paket (%.250s) tidak sah."
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "ruas 'file details' '%s' kosong"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "ruas 'file details' '%s' tidak diizinkan dalam berkas status"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr ""
 "terlalu banyak nilai dalam ruas 'file details' '%s' (dibandingkan lainnya)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr ""
 "terlalu sedikit nilai dalam ruas 'file details' '%s' (dibandingkan lainnya)"
 
@@ -834,6 +1037,30 @@ msgstr "gagal menata modus berkas target '%.250s'"
 
 #: lib/dpkg/file.c
 #, fuzzy, c-format
+#| msgid "cannot stat %s: %s"
+msgid "cannot stat %s"
+msgstr "gagal menata status %s: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "conffile '%s' is not a plain file"
+msgid "%s is not a regular file"
+msgstr "berkas konfig '%s' bukan berkas biasa"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot write %s: %s"
+msgid "cannot read %s"
+msgstr "gagal menulis %s: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot append to %s: %s"
+msgid "cannot open %s"
+msgstr "gagal menambahkan ke %s: %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
 #| msgid "unable to close %s: %s"
 msgid "unable to unlock %s"
 msgstr "gagal menutup %s: %s"
@@ -857,9 +1084,9 @@ msgstr "gagal menutup %s: %s"
 
 #: lib/dpkg/file.c
 #, fuzzy
-#| msgid "long filenames"
-msgid "showing file on pager"
-msgstr "nama-berkas panjang"
+#| msgid "unable to flush file '%s'"
+msgid "pager to show file"
+msgstr "gagal mengosongkan berkas '%s'"
 
 #: lib/dpkg/log.c
 #, fuzzy, c-format
@@ -882,13 +1109,13 @@ msgstr "gagal mengalokasikan memori"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "gagal melakukan 'dup' untuk std%s"
+msgid "failed to dup for fd %d"
+msgstr "gagal melakukan 'dup' untuk fd %d"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "gagal melakukan 'dup' untuk fd %d"
+msgid "failed to dup for std%s"
+msgstr "gagal melakukan 'dup' untuk std%s"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1292,11 +1519,6 @@ msgstr "gagal secara hati-hati membuang '%.255s'"
 msgid "rm command for cleanup"
 msgstr ""
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr ""
-
 #: lib/dpkg/pkg-format.c
 #, fuzzy, c-format
 #| msgid "invalid character `%c' in field width\n"
@@ -1309,6 +1531,11 @@ msgstr ""
 
 #: lib/dpkg/pkg-format.c
 msgid "missing closing brace"
+msgstr ""
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
 msgstr ""
 
 #: lib/dpkg/pkg-show.c
@@ -1651,11 +1878,6 @@ msgstr "Ada kesalahan saat membuat pipe '%.255s'"
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "Ada kesalahan saat membuat piranti '%.255s'"
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "ada kesalahan saat membuat 'hard link' '%.255s'"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2224,6 +2446,10 @@ msgid "conffile difference visualizer"
 msgstr ""
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "Ketik 'exit' bila telah selesai.\n"
 
@@ -2596,7 +2822,21 @@ msgstr ""
 "\n"
 
 #: src/divertcmd.c
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "Options:\n"
+#| "  --package <package>      name of the package whose copy of <file> will "
+#| "not\n"
+#| "                             be diverted.\n"
+#| "  --local                  all packages' versions are diverted.\n"
+#| "  --divert <divert-to>     the name used by other packages' versions.\n"
+#| "  --rename                 actually move the file aside (or back).\n"
+#| "  --admindir <directory>   set the directory with the diversions file.\n"
+#| "  --test                   don't do anything, just demonstrate.\n"
+#| "  --quiet                  quiet operation, minimal output.\n"
+#| "  --help                   show this help message.\n"
+#| "  --version                show the version.\n"
+#| "\n"
 msgid ""
 "Options:\n"
 "  --package <package>      name of the package whose copy of <file> will "
@@ -2605,6 +2845,7 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -2638,6 +2879,12 @@ msgstr ""
 "Ketika menghapus, --package atau --local dan --divert harus cocok jika "
 "digunakan.\n"
 "Script preinst/postrm paket harus selalu menentukan --package dan --divert.\n"
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
+msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2764,6 +3011,13 @@ msgstr "mengabaikan permintaan untuk membuang %.250s yang tak terpasang."
 
 #: src/divertcmd.c
 #, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
+#, c-format
 msgid "No diversion '%s', none removed.\n"
 msgstr "Tidak ada pengalihan '%s', tak ada yang dibuang.\n"
 
@@ -2807,19 +3061,6 @@ msgstr "Paket mungkin tidak berisi baris-baru"
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "nama-pengalih tidak boleh berisi baris-baru"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "gagal membuka berkas 'diversions'"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "Gagal menata status berkas 'diversions'"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "berkas 'diversions' yang bentrok melibatkan '%.250s' atau '%.250s'"
 
 #: src/enquiry.c
 msgid ""
@@ -3131,119 +3372,6 @@ msgstr ""
 msgid "overriding problem because --force enabled:"
 msgstr "ada masalah penimpaan karena --force dihidupkan:"
 
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package `%.250s' contains empty filename"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "berkas daftar berkas untuk paket '%.250s' berisi nama berkas kosong"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "gagal membuka berkas daftar berkas untuk paket '%.250s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to stat files list file for package '%.250s'"
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "gagal menata status berkas daftar berkas untuk paket '%.250s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "gagal membaca dir berkas konfigurasi '%.250s' (dari '%.250s')"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "ada kesalahan saat menutup berkas daftar berkas untuk paket '%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "gagal membuka berkas daftar berkas untuk paket '%.250s'"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid ""
-#| "files list file for package `%.250s' missing, assuming package has no "
-#| "files currently installed."
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"berkas daftar berkas untuk paket '%.250s' hilang; \n"
-"anggap paket tidak memiliki berkas yang sudah terpasang."
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "gagal menata status berkas daftar berkas untuk paket '%.250s'"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "files list file for package '%.250s' is missing final newline"
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "files list for package `%.250s'"
-msgid "reading files list for package '%.250s'"
-msgstr "daftar berkas untuk paket '%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "berkas daftar berkas untuk paket '%.250s' berisi nama berkas kosong"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "ada kesalahan saat menutup berkas daftar berkas untuk paket '%.250s'"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(Sedang membaca basis data ... "
-
-#: src/filesdb.c
-#, c-format
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] " %d berkas atau direktori telah terpasang.)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "tak dipasang"
@@ -3314,43 +3442,6 @@ msgstr ""
 "%d program yang diharapkan tidak ditemukan pada PATH \n"
 "   atau tidak dapat dieksekusi.\n"
 "PS: PATH root harus selalu berisi /usr/local/sbin, /usr/sbin, dan /sbin"
-
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "gagal memeriksa keberadaan '%.250s'"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "gagal membaca direktori 'info'"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "Ada kesalahan saat membuka %.250s"
-
-#: src/infodb-format.c
-#, fuzzy, c-format
-#| msgid "unable to write file '%s'"
-msgid "corrupt info database format file '%s'"
-msgstr "gagal menulis ke berkas '%s'"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "conffile `%.250s' does not appear in package"
-msgid "info file %s/%s not associated to any package"
-msgstr "berkas 'conffile' '%.250s' tidak ada dalam paket"
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "error writing `%s'"
-msgid "error while writing '%s'"
-msgstr "Ada galat saat menulis '%s'"
 
 #: src/main.c
 #, c-format
@@ -4136,6 +4227,12 @@ msgid "Description"
 msgstr "Keterangan"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid "long filenames"
+msgid "showing package list on pager"
+msgstr "nama-berkas panjang"
+
+#: src/querycmd.c
 #, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "Dialihkan oleh %s dari: %s\n"
@@ -4172,6 +4269,16 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "Paket '%s' tidak terpasang dan tidak ada info yang tersedia.\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"Gunakan dpkg --info (= dpkg-deb --info) untuk meneliti berkas arsip,\n"
+"dan dpkg --contents (=dpkg-deb --contents) untuk melihat isinya.\n"
+
+#: src/querycmd.c
 #, fuzzy, c-format
 #| msgid "Package `%s' is not available.\n"
 msgid "package '%s' is not available"
@@ -4198,9 +4305,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "Dialihkan oleh %s ke: %s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "Gunakan dpkg --info (= dpkg-deb --info) untuk meneliti berkas arsip,\n"
 "dan dpkg --contents (=dpkg-deb --contents) untuk melihat isinya.\n"
@@ -4259,16 +4369,16 @@ msgstr "Perkakas pencarian program pengelola paket Debian %s versi %s.\n"
 #| "\n"
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4722,71 +4832,6 @@ msgstr "Tidak ada berkas 'override'."
 msgid "--update is useless for --remove"
 msgstr "--update tidak berguna bersama --remove"
 
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "invalid status"
-msgid "invalid statoverride uid %s"
-msgstr "status tidak sah"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "invalid statoverride gid %s"
-msgstr "berkas 'statoverride' '%.250s'"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "invalid statoverride mode %s"
-msgstr "berkas 'statoverride' '%.250s'"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "gagal membuka berkas 'statoverride'"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "Gagal menjalankan 'fstat' pada berkas 'statoverride'"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "reading statoverride file '%.250s'"
-msgstr "berkas 'statoverride' '%.250s'"
-
-#: src/statdb.c
-msgid "statoverride file is missing final newline"
-msgstr "berkas 'statoverride' tidak ada baris-baru penutup"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "berkas 'statoverride' berisi baris kosong"
-
-#: src/statdb.c
-msgid "syntax error in statoverride file"
-msgstr "salah sintaks dalam berkas 'statoverride'"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "syntax error: unknown user '%s' in statoverride file"
-msgid "unknown user '%s' in statoverride file"
-msgstr "galat sintaks: pengguna '%s' tidak dikenal dalam berkas 'statoverride'"
-
-#: src/statdb.c
-msgid "unexpected end of line in statoverride file"
-msgstr "akhir baris tak terduga dalam berkas 'statoverride'"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "syntax error: unknown group '%s' in statoverride file"
-msgid "unknown group '%s' in statoverride file"
-msgstr "salah sintaks: grup '%s' tidak dikenal dalam berkas 'statoverride'"
-
-#: src/statdb.c
-#, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "banyak berkas 'statoverride' terdaftar untuk berkas '%.250s'"
-
 #: src/trigcmd.c
 msgid "Type dpkg-trigger --help for help about this utility."
 msgstr "Ketik 'dpkg-trigger --help' untuk panduan tentang perkakas ini."
@@ -5042,6 +5087,12 @@ msgstr "Sedang dekonfigurasi %s, agar dapat membuang %s ... \n"
 #| msgid "De-configuring %s ...\n"
 msgid "De-configuring %s (%s) ...\n"
 msgstr "Sedang dekonfigurasi %s ... \n"
+
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "berkas 'statoverride' berisi baris kosong"
 
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
@@ -5603,16 +5654,18 @@ msgid "decompressing archive member"
 msgstr ""
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory"
-msgstr "gagal berpindah ke direktori"
-
-#: dpkg-deb/extract.c
 msgid "failed to create directory"
 msgstr "gagal membuat direktori"
 
 #: dpkg-deb/extract.c
-msgid "failed to chdir to directory after creating it"
-msgstr "gagal berpindah ke direktori setelah membuatnya"
+#, fuzzy, c-format
+#| msgid "unexpected eof in package name at line %d"
+msgid "unexpected pre-existing pathname %s"
+msgstr "EOF tak terduga dalam nama paket pada baris %d"
+
+#: dpkg-deb/extract.c
+msgid "failed to chdir to directory"
+msgstr "gagal berpindah ke direktori"
 
 #: dpkg-deb/extract.c
 msgid "<decompress>"
@@ -7100,6 +7153,48 @@ msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
 #, fuzzy
+#~| msgid "unable to open files list file for package `%.250s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "gagal membuka berkas daftar berkas untuk paket '%.250s'"
+
+#, fuzzy
+#~| msgid "unable to stat files list file for package '%.250s'"
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr "gagal menata status berkas daftar berkas untuk paket '%.250s'"
+
+#, fuzzy
+#~| msgid "files list file for package '%.250s' is missing final newline"
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr ""
+#~ "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
+
+#, fuzzy
+#~| msgid "error closing files list file for package `%.250s'"
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr ""
+#~ "ada kesalahan saat menutup berkas daftar berkas untuk paket '%.250s'"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr "gagal membuka berkas daftar berkas untuk paket '%.250s'"
+
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr "gagal menata status berkas daftar berkas untuk paket '%.250s'"
+
+#, fuzzy
+#~| msgid "files list file for package '%.250s' is missing final newline"
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr ""
+#~ "berkas daftar berkas untuk paket '%.250s' tidak ada baris-baru penutup"
+
+#, fuzzy
+#~| msgid "files list for package `%.250s'"
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "daftar berkas untuk paket '%.250s'"
+
+#~ msgid "failed to chdir to directory after creating it"
+#~ msgstr "gagal berpindah ke direktori setelah membuatnya"
+
+#, fuzzy
 #~| msgid "obsolete option '--%s', please use '--%s' instead."
 #~ msgid "obsolete option '--%s'; please use '--%s' instead"
 #~ msgstr "pilihan '--%s' sudah usang, mohon gunakan '--%s'. "
@@ -7181,9 +7276,6 @@ msgstr ""
 
 #~ msgid "EOF on stdin at conffile prompt"
 #~ msgstr "Ada EOF pada stdin di prompt 'conffile'"
-
-#~ msgid "unexpected eof in package name at line %d"
-#~ msgstr "EOF tak terduga dalam nama paket pada baris %d"
 
 #~ msgid "unexpected eof after package name at line %d"
 #~ msgstr "eof tak terduga setelah nama paket pada baris %d"
@@ -7430,9 +7522,6 @@ msgstr ""
 #~ msgid "it is a slave of %s"
 #~ msgstr "ini adalah tiruan dari %s"
 
-#~ msgid "cannot stat %s: %s"
-#~ msgstr "gagal menata status %s: %s"
-
 #~ msgid "readlink(%s) failed: %s"
 #~ msgstr "proses readlink(%s) gagal: %s"
 
@@ -7456,9 +7545,6 @@ msgstr ""
 
 #~ msgid "unable to close %s: %s"
 #~ msgstr "gagal menutup %s: %s"
-
-#~ msgid "cannot write %s: %s"
-#~ msgstr "gagal menulis %s: %s"
 
 #, fuzzy
 #~| msgid "unable to open file '%s'"
