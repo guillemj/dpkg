@@ -20,7 +20,6 @@ dist-cpan:
 	cp -fpR $(top_builddir)/scripts/Build.PL $(CPAN_DIST)
 
 	: # Fix permissions of the distributed files.
-	chmod a+x $(CPAN_DIST)/Build.PL
 	find $(CPAN_DIST) \
 	       -type d ! -perm 755 -exec chmod u+rwx,go+rx {} ';' -o \
 	     ! -type d ! -perm -444 -links 1 -exec chmod a+r {} \; -o \
@@ -29,7 +28,7 @@ dist-cpan:
 	  chmod -R a+r $(CPAN_DIST)
 
 	: # Prepare the CPAN distribution.
-	cd $(CPAN_DIST) && ./Build.PL
+	cd $(CPAN_DIST) && $(PERL) Build.PL
 	cd $(CPAN_DIST) && ./Build manifest
 	cd $(CPAN_DIST) && ./Build distdir
 
