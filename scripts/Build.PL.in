@@ -68,6 +68,26 @@ my $build = $class->new(
     module_name     => '@PACKAGE_CPAN_NAME@',
 
     meta_merge => {
+        'meta-spec' => {
+            version => 2,
+        },
+        prereqs => {
+            test => {
+                recommends => {
+                    'Test::Pod'             => 0,
+                    'Test::Strict'          => 0,
+                },
+            },
+            develop => {
+                recommends => {
+                    'Test::MinimumVersion'  => 0,
+                    'Test::Perl::Critic'    => 0,
+                    'Test::Pod::Coverage'   => 0,
+                    'Test::Spelling'        => 0,
+                    'Test::Synopsis'        => 0,
+                },
+            },
+        },
         resources => {
             homepage => '@PACKAGE_URL@',
             repository => {
@@ -91,8 +111,6 @@ my $build = $class->new(
     test_requires => {
         'TAP::Harness'          => 0,
         'Test::More'            => 0,
-        'Test::Pod'             => 0,
-        'Test::Strict'          => 0,
     },
     recommends => {
         'Algorithm::Merge'      => 0,
