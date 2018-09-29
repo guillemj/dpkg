@@ -61,6 +61,7 @@ sub openpgp_sig_to_asc
         open my $fh_gpg, '-|', 'gpg', '-o', '-', '--enarmor', $sig
             or syserr(g_('cannot execute %s program'), 'gpg');
         while (my $line = <$fh_gpg>) {
+            next if $line =~ m/^Version: /;
             next if $line =~ m/^Comment: /;
 
             $line =~ s/ARMORED FILE/SIGNATURE/;
