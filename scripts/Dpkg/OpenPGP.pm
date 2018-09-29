@@ -56,9 +56,11 @@ sub openpgp_sig_to_asc
             warning(g_('cannot OpenPGP ASCII armor signature file due to missing gpg'));
         }
 
+        my @gpg_opts = qw(--no-options);
+
         open my $fh_asc, '>', $asc
             or syserr(g_('cannot create signature file %s'), $asc);
-        open my $fh_gpg, '-|', 'gpg', '-o', '-', '--enarmor', $sig
+        open my $fh_gpg, '-|', 'gpg', @gpg_opts, '-o', '-', '--enarmor', $sig
             or syserr(g_('cannot execute %s program'), 'gpg');
         while (my $line = <$fh_gpg>) {
             next if $line =~ m/^Version: /;
