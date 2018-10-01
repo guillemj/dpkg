@@ -747,6 +747,12 @@ control_show(const char *const *argv)
   return 0;
 }
 
+static void
+set_no_pager(const struct cmdinfo *ci, const char *value)
+{
+  pager_enable(false);
+}
+
 static void DPKG_ATTR_NORET
 printversion(const struct cmdinfo *ci, const char *value)
 {
@@ -831,6 +837,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "admindir",   0,   1, NULL, &admindir,   NULL          },
   { "load-avail", 0,   0, &opt_loadavail, NULL, NULL, 1    },
   { "showformat", 'f', 1, NULL, &showformat, NULL          },
+  { "no-pager",   0,   0, NULL, NULL,        set_no_pager  },
   { "help",       '?', 0, NULL, NULL,        usage         },
   { "version",    0,   0, NULL, NULL,        printversion  },
   {  NULL,        0,   0, NULL, NULL,        NULL          }

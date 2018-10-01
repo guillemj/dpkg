@@ -48,6 +48,7 @@
 #include <dpkg/arch.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
+#include <dpkg/pager.h>
 #include <dpkg/options.h>
 #include <dpkg/db-fsys.h>
 
@@ -338,6 +339,15 @@ set_debug(const struct cmdinfo *cpi, const char *value)
     badusage(_("--%s requires a positive octal argument"), cpi->olong);
 
   debug_set_mask(mask);
+}
+
+static void
+set_no_pager(const struct cmdinfo *ci, const char *value)
+{
+  pager_enable(false);
+
+  /* Let's communicate this to our backends. */
+  setenv("DPKG_PAGER", "cat", 1);
 }
 
 static void
@@ -726,6 +736,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "no-act",            0,   0, &f_noact,      NULL,      NULL,    1 },
   { "dry-run",           0,   0, &f_noact,      NULL,      NULL,    1 },
   { "simulate",          0,   0, &f_noact,      NULL,      NULL,    1 },
+  { "no-pager",          0,   0, NULL,          NULL,      set_no_pager,  0 },
   { "no-debsig",         0,   0, &f_nodebsig,   NULL,      NULL,    1 },
   /* Alias ('G') for --refuse. */
   {  NULL,               'G', 0, &fc_downgrade, NULL,      NULL,    0 },
