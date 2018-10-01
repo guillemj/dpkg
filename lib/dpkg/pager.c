@@ -47,7 +47,9 @@ pager_get_exec(void)
 	if (!isatty(0) || !isatty(1))
 		return CAT;
 
-	pager = getenv("PAGER");
+	pager = getenv("DPKG_PAGER");
+	if (str_is_unset(pager))
+		pager = getenv("PAGER");
 	if (str_is_unset(pager))
 		pager = DEFAULTPAGER;
 
