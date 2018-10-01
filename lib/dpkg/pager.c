@@ -66,10 +66,15 @@ struct pager *
 pager_spawn(const char *desc)
 {
 	struct pager *pager;
+	const char *exec;
 
 	pager = m_calloc(1, sizeof(*pager));
 	pager->used = isatty(0) && isatty(1);
 	pager->desc = desc;
+
+	exec = pager_get_exec();
+	if (strcmp(exec, CAT) == 0)
+		pager->used = false;
 
 	if (!pager->used)
 		return pager;
@@ -78,10 +83,6 @@ pager_spawn(const char *desc)
 
 	pager->pid = subproc_fork();
 	if (pager->pid == 0) {
-		const char *exec;
-
-		exec = pager_get_exec();
-
 		m_dup2(pager->pipe[0], 0);
 		close(pager->pipe[0]);
 		close(pager->pipe[1]);
