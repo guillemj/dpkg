@@ -35,6 +35,14 @@
 #include <dpkg/command.h>
 #include <dpkg/pager.h>
 
+static bool pager_enabled = true;
+
+void
+pager_enable(bool enable)
+{
+	pager_enabled = enable;
+}
+
 /**
  * Get a suitable pager.
  *
@@ -79,6 +87,9 @@ pager_spawn(const char *desc)
 
 	exec = pager_get_exec();
 	if (strcmp(exec, CAT) == 0)
+		pager->used = false;
+
+	if (!pager_enabled)
 		pager->used = false;
 
 	if (!pager->used)

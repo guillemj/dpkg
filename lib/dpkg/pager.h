@@ -21,6 +21,8 @@
 #ifndef LIBDPKG_PAGER_H
 #define LIBDPKG_PAGER_H
 
+#include <stdbool.h>
+
 #include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
@@ -32,6 +34,9 @@ DPKG_BEGIN_DECLS
  */
 
 struct pager;
+
+void
+pager_enable(bool enable);
 
 const char *
 pager_get_exec(void);
