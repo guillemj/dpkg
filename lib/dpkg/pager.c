@@ -78,7 +78,6 @@ pager_spawn(const char *desc)
 
 	pager->pid = subproc_fork();
 	if (pager->pid == 0) {
-		struct command cmd;
 		const char *exec;
 
 		exec = pager_get_exec();
@@ -87,9 +86,7 @@ pager_spawn(const char *desc)
 		close(pager->pipe[0]);
 		close(pager->pipe[1]);
 
-		command_init(&cmd, exec, desc);
-		command_add_arg(&cmd, exec);
-		command_exec(&cmd);
+		command_shell(exec, desc);
 	}
 
 	pager->stdout_old = m_dup(1);

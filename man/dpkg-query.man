@@ -318,8 +318,14 @@ memory allocations, etc.
 .
 .SH ENVIRONMENT
 .TP
+.B SHELL
+Sets the program to execute when spawning a command via a shell
+(since dpkg 1.19.2).
+.TP
 .B PAGER
-Sets the pager program to use (since dpkg 1.19.1).
+Sets the pager command to use (since dpkg 1.19.1), which will be executed
+with «\fB$SHELL -c\fP».
+If \fBSHELL\fP is not set, «\fBsh\fP» will be used instead.
 .TP
 .B DPKG_ADMINDIR
 If set and the \fB\-\-admindir\fP option has not been specified, it will
