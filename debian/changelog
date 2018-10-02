@@ -10,6 +10,9 @@ dpkg (1.19.2) UNRELEASED; urgency=medium
   * libdpkg: Honor DPKG_PAGER when spawning a pager.
     Suggested by Craig Sanders <cas@taz.net.au>.
   * libdpkg: Set LESS to “-FRSXMQ” if not already set, when spawning a pager.
+  * libdpkg: Ignore SIGPIPE when setting up a pager, and then ignore EPIPE
+    errors when writing to stdout, otherwise if we quit the pager early, the
+    program will exit with an error code.
   * Perl modules:
     - Dpkg::OpenPGP: Ignore Version field in enarmored output.
       Fixes CPAN#127217.

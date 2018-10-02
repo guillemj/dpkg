@@ -24,6 +24,7 @@
 
 #include <sys/types.h>
 
+#include <errno.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -143,7 +144,7 @@ void
 m_output(FILE *f, const char *name)
 {
   fflush(f);
-  if (ferror(f))
+  if (ferror(f) && errno != EPIPE)
     ohshite(_("error writing to '%s'"), name);
 }
 

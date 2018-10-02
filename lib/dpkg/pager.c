@@ -25,6 +25,7 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <unistd.h>
 
 #include <dpkg/dpkg.h>
@@ -60,6 +61,7 @@ struct pager {
 	bool used;
 	const char *desc;
 	pid_t pid;
+	struct sigaction sigpipe;
 	int stdout_old;
 	int pipe[2];
 };
@@ -67,6 +69,7 @@ struct pager {
 struct pager *
 pager_spawn(const char *desc)
 {
+	struct sigaction sa;
 	struct pager *pager;
 	const char *exec;
 
@@ -82,6 +85,13 @@ pager_spawn(const char *desc)
 		return pager;
 
 	m_pipe(pager->pipe);
+
+	memset(&sa, 0, sizeof(sa));
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = SIG_IGN;
+	sa.sa_flags = 0;
+
+	sigaction(SIGPIPE, &sa, &pager->sigpipe);
 
 	pager->pid = subproc_fork();
 	if (pager->pid == 0) {
@@ -111,6 +121,8 @@ pager_reap(struct pager *pager)
 
 	m_dup2(pager->stdout_old, 1);
 	subproc_reap(pager->pid, pager->desc, SUBPROC_NOPIPE);
+
+	sigaction(SIGPIPE, &pager->sigpipe, NULL);
 
 	free(pager);
 }
