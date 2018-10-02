@@ -85,6 +85,9 @@ pager_spawn(const char *desc)
 
 	pager->pid = subproc_fork();
 	if (pager->pid == 0) {
+		/* Set better defaults for less if not already set. */
+		setenv("LESS", "-FRSXMQ", 0);
+
 		m_dup2(pager->pipe[0], 0);
 		close(pager->pipe[0]);
 		close(pager->pipe[1]);

@@ -903,6 +903,14 @@ Set by a package manager frontend to notify dpkg that it should not acquire
 the frontend lock (since dpkg 1.19.1).
 .SS Internal environment
 .TP
+.B LESS
+Defined by \fBdpkg\fP to “\fB-FRSXMQ\fP”, if not already set, when
+spawning a pager (since dpkg 1.19.2).
+To change the default behavior, this variable can be preset to some other
+value including an empty string, or the \fBPAGER\fP or \fBDPKG_PAGER\fP
+variables can be set to disable specific options with «\fB\-+\fP», for
+example \fBDPKG_PAGER="less \-+F"\fP.
+.TP
 .B DPKG_ROOT
 Defined by \fBdpkg\fP on the maintainer script environment to indicate
 which installation to act on (since dpkg 1.18.5).
