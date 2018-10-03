@@ -110,6 +110,11 @@ pager_spawn(const char *desc)
 	close(pager->pipe[0]);
 	close(pager->pipe[1]);
 
+	/* Force the output to fully buffered, because originally stdout was
+	 * a tty, so it was set as line buffered. This way we send as much as
+	 * possible to the pager, which will handle the output by itself. */
+	setvbuf(stdout, NULL, _IOFBF, 0);
+
 	return pager;
 }
 
