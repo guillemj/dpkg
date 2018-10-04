@@ -486,13 +486,21 @@ debian tarball must contain a \fBdebian\fP sub-directory but it
 can also contain binary files outside of that directory (see
 \fB\-\-include\-binaries\fP option).
 .PP
-All patches listed in \fBdebian/patches/debian.series\fP or
-\fBdebian/patches/series\fP are then applied.
+All patches listed in \fBdebian/patches/\fP\fIvendor\fP\fB.series\fP or
+\fBdebian/patches/series\fP are then applied, where \fIvendor\fP will be
+the lowercase name of the current vendor, or \fBdebian\fP if there is
+no vendor defined.
 If the former file is used and the latter one doesn't exist (or is a
-symlink), then the latter is replaced with a symlink to the former. This
-is meant to simplify usage of \fBquilt\fP to manage the set of patches. Note
-however that while \fBdpkg\-source\fP parses correctly series files with
-explicit options used for patch application (stored on each line
+symlink), then the latter is replaced with a symlink to the former.
+This is meant to simplify usage of \fBquilt\fP to manage the set of patches.
+Vendor-specific series files are intended to make it possible to serialize
+multiple development branches based on the vendor, in a declarative way,
+in preference to open-coding this handling in \fBdebian/rules\fP.
+This is particularly useful when the source would need to be patched
+conditionally because the affected files do not have built-in conditional
+occlusion support.
+Note however that while \fBdpkg\-source\fP parses correctly series files
+with explicit options used for patch application (stored on each line
 after the patch filename and one or more spaces), it does ignore those
 options and always expect patches that can be applied with the \fB\-p1\fP
 option of \fBpatch\fP. It will thus emit a warning when it encounters
@@ -848,10 +856,15 @@ the source package is maintained.
 Free form text that is put on top of the automatic patch generated
 in formats “2.0” or “3.0 (quilt)”. \fBlocal\-patch\-header\fP is not
 included in the generated source package while \fBpatch\-header\fP is.
+.SS debian/patches/\fIvendor\fP.series
 .SS debian/patches/series
 This file lists all patches that have to be applied (in the given order)
 on top of the upstream source package. Leading and trailing spaces are
 stripped.
+The \fIvendor\fP will be the lowercase name of the current vendor, or
+\fBdebian\fP if there is no vendor defined.
+If the vendor-specific series file does not exist, the vendor-less series
+file will be used.
 Lines starting with ‘\fB#\fP’ are comments and are skipped.
 Empty lines are ignored.
 Remaining lines start with a patch filename (relative
