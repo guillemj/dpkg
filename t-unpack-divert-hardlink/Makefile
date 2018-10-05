@@ -18,11 +18,12 @@ test-case:
 	# test if unpack can divert a hardlink
 	$(DPKG_INSTALL) pkg-hardlink.deb
 	$(call pkg_is_installed,pkg-hardlink)
-	test -f /test-file.distrib
-	test -f /test-hardlink.distrib
-	cmp /test-file.distrib /test-hardlink.distrib
-	test "`stat -c '%i' /test-file.distrib`" = \
-	     "`stat -c '%i' /test-hardlink.distrib`"
+	test -f $(DPKG_INSTDIR)/test-file.distrib
+	test -f $(DPKG_INSTDIR)/test-hardlink.distrib
+	cmp $(DPKG_INSTDIR)/test-file.distrib \
+	    $(DPKG_INSTDIR)/test-hardlink.distrib
+	test "`stat -c '%i' $(DPKG_INSTDIR)/test-file.distrib`" = \
+	     "`stat -c '%i' $(DPKG_INSTDIR)/test-hardlink.distrib`"
 
 test-clean:
 	$(DPKG_PURGE) pkg-hardlink
