@@ -201,7 +201,7 @@ show_diff(const char *old, const char *new)
 	struct pager *pager;
 	pid_t pid;
 
-	pager = pager_spawn(_("conffile difference visualizer"), NULL);
+	pager = pager_spawn(_("conffile difference visualizer"));
 
 	pid = subproc_fork();
 	if (!pid) {

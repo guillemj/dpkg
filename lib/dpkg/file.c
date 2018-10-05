@@ -33,6 +33,7 @@
 #include <dpkg/i18n.h>
 #include <dpkg/pager.h>
 #include <dpkg/fdio.h>
+#include <dpkg/buffer.h>
 #include <dpkg/file.h>
 
 /**
@@ -200,10 +201,24 @@ void
 file_show(const char *filename)
 {
 	struct pager *pager;
+	struct dpkg_error err;
+	int fd, rc;
 
 	if (filename == NULL)
 		internerr("filename is NULL");
 
-	pager = pager_spawn(_("pager to show file"), filename);
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		ohshite(_("cannot open file %s"), filename);
+
+	pager = pager_spawn(_("pager to show file"));
+	rc = fd_fd_copy(fd, STDOUT_FILENO, -1, &err);
 	pager_reap(pager);
+
+	close(fd);
+
+	if (rc < 0 && err.syserrno != EPIPE) {
+		errno = err.syserrno;
+		ohshite(_("cannot write file %s into the pager"), filename);
+	}
 }

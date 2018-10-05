@@ -37,7 +37,7 @@ const char *
 pager_get_exec(void);
 
 struct pager *
-pager_spawn(const char *desc, const char *filename);
+pager_spawn(const char *desc);
 
 void
 pager_reap(struct pager *pager);

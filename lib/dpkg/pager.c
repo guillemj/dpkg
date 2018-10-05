@@ -63,12 +63,12 @@ struct pager {
 };
 
 struct pager *
-pager_spawn(const char *desc, const char *filename)
+pager_spawn(const char *desc)
 {
 	struct pager *pager;
 
 	pager = m_calloc(1, sizeof(*pager));
-	pager->used = filename || (isatty(0) && isatty(1));
+	pager->used = isatty(0) && isatty(1);
 	pager->desc = desc;
 
 	if (!pager->used)
@@ -89,7 +89,6 @@ pager_spawn(const char *desc, const char *filename)
 
 		command_init(&cmd, exec, desc);
 		command_add_arg(&cmd, exec);
-		command_add_arg(&cmd, filename);
 		command_exec(&cmd);
 	}
 

@@ -265,7 +265,7 @@ listpackages(const char *const *argv)
 
   memset(&fmt, 0, sizeof(fmt));
 
-  pager = pager_spawn(_("showing package list on pager"), NULL);
+  pager = pager_spawn(_("showing package list on pager"));
 
   if (!*argv) {
     for (i = 0; i < array.n_pkgs; i++) {
