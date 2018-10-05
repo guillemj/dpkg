@@ -553,16 +553,20 @@ cause the whole system to stop working, so use with caution.
 
 \fBdepends\fP:
 Turn all dependency problems into warnings.
+This affects the \fBPre\-Depends\fP and \fBDepends\fP fields.
 
 \fBdepends\-version\fP:
 Don't care about versions when checking dependencies.
+This affects the \fBPre\-Depends\fP and \fBDepends\fP fields.
 
 \fBbreaks\fP:
 Install, even if this would break another package (since dpkg 1.14.6).
+This affects the \fBBreaks\fP field.
 
 \fBconflicts\fP:
 Install, even if it conflicts with another package. This is dangerous,
 for it will usually cause overwriting of some files.
+This affects the \fBConflicts\fP field.
 
 \fBconfmiss\fP:
 Always install the missing conffile without prompting. This is dangerous,
@@ -647,6 +651,7 @@ Install a package even if it fails authenticity check.
 \fB\-\-ignore\-depends\fP=\fIpackage\fP,...
 Ignore dependency-checking for specified packages (actually, checking is
 performed, but only warnings about conflicts are given, nothing else).
+This affects the \fBPre\-Depends\fP, \fBDepends\fP and \fBBreaks\fP fields.
 .TP
 \fB\-\-no\-act\fP, \fB\-\-dry\-run\fP, \fB\-\-simulate\fP
 Do everything which is supposed to be done, but don't write any
