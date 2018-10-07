@@ -341,6 +341,14 @@ Binary packages marked with this field will not appear in the
 \fIdebian/control\fP master source control file.
 The only currently used reason is \fBdebug\-symbols\fP.
 .
+.TP
+.BI Build\-Ids: " elf-build-id-list"
+This field specifies a whitespace separated list of ELF build-ids. These
+are unique identifiers for semantically identical ELF objects, for each
+of these within the package.
+.
+The format or the way to compute each build-id is not defined by design.
+.
 .SH EXAMPLE
 .\" .RS
 .nf
@@ -366,6 +374,11 @@ Description: GNU grep, egrep and fgrep.
  will run more slowly, however).
 .fi
 .\" .RE
+.
+.SH BUGS
+The \fBBuild\-Ids\fP field uses a rather generic name out of its original
+context within an ELF object, which serves a very specific purpose and
+executable format.
 .
 .SH SEE ALSO
 .BR deb (5),
