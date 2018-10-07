@@ -20,6 +20,7 @@ use Test::More;
 
 use Dpkg::ErrorHandling;
 use Dpkg::IPC;
+use Dpkg::Path qw(find_command);
 use Dpkg::Version;
 
 report_options(quiet_warnings => 1);
@@ -32,6 +33,8 @@ my @ops = ('<', '<<', 'lt',
 	   '>', '>>', 'gt');
 
 plan tests => scalar(@tests) * (3 * scalar(@ops) + 4) + 27;
+
+my $have_dpkg = find_command('dpkg');
 
 sub dpkg_vercmp {
      my ($a, $cmp, $b) = @_;
@@ -149,11 +152,21 @@ foreach my $case (@tests) {
 	if ($truth->{$res}{$op}) {
 	    ok(version_compare_relation($a, $norm_op, $b), "$a $op $b => true");
 	    ok(obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => true");
-	    ok(dpkg_vercmp($a, $op, $b), "dpkg --compare-versions -- $a $op $b => true");
+
+            SKIP: {
+                skip 'dpkg not available', 1 if not $have_dpkg;
+
+                ok(dpkg_vercmp($a, $op, $b), "dpkg --compare-versions -- $a $op $b => true");
+            }
 	} else {
 	    ok(!version_compare_relation($a, $norm_op, $b), "$a $op $b => false");
 	    ok(!obj_vercmp($va, $op, $vb), "Dpkg::Version($a) $op Dpkg::Version($b) => false");
-	    ok(!dpkg_vercmp($a, $op, $b), "dpkg --compare-versions -- $a $op $b => false");
+
+            SKIP: {
+                skip 'dpkg not available', 1 if not $have_dpkg;
+
+                ok(!dpkg_vercmp($a, $op, $b), "dpkg --compare-versions -- $a $op $b => false");
+            }
 	}
     }
 }
