@@ -353,6 +353,7 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
   char fnamebuf[256];
   char fnamenewbuf[256];
   char *newhash;
+  int rc;
 
   switch (te->type) {
   case TAR_FILETYPE_FILE:
@@ -388,9 +389,11 @@ tarobject_extract(struct tarcontext *tc, struct tar_entry *te,
             namenode->statoverride->uid,
             namenode->statoverride->gid,
             namenode->statoverride->mode);
-    if (fchown(fd, st->uid, st->gid))
+    rc = fchown(fd, st->uid, st->gid);
+    if (forcible_nonroot_error(rc))
       ohshite(_("error setting ownership of '%.255s'"), te->name);
-    if (fchmod(fd, st->mode & ~S_IFMT))
+    rc = fchmod(fd, st->mode & ~S_IFMT);
+    if (forcible_nonroot_error(rc))
       ohshite(_("error setting permissions of '%.255s'"), te->name);
 
     /* Postpone the fsync, to try to avoid massive I/O degradation. */
@@ -497,16 +500,21 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
 static void
 tarobject_set_perms(struct tar_entry *te, const char *path, struct file_stat *st)
 {
+  int rc;
+
   if (te->type == TAR_FILETYPE_FILE)
     return; /* Already handled using the file descriptor. */
 
   if (te->type == TAR_FILETYPE_SYMLINK) {
-    if (lchown(path, st->uid, st->gid))
+    rc = lchown(path, st->uid, st->gid);
+    if (forcible_nonroot_error(rc))
       ohshite(_("error setting ownership of symlink '%.255s'"), path);
   } else {
-    if (chown(path, st->uid, st->gid))
+    rc = chown(path, st->uid, st->gid);
+    if (forcible_nonroot_error(rc))
       ohshite(_("error setting ownership of '%.255s'"), path);
-    if (chmod(path, st->mode & ~S_IFMT))
+    rc = chmod(path, st->mode & ~S_IFMT);
+    if (forcible_nonroot_error(rc))
       ohshite(_("error setting permissions of '%.255s'"), path);
   }
 }
@@ -1020,6 +1028,8 @@ tarobject(void *ctx, struct tar_entry *ti)
         ohshite(_("unable to move aside '%.255s' to install new version"),
                 ti->name);
     } else if (S_ISLNK(stab.st_mode)) {
+      int rc;
+
       /* We can't make a symlink with two hardlinks, so we'll have to
        * copy it. (Pretend that making a copy of a symlink is the same
        * as linking to it.) */
@@ -1038,7 +1048,8 @@ tarobject(void *ctx, struct tar_entry *ti)
       varbuf_end_str(&symlinkfn);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
         ohshite(_("unable to make backup symlink for '%.255s'"), ti->name);
-      if (lchown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
+      rc = lchown(fnametmpvb.buf, stab.st_uid, stab.st_gid);
+      if (forcible_nonroot_error(rc))
         ohshite(_("unable to chown backup symlink for '%.255s'"), ti->name);
       tarobject_set_se_context(fnamevb.buf, fnametmpvb.buf, stab.st_mode);
     } else {

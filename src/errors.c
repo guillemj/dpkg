@@ -146,3 +146,11 @@ void forcibleerr(int forceflag, const char *fmt, ...) {
   }
   va_end(args);
 }
+
+int
+forcible_nonroot_error(int rc)
+{
+  if (fc_nonroot && errno == EPERM)
+    return 0;
+  return rc;
+}

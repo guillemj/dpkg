@@ -106,6 +106,8 @@ maintscript_pre_exec(struct command *cmd)
 		changedir = "/";
 
 	if (instdirlen > 0 && !fc_script_chrootless) {
+		int rc;
+
 		if (strncmp(admindir, instdir, instdirlen) != 0)
 			ohshit(_("admindir must be inside instdir for dpkg to work properly"));
 		if (setenv("DPKG_ADMINDIR", admindir + instdirlen, 1) < 0)
@@ -113,7 +115,12 @@ maintscript_pre_exec(struct command *cmd)
 		if (setenv("DPKG_ROOT", "", 1) < 0)
 			ohshite(_("unable to setenv for subprocesses"));
 
-		if (chroot(instdir))
+		rc = chroot(instdir);
+		if (rc && fc_nonroot && errno == EPERM)
+			ohshit(_("not enough privileges to change root "
+			         "directory with --force-not-root, consider "
+			         "using --force-script-chrootless?"));
+		else if (rc)
 			ohshite(_("failed to chroot to '%.250s'"), instdir);
 	}
 	/* Switch to a known good directory to give the maintainer script
