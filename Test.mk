@@ -29,6 +29,7 @@ export PATH
 PATH = $(DPKG_PATH)
 
 DPKG_OPTIONS =
+DPKG_DIVERT_OPTIONS =
 
 ifdef DPKG_AS_ROOT
 DPKG_ENV += \
@@ -43,6 +44,13 @@ DPKG_OPTIONS += \
  --force-not-root \
  # EOL
 BEROOT := env $(DPKG_ENV)
+
+# Only works when the following is enabled due to not running as root.
+ifdef DPKG_HAS_WORKING_ROOTDIR_DIVERSIONS
+DPKG_DIVERT_OPTIONS += \
+  --instdir="$(DPKG_INSTDIR)" \
+  # EOL
+endif
 endif
 
 DPKG_OPTIONS += \

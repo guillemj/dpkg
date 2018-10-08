@@ -50,7 +50,7 @@ endif
 # dpkg >= 1.19.x
 ifeq ($(call CHECK_VERSION,$(DPKG_SERIES),ge,1.19.x),yes)
 $(info Assuming checks for dpkg >= 1.19.x)
-#export DPKG_HAS_WORKING_ROOTDIR_DIVERSIONS ?= 1
+export DPKG_HAS_WORKING_ROOTDIR_DIVERSIONS ?= 1
 # FIXME: dpkg-maintscript-helper does not support $DPKG_ROOT (#832176)
 #export DPKG_HAS_WORKING_ROOTDIR_MAINTSCRIPT_HELPER ?= 1
 endif
