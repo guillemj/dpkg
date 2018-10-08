@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.19.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-09-26 04:22+0200\n"
+"POT-Creation-Date: 2018-10-08 11:37+0200\n"
 "PO-Revision-Date: 2018-09-19 20:30+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -747,8 +747,9 @@ msgstr ""
 #: scripts/dpkg-gencontrol.pl scripts/dpkg-mergechangelogs.pl
 #: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/IPC.pm
 #: scripts/Dpkg/Interface/Storable.pm scripts/Dpkg/Source/Functions.pm
-#: scripts/Dpkg/Source/Package.pm scripts/Dpkg/Source/Package/V2.pm
-#: scripts/Dpkg/Source/Package/V3/Quilt.pm scripts/Dpkg/Source/Quilt.pm
+#: scripts/Dpkg/Source/BinaryFiles.pm scripts/Dpkg/Source/Package.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Package/V3/Quilt.pm
+#: scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot write %s"
 msgstr "%s kann nicht geschrieben werden"
@@ -932,8 +933,8 @@ msgstr "Paket %s in Steuerdatei, aber nicht in Dateiliste"
 
 #: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl scripts/Dpkg/BuildFlags.pm
 #: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/Interface/Storable.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/Package/V2.pm
-#: scripts/Dpkg/Source/Quilt.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
 #, perl-format
 msgid "cannot read %s"
 msgstr "%s kann nicht gelesen werden"
@@ -1899,7 +1900,7 @@ msgstr "Verzeichnis %s kann nicht mit stat abgefragt werden"
 msgid "directory argument %s is not a directory"
 msgstr "Verzeichnis-Argument %s ist kein Verzeichnis"
 
-#: scripts/dpkg-source.pl scripts/Dpkg/Source/Package/V2.pm
+#: scripts/dpkg-source.pl scripts/Dpkg/Source/BinaryFiles.pm
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm scripts/Dpkg/Source/Package/V3/Git.pm
 #, perl-format
 msgid "unable to chdir to '%s'"
@@ -2900,6 +2901,37 @@ msgstr "Zeitstempel für %s kann nicht geändert werden"
 msgid "cannot read timestamp from %s"
 msgstr "Zeitstempel für %s kann nicht gelesen werden"
 
+#: scripts/Dpkg/Source/Functions.pm
+#, fuzzy, perl-format
+#| msgid "cannot open upload file %s for reading"
+msgid "cannot open file %s for binary detection"
+msgstr "kann hochzuladene Datei %s nicht zum Lesen öffnen"
+
+#: scripts/Dpkg/Source/BinaryFiles.pm
+#, perl-format
+msgid "adding %s to %s"
+msgstr "%s wird zu %s hinzugefügt"
+
+#: scripts/Dpkg/Source/BinaryFiles.pm
+#, perl-format
+msgid "unwanted binary file: %s"
+msgstr "unerwünschte Binärdatei: %s"
+
+#: scripts/Dpkg/Source/BinaryFiles.pm
+#, perl-format
+msgid ""
+"detected %d unwanted binary file (add it in debian/source/include-binaries "
+"to allow its inclusion)."
+msgid_plural ""
+"detected %d unwanted binary files (add them in debian/source/include-"
+"binaries to allow their inclusion)."
+msgstr[0] ""
+"erkannte %d unerwünschte Binärdatei (fügen Sie sie zu debian/source/include-"
+"binaries hinzu, um ihre Aufnahme zu erlauben)."
+msgstr[1] ""
+"erkannte %d unerwünschte Binärdateien (fügen Sie sie zu debian/source/"
+"include-binaries hinzu, um ihre Aufnahme zu erlauben)."
+
 #: scripts/Dpkg/Source/Package.pm
 #, perl-format
 msgid "%s is not the name of a file"
@@ -3348,26 +3380,6 @@ msgstr "lokale Änderungen erkannt, die veränderten Dateien sind:"
 msgid "-b takes only one parameter with format '%s'"
 msgstr "-b akzeptiert nur einen Parameter mit dem Format »%s«"
 
-#: scripts/Dpkg/Source/Package/V2.pm
-#, perl-format
-msgid "unwanted binary file: %s"
-msgstr "unerwünschte Binärdatei: %s"
-
-#: scripts/Dpkg/Source/Package/V2.pm
-#, perl-format
-msgid ""
-"detected %d unwanted binary file (add it in debian/source/include-binaries "
-"to allow its inclusion)."
-msgid_plural ""
-"detected %d unwanted binary files (add them in debian/source/include-"
-"binaries to allow their inclusion)."
-msgstr[0] ""
-"erkannte %d unerwünschte Binärdatei (fügen Sie sie zu debian/source/include-"
-"binaries hinzu, um ihre Aufnahme zu erlauben)."
-msgstr[1] ""
-"erkannte %d unerwünschte Binärdateien (fügen Sie sie zu debian/source/"
-"include-binaries hinzu, um ihre Aufnahme zu erlauben)."
-
 #: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Patch.pm
 #, perl-format
 msgid "cannot represent change to %s: %s"
@@ -3439,11 +3451,6 @@ msgstr "Kein Patch-Name angegeben; es kann nicht fortgefahren werden"
 #: scripts/Dpkg/Source/Package/V2.pm
 msgid "cannot find an editor"
 msgstr "Es kann kein Editor gefunden werden"
-
-#: scripts/Dpkg/Source/Package/V2.pm
-#, perl-format
-msgid "adding %s to %s"
-msgstr "%s wird zu %s hinzugefügt"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
 msgid "cannot unpack bzr-format source package because bzr is not in the PATH"
@@ -4817,9 +4824,6 @@ msgstr "Epoch-Teil der Versionsnummer ist keine Zahl: »%s«"
 
 #~ msgid "diff `%s' is missing trailing newline"
 #~ msgstr "Diff »%s« fehlt ein abschließender Zeilenumbruch"
-
-#~ msgid "cannot open upload file %s for reading"
-#~ msgstr "kann hochzuladene Datei %s nicht zum Lesen öffnen"
 
 #~ msgid "cannot fstat upload file %s"
 #~ msgstr "kann keinen »fstat« auf hochzuladene Datei %s durchführen"

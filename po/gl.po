@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-09-26 04:22+0200\n"
+"POT-Creation-Date: 2018-10-08 11:37+0200\n"
 "PO-Revision-Date: 2015-04-07 09:49+0200\n"
 "Last-Translator: mvillarino <mvillarino@users.sourceforge.net>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
@@ -1091,9 +1091,20 @@ msgid "unable to lock %s"
 msgstr "non se pode desbloquear %s: %s"
 
 #: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot open diversions: %s"
+msgid "cannot open file %s"
+msgstr "non se puido abrir o ficheiro de desvíos: %s"
+
+#: lib/dpkg/file.c
 #, fuzzy
 msgid "pager to show file"
 msgstr "non se pode baleirar o buffer en vsnprintf"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+msgid "cannot write file %s into the pager"
+msgstr "Non se poden desviar directorios"
 
 #: lib/dpkg/log.c
 #, fuzzy, c-format
@@ -2865,6 +2876,8 @@ msgid ""
 "  --rename                 actually move the file aside (or back).\n"
 "  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
+"  --instdir <directory>    set the root directory, but not the admin dir.\n"
+"  --root <directory>       set the directory of the root filesystem.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
@@ -4594,6 +4607,12 @@ msgid "admindir must be inside instdir for dpkg to work properly"
 msgstr ""
 
 #: src/script.c
+msgid ""
+"not enough privileges to change root directory with --force-not-root, "
+"consider using --force-script-chrootless?"
+msgstr ""
+
+#: src/script.c
 #, c-format
 msgid "failed to chroot to '%.250s'"
 msgstr "non se puido facer chroot a \"%.250s\""
@@ -4746,6 +4765,8 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
+"  --instdir <directory>    set the root directory, but not the admin dir.\n"
+"  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
 "  --force                  force an action even if a sanity check fails.\n"
 "  --quiet                  quiet operation, minimal output.\n"
