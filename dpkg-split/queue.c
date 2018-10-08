@@ -62,23 +62,25 @@ decompose_filename(const char *filename, struct partqueue *pq)
   if (strspn(filename, "0123456789abcdef") != MD5HASHLEN ||
       filename[MD5HASHLEN] != '.')
     return false;
-  q = nfmalloc(MD5HASHLEN + 1);
-  memcpy(q, filename, MD5HASHLEN);
-  q[MD5HASHLEN] = '\0';
-  pq->info.md5sum= q;
+
+  pq->info.md5sum = nfstrnsave(filename, MD5HASHLEN);
+
   p = filename + MD5HASHLEN + 1;
   errno = 0;
   pq->info.maxpartlen = strtoimax(p, &q, 16);
   if (q == p || *q++ != '.' || errno != 0)
     return false;
+
   p = q;
   pq->info.thispartn = (int)strtol(p, &q, 16);
   if (q == p || *q++ != '.' || errno != 0)
     return false;
+
   p = q;
   pq->info.maxpartn = (int)strtol(p, &q, 16);
   if (q == p || *q || errno != 0)
     return false;
+
   return true;
 }
 
