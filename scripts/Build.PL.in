@@ -49,6 +49,8 @@ my $class = Module::Build->subclass(
         sub ACTION_test {
             my $self = shift;
 
+            local $ENV{LANG} = 'C';
+            local $ENV{LC_ALL} = 'C';
             local $ENV{DPKG_TEST_MODE} = 'cpan';
             local $ENV{DPKG_DATADIR} = 'data';
             local $ENV{DPKG_ORIGINS_DIR} = 't/origins';
