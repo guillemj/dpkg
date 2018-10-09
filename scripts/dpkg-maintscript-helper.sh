@@ -424,7 +424,7 @@ prepare_dir_to_symlink()
 	# we should not perform the switch.
 	export DPKG_MAINTSCRIPT_HELPER_INTERNAL_API="$version"
 	find "$PATHNAME" -print0 | \
-		xargs -0 -n1 $0 _internal_pkg_must_own_file "$PACKAGE" || \
+		xargs -0 -n1 "$0" _internal_pkg_must_own_file "$PACKAGE" || \
 		error "directory '$PATHNAME' contains files not owned by" \
 		      "package $PACKAGE, cannot switch to symlink"
 	unset DPKG_MAINTSCRIPT_HELPER_INTERNAL_API
@@ -568,7 +568,7 @@ COLOR_BOLD_WHITE='[1;37m'
 
 setup_colors()
 {
-	: ${DPKG_COLORS=auto}
+	: "${DPKG_COLORS=auto}"
 
 	case "$DPKG_COLORS" in
 	auto)
