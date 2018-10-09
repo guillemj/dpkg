@@ -161,6 +161,7 @@ test_scripts = \
 	t/strict.t \
 	t/critic.t \
 	t/codespell.t \
+	t/shellcheck.t \
 	t/cppcheck.t \
 	$(nil)
 
