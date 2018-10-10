@@ -1,4 +1,5 @@
 # Copyright © 2007-2010 Raphaël Hertzog <hertzog@debian.org>
+# Copyright © 2007-2009,2012-2015,2017-2018 Guillem Jover <guillem@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,16 +24,6 @@ our $VERSION = '0.01';
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
-use Dpkg::Path qw(find_command);
-use Dpkg::Arch qw(debarch_to_gnutriplet get_build_arch get_host_arch);
-
-# Decide which objdump to call
-our $OBJDUMP = 'objdump';
-if (get_build_arch() ne get_host_arch()) {
-    my $od = debarch_to_gnutriplet(get_host_arch()) . '-objdump';
-    $OBJDUMP = $od if find_command($od);
-}
-
 
 sub new {
     my $this = shift;
@@ -243,9 +234,12 @@ package Dpkg::Shlibs::Objdump::Object;
 
 use strict;
 use warnings;
+use feature qw(state);
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
+use Dpkg::Path qw(find_command);
+use Dpkg::Arch qw(debarch_to_gnutriplet get_build_arch get_host_arch);
 
 sub new {
     my $this = shift;
@@ -280,6 +274,14 @@ sub reset {
     return $self;
 }
 
+sub _select_objdump {
+    # Decide which objdump to call
+    if (get_build_arch() ne get_host_arch()) {
+        my $od = debarch_to_gnutriplet(get_host_arch()) . '-objdump';
+        return $od if find_command($od);
+    }
+    return 'objdump';
+}
 
 sub analyze {
     my ($self, $file) = @_;
@@ -297,6 +299,7 @@ sub analyze {
         return;
     }
 
+    state $OBJDUMP = _select_objdump();
     local $ENV{LC_ALL} = 'C';
     open(my $objdump, '-|', $OBJDUMP, '-w', '-f', '-p', '-T', '-R', $file)
         or syserr(g_('cannot fork for %s'), $OBJDUMP);
