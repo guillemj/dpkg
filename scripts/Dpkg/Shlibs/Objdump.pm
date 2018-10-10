@@ -25,7 +25,6 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling;
 use Dpkg::Path qw(find_command);
 use Dpkg::Arch qw(debarch_to_gnutriplet get_build_arch get_host_arch);
-use Dpkg::IPC;
 
 # Decide which objdump to call
 our $OBJDUMP = 'objdump';
