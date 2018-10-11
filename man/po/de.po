@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dpkg-man 1.19.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2018-10-08 11:37+0200\n"
-"PO-Revision-Date: 2018-09-26 21:26+0200\n"
+"PO-Revision-Date: 2018-10-11 21:28+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -2642,30 +2642,28 @@ msgstr ""
 
 #. type: TP
 #: deb-control.man
-#, fuzzy, no-wrap
-#| msgid "B<Build-Date:> I<build-date>"
+#, no-wrap
 msgid "B<Build-Ids:>I< elf-build-id-list>"
-msgstr "B<Build-Date:> I<Baudatum>"
+msgstr "B<Build-Ids:>I< ELF-Baukennungsliste >"
 
 #. type: Plain text
 #: deb-control.man
-#, fuzzy
-#| msgid ""
-#| "This field specifies a whitespace separated list of build profiles that "
-#| "this upload was built with."
 msgid ""
 "This field specifies a whitespace separated list of ELF build-ids. These are "
 "unique identifiers for semantically identical ELF objects, for each of these "
 "within the package."
 msgstr ""
-"Das Feld gibt eine durch Leerraum getrennte Liste von Bauprofilen an, unter "
-"denen dieser Upload gebaut wurde."
+"Das Feld gibt eine durch Leerraum getrennte Liste von ELF-Baukennugen an. "
+"Dies sind eindeutige Kennzeichner für semantisch identische ELF-Objekte, für "
+"jedes von diesen innerhalb des Pakets."
 
 #. type: Plain text
 #: deb-control.man
 msgid ""
 "The format or the way to compute each build-id is not defined by design."
 msgstr ""
+"Das Format oder die Art, jede Baukennung zu berechnen, ist designbedingt "
+"nicht festgelegt."
 
 #. type: SH
 #: deb-control.man deb-conffiles.man deb-src-control.man deb-origin.man
@@ -2728,6 +2726,9 @@ msgid ""
 "context within an ELF object, which serves a very specific purpose and "
 "executable format."
 msgstr ""
+"Das Feld B<Build-Ids> verwendet einen eher generischen Namen aus seinem "
+"ursprünglichen Zusammenhang innerhalb eines ELF-Objektes, das einem sehr "
+"speziellen Zweck und ausführbaren Format dient."
 
 #. type: Plain text
 #: deb-control.man
@@ -6170,11 +6171,6 @@ msgstr ""
 
 #. type: Plain text
 #: dsc.man
-#, fuzzy
-#| msgid ""
-#| "The source formats currently supported by B<dpkg> are B<1.0>, B<2.0>, "
-#| "B<3.0 (native)>, B<3.0 (quilt)>, B<3.0 (git)>, B<3.0 (bzr)> and B<3.0 "
-#| "(custom)>."
 msgid ""
 "The source formats currently supported by B<dpkg> are B<1.0>, B<2.0>, B<3.0 "
 "(native)>, B<3.0 (quilt)>, B<3.0 (git)>, B<3.0 (bzr)> and B<3.0 (custom)>.  "
@@ -6182,7 +6178,7 @@ msgid ""
 msgstr ""
 "Die von B<dpkg> derzeit unterstützten Quellformate sind B<1.0>, B<2.0>, "
 "B<3.0 (native)>, B<3.0 (quilt)>, B<3.0 (git)>, B<3.0 (bzr)> und B<3.0 "
-"(custom)>."
+"(custom)>. Siehe B<dpkg-source>(1) für ihre Beschreibung."
 
 #. type: TP
 #: dsc.man
@@ -7977,43 +7973,32 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
-#| msgid "B<depends>: Turn all dependency problems into warnings."
 msgid ""
 "B<depends>: Turn all dependency problems into warnings.  This affects the "
 "B<Pre-Depends> and B<Depends> fields."
-msgstr "B<depends>: Verwandle alle Abhängigkeitsprobleme in Warnungen."
+msgstr "B<depends>: Verwandle alle Abhängigkeitsprobleme in Warnungen. Dies betrifft "
+"die Felder B<Pre-Depends> und B<Depends>."
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
-#| msgid ""
-#| "B<depends-version>: Don't care about versions when checking dependencies."
 msgid ""
 "B<depends-version>: Don't care about versions when checking dependencies.  "
 "This affects the B<Pre-Depends> and B<Depends> fields."
 msgstr ""
-"B<depends-version>: Ignoriere Versionen bei der Prüfung von Abhängigkeiten."
+"B<depends-version>: Ignoriere Versionen bei der Prüfung von Abhängigkeiten. "
+"Dies betrifft die Felder B<Pre-Depends> und B<Depends>."
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
-#| msgid ""
-#| "B<breaks>: Install, even if this would break another package (since dpkg "
-#| "1.14.6)."
 msgid ""
 "B<breaks>: Install, even if this would break another package (since dpkg "
 "1.14.6).  This affects the B<Breaks> field."
 msgstr ""
 "B<breaks>: Installiere, selbst falls dies ein anderes Paket beschädigt (seit "
-"Dpkg 1.14.6)."
+"Dpkg 1.14.6). Dies betrifft das Feld B<Breaks>."
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
-#| msgid ""
-#| "B<conflicts>: Install, even if it conflicts with another package. This is "
-#| "dangerous, for it will usually cause overwriting of some files."
 msgid ""
 "B<conflicts>: Install, even if it conflicts with another package. This is "
 "dangerous, for it will usually cause overwriting of some files.  This "
@@ -8021,7 +8006,7 @@ msgid ""
 msgstr ""
 "B<conflicts>: Installiere, selbst wenn es mit einem anderen Paket in "
 "Konflikt steht. Dies ist gefährlich, da dies gewöhnlich dazu führt, dass "
-"einige Dateien überschrieben werden."
+"einige Dateien überschrieben werden. Dies betrifft das Feld B<Conflicts>."
 
 #. type: Plain text
 #: dpkg.man
@@ -8219,10 +8204,6 @@ msgstr "B<--ignore-depends>=I<Paket>, …"
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
-#| msgid ""
-#| "Ignore dependency-checking for specified packages (actually, checking is "
-#| "performed, but only warnings about conflicts are given, nothing else)."
 msgid ""
 "Ignore dependency-checking for specified packages (actually, checking is "
 "performed, but only warnings about conflicts are given, nothing else).  This "
@@ -8230,7 +8211,8 @@ msgid ""
 msgstr ""
 "Ignoriere Abhängigkeitsüberprüfungen für bestimmte Pakete (tatsächlich wird "
 "die Überprüfung durchgeführt, aber nur Warnungen über Konflikte werden "
-"angezeigt, sonst nichts)."
+"angezeigt, sonst nichts). Dies betrifft die Felder B<Pre-Depends>, "
+"B<Depends> und B<Breaks>."
 
 #. type: TP
 #: dpkg.man
@@ -8305,19 +8287,15 @@ msgstr "B<--admindir=>I<Verz>"
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
-#| msgid ""
-#| "Change default administrative directory, which contains many files that "
-#| "give information about status of installed or uninstalled packages, etc.  "
-#| "(Defaults to «I<%ADMINDIR%>»)"
 msgid ""
 "Set the administrative directory to I<directory>.  This directory contains "
 "many files that give information about status of installed or uninstalled "
 "packages, etc.  Defaults to «I<%ADMINDIR%>»."
 msgstr ""
-"Ändere das voreingestellte administrative Verzeichnis (standardmäßig »I<"
-"%ADMINDIR%>«), in dem viele Dateien liegen, die Informationen über den "
-"Status von installierten und deinstallierten Pakete usw. liegen."
+"Setzt das Standardadministrationsverzeichnis auf I<Verzeichnis>. Diess "
+"Verzeichnis enthält viele Dateien, die Informationen über den Status von "
+"installierten und deinstallierten Paketen usw. enthalten. Standardmäßig "
+"»I<%ADMINDIR%>«."
 
 #. type: TP
 #: dpkg.man
@@ -8327,23 +8305,17 @@ msgstr "B<--instdir=>I<Verz>"
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
-#| msgid ""
-#| "Change default installation directory which refers to the directory where "
-#| "packages are to be installed. B<instdir> is also the directory passed to "
-#| "B<chroot>(2) before running package's installation scripts, which means "
-#| "that the scripts see B<instdir> as a root directory.  (Defaults to «I</>»)"
 msgid ""
 "Set the installation directory, which refers to the directory where packages "
 "are to be installed. B<instdir> is also the directory passed to B<chroot>(2) "
 "before running package's installation scripts, which means that the scripts "
 "see B<instdir> as a root directory.  Defaults to «I</>»."
 msgstr ""
-"Ändere das voreingestellte Installationsverzeichnis. Dieses Verzeichnis gibt "
-"an, wo Pakete installiert werden. B<instdir> (standardmäßig »I</>«) ist auch "
+"Setzt das voreingestellte Installationsverzeichnis. Dieses Verzeichnis gibt "
+"an, wo Pakete installiert werden. B<instdir> ist auch "
 "das Verzeichnis, das an B<chroot>(2) vor dem Aufruf der Installationsskripte "
 "des Paketes übergeben wird, was bedeutet, dass die Skripte B<instdir> als "
-"ein Wurzelverzeichnis sehen."
+"ein Wurzelverzeichnis sehen. Standardmäßig »I</>«."
 
 #. type: TP
 #: dpkg.man
@@ -8353,17 +8325,14 @@ msgstr "B<-root=>I<Verz>"
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
-#| msgid ""
-#| "Changing B<root> changes B<instdir> to «I<dir>» and B<admindir> to "
-#| "«I<dir>B<%ADMINDIR%>»."
 msgid ""
 "Set the root directory to B<directory>, which sets the installation "
 "directory to «I<dir>» and the administrative directory to «I<dir>B<%ADMINDIR"
 "%>»."
 msgstr ""
-"Durch Ändern von B<root> wird B<instdir> auf »I<Verz>« und B<admindir> auf "
-"»I<Verz>B<%ADMINDIR%>« geändert."
+"Setzt das Wurzelverzeichnis auf I<Verzeichnis>, wodurch das "
+"Installationsverzeichnis auf »I<Verz>« und das administrative Verzeichnis "
+"auf »I<Verz>B<%ADMINDIR%>« gesetzt wird."
 
 #. type: TP
 #: dpkg.man
@@ -8763,18 +8732,17 @@ msgstr ""
 
 #. type: TP
 #: dpkg.man dpkg-query.man
-#, fuzzy, no-wrap
-#| msgid "B<--no-triggers>"
+#, no-wrap
 msgid "B<--no-pager>"
-msgstr "B<--no-triggers>"
+msgstr "B<--no-pager>"
 
 #. type: Plain text
 #: dpkg.man dpkg-query.man
-#, fuzzy
-#| msgid "The Debian system name of the host machine (since dpkg 1.13.2)."
 msgid ""
 "Disables the use of any pager when showing information (since dpkg 1.19.2)."
-msgstr "Der Debian-Systemname der Host-Maschine. (Seit Dpkg 1.13.2)."
+msgstr ""
+"Deaktiviert die Verwendung jeglichen Pagers bei der Anzeige von "
+"Informationen (seit Dpkg 1.19.2)."
 
 #. type: TP
 #: dpkg.man
@@ -8955,15 +8923,12 @@ msgstr "B<SHELL>"
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
-#| msgid ""
-#| "The program B<dpkg> will execute when starting a new interactive shell."
 msgid ""
 "The program B<dpkg> will execute when starting a new interactive shell, or "
 "when spawning a command via a shell."
 msgstr ""
 "Das Programm, das B<dpkg> ausführen wird, wenn es eine neue interaktive "
-"Shell startet."
+"Shell startet oder einen Befehl über eine Shell ausführt."
 
 #. type: TP
 #: dpkg.man dpkg-query.man
@@ -8973,10 +8938,9 @@ msgstr "B<PAGER>"
 
 #. type: TQ
 #: dpkg.man dpkg-query.man
-#, fuzzy, no-wrap
-#| msgid "B<PAGER>"
+#, no-wrap
 msgid "B<DPKG_PAGER>"
-msgstr "B<PAGER>"
+msgstr "B<DPKG_PAGER>"
 
 #. type: Plain text
 #: dpkg.man
@@ -8986,6 +8950,10 @@ msgid ""
 "be used instead.  The B<DPKG_PAGER> overrides the B<PAGER> environment "
 "variable (since dpkg 1.19.2)."
 msgstr ""
+"Das Programm, das B<dpkg> ausführen wird, wenn es einen Pager ausführt, "
+"beispielsweise zur Anzeige von Conffile-Dateiunterschieden. Falls B<SHELL> "
+"nicht gesetzt ist, wird stattdessen »B<sh>« verwandt. B<DPKG_PAGER> setzt "
+"die Umgebungsvariable B<PAGER> außer Kraft (seit Dpkg 1.19.2)."
 
 #. type: TP
 #: dpkg.man dpkg-architecture.man dpkg-buildflags.man dpkg-buildpackage.man
@@ -9040,7 +9008,7 @@ msgstr "Interne Umgebung"
 #: dpkg.man dpkg-query.man
 #, no-wrap
 msgid "B<LESS>"
-msgstr ""
+msgstr "B<LESS>"
 
 #. type: Plain text
 #: dpkg.man
@@ -9051,6 +9019,13 @@ msgid ""
 "or B<DPKG_PAGER> variables can be set to disable specific options with «B<-"
 "+>», for example B<DPKG_PAGER=\"less -+F\">."
 msgstr ""
+"Von B<dpkg> auf »B<-FRSXMQ>« definiert, falls es nicht bereits gesetzt ist "
+"oder wenn ein Pager gestartet wird (seit Dpkg 1.19.2). Um das "
+"Vorgabeverhalten zu verändern, kann diese Variable auf einen anderen Wert "
+"einschließlich der leeren Zeichenkette voreingestellt werden oder die "
+"Variablen B<PAGER> oder B<DPKG_PAGER> können gesetzt werden, um bestimmte "
+"Optionen mit »B<-+>« zu deaktivieren, beispielsweise B<DPKG_PAGER=\"less -"
+"+F\">."
 
 #. type: TP
 #: dpkg.man dpkg-divert.man dpkg-statoverride.man
@@ -12811,12 +12786,6 @@ msgstr "B<source>"
 
 #. type: Plain text
 #: dpkg-buildpackage.man
-#, fuzzy
-#| msgid ""
-#| "Builds the source package.  Note: when using this value standalone and if "
-#| "what you want is simply to (re-)build the source package, using B<dpkg-"
-#| "source> is always better as it does not require any build dependencies to "
-#| "be installed to be able to call the B<clean> target."
 msgid ""
 "Builds the source package.  Note: when using this value standalone and if "
 "what you want is simply to (re-)build the source package from a clean source "
@@ -12825,9 +12794,9 @@ msgid ""
 "be able to call the B<clean> target."
 msgstr ""
 "Baut das Quellpaket: Hinweis: Falls Sie diesen Wert alleine verwenden und "
-"falls Sie einfach das Quellpaket (neu) bauen möchten, ist die Verwendung von "
-"B<dpkg-source> immer besser, da dafür keine Bauabhängigkeiten installiert "
-"sein müssen, um das Ziel B<clean> aufzurufen."
+"falls Sie einfach das Quellpaket aus einem sauberen Quellbaum (neu) bauen möchten, ist die Verwendung von "
+"B<dpkg-source> immer die bessere Option, da dafür keine Bauabhängigkeiten installiert "
+"sein müssen, die ansonsten benötigt werden, um das Ziel B<clean> aufzurufen."
 
 #. type: TP
 #: dpkg-buildpackage.man dpkg-genbuildinfo.man dpkg-genchanges.man
@@ -15365,44 +15334,33 @@ msgstr "B<--admindir>I< Verzeichnis>"
 
 #. type: Plain text
 #: dpkg-divert.man
-#, fuzzy
-#| msgid ""
-#| "Set the B<dpkg> data directory to I<directory> (default: I<%ADMINDIR%>)."
 msgid ""
 "Set the administrative directory to I<directory>.  Defaults to «I<%ADMINDIR"
 "%>»."
 msgstr ""
-"Setze das B<dpkg>-Datenverzeichnis auf I<Verzeichnis> (Standard: I<%ADMINDIR"
+"Setze das adminitrative Verzeichnis auf I<Verzeichnis> (Standard: I<%ADMINDIR"
 "%>)."
 
 #. type: TP
 #: dpkg-divert.man dpkg-statoverride.man
-#, fuzzy, no-wrap
-#| msgid "B<--admindir>I< directory>"
+#, no-wrap
 msgid "B<--instdir>I< directory>"
-msgstr "B<--admindir>I< Verzeichnis>"
+msgstr "B<--instdir>I< Verzeichnis>"
 
 #. type: Plain text
 #: dpkg-divert.man
-#, fuzzy
-#| msgid ""
-#| "If set, it will be used as the B<dpkg> data directory, where the "
-#| "architecture tables are located (since dpkg 1.14.17).  Defaults to "
-#| "«%PKGDATADIR%»."
 msgid ""
 "Set the installation directory, which refers to the directory where packages "
 "get installed (since dpkg 1.19.2). Defaults to «I</>»."
 msgstr ""
-"Falls dies gesetzt ist, wird es als Datenverzeichnis von B<dpkg> verwandt, "
-"in dem sich die Architekturtabellen befinden (seit Dpkg 1.14.17). "
-"Standardmäßig »%PKGDATADIR%«."
+"Setzt das Installationsverzeichnis, das sich auf das Verzeichnis bezieht, in "
+"dem Pakete installiert werden (seit Dpkg 1.19.2). Standardmäßig »I</>«."
 
 #. type: TP
 #: dpkg-divert.man dpkg-statoverride.man
-#, fuzzy, no-wrap
-#| msgid "B<--depotdir>I< directory>"
+#, no-wrap
 msgid "B<--root>I< directory>"
-msgstr "B<--depotdir>I< Verzeichnis>"
+msgstr "B<--root>I< Verzeichnis>"
 
 #. type: Plain text
 #: dpkg-divert.man dpkg-statoverride.man
@@ -15411,6 +15369,10 @@ msgid ""
 "directory to «I<directory>» and the administrative directory to "
 "«I<directory>B<%ADMINDIR%>» (since dpkg 1.19.2)."
 msgstr ""
+"Setzt das Wurzelverzeichnis auf I<Verzeichnis>, wodurch das "
+"Installationsverzeichnis auf »I<Verzeichnis>« und das administrative "
+"Verzeichnis auf »I<Verzeichnis>B<%ADMINDIR%>« gesetzt wird (seit Dpkg 1.19."
+"2)."
 
 #. type: TP
 #: dpkg-divert.man
@@ -15529,28 +15491,20 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-divert.man dpkg-statoverride.man
-#, fuzzy
-#| msgid ""
-#| "If set and the B<--admindir> option has not been specified, it will be "
-#| "used as the base administrative directory."
 msgid ""
 "If set and the B<--instdir> or B<--root> options have not been specified, it "
 "will be used as the filesystem root directory (since dpkg 1.19.2)."
 msgstr ""
-"Falls gesetzt und die Option B<--admindir> nicht angegeben wurde, wird dies "
-"als Basis-Administrationsverzeichnis verwandt."
+"Falls gesetzt und die Option B<--instdir> oder B<--root> nicht angegeben wurde, wird dies "
+"als Dateisystemwurzelverzeichnis verwandt."
 
 #. type: Plain text
 #: dpkg-divert.man dpkg-statoverride.man
-#, fuzzy
-#| msgid ""
-#| "If set and the B<--admindir> option has not been specified, it will be "
-#| "used as the B<dpkg> data directory."
 msgid ""
 "If set and the B<--admindir> or B<--root> options have not been specified, "
 "it will be used as the B<dpkg> data directory."
 msgstr ""
-"Falls gesetzt und die Option B<--admindir> nicht verwandt wurde, wird dies "
+"Falls gesetzt und die Option B<--admindir> oder B<--root> nicht verwandt wurde, wird dies "
 "als Datenverzeichnis von B<dpkg> verwandt."
 
 #. type: Plain text
@@ -19753,13 +19707,12 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-query.man
-#, fuzzy
-#| msgid ""
-#| "Sets the output format for the B<--verify> command (since dpkg 1.17.2)."
 msgid ""
 "Sets the program to execute when spawning a command via a shell (since dpkg "
 "1.19.2)."
-msgstr "Setzt das Ausgabeformat für den Befehl B<--verify> (seit Dpkg 1.17.2)."
+msgstr ""
+"Setzt das auszuführende Programm, wenn ein Befehl über eine Shell ausgeführt "
+"wird (seit Dpkg 1.19.2)."
 
 #. type: Plain text
 #: dpkg-query.man
@@ -19769,6 +19722,10 @@ msgid ""
 "The B<DPKG_PAGER> overrides the B<PAGER> environment variable (since dpkg "
 "1.19.2)."
 msgstr ""
+"Setzt den zu verwendenen Pager-Befehl (seit Dpkg 1.19.1), der mit »B<$SHELL -"
+"c>« ausgeführt wird. Falls B<SHELL> nicht gesetzt ist, wird stattdessen "
+"»B<sh>« verwandt. B<DPKG_PAGER> setzt die Umgebungsvariable B<PAGER> außer "
+"Kraft (seit Dpkg 1.19.2)."
 
 #. type: Plain text
 #: dpkg-query.man dpkg-trigger.man
@@ -19788,6 +19745,13 @@ msgid ""
 "or B<DPKG_PAGER> variables can be set to disable specific options with «B<-"
 "+>», for example B<DPKG_PAGER=\"less -+F\">."
 msgstr ""
+"Von B<dpkg-query> auf »B<-FRSXMQ>« definiert, falls es nicht bereits gesetzt "
+"ist oder wenn ein Pager gestartet wird (seit Dpkg 1.19.2). Um das "
+"Vorgabeverhalten zu verändern, kann diese Variable auf einen anderen Wert "
+"einschließlich der leeren Zeichenkette voreingestellt werden oder die "
+"Variablen B<PAGER> oder B<DPKG_PAGER> können gesetzt werden, um bestimmte "
+"Optionen mit »B<-+>« zu deaktivieren, beispielsweise B<DPKG_PAGER=\"less -"
+"+F\">."
 
 #. type: TH
 #: dpkg-scanpackages.man
@@ -22004,18 +21968,6 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-source.man
-#, fuzzy
-#| msgid ""
-#| "All patches listed in B<debian/patches/debian.series> or B<debian/patches/"
-#| "series> are then applied.  If the former file is used and the latter one "
-#| "doesn't exist (or is a symlink), then the latter is replaced with a "
-#| "symlink to the former. This is meant to simplify usage of B<quilt> to "
-#| "manage the set of patches. Note however that while B<dpkg-source> parses "
-#| "correctly series files with explicit options used for patch application "
-#| "(stored on each line after the patch filename and one or more spaces), it "
-#| "does ignore those options and always expect patches that can be applied "
-#| "with the B<-p1> option of B<patch>. It will thus emit a warning when it "
-#| "encounters such options, and the build is likely to fail."
 msgid ""
 "All patches listed in B<debian/patches/>I<vendor>B<.series> or B<debian/"
 "patches/series> are then applied, where I<vendor> will be the lowercase name "
@@ -22035,11 +21987,20 @@ msgid ""
 "of B<patch>. It will thus emit a warning when it encounters such options, "
 "and the build is likely to fail."
 msgstr ""
-"Dann werden alle in B<debian/patches/debian.series> oder B<debian/patches/"
-"series> aufgeführten Patches angewandt. Falls die erstere Datei verwandt "
+"Dann werden alle in B<debian/patches/>I<Lieferant>B<.series> oder B<debian/patches/"
+"series> aufgeführten Patches angewandt, wobei I<Lieferant> der Name des "
+"aktuellen Lieferanten in Kleinbuchstaben ist oder B<debian>, falls kein "
+"Lieferant definiert ist. Falls die erstere Datei verwandt "
 "wird und die letztere nicht existiert (oder ein Symlink ist), dann wird die "
 "letztere mit einem Symlink zu ersterer ersetzt. Dies ist zur Vereinfachung "
 "der Verwendung von B<quilt> gedacht, um die Gruppe von Patches zu verwalten. "
+"Lieferantenspezifische Seriendateien sind dazu gedacht, es zu ermöglichen, "
+"mehrere Entwicklungszweige basierend auf dem Lieferanten auf eine "
+"deklarative Art zu serialisieren, und diese gegenüber der offenen Codierung "
+"dieser Handhabung in B<debian/rules> zu bevorzugen. Dies ist insbesondere "
+"nützlich, wenn die Quellen mit Bedingungen gepacht werden müssten, da die "
+"betroffenen Dateien keine eingebaute abhängige Okklusionsunterstützung "
+"haben. "
 "Beachten Sie allerdings, dass B<dpkg-source> zwar Seriendateien auswertet, "
 "in denen explizite Optionen für die Anwendung der Patches verwandt werden "
 "(diese werden auf jede Zeile nach dem Patch-Dateinamen und einem oder "
@@ -22968,10 +22929,9 @@ msgstr ""
 
 #. type: SS
 #: dpkg-source.man
-#, fuzzy, no-wrap
-#| msgid "debian/patches/series"
+#, no-wrap
 msgid "debian/patches/I<vendor>.series"
-msgstr "debian/patches/series"
+msgstr "debian/patches/I<Lieferant>.series"
 
 #. type: SS
 #: dpkg-source.man
@@ -22981,16 +22941,6 @@ msgstr "debian/patches/series"
 
 #. type: Plain text
 #: dpkg-source.man
-#, fuzzy
-#| msgid ""
-#| "This file lists all patches that have to be applied (in the given order)  "
-#| "on top of the upstream source package. Leading and trailing spaces are "
-#| "stripped.  Lines starting with ‘B<#>’ are comments and are skipped.  "
-#| "Empty lines are ignored.  Remaining lines start with a patch filename "
-#| "(relative to the B<debian/patches/> directory) up to the first space "
-#| "character or the end of line. Optional B<quilt> options can follow up to "
-#| "the end of line or the first ‘B<#>’ preceded by one or more spaces (which "
-#| "marks the start of a comment up to the end of line)."
 msgid ""
 "This file lists all patches that have to be applied (in the given order)  on "
 "top of the upstream source package. Leading and trailing spaces are "
@@ -23006,7 +22956,10 @@ msgid ""
 msgstr ""
 "Diese Datei führt alle Patches auf, die (in der angegebenen Reihenfolge) auf "
 "das Quellpaket der Originalautoren angewandt werden müssen. Leerzeichen am "
-"Anfang und Ende werden entfernt. Zeilen, die mit ‚B<#>’ anfangen, sind "
+"Anfang und Ende werden entfernt. I<Lieferant> ist der Name des aktuellen "
+"Lieferanten in Kleinschreibung oder B<debian>, falls kein Lieferant "
+"definiert ist. Falls die lieferantenspezifische Seriendatei nicht existiert, "
+"wird eine lieferantenfreie Seriendatei verwandt. Zeilen, die mit ‚B<#>’ anfangen, sind "
 "Kommentare und werden übersprungen. Leere Zeilen werden ignoriert. Die "
 "verbleibenen Zeilen beginnen mit dem Dateinamen eines Patches (relativ zum "
 "Verzeichnis B<debian/patches/>) bis zum ersten Leerzeichen oder bis zum "
@@ -23609,31 +23562,21 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-statoverride.man
-#, fuzzy
-#| msgid ""
-#| "Change the I<directory> of the B<dpkg> database where the statoverride "
-#| "file is also stored. Defaults to I<%ADMINDIR%>."
 msgid ""
 "Set the administrative directory to I<directory>.  This is where the "
 "I<statoverride> file is stored.  Defaults to «I<%ADMINDIR%>»."
 msgstr ""
-"Wechsle das I<Verzeichnis> der B<dpkg>-Datenbank, wo auch die statoverride-"
-"Datei gelagert ist. Der Standard ist I<%ADMINDIR%>."
+"Setzt das administrative Verzeichnis auf I<Verzeichnis>. Hier wird auch die "
+"Datei I<statoverride> gelagert. Standardmäßig I<%ADMINDIR%>."
 
 #. type: Plain text
 #: dpkg-statoverride.man
-#, fuzzy
-#| msgid ""
-#| "If set, it will be used as the B<dpkg> data directory, where the "
-#| "architecture tables are located (since dpkg 1.14.17).  Defaults to "
-#| "«%PKGDATADIR%»."
 msgid ""
 "Set the installation directory, which refers to the directory where packages "
 "get installed (since dpkg 1.19.2).  Defaults to «I</>»."
 msgstr ""
-"Falls dies gesetzt ist, wird es als Datenverzeichnis von B<dpkg> verwandt, "
-"in dem sich die Architekturtabellen befinden (seit Dpkg 1.14.17). "
-"Standardmäßig »%PKGDATADIR%«."
+"Setzt das Installationsverzeichnis, das sich auf das Verzeichnis bezieht, in "
+"dem Pakete installiert werden (seit Dpkg 1.19.2). Standardmäßig »I</>«."
 
 #. type: TP
 #: dpkg-statoverride.man update-alternatives.man
