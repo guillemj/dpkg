@@ -515,7 +515,7 @@ daemonize(void)
 	sigset_t oldmask;
 
 	if (quietmode < 0)
-		printf("Detaching to start %s...", startas);
+		printf("Detaching to start %s...\n", startas);
 
 	/* Block SIGCHLD to allow waiting for the child process while it is
 	 * performing actions, such as creating a pidfile. */
@@ -560,7 +560,7 @@ daemonize(void)
 		fatal("cannot restore signal mask");
 
 	if (quietmode < 0)
-		printf("done.\n");
+		printf("Detaching complete...\n");
 }
 
 static void
