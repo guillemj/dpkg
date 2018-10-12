@@ -281,6 +281,32 @@ static struct schedule_item *schedule = NULL;
 
 
 static void DPKG_ATTR_PRINTF(1)
+debug(const char *format, ...)
+{
+	va_list arglist;
+
+	if (quietmode >= 0)
+		return;
+
+	va_start(arglist, format);
+	vprintf(format, arglist);
+	va_end(arglist);
+}
+
+static void DPKG_ATTR_PRINTF(1)
+info(const char *format, ...)
+{
+	va_list arglist;
+
+	if (quietmode > 0)
+		return;
+
+	va_start(arglist, format);
+	vprintf(format, arglist);
+	va_end(arglist);
+}
+
+static void DPKG_ATTR_PRINTF(1)
 warning(const char *format, ...)
 {
 	va_list arglist;
@@ -514,8 +540,7 @@ daemonize(void)
 	sigset_t mask;
 	sigset_t oldmask;
 
-	if (quietmode < 0)
-		printf("Detaching to start %s...\n", startas);
+	debug("Detaching to start %s...\n", startas);
 
 	/* Block SIGCHLD to allow waiting for the child process while it is
 	 * performing actions, such as creating a pidfile. */
@@ -559,8 +584,7 @@ daemonize(void)
 	if (sigprocmask(SIG_SETMASK, &oldmask, NULL) == -1)
 		fatal("cannot restore signal mask");
 
-	if (quietmode < 0)
-		printf("Detaching complete...\n");
+	debug("Detaching complete...\n");
 }
 
 static void
@@ -2254,8 +2278,7 @@ do_start(int argc, char **argv)
 	do_findprocs();
 
 	if (found) {
-		if (quietmode <= 0)
-			printf("%s already running.\n", execname ? execname : "process");
+		info("%s already running.\n", execname ? execname : "process");
 		return exitnodo;
 	}
 	if (testmode && quietmode <= 0) {
@@ -2283,8 +2306,7 @@ do_start(int argc, char **argv)
 	}
 	if (testmode)
 		return 0;
-	if (quietmode < 0)
-		printf("Starting %s...\n", startas);
+	debug("Starting %s...\n", startas);
 	*--argv = startas;
 	if (background)
 		/* Ok, we need to detach this process. */
@@ -2370,9 +2392,7 @@ do_stop(int sig_num, int *n_killed, int *n_notkilled)
 
 	for (p = found; p; p = p->next) {
 		if (testmode) {
-			if (quietmode <= 0)
-				printf("Would send signal %d to %d.\n",
-				       sig_num, p->pid);
+			info("Would send signal %d to %d.\n", sig_num, p->pid);
 			(*n_killed)++;
 		} else if (kill(p->pid, sig_num) == 0) {
 			pid_list_push(&killed, p->pid);
@@ -2492,8 +2512,7 @@ finish_stop_schedule(bool anykilled)
 	if (anykilled)
 		return 0;
 
-	if (quietmode <= 0)
-		printf("No %s found running; none killed.\n", what_stop);
+	info("No %s found running; none killed.\n", what_stop);
 
 	return exitnodo;
 }
@@ -2506,8 +2525,7 @@ run_stop_schedule(void)
 
 	if (testmode) {
 		if (schedule != NULL) {
-			if (quietmode <= 0)
-				printf("Ignoring --retry in test mode\n");
+			info("Ignoring --retry in test mode\n");
 			schedule = NULL;
 		}
 	}
@@ -2533,8 +2551,8 @@ run_stop_schedule(void)
 	if (schedule == NULL) {
 		do_stop(signal_nr, &n_killed, &n_notkilled);
 		do_stop_summary(0);
-		if (n_notkilled > 0 && quietmode <= 0)
-			printf("%d pids were not killed\n", n_notkilled);
+		if (n_notkilled > 0)
+			info("%d pids were not killed\n", n_notkilled);
 		if (n_killed)
 			anykilled = true;
 		return finish_stop_schedule(anykilled);
@@ -2568,9 +2586,8 @@ run_stop_schedule(void)
 		}
 	}
 
-	if (quietmode <= 0)
-		printf("Program %s, %d process(es), refused to die.\n",
-		       what_stop, n_killed);
+	info("Program %s, %d process(es), refused to die.\n",
+	     what_stop, n_killed);
 
 	return 2;
 }
