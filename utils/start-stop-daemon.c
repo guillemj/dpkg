@@ -436,6 +436,26 @@ newpath(const char *dirname, const char *filename)
 	return path;
 }
 
+static int
+parse_unsigned(const char *string, int base, int *value_r)
+{
+	long value;
+	char *endptr;
+
+	if (!string[0])
+		return -1;
+
+	errno = 0;
+	value = strtol(string, &endptr, base);
+	if (string == endptr || *endptr != '\0' || errno != 0)
+		return -1;
+	if (value < 0 || value > INT_MAX)
+		return -1;
+
+	*value_r = value;
+	return 0;
+}
+
 static long
 get_open_fd_max(void)
 {
@@ -743,26 +763,6 @@ static const struct sigpair siglist[] = {
 	{ "TTIN",	SIGTTIN	},
 	{ "TTOU",	SIGTTOU	}
 };
-
-static int
-parse_unsigned(const char *string, int base, int *value_r)
-{
-	long value;
-	char *endptr;
-
-	if (!string[0])
-		return -1;
-
-	errno = 0;
-	value = strtol(string, &endptr, base);
-	if (string == endptr || *endptr != '\0' || errno != 0)
-		return -1;
-	if (value < 0 || value > INT_MAX)
-		return -1;
-
-	*value_r = value;
-	return 0;
-}
 
 static int
 parse_pid(const char *pid_str, int *pid_num)
