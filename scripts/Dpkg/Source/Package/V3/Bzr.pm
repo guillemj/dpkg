@@ -176,7 +176,7 @@ sub do_extract {
 
     my @files = $self->get_files();
     if (@files > 1) {
-        error(g_('format v3.0 uses only one source file'));
+        error(g_('format v3.0 (bzr) uses only one source file'));
     }
     my $tarfile = $files[0];
     my $comp_ext_regex = compression_get_file_extension_regex();
