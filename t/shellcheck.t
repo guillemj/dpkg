@@ -40,11 +40,11 @@ my @files = qw(
     debian/dpkg.postrm
     scripts/dpkg-maintscript-helper.sh
 );
-my @shellcheck_opts = (qw(
-    --exclude=SC2039
-    --exclude=SC2166
-    --exclude=SC2034
-));
+my @shellcheck_opts = (
+    '--exclude=SC2039', # Allow local keyword.
+    '--exclude=SC2166', # Allow -a and -o.
+    '--exclude=SC2034', # Allow unused variables for colors.
+);
 
 plan tests => scalar @files;
 
