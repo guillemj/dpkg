@@ -238,8 +238,28 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     # <https://reproducible-builds.org/specs/source-date-epoch/>
     $ENV{SOURCE_DATE_EPOCH} ||= $changelog->{timestamp} || time;
 
+    # Select the format to use
+    if (not defined $build_format) {
+        my $format_file = "$dir/debian/source/format";
+        if (-e $format_file) {
+            my $format = Dpkg::Source::Format->new(filename => $format_file);
+            $build_format = $format->get();
+        } else {
+            warning(g_('no source format specified in %s, ' .
+                       'see dpkg-source(1)'), 'debian/source/format')
+                if $options{opmode} eq 'build';
+            $build_format = '1.0';
+        }
+    }
+
     my $srcpkg = Dpkg::Source::Package->new(options => \%options);
     my $fields = $srcpkg->{fields};
+
+    $fields->{'Format'} = $build_format;
+    $srcpkg->upgrade_object_type(); # Fails if format is unsupported
+    # Parse command line options
+    $srcpkg->init_options();
+    $srcpkg->parse_cmdline_options(@cmdline_options);
 
     my @sourcearch;
     my %archadded;
@@ -393,25 +413,6 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
     if (length($fields->{'Binary'}) > 980) {
 	$fields->{'Binary'} =~ s/(.{0,980}), ?/$1,\n/g;
     }
-
-    # Select the format to use
-    if (not defined $build_format) {
-        my $format_file = "$dir/debian/source/format";
-        if (-e $format_file) {
-            my $format = Dpkg::Source::Format->new(filename => $format_file);
-            $build_format = $format->get();
-	} else {
-	    warning(g_('no source format specified in %s, ' .
-	               'see dpkg-source(1)'), 'debian/source/format')
-		if $options{opmode} eq 'build';
-	    $build_format = '1.0';
-	}
-    }
-    $fields->{'Format'} = $build_format;
-    $srcpkg->upgrade_object_type(); # Fails if format is unsupported
-    # Parse command line options
-    $srcpkg->init_options();
-    $srcpkg->parse_cmdline_options(@cmdline_options);
 
     if ($options{opmode} eq 'print-format') {
 	print $fields->{'Format'} . "\n";
