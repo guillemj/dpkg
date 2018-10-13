@@ -88,7 +88,7 @@ use Dpkg::Gettext;
 
 use parent qw(Dpkg::Interface::Storable);
 
-=item $dep = Dpkg::Deps::Simple->new(%opts);
+=item $dep = Dpkg::Deps::Simple->new([$dep[, %opts]]);
 
 Creates a new object. Some options can be set through %opts:
 
