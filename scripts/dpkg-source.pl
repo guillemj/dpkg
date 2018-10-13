@@ -47,6 +47,7 @@ use Dpkg::Substvars;
 use Dpkg::Version;
 use Dpkg::Vars;
 use Dpkg::Changelog::Parse;
+use Dpkg::Source::Format;
 use Dpkg::Source::Package qw(get_default_diff_ignore_regex
                              set_default_diff_ignore_regex
                              get_default_tar_ignore_pattern);
@@ -252,13 +253,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
         }
     }
 
-    my $srcpkg = Dpkg::Source::Package->new(options => \%options);
+    my $srcpkg = Dpkg::Source::Package->new(format => $build_format,
+                                            options => \%options);
     my $fields = $srcpkg->{fields};
 
-    $fields->{'Format'} = $build_format;
-    $srcpkg->upgrade_object_type(); # Fails if format is unsupported
-    # Parse command line options
-    $srcpkg->init_options();
     $srcpkg->parse_cmdline_options(@cmdline_options);
 
     my @sourcearch;
@@ -570,9 +568,7 @@ sub print_option {
 sub get_format_help {
     $build_format //= '1.0';
 
-    my $srcpkg = Dpkg::Source::Package->new();
-    $srcpkg->{fields}->{'Format'} = $build_format;
-    $srcpkg->upgrade_object_type(); # Fails if format is unsupported
+    my $srcpkg = Dpkg::Source::Package->new(format => $build_format);
 
     my @cmdline = $srcpkg->describe_cmdline_options();
     return '' unless @cmdline;
