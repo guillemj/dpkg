@@ -207,8 +207,8 @@ trigproc_reset_cycle(void)
 }
 
 static bool
-tortoise_not_in_hare(struct pkginfo *processing_now,
-                     struct trigcycleperpkg *tortoise_pkg)
+tortoise_in_hare(struct pkginfo *processing_now,
+                 struct trigcycleperpkg *tortoise_pkg)
 {
 	const char *processing_now_name, *tortoise_name;
 	struct trigpend *hare_trig, *tortoise_trig;
@@ -241,11 +241,11 @@ tortoise_not_in_hare(struct pkginfo *processing_now,
 			/* Not found in hare, yay! */
 			debug(dbg_triggersdetail, "%s pnow=%s tortoise=%s OK",
 			      __func__, processing_now_name, tortoise_name);
-			return true;
+			return false;
 		}
 	}
 
-	return false;
+	return true;
 }
 
 /*
@@ -301,7 +301,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	for (tortoise_pkg = tortoise->pkgs;
 	     tortoise_pkg;
 	     tortoise_pkg = tortoise_pkg->next) {
-		if (tortoise_not_in_hare(processing_now, tortoise_pkg))
+		if (!tortoise_in_hare(processing_now, tortoise_pkg))
 			return NULL;
 	}
 	/* Oh dear. hare is a superset of tortoise. We are making no
