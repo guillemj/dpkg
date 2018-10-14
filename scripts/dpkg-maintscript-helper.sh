@@ -287,10 +287,10 @@ symlink_to_dir() {
 	case "$DPKG_MAINTSCRIPT_NAME" in
 	preinst)
 		if [ "$1" = "install" -o "$1" = "upgrade" ] &&
-		   [ -n "$2" ] && [ -h "$SYMLINK" ] &&
+		   [ -n "$2" ] && [ -h "$DPKG_ROOT$SYMLINK" ] &&
 		   symlink_match "$SYMLINK" "$SYMLINK_TARGET" &&
 		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
-			mv -f "$SYMLINK" "${SYMLINK}.dpkg-backup"
+			mv -f "$DPKG_ROOT$SYMLINK" "$DPKG_ROOT${SYMLINK}.dpkg-backup"
 		fi
 		;;
 	postinst)
@@ -298,23 +298,25 @@ symlink_to_dir() {
 		# know what was the last configured version, and we might
 		# have been unpacked, then upgraded with an unpack and thus
 		# never been configured before.
-		if [ "$1" = "configure" ] && [ -h "${SYMLINK}.dpkg-backup" ] &&
+		if [ "$1" = "configure" ] &&
+		   [ -h "$DPKG_ROOT${SYMLINK}.dpkg-backup" ] &&
 		   symlink_match "${SYMLINK}.dpkg-backup" "$SYMLINK_TARGET"
 		then
-			rm -f "${SYMLINK}.dpkg-backup"
+			rm -f "$DPKG_ROOT${SYMLINK}.dpkg-backup"
 		fi
 		;;
 	postrm)
-		if [ "$1" = "purge" ] && [ -h "${SYMLINK}.dpkg-backup" ]; then
-		    rm -f "${SYMLINK}.dpkg-backup"
+		if [ "$1" = "purge" ] && [ -h "$DPKG_ROOT${SYMLINK}.dpkg-backup" ]; then
+			rm -f "$DPKG_ROOT${SYMLINK}.dpkg-backup"
 		fi
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
 		   [ -n "$2" ] &&
-		   [ ! -e "$SYMLINK" ] && [ -h "${SYMLINK}.dpkg-backup" ] &&
+		   [ ! -e "$DPKG_ROOT$SYMLINK" ] &&
+		   [ -h "$DPKG_ROOT${SYMLINK}.dpkg-backup" ] &&
 		   symlink_match "${SYMLINK}.dpkg-backup" "$SYMLINK_TARGET" &&
 		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
-			echo "Restoring backup of $SYMLINK ..."
-			mv "${SYMLINK}.dpkg-backup" "$SYMLINK"
+			echo "Restoring backup of $DPKG_ROOT$SYMLINK ..."
+			mv "$DPKG_ROOT${SYMLINK}.dpkg-backup" "$DPKG_ROOT$SYMLINK"
 		fi
 		;;
 	*)
@@ -366,7 +368,8 @@ dir_to_symlink() {
 	preinst)
 		if [ "$1" = "install" -o "$1" = "upgrade" ] &&
 		   [ -n "$2" ] &&
-		   [ ! -h "$PATHNAME" ] && [ -d "$PATHNAME" ] &&
+		   [ ! -h "$DPKG_ROOT$PATHNAME" ] &&
+		   [ -d "$DPKG_ROOT$PATHNAME" ] &&
 		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
 			prepare_dir_to_symlink "$PACKAGE" "$PATHNAME"
 		fi
@@ -377,24 +380,27 @@ dir_to_symlink() {
 		# have been unpacked, then upgraded with an unpack and thus
 		# never been configured before.
 		if [ "$1" = "configure" ] &&
-		   [ -d "${PATHNAME}.dpkg-backup" ] &&
-		   [ ! -h "$PATHNAME" ] && [ -d "$PATHNAME" ] &&
-		   [ -f "$PATHNAME/.dpkg-staging-dir" ]; then
+		   [ -d "$DPKG_ROOT${PATHNAME}.dpkg-backup" ] &&
+		   [ ! -h "$DPKG_ROOT$PATHNAME" ] &&
+		   [ -d "$DPKG_ROOT$PATHNAME" ] &&
+		   [ -f "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir" ]; then
 			finish_dir_to_symlink "$PATHNAME" "$SYMLINK_TARGET"
 		fi
 		;;
 	postrm)
-		if [ "$1" = "purge" ] && [ -d "${PATHNAME}.dpkg-backup" ]; then
-		    rm -rf "${PATHNAME}.dpkg-backup"
+		if [ "$1" = "purge" ] &&
+		   [ -d "$DPKG_ROOT${PATHNAME}.dpkg-backup" ]; then
+			rm -rf "$DPKG_ROOT${PATHNAME}.dpkg-backup"
 		fi
 		if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] &&
 		   [ -n "$2" ] &&
-		   [ -d "${PATHNAME}.dpkg-backup" ] &&
-		   [ \( ! -h "$PATHNAME" -a -d "$PATHNAME" -a \
-		        -f "$PATHNAME/.dpkg-staging-dir" \) -o \
-		     \( -h "$PATHNAME" -a \
-		        \( "$(readlink "$PATHNAME")" = "$SYMLINK_TARGET" -o \
-		           "$(readlink -f "$PATHNAME")" = "$SYMLINK_TARGET" \) \) ] &&
+		   [ -d "$DPKG_ROOT${PATHNAME}.dpkg-backup" ] &&
+		   [ \( ! -h "$DPKG_ROOT$PATHNAME" -a \
+		        -d "$DPKG_ROOT$PATHNAME" -a \
+		        -f "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir" \) -o \
+		     \( -h "$DPKG_ROOT$PATHNAME" -a \
+		        \( "$(readlink "$DPKG_ROOT$PATHNAME")" = "$SYMLINK_TARGET" -o \
+		           "$(dpkg-realpath "$DPKG_ROOT$PATHNAME")" = "$SYMLINK_TARGET" \) \) ] &&
 		   dpkg --compare-versions -- "$2" le-nl "$LASTVERSION"; then
 			abort_dir_to_symlink "$PATHNAME"
 		fi
@@ -424,7 +430,7 @@ prepare_dir_to_symlink()
 	# If there are locally created files or files owned by another package
 	# we should not perform the switch.
 	export DPKG_MAINTSCRIPT_HELPER_INTERNAL_API="$version"
-	find "$PATHNAME" -print0 | \
+	find "$DPKG_ROOT$PATHNAME" -print0 | \
 		xargs -0 -n1 "$0" _internal_pkg_must_own_file "$PACKAGE" || \
 		error "directory '$PATHNAME' contains files not owned by" \
 		      "package $PACKAGE, cannot switch to symlink"
@@ -444,11 +450,11 @@ prepare_dir_to_symlink()
 	# So we need to create a staging directory, to avoid removing files
 	# from other packages, and to trap any new files in the directory
 	# to move them to their correct place later on.
-	mv -f "$PATHNAME" "${PATHNAME}.dpkg-backup"
-	mkdir "$PATHNAME"
+	mv -f "$DPKG_ROOT$PATHNAME" "$DPKG_ROOT${PATHNAME}.dpkg-backup"
+	mkdir "$DPKG_ROOT$PATHNAME"
 
 	# Mark it as a staging directory, so that we can track things.
-	touch "$PATHNAME/.dpkg-staging-dir"
+	touch "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir"
 }
 
 finish_dir_to_symlink()
@@ -465,36 +471,36 @@ finish_dir_to_symlink()
 	else
 		ABS_SYMLINK_TARGET="$SYMLINK_TARGET"
 	fi
-	rm "$PATHNAME/.dpkg-staging-dir"
-	find "$PATHNAME" -mindepth 1 -maxdepth 1 -print0 | \
-		xargs -0 -i% mv -f "%" "$ABS_SYMLINK_TARGET/"
+	rm "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir"
+	find "$DPKG_ROOT$PATHNAME" -mindepth 1 -maxdepth 1 -print0 | \
+		xargs -0 -i% mv -f "%" "$DPKG_ROOT$ABS_SYMLINK_TARGET/"
 
 	# Remove the staging directory.
-	rmdir "$PATHNAME"
+	rmdir "$DPKG_ROOT$PATHNAME"
 
 	# Do the actual switch.
-	ln -s "$SYMLINK_TARGET" "$PATHNAME"
+	ln -s "$SYMLINK_TARGET" "$DPKG_ROOT$PATHNAME"
 
 	# We are left behind the old files owned by this package in the backup
 	# directory, just remove it.
-	rm -rf "${PATHNAME}.dpkg-backup"
+	rm -rf "$DPKG_ROOT${PATHNAME}.dpkg-backup"
 }
 
 abort_dir_to_symlink()
 {
 	local PATHNAME="$1"
 
-	echo "Restoring backup of $PATHNAME ..."
-	if [ -h "$PATHNAME" ]; then
-		rm -f "$PATHNAME"
+	echo "Restoring backup of $DPKG_ROOT$PATHNAME ..."
+	if [ -h "$DPKG_ROOT$PATHNAME" ]; then
+		rm -f "$DPKG_ROOT$PATHNAME"
 	else
 		# The staging directory must be empty, as no other package
 		# should have been unpacked in between.
-		rm -f "$PATHNAME/.dpkg-staging-dir"
-		rmdir "$PATHNAME"
+		rm -f "$DPKG_ROOT$PATHNAME/.dpkg-staging-dir"
+		rmdir "$DPKG_ROOT$PATHNAME"
 	fi
 
-	mv "${PATHNAME}.dpkg-backup" "$PATHNAME"
+	mv "$DPKG_ROOT${PATHNAME}.dpkg-backup" "$DPKG_ROOT$PATHNAME"
 }
 
 # Common functions
@@ -525,7 +531,7 @@ ensure_package_owns_file() {
 internal_pkg_must_own_file()
 {
 	local PACKAGE="$1"
-	local FILE="$2"
+	local FILE="${2##$DPKG_ROOT}"
 
 	if [ "$DPKG_MAINTSCRIPT_HELPER_INTERNAL_API" != "$version" ]; then
 		error "internal API used by external command"
@@ -542,8 +548,8 @@ symlink_match()
 	local SYMLINK="$1"
 	local SYMLINK_TARGET="$2"
 
-	[ "$(readlink "$SYMLINK")" = "$SYMLINK_TARGET" ] || \
-	[ "$(readlink -f "$SYMLINK")" = "$SYMLINK_TARGET" ]
+	[ "$(readlink "$DPKG_ROOT$SYMLINK")" = "$SYMLINK_TARGET" ] || \
+	[ "$(dpkg-realpath "$DPKG_ROOT$SYMLINK")" = "$SYMLINK_TARGET" ]
 }
 
 usage() {
@@ -577,6 +583,7 @@ set -e
 
 PROGNAME=$(basename "$0")
 version="unknown"
+DPKG_ROOT=${DPKG_ROOT:+$(realpath "$DPKG_ROOT")}
 
 PKGDATADIR=scripts/sh
 
