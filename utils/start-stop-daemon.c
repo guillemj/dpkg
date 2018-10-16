@@ -1212,7 +1212,7 @@ parse_options(int argc, char * const *argv)
 		badusage("--remove-pidfile requires --pidfile");
 
 	if (pid_str && pidfile)
-		badusage("need either --pid of --pidfile, not both");
+		badusage("need either --pid or --pidfile, not both");
 
 	if (background && action != ACTION_START)
 		badusage("--background is only relevant with --start");
