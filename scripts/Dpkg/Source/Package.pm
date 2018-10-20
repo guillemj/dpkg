@@ -213,6 +213,7 @@ sub new {
     my $class = ref($this) || $this;
     my $self = {
         fields => Dpkg::Control->new(type => CTRL_PKG_SRC),
+        format => Dpkg::Source::Format->new(),
         options => {},
         checksums => Dpkg::Checksums->new(),
     };
@@ -287,34 +288,28 @@ sub initialize {
 sub upgrade_object_type {
     my ($self, $update_format) = @_;
     $update_format //= 1;
-    $self->{fields}{'Format'} //= '1.0';
-    my $format = $self->{fields}{'Format'};
 
-    if ($format =~ /^(\d+)(?:\.(\d+))?(?:\s+\(([a-z0-9]+)\))?$/) {
-        my ($major, $minor, $variant) = ($1, $2, $3);
+    my $format = $self->{fields}{'Format'} // '1.0';
+    my ($major, $minor, $variant) = $self->{format}->set($format);
 
-        my $module = "Dpkg::Source::Package::V$major";
-        $module .= '::' . ucfirst $variant if defined $variant;
-        eval qq{
-            pop \@INC if \$INC[-1] eq '.';
-            require $module;
-            \$minor = \$${module}::CURRENT_MINOR_VERSION;
-        };
-        if ($@) {
-            error(g_("source package format '%s' is not supported: %s"),
-                  $format, $@);
-        }
-
-        if ($update_format) {
-            $minor //= 0;
-            $self->{fields}{'Format'} = "$major.$minor";
-            $self->{fields}{'Format'} .= " ($variant)" if defined $variant;
-        }
-        $module->prerequisites() if $module->can('prerequisites');
-        bless $self, $module;
-    } else {
-        error(g_("source package format '%s' is invalid"), $format);
+    my $module = "Dpkg::Source::Package::V$major";
+    $module .= '::' . ucfirst $variant if defined $variant;
+    eval qq{
+        pop \@INC if \$INC[-1] eq '.';
+        require $module;
+        \$minor = \$${module}::CURRENT_MINOR_VERSION;
+    };
+    if ($@) {
+        error(g_("source package format '%s' is not supported: %s"),
+              $format, $@);
     }
+    if ($update_format) {
+        $self->{format}->set_from_parts($major, $minor, $variant);
+        $self->{fields}{'Format'} = $self->{format}->get();
+    }
+
+    $module->prerequisites() if $module->can('prerequisites');
+    bless $self, $module;
 }
 
 =item $p->get_filename()
@@ -548,10 +543,7 @@ sub extract {
         my $format_file = File::Spec->catfile($srcdir, 'format');
 	unless (-e $format_file) {
 	    mkdir($srcdir) unless -e $srcdir;
-	    open(my $format_fh, '>', $format_file)
-	        or syserr(g_('cannot write %s'), $format_file);
-	    print { $format_fh } $self->{fields}{'Format'} . "\n";
-	    close($format_fh);
+            $self->{format}->save($format_file);
 	}
     }
 

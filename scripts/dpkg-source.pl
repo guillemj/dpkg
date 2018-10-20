@@ -396,14 +396,10 @@ if ($options{opmode} =~ /^(build|print-format|(before|after)-build|commit)$/) {
 
     # Select the format to use
     if (not defined $build_format) {
-	if (-e "$dir/debian/source/format") {
-	    open(my $format_fh, '<', "$dir/debian/source/format")
-	        or syserr(g_('cannot read %s'), "$dir/debian/source/format");
-	    $build_format = <$format_fh>;
-	    chomp($build_format) if defined $build_format;
-	    error(g_('%s is empty'), "$dir/debian/source/format")
-		unless defined $build_format and length $build_format;
-	    close($format_fh);
+        my $format_file = "$dir/debian/source/format";
+        if (-e $format_file) {
+            my $format = Dpkg::Source::Format->new(filename => $format_file);
+            $build_format = $format->get();
 	} else {
 	    warning(g_('no source format specified in %s, ' .
 	               'see dpkg-source(1)'), 'debian/source/format')
