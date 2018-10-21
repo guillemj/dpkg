@@ -290,16 +290,8 @@ sub upgrade_object_type {
     $self->{fields}{'Format'} //= '1.0';
     my $format = $self->{fields}{'Format'};
 
-    if ($format =~ /^([\d\.]+)(?:\s+\((.*)\))?$/) {
-        my ($version, $variant) = ($1, $2);
-
-        if (defined $variant and $variant ne lc $variant) {
-            error(g_("source package format '%s' is not supported: %s"),
-                  $format, g_('format variant must be in lowercase'));
-        }
-
-        my $major = $version =~ s/\.[\d\.]+$//r;
-        my $minor;
+    if ($format =~ /^(\d+)(?:\.(\d+))?(?:\s+\(([a-z0-9]+)\))?$/) {
+        my ($major, $minor, $variant) = ($1, $2, $3);
 
         my $module = "Dpkg::Source::Package::V$major";
         $module .= '::' . ucfirst $variant if defined $variant;
@@ -308,19 +300,20 @@ sub upgrade_object_type {
             require $module;
             \$minor = \$${module}::CURRENT_MINOR_VERSION;
         };
-        $minor //= 0;
-        if ($update_format) {
-            $self->{fields}{'Format'} = "$major.$minor";
-            $self->{fields}{'Format'} .= " ($variant)" if defined $variant;
-        }
         if ($@) {
             error(g_("source package format '%s' is not supported: %s"),
                   $format, $@);
         }
+
+        if ($update_format) {
+            $minor //= 0;
+            $self->{fields}{'Format'} = "$major.$minor";
+            $self->{fields}{'Format'} .= " ($variant)" if defined $variant;
+        }
         $module->prerequisites() if $module->can('prerequisites');
         bless $self, $module;
     } else {
-        error(g_("invalid Format field '%s'"), $format);
+        error(g_("source package format '%s' is invalid"), $format);
     }
 }
 
