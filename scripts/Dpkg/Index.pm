@@ -237,11 +237,6 @@ sub add {
     $self->{items}{$key} = $item;
 }
 
-=item $index->load($file)
-
-Reads the file and creates all items parsed. Returns the number of items
-parsed. Handles compressed files transparently based on their extensions.
-
 =item $index->parse($fh, $desc)
 
 Reads the filehandle and creates all items parsed. When called multiple
@@ -263,10 +258,10 @@ sub parse {
     return $i;
 }
 
-=item $index->save($file)
+=item $index->load($file)
 
-Writes the content of the index in a file. Auto-compresses files
-based on their extensions.
+Reads the file and creates all items parsed. Returns the number of items
+parsed. Handles compressed files transparently based on their extensions.
 
 =item $item = $index->new_item()
 
@@ -404,17 +399,16 @@ sub sort {
     }
 }
 
-=item $str = $index->output()
+=item $str = $index->output([$fh])
 
 =item "$index"
 
-Get a string representation of the index. The Dpkg::Control objects are
+Get a string representation of the index. The L<Dpkg::Control> objects are
 output in the order which they have been read or added except if the order
 have been changed with sort().
 
-=item $index->output($fh)
-
-Print the string representation of the index to a filehandle.
+Print the string representation of the index to a filehandle if $fh has
+been passed.
 
 =cut
 
@@ -431,6 +425,11 @@ sub output {
     }
     return $str;
 }
+
+=item $index->save($file)
+
+Writes the content of the index in a file. Auto-compresses files
+based on their extensions.
 
 =back
 

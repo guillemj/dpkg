@@ -160,11 +160,6 @@ sub get_option {
     return $$self->{$k};
 }
 
-=item $c->load($file)
-
-Parse the content of $file. Exits in case of errors. Returns true if some
-fields have been parsed.
-
 =item $c->parse_error($file, $fmt, ...)
 
 Prints an error message and dies on syntax parse errors.
@@ -284,6 +279,11 @@ sub parse {
     return defined($cf);
 }
 
+=item $c->load($file)
+
+Parse the content of $file. Exits in case of errors. Returns true if some
+fields have been parsed.
+
 =item $c->find_custom_field($name)
 
 Scan the fields and look for a user specific field whose name matches the
@@ -312,11 +312,6 @@ sub get_custom_field {
     return $self->{$key} if defined $key;
     return;
 }
-
-=item $c->save($filename)
-
-Write the string representation of the control information to a
-file.
 
 =item $str = $c->output()
 
@@ -385,6 +380,10 @@ sub output {
     }
     return $str;
 }
+
+=item $c->save($filename)
+
+Write the string representation of the control information to a file.
 
 =item $c->set_output_order(@fields)
 

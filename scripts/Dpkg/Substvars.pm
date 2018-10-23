@@ -183,10 +183,6 @@ sub no_warn {
     $self->mark_as_used($key);
 }
 
-=item $s->load($file)
-
-Add new substitutions read from $file.
-
 =item $s->parse($fh, $desc)
 
 Add new substitutions read from the filehandle. $desc is used to identify
@@ -215,6 +211,10 @@ sub parse {
 
     return $count
 }
+
+=item $s->load($file)
+
+Add new substitutions read from $file.
 
 =item $s->set_version_substvars($sourceversion, $binaryversion)
 
@@ -404,20 +404,15 @@ sub filter {
     }
 }
 
-=item $s->save($file)
-
-Store all substitutions variables except the automatic ones in the
-indicated file.
-
 =item "$s"
 
 Return a string representation of all substitutions variables except the
 automatic ones.
 
-=item $str = $s->output($fh)
+=item $str = $s->output([$fh])
 
-Print all substitutions variables except the automatic ones in the
-filehandle and return the content written.
+Return all substitutions variables except the automatic ones. If $fh
+is passed print them into the filehandle.
 
 =cut
 
@@ -433,6 +428,11 @@ sub output {
     }
     return $str;
 }
+
+=item $s->save($file)
+
+Store all substitutions variables except the automatic ones in the
+indicated file.
 
 =back
 

@@ -221,7 +221,7 @@ sub filter {
                                @{$self->{options}};
 }
 
-=item $string = $conf->output($fh)
+=item $string = $conf->output([$fh])
 
 Write the options in the given filehandle (if defined) and return a string
 representation of the content (that would be) written.
@@ -229,10 +229,6 @@ representation of the content (that would be) written.
 =item "$conf"
 
 Return a string representation of the content.
-
-=item $conf->save($file)
-
-Save the options in a file.
 
 =cut
 
@@ -248,6 +244,10 @@ sub output {
     }
     return $ret;
 }
+
+=item $conf->save($file)
+
+Save the options in a file.
 
 =back
 

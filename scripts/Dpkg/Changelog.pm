@@ -74,12 +74,6 @@ sub new {
     return $self;
 }
 
-=item $c->load($filename)
-
-Parse $filename as a changelog.
-
-=cut
-
 =item $c->set_options(%opts)
 
 Change the value of some options. "verbose" (defaults to 1) defines
@@ -443,11 +437,7 @@ sub abort_early {
     return;
 }
 
-=item $c->save($filename)
-
-Save the changelog in the given file.
-
-=item $c->output()
+=item $str = $c->output()
 
 =item "$c"
 
@@ -475,6 +465,12 @@ sub output {
     }
     return $str;
 }
+
+=item $c->save($filename)
+
+Save the changelog in the given file.
+
+=cut
 
 our ( @URGENCIES, %URGENCIES );
 BEGIN {

@@ -48,13 +48,13 @@ from Dpkg::Interface::Storable so that the methods provided can work.
 
 =over 4
 
-=item $obj->parse($fh, $desc)
+=item $obj->parse($fh[, $desc])
 
 This methods initialize the object with the data stored in the
 filehandle. $desc is optional and is a textual description of
 the filehandle used in error messages.
 
-=item $string = $obj->output($fh)
+=item $string = $obj->output([$fh])
 
 This method returns a string representation of the object in $string
 and it writes the same string to $fh (if it's defined).
