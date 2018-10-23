@@ -266,6 +266,10 @@ Base object serializer.
 
 Common path handling functions.
 
+=item L<Dpkg::Source::Format>
+
+Parse and manipulate debian/source/format files.
+
 =item L<Dpkg::Source::Package>
 
 Extract Debian source packages.

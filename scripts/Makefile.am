@@ -105,6 +105,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Shlibs/Cppfilt.pm \
 	Dpkg/Source/Archive.pm \
 	Dpkg/Source/BinaryFiles.pm \
+	Dpkg/Source/Format.pm \
 	Dpkg/Source/Functions.pm \
 	Dpkg/Source/Package.pm \
 	Dpkg/Source/Package/V1.pm \
@@ -251,6 +252,7 @@ test_scripts = \
 	t/Dpkg_Source_Functions.t \
 	t/Dpkg_Source_Patch.t \
 	t/Dpkg_Source_Quilt.t \
+	t/Dpkg_Source_Format.t \
 	t/Dpkg_Source_Archive.t \
 	t/Dpkg_Source_Package.t \
 	t/Dpkg_Dist_Files.t \
