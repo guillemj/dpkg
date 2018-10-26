@@ -90,12 +90,18 @@ struct action_name {
 	{ ACTION_DISPLAY,		"display" },
 };
 
+enum output_mode {
+	OUTPUT_QUIET = -1,
+	OUTPUT_NORMAL = 0,
+	OUTPUT_VERBOSE = 1,
+};
+
 /* Action to perform */
 static enum action action = ACTION_NONE;
 static const char *log_file = LOGDIR "/alternatives.log";
 /* Skip alternatives properly configured in auto mode (for --config) */
 static int opt_skip_auto = 0;
-static int opt_verbose = 0;
+static int opt_verbose = OUTPUT_NORMAL;
 static int opt_force = 0;
 
 /*
@@ -212,7 +218,7 @@ warning(char const *fmt, ...)
 {
 	va_list args;
 
-	if (opt_verbose < 0)
+	if (opt_verbose < OUTPUT_NORMAL)
 		return;
 
 	fprintf(stderr, "%s: %s: ", PROGNAME, _("warning"));
@@ -241,7 +247,7 @@ verbose(char const *fmt, ...)
 {
 	va_list args;
 
-	if (opt_verbose < 1)
+	if (opt_verbose < OUTPUT_VERBOSE)
 		return;
 
 	printf("%s: ", PROGNAME);
@@ -256,7 +262,7 @@ info(char const *fmt, ...)
 {
 	va_list args;
 
-	if (opt_verbose < 0)
+	if (opt_verbose < OUTPUT_NORMAL)
 		return;
 
 	printf("%s: ", PROGNAME);
@@ -2630,9 +2636,9 @@ main(int argc, char **argv)
 			version();
 			exit(0);
 		} else if (strcmp("--verbose", argv[i]) == 0) {
-			opt_verbose++;
+			opt_verbose = OUTPUT_VERBOSE;
 		} else if (strcmp("--quiet", argv[i]) == 0) {
-			opt_verbose--;
+			opt_verbose = OUTPUT_QUIET;
 		} else if (strcmp("--install", argv[i]) == 0) {
 			char *prio_str, *prio_end;
 			long prio;
