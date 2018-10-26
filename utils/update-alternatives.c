@@ -94,6 +94,7 @@ enum output_mode {
 	OUTPUT_QUIET = -1,
 	OUTPUT_NORMAL = 0,
 	OUTPUT_VERBOSE = 1,
+	OUTPUT_DEBUG = 2,
 };
 
 /* Action to perform */
@@ -164,8 +165,9 @@ usage(void)
 "  --force                  allow replacing files with alternative links.\n"
 "  --skip-auto              skip prompt for alternatives correctly configured\n"
 "                           in automatic mode (relevant for --config only)\n"
-"  --verbose                verbose operation, more output.\n"
 "  --quiet                  quiet operation, minimal output.\n"
+"  --verbose                verbose operation, more output.\n"
+"  --debug                  debug output, way more output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 ));
@@ -231,15 +233,16 @@ warning(char const *fmt, ...)
 static void DPKG_ATTR_PRINTF(1)
 debug(char const *fmt, ...)
 {
-#if 0
 	va_list args;
+
+	if (opt_verbose < OUTPUT_DEBUG)
+		return;
 
 	fprintf(stderr, "DEBUG: ");
 	va_start(args, fmt);
 	vfprintf(stderr, fmt, args);
 	va_end(args);
 	fprintf(stderr, "\n");
-#endif
 }
 
 static void DPKG_ATTR_PRINTF(1)
@@ -2635,10 +2638,12 @@ main(int argc, char **argv)
 		} else if (strcmp("--version", argv[i]) == 0) {
 			version();
 			exit(0);
-		} else if (strcmp("--verbose", argv[i]) == 0) {
-			opt_verbose = OUTPUT_VERBOSE;
 		} else if (strcmp("--quiet", argv[i]) == 0) {
 			opt_verbose = OUTPUT_QUIET;
+		} else if (strcmp("--verbose", argv[i]) == 0) {
+			opt_verbose = OUTPUT_VERBOSE;
+		} else if (strcmp("--debug", argv[i]) == 0) {
+			opt_verbose = OUTPUT_DEBUG;
 		} else if (strcmp("--install", argv[i]) == 0) {
 			char *prio_str, *prio_end;
 			long prio;
