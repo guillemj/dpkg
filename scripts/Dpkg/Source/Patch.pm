@@ -148,7 +148,6 @@ sub add_diff_directory {
     # TODO: make this function more configurable
     # - offer to disable some checks
     my $basedir = $opts{basedirname} || basename($new);
-    my $inc_removal = $opts{include_removal} // 0;
     my $diff_ignore;
     if ($opts{diff_ignore_func}) {
         $diff_ignore = $opts{diff_ignore_func};
@@ -226,11 +225,13 @@ sub add_diff_directory {
         return if $files_in_new{$fn};
         lstat("$old/$fn") or syserr(g_('cannot stat file %s'), "$old/$fn");
         if (-f _) {
-            if ($inc_removal) {
+            if (not defined $opts{include_removal}) {
+                warning(g_('ignoring deletion of file %s'), $fn);
+            } elsif (not $opts{include_removal}) {
+                warning(g_('ignoring deletion of file %s, use --include-removal to override'), $fn);
+            } else {
                 push @diff_files, [$fn, 0, 0, "$old/$fn", '/dev/null',
                                    "$basedir.orig/$fn", '/dev/null'];
-            } else {
-                warning(g_('ignoring deletion of file %s, use --include-removal to override'), $fn);
             }
         } elsif (-d _) {
             warning(g_('ignoring deletion of directory %s'), $fn);
