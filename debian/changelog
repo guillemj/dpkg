@@ -26,6 +26,12 @@ dpkg (1.19.3) UNRELEASED; urgency=medium
   * vendor.mk: Add support for an improved dpkg_vendor_derives_from macro.
     Version the macros so that both can be used, and default the unversioned
     one to the version 0 macro.
+  * dpkg: Mark the package we are giving up on a trigger cycle as "istobe"
+    normal, so that the dependency checks know they cannot expect this package
+    to be processed anymore. Otherwise we ended up never detecting that we
+    were not making progress, as we expected to process this package at a later
+    point, when that would never happen anymore. This then was causing asserts
+    in the process queue loop. Closes: #901127, #910819
   * Perl modules:
     - Dpkg::Changelog::Debian: Preserve modelines at EOF. Closes: #916056
       Thanks to Chris Lamb <lamby@debian.org> for initial test cases.

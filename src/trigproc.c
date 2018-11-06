@@ -352,6 +352,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 		internerr("package %s in non-trigger state %s",
 		          pkg_name(giveup, pnaw_always),
 		          pkg_status_name(giveup));
+	giveup->clientdata->istobe = PKG_ISTOBE_NORMAL;
 	pkg_set_status(giveup, PKG_STAT_HALFCONFIGURED);
 	modstatdb_note(giveup);
 	print_error_perpackage(_("triggers looping, abandoned"),
