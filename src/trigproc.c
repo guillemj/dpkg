@@ -288,7 +288,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	}
 
 	hare->next = tcn;
-	hare = tcn;
+	hare = hare->next;
 	if (tortoise_advance)
 		tortoise = tortoise->next;
 	tortoise_advance = !tortoise_advance;
