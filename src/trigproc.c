@@ -266,6 +266,7 @@ check_trigger_cycle(struct pkginfo *processing_now)
 
 	tcn = nfmalloc(sizeof(*tcn));
 	tcn->pkgs = NULL;
+	tcn->next = NULL;
 	tcn->then_processed = processing_now;
 
 	iter = pkg_db_iter_new();
@@ -282,12 +283,10 @@ check_trigger_cycle(struct pkginfo *processing_now)
 	if (!hare) {
 		debug(dbg_triggersdetail, "check_triggers_cycle pnow=%s first",
 		      pkg_name(processing_now, pnaw_always));
-		tcn->next = NULL;
 		hare = tortoise = tcn;
 		return NULL;
 	}
 
-	tcn->next = NULL;
 	hare->next = tcn;
 	hare = tcn;
 	if (tortoise_advance)
