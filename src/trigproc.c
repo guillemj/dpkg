@@ -248,21 +248,13 @@ tortoise_in_hare(struct pkginfo *processing_now,
 	return true;
 }
 
-/*
- * Returns package we're to give up on.
- */
-static struct pkginfo *
-check_trigger_cycle(struct pkginfo *processing_now)
+static struct trigcyclenode *
+trigproc_new_cyclenode(struct pkginfo *processing_now)
 {
 	struct trigcyclenode *tcn;
-	struct trigcycleperpkg *tcpp, *tortoise_pkg;
-	struct trigpend *tortoise_trig;
+	struct trigcycleperpkg *tcpp;
+	struct pkginfo *pkg;
 	struct pkgiterator *iter;
-	struct pkginfo *pkg, *giveup;
-	const char *sep;
-
-	debug(dbg_triggers, "check_triggers_cycle pnow=%s",
-	      pkg_name(processing_now, pnaw_always));
 
 	tcn = nfmalloc(sizeof(*tcn));
 	tcn->pkgs = NULL;
@@ -280,6 +272,27 @@ check_trigger_cycle(struct pkginfo *processing_now)
 		tcn->pkgs = tcpp;
 	}
 	pkg_db_iter_free(iter);
+
+	return tcn;
+}
+
+/*
+ * Returns package we are to give up on.
+ */
+static struct pkginfo *
+check_trigger_cycle(struct pkginfo *processing_now)
+{
+	struct trigcyclenode *tcn;
+	struct trigcycleperpkg *tortoise_pkg;
+	struct trigpend *tortoise_trig;
+	struct pkginfo *giveup;
+	const char *sep;
+
+	debug(dbg_triggers, "check_triggers_cycle pnow=%s",
+	      pkg_name(processing_now, pnaw_always));
+
+	tcn = trigproc_new_cyclenode(processing_now);
+
 	if (!hare) {
 		debug(dbg_triggersdetail, "check_triggers_cycle pnow=%s first",
 		      pkg_name(processing_now, pnaw_always));
