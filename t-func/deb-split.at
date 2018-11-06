@@ -18,7 +18,7 @@ chmod -R u+w pkg-split
 # does check print error conditions, so we ignore its error message here.
 yes 2>/dev/null | dd of=pkg-split/data-file bs=1024 count=1024 status=none
 find pkg-split | xargs touch -t 197001010100.00
-$ASROOT dpkg-deb -b -Znone pkg-split >/dev/null
+dpkg-deb --root-owner-group -Znone -b pkg-split >/dev/null
 ])
 
 AT_CHECK([

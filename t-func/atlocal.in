@@ -22,14 +22,4 @@ unset BZIP
 unset XZ_OPT
 unset XZ_DEFAULTS
 
-if [ "$(id -u)" = 0 ]; then
-  ASROOT=
-elif which fakeroot >/dev/null; then
-  ASROOT=fakeroot
-else
-  echo "skip: needs to run as root(ish)" >&2
-  exit 0
-fi
-export ASROOT
-
 TESTDATA="@abs_top_srcdir@/t-func"
