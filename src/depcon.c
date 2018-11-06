@@ -335,7 +335,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
   case PKG_ISTOBE_DECONFIGURE:
     return true;
   case PKG_ISTOBE_NORMAL:
-    /* Only installed packages can be make dependency problems. */
+    /* Only installed packages can be made dependency problems. */
     switch (dep->up->status) {
     case PKG_STAT_INSTALLED:
     case PKG_STAT_TRIGGERSPENDING:
