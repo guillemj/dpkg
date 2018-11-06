@@ -18,7 +18,13 @@ AC_CONFIG_AUX_DIR([build-aux])
 
 AC_USE_SYSTEM_EXTENSIONS
 
-AM_INIT_AUTOMAKE([1.11 -Wall foreign nostdinc tar-ustar no-dist-gzip dist-xz])
+AM_INIT_AUTOMAKE(
+  [1.11]
+  [-Wall]
+  [foreign]
+  [nostdinc]
+  [tar-ustar no-dist-gzip dist-xz]
+)
 AM_SILENT_RULES([yes])
 
 # Require at least this gettext version, but will take any later version too.
