@@ -48,10 +48,11 @@
  * we add it to that queue (unless --no-triggers).
  *
  *
- * We want to prefer configuring packages where possible to doing
- * trigger processing, but we want to prefer trigger processing to
- * cycle-breaking and dependency forcing. This is achieved as
- * follows:
+ * We want to prefer configuring packages where possible to doing trigger
+ * processing, although it would be better to prefer trigger processing
+ * to cycle-breaking we need to do the latter first or we might generate
+ * artificial trigger cycles, but we always want to prefer trigger
+ * processing to dependency forcing. This is achieved as follows:
  *
  * Each time during configure processing where a package D is blocked by
  * only (ie Depends unsatisfied but would be satisfied by) a t-awaiter W
@@ -59,10 +60,11 @@
  * (If --no-triggers and nonempty argument list and package isn't in
  * argument list then we don't do this.)
  *
- * Each time in packages.c where we increment dependtry, we instead see
- * if we have encountered such a t-pending T. If we do, we trigproc T
- * instead of incrementing dependtry and this counts as having done
- * something so we reset sincenothing.
+ * Each time in process_queue() where we increment dependtry, we instead
+ * see if we have encountered such a t-pending T. If we do and are in
+ * a trigger processing try, we trigproc T instead of incrementing
+ * dependtry and this counts as having done something so we reset
+ * sincenothing.
  *
  *
  * For --triggers-only and --configure, we go through each thing in the
@@ -390,17 +392,25 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			          pkg_name(pkg, pnaw_always),
 			          pkg_status_name(pkg));
 
-		if (dependtry >= DEPEND_TRY_CYCLES) {
-			gaveup = check_trigger_cycle(pkg);
-			if (gaveup == pkg)
-				return;
+		if (dependtry < DEPEND_TRY_TRIGGERS &&
+		    type == TRIGPROC_TRY_QUEUED) {
+			/* We are not yet in a triggers run, so postpone this
+			 * package completely. */
+			enqueue_package(pkg);
+			return;
+		}
 
+		if (dependtry >= DEPEND_TRY_CYCLES) {
 			if (findbreakcycle(pkg))
 				sincenothing = 0;
 		}
 
 		ok = dependencies_ok(pkg, NULL, &depwhynot);
 		if (ok == DEP_CHECK_DEFER) {
+			gaveup = check_trigger_cycle(pkg);
+			if (gaveup == pkg)
+				return;
+
 			varbuf_destroy(&depwhynot);
 			enqueue_package(pkg);
 			return;
@@ -435,11 +445,9 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			varbuf_destroy(&depwhynot);
 		}
 
-		if (dependtry < DEPEND_TRY_CYCLES) {
-			gaveup = check_trigger_cycle(pkg);
-			if (gaveup == pkg)
-				return;
-		}
+		gaveup = check_trigger_cycle(pkg);
+		if (gaveup == pkg)
+			return;
 
 		printf(_("Processing triggers for %s (%s) ...\n"),
 		       pkg_name(pkg, pnaw_nonambig),

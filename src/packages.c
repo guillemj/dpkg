@@ -236,8 +236,8 @@ void process_queue(void) {
         internerr("exceeded dependtry %d (sincenothing=%d; queue.length=%d)",
                   dependtry, sincenothing, queue.length);
     } else if (sincenothing > queue.length * 2 + 2) {
-      /* XXX: This probably needs moving into a new dependtry instead. */
-      if (progress_bytrigproc && progress_bytrigproc->trigpend_head) {
+      if (dependtry >= DEPEND_TRY_TRIGGERS &&
+          progress_bytrigproc && progress_bytrigproc->trigpend_head) {
         enqueue_package(pkg);
         pkg = progress_bytrigproc;
         progress_bytrigproc = NULL;

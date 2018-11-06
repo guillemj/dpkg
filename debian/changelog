@@ -42,6 +42,11 @@ dpkg (1.19.3) UNRELEASED; urgency=medium
     only reset the cycle detection in case we are not bailing out from the
     processing with an error, otherwise we could come back to this package and
     detect an artificial trigger cycle.
+  * dpkg: Introduce a new dependency try level for trigger processing. This
+    completely defers trigger processing until after the dependency cycle
+    breaking level, so to avoid generating artificial trigger cycles, when we
+    end up trying to process triggers with yet unsatisifiable dependencies.
+    Closes: #810724, #854478, #911620
   * Perl modules:
     - Dpkg::Changelog::Debian: Preserve modelines at EOF. Closes: #916056
       Thanks to Chris Lamb <lamby@debian.org> for initial test cases.

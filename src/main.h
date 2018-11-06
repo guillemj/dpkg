@@ -238,17 +238,22 @@ void deferred_configure(struct pkginfo *pkg);
  *   Find a cycle and break it (see above).
  *   Do as for try 1.
  *
- * Try 3 (only if --force-depends-version):
+ * Try 3:
+ *   Start processing triggers if necessary.
+ *   Do as for try 2.
+ *
+ * Try 4 (only if --force-depends-version):
  *   Same as for try 2, but don't mind version number in dependencies.
  *
- * Try 4 (only if --force-depends):
+ * Try 5 (only if --force-depends):
  *   Do anyway.
  */
 enum dependtry {
 	DEPEND_TRY_NORMAL = 1,
 	DEPEND_TRY_CYCLES = 2,
-	DEPEND_TRY_FORCE_DEPENDS_VERSION = 3,
-	DEPEND_TRY_FORCE_DEPENDS = 4,
+	DEPEND_TRY_TRIGGERS = 3,
+	DEPEND_TRY_FORCE_DEPENDS_VERSION = 4,
+	DEPEND_TRY_FORCE_DEPENDS = 5,
 	DEPEND_TRY_LAST,
 };
 
