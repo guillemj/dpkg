@@ -537,8 +537,8 @@ sub set_testsuite_triggers_field
         deps_iterate($deps, sub { $testdeps{$_[0]->{package}} = 1 });
     }
 
-    # Remove our own binaries and meta-depends.
-    foreach my $pkg (@binarypackages, qw(@ @builddeps@)) {
+    # Remove our own binaries and its meta-depends variant.
+    foreach my $pkg (@binarypackages, qw(@)) {
         delete $testdeps{$pkg};
     }
     $fields->{'Testsuite-Triggers'} = join ', ', sort keys %testdeps;
