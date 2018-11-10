@@ -353,15 +353,6 @@ foreach my $pkg ($control->get_packages()) {
     my $pkg_type = $pkg->{'Package-Type'} ||
                    $pkg->get_custom_field('Package-Type') || 'deb';
 
-    my @f; # List of files for this binary package
-    push @f, @{$p2f{$p}} if defined $p2f{$p};
-
-    # Add description of all binary packages
-    $d = $substvars->substvars($d);
-    my $desc = encode_utf8(sprintf('%-10s - %-.65s', $p, decode_utf8($d)));
-    $desc .= " ($pkg_type)" if $pkg_type ne 'deb';
-    push @descriptions, $desc;
-
     my @restrictions;
     @restrictions = parse_build_profiles($bp) if defined $bp;
 
@@ -378,6 +369,15 @@ foreach my $pkg ($control->get_packages()) {
 	}
 	next; # and skip it
     }
+
+    # Add description of all binary packages
+    $d = $substvars->substvars($d);
+    my $desc = encode_utf8(sprintf('%-10s - %-.65s', $p, decode_utf8($d)));
+    $desc .= " ($pkg_type)" if $pkg_type ne 'deb';
+    push @descriptions, $desc;
+
+    # List of files for this binary package.
+    my @f = @{$p2f{$p}};
 
     foreach (keys %{$pkg}) {
 	my $v = $pkg->{$_};
@@ -465,7 +465,7 @@ if (!defined($fields->{'Date'})) {
     setlocale(LC_TIME, '');
 }
 
-$fields->{'Binary'} = join(' ', map { $_->{'Package'} } $control->get_packages());
+$fields->{'Binary'} = join ' ', sort keys %p2f;
 # Avoid overly long line by splitting over multiple lines
 if (length($fields->{'Binary'}) > 980) {
     $fields->{'Binary'} =~ s/(.{0,980}) /$1\n/g;

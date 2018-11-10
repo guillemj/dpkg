@@ -70,8 +70,9 @@ If the source version differs from the binary version, then the
 \fIsource-name\fP will be followed by a \fIsource-version\fP in parenthesis.
 This can happen when the upload is a binary-only non-maintainer upload.
 .TP
-.BR Binary: " \fIbinary-package-list\fP (required)"
+.BR Binary: " \fIbinary-package-list\fP (required in context)"
 This folded field is a space-separated list of binary packages to upload.
+If the upload is source-only, then the field is omitted (since dpkg 1.19.3).
 .TP
 .BR Architecture: " \fIarch-list\fP"
 Lists the architectures of the files currently being uploaded.
@@ -113,6 +114,7 @@ typically the person who prepared the package changes for this release.
 This multiline field contains a list of binary package names followed by
 a space, a dash (‘\fB\-\fP’) and their possibly truncated short
 descriptions.
+If the upload is source-only, then the field is omitted (since dpkg 1.19.3).
 .TP
 .BI Closes: " bug-number-list"
 A space-separated list of bug report numbers that have been resolved with
