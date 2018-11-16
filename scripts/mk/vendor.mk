@@ -6,7 +6,7 @@
 # The snippet also defines a macro "dpkg_vendor_derives_from" that you can
 # use to verify if the current vendor derives from another vendor with a
 # simple test like this one:
-# ifeq ($(call dpkg_vendor_derives_from ubuntu),yes)
+# ifeq ($(shell $(call dpkg_vendor_derives_from,ubuntu)),yes)
 #   ...
 # endif
 
