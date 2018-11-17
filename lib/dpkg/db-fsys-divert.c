@@ -101,8 +101,8 @@ ensure_diversions(void)
 	debug(dbg_general, "%s: new, (re)loading", __func__);
 
 	while (fgets_checked(linebuf, sizeof(linebuf), file, diversionsname) >= 0) {
-		oicontest = nfmalloc(sizeof(struct diversion));
-		oialtname = nfmalloc(sizeof(struct diversion));
+		oicontest = nfmalloc(sizeof(*oicontest));
+		oialtname = nfmalloc(sizeof(*oialtname));
 
 		oialtname->camefrom = findnamenode(linebuf, 0);
 		oialtname->useinstead = NULL;

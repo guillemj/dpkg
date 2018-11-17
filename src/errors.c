@@ -59,7 +59,7 @@ enqueue_error_report(const char *arg)
 {
   struct error_report *nr;
 
-  nr= malloc(sizeof(struct error_report));
+  nr = malloc(sizeof(*nr));
   if (!nr) {
     notice(_("failed to allocate memory for new entry in list of failed packages: %s"),
            strerror(errno));

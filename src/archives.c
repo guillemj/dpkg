@@ -1188,7 +1188,7 @@ enqueue_deconfigure(struct pkginfo *pkg, struct pkginfo *pkg_removal)
 
   ensure_package_clientdata(pkg);
   pkg->clientdata->istobe = PKG_ISTOBE_DECONFIGURE;
-  newdeconf = m_malloc(sizeof(struct pkg_deconf_list));
+  newdeconf = m_malloc(sizeof(*newdeconf));
   newdeconf->next = deconfigure;
   newdeconf->pkg = pkg;
   newdeconf->pkg_removal = pkg_removal;

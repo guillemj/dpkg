@@ -83,7 +83,7 @@ statusfd_add(int fd)
 
 	setcloexec(fd, _("<package status and progress file descriptor>"));
 
-	pipe_new = nfmalloc(sizeof(struct pipef));
+	pipe_new = nfmalloc(sizeof(*pipe_new));
 	pipe_new->fd = fd;
 	pipe_new->next = status_pipes;
 	status_pipes = pipe_new;

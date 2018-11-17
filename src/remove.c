@@ -206,7 +206,7 @@ void deferred_remove(struct pkginfo *pkg) {
 static void push_leftover(struct fileinlist **leftoverp,
                           struct filenamenode *namenode) {
   struct fileinlist *newentry;
-  newentry= nfmalloc(sizeof(struct fileinlist));
+  newentry = nfmalloc(sizeof(*newentry));
   newentry->next= *leftoverp;
   newentry->namenode= namenode;
   *leftoverp= newentry;

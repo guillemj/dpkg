@@ -731,14 +731,14 @@ pkg_update_fields(struct pkginfo *pkg, struct filenamenode_queue *newconffiles)
   newdeplist = NULL;
   newdeplistlastp = &newdeplist;
   for (dep = pkg->available.depends; dep; dep = dep->next) {
-    newdep = nfmalloc(sizeof(struct dependency));
+    newdep = nfmalloc(sizeof(*newdep));
     newdep->up = pkg;
     newdep->next = NULL;
     newdep->list = NULL;
     newpossilastp = &newdep->list;
 
     for (possi = dep->list; possi; possi = possi->next) {
-      newpossi = nfmalloc(sizeof(struct deppossi));
+      newpossi = nfmalloc(sizeof(*newpossi));
       newpossi->up = newdep;
       newpossi->ed = possi->ed;
       newpossi->next = NULL;
@@ -783,7 +783,7 @@ pkg_update_fields(struct pkginfo *pkg, struct filenamenode_queue *newconffiles)
   pkg->installed.conffiles = NULL;
   iconffileslastp = &pkg->installed.conffiles;
   for (cfile = newconffiles->head; cfile; cfile = cfile->next) {
-    newiconff = nfmalloc(sizeof(struct conffile));
+    newiconff = nfmalloc(sizeof(*newiconff));
     newiconff->next = NULL;
     newiconff->name = nfstrsave(cfile->namenode->name);
     newiconff->hash = nfstrsave(cfile->namenode->oldhash);
@@ -1141,7 +1141,7 @@ void process_archive(const char *filename) {
   parsedb(cidir, parsedb_flags, &pkg);
 
   if (!pkg->archives) {
-    pkg->archives = nfmalloc(sizeof(struct archivedetails));
+    pkg->archives = nfmalloc(sizeof(*pkg->archives));
     pkg->archives->next = NULL;
     pkg->archives->name = NULL;
     pkg->archives->msdosname = NULL;

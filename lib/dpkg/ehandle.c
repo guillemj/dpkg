@@ -135,7 +135,7 @@ error_context_new(void)
 {
   struct error_context *necp;
 
-  necp = malloc(sizeof(struct error_context));
+  necp = malloc(sizeof(*necp));
   if (!necp)
     ohshite(_("out of memory for new error context"));
   necp->next= econtext;
@@ -311,7 +311,7 @@ void push_checkpoint(int mask, int value) {
   struct cleanup_entry *cep;
   int i;
 
-  cep = malloc(sizeof(struct cleanup_entry) + sizeof(char *));
+  cep = malloc(sizeof(*cep) + sizeof(void *));
   if (cep == NULL) {
     onerr_abort++;
     ohshite(_("out of memory for new cleanup entry"));
@@ -336,7 +336,7 @@ cleanup_entry_new(void (*call1)(int argc, void **argv), int mask1,
 
   onerr_abort++;
 
-  cep = malloc(sizeof(struct cleanup_entry) + sizeof(char *) * (nargs + 1));
+  cep = malloc(sizeof(*cep) + sizeof(void *) * (nargs + 1));
   if (!cep) {
     if (nargs > array_count(emergency.args))
       ohshite(_("out of memory for new cleanup entry with many arguments"));

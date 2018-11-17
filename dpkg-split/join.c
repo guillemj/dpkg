@@ -109,7 +109,7 @@ do_join(const char *const *argv)
     badusage(_("--%s requires one or more part file arguments"),
              cipaction->olong);
   while ((thisarg= *argv++)) {
-    pq= nfmalloc(sizeof(struct partqueue));
+    pq = nfmalloc(sizeof(*pq));
 
     mustgetpartinfo(thisarg,&pq->info);
 
@@ -122,7 +122,7 @@ do_join(const char *const *argv)
   if (refi == NULL)
     internerr("empty deb part queue");
 
-  partlist= nfmalloc(sizeof(struct partinfo*)*refi->maxpartn);
+  partlist = nfmalloc(sizeof(*partlist) * refi->maxpartn);
   for (i = 0; i < refi->maxpartn; i++)
     partlist[i] = NULL;
   for (pq= queue; pq; pq= pq->nextinqueue) {

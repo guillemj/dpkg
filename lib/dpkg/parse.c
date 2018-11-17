@@ -159,7 +159,7 @@ pkg_parse_field(struct parsedb_state *ps, struct field_state *fs,
                    fs->fieldlen, fs->fieldstart);
       larpp = &arp->next;
     }
-    arp = nfmalloc(sizeof(struct arbitraryfield));
+    arp = nfmalloc(sizeof(*arp));
     arp->name = nfstrnsave(fs->fieldstart, fs->fieldlen);
     arp->value = nfstrnsave(fs->valuestart, fs->valuelen);
     arp->next = NULL;

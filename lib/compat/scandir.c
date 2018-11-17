@@ -72,13 +72,13 @@ scandir(const char *dir, struct dirent ***namelist,
 				avail *= 2;
 			else
 				avail = 20;
-			newlist = realloc(list, avail * sizeof(struct dirent *));
+			newlist = realloc(list, avail * sizeof(*newlist));
 			if (!newlist)
 				return cleanup(d, list, used);
 			list = newlist;
 		}
 
-		m = malloc(sizeof(struct dirent) + strlen(e->d_name));
+		m = malloc(sizeof(*m) + strlen(e->d_name));
 		if (!m)
 			return cleanup(d, list, used);
 		*m = *e;
@@ -91,7 +91,7 @@ scandir(const char *dir, struct dirent ***namelist,
 	closedir(d);
 
 	if (list != NULL && cmp != NULL)
-		qsort(list, used, sizeof(struct dirent *), cmp);
+		qsort(list, used, sizeof(list[0]), cmp);
 
 	*namelist = list;
 

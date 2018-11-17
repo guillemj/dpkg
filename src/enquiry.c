@@ -292,7 +292,7 @@ unpackchk(const char *const *argv)
     if (!yettobeunpacked(pkg, &thissect)) continue;
     for (se= sectionentries; se && strcasecmp(thissect,se->name); se= se->next);
     if (!se) {
-      se= nfmalloc(sizeof(struct sectionentry));
+      se = nfmalloc(sizeof(*se));
       for (sep= &sectionentries;
            *sep && strcasecmp(thissect,(*sep)->name) > 0;
            sep= &(*sep)->next);

@@ -33,7 +33,7 @@ ensure_package_clientdata(struct pkginfo *pkg)
 {
 	if (pkg->clientdata)
 		return;
-	pkg->clientdata = nfmalloc(sizeof(struct perpackagestate));
+	pkg->clientdata = nfmalloc(sizeof(*pkg->clientdata));
 	pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
 	pkg->clientdata->color = PKG_CYCLE_WHITE;
 	pkg->clientdata->enqueued = false;

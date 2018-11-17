@@ -49,7 +49,7 @@ reversefilelist_init(struct reversefilelistiter *iter,
 
 	iter->todo = NULL;
 	while (files) {
-		newent = m_malloc(sizeof(struct fileinlist));
+		newent = m_malloc(sizeof(*newent));
 		newent->namenode = files->namenode;
 		newent->next = iter->todo;
 		iter->todo = newent;

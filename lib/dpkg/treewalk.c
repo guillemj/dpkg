@@ -206,7 +206,7 @@ treenode_resize_down(struct treenode *node)
 	else
 		node->down_size = 8;
 
-	new_size = node->down_size * sizeof(struct treenode *);
+	new_size = node->down_size * sizeof(*node);
 	node->down = m_realloc(node->down, new_size);
 }
 
@@ -367,7 +367,7 @@ treewalk_open(const char *rootdir, enum treewalk_options options,
 	struct treeroot *tree;
 	struct treenode *root;
 
-	tree = m_malloc(sizeof(struct treeroot));
+	tree = m_malloc(sizeof(*tree));
 
 	tree->options = options;
 	if (func)

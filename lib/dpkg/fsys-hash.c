@@ -102,7 +102,7 @@ findnamenode(const char *name, enum fnnflags flags)
 	if (flags & fnn_nonew)
 		return NULL;
 
-	newnode = nfmalloc(sizeof(struct filenamenode));
+	newnode = nfmalloc(sizeof(*newnode));
 	newnode->packages = NULL;
 	if ((flags & fnn_nocopy) && name > orig_name && name[-1] == '/') {
 		newnode->name = name - 1;
@@ -141,7 +141,7 @@ files_db_iter_new(void)
 {
 	struct fileiterator *iter;
 
-	iter = m_malloc(sizeof(struct fileiterator));
+	iter = m_malloc(sizeof(*iter));
 	iter->namenode = NULL;
 	iter->nbinn = 0;
 

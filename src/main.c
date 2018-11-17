@@ -448,7 +448,7 @@ set_invoke_hook(const struct cmdinfo *cip, const char *value)
   struct invoke_list *hook_list = cip->arg_ptr;
   struct invoke_hook *hook_new;
 
-  hook_new = m_malloc(sizeof(struct invoke_hook));
+  hook_new = m_malloc(sizeof(*hook_new));
   hook_new->command = m_strdup(value);
   hook_new->next = NULL;
 

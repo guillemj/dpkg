@@ -184,7 +184,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 
 	thisline = loaded_list;
 	while (thisline < loaded_list_end) {
-		fso = nfmalloc(sizeof(struct file_stat));
+		fso = nfmalloc(sizeof(*fso));
 
 		ptr = memchr(thisline, '\n', loaded_list_end - thisline);
 		if (ptr == NULL)

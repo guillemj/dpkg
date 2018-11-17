@@ -79,7 +79,7 @@ pkg_db_find_set(const char *inname)
     return *setp;
   }
 
-  new_set = nfmalloc(sizeof(struct pkgset));
+  new_set = nfmalloc(sizeof(*new_set));
   pkgset_blank(new_set);
   new_set->name = nfstrsave(name);
   new_set->next = NULL;
@@ -195,7 +195,7 @@ pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
   }
 
   /* Need to create a new instance for the wanted architecture. */
-  pkg = nfmalloc(sizeof(struct pkginfo));
+  pkg = nfmalloc(sizeof(*pkg));
   pkg_blank(pkg);
   pkg->set = set;
   pkg->arch_next = NULL;
@@ -268,7 +268,7 @@ pkg_db_iter_new(void)
 {
   struct pkgiterator *iter;
 
-  iter = m_malloc(sizeof(struct pkgiterator));
+  iter = m_malloc(sizeof(*iter));
   iter->pkg = NULL;
   iter->nbinn = 0;
 

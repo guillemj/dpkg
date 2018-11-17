@@ -78,7 +78,7 @@ pkg_files_add_file(struct pkginfo *pkg, struct filenamenode *namenode,
 		file_tail = &((*file_tail)->next);
 
 	/* Create a new node. */
-	newent = nfmalloc(sizeof(struct fileinlist));
+	newent = nfmalloc(sizeof(*newent));
 	newent->namenode = namenode;
 	newent->next = NULL;
 	*file_tail = newent;

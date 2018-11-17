@@ -138,7 +138,7 @@ f_archives(struct pkginfo *pkg, struct pkgbin *pkgbin,
         parse_error(ps,
                     _("too many values in archive details field '%s' "
                       "(compared to others)"), fip->name);
-      fdp = nfmalloc(sizeof(struct archivedetails));
+      fdp = nfmalloc(sizeof(*fdp));
       fdp->next= NULL;
       fdp->name= fdp->msdosname= fdp->size= fdp->md5sum= NULL;
       *fdpp= fdp;
@@ -360,7 +360,7 @@ f_conffiles(struct pkginfo *pkg, struct pkgbin *pkgbin,
       conffvalue_lastword(value, endfn, endent,
 			  &hashstart, &hashlen, &endfn,
 			  ps);
-    newlink= nfmalloc(sizeof(struct conffile));
+    newlink = nfmalloc(sizeof(*newlink));
     value = path_skip_slash_dotslash(value);
     namelen= (int)(endfn-value);
     if (namelen <= 0)
@@ -408,7 +408,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
    /* Loop creating new struct dependency's. */
   for (;;) {
-    dyp= nfmalloc(sizeof(struct dependency));
+    dyp = nfmalloc(sizeof(*dyp));
     /* Set this to NULL for now, as we don't know what our real
      * struct pkginfo address (in the database) is going to be yet. */
     dyp->up = NULL;
@@ -438,7 +438,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
         parse_error(ps,
                     _("'%s' field, invalid package name '%.255s': %s"),
                     fip->name, depname.buf, emsg);
-      dop= nfmalloc(sizeof(struct deppossi));
+      dop = nfmalloc(sizeof(*dop));
       dop->up= dyp;
       dop->ed = pkg_db_find_set(depname.buf);
       dop->next= NULL; *ldopp= dop; ldopp= &dop->next;
