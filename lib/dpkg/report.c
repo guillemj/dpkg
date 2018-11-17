@@ -51,6 +51,24 @@ dpkg_set_report_buffer(FILE *fp)
 		setvbuf(fp, NULL, piped_mode, 0);
 }
 
+void
+dpkg_warning_printer(const char *msg, void *data)
+{
+	fprintf(stderr, "%s%s:%s %s%s:%s %s\n",
+	        color_get(COLOR_PROG), dpkg_get_progname(), color_reset(),
+	        color_get(COLOR_WARN), _("warning"), color_reset(), msg);
+}
+
+static dpkg_warning_printer_func *warning_printer_func = dpkg_warning_printer;
+static void *warning_printer_data;
+
+void
+dpkg_set_warning_printer(dpkg_warning_printer_func *printer, void *data)
+{
+	warning_printer_func = printer;
+	warning_printer_data = data;
+}
+
 static int warn_count = 0;
 
 int
@@ -67,9 +85,7 @@ warningv(const char *fmt, va_list args)
 	warn_count++;
 
 	m_vasprintf(&buf, fmt, args);
-	fprintf(stderr, "%s%s:%s %s%s:%s %s\n",
-	        color_get(COLOR_PROG), dpkg_get_progname(), color_reset(),
-	        color_get(COLOR_WARN), _("warning"), color_reset(), buf);
+	warning_printer_func(buf, warning_printer_data);
 	free(buf);
 }
 
