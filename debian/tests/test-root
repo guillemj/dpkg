@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+if [ "$(id -u)" != '0' ]; then
+  exit 1
+fi
+
+t=test-root
+
+mkdir -p $t
+cd $t
+../configure
+make installcheck

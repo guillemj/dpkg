@@ -80,6 +80,9 @@ EXTRA_DIST = \
 	debian/rules \
 	debian/shlibs.default \
 	debian/shlibs.override \
+	debian/tests/control \
+	debian/tests/test-not-root \
+	debian/tests/test-root \
 	po/its/polkit.its \
 	po/its/polkit.loc \
 	$(test_scripts) \
