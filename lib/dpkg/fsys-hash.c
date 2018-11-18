@@ -151,17 +151,17 @@ files_db_iter_new(void)
 struct filenamenode *
 files_db_iter_next(struct fileiterator *iter)
 {
-	struct filenamenode *r= NULL;
+	struct filenamenode *fnn = NULL;
 
 	while (!iter->namenode) {
 		if (iter->nbinn >= BINS)
 			return NULL;
 		iter->namenode = bins[iter->nbinn++];
 	}
-	r = iter->namenode;
-	iter->namenode = r->next;
+	fnn = iter->namenode;
+	iter->namenode = fnn->next;
 
-	return r;
+	return fnn;
 }
 
 void

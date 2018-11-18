@@ -53,28 +53,25 @@ struct filenamenode *
 namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg,
               struct pkgbin *pkgbin)
 {
-  struct filenamenode *r;
+  struct filenamenode *fnn;
 
-  if (!namenode->divert) {
-    r = namenode;
-    return r;
-  }
+  if (!namenode->divert)
+    return namenode;
 
   debug(dbg_eachfile, "namenodetouse namenode='%s' pkg=%s",
         namenode->name, pkgbin_name(pkg, pkgbin, pnaw_always));
 
-  r=
-    (namenode->divert->useinstead && namenode->divert->pkgset != pkg->set)
-      ? namenode->divert->useinstead : namenode;
+  fnn = (namenode->divert->useinstead && namenode->divert->pkgset != pkg->set)
+        ? namenode->divert->useinstead : namenode;
 
   debug(dbg_eachfile,
         "namenodetouse ... useinstead=%s camefrom=%s pkg=%s return %s",
         namenode->divert->useinstead ? namenode->divert->useinstead->name : "<none>",
         namenode->divert->camefrom ? namenode->divert->camefrom->name : "<none>",
         namenode->divert->pkgset ? namenode->divert->pkgset->name : "<none>",
-        r->name);
+        fnn->name);
 
-  return r;
+  return fnn;
 }
 
 bool
