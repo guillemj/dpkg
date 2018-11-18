@@ -50,12 +50,13 @@ packagelist::useavailable(pkginfo *pkg)
 pkgbin *
 packagelist::find_pkgbin(pkginfo *pkg)
 {
-  pkgbin *r;
-  r= useavailable(pkg) ? &pkg->available : &pkg->installed;
-  debug(dbg_general, "packagelist[%p]::find_pkgbin(%s) useavailable=%d",
-        this, pkgbin_name(pkg, r, pnaw_always), useavailable(pkg));
+  pkgbin *pkgbin;
 
-  return r;
+  pkgbin = useavailable(pkg) ? &pkg->available : &pkg->installed;
+  debug(dbg_general, "packagelist[%p]::find_pkgbin(%s) useavailable=%d",
+        this, pkgbin_name(pkg, pkgbin, pnaw_always), useavailable(pkg));
+
+  return pkgbin;
 }
 
 int packagelist::checkdependers(pkginfo *pkg, int changemade) {
