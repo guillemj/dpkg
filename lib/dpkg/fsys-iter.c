@@ -60,17 +60,17 @@ reversefilelist_init(struct reversefilelistiter *iter,
 struct filenamenode *
 reversefilelist_next(struct reversefilelistiter *iter)
 {
-	struct filenamenode *ret;
+	struct filenamenode *next;
 	struct fileinlist *todo;
 
 	todo = iter->todo;
 	if (!todo)
 		return NULL;
-	ret = todo->namenode;
+	next = todo->namenode;
 	iter->todo = todo->next;
 	free(todo);
 
-	return ret;
+	return next;
 }
 
 /*
