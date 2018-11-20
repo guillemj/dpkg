@@ -49,11 +49,11 @@ const char *const statusstrings[]= {
   [PKG_STAT_INSTALLED]       = N_("installed")
 };
 
-struct filenamenode *
-namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg,
+struct fsys_namenode *
+namenodetouse(struct fsys_namenode *namenode, struct pkginfo *pkg,
               struct pkgbin *pkgbin)
 {
-  struct filenamenode *fnn;
+  struct fsys_namenode *fnn;
 
   if (!namenode->divert)
     return namenode;
@@ -219,7 +219,7 @@ void clear_istobes(void) {
  * false otherwise.
  */
 bool
-dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
+dir_has_conffiles(struct fsys_namenode *file, struct pkginfo *pkg)
 {
   struct conffile *conff;
   size_t namelen;
@@ -246,26 +246,26 @@ dir_has_conffiles(struct filenamenode *file, struct pkginfo *pkg)
  * false otherwise.
  */
 bool
-dir_is_used_by_others(struct filenamenode *file, struct pkginfo *pkg)
+dir_is_used_by_others(struct fsys_namenode *file, struct pkginfo *pkg)
 {
-  struct filepackages_iterator *iter;
+  struct fsys_node_pkgs_iter *iter;
   struct pkginfo *other_pkg;
 
   debug(dbg_veryverbose, "dir_is_used_by_others '%s' (except %s)", file->name,
         pkg ? pkg_name(pkg, pnaw_always) : "<none>");
 
-  iter = filepackages_iter_new(file);
-  while ((other_pkg = filepackages_iter_next(iter))) {
+  iter = fsys_node_pkgs_iter_new(file);
+  while ((other_pkg = fsys_node_pkgs_iter_next(iter))) {
     debug(dbg_veryverbose, "dir_is_used_by_others considering %s ...",
           pkg_name(other_pkg, pnaw_always));
     if (other_pkg == pkg)
       continue;
 
-    filepackages_iter_free(iter);
+    fsys_node_pkgs_iter_free(iter);
     debug(dbg_veryverbose, "dir_is_used_by_others yes");
     return true;
   }
-  filepackages_iter_free(iter);
+  fsys_node_pkgs_iter_free(iter);
 
   debug(dbg_veryverbose, "dir_is_used_by_others no");
   return false;
@@ -275,10 +275,10 @@ dir_is_used_by_others(struct filenamenode *file, struct pkginfo *pkg)
  * Returns true if the file is used by pkg, false otherwise.
  */
 bool
-dir_is_used_by_pkg(struct filenamenode *file, struct pkginfo *pkg,
-                   struct fileinlist *list)
+dir_is_used_by_pkg(struct fsys_namenode *file, struct pkginfo *pkg,
+                   struct fsys_namenode_list *list)
 {
-  struct fileinlist *node;
+  struct fsys_namenode_list *node;
   size_t namelen;
 
   debug(dbg_veryverbose, "dir_is_used_by_pkg '%s' (by %s)",
@@ -310,7 +310,7 @@ dir_is_used_by_pkg(struct filenamenode *file, struct pkginfo *pkg,
  * @param namenode	The namenode for the obsolete conffile.
  */
 void
-conffile_mark_obsolete(struct pkginfo *pkg, struct filenamenode *namenode)
+conffile_mark_obsolete(struct pkginfo *pkg, struct fsys_namenode *namenode)
 {
   struct conffile *conff;
 
@@ -333,11 +333,11 @@ void
 pkg_conffiles_mark_old(struct pkginfo *pkg)
 {
   const struct conffile *conff;
-  struct filenamenode *namenode;
+  struct fsys_namenode *namenode;
 
   for (conff = pkg->installed.conffiles; conff; conff = conff->next) {
-    namenode = findnamenode(conff->name, 0); /* XXX */
-    namenode->flags |= fnnf_old_conff;
+    namenode = fsys_hash_find_node(conff->name, 0); /* XXX */
+    namenode->flags |= FNNF_OLD_CONFF;
     if (!namenode->oldhash)
       namenode->oldhash = conff->hash;
     debug(dbg_conffdetail, "%s '%s' namenode '%s' flags %o", __func__,

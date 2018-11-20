@@ -374,7 +374,7 @@ deferred_configure_ghost_conffile(struct pkginfo *pkg, struct conffile *conff)
 static void
 deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 {
-	struct filenamenode *usenode;
+	struct fsys_namenode *usenode;
 	char currenthash[MD5HASHLEN + 1], newdisthash[MD5HASHLEN + 1];
 	int useredited, distedited;
 	enum conffopt what;
@@ -383,7 +383,7 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 	char *cdr2rest;
 	int rc;
 
-	usenode = namenodetouse(findnamenode(conff->name, fnn_nocopy),
+	usenode = namenodetouse(fsys_hash_find_node(conff->name, FHFF_NOCOPY),
                                 pkg, &pkg->installed);
 
 	rc = conffderef(pkg, &cdr, usenode->name);

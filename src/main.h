@@ -26,8 +26,8 @@
 #include <dpkg/pkg-list.h>
 
 /* These two are defined in <dpkg/fsys.h>. */
-struct fileinlist;
-struct filenamenode;
+struct fsys_namenode_list;
+struct fsys_namenode;
 
 enum pkg_istobe {
 	/** Package is to be left in a normal state. */
@@ -281,13 +281,15 @@ bool ignore_depends(struct pkginfo *pkg);
 bool force_breaks(struct deppossi *possi);
 bool force_depends(struct deppossi *possi);
 bool force_conflicts(struct deppossi *possi);
-void conffile_mark_obsolete(struct pkginfo *pkg, struct filenamenode *namenode);
+void
+conffile_mark_obsolete(struct pkginfo *pkg, struct fsys_namenode *namenode);
 void pkg_conffiles_mark_old(struct pkginfo *pkg);
 bool find_command(const char *prog);
 void checkpath(void);
 
-struct filenamenode *namenodetouse(struct filenamenode *namenode,
-                                   struct pkginfo *pkg, struct pkgbin *pkgbin);
+struct fsys_namenode *
+namenodetouse(struct fsys_namenode *namenode,
+              struct pkginfo *pkg, struct pkgbin *pkgbin);
 
 int maintscript_installed(struct pkginfo *pkg, const char *scriptname,
                           const char *desc, ...) DPKG_ATTR_SENTINEL;
@@ -307,10 +309,13 @@ int maintscript_postinst(struct pkginfo *pkg, ...) DPKG_ATTR_SENTINEL;
 void post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status);
 
 void clear_istobes(void);
-bool dir_is_used_by_others(struct filenamenode *namenode, struct pkginfo *pkg);
-bool dir_is_used_by_pkg(struct filenamenode *namenode, struct pkginfo *pkg,
-                        struct fileinlist *list);
-bool dir_has_conffiles(struct filenamenode *namenode, struct pkginfo *pkg);
+bool
+dir_is_used_by_others(struct fsys_namenode *namenode, struct pkginfo *pkg);
+bool
+dir_is_used_by_pkg(struct fsys_namenode *namenode, struct pkginfo *pkg,
+                   struct fsys_namenode_list *list);
+bool
+dir_has_conffiles(struct fsys_namenode *namenode, struct pkginfo *pkg);
 
 void log_action(const char *action, struct pkginfo *pkg, struct pkgbin *pkgbin);
 

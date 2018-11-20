@@ -164,7 +164,7 @@ void deferred_remove(struct pkginfo *pkg) {
                   " reinstall it before attempting a removal"));
 
   ensure_allinstfiles_available();
-  filesdbinit();
+  fsys_hash_init();
 
   if (f_noact) {
     printf(_("Would remove or purge %s (%s) ...\n"),
@@ -203,9 +203,12 @@ void deferred_remove(struct pkginfo *pkg) {
   removal_bulk(pkg);
 }
 
-static void push_leftover(struct fileinlist **leftoverp,
-                          struct filenamenode *namenode) {
-  struct fileinlist *newentry;
+static void
+push_leftover(struct fsys_namenode_list **leftoverp,
+              struct fsys_namenode *namenode)
+{
+  struct fsys_namenode_list *newentry;
+
   newentry = nfmalloc(sizeof(*newentry));
   newentry->next= *leftoverp;
   newentry->namenode= namenode;
@@ -229,17 +232,17 @@ removal_bulk_remove_file(const char *filename, const char *filetype)
 }
 
 static bool
-removal_bulk_file_is_shared(struct pkginfo *pkg, struct filenamenode *namenode)
+removal_bulk_file_is_shared(struct pkginfo *pkg, struct fsys_namenode *namenode)
 {
-  struct filepackages_iterator *iter;
+  struct fsys_node_pkgs_iter *iter;
   struct pkginfo *otherpkg;
   bool shared = false;
 
   if (pkgset_installed_instances(pkg->set) <= 1)
     return false;
 
-  iter = filepackages_iter_new(namenode);
-  while ((otherpkg = filepackages_iter_next(iter))) {
+  iter = fsys_node_pkgs_iter_new(namenode);
+  while ((otherpkg = fsys_node_pkgs_iter_next(iter))) {
     if (otherpkg == pkg)
       continue;
     if (otherpkg->set != pkg->set)
@@ -250,7 +253,7 @@ removal_bulk_file_is_shared(struct pkginfo *pkg, struct filenamenode *namenode)
     shared = true;
     break;
   }
-  filepackages_iter_free(iter);
+  fsys_node_pkgs_iter_free(iter);
 
   return shared;
 }
@@ -258,9 +261,9 @@ removal_bulk_file_is_shared(struct pkginfo *pkg, struct filenamenode *namenode)
 static void
 removal_bulk_remove_files(struct pkginfo *pkg)
 {
-  struct reversefilelistiter rev_iter;
-  struct fileinlist *leftover;
-  struct filenamenode *namenode;
+  struct fsys_hash_rev_iter rev_iter;
+  struct fsys_namenode_list *leftover;
+  struct fsys_namenode *namenode;
   static struct varbuf fnvb;
   struct varbuf_state fnvb_state;
   struct stat stab;
@@ -269,10 +272,10 @@ removal_bulk_remove_files(struct pkginfo *pkg)
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
-    reversefilelist_init(&rev_iter, pkg->files);
+    fsys_hash_rev_iter_init(&rev_iter, pkg->files);
     leftover = NULL;
-    while ((namenode = reversefilelist_next(&rev_iter))) {
-      struct filenamenode *usenode;
+    while ((namenode = fsys_hash_rev_iter_next(&rev_iter))) {
+      struct fsys_namenode *usenode;
       bool is_dir;
 
       debug(dbg_eachfile, "removal_bulk '%s' flags=%o",
@@ -295,7 +298,7 @@ removal_bulk_remove_files(struct pkginfo *pkg)
         continue;
 
       /* Non-shared conffiles are kept. */
-      if (namenode->flags & fnnf_old_conff) {
+      if (namenode->flags & FNNF_OLD_CONFF) {
         push_leftover(&leftover, namenode);
         continue;
       }
@@ -380,9 +383,9 @@ removal_bulk_remove_files(struct pkginfo *pkg)
 }
 
 static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
-  struct reversefilelistiter rev_iter;
-  struct fileinlist *leftover;
-  struct filenamenode *namenode;
+  struct fsys_hash_rev_iter rev_iter;
+  struct fsys_namenode_list *leftover;
+  struct fsys_namenode *namenode;
   static struct varbuf fnvb;
   struct stat stab;
 
@@ -392,14 +395,14 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
   modstatdb_note(pkg);
   push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
-  reversefilelist_init(&rev_iter, pkg->files);
+  fsys_hash_rev_iter_init(&rev_iter, pkg->files);
   leftover = NULL;
-  while ((namenode = reversefilelist_next(&rev_iter))) {
-    struct filenamenode *usenode;
+  while ((namenode = fsys_hash_rev_iter_next(&rev_iter))) {
+    struct fsys_namenode *usenode;
 
     debug(dbg_eachfile, "removal_bulk '%s' flags=%o",
           namenode->name, namenode->flags);
-    if (namenode->flags & fnnf_old_conff) {
+    if (namenode->flags & FNNF_OLD_CONFF) {
       /* This can only happen if removal_bulk_remove_configfiles() got
        * interrupted half way. */
       debug(dbg_eachfiledetail, "removal_bulk expecting only left over dirs, "
@@ -477,7 +480,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
   int conffnameused, conffbasenamelen;
   char *conffbasename;
   struct conffile *conff, **lconffp;
-  struct fileinlist *searchfile;
+  struct fsys_namenode_list *searchfile;
   DIR *dsd;
   struct dirent *de;
   char *p;
@@ -525,7 +528,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
     modstatdb_note(pkg);
 
     for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
-      struct filenamenode *namenode, *usenode;
+      struct fsys_namenode *namenode, *usenode;
     static struct varbuf fnvb, removevb;
       struct varbuf_state removevb_state;
 
@@ -540,7 +543,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       if (rc == -1)
         continue;
 
-      namenode = findnamenode(conff->name, 0);
+      namenode = fsys_hash_find_node(conff->name, 0);
       usenode = namenodetouse(namenode, pkg, &pkg->installed);
 
       trig_path_activate(usenode, pkg);
@@ -609,7 +612,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
 
     /* Remove the conffiles from the file list file. */
     write_filelist_except(pkg, &pkg->installed, pkg->files,
-                          fnnf_old_conff);
+                          FNNF_OLD_CONFF);
 
     pkg->installed.conffiles = NULL;
     modstatdb_note(pkg);

@@ -135,7 +135,7 @@ test_pkg_hash(void)
 		else if (strcmp(set->name, "pkg-cc") == 0)
 			test_str(set->name, ==, "pkg-cc");
 		else
-			test_fail("unknown filenamenode");
+			test_fail("unknown fsys_namenode");
 	}
 	pkg_db_iter_free(iter);
 
@@ -160,7 +160,7 @@ test_pkg_hash(void)
 		} else if (strcmp(pkg->set->name, "pkg-cc") == 0) {
 			test_str(pkg->set->name, ==, "pkg-cc");
 		} else {
-			test_fail("unknown filenamenode");
+			test_fail("unknown fsys_namenode");
 		}
 	}
 	pkg_db_iter_free(iter);

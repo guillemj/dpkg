@@ -28,14 +28,14 @@
 /*
  * Data structure here is as follows:
  *
- * For each package we have a ‘struct fileinlist *’, the head of a list of
+ * For each package we have a ‘struct fsys_namenode_list *’, the head of a list of
  * files in that package. They are in ‘forwards’ order. Each entry has a
- * pointer to the ‘struct filenamenode’.
+ * pointer to the ‘struct fsys_namenode’.
  *
- * The struct filenamenodes are in a hash table, indexed by name.
+ * The struct fsys_namenodes are in a hash table, indexed by name.
  * (This hash table is not visible to callers.)
  *
- * Each filenamenode has a (possibly empty) list of ‘struct filepackage’,
+ * Each fsys_namenode has a (possibly empty) list of ‘struct filepackage’,
  * giving a list of the packages listing that filename.
  *
  * When we read files contained info about a particular package we set the
@@ -68,8 +68,8 @@ void ensure_allinstfiles_available_quiet(void);
 void note_must_reread_files_inpackage(struct pkginfo *pkg);
 void parse_filehash(struct pkginfo *pkg, struct pkgbin *pkgbin);
 void write_filelist_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                           struct fileinlist *list, enum filenamenode_flags mask);
+                           struct fsys_namenode_list *list, enum fsys_namenode_flags mask);
 void write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                           struct fileinlist *list, enum filenamenode_flags mask);
+                           struct fsys_namenode_list *list, enum fsys_namenode_flags mask);
 
 #endif /* LIBDPKG_DB_FSYS_H */

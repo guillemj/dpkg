@@ -28,20 +28,20 @@
 static void
 test_fsys_nodes(void)
 {
-	struct filenamenode *fnn;
-	struct fileiterator *iter;
+	struct fsys_namenode *fnn;
+	struct fsys_hash_iter *iter;
 	const char *name;
 
 	test_pass(fsys_hash_entries() == 0);
 
-	filesdbinit();
+	fsys_hash_init();
 
-	fnn = findnamenode("/nonexistent", fnn_nonew);
+	fnn = fsys_hash_find_node("/nonexistent", FHFF_NONE);
 	test_pass(fnn == NULL);
 	test_pass(fsys_hash_entries() == 0);
 
 	name = "/test/path/aa";
-	fnn = findnamenode(name, fnn_nocopy);
+	fnn = fsys_hash_find_node(name, FHFF_NOCOPY);
 	test_pass(fnn != NULL);
 	test_pass(fsys_hash_entries() == 1);
 	test_pass(fnn->name == name);
@@ -50,7 +50,7 @@ test_fsys_nodes(void)
 	test_pass(fnn->oldhash == NULL);
 	test_str(fnn->newhash, ==, EMPTYHASHFLAG);
 
-	fnn = findnamenode("//./test/path/bb", 0);
+	fnn = fsys_hash_find_node("//./test/path/bb", 0);
 	test_pass(fnn != NULL);
 	test_pass(fsys_hash_entries() == 2);
 	test_str(fnn->name, ==, "/test/path/bb");
@@ -58,7 +58,7 @@ test_fsys_nodes(void)
 	test_pass(fnn->oldhash == NULL);
 	test_str(fnn->newhash, ==, EMPTYHASHFLAG);
 
-	fnn = findnamenode("/test/path/cc", 0);
+	fnn = fsys_hash_find_node("/test/path/cc", 0);
 	test_pass(fnn != NULL);
 	test_pass(fsys_hash_entries() == 3);
 	test_str(fnn->name, ==, "/test/path/cc");
@@ -66,8 +66,8 @@ test_fsys_nodes(void)
 	test_pass(fnn->oldhash == NULL);
 	test_str(fnn->newhash, ==, EMPTYHASHFLAG);
 
-	iter = files_db_iter_new();
-	while ((fnn = files_db_iter_next(iter))) {
+	iter = fsys_hash_iter_new();
+	while ((fnn = fsys_hash_iter_next(iter))) {
 		if (strcmp(fnn->name, "/test/path/aa") == 0)
 			test_str(fnn->name, ==, "/test/path/aa");
 		else if (strcmp(fnn->name, "/test/path/bb") == 0)
@@ -75,27 +75,27 @@ test_fsys_nodes(void)
 		else if (strcmp(fnn->name, "/test/path/cc") == 0)
 			test_str(fnn->name, ==, "/test/path/cc");
 		else
-			test_fail("unknown filenamenode");
+			test_fail("unknown fsys_namenode");
 	}
-	files_db_iter_free(iter);
+	fsys_hash_iter_free(iter);
 
-	filesdbinit();
+	fsys_hash_init();
 	test_pass(fsys_hash_entries() == 3);
-	fnn = findnamenode("/test/path/aa", fnn_nonew);
+	fnn = fsys_hash_find_node("/test/path/aa", FHFF_NONE);
 	test_pass(fnn != NULL);
-	fnn = findnamenode("/test/path/bb", fnn_nonew);
+	fnn = fsys_hash_find_node("/test/path/bb", FHFF_NONE);
 	test_pass(fnn != NULL);
-	fnn = findnamenode("/test/path/cc", fnn_nonew);
+	fnn = fsys_hash_find_node("/test/path/cc", FHFF_NONE);
 	test_pass(fnn != NULL);
 	test_pass(fsys_hash_entries() == 3);
 
-	files_db_reset();
+	fsys_hash_reset();
 	test_pass(fsys_hash_entries() == 0);
-	fnn = findnamenode("/test/path/aa", fnn_nonew);
+	fnn = fsys_hash_find_node("/test/path/aa", FHFF_NONE);
 	test_pass(fnn == NULL);
-	fnn = findnamenode("/test/path/bb", fnn_nonew);
+	fnn = fsys_hash_find_node("/test/path/bb", FHFF_NONE);
 	test_pass(fnn == NULL);
-	fnn = findnamenode("/test/path/cc", fnn_nonew);
+	fnn = fsys_hash_find_node("/test/path/cc", FHFF_NONE);
 	test_pass(fnn == NULL);
 	test_pass(fsys_hash_entries() == 0);
 }

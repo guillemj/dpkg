@@ -396,7 +396,7 @@ trk_file_interest_change(const char *trig, struct pkginfo *pkg,
                          struct pkgbin *pkgbin, int signum,
                          enum trig_options opts)
 {
-	struct filenamenode *fnn;
+	struct fsys_namenode *fnn;
 	struct trigfileint **search, *tfi;
 
 	fnn = trigh.namenode_find(trig, signum <= 0);
@@ -545,14 +545,14 @@ ok:
 void
 trig_file_activate_byname(const char *trig, struct pkginfo *aw)
 {
-	struct filenamenode *fnn = trigh.namenode_find(trig, 1);
+	struct fsys_namenode *fnn = trigh.namenode_find(trig, 1);
 
 	if (fnn)
 		trig_file_activate(fnn, aw);
 }
 
 void
-trig_file_activate(struct filenamenode *trig, struct pkginfo *aw)
+trig_file_activate(struct fsys_namenode *trig, struct pkginfo *aw)
 {
 	struct trigfileint *tfi;
 
@@ -579,7 +579,7 @@ trig_file_activate_parents(const char *trig, struct pkginfo *aw)
 }
 
 void
-trig_path_activate(struct filenamenode *trig, struct pkginfo *aw)
+trig_path_activate(struct fsys_namenode *trig, struct pkginfo *aw)
 {
 	trig_file_activate(trig, aw);
 	trig_file_activate_parents(trigh.namenode_name(trig), aw);
@@ -588,7 +588,7 @@ trig_path_activate(struct filenamenode *trig, struct pkginfo *aw)
 static void
 trig_path_activate_byname(const char *trig, struct pkginfo *aw)
 {
-	struct filenamenode *fnn = trigh.namenode_find(trig, 1);
+	struct fsys_namenode *fnn = trigh.namenode_find(trig, 1);
 
 	if (fnn)
 		trig_file_activate(fnn, aw);

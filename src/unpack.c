@@ -322,7 +322,7 @@ pkg_deconfigure_others(struct pkginfo *pkg)
  */
 static void
 deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
-                    struct filenamenode_queue *newconffiles)
+                    struct fsys_namenode_queue *newconffiles)
 {
   FILE *conff;
   char conffilenamebuf[MAXCONFFILENAME];
@@ -338,9 +338,9 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
 
   while (fgets(conffilenamebuf, MAXCONFFILENAME - 2, conff)) {
     struct pkginfo *otherpkg;
-    struct filepackages_iterator *iter;
-    struct filenamenode *namenode;
-    struct fileinlist *newconff;
+    struct fsys_node_pkgs_iter *iter;
+    struct fsys_namenode *namenode;
+    struct fsys_namenode_list *newconff;
     struct conffile *searchconff;
     char *p;
 
@@ -356,9 +356,9 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
       continue;
     *p = '\0';
 
-    namenode = findnamenode(conffilenamebuf, 0);
+    namenode = fsys_hash_find_node(conffilenamebuf, 0);
     namenode->oldhash = NEWCONFFILEFLAG;
-    newconff = tar_filenamenode_queue_push(newconffiles, namenode);
+    newconff = tar_fsys_namenode_queue_push(newconffiles, namenode);
 
     /*
      * Let's see if any packages have this file.
@@ -377,8 +377,8 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
      */
     searchconff = NULL;
 
-    iter = filepackages_iter_new(newconff->namenode);
-    while ((otherpkg = filepackages_iter_next(iter))) {
+    iter = fsys_node_pkgs_iter_new(newconff->namenode);
+    while ((otherpkg = fsys_node_pkgs_iter_next(iter))) {
       debug(dbg_conffdetail,
             "process_archive conffile '%s' in package %s - conff ?",
             newconff->namenode->name, pkg_name(otherpkg, pnaw_always));
@@ -399,7 +399,7 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
           break;
       }
     }
-    filepackages_iter_free(iter);
+    fsys_node_pkgs_iter_free(iter);
 
     if (searchconff) {
       /* We don't copy ‘obsolete’; it's not obsolete in the new package. */
@@ -408,7 +408,7 @@ deb_parse_conffiles(struct pkginfo *pkg, const char *control_conffiles,
       debug(dbg_conff, "process_archive conffile '%s' no package, no hash",
             newconff->namenode->name);
     }
-    newconff->namenode->flags |= fnnf_new_conff;
+    newconff->namenode->flags |= FNNF_NEW_CONFF;
   }
 
   if (ferror(conff))
@@ -556,20 +556,20 @@ pkg_infodb_update(struct pkginfo *pkg, char *cidir, char *cidirrest)
 
 static void
 pkg_remove_old_files(struct pkginfo *pkg,
-                     struct filenamenode_queue *newfiles_queue,
-                     struct filenamenode_queue *newconffiles)
+                     struct fsys_namenode_queue *newfiles_queue,
+                     struct fsys_namenode_queue *newconffiles)
 {
-  struct reversefilelistiter rev_iter;
-  struct filenamenode *namenode;
+  struct fsys_hash_rev_iter rev_iter;
+  struct fsys_namenode *namenode;
   struct stat stab, oldfs;
 
-  reversefilelist_init(&rev_iter, pkg->files);
+  fsys_hash_rev_iter_init(&rev_iter, pkg->files);
 
-  while ((namenode = reversefilelist_next(&rev_iter))) {
-    struct filenamenode *usenode;
+  while ((namenode = fsys_hash_rev_iter_next(&rev_iter))) {
+    struct fsys_namenode *usenode;
 
-    if ((namenode->flags & fnnf_new_conff) ||
-        (namenode->flags & fnnf_new_inarchive))
+    if ((namenode->flags & FNNF_NEW_CONFF) ||
+        (namenode->flags & FNNF_NEW_INARCHIVE))
       continue;
 
     usenode = namenodetouse(namenode, pkg, &pkg->installed);
@@ -601,13 +601,13 @@ pkg_remove_old_files(struct pkginfo *pkg,
       if (rmdir(fnamevb.buf)) {
         warning(_("unable to delete old directory '%.250s': %s"),
                 namenode->name, strerror(errno));
-      } else if ((namenode->flags & fnnf_old_conff)) {
+      } else if ((namenode->flags & FNNF_OLD_CONFF)) {
         warning(_("old conffile '%.250s' was an empty directory "
                   "(and has now been deleted)"), namenode->name);
       }
     } else {
-      struct fileinlist *sameas = NULL;
-      struct fileinlist *cfile;
+      struct fsys_namenode_list *sameas = NULL;
+      struct fsys_namenode_list *cfile;
       static struct file_ondisk_id empty_ondisk_id;
       struct varbuf cfilename = VARBUF_INIT;
 
@@ -634,7 +634,7 @@ pkg_remove_old_files(struct pkginfo *pkg,
       for (cfile = newfiles_queue->head; cfile; cfile = cfile->next) {
         /* If the file has been filtered then treat it as if it didn't exist
          * on the file system. */
-        if (cfile->namenode->flags & fnnf_filtered)
+        if (cfile->namenode->flags & FNNF_FILTERED)
           continue;
 
         if (cfile->namenode->file_ondisk_id == NULL) {
@@ -678,9 +678,9 @@ pkg_remove_old_files(struct pkginfo *pkg,
 
       varbuf_destroy(&cfilename);
 
-      if ((namenode->flags & fnnf_old_conff)) {
+      if ((namenode->flags & FNNF_OLD_CONFF)) {
         if (sameas) {
-          if (sameas->namenode->flags & fnnf_new_conff) {
+          if (sameas->namenode->flags & FNNF_NEW_CONFF) {
             if (strcmp(sameas->namenode->oldhash, NEWCONFFILEFLAG) == 0) {
               sameas->namenode->oldhash = namenode->oldhash;
               debug(dbg_eachfile, "process_archive: old conff %s "
@@ -695,9 +695,9 @@ pkg_remove_old_files(struct pkginfo *pkg,
         } else {
           debug(dbg_eachfile, "process_archive: old conff %s "
                 "is disappearing", namenode->name);
-          namenode->flags |= fnnf_obs_conff;
-          tar_filenamenode_queue_push(newconffiles, namenode);
-          tar_filenamenode_queue_push(newfiles_queue, namenode);
+          namenode->flags |= FNNF_OBS_CONFF;
+          tar_fsys_namenode_queue_push(newconffiles, namenode);
+          tar_fsys_namenode_queue_push(newfiles_queue, namenode);
         }
         continue;
       }
@@ -716,13 +716,13 @@ pkg_remove_old_files(struct pkginfo *pkg,
 }
 
 static void
-pkg_update_fields(struct pkginfo *pkg, struct filenamenode_queue *newconffiles)
+pkg_update_fields(struct pkginfo *pkg, struct fsys_namenode_queue *newconffiles)
 {
   struct dependency *newdeplist, **newdeplistlastp;
   struct dependency *newdep, *dep;
   struct deppossi **newpossilastp, *possi, *newpossi;
   struct conffile **iconffileslastp, *newiconff;
-  struct fileinlist *cfile;
+  struct fsys_namenode_list *cfile;
 
   /* The dependencies are the most difficult. We have to build
    * a whole new forward dependency tree. At least the reverse
@@ -787,7 +787,7 @@ pkg_update_fields(struct pkginfo *pkg, struct filenamenode_queue *newconffiles)
     newiconff->next = NULL;
     newiconff->name = nfstrsave(cfile->namenode->name);
     newiconff->hash = nfstrsave(cfile->namenode->oldhash);
-    newiconff->obsolete = !!(cfile->namenode->flags & fnnf_obs_conff);
+    newiconff->obsolete = !!(cfile->namenode->flags & FNNF_OBS_CONFF);
     *iconffileslastp = newiconff;
     iconffileslastp = &newiconff->next;
   }
@@ -838,7 +838,7 @@ pkg_disappear_others(struct pkginfo *pkg)
 {
   struct pkgiterator *iter;
   struct pkginfo *otherpkg;
-  struct fileinlist *cfile;
+  struct fsys_namenode_list *cfile;
   struct deppossi *pdep;
   struct dependency *providecheck;
   struct varbuf depprobwhy = VARBUF_INIT;
@@ -968,16 +968,16 @@ pkgset_getting_in_sync(struct pkginfo *pkg)
 }
 
 static void
-pkg_remove_files_from_others(struct pkginfo *pkg, struct fileinlist *newfileslist)
+pkg_remove_files_from_others(struct pkginfo *pkg, struct fsys_namenode_list *newfileslist)
 {
-  struct fileinlist *cfile;
+  struct fsys_namenode_list *cfile;
   struct pkginfo *otherpkg;
 
   for (cfile = newfileslist; cfile; cfile = cfile->next) {
-    struct filepackages_iterator *iter;
+    struct fsys_node_pkgs_iter *iter;
     struct pkgset *divpkgset;
 
-    if (!(cfile->namenode->flags & fnnf_elide_other_lists))
+    if (!(cfile->namenode->flags & FNNF_ELIDE_OTHER_LISTS))
       continue;
 
     if (cfile->namenode->divert && cfile->namenode->divert->useinstead) {
@@ -998,8 +998,8 @@ pkg_remove_files_from_others(struct pkginfo *pkg, struct fileinlist *newfileslis
             cfile->namenode->name);
     }
 
-    iter = filepackages_iter_new(cfile->namenode);
-    while ((otherpkg = filepackages_iter_next(iter))) {
+    iter = fsys_node_pkgs_iter_new(cfile->namenode);
+    while ((otherpkg = fsys_node_pkgs_iter_next(iter))) {
       debug(dbg_eachfiledetail, "process_archive ... found in %s",
             pkg_name(otherpkg, pnaw_always));
 
@@ -1013,7 +1013,7 @@ pkg_remove_files_from_others(struct pkginfo *pkg, struct fileinlist *newfileslis
         continue;
       }
 
-      if (cfile->namenode->flags & fnnf_new_conff)
+      if (cfile->namenode->flags & FNNF_NEW_CONFF)
         conffile_mark_obsolete(otherpkg, cfile->namenode);
 
       /* If !files_list_valid then it's one of the disappeared packages above
@@ -1026,23 +1026,23 @@ pkg_remove_files_from_others(struct pkginfo *pkg, struct fileinlist *newfileslis
        * (and any others in the same package) and then mark the package
        * as requiring a reread. */
       write_filelist_except(otherpkg, &otherpkg->installed,
-                            otherpkg->files, fnnf_elide_other_lists);
+                            otherpkg->files, FNNF_ELIDE_OTHER_LISTS);
       debug(dbg_veryverbose, "process_archive overwrote from %s",
             pkg_name(otherpkg, pnaw_always));
     }
-    filepackages_iter_free(iter);
+    fsys_node_pkgs_iter_free(iter);
   }
 }
 
 static void
-pkg_remove_backup_files(struct pkginfo *pkg, struct fileinlist *newfileslist)
+pkg_remove_backup_files(struct pkginfo *pkg, struct fsys_namenode_list *newfileslist)
 {
-  struct fileinlist *cfile;
+  struct fsys_namenode_list *cfile;
 
   for (cfile = newfileslist; cfile; cfile = cfile->next) {
-    struct filenamenode *usenode;
+    struct fsys_namenode *usenode;
 
-    if (cfile->namenode->flags & fnnf_new_conff)
+    if (cfile->namenode->flags & FNNF_NEW_CONFF)
       continue;
 
     usenode = namenodetouse(cfile->namenode, pkg, &pkg->installed);
@@ -1087,7 +1087,7 @@ void process_archive(const char *filename) {
   char *cidirrest;
   char *psize;
   const char *pfilename;
-  struct filenamenode_queue newconffiles, newfiles_queue;
+  struct fsys_namenode_queue newconffiles, newfiles_queue;
   struct stat stab;
 
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
@@ -1193,7 +1193,7 @@ void process_archive(const char *filename) {
   pkg_check_depcon(pkg, pfilename);
 
   ensure_allinstfiles_available();
-  filesdbinit();
+  fsys_hash_init();
   trig_file_interests_ensure();
 
   printf(_("Preparing to unpack %s ...\n"), pfilename);

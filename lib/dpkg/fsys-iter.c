@@ -32,7 +32,7 @@
 #include "fsys.h"
 
 /*
- * Reverse fileinlist iterator.
+ * Reverse iterator.
  */
 
 /*
@@ -42,10 +42,10 @@
  * it apart one entry at a time.
  */
 void
-reversefilelist_init(struct reversefilelistiter *iter,
-                     struct fileinlist *files)
+fsys_hash_rev_iter_init(struct fsys_hash_rev_iter *iter,
+                        struct fsys_namenode_list *files)
 {
-	struct fileinlist *newent;
+	struct fsys_namenode_list *newent;
 
 	iter->todo = NULL;
 	while (files) {
@@ -57,11 +57,11 @@ reversefilelist_init(struct reversefilelistiter *iter,
 	}
 }
 
-struct filenamenode *
-reversefilelist_next(struct reversefilelistiter *iter)
+struct fsys_namenode *
+fsys_hash_rev_iter_next(struct fsys_hash_rev_iter *iter)
 {
-	struct filenamenode *next;
-	struct fileinlist *todo;
+	struct fsys_namenode *next;
+	struct fsys_namenode_list *todo;
 
 	todo = iter->todo;
 	if (!todo)
@@ -74,15 +74,15 @@ reversefilelist_next(struct reversefilelistiter *iter)
 }
 
 /*
- * Clients must call this function to clean up the reversefilelistiter
+ * Clients must call this function to clean up the fsys_hash_rev_iter
  * if they wish to break out of the iteration before it is all done.
- * Calling this function is not necessary if reversefilelist_next() has
+ * Calling this function is not necessary if fsys_hash_rev_iter_next() has
  * been called until it returned 0.
  */
 void
-reversefilelist_abort(struct reversefilelistiter *iter)
+fsys_hash_rev_iter_abort(struct fsys_hash_rev_iter *iter)
 {
-	while (reversefilelist_next(iter))
+	while (fsys_hash_rev_iter_next(iter))
 		;
 }
 
@@ -90,14 +90,14 @@ reversefilelist_abort(struct reversefilelistiter *iter)
  * Iterator for packages owning a file.
  */
 
-struct filepackages_iterator {
+struct fsys_node_pkgs_iter {
 	struct pkg_list *pkg_node;
 };
 
-struct filepackages_iterator *
-filepackages_iter_new(struct filenamenode *fnn)
+struct fsys_node_pkgs_iter *
+fsys_node_pkgs_iter_new(struct fsys_namenode *fnn)
 {
-	struct filepackages_iterator *iter;
+	struct fsys_node_pkgs_iter *iter;
 
 	iter = m_malloc(sizeof(*iter));
 	iter->pkg_node = fnn->packages;
@@ -106,7 +106,7 @@ filepackages_iter_new(struct filenamenode *fnn)
 }
 
 struct pkginfo *
-filepackages_iter_next(struct filepackages_iterator *iter)
+fsys_node_pkgs_iter_next(struct fsys_node_pkgs_iter *iter)
 {
 	struct pkg_list *pkg_node;
 
@@ -120,7 +120,7 @@ filepackages_iter_next(struct filepackages_iterator *iter)
 }
 
 void
-filepackages_iter_free(struct filepackages_iterator *iter)
+fsys_node_pkgs_iter_free(struct fsys_node_pkgs_iter *iter)
 {
 	free(iter);
 }

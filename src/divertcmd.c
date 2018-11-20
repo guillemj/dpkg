@@ -296,7 +296,7 @@ diversion_check_filename(const char *filename)
 }
 
 static const char *
-diversion_pkg_name(struct diversion *d)
+diversion_pkg_name(struct fsys_diversion *d)
 {
 	if (d->pkgset == NULL)
 		return ":";
@@ -349,7 +349,7 @@ diversion_current(const char *filename)
 }
 
 static const char *
-diversion_describe(struct diversion *d)
+diversion_describe(struct fsys_diversion *d)
 {
 	static struct varbuf str = VARBUF_INIT;
 	const char *pkgname;
@@ -376,17 +376,17 @@ divertdb_write(void)
 {
 	char *dbname;
 	struct atomic_file *file;
-	struct fileiterator *iter;
-	struct filenamenode *namenode;
+	struct fsys_hash_iter *iter;
+	struct fsys_namenode *namenode;
 
 	dbname = dpkg_db_get_path(DIVERSIONSFILE);
 
 	file = atomic_file_new(dbname, ATOMIC_FILE_BACKUP);
 	atomic_file_open(file);
 
-	iter = files_db_iter_new();
-	while ((namenode = files_db_iter_next(iter))) {
-		struct diversion *d = namenode->divert;
+	iter = fsys_hash_iter_new();
+	while ((namenode = fsys_hash_iter_next(iter))) {
+		struct fsys_diversion *d = namenode->divert;
 
 		if (d == NULL || d->useinstead == NULL)
 			continue;
@@ -396,7 +396,7 @@ divertdb_write(void)
 		        d->useinstead->name,
 		        diversion_pkg_name(d));
 	}
-	files_db_iter_free(iter);
+	fsys_hash_iter_free(iter);
 
 	atomic_file_sync(file);
 	atomic_file_close(file);
@@ -407,11 +407,11 @@ divertdb_write(void)
 }
 
 static bool
-diversion_is_essential(struct filenamenode *namenode)
+diversion_is_essential(struct fsys_namenode *namenode)
 {
 	struct pkginfo *pkg;
 	struct pkgiterator *pkg_iter;
-	struct filepackages_iterator *iter;
+	struct fsys_node_pkgs_iter *iter;
 	bool essential = false;
 
 	pkg_iter = pkg_db_iter_new();
@@ -421,23 +421,23 @@ diversion_is_essential(struct filenamenode *namenode)
 	}
 	pkg_db_iter_free(pkg_iter);
 
-	iter = filepackages_iter_new(namenode);
-	while ((pkg = filepackages_iter_next(iter))) {
+	iter = fsys_node_pkgs_iter_new(namenode);
+	while ((pkg = fsys_node_pkgs_iter_next(iter))) {
 		if (pkg->installed.essential) {
 			essential = true;
 			break;
 		}
 	}
-	filepackages_iter_free(iter);
+	fsys_node_pkgs_iter_free(iter);
 
 	return essential;
 }
 
 static bool
-diversion_is_owned_by_self(struct pkgset *set, struct filenamenode *namenode)
+diversion_is_owned_by_self(struct pkgset *set, struct fsys_namenode *namenode)
 {
 	struct pkginfo *pkg;
-	struct filepackages_iterator *iter;
+	struct fsys_node_pkgs_iter *iter;
 	bool owned = false;
 
 	if (set == NULL)
@@ -446,14 +446,14 @@ diversion_is_owned_by_self(struct pkgset *set, struct filenamenode *namenode)
 	for (pkg = &set->pkg; pkg; pkg = pkg->arch_next)
 		ensure_packagefiles_available(pkg);
 
-	iter = filepackages_iter_new(namenode);
-	while ((pkg = filepackages_iter_next(iter))) {
+	iter = fsys_node_pkgs_iter_new(namenode);
+	while ((pkg = fsys_node_pkgs_iter_next(iter))) {
 		if (pkg->set == set) {
 			owned = true;
 			break;
 		}
 	}
-	filepackages_iter_free(iter);
+	fsys_node_pkgs_iter_free(iter);
 
 	return owned;
 }
@@ -463,8 +463,8 @@ diversion_add(const char *const *argv)
 {
 	const char *filename = argv[0];
 	struct file file_from, file_to;
-	struct diversion *contest, *altname;
-	struct filenamenode *fnn_from, *fnn_to;
+	struct fsys_diversion *contest, *altname;
+	struct fsys_namenode *fnn_from, *fnn_to;
 	struct pkgset *pkgset;
 
 	opt_pkgname_match_any = false;
@@ -483,7 +483,7 @@ diversion_add(const char *const *argv)
 	    S_ISDIR(file_from.stat.st_mode))
 		badusage(_("cannot divert directories"));
 
-	fnn_from = findnamenode(filename, 0);
+	fnn_from = fsys_hash_find_node(filename, 0);
 
 	/* Handle divertto. */
 	if (opt_divertto == NULL)
@@ -494,7 +494,7 @@ diversion_add(const char *const *argv)
 
 	file_init(&file_to, opt_divertto);
 
-	fnn_to = findnamenode(opt_divertto, 0);
+	fnn_to = fsys_hash_find_node(opt_divertto, 0);
 
 	/* Handle package name. */
 	if (opt_pkgname == NULL)
@@ -562,12 +562,12 @@ diversion_add(const char *const *argv)
 }
 
 static bool
-diversion_is_shared(struct pkgset *set, struct filenamenode *namenode)
+diversion_is_shared(struct pkgset *set, struct fsys_namenode *namenode)
 {
 	const char *archname;
 	struct pkginfo *pkg;
 	struct dpkg_arch *arch;
-	struct filepackages_iterator *iter;
+	struct fsys_node_pkgs_iter *iter;
 	bool shared = false;
 
 	if (set == NULL)
@@ -581,14 +581,14 @@ diversion_is_shared(struct pkgset *set, struct filenamenode *namenode)
 	for (pkg = &set->pkg; pkg; pkg = pkg->arch_next)
 		ensure_packagefiles_available(pkg);
 
-	iter = filepackages_iter_new(namenode);
-	while ((pkg = filepackages_iter_next(iter))) {
+	iter = fsys_node_pkgs_iter_new(namenode);
+	while ((pkg = fsys_node_pkgs_iter_next(iter))) {
 		if (pkg->set == set && pkg->installed.arch != arch) {
 			shared = true;
 			break;
 		}
 	}
-	filepackages_iter_free(iter);
+	fsys_node_pkgs_iter_free(iter);
 
 	return shared;
 }
@@ -597,8 +597,8 @@ static int
 diversion_remove(const char *const *argv)
 {
 	const char *filename = argv[0];
-	struct filenamenode *namenode;
-	struct diversion *contest, *altname;
+	struct fsys_namenode *namenode;
+	struct fsys_diversion *contest, *altname;
 	struct file file_from, file_to;
 	struct pkgset *pkgset;
 
@@ -609,7 +609,7 @@ diversion_remove(const char *const *argv)
 
 	diversion_check_filename(filename);
 
-	namenode = findnamenode(filename, fnn_nonew);
+	namenode = fsys_hash_find_node(filename, FHFF_NONE);
 
 	if (namenode == NULL || namenode->divert == NULL ||
 	    namenode->divert->useinstead == NULL) {
@@ -675,8 +675,8 @@ diversion_remove(const char *const *argv)
 static int
 diversion_list(const char *const *argv)
 {
-	struct fileiterator *iter;
-	struct filenamenode *namenode;
+	struct fsys_hash_iter *iter;
+	struct fsys_namenode *namenode;
 	struct glob_node *glob_list = NULL;
 	const char *pattern;
 
@@ -686,11 +686,11 @@ diversion_list(const char *const *argv)
 	if (glob_list == NULL)
 		glob_list_prepend(&glob_list, m_strdup("*"));
 
-	iter = files_db_iter_new();
-	while ((namenode = files_db_iter_next(iter))) {
+	iter = fsys_hash_iter_new();
+	while ((namenode = fsys_hash_iter_next(iter))) {
 		struct glob_node *g;
-		struct diversion *contest = namenode->divert;
-		struct diversion *altname;
+		struct fsys_diversion *contest = namenode->divert;
+		struct fsys_diversion *altname;
 		const char *pkgname;
 
 		if (contest == NULL || contest->useinstead == NULL)
@@ -709,7 +709,7 @@ diversion_list(const char *const *argv)
 			}
 		}
 	}
-	files_db_iter_free(iter);
+	fsys_hash_iter_free(iter);
 
 	glob_list_free(glob_list);
 
@@ -720,14 +720,14 @@ static int
 diversion_truename(const char *const *argv)
 {
 	const char *filename = argv[0];
-	struct filenamenode *namenode;
+	struct fsys_namenode *namenode;
 
 	if (!filename || argv[1])
 		badusage(_("--%s needs a single argument"), cipaction->olong);
 
 	diversion_check_filename(filename);
 
-	namenode = findnamenode(filename, fnn_nonew);
+	namenode = fsys_hash_find_node(filename, FHFF_NONE);
 
 	/* Print the given name if file is not diverted. */
 	if (namenode && namenode->divert && namenode->divert->useinstead)
@@ -742,14 +742,14 @@ static int
 diversion_listpackage(const char *const *argv)
 {
 	const char *filename = argv[0];
-	struct filenamenode *namenode;
+	struct fsys_namenode *namenode;
 
 	if (!filename || argv[1])
 		badusage(_("--%s needs a single argument"), cipaction->olong);
 
 	diversion_check_filename(filename);
 
-	namenode = findnamenode(filename, fnn_nonew);
+	namenode = fsys_hash_find_node(filename, FHFF_NONE);
 
 	/* Print nothing if file is not diverted. */
 	if (namenode == NULL || namenode->divert == NULL)
@@ -847,7 +847,7 @@ main(int argc, const char * const *argv)
 		setaction(&cmdinfo_add, NULL);
 
 	modstatdb_open(msdbrw_readonly);
-	filesdbinit();
+	fsys_hash_init();
 	ensure_diversions();
 
 	ret = cipaction->action(argv);

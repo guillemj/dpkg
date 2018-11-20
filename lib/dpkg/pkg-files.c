@@ -35,7 +35,7 @@
 void
 pkg_files_blank(struct pkginfo *pkg)
 {
-	struct fileinlist *current;
+	struct fsys_namenode_list *current;
 
 	for (current = pkg->files;
 	     current;
@@ -63,11 +63,11 @@ pkg_files_blank(struct pkginfo *pkg)
 	pkg->files = NULL;
 }
 
-struct fileinlist **
-pkg_files_add_file(struct pkginfo *pkg, struct filenamenode *namenode,
-                   struct fileinlist **file_tail)
+struct fsys_namenode_list **
+pkg_files_add_file(struct pkginfo *pkg, struct fsys_namenode *namenode,
+                   struct fsys_namenode_list **file_tail)
 {
-	struct fileinlist *newent;
+	struct fsys_namenode_list *newent;
 	struct pkg_list *pkg_node;
 
 	if (file_tail == NULL)

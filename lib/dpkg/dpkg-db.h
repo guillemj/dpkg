@@ -228,7 +228,7 @@ struct pkginfo {
    * true              !NULL  Read, all is OK.
    * true              NULL   Read OK, but, there were no files.
    */
-  struct fileinlist *files;
+  struct fsys_namenode_list *files;
   off_t files_list_phys_offs;
   bool files_list_valid;
 

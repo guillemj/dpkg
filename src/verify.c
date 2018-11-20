@@ -45,7 +45,7 @@ struct verify_checks {
 	enum verify_result md5sum;
 };
 
-typedef void verify_output_func(struct filenamenode *, struct verify_checks *);
+typedef void verify_output_func(struct fsys_namenode *, struct verify_checks *);
 
 static int
 verify_result_rpm(enum verify_result result, int check)
@@ -62,7 +62,7 @@ verify_result_rpm(enum verify_result result, int check)
 }
 
 static void
-verify_output_rpm(struct filenamenode *namenode, struct verify_checks *checks)
+verify_output_rpm(struct fsys_namenode *namenode, struct verify_checks *checks)
 {
 	char result[9];
 	int attr;
@@ -71,7 +71,7 @@ verify_output_rpm(struct filenamenode *namenode, struct verify_checks *checks)
 
 	result[2] = verify_result_rpm(checks->md5sum, '5');
 
-	if (namenode->flags & fnnf_old_conff)
+	if (namenode->flags & FNNF_OLD_CONFF)
 		attr = 'c';
 	else
 		attr = ' ';
@@ -95,7 +95,7 @@ verify_set_output(const char *name)
 static void
 verify_package(struct pkginfo *pkg)
 {
-	struct fileinlist *file;
+	struct fsys_namenode_list *file;
 	struct varbuf filename = VARBUF_INIT;
 
 	ensure_packagefiles_available(pkg);
@@ -104,7 +104,7 @@ verify_package(struct pkginfo *pkg)
 
 	for (file = pkg->files; file; file = file->next) {
 		struct verify_checks checks;
-		struct filenamenode *fnn;
+		struct fsys_namenode *fnn;
 		char hash[MD5HASHLEN + 1];
 		int failures = 0;
 

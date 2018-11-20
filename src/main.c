@@ -883,11 +883,11 @@ commandfd(const char *const *argv)
     dpkg_options_parse((const char *const **)&endargs, cmdinfos, printforhelp);
     if (!cipaction) badusage(_("need an action option"));
 
-    filesdbinit();
+    fsys_hash_init();
 
     ret |= cipaction->action(endargs);
 
-    files_db_reset();
+    fsys_hash_reset();
 
     pop_error_context(ehflag_normaltidy);
   }
@@ -929,7 +929,7 @@ int main(int argc, const char *const *argv) {
     run_status_loggers(&status_loggers);
   }
 
-  filesdbinit();
+  fsys_hash_init();
 
   ret = cipaction->action(argv);
 

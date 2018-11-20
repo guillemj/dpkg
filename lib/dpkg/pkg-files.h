@@ -35,9 +35,9 @@ DPKG_BEGIN_DECLS
 void
 pkg_files_blank(struct pkginfo *pkg);
 
-struct fileinlist **
-pkg_files_add_file(struct pkginfo *pkg, struct filenamenode *namenode,
-                   struct fileinlist **file_tail);
+struct fsys_namenode_list **
+pkg_files_add_file(struct pkginfo *pkg, struct fsys_namenode *namenode,
+                   struct fsys_namenode_list **file_tail);
 
 /** @} */
 

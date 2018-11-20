@@ -37,13 +37,13 @@
  * This is the closest one to 2^18 (262144). */
 #define BINS 262139
 
-static struct filenamenode *bins[BINS];
+static struct fsys_namenode *bins[BINS];
 static int nfiles = 0;
 
 void
-filesdbinit(void)
+fsys_hash_init(void)
 {
-	struct filenamenode *fnn;
+	struct fsys_namenode *fnn;
 	int i;
 
 	for (i = 0; i < BINS; i++) {
@@ -57,7 +57,7 @@ filesdbinit(void)
 }
 
 void
-files_db_reset(void)
+fsys_hash_reset(void)
 {
 	int i;
 
@@ -73,10 +73,10 @@ fsys_hash_entries(void)
 	return nfiles;
 }
 
-struct filenamenode *
-findnamenode(const char *name, enum fnnflags flags)
+struct fsys_namenode *
+fsys_hash_find_node(const char *name, enum fsys_hash_find_flags flags)
 {
-	struct filenamenode **pointerp, *newnode;
+	struct fsys_namenode **pointerp, *newnode;
 	const char *orig_name = name;
 
 	/* We skip initial slashes and ‘./’ pairs, and add our own single
@@ -99,12 +99,12 @@ findnamenode(const char *name, enum fnnflags flags)
 	if (*pointerp)
 		return *pointerp;
 
-	if (flags & fnn_nonew)
+	if (flags & FHFF_NONE)
 		return NULL;
 
 	newnode = nfmalloc(sizeof(*newnode));
 	newnode->packages = NULL;
-	if ((flags & fnn_nocopy) && name > orig_name && name[-1] == '/') {
+	if ((flags & FHFF_NOCOPY) && name > orig_name && name[-1] == '/') {
 		newnode->name = name - 1;
 	} else {
 		char *newname = nfmalloc(strlen(name) + 2);
@@ -131,15 +131,15 @@ findnamenode(const char *name, enum fnnflags flags)
  * Forward iterator.
  */
 
-struct fileiterator {
-	struct filenamenode *namenode;
+struct fsys_hash_iter {
+	struct fsys_namenode *namenode;
 	int nbinn;
 };
 
-struct fileiterator *
-files_db_iter_new(void)
+struct fsys_hash_iter *
+fsys_hash_iter_new(void)
 {
-	struct fileiterator *iter;
+	struct fsys_hash_iter *iter;
 
 	iter = m_malloc(sizeof(*iter));
 	iter->namenode = NULL;
@@ -148,10 +148,10 @@ files_db_iter_new(void)
 	return iter;
 }
 
-struct filenamenode *
-files_db_iter_next(struct fileiterator *iter)
+struct fsys_namenode *
+fsys_hash_iter_next(struct fsys_hash_iter *iter)
 {
-	struct filenamenode *fnn = NULL;
+	struct fsys_namenode *fnn = NULL;
 
 	while (!iter->namenode) {
 		if (iter->nbinn >= BINS)
@@ -165,7 +165,7 @@ files_db_iter_next(struct fileiterator *iter)
 }
 
 void
-files_db_iter_free(struct fileiterator *iter)
+fsys_hash_iter_free(struct fsys_hash_iter *iter)
 {
 	free(iter);
 }

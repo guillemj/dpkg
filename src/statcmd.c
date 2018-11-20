@@ -153,9 +153,9 @@ statdb_node_new(const char *user, const char *group, const char *mode)
 static struct file_stat **
 statdb_node_find(const char *filename)
 {
-	struct filenamenode *file;
+	struct fsys_namenode *file;
 
-	file = findnamenode(filename, 0);
+	file = fsys_hash_find_node(filename, 0);
 
 	return &file->statoverride;
 }
@@ -163,9 +163,9 @@ statdb_node_find(const char *filename)
 static int
 statdb_node_remove(const char *filename)
 {
-	struct filenamenode *file;
+	struct fsys_namenode *file;
 
-	file = findnamenode(filename, fnn_nonew);
+	file = fsys_hash_find_node(filename, FHFF_NONE);
 	if (!file || !file->statoverride)
 		return 0;
 
@@ -188,7 +188,7 @@ statdb_node_apply(const char *filename, struct file_stat *filestat)
 }
 
 static void
-statdb_node_print(FILE *out, struct filenamenode *file)
+statdb_node_print(FILE *out, struct fsys_namenode *file)
 {
 	struct file_stat *filestat = file->statoverride;
 	struct passwd *pw;
@@ -221,17 +221,17 @@ statdb_write(void)
 {
 	char *dbname;
 	struct atomic_file *dbfile;
-	struct fileiterator *iter;
-	struct filenamenode *file;
+	struct fsys_hash_iter *iter;
+	struct fsys_namenode *file;
 
 	dbname = dpkg_db_get_path(STATOVERRIDEFILE);
 	dbfile = atomic_file_new(dbname, ATOMIC_FILE_BACKUP);
 	atomic_file_open(dbfile);
 
-	iter = files_db_iter_new();
-	while ((file = files_db_iter_next(iter)))
+	iter = fsys_hash_iter_new();
+	while ((file = fsys_hash_iter_next(iter)))
 		statdb_node_print(dbfile->fp, file);
-	files_db_iter_free(iter);
+	fsys_hash_iter_free(iter);
 
 	atomic_file_sync(dbfile);
 	atomic_file_close(dbfile);
@@ -333,8 +333,8 @@ statoverride_remove(const char *const *argv)
 static int
 statoverride_list(const char *const *argv)
 {
-	struct fileiterator *iter;
-	struct filenamenode *file;
+	struct fsys_hash_iter *iter;
+	struct fsys_namenode *file;
 	const char *thisarg;
 	struct glob_node *glob_list = NULL;
 	int ret = 1;
@@ -347,8 +347,8 @@ statoverride_list(const char *const *argv)
 	if (glob_list == NULL)
 		glob_list_prepend(&glob_list, m_strdup("*"));
 
-	iter = files_db_iter_new();
-	while ((file = files_db_iter_next(iter))) {
+	iter = fsys_hash_iter_new();
+	while ((file = fsys_hash_iter_next(iter))) {
 		struct glob_node *g;
 
 		for (g = glob_list; g; g = g->next) {
@@ -359,7 +359,7 @@ statoverride_list(const char *const *argv)
 			}
 		}
 	}
-	files_db_iter_free(iter);
+	fsys_hash_iter_free(iter);
 
 	glob_list_free(glob_list);
 
@@ -397,7 +397,7 @@ main(int argc, const char *const *argv)
 	if (!cipaction)
 		badusage(_("need an action option"));
 
-	filesdbinit();
+	fsys_hash_init();
 	ensure_statoverrides(STATDB_PARSE_LAX);
 
 	ret = cipaction->action(argv);

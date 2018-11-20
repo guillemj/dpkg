@@ -39,12 +39,12 @@
 #include <dpkg/db-fsys.h>
 
 /*
- * If mask is nonzero, will not write any file whose filenamenode
+ * If mask is nonzero, will not write any file whose fsys_namenode
  * has any flag bits set in mask.
  */
 void
 write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
-                      struct fileinlist *list, enum filenamenode_flags mask)
+                      struct fsys_namenode_list *list, enum fsys_namenode_flags mask)
 {
 	struct atomic_file *file;
 	const char *hashfile;
@@ -60,7 +60,7 @@ write_filehash_except(struct pkginfo *pkg, struct pkgbin *pkgbin,
 	atomic_file_open(file);
 
 	for (; list; list = list->next) {
-		 struct filenamenode *namenode = list->namenode;
+		 struct fsys_namenode *namenode = list->namenode;
 
 		if (mask && (namenode->flags & mask))
 			continue;
@@ -88,7 +88,7 @@ parse_filehash_buffer(struct varbuf *buf,
 	const char *buf_end = buf->buf + buf->used;
 
 	for (thisline = buf->buf; thisline < buf_end; thisline = nextline) {
-		struct filenamenode *namenode;
+		struct fsys_namenode *namenode;
 		char *endline, *hash_end, *filename;
 
 		endline = memchr(thisline, '\n', buf_end - thisline);
@@ -125,7 +125,7 @@ parse_filehash_buffer(struct varbuf *buf,
 		      thisline, filename);
 
 		/* Add the file to the list. */
-		namenode = findnamenode(filename, 0);
+		namenode = fsys_hash_find_node(filename, 0);
 		namenode->newhash = nfstrsave(thisline);
 	}
 }

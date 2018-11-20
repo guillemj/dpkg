@@ -117,8 +117,8 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 	FILE *file;
 	char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
 	struct file_stat *fso;
-	struct filenamenode *fnn;
-	struct fileiterator *iter;
+	struct fsys_namenode *fnn;
+	struct fsys_hash_iter *iter;
 
 	if (statoverridename == NULL)
 		statoverridename = dpkg_db_get_path(STATOVERRIDEFILE);
@@ -157,10 +157,10 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 	file_prev = file;
 
 	/* Reset statoverride information. */
-	iter = files_db_iter_new();
-	while ((fnn = files_db_iter_next(iter)))
+	iter = fsys_hash_iter_new();
+	while ((fnn = fsys_hash_iter_next(iter)))
 		fnn->statoverride = NULL;
-	files_db_iter_free(iter);
+	fsys_hash_iter_free(iter);
 
 	if (!file) {
 		onerr_abort--;
@@ -250,7 +250,7 @@ ensure_statoverrides(enum statdb_parse_flags flags)
 		if (thisline >= loaded_list_end)
 			ohshit(_("unexpected end of line in statoverride file"));
 
-		fnn = findnamenode(thisline, 0);
+		fnn = fsys_hash_find_node(thisline, 0);
 		if (fnn->statoverride)
 			ohshit(_("multiple statoverrides present for file '%.250s'"),
 			       thisline);

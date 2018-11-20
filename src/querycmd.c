@@ -290,8 +290,10 @@ listpackages(const char *const *argv)
   return rc;
 }
 
-static int searchoutput(struct filenamenode *namenode) {
-  struct filepackages_iterator *iter;
+static int
+searchoutput(struct fsys_namenode *namenode)
+{
+  struct fsys_node_pkgs_iter *iter;
   struct pkginfo *pkg_owner;
   int found;
 
@@ -313,14 +315,14 @@ static int searchoutput(struct filenamenode *namenode) {
   }
   found= 0;
 
-  iter = filepackages_iter_new(namenode);
-  while ((pkg_owner = filepackages_iter_next(iter))) {
+  iter = fsys_node_pkgs_iter_new(namenode);
+  while ((pkg_owner = fsys_node_pkgs_iter_next(iter))) {
     if (found)
       fputs(", ", stdout);
     fputs(pkg_name(pkg_owner, pnaw_nonambig), stdout);
     found++;
   }
-  filepackages_iter_free(iter);
+  fsys_node_pkgs_iter_free(iter);
 
   if (found) printf(": %s\n",namenode->name);
   return found + (namenode->divert ? 1 : 0);
@@ -329,8 +331,8 @@ static int searchoutput(struct filenamenode *namenode) {
 static int
 searchfiles(const char *const *argv)
 {
-  struct filenamenode *namenode;
-  struct fileiterator *iter;
+  struct fsys_namenode *namenode;
+  struct fsys_hash_iter *iter;
   const char *thisarg;
   int found;
   int failures = 0;
@@ -363,15 +365,15 @@ searchfiles(const char *const *argv)
       varbuf_end_str(&path);
       varbuf_trunc(&path, path_trim_slash_slashdot(path.buf));
 
-      namenode = findnamenode(path.buf, 0);
+      namenode = fsys_hash_find_node(path.buf, 0);
       found += searchoutput(namenode);
     } else {
-      iter = files_db_iter_new();
-      while ((namenode = files_db_iter_next(iter)) != NULL) {
+      iter = fsys_hash_iter_new();
+      while ((namenode = fsys_hash_iter_next(iter)) != NULL) {
         if (fnmatch(thisarg,namenode->name,0)) continue;
         found+= searchoutput(namenode);
       }
-      files_db_iter_free(iter);
+      fsys_hash_iter_free(iter);
     }
     if (!found) {
       notice(_("no path found matching pattern %s"), thisarg);
@@ -474,9 +476,9 @@ static int
 list_files(const char *const *argv)
 {
   const char *thisarg;
-  struct fileinlist *file;
+  struct fsys_namenode_list *file;
   struct pkginfo *pkg;
-  struct filenamenode *namenode;
+  struct fsys_namenode *namenode;
   int failures = 0;
 
   if (!*argv)
@@ -855,7 +857,7 @@ int main(int argc, const char *const *argv) {
 
   if (!cipaction) badusage(_("need an action option"));
 
-  filesdbinit();
+  fsys_hash_init();
 
   ret = cipaction->action(argv);
 
