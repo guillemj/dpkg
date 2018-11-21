@@ -104,8 +104,8 @@ f_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
   e = pkg_name_is_illegal(value);
   if (e != NULL)
     parse_error(ps, _("invalid package name (%.250s)"), e);
-  /* We use the new name, as pkg_db_find_set() may have done a tolower for us. */
-  pkg->set->name = pkg_db_find_set(value)->name;
+  /* We use the new name, as pkg_hash_find_set() may have done a tolower for us. */
+  pkg->set->name = pkg_hash_find_set(value)->name;
 }
 
 void
@@ -440,7 +440,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
                     fip->name, depname.buf, emsg);
       dop = nfmalloc(sizeof(*dop));
       dop->up= dyp;
-      dop->ed = pkg_db_find_set(depname.buf);
+      dop->ed = pkg_hash_find_set(depname.buf);
       dop->next= NULL; *ldopp= dop; ldopp= &dop->next;
 
       /* Don't link this (which is after all only ‘new_pkg’ from

@@ -260,7 +260,7 @@ listpackages(const char *const *argv)
   else
     modstatdb_open(msdbrw_readonly | msdbrw_available_readonly);
 
-  pkg_array_init_from_db(&array);
+  pkg_array_init_from_hash(&array);
   pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
   memset(&fmt, 0, sizeof(fmt));
@@ -571,7 +571,7 @@ showpackages(const char *const *argv)
   else
     modstatdb_open(msdbrw_readonly | msdbrw_available_readonly);
 
-  pkg_array_init_from_db(&array);
+  pkg_array_init_from_hash(&array);
   pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
   if (!*argv) {

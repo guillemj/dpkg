@@ -367,7 +367,7 @@ void modstatdb_shutdown(void) {
     break;
   }
 
-  pkg_db_reset();
+  pkg_hash_reset();
 
   modstatdb_done();
 }

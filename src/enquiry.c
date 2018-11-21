@@ -198,7 +198,7 @@ audit(const char *const *argv)
   modstatdb_open(msdbrw_readonly);
 
   if (!*argv)
-    pkg_array_init_from_db(&array);
+    pkg_array_init_from_hash(&array);
   else
     pkg_array_init_from_names(&array, pkg_array_mapper, (const char **)argv);
 
@@ -273,7 +273,7 @@ unpackchk(const char *const *argv)
 {
   int totalcount, sects;
   struct sectionentry *sectionentries, *se, **sep;
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg;
   const char *thissect;
   char buf[20];
@@ -287,8 +287,8 @@ unpackchk(const char *const *argv)
   totalcount= 0;
   sectionentries = NULL;
   sects= 0;
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter))) {
+  iter = pkg_hash_iter_new();
+  while ((pkg = pkg_hash_iter_next_pkg(iter))) {
     if (!yettobeunpacked(pkg, &thissect)) continue;
     for (se= sectionentries; se && strcasecmp(thissect,se->name); se= se->next);
     if (!se) {
@@ -304,27 +304,27 @@ unpackchk(const char *const *argv)
     }
     se->count++; totalcount++;
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   if (totalcount == 0)
     return 0;
 
   if (totalcount <= 12) {
-    iter = pkg_db_iter_new();
-    while ((pkg = pkg_db_iter_next_pkg(iter))) {
+    iter = pkg_hash_iter_new();
+    while ((pkg = pkg_hash_iter_next_pkg(iter))) {
       if (!yettobeunpacked(pkg, NULL))
         continue;
       describebriefly(pkg);
     }
-    pkg_db_iter_free(iter);
+    pkg_hash_iter_free(iter);
   } else if (sects <= 12) {
     for (se= sectionentries; se; se= se->next) {
       sprintf(buf,"%d",se->count);
       printf(_(" %d in %s: "),se->count,se->name);
       width= 70-strlen(se->name)-strlen(buf);
       while (width > 59) { putchar(' '); width--; }
-      iter = pkg_db_iter_new();
-      while ((pkg = pkg_db_iter_next_pkg(iter))) {
+      iter = pkg_hash_iter_new();
+      while ((pkg = pkg_hash_iter_next_pkg(iter))) {
         const char *pkgname;
 
         if (!yettobeunpacked(pkg,&thissect)) continue;
@@ -335,7 +335,7 @@ unpackchk(const char *const *argv)
         if (width < 4) { printf(" ..."); break; }
         printf(" %s", pkgname);
       }
-      pkg_db_iter_free(iter);
+      pkg_hash_iter_free(iter);
       putchar('\n');
     }
   } else {
@@ -369,7 +369,7 @@ assert_version_support(const char *const *argv,
 
   modstatdb_open(msdbrw_readonly);
 
-  pkg = pkg_db_find_singleton("dpkg");
+  pkg = pkg_hash_find_singleton("dpkg");
   switch (pkg->status) {
   case PKG_STAT_INSTALLED:
   case PKG_STAT_TRIGGERSPENDING:
@@ -458,7 +458,7 @@ predeppackage(const char *const *argv)
 {
   static struct varbuf vb;
 
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg = NULL, *startpkg, *trypkg;
   struct dependency *dep;
   struct deppossi *possi, *provider;
@@ -471,8 +471,8 @@ predeppackage(const char *const *argv)
   clear_istobes();
 
   dep = NULL;
-  iter = pkg_db_iter_new();
-  while (!dep && (pkg = pkg_db_iter_next_pkg(iter))) {
+  iter = pkg_hash_iter_new();
+  while (!dep && (pkg = pkg_hash_iter_next_pkg(iter))) {
     /* Ignore packages user doesn't want. */
     if (pkg->want != PKG_WANT_INSTALL)
       continue;
@@ -490,7 +490,7 @@ predeppackage(const char *const *argv)
     pkg->clientdata->istobe = PKG_ISTOBE_NORMAL;
     /* If dep is NULL we go and get the next package. */
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   if (!dep)
     return 1; /* Not found. */

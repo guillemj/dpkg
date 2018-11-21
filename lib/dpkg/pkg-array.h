@@ -44,7 +44,7 @@ typedef struct pkginfo *pkg_mapper_func(const char *name);
 typedef void pkg_array_visitor_func(struct pkg_array *a, struct pkginfo *pkg,
                                     void *pkg_data);
 
-void pkg_array_init_from_db(struct pkg_array *a);
+void pkg_array_init_from_hash(struct pkg_array *a);
 void pkg_array_init_from_names(struct pkg_array *a, pkg_mapper_func *pkg_mapper,
                                const char **pkg_names);
 void pkg_array_foreach(struct pkg_array *a, pkg_array_visitor_func *pkg_visitor,

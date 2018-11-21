@@ -252,13 +252,13 @@ void ensure_allinstfiles_available(void) {
 
   if (allpackagesdone) return;
   if (saidread < PKG_FILESDB_LOAD_DONE) {
-    int max = pkg_db_count_pkg();
+    int max = pkg_hash_count_pkg();
 
     saidread = PKG_FILESDB_LOAD_INPROGRESS;
     progress_init(&progress, _("(Reading database ... "), max);
   }
 
-  pkg_array_init_from_db(&array);
+  pkg_array_init_from_hash(&array);
 
   pkg_files_optimize_load(&array);
 

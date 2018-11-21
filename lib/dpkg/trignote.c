@@ -76,7 +76,7 @@ trig_note_pend(struct pkginfo *pend, const char *trig)
 
 /*
  * Note: This is called also from fields.c where *aw is a temporary
- * but pend is from pkg_db_find()!
+ * but pend is from pkg_hash_find()!
  *
  * @retval true  For done.
  * @retval false For already noted.

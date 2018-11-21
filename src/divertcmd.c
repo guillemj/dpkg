@@ -410,16 +410,16 @@ static bool
 diversion_is_essential(struct fsys_namenode *namenode)
 {
 	struct pkginfo *pkg;
-	struct pkgiterator *pkg_iter;
+	struct pkg_hash_iter *pkg_iter;
 	struct fsys_node_pkgs_iter *iter;
 	bool essential = false;
 
-	pkg_iter = pkg_db_iter_new();
-	while ((pkg = pkg_db_iter_next_pkg(pkg_iter))) {
+	pkg_iter = pkg_hash_iter_new();
+	while ((pkg = pkg_hash_iter_next_pkg(pkg_iter))) {
 		if (pkg->installed.essential)
 			ensure_packagefiles_available(pkg);
 	}
-	pkg_db_iter_free(pkg_iter);
+	pkg_hash_iter_free(pkg_iter);
 
 	iter = fsys_node_pkgs_iter_new(namenode);
 	while ((pkg = fsys_node_pkgs_iter_next(iter))) {
@@ -500,7 +500,7 @@ diversion_add(const char *const *argv)
 	if (opt_pkgname == NULL)
 		pkgset = NULL;
 	else
-		pkgset = pkg_db_find_set(opt_pkgname);
+		pkgset = pkg_hash_find_set(opt_pkgname);
 
 	/* Check we are not stomping over an existing diversion. */
 	if (fnn_from->divert || fnn_to->divert) {
@@ -622,7 +622,7 @@ diversion_remove(const char *const *argv)
 	if (opt_pkgname == NULL)
 		pkgset = NULL;
 	else
-		pkgset = pkg_db_find_set(opt_pkgname);
+		pkgset = pkg_hash_find_set(opt_pkgname);
 
 	contest = namenode->divert;
 	altname = contest->useinstead->divert;

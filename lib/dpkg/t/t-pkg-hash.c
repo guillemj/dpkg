@@ -32,102 +32,102 @@ test_pkg_hash(void)
 	struct dpkg_arch *arch;
 	struct pkgset *set;
 	struct pkginfo *pkg;
-	struct pkgiterator *iter;
+	struct pkg_hash_iter *iter;
 	int pkginstance;
 
-	test_pass(pkg_db_count_set() == 0);
-	test_pass(pkg_db_count_pkg() == 0);
+	test_pass(pkg_hash_count_set() == 0);
+	test_pass(pkg_hash_count_pkg() == 0);
 
-	set = pkg_db_find_set("pkg-aa");
+	set = pkg_hash_find_set("pkg-aa");
 	test_pass(set != NULL);
 	test_str(set->name, ==, "pkg-aa");
-	test_pass(pkg_db_count_set() == 1);
-	test_pass(pkg_db_count_pkg() == 1);
+	test_pass(pkg_hash_count_set() == 1);
+	test_pass(pkg_hash_count_pkg() == 1);
 
-	set = pkg_db_find_set("pkg-aa");
+	set = pkg_hash_find_set("pkg-aa");
 	test_pass(set != NULL);
 	test_str(set->name, ==, "pkg-aa");
-	test_pass(pkg_db_count_set() == 1);
-	test_pass(pkg_db_count_pkg() == 1);
+	test_pass(pkg_hash_count_set() == 1);
+	test_pass(pkg_hash_count_pkg() == 1);
 
-	set = pkg_db_find_set("Pkg-AA");
+	set = pkg_hash_find_set("Pkg-AA");
 	test_pass(set != NULL);
 	test_str(set->name, ==, "pkg-aa");
-	test_pass(pkg_db_count_set() == 1);
-	test_pass(pkg_db_count_pkg() == 1);
+	test_pass(pkg_hash_count_set() == 1);
+	test_pass(pkg_hash_count_pkg() == 1);
 
-	set = pkg_db_find_set("pkg-bb");
+	set = pkg_hash_find_set("pkg-bb");
 	pkg_set_status(&set->pkg, PKG_STAT_INSTALLED);
 	test_pass(set != NULL);
 	test_str(set->name, ==, "pkg-bb");
-	test_pass(pkg_db_count_set() == 2);
-	test_pass(pkg_db_count_pkg() == 2);
+	test_pass(pkg_hash_count_set() == 2);
+	test_pass(pkg_hash_count_pkg() == 2);
 
-	set = pkg_db_find_set("pkg-cc");
+	set = pkg_hash_find_set("pkg-cc");
 	test_pass(set != NULL);
 	test_str(set->name, ==, "pkg-cc");
-	test_pass(pkg_db_count_set() == 3);
-	test_pass(pkg_db_count_pkg() == 3);
+	test_pass(pkg_hash_count_set() == 3);
+	test_pass(pkg_hash_count_pkg() == 3);
 
 	arch = dpkg_arch_find("arch-xx");
-	pkg = pkg_db_find_pkg("pkg-aa", arch);
+	pkg = pkg_hash_find_pkg("pkg-aa", arch);
 	pkg_set_status(pkg, PKG_STAT_INSTALLED);
 	test_pass(pkg != NULL);
 	test_str(pkg->set->name, ==, "pkg-aa");
 	test_str(pkg->installed.arch->name, ==, "arch-xx");
 	test_str(pkg->available.arch->name, ==, "arch-xx");
-	test_pass(pkg_db_count_set() == 3);
-	test_pass(pkg_db_count_pkg() == 3);
+	test_pass(pkg_hash_count_set() == 3);
+	test_pass(pkg_hash_count_pkg() == 3);
 
 	arch = dpkg_arch_find("arch-yy");
-	pkg = pkg_db_find_pkg("pkg-aa", arch);
+	pkg = pkg_hash_find_pkg("pkg-aa", arch);
 	test_pass(pkg != NULL);
 	test_str(pkg->set->name, ==, "pkg-aa");
 	test_str(pkg->installed.arch->name, ==, "arch-yy");
 	test_str(pkg->available.arch->name, ==, "arch-yy");
-	test_pass(pkg_db_count_set() == 3);
-	test_pass(pkg_db_count_pkg() == 4);
+	test_pass(pkg_hash_count_set() == 3);
+	test_pass(pkg_hash_count_pkg() == 4);
 
 	arch = dpkg_arch_find("arch-zz");
-	pkg = pkg_db_find_pkg("pkg-aa", arch);
+	pkg = pkg_hash_find_pkg("pkg-aa", arch);
 	pkg_set_status(pkg, PKG_STAT_UNPACKED);
 	test_pass(pkg != NULL);
 	test_str(pkg->set->name, ==, "pkg-aa");
 	test_str(pkg->installed.arch->name, ==, "arch-zz");
 	test_str(pkg->available.arch->name, ==, "arch-zz");
-	test_pass(pkg_db_count_set() == 3);
-	test_pass(pkg_db_count_pkg() == 5);
+	test_pass(pkg_hash_count_set() == 3);
+	test_pass(pkg_hash_count_pkg() == 5);
 
 	arch = dpkg_arch_find("arch-xx");
-	pkg = pkg_db_find_pkg("pkg-aa", arch);
+	pkg = pkg_hash_find_pkg("pkg-aa", arch);
 	test_pass(pkg != NULL);
 	test_str(pkg->set->name, ==, "pkg-aa");
 	test_str(pkg->installed.arch->name, ==, "arch-xx");
 	test_str(pkg->available.arch->name, ==, "arch-xx");
-	test_pass(pkg_db_count_set() == 3);
-	test_pass(pkg_db_count_pkg() == 5);
+	test_pass(pkg_hash_count_set() == 3);
+	test_pass(pkg_hash_count_pkg() == 5);
 
-	set = pkg_db_find_set("pkg-aa");
+	set = pkg_hash_find_set("pkg-aa");
 	test_str(set->name, ==, "pkg-aa");
-	pkg = pkg_db_get_singleton(set);
+	pkg = pkg_hash_get_singleton(set);
 	test_pass(pkg == NULL);
-	test_pass(pkg_db_count_set() == 3);
-	test_pass(pkg_db_count_pkg() == 5);
+	test_pass(pkg_hash_count_set() == 3);
+	test_pass(pkg_hash_count_pkg() == 5);
 
-	pkg = pkg_db_find_singleton("pkg-bb");
+	pkg = pkg_hash_find_singleton("pkg-bb");
 	test_pass(pkg != NULL);
 	test_str(pkg->set->name, ==, "pkg-bb");
-	test_pass(pkg_db_count_set() == 3);
-	test_pass(pkg_db_count_pkg() == 5);
+	test_pass(pkg_hash_count_set() == 3);
+	test_pass(pkg_hash_count_pkg() == 5);
 
-	pkg = pkg_db_find_singleton("pkg-cc");
+	pkg = pkg_hash_find_singleton("pkg-cc");
 	test_pass(pkg != NULL);
 	test_str(pkg->set->name, ==, "pkg-cc");
-	test_pass(pkg_db_count_set() == 3);
-	test_pass(pkg_db_count_pkg() == 5);
+	test_pass(pkg_hash_count_set() == 3);
+	test_pass(pkg_hash_count_pkg() == 5);
 
-	iter = pkg_db_iter_new();
-	while ((set = pkg_db_iter_next_set(iter))) {
+	iter = pkg_hash_iter_new();
+	while ((set = pkg_hash_iter_next_set(iter))) {
 		if (strcmp(set->name, "pkg-aa") == 0)
 			test_str(set->name, ==, "pkg-aa");
 		else if (strcmp(set->name, "pkg-bb") == 0)
@@ -137,11 +137,11 @@ test_pkg_hash(void)
 		else
 			test_fail("unknown fsys_namenode");
 	}
-	pkg_db_iter_free(iter);
+	pkg_hash_iter_free(iter);
 
 	pkginstance = 0;
-	iter = pkg_db_iter_new();
-	while ((pkg = pkg_db_iter_next_pkg(iter))) {
+	iter = pkg_hash_iter_new();
+	while ((pkg = pkg_hash_iter_next_pkg(iter))) {
 		pkginstance++;
 		if (strcmp(pkg->set->name, "pkg-aa") == 0) {
 			struct pkgbin *pkgbin = &pkg->installed;
@@ -163,11 +163,11 @@ test_pkg_hash(void)
 			test_fail("unknown fsys_namenode");
 		}
 	}
-	pkg_db_iter_free(iter);
+	pkg_hash_iter_free(iter);
 
-	pkg_db_reset();
-	test_pass(pkg_db_count_set() == 0);
-	test_pass(pkg_db_count_pkg() == 0);
+	pkg_hash_reset();
+	test_pass(pkg_hash_count_set() == 0);
+	test_pass(pkg_hash_count_pkg() == 0);
 }
 
 TEST_ENTRY(test)

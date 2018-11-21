@@ -836,15 +836,15 @@ pkg_disappear(struct pkginfo *pkg, struct pkginfo *infavour)
 static void
 pkg_disappear_others(struct pkginfo *pkg)
 {
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *otherpkg;
   struct fsys_namenode_list *cfile;
   struct deppossi *pdep;
   struct dependency *providecheck;
   struct varbuf depprobwhy = VARBUF_INIT;
 
-  iter = pkg_db_iter_new();
-  while ((otherpkg = pkg_db_iter_next_pkg(iter)) != NULL) {
+  iter = pkg_hash_iter_new();
+  while ((otherpkg = pkg_hash_iter_next_pkg(iter)) != NULL) {
     ensure_package_clientdata(otherpkg);
 
     if (otherpkg == pkg ||
@@ -939,7 +939,7 @@ pkg_disappear_others(struct pkginfo *pkg)
      * what can we do ?  It has to be run this late. */
     pkg_disappear(otherpkg, pkg);
   } /* while (otherpkg= ... */
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 }
 
 /**

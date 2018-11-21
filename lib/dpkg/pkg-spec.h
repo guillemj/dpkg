@@ -60,7 +60,7 @@ struct pkg_spec {
 	bool arch_is_pattern;
 
 	/** Used for the pkg_db iterator. */
-	struct pkgiterator *pkg_iter;
+	struct pkg_hash_iter *pkg_iter;
 	/** Used for the pkgset iterator. */
 	struct pkginfo *pkg_next;
 };

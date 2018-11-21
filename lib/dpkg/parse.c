@@ -342,7 +342,7 @@ parse_find_set_slot(struct parsedb_state *ps,
   struct pkgset *set;
   struct pkginfo *pkg;
 
-  set = pkg_db_find_set(new_pkg->set->name);
+  set = pkg_hash_find_set(new_pkg->set->name);
 
   /* Sanity checks: verify that the db is in a consistent state. */
 
@@ -405,9 +405,9 @@ parse_find_pkg_slot(struct parsedb_state *ps,
      * possible architecture switch, for example from native to all. */
     if (pkgset_installed_instances(db_set) == 1 &&
         new_pkgbin->multiarch != PKG_MULTIARCH_SAME)
-      return pkg_db_get_singleton(db_set);
+      return pkg_hash_get_singleton(db_set);
     else
-      return pkg_db_get_pkg(db_set, new_pkgbin->arch);
+      return pkg_hash_get_pkg(db_set, new_pkgbin->arch);
   } else {
     bool selection = false;
 
@@ -427,20 +427,20 @@ parse_find_pkg_slot(struct parsedb_state *ps,
 
     /* If we are parsing the status file, use a slot per arch. */
     if (ps->type == pdb_file_status)
-      return pkg_db_get_pkg(db_set, new_pkgbin->arch);
+      return pkg_hash_get_pkg(db_set, new_pkgbin->arch);
 
     /* If we are doing an update, from the log or a new package, then
      * handle cross-grades. */
     if (pkgset_installed_instances(db_set) == 1) {
-      db_pkg = pkg_db_get_singleton(db_set);
+      db_pkg = pkg_hash_get_singleton(db_set);
 
       if (db_pkg->installed.multiarch == PKG_MULTIARCH_SAME &&
           new_pkgbin->multiarch == PKG_MULTIARCH_SAME)
-        return pkg_db_get_pkg(db_set, new_pkgbin->arch);
+        return pkg_hash_get_pkg(db_set, new_pkgbin->arch);
       else
         return db_pkg;
     } else {
-      return pkg_db_get_pkg(db_set, new_pkgbin->arch);
+      return pkg_hash_get_pkg(db_set, new_pkgbin->arch);
     }
   }
 }
@@ -490,7 +490,7 @@ pkg_parse_copy(struct parsedb_state *ps,
                   pkg_name(ta->aw, pnaw_always),
                   pkgbin_name(src_pkg, src_pkgbin, pnaw_always));
       ta->aw = dst_pkg;
-      /* ->othertrigaw_head is updated by trig_note_aw in *(pkg_db_find())
+      /* ->othertrigaw_head is updated by trig_note_aw in *(pkg_hash_find())
        * rather than in dst_pkg. */
     }
   } else if (!(ps->flags & pdb_ignore_archives)) {

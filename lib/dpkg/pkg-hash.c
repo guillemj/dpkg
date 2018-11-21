@@ -60,7 +60,7 @@ static int npkg, nset;
  * @return The package set.
  */
 struct pkgset *
-pkg_db_find_set(const char *inname)
+pkg_hash_find_set(const char *inname)
 {
   struct pkgset **setp, *new_set;
   char *name = m_strdup(inname), *p;
@@ -104,7 +104,7 @@ pkg_db_find_set(const char *inname)
  * @return The singleton package instance.
  */
 struct pkginfo *
-pkg_db_get_singleton(struct pkgset *set)
+pkg_hash_get_singleton(struct pkgset *set)
 {
   struct pkginfo *pkg;
 
@@ -138,13 +138,13 @@ pkg_db_get_singleton(struct pkgset *set)
  * @return The package instance.
  */
 struct pkginfo *
-pkg_db_find_singleton(const char *name)
+pkg_hash_find_singleton(const char *name)
 {
   struct pkgset *set;
   struct pkginfo *pkg;
 
-  set = pkg_db_find_set(name);
-  pkg = pkg_db_get_singleton(set);
+  set = pkg_hash_find_set(name);
+  pkg = pkg_hash_get_singleton(set);
   if (pkg == NULL)
     ohshit(_("ambiguous package name '%s' with more "
              "than one installed instance"), set->name);
@@ -166,7 +166,7 @@ pkg_db_find_singleton(const char *name)
  * @return The package instance.
  */
 struct pkginfo *
-pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
+pkg_hash_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
 {
   struct pkginfo *pkg, **pkgp;
 
@@ -218,13 +218,13 @@ pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch)
  * @return The package instance.
  */
 struct pkginfo *
-pkg_db_find_pkg(const char *name, const struct dpkg_arch *arch)
+pkg_hash_find_pkg(const char *name, const struct dpkg_arch *arch)
 {
   struct pkgset *set;
   struct pkginfo *pkg;
 
-  set = pkg_db_find_set(name);
-  pkg = pkg_db_get_pkg(set, arch);
+  set = pkg_hash_find_set(name);
+  pkg = pkg_hash_get_pkg(set, arch);
 
   return pkg;
 }
@@ -235,7 +235,7 @@ pkg_db_find_pkg(const char *name, const struct dpkg_arch *arch)
  * @return The number of package sets.
  */
 int
-pkg_db_count_set(void)
+pkg_hash_count_set(void)
 {
   return nset;
 }
@@ -246,12 +246,12 @@ pkg_db_count_set(void)
  * @return The number of package instances.
  */
 int
-pkg_db_count_pkg(void)
+pkg_hash_count_pkg(void)
 {
   return npkg;
 }
 
-struct pkgiterator {
+struct pkg_hash_iter {
   struct pkginfo *pkg;
   int nbinn;
 };
@@ -263,10 +263,10 @@ struct pkgiterator {
  *
  * @return The iterator.
  */
-struct pkgiterator *
-pkg_db_iter_new(void)
+struct pkg_hash_iter *
+pkg_hash_iter_new(void)
 {
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
 
   iter = m_malloc(sizeof(*iter));
   iter->pkg = NULL;
@@ -285,7 +285,7 @@ pkg_db_iter_new(void)
  * @return A package set.
  */
 struct pkgset *
-pkg_db_iter_next_set(struct pkgiterator *iter)
+pkg_hash_iter_next_set(struct pkg_hash_iter *iter)
 {
   struct pkgset *set;
 
@@ -320,7 +320,7 @@ pkg_db_iter_next_set(struct pkgiterator *iter)
  * @return A package instance.
  */
 struct pkginfo *
-pkg_db_iter_next_pkg(struct pkgiterator *iter)
+pkg_hash_iter_next_pkg(struct pkg_hash_iter *iter)
 {
   struct pkginfo *pkg;
 
@@ -349,13 +349,13 @@ pkg_db_iter_next_pkg(struct pkgiterator *iter)
  * @name iter The iterator.
  */
 void
-pkg_db_iter_free(struct pkgiterator *iter)
+pkg_hash_iter_free(struct pkg_hash_iter *iter)
 {
   free(iter);
 }
 
 void
-pkg_db_reset(void)
+pkg_hash_reset(void)
 {
   int i;
 
@@ -367,7 +367,7 @@ pkg_db_reset(void)
 }
 
 void
-pkg_db_report(FILE *file)
+pkg_hash_report(FILE *file)
 {
   int i, c;
   struct pkgset *pkg;

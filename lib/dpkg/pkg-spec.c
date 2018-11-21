@@ -97,7 +97,7 @@ pkg_spec_is_illegal(struct pkg_spec *ps)
 	if (!ps->arch_is_pattern && ps->flags & PKG_SPEC_ARCH_SINGLE) {
 		struct pkgset *set;
 
-		set = pkg_db_find_set(ps->name);
+		set = pkg_hash_find_set(ps->name);
 
 		/* Single instancing only applies with no architecture. */
 		if (ps->arch->type == DPKG_ARCH_NONE &&
@@ -195,9 +195,9 @@ static struct pkginfo *
 pkg_spec_get_pkg(struct pkg_spec *ps)
 {
 	if (ps->arch->type == DPKG_ARCH_NONE)
-		return pkg_db_find_singleton(ps->name);
+		return pkg_hash_find_singleton(ps->name);
 	else
-		return pkg_db_find_pkg(ps->name, ps->arch);
+		return pkg_hash_find_pkg(ps->name, ps->arch);
 }
 
 struct pkginfo *
@@ -245,9 +245,9 @@ void
 pkg_spec_iter_init(struct pkg_spec *ps)
 {
 	if (ps->name_is_pattern)
-		ps->pkg_iter = pkg_db_iter_new();
+		ps->pkg_iter = pkg_hash_iter_new();
 	else
-		ps->pkg_next = &pkg_db_find_set(ps->name)->pkg;
+		ps->pkg_next = &pkg_hash_find_set(ps->name)->pkg;
 }
 
 static struct pkginfo *
@@ -255,7 +255,7 @@ pkg_spec_iter_next_pkgname(struct pkg_spec *ps)
 {
 	struct pkginfo *pkg;
 
-	while ((pkg = pkg_db_iter_next_pkg(ps->pkg_iter))) {
+	while ((pkg = pkg_hash_iter_next_pkg(ps->pkg_iter))) {
 		if (pkg_spec_match_pkg(ps, pkg, &pkg->installed))
 			return pkg;
 	}
@@ -290,7 +290,7 @@ pkg_spec_iter_next_pkg(struct pkg_spec *ps)
 void
 pkg_spec_iter_destroy(struct pkg_spec *ps)
 {
-	pkg_db_iter_free(ps->pkg_iter);
+	pkg_hash_iter_free(ps->pkg_iter);
 	pkg_spec_iter_blank(ps);
 }
 

@@ -560,7 +560,7 @@ arch_remove(const char *const *argv)
 {
   const char *archname = *argv++;
   struct dpkg_arch *arch;
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg;
 
   if (archname == NULL || *argv)
@@ -575,8 +575,8 @@ arch_remove(const char *const *argv)
   }
 
   /* Check if it's safe to remove the architecture from the db. */
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter))) {
+  iter = pkg_hash_iter_new();
+  while ((pkg = pkg_hash_iter_next_pkg(iter))) {
     if (pkg->status < PKG_STAT_HALFINSTALLED)
       continue;
     if (pkg->installed.arch == arch) {
@@ -589,7 +589,7 @@ arch_remove(const char *const *argv)
       break;
     }
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   dpkg_arch_unmark(arch);
   dpkg_arch_save_list();

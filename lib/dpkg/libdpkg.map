@@ -304,7 +304,7 @@ LIBDPKG_PRIVATE {
 	pkg_list_prepend;
 
 	# Package array handling
-	pkg_array_init_from_db;
+	pkg_array_init_from_hash;
 	pkg_array_init_from_names;
 	pkg_array_foreach;
 	pkg_array_sort;
@@ -316,6 +316,18 @@ LIBDPKG_PRIVATE {
 	pkg_queue_is_empty;
 	pkg_queue_push;
 	pkg_queue_pop;
+
+	# Package in-core database functions
+	pkg_hash_find_set;
+	pkg_hash_find_singleton;
+	pkg_hash_find_pkg;
+	pkg_hash_count_set;
+	pkg_hash_count_pkg;
+	pkg_hash_reset;
+	pkg_hash_iter_new;
+	pkg_hash_iter_next_set;
+	pkg_hash_iter_next_pkg;
+	pkg_hash_iter_free;
 
 	# Package field handling
 	fieldinfos;		# XXX variable, do not export
@@ -339,18 +351,6 @@ LIBDPKG_PRIVATE {
 	pkg_spec_iter_init;
 	pkg_spec_iter_next_pkg;
 	pkg_spec_iter_destroy;
-
-	# Package in-core database functions
-	pkg_db_find_set;
-	pkg_db_find_singleton;
-	pkg_db_find_pkg;
-	pkg_db_count_set;
-	pkg_db_count_pkg;
-	pkg_db_reset;
-	pkg_db_iter_new;
-	pkg_db_iter_next_set;
-	pkg_db_iter_next_pkg;
-	pkg_db_iter_free;
 
 	# Dependency and Conflict functions
 	pkg_virtual_deppossi_satisfied;

@@ -114,7 +114,7 @@ pkg_infodb_link_multiarch_files(void)
 		if (strchr(pkgname.buf, ':'))
 			continue;
 
-		set = pkg_db_find_set(pkgname.buf);
+		set = pkg_hash_find_set(pkgname.buf);
 		for (pkg = &set->pkg; pkg; pkg = pkg->arch_next)
 			if (pkg->status != PKG_STAT_NOTINSTALLED)
 				break;

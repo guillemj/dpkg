@@ -35,7 +35,7 @@ test_pkg_show_name(void)
 	arch = dpkg_arch_find("arch");
 	test_pass(arch);
 
-	pkg = pkg_db_find_pkg("test", arch);
+	pkg = pkg_hash_find_pkg("test", arch);
 	test_pass(pkg);
 	test_str(pkg->set->name, ==, "test");
 	test_pass(pkg->installed.arch->type == DPKG_ARCH_UNKNOWN);

@@ -67,7 +67,7 @@ getselections(const char *const *argv)
 
   modstatdb_open(msdbrw_readonly);
 
-  pkg_array_init_from_db(&array);
+  pkg_array_init_from_hash(&array);
   pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
   if (!*argv) {
@@ -212,7 +212,7 @@ int
 clearselections(const char *const *argv)
 {
   enum modstatdb_rw msdbflags;
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg;
 
   if (*argv)
@@ -226,12 +226,12 @@ clearselections(const char *const *argv)
   modstatdb_open(msdbflags);
   pkg_infodb_upgrade();
 
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter))) {
+  iter = pkg_hash_iter_new();
+  while ((pkg = pkg_hash_iter_next_pkg(iter))) {
     if (!pkg->installed.essential)
       pkg_set_want(pkg, PKG_WANT_DEINSTALL);
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   modstatdb_shutdown();
 

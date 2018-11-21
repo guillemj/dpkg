@@ -510,7 +510,7 @@ writedb_records(FILE *fp, const char *filename, enum writedb_flags flags)
   if (setvbuf(fp, writebuf, _IOFBF, sizeof(writebuf)))
     ohshite(_("unable to set buffering on %s database file"), which);
 
-  pkg_array_init_from_db(&array);
+  pkg_array_init_from_hash(&array);
   pkg_array_sort(&array, pkg_sorter_by_nonambig_name_arch);
 
   for (i = 0; i < array.n_pkgs; i++) {

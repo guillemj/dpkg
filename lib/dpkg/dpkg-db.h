@@ -294,21 +294,34 @@ void pkg_blank(struct pkginfo *pp);
 void pkgbin_blank(struct pkgbin *pkgbin);
 bool pkg_is_informative(struct pkginfo *pkg, struct pkgbin *info);
 
-struct pkgset *pkg_db_find_set(const char *name);
-struct pkginfo *pkg_db_get_singleton(struct pkgset *set);
-struct pkginfo *pkg_db_find_singleton(const char *name);
-struct pkginfo *pkg_db_get_pkg(struct pkgset *set, const struct dpkg_arch *arch);
-struct pkginfo *pkg_db_find_pkg(const char *name, const struct dpkg_arch *arch);
-int pkg_db_count_set(void);
-int pkg_db_count_pkg(void);
-void pkg_db_reset(void);
+struct pkgset *
+pkg_hash_find_set(const char *name);
+struct pkginfo *
+pkg_hash_get_singleton(struct pkgset *set);
+struct pkginfo *
+pkg_hash_find_singleton(const char *name);
+struct pkginfo *
+pkg_hash_get_pkg(struct pkgset *set, const struct dpkg_arch *arch);
+struct pkginfo *
+pkg_hash_find_pkg(const char *name, const struct dpkg_arch *arch);
+int
+pkg_hash_count_set(void);
+int
+pkg_hash_count_pkg(void);
+void
+pkg_hash_reset(void);
 
-struct pkgiterator *pkg_db_iter_new(void);
-struct pkgset *pkg_db_iter_next_set(struct pkgiterator *iter);
-struct pkginfo *pkg_db_iter_next_pkg(struct pkgiterator *iter);
-void pkg_db_iter_free(struct pkgiterator *iter);
+struct pkg_hash_iter *
+pkg_hash_iter_new(void);
+struct pkgset *
+pkg_hash_iter_next_set(struct pkg_hash_iter *iter);
+struct pkginfo *
+pkg_hash_iter_next_pkg(struct pkg_hash_iter *iter);
+void
+pkg_hash_iter_free(struct pkg_hash_iter *iter);
 
-void pkg_db_report(FILE *);
+void
+pkg_hash_report(FILE *);
 
 /*** from parse.c ***/
 

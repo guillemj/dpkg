@@ -122,11 +122,11 @@ trigproc_enqueue_deferred(struct pkginfo *pend)
 void
 trigproc_populate_deferred(void)
 {
-	struct pkgiterator *iter;
+	struct pkg_hash_iter *iter;
 	struct pkginfo *pkg;
 
-	iter = pkg_db_iter_new();
-	while ((pkg = pkg_db_iter_next_pkg(iter))) {
+	iter = pkg_hash_iter_new();
+	while ((pkg = pkg_hash_iter_next_pkg(iter))) {
 		if (!pkg->trigpend_head)
 			continue;
 
@@ -139,7 +139,7 @@ trigproc_populate_deferred(void)
 
 		trigproc_enqueue_deferred(pkg);
 	}
-	pkg_db_iter_free(iter);
+	pkg_hash_iter_free(iter);
 }
 
 void
@@ -256,15 +256,15 @@ trigproc_new_cyclenode(struct pkginfo *processing_now)
 	struct trigcyclenode *tcn;
 	struct trigcycleperpkg *tcpp;
 	struct pkginfo *pkg;
-	struct pkgiterator *iter;
+	struct pkg_hash_iter *iter;
 
 	tcn = nfmalloc(sizeof(*tcn));
 	tcn->pkgs = NULL;
 	tcn->next = NULL;
 	tcn->then_processed = processing_now;
 
-	iter = pkg_db_iter_new();
-	while ((pkg = pkg_db_iter_next_pkg(iter))) {
+	iter = pkg_hash_iter_new();
+	while ((pkg = pkg_hash_iter_next_pkg(iter))) {
 		if (!pkg->trigpend_head)
 			continue;
 		tcpp = nfmalloc(sizeof(*tcpp));
@@ -273,7 +273,7 @@ trigproc_new_cyclenode(struct pkginfo *processing_now)
 		tcpp->next = tcn->pkgs;
 		tcn->pkgs = tcpp;
 	}
-	pkg_db_iter_free(iter);
+	pkg_hash_iter_free(iter);
 
 	return tcn;
 }
@@ -515,11 +515,11 @@ transitional_interest_callback(const char *trig, struct pkginfo *pkg,
 static void
 trig_transitional_activate(enum modstatdb_rw cstatus)
 {
-	struct pkgiterator *iter;
+	struct pkg_hash_iter *iter;
 	struct pkginfo *pkg;
 
-	iter = pkg_db_iter_new();
-	while ((pkg = pkg_db_iter_next_pkg(iter))) {
+	iter = pkg_hash_iter_new();
+	while ((pkg = pkg_hash_iter_next_pkg(iter))) {
 		if (pkg->status <= PKG_STAT_HALFINSTALLED)
 			continue;
 		debug(dbg_triggersdetail, "trig_transitional_activate %s %s",
@@ -546,7 +546,7 @@ trig_transitional_activate(enum modstatdb_rw cstatus)
 		else
 			pkg_set_status(pkg, PKG_STAT_INSTALLED);
 	}
-	pkg_db_iter_free(iter);
+	pkg_hash_iter_free(iter);
 
 	if (cstatus >= msdbrw_write) {
 		modstatdb_checkpoint();

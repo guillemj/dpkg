@@ -365,7 +365,7 @@ void packagelist::sortmakeheads() {
 void packagelist::initialsetup() {
   debug(dbg_general, "packagelist[%p]::initialsetup()", this);
 
-  int allpackages = pkg_db_count_pkg();
+  int allpackages = pkg_hash_count_pkg();
   datatable= new struct perpackagestate[allpackages];
 
   nallocated= allpackages+150; // will realloc if necessary, so 150 not critical
@@ -390,13 +390,13 @@ void packagelist::finalsetup() {
 packagelist::packagelist(keybindings *kb) : baselist(kb) {
   // nonrecursive
   initialsetup();
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg;
 
   nitems = 0;
 
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter))) {
+  iter = pkg_hash_iter_new();
+  while ((pkg = pkg_hash_iter_next_pkg(iter))) {
     struct perpackagestate *state= &datatable[nitems];
     state->pkg= pkg;
     if (pkg->status == PKG_STAT_NOTINSTALLED &&
@@ -426,7 +426,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     table[nitems]= state;
     nitems++;
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   if (!nitems)
     ohshit(_("there are no packages"));

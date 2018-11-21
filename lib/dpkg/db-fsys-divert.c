@@ -113,7 +113,7 @@ ensure_diversions(void)
 
 		fgets_must(linebuf, sizeof(linebuf), file, diversionsname);
 		oicontest->pkgset = strcmp(linebuf, ":") ?
-		                    pkg_db_find_set(linebuf) : NULL;
+		                    pkg_hash_find_set(linebuf) : NULL;
 		oialtname->pkgset = oicontest->pkgset;
 
 		if (oialtname->camefrom->divert ||

@@ -224,16 +224,16 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
 bool
 findbreakcycle(struct pkginfo *pkg)
 {
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *tpkg;
 
   /* Clear the visited flag of all packages before we traverse them. */
-  iter = pkg_db_iter_new();
-  while ((tpkg = pkg_db_iter_next_pkg(iter))) {
+  iter = pkg_hash_iter_new();
+  while ((tpkg = pkg_hash_iter_next_pkg(iter))) {
     ensure_package_clientdata(tpkg);
     tpkg->clientdata->color = PKG_CYCLE_WHITE;
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   return findbreakcyclerecursive(pkg, NULL);
 }
