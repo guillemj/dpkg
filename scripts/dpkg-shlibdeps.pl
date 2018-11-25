@@ -235,7 +235,7 @@ foreach my $file (keys %exec) {
 	if (none { $_ ne '' } @{$file2pkg->{$lib}}) {
 	    # The path of the library as calculated is not the
 	    # official path of a packaged file, try to fallback on
-	    # on the realpath() first, maybe this one is part of a package
+	    # the realpath() first, maybe this one is part of a package
 	    my $reallib = realpath($lib);
 	    if (exists $file2pkg->{$reallib}) {
 		$file2pkg->{$lib} = $file2pkg->{$reallib};
