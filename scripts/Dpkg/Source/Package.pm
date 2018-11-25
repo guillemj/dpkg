@@ -262,9 +262,8 @@ sub initialize {
     $self->{filename} = $fn;
 
     # Read the fields
-    my $fields = Dpkg::Control->new(type => CTRL_PKG_SRC);
+    my $fields = $self->{fields};
     $fields->load($filename);
-    $self->{fields} = $fields;
     $self->{is_signed} = $fields->get_option('is_pgp_signed');
 
     foreach my $f (qw(Source Version Files)) {
