@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More tests => 8;
 use Test::Dpkg qw(:paths);
 
 use File::Spec::Functions qw(rel2abs);
@@ -117,5 +117,7 @@ foreach my $tool (keys %buildtools) {
 test_makefile('pkg-info.mk');
 
 test_makefile('vendor.mk');
+test_makefile('vendor-v0.mk');
+test_makefile('vendor-v1.mk');
 
 1;

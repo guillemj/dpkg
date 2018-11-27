@@ -364,6 +364,8 @@ test_data = \
 	t/mk/buildflags.mk \
 	t/mk/buildtools.mk \
 	t/mk/pkg-info.mk \
+	t/mk/vendor-v0.mk \
+	t/mk/vendor-v1.mk \
 	t/mk/vendor.mk \
 	t/origins/debian \
 	t/origins/default \
