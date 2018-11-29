@@ -530,6 +530,29 @@ tar_extractor(struct tar_archive *tar)
 		case TAR_FILETYPE_GNU_LONGNAME:
 			status = tar_gnu_long(tar, &h, &next_long_name);
 			break;
+		case TAR_FILETYPE_GNU_VOLUME:
+		case TAR_FILETYPE_GNU_MULTIVOL:
+		case TAR_FILETYPE_GNU_SPARSE:
+		case TAR_FILETYPE_GNU_DUMPDIR:
+			status = dpkg_put_error(&tar->err,
+			                        _("unsupported GNU tar header type '%c'"),
+			                        h.type);
+			errno = 0;
+			break;
+		case TAR_FILETYPE_SOLARIS_EXTENDED:
+		case TAR_FILETYPE_SOLARIS_ACL:
+			status = dpkg_put_error(&tar->err,
+			                        _("unsupported Solaris tar header type '%c'"),
+			                        h.type);
+			errno = 0;
+			break;
+		case TAR_FILETYPE_PAX_GLOBAL:
+		case TAR_FILETYPE_PAX_EXTENDED:
+			status = dpkg_put_error(&tar->err,
+			                        _("unsupported PAX tar header type '%c'"),
+			                        h.type);
+			errno = 0;
+			break;
 		default:
 			status = dpkg_put_error(&tar->err,
 			                        _("unknown tar header type '%c'"),
