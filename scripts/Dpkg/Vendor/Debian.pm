@@ -445,6 +445,16 @@ sub _build_tainted_by {
     my $self = shift;
     my %tainted;
 
+    foreach my $pathname (qw(/bin /sbin /lib /lib32 /libo32 /libx32 /lib64)) {
+        next unless -l $pathname;
+
+        my $linkname = readlink $pathname;
+        if ($linkname eq "usr$pathname") {
+            $tainted{'merged-usr-via-symlinks'} = 1;
+            last;
+        }
+    }
+
     my @tainted = sort keys %tainted;
     return @tainted;
 }

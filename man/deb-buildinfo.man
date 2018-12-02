@@ -158,6 +158,17 @@ current build has been tainted (since dpkg 1.19.5).
 .IP
 On Debian and derivatives the following reason tags can be emitted:
 .RS
+.TP
+.B merged\-usr\-via\-symlinks
+The system has a merged \fI/usr\fP via symlinks.
+This will confuse \fBdpkg\-query\fP, \fBdpkg\-statoverride\fP,
+\fBdpkg\-trigger\fP, \fBupdate\-alternatives\fP and any other tool using
+pathnames as keys into their databases, as it creates filesystem aliasing
+problems, and messes with the understanding of the filesystem that
+\fBdpkg\fP has recorded in its database.
+For build systems that hardcode pathnames to specific binaries or libraries
+on the resulting artifacts, it can also produce packages that will be
+incompatible with non-/usr-merged filesystems.
 .RE
 .TP
 .BR Installed\-Build\-Depends: " (required)"
