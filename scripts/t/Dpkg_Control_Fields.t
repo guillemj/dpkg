@@ -20,7 +20,7 @@ use Test::More;
 use Test::Dpkg qw(:paths);
 
 BEGIN {
-    plan tests => 2416;
+    plan tests => 2438;
 
     use_ok('Dpkg::Control::Types');
     use_ok('Dpkg::Control::FieldsCore');
@@ -167,7 +167,8 @@ my %fields = (
             qw(Format Source Binary Architecture Version Binary-Only-Changes),
             @src_checksums,
             qw(Build-Origin Build-Architecture Build-Kernel-Version
-               Build-Date Build-Path Installed-Build-Depends Environment)
+               Build-Date Build-Path Build-Tainted-By
+               Installed-Build-Depends Environment)
         ],
     },
     CTRL_FILE_CHANGES() => {

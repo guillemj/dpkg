@@ -81,6 +81,8 @@ sub run_hook {
         $self->_add_build_flags(@params);
     } elsif ($hook eq 'builtin-system-build-paths') {
         return qw(/build/);
+    } elsif ($hook eq 'build-tainted-by') {
+        return $self->_build_tainted_by();
     } else {
         return $self->SUPER::run_hook($hook, @params);
     }
@@ -437,6 +439,14 @@ sub _add_build_flags {
             $flags->set_feature($area, $feature, $enabled);
         }
     }
+}
+
+sub _build_tainted_by {
+    my $self = shift;
+    my %tainted;
+
+    my @tainted = sort keys %tainted;
+    return @tainted;
 }
 
 =head1 CHANGES

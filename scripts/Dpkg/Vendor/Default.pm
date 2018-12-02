@@ -140,6 +140,14 @@ field will be created if the current directory is "/build/dpkg-1.18.0". If
 the list contains "/", the path will always be recorded. If the list is
 empty, the current path will never be recorded.
 
+=item build-tainted-by ()
+
+The hook is called by dpkg-genbuildinfo to determine if the current system
+has been tainted in some way that could affect the resulting build, which
+will be recorded in the B<Build-Tainted-By> field (since dpkg 1.19.5). It
+takes no parameters, but returns a (possibly empty) list of tainted reason
+tags (formed by alphanumeric and dash characters).
+
 =back
 
 =cut
@@ -171,6 +179,8 @@ sub run_hook {
     } elsif ($hook eq 'update-buildflags') {
 	my $flags = shift @params;
     } elsif ($hook eq 'builtin-system-build-paths') {
+        return ();
+    } elsif ($hook eq 'build-tainted-by') {
         return ();
     }
 

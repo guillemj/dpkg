@@ -176,6 +176,11 @@ our %FIELDS = (
         allowed => CTRL_INFO_PKG,
         separator => FIELD_SEP_SPACE,
     },
+    'build-tainted-by' => {
+        name => 'Build-Tainted-By',
+        allowed => CTRL_FILE_BUILDINFO,
+        separator => FIELD_SEP_SPACE,
+    },
     'built-for-profiles' => {
         name => 'Built-For-Profiles',
         allowed => ALL_PKG | CTRL_FILE_CHANGES,
@@ -634,7 +639,7 @@ our %FIELD_ORDER = (
         qw(format source binary architecture version binary-only-changes),
         @src_checksums_fields,
         qw(build-origin build-architecture build-kernel-version build-date
-        build-path installed-build-depends environment),
+        build-path build-tainted-by installed-build-depends environment),
     ],
     CTRL_FILE_CHANGES() => [
         qw(format date source binary binary-only built-for-profiles architecture

@@ -437,6 +437,8 @@ if ($use_feature{path}) {
     }
 }
 
+$fields->{'Build-Tainted-By'} = "\n" . join "\n", run_vendor_hook('build-tainted-by');
+
 $checksums->export_to_control($fields);
 
 $fields->{'Installed-Build-Depends'} = collect_installed_builddeps($control);
