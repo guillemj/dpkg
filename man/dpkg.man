@@ -183,10 +183,14 @@ improper \fBtriggers\-awaited\fP and \fBtriggers\-pending\fP states. This
 can be fixed later by running: \fBdpkg \-\-configure \-\-pending\fP.
 .TP
 \fB\-r\fP, \fB\-\-remove\fP \fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
-Remove an installed package. This removes everything except conffiles,
+Remove an installed package.
+This removes everything except conffiles and other data cleaned up by
+the \fIpostrm\fP script,
 which may avoid having to reconfigure the package if it is reinstalled
 later (conffiles are configuration files that are listed in the
 \fIDEBIAN/conffiles\fP control file).
+If there is no \fIDEBIAN/conffiles\fP control file nor \fIDEBIAN/postrm\fP
+script, this command is equivalent to calling \fB\-\-purge\fP.
 If \fB\-a\fP or \fB\-\-pending\fP is given instead of a package name,
 then all packages unpacked, but marked to be removed in file
 \fI%ADMINDIR%/status\fP, are removed.
@@ -206,7 +210,7 @@ Removing of a package consists of the following steps:
 .TP
 \fB\-P\fP, \fB\-\-purge\fP \fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
 Purge an installed or already removed package. This removes everything,
-including conffiles.
+including conffiles, and anything else cleaned up from \fIpostrm\fP.
 If \fB\-a\fP or \fB\-\-pending\fP is given instead of a package name,
 then all packages unpacked or removed, but marked to be purged in file
 \fI%ADMINDIR%/status\fP, are purged.
