@@ -455,6 +455,20 @@ sub _build_tainted_by {
         }
     }
 
+    require File::Find;
+    my %usr_local_types = (
+        configs => [ qw(etc) ],
+        includes => [ qw(include) ],
+        programs => [ qw(bin sbin) ],
+        libraries => [ qw(lib) ],
+    );
+    foreach my $type (keys %usr_local_types) {
+        File::Find::find({
+            wanted => sub { $tainted{"usr-local-has-$type"} = 1 if -f },
+            no_chdir => 1,
+        }, map { "/usr/local/$_" } @{$usr_local_types{$type}});
+    }
+
     my @tainted = sort keys %tainted;
     return @tainted;
 }
