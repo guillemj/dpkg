@@ -219,6 +219,7 @@ test_scripts = \
 	t/Dpkg_Shlibs_Cppfilt.t \
 	t/Dpkg_Shlibs.t \
 	t/Dpkg_BuildFlags.t \
+	t/Dpkg_BuildFlags_Ubuntu.t \
 	t/Dpkg_BuildOptions.t \
 	t/Dpkg_BuildProfiles.t \
 	t/Dpkg_Build_Env.t \
