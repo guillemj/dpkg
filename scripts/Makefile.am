@@ -311,6 +311,7 @@ test_data = \
 	t/Dpkg_Changelog/misplaced-tz \
 	t/Dpkg_Changelog/regressions \
 	t/Dpkg_Changelog/shadow \
+	t/Dpkg_Changelog/stop-modeline \
 	t/Dpkg_Changelog/unreleased \
 	t/Dpkg_Checksums/empty \
 	t/Dpkg_Checksums/data-1 \

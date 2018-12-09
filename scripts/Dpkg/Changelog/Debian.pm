@@ -162,9 +162,13 @@ sub parse {
 	    $expect= START_CHANGES;
 	    @blanklines = ();
 	} elsif (m/^(?:;;\s*)?Local variables:/io) {
-	    last; # skip Emacs variables at end of file
+            # Save any trailing Emacs variables at end of file.
+            $self->set_unparsed_tail("$_\n" . (file_slurp($fh) // ''));
+            last;
 	} elsif (m/^vim:/io) {
-	    last; # skip Vim modelines at end of file
+            # Save any trailing Vim modelines at end of file.
+            $self->set_unparsed_tail("$_\n" . (file_slurp($fh) // ''));
+            last;
 	} elsif (m/^\$\w+:.*\$/o) {
 	    next; # skip stuff that look like a RCS keyword
 	} elsif (m/^\# /o) {
