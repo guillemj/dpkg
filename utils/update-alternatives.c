@@ -1373,7 +1373,8 @@ alternative_save(struct alternative *a)
 
 	/* Cleanup unused slaves before writing admin file. */
 	sl_prev = NULL;
-	for (sl = a->slaves; sl; sl_prev = sl, sl = sl->next) {
+	sl = a->slaves;
+	while (sl) {
 		bool has_slave = false;
 
 		for (fs = a->choices; fs; fs = fs->next) {
@@ -1393,10 +1394,11 @@ alternative_save(struct alternative *a)
 			else
 				a->slaves = sl->next;
 			sl_rm = sl;
-			sl = sl_prev ? sl_prev : a->slaves;
+			sl = sl->next;
 			slave_link_free(sl_rm);
-			if (!sl)
-				break; /* No other slave left. */
+		} else {
+			sl_prev = sl;
+			sl = sl->next;
 		}
 	}
 
