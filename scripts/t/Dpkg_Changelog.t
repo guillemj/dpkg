@@ -41,9 +41,7 @@ foreach my $file ("$datadir/countme", "$datadir/shadow", "$datadir/fields",
     my $changes = Dpkg::Changelog::Debian->new(verbose => 0);
     $changes->load($file);
 
-    open(my $clog_fh, '<', "$file") or die "can't open $file\n";
-    my $content = file_slurp($clog_fh);
-    close($clog_fh);
+    my $content = file_slurp($file);
     cmp_ok($content, 'eq', "$changes", "string output of Dpkg::Changelog on $file");
 
     my $errors = $changes->get_parse_errors();

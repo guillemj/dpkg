@@ -591,12 +591,8 @@ sub _get_patch_header {
     unless (-f $ph) {
         $ph = File::Spec->catfile($dir, 'debian', 'source', 'patch-header');
     }
-    my $text;
     if (-f $ph) {
-        open(my $ph_fh, '<', $ph) or syserr(g_('cannot read %s'), $ph);
-        $text = file_slurp($ph_fh);
-        close($ph_fh);
-        return $text;
+        return file_slurp($ph);
     }
     my $ch_info = changelog_parse(offset => 0, count => 1,
         file => File::Spec->catfile($dir, 'debian', 'changelog'));
@@ -613,6 +609,7 @@ it.\n";
     $header->{'Author'} = $ch_info->{'Maintainer'};
     my $yyyy_mm_dd = POSIX::strftime('%Y-%m-%d', gmtime);
 
+    my $text;
     $text = "$header";
     run_vendor_hook('extend-patch-header', \$text, $ch_info);
     $text .= "\n---

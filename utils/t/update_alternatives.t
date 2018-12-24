@@ -21,6 +21,7 @@ use Test::More;
 use File::Spec;
 
 use Dpkg::IPC;
+use Dpkg::File qw(file_slurp);
 use Dpkg::Path qw(find_command);
 
 my $srcdir = $ENV{srcdir} || '.';
@@ -260,11 +261,7 @@ check_choice(0, 'auto', 'initial install 3');
 
 # verify that the administrative file is sorted properly
 {
-    local $/ = undef;
-    open(my $db_fh, '<', "$admindir/generic-test") or die $!;
-    my $content = <$db_fh>;
-    close($db_fh);
-
+    my $content = file_slurp("$admindir/generic-test");
     my $expected =
 "auto
 $bindir/generic-test
