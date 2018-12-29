@@ -41,7 +41,7 @@ my (@samemaint, @changedmaint);
 my @spuriousover;
 my %packages;
 my %overridden;
-my %hash;
+my @checksums;
 
 my %options = (help            => sub { usage(); exit 0; },
 	       version         => sub { version(); exit 0; },
@@ -196,10 +196,8 @@ sub process_deb {
     $fields->{'Filename'} = "$pathprefix$fn";
 
     my $sums = Dpkg::Checksums->new();
-    $sums->add_from_file($fn);
-    foreach my $alg (checksums_get_list()) {
-        next if %hash and not $hash{$alg};
-
+    $sums->add_from_file($fn, checksums => \@checksums);
+    foreach my $alg (@checksums) {
         if ($alg eq 'md5') {
             $fields->{'MD5sum'} = $sums->get_checksum($fn, $alg);
         } else {
@@ -223,13 +221,14 @@ if (not (@ARGV >= 1 and @ARGV <= 3)) {
 
 my $type = $options{type} // 'deb';
 my $arch = $options{arch};
-%hash = map { $_ => 1 } split /,/, $options{hash} // '';
+my %hash = map { $_ => 1 } split /,/, $options{hash} // '';
 
 foreach my $alg (keys %hash) {
     if (not checksums_is_supported($alg)) {
         usageerr(g_('unsupported checksum \'%s\''), $alg);
     }
 }
+@checksums = %hash ? keys %hash : checksums_get_list();
 
 my ($binarypath, $override, $pathprefix) = @ARGV;
 
