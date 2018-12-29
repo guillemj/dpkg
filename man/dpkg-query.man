@@ -34,14 +34,16 @@ the \fBdpkg\fP database.
 .SH COMMANDS
 .TP
 .BR \-l ", " \-\-list " [\fIpackage-name-pattern\fP...]"
-List packages matching given pattern. If no \fIpackage-name-pattern\fP
-is given, list all packages in \fI%ADMINDIR%/status\fP, excluding
-the ones marked as not-installed (i.e. those which have been previously
-purged). Normal shell wildcard characters are allowed
-in \fIpackage-name-pattern\fP. Please note you will probably have to
-quote \fIpackage-name-pattern\fP to prevent the shell from performing
-filename expansion. For example this will list all package names starting
-with \*(lqlibc6\*(rq:
+List all known packages matching one or more patterns, regardless of their
+status, which includes any real or virtual package referenced in any
+dependency relationship field (such as \fBBreaks\fP, \fBEnhances\fP, etc.).
+If no \fIpackage-name-pattern\fP is given, list all packages in
+\fI%ADMINDIR%/status\fP, excluding the ones marked as not-installed (i.e.
+those which have been previously purged).
+Normal shell wildcard characters are allowed in \fIpackage-name-pattern\fP.
+Please note you will probably have to quote \fIpackage-name-pattern\fP to
+prevent the shell from performing filename expansion.
+For example this will list all package names starting with \*(lqlibc6\*(rq:
 
 .nf
   \fBdpkg\-query \-l 'libc6*'\fP
