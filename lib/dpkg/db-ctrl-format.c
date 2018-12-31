@@ -125,7 +125,7 @@ pkg_infodb_get_dir(void)
 }
 
 const char *
-pkg_infodb_get_file(struct pkginfo *pkg, struct pkgbin *pkgbin,
+pkg_infodb_get_file(const struct pkginfo *pkg, const struct pkgbin *pkgbin,
                     const char *filetype)
 {
 	static struct varbuf vb;
