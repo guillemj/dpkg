@@ -174,20 +174,20 @@ sub process_deb {
         if not defined $p;
 
     if (defined($packages{$p}) and not $options{multiversion}) {
-        foreach my $pkg (@{$packages{$p}}) {
-            if (version_compare_relation($fields->{'Version'}, REL_GT,
-                                         $pkg->{'Version'}))
-            {
-                warning(g_('package %s (filename %s) is repeat but newer ' .
-                           'version; used that one and ignored data from %s!'),
-                        $p, $fn, $pkg->{Filename});
-                $packages{$p} = [];
-            } else {
-                warning(g_('package %s (filename %s) is repeat; ' .
-                           'ignored that one and using data from %s!'),
-                        $p, $fn, $pkg->{Filename});
-                return;
-            }
+        my $pkg = ${$packages{$p}}[0];
+
+        if (version_compare_relation($fields->{'Version'}, REL_GT,
+                                     $pkg->{'Version'}))
+        {
+            warning(g_('package %s (filename %s) is repeat but newer ' .
+                       'version; used that one and ignored data from %s!'),
+                    $p, $fn, $pkg->{Filename});
+            $packages{$p} = [];
+        } else {
+            warning(g_('package %s (filename %s) is repeat; ' .
+                       'ignored that one and using data from %s!'),
+                    $p, $fn, $pkg->{Filename});
+            return;
         }
     }
 
