@@ -38,6 +38,7 @@ textdomain('dpkg-dev');
 report_options(info_fh => \*STDERR);
 
 my (@samemaint, @changedmaint);
+my @multi_instances;
 my @spuriousover;
 my %packages;
 my %overridden;
@@ -176,6 +177,9 @@ sub process_deb {
     if (defined($packages{$p}) and not $options{multiversion}) {
         my $pkg = ${$packages{$p}}[0];
 
+        @multi_instances = ($pkg->{Filename}) if @multi_instances == 0;
+        push @multi_instances, "$pathprefix$fn";
+
         if (version_compare_relation($fields->{'Version'}, REL_GT,
                                      $pkg->{'Version'}))
         {
@@ -274,6 +278,10 @@ for my $p (sort keys %packages) {
 }
 close(STDOUT) or syserr(g_("couldn't close stdout"));
 
+if (@multi_instances) {
+    warning(g_('Packages with multiple instances but no --multiversion specified:'));
+    warning($_) foreach (sort @multi_instances);
+}
 if (@changedmaint) {
     warning(g_('Packages in override file with incorrect old maintainer value:'));
     warning($_) foreach (@changedmaint);
