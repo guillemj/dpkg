@@ -1,9 +1,6 @@
 dpkg (1.19.3) UNRELEASED; urgency=medium
 
   [ Guillem Jover ]
-  * Packaging:
-    - Bump Standards-Version to 4.2.1 (no changes needed).
-    - Switch to debhelper compatibility level 11.
   * Code internals:
     - dpkg-maintscript-helper: Use an explicit escape instead of a literal
       backslash.
@@ -15,8 +12,10 @@ dpkg (1.19.3) UNRELEASED; urgency=medium
       instead, and does not require leaving an unquoted variable around.
     - run-script: Add «set -e».
     - Build.PL: Set environment variables only for CPAN tests.
-    - Build.PL: Set locale for CPAN tests to C. Foxes CPAN#127314.
+    - Build.PL: Set locale for CPAN tests to C. Fixes CPAN#127314.
   * Packaging:
+    - Bump Standards-Version to 4.2.1 (no changes needed).
+    - Switch to debhelper compatibility level 11.
     - Create the log file in postinst only if it does not exist.
       Prompted by Johannes Schauer <josch@debian.org>.
   * Test suite:
