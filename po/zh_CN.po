@@ -9,19 +9,15 @@
 # Anthony Wong <ypwong@debian.org.hk>, 2007.
 # Deng Xiyue <manphiz-guest@users.alioth.debian.org>, 2007, 2008, 2009.
 # Aron Xu <happyaron.xu@gmail.com>, 2009, 2010.
-# Zhou Mo <cdluminate@gmail.com>, 2014, 2015, 2016, 2017, 2018.
+# Zhou Mo <cdluminate@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019.
 # Boyuan Yang <073plan@gmail.com>, 2017, 2018.
-#
-# TODO <cdluminate@gmail.com>
-#  1 flush 刷新? 清空?
-#  2 deconfiguration 反配置？
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2018-10-08 11:37+0200\n"
-"PO-Revision-Date: 2018-08-12 13:18+0200\n"
+"PO-Revision-Date: 2019-01-12 00:00+0000\n"
 "Last-Translator: Mo Zhou <cdluminate@gmail.com>\n"
 "Language-Team: Chinese (simplified) <debian-l10n-chinese@lists.debian.org>\n"
 "Language: zh_CN\n"
@@ -355,14 +351,12 @@ msgid "unable to open lock file %s for testing"
 msgstr "无法打开锁文件 %s 以进行测试"
 
 #: lib/dpkg/dbmodify.c
-#, fuzzy
-#| msgid "unable to open/create status database lockfile"
 msgid "unable to open/create frontend lockfile"
-msgstr "无法打开或创建状态数据库的锁文件"
+msgstr "无法打开或创建前端锁"
 
 #: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
-msgstr "无法打开或创建状态数据库的锁文件"
+msgstr "无法打开或创建状态数据库锁"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
@@ -370,7 +364,7 @@ msgstr "您没有锁定 dpkg 的状态数据库的权限"
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg frontend"
-msgstr ""
+msgstr "dpkg 前端"
 
 #: lib/dpkg/dbmodify.c
 msgid "dpkg status database"
@@ -483,10 +477,9 @@ msgid "control file '%s' for package '%s' contains empty filename"
 msgstr "软件包 '%2$s' 的控制文件 '%1$s' 含有空文件名"
 
 #: lib/dpkg/db-fsys-digest.c
-#, fuzzy, c-format
-#| msgid "cannot read control file '%s' for package '%s'"
+#, c-format
 msgid "loading control file '%s' for package '%s'"
-msgstr "无法读取软件包 '%2$s' 的 '%1$s' 控制文件"
+msgstr "正在读取软件包 '%2$s' 的 '%1$s' 控制文件"
 
 #: lib/dpkg/db-fsys-divert.c
 msgid "failed to open diversions file"
@@ -502,10 +495,9 @@ msgid "conflicting diversions involving '%.250s' or '%.250s'"
 msgstr "转移项间存在着冲突关系， %.250s 和 %.250s 中只能取其一"
 
 #: lib/dpkg/db-fsys-files.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package '%.250s'"
+#, c-format
 msgid "loading files list file for package '%s'"
-msgstr "关闭软件包 %.250s 的文件名列表文件时出错"
+msgstr "正在载入软件包 %s 的文件列表"
 
 #: lib/dpkg/db-fsys-files.c
 #, c-format
@@ -726,28 +718,24 @@ msgid "invalid package name (%.250s)"
 msgstr "软件包名称无效 (%.250s)"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "empty file details field '%s'"
+#, c-format
 msgid "empty archive details field '%s'"
-msgstr "文件详情字段 %s 为空"
+msgstr "档案详情字段 %s 为空"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "file details field '%s' not allowed in status file"
+#, c-format
 msgid "archive details field '%s' not allowed in status file"
-msgstr "状态文件不允许文件详情字段 ‘%s’ "
+msgstr "状态文件不允许档案详情字段 ‘%s’ "
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "too many values in file details field '%s' (compared to others)"
+#, c-format
 msgid "too many values in archive details field '%s' (compared to others)"
-msgstr "文件详情字段 %s 的值过多(和其他的相比)"
+msgstr "档案详情字段 %s 的值过多(和其他的相比)"
 
 #: lib/dpkg/fields.c
-#, fuzzy, c-format
-#| msgid "too few values in file details field '%s' (compared to others)"
+#, c-format
 msgid "too few values in archive details field '%s' (compared to others)"
-msgstr "文件详情字段 %s 的值过少(和其他的相比)"
+msgstr "档案详情字段 %s 的值过少(和其他的相比)"
 
 #: lib/dpkg/fields.c
 msgid "yes/no in boolean field"
@@ -933,28 +921,24 @@ msgid "unable to set mode of target file '%.250s'"
 msgstr "无法设置文件 %.250s 的权限位"
 
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid "cannot stat %s: %s"
+#, c-format
 msgid "cannot stat %s"
-msgstr "无法获取 %s 的信息：%s"
+msgstr "无法 stat %s"
 
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid "archive '%s' is not a regular file"
+#, c-format
 msgid "%s is not a regular file"
-msgstr "归档 '%s' 不是普通文件"
+msgstr "%s 不是普通文件"
 
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid "cannot write %s: %s"
+#, c-format
 msgid "cannot read %s"
-msgstr "无法写入 %s：%s"
+msgstr "无法读取 %s"
 
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid "cannot append to '%s'"
+#, c-format
 msgid "cannot open %s"
-msgstr "无法追加至 %s"
+msgstr "无法打开 %s"
 
 #: lib/dpkg/file.c
 #, c-format
@@ -977,22 +961,18 @@ msgid "unable to lock %s"
 msgstr "无法锁定 %s"
 
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid "cannot append to '%s'"
+#, c-format
 msgid "cannot open file %s"
-msgstr "无法追加至 %s"
+msgstr "无法打开文件 %s"
 
 #: lib/dpkg/file.c
-#, fuzzy
-#| msgid "unable to flush file '%s'"
 msgid "pager to show file"
-msgstr "无法清空文件 %s"
+msgstr "用于显示文件的分页器"
 
 #: lib/dpkg/file.c
-#, fuzzy, c-format
-#| msgid "cannot divert file '%s' to itself"
+#, c-format
 msgid "cannot write file %s into the pager"
-msgstr "无法转移文件 %s 到其本身"
+msgstr "无法写入文件 %s 到分页器"
 
 #: lib/dpkg/log.c
 #, c-format
@@ -2203,7 +2183,7 @@ msgstr "conffile 差异观察器"
 
 #: src/configure.c
 msgid "Useful environment variables:\n"
-msgstr ""
+msgstr "有帮助的环境变量：\n"
 
 #: src/configure.c
 msgid "Type 'exit' when you're done.\n"
@@ -2555,21 +2535,7 @@ msgstr ""
 "\n"
 
 #: src/divertcmd.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --package <package>      name of the package whose copy of <file> will "
-#| "not\n"
-#| "                             be diverted.\n"
-#| "  --local                  all packages' versions are diverted.\n"
-#| "  --divert <divert-to>     the name used by other packages' versions.\n"
-#| "  --rename                 actually move the file aside (or back).\n"
-#| "  --admindir <directory>   set the directory with the diversions file.\n"
-#| "  --test                   don't do anything, just demonstrate.\n"
-#| "  --quiet                  quiet operation, minimal output.\n"
-#| "  --help                   show this help message.\n"
-#| "  --version                show the version.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --package <package>      name of the package whose copy of <file> will "
@@ -2593,7 +2559,10 @@ msgstr ""
 "  --local                  所有软件包的版本均会被转移。\n"
 "  --divert <转移目标名>    其它软件包版本将转而使用的文件名。\n"
 "  --rename                 实际上把该文件挪开(或是还原)。\n"
+"  --no-rename              不将文件移动至旁边(或者移回)(默认)。\n"
 "  --admindir <目录名>      设置转移文件所在的目录。\n"
+"  --instdir <目录名>       设置根目录，但不包括管理员目录。\n"
+"  --root <目录名>          设置根文件系统的目录。\n"
 "  --test                   仅仅演示要进行的操作，而不是真正的执行它们。\n"
 "  --quiet                  安静模式，输出尽可能少的信息。<\n"
 "  --help                   显示本帮助信息。\n"
@@ -2617,7 +2586,7 @@ msgstr ""
 msgid ""
 "please specify --no-rename explicitly, the default will change to --rename "
 "in 1.20.x"
-msgstr ""
+msgstr "请显式指定 --no-rename ，默认选项将会在 1.20.x 版本中变为 --rename 。"
 
 #: src/divertcmd.c utils/update-alternatives.c
 #, c-format
@@ -2741,7 +2710,7 @@ msgstr "忽略重命名 %s 的要求，该文件属主为转移软件包 %s\n"
 msgid ""
 "diverting file '%s' from an Essential package with rename is dangerous, use "
 "--no-rename"
-msgstr ""
+msgstr "从至关重要的软件包中转移文件 '%s' 并重命名是非常危险的，请用 --no-rename"
 
 #: src/divertcmd.c
 #, c-format
@@ -3818,10 +3787,8 @@ msgid "Description"
 msgstr "描述"
 
 #: src/querycmd.c
-#, fuzzy
-#| msgid "showing file on pager"
 msgid "showing package list on pager"
-msgstr "在分页器中显示文件内容"
+msgstr "在分页器中显示软件包列表"
 
 #: src/querycmd.c
 #, c-format
@@ -3858,14 +3825,9 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "系统没有安装软件包 %s，因而没有相关的信息"
 
 #: src/querycmd.c
-#, fuzzy
-#| msgid ""
-#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
 msgstr ""
 "使用 dpkg --info (= dpkg-deb --info) 来检测打包好的文件，\n"
-"还可以通过 dpkg --contents (= dpkg-deb --contents) 来列出它们的内容。\n"
 
 #: src/querycmd.c
 #, c-format
@@ -3893,15 +3855,10 @@ msgid "diverted by %s to: %s\n"
 msgstr "被 %s 转移至：%s\n"
 
 #: src/querycmd.c
-#, fuzzy
-#| msgid ""
-#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
 "Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
-"使用 dpkg --info (= dpkg-deb --info) 来检测打包好的文件，\n"
-"还可以通过 dpkg --contents (= dpkg-deb --contents) 来列出它们的内容。\n"
+"通过 dpkg --contents (= dpkg-deb --contents) 来列出档案文件清单。\n"
 
 #: src/querycmd.c dpkg-deb/info.c
 #, c-format
@@ -3939,21 +3896,7 @@ msgid "Debian %s package management program query tool version %s.\n"
 msgstr "Debian %s 软件包管理程序查询工具 %s 版。\n"
 
 #: src/querycmd.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -s|--status <package> ...        Display package status details.\n"
-#| "  -p|--print-avail <package> ...   Display available version details.\n"
-#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
-#| "  -W|--show [<pattern> ...]        Show information on package(s).\n"
-#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-#| "     --control-list <package>      Print the package control file list.\n"
-#| "     --control-show <package> <file>\n"
-#| "                                   Show the package control file.\n"
-#| "  -c|--control-path <package> [<file>]\n"
-#| "                                   Print path for package control file.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -s, --status [<package>...]      Display package status details.\n"
@@ -3970,16 +3913,16 @@ msgid ""
 "\n"
 msgstr ""
 "命令：\n"
-"  -s|--status <软件包> ...         显示软件包详尽的状态信息。\n"
-"  -p|--print-avail <软件包> ...    显示当前可供安装的版本的详细信息。\n"
-"  -L|--listfiles <软件包> ...      列出所有属于这个(些)软件包的文件。\n"
-"  -l|--list [<表达式> ...]         简要地列出软件包。\n"
-"  -W|--show <表达式> ...           显示软件包的相关信息。\n"
-"  -S|--search <表达式> ...         搜寻拥有该文件(或多个文件)的软件包。\n"
-"     --control-list <软件包>       打印软件包控制文件列表。\n"
-"     --control-show <软件包> <文件>\n"
+"  -s, --status <软件包> ...        显示软件包详尽的状态信息。\n"
+"  -p, --print-avail <软件包> ...   显示当前可供安装的版本的详细信息。\n"
+"  -L, --listfiles <软件包> ...     列出所有属于这个(些)软件包的文件。\n"
+"  -l, --list [<表达式> ...]        简要地列出软件包。\n"
+"  -W, --show <表达式> ...          显示软件包的相关信息。\n"
+"  -S, --search <表达式> ...        搜寻拥有该文件(或多个文件)的软件包。\n"
+"      --control-list <软件包>      打印软件包控制文件列表。\n"
+"      --control-show <软件包> <文件>\n"
 "                                   显示软件包控制文件。\n"
-"  -c|--control-path <软件包> [<文件>]\n"
+"  -c, --control-path <软件包> [<文件>]\n"
 "                                   显示软件包控制文件的路径。\n"
 "\n"
 
@@ -4144,7 +4087,7 @@ msgstr "为了使dpkg正常工作，管理目录必须在安装目录中"
 msgid ""
 "not enough privileges to change root directory with --force-not-root, "
 "consider using --force-script-chrootless?"
-msgstr ""
+msgstr "没有足够权限通过 --force-not-root 改变根目录，考虑用 --force-script-chrootless ?"
 
 #: src/script.c
 #, c-format
@@ -4289,16 +4232,7 @@ msgstr ""
 "\n"
 
 #: src/statcmd.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --admindir <directory>   set the directory with the statoverride file.\n"
-#| "  --update                 immediately update <path> permissions.\n"
-#| "  --force                  force an action even if a sanity check fails.\n"
-#| "  --quiet                  quiet operation, minimal output.\n"
-#| "  --help                   show this help message.\n"
-#| "  --version                show the version.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
@@ -4313,6 +4247,8 @@ msgid ""
 msgstr ""
 "选项：\n"
 "  --admindir <目录>        设置 statoverride 文件的目录。\n"
+"  --instdir <directory>    设置根目录，但不包括管理员目录。\n"
+"  --root <directory>       设置根文件系统的目录。\n"
 "  --update                 立即更新 <路径> 的权限。\n"
 "  --force                  就算没有通过自检，也强制执行操作。\n"
 "  --quiet                  安静模式，输出尽可能少的信息。不显示输出信息。\n"
@@ -4575,10 +4511,8 @@ msgid "De-configuring %s (%s) ...\n"
 msgstr "正在反配置 %s (%s) ...\n"
 
 #: src/unpack.c
-#, fuzzy
-#| msgid "statoverride file contains empty line"
 msgid "conffile file contains an empty line"
-msgstr "statoverride 文件含有空行"
+msgstr "conffile 文件含有空行"
 
 #: src/unpack.c dpkg-deb/build.c
 #, c-format
@@ -5066,9 +5000,8 @@ msgstr "新建目录失败"
 
 #: dpkg-deb/extract.c
 #, fuzzy, c-format
-#| msgid "unexpected eof in package name at line %d"
 msgid "unexpected pre-existing pathname %s"
-msgstr "在第 %d 行的软件包名中发现了文件结束符，这出乎我们的意料"
+msgstr "在第 %d 行的软件包名中发现未预期的已存在路径"
 
 #: dpkg-deb/extract.c
 msgid "failed to chdir to directory"
