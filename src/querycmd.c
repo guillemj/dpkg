@@ -639,16 +639,16 @@ pkg_infodb_print_filetype(const char *filename, const char *filetype)
 static void
 control_path_file(struct pkginfo *pkg, const char *control_file)
 {
-  const char *control_path;
+  const char *control_pathname;
   struct stat st;
 
-  control_path = pkg_infodb_get_file(pkg, &pkg->installed, control_file);
-  if (stat(control_path, &st) < 0)
+  control_pathname = pkg_infodb_get_file(pkg, &pkg->installed, control_file);
+  if (stat(control_pathname, &st) < 0)
     return;
   if (!S_ISREG(st.st_mode))
     return;
 
-  pkg_infodb_print_filename(control_path, control_file);
+  pkg_infodb_print_filename(control_pathname, control_file);
 }
 
 static int
