@@ -14,12 +14,26 @@ nullPointerArithmetic:lib/compat/obstack.c
 
 // Ignore, we use this construct to ease portability.
 knownConditionTrueFalse:src/script.c:169
+duplicateExpressionTernary:src/script.c:169
 
-// Ignore, We use our own test assertions macros.
+// Ignore, we are testing the functions.
+knownConditionTrueFalse:lib/dpkg/t/t-macros.c
+
+// Ignore, we use our own test assertions macros.
 literalWithCharPtrCompare:lib/dpkg/t/t-test.c
 
 // Ignore, the code is used only for its binary artifacts.
 uninitMemberVar:*/Dpkg_Shlibs/patterns.cpp
+
+// BUG: False positive.
+knownConditionTrueFalse:src/depcon.c:585
+knownConditionTrueFalse:src/depcon.c:668
+
+// BUG: False positive, the loop does an early exit.
+identicalInnerCondition:lib/dpkg/fsys-hash.c:100
+
+// BUG: False positive, this is an enum not a boolean.
+redundantCondition:utils/update-alternatives.c:2711
 
 // BUG: False positive, the macros from lib/dpkg/dlist.h use the tail member.
 unusedStructMember:lib/dpkg/triglib.c:378
@@ -28,15 +42,16 @@ unusedStructMember:lib/dpkg/triglib.c:378
 nullPointer:src/unpack.c:195
 
 // BUG: False positive, does not understand setjmp-style error handling.
+redundantAssignment:lib/compat/selinux.c:73
 redundantAssignment:lib/dpkg/t/t-ehandle.c:108
-uninitStructMember:utils/update-alternatives.c:1246
-uninitStructMember:utils/update-alternatives.c:1247
-uninitStructMember:utils/update-alternatives.c:1248
+uninitStructMember:utils/update-alternatives.c:1305
+uninitStructMember:utils/update-alternatives.c:1306
+uninitStructMember:utils/update-alternatives.c:1307
 
 // BUG: False positive, does not understand ohshit(), ohshite() and
 //      bad_format as error terminators.
 doubleFree:src/script.c
-doubleFree:utils/update-alternatives.c:1154
+doubleFree:utils/update-alternatives.c:1213
 va_end_missing:lib/dpkg/parsehelp.c:68
 
 // BUG: False positive, the code uses va_copy().
