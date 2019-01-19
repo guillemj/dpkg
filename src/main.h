@@ -217,7 +217,16 @@ enum dep_check breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs);
 void deferred_remove(struct pkginfo *pkg);
 void deferred_configure(struct pkginfo *pkg);
 
-extern int sincenothing, dependtry;
+enum dependtry {
+	DEPEND_TRY_NORMAL = 1,
+	DEPEND_TRY_CYCLES = 2,
+	DEPEND_TRY_FORCE_DEPENDS_VERSION = 3,
+	DEPEND_TRY_FORCE_DEPENDS = 4,
+	DEPEND_TRY_LAST,
+};
+
+extern enum dependtry dependtry;
+extern int sincenothing;
 
 /* from cleanup.c (most of these are declared in archives.h) */
 

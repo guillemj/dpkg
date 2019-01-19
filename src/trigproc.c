@@ -390,7 +390,7 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			          pkg_name(pkg, pnaw_always),
 			          pkg_status_name(pkg));
 
-		if (dependtry > 1) {
+		if (dependtry >= DEPEND_TRY_CYCLES) {
 			gaveup = check_trigger_cycle(pkg);
 			if (gaveup == pkg)
 				return;
@@ -436,7 +436,7 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			varbuf_destroy(&depwhynot);
 		}
 
-		if (dependtry <= 1) {
+		if (dependtry < DEPEND_TRY_CYCLES) {
 			gaveup = check_trigger_cycle(pkg);
 			if (gaveup == pkg)
 				return;

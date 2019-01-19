@@ -608,7 +608,7 @@ deferred_configure(struct pkginfo *pkg)
 			                       vdew_nonambig));
 	}
 
-	if (dependtry > 1)
+	if (dependtry >= DEPEND_TRY_CYCLES)
 		if (findbreakcycle(pkg))
 			sincenothing = 0;
 

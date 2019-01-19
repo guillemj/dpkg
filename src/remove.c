@@ -71,7 +71,10 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
             pkg_name(depender, pnaw_always));
       continue;
     }
-    if (dependtry > 1) { if (findbreakcycle(pkgtoremove)) sincenothing= 0; }
+    if (dependtry >= DEPEND_TRY_CYCLES) {
+      if (findbreakcycle(pkgtoremove))
+        sincenothing = 0;
+    }
     varbuf_snapshot(raemsgs, &raemsgs_state);
     ok= dependencies_ok(depender,pkgtoremove,raemsgs);
     if (ok == DEP_CHECK_HALT &&
