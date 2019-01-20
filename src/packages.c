@@ -240,6 +240,7 @@ void process_queue(void) {
       if (progress_bytrigproc && progress_bytrigproc->trigpend_head) {
         enqueue_package(pkg);
         pkg = progress_bytrigproc;
+        progress_bytrigproc = NULL;
         action_todo = act_configure;
       } else {
         dependtry++;

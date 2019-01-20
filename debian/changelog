@@ -32,6 +32,10 @@ dpkg (1.19.3) UNRELEASED; urgency=medium
     were not making progress, as we expected to process this package at a later
     point, when that would never happen anymore. This then was causing asserts
     in the process queue loop. Closes: #901127, #910819
+  * dpkg: Reset progress_bytrigproc once we have injected it into the current
+    package process queue iteration, so that we do not keep trying to process
+    it, which might end up generating artificial trigger cycles, if
+    dependencies are not satisfied yet.
   * Perl modules:
     - Dpkg::Changelog::Debian: Preserve modelines at EOF. Closes: #916056
       Thanks to Chris Lamb <lamby@debian.org> for initial test cases.
