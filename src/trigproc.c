@@ -162,7 +162,7 @@ trigproc_run_deferred(void)
 
 		ensure_package_clientdata(pkg);
 		pkg->clientdata->trigprocdeferred = NULL;
-		trigproc(pkg, TRIGPROC_TRY);
+		trigproc(pkg, TRIGPROC_TRY_DEFERRED);
 
 		pop_error_context(ehflag_normaltidy);
 	}
@@ -416,7 +416,7 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			 * requires us to be able to make progress; skip the
 			 * package and silently ignore the error due to
 			 * unsatisfiable dependencies. */
-			if (type == TRIGPROC_TRY) {
+			if (type == TRIGPROC_TRY_DEFERRED) {
 				varbuf_destroy(&depwhynot);
 				return;
 			}

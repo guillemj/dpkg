@@ -318,8 +318,10 @@ void dpkg_selabel_close(void);
 /* from trigproc.c */
 
 enum trigproc_type {
-	/** Opportunistic trigger processing. */
-	TRIGPROC_TRY,
+	/** Opportunistic deferred trigger processing. */
+	TRIGPROC_TRY_DEFERRED,
+	/** Opportunistic queued trigger processing. */
+	TRIGPROC_TRY_QUEUED,
 	/** Required trigger processing. */
 	TRIGPROC_REQUIRED,
 };
