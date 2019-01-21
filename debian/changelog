@@ -38,6 +38,10 @@ dpkg (1.19.3) UNRELEASED; urgency=medium
     dependencies are not satisfied yet.
   * dpkg: Convert one trigger processing required type into the new try-queued
     one, so that we stop skipping unsatisfiable dependency checks.
+  * dpkg: Move trigproc cycle reset inside try-deferred conditional. We should
+    only reset the cycle detection in case we are not bailing out from the
+    processing with an error, otherwise we could come back to this package and
+    detect an artificial trigger cycle.
   * Perl modules:
     - Dpkg::Changelog::Debian: Preserve modelines at EOF. Closes: #916056
       Thanks to Chris Lamb <lamby@debian.org> for initial test cases.

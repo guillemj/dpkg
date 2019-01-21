@@ -405,18 +405,17 @@ trigproc(struct pkginfo *pkg, enum trigproc_type type)
 			enqueue_package(pkg);
 			return;
 		} else if (ok == DEP_CHECK_HALT) {
-			/* We cannot process this package on this dpkg run,
-			 * and we can get here repeatedly if this package is
-			 * required to make progress for other packages. So
-			 * reset the trigger cycles tracking to avoid bogus
-			 * cycle detections. */
-			trigproc_reset_cycle();
-
-			/* When doing opportunistic trigger processing, nothing
-			 * requires us to be able to make progress; skip the
-			 * package and silently ignore the error due to
-			 * unsatisfiable dependencies. */
+			/* When doing opportunistic deferred trigger processing,
+			 * nothing requires us to be able to make progress;
+			 * skip the package and silently ignore the error due
+			 * to unsatisfiable dependencies. And because we can
+			 * end up here repeatedly, if this package is required
+			 * to make progress for other packages, we need to
+			 * reset the trigger cycle tracking to avoid detecting
+			 * bogus cycles*/
 			if (type == TRIGPROC_TRY_DEFERRED) {
+				trigproc_reset_cycle();
+
 				varbuf_destroy(&depwhynot);
 				return;
 			}
