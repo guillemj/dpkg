@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-10-08 11:37+0200\n"
+"POT-Creation-Date: 2019-01-22 14:24+0100\n"
 "PO-Revision-Date: 2016-12-09 11:32+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <debian-l10n-swedish@lists.debian.org>\n"
@@ -964,7 +964,7 @@ msgstr "\"Section\" saknas för källfiler"
 msgid "missing Priority for source files"
 msgstr "\"Priority\" saknas för källfiler"
 
-#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl scripts/Dpkg/Vendor.pm
+#: scripts/dpkg-genchanges.pl scripts/Dpkg/Vendor.pm
 #, perl-format
 msgid "%s is empty"
 msgstr "%s är tom"
@@ -1009,14 +1009,6 @@ msgstr "binärbygge utan binära artifakter upptäckt; kan inte distribuera"
 #, perl-format
 msgid "package %s in control file but not in files list"
 msgstr "paketet %s i styrinfofilen men inte i fillistfilen"
-
-#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl scripts/Dpkg/BuildFlags.pm
-#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/Interface/Storable.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
-#, perl-format
-msgid "cannot read %s"
-msgstr "kan inte läsa %s"
 
 #: scripts/dpkg-genchanges.pl
 #, perl-format
@@ -1723,6 +1715,10 @@ msgid "couldn't close stdout"
 msgstr "kunde inte stänga standard ut"
 
 #: scripts/dpkg-scanpackages.pl
+msgid "Packages with multiple instances but no --multiversion specified:"
+msgstr ""
+
+#: scripts/dpkg-scanpackages.pl
 msgid "Packages in override file with incorrect old maintainer value:"
 msgstr "Paket i överstyrningsfilen med felaktigt värde på gammal ansvarig:"
 
@@ -2122,6 +2118,11 @@ msgstr "åtgärd krävs"
 
 #: scripts/dpkg-source.pl
 #, perl-format
+msgid "no source format specified in %s, see dpkg-source(1)"
+msgstr "källkodsformat ej angivet i %s, se dpkg-source(1)"
+
+#: scripts/dpkg-source.pl
+#, perl-format
 msgid "%s doesn't contain any information about the source package"
 msgstr "%s innehåller inte någon information om källkodspaketet"
 
@@ -2150,11 +2151,6 @@ msgstr "%s räknar inte upp några binärpaket"
 #: scripts/dpkg-source.pl
 msgid "building source for a binary-only release"
 msgstr "bygger källkod för utgåva med endast binär"
-
-#: scripts/dpkg-source.pl
-#, perl-format
-msgid "no source format specified in %s, see dpkg-source(1)"
-msgstr "källkodsformat ej angivet i %s, se dpkg-source(1)"
 
 #: scripts/dpkg-source.pl
 #, perl-format
@@ -2441,6 +2437,14 @@ msgstr ""
 #| msgid "'%s' is not a legal architecture string"
 msgid "'%s' is not a legal architecture in list '%s'"
 msgstr "\"%s\" är inte en giltig arkitektursträng"
+
+#: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
+#: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "cannot read %s"
+msgstr "kan inte läsa %s"
 
 #: scripts/Dpkg/BuildFlags.pm
 #, perl-format
@@ -3184,15 +3188,6 @@ msgid "source package format '%s' is not supported: %s"
 msgstr "källkodsformatet \"%s\" stöds inte: %s"
 
 #: scripts/Dpkg/Source/Package.pm
-msgid "format variant must be in lowercase"
-msgstr "formatvarianten måste skrivas med små bokstäver"
-
-#: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "invalid Format field '%s'"
-msgstr "ogiltigt Format-fält \"%s\""
-
-#: scripts/Dpkg/Source/Package.pm
 msgid "source package uses only weak checksums"
 msgstr ""
 
@@ -3736,7 +3731,9 @@ msgid "uncommitted, not-ignored changes in working directory: %s"
 msgstr "ej incheckade, ej ignorerade ändringar i arbetskatalogen: %s"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
-msgid "format v3.0 uses only one source file"
+#, fuzzy
+#| msgid "format v3.0 uses only one source file"
+msgid "format v3.0 (bzr) uses only one source file"
 msgstr "formatet v3.0 innehåller endast en källkodsfil"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
@@ -3910,6 +3907,12 @@ msgstr "enhet eller uttag inte tillåtet"
 #: scripts/Dpkg/Source/Patch.pm
 msgid "unknown file type"
 msgstr "okänd filtyp"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, fuzzy, perl-format
+#| msgid "ignoring deletion of directory %s"
+msgid "ignoring deletion of file %s"
+msgstr "ignorerar borttagning av katalogen %s"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
@@ -4235,6 +4238,12 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "epokdelen av versionsnumret är inte ett tal: \"%s\""
+
+#~ msgid "format variant must be in lowercase"
+#~ msgstr "formatvarianten måste skrivas med små bokstäver"
+
+#~ msgid "invalid Format field '%s'"
+#~ msgstr "ogiltigt Format-fält \"%s\""
 
 #~ msgid "cannot create pipe for %s"
 #~ msgstr "kan inte skapa rör för %s"

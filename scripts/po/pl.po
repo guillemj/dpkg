@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.15.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-10-08 11:37+0200\n"
+"POT-Creation-Date: 2019-01-22 14:24+0100\n"
 "PO-Revision-Date: 2015-04-07 07:05+0200\n"
 "Last-Translator: Łukasz Dulny <BartekChom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
@@ -976,7 +976,7 @@ msgstr "brak pola Section plików źródłowych"
 msgid "missing Priority for source files"
 msgstr "brak pola Priority plików źródłowych"
 
-#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl scripts/Dpkg/Vendor.pm
+#: scripts/dpkg-genchanges.pl scripts/Dpkg/Vendor.pm
 #, perl-format
 msgid "%s is empty"
 msgstr "%s jest puste"
@@ -1022,14 +1022,6 @@ msgstr ""
 #, perl-format
 msgid "package %s in control file but not in files list"
 msgstr "pakiet %s w pliku kontrolnym, ale nie w liście plików"
-
-#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl scripts/Dpkg/BuildFlags.pm
-#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/Interface/Storable.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
-#, perl-format
-msgid "cannot read %s"
-msgstr "nie można odczytać %s"
 
 #: scripts/dpkg-genchanges.pl
 #, perl-format
@@ -1748,6 +1740,10 @@ msgid "couldn't close stdout"
 msgstr "nie można zamknąć stdout"
 
 #: scripts/dpkg-scanpackages.pl
+msgid "Packages with multiple instances but no --multiversion specified:"
+msgstr ""
+
+#: scripts/dpkg-scanpackages.pl
 msgid "Packages in override file with incorrect old maintainer value:"
 msgstr ""
 "Pakiety w pliku nadpisań z niepoprawną wartością poprzedniego opiekuna:"
@@ -2154,6 +2150,11 @@ msgstr "potrzebna opcja akcji"
 
 #: scripts/dpkg-source.pl
 #, perl-format
+msgid "no source format specified in %s, see dpkg-source(1)"
+msgstr "w %s nie podano formatu źródeł, patrz dpkg-source(1)"
+
+#: scripts/dpkg-source.pl
+#, perl-format
 msgid "%s doesn't contain any information about the source package"
 msgstr "%s nie zawiera żadnej informacji o pakiecie źródłowym"
 
@@ -2183,11 +2184,6 @@ msgstr "%s nie zawiera wpisu o żadnym pakiecie binarnym."
 #: scripts/dpkg-source.pl
 msgid "building source for a binary-only release"
 msgstr "budowanie źródeł do wydania wyłącznie binarnego"
-
-#: scripts/dpkg-source.pl
-#, perl-format
-msgid "no source format specified in %s, see dpkg-source(1)"
-msgstr "w %s nie podano formatu źródeł, patrz dpkg-source(1)"
 
 #: scripts/dpkg-source.pl
 #, perl-format
@@ -2473,6 +2469,14 @@ msgstr "nieznany typ systemu gcc %s, użycie domyślnego (kompilacja natywna)"
 #| msgid "'%s' is not a legal architecture string"
 msgid "'%s' is not a legal architecture in list '%s'"
 msgstr "\"%s\" nie jest poprawną specyfikacją architektury"
+
+#: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
+#: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "cannot read %s"
+msgstr "nie można odczytać %s"
 
 #: scripts/Dpkg/BuildFlags.pm
 #, perl-format
@@ -3221,15 +3225,6 @@ msgid "source package format '%s' is not supported: %s"
 msgstr "format \"%s\" pakietu źródłowego nie jest obsługiwany: %s"
 
 #: scripts/Dpkg/Source/Package.pm
-msgid "format variant must be in lowercase"
-msgstr "wariant formatu musi być zapisany małymi literami"
-
-#: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "invalid Format field '%s'"
-msgstr "niepoprawne pole Format \"%s\""
-
-#: scripts/Dpkg/Source/Package.pm
 msgid "source package uses only weak checksums"
 msgstr ""
 
@@ -3780,7 +3775,9 @@ msgid "uncommitted, not-ignored changes in working directory: %s"
 msgstr "niezatwierdzone, nie ignorowane zmiany w katalogu roboczym: %s"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
-msgid "format v3.0 uses only one source file"
+#, fuzzy
+#| msgid "format v3.0 uses only one source file"
+msgid "format v3.0 (bzr) uses only one source file"
 msgstr "format 3.0 używa tylko jednego pliku źródłowego"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
@@ -3957,6 +3954,12 @@ msgstr "urządzenie lub gniazdo nie są dozwolone"
 #: scripts/Dpkg/Source/Patch.pm
 msgid "unknown file type"
 msgstr "nieznany typ pliku"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, fuzzy, perl-format
+#| msgid "ignoring deletion of directory %s"
+msgid "ignoring deletion of file %s"
+msgstr "zignorowano usunięcie katalogu %s"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
@@ -4285,6 +4288,12 @@ msgstr "numer wersji zawiera niepoprawny znak \"%s\""
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "częśc epoki w numerze wersji nie jest liczbą: \"%s\""
+
+#~ msgid "format variant must be in lowercase"
+#~ msgstr "wariant formatu musi być zapisany małymi literami"
+
+#~ msgid "invalid Format field '%s'"
+#~ msgstr "niepoprawne pole Format \"%s\""
 
 #~ msgid "cannot create pipe for %s"
 #~ msgstr "nie można utworzyć potoku dla %s"

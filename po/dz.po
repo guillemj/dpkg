@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-10-08 11:37+0200\n"
+"POT-Creation-Date: 2019-01-22 14:24+0100\n"
 "PO-Revision-Date: 2015-04-07 09:48+0200\n"
 "Last-Translator: Tshewang Norbu <bumthap2006@hotmail.com>\n"
 "Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
@@ -1518,6 +1518,11 @@ msgstr ""
 msgid "missing closing brace"
 msgstr "བརླག་སྟོར་ཞུགས་ཡོད་པའི་གདམ་ལྡེ་མིང་།"
 
+#: lib/dpkg/pkg-format.c
+#, c-format
+msgid "cannot get package %s filesystem last modification time"
+msgstr ""
+
 #: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
 #, c-format
 msgid "ambiguous package name '%s' with more than one installed instance"
@@ -1606,6 +1611,68 @@ msgstr "ལས་སྦྱོར་ཡན་ལག་ %s འདི་བསྒ�
 #, fuzzy, c-format
 msgid "wait for %s subprocess failed"
 msgstr "%s གི་དོན་ལུ་བསྒུག་ནི་འཐུས་ཤོར་བྱུང་ཡོདཔ།"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "invalid character `%c' in field width\n"
+msgid "invalid tar header size field"
+msgstr "ས་སྒོ་རྒྱ་ཚད་ནང་ལུ་ནུས་མེད་ཡིག་འབྲུ་ `%c' \n"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "invalid character `%c' in field width\n"
+msgid "invalid tar header mtime field"
+msgstr "ས་སྒོ་རྒྱ་ཚད་ནང་ལུ་ནུས་མེད་ཡིག་འབྲུ་ `%c' \n"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+msgid "invalid tar header uid field"
+msgstr "ནུས་མེད་དུས་མཐུནམ་བཟོ་ནི་ཐབས་ལམ"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "dpkg-statoverride: %s"
+msgid "invalid tar header gid field"
+msgstr "ཌི་པི་ཀེ་ཇི་-སི་ཊེཊི་ཟུར་བཞག: %s"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "invalid character `%c' in field width\n"
+msgid "invalid tar header checksum field"
+msgstr "ས་སྒོ་རྒྱ་ཚད་ནང་ལུ་ནུས་མེད་ཡིག་འབྲུ་ `%c' \n"
+
+#: lib/dpkg/tarfn.c
+msgid "invalid tar header checksum"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+msgid "partially read tar header"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+msgid "invalid tar header with empty name field"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+#, c-format
+msgid "unsupported GNU tar header type '%c'"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+#, c-format
+msgid "unsupported Solaris tar header type '%c'"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+#, c-format
+msgid "unsupported PAX tar header type '%c'"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+#, fuzzy, c-format
+#| msgid "unknown compression type '%s'!"
+msgid "unknown tar header type '%c'"
+msgstr "མ་ཤེས་པའི་ཨེབ་བཙུགས་ཀྱི་དབྱེ་བ་ `%s'!"
 
 #: lib/dpkg/treewalk.c
 #, fuzzy, c-format
@@ -3386,27 +3453,27 @@ msgstr "ཌི་བི་ཡཱན་ `%s' ཐུམ་སྒྲིལ་འཛ
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
-"  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
-"  --unpack           <.deb file name> ... | -R|--recursive <directory> ...\n"
-"  -A|--record-avail  <.deb file name> ... | -R|--recursive <directory> ...\n"
-"  --configure        <package> ... | -a|--pending\n"
-"  --triggers-only    <package> ... | -a|--pending\n"
-"  -r|--remove        <package> ... | -a|--pending\n"
-"  -P|--purge         <package> ... | -a|--pending\n"
-"  -V|--verify <package> ...        Verify the integrity of package(s).\n"
-"  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+"  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
+"  --unpack           <.deb file name>... | -R|--recursive <directory>...\n"
+"  -A|--record-avail  <.deb file name>... | -R|--recursive <directory>...\n"
+"  --configure        <package>... | -a|--pending\n"
+"  --triggers-only    <package>... | -a|--pending\n"
+"  -r|--remove        <package>... | -a|--pending\n"
+"  -P|--purge         <package>... | -a|--pending\n"
+"  -V|--verify [<package>...]       Verify the integrity of package(s).\n"
+"  --get-selections [<pattern>...]  Get list of selections to stdout.\n"
 "  --set-selections                 Set package selections from stdin.\n"
 "  --clear-selections               Deselect every non-essential package.\n"
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
 "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"  -C|--audit [<package> ...]       Check for broken package(s).\n"
+"  -s|--status [<package>...]       Display package status details.\n"
+"  -p|--print-avail [<package>...]  Display available version details.\n"
+"  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
+"  -l|--list [<pattern>...]         List packages concisely.\n"
+"  -S|--search <pattern>...         Find package(s) owning file(s).\n"
+"  -C|--audit [<package>...]        Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
 "  --predep-package                 Print pre-dependencies to unpack.\n"
@@ -5041,11 +5108,9 @@ msgid "package filesystem archive extraction"
 msgstr ""
 
 #: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "dpkg-deb ཊར་ཨའུཊི་པུཏི་ ལྷག་པའི་སྐབས་འཛོལ་བ།"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
+#, fuzzy
+#| msgid "corrupted filesystem tarfile - corrupted package archive"
+msgid "corrupted filesystem tarfile in package archive"
 msgstr "ངན་ཅན་བཟོ་ཡོད་པའི་ཡིག་སྣོད་རིམ་ལུགས་ཊར་ཡིག་སྣོད་ - ངན་ཅན་བཟོ་ཡོད་པའི་ཐུམ་སྒྲིལ་ཡིག་མཛོད།"
 
 #: src/unpack.c
@@ -6341,8 +6406,9 @@ msgid ""
 "  --skip-auto              skip prompt for alternatives correctly "
 "configured\n"
 "                           in automatic mode (relevant for --config only)\n"
-"  --verbose                verbose operation, more output.\n"
 "  --quiet                  quiet operation, minimal output.\n"
+"  --verbose                verbose operation, more output.\n"
+"  --debug                  debug output, way more output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
@@ -6853,6 +6919,9 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
+
+#~ msgid "error reading dpkg-deb tar output"
+#~ msgstr "dpkg-deb ཊར་ཨའུཊི་པུཏི་ ལྷག་པའི་སྐབས་འཛོལ་བ།"
 
 #, fuzzy
 #~| msgid "unable to open files list file for package `%.250s'"

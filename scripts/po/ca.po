@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-dev 1.17.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-10-08 11:37+0200\n"
+"POT-Creation-Date: 2019-01-22 14:24+0100\n"
 "PO-Revision-Date: 2017-05-07 16:26+0200\n"
 "Last-Translator: Guillem Jover <guillem@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -1000,7 +1000,7 @@ msgstr "manca el camp Section pels fitxers font"
 msgid "missing Priority for source files"
 msgstr "manca el camp Priority pels fitxers font"
 
-#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl scripts/Dpkg/Vendor.pm
+#: scripts/dpkg-genchanges.pl scripts/Dpkg/Vendor.pm
 #, perl-format
 msgid "%s is empty"
 msgstr "%s és buit"
@@ -1047,14 +1047,6 @@ msgstr ""
 #, perl-format
 msgid "package %s in control file but not in files list"
 msgstr "el paquet %s és al fitxer de control però no a la llista de fitxers"
-
-#: scripts/dpkg-genchanges.pl scripts/dpkg-source.pl scripts/Dpkg/BuildFlags.pm
-#: scripts/Dpkg/Compression/FileHandle.pm scripts/Dpkg/Interface/Storable.pm
-#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
-#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
-#, perl-format
-msgid "cannot read %s"
-msgstr "no es pot llegir %s"
 
 #: scripts/dpkg-genchanges.pl
 #, perl-format
@@ -1731,6 +1723,10 @@ msgid "couldn't close stdout"
 msgstr "no s'ha pogut tancar la sortida estàndard"
 
 #: scripts/dpkg-scanpackages.pl
+msgid "Packages with multiple instances but no --multiversion specified:"
+msgstr ""
+
+#: scripts/dpkg-scanpackages.pl
 msgid "Packages in override file with incorrect old maintainer value:"
 msgstr ""
 "Paquets en el fitxer de substitució amb valor antic de mantenidor incorrecte:"
@@ -2111,6 +2107,11 @@ msgstr "es requereix una opció d'acció"
 
 #: scripts/dpkg-source.pl
 #, perl-format
+msgid "no source format specified in %s, see dpkg-source(1)"
+msgstr "no s'ha especificat el format del font a %s, vegeu dpkg-source(1)"
+
+#: scripts/dpkg-source.pl
+#, perl-format
 msgid "%s doesn't contain any information about the source package"
 msgstr "%s no conté cap informació del paquet font"
 
@@ -2142,11 +2143,6 @@ msgstr "%s no conté cap paquet binari"
 #: scripts/dpkg-source.pl
 msgid "building source for a binary-only release"
 msgstr "s'està construint el font per a un llançament només binari"
-
-#: scripts/dpkg-source.pl
-#, perl-format
-msgid "no source format specified in %s, see dpkg-source(1)"
-msgstr "no s'ha especificat el format del font a %s, vegeu dpkg-source(1)"
 
 #: scripts/dpkg-source.pl
 #, perl-format
@@ -2401,6 +2397,14 @@ msgstr ""
 #, perl-format
 msgid "'%s' is not a legal architecture in list '%s'"
 msgstr "«%s» no és una cadena d'arquitectura vàlida a la llista «%s»"
+
+#: scripts/Dpkg/BuildFlags.pm scripts/Dpkg/Compression/FileHandle.pm
+#: scripts/Dpkg/File.pm scripts/Dpkg/Interface/Storable.pm
+#: scripts/Dpkg/Shlibs/Objdump.pm scripts/Dpkg/Source/BinaryFiles.pm
+#: scripts/Dpkg/Source/Package/V2.pm scripts/Dpkg/Source/Quilt.pm
+#, perl-format
+msgid "cannot read %s"
+msgstr "no es pot llegir %s"
 
 #: scripts/Dpkg/BuildFlags.pm
 #, perl-format
@@ -3127,15 +3131,6 @@ msgid "source package format '%s' is not supported: %s"
 msgstr "no s'admet el format del paquet font «%s»: %s"
 
 #: scripts/Dpkg/Source/Package.pm
-msgid "format variant must be in lowercase"
-msgstr "la variant de format ha de ser en minúscules"
-
-#: scripts/Dpkg/Source/Package.pm
-#, perl-format
-msgid "invalid Format field '%s'"
-msgstr "el camp Format no és vàlid «%s»"
-
-#: scripts/Dpkg/Source/Package.pm
 msgid "source package uses only weak checksums"
 msgstr "el paquet font només empra sumes de comprovació dèbils"
 
@@ -3669,7 +3664,9 @@ msgid "uncommitted, not-ignored changes in working directory: %s"
 msgstr "hi ha canvis sense publicar no ignorats en el directori de treball: %s"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
-msgid "format v3.0 uses only one source file"
+#, fuzzy
+#| msgid "format v3.0 uses only one source file"
+msgid "format v3.0 (bzr) uses only one source file"
 msgstr "el format v3.0 només empra un sol fitxer font"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
@@ -3840,6 +3837,12 @@ msgstr "no es permeten dispositius ni sòcols"
 #: scripts/Dpkg/Source/Patch.pm
 msgid "unknown file type"
 msgstr "tipus de fitxer desconegut"
+
+#: scripts/Dpkg/Source/Patch.pm
+#, fuzzy, perl-format
+#| msgid "ignoring deletion of directory %s"
+msgid "ignoring deletion of file %s"
+msgstr "s'omet la supressió del directori %s"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format
@@ -4158,6 +4161,12 @@ msgstr "el número de versió conté un caràcter il·legal ‘%s‘"
 #, perl-format
 msgid "epoch part of the version number is not a number: '%s'"
 msgstr "l'època en la versió no és un número: «%s»"
+
+#~ msgid "format variant must be in lowercase"
+#~ msgstr "la variant de format ha de ser en minúscules"
+
+#~ msgid "invalid Format field '%s'"
+#~ msgstr "el camp Format no és vàlid «%s»"
 
 #~ msgid "cannot create pipe for %s"
 #~ msgstr "no es pot crear el conducte per a %s"

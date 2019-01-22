@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.19.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-12-29 13:10+0100\n"
+"POT-Creation-Date: 2019-01-22 14:24+0100\n"
 "PO-Revision-Date: 2018-10-09 17:38+0200\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
@@ -1447,6 +1447,11 @@ msgstr "veldgrootte valt buiten het bereik"
 msgid "missing closing brace"
 msgstr "afsluitende accolade ontbreekt"
 
+#: lib/dpkg/pkg-format.c
+#, c-format
+msgid "cannot get package %s filesystem last modification time"
+msgstr ""
+
 #: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
 #, c-format
 msgid "ambiguous package name '%s' with more than one installed instance"
@@ -1534,6 +1539,70 @@ msgstr "subproces %s is mislukt met wachtstatuscode %d"
 #, c-format
 msgid "wait for %s subprocess failed"
 msgstr "wachten op subproces %s is mislukt"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "invalid character '%c' in field width"
+msgid "invalid tar header size field"
+msgstr "ongeldig teken '%c' in veldgrootte"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "invalid character '%c' in field width"
+msgid "invalid tar header mtime field"
+msgstr "ongeldig teken '%c' in veldgrootte"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "invalid statoverride uid %s"
+msgid "invalid tar header uid field"
+msgstr "ongeldige uid %s in overstijging van bestandsstatus (statoverride)"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "invalid statoverride gid %s"
+msgid "invalid tar header gid field"
+msgstr "ongeldige gid %s in overstijging van bestandsstatus (statoverride)"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "invalid character '%c' in field width"
+msgid "invalid tar header checksum field"
+msgstr "ongeldig teken '%c' in veldgrootte"
+
+#: lib/dpkg/tarfn.c
+msgid "invalid tar header checksum"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+msgid "partially read tar header"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+msgid "invalid tar header with empty name field"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+#, c-format
+msgid "unsupported GNU tar header type '%c'"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+#, fuzzy, c-format
+#| msgid "unsupported options in file header"
+msgid "unsupported Solaris tar header type '%c'"
+msgstr "onbekende opties in bestandskop"
+
+#: lib/dpkg/tarfn.c
+#, c-format
+msgid "unsupported PAX tar header type '%c'"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+#, fuzzy, c-format
+#| msgid "unknown compression type '%s'!"
+msgid "unknown tar header type '%c'"
+msgstr "onbekend compressietype `%s'!"
 
 #: lib/dpkg/treewalk.c
 #, c-format
@@ -4941,11 +5010,9 @@ msgid "package filesystem archive extraction"
 msgstr "uitpakken van archief met het bestandssysteem van het pakket"
 
 #: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "fout bij lezen van de tar-uitvoer van dpkg-deb"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
+#, fuzzy
+#| msgid "corrupted filesystem tarfile - corrupted package archive"
+msgid "corrupted filesystem tarfile in package archive"
 msgstr ""
 "beschadigd tar-bestand met het bestandssysteem - beschadigd pakketarchief"
 
@@ -6681,6 +6748,9 @@ msgstr ""
 #: utils/update-alternatives.polkit.in
 msgid "Authentication is required to run update-alternatives"
 msgstr "Authenticatie is nodig voor het uitvoeren van update-alternatives"
+
+#~ msgid "error reading dpkg-deb tar output"
+#~ msgstr "fout bij lezen van de tar-uitvoer van dpkg-deb"
 
 #~ msgid "cannot open control file '%s' for package '%s'"
 #~ msgstr "kan controlebestand '%s' voor pakket '%s' niet openen"
