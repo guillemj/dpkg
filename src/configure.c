@@ -536,30 +536,6 @@ deferred_configure_conffile(struct pkginfo *pkg, struct conffile *conff)
 /**
  * Process the deferred configure package.
  *
- * The algorithm for deciding what to configure first is as follows:
- * Loop through all packages doing a ‘try 1’ until we've been round
- * and nothing has been done, then do ‘try 2’ and ‘try 3’ likewise.
- * The incrementing of ‘dependtry’ is done by process_queue().
- *
- * Try 1:
- *   Are all dependencies of this package done? If so, do it.
- *   Are any of the dependencies missing or the wrong version?
- *     If so, abort (unless --force-depends, in which case defer).
- *   Will we need to configure a package we weren't given as an
- *     argument? If so, abort ─ except if --force-configure-any,
- *     in which case we add the package to the argument list.
- *   If none of the above, defer the package.
- *
- * Try 2:
- *   Find a cycle and break it (see above).
- *   Do as for try 1.
- *
- * Try 3 (only if --force-depends-version):
- *   Same as for try 2, but don't mind version number in dependencies.
- *
- * Try 4 (only if --force-depends):
- *   Do anyway.
- *
  * @param pkg The package to act on.
  */
 void

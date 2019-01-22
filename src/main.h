@@ -217,6 +217,33 @@ enum dep_check breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs);
 void deferred_remove(struct pkginfo *pkg);
 void deferred_configure(struct pkginfo *pkg);
 
+/*
+ * During the packages queue processing, the algorithm for deciding what to
+ * configure first is as follows:
+ *
+ * Loop through all packages doing a ‘try 1’ until we've been round and
+ * nothing has been done, then do ‘try 2’, and subsequent ones likewise.
+ * The incrementing of ‘dependtry’ is done by process_queue().
+ *
+ * Try 1:
+ *   Are all dependencies of this package done? If so, do it.
+ *   Are any of the dependencies missing or the wrong version?
+ *     If so, abort (unless --force-depends, in which case defer).
+ *   Will we need to configure a package we weren't given as an
+ *     argument? If so, abort ─ except if --force-configure-any,
+ *     in which case we add the package to the argument list.
+ *   If none of the above, defer the package.
+ *
+ * Try 2:
+ *   Find a cycle and break it (see above).
+ *   Do as for try 1.
+ *
+ * Try 3 (only if --force-depends-version):
+ *   Same as for try 2, but don't mind version number in dependencies.
+ *
+ * Try 4 (only if --force-depends):
+ *   Do anyway.
+ */
 enum dependtry {
 	DEPEND_TRY_NORMAL = 1,
 	DEPEND_TRY_CYCLES = 2,
