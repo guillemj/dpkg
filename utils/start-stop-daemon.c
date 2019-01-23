@@ -2269,8 +2269,7 @@ do_pidfile(const char *name)
 		 *
 		 * If we got /dev/null specified as the pidfile, we ignore the
 		 * checks, as this is being used to run processes no matter
-		 * what. Even though the checks should not fail, they do on
-		 * some scenarios, such as when using Linux user namespaces. */
+		 * what. */
 		if (match_mode == MATCH_PIDFILE &&
 		    strcmp(name, "/dev/null") != 0) {
 			struct stat st;
