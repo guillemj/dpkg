@@ -612,9 +612,11 @@ create_notify_socket(void)
 	if (rc < 0)
 		fatal("cannot change notification socket ownership");
 
+#ifdef SO_PASSCRED
 	/* XXX: Verify we are talking to an expected child? Although it is not
 	 * clear whether this is feasible given the knowledge we have got. */
 	setsockopt(fd, SOL_SOCKET, SO_PASSCRED, &enable, sizeof(enable));
+#endif
 
 	return fd;
 }
