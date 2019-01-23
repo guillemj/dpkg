@@ -1,5 +1,9 @@
 dpkg (1.19.4) UNRELEASED; urgency=medium
 
+  * start-stop-daemon: Do not sanity check the pidfile when it is specified as
+    /dev/null, as that implies the caller wants to start the program no matter
+    what. Even though the check should not fail on this condition, it does on
+    some scenarios, such as when using Linux user namespaces. Closes: #920242
   * Portability:
     - start-stop-daemon: Only use SO_PASSCRED if defined. Fixes build failure
       at least on GNU/Hurd.
