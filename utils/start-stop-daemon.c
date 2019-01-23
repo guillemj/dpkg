@@ -570,13 +570,22 @@ setup_socket_name(const char *suffix)
 	return notify_socket;
 }
 
+static void
+set_socket_passcred(int fd)
+{
+#ifdef SO_PASSCRED
+	static const int enable = 1;
+
+	setsockopt(fd, SOL_SOCKET, SO_PASSCRED, &enable, sizeof(enable));
+#endif
+}
+
 static int
 create_notify_socket(void)
 {
 	const char *sockname;
 	struct sockaddr_un su;
 	int fd, rc, flags;
-	static const int enable = 1;
 
 	/* Create notification socket. */
 	fd = socket(AF_UNIX, SOCK_DGRAM | SOCK_NONBLOCK, 0);
@@ -612,11 +621,9 @@ create_notify_socket(void)
 	if (rc < 0)
 		fatal("cannot change notification socket ownership");
 
-#ifdef SO_PASSCRED
 	/* XXX: Verify we are talking to an expected child? Although it is not
 	 * clear whether this is feasible given the knowledge we have got. */
-	setsockopt(fd, SOL_SOCKET, SO_PASSCRED, &enable, sizeof(enable));
-#endif
+	set_socket_passcred(fd);
 
 	return fd;
 }
