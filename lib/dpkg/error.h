@@ -21,6 +21,8 @@
 #ifndef LIBDPKG_ERROR_H
 #define LIBDPKG_ERROR_H
 
+#include <stdbool.h>
+
 #include <dpkg/macros.h>
 
 DPKG_BEGIN_DECLS
@@ -47,6 +49,8 @@ struct dpkg_error {
 #define DPKG_ERROR_INIT { DPKG_MSG_NONE, 0, NULL }
 
 #define DPKG_ERROR_OBJECT (struct dpkg_error)DPKG_ERROR_INIT
+
+bool dpkg_has_error(struct dpkg_error *err);
 
 int dpkg_put_warn(struct dpkg_error *err, const char *fmt, ...)
 	DPKG_ATTR_PRINTF(2);
