@@ -34,11 +34,16 @@
 #include <dpkg/string.h>
 #include <dpkg/arch.h>
 
-/* This must always be a prime for optimal performance.
- * With 4093 buckets, we glean a 20% speedup, for 8191 buckets
- * we get 23%. The nominal increase in memory usage is a mere
- * sizeof(void *) * 8191 (i.e. less than 32 KiB on 32bit systems). */
-#define BINS 8191
+/*
+ * This must always be a prime for optimal performance.
+ *
+ * We use a number that is close to the amount of packages currently present
+ * in a Debian suite, so that installed and available packages do not add
+ * tons of collisions.
+ *
+ * The memory usage is «BINS * sizeof(void *)».
+ */
+#define BINS 65521
 
 static struct pkgset *bins[BINS];
 static int npkg, nset;
