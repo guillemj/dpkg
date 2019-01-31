@@ -1391,7 +1391,7 @@ msgstr "缺少右大括号"
 #: lib/dpkg/pkg-format.c
 #, c-format
 msgid "cannot get package %s filesystem last modification time"
-msgstr ""
+msgstr "无法获取软件包 %s 的文件系统最后一次修改时间"
 
 #: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
 #, c-format
@@ -1480,68 +1480,56 @@ msgid "wait for %s subprocess failed"
 msgstr "等待 %s 子进程失败"
 
 #: lib/dpkg/tarfn.c
-#, fuzzy
-#| msgid "invalid character '%c' in field width"
 msgid "invalid tar header size field"
-msgstr "字段宽度中有无效的字符 %c"
+msgstr "tar 头部的尺寸字段无效"
 
 #: lib/dpkg/tarfn.c
-#, fuzzy
-#| msgid "invalid character '%c' in field width"
 msgid "invalid tar header mtime field"
-msgstr "字段宽度中有无效的字符 %c"
+msgstr "tar 头部的 mtime 字段无效"
 
 #: lib/dpkg/tarfn.c
-#, fuzzy
-#| msgid "invalid statoverride uid %s"
 msgid "invalid tar header uid field"
-msgstr "无效的 statoverride 用户ID(uid) %s"
+msgstr "tar 头部的 uid 字段无效"
 
 #: lib/dpkg/tarfn.c
-#, fuzzy
-#| msgid "invalid statoverride gid %s"
 msgid "invalid tar header gid field"
-msgstr "无效的 statoverride 组ID(gid) %s"
+msgstr "tar 头部的 gid 字段无效"
 
 #: lib/dpkg/tarfn.c
-#, fuzzy
-#| msgid "invalid character '%c' in field width"
 msgid "invalid tar header checksum field"
-msgstr "字段宽度中有无效的字符 %c"
+msgstr "tar 头部的校验和字段无效"
 
 #: lib/dpkg/tarfn.c
 msgid "invalid tar header checksum"
-msgstr ""
+msgstr "tar 头部校验和无效"
 
 #: lib/dpkg/tarfn.c
 msgid "partially read tar header"
-msgstr ""
+msgstr "部分读取的 tar 头部"
 
 #: lib/dpkg/tarfn.c
 msgid "invalid tar header with empty name field"
-msgstr ""
+msgstr "无效的 tar 头部，名称字段为空"
 
 #: lib/dpkg/tarfn.c
 #, c-format
 msgid "unsupported GNU tar header type '%c'"
-msgstr ""
+msgstr "不支持的 GNU tar 头部类型 '%c'"
 
 #: lib/dpkg/tarfn.c
-#, fuzzy, c-format
-#| msgid "unsupported options in file header"
+#, c-format
 msgid "unsupported Solaris tar header type '%c'"
-msgstr "不支持的文件头选项"
+msgstr "不支持的 Solaris tar 头部类型 ‘%c'"
 
 #: lib/dpkg/tarfn.c
 #, c-format
 msgid "unsupported PAX tar header type '%c'"
-msgstr ""
+msgstr "不支持的 PAX tar 头部类型 '%c'"
 
 #: lib/dpkg/tarfn.c
-#, fuzzy, c-format
-#| msgid "unknown compression type '%s'!"
+#, c-format
 msgid "unknown tar header type '%c'"
-msgstr "无法识别的压缩类型 %s ！"
+msgstr "未知的 tar 头部类型 '%c'"
 
 #: lib/dpkg/treewalk.c
 #, c-format
@@ -2728,7 +2716,7 @@ msgstr "被 %2$s 转移的 %1$s"
 #: src/divertcmd.c
 #, c-format
 msgid "diversion of %s to %s by %s"
-msgstr "%3$s 导致 %1$s 转移到 %2$s"
+msgstr "通过 %3$s 从 %1$s 到 %2$s 的转移"
 
 #: src/divertcmd.c
 #, c-format
@@ -2757,7 +2745,7 @@ msgstr "无法转移文件 %s 到其本身"
 #: src/divertcmd.c
 #, c-format
 msgid "Leaving '%s'\n"
-msgstr "正在离开 %s\n"
+msgstr "正在忽略 %s\n"
 
 #: src/divertcmd.c
 #, c-format
@@ -3179,49 +3167,7 @@ msgid "Debian '%s' package management program version %s.\n"
 msgstr "Debian %s 软件包管理程序 %s 版。\n"
 
 #: src/main.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Commands:\n"
-#| "  -i|--install       <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --unpack           <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  -A|--record-avail  <.deb file name> ... | -R|--recursive "
-#| "<directory> ...\n"
-#| "  --configure        <package> ... | -a|--pending\n"
-#| "  --triggers-only    <package> ... | -a|--pending\n"
-#| "  -r|--remove        <package> ... | -a|--pending\n"
-#| "  -P|--purge         <package> ... | -a|--pending\n"
-#| "  -V|--verify <package> ...        Verify the integrity of package(s).\n"
-#| "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
-#| "  --set-selections                 Set package selections from stdin.\n"
-#| "  --clear-selections               Deselect every non-essential package.\n"
-#| "  --update-avail [<Packages-file>] Replace available packages info.\n"
-#| "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
-#| "  --clear-avail                    Erase existing available info.\n"
-#| "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-#| "  -s|--status <package> ...        Display package status details.\n"
-#| "  -p|--print-avail <package> ...   Display available version details.\n"
-#| "  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-#| "  -l|--list [<pattern> ...]        List packages concisely.\n"
-#| "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-#| "  -C|--audit [<package> ...]       Check for broken package(s).\n"
-#| "  --yet-to-unpack                  Print packages selected for "
-#| "installation.\n"
-#| "  --predep-package                 Print pre-dependencies to unpack.\n"
-#| "  --add-architecture <arch>        Add <arch> to the list of "
-#| "architectures.\n"
-#| "  --remove-architecture <arch>     Remove <arch> from the list of "
-#| "architectures.\n"
-#| "  --print-architecture             Print dpkg architecture.\n"
-#| "  --print-foreign-architectures    Print allowed foreign architectures.\n"
-#| "  --assert-<feature>               Assert support for the specified "
-#| "feature.\n"
-#| "  --validate-<thing> <string>      Validate a <thing>'s <string>.\n"
-#| "  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
-#| "  --force-help                     Show help on forcing.\n"
-#| "  -Dh|--debug=help                 Show help on debugging.\n"
-#| "\n"
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
@@ -4756,10 +4702,8 @@ msgid "package filesystem archive extraction"
 msgstr "软件包文件系统归档提取"
 
 #: src/unpack.c
-#, fuzzy
-#| msgid "corrupted filesystem tarfile - corrupted package archive"
 msgid "corrupted filesystem tarfile in package archive"
-msgstr "文件系统的 tar 文件已损坏 - 软件包文件已毁损"
+msgstr "软件库中的文件系统 tar 文件已损坏"
 
 #: src/unpack.c
 #, c-format
@@ -5109,9 +5053,9 @@ msgid "failed to create directory"
 msgstr "新建目录失败"
 
 #: dpkg-deb/extract.c
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected pre-existing pathname %s"
-msgstr "在第 %d 行的软件包名中发现未预期的已存在路径"
+msgstr "未预期的已存在路径 %s"
 
 #: dpkg-deb/extract.c
 msgid "failed to chdir to directory"
@@ -5898,21 +5842,7 @@ msgstr ""
 "\n"
 
 #: utils/update-alternatives.c
-#, fuzzy, c-format
-#| msgid ""
-#| "Options:\n"
-#| "  --altdir <directory>     change the alternatives directory.\n"
-#| "  --admindir <directory>   change the administrative directory.\n"
-#| "  --log <file>             change the log file.\n"
-#| "  --force                  allow replacing files with alternative links.\n"
-#| "  --skip-auto              skip prompt for alternatives correctly "
-#| "configured\n"
-#| "                           in automatic mode (relevant for --config "
-#| "only)\n"
-#| "  --verbose                verbose operation, more output.\n"
-#| "  --quiet                  quiet operation, minimal output.\n"
-#| "  --help                   show this help message.\n"
-#| "  --version                show the version.\n"
+#, c-format
 msgid ""
 "Options:\n"
 "  --altdir <directory>     change the alternatives directory.\n"
@@ -5935,8 +5865,9 @@ msgstr ""
 "  --force                  就算没有通过自检，也强制执行操作。\n"
 "  --skip-auto              在自动模式中跳过设置正确候选项的提示\n"
 "                           (只与 --config 有关)\n"
-"  --verbose                启用详细输出。\n"
 "  --quiet                  安静模式，输出尽可能少的信息。不显示输出信息。\n"
+"  --verbose                启用详细输出。\n"
+"  --debug                  调试输出，信息更多。\n"
 "  --help                   显示本帮助信息。\n"
 "  --version                显示版本信息。\n"
 
