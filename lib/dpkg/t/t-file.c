@@ -80,7 +80,7 @@ test_file_slurp(void)
 
 	test_pass(file_slurp(test_file, &vb, &err) == 0);
 	test_pass(vb.used == strlen(ref_data));
-	test_str(vb.buf, ==, ref_data);
+	test_mem(vb.buf, ==, ref_data, min(vb.used, strlen(ref_data)));
 	test_pass(err.syserrno == 0);
 	test_pass(err.type == DPKG_MSG_NONE);
 	varbuf_destroy(&vb);
