@@ -56,6 +56,7 @@ use Dpkg::Exit qw(run_exit_handlers);
 use Dpkg::Path qw(check_files_are_the_same find_command);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(run_vendor_hook);
+use Dpkg::Source::Format;
 
 my $diff_ignore_default_regex = '
 # Ignore general backup files
