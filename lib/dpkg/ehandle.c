@@ -190,7 +190,7 @@ error_context_errmsg_format(const char *fmt, va_list args)
   int rc;
 
   va_copy(args_copy, args);
-  rc = vasprintf(&errmsg, fmt, args);
+  rc = vasprintf(&errmsg, fmt, args_copy);
   va_end(args_copy);
 
   /* If the message was constructed successfully, at least we have some
