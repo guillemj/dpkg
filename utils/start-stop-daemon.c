@@ -448,10 +448,10 @@ parse_unsigned(const char *string, int base, int *value_r)
 	long value;
 	char *endptr;
 
+	errno = 0;
 	if (!string[0])
 		return -1;
 
-	errno = 0;
 	value = strtol(string, &endptr, base);
 	if (string == endptr || *endptr != '\0' || errno != 0)
 		return -1;
