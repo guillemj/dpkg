@@ -6,6 +6,8 @@ dpkg (1.19.5) UNRELEASED; urgency=medium
   * start-stop-daemon: Add new fatalv() and fatale() functions and use the
     latter for system errors, so that we are explicit on whether we want to
     use errno for error reporting or not.
+  * start-stop-daemon: Always refuse to parse a world-writable pidfile,
+    except when that is /dev/null.
   * Build system:
     - Check whether this dist is a release, based only on the version format.
       This will avoid having to do a two staged release to get a proper perl

@@ -2284,22 +2284,25 @@ do_pidfile(const char *name)
 		 * contents cannot be trusted, because the daemon might have
 		 * been compromised.
 		 *
+		 * If the pidfile is world-writable we refuse to parse it.
+		 *
 		 * If we got /dev/null specified as the pidfile, we ignore the
 		 * checks, as this is being used to run processes no matter
 		 * what. */
-		if (match_mode == MATCH_PIDFILE &&
-		    strcmp(name, "/dev/null") != 0) {
+		if (strcmp(name, "/dev/null") != 0) {
 			struct stat st;
 			int fd = fileno(f);
 
 			if (fstat(fd, &st) < 0)
 				fatale("cannot stat pidfile %s", name);
 
-			if ((st.st_uid != getuid() && st.st_uid != 0) ||
-			    (st.st_gid != getgid() && st.st_gid != 0))
+			if (match_mode == MATCH_PIDFILE &&
+			    ((st.st_uid != getuid() && st.st_uid != 0) ||
+			     (st.st_gid != getgid() && st.st_gid != 0)))
 				fatal("matching only on non-root pidfile %s is insecure", name);
 			if (st.st_mode & 0002)
-				fatal("matching only on world-writable pidfile %s is insecure", name);
+				fatal("matching on world-writable pidfile %s is insecure", name);
+
 		}
 
 		if (fscanf(f, "%d", &pid) == 1)
