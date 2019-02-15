@@ -323,16 +323,15 @@ warning(const char *format, ...)
 	va_end(arglist);
 }
 
-static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
-fatal(const char *format, ...)
+static void DPKG_ATTR_NORET DPKG_ATTR_VPRINTF(2)
+fatalv(int errno_fatal, const char *format, va_list args)
 {
-	va_list arglist;
-	int errno_fatal = errno;
+	va_list args_copy;
 
 	fprintf(stderr, "%s: ", progname);
-	va_start(arglist, format);
-	vfprintf(stderr, format, arglist);
-	va_end(arglist);
+	va_copy(args_copy, args);
+	vfprintf(stderr, format, args_copy);
+	va_end(args_copy);
 	if (errno_fatal)
 		fprintf(stderr, " (%s)\n", strerror(errno_fatal));
 	else
@@ -342,6 +341,24 @@ fatal(const char *format, ...)
 		exit(STATUS_UNKNOWN);
 	else
 		exit(2);
+}
+
+static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
+fatal(const char *format, ...)
+{
+	va_list args;
+
+	va_start(args, format);
+	fatalv(0, format, args);
+}
+
+static void DPKG_ATTR_NORET DPKG_ATTR_PRINTF(1)
+fatale(const char *format, ...)
+{
+	va_list args;
+
+	va_start(args, format);
+	fatalv(errno, format, args);
 }
 
 #define BUG(...) bug(__FILE__, __LINE__, __func__, __VA_ARGS__)
@@ -371,7 +388,7 @@ xmalloc(int size)
 	ptr = malloc(size);
 	if (ptr)
 		return ptr;
-	fatal("malloc(%d) failed", size);
+	fatale("malloc(%d) failed", size);
 }
 
 static char *
@@ -382,7 +399,7 @@ xstrndup(const char *str, size_t n)
 	new_str = strndup(str, n);
 	if (new_str)
 		return new_str;
-	fatal("strndup(%s, %zu) failed", str, n);
+	fatale("strndup(%s, %zu) failed", str, n);
 }
 
 static void
@@ -391,12 +408,12 @@ timespec_gettime(struct timespec *ts)
 #if defined(_POSIX_TIMERS) && _POSIX_TIMERS > 0 && \
     defined(_POSIX_MONOTONIC_CLOCK) && _POSIX_MONOTONIC_CLOCK > 0
 	if (clock_gettime(CLOCK_MONOTONIC, ts) < 0)
-		fatal("clock_gettime failed");
+		fatale("clock_gettime failed");
 #else
 	struct timeval tv;
 
 	if (gettimeofday(&tv, NULL) != 0)
-		fatal("gettimeofday failed");
+		fatale("gettimeofday failed");
 
 	ts->tv_sec = tv.tv_sec;
 	ts->tv_nsec = tv.tv_usec * NANOSEC_IN_MICROSEC;
@@ -486,7 +503,7 @@ detach_controlling_tty(void)
 		return;
 
 	if (ioctl(tty_fd, TIOCNOTTY, 0) != 0)
-		fatal("unable to detach controlling tty");
+		fatale("unable to detach controlling tty");
 
 	close(tty_fd);
 #endif
@@ -552,18 +569,18 @@ setup_socket_name(const char *suffix)
 	}
 
 	if (asprintf(&notify_sockdir, "%s/%s.XXXXXX", basedir, suffix) < 0)
-		fatal("cannot allocate socket directory name");
+		fatale("cannot allocate socket directory name");
 
 	if (mkdtemp(notify_sockdir) == NULL)
-		fatal("cannot create socket directory %s", notify_sockdir);
+		fatale("cannot create socket directory %s", notify_sockdir);
 
 	atexit(cleanup_socket_dir);
 
 	if (chown(notify_sockdir, runas_uid, runas_gid))
-		fatal("cannot change socket directory ownership");
+		fatale("cannot change socket directory ownership");
 
 	if (asprintf(&notify_socket, "%s/notify", notify_sockdir) < 0)
-		fatal("cannot allocate socket name");
+		fatale("cannot allocate socket name");
 
 	setenv("NOTIFY_SOCKET", notify_socket, 1);
 
@@ -590,16 +607,16 @@ create_notify_socket(void)
 	/* Create notification socket. */
 	fd = socket(AF_UNIX, SOCK_DGRAM | SOCK_NONBLOCK, 0);
 	if (fd < 0)
-		fatal("cannot create notification socket");
+		fatale("cannot create notification socket");
 
 	/* We could set SOCK_CLOEXEC instead, but then we would need to
 	 * check whether the socket call failed, try and then do this anyway,
 	 * when we have no threading problems to worry about. */
 	flags = fcntl(fd, F_GETFD);
 	if (flags < 0)
-		fatal("cannot read fd flags for notification socket");
+		fatale("cannot read fd flags for notification socket");
 	if (fcntl(fd, F_SETFD, flags | FD_CLOEXEC) < 0)
-		fatal("cannot set close-on-exec flag for notification socket");
+		fatale("cannot set close-on-exec flag for notification socket");
 
 	sockname = setup_socket_name(".s-s-d-notify");
 
@@ -611,15 +628,15 @@ create_notify_socket(void)
 
 	rc = bind(fd, &su, sizeof(su));
 	if (rc < 0)
-		fatal("cannot bind to notification socket");
+		fatale("cannot bind to notification socket");
 
 	rc = chmod(su.sun_path, 0660);
 	if (rc < 0)
-		fatal("cannot change notification socket permissions");
+		fatale("cannot change notification socket permissions");
 
 	rc = chown(su.sun_path, runas_uid, runas_gid);
 	if (rc < 0)
-		fatal("cannot change notification socket ownership");
+		fatale("cannot change notification socket ownership");
 
 	/* XXX: Verify we are talking to an expected child? Although it is not
 	 * clear whether this is feasible given the knowledge we have got. */
@@ -653,7 +670,7 @@ wait_for_notify(int fd)
 		/* Catch non-restartable errors, that is, not signals nor
 		 * kernel out of resources. */
 		if (rc < 0 && (errno != EINTR && errno != EAGAIN))
-			fatal("cannot monitor notification socket for activity");
+			fatale("cannot monitor notification socket for activity");
 
 		/* Timed-out. */
 		if (rc == 0)
@@ -678,7 +695,7 @@ wait_for_notify(int fd)
 
 			nrecv = recv(fd, buf, sizeof(buf), 0);
 			if (nrecv < 0 && (errno != EINTR && errno != EAGAIN))
-				fatal("cannot receive notification packet");
+				fatale("cannot receive notification packet");
 			if (nrecv < 0)
 				break;
 
@@ -694,7 +711,7 @@ wait_for_notify(int fd)
 					int extend_usec = 0;
 
 					if (parse_unsigned(line + 20, 10, &extend_usec) != 0)
-						fatal("cannot parse extended timeout notification %s", line);
+						fatale("cannot parse extended timeout notification %s", line);
 
 					/* Reset the current timeout. */
 					timeout.tv_sec = extend_usec / 1000L;
@@ -707,9 +724,9 @@ wait_for_notify(int fd)
 					int suberrno = 0;
 
 					if (parse_unsigned(line + 6, 10, &suberrno) != 0)
-						fatal("cannot parse errno notification %s", line);
+						fatale("cannot parse errno notification %s", line);
 					errno = suberrno;
-					fatal("program failed to initialize");
+					fatale("program failed to initialize");
 				} else if (strcmp(line, "READY=1") == 0) {
 					debug("-> Notification => ready for service.\n");
 					return;
@@ -734,19 +751,19 @@ write_pidfile(const char *filename, pid_t pid)
 		fp = fdopen(fd, "w");
 
 	if (fp == NULL)
-		fatal("unable to open pidfile '%s' for writing", filename);
+		fatale("unable to open pidfile '%s' for writing", filename);
 
 	fprintf(fp, "%d\n", pid);
 
 	if (fclose(fp))
-		fatal("unable to close pidfile '%s'", filename);
+		fatale("unable to close pidfile '%s'", filename);
 }
 
 static void
 remove_pidfile(const char *filename)
 {
 	if (unlink(filename) < 0 && errno != ENOENT)
-		fatal("cannot remove pidfile '%s'", filename);
+		fatale("cannot remove pidfile '%s'", filename);
 }
 
 static void
@@ -764,14 +781,14 @@ daemonize(void)
 	sigemptyset(&mask);
 	sigaddset(&mask, SIGCHLD);
 	if (sigprocmask(SIG_BLOCK, &mask, &oldmask) == -1)
-		fatal("cannot block SIGCHLD");
+		fatale("cannot block SIGCHLD");
 
 	if (notify_await)
 		notify_fd = create_notify_socket();
 
 	pid = fork();
 	if (pid < 0)
-		fatal("unable to do first fork");
+		fatale("unable to do first fork");
 	else if (pid) { /* First Parent. */
 		/* Wait for the second parent to exit, so that if we need to
 		 * perform any actions there, like creating a pidfile, we do
@@ -792,11 +809,11 @@ daemonize(void)
 
 	/* Create a new session. */
 	if (setsid() < 0)
-		fatal("cannot set session ID");
+		fatale("cannot set session ID");
 
 	pid = fork();
 	if (pid < 0)
-		fatal("unable to do second fork");
+		fatale("unable to do second fork");
 	else if (pid) { /* Second parent. */
 		/* Set a default umask for dumb programs, which might get
 		 * overridden by the --umask option later on, so that we get
@@ -811,7 +828,7 @@ daemonize(void)
 	}
 
 	if (sigprocmask(SIG_SETMASK, &oldmask, NULL) == -1)
-		fatal("cannot restore signal mask");
+		fatale("cannot restore signal mask");
 
 	debug("Detaching complete...\n");
 }
@@ -1037,7 +1054,7 @@ parse_proc_schedule(const char *string)
 
 	if (string[policy_len] == ':' &&
 	    parse_unsigned(string + policy_len + 1, 10, &prio) != 0)
-		fatal("invalid process scheduler priority");
+		fatale("invalid process scheduler priority");
 
 	proc_sched = xmalloc(sizeof(*proc_sched));
 	proc_sched->policy_name = policy_str;
@@ -1069,7 +1086,7 @@ parse_io_schedule(const char *string)
 
 	if (string[class_len] == ':' &&
 	    parse_unsigned(string + class_len + 1, 10, &prio) != 0)
-		fatal("invalid IO scheduler priority");
+		fatale("invalid IO scheduler priority");
 
 	io_sched = xmalloc(sizeof(*io_sched));
 	io_sched->policy_name = class_str;
@@ -1101,7 +1118,7 @@ set_proc_schedule(struct res_schedule *sched)
 	param.sched_priority = sched->priority;
 
 	if (sched_setscheduler(getpid(), sched->policy, &param) == -1)
-		fatal("unable to set process scheduler");
+		fatale("unable to set process scheduler");
 #endif
 }
 
@@ -1487,7 +1504,7 @@ setup_options(void)
 			fullexecname = execname;
 
 		if (stat(fullexecname, &exec_stat))
-			fatal("unable to stat %s", fullexecname);
+			fatale("unable to stat %s", fullexecname);
 
 		if (fullexecname != execname)
 			free(fullexecname);
@@ -1498,7 +1515,7 @@ setup_options(void)
 
 		pw = getpwnam(userspec);
 		if (!pw)
-			fatal("user '%s' not found", userspec);
+			fatale("user '%s' not found", userspec);
 
 		user_id = pw->pw_uid;
 	}
@@ -1508,7 +1525,7 @@ setup_options(void)
 
 		gr = getgrnam(changegroup);
 		if (!gr)
-			fatal("group '%s' not found", changegroup);
+			fatale("group '%s' not found", changegroup);
 		changegroup = gr->gr_name;
 		runas_gid = gr->gr_gid;
 	}
@@ -1521,7 +1538,7 @@ setup_options(void)
 		else
 			pw = getpwnam(changeuser);
 		if (!pw)
-			fatal("user '%s' not found", changeuser);
+			fatale("user '%s' not found", changeuser);
 		changeuser = pw->pw_name;
 		runas_uid = pw->pw_uid;
 		if (changegroup == NULL) {
@@ -2226,7 +2243,7 @@ pid_is_running(pid_t pid)
 	else if (errno == ESRCH)
 		return false;
 	else
-		fatal("error checking pid %u status", pid);
+		fatale("error checking pid %u status", pid);
 }
 #endif
 
@@ -2276,7 +2293,7 @@ do_pidfile(const char *name)
 			int fd = fileno(f);
 
 			if (fstat(fd, &st) < 0)
-				fatal("cannot stat pidfile %s", name);
+				fatale("cannot stat pidfile %s", name);
 
 			if ((st.st_uid != getuid() && st.st_uid != 0) ||
 			    (st.st_gid != getgid() && st.st_gid != 0))
@@ -2298,7 +2315,7 @@ do_pidfile(const char *name)
 	} else if (errno == ENOENT)
 		return STATUS_DEAD;
 	else
-		fatal("unable to open pidfile %s", name);
+		fatale("unable to open pidfile %s", name);
 }
 
 #if defined(OS_Linux) || defined(OS_Solaris) || defined(OS_AIX)
@@ -2313,7 +2330,7 @@ do_procinit(void)
 
 	procdir = opendir("/proc");
 	if (!procdir)
-		fatal("unable to opendir /proc");
+		fatale("unable to opendir /proc");
 
 	foundany = 0;
 	while ((entry = readdir(procdir)) != NULL) {
@@ -2548,12 +2565,12 @@ do_start(int argc, char **argv)
 	if (background && close_io) {
 		devnull_fd = open("/dev/null", O_RDWR);
 		if (devnull_fd < 0)
-			fatal("unable to open '%s'", "/dev/null");
+			fatale("unable to open '%s'", "/dev/null");
 	}
 	if (nicelevel) {
 		errno = 0;
 		if ((nice(nicelevel) == -1) && (errno != 0))
-			fatal("unable to alter nice level by %i", nicelevel);
+			fatale("unable to alter nice level by %i", nicelevel);
 	}
 	if (proc_sched)
 		set_proc_schedule(proc_sched);
@@ -2563,19 +2580,19 @@ do_start(int argc, char **argv)
 		umask(umask_value);
 	if (changeroot != NULL) {
 		if (chdir(changeroot) < 0)
-			fatal("unable to chdir() to %s", changeroot);
+			fatale("unable to chdir() to %s", changeroot);
 		if (chroot(changeroot) < 0)
-			fatal("unable to chroot() to %s", changeroot);
+			fatale("unable to chroot() to %s", changeroot);
 	}
 	if (chdir(changedir) < 0)
-		fatal("unable to chdir() to %s", changedir);
+		fatale("unable to chdir() to %s", changedir);
 
 	rgid = getgid();
 	ruid = getuid();
 	if (changegroup != NULL) {
 		if (rgid != (gid_t)runas_gid)
 			if (setgid(runas_gid))
-				fatal("unable to set gid to %d", runas_gid);
+				fatale("unable to set gid to %d", runas_gid);
 	}
 	if (changeuser != NULL) {
 		/* We assume that if our real user and group are the same as
@@ -2583,12 +2600,12 @@ do_start(int argc, char **argv)
 		 * will be already in place. */
 		if (rgid != (gid_t)runas_gid || ruid != (uid_t)runas_uid)
 			if (initgroups(changeuser, runas_gid))
-				fatal("unable to set initgroups() with gid %d",
+				fatale("unable to set initgroups() with gid %d",
 				      runas_gid);
 
 		if (ruid != (uid_t)runas_uid)
 			if (setuid(runas_uid))
-				fatal("unable to set uid to %s", changeuser);
+				fatale("unable to set uid to %s", changeuser);
 	}
 
 	if (background && close_io) {
@@ -2603,7 +2620,7 @@ do_start(int argc, char **argv)
 			close(i);
 	}
 	execv(startas, argv);
-	fatal("unable to start %s", startas);
+	fatale("unable to start %s", startas);
 }
 
 static void
@@ -2665,7 +2682,7 @@ set_what_stop(const char *format, ...)
 	va_end(arglist);
 
 	if (rc < 0)
-		fatal("cannot allocate formatted string");
+		fatale("cannot allocate formatted string");
 }
 
 /*
@@ -2730,7 +2747,7 @@ do_stop_timeout(int timeout, int *n_killed, int *n_notkilled)
 
 		rc = pselect(0, NULL, NULL, NULL, &interval, NULL);
 		if (rc < 0 && errno != EINTR)
-			fatal("select() failed for pause");
+			fatale("select() failed for pause");
 	}
 }
 
