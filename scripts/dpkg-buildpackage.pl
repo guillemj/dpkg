@@ -829,10 +829,12 @@ sub signkey_validate {
 
     if (length $keyid <= 8) {
         error(g_('short OpenPGP key IDs are broken; ' .
-                 'please use key fingerprints instead'));
+                 'please use key fingerprints in %s or %s instead'),
+              '-k', 'DEB_SIGN_KEYID');
     } elsif (length $keyid <= 16) {
         warning(g_('long OpenPGP key IDs are strongly discouraged; ' .
-                   'please use key fingerprints instead'));
+                   'please use key fingerprints in %s or %s instead'),
+                '-k', 'DEB_SIGN_KEYID');
     }
 }
 
