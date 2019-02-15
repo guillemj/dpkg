@@ -1,14 +1,14 @@
 # Translation of dpkg-man to Dutch
 # Copyright © 1994-2016 Dpkg Developers
 # This file is distributed under the same license as the dpkg-man package.
-# Frans Spiesschaert <Frans.Spiesschaert@yucom.be>, 2016, 2017, 2018.
+# Frans Spiesschaert <Frans.Spiesschaert@yucom.be>, 2016, 2017, 2018, 2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-man 1.19.2\n"
+"Project-Id-Version: dpkg-man 1.19.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2019-01-22 14:25+0100\n"
-"PO-Revision-Date: 2018-10-15 21:04+0200\n"
+"PO-Revision-Date: 2019-01-31 12:21+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
@@ -1408,7 +1408,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-changelog.man
-#, fuzzy
 #| msgid ""
 #| "Any line that consists entirely (i.e., no leading whitespace) of B<#> or "
 #| "B</* */> style comments, RCS keywords, Vim modelines or Emacs local "
@@ -1418,12 +1417,10 @@ msgid ""
 "* */> style comments or RCS keywords."
 msgstr ""
 "Elke regel die volledig (d.w.z. zonder voorafgaande witruimte) bestaat uit "
-"commentaar in de B<#>- of de B</* */>-vorm, RCS-trefwoorden, modusregels van "
-"Vim of lokale variabelen van Emacs, moet genegeerd worden."
+"commentaar in de vorm van B<#>- of B</* */> of RCS-trefwoorden."
 
 #. type: Plain text
 #: deb-changelog.man
-#, fuzzy
 #| msgid ""
 #| "Ancient changelog entries with other formats at the end of the file "
 #| "should be accepted and preserved on output, but their contents might be "
@@ -1434,10 +1431,10 @@ msgid ""
 "output, but their contents might be otherwise ignored and parsing stopped at "
 "that point."
 msgstr ""
-"Oudere changelog-elementen met een andere indeling aan het einde van het "
-"bestand moeten aanvaard worden en in de uitvoer behouden blijven, maar de "
-"inhoud ervan daarentegen zou genegeerd kunnen worden en op dat punt zou het "
-"ontleden gestopt kunnen worden."
+"Modusregels van Vim of lokale variabelen van Emacs en oudere changelog-"
+"elementen met een andere indeling aan het einde van het bestand, moeten "
+"aanvaard worden en in de uitvoer behouden blijven, maar de inhoud ervan kan "
+"verder genegeerd worden en het ontleden kan op dat punt gestopt worden."
 
 #. type: Plain text
 #: deb-changelog.man
@@ -1616,14 +1613,13 @@ msgstr ""
 
 #. type: TP
 #: deb-changes.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<Binary:> I<binary-package-list> (required)"
 msgid "B<Binary:> I<binary-package-list> (required in context)"
-msgstr "B<Binary:> I<lijst-binaire-pakketten> (verplicht)"
+msgstr "B<Binary:> I<lijst-binaire-pakketten> (vereist in de context)"
 
 #. type: Plain text
 #: deb-changes.man
-#, fuzzy
 #| msgid ""
 #| "This folded field is a space-separated list of binary packages to upload."
 msgid ""
@@ -1631,7 +1627,8 @@ msgid ""
 "If the upload is source-only, then the field is omitted (since dpkg 1.19.3)."
 msgstr ""
 "Dit gevouwen veld is een lijst, met spatie als scheidingsteken, van binaire "
-"pakketten die geüpload moeten worden."
+"pakketten die geüpload moeten worden. Indien het een upload is van enkel "
+"broncode, dan wordt het veld weggelaten (sinds dpkg 1.19.3)."
 
 #. type: TP
 #: deb-changes.man
@@ -1734,7 +1731,6 @@ msgstr " I<naam-binaire-pakket> B<-> I<samenvatting-binaire-pakket>"
 
 #. type: Plain text
 #: deb-changes.man
-#, fuzzy
 #| msgid ""
 #| "This multiline field contains a list of binary package names followed by "
 #| "a space, a dash (‘B<->’) and their possibly truncated short descriptions."
@@ -1743,9 +1739,10 @@ msgid ""
 "space, a dash (‘B<->’) and their possibly truncated short descriptions.  If "
 "the upload is source-only, then the field is omitted (since dpkg 1.19.3)."
 msgstr ""
-"Dit multiregel-veld bevat een lijst met de namen van de binaire pakketten, "
+"Dit multiregel-veld bevat een lijst met de naam van de binaire pakketten, "
 "gevolgd door een spatie, een koppelteken (‘B<->’) en hun eventueel afgekapte "
-"korte beschrijving."
+"korte beschrijving. Indien het een upload is van enkel broncode, dan wordt "
+"het veld weggelaten (sinds dpkg 1.19.3)."
 
 #. type: TP
 #: deb-changes.man
@@ -2739,7 +2736,7 @@ msgstr "VOORBEELD"
 
 #. type: Plain text
 #: deb-control.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid ""
 #| "# Comment\n"
 #| "Package: grep\n"
@@ -2782,18 +2779,17 @@ msgid ""
 " than Unix grep or egrep. (Regular expressions containing backreferencing\n"
 " will run more slowly, however).\n"
 msgstr ""
-"# Commentaar\n"
-"Package: grep\n"
-"Essential: yes\n"
-"Priority: required\n"
-"Section: base\n"
-"Maintainer: Wichert Akkerman E<lt>wakkerma@debian.orgE<gt>\n"
-"Architecture: sparc\n"
-"Version: 2.4-1\n"
-"Pre-Depends: libc6 (E<gt>= 2.0.105)\n"
-"Provides: rgrep\n"
-"Conflicts: rgrep\n"
-"Description: GNU grep, egrep en fgrep.\n"
+"Pakket: grep\n"
+"Essentieel: ja\n"
+"Prioriteit: vereist\n"
+"Sectie: base\n"
+"Onderhouder: Wichert Akkerman E<lt>wakkerma@debian.orgE<gt>\n"
+"Architectuur: sparc\n"
+"Versie: 2.4-1\n"
+"Voorvereiste: libc6 (E<gt>= 2.0.105)\n"
+"Voorziet in: rgrep\n"
+"Conflicteert met: rgrep\n"
+"Beschrijving: GNU grep, egrep en fgrep.\n"
 " De GNU familie van grep-hulpprogramma's is misschien wel de \"fastest grep in\n"
 " the west\". GNU grep is gebaseerd op een snel `lazy-state deterministic\n"
 " matcher' (ongeveer twee keer zo snel als een gewone Unix grep), gekruist met\n"
@@ -2816,14 +2812,14 @@ msgstr ""
 
 #. type: Plain text
 #: deb-control.man
-#, fuzzy
 #| msgid ""
 #| "B<deb>(5), B<deb-version>(7), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
 msgid ""
 "B<deb-src-control>(5), B<deb>(5), B<deb-version>(7), B<debtags>(1), "
 "B<dpkg>(1), B<dpkg-deb>(1)."
 msgstr ""
-"B<deb>(5), B<deb-version>(7), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
+"B<deb-src-control>(5), B<deb>(5), B<deb-version>(7), B<debtags>(1), "
+"B<dpkg>(1), B<dpkg-deb>(1)."
 
 #. type: TH
 #: deb-conffiles.man
@@ -2949,7 +2945,6 @@ msgstr "B<Source:> I<broncodepakket-naam> (verplicht)"
 
 #. type: Plain text
 #: deb-src-control.man
-#, fuzzy
 #| msgid ""
 #| "The value of this field is the name of the source package, and should "
 #| "match the name of the source package in the debian/changelog file. A "
@@ -2968,7 +2963,8 @@ msgstr ""
 "overeenkomen met de naam van het broncodepakket in het bestand debian/"
 "changelog. Een pakketnaam mag enkel bestaan uit kleine letters (a-z), "
 "cijfers (0-9), plussen (+) en minnen (-) en punten (.). Pakketnamen moeten "
-"minstens twee tekens lang zijn en moeten met een alfanumeriek teken beginnen."
+"minstens twee tekens lang zijn en moeten met een alfanumeriek teken (a-z0-9) "
+"in kleine letter beginnen."
 
 #. type: Plain text
 #: deb-src-control.man
@@ -5000,7 +4996,6 @@ msgstr ""
 
 #. type: Plain text
 #: deb-substvars.man
-#, fuzzy
 #| msgid ""
 #| "A variable substitution has the form B<${>I<variable-name>B<}>.  Variable "
 #| "names consist of alphanumerics, hyphens and colons and start with an "
@@ -5016,11 +5011,13 @@ msgid ""
 "after the substitution is rescanned to look for more substitutions."
 msgstr ""
 "Een variabelesubstitutie heeft als vorm B<${>I<variabelenaam>B<}>. "
-"Variabelenamen bestaan uit alfanumerieke tekens, koppeltekens en dubbele "
-"punten en beginnen met een alfanumeriek teken. Variabelesubstituties worden "
-"bij herhaling uitgevoerd tot er geen meer overblijven. Na een substitutie "
-"wordt de volledige tekst van het veld opnieuw doorzocht op nog meer uit te "
-"voeren substituties."
+"Variabelenamen bestaan uit alfanumerieke tekens (a-zA-Z0-9), koppeltekens "
+"(-) en dubbele punten (:) en beginnen met een alfanumeriek teken. Ze zijn "
+"ook hoofdlettergevoelig, ook al kunnen ze verwijzen naar andere entiteiten "
+"die hoofdletterbehoudend zijn. Variabelesubstituties worden bij herhaling "
+"uitgevoerd tot er geen meer overblijven. Na een substitutie wordt de "
+"volledige tekst van het veld opnieuw doorzocht op nog meer uit te voeren "
+"substituties."
 
 #. type: Plain text
 #: deb-substvars.man
@@ -6299,7 +6296,6 @@ msgstr ""
 
 #. type: Plain text
 #: dsc.man
-#, fuzzy
 #| msgid ""
 #| "The value of this field declares the format version of the source "
 #| "package.  The field value is used by programs acting on a source package "
@@ -6321,13 +6317,14 @@ msgid ""
 msgstr ""
 "De waarde van dit veld declareert de indelingsversie van het broncodepakket. "
 "De veldwaarde wordt door programma's die met een broncodepakket werken, "
-"gebruikt om de bestandslijst in het broncodepakket te interpreteren en te "
+"gebruikt om de bestandenlijst in het broncodepakket te interpreteren en te "
 "bepalen hoe het uitgepakt moet worden. De syntaxis van de veldwaarde is: een "
-"numerieke hoofdversie, een punt, een numerieke onderversie, en dan eventueel "
-"na witruimte een subtype dat, als het opgegeven wordt, bestaat uit een "
-"alfanumeriek woord tussen haakjes. Vanuit het oogpunt van syntaxis is het "
-"subtype optioneel, maar voor specifieke revisies van de indeling van "
-"broncodepakketten kan het een verplicht onderdeel zijn."
+"numerieke hoofdversie (“0-9”), een punt (“.”), een numerieke onderversie "
+"(“0-9”), en dan eventueel na witruimte (“\\ \\et”) een subtype dat, als het "
+"opgegeven wordt, bestaat uit een alfanumeriek (“a-z0-9”) woord tussen "
+"haakjes (“()”). Vanuit het oogpunt van syntaxis is het subtype optioneel, "
+"maar voor specifieke revisies van de indeling van broncodepakketten kan het "
+"een verplicht onderdeel zijn."
 
 #. type: Plain text
 #: dsc.man
@@ -6469,7 +6466,6 @@ msgstr ""
 
 #. type: Plain text
 #: dsc.man
-#, fuzzy
 #| msgid ""
 #| "This field declares the comma-separated union of all test dependencies "
 #| "(B<Depends> fields in I<debian/tests/control> file), with all "
@@ -6486,9 +6482,9 @@ msgstr ""
 "Dit veld declareert de door komma's gescheiden unie van alle testvereisten "
 "(de velden B<Depends> uit het bestand I<debian/tests/control>), waaruit alle "
 "restricties verwijderd en alle OR-vereisten uitgevlakt werden (dit betekent "
-"omgezet naar aparte AND-relaties), met uitzondering van die welke gelden "
-"voor de binaire pakketten die dit broncodepakket genereert en van meta-"
-"vereisten zoals B<@> of B<@builddeps@>."
+"omgezet naar aparte AND-relaties), uitgezonderd voor de binaire pakketten, "
+"gegenereerd door dit broncodepakket en het equivalent van zijn meta-vereiste "
+"B<@>."
 
 #. type: Plain text
 #: dsc.man
@@ -7137,7 +7133,6 @@ msgstr "B<-r>, B<--remove> I<pakket>...|B<-a>|B<--pending>"
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
 #| msgid ""
 #| "Remove an installed package. This removes everything except conffiles, "
 #| "which may avoid having to reconfigure the package if it is reinstalled "
@@ -7155,14 +7150,17 @@ msgid ""
 "pending> is given instead of a package name, then all packages unpacked, but "
 "marked to be removed in file I<%ADMINDIR%/status>, are removed."
 msgstr ""
-"Verwijder een geïnstalleerd pakket. Dit verwijdert alles behalve de "
-"conffiles (configuratiebestanden), waardoor vermeden kan worden dat het "
-"pakket opnieuw geconfigureerd moet worden als het opnieuw geïnstalleerd "
-"wordt (conffiles zijn configuratiebestanden die vermeld worden in het "
-"controlebestand I<DEBIAN/conffiles>). Indien B<-a> of B<--pending> opgegeven "
-"werd in plaats van een pakketnaam, zullen alle pakketten die uitgepakt zijn "
-"maar in het bestand I<%ADMINDIR%/status> gemarkeerd staan om verwijderd te "
-"worden, verwijderd worden."
+"Een geïnstalleerd pakket verwijderen. Dit verwijdert alles behalve de "
+"conffiles (configuratiebestanden) en andere gegevens die opgeruimd worden "
+"door het script I<postrm>, waardoor vermeden kan worden dat het pakket "
+"opnieuw geconfigureerd moet worden als het opnieuw geïnstalleerd wordt "
+"(conffiles zijn configuratiebestanden die vermeld worden in het "
+"controlebestand I<DEBIAN/conffiles>). Indien er geen controlebestand "
+"I<DEBIAN/conffiles> en geen script I<DEBIAN/postrm> bestaat, is dit commando "
+"equivalent met het aanroepen van B<--purge>. Indien B<-a> of B<--pending> "
+"opgegeven werd in plaats van een pakketnaam, zullen alle pakketten die "
+"uitgepakt zijn maar in het bestand I<%ADMINDIR%/status> gemarkeerd staan om "
+"verwijderd te worden, verwijderd worden."
 
 #. type: Plain text
 #: dpkg.man
@@ -7192,7 +7190,6 @@ msgstr "B<-P>, B<--purge> I<pakket>...|B<-a>|B<--pending>"
 
 #. type: Plain text
 #: dpkg.man
-#, fuzzy
 #| msgid ""
 #| "Purge an installed or already removed package. This removes everything, "
 #| "including conffiles.  If B<-a> or B<--pending> is given instead of a "
@@ -7205,11 +7202,12 @@ msgid ""
 "unpacked or removed, but marked to be purged in file I<%ADMINDIR%/status>, "
 "are purged."
 msgstr ""
-"Wis een geïnstalleerd of een reeds verwijderd pakket. Dit verwijdert alles, "
-"inclusief conffiles (configuratiebestanden). Indien B<-a> of B<--pending> "
-"opgegeven werd in plaats van een pakketnaam, dan zullen alle uitgepakte of "
-"verwijderde pakketten die echter in het bestand I<%ADMINDIR%/status> "
-"gemarkeerd zijn om gewist te worden, gewist worden."
+"Een geïnstalleerd of een reeds verwijderd pakket wissen. Dit verwijdert "
+"alles, inclusief conffiles (configuratiebestanden) en alles wat anders "
+"opgeruimd wordt vanuit I<postrm>. Indien B<-a> of B<--pending> opgegeven "
+"werd in plaats van een pakketnaam, dan zullen alle uitgepakte of verwijderde "
+"pakketten die echter in het bestand I<%ADMINDIR%/status> gemarkeerd zijn om "
+"gewist te worden, gewist worden."
 
 #. type: Plain text
 #: dpkg.man
@@ -7511,6 +7509,8 @@ msgid ""
 "Note: This command makes use of both the available file and the package "
 "selections."
 msgstr ""
+"Merk op: dit commando maakt zowel gebruik van het bestand available als van "
+"de pakketselectie."
 
 #. type: TP
 #: dpkg.man
@@ -10275,12 +10275,13 @@ msgstr "VARIABELEN"
 
 #. type: Plain text
 #: dpkg-architecture.man
-#, fuzzy
 #| msgid "The following variables are set by B<dpkg-architecture>:"
 msgid ""
 "The following variables are set by B<dpkg-architecture> (see the B<TERMS> "
 "section for a description of the naming scheme):"
-msgstr "De volgende variabelen worden door B<dpkg-architecture> ingesteld:"
+msgstr ""
+"De volgende variabelen worden door B<dpkg-architecture> ingesteld (zie de "
+"sectie B<TERMS> voor een beschrijving van het naamgevingsschema):"
 
 #. type: IP
 #: dpkg-architecture.man
@@ -18554,7 +18555,6 @@ msgstr "BEPERKINGEN"
 
 #. type: Plain text
 #: dpkg-mergechangelogs.man
-#, fuzzy
 #| msgid ""
 #| "Anything that is not parsed by Dpkg::Changelog is lost during the merge.  "
 #| "This might include stuff like Vim modelines, Emacs variables, comments "
@@ -18565,8 +18565,8 @@ msgid ""
 "etc."
 msgstr ""
 "Alles wat niet door Dpkg::Changelog ontleed wordt, geraakt tijdens het "
-"samenvoegen verloren. Dit kan gaan om zaken zoals modusregels van Vim, "
-"variabelen van Emacs, commentaar die daar niet hoort te staan, enz."
+"samenvoegen verloren. Dit kan gaan om zaken zoals commentaar die daar niet "
+"hoort te staan, enz."
 
 #. type: SH
 #: dpkg-mergechangelogs.man
@@ -19248,14 +19248,13 @@ msgstr "       @@@ changelog-format: I<andere-indeling> @@@\n"
 
 #. type: Plain text
 #: dpkg-parsechangelog.man
-#, fuzzy
 #| msgid "Changelog format names are non-empty strings of alphanumerics."
 msgid ""
 "Changelog format names are non-empty strings of lowercase alphanumerics (“a-"
 "z0-9”)."
 msgstr ""
-"Namen voor changelog-indelingen moeten niet-lege alfanumerieke tekenreeksen "
-"zijn."
+"Een naam voor een changelog-indelingen moet een niet-lege alfanumerieke "
+"tekenreeks (“a-z0-9”) zijn."
 
 #. type: Plain text
 #: dpkg-parsechangelog.man
@@ -19398,7 +19397,6 @@ msgstr "B<-l>, B<--list> [I<pakketnaampatroon>...]"
 
 #. type: Plain text
 #: dpkg-query.man
-#, fuzzy
 #| msgid ""
 #| "List packages matching given pattern. If no I<package-name-pattern> is "
 #| "given, list all packages in I<%ADMINDIR%/status>, excluding the ones "
@@ -19419,15 +19417,17 @@ msgid ""
 "expansion.  For example this will list all package names starting with "
 "``libc6'':"
 msgstr ""
-"Geef de pakketten weer die beantwoorden aan het opgegeven patroon. Indien "
-"geen I<pakketnaampatroon> opgegeven werd, som dan alle pakketten uit I<"
-"%ADMINDIR%/status> op, met uitzondering van diegene die als niet-"
-"geïnstalleerd gemarkeerd staan (d.w.z. die welke eerder gewist werden). De "
-"normale shell-jokertekens mogen in I<pakketnaampatroon> gebruikt worden. "
-"Merk op dat u I<pakketnaampatroon> wellicht tussen aanhalingstekens zult "
-"moeten plaatsen om te voorkomen dat de shell aan bestandsnaamexpansie zou "
-"doen. Het volgende zal bijvoorbeeld een opsomming geven van alle pakketnamen "
-"die beginnen met ``libc6'':"
+"Alle gekende pakketten opsommen die beantwoorden aan één of meer patronen, "
+"ongeacht hun toestand, met daarbij inbegrepen elk reëel of virtueel pakket "
+"dat in om het even welk veld over vereistenrelaties (zoals B<Breaks>, "
+"B<Enhances>, enz.) vermeld wordt. Indien geen I<pakketnaampatroon> opgegeven "
+"werd, som dan alle pakketten uit I<%ADMINDIR%/status> op, met uitzondering "
+"van die welke als niet-geïnstalleerd gemarkeerd staan (d.w.z. die welke "
+"eerder gewist werden). De normale shell-jokertekens mogen in "
+"I<pakketnaampatroon> gebruikt worden. Merk op dat u I<pakketnaampatroon> "
+"wellicht tussen aanhalingstekens zult moeten plaatsen om te voorkomen dat de "
+"shell aan bestandsnaamexpansie zou doen. Het volgende zal bijvoorbeeld een "
+"opsomming geven van alle pakketnamen die beginnen met ``libc6'':"
 
 #. type: Plain text
 #: dpkg-query.man
@@ -19786,7 +19786,6 @@ msgstr "B<-f>, B<--showformat=>I<indeling>"
 
 #. type: Plain text
 #: dpkg-query.man
-#, fuzzy
 #| msgid ""
 #| "This option is used to specify the format of the output B<--show> will "
 #| "produce. The format is a string that will be output for each package "
@@ -19797,8 +19796,9 @@ msgid ""
 "be output for each package listed."
 msgstr ""
 "Deze optie wordt gebruikt om op te geven in welke indeling B<--show> zijn "
-"uitvoer moet produceren. De indeling is een tekenreeks die vorm geeft aan de "
-"uitvoer die voor elk opgesomd pakket gegenereerd wordt."
+"uitvoer moet produceren (de korte optie sinds dpkg 1.13.1). De indeling is "
+"een tekenreeks die vorm geeft aan de uitvoer die voor elk opgesomd pakket "
+"gegenereerd wordt."
 
 #. type: Plain text
 #: dpkg-query.man
@@ -20036,25 +20036,26 @@ msgstr ""
 
 #. type: TP
 #: dpkg-query.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<debian/files>"
 msgid "B<db-fsys:Files>"
-msgstr "B<debian/files>"
+msgstr "B<db-fsys:Files>"
 
 #. type: Plain text
 #: dpkg-query.man
-#, fuzzy
 #| msgid "It contains the package short description (since dpkg 1.19.1)."
 msgid ""
 "It contains the list of the package filesystem entries separated by newlines "
 "(since dpkg 1.19.3)."
-msgstr "Het bevat de korte beschrijving van het pakket (sinds dpkg 1.19.1)."
+msgstr ""
+"Het bevat de door regeleinden gescheiden lijst van de elementen van het "
+"pakketbestandssysteem (sinds dpkg 1.19.3)."
 
 #. type: TP
 #: dpkg-query.man
 #, no-wrap
 msgid "B<db-fsys:Last-Modified>"
-msgstr ""
+msgstr "B<db-fsys:Last-Modified>"
 
 #. type: Plain text
 #: dpkg-query.man
@@ -20062,6 +20063,8 @@ msgid ""
 "It contains the timestamp in seconds of the last time the package filesystem "
 "entries were modified (since dpkg 1.19.3)."
 msgstr ""
+"Het bevat de tijdsaanduiding in seconden van het laatste moment waarop de "
+"elementen van het pakketbestandssysteem gewijzigd werden (sinds dpkg 1.19.3)."
 
 #. type: TP
 #: dpkg-query.man
@@ -22391,7 +22394,6 @@ msgstr "Indeling: 3.0 (quilt)"
 
 #. type: Plain text
 #: dpkg-source.man
-#, fuzzy
 #| msgid ""
 #| "Supported since dpkg 1.14.17.  A source package in this format contains "
 #| "at least an original tarball (B<.orig.tar.>I<ext> where I<ext> can be "
@@ -22418,11 +22420,11 @@ msgstr ""
 "waarbij I<ext> B<gz>, B<bz2>, B<lzma> en B<xz> kan zijn) en een debian tar-"
 "archief (B<.debian.tar.>I<ext>). Het kan ook bijkomende originele tar-"
 "archieven bevatten (B<.orig->I<component>B<.tar.>I<ext>). I<component> mag "
-"enkel alfanumerieke tekens en koppeltekens (‘-’) bevatten. Optioneel mag bij "
-"elk originele tar-archief een afzonderlijke handtekening van de toeleveraar "
-"(B<.orig.tar.>I<ext>B<.asc> en B<.orig->I<component>B<.tar.>I<ext>B<.asc>), "
-"gevoegd zijn. De extractie ervan wordt ondersteund sinds dpkg 1.17.20 en het "
-"bouwen sinds dpkg 1.18.5."
+"enkel alfanumerieke tekens (‘a-zA-Z0-9’) en koppeltekens (‘-’) bevatten. "
+"Optioneel mag bij elk origineel tar-archief een afzonderlijke handtekening "
+"van de toeleveraar (B<.orig.tar.>I<ext>B<.asc> en B<.orig->I<component>B<."
+"tar.>I<ext>B<.asc>), gevoegd worden. De extractie ervan wordt ondersteund "
+"sinds dpkg 1.17.20 en het bouwen sinds dpkg 1.18.5."
 
 #. type: Plain text
 #: dpkg-source.man
@@ -26121,10 +26123,10 @@ msgstr ""
 
 #. type: TP
 #: start-stop-daemon.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<--no-await>"
 msgid "B<--notify-await>"
-msgstr "B<--no-await>"
+msgstr "B<--notify-await>"
 
 #. type: Plain text
 #: start-stop-daemon.man
@@ -26134,23 +26136,30 @@ msgid ""
 "parts of the systemd readiness procotol, as specified in the B<sd_notify>(3) "
 "man page.  The following variables are supported:"
 msgstr ""
+"Wachten tot het achtergrondproces een kennisgeving zendt dat het gereed is, "
+"vooraleer de dienst als opgestart beschouwd wordt (sinds versie 1.19.3). Dit "
+"past elementen van het 'readiness procotol' van systemd toe, zoals dit in de "
+"man-pagina B<sd_notify>(3) gespecificeerd wordt. De volgende variabelen "
+"worden ondersteund:"
 
 #. type: TP
 #: start-stop-daemon.man
 #, no-wrap
 msgid "B<READY=1>"
-msgstr ""
+msgstr "B<READY=1>"
 
 #. type: Plain text
 #: start-stop-daemon.man
 msgid "The program is ready to give service, so we can exit safely."
 msgstr ""
+"Het programma is gereed om zijn dienstverlening aan te bieden en dus kunnen "
+"we veilig afsluiten."
 
 #. type: TP
 #: start-stop-daemon.man
 #, no-wrap
 msgid "B<EXTEND_TIMEOUT_USEC=>I<number>"
-msgstr ""
+msgstr "B<EXTEND_TIMEOUT_USEC=>I<aantal>"
 
 #. type: Plain text
 #: start-stop-daemon.man
@@ -26158,13 +26167,16 @@ msgid ""
 "The program requests to extend the timeout by I<number> microseconds.  This "
 "will reset the current timeout to the specified value."
 msgstr ""
+"Het programma vraagt om de wachttijd uit te breiden met I<aantal> "
+"microseconden. Dit stelt de huidige wachttijd opnieuw in op de opgegeven "
+"waarde."
 
 #. type: TP
 #: start-stop-daemon.man
-#, fuzzy, no-wrap
+#, no-wrap
 #| msgid "B<-n> I<number>"
 msgid "B<ERRNO=>I<number>"
-msgstr "B<-n> I<aantal>"
+msgstr "B<ERRNO=>I<nummer>"
 
 #. type: Plain text
 #: start-stop-daemon.man
@@ -26172,12 +26184,14 @@ msgid ""
 "The program is exiting with an error.  Do the same and print the user-"
 "friendly string for the B<errno> value."
 msgstr ""
+"Het programma sluit af met een foutmelding. Hetzelfde doen en van de "
+"B<errno>-waarde de gebruikersvriendelijke tekenreeks tonen."
 
 #. type: TP
 #: start-stop-daemon.man
 #, no-wrap
 msgid "B<--notify-timeout>I<timeout>"
-msgstr ""
+msgstr "B<--notify-timeout>I<wachttijd>"
 
 #. type: Plain text
 #: start-stop-daemon.man
@@ -26186,6 +26200,10 @@ msgid ""
 "the timeout is reached, B<start-stop-daemon> will exit with an error code, "
 "and no readiness notification will be awaited.  The default is B<60> seconds."
 msgstr ""
+"Een wachttijd instellen voor de optie B<--notify-await> (sinds versie "
+"1.19.3). Wanneer de wachttijd verlopen is, zal B<start-stop-daemon> "
+"afsluiten met een foutmelding en zal niet gewacht worden op de kennisgeving "
+"van gereedheid. Standaard is dit B<60> seconden."
 
 #. type: TP
 #: start-stop-daemon.man
@@ -27143,16 +27161,15 @@ msgid ""
 "Skip configuration prompt for alternatives which are properly configured in "
 "automatic mode. This option is only relevant with B<--config> or B<--all>."
 msgstr ""
-"Sla de configuratievraag over voor alternatieven in automatische modus die "
-"behoorlijk geconfigureerd zijn. Deze optie is enkel relevant in combinatie "
+"Voor alternatieven die in automatische modus behoorlijk geconfigureerd zijn, "
+"de configuratievraag overslaan. Deze optie is enkel relevant in combinatie "
 "met B<--config> of B<--all>."
 
 #. type: Plain text
 #: update-alternatives.man
-#, fuzzy
 #| msgid "Don't generate any comments unless errors occur."
 msgid "Do not generate any comments unless errors occur."
-msgstr "Genereer geen commentaar tenzij er zich fouten voordoen."
+msgstr "Geen commentaar genereren tenzij er zich fouten voordoen."
 
 #. type: TP
 #: update-alternatives.man
@@ -27167,12 +27184,13 @@ msgstr "Genereer meer commentaar bij wat er gedaan wordt."
 
 #. type: Plain text
 #: update-alternatives.man
-#, fuzzy
 #| msgid "Generate more comments about what is being done."
 msgid ""
 "Generate even more comments, helpful for debugging, about what is being done "
 "(since version 1.19.3)."
-msgstr "Genereer meer commentaar bij wat er gedaan wordt."
+msgstr ""
+"Zelfs nog meer commentaar genereren bij wat er gedaan wordt, nuttig bij het "
+"debuggen (sinds versie 1.19.3)."
 
 #. type: Plain text
 #: update-alternatives.man
