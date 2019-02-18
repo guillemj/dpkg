@@ -292,6 +292,17 @@ pkg_parse_verify(struct parsedb_state *ps,
       pkg->want == PKG_WANT_INSTALL &&
       pkgbin->arch->type == DPKG_ARCH_EMPTY)
     pkg_set_want(pkg, PKG_WANT_UNKNOWN);
+
+  /* XXX: Versions before dpkg 1.13.10 did not blank the Origin and Bugs
+   * fields, so there can be packages that should be garbage collected but
+   * are lingering around. Blank them to make sure we will forget all about
+   * them on the next database dump. */
+  if (!(ps->flags & pdb_recordavailable) &&
+      pkg->status == PKG_STAT_NOTINSTALLED &&
+      pkg->eflag == PKG_EFLAG_OK &&
+      pkg->want == PKG_WANT_UNKNOWN) {
+    pkgbin_blank(pkgbin);
+  }
 }
 
 struct pkgcount {
