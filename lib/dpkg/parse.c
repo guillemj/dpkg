@@ -291,7 +291,7 @@ pkg_parse_verify(struct parsedb_state *ps,
       pkg->eflag == PKG_EFLAG_OK &&
       pkg->want == PKG_WANT_INSTALL &&
       pkgbin->arch->type == DPKG_ARCH_EMPTY)
-    pkg->want = PKG_WANT_UNKNOWN;
+    pkg_set_want(pkg, PKG_WANT_UNKNOWN);
 }
 
 struct pkgcount {
