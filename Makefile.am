@@ -45,6 +45,7 @@ EXTRA_DIST = \
 	doc/lcov-inject.pl \
 	doc/rootless-builds.txt \
 	doc/triggers.txt \
+	debian/bug-script \
 	debian/changelog \
 	debian/compat \
 	debian/control \

@@ -117,6 +117,7 @@ binary-arch: install
 	$(call dpkg-installmanl10n,dselect)
 	dh_installman -a
 	dh_link -a
+	dh_bugfiles -a -A
 	dh_lintian -a
 	dh_strip -a
 	dh_compress -a
@@ -138,6 +139,7 @@ binary-indep: install
 	$(call dpkg-installmanl10n,dpkg-dev)
 	dh_installman -i
 	dh_link -i
+	dh_bugfiles -i -A
 	dh_lintian -i
 	# The perl modules should not depend on a specific interpreter.
 	dh_perl -i -Nlibdpkg-perl
