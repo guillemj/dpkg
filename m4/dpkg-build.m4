@@ -89,13 +89,11 @@ AC_DEFUN([DPKG_DEB_COMPRESSOR], [
 # Check whether we are preparing a distribution tarball for a release, and
 # set PACKAGE_DIST_IS_RELEASE accordingly.
 AC_DEFUN([DPKG_DIST_IS_RELEASE], [
-  dpkg_dist_version=$srcdir/.dist-version
-  AS_IF([test -f $dpkg_dist_version && grep -q -v '[-]' $dpkg_dist_version], [
+  AS_IF([echo $PACKAGE_VERSION | grep -q -v '[-]'], [
     dpkg_dist_is_release=1
   ], [
     dpkg_dist_is_release=0
   ])
-  unset dpkg_dist_version
   AM_CONDITIONAL([PACKAGE_DIST_IS_RELEASE],
     [test "$dpkg_dist_is_release" -eq 1])
   AC_SUBST([PACKAGE_DIST_IS_RELEASE], [$dpkg_dist_is_release])
