@@ -160,13 +160,12 @@ maintscript_pre_exec(struct command *cmd)
 static int
 maintscript_set_exec_context(struct command *cmd)
 {
-	int rc = 0;
-
 #ifdef WITH_LIBSELINUX
-	rc = setexecfilecon(cmd->filename, "dpkg_script_t");
+	return setexecfilecon(cmd->filename, "dpkg_script_t");
+#else
+	return 0;
 #endif
 
-	return rc < 0 ? rc : 0;
 }
 
 static int
