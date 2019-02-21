@@ -465,7 +465,7 @@ finish_dir_to_symlink()
 		ABS_SYMLINK_TARGET="$SYMLINK_TARGET"
 	fi
 	rm "$PATHNAME/.dpkg-staging-dir"
-	find "$PATHNAME" -mindepth 1 -print0 | \
+	find "$PATHNAME" -mindepth 1 -maxdepth 1 -print0 | \
 		xargs -0 -i% mv -f "%" "$ABS_SYMLINK_TARGET/"
 
 	# Remove the staging directory.
