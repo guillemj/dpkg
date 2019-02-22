@@ -335,7 +335,7 @@ void modstatdb_checkpoint(void) {
   int i;
 
   if (cstatus < msdbrw_write)
-    internerr("modstatdb status '%d' is not writtable", cstatus);
+    internerr("modstatdb status '%d' is not writable", cstatus);
 
   writedb(statusfile, wdb_must_sync);
 
@@ -383,7 +383,7 @@ static void
 modstatdb_note_core(struct pkginfo *pkg)
 {
   if (cstatus < msdbrw_write)
-    internerr("modstatdb status '%d' is not writtable", cstatus);
+    internerr("modstatdb status '%d' is not writable", cstatus);
 
   varbuf_reset(&uvb);
   varbufrecord(&uvb, pkg, &pkg->installed);
