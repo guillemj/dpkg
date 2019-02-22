@@ -103,7 +103,7 @@ f_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
   e = pkg_name_is_illegal(value);
   if (e != NULL)
-    parse_error(ps, _("invalid package name (%.250s)"), e);
+    parse_error(ps, _("invalid package name in '%s' field: %s"), fip->name, e);
   /* We use the new name, as pkg_hash_find_set() may have done a tolower for us. */
   pkg->set->name = pkg_hash_find_set(value)->name;
 }
@@ -118,10 +118,10 @@ f_archives(struct pkginfo *pkg, struct pkgbin *pkgbin,
   int allowextend;
 
   if (!*value)
-    parse_error(ps, _("empty archive details field '%s'"), fip->name);
+    parse_error(ps, _("empty archive details '%s' field"), fip->name);
   if (!(ps->flags & pdb_recordavailable))
     parse_error(ps,
-                _("archive details field '%s' not allowed in status file"),
+                _("archive details '%s' field not allowed in status file"),
                fip->name);
   allowextend = !pkg->archives;
   fdpp = &pkg->archives;
@@ -136,7 +136,7 @@ f_archives(struct pkginfo *pkg, struct pkgbin *pkgbin,
     if (!fdp) {
       if (!allowextend)
         parse_error(ps,
-                    _("too many values in archive details field '%s' "
+                    _("too many values in archive details '%s' field "
                       "(compared to others)"), fip->name);
       fdp = nfmalloc(sizeof(*fdp));
       fdp->next= NULL;
@@ -151,7 +151,7 @@ f_archives(struct pkginfo *pkg, struct pkgbin *pkgbin,
   }
   if (*fdpp)
     parse_error(ps,
-                _("too few values in archive details field '%s' "
+                _("too few values in archive details '%s' field "
                   "(compared to others)"), fip->name);
 }
 
@@ -201,8 +201,8 @@ f_architecture(struct pkginfo *pkg, struct pkgbin *pkgbin,
 {
   pkgbin->arch = dpkg_arch_find(value);
   if (pkgbin->arch->type == DPKG_ARCH_ILLEGAL)
-    parse_warn(ps, _("'%s' is not a valid architecture name: %s"),
-               value, dpkg_arch_name_is_illegal(value));
+    parse_warn(ps, _("'%s' is not a valid architecture name in '%s' field: %s"),
+               value, fip->name, dpkg_arch_name_is_illegal(value));
 }
 
 void
@@ -243,7 +243,7 @@ f_status(struct pkginfo *pkg, struct pkgbin *pkgbin,
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
                 _("value for '%s' field not allowed in this context"),
-                "Status");
+                fip->name);
   if (ps->flags & pdb_recordavailable)
     return;
 
@@ -261,8 +261,8 @@ f_version(struct pkginfo *pkg, struct pkgbin *pkgbin,
           const char *value, const struct fieldinfo *fip)
 {
   parse_db_version(ps, &pkgbin->version, value,
-                   _("error in '%s' field string '%.250s'"),
-                   "Version", value);
+                   _("'%s' field value '%.250s'"),
+                   fip->name, value);
 }
 
 void
@@ -294,13 +294,13 @@ f_configversion(struct pkginfo *pkg, struct pkgbin *pkgbin,
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
                 _("value for '%s' field not allowed in this context"),
-                "Config-Version");
+                fip->name);
   if (ps->flags & pdb_recordavailable)
     return;
 
   parse_db_version(ps, &pkg->configversion, value,
-                   _("error in '%s' field string '%.250s'"),
-                   "Config-Version", value);
+                   _("'%s' field value '%.250s'"),
+                   fip->name, value);
 
 }
 
@@ -348,8 +348,8 @@ f_conffiles(struct pkginfo *pkg, struct pkgbin *pkgbin,
     if (c == '\n') continue;
     if (c != ' ')
       parse_error(ps,
-                  _("value for '%s' has line starting with non-space '%c'"),
-                  "Conffiles", c);
+                  _("value for '%s' field has line starting with non-space '%c'"),
+                  fip->name, c);
     for (endent = value; (c = *endent) != '\0' && c != '\n'; endent++) ;
     conffvalue_lastword(value, endent, endent,
 			&hashstart, &hashlen, &endfn,
@@ -365,7 +365,8 @@ f_conffiles(struct pkginfo *pkg, struct pkgbin *pkgbin,
     namelen= (int)(endfn-value);
     if (namelen <= 0)
       parse_error(ps,
-                  _("root or null directory is listed as a conffile"));
+                  _("root or empty directory listed as a conffile in '%s' field"),
+                  fip->name);
     newptr = nfmalloc(namelen+2);
     newptr[0]= '/';
     memcpy(newptr+1,value,namelen);
@@ -540,7 +541,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
         if ((dop->verrel != DPKG_RELATION_EQ) && (fip->integer == dep_provides))
           parse_warn(ps,
                      _("only exact versions may be used for '%s' field"),
-                     "Provides");
+                     fip->name);
 
         if (!c_isspace(*p) && !c_isalnum(*p)) {
           parse_warn(ps,
@@ -596,8 +597,8 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
           fip->integer == dep_breaks ||
           fip->integer == dep_provides ||
           fip->integer == dep_replaces)
-        parse_error(ps,
-                    _("alternatives ('|') not allowed in %s field"), fip->name);
+        parse_error(ps, _("alternatives ('|') not allowed in '%s' field"),
+                    fip->name);
       p++;
       while (c_isspace(*p))
         p++;
@@ -656,7 +657,7 @@ f_trigpend(struct pkginfo *pend, struct pkgbin *pkgbin,
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
                 _("value for '%s' field not allowed in this context"),
-                "Triggers-Pending");
+                fip->name);
 
   while ((word = scan_word(&value))) {
     emsg = trig_name_is_illegal(word);
@@ -681,7 +682,7 @@ f_trigaw(struct pkginfo *aw, struct pkgbin *pkgbin,
   if (ps->flags & pdb_rejectstatus)
     parse_error(ps,
                 _("value for '%s' field not allowed in this context"),
-                "Triggers-Awaited");
+                fip->name);
 
   while ((word = scan_word(&value))) {
     struct dpkg_error err;

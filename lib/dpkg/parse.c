@@ -177,7 +177,7 @@ pkg_parse_verify(struct parsedb_state *ps,
   struct dependency *dep;
   struct deppossi *dop;
 
-  parse_must_have_field(ps, pkg->set->name, "package name");
+  parse_must_have_field(ps, pkg->set->name, "Package");
 
   /* XXX: We need to check for status != PKG_STAT_HALFINSTALLED as while
    * unpacking an unselected package, it will not have yet all data in
@@ -186,9 +186,9 @@ pkg_parse_verify(struct parsedb_state *ps,
   if ((ps->flags & pdb_recordavailable) ||
       (pkg->status != PKG_STAT_NOTINSTALLED &&
        pkg->status != PKG_STAT_HALFINSTALLED)) {
-    parse_ensure_have_field(ps, &pkgbin->description, "description");
-    parse_ensure_have_field(ps, &pkgbin->maintainer, "maintainer");
-    parse_must_have_field(ps, pkgbin->version.version, "version");
+    parse_ensure_have_field(ps, &pkgbin->description, "Description");
+    parse_ensure_have_field(ps, &pkgbin->maintainer, "Maintainer");
+    parse_must_have_field(ps, pkgbin->version.version, "Version");
   }
 
   /* XXX: Versions before dpkg 1.10.19 did not preserve the Architecture
@@ -200,9 +200,9 @@ pkg_parse_verify(struct parsedb_state *ps,
      * is in such a state that it make sense), so that it can be used safely
      * on string comparisons and the like. */
     if (pkgbin->arch->type == DPKG_ARCH_NONE)
-      parse_warn(ps, _("missing %s"), "architecture");
+      parse_warn(ps, _("missing '%s' field"), "Architecture");
     else if (pkgbin->arch->type == DPKG_ARCH_EMPTY)
-      parse_warn(ps, _("empty value for %s"), "architecture");
+      parse_warn(ps, _("empty value for '%s' field"), "Architecture");
   }
   /* Mark missing architectures as empty, to distinguish these from
    * unused slots in the db. */
@@ -211,12 +211,12 @@ pkg_parse_verify(struct parsedb_state *ps,
 
   if (pkgbin->arch->type == DPKG_ARCH_EMPTY &&
       pkgbin->multiarch == PKG_MULTIARCH_SAME)
-    parse_error(ps, _("package has field '%s' but is missing architecture"),
+    parse_error(ps, _("package has '%s' field but is missing architecture"),
                 "Multi-Arch: same");
   if (pkgbin->arch->type == DPKG_ARCH_ALL &&
       pkgbin->multiarch == PKG_MULTIARCH_SAME)
-    parse_error(ps, _("package has field '%s' but is architecture all"),
-                "Multi-Arch: same");
+    parse_error(ps, _("package has '%s' field but is architecture '%s'"),
+                "Multi-Arch: same", "all");
 
   /* Generate the cached fully qualified package name representation. */
   pkgbin->pkgname_archqual = pkgbin_name_archqual(pkg, pkgbin);
@@ -241,7 +241,8 @@ pkg_parse_verify(struct parsedb_state *ps,
           pkg->status == PKG_STAT_NOTINSTALLED ||
           pkg->status == PKG_STAT_TRIGGERSPENDING)
         parse_error(ps,
-                    _("Config-Version for package with inappropriate Status"));
+                    _("'%s' field present for package with inappropriate '%s' field"),
+                    "Config-Version", "Status");
     } else {
       if (pkg->status == PKG_STAT_INSTALLED ||
           pkg->status == PKG_STAT_TRIGGERSPENDING)
@@ -420,11 +421,12 @@ parse_find_pkg_slot(struct parsedb_state *ps,
     /* Verify we don't allow something that will mess up the db. */
     if (pkgset_installed_instances(db_set) > 1 &&
         !selection && new_pkgbin->multiarch != PKG_MULTIARCH_SAME)
-      ohshit(_("%s %s (Multi-Arch: %s) is not co-installable with "
-               "%s which has multiple installed instances"),
+      ohshit(_("package %s (%s) with field '%s: %s' is not co-installable "
+               "with %s which has multiple installed instances"),
              pkgbin_name(new_pkg, new_pkgbin, pnaw_always),
              versiondescribe(&new_pkgbin->version, vdew_nonambig),
-             multiarchinfos[new_pkgbin->multiarch].name, db_set->name);
+             "Multi-Arch", multiarchinfos[new_pkgbin->multiarch].name,
+             db_set->name);
 
     /* If we are parsing the status file, use a slot per arch. */
     if (ps->type == pdb_file_status)

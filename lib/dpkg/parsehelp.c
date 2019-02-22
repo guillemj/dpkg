@@ -296,9 +296,9 @@ parse_must_have_field(struct parsedb_state *ps,
                       const char *value, const char *what)
 {
   if (!value)
-    parse_error(ps, _("missing %s"), what);
+    parse_error(ps, _("missing '%s' field"), what);
   else if (!*value)
-    parse_error(ps, _("empty value for %s"), what);
+    parse_error(ps, _("empty value for '%s' field"), what);
 }
 
 void
@@ -308,9 +308,9 @@ parse_ensure_have_field(struct parsedb_state *ps,
   static const char empty[] = "";
 
   if (!*value) {
-    parse_warn(ps, _("missing %s"), what);
+    parse_warn(ps, _("missing '%s' field"), what);
     *value = empty;
   } else if (!**value) {
-    parse_warn(ps, _("empty value for %s"), what);
+    parse_warn(ps, _("empty value for '%s' field"), what);
   }
 }
