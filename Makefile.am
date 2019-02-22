@@ -52,7 +52,6 @@ EXTRA_DIST = \
 	debian/dpkg-dev.docs \
 	debian/dpkg-dev.install \
 	debian/dpkg-dev.manpages \
-	debian/dpkg-dev.lintian-overrides \
 	debian/dpkg.alternatives.logrotate \
 	debian/dpkg.cfg \
 	debian/dpkg.cron.daily \
@@ -67,14 +66,10 @@ EXTRA_DIST = \
 	debian/dselect.docs \
 	debian/dselect.install \
 	debian/dselect.manpages \
-	debian/dselect.lintian-overrides \
 	debian/libdpkg-dev.docs \
 	debian/libdpkg-dev.install \
-	debian/libdpkg-dev.lintian-overrides \
 	debian/libdpkg-perl.docs \
 	debian/libdpkg-perl.install \
-	debian/libdpkg-perl.lintian-overrides \
-	debian/source/lintian-overrides \
 	debian/source/format \
 	debian/usertags \
 	debian/rules \
