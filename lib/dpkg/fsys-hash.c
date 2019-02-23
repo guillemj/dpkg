@@ -127,6 +127,45 @@ fsys_hash_find_node(const char *name, enum fsys_hash_find_flags flags)
 	return newnode;
 }
 
+void
+fsys_hash_report(FILE *file)
+{
+	struct fsys_namenode *node;
+	int i, c;
+	int *freq;
+	int empty = 0, used = 0, collided = 0;
+
+	freq = m_malloc(sizeof(freq[0]) * nfiles + 1);
+	for (i = 0; i <= nfiles; i++)
+		freq[i] = 0;
+	for (i = 0; i < BINS; i++) {
+		for (c = 0, node = bins[i]; node; c++, node = node->next);
+		fprintf(file, "fsys-hash: bin %5d has %7d\n", i, c);
+		if (c == 0)
+			empty++;
+		else if (c == 1)
+			used++;
+		else {
+			used++;
+			collided++;
+		}
+		freq[c]++;
+	}
+	for (i = nfiles; i > 0 && freq[i] == 0; i--);
+	while (i >= 0) {
+		fprintf(file, "fsys-hash: size %7d occurs %5d times\n",
+		        i, freq[i]);
+		i--;
+	}
+	fprintf(file, "fsys-hash: bins empty %d\n", empty);
+	fprintf(file, "fsys-hash: bins used %d (collided %d)\n", used,
+	        collided);
+
+	m_output(file, "<hash report>");
+
+	free(freq);
+}
+
 /*
  * Forward iterator.
  */

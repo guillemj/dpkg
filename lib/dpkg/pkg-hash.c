@@ -372,20 +372,31 @@ pkg_hash_report(FILE *file)
   int i, c;
   struct pkgset *pkg;
   int *freq;
+  int empty = 0, used = 0, collided = 0;
 
   freq = m_malloc(sizeof(int) * nset + 1);
   for (i = 0; i <= nset; i++)
     freq[i] = 0;
   for (i=0; i<BINS; i++) {
     for (c=0, pkg= bins[i]; pkg; c++, pkg= pkg->next);
-    fprintf(file,"bin %5d has %7d\n",i,c);
+    fprintf(file, "pkg-hash: bin %5d has %7d\n", i, c);
+    if (c == 0)
+      empty++;
+    else if (c == 1)
+      used++;
+    else {
+      used++;
+      collided++;
+    }
     freq[c]++;
   }
   for (i = nset; i > 0 && freq[i] == 0; i--);
   while (i >= 0) {
-    fprintf(file, "size %7d occurs %5d times\n", i, freq[i]);
+    fprintf(file, "pkg-hash: size %7d occurs %5d times\n", i, freq[i]);
     i--;
   }
+  fprintf(file, "pkg-hash: bins empty %d\n", empty);
+  fprintf(file, "pkg-hash: bins used %d (collided %d)\n", used, collided);
 
   m_output(file, "<hash report>");
 

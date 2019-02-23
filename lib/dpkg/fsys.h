@@ -22,6 +22,8 @@
 #ifndef LIBDPKG_FSYS_H
 #define LIBDPKG_FSYS_H
 
+#include <stdio.h>
+
 #include <dpkg/file.h>
 
 /*
@@ -167,6 +169,8 @@ void
 fsys_hash_init(void);
 void
 fsys_hash_reset(void);
+void
+fsys_hash_report(FILE *file);
 int
 fsys_hash_entries(void);
 

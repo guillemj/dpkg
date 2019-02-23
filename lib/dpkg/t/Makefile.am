@@ -60,8 +60,15 @@ test_scripts = \
 	t-trigdeferred.t \
 	$(nil)
 
+BENCHMARK_LDADD_FLAGS = -lrt $(LDADD)
+
+b_fsys_hash_LDADD = $(BENCHMARK_LDADD_FLAGS)
+b_pkg_hash_LDADD = $(BENCHMARK_LDADD_FLAGS)
+
 check_PROGRAMS = \
 	$(test_programs) \
+	b-fsys-hash \
+	b-pkg-hash \
 	c-tarextract \
 	c-treewalk \
 	c-trigdeferred \
